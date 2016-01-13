@@ -1,4 +1,4 @@
-DONE: Fission Reactor Speed Upgrade
+DONE: Fission Reactor Speed Blocks
 OpenComputers and CC integration (primarily for Reactors)
 Minetweaker support (primarily for Heavy Duty Workspace)
 Recipe shift clicking and Ore Dict support for Heavy Duty Workspace
