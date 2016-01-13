@@ -61,4 +61,4 @@ Other Awesome Stuff
 Permissions
 -----------
 
-Feel free to go ahead and use this mod and its code if you wish! I love the idea of giving out the mod in exchange for additions to it by others who want to help ;)
+Feel free to go ahead and use this mod and its code if you wish! I love the idea of giving out the mod in exchange for additions to it by others who want to help - at the end of the day, if this mod is getting better, I'm happy ;)
