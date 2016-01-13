@@ -1,0 +1,243 @@
+itemGroup.tabNR=NuclearCraft
+
+entity.NuclearMonster.name=Atom Monster
+entity.Paul.name=Paul
+
+copperOre.name=Kupfererz
+tinOre.name=Zinnerz
+leadOre.name=Bleierz
+silverOre.name=Silbererz
+pitchblendeOre.name=Uran-Erz
+thoriumOre.name=Thorium-Erz
+plutoniumOre.name=Plutonium-Erz
+lithiumOre.name=Lithium-Erz
+boronOre.name=Bor-Erz
+
+copperBlock.name=Kupferblock
+tinBlock.name=Zinnblock
+leadBlock.name=Bleiblock
+silverBlock.name=Silberblock
+bronzeBlock.name=Bronzeblock
+uraniumBlock.name=Uranblock
+thoriumBlock.name=Thoriumblock
+toughBlock.name=Harte Legierung Block
+lithiumBlock.name=Lithiumblock
+boronBlock.name=Borblock
+aluminiumBlock.name=Aluminiumblock
+
+tile.graphiteBlock.name=Graphitblock
+tile.cellBlock.name=Kraftstoffzellenteil
+tile.reactorBlock.name=Reaktorgehäuse
+tile.coolerBlock.name=Reaktorkühler
+tile.nuke.name=Atombombe
+
+tile.accStraight1.name=Horizontales Panzerrohr 
+tile.accStraight2.name=Vertikales Panzerrohr
+
+tile.liquidhelium.name=Flüssiges Helium
+
+tile.nuclearFurnaceIdle.name=Nuklearofen
+tile.nuclearFurnaceActive.name=Nuklearofen
+tile.furnaceIdle.name=Metalofen
+tile.furnaceActive.name=Metalofen
+tile.crusherIdle.name=Brecher
+tile.crusherActive.name=Brecher
+tile.electricCrusherIdle.name=Elektrische Brecher
+tile.electricCrusherActive.name=Elektrische Brecher
+tile.electricFurnaceIdle.name=Elektrischer Ofen
+tile.electricFurnaceActive.name=Elektrischer Ofen
+tile.reactionGeneratorIdle.name=Reaktionsgenerator
+tile.reactionGeneratorActive.name=Reaktionsgenerator
+tile.separatorIdle.name=Isotopentrenner
+tile.separatorActive.name=Isotopentrenner
+tile.hastenerIdle.name=Verfallbeschleuniger
+tile.hastenerActive.name=Verfallbeschleuniger
+tile.fissionReactorGraphiteIdle.name=Kernspaltungkontrolle
+tile.fissionReactorGraphiteActive.name=Kernspaltungkontrolle
+tile.nuclearWorkspace.name=Schwerlast Arbeitsplatz
+tile.fusionReactor.name=Kernfusionsreaktor (WIP)
+tile.fusionReactorBlock.name=Kernfusionsreaktor (WIP)
+tile.RTG.name=Radioisotope Thermoelektrischer Generator
+tile.collectorIdle.name=Heliumsammler
+tile.collectorActive.name=Heliumsammler
+tile.electrolyserIdle.name=Elektrolyse
+tile.electrolyserActive.name=Elektrolyse
+
+gui.reactor=Reaktor
+gui.fuel=Kraftstoff
+gui.heat=Hitze
+gui.noFuel=Kein Kraftstoff
+gui.casingIncomplete=Gehäuse Unvollständig
+gui.multipleControllers=Mehrere Kontrolleure
+gui.fuelRodIncomplete=Kraftstoffstab Unvollständig
+gui.casingInInterior=Gehäuse Im Innerin
+gui.LEU=LEU
+gui.HEU=HEU
+gui.LEP=LEP
+gui.HEP=HEP
+gui.MOX=MOX
+gui.TBU=TBU
+
+gui.energyStored=Energie Gelagert
+gui.level1=Stufe 1
+gui.level2=Stufe 2
+gui.reactorSize=Reaktor Größe
+gui.input=Eingang
+gui.output=Ausgang
+
+gui.heavyDuty=Schwerlast
+gui.workspace=Arbeitsplatz
+
+gui.reaction=Reaktion
+gui.generator=Generator
+
+uraniumIngot.name=Uranbarren
+copperIngot.name=Kupferbarren
+tinIngot.name=Zinnbarren
+leadIngot.name=Bleibarren
+silverIngot.name=Silberbarren
+thoriumIngot.name=Thoriumbarren
+bronzeIngot.name=Bronzebarren
+lithiumIngot.name=Lithiumbarren
+boronIngot.name=Borbarren
+aluminiumIngot.name=Aluminiumbarren
+
+item.dominoes.name=Domino's Überraschung
+item.upgrade.name=Reaktor Steigerung
+item.upgradeSpeed.name=Schnelligkeit Steigerung
+item.upgradeEnergy.name=Energie Steigerung
+item.nuclearGrenade.name=Atom Granate
+item.portableEnderChest.name=Tragbar Endertruhe
+
+U238.name=Uran-238
+tinyU238.name=Kleinen Klumpen von Uran-238
+U235.name=Urani-235
+tinyU235.name=Kleinen Klumpen von Uran-235
+U233.name=Uran-233
+tinyU233.name=Kleinen Klumpen von Uran-233
+Pu238.name=Plutonium-238
+tinyPu238.name=Kleinen Klumpen von Plutonium-238
+Pu239.name=Plutonium-239
+tinyPu239.name=Kleinen Klumpen von Plutonium-239
+Pu242.name=Plutonium-242
+tinyPu242.name=Kleinen Klumpen von Plutonium-242
+Pu241.name=Plutonium-241
+tinyPu241.name=Kleinen Klumpen von Plutonium 241
+Th232.name=Thorium-232
+tinyTh232.name=Kleinen Klumpen von Thorium-232
+Th230.name=Thorium-230
+tinyTh230.name=Kleinen Klumpen von Thorium-230
+Li6.name=Lithium-6
+Li7.name=Lithium-7
+B10.name=Bor-10
+B11.name=Bor-11
+
+LEU235.name=LEU-235 Kraftstoff
+HEU235.name=HEU-235 Kraftstoff
+LEP239.name=LEP-239 Kraftstoff
+HEP239.name=HEP-239 Kraftstoff
+MOX239.name=MOX-239 Kraftstoff
+LEU233.name=LEU-233 Kraftstoff
+HEU233.name=HEU-233 Kraftstoff
+LEP241.name=LEP-241 Kraftstoff
+HEP241.name=HEP-241 Kraftstoff
+MOX241.name=MOX-241 Kraftstoff
+TBU.name=TBU Kraftstoff
+
+emptyCell.name=Leere Kraftstoffzelle
+LEUCell235.name=LEU-235 Kraftstoffzelle
+HEUCell235.name=HEU-235 Kraftstoffzelle
+LEPCell239.name=LEP-239 Kraftstoffzelle
+HEPCell239.name=HEP-239 Kraftstoffzelle
+MOXCell239.name=MOX-239 Kraftstoffzelle
+LEUCell233.name=LEU-233 Kraftstoffzelle
+HEUCell233.name=HEU-233 Kraftstoffzelle
+LEPCell241.name=LEP-241 Kraftstoffzelle
+HEPCell241.name=HEP-241 Kraftstoffzelle
+MOXCell241.name=MOX-241 Kraftstoffzelle
+TBUCell.name=TBU Kraftstoffzelle
+
+dLEUCell235.name=Aufgebraucht LEU-235 Kraftstoffzelle
+dHEUCell235.name=Aufgebraucht HEU-235 Kraftstoffzelle
+dLEPCell239.name=Aufgebraucht LEP-239 Kraftstoffzelle
+dHEPCell239.name=Aufgebraucht HEP-239 Kraftstoffzelle
+dMOXCell239.name=Aufgebraucht MOX-239 Kraftstoffzelle
+dLEUCell233.name=Aufgebraucht LEU-233 Kraftstoffzelle
+dHEUCell233.name=Aufgebraucht HEU-233 Kraftstoffzelle
+dLEPCell241.name=Aufgebraucht LEP-241 Kraftstoffzelle
+dHEPCell241.name=Aufgebraucht HEP-241 Kraftstoffzelle
+dMOXCell241.name=Aufgebraucht MOX-241 Kraftstoffzelle
+dTBUCell.name=Aufgebraucht TBU Kraftstoffzelle
+
+RTGCell.name=RTG Zelle
+
+H2OCell.name=Wasser Zelle
+OCell.name=Sauerstoff Zelle
+HCell.name=Wasserstoff Zelle
+DCell.name=Deuterium Zelle
+TCell.name=Tritium Zelle
+He3Cell.name=Helium-3 Zelle
+He4Cell.name=Helium-4 Zelle
+Li6Cell.name=Lithium-6 Zelle
+Li7Cell.name=Lithium-7 Zelle
+B10Cell.name=Bor-10 Zelle
+B11Cell.name=Bor-11 Zelle
+emptyFluidCell.name=Leere Flusszelle
+
+simpleNeutronReflector.name=Basischüberzug
+ironPlating.name=Eisenüberzug
+conGrind.name=Konvektion Angetriebene Mühle
+advancedNeutronReflector.name=Verstärkteüberzug
+tinPlating.name=Zinnüberzug
+iWater.name=Unendlich Wasser Quelle
+
+crushedIron.name=Gebrochenes Eisen
+crushedGold.name=Gebrochenes Gold
+crushedLapis.name=Gebrochenes Lapislazuli
+crushedDiamond.name=Gebrochener Diamant
+crushedEmerald.name=Gebrochener Smaragd
+crushedQuartz.name=Gebrochener Quarz
+crushedCoal.name=Gebrochene Kohle
+crushedCopper.name=Gebrochenes Kupfer
+crushedLead.name=Gebrochenes Blei
+crushedTin.name=Gebrochenes Zinn
+crushedSilver.name=Gebrochenes Silber
+crushedUranium.name=Gebrochenes Uran
+crushedThorium.name=Gebrochenes Thorium
+crushedBronze.name=Gebrochene Bronze
+crushedLithium.name=Gebrochenes Lithium
+crushedBoron.name=Gebrochenes Bor
+crushedAluminium.name=Gebrochenes Aluminium
+crushedObsidian.name=Gebrochener Obsidian
+
+tinyCrushedLead.name=Kleines Klumpen von Blei
+
+item.bronzePickaxe.name=Bronzepitzhacke
+item.bronzeShovel.name=Bronzeschaufel
+item.bronzeAxe.name=Bronzeaxt
+item.bronzeHoe.name=Bronzehacke
+item.bronzeSword.name=Bronzeschwert
+
+item.toughAlloyPickaxe.name=Harte Legierung Pitzhacke
+item.toughAlloyShovel.name=Harte Legierung Schaufel
+item.toughAlloyAxe.name=Harte Legierung Axt
+item.toughAlloyHoe.name=Harte Legierung Hacke
+item.toughAlloySword.name=Harte Legierung Schwert
+item.toughAlloyPaxel.name=Schweizer Taschenmesser
+item.toughBow.name=Harte Legierung Bogen
+
+item.toughHelm.name=Harte Legierung Helm
+item.toughChest.name=Harte Legierung brustpanzer
+item.toughLegs.name=Harte Legierung Beinschutz
+item.toughBoots.name=Harte Legierung Steifel
+item.boronHelm.name=Borhelm
+item.boronChest.name=Borbrustpanzer
+item.boronLegs.name=Borbeinschutz
+item.boronBoots.name=Borstiefel
+
+universalReactant.name=Allgemein Reaktant
+reactionVessel.name=Kleine Atomkammer
+toughAlloy.name=Harte Legierung Barren
+toughDust.name=Harte Legierung Staub
+
+death.attack.heliumfreeze=%1$s ist im Flüssigem Helium erfroren

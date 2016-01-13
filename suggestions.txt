@@ -1,0 +1,18 @@
+Fission Breeder and Depleter Reactors (Same shape, different tile entity)
+Fusion Reactor heat control, power and efficiency upgrades (one slot and one choice)
+OpenComputers and CC integration (primarily for Reactors)
+Minetweaker support (primarily for Heavy Duty Workspace)
+Recipe shift clicking and Ore Dict support for Heavy Duty Workspace
+Keep items in Heavy Duty Workspace on closing GUI
+DONE: Blast Resistant Blocks
+More detailed and intricate configs
+DONE: Increase Power of bigger Fission Reactors
+Comonents which use Copper, Tin and Silver more
+Depleted Uranium advanced weaponry
+Different Nukes
+Hugely increase cost of Fusion Reactor (recipe)
+More Fission Interior Blocks
+DONE: Recipe Info for Water Cells
+Refine effect of Speed Upgrades
+Done?: Fix Fusion Reactor operation
+DONE: Nerf Reaction Generator

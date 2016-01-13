@@ -1,0 +1,6 @@
+{
+"nuclearMonsterScream": {"category": "master", "sounds": ["nuclearMonsterScream"]},
+"nuclearMonsterHit": {"category": "master", "sounds": ["nuclearMonsterHit"]},
+"nuclearMonsterDeath": {"category": "master", "sounds": ["nuclearMonsterDeath"]},
+"nukeAlarm": {"category": "master", "sounds": ["nukeAlarm"]}
+}
