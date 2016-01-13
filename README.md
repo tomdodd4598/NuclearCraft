@@ -8,6 +8,10 @@ Summary
 
 Aims to bring relativistic, quantum and particle physics to Minecraft
 
+YouTube Channel: https://www.youtube.com/channel/UC-df90SAvYXk-FClmntlFhw
+
+CurseForge Page: http://minecraft.curseforge.com/mc-mods/226254-nuclearcraft-mod-1-7-10
+
 Uses Minecraft Forge
 
 Redstone Flux compatibility
