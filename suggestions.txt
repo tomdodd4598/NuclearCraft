@@ -9,7 +9,6 @@ DONE: Increase Power of bigger Fission Reactors
 DONE: Components which use Copper, Tin and Silver more
 Depleted Uranium advanced weaponry
 DONE: Hugely increase cost of Fusion Reactor (recipe)
-DONE: More Fission Interior Blocks
 DONE: Recipe Info for Water Cells
 DONE: Fix Fusion Reactor operation
 DONE: Nerf Reaction Generator
