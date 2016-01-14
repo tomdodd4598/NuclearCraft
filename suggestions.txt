@@ -6,7 +6,7 @@ Keep items in Heavy Duty Workspace on closing GUI
 DONE: Blast Resistant Blocks
 More detailed and intricate configs
 DONE: Increase Power of bigger Fission Reactors
-DONE: Comonents which use Copper, Tin and Silver more
+DONE: Components which use Copper, Tin and Silver more
 Depleted Uranium advanced weaponry
 DONE: Hugely increase cost of Fusion Reactor (recipe)
 DONE: More Fission Interior Blocks
