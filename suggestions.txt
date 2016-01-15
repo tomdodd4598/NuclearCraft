@@ -8,7 +8,7 @@ DONE: Blast Resistant Blocks
 More detailed and intricate configs
 DONE: Increase Power of bigger Fission Reactors
 DONE: Components which use Copper, Tin and Silver more
-Depleted Uranium advanced weaponry
+DONE: Depleted Uranium advanced weaponry
 DONE: Hugely increase cost of Fusion Reactor (recipe)
 DONE: Recipe Info for Water Cells
 DONE: Fix Fusion Reactor operation
