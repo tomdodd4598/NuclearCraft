@@ -1,7 +1,8 @@
 DONE: Fission Reactor Speed Blocks
 OpenComputers and CC integration (primarily for Reactors)
 Minetweaker support (primarily for Heavy Duty Workspace)
-Recipe shift clicking and Ore Dict support for Heavy Duty Workspace
+Recipe shift clicking for Heavy Duty Workspace
+DONE: Ore Dict support for Heavy Duty Workspace
 Keep items in Heavy Duty Workspace on closing GUI
 DONE: Blast Resistant Blocks
 More detailed and intricate configs
