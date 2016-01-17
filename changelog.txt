@@ -1,8 +1,9 @@
 v0.0.1.6
 
 + Added Neutron Irradiator
-+ Added Supercooler
 + Added Manufactory
++ Added Supercooler
++ Added Ioniser
 * Many Machine recipe changes
 
 * Heavy Duty Workspace now has a 5*5 crafting grid
