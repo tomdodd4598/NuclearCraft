@@ -1,3 +1,37 @@
+v0.0.1.6
+
++ Added Neutron Irradiator
++ Added Supercooler
++ Added Manufactory
+* Many Machine recipe changes
+
+* Heavy Duty Workspace now has a 5*5 crafting grid
+* Many Heavy Duty Workspace recipe changes
++ Heavy Duty Workspace NEI Shift-click support
++ Heavy Duty Workspace Ore Dictionary support
+
+* Fission Reactor now gives warning about the heat that it will produce
+* Bigger Fission Reactors produce much more power
++ Fission Reactor Speed Blocks
++ Blast Resistant Blocks
+
++ Pistol and DU Bullets
++ Added Weak Radioisotope Thermoelectric Generator
++ Spin 1/2 Block (uncraftable for now)
++ More items and blocks for crafting
+
++ New configs
+* It is suggested that the config folder is deleted and reloaded (then recustomised)
+
+* Fusion Reactors' efficiency now read by comparators
+* Nerfed Reaction Generator
+* Fixed small issues with Fusion Reactor
++ Recipe info for Water Cells
++ More dungeon/village etc. loot
+* Minor texture changes
+
+* Possible other things that I have forgotten
+
 v0.0.1.5
 
 * Fusion Reactors now produce outputs
