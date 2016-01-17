@@ -15,7 +15,7 @@ public class FactoryRecipes extends NRRecipeHelper {
 	}
 
 	public void addRecipes() {
-    	addRecipe(oreStack("ingotIron", 2), new ItemStack(NRItems.parts, 1, 10));
+    	addRecipe(oreStack("ingotIron", 4), new ItemStack(NRItems.parts, 1, 10));
     	addRecipe(oreStack("ingotGold", 1), new ItemStack(NRItems.parts, 1, 11));
     	addRecipe(oreStack("ingotCopper", 2), new ItemStack(NRItems.parts, 1, 12));
     	addRecipe(oreStack("ingotTin", 2), new ItemStack(NRItems.parts, 1, 13));

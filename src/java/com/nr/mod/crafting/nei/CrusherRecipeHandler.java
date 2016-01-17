@@ -145,8 +145,4 @@ public class CrusherRecipeHandler extends TemplateRecipeHandler
                     acrushfuels.add(new CrusherFuelPair(item.copy(), burnTime));
             }
     }
-
-    public String getOverlayIdentifier() {
-        return "crushing";
-    }
 }

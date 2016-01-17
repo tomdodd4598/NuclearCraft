@@ -145,8 +145,4 @@ public class MetalFurnaceRecipeHandler extends TemplateRecipeHandler
                     ametalfuels.add(new MetalFuelPair(item.copy(), burnTime));
             }
     }
-
-    public String getOverlayIdentifier() {
-        return "metalsmelting";
-    }
 }

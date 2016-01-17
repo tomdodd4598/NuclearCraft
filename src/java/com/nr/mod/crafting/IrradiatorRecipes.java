@@ -10,22 +10,23 @@ public class IrradiatorRecipes extends NRRecipeHelper {
 	private static final IrradiatorRecipes recipes = new IrradiatorRecipes();
 
 	public IrradiatorRecipes(){
-		super(2, 2);
+		super(2, 3);
 	}
 	public static final NRRecipeHelper instance() {
 		return recipes;
 	}
 
 	public void addRecipes() {
-		recipeNeutron(NRItems.material, 1, 46, NRItems.material, 1, 47);
-		recipeNeutron(NRItems.material, 1, 48, NRItems.material, 1, 49);
-		recipeNeutron(NRItems.material, 1, 30, NRItems.material, 1, 32);
-		recipeNeutron(NRItems.material, 1, 36, NRItems.material, 1, 34);
-		recipeNeutron(NRItems.material, 1, 61, NRItems.material, 1, 63);
-		recipeNeutron(NRItems.material, 1, 67, NRItems.material, 1, 65);
+		recipeNeutron(NRItems.material, 1, 46, NRItems.fuel, 1, 38, NRItems.fuel, 1, 40);
+		recipeNeutron2(NRItems.material, 1, 47, NRItems.fuel, 1, 38, NRItems.fuel, 1, 40);
+		recipeNeutron(NRItems.material, 1, 48, NRItems.fuel, 1, 38, NRItems.fuel, 2, 40);
 	}
 	
-	public void recipeNeutron(Item In, int noIn, int metaIn, Item Out, int noOut, int metaOut) {
-		addRecipe(new ItemStack(In, noIn, metaIn), new ItemStack(NRItems.fuel, 1, 47), new ItemStack(Out, noOut, metaOut), new ItemStack(NRItems.fuel, 1, 48));
+	public void recipeNeutron(Item In, int noIn, int metaIn, Item Out, int noOut, int metaOut, Item Out2, int noOut2, int metaOut2) {
+		addRecipe(new ItemStack(In, noIn, metaIn), new ItemStack(NRItems.fuel, 1, 47), new ItemStack(Out, noOut, metaOut), new ItemStack(Out2, noOut2, metaOut2), new ItemStack(NRItems.fuel, 1, 48));
+	}
+	
+	public void recipeNeutron2(Item In, int noIn, int metaIn, Item Out, int noOut, int metaOut, Item Out2, int noOut2, int metaOut2) {
+		addRecipe(new ItemStack(In, noIn, metaIn), new ItemStack(NRItems.fuel, 1, 47), new ItemStack(Out, noOut, metaOut), new ItemStack(Out2, noOut2, metaOut2), new ItemStack(NRItems.fuel, 1, 47));
 	}
 }

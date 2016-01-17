@@ -101,8 +101,4 @@ public class IoniserRecipeHandler extends TemplateRecipeHandler {
 		drawProgressBar(3, 15, 176, 31, 16, 34, 240, 7); //energy
 		drawProgressBar(54, 23, 176, 65, 71, 17, 40, 0);
 	}
-
-	public String getOverlayIdentifier() {
-		return "ionising";
-	}
 }

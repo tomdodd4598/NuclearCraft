@@ -101,8 +101,4 @@ public class ElectricFurnaceRecipeHandler extends TemplateRecipeHandler {
         drawProgressBar(74, 23, 176, 14, 24, 16, 20, 0);
         
     }
-
-    public String getOverlayIdentifier() {
-        return "esmelting";
-    }
 }

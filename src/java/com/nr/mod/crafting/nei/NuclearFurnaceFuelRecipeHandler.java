@@ -68,10 +68,6 @@ public class NuclearFurnaceFuelRecipeHandler extends NuclearFurnaceRecipeHandler
                 arecipes.add(new CachednuclearfuelRecipe(nuclearfuel));
     }
 
-    public String getOverlayIdentifier() {
-        return "nuclearnuclearfuel";
-    }
-
     public List<String> handleItemTooltip(GuiRecipe gui, ItemStack stack, List<String> currenttip, int recipe) {
         CachednuclearfuelRecipe crecipe = (CachednuclearfuelRecipe) arecipes.get(recipe);
         nuclearfuelPair nuclearfuel = crecipe.nuclearfuel;

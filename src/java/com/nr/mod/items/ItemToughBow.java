@@ -64,7 +64,7 @@ public class ItemToughBow extends ItemBow
 
             if (k > 0)
             {
-                entityarrow.setDamage(entityarrow.getDamage() + (double)k * 2.0D + 3.0D);
+                entityarrow.setDamage(entityarrow.getDamage() + (double)k * 1.0D + 1.0D);
             }
             else {entityarrow.setDamage(entityarrow.getDamage() + 3.0D);}
 

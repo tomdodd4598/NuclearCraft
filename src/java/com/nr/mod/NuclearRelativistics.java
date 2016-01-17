@@ -94,6 +94,7 @@ import com.nr.mod.blocks.tileentities.TileEntityReactionGenerator;
 import com.nr.mod.blocks.tileentities.TileEntitySeparator;
 import com.nr.mod.blocks.tileentities.TileEntitySimpleQuantum;
 import com.nr.mod.blocks.tileentities.TileEntityWRTG;
+import com.nr.mod.entity.EntityBullet;
 import com.nr.mod.entity.EntityNuclearGrenade;
 import com.nr.mod.entity.EntityNuclearMonster;
 import com.nr.mod.entity.EntityNukePrimed;
@@ -106,6 +107,7 @@ import com.nr.mod.items.ItemFuel;
 import com.nr.mod.items.ItemMaterial;
 import com.nr.mod.items.ItemNuclearGrenade;
 import com.nr.mod.items.ItemPart;
+import com.nr.mod.items.ItemPistol;
 import com.nr.mod.items.ItemToughBow;
 import com.nr.mod.items.NRAxe;
 import com.nr.mod.items.NRHoe;
@@ -142,16 +144,16 @@ public class NuclearRelativistics {
 	
 		// Tool Materials
 	public static final ToolMaterial Bronze = EnumHelper.addToolMaterial("Bronze", 2, 300, 8.0F, 2.0F, 12);
-	public static final ToolMaterial ToughAlloy = EnumHelper.addToolMaterial("ToughAlloy", 4, 2000, 14.0F, 10.0F, 10);
-	public static final ToolMaterial ToughPaxel = EnumHelper.addToolMaterial("ToughPaxel", 4, 10000, 15.0F, 12.0F, 10);
-	public static final ToolMaterial dU = EnumHelper.addToolMaterial("dU", 5, 5000, 21.0F, 10.0F, 50);
-	public static final ToolMaterial dUPaxel = EnumHelper.addToolMaterial("dUPaxel", 5, 25000, 22.0F, 12.0F, 40);
-	public static final ToolMaterial Boron = EnumHelper.addToolMaterial("Boron", 4, 1200, 10.0F, 3.0F, 5);
+	public static final ToolMaterial ToughAlloy = EnumHelper.addToolMaterial("ToughAlloy", 4, 2500, 14.0F, 10.0F, 10);
+	public static final ToolMaterial ToughPaxel = EnumHelper.addToolMaterial("ToughPaxel", 4, 15000, 15.0F, 12.0F, 10);
+	public static final ToolMaterial dU = EnumHelper.addToolMaterial("dU", 5, 6000, 21.0F, 10.0F, 50);
+	public static final ToolMaterial dUPaxel = EnumHelper.addToolMaterial("dUPaxel", 5, 36000, 22.0F, 12.0F, 40);
+	public static final ToolMaterial Boron = EnumHelper.addToolMaterial("Boron", 2, 1200, 10.0F, 3.0F, 5);
 	
-	public static final ArmorMaterial ToughArmorMaterial = EnumHelper.addArmorMaterial("ToughArmorMaterial", 45, new int [] {4, 8, 5, 3}, 10);
+	public static final ArmorMaterial ToughArmorMaterial = EnumHelper.addArmorMaterial("ToughArmorMaterial", 50, new int [] {4, 8, 5, 3}, 10);
 	public static final ArmorMaterial BoronArmorMaterial = EnumHelper.addArmorMaterial("BoronArmorMaterial", 30, new int [] {3, 7, 5, 3}, 5);
 	public static final ArmorMaterial BronzeArmorMaterial = EnumHelper.addArmorMaterial("BronzeArmorMaterial", 20, new int [] {2, 6, 5, 2}, 9);
-	public static final ArmorMaterial dUArmorMaterial = EnumHelper.addArmorMaterial("dUArmorMaterial", 60, new int [] {4, 9, 6, 3}, 40);
+	public static final ArmorMaterial dUArmorMaterial = EnumHelper.addArmorMaterial("dUArmorMaterial", 85, new int [] {5, 9, 5, 4}, 40);
 	
 		// Mod Checker
 	public static boolean isIC2Loaded;
@@ -201,14 +203,32 @@ public class NuclearRelativistics {
 	public static int factorySpeed;
 	
 	public static boolean oreGenPitchblende;
+	public static int oreSizePitchblende;
+	public static int oreRarityPitchblende;
 	public static boolean oreGenCopper;
+	public static int oreSizeCopper;
+	public static int oreRarityCopper;
 	public static boolean oreGenTin;
+	public static int oreSizeTin;
+	public static int oreRarityTin;
 	public static boolean oreGenLead;
+	public static int oreSizeLead;
+	public static int oreRarityLead;
 	public static boolean oreGenSilver;
+	public static int oreSizeSilver;
+	public static int oreRaritySilver;
 	public static boolean oreGenThorium;
+	public static int oreSizeThorium;
+	public static int oreRarityThorium;
 	public static boolean oreGenLithium;
+	public static int oreSizeLithium;
+	public static int oreRarityLithium;
 	public static boolean oreGenBoron;
+	public static int oreSizeBoron;
+	public static int oreRarityBoron;
 	public static boolean oreGenPlutonium;
+	public static int oreSizePlutonium;
+	public static int oreRarityPlutonium;
 	
 	public static int reactionGeneratorRF;
 	public static int reactionGeneratorEfficiency;
@@ -221,6 +241,8 @@ public class NuclearRelativistics {
 	
 	public static boolean enablePaul;
 	public static boolean enableNuclearMonster;
+	
+	public static boolean enableNukes;
 	
 	//Armor
 	public static int toughHelmID;
@@ -258,50 +280,73 @@ public class NuclearRelativistics {
 		machines.load();
 		Configuration entities = new Configuration(new File("config/NuclearCraft/NREntities.cfg"));
 		entities.load();
+		Configuration other = new Configuration(new File("config/NuclearCraft/NROther.cfg"));
+		entities.load();
 		
-		oreGenPitchblende = ores.getBoolean("Generate Pitchblende Ore", "1a) Pitchblende Ore Generation", true, "Generate Pitchblende Ore");
-		oreGenCopper = ores.getBoolean("Generate Copper Ore", "1b) Copper Ore Generation", true, "Generate Copper Ore");
-		oreGenTin = ores.getBoolean("Generate Tin Ore", "1c) Tin Ore Generation", true, "Generate Tin Ore");
-		oreGenLead = ores.getBoolean("Generate Lead Ore", "1d) Lead Ore Generation", true, "Generate Lead Ore");
-		oreGenSilver = ores.getBoolean("Generate Silver Ore", "1e) Silver Ore Generation", true, "Generate Silver Ore");
-		oreGenThorium = ores.getBoolean("Generate Thorium Ore", "1f) Thorium Ore Generation", true, "Generate Thorium Ore");
-		oreGenPlutonium = ores.getBoolean("Generate Plutonium Ore", "1g) Plutonium Ore Generation", true, "Generate Plutonium Ore");
-		oreGenLithium = ores.getBoolean("Generate Lithium Ore", "1h) Lithium Ore Generation", true, "Generate Lithium Ore");
-		oreGenBoron = ores.getBoolean("Generate Boron Ore", "1i) Boron Ore Generation", true, "Generate Boron Ore");
+		oreGenPitchblende = ores.getBoolean("Uranium Ore Generation", "1aa)", true, "");
+		oreSizePitchblende = ores.getInt("Uranium Ore Chunk Size", "1ab)", 6, 1, 100, "");
+		oreRarityPitchblende = ores.getInt("Uranium Ore Gen Rate", "1ac)", 8, 1, 100, "");
+		oreGenCopper = ores.getBoolean("Copper Ore Generation", "1ba)", true, "");
+		oreSizeCopper = ores.getInt("Copper Ore Chunk Size", "1bb)", 8, 1, 100, "");
+		oreRarityCopper = ores.getInt("Copper Ore Gen Rate", "1bc)", 15, 1, 100, "");
+		oreGenTin = ores.getBoolean("Tin Ore Generation", "1ca)", true, "");
+		oreSizeTin = ores.getInt("Tin Ore Chunk Size", "1cb)", 8, 1, 100, "");
+		oreRarityTin = ores.getInt("Tin Ore Gen Rate", "1cc)", 14, 1, 100, "");
+		oreGenLead = ores.getBoolean("Lead Ore Generation", "1da)", true, "");
+		oreSizeLead = ores.getInt("Lead Ore Chunk Size", "1db)", 7, 1, 100, "");
+		oreRarityLead = ores.getInt("Lead Ore Gen Rate", "1dc)", 14, 1, 100, "");
+		oreGenSilver = ores.getBoolean("Silver Ore Generation", "1ea)", true, "");
+		oreSizeSilver = ores.getInt("Silver Ore Chunk Size", "1eb)", 7, 1, 100, "");
+		oreRaritySilver = ores.getInt("Silver Ore Gen Rate", "1ec)", 10, 1, 100, "");
+		oreGenThorium = ores.getBoolean("Thorium Ore Generation", "1fa)", true, "");
+		oreSizeThorium = ores.getInt("Thorium Ore Chunk Size", "1fb)", 6, 1, 100, "");
+		oreRarityThorium = ores.getInt("Thorium Ore Gen Rate", "1fc)", 8, 1, 100, "");
+		oreGenPlutonium = ores.getBoolean("Plutonium Ore Generation", "1ga)", true, "");
+		oreSizePlutonium = ores.getInt("Plutonium Ore Chunk Size", "1gb)", 4, 1, 100, "");
+		oreRarityPlutonium = ores.getInt("Plutonium Ore Gen Rate", "1gc)", 8, 1, 100, "");
+		oreGenLithium = ores.getBoolean("Lithium Ore Generation", "1ha)", true, "");
+		oreSizeLithium = ores.getInt("Lithium Ore Chunk Size", "1hb)", 7, 1, 100, "");
+		oreRarityLithium = ores.getInt("Lithium Ore Gen Rate", "1hc)", 8, 1, 100, "");
+		oreGenBoron = ores.getBoolean("Boron Ore Generation", "1ia)", true, "");
+		oreSizeBoron = ores.getInt("Boron Ore Chunk Size", "1ib)", 7, 1, 100, "");
+		oreRarityBoron = ores.getInt("Boron Ore Gen Rate", "1ic)", 8, 1, 100, "");
 		
-		nuclearFurnaceCookSpeed = machines.getInt("(Default: 100)", "1a) Nuclear Furnace Speed Multiplier", 100, 20, 500, "Nuclear Furnace Speed Multiplier");
-		nuclearFurnaceCookEfficiency = machines.getInt("(Default: 100)", "1b) Nuclear Furnace Fuel Usage Multiplier", 100, 20, 500, "Nuclear Furnace Fuel Usage Multiplier");
-		metalFurnaceCookSpeed = machines.getInt("(Default: 100)", "1c) Metal Furnace Speed Multiplier", 100, 20, 500, "Metal Furnace Speed Multiplier");
-		metalFurnaceCookEfficiency = machines.getInt("(Default: 100)", "1d) Metal Furnace Fuel Usage Multiplier", 100, 20, 500, "Metal Furnace Fuel Usage Multiplier");
-		crusherCrushSpeed = machines.getInt("(Default: 100)", "1e) Crusher Speed Multiplier", 100, 20, 500, "Crusher Speed Multiplier");
-		crusherCrushEfficiency = machines.getInt("(Default: 100)", "1f) Crusher Fuel Usage Multiplier", 100, 20, 500, "Crusher Fuel Usage Multiplier");
-		electricCrusherCrushSpeed = machines.getInt("(Default: 100)", "1g) Electic Crusher Speed Multiplier", 100, 20, 500, "Electric Crusher Speed Multiplier");
-		electricFurnaceSmeltSpeed = machines.getInt("(Default: 100)", "1h) Electic Furnace Speed Multiplier", 100, 20, 500, "Electic Furnace Speed Multiplier");
-		separatorSpeed = machines.getInt("(Default: 100)", "1i) Isotope Separator Speed Multiplier", 100, 20, 500, "Isotope Separator Speed Multiplier");
-		hastenerSpeed = machines.getInt("(Default: 100)", "1j) Decay Hastener Speed Multiplier", 100, 20, 500, "Decay Hastener Speed Multiplier");
-		collectorSpeed = machines.getInt("(Default: 100)", "1k) Helium Collector Speed Multiplier", 100, 20, 500, "Helium Collector Speed Multiplier");
-		electrolyserSpeed = machines.getInt("(Default: 100)", "1l) Electrolyser Speed Multiplier", 100, 20, 500, "Electrolyser Speed Multiplier");
-		oxidiserSpeed = machines.getInt("(Default: 100)", "1m) Oxidiser Speed Multiplier", 100, 20, 500, "Oxidiser Speed Multiplier");
-		ioniserSpeed = machines.getInt("(Default: 100)", "1n) Ioniser Speed Multiplier", 100, 20, 500, "Ioniser Speed Multiplier");
-		irradiatorSpeed = machines.getInt("(Default: 100)", "1o) Neutron Irradiator Speed Multiplier", 100, 20, 500, "Neutron Irradiator Speed Multiplier");
-		coolerSpeed = machines.getInt("(Default: 100)", "1p) Supercooler Speed Multiplier", 100, 20, 500, "Supercooler Speed Multiplier");
-		factorySpeed = machines.getInt("(Default: 100)", "1q) Component Factory Speed Multiplier", 100, 20, 500, "Component Factory Speed Multiplier");
+		nuclearFurnaceCookSpeed = machines.getInt("Nuclear Furnace Speed Multiplier", "1a)", 100, 10, 1000, "");
+		nuclearFurnaceCookEfficiency = machines.getInt("Nuclear Furnace Fuel Usage Multiplier", "1b)", 100, 10, 1000, "");
+		metalFurnaceCookSpeed = machines.getInt("Metal Furnace Speed Multiplier", "1c)", 100, 10, 1000, "");
+		metalFurnaceCookEfficiency = machines.getInt("Metal Furnace Fuel Usage Multiplier", "1d)", 100, 10, 1000, "");
+		crusherCrushSpeed = machines.getInt("Crusher Speed Multiplier", "1e)", 100, 10, 1000, "");
+		crusherCrushEfficiency = machines.getInt("Crusher Fuel Usage Multiplier", "1f)", 100, 10, 1000, "");
+		electricCrusherCrushSpeed = machines.getInt("Electic Crusher Speed Multiplier", "1g)", 100, 10, 1000, "");
+		electricFurnaceSmeltSpeed = machines.getInt("Electic Furnace Speed Multiplier", "1h)", 100, 10, 1000, "");
+		separatorSpeed = machines.getInt("Isotope Separator Speed Multiplier", "1i)", 100, 10, 1000, "");
+		hastenerSpeed = machines.getInt("Decay Hastener Speed Multiplier", "1j)", 100, 10, 1000, "");
+		collectorSpeed = machines.getInt("Helium Collector Speed Multiplier", "1k)", 100, 10, 1000, "");
+		electrolyserSpeed = machines.getInt("Electrolyser Speed Multiplier", "1l)", 100, 10, 1000, "");
+		oxidiserSpeed = machines.getInt("Oxidiser Speed Multiplier", "1m)", 100, 10, 1000, "");
+		ioniserSpeed = machines.getInt("Ioniser Speed Multiplier", "1n)", 100, 10, 1000, "");
+		irradiatorSpeed = machines.getInt("Neutron Irradiator Speed Multiplier", "1o)", 100, 10, 1000, "");
+		coolerSpeed = machines.getInt("Supercooler Speed Multiplier", "1p)", 100, 10, 1000, "");
+		factorySpeed = machines.getInt("Component Factory Speed Multiplier", "1q)", 100, 10, 1000, "");
 		
-		reactionGeneratorRF = machines.getInt("(Default: 100)", "2a) Reaction Generator RF/t", 100, 20, 500, "Reaction Generator RF/t");
-		reactionGeneratorEfficiency = machines.getInt("(Default: 100)", "2b) Reaction Generator Efficiency Multiplier", 100, 20, 500, "Reaction Generator Efficiency Multiplier");
-		fissionRF = machines.getInt("(Default: 100)", "2c) Fission Reactor RF Production Multiplier", 100, 20, 500, "Fission Reactor RF Production Multiplier");
-		fissionEfficiency = machines.getInt("(Default: 100)", "2d) Fission Reactor Efficiency Multiplier", 100, 20, 500, "Fission Reactor Efficiency Multiplier");
-		RTGRF = machines.getInt("(Default: 100)", "2e) RTG RF/t", 100, 20, 500, "RTG RF/t");
-		WRTGRF = machines.getInt("(Default: 1)", "2f) WRTG RF/t", 1, 0, 5, "WRTG RF/t");
-		fusionRF = machines.getInt("(Default: 100)", "2g) Fusion Reactor RF Production Multiplier", 100, 20, 500, "Fusion Reactor RF Production Multiplier");
-		nuclearMeltdowns = machines.getBoolean("Enable Reactor Meltdowns", "2h) Enable Reactor Meltdowns", true, "Enable Reactor Meltdowns");
+		reactionGeneratorRF = machines.getInt("Reaction Generator RF Production Multiplier", "2a)", 100, 10, 1000, "");
+		reactionGeneratorEfficiency = machines.getInt("Reaction Generator Efficiency Multiplier", "2b)", 100, 10, 1000, "");
+		fissionRF = machines.getInt("Fission Reactor RF Production Multiplier", "2c)", 100, 10, 1000, "");
+		fissionEfficiency = machines.getInt("Fission Reactor Efficiency Multiplier", "2d)", 100, 10, 1000, "");
+		RTGRF = machines.getInt("RTG RF/t", "2e)", 100, 10, 1000, "");
+		WRTGRF = machines.getInt("WRTG RF/t", "2f)", 1, 0, 10, "");
+		fusionRF = machines.getInt("Fusion Reactor RF Production Multiplier", "2g)", 100, 10, 1000, "");
+		nuclearMeltdowns = machines.getBoolean("Enable Fission Reactor Meltdowns", "2h)", true, "");
 		
-		enableNuclearMonster = entities.getBoolean("Enable Nuclear Monsters Spawning", "1a) Enable Nuclear Monsters Spawning", true, "Enable Nuclear Monsters Spawning");
-		enablePaul = entities.getBoolean("Enable Paul", "1b) Enable Paul", true, "Enable Paul");
+		enableNuclearMonster = entities.getBoolean("Enable Nuclear Monsters Spawning", "1a)", true, "");
+		enablePaul = entities.getBoolean("Enable Paul", "1b)", true, "");
+		
+		enableNukes = other.getBoolean("Enable Nuclear Weapons", "1a)", true, "");
 		
 		ores.save();
 		machines.save();
 		entities.save();
+		other.save();
 		
 		// Fusion
 		//TileEntityFusionReactor.registerReactions();
@@ -530,7 +575,7 @@ public class NuclearRelativistics {
 		NRItems.nuclearGrenadeThrown = new Item().setUnlocalizedName("nuclearGrenadeThrown").setTextureName("nr:weapons/" + "nuclearGrenadeThrown");
 		GameRegistry.registerItem(NRItems.nuclearGrenadeThrown, "nuclearGrenadeThrown");
 		
-		NRItems.portableEnderChest = new ItemEnderChest().setCreativeTab(tabNR).setUnlocalizedName("portableEnderChest").setTextureName("nr:" + "portableEnderChest");
+		NRItems.portableEnderChest = new ItemEnderChest().setCreativeTab(tabNR).setUnlocalizedName("portableEnderChest").setTextureName("nr:" + "portableEnderChest").setMaxStackSize(1);
 		GameRegistry.registerItem(NRItems.portableEnderChest, "portableEnderChest");
 		
 		// Tool Registry
@@ -584,6 +629,10 @@ public class NuclearRelativistics {
 		
 		NRItems.toughBow = new ItemToughBow().setCreativeTab(tabNR).setUnlocalizedName("toughBow").setMaxStackSize(1);
 		GameRegistry.registerItem(NRItems.toughBow, "toughBow");
+		NRItems.pistol = new ItemPistol().setCreativeTab(tabNR).setUnlocalizedName("pistol").setMaxStackSize(1).setTextureName("nr:tools/" + "pistol");
+		GameRegistry.registerItem(NRItems.pistol, "pistol");
+		NRItems.dUBullet = new Item().setCreativeTab(tabNR).setUnlocalizedName("dUBullet").setTextureName("nr:tools/" + "dUBullet");
+		GameRegistry.registerItem(NRItems.dUBullet, "dUBullet");
 		
 		//Armor Registry
 		NRItems.toughHelm = new ToughArmor(ToughArmorMaterial, toughHelmID, 0).setUnlocalizedName("toughHelm").setTextureName("nr:armour/" + "toughHelm");
@@ -694,7 +743,7 @@ public class NuclearRelativistics {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NRItems.fuel, 16, 45), true,
 				new Object[] {" I ", "I I", " I ", 'I', new ItemStack(NRItems.parts, 1, 6)}));
 		
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NRItems.parts, 1, 0), true,
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NRItems.parts, 2, 0), true,
 				new Object[] {"LLL", "CCC", 'L', "ingotLead", 'C', "dustCoal"}));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NRItems.parts, 1, 2), true,
 				new Object[] {"FFF", "CCC", "SSS", 'F', Items.flint, 'C', "cobblestone", 'S', Items.stick}));
@@ -846,7 +895,7 @@ public class NuclearRelativistics {
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NRItems.parts, 3, 4),
 				new Object[] {Items.sugar, "dustLapis", Items.redstone}));
 		
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NRItems.material, 3, 22),
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NRItems.material, 4, 22),
 				new Object[] {new ItemStack(NRItems.parts, 1, 4), "dustCoal", "dustCoal", "dustLead", "dustLead", "dustSilver", "dustSilver", "dustIron", "dustIron"}));
 		
 		GameRegistry.addShapelessRecipe(new ItemStack(NRItems.fuel, 1, 11),
@@ -940,13 +989,14 @@ public class NuclearRelativistics {
 		EntityHandler.registerPaul(EntityPaul.class, "Paul");
 		EntityHandler.registerNuke(EntityNukePrimed.class, "NukePrimed");
 		EntityHandler.registerNuclearGrenade(EntityNuclearGrenade.class, "NuclearGrenade");
+		EntityHandler.registerEntityBullet(EntityBullet.class, "EntityBullet");
 				
 		// Fuel Handler	
 		GameRegistry.registerFuelHandler(new FuelHandler());
 			
 		// Random Chest Loot
 		ChestGenHooks.getInfo(ChestGenHooks.DUNGEON_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NRItems.dominoes, 1), 4, 5, 16));
-		ChestGenHooks.getInfo(ChestGenHooks.DUNGEON_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NRItems.upgrade, 1), 2, 10, 12));
+		ChestGenHooks.getInfo(ChestGenHooks.DUNGEON_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NRItems.upgrade, 1), 2, 3, 12));
 		ChestGenHooks.getInfo(ChestGenHooks.DUNGEON_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NRItems.fuel, 1, 4), 1, 2, 16));
 		ChestGenHooks.getInfo(ChestGenHooks.DUNGEON_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NRBlocks.WRTG, 1), 1, 1, 4));
 		ChestGenHooks.getInfo(ChestGenHooks.DUNGEON_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NRItems.material, 1, 32), 2, 5, 8));
@@ -958,9 +1008,11 @@ public class NuclearRelativistics {
 		ChestGenHooks.getInfo(ChestGenHooks.DUNGEON_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NRItems.boronChest, 1), 1, 1, 12));
 		ChestGenHooks.getInfo(ChestGenHooks.DUNGEON_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NRItems.boronLegs, 1), 1, 1, 12));
 		ChestGenHooks.getInfo(ChestGenHooks.DUNGEON_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NRItems.boronBoots, 1), 1, 1, 16));
+		ChestGenHooks.getInfo(ChestGenHooks.DUNGEON_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NRItems.pistol, 1), 1, 1, 10));
+		ChestGenHooks.getInfo(ChestGenHooks.DUNGEON_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NRItems.dUBullet, 1), 6, 8, 10));
 		
 		ChestGenHooks.getInfo(ChestGenHooks.MINESHAFT_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(NRItems.dominoes, 1), 4, 5, 16));
-		ChestGenHooks.getInfo(ChestGenHooks.MINESHAFT_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(NRItems.upgrade, 1), 2, 10, 12));
+		ChestGenHooks.getInfo(ChestGenHooks.MINESHAFT_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(NRItems.upgrade, 1), 2, 3, 12));
 		ChestGenHooks.getInfo(ChestGenHooks.MINESHAFT_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(NRItems.fuel, 1, 4), 1, 2, 16));
 		ChestGenHooks.getInfo(ChestGenHooks.MINESHAFT_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(NRBlocks.WRTG, 1), 1, 1, 4));
 		ChestGenHooks.getInfo(ChestGenHooks.MINESHAFT_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(NRItems.material, 1, 32), 2, 5, 8));
@@ -972,9 +1024,11 @@ public class NuclearRelativistics {
 		ChestGenHooks.getInfo(ChestGenHooks.MINESHAFT_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(NRItems.boronChest, 1), 1, 1, 12));
 		ChestGenHooks.getInfo(ChestGenHooks.MINESHAFT_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(NRItems.boronLegs, 1), 1, 1, 12));
 		ChestGenHooks.getInfo(ChestGenHooks.MINESHAFT_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(NRItems.boronBoots, 1), 1, 1, 16));
+		ChestGenHooks.getInfo(ChestGenHooks.MINESHAFT_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(NRItems.pistol, 1), 1, 1, 10));
+		ChestGenHooks.getInfo(ChestGenHooks.MINESHAFT_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(NRItems.dUBullet, 1), 6, 8, 10));
 		
 		ChestGenHooks.getInfo(ChestGenHooks.PYRAMID_DESERT_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NRItems.dominoes, 1), 4, 5, 16));
-		ChestGenHooks.getInfo(ChestGenHooks.PYRAMID_DESERT_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NRItems.upgrade, 1), 2, 10, 12));
+		ChestGenHooks.getInfo(ChestGenHooks.PYRAMID_DESERT_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NRItems.upgrade, 1), 2, 3, 12));
 		ChestGenHooks.getInfo(ChestGenHooks.PYRAMID_DESERT_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NRItems.fuel, 1, 4), 1, 2, 16));
 		ChestGenHooks.getInfo(ChestGenHooks.PYRAMID_DESERT_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NRBlocks.WRTG, 1), 1, 1, 4));
 		ChestGenHooks.getInfo(ChestGenHooks.PYRAMID_DESERT_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NRItems.material, 1, 32), 2, 5, 8));
@@ -988,9 +1042,11 @@ public class NuclearRelativistics {
 		ChestGenHooks.getInfo(ChestGenHooks.PYRAMID_DESERT_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NRItems.boronBoots, 1), 1, 1, 16));
 		
 		ChestGenHooks.getInfo(ChestGenHooks.PYRAMID_JUNGLE_DISPENSER).addItem(new WeightedRandomChestContent(new ItemStack(NRItems.toughBow, 1), 1, 1, 40));
+		ChestGenHooks.getInfo(ChestGenHooks.PYRAMID_JUNGLE_DISPENSER).addItem(new WeightedRandomChestContent(new ItemStack(NRItems.pistol, 1), 1, 1, 20));
+		ChestGenHooks.getInfo(ChestGenHooks.PYRAMID_JUNGLE_DISPENSER).addItem(new WeightedRandomChestContent(new ItemStack(NRItems.dUBullet, 1), 6, 8, 40));
 		
 		ChestGenHooks.getInfo(ChestGenHooks.PYRAMID_JUNGLE_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NRItems.dominoes, 1), 4, 5, 16));
-		ChestGenHooks.getInfo(ChestGenHooks.PYRAMID_JUNGLE_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NRItems.upgrade, 1), 2, 10, 12));
+		ChestGenHooks.getInfo(ChestGenHooks.PYRAMID_JUNGLE_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NRItems.upgrade, 1), 2, 3, 12));
 		ChestGenHooks.getInfo(ChestGenHooks.PYRAMID_JUNGLE_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NRItems.fuel, 1, 4), 1, 2, 16));
 		ChestGenHooks.getInfo(ChestGenHooks.PYRAMID_JUNGLE_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NRBlocks.WRTG, 1), 1, 1, 4));
 		ChestGenHooks.getInfo(ChestGenHooks.PYRAMID_JUNGLE_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NRItems.material, 1, 32), 2, 5, 8));
@@ -1004,7 +1060,7 @@ public class NuclearRelativistics {
 		ChestGenHooks.getInfo(ChestGenHooks.PYRAMID_JUNGLE_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NRItems.boronBoots, 1), 1, 1, 16));
 		
 		ChestGenHooks.getInfo(ChestGenHooks.VILLAGE_BLACKSMITH).addItem(new WeightedRandomChestContent(new ItemStack(NRItems.dominoes, 1), 4, 5, 16));
-		ChestGenHooks.getInfo(ChestGenHooks.VILLAGE_BLACKSMITH).addItem(new WeightedRandomChestContent(new ItemStack(NRItems.upgrade, 1), 2, 10, 12));
+		ChestGenHooks.getInfo(ChestGenHooks.VILLAGE_BLACKSMITH).addItem(new WeightedRandomChestContent(new ItemStack(NRItems.upgrade, 1), 2, 3, 12));
 		ChestGenHooks.getInfo(ChestGenHooks.VILLAGE_BLACKSMITH).addItem(new WeightedRandomChestContent(new ItemStack(NRItems.fuel, 1, 4), 1, 2, 16));
 		ChestGenHooks.getInfo(ChestGenHooks.VILLAGE_BLACKSMITH).addItem(new WeightedRandomChestContent(new ItemStack(NRBlocks.WRTG, 1), 1, 1, 4));
 		ChestGenHooks.getInfo(ChestGenHooks.VILLAGE_BLACKSMITH).addItem(new WeightedRandomChestContent(new ItemStack(NRItems.material, 1, 32), 2, 5, 8));
@@ -1016,9 +1072,11 @@ public class NuclearRelativistics {
 		ChestGenHooks.getInfo(ChestGenHooks.VILLAGE_BLACKSMITH).addItem(new WeightedRandomChestContent(new ItemStack(NRItems.boronChest, 1), 1, 1, 12));
 		ChestGenHooks.getInfo(ChestGenHooks.VILLAGE_BLACKSMITH).addItem(new WeightedRandomChestContent(new ItemStack(NRItems.boronLegs, 1), 1, 1, 12));
 		ChestGenHooks.getInfo(ChestGenHooks.VILLAGE_BLACKSMITH).addItem(new WeightedRandomChestContent(new ItemStack(NRItems.boronBoots, 1), 1, 1, 16));
+		ChestGenHooks.getInfo(ChestGenHooks.VILLAGE_BLACKSMITH).addItem(new WeightedRandomChestContent(new ItemStack(NRItems.pistol, 1), 1, 1, 10));
+		ChestGenHooks.getInfo(ChestGenHooks.VILLAGE_BLACKSMITH).addItem(new WeightedRandomChestContent(new ItemStack(NRItems.dUBullet, 1), 6, 8, 10));
 		
 		ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(NRItems.dominoes, 1), 4, 5, 16));
-		ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(NRItems.upgrade, 1), 2, 10, 12));
+		ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(NRItems.upgrade, 1), 2, 3, 12));
 		ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(NRItems.fuel, 1, 4), 1, 2, 16));
 		ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(NRBlocks.WRTG, 1), 1, 1, 4));
 		ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(NRItems.material, 1, 32), 2, 5, 8));
@@ -1032,7 +1090,7 @@ public class NuclearRelativistics {
 		ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(NRItems.toughBoots, 1), 1, 1, 16));
 		
 		ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_CROSSING).addItem(new WeightedRandomChestContent(new ItemStack(NRItems.dominoes, 1), 4, 5, 16));
-		ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_CROSSING).addItem(new WeightedRandomChestContent(new ItemStack(NRItems.upgrade, 1), 2, 10, 12));
+		ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_CROSSING).addItem(new WeightedRandomChestContent(new ItemStack(NRItems.upgrade, 1), 2, 3, 12));
 		ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_CROSSING).addItem(new WeightedRandomChestContent(new ItemStack(NRItems.fuel, 1, 4), 1, 2, 16));
 		ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_CROSSING).addItem(new WeightedRandomChestContent(new ItemStack(NRBlocks.WRTG, 1), 1, 1, 4));
 		ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_CROSSING).addItem(new WeightedRandomChestContent(new ItemStack(NRItems.material, 1, 32), 2, 5, 8));
@@ -1046,7 +1104,7 @@ public class NuclearRelativistics {
 		ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_CROSSING).addItem(new WeightedRandomChestContent(new ItemStack(NRItems.toughBoots, 1), 1, 1, 16));
 		
 		ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_LIBRARY).addItem(new WeightedRandomChestContent(new ItemStack(NRItems.dominoes, 1), 4, 5, 16));
-		ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_LIBRARY).addItem(new WeightedRandomChestContent(new ItemStack(NRItems.upgrade, 1), 2, 10, 12));
+		ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_LIBRARY).addItem(new WeightedRandomChestContent(new ItemStack(NRItems.upgrade, 1), 2, 3, 12));
 		ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_LIBRARY).addItem(new WeightedRandomChestContent(new ItemStack(NRItems.fuel, 1, 4), 1, 2, 16));
 		ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_LIBRARY).addItem(new WeightedRandomChestContent(new ItemStack(NRBlocks.WRTG, 1), 1, 1, 4));
 		ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_LIBRARY).addItem(new WeightedRandomChestContent(new ItemStack(NRItems.material, 1, 32), 2, 5, 8));

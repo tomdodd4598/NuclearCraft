@@ -15,7 +15,6 @@ public class ElectrolyserRecipes extends NRRecipeHelper {
 	}
 
 	public void addRecipes() {
-		//addRecipe(new ItemStack(NRItems.fuel, 64, 45), new ItemStack(NRItems.fuel, 24, 35), new ItemStack(NRItems.fuel, 36, 36), new ItemStack(NRItems.fuel, 3, 37), new ItemStack(NRItems.fuel, 1, 38));
-		addRecipe(new ItemStack(NRItems.fuel, 64, 34), new ItemStack(NRItems.fuel, 24, 35), new ItemStack(NRItems.fuel, 36, 36), new ItemStack(NRItems.fuel, 3, 37), new ItemStack(NRItems.fuel, 1, 38));
+		addRecipe(new ItemStack(NRItems.fuel, 12, 34), new ItemStack(NRItems.fuel, 4, 35), new ItemStack(NRItems.fuel, 4, 36), new ItemStack(NRItems.fuel, 3, 36), new ItemStack(NRItems.fuel, 1, 37));
 	}
 }

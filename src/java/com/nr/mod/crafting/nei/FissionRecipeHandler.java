@@ -95,8 +95,4 @@ public class FissionRecipeHandler extends TemplateRecipeHandler {
         drawProgressBar(16, 14, 185, 31, 9, 35, 240, 7);
         drawProgressBar(29, 14, 194, 31, 9, 35, 160, 3);
     }
-
-	public String getOverlayIdentifier() {
-		return "fission";
-	}
 }

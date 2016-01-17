@@ -123,8 +123,4 @@ public class ElectrolyserRecipeHandler extends TemplateRecipeHandler {
 		drawProgressBar(3, 15, 176, 31, 16, 34, 240, 7); //energy
 		drawProgressBar(54, 13, 176, 65, 71, 38, 40, 0);
 	}
-
-	public String getOverlayIdentifier() {
-		return "electrolysing";
-	}
 }

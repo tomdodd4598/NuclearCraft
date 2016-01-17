@@ -95,8 +95,4 @@ public class HastenerRecipeHandler extends TemplateRecipeHandler {
         drawProgressBar(3, 15, 176, 31, 16, 34, 240, 7); //energy
         drawProgressBar(74, 23, 176, 14, 24, 16, 40, 0);
     }
-
-    public String getOverlayIdentifier() {
-        return "hastening";
-    }
 }

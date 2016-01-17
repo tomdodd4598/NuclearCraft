@@ -99,8 +99,4 @@ public class SeparatorRecipeHandler extends TemplateRecipeHandler {
 		drawProgressBar(3, 15, 176, 31, 16, 34, 240, 7); //energy
 		drawProgressBar(54, 15, 176, 65, 71, 34, 40, 0);
 	}
-
-	public String getOverlayIdentifier() {
-		return "separating";
-	}
 }

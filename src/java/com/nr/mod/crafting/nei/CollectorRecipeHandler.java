@@ -94,8 +94,4 @@ public class CollectorRecipeHandler extends TemplateRecipeHandler {
 	public void drawExtras(int recipe) {
         drawProgressBar(74, 17, 176, 14, 26, 28, 50, 0);
     }
-
-	public String getOverlayIdentifier() {
-		return "collecting";
-	}
 }

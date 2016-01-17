@@ -18,15 +18,15 @@ public class OreGen implements IWorldGenerator
 {
 	public OreGen()
     {
-		copper = new WorldGenMinable(NRBlocks.blockOre, 0, 8, Blocks.stone);
-		tin = new WorldGenMinable(NRBlocks.blockOre, 1, 8, Blocks.stone);
-		lead = new WorldGenMinable(NRBlocks.blockOre, 2, 7, Blocks.stone);
-		silver = new WorldGenMinable(NRBlocks.blockOre, 3, 7, Blocks.stone);
-		pitchblende = new WorldGenMinable(NRBlocks.blockOre, 4, 6, Blocks.stone);
-		thorium = new WorldGenMinable(NRBlocks.blockOre, 5, 6, Blocks.stone);
-		lithium = new WorldGenMinable(NRBlocks.blockOre, 7, 7, Blocks.stone);
-		boron = new WorldGenMinable(NRBlocks.blockOre, 8, 7, Blocks.stone);
-        plutonium = new WorldGenMinable(NRBlocks.blockOre, 6, 4, Blocks.netherrack);
+		copper = new WorldGenMinable(NRBlocks.blockOre, 0, NuclearRelativistics.oreSizeCopper, Blocks.stone);
+		tin = new WorldGenMinable(NRBlocks.blockOre, 1, NuclearRelativistics.oreSizeTin, Blocks.stone);
+		lead = new WorldGenMinable(NRBlocks.blockOre, 2, NuclearRelativistics.oreSizeLead, Blocks.stone);
+		silver = new WorldGenMinable(NRBlocks.blockOre, 3, NuclearRelativistics.oreSizeSilver, Blocks.stone);
+		pitchblende = new WorldGenMinable(NRBlocks.blockOre, NuclearRelativistics.oreSizePitchblende, 6, Blocks.stone);
+		thorium = new WorldGenMinable(NRBlocks.blockOre, 5, NuclearRelativistics.oreSizeThorium, Blocks.stone);
+		lithium = new WorldGenMinable(NRBlocks.blockOre, 7, NuclearRelativistics.oreSizeLithium, Blocks.stone);
+		boron = new WorldGenMinable(NRBlocks.blockOre, 8, NuclearRelativistics.oreSizeBoron, Blocks.stone);
+        plutonium = new WorldGenMinable(NRBlocks.blockOre, 6, NuclearRelativistics.oreSizePlutonium, Blocks.netherrack);
     }
 	
 	@Override
@@ -46,35 +46,35 @@ public class OreGen implements IWorldGenerator
     {
 		int xPos, yPos, zPos;
         if (NuclearRelativistics.oreGenCopper)
-        { for (int i = 0; i < 15; i++) { xPos = xChunk + random.nextInt(16); yPos = random.nextInt(60); zPos = zChunk + random.nextInt(16);
+        { for (int i = 0; i < NuclearRelativistics.oreRarityCopper; i++) { xPos = xChunk + random.nextInt(16); yPos = random.nextInt(60); zPos = zChunk + random.nextInt(16);
                 copper.generate(world, random, xPos, yPos, zPos); } }
 
         if (NuclearRelativistics.oreGenTin)
-        { for (int i = 0; i < 14; i++) { xPos = xChunk + random.nextInt(16); yPos = random.nextInt(60); zPos = zChunk + random.nextInt(16);
+        { for (int i = 0; i < NuclearRelativistics.oreRarityTin; i++) { xPos = xChunk + random.nextInt(16); yPos = random.nextInt(60); zPos = zChunk + random.nextInt(16);
                 tin.generate(world, random, xPos, yPos, zPos); } }
 
         if (NuclearRelativistics.oreGenLead)
-        { for (int i = 0; i < 14; i++) { xPos = xChunk + random.nextInt(16); yPos = random.nextInt(40); zPos = zChunk + random.nextInt(16);
+        { for (int i = 0; i < NuclearRelativistics.oreRarityLead; i++) { xPos = xChunk + random.nextInt(16); yPos = random.nextInt(40); zPos = zChunk + random.nextInt(16);
                 lead.generate(world, random, xPos, yPos, zPos); } }
 
         if (NuclearRelativistics.oreGenSilver)
-        { for (int i = 0; i < 10; i++) { xPos = xChunk + random.nextInt(16); yPos = random.nextInt(40); zPos = zChunk + random.nextInt(16);
+        { for (int i = 0; i < NuclearRelativistics.oreRaritySilver; i++) { xPos = xChunk + random.nextInt(16); yPos = random.nextInt(40); zPos = zChunk + random.nextInt(16);
                 silver.generate(world, random, xPos, yPos, zPos); } }
 
         if (NuclearRelativistics.oreGenPitchblende)
-        { for (int i = 0; i < 8; i++) { xPos = xChunk + random.nextInt(16); yPos = random.nextInt(40); zPos = zChunk + random.nextInt(16);
+        { for (int i = 0; i < NuclearRelativistics.oreRarityPitchblende; i++) { xPos = xChunk + random.nextInt(16); yPos = random.nextInt(40); zPos = zChunk + random.nextInt(16);
                 pitchblende.generate(world, random, xPos, yPos, zPos); } }
 
         if (NuclearRelativistics.oreGenThorium)
-        { for (int i = 0; i < 8; i++) { xPos = xChunk + random.nextInt(16); yPos = random.nextInt(40); zPos = zChunk + random.nextInt(16);
+        { for (int i = 0; i < NuclearRelativistics.oreRarityThorium; i++) { xPos = xChunk + random.nextInt(16); yPos = random.nextInt(40); zPos = zChunk + random.nextInt(16);
                 thorium.generate(world, random, xPos, yPos, zPos); } }
         
         if (NuclearRelativistics.oreGenLithium)
-        { for (int i = 0; i < 8; i++) { xPos = xChunk + random.nextInt(16); yPos = random.nextInt(25); zPos = zChunk + random.nextInt(16);
+        { for (int i = 0; i < NuclearRelativistics.oreRarityLithium; i++) { xPos = xChunk + random.nextInt(16); yPos = random.nextInt(25); zPos = zChunk + random.nextInt(16);
                 lithium.generate(world, random, xPos, yPos, zPos); } }
         
         if (NuclearRelativistics.oreGenBoron)
-        { for (int i = 0; i < 8; i++) { xPos = xChunk + random.nextInt(16); yPos = random.nextInt(20); zPos = zChunk + random.nextInt(16);
+        { for (int i = 0; i < NuclearRelativistics.oreRarityBoron; i++) { xPos = xChunk + random.nextInt(16); yPos = random.nextInt(20); zPos = zChunk + random.nextInt(16);
                 boron.generate(world, random, xPos, yPos, zPos); } }
         
     }
@@ -83,7 +83,7 @@ public class OreGen implements IWorldGenerator
     {
         int xPos, yPos, zPos;
         if (NuclearRelativistics.oreGenPlutonium)
-        { for (int i = 0; i < 9; i++) { xPos = xChunk + random.nextInt(16); yPos = random.nextInt(128); zPos = zChunk + random.nextInt(16);
+        { for (int i = 0; i < NuclearRelativistics.oreRarityPlutonium; i++) { xPos = xChunk + random.nextInt(16); yPos = random.nextInt(128); zPos = zChunk + random.nextInt(16);
                 plutonium.generate(world, random, xPos, yPos, zPos); } }
     }
  

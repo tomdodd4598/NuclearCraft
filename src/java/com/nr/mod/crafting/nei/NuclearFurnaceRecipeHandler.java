@@ -148,8 +148,4 @@ public class NuclearFurnaceRecipeHandler extends TemplateRecipeHandler
                     anuclearnuclearfuels.add(new nuclearfuelPair(item.copy(), burnTime));
             }
     }
-
-    public String getOverlayIdentifier() {
-        return "nuclearsmelting";
-    }
 }

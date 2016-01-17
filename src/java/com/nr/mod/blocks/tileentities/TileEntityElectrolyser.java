@@ -8,7 +8,7 @@ public class TileEntityElectrolyser extends TileEntityMachine {
 	public static final int[] output = {0, 1, 2, 3, 4};
 	
 	public TileEntityElectrolyser() {
-		super("Electrolyser", 50000, 1, 4, true, true, 153600, 15360000, NuclearRelativistics.electrolyserSpeed, ElectrolyserRecipes.instance());
+		super("Electrolyser", 50000, 1, 4, true, true, 25600, 2560000, NuclearRelativistics.electrolyserSpeed, ElectrolyserRecipes.instance());
 	}
 	
 	public void updateEntity() {

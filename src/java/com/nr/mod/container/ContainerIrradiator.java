@@ -11,10 +11,11 @@ public class ContainerIrradiator extends ContainerMachine {
 		super(inventory, tileentity, IrradiatorRecipes.instance());
 		addSlotToContainer(new Slot(tileentity, 0, 41, 38));
 		addSlotToContainer(new Slot(tileentity, 1, 41, 58));
-		addSlotToContainer(new SlotBlockedInventory(tileentity, 2, 134, 34));
-		addSlotToContainer(new SlotBlockedInventory(tileentity, 3, 134, 62));
-		addSlotToContainer(new Slot(tileentity, 4, 31, 15));
-		addSlotToContainer(new Slot(tileentity, 5, 51, 15));
+		addSlotToContainer(new SlotBlockedInventory(tileentity, 2, 130, 38));
+		addSlotToContainer(new SlotBlockedInventory(tileentity, 3, 150, 38));
+		addSlotToContainer(new SlotBlockedInventory(tileentity, 4, 130, 58));
+		addSlotToContainer(new Slot(tileentity, 5, 31, 15));
+		addSlotToContainer(new Slot(tileentity, 6, 51, 15));
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 9; j++) {
 				addSlotToContainer(new Slot(inventory, j + i * 9 + 9, 8 + j * 18, 92 + i * 18));

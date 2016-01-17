@@ -112,7 +112,7 @@ public class GuiHandler implements IGuiHandler {
 					return null;
 				case 9:
 					if(ID == NuclearRelativistics.guiIdNuclearWorkspace) {
-						return new ContainerNuclearWorkspace(player.inventory, (TileEntityNuclearWorkspace) entity);
+						return new ContainerNuclearWorkspace(player.inventory, (TileEntityNuclearWorkspace) entity, world);
 					}
 					return null;
 				case 10:
@@ -233,7 +233,7 @@ public class GuiHandler implements IGuiHandler {
 				case 9:
 					if(entity instanceof TileEntityNuclearWorkspace)
 					{
-							return new GuiNuclearWorkspace(player.inventory, (TileEntityNuclearWorkspace) entity);
+							return new GuiNuclearWorkspace(player.inventory, (TileEntityNuclearWorkspace) entity, world);
 					}
 					return null;
 				case 10:

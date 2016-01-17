@@ -67,10 +67,6 @@ public class CrusherFuelRecipeHandler extends CrusherRecipeHandler
                 arecipes.add(new CachedFuelRecipe(crusherfuel));
     }
 
-    public String getOverlayIdentifier() {
-        return "crushfuel";
-    }
-
     public List<String> handleItemTooltip(GuiRecipe gui, ItemStack stack, List<String> currenttip, int recipe) {
         CachedFuelRecipe crecipe = (CachedFuelRecipe) arecipes.get(recipe);
         CrusherFuelPair fuel = crecipe.crushfuel;

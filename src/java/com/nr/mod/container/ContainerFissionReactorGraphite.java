@@ -20,6 +20,7 @@ public class ContainerFissionReactorGraphite extends Container {
     public int lastFueltime;
     public int lastE;
     public int lastH;
+    public int lastOff;
 
     public ContainerFissionReactorGraphite(InventoryPlayer inventory, TileEntityFissionReactorGraphite entity)
     {
@@ -72,6 +73,9 @@ public class ContainerFissionReactorGraphite extends Container {
             icrafting.sendProgressBarUpdate(this, 8, this.entity.E >> 16);
             icrafting.sendProgressBarUpdate(this, 9, this.entity.H);
             icrafting.sendProgressBarUpdate(this, 10, this.entity.H >> 16);
+            
+            icrafting.sendProgressBarUpdate(this, 11, this.entity.off);
+            icrafting.sendProgressBarUpdate(this, 12, this.entity.off >> 16);
         }    
     }
 
@@ -90,6 +94,9 @@ public class ContainerFissionReactorGraphite extends Container {
         if (slot == 8){ this.entity.E = this.lastE | value << 16; }
         if (slot == 9){ this.lastH = this.upcastShort(value); }
         if (slot == 10){ this.entity.H = this.lastH | value << 16; }
+        
+        if (slot == 11){ this.lastOff = this.upcastShort(value); }
+        if (slot == 12){ this.entity.off = this.lastOff | value << 16; }
     }
     
     private int upcastShort(int input)

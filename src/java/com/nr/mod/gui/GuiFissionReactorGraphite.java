@@ -36,9 +36,9 @@ public class GuiFissionReactorGraphite extends GuiContainer {
         String fueltype = (this.entity.fueltime == 0 ? StatCollector.translateToLocal("gui.noFuel") : this.entity.typeoffuel)+"";
         this.fontRendererObj.drawString(fueltype, 67, 49, (this.entity.multiblockstring() ? -1 : 15597568));
         String egen = this.entity.fueltime == 0 ? 0 + " RF/t" : (this.entity.E < 100000 ? (this.entity.E)+" RF/t" : ((int)(Math.round(this.entity.E/1000))) + " kRF/t");
-        this.fontRendererObj.drawString(egen, 7, 63, (this.entity.multiblockstring() ? -1 : 15597568));
+        this.fontRendererObj.drawString(egen, 7, 63, (!this.entity.multiblockstring() ? 15597568 : (this.entity.off==1 ? 15641088 : -1)));
         String hgen = this.entity.H < 100000 ? (this.entity.H)+" H/t" : ((int)(Math.round(this.entity.H/1000))) + " kH/t";
-        this.fontRendererObj.drawString(hgen, 7, 74, (this.entity.multiblockstring() ? -1 : 15597568));
+        this.fontRendererObj.drawString(hgen, 7, 74, (!this.entity.multiblockstring() ? 15597568 : (this.entity.off==1 ? 15641088 : -1)));
     }
 
     protected void drawGuiContainerBackgroundLayer(float var1, int var2, int var3) {

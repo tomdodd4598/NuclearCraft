@@ -67,10 +67,6 @@ public class MetalFurnaceFuelRecipeHandler extends MetalFurnaceRecipeHandler
                 arecipes.add(new CachedFuelRecipe(fuel));
     }
 
-    public String getOverlayIdentifier() {
-        return "metalfuel";
-    }
-
     public List<String> handleItemTooltip(GuiRecipe gui, ItemStack stack, List<String> currenttip, int recipe) {
         CachedFuelRecipe crecipe = (CachedFuelRecipe) arecipes.get(recipe);
         MetalFuelPair fuel = crecipe.metalfuel;

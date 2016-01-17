@@ -10,6 +10,7 @@ import com.nr.mod.blocks.tileentities.TileEntityAccStraight1;
 import com.nr.mod.blocks.tileentities.TileEntityAccStraight2;
 import com.nr.mod.blocks.tileentities.TileEntityFusionReactor;
 import com.nr.mod.blocks.tileentities.TileEntityNuclearWorkspace;
+import com.nr.mod.entity.EntityBullet;
 import com.nr.mod.entity.EntityNuclearGrenade;
 import com.nr.mod.entity.EntityNuclearMonster;
 import com.nr.mod.entity.EntityNukePrimed;
@@ -23,6 +24,7 @@ import com.nr.mod.renderer.ItemRenderFusionReactor;
 import com.nr.mod.renderer.ItemRenderNuclearWorkspace;
 import com.nr.mod.renderer.RenderAccStraight1;
 import com.nr.mod.renderer.RenderAccStraight2;
+import com.nr.mod.renderer.RenderBullet;
 import com.nr.mod.renderer.RenderFusionReactor;
 import com.nr.mod.renderer.RenderNuclearMonster;
 import com.nr.mod.renderer.RenderNuclearWorkspace;
@@ -64,6 +66,9 @@ public void registerRenderThings() {
 		
 		//Nuclear Grenade
 		RenderingRegistry.registerEntityRenderingHandler(EntityNuclearGrenade.class, new RenderSnowball(NRItems.nuclearGrenadeThrown));
+		
+		//DU Bullet
+		RenderingRegistry.registerEntityRenderingHandler(EntityBullet.class, new RenderBullet());
 	}
 
 	public void registerSounds() {}

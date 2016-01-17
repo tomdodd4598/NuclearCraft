@@ -1,11 +1,14 @@
 package com.nr.mod.crafting.nei;
 
 import java.awt.Rectangle;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+
 import com.nr.mod.crafting.IrradiatorRecipes;
 import com.nr.mod.gui.GuiIrradiator;
+
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.item.ItemStack;
 import codechicken.nei.PositionedStack;
@@ -17,14 +20,16 @@ public class IrradiatorRecipeHandler extends TemplateRecipeHandler {
 		PositionedStack input2;
 		PositionedStack result;
 		PositionedStack result2;
+		PositionedStack result3;
 
-		public SmeltingPair(Object input, Object input2, Object result, Object result2) {
+		public SmeltingPair(Object input, Object input2, Object result, Object result2, Object result3) {
 			super();
 			// input.stackSize = 1;
 			this.input = new PositionedStack(input, 36, 14);
 			this.input2 = new PositionedStack(input2, 36, 34);
-			this.result = new PositionedStack(result, 125, 14);
-			this.result2 = new PositionedStack(result2, 125, 34);
+			this.result = new PositionedStack(result, 125, 4);
+			this.result2 = new PositionedStack(result2, 125, 24);
+			this.result3 = new PositionedStack(result3, 125, 44);
 		}
 
 		public List<PositionedStack> getIngredients() {
@@ -33,12 +38,25 @@ public class IrradiatorRecipeHandler extends TemplateRecipeHandler {
 					Arrays.asList(new PositionedStack[] { this.input, this.input2 }));
 		}
 
+		public List<PositionedStack> getOtherStacks() {
+            ArrayList<PositionedStack> stacks = new ArrayList<PositionedStack>();
+            PositionedStack stack = getOtherStack();
+            PositionedStack stack2 = getOtherStack2();
+            if (stack != null) stacks.add(stack);
+            if (stack2 != null) stacks.add(stack2);
+            return stacks;
+        }
+
 		public PositionedStack getResult() {
 			return this.result;
 		}
 
 		public PositionedStack getOtherStack() {
 			return this.result2;
+		}
+		
+		public PositionedStack getOtherStack2() {
+			return this.result3;
 		}
 	}
 
@@ -58,7 +76,7 @@ public class IrradiatorRecipeHandler extends TemplateRecipeHandler {
 		if ((outputId.equals("irradiating"))	&& (getClass() == IrradiatorRecipeHandler.class)) {
 			Map<Object[], Object[]> recipes = IrradiatorRecipes.instance().getRecipes();
 			for (Map.Entry<Object[], Object[]> recipe : recipes.entrySet()) {
-				this.arecipes.add(new SmeltingPair(recipe.getKey()[0], recipe.getKey()[1], recipe.getValue()[0], recipe.getValue()[1]));
+				this.arecipes.add(new SmeltingPair(recipe.getKey()[0], recipe.getKey()[1], recipe.getValue()[0], recipe.getValue()[1], recipe.getValue()[2]));
 			}
 		} else {
 			super.loadCraftingRecipes(outputId, results);
@@ -70,7 +88,7 @@ public class IrradiatorRecipeHandler extends TemplateRecipeHandler {
 		for (Map.Entry<Object[], Object[]> recipe : recipes.entrySet()) {
 			int pos = IrradiatorRecipes.instance().containsStack(result, recipe.getValue(), false);
 			if (pos!=-1) {
-			this.arecipes.add(new SmeltingPair(recipe.getKey()[0], recipe.getKey()[1], recipe.getValue()[0], recipe.getValue()[1]));				
+			this.arecipes.add(new SmeltingPair(recipe.getKey()[0], recipe.getKey()[1], recipe.getValue()[0], recipe.getValue()[1], recipe.getValue()[2]));				
 			}
 		}
 	}
@@ -88,7 +106,7 @@ public class IrradiatorRecipeHandler extends TemplateRecipeHandler {
 		for (Map.Entry<Object[], Object[]> recipe : recipes.entrySet()) {
 			int pos = IrradiatorRecipes.instance().containsStack(ingredient, recipe.getKey(), false);
 			if (pos!=-1) {
-			this.arecipes.add(new SmeltingPair(recipe.getKey()[0], recipe.getKey()[1], recipe.getValue()[0], recipe.getValue()[1]));				
+			this.arecipes.add(new SmeltingPair(recipe.getKey()[0], recipe.getKey()[1], recipe.getValue()[0], recipe.getValue()[1], recipe.getValue()[2]));				
 			}
 		}
 	}
@@ -100,9 +118,5 @@ public class IrradiatorRecipeHandler extends TemplateRecipeHandler {
 	public void drawExtras(int recipe) {
 		drawProgressBar(3, 15, 176, 31, 16, 34, 240, 7); //energy
 		drawProgressBar(54, 23, 176, 65, 71, 17, 40, 0);
-	}
-
-	public String getOverlayIdentifier() {
-		return "irradiating";
 	}
 }

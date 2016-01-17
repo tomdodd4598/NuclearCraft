@@ -5,7 +5,6 @@ import java.util.Random;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.world.biome.BiomeGenBase;
-
 import com.nr.mod.NuclearRelativistics;
 
 import cpw.mods.fml.common.registry.EntityRegistry;
@@ -54,6 +53,14 @@ public class EntityHandler {
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static void registerNuclearGrenade(Class entityClass, String name) {
+		int entityId = EntityRegistry.findGlobalUniqueEntityId();
+
+		EntityRegistry.registerGlobalEntityID(entityClass, name, entityId);
+		EntityRegistry.registerModEntity(entityClass, name, entityId, NuclearRelativistics.instance, 64, 1, true);
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public static void registerEntityBullet(Class entityClass, String name) {
 		int entityId = EntityRegistry.findGlobalUniqueEntityId();
 
 		EntityRegistry.registerGlobalEntityID(entityClass, name, entityId);

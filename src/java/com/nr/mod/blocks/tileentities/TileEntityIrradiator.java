@@ -8,11 +8,11 @@ import com.nr.mod.crafting.IrradiatorRecipes;
 import com.nr.mod.items.NRItems;
 
 public class TileEntityIrradiator extends TileEntityMachine {
-	public static final int[] input = {0, 1, 2, 3};
-	public static final int[] output = {0, 1, 2, 3};
+	public static final int[] input = {0, 1, 2, 3, 4};
+	public static final int[] output = {0, 1, 2, 3, 4};
 	
 	public TileEntityIrradiator() {
-		super("Irradiator", 50000, 2, 2, true, true, 1000, 100000, NuclearRelativistics.irradiatorSpeed, IrradiatorRecipes.instance());
+		super("Irradiator", 50000, 2, 3, true, true, 1000, 100000, NuclearRelativistics.irradiatorSpeed, IrradiatorRecipes.instance());
 	}
 	
 	public void updateEntity() {

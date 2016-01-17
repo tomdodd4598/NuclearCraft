@@ -115,8 +115,7 @@ gui.cells=Cells
 gui.online=Online
 gui.offline=Offline
 
-gui.heavyDuty=Heavy Duty
-gui.workspace=Workspace
+gui.heavyDutyWorkspace=Heavy Duty Workspace
 
 gui.reaction=Reaction
 gui.generator=Generator
@@ -308,6 +307,9 @@ crushedAluminium.name=Crushed Aluminium
 crushedObsidian.name=Crushed Obsidian
 
 tinyCrushedLead.name=Small Pile of Crushed Lead
+
+item.pistol.name=Pistol
+item.dUBullet.name=DU Bullet
 
 item.bronzePickaxe.name=Bronze Pickaxe
 item.bronzeShovel.name=Bronze Shovel

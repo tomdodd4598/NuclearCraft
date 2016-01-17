@@ -5,6 +5,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryCraftResult;
+import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotCrafting;
 import net.minecraft.item.ItemStack;
@@ -15,19 +16,20 @@ import com.nr.mod.crafting.NuclearWorkspaceCraftingManager;
 
 public class ContainerNuclearWorkspace extends Container {
 
-	public InventoryCraftingKeep craftMatrix;
+	public InventoryCrafting/*Keep*/ craftMatrix;
 	public InventoryCraftResult craftResult;
 	private World worldObj;
 	
-	public ContainerNuclearWorkspace(InventoryPlayer invPlayer, TileEntityNuclearWorkspace entity) {
-		craftMatrix = new InventoryCraftingKeep(this, entity, 5, 5);
+	public ContainerNuclearWorkspace(InventoryPlayer invPlayer, TileEntityNuclearWorkspace entity, World world) {
+		craftMatrix = new InventoryCrafting(this, /*entity,*/ 5, 5);
 		craftResult = new InventoryCraftResult();
+		worldObj = world;
 		
-		this.addSlotToContainer(new SlotCrafting(invPlayer.player, craftMatrix, craftResult, 0, 140, 44));
+		this.addSlotToContainer(new SlotCrafting(invPlayer.player, craftMatrix, craftResult, 0, 140, 53));
 		
 		for (int i = 0; i < 5; i++) {
 			for (int k = 0; k < 5; k++) {
-				this.addSlotToContainer(new Slot(craftMatrix, k + i * 5, 8 + k * 18, 8 + i * 18));
+				this.addSlotToContainer(new Slot(craftMatrix, k + i * 5, 8 + k * 18, 17 + i * 18));
 			}
 		}
 		
@@ -35,16 +37,16 @@ public class ContainerNuclearWorkspace extends Container {
 		{
 			for(int j = 0; j < 9; j++)
 			{
-				this.addSlotToContainer(new Slot(invPlayer, j + i * 9 + 9, 8 + j * 18, 102 + i * 18));
+				this.addSlotToContainer(new Slot(invPlayer, j + i * 9 + 9, 8 + j * 18, 111 + i * 18));
 			}
 		}
 		
 		for(int i = 0; i < 9; i++)
 		{
-			this.addSlotToContainer(new Slot(invPlayer, i, 8 + i*18, 160));
+			this.addSlotToContainer(new Slot(invPlayer, i, 8 + i*18, 169));
 		}
 		
-		onCraftMatrixChanged(null);
+		onCraftMatrixChanged(this.craftMatrix);
 	}
 
 	public void onCraftMatrixChanged(IInventory iinventory) {
@@ -56,7 +58,7 @@ public class ContainerNuclearWorkspace extends Container {
         return true;
     }
 	
-	/*public void onContainerClosed(EntityPlayer p_75134_1_) {
+	public void onContainerClosed(EntityPlayer p_75134_1_) {
         super.onContainerClosed(p_75134_1_);
 
         if (!this.worldObj.isRemote)
@@ -71,7 +73,7 @@ public class ContainerNuclearWorkspace extends Container {
                 }
             }
         }
-    }*/
+    }
 	
 	public ItemStack slotClick(int slot, int button, int flag, EntityPlayer player) {
 		if (slot >= 0 && getSlot(slot) != null && getSlot(slot).getStack() == player.getHeldItem()) {
@@ -135,5 +137,10 @@ public class ContainerNuclearWorkspace extends Container {
         }
 
         return itemstack;
+    }
+	
+	public boolean func_94530_a(ItemStack p_94530_1_, Slot p_94530_2_)
+    {
+        return p_94530_2_.inventory != this.craftResult && super.func_94530_a(p_94530_1_, p_94530_2_);
     }
 }

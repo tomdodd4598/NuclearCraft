@@ -3,6 +3,7 @@ package com.nr.mod.crafting.nei;
 import net.minecraft.item.ItemStack;
 import codechicken.nei.api.API;
 import codechicken.nei.api.IConfigureNEI;
+import codechicken.nei.recipe.DefaultOverlayHandler;
 
 import com.nr.mod.NuclearRelativistics;
 import com.nr.mod.blocks.NRBlocks;
@@ -49,6 +50,8 @@ public class NEINRConfig implements IConfigureNEI {
 	     API.registerUsageHandler(new SeparatorRecipeHandler());
 	     API.registerRecipeHandler(new NuclearWorkspaceRecipeHandler());
 	     API.registerUsageHandler(new NuclearWorkspaceRecipeHandler());
+	     //API.registerRecipeHandler(new NuclearWorkspaceShapelessRecipeHandler());
+	     //API.registerUsageHandler(new NuclearWorkspaceShapelessRecipeHandler());
 	     API.registerRecipeHandler(new FissionRecipeHandler());
 	     API.registerUsageHandler(new FissionRecipeHandler());
 	     API.registerRecipeHandler(new CollectorRecipeHandler());
@@ -68,6 +71,8 @@ public class NEINRConfig implements IConfigureNEI {
 	     
 	     API.registerRecipeHandler(new InfoUsageHandler());
 	     API.registerUsageHandler(new InfoUsageHandler());
+	     
+	     API.registerGuiOverlayHandler(GuiNuclearWorkspace.class, new DefaultOverlayHandler(), "nwcrafting");
 	     
 	     API.registerGuiOverlay(GuiCrusher.class, "crushing");
 	     API.registerGuiOverlay(GuiCrusher.class, "crushfuel");

@@ -66,8 +66,4 @@ public class InfoUsageHandler extends TemplateRecipeHandler {
 	public int recipiesPerPage() {
 		return 1;
 	}
-
-	public String getOverlayIdentifier() {
-		return "info";
-	}
 }

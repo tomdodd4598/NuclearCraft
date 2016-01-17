@@ -11,7 +11,9 @@ import net.minecraft.item.crafting.IRecipe;
 
 import org.lwjgl.opengl.GL11;
 
+import codechicken.core.ReflectionManager;
 import codechicken.lib.gui.GuiDraw;
+import codechicken.nei.NEIClientConfig;
 import codechicken.nei.NEIServerUtils;
 import codechicken.nei.PositionedStack;
 import codechicken.nei.api.DefaultOverlayRenderer;
@@ -21,6 +23,7 @@ import codechicken.nei.api.IStackPositioner;
 import codechicken.nei.recipe.TemplateRecipeHandler;
 
 import com.nr.mod.crafting.NuclearWorkspaceCraftingManager;
+import com.nr.mod.crafting.NuclearWorkspaceShapedOreRecipe;
 import com.nr.mod.crafting.NuclearWorkspaceShapedRecipes;
 import com.nr.mod.gui.GuiNuclearWorkspace;
 
@@ -32,7 +35,7 @@ public class NuclearWorkspaceRecipeHandler extends TemplateRecipeHandler
         public PositionedStack result;
 
         public CachedShapedRecipe(int width, int height, Object[] items, ItemStack out) {
-            result = new PositionedStack(out, 135, 50);
+            result = new PositionedStack(out, 135, 42);
             ingredients = new ArrayList<PositionedStack>();
             setIngredients(width, height, items);
         }
@@ -52,7 +55,7 @@ public class NuclearWorkspaceRecipeHandler extends TemplateRecipeHandler
                     if (items[y * width + x] == null)
                         continue;
 
-                    PositionedStack stack = new PositionedStack(items[y * width + x], 3 + x * 18, 14 + y * 18, false);
+                    PositionedStack stack = new PositionedStack(items[y * width + x], 3 + x * 18, 6 + y * 18, false);
                     stack.setMaxSize(1);
                     ingredients.add(stack);
                 }
@@ -76,7 +79,7 @@ public class NuclearWorkspaceRecipeHandler extends TemplateRecipeHandler
 
     @Override
     public void loadTransferRects() {
-        this.transferRects.add(new TemplateRecipeHandler.RecipeTransferRect(new Rectangle(97, 20, 29, 41), "nwcrafting", new Object[0]));
+        this.transferRects.add(new TemplateRecipeHandler.RecipeTransferRect(new Rectangle(97, 29, 29, 41), "nwcrafting", new Object[0]));
     }
 
     @Override
@@ -97,7 +100,8 @@ public class NuclearWorkspaceRecipeHandler extends TemplateRecipeHandler
                 CachedShapedRecipe recipe = null;
                 if (irecipe instanceof NuclearWorkspaceShapedRecipes)
                     recipe = new CachedShapedRecipe((NuclearWorkspaceShapedRecipes) irecipe);
-
+                else if (irecipe instanceof NuclearWorkspaceShapedOreRecipe)
+                    recipe = forgeShapedRecipe((NuclearWorkspaceShapedOreRecipe) irecipe);
                 if (recipe == null)
                     continue;
 
@@ -117,7 +121,8 @@ public class NuclearWorkspaceRecipeHandler extends TemplateRecipeHandler
                 CachedShapedRecipe recipe = null;
                 if (irecipe instanceof NuclearWorkspaceShapedRecipes)
                     recipe = new CachedShapedRecipe((NuclearWorkspaceShapedRecipes) irecipe);
-
+                else if (irecipe instanceof NuclearWorkspaceShapedOreRecipe)
+                    recipe = forgeShapedRecipe((NuclearWorkspaceShapedOreRecipe) irecipe);
                 if (recipe == null)
                     continue;
 
@@ -134,7 +139,8 @@ public class NuclearWorkspaceRecipeHandler extends TemplateRecipeHandler
             CachedShapedRecipe recipe = null;
             if (irecipe instanceof NuclearWorkspaceShapedRecipes)
                 recipe = new CachedShapedRecipe((NuclearWorkspaceShapedRecipes) irecipe);
-
+            else if (irecipe instanceof NuclearWorkspaceShapedOreRecipe)
+                recipe = forgeShapedRecipe((NuclearWorkspaceShapedOreRecipe) irecipe);
             if (recipe == null || !recipe.contains(recipe.ingredients, ingredient.getItem()))
                 continue;
 
@@ -143,6 +149,23 @@ public class NuclearWorkspaceRecipeHandler extends TemplateRecipeHandler
                 recipe.setIngredientPermutation(recipe.ingredients, ingredient);
                 arecipes.add(recipe);
             }
+        }
+    }
+    
+    public CachedShapedRecipe forgeShapedRecipe(NuclearWorkspaceShapedOreRecipe recipe) {
+        try {
+            int width = ReflectionManager.getField(NuclearWorkspaceShapedOreRecipe.class, Integer.class, recipe, 4);
+            int height = ReflectionManager.getField(NuclearWorkspaceShapedOreRecipe.class, Integer.class, recipe, 5);
+
+            Object[] items = recipe.getInput();
+            for (Object item : items)
+                if (item instanceof List && ((List<?>) item).isEmpty())//ore handler, no ores
+                    return null;
+
+            return new CachedShapedRecipe(width, height, items, recipe.getRecipeOutput());
+        } catch (Exception e) {
+            NEIClientConfig.logger.error("Error loading recipe: ", e);
+            return null;
         }
     }
 
@@ -189,6 +212,6 @@ public class NuclearWorkspaceRecipeHandler extends TemplateRecipeHandler
     public void drawBackground(int recipe) {
         GL11.glColor4f(1, 1, 1, 1);
         GuiDraw.changeTexture(getGuiTexture());
-        GuiDraw.drawTexturedModalRect(-5, 12, 0, 0, 166, 93);
+        GuiDraw.drawTexturedModalRect(0, 0, -1, -4, 166, 98);
     }
 }
