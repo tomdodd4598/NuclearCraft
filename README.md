@@ -6,7 +6,7 @@ Modern Physics Mod for Minecraft 1.7.10
 Summary
 -------
 
-Aims to bring relativistic, quantum and particle physics to Minecraft
+Adds nuclear physics and aims to bring relativistic, quantum and particle physics to Minecraft
 
 YouTube Channel: https://www.youtube.com/channel/UC-df90SAvYXk-FClmntlFhw
 
