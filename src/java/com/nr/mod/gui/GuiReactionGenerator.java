@@ -41,7 +41,7 @@ public class GuiReactionGenerator extends GuiContainer
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         Minecraft.getMinecraft().getTextureManager().bindTexture(bground);
         this.drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
-        int k = this.entity.energy * 64 / 250000;
+        int k = this.entity.energy * 64 / 100000;
         @SuppressWarnings("unused")
 		int j = 64 - k;
         this.drawTexturedModalRect(this.guiLeft + 56, this.guiTop + 57, 176, 153, k, 23);

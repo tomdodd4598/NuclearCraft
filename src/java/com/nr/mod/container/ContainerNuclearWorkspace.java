@@ -75,13 +75,6 @@ public class ContainerNuclearWorkspace extends Container {
         }
     }
 	
-	public ItemStack slotClick(int slot, int button, int flag, EntityPlayer player) {
-		if (slot >= 0 && getSlot(slot) != null && getSlot(slot).getStack() == player.getHeldItem()) {
-			return null;
-		}
-		return super.slotClick(slot, button, flag, player);
-	}
-	
 	public ItemStack transferStackInSlot(EntityPlayer p_82846_1_, int p_82846_2_) {
         ItemStack itemstack = null;
         Slot slot = (Slot)this.inventorySlots.get(p_82846_2_);
