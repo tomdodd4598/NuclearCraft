@@ -1,16 +1,3 @@
-DONE: Fission Reactor Speed Blocks
-DONE: Recipe shift clicking for Heavy Duty Workspace
-DONE: Ore Dict support for Heavy Duty Workspace
-DONE: Blast Resistant Blocks
-DONE: Increase Power of bigger Fission Reactors
-DONE: Components which use Copper, Tin and Silver more
-DONE: Depleted Uranium advanced weaponry
-DONE: Hugely increase cost of Fusion Reactor (recipe)
-DONE: Recipe Info for Water Cells
-DONE: Fix Fusion Reactor operation
-DONE: Nerf Reaction Generator
-DONE: Fusion Reactor Efficiency Comparator
-DONE: Fission Reactor Pre-Activation Heat
 Keep items in Heavy Duty Workspace on closing GUI
 OpenComputers and CC integration (primarily for Reactors)
 Minetweaker support (primarily for Heavy Duty Workspace)
