@@ -3,6 +3,8 @@ itemGroup.tabNR=核电工艺
 entity.NuclearMonster.name=核怪兽
 entity.Paul.name=Paul
 
+tile.simple=Simple Quantum Block
+
 copperOre.name=铜矿石
 tinOre.name=锡矿石
 leadOre.name=铅矿石
@@ -25,11 +27,17 @@ lithiumBlock.name=锂块
 boronBlock.name=硼块
 aluminiumBlock.name=铝块
 
+tile.simpleQuantumUp.name=Spin 1/2 Block
+tile.simpleQuantumDown.name=Spin 1/2 Block
+
 tile.graphiteBlock.name=石墨块
 tile.cellBlock.name=燃料棒组件
 tile.reactorBlock.name=反应堆外壳
 tile.coolerBlock.name=反应堆冷却剂
+tile.speedBlock.name=反应堆加速方块
+tile.blastBlock.name=防爆方块
 tile.nuke.name=核弹
+tile.machineBlock.name=基础机器方块
 
 tile.accStraight1.name=横向加强管道
 tile.accStraight2.name=纵向加强管道
@@ -58,12 +66,21 @@ tile.nuclearWorkspace.name=重型装配台
 tile.fusionReactor.name=核聚变反应堆 
 tile.fusionReactorBlock.name=核聚变反应堆 
 tile.RTG.name=放射性同位素温差发电机
+tile.WRTG.name=弱放射性同位素温差发电机
 tile.collectorIdle.name=氦收集器
 tile.collectorActive.name=氦收集器
 tile.electrolyserIdle.name=电解机
 tile.electrolyserActive.name=电解机
 tile.oxidiserIdle.name=氧化机
 tile.oxidiserActive.name=氧化机
+tile.ioniserIdle.name=离子发生器
+tile.ioniserActive.name=离子发生器
+tile.irradiatorIdle.name=中子辐射器
+tile.irradiatorActive.name=中子辐射器
+tile.coolerIdle.name=过冷却器
+tile.coolerActive.name=过冷却器
+tile.factoryIdle.name=部件加工工厂
+tile.factoryActive.name=部件加工工厂
 
 gui.reactor=反应堆
 gui.fuel=燃料
@@ -98,8 +115,7 @@ gui.cells=单元
 gui.online=在线
 gui.offline=离线
 
-gui.heavyDuty=重型
-gui.workspace=装配台
+gui.heavyDutyWorkspace=重型装配台
 
 gui.reaction=反应
 gui.generator=发电机
@@ -158,11 +174,11 @@ U233Oxide.name=氧化铀-233
 tinyU233Oxide.name=一小块氧化铀-233
 Pu238Oxide.name=氧化钚-238
 tinyPu238Oxide.name=一小块氧化钚-238
-Pu239Oxide.name=Plutonium-239 Oxide
+Pu239Oxide.name=钚-239 Oxide
 tinyPu239Oxide.name=一小块氧化钚-239
-Pu242Oxide.name=Plutonium-242 Oxide
+Pu242Oxide.name=钚-242 Oxide
 tinyPu242Oxide.name=一小块氧化钚-242
-Pu241Oxide.name=Plutonium-241 Oxide
+Pu241Oxide.name=钚-241 Oxide
 tinyPu241Oxide.name=一小块氧化钚-241
 
 LEU235.name=低浓缩铀-235
@@ -238,16 +254,17 @@ DCell.name=氘单元
 TCell.name=氚单元
 He3Cell.name=氦-3单元
 He4Cell.name=氦-4单元
+SCHe4Cell.name=液态氦-4单元
 Li6Cell.name=锂-6单元
 Li7Cell.name=锂-7单元
 B10Cell.name=硼-10单元
 B11Cell.name=硼-11单元
 emptyFluidCell.name=空流体单元
 
-emptyCapsule.name=Empty Capsule
-nCapsule.name=Neutron Capsule
-pCapsule.name=Proton Capsule
-eCapsule.name=Electron Capsule
+emptyCapsule.name=空胶囊
+nCapsule.name=中子胶囊
+pCapsule.name=质子胶囊
+eCapsule.name=电子胶囊
 
 simpleNeutronReflector.name=中子反射板
 ironPlating.name=铁板
@@ -257,6 +274,18 @@ tinPlating.name=锡板
 iWater.name=无限水源
 dUPlating.name=枯竭铀板
 aPlating.name=先进板
+ironGrating.name=铁质格栅
+goldContacts.name=金质连接器
+copperWiring.name=铜质线缆
+tinTubing.name=锡质敷管
+leadPlating.name=铅板
+silverPanel.name=银质嵌板
+bronzeBearing.name=青铜轴承
+mechComponent.name=Mechanical Component
+simpleCircuit.name=Simple Circuit
+PVCell.name=PV Cell
+computerPart.name=Computer Part
+aComputerPart.name=Advanced Computer Part
 
 crushedIron.name=铁粉
 crushedGold.name=金粉
@@ -278,6 +307,9 @@ crushedAluminium.name=铝粉
 crushedObsidian.name=黑曜石粉
 
 tinyCrushedLead.name=很小一撮铅粉
+
+item.pistol.name=手枪
+item.dUBullet.name=贫铀子弹
 
 item.bronzePickaxe.name=青铜镐
 item.bronzeShovel.name=青铜铲
