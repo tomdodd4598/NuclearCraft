@@ -1,3 +1,18 @@
+v1.6a
+
+* The Fusion Reactor comparator setup now keeps the efficiency at around 90%
+* The Fusion Reactor produces more power
+* Tweaks to heat generation in the Fusion Reactor
+
++ Comparators now read the Fission Reactor's heat level
+* Fixed some minor issues with coolant in the Fission Reactor
+* Background tweaks to heat in the Fission Reactor
+
++ New Manufactory recipes
+* Other machine recipe tweaks
++ NEI Info recipes
+
+
 v1.6
 
 + Added Neutron Irradiator
