@@ -3,6 +3,7 @@ package com.nr.mod.crafting.nei;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -35,6 +36,16 @@ public class InfoUsageHandler extends TemplateRecipeHandler {
 	public String getRecipeName() {
 		return "NuclearCraft";
 	}
+	
+	public void loadCraftingRecipes(ItemStack result) {
+        @SuppressWarnings("unchecked")
+        Map<ItemStack, String> recipes = InfoRecipes.info().getInfoList();
+        for (Entry<ItemStack, String> recipe : recipes.entrySet())
+            if (NEIServerUtils.areStacksSameType((ItemStack)recipe.getKey(), result)) {
+            	InfoPair arecipe = new InfoPair(recipe.getKey(), (String)recipe.getValue());
+                this.arecipes.add(arecipe);
+			}
+    }
   
 	public void loadUsageRecipes(ItemStack ingredient) {
 		@SuppressWarnings("unchecked")
@@ -43,7 +54,7 @@ public class InfoUsageHandler extends TemplateRecipeHandler {
 			if (NEIServerUtils.areStacksSameTypeCrafting((ItemStack)recipe.getKey(), ingredient)) {
 				InfoPair arecipe = new InfoPair(ingredient, (String)recipe.getValue());
 				arecipe.setIngredientPermutation(Arrays.asList(new PositionedStack[] { arecipe.input }), ingredient);
-			this.arecipes.add(arecipe);
+				this.arecipes.add(arecipe);
 		}
 	}
   

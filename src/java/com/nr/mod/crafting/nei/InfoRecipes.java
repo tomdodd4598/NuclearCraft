@@ -29,26 +29,26 @@ public class InfoRecipes {
 		addRecipe(new ItemStack(NRBlocks.reactionGeneratorIdle), "Uses Nuclear Fuel-and Universal Reactant,-Redstone, Gunpowder,-Ghast Tears, Nether-Wart or Blaze Powder-as the catalyst-to generate " + (NuclearRelativistics.reactionGeneratorRF*5) + " RF/t");
 		addRecipe(new ItemStack(NRBlocks.reactionGeneratorActive), "Compatible Fuel Cells-Check uses in NEI-for more info:-LEU      HEU-LEP      HEP-MOX      TBU");
 		
-		fuelInfo(11, 15, 15000, 14);
-		fuelInfo(17, 15, 15000, 14);
-		fuelInfo(12, 68, 15000, 140);
-		fuelInfo(18, 68, 15000, 140);
-		fuelInfo(13, 30, 28800, 42);
-		fuelInfo(19, 30, 28800, 42);
-		fuelInfo(14, 135, 28800, 420);
-		fuelInfo(20, 135, 28800, 420);
-		fuelInfo(15, 33, 20000, 36);
-		fuelInfo(21, 33, 20000, 36);
-		fuelInfo(16, 4, 3750, 2);
+		fuelInfo(11, 15, 15000, 28);
+		fuelInfo(17, 15, 15000, 28);
+		fuelInfo(12, 68, 15000, 280);
+		fuelInfo(18, 68, 15000, 280);
+		fuelInfo(13, 30, 28800, 84);
+		fuelInfo(19, 30, 28800, 84);
+		fuelInfo(14, 135, 28800, 840);
+		fuelInfo(20, 135, 28800, 840);
+		fuelInfo(15, 33, 20000, 90);
+		fuelInfo(21, 33, 20000, 90);
+		fuelInfo(16, 4, 3750, 4);
 		
-		fuelInfo(59, 23, 15000, 17);
-		fuelInfo(63, 23, 15000, 17);
-		fuelInfo(60, 101, 15000, 168);
-		fuelInfo(64, 101, 15000, 168);
-		fuelInfo(61, 45, 28800, 50);
-		fuelInfo(65, 45, 28800, 50);
-		fuelInfo(62, 203, 28800, 504);
-		fuelInfo(66, 203, 28800, 504);
+		fuelInfo(59, 23, 15000, 35);
+		fuelInfo(63, 23, 15000, 35);
+		fuelInfo(60, 101, 15000, 350);
+		fuelInfo(64, 101, 15000, 350);
+		fuelInfo(61, 45, 28800, 105);
+		fuelInfo(65, 45, 28800, 105);
+		fuelInfo(62, 203, 28800, 1050);
+		fuelInfo(66, 203, 28800, 1050);
 		
 		addRecipe(new ItemStack(NRItems.dominoes), "Paul's Favourite:-He'll follow anyone-he sees carrying-this in their hand...");
 		addRecipe(new ItemStack(NRItems.fuel, 1, 34), "Right click on a water-source block with an-empty fluid cell to obtain");
@@ -56,7 +56,7 @@ public class InfoRecipes {
 	}
 
 	public void fuelInfo(int meta, int power, int time, int heat) {
-		addRecipe(new ItemStack(NRItems.fuel, 1, meta), "Base Power = " + power*TileEntityFissionReactorGraphite.power + " RF/t-Lifetime = " + (7200000*NuclearRelativistics.fissionEfficiency)/(time*20) + " s-Base Heat = "+ heat*2 + " H/t-Base Total Energy = " + (720*power*NuclearRelativistics.fissionRF*NuclearRelativistics.fissionEfficiency)/time + " kRF" + "-* Values for a 1*1*1 Reactor-Multiply Base Power by-4 for a 3*3*3 Reactor,-9 for a 5*5*5 Reactor, etc.-Multiply Base Heat-and Base Energy by-2 for a 3*3*3 Reactor,-3 for a 5*5*5 Reactor, etc.");
+		addRecipe(new ItemStack(NRItems.fuel, 1, meta), "Base Power = " + power*TileEntityFissionReactorGraphite.power + " RF/t-Lifetime = " + (7200000*NuclearRelativistics.fissionEfficiency)/(time*20) + " s-Base Heat = "+ heat + " H/t-Base Total Energy = " + (720*power*NuclearRelativistics.fissionRF*NuclearRelativistics.fissionEfficiency)/time + " kRF" + "-* Values for a 1*1*1 Reactor-Multiply Base Power by-4 for a 3*3*3 Reactor,-9 for a 5*5*5 Reactor, etc.-Multiply Base Heat-and Base Energy by-2 for a 3*3*3 Reactor,-3 for a 5*5*5 Reactor, etc.");
 	}
 		
 	@SuppressWarnings("unchecked")

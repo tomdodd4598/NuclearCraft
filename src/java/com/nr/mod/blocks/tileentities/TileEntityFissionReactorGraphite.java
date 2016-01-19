@@ -85,7 +85,7 @@ public class TileEntityFissionReactorGraphite extends TileEntityInventory implem
     
     public void overheat(World world, double x, double y, double z, float radius, BombType type)
     {
-    	if (this.heat > 500000) {
+    	if (this.heat > 1000000) {
     		if (NuclearRelativistics.nuclearMeltdowns) {
 	    		if (this.MBNumber == 3) {
 	    			NRExplosion.createExplosion(new EntityBomb(world).setType(type), world, (double)this.xCoord, (double)this.yCoord + R, (double)this.zCoord - R, 6 + 4*R, 1000F, true);
@@ -97,7 +97,7 @@ public class TileEntityFissionReactorGraphite extends TileEntityInventory implem
 	    			NRExplosion.createExplosion(new EntityBomb(world).setType(type), world, (double)this.xCoord - R, (double)this.yCoord + R, (double)this.zCoord, 6 + 4*R, 1000F, true);
 	    		}
     		}
-    		else this.heat = 500000;
+    		else this.heat = 1000000;
     	}
     }
     
@@ -139,7 +139,7 @@ public class TileEntityFissionReactorGraphite extends TileEntityInventory implem
     	int prevE = this.storage.getEnergyStored();
     	int newE;
     	
-    	int prevH = this.heat*2;
+    	int prevH = this.heat;
     	int newH;
     	
     	ForgeDirection forward = ForgeDirection.getOrientation(this.getBlockMetadata()).getOpposite();
@@ -153,42 +153,42 @@ public class TileEntityFissionReactorGraphite extends TileEntityInventory implem
         	off = 0;
         	
         	//LEU
-        	if (this.fueltype == 1 || this.fueltype == 7) energyFuelHeat(15, 15000, 14);
+        	if (this.fueltype == 1 || this.fueltype == 7) energyFuelHeat(15, 15000, 28);
 
         	//HEU
-        	if (this.fueltype == 2 || this.fueltype == 8) energyFuelHeat(68, 15000, 140);
+        	if (this.fueltype == 2 || this.fueltype == 8) energyFuelHeat(68, 15000, 280);
 
         	//LEP
-        	if (this.fueltype == 3 || this.fueltype == 9) energyFuelHeat(30, 28800, 42);
+        	if (this.fueltype == 3 || this.fueltype == 9) energyFuelHeat(30, 28800, 84);
 
         	//HEP
-        	if (this.fueltype == 4 || this.fueltype == 10) energyFuelHeat(135, 28800, 420);
+        	if (this.fueltype == 4 || this.fueltype == 10) energyFuelHeat(135, 28800, 840);
 
         	//MOX
-        	if (this.fueltype == 5 || this.fueltype == 11) energyFuelHeat(33, 20000, 45);
+        	if (this.fueltype == 5 || this.fueltype == 11) energyFuelHeat(33, 20000, 90);
         	
         	//TBU
-        	if (this.fueltype == 6) energyFuelHeat(4, 3750, 2);
+        	if (this.fueltype == 6) energyFuelHeat(4, 3750, 4);
         	
         	//LEU-Ox
-        	if (this.fueltype == 12 || this.fueltype == 16) energyFuelHeat(23, 15000, 17);
+        	if (this.fueltype == 12 || this.fueltype == 16) energyFuelHeat(23, 15000, 35);
 
         	//HEU-Ox
-        	if (this.fueltype == 13 || this.fueltype == 17) energyFuelHeat(101, 15000, 168);
+        	if (this.fueltype == 13 || this.fueltype == 17) energyFuelHeat(101, 15000, 350);
 
         	//LEP-Ox
-        	if (this.fueltype == 14 || this.fueltype == 18) energyFuelHeat(45, 28800, 50);
+        	if (this.fueltype == 14 || this.fueltype == 18) energyFuelHeat(45, 28800, 105);
 
         	//HEP-Ox
-        	if (this.fueltype == 15 || this.fueltype == 19) energyFuelHeat(203, 28800, 504);
+        	if (this.fueltype == 15 || this.fueltype == 19) energyFuelHeat(203, 28800, 1050);
         	
         	for (int Z4 = -SR; Z4 <= SR; Z4++) {
         		for (int X4 = -SR; X4 <= SR; X4++) {
         			for (int Y4 = 1; Y4 <= SD; Y4++) {
         				if(this.worldObj.getBlock(x + X4, y + Y4, z + Z4)==NRBlocks.graphiteBlock){
-        					this.storage.receiveEnergy((power*fuelmult*fuelmult*R)/10, false); this.heat += 2*fuelmult*R; }
+        					this.storage.receiveEnergy((power*fuelmult*fuelmult*R)/10, false); this.heat += 4*fuelmult*R; }
         				if(this.worldObj.getBlock(x + X4, y + Y4, z + Z4)==Blocks.lava){
-        					this.storage.receiveEnergy((power*fuelmult*fuelmult*R)/50, false); this.heat += 4*fuelmult*R; }
+        					this.storage.receiveEnergy((power*fuelmult*fuelmult*R)/50, false); this.heat += 8*fuelmult*R; }
         				if(this.worldObj.getBlock(x + X4, y + Y4, z + Z4)==NRBlocks.speedBlock){
         					this.fueltime -= fuelmult*5000/NuclearRelativistics.fissionEfficiency; }
         			}}}
@@ -198,42 +198,42 @@ public class TileEntityFissionReactorGraphite extends TileEntityInventory implem
         	off = 1;
         	
         	//LEU
-        	if (this.fueltype == 1 || this.fueltype == 7) energyFuelHeat(15, 0, 14);
+        	if (this.fueltype == 1 || this.fueltype == 7) energyFuelHeat(15, 0, 28);
 
         	//HEU
-        	if (this.fueltype == 2 || this.fueltype == 8) energyFuelHeat(68, 0, 140);
+        	if (this.fueltype == 2 || this.fueltype == 8) energyFuelHeat(68, 0, 280);
 
         	//LEP
-        	if (this.fueltype == 3 || this.fueltype == 9) energyFuelHeat(30, 0, 42);
+        	if (this.fueltype == 3 || this.fueltype == 9) energyFuelHeat(30, 0, 84);
 
         	//HEP
-        	if (this.fueltype == 4 || this.fueltype == 10) energyFuelHeat(135, 0, 420);
+        	if (this.fueltype == 4 || this.fueltype == 10) energyFuelHeat(135, 0, 840);
 
         	//MOX
-        	if (this.fueltype == 5 || this.fueltype == 11) energyFuelHeat(33, 0, 45);
+        	if (this.fueltype == 5 || this.fueltype == 11) energyFuelHeat(33, 0, 90);
         	
         	//TBU
-        	if (this.fueltype == 6) energyFuelHeat(4, 0, 2);
+        	if (this.fueltype == 6) energyFuelHeat(4, 0, 4);
         	
         	//LEU-Ox
-        	if (this.fueltype == 12 || this.fueltype == 16) energyFuelHeat(23, 0, 17);
+        	if (this.fueltype == 12 || this.fueltype == 16) energyFuelHeat(23, 0, 35);
 
         	//HEU-Ox
-        	if (this.fueltype == 13 || this.fueltype == 17) energyFuelHeat(101, 0, 168);
+        	if (this.fueltype == 13 || this.fueltype == 17) energyFuelHeat(101, 0, 350);
 
         	//LEP-Ox
-        	if (this.fueltype == 14 || this.fueltype == 18) energyFuelHeat(45, 0, 50);
+        	if (this.fueltype == 14 || this.fueltype == 18) energyFuelHeat(45, 0, 105);
 
         	//HEP-Ox
-        	if (this.fueltype == 15 || this.fueltype == 19) energyFuelHeat(203, 0, 504);
+        	if (this.fueltype == 15 || this.fueltype == 19) energyFuelHeat(203, 0, 1050);
         	
         	for (int Z4 = -SR; Z4 <= SR; Z4++) {
         		for (int X4 = -SR; X4 <= SR; X4++) {
         			for (int Y4 = 1; Y4 <= SD; Y4++) {
         				if(this.worldObj.getBlock(x + X4, y + Y4, z + Z4)==NRBlocks.graphiteBlock){
-        					this.storage.receiveEnergy((power*fuelmult*fuelmult*R)/10, false); this.heat += 2*fuelmult*R; }
+        					this.storage.receiveEnergy((power*fuelmult*fuelmult*R)/10, false); this.heat += 4*fuelmult*R; }
         				if(this.worldObj.getBlock(x + X4, y + Y4, z + Z4)==Blocks.lava){
-        					this.storage.receiveEnergy((power*fuelmult*fuelmult*R)/50, false); this.heat += 4*fuelmult*R; }
+        					this.storage.receiveEnergy((power*fuelmult*fuelmult*R)/50, false); this.heat += 8*fuelmult*R; }
         			}}}
         	flag = false;
         } else {
@@ -246,26 +246,40 @@ public class TileEntityFissionReactorGraphite extends TileEntityInventory implem
         		for (int X4 = -SR; X4 <= SR; X4++) {
         			for (int Y4 = 1; Y4 <= SD; Y4++) {
         				if(this.worldObj.getBlock(x + X4, y + Y4, z + Z4)==NRBlocks.coolerBlock){
-        					if (this.heat > 24-1) { this.heat -= 32; } else { this.heat = 0; } }
+        					if (this.heat > 64-1) { this.heat -= 64; } else { this.heat = 0; } }
         				if(this.worldObj.getBlock(x + X4, y + Y4, z + Z4)==Blocks.water){
-        					if (this.heat > 4-1) { this.heat -= 6; } else { this.heat = 0; } }
+        					if (this.heat > 10-1) { this.heat -= 10; } else { this.heat = 0; } }
         			}}}
         	if (R == rawR) {
-        		if (this.heat > 4-1) { this.heat -= 4; } else { this.heat = 0; }
+        		if (this.heat > 8-1) { this.heat -= 8; } else { this.heat = 0; }
         	}
         }
-
-          	if (!NuclearRelativistics.nuclearMeltdowns) { this.heat = 0; }
+        
+          	newH = this.heat;
+          	H = newH-prevH;
+          	if (off==1) this.heat = prevH;
+          	prevH = newH;
+          	
+          	if (off==1 && this.multiblock(this.worldObj, this.xCoord, this.yCoord, this.zCoord)) {
+            	for (int Z4 = -SR; Z4 <= SR; Z4++) {
+            		for (int X4 = -SR; X4 <= SR; X4++) {
+            			for (int Y4 = 1; Y4 <= SD; Y4++) {
+            				if(this.worldObj.getBlock(x + X4, y + Y4, z + Z4)==NRBlocks.coolerBlock){
+            					if (this.heat > 64-1) { this.heat -= 64; } else { this.heat = 0; } }
+            				if(this.worldObj.getBlock(x + X4, y + Y4, z + Z4)==Blocks.water){
+            					if (this.heat > 10-1) { this.heat -= 10; } else { this.heat = 0; } }
+            			}}}
+            	if (R == rawR) {
+            		if (this.heat > 8-1) { this.heat -= 8; } else { this.heat = 0; }
+            	}
+            }
           	
           	newE = this.storage.getEnergyStored();
           	E = newE-prevE;
           	if (off==1) this.storage.receiveEnergy(-E, false);
           	prevE = newE;
           	
-          	newH = this.heat*2;
-          	H = newH-prevH;
-          	if (off==1) this.heat = prevH/2;
-          	prevH = newH;
+          	if (!NuclearRelativistics.nuclearMeltdowns) { this.heat = 0; }
           	
           	if (this.fueltime == 0) { E = 0; }
 	}

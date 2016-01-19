@@ -30,7 +30,7 @@ public class TileEntityFusionReactor extends TileEntityInventory implements IEne
 	    public int energy;
 	    public int EShown;
 	    
-	    public int pMult = NuclearRelativistics.fusionRF/2;
+	    public static double pMult = 1.25*NuclearRelativistics.fusionRF;
 	    
 	    public int HLevel;
 	    public int DLevel;
@@ -197,7 +197,7 @@ public class TileEntityFusionReactor extends TileEntityInventory implements IEne
 		    	efficiency();
 		    	for (int i = 1; i < 10; i++) {
 		    		if ((heat < 8 || HLevel + DLevel + TLevel + HeLevel + BLevel + Li6Level + Li7Level <= 0 || HLevel2 + DLevel2 + TLevel2 + HeLevel2 + BLevel2 + Li6Level2 + Li7Level2 <= 0) && storage.getEnergyStored() >= 8000) {
-		    			this.storage.receiveEnergy(-8000, false);
+		    			this.storage.receiveEnergy(-10000, false);
 		    			heat = heat+0.0005;
 		    		}
 	    		}
@@ -310,7 +310,7 @@ public class TileEntityFusionReactor extends TileEntityInventory implements IEne
 	    	
 	    	if (this.HLevel > 0 && this.HLevel2 > 0) {
 		    	if (this.HLevel >= size*this.requiredHH && this.HLevel2 >= size*this.requiredHH) {
-		    		this.heatVar = this.heatHH; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerHH/100), false); this.HLevel -= size*this.requiredHH; this.HLevel2 -= size*this.requiredHH; heat += (100-(efficiency*(heat/20000)))/2000; flag = true;
+		    		this.heatVar = this.heatHH; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerHH/100), false); this.HLevel -= size*this.requiredHH; this.HLevel2 -= size*this.requiredHH; heat += (100-(0.75*efficiency))/5000; flag = true;
 		    		this.DOut += size*this.requiredHH;
 		    	}
 		    	if (this.HLevel < size*this.requiredHH) {this.HLevel = 0;}
@@ -319,7 +319,7 @@ public class TileEntityFusionReactor extends TileEntityInventory implements IEne
 	    	
 	    	else if (this.HLevel > 0 && this.DLevel2 > 0) {
 		    	if (this.HLevel >= size*this.requiredHD && this.DLevel2 >= size*this.requiredHD) {
-		    		this.heatVar = this.heatHD; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerHD/100), false); this.HLevel -= size*this.requiredHD; this.DLevel2 -= size*this.requiredHD; heat += (100-(efficiency*(heat/20000)))/2000; flag = true;
+		    		this.heatVar = this.heatHD; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerHD/100), false); this.HLevel -= size*this.requiredHD; this.DLevel2 -= size*this.requiredHD; heat += (100-(0.75*efficiency))/5000; flag = true;
 		    		this.HE3Out += size*this.requiredHD;
 		    	 }
 		    	if (this.HLevel < size*this.requiredHD) {this.HLevel = 0;}
@@ -328,7 +328,7 @@ public class TileEntityFusionReactor extends TileEntityInventory implements IEne
 	    	
 	    	else if (this.DLevel > 0 && this.HLevel2 > 0) {
 		    	if (this.DLevel >= size*this.requiredHD && this.HLevel2 >= size*this.requiredHD) {
-		    		this.heatVar = this.heatHD; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerHD/100), false); this.DLevel -= size*this.requiredHD; this.HLevel2 -= size*this.requiredHD; heat += (100-(efficiency*(heat/20000)))/2000; flag = true;
+		    		this.heatVar = this.heatHD; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerHD/100), false); this.DLevel -= size*this.requiredHD; this.HLevel2 -= size*this.requiredHD; heat += (100-(0.75*efficiency))/5000; flag = true;
 		    		this.HE3Out += size*this.requiredHD;
 		    	 }
 		    	if (this.DLevel < size*this.requiredHD) {this.DLevel = 0;}
@@ -337,7 +337,7 @@ public class TileEntityFusionReactor extends TileEntityInventory implements IEne
 		    
 	    	else if (this.HLevel > 0 && this.TLevel2 > 0) {
 		    	if (this.HLevel >= size*this.requiredHT && this.TLevel2 >= size*this.requiredHT) {
-		    		this.heatVar = this.heatHT; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerHT/100), false); this.HLevel -= size*this.requiredHT; this.TLevel2 -= size*this.requiredHT; heat += (100-(efficiency*(heat/20000)))/2000; flag = true;
+		    		this.heatVar = this.heatHT; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerHT/100), false); this.HLevel -= size*this.requiredHT; this.TLevel2 -= size*this.requiredHT; heat += (100-(0.75*efficiency))/5000; flag = true;
 		    		this.HE3Out += size*this.requiredHT; this.nOut += size*this.requiredHT/8;
 		    	 }
 		    	if (this.HLevel < size*this.requiredHT) {this.HLevel = 0;}
@@ -346,7 +346,7 @@ public class TileEntityFusionReactor extends TileEntityInventory implements IEne
 		    
 	    	else if (this.TLevel > 0 && this.HLevel2 > 0) {
 		    	if (this.TLevel >= size*this.requiredHT && this.HLevel2 >= size*this.requiredHT) {
-		    		this.heatVar = this.heatHT; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerHT/100), false); this.TLevel -= size*this.requiredHT; this.HLevel2 -= size*this.requiredHT; heat += (100-(efficiency*(heat/20000)))/2000; flag = true;
+		    		this.heatVar = this.heatHT; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerHT/100), false); this.TLevel -= size*this.requiredHT; this.HLevel2 -= size*this.requiredHT; heat += (100-(0.75*efficiency))/5000; flag = true;
 		    		this.HE3Out += size*this.requiredHT; this.nOut += size*this.requiredHT/8;
 		    	 }
 		    	if (this.TLevel < size*this.requiredHT) {this.TLevel = 0;}
@@ -355,7 +355,7 @@ public class TileEntityFusionReactor extends TileEntityInventory implements IEne
 	    	
 	    	else if (this.HLevel > 0 && this.HeLevel2 > 0) {
 	    		if (this.HLevel >= size*this.requiredHHe && this.HeLevel2 >= size*this.requiredHHe) {
-		    		this.heatVar = this.heatHHe; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerHHe/100), false); this.HLevel -= size*this.requiredHHe; this.HeLevel2 -= size*this.requiredHHe; heat += (100-(efficiency*(heat/20000)))/2000; flag = true;
+		    		this.heatVar = this.heatHHe; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerHHe/100), false); this.HLevel -= size*this.requiredHHe; this.HeLevel2 -= size*this.requiredHHe; heat += (100-(0.75*efficiency))/5000; flag = true;
 		    		this.HE4Out += size*this.requiredHHe;
 		    	}
 		    	if (this.HLevel < size*this.requiredHHe) {this.HLevel = 0;}
@@ -364,7 +364,7 @@ public class TileEntityFusionReactor extends TileEntityInventory implements IEne
 	    	
 	    	else if (this.HeLevel > 0 && this.HLevel2 > 0) {
 		    	if (this.HeLevel >= size*this.requiredHHe && this.HLevel2 >= size*this.requiredHHe) {
-		    		this.heatVar = this.heatHHe; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerHHe/100), false); this.HeLevel -= size*this.requiredHHe; this.HLevel2 -= size*this.requiredHHe; heat += (100-(efficiency*(heat/20000)))/2000; flag = true;
+		    		this.heatVar = this.heatHHe; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerHHe/100), false); this.HeLevel -= size*this.requiredHHe; this.HLevel2 -= size*this.requiredHHe; heat += (100-(0.75*efficiency))/5000; flag = true;
 		    		this.HE4Out += size*this.requiredHHe;
 		    	 }
 		    	if (this.HeLevel < size*this.requiredHHe) {this.HeLevel = 0;}
@@ -373,7 +373,7 @@ public class TileEntityFusionReactor extends TileEntityInventory implements IEne
 	    	
 	    	else if (this.HLevel > 0 && this.BLevel2 > 0) {
 		    	if (this.HLevel >= size*this.requiredHB && this.BLevel2 >= size*this.requiredHB) {
-		    		this.heatVar = this.heatHB; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerHB/100), false); this.HLevel -= size*this.requiredHB; this.BLevel2 -= size*this.requiredHB; heat += (100-(efficiency*(heat/20000)))/2000; flag = true;
+		    		this.heatVar = this.heatHB; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerHB/100), false); this.HLevel -= size*this.requiredHB; this.BLevel2 -= size*this.requiredHB; heat += (100-(0.75*efficiency))/5000; flag = true;
 		    		this.HE4Out += size*this.requiredHB*3;
 		    	}
 		    	if (this.HLevel < size*this.requiredHB) {this.HLevel = 0;}
@@ -382,7 +382,7 @@ public class TileEntityFusionReactor extends TileEntityInventory implements IEne
 	    	
 	    	else if (this.BLevel > 0 && this.HLevel2 > 0) {
 		    	if (this.BLevel >= size*this.requiredHB && this.HLevel2 >= size*this.requiredHB) {
-		    		this.heatVar = this.heatHB; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerHB/100), false); this.BLevel -= size*this.requiredHB; this.HLevel2 -= size*this.requiredHB; heat += (100-(efficiency*(heat/20000)))/2000; flag = true;
+		    		this.heatVar = this.heatHB; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerHB/100), false); this.BLevel -= size*this.requiredHB; this.HLevel2 -= size*this.requiredHB; heat += (100-(0.75*efficiency))/5000; flag = true;
 		    		this.HE4Out += size*this.requiredHB*3;
 		    	}
 		    	if (this.BLevel < size*this.requiredHB) {this.BLevel = 0;}
@@ -391,7 +391,7 @@ public class TileEntityFusionReactor extends TileEntityInventory implements IEne
 	    	
 	    	else if (this.HLevel > 0 && this.Li6Level2 > 0) {
 		    	if (this.HLevel >= size*this.requiredHLi6 && this.Li6Level2 >= size*this.requiredHLi6) {
-		    		this.heatVar = this.heatHLi6; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerHLi6/100), false); this.HLevel -= size*this.requiredHLi6; this.Li6Level2 -= size*this.requiredHLi6; heat += (100-(efficiency*(heat/20000)))/2000; flag = true;
+		    		this.heatVar = this.heatHLi6; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerHLi6/100), false); this.HLevel -= size*this.requiredHLi6; this.Li6Level2 -= size*this.requiredHLi6; heat += (100-(0.75*efficiency))/5000; flag = true;
 		    		this.HE4Out += size*this.requiredHLi6; this.TOut += size*this.requiredHLi6;
 		    	}
 		    	if (this.HLevel < size*this.requiredHLi6) {this.HLevel = 0;}
@@ -400,7 +400,7 @@ public class TileEntityFusionReactor extends TileEntityInventory implements IEne
 	    	
 	    	else if (this.Li6Level > 0 && this.HLevel2 > 0) {
 		    	if (this.Li6Level >= size*this.requiredHLi6 && this.HLevel2 >= size*this.requiredHLi6) {
-		    		this.heatVar = this.heatHLi6; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerHLi6/100), false); this.Li6Level -= size*this.requiredHLi6; this.HLevel2 -= size*this.requiredHLi6; heat += (100-(efficiency*(heat/20000)))/2000; flag = true;
+		    		this.heatVar = this.heatHLi6; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerHLi6/100), false); this.Li6Level -= size*this.requiredHLi6; this.HLevel2 -= size*this.requiredHLi6; heat += (100-(0.75*efficiency))/5000; flag = true;
 		    		this.HE4Out += size*this.requiredHLi6; this.TOut += size*this.requiredHLi6;
 		    	}
 		    	if (this.Li6Level < size*this.requiredHLi6) {this.Li6Level = 0;}
@@ -409,7 +409,7 @@ public class TileEntityFusionReactor extends TileEntityInventory implements IEne
 	    	
 	    	else if (this.HLevel > 0 && this.Li7Level2 > 0) {
 		    	if (this.HLevel >= size*this.requiredHLi7 && this.Li7Level2 >= size*this.requiredHLi7) {
-		    		this.heatVar = this.heatHLi7; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerHLi7/100), false); this.HLevel -= size*this.requiredHLi7; this.Li7Level2 -= size*this.requiredHLi7; heat += (100-(efficiency*(heat/20000)))/2000; flag = true;
+		    		this.heatVar = this.heatHLi7; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerHLi7/100), false); this.HLevel -= size*this.requiredHLi7; this.Li7Level2 -= size*this.requiredHLi7; heat += (100-(0.75*efficiency))/5000; flag = true;
 		    		this.HE4Out += size*this.requiredHLi7*2;
 		    	}
 		    	if (this.HLevel < size*this.requiredHLi7) {this.HLevel = 0;}
@@ -418,7 +418,7 @@ public class TileEntityFusionReactor extends TileEntityInventory implements IEne
 	    	
 	    	else if (this.Li7Level > 0 && this.HLevel2 > 0) {
 		    	if (this.Li7Level >= size*this.requiredHLi7 && this.HLevel2 >= size*this.requiredHLi7) {
-		    		this.heatVar = this.heatHLi7; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerHLi7/100), false); this.Li7Level -= size*this.requiredHLi7; this.HLevel2 -= size*this.requiredHLi7; heat += (100-(efficiency*(heat/20000)))/2000; flag = true;
+		    		this.heatVar = this.heatHLi7; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerHLi7/100), false); this.Li7Level -= size*this.requiredHLi7; this.HLevel2 -= size*this.requiredHLi7; heat += (100-(0.75*efficiency))/5000; flag = true;
 		    		this.HE4Out += size*this.requiredHLi7*2;
 		    	}
 		    	if (this.Li7Level < size*this.requiredHLi7) {this.Li7Level = 0;}
@@ -429,7 +429,7 @@ public class TileEntityFusionReactor extends TileEntityInventory implements IEne
 		    	
 	    	else if (this.DLevel > 0 && this.DLevel2 > 0) {
 		    	if (this.DLevel >= size*this.requiredDD && this.DLevel2 >= size*this.requiredDD) {
-		    		this.heatVar = this.heatDD; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerDD/100), false); this.DLevel -= size*this.requiredDD; this.DLevel2 -= size*this.requiredDD; heat += (100-(efficiency*(heat/20000)))/2000; flag = true;
+		    		this.heatVar = this.heatDD; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerDD/100), false); this.DLevel -= size*this.requiredDD; this.DLevel2 -= size*this.requiredDD; heat += (100-(0.75*efficiency))/5000; flag = true;
 		    		this.HE3Out += size*this.requiredDD/2; this.TOut += size*this.requiredDD/2; this.nOut += size*this.requiredDD/16; this.HOut += size*this.requiredDD/2;
 		    	}
 		    	if (this.DLevel < size*this.requiredDD) {this.DLevel = 0;}
@@ -438,7 +438,7 @@ public class TileEntityFusionReactor extends TileEntityInventory implements IEne
 	    	
 	    	else if (this.DLevel > 0 && this.TLevel2 > 0) {
 		    	if (this.DLevel >= size*this.requiredDT && this.TLevel2 >= size*this.requiredDT) {
-		    		this.heatVar = this.heatDT; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerDT/100), false); this.DLevel -= size*this.requiredDT; this.TLevel2 -= size*this.requiredDT; heat += (100-(efficiency*(heat/20000)))/2000; flag = true;
+		    		this.heatVar = this.heatDT; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerDT/100), false); this.DLevel -= size*this.requiredDT; this.TLevel2 -= size*this.requiredDT; heat += (100-(0.75*efficiency))/5000; flag = true;
 		    		this.HE4Out += size*this.requiredDT; this.nOut += size*this.requiredDT/8;
 		    	}
 		    	if (this.DLevel < size*this.requiredDT) {this.DLevel = 0;}
@@ -447,7 +447,7 @@ public class TileEntityFusionReactor extends TileEntityInventory implements IEne
 	    	
 	    	else if (this.TLevel > 0 && this.DLevel2 > 0) {
 		    	if (this.TLevel >= size*this.requiredDT && this.DLevel2 >= size*this.requiredDT) {
-		    		this.heatVar = this.heatDT; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerDT/100), false); this.TLevel -= size*this.requiredDT; this.DLevel2 -= size*this.requiredDT; heat += (100-(efficiency*(heat/20000)))/2000; flag = true;
+		    		this.heatVar = this.heatDT; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerDT/100), false); this.TLevel -= size*this.requiredDT; this.DLevel2 -= size*this.requiredDT; heat += (100-(0.75*efficiency))/5000; flag = true;
 		    		this.HE4Out += size*this.requiredDT; this.nOut += size*this.requiredDT/8;
 		    	}
 		    	if (this.TLevel < size*this.requiredDT) {this.TLevel = 0;}
@@ -456,7 +456,7 @@ public class TileEntityFusionReactor extends TileEntityInventory implements IEne
 	    	
 	    	else if (this.DLevel > 0 && this.HeLevel2 > 0) {
 		    	if (this.DLevel >= size*this.requiredDHe && this.HeLevel2 >= size*this.requiredDHe) {
-		    		this.heatVar = this.heatDHe; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerDHe/100), false); this.DLevel -= size*this.requiredDHe; this.HeLevel2 -= size*this.requiredDHe; heat += (100-(efficiency*(heat/20000)))/2000; flag = true;
+		    		this.heatVar = this.heatDHe; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerDHe/100), false); this.DLevel -= size*this.requiredDHe; this.HeLevel2 -= size*this.requiredDHe; heat += (100-(0.75*efficiency))/5000; flag = true;
 		    		this.HE4Out += size*this.requiredDHe; this.HOut += size*this.requiredDHe;
 		    	}
 		    	if (this.DLevel < size*this.requiredDHe) {this.DLevel = 0;}
@@ -465,7 +465,7 @@ public class TileEntityFusionReactor extends TileEntityInventory implements IEne
 	    	
 	    	else if (this.HeLevel > 0 && this.DLevel2 > 0) {
 		    	if (this.HeLevel >= size*this.requiredDHe && this.DLevel2 >= size*this.requiredDHe) {
-		    		this.heatVar = this.heatDHe; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerDHe/100), false); this.HeLevel -= size*this.requiredDHe; this.DLevel2 -= size*this.requiredDHe; heat += (100-(efficiency*(heat/20000)))/2000; flag = true;
+		    		this.heatVar = this.heatDHe; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerDHe/100), false); this.HeLevel -= size*this.requiredDHe; this.DLevel2 -= size*this.requiredDHe; heat += (100-(0.75*efficiency))/5000; flag = true;
 		    		this.HE4Out += size*this.requiredDHe; this.HOut += size*this.requiredDHe;
 		    	}
 		    	if (this.HeLevel < size*this.requiredDHe) {this.HeLevel = 0;}
@@ -474,7 +474,7 @@ public class TileEntityFusionReactor extends TileEntityInventory implements IEne
 	    	
 	    	else if (this.DLevel > 0 && this.BLevel2 > 0) {
 		    	if (this.DLevel >= size*this.requiredDB && this.BLevel2 >= size*this.requiredDB) {
-		    		this.heatVar = this.heatDB; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerDB/100), false); this.DLevel -= size*this.requiredDB; this.BLevel2 -= size*this.requiredDB; heat += (100-(efficiency*(heat/20000)))/2000; flag = true;
+		    		this.heatVar = this.heatDB; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerDB/100), false); this.DLevel -= size*this.requiredDB; this.BLevel2 -= size*this.requiredDB; heat += (100-(0.75*efficiency))/5000; flag = true;
 		    		this.HE4Out += size*this.requiredDB*3; this.nOut += size*this.requiredDB/8;
 			    }
 		    	if (this.DLevel < size*this.requiredDB) {this.DLevel = 0;}
@@ -483,7 +483,7 @@ public class TileEntityFusionReactor extends TileEntityInventory implements IEne
 	    	
 	    	else if (this.BLevel > 0 && this.DLevel2 > 0) {
 		    	if (this.BLevel >= size*this.requiredDB && this.DLevel2 >= size*this.requiredDB) {
-		    		this.heatVar = this.heatDB; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerDB/100), false); this.BLevel -= size*this.requiredDB; this.DLevel2 -= size*this.requiredDB; heat += (100-(efficiency*(heat/20000)))/2000; flag = true;
+		    		this.heatVar = this.heatDB; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerDB/100), false); this.BLevel -= size*this.requiredDB; this.DLevel2 -= size*this.requiredDB; heat += (100-(0.75*efficiency))/5000; flag = true;
 		    		this.HE4Out += size*this.requiredDB*3; this.nOut += size*this.requiredDB/8;
 			    }
 		    	if (this.BLevel < size*this.requiredDB) {this.BLevel = 0;}
@@ -492,7 +492,7 @@ public class TileEntityFusionReactor extends TileEntityInventory implements IEne
 	    	
 	    	else if (this.DLevel > 0 && this.Li6Level2 > 0) {
 		    	if (this.DLevel >= size*this.requiredDLi6 && this.Li6Level2 >= size*this.requiredDLi6) {
-		    		this.heatVar = this.heatDLi6; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerDLi6/100), false); this.DLevel -= size*this.requiredDLi6; this.Li6Level2 -= size*this.requiredDLi6; heat += (100-(efficiency*(heat/20000)))/2000; flag = true;
+		    		this.heatVar = this.heatDLi6; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerDLi6/100), false); this.DLevel -= size*this.requiredDLi6; this.Li6Level2 -= size*this.requiredDLi6; heat += (100-(0.75*efficiency))/5000; flag = true;
 		    		this.HE4Out += size*this.requiredDLi6*2;
 			    }
 		    	if (this.DLevel < size*this.requiredDLi6) {this.DLevel = 0;}
@@ -501,7 +501,7 @@ public class TileEntityFusionReactor extends TileEntityInventory implements IEne
 	    	
 	    	else if (this.Li6Level > 0 && this.DLevel2 > 0) {
 		    	if (this.Li6Level >= size*this.requiredDLi6 && this.DLevel2 >= size*this.requiredDLi6) {
-		    		this.heatVar = this.heatDLi6; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerDLi6/100), false); this.Li6Level -= size*this.requiredDLi6; this.DLevel2 -= size*this.requiredDLi6; heat += (100-(efficiency*(heat/20000)))/2000; flag = true;
+		    		this.heatVar = this.heatDLi6; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerDLi6/100), false); this.Li6Level -= size*this.requiredDLi6; this.DLevel2 -= size*this.requiredDLi6; heat += (100-(0.75*efficiency))/5000; flag = true;
 		    		this.HE4Out += size*this.requiredDLi6*2;
 			    }
 		    	if (this.Li6Level < size*this.requiredDLi6) {this.Li6Level = 0;}
@@ -510,7 +510,7 @@ public class TileEntityFusionReactor extends TileEntityInventory implements IEne
 	    	
 	    	else if (this.DLevel > 0 && this.Li7Level2 > 0) {
 		    	if (this.DLevel >= size*this.requiredDLi7 && this.Li7Level2 >= size*this.requiredDLi7) {
-		    		this.heatVar = this.heatDLi7; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerDLi7/100), false); this.DLevel -= size*this.requiredDLi7; this.Li7Level2 -= size*this.requiredDLi7; heat += (100-(efficiency*(heat/20000)))/2000; flag = true;
+		    		this.heatVar = this.heatDLi7; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerDLi7/100), false); this.DLevel -= size*this.requiredDLi7; this.Li7Level2 -= size*this.requiredDLi7; heat += (100-(0.75*efficiency))/5000; flag = true;
 		    		this.HE4Out += size*this.requiredDLi7*2; this.nOut += size*this.requiredDLi7/8;
 			    }
 		    	if (this.DLevel < size*this.requiredDLi7) {this.DLevel = 0;}
@@ -519,7 +519,7 @@ public class TileEntityFusionReactor extends TileEntityInventory implements IEne
 	    	
 	    	else if (this.Li7Level > 0 && this.DLevel2 > 0) {
 		    	if (this.Li7Level >= size*this.requiredDLi7 && this.DLevel2 >= size*this.requiredDLi7) {
-		    		this.heatVar = this.heatDLi7; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerDLi7/100), false); this.Li7Level -= size*this.requiredDLi7; this.DLevel2 -= size*this.requiredDLi7; heat += (100-(efficiency*(heat/20000)))/2000; flag = true;
+		    		this.heatVar = this.heatDLi7; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerDLi7/100), false); this.Li7Level -= size*this.requiredDLi7; this.DLevel2 -= size*this.requiredDLi7; heat += (100-(0.75*efficiency))/5000; flag = true;
 		    		this.HE4Out += size*this.requiredDLi7*2; this.nOut += size*this.requiredDLi7/8;
 			    }
 		    	if (this.Li7Level < size*this.requiredDLi7) {this.Li7Level = 0;}
@@ -530,7 +530,7 @@ public class TileEntityFusionReactor extends TileEntityInventory implements IEne
 		    	
 	    	else if (this.TLevel > 0 && this.TLevel2 > 0) {
 		    	if (this.TLevel >= size*this.requiredTT && this.TLevel2 >= size*this.requiredTT) {
-		    		this.heatVar = this.heatTT; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerTT/100), false); this.TLevel -= size*this.requiredTT; this.TLevel2 -= size*this.requiredTT; heat += (100-(efficiency*(heat/20000)))/2000; flag = true;
+		    		this.heatVar = this.heatTT; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerTT/100), false); this.TLevel -= size*this.requiredTT; this.TLevel2 -= size*this.requiredTT; heat += (100-(0.75*efficiency))/5000; flag = true;
 		    		this.HE4Out += size*this.requiredTT; this.nOut += size*this.requiredTT/4;
 			    }
 		    	if (this.TLevel < size*this.requiredTT) {this.TLevel = 0;}
@@ -539,7 +539,7 @@ public class TileEntityFusionReactor extends TileEntityInventory implements IEne
 	    	
 	    	else if (this.TLevel > 0 && this.HeLevel2 > 0) {
 		    	if (this.TLevel >= size*this.requiredTHe && this.HeLevel2 >= size*this.requiredTHe) {
-		    		this.heatVar = this.heatTHe; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerTHe/100), false); this.TLevel -= size*this.requiredTHe; this.HeLevel2 -= size*this.requiredTHe; heat += (100-(efficiency*(heat/20000)))/2000; flag = true;
+		    		this.heatVar = this.heatTHe; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerTHe/100), false); this.TLevel -= size*this.requiredTHe; this.HeLevel2 -= size*this.requiredTHe; heat += (100-(0.75*efficiency))/5000; flag = true;
 		    		this.HE4Out += size*this.requiredTHe; this.nOut += size*this.requiredTHe/8; this.HOut += size*this.requiredTHe;
 			    }
 		    	if (this.TLevel < size*this.requiredTHe) {this.TLevel = 0;}
@@ -548,7 +548,7 @@ public class TileEntityFusionReactor extends TileEntityInventory implements IEne
 	    	
 	    	else if (this.HeLevel > 0 && this.TLevel2 > 0) {
 		    	if (this.HeLevel >= size*this.requiredTHe && this.TLevel2 >= size*this.requiredTHe) {
-		    		this.heatVar = this.heatTHe; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerTHe/100), false); this.HeLevel -= size*this.requiredTHe; this.TLevel2 -= size*this.requiredTHe; heat += (100-(efficiency*(heat/20000)))/2000; flag = true;
+		    		this.heatVar = this.heatTHe; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerTHe/100), false); this.HeLevel -= size*this.requiredTHe; this.TLevel2 -= size*this.requiredTHe; heat += (100-(0.75*efficiency))/5000; flag = true;
 		    		this.HE4Out += size*this.requiredTHe; this.nOut += size*this.requiredTHe/8; this.HOut += size*this.requiredTHe;
 			    }
 		    	if (this.HeLevel < size*this.requiredTHe) {this.HeLevel = 0;}
@@ -557,7 +557,7 @@ public class TileEntityFusionReactor extends TileEntityInventory implements IEne
 	    	
 	    	else if (this.TLevel > 0 && this.BLevel2 > 0) {
 		    	if (this.TLevel >= size*this.requiredTB && this.BLevel2 >= size*this.requiredTB) {
-		    		this.heatVar = this.heatTB; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerTB/100), false); this.TLevel -= size*this.requiredTB; this.BLevel2 -= size*this.requiredTB; heat += (100-(efficiency*(heat/20000)))/2000; flag = true;
+		    		this.heatVar = this.heatTB; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerTB/100), false); this.TLevel -= size*this.requiredTB; this.BLevel2 -= size*this.requiredTB; heat += (100-(0.75*efficiency))/5000; flag = true;
 		    		this.HE4Out += size*this.requiredTB*3; this.nOut += size*this.requiredTB/4;
 			    }
 		    	if (this.TLevel < size*this.requiredTB) {this.TLevel = 0;}
@@ -566,7 +566,7 @@ public class TileEntityFusionReactor extends TileEntityInventory implements IEne
 	    	
 	    	else if (this.BLevel > 0 && this.TLevel2 > 0) {
 		    	if (this.BLevel >= size*this.requiredTB && this.TLevel2 >= size*this.requiredTB) {
-		    		this.heatVar = this.heatTB; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerTB/100), false); this.BLevel -= size*this.requiredTB; this.TLevel2 -= size*this.requiredTB; heat += (100-(efficiency*(heat/20000)))/2000; flag = true;
+		    		this.heatVar = this.heatTB; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerTB/100), false); this.BLevel -= size*this.requiredTB; this.TLevel2 -= size*this.requiredTB; heat += (100-(0.75*efficiency))/5000; flag = true;
 		    		this.HE4Out += size*this.requiredTB*3; this.nOut += size*this.requiredTB/4;
 			    }
 		    	if (this.BLevel < size*this.requiredTB) {this.BLevel = 0;}
@@ -575,7 +575,7 @@ public class TileEntityFusionReactor extends TileEntityInventory implements IEne
 	    	
 	    	else if (this.TLevel > 0 && this.Li6Level2 > 0) {
 		    	if (this.TLevel >= size*this.requiredTLi6 && this.Li6Level2 >= size*this.requiredTLi6) {
-		    		this.heatVar = this.heatTLi6; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerTLi6/100), false); this.TLevel -= size*this.requiredTLi6; this.Li6Level2 -= size*this.requiredTLi6; heat += (100-(efficiency*(heat/20000)))/2000; flag = true;
+		    		this.heatVar = this.heatTLi6; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerTLi6/100), false); this.TLevel -= size*this.requiredTLi6; this.Li6Level2 -= size*this.requiredTLi6; heat += (100-(0.75*efficiency))/5000; flag = true;
 		    		this.HE4Out += size*this.requiredTLi6*2; this.nOut += size*this.requiredTLi6/8;
 			    }
 		    	if (this.TLevel < size*this.requiredTLi6) {this.TLevel = 0;}
@@ -584,7 +584,7 @@ public class TileEntityFusionReactor extends TileEntityInventory implements IEne
 	    	
 	    	else if (this.Li6Level > 0 && this.TLevel2 > 0) {
 		    	if (this.Li6Level >= size*this.requiredTLi6 && this.TLevel2 >= size*this.requiredTLi6) {
-		    		this.heatVar = this.heatTLi6; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerTLi6/100), false); this.Li6Level -= size*this.requiredTLi6; this.TLevel2 -= size*this.requiredTLi6; heat += (100-(efficiency*(heat/20000)))/2000; flag = true;
+		    		this.heatVar = this.heatTLi6; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerTLi6/100), false); this.Li6Level -= size*this.requiredTLi6; this.TLevel2 -= size*this.requiredTLi6; heat += (100-(0.75*efficiency))/5000; flag = true;
 		    		this.HE4Out += size*this.requiredTLi6*2; this.nOut += size*this.requiredTLi6/8;
 			    }
 		    	if (this.Li6Level < size*this.requiredTLi6) {this.Li6Level = 0;}
@@ -593,7 +593,7 @@ public class TileEntityFusionReactor extends TileEntityInventory implements IEne
 	    	
 	    	else if (this.TLevel > 0 && this.Li7Level2 > 0) {
 		    	if (this.TLevel >= size*this.requiredTLi7 && this.Li7Level2 >= size*this.requiredTLi7) {
-		    		this.heatVar = this.heatTLi7; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerTLi7/100), false); this.TLevel -= size*this.requiredTLi7; this.Li7Level2 -= size*this.requiredTLi7; heat += (100-(efficiency*(heat/20000)))/2000; flag = true;
+		    		this.heatVar = this.heatTLi7; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerTLi7/100), false); this.TLevel -= size*this.requiredTLi7; this.Li7Level2 -= size*this.requiredTLi7; heat += (100-(0.75*efficiency))/5000; flag = true;
 		    		this.HE4Out += size*this.requiredTLi7*2; this.nOut += size*this.requiredTLi7/4;
 			    }
 		    	if (this.TLevel < size*this.requiredTLi7) {this.TLevel = 0;}
@@ -602,7 +602,7 @@ public class TileEntityFusionReactor extends TileEntityInventory implements IEne
 	    	
 	    	else if (this.Li7Level > 0 && this.TLevel2 > 0) {
 		    	if (this.Li7Level >= size*this.requiredTLi7 && this.TLevel2 >= size*this.requiredTLi7) {
-		    		this.heatVar = this.heatTLi7; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerTLi7/100), false); this.Li7Level -= size*this.requiredTLi7; this.TLevel2 -= size*this.requiredTLi7; heat += (100-(efficiency*(heat/20000)))/2000; flag = true;
+		    		this.heatVar = this.heatTLi7; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerTLi7/100), false); this.Li7Level -= size*this.requiredTLi7; this.TLevel2 -= size*this.requiredTLi7; heat += (100-(0.75*efficiency))/5000; flag = true;
 		    		this.HE4Out += size*this.requiredTLi7*2; this.nOut += size*this.requiredTLi7/4;
 			    }
 		    	if (this.Li7Level < size*this.requiredTLi7) {this.Li7Level = 0;}
@@ -613,7 +613,7 @@ public class TileEntityFusionReactor extends TileEntityInventory implements IEne
 		    	
 	    	else if (this.HeLevel > 0 && this.HeLevel2 > 0) {
 		    	if (this.HeLevel >= size*this.requiredHeHe && this.HeLevel2 >= size*this.requiredHeHe) {
-		    		this.heatVar = this.heatHeHe; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerHeHe/100), false); this.HeLevel -= size*this.requiredHeHe; this.HeLevel2 -= size*this.requiredHeHe; heat += (100-(efficiency*(heat/20000)))/2000; flag = true;
+		    		this.heatVar = this.heatHeHe; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerHeHe/100), false); this.HeLevel -= size*this.requiredHeHe; this.HeLevel2 -= size*this.requiredHeHe; heat += (100-(0.75*efficiency))/5000; flag = true;
 		    		this.HE4Out += size*this.requiredHeHe; this.HOut += size*this.requiredHeHe*2;
 			    }
 		    	if (this.HeLevel < size*this.requiredHeHe) {this.HeLevel = 0;}
@@ -622,7 +622,7 @@ public class TileEntityFusionReactor extends TileEntityInventory implements IEne
 	    	
 	    	else if (this.HeLevel > 0 && this.BLevel2 > 0) {
 		    	if (this.HeLevel >= size*this.requiredHeB && this.BLevel2 >= size*this.requiredHeB) {
-		    		this.heatVar = this.heatHeB; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerHeB/100), false); this.HeLevel -= size*this.requiredHeB; this.BLevel2 -= size*this.requiredHeB; heat += (100-(efficiency*(heat/20000)))/2000; flag = true;
+		    		this.heatVar = this.heatHeB; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerHeB/100), false); this.HeLevel -= size*this.requiredHeB; this.BLevel2 -= size*this.requiredHeB; heat += (100-(0.75*efficiency))/5000; flag = true;
 		    		this.HE4Out += size*this.requiredHeB*3; this.DOut += size*this.requiredHeB;
 			    }
 		    	if (this.HeLevel < size*this.requiredHeB) {this.HeLevel = 0;}
@@ -631,7 +631,7 @@ public class TileEntityFusionReactor extends TileEntityInventory implements IEne
 	    	
 	    	else if (this.BLevel > 0 && this.HeLevel2 > 0) {
 		    	if (this.BLevel >= size*this.requiredHeB && this.HeLevel2 >= size*this.requiredHeB) {
-		    		this.heatVar = this.heatHeB; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerHeB/100), false); this.BLevel -= size*this.requiredHeB; this.HeLevel2 -= size*this.requiredHeB; heat += (100-(efficiency*(heat/20000)))/2000; flag = true;
+		    		this.heatVar = this.heatHeB; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerHeB/100), false); this.BLevel -= size*this.requiredHeB; this.HeLevel2 -= size*this.requiredHeB; heat += (100-(0.75*efficiency))/5000; flag = true;
 		    		this.HE4Out += size*this.requiredHeB*3; this.DOut += size*this.requiredHeB;
 			    }
 		    	if (this.BLevel < size*this.requiredHeB) {this.BLevel = 0;}
@@ -640,7 +640,7 @@ public class TileEntityFusionReactor extends TileEntityInventory implements IEne
 	    	
 	    	else if (this.HeLevel > 0 && this.Li6Level2 > 0) {
 		    	if (this.HeLevel >= size*this.requiredHeLi6 && this.Li6Level2 >= size*this.requiredHeLi6) {
-		    		this.heatVar = this.heatHeLi6; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerHeLi6/100), false); this.HeLevel -= size*this.requiredHeLi6; this.Li6Level2 -= size*this.requiredHeLi6; heat += (100-(efficiency*(heat/20000)))/2000; flag = true;
+		    		this.heatVar = this.heatHeLi6; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerHeLi6/100), false); this.HeLevel -= size*this.requiredHeLi6; this.Li6Level2 -= size*this.requiredHeLi6; heat += (100-(0.75*efficiency))/5000; flag = true;
 		    		this.HE4Out += size*this.requiredHeLi6*2; this.HOut += size*this.requiredHeLi6;
 			    }
 		    	if (this.HeLevel < size*this.requiredHeLi6) {this.HeLevel = 0;}
@@ -649,7 +649,7 @@ public class TileEntityFusionReactor extends TileEntityInventory implements IEne
 	    	
 	    	else if (this.Li6Level > 0 && this.HeLevel2 > 0) {
 		    	if (this.Li6Level >= size*this.requiredHeLi6 && this.HeLevel2 >= size*this.requiredHeLi6) {
-		    		this.heatVar = this.heatHeLi6; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerHeLi6/100), false); this.Li6Level -= size*this.requiredHeLi6; this.HeLevel2 -= size*this.requiredHeLi6; heat += (100-(efficiency*(heat/20000)))/2000; flag = true;
+		    		this.heatVar = this.heatHeLi6; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerHeLi6/100), false); this.Li6Level -= size*this.requiredHeLi6; this.HeLevel2 -= size*this.requiredHeLi6; heat += (100-(0.75*efficiency))/5000; flag = true;
 		    		this.HE4Out += size*this.requiredHeLi6*2; this.HOut += size*this.requiredHeLi6;
 			    }
 		    	if (this.Li6Level < size*this.requiredHeLi6) {this.Li6Level = 0;}
@@ -658,7 +658,7 @@ public class TileEntityFusionReactor extends TileEntityInventory implements IEne
 	    	
 	    	else if (this.HeLevel > 0 && this.Li7Level2 > 0) {
 		    	if (this.HeLevel >= size*this.requiredHeLi7 && this.Li7Level2 >= size*this.requiredHeLi7) {
-		    		this.heatVar = this.heatHeLi7; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerHeLi7/100), false); this.HeLevel -= size*this.requiredHeLi7; this.Li7Level2 -= size*this.requiredHeLi7; heat += (100-(efficiency*(heat/20000)))/2000; flag = true;
+		    		this.heatVar = this.heatHeLi7; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerHeLi7/100), false); this.HeLevel -= size*this.requiredHeLi7; this.Li7Level2 -= size*this.requiredHeLi7; heat += (100-(0.75*efficiency))/5000; flag = true;
 		    		this.HE4Out += size*this.requiredHeLi7*2; this.DOut += size*this.requiredHeLi7;
 			    }
 		    	if (this.HeLevel < size*this.requiredHeLi7) {this.HeLevel = 0;}
@@ -667,7 +667,7 @@ public class TileEntityFusionReactor extends TileEntityInventory implements IEne
 	    	
 	    	else if (this.Li7Level > 0 && this.HeLevel2 > 0) {
 		    	if (this.Li7Level >= size*this.requiredHeLi7 && this.HeLevel2 >= size*this.requiredHeLi7) {
-		    		this.heatVar = this.heatHeLi7; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerHeLi7/100), false); this.Li7Level -= size*this.requiredHeLi7; this.HeLevel2 -= size*this.requiredHeLi7; heat += (100-(efficiency*(heat/20000)))/2000; flag = true;
+		    		this.heatVar = this.heatHeLi7; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerHeLi7/100), false); this.Li7Level -= size*this.requiredHeLi7; this.HeLevel2 -= size*this.requiredHeLi7; heat += (100-(0.75*efficiency))/5000; flag = true;
 		    		this.HE4Out += size*this.requiredHeLi7*2; this.DOut += size*this.requiredHeLi7;
 			    }
 		    	if (this.Li7Level < size*this.requiredHeLi7) {this.Li7Level = 0;}
@@ -678,7 +678,7 @@ public class TileEntityFusionReactor extends TileEntityInventory implements IEne
 		    	
 	    	else if (this.BLevel > 0 && this.BLevel2 > 0) {
 		    	if (this.BLevel >= size*this.requiredBB && this.BLevel2 >= size*this.requiredBB) {
-		    		this.heatVar = this.heatBB; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerBB/100), false); this.BLevel -= size*this.requiredBB; this.BLevel2 -= size*this.requiredBB; heat += (100-(efficiency*(heat/20000)))/2000; flag = true;
+		    		this.heatVar = this.heatBB; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerBB/100), false); this.BLevel -= size*this.requiredBB; this.BLevel2 -= size*this.requiredBB; heat += (100-(0.75*efficiency))/5000; flag = true;
 		    		this.HE4Out += size*this.requiredBB*5; this.nOut += size*this.requiredBB/4;
 			    }
 		    	if (this.BLevel < size*this.requiredBB) {this.BLevel = 0;}
@@ -687,7 +687,7 @@ public class TileEntityFusionReactor extends TileEntityInventory implements IEne
 	    	
 	    	else if (this.BLevel > 0 && this.Li6Level2 > 0) {
 		    	if (this.BLevel >= size*this.requiredBLi6 && this.Li6Level2 >= size*this.requiredBLi6) {
-		    		this.heatVar = this.heatBLi6; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerBLi6/100), false); this.BLevel -= size*this.requiredBLi6; this.Li6Level2 -= size*this.requiredBLi6; heat += (100-(efficiency*(heat/20000)))/2000; flag = true;
+		    		this.heatVar = this.heatBLi6; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerBLi6/100), false); this.BLevel -= size*this.requiredBLi6; this.Li6Level2 -= size*this.requiredBLi6; heat += (100-(0.75*efficiency))/5000; flag = true;
 		    		this.HE4Out += size*this.requiredBLi6*4; this.nOut += size*this.requiredBLi6/8;
 			    }
 		    	if (this.BLevel < size*this.requiredBLi6) {this.BLevel = 0;}
@@ -696,7 +696,7 @@ public class TileEntityFusionReactor extends TileEntityInventory implements IEne
 	    	
 	    	else if (this.Li6Level > 0 && this.BLevel2 > 0) {
 		    	if (this.Li6Level >= size*this.requiredBLi6 && this.BLevel2 >= size*this.requiredBLi6) {
-		    		this.heatVar = this.heatBLi6; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerBLi6/100), false); this.Li6Level -= size*this.requiredBLi6; this.BLevel2 -= size*this.requiredBLi6; heat += (100-(efficiency*(heat/20000)))/2000; flag = true;
+		    		this.heatVar = this.heatBLi6; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerBLi6/100), false); this.Li6Level -= size*this.requiredBLi6; this.BLevel2 -= size*this.requiredBLi6; heat += (100-(0.75*efficiency))/5000; flag = true;
 		    		this.HE4Out += size*this.requiredBLi6*4; this.nOut += size*this.requiredBLi6/8;
 			    }
 		    	if (this.Li6Level < size*this.requiredBLi6) {this.Li6Level = 0;}
@@ -705,7 +705,7 @@ public class TileEntityFusionReactor extends TileEntityInventory implements IEne
 	    	
 	    	else if (this.BLevel > 0 && this.Li7Level2 > 0) {
 		    	if (this.BLevel >= size*this.requiredBLi7 && this.Li7Level2 >= size*this.requiredBLi7) {
-		    		this.heatVar = this.heatBLi7; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerBLi7/100), false); this.BLevel -= size*this.requiredBLi7; this.Li7Level2 -= size*this.requiredBLi7; heat += (100-(efficiency*(heat/20000)))/2000; flag = true;
+		    		this.heatVar = this.heatBLi7; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerBLi7/100), false); this.BLevel -= size*this.requiredBLi7; this.Li7Level2 -= size*this.requiredBLi7; heat += (100-(0.75*efficiency))/5000; flag = true;
 		    		this.HE4Out += size*this.requiredBLi7*4; this.nOut += size*this.requiredBLi7/4;
 			    }
 		    	if (this.BLevel < size*this.requiredBLi7) {this.BLevel = 0;}
@@ -714,7 +714,7 @@ public class TileEntityFusionReactor extends TileEntityInventory implements IEne
 	    	
 	    	else if (this.Li7Level > 0 && this.BLevel2 > 0) {
 		    	if (this.Li7Level >= size*this.requiredBLi7 && this.BLevel2 >= size*this.requiredBLi7) {
-		    		this.heatVar = this.heatBLi7; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerBLi7/100), false); this.Li7Level -= size*this.requiredBLi7; this.BLevel2 -= size*this.requiredBLi7; heat += (100-(efficiency*(heat/20000)))/2000; flag = true;
+		    		this.heatVar = this.heatBLi7; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerBLi7/100), false); this.Li7Level -= size*this.requiredBLi7; this.BLevel2 -= size*this.requiredBLi7; heat += (100-(0.75*efficiency))/5000; flag = true;
 		    		this.HE4Out += size*this.requiredBLi7*4; this.nOut += size*this.requiredBLi7/4;
 			    }
 		    	if (this.Li7Level < size*this.requiredBLi7) {this.Li7Level = 0;}
@@ -725,7 +725,7 @@ public class TileEntityFusionReactor extends TileEntityInventory implements IEne
 		    	
 	    	else if (this.Li6Level > 0 && this.Li6Level2 > 0) {
 		    	if (this.Li6Level >= size*this.requiredLi6Li6 && this.Li6Level2 >= size*this.requiredLi6Li6) {
-		    		this.heatVar = this.heatLi6Li6; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerLi6Li6/100), false); this.Li6Level -= size*this.requiredLi6Li6; this.Li6Level2 -= size*this.requiredLi6Li6; heat += (100-(efficiency*(heat/20000)))/2000; flag = true;
+		    		this.heatVar = this.heatLi6Li6; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerLi6Li6/100), false); this.Li6Level -= size*this.requiredLi6Li6; this.Li6Level2 -= size*this.requiredLi6Li6; heat += (100-(0.75*efficiency))/5000; flag = true;
 		    		this.HE4Out += size*this.requiredLi6Li6*3;
 			    }
 		    	if (this.Li6Level < size*this.requiredLi6Li6) {this.Li6Level = 0;}
@@ -734,7 +734,7 @@ public class TileEntityFusionReactor extends TileEntityInventory implements IEne
 	    	
 	    	else if (this.Li6Level > 0 && this.Li7Level2 > 0) {
 		    	if (this.Li6Level >= size*this.requiredLi6Li7 && this.Li7Level2 >= size*this.requiredLi6Li7) {
-		    		this.heatVar = this.heatLi6Li7; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerLi6Li7/100), false); this.Li6Level -= size*this.requiredLi6Li7; this.Li7Level2 -= size*this.requiredLi6Li7; heat += (100-(efficiency*(heat/20000)))/2000; flag = true;
+		    		this.heatVar = this.heatLi6Li7; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerLi6Li7/100), false); this.Li6Level -= size*this.requiredLi6Li7; this.Li7Level2 -= size*this.requiredLi6Li7; heat += (100-(0.75*efficiency))/5000; flag = true;
 		    		this.HE4Out += size*this.requiredLi6Li7*3; this.nOut += size*this.requiredLi6Li7/8;
 			    }
 		    	if (this.Li6Level < size*this.requiredLi6Li7) {this.Li6Level = 0;}
@@ -743,7 +743,7 @@ public class TileEntityFusionReactor extends TileEntityInventory implements IEne
 	    	
 	    	else if (this.Li7Level > 0 && this.Li6Level2 > 0) {
 		    	if (this.Li7Level >= size*this.requiredLi6Li7 && this.Li6Level2 >= size*this.requiredLi6Li7) {
-		    		this.heatVar = this.heatLi6Li7; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerLi6Li7/100), false); this.Li7Level -= size*this.requiredLi6Li7; this.Li6Level2 -= size*this.requiredLi6Li7; heat += (100-(efficiency*(heat/20000)))/2000; flag = true;
+		    		this.heatVar = this.heatLi6Li7; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerLi6Li7/100), false); this.Li7Level -= size*this.requiredLi6Li7; this.Li6Level2 -= size*this.requiredLi6Li7; heat += (100-(0.75*efficiency))/5000; flag = true;
 		    		this.HE4Out += size*this.requiredLi6Li7*3; this.nOut += size*this.requiredLi6Li7/8;
 			    }
 		    	if (this.Li7Level < size*this.requiredLi6Li7) {this.Li7Level = 0;}
@@ -754,7 +754,7 @@ public class TileEntityFusionReactor extends TileEntityInventory implements IEne
 		    	
 	    	else if (this.Li7Level > 0 && this.Li7Level2 > 0) {
 		    	if (this.Li7Level >= size*this.requiredLi7Li7 && this.Li7Level2 >= size*this.requiredLi7Li7) {
-		    		this.heatVar = this.heatLi7Li7; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerLi7Li7/100), false); this.Li7Level -= size*this.requiredLi7Li7; this.Li7Level2 -= size*this.requiredLi7Li7; heat += (100-(efficiency*(heat/20000)))/2000; flag = true;
+		    		this.heatVar = this.heatLi7Li7; this.storage.receiveEnergy((int) (efficiency*pMult*size*this.powerLi7Li7/100), false); this.Li7Level -= size*this.requiredLi7Li7; this.Li7Level2 -= size*this.requiredLi7Li7; heat += (100-(0.75*efficiency))/5000; flag = true;
 		    		this.HE4Out += size*this.requiredLi7Li7*3; this.nOut += size*this.requiredLi7Li7/4;
 			    }
 		    	if (this.Li7Level < size*this.requiredLi7Li7) {this.Li7Level = 0;}
@@ -1051,7 +1051,6 @@ public class TileEntityFusionReactor extends TileEntityInventory implements IEne
 	        this.size = nbt.getInteger("size");
 	        this.isMain = nbt.getBoolean("isMain");
 	        this.below = nbt.getInteger("below");
-	        this.pMult = nbt.getInteger("pMult");
 	        
 	        this.efficiency = nbt.getDouble("efficiency");
 	        this.heat = nbt.getDouble("heat");
@@ -1111,7 +1110,6 @@ public class TileEntityFusionReactor extends TileEntityInventory implements IEne
 	        nbt.setInteger("size", this.size);
 	        nbt.setBoolean("isMain", this.isMain);
 	        nbt.setInteger("below", this.below);
-	        nbt.setInteger("pMult", this.pMult);
 	        
 	        nbt.setDouble("efficiency", this.efficiency);
 	        nbt.setDouble("heat", this.heat);

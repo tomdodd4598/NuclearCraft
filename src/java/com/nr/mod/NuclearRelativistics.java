@@ -133,7 +133,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 public class NuclearRelativistics {
 	public static final String modid = "NuclearCraft";
-	public static final String version = "0.0.1.6";
+	public static final String version = "1.6a";
 	
 	public static final CreativeTabs tabNR = new CreativeTabs("tabNR") {
 		// Creative Tab Shown Item

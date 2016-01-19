@@ -106,7 +106,8 @@ public class MetalFurnaceRecipeHandler extends TemplateRecipeHandler
     }
 
     public void loadUsageRecipes(ItemStack ingredient) {
-        @SuppressWarnings("unchecked") Map<ItemStack, ItemStack> recipes = (Map<ItemStack, ItemStack>) FurnaceRecipes.smelting().getSmeltingList();
+        @SuppressWarnings("unchecked")
+        Map<ItemStack, ItemStack> recipes = (Map<ItemStack, ItemStack>) FurnaceRecipes.smelting().getSmeltingList();
         for (Entry<ItemStack, ItemStack> recipe : recipes.entrySet())
             if (NEIServerUtils.areStacksSameTypeCrafting(recipe.getKey(), ingredient)) {
                 MetalSmeltingPair arecipe = new MetalSmeltingPair(recipe.getKey(), recipe.getValue());

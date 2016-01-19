@@ -10,8 +10,6 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.Container;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -20,8 +18,10 @@ import net.minecraft.util.IChatComponent;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+
 import com.nr.mod.NuclearRelativistics;
 import com.nr.mod.blocks.NRBlocks;
+
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -244,7 +244,8 @@ private Random rand = new Random();
 	
 	public int getComparatorInputOverride(World world, int x, int y, int z, int i)
 	{
-		return Container.calcRedstoneFromInventory((IInventory)world.getTileEntity(x, y, z));
+		TileEntityFissionReactorGraphite tileentity = (TileEntityFissionReactorGraphite) world.getTileEntity(x, y, z);
+		return tileentity.heat < 499995 ? (int) Math.floor(tileentity.heat/33333) : 15;
 	}
 	
 	public Block idPicked(World world, int x, int y, int z)

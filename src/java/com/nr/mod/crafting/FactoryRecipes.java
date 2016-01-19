@@ -1,6 +1,7 @@
 package com.nr.mod.crafting;
 
 import com.nr.mod.items.NRItems;
+
 import net.minecraft.item.ItemStack;
 
 public class FactoryRecipes extends NRRecipeHelper {
@@ -22,5 +23,33 @@ public class FactoryRecipes extends NRRecipeHelper {
     	addRecipe(oreStack("ingotLead", 1), new ItemStack(NRItems.parts, 1, 14));
     	addRecipe(oreStack("ingotSilver", 2), new ItemStack(NRItems.parts, 1, 15));
     	addRecipe(oreStack("ingotBronze", 1), new ItemStack(NRItems.parts, 1, 16));
+    	
+    	oreIngot("Iron", 2);
+    	oreIngot("Gold", 2);
+    	oreIngot("Copper", 2);
+    	oreIngot("Lead", 2);
+    	oreIngot("Tin", 2);
+    	oreIngot("Silver", 2);
+    	oreIngot("Lead", 2);
+    	oreIngot("Uranium", 2);
+    	addRecipe(oreStack("oreYellorite", 1), oreStack("ingotUranium", 2));
+    	addRecipe(oreStack("oreYellorium", 1), oreStack("ingotUranium", 2));
+    	oreIngot("Thorium", 2);
+    	oreIngot("Lithium", 2);
+    	oreIngot("Boron", 2);
+    	oreIngot("Aluminium", 2);
+    	oreIngot("Aluminum", 2);
+    	oreIngot("Zinc", 2);
+    	oreIngot("Platinum", 2);
+    	oreIngot("Shiny", 2);
+    	oreIngot("Osmium", 2);
+    	oreIngot("Titanium", 2);
+    	oreIngot("Desh", 2);
+    	oreIngot("Nickel", 2);
+    	oreIngot("ManaInfused", 2);
     }
+	
+	public void oreIngot(String type, int amount) {
+		addRecipe(oreStack("ore" + type, 1), oreStack("ingot" + type, amount));
+	}
 }

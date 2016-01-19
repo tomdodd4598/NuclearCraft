@@ -328,7 +328,7 @@ public class BlockFusionReactor extends BlockContainer {
 	public int getComparatorInputOverride(World world, int x, int y, int z, int i)
 	{
 		TileEntityFusionReactor tileentity = (TileEntityFusionReactor) world.getTileEntity(x, y, z);
-		return tileentity.efficiency < 80 ? (int) Math.floor(tileentity.efficiency/5) : 15;
+		return tileentity.efficiency < 96 ? (int) Math.floor(tileentity.efficiency/6) : 15;
 	}
 	
 	public Block idPicked(World world, int x, int y, int z)

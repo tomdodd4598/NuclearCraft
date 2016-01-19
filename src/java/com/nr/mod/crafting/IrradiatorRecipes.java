@@ -17,9 +17,9 @@ public class IrradiatorRecipes extends NRRecipeHelper {
 	}
 
 	public void addRecipes() {
-		recipeNeutron(NRItems.material, 1, 46, NRItems.fuel, 1, 38, NRItems.fuel, 1, 40);
-		recipeNeutron2(NRItems.material, 1, 47, NRItems.fuel, 1, 38, NRItems.fuel, 1, 40);
-		recipeNeutron(NRItems.material, 1, 48, NRItems.fuel, 1, 38, NRItems.fuel, 2, 40);
+		recipeNeutron(NRItems.material, 1, 46, NRItems.fuel, 2, 38, NRItems.fuel, 2, 40);
+		recipeNeutron2(NRItems.material, 1, 47, NRItems.fuel, 2, 38, NRItems.fuel, 2, 40);
+		recipeNeutron(NRItems.material, 1, 48, NRItems.fuel, 2, 38, NRItems.fuel, 4, 40);
 	}
 	
 	public void recipeNeutron(Item In, int noIn, int metaIn, Item Out, int noOut, int metaOut, Item Out2, int noOut2, int metaOut2) {
