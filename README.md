@@ -10,7 +10,7 @@ Adds nuclear physics and aims to bring relativistic, quantum and particle physic
 
 YouTube Channel: https://www.youtube.com/channel/UC-df90SAvYXk-FClmntlFhw
 
-CurseForge Page: http://minecraft.curseforge.com/mc-mods/226254-nuclearcraft-mod-1-7-10
+CurseForge Page: http://minecraft.curseforge.com/projects/nuclearcraft-mod
 
 Uses Minecraft Forge
 
