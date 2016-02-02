@@ -1,0 +1,377 @@
+itemGroup.tabNR=NuclearCraft
+
+entity.NuclearMonster.name=Nuclear Monster
+entity.Paul.name=Paul
+
+tile.simple=Simple Quantum Block
+
+copperOre.name=Copper Ore
+tinOre.name=Tin Ore
+leadOre.name=Lead Ore
+silverOre.name=Silver Ore
+pitchblendeOre.name=Uranium Ore
+thoriumOre.name=Thorium Ore
+plutoniumOre.name=Plutonium Ore
+lithiumOre.name=Lithium Ore
+boronOre.name=Boron Ore
+magnesiumOre.name=Magnesium Ore
+
+copperBlock.name=Copper Block
+tinBlock.name=Tin Block
+leadBlock.name=Lead Block
+silverBlock.name=Silver Block
+bronzeBlock.name=Bronze Block
+uraniumBlock.name=Uranium Block
+thoriumBlock.name=Thorium Block
+toughBlock.name=Tough Alloy Block
+lithiumBlock.name=Lithium Block
+boronBlock.name=Boron Block
+magnesiumBlock.name=Magnesium Block
+
+tile.simpleQuantumUp.name=Spin 1/2 Block
+tile.simpleQuantumDown.name=Spin 1/2 Block
+
+tile.graphiteBlock.name=Graphite Block
+tile.cellBlock.name=Fuel Cell Compartment
+tile.reactorBlock.name=Reactor Casing
+tile.coolerBlock.name=Reactor Cooler
+tile.speedBlock.name=Reactor Speed Block
+tile.blastBlock.name=Blast Resistant Block
+tile.nuke.name=Nuke
+tile.machineBlock.name=Machine Base
+
+tile.tubing1.name=Horizontal Reinforced Tubing
+tile.tubing2.name=Vertical Reinforced Tubing
+
+tile.liquidHeliumBlock.name=Liquid Helium
+fluid.liquidHelium=Liquid Helium
+
+tile.nuclearFurnaceIdle.name=Nuclear Furnace
+tile.nuclearFurnaceActive.name=Nuclear Furnace
+tile.furnaceIdle.name=Metal Furnace
+tile.furnaceActive.name=Metal Furnace
+tile.crusherIdle.name=Crusher
+tile.crusherActive.name=Crusher
+tile.electricCrusherIdle.name=Electric Crusher
+tile.electricCrusherActive.name=Electric Crusher
+tile.electricFurnaceIdle.name=Electric Furnace
+tile.electricFurnaceActive.name=Electric Furnace
+tile.reactionGeneratorIdle.name=Reaction Generator
+tile.reactionGeneratorActive.name=Reaction Generator
+tile.separatorIdle.name=Isotope Separator
+tile.separatorActive.name=Isotope Separator
+tile.hastenerIdle.name=Decay Hastener
+tile.hastenerActive.name=Decay Hastener
+tile.fissionReactorGraphiteIdle.name=Fission Controller
+tile.fissionReactorGraphiteActive.name=Fission Controller
+tile.nuclearWorkspace.name=Heavy Duty Workspace
+tile.fusionReactor.name=Fusion Reactor
+tile.fusionReactorBlock.name=Fusion Reactor
+tile.RTG.name=Radioisotope Thermoelectric Generator
+tile.WRTG.name=Weak Radioisotope Thermoelectric Generator
+tile.solarPanel.name=Solar Panel
+tile.collectorIdle.name=Helium Collector
+tile.collectorActive.name=Helium Collector
+tile.electrolyserIdle.name=Electrolyser
+tile.electrolyserActive.name=Electrolyser
+tile.oxidiserIdle.name=Oxidiser
+tile.oxidiserActive.name=Oxidiser
+tile.ioniserIdle.name=Ioniser
+tile.ioniserActive.name=Ioniser
+tile.irradiatorIdle.name=Neutron Irradiator
+tile.irradiatorActive.name=Neutron Irradiator
+tile.coolerIdle.name=Helium Liquifier
+tile.coolerActive.name=Helium Liquifier
+tile.factoryIdle.name=Manufactory
+tile.factoryActive.name=Manufactory
+tile.heliumExtractorIdle.name=Liquid Helium Extractor
+tile.heliumExtractorActive.name=Liquid Helium Extractor
+tile.electromagnetIdle.name=Superconducting Electromagnet
+tile.electromagnetActive.name=Superconducting Electromagnet
+tile.supercoolerIdle.name=Electromagnet Supercooler
+tile.supercoolerActive.name=Electromagnet Supercooler
+tile.synchrotronIdle.name=Synchrotron Controller
+tile.synchrotronActive.name=Synchrotron Controller
+
+gui.reactor=Reactor
+gui.fuel=Fuel
+gui.heat=Heat
+gui.noFuel=No Fuel
+gui.casingIncomplete=Casing Incomplete
+gui.multipleControllers=Multiple Controllers
+gui.fuelRodIncomplete=Fuel Rod Incomplete
+gui.casingInInterior=Casing In Interior
+gui.LEU=LEU
+gui.HEU=HEU
+gui.LEP=LEP
+gui.HEP=HEP
+gui.MOX=MOX
+gui.TBU=TBU
+gui.LEU-Ox=LEU-Ox
+gui.HEU-Ox=HEU-Ox
+gui.LEP-Ox=LEP-Ox
+gui.HEP-Ox=HEP-Ox
+
+gui.energyStored=Energy Stored
+gui.level1=Level 1
+gui.level2=Level 2
+gui.reactorSize=Reactor Size
+gui.efficiency=Efficiency
+gui.temp=Temperature
+gui.heatVar=Heat Variable
+gui.input=Input
+gui.output=Output
+gui.cells=Cells
+
+gui.online=Online
+gui.offline=Offline
+
+gui.heavyDutyWorkspace=Heavy Duty Workspace
+
+gui.reaction=Reaction
+gui.generator=Generator
+
+uraniumIngot.name=Uranium Ingot
+copperIngot.name=Copper Ingot
+tinIngot.name=Tin Ingot
+leadIngot.name=Lead Ingot
+silverIngot.name=Silver Ingot
+thoriumIngot.name=Thorium Ingot
+bronzeIngot.name=Bronze Ingot
+lithiumIngot.name=Lithium Ingot
+boronIngot.name=Boron Ingot
+magnesiumIngot.name=Magnesium Ingot
+MgBIngot.name=Magnesium Diboride Ingot
+
+item.dominoes.name=Domino's Special
+item.boiledEgg.name=Boiled Egg
+item.upgrade.name=Reactor Upgrade
+item.upgradeSpeed.name=Speed Upgrade
+item.upgradeEnergy.name=Energy Upgrade
+item.nuclearGrenade.name=Nuclear Grenade
+item.portableEnderChest.name=Portable Ender Chest
+
+U238.name=Uranium-238
+tinyU238.name=Tiny Lump of Uranium-238
+U235.name=Uranium-235
+tinyU235.name=Tiny Lump of Uranium-235
+U233.name=Uranium-233
+tinyU233.name=Tiny Lump of Uranium-233
+Pu238.name=Plutonium-238
+tinyPu238.name=Tiny Lump of Plutonium-238
+Pu239.name=Plutonium-239
+tinyPu239.name=Tiny Lump of Plutonium-239
+Pu242.name=Plutonium-242
+tinyPu242.name=Tiny Lump of Plutonium-242
+Pu241.name=Plutonium-241
+tinyPu241.name=Tiny Lump of Plutonium-241
+Th232.name=Thorium-232
+tinyTh232.name=Tiny Lump of Thorium-232
+Th230.name=Thorium-230
+tinyTh230.name=Tiny Lump of Thorium-230
+Li6.name=Lithium-6
+Li7.name=Lithium-7
+B10.name=Boron-10
+B11.name=Boron-11
+tinyLi6.name=Tiny Lump of Lithium-6
+tinyB10.name=Tiny Lump of Boron-10
+
+uraniumOxideIngot.name=Uranium Oxide Ingot
+crushedUraniumOxide.name=Crushed Uranium Oxide
+U238Oxide.name=Uranium-238 Oxide
+tinyU238Oxide.name=Tiny Lump of Uranium-238 Oxide
+U235Oxide.name=Uranium-235 Oxide
+tinyU235Oxide.name=Tiny Lump of Uranium-235 Oxide
+U233Oxide.name=Uranium-233 Oxide
+tinyU233Oxide.name=Tiny Lump of Uranium-233 Oxide
+Pu238Oxide.name=Plutonium-238 Oxide
+tinyPu238Oxide.name=Tiny Lump of Plutonium-238 Oxide
+Pu239Oxide.name=Plutonium-239 Oxide
+tinyPu239Oxide.name=Tiny Lump of Plutonium-239 Oxide
+Pu242Oxide.name=Plutonium-242 Oxide
+tinyPu242Oxide.name=Tiny Lump of Plutonium-242 Oxide
+Pu241Oxide.name=Plutonium-241 Oxide
+tinyPu241Oxide.name=Tiny Lump of Plutonium-241 Oxide
+
+LEU235.name=LEU-235 Fuel
+HEU235.name=HEU-235 Fuel
+LEP239.name=LEP-239 Fuel
+HEP239.name=HEP-239 Fuel
+MOX239.name=MOX-239 Fuel
+LEU233.name=LEU-233 Fuel
+HEU233.name=HEU-233 Fuel
+LEP241.name=LEP-241 Fuel
+HEP241.name=HEP-241 Fuel
+MOX241.name=MOX-241 Fuel
+TBU.name=TBU Fuel
+
+emptyCell.name=Empty Cell
+LEUCell235.name=LEU-235 Fuel Cell
+HEUCell235.name=HEU-235 Fuel Cell
+LEPCell239.name=LEP-239 Fuel Cell
+HEPCell239.name=HEP-239 Fuel Cell
+MOXCell239.name=MOX-239 Fuel Cell
+LEUCell233.name=LEU-233 Fuel Cell
+HEUCell233.name=HEU-233 Fuel Cell
+LEPCell241.name=LEP-241 Fuel Cell
+HEPCell241.name=HEP-241 Fuel Cell
+MOXCell241.name=MOX-241 Fuel Cell
+TBUCell.name=TBU Fuel Cell
+
+dLEUCell235.name=Depleted LEU-235 Fuel Cell
+dHEUCell235.name=Depleted HEU-235 Fuel Cell
+dLEPCell239.name=Depleted LEP-239 Fuel Cell
+dHEPCell239.name=Depleted HEP-239 Fuel Cell
+dMOXCell239.name=Depleted MOX-239 Fuel Cell
+dLEUCell233.name=Depleted LEU-233 Fuel Cell
+dHEUCell233.name=Depleted HEU-233 Fuel Cell
+dLEPCell241.name=Depleted LEP-241 Fuel Cell
+dHEPCell241.name=Depleted HEP-241 Fuel Cell
+dMOXCell241.name=Depleted MOX-241 Fuel Cell
+dTBUCell.name=Depleted TBU Fuel Cell
+
+LEU235Oxide.name=LEU-235 Oxide Fuel
+HEU235Oxide.name=HEU-235 Oxide Fuel
+LEP239Oxide.name=LEP-239 Oxide Fuel
+HEP239Oxide.name=HEP-239 Oxide Fuel
+LEU233Oxide.name=LEU-233 Oxide Fuel
+HEU233Oxide.name=HEU-233 Oxide Fuel
+LEP241Oxide.name=LEP-241 Oxide Fuel
+HEP241Oxide.name=HEP-241 Oxide Fuel
+
+LEUCell235Oxide.name=LEU-235 Oxide Fuel Cell
+HEUCell235Oxide.name=HEU-235 Oxide Fuel Cell
+LEPCell239Oxide.name=LEP-239 Oxide Fuel Cell
+HEPCell239Oxide.name=HEP-239 Oxide Fuel Cell
+LEUCell233Oxide.name=LEU-233 Oxide Fuel Cell
+HEUCell233Oxide.name=HEU-233 Oxide Fuel Cell
+LEPCell241Oxide.name=LEP-241 Oxide Fuel Cell
+HEPCell241Oxide.name=HEP-241 Oxide Fuel Cell
+
+dLEUCell235Oxide.name=Depleted LEU-235 Oxide Fuel Cell
+dHEUCell235Oxide.name=Depleted HEU-235 Oxide Fuel Cell
+dLEPCell239Oxide.name=Depleted LEP-239 Oxide Fuel Cell
+dHEPCell239Oxide.name=Depleted HEP-239 Oxide Fuel Cell
+dLEUCell233Oxide.name=Depleted LEU-233 Oxide Fuel Cell
+dHEUCell233Oxide.name=Depleted HEU-233 Oxide Fuel Cell
+dLEPCell241Oxide.name=Depleted LEP-241 Oxide Fuel Cell
+dHEPCell241Oxide.name=Depleted HEP-241 Oxide Fuel Cell
+
+RTGCell.name=RTG Capsule
+
+H2OCell.name=Water Cell
+OCell.name=Oxygen Cell
+HCell.name=Hydrogen Cell
+DCell.name=Deuterium Cell
+TCell.name=Tritium Cell
+He3Cell.name=Helium-3 Cell
+He4Cell.name=Helium-4 Cell
+SCHe4Cell.name=Liquid Helium-4 Cell
+Li6Cell.name=Lithium-6 Cell
+Li7Cell.name=Lithium-7 Cell
+B10Cell.name=Boron-10 Cell
+B11Cell.name=Boron-11 Cell
+emptyFluidCell.name=Empty Fluid Cell
+
+emptyCapsule.name=Empty Capsule
+nCapsule.name=Neutron Capsule
+pCapsule.name=Proton Capsule
+eCapsule.name=Electron Capsule
+
+simpleNeutronReflector.name=Basic Plating
+ironPlating.name=Iron Plating
+conGrind.name=Convection Powered Grinder
+advancedNeutronReflector.name=Reinforced Plating
+tinPlating.name=Tin Plating
+iWater.name=Infinite Water Source
+dUPlating.name=Depleted Uranium Plating
+aPlating.name=Advanced Plating
+ironGrating.name=Iron Grating
+goldContacts.name=Gold Contact
+copperWiring.name=Copper Wiring
+tinTubing.name=Tin Tubing
+leadPlating.name=Lead Plating
+silverPanel.name=Silver Panel
+bronzeBearing.name=Bronze Bearing
+MgBWiring.name=Magnesium Diboride Wiring
+computerPart.name=Computer Part
+aComputerPart.name=Advanced Computer Part
+
+crushedIron.name=Crushed Iron
+crushedGold.name=Crushed Gold
+crushedLapis.name=Crushed Lapis
+crushedDiamond.name=Crushed Diamond
+crushedEmerald.name=Crushed Emerald
+crushedQuartz.name=Crushed Quartz
+crushedCoal.name=Crushed Coal
+crushedCopper.name=Crushed Copper
+crushedLead.name=Crushed Lead
+crushedTin.name=Crushed Tin
+crushedSilver.name=Crushed Silver
+crushedUranium.name=Crushed Uranium
+crushedThorium.name=Crushed Thorium
+crushedBronze.name=Crushed Bronze
+crushedLithium.name=Crushed Lithium
+crushedBoron.name=Crushed Boron
+crushedMagnesium.name=Crushed Magnesium
+crushedMgB.name=Crushed Magnesium Diboride
+crushedObsidian.name=Crushed Obsidian
+
+tinyCrushedLead.name=Tiny Pile of Crushed Lead
+
+item.pistol.name=Pistol
+item.dUBullet.name=DU Bullet
+
+item.bronzePickaxe.name=Bronze Pickaxe
+item.bronzeShovel.name=Bronze Shovel
+item.bronzeAxe.name=Bronze Axe
+item.bronzeHoe.name=Bronze Hoe
+item.bronzeSword.name=Bronze Sword
+
+item.boronPickaxe.name=Boron Pickaxe
+item.boronShovel.name=Boron Shovel
+item.boronAxe.name=Boron Axe
+item.boronHoe.name=Boron Hoe
+item.boronSword.name=Boron Sword
+
+item.toughAlloyPickaxe.name=Tough Alloy Pickaxe
+item.toughAlloyShovel.name=Tough Alloy Shovel
+item.toughAlloyAxe.name=Tough Alloy Axe
+item.toughAlloyHoe.name=Tough Alloy Hoe
+item.toughAlloySword.name=Tough Alloy Sword
+item.toughAlloyPaxel.name=Tough Alloy Spaxeloe
+item.toughBow.name=Tough Alloy Bow
+
+item.dUPickaxe.name=Depleted Uranium Pickaxe
+item.dUShovel.name=Depleted Uranium Shovel
+item.dUAxe.name=Depleted Uranium Axe
+item.dUHoe.name=Depleted Uranium Hoe
+item.dUSword.name=Depleted Uranium Sword
+item.dUPaxel.name=Depleted Uranium Spaxeloe
+
+item.toughHelm.name=Tough Alloy Helmet
+item.toughChest.name=Tough Alloy Chestplate
+item.toughLegs.name=Tough Alloy Leggings
+item.toughBoots.name=Tough Alloy Boots
+
+item.dUHelm.name=Depleted Uranium Helmet
+item.dUChest.name=Depleted Uranium Chestplate
+item.dULegs.name=Depleted Uranium Leggings
+item.dUBoots.name=Depleted Uranium Boots
+
+item.boronHelm.name=Boron Helmet
+item.boronChest.name=Boron Chestplate
+item.boronLegs.name=Boron Leggings
+item.boronBoots.name=Boron Boots
+
+item.bronzeHelm.name=Bronze Helmet
+item.bronzeChest.name=Bronze Chestplate
+item.bronzeLegs.name=Bronze Leggings
+item.bronzeBoots.name=Bronze Boots
+
+universalReactant.name=Universal Reactant
+reactionVessel.name=Small Nuclear Chamber
+toughAlloy.name=Tough Alloy Ingot
+toughDust.name=Tough Alloy Dust
+
+death.attack.heliumfreeze=%1$s froze to death in a pool of Liquid Helium

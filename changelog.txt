@@ -1,3 +1,28 @@
+v1.6c
+
++ Huge amounts of additional NEI info about blocks and items in the mod
+* Fixed crash bug related to liquid helium textures
++ Additional useful/requested recipes and additions to the Ore Dictionary
+* Cleaned up configs into one, neat file (delete or ignore the old config files)
+
++ Additional texture files, allowing for more flexibility in texture packs
+
+* A large amount of restructuring (organising) of the mod
+
+v1.6b
+
++ Liquid Helium Extractor
++ Liquid Helium transferable Fluid
++ Solar Panel
++ Particle Accelerator Electromagnets and Supercoolers
++ Magnesium and Magnesium Diboride
+
+* Fixed bug where Plutonium Ore generated in the Overworld in place of Uranium Ore
+
+* Updated Forge version to 10.13.4.1558
+* Updated all APIs
+* This should prevent strange crashes related to outdated APIs
+
 v1.6a
 
 * The Fusion Reactor comparator setup now keeps the efficiency at around 90%
