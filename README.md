@@ -8,7 +8,7 @@ Summary
 
 Adds nuclear physics and aims to bring relativistic, quantum and particle physics to Minecraft
 
-YouTube Channel: https://www.youtube.com/channel/UC-df90SAvYXk-FClmntlFhw
+YouTube Channel: https://www.youtube.com/c/NuclearCraftMod
 
 CurseForge Page: http://minecraft.curseforge.com/projects/nuclearcraft-mod
 
