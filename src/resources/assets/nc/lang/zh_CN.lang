@@ -1,4 +1,4 @@
-itemGroup.tabNR=核电工艺
+itemGroup.tabNC=核电工艺
 
 entity.NuclearMonster.name=核怪兽
 entity.Paul.name=Paul
@@ -281,11 +281,11 @@ tinTubing.name=锡质敷管
 leadPlating.name=铅板
 silverPanel.name=银质嵌板
 bronzeBearing.name=青铜轴承
-mechComponent.name=Mechanical Component
-simpleCircuit.name=Simple Circuit
-PVCell.name=PV Cell
-computerPart.name=Computer Part
-aComputerPart.name=Advanced Computer Part
+mechComponent.name=机械零件
+simpleCircuit.name=简单电路
+PVCell.name=光伏电池
+computerPart.name=电脑部件
+aComputerPart.name=高级电脑部件
 
 crushedIron.name=铁粉
 crushedGold.name=金粉
