@@ -38,7 +38,7 @@ import org.lwjgl.opengl.GL11;
      drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
      
  
-     int e = electrolyser.energy * 82 / 50000;
+     int e = electrolyser.energy * 82 / 250000;
      drawTexturedModalRect(guiLeft + 8, guiTop + 6 + 82 - e, 176, 3 + 82 - e, 16, e);
      
  

@@ -33,7 +33,9 @@ public class BlockFurnace extends BlockContainer {
 	
 	@SideOnly(Side.CLIENT)
 	private IIcon iconFront;
+	@SideOnly(Side.CLIENT)
 	private IIcon iconTop;
+	@SideOnly(Side.CLIENT)
 	private IIcon iconBottom;
 	
 	private static boolean keepInventory;

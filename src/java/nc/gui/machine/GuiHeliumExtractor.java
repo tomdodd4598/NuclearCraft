@@ -42,7 +42,7 @@ public class GuiHeliumExtractor extends GuiContainer {
 		int k = (int) Math.ceil(this.heliumExtractor.cookTime * (23 + this.heliumExtractor.speedUpgrade/3) / this.heliumExtractor.getFurnaceSpeed);
 		drawTexturedModalRect(guiLeft + 76, guiTop + 34, 176, 14, k + 1, 16);
 		
-		int e = heliumExtractor.energy * 74 / 25000;
+		int e = heliumExtractor.energy * 74 / 250000;
 		drawTexturedModalRect(guiLeft + 8, guiTop + 6 + 74 - e, 176, 31 + 74 - e, 16, e);
 		
 		int fl = heliumExtractor.fluid * 74 / 16000;

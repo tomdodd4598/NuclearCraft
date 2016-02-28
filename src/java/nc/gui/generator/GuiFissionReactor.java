@@ -28,7 +28,7 @@ public class GuiFissionReactor extends GuiContainer {
         this.fontRendererObj.drawString((this.entity.multiblockstring() ? name1 : name2), 67, 5, (this.entity.multiblockstring() ? -1 : 15597568));
         String power = this.entity.energy + " RF";
         this.fontRendererObj.drawString(power, 67, 16, (this.entity.multiblockstring() ? -1 : 15597568));
-        String fueltime = ((int) this.entity.fueltime*100/72)+" "+StatCollector.translateToLocal("gui.fuel");
+        String fueltime = (this.entity.fueltime/72000)+"% "+StatCollector.translateToLocal("gui.fuel");
         this.fontRendererObj.drawString(fueltime, 67, 27, (this.entity.multiblockstring() ? -1 : 15597568));
         String heat = (this.entity.heat)+" "+StatCollector.translateToLocal("gui.heat");
         this.fontRendererObj.drawString(heat, 67, 38, (this.entity.multiblockstring() ? -1 : 15597568));
@@ -44,7 +44,7 @@ public class GuiFissionReactor extends GuiContainer {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         Minecraft.getMinecraft().getTextureManager().bindTexture(bground);
         this.drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
-        int k = this.entity.energy * 55 / 1000000;
+        int k = this.entity.energy * 55 / 25000000;
         this.drawTexturedModalRect(this.guiLeft + 8, this.guiTop + 6 + 55 - k, 176, 3 + 55 - k + (this.entity.multiblockstring() ? 0 : 55), 16, k);
         int k2 = this.entity.fueltime * 55 / 7200000;
         this.drawTexturedModalRect(this.guiLeft + 27, this.guiTop + 6 + 55 - k2, 192, 3 + 55 - k2 + (this.entity.multiblockstring() ? 0 : 55), 16, k2);

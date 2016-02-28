@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import nc.crafting.CrusherRecipesOld;
+import nc.crafting.machine.CrusherRecipesOld;
 import nc.gui.machine.GuiCrusher;
 import nc.tile.machine.TileCrusher;
 import net.minecraft.block.Block;

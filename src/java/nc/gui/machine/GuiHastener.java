@@ -41,7 +41,7 @@ public class GuiHastener extends GuiContainer {
 		int k = (int) Math.ceil(this.hastener.cookTime * (23 + this.hastener.speedUpgrade/3) / this.hastener.getFurnaceSpeed);
 		drawTexturedModalRect(guiLeft + 79, guiTop + 34, 176, 14, k + 1, 16);
 		
-		int e = hastener.energy * 74 / 25000;
+		int e = hastener.energy * 74 / 250000;
 		drawTexturedModalRect(guiLeft + 8, guiTop + 6 + 74 - e, 176, 31 + 74 - e, 16, e);
 	}
 }

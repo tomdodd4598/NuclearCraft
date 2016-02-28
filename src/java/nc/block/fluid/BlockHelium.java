@@ -24,7 +24,8 @@ public class BlockHelium extends BlockFluidClassic {
 		setQuantaPerBlock(16);
 		setCreativeTab(NuclearCraft.tabNC);
 	}
-
+	
+	@SideOnly(Side.CLIENT)
     public IIcon getIcon(int side, int meta) {
             return (side == 0 || side == 1)? stillIcon : flowingIcon;
     }

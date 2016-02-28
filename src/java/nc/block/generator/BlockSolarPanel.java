@@ -24,6 +24,7 @@ public class BlockSolarPanel extends BlockContainer {
 	
 	@SideOnly(Side.CLIENT)
 	private IIcon iconSide;
+	@SideOnly(Side.CLIENT)
 	private IIcon iconBottom;
 
 	public BlockSolarPanel()
@@ -71,7 +72,7 @@ public class BlockSolarPanel extends BlockContainer {
 
 	        if (itemstack.hasDisplayName())
 	        {
-	            ((TileSolarPanel)world.getTileEntity(x, y, z)).setGuiDisplayName(itemstack.getDisplayName());
+	            //((TileSolarPanel)world.getTileEntity(x, y, z)).setGuiDisplayName(itemstack.getDisplayName());
 	        }
 	}
 	

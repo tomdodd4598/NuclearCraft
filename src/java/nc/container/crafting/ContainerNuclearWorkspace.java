@@ -1,7 +1,7 @@
 package nc.container.crafting;
 
-import nc.crafting.NuclearWorkspaceCraftingManager;
-import nc.tile.crafting.TileNuclearWorkspace;
+import nc.block.basic.NCBlocks;
+import nc.crafting.workspace.NuclearWorkspaceCraftingManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -15,14 +15,18 @@ import net.minecraft.world.World;
 
 public class ContainerNuclearWorkspace extends Container {
 
-	public InventoryCrafting/*Keep*/ craftMatrix;
-	public InventoryCraftResult craftResult;
+	public InventoryCrafting/*Keep*/ craftMatrix = new InventoryCrafting(this, /*entity,*/ 5, 5);
+	public InventoryCraftResult craftResult = new InventoryCraftResult();
 	private World worldObj;
+	private int posX;
+    private int posY;
+    private int posZ;
 	
-	public ContainerNuclearWorkspace(InventoryPlayer invPlayer, TileNuclearWorkspace entity, World world) {
-		craftMatrix = new InventoryCrafting(this, /*entity,*/ 5, 5);
-		craftResult = new InventoryCraftResult();
+	public ContainerNuclearWorkspace(InventoryPlayer invPlayer, World world, int x, int y, int z) {
 		worldObj = world;
+		this.posX = x;
+        this.posY = y;
+        this.posZ = z;
 		
 		this.addSlotToContainer(new SlotCrafting(invPlayer.player, craftMatrix, craftResult, 0, 140, 53));
 		
@@ -52,17 +56,18 @@ public class ContainerNuclearWorkspace extends Container {
 		craftResult.setInventorySlotContents(0, NuclearWorkspaceCraftingManager.getInstance().findMatchingRecipe(craftMatrix, worldObj));
 	}
 	
-	public boolean canInteractWith(EntityPlayer var1)
+	public boolean canInteractWith(EntityPlayer p_75145_1_)
     {
-        return true;
+        return this.worldObj.getBlock(this.posX, this.posY, this.posZ) != NCBlocks.nuclearWorkspace ? false : p_75145_1_.getDistanceSq((double)this.posX + 0.5D, (double)this.posY + 0.5D, (double)this.posZ + 0.5D) <= 64.0D;
     }
 	
-	public void onContainerClosed(EntityPlayer p_75134_1_) {
+	public void onContainerClosed(EntityPlayer p_75134_1_)
+    {
         super.onContainerClosed(p_75134_1_);
 
         if (!this.worldObj.isRemote)
         {
-            for (int i = 0; i < 25; ++i)
+            for (int i = 0; i < 9; ++i)
             {
                 ItemStack itemstack = this.craftMatrix.getStackInSlotOnClosing(i);
 

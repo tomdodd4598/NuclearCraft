@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import nc.crafting.CoolerRecipes;
+import nc.crafting.machine.CoolerRecipes;
 import nc.gui.machine.GuiCooler;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.item.ItemStack;
@@ -44,7 +44,7 @@ public class CoolerRecipeHandler extends TemplateRecipeHandler {
     }
 
     public String getRecipeName() {
-        return "Supercooler";
+        return "Helium Liquifier";
     }
 
 	public void loadCraftingRecipes(String outputId, Object... results) {

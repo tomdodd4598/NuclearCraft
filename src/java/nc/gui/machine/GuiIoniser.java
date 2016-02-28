@@ -35,7 +35,7 @@ public class GuiIoniser extends GuiContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(bground);
 		drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
      
-		int e = ioniser.energy * 82 / 40000;
+		int e = ioniser.energy * 82 / 250000;
 		drawTexturedModalRect(guiLeft + 8, guiTop + 6 + 82 - e, 176, 3 + 82 - e, 16, e);
      
 		int k = (int) Math.ceil(this.ioniser.cookTime * 70 / this.ioniser.getFurnaceSpeed);

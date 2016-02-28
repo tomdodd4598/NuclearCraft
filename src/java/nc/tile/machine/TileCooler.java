@@ -2,14 +2,14 @@ package nc.tile.machine;
 
 import nc.NuclearCraft;
 import nc.block.machine.BlockCooler;
-import nc.crafting.CoolerRecipes;
+import nc.crafting.machine.CoolerRecipes;
 
 public class TileCooler extends TileMachine {
 	public static final int[] input = {0, 1};
 	public static final int[] output = {0, 1};
 	
 	public TileCooler() {
-		super("Cooler", 50000, 1, 1, true, true, 20000, 2000000, NuclearCraft.coolerSpeed, CoolerRecipes.instance());
+		super("Cooler", 250000, 1, 1, true, true, 20000, 2000000, NuclearCraft.coolerSpeed, NuclearCraft.coolerEfficiency, CoolerRecipes.instance());
 	}
 	
 	public void updateEntity() {

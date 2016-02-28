@@ -1,6 +1,6 @@
 package nc.container.machine;
 
-import nc.crafting.FactoryRecipes;
+import nc.crafting.machine.FactoryRecipes;
 import nc.tile.machine.TileFactory;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;

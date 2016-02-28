@@ -41,7 +41,7 @@ public class GuiElectricCrusher extends GuiContainer {
 		int k = (int) Math.ceil(this.electricCrusher.cookTime * (23 + this.electricCrusher.speedUpgrade/3) / this.electricCrusher.getFurnaceSpeed);
 		drawTexturedModalRect(guiLeft + 79, guiTop + 34, 176, 14, k + 1, 16);
 		
-		int e = electricCrusher.energy * 74 / 20000;
+		int e = electricCrusher.energy * 74 / 250000;
 		drawTexturedModalRect(guiLeft + 8, guiTop + 6 + 74 - e, 176, 31 + 74 - e, 16, e);
 	}
 }

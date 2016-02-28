@@ -2,7 +2,7 @@ package nc.tile.machine;
  
 import nc.NuclearCraft;
 import nc.block.machine.BlockOxidiser;
-import nc.crafting.OxidiserRecipes;
+import nc.crafting.machine.OxidiserRecipes;
 import nc.item.NCItems;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -12,7 +12,7 @@ public class TileOxidiser extends TileMachine {
 	public static final int[] output = {0, 1, 2, 3};
 	
 	public TileOxidiser() {
-		super("Oxidiser", 40000, 2, 2, true, true, 600, 60000, NuclearCraft.oxidiserSpeed, OxidiserRecipes.instance());
+		super("Oxidiser", 250000, 2, 2, true, true, 600, 60000, NuclearCraft.oxidiserSpeed, NuclearCraft.oxidiserEfficiency, OxidiserRecipes.instance());
 	}
 	
 	public void updateEntity() {

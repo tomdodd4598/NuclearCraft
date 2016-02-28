@@ -13,6 +13,8 @@ public interface IBlockAppearance {
 
 	/**
 	 * This function returns the block that is being shown on a given side.
+	 * <p>
+	 * <b>Do not</b> return <tt>null</tt> from this method.
 	 *
 	 * @param world
 	 *            Reference to the world.

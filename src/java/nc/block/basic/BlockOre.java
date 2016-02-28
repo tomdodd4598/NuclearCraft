@@ -3,6 +3,8 @@ package nc.block.basic;
 import java.util.List;
 import java.util.Random;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import nc.NuclearCraft;
 import nc.item.NCItems;
 import net.minecraft.block.Block;
@@ -26,10 +28,14 @@ public class BlockOre extends Block {
         this.setBlockTextureName("nc:ore/" + unlocalizedName);
 	}
 	
+	@SideOnly(Side.CLIENT)
 	public IIcon[] icons = new IIcon[6];
+	@SideOnly(Side.CLIENT)
 	public IIcon[] icons2 = new IIcon[1];
+	@SideOnly(Side.CLIENT)
 	public IIcon[] icons3 = new IIcon[3];
 	
+	@SideOnly(Side.CLIENT)
 	@Override
 	public void registerBlockIcons(IIconRegister reg) {
 		for (int i = 0; i < 6; i ++) {
@@ -43,6 +49,7 @@ public class BlockOre extends Block {
 		}
 	}
 	
+	@SideOnly(Side.CLIENT)
 	@Override
 	public IIcon getIcon(int side, int meta) {
 		if (meta < 6){ return this.icons[meta]; }

@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import nc.crafting.SeparatorRecipes;
+import nc.crafting.machine.SeparatorRecipes;
 import nc.gui.machine.GuiSeparator;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.item.ItemStack;

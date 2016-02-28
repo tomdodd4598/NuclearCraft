@@ -11,6 +11,7 @@ import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -51,23 +52,20 @@ public class EntityNuclearMonster extends EntityMob {
     }
 
     protected void dropRareDrop(int p_70600_1_) {
-            this.entityDropItem(new ItemStack(NCItems.material, 1, 32), 0.0F);
+            this.entityDropItem(new ItemStack(NCItems.material, 1, 37), this.rand.nextInt(2));
     }
     
     protected Item getDropItem() {
-        return NCItems.fuel;
+        return Item.getItemFromBlock(Blocks.obsidian);
     }
 
     protected void dropFewItems(boolean p_70628_1_, int p_70628_2_) {
-        Item item = this.getDropItem();
-
-        if (item != null) {
-            int j = this.rand.nextInt(2);
-
-            for (int k = 0; k < j; ++k) {
-                this.dropItem(item, this.rand.nextInt(2));
-            }
-        }
+    	int j = this.rand.nextInt(2);
+    	for (int k = 0; k < j; ++k) this.entityDropItem(new ItemStack(NCItems.material, 1, 33), this.rand.nextInt(2));
+    	int l = this.rand.nextInt(3);
+    	for (int m = 0; m < l; ++m) this.entityDropItem(new ItemStack(NCItems.material, 1, 29), this.rand.nextInt(2));
+    	int n = this.rand.nextInt(2);
+    	for (int o = 0; o < n; ++o) this.entityDropItem(new ItemStack(NCItems.material, 1, 35), this.rand.nextInt(2));
     }
     
     protected int decreaseAirSupply(int p_70682_1_) {

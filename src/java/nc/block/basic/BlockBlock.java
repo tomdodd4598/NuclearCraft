@@ -2,6 +2,8 @@ package nc.block.basic;
 
 import java.util.List;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import nc.NuclearCraft;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -24,10 +26,14 @@ public class BlockBlock extends Block {
         this.setBlockTextureName("nc:metal/" + unlocalizedName);
 	}
 
+	@SideOnly(Side.CLIENT)
 	public IIcon[] icons = new IIcon[6];
+	@SideOnly(Side.CLIENT)
 	public IIcon[] icons2 = new IIcon[2];
+	@SideOnly(Side.CLIENT)
 	public IIcon[] icons3 = new IIcon[3];
 	
+	@SideOnly(Side.CLIENT)
 	@Override
 	public void registerBlockIcons(IIconRegister reg) {
 		for (int i = 0; i < 6; i ++) {
@@ -41,6 +47,7 @@ public class BlockBlock extends Block {
 		}
 	}
 
+	@SideOnly(Side.CLIENT)
 	@Override
 	public IIcon getIcon(int side, int meta) {
 		if (meta < 6){ return this.icons[meta]; }

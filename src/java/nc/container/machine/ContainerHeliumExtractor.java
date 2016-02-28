@@ -1,7 +1,7 @@
 package nc.container.machine;
 
-import nc.crafting.HeliumExtractorRecipes;
 import nc.crafting.NCRecipeHelper;
+import nc.crafting.machine.HeliumExtractorRecipes;
 import nc.tile.machine.TileHeliumExtractor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;

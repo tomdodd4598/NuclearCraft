@@ -8,9 +8,9 @@ import net.minecraft.world.gen.feature.WorldGenerator;
 /**
  * This interface should be implemented on classes which define a world feature to be generated in a {@link IFeatureHandler}. It is essentially a more robust
  * version of {@link WorldGenerator}, and may include one or more WorldGenerators should you wish.
- * 
+ *
  * @author King Lemming
- * 
+ *
  */
 public interface IFeatureGenerator {
 
@@ -21,7 +21,7 @@ public interface IFeatureGenerator {
 
 	/**
 	 * Generates the world feature.
-	 * 
+	 *
 	 * @param random
 	 *            Random derived from the world seed.
 	 * @param chunkX

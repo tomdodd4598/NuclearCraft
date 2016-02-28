@@ -2,5 +2,12 @@
 "nuclearMonsterScream": {"category": "master", "sounds": ["nuclearMonsterScream"]},
 "nuclearMonsterHit": {"category": "master", "sounds": ["nuclearMonsterHit"]},
 "nuclearMonsterDeath": {"category": "master", "sounds": ["nuclearMonsterDeath"]},
-"nukeAlarm": {"stream": "true", "category": "master", "sounds": ["nukeAlarm"]}
+"nukeAlarm": {"stream": "true", "category": "master", "sounds": ["nukeAlarm"]},
+
+"records.Area51": {"category": "record", "sounds": [{"name": "records/Area51", "stream": "true"}]},
+
+"records.Practice": {"category": "record", "sounds": [{"name": "records/Practice", "stream": "true"}]},
+
+"records.Neighborhood": {"category": "record", "sounds": [{"name": "records/Neighborhood", "stream": "true"}]}
+
 }

@@ -41,7 +41,7 @@ public class GuiFactory extends GuiContainer {
 		int k = (int) Math.ceil(this.factory.cookTime * (23 + this.factory.speedUpgrade/3) / this.factory.getFurnaceSpeed);
 		drawTexturedModalRect(guiLeft + 79, guiTop + 34, 176, 14, k + 1, 16);
 		
-		int e = factory.energy * 74 / 25000;
+		int e = factory.energy * 74 / 250000;
 		drawTexturedModalRect(guiLeft + 8, guiTop + 6 + 74 - e, 176, 31 + 74 - e, 16, e);
 	}
 }

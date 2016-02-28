@@ -15,6 +15,7 @@ public class BlockNukeExploding extends Block {
 	
 	@SideOnly(Side.CLIENT)
 	private IIcon iconTop;
+	@SideOnly(Side.CLIENT)
 	private IIcon iconBottom;
 
 	@SideOnly(Side.CLIENT)

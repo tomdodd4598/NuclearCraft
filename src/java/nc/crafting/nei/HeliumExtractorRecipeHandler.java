@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import nc.crafting.HeliumExtractorRecipes;
+import nc.crafting.machine.HeliumExtractorRecipes;
 import nc.gui.machine.GuiHeliumExtractor;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.item.ItemStack;

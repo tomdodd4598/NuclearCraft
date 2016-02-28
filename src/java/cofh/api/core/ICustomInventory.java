@@ -4,9 +4,9 @@ import net.minecraft.item.ItemStack;
 
 /**
  * Interface to allow a Container to interact with a secondary inventory.
- * 
+ *
  * @author King Lemming
- * 
+ *
  */
 public interface ICustomInventory {
 

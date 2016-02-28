@@ -8,12 +8,17 @@ import nc.block.machine.BlockMachine;
 import nc.tile.accelerator.TileSynchrotron;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.command.ICommandSender;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.IChatComponent;
 import net.minecraft.world.World;
+import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -24,14 +29,38 @@ public class BlockSynchrotron extends BlockMachine {
 
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
-		this.blockIcon = iconRegister.registerIcon("nc:accelerator/" + "synchrotron" + (this.isActive ? "Active" : "Idle"));
-		this.iconFront = iconRegister.registerIcon("nc:accelerator/" + "synchrotronFront" + (this.isActive ? "Active" : "Idle"));
-		this.iconTop = iconRegister.registerIcon("nc:accelerator/" + "synchrotronTop" + (this.isActive ? "Active" : "Idle"));
-		this.iconBottom = iconRegister.registerIcon("nc:accelerator/" + "synchrotronTop" + (this.isActive ? "Active" : "Idle"));
+		this.blockIcon = iconRegister.registerIcon("nc:accelerator/synchrotron/" + "side" + (this.isActive ? "Active" : "Idle"));
+		this.iconFront = iconRegister.registerIcon("nc:accelerator/synchrotron/" + "front" + (this.isActive ? "Active" : "Idle"));
+		this.iconTop = iconRegister.registerIcon("nc:accelerator/synchrotron/" + "top" + (this.isActive ? "Active" : "Idle"));
+		this.iconBottom = iconRegister.registerIcon("nc:accelerator/synchrotron/" + "bottom" + (this.isActive ? "Active" : "Idle"));
 	}
 	
 	public TileEntity createNewTileEntity(World world, int par1) {
 		return new TileSynchrotron();
+	}
+	
+	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+		if(world.isRemote) {
+			return true; 
+		} else {
+			FMLNetworkHandler.openGui(player, NuclearCraft.instance, NuclearCraft.guiIdSynchrotron, world, x, y, z);
+		}
+		
+		IChatComponent localIChatComponent;
+		TileSynchrotron s = (TileSynchrotron) world.getTileEntity(x, y, z);
+		double e = s.efficiency;
+    	localIChatComponent = IChatComponent.Serializer.func_150699_a(""+e);
+    	if (world.isRemote) {((ICommandSender) player).addChatMessage(localIChatComponent);}
+		return true;
+	}
+	
+	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entityLivingBase, ItemStack itemstack) {
+		super.onBlockPlacedBy(world, x, y, z, entityLivingBase, itemstack);
+		
+		IChatComponent localIChatComponent;
+    	localIChatComponent = IChatComponent.Serializer.func_150699_a("[{text:\"Use NuclearCraft's NEI info system or click here for help with the mod!\",color:white,italic:false,clickEvent:{action:open_url,value:\"http://minecraft.curseforge.com/projects/nuclearcraft-mod\"}}]");
+
+    	if (world.isRemote) {((ICommandSender) entityLivingBase).addChatMessage(localIChatComponent);}
 	}
 	
 	public static void updateBlockState(boolean active, World worldObj, int xCoord, int yCoord, int zCoord) {

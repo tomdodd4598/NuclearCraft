@@ -41,7 +41,7 @@ public class GuiCooler extends GuiContainer {
 		int k = (int) Math.ceil(this.cooler.cookTime * (23 + this.cooler.speedUpgrade/3) / this.cooler.getFurnaceSpeed);
 		drawTexturedModalRect(guiLeft + 79, guiTop + 34, 176, 14, k + 1, 16);
 		
-		int e = cooler.energy * 74 / 50000;
+		int e = cooler.energy * 74 / 250000;
 		drawTexturedModalRect(guiLeft + 8, guiTop + 6 + 74 - e, 176, 31 + 74 - e, 16, e);
 	}
 }

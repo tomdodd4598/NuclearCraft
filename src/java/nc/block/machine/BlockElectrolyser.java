@@ -17,6 +17,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockElectrolyser extends BlockMachine {
+	@SideOnly(Side.CLIENT)
 	public IIcon iconBottom;
 	
 	public BlockElectrolyser(boolean active) {

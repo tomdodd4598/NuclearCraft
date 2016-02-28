@@ -22,7 +22,7 @@ public class ItemBlockOre extends ItemBlockWithMetadata {
 		case 3:
 			return "silverOre";
 		case 4:
-			return "pitchblendeOre";
+			return "uraniumOre";
 		case 5:
 			return "thoriumOre";
 		case 6:

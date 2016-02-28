@@ -8,4 +8,8 @@ public class TileWRTG extends TileContinuousBase {
 	public TileWRTG() {
 		super("WRTG", NuclearCraft.WRTGRF*2, 1);
 	}
+	
+	public void energy() {
+		this.storage.receiveEnergy(power, false);
+	}
 }

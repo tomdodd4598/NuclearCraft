@@ -1,4 +1,4 @@
-itemGroup.tabNR=NuclearCraft
+itemGroup.tabNC=NuclearCraft
 
 entity.NuclearMonster.name=Nuclear Monster
 entity.Paul.name=Paul
@@ -86,8 +86,10 @@ tile.factoryIdle.name=Manufactory
 tile.factoryActive.name=Manufactory
 tile.heliumExtractorIdle.name=Liquid Helium Extractor
 tile.heliumExtractorActive.name=Liquid Helium Extractor
-tile.electromagnetIdle.name=Superconducting Electromagnet
-tile.electromagnetActive.name=Superconducting Electromagnet
+tile.electromagnetIdle.name=Electromagnet
+tile.electromagnetActive.name=Electromagnet
+tile.superElectromagnetIdle.name=Superconducting Electromagnet
+tile.superElectromagnetActive.name=Superconducting Electromagnet
 tile.supercoolerIdle.name=Electromagnet Supercooler
 tile.supercoolerActive.name=Electromagnet Supercooler
 tile.synchrotronIdle.name=Synchrotron Controller
@@ -145,9 +147,12 @@ MgBIngot.name=Magnesium Diboride Ingot
 
 item.dominoes.name=Domino's Special
 item.boiledEgg.name=Boiled Egg
+item.ricecake.name=Ricecake (without Fish)
+item.fishAndRicecake.name=Fish and a Ricecake
 item.upgrade.name=Reactor Upgrade
 item.upgradeSpeed.name=Speed Upgrade
 item.upgradeEnergy.name=Energy Upgrade
+item.ringUpgrade.name=Accelerator Upgrade
 item.nuclearGrenade.name=Nuclear Grenade
 item.portableEnderChest.name=Portable Ender Chest
 
@@ -373,5 +378,45 @@ universalReactant.name=Universal Reactant
 reactionVessel.name=Small Nuclear Chamber
 toughAlloy.name=Tough Alloy Ingot
 toughDust.name=Tough Alloy Dust
+
+item.recordPractice.name=NuclearCraft Music Disc
+item.Practice.desc=Yokian Practice
+item.recordArea51.name=NuclearCraft Music Disc
+item.Area51.desc=Jimmy in Area 51
+item.recordNeighborhood.name=NuclearCraft Music Disc
+item.Neighborhood.desc=Retroville Neighbourhood
+
+achievement.nuclearFurnace=Speed Smelting
+achievement.nuclearFurnace.desc=Make a Nuclear Furnace
+achievement.dominos=Special Delivery
+achievement.dominos.desc=Make a Domino's Special
+achievement.fishAndRicecake=Strict Diet
+achievement.fishAndRicecake.desc=Make Fish and a Ricecake
+achievement.heavyDutyWorkspace=Nuclear Engineer
+achievement.heavyDutyWorkspace.desc=Make a Heavy Duty Workspace
+achievement.nuke=Death, the Destroyer of Worlds
+achievement.nuke.desc=Make a Nuke
+achievement.tool=One Tool to Rule... Most Other Tools
+achievement.tool.desc=Make a Depleted Uranium Spaxelhoe
+achievement.reactionGenerator=Unnerving Concoction
+achievement.reactionGenerator.desc=Make a Reaction Generator
+achievement.fissionController=Splitting the Atom
+achievement.fissionController.desc=Make a Fission Controller
+achievement.RTG=Red Hot Plutonium
+achievement.RTG.desc=Make a Radioisotope Thermoelectric Generator
+achievement.fusionReactor=Star in a Box
+achievement.fusionReactor.desc=Make a Fusion Reactor
+achievement.factory=Industrialisation
+achievement.factory.desc=Make a Manufactory
+achievement.separator=Further Refinement
+achievement.separator.desc=Make an Isotope Separator
+achievement.oxidiser=Maximum Efficiency
+achievement.oxidiser.desc=Make an Oxidiser
+achievement.pistol=Licence to Kill
+achievement.pistol.desc=Make a Pistol
+achievement.solar=Eco-Friendly
+achievement.solar.desc=Make a Solar Panel
+achievement.synchrotron=Extreme Photonics
+achievement.synchrotron.desc=Make a Synchrotron Controller
 
 death.attack.heliumfreeze=%1$s froze to death in a pool of Liquid Helium

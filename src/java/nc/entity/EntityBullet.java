@@ -107,7 +107,7 @@ import net.minecraft.world.World;
 	        this.setSize(0.5F, 0.5F);
 	        this.setLocationAndAngles(p_i1756_2_.posX, p_i1756_2_.posY + (double)p_i1756_2_.getEyeHeight(), p_i1756_2_.posZ, p_i1756_2_.rotationYaw, p_i1756_2_.rotationPitch);
 	        this.posX -= (double)(MathHelper.cos(this.rotationYaw / 180.0F * (float)Math.PI) * 0.16F);
-	        this.posY -= 0.10000000149011612D;
+	        this.posY -= 0.01000000149011612D;
 	        this.posZ -= (double)(MathHelper.sin(this.rotationYaw / 180.0F * (float)Math.PI) * 0.16F);
 	        this.setPosition(this.posX, this.posY, this.posZ);
 	        this.yOffset = 0.0F;

@@ -1,6 +1,6 @@
 package nc.container.machine;
 
-import nc.crafting.CrusherRecipes;
+import nc.crafting.machine.CrusherRecipes;
 import nc.tile.machine.TileCrusher;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;

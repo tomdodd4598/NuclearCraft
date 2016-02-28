@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import nc.NuclearCraft;
-import nc.crafting.CrusherRecipesOld;
+import nc.crafting.machine.CrusherRecipesOld;
 import net.minecraft.item.ItemStack;
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.GuiRecipe;

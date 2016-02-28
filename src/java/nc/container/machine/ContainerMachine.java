@@ -16,8 +16,8 @@ public abstract class ContainerMachine extends Container {
 	public NCRecipeHelper recipes;
 	public int lastCookTime;
 	public int lastEnergy;
-	public int lastEU;
-	public int lastSU;
+	public double lastEU;
+	public double lastSU;
   
 	public ContainerMachine(InventoryPlayer inventory, TileMachine tileentity, NCRecipeHelper recipe) {
 		entity = tileentity;
@@ -41,10 +41,10 @@ public abstract class ContainerMachine extends Container {
 				icrafting.sendProgressBarUpdate(this, 201, entity.energyStorage.getEnergyStored() >> 16);
 			}
 			if (entity.hasUpgrades) {
-				icrafting.sendProgressBarUpdate(this, 100, entity.energyUpgrade);
-				icrafting.sendProgressBarUpdate(this, 101, entity.energyUpgrade >> 16);
-				icrafting.sendProgressBarUpdate(this, 102, entity.speedUpgrade);
-				icrafting.sendProgressBarUpdate(this, 103, entity.speedUpgrade >> 16);
+				icrafting.sendProgressBarUpdate(this, 100, (int) entity.energyUpgrade);
+				icrafting.sendProgressBarUpdate(this, 101, (int) entity.energyUpgrade >> 16);
+				icrafting.sendProgressBarUpdate(this, 102, (int) entity.speedUpgrade);
+				icrafting.sendProgressBarUpdate(this, 103, (int) entity.speedUpgrade >> 16);
 			}
 		}
 		lastCookTime = entity.cookTime;
@@ -69,13 +69,13 @@ public abstract class ContainerMachine extends Container {
 				lastEU = upcastShort(value);
 			}
 			if (slot == 101) {
-				entity.energyUpgrade = lastEU | value << 16;
+				entity.energyUpgrade = (int) lastEU | value << 16;
 			}
 			if (slot == 102) {
 				lastSU = upcastShort(value);
 			}
 			if (slot == 103) {
-				entity.speedUpgrade = lastSU | value << 16;
+				entity.speedUpgrade = (int) lastSU | value << 16;
 			}
 		}
 	}

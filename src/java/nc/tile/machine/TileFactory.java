@@ -2,14 +2,14 @@ package nc.tile.machine;
 
 import nc.NuclearCraft;
 import nc.block.machine.BlockFactory;
-import nc.crafting.FactoryRecipes;
+import nc.crafting.machine.FactoryRecipes;
 
 public class TileFactory extends TileMachine {
 	public static final int[] input = {0, 1};
 	public static final int[] output = {0, 1};
 	
 	public TileFactory() {
-		super("Manufactory", 25000, 1, 1, true, true, 200, 8000, NuclearCraft.factorySpeed, FactoryRecipes.instance());
+		super("Manufactory", 250000, 1, 1, true, true, 200, 8000, NuclearCraft.factorySpeed, NuclearCraft.factoryEfficiency, FactoryRecipes.instance());
 	}
 	
 	public void updateEntity() {

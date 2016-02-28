@@ -2,7 +2,7 @@ package nc.tile.machine;
  
 import nc.NuclearCraft;
 import nc.block.machine.BlockHeliumExtractor;
-import nc.crafting.HeliumExtractorRecipes;
+import nc.crafting.machine.HeliumExtractorRecipes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
@@ -22,7 +22,7 @@ public class TileHeliumExtractor extends TileMachine implements IFluidHandler {
 	public FluidTank tank = new FluidTank(16000);
 	
 	public TileHeliumExtractor() {
-		super("Helium Extractor", 25000, 1, 1, false, true, 400, 16000, NuclearCraft.heliumExtractorSpeed, HeliumExtractorRecipes.instance());
+		super("Helium Extractor", 250000, 1, 1, false, true, 400, 16000, NuclearCraft.heliumExtractorSpeed, NuclearCraft.heliumExtractorEfficiency, HeliumExtractorRecipes.instance());
 	}
 	
 	public void updateEntity() {

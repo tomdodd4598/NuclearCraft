@@ -2,14 +2,14 @@ package nc.tile.machine;
  
 import nc.NuclearCraft;
 import nc.block.machine.BlockCollector;
-import nc.crafting.CollectorRecipes;
+import nc.crafting.machine.CollectorRecipes;
 
 public class TileCollector extends TileMachine {
 	public static final int[] input = {0, 1};
 	public static final int[] output = {0, 1};
 	
 	public TileCollector() {
-		super("Helium Collector", 1, 1, 1, false, false, 1200, 0, NuclearCraft.collectorSpeed, CollectorRecipes.instance());
+		super("Helium Collector", 1, 1, 1, false, false, 1200, 0, NuclearCraft.collectorSpeed, 100, CollectorRecipes.instance());
 	}
 	
 	public void updateEntity() {

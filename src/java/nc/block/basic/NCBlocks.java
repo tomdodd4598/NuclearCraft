@@ -58,9 +58,13 @@ public class NCBlocks {
 	public static Block factoryActive;
 	public static Block heliumExtractorIdle;
 	public static Block heliumExtractorActive;
+	public static Block autoWorkspaceIdle;
+	public static Block autoWorkspaceActive;
 	
 	public static Block electromagnetIdle;
 	public static Block electromagnetActive;
+	public static Block superElectromagnetIdle;
+	public static Block superElectromagnetActive;
 	public static Block supercoolerIdle;
 	public static Block supercoolerActive;
 	public static Block synchrotronIdle;

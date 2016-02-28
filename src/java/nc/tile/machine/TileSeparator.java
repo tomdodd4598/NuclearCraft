@@ -2,14 +2,14 @@ package nc.tile.machine;
  
 import nc.NuclearCraft;
 import nc.block.machine.BlockSeparator;
-import nc.crafting.SeparatorRecipes;
+import nc.crafting.machine.SeparatorRecipes;
 
 public class TileSeparator extends TileMachine {
 	public static final int[] input = {0, 1, 2};
 	public static final int[] output = {0, 1, 2};
 	
 	public TileSeparator() {
-		super("Isotope Separator", 25000, 1, 2, true, true, 200, 8000, NuclearCraft.separatorSpeed, SeparatorRecipes.instance());
+		super("Isotope Separator", 250000, 1, 2, true, true, 200, 8000, NuclearCraft.separatorSpeed, NuclearCraft.separatorEfficiency, SeparatorRecipes.instance());
 	}
 	
 	public void updateEntity() {

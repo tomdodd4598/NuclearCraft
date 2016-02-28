@@ -61,10 +61,17 @@ public class NCItems {
 	public static Item upgrade;
 	public static Item upgradeSpeed;
 	public static Item upgradeEnergy;
+	public static Item ringUpgrade;
 	public static Item tabItem;
 	
 	public static Item nuclearGrenade;
 	public static Item nuclearGrenadeThrown;
 	public static Item portableEnderChest;
 	public static Item boiledEgg;
+	public static Item ricecake;
+	public static Item fishAndRicecake;
+	
+	public static Item recordPractice;
+	public static Item recordArea51;
+	public static Item recordNeighborhood;
 }

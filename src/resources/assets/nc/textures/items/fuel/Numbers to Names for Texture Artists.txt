@@ -1,0 +1,76 @@
+0: LEU-235
+1: HEU-235
+2: LEP-239
+3: HEP-239
+4: MOX-239
+5: TBU
+6: LEU-233
+7: HEU-233
+8: LEP-241
+9: HEP-241
+10: MOX-241
+11: LEU-235 Cell
+12: HEU-235 Cell
+13: LEP-235 Cell
+14: HEP-235 Cell
+15: MOX-235 Cell
+16: TBU Cell
+17: LEU-235 Cell
+18: HEU-235 Cell
+19: LEP-235 Cell
+20: HEP-235 Cell
+21: MOX-235 Cell
+22: Depleted LEU-235 Cell
+23: Depleted HEU-235 Cell
+24: Depleted LEP-235 Cell
+25: Depleted HEP-235 Cell
+26: Depleted MOX-235 Cell
+27: Depleted TBU Cell
+28: Depleted LEU-235 Cell
+29: Depleted HEU-235 Cell
+30: Depleted LEP-235 Cell
+31: Depleted HEP-235 Cell
+32: Depleted MOX-235 Cell
+33: Empty Cell
+34: H2O Cell
+35: O Cell
+36: H Cell
+37: D Cell
+38: T Cell
+39: He-3 Cell
+40: He-4 Cell
+41: Li-6 Cell
+42: Li-7 Cell
+43: B-10 Cell
+44: B-11 Cell
+45: Empty Fluid Cell
+46: RTG Cell
+47: Neutron Capsule
+48: Empty Capsule
+49: Proton Capsule
+50: Electron Capsule
+51: LEU-235 Oxide
+52: HEU-235 Oxide
+53: LEP-239 Oxide
+54: HEP-239 Oxide
+55: LEU-233 Oxide
+56: HEU-233 Oxide
+57: LEP-241 Oxide
+58: HEP-241 Oxide
+59: LEU-235 Oxide Cell
+60: HEU-235 Oxide Cell
+61: LEP-235 Oxide Cell
+62: HEP-235 Oxide Cell
+63: LEU-235 Oxide Cell
+64: HEU-235 Oxide Cell
+65: LEP-235 Oxide Cell
+66: HEP-235 Oxide Cell
+67: Depleted LEU-235 Oxide Cell
+68: Depleted HEU-235 Oxide Cell
+69: Depleted LEP-235 Oxide Cell
+70: Depleted HEP-235 Oxide Cell
+71: Depleted LEU-235 Oxide Cell
+72: Depleted HEU-235 Oxide Cell
+73: Depleted LEP-235 Oxide Cell
+74: Depleted HEP-235 Oxide Cell
+75: Supercooled He-4 Cell

@@ -2,7 +2,7 @@ package nc.tile.machine;
 
 import nc.NuclearCraft;
 import nc.block.machine.BlockCrusher;
-import nc.crafting.CrusherRecipes;
+import nc.crafting.machine.CrusherRecipes;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;

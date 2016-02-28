@@ -29,41 +29,38 @@ public class TileElectricFurnace extends TileInventory implements IEnergyHandler
 	public static final int[] input = {0, 1};
 	public static final int[] output = {0, 1};
 	public int currentItemBurnTime;
-	public int speedUpgrade = 1;
-	public int energyUpgrade = 1;
-	public double getFurnaceSpeed = (FurnaceSpeed()/speedUpgrade);
-	public double getRequiredEnergy = speedUpgrade*(RequiredEnergy()/energyUpgrade);
+	public double speedUpgrade = 1;
+	public double energyUpgrade = 1;
+	public double getFurnaceSpeed = Math.ceil(FurnaceSpeed()/speedUpgrade);
+	public double getRequiredEnergy = Math.ceil(speedUpgrade*(RequiredEnergy()/energyUpgrade));
 	
 	public TileElectricFurnace()
 	{
-	  this.energyStorage = new EnergyStorage(20000, 20000);
+	  this.energyStorage = new EnergyStorage(250000, 250000);
 	  this.localizedName = "Machine Single Output";
 	  this.slots = new ItemStack[4];
 	}
 	
-	public void updateEntity()
-	{
-		   super.updateEntity();
-		   upgradeSpeed();
-		   upgradeEnergy();
-		   getFurnaceSpeed = (FurnaceSpeed()/speedUpgrade);
-		   getRequiredEnergy = speedUpgrade*(RequiredEnergy()/energyUpgrade);
+	public void updateEntity() {
+		super.updateEntity();
+		upgradeSpeed();
+		upgradeEnergy();
+		getFurnaceSpeed = Math.ceil(FurnaceSpeed()/speedUpgrade);
+		getRequiredEnergy = Math.ceil(speedUpgrade*(RequiredEnergy()/energyUpgrade));
 		   
-		   if(!this.worldObj.isRemote)
-		{
-			   canCook();
-		   if (canCook() && this.energyStorage.getEnergyStored() >= ((int) Math.ceil(getRequiredEnergy/getFurnaceSpeed))) {
-		       this.cookTime += 1;
-		       this.energyStorage.extractEnergy((int) (getRequiredEnergy/getFurnaceSpeed), false);
-		       
-		       if (this.cookTime >= getFurnaceSpeed) {
-		         this.cookTime = 0;
-		         cookItem();
-		       }
-		     } else {
-		       this.cookTime = 0;
-		     }
-		}
+		if(!this.worldObj.isRemote) {
+			canCook();
+			if (canCook()) {
+				this.cookTime += 1;
+				this.energyStorage.extractEnergy((int) Math.ceil(getRequiredEnergy/getFurnaceSpeed), false);
+				if (this.cookTime >= getFurnaceSpeed) {
+					this.cookTime = 0;
+					cookItem();
+				}
+			} else {
+				this.cookTime = 0;
+			}
+	}
 		   
 		   if (flag != flag1) { flag1 = flag; BlockElectricFurnace.updateBlockState(flag, this.worldObj, this.xCoord, this.yCoord, this.zCoord); }
 			markDirty();
@@ -86,6 +83,10 @@ public class TileElectricFurnace extends TileInventory implements IEnergyHandler
 	  if (this.cookTime >= getFurnaceSpeed) {
 	 	 flag = true;
 	    return true;
+	  }
+	  if (this.energyStorage.getEnergyStored() < 1*((int) Math.ceil(getRequiredEnergy/getFurnaceSpeed))) {
+		 flag = false;
+		return false;
 	  }
 	  if (this.energyStorage.getEnergyStored() == 0) {
 	 	 flag = false;
@@ -133,43 +134,21 @@ public class TileElectricFurnace extends TileInventory implements IEnergyHandler
 	}
 	
 	public void upgradeSpeed() {
-	    ItemStack stack = this.getStackInSlot(2);
-	    if (stack != null && isSpeedUpgrade(stack))
-	    {
-	 	   if (stack.stackSize == 0)      { speedUpgrade = 1; }
-	 	   else if (stack.stackSize == 1) { speedUpgrade = 2; }
-	 	   else if (stack.stackSize == 2) { speedUpgrade = 3; }
-	 	   else if (stack.stackSize == 3) { speedUpgrade = 4; }
-	 	   else if (stack.stackSize == 4) { speedUpgrade = 6; }
-	 	   else if (stack.stackSize == 5) { speedUpgrade = 8; }
-	 	   else if (stack.stackSize == 6) { speedUpgrade = 11;}
-	 	   else if (stack.stackSize == 7) { speedUpgrade = 15;}
-	 	   else if (stack.stackSize == 8) { speedUpgrade = 20;}
-	
-	        if (this.slots[2].stackSize <= 0) { speedUpgrade = 1; }}
-	    else { speedUpgrade = 1; }
+		ItemStack stack = this.getStackInSlot(2);
+		if (stack != null && isSpeedUpgrade(stack) /*&& speedUpgrade != Math.pow(1.8, stack.stackSize)*/) {
+			speedUpgrade = Math.pow(1.8, stack.stackSize);
+		} else speedUpgrade = 1;
 	}
-	
+
 	public static boolean isSpeedUpgrade(ItemStack stack) {
-	    return stack.getItem() == NCItems.upgradeSpeed;
+		return stack.getItem() == NCItems.upgradeSpeed;
 	}
-	
+
 	public void upgradeEnergy() {
-	    ItemStack stack = this.getStackInSlot(3);
-	    if (stack != null && isEnergyUpgrade(stack))
-	    {
-	 	   if (stack.stackSize == 0)      { energyUpgrade = 1; }
-	 	   else if (stack.stackSize == 1) { energyUpgrade = 2; }
-	 	   else if (stack.stackSize == 2) { energyUpgrade = 3; }
-	 	   else if (stack.stackSize == 3) { energyUpgrade = 4; }
-	 	   else if (stack.stackSize == 4) { energyUpgrade = 6; }
-	 	   else if (stack.stackSize == 5) { energyUpgrade = 8; }
-	 	   else if (stack.stackSize == 6) { energyUpgrade = 11;}
-	 	   else if (stack.stackSize == 7) { energyUpgrade = 15;}
-	 	   else if (stack.stackSize == 8) { energyUpgrade = 20;}
-	
-	        if (this.slots[3].stackSize <= 0) { energyUpgrade = 1; }}
-	    else { energyUpgrade = 1; }
+		ItemStack stack = this.getStackInSlot(3);
+		if (stack != null && isEnergyUpgrade(stack) /*&& energyUpgrade != Math.pow(1.7, stack.stackSize)*/) {
+			energyUpgrade = Math.pow(1.7, stack.stackSize);
+		} else energyUpgrade = 1;
 	}
 	
 	public static boolean isEnergyUpgrade(ItemStack stack) {
@@ -181,8 +160,8 @@ public class TileElectricFurnace extends TileInventory implements IEnergyHandler
 	  super.readFromNBT(nbt);
 	  if (nbt.hasKey("energyStorage")) {
 	    this.energyStorage.readFromNBT(nbt.getCompoundTag("energyStorage"));
-	    this.speedUpgrade = nbt.getInteger("sU");
-	    this.energyUpgrade = nbt.getInteger("eU");
+	    this.speedUpgrade = nbt.getDouble("sU");
+	    this.energyUpgrade = nbt.getDouble("eU");
 	    this.getFurnaceSpeed = nbt.getDouble("s");
 	    this.getRequiredEnergy = nbt.getDouble("e");
 	  }
@@ -228,8 +207,8 @@ public class TileElectricFurnace extends TileInventory implements IEnergyHandler
 	  NBTTagList list = new NBTTagList();
 	  nbt.setBoolean("flag", this.flag);
 	  nbt.setBoolean("flag1", this.flag1);
-	  nbt.setInteger("sU", this.speedUpgrade);
-	  nbt.setInteger("eU", this.energyUpgrade);
+	  nbt.setDouble("sU", this.speedUpgrade);
+	  nbt.setDouble("eU", this.energyUpgrade);
 	  nbt.setDouble("s", this.getFurnaceSpeed);
 	  nbt.setDouble("e", this.getRequiredEnergy);
 	
@@ -325,7 +304,7 @@ public class TileElectricFurnace extends TileInventory implements IEnergyHandler
 	
 	public double RequiredEnergy()
 	{
-		   return 2000;
+		   return 2000*(100/NuclearCraft.electricFurnaceSmeltEfficiency);
 	}
 
 	public boolean isItemValidForSlot(int slot, ItemStack itemstack)

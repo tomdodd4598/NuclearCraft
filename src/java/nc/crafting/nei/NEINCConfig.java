@@ -4,6 +4,7 @@ import nc.NuclearCraft;
 import nc.block.basic.NCBlocks;
 import nc.gui.crafting.GuiNuclearWorkspace;
 import nc.gui.generator.GuiFissionReactor;
+import nc.gui.machine.GuiAutoWorkspace;
 import nc.gui.machine.GuiCollector;
 import nc.gui.machine.GuiCooler;
 import nc.gui.machine.GuiCrusher;
@@ -72,6 +73,8 @@ public class NEINCConfig implements IConfigureNEI {
 		API.registerUsageHandler(new CoolerRecipeHandler());
 		API.registerRecipeHandler(new HeliumExtractorRecipeHandler());
 		API.registerUsageHandler(new HeliumExtractorRecipeHandler());
+		API.registerRecipeHandler(new AutoWorkspaceRecipeHandler());
+		API.registerUsageHandler(new AutoWorkspaceRecipeHandler());
 		
 		API.registerRecipeHandler(new InfoUsageHandler());
 		
@@ -98,6 +101,7 @@ public class NEINCConfig implements IConfigureNEI {
 		API.registerGuiOverlay(GuiCooler.class, "cooling");
 		API.registerGuiOverlay(GuiFactory.class, "manufactoring");
 		API.registerGuiOverlay(GuiHeliumExtractor.class, "heliumExtracting");
+		API.registerGuiOverlay(GuiAutoWorkspace.class, "autonwcrafting");
 		
 		API.hideItem(new ItemStack(NCBlocks.electricCrusherActive));
 		API.hideItem(new ItemStack(NCBlocks.electricFurnaceActive));
@@ -117,8 +121,10 @@ public class NEINCConfig implements IConfigureNEI {
 		API.hideItem(new ItemStack(NCBlocks.factoryActive));
 		API.hideItem(new ItemStack(NCBlocks.heliumExtractorActive));
 		API.hideItem(new ItemStack(NCBlocks.electromagnetActive));
+		API.hideItem(new ItemStack(NCBlocks.superElectromagnetActive));
 		API.hideItem(new ItemStack(NCBlocks.supercoolerActive));
 		API.hideItem(new ItemStack(NCBlocks.synchrotronActive));
+		API.hideItem(new ItemStack(NCBlocks.autoWorkspaceActive));
 		API.hideItem(new ItemStack(NCItems.tabItem));
 		API.hideItem(new ItemStack(NCBlocks.fusionReactorBlock));
 		API.hideItem(new ItemStack(NCBlocks.nukeE));

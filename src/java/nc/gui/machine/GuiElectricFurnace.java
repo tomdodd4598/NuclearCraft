@@ -38,7 +38,7 @@ public class GuiElectricFurnace extends GuiContainer {
 		int k = (int) Math.ceil(this.electricFurnace.cookTime * (23 + this.electricFurnace.speedUpgrade/2) / this.electricFurnace.getFurnaceSpeed);
 		drawTexturedModalRect(guiLeft + 79, guiTop + 34, 176, 14, k + 1, 16);
 		
-		int e = electricFurnace.energy * 74 / 20000;
+		int e = electricFurnace.energy * 74 / 250000;
 		drawTexturedModalRect(guiLeft + 8, guiTop + 6 + 74 - e, 176, 31 + 74 - e, 16, e);
 	}
 }

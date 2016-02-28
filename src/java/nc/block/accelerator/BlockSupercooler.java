@@ -21,6 +21,8 @@ public class BlockSupercooler extends BlockContainer {
 	
 	@SideOnly(Side.CLIENT)
 	private IIcon iconTop;
+	@SideOnly(Side.CLIENT)
+	private IIcon iconBottom;
 	
 	public BlockSupercooler(boolean isActive) {
 	super(Material.iron);
@@ -30,8 +32,9 @@ public class BlockSupercooler extends BlockContainer {
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void registerBlockIcons(IIconRegister iconRegister) {
-		this.blockIcon = iconRegister.registerIcon("nc:accelerator/" + "supercooler" + (this.isActive ? "Active" : "Idle"));
-		this.iconTop = iconRegister.registerIcon("nc:accelerator/" + "supercoolerTop" + (this.isActive ? "Active" : "Idle"));
+		this.blockIcon = iconRegister.registerIcon("nc:accelerator/supercooler/" + "side" + (this.isActive ? "Active" : "Idle"));
+		this.iconTop = iconRegister.registerIcon("nc:accelerator/supercooler/" + "top" + (this.isActive ? "Active" : "Idle"));
+		this.iconBottom = iconRegister.registerIcon("nc:accelerator/supercooler/" + "bottom" + (this.isActive ? "Active" : "Idle"));
 	}
 
 	public Item getItemDropped(int par1, Random random, int par3) {
@@ -40,7 +43,7 @@ public class BlockSupercooler extends BlockContainer {
 	
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int metadata) {
-		return (side == 0 || side == 1) ? this.iconTop : this.blockIcon;
+		return (side == 0) ? this.iconBottom : ((side == 1) ? this.iconTop : this.blockIcon);
 	}
 	
 	public TileEntity createNewTileEntity(World world, int par1) {

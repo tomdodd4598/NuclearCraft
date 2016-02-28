@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import nc.crafting.CrusherRecipes;
+import nc.crafting.machine.CrusherRecipes;
 import nc.gui.machine.GuiElectricCrusher;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.item.ItemStack;

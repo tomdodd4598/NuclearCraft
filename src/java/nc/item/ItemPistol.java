@@ -31,9 +31,9 @@ public class ItemPistol extends Item
 
         if (flag || player.inventory.hasItem(NCItems.dUBullet))
         {
-        	EntityBullet entitybullet = new EntityBullet(world, player, 5.0F);
+        	EntityBullet entitybullet = new EntityBullet(world, player, 3.2F);
 
-            entitybullet.setDamage(entitybullet.getDamage() + 3.0D);
+            entitybullet.setDamage(entitybullet.getDamage() + 2.0D);
 
             world.playSoundAtEntity(player, "fireworks.blast", 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 1.2F) + 0.5F);
 

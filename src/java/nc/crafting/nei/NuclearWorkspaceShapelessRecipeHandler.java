@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import nc.crafting.NuclearWorkspaceCraftingManager;
-import nc.crafting.NuclearWorkspaceShapelessOreRecipe;
-import nc.crafting.NuclearWorkspaceShapelessRecipes;
+import nc.crafting.workspace.NuclearWorkspaceCraftingManager;
+import nc.crafting.workspace.NuclearWorkspaceShapelessOreRecipe;
+import nc.crafting.workspace.NuclearWorkspaceShapelessRecipes;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import codechicken.nei.NEIClientConfig;

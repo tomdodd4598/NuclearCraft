@@ -32,8 +32,6 @@ repositories {
 dependencies {
 compile files('lib/CodeChickenCore-1.7.10-1.0.4.29-dev.jar')
 compile files('lib/NotEnoughItems-1.7.10-1.0.3.74-dev.jar')
-compile files('lib/CoFHLib-[1.7.10]1.0.3-175-dev.jar')
-compile files('lib/CoFHCore-[1.7.10]3.0.3-303-dev.jar')
 compile files('lib/CodeChickenLib-1.7.10-1.1.3.140-dev.jar')
 compile files('lib/industrialcraft-2-2.2.811-experimental-api.jar')
 }
@@ -53,5 +51,5 @@ exclude '**/Thumbs.db'
 }
 
 archivesBaseName = "NuclearCraft"
-version = "1.6c--1.7.10"
+version = "1.6d--1.7.10"
 minecraft.version = "10.13.4.1558-1.7.10"

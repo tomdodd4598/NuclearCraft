@@ -69,7 +69,7 @@ public class BlockWRTG extends BlockContainer {
 
 	        if (itemstack.hasDisplayName())
 	        {
-	            ((TileWRTG)world.getTileEntity(x, y, z)).setGuiDisplayName(itemstack.getDisplayName());
+	            //((TileWRTG)world.getTileEntity(x, y, z)).setGuiDisplayName(itemstack.getDisplayName());
 	        }
 	}
 	

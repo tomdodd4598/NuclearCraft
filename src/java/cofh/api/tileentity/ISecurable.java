@@ -2,6 +2,8 @@ package cofh.api.tileentity;
 
 import com.mojang.authlib.GameProfile;
 
+import net.minecraft.entity.player.EntityPlayer;
+
 /**
  * Implement this interface on Tile Entities which can have access restrictions.
  *
@@ -57,6 +59,6 @@ public interface ISecurable {
 
 	GameProfile getOwner();
 
-	boolean canPlayerAccess(String name);
+	boolean canPlayerAccess(EntityPlayer player);
 
 }

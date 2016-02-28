@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import nc.crafting.HastenerRecipes;
+import nc.crafting.machine.HastenerRecipes;
 import nc.gui.machine.GuiHastener;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.item.ItemStack;

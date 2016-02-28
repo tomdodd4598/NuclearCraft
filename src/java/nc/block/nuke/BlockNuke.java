@@ -18,6 +18,7 @@ public class BlockNuke extends BlockTNT {
 	
 	@SideOnly(Side.CLIENT)
 	private IIcon iconTop;
+	@SideOnly(Side.CLIENT)
 	private IIcon iconBottom;
 	
 	@SideOnly(Side.CLIENT)

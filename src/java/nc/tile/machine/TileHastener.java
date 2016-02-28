@@ -2,14 +2,14 @@ package nc.tile.machine;
 
 import nc.NuclearCraft;
 import nc.block.machine.BlockHastener;
-import nc.crafting.HastenerRecipes;
+import nc.crafting.machine.HastenerRecipes;
 
 public class TileHastener extends TileMachine {
 	public static final int[] input = {0, 1};
 	public static final int[] output = {0, 1};
 	
 	public TileHastener() {
-		super("Decay Hastener", 25000, 1, 1, true, true, 200, 8000, NuclearCraft.hastenerSpeed, HastenerRecipes.instance());
+		super("Decay Hastener", 250000, 1, 1, true, true, 200, 8000, NuclearCraft.hastenerSpeed, NuclearCraft.hastenerEfficiency, HastenerRecipes.instance());
 	}
 	
 	public void updateEntity() {

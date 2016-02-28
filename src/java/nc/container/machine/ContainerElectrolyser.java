@@ -1,6 +1,6 @@
 package nc.container.machine;
 
-import nc.crafting.ElectrolyserRecipes;
+import nc.crafting.machine.ElectrolyserRecipes;
 import nc.tile.machine.TileElectrolyser;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;

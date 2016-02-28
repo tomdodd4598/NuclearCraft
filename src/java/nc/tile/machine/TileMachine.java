@@ -21,6 +21,7 @@ public abstract class TileMachine extends TileEntity implements IEnergyHandler, 
 	public int inputSize;
 	public int outputSize;
 	public int speedMod = 100;
+	public int timeMod = 100;
 	public String localizedName;
     public ItemStack[] slots;
 	public EnergyStorage energyStorage;
@@ -39,12 +40,12 @@ public abstract class TileMachine extends TileEntity implements IEnergyHandler, 
 	//public static final int[] input = {0};
 	//public static final int[] output = {1};
 	public int currentItemBurnTime;
-	public int speedUpgrade = 1;
-	public int energyUpgrade = 1;
-	public double getFurnaceSpeed = (FurnaceSpeed()/speedUpgrade);
-	public double getRequiredEnergy = speedUpgrade*(RequiredEnergy()/energyUpgrade);
+	public double speedUpgrade = 1;
+	public double energyUpgrade = 1;
+	public double getFurnaceSpeed = Math.ceil(FurnaceSpeed()/speedUpgrade);
+	public double getRequiredEnergy = Math.ceil(speedUpgrade*(RequiredEnergy()/energyUpgrade));
 
-	public TileMachine(String localName, int energyMax, int inSize, int outSize, boolean usesUpgrades, boolean usesEnergy, double som, double tom, int smod, NCRecipeHelper ncrecipes) {
+	public TileMachine(String localName, int energyMax, int inSize, int outSize, boolean usesUpgrades, boolean usesEnergy, double som, double tom, int smod, int tmod, NCRecipeHelper ncrecipes) {
 		energyStorage = new EnergyStorage(energyMax, energyMax);
 		localizedName = localName;
 		inputSize = inSize;
@@ -55,6 +56,7 @@ public abstract class TileMachine extends TileEntity implements IEnergyHandler, 
 		speedOfMachine = som;
 		timeOfMachine = tom;
 		speedMod = smod;
+		timeMod = tmod;
 		recipes = ncrecipes;
 	}
 
@@ -63,20 +65,20 @@ public abstract class TileMachine extends TileEntity implements IEnergyHandler, 
 		upgradeSpeed();
 		upgradeEnergy();
 		if (hasUpgrades) {
-			getFurnaceSpeed = (FurnaceSpeed()/speedUpgrade);
+			getFurnaceSpeed = Math.ceil(FurnaceSpeed()/speedUpgrade);
 		} else {
 			getFurnaceSpeed = FurnaceSpeed();
 		}
 		if (hasUpgrades) {
-			getRequiredEnergy = speedUpgrade*(RequiredEnergy()/energyUpgrade);
+			getRequiredEnergy = Math.ceil(speedUpgrade*(RequiredEnergy()/energyUpgrade));
 		} else {
 			getRequiredEnergy = RequiredEnergy();
 		}
 		if(!this.worldObj.isRemote) {
 			canCook();
-			if (canCook() && this.energyStorage.getEnergyStored() >= ((int) Math.ceil(getRequiredEnergy/getFurnaceSpeed))) {
+			if (canCook()) {
 				this.cookTime += 1;
-				this.energyStorage.extractEnergy((int) (getRequiredEnergy/getFurnaceSpeed), false);
+				if (inputSize!=9) this.energyStorage.extractEnergy((int) Math.ceil(getRequiredEnergy/getFurnaceSpeed), false);
 				if (this.cookTime >= getFurnaceSpeed) {
 					this.cookTime = 0;
 					cookItem();
@@ -103,6 +105,14 @@ public abstract class TileMachine extends TileEntity implements IEnergyHandler, 
 		return false;
 	}
 	
+	public boolean isHydrogen(ItemStack stack) {
+		return false;
+	}
+	
+	public boolean isIoniser() {
+		return false;
+	}
+	
 	public ItemStack[] inputs() {
 		ItemStack[] input = new ItemStack[inputSize];
 		for (int i = 0; i < inputSize; i++) {
@@ -123,6 +133,10 @@ public abstract class TileMachine extends TileEntity implements IEnergyHandler, 
 			return true;
 		}
 		if (hasEnergy) {
+			if (this.energyStorage.getEnergyStored() < 1*((int) Math.ceil(getRequiredEnergy/getFurnaceSpeed))) {
+				flag = false;
+				return false;
+			}
 			if (this.energyStorage.getEnergyStored() == 0) {
 				flag = false;
 				return false;
@@ -161,16 +175,16 @@ public abstract class TileMachine extends TileEntity implements IEnergyHandler, 
 	}
 
 	public double RequiredEnergy() {
-		return timeOfMachine;
+		return timeOfMachine*(100/timeMod);
 	}
 
 	public int getInputSize(ItemStack stack, int slot) {
-		   ItemStack[] outputs = recipes.getOutput(stack);
-		   if(outputs != null) {
-			   return recipes.getInputSize(slot, outputs);
-		   }
-		   return 1;
-	   }
+		ItemStack[] outputs = recipes.getOutput(stack);
+		if(outputs != null) {
+			return recipes.getInputSize(slot, outputs);
+		}
+		return 1;
+	}
 
 	public void cookItem() {
 		ItemStack[] output = getOutput(inputs());
@@ -199,32 +213,9 @@ public abstract class TileMachine extends TileEntity implements IEnergyHandler, 
 	public void upgradeSpeed() {
 		if (hasUpgrades) {
 			ItemStack stack = this.getStackInSlot(inputSize + outputSize);
-			if (stack != null && isSpeedUpgrade(stack)) {
-				if (stack.stackSize == 0) {
-					speedUpgrade = 1;
-				} else if (stack.stackSize == 1) {
-					speedUpgrade = 2;
-				} else if (stack.stackSize == 2) {
-					speedUpgrade = 3;
-				} else if (stack.stackSize == 3) {
-					speedUpgrade = 4;
-				} else if (stack.stackSize == 4) {
-					speedUpgrade = 6;
-				} else if (stack.stackSize == 5) {
-					speedUpgrade = 8;
-				} else if (stack.stackSize == 6) {
-					speedUpgrade = 11;
-				} else if (stack.stackSize == 7) {
-					speedUpgrade = 15;
-				} else if (stack.stackSize == 8) {
-					speedUpgrade = 20;
-				}
-				if (stack.stackSize <= 0) {
-					speedUpgrade = 1;
-				}
-			} else {
-				speedUpgrade = 1;
-			}
+			if (stack != null && isSpeedUpgrade(stack) /*&& speedUpgrade != Math.pow(1.8, stack.stackSize)*/) {
+				speedUpgrade = Math.pow(1.8, stack.stackSize);
+			} else speedUpgrade = 1;
 		}
 	}
 
@@ -235,32 +226,9 @@ public abstract class TileMachine extends TileEntity implements IEnergyHandler, 
 	public void upgradeEnergy() {
 		if (hasUpgrades) {
 			ItemStack stack = this.getStackInSlot(inputSize + outputSize + 1);
-			if (stack != null && isEnergyUpgrade(stack)) {
-				if (stack.stackSize == 0) {
-					energyUpgrade = 1;
-				} else if (stack.stackSize == 1) {
-					energyUpgrade = 2;
-				} else if (stack.stackSize == 2) {
-					energyUpgrade = 3;
-				} else if (stack.stackSize == 3) {
-					energyUpgrade = 4;
-				} else if (stack.stackSize == 4) {
-					energyUpgrade = 6;
-				} else if (stack.stackSize == 5) {
-					energyUpgrade = 8;
-				} else if (stack.stackSize == 6) {
-					energyUpgrade = 11;
-				} else if (stack.stackSize == 7) {
-					energyUpgrade = 15;
-				} else if (stack.stackSize == 8) {
-					energyUpgrade = 20;
-				}
-				if (stack.stackSize <= 0) {
-					energyUpgrade = 1;
-				}
-			} else {
-				energyUpgrade = 1;
-			}
+			if (stack != null && isEnergyUpgrade(stack) /*&& energyUpgrade != Math.pow(1.7, stack.stackSize)*/) {
+				energyUpgrade = Math.pow(1.7, stack.stackSize);
+			} else energyUpgrade = 1;
 		}
 	}
 
@@ -272,8 +240,8 @@ public abstract class TileMachine extends TileEntity implements IEnergyHandler, 
 		super.readFromNBT(nbt);
 		if (nbt.hasKey("energyStorage")) {
 			this.energyStorage.readFromNBT(nbt.getCompoundTag("energyStorage"));
-			this.speedUpgrade = nbt.getInteger("sU");
-			this.energyUpgrade = nbt.getInteger("eU");
+			this.speedUpgrade = nbt.getDouble("sU");
+			this.energyUpgrade = nbt.getDouble("eU");
 			this.getFurnaceSpeed = nbt.getDouble("s");
 			this.getRequiredEnergy = nbt.getDouble("e");
 		}
@@ -314,8 +282,8 @@ public abstract class TileMachine extends TileEntity implements IEnergyHandler, 
 		NBTTagList list = new NBTTagList();
 		nbt.setBoolean("flag", this.flag);
 		nbt.setBoolean("flag1", this.flag1);
-		nbt.setInteger("sU", this.speedUpgrade);
-		nbt.setInteger("eU", this.energyUpgrade);
+		nbt.setDouble("sU", this.speedUpgrade);
+		nbt.setDouble("eU", this.energyUpgrade);
 		nbt.setDouble("s", this.getFurnaceSpeed);
 		nbt.setDouble("e", this.getRequiredEnergy);
 		for (int i = 0; i < this.slots.length; i++) {
@@ -389,7 +357,7 @@ public abstract class TileMachine extends TileEntity implements IEnergyHandler, 
 	}
 
 	public boolean isItemValidForSlot(int slot, ItemStack itemstack) {
-		if (isOxidiser() && isOxygen(itemstack)) return slot == 1; else if (isIrradiator() && isNeutronCapsule(itemstack)) return slot == 1; else return slot < inputSize;
+		if (isOxidiser() && isOxygen(itemstack)) return slot == 1; else if (isIrradiator() && isNeutronCapsule(itemstack)) return slot == 1; else if (isIoniser() && isHydrogen(itemstack)) return slot == 1; else return slot < inputSize;
 	}
 
 	public boolean canInsertItem(int slot, ItemStack itemstack, int side) {

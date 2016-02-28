@@ -31,7 +31,7 @@ public class TileFissionReactor extends TileGenerator {
     public int energy;
     public int fueltime;
 	public int fueltype;
-    public static int power = NuclearCraft.fissionRF/10;
+    public static double power = NuclearCraft.fissionRF/100;
     public int heat;
     public String typeoffuel = StatCollector.translateToLocal("gui.noFuel");
     public int fuelmult;
@@ -41,7 +41,7 @@ public class TileFissionReactor extends TileGenerator {
     private static final int[] slotsSides = new int[] {0, 1};
 
     public TileFissionReactor() {
-		super("Fission Reactor", 1000000, 3);
+		super("Fission Reactor", 25000000, 3);
 	}
 
     public void updateEntity() {
@@ -60,8 +60,7 @@ public class TileFissionReactor extends TileGenerator {
         if (this.fueltime < 0) {this.fueltime = 0;}
     }
     
-    public void overheat(World world, double x, double y, double z, float radius, BombType type)
-    {
+    public void overheat(World world, double x, double y, double z, float radius, BombType type) {
     	if (this.heat > 1000000) {
     		if (NuclearCraft.nuclearMeltdowns) {
 	    		if (this.MBNumber == 3) {
@@ -130,42 +129,42 @@ public class TileFissionReactor extends TileGenerator {
         	off = 0;
         	
         	//LEU
-        	if (this.fueltype == 1 || this.fueltype == 7) energyFuelHeat(15, 15000, 28);
+        	if (this.fueltype == 1 || this.fueltype == 7) energyFuelHeat(NuclearCraft.baseRFLEU, NuclearCraft.baseFuelLEU, NuclearCraft.baseHeatLEU);
 
         	//HEU
-        	if (this.fueltype == 2 || this.fueltype == 8) energyFuelHeat(68, 15000, 280);
+        	if (this.fueltype == 2 || this.fueltype == 8) energyFuelHeat(NuclearCraft.baseRFHEU, NuclearCraft.baseFuelHEU, NuclearCraft.baseHeatHEU);
 
         	//LEP
-        	if (this.fueltype == 3 || this.fueltype == 9) energyFuelHeat(30, 28800, 84);
+        	if (this.fueltype == 3 || this.fueltype == 9) energyFuelHeat(NuclearCraft.baseRFLEP, NuclearCraft.baseFuelLEP, NuclearCraft.baseHeatLEP);
 
         	//HEP
-        	if (this.fueltype == 4 || this.fueltype == 10) energyFuelHeat(135, 28800, 840);
+        	if (this.fueltype == 4 || this.fueltype == 10) energyFuelHeat(NuclearCraft.baseRFHEP, NuclearCraft.baseFuelHEP, NuclearCraft.baseHeatHEP);
 
         	//MOX
-        	if (this.fueltype == 5 || this.fueltype == 11) energyFuelHeat(33, 20000, 90);
+        	if (this.fueltype == 5 || this.fueltype == 11) energyFuelHeat(NuclearCraft.baseRFMOX, NuclearCraft.baseFuelMOX, NuclearCraft.baseHeatMOX);
         	
         	//TBU
-        	if (this.fueltype == 6) energyFuelHeat(4, 3750, 4);
+        	if (this.fueltype == 6) energyFuelHeat(NuclearCraft.baseRFTBU, NuclearCraft.baseFuelTBU, NuclearCraft.baseHeatTBU);
         	
         	//LEU-Ox
-        	if (this.fueltype == 12 || this.fueltype == 16) energyFuelHeat(23, 15000, 35);
+        	if (this.fueltype == 12 || this.fueltype == 16) energyFuelHeat(NuclearCraft.baseRFLEUOx, NuclearCraft.baseFuelLEUOx, NuclearCraft.baseHeatLEUOx);
 
         	//HEU-Ox
-        	if (this.fueltype == 13 || this.fueltype == 17) energyFuelHeat(101, 15000, 350);
+        	if (this.fueltype == 13 || this.fueltype == 17) energyFuelHeat(NuclearCraft.baseRFHEUOx, NuclearCraft.baseFuelHEUOx, NuclearCraft.baseHeatHEUOx);
 
         	//LEP-Ox
-        	if (this.fueltype == 14 || this.fueltype == 18) energyFuelHeat(45, 28800, 105);
+        	if (this.fueltype == 14 || this.fueltype == 18) energyFuelHeat(NuclearCraft.baseRFLEPOx, NuclearCraft.baseFuelLEPOx, NuclearCraft.baseHeatLEPOx);
 
         	//HEP-Ox
-        	if (this.fueltype == 15 || this.fueltype == 19) energyFuelHeat(203, 28800, 1050);
+        	if (this.fueltype == 15 || this.fueltype == 19) energyFuelHeat(NuclearCraft.baseRFHEPOx, NuclearCraft.baseFuelHEPOx, NuclearCraft.baseHeatHEPOx);
         	
         	for (int Z4 = -SR; Z4 <= SR; Z4++) {
         		for (int X4 = -SR; X4 <= SR; X4++) {
         			for (int Y4 = 1; Y4 <= SD; Y4++) {
         				if(this.worldObj.getBlock(x + X4, y + Y4, z + Z4)==NCBlocks.graphiteBlock){
-        					this.storage.receiveEnergy((power*fuelmult*fuelmult*R)/10, false); this.heat += 4*fuelmult*R; }
+        					this.storage.receiveEnergy((int) power*fuelmult*fuelmult*R, false); this.heat += 4*fuelmult*R; }
         				if(this.worldObj.getBlock(x + X4, y + Y4, z + Z4)==Blocks.lava){
-        					this.storage.receiveEnergy((power*fuelmult*fuelmult*R)/50, false); this.heat += 8*fuelmult*R; }
+        					this.storage.receiveEnergy((int) (power*fuelmult*fuelmult*R)/5, false); this.heat += 8*fuelmult*R; }
         				if(this.worldObj.getBlock(x + X4, y + Y4, z + Z4)==NCBlocks.speedBlock){
         					this.fueltime -= fuelmult*5000/NuclearCraft.fissionEfficiency; }
         			}}}
@@ -175,42 +174,42 @@ public class TileFissionReactor extends TileGenerator {
         	off = 1;
         	
         	//LEU
-        	if (this.fueltype == 1 || this.fueltype == 7) energyFuelHeat(15, 0, 28);
+        	if (this.fueltype == 1 || this.fueltype == 7) energyFuelHeat(NuclearCraft.baseRFLEU, NuclearCraft.baseFuelLEU, NuclearCraft.baseHeatLEU);
 
         	//HEU
-        	if (this.fueltype == 2 || this.fueltype == 8) energyFuelHeat(68, 0, 280);
+        	if (this.fueltype == 2 || this.fueltype == 8) energyFuelHeat(NuclearCraft.baseRFHEU, NuclearCraft.baseFuelHEU, NuclearCraft.baseHeatHEU);
 
         	//LEP
-        	if (this.fueltype == 3 || this.fueltype == 9) energyFuelHeat(30, 0, 84);
+        	if (this.fueltype == 3 || this.fueltype == 9) energyFuelHeat(NuclearCraft.baseRFLEP, NuclearCraft.baseFuelLEP, NuclearCraft.baseHeatLEP);
 
         	//HEP
-        	if (this.fueltype == 4 || this.fueltype == 10) energyFuelHeat(135, 0, 840);
+        	if (this.fueltype == 4 || this.fueltype == 10) energyFuelHeat(NuclearCraft.baseRFHEP, NuclearCraft.baseFuelHEP, NuclearCraft.baseHeatHEP);
 
         	//MOX
-        	if (this.fueltype == 5 || this.fueltype == 11) energyFuelHeat(33, 0, 90);
+        	if (this.fueltype == 5 || this.fueltype == 11) energyFuelHeat(NuclearCraft.baseRFMOX, NuclearCraft.baseFuelMOX, NuclearCraft.baseHeatMOX);
         	
         	//TBU
-        	if (this.fueltype == 6) energyFuelHeat(4, 0, 4);
+        	if (this.fueltype == 6) energyFuelHeat(NuclearCraft.baseRFTBU, NuclearCraft.baseFuelTBU, NuclearCraft.baseHeatTBU);
         	
         	//LEU-Ox
-        	if (this.fueltype == 12 || this.fueltype == 16) energyFuelHeat(23, 0, 35);
+        	if (this.fueltype == 12 || this.fueltype == 16) energyFuelHeat(NuclearCraft.baseRFLEUOx, NuclearCraft.baseFuelLEUOx, NuclearCraft.baseHeatLEUOx);
 
         	//HEU-Ox
-        	if (this.fueltype == 13 || this.fueltype == 17) energyFuelHeat(101, 0, 350);
+        	if (this.fueltype == 13 || this.fueltype == 17) energyFuelHeat(NuclearCraft.baseRFHEUOx, NuclearCraft.baseFuelHEUOx, NuclearCraft.baseHeatHEUOx);
 
         	//LEP-Ox
-        	if (this.fueltype == 14 || this.fueltype == 18) energyFuelHeat(45, 0, 105);
+        	if (this.fueltype == 14 || this.fueltype == 18) energyFuelHeat(NuclearCraft.baseRFLEPOx, NuclearCraft.baseFuelLEPOx, NuclearCraft.baseHeatLEPOx);
 
         	//HEP-Ox
-        	if (this.fueltype == 15 || this.fueltype == 19) energyFuelHeat(203, 0, 1050);
+        	if (this.fueltype == 15 || this.fueltype == 19) energyFuelHeat(NuclearCraft.baseRFHEPOx, NuclearCraft.baseFuelHEPOx, NuclearCraft.baseHeatHEPOx);
         	
         	for (int Z4 = -SR; Z4 <= SR; Z4++) {
         		for (int X4 = -SR; X4 <= SR; X4++) {
         			for (int Y4 = 1; Y4 <= SD; Y4++) {
         				if(this.worldObj.getBlock(x + X4, y + Y4, z + Z4)==NCBlocks.graphiteBlock){
-        					this.storage.receiveEnergy((power*fuelmult*fuelmult*R)/10, false); this.heat += 4*fuelmult*R; }
+        					this.storage.receiveEnergy((int) power*fuelmult*fuelmult*R, false); this.heat += 4*fuelmult*R; }
         				if(this.worldObj.getBlock(x + X4, y + Y4, z + Z4)==Blocks.lava){
-        					this.storage.receiveEnergy((power*fuelmult*fuelmult*R)/50, false); this.heat += 8*fuelmult*R; }
+        					this.storage.receiveEnergy((int) (power*fuelmult*fuelmult*R)/5, false); this.heat += 8*fuelmult*R; }
         			}}}
         	flag = false;
         } else {
@@ -296,8 +295,7 @@ public class TileFissionReactor extends TileGenerator {
         }
     }
     
-    private void upgrade()
-    {
+    private void upgrade() {
         ItemStack stack = this.getStackInSlot(2);
 
         if (stack != null && isUpgrade(stack))

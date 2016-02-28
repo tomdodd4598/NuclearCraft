@@ -22,7 +22,6 @@ import net.minecraft.entity.monster.EntitySpider;
 import net.minecraft.entity.monster.EntityWitch;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -80,7 +79,7 @@ public class EntityPaul extends EntityMob {
     }
     
     protected Item getDropItem() {
-        return Items.apple;
+        return NCItems.fishAndRicecake;
     }
     
     protected void dropFewItems(boolean p_70628_1_, int p_70628_2_) {
@@ -90,7 +89,7 @@ public class EntityPaul extends EntityMob {
             j = this.rand.nextInt(3 + p_70628_2_);
 
             for (k = 0; k < j; ++k) {
-                this.dropItem(Items.pumpkin_pie, 1);
+                this.dropItem(NCItems.ricecake, 1);
             }
 
         j = this.rand.nextInt(2 + p_70628_2_);
@@ -101,7 +100,7 @@ public class EntityPaul extends EntityMob {
     }
 
     protected void dropRareDrop(int p_70600_1_) {
-            this.entityDropItem(new ItemStack(Items.cake, 1, 1), 0.0F);
+            this.entityDropItem(new ItemStack(NCItems.fishAndRicecake	, 1, 1), 0.0F);
     }
     
     protected int decreaseAirSupply(int p_70682_1_) {

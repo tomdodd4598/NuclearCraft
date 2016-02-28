@@ -30,9 +30,9 @@ public class GuiReactionGenerator extends GuiContainer
         this.fontRendererObj.drawString(name2, this.xSize / 2 - this.fontRendererObj.getStringWidth(name2) / 2, 15, 4210752);
         String power = this.entity.energy + " RF";
         this.fontRendererObj.drawString(power, this.xSize / 2 - this.fontRendererObj.getStringWidth(power) / 2, 65, -1);
-        String fuel = ((int) this.entity.fuellevel/100)+"";
+        String fuel = ((int) this.entity.fuellevel/5000)+"%";
         this.fontRendererObj.drawString(fuel, 69 - this.fontRendererObj.getStringWidth(fuel) / 2, 46, 4210752);
-        String reactant = ((int) this.entity.reactantlevel/100)+"";
+        String reactant = ((int) this.entity.reactantlevel/5000)+"%";
         this.fontRendererObj.drawString(reactant, 107 - this.fontRendererObj.getStringWidth(reactant) / 2, 46, 4210752);
     }
 

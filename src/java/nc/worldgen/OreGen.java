@@ -20,7 +20,7 @@ public class OreGen implements IWorldGenerator
 		tin = new WorldGenMinable(NCBlocks.blockOre, 1, NuclearCraft.oreSizeTin, Blocks.stone);
 		lead = new WorldGenMinable(NCBlocks.blockOre, 2, NuclearCraft.oreSizeLead, Blocks.stone);
 		silver = new WorldGenMinable(NCBlocks.blockOre, 3, NuclearCraft.oreSizeSilver, Blocks.stone);
-		pitchblende = new WorldGenMinable(NCBlocks.blockOre, 4, NuclearCraft.oreSizePitchblende, Blocks.stone);
+		uranium = new WorldGenMinable(NCBlocks.blockOre, 4, NuclearCraft.oreSizeUranium, Blocks.stone);
 		thorium = new WorldGenMinable(NCBlocks.blockOre, 5, NuclearCraft.oreSizeThorium, Blocks.stone);
 		lithium = new WorldGenMinable(NCBlocks.blockOre, 7, NuclearCraft.oreSizeLithium, Blocks.stone);
 		boron = new WorldGenMinable(NCBlocks.blockOre, 8, NuclearCraft.oreSizeBoron, Blocks.stone);
@@ -45,39 +45,39 @@ public class OreGen implements IWorldGenerator
     {
 		int xPos, yPos, zPos;
         if (NuclearCraft.oreGenCopper)
-        { for (int i = 0; i < NuclearCraft.oreRarityCopper; i++) { xPos = xChunk + random.nextInt(16); yPos = random.nextInt(60); zPos = zChunk + random.nextInt(16);
+        { for (int i = 0; i < NuclearCraft.oreRarityCopper; i++) { xPos = xChunk + random.nextInt(16); yPos = random.nextInt(NuclearCraft.oreMaxHeightCopper); zPos = zChunk + random.nextInt(16);
                 copper.generate(world, random, xPos, yPos, zPos); } }
 
         if (NuclearCraft.oreGenTin)
-        { for (int i = 0; i < NuclearCraft.oreRarityTin; i++) { xPos = xChunk + random.nextInt(16); yPos = random.nextInt(60); zPos = zChunk + random.nextInt(16);
+        { for (int i = 0; i < NuclearCraft.oreRarityTin; i++) { xPos = xChunk + random.nextInt(16); yPos = random.nextInt(NuclearCraft.oreMaxHeightTin); zPos = zChunk + random.nextInt(16);
                 tin.generate(world, random, xPos, yPos, zPos); } }
 
         if (NuclearCraft.oreGenLead)
-        { for (int i = 0; i < NuclearCraft.oreRarityLead; i++) { xPos = xChunk + random.nextInt(16); yPos = random.nextInt(40); zPos = zChunk + random.nextInt(16);
+        { for (int i = 0; i < NuclearCraft.oreRarityLead; i++) { xPos = xChunk + random.nextInt(16); yPos = random.nextInt(NuclearCraft.oreMaxHeightLead); zPos = zChunk + random.nextInt(16);
                 lead.generate(world, random, xPos, yPos, zPos); } }
 
         if (NuclearCraft.oreGenSilver)
-        { for (int i = 0; i < NuclearCraft.oreRaritySilver; i++) { xPos = xChunk + random.nextInt(16); yPos = random.nextInt(40); zPos = zChunk + random.nextInt(16);
+        { for (int i = 0; i < NuclearCraft.oreRaritySilver; i++) { xPos = xChunk + random.nextInt(16); yPos = random.nextInt(NuclearCraft.oreMaxHeightSilver); zPos = zChunk + random.nextInt(16);
                 silver.generate(world, random, xPos, yPos, zPos); } }
 
-        if (NuclearCraft.oreGenPitchblende)
-        { for (int i = 0; i < NuclearCraft.oreRarityPitchblende; i++) { xPos = xChunk + random.nextInt(16); yPos = random.nextInt(40); zPos = zChunk + random.nextInt(16);
-                pitchblende.generate(world, random, xPos, yPos, zPos); } }
+        if (NuclearCraft.oreGenUranium)
+        { for (int i = 0; i < NuclearCraft.oreRarityUranium; i++) { xPos = xChunk + random.nextInt(16); yPos = random.nextInt(NuclearCraft.oreMaxHeightUranium); zPos = zChunk + random.nextInt(16);
+                uranium.generate(world, random, xPos, yPos, zPos); } }
 
         if (NuclearCraft.oreGenThorium)
-        { for (int i = 0; i < NuclearCraft.oreRarityThorium; i++) { xPos = xChunk + random.nextInt(16); yPos = random.nextInt(40); zPos = zChunk + random.nextInt(16);
+        { for (int i = 0; i < NuclearCraft.oreRarityThorium; i++) { xPos = xChunk + random.nextInt(16); yPos = random.nextInt(NuclearCraft.oreMaxHeightThorium); zPos = zChunk + random.nextInt(16);
                 thorium.generate(world, random, xPos, yPos, zPos); } }
         
         if (NuclearCraft.oreGenLithium)
-        { for (int i = 0; i < NuclearCraft.oreRarityLithium; i++) { xPos = xChunk + random.nextInt(16); yPos = random.nextInt(25); zPos = zChunk + random.nextInt(16);
+        { for (int i = 0; i < NuclearCraft.oreRarityLithium; i++) { xPos = xChunk + random.nextInt(16); yPos = random.nextInt(NuclearCraft.oreMaxHeightLithium); zPos = zChunk + random.nextInt(16);
                 lithium.generate(world, random, xPos, yPos, zPos); } }
         
         if (NuclearCraft.oreGenBoron)
-        { for (int i = 0; i < NuclearCraft.oreRarityBoron; i++) { xPos = xChunk + random.nextInt(16); yPos = random.nextInt(20); zPos = zChunk + random.nextInt(16);
+        { for (int i = 0; i < NuclearCraft.oreRarityBoron; i++) { xPos = xChunk + random.nextInt(16); yPos = random.nextInt(NuclearCraft.oreMaxHeightBoron); zPos = zChunk + random.nextInt(16);
                 boron.generate(world, random, xPos, yPos, zPos); } }
         
         if (NuclearCraft.oreGenMagnesium)
-        { for (int i = 0; i < NuclearCraft.oreRarityMagnesium; i++) { xPos = xChunk + random.nextInt(16); yPos = random.nextInt(20); zPos = zChunk + random.nextInt(16);
+        { for (int i = 0; i < NuclearCraft.oreRarityMagnesium; i++) { xPos = xChunk + random.nextInt(16); yPos = random.nextInt(NuclearCraft.oreMaxHeightMagnesium); zPos = zChunk + random.nextInt(16);
                 magnesium.generate(world, random, xPos, yPos, zPos); } }
         
     }
@@ -86,7 +86,7 @@ public class OreGen implements IWorldGenerator
     {
         int xPos, yPos, zPos;
         if (NuclearCraft.oreGenPlutonium)
-        { for (int i = 0; i < NuclearCraft.oreRarityPlutonium; i++) { xPos = xChunk + random.nextInt(16); yPos = random.nextInt(128); zPos = zChunk + random.nextInt(16);
+        { for (int i = 0; i < NuclearCraft.oreRarityPlutonium; i++) { xPos = xChunk + random.nextInt(16); yPos = random.nextInt(NuclearCraft.oreMaxHeightPlutonium); zPos = zChunk + random.nextInt(16);
                 plutonium.generate(world, random, xPos, yPos, zPos); } }
     }
  
@@ -127,7 +127,7 @@ public class OreGen implements IWorldGenerator
     WorldGenMinable tin;
     WorldGenMinable lead;
     WorldGenMinable silver;
-    WorldGenMinable pitchblende;
+    WorldGenMinable uranium;
     WorldGenMinable thorium;
     WorldGenMinable lithium;
     WorldGenMinable boron;

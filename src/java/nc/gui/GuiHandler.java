@@ -1,10 +1,12 @@
 package nc.gui;
 
 import nc.NuclearCraft;
+import nc.container.accelerator.ContainerSynchrotron;
 import nc.container.crafting.ContainerNuclearWorkspace;
 import nc.container.generator.ContainerFissionReactor;
 import nc.container.generator.ContainerFusionReactor;
 import nc.container.generator.ContainerReactionGenerator;
+import nc.container.machine.ContainerAutoWorkspace;
 import nc.container.machine.ContainerCollector;
 import nc.container.machine.ContainerCooler;
 import nc.container.machine.ContainerCrusher;
@@ -20,10 +22,12 @@ import nc.container.machine.ContainerIrradiator;
 import nc.container.machine.ContainerNuclearFurnace;
 import nc.container.machine.ContainerOxidiser;
 import nc.container.machine.ContainerSeparator;
+import nc.gui.accelerator.GuiSynchrotron;
 import nc.gui.crafting.GuiNuclearWorkspace;
 import nc.gui.generator.GuiFissionReactor;
 import nc.gui.generator.GuiFusionReactor;
 import nc.gui.generator.GuiReactionGenerator;
+import nc.gui.machine.GuiAutoWorkspace;
 import nc.gui.machine.GuiCollector;
 import nc.gui.machine.GuiCooler;
 import nc.gui.machine.GuiCrusher;
@@ -39,10 +43,12 @@ import nc.gui.machine.GuiIrradiator;
 import nc.gui.machine.GuiNuclearFurnace;
 import nc.gui.machine.GuiOxidiser;
 import nc.gui.machine.GuiSeparator;
+import nc.tile.accelerator.TileSynchrotron;
 import nc.tile.crafting.TileNuclearWorkspace;
 import nc.tile.generator.TileFissionReactor;
 import nc.tile.generator.TileFusionReactor;
 import nc.tile.generator.TileReactionGenerator;
+import nc.tile.machine.TileAutoWorkspace;
 import nc.tile.machine.TileCollector;
 import nc.tile.machine.TileCooler;
 import nc.tile.machine.TileCrusher;
@@ -131,7 +137,7 @@ public class GuiHandler implements IGuiHandler {
 					return null;
 				case 9:
 					if(ID == NuclearCraft.guiIdNuclearWorkspace) {
-						return new ContainerNuclearWorkspace(player.inventory, (TileNuclearWorkspace) entity, world);
+						return new ContainerNuclearWorkspace(player.inventory, world, x, y, z);
 					}
 					return null;
 				case 10:
@@ -186,6 +192,18 @@ public class GuiHandler implements IGuiHandler {
 					if(entity instanceof TileHeliumExtractor)
 					{
 						return new ContainerHeliumExtractor(player.inventory, (TileHeliumExtractor) entity);
+					}
+					return null;
+				case 19:
+					if(entity instanceof TileSynchrotron)
+					{
+						return new ContainerSynchrotron(player.inventory, (TileSynchrotron) entity);
+					}
+					return null;
+				case 20:
+					if(entity instanceof TileAutoWorkspace)
+					{
+						return new ContainerAutoWorkspace(player.inventory, (TileAutoWorkspace) entity);
 					}
 					return null;
 			}
@@ -258,7 +276,7 @@ public class GuiHandler implements IGuiHandler {
 				case 9:
 					if(entity instanceof TileNuclearWorkspace)
 					{
-							return new GuiNuclearWorkspace(player.inventory, (TileNuclearWorkspace) entity, world);
+							return new GuiNuclearWorkspace(player.inventory, world, x, y, z);
 					}
 					return null;
 				case 10:
@@ -313,6 +331,18 @@ public class GuiHandler implements IGuiHandler {
 					if(entity instanceof TileHeliumExtractor)
 					{
 							return new GuiHeliumExtractor(player.inventory, (TileHeliumExtractor) entity);
+					}
+					return null;
+				case 19:
+					if(entity instanceof TileSynchrotron)
+					{
+							return new GuiSynchrotron(player.inventory, (TileSynchrotron) entity);
+					}
+					return null;
+				case 20:
+					if(entity instanceof TileAutoWorkspace)
+					{
+							return new GuiAutoWorkspace(player.inventory, (TileAutoWorkspace) entity);
 					}
 					return null;
 			}

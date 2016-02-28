@@ -48,7 +48,7 @@ public class BlockRTG extends BlockContainer {
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entityLivingBase, ItemStack itemstack) {
 		world.setBlockMetadataWithNotify(x, y, z, 0, 2);
 		if (itemstack.hasDisplayName()) {
-			((TileRTG)world.getTileEntity(x, y, z)).setGuiDisplayName(itemstack.getDisplayName());
+			//((TileRTG)world.getTileEntity(x, y, z)).setGuiDisplayName(itemstack.getDisplayName());
 		}
 	}
 }

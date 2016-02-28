@@ -1,6 +1,6 @@
 package nc.container.machine;
 
-import nc.crafting.IrradiatorRecipes;
+import nc.crafting.machine.IrradiatorRecipes;
 import nc.tile.machine.TileIrradiator;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
@@ -12,7 +12,7 @@ public class ContainerIrradiator extends ContainerMachine {
 		addSlotToContainer(new Slot(tileentity, 0, 41, 38));
 		addSlotToContainer(new Slot(tileentity, 1, 41, 58));
 		addSlotToContainer(new SlotFurnace(inventory.player, tileentity, 2, 130, 38));
-		addSlotToContainer(new SlotFurnace(inventory.player, tileentity, 3, 150, 38));
+		addSlotToContainer(new SlotFurnace(inventory.player, tileentity, 3, 150, 48));
 		addSlotToContainer(new SlotFurnace(inventory.player, tileentity, 4, 130, 58));
 		addSlotToContainer(new Slot(tileentity, 5, 31, 15));
 		addSlotToContainer(new Slot(tileentity, 6, 51, 15));

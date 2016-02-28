@@ -1,6 +1,6 @@
 package nc.container.machine;
 
-import nc.crafting.OxidiserRecipes;
+import nc.crafting.machine.OxidiserRecipes;
 import nc.tile.machine.TileOxidiser;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;

@@ -147,7 +147,7 @@ public class BlockReactionGenerator extends BlockContainer {
 	        }
 	        
 	        IChatComponent localIChatComponent;
-	    	localIChatComponent = IChatComponent.Serializer.func_150699_a("[{text:\"Click here for help with the mod!\",color:aqua,italic:false,clickEvent:{action:open_url,value:\"http://minecraft.curseforge.com/mc-mods/226254-nuclearcraft-mod-1-7-10\"}}]");
+	        localIChatComponent = IChatComponent.Serializer.func_150699_a("[{text:\"Use NuclearCraft's NEI info system or click here for help with the mod!\",color:white,italic:false,clickEvent:{action:open_url,value:\"http://minecraft.curseforge.com/projects/nuclearcraft-mod\"}}]");
 
 	    	if (world.isRemote) {((ICommandSender) entityLivingBase).addChatMessage(localIChatComponent);}
 	    }

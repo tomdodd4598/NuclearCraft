@@ -4,9 +4,9 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
 
-import nc.crafting.NuclearWorkspaceCraftingManager;
-import nc.crafting.NuclearWorkspaceShapedOreRecipe;
-import nc.crafting.NuclearWorkspaceShapedRecipes;
+import nc.crafting.workspace.NuclearWorkspaceCraftingManager;
+import nc.crafting.workspace.NuclearWorkspaceShapedOreRecipe;
+import nc.crafting.workspace.NuclearWorkspaceShapedRecipes;
 import nc.gui.crafting.GuiNuclearWorkspace;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.Container;

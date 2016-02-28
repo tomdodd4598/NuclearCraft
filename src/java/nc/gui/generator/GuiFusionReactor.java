@@ -74,9 +74,9 @@ public class GuiFusionReactor extends GuiContainer
         this.fontRendererObj.drawString(name1, 11, 11, -1);
         String power = StatCollector.translateToLocal("gui.energyStored") + ": " + this.entity.energy + " RF";
         this.fontRendererObj.drawString(power, 11, 21, -1);
-        String fuel1 = f2() + " " + StatCollector.translateToLocal("gui.level1") + ": " + Math.round(Math.floor(level2() / 672)) + " l";
+        String fuel1 = f2() + " " + StatCollector.translateToLocal("gui.level1") + ": " + Math.round(Math.floor(level2() / 120960)) + "%";
         this.fontRendererObj.drawString(fuel1, 11, 31, -1);
-        String fuel2 = f1() + " " + StatCollector.translateToLocal("gui.level2") + ": " + Math.round(Math.floor(level1() / 672)) + " l";
+        String fuel2 = f1() + " " + StatCollector.translateToLocal("gui.level2") + ": " + Math.round(Math.floor(level1() / 120960)) + "%";
         this.fontRendererObj.drawString(fuel2, 11, 41, -1);
         String egen = ((this.entity.HLevel + this.entity.DLevel + this.entity.TLevel + this.entity.HeLevel + this.entity.BLevel + this.entity.Li6Level + this.entity.Li7Level == 0 || this.entity.HLevel2 + this.entity.DLevel2 + this.entity.TLevel2 + this.entity.HeLevel2 + this.entity.BLevel2 + this.entity.Li6Level2 + this.entity.Li7Level2 == 0) ? 0 : this.entity.EShown) + " RF/t";
         this.fontRendererObj.drawString(egen, 11, 51, -1);
