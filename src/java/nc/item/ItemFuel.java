@@ -2,8 +2,6 @@ package nc.item;
 
 import java.util.List;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import nc.NuclearCraft;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -24,19 +22,19 @@ public class ItemFuel extends Item {
         this.setCreativeTab(NuclearCraft.tabNC);
 	}
 
-	@SideOnly(Side.CLIENT) public IIcon[] icons = new IIcon[6];
-	@SideOnly(Side.CLIENT) public IIcon[] icons1 = new IIcon[6];
-	@SideOnly(Side.CLIENT) public IIcon[] icons2 = new IIcon[6];
-	@SideOnly(Side.CLIENT) public IIcon[] icons3 = new IIcon[6];
-	@SideOnly(Side.CLIENT) public IIcon[] icons4 = new IIcon[6];
-	@SideOnly(Side.CLIENT) public IIcon[] icons5 = new IIcon[6];
-	@SideOnly(Side.CLIENT) public IIcon[] icons6 = new IIcon[6];
-	@SideOnly(Side.CLIENT) public IIcon[] icons7 = new IIcon[6];
-	@SideOnly(Side.CLIENT) public IIcon[] icons8 = new IIcon[6];
-	@SideOnly(Side.CLIENT) public IIcon[] icons9 = new IIcon[6];
-	@SideOnly(Side.CLIENT) public IIcon[] icons10 = new IIcon[6];
-	@SideOnly(Side.CLIENT) public IIcon[] icons11 = new IIcon[6];
-	@SideOnly(Side.CLIENT) public IIcon[] icons12 = new IIcon[4];
+	public IIcon[] icons = new IIcon[6];
+	public IIcon[] icons1 = new IIcon[6];
+	public IIcon[] icons2 = new IIcon[6];
+	public IIcon[] icons3 = new IIcon[6];
+	public IIcon[] icons4 = new IIcon[6];
+	public IIcon[] icons5 = new IIcon[6];
+	public IIcon[] icons6 = new IIcon[6];
+	public IIcon[] icons7 = new IIcon[6];
+	public IIcon[] icons8 = new IIcon[6];
+	public IIcon[] icons9 = new IIcon[6];
+	public IIcon[] icons10 = new IIcon[6];
+	public IIcon[] icons11 = new IIcon[6];
+	public IIcon[] icons12 = new IIcon[4];
         
 	public void registerIcons(IIconRegister reg) {
 	    for (int i = 0; i < 6; i ++) {

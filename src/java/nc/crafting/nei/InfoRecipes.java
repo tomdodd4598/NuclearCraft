@@ -60,9 +60,10 @@ public class InfoRecipes {
 		addRecipe(new ItemStack(NCBlocks.irradiatorIdle), "-Uses RF to bathe-materials in neutron-radiation, causing changes in-nuclear structure--Can accept speed and-efficiency upgrades");
 		addRecipe(new ItemStack(NCBlocks.factoryIdle), "-A very useful machine-that uses RF to create-machine parts and-efficiently process ores--Can accept speed and-efficiency upgrades");
 		addRecipe(new ItemStack(NCBlocks.heliumExtractorIdle), "-Uses RF to carefully-extract Liquid Helium-from its cells, so that it-can be transferred as a fluid");
-		addRecipe(new ItemStack(NCBlocks.superElectromagnetIdle), "-Used to control the-proton beams in particle-accelerators--Require " + NuclearCraft.superElectromagnetRF + " RF/t to run-continuously, and require-cooling from Supercoolers");
+		addRecipe(new ItemStack(NCBlocks.superElectromagnetIdle), "-Used to control the-beams in particle-accelerators--Require " + NuclearCraft.superElectromagnetRF + " RF/t to run-continuously, and require-cooling from Supercoolers");
+		addRecipe(new ItemStack(NCBlocks.electromagnetIdle), "-Used to control a-Fusion Reactor's-superhot plasma--Require " + NuclearCraft.electromagnetRF + " RF/t to run-continuously");
 		addRecipe(new ItemStack(NCBlocks.supercoolerIdle), "-Used in the construction-of particle accelerators-to cool the superconducting-electromagnets--Require " + NuclearCraft.electromagnetHe + " mB of Liquid-Helium per second to run-continuously");
-		addRecipe(new ItemStack(NCBlocks.synchrotronIdle), "-Place at the corner of a-particle accelerator ring--Takes in proton cells and-fires them into the accelerator");
+		addRecipe(new ItemStack(NCBlocks.synchrotronIdle), "-Place at the corner of a-particle accelerator ring--Takes in electron cells and-fires them into the accelerator");
 		addRecipe(new ItemStack(NCBlocks.simpleQuantumUp), "-A block that mimics the-probabilistic quantum-mechanical physics of a spin-1/2 particle, such as an-electron or a neutron");
 		addRecipe(new ItemStack(NCBlocks.simpleQuantumDown), "-A block that mimics the-probabilistic quantum-mechanical physics of a spin-1/2 particle, such as an-electron or a neutron");
 		addRecipe(new ItemStack(NCBlocks.blockHelium), "-Created by extraction-from supercooled Helium4-cells--Required for supercoolers-to cool down electromagnets-in a particle accelerator");

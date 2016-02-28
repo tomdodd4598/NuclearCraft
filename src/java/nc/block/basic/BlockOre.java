@@ -28,11 +28,8 @@ public class BlockOre extends Block {
         this.setBlockTextureName("nc:ore/" + unlocalizedName);
 	}
 	
-	@SideOnly(Side.CLIENT)
 	public IIcon[] icons = new IIcon[6];
-	@SideOnly(Side.CLIENT)
 	public IIcon[] icons2 = new IIcon[1];
-	@SideOnly(Side.CLIENT)
 	public IIcon[] icons3 = new IIcon[3];
 	
 	@SideOnly(Side.CLIENT)

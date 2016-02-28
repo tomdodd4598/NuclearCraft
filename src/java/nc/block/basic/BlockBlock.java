@@ -26,11 +26,8 @@ public class BlockBlock extends Block {
         this.setBlockTextureName("nc:metal/" + unlocalizedName);
 	}
 
-	@SideOnly(Side.CLIENT)
 	public IIcon[] icons = new IIcon[6];
-	@SideOnly(Side.CLIENT)
 	public IIcon[] icons2 = new IIcon[2];
-	@SideOnly(Side.CLIENT)
 	public IIcon[] icons3 = new IIcon[3];
 	
 	@SideOnly(Side.CLIENT)
