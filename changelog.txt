@@ -1,3 +1,16 @@
+v1.6e
+
++ Highly requested feature: New config option to disable the Nuclear Workspace and enable vanilla crafting recipes
++ This change allows for recipes to be edited via MineTweaker and for all parts of the mod to be auto-craftable
++ When 'false', the Heavy Duty Workspace will become uncraftable, and all Heavy Duty Workspace recipes are disabled
++ This option is found at the top of the NCConfig file
+
+* Slight changes to tool durabilities
+* Minor changes to GUI textures
+* Prevented Liquid Helium Extractor from running if internal tank is too full 
+
+* Possible other things that I have forgotten
+
 v1.6d
 
 + Added Achievements
