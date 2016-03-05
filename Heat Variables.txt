@@ -1,39 +1,40 @@
-As of Version 1.6c.
+As of Version 1.6e.
 The Heat Variables are used in the Efficiency Equation:
-efficiency = 100*e^((-(h - ln(t))^2)/2)/(t*e^(0.5 - h)),
+efficiency = 742*(e^(-t/h)+tanh(t/h)-1),
 where 't' is the current Reactor Temperature and 'h' is the fuel combo's Heat Variable.
+All of the values below are changeable in the Fusion config file
 
-H-H: 8.87
-H-D: 8.43
-H-T: 9.65
-H-He: 9.68
-H-B: 9.84
-H-Li6: 9.62
-H-Li7: 9.64
+H-H: 2140
+H-D: 1380
+H-T: 4700
+H-He: 4820
+H-B: 5660
+H-Li6: 4550
+H-Li7: 4640
 
-D-D: 9.67
-D-T: 7.70
-D-He: 8.97
-D-B: 9.89
-D-Li6: 9.78
-D-Li7: 10.10
+D-D: 4780
+D-T: 670
+D-He: 2370
+D-B: 5955
+D-Li6: 5335
+D-Li7: 7345
 
-T-T: 9.46
-T-He: 9.73
-T-B: 10.16
-T-Li6: 10.28
-T-Li7: 10.31
+T-T: 3875
+T-He: 5070
+T-B: 7810
+T-Li6: 7510
+T-Li7: 8060
 
-He-He: 10.02
-He-B: 10.30
-He-Li6: 10.56
-He-Li7: 10.62
+He-He: 6800
+He-B: 8060
+He-Li6: 8800
+He-Li7: 12500
 
-B-B: 10.58
-B-Li6: 10.61
-B-Li7: 10.69
+B-B: 8500
+B-Li6: 9200
+B-Li7: 13000
 
-Li6-Li6: 10.68
-Li6-Li7: 10.66
+Li6-Li6: 12000
+Li6-Li7: 11000
 
-Li7-Li7: 10.73
+Li7-Li7: 14000
