@@ -21,7 +21,7 @@ public class GuiFusionReactor extends GuiContainer
         super(new ContainerFusionReactor(inventoryPlayer, entity));
         this.entity = entity;
         this.xSize = 244;
-        this.ySize = 256;
+        this.ySize = 255;
     }
     
     public String f1() {
@@ -71,29 +71,29 @@ public class GuiFusionReactor extends GuiContainer
     public void drawGuiContainerForegroundLayer(int par1, int par2)
     {
         String name1 = StatCollector.translateToLocal("tile.fusionReactor.name");
-        this.fontRendererObj.drawString(name1, 11, 11, -1);
+        this.fontRendererObj.drawString(name1, 11, 10, -1);
         String power = StatCollector.translateToLocal("gui.energyStored") + ": " + this.entity.energy + " RF";
-        this.fontRendererObj.drawString(power, 11, 21, -1);
-        String fuel1 = f2() + " " + StatCollector.translateToLocal("gui.level1") + ": " + Math.round(Math.floor(level2() / 120960)) + "%";
-        this.fontRendererObj.drawString(fuel1, 11, 31, -1);
-        String fuel2 = f1() + " " + StatCollector.translateToLocal("gui.level2") + ": " + Math.round(Math.floor(level1() / 120960)) + "%";
-        this.fontRendererObj.drawString(fuel2, 11, 41, -1);
+        this.fontRendererObj.drawString(power, 11, 20, -1);
+        String fuel1 = f2() + " " + StatCollector.translateToLocal("gui.level1") + ": " + Math.round(level2() / 120960) + "%";
+        this.fontRendererObj.drawString(fuel1, 11, 30, -1);
+        String fuel2 = f1() + " " + StatCollector.translateToLocal("gui.level2") + ": " + Math.round(level1() / 120960) + "%";
+        this.fontRendererObj.drawString(fuel2, 11, 40, -1);
         String egen = ((this.entity.HLevel + this.entity.DLevel + this.entity.TLevel + this.entity.HeLevel + this.entity.BLevel + this.entity.Li6Level + this.entity.Li7Level == 0 || this.entity.HLevel2 + this.entity.DLevel2 + this.entity.TLevel2 + this.entity.HeLevel2 + this.entity.BLevel2 + this.entity.Li6Level2 + this.entity.Li7Level2 == 0) ? 0 : this.entity.EShown) + " RF/t";
-        this.fontRendererObj.drawString(egen, 11, 51, -1);
+        this.fontRendererObj.drawString(egen, 11, 50, -1);
         String size = StatCollector.translateToLocal("gui.reactorSize") + ": " + entity.size;
-        this.fontRendererObj.drawString(size, 11, 61, -1);
+        this.fontRendererObj.drawString(size, 11, 60, -1);
         String efficiency = StatCollector.translateToLocal("gui.efficiency") + ": " + Math.round(entity.efficiency) + "%";
-        this.fontRendererObj.drawString(efficiency, 11, 71, -1);
+        this.fontRendererObj.drawString(efficiency, 11, 70, -1);
         String heat = StatCollector.translateToLocal("gui.temp") + ": " + Math.round(entity.heat) + " MK";
-        this.fontRendererObj.drawString(heat, 11, 81, -1);
+        this.fontRendererObj.drawString(heat, 11, 80, -1);
         //String heatVar = StatCollector.translateToLocal("gui.heatVar") + ": " + entity.heatVar;
-        //this.fontRendererObj.drawString(heatVar, 11, 91, -1);
+        //this.fontRendererObj.drawString(heatVar, 11, 90, -1);
         String input = StatCollector.translateToLocal("gui.input");
-        this.fontRendererObj.drawString(input, 49, 158, -1);
+        this.fontRendererObj.drawString(input, 49, 157, -1);
         //String cells = StatCollector.translateToLocal("gui.cells");
-        //this.fontRendererObj.drawString(cells, 166-this.fontRendererObj.getStringWidth(cells), 158, -1);
+        //this.fontRendererObj.drawString(cells, 166-this.fontRendererObj.getStringWidth(cells), 157, -1);
         String out = StatCollector.translateToLocal("gui.output");
-        this.fontRendererObj.drawString(out, 172+32-this.fontRendererObj.getStringWidth(out)/2, 236, -1);
+        this.fontRendererObj.drawString(out, 172+32-this.fontRendererObj.getStringWidth(out)/2, 235, -1);
     }
 
     protected void drawGuiContainerBackgroundLayer(float var1, int var2, int var3)
@@ -103,32 +103,32 @@ public class GuiFusionReactor extends GuiContainer
         this.drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
         int k = this.entity.energy * 162 / 10000000;
         for (int texi = 0; texi < 5; ++texi) {
-        	this.drawTexturedModalRect(this.guiLeft + 213 + texi, this.guiTop + 8 + 162 - k, 244, 3 + 162 - k, 1, k);
+        	this.drawTexturedModalRect(this.guiLeft + 213 + texi, this.guiTop + 7 + 162 - k, 244, 3 + 162 - k, 1, k);
         }
         int heat1 = (int) (this.entity.heat * 162 / 20000);
         for (int texi2 = 0; texi2 < 5; ++texi2) {
-        	this.drawTexturedModalRect(this.guiLeft + 203 + texi2, this.guiTop + 8 + 162 - heat1, 245, 3 + 162 - heat1, 1, heat1);
+        	this.drawTexturedModalRect(this.guiLeft + 203 + texi2, this.guiTop + 7 + 162 - heat1, 245, 3 + 162 - heat1, 1, heat1);
         }
         int ef = (int) (this.entity.efficiency * 162 / 100);
         for (int texi3 = 0; texi3 < 5; ++texi3) {
-        	this.drawTexturedModalRect(this.guiLeft + 193 + texi3, this.guiTop + 8 + 162 - ef, 246, 3 + 162 - ef, 1, ef);
+        	this.drawTexturedModalRect(this.guiLeft + 193 + texi3, this.guiTop + 7 + 162 - ef, 246, 3 + 162 - ef, 1, ef);
         }
         int k2 = level1() * 162 / 12096000;
-        this.drawTexturedModalRect(this.guiLeft + 231, this.guiTop + 8 + 162 - k2, 249, 3 + 162 - k2, 5, k2);
+        this.drawTexturedModalRect(this.guiLeft + 231, this.guiTop + 7 + 162 - k2, 249, 3 + 162 - k2, 5, k2);
         int k3 = level2() * 162 / 12096000;
-        this.drawTexturedModalRect(this.guiLeft + 222, this.guiTop + 8 + 162 - k3, 249, 3 + 162 - k3, 5, k3);
+        this.drawTexturedModalRect(this.guiLeft + 222, this.guiTop + 7 + 162 - k3, 249, 3 + 162 - k3, 5, k3);
         
         int HOut = (int) Math.round(this.entity.HOut * 14 / 336000);
-        if (this.entity.HOut <= 336000) drawTexturedModalRect(guiLeft + 197, guiTop + 199, 241, 0, HOut, 1); else drawTexturedModalRect(guiLeft + 197, guiTop + 199, 241, 0, 14, 1);
+        if (this.entity.HOut <= 336000) drawTexturedModalRect(guiLeft + 197, guiTop + 198, 241, 255, HOut, 1); else drawTexturedModalRect(guiLeft + 197, guiTop + 198, 241, 255, 14, 1);
         int DOut = (int) Math.round(this.entity.DOut * 14 / 336000);
-        if (this.entity.DOut <= 336000) drawTexturedModalRect(guiLeft + 221, guiTop + 199, 241, 0, DOut, 1); else drawTexturedModalRect(guiLeft + 221, guiTop + 199, 241, 0, 14, 1);
+        if (this.entity.DOut <= 336000) drawTexturedModalRect(guiLeft + 221, guiTop + 198, 241, 255, DOut, 1); else drawTexturedModalRect(guiLeft + 221, guiTop + 198, 241, 255, 14, 1);
         int TOut = (int) Math.round(this.entity.TOut * 14 / 336000);
-        if (this.entity.TOut <= 336000) drawTexturedModalRect(guiLeft + 173, guiTop + 223, 241, 0, TOut, 1); else drawTexturedModalRect(guiLeft + 173, guiTop + 223, 241, 0, 14, 1);
+        if (this.entity.TOut <= 336000) drawTexturedModalRect(guiLeft + 173, guiTop + 222, 241, 255, TOut, 1); else drawTexturedModalRect(guiLeft + 173, guiTop + 222, 241, 255, 14, 1);
         int HE3Out = (int) Math.round(this.entity.HE3Out * 14 / 336000);
-        if (this.entity.HE3Out <= 336000) drawTexturedModalRect(guiLeft + 197, guiTop + 223, 241, 0, HE3Out, 1); else drawTexturedModalRect(guiLeft + 197, guiTop + 223, 241, 0, 14, 1);
+        if (this.entity.HE3Out <= 336000) drawTexturedModalRect(guiLeft + 197, guiTop + 222, 241, 255, HE3Out, 1); else drawTexturedModalRect(guiLeft + 197, guiTop + 222, 241, 255, 14, 1);
         int HE4Out = (int) Math.round(this.entity.HE4Out * 14 / 336000);
-        if (this.entity.HE4Out <= 336000) drawTexturedModalRect(guiLeft + 221, guiTop + 223, 241, 0, HE4Out, 1); else drawTexturedModalRect(guiLeft + 221, guiTop + 223, 241, 0, 14, 1);
+        if (this.entity.HE4Out <= 336000) drawTexturedModalRect(guiLeft + 221, guiTop + 222, 241, 255, HE4Out, 1); else drawTexturedModalRect(guiLeft + 221, guiTop + 222, 241, 255, 14, 1);
         int nOut = (int) Math.round(this.entity.nOut * 14 / 336000);
-        if (this.entity.nOut <= 336000) drawTexturedModalRect(guiLeft + 173, guiTop + 199, 241, 0, nOut, 1); else drawTexturedModalRect(guiLeft + 173, guiTop + 199, 241, 0, 14, 1);
+        if (this.entity.nOut <= 336000) drawTexturedModalRect(guiLeft + 173, guiTop + 198, 241, 255, nOut, 1); else drawTexturedModalRect(guiLeft + 173, guiTop + 198, 241, 255, 14, 1);
     }
 }

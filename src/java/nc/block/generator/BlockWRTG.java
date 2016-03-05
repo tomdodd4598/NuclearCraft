@@ -2,7 +2,7 @@ package nc.block.generator;
 
 import java.util.Random;
 
-import nc.block.basic.NCBlocks;
+import nc.block.NCBlocks;
 import nc.tile.generator.TileWRTG;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;

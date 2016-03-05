@@ -1,6 +1,6 @@
 package nc.tile.generator;
 
-import nc.block.basic.NCBlocks;
+import nc.block.NCBlocks;
 import nc.block.generator.BlockFusionReactor;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;

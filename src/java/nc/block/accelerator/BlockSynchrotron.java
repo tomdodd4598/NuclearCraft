@@ -3,7 +3,7 @@ package nc.block.accelerator;
 import java.util.Random;
 
 import nc.NuclearCraft;
-import nc.block.basic.NCBlocks;
+import nc.block.NCBlocks;
 import nc.block.machine.BlockMachine;
 import nc.tile.accelerator.TileSynchrotron;
 import net.minecraft.block.Block;

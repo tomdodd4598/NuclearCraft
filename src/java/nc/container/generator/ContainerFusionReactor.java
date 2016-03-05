@@ -50,26 +50,26 @@ public class ContainerFusionReactor extends Container {
     public ContainerFusionReactor(InventoryPlayer inventory, TileFusionReactor entity) {
         this.entity = entity;
         
-        this.addSlotToContainer(new Slot(entity, 0, 8, 154));
-        this.addSlotToContainer(new Slot(entity, 1, 26, 154));
-        this.addSlotToContainer(new Slot(entity, 2, 172, 154));
+        this.addSlotToContainer(new Slot(entity, 0, 8, 153));
+        this.addSlotToContainer(new Slot(entity, 1, 26, 153));
+        this.addSlotToContainer(new Slot(entity, 2, 172, 153));
         
-        this.addSlotToContainer(new SlotFurnace(inventory.player, entity, 3, 196, 181));
-        this.addSlotToContainer(new SlotFurnace(inventory.player, entity, 4, 220, 181));
-        this.addSlotToContainer(new SlotFurnace(inventory.player, entity, 5, 172, 205));
-        this.addSlotToContainer(new SlotFurnace(inventory.player, entity, 6, 196, 205));
-        this.addSlotToContainer(new SlotFurnace(inventory.player, entity, 7, 220, 205));
+        this.addSlotToContainer(new SlotFurnace(inventory.player, entity, 3, 196, 180));
+        this.addSlotToContainer(new SlotFurnace(inventory.player, entity, 4, 220, 180));
+        this.addSlotToContainer(new SlotFurnace(inventory.player, entity, 5, 172, 204));
+        this.addSlotToContainer(new SlotFurnace(inventory.player, entity, 6, 196, 204));
+        this.addSlotToContainer(new SlotFurnace(inventory.player, entity, 7, 220, 204));
         
-        this.addSlotToContainer(new SlotFurnace(inventory.player, entity, 8, 172, 181));
+        this.addSlotToContainer(new SlotFurnace(inventory.player, entity, 8, 172, 180));
         
         for (int i = 0; i < 3; ++i) {
             for (int j = 0; j < 9; ++j) {
-                this.addSlotToContainer(new Slot(inventory, j + i * 9 + 9, 8 + j * 18, 174 + i * 18));
+                this.addSlotToContainer(new Slot(inventory, j + i * 9 + 9, 8 + j * 18, 173 + i * 18));
             }
         }
 
         for (int i = 0; i < 9; ++i) {
-            this.addSlotToContainer(new Slot(inventory, i, 8 + i * 18, 232));
+            this.addSlotToContainer(new Slot(inventory, i, 8 + i * 18, 231));
         }
     }
 

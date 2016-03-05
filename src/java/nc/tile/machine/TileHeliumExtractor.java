@@ -3,6 +3,7 @@ package nc.tile.machine;
 import nc.NuclearCraft;
 import nc.block.machine.BlockHeliumExtractor;
 import nc.crafting.machine.HeliumExtractorRecipes;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
@@ -47,6 +48,55 @@ public class TileHeliumExtractor extends TileMachine implements IFluidHandler {
 			BlockHeliumExtractor.updateBlockState(flag, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
 		}
 		markDirty();
+	}
+	
+	public boolean canCook() {
+		for (int i = 0; i < inputSize; i++) {
+			if (this.slots[i] == null) {
+				flag = false;
+				return false;
+			}
+		}
+		if (this.tank.getFluidAmount() > 15000) {
+			flag = false;
+			return false;
+		}
+		if (this.cookTime >= getFurnaceSpeed) {
+			flag = true;
+			return true;
+		}
+		if (hasEnergy) {
+			if (this.energyStorage.getEnergyStored() < 1*((int) Math.ceil(getRequiredEnergy/getFurnaceSpeed))) {
+				flag = false;
+				return false;
+			}
+			if (this.energyStorage.getEnergyStored() == 0) {
+				flag = false;
+				return false;
+			}
+		}
+		ItemStack[] output = getOutput(inputs());
+		if (output == null || output.length != outputSize) {
+			return false;
+		}
+		for(int j = 0; j < outputSize; j++) {
+			if (output[j] == null) {
+				flag = false;
+				return false;
+			} else {
+				if (this.slots[j + inputSize] != null) {
+					if (!this.slots[j + inputSize].isItemEqual(output[j])) {
+						flag = false;
+						return false;
+					} else if (this.slots[j + inputSize].stackSize + output[j].stackSize > this.slots[j + inputSize].getMaxStackSize()) {
+						flag = false;
+						return false;
+					}
+				}
+			}
+		}
+		flag = true;
+		return true;
 	}
 	
 	public void readFromNBT(NBTTagCompound nbt) {

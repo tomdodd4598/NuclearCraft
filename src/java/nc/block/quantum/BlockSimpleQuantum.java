@@ -2,7 +2,7 @@ package nc.block.quantum;
 
 import java.util.Random;
 
-import nc.block.basic.NCBlocks;
+import nc.block.NCBlocks;
 import nc.tile.quantum.TileSimpleQuantum;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;

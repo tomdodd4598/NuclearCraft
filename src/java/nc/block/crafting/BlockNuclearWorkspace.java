@@ -1,7 +1,7 @@
 package nc.block.crafting;
 
 import nc.NuclearCraft;
-import nc.block.basic.NCBlocks;
+import nc.block.NCBlocks;
 import nc.tile.crafting.TileNuclearWorkspace;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
