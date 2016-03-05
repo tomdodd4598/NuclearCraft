@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import nc.block.basic.NCBlocks;
+import nc.block.NCBlocks;
 import nc.item.NCItems;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;

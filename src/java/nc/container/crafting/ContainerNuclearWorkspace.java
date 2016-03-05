@@ -1,6 +1,6 @@
 package nc.container.crafting;
 
-import nc.block.basic.NCBlocks;
+import nc.block.NCBlocks;
 import nc.crafting.workspace.NuclearWorkspaceCraftingManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;

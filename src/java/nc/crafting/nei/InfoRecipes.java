@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import nc.NuclearCraft;
-import nc.block.basic.NCBlocks;
+import nc.block.NCBlocks;
 import nc.item.NCItems;
 import nc.tile.generator.TileFissionReactor;
 import net.minecraft.item.ItemStack;
@@ -44,7 +44,7 @@ public class InfoRecipes {
 		addRecipe(new ItemStack(NCBlocks.coolerBlock), "-Removes heat from-Fission Reactors");
 		addRecipe(new ItemStack(NCBlocks.speedBlock), "-Causes nuclear fuels to-deplete faster in Fission-Reactors");
 		addRecipe(new ItemStack(NCBlocks.blastBlock), "-Three times as blast-resistant as obsidian--Can resist nuke explosions");
-		addRecipe(new ItemStack(NCBlocks.nuclearWorkspace), "-An advanced 5x5-crafting table used to-make many things from-NuclearCraft");
+		addRecipe(new ItemStack(NCBlocks.nuclearWorkspace), "-An advanced 5x5-crafting table used to-make many things from-NuclearCraft" + (!NuclearCraft.workspace ? "--Currently disabled" : ""));
 		addRecipe(new ItemStack(NCBlocks.fusionReactor), "-An advanced RF generator-that fuses Hydrogen, Deuterium,-Tritium, Helium3, Lithium6,-Lithium7 and Boron11 to-generate a very large-amount of RF");
 		addRecipe(new ItemStack(NCBlocks.tubing1), "-Purely decorative block--Looks nice at the edges of-Fission Reactors");
 		addRecipe(new ItemStack(NCBlocks.tubing2), "-Purely decorative block--Looks nice at the edges of-Fission Reactors");

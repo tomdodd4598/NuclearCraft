@@ -1,6 +1,6 @@
 package nc.crafting.machine;
 
-import nc.block.basic.NCBlocks;
+import nc.block.NCBlocks;
 import nc.crafting.NCRecipeHelper;
 import net.minecraft.item.ItemStack;
 

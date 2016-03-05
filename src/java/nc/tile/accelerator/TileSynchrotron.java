@@ -1,8 +1,8 @@
 package nc.tile.accelerator;
 
 import nc.NuclearCraft;
+import nc.block.NCBlocks;
 import nc.block.accelerator.BlockSynchrotron;
-import nc.block.basic.NCBlocks;
 import nc.item.NCItems;
 import nc.tile.machine.TileInventory;
 import net.minecraft.block.Block;
@@ -35,6 +35,7 @@ public class TileSynchrotron extends TileInventory implements IEnergyHandler, IE
 	public double efficiency;
 	public double particleEnergy;
 	public double percentageOn;
+	public static int fuelMax = 100000;
 	public String problem = StatCollector.translateToLocal("gui.ringIncomplete");
 	private static final int[] slotsTop = new int[] {0, 1};
     private static final int[] slotsSides = new int[] {0, 1};
@@ -49,6 +50,7 @@ public class TileSynchrotron extends TileInventory implements IEnergyHandler, IE
     	super.updateEntity();
     	if(!this.worldObj.isRemote) {
     		percentageOn();
+    		fuel();
     	}
         if (flag != flag1) {flag1 = flag; BlockSynchrotron.updateBlockState(flag, this.worldObj, this.xCoord, this.yCoord, this.zCoord);}
         markDirty();
@@ -57,6 +59,19 @@ public class TileSynchrotron extends TileInventory implements IEnergyHandler, IE
     		checkRing();
     	}
     }
+	
+	private void fuel() {
+		ItemStack stack = this.getStackInSlot(0);
+
+		if (stack != null && isFuel(stack) && fuel + 10000 <= fuelMax) {
+			fuel += 10000;
+			--this.slots[0].stackSize;
+
+			if (this.slots[0].stackSize <= 0) {
+				this.slots[0] = null;
+			}
+		}
+	}
 	
 	public boolean multiblock(World world, int x, int y, int z) {
     	return checkRing();
@@ -288,37 +303,37 @@ public class TileSynchrotron extends TileInventory implements IEnergyHandler, IE
 		if (cornerbl(0,0,0)) {
 			l = lengthl();
 			if (l < 1) {
-				flag = false; return false;
+				this.problem = StatCollector.translateToLocal("gui.ringNotBigEnough"); flag = false; return false;
 			}
 			if (l > 2) for (int i = 0; i < l-2; i++) {
 				if(!tubef(2+i,0,0) || !tuber(l+1,0,2+i) || !tubef(2+i,0,l+1) || !tuber(0,0,2+i)) {
-					flag = false; return false;
+					this.problem = StatCollector.translateToLocal("gui.tubeIncomplete"); flag = false; return false;
 				}
 			}
 			if(!cornerbl(0,0,0) || !cornertl(1+l,0,0) || !cornertr(1+l,0,1+l) || !cornerbr(0,0,1+l)) {
-				flag = false; return false;
+				this.problem = StatCollector.translateToLocal("gui.cornerIncomplete"); flag = false; return false;
 			}
 			if(find(s,ss,0,0,-2) || find(s,ss,l+1,0,-2) || find(s,ss,l+3,0,0) || find(s,ss,l+3,0,l+1) || find(s,ss,l+1,0,l+3) || find(s,ss,0,0,l+3) || find(s,ss,-2,0,l+1)) {
-				flag = false; return false;
+				this.problem = StatCollector.translateToLocal("gui.multipleControllers"); flag = false; return false;
 			}
 		} else if (cornerbr(0,0,0)) {
 			l = lengthr();
 			if (l < 1) {
-				flag = false; return false;
+				this.problem = StatCollector.translateToLocal("gui.ringNotBigEnough"); flag = false; return false;
 			}
 			if (l > 2) for (int i = 0; i < l-2; i++) {
 				if(!tubef(2+i,0,0) || !tuber(l+1,0,-(2+i)) || !tubef(2+i,0,-(l+1)) || !tuber(0,0,-(2+i))) {
-					flag = false; return false;
+					this.problem = StatCollector.translateToLocal("gui.tubeIncomplete"); flag = false; return false;
 				}
 			}
 			if(!cornerbr(0,0,0) || !cornertr(1+l,0,0) || !cornertl(1+l,0,-(1+l)) || !cornerbl(0,0,-(1+l))) {
-				flag = false; return false;
+				this.problem = StatCollector.translateToLocal("gui.cornerIncomplete"); flag = false; return false;
 			}
 			if(find(s,ss,0,0,-(-2)) || find(s,ss,l+1,0,-(-2)) || find(s,ss,l+3,0,0) || find(s,ss,l+3,0,-(l+1)) || find(s,ss,l+1,0,-(l+3)) || find(s,ss,0,0,-(l+3)) || find(s,ss,-2,0,-(l+1))) {
-				flag = false; return false;
+				this.problem = StatCollector.translateToLocal("gui.multipleControllers"); flag = false; return false;
 			}
 		} else {
-			flag = false; return false;
+			this.problem = StatCollector.translateToLocal("gui.ringIncomplete"); flag = false; return false;
 		}
 		flag = true; return true;
     }
