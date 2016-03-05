@@ -1,3 +1,29 @@
+v1.6d
+
++ Added Achievements
+
++ Thermal Expansion support
+* Speed and Energy Upgrades now increase the speed and energy efficiency of machines exponetially
++ Many, many new configs
+
+* Fixed crash bug related to liquid helium having 0 viscosity
+* Fixed major crash when RTGs and Solar Panels were connected to Extra Utilities pipes
+
++ 3 Music Discs... 10 points to whoever knows which game the songs are from (good luck)!
++ Ricecake and Fish and a Ricecake
++ Fusion Electromagnets (currently have no use)
+
+* Re-organised configs (again... sorry! Delete or ignore the old config files) 
+* Recipe changes
+* Minor changes to RF generation from continuous generators
+* Minor changes to mob drops
+* Minor texture changes
+* Synchrotron Controllers can now determine whether it is connected to a complete Accelerator ring (still can't be used, however)
+* Made attempts to lower lag from certain blocks
+* More restructuring of the mod
+
+* Possible other things that I have forgotten
+
 v1.6c
 
 + Huge amounts of additional NEI info about blocks and items in the mod
