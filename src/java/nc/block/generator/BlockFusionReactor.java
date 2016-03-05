@@ -3,7 +3,7 @@ package nc.block.generator;
 import java.util.Random;
 
 import nc.NuclearCraft;
-import nc.block.NCBlocks;
+import nc.block.basic.NCBlocks;
 import nc.tile.generator.TileFusionReactor;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;

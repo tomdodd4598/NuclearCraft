@@ -1,7 +1,7 @@
 package nc.crafting.nei;
 
 import nc.NuclearCraft;
-import nc.block.NCBlocks;
+import nc.block.basic.NCBlocks;
 import nc.gui.crafting.GuiNuclearWorkspace;
 import nc.gui.generator.GuiFissionReactor;
 import nc.gui.machine.GuiAutoWorkspace;

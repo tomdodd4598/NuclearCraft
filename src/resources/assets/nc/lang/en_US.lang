@@ -125,16 +125,6 @@ gui.input=Input
 gui.output=Output
 gui.cells=Cells
 
-gui.synchrotron=Synchrotron
-gui.electronEnergy=Energy
-gui.percentageOn=Sections Online
-gui.radiationPower=Radiation Power
-gui.ringIncomplete=Ring Incomplete
-gui.tubeIncomplete=Tube Incomplete
-gui.cornerIncomplete=Corner Incomplete
-gui.ringNotBigEnough=Ring Too Small
-gui.radiationPower=Radiation Power
-
 gui.online=Online
 gui.offline=Offline
 

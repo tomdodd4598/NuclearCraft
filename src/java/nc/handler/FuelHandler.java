@@ -1,6 +1,6 @@
 package nc.handler;
 
-import nc.block.NCBlocks;
+import nc.block.basic.NCBlocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import cpw.mods.fml.common.IFuelHandler;

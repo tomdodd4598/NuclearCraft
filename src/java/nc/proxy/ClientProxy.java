@@ -1,6 +1,6 @@
 package nc.proxy;
 
-import nc.block.NCBlocks;
+import nc.block.basic.NCBlocks;
 import nc.entity.EntityBullet;
 import nc.entity.EntityNuclearGrenade;
 import nc.entity.EntityNuclearMonster;

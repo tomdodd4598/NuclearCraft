@@ -1,7 +1,7 @@
 package nc.tile.generator;
 
 import nc.NuclearCraft;
-import nc.block.NCBlocks;
+import nc.block.basic.NCBlocks;
 import nc.block.generator.BlockFusionReactor;
 import nc.handler.BombType;
 import nc.handler.EntityBomb;

@@ -1,10 +1,9 @@
-As of Version 1.6e.
+As of Version 1.6c.
 The Fuel Variables are used to determine the amount of Fuel used up per tick:
-fuelUsage = size*fuelVariable,
+fuelUsage = (sqrt(efficiency)/10)*size*fuelVariable,
 Where size is the Size of the Fusion Reactor, and efficiency is the Efficiency of the Reactor, calculated by the Efficiency Equation:
-efficiency = 742*(e^(-t/h)+tanh(t/h)-1),
+efficiency = 100*e^((-(h - ln(t))^2)/2)/(t*e^(0.5 - h)),
 where 't' is the current Reactor Temperature and 'h' is the fuel combo's Heat Variable.
-All of the values below are changeable in the Fusion config file
 
 H-H: 100
 H-D: 60

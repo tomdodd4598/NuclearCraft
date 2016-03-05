@@ -2,7 +2,7 @@ package nc.block.accelerator;
 
 import java.util.Random;
 
-import nc.block.NCBlocks;
+import nc.block.basic.NCBlocks;
 import nc.tile.accelerator.TileSuperElectromagnet;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;

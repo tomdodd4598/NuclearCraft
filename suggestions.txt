@@ -1,0 +1,3 @@
+Keep items in Heavy Duty Workspace on closing GUI
+OpenComputers and CC integration (primarily for Reactors)
+Minetweaker support (primarily for Heavy Duty Workspace)

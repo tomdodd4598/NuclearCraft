@@ -3,7 +3,7 @@ package nc.worldgen;
 import java.util.Random;
 
 import nc.NuclearCraft;
-import nc.block.NCBlocks;
+import nc.block.basic.NCBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;

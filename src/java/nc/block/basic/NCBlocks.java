@@ -1,4 +1,4 @@
-package nc.block;
+package nc.block.basic;
 
 import net.minecraft.block.Block;
 import net.minecraftforge.fluids.Fluid;

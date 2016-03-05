@@ -1,6 +1,6 @@
 package nc.render;
 
-import nc.block.NCBlocks;
+import nc.block.basic.NCBlocks;
 import nc.entity.EntityNukePrimed;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.entity.Render;

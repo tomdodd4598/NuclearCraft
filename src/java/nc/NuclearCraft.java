@@ -6,13 +6,13 @@ import nc.armour.BoronArmour;
 import nc.armour.BronzeArmour;
 import nc.armour.DUArmour;
 import nc.armour.ToughArmour;
-import nc.block.NCBlocks;
 import nc.block.accelerator.BlockSuperElectromagnet;
 import nc.block.accelerator.BlockSupercooler;
 import nc.block.accelerator.BlockSynchrotron;
 import nc.block.basic.BlockBlock;
 import nc.block.basic.BlockMachineBlock;
 import nc.block.basic.BlockOre;
+import nc.block.basic.NCBlocks;
 import nc.block.crafting.BlockNuclearWorkspace;
 import nc.block.fluid.BlockHelium;
 import nc.block.fluid.FluidHelium;
@@ -148,7 +148,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 public class NuclearCraft {
 	public static final String modid = "NuclearCraft";
-	public static final String version = "1.6e";
+	public static final String version = "1.6d";
 	 
 	public static final CreativeTabs tabNC = new CreativeTabs("tabNC") {
 		// Creative Tab Shown Item
@@ -165,10 +165,10 @@ public class NuclearCraft {
 	public static final ToolMaterial dUPaxel = EnumHelper.addToolMaterial("dUPaxel", 5, 45000, 25.0F, 20.0F, 50);
 	public static final ToolMaterial Boron = EnumHelper.addToolMaterial("Boron", 2, 1200, 9.0F, 3.0F, 5);
 	
-	public static final ArmorMaterial ToughArmorMaterial = EnumHelper.addArmorMaterial("ToughArmorMaterial", 50, new int [] {5, 9, 5, 3}, 10);
+	public static final ArmorMaterial ToughArmorMaterial = EnumHelper.addArmorMaterial("ToughArmorMaterial", 50, new int [] {4, 8, 5, 3}, 10);
 	public static final ArmorMaterial BoronArmorMaterial = EnumHelper.addArmorMaterial("BoronArmorMaterial", 30, new int [] {3, 7, 5, 3}, 5);
 	public static final ArmorMaterial BronzeArmorMaterial = EnumHelper.addArmorMaterial("BronzeArmorMaterial", 20, new int [] {2, 6, 5, 2}, 9);
-	public static final ArmorMaterial dUArmorMaterial = EnumHelper.addArmorMaterial("dUArmorMaterial", 100, new int [] {5, 9, 6, 4}, 50);
+	public static final ArmorMaterial dUArmorMaterial = EnumHelper.addArmorMaterial("dUArmorMaterial", 85, new int [] {5, 9, 5, 4}, 40);
 	
 		// Mod Checker
 	public static boolean isIC2Loaded;
@@ -204,8 +204,6 @@ public class NuclearCraft {
 	public static final int guiIdAutoWorkspace = 20;
 	
 	// Config File
-	public static boolean workspace;
-	
 	public static boolean oreGenCopper;
 	public static int oreSizeCopper;
 	public static int oreRarityCopper;
@@ -288,7 +286,6 @@ public class NuclearCraft {
 	public static boolean enableLoot;
 	public static int lootModifier;
 	
-	public static int fissionMaxLength;
 	public static int fissionRF;
 	public static int fissionEfficiency;
 	public static int fissionHeat;
@@ -324,7 +321,6 @@ public class NuclearCraft {
 	public static int baseHeatLEPOx;
 	public static int baseHeatHEPOx;
 	
-	public static int fusionMaxRadius;
 	public static int fusionRF;
 	public static int fusionEfficiency;
 	public static int fusionHeat;
@@ -484,8 +480,6 @@ public class NuclearCraft {
 		fusionConfig.load();
 		acceleratorConfig.load();
 		
-		workspace = config.getBoolean("If disabled, all crafting recipes will be vanilla crafting table recipes, and the Heavy Duty Workspace will be disabled", "!: Enable Heavy Duty Workspace", true, "");
-		
 		oreGenCopper = config.getBoolean("Generation", "0.0: Copper Ore", true, "");
 		oreSizeCopper = config.getInt("Chunk Size", "0.0: Copper Ore", 8, 1, 100, "");
 		oreRarityCopper = config.getInt("Gen Rate", "0.0: Copper Ore", 12, 1, 100, "");
@@ -526,7 +520,7 @@ public class NuclearCraft {
 		oreSizePlutonium = config.getInt("Chunk Size", "0.9: Plutonium Ore", 3, 1, 100, "");
 		oreRarityPlutonium = config.getInt("Gen Rate", "0.9: Plutonium Ore", 3, 1, 100, "");
 		oreMaxHeightPlutonium = config.getInt("Max Height", "0.9: Plutonium Ore", 255, 1, 255, "");
-
+		
 		electricCrusherCrushSpeed = config.getInt("Electic Crusher Speed Multiplier", "1.0: RF Machines", 100, 10, 1000, "");
 		electricCrusherCrushEfficiency = config.getInt("Electic Crusher Efficiency Multiplier", "1.0: RF Machines", 100, 10, 1000, "");
 		electricFurnaceSmeltSpeed = config.getInt("Electic Furnace Speed Multiplier", "1.0: RF Machines", 100, 10, 1000, "");
@@ -568,7 +562,6 @@ public class NuclearCraft {
 		enableLoot = config.getBoolean("Enable Loot in Generated Chests", "2.1: Other", true, "");
 		lootModifier = config.getInt("Loot Gen Rate Modifier", "2.1: Other", 10, 1, 100, "");
 		
-		fissionMaxLength = fissionConfig.getInt("Fission Reactor Maximum Interior Length", "0: General", 50, 5, 500, "");
 		fissionRF = fissionConfig.getInt("Fission Reactor RF Production Multiplier", "0: General", 100, 10, 1000, "");
 		fissionEfficiency = fissionConfig.getInt("Fission Reactor Fuel Efficiency Multiplier", "0: General", 100, 10, 1000, "");
 		fissionHeat = fissionConfig.getInt("Fission Reactor Heat Production Multiplier", "0: General", 100, 10, 1000, "");
@@ -604,7 +597,6 @@ public class NuclearCraft {
 		baseHeatLEPOx = fissionConfig.getInt("LEP-Ox Base Heat", "3: Fission Fuel Base Heat", 105, 10, 1050, "");
 		baseHeatHEPOx = fissionConfig.getInt("HEP-Ox Base Heat", "3: Fission Fuel Base Heat", 1050, 105, 10500, "");
 		
-		fusionMaxRadius = fusionConfig.getInt("Fusion Reactor Maximum Radius - Defined as Number of Blocks Between the Middle of the Control Chunk and a Central Inner Electromagnet", "0: General", 50, 5, 500, "");
 		fusionRF = fusionConfig.getInt("Fusion Reactor RF Production Multiplier", "0: General", 100, 10, 1000, "");
 		fusionEfficiency = fusionConfig.getInt("Fusion Reactor Fuel Efficiency Multiplier", "0: General", 100, 10, 1000, "");
 		fusionHeat = fusionConfig.getInt("Fusion Reactor Heat Production Multiplier", "0: General", 100, 10, 1000, "");
@@ -695,7 +687,7 @@ public class NuclearCraft {
 		heatLi6Li7 = fusionConfig.getInt("Li6Li7 Heat Variable", "3: Fusion Combo Heat Variable", 11000, 500, 20000, "");
 		heatLi7Li7 = fusionConfig.getInt("Li7Li7 Heat Variable", "3: Fusion Combo Heat Variable", 14000, 500, 20000, "");
 		
-		ringMaxSize = acceleratorConfig.getInt("Maximum Ring Size", "0: General", 200, 20, 2000, "");
+		ringMaxSize = acceleratorConfig.getInt("Maximum Ring Size", "0: General", 120, 10, 1000, "");
 		colliderRF = acceleratorConfig.getInt("Collider RF Requirement Multiplier", "0: General", 100, 10, 1000, "");
 		colliderProduction = acceleratorConfig.getInt("Collider Production Multiplier", "0: General", 100, 10, 1000, "");
 		synchrotronRF = acceleratorConfig.getInt("Synchrotron RF Requirement Multiplier", "0: General", 100, 10, 1000, "");
@@ -1035,250 +1027,315 @@ public class NuclearCraft {
 		GameRegistry.registerItem(NCItems.recordNeighborhood, "recordNeighborhood");
 		
 		// Block Crafting Recipes
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCBlocks.blockBlock, 1, 4), true, new Object[] {"XXX", "XXX", "XXX", 'X', "ingotUranium"}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCBlocks.blockBlock, 1, 0), true, new Object[] {"XXX", "XXX", "XXX", 'X',  "ingotCopper"}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCBlocks.blockBlock, 1, 1), true, new Object[] {"XXX", "XXX", "XXX", 'X',  "ingotTin"}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCBlocks.blockBlock, 1, 2), true, new Object[] {"XXX", "XXX", "XXX", 'X',  "ingotLead"}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCBlocks.blockBlock, 1, 3), true, new Object[] {"XXX", "XXX", "XXX", 'X',  "ingotSilver"}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCBlocks.blockBlock, 1, 6), true, new Object[] {"XXX", "XXX", "XXX", 'X',  "ingotBronze"}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCBlocks.blockBlock, 1, 5), true, new Object[] {"XXX", "XXX", "XXX", 'X',  "ingotThorium"}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCBlocks.blockBlock, 1, 8), true, new Object[] {"XXX", "XXX", "XXX", 'X',  "ingotLithium"}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCBlocks.blockBlock, 1, 9), true, new Object[] {"XXX", "XXX", "XXX", 'X',  "ingotBoron"}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCBlocks.blockBlock, 1, 10), true, new Object[] {"XXX", "XXX", "XXX", 'X',  "ingotMagnesium"}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCBlocks.blockBlock, 1, 4), true,
+				new Object[] {"XXX", "XXX", "XXX", 'X', "ingotUranium"}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCBlocks.blockBlock, 1, 0), true,
+				new Object[] {"XXX", "XXX", "XXX", 'X',  "ingotCopper"}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCBlocks.blockBlock, 1, 1), true,
+				new Object[] {"XXX", "XXX", "XXX", 'X',  "ingotTin"}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCBlocks.blockBlock, 1, 2), true,
+				new Object[] {"XXX", "XXX", "XXX", 'X',  "ingotLead"}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCBlocks.blockBlock, 1, 3), true,
+				new Object[] {"XXX", "XXX", "XXX", 'X',  "ingotSilver"}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCBlocks.blockBlock, 1, 6), true,
+				new Object[] {"XXX", "XXX", "XXX", 'X',  "ingotBronze"}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCBlocks.blockBlock, 1, 5), true,
+				new Object[] {"XXX", "XXX", "XXX", 'X',  "ingotThorium"}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCBlocks.blockBlock, 1, 8), true,
+				new Object[] {"XXX", "XXX", "XXX", 'X',  "ingotLithium"}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCBlocks.blockBlock, 1, 9), true,
+				new Object[] {"XXX", "XXX", "XXX", 'X',  "ingotBoron"}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCBlocks.blockBlock, 1, 10), true,
+				new Object[] {"XXX", "XXX", "XXX", 'X',  "ingotMagnesium"}));
 		
 		// Tiny Dust to Full Dust
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCItems.material, 1, 17), true, new Object[] {"XXX", "XXX", "XXX", 'X', new ItemStack (NCItems.material, 1, 23)}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCItems.material, 1, 17), true,
+				new Object[] {"XXX", "XXX", "XXX", 'X', new ItemStack (NCItems.material, 1, 23)}));
 		
 		// Isotope Lump Recipes
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCItems.material, 1, 28), true, new Object[] {"XXX", "XXX", "XXX", 'X', new ItemStack (NCItems.material, 1, 29)}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCItems.material, 1, 26), true, new Object[] {"XXX", "XXX", "XXX", 'X', new ItemStack (NCItems.material, 1, 27)}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCItems.material, 1, 24), true, new Object[] {"XXX", "XXX", "XXX", 'X', new ItemStack (NCItems.material, 1, 25)}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCItems.material, 1, 30), true, new Object[] {"XXX", "XXX", "XXX", 'X', new ItemStack (NCItems.material, 1, 31)}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCItems.material, 1, 32), true, new Object[] {"XXX", "XXX", "XXX", 'X', new ItemStack (NCItems.material, 1, 33)}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCItems.material, 1, 34), true, new Object[] {"XXX", "XXX", "XXX", 'X', new ItemStack (NCItems.material, 1, 35)}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCItems.material, 1, 36), true, new Object[] {"XXX", "XXX", "XXX", 'X', new ItemStack (NCItems.material, 1, 37)}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCItems.material, 1, 38), true, new Object[] {"XXX", "XXX", "XXX", 'X', new ItemStack (NCItems.material, 1, 39)}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCItems.material, 1, 40), true, new Object[] {"XXX", "XXX", "XXX", 'X', new ItemStack (NCItems.material, 1, 41)}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCItems.material, 1, 28), true,
+				new Object[] {"XXX", "XXX", "XXX", 'X', new ItemStack (NCItems.material, 1, 29)}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCItems.material, 1, 26), true,
+				new Object[] {"XXX", "XXX", "XXX", 'X', new ItemStack (NCItems.material, 1, 27)}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCItems.material, 1, 24), true,
+				new Object[] {"XXX", "XXX", "XXX", 'X', new ItemStack (NCItems.material, 1, 25)}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCItems.material, 1, 30), true,
+				new Object[] {"XXX", "XXX", "XXX", 'X', new ItemStack (NCItems.material, 1, 31)}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCItems.material, 1, 32), true,
+				new Object[] {"XXX", "XXX", "XXX", 'X', new ItemStack (NCItems.material, 1, 33)}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCItems.material, 1, 34), true,
+				new Object[] {"XXX", "XXX", "XXX", 'X', new ItemStack (NCItems.material, 1, 35)}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCItems.material, 1, 36), true,
+				new Object[] {"XXX", "XXX", "XXX", 'X', new ItemStack (NCItems.material, 1, 37)}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCItems.material, 1, 38), true,
+				new Object[] {"XXX", "XXX", "XXX", 'X', new ItemStack (NCItems.material, 1, 39)}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCItems.material, 1, 40), true,
+				new Object[] {"XXX", "XXX", "XXX", 'X', new ItemStack (NCItems.material, 1, 41)}));
 		
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCItems.material, 1, 59), true, new Object[] {"XXX", "XXX", "XXX", 'X', new ItemStack (NCItems.material, 1, 60)}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCItems.material, 1, 57), true, new Object[] {"XXX", "XXX", "XXX", 'X', new ItemStack (NCItems.material, 1, 58)}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCItems.material, 1, 55), true, new Object[] {"XXX", "XXX", "XXX", 'X', new ItemStack (NCItems.material, 1, 56)}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCItems.material, 1, 61), true, new Object[] {"XXX", "XXX", "XXX", 'X', new ItemStack (NCItems.material, 1, 62)}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCItems.material, 1, 63), true, new Object[] {"XXX", "XXX", "XXX", 'X', new ItemStack (NCItems.material, 1, 64)}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCItems.material, 1, 65), true, new Object[] {"XXX", "XXX", "XXX", 'X', new ItemStack (NCItems.material, 1, 66)}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCItems.material, 1, 67), true, new Object[] {"XXX", "XXX", "XXX", 'X', new ItemStack (NCItems.material, 1, 68)}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCItems.material, 1, 59), true,
+				new Object[] {"XXX", "XXX", "XXX", 'X', new ItemStack (NCItems.material, 1, 60)}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCItems.material, 1, 57), true,
+				new Object[] {"XXX", "XXX", "XXX", 'X', new ItemStack (NCItems.material, 1, 58)}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCItems.material, 1, 55), true,
+				new Object[] {"XXX", "XXX", "XXX", 'X', new ItemStack (NCItems.material, 1, 56)}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCItems.material, 1, 61), true,
+				new Object[] {"XXX", "XXX", "XXX", 'X', new ItemStack (NCItems.material, 1, 62)}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCItems.material, 1, 63), true,
+				new Object[] {"XXX", "XXX", "XXX", 'X', new ItemStack (NCItems.material, 1, 64)}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCItems.material, 1, 65), true,
+				new Object[] {"XXX", "XXX", "XXX", 'X', new ItemStack (NCItems.material, 1, 66)}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCItems.material, 1, 67), true,
+				new Object[] {"XXX", "XXX", "XXX", 'X', new ItemStack (NCItems.material, 1, 68)}));
 		
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCItems.material, 1, 46), true, new Object[] {"XXX", "XXX", "XXX", 'X', new ItemStack (NCItems.material, 1, 69)}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCItems.material, 1, 48), true, new Object[] {"XXX", "XXX", "XXX", 'X', new ItemStack (NCItems.material, 1, 70)}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCItems.material, 1, 46), true,
+				new Object[] {"XXX", "XXX", "XXX", 'X', new ItemStack (NCItems.material, 1, 69)}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCItems.material, 1, 48), true,
+				new Object[] {"XXX", "XXX", "XXX", 'X', new ItemStack (NCItems.material, 1, 70)}));
 		
 		// Shaped Crafting Recipes
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCItems.fuel, 16, 33), true, new Object[] {" I ", "I I", " I ", 'I', "plateIron"}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCItems.fuel, 16, 45), true, new Object[] {" I ", "I I", " I ", 'I', "plateTin"}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCItems.fuel, 16, 33), true,
+				new Object[] {" I ", "I I", " I ", 'I', "plateIron"}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCItems.fuel, 16, 45), true,
+				new Object[] {" I ", "I I", " I ", 'I', "plateTin"}));
 		
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCItems.parts, 2, 0), true, new Object[] {"LLL", "CCC", 'L', "ingotLead", 'C', "dustCoal"}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCItems.parts, 1, 2), true, new Object[] {"FFF", "CCC", "SSS", 'F', Items.flint, 'C', "cobblestone", 'S', Items.stick}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCItems.parts, 2, 0), true,
+				new Object[] {"LLL", "CCC", 'L', "ingotLead", 'C', "dustCoal"}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCItems.parts, 1, 2), true,
+				new Object[] {"FFF", "CCC", "SSS", 'F', Items.flint, 'C', "cobblestone", 'S', Items.stick}));
 		
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCItems.parts, 12, 1), true, new Object[] {"III", "IBI", "III", 'I', "ingotIron", 'B', "blockIron"}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCItems.parts, 12, 6), true, new Object[] {"III", "IBI", "III", 'I', "ingotTin", 'B', "blockTin"}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.nuclearFurnaceIdle, true, new Object[] {"XPX", "P P", "XPX", 'P', "plateBasic", 'X', "dustObsidian"}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.furnaceIdle, true, new Object[] {"PPP", "P P", "PPP", 'P', "plateIron"}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.crusherIdle, true, new Object[] {"PPP", "PCP", "PPP", 'P', "plateIron", 'C', new ItemStack(NCItems.parts, 1, 2)}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.electricCrusherIdle, true, new Object[] {"PRP", "RCR", "PRP", 'P', "plateIron", 'R', Items.redstone, 'C', NCBlocks.crusherIdle}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.electricFurnaceIdle, true, new Object[] {"PRP", "RCR", "PRP", 'P', "plateIron", 'R', Items.redstone, 'C', NCBlocks.furnaceIdle}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCItems.parts, 12, 1), true,
+				new Object[] {"III", "IBI", "III", 'I', "ingotIron", 'B', "blockIron"}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCItems.parts, 12, 6), true,
+				new Object[] {"III", "IBI", "III", 'I', "ingotTin", 'B', "blockTin"}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.nuclearFurnaceIdle, true,
+				new Object[] {"XPX", "P P", "XPX", 'P', "plateBasic", 'X', "dustObsidian"}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.furnaceIdle, true,
+				new Object[] {"PPP", "P P", "PPP", 'P', "plateIron"}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.crusherIdle, true,
+				new Object[] {"PPP", "PCP", "PPP", 'P', "plateIron", 'C', new ItemStack(NCItems.parts, 1, 2)}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.electricCrusherIdle, true,
+				new Object[] {"PRP", "RCR", "PRP", 'P', "plateIron", 'R', Items.redstone, 'C', NCBlocks.crusherIdle}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.electricFurnaceIdle, true,
+				new Object[] {"PRP", "RCR", "PRP", 'P', "plateIron", 'R', Items.redstone, 'C', NCBlocks.furnaceIdle}));
 		
-		if (workspace) GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.nuclearWorkspace, true, new Object[] {"NNN", " T ", "TTT", 'N', "plateBasic", 'T', "ingotTough"}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.nuclearWorkspace, true,
+				new Object[] {"NNN", " T ", "TTT", 'N', "plateBasic", 'T', "ingotTough"}));
 		
-		GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.graphiteBlock, true, new Object[] {"CDC", "DCD", "CDC", 'D', "dustCoal", 'C', Items.coal}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.graphiteBlock, true,
+				new Object[] {"CDC", "DCD", "CDC", 'D', "dustCoal", 'C', Items.coal}));
 		
-		GameRegistry.addRecipe(new ShapedOreRecipe(NCItems.upgrade, true, new Object[] {"PPP", "PCP", "PPP", 'P', Items.redstone, 'C', new ItemStack(NCItems.parts, 1, 3)}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(NCItems.upgradeSpeed, true, new Object[] {"PPP", "PCP", "PPP", 'P', "dustLapis", 'C', "plateIron"}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(NCItems.upgradeEnergy, true, new Object[] {"PPP", "PCP", "PPP", 'P', "universalReactant", 'C', "plateIron"}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(NCItems.upgrade, true,
+				new Object[] {"PPP", "PCP", "PPP", 'P', Items.redstone, 'C', new ItemStack(NCItems.parts, 1, 3)}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(NCItems.upgradeSpeed, true,
+				new Object[] {"PPP", "PCP", "PPP", 'P', "dustLapis", 'C', "plateIron"}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(NCItems.upgradeEnergy, true,
+				new Object[] {"PPP", "PCP", "PPP", 'P', "universalReactant", 'C', "plateIron"}));
 	
 		// Tool Crafting Recipes
-		GameRegistry.addRecipe(new ShapedOreRecipe(NCItems.bronzePickaxe, true, new Object[] {"XXX", " S ", " S ", 'X', "ingotBronze", 'S', Items.stick}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(NCItems.bronzeShovel, true, new Object[] {"X", "S", "S", 'X', "ingotBronze", 'S', Items.stick}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(NCItems.bronzeAxe, true, new Object[] {"XX", "XS", " S", 'X', "ingotBronze", 'S', Items.stick}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(NCItems.bronzeAxe, true, new Object[] {"XX", "SX", "S ", 'X', "ingotBronze", 'S', Items.stick}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(NCItems.bronzeHoe, true, new Object[] {"XX", "S ", "S ", 'X', "ingotBronze", 'S', Items.stick}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(NCItems.bronzeHoe, true, new Object[] {"XX", " S", " S", 'X', "ingotBronze", 'S', Items.stick}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(NCItems.bronzeSword, true, new Object[] {"X", "X", "S", 'X', "ingotBronze", 'S', Items.stick}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(NCItems.bronzePickaxe, true,
+				new Object[] {"XXX", " S ", " S ", 'X', "ingotBronze", 'S', Items.stick}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(NCItems.bronzeShovel, true,
+				new Object[] {"X", "S", "S", 'X', "ingotBronze", 'S', Items.stick}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(NCItems.bronzeAxe, true,
+				new Object[] {"XX", "XS", " S", 'X', "ingotBronze", 'S', Items.stick}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(NCItems.bronzeAxe, true,
+				new Object[] {"XX", "SX", "S ", 'X', "ingotBronze", 'S', Items.stick}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(NCItems.bronzeHoe, true,
+				new Object[] {"XX", "S ", "S ", 'X', "ingotBronze", 'S', Items.stick}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(NCItems.bronzeHoe, true,
+				new Object[] {"XX", " S", " S", 'X', "ingotBronze", 'S', Items.stick}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(NCItems.bronzeSword, true,
+				new Object[] {"X", "X", "S", 'X', "ingotBronze", 'S', Items.stick}));
 		
-		GameRegistry.addRecipe(new ShapedOreRecipe(NCItems.boronPickaxe, true, new Object[] {"XXX", " S ", " S ", 'X', "ingotBoron", 'S', Items.stick}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(NCItems.boronShovel, true, new Object[] {"X", "S", "S", 'X', "ingotBoron", 'S', Items.stick}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(NCItems.boronAxe, true, new Object[] {"XX", "XS", " S", 'X', "ingotBoron", 'S', Items.stick}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(NCItems.boronAxe, true, new Object[] {"XX", "SX", "S ", 'X', "ingotBoron", 'S', Items.stick}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(NCItems.boronHoe, true, new Object[] {"XX", "S ", "S ", 'X', "ingotBoron", 'S', Items.stick}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(NCItems.boronHoe, true, new Object[] {"XX", " S", " S", 'X', "ingotBoron", 'S', Items.stick}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(NCItems.boronSword, true, new Object[] {"X", "X", "S", 'X', "ingotBoron", 'S', Items.stick}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(NCItems.boronPickaxe, true,
+				new Object[] {"XXX", " S ", " S ", 'X', "ingotBoron", 'S', Items.stick}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(NCItems.boronShovel, true,
+				new Object[] {"X", "S", "S", 'X', "ingotBoron", 'S', Items.stick}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(NCItems.boronAxe, true,
+				new Object[] {"XX", "XS", " S", 'X', "ingotBoron", 'S', Items.stick}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(NCItems.boronAxe, true,
+				new Object[] {"XX", "SX", "S ", 'X', "ingotBoron", 'S', Items.stick}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(NCItems.boronHoe, true,
+				new Object[] {"XX", "S ", "S ", 'X', "ingotBoron", 'S', Items.stick}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(NCItems.boronHoe, true,
+				new Object[] {"XX", " S", " S", 'X', "ingotBoron", 'S', Items.stick}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(NCItems.boronSword, true,
+				new Object[] {"X", "X", "S", 'X', "ingotBoron", 'S', Items.stick}));
 		
 		// Armour Crafting Recipes
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCItems.boronHelm, 1), true, new Object[] {"XXX", "X X", 'X', "ingotBoron"}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCItems.boronChest, 1), true, new Object[] {"X X", "XXX", "XXX", 'X', "ingotBoron"}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCItems.boronLegs, 1), true, new Object[] {"XXX", "X X", "X X", 'X', "ingotBoron"}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCItems.boronBoots, 1), true, new Object[] {"X X", "X X", 'X', "ingotBoron"}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCItems.boronHelm, 1), true,
+				new Object[] {"XXX", "X X", 'X', "ingotBoron"}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCItems.boronChest, 1), true,
+				new Object[] {"X X", "XXX", "XXX", 'X', "ingotBoron"}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCItems.boronLegs, 1), true,
+				new Object[] {"XXX", "X X", "X X", 'X', "ingotBoron"}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCItems.boronBoots, 1), true,
+				new Object[] {"X X", "X X", 'X', "ingotBoron"}));
 		
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCItems.bronzeHelm, 1), true, new Object[] {"XXX", "X X", 'X', "ingotBronze"}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCItems.bronzeChest, 1), true, new Object[] {"X X", "XXX", "XXX", 'X', "ingotBronze"}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCItems.bronzeLegs, 1), true, new Object[] {"XXX", "X X", "X X", 'X', "ingotBronze"}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCItems.bronzeBoots, 1), true, new Object[] {"X X", "X X", 'X', "ingotBronze"}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCItems.bronzeHelm, 1), true,
+				new Object[] {"XXX", "X X", 'X', "ingotBronze"}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCItems.bronzeChest, 1), true,
+				new Object[] {"X X", "XXX", "XXX", 'X', "ingotBronze"}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCItems.bronzeLegs, 1), true,
+				new Object[] {"XXX", "X X", "X X", 'X', "ingotBronze"}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCItems.bronzeBoots, 1), true,
+				new Object[] {"X X", "X X", 'X', "ingotBronze"}));
 	
 		// Simple Shapeless Crafting Recipes
-		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.material, 9, 4), new Object[] {new ItemStack(NCBlocks.blockBlock, 1, 4)});
-		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.material, 9, 0), new Object[] {new ItemStack(NCBlocks.blockBlock, 1, 0)});
-		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.material, 9, 1), new Object[] {new ItemStack(NCBlocks.blockBlock, 1, 1)});
-		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.material, 9, 2), new Object[] {new ItemStack(NCBlocks.blockBlock, 1, 2)});
-		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.material, 9, 3), new Object[] {new ItemStack(NCBlocks.blockBlock, 1, 3)});
-		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.material, 9, 6), new Object[] {new ItemStack(NCBlocks.blockBlock, 1, 6)});
-		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.material, 9, 5), new Object[] {new ItemStack(NCBlocks.blockBlock, 1, 5)});
-		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.material, 9, 42), new Object[] {new ItemStack(NCBlocks.blockBlock, 1, 8)});
-		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.material, 9, 43), new Object[] {new ItemStack(NCBlocks.blockBlock, 1, 9)});
-		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.material, 25, 7), new Object[] {new ItemStack(NCBlocks.blockBlock, 1, 7)});
-		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.material, 9, 50), new Object[] {new ItemStack(NCBlocks.blockBlock, 1, 10)});
+		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.material, 9, 4),
+				new Object[] {new ItemStack(NCBlocks.blockBlock, 1, 4)});
+		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.material, 9, 0),
+				new Object[] {new ItemStack(NCBlocks.blockBlock, 1, 0)});
+		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.material, 9, 1),
+				new Object[] {new ItemStack(NCBlocks.blockBlock, 1, 1)});
+		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.material, 9, 2),
+				new Object[] {new ItemStack(NCBlocks.blockBlock, 1, 2)});
+		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.material, 9, 3),
+				new Object[] {new ItemStack(NCBlocks.blockBlock, 1, 3)});
+		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.material, 9, 6),
+				new Object[] {new ItemStack(NCBlocks.blockBlock, 1, 6)});
+		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.material, 9, 5),
+				new Object[] {new ItemStack(NCBlocks.blockBlock, 1, 5)});
+		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.material, 9, 42),
+				new Object[] {new ItemStack(NCBlocks.blockBlock, 1, 8)});
+		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.material, 9, 43),
+				new Object[] {new ItemStack(NCBlocks.blockBlock, 1, 9)});
+		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.material, 25, 7),
+				new Object[] {new ItemStack(NCBlocks.blockBlock, 1, 7)});
+		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.material, 9, 50),
+				new Object[] {new ItemStack(NCBlocks.blockBlock, 1, 10)});
 		
-		GameRegistry.addShapelessRecipe(new ItemStack(NCBlocks.tubing1, 1), new Object[] {new ItemStack(NCBlocks.tubing2)});
-		GameRegistry.addShapelessRecipe(new ItemStack(NCBlocks.tubing2, 1), new Object[] {new ItemStack(NCBlocks.tubing1)});
+		GameRegistry.addShapelessRecipe(new ItemStack(NCBlocks.tubing1, 1),
+				new Object[] {new ItemStack(NCBlocks.tubing2)});
+		GameRegistry.addShapelessRecipe(new ItemStack(NCBlocks.tubing2, 1),
+				new Object[] {new ItemStack(NCBlocks.tubing1)});
 		
 		// Complex Shapeless Crafting Recipes
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.dominoes, 4), new Object[] {Items.cooked_beef, Items.cooked_porkchop, Items.cooked_chicken, Blocks.brown_mushroom, Blocks.brown_mushroom, Items.bread, Items.bread}));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.dominoes, 4),
+				new Object[] {Items.cooked_beef, Items.cooked_porkchop, Items.cooked_chicken, Blocks.brown_mushroom, Blocks.brown_mushroom, Items.bread, Items.bread}));
 		
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.material, 4, 6), new Object[] {"ingotCopper", "ingotCopper", "ingotCopper", "ingotTin"}));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.material, 4, 21), new Object[] {"dustCopper", "dustCopper", "dustCopper", "dustTin"}));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.material, 4, 6),
+				new Object[] {"ingotCopper", "ingotCopper", "ingotCopper", "ingotTin"}));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.material, 4, 21),
+				new Object[] {"dustCopper", "dustCopper", "dustCopper", "dustTin"}));
 		
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.material, 3, 71), new Object[] {"ingotMagnesium", "ingotBoron", "ingotBoron"}));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.material, 3, 72), new Object[] {"dustMagnesium", "dustBoron", "dustBoron"}));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.material, 3, 71),
+				new Object[] {"ingotMagnesium", "ingotBoron", "ingotBoron"}));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.material, 3, 72),
+				new Object[] {"dustMagnesium", "dustBoron", "dustBoron"}));
 		
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.fuel, 1, 0), new Object[] {"U238", "U238", "U238", "U238", "U238", "U238", "U238", "U238", new ItemStack(NCItems.material, 1, 26)}));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.fuel, 1, 6), new Object[] {"U238", "U238", "U238", "U238", "U238", "U238", "U238", "U238", new ItemStack(NCItems.material, 1, 28)}));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.fuel, 1, 1), new Object[] {"U238", "U238", "U238", "U238", "U238", new ItemStack(NCItems.material, 1, 26), new ItemStack(NCItems.material, 1, 26), new ItemStack(NCItems.material, 1, 26), new ItemStack(NCItems.material, 1, 26)}));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.fuel, 1, 7), new Object[] {"U238", "U238", "U238", "U238", "U238", new ItemStack(NCItems.material, 1, 28), new ItemStack(NCItems.material, 1, 28), new ItemStack(NCItems.material, 1, 28), new ItemStack(NCItems.material, 1, 28)}));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.fuel, 1, 2), new Object[] {"Pu242", "Pu242", "Pu242", "Pu242", "Pu242", "Pu242", "Pu242", "Pu242", new ItemStack(NCItems.material, 1, 32)}));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.fuel, 1, 8), new Object[] {"Pu242", "Pu242", "Pu242", "Pu242", "Pu242", "Pu242", "Pu242", "Pu242", new ItemStack(NCItems.material, 1, 36)}));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.fuel, 1, 3), new Object[] {"Pu242", "Pu242", "Pu242", "Pu242", "Pu242", new ItemStack(NCItems.material, 1, 32), new ItemStack(NCItems.material, 1, 32), new ItemStack(NCItems.material, 1, 32), new ItemStack(NCItems.material, 1, 32)}));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.fuel, 1, 9), new Object[] {"Pu242", "Pu242", "Pu242", "Pu242", "Pu242", new ItemStack(NCItems.material, 1, 36), new ItemStack(NCItems.material, 1, 36), new ItemStack(NCItems.material, 1, 36), new ItemStack(NCItems.material, 1, 36)}));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.fuel, 1, 5), new Object[] {new ItemStack(NCItems.material, 1, 38), new ItemStack(NCItems.material, 1, 38), new ItemStack(NCItems.material, 1, 38), new ItemStack(NCItems.material, 1, 38), new ItemStack(NCItems.material, 1, 38), new ItemStack(NCItems.material, 1, 38), new ItemStack(NCItems.material, 1, 38), new ItemStack(NCItems.material, 1, 38), new ItemStack(NCItems.material, 1, 38)}));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.fuel, 1, 0),
+				new Object[] {"U238", "U238", "U238", "U238", "U238", "U238", "U238", "U238", new ItemStack(NCItems.material, 1, 26)}));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.fuel, 1, 6),
+				new Object[] {"U238", "U238", "U238", "U238", "U238", "U238", "U238", "U238", new ItemStack(NCItems.material, 1, 28)}));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.fuel, 1, 1),
+				new Object[] {"U238", "U238", "U238", "U238", "U238", new ItemStack(NCItems.material, 1, 26), new ItemStack(NCItems.material, 1, 26), new ItemStack(NCItems.material, 1, 26), new ItemStack(NCItems.material, 1, 26)}));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.fuel, 1, 7),
+				new Object[] {"U238", "U238", "U238", "U238", "U238", new ItemStack(NCItems.material, 1, 28), new ItemStack(NCItems.material, 1, 28), new ItemStack(NCItems.material, 1, 28), new ItemStack(NCItems.material, 1, 28)}));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.fuel, 1, 2),
+				new Object[] {"Pu242", "Pu242", "Pu242", "Pu242", "Pu242", "Pu242", "Pu242", "Pu242", new ItemStack(NCItems.material, 1, 32)}));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.fuel, 1, 8),
+				new Object[] {"Pu242", "Pu242", "Pu242", "Pu242", "Pu242", "Pu242", "Pu242", "Pu242", new ItemStack(NCItems.material, 1, 36)}));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.fuel, 1, 3),
+				new Object[] {"Pu242", "Pu242", "Pu242", "Pu242", "Pu242", new ItemStack(NCItems.material, 1, 32), new ItemStack(NCItems.material, 1, 32), new ItemStack(NCItems.material, 1, 32), new ItemStack(NCItems.material, 1, 32)}));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.fuel, 1, 9),
+				new Object[] {"Pu242", "Pu242", "Pu242", "Pu242", "Pu242", new ItemStack(NCItems.material, 1, 36), new ItemStack(NCItems.material, 1, 36), new ItemStack(NCItems.material, 1, 36), new ItemStack(NCItems.material, 1, 36)}));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.fuel, 1, 5),
+				new Object[] {new ItemStack(NCItems.material, 1, 38), new ItemStack(NCItems.material, 1, 38), new ItemStack(NCItems.material, 1, 38), new ItemStack(NCItems.material, 1, 38), new ItemStack(NCItems.material, 1, 38), new ItemStack(NCItems.material, 1, 38), new ItemStack(NCItems.material, 1, 38), new ItemStack(NCItems.material, 1, 38), new ItemStack(NCItems.material, 1, 38)}));
 		
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.fuel, 1, 51), new Object[] {"U238", "U238", "U238", "U238", "U238", "U238", "U238", "U238", new ItemStack(NCItems.material, 1, 57)}));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.fuel, 1, 55), new Object[] {"U238", "U238", "U238", "U238", "U238", "U238", "U238", "U238", new ItemStack(NCItems.material, 1, 59)}));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.fuel, 1, 52), new Object[] {"U238", "U238", "U238", "U238", "U238", new ItemStack(NCItems.material, 1, 57), new ItemStack(NCItems.material, 1, 57), new ItemStack(NCItems.material, 1, 57), new ItemStack(NCItems.material, 1, 57)}));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.fuel, 1, 56), new Object[] {"U238", "U238", "U238", "U238", "U238", new ItemStack(NCItems.material, 1, 59), new ItemStack(NCItems.material, 1, 59), new ItemStack(NCItems.material, 1, 59), new ItemStack(NCItems.material, 1, 59)}));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.fuel, 1, 53), new Object[] {"Pu242", "Pu242", "Pu242", "Pu242", "Pu242", "Pu242", "Pu242", "Pu242", new ItemStack(NCItems.material, 1, 63)}));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.fuel, 1, 57), new Object[] {"Pu242", "Pu242", "Pu242", "Pu242", "Pu242", "Pu242", "Pu242", "Pu242", new ItemStack(NCItems.material, 1, 67)}));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.fuel, 1, 54), new Object[] {"Pu242", "Pu242", "Pu242", "Pu242", "Pu242", new ItemStack(NCItems.material, 1, 63), new ItemStack(NCItems.material, 1, 63), new ItemStack(NCItems.material, 1, 63), new ItemStack(NCItems.material, 1, 63)}));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.fuel, 1, 58), new Object[] {"Pu242", "Pu242", "Pu242", "Pu242", "Pu242", new ItemStack(NCItems.material, 1, 67), new ItemStack(NCItems.material, 1, 67), new ItemStack(NCItems.material, 1, 67), new ItemStack(NCItems.material, 1, 67)}));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.fuel, 1, 4), new Object[] {"U238", "U238", "U238", "U238", "U238", "U238", "U238", "U238", new ItemStack(NCItems.material, 1, 63)}));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.fuel, 1, 10), new Object[] {"U238", "U238", "U238", "U238", "U238", "U238", "U238", "U238", new ItemStack(NCItems.material, 1, 67)}));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.fuel, 1, 51),
+				new Object[] {"U238", "U238", "U238", "U238", "U238", "U238", "U238", "U238", new ItemStack(NCItems.material, 1, 57)}));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.fuel, 1, 55),
+				new Object[] {"U238", "U238", "U238", "U238", "U238", "U238", "U238", "U238", new ItemStack(NCItems.material, 1, 59)}));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.fuel, 1, 52),
+				new Object[] {"U238", "U238", "U238", "U238", "U238", new ItemStack(NCItems.material, 1, 57), new ItemStack(NCItems.material, 1, 57), new ItemStack(NCItems.material, 1, 57), new ItemStack(NCItems.material, 1, 57)}));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.fuel, 1, 56),
+				new Object[] {"U238", "U238", "U238", "U238", "U238", new ItemStack(NCItems.material, 1, 59), new ItemStack(NCItems.material, 1, 59), new ItemStack(NCItems.material, 1, 59), new ItemStack(NCItems.material, 1, 59)}));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.fuel, 1, 53),
+				new Object[] {"Pu242", "Pu242", "Pu242", "Pu242", "Pu242", "Pu242", "Pu242", "Pu242", new ItemStack(NCItems.material, 1, 63)}));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.fuel, 1, 57),
+				new Object[] {"Pu242", "Pu242", "Pu242", "Pu242", "Pu242", "Pu242", "Pu242", "Pu242", new ItemStack(NCItems.material, 1, 67)}));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.fuel, 1, 54),
+				new Object[] {"Pu242", "Pu242", "Pu242", "Pu242", "Pu242", new ItemStack(NCItems.material, 1, 63), new ItemStack(NCItems.material, 1, 63), new ItemStack(NCItems.material, 1, 63), new ItemStack(NCItems.material, 1, 63)}));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.fuel, 1, 58),
+				new Object[] {"Pu242", "Pu242", "Pu242", "Pu242", "Pu242", new ItemStack(NCItems.material, 1, 67), new ItemStack(NCItems.material, 1, 67), new ItemStack(NCItems.material, 1, 67), new ItemStack(NCItems.material, 1, 67)}));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.fuel, 1, 4),
+				new Object[] {"U238", "U238", "U238", "U238", "U238", "U238", "U238", "U238", new ItemStack(NCItems.material, 1, 63)}));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.fuel, 1, 10),
+				new Object[] {"U238", "U238", "U238", "U238", "U238", "U238", "U238", "U238", new ItemStack(NCItems.material, 1, 67)}));
 		
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.parts, 3, 4), new Object[] {Items.sugar, "dustLapis", Items.redstone}));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.parts, 3, 4),
+				new Object[] {Items.sugar, "dustLapis", Items.redstone}));
 		
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.fishAndRicecake, 1), new Object[] {Items.cooked_fished, NCItems.ricecake}));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.fishAndRicecake, 1),
+				new Object[] {Items.cooked_fished, NCItems.ricecake}));
 		
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.recordPractice, 1), new Object[] {"record", "ingotBoron"}));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.recordArea51, 1), new Object[] {"record", "ingotTough"}));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.recordNeighborhood, 1), new Object[] {"record", "universalReactant"}));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.recordPractice, 1),
+				new Object[] {"record", "ingotBoron"}));
 		
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.material, 4, 22), new Object[] {new ItemStack(NCItems.parts, 1, 4), "dustCoal", "dustCoal", "dustLead", "dustLead", "dustSilver", "dustSilver", "dustIron", "dustIron"}));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.recordArea51, 1),
+				new Object[] {"record", "ingotTough"}));
 		
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.material, 4, 7), new Object[] {new ItemStack(NCItems.parts, 1, 4), "dustCoal", "dustCoal", "ingotLead", "ingotLead", "ingotSilver", "ingotSilver", "ingotIron", "ingotIron"}));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.recordNeighborhood, 1),
+				new Object[] {"record", "universalReactant"}));
 		
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.fuel, 1, 45), new Object[] {"filledNCGasCell"}));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.material, 4, 22),
+				new Object[] {new ItemStack(NCItems.parts, 1, 4), "dustCoal", "dustCoal", "dustLead", "dustLead", "dustSilver", "dustSilver", "dustIron", "dustIron"}));
 		
-		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.fuel, 1, 11), (new ItemStack (NCItems.fuel, 1, 0)), (new ItemStack (NCItems.fuel, 1, 33)));
-		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.fuel, 1, 17), (new ItemStack (NCItems.fuel, 1, 6)), (new ItemStack (NCItems.fuel, 1, 33)));
-		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.fuel, 1, 12), (new ItemStack (NCItems.fuel, 1, 1)), (new ItemStack (NCItems.fuel, 1, 33)));
-		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.fuel, 1, 18), (new ItemStack (NCItems.fuel, 1, 7)), (new ItemStack (NCItems.fuel, 1, 33)));
-		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.fuel, 1, 13), (new ItemStack (NCItems.fuel, 1, 2)), (new ItemStack (NCItems.fuel, 1, 33)));
-		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.fuel, 1, 19), (new ItemStack (NCItems.fuel, 1, 8)), (new ItemStack (NCItems.fuel, 1, 33)));
-		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.fuel, 1, 14), (new ItemStack (NCItems.fuel, 1, 3)), (new ItemStack (NCItems.fuel, 1, 33)));
-		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.fuel, 1, 20), (new ItemStack (NCItems.fuel, 1, 9)), (new ItemStack (NCItems.fuel, 1, 33)));
-		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.fuel, 1, 15), (new ItemStack (NCItems.fuel, 1, 4)), (new ItemStack (NCItems.fuel, 1, 33)));
-		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.fuel, 1, 21), (new ItemStack (NCItems.fuel, 1, 10)), (new ItemStack (NCItems.fuel, 1, 33)));
-		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.fuel, 1, 16), (new ItemStack (NCItems.fuel, 1, 5)), (new ItemStack (NCItems.fuel, 1, 33)));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.material, 4, 7),
+				new Object[] {new ItemStack(NCItems.parts, 1, 4), "dustCoal", "dustCoal", "ingotLead", "ingotLead", "ingotSilver", "ingotSilver", "ingotIron", "ingotIron"}));
 		
-		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.fuel, 1, 59), (new ItemStack (NCItems.fuel, 1, 51)), (new ItemStack (NCItems.fuel, 1, 33)));
-		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.fuel, 1, 63), (new ItemStack (NCItems.fuel, 1, 55)), (new ItemStack (NCItems.fuel, 1, 33)));
-		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.fuel, 1, 60), (new ItemStack (NCItems.fuel, 1, 52)), (new ItemStack (NCItems.fuel, 1, 33)));
-		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.fuel, 1, 64), (new ItemStack (NCItems.fuel, 1, 56)), (new ItemStack (NCItems.fuel, 1, 33)));
-		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.fuel, 1, 61), (new ItemStack (NCItems.fuel, 1, 53)), (new ItemStack (NCItems.fuel, 1, 33)));
-		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.fuel, 1, 65), (new ItemStack (NCItems.fuel, 1, 57)), (new ItemStack (NCItems.fuel, 1, 33)));
-		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.fuel, 1, 62), (new ItemStack (NCItems.fuel, 1, 54)), (new ItemStack (NCItems.fuel, 1, 33)));
-		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.fuel, 1, 66), (new ItemStack (NCItems.fuel, 1, 58)), (new ItemStack (NCItems.fuel, 1, 33)));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.fuel, 1, 45),
+				new Object[] {"filledNCGasCell"}));
 		
-		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.fuel, 1, 41), (new ItemStack (NCItems.material, 1, 46)), (new ItemStack (NCItems.fuel, 1, 33)));
-		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.fuel, 1, 42), (new ItemStack (NCItems.material, 1, 47)), (new ItemStack (NCItems.fuel, 1, 33)));
-		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.fuel, 1, 43), (new ItemStack (NCItems.material, 1, 48)), (new ItemStack (NCItems.fuel, 1, 33)));
-		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.fuel, 1, 44), (new ItemStack (NCItems.material, 1, 49)), (new ItemStack (NCItems.fuel, 1, 33)));
+		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.fuel, 1, 11),
+				(new ItemStack (NCItems.fuel, 1, 0)), (new ItemStack (NCItems.fuel, 1, 33)));
+		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.fuel, 1, 17),
+				(new ItemStack (NCItems.fuel, 1, 6)), (new ItemStack (NCItems.fuel, 1, 33)));
+		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.fuel, 1, 12),
+				(new ItemStack (NCItems.fuel, 1, 1)), (new ItemStack (NCItems.fuel, 1, 33)));
+		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.fuel, 1, 18),
+				(new ItemStack (NCItems.fuel, 1, 7)), (new ItemStack (NCItems.fuel, 1, 33)));
+		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.fuel, 1, 13),
+				(new ItemStack (NCItems.fuel, 1, 2)), (new ItemStack (NCItems.fuel, 1, 33)));
+		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.fuel, 1, 19),
+				(new ItemStack (NCItems.fuel, 1, 8)), (new ItemStack (NCItems.fuel, 1, 33)));
+		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.fuel, 1, 14),
+				(new ItemStack (NCItems.fuel, 1, 3)), (new ItemStack (NCItems.fuel, 1, 33)));
+		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.fuel, 1, 20),
+				(new ItemStack (NCItems.fuel, 1, 9)), (new ItemStack (NCItems.fuel, 1, 33)));
+		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.fuel, 1, 15),
+				(new ItemStack (NCItems.fuel, 1, 4)), (new ItemStack (NCItems.fuel, 1, 33)));
+		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.fuel, 1, 21),
+				(new ItemStack (NCItems.fuel, 1, 10)), (new ItemStack (NCItems.fuel, 1, 33)));
+		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.fuel, 1, 16),
+				(new ItemStack (NCItems.fuel, 1, 5)), (new ItemStack (NCItems.fuel, 1, 33)));
 		
-		// Workspace Recipes
-		if (!workspace) {
-			GameRegistry.addRecipe(new ShapelessOreRecipe(NCBlocks.machineBlock, new Object[] {"plateBasic", "plateLead", "plateLead", new ItemStack(NCItems.parts, 1, 10), new ItemStack(NCItems.parts, 1, 11), new ItemStack(NCItems.parts, 1, 12), new ItemStack(NCItems.parts, 1, 13), new ItemStack(NCItems.parts, 1, 16), "dustRedstone"}));
-			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCBlocks.reactorBlock, 8), true, new Object[] {"ABA", "B B", "ABA", 'A', "ingotTough", 'B', "plateBasic"}));
-			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCBlocks.cellBlock, 2), true, new Object[] {"ABA", "CDC", "ABA", 'A', "blockGlass", 'B', "plateBasic", 'C', "ingotTough", 'D', "plateLead"}));
-			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCBlocks.coolerBlock, 4), true, new Object[] {"ABA", "BCB", "ABA", 'A', "universalReactant", 'B', "plateBasic", 'C', "dustRedstone"}));
-			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCBlocks.speedBlock, 4), true, new Object[] {"ABA", "BCB", "ABA", 'A', Items.blaze_powder, 'B', "plateBasic", 'C', "dustRedstone"}));
-			GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.fissionReactorGraphiteIdle, true, new Object[] {"AAA", "ABA", "AAA", 'A', "plateReinforced", 'B', NCBlocks.machineBlock}));
-			GameRegistry.addRecipe(new ShapelessOreRecipe(NCBlocks.blastBlock, new Object[] {NCBlocks.reactorBlock, "oreObsidian"}));
-			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCItems.parts, 1, 9), true, new Object[] {"AAA", "BCB", "AAA", 'A', new ItemStack(NCItems.material, 1, 48), 'B', "plateDU", 'C', "dustDiamond"}));
-			GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.separatorIdle, true, new Object[] {"ABA", "CDC", "ABA", 'A', "plateLead", 'B', "ingotTough", 'C', "dustRedstone", 'D', NCBlocks.machineBlock}));
-			GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.hastenerIdle, true, new Object[] {"ABA", "CDC", "ABA", 'A', "plateLead", 'B', "universalReactant", 'C', "ingotTough", 'D', NCBlocks.machineBlock}));
-			GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.collectorIdle, true, new Object[] {"ABA", "BBB", "ABA", 'A', "plateBasic", 'B', new ItemStack(NCItems.material, 1, 40)}));
-			GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.reactionGeneratorIdle, true, new Object[] {"ABA", "CDC", "ABA", 'A', "plateLead", 'B', new ItemStack(NCItems.parts, 1, 5), 'C', "plateBasic", 'D', NCBlocks.machineBlock}));
-			GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.electrolyserIdle, true, new Object[] {"ABA", "CDC", "ABA", 'A', "plateReinforced", 'B', new ItemStack(NCItems.parts, 1, 7), 'C', "universalReactant", 'D', NCBlocks.machineBlock}));
-			GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.oxidiserIdle, true, new Object[] {"ABA", "CDC", "ABA", 'A', "plateDU", 'B', "universalReactant", 'C', "plateLead", 'D', NCBlocks.machineBlock}));
-			GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.ioniserIdle, true, new Object[] {"ABA", "CDC", "ABA", 'A', "plateDU", 'B', "dustRedstone", 'C', "plateLead", 'D', NCBlocks.machineBlock}));
-			GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.irradiatorIdle, true, new Object[] {"ABA", "CDC", "ABA", 'A', "plateDU", 'B', "universalReactant", 'C', "ingotTough", 'D', NCBlocks.machineBlock}));
-			GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.coolerIdle, true, new Object[] {"ABA", "CDC", "ABA", 'A', "plateDU", 'B', "universalReactant", 'C', "plateBasic", 'D', NCBlocks.machineBlock}));
-			GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.factoryIdle, true, new Object[] {"ABA", "CDC", "ABA", 'A', "ingotTough", 'B', "plateBasic", 'C', "plateIron", 'D', Blocks.piston}));
-			GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.heliumExtractorIdle, true, new Object[] {"ABA", "CDC", "ABA", 'A', "plateReinforced", 'B', new ItemStack(NCItems.parts, 1, 5), 'C', "plateTin", 'D', NCBlocks.machineBlock}));
-			GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.electromagnetIdle, true, new Object[] {"AAA", "BCB", "AAA", 'A', "plateReinforced", 'B', new ItemStack(NCItems.parts, 1, 12), 'C', "ingotIron"}));
-			GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.fusionReactor, true, new Object[] {"ABA", "BCB", "ABA", 'A', NCBlocks.reactionGeneratorIdle, 'B', "plateAdvanced", 'C', NCBlocks.electromagnetIdle}));
-			GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.superElectromagnetIdle, true, new Object[] {"AAA", "BCB", "AAA", 'A', "plateAdvanced", 'B', new ItemStack(NCItems.parts, 1, 17), 'C', "ingotTough"}));
-			GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.supercoolerIdle, true, new Object[] {"AAA", "BCB", "AAA", 'A', "plateAdvanced", 'B', new ItemStack(NCItems.parts, 1, 13), 'C', "universalReactant"}));
-			GameRegistry.addRecipe(new ShapedOreRecipe(NCItems.toughAlloyPickaxe, true, new Object[] {"XXX", " S ", " S ", 'X', "ingotTough", 'S', "ingotIron"}));
-			GameRegistry.addRecipe(new ShapedOreRecipe(NCItems.toughAlloyShovel, true, new Object[] {"X", "S", "S", 'X', "ingotTough", 'S', "ingotIron"}));
-			GameRegistry.addRecipe(new ShapedOreRecipe(NCItems.toughAlloyAxe, true, new Object[] {"XX", "XS", " S", 'X', "ingotTough", 'S', "ingotIron"}));
-			GameRegistry.addRecipe(new ShapedOreRecipe(NCItems.toughAlloyAxe, true, new Object[] {"XX", "SX", "S ", 'X', "ingotTough", 'S', "ingotIron"}));
-			GameRegistry.addRecipe(new ShapedOreRecipe(NCItems.toughAlloyHoe, true, new Object[] {"XX", "S ", "S ", 'X', "ingotTough", 'S', "ingotIron"}));
-			GameRegistry.addRecipe(new ShapedOreRecipe(NCItems.toughAlloyHoe, true, new Object[] {"XX", " S", " S", 'X', "ingotTough", 'S', "ingotIron"}));
-			GameRegistry.addRecipe(new ShapedOreRecipe(NCItems.toughAlloySword, true, new Object[] {"X", "X", "S", 'X', "ingotTough", 'S', "ingotIron"}));
-			GameRegistry.addRecipe(new ShapedOreRecipe(NCItems.toughAlloyPaxel, true, new Object[] {"ASP", "HIW", " I ", 'I', "ingotIron", 'A', NCItems.toughAlloyAxe, 'S', NCItems.toughAlloyShovel, 'P', NCItems.toughAlloyPickaxe, 'H', NCItems.toughAlloyHoe, 'W', NCItems.toughAlloySword}));
-			GameRegistry.addRecipe(new ShapedOreRecipe(NCItems.dUPickaxe, true, new Object[] {"XXX", " S ", " S ", 'X', "plateDU", 'S', "ingotIron"}));
-			GameRegistry.addRecipe(new ShapedOreRecipe(NCItems.dUShovel, true, new Object[] {"X", "S", "S", 'X', "plateDU", 'S', "ingotIron"}));
-			GameRegistry.addRecipe(new ShapedOreRecipe(NCItems.dUAxe, true, new Object[] {"XX", "XS", " S", 'X', "plateDU", 'S', "ingotIron"}));
-			GameRegistry.addRecipe(new ShapedOreRecipe(NCItems.dUAxe, true, new Object[] {"XX", "SX", "S ", 'X', "plateDU", 'S', "ingotIron"}));
-			GameRegistry.addRecipe(new ShapedOreRecipe(NCItems.dUHoe, true, new Object[] {"XX", "S ", "S ", 'X', "plateDU", 'S', "ingotIron"}));
-			GameRegistry.addRecipe(new ShapedOreRecipe(NCItems.dUHoe, true, new Object[] {"XX", " S", " S", 'X', "plateDU", 'S', "ingotIron"}));
-			GameRegistry.addRecipe(new ShapedOreRecipe(NCItems.dUSword, true, new Object[] {"X", "X", "S", 'X', "plateDU", 'S', "ingotIron"}));
-			GameRegistry.addRecipe(new ShapedOreRecipe(NCItems.dUPaxel, true, new Object[] {"ASP", "HIW", " I ", 'I', "ingotIron", 'A', NCItems.dUAxe, 'S', NCItems.dUShovel, 'P', NCItems.dUPickaxe, 'H', NCItems.dUHoe, 'W', NCItems.dUSword}));
-			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCItems.toughHelm, 1), true, new Object[] {"XXX", "X X", 'X', "ingotTough"}));
-			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCItems.toughChest, 1), true, new Object[] {"X X", "XXX", "XXX", 'X', "ingotTough"}));
-			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCItems.toughLegs, 1), true, new Object[] {"XXX", "X X", "X X", 'X', "ingotTough"}));
-			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCItems.toughBoots, 1), true, new Object[] {"X X", "X X", 'X', "ingotTough"}));
-			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCItems.dUHelm, 1), true, new Object[] {"XXX", "X X", 'X', "plateDU"}));
-			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCItems.dUChest, 1), true, new Object[] {"X X", "XXX", "XXX", 'X', "plateDU"}));
-			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCItems.dULegs, 1), true, new Object[] {"XXX", "X X", "X X", 'X', "plateDU"}));
-			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCItems.dUBoots, 1), true, new Object[] {"X X", "X X", 'X', "plateDU"}));
-			GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.RTG, true, new Object[] {"ABA", "BCB", "ABA", 'A', new ItemStack(NCItems.parts, 1, 11), 'B', new ItemStack(NCItems.parts, 1, 15), 'C', new ItemStack(NCItems.fuel, 1, 46)}));
-			GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.WRTG, true, new Object[] {"ABA", "BBB", "ABA", 'A', "plateLead", 'B', "U238"}));
-			if (enableNukes) {
-				GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.nuke, true, new Object[] {"ABA", "BBB", "ABA", 'A', "plateReinforced", 'B', new ItemStack(NCItems.material, 1, 67)}));
-				GameRegistry.addRecipe(new ShapedOreRecipe(NCItems.nuclearGrenade, true, new Object[] {"  S", " S ", "N  ", 'S', Items.string, 'N', NCBlocks.nuke}));
-			}
-			GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.solarPanel, true, new Object[] {"DDD", "ECE", "ABA", 'A', new ItemStack(NCItems.parts, 1, 12), 'B', Blocks.iron_block, 'C', "dustCoal", 'D', new ItemStack(NCItems.parts, 1, 15), 'E', "universalReactant"}));
-			GameRegistry.addRecipe(new ShapedOreRecipe(NCItems.portableEnderChest, true, new Object[] {"ABA", "CDC", "AAA", 'A', Blocks.wool, 'B', Items.string, 'C', "plateLead", 'D', Items.ender_eye}));
-			GameRegistry.addRecipe(new ShapedOreRecipe(NCItems.pistol, true, new Object[] {"AAA", "BBA", "CBA", 'A', "plateReinforced", 'B', "ingotTough", 'C', "plateAdvanced"}));
-			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCItems.parts, 2, 5), true, new Object[] {"ABA", "B B", "ABA", 'A', "universalReactant", 'B', "plateBasic"}));
-			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCItems.parts, 1, 7), true, new Object[] {"ABA", "B B", "ABA", 'A', "plateTin", 'B', new ItemStack(NCItems.fuel, 1, 34)}));
-			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCItems.parts, 1, 3), true, new Object[] {" A ", "ABA", " A ", 'A', "ingotTough", 'B', "plateBasic"}));
-			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCItems.parts, 1, 8), true, new Object[] {"AAA", "BBB", "AAA", 'A', "U238", 'B', "plateReinforced"}));
-			GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.tubing1, true, new Object[] {"AAA", "BBB", "AAA", 'A', "plateLead", 'B', "plateIron"}));
-			GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.tubing2, true, new Object[] {"ABA", "ABA", "ABA", 'A', "plateLead", 'B', "plateIron"}));
-			GameRegistry.addRecipe(new ShapedOreRecipe(NCItems.toughBow, true, new Object[] {"BA ", "B A", "BA ", 'A', "ingotTough", 'B', Items.string}));
-			GameRegistry.addRecipe(new ShapedOreRecipe(NCItems.toughBow, true, new Object[] {" AB", "A B", " AB", 'A', "ingotTough", 'B', Items.string}));
-			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCItems.parts, 12, 0), true, new Object[] {"AAA", "BBB", 'A', "ingotTough", 'B', "dustTough"}));
-			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCItems.fuel, 8, 48), true, new Object[] {"ABA", "BCB", "ABA", 'B', new ItemStack(NCItems.parts, 1, 15), 'C', "ingotTough", 'A', new ItemStack (NCItems.parts, 1, 3)}));
-			GameRegistry.addRecipe(new ShapedOreRecipe(NCItems.dUBullet, true, new Object[] {"ABC", 'A', "U238", 'B', Items.gunpowder, 'C', "ingotTough"}));
-			GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.fuel, 1, 46), new Object[] {new ItemStack(NCItems.fuel, 1, 48), "Pu238"}));
-		}
+		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.fuel, 1, 59),
+				(new ItemStack (NCItems.fuel, 1, 51)), (new ItemStack (NCItems.fuel, 1, 33)));
+		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.fuel, 1, 63),
+				(new ItemStack (NCItems.fuel, 1, 55)), (new ItemStack (NCItems.fuel, 1, 33)));
+		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.fuel, 1, 60),
+				(new ItemStack (NCItems.fuel, 1, 52)), (new ItemStack (NCItems.fuel, 1, 33)));
+		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.fuel, 1, 64),
+				(new ItemStack (NCItems.fuel, 1, 56)), (new ItemStack (NCItems.fuel, 1, 33)));
+		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.fuel, 1, 61),
+				(new ItemStack (NCItems.fuel, 1, 53)), (new ItemStack (NCItems.fuel, 1, 33)));
+		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.fuel, 1, 65),
+				(new ItemStack (NCItems.fuel, 1, 57)), (new ItemStack (NCItems.fuel, 1, 33)));
+		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.fuel, 1, 62),
+				(new ItemStack (NCItems.fuel, 1, 54)), (new ItemStack (NCItems.fuel, 1, 33)));
+		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.fuel, 1, 66),
+				(new ItemStack (NCItems.fuel, 1, 58)), (new ItemStack (NCItems.fuel, 1, 33)));
+		
+		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.fuel, 1, 41),
+				(new ItemStack (NCItems.material, 1, 46)), (new ItemStack (NCItems.fuel, 1, 33)));
+		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.fuel, 1, 42),
+				(new ItemStack (NCItems.material, 1, 47)), (new ItemStack (NCItems.fuel, 1, 33)));
+		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.fuel, 1, 43),
+				(new ItemStack (NCItems.material, 1, 48)), (new ItemStack (NCItems.fuel, 1, 33)));
+		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.fuel, 1, 44),
+				(new ItemStack (NCItems.material, 1, 49)), (new ItemStack (NCItems.fuel, 1, 33)));
 		
 		// Smelting Recipes
 		GameRegistry.addSmelting(new ItemStack(NCBlocks.blockOre, 1, 4), new ItemStack (NCItems.material, 1, 4), 1.2F);
@@ -1699,9 +1756,6 @@ public class NuclearCraft {
 		// Parts Ore Dictionary
 		OreDictionary.registerOre("universalReactant", new ItemStack(NCItems.parts, 1, 4));
 		OreDictionary.registerOre("plateBasic", new ItemStack(NCItems.parts, 1, 0));
-		OreDictionary.registerOre("plateReinforced", new ItemStack(NCItems.parts, 1, 3));
-		OreDictionary.registerOre("plateDU", new ItemStack(NCItems.parts, 1, 8));
-		OreDictionary.registerOre("plateAdvanced", new ItemStack(NCItems.parts, 1, 9));
 		OreDictionary.registerOre("plateLead", new ItemStack(NCItems.parts, 1, 14));
 		OreDictionary.registerOre("plateIron", new ItemStack(NCItems.parts, 1, 1));
 		OreDictionary.registerOre("plateTin", new ItemStack(NCItems.parts, 1, 6));
@@ -1760,11 +1814,11 @@ public class NuclearCraft {
 		nuclearFurnaceAchievement = a("nuclearFurnace", 4, -2, NCBlocks.nuclearFurnaceIdle, null);
 		dominosAchievement = a("dominos", -4, -2, NCItems.dominoes, null);
 		fishAndRicecakeAchievement = a("fishAndRicecake", -6, -2, NCItems.fishAndRicecake, null);
-		if (workspace) heavyDutyWorkspaceAchievement = a("heavyDutyWorkspace", 0, 0, NCBlocks.nuclearWorkspace, null);
-		nukeAchievement = a("nuke", -2, -2, NCBlocks.nuke, workspace ? heavyDutyWorkspaceAchievement : null);
-		toolAchievement = a("tool", 2, -2, NCItems.dUPaxel, workspace ? heavyDutyWorkspaceAchievement : null);
-		reactionGeneratorAchievement = a("reactionGenerator", -2, 0, NCBlocks.reactionGeneratorIdle, workspace ? heavyDutyWorkspaceAchievement : null);
-		factoryAchievement = a("factory", 0, 2, NCBlocks.factoryIdle, workspace ? heavyDutyWorkspaceAchievement : null);
+		heavyDutyWorkspaceAchievement = a("heavyDutyWorkspace", 0, 0, NCBlocks.nuclearWorkspace, null);
+		nukeAchievement = a("nuke", -2, -2, NCBlocks.nuke, heavyDutyWorkspaceAchievement);
+		toolAchievement = a("tool", 2, -2, NCItems.dUPaxel, heavyDutyWorkspaceAchievement);
+		reactionGeneratorAchievement = a("reactionGenerator", -2, 0, NCBlocks.reactionGeneratorIdle, heavyDutyWorkspaceAchievement);
+		factoryAchievement = a("factory", 0, 2, NCBlocks.factoryIdle, heavyDutyWorkspaceAchievement);
 		fissionControllerAchievement = a("fissionController", 2, 2, NCBlocks.fissionReactorGraphiteIdle, factoryAchievement);
 		RTGAchievement = a("RTG", 2, 0, NCBlocks.RTG, fissionControllerAchievement);
 		fusionReactorAchievement = a("fusionReactor", 4, 2, NCBlocks.fusionReactor, fissionControllerAchievement);

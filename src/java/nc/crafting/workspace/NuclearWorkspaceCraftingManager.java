@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import nc.NuclearCraft;
-import nc.block.NCBlocks;
+import nc.block.basic.NCBlocks;
 import nc.item.NCItems;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
@@ -39,98 +39,95 @@ public class NuclearWorkspaceCraftingManager
     {
     	recipes = new ArrayList();
     	
-    	if (NuclearCraft.workspace) {
-	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCBlocks.machineBlock, 1), true, new Object[] {"PLCLP", "LBRBL", "GTITG", "LBRBL", "PLCLP", 'P', "plateBasic", 'L', "plateLead", 'C', new ItemStack(NCItems.parts, 1, 12), 'B', new ItemStack (NCItems.parts, 1, 16), 'R', Items.redstone, 'G', new ItemStack (NCItems.parts, 1, 11), 'T', new ItemStack (NCItems.parts, 1, 13), 'I', new ItemStack (NCItems.parts, 1, 10)}));
-	    	
-	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCBlocks.reactorBlock, 16), true, new Object[] {"INNNI", "N   N", "N   N", "N   N", "INNNI", 'N', "plateBasic", 'I', "ingotTough"}));
-	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCBlocks.cellBlock, 4), true, new Object[] {"LNTNL", "NP PN", "T   T", "NP PN", "LNTNL", 'N', "plateBasic", 'P', "plateLead", 'L', "blockGlass", 'T', "ingotTough"}));
-	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCBlocks.coolerBlock, 8), true, new Object[] {" NNN ", "NURUN", "NRURN", "NURUN", " NNN ", 'N', "plateBasic", 'R', Items.redstone, 'U', "universalReactant"}));
-	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCBlocks.speedBlock, 6), true, new Object[] {" NNN ", "NURUN", "NRURN", "NURUN", " NNN ", 'N', "plateBasic", 'R', Items.blaze_powder, 'U', Items.redstone}));
-	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCBlocks.fissionReactorGraphiteIdle, 1), true, new Object[] {"TNNNT", "NUUUN", "NUMUN", "NUUUN", "TNNNT", 'N', new ItemStack(NCItems.parts, 1, 3), 'U', "plateBasic", 'T', "ingotTough", 'M', NCBlocks.machineBlock}));
-	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCBlocks.blastBlock, 16), true, new Object[] {" NNN ", "NUUUN", "NUUUN", "NUUUN", " NNN ", 'N', NCBlocks.reactorBlock, 'U', "oreObsidian"}));
-	    	
-	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.parts, 4, 3), true, new Object[] {" TT ", "TNNT", "TNNT", " TT ", 'N', "plateBasic", 'T', "ingotTough"}));
-	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.parts, 4, 9), true, new Object[] {"RTTTR", "TNNNT", "TNDNT", "TNNNT", "RTTTR", 'N', new ItemStack(NCItems.parts, 1, 8), 'T', new ItemStack (NCItems.material, 1, 48), 'R', "universalReactant", 'D', "dustDiamond"}));
-	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.parts, 4, 5), true, new Object[] {"RTTTR", "T   T", "T   T", "RTTTR", 'T', "plateBasic", 'R', "universalReactant"}));
-	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.parts, 20, 0), true, new Object[] {"RRRRR", "TTTTT", 'T', "dustTough", 'R', "ingotTough"}));
-	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.parts, 1, 7), true, new Object[] {" NNN ", "NWWWN", "NWWWN", " NNN ", 'N', "plateTin", 'W', new ItemStack(NCItems.fuel, 1, 34)}));
-	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.parts, 2, 8), true, new Object[] {" WW ", "WNNW", "WNNW", " WW ", 'N', new ItemStack(NCItems.parts, 1, 3), 'W', "U238"}));
-	    	
-	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.upgrade, 1), true, new Object[] {"TTT", "TNT", "TTT", 'N', new ItemStack(NCItems.parts, 1, 3), 'T', Items.redstone}));
-	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.upgradeSpeed, 1), true, new Object[] {"TTT", "TNT", "TTT", 'N', "plateIron", 'T', "dustLapis"}));
-	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.upgradeEnergy, 1), true, new Object[] {"TTT", "TNT", "TTT", 'N', "plateIron", 'T', "universalReactant"}));
-	    	
-	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCBlocks.tubing1, 8), true, new Object[] {" NNN ", "NIIIN", " NNN ", 'N', "plateLead", 'I', "plateIron"}));
-	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCBlocks.tubing2, 8), true, new Object[] {" N ", "NIN", "NIN", "NIN", " N ", 'N', "plateLead", 'I', "plateIron"}));
-	
-	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCBlocks.separatorIdle, 1), true, new Object[] {"TNNNT", "NUUUN", "NUMUN", "NUUUN", "TNNNT", 'N', "plateLead", 'T', Items.redstone, 'U', "ingotTough", 'M', NCBlocks.machineBlock}));
-	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCBlocks.hastenerIdle, 1), true, new Object[] {"TNNNT", "NUUUN", "NUMUN", "NUUUN", "TNNNT", 'N', "plateLead", 'T', "ingotTough", 'U', "universalReactant", 'M', NCBlocks.machineBlock}));
-	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCBlocks.collectorIdle, 1), true, new Object[] {" NNN ", "NUUUN", "NUUUN", "NUUUN", " NNN ", 'N', "plateBasic", 'U', new ItemStack(NCItems.material, 1, 40)}));
-	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCBlocks.reactionGeneratorIdle, 1), true, new Object[] {"TNNNT", "NLULN", "NUMUN", "NLULN", "TNNNT", 'N', Items.redstone, 'T', "plateBasic", 'L', "plateLead", 'U', new ItemStack(NCItems.parts, 1, 5), 'M', NCBlocks.machineBlock}));
-	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCBlocks.electrolyserIdle, 1), true, new Object[] {"TNNNT", "NLLLN", "NUMUN", "NLLLN", "TNNNT", 'N', new ItemStack (NCItems.parts, 1, 3), 'T', "universalReactant", 'L', "plateLead", 'U', new ItemStack(NCItems.parts, 1, 7), 'M', NCBlocks.machineBlock}));
-	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCBlocks.oxidiserIdle, 1), true, new Object[] {"TNNNT", "NUUUN", "NUMUN", "NUUUN", "TNNNT", 'N', "plateLead", 'T', new ItemStack(NCItems.parts, 1, 8), 'U', "universalReactant", 'M', NCBlocks.machineBlock}));
-	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCBlocks.ioniserIdle, 1), true, new Object[] {"TNNNT", "NUUUN", "NUMUN", "NUUUN", "TNNNT", 'N', "plateLead", 'T', new ItemStack(NCItems.parts, 1, 8), 'U', Items.redstone, 'M', NCBlocks.machineBlock}));
-	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCBlocks.irradiatorIdle, 1), true, new Object[] {"TNNNT", "NUUUN", "NUMUN", "NUUUN", "TNNNT", 'N', "ingotTough", 'T', new ItemStack(NCItems.parts, 1, 8), 'U', "universalReactant", 'M', NCBlocks.machineBlock}));
-	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCBlocks.coolerIdle, 1), true, new Object[] {"TNNNT", "NUUUN", "NUMUN", "NUUUN", "TNNNT", 'N', "plateBasic", 'T', new ItemStack(NCItems.parts, 1, 8), 'U', "universalReactant", 'M', NCBlocks.machineBlock}));
-	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCBlocks.factoryIdle, 1), true, new Object[] {"TNNNT", "NUUUN", "NUMUN", "NUUUN", "TNNNT", 'T', "ingotTough", 'N', "plateBasic", 'U', "plateIron", 'M', Blocks.piston}));
-	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCBlocks.heliumExtractorIdle, 1), true, new Object[] {"TNNNT", "NUUUN", "NUMUN", "NUUUN", "TNNNT", 'T', new ItemStack(NCItems.parts, 1, 5), 'N', new ItemStack(NCItems.parts, 1, 3), 'U', "plateTin", 'M', NCBlocks.machineBlock}));
-	    	
-	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCBlocks.electromagnetIdle, 1), true, new Object[] {"AAAAA", "NNNNN", "MMMMM", "NNNNN", "AAAAA", 'A', new ItemStack (NCItems.parts, 1, 0), 'N', new ItemStack(NCItems.parts, 1, 12), 'M', "ingotIron"}));
-	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCBlocks.fusionReactor, 1), true, new Object[] {"TNNNT", "NTNTN", "NNUNN", "NTNTN", "TNNNT", 'N', new ItemStack(NCItems.parts, 1, 9), 'T', new ItemStack (NCBlocks.reactionGeneratorIdle, 1), 'U', NCBlocks.electromagnetIdle}));
-	    	
-	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCBlocks.superElectromagnetIdle, 1), true, new Object[] {"ASSSA", "NNNNN", "MMMMM", "NNNNN", "ASSSA", 'A', new ItemStack (NCItems.parts, 1, 9), 'N', new ItemStack(NCItems.parts, 1, 17), 'S', new ItemStack (NCItems.parts, 1, 3), 'M', "ingotTough"}));
-	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCBlocks.supercoolerIdle, 1), true, new Object[] {"ASSSA", "NUNUN", "MMMMM", "NUNUN", "ASSSA", 'A', new ItemStack (NCItems.parts, 1, 9), 'T', new ItemStack (NCItems.parts, 1, 3), 'M', new ItemStack(NCItems.parts, 1, 13), 'U', "universalReactant", 'N', "dustCoal", 'S', new ItemStack (NCItems.parts, 1, 3)}));
-	    	
-	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.toughAlloySword, 1), true, new Object[] {"T", "T", "T", "T", "S", 'T', "ingotTough", 'S', "ingotIron"}));
-	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.toughAlloyPickaxe, 1), true, new Object[] {" TTT ", "T S T", "  S  ", "  S  ", "  S  ", 'T', "ingotTough", 'S', "ingotIron"}));
-	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.toughAlloyShovel, 1), true, new Object[] {"T", "T", "S", "S", "S", 'T', "ingotTough", 'S', "ingotIron"}));
-	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.toughAlloyAxe, 1), true, new Object[] {" TT", "TTS", " TS", "  S", "  S", 'T', "ingotTough", 'S', "ingotIron"}));
-	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.toughAlloyHoe, 1), true, new Object[] {" TT", "T S", "  S", "  S", "  S", 'T', "ingotTough", 'S', "ingotIron"}));
-	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.toughAlloyAxe, 1), true, new Object[] {"TT ", "STT", "ST ", "S  ", "S  ", 'T', "ingotTough", 'S', "ingotIron"}));
-	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.toughAlloyHoe, 1), true, new Object[] {"TT ", "S T", "S  ", "S  ", "S  ", 'T', "ingotTough", 'S', "ingotIron"}));
-	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.toughAlloyPaxel, 1), true, new Object[] {"ASP", "HIW", " I ", " I ", " I ", 'A', NCItems.toughAlloyAxe, 'S', NCItems.toughAlloyShovel, 'P', NCItems.toughAlloyPickaxe, 'H', NCItems.toughAlloyHoe, 'W', NCItems.toughAlloySword, 'I', "ingotIron"}));
-	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.toughBow, 1), true, new Object[] {"ST ", "S T", "S T", "S T", "ST ", 'T', "ingotTough", 'S', Items.string}));
-	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.toughBow, 1), true, new Object[] {" TS", "T S", "T S", "T S", " TS", 'T', "ingotTough", 'S', Items.string}));
-	    	
-	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.toughHelm, 1), true, new Object[] {" TTT ", "TTTTT", "T   T", "T   T", 'T', "ingotTough"}));
-	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.toughChest, 1), true, new Object[] {"T   T", "TT TT", "TTTTT", " TTT ", " TTT ", 'T', "ingotTough"}));
-	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.toughLegs, 1), true, new Object[] {"TTT", "TTT", "T T", "T T", "T T", 'T', "ingotTough"}));
-	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.toughBoots, 1), true, new Object[] {" T T ", " T T ", " T T ", "T   T", 'T', "ingotTough"}));
-	    	
-	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.dUSword, 1), true, new Object[] {"T", "T", "T", "T", "S", 'T', new ItemStack (NCItems.parts, 1, 8), 'S', "ingotIron"}));
-	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.dUPickaxe, 1), true, new Object[] {" TTT ", "T S T", "  S  ", "  S  ", "  S  ", 'T', new ItemStack (NCItems.parts, 1, 8), 'S', "ingotIron"}));
-	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.dUShovel, 1), true, new Object[] {"T", "T", "S", "S", "S", 'T', new ItemStack (NCItems.parts, 1, 8), 'S', "ingotIron"}));
-	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.dUAxe, 1), true, new Object[] {" TT", "TTS", " TS", "  S", "  S", 'T', new ItemStack (NCItems.parts, 1, 8), 'S', "ingotIron"}));
-	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.dUHoe, 1), true, new Object[] {" TT", "T S", "  S", "  S", "  S", 'T', new ItemStack (NCItems.parts, 1, 8), 'S', "ingotIron"}));
-	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.dUAxe, 1), true, new Object[] {"TT ", "STT", "ST ", "S  ", "S  ", 'T', new ItemStack (NCItems.parts, 1, 8), 'S', "ingotIron"}));
-	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.dUHoe, 1), true, new Object[] {"TT ", "S T", "S  ", "S  ", "S  ", 'T', new ItemStack (NCItems.parts, 1, 8), 'S', "ingotIron"}));
-	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.dUPaxel, 1), true, new Object[] {"ASP", "HIW", " I ", " I ", " I ", 'A', NCItems.dUAxe, 'S', NCItems.dUShovel, 'P', NCItems.dUPickaxe, 'H', NCItems.dUHoe, 'W', NCItems.dUSword, 'I', "ingotIron"}));
-	    	
-	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.dUHelm, 1), true, new Object[] {" TTT ", "TTTTT", "T   T", "T   T", 'T', new ItemStack (NCItems.parts, 1, 8)}));
-	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.dUChest, 1), true, new Object[] {"T   T", "TT TT", "TTTTT", " TTT ", " TTT ", 'T', new ItemStack (NCItems.parts, 1, 8)}));
-	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.dULegs, 1), true, new Object[] {"TTT", "TTT", "T T", "T T", "T T", 'T', new ItemStack (NCItems.parts, 1, 8)}));
-	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.dUBoots, 1), true, new Object[] {" T T ", " T T ", " T T ", "T   T", 'T', new ItemStack (NCItems.parts, 1, 8)}));
-	    	
-	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCBlocks.blockBlock, 1, 7), true, new Object[] {"TTTTT", "TTTTT", "TTTTT", "TTTTT", "TTTTT", 'T', "ingotTough"}));
-	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.material, 25, 7), true, new Object[] {"T", 'T', "blockTough"}));
-	    	
-	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.fuel, 8, 48), true, new Object[] {"TXT", "XAX", "TXT", 'X', new ItemStack(NCItems.parts, 1, 15), 'A', "ingotTough", 'T', new ItemStack (NCItems.parts, 1, 3)}));
-	    	this.addRecipe(new NuclearWorkspaceShapelessOreRecipe(new ItemStack(NCItems.fuel, 1, 46), new Object[] {new ItemStack(NCItems.fuel, 1, 48), "Pu238"}));
-	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.fuel, 1, 46), true, new Object[] {"TX", 'X', "Pu238", 'T', new ItemStack(NCItems.fuel, 1, 48)}));
-	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCBlocks.RTG, 1), true, new Object[] {"GCCCG", "CTTTC", "CTXTC", "CTTTC", "GCCCG", 'G', new ItemStack(NCItems.parts, 1, 11), 'C', "plateLead", 'T', new ItemStack(NCItems.parts, 1, 15), 'X', new ItemStack(NCItems.fuel, 1, 46)}));
-	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCBlocks.WRTG, 1), true, new Object[] {" PPP ", "PUUUP", "PUUUP", "PUUUP", " PPP ", 'P', "plateLead", 'U', "U238"}));
-	    	if (NuclearCraft.enableNukes) {
-	    		this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCBlocks.nuke, 1), true, new Object[] {"RLLLR", "LPTPL", "LTPTL", "LPTPL", "RLLLR", 'T', Items.gunpowder, 'L', "plateBasic", 'R', new ItemStack(NCItems.parts, 1, 3), 'P', new ItemStack(NCItems.material, 1, 67)}));
-	    		this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.nuclearGrenade, 3), true, new Object[] {"    S", "   S ", "TGT  ", "GNG  ", "TGT  ", 'T', "ingotTough", 'N', NCBlocks.nuke, 'S', Items.string, 'G', Items.gunpowder}));
-	    	}
-	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCBlocks.solarPanel, 1), true, new Object[] {"CTTTC", "CXXXC", "CSSSC", "CGGGC", "CCCCC", 'S', "dustCoal", 'G', new ItemStack(NCItems.parts, 1, 12), 'C', "plateIron", 'T', new ItemStack(NCItems.parts, 1, 15), 'X', "universalReactant"}));
-	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.portableEnderChest, 1), true, new Object[] {"WSSSW", " WPW ", " OEO ", "OPPPO", "WWWWW", 'P', "plateBasic", 'E', Items.ender_eye, 'S', Items.string, 'O', "oreObsidian", 'W', Blocks.wool}));
-	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.pistol, 1), true, new Object[] {"BBBB ", "TTTTB", "  ATT", "   TT", "   TT", 'A', new ItemStack(NCItems.parts, 1, 9), 'B', new ItemStack(NCItems.parts, 1, 3), 'T', "ingotTough"}));
-	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.dUBullet, 4), true, new Object[] {"TUGT", 'G', Items.gunpowder, 'T', "U238", 'U', "ingotTough"}));
-	
-	    	//this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCBlocks.autoWorkspaceIdle, 1), true, new Object[] {"  I  ", "  I  ", "IINII", "  I  ", "  I  ", 'N', NCBlocks.nuclearWorkspace, 'I', "ingotTough"}));
-    	}
+    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCBlocks.machineBlock, 1), true, new Object[] {"PLCLP", "LBRBL", "GTITG", "LBRBL", "PLCLP", 'P', "plateBasic", 'L', "plateLead", 'C', new ItemStack(NCItems.parts, 1, 12), 'B', new ItemStack (NCItems.parts, 1, 16), 'R', Items.redstone, 'G', new ItemStack (NCItems.parts, 1, 11), 'T', new ItemStack (NCItems.parts, 1, 13), 'I', new ItemStack (NCItems.parts, 1, 10)}));
     	
+    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCBlocks.autoWorkspaceIdle, 1), true, new Object[] {"  I  ", "  I  ", "IINII", "  I  ", "  I  ", 'N', NCBlocks.nuclearWorkspace, 'I', "ingotTough"}));
+    	
+    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCBlocks.reactorBlock, 16), true, new Object[] {"NNNNN", "NI IN", "N   N", "NI IN", "NNNNN", 'N', "plateBasic", 'I', "ingotTough"}));
+    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCBlocks.cellBlock, 4), true, new Object[] {"NNTNN", "NPLPN", "TL LT", "NPLPN", "NNTNN", 'N', "plateBasic", 'P', "plateLead", 'L', "blockGlass", 'T', "ingotTough"}));
+    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCBlocks.coolerBlock, 10), true, new Object[] {"UNUNU", "NUNUN", "UNUNU", "NUNUN", "UNUNU", 'N', "plateBasic", 'R', Items.redstone, 'U', "universalReactant"}));
+    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCBlocks.speedBlock, 6), true, new Object[] {"UNRNU", "NUNUN", "RNUNR", "NUNUN", "UNRNU", 'N', "plateBasic", 'R', Items.blaze_powder, 'U', Items.redstone}));
+    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCBlocks.fissionReactorGraphiteIdle, 1), true, new Object[] {"TNNNT", "NUUUN", "NUMUN", "NUUUN", "TNNNT", 'N', new ItemStack(NCItems.parts, 1, 3), 'U', "plateBasic", 'T', "ingotTough", 'M', NCBlocks.machineBlock}));
+    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCBlocks.blastBlock, 16), true, new Object[] {"UNNNU", "NUUUN", "NUUUN", "NUUUN", "UNNNU", 'N', NCBlocks.reactorBlock, 'U', "oreObsidian"}));
+    	
+    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.parts, 4, 3), true, new Object[] {"  T  ", " TNT ", "TNRNT", " TNT ", "  T  ", 'N', "plateBasic", 'T', "ingotTough", 'R', Items.redstone}));
+    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.parts, 4, 9), true, new Object[] {"RTTTR", "TNNNT", "TNNNT", "TNNNT", "RTTTR", 'N', new ItemStack(NCItems.parts, 1, 8), 'T', new ItemStack (NCItems.material, 1, 48), 'R', "universalReactant"}));
+    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.parts, 4, 5), true, new Object[] {"RTTTR", "T   T", "T   T", "RTTTR", 'T', "plateBasic", 'R', "universalReactant"}));
+    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.parts, 20, 0), true, new Object[] {"RRRRR", "TTTTT", 'T', "dustTough", 'R', "ingotTough"}));
+    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.parts, 1, 7), true, new Object[] {" NNN ", "NWWWN", "NWWWN", " NNN ", 'N', "plateTin", 'W', new ItemStack(NCItems.fuel, 1, 34)}));
+    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.parts, 2, 8), true, new Object[] {"  W  ", " WNW ", "WNWNW", " WNW ", "  W  ", 'N', new ItemStack(NCItems.parts, 1, 3), 'W', "U238"}));
+    	
+    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.upgrade, 1), true, new Object[] {"TTT", "TNT", "TTT", 'N', new ItemStack(NCItems.parts, 1, 3), 'T', Items.redstone}));
+    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.upgradeSpeed, 1), true, new Object[] {"TTT", "TNT", "TTT", 'N', "plateIron", 'T', "dustLapis"}));
+    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.upgradeEnergy, 1), true, new Object[] {"TTT", "TNT", "TTT", 'N', "plateIron", 'T', "universalReactant"}));
+    	
+    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCBlocks.tubing1, 8), true, new Object[] {" NNN ", "NIIIN", " NNN ", 'N', "plateLead", 'I', "plateIron"}));
+    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCBlocks.tubing2, 8), true, new Object[] {" N ", "NIN", "NIN", "NIN", " N ", 'N', "plateLead", 'I', "plateIron"}));
+
+    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCBlocks.separatorIdle, 1), true, new Object[] {"TNNNT", "NUUUN", "NUMUN", "NUUUN", "TNNNT", 'N', "plateLead", 'T', Items.redstone, 'U', "ingotTough", 'M', NCBlocks.machineBlock}));
+    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCBlocks.hastenerIdle, 1), true, new Object[] {"TNNNT", "NUUUN", "NUMUN", "NUUUN", "TNNNT", 'N', "plateLead", 'T', "ingotTough", 'U', "universalReactant", 'M', NCBlocks.machineBlock}));
+    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCBlocks.collectorIdle, 1), true, new Object[] {" NNN ", "NUUUN", "NUUUN", "NUUUN", " NNN ", 'N', "plateBasic", 'U', new ItemStack(NCItems.material, 1, 40)}));
+    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCBlocks.reactionGeneratorIdle, 1), true, new Object[] {"TNNNT", "NLULN", "NUMUN", "NLULN", "TNNNT", 'N', Items.redstone, 'T', "plateBasic", 'L', "plateLead", 'U', new ItemStack(NCItems.parts, 1, 5), 'M', NCBlocks.machineBlock}));
+    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCBlocks.electrolyserIdle, 1), true, new Object[] {"TNNNT", "NLLLN", "NUMUN", "NLLLN", "TNNNT", 'N', new ItemStack (NCItems.parts, 1, 3), 'T', "universalReactant", 'L', "plateLead", 'U', new ItemStack(NCItems.parts, 1, 7), 'M', NCBlocks.machineBlock}));
+    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCBlocks.oxidiserIdle, 1), true, new Object[] {"TNNNT", "NUUUN", "NUMUN", "NUUUN", "TNNNT", 'N', "plateLead", 'T', new ItemStack(NCItems.parts, 1, 8), 'U', "universalReactant", 'M', NCBlocks.machineBlock}));
+    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCBlocks.ioniserIdle, 1), true, new Object[] {"TNNNT", "NUUUN", "NUMUN", "NUUUN", "TNNNT", 'N', "plateLead", 'T', new ItemStack(NCItems.parts, 1, 8), 'U', Items.redstone, 'M', NCBlocks.machineBlock}));
+    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCBlocks.irradiatorIdle, 1), true, new Object[] {"TNNNT", "NUUUN", "NUMUN", "NUUUN", "TNNNT", 'N', "ingotTough", 'T', new ItemStack(NCItems.parts, 1, 8), 'U', "universalReactant", 'M', NCBlocks.machineBlock}));
+    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCBlocks.coolerIdle, 1), true, new Object[] {"TNTNT", "NUUUN", "TUMUT", "NUUUN", "TNTNT", 'N', "plateLead", 'T', new ItemStack(NCItems.parts, 1, 8), 'U', "universalReactant", 'M', NCBlocks.machineBlock}));
+    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCBlocks.factoryIdle, 1), true, new Object[] {"TNNNT", "NUUUN", "NUMUN", "NUUUN", "TNNNT", 'T', "ingotTough", 'N', "plateBasic", 'U', "plateIron", 'M', Blocks.piston}));
+    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCBlocks.heliumExtractorIdle, 1), true, new Object[] {"TNNNT", "NUUUN", "NUMUN", "NUUUN", "TNNNT", 'T', new ItemStack(NCItems.parts, 1, 5), 'N', new ItemStack(NCItems.parts, 1, 3), 'U', "plateTin", 'M', NCBlocks.machineBlock}));
+    	
+    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCBlocks.electromagnetIdle, 1), true, new Object[] {"AAAAA", "NNNNN", "MMMMM", "NNNNN", "AAAAA", 'A', new ItemStack (NCItems.parts, 1, 0), 'N', new ItemStack(NCItems.parts, 1, 12), 'M', "ingotIron"}));
+    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCBlocks.fusionReactor, 1), true, new Object[] {"TNNNT", "NTNTN", "NNUNN", "NTNTN", "TNNNT", 'N', new ItemStack(NCItems.parts, 1, 9), 'T', new ItemStack (NCBlocks.reactionGeneratorIdle, 1), 'U', NCBlocks.electromagnetIdle}));
+    	
+    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCBlocks.superElectromagnetIdle, 1), true, new Object[] {"ASSSA", "NNNNN", "MMMMM", "NNNNN", "ASSSA", 'A', new ItemStack (NCItems.parts, 1, 9), 'N', new ItemStack(NCItems.parts, 1, 17), 'S', new ItemStack (NCItems.parts, 1, 3), 'M', "ingotTough"}));
+    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCBlocks.supercoolerIdle, 1), true, new Object[] {"ASSSA", "NUNUN", "MMMMM", "NUNUN", "ASSSA", 'A', new ItemStack (NCItems.parts, 1, 9), 'T', new ItemStack (NCItems.parts, 1, 3), 'M', new ItemStack(NCItems.parts, 1, 13), 'U', "universalReactant", 'N', "dustCoal", 'S', new ItemStack (NCItems.parts, 1, 3)}));
+    	
+    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.toughAlloySword, 1), true, new Object[] {" T ", " T ", " T ", "STS", " S ", 'T', "ingotTough", 'S', "ingotIron"}));
+    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.toughAlloyPickaxe, 1), true, new Object[] {" TTT ", "T S T", "  S  ", "  S  ", "  S  ", 'T', "ingotTough", 'S', "ingotIron"}));
+    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.toughAlloyShovel, 1), true, new Object[] {"T", "T", "S", "S", "S", 'T', "ingotTough", 'S', "ingotIron"}));
+    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.toughAlloyAxe, 1), true, new Object[] {" TT", "TTS", " TS", "  S", "  S", 'T', "ingotTough", 'S', "ingotIron"}));
+    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.toughAlloyHoe, 1), true, new Object[] {" TT", "T S", "  S", "  S", "  S", 'T', "ingotTough", 'S', "ingotIron"}));
+    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.toughAlloyAxe, 1), true, new Object[] {"TT ", "STT", "ST ", "S  ", "S  ", 'T', "ingotTough", 'S', "ingotIron"}));
+    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.toughAlloyHoe, 1), true, new Object[] {"TT ", "S T", "S  ", "S  ", "S  ", 'T', "ingotTough", 'S', "ingotIron"}));
+    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.toughAlloyPaxel, 1), true, new Object[] {"ASP", "HIW", " I ", " I ", " I ", 'A', NCItems.toughAlloyAxe, 'S', NCItems.toughAlloyShovel, 'P', NCItems.toughAlloyPickaxe, 'H', NCItems.toughAlloyHoe, 'W', NCItems.toughAlloySword, 'I', "ingotIron"}));
+    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.toughBow, 1), true, new Object[] {" TS", "T S", "T S", "T S", " TS", 'T', "ingotTough", 'S', Items.string}));
+    	
+    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.toughHelm, 1), true, new Object[] {" TTT ", "TTTTT", "T   T", "T   T", 'T', "ingotTough"}));
+    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.toughChest, 1), true, new Object[] {"T   T", "TT TT", "TTTTT", " TTT ", " TTT ", 'T', "ingotTough"}));
+    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.toughLegs, 1), true, new Object[] {"TTT", "TTT", "T T", "T T", "T T", 'T', "ingotTough"}));
+    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.toughBoots, 1), true, new Object[] {" T T ", " T T ", " T T ", "T   T", 'T', "ingotTough"}));
+    	
+    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.dUSword, 1), true, new Object[] {" T ", " T ", " T ", "STS", " S ", 'T', new ItemStack (NCItems.parts, 1, 8), 'S', "ingotIron"}));
+    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.dUPickaxe, 1), true, new Object[] {" TTT ", "T S T", "  S  ", "  S  ", "  S  ", 'T', new ItemStack (NCItems.parts, 1, 8), 'S', "ingotIron"}));
+    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.dUShovel, 1), true, new Object[] {"T", "T", "S", "S", "S", 'T', new ItemStack (NCItems.parts, 1, 8), 'S', "ingotIron"}));
+    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.dUAxe, 1), true, new Object[] {" TT", "TTS", " TS", "  S", "  S", 'T', new ItemStack (NCItems.parts, 1, 8), 'S', "ingotIron"}));
+    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.dUHoe, 1), true, new Object[] {" TT", "T S", "  S", "  S", "  S", 'T', new ItemStack (NCItems.parts, 1, 8), 'S', "ingotIron"}));
+    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.dUAxe, 1), true, new Object[] {"TT ", "STT", "ST ", "S  ", "S  ", 'T', new ItemStack (NCItems.parts, 1, 8), 'S', "ingotIron"}));
+    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.dUHoe, 1), true, new Object[] {"TT ", "S T", "S  ", "S  ", "S  ", 'T', new ItemStack (NCItems.parts, 1, 8), 'S', "ingotIron"}));
+    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.dUPaxel, 1), true, new Object[] {"ASP", "HIW", " I ", " I ", " I ", 'A', NCItems.dUAxe, 'S', NCItems.dUShovel, 'P', NCItems.dUPickaxe, 'H', NCItems.dUHoe, 'W', NCItems.dUSword, 'I', "ingotIron"}));
+    	
+    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.dUHelm, 1), true, new Object[] {" TTT ", "TTTTT", "T   T", "T   T", 'T', new ItemStack (NCItems.parts, 1, 8)}));
+    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.dUChest, 1), true, new Object[] {"T   T", "TT TT", "TTTTT", " TTT ", " TTT ", 'T', new ItemStack (NCItems.parts, 1, 8)}));
+    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.dULegs, 1), true, new Object[] {"TTT", "TTT", "T T", "T T", "T T", 'T', new ItemStack (NCItems.parts, 1, 8)}));
+    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.dUBoots, 1), true, new Object[] {" T T ", " T T ", " T T ", "T   T", 'T', new ItemStack (NCItems.parts, 1, 8)}));
+    	
+    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCBlocks.blockBlock, 1, 7), true, new Object[] {"TTTTT", "TTTTT", "TTTTT", "TTTTT", "TTTTT", 'T', "ingotTough"}));
+    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.material, 25, 7), true, new Object[] {"T", 'T', "blockTough"}));
+    	
+    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.fuel, 8, 48), true, new Object[] {"TXT", "XAX", "TXT", 'X', new ItemStack(NCItems.parts, 1, 15), 'A', "ingotTough", 'T', new ItemStack (NCItems.parts, 1, 3)}));
+    	this.addRecipe(new NuclearWorkspaceShapelessOreRecipe(new ItemStack(NCItems.fuel, 1, 46), new Object[] {new ItemStack(NCItems.fuel, 1, 48), "Pu238"}));
+    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.fuel, 1, 46), true, new Object[] {"TX", 'X', "Pu238", 'T', new ItemStack(NCItems.fuel, 1, 48)}));
+    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCBlocks.RTG, 1), true, new Object[] {"GCCCG", "CTTTC", "CTXTC", "CTTTC", "GCCCG", 'G', new ItemStack(NCItems.parts, 1, 11), 'C', "plateLead", 'T', new ItemStack(NCItems.parts, 1, 15), 'X', new ItemStack(NCItems.fuel, 1, 46)}));
+    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCBlocks.WRTG, 1), true, new Object[] {" PPP ", "PUUUP", "PUUUP", "PUUUP", " PPP ", 'P', "plateLead", 'U', "U238"}));
+    	if (NuclearCraft.enableNukes) {
+    		this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCBlocks.nuke, 1), true, new Object[] {"RLLLR", "LPTPL", "LPTPL", "LPTPL", "RLLLR", 'T', Items.gunpowder, 'L', "plateBasic", 'R', new ItemStack(NCItems.parts, 1, 3), 'P', "Pu241"}));
+    		this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.nuclearGrenade, 3), true, new Object[] {"    S", "   S ", "TGT  ", "GNG  ", "TGT  ", 'T', "ingotTough", 'N', NCBlocks.nuke, 'S', Items.string, 'G', Items.gunpowder}));
+    	}
+    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCBlocks.solarPanel, 1), true, new Object[] {"CTTTC", "CXXXC", "CSSSC", "CGGGC", "CCCCC", 'S', "dustCoal", 'G', new ItemStack(NCItems.parts, 1, 12), 'C', "plateIron", 'T', new ItemStack(NCItems.parts, 1, 15), 'X', "universalReactant"}));
+    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.portableEnderChest, 1), true, new Object[] {"WSSSW", " WPW ", " OEO ", " WPW ", "WWWWW", 'P', "plateBasic", 'E', Items.ender_eye, 'S', Items.string, 'O', "oreObsidian", 'W', Blocks.wool}));
+    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.pistol, 1), true, new Object[] {"BBBB ", "TTTTB", "  ATT", "   TT", "   TT", 'A', new ItemStack(NCItems.parts, 1, 9), 'B', new ItemStack(NCItems.parts, 1, 3), 'T', "ingotTough"}));
+    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.dUBullet, 4), true, new Object[] {"TUGT", 'G', Items.gunpowder, 'T', "U238", 'U', "ingotTough"}));
+
         Collections.sort(this.recipes, new NuclearWorkspaceRecipeSorter());
     }
 
