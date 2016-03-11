@@ -14,6 +14,7 @@ thoriumOre.name=钍矿石
 plutoniumOre.name=钚矿石
 lithiumOre.name=锂矿石
 boronOre.name=硼矿石
+magnesiumOre.name=镁矿石
 
 copperBlock.name=铜块
 tinBlock.name=锡块
@@ -25,7 +26,7 @@ thoriumBlock.name=钍块
 toughBlock.name=高强度合金块
 lithiumBlock.name=锂块
 boronBlock.name=硼块
-aluminiumBlock.name=铝块
+magnesiumBlock.name=镁块
 
 tile.simpleQuantumUp.name=Spin 1/2 Block
 tile.simpleQuantumDown.name=Spin 1/2 Block
@@ -39,10 +40,11 @@ tile.blastBlock.name=防爆方块
 tile.nuke.name=核弹
 tile.machineBlock.name=基础机器方块
 
-tile.accStraight1.name=横向加强管道
-tile.accStraight2.name=纵向加强管道
+tile.tubing1.name=横向加强管道
+tile.tubing2.name=纵向加强管道
 
-tile.liquidhelium.name=液氦
+tile.liquidHeliumBlock.name=液氦
+fluid.liquidHelium=液氦
 
 tile.nuclearFurnaceIdle.name=核熔炉
 tile.nuclearFurnaceActive.name=核熔炉
@@ -67,6 +69,7 @@ tile.fusionReactor.name=核聚变反应堆
 tile.fusionReactorBlock.name=核聚变反应堆 
 tile.RTG.name=放射性同位素温差发电机
 tile.WRTG.name=弱放射性同位素温差发电机
+tile.solarPanel.name=太阳能板
 tile.collectorIdle.name=氦收集器
 tile.collectorActive.name=氦收集器
 tile.electrolyserIdle.name=电解机
@@ -81,6 +84,16 @@ tile.coolerIdle.name=过冷却器
 tile.coolerActive.name=过冷却器
 tile.factoryIdle.name=加工工厂
 tile.factoryActive.name=加工工厂
+tile.heliumExtractorIdle.name=液氦提取器
+tile.heliumExtractorActive.name=液氦提取器
+tile.electromagnetIdle.name=电磁铁
+tile.electromagnetActive.name=电磁铁
+tile.superElectromagnetIdle.name=超导电磁铁
+tile.superElectromagnetActive.name=超导电磁铁
+tile.supercoolerIdle.name=电磁铁冷却器
+tile.supercoolerActive.name=电磁铁冷却器
+tile.synchrotronIdle.name=同步加速控制器
+tile.synchrotronActive.name=同步加速控制器
 
 gui.reactor=反应堆
 gui.fuel=燃料
@@ -112,6 +125,16 @@ gui.input=输入
 gui.output=输出
 gui.cells=单元
 
+gui.synchrotron=同步加速器
+gui.electronEnergy=能量
+gui.percentageOn=在线段
+gui.radiationPower=辐射功率
+gui.ringIncomplete=环不完整
+gui.tubeIncomplete=管不完整
+gui.cornerIncomplete=角不完整
+gui.ringNotBigEnough=环太小
+gui.radiationPower=辐射功率
+
 gui.online=在线
 gui.offline=离线
 
@@ -129,13 +152,17 @@ thoriumIngot.name=钍锭
 bronzeIngot.name=青铜锭
 lithiumIngot.name=锂锭
 boronIngot.name=硼锭
-aluminiumIngot.name=铝锭
+magnesiumIngot.name=镁锭
+MgBIngot.name=二硼化镁锭
 
 item.dominoes.name=Domino的特色菜
 item.boiledEgg.name=煮鸡蛋
+item.ricecake.name=年糕(没有鱼)
+item.fishAndRicecake.name=鱼和年糕
 item.upgrade.name=反应堆升级组件
 item.upgradeSpeed.name=速度升级
 item.upgradeEnergy.name=能量升级
+item.ringUpgrade.name=加速器升级
 item.nuclearGrenade.name=核手雷
 item.portableEnderChest.name=便携末影箱
 
@@ -279,11 +306,9 @@ goldContacts.name=金质连接器
 copperWiring.name=铜质线缆
 tinTubing.name=锡质敷管
 leadPlating.name=铅板
-silverPanel.name=银质嵌板
+silverPanel.name=银板
 bronzeBearing.name=青铜轴承
-mechComponent.name=机械零件
-simpleCircuit.name=简单电路
-PVCell.name=光伏电池
+MgBWiring.name=二硼化镁质线缆
 computerPart.name=电脑部件
 aComputerPart.name=高级电脑部件
 
@@ -303,7 +328,8 @@ crushedThorium.name=钍粉
 crushedBronze.name=青铜粉
 crushedLithium.name=锂粉
 crushedBoron.name=硼粉
-crushedAluminium.name=铝粉
+crushedMagnesium.name=镁粉
+crushedMgB.name=二硼化镁粉
 crushedObsidian.name=黑曜石粉
 
 tinyCrushedLead.name=很小一撮铅粉
@@ -362,5 +388,45 @@ universalReactant.name=通用反应粉
 reactionVessel.name=小型核反应室
 toughAlloy.name=高强度合金锭
 toughDust.name=高强度合金粉
+
+item.recordPractice.name=核电工艺唱片
+item.Practice.desc=Yokian Practice
+item.recordArea51.name=核电工艺唱片
+item.Area51.desc=Jimmy in Area 51
+item.recordNeighborhood.name=核电工艺唱片
+item.Neighborhood.desc=Retroville Neighbourhood
+
+achievement.nuclearFurnace=加速冶炼
+achievement.nuclearFurnace.desc=制作一个核熔炉
+achievement.dominos=特供产品
+achievement.dominos.desc=制作一个Domino的特色菜
+achievement.fishAndRicecake=强制节食
+achievement.fishAndRicecake.desc=制作一个鱼和年糕
+achievement.heavyDutyWorkspace=核电工程师
+achievement.heavyDutyWorkspace.desc=制作一个重型装配台
+achievement.nuke=死神，世界的毁灭者
+achievement.nuke.desc=制作一个核弹
+achievement.tool=一个工具集
+achievement.tool.desc=制作一个枯竭铀镐尖斧
+achievement.reactionGenerator=令人不安的药剂
+achievement.reactionGenerator.desc=制作一个反应发电机
+achievement.fissionController=分裂原子
+achievement.fissionController.desc=制作一个裂变控制器
+achievement.RTG=炽热的钚
+achievement.RTG.desc=做一个放射性同位素温差发生器
+achievement.fusionReactor=盒中的新星
+achievement.fusionReactor.desc=制作一个聚变反应堆
+achievement.factory=工业化
+achievement.factory.desc=制作一个加工工厂
+achievement.separator=进一步提炼
+achievement.separator.desc=制作一个同位素分离机
+achievement.oxidiser=最高效率
+achievement.oxidiser.desc=制作一个氧化机
+achievement.pistol=谋杀许可
+achievement.pistol.desc=制作一个手枪
+achievement.solar=生态友好
+achievement.solar.desc=制作一个太阳能板
+achievement.synchrotron=至尊光电
+achievement.synchrotron.desc制作一个同步加速控制器
 
 death.attack.heliumfreeze=%1$s冻死在液氦中
