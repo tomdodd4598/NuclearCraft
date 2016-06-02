@@ -32,8 +32,6 @@ public class BlockFusionReactor extends BlockContainer {
 
 	public BlockFusionReactor(Material material) {
 		super(material);
-		
-		this.setBlockBounds(-1.0F, 0.0F, -1.0F, 2.0F, 2.0F, 2.0F);
 	}
 	
 	public int getRenderType() {
@@ -61,80 +59,45 @@ public class BlockFusionReactor extends BlockContainer {
 	}
 	
 	public boolean onBlockActivated (World world, int x, int y, int z, EntityPlayer player, int q, float a, float b, float c) {
-		getBelow(world, x, y, z);
 		if (!player.isSneaking()) {
-			player.openGui(NuclearCraft.instance, NuclearCraft.guiIdFusionReactor, world, x, y - 2*getBelow(world, x, y, z), z);
+			player.openGui(NuclearCraft.instance, NuclearCraft.guiIdFusionReactor, world, x, y, z);
 			return true;
 		} else {
 			return false;
 		}
 	}
 	
-	public int getBelow(World world, int x, int y, int z) {
-		int below = 0;
-		for (int yDown = 1; yDown < 128; ++yDown) {
-			if (world.getBlock(x, y - 2*yDown, z) == NCBlocks.fusionReactor) {
-				below++;
-			} else break;
-		}
-		return below;
-	}
-	
 	public boolean canPlaceBlockAt(World world, int x, int y, int z) {
-	if (world.getBlock(x+1, y, z) != Blocks.air) {
-		return false;
+		if (world.getBlock(x+1, y, z) != Blocks.air) return false;
+		else if (world.getBlock(x+1, y, z+1) != Blocks.air) return false;
+		else if (world.getBlock(x, y, z+1) != Blocks.air) return false;
+		else if (world.getBlock(x-1, y, z+1) != Blocks.air) return false;
+		else if (world.getBlock(x-1, y, z) != Blocks.air) return false;
+		else if (world.getBlock(x-1, y, z-1) != Blocks.air) return false;
+		else if (world.getBlock(x, y, z-1) != Blocks.air) return false;
+		else if (world.getBlock(x+1, y, z-1) != Blocks.air) return false;
+		
+		else if (world.getBlock(x, y+1, z) != Blocks.air) return false;
+		else if (world.getBlock(x+1, y+1, z) != Blocks.air) return false;
+		else if (world.getBlock(x+1, y+1, z+1) != Blocks.air) return false;
+		else if (world.getBlock(x, y+1, z+1) != Blocks.air) return false;
+		else if (world.getBlock(x-1, y+1, z+1) != Blocks.air) return false;
+		else if (world.getBlock(x-1, y+1, z) != Blocks.air) return false;
+		else if (world.getBlock(x-1, y+1, z-1) != Blocks.air) return false;
+		else if (world.getBlock(x, y+1, z-1) != Blocks.air) return false;
+		else if (world.getBlock(x+1, y+1, z-1) != Blocks.air) return false;
+		
+		else if (world.getBlock(x, y+2, z) != Blocks.air) return false;
+		else if (world.getBlock(x+1, y+2, z) != Blocks.air) return false;
+		else if (world.getBlock(x+1, y+2, z+1) != Blocks.air) return false;
+		else if (world.getBlock(x, y+2, z+1) != Blocks.air) return false;
+		else if (world.getBlock(x-1, y+2, z+1) != Blocks.air) return false;
+		else if (world.getBlock(x-1, y+2, z) != Blocks.air) return false;
+		else if (world.getBlock(x-1, y+2, z-1) != Blocks.air) return false;
+		else if (world.getBlock(x, y+2, z-1) != Blocks.air) return false;
+		else if (world.getBlock(x+1, y+2, z-1) != Blocks.air) return false;
+		return true;
 	}
-	else if (world.getBlock(x+1, y, z+1) != Blocks.air) {
-		return false;
-	}
-	else if (world.getBlock(x, y, z+1) != Blocks.air) {
-		return false;
-	}
-	else if (world.getBlock(x-1, y, z+1) != Blocks.air) {
-		return false;
-	}
-	else if (world.getBlock(x-1, y, z) != Blocks.air) {
-		return false;
-	}
-	else if (world.getBlock(x-1, y, z-1) != Blocks.air) {
-		return false;
-	}
-	else if (world.getBlock(x, y, z-1) != Blocks.air) {
-		return false;
-	}
-	else if (world.getBlock(x+1, y, z-1) != Blocks.air) {
-		return false;
-	}
-	
-	else if (world.getBlock(x, y+1, z) != Blocks.air) {
-		return false;
-	}
-	else if (world.getBlock(x+1, y+1, z) != Blocks.air) {
-		return false;
-	}
-	else if (world.getBlock(x+1, y+1, z+1) != Blocks.air) {
-		return false;
-	}
-	else if (world.getBlock(x, y+1, z+1) != Blocks.air) {
-		return false;
-	}
-	else if (world.getBlock(x-1, y+1, z+1) != Blocks.air) {
-		return false;
-	}
-	else if (world.getBlock(x-1, y+1, z) != Blocks.air) {
-		return false;
-	}
-	else if (world.getBlock(x-1, y+1, z-1) != Blocks.air) {
-		return false;
-	}
-	else if (world.getBlock(x, y+1, z-1) != Blocks.air) {
-		return false;
-	}
-	else if (world.getBlock(x+1, y+1, z-1) != Blocks.air) {
-		return false;
-	}
-	return true;
-}
 	
 	public void onBlockAdded(World world, int x, int y, int z) {
 		super.onBlockAdded(world, x, y, z);
@@ -148,6 +111,7 @@ public class BlockFusionReactor extends BlockContainer {
 		world.setBlock(x-1, y, z-1, NCBlocks.fusionReactorBlock);
 		world.setBlock(x, y, z-1, NCBlocks.fusionReactorBlock);
 		world.setBlock(x+1, y, z-1, NCBlocks.fusionReactorBlock);
+		
 		world.setBlock(x, y+1, z, NCBlocks.fusionReactorBlock);
 		world.setBlock(x+1, y+1, z, NCBlocks.fusionReactorBlock);
 		world.setBlock(x+1, y+1, z+1, NCBlocks.fusionReactorBlock);
@@ -157,10 +121,19 @@ public class BlockFusionReactor extends BlockContainer {
 		world.setBlock(x-1, y+1, z-1, NCBlocks.fusionReactorBlock);
 		world.setBlock(x, y+1, z-1, NCBlocks.fusionReactorBlock);
 		world.setBlock(x+1, y+1, z-1, NCBlocks.fusionReactorBlock);
+		
+		world.setBlock(x, y+2, z, NCBlocks.fusionReactorBlockTop);
+		world.setBlock(x+1, y+2, z, NCBlocks.fusionReactorBlockTop);
+		world.setBlock(x+1, y+2, z+1, NCBlocks.fusionReactorBlockTop);
+		world.setBlock(x, y+2, z+1, NCBlocks.fusionReactorBlockTop);
+		world.setBlock(x-1, y+2, z+1, NCBlocks.fusionReactorBlockTop);
+		world.setBlock(x-1, y+2, z, NCBlocks.fusionReactorBlockTop);
+		world.setBlock(x-1, y+2, z-1, NCBlocks.fusionReactorBlockTop);
+		world.setBlock(x, y+2, z-1, NCBlocks.fusionReactorBlockTop);
+		world.setBlock(x+1, y+2, z-1, NCBlocks.fusionReactorBlockTop);
 	}
 	
-	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entityLivingBase, ItemStack itemstack)
-	{
+	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entityLivingBase, ItemStack itemstack) {
 		int l = MathHelper.floor_double(entityLivingBase.rotationYaw * 4.0F / 360.0F + 0.5D) & 0x3;
 		
 		if (l == 0) {
@@ -189,10 +162,8 @@ public class BlockFusionReactor extends BlockContainer {
     	if (world.isRemote) {((ICommandSender) entityLivingBase).addChatMessage(localIChatComponent);}
 	}
 	
-	private void setDefaultDirection(World world, int x, int y, int z)
-	 {
-	        if (!world.isRemote)
-	        {
+	private void setDefaultDirection(World world, int x, int y, int z) {
+		if (!world.isRemote) {
 	            Block block = world.getBlock(x, y, z - 1);
 	            Block block1 = world.getBlock(x, y, z + 1);
 	            Block block2 = world.getBlock(x - 1, y, z);
@@ -236,7 +207,6 @@ public class BlockFusionReactor extends BlockContainer {
 			
 			if(tileentity != null)
 			{
-				if (tileentity.isMain()) {
 				for(int i = 0; i < tileentity.getSizeInventory(); i++)
 				{
 					ItemStack itemstack = tileentity.getStackInSlot(i);
@@ -275,7 +245,6 @@ public class BlockFusionReactor extends BlockContainer {
 						}
 					}
 				}
-				}
 				
 				world.func_147453_f(x, y, z, oldblockID);
 			}
@@ -298,6 +267,15 @@ public class BlockFusionReactor extends BlockContainer {
 	world.setBlockToAir(x-1, y+1, z-1);
 	world.setBlockToAir(x, y+1, z-1);
 	world.setBlockToAir(x+1, y+1, z-1);
+	world.setBlockToAir(x, y+2, z);
+	world.setBlockToAir(x+1, y+2, z);
+	world.setBlockToAir(x+1, y+2, z+1);
+	world.setBlockToAir(x, y+2, z+1);
+	world.setBlockToAir(x-1, y+2, z+1);
+	world.setBlockToAir(x-1, y+2, z);
+	world.setBlockToAir(x-1, y+2, z-1);
+	world.setBlockToAir(x, y+2, z-1);
+	world.setBlockToAir(x+1, y+2, z-1);
 	super.breakBlock(world, x, y, z, oldblockID, oldMetadata);
 	}
 	

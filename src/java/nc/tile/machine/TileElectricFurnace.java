@@ -74,47 +74,45 @@ public class TileElectricFurnace extends TileInventory implements IEnergyHandler
 	    return 1;
 	}
 	
-	public boolean canCook()
-	{
-	  if (this.slots[0] == null) {
-	 	 flag = false;
-	    return false;
-	  }
-	  if (this.cookTime >= getFurnaceSpeed) {
-	 	 flag = true;
-	    return true;
-	  }
-	  if (this.energyStorage.getEnergyStored() < 1*((int) Math.ceil(getRequiredEnergy/getFurnaceSpeed))) {
-		 flag = false;
-		return false;
-	  }
-	  if (this.energyStorage.getEnergyStored() == 0) {
-	 	 flag = false;
-	    return false;
-	  }
+	public boolean canCook() {
+		if (this.slots[0] == null) {
+			flag = false;
+			return false;
+		}
+		if (this.cookTime >= getFurnaceSpeed) {
+			flag = true;
+			return true;
+		}
+		if (RequiredEnergy() < this.energyStorage.getMaxEnergyStored() && cookTime <= 0 && this.energyStorage.getEnergyStored() < getRequiredEnergy) {
+			flag = false;
+			return false;
+		}
+		if (this.energyStorage.getEnergyStored() < 1*((int) Math.ceil(getRequiredEnergy/getFurnaceSpeed))) {
+			flag = false;
+			return false;
+		}
+		if (this.energyStorage.getEnergyStored() == 0) {
+			flag = false;
+			return false;
+		}
 	  
-	  ItemStack itemstack = getOutput(this.slots[0]);
-	  if (itemstack == null) {
-	 	 flag = false;
-	    return false;
-	  }
-	  if (this.slots[1] != null)
-	  {
-	    if (!this.slots[1].isItemEqual(itemstack))
-	    {
-	 	   flag = false;
-	      return false;
-	    }
-	    
-	    if (this.slots[1].stackSize + itemstack.stackSize > this.slots[1].getMaxStackSize())
-	    {
-	 	   flag = false;
-	      return false;
-	    }
-	  }
-	  
-	  flag = true;
-	  return true;
+		ItemStack itemstack = getOutput(this.slots[0]);
+		if (itemstack == null) {
+			flag = false;
+			return false;
+		}
+		if (this.slots[1] != null) {
+			if (!this.slots[1].isItemEqual(itemstack)) {
+				flag = false;
+				return false;
+			}
+			if (this.slots[1].stackSize + itemstack.stackSize > this.slots[1].getMaxStackSize()) {
+				flag = false;
+				return false;
+			}
+		}
+		flag = true;
+		return true;
 	}
 	
 	private void cookItem() {

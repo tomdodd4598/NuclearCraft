@@ -122,8 +122,6 @@ public class ContainerFusionReactor extends Container {
             icrafting.sendProgressBarUpdate(this, 32, this.entity.EShown >> 16);
             icrafting.sendProgressBarUpdate(this, 33, this.entity.size);
             icrafting.sendProgressBarUpdate(this, 34, this.entity.size >> 16);
-            icrafting.sendProgressBarUpdate(this, 35, this.entity.below);
-            icrafting.sendProgressBarUpdate(this, 36, this.entity.below >> 16);
             
             icrafting.sendProgressBarUpdate(this, 37, (int) this.entity.efficiency);
             icrafting.sendProgressBarUpdate(this, 38, (int) this.entity.efficiency >> 16);
@@ -186,7 +184,6 @@ public class ContainerFusionReactor extends Container {
         if (slot == 33){ this.lastSize = this.upcastShort(value); }
         if (slot == 34){ this.entity.size = this.lastSize | value << 16; }
         if (slot == 35){ this.lastBelow = this.upcastShort(value); }
-        if (slot == 36){ this.entity.below = this.lastBelow | value << 16; }
         
         if (slot == 37){ this.lastEfficiency = this.upcastShort(value); }
         if (slot == 38){ this.entity.efficiency = (int) this.lastEfficiency | value << 16; }

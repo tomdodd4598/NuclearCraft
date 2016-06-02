@@ -16,8 +16,8 @@ public class OxidiserRecipes extends NCRecipeHelper {
 	}
 
 	public void addRecipes() {
-		matMat(12, 4, 53);
-		matMat(12, 19, 54);
+		matMat(8, 4, 53);
+		matMat(8, 19, 54);
 		for (int i = 0; i < 7; i++) matMat(4, 24+(2*i), 55+(2*i));
 		for (int i = 0; i < 7; i++) matMat(1, 25+(2*i), 56+(2*i));
 		for (int i = 0; i < 4; i++) fuelFuel(32, i, 51+i);

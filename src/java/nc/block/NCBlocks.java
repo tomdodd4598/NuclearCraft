@@ -28,6 +28,14 @@ public class NCBlocks {
 	public static Block reactorBlock;
 	public static Block machineBlock;
 	public static Block coolerBlock;
+	public static Block emptyCoolerBlock;
+	public static Block waterCoolerBlock;
+	public static Block cryotheumCoolerBlock;
+	public static Block redstoneCoolerBlock;
+	public static Block enderiumCoolerBlock;
+	public static Block glowstoneCoolerBlock;
+	public static Block coolantCoolerBlock;
+	public static Block heliumCoolerBlock;
 	public static Block speedBlock;
 	public static Block blastBlock;
 	public static Block fissionReactorGraphiteIdle;
@@ -35,6 +43,7 @@ public class NCBlocks {
 	public static Block nuclearWorkspace;
 	public static Block fusionReactor;
 	public static Block fusionReactorBlock;
+	public static Block fusionReactorBlockTop;
 	public static Block tubing1;
 	public static Block tubing2;
 	public static Block RTG;
@@ -61,6 +70,7 @@ public class NCBlocks {
 	public static Block autoWorkspaceIdle;
 	public static Block autoWorkspaceActive;
 	
+	public static Block fusionConnector;
 	public static Block electromagnetIdle;
 	public static Block electromagnetActive;
 	public static Block superElectromagnetIdle;
@@ -75,4 +85,6 @@ public class NCBlocks {
 	
 	public static Fluid fluidHelium;
 	public static Block blockHelium;
+	public static Fluid fusionPlasma;
+	public static Block blockFusionPlasma;
 }

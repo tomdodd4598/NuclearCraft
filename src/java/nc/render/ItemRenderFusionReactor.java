@@ -32,15 +32,15 @@ public class ItemRenderFusionReactor implements IItemRenderer {
 	public void renderItem(ItemRenderType type, ItemStack item, Object... data) {
 		if (type == IItemRenderer.ItemRenderType.ENTITY) {
 			GL11.glTranslatef(-0.25F, 0.0F, -0.25F);
-			GL11.glScaled(0.4D, 0.4D, 0.4D);
+			GL11.glScaled(0.5D, 0.5D, 0.5D);
 		}
 		if (type == IItemRenderer.ItemRenderType.INVENTORY) {
-			GL11.glTranslatef(0.0F, -0.25F, 0.0F);
-			GL11.glScaled(0.35D, 0.35D, 0.35D);
+			GL11.glTranslatef(0.0F, -0.361F, 0.0F);
+			GL11.glScaled(0.333D, 0.333D, 0.333D);
 		}
 		if (type == IItemRenderer.ItemRenderType.EQUIPPED) {
 			GL11.glTranslatef(-0.2F, 0.0F, -0.2F);
-			GL11.glScaled(0.6D, 0.6D, 0.6D);
+			GL11.glScaled(0.5D, 0.5D, 0.5D);
 		}
 		if (type == IItemRenderer.ItemRenderType.EQUIPPED_FIRST_PERSON) {
 			GL11.glTranslatef(0.8F, 0.0F, 0.8F);

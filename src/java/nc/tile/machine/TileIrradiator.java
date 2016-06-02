@@ -12,7 +12,7 @@ public class TileIrradiator extends TileMachine {
 	public static final int[] output = {0, 1, 2, 3, 4};
 	
 	public TileIrradiator() {
-		super("Irradiator", 250000, 2, 3, true, true, 1000, 100000, NuclearCraft.irradiatorSpeed, NuclearCraft.irradiatorEfficiency, IrradiatorRecipes.instance());
+		super("Irradiator", 250000, 2, 3, true, true, 2000, 200000, NuclearCraft.irradiatorSpeed, NuclearCraft.irradiatorEfficiency, IrradiatorRecipes.instance());
 	}
 	
 	public void updateEntity() {

@@ -1,8 +1,12 @@
 package nc.tile.generator;
 
+import java.util.Random;
+
+import nc.NuclearCraft;
 import nc.block.NCBlocks;
-import nc.block.generator.BlockFusionReactor;
-import net.minecraft.block.Block;
+import nc.handler.BombType;
+import nc.handler.EntityBomb;
+import nc.handler.NCExplosion;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
@@ -18,7 +22,7 @@ public class TileFusionReactorBlock extends TileEntity implements IEnergyHandler
 	public int xOffset;
 	public int yOffset;
 	public int zOffset;
-	public int getBelow;
+	private Random rand = new Random();
 	
 	//private static final int[] slotsBottom = new int[] {0, 1};
 	
@@ -28,10 +32,16 @@ public class TileFusionReactorBlock extends TileEntity implements IEnergyHandler
 		super();
     }
 	
+	public boolean ppp(int x, int y, int z) {
+		return this.worldObj.getBlock(x, y, z) == NCBlocks.blockFusionPlasma;
+	}
+	
 	public void updateEntity() {
     	super.updateEntity();
     	getOffsets(xCoord, yCoord, zCoord);
-    	getBelow();
+    	if (this.worldObj.getBlock(xCoord, yCoord, zCoord) == NCBlocks.fusionReactorBlock && (ppp(xCoord + 1, yCoord, zCoord) || ppp(xCoord - 1, yCoord, zCoord) || ppp(xCoord, yCoord + 1, zCoord) || ppp(xCoord, yCoord - 1, zCoord) || ppp(xCoord, yCoord, zCoord + 1) || ppp(xCoord, yCoord, zCoord - 1))) {
+			if (rand.nextFloat() > 0.9975) NCExplosion.createExplosion(new EntityBomb(worldObj).setType(BombType.BOMB_STANDARD), worldObj, (double)this.xCoord, (double)this.yCoord, (double)this.zCoord, NuclearCraft.fusionMeltdowns ? 12.5F : 0F, 20F, true);
+		}
     	markDirty();
     }
 	
@@ -62,35 +72,26 @@ public class TileFusionReactorBlock extends TileEntity implements IEnergyHandler
 		return (xOffset == 0 && yOffset == 0 && zOffset == 0);
 	}
 	
-	public void getBelow() {
-		Block block = worldObj.getBlock(xCoord + xOffset, yCoord + yOffset, zCoord + zOffset);
-		if (block == NCBlocks.fusionReactor) {
-			BlockFusionReactor reactor = (BlockFusionReactor)worldObj.getBlock(xCoord + xOffset, yCoord + yOffset, zCoord + zOffset);
-			if (reactor == null || isNotReady()) {getBelow = 0;}
-			getBelow = reactor.getBelow(worldObj, xCoord, yCoord, zCoord);
-		} else getBelow = 0;
-	}
-	
 	public int[] getAccessibleSlotsFromSide(int side) {
-		ISidedInventory main = (ISidedInventory)worldObj.getTileEntity(xCoord + xOffset, yCoord + yOffset - 2*getBelow, zCoord + zOffset);
+		ISidedInventory main = (ISidedInventory)worldObj.getTileEntity(xCoord + xOffset, yCoord + yOffset, zCoord + zOffset);
 		if (main == null || isNotReady()) {return null;}
 		return main.getAccessibleSlotsFromSide(side);
 	}
 	
 	public boolean isItemValidForSlot(int slot, ItemStack s) {
-		ISidedInventory main = (ISidedInventory)worldObj.getTileEntity(xCoord + xOffset, yCoord + yOffset - 2*getBelow, zCoord + zOffset);
+		ISidedInventory main = (ISidedInventory)worldObj.getTileEntity(xCoord + xOffset, yCoord + yOffset, zCoord + zOffset);
 		if (main == null || isNotReady()) {return false;}
 		return main.isItemValidForSlot(slot, s);
 	}
 
 	public boolean canInsertItem(int slot, ItemStack stack, int side) {
-		ISidedInventory main = (ISidedInventory)worldObj.getTileEntity(xCoord + xOffset, yCoord + yOffset - 2*getBelow, zCoord + zOffset);
+		ISidedInventory main = (ISidedInventory)worldObj.getTileEntity(xCoord + xOffset, yCoord + yOffset, zCoord + zOffset);
 		if (main == null || isNotReady()) {return false;}
 		return main.canInsertItem(slot, stack, side);
 	}
 
 	public boolean canExtractItem(int slot, ItemStack stack, int slots) {
-		ISidedInventory main = (ISidedInventory)worldObj.getTileEntity(xCoord + xOffset, yCoord + yOffset - 2*getBelow, zCoord + zOffset);
+		ISidedInventory main = (ISidedInventory)worldObj.getTileEntity(xCoord + xOffset, yCoord + yOffset, zCoord + zOffset);
 		if (main == null || isNotReady()) {return false;}
 		return main.canExtractItem(slot, stack, slots);
 	}
@@ -100,7 +101,7 @@ public class TileFusionReactorBlock extends TileEntity implements IEnergyHandler
 	}
 
 	public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
-		IEnergyHandler main = (IEnergyHandler)worldObj.getTileEntity(xCoord + xOffset, yCoord + yOffset - 2*getBelow, zCoord + zOffset);
+		IEnergyHandler main = (IEnergyHandler)worldObj.getTileEntity(xCoord + xOffset, yCoord + yOffset, zCoord + zOffset);
 		if (main == null || isNotReady()) {return 0;}
 		return main.receiveEnergy(from, maxReceive, simulate);
 	}
@@ -123,7 +124,6 @@ public class TileFusionReactorBlock extends TileEntity implements IEnergyHandler
 	 	this.xOffset = nbt.getInteger("xoff");
 	  	this.yOffset = nbt.getInteger("yoff");
 	  	this.zOffset = nbt.getInteger("zoff");
-	  	this.getBelow = nbt.getInteger("getBelow");
 	}
 
 	public void writeToNBT(NBTTagCompound nbt) {
@@ -132,71 +132,70 @@ public class TileFusionReactorBlock extends TileEntity implements IEnergyHandler
 	  	nbt.setInteger("xoff", this.xOffset);
 	 	nbt.setInteger("yoff", this.yOffset);
 	   	nbt.setInteger("zoff", this.zOffset);
-	   	nbt.setInteger("getBelow", this.getBelow);
 	}
 
 	public int getSizeInventory() {
-		ISidedInventory main = (ISidedInventory)worldObj.getTileEntity(xCoord + xOffset, yCoord + yOffset - 2*getBelow, zCoord + zOffset);
+		ISidedInventory main = (ISidedInventory)worldObj.getTileEntity(xCoord + xOffset, yCoord + yOffset, zCoord + zOffset);
 		if (main == null || isNotReady()) {return 0;}
 		return slots.length;
 	}
 
 	public ItemStack getStackInSlot(int var1) {
-		ISidedInventory main = (ISidedInventory)worldObj.getTileEntity(xCoord + xOffset, yCoord + yOffset - 2*getBelow, zCoord + zOffset);
+		ISidedInventory main = (ISidedInventory)worldObj.getTileEntity(xCoord + xOffset, yCoord + yOffset, zCoord + zOffset);
 		if (main == null || isNotReady()) {return null;}
 		return main.getStackInSlot(var1);
 	}
 
 	public ItemStack decrStackSize(int var1, int var2) {
-		ISidedInventory main = (ISidedInventory)worldObj.getTileEntity(xCoord + xOffset, yCoord + yOffset - 2*getBelow, zCoord + zOffset);
+		ISidedInventory main = (ISidedInventory)worldObj.getTileEntity(xCoord + xOffset, yCoord + yOffset, zCoord + zOffset);
 		if (main == null || isNotReady()) {return null;}
 		return main.decrStackSize(var1, var2);
 	}
 
 	public ItemStack getStackInSlotOnClosing(int i) {
-		ISidedInventory main = (ISidedInventory)worldObj.getTileEntity(xCoord + xOffset, yCoord + yOffset - 2*getBelow, zCoord + zOffset);
+		ISidedInventory main = (ISidedInventory)worldObj.getTileEntity(xCoord + xOffset, yCoord + yOffset, zCoord + zOffset);
 		if (main == null || isNotReady()) {return null;}
 		return main.getStackInSlotOnClosing(i);
 	}
 
 	public void setInventorySlotContents(int i, ItemStack j) {
-		ISidedInventory main = (ISidedInventory)worldObj.getTileEntity(xCoord + xOffset, yCoord + yOffset - 2*getBelow, zCoord + zOffset);
+		ISidedInventory main = (ISidedInventory)worldObj.getTileEntity(xCoord + xOffset, yCoord + yOffset, zCoord + zOffset);
 		if (main == null || isNotReady()) {return;}
 		main.setInventorySlotContents(i, j);
 	}
 
 	public String getInventoryName() {
-		ISidedInventory main = (ISidedInventory)worldObj.getTileEntity(xCoord + xOffset, yCoord + yOffset - 2*getBelow, zCoord + zOffset);
+		ISidedInventory main = (ISidedInventory)worldObj.getTileEntity(xCoord + xOffset, yCoord + yOffset, zCoord + zOffset);
 		if (main == null || isNotReady()) {return "Fusion Reactor";}
 		return main.getInventoryName();
 	}
 
 	public boolean hasCustomInventoryName() {
-		ISidedInventory main = (ISidedInventory)worldObj.getTileEntity(xCoord + xOffset, yCoord + yOffset - 2*getBelow, zCoord + zOffset);
+		ISidedInventory main = (ISidedInventory)worldObj.getTileEntity(xCoord + xOffset, yCoord + yOffset, zCoord + zOffset);
 		if (main == null || isNotReady()) {return false;}
 		return main.hasCustomInventoryName();
 	}
 
 	public int getInventoryStackLimit() {
-		ISidedInventory main = (ISidedInventory)worldObj.getTileEntity(xCoord + xOffset, yCoord + yOffset - 2*getBelow, zCoord + zOffset);
+		ISidedInventory main = (ISidedInventory)worldObj.getTileEntity(xCoord + xOffset, yCoord + yOffset, zCoord + zOffset);
 		if (main == null || isNotReady()) {return 64;}
 		return main.getInventoryStackLimit();
 	}
 
 	public boolean isUseableByPlayer(EntityPlayer p) {
-		ISidedInventory main = (ISidedInventory)worldObj.getTileEntity(xCoord + xOffset, yCoord + yOffset - 2*getBelow, zCoord + zOffset);
+		ISidedInventory main = (ISidedInventory)worldObj.getTileEntity(xCoord + xOffset, yCoord + yOffset, zCoord + zOffset);
 		if (main == null || isNotReady()) {return false;}
 		return main.isUseableByPlayer(p);
 	}
 
 	public void openInventory() {
-		ISidedInventory main = (ISidedInventory)worldObj.getTileEntity(xCoord + xOffset, yCoord + yOffset - 2*getBelow, zCoord + zOffset);
+		ISidedInventory main = (ISidedInventory)worldObj.getTileEntity(xCoord + xOffset, yCoord + yOffset, zCoord + zOffset);
 		if (main == null || isNotReady()) {return;}
 		main.openInventory();
 	}
 
 	public void closeInventory() {
-		ISidedInventory main = (ISidedInventory)worldObj.getTileEntity(xCoord + xOffset, yCoord + yOffset - 2*getBelow, zCoord + zOffset);
+		ISidedInventory main = (ISidedInventory)worldObj.getTileEntity(xCoord + xOffset, yCoord + yOffset, zCoord + zOffset);
 		if (main == null || isNotReady()) {return;}
 		main.closeInventory();
 	}

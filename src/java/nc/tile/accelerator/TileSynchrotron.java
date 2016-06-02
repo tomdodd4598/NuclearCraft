@@ -9,6 +9,7 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -36,9 +37,12 @@ public class TileSynchrotron extends TileInventory implements IEnergyHandler, IE
 	public double particleEnergy;
 	public double percentageOn;
 	public static int fuelMax = 100000;
+	public static double k = 8.9875517873681764; // *10^9
+	public static double c = 2.99792458; // 10^8
+	public static double e = 1.60217662; // 10^-19
+	public static double m = 9.10938356; // 10^-31
 	public String problem = StatCollector.translateToLocal("gui.ringIncomplete");
-	private static final int[] slotsTop = new int[] {0, 1};
-    private static final int[] slotsSides = new int[] {0, 1};
+	private static final int[] slots1 = new int[] {0, 1};
 	
 	public TileSynchrotron() {
 		storage = new EnergyStorage(1000000, 1000000);
@@ -51,6 +55,7 @@ public class TileSynchrotron extends TileInventory implements IEnergyHandler, IE
     	if(!this.worldObj.isRemote) {
     		percentageOn();
     		fuel();
+    		power();
     	}
         if (flag != flag1) {flag1 = flag; BlockSynchrotron.updateBlockState(flag, this.worldObj, this.xCoord, this.yCoord, this.zCoord);}
         markDirty();
@@ -62,26 +67,64 @@ public class TileSynchrotron extends TileInventory implements IEnergyHandler, IE
 	
 	private void fuel() {
 		ItemStack stack = this.getStackInSlot(0);
+		ItemStack stack1 = this.getStackInSlot(1);
 
-		if (stack != null && isFuel(stack) && fuel + 10000 <= fuelMax) {
+		if (stack != null && isFuel(stack) && fuel + 10000 <= fuelMax && (stack1 == null || (stack1 != null && stack1.stackSize < 64))) {
 			fuel += 10000;
 			--this.slots[0].stackSize;
 
 			if (this.slots[0].stackSize <= 0) {
 				this.slots[0] = null;
 			}
+			
+			if (this.slots[1] == null) this.slots[1] = new ItemStack(NCItems.fuel, 1, 48);
+    		else if (this.slots[1].stackSize < 64) this.slots[1].stackSize ++;
 		}
 	}
 	
-	public boolean multiblock(World world, int x, int y, int z) {
-    	return checkRing();
-    }
-
-	public boolean multiblockstring() {
-    	return checkRing();
-    }
-    
-    private boolean find(Block block, int x, int y, int z) {
+	private void power() {
+		double efficiency1 = efficiency/10000;
+		if (storage.getEnergyStored() >= (int) (1000*((200-efficiency1)/100)) && worldObj.isBlockIndirectlyGettingPowered(this.xCoord, this.yCoord, this.zCoord) && flag && percentageOn > 0 && fuel - length >= 0) {
+			fuel = fuel - (fuel < fuelMax/2 ? length*((fuel*2)+7500)/fuelMax : length*(fuelMax+7500)/fuelMax)/4;
+			this.storage.receiveEnergy(- (int) (1000*((200-efficiency1)/100)), false);
+			if (efficiency >= 1000000) efficiency = 1000000; else efficiency = efficiency + 5000/(length+1);
+			int modifiedLength = length*100;
+			double radPow = (2*16*((modifiedLength+1)/100)*((modifiedLength+1)/100)*percentageOn*(NuclearCraft.superElectromagnetRF/100)*efficiency1);
+			if (length > 0) radiationPower = (fuel < fuelMax/2 ? (fuel*2)/fuelMax : 1)*radPow/1000; // 20 kWatts per RF/t
+			double velocity = Math.sqrt((2*Math.sqrt(6)*e*Math.pow(c, 5/2)*Math.sqrt(k)*modifiedLength*radPow*Math.pow(10, 5.5)-3*c*c*modifiedLength*modifiedLength*radPow*Math.pow(10, 10))/(8*e*e*c*k*Math.pow(10, -15)-3*modifiedLength*modifiedLength*radPow*Math.pow(10, -6)));
+			double gamma = 1/Math.sqrt(1-Math.pow(velocity/299792458, 2));
+			particleEnergy = (m*c*c*(gamma-1)*Math.pow(10, 4))/(1000*e);
+		} else {
+			if (efficiency > 2500) efficiency = efficiency - 2500; else efficiency = 0;
+			radiationPower = 0;
+			particleEnergy = 0;
+		}
+	}
+	
+	/*private void power() {
+		double efficiency1 = efficiency/10000;
+		if (storage.getEnergyStored() >= (int) (1000*((200-efficiency1)/100)) && worldObj.isBlockIndirectlyGettingPowered(this.xCoord, this.yCoord, this.zCoord) && flag && percentageOn > 0 && fuel - length >= 0) {
+			fuel = fuel - (fuel < fuelMax/2 ? length*((fuel*2)+7500)/fuelMax : length*(fuelMax+7500)/fuelMax)/4;
+			this.storage.receiveEnergy(- (int) (1000*((200-efficiency1)/100)), false);
+			if (efficiency >= 1000000) efficiency = 1000000; else efficiency = efficiency + 20;
+			double radPow = (20*16*(length+1)*(length+1)*percentageOn*NuclearCraft.superElectromagnetRF*efficiency1)/10000;
+			if (length > 0) radiationPower = (fuel < fuelMax/2 ? (fuel*2)/fuelMax : 1)*radPow/1000; // 20 Watts per RF/t
+			int modifiedLength = length*100;
+			double a1 = modifiedLength*radPow/1000;
+			double a2 = modifiedLength*modifiedLength*radPow/1000;
+			double a3 = 0.5;
+			double a4 = length*length*radPow/1000;
+			double velocitysq = (a2-a1)/(a4-a3);
+			double gamma = 1 + velocitysq;
+			particleEnergy = (m*c*c*(gamma-1)*Math.pow(10, 4))/(1000*e);
+		} else {
+			if (efficiency > 2500) efficiency = efficiency - 2500; else efficiency = 0;
+			radiationPower = 0;
+			particleEnergy = 0;
+		}
+	}*/
+	
+	private boolean find(Block block, int x, int y, int z) {
     	ForgeDirection forward = ForgeDirection.getOrientation(this.getBlockMetadata()).getOpposite();
     	int xc = xCoord + 2*forward.offsetX;
     	int yc = yCoord + y;
@@ -338,6 +381,14 @@ public class TileSynchrotron extends TileInventory implements IEnergyHandler, IE
 		flag = true; return true;
     }
 	
+	public boolean multiblock(World world, int x, int y, int z) {
+    	return checkRing();
+    }
+
+	public boolean multiblockstring() {
+    	return checkRing();
+    }
+	
 	public boolean percentageOn() {
 		int l = 0;
 		int e = 0;
@@ -479,9 +530,10 @@ public class TileSynchrotron extends TileInventory implements IEnergyHandler, IE
 		this.readFromNBT(packet.func_148857_g());
 	}
 	
-	public static boolean isFuel(ItemStack stack)
-    {
-        return stack.getItem() == NCItems.fuel && stack.getItemDamage() == 50;
+	public static boolean isFuel(ItemStack stack) {
+		if (stack == null) return false;
+        Item item = stack.getItem();
+        return item == new ItemStack (NCItems.fuel, 1, 50).getItem() && item.getDamage(stack) == 50;
     }
 
 	public boolean canConnectEnergy(ForgeDirection from) {
@@ -504,12 +556,8 @@ public class TileSynchrotron extends TileInventory implements IEnergyHandler, IE
 		return this.storage.getMaxEnergyStored();
 	}
 
-	public boolean isItemValidForSlot(int slot, ItemStack itemstack) {
-		return slot == 0;
-	}
-
 	public int[] getAccessibleSlotsFromSide(int slot) {
-		return slot == 0 ? slotsSides : slotsTop;
+		return slots1;
 	}
 
 	public boolean canInsertItem(int slot, ItemStack stack, int par) {
@@ -519,4 +567,9 @@ public class TileSynchrotron extends TileInventory implements IEnergyHandler, IE
 	public boolean canExtractItem(int slot, ItemStack stack, int slots) {
 		return slot == 1;
 	}
+	
+	public boolean isItemValidForSlot(int slot, ItemStack stack) {
+        if (slot == 0) return isFuel(stack);
+        else return false;
+    }
 }

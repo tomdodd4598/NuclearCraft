@@ -9,7 +9,7 @@ public class TileCollector extends TileMachine {
 	public static final int[] output = {0, 1};
 	
 	public TileCollector() {
-		super("Helium Collector", 1, 1, 1, false, false, 1200, 0, NuclearCraft.collectorSpeed, 100, CollectorRecipes.instance());
+		super("Helium Collector", 1, 1, 1, false, false, 1800, 0, NuclearCraft.collectorSpeed, 100, CollectorRecipes.instance());
 	}
 	
 	public void updateEntity() {

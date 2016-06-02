@@ -1,8 +1,12 @@
 package nc.tile.generator;
 
+import java.util.Random;
+
 import nc.NuclearCraft;
+import nc.block.NCBlocks;
 import nc.block.generator.BlockElectromagnet;
 import nc.tile.machine.TileInventory;
+import net.minecraft.init.Blocks;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -22,6 +26,7 @@ public class TileElectromagnet extends TileInventory implements IEnergyHandler, 
 	public int energy;
 	public EnergyStorage storage;
 	public static int power = NuclearCraft.electromagnetRF;
+	private Random rand = new Random();
 	
 	public TileElectromagnet() {
 		storage = new EnergyStorage(power*5, power*5);
@@ -29,10 +34,17 @@ public class TileElectromagnet extends TileInventory implements IEnergyHandler, 
 		slots = new ItemStack[1];
 	}
 	
+	public boolean pp(int x, int y, int z) {
+		return this.worldObj.getBlock(x, y, z) == NCBlocks.blockFusionPlasma;
+	}
+	
 	public void updateEntity() {
 		super.updateEntity();
 		if(!this.worldObj.isRemote) energy();
 		if (flag != flag1) { flag1 = flag; BlockElectromagnet.updateBlockState(flag, this.worldObj, this.xCoord, this.yCoord, this.zCoord); }
+		if (!flag1 && this.worldObj.getBlock(xCoord, yCoord, zCoord) == NCBlocks.electromagnetIdle && (pp(xCoord + 1, yCoord, zCoord) || pp(xCoord - 1, yCoord, zCoord) || pp(xCoord, yCoord + 1, zCoord) || pp(xCoord, yCoord - 1, zCoord) || pp(xCoord, yCoord, zCoord + 1) || pp(xCoord, yCoord, zCoord - 1))) {
+			if (rand.nextFloat() > 0.995) worldObj.setBlock(xCoord, yCoord, zCoord, Blocks.air);
+		}
 		markDirty();
 	}
 	

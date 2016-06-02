@@ -35,7 +35,7 @@ public final class IC2Recipes {
 		try {RecipesHelp.addMaceratorRecipe("ingotBoron", 1, new ItemStack(NCItems.material, 1, 45));} catch(Exception e) {}
 		
 		// Compressor
-		try {RecipesHelp.addCompressorRecipe(new ItemStack(NCItems.parts, 1, 0), 6, new ItemStack(NCItems.parts, 1, 3));} catch(Exception e) {}
+		try {RecipesHelp.addCompressorRecipe(new ItemStack(NCItems.parts, 1, 0), 5, new ItemStack(NCItems.parts, 1, 3));} catch(Exception e) {}
 		try {RecipesHelp.addCompressorRecipe("ingotTough", 1, new ItemStack(NCItems.parts, 2, 0));} catch(Exception e) {}
 
 		// Thermal Centrifuge

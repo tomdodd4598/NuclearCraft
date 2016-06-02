@@ -4,5 +4,5 @@ Mekanism gas support for fusion gases
 
 Particle Accelerator/Synchrotron
 Automatic Nuclear Workspace
-Fission Reactor overhaul
-Fusion Reactor overhaul
+Fission Reactor overhaul - happening
+Fusion Reactor overhaul - almost done

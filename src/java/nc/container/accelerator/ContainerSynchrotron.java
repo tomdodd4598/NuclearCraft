@@ -30,34 +30,27 @@ public class ContainerSynchrotron extends Container {
         this.addSlotToContainer(new SlotFurnace(inventory.player, entity, 1, 152, 99));
         
 
-        for (int i = 0; i < 3; ++i)
-        {
-            for (int j = 0; j < 9; ++j)
-            {
+        for (int i = 0; i < 3; ++i) {
+            for (int j = 0; j < 9; ++j) {
                 this.addSlotToContainer(new Slot(inventory, j + i * 9 + 9, 8 + j * 18, 121 + i * 18));
             }
         }
-
-        for (int i = 0; i < 9; ++i)
-        {
+        for (int i = 0; i < 9; ++i) {
             this.addSlotToContainer(new Slot(inventory, i, 8 + i * 18, 179));
         }
     }
 
-    public void addCraftingToCrafters(ICrafting icrafting)
-    {
+    public void addCraftingToCrafters(ICrafting icrafting) {
         super.addCraftingToCrafters(icrafting);
     }
 
     /**
      * Looks for changes made in the container, sends them to every listener.
      */
-    public void detectAndSendChanges()
-    {
+    public void detectAndSendChanges() {
         super.detectAndSendChanges();
 
-        for (int i = 0; i < this.crafters.size(); ++i)
-        {
+        for (int i = 0; i < this.crafters.size(); ++i) {
             ICrafting icrafting = (ICrafting) this.crafters.get(i);
 
             icrafting.sendProgressBarUpdate(this, 1, this.entity.storage.getEnergyStored());
@@ -80,8 +73,7 @@ public class ContainerSynchrotron extends Container {
     }
 
     @SideOnly(Side.CLIENT)
-    public void updateProgressBar(int slot, int value)
-    {
+    public void updateProgressBar(int slot, int value) {
         if (slot == 1){ this.lastEnergy = this.upcastShort(value); }
         if (slot == 2){ this.lastLength = this.upcastShort(value); }
         if (slot == 3){ this.lastEfficiency = this.upcastShort(value); }
@@ -100,59 +92,38 @@ public class ContainerSynchrotron extends Container {
         if (slot == 14){ this.entity.radiationPower = this.lastRadiationPower | value << 16; }
     }
     
-    private int upcastShort(int input)
-    {
+    private int upcastShort(int input) {
       if (input < 0) input += 65536;
       return input;
     }
 
-    public ItemStack transferStackInSlot(EntityPlayer player, int clickedSlotNumber)
-    {
+    public ItemStack transferStackInSlot(EntityPlayer player, int clickedSlotNumber) {
         ItemStack itemstack = null;
         Slot slot = (Slot)this.inventorySlots.get(clickedSlotNumber);
-
-        if (slot != null && slot.getHasStack())
-        {
+        if (slot != null && slot.getHasStack()) {
             ItemStack itemstack1 = slot.getStack();
             itemstack = itemstack1.copy();
-
-            if (clickedSlotNumber != 1 && clickedSlotNumber != 0)
-            {
-                if (TileSynchrotron.isFuel(itemstack1))
-                {
-                    if (!this.mergeItemStack(itemstack1, 0, 1, false))
-                    {
+            if (clickedSlotNumber != 1 && clickedSlotNumber != 0) {
+                if (TileSynchrotron.isFuel(itemstack1)) {
+                    if (!this.mergeItemStack(itemstack1, 0, 1, false)) {
                         return null;
                     }
-                }
-                else if (clickedSlotNumber >= 2 && clickedSlotNumber < 29)
-                {
-                    if (!this.mergeItemStack(itemstack1, 29, 38, false))
-                    {
+                } else if (clickedSlotNumber >= 2 && clickedSlotNumber < 29) {
+                    if (!this.mergeItemStack(itemstack1, 29, 38, false)) {
                         return null;
                     }
-                }
-                else if (clickedSlotNumber >= 29 && clickedSlotNumber < 38 && !this.mergeItemStack(itemstack1, 2, 29, false))
-                {
+                } else if (clickedSlotNumber >= 29 && clickedSlotNumber < 38 && !this.mergeItemStack(itemstack1, 2, 29, false)) {
                     return null;
                 }
-            }
-            else if (!this.mergeItemStack(itemstack1, 2, 38, false))
-            {
+            } else if (!this.mergeItemStack(itemstack1, 2, 38, false)) {
                 return null;
             }
-
-            if (itemstack1.stackSize == 0)
-            {
+            if (itemstack1.stackSize == 0) {
                 slot.putStack((ItemStack)null);
-            }
-            else
-            {
+            } else {
                 slot.onSlotChanged();
             }
-
-            if (itemstack1.stackSize == itemstack.stackSize)
-            {
+            if (itemstack1.stackSize == itemstack.stackSize) {
                 return null;
             }
 
@@ -162,13 +133,11 @@ public class ContainerSynchrotron extends Container {
         return itemstack;
     }
 
-    public boolean canInteractWith(EntityPlayer var1)
-    {
+    public boolean canInteractWith(EntityPlayer var1) {
         return true;
     }
 
-    public int dischargeValue(Item item)
-    {
+    public int dischargeValue(Item item) {
         return 0;
     }
 }
