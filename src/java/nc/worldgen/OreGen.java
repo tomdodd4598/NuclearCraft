@@ -12,10 +12,20 @@ import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.feature.WorldGenMinable;
 import cpw.mods.fml.common.IWorldGenerator;
  
-public class OreGen implements IWorldGenerator
-{
-	public OreGen()
-    {
+public class OreGen implements IWorldGenerator {
+	
+	WorldGenMinable copper;
+	WorldGenMinable tin;
+	WorldGenMinable lead;
+	WorldGenMinable silver;
+	WorldGenMinable uranium;
+	WorldGenMinable thorium;
+	WorldGenMinable lithium;
+	WorldGenMinable boron;
+	WorldGenMinable magnesium;
+	WorldGenMinable plutonium;
+    
+    public OreGen() {
 		copper = new WorldGenMinable(NCBlocks.blockOre, 0, NuclearCraft.oreSizeCopper, Blocks.stone);
 		tin = new WorldGenMinable(NCBlocks.blockOre, 1, NuclearCraft.oreSizeTin, Blocks.stone);
 		lead = new WorldGenMinable(NCBlocks.blockOre, 2, NuclearCraft.oreSizeLead, Blocks.stone);
@@ -29,20 +39,12 @@ public class OreGen implements IWorldGenerator
     }
 	
 	@Override
-    public void generate (Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider)
-    {
-        if (world.provider.isHellWorld)
-        {
-            generateNether(random, chunkX * 16, chunkZ * 16, world);
-        }
-        else if (world.provider.terrainType != WorldType.FLAT)
-        {
-            generateSurface(random, chunkX * 16, chunkZ * 16, world);
-        }
+    public void generate (Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider) {
+        if (world.provider.isHellWorld) generateNether(random, chunkX * 16, chunkZ * 16, world);
+        else if (world.provider.terrainType != WorldType.FLAT) generateSurface(random, chunkX * 16, chunkZ * 16, world);
     }
  
-	void generateSurface (Random random, int xChunk, int zChunk, World world)
-    {
+	void generateSurface (Random random, int xChunk, int zChunk, World world) {
 		int xPos, yPos, zPos;
         if (NuclearCraft.oreGenCopper)
         { for (int i = 0; i < NuclearCraft.oreRarityCopper; i++) { xPos = xChunk + random.nextInt(16); yPos = random.nextInt(NuclearCraft.oreMaxHeightCopper); zPos = zChunk + random.nextInt(16);
@@ -79,11 +81,9 @@ public class OreGen implements IWorldGenerator
         if (NuclearCraft.oreGenMagnesium)
         { for (int i = 0; i < NuclearCraft.oreRarityMagnesium; i++) { xPos = xChunk + random.nextInt(16); yPos = random.nextInt(NuclearCraft.oreMaxHeightMagnesium); zPos = zChunk + random.nextInt(16);
                 magnesium.generate(world, random, xPos, yPos, zPos); } }
-        
-    }
+	}
     
-    void generateNether (Random random, int xChunk, int zChunk, World world)
-    {
+    void generateNether (Random random, int xChunk, int zChunk, World world) {
         int xPos, yPos, zPos;
         if (NuclearCraft.oreGenPlutonium)
         { for (int i = 0; i < NuclearCraft.oreRarityPlutonium; i++) { xPos = xChunk + random.nextInt(16); yPos = random.nextInt(NuclearCraft.oreMaxHeightPlutonium); zPos = zChunk + random.nextInt(16);
@@ -105,8 +105,8 @@ public class OreGen implements IWorldGenerator
      * @param An int for the minimum Y-Coordinate height at which this block may spawn
      * @param An int for the maximum Y-Coordinate height at which this block may spawn
      **/
-    public void addOreSpawn(Block block, World world, Random random, int blockXPos, int blockZPos, int maxX, int maxZ, int maxVeinSize, int chancesToSpawn, int minY, int maxY)
-    {
+    
+    public void addOreSpawn(Block block, World world, Random random, int blockXPos, int blockZPos, int maxX, int maxZ, int maxVeinSize, int chancesToSpawn, int minY, int maxY) {
         assert maxY > minY : "The maximum Y must be greater than the Minimum Y";
         assert maxX > 0 && maxX <= 16 : "addOreSpawn: The Maximum X must be greater than 0 and less than 16";
         assert minY > 0 : "addOreSpawn: The Minimum Y must be greater than 0";
@@ -114,23 +114,11 @@ public class OreGen implements IWorldGenerator
         assert maxZ > 0 && maxZ <= 16 : "addOreSpawn: The Maximum Z must be greater than 0 and less than 16";
  
         int diffBtwnMinMaxY = maxY - minY;
-        for (int x = 0; x < chancesToSpawn; x++)
-        {
+        for (int x = 0; x < chancesToSpawn; x++) {
             int posX = blockXPos + random.nextInt(maxX);
             int posY = minY + random.nextInt(diffBtwnMinMaxY);
             int posZ = blockZPos + random.nextInt(maxZ);
             (new WorldGenMinable(block, maxVeinSize)).generate(world, random, posX, posY, posZ);
         }
     }
-    
-    WorldGenMinable copper;
-    WorldGenMinable tin;
-    WorldGenMinable lead;
-    WorldGenMinable silver;
-    WorldGenMinable uranium;
-    WorldGenMinable thorium;
-    WorldGenMinable lithium;
-    WorldGenMinable boron;
-    WorldGenMinable magnesium;
-    WorldGenMinable plutonium;
 }

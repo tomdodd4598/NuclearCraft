@@ -4,7 +4,6 @@ import java.util.Random;
 
 import nc.NuclearCraft;
 import nc.block.NCBlocks;
-import nc.tile.generator.TileFusionReactor;
 import nc.tile.generator.TileFusionReactorBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -66,24 +65,24 @@ public class BlockFusionReactorBlock extends BlockFusionReactor {
 			public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 				if (!player.isSneaking()) {
 					if ((player != null) && (!world.isRemote)) {
-						if (world.getBlock(x, y-1, z) == NCBlocks.fusionReactor) {TileFusionReactor main = (TileFusionReactor)world.getTileEntity(x, y-1, z); FMLNetworkHandler.openGui(player, NuclearCraft.instance, 11, world, x, y-1-(2*main.below), z);}
-						else if (world.getBlock(x+1, y, z) == NCBlocks.fusionReactor) {TileFusionReactor main = (TileFusionReactor)world.getTileEntity(x+1, y, z); FMLNetworkHandler.openGui(player, NuclearCraft.instance, 11, world, x+1, y-(2*main.below), z);}
-						else if (world.getBlock(x+1, y, z+1) == NCBlocks.fusionReactor) {TileFusionReactor main = (TileFusionReactor)world.getTileEntity(x+1, y, z+1); FMLNetworkHandler.openGui(player, NuclearCraft.instance, 11, world, x+1, y-(2*main.below), z+1);}
-						else if (world.getBlock(x, y, z+1) == NCBlocks.fusionReactor) {TileFusionReactor main = (TileFusionReactor)world.getTileEntity(x, y, z+1); FMLNetworkHandler.openGui(player, NuclearCraft.instance, 11, world, x, y-(2*main.below), z+1);}
-						else if (world.getBlock(x-1, y, z+1) == NCBlocks.fusionReactor) {TileFusionReactor main = (TileFusionReactor)world.getTileEntity(x-1, y, z+1); FMLNetworkHandler.openGui(player, NuclearCraft.instance, 11, world, x-1, y-(2*main.below), z+1);}
-						else if (world.getBlock(x-1, y, z) == NCBlocks.fusionReactor) {TileFusionReactor main = (TileFusionReactor)world.getTileEntity(x-1, y, z); FMLNetworkHandler.openGui(player, NuclearCraft.instance, 11, world, x-1, y-(2*main.below), z);}
-						else if (world.getBlock(x-1, y, z-1) == NCBlocks.fusionReactor) {TileFusionReactor main = (TileFusionReactor)world.getTileEntity(x-1, y, z-1); FMLNetworkHandler.openGui(player, NuclearCraft.instance, 11, world, x-1, y-(2*main.below), z-1);}
-						else if (world.getBlock(x, y, z-1) == NCBlocks.fusionReactor) {TileFusionReactor main = (TileFusionReactor)world.getTileEntity(x, y, z-1); FMLNetworkHandler.openGui(player, NuclearCraft.instance, 11, world, x, y-(2*main.below), z-1);}
-						else if (world.getBlock(x+1, y, z-1) == NCBlocks.fusionReactor) {TileFusionReactor main = (TileFusionReactor)world.getTileEntity(x+1, y, z-1); FMLNetworkHandler.openGui(player, NuclearCraft.instance, 11, world, x+1, y-(2*main.below), z-1);}
+						if (world.getBlock(x, y-1, z) == NCBlocks.fusionReactor) FMLNetworkHandler.openGui(player, NuclearCraft.instance, 11, world, x, y-1, z);
+						else if (world.getBlock(x+1, y, z) == NCBlocks.fusionReactor) FMLNetworkHandler.openGui(player, NuclearCraft.instance, 11, world, x+1, y, z);
+						else if (world.getBlock(x+1, y, z+1) == NCBlocks.fusionReactor) FMLNetworkHandler.openGui(player, NuclearCraft.instance, 11, world, x+1, y, z+1);
+						else if (world.getBlock(x, y, z+1) == NCBlocks.fusionReactor) FMLNetworkHandler.openGui(player, NuclearCraft.instance, 11, world, x, y, z+1);
+						else if (world.getBlock(x-1, y, z+1) == NCBlocks.fusionReactor) FMLNetworkHandler.openGui(player, NuclearCraft.instance, 11, world, x-1, y, z+1);
+						else if (world.getBlock(x-1, y, z) == NCBlocks.fusionReactor) FMLNetworkHandler.openGui(player, NuclearCraft.instance, 11, world, x-1, y, z);
+						else if (world.getBlock(x-1, y, z-1) == NCBlocks.fusionReactor) FMLNetworkHandler.openGui(player, NuclearCraft.instance, 11, world, x-1, y, z-1);
+						else if (world.getBlock(x, y, z-1) == NCBlocks.fusionReactor) FMLNetworkHandler.openGui(player, NuclearCraft.instance, 11, world, x, y, z-1);
+						else if (world.getBlock(x+1, y, z-1) == NCBlocks.fusionReactor) FMLNetworkHandler.openGui(player, NuclearCraft.instance, 11, world, x+1, y, z-1);
 						
-						else if (world.getBlock(x+1, y-1, z) == NCBlocks.fusionReactor) {TileFusionReactor main = (TileFusionReactor)world.getTileEntity(x+1, y-1, z); FMLNetworkHandler.openGui(player, NuclearCraft.instance, 11, world, x+1, y-1-(2*main.below), z);}
-						else if (world.getBlock(x+1, y-1, z+1) == NCBlocks.fusionReactor) {TileFusionReactor main = (TileFusionReactor)world.getTileEntity(x+1, y-1, z+1); FMLNetworkHandler.openGui(player, NuclearCraft.instance, 11, world, x+1, y-1-(2*main.below), z+1);}
-						else if (world.getBlock(x, y-1, z+1) == NCBlocks.fusionReactor) {TileFusionReactor main = (TileFusionReactor)world.getTileEntity(x, y-1, z+1); FMLNetworkHandler.openGui(player, NuclearCraft.instance, 11, world, x, y-1-(2*main.below), z+1);}
-						else if (world.getBlock(x-1, y-1, z+1) == NCBlocks.fusionReactor) {TileFusionReactor main = (TileFusionReactor)world.getTileEntity(x-1, y-1, z+1); FMLNetworkHandler.openGui(player, NuclearCraft.instance, 11, world, x-1, y-1-(2*main.below), z+1);}
-						else if (world.getBlock(x-1, y-1, z) == NCBlocks.fusionReactor) {TileFusionReactor main = (TileFusionReactor)world.getTileEntity(x-1, y-1, z); FMLNetworkHandler.openGui(player, NuclearCraft.instance, 11, world, x-1, y-1-(2*main.below), z);}
-						else if (world.getBlock(x-1, y-1, z-1) == NCBlocks.fusionReactor) {TileFusionReactor main = (TileFusionReactor)world.getTileEntity(x-1, y-1, z-1); FMLNetworkHandler.openGui(player, NuclearCraft.instance, 11, world, x-1, y-1-(2*main.below), z-1);}
-						else if (world.getBlock(x, y-1, z-1) == NCBlocks.fusionReactor) {TileFusionReactor main = (TileFusionReactor)world.getTileEntity(x, y-1, z-1); FMLNetworkHandler.openGui(player, NuclearCraft.instance, 11, world, x, y-1-(2*main.below), z-1);}
-						else if (world.getBlock(x+1, y-1, z-1) == NCBlocks.fusionReactor) {TileFusionReactor main = (TileFusionReactor)world.getTileEntity(x+1, y-1, z-1); FMLNetworkHandler.openGui(player, NuclearCraft.instance, 11, world, x+1, y-1-(2*main.below), z-1);}
+						else if (world.getBlock(x+1, y-1, z) == NCBlocks.fusionReactor) FMLNetworkHandler.openGui(player, NuclearCraft.instance, 11, world, x+1, y-1, z);
+						else if (world.getBlock(x+1, y-1, z+1) == NCBlocks.fusionReactor) FMLNetworkHandler.openGui(player, NuclearCraft.instance, 11, world, x+1, y-1, z+1);
+						else if (world.getBlock(x, y-1, z+1) == NCBlocks.fusionReactor) FMLNetworkHandler.openGui(player, NuclearCraft.instance, 11, world, x, y-1, z+1);
+						else if (world.getBlock(x-1, y-1, z+1) == NCBlocks.fusionReactor) FMLNetworkHandler.openGui(player, NuclearCraft.instance, 11, world, x-1, y-1, z+1);
+						else if (world.getBlock(x-1, y-1, z) == NCBlocks.fusionReactor) FMLNetworkHandler.openGui(player, NuclearCraft.instance, 11, world, x-1, y-1, z);
+						else if (world.getBlock(x-1, y-1, z-1) == NCBlocks.fusionReactor) FMLNetworkHandler.openGui(player, NuclearCraft.instance, 11, world, x-1, y-1, z-1);
+						else if (world.getBlock(x, y-1, z-1) == NCBlocks.fusionReactor) FMLNetworkHandler.openGui(player, NuclearCraft.instance, 11, world, x, y-1, z-1);
+						else if (world.getBlock(x+1, y-1, z-1) == NCBlocks.fusionReactor) FMLNetworkHandler.openGui(player, NuclearCraft.instance, 11, world, x+1, y-1, z-1);
 					}
 				}
 				return true;

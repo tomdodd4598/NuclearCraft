@@ -13,5 +13,4 @@ public class ModHelperBase {
 		useCofh = Loader.isModLoaded("CoFHCore");
 		
 	}
-
 }

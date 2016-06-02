@@ -3,7 +3,6 @@ package nc.tile.generator;
 import nc.NuclearCraft;
 import nc.block.generator.BlockReactionGenerator;
 import nc.item.NCItems;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -11,7 +10,7 @@ import net.minecraft.nbt.NBTTagCompound;
 public class TileReactionGenerator extends TileGenerator {
 	public int reactantlevel;
 	public int fuellevel;
-	public static int power = 2*NuclearCraft.reactionGeneratorRF;
+	public static int power = (3*NuclearCraft.reactionGeneratorRF)/2;
 	public int reactantMax = 500000;
 	public int requiredReactant = 500/NuclearCraft.reactionGeneratorEfficiency;
 	public int lastE;
@@ -41,7 +40,7 @@ public class TileReactionGenerator extends TileGenerator {
 		if (this.fuellevel >= this.requiredFuel && this.storage.getEnergyStored() <= this.storage.getMaxEnergyStored() - TileReactionGenerator.power && this.reactantlevel >= this.requiredReactant) {
 			this.storage.receiveEnergy(TileReactionGenerator.power, false);
 			this.reactantlevel -= this.requiredReactant;
-			this.fuellevel -= this.requiredFuel;
+			this.fuellevel -= 2*this.requiredFuel;
 			flag = true;
 		}
 		else { flag = false; }
@@ -87,9 +86,9 @@ public class TileReactionGenerator extends TileGenerator {
 	public static int reactantValue(ItemStack stack) {
 		Item i = stack.getItem();
 		if(i == new ItemStack (NCItems.parts, 1, 4).getItem() && i.getDamage(stack) == 4) {
-			return 100000;
+			return 50000;
 		} else {
-		return i == Items.nether_wart ? 5000 : (i == Items.blaze_powder ? 12500 : (i == Items.ghast_tear ? 50000 : (i == Items.gunpowder ? 12500 : (i == Items.redstone ? 5000 : 0))));
+		return 0;
 		}
 	}
 	

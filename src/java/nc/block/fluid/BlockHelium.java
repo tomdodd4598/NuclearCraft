@@ -5,6 +5,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.monster.EntitySnowman;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -19,8 +20,11 @@ public class BlockHelium extends BlockFluidClassic {
     @SideOnly(Side.CLIENT)
     public static IIcon flowingIcon;
     
-	public BlockHelium(Fluid f, Material m) {
+    public static DamageSource damageSource;
+    
+	public BlockHelium(Fluid f, Material m, DamageSource damage) {
 		super(f, m);
+		damageSource = damage;
 		setQuantaPerBlock(16);
 		setCreativeTab(NuclearCraft.tabNC);
 	}
@@ -47,14 +51,14 @@ public class BlockHelium extends BlockFluidClassic {
     }
     
     public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity) {
-    	if ((entity.motionY < -0.2D) || (entity.motionY > 0.2D)) {
-    		entity.motionY *= 0.2D;
+    	if ((entity.motionY < -0.8D) || (entity.motionY > 0.8D)) {
+    		entity.motionY *= 0.8D;
     	}
-    	if ((entity.motionZ < -0.2D) || (entity.motionZ > 0.2D)) {
-    		entity.motionZ *= 0.2D;
+    	if ((entity.motionZ < -0.8D) || (entity.motionZ > 0.8D)) {
+    		entity.motionZ *= 0.8D;
     	}
-    	if ((entity.motionX < -0.2D) || (entity.motionX > 0.2D)) {
-    		entity.motionX *= 0.2D;
+    	if ((entity.motionX < -0.8D) || (entity.motionX > 0.8D)) {
+    		entity.motionX *= 0.8D;
     	}
     	if (world.isRemote) {
     		return;
@@ -63,7 +67,7 @@ public class BlockHelium extends BlockFluidClassic {
     		return;
     	} else {
     		boolean bool = entity.velocityChanged;
-    		entity.attackEntityFrom(NuclearCraft.heliumfreeze, 4.0F);
+    		entity.attackEntityFrom(damageSource, 8.0F);
     		entity.velocityChanged = bool;
     	}
     }

@@ -67,7 +67,7 @@ public class ContainerNuclearWorkspace extends Container {
 
         if (!this.worldObj.isRemote)
         {
-            for (int i = 0; i < 9; ++i)
+            for (int i = 0; i < 25; ++i)
             {
                 ItemStack itemstack = this.craftMatrix.getStackInSlotOnClosing(i);
 

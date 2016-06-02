@@ -127,6 +127,7 @@ public class NEINCConfig implements IConfigureNEI {
 		API.hideItem(new ItemStack(NCBlocks.autoWorkspaceActive));
 		API.hideItem(new ItemStack(NCItems.tabItem));
 		API.hideItem(new ItemStack(NCBlocks.fusionReactorBlock));
+		API.hideItem(new ItemStack(NCBlocks.fusionReactorBlockTop));
 		API.hideItem(new ItemStack(NCBlocks.nukeE));
 		API.hideItem(new ItemStack(NCItems.nuclearGrenadeThrown));
 	}
