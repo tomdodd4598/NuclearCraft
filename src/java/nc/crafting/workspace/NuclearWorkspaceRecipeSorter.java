@@ -1,10 +1,16 @@
 package nc.crafting.workspace;
 
+import static nc.crafting.workspace.NuclearWorkspaceRecipeSorter.Category.SHAPED;
+import static nc.crafting.workspace.NuclearWorkspaceRecipeSorter.Category.SHAPELESS;
+import static nc.crafting.workspace.NuclearWorkspaceRecipeSorter.Category.UNKNOWN;
+
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import net.minecraft.item.crafting.IRecipe;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
@@ -14,11 +20,6 @@ import com.google.common.collect.Sets;
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.toposort.TopologicalSort;
 import cpw.mods.fml.common.toposort.TopologicalSort.DirectedGraph;
-import nc.crafting.workspace.NuclearWorkspaceCraftingManager;
-import nc.crafting.workspace.NuclearWorkspaceShapedRecipes;
-import nc.crafting.workspace.NuclearWorkspaceShapelessRecipes;
-import net.minecraft.item.crafting.IRecipe;
-import static nc.crafting.workspace.NuclearWorkspaceRecipeSorter.Category.*;
 
 public class NuclearWorkspaceRecipeSorter implements Comparator<IRecipe>
 {

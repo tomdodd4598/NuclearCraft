@@ -67,19 +67,24 @@ public class EntityPaul extends EntityMob {
     }
 	
 	protected String getLivingSound() {
-        return "mob.villager.idle";
+        return "nc:paulTooFar";
     }
 
 	protected String getHurtSound() {
-        return "mob.villager.hit";
+        return "nc:paulTooFar";
     }
 
     protected String getDeathSound() {
-        return "mob.villager.death";
+        return "nc:paulTooFar";
     }
     
     protected Item getDropItem() {
         return NCItems.fishAndRicecake;
+    }
+    
+    protected boolean canDespawn() {
+		return false;
+    	
     }
     
     protected void dropFewItems(boolean p_70628_1_, int p_70628_2_) {

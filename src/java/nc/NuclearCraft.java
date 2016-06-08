@@ -13,11 +13,14 @@ import nc.block.accelerator.BlockSynchrotron;
 import nc.block.basic.BlockBlock;
 import nc.block.basic.BlockMachineBlock;
 import nc.block.basic.BlockOre;
+import nc.block.basic.BlockPlasmaFire;
 import nc.block.crafting.BlockNuclearWorkspace;
 import nc.block.fluid.BlockHelium;
 import nc.block.fluid.BlockPlasma;
+import nc.block.fluid.BlockSteam;
 import nc.block.fluid.FluidHelium;
 import nc.block.fluid.FluidPlasma;
+import nc.block.fluid.FluidSteam;
 import nc.block.generator.BlockElectromagnet;
 import nc.block.generator.BlockFissionReactor;
 import nc.block.generator.BlockFusionReactor;
@@ -29,6 +32,7 @@ import nc.block.generator.BlockSolarPanel;
 import nc.block.generator.BlockWRTG;
 import nc.block.itemblock.ItemBlockBlock;
 import nc.block.itemblock.ItemBlockOre;
+import nc.block.machine.BlockAssembler;
 import nc.block.machine.BlockCollector;
 import nc.block.machine.BlockCooler;
 import nc.block.machine.BlockCrusher;
@@ -95,6 +99,7 @@ import nc.tile.generator.TileRTG;
 import nc.tile.generator.TileReactionGenerator;
 import nc.tile.generator.TileSolarPanel;
 import nc.tile.generator.TileWRTG;
+import nc.tile.machine.TileAssembler;
 import nc.tile.machine.TileAutoWorkspace;
 import nc.tile.machine.TileCollector;
 import nc.tile.machine.TileCooler;
@@ -156,7 +161,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 public class NuclearCraft {
 	public static final String modid = "NuclearCraft";
-	public static final String version = "1.7";
+	public static final String version = "1.7c";
 	 
 	public static final CreativeTabs tabNC = new CreativeTabs("tabNC") {
 		// Creative Tab Shown Item
@@ -210,9 +215,15 @@ public class NuclearCraft {
 	public static final int guiIdHeliumExtractor = 18;
 	public static final int guiIdSynchrotron = 19;
 	public static final int guiIdAutoWorkspace = 20;
+	public static final int guiIdAssembler = 21;
 	
 	// Config File
 	public static boolean workspace;
+	
+	public static int EMUpdateRate;
+	public static int fissionUpdateRate;
+	public static int fusionUpdateRate;
+	public static int acceleratorUpdateRate;
 	
 	public static boolean oreGenCopper;
 	public static int oreSizeCopper;
@@ -284,6 +295,8 @@ public class NuclearCraft {
 	public static int factoryEfficiency;
 	public static int heliumExtractorSpeed;
 	public static int heliumExtractorEfficiency;
+	public static int assemblerSpeed;
+	public static int assemblerEfficiency;
 	public static int reactionGeneratorRF;
 	public static int reactionGeneratorEfficiency;
 	public static int RTGRF;
@@ -333,12 +346,6 @@ public class NuclearCraft {
 	public static int baseHeatHEUOx;
 	public static int baseHeatLEPOx;
 	public static int baseHeatHEPOx;
-	public static int modifierLEU;
-	public static int modifierHEU;
-	public static int modifierLEP;
-	public static int modifierHEP;
-	public static int modifierTBU;
-	public static int modifierMOX;
 	public static int standardCool;
 	public static int waterCool;
 	public static int cryotheumCool;
@@ -354,6 +361,7 @@ public class NuclearCraft {
 	public static int fusionHeat;
 	public static int electromagnetRF;
 	public static boolean fusionMeltdowns;
+	public static boolean fusionSounds;
 	public static int baseRFHH;
 	public static int baseRFHD;
 	public static int baseRFHT;
@@ -447,6 +455,7 @@ public class NuclearCraft {
 	public static int superElectromagnetRF;
 	public static int electromagnetHe;
 	public static int acceleratorProduction;
+	public static boolean acceleratorSounds;
 	
 	//Armor
 	public static int toughHelmID;
@@ -471,14 +480,17 @@ public class NuclearCraft {
 	
 	public static Fluid liquidHelium;
 	public static Fluid fusionPlasma;
+	public static Fluid steamNC;
 	
 	@SidedProxy(clientSide = "nc.proxy.ClientProxy", serverSide = "nc.proxy.CommonProxy")
 	public static CommonProxy NCProxy;
 	
-	public static final Material liquidhelium = (new MaterialLiquid(MapColor.tntColor));
+	public static final Material liquidhelium = (new MaterialLiquid(MapColor.redColor));
 	public static DamageSource heliumfreeze = (new DamageSource("heliumfreeze")).setDamageBypassesArmor();
-	public static final Material fusionplasma = (new MaterialLiquid(MapColor.tntColor));
+	public static final Material fusionplasma = (new MaterialLiquid(MapColor.purpleColor));
 	public static DamageSource plasmaburn = (new DamageSource("plasmaburn")).setDamageBypassesArmor();
+	public static final Material steamnc = (new MaterialLiquid(MapColor.grayColor));
+	public static DamageSource steamburn = (new DamageSource("steamburn")).setDamageBypassesArmor();
 	
 	public static Achievements achievements;
 	
@@ -576,6 +588,8 @@ public class NuclearCraft {
 		factoryEfficiency = config.getInt("Manufactory Efficiency Multiplier", "1.0: RF Machines", 100, 10, 1000, "");
 		heliumExtractorSpeed = config.getInt("Helium Extractor Speed Multiplier", "1.0: RF Machines", 100, 10, 1000, "");
 		heliumExtractorEfficiency = config.getInt("Helium Extractor Efficiency Multiplier", "1.0: RF Machines", 100, 10, 1000, "");
+		assemblerSpeed = config.getInt("Assembler Speed Multiplier", "1.0: RF Machines", 100, 10, 1000, "");
+		assemblerEfficiency = config.getInt("Assembler Efficiency Multiplier", "1.0: RF Machines", 100, 10, 1000, "");
 		reactionGeneratorRF = config.getInt("Reaction Generator RF Production Multiplier", "1.1: RF Generators", 100, 10, 1000, "");
 		reactionGeneratorEfficiency = config.getInt("Reaction Generator Efficiency Multiplier", "1.1: RF Generators", 100, 10, 1000, "");
 		RTGRF = config.getInt("RTG RF/t", "1.1: RF Generators", 150, 10, 1000, "");
@@ -596,6 +610,7 @@ public class NuclearCraft {
 		lootModifier = config.getInt("Loot Gen Rate Modifier", "2.1: Other", 10, 1, 100, "");
 		extraDrops = config.getBoolean("Enable Extra Mob and Ore Drops", "2.1: Other", true, "");
 		
+		fissionUpdateRate = fissionConfig.getInt("Number of ticks per update of Fission Reactors", "!: Update Rate", 20, 1, 1000, "");
 		fissionMaxLength = fissionConfig.getInt("Fission Reactor Maximum Interior Length", "0: General", 25, 1, 100, "");
 		fissionRF = fissionConfig.getInt("Fission Reactor RF Production Multiplier", "0: General", 100, 10, 1000, "");
 		fissionEfficiency = fissionConfig.getInt("Fission Reactor Fuel Efficiency Multiplier", "0: General", 100, 10, 1000, "");
@@ -627,17 +642,11 @@ public class NuclearCraft {
 		baseHeatLEP = fissionConfig.getInt("LEP Base Heat", "3: Fission Fuel Base Heat", 200, 20, 2000, "");
 		baseHeatHEP = fissionConfig.getInt("HEP Base Heat", "3: Fission Fuel Base Heat", 1600, 160, 16000, "");
 		baseHeatMOX = fissionConfig.getInt("MOX Base Heat", "3: Fission Fuel Base Heat", 240, 24, 2400, "");
-		baseHeatTBU = fissionConfig.getInt("TBU Base Heat", "3: Fission Fuel Base Heat", 40, 4, 400, "");
+		baseHeatTBU = fissionConfig.getInt("TBU Base Heat", "3: Fission Fuel Base Heat", 20, 2, 200, "");
 		baseHeatLEUOx = fissionConfig.getInt("LEU-Ox Base Heat", "3: Fission Fuel Base Heat", 100, 10, 1000, "");
 		baseHeatHEUOx = fissionConfig.getInt("HEU-Ox Base Heat", "3: Fission Fuel Base Heat", 800, 80, 8000, "");
 		baseHeatLEPOx = fissionConfig.getInt("LEP-Ox Base Heat", "3: Fission Fuel Base Heat", 250, 25, 2500, "");
 		baseHeatHEPOx = fissionConfig.getInt("HEP-Ox Base Heat", "3: Fission Fuel Base Heat", 2000, 200, 20000, "");
-		modifierLEU = fissionConfig.getInt("LEU Modifier", "4: Fission Fuel Modifiers", 2, 1, 25, "");
-		modifierHEU = fissionConfig.getInt("HEU Modifier", "4: Fission Fuel Modifiers", 8, 1, 25, "");
-		modifierLEP = fissionConfig.getInt("LEP Modifier", "4: Fission Fuel Modifiers", 4, 1, 25, "");
-		modifierHEP = fissionConfig.getInt("HEP Modifier", "4: Fission Fuel Modifiers", 16, 1, 25, "");
-		modifierTBU = fissionConfig.getInt("TBU Modifier", "4: Fission Fuel Modifiers", 1, 1, 25, "");
-		modifierMOX = fissionConfig.getInt("MOX Modifier", "4: Fission Fuel Modifiers", 6, 1, 25, "");
 		standardCool = fissionConfig.getInt("Standard Cooler", "5: Cooler Base Cooling Rates (H/t)", 30, 1, 250, "");
 		waterCool = fissionConfig.getInt("Water Cooler", "5: Cooler Base Cooling Rates (H/t)", 30, 1, 250, "");
 		cryotheumCool = fissionConfig.getInt("Cryotheum Cooler", "5: Cooler Base Cooling Rates (H/t)", 80, 1, 250, "");
@@ -647,6 +656,8 @@ public class NuclearCraft {
 		heliumCool = fissionConfig.getInt("Liquid Helium Cooler", "5: Cooler Base Cooling Rates (H/t)", 125, 1, 250, "");
 		coolantCool = fissionConfig.getInt("IC2 Coolant Cooler", "5: Cooler Base Cooling Rates (H/t)", 80, 1, 250, "");
 		
+		fusionUpdateRate = fusionConfig.getInt("Number of ticks per update of Fusion Reactors", "!: Update Rate", 20, 1, 1000, "");
+		fusionSounds = fusionConfig.getBoolean("Enable Fusion Reactor Sound Effects", "!: Sounds", true, "");
 		fusionMaxRadius = fusionConfig.getInt("Fusion Reactor Maximum Radius - Defined as Number of Fusion Connectors Between the Control Chunk and a Central Inner Electromagnet", "0: General", 25, 1, 100, "");
 		fusionRF = fusionConfig.getInt("Fusion Reactor RF Production Multiplier", "0: General", 100, 10, 1000, "");
 		fusionEfficiency = fusionConfig.getInt("Fusion Reactor Fuel Efficiency Multiplier", "0: General", 100, 10, 1000, "");
@@ -738,6 +749,9 @@ public class NuclearCraft {
 		heatLi6Li7 = fusionConfig.getInt("Li6Li7 Heat Variable", "3: Fusion Combo Heat Variable", 11000, 500, 20000, "");
 		heatLi7Li7 = fusionConfig.getInt("Li7Li7 Heat Variable", "3: Fusion Combo Heat Variable", 14000, 500, 20000, "");
 		
+		acceleratorUpdateRate = acceleratorConfig.getInt("Number of ticks per update of Particle Accelerators", "!: Update Rate", 20, 1, 1000, "");
+		EMUpdateRate = acceleratorConfig.getInt("Number of ticks per update of Electromagnet and Supercooler Tile Entities", "!: Update Rate", 100, 1, 1000, "");
+		acceleratorSounds = acceleratorConfig.getBoolean("Enable Particle Accelerator Sound Effects", "!: Sounds", true, "");
 		ringMaxSize = acceleratorConfig.getInt("Maximum Ring Size", "0: General", 200, 20, 2000, "");
 		colliderRF = acceleratorConfig.getInt("Collider RF Requirement Multiplier", "0: General", 100, 10, 1000, "");
 		colliderProduction = acceleratorConfig.getInt("Collider Production Multiplier", "0: General", 100, 10, 1000, "");
@@ -758,12 +772,18 @@ public class NuclearCraft {
 		// Fluid Registry
 		liquidHelium = new FluidHelium().setLuminosity(0).setDensity(125).setViscosity(1).setTemperature(4).setUnlocalizedName("liquidHelium").setRarity(net.minecraft.item.EnumRarity.rare);
 		FluidRegistry.registerFluid(liquidHelium);
-		NCBlocks.blockHelium = new BlockHelium(liquidHelium, liquidhelium.setReplaceable(), NuclearCraft.heliumfreeze).setBlockName("liquidHeliumBlock");
+		NCBlocks.blockHelium = new BlockHelium(liquidHelium, liquidhelium.setReplaceable(), NuclearCraft.heliumfreeze).setCreativeTab(tabNC).setBlockName("liquidHeliumBlock");
 		GameRegistry.registerBlock(NCBlocks.blockHelium, "liquidHeliumBlock");
-		fusionPlasma = new FluidPlasma().setLuminosity(15).setDensity(3000).setViscosity(1).setTemperature(1000000000).setGaseous(true).setUnlocalizedName("fusionPlasma").setRarity(net.minecraft.item.EnumRarity.rare);
+		fusionPlasma = new FluidPlasma().setLuminosity(15).setDensity(3000).setViscosity(450).setTemperature(1000000000).setGaseous(true).setUnlocalizedName("fusionPlasma").setRarity(net.minecraft.item.EnumRarity.rare);
 		FluidRegistry.registerFluid(fusionPlasma);
-		NCBlocks.blockFusionPlasma = new BlockPlasma(fusionPlasma, fusionplasma.setReplaceable(), NuclearCraft.plasmaburn).setBlockName("fusionPlasmaBlock");
+		NCBlocks.blockFusionPlasma = new BlockPlasma(fusionPlasma, fusionplasma.setReplaceable(), NuclearCraft.plasmaburn).setCreativeTab(tabNC).setBlockName("fusionPlasmaBlock");
 		GameRegistry.registerBlock(NCBlocks.blockFusionPlasma, "fusionPlasmaBlock");
+		NCBlocks.plasmaFire = new BlockPlasmaFire().setBlockName("plasmaFire").setStepSound(Block.soundTypeWood).setHardness(0.0F).setLightLevel(1.0F).setBlockTextureName("nc:generator/fusionFire/fire");
+		GameRegistry.registerBlock(NCBlocks.plasmaFire, "plasmaFire");
+		steamNC = new FluidSteam().setLuminosity(0).setDensity(-10).setViscosity(100).setTemperature(5000).setGaseous(true).setUnlocalizedName("steamNC").setRarity(net.minecraft.item.EnumRarity.rare);
+		FluidRegistry.registerFluid(steamNC);
+		NCBlocks.blockSteam = new BlockSteam(steamNC, steamnc.setReplaceable(), NuclearCraft.steamburn).setCreativeTab(tabNC).setBlockName("steamBlock");
+		GameRegistry.registerBlock(NCBlocks.blockSteam, "steamBlock");
 		
 		// Ore Registry
 		GameRegistry.registerBlock(NCBlocks.blockOre = new BlockOre("blockOre", Material.rock), ItemBlockOre.class, "blockOre");
@@ -773,7 +793,7 @@ public class NuclearCraft {
 		
 		NCBlocks.simpleQuantumUp = new BlockSimpleQuantum(true).setBlockName("simpleQuantumUp").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(5.0F).setHardness(2.0F);
 		GameRegistry.registerBlock(NCBlocks.simpleQuantumUp, "simpleQuantumUp");
-		NCBlocks.simpleQuantumDown = new BlockSimpleQuantum(false).setBlockName("simpleQuantumDown").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(5.0F).setHardness(2.0F);
+		NCBlocks.simpleQuantumDown = new BlockSimpleQuantum(false).setBlockName("simpleQuantumDown").setStepSound(Block.soundTypeMetal).setResistance(5.0F).setHardness(2.0F);
 		GameRegistry.registerBlock(NCBlocks.simpleQuantumDown, "simpleQuantumDown");
 		
 		NCBlocks.graphiteBlock = new BlockGraphiteBlock().setBlockName("graphiteBlock").setCreativeTab(tabNC).setStepSound(Block.soundTypeStone).setResistance(5.0F).setHardness(2.0F);
@@ -820,19 +840,19 @@ public class NuclearCraft {
 			// Block
 		NCBlocks.electromagnetIdle = new BlockElectromagnet(false).setBlockName("electromagnetIdle").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(8.0F).setHardness(3.0F);
 		GameRegistry.registerBlock(NCBlocks.electromagnetIdle, "electromagnetIdle");
-		NCBlocks.electromagnetActive = new BlockElectromagnet(true).setBlockName("electromagnetActive").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(8.0F).setHardness(3.0F);
+		NCBlocks.electromagnetActive = new BlockElectromagnet(true).setBlockName("electromagnetActive").setStepSound(Block.soundTypeMetal).setResistance(8.0F).setHardness(3.0F);
 		GameRegistry.registerBlock(NCBlocks.electromagnetActive, "electromagnetActive");
 		NCBlocks.superElectromagnetIdle = new BlockSuperElectromagnet(false).setBlockName("superElectromagnetIdle").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(8.0F).setHardness(3.0F);
 		GameRegistry.registerBlock(NCBlocks.superElectromagnetIdle, "superElectromagnetIdle");
-		NCBlocks.superElectromagnetActive = new BlockSuperElectromagnet(true).setBlockName("superElectromagnetActive").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(8.0F).setHardness(3.0F);
+		NCBlocks.superElectromagnetActive = new BlockSuperElectromagnet(true).setBlockName("superElectromagnetActive").setStepSound(Block.soundTypeMetal).setResistance(8.0F).setHardness(3.0F);
 		GameRegistry.registerBlock(NCBlocks.superElectromagnetActive, "superElectromagnetActive");
 		NCBlocks.supercoolerIdle = new BlockSupercooler(false).setBlockName("supercoolerIdle").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(8.0F).setHardness(3.0F);
 		GameRegistry.registerBlock(NCBlocks.supercoolerIdle, "supercoolerIdle");
-		NCBlocks.supercoolerActive = new BlockSupercooler(true).setBlockName("supercoolerActive").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(8.0F).setHardness(3.0F);
+		NCBlocks.supercoolerActive = new BlockSupercooler(true).setBlockName("supercoolerActive").setStepSound(Block.soundTypeMetal).setResistance(8.0F).setHardness(3.0F);
 		GameRegistry.registerBlock(NCBlocks.supercoolerActive, "supercoolerActive");
 		NCBlocks.synchrotronIdle = new BlockSynchrotron(false).setBlockName("synchrotronIdle").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(8.0F).setHardness(3.0F);
 		GameRegistry.registerBlock(NCBlocks.synchrotronIdle, "synchrotronIdle");
-		NCBlocks.synchrotronActive = new BlockSynchrotron(true).setBlockName("synchrotronActive").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(8.0F).setHardness(3.0F);
+		NCBlocks.synchrotronActive = new BlockSynchrotron(true).setBlockName("synchrotronActive").setStepSound(Block.soundTypeMetal).setResistance(8.0F).setHardness(3.0F);
 		GameRegistry.registerBlock(NCBlocks.synchrotronActive, "synchrotronActive");
 		
 		NCBlocks.nuclearWorkspace = new BlockNuclearWorkspace(Material.iron).setBlockName("nuclearWorkspace").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(20.0F).setHardness(5.0F);
@@ -919,6 +939,10 @@ public class NuclearCraft {
 		GameRegistry.registerBlock(NCBlocks.heliumExtractorIdle, "heliumExtractorIdle");
 		NCBlocks.heliumExtractorActive = new BlockHeliumExtractor(true).setBlockName("heliumExtractorActive").setStepSound(Block.soundTypeMetal).setResistance(20.0F).setHardness(5.0F);
 		GameRegistry.registerBlock(NCBlocks.heliumExtractorActive, "heliumExtractorActive");
+		NCBlocks.assemblerIdle = new BlockAssembler(false).setBlockName("assemblerIdle").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(20.0F).setHardness(5.0F);
+		GameRegistry.registerBlock(NCBlocks.assemblerIdle, "assemblerIdle");
+		NCBlocks.assemblerActive = new BlockAssembler(true).setBlockName("assemblerActive").setStepSound(Block.soundTypeMetal).setResistance(20.0F).setHardness(5.0F);
+		GameRegistry.registerBlock(NCBlocks.assemblerActive, "factassemblerve");
 		
 		/*NCBlocks.autoWorkspaceIdle = new BlockAutoWorkspace(false).setBlockName("autoWorkspaceIdle").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(20.0F).setHardness(5.0F);
 		GameRegistry.registerBlock(NCBlocks.autoWorkspaceIdle, "autoWorkspaceIdle");
@@ -954,7 +978,7 @@ public class NuclearCraft {
 		GameRegistry.registerTileEntity(TileIoniser.class, "ioniser");
 		GameRegistry.registerTileEntity(TileIrradiator.class, "irradiator");
 		GameRegistry.registerTileEntity(TileCooler.class, "cooler");
-		GameRegistry.registerTileEntity(TileFactory.class, "factory");
+		GameRegistry.registerTileEntity(TileAssembler.class, "assembler");
 		GameRegistry.registerTileEntity(TileHeliumExtractor.class, "heliumExtractor");
 		GameRegistry.registerTileEntity(TileSolarPanel.class, "solarPanel");
 		GameRegistry.registerTileEntity(TileAutoWorkspace.class, "autoWorkspace");
@@ -1308,8 +1332,9 @@ public class NuclearCraft {
 			GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.irradiatorIdle, true, new Object[] {"ABA", "CDC", "ABA", 'A', "plateDU", 'B', "universalReactant", 'C', "ingotTough", 'D', NCBlocks.machineBlock}));
 			GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.coolerIdle, true, new Object[] {"ABA", "CDC", "ABA", 'A', "plateDU", 'B', "universalReactant", 'C', "plateBasic", 'D', NCBlocks.machineBlock}));
 			GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.factoryIdle, true, new Object[] {"ABA", "CDC", "ABA", 'A', "ingotTough", 'B', "plateBasic", 'C', "plateIron", 'D', Blocks.piston}));
+			GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.assemblerIdle, true, new Object[] {"ABA", "CDC", "ABA", 'A', "ingotTough", 'B', "plateIron", 'C', "plateBasic", 'D', Blocks.piston}));
 			GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.heliumExtractorIdle, true, new Object[] {"ABA", "CDC", "ABA", 'A', "plateReinforced", 'B', new ItemStack(NCItems.parts, 1, 5), 'C', "plateTin", 'D', NCBlocks.machineBlock}));
-			GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.electromagnetIdle, true, new Object[] {"AAA", "BCB", "AAA", 'A', "plateReinforced", 'B', new ItemStack(NCItems.parts, 1, 12), 'C', "ingotIron"}));
+			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCBlocks.electromagnetIdle, 2), true, new Object[] {"AAA", "BCB", "AAA", 'A', "plateReinforced", 'B', new ItemStack(NCItems.parts, 1, 12), 'C', "ingotIron"}));
 			GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.fusionReactor, true, new Object[] {"ABA", "BCB", "ABA", 'A', NCBlocks.reactionGeneratorIdle, 'B', "plateAdvanced", 'C', NCBlocks.electromagnetIdle}));
 			GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.superElectromagnetIdle, true, new Object[] {"AAA", "BCB", "AAA", 'A', "plateAdvanced", 'B', new ItemStack(NCItems.parts, 1, 17), 'C', "ingotTough"}));
 			GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.synchrotronIdle, true, new Object[] {"AAA", "BCB", "AAA", 'A', NCBlocks.superElectromagnetIdle, 'B', "plateAdvanced", 'C', NCBlocks.machineBlock}));
@@ -1359,7 +1384,6 @@ public class NuclearCraft {
 			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCItems.fuel, 8, 48), true, new Object[] {"ABA", "BCB", "ABA", 'B', new ItemStack(NCItems.parts, 1, 15), 'C', "ingotTough", 'A', new ItemStack (NCItems.parts, 1, 3)}));
 			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCItems.dUBullet, 4), true, new Object[] {"ABC", 'A', "U238", 'B', Items.gunpowder, 'C', "ingotTough"}));
 			GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.fuel, 1, 46), new Object[] {new ItemStack(NCItems.fuel, 1, 48), "Pu238"}));
-			GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.synchrotronIdle, true, new Object[] {"AAA", "BCB", "AAA", 'A', "plateAdvanced", 'B', NCBlocks.superElectromagnetIdle, 'C', NCBlocks.machineBlock}));
 		}
 		
 		// Smelting Recipes
@@ -1628,7 +1652,7 @@ public class NuclearCraft {
 		FMLInterModComms.sendMessage("Mekanism", "EnrichmentChamberRecipe", magnesiumOreEnrichment);
 		
 		NBTTagCompound basicPlatingEnrichment = new NBTTagCompound();
-		basicPlatingEnrichment.setTag("input", new ItemStack(NCItems.parts, 6, 0).writeToNBT(new NBTTagCompound()));
+		basicPlatingEnrichment.setTag("input", new ItemStack(NCItems.parts, workspace ? 4 : 8, 0).writeToNBT(new NBTTagCompound()));
 		basicPlatingEnrichment.setTag("output", new ItemStack(NCItems.parts, 1, 3).writeToNBT(new NBTTagCompound()));
 		FMLInterModComms.sendMessage("Mekanism", "EnrichmentChamberRecipe", basicPlatingEnrichment);
 		
@@ -1703,6 +1727,7 @@ public class NuclearCraft {
 		FMLInterModComms.sendMessage("appliedenergistics2", "whitelist-spatial", TileIrradiator.class.getCanonicalName());
 		FMLInterModComms.sendMessage("appliedenergistics2", "whitelist-spatial", TileCooler.class.getCanonicalName());
 		FMLInterModComms.sendMessage("appliedenergistics2", "whitelist-spatial", TileFactory.class.getCanonicalName());
+		FMLInterModComms.sendMessage("appliedenergistics2", "whitelist-spatial", TileAssembler.class.getCanonicalName());
 		FMLInterModComms.sendMessage("appliedenergistics2", "whitelist-spatial", TileHeliumExtractor.class.getCanonicalName());
 		FMLInterModComms.sendMessage("appliedenergistics2", "whitelist-spatial", TileSolarPanel.class.getCanonicalName());
 		

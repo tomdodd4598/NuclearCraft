@@ -1,9 +1,8 @@
 package cofh.api.modhelpers;
 
-import cpw.mods.fml.common.event.FMLInterModComms;
-
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import cpw.mods.fml.common.event.FMLInterModComms;
 
 /**
  * The purpose of this class is to show how to use and provide an interface for Thermal Foundation's IMC Lexicon Blacklist manipulation.

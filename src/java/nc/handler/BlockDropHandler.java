@@ -2,7 +2,6 @@ package nc.handler;
 
 import java.util.Random;
 
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import nc.NuclearCraft;
 import nc.block.NCBlocks;
 import nc.item.NCItems;
@@ -10,6 +9,7 @@ import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.world.BlockEvent;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class BlockDropHandler {
 	public Random rand = new Random();

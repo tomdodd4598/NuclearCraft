@@ -1,10 +1,14 @@
 package nc.block.fluid;
 
+import java.util.Random;
+
 import nc.NuclearCraft;
+import nc.block.NCBlocks;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.monster.EntityBlaze;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
@@ -22,10 +26,14 @@ public class BlockPlasma extends BlockFluidClassic {
     
     public static DamageSource damageSource;
     
+    public static int tickCount;
+    
+    private Random rand1 = new Random();
+    
 	public BlockPlasma(Fluid f, Material m, DamageSource damage) {
 		super(f, m);
 		damageSource = damage;
-		setQuantaPerBlock(16);
+		setQuantaPerBlock(10);
 		setCreativeTab(NuclearCraft.tabNC);
 	}
 	
@@ -69,6 +77,27 @@ public class BlockPlasma extends BlockFluidClassic {
     		boolean bool = entity.velocityChanged;
     		entity.attackEntityFrom(damageSource, 8.0F);
     		entity.velocityChanged = bool;
+    	}
+    }
+    
+    public boolean f(World world, int x, int y, int z) {
+		return world.getBlock(x, y, z) != NCBlocks.electromagnetIdle && world.getBlock(x, y, z) != NCBlocks.electromagnetActive && world.getBlock(x, y, z) != NCBlocks.fusionReactor && world.getBlock(x, y, z) != NCBlocks.fusionReactorBlock && world.getBlock(x, y, z) != Blocks.air;
+	}
+    
+    public boolean g(World world, int x, int y, int z) {
+		return world.getBlock(x, y, z) != NCBlocks.electromagnetIdle && world.getBlock(x, y, z) != NCBlocks.electromagnetActive && world.getBlock(x, y, z) != NCBlocks.blockFusionPlasma;
+	}
+    
+    public void updateTick(World world, int x, int y, int z, Random rand) {
+    	/*if (rand1.nextFloat() > 0.0F && g(world, x, y - 1, z) && !this.isSourceBlock(world, x, y, z)) world.setBlock(x, y, z, NCBlocks.plasmaFire);
+    	if (tickCount >= 20) {
+    		if (this.isSourceBlock(world, x, y, z) && (world.getBlock(x, y + 1, z) == Blocks.air || world.getBlock(x, y + 1, z) == NCBlocks.plasmaFire || world.getBlock(x, y + 1, z) == NCBlocks.blockFusionPlasma)) {
+    			world.setBlock(x, y, z, Blocks.air); world.setBlock(x, y + 1, z, NCBlocks.blockFusionPlasma);
+    		}
+    	} else tickCount ++;*/
+    	super.updateTick(world, x, y, z, rand);
+    	if (f(world, x, y - 1, z) && world.getBlock(x, y + 1, z) != NCBlocks.blockFusionPlasma) {
+    		if (rand1.nextFloat() > 0.3F) world.setBlock(x, y, z, Blocks.fire);
     	}
     }
 }

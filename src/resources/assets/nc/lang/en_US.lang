@@ -56,6 +56,9 @@ tile.liquidHeliumBlock.name=Liquid Helium
 fluid.liquidHelium=Liquid Helium
 tile.fusionPlasmaBlock.name=Fusion Plasma
 fluid.fusionPlasma=Fusion Plasma
+tile.plasmaFire.name=Fire
+tile.steamBlock.name=Steam
+fluid.steamNC=Steam
 
 tile.nuclearFurnaceIdle.name=Nuclear Furnace
 tile.nuclearFurnaceActive.name=Nuclear Furnace
@@ -96,6 +99,8 @@ tile.coolerIdle.name=Helium Liquifier
 tile.coolerActive.name=Helium Liquifier
 tile.factoryIdle.name=Manufactory
 tile.factoryActive.name=Manufactory
+tile.assemblerIdle.name=Assembler
+tile.assemblerActive.name=Assembler
 tile.heliumExtractorIdle.name=Liquid Helium Extractor
 tile.heliumExtractorActive.name=Liquid Helium Extractor
 tile.electromagnetIdle.name=Electromagnet
@@ -142,6 +147,7 @@ gui.ringIncomplete=Electromagnet Ring Incomplete
 gui.powerIssue=Electromagnets Not Fully Powered
 gui.ringBlock=Electromagnet Ring Blocked
 gui.noProblem=No Problem
+gui.incorrectStructure=Incorrect Structure
 
 gui.synchrotron=Synchrotron
 gui.electronEnergy=Energy
@@ -327,8 +333,8 @@ leadPlating.name=Lead Plating
 silverPanel.name=Silver Panel
 bronzeBearing.name=Bronze Bearing
 MgBWiring.name=Magnesium Diboride Wiring
-computerPart.name=Computer Part
-aComputerPart.name=Advanced Computer Part
+computerPlate.name=Computer Plate
+mechanicalPart.name=Mechanical Part
 
 crushedIron.name=Crushed Iron
 crushedGold.name=Crushed Gold
@@ -449,3 +455,4 @@ achievement.synchrotron.desc=Make a Synchrotron Controller
 
 death.attack.heliumfreeze=%1$s froze to death in a pool of Liquid Helium
 death.attack.plasmaburn=%1$s was incinerated by Superhot Plasma
+death.attack.steamburn=%1$s was cooked in Steam

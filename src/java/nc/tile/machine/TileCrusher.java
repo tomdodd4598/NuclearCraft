@@ -25,12 +25,12 @@ public class TileCrusher extends TileEntity implements ISidedInventory {
 	private String localizedName;
 	
 	private static final int[] slots_top = new int[]{0};
-	private static final int[] slots_bottom = new int[]{1};
-	private static final int[] slots_sides = new int[]{2};
+	private static final int[] slots_sides = new int[]{1};
+	private static final int[] slots_bottom = new int[]{2};
 	
 	private ItemStack[] slots = new ItemStack[3];
 	
-	public static int crusherSpeed = (int) Math.ceil((150/(double) NuclearCraft.crusherCrushSpeed)*100);
+	public static double crusherSpeed = (int) Math.ceil(15000/NuclearCraft.crusherCrushSpeed);
 	
 	public int burnTime;
 	
@@ -359,33 +359,33 @@ public class TileCrusher extends TileEntity implements ISidedInventory {
 
                 if (block == Blocks.wooden_slab)
                 {
-                	return (int) Math.ceil(((double) NuclearCraft.crusherCrushSpeed*(150/200)*75)/(double) NuclearCraft.crusherCrushEfficiency);
+                	return (int) Math.ceil((NuclearCraft.crusherCrushSpeed*(150/200)*75)/NuclearCraft.crusherCrushEfficiency);
                 }
 
                 if (block.getMaterial() == Material.wood)
                 {
-                	return (int) Math.ceil(((double) NuclearCraft.crusherCrushSpeed*(300/200)*75)/(double) NuclearCraft.crusherCrushEfficiency);
+                	return (int) Math.ceil((NuclearCraft.crusherCrushSpeed*(300/200)*75)/NuclearCraft.crusherCrushEfficiency);
                 }
 
                 if (block == Blocks.coal_block)
                 {
-                	return (int) Math.ceil(((double) NuclearCraft.crusherCrushSpeed*(16000/200)*75)/(double) NuclearCraft.crusherCrushEfficiency);
+                	return (int) Math.ceil((NuclearCraft.crusherCrushSpeed*(16000/200)*75)/NuclearCraft.crusherCrushEfficiency);
                 }
             }
 
             if (item instanceof ItemTool && ((ItemTool)item).getToolMaterialName().equals("WOOD"))
-            	return (int) Math.ceil(((double) NuclearCraft.crusherCrushSpeed*(200/200)*75)/(double) NuclearCraft.crusherCrushEfficiency);
+            	return (int) Math.ceil((NuclearCraft.crusherCrushSpeed*(200/200)*75)/NuclearCraft.crusherCrushEfficiency);
             if (item instanceof ItemSword && ((ItemSword)item).getToolMaterialName().equals("WOOD"))
-            	return (int) Math.ceil(((double) NuclearCraft.crusherCrushSpeed*(200/200)*75)/(double) NuclearCraft.crusherCrushEfficiency);
+            	return (int) Math.ceil((NuclearCraft.crusherCrushSpeed*(200/200)*75)/NuclearCraft.crusherCrushEfficiency);
             if (item instanceof ItemHoe && ((ItemHoe)item).getToolMaterialName().equals("WOOD"))
-            	return (int) Math.ceil(((double) NuclearCraft.crusherCrushSpeed*(200/200)*75)/(double) NuclearCraft.crusherCrushEfficiency);
-            if (item == Items.stick) return (int) Math.ceil(((double) NuclearCraft.crusherCrushSpeed*(100/200)*75)/(double) NuclearCraft.crusherCrushEfficiency);
-            if (item == Items.coal) return (int) Math.ceil(((double) NuclearCraft.crusherCrushSpeed*(1600/200)*75)/(double) NuclearCraft.crusherCrushEfficiency);
-            if (item == Items.lava_bucket) return (int) Math.ceil(((double) NuclearCraft.crusherCrushSpeed*(20000/200)*75)/(double) NuclearCraft.crusherCrushEfficiency);
+            	return (int) Math.ceil((NuclearCraft.crusherCrushSpeed*(200/200)*75)/NuclearCraft.crusherCrushEfficiency);
+            if (item == Items.stick) return (int) Math.ceil((NuclearCraft.crusherCrushSpeed*(100/200)*75)/NuclearCraft.crusherCrushEfficiency);
+            if (item == Items.coal) return (int) Math.ceil((NuclearCraft.crusherCrushSpeed*(1600/200)*75)/NuclearCraft.crusherCrushEfficiency);
+            if (item == Items.lava_bucket) return (int) Math.ceil((NuclearCraft.crusherCrushSpeed*(20000/200)*75)/NuclearCraft.crusherCrushEfficiency);
             if (item == Item.getItemFromBlock(Blocks.sapling))
-            	return (int) Math.ceil(((double) NuclearCraft.crusherCrushSpeed*(100/200)*75)/(double) NuclearCraft.crusherCrushEfficiency);
-            if (item == Items.blaze_rod) return (int) Math.ceil(((double) NuclearCraft.crusherCrushSpeed*(2400/200)*75)/(double) NuclearCraft.crusherCrushEfficiency);
-            return (int) Math.ceil(((double) NuclearCraft.crusherCrushSpeed*((GameRegistry.getFuelValue(itemstack))/200)*75)/(double) NuclearCraft.crusherCrushEfficiency);
+            	return (int) Math.ceil((NuclearCraft.crusherCrushSpeed*(100/200)*75)/NuclearCraft.crusherCrushEfficiency);
+            if (item == Items.blaze_rod) return (int) Math.ceil((NuclearCraft.crusherCrushSpeed*(2400/200)*75)/NuclearCraft.crusherCrushEfficiency);
+            return (int) Math.ceil((NuclearCraft.crusherCrushSpeed*((GameRegistry.getFuelValue(itemstack))/200)*75)/NuclearCraft.crusherCrushEfficiency);
         }
     }
 	
@@ -417,7 +417,7 @@ public class TileCrusher extends TileEntity implements ISidedInventory {
 		return this.isItemValidForSlot(i, itemstack);
 	}
 
-	public boolean canExtractItem(int slot, ItemStack itemstack, int side)
+	public boolean canExtractItem(int slot, ItemStack stack, int side)
 	{
 		return slot == 2;
 	}
@@ -426,7 +426,7 @@ public class TileCrusher extends TileEntity implements ISidedInventory {
 	{
 		if(this.currentItemBurnTime == 0)
 		{
-			this.currentItemBurnTime = TileCrusher.crusherSpeed;
+			this.currentItemBurnTime = (int) TileCrusher.crusherSpeed;
 		}
 		
 		return this.burnTime * i / this.currentItemBurnTime;
@@ -434,6 +434,6 @@ public class TileCrusher extends TileEntity implements ISidedInventory {
 	
 	public int getCookProgressScaled(int i)
 	{
-		return this.cookTime * i / TileCrusher.crusherSpeed;
+		return this.cookTime * i / (int) TileCrusher.crusherSpeed;
 	}
 }

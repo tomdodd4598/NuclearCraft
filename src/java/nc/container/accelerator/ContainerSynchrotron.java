@@ -21,6 +21,7 @@ public class ContainerSynchrotron extends Container {
     public int lastParticleEnergy;
     public int lastPercentageOn;
     public int lastRadiationPower;
+    public int lastComplete;
 
     public ContainerSynchrotron(InventoryPlayer inventory, TileSynchrotron entity)
     {
@@ -69,6 +70,9 @@ public class ContainerSynchrotron extends Container {
             
             icrafting.sendProgressBarUpdate(this, 13, (int) this.entity.radiationPower);
             icrafting.sendProgressBarUpdate(this, 14, (int) this.entity.radiationPower >> 16);
+            
+            icrafting.sendProgressBarUpdate(this, 15, (int) this.entity.complete);
+            icrafting.sendProgressBarUpdate(this, 16, (int) this.entity.complete >> 16);
         }    
     }
 
@@ -90,6 +94,9 @@ public class ContainerSynchrotron extends Container {
         
         if (slot == 13){ this.lastRadiationPower = this.upcastShort(value); }
         if (slot == 14){ this.entity.radiationPower = this.lastRadiationPower | value << 16; }
+        
+        if (slot == 15){ this.lastComplete = this.upcastShort(value); }
+        if (slot == 16){ this.entity.complete = this.lastComplete | value << 16; }
     }
     
     private int upcastShort(int input) {

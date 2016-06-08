@@ -25,12 +25,12 @@ public class TileFurnace extends TileEntity implements ISidedInventory {
 	private String localizedName;
 	
 	private static final int[] slots_top = new int[]{0};
-	private static final int[] slots_bottom = new int[]{1};
-	private static final int[] slots_sides = new int[]{2};
+	private static final int[] slots_sides = new int[]{1};
+	private static final int[] slots_bottom = new int[]{2};
 	
 	private ItemStack[] slots = new ItemStack[3];
 	
-	public static int furnaceSpeed = (int) Math.ceil((50/(double) NuclearCraft.metalFurnaceCookSpeed)*100);
+	public static double furnaceSpeed = Math.ceil(5000/NuclearCraft.metalFurnaceCookSpeed);
 	
 	public int burnTime;
 	
@@ -343,33 +343,33 @@ public class TileFurnace extends TileEntity implements ISidedInventory {
 
                 if (block == Blocks.wooden_slab)
                 {
-                    return (int) Math.ceil(((double) NuclearCraft.metalFurnaceCookSpeed*(150/200)*125)/(double) NuclearCraft.metalFurnaceCookEfficiency)/2;
+                    return (int) Math.ceil((NuclearCraft.metalFurnaceCookSpeed*(150/200)*125)/NuclearCraft.metalFurnaceCookEfficiency)/2;
                 }
 
                 if (block.getMaterial() == Material.wood)
                 {
-                	return (int) Math.ceil(((double) NuclearCraft.metalFurnaceCookSpeed*(300/200)*125)/(double) NuclearCraft.metalFurnaceCookEfficiency)/2;
+                	return (int) Math.ceil((NuclearCraft.metalFurnaceCookSpeed*(300/200)*125)/NuclearCraft.metalFurnaceCookEfficiency)/2;
                 }
 
                 if (block == Blocks.coal_block)
                 {
-                	return (int) Math.ceil(((double) NuclearCraft.metalFurnaceCookSpeed*(16000/200)*125)/(double) NuclearCraft.metalFurnaceCookEfficiency)/2;
+                	return (int) Math.ceil((NuclearCraft.metalFurnaceCookSpeed*(16000/200)*125)/NuclearCraft.metalFurnaceCookEfficiency)/2;
                 }
             }
 
             if (item instanceof ItemTool && ((ItemTool)item).getToolMaterialName().equals("WOOD"))
-            	return (int) Math.ceil(((double) NuclearCraft.metalFurnaceCookSpeed*(200/200)*125)/(double) NuclearCraft.metalFurnaceCookEfficiency)/2;
+            	return (int) Math.ceil((NuclearCraft.metalFurnaceCookSpeed*(200/200)*125)/NuclearCraft.metalFurnaceCookEfficiency)/2;
             if (item instanceof ItemSword && ((ItemSword)item).getToolMaterialName().equals("WOOD"))
-            	return (int) Math.ceil(((double) NuclearCraft.metalFurnaceCookSpeed*(200/200)*125)/(double) NuclearCraft.metalFurnaceCookEfficiency)/2;
+            	return (int) Math.ceil((NuclearCraft.metalFurnaceCookSpeed*(200/200)*125)/NuclearCraft.metalFurnaceCookEfficiency)/2;
             if (item instanceof ItemHoe && ((ItemHoe)item).getToolMaterialName().equals("WOOD"))
-            	return (int) Math.ceil(((double) NuclearCraft.metalFurnaceCookSpeed*(200/200)*125)/(double) NuclearCraft.metalFurnaceCookEfficiency)/2;
-            if (item == Items.stick) return (int) Math.ceil(((double) NuclearCraft.metalFurnaceCookSpeed*(100/200)*125)/(double) NuclearCraft.metalFurnaceCookEfficiency)/2;
-            if (item == Items.coal) return (int) Math.ceil(((double) NuclearCraft.metalFurnaceCookSpeed*(1600/200)*125)/(double) NuclearCraft.metalFurnaceCookEfficiency)/2;
-            if (item == Items.lava_bucket) return (int) Math.ceil(((double) NuclearCraft.metalFurnaceCookSpeed*(20000/200)*125)/(double) NuclearCraft.metalFurnaceCookEfficiency)/2;
+            	return (int) Math.ceil((NuclearCraft.metalFurnaceCookSpeed*(200/200)*125)/NuclearCraft.metalFurnaceCookEfficiency)/2;
+            if (item == Items.stick) return (int) Math.ceil((NuclearCraft.metalFurnaceCookSpeed*(100/200)*125)/NuclearCraft.metalFurnaceCookEfficiency)/2;
+            if (item == Items.coal) return (int) Math.ceil((NuclearCraft.metalFurnaceCookSpeed*(1600/200)*125)/NuclearCraft.metalFurnaceCookEfficiency)/2;
+            if (item == Items.lava_bucket) return (int) Math.ceil((NuclearCraft.metalFurnaceCookSpeed*(20000/200)*125)/NuclearCraft.metalFurnaceCookEfficiency)/2;
             if (item == Item.getItemFromBlock(Blocks.sapling))
-            	return (int) Math.ceil(((double) NuclearCraft.metalFurnaceCookSpeed*(100/200)*125)/(double) NuclearCraft.metalFurnaceCookEfficiency)/2;
-            if (item == Items.blaze_rod) return (int) Math.ceil(((double) NuclearCraft.metalFurnaceCookSpeed*(2400/200)*125)/(double) NuclearCraft.metalFurnaceCookEfficiency)/2;
-            return (int) Math.ceil(((double) NuclearCraft.metalFurnaceCookSpeed*((GameRegistry.getFuelValue(itemstack))/200)*125)/(double) NuclearCraft.metalFurnaceCookEfficiency)/2;
+            	return (int) Math.ceil((NuclearCraft.metalFurnaceCookSpeed*(100/200)*125)/NuclearCraft.metalFurnaceCookEfficiency)/2;
+            if (item == Items.blaze_rod) return (int) Math.ceil((NuclearCraft.metalFurnaceCookSpeed*(2400/200)*125)/NuclearCraft.metalFurnaceCookEfficiency)/2;
+            return (int) Math.ceil((NuclearCraft.metalFurnaceCookSpeed*((GameRegistry.getFuelValue(itemstack))/200)*125)/NuclearCraft.metalFurnaceCookEfficiency)/2;
         }
     }
 	
@@ -401,7 +401,7 @@ public class TileFurnace extends TileEntity implements ISidedInventory {
 		return this.isItemValidForSlot(i, itemstack);
 	}
 
-	public boolean canExtractItem(int slot, ItemStack itemstack, int side)
+	public boolean canExtractItem(int slot, ItemStack stack, int side)
 	{
 		return slot == 2;
 	}
@@ -410,7 +410,7 @@ public class TileFurnace extends TileEntity implements ISidedInventory {
 	{
 		if(this.currentItemBurnTime == 0)
 		{
-			this.currentItemBurnTime = TileFurnace.furnaceSpeed;
+			this.currentItemBurnTime = (int) TileFurnace.furnaceSpeed;
 		}
 		
 		return this.burnTime * i / this.currentItemBurnTime;
@@ -418,6 +418,6 @@ public class TileFurnace extends TileEntity implements ISidedInventory {
 	
 	public int getCookProgressScaled(int i)
 	{
-		return this.cookTime * i / TileFurnace.furnaceSpeed;
+		return this.cookTime * i / (int) TileFurnace.furnaceSpeed;
 	}	
 }

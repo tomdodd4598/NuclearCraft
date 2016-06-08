@@ -17,12 +17,12 @@ public class TileNuclearFurnace extends TileEntity implements ISidedInventory {
 	private String localizedName;
 	
 	private static final int[] slots_top = new int[]{0};
-	private static final int[] slots_bottom = new int[]{1};
-	private static final int[] slots_sides = new int[]{2};
+	private static final int[] slots_sides = new int[]{1};
+	private static final int[] slots_bottom = new int[]{2};
 	
 	private ItemStack[] slots = new ItemStack[3];
 	
-	public static int furnaceSpeed = (int) Math.ceil((3/(double) NuclearCraft.nuclearFurnaceCookSpeed)*100);
+	public static double furnaceSpeed = (int) Math.ceil(300/NuclearCraft.nuclearFurnaceCookSpeed);
 	
 	public int burnTime;
 	
@@ -331,19 +331,19 @@ public class TileNuclearFurnace extends TileEntity implements ISidedInventory {
         	
         	if(item == new ItemStack(NCItems.material, 1, 4).getItem() && item.getDamage(itemstack) == 4)
 		   {
-				return (int) Math.ceil((((double) NuclearCraft.nuclearFurnaceCookSpeed*32)/(double) NuclearCraft.nuclearFurnaceCookEfficiency)*furnaceSpeed);
+				return (int) Math.ceil(((NuclearCraft.nuclearFurnaceCookSpeed*32)/NuclearCraft.nuclearFurnaceCookEfficiency)*furnaceSpeed);
 		   }
 		   else if(item == new ItemStack(NCItems.material, 1, 5).getItem() && item.getDamage(itemstack) == 5)
 		   {
-				return (int) Math.ceil((((double) NuclearCraft.nuclearFurnaceCookSpeed*32)/(double) NuclearCraft.nuclearFurnaceCookEfficiency)*furnaceSpeed);
+				return (int) Math.ceil(((NuclearCraft.nuclearFurnaceCookSpeed*32)/NuclearCraft.nuclearFurnaceCookEfficiency)*furnaceSpeed);
 		   }
 		   else if(item == new ItemStack(NCItems.material, 1, 19).getItem() && item.getDamage(itemstack) == 19)
 		   {
-				return (int) Math.ceil((((double) NuclearCraft.nuclearFurnaceCookSpeed*32)/(double) NuclearCraft.nuclearFurnaceCookEfficiency)*furnaceSpeed);
+				return (int) Math.ceil(((NuclearCraft.nuclearFurnaceCookSpeed*32)/NuclearCraft.nuclearFurnaceCookEfficiency)*furnaceSpeed);
 		   }
 		   else if(item == new ItemStack(NCItems.material, 1, 20).getItem() && item.getDamage(itemstack) == 20)
 		   {
-				return (int) Math.ceil((((double) NuclearCraft.nuclearFurnaceCookSpeed*32)/(double) NuclearCraft.nuclearFurnaceCookEfficiency)*furnaceSpeed);
+				return (int) Math.ceil(((NuclearCraft.nuclearFurnaceCookSpeed*32)/NuclearCraft.nuclearFurnaceCookEfficiency)*furnaceSpeed);
 		   }
 		return 0;
         }
@@ -386,7 +386,7 @@ public class TileNuclearFurnace extends TileEntity implements ISidedInventory {
 	{
 		if(this.currentItemBurnTime == 0)
 		{
-			this.currentItemBurnTime = TileNuclearFurnace.furnaceSpeed;
+			this.currentItemBurnTime = (int) TileNuclearFurnace.furnaceSpeed;
 		}
 		
 		return this.burnTime * i / this.currentItemBurnTime;
@@ -394,6 +394,6 @@ public class TileNuclearFurnace extends TileEntity implements ISidedInventory {
 	
 	public int getCookProgressScaled(int i)
 	{
-		return this.cookTime * i / TileNuclearFurnace.furnaceSpeed;
+		return this.cookTime * i / (int) TileNuclearFurnace.furnaceSpeed;
 	}
 }

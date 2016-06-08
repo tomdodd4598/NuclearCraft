@@ -114,6 +114,7 @@ public abstract class ContainerMachine extends Container {
 						return null;
 					}
 				}
+				
 				// Oxidiser Oxygen
 				else if (entity.isOxygen(itemstack1) && entity.isOxidiser()) {
 					if (!mergeItemStack(itemstack1, 1, 2, false)) {
@@ -123,6 +124,13 @@ public abstract class ContainerMachine extends Container {
 				
 				// Irradiator Neutrons
 				else if (entity.isNeutronCapsule(itemstack1) && entity.isIrradiator()) {
+					if (!mergeItemStack(itemstack1, 1, 2, false)) {
+						return null;
+					}
+				}
+				
+				// Ioniser Hydrogen
+				else if (entity.isHydrogen(itemstack1) && entity.isIoniser()) {
 					if (!mergeItemStack(itemstack1, 1, 2, false)) {
 						return null;
 					}

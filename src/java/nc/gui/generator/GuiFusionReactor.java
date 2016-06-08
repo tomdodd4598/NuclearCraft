@@ -72,29 +72,29 @@ public class GuiFusionReactor extends GuiContainer
     {
         String name1 = StatCollector.translateToLocal("tile.fusionReactor.name");
         String name2 = this.entity.problem;
-        this.fontRendererObj.drawString((this.entity.completeString() ? name1 : name2), 11, 10, (this.entity.completeString() ? -1 : 15597568));
+        this.fontRendererObj.drawString((this.entity.complete == 1 ? name1 : name2), 11, 10, (this.entity.complete == 1 ? -1 : 15597568));
         String radius = StatCollector.translateToLocal("gui.ringRadius") + ": " + entity.size;
-        this.fontRendererObj.drawString(radius, 11, 20, (this.entity.completeString() ? -1 : 15597568));
+        this.fontRendererObj.drawString(radius, 11, 20, (this.entity.complete == 1 ? -1 : 15597568));
         String power = StatCollector.translateToLocal("gui.energyStored") + ": " + this.entity.energy + " RF";
-        this.fontRendererObj.drawString(power, 11, 30, (this.entity.completeString() ? -1 : 15597568));
+        this.fontRendererObj.drawString(power, 11, 30, (this.entity.complete == 1 ? -1 : 15597568));
         String fuel1 = f2() + " " + StatCollector.translateToLocal("gui.level1") + ": " + Math.round(level2() / 64000) + "%";
-        this.fontRendererObj.drawString(fuel1, 11, 40, (this.entity.completeString() ? -1 : 15597568));
+        this.fontRendererObj.drawString(fuel1, 11, 40, (this.entity.complete == 1 ? -1 : 15597568));
         String fuel2 = f1() + " " + StatCollector.translateToLocal("gui.level2") + ": " + Math.round(level1() / 64000) + "%";
-        this.fontRendererObj.drawString(fuel2, 11, 50, (this.entity.completeString() ? -1 : 15597568));
+        this.fontRendererObj.drawString(fuel2, 11, 50, (this.entity.complete == 1 ? -1 : 15597568));
         String egen = ((this.entity.HLevel + this.entity.DLevel + this.entity.TLevel + this.entity.HeLevel + this.entity.BLevel + this.entity.Li6Level + this.entity.Li7Level == 0 || this.entity.HLevel2 + this.entity.DLevel2 + this.entity.TLevel2 + this.entity.HeLevel2 + this.entity.BLevel2 + this.entity.Li6Level2 + this.entity.Li7Level2 == 0) ? 0 : this.entity.EShown) + " RF/t";
-        this.fontRendererObj.drawString(egen, 11, 60, (this.entity.completeString() ? -1 : 15597568));
+        this.fontRendererObj.drawString(egen, 11, 60, (this.entity.complete == 1 ? -1 : 15597568));
         String efficiency = StatCollector.translateToLocal("gui.efficiency") + ": " + Math.round(entity.efficiency) + "%";
-        this.fontRendererObj.drawString(efficiency, 11, 70, (this.entity.completeString() ? -1 : 15597568));
+        this.fontRendererObj.drawString(efficiency, 11, 70, (this.entity.complete == 1 ? -1 : 15597568));
         String heat = StatCollector.translateToLocal("gui.temp") + ": " + Math.round(entity.heat) + " MK";
-        this.fontRendererObj.drawString(heat, 11, 80, (this.entity.completeString() ? -1 : 15597568));
+        this.fontRendererObj.drawString(heat, 11, 80, (this.entity.complete == 1 ? -1 : 15597568));
         //String heatVar = StatCollector.translateToLocal("gui.heatVar") + ": " + entity.heatVar;
-        //this.fontRendererObj.drawString(heatVar, 11, 90, (this.entity.completeString() ? -1 : 15597568));
+        //this.fontRendererObj.drawString(heatVar, 11, 90, (this.entity.complete == 1 ? -1 : 15597568));
         String input = StatCollector.translateToLocal("gui.input");
-        this.fontRendererObj.drawString(input, 49, 157, (this.entity.completeString() ? -1 : 15597568));
+        this.fontRendererObj.drawString(input, 49, 157, (this.entity.complete == 1 ? -1 : 15597568));
         //String cells = StatCollector.translateToLocal("gui.cells");
-        //this.fontRendererObj.drawString(cells, 166-this.fontRendererObj.getStringWidth(cells), 157, (this.entity.completeString() ? -1 : 15597568));
+        //this.fontRendererObj.drawString(cells, 166-this.fontRendererObj.getStringWidth(cells), 157, (this.entity.complete == 1 ? -1 : 15597568));
         String out = StatCollector.translateToLocal("gui.output");
-        this.fontRendererObj.drawString(out, 172+32-this.fontRendererObj.getStringWidth(out)/2, 235, (this.entity.completeString() ? -1 : 15597568));
+        this.fontRendererObj.drawString(out, 172+32-this.fontRendererObj.getStringWidth(out)/2, 235, (this.entity.complete == 1 ? -1 : 15597568));
     }
 
     protected void drawGuiContainerBackgroundLayer(float var1, int var2, int var3)

@@ -73,8 +73,10 @@ public class NEINCConfig implements IConfigureNEI {
 		API.registerUsageHandler(new CoolerRecipeHandler());
 		API.registerRecipeHandler(new HeliumExtractorRecipeHandler());
 		API.registerUsageHandler(new HeliumExtractorRecipeHandler());
-		API.registerRecipeHandler(new AutoWorkspaceRecipeHandler());
-		API.registerUsageHandler(new AutoWorkspaceRecipeHandler());
+		//API.registerRecipeHandler(new AutoWorkspaceRecipeHandler());
+		//API.registerUsageHandler(new AutoWorkspaceRecipeHandler());
+		API.registerRecipeHandler(new AssemblerRecipeHandler());
+		API.registerUsageHandler(new AssemblerRecipeHandler());
 		
 		API.registerRecipeHandler(new InfoUsageHandler());
 		
@@ -102,6 +104,7 @@ public class NEINCConfig implements IConfigureNEI {
 		API.registerGuiOverlay(GuiFactory.class, "manufactoring");
 		API.registerGuiOverlay(GuiHeliumExtractor.class, "heliumExtracting");
 		API.registerGuiOverlay(GuiAutoWorkspace.class, "autonwcrafting");
+		API.registerGuiOverlay(GuiOxidiser.class, "assembling");
 		
 		API.hideItem(new ItemStack(NCBlocks.electricCrusherActive));
 		API.hideItem(new ItemStack(NCBlocks.electricFurnaceActive));
@@ -116,6 +119,7 @@ public class NEINCConfig implements IConfigureNEI {
 		API.hideItem(new ItemStack(NCBlocks.electrolyserActive));
 		API.hideItem(new ItemStack(NCBlocks.oxidiserActive));
 		API.hideItem(new ItemStack(NCBlocks.ioniserActive));
+		API.hideItem(new ItemStack(NCBlocks.assemblerActive));
 		API.hideItem(new ItemStack(NCBlocks.irradiatorActive));
 		API.hideItem(new ItemStack(NCBlocks.coolerActive));
 		API.hideItem(new ItemStack(NCBlocks.factoryActive));
@@ -130,6 +134,7 @@ public class NEINCConfig implements IConfigureNEI {
 		API.hideItem(new ItemStack(NCBlocks.fusionReactorBlockTop));
 		API.hideItem(new ItemStack(NCBlocks.nukeE));
 		API.hideItem(new ItemStack(NCItems.nuclearGrenadeThrown));
+		API.hideItem(new ItemStack(NCBlocks.plasmaFire));
 	}
 
 	public String getName() {

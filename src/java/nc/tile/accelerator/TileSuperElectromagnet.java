@@ -21,24 +21,32 @@ public class TileSuperElectromagnet extends TileInventory implements IEnergyHand
 	public boolean flag1;
 	public int energy;
 	public EnergyStorage storage;
-	public static int power = NuclearCraft.superElectromagnetRF;
+	public static int power = NuclearCraft.superElectromagnetRF*NuclearCraft.EMUpdateRate;
+	private int tickCount = 0;
 	
 	public TileSuperElectromagnet() {
-		storage = new EnergyStorage(power*5, power*5);
+		storage = new EnergyStorage(power*10, power*10);
 		localizedName = "Superconducting Electromagnet";
 		slots = new ItemStack[1];
 	}
 	
 	public void updateEntity() {
 		super.updateEntity();
-		if(!this.worldObj.isRemote) energy();
-		if (flag != flag1) { flag1 = flag; BlockSuperElectromagnet.updateBlockState(flag, this.worldObj, this.xCoord, this.yCoord, this.zCoord); }
+		if (tickCount >= NuclearCraft.EMUpdateRate) {
+			if(!this.worldObj.isRemote) energy();
+			if (flag != flag1) { flag1 = flag; BlockSuperElectromagnet.updateBlockState(flag, this.worldObj, this.xCoord, this.yCoord, this.zCoord); }
+			tickCount = 0;
+		} else tickCount ++;
+		/*if (soundCount >= 67) {
+			if (flag1) worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "nc:shield5", 0.5F, 1F);
+			soundCount = 0;
+		} else soundCount ++;*/
 		markDirty();
 	}
 	
 	public void energy() {
 		 if (this.storage.getEnergyStored() >= power) {
-		 	this.storage.extractEnergy(power, false);
+			 this.storage.extractEnergy(power, false);
 		 	flag = true;
 		 } else {
 			 flag = false;
