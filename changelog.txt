@@ -1,6 +1,70 @@
+v1.7c
+
+* Fission Reactors no longer require upgrades!
+* Fission reactors can now be a cuboid of any shape or size!
+* The Fission Controller can be anywhere on the exterior of the structure
+
++ Added the Assembler - a machine to autocraft Heavy Duty Workspace Recipes!
++ Will never totally empty its input slots, requires a stick in unused input slots
++ Check NEI for the recipes (require the same total resources as the 5x5 recipes)
++ Will still be available if the Workspace is disabled in the config
++ Comparable to the Auto-Workbench of BuildCraft
+
+- Removed the Lithium-7 Irradiator recipe
+* Fixed some recipe irregularity in other mods' machines
+
+* Fixed automation in non-RF machines
+
++ Added Steam fluid
++ Added Computer Plate and Mechanical Part
+* Fixed some machine particle effects
+* Fixed bug where Fusion Reactors occasionally rendered incorrectly
+* Fixed some GUI update bugs in generators
++ Added the Mekanism API (to be used in the future)
++ Added Paul's voice to Paul
+
+* Possible other things that I have forgotten
+
+v1.7b
+
+* Bug fixes
+
+v1.7a
+
+* Made attempts to reduce lag produced by Electromagnets, Sychrotrons and Fission Reactors
++ Added sound effects to the Fusion Reactor and Synchrotron
+
+* Changed the effects of Fusion Plasma leaks
+
+v1.7
+
+* Fusion reactors no longer stack and instead require a ring of powered electromagnets
+* Check the YouTube video on Fusion more more details
+* Fixed bug where the energy required to start the reaction was far too high
+
+* Fission reactors no longer require a vertical line of cell compartments down the middle
+* The power and heat generated and the fuel used depends on the number of cell compartments and their positions
+* Adjacent cell compartments generate additional energy and heat
++ Added new cooler blocks which have better cooling rates depending on their positions in the reactor
+* Many changes to the base stats of all fuels and the energy and heat generation of graphite
+
+* Synchrotrons can now be built entirely, but do not yet have a use
+
++ Added Fusion Plasma which is contained within the Fusion Reactors' electromagnet rings
+
++ Added extra drops to certain ores
++ Added extra rare drops to monsters
++ Added anvil repair recipes to tools
+
+* Recipe tweaks
+* Other minor bug fixes
+* Minor changes to some machines
+
+* Possible other things that I have forgotten
+
 v1.6e
 
-+ Highly requested feature: New config option to disable the Nuclear Workspace and enable vanilla crafting recipes
++ Highly requested feature: New config option to disable the Heavy Duty Workspace and enable vanilla crafting recipes
 + This change allows for recipes to be edited via MineTweaker and for all parts of the mod to be auto-craftable
 + When 'false', the Heavy Duty Workspace will become uncraftable, and all Heavy Duty Workspace recipes are disabled
 + This option is found at the top of the NCConfig file
