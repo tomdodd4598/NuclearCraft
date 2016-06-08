@@ -32,6 +32,7 @@ public class BlockFusionReactor extends BlockContainer {
 
 	public BlockFusionReactor(Material material) {
 		super(material);
+		this.setBlockBounds(-1.0F, 0.0F, -1.0F, 2.0F, 3.0F, 2.0F);
 	}
 	
 	public int getRenderType() {

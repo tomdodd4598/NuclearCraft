@@ -21,6 +21,7 @@ public class ItemPart extends Item {
 	public IIcon[] icons = new IIcon[6];
 	public IIcon[] icons1 = new IIcon[6];
 	public IIcon[] icons2 = new IIcon[6];
+	public IIcon[] icons3 = new IIcon[2];
 
 	public void registerIcons(IIconRegister reg) {
 	    for (int i = 0; i < 6; i ++) {
@@ -32,19 +33,23 @@ public class ItemPart extends Item {
 	    for (int i = 0; i < 6; i ++) {
 	        this.icons2[i] = reg.registerIcon("nc:parts/" + (i+12));
 	    }
+	    for (int i = 0; i < 2; i ++) {
+	        this.icons3[i] = reg.registerIcon("nc:parts/" + (i+18));
+	    }
 	}
 
 	public IIcon getIconFromDamage(int meta) {
-	    if (meta > 17) meta = 0;
+	    if (meta > 19) meta = 0;
 	    if (meta >= 0 && meta < 6) { return this.icons[meta]; }
 	    else if (meta >= 6 && meta < 12) { return this.icons1[meta-6]; }
 	    else if (meta >= 12 && meta < 18) { return this.icons2[meta-12]; }
+	    else if (meta >= 18 && meta < 20) { return this.icons3[meta-18]; }
 	    else { return null; }
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void getSubItems(Item item, CreativeTabs tab, List list) {
-	    for (int i = 0; i < 18; i ++) {
+	    for (int i = 0; i < 20; i ++) {
 	        list.add(new ItemStack(item, 1, i));
 	    }
 	}
@@ -69,6 +74,8 @@ public class ItemPart extends Item {
 	    case 15: return "silverPanel";
 	    case 16: return "bronzeBearing";
 	    case 17: return "MgBWiring";
+	    case 18: return "computerPlate";
+	    case 19: return "mechanicalPart";
 	    default:
 	        return this.getUnlocalizedName();
 	    }

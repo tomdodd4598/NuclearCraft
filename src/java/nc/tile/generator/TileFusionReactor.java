@@ -29,6 +29,9 @@ public class TileFusionReactor extends TileGenerator implements IEnergyReceiver 
 	public String problem = StatCollector.translateToLocal("gui.connectorsIncomplete");
     public static double h = NuclearCraft.fusionHeat/100;
     public static double pMult = 2*NuclearCraft.fusionRF;
+    
+    private int checkCount = 0;
+    private int soundCount = 0;
 	
     public int HLevel;
 	public int DLevel;
@@ -54,7 +57,7 @@ public class TileFusionReactor extends TileGenerator implements IEnergyReceiver 
 	
 	public static int Max = 6400000;
 	
-	public boolean complete;
+	public int complete;
 	
 	public static double requiredHH = (200*NuclearCraft.baseFuelHH)/NuclearCraft.fusionEfficiency;
 	public static double requiredHD = (200*NuclearCraft.baseFuelHD)/NuclearCraft.fusionEfficiency;
@@ -112,8 +115,11 @@ public class TileFusionReactor extends TileGenerator implements IEnergyReceiver 
 
 	public void updateEntity() {
 		super.updateEntity();
-		if(!this.worldObj.isRemote) {
+		if (checkCount >= NuclearCraft.fusionUpdateRate) {
 			setSize();
+			checkCount = 0;
+		} else checkCount ++;
+		if(!this.worldObj.isRemote) {
 		    energy();
 		   	overheat(worldObj, this.xCoord, this.yCoord, this.zCoord, 10 + 4*size, BombType.BOMB_STANDARD);
 		   	addEnergy();
@@ -134,6 +140,20 @@ public class TileFusionReactor extends TileGenerator implements IEnergyReceiver 
 	    if (this.worldObj.getBlock(xCoord, yCoord, zCoord) == NCBlocks.fusionReactor && (ppp(xCoord + 1, yCoord, zCoord) || ppp(xCoord - 1, yCoord, zCoord) || ppp(xCoord, yCoord + 1, zCoord) || ppp(xCoord, yCoord - 1, zCoord) || ppp(xCoord, yCoord, zCoord + 1) || ppp(xCoord, yCoord, zCoord - 1))) {
 			if (rand.nextFloat() > 0.99875) NCExplosion.createExplosion(new EntityBomb(worldObj).setType(BombType.BOMB_STANDARD), worldObj, (double)this.xCoord, (double)this.yCoord, (double)this.zCoord, NuclearCraft.fusionMeltdowns ? 12.5F : 0F, 20F, true);
 		}
+	    
+	    if (soundCount >= 67) {
+			if (complete == 1 && NuclearCraft.fusionSounds) {
+				worldObj.playSoundEffect(xCoord, yCoord + 1, zCoord, "nc:shield5", 1.25F, 1F);
+				for (int r = 0; r <= (size - 1)/2; r++) {
+					worldObj.playSoundEffect(xCoord - size - 2 + 2*r*(2*size + 5)/size, yCoord + 1, zCoord + size + 2, "nc:shield5", 1.25F, 1F);
+					worldObj.playSoundEffect(xCoord + size + 2 - 2*r*(2*size + 5)/size, yCoord + 1, zCoord - size - 2, "nc:shield5", 1.25F, 1F);
+					worldObj.playSoundEffect(xCoord + size + 2, yCoord + 1, zCoord + size + 2 - 2*r*(2*size + 5)/size, "nc:shield5", 1.25F, 1F);
+					worldObj.playSoundEffect(xCoord - size - 2, yCoord + 1, zCoord - size - 2 + 2*r*(2*size + 5)/size, "nc:shield5", 1.25F, 1F);
+				}
+			}
+			soundCount = 0;
+		} else soundCount ++;
+	    
 	    markDirty();
 	    }
 	    
@@ -145,7 +165,7 @@ public class TileFusionReactor extends TileGenerator implements IEnergyReceiver 
 	}
 	    
 	public void efficiency() {
-		if (HLevel + DLevel + TLevel + HeLevel + BLevel + Li6Level + Li7Level <= 0 || HLevel2 + DLevel2 + TLevel2 + HeLevel2 + BLevel2 + Li6Level2 + Li7Level2 <= 0 || !complete) efficiency = 0;
+		if (HLevel + DLevel + TLevel + HeLevel + BLevel + Li6Level + Li7Level <= 0 || HLevel2 + DLevel2 + TLevel2 + HeLevel2 + BLevel2 + Li6Level2 + Li7Level2 <= 0 || complete == 0) efficiency = 0;
 		else if (heat >= 8) {
 	    	//efficiency = 100*Math.exp(-Math.pow(heatVar-Math.log(heat), 2)/2)/(heat*Math.exp(0.5-heatVar));
 	    	efficiency = 742*(Math.exp(-heat/heatVar)+Math.tanh(heat/heatVar)-1);
@@ -199,7 +219,7 @@ public class TileFusionReactor extends TileGenerator implements IEnergyReceiver 
 	}
 	
 	public void plasma(World world, int x, int y, int z) {
-		if (!worldObj.isBlockIndirectlyGettingPowered(this.xCoord, this.yCoord, this.zCoord) && heat >= 8 && complete) {
+		if (!worldObj.isBlockIndirectlyGettingPowered(this.xCoord, this.yCoord, this.zCoord) && heat >= 8 && complete == 1) {
 			for (int r = -size - 2; r <= size + 2; r++) {
 				if (!pp(x + r, y + 1, z + size + 2)) p(world, x + r, y + 1, z + size + 2);
 				if (!pp(x + r, y + 1, z - size - 2)) p(world, x + r, y + 1, z - size - 2);
@@ -208,7 +228,7 @@ public class TileFusionReactor extends TileGenerator implements IEnergyReceiver 
 			}
 		}
 		for (int r = -size - 2; r <= size + 2; r++) {
-			if (!worldObj.isBlockIndirectlyGettingPowered(this.xCoord, this.yCoord, this.zCoord) && heat < 8 && complete) {
+			if (!worldObj.isBlockIndirectlyGettingPowered(this.xCoord, this.yCoord, this.zCoord) && heat < 8 && complete == 1) {
 				if (pp(x + r, y + 1, z + size + 2)) aa(world, x + r, y + 1, z + size + 2);
 				if (pp(x + r, y + 1, z - size - 2)) aa(world, x + r, y + 1, z - size - 2);
 				if (pp(x + size + 2, y + 1, z + r)) aa(world, x + size + 2, y + 1, z + r);
@@ -226,7 +246,7 @@ public class TileFusionReactor extends TileGenerator implements IEnergyReceiver 
 	}
 	
 	public boolean a(int x, int y, int z) {
-		return this.worldObj.getBlock(x, y, z) == Blocks.air || this.worldObj.getBlock(x, y, z) == NCBlocks.blockFusionPlasma;
+		return this.worldObj.getBlock(x, y, z) == Blocks.air || this.worldObj.getBlock(x, y, z) == NCBlocks.blockFusionPlasma || this.worldObj.getBlock(x, y, z) == Blocks.fire;
 	}
 	
 	public boolean p(int x, int y, int z) {
@@ -246,69 +266,69 @@ public class TileFusionReactor extends TileGenerator implements IEnergyReceiver 
 		size = s;
 		for (int r = -size - 1; r <= size + 1; r++) {
 			if (!(ee(x + r, y + 1, z + size + 1) && ee(x + r, y + 1, z - size - 1) && ee(x + size + 1, y + 1, z + r) && ee(x - size - 1, y + 1, z + r))) {
-				complete = false;
+				complete = 0;
 				problem = StatCollector.translateToLocal("gui.ringIncomplete");
 				return false;
 			}
 		}
 		for (int r = -size - 3; r <= size + 3; r++) {
 			if (!(ee(x + r, y + 1, z + size + 3) && ee(x + r, y + 1, z - size - 3) && ee(x + size + 3, y + 1, z + r) && ee(x - size - 3, y + 1, z + r))) {
-				complete = false;
+				complete = 0;
 				problem = StatCollector.translateToLocal("gui.ringIncomplete");
 				return false;
 			}
 		}
 		for (int r = -size - 2; r <= size + 2; r++) {
 			if (!(ee(x + r, y + 2, z + size + 2) && ee(x + r, y + 2, z - size - 2) && ee(x + size + 2, y + 2, z + r) && ee(x - size - 2, y + 2, z + r))) {
-				complete = false;
+				complete = 0;
 				problem = StatCollector.translateToLocal("gui.ringIncomplete");
 				return false;
 			}
 		}
 		for (int r = -size - 2; r <= size + 2; r++) {
 			if (!(ee(x + r, y, z + size + 2) && ee(x + r, y, z - size - 2) && ee(x + size + 2, y, z + r) && ee(x - size - 2, y, z + r))) {
-				complete = false;
+				complete = 0;
 				problem = StatCollector.translateToLocal("gui.ringIncomplete");
 				return false;
 			}
 		}
 		for (int r = -size - 2; r <= size + 2; r++) {
 			if (!(a(x + r, y + 1, z + size + 2) && a(x + r, y + 1, z - size - 2) && a(x + size + 2, y + 1, z + r) && a(x - size - 2, y + 1, z + r))) {
-				complete = false;
+				complete = 0;
 				StatCollector.translateToLocal("gui.ringBlock");
 				return false;
 			}
 		}
 		for (int r = -size - 1; r <= size + 1; r++) {
 			if (!(e(x + r, y + 1, z + size + 1) && e(x + r, y + 1, z - size - 1) && e(x + size + 1, y + 1, z + r) && e(x - size - 1, y + 1, z + r))) {
-				complete = false;
+				complete = 0;
 				problem = StatCollector.translateToLocal("gui.powerIssue");
 				return false;
 			}
 		}
 		for (int r = -size - 3; r <= size + 3; r++) {
 			if (!(e(x + r, y + 1, z + size + 3) && e(x + r, y + 1, z - size - 3) && e(x + size + 3, y + 1, z + r) && e(x - size - 3, y + 1, z + r))) {
-				complete = false;
+				complete = 0;
 				problem = StatCollector.translateToLocal("gui.powerIssue");
 				return false;
 			}
 		}
 		for (int r = -size - 2; r <= size + 2; r++) {
 			if (!(e(x + r, y + 2, z + size + 2) && e(x + r, y + 2, z - size - 2) && e(x + size + 2, y + 2, z + r) && e(x - size - 2, y + 2, z + r))) {
-				complete = false;
+				complete = 0;
 				problem = StatCollector.translateToLocal("gui.powerIssue");
 				return false;
 			}
 		}
 		for (int r = -size - 2; r <= size + 2; r++) {
 			if (!(e(x + r, y, z + size + 2) && e(x + r, y, z - size - 2) && e(x + size + 2, y, z + r) && e(x - size - 2, y, z + r))) {
-				complete = false;
+				complete = 0;
 				problem = StatCollector.translateToLocal("gui.powerIssue");
 				return false;
 			}
 		}
-		complete = true;
-		problem = StatCollector.translateToLocal("gui.noProblem");
+		complete = 1;
+		problem = StatCollector.translateToLocal("gui.incorrectStructure");
 		return true;
 	}
 	
@@ -332,7 +352,7 @@ public class TileFusionReactor extends TileGenerator implements IEnergyReceiver 
 	   	int newE;
 	   	//double eV = Math.sqrt(efficiency)/10;
 
-	    if (!worldObj.isBlockIndirectlyGettingPowered(this.xCoord, this.yCoord, this.zCoord) && heat >= 8 && complete) {
+	    if (!worldObj.isBlockIndirectlyGettingPowered(this.xCoord, this.yCoord, this.zCoord) && heat >= 8 && complete == 1) {
 	   	lastE = storage.getEnergyStored();
 	   	
 	   	if (this.HLevel > 0 && this.HLevel2 > 0) {
@@ -1008,7 +1028,7 @@ public class TileFusionReactor extends TileGenerator implements IEnergyReceiver 
 	    this.lastE = nbt.getInteger("lE");
 	    this.E = nbt.getInteger("E");
 	    
-	    this.complete = nbt.getBoolean("complete");
+	    this.complete = nbt.getInteger("complete");
 	}
 
 	public void writeToNBT(NBTTagCompound nbt) {
@@ -1051,7 +1071,7 @@ public class TileFusionReactor extends TileGenerator implements IEnergyReceiver 
 	    nbt.setInteger("lE", this.lastE);
 	    nbt.setInteger("E", this.E);
 	    
-	    nbt.setBoolean("complete", this.complete);
+	    nbt.setInteger("complete", this.complete);
 	}
 		
 	public void addH(int add) { this.HLevel += add; }

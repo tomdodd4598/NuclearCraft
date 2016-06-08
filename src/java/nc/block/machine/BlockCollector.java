@@ -19,7 +19,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockCollector extends BlockMachine {
 	public BlockCollector(boolean active) {
-		super(active, NuclearCraft.guiIdCollector, "", "depthsuspend", "collector");
+		super(active, NuclearCraft.guiIdCollector, "depthsuspend", "depthsuspend", "collector");
 	}
 
 	@SideOnly(Side.CLIENT)

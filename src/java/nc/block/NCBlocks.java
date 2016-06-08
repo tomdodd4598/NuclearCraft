@@ -1,7 +1,6 @@
 package nc.block;
 
 import net.minecraft.block.Block;
-import net.minecraftforge.fluids.Fluid;
 
 public class NCBlocks {
 	
@@ -65,6 +64,8 @@ public class NCBlocks {
 	public static Block coolerActive;
 	public static Block factoryIdle;
 	public static Block factoryActive;
+	public static Block assemblerIdle;
+	public static Block assemblerActive;
 	public static Block heliumExtractorIdle;
 	public static Block heliumExtractorActive;
 	public static Block autoWorkspaceIdle;
@@ -83,8 +84,8 @@ public class NCBlocks {
 	public static Block simpleQuantumUp;
 	public static Block simpleQuantumDown;
 	
-	public static Fluid fluidHelium;
 	public static Block blockHelium;
-	public static Fluid fusionPlasma;
 	public static Block blockFusionPlasma;
+	public static Block plasmaFire;
+	public static Block blockSteam;
 }

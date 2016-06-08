@@ -132,7 +132,7 @@ public abstract class TileMachine extends TileEntity implements IEnergyHandler, 
 			flag = true;
 			return true;
 		}
-		if (RequiredEnergy() < this.energyStorage.getMaxEnergyStored() && cookTime <= 0 && this.energyStorage.getEnergyStored() < getRequiredEnergy) {
+		if (getRequiredEnergy > this.energyStorage.getMaxEnergyStored() && cookTime <= 0 && this.energyStorage.getEnergyStored() < this.energyStorage.getMaxEnergyStored() - (int) Math.ceil(getRequiredEnergy/getFurnaceSpeed)) {
 			flag = false;
 			return false;
 		}

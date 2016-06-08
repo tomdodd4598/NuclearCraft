@@ -27,7 +27,9 @@ public class TileSynchrotron extends TileInventory implements IEnergyHandler, IE
 	public int maxStorage;
 	public boolean flag;
 	public boolean flag1 = false;
+	public int complete;
 	public int energy;
+	public int orientation;
 	public EnergyStorage storage;
 	public static int rawLength;
 	public int length;
@@ -37,18 +39,49 @@ public class TileSynchrotron extends TileInventory implements IEnergyHandler, IE
 	public double particleEnergy;
 	public double percentageOn;
 	public static int fuelMax = 100000;
-	public static double k = 8.9875517873681764; // *10^9
-	public static double c = 2.99792458; // 10^8
-	public static double e = 1.60217662; // 10^-19
-	public static double m = 9.10938356; // 10^-31
+	private static double k = 8.9875517873681764; // *10^9
+	private static double c = 2.99792458; // 10^8
+	private static double e = 1.60217662; // 10^-19
+	private static double m = 9.10938356; // 10^-31
 	public String problem = StatCollector.translateToLocal("gui.ringIncomplete");
 	private static final int[] slots1 = new int[] {0, 1};
+	private int soundCount = 0;
+	private int checkCount = 0;
 	
 	public TileSynchrotron() {
 		storage = new EnergyStorage(1000000, 1000000);
 		localizedName = "Synchrotron";
 		slots = new ItemStack[2];
 	}
+	
+	/*private void place(int x, int y, int z) {
+    	ForgeDirection forward = ForgeDirection.getOrientation(this.getBlockMetadata()).getOpposite();
+    	int xc = xCoord + 2*forward.offsetX;
+    	int yc = yCoord + y + 3;
+    	int zc = zCoord + 2*forward.offsetZ;
+    	
+    	if (this.getBlockMetadata() == 4) worldObj.setBlock(xc+x, yc, zc+z, Blocks.coal_block);
+    	else if (this.getBlockMetadata() == 2) worldObj.setBlock(xc-z, yc, zc+x, Blocks.iron_block);
+    	else if (this.getBlockMetadata() == 5) worldObj.setBlock(xc-x, yc, zc-z, Blocks.gold_block);
+    	else if (this.getBlockMetadata() == 3) worldObj.setBlock(xc+z, yc, zc-x, Blocks.diamond_block);
+    }*/
+	
+	private void sound(int x, int y, int z) {
+    	ForgeDirection forward = ForgeDirection.getOrientation(this.getBlockMetadata()).getOpposite();
+    	int xc = xCoord + 2*forward.offsetX;
+    	int yc = yCoord + y + 3;
+    	int zc = zCoord + 2*forward.offsetZ;
+    	
+    	if (this.getBlockMetadata() == 4) {
+    		worldObj.playSoundEffect(xc+x, yc, zc+z, "nc:shield2", 1.3F, 1F);
+    	} else if (this.getBlockMetadata() == 2) {
+    		worldObj.playSoundEffect(xc-z, yc, zc+x, "nc:shield2", 1.3F, 1F);
+    	} else if (this.getBlockMetadata() == 5) {
+    		worldObj.playSoundEffect(xc-x, yc, zc-z, "nc:shield2", 1.3F, 1F);
+    	} else if (this.getBlockMetadata() == 3) {
+    		worldObj.playSoundEffect(xc+z, yc, zc-x, "nc:shield2", 1.3F, 1F);
+    	}
+    }
 	
 	public void updateEntity() {
     	super.updateEntity();
@@ -58,11 +91,34 @@ public class TileSynchrotron extends TileInventory implements IEnergyHandler, IE
     		power();
     	}
         if (flag != flag1) {flag1 = flag; BlockSynchrotron.updateBlockState(flag, this.worldObj, this.xCoord, this.yCoord, this.zCoord);}
+        
+        if (soundCount >= 67) {
+			if (storage.getEnergyStored() >= (int) (1000*((200-(efficiency/10000))/100)) && worldObj.isBlockIndirectlyGettingPowered(this.xCoord, this.yCoord, this.zCoord) && flag1 && percentageOn > 0 && fuel - length >= 0 && NuclearCraft.acceleratorSounds) {
+				for (int r = 0; r <= (length-7)/7; r++) {
+					if (orientation == 0) {
+						sound(7*r, 0, 0);
+						sound(length + 1 - 7*r, 0, length + 1);
+						sound(0, 0, length + 1 - 7*r);
+						sound(length + 1, 0, 7*r);
+					} else if (orientation == 1) {
+						sound(7*r, 0, 0);
+						sound(length + 1 - 7*r, 0, -length - 1);
+						sound(0, 0, -length - 1 + 7*r);
+						sound(length + 1, 0, -7*r);
+					}
+				}
+			}
+			soundCount = 0;
+		} else soundCount ++;
+        
         markDirty();
-        if (this.fuel < 0) {this.fuel = 0;}
-        if(!this.worldObj.isRemote) {
-    		checkRing();
-    	}
+        
+        if (this.fuel < 0) this.fuel = 0;
+        
+        if(!this.worldObj.isRemote && checkCount >= NuclearCraft.acceleratorUpdateRate) {
+        	checkRing();
+        	checkCount = 0;
+        } else checkCount ++;
     }
 	
 	private void fuel() {
@@ -83,17 +139,12 @@ public class TileSynchrotron extends TileInventory implements IEnergyHandler, IE
 	}
 	
 	private void power() {
-		double efficiency1 = efficiency/10000;
-		if (storage.getEnergyStored() >= (int) (1000*((200-efficiency1)/100)) && worldObj.isBlockIndirectlyGettingPowered(this.xCoord, this.yCoord, this.zCoord) && flag && percentageOn > 0 && fuel - length >= 0) {
+		if (storage.getEnergyStored() >= (int) (1000*((200-(efficiency/10000))/100)) && worldObj.isBlockIndirectlyGettingPowered(this.xCoord, this.yCoord, this.zCoord) && flag1 && percentageOn > 0 && fuel - length >= 0) {
 			fuel = fuel - (fuel < fuelMax/2 ? length*((fuel*2)+7500)/fuelMax : length*(fuelMax+7500)/fuelMax)/4;
-			this.storage.receiveEnergy(- (int) (1000*((200-efficiency1)/100)), false);
+			this.storage.receiveEnergy(- (int) (1000*((200-(efficiency/10000))/100)), false);
 			if (efficiency >= 1000000) efficiency = 1000000; else efficiency = efficiency + 5000/(length+1);
-			int modifiedLength = length*100;
-			double radPow = (2*16*((modifiedLength+1)/100)*((modifiedLength+1)/100)*percentageOn*(NuclearCraft.superElectromagnetRF/100)*efficiency1);
-			if (length > 0) radiationPower = (fuel < fuelMax/2 ? (fuel*2)/fuelMax : 1)*radPow/1000; // 20 kWatts per RF/t
-			double velocity = Math.sqrt((2*Math.sqrt(6)*e*Math.pow(c, 5/2)*Math.sqrt(k)*modifiedLength*radPow*Math.pow(10, 5.5)-3*c*c*modifiedLength*modifiedLength*radPow*Math.pow(10, 10))/(8*e*e*c*k*Math.pow(10, -15)-3*modifiedLength*modifiedLength*radPow*Math.pow(10, -6)));
-			double gamma = 1/Math.sqrt(1-Math.pow(velocity/299792458, 2));
-			particleEnergy = (m*c*c*(gamma-1)*Math.pow(10, 4))/(1000*e);
+			if (length > 0) radiationPower = (fuel < fuelMax/2 ? (fuel*2)/fuelMax : 1)*(2*16*(((length*100)+1)/100)*(((length*100)+1)/100)*percentageOn*(NuclearCraft.superElectromagnetRF/100)*(efficiency/10000))/1000; // 20 kWatts per RF/t
+			particleEnergy = (percentageOn/100)*(m*c*c*(1/Math.sqrt(1-Math.pow((Math.sqrt((2*Math.sqrt(6)*e*Math.pow(c, 5/2)*Math.sqrt(k)*(length*100)*(2*16*(((length*100)+1)/100)*(((length*100)+1)/100)*percentageOn*(NuclearCraft.superElectromagnetRF/100)*(efficiency/10000))*Math.pow(10, 5.5)-3*c*c*(length*100)*(length*100)*(2*16*(((length*100)+1)/100)*(((length*100)+1)/100)*percentageOn*(NuclearCraft.superElectromagnetRF/100)*(efficiency/10000))*Math.pow(10, 10))/(8*e*e*c*k*Math.pow(10, -15)-3*(length*100)*(length*100)*(2*16*(((length*100)+1)/100)*(((length*100)+1)/100)*percentageOn*(NuclearCraft.superElectromagnetRF/100)*(efficiency/10000))*Math.pow(10, -6))))/299792458, 2))-1)*Math.pow(10, 4))/(1000*e);
 		} else {
 			if (efficiency > 2500) efficiency = efficiency - 2500; else efficiency = 0;
 			radiationPower = 0;
@@ -344,56 +395,58 @@ public class TileSynchrotron extends TileInventory implements IEnergyHandler, IE
 		int l = 0;
 		
 		if (cornerbl(0,0,0)) {
+			orientation = 0;
 			l = lengthl();
 			if (l < 1) {
-				this.problem = StatCollector.translateToLocal("gui.ringNotBigEnough"); flag = false; return false;
+				this.problem = StatCollector.translateToLocal("gui.ringNotBigEnough"); flag = false; complete = 0; return false;
 			}
 			if (l > 2) for (int i = 0; i < l-2; i++) {
 				if(!tubef(2+i,0,0) || !tuber(l+1,0,2+i) || !tubef(2+i,0,l+1) || !tuber(0,0,2+i)) {
-					this.problem = StatCollector.translateToLocal("gui.tubeIncomplete"); flag = false; return false;
+					this.problem = StatCollector.translateToLocal("gui.tubeIncomplete"); flag = false; complete = 0; return false;
 				}
 			}
 			if(!cornerbl(0,0,0) || !cornertl(1+l,0,0) || !cornertr(1+l,0,1+l) || !cornerbr(0,0,1+l)) {
-				this.problem = StatCollector.translateToLocal("gui.cornerIncomplete"); flag = false; return false;
+				this.problem = StatCollector.translateToLocal("gui.cornerIncomplete"); flag = false; complete = 0; return false;
 			}
 			if(find(s,ss,0,0,-2) || find(s,ss,l+1,0,-2) || find(s,ss,l+3,0,0) || find(s,ss,l+3,0,l+1) || find(s,ss,l+1,0,l+3) || find(s,ss,0,0,l+3) || find(s,ss,-2,0,l+1)) {
-				this.problem = StatCollector.translateToLocal("gui.multipleControllers"); flag = false; return false;
+				this.problem = StatCollector.translateToLocal("gui.multipleControllers"); flag = false; complete = 0; return false;
 			}
 		} else if (cornerbr(0,0,0)) {
+			orientation = 1;
 			l = lengthr();
 			if (l < 1) {
-				this.problem = StatCollector.translateToLocal("gui.ringNotBigEnough"); flag = false; return false;
+				this.problem = StatCollector.translateToLocal("gui.ringNotBigEnough"); flag = false; complete = 0; return false;
 			}
 			if (l > 2) for (int i = 0; i < l-2; i++) {
 				if(!tubef(2+i,0,0) || !tuber(l+1,0,-(2+i)) || !tubef(2+i,0,-(l+1)) || !tuber(0,0,-(2+i))) {
-					this.problem = StatCollector.translateToLocal("gui.tubeIncomplete"); flag = false; return false;
+					this.problem = StatCollector.translateToLocal("gui.tubeIncomplete"); flag = false; complete = 0; return false;
 				}
 			}
 			if(!cornerbr(0,0,0) || !cornertr(1+l,0,0) || !cornertl(1+l,0,-(1+l)) || !cornerbl(0,0,-(1+l))) {
-				this.problem = StatCollector.translateToLocal("gui.cornerIncomplete"); flag = false; return false;
+				this.problem = StatCollector.translateToLocal("gui.cornerIncomplete"); flag = false; complete = 0; return false;
 			}
 			if(find(s,ss,0,0,-(-2)) || find(s,ss,l+1,0,-(-2)) || find(s,ss,l+3,0,0) || find(s,ss,l+3,0,-(l+1)) || find(s,ss,l+1,0,-(l+3)) || find(s,ss,0,0,-(l+3)) || find(s,ss,-2,0,-(l+1))) {
-				this.problem = StatCollector.translateToLocal("gui.multipleControllers"); flag = false; return false;
+				this.problem = StatCollector.translateToLocal("gui.multipleControllers"); flag = false; complete = 0; return false;
 			}
 		} else {
-			this.problem = StatCollector.translateToLocal("gui.ringIncomplete"); flag = false; return false;
+			this.problem = StatCollector.translateToLocal("gui.ringIncomplete"); flag = false; complete = 0; return false;
 		}
-		flag = true; return true;
+		flag = true; complete = 1; return true;
     }
 	
 	public boolean multiblock(World world, int x, int y, int z) {
-    	return checkRing();
+    	return complete == 1;
     }
 
 	public boolean multiblockstring() {
-    	return checkRing();
+    	return complete == 1;
     }
 	
 	public boolean percentageOn() {
 		int l = 0;
 		int e = 0;
 		
-		if(!checkRing()) {
+		if(complete == 0) {
 			percentageOn = 0; return false;
 		} else {
 			if (cornerbl(0,0,0)) {
@@ -464,7 +517,9 @@ public class TileSynchrotron extends TileInventory implements IEnergyHandler, IE
 		}
 		this.flag = nbt.getBoolean("flag");
 		this.flag1 = nbt.getBoolean("flag1");
+		this.complete = nbt.getInteger("complete");
 		this.length = nbt.getInteger("length");
+		this.orientation = nbt.getInteger("orientation");
 		this.fuel = nbt.getDouble("fuel");
 		this.efficiency = nbt.getDouble("efficiency");
 		this.radiationPower = nbt.getDouble("radiationPower");
@@ -492,7 +547,9 @@ public class TileSynchrotron extends TileInventory implements IEnergyHandler, IE
 		nbt.setTag("storage", energyTag);
 		nbt.setBoolean("flag", this.flag);
 		nbt.setBoolean("flag1", this.flag1);
+		nbt.setInteger("complete", this.complete);
 		nbt.setInteger("length", this.length);
+		nbt.setInteger("orientation", this.orientation);
 		nbt.setDouble("fuel", this.fuel);
 		nbt.setDouble("efficiency", this.efficiency);
 		nbt.setDouble("radiationPower", this.radiationPower);

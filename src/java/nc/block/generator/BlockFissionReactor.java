@@ -250,7 +250,7 @@ private Random rand = new Random();
 	public int getComparatorInputOverride(World world, int x, int y, int z, int i)
 	{
 		TileFissionReactor tileentity = (TileFissionReactor) world.getTileEntity(x, y, z);
-		return tileentity.heat < 999000 ? (int) Math.floor(tileentity.heat/66666) : 15;
+		return tileentity.heat < 900000 ? (int) Math.floor(tileentity.heat/66666) : 15;
 	}
 	
 	public Block idPicked(World world, int x, int y, int z)

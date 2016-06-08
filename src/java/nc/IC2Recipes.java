@@ -33,9 +33,12 @@ public final class IC2Recipes {
 		try {RecipesHelp.addMaceratorRecipe("ingotTough", 1, new ItemStack(NCItems.material, 1, 22));} catch(Exception e) {}
 		try {RecipesHelp.addMaceratorRecipe("ingotLithium", 1, new ItemStack(NCItems.material, 1, 44));} catch(Exception e) {}
 		try {RecipesHelp.addMaceratorRecipe("ingotBoron", 1, new ItemStack(NCItems.material, 1, 45));} catch(Exception e) {}
+		try {RecipesHelp.addMaceratorRecipe("ingotMagnesium", 1, new ItemStack(NCItems.material, 1, 51));} catch(Exception e) {}
+		try {RecipesHelp.addMaceratorRecipe("ingotUraniumOxide", 1, new ItemStack(NCItems.material, 1, 54));} catch(Exception e) {}
+		try {RecipesHelp.addMaceratorRecipe("ingotMagnesiumDiboride", 1, new ItemStack(NCItems.material, 1, 72));} catch(Exception e) {}
 		
 		// Compressor
-		try {RecipesHelp.addCompressorRecipe(new ItemStack(NCItems.parts, 1, 0), 5, new ItemStack(NCItems.parts, 1, 3));} catch(Exception e) {}
+		try {RecipesHelp.addCompressorRecipe(new ItemStack(NCItems.parts, 1, 0), NuclearCraft.workspace ? 4 : 8, new ItemStack(NCItems.parts, 1, 3));} catch(Exception e) {}
 		try {RecipesHelp.addCompressorRecipe("ingotTough", 1, new ItemStack(NCItems.parts, 2, 0));} catch(Exception e) {}
 
 		// Thermal Centrifuge

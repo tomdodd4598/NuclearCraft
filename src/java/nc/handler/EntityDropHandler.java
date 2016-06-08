@@ -2,11 +2,11 @@ package nc.handler;
 
 import java.util.Random;
 
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import nc.NuclearCraft;
 import nc.item.NCItems;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class EntityDropHandler {
 	public Random rand = new Random();

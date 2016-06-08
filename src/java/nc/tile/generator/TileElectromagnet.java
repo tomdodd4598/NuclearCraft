@@ -25,11 +25,12 @@ public class TileElectromagnet extends TileInventory implements IEnergyHandler, 
 	public boolean flag1;
 	public int energy;
 	public EnergyStorage storage;
-	public static int power = NuclearCraft.electromagnetRF;
+	public static int power = NuclearCraft.electromagnetRF*NuclearCraft.EMUpdateRate;
 	private Random rand = new Random();
+	private int tickCount = 0;
 	
 	public TileElectromagnet() {
-		storage = new EnergyStorage(power*5, power*5);
+		storage = new EnergyStorage(power*10, power*10);
 		localizedName = "Electromagnet";
 		slots = new ItemStack[1];
 	}
@@ -40,17 +41,20 @@ public class TileElectromagnet extends TileInventory implements IEnergyHandler, 
 	
 	public void updateEntity() {
 		super.updateEntity();
-		if(!this.worldObj.isRemote) energy();
-		if (flag != flag1) { flag1 = flag; BlockElectromagnet.updateBlockState(flag, this.worldObj, this.xCoord, this.yCoord, this.zCoord); }
-		if (!flag1 && this.worldObj.getBlock(xCoord, yCoord, zCoord) == NCBlocks.electromagnetIdle && (pp(xCoord + 1, yCoord, zCoord) || pp(xCoord - 1, yCoord, zCoord) || pp(xCoord, yCoord + 1, zCoord) || pp(xCoord, yCoord - 1, zCoord) || pp(xCoord, yCoord, zCoord + 1) || pp(xCoord, yCoord, zCoord - 1))) {
-			if (rand.nextFloat() > 0.995) worldObj.setBlock(xCoord, yCoord, zCoord, Blocks.air);
-		}
+		if (tickCount >= NuclearCraft.EMUpdateRate) {
+			if(!this.worldObj.isRemote) energy();
+			if (flag != flag1) { flag1 = flag; BlockElectromagnet.updateBlockState(flag, this.worldObj, this.xCoord, this.yCoord, this.zCoord); }
+			if (!flag1 && this.worldObj.getBlock(xCoord, yCoord, zCoord) == NCBlocks.electromagnetIdle && (pp(xCoord + 1, yCoord, zCoord) || pp(xCoord - 1, yCoord, zCoord) || pp(xCoord, yCoord + 1, zCoord) || pp(xCoord, yCoord - 1, zCoord) || pp(xCoord, yCoord, zCoord + 1) || pp(xCoord, yCoord, zCoord - 1))) {
+				if (rand.nextFloat() > 1 - 0.005*NuclearCraft.EMUpdateRate) worldObj.setBlock(xCoord, yCoord, zCoord, Blocks.air);
+			}
+			tickCount = 0;
+		} else tickCount ++;
 		markDirty();
 	}
 	
 	public void energy() {
 		 if (this.storage.getEnergyStored() >= power) {
-		 	this.storage.extractEnergy(power, false);
+			 this.storage.extractEnergy(power, false);
 		 	flag = true;
 		 } else {
 			 flag = false;

@@ -6,6 +6,7 @@ import nc.container.crafting.ContainerNuclearWorkspace;
 import nc.container.generator.ContainerFissionReactor;
 import nc.container.generator.ContainerFusionReactor;
 import nc.container.generator.ContainerReactionGenerator;
+import nc.container.machine.ContainerAssembler;
 import nc.container.machine.ContainerAutoWorkspace;
 import nc.container.machine.ContainerCollector;
 import nc.container.machine.ContainerCooler;
@@ -27,6 +28,7 @@ import nc.gui.crafting.GuiNuclearWorkspace;
 import nc.gui.generator.GuiFissionReactor;
 import nc.gui.generator.GuiFusionReactor;
 import nc.gui.generator.GuiReactionGenerator;
+import nc.gui.machine.GuiAssembler;
 import nc.gui.machine.GuiAutoWorkspace;
 import nc.gui.machine.GuiCollector;
 import nc.gui.machine.GuiCooler;
@@ -48,6 +50,7 @@ import nc.tile.crafting.TileNuclearWorkspace;
 import nc.tile.generator.TileFissionReactor;
 import nc.tile.generator.TileFusionReactor;
 import nc.tile.generator.TileReactionGenerator;
+import nc.tile.machine.TileAssembler;
 import nc.tile.machine.TileAutoWorkspace;
 import nc.tile.machine.TileCollector;
 import nc.tile.machine.TileCooler;
@@ -82,273 +85,148 @@ public class GuiHandler implements IGuiHandler {
 		if (entity != null) {
 			switch(ID) {
 				case 0:
-					if(entity instanceof TileNuclearFurnace)
-					{
-						return new ContainerNuclearFurnace(player.inventory, (TileNuclearFurnace) entity);
-					}
+					if(entity instanceof TileNuclearFurnace) return new ContainerNuclearFurnace(player.inventory, (TileNuclearFurnace) entity);
 					return null;
 				case 1:
-					if(entity instanceof TileFurnace)
-					{
-						return new ContainerFurnace(player.inventory, (TileFurnace) entity);
-					}
+					if(entity instanceof TileFurnace) return new ContainerFurnace(player.inventory, (TileFurnace) entity);
 					return null;
 				case 2:
-					if(entity instanceof TileCrusher)
-					{
-						return new ContainerCrusher(player.inventory, (TileCrusher) entity);
-					}
+					if(entity instanceof TileCrusher) return new ContainerCrusher(player.inventory, (TileCrusher) entity);
 					return null;
 				case 3:
-					if(entity instanceof TileElectricCrusher)
-					{
-						return new ContainerElectricCrusher(player.inventory, (TileElectricCrusher) entity);
-					}
+					if(entity instanceof TileElectricCrusher) return new ContainerElectricCrusher(player.inventory, (TileElectricCrusher) entity);
 					return null;
 				case 4:
-					if(entity instanceof TileElectricFurnace)
-					{
-						return new ContainerElectricFurnace(player.inventory, (TileElectricFurnace) entity);
-					}
+					if(entity instanceof TileElectricFurnace) return new ContainerElectricFurnace(player.inventory, (TileElectricFurnace) entity);
 					return null;
 				case 5:
-					if(entity instanceof TileReactionGenerator)
-					{
-						return new ContainerReactionGenerator(player.inventory, (TileReactionGenerator) entity);
-					}
+					if(entity instanceof TileReactionGenerator) return new ContainerReactionGenerator(player.inventory, (TileReactionGenerator) entity);
 					return null;
 				case 6:
-					if(entity instanceof TileSeparator)
-					{
-						return new ContainerSeparator(player.inventory, (TileSeparator) entity);
-					}
+					if(entity instanceof TileSeparator) return new ContainerSeparator(player.inventory, (TileSeparator) entity);
 					return null;
 				case 7:
-					if(entity instanceof TileHastener)
-					{
-						return new ContainerHastener(player.inventory, (TileHastener) entity);
-					}
+					if(entity instanceof TileHastener) return new ContainerHastener(player.inventory, (TileHastener) entity);
 					return null;
 				case 8:
-					if(entity instanceof TileFissionReactor)
-					{
-						return new ContainerFissionReactor(player.inventory, (TileFissionReactor) entity);
-					}
+					if(entity instanceof TileFissionReactor) return new ContainerFissionReactor(player.inventory, (TileFissionReactor) entity);
 					return null;
 				case 9:
-					if(ID == NuclearCraft.guiIdNuclearWorkspace) {
-						return new ContainerNuclearWorkspace(player.inventory, world, x, y, z);
-					}
+					if(ID == NuclearCraft.guiIdNuclearWorkspace) return new ContainerNuclearWorkspace(player.inventory, world, x, y, z);
 					return null;
 				case 10:
-					if(entity instanceof TileCollector)
-					{
-						return new ContainerCollector(player.inventory, (TileCollector) entity);
-					}
+					if(entity instanceof TileCollector) return new ContainerCollector(player.inventory, (TileCollector) entity);
 					return null;
 				case 11:
-					if(entity instanceof TileFusionReactor)
-					{
-						return new ContainerFusionReactor(player.inventory, (TileFusionReactor) entity);
-					}
+					if(entity instanceof TileFusionReactor) return new ContainerFusionReactor(player.inventory, (TileFusionReactor) entity);
 					return null;
 				case 12:
-					if(entity instanceof TileElectrolyser)
-					{
-						return new ContainerElectrolyser(player.inventory, (TileElectrolyser) entity);
-					}
+					if(entity instanceof TileElectrolyser) return new ContainerElectrolyser(player.inventory, (TileElectrolyser) entity);
 					return null;
 				case 13:
-					if(entity instanceof TileOxidiser)
-					{
-						return new ContainerOxidiser(player.inventory, (TileOxidiser) entity);
-					}
+					if(entity instanceof TileOxidiser) return new ContainerOxidiser(player.inventory, (TileOxidiser) entity);
 					return null;
 				case 14:
-					if(entity instanceof TileIoniser)
-					{
-						return new ContainerIoniser(player.inventory, (TileIoniser) entity);
-					}
+					if(entity instanceof TileIoniser) return new ContainerIoniser(player.inventory, (TileIoniser) entity);
 					return null;
 				case 15:
-					if(entity instanceof TileIrradiator)
-					{
-						return new ContainerIrradiator(player.inventory, (TileIrradiator) entity);
-					}
+					if(entity instanceof TileIrradiator) return new ContainerIrradiator(player.inventory, (TileIrradiator) entity);
 					return null;
 				case 16:
-					if(entity instanceof TileCooler)
-					{
-						return new ContainerCooler(player.inventory, (TileCooler) entity);
-					}
+					if(entity instanceof TileCooler) return new ContainerCooler(player.inventory, (TileCooler) entity);
 					return null;
 				case 17:
-					if(entity instanceof TileFactory)
-					{
-						return new ContainerFactory(player.inventory, (TileFactory) entity);
-					}
+					if(entity instanceof TileFactory) return new ContainerFactory(player.inventory, (TileFactory) entity);
 					return null;
 				case 18:
-					if(entity instanceof TileHeliumExtractor)
-					{
-						return new ContainerHeliumExtractor(player.inventory, (TileHeliumExtractor) entity);
-					}
+					if(entity instanceof TileHeliumExtractor) return new ContainerHeliumExtractor(player.inventory, (TileHeliumExtractor) entity);
 					return null;
 				case 19:
-					if(entity instanceof TileSynchrotron)
-					{
-						return new ContainerSynchrotron(player.inventory, (TileSynchrotron) entity);
-					}
+					if(entity instanceof TileSynchrotron) return new ContainerSynchrotron(player.inventory, (TileSynchrotron) entity);
 					return null;
 				case 20:
-					if(entity instanceof TileAutoWorkspace)
-					{
-						return new ContainerAutoWorkspace(player.inventory, (TileAutoWorkspace) entity);
-					}
+					if(entity instanceof TileAutoWorkspace) return new ContainerAutoWorkspace(player.inventory, (TileAutoWorkspace) entity);
+					return null;
+				case 21:
+					if(entity instanceof TileAssembler) return new ContainerAssembler(player.inventory, (TileAssembler) entity);
 					return null;
 			}
 		}
-		
 		return null;
 	}
 
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		TileEntity entity = world.getTileEntity(x, y, z);
-		
-		if (entity != null)
-		{
-			switch(ID)
-			{
+		if (entity != null) {
+			switch(ID) {
 				case 0:
-					if(entity instanceof TileNuclearFurnace)
-					{
-						return new GuiNuclearFurnace(player.inventory, (TileNuclearFurnace) entity);
-					}
+					if(entity instanceof TileNuclearFurnace) return new GuiNuclearFurnace(player.inventory, (TileNuclearFurnace) entity);
 					return null;
 				case 1:
-					if(entity instanceof TileFurnace)
-					{
-						return new GuiFurnace(player.inventory, (TileFurnace) entity);
-					}
+					if(entity instanceof TileFurnace) return new GuiFurnace(player.inventory, (TileFurnace) entity);
 					return null;
 				case 2:
-					if(entity instanceof TileCrusher)
-					{
-						return new GuiCrusher(player.inventory, (TileCrusher) entity);
-					}
+					if(entity instanceof TileCrusher) return new GuiCrusher(player.inventory, (TileCrusher) entity);
 					return null;
 				case 3:
-					if(entity instanceof TileElectricCrusher)
-					{
-						return new GuiElectricCrusher(player.inventory, (TileElectricCrusher) entity);
-					}
+					if(entity instanceof TileElectricCrusher) return new GuiElectricCrusher(player.inventory, (TileElectricCrusher) entity);
 					return null;
 				case 4:
-					if(entity instanceof TileElectricFurnace)
-					{
-						return new GuiElectricFurnace(player.inventory, (TileElectricFurnace) entity);
-					}
+					if(entity instanceof TileElectricFurnace) return new GuiElectricFurnace(player.inventory, (TileElectricFurnace) entity);
 					return null;
 				case 5:
-					if(entity instanceof TileReactionGenerator)
-					{
-						return new GuiReactionGenerator(player.inventory, (TileReactionGenerator) entity);
-					}
+					if(entity instanceof TileReactionGenerator) return new GuiReactionGenerator(player.inventory, (TileReactionGenerator) entity);
 					return null;
 				case 6:
-					if(entity instanceof TileSeparator)
-					{
-						return new GuiSeparator(player.inventory, (TileSeparator) entity);
-					}
+					if(entity instanceof TileSeparator) return new GuiSeparator(player.inventory, (TileSeparator) entity);
 					return null;
 				case 7:
-					if(entity instanceof TileHastener)
-					{
-						return new GuiHastener(player.inventory, (TileHastener) entity);
-					}
+					if(entity instanceof TileHastener) return new GuiHastener(player.inventory, (TileHastener) entity);
 					return null;
 				case 8:
-					if(entity instanceof TileFissionReactor)
-					{
-							return new GuiFissionReactor(player.inventory, (TileFissionReactor) entity);
-					}
+					if(entity instanceof TileFissionReactor) return new GuiFissionReactor(player.inventory, (TileFissionReactor) entity);
 					return null;
 				case 9:
-					if(entity instanceof TileNuclearWorkspace)
-					{
-							return new GuiNuclearWorkspace(player.inventory, world, x, y, z);
-					}
+					if(entity instanceof TileNuclearWorkspace) return new GuiNuclearWorkspace(player.inventory, world, x, y, z);
 					return null;
 				case 10:
-					if(entity instanceof TileCollector)
-					{
-							return new GuiCollector(player.inventory, (TileCollector) entity);
-					}
+					if(entity instanceof TileCollector) return new GuiCollector(player.inventory, (TileCollector) entity);
 					return null;
 				case 11:
-					if(entity instanceof TileFusionReactor)
-					{
-							return new GuiFusionReactor(player.inventory, (TileFusionReactor) entity);
-					}
+					if(entity instanceof TileFusionReactor) return new GuiFusionReactor(player.inventory, (TileFusionReactor) entity);
 					return null;
 				case 12:
-					if(entity instanceof TileElectrolyser)
-					{
-							return new GuiElectrolyser(player.inventory, (TileElectrolyser) entity);
-					}
+					if(entity instanceof TileElectrolyser) return new GuiElectrolyser(player.inventory, (TileElectrolyser) entity);
 					return null;
 				case 13:
-					if(entity instanceof TileOxidiser)
-					{
-							return new GuiOxidiser(player.inventory, (TileOxidiser) entity);
-					}
+					if(entity instanceof TileOxidiser) return new GuiOxidiser(player.inventory, (TileOxidiser) entity);
 					return null;
 				case 14:
-					if(entity instanceof TileIoniser)
-					{
-							return new GuiIoniser(player.inventory, (TileIoniser) entity);
-					}
+					if(entity instanceof TileIoniser) return new GuiIoniser(player.inventory, (TileIoniser) entity);
 					return null;
 				case 15:
-					if(entity instanceof TileIrradiator)
-					{
-							return new GuiIrradiator(player.inventory, (TileIrradiator) entity);
-					}
+					if(entity instanceof TileIrradiator) return new GuiIrradiator(player.inventory, (TileIrradiator) entity);
 					return null;
 				case 16:
-					if(entity instanceof TileCooler)
-					{
-							return new GuiCooler(player.inventory, (TileCooler) entity);
-					}
+					if(entity instanceof TileCooler) return new GuiCooler(player.inventory, (TileCooler) entity);
 					return null;
 				case 17:
-					if(entity instanceof TileFactory)
-					{
-							return new GuiFactory(player.inventory, (TileFactory) entity);
-					}
+					if(entity instanceof TileFactory) return new GuiFactory(player.inventory, (TileFactory) entity);
 					return null;
 				case 18:
-					if(entity instanceof TileHeliumExtractor)
-					{
-							return new GuiHeliumExtractor(player.inventory, (TileHeliumExtractor) entity);
-					}
+					if(entity instanceof TileHeliumExtractor) return new GuiHeliumExtractor(player.inventory, (TileHeliumExtractor) entity);
 					return null;
 				case 19:
-					if(entity instanceof TileSynchrotron)
-					{
-							return new GuiSynchrotron(player.inventory, (TileSynchrotron) entity);
-					}
+					if(entity instanceof TileSynchrotron) return new GuiSynchrotron(player.inventory, (TileSynchrotron) entity);
 					return null;
 				case 20:
-					if(entity instanceof TileAutoWorkspace)
-					{
-							return new GuiAutoWorkspace(player.inventory, (TileAutoWorkspace) entity);
-					}
+					if(entity instanceof TileAutoWorkspace) return new GuiAutoWorkspace(player.inventory, (TileAutoWorkspace) entity);
+					return null;
+				case 21:
+					if(entity instanceof TileAssembler) return new GuiAssembler(player.inventory, (TileAssembler) entity);
 					return null;
 			}
 		}
-		
 		return null;
 	}
-
 }

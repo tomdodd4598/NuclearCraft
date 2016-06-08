@@ -178,7 +178,7 @@ public abstract class NCRecipeHelper {
 	 *            stack to check
 	 * @return
 	 */
-	private Object[] getInput(ItemStack... output) {
+	public Object[] getInput(ItemStack... output) {
 
 		if (output.length != outputSize) {
 			return new Object[inputSize];

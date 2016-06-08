@@ -1,4 +1,4 @@
-As of Version 1.6e.
+As of Version 1.7c.
 The Fuel Variables are used to determine the amount of Fuel used up per tick:
 fuelUsage = size*fuelVariable,
 Where size is the Size of the Fusion Reactor, and efficiency is the Efficiency of the Reactor, calculated by the Efficiency Equation:

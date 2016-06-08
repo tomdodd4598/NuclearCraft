@@ -46,6 +46,8 @@ public class ContainerFusionReactor extends Container {
     public double lastHeatVar;
     public double lastHeat;
     public double lastEfficiency;
+    
+    public int lastComplete;
 
     public ContainerFusionReactor(InventoryPlayer inventory, TileFusionReactor entity) {
         this.entity = entity;
@@ -142,6 +144,9 @@ public class ContainerFusionReactor extends Container {
             icrafting.sendProgressBarUpdate(this, 52, (int) this.entity.HE4Out >> 16);
             icrafting.sendProgressBarUpdate(this, 53, (int) this.entity.nOut);
             icrafting.sendProgressBarUpdate(this, 54, (int) this.entity.nOut >> 16);
+            
+            icrafting.sendProgressBarUpdate(this, 55, (int) this.entity.complete);
+            icrafting.sendProgressBarUpdate(this, 56, (int) this.entity.complete >> 16);
         }        
     }
 
@@ -204,6 +209,9 @@ public class ContainerFusionReactor extends Container {
         if (slot == 52){ this.entity.HE4Out = (int) this.lastHE4Out | value << 16; }
         if (slot == 53){ this.lastnOut = this.upcastShort(value); }
         if (slot == 54){ this.entity.nOut = (int) this.lastnOut | value << 16; }
+        
+        if (slot == 55){ this.lastComplete = this.upcastShort(value); }
+        if (slot == 56){ this.entity.complete = (int) this.lastComplete | value << 16; }
     }
     
     private int upcastShort(int input) {

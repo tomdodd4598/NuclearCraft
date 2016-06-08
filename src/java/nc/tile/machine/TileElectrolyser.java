@@ -9,7 +9,7 @@ public class TileElectrolyser extends TileMachine {
 	public static final int[] output = {0, 1, 2, 3, 4};
 	
 	public TileElectrolyser() {
-		super("Electrolyser", 250000, 1, 4, true, true, 20000, 2000000, NuclearCraft.electrolyserSpeed, NuclearCraft.electrolyserEfficiency, ElectrolyserRecipes.instance());
+		super("Electrolyser", 250000, 1, 4, true, true, 20000, 1000000, NuclearCraft.electrolyserSpeed, NuclearCraft.electrolyserEfficiency, ElectrolyserRecipes.instance());
 	}
 	
 	public void updateEntity() {

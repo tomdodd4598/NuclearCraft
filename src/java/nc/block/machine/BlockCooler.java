@@ -15,7 +15,7 @@ import net.minecraft.world.World;
 
 public class BlockCooler extends BlockMachine {
 	public BlockCooler(boolean active) {
-		super(active, NuclearCraft.guiIdCooler, "", "depthsuspend", "cooler");
+		super(active, NuclearCraft.guiIdCooler, "reddust", "depthsuspend", "cooler");
 	}
 	
 	public TileEntity createNewTileEntity(World world, int par1) {

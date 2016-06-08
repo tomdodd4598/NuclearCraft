@@ -22,31 +22,33 @@ public class TileSupercooler extends TileInventory implements IFluidHandler, ISi
 	public boolean flag;
 	public boolean flag1;
 	public int fluid;
-	public int counter;
 	public FluidTank tank;
-	public static int usage = NuclearCraft.electromagnetHe;
+	public static int usage = NuclearCraft.electromagnetHe*NuclearCraft.EMUpdateRate/20;
+	private int tickCount = 0;
 	
 	public TileSupercooler() {
-		tank = new FluidTank(usage*5);
+		tank = new FluidTank(usage*10);
 		localizedName = "Supercooler";
 		slots = new ItemStack[1];
 	}
 	
 	public void updateEntity() {
 		super.updateEntity();
-		if(!this.worldObj.isRemote) helium();
-		if (flag != flag1) { flag1 = flag; BlockSupercooler.updateBlockState(flag, this.worldObj, this.xCoord, this.yCoord, this.zCoord); }
+		if (tickCount >= NuclearCraft.EMUpdateRate) {
+			if(!this.worldObj.isRemote) helium();
+			if (flag != flag1) { flag1 = flag; BlockSupercooler.updateBlockState(flag, this.worldObj, this.xCoord, this.yCoord, this.zCoord); }
+			tickCount = 0;
+		} else tickCount ++;
+		/*if (soundCount >= 67) {
+			if (flag1) worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "nc:shield2", 0.5F, 1F);
+			soundCount = 0;
+		} else soundCount ++;*/
 		markDirty();
 	}
 	
 	public void helium() {
 		if (this.tank.getFluidAmount() >= usage) {
-			if (counter >= 20) {
-				this.tank.fill(new FluidStack(NuclearCraft.liquidHelium, -usage), true);
-				counter = 0;
-			} else {
-				counter ++;
-			}
+			this.tank.fill(new FluidStack(NuclearCraft.liquidHelium, -usage), true);
 			flag = true;
 		} else {
 			flag = false;
@@ -60,7 +62,6 @@ public class TileSupercooler extends TileInventory implements IFluidHandler, ISi
 		}
 		this.flag = nbt.getBoolean("flag");
 		this.flag1 = nbt.getBoolean("flag1");
-		this.counter = nbt.getInteger("counter");
 		NBTTagList list = nbt.getTagList("Items", 10);
 		this.slots = new ItemStack[this.getSizeInventory()];
 
@@ -82,7 +83,6 @@ public class TileSupercooler extends TileInventory implements IFluidHandler, ISi
 		nbt.setTag("tank", fluidTag);
 		nbt.setBoolean("flag", this.flag);
 		nbt.setBoolean("flag1", this.flag1);
-		nbt.setInteger("counter", this.counter);
 		NBTTagList list = new NBTTagList();
 
 		for (int i = 0; i < this.slots.length; ++i) {

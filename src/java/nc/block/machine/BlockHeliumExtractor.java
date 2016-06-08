@@ -15,7 +15,7 @@ import net.minecraft.world.World;
 
 public class BlockHeliumExtractor extends BlockMachine {
 	public BlockHeliumExtractor(boolean active) {
-		super(active, NuclearCraft.guiIdHeliumExtractor, "", "", "heliumExtractor");
+		super(active, NuclearCraft.guiIdHeliumExtractor, "portal", "", "heliumExtractor");
 	}
 
 	public TileEntity createNewTileEntity(World world, int par1) {

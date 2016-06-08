@@ -16,3 +16,5 @@
 15: Silver Panel
 16: Bronze Bearing
 17: MgB Wiring
+18: Computer Plate
+19: Mechanical Part

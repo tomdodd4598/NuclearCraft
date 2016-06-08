@@ -18,7 +18,7 @@ public class IrradiatorRecipes extends NCRecipeHelper {
 
 	public void addRecipes() {
 		recipeNeutron(NCItems.fuel, 1, 41, NCItems.fuel, 2, 38, NCItems.fuel, 2, 40);
-		recipeNeutron2(NCItems.fuel, 1, 42, NCItems.fuel, 2, 38, NCItems.fuel, 2, 40);
+		//recipeNeutron2(NCItems.fuel, 1, 42, NCItems.fuel, 2, 38, NCItems.fuel, 2, 40);
 		recipeNeutron(NCItems.fuel, 1, 43, NCItems.fuel, 2, 38, NCItems.fuel, 4, 40);
 	}
 	

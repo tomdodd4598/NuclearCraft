@@ -1,8 +1,0 @@
-Keep items in Heavy Duty Workspace on closing GUI
-OpenComputers and CC integration (primarily for Reactors)
-Mekanism gas support for fusion gases
-
-Particle Accelerator/Synchrotron
-Automatic Nuclear Workspace
-Fission Reactor overhaul - happening
-Fusion Reactor overhaul - almost done
