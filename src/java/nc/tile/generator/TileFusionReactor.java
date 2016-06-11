@@ -28,7 +28,7 @@ public class TileFusionReactor extends TileGenerator implements IEnergyReceiver 
 	public int size = 1;
 	public String problem = StatCollector.translateToLocal("gui.connectorsIncomplete");
     public static double h = NuclearCraft.fusionHeat/100;
-    public static double pMult = 2*NuclearCraft.fusionRF;
+    public static double pMult = 3*NuclearCraft.fusionRF/2;
     
     private int checkCount = 0;
     private int soundCount = 0;

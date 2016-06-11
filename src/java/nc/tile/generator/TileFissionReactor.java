@@ -13,14 +13,10 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.StatCollector;
-//import net.minecraft.world.World;
-//import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileFissionReactor extends TileGenerator {
 	
-	/*public int rawR = 1;
-    public int R = rawR;*/
-    private int tickCount = 0;
+	private int tickCount = 0;
     public int complete;
     
     public int x0 = 0;
@@ -33,9 +29,6 @@ public class TileFissionReactor extends TileGenerator {
     public int ly = 0;
     public int lz = 0;
     
-    /*public int D = R*2 + 1;
-    public int SR = R-1; 
-    public int SD = SR*2 + 1;*/
     public int off = 0;
     
     public int E;
@@ -46,7 +39,9 @@ public class TileFissionReactor extends TileGenerator {
     public int energy;
     public int fueltime;
 	public int fueltype;
-    public int heat;
+	public int heat;
+	public int efficiency;
+	public int numberOfCells;
     private static double pMult = NuclearCraft.fissionRF;
     private static double hMult = NuclearCraft.fissionHeat;
     public String typeoffuel = StatCollector.translateToLocal("gui.noFuel");
@@ -63,17 +58,14 @@ public class TileFissionReactor extends TileGenerator {
     	super.updateEntity();
     	if(!this.worldObj.isRemote) {
     		checkStructure();
-        	//checkReactor();
-    		product();
+        	product();
     		fuel();
     		energy();
-    		//overheat(worldObj, this.xCoord, this.yCoord, this.zCoord, 15 + 5*R, BombType.BOMB_STANDARD);
     		overheat();
     		addEnergy();
     	}
     	typeoffuelx();
-    	//upgrade();
-        if (flag != flag1) {
+    	if (flag != flag1) {
         	flag1 = flag;
         	BlockFissionReactor.updateBlockState(flag, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
         }
@@ -81,26 +73,14 @@ public class TileFissionReactor extends TileGenerator {
         if (this.fueltime < 0) this.fueltime = 0;
     }
     
-    /*public void overheat(World world, double x, double y, double z, float radius, BombType type) {
-    	if (this.heat > 1000000) {
-    		if (NuclearCraft.nuclearMeltdowns) {
-	    		if (this.MBNumber == 3) {
-	    			NCExplosion.createExplosion(new EntityBomb(world).setType(type), world, (double)this.xCoord, (double)this.yCoord + R, (double)this.zCoord - R, 6 + 4*R, 1000F, true);
-	    		} else if (this.MBNumber == 4) {
-	    			NCExplosion.createExplosion(new EntityBomb(world).setType(type), world, (double)this.xCoord + R, (double)this.yCoord + R, (double)this.zCoord, 6 + 4*R, 1000F, true);
-	    		} else if (this.MBNumber == 2) {
-	    			NCExplosion.createExplosion(new EntityBomb(world).setType(type), world, (double)this.xCoord, (double)this.yCoord + R, (double)this.zCoord + R, 6 + 4*R, 1000F, true);
-	    		} else if (this.MBNumber == 5) {
-	    			NCExplosion.createExplosion(new EntityBomb(world).setType(type), world, (double)this.xCoord - R, (double)this.yCoord + R, (double)this.zCoord, 6 + 4*R, 1000F, true);
-	    		}
-    		} else this.heat = 1000000;
-    	}
-    }*/
-    
     public void overheat() {
     	if (this.heat >= 1000000) {
+        	
     		if (NuclearCraft.nuclearMeltdowns) {
-    			NCExplosion.createExplosion(new EntityBomb(worldObj).setType(BombType.BOMB_STANDARD), worldObj, x0 + lx/2, y0 + ly/2, z0 + lz/2, lx + ly + lz, lx + ly + lz, true);
+    			if (this.getBlockMetadata() == 4) NCExplosion.createExplosion(new EntityBomb(worldObj).setType(BombType.BOMB_STANDARD), worldObj, xCoord+lx/2, yCoord+ly/2, zCoord+lz/2, lx + ly + lz, lx + ly + lz, true);
+            	else if (this.getBlockMetadata() == 2) NCExplosion.createExplosion(new EntityBomb(worldObj).setType(BombType.BOMB_STANDARD), worldObj, xCoord-lz/2, yCoord+ly/2, zCoord+lx/2, lx + ly + lz, lx + ly + lz, true);
+            	else if (this.getBlockMetadata() == 5) NCExplosion.createExplosion(new EntityBomb(worldObj).setType(BombType.BOMB_STANDARD), worldObj, xCoord-lx/2, yCoord+ly/2, zCoord-lz/2, lx + ly + lz, lx + ly + lz, true);
+            	else if (this.getBlockMetadata() == 3) NCExplosion.createExplosion(new EntityBomb(worldObj).setType(BombType.BOMB_STANDARD), worldObj, xCoord+lz/2, yCoord+ly/2, zCoord-lx/2, lx + ly + lz, lx + ly + lz, true);
     		} else this.heat = 1000000;
     	}
     }
@@ -251,7 +231,7 @@ public class TileFissionReactor extends TileGenerator {
 	            	baseHeat = NuclearCraft.baseHeatHEPOx;
 	        	}
 	        	
-	        	energyThisTick += baseRF*(pMult/100 + this.heat/1000000)*(numberOfCells + 2*adj1 + 3*adj2 + 4*adj3 + 5*adj4 + 6*adj5 + 7*adj6)*Math.cbrt(lx - 2 + ly - 2 + lz - 2);
+	        	energyThisTick += baseRF*(pMult/100 + this.heat/1000000)*(numberOfCells + 2*adj1 + 3*adj2 + 4*adj3 + 5*adj4 + 6*adj5 + 7*adj6)*Math.cbrt((lx - 2)*(ly - 2)*(lz - 2));
 	        	heatThisTick += baseHeat*(numberOfCells + 3*adj1 + 6*adj2 + 10*adj3 + 15*adj4 + 21*adj5 + 28*adj6);
 	        	fuelThisTick += (numberOfCells + adj1 + adj2 + adj3 + adj4 + adj5 + adj6)*baseFuel/NuclearCraft.fissionEfficiency;
 	        	
@@ -337,7 +317,7 @@ public class TileFissionReactor extends TileGenerator {
 	            	baseHeat = NuclearCraft.baseHeatHEPOx;
 	        	}
 	        	
-	        	fakeEnergyThisTick += baseRF*(pMult/100 + this.heat/1000000)*(numberOfCells + 2*adj1 + 3*adj2 + 4*adj3 + 5*adj4 + 6*adj5 + 7*adj6)*Math.cbrt(lx - 2 + ly - 2 + lz - 2);
+	        	fakeEnergyThisTick += baseRF*(pMult/100 + this.heat/1000000)*(numberOfCells + 2*adj1 + 3*adj2 + 4*adj3 + 5*adj4 + 6*adj5 + 7*adj6)*Math.cbrt((lx - 2)*(ly - 2)*(lz - 2));
 	    		fakeHeatThisTick += baseHeat*(hMult/100)*(numberOfCells + 3*adj1 + 6*adj2 + 10*adj3 + 15*adj4 + 21*adj5 + 28*adj6);
 	        	
 	    		for (int z = z0 + 1; z <= z1 - 1; z++) {
@@ -408,6 +388,10 @@ public class TileFissionReactor extends TileGenerator {
 	        H = (int) (heatThisTick + fakeHeatThisTick);
 	        HReal = (int) heatThisTick;
 	        
+	        if (complete == 1) efficiency = (int) (100*(energyThisTick + fakeEnergyThisTick)/(baseRF*(pMult/100)*(numberOfCells + adj1 + adj2 + adj3 + adj4 + adj5 + adj6)*Math.cbrt((lx - 2)*(ly - 2)*(lz - 2)))); else efficiency = 0;
+	        
+	        if (complete == 1) this.numberOfCells = (int) ((numberOfCells + adj1 + adj2 + adj3 + adj4 + adj5 + adj6)); else this.numberOfCells = 0;
+	        
 	        tickCount = 0;
 		} else tickCount ++;
     	
@@ -456,34 +440,6 @@ public class TileFissionReactor extends TileGenerator {
             off = 1;
         }
     }
-    
-    /*private void upgrade() {
-        ItemStack stack = this.getStackInSlot(2);
-
-        if (stack != null && isUpgrade(stack)) {
-        	R = (int) (rawR + stack.stackSize);
-        	D = R*2 + 1;
-            SR = R-1; 
-            SD = SR*2 + 1;
-        	
-        	if (R != rawR) {
-        	}
-
-            if (this.slots[2].stackSize <= 0) {
-            	R = rawR;
-            	D = R*2 + 1;
-                SR = R-1; 
-                SD = SR*2 + 1;
-                this.slots[2] = null;
-            }
-        }
-        else {
-	        R = rawR;
-	        D = R*2 + 1;
-	        SR = R-1; 
-	        SD = SR*2 + 1;
-        }
-    }*/
     
     private void product() {
         if (this.slots[1] == null && this.fueltime <= 0 && this.fueltype != 0) {    
@@ -600,11 +556,6 @@ public class TileFissionReactor extends TileGenerator {
         this.problem = nbt.getString("problem");
         this.fueltime = nbt.getInteger("Fueltime");
         this.fueltype = nbt.getInteger("Fueltype");
-        /*this.rawR = nbt.getInteger("rawR");
-        this.R = nbt.getInteger("R");
-        this.SR = nbt.getInteger("SR");
-        this.D = nbt.getInteger("D");
-        this.SD = nbt.getInteger("SD");*/
         
         this.x0 = nbt.getInteger("x0");
         this.y0 = nbt.getInteger("y0");
@@ -621,6 +572,8 @@ public class TileFissionReactor extends TileGenerator {
         this.off = nbt.getInteger("off");
         this.MBNumber = nbt.getInteger("MBN");
         this.heat = nbt.getInteger("Heat");
+        this.efficiency = nbt.getInteger("efficiency");
+        this.numberOfCells = nbt.getInteger("numberOfCells");
         this.EReal = nbt.getInteger("EReal");
         this.HReal = nbt.getInteger("HReal");
         this.FReal = nbt.getInteger("FReal");
@@ -634,11 +587,6 @@ public class TileFissionReactor extends TileGenerator {
 		nbt.setTag("storage", energyTag);
         nbt.setInteger("Fueltime", this.fueltime);
         nbt.setInteger("Fueltype", this.fueltype);
-        /*nbt.setInteger("rawR", this.rawR);
-        nbt.setInteger("R", this.R);
-        nbt.setInteger("SR", this.SR);
-        nbt.setInteger("D", this.D);
-        nbt.setInteger("SD", this.SD);*/
         
         nbt.setInteger("x0", this.x0);
         nbt.setInteger("y0", this.y0);
@@ -655,6 +603,8 @@ public class TileFissionReactor extends TileGenerator {
         nbt.setInteger("off", this.off);
         nbt.setInteger("MBN", this.MBNumber);
         nbt.setInteger("Heat", this.heat);
+        nbt.setInteger("efficiency", this.efficiency);
+        nbt.setInteger("numberOfCells", this.numberOfCells);
         nbt.setString("Typeoffuel", this.typeoffuel);
         nbt.setString("problem", this.problem);
         nbt.setInteger("EReal", this.EReal);
@@ -857,91 +807,4 @@ public class TileFissionReactor extends TileGenerator {
 			return complete == 1;
 		}
     }
-    
-    /*private boolean checkReactor() {
-    	if (tickCount >= NuclearCraft.fissionUpdateRate) {
-	    	ForgeDirection forward = ForgeDirection.getOrientation(this.getBlockMetadata()).getOpposite();
-	    	int x = xCoord + R * forward.offsetX;
-	    	int y = yCoord;
-	    	int z = zCoord + R * forward.offsetZ;
-	
-	    	for (int Z4 = -R; Z4 <= R; Z4++) {
-	    		for (int X4 = -R; X4 <= R; X4++) {
-	    			for (int Y4 = 0; Y4 <= 2*R; Y4++) {
-	    				if(this.worldObj.getBlock(x + X4, y + Y4, z + Z4)==NCBlocks.fissionReactorGraphiteIdle || this.worldObj.getBlock(x + X4, y + Y4, z + Z4)==NCBlocks.fissionReactorGraphiteActive) {
-	    					if (x + X4 == this.xCoord && y + Y4 == this.yCoord && z + Z4 == this.zCoord) {} else {
-	    						this.problem = StatCollector.translateToLocal("gui.multipleControllers");
-	    						complete = 0;
-	    						return false;
-	    					}
-	    				}
-	    			}
-	    		}
-	    	}
-	    	  
-	    	for (int Z1 = -SR; Z1 <= SR; Z1++) {
-	    		for (int X1 = -SR; X1 <= SR; X1++) {
-	    			if(this.worldObj.getBlock(x + X1, y, z + Z1)!=NCBlocks.reactorBlock) {
-	    				this.problem = StatCollector.translateToLocal("gui.casingIncomplete");
-	    				complete = 0;
-	    				return false;
-	    			}
-	    			if(this.worldObj.getBlock(x + X1, y+D-1, z + Z1)!=NCBlocks.reactorBlock) {
-	    				this.problem = StatCollector.translateToLocal("gui.casingIncomplete");
-	    				complete = 0;
-	    				return false;
-	    			}
-	    		}
-	    	}
-	    	for (int Y2 = 1; Y2 <= SD; Y2++) {
-	    		for (int XZ = -SR; XZ <= SR; XZ++) {
-	    			if(this.worldObj.getBlock(x-R, y+Y2, z+XZ)!=NCBlocks.reactorBlock) {
-	    				this.problem = StatCollector.translateToLocal("gui.casingIncomplete");
-	    				complete = 0;
-	    				return false;
-	    			}
-	    			if(this.worldObj.getBlock(x+R, y+Y2, z+XZ)!=NCBlocks.reactorBlock) {
-	    				this.problem = StatCollector.translateToLocal("gui.casingIncomplete");
-	    				complete = 0;
-	    				return false;
-	    			}
-	    			if(x!=R&&x!=-R) {
-	    				if(this.worldObj.getBlock(x+XZ, y+Y2, z+R)!=NCBlocks.reactorBlock) {
-	    					this.problem = StatCollector.translateToLocal("gui.casingIncomplete");
-	    					complete = 0;
-	    					return false;
-	    				}
-	    				if(this.worldObj.getBlock(x+XZ, y+Y2, z-R)!=NCBlocks.reactorBlock) {
-	    					this.problem = StatCollector.translateToLocal("gui.casingIncomplete");
-	    					complete = 0;
-	    					return false;
-	    				}
-	    				/if(this.worldObj.getBlock(x, y+Y2, z)!=NCBlocks.cellBlock) {
-	    					this.problem = StatCollector.translateToLocal("gui.fuelRodIncomplete");
-	    					complete = 0;
-	    					return false;
-	    				}/
-	    			}
-	    		}
-	    	}
-	    	for (int Z3 = -SR; Z3 <= SR; Z3++) {
-	    		for (int X3 = -SR; X3 <= SR; X3++) {
-	    			for (int Y3 = 1; Y3 <= SD; Y3++) {
-	    				if(this.worldObj.getBlock(x + X3, y + Y3, z + Z3)==NCBlocks.reactorBlock) {
-	    					this.problem = StatCollector.translateToLocal("gui.casingInInterior");
-	    					complete = 0;
-	    					return false;
-	    				}
-	    			}
-	    		}
-	    	}
-	    	this.MBNumber = this.getBlockMetadata();
-	    	complete = 1;
-	    	tickCount = 0;
-	    	return true;
-    	} else {
-    		tickCount ++;
-    		return complete == 1;
-    	}
-    }*/
 }

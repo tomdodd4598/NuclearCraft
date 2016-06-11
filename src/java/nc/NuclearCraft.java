@@ -161,7 +161,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 public class NuclearCraft {
 	public static final String modid = "NuclearCraft";
-	public static final String version = "1.7c";
+	public static final String version = "1.7d";
 	 
 	public static final CreativeTabs tabNC = new CreativeTabs("tabNC") {
 		// Creative Tab Shown Item
@@ -593,7 +593,7 @@ public class NuclearCraft {
 		reactionGeneratorRF = config.getInt("Reaction Generator RF Production Multiplier", "1.1: RF Generators", 100, 10, 1000, "");
 		reactionGeneratorEfficiency = config.getInt("Reaction Generator Efficiency Multiplier", "1.1: RF Generators", 100, 10, 1000, "");
 		RTGRF = config.getInt("RTG RF/t", "1.1: RF Generators", 150, 10, 1000, "");
-		WRTGRF = config.getInt("WRTG RF/t", "1.1: RF Generators", 4, 1, 50, "");
+		WRTGRF = config.getInt("WRTG RF/t", "1.1: RF Generators", 5, 1, 50, "");
 		solarRF = config.getInt("Solar Panel RF/t", "1.1: RF Generators", 10, 1, 100, "");
 		nuclearFurnaceCookSpeed = config.getInt("Nuclear Furnace Speed Multiplier", "1.2: Non-RF Machines", 100, 10, 1000, "");
 		nuclearFurnaceCookEfficiency = config.getInt("Nuclear Furnace Fuel Usage Multiplier", "1.2: Non-RF Machines", 100, 10, 1000, "");

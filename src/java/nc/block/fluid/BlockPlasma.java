@@ -96,7 +96,7 @@ public class BlockPlasma extends BlockFluidClassic {
     		}
     	} else tickCount ++;*/
     	super.updateTick(world, x, y, z, rand);
-    	if (f(world, x, y - 1, z) && world.getBlock(x, y + 1, z) != NCBlocks.blockFusionPlasma) {
+    	if (f(world, x, y - 1, z) && world.getBlock(x, y + 1, z) != NCBlocks.blockFusionPlasma && !isSourceBlock(world, x, y, z)) {
     		if (rand1.nextFloat() > 0.3F) world.setBlock(x, y, z, Blocks.fire);
     	}
     }

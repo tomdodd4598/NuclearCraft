@@ -25,6 +25,8 @@ public class ContainerFissionReactor extends Container {
     public int lastHReal;
     public int lastFReal;
     public int lastComplete;
+    public int lastEfficiency;
+    public int lastNumberOfCells;
 
     public int lastlx;
     public int lastly;
@@ -33,19 +35,18 @@ public class ContainerFissionReactor extends Container {
     public ContainerFissionReactor(InventoryPlayer inventory, TileFissionReactor entity) {
         this.entity = entity;
         
-        this.addSlotToContainer(new Slot(entity, 0, 68, 60));
-        this.addSlotToContainer(new SlotFurnace(inventory.player, entity, 1, 148, 60));
-        this.addSlotToContainer(new Slot(entity, 2, 152, 36));
+        this.addSlotToContainer(new Slot(entity, 0, 68, 71));
+        this.addSlotToContainer(new SlotFurnace(inventory.player, entity, 1, 148, 71));
         
 
         for (int i = 0; i < 3; ++i) {
             for (int j = 0; j < 9; ++j) {
-                this.addSlotToContainer(new Slot(inventory, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
+                this.addSlotToContainer(new Slot(inventory, j + i * 9 + 9, 8 + j * 18, 95 + i * 18));
             }
         }
 
         for (int i = 0; i < 9; ++i) {
-            this.addSlotToContainer(new Slot(inventory, i, 8 + i * 18, 142));
+            this.addSlotToContainer(new Slot(inventory, i, 8 + i * 18, 153));
         }
     }
 
@@ -97,6 +98,12 @@ public class ContainerFissionReactor extends Container {
             icrafting.sendProgressBarUpdate(this, 26, this.entity.ly >> 16);
             icrafting.sendProgressBarUpdate(this, 27, this.entity.lz);
             icrafting.sendProgressBarUpdate(this, 28, this.entity.lz >> 16);
+            
+            icrafting.sendProgressBarUpdate(this, 29, this.entity.efficiency);
+            icrafting.sendProgressBarUpdate(this, 30, this.entity.efficiency >> 16);
+            
+            icrafting.sendProgressBarUpdate(this, 31, this.entity.numberOfCells);
+            icrafting.sendProgressBarUpdate(this, 32, this.entity.numberOfCells >> 16);
         }    
     }
 
@@ -137,6 +144,12 @@ public class ContainerFissionReactor extends Container {
         if (slot == 26){ this.entity.ly = this.lastly | value << 16; }
         if (slot == 27){ this.lastlz = this.upcastShort(value); }
         if (slot == 28){ this.entity.lz = this.lastlz | value << 16; }
+        
+        if (slot == 29){ this.lastEfficiency = this.upcastShort(value); }
+        if (slot == 30){ this.entity.efficiency = this.lastEfficiency | value << 16; }
+        
+        if (slot == 31){ this.lastNumberOfCells = this.upcastShort(value); }
+        if (slot == 32){ this.entity.numberOfCells = this.lastNumberOfCells | value << 16; }
     }
     
     private int upcastShort(int input) {
@@ -152,23 +165,19 @@ public class ContainerFissionReactor extends Container {
             ItemStack itemstack1 = slot.getStack();
             itemstack = itemstack1.copy();
 
-            if (clickedSlotNumber != 2 && clickedSlotNumber != 1 && clickedSlotNumber != 0) {
+            if (clickedSlotNumber != 1 && clickedSlotNumber != 0) {
                 if (TileFissionReactor.isFuel(itemstack1)) {
                     if (!this.mergeItemStack(itemstack1, 0, 1, false)) {
                         return null;
                     }
-                } else if (TileFissionReactor.isUpgrade(itemstack1)) {
-                    if (!this.mergeItemStack(itemstack1, 2, 3, false)) {
+                } else if (clickedSlotNumber >= 2 && clickedSlotNumber < 29) {
+                    if (!this.mergeItemStack(itemstack1, 29, 38, false)) {
                         return null;
                     }
-                } else if (clickedSlotNumber >= 3 && clickedSlotNumber < 30) {
-                    if (!this.mergeItemStack(itemstack1, 30, 39, false)) {
-                        return null;
-                    }
-                } else if (clickedSlotNumber >= 30 && clickedSlotNumber < 39 && !this.mergeItemStack(itemstack1, 3, 30, false)) {
+                } else if (clickedSlotNumber >= 29 && clickedSlotNumber < 38 && !this.mergeItemStack(itemstack1, 2, 29, false)) {
                     return null;
                 }
-            } else if (!this.mergeItemStack(itemstack1, 3, 39, false)) {
+            } else if (!this.mergeItemStack(itemstack1, 2, 38, false)) {
                 return null;
             }
             if (itemstack1.stackSize == 0) {
