@@ -1,3 +1,11 @@
+v1.7d
+
+* Fixed major bug where overheating Fission Reactors would cause stupendous lag
+* Removed upgrade slot from Fission Reactor
+* Minor texture and GUI changes for Fission Reactor
+* Slightly tweaked Fusion RF generation
+* Other minor bug fixes
+
 v1.7c
 
 * Fission Reactors no longer require upgrades!
@@ -27,7 +35,7 @@ v1.7c
 
 v1.7b
 
-* Bug fixes
+* Fixed bug with non-RF machines where automation was not possible
 
 v1.7a
 
