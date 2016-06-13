@@ -12,15 +12,15 @@ YouTube Channel: https://www.youtube.com/c/NuclearCraftMod
 
 CurseForge Page: http://minecraft.curseforge.com/projects/nuclearcraft-mod
 
-Uses Minecraft Forge
+Uses Minecraft Forge and the Redstone Flux API
 
-Redstone Flux compatibility
+Complex multiblock Fission Reactors
 
-Fission reactors
+Epic multiblock Fusion Reactors
 
-Fusion reactors
+Huge, late game Particle Accelerators
 
-Electric machines and generators
+Unique electric machines and generators
 
 IC2 and Mekanism support
 
@@ -30,19 +30,15 @@ More tools and armour
 
 NEI compatibility
 
-Much More
+Much more
 
 
 Planned
 -------
 
-Realistic Mathematical Physics
+Realistic Quantum Physics
 
-Particle Accelerators:
-
-Accelerator Controller
-
-Electromagnet Tunnel
+Particle Accelerators
 
 Advanced Particle Detectors
 
@@ -65,4 +61,4 @@ Other Awesome Stuff
 Permissions
 -----------
 
-Feel free to go ahead and use this mod and its code if you wish! I love the idea of giving out the mod in exchange for additions to it by others who want to help - at the end of the day, if this mod is getting better, I'm happy ;)
+Feel free to go ahead and use this mod if you wish! I love the idea of giving out the mod in exchange for additions to it by others who want to help - at the end of the day, if this mod is getting better, I'm happy ;)
