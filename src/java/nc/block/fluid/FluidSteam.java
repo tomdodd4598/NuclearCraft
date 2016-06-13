@@ -7,7 +7,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class FluidSteam extends Fluid {
 	public FluidSteam() {
-		super("steamNC");
+		super("steam");
 	}
 
 	@SideOnly(Side.CLIENT)

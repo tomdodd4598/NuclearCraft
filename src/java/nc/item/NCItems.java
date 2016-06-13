@@ -58,10 +58,8 @@ public class NCItems {
 	public static Item parts;
 	
 	public static Item dominoes;
-	public static Item upgrade;
 	public static Item upgradeSpeed;
 	public static Item upgradeEnergy;
-	public static Item ringUpgrade;
 	public static Item tabItem;
 	
 	public static Item nuclearGrenade;
@@ -74,4 +72,5 @@ public class NCItems {
 	public static Item recordPractice;
 	public static Item recordArea51;
 	public static Item recordNeighborhood;
+	public static Item blank;
 }

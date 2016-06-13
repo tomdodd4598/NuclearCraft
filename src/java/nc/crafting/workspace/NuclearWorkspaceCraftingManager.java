@@ -56,7 +56,6 @@ public class NuclearWorkspaceCraftingManager
 	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.parts, 1, 7), true, new Object[] {" NNN ", "NWWWN", "NWWWN", " NNN ", 'N', "plateTin", 'W', new ItemStack(NCItems.fuel, 1, 34)}));
 	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.parts, 2, 8), true, new Object[] {" WW ", "WNNW", "WNNW", " WW ", 'N', "plateReinforced", 'W', "U238"}));
 	    	
-	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.upgrade, 1), true, new Object[] {"TTT", "TNT", "TTT", 'N', "plateReinforced", 'T', Items.redstone}));
 	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.upgradeSpeed, 1), true, new Object[] {"TTT", "TNT", "TTT", 'N', "plateIron", 'T', "dustLapis"}));
 	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.upgradeEnergy, 1), true, new Object[] {"TTT", "TNT", "TTT", 'N', "plateIron", 'T', "universalReactant"}));
 	    	

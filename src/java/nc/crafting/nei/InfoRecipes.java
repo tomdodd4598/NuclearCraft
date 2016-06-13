@@ -31,7 +31,7 @@ public class InfoRecipes {
 	
 	private InfoRecipes() {
 		
-		addRecipe(new ItemStack(NCBlocks.fissionReactorGraphiteIdle), "-Nuclear fuel types below--Check uses in NEI for more-info:-"+text("gui.LEU")+"      "+text("gui.HEU")+"      "+text("gui.LEU-Ox")+"      "+text("gui.HEU-Ox")+"-"+text("gui.LEP")+"      "+text("gui.HEP")+"      "+text("gui.LEP-Ox")+"      "+text("gui.HEP-Ox")+"-"+text("gui.MOX")+"      "+text("gui.TBU")+"-Requires fission multiblock-structure to function");
+		addRecipe(new ItemStack(NCBlocks.fissionReactorGraphiteIdle), "-Nuclear fuel types below-Check uses in NEI-for more info:--"+text("gui.LEU")+"     "+text("gui.HEU")+"     "+text("gui.LEUOx")+"     "+text("gui.HEUOx")+"-"+text("gui.LEP")+"     "+text("gui.HEP")+"     "+text("gui.LEPOx")+"     "+text("gui.HEPOx")+"-"+text("gui.MOX")+"     "+text("gui.TBU")+"--Requires fission multiblock-structure to function");
 		addRecipe(new ItemStack(NCBlocks.reactionGeneratorIdle), "-Uses nuclear fuel-and Universal Reactant-as the catalyst to-generate " + (TileReactionGenerator.power) + " RF/t");
 		addRecipe(new ItemStack(NCBlocks.nuclearFurnaceIdle), "-Smelts items very fast-and uses simple nuclear fuels");
 		addRecipe(new ItemStack(NCBlocks.furnaceIdle), "-A more efficient furnace");
@@ -40,7 +40,7 @@ public class InfoRecipes {
 		addRecipe(new ItemStack(NCBlocks.electricFurnaceIdle), "-Uses RF to smelt items-efficiently--Can accept speed and-efficiency upgrades");
 		addRecipe(new ItemStack(NCBlocks.separatorIdle), "-Uses RF to separate-materials into their different-isotopes--Can accept speed and-efficiency upgrades");
 		addRecipe(new ItemStack(NCBlocks.hastenerIdle), "-Uses RF to cause-radioactive materials to-decay quickly--Can accept speed and-efficiency upgrades");
-		addRecipe(new ItemStack(NCBlocks.cellBlock), "-Required in the construction-of Fission Reactors--Adjacent blocks will generate-extra power and heat--If adjacent to n other Cell-Compartments, it will generate n-times the power and-n(n+1)/2 times the heat");
+		addRecipe(new ItemStack(NCBlocks.cellBlock), "-Used in the construction-of Fission Reactors--Adjacent blocks will generate-extra power and heat--If adjacent to n other Cell-Compartments, it will generate n+1-times the power and-(n+1)(n+2)/2 times the heat");
 		addRecipe(new ItemStack(NCBlocks.reactorBlock), "-Simple block that makes up-the exterior of Fission-Reactors");
 		addRecipe(new ItemStack(NCBlocks.machineBlock), "-Used in the construction of-many machines");
 		addRecipe(new ItemStack(NCBlocks.blastBlock), "-Three times as blast-resistant as obsidian--Can resist nuke explosions");
@@ -69,13 +69,13 @@ public class InfoRecipes {
 		addRecipe(new ItemStack(NCBlocks.simpleQuantumDown), "-A block that mimics the-probabilistic quantum-mechanical physics of a spin-1/2 particle, such as an-electron or a neutron");
 		addRecipe(new ItemStack(NCBlocks.blockHelium), "-Created by extraction-from supercooled Helium4-cells--Required for supercoolers-to cool down electromagnets-in a particle accelerator");
 		addRecipe(new ItemStack(NCBlocks.blockFusionPlasma), "-Created in the Fusion-Reactor due to the incredibly-high temperatures--Will leak from electromagnets-which are not powered");
+		addRecipe(new ItemStack(NCBlocks.blockSteam), "-Can be used in any-machine or generator-that uses Steam");
 		
 		addRecipe(new ItemStack(NCItems.toughBow), "-A better version of the Bow--Does more damage and has a-higher durability--Can be repaired in an Anvil-using Tough Alloy");
 		addRecipe(new ItemStack(NCItems.pistol), "-Uses Depleted Uranium-bullets--Deals big damage");
 		addRecipe(new ItemStack(NCItems.dUBullet), "-Pistol ammo");
 		addRecipe(new ItemStack(NCItems.toughAlloyPaxel), "-A multitool--Can be repaired in an Anvil-using Tough Alloy");
 		addRecipe(new ItemStack(NCItems.dUPaxel), "-A multitool--Can be repaired in an Anvil-using Depleted Uranium Plating");
-		addRecipe(new ItemStack(NCItems.upgrade), "-Used to increase the-size of Fission Reactors");
 		addRecipe(new ItemStack(NCItems.upgradeSpeed), "-Used to increase the-speed of machines--Stacked upgrades increase the-speed exponentially");
 		addRecipe(new ItemStack(NCItems.upgradeEnergy), "-Used to increase the-energy efficiency of machines--Stacked upgrades increase the-efficiency exponentially");
 		addRecipe(new ItemStack(NCItems.nuclearGrenade), "-A VERY deadly bomb--It is highly recommended-that this is kept off your-hotbar while not about-to be used");
@@ -85,35 +85,35 @@ public class InfoRecipes {
 		addRecipe(new ItemStack(NCItems.recordNeighborhood), "-Jimmy's hometown: a quiet-and green place with-roads to many great-places such as Retroland-and Downtown...");
 		addRecipe(new ItemStack(NCItems.recordPractice), "-Whenever Jimmy has some-new discoveries to test-out, his virtual practice-labs are the best places-to see what's possible...");
 		
-		fissionFuelInfo(11, NuclearCraft.baseRFLEU, NuclearCraft.baseFuelLEU, NuclearCraft.baseHeatLEU, 2);
-		fissionFuelInfo(17, NuclearCraft.baseRFLEU, NuclearCraft.baseFuelLEU, NuclearCraft.baseHeatLEU, 2);
-		fissionFuelInfo(12, NuclearCraft.baseRFHEU, NuclearCraft.baseFuelHEU, NuclearCraft.baseHeatHEU, 4);
-		fissionFuelInfo(18, NuclearCraft.baseRFHEU, NuclearCraft.baseFuelHEU, NuclearCraft.baseHeatHEU, 4);
-		fissionFuelInfo(13, NuclearCraft.baseRFLEP, NuclearCraft.baseFuelLEP, NuclearCraft.baseHeatLEP, 4);
-		fissionFuelInfo(19, NuclearCraft.baseRFLEP, NuclearCraft.baseFuelLEP, NuclearCraft.baseHeatLEP, 4);
-		fissionFuelInfo(14, NuclearCraft.baseRFHEP, NuclearCraft.baseFuelHEP, NuclearCraft.baseHeatHEP, 8);
-		fissionFuelInfo(20, NuclearCraft.baseRFHEP, NuclearCraft.baseFuelHEP, NuclearCraft.baseHeatHEP, 8);
-		fissionFuelInfo(15, NuclearCraft.baseRFMOX, NuclearCraft.baseFuelMOX, NuclearCraft.baseHeatMOX, 3);
-		fissionFuelInfo(21, NuclearCraft.baseRFMOX, NuclearCraft.baseFuelMOX, NuclearCraft.baseHeatMOX, 3);
-		fissionFuelInfo(16, NuclearCraft.baseRFTBU, NuclearCraft.baseFuelTBU, NuclearCraft.baseHeatTBU, 1);
+		fissionFuelInfo(11, NuclearCraft.baseRFLEU, NuclearCraft.baseFuelLEU, NuclearCraft.baseHeatLEU);
+		fissionFuelInfo(17, NuclearCraft.baseRFLEU, NuclearCraft.baseFuelLEU, NuclearCraft.baseHeatLEU);
+		fissionFuelInfo(12, NuclearCraft.baseRFHEU, NuclearCraft.baseFuelHEU, NuclearCraft.baseHeatHEU);
+		fissionFuelInfo(18, NuclearCraft.baseRFHEU, NuclearCraft.baseFuelHEU, NuclearCraft.baseHeatHEU);
+		fissionFuelInfo(13, NuclearCraft.baseRFLEP, NuclearCraft.baseFuelLEP, NuclearCraft.baseHeatLEP);
+		fissionFuelInfo(19, NuclearCraft.baseRFLEP, NuclearCraft.baseFuelLEP, NuclearCraft.baseHeatLEP);
+		fissionFuelInfo(14, NuclearCraft.baseRFHEP, NuclearCraft.baseFuelHEP, NuclearCraft.baseHeatHEP);
+		fissionFuelInfo(20, NuclearCraft.baseRFHEP, NuclearCraft.baseFuelHEP, NuclearCraft.baseHeatHEP);
+		fissionFuelInfo(15, NuclearCraft.baseRFMOX, NuclearCraft.baseFuelMOX, NuclearCraft.baseHeatMOX);
+		fissionFuelInfo(21, NuclearCraft.baseRFMOX, NuclearCraft.baseFuelMOX, NuclearCraft.baseHeatMOX);
+		fissionFuelInfo(16, NuclearCraft.baseRFTBU, NuclearCraft.baseFuelTBU, NuclearCraft.baseHeatTBU);
 		
-		fissionFuelInfo(59, NuclearCraft.baseRFLEUOx, NuclearCraft.baseFuelLEUOx, NuclearCraft.baseHeatLEUOx, 2);
-		fissionFuelInfo(63, NuclearCraft.baseRFLEUOx, NuclearCraft.baseFuelLEUOx, NuclearCraft.baseHeatLEUOx, 2);
-		fissionFuelInfo(60, NuclearCraft.baseRFHEUOx, NuclearCraft.baseFuelHEUOx, NuclearCraft.baseHeatHEUOx, 4);
-		fissionFuelInfo(64, NuclearCraft.baseRFHEUOx, NuclearCraft.baseFuelHEUOx, NuclearCraft.baseHeatHEUOx, 4);
-		fissionFuelInfo(61, NuclearCraft.baseRFLEPOx, NuclearCraft.baseFuelLEPOx, NuclearCraft.baseHeatLEPOx, 4);
-		fissionFuelInfo(65, NuclearCraft.baseRFLEPOx, NuclearCraft.baseFuelLEPOx, NuclearCraft.baseHeatLEPOx, 4);
-		fissionFuelInfo(62, NuclearCraft.baseRFHEPOx, NuclearCraft.baseFuelHEPOx, NuclearCraft.baseHeatHEPOx, 8);
-		fissionFuelInfo(66, NuclearCraft.baseRFHEPOx, NuclearCraft.baseFuelHEPOx, NuclearCraft.baseHeatHEPOx, 8);
+		fissionFuelInfo(59, NuclearCraft.baseRFLEUOx, NuclearCraft.baseFuelLEUOx, NuclearCraft.baseHeatLEUOx);
+		fissionFuelInfo(63, NuclearCraft.baseRFLEUOx, NuclearCraft.baseFuelLEUOx, NuclearCraft.baseHeatLEUOx);
+		fissionFuelInfo(60, NuclearCraft.baseRFHEUOx, NuclearCraft.baseFuelHEUOx, NuclearCraft.baseHeatHEUOx);
+		fissionFuelInfo(64, NuclearCraft.baseRFHEUOx, NuclearCraft.baseFuelHEUOx, NuclearCraft.baseHeatHEUOx);
+		fissionFuelInfo(61, NuclearCraft.baseRFLEPOx, NuclearCraft.baseFuelLEPOx, NuclearCraft.baseHeatLEPOx);
+		fissionFuelInfo(65, NuclearCraft.baseRFLEPOx, NuclearCraft.baseFuelLEPOx, NuclearCraft.baseHeatLEPOx);
+		fissionFuelInfo(62, NuclearCraft.baseRFHEPOx, NuclearCraft.baseFuelHEPOx, NuclearCraft.baseHeatHEPOx);
+		fissionFuelInfo(66, NuclearCraft.baseRFHEPOx, NuclearCraft.baseFuelHEPOx, NuclearCraft.baseHeatHEPOx);
 		
-		addRecipe(new ItemStack(Blocks.water), "-Generates a tiny amount-of additional power in-Fission Reactors");
-		addRecipe(new ItemStack(NCBlocks.graphiteBlock), "-Generates additional power-and heat in Fission Reactors");
+		addRecipe(new ItemStack(Blocks.water), "-Generates an extra 1 RF/t-of power per block in-Fission Reactors");
+		addRecipe(new ItemStack(NCBlocks.graphiteBlock), "-Generates additional power-and heat in Fission Reactors--In a Fission Reactor of c cells-and heat level h, each-Graphite block produces-c*(1+h/1000000)/10 times the-fuel's base power and-c/5 times the fuel's base heat");
 		
 		addRecipe(new ItemStack(NCBlocks.speedBlock), "-Causes nuclear fuels to-deplete faster in Fission-Reactors");
 		
 		coolerInfo(NCBlocks.coolerBlock, NuclearCraft.standardCool, "Doubly effective when adjacent-to another Standard Reactor-Cooler");
 		coolerInfo(NCBlocks.waterCoolerBlock, NuclearCraft.waterCool, "Doubly effective when adjacent-to Reactor Casing");
-		coolerInfo(NCBlocks.cryotheumCoolerBlock, NuclearCraft.cryotheumCool, "Doubly effective when not-adjacent to any other blocks");
+		coolerInfo(NCBlocks.cryotheumCoolerBlock, NuclearCraft.cryotheumCool, "Doubly effective when not-adjacent to any other-Cryotheum Reactor Coolers");
 		coolerInfo(NCBlocks.redstoneCoolerBlock, NuclearCraft.redstoneCool, "Doubly effective when adjacent-to a Fuel Cell Compartment");
 		coolerInfo(NCBlocks.enderiumCoolerBlock, NuclearCraft.enderiumCool, "Doubly effective when adjacent-to Graphite");
 		coolerInfo(NCBlocks.glowstoneCoolerBlock, NuclearCraft.glowstoneCool, "Quadrupally effective when-adjacent to Graphite on-all six sides");
@@ -129,17 +129,17 @@ public class InfoRecipes {
 		addRecipe(new ItemStack(NCItems.fishAndRicecake), "-At 8 in the morning he'll have-fish and a ricecake, at 10 he'll-have fish, at 12 he'll have fish-and a ricecake, at 2 he'll-have fish, at 4, just before he-trains, he'll have fish and a-ricecake, he'll train, he'll have-his fish, he'll come home and-have some more fish with a-ricecake and then have some-fish before he goes to bed");
 		
 		addRecipe(new ItemStack(NCItems.fuel, 1, 35), "-Used to oxidise and-improve fission fuels");
-		addRecipe(new ItemStack(NCItems.fuel, 1, 36), "-Fusion fuel");
-		addRecipe(new ItemStack(NCItems.fuel, 1, 37), "-Fusion fuel");
-		addRecipe(new ItemStack(NCItems.fuel, 1, 38), "-Fusion fuel");
-		addRecipe(new ItemStack(NCItems.fuel, 1, 39), "-Fusion fuel");
-		addRecipe(new ItemStack(NCItems.fuel, 1, 41), "-Fusion fuel");
-		addRecipe(new ItemStack(NCItems.fuel, 1, 42), "-Fusion fuel");
-		addRecipe(new ItemStack(NCItems.fuel, 1, 44), "-Fusion fuel");
+		addRecipe(new ItemStack(NCItems.fuel, 1, 36), "-Fusion fuel--Best combined with Boron11-or Lithium7");
+		addRecipe(new ItemStack(NCItems.fuel, 1, 37), "-Fusion fuel--Best combined with Deuterium,-Tritium, Helium3 or Lithium6");
+		addRecipe(new ItemStack(NCItems.fuel, 1, 38), "-Fusion fuel--Best combined with Deuterium-or Tritium");
+		addRecipe(new ItemStack(NCItems.fuel, 1, 39), "-Fusion fuel--Best combined with Helium3-or Lithium6");
+		addRecipe(new ItemStack(NCItems.fuel, 1, 41), "-Fusion fuel--Best combined with Deuterium-or Helium3");
+		addRecipe(new ItemStack(NCItems.fuel, 1, 42), "-Fusion fuel--Best combined with Hydrogen");
+		addRecipe(new ItemStack(NCItems.fuel, 1, 44), "-Fusion fuel--Best combined with Hydrogen");
 	}
 
-	public void fissionFuelInfo(int meta, int power, int time, int heat, int mult) {
-		addRecipe(new ItemStack(NCItems.fuel, 1, meta), "Base Power = " + power*NuclearCraft.fissionRF/100 + " RF/t-Lifetime = " + (10000000/(time*20))*NuclearCraft.fissionEfficiency + " s-Base Heat = "+ heat + " H/t-Fuel Modifier = " + mult + "" + "-* Values for a 1*1*1 Reactor-Multiply Base Power by-4 for a 3*3*3 Reactor,-9 for a 5*5*5 Reactor, etc.-Multiply Base Heat-and Base Energy by-2 for a 3*3*3 Reactor,-3 for a 5*5*5 Reactor, etc.");
+	public void fissionFuelInfo(int meta, int power, int time, int heat) {
+		addRecipe(new ItemStack(NCItems.fuel, 1, meta), "Base Power = " + power*NuclearCraft.fissionRF/100 + " RF/t-Base Lifetime = " + (10000000/(time*20))*NuclearCraft.fissionEfficiency + " s-Base Heat = "+ heat + " H/t-For a n*m*k Reactor with-c cells and efficiency e:-Multiply Base Power by:-c*(e/100)*cbrt(n*m*k)-Multiply Base Liferime by:-1/c-Heat produced is determined-by the positions of cells");
 	}
 	
 	public void coolerInfo(Block cooler, int heat, String extra) {

@@ -36,8 +36,8 @@ public class FissionRecipeHandler extends TemplateRecipeHandler {
 	}
 
 	public void loadTransferRects() {
-        transferRects.add(new RecipeTransferRect(new Rectangle(81, 44, 56, 26), "fission", new Object[0]));
-        transferRects.add(new RecipeTransferRect(new Rectangle(74, 23, 24, 18), "fission", new Object[0]));
+        transferRects.add(new RecipeTransferRect(new Rectangle(81, 56, 56, 26), "fission", new Object[0]));
+        transferRects.add(new RecipeTransferRect(new Rectangle(74, 35, 24, 18), "fission", new Object[0]));
     }
 
 	public Class<? extends GuiContainer> getGuiClass() {

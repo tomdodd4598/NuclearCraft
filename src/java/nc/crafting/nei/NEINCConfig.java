@@ -4,6 +4,7 @@ import nc.NuclearCraft;
 import nc.block.NCBlocks;
 import nc.gui.crafting.GuiNuclearWorkspace;
 import nc.gui.generator.GuiFissionReactor;
+import nc.gui.generator.GuiFusionReactor;
 import nc.gui.machine.GuiAutoWorkspace;
 import nc.gui.machine.GuiCollector;
 import nc.gui.machine.GuiCooler;
@@ -77,6 +78,8 @@ public class NEINCConfig implements IConfigureNEI {
 		//API.registerUsageHandler(new AutoWorkspaceRecipeHandler());
 		API.registerRecipeHandler(new AssemblerRecipeHandler());
 		API.registerUsageHandler(new AssemblerRecipeHandler());
+		API.registerRecipeHandler(new FusionRecipeHandler());
+		API.registerUsageHandler(new FusionRecipeHandler());
 		
 		API.registerRecipeHandler(new InfoUsageHandler());
 		
@@ -105,6 +108,7 @@ public class NEINCConfig implements IConfigureNEI {
 		API.registerGuiOverlay(GuiHeliumExtractor.class, "heliumExtracting");
 		API.registerGuiOverlay(GuiAutoWorkspace.class, "autonwcrafting");
 		API.registerGuiOverlay(GuiOxidiser.class, "assembling");
+		API.registerGuiOverlay(GuiFusionReactor.class, "fusing");
 		
 		API.hideItem(new ItemStack(NCBlocks.electricCrusherActive));
 		API.hideItem(new ItemStack(NCBlocks.electricFurnaceActive));

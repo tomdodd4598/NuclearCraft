@@ -68,6 +68,8 @@ public class FactoryRecipes extends NCRecipeHelper {
     	addRecipe(new ItemStack(Blocks.enchanting_table, 1), new ItemStack(Items.diamond, 2));
     	addRecipe(new ItemStack(Blocks.anvil, 1), new ItemStack(Blocks.iron_block, 3));
     	addRecipe(new ItemStack(Items.bucket, 1), new ItemStack(Items.iron_ingot, 3));
+    	addRecipe(new ItemStack(Items.rotten_flesh, 2), new ItemStack(Items.leather, 1));
+    	addRecipe(new ItemStack(Items.coal, 64), new ItemStack(Items.diamond, 1));
     }
 	
 	public void oreIngot(String type, int amount) {

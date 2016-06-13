@@ -96,9 +96,10 @@ public class BlockElectrolyser extends BlockMachine {
 			float y2 = (float) y + 1 + random.nextFloat() / 16.0F;
 			float z1 = (float) z + 0.5F;
 			float a = random.nextFloat() * 0.4F - 0.2F;
+			float a1 = random.nextFloat() * 0.4F - 0.2F;
 			float f = 0.52F;
 			float f1 = random.nextFloat() * 0.6F - 0.3F;
-			world.spawnParticle("splash", (double) (x1 + a), (double) (y2), (double) (z1 + a), 0.0D, 0.0D, 0.0D);
+			world.spawnParticle("splash", (double) (x1 + a), (double) (y2), (double) (z1 + a1), 0.0D, 0.0D, 0.0D);
 			world.spawnParticle("reddust", (double) (x1 - f), (double) (y1), (double) (z1 + f1), 0.0D, 0.0D, 0.0D);
 			world.spawnParticle("reddust", (double) (x1 + f), (double) (y1), (double) (z1 + f1), 0.0D, 0.0D, 0.0D);
 			world.spawnParticle("reddust", (double) (x1 + f1), (double) (y1), (double) (z1 - f), 0.0D, 0.0D, 0.0D);

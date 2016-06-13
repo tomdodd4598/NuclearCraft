@@ -87,7 +87,7 @@ public class TileElectricFurnace extends TileInventory implements IEnergyHandler
 			flag = false;
 			return false;
 		}
-		if (getRequiredEnergy < this.energyStorage.getMaxEnergyStored() && cookTime <= 0 && getRequiredEnergy < this.energyStorage.getEnergyStored()) {
+		if (getRequiredEnergy < this.energyStorage.getMaxEnergyStored() && cookTime <= 0 && getRequiredEnergy > this.energyStorage.getEnergyStored()) {
 			flag = false;
 			return false;
 		}

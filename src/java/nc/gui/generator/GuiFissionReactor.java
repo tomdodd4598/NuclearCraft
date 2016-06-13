@@ -39,13 +39,13 @@ public class GuiFissionReactor extends GuiContainer {
         String fueltype = (this.entity.fueltime == 0 ? StatCollector.translateToLocal("gui.noFuel") : this.entity.typeoffuel)+"";
         this.fontRendererObj.drawString(fueltype, 67, 60, (this.entity.complete == 1 ? -1 : 15597568));
         
-        String egen = this.entity.fueltime == 0 ? 0 + " RF/t" : (this.entity.E < 100000 ? (this.entity.E)+" RF/t" : ((int)(Math.round(this.entity.E/1000))) + " kRF/t");
+        String egen = this.entity.fueltime == 0 ? 0 + " RF/t" : (this.entity.E < 100000 ? (this.entity.E)+" RF/t" : (this.entity.E < 10000000 ? ((int)(Math.round(this.entity.E/1000))) + " kRF/t" : ((int)(Math.round(this.entity.E/1000000))) + " MRF/t"));
         this.fontRendererObj.drawString(egen, 7, 63, (this.entity.complete == 0 ? 15597568 : (this.entity.off==1 ? 15641088 : -1)));
-        String hgen = this.entity.H < 100000 ? (this.entity.H)+" H/t" : ((int)(Math.round(this.entity.H/1000))) + " kH/t";
+        String hgen = Math.abs(this.entity.H) < 100000 ? (this.entity.H)+" H/t" : (Math.abs(this.entity.H) < 10000000 ? ((int)(Math.round(this.entity.H/1000))) + " kH/t" : ((int)(Math.round(this.entity.H/1000000))) + " MH/t");
         this.fontRendererObj.drawString(hgen, 7, 74, (this.entity.complete == 0 ? 15597568 : (this.entity.off==1 ? 15641088 : -1)));
         
         String numberCells = StatCollector.translateToLocal("gui.cells") + ": " + this.entity.numberOfCells;
-        this.fontRendererObj.drawString(numberCells, 7, 85, (this.entity.complete == 0 ? 15597568 : (this.entity.off==1 ? 15641088 : -1)));
+        this.fontRendererObj.drawString(numberCells, 7, 85, (this.entity.complete == 1 ? -1 : 15597568));
     }
 
     protected void drawGuiContainerBackgroundLayer(float var1, int var2, int var3) {

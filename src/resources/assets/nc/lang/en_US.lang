@@ -2,6 +2,9 @@ itemGroup.tabNC=NuclearCraft
 
 entity.NuclearMonster.name=Nuclear Monster
 entity.Paul.name=Paul
+entity.NukePrimed.name=Nuke - RUN!
+entity.NuclearGrenade.name=Nuclear Grenade
+entity.EntityBullet.name=DU Bullet
 
 tile.simple=Simple Quantum Block
 
@@ -58,7 +61,7 @@ tile.fusionPlasmaBlock.name=Fusion Plasma
 fluid.fusionPlasma=Fusion Plasma
 tile.plasmaFire.name=Fire
 tile.steamBlock.name=Steam
-fluid.steamNC=Steam
+fluid.steam=Steam
 
 tile.nuclearFurnaceIdle.name=Nuclear Furnace
 tile.nuclearFurnaceActive.name=Nuclear Furnace
@@ -132,6 +135,10 @@ gui.LEU-Ox=LEU-Ox
 gui.HEU-Ox=HEU-Ox
 gui.LEP-Ox=LEP-Ox
 gui.HEP-Ox=HEP-Ox
+gui.LEUOx=LEUOx
+gui.HEUOx=HEUOx
+gui.LEPOx=LEPOx
+gui.HEPOx=HEPOx
 
 gui.energyStored=Energy Stored
 gui.level1=Level 1
@@ -185,10 +192,8 @@ item.dominoes.name=Domino's Special
 item.boiledEgg.name=Boiled Egg
 item.ricecake.name=Ricecake (without Fish)
 item.fishAndRicecake.name=Fish and a Ricecake
-item.upgrade.name=Reactor Upgrade
 item.upgradeSpeed.name=Speed Upgrade
 item.upgradeEnergy.name=Energy Upgrade
-item.ringUpgrade.name=Accelerator Upgrade
 item.nuclearGrenade.name=Nuclear Grenade
 item.portableEnderChest.name=Portable Ender Chest
 
@@ -421,6 +426,7 @@ item.recordArea51.name=NuclearCraft Music Disc
 item.Area51.desc=Jimmy in Area 51
 item.recordNeighborhood.name=NuclearCraft Music Disc
 item.Neighborhood.desc=Retroville Neighbourhood
+item.blank.name=Blank
 
 achievement.nuclearFurnace=Speed Smelting
 achievement.nuclearFurnace.desc=Make a Nuclear Furnace

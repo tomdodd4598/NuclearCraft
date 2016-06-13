@@ -81,7 +81,11 @@ public class BlockPlasma extends BlockFluidClassic {
     }
     
     public boolean f(World world, int x, int y, int z) {
-		return world.getBlock(x, y, z) != NCBlocks.electromagnetIdle && world.getBlock(x, y, z) != NCBlocks.electromagnetActive && world.getBlock(x, y, z) != NCBlocks.fusionReactor && world.getBlock(x, y, z) != NCBlocks.fusionReactorBlock && world.getBlock(x, y, z) != Blocks.air;
+		return world.getBlock(x, y, z) != NCBlocks.electromagnetActive && world.getBlock(x, y, z) != NCBlocks.fusionReactor && world.getBlock(x, y, z) != NCBlocks.fusionReactorBlock && world.getBlock(x, y, z) != Blocks.air;
+	}
+    
+    public boolean f2(World world, int x, int y, int z) {
+		return world.getBlock(x, y, z) != NCBlocks.electromagnetActive;
 	}
     
     public boolean g(World world, int x, int y, int z) {
@@ -96,8 +100,12 @@ public class BlockPlasma extends BlockFluidClassic {
     		}
     	} else tickCount ++;*/
     	super.updateTick(world, x, y, z, rand);
-    	if (f(world, x, y - 1, z) && world.getBlock(x, y + 1, z) != NCBlocks.blockFusionPlasma && !isSourceBlock(world, x, y, z)) {
-    		if (rand1.nextFloat() > 0.3F) world.setBlock(x, y, z, Blocks.fire);
+    	if (world.getBlock(x, y + 1, z) != NCBlocks.blockFusionPlasma) {
+    		if (isSourceBlock(world, x, y, z)) {
+    			if (rand1.nextFloat() > 0.96F && f2(world, x, y - 1, z)) world.setBlock(x, y, z, Blocks.fire);
+    		} else {
+    			if (rand1.nextFloat() > 0.3F && f(world, x, y - 1, z)) world.setBlock(x, y, z, Blocks.fire);
+    		}
     	}
     }
 }

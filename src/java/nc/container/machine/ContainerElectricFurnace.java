@@ -20,6 +20,8 @@ public class ContainerElectricFurnace extends Container {
 	public int lastEnergyStored;
 	public double lastEU;
 	public double lastSU;
+	public int lastGetSpeed;
+	public int lastReqEnergy;
 	
 	public ContainerElectricFurnace(InventoryPlayer inventory, TileElectricFurnace tileentity)
 	{
@@ -61,6 +63,10 @@ public class ContainerElectricFurnace extends Container {
 			
 			icrafting.sendProgressBarUpdate(this, 200, this.entity.energyStorage.getEnergyStored());
 			icrafting.sendProgressBarUpdate(this, 201, this.entity.energyStorage.getEnergyStored() >> 16);
+			icrafting.sendProgressBarUpdate(this, 202, (int) entity.getFurnaceSpeed);
+			icrafting.sendProgressBarUpdate(this, 203, (int) entity.getFurnaceSpeed >> 16);
+			icrafting.sendProgressBarUpdate(this, 204, (int) entity.getRequiredEnergy);
+			icrafting.sendProgressBarUpdate(this, 205, (int) entity.getRequiredEnergy >> 16);
 
 			icrafting.sendProgressBarUpdate(this, 100, (int) this.entity.energyUpgrade);
 			icrafting.sendProgressBarUpdate(this, 101, (int) this.entity.energyUpgrade >> 16);
@@ -77,6 +83,10 @@ public class ContainerElectricFurnace extends Container {
 		if (slot == 0) {this.entity.cookTime = value;}
 		if (slot == 200) {this.lastEnergyStored = this.upcastShort(value);}
 		if (slot == 201) {this.entity.energy = this.lastEnergyStored | value << 16;}
+		if (slot == 202) {lastGetSpeed = upcastShort(value);}
+		if (slot == 203) {entity.getFurnaceSpeed = lastGetSpeed | value << 16;}
+		if (slot == 204) {lastReqEnergy = upcastShort(value);}
+		if (slot == 205) {entity.getRequiredEnergy = lastReqEnergy | value << 16;}
 	      
 	      if (slot == 100) {this.lastEU = this.upcastShort(value);}
 	      if (slot == 101) {this.entity.energyUpgrade = (int) this.lastEU | value << 16;}

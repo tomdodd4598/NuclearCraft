@@ -19,7 +19,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockCollector extends BlockMachine {
 	public BlockCollector(boolean active) {
-		super(active, NuclearCraft.guiIdCollector, "depthsuspend", "depthsuspend", "collector");
+		super(active, NuclearCraft.guiIdCollector, "", "", "collector");
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -96,5 +96,24 @@ public class BlockCollector extends BlockMachine {
 			}
 		}
 		super.breakBlock(world, x, y, z, oldBlockID, oldMetadata);
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public void randomDisplayTick(World world, int x, int y, int z, Random random) {
+		if(isActive) {
+			float x1 = (float) x + 0.5F;
+			float y1 = (float) y + + 0.5F + random.nextFloat() * 0.8F - 0.4F;
+			float y2 = (float) y + 1 + random.nextFloat() / 16.0F;
+			float z1 = (float) z + 0.5F;
+			float f = 0.52F;
+			float f0 = 0.59F;
+			float f1 = random.nextFloat() * 0.6F - 0.3F;
+			float f2 = random.nextFloat() * 0.6F - 0.3F;
+			world.spawnParticle("depthsuspend", (double) (x1 + f1), (double) (y2), (double) (z1 + f2), 0.0D, 0.0D, 0.0D);
+			world.spawnParticle("depthsuspend", (double) (x1 - f), (double) (y1), (double) (z1 + f1), 0.0D, 0.0D, 0.0D);
+			world.spawnParticle("depthsuspend", (double) (x1 + f0), (double) (y1), (double) (z1 + f1), 0.0D, 0.0D, 0.0D);
+			world.spawnParticle("depthsuspend", (double) (x1 + f1), (double) (y1), (double) (z1 - f), 0.0D, 0.0D, 0.0D);
+			world.spawnParticle("depthsuspend", (double) (x1 + f1), (double) (y1), (double) (z1 + f0), 0.0D, 0.0D, 0.0D);
+		}
 	}
 }

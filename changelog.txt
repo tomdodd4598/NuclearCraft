@@ -1,3 +1,30 @@
+v1.7f
+
++ Added Fusion Reactor NEI recipes
+* Doubled Fusion Reactors power production and fuel usage rate
+* It is highly recommended that you reset the Fusion config file
+* Improved Fusion Plasma's fire mechanics
+
++ Updated Fission and Fusion NEI info
+* Fission Reactor comparators will emit a full signal if the heat level is above 25%
+* Fixed Fission Reactor heat shown in GUI when large amounts of heat is generated
+
+* Fixed bug where Electric Furnaces would not run
+* Fixed occasional glitchy progress bars in machines
+* Fixed particle effects on some machines
++ Added a couple of new Manufactory recipes
+* Fixed some Assembler recipes
+* Minor texture changes
+
+- Removed Reactor Upgrade and Accelerator Upgrade
+- Removed Paulobrine
+
+v1.7e
+
+* Improved Fission Reactor overheat explosions
+* Improved the Fission Reactor multiblock search mechanism
+* Fixed small issue with Fusion Reactor RF generation
+
 v1.7d
 
 * Fixed major bug where overheating Fission Reactors would cause stupendous lag
