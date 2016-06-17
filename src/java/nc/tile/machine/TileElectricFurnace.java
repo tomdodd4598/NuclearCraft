@@ -14,8 +14,9 @@ import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyHandler;
+import cofh.api.energy.IEnergyReceiver;
 
-public class TileElectricFurnace extends TileInventory implements IEnergyHandler, ISidedInventory {
+public class TileElectricFurnace extends TileInventory implements IEnergyHandler, IEnergyReceiver, ISidedInventory {
 	public EnergyStorage energyStorage;
 	public boolean flag;
 	public boolean flag1 = false;
@@ -34,8 +35,7 @@ public class TileElectricFurnace extends TileInventory implements IEnergyHandler
 	public double getFurnaceSpeed = Math.ceil(FurnaceSpeed()/speedUpgrade);
 	public double getRequiredEnergy = Math.ceil(speedUpgrade*(RequiredEnergy()/energyUpgrade));
 	
-	public TileElectricFurnace()
-	{
+	public TileElectricFurnace() {
 	  this.energyStorage = new EnergyStorage(250000, 250000);
 	  this.localizedName = "Machine Single Output";
 	  this.slots = new ItemStack[4];
@@ -270,57 +270,47 @@ public class TileElectricFurnace extends TileInventory implements IEnergyHandler
 	  return true;
 	}
 	
-	public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate)
-	{
+	public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
 	  return this.energyStorage.receiveEnergy(maxReceive, simulate);
 	}
 	
 	
-	public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulate)
-	{
+	public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulate) {
 	  return 0;
 	}
 	
 	
-	public int getEnergyStored(ForgeDirection from)
-	{
-	  return this.energyStorage.getEnergyStored();
+	public int getEnergyStored(ForgeDirection from) {
+		return this.energyStorage.getEnergyStored();
 	}
 	
 	
-	public int getMaxEnergyStored(ForgeDirection from)
-	{
-	  return this.energyStorage.getMaxEnergyStored();
+	public int getMaxEnergyStored(ForgeDirection from) {
+		return this.energyStorage.getMaxEnergyStored();
 	}
 	
 	public int getEnergy() {
-	  if (this.energyStorage.getEnergyStored() == 0)
-	    return this.energy;
-	  return this.energyStorage.getEnergyStored();
+		if (this.energyStorage.getEnergyStored() == 0) return this.energy;
+		return this.energyStorage.getEnergyStored();
 	}
 	
-	public double FurnaceSpeed()
-	{
-		   return 100*(100/NuclearCraft.electricFurnaceSmeltSpeed);
+	public double FurnaceSpeed() {
+		return 100*(100/NuclearCraft.electricFurnaceSmeltSpeed);
 	}
 	
-	public double RequiredEnergy()
-	{
-		   return 2000*(100/NuclearCraft.electricFurnaceSmeltEfficiency);
+	public double RequiredEnergy() {
+		return 2000*(100/NuclearCraft.electricFurnaceSmeltEfficiency);
 	}
 
-	public boolean isItemValidForSlot(int slot, ItemStack itemstack)
-	{
+	public boolean isItemValidForSlot(int slot, ItemStack itemstack) {
 		return slot == 0;
 	}
 
-	public boolean canInsertItem(int slot, ItemStack stack, int j)
-	{
+	public boolean canInsertItem(int slot, ItemStack stack, int j){
 		return this.isItemValidForSlot(slot, stack);
 	}
 
-	public boolean canExtractItem(int slot, ItemStack itemstack, int j)
-	{
+	public boolean canExtractItem(int slot, ItemStack itemstack, int j) {
 		return slot == 1;
 	}
 	
@@ -329,65 +319,49 @@ public class TileElectricFurnace extends TileInventory implements IEnergyHandler
 		return this.slots[i];
 	}
 	
-	public void setInventorySlotContents(int i, ItemStack itemstack)
-	{
+	public void setInventorySlotContents(int i, ItemStack itemstack) {
 		this.slots[i] = itemstack;
 		
-		if(itemstack != null && itemstack.stackSize > this.getInventoryStackLimit())
-		{
+		if(itemstack != null && itemstack.stackSize > this.getInventoryStackLimit()) {
 			itemstack.stackSize = this.getInventoryStackLimit();
 		}
 	}
 	
-	public ItemStack decrStackSize(int i, int j)
-	{
-		if(this.slots[i] != null)
-		{
+	public ItemStack decrStackSize(int i, int j) {
+		if(this.slots[i] != null) {
 			ItemStack itemstack;
 				
-				if(this.slots[i].stackSize <= j)
-				{
+				if(this.slots[i].stackSize <= j) {
 					itemstack = this.slots[i];
 					
 					this.slots[i] = null;
 					
 					return itemstack;
-				}
-				else
-				{
+				} else {
 					itemstack = this.slots[i].splitStack(j);
 					
-					if(this.slots[i].stackSize == 0)
-					{
+					if(this.slots[i].stackSize == 0) {
 						this.slots[i] = null;
 					}
-					
 					return itemstack;
 					
 				}
+		} else {
+			return null;
 		}
-		else
-     {
-         return null;
-     }
 	}
 
-	public ItemStack getStackInSlotOnClosing(int i)
-	{
-		if(this.slots[i] != null)
-		{
+	public ItemStack getStackInSlotOnClosing(int i) {
+		if(this.slots[i] != null) {
 			ItemStack itemstack = this.slots[i];
 			this.slots[i] = null;
 			return itemstack;
+		} else {
+			return null;
 		}
-		else
-     {
-         return null;
-     }
 	}
 	
-	public int getSizeInventory()
-	{
+	public int getSizeInventory() {
 		return this.slots.length;
 	}
 
@@ -399,8 +373,7 @@ public class TileElectricFurnace extends TileInventory implements IEnergyHandler
 		return getBlockMetadata();
 	}
 
-	public int[] getAccessibleSlotsFromSide(int var1)
-	{
+	public int[] getAccessibleSlotsFromSide(int var1) {
 		return var1 == 0 ? output : (var1 == 1 ? input : output);
 	}
 }

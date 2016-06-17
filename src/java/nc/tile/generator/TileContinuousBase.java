@@ -10,6 +10,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyConnection;
 import cofh.api.energy.IEnergyHandler;
+import cofh.api.energy.IEnergyReceiver;
 
 public abstract class TileContinuousBase extends TileEntity implements IEnergyHandler, IEnergyConnection {
 	public int maxStorage;
@@ -38,13 +39,15 @@ public abstract class TileContinuousBase extends TileEntity implements IEnergyHa
 		for (ForgeDirection side : ForgeDirection.VALID_DIRECTIONS) {
 			TileEntity tile = this.worldObj.getTileEntity(xCoord + side.offsetX, yCoord + side.offsetY, zCoord + side.offsetZ);
 			
-			if (!(tile instanceof TileContinuousBase) && !(tile instanceof TileReactionGenerator) && !(tile instanceof TileContinuousBase) && !(tile instanceof TileRTG) && !(tile instanceof TileWRTG) && !(tile instanceof TileFusionReactor) && !(tile instanceof TileFusionReactorBlock) && !(tile instanceof TileFissionReactor)) {
-				if ((tile instanceof IEnergyHandler)) {
+			if (!(tile instanceof TileGenerator) && !(tile instanceof TileReactionGenerator) && !(tile instanceof TileContinuousBase) && !(tile instanceof TileRTG) && !(tile instanceof TileWRTG) && !(tile instanceof TileFusionReactor) && !(tile instanceof TileFusionReactorBlock) && !(tile instanceof TileFissionReactor)) {
+				if ((tile instanceof IEnergyReceiver)) {
+					storage.extractEnergy(((IEnergyReceiver)tile).receiveEnergy(side.getOpposite(), storage.extractEnergy(storage.getMaxEnergyStored(), true), false), false);
+				} else if ((tile instanceof IEnergyHandler)) {
 					storage.extractEnergy(((IEnergyHandler)tile).receiveEnergy(side.getOpposite(), storage.extractEnergy(storage.getMaxEnergyStored(), true), false), false);
-					}
 				}
 			}
 		}
+	}
 
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);

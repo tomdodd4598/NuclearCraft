@@ -1,3 +1,22 @@
+v1.7g
+
+* Mekansim gases can now be used in the Fusion Reactor - just pipe them in
+* Changed some internal workings of the Fusion Reactor - it's possible that your input slots will become clogged up, so simply swap the stacks if this is the case
+* The fusion reactor will now recognise a redstone signal giong into anywhere at its base
+
+* The base power and fuel consumption of all fission fuels has been halved
+* Fixed bug with meltdowns
+* Fixed bug where the heat level was not playing a part in the reactor efficiency
+* Increased the controller's reaction speed to redstone signals, but still be careful with pulse reactors (don't try anything much over 100 kH/t)
+
+* The Heavy Duty Workspace can now hold items in its crafting grid
+
+* Fixed many issues related to machines and generators not connecting to certain RF cables or storage blocks correctly (EnderIO in particular)
+
+* Fixed a small bug with rare block drops
+* Made rare mob drops rarer
+* Nuclear Monsters are rarer
+
 v1.7f
 
 + Added Fusion Reactor NEI recipes

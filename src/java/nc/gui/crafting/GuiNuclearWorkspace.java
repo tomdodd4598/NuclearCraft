@@ -1,6 +1,7 @@
 package nc.gui.crafting;
 
 import nc.container.crafting.ContainerNuclearWorkspace;
+import nc.tile.crafting.TileNuclearWorkspace;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -14,8 +15,8 @@ public class GuiNuclearWorkspace extends GuiContainer {
 
 	public static final ResourceLocation texture = new ResourceLocation("nc:textures/gui/nuclearWorkspace.png");
 	
-	public GuiNuclearWorkspace(InventoryPlayer inventoryPlayer, World world, int x, int y, int z) {
-		super(new ContainerNuclearWorkspace(inventoryPlayer, world, x, y, z));
+	public GuiNuclearWorkspace(InventoryPlayer inventoryPlayer, World world, int x, int y, int z, TileNuclearWorkspace tile) {
+		super(new ContainerNuclearWorkspace(inventoryPlayer, world, x, y, z, tile));
 		
 		this.xSize = 176;
 		this.ySize = 193;

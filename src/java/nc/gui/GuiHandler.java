@@ -112,7 +112,7 @@ public class GuiHandler implements IGuiHandler {
 					if(entity instanceof TileFissionReactor) return new ContainerFissionReactor(player.inventory, (TileFissionReactor) entity);
 					return null;
 				case 9:
-					if(ID == NuclearCraft.guiIdNuclearWorkspace) return new ContainerNuclearWorkspace(player.inventory, world, x, y, z);
+					if(entity instanceof TileNuclearWorkspace) return new ContainerNuclearWorkspace(player.inventory, world, x, y, z, (TileNuclearWorkspace) entity);
 					return null;
 				case 10:
 					if(entity instanceof TileCollector) return new ContainerCollector(player.inventory, (TileCollector) entity);
@@ -187,7 +187,7 @@ public class GuiHandler implements IGuiHandler {
 					if(entity instanceof TileFissionReactor) return new GuiFissionReactor(player.inventory, (TileFissionReactor) entity);
 					return null;
 				case 9:
-					if(entity instanceof TileNuclearWorkspace) return new GuiNuclearWorkspace(player.inventory, world, x, y, z);
+					if(entity instanceof TileNuclearWorkspace) return new GuiNuclearWorkspace(player.inventory, world, x, y, z, (TileNuclearWorkspace) entity);
 					return null;
 				case 10:
 					if(entity instanceof TileCollector) return new GuiCollector(player.inventory, (TileCollector) entity);

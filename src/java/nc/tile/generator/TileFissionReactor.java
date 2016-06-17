@@ -35,6 +35,7 @@ public class TileFissionReactor extends TileGenerator {
     public int H;
     public int EReal;
     public int HReal;
+    public int HCooling;
     public int FReal;
     public int energy;
     public int fueltime;
@@ -77,10 +78,10 @@ public class TileFissionReactor extends TileGenerator {
     	if (this.heat >= 1000000) {
         	
     		if (NuclearCraft.nuclearMeltdowns) {
-    			if (this.getBlockMetadata() == 4) NCExplosion.createExplosion(new EntityBomb(worldObj).setType(BombType.BOMB_STANDARD), worldObj, xCoord+1/2+(lx-1)/2, yCoord+1/2+(ly-1)/2, zCoord+1/2+(lz-1)/2, lx + ly + lz, lx + ly + lz, true);
-            	else if (this.getBlockMetadata() == 2) NCExplosion.createExplosion(new EntityBomb(worldObj).setType(BombType.BOMB_STANDARD), worldObj, xCoord+1/2-(lz-1)/2, yCoord+1/2+(ly-1)/2, zCoord+1/2+(lx-1)/2, lx + ly + lz, lx + ly + lz, true);
-            	else if (this.getBlockMetadata() == 5) NCExplosion.createExplosion(new EntityBomb(worldObj).setType(BombType.BOMB_STANDARD), worldObj, xCoord+1/2-(lx-1)/2, yCoord+1/2+(ly-1)/2, zCoord+1/2-(lz-1)/2, lx + ly + lz, lx + ly + lz, true);
-            	else if (this.getBlockMetadata() == 3) NCExplosion.createExplosion(new EntityBomb(worldObj).setType(BombType.BOMB_STANDARD), worldObj, xCoord+1/2+(lz-1)/2, yCoord+1/2+(ly-1)/2, zCoord+1/2-(lx-1)/2, lx + ly + lz, lx + ly + lz, true);
+    			if (this.getBlockMetadata() == 4) NCExplosion.createExplosion(new EntityBomb(worldObj).setType(BombType.BOMB_STANDARD), worldObj, xCoord+((x0 + x1)/2), yCoord+((y0 + y1)/2), zCoord+((z0 + z1)/2), lx + ly + lz, lx + ly + lz, true);
+            	else if (this.getBlockMetadata() == 2) NCExplosion.createExplosion(new EntityBomb(worldObj).setType(BombType.BOMB_STANDARD), worldObj, xCoord-((z0 + z1)/2), yCoord+((y0 + y1)/2), zCoord+((x0 + x1)/2), lx + ly + lz, lx + ly + lz, true);
+            	else if (this.getBlockMetadata() == 5) NCExplosion.createExplosion(new EntityBomb(worldObj).setType(BombType.BOMB_STANDARD), worldObj, xCoord-((x0 + x1)/2), yCoord+((y0 + y1)/2), zCoord-((z0 + z1)/2), lx + ly + lz, lx + ly + lz, true);
+            	else if (this.getBlockMetadata() == 3) NCExplosion.createExplosion(new EntityBomb(worldObj).setType(BombType.BOMB_STANDARD), worldObj, xCoord+((z0 + z1)/2), yCoord+((y0 + y1)/2), zCoord-((x0 + x1)/2), lx + ly + lz, lx + ly + lz, true);
     			worldObj.setBlockToAir(xCoord, yCoord, zCoord);
     		} else this.heat = 1000000;
     	}
@@ -116,6 +117,7 @@ public class TileFissionReactor extends TileGenerator {
     	double energyThisTick = 0;
     	double fuelThisTick = 0;
     	double heatThisTick = 0;
+    	double coolerHeatThisTick = 0;
     	double fakeEnergyThisTick = 0;
     	double fakeHeatThisTick = 0;
     	double numberOfCells = 0;
@@ -129,6 +131,17 @@ public class TileFissionReactor extends TileGenerator {
     	double baseRF = 0;
     	double baseFuel = 0;
     	double baseHeat = 0;
+    	
+    	if (this.getStackInSlot(1) == null && worldObj.isBlockIndirectlyGettingPowered(this.xCoord, this.yCoord, this.zCoord) && this.fueltime > 0 && this.fueltype != 0 && complete == 1) {
+    		off = 0;
+    		flag = true;
+    	} else if (this.getStackInSlot(1) == null && !worldObj.isBlockIndirectlyGettingPowered(this.xCoord, this.yCoord, this.zCoord) && this.fueltime > 0 && this.fueltype != 0 && complete == 1) {
+    		off = 1;
+    		flag = false;
+    	} else {
+    		off = 0;
+    		flag = false;
+    	}
 
     	if (tickCount >= NuclearCraft.fissionUpdateRate) {
 	    	if (complete == 1) {
@@ -232,7 +245,7 @@ public class TileFissionReactor extends TileGenerator {
 	            	baseHeat = NuclearCraft.baseHeatHEPOx;
 	        	}
 	        	
-	        	energyThisTick += baseRF*(pMult/100 + this.heat/1000000)*(numberOfCells + 2*adj1 + 3*adj2 + 4*adj3 + 5*adj4 + 6*adj5 + 7*adj6)*Math.cbrt((lx - 2)*(ly - 2)*(lz - 2));
+	        	energyThisTick += baseRF*(10000*pMult + this.heat)*(numberOfCells + 2*adj1 + 3*adj2 + 4*adj3 + 5*adj4 + 6*adj5 + 7*adj6)*Math.cbrt((lx - 2)*(ly - 2)*(lz - 2))/1000000;
 	        	heatThisTick += baseHeat*(numberOfCells + 3*adj1 + 6*adj2 + 10*adj3 + 15*adj4 + 21*adj5 + 28*adj6);
 	        	fuelThisTick += (numberOfCells + adj1 + adj2 + adj3 + adj4 + adj5 + adj6)*baseFuel/NuclearCraft.fissionEfficiency;
 	        	
@@ -240,7 +253,7 @@ public class TileFissionReactor extends TileGenerator {
 	        		for (int x = x0 + 1; x <= x1 - 1; x++) {
 	        			for (int y = y0 + 1; y <= y1 - 1; y++) {
 	        				if(find(NCBlocks.graphiteBlock, x, y, z)) {
-	        					energyThisTick += (pMult/100 + this.heat/1000000)*baseRF*(numberOfCells + adj1 + adj2 + adj3 + adj4 + adj5 + adj6)/10;
+	        					energyThisTick += (10000*pMult + this.heat)*baseRF*(numberOfCells + adj1 + adj2 + adj3 + adj4 + adj5 + adj6)/10000000;
 	        					heatThisTick += (hMult/100)*baseRF*(numberOfCells + adj1 + adj2 + adj3 + adj4 + adj5 + adj6)/5;
 	        				}
 	        				if(find(Blocks.water, x, y, z) && (numberOfCells + adj1 + adj2 + adj3 + adj4 + adj5 + adj6) > 0) {
@@ -317,14 +330,14 @@ public class TileFissionReactor extends TileGenerator {
 	            	baseHeat = NuclearCraft.baseHeatHEPOx;
 	        	}
 	        	
-	        	fakeEnergyThisTick += baseRF*(pMult/100 + this.heat/1000000)*(numberOfCells + 2*adj1 + 3*adj2 + 4*adj3 + 5*adj4 + 6*adj5 + 7*adj6)*Math.cbrt((lx - 2)*(ly - 2)*(lz - 2));
+	        	fakeEnergyThisTick += baseRF*(10000*pMult + this.heat)*(numberOfCells + 2*adj1 + 3*adj2 + 4*adj3 + 5*adj4 + 6*adj5 + 7*adj6)*Math.cbrt((lx - 2)*(ly - 2)*(lz - 2))/1000000;
 	    		fakeHeatThisTick += baseHeat*(hMult/100)*(numberOfCells + 3*adj1 + 6*adj2 + 10*adj3 + 15*adj4 + 21*adj5 + 28*adj6);
 	        	
 	    		for (int z = z0 + 1; z <= z1 - 1; z++) {
 	        		for (int x = x0 + 1; x <= x1 - 1; x++) {
 	        			for (int y = y0 + 1; y <= y1 - 1; y++) {
 	        				if(find(NCBlocks.graphiteBlock, x, y, z)) {
-	        					fakeEnergyThisTick += (pMult/100 + this.heat/1000000)*baseRF*(numberOfCells + adj1 + adj2 + adj3 + adj4 + adj5 + adj6)/10;
+	        					fakeEnergyThisTick += (10000*pMult + this.heat)*baseRF*(numberOfCells + adj1 + adj2 + adj3 + adj4 + adj5 + adj6)/10000000;
 	        					fakeHeatThisTick += (hMult/100)*baseRF*(numberOfCells + adj1 + adj2 + adj3 + adj4 + adj5 + adj6)/5;
 	        				}
 	        				if(find(Blocks.water, x, y, z) && (numberOfCells + adj1 + adj2 + adj3 + adj4 + adj5 + adj6) > 0) {
@@ -344,49 +357,50 @@ public class TileFissionReactor extends TileGenerator {
 	        		for (int x = x0 + 1; x <= x1 - 1; x++) {
 	        			for (int y = y0 + 1; y <= y1 - 1; y++) {
 	        				if(find(NCBlocks.coolerBlock, x, y, z)) {
-	        					heatThisTick -= NuclearCraft.standardCool;
-	        					if (surroundOr(NCBlocks.coolerBlock, x, y, z)) heatThisTick -= NuclearCraft.standardCool;
+	        					coolerHeatThisTick -= NuclearCraft.standardCool;
+	        					if (surroundOr(NCBlocks.coolerBlock, x, y, z)) coolerHeatThisTick -= NuclearCraft.standardCool;
 	        				}
 	        				if(find(NCBlocks.waterCoolerBlock, x, y, z)) {
-	        					heatThisTick -= NuclearCraft.waterCool;
-	        					if (surroundOr(NCBlocks.reactorBlock, x, y, z)) heatThisTick -= NuclearCraft.waterCool;
+	        					coolerHeatThisTick -= NuclearCraft.waterCool;
+	        					if (surroundOr(NCBlocks.reactorBlock, x, y, z)) coolerHeatThisTick -= NuclearCraft.waterCool;
 	        				}
 	        				if(find(NCBlocks.cryotheumCoolerBlock, x, y, z)) {
-	        					heatThisTick -= NuclearCraft.cryotheumCool;
-	        					if (surroundNAnd(NCBlocks.cryotheumCoolerBlock, x, y, z)) heatThisTick -= NuclearCraft.cryotheumCool;
+	        					coolerHeatThisTick -= NuclearCraft.cryotheumCool;
+	        					if (surroundNAnd(NCBlocks.cryotheumCoolerBlock, x, y, z)) coolerHeatThisTick -= NuclearCraft.cryotheumCool;
 	        				}
 	        				if(find(NCBlocks.redstoneCoolerBlock, x, y, z)) {
-	        					heatThisTick -= NuclearCraft.redstoneCool;
-	        					if (surroundOr(NCBlocks.cellBlock, x, y, z)) heatThisTick -= NuclearCraft.redstoneCool;
+	        					coolerHeatThisTick -= NuclearCraft.redstoneCool;
+	        					if (surroundOr(NCBlocks.cellBlock, x, y, z)) coolerHeatThisTick -= NuclearCraft.redstoneCool;
 	        				}
 	        				if(find(NCBlocks.enderiumCoolerBlock, x, y, z)) {
-	        					heatThisTick -= NuclearCraft.enderiumCool;
-	        					if (surroundOr(NCBlocks.graphiteBlock, x, y, z)) heatThisTick -= NuclearCraft.enderiumCool;
+	        					coolerHeatThisTick -= NuclearCraft.enderiumCool;
+	        					if (surroundOr(NCBlocks.graphiteBlock, x, y, z)) coolerHeatThisTick -= NuclearCraft.enderiumCool;
 	        				}
 	        				if(find(NCBlocks.glowstoneCoolerBlock, x, y, z)) {
-	        					heatThisTick -= NuclearCraft.glowstoneCool;
-	        					if (surroundAnd(NCBlocks.graphiteBlock, x, y, z)) heatThisTick -= 3*NuclearCraft.glowstoneCool;
+	        					coolerHeatThisTick -= NuclearCraft.glowstoneCool;
+	        					if (surroundAnd(NCBlocks.graphiteBlock, x, y, z)) coolerHeatThisTick -= 3*NuclearCraft.glowstoneCool;
 	        				}
 	        				if(find(NCBlocks.heliumCoolerBlock, x, y, z)) {
-	        					heatThisTick -= NuclearCraft.heliumCool;
+	        					coolerHeatThisTick -= NuclearCraft.heliumCool;
 	        				}
 	        				if(find(NCBlocks.coolantCoolerBlock, x, y, z)) {
-	        					heatThisTick -= NuclearCraft.coolantCool;
-	        					if (surroundOr(Blocks.water, x, y, z)) heatThisTick -= NuclearCraft.coolantCool;
+	        					coolerHeatThisTick -= NuclearCraft.coolantCool;
+	        					if (surroundOr(Blocks.water, x, y, z)) coolerHeatThisTick -= NuclearCraft.coolantCool;
 	        				}
-	        				if(find(Blocks.water, x, y, z)) heatThisTick -= 1;
+	        				if(find(Blocks.water, x, y, z)) coolerHeatThisTick -= 1;
 	        			}
 	        		}
 	        	}
-	        	if (lx - 2 + ly - 2 + lz - 2 <= 3) heatThisTick -= NuclearCraft.baseHeatTBU;
+	        	if (lx - 2 + ly - 2 + lz - 2 <= 3) coolerHeatThisTick -= NuclearCraft.baseHeatTBU;
 	        }
 	        E = (int) (energyThisTick + fakeEnergyThisTick);
 	        EReal = (int) energyThisTick;
 	        
 	        FReal = (int) fuelThisTick;
 	        
-	        H = (int) (heatThisTick + fakeHeatThisTick);
-	        HReal = (int) heatThisTick;
+	        H = (int) (heatThisTick + fakeHeatThisTick + coolerHeatThisTick);
+	        HReal = (int) (heatThisTick  + coolerHeatThisTick);
+	        HCooling = (int) coolerHeatThisTick;
 	        
 	        if (complete == 1) efficiency = (int) (100*(energyThisTick + fakeEnergyThisTick)/(baseRF*(pMult/100)*(numberOfCells + adj1 + adj2 + adj3 + adj4 + adj5 + adj6)*Math.cbrt((lx - 2)*(ly - 2)*(lz - 2)))); else efficiency = 0;
 	        
@@ -397,9 +411,23 @@ public class TileFissionReactor extends TileGenerator {
     	
     	if (EReal <= 0) flag = false;
         
-        this.storage.receiveEnergy((int) EReal, false);
-        this.fueltime -= FReal;
-        if (this.heat + (int) HReal >= 0) this.heat += (int) HReal; else this.heat = 0;
+        if (off == 0 && flag) this.storage.receiveEnergy((int) EReal, false);
+        
+        if (off == 0 && flag) this.fueltime -= FReal;
+        
+        if (off == 0 && flag) {
+        	if (this.heat + (int) HReal >= 0) {
+        		this.heat += (int) HReal;
+        	} else {
+        		this.heat = 0;
+        	}
+        } else if (off == 1 && !flag) {
+        	if (this.heat + (int) HCooling >= 0) {
+        		this.heat += (int) HCooling;
+        	} else {
+        		this.heat = 0;
+        	}
+        }
         
         if (this.fueltime < 0) this.fueltime = 0;	
         if (this.fueltime == 0) E = 0;
@@ -576,6 +604,7 @@ public class TileFissionReactor extends TileGenerator {
         this.numberOfCells = nbt.getInteger("numberOfCells");
         this.EReal = nbt.getInteger("EReal");
         this.HReal = nbt.getInteger("HReal");
+        this.HCooling = nbt.getInteger("HCooling");
         this.FReal = nbt.getInteger("FReal");
         this.complete = nbt.getInteger("complete");
     }
@@ -609,6 +638,7 @@ public class TileFissionReactor extends TileGenerator {
         nbt.setString("problem", this.problem);
         nbt.setInteger("EReal", this.EReal);
         nbt.setInteger("HReal", this.HReal);
+        nbt.setInteger("HCooling", this.HCooling);
         nbt.setInteger("FReal", this.FReal);
         nbt.setInteger("complete", this.complete);
     }

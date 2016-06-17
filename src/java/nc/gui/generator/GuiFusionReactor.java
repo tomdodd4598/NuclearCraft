@@ -77,9 +77,9 @@ public class GuiFusionReactor extends GuiContainer
         this.fontRendererObj.drawString(radius, 11, 20, (this.entity.complete == 1 ? -1 : 15597568));
         String power = StatCollector.translateToLocal("gui.energyStored") + ": " + this.entity.energy + " RF";
         this.fontRendererObj.drawString(power, 11, 30, (this.entity.complete == 1 ? -1 : 15597568));
-        String fuel1 = f2() + " " + StatCollector.translateToLocal("gui.level1") + ": " + Math.round(level2() / 64000) + "%";
+        String fuel1 = f1() + " " + StatCollector.translateToLocal("gui.level1") + ": " + Math.round(level1() / 64000) + "%";
         this.fontRendererObj.drawString(fuel1, 11, 40, (this.entity.complete == 1 ? -1 : 15597568));
-        String fuel2 = f1() + " " + StatCollector.translateToLocal("gui.level2") + ": " + Math.round(level1() / 64000) + "%";
+        String fuel2 = f2() + " " + StatCollector.translateToLocal("gui.level2") + ": " + Math.round(level2() / 64000) + "%";
         this.fontRendererObj.drawString(fuel2, 11, 50, (this.entity.complete == 1 ? -1 : 15597568));
         String egen = ((this.entity.HLevel + this.entity.DLevel + this.entity.TLevel + this.entity.HeLevel + this.entity.BLevel + this.entity.Li6Level + this.entity.Li7Level == 0 || this.entity.HLevel2 + this.entity.DLevel2 + this.entity.TLevel2 + this.entity.HeLevel2 + this.entity.BLevel2 + this.entity.Li6Level2 + this.entity.Li7Level2 == 0) ? 0 : this.entity.EShown) + " RF/t";
         this.fontRendererObj.drawString(egen, 11, 60, (this.entity.complete == 1 ? -1 : 15597568));
@@ -115,9 +115,9 @@ public class GuiFusionReactor extends GuiContainer
         	this.drawTexturedModalRect(this.guiLeft + 193 + texi3, this.guiTop + 7 + 162 - ef, 246, 3 + 162 - ef, 1, ef);
         }
         int k2 = level1() * 162 / 6400000;
-        this.drawTexturedModalRect(this.guiLeft + 231, this.guiTop + 7 + 162 - k2, 249, 3 + 162 - k2, 5, k2);
+        this.drawTexturedModalRect(this.guiLeft + 222, this.guiTop + 7 + 162 - k2, 249, 3 + 162 - k2, 5, k2);
         int k3 = level2() * 162 / 6400000;
-        this.drawTexturedModalRect(this.guiLeft + 222, this.guiTop + 7 + 162 - k3, 249, 3 + 162 - k3, 5, k3);
+        this.drawTexturedModalRect(this.guiLeft + 231, this.guiTop + 7 + 162 - k3, 249, 3 + 162 - k3, 5, k3);
         
         int HOut = (int) Math.round(this.entity.HOut * 14 / 100000);
         if (this.entity.HOut <= 100000) drawTexturedModalRect(guiLeft + 197, guiTop + 198, 241, 255, HOut, 1); else drawTexturedModalRect(guiLeft + 197, guiTop + 198, 241, 255, 14, 1);

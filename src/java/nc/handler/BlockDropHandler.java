@@ -15,7 +15,7 @@ public class BlockDropHandler {
 	public Random rand = new Random();
 	
 	public void extra(BlockEvent.HarvestDropsEvent event, Block block, ItemStack drop) {
-		if (event.harvester != null) if (event.block == block && event.harvester.getHeldItem() != null) event.drops.add(drop);
+		if (event.harvester != null) if (event.block == block && event.harvester.getHeldItem() != null && !event.isSilkTouching) event.drops.add(drop);
 	}
 	
 	public void chanceExtra(BlockEvent.HarvestDropsEvent event, Block block, ItemStack drop, int chance) {
@@ -23,7 +23,7 @@ public class BlockDropHandler {
 	}
 	
 	public void extraMeta(BlockEvent.HarvestDropsEvent event, Block block, int meta, ItemStack drop) {
-		if (event.harvester != null) if (event.block == block && event.blockMetadata == meta && event.harvester.getHeldItem() != null) event.drops.add(drop);
+		if (event.harvester != null) if (event.block == block && event.blockMetadata == meta && event.harvester.getHeldItem() != null && !event.isSilkTouching) event.drops.add(drop);
 	}
 	
 	public void chanceMetaExtra(BlockEvent.HarvestDropsEvent event, Block block, int meta, ItemStack drop, int chance) {

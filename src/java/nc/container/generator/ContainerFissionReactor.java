@@ -23,6 +23,7 @@ public class ContainerFissionReactor extends Container {
     public int lastFuelType;
     public int lastEReal;
     public int lastHReal;
+    public int lastHCooling;
     public int lastFReal;
     public int lastComplete;
     public int lastEfficiency;
@@ -104,6 +105,9 @@ public class ContainerFissionReactor extends Container {
             
             icrafting.sendProgressBarUpdate(this, 31, this.entity.numberOfCells);
             icrafting.sendProgressBarUpdate(this, 32, this.entity.numberOfCells >> 16);
+            
+            icrafting.sendProgressBarUpdate(this, 33, this.entity.HCooling);
+            icrafting.sendProgressBarUpdate(this, 34, this.entity.HCooling >> 16);
         }    
     }
 
@@ -150,6 +154,9 @@ public class ContainerFissionReactor extends Container {
         
         if (slot == 31){ this.lastNumberOfCells = this.upcastShort(value); }
         if (slot == 32){ this.entity.numberOfCells = this.lastNumberOfCells | value << 16; }
+        
+        if (slot == 33){ this.lastHCooling = this.upcastShort(value); }
+        if (slot == 34){ this.entity.HCooling = this.lastHCooling | value << 16; }
     }
     
     private int upcastShort(int input) {

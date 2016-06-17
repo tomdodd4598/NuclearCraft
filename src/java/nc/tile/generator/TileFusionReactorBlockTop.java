@@ -2,6 +2,11 @@ package nc.tile.generator;
 
 import java.util.Random;
 
+import mekanism.api.gas.Gas;
+import mekanism.api.gas.GasRegistry;
+import mekanism.api.gas.GasStack;
+import mekanism.api.gas.IGasHandler;
+import mekanism.api.gas.ITubeConnection;
 import nc.NuclearCraft;
 import nc.block.NCBlocks;
 import nc.handler.BombType;
@@ -17,7 +22,7 @@ import cofh.api.energy.IEnergyConnection;
 import cofh.api.energy.IEnergyHandler;
 import cofh.api.energy.IEnergyReceiver;
 
-public class TileFusionReactorBlockTop extends TileEntity implements IEnergyHandler, IEnergyConnection, IEnergyReceiver, ISidedInventory {
+public class TileFusionReactorBlockTop extends TileEntity implements IEnergyHandler, IEnergyConnection, IEnergyReceiver, ISidedInventory, IGasHandler, ITubeConnection {
 
 	public int xOffset;
 	public int yOffset;
@@ -189,5 +194,38 @@ public class TileFusionReactorBlockTop extends TileEntity implements IEnergyHand
 		ISidedInventory main = (ISidedInventory)worldObj.getTileEntity(xCoord + xOffset, yCoord + yOffset, zCoord + zOffset);
 		if (main == null || isNotReady()) {return;}
 		main.closeInventory();
+	}
+
+	@Override
+	public int receiveGas(ForgeDirection side, GasStack stack, boolean doTransfer) {
+		IGasHandler main = (IGasHandler)worldObj.getTileEntity(xCoord + xOffset, yCoord + yOffset, zCoord + zOffset);
+		if (main == null || isNotReady()) {return 0;}
+		return main.receiveGas(side, stack, doTransfer);
+	}
+
+	@Deprecated
+	public int receiveGas(ForgeDirection side, GasStack stack) {
+		return 0;
+	}
+
+	public GasStack drawGas(ForgeDirection side, int amount, boolean doTransfer) {
+		return null;
+	}
+
+	@Deprecated
+	public GasStack drawGas(ForgeDirection side, int amount) {
+		return null;
+	}
+
+	public boolean canReceiveGas(ForgeDirection side, Gas type) {
+		return (type == GasRegistry.getGas("hydrogen") || type == GasRegistry.getGas("deuterium") || type == GasRegistry.getGas("tritium") || type == GasRegistry.getGas("lithium"));
+	}
+
+	public boolean canDrawGas(ForgeDirection side, Gas type) {
+		return false;
+	}
+	
+	public boolean canTubeConnect(ForgeDirection side) {
+		return true;
 	}
 }

@@ -161,7 +161,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 public class NuclearCraft {
 	public static final String modid = "NuclearCraft";
-	public static final String version = "1.7f";
+	public static final String version = "1.7g";
 	
 	public static final CreativeTabs tabNC = new CreativeTabs("tabNC") {
 		// Creative Tab Shown Item
@@ -219,6 +219,7 @@ public class NuclearCraft {
 	
 	// Config File
 	public static boolean workspace;
+	public static boolean workspaceShiftClick;
 	
 	public static int EMUpdateRate;
 	public static int fissionUpdateRate;
@@ -524,6 +525,7 @@ public class NuclearCraft {
 		acceleratorConfig.load();
 		
 		workspace = config.getBoolean("If disabled, all crafting recipes will be vanilla crafting table recipes, and the Heavy Duty Workspace will be disabled", "!: Enable Heavy Duty Workspace", true, "");
+		workspaceShiftClick = config.getBoolean("If enabled, shift clicking items in the Heavy Duty Workspace will move items into the crafting grid", "!: Enable Shift Click into Workspace Grid", false, "");
 		
 		oreGenCopper = config.getBoolean("Generation", "0.0: Copper Ore", true, "");
 		oreSizeCopper = config.getInt("Chunk Size", "0.0: Copper Ore", 8, 1, 100, "");
@@ -616,26 +618,26 @@ public class NuclearCraft {
 		fissionEfficiency = fissionConfig.getInt("Fission Reactor Fuel Efficiency Multiplier", "0: General", 100, 10, 1000, "");
 		fissionHeat = fissionConfig.getInt("Fission Reactor Heat Production Multiplier", "0: General", 100, 10, 1000, "");
 		nuclearMeltdowns = fissionConfig.getBoolean("Enable Fission Reactor Meltdowns", "0: General", true, "");
-		baseRFLEU = fissionConfig.getInt("LEU Base Power", "1: Fission Fuel Base Power", 100, 10, 1000, "");
-		baseRFHEU = fissionConfig.getInt("HEU Base Power", "1: Fission Fuel Base Power", 400, 40, 4000, "");
-		baseRFLEP = fissionConfig.getInt("LEP Base Power", "1: Fission Fuel Base Power", 200, 20, 2000, "");
-		baseRFHEP = fissionConfig.getInt("HEP Base Power", "1: Fission Fuel Base Power", 800, 80, 8000, "");
-		baseRFMOX = fissionConfig.getInt("MOX Base Power", "1: Fission Fuel Base Power", 250, 25, 2500, "");
-		baseRFTBU = fissionConfig.getInt("TBU Base Power", "1: Fission Fuel Base Power", 50, 5, 500, "");
-		baseRFLEUOx = fissionConfig.getInt("LEU-Ox Base Power", "1: Fission Fuel Base Power", 150, 15, 1500, "");
-		baseRFHEUOx = fissionConfig.getInt("HEU-Ox Base Power", "1: Fission Fuel Base Power", 600, 60, 6000, "");
-		baseRFLEPOx = fissionConfig.getInt("LEP-Ox Base Power", "1: Fission Fuel Base Power", 300, 30, 3000, "");
-		baseRFHEPOx = fissionConfig.getInt("HEP-Ox Base Power", "1: Fission Fuel Base Power", 1200, 120, 12000, "");
-		baseFuelLEU = fissionConfig.getInt("LEU Usage Rate", "2: Fission Fuel Usage Rate", 50000, 5000, 500000, "");
-		baseFuelHEU = fissionConfig.getInt("HEU Usage Rate", "2: Fission Fuel Usage Rate", 50000, 5000, 500000, "");
-		baseFuelLEP = fissionConfig.getInt("LEP Usage Rate", "2: Fission Fuel Usage Rate", 100000, 10000, 1000000, "");
-		baseFuelHEP = fissionConfig.getInt("HEP Usage Rate", "2: Fission Fuel Usage Rate", 100000, 10000, 1000000, "");
-		baseFuelMOX = fissionConfig.getInt("MOX Usage Rate", "2: Fission Fuel Usage Rate", 75000, 7500, 750000, "");
-		baseFuelTBU = fissionConfig.getInt("TBU Usage Rate", "2: Fission Fuel Usage Rate", 25000, 2500, 250000, "");
-		baseFuelLEUOx = fissionConfig.getInt("LEU-Ox Usage Rate", "2: Fission Fuel Usage Rate", 50000, 5000, 500000, "");
-		baseFuelHEUOx = fissionConfig.getInt("HEU-Ox Usage Rate", "2: Fission Fuel Usage Rate", 50000, 5000, 500000, "");
-		baseFuelLEPOx = fissionConfig.getInt("LEP-Ox Usage Rate", "2: Fission Fuel Usage Rate", 100000, 10000, 1000000, "");
-		baseFuelHEPOx = fissionConfig.getInt("HEP-Ox Usage Rate", "2: Fission Fuel Usage Rate", 100000, 10000, 1000000, "");
+		baseRFLEU = fissionConfig.getInt("LEU Base Power", "1: Fission Fuel Base Power", 50, 5, 500, "");
+		baseRFHEU = fissionConfig.getInt("HEU Base Power", "1: Fission Fuel Base Power", 200, 20, 2000, "");
+		baseRFLEP = fissionConfig.getInt("LEP Base Power", "1: Fission Fuel Base Power", 100, 10, 1000, "");
+		baseRFHEP = fissionConfig.getInt("HEP Base Power", "1: Fission Fuel Base Power", 400, 40, 4000, "");
+		baseRFMOX = fissionConfig.getInt("MOX Base Power", "1: Fission Fuel Base Power", 125, 12, 1250, "");
+		baseRFTBU = fissionConfig.getInt("TBU Base Power", "1: Fission Fuel Base Power", 25, 2, 250, "");
+		baseRFLEUOx = fissionConfig.getInt("LEU-Ox Base Power", "1: Fission Fuel Base Power", 75, 7, 750, "");
+		baseRFHEUOx = fissionConfig.getInt("HEU-Ox Base Power", "1: Fission Fuel Base Power", 300, 30, 3000, "");
+		baseRFLEPOx = fissionConfig.getInt("LEP-Ox Base Power", "1: Fission Fuel Base Power", 150, 15, 1500, "");
+		baseRFHEPOx = fissionConfig.getInt("HEP-Ox Base Power", "1: Fission Fuel Base Power", 600, 60, 6000, "");
+		baseFuelLEU = fissionConfig.getInt("LEU Usage Rate", "2: Fission Fuel Usage Rate", 25000, 2500, 250000, "");
+		baseFuelHEU = fissionConfig.getInt("HEU Usage Rate", "2: Fission Fuel Usage Rate", 25000, 2500, 250000, "");
+		baseFuelLEP = fissionConfig.getInt("LEP Usage Rate", "2: Fission Fuel Usage Rate", 50000, 5000, 500000, "");
+		baseFuelHEP = fissionConfig.getInt("HEP Usage Rate", "2: Fission Fuel Usage Rate", 50000, 5000, 500000, "");
+		baseFuelMOX = fissionConfig.getInt("MOX Usage Rate", "2: Fission Fuel Usage Rate", 37500, 3750, 375000, "");
+		baseFuelTBU = fissionConfig.getInt("TBU Usage Rate", "2: Fission Fuel Usage Rate", 12500, 1250, 125000, "");
+		baseFuelLEUOx = fissionConfig.getInt("LEU-Ox Usage Rate", "2: Fission Fuel Usage Rate", 25000, 2500, 250000, "");
+		baseFuelHEUOx = fissionConfig.getInt("HEU-Ox Usage Rate", "2: Fission Fuel Usage Rate", 25000, 2500, 250000, "");
+		baseFuelLEPOx = fissionConfig.getInt("LEP-Ox Usage Rate", "2: Fission Fuel Usage Rate", 50000, 5000, 500000, "");
+		baseFuelHEPOx = fissionConfig.getInt("HEP-Ox Usage Rate", "2: Fission Fuel Usage Rate", 50000, 5000, 500000, "");
 		baseHeatLEU = fissionConfig.getInt("LEU Base Heat", "3: Fission Fuel Base Heat", 80, 8, 800, "");
 		baseHeatHEU = fissionConfig.getInt("HEU Base Heat", "3: Fission Fuel Base Heat", 640, 64, 6400, "");
 		baseHeatLEP = fissionConfig.getInt("LEP Base Heat", "3: Fission Fuel Base Heat", 200, 20, 2000, "");

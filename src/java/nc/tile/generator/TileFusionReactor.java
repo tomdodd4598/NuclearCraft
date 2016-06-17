@@ -2,6 +2,12 @@ package nc.tile.generator;
 
 import java.util.Random;
 
+import mekanism.api.gas.Gas;
+import mekanism.api.gas.GasRegistry;
+import mekanism.api.gas.GasStack;
+import mekanism.api.gas.GasTank;
+import mekanism.api.gas.IGasHandler;
+import mekanism.api.gas.ITubeConnection;
 import nc.NuclearCraft;
 import nc.block.NCBlocks;
 import nc.block.generator.BlockFusionReactor;
@@ -21,13 +27,16 @@ import net.minecraftforge.common.util.ForgeDirection;
 import cofh.api.energy.IEnergyHandler;
 import cofh.api.energy.IEnergyReceiver;
 
-public class TileFusionReactor extends TileGenerator implements IEnergyReceiver {
+public class TileFusionReactor extends TileGenerator implements IEnergyReceiver, IGasHandler, ITubeConnection {
 	
-	private Random rand = new Random();
+	public GasTank gasTank;
+	public GasTank gasTank2;
+	
 	public int EShown;
 	public int size = 1;
 	public String problem = StatCollector.translateToLocal("gui.connectorsIncomplete");
     public static double pMult = NuclearCraft.fusionRF;
+    private Random rand = new Random();
     
     private int checkCount = 0;
     private int soundCount = 0;
@@ -106,6 +115,8 @@ public class TileFusionReactor extends TileGenerator implements IEnergyReceiver 
 	
 	public TileFusionReactor() {
 		super("Fusion Reactor", 10000000, 9);
+		this.gasTank = new GasTank(3200);
+		this.gasTank2 = new GasTank(3200);
 	}
 	
 	public boolean ppp(int x, int y, int z) {
@@ -122,6 +133,7 @@ public class TileFusionReactor extends TileGenerator implements IEnergyReceiver 
 		    energy();
 		   	overheat(worldObj, this.xCoord, this.yCoord, this.zCoord, 10 + 4*size, BombType.BOMB_STANDARD);
 		   	addEnergy();
+		   	gasFuel();
 		   	fuel1();
 		   	fuel2();
 		   	outputs();
@@ -141,7 +153,7 @@ public class TileFusionReactor extends TileGenerator implements IEnergyReceiver 
 		}
 	    
 	    if (soundCount >= 67) {
-			if (complete == 1 && NuclearCraft.fusionSounds) {
+			if (flag && complete == 1 && !givenRedstone() && NuclearCraft.fusionSounds) {
 				worldObj.playSoundEffect(xCoord, yCoord + 1, zCoord, "nc:shield5", 1.25F, 1F);
 				for (int r = 0; r <= (size - 1)/2; r++) {
 					worldObj.playSoundEffect(xCoord - size - 2 + 2*r*(2*size + 5)/size, yCoord + 1, zCoord + size + 2, "nc:shield5", 1.25F, 1F);
@@ -218,7 +230,7 @@ public class TileFusionReactor extends TileGenerator implements IEnergyReceiver 
 	}
 	
 	public void plasma(World world, int x, int y, int z) {
-		if (!worldObj.isBlockIndirectlyGettingPowered(this.xCoord, this.yCoord, this.zCoord) && heat >= 8 && complete == 1) {
+		if (!givenRedstone() && heat >= 8 && complete == 1) {
 			for (int r = -size - 2; r <= size + 2; r++) {
 				if (!pp(x + r, y + 1, z + size + 2)) p(world, x + r, y + 1, z + size + 2);
 				if (!pp(x + r, y + 1, z - size - 2)) p(world, x + r, y + 1, z - size - 2);
@@ -227,7 +239,7 @@ public class TileFusionReactor extends TileGenerator implements IEnergyReceiver 
 			}
 		}
 		for (int r = -size - 2; r <= size + 2; r++) {
-			if (!worldObj.isBlockIndirectlyGettingPowered(this.xCoord, this.yCoord, this.zCoord) && heat < 8 && complete == 1) {
+			if (!givenRedstone() && heat < 8 && complete == 1) {
 				if (pp(x + r, y + 1, z + size + 2)) aa(world, x + r, y + 1, z + size + 2);
 				if (pp(x + r, y + 1, z - size - 2)) aa(world, x + r, y + 1, z - size - 2);
 				if (pp(x + size + 2, y + 1, z + r)) aa(world, x + size + 2, y + 1, z + r);
@@ -345,11 +357,25 @@ public class TileFusionReactor extends TileGenerator implements IEnergyReceiver 
     		return true;
     	} return false;
 	}
+	
+	public boolean givenRedstone() {
+		return (
+				worldObj.isBlockIndirectlyGettingPowered(xCoord-1, yCoord, zCoord-1) ||
+				worldObj.isBlockIndirectlyGettingPowered(xCoord-1, yCoord, zCoord) ||
+				worldObj.isBlockIndirectlyGettingPowered(xCoord-1, yCoord, zCoord+1) ||
+				worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord-1) ||
+				worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord) ||
+				worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord+1) ||
+				worldObj.isBlockIndirectlyGettingPowered(xCoord+1, yCoord, zCoord-1) ||
+				worldObj.isBlockIndirectlyGettingPowered(xCoord+1, yCoord, zCoord) ||
+				worldObj.isBlockIndirectlyGettingPowered(xCoord+1, yCoord, zCoord+1)
+				);
+	}
 	    
 	private void energy() {
 	    double newE = 0;
 
-	    if (!worldObj.isBlockIndirectlyGettingPowered(this.xCoord, this.yCoord, this.zCoord) && heat >= 8 && complete == 1) {
+	    if (!givenRedstone() && heat >= 8 && complete == 1) {
 	   	lastE = storage.getEnergyStored();
 	   	
 	   	if (this.HLevel > 0 && this.HLevel2 > 0) {
@@ -855,57 +881,273 @@ public class TileFusionReactor extends TileGenerator implements IEnergyReceiver 
 			E = storage.getEnergyStored();
 			if (E != lastE) BlockFusionReactor.updateBlockState(this.worldObj, this.xCoord, this.yCoord, this.zCoord);
 		}
-
+	
 	private void fuel1() {
-	    ItemStack stack = this.getStackInSlot(1);
+	    ItemStack stack = this.getStackInSlot(0);
 	    if (stack != null && isHFuel(stack) && this.HLevel() + HFuelValue(stack) <= TileFusionReactor.Max && this.DLevel() <= 0 && this.TLevel() <= 0 && this.HeLevel() <= 0 && this.BLevel() <= 0 && this.Li6Level() <= 0 && this.Li7Level() <= 0) {
-	    this.addH(fuelValue(stack)); --this.slots[1].stackSize;
-	        if (this.slots[1].stackSize <= 0) {this.slots[1] = null;}
+	        this.addH(fuelValue(stack)); --this.slots[0].stackSize;
+	        if (this.slots[0].stackSize <= 0) {this.slots[0] = null;}
 	    } else if (stack != null && isDFuel(stack) && this.DLevel() + DFuelValue(stack) <= TileFusionReactor.Max && this.HLevel() <= 0 && this.TLevel() <= 0 && this.HeLevel() <= 0 && this.BLevel() <= 0 && this.Li6Level() <= 0 && this.Li7Level() <= 0) {
-	        this.addD(fuelValue(stack)); --this.slots[1].stackSize;
-	        if (this.slots[1].stackSize <= 0) {this.slots[1] = null;}
+	        this.addD(fuelValue(stack)); --this.slots[0].stackSize;
+	        if (this.slots[0].stackSize <= 0) {this.slots[0] = null;}
 	    } else if (stack != null && isTFuel(stack) && this.TLevel() + TFuelValue(stack) <= TileFusionReactor.Max && this.HLevel() <= 0 && this.DLevel() <= 0 && this.HeLevel() <= 0 && this.BLevel() <= 0 && this.Li6Level() <= 0 && this.Li7Level() <= 0) {
-	        this.addT(fuelValue(stack)); --this.slots[1].stackSize;
-	        if (this.slots[1].stackSize <= 0) {this.slots[1] = null;}
+	        this.addT(fuelValue(stack)); --this.slots[0].stackSize;
+	        if (this.slots[0].stackSize <= 0) {this.slots[0] = null;}
 	    } else if (stack != null && isHeFuel(stack) && this.HeLevel() + HeFuelValue(stack) <= TileFusionReactor.Max && this.HLevel() <= 0 && this.DLevel() <= 0 && this.TLevel() <= 0 && this.BLevel() <= 0 && this.Li6Level() <= 0 && this.Li7Level() <= 0) {
-	        this.addHe(fuelValue(stack)); --this.slots[1].stackSize;
-	        if (this.slots[1].stackSize <= 0) {this.slots[1] = null;}
+	        this.addHe(fuelValue(stack)); --this.slots[0].stackSize;
+	        if (this.slots[0].stackSize <= 0) {this.slots[0] = null;}
 	    } else if (stack != null && isBFuel(stack) && this.BLevel() + BFuelValue(stack) <= TileFusionReactor.Max && this.HLevel() <= 0 && this.DLevel() <= 0 && this.TLevel() <= 0 && this.HeLevel() <= 0 && this.Li6Level() <= 0 && this.Li7Level() <= 0) {
-	        this.addB(fuelValue(stack)); --this.slots[1].stackSize;
-	        if (this.slots[1].stackSize <= 0) {this.slots[1] = null;}
+	        this.addB(fuelValue(stack)); --this.slots[0].stackSize;
+	        if (this.slots[0].stackSize <= 0) {this.slots[0] = null;}
 	    } else if (stack != null && isLi6Fuel(stack) && this.Li6Level() + Li6FuelValue(stack) <= TileFusionReactor.Max && this.HLevel() <= 0 && this.DLevel() <= 0 && this.TLevel() <= 0 && this.HeLevel() <= 0 && this.BLevel() <= 0 && this.Li7Level() <= 0) {
-	        this.addLi6(fuelValue(stack)); --this.slots[1].stackSize;
-	        if (this.slots[1].stackSize <= 0) {this.slots[1] = null;}
+	        this.addLi6(fuelValue(stack)); --this.slots[0].stackSize;
+	        if (this.slots[0].stackSize <= 0) {this.slots[0] = null;}
 	    } else if (stack != null && isLi7Fuel(stack) && this.Li7Level() + Li7FuelValue(stack) <= TileFusionReactor.Max && this.HLevel() <= 0 && this.DLevel() <= 0 && this.TLevel() <= 0 && this.HeLevel() <= 0 && this.BLevel() <= 0 && this.Li6Level() <= 0) {
-	        this.addLi7(fuelValue(stack)); --this.slots[1].stackSize;
+	        this.addLi7(fuelValue(stack)); --this.slots[0].stackSize;
+	        if (this.slots[0].stackSize <= 0) {this.slots[0] = null;}
+	    }
+	}
+
+	private void fuel2() {
+	    ItemStack stack = this.getStackInSlot(1);
+	    if (stack != null && isHFuel(stack) && this.HLevel2() + HFuelValue(stack) <= TileFusionReactor.Max && this.DLevel2() <= 0 && this.TLevel2() <= 0 && this.HeLevel2() <= 0 && this.BLevel2() <= 0 && this.Li6Level2() <= 0 && this.Li7Level2() <= 0) {
+	    this.addH2(fuelValue(stack)); --this.slots[1].stackSize;
+	        if (this.slots[1].stackSize <= 0) {this.slots[1] = null;}
+	    } else if (stack != null && isDFuel(stack) && this.DLevel2() + DFuelValue(stack) <= TileFusionReactor.Max && this.HLevel2() <= 0 && this.TLevel2() <= 0 && this.HeLevel2() <= 0 && this.BLevel2() <= 0 && this.Li6Level2() <= 0 && this.Li7Level2() <= 0) {
+	        this.addD2(fuelValue(stack)); --this.slots[1].stackSize;
+	        if (this.slots[1].stackSize <= 0) {this.slots[1] = null;}
+	    } else if (stack != null && isTFuel(stack) && this.TLevel2() + TFuelValue(stack) <= TileFusionReactor.Max && this.HLevel2() <= 0 && this.DLevel2() <= 0 && this.HeLevel2() <= 0 && this.BLevel2() <= 0 && this.Li6Level2() <= 0 && this.Li7Level2() <= 0) {
+	        this.addT2(fuelValue(stack)); --this.slots[1].stackSize;
+	        if (this.slots[1].stackSize <= 0) {this.slots[1] = null;}
+	    } else if (stack != null && isHeFuel(stack) && this.HeLevel2() + HeFuelValue(stack) <= TileFusionReactor.Max && this.HLevel2() <= 0 && this.DLevel2() <= 0 && this.TLevel2() <= 0 && this.BLevel2() <= 0 && this.Li6Level2() <= 0 && this.Li7Level2() <= 0) {
+	        this.addHe2(fuelValue(stack)); --this.slots[1].stackSize;
+	        if (this.slots[1].stackSize <= 0) {this.slots[1] = null;}
+	    } else if (stack != null && isBFuel(stack) && this.BLevel2() + BFuelValue(stack) <= TileFusionReactor.Max && this.HLevel2() <= 0 && this.DLevel2() <= 0 && this.TLevel2() <= 0 && this.HeLevel2() <= 0 && this.Li6Level2() <= 0 && this.Li7Level2() <= 0) {
+	        this.addB2(fuelValue(stack)); --this.slots[1].stackSize;
+	        if (this.slots[1].stackSize <= 0) {this.slots[1] = null;}
+	    } else if (stack != null && isLi6Fuel(stack) && this.Li6Level2() + Li6FuelValue(stack) <= TileFusionReactor.Max && this.HLevel2() <= 0 && this.DLevel2() <= 0 && this.TLevel2() <= 0 && this.HeLevel2() <= 0 && this.BLevel2() <= 0 && this.Li7Level2() <= 0) {
+	        this.addLi62(fuelValue(stack)); --this.slots[1].stackSize;
+	        if (this.slots[1].stackSize <= 0) {this.slots[1] = null;}
+	    } else if (stack != null && isLi7Fuel(stack) && this.Li7Level2() + Li7FuelValue(stack) <= TileFusionReactor.Max && this.HLevel2() <= 0 && this.DLevel2() <= 0 && this.TLevel2() <= 0 && this.HeLevel2() <= 0 && this.BLevel2() <= 0 && this.Li6Level2() <= 0) {
+	        this.addLi72(fuelValue(stack)); --this.slots[1].stackSize;
 	        if (this.slots[1].stackSize <= 0) {this.slots[1] = null;}
 	    }
 	}
-	    
-	private void fuel2() {
-	    ItemStack stack = this.getStackInSlot(0);
-	    if (stack != null && isHFuel(stack) && this.HLevel2() + HFuelValue(stack) <= TileFusionReactor.Max && this.DLevel2() <= 0 && this.TLevel2() <= 0 && this.HeLevel2() <= 0 && this.BLevel2() <= 0 && this.Li6Level2() <= 0 && this.Li7Level2() <= 0) {
-	        this.addH2(fuelValue(stack)); --this.slots[0].stackSize;
-	        if (this.slots[0].stackSize <= 0) {this.slots[0] = null;}
-	    } else if (stack != null && isDFuel(stack) && this.DLevel2() + DFuelValue(stack) <= TileFusionReactor.Max && this.HLevel2() <= 0 && this.TLevel2() <= 0 && this.HeLevel2() <= 0 && this.BLevel2() <= 0 && this.Li6Level2() <= 0 && this.Li7Level2() <= 0) {
-	        this.addD2(fuelValue(stack)); --this.slots[0].stackSize;
-	        if (this.slots[0].stackSize <= 0) {this.slots[0] = null;}
-	    } else if (stack != null && isTFuel(stack) && this.TLevel2() + TFuelValue(stack) <= TileFusionReactor.Max && this.HLevel2() <= 0 && this.DLevel2() <= 0 && this.HeLevel2() <= 0 && this.BLevel2() <= 0 && this.Li6Level2() <= 0 && this.Li7Level2() <= 0) {
-	        this.addT2(fuelValue(stack)); --this.slots[0].stackSize;
-	        if (this.slots[0].stackSize <= 0) {this.slots[0] = null;}
-	    } else if (stack != null && isHeFuel(stack) && this.HeLevel2() + HeFuelValue(stack) <= TileFusionReactor.Max && this.HLevel2() <= 0 && this.DLevel2() <= 0 && this.TLevel2() <= 0 && this.BLevel2() <= 0 && this.Li6Level2() <= 0 && this.Li7Level2() <= 0) {
-	        this.addHe2(fuelValue(stack)); --this.slots[0].stackSize;
-	        if (this.slots[0].stackSize <= 0) {this.slots[0] = null;}
-	    } else if (stack != null && isBFuel(stack) && this.BLevel2() + BFuelValue(stack) <= TileFusionReactor.Max && this.HLevel2() <= 0 && this.DLevel2() <= 0 && this.TLevel2() <= 0 && this.HeLevel2() <= 0 && this.Li6Level2() <= 0 && this.Li7Level2() <= 0) {
-	        this.addB2(fuelValue(stack)); --this.slots[0].stackSize;
-	        if (this.slots[0].stackSize <= 0) {this.slots[0] = null;}
-	    } else if (stack != null && isLi6Fuel(stack) && this.Li6Level2() + Li6FuelValue(stack) <= TileFusionReactor.Max && this.HLevel2() <= 0 && this.DLevel2() <= 0 && this.TLevel2() <= 0 && this.HeLevel2() <= 0 && this.BLevel2() <= 0 && this.Li7Level2() <= 0) {
-	        this.addLi62(fuelValue(stack)); --this.slots[0].stackSize;
-	        if (this.slots[0].stackSize <= 0) {this.slots[0] = null;}
-	    } else if (stack != null && isLi7Fuel(stack) && this.Li7Level2() + Li7FuelValue(stack) <= TileFusionReactor.Max && this.HLevel2() <= 0 && this.DLevel2() <= 0 && this.TLevel2() <= 0 && this.HeLevel2() <= 0 && this.BLevel2() <= 0 && this.Li6Level2() <= 0) {
-	        this.addLi72(fuelValue(stack)); --this.slots[0].stackSize;
-	        if (this.slots[0].stackSize <= 0) {this.slots[0] = null;}
-	    }
+	
+	// Available gases: H, D, T Li7
+	private void gasFuel() {
+		if (gasTank2.getStored() <= 0) {
+		} else if (gasTank2.getGasType() == GasRegistry.getGas("hydrogen")) {
+			if (this.DLevel2() <= 0 && this.TLevel2() <= 0 && this.HeLevel2() <= 0 && this.BLevel2() <= 0 && this.Li6Level2() <= 0 && this.Li7Level2() <= 0) {
+				int gasSpace = (TileFusionReactor.Max - this.HLevel2)/100;
+				int fuelSpace = gasSpace*100;
+				if (gasSpace < gasTank2.getStored()) {
+					if (gasSpace < 1600) {
+						this.addH2(fuelSpace); gasTank2.draw(gasSpace, true);
+					} else {
+						this.addH2(160000); gasTank2.draw(1600, true);
+					}
+				} else {
+					this.addH2(gasTank2.getStored()*100); gasTank2.setGas(null);
+				}
+			} if (this.DLevel() <= 0 && this.TLevel() <= 0 && this.HeLevel() <= 0 && this.BLevel() <= 0 && this.Li6Level() <= 0 && this.Li7Level() <= 0) {
+				int gasSpace = (TileFusionReactor.Max - this.HLevel)/100;
+				int fuelSpace = gasSpace*100;
+				if (gasSpace < gasTank2.getStored()) {
+					if (gasSpace < 1600) {
+						this.addH(fuelSpace); gasTank2.draw(gasSpace, true);
+					} else {
+						this.addH(160000); gasTank2.draw(1600, true);
+					}
+				} else {
+					this.addH(gasTank2.getStored()*100); gasTank2.setGas(null);
+				}
+			}
+		} else if (gasTank2.getGasType() == GasRegistry.getGas("deuterium")) {
+			if (this.HLevel2() <= 0 && this.TLevel2() <= 0 && this.HeLevel2() <= 0 && this.BLevel2() <= 0 && this.Li6Level2() <= 0 && this.Li7Level2() <= 0) {
+				int gasSpace = (TileFusionReactor.Max - this.DLevel2)/100;
+				int fuelSpace = gasSpace*100;
+				if (gasSpace < gasTank2.getStored()) {
+					if (gasSpace < 1600) {
+						this.addD2(fuelSpace); gasTank2.draw(gasSpace, true);
+					} else {
+						this.addD2(160000); gasTank2.draw(1600, true);
+					}
+				} else {
+					this.addD2(gasTank2.getStored()*100); gasTank2.setGas(null);
+				}
+			} if (this.HLevel() <= 0 && this.TLevel() <= 0 && this.HeLevel() <= 0 && this.BLevel() <= 0 && this.Li6Level() <= 0 && this.Li7Level() <= 0) {
+				int gasSpace = (TileFusionReactor.Max - this.DLevel)/100;
+				int fuelSpace = gasSpace*100;
+				if (gasSpace < gasTank2.getStored()) {
+					if (gasSpace < 1600) {
+						this.addD(fuelSpace); gasTank2.draw(gasSpace, true);
+					} else {
+						this.addD(160000); gasTank2.draw(1600, true);
+					}
+				} else {
+					this.addD(gasTank2.getStored()*100); gasTank2.setGas(null);
+				}
+			}
+		} else if (gasTank2.getGasType() == GasRegistry.getGas("tritium")) {
+			if (this.DLevel2() <= 0 && this.HLevel2() <= 0 && this.HeLevel2() <= 0 && this.BLevel2() <= 0 && this.Li6Level2() <= 0 && this.Li7Level2() <= 0) {
+				int gasSpace = (TileFusionReactor.Max - this.TLevel2)/100;
+				int fuelSpace = gasSpace*100;
+				if (gasSpace < gasTank2.getStored()) {
+					if (gasSpace < 1600) {
+						this.addT2(fuelSpace); gasTank2.draw(gasSpace, true);
+					} else {
+						this.addT2(160000); gasTank2.draw(1600, true);
+					}
+				} else {
+					this.addT2(gasTank2.getStored()*100); gasTank2.setGas(null);
+				}
+			} if (this.DLevel() <= 0 && this.HLevel() <= 0 && this.HeLevel() <= 0 && this.BLevel() <= 0 && this.Li6Level() <= 0 && this.Li7Level() <= 0) {
+				int gasSpace = (TileFusionReactor.Max - this.TLevel)/100;
+				int fuelSpace = gasSpace*100;
+				if (gasSpace < gasTank2.getStored()) {
+					if (gasSpace < 1600) {
+						this.addT(fuelSpace); gasTank2.draw(gasSpace, true);
+					} else {
+						this.addT(160000); gasTank2.draw(1600, true);
+					}
+				} else {
+					this.addT(gasTank2.getStored()*100); gasTank2.setGas(null);
+				}
+			}
+		} else if (gasTank2.getGasType() == GasRegistry.getGas("lithium")) {
+			if (this.DLevel2() <= 0 && this.TLevel2() <= 0 && this.HeLevel2() <= 0 && this.BLevel2() <= 0 && this.Li6Level2() <= 0 && this.HLevel2() <= 0) {
+				int gasSpace = (TileFusionReactor.Max - this.Li7Level2)/100;
+				int fuelSpace = gasSpace*100;
+				if (gasSpace < gasTank2.getStored()) {
+					if (gasSpace < 1600) {
+						this.addLi72(fuelSpace); gasTank2.draw(gasSpace, true);
+					} else {
+						this.addLi72(160000); gasTank2.draw(1600, true);
+					}
+				} else {
+					this.addLi72(gasTank2.getStored()*100); gasTank2.setGas(null);
+				}
+			} if (this.DLevel() <= 0 && this.TLevel() <= 0 && this.HeLevel() <= 0 && this.BLevel() <= 0 && this.Li6Level() <= 0 && this.HLevel() <= 0) {
+				int gasSpace = (TileFusionReactor.Max - this.Li7Level)/100;
+				int fuelSpace = gasSpace*100;
+				if (gasSpace < gasTank2.getStored()) {
+					if (gasSpace < 1600) {
+						this.addLi7(fuelSpace); gasTank2.draw(gasSpace, true);
+					} else {
+						this.addLi7(160000); gasTank2.draw(1600, true);
+					}
+				} else {
+					this.addLi7(gasTank2.getStored()*100); gasTank2.setGas(null);
+				}
+			}
+		}
+		if (gasTank.getStored() <= 0) {
+		} else if (gasTank.getGasType() == GasRegistry.getGas("hydrogen")) {
+			if (this.DLevel() <= 0 && this.TLevel() <= 0 && this.HeLevel() <= 0 && this.BLevel() <= 0 && this.Li6Level() <= 0 && this.Li7Level() <= 0) {
+				int gasSpace = (TileFusionReactor.Max - this.HLevel)/100;
+				int fuelSpace = gasSpace*100;
+				if (gasSpace < gasTank.getStored()) {
+					if (gasSpace < 1600) {
+						this.addH(fuelSpace); gasTank.draw(gasSpace, true);
+					} else {
+						this.addH(160000); gasTank.draw(1600, true);
+					}
+				} else {
+					this.addH(gasTank.getStored()*100); gasTank.setGas(null);
+				}
+			} if (this.DLevel2() <= 0 && this.TLevel2() <= 0 && this.HeLevel2() <= 0 && this.BLevel2() <= 0 && this.Li6Level2() <= 0 && this.Li7Level2() <= 0) {
+				int gasSpace = (TileFusionReactor.Max - this.HLevel2)/100;
+				int fuelSpace = gasSpace*100;
+				if (gasSpace < gasTank.getStored()) {
+					if (gasSpace < 1600) {
+						this.addH2(fuelSpace); gasTank.draw(gasSpace, true);
+					} else {
+						this.addH2(160000); gasTank.draw(1600, true);
+					}
+				} else {
+					this.addH2(gasTank.getStored()*100); gasTank.setGas(null);
+				}
+			}
+		} else if (gasTank.getGasType() == GasRegistry.getGas("deuterium")) {
+			if (this.HLevel() <= 0 && this.TLevel() <= 0 && this.HeLevel() <= 0 && this.BLevel() <= 0 && this.Li6Level() <= 0 && this.Li7Level() <= 0) {
+				int gasSpace = (TileFusionReactor.Max - this.DLevel)/100;
+				int fuelSpace = gasSpace*100;
+				if (gasSpace < gasTank.getStored()) {
+					if (gasSpace < 1600) {
+						this.addD(fuelSpace); gasTank.draw(gasSpace, true);
+					} else {
+						this.addD(160000); gasTank.draw(1600, true);
+					}
+				} else {
+					this.addD(gasTank.getStored()*100); gasTank.setGas(null);
+				}
+			} if (this.HLevel2() <= 0 && this.TLevel2() <= 0 && this.HeLevel2() <= 0 && this.BLevel2() <= 0 && this.Li6Level2() <= 0 && this.Li7Level2() <= 0) {
+				int gasSpace = (TileFusionReactor.Max - this.DLevel2)/100;
+				int fuelSpace = gasSpace*100;
+				if (gasSpace < gasTank.getStored()) {
+					if (gasSpace < 1600) {
+						this.addD2(fuelSpace); gasTank.draw(gasSpace, true);
+					} else {
+						this.addD2(160000); gasTank.draw(1600, true);
+					}
+				} else {
+					this.addD2(gasTank.getStored()*100); gasTank.setGas(null);
+				}
+			}
+		} else if (gasTank.getGasType() == GasRegistry.getGas("tritium")) {
+			if (this.DLevel() <= 0 && this.HLevel() <= 0 && this.HeLevel() <= 0 && this.BLevel() <= 0 && this.Li6Level() <= 0 && this.Li7Level() <= 0) {
+				int gasSpace = (TileFusionReactor.Max - this.TLevel)/100;
+				int fuelSpace = gasSpace*100;
+				if (gasSpace < gasTank.getStored()) {
+					if (gasSpace < 1600) {
+						this.addT(fuelSpace); gasTank.draw(gasSpace, true);
+					} else {
+						this.addT(160000); gasTank.draw(1600, true);
+					}
+				} else {
+					this.addT(gasTank.getStored()*100); gasTank.setGas(null);
+				}
+			} if (this.DLevel2() <= 0 && this.HLevel2() <= 0 && this.HeLevel2() <= 0 && this.BLevel2() <= 0 && this.Li6Level2() <= 0 && this.Li7Level2() <= 0) {
+				int gasSpace = (TileFusionReactor.Max - this.TLevel2)/100;
+				int fuelSpace = gasSpace*100;
+				if (gasSpace < gasTank.getStored()) {
+					if (gasSpace < 1600) {
+						this.addT2(fuelSpace); gasTank.draw(gasSpace, true);
+					} else {
+						this.addT2(160000); gasTank.draw(1600, true);
+					}
+				} else {
+					this.addT2(gasTank.getStored()*100); gasTank.setGas(null);
+				}
+			}
+		} else if (gasTank.getGasType() == GasRegistry.getGas("lithium")) {
+			if (this.DLevel() <= 0 && this.TLevel() <= 0 && this.HeLevel() <= 0 && this.BLevel() <= 0 && this.Li6Level() <= 0 && this.HLevel() <= 0) {
+				int gasSpace = (TileFusionReactor.Max - this.Li7Level)/100;
+				int fuelSpace = gasSpace*100;
+				if (gasSpace < gasTank.getStored()) {
+					if (gasSpace < 1600) {
+						this.addLi7(fuelSpace); gasTank.draw(gasSpace, true);
+					} else {
+						this.addLi7(160000); gasTank.draw(1600, true);
+					}
+				} else {
+					this.addLi7(gasTank.getStored()*100); gasTank.setGas(null);
+				}
+			} if (this.DLevel2() <= 0 && this.TLevel2() <= 0 && this.HeLevel2() <= 0 && this.BLevel2() <= 0 && this.Li6Level2() <= 0 && this.HLevel2() <= 0) {
+				int gasSpace = (TileFusionReactor.Max - this.Li7Level2)/100;
+				int fuelSpace = gasSpace*100;
+				if (gasSpace < gasTank.getStored()) {
+					if (gasSpace < 1600) {
+						this.addLi72(fuelSpace); gasTank.draw(gasSpace, true);
+					} else {
+						this.addLi72(160000); gasTank.draw(1600, true);
+					}
+				} else {
+					this.addLi72(gasTank.getStored()*100); gasTank.setGas(null);
+				}
+			}
+		}
 	}
 	    
 	public static int fuelValue(ItemStack stack) {
@@ -1135,7 +1377,7 @@ public class TileFusionReactor extends TileGenerator implements IEnergyReceiver 
 	public static boolean isLi6Fuel(ItemStack stack) {return Li6FuelValue(stack) > 0;}
 	public static boolean isLi7Fuel(ItemStack stack) {return Li7FuelValue(stack) > 0;}
 	
-	public boolean isInputtableFuel2(ItemStack stack) {
+	public boolean isInputtableFuel1(ItemStack stack) {
 		if (HLevel > 0) return isHFuel(stack);
 	    else if (DLevel > 0) return isDFuel(stack);
 	    else if (TLevel > 0) return isTFuel(stack);
@@ -1146,7 +1388,7 @@ public class TileFusionReactor extends TileGenerator implements IEnergyReceiver 
 	    else return isAnyFuel(stack);
 	}
 	
-	public boolean isInputtableFuel1(ItemStack stack) {
+	public boolean isInputtableFuel2(ItemStack stack) {
 	   	if (HLevel2 > 0) return isHFuel(stack);
 	   	else if (DLevel2 > 0) return isDFuel(stack);
 	   	else if (TLevel2 > 0) return isTFuel(stack);
@@ -1158,7 +1400,7 @@ public class TileFusionReactor extends TileGenerator implements IEnergyReceiver 
 	}
 
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {
-		if (slot == 1) {
+		if (slot == 0) {
 	    	if (HLevel > 0) return isHFuel(stack);
 	        else if (DLevel > 0) return isDFuel(stack);
 	    	else if (TLevel > 0) return isTFuel(stack);
@@ -1168,7 +1410,7 @@ public class TileFusionReactor extends TileGenerator implements IEnergyReceiver 
 	        else if (Li7Level > 0) return isLi7Fuel(stack);
 	        else return isAnyFuel(stack);
 		}
-		else if (slot == 0) {
+		else if (slot == 1) {
 	    	if (HLevel2 > 0) return isHFuel(stack);
 	    	else if (DLevel2 > 0) return isDFuel(stack);
 	    	else if (TLevel2 > 0) return isTFuel(stack);
@@ -1222,5 +1464,36 @@ public class TileFusionReactor extends TileGenerator implements IEnergyReceiver 
 			itemstack.stackSize = this.getInventoryStackLimit();
 		}
 		markDirty();
+	}
+
+	public int receiveGas(ForgeDirection side, GasStack stack, boolean doTransfer) {
+		return this.gasTank.getStored() < this.gasTank.getMaxGas() ? this.gasTank.receive(stack, doTransfer) : this.gasTank2.receive(stack, doTransfer);
+	}
+
+	public GasStack drawGas(ForgeDirection side, int amount, boolean doTransfer) {
+		return null;
+	}
+
+	public boolean canReceiveGas(ForgeDirection side, Gas type) {
+		return (type == GasRegistry.getGas("hydrogen") || type == GasRegistry.getGas("deuterium") || type == GasRegistry.getGas("tritium") || type == GasRegistry.getGas("lithium"));
+	}
+	
+	
+	public boolean canDrawGas(ForgeDirection side, Gas type) {
+		return false;
+	}
+
+	@Deprecated
+	public int receiveGas(ForgeDirection side, GasStack stack) {
+		return 0;
+	}
+
+	@Deprecated
+	public GasStack drawGas(ForgeDirection side, int amount) {
+		return null;
+	}
+
+	public boolean canTubeConnect(ForgeDirection side) {
+		return true;
 	}
 }
