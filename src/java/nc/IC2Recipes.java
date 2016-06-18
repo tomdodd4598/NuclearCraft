@@ -1,8 +1,10 @@
 package nc;
 
 import ic2.api.recipe.RecipeInputOreDict;
+import ic2.api.recipe.Recipes;
 import nc.item.NCItems;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.FluidRegistry;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Optional.Method;
 
@@ -19,9 +21,13 @@ public final class IC2Recipes {
 	@Method(modid = "IC2")
 	public static void addIC2Recipes() {
 		
-		//Mass Fab
+		// Mass Fab
 		try {RecipesHelp.addMFAmplifier("universalReactant", 1, 16000);} catch(Exception e) {}
 		try {RecipesHelp.addMFAmplifier(new ItemStack (NCItems.parts, 1, 4), 1, 16000);} catch(Exception e) {}
+		
+		// Enriching
+		try {Recipes.cannerEnrich.addRecipe(FluidRegistry.getFluidStack(FluidRegistry.WATER.getName(), 1000), new RecipeInputOreDict("universalReactant", 8), FluidRegistry.getFluidStack("ic2coolant", 1000));} catch(Exception e) {}
+		try {Recipes.cannerEnrich.addRecipe(FluidRegistry.getFluidStack("distilledWater", 1000), new RecipeInputOreDict("universalReactant", 1), FluidRegistry.getFluidStack("ic2coolant", 1000));} catch(Exception e) {}
 		
 		// Macerator
 		try {RecipesHelp.addMaceratorRecipe("oreThorium", 1, new ItemStack(NCItems.material, 2, 20));} catch(Exception e) {}
@@ -152,6 +158,8 @@ public final class IC2Recipes {
 		try {RecipesHelp.addBottleRecipe(new ItemStack (NCItems.fuel, 1, 33), new ItemStack(NCItems.material, 1, 46), new ItemStack (NCItems.fuel, 1, 41));} catch(Exception e) {}
 		try {RecipesHelp.addBottleRecipe(new ItemStack (NCItems.fuel, 1, 33), new ItemStack(NCItems.material, 1, 47), new ItemStack (NCItems.fuel, 1, 42));} catch(Exception e) {}
 		try {RecipesHelp.addBottleRecipe(new ItemStack (NCItems.fuel, 1, 33), new ItemStack(NCItems.material, 1, 48), new ItemStack (NCItems.fuel, 1, 43));} catch(Exception e) {}
+		try {RecipesHelp.addBottleRecipe(new ItemStack (NCItems.fuel, 1, 33), new ItemStack(NCItems.material, 1, 49), new ItemStack (NCItems.fuel, 1, 44));} catch(Exception e) {}
+		
 		try {RecipesHelp.addBottleRecipe(new ItemStack (NCItems.fuel, 1, 33), new ItemStack(NCItems.material, 1, 49), new ItemStack (NCItems.fuel, 1, 44));} catch(Exception e) {}
 	}
 }

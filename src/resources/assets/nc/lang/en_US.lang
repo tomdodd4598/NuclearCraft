@@ -120,6 +120,7 @@ gui.fuel=Fuel
 gui.heat=Heat
 gui.noFuel=No Fuel
 gui.casingIncomplete=Casing Incomplete
+gui.invalidStructure=Invalid Structure
 gui.multipleControllers=Multiple Controllers
 gui.fuelRodIncomplete=Fuel Rod Incomplete
 gui.casingInInterior=Casing In Interior

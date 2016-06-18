@@ -57,8 +57,8 @@ public class TileFissionReactor extends TileGenerator {
 
     public void updateEntity() {
     	super.updateEntity();
+    	checkStructure();
     	if(!this.worldObj.isRemote) {
-    		checkStructure();
         	product();
     		fuel();
     		energy();
@@ -680,6 +680,18 @@ public class TileFissionReactor extends TileGenerator {
     	else return false;
     }
     
+    private boolean find(Block block, Block block2, Block block3, int x, int y, int z) {
+    	int xc = xCoord;
+    	int yc = yCoord + y;
+    	int zc = zCoord;
+    	
+    	if (this.getBlockMetadata() == 4) return (worldObj.getBlock(xc+x, yc, zc+z) == block || worldObj.getBlock(xc+x, yc, zc+z) == block2 || worldObj.getBlock(xc+x, yc, zc+z) == block3);
+    	else if (this.getBlockMetadata() == 2) return (worldObj.getBlock(xc-z, yc, zc+x) == block || worldObj.getBlock(xc-z, yc, zc+x) == block2 || worldObj.getBlock(xc-z, yc, zc+x) == block3);
+    	else if (this.getBlockMetadata() == 5) return (worldObj.getBlock(xc-x, yc, zc-z) == block || worldObj.getBlock(xc-x, yc, zc-z) == block2 || worldObj.getBlock(xc-x, yc, zc-z) == block3);
+    	else if (this.getBlockMetadata() == 3) return (worldObj.getBlock(xc+z, yc, zc-x) == block || worldObj.getBlock(xc+z, yc, zc-x) == block2 || worldObj.getBlock(xc+z, yc, zc-x) == block3);
+    	else return false;
+    }
+    
     private boolean checkStructure() {
     	if (tickCount >= NuclearCraft.fissionUpdateRate) {
 	    	int l = NuclearCraft.fissionMaxLength + 2;
@@ -695,7 +707,14 @@ public class TileFissionReactor extends TileGenerator {
 	    	int x1 = 0;
 	    	int y1 = 0;
 	    	for (int z = 0; z <= l; z++) {
-	    		if (/*!find(b, 0, 0, -z) &&*/ !find(b, 0, 1, -z) && !find(b, 0, -1, -z) && (find(b, 0, 0, -z + 1) || find(b, 0, 1, -z + 1) || find(b, 0, -1, -z + 1))) {
+	    		if ((find(b, 0, 1, 0) || find(b, 0, -1, 0)) || ((find(b, 1, 1, 0) || find(b, 1, -1, 0)) && find(b, 1, 0, 0)) || ((find(b, 1, 1, 0) && !find(b, 1, -1, 0)) && !find(b, 1, 0, 0)) || ((!find(b, 1, 1, 0) && find(b, 1, -1, 0)) && !find(b, 1, 0, 0))) {
+		    		if (/*!find(b, 0, 0, -z) &&*/ !find(b, 0, 1, -z) && !find(b, 0, -1, -z) && (find(b, r, rr, 0, 0, -z + 1) || find(b, r, rr, 0, 1, -z + 1) || find(b, r, rr, 0, -1, -z + 1))) {
+		    			rz = l - z;
+		    			z0 = -z;
+		    			f = true;
+		    			break;
+		    		}
+	    		} else if (!find(b, 0, 0, -z) && !find(b, 1, 1, -z) && !find(b, 1, -1, -z) && find(b, r, rr, 0, 0, -z + 1) && find(b, 1, 0, -z) && find(b, 1, 1, -z + 1) && find(b, 1, -1, -z + 1)) {
 	    			rz = l - z;
 	    			z0 = -z;
 	    			f = true;
@@ -707,7 +726,7 @@ public class TileFissionReactor extends TileGenerator {
 	    	}
 	    	f = false;
 	    	for (int y = 0; y <= l; y++) {
-	    		if (/*!find(b, x0, -y, z0) && */!find(b, x0, -y + 1, z0) && !find(b, x0 + 1, -y, z0) && !find(b, x0, -y, z0 + 1) && find(b, x0 + 1, -y, z0 + 1) && find(b, x0, -y + 1, z0 + 1) && find(b, x0 + 1, -y + 1, z0)) {
+	    		if (/*!find(b, x0, -y, z0) && */!find(b, x0, -y + 1, z0) && !find(b, x0 + 1, -y, z0) && !find(b, x0, -y, z0 + 1) && find(b, r, rr, x0 + 1, -y, z0 + 1) && find(b, r, rr, x0, -y + 1, z0 + 1) && find(b, r, rr, x0 + 1, -y + 1, z0)) {
 	    			y0 = -y;
 	    			f = true;
 	    			break;
@@ -718,8 +737,8 @@ public class TileFissionReactor extends TileGenerator {
 	    	}
 	    	f = false;
 	    	for (int z = 0; z <= rz; z++) {
-	    		if (/*!find(b, x0, y0, z0 + z) &&*/ !find(b, x0, y0 + 1, z0 + z) && !find(b, x0 + 1, y0, z0 + z) && !find(b, x0, y0, z0 + z - 1) && find(b, x0 + 1, y0, z0 + z - 1) && find(b, x0, y0 + 1, z0 + z - 1) && find(b, x0 + 1, y0 + 1, z0 + z)) {
-	    			z1 = z0 + z;
+	    		if (/*!find(b, x0, y0, z) &&*/ !find(b, x0, y0 + 1, z) && !find(b, x0 + 1, y0, z) && !find(b, x0, y0, z - 1) && find(b, r, rr, x0 + 1, y0, z - 1) && find(b, r, rr, x0, y0 + 1, z - 1) && find(b, r, rr, x0 + 1, y0 + 1, z)) {
+	    			z1 = z;
 	    			f = true;
 	    			break;
 	    		}
@@ -729,7 +748,7 @@ public class TileFissionReactor extends TileGenerator {
 	    	}
 	    	f = false;
 	    	for (int x = 0; x <= l; x++) {
-	    		if (/*!find(b, x0 + x, y0, z0) &&*/ !find(b, x0 + x, y0 + 1, z0) && !find(b, x0 + x - 1, y0, z0) && !find(b, x0 + x, y0, z0 + 1) && find(b, x0 + x - 1, y0, z0 + 1) && find(b, x0 + x, y0 + 1, z0 + 1) && find(b, x0 + x - 1, y0 + 1, z0)) {
+	    		if (/*!find(b, x0 + x, y0, z0) &&*/ !find(b, x0 + x, y0 + 1, z0) && !find(b, x0 + x - 1, y0, z0) && !find(b, x0 + x, y0, z0 + 1) && find(b, r, rr, x0 + x - 1, y0, z0 + 1) && find(b, r, rr, x0 + x, y0 + 1, z0 + 1) && find(b, r, rr, x0 + x - 1, y0 + 1, z0)) {
 	    			x1 = x0 + x;
 	    			f = true;
 	    			break;
@@ -740,7 +759,7 @@ public class TileFissionReactor extends TileGenerator {
 	    	}
 	    	f = false;
 	    	for (int y = 0; y <= l; y++) {
-	    		if (/*!find(b, x0, y0 + y, z0) &&*/ !find(b, x0, y0 + y - 1, z0) && !find(b, x0 + 1, y0 + y, z0) && !find(b, x0, y0 + y, z0 + 1) && find(b, x0 + 1, y0 + y, z0 + 1) && find(b, x0, y0 + y - 1, z0 + 1) && find(b, x0 + 1, y0 + y - 1, z0)) {
+	    		if (/*!find(b, x0, y0 + y, z0) &&*/ !find(b, x0, y0 + y - 1, z0) && !find(b, x0 + 1, y0 + y, z0) && !find(b, x0, y0 + y, z0 + 1) && find(b, r, rr, x0 + 1, y0 + y, z0 + 1) && find(b, r, rr, x0, y0 + y - 1, z0 + 1) && find(b, r, rr, x0 + 1, y0 + y - 1, z0)) {
 	    			y1 = y0 + y;
 	    			f = true;
 	    			break;
@@ -750,8 +769,8 @@ public class TileFissionReactor extends TileGenerator {
 	    		complete = 0; problem = StatCollector.translateToLocal("gui.casingIncomplete"); return false;
 	    	}
 	    	f = false;
-	    	if ((x0 > 0 || x1 < 0) || (y0 > 0 || y1 < 0) || (z0 > 0 || z1 < 0)) {
-	    		problem = StatCollector.translateToLocal("gui.casingIncomplete");
+	    	if ((x0 > 0 || x1 < 0) || (y0 > 0 || y1 < 0) || (z0 > 0 || z1 < 0) || x1 - x0 < 1 || y1 - y0 < 1 || z1 - z0 < 1) {
+	    		problem = StatCollector.translateToLocal("gui.invalidStructure");
 	    		complete = 0;
 				return false;
 	    	}
@@ -819,7 +838,7 @@ public class TileFissionReactor extends TileGenerator {
 	    			}
 	    		}
 	    	}
-	    	StatCollector.translateToLocal("gui.casingIncomplete");
+	    	//problem = StatCollector.translateToLocal("gui.casingIncomplete");
 	    	complete = 1;
 	    	tickCount = 0;
 	    	this.x0 = x0;

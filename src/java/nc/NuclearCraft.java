@@ -54,6 +54,7 @@ import nc.block.quantum.BlockSimpleQuantum;
 import nc.block.reactor.BlockBlastBlock;
 import nc.block.reactor.BlockCellBlock;
 import nc.block.reactor.BlockCoolerBlock;
+import nc.block.reactor.BlockFusionConnector;
 import nc.block.reactor.BlockGraphiteBlock;
 import nc.block.reactor.BlockReactorBlock;
 import nc.block.reactor.BlockSpeedBlock;
@@ -161,7 +162,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 public class NuclearCraft {
 	public static final String modid = "NuclearCraft";
-	public static final String version = "1.7g";
+	public static final String version = "1.7h";
 	
 	public static final CreativeTabs tabNC = new CreativeTabs("tabNC") {
 		// Creative Tab Shown Item
@@ -169,19 +170,6 @@ public class NuclearCraft {
 			return Item.getItemFromBlock(NCBlocks.fusionReactor);
 		}
 	};
-	
-	// Tool Materials
-	public static final ToolMaterial Bronze = EnumHelper.addToolMaterial("Bronze", 2, 300, 7.0F, 2.0F, 12).setRepairItem(new ItemStack(NCItems.material, 1, 6));
-	public static final ToolMaterial ToughAlloy = EnumHelper.addToolMaterial("ToughAlloy", 4, 2500, 16.0F, 12.0F, 10).setRepairItem(new ItemStack(NCItems.material, 1, 7));
-	public static final ToolMaterial ToughPaxel = EnumHelper.addToolMaterial("ToughPaxel", 4, 15000, 16.0F, 14.0F, 10).setRepairItem(new ItemStack(NCItems.material, 1, 7));
-	public static final ToolMaterial dU = EnumHelper.addToolMaterial("dU", 8, 6400, 25.0F, 18.0F, 50).setRepairItem(new ItemStack(NCItems.parts, 1, 8));
-	public static final ToolMaterial dUPaxel = EnumHelper.addToolMaterial("dUPaxel", 8, 32000, 25.0F, 20.0F, 50).setRepairItem(new ItemStack(NCItems.parts, 1, 8));
-	public static final ToolMaterial Boron = EnumHelper.addToolMaterial("Boron", 2, 1200, 9.0F, 3.0F, 5).setRepairItem(new ItemStack(NCItems.material, 1, 43));
-	
-	public static final ArmorMaterial ToughArmorMaterial = EnumHelper.addArmorMaterial("ToughArmorMaterial", 50, new int [] {5, 9, 5, 3}, 10);
-	public static final ArmorMaterial BoronArmorMaterial = EnumHelper.addArmorMaterial("BoronArmorMaterial", 30, new int [] {3, 7, 5, 3}, 5);
-	public static final ArmorMaterial BronzeArmorMaterial = EnumHelper.addArmorMaterial("BronzeArmorMaterial", 20, new int [] {2, 6, 5, 2}, 9);
-	public static final ArmorMaterial dUArmorMaterial = EnumHelper.addArmorMaterial("dUArmorMaterial", 100, new int [] {5, 9, 6, 4}, 50);
 	
 	// Mod Checker
 	public static boolean isIC2Loaded;
@@ -317,6 +305,7 @@ public class NuclearCraft {
 	public static int fissionHeat;
 	public static boolean nuclearMeltdowns;
 	public static int upgradeMax;
+	public static boolean alternateCasing;
 	public static int baseRFLEU;
 	public static int baseRFHEU;
 	public static int baseRFLEP;
@@ -458,6 +447,37 @@ public class NuclearCraft {
 	public static int acceleratorProduction;
 	public static boolean acceleratorSounds;
 	
+	public static int bronzeHarvestLevel;
+	public static int bronzeDurability;
+	public static int bronzeSpeed;
+	public static int bronzeDamage;
+	
+	public static int toughHarvestLevel;
+	public static int toughDurability;
+	public static int toughSpeed;
+	public static int toughDamage;
+	
+	public static int tPHarvestLevel;
+	public static int tPDurability;
+	public static int tPSpeed;
+	public static int tPDamage;
+	
+	public static int dUHarvestLevel;
+	public static int dUDurability;
+	public static int dUSpeed;
+	public static int dUDamage;
+	
+	public static int dUPHarvestLevel;
+	public static int dUPDurability;
+	public static int dUPSpeed;
+	public static int dUPDamage;
+	
+	public static int boronHarvestLevel;
+	public static int boronDurability;
+	public static int boronSpeed;
+	public static int boronDamage;
+	
+	
 	//Armor
 	public static int toughHelmID;
 	public static int toughChestID;
@@ -512,6 +532,11 @@ public class NuclearCraft {
 	public static Achievement synchrotronAchievement;
 	public static Achievement oxidiserAchievement;
 	
+	public static final ArmorMaterial ToughArmorMaterial = EnumHelper.addArmorMaterial("ToughArmorMaterial", 50, new int [] {5, 9, 5, 3}, 10);
+	public static final ArmorMaterial BoronArmorMaterial = EnumHelper.addArmorMaterial("BoronArmorMaterial", 30, new int [] {3, 7, 5, 3}, 5);
+	public static final ArmorMaterial BronzeArmorMaterial = EnumHelper.addArmorMaterial("BronzeArmorMaterial", 20, new int [] {2, 6, 5, 2}, 9);
+	public static final ArmorMaterial dUArmorMaterial = EnumHelper.addArmorMaterial("dUArmorMaterial", 100, new int [] {5, 9, 6, 4}, 50);
+	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {	
 		//config
@@ -519,10 +544,12 @@ public class NuclearCraft {
 		Configuration fissionConfig = new Configuration(new File("config/NuclearCraft/FissionConfig.cfg"));
 		Configuration fusionConfig = new Configuration(new File("config/NuclearCraft/FusionConfig.cfg"));
 		Configuration acceleratorConfig = new Configuration(new File("config/NuclearCraft/AcceleratorConfig.cfg"));
+		Configuration toolConfig = new Configuration(new File("config/NuclearCraft/ToolConfig.cfg"));
 		config.load();
 		fissionConfig.load();
 		fusionConfig.load();
 		acceleratorConfig.load();
+		toolConfig.load();
 		
 		workspace = config.getBoolean("If disabled, all crafting recipes will be vanilla crafting table recipes, and the Heavy Duty Workspace will be disabled", "!: Enable Heavy Duty Workspace", true, "");
 		workspaceShiftClick = config.getBoolean("If enabled, shift clicking items in the Heavy Duty Workspace will move items into the crafting grid", "!: Enable Shift Click into Workspace Grid", false, "");
@@ -618,6 +645,7 @@ public class NuclearCraft {
 		fissionEfficiency = fissionConfig.getInt("Fission Reactor Fuel Efficiency Multiplier", "0: General", 100, 10, 1000, "");
 		fissionHeat = fissionConfig.getInt("Fission Reactor Heat Production Multiplier", "0: General", 100, 10, 1000, "");
 		nuclearMeltdowns = fissionConfig.getBoolean("Enable Fission Reactor Meltdowns", "0: General", true, "");
+		alternateCasing = fissionConfig.getBoolean("Use Alternate Casing Texture", "0: General", false, "");
 		baseRFLEU = fissionConfig.getInt("LEU Base Power", "1: Fission Fuel Base Power", 50, 5, 500, "");
 		baseRFHEU = fissionConfig.getInt("HEU Base Power", "1: Fission Fuel Base Power", 200, 20, 2000, "");
 		baseRFLEP = fissionConfig.getInt("LEP Base Power", "1: Fission Fuel Base Power", 100, 10, 1000, "");
@@ -762,13 +790,53 @@ public class NuclearCraft {
 		electromagnetHe = acceleratorConfig.getInt("Electromagnet Supercooler Liquid Helium mB/s Requirement", "0: General", 1, 0, 100, "");
 		acceleratorProduction = acceleratorConfig.getInt("Synchrotron Production Multiplier", "0: General", 100, 10, 1000, "");
 		
+		bronzeHarvestLevel = toolConfig.getInt("Bronze Harvest Level", "0: Bronze", 2, 0, 10, "");
+		bronzeDurability = toolConfig.getInt("Bronze Durability", "0: Bronze", 300, 1, 32767, "");
+		bronzeSpeed = toolConfig.getInt("Bronze Speed", "0: Bronze", 7, 1, 50, "");
+		bronzeDamage = toolConfig.getInt("Bronze Damage", "0: Bronze", 2, 0, 25, "");
+		
+		toughHarvestLevel = toolConfig.getInt("Tough Alloy Harvest Level", "1: Tough", 4, 0, 10, "");
+		toughDurability = toolConfig.getInt("Tough Alloy Durability", "1: Tough", 3000, 1, 32767, "");
+		toughSpeed = toolConfig.getInt("Tough Alloy Speed", "1: Tough", 16, 1, 50, "");
+		toughDamage = toolConfig.getInt("Tough Alloy Damage", "1: Tough", 12, 0, 25, "");
+		
+		tPHarvestLevel = toolConfig.getInt("Tough Alloy Paxel Harvest Level", "2: Tough Paxel", 4, 0, 10, "");
+		tPDurability = toolConfig.getInt("Tough Alloy Paxel Durability", "2: Tough Paxel", 15000, 1, 32767, "");
+		tPSpeed = toolConfig.getInt("Tough Alloy Paxel Speed", "2: Tough Paxel", 16, 1, 50, "");
+		tPDamage = toolConfig.getInt("Tough Alloy Paxel Damage", "2: Tough Paxel", 14, 0, 25, "");
+		
+		dUHarvestLevel = toolConfig.getInt("DU Harvest Level", "3: DU", 8, 0, 10, "");
+		dUDurability = toolConfig.getInt("DU Durability", "3: DU", 6400, 1, 32767, "");
+		dUSpeed = toolConfig.getInt("DU Speed", "3: DU", 25, 1, 50, "");
+		dUDamage = toolConfig.getInt("DU Damage", "3: DU", 18, 0, 25, "");
+		
+		dUPHarvestLevel = toolConfig.getInt("DU Paxel Harvest Level", "4: DU Paxel", 8, 0, 10, "");
+		dUPDurability = toolConfig.getInt("DU Paxel Durability", "4: DU Paxel", 32000, 1, 32767, "");
+		dUPSpeed = toolConfig.getInt("DU Paxel Speed", "4: DU Paxel", 25, 1, 50, "");
+		dUPDamage = toolConfig.getInt("DU Paxel Damage", "4: DU Paxel", 20, 0, 25, "");
+		
+		boronHarvestLevel = toolConfig.getInt("Boron Harvest Level", "5: Boron", 2, 0, 10, "");
+		boronDurability = toolConfig.getInt("Boron Durability", "5: Boron", 1200, 1, 32767, "");
+		boronSpeed = toolConfig.getInt("Boron Speed", "5: Boron", 9, 1, 50, "");
+		boronDamage = toolConfig.getInt("Boron Damage", "5: Boron", 3, 0, 25, "");
+		
 		config.save();
 		fissionConfig.save();
 		fusionConfig.save();
 		acceleratorConfig.save();
+		toolConfig.save();
 		
-		// Fusion
-		//TileEntityFusionReactor.registerReactions();
+		// Recipes
+		/*RecipeSorter.register("nuclearcraft:workspaceshaped", NuclearWorkspaceShapedOreRecipe.class, Category.SHAPED, "after:minecraft:shaped");
+		RecipeSorter.register("nuclearcraft:workspaceshapeless", NuclearWorkspaceShapelessOreRecipe.class, Category.SHAPELESS, "after:minecraft:shapeless");*/
+		
+		// Tool Materials
+		ToolMaterial Bronze = EnumHelper.addToolMaterial("Bronze", bronzeHarvestLevel, bronzeDurability, bronzeSpeed, bronzeDamage, 12).setRepairItem(new ItemStack(NCItems.material, 1, 6));
+		ToolMaterial ToughAlloy = EnumHelper.addToolMaterial("ToughAlloy", toughHarvestLevel, toughDurability, toughSpeed, toughDamage, 10).setRepairItem(new ItemStack(NCItems.material, 1, 7));
+		ToolMaterial ToughPaxel = EnumHelper.addToolMaterial("ToughPaxel", tPHarvestLevel, tPDurability, tPSpeed, tPDamage, 10).setRepairItem(new ItemStack(NCItems.material, 1, 7));
+		ToolMaterial dU = EnumHelper.addToolMaterial("dU", dUHarvestLevel, dUDurability, dUSpeed, dUDamage, 50).setRepairItem(new ItemStack(NCItems.parts, 1, 8));
+		ToolMaterial dUPaxel = EnumHelper.addToolMaterial("dUPaxel", dUPHarvestLevel, dUPDurability, dUPSpeed, dUPDamage, 50).setRepairItem(new ItemStack(NCItems.parts, 1, 8));
+		ToolMaterial Boron = EnumHelper.addToolMaterial("Boron", boronHarvestLevel, boronDurability, boronSpeed, boronDamage, 5).setRepairItem(new ItemStack(NCItems.material, 1, 43));
 		
 		// Fluid Registry
 		liquidHelium = new FluidHelium().setLuminosity(0).setDensity(125).setViscosity(1).setTemperature(4).setUnlocalizedName("liquidHelium").setRarity(net.minecraft.item.EnumRarity.rare);
@@ -803,7 +871,7 @@ public class NuclearCraft {
 		GameRegistry.registerBlock(NCBlocks.cellBlock, "cellBlock");
 		NCBlocks.reactorBlock = new BlockReactorBlock().setBlockName("reactorBlock").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(5.0F).setHardness(3.0F);
 		GameRegistry.registerBlock(NCBlocks.reactorBlock, "reactorBlock");
-		NCBlocks.fusionConnector = new BlockReactorBlock().setBlockName("fusionConnector").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(5.0F).setHardness(3.0F);
+		NCBlocks.fusionConnector = new BlockFusionConnector().setBlockName("fusionConnector").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(5.0F).setHardness(3.0F);
 		GameRegistry.registerBlock(NCBlocks.fusionConnector, "fusionConnector");
 		
 		NCBlocks.coolerBlock = new BlockCoolerBlock().setBlockName("coolerBlock").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(5.0F).setHardness(2.0F);

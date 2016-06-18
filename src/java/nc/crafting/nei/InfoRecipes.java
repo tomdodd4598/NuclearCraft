@@ -40,7 +40,7 @@ public class InfoRecipes {
 		addRecipe(new ItemStack(NCBlocks.electricFurnaceIdle), "-Uses RF to smelt items-efficiently--Can accept speed and-efficiency upgrades");
 		addRecipe(new ItemStack(NCBlocks.separatorIdle), "-Uses RF to separate-materials into their different-isotopes--Can accept speed and-efficiency upgrades");
 		addRecipe(new ItemStack(NCBlocks.hastenerIdle), "-Uses RF to cause-radioactive materials to-decay quickly--Can accept speed and-efficiency upgrades");
-		addRecipe(new ItemStack(NCBlocks.cellBlock), "-Used in the construction-of Fission Reactors--Adjacent blocks will generate-extra power and heat--If adjacent to n other Cell-Compartments, it will generate n+1-times the power and-(n+1)(n+2)/2 times the heat");
+		addRecipe(new ItemStack(NCBlocks.cellBlock), "-Used in the construction-of Fission Reactors--Adjacent blocks will generate-extra power and heat--If adjacent to n other Cell-Compartments, it will generate-n+1 times the power and-(n+1)(n+2)/2 times the heat");
 		addRecipe(new ItemStack(NCBlocks.reactorBlock), "-Simple block that makes up-the exterior of Fission-Reactors");
 		addRecipe(new ItemStack(NCBlocks.machineBlock), "-Used in the construction of-many machines");
 		addRecipe(new ItemStack(NCBlocks.blastBlock), "-Three times as blast-resistant as obsidian--Can resist nuke explosions");
@@ -107,7 +107,7 @@ public class InfoRecipes {
 		fissionFuelInfo(66, NuclearCraft.baseRFHEPOx, NuclearCraft.baseFuelHEPOx, NuclearCraft.baseHeatHEPOx);
 		
 		addRecipe(new ItemStack(Blocks.water), "-Generates an extra 1 RF/t-of power per block in-Fission Reactors");
-		addRecipe(new ItemStack(NCBlocks.graphiteBlock), "-Generates additional power-and heat in Fission Reactors--In a Fission Reactor of c cells-and heat level h, each-Graphite block produces-c*(1+h/1000000)/10 times the-fuel's base power and-c/5 times the fuel's base heat");
+		addRecipe(new ItemStack(NCBlocks.graphiteBlock), "-Generates additional power-and heat in Fission Reactors--In a Fission Reactor of c-cells and heat level h, using-a fuel of base power P, each-Graphite block produces-c*P*(1+h/1000000)/10 RF/t-and c*P/5 H/t");
 		
 		addRecipe(new ItemStack(NCBlocks.speedBlock), "-Causes nuclear fuels to-deplete faster in Fission-Reactors");
 		
@@ -139,7 +139,7 @@ public class InfoRecipes {
 	}
 
 	public void fissionFuelInfo(int meta, int power, int time, int heat) {
-		addRecipe(new ItemStack(NCItems.fuel, 1, meta), "Base Power = " + power*NuclearCraft.fissionRF/100 + " RF/t-Base Lifetime = " + (10000000/(time*20))*NuclearCraft.fissionEfficiency + " s-Base Heat = "+ heat + " H/t-For a n*m*k Reactor with-c cells and efficiency e:-Multiply Base Power by:-c*(e/100)*cbrt(n*m*k)-Multiply Base Liferime by:-1/c-Heat produced is determined-by the positions of cells");
+		addRecipe(new ItemStack(NCItems.fuel, 1, meta), "Base Power = " + power*NuclearCraft.fissionRF/100 + " RF/t-Base Lifetime = " + (10000000/(time*20))*NuclearCraft.fissionEfficiency + " s-Base Heat = "+ heat + " H/t-For a n*m*k Reactor with-c cells and efficiency e:-Multiply Base Power by:-c*(e/100)*cbrt(n*m*k)-Multiply Base Lifetime by:-1/c-Heat produced is determined-by the positions of cells");
 	}
 	
 	public void coolerInfo(Block cooler, int heat, String extra) {

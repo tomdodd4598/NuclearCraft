@@ -1,6 +1,6 @@
 package nc.block.reactor;
 
-import nc.NuclearCraft;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -10,9 +10,9 @@ import net.minecraft.world.IBlockAccess;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockReactorBlock extends Block {
+public class BlockFusionConnector extends Block {
 
-	public BlockReactorBlock() {
+	public BlockFusionConnector() {
 	super(Material.iron);
 	}
 	
@@ -22,7 +22,7 @@ public class BlockReactorBlock extends Block {
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void registerBlockIcons(IIconRegister p_149651_1_) {
-		blockIcon = p_149651_1_.registerIcon("nc:reactor/" + this.getUnlocalizedName().substring(5) + (NuclearCraft.alternateCasing ? "Alt" : ""));
+		blockIcon = p_149651_1_.registerIcon("nc:generator/fusionEM/" + this.getUnlocalizedName().substring(5));
 	}
 	
 	@SideOnly(Side.CLIENT)
