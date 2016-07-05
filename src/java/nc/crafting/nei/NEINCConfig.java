@@ -4,8 +4,8 @@ import nc.NuclearCraft;
 import nc.block.NCBlocks;
 import nc.gui.crafting.GuiNuclearWorkspace;
 import nc.gui.generator.GuiFissionReactor;
+import nc.gui.generator.GuiFissionReactorSteam;
 import nc.gui.generator.GuiFusionReactor;
-import nc.gui.machine.GuiAutoWorkspace;
 import nc.gui.machine.GuiCollector;
 import nc.gui.machine.GuiCooler;
 import nc.gui.machine.GuiCrusher;
@@ -54,10 +54,10 @@ public class NEINCConfig implements IConfigureNEI {
 		API.registerUsageHandler(new SeparatorRecipeHandler());
 		API.registerRecipeHandler(new NuclearWorkspaceRecipeHandler());
 		API.registerUsageHandler(new NuclearWorkspaceRecipeHandler());
-		//API.registerRecipeHandler(new NuclearWorkspaceShapelessRecipeHandler());
-		//API.registerUsageHandler(new NuclearWorkspaceShapelessRecipeHandler());
 		API.registerRecipeHandler(new FissionRecipeHandler());
 		API.registerUsageHandler(new FissionRecipeHandler());
+		API.registerRecipeHandler(new FissionSteamRecipeHandler());
+		API.registerUsageHandler(new FissionSteamRecipeHandler());
 		API.registerRecipeHandler(new CollectorRecipeHandler());
 		API.registerUsageHandler(new CollectorRecipeHandler());
 		API.registerRecipeHandler(new ElectrolyserRecipeHandler());
@@ -98,6 +98,7 @@ public class NEINCConfig implements IConfigureNEI {
 		API.registerGuiOverlay(GuiSeparator.class, "separating");
 		API.registerGuiOverlay(GuiNuclearWorkspace.class, "nwcrafting");
 		API.registerGuiOverlay(GuiFissionReactor.class, "fission");
+		API.registerGuiOverlay(GuiFissionReactorSteam.class, "fission");
 		API.registerGuiOverlay(GuiCollector.class, "collecting");
 		API.registerGuiOverlay(GuiElectrolyser.class, "electrolysing");
 		API.registerGuiOverlay(GuiOxidiser.class, "oxidising");
@@ -106,7 +107,6 @@ public class NEINCConfig implements IConfigureNEI {
 		API.registerGuiOverlay(GuiCooler.class, "cooling");
 		API.registerGuiOverlay(GuiFactory.class, "manufactoring");
 		API.registerGuiOverlay(GuiHeliumExtractor.class, "heliumExtracting");
-		API.registerGuiOverlay(GuiAutoWorkspace.class, "autonwcrafting");
 		API.registerGuiOverlay(GuiOxidiser.class, "assembling");
 		API.registerGuiOverlay(GuiFusionReactor.class, "fusing");
 		
@@ -114,6 +114,7 @@ public class NEINCConfig implements IConfigureNEI {
 		API.hideItem(new ItemStack(NCBlocks.electricFurnaceActive));
 		API.hideItem(new ItemStack(NCBlocks.crusherActive));
 		API.hideItem(new ItemStack(NCBlocks.fissionReactorGraphiteActive));
+		API.hideItem(new ItemStack(NCBlocks.fissionReactorSteamActive));
 		API.hideItem(new ItemStack(NCBlocks.furnaceActive));
 		API.hideItem(new ItemStack(NCBlocks.hastenerActive));
 		API.hideItem(new ItemStack(NCBlocks.nuclearFurnaceActive));
@@ -133,12 +134,12 @@ public class NEINCConfig implements IConfigureNEI {
 		API.hideItem(new ItemStack(NCBlocks.supercoolerActive));
 		API.hideItem(new ItemStack(NCBlocks.synchrotronActive));
 		API.hideItem(new ItemStack(NCBlocks.autoWorkspaceActive));
-		API.hideItem(new ItemStack(NCItems.tabItem));
+		API.hideItem(new ItemStack(NCItems.blank));
 		API.hideItem(new ItemStack(NCBlocks.fusionReactorBlock));
 		API.hideItem(new ItemStack(NCBlocks.fusionReactorBlockTop));
 		API.hideItem(new ItemStack(NCBlocks.nukeE));
+		API.hideItem(new ItemStack(NCBlocks.antimatterBombE));
 		API.hideItem(new ItemStack(NCItems.nuclearGrenadeThrown));
-		API.hideItem(new ItemStack(NCBlocks.plasmaFire));
 	}
 
 	public String getName() {

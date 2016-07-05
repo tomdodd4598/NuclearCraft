@@ -23,12 +23,15 @@ public class ContainerSynchrotron extends Container {
     public int lastRadiationPower;
     public int lastComplete;
 
+    public int lastAntimatter;
+
     public ContainerSynchrotron(InventoryPlayer inventory, TileSynchrotron entity)
     {
         this.entity = entity;
         
         this.addSlotToContainer(new Slot(entity, 0, 48, 99));
-        this.addSlotToContainer(new SlotFurnace(inventory.player, entity, 1, 152, 99));
+        this.addSlotToContainer(new SlotFurnace(inventory.player, entity, 1, 100, 99));
+        this.addSlotToContainer(new SlotFurnace(inventory.player, entity, 2, 152, 99));
         
 
         for (int i = 0; i < 3; ++i) {
@@ -73,6 +76,9 @@ public class ContainerSynchrotron extends Container {
             
             icrafting.sendProgressBarUpdate(this, 15, (int) this.entity.complete);
             icrafting.sendProgressBarUpdate(this, 16, (int) this.entity.complete >> 16);
+            
+            icrafting.sendProgressBarUpdate(this, 17, (int) this.entity.antimatter);
+            icrafting.sendProgressBarUpdate(this, 18, (int) this.entity.antimatter >> 16);
         }    
     }
 
@@ -97,6 +103,9 @@ public class ContainerSynchrotron extends Container {
         
         if (slot == 15){ this.lastComplete = this.upcastShort(value); }
         if (slot == 16){ this.entity.complete = this.lastComplete | value << 16; }
+        
+        if (slot == 17){ this.lastAntimatter = this.upcastShort(value); }
+        if (slot == 18){ this.entity.antimatter = this.lastAntimatter | value << 16; }
     }
     
     private int upcastShort(int input) {
@@ -115,14 +124,14 @@ public class ContainerSynchrotron extends Container {
                     if (!this.mergeItemStack(itemstack1, 0, 1, false)) {
                         return null;
                     }
-                } else if (clickedSlotNumber >= 2 && clickedSlotNumber < 29) {
-                    if (!this.mergeItemStack(itemstack1, 29, 38, false)) {
+                } else if (clickedSlotNumber >= 3 && clickedSlotNumber < 30) {
+                    if (!this.mergeItemStack(itemstack1, 30, 39, false)) {
                         return null;
                     }
-                } else if (clickedSlotNumber >= 29 && clickedSlotNumber < 38 && !this.mergeItemStack(itemstack1, 2, 29, false)) {
+                } else if (clickedSlotNumber >= 30 && clickedSlotNumber < 39 && !this.mergeItemStack(itemstack1, 3, 30, false)) {
                     return null;
                 }
-            } else if (!this.mergeItemStack(itemstack1, 2, 38, false)) {
+            } else if (!this.mergeItemStack(itemstack1, 3, 39, false)) {
                 return null;
             }
             if (itemstack1.stackSize == 0) {

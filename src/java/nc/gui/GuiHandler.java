@@ -4,10 +4,10 @@ import nc.NuclearCraft;
 import nc.container.accelerator.ContainerSynchrotron;
 import nc.container.crafting.ContainerNuclearWorkspace;
 import nc.container.generator.ContainerFissionReactor;
+import nc.container.generator.ContainerFissionReactorSteam;
 import nc.container.generator.ContainerFusionReactor;
 import nc.container.generator.ContainerReactionGenerator;
 import nc.container.machine.ContainerAssembler;
-import nc.container.machine.ContainerAutoWorkspace;
 import nc.container.machine.ContainerCollector;
 import nc.container.machine.ContainerCooler;
 import nc.container.machine.ContainerCrusher;
@@ -26,10 +26,10 @@ import nc.container.machine.ContainerSeparator;
 import nc.gui.accelerator.GuiSynchrotron;
 import nc.gui.crafting.GuiNuclearWorkspace;
 import nc.gui.generator.GuiFissionReactor;
+import nc.gui.generator.GuiFissionReactorSteam;
 import nc.gui.generator.GuiFusionReactor;
 import nc.gui.generator.GuiReactionGenerator;
 import nc.gui.machine.GuiAssembler;
-import nc.gui.machine.GuiAutoWorkspace;
 import nc.gui.machine.GuiCollector;
 import nc.gui.machine.GuiCooler;
 import nc.gui.machine.GuiCrusher;
@@ -48,10 +48,10 @@ import nc.gui.machine.GuiSeparator;
 import nc.tile.accelerator.TileSynchrotron;
 import nc.tile.crafting.TileNuclearWorkspace;
 import nc.tile.generator.TileFissionReactor;
+import nc.tile.generator.TileFissionReactorSteam;
 import nc.tile.generator.TileFusionReactor;
 import nc.tile.generator.TileReactionGenerator;
 import nc.tile.machine.TileAssembler;
-import nc.tile.machine.TileAutoWorkspace;
 import nc.tile.machine.TileCollector;
 import nc.tile.machine.TileCooler;
 import nc.tile.machine.TileCrusher;
@@ -145,10 +145,10 @@ public class GuiHandler implements IGuiHandler {
 					if(entity instanceof TileSynchrotron) return new ContainerSynchrotron(player.inventory, (TileSynchrotron) entity);
 					return null;
 				case 20:
-					if(entity instanceof TileAutoWorkspace) return new ContainerAutoWorkspace(player.inventory, (TileAutoWorkspace) entity);
+					if(entity instanceof TileAssembler) return new ContainerAssembler(player.inventory, (TileAssembler) entity);
 					return null;
 				case 21:
-					if(entity instanceof TileAssembler) return new ContainerAssembler(player.inventory, (TileAssembler) entity);
+					if(entity instanceof TileFissionReactorSteam) return new ContainerFissionReactorSteam(player.inventory, (TileFissionReactorSteam) entity);
 					return null;
 			}
 		}
@@ -220,10 +220,10 @@ public class GuiHandler implements IGuiHandler {
 					if(entity instanceof TileSynchrotron) return new GuiSynchrotron(player.inventory, (TileSynchrotron) entity);
 					return null;
 				case 20:
-					if(entity instanceof TileAutoWorkspace) return new GuiAutoWorkspace(player.inventory, (TileAutoWorkspace) entity);
+					if(entity instanceof TileAssembler) return new GuiAssembler(player.inventory, (TileAssembler) entity);
 					return null;
 				case 21:
-					if(entity instanceof TileAssembler) return new GuiAssembler(player.inventory, (TileAssembler) entity);
+					if(entity instanceof TileFissionReactorSteam) return new GuiFissionReactorSteam(player.inventory, (TileFissionReactorSteam) entity);
 					return null;
 			}
 		}

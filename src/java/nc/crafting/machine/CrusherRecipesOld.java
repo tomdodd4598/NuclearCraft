@@ -24,8 +24,7 @@ public class CrusherRecipesOld
     /**
      * Used to call methods addSmelting and getSmeltingResult.
      */
-    public static CrusherRecipesOld smelting()
-    {
+    public static CrusherRecipesOld smelting() {
         return smeltingBase;
     }
     
@@ -54,8 +53,13 @@ public class CrusherRecipesOld
     	this.AddRecipe("oreTin", new ItemStack(NCItems.material, 2, 16));
     	this.AddRecipe("oreSilver", new ItemStack(NCItems.material, 2, 18));
     	this.AddRecipe("oreUranium", new ItemStack(NCItems.material, 2, 19));
-    	this.AddRecipe("oreYellorite", new ItemStack(NCItems.material, 2, 19));
-    	this.AddRecipe("oreYellorium", new ItemStack(NCItems.material, 2, 19));
+    	/*if (OreDictionary.doesOreNameExist("oreYellorite") && OreDictionary.doesOreNameExist("dustYellorite")) {
+    		this.AddRecipe("oreYellorite", new ItemStack(OreDictionary.getOres("dustYellorite").get(0).getItem(), 2, OreDictionary.getOres("dustYellorite").get(0).getItemDamage()));
+    		this.AddRecipe("oreYellorium", new ItemStack(OreDictionary.getOres("dustYellorite").get(0).getItem(), 2, OreDictionary.getOres("dustYellorite").get(0).getItemDamage()));
+    	} else if (OreDictionary.doesOreNameExist("oreYellorium") && OreDictionary.doesOreNameExist("dustYellorium")) {
+    		this.AddRecipe("oreYellorite", new ItemStack(OreDictionary.getOres("dustYellorium").get(0).getItem(), 2, OreDictionary.getOres("dustYellorium").get(0).getItemDamage()));
+    		this.AddRecipe("oreYellorium", new ItemStack(OreDictionary.getOres("dustYellorium").get(0).getItem(), 2, OreDictionary.getOres("dustYellorium").get(0).getItemDamage()));
+    	}*/
     	this.AddRecipe("oreThorium", new ItemStack(NCItems.material, 2, 20));
     	this.AddRecipe("orePlutonium", new ItemStack(NCItems.material, 2, 33));
     	this.AddRecipe("oreLithium", new ItemStack(NCItems.material, 2, 44));
@@ -69,6 +73,7 @@ public class CrusherRecipesOld
     	this.AddRecipe("gemEmerald", new ItemStack(NCItems.material, 1, 12));
     	this.AddRecipe("gemQuartz", new ItemStack(NCItems.material, 1, 13));
     	this.recipeSmelt(new ItemStack(Items.coal), new ItemStack(NCItems.material, 1, 14));
+    	this.AddRecipe("gemRhodochrosite", new ItemStack(NCItems.material, 1, 74));
     	
     	//Ingots to Dust
     	this.AddRecipe("ingotIron", new ItemStack(NCItems.material, 1, 8));
@@ -79,8 +84,13 @@ public class CrusherRecipesOld
     	this.AddRecipe("ingotSilver", new ItemStack(NCItems.material, 1, 18));
     	this.AddRecipe("ingotUranium", new ItemStack(NCItems.material, 1, 19));
     	this.AddRecipe("ingotTough", new ItemStack(NCItems.material, 1, 22));
-    	this.AddRecipe("ingotYellorite", new ItemStack(NCItems.material, 1, 19));
-    	this.AddRecipe("ingotYellorium", new ItemStack(NCItems.material, 1, 19));
+    	/*if (OreDictionary.doesOreNameExist("ingotYellorite") && OreDictionary.doesOreNameExist("dustYellorite")) {
+    		this.AddRecipe("oreYellorite", new ItemStack(OreDictionary.getOres("dustYellorite").get(0).getItem(), 1, OreDictionary.getOres("dustYellorite").get(0).getItemDamage()));
+    		this.AddRecipe("oreYellorium", new ItemStack(OreDictionary.getOres("dustYellorite").get(0).getItem(), 1, OreDictionary.getOres("dustYellorite").get(0).getItemDamage()));
+    	} else if (OreDictionary.doesOreNameExist("oreYellorium") && OreDictionary.doesOreNameExist("dustYellorium")) {
+    		this.AddRecipe("oreYellorite", new ItemStack(OreDictionary.getOres("dustYellorium").get(0).getItem(), 1, OreDictionary.getOres("dustYellorium").get(0).getItemDamage()));
+    		this.AddRecipe("oreYellorium", new ItemStack(OreDictionary.getOres("dustYellorium").get(0).getItem(), 1, OreDictionary.getOres("dustYellorium").get(0).getItemDamage()));
+    	}*/
     	this.AddRecipe("ingotThorium", new ItemStack(NCItems.material, 1, 20));
     	this.AddRecipe("ingotBronze", new ItemStack(NCItems.material, 1, 21));
     	this.AddRecipe("ingotLithium", new ItemStack(NCItems.material, 1, 44));
@@ -88,6 +98,9 @@ public class CrusherRecipesOld
     	this.AddRecipe("ingotUraniumOxide", new ItemStack(NCItems.material, 1, 54));
     	this.AddRecipe("ingotMagnesium", new ItemStack(NCItems.material, 1, 51));
     	this.AddRecipe("ingotMagnesiumDiboride", new ItemStack(NCItems.material, 1, 72));
+    	this.AddRecipe("ingotGraphite", new ItemStack(NCItems.material, 1, 77));
+    	this.AddRecipe("ingotHardCarbon", new ItemStack(NCItems.material, 1, 79));
+    	this.AddRecipe("ingotLithiumManganeseDioxide", new ItemStack(NCItems.material, 1, 81));
     	
     	//Other Recipes
     	this.AddRecipe("cobblestone", new ItemStack(Blocks.gravel, 1));
@@ -105,35 +118,27 @@ public class CrusherRecipesOld
     	this.recipeSmelt(new ItemStack(NCItems.fuel, 1, 44), new ItemStack(NCItems.material, 1, 49));
     }
     
-    
-    
-    public void blockSmelt(Block p_151393_1_, ItemStack p_151393_2_)
-    {
+    public void blockSmelt(Block p_151393_1_, ItemStack p_151393_2_) {
         this.itemSmelt(Item.getItemFromBlock(p_151393_1_), p_151393_2_);
     }
 
-    public void itemSmelt(Item item, ItemStack itemstack)
-    {
+    public void itemSmelt(Item item, ItemStack itemstack) {
         this.recipeSmelt(new ItemStack(item, 1, 32767), itemstack);
     }
 
-    public void recipeSmelt(ItemStack input, ItemStack output)
-    {
+    public void recipeSmelt(ItemStack input, ItemStack output) {
         this.smeltingList.put(input, output);
     }
 
     /**
      * Returns the smelting result of an item.
      */
-    public ItemStack getSmeltingResult(ItemStack itemstack3)
-    {
+    public ItemStack getSmeltingResult(ItemStack itemstack3) {
         Iterator<?> iterator = this.smeltingList.entrySet().iterator();
         Entry<?, ?> entry;
 
-        do
-        {
-            if (!iterator.hasNext())
-            {
+        do {
+            if (!iterator.hasNext()) {
                 return null;
             }
 
@@ -144,13 +149,11 @@ public class CrusherRecipesOld
         return (ItemStack)entry.getValue();
     }
 
-    private boolean func_151397_a(ItemStack p_151397_1_, ItemStack p_151397_2_)
-    {
+    private boolean func_151397_a(ItemStack p_151397_1_, ItemStack p_151397_2_) {
         return p_151397_2_.getItem() == p_151397_1_.getItem() && (p_151397_2_.getItemDamage() == 32767 || p_151397_2_.getItemDamage() == p_151397_1_.getItemDamage());
     }
 
-    public Map<ItemStack, ItemStack> getSmeltingList()
-    {
+    public Map<ItemStack, ItemStack> getSmeltingList() {
         return this.smeltingList;
     }
 }

@@ -245,7 +245,7 @@ public class TileFissionReactor extends TileGenerator {
 	            	baseHeat = NuclearCraft.baseHeatHEPOx;
 	        	}
 	        	
-	        	energyThisTick += baseRF*(10000*pMult + this.heat)*(numberOfCells + 2*adj1 + 3*adj2 + 4*adj3 + 5*adj4 + 6*adj5 + 7*adj6)*Math.cbrt((lx - 2)*(ly - 2)*(lz - 2))/1000000;
+	        	energyThisTick += baseRF*(10000*pMult + this.heat)*(numberOfCells + 2*adj1 + 3*adj2 + 4*adj3 + 5*adj4 + 6*adj5 + 7*adj6) /* *Math.cbrt((lx - 2)*(ly - 2)*(lz - 2)) */ /1000000;
 	        	heatThisTick += baseHeat*(numberOfCells + 3*adj1 + 6*adj2 + 10*adj3 + 15*adj4 + 21*adj5 + 28*adj6);
 	        	fuelThisTick += (numberOfCells + adj1 + adj2 + adj3 + adj4 + adj5 + adj6)*baseFuel/NuclearCraft.fissionEfficiency;
 	        	
@@ -260,7 +260,7 @@ public class TileFissionReactor extends TileGenerator {
 	        					energyThisTick += 1; heatThisTick += 1;
 	        				}
 	        				if(find(NCBlocks.speedBlock, x, y, z) && (numberOfCells + adj1 + adj2 + adj3 + adj4 + adj5 + adj6) > 0) {
-	        					if (lx - 2 + ly - 2 + lz - 2 > 0) fuelThisTick += 40000/(NuclearCraft.fissionEfficiency*(lx - 2 + ly - 2 + lz - 2));
+	        					if (lx - 2 + ly - 2 + lz - 2 > 0) fuelThisTick += (numberOfCells + adj1 + adj2 + adj3 + adj4 + adj5 + adj6)*baseFuel/(NuclearCraft.fissionEfficiency*(lx - 2 + ly - 2 + lz - 2));
 	        				}
 	        			}
 	        		}
@@ -330,7 +330,7 @@ public class TileFissionReactor extends TileGenerator {
 	            	baseHeat = NuclearCraft.baseHeatHEPOx;
 	        	}
 	        	
-	        	fakeEnergyThisTick += baseRF*(10000*pMult + this.heat)*(numberOfCells + 2*adj1 + 3*adj2 + 4*adj3 + 5*adj4 + 6*adj5 + 7*adj6)*Math.cbrt((lx - 2)*(ly - 2)*(lz - 2))/1000000;
+	        	fakeEnergyThisTick += baseRF*(10000*pMult + this.heat)*(numberOfCells + 2*adj1 + 3*adj2 + 4*adj3 + 5*adj4 + 6*adj5 + 7*adj6) /* *Math.cbrt((lx - 2)*(ly - 2)*(lz - 2))*/ /1000000;
 	    		fakeHeatThisTick += baseHeat*(hMult/100)*(numberOfCells + 3*adj1 + 6*adj2 + 10*adj3 + 15*adj4 + 21*adj5 + 28*adj6);
 	        	
 	    		for (int z = z0 + 1; z <= z1 - 1; z++) {
@@ -402,7 +402,7 @@ public class TileFissionReactor extends TileGenerator {
 	        HReal = (int) (heatThisTick  + coolerHeatThisTick);
 	        HCooling = (int) coolerHeatThisTick;
 	        
-	        if (complete == 1) efficiency = (int) (100*(energyThisTick + fakeEnergyThisTick)/(baseRF*(pMult/100)*(numberOfCells + adj1 + adj2 + adj3 + adj4 + adj5 + adj6)*Math.cbrt((lx - 2)*(ly - 2)*(lz - 2)))); else efficiency = 0;
+	        if (complete == 1) efficiency = (int) (100*(energyThisTick + fakeEnergyThisTick)/(baseRF*(pMult/100)*(numberOfCells + adj1 + adj2 + adj3 + adj4 + adj5 + adj6) /* *Math.cbrt((lx - 2)*(ly - 2)*(lz - 2)) */ )); else efficiency = 0;
 	        
 	        if (complete == 1) this.numberOfCells = (int) ((numberOfCells + adj1 + adj2 + adj3 + adj4 + adj5 + adj6)); else this.numberOfCells = 0;
 	        
@@ -680,15 +680,15 @@ public class TileFissionReactor extends TileGenerator {
     	else return false;
     }
     
-    private boolean find(Block block, Block block2, Block block3, int x, int y, int z) {
+    private boolean find(Block block, Block block2, Block block3, Block block4, Block block5, int x, int y, int z) {
     	int xc = xCoord;
     	int yc = yCoord + y;
     	int zc = zCoord;
     	
-    	if (this.getBlockMetadata() == 4) return (worldObj.getBlock(xc+x, yc, zc+z) == block || worldObj.getBlock(xc+x, yc, zc+z) == block2 || worldObj.getBlock(xc+x, yc, zc+z) == block3);
-    	else if (this.getBlockMetadata() == 2) return (worldObj.getBlock(xc-z, yc, zc+x) == block || worldObj.getBlock(xc-z, yc, zc+x) == block2 || worldObj.getBlock(xc-z, yc, zc+x) == block3);
-    	else if (this.getBlockMetadata() == 5) return (worldObj.getBlock(xc-x, yc, zc-z) == block || worldObj.getBlock(xc-x, yc, zc-z) == block2 || worldObj.getBlock(xc-x, yc, zc-z) == block3);
-    	else if (this.getBlockMetadata() == 3) return (worldObj.getBlock(xc+z, yc, zc-x) == block || worldObj.getBlock(xc+z, yc, zc-x) == block2 || worldObj.getBlock(xc+z, yc, zc-x) == block3);
+    	if (this.getBlockMetadata() == 4) return (worldObj.getBlock(xc+x, yc, zc+z) == block || worldObj.getBlock(xc+x, yc, zc+z) == block2 || worldObj.getBlock(xc+x, yc, zc+z) == block3 || worldObj.getBlock(xc+x, yc, zc+z) == block4 || worldObj.getBlock(xc+x, yc, zc+z) == block5);
+    	else if (this.getBlockMetadata() == 2) return (worldObj.getBlock(xc-z, yc, zc+x) == block || worldObj.getBlock(xc-z, yc, zc+x) == block2 || worldObj.getBlock(xc-z, yc, zc+x) == block3 || worldObj.getBlock(xc-z, yc, zc+x) == block4 || worldObj.getBlock(xc-z, yc, zc+x) == block5);
+    	else if (this.getBlockMetadata() == 5) return (worldObj.getBlock(xc-x, yc, zc-z) == block || worldObj.getBlock(xc-x, yc, zc-z) == block2 || worldObj.getBlock(xc-x, yc, zc-z) == block3 || worldObj.getBlock(xc-x, yc, zc-z) == block4 || worldObj.getBlock(xc-x, yc, zc-z) == block5);
+    	else if (this.getBlockMetadata() == 3) return (worldObj.getBlock(xc+z, yc, zc-x) == block || worldObj.getBlock(xc+z, yc, zc-x) == block2 || worldObj.getBlock(xc+z, yc, zc-x) == block3 || worldObj.getBlock(xc+z, yc, zc-x) == block4 || worldObj.getBlock(xc+z, yc, zc-x) == block5);
     	else return false;
     }
     
@@ -698,6 +698,8 @@ public class TileFissionReactor extends TileGenerator {
 	    	Block b = NCBlocks.reactorBlock;
 	    	Block r = NCBlocks.fissionReactorGraphiteIdle;
 	    	Block rr = NCBlocks.fissionReactorGraphiteActive;
+	    	Block rs = NCBlocks.fissionReactorSteamIdle;
+	    	Block rrs = NCBlocks.fissionReactorSteamActive;
 	    	boolean f = false;
 	    	int rz = 0;
 	    	int z0 = 0;
@@ -708,13 +710,13 @@ public class TileFissionReactor extends TileGenerator {
 	    	int y1 = 0;
 	    	for (int z = 0; z <= l; z++) {
 	    		if ((find(b, 0, 1, 0) || find(b, 0, -1, 0)) || ((find(b, 1, 1, 0) || find(b, 1, -1, 0)) && find(b, 1, 0, 0)) || ((find(b, 1, 1, 0) && !find(b, 1, -1, 0)) && !find(b, 1, 0, 0)) || ((!find(b, 1, 1, 0) && find(b, 1, -1, 0)) && !find(b, 1, 0, 0))) {
-		    		if (/*!find(b, 0, 0, -z) &&*/ !find(b, 0, 1, -z) && !find(b, 0, -1, -z) && (find(b, r, rr, 0, 0, -z + 1) || find(b, r, rr, 0, 1, -z + 1) || find(b, r, rr, 0, -1, -z + 1))) {
+		    		if (/*!find(b, 0, 0, -z) &&*/ !find(b, 0, 1, -z) && !find(b, 0, -1, -z) && (find(b, r, rr, rs, rrs, 0, 0, -z + 1) || find(b, r, rr, rs, rrs, 0, 1, -z + 1) || find(b, r, rr, rs, rrs, 0, -1, -z + 1))) {
 		    			rz = l - z;
 		    			z0 = -z;
 		    			f = true;
 		    			break;
 		    		}
-	    		} else if (!find(b, 0, 0, -z) && !find(b, 1, 1, -z) && !find(b, 1, -1, -z) && find(b, r, rr, 0, 0, -z + 1) && find(b, 1, 0, -z) && find(b, 1, 1, -z + 1) && find(b, 1, -1, -z + 1)) {
+	    		} else if (!find(b, 0, 0, -z) && !find(b, 1, 1, -z) && !find(b, 1, -1, -z) && find(b, r, rr, rs, rrs, 0, 0, -z + 1) && find(b, 1, 0, -z) && find(b, 1, 1, -z + 1) && find(b, 1, -1, -z + 1)) {
 	    			rz = l - z;
 	    			z0 = -z;
 	    			f = true;
@@ -726,7 +728,7 @@ public class TileFissionReactor extends TileGenerator {
 	    	}
 	    	f = false;
 	    	for (int y = 0; y <= l; y++) {
-	    		if (/*!find(b, x0, -y, z0) && */!find(b, x0, -y + 1, z0) && !find(b, x0 + 1, -y, z0) && !find(b, x0, -y, z0 + 1) && find(b, r, rr, x0 + 1, -y, z0 + 1) && find(b, r, rr, x0, -y + 1, z0 + 1) && find(b, r, rr, x0 + 1, -y + 1, z0)) {
+	    		if (/*!find(b, x0, -y, z0) && */!find(b, x0, -y + 1, z0) && !find(b, x0 + 1, -y, z0) && !find(b, x0, -y, z0 + 1) && find(b, r, rr, rs, rrs, x0 + 1, -y, z0 + 1) && find(b, r, rr, rs, rrs, x0, -y + 1, z0 + 1) && find(b, r, rr, rs, rrs, x0 + 1, -y + 1, z0)) {
 	    			y0 = -y;
 	    			f = true;
 	    			break;
@@ -737,7 +739,7 @@ public class TileFissionReactor extends TileGenerator {
 	    	}
 	    	f = false;
 	    	for (int z = 0; z <= rz; z++) {
-	    		if (/*!find(b, x0, y0, z) &&*/ !find(b, x0, y0 + 1, z) && !find(b, x0 + 1, y0, z) && !find(b, x0, y0, z - 1) && find(b, r, rr, x0 + 1, y0, z - 1) && find(b, r, rr, x0, y0 + 1, z - 1) && find(b, r, rr, x0 + 1, y0 + 1, z)) {
+	    		if (/*!find(b, x0, y0, z) &&*/ !find(b, x0, y0 + 1, z) && !find(b, x0 + 1, y0, z) && !find(b, x0, y0, z - 1) && find(b, r, rr, rs, rrs, x0 + 1, y0, z - 1) && find(b, r, rr, rs, rrs, x0, y0 + 1, z - 1) && find(b, r, rr, rs, rrs, x0 + 1, y0 + 1, z)) {
 	    			z1 = z;
 	    			f = true;
 	    			break;
@@ -748,7 +750,7 @@ public class TileFissionReactor extends TileGenerator {
 	    	}
 	    	f = false;
 	    	for (int x = 0; x <= l; x++) {
-	    		if (/*!find(b, x0 + x, y0, z0) &&*/ !find(b, x0 + x, y0 + 1, z0) && !find(b, x0 + x - 1, y0, z0) && !find(b, x0 + x, y0, z0 + 1) && find(b, r, rr, x0 + x - 1, y0, z0 + 1) && find(b, r, rr, x0 + x, y0 + 1, z0 + 1) && find(b, r, rr, x0 + x - 1, y0 + 1, z0)) {
+	    		if (/*!find(b, x0 + x, y0, z0) &&*/ !find(b, x0 + x, y0 + 1, z0) && !find(b, x0 + x - 1, y0, z0) && !find(b, x0 + x, y0, z0 + 1) && find(b, r, rr, rs, rrs, x0 + x - 1, y0, z0 + 1) && find(b, r, rr, rs, rrs, x0 + x, y0 + 1, z0 + 1) && find(b, r, rr, rs, rrs, x0 + x - 1, y0 + 1, z0)) {
 	    			x1 = x0 + x;
 	    			f = true;
 	    			break;
@@ -759,7 +761,7 @@ public class TileFissionReactor extends TileGenerator {
 	    	}
 	    	f = false;
 	    	for (int y = 0; y <= l; y++) {
-	    		if (/*!find(b, x0, y0 + y, z0) &&*/ !find(b, x0, y0 + y - 1, z0) && !find(b, x0 + 1, y0 + y, z0) && !find(b, x0, y0 + y, z0 + 1) && find(b, r, rr, x0 + 1, y0 + y, z0 + 1) && find(b, r, rr, x0, y0 + y - 1, z0 + 1) && find(b, r, rr, x0 + 1, y0 + y - 1, z0)) {
+	    		if (/*!find(b, x0, y0 + y, z0) &&*/ !find(b, x0, y0 + y - 1, z0) && !find(b, x0 + 1, y0 + y, z0) && !find(b, x0, y0 + y, z0 + 1) && find(b, r, rr, rs, rrs, x0 + 1, y0 + y, z0 + 1) && find(b, r, rr, rs, rrs, x0, y0 + y - 1, z0 + 1) && find(b, r, rr, rs, rrs, x0 + 1, y0 + y - 1, z0)) {
 	    			y1 = y0 + y;
 	    			f = true;
 	    			break;

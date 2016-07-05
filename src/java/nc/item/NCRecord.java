@@ -4,7 +4,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import nc.NuclearCraft;
+import nc.util.InfoNC;
 import net.minecraft.block.BlockJukebox;
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.EnumRarity;
@@ -18,22 +22,48 @@ import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class NCRecord extends ItemRecord
-{
+public class NCRecord extends ItemRecord {
+	
     @SuppressWarnings("rawtypes")
     private static final Map records = new HashMap();
     /** The name of the record. */
     public final String recordName;
+    
+    String[] info;
+	String name;
 
     @SuppressWarnings("unchecked")
-	public NCRecord(int par1, String p_i45350_1_)
+	public NCRecord(int par1, String p_i45350_1_, String nam, String... lines)
     {
     	super(p_i45350_1_);
         this.recordName = p_i45350_1_;
         this.maxStackSize = 1;
         
         records.put(p_i45350_1_, this);
+        
+        String[] strings = new String[lines.length];
+		for (int i = 0; i < lines.length; i++) {
+			strings[i] = lines[i];
+		}
+		info = strings;
+        name = nam;
+        setUnlocalizedName(nam);
     }
+    
+    public String getUnlocalizedName() {
+		return "item." + name;
+	}
+    
+    @SideOnly(Side.CLIENT)
+	public CreativeTabs getCreativeTab() {
+		return NuclearCraft.tabNC;
+	}
+	
+	@SideOnly(Side.CLIENT)
+	@Override
+	public void registerIcons(IIconRegister iconRegister) {
+		itemIcon = iconRegister.registerIcon("nc:" + "record/" + name);
+	}
 
     /**
      * Gets an icon index based on an item's damage value
@@ -78,6 +108,7 @@ public class NCRecord extends ItemRecord
     public void addInformation(ItemStack p_77624_1_, EntityPlayer p_77624_2_, List p_77624_3_, boolean p_77624_4_)
     {
         p_77624_3_.add(this.getRecordNameLocal());
+        InfoNC.infoFull(p_77624_3_, info);
     }
 
     @SideOnly(Side.CLIENT)

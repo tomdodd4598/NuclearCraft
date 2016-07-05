@@ -33,7 +33,7 @@ public abstract class TileGenerator extends TileInventory implements IEnergyHand
 		for (ForgeDirection side : ForgeDirection.VALID_DIRECTIONS) {
 			TileEntity tile = this.worldObj.getTileEntity(xCoord + side.offsetX, yCoord + side.offsetY, zCoord + side.offsetZ);
 			
-			if (!(tile instanceof TileGenerator) && !(tile instanceof TileReactionGenerator) && !(tile instanceof TileContinuousBase) && !(tile instanceof TileRTG) && !(tile instanceof TileWRTG) && !(tile instanceof TileFusionReactor) && !(tile instanceof TileFusionReactorBlock) && !(tile instanceof TileFissionReactor)) {
+			if (!(tile instanceof TileGenerator) && !(tile instanceof TileReactionGenerator) && !(tile instanceof TileSteamGenerator)) {
 				if ((tile instanceof IEnergyReceiver)) {
 					storage.extractEnergy(((IEnergyReceiver)tile).receiveEnergy(side.getOpposite(), storage.extractEnergy(storage.getMaxEnergyStored(), true), false), false);
 				} else if ((tile instanceof IEnergyHandler)) {

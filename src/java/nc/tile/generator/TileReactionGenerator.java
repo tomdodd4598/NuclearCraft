@@ -10,7 +10,7 @@ import net.minecraft.nbt.NBTTagCompound;
 public class TileReactionGenerator extends TileGenerator {
 	public int reactantlevel;
 	public int fuellevel;
-	public static int power = (3*NuclearCraft.reactionGeneratorRF)/2;
+	public static int power = NuclearCraft.reactionGeneratorRF;
 	public int reactantMax = 500000;
 	public int requiredReactant = 500/NuclearCraft.reactionGeneratorEfficiency;
 	public int lastE;

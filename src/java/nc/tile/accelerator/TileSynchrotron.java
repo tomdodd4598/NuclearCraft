@@ -35,6 +35,7 @@ public class TileSynchrotron extends TileInventory implements IEnergyHandler, IE
 	public int length;
 	public double fuel;
 	public double radiationPower;
+	public double antimatter;
 	public double efficiency;
 	public double particleEnergy;
 	public double percentageOn;
@@ -44,14 +45,14 @@ public class TileSynchrotron extends TileInventory implements IEnergyHandler, IE
 	private static double e = 1.60217662; // 10^-19
 	private static double m = 9.10938356; // 10^-31
 	public String problem = StatCollector.translateToLocal("gui.ringIncomplete");
-	private static final int[] slots1 = new int[] {0, 1};
+	private static final int[] slots1 = new int[] {0, 1, 2};
 	private int soundCount = 0;
 	private int checkCount = 0;
 	
 	public TileSynchrotron() {
 		storage = new EnergyStorage(1000000, 1000000);
 		localizedName = "Synchrotron";
-		slots = new ItemStack[2];
+		slots = new ItemStack[3];
 	}
 	
 	/*private void place(int x, int y, int z) {
@@ -73,13 +74,13 @@ public class TileSynchrotron extends TileInventory implements IEnergyHandler, IE
     	int zc = zCoord + 2*forward.offsetZ;
     	
     	if (this.getBlockMetadata() == 4) {
-    		worldObj.playSoundEffect(xc+x, yc, zc+z, "nc:shield2", 1.3F, 1F);
+    		worldObj.playSoundEffect(xc+x, yc, zc+z, "nc:shield2", 0.85F, 1F);
     	} else if (this.getBlockMetadata() == 2) {
-    		worldObj.playSoundEffect(xc-z, yc, zc+x, "nc:shield2", 1.3F, 1F);
+    		worldObj.playSoundEffect(xc-z, yc, zc+x, "nc:shield2", 0.85F, 1F);
     	} else if (this.getBlockMetadata() == 5) {
-    		worldObj.playSoundEffect(xc-x, yc, zc-z, "nc:shield2", 1.3F, 1F);
+    		worldObj.playSoundEffect(xc-x, yc, zc-z, "nc:shield2", 0.85F, 1F);
     	} else if (this.getBlockMetadata() == 3) {
-    		worldObj.playSoundEffect(xc+z, yc, zc-x, "nc:shield2", 1.3F, 1F);
+    		worldObj.playSoundEffect(xc+z, yc, zc-x, "nc:shield2", 0.85F, 1F);
     	}
     }
 	
@@ -145,10 +146,23 @@ public class TileSynchrotron extends TileInventory implements IEnergyHandler, IE
 			if (efficiency >= 1000000) efficiency = 1000000; else efficiency = efficiency + 5000/(length+1);
 			if (length > 0) radiationPower = (fuel < fuelMax/2 ? (fuel*2)/fuelMax : 1)*(2*16*(((length*100)+1)/100)*(((length*100)+1)/100)*percentageOn*(NuclearCraft.superElectromagnetRF/100)*(efficiency/10000))/1000; // 20 kWatts per RF/t
 			particleEnergy = (percentageOn/100)*(m*c*c*(1/Math.sqrt(1-Math.pow((Math.sqrt((2*Math.sqrt(6)*e*Math.pow(c, 5/2)*Math.sqrt(k)*(length*100)*(2*16*(((length*100)+1)/100)*(((length*100)+1)/100)*percentageOn*(NuclearCraft.superElectromagnetRF/100)*(efficiency/10000))*Math.pow(10, 5.5)-3*c*c*(length*100)*(length*100)*(2*16*(((length*100)+1)/100)*(((length*100)+1)/100)*percentageOn*(NuclearCraft.superElectromagnetRF/100)*(efficiency/10000))*Math.pow(10, 10))/(8*e*e*c*k*Math.pow(10, -15)-3*(length*100)*(length*100)*(2*16*(((length*100)+1)/100)*(((length*100)+1)/100)*percentageOn*(NuclearCraft.superElectromagnetRF/100)*(efficiency/10000))*Math.pow(10, -6))))/299792458, 2))-1)*Math.pow(10, 4))/(1000*e);
+			
+			if (antimatter < 256000000) antimatter += radiationPower/(64000/NuclearCraft.acceleratorProduction);
 		} else {
 			if (efficiency > 2500) efficiency = efficiency - 2500; else efficiency = 0;
 			radiationPower = 0;
 			particleEnergy = 0;
+		}
+		
+		if (antimatter >= 64000000) {
+			if (slots[2] == null || slots[2].stackSize == 0) {
+				slots[2] = new ItemStack(NCItems.antimatter, 1);
+				antimatter -= 64000000;
+			}
+			else if (slots[2].stackSize < 64) {
+				slots[2].stackSize ++;
+				antimatter -= 64000000;
+			}
 		}
 	}
 	
@@ -523,6 +537,7 @@ public class TileSynchrotron extends TileInventory implements IEnergyHandler, IE
 		this.fuel = nbt.getDouble("fuel");
 		this.efficiency = nbt.getDouble("efficiency");
 		this.radiationPower = nbt.getDouble("radiationPower");
+		this.antimatter = nbt.getDouble("antimatter");
 		this.particleEnergy = nbt.getDouble("particleEnergy");
 		this.percentageOn = nbt.getDouble("percentageOn");
 		this.problem = nbt.getString("problem");
@@ -553,6 +568,7 @@ public class TileSynchrotron extends TileInventory implements IEnergyHandler, IE
 		nbt.setDouble("fuel", this.fuel);
 		nbt.setDouble("efficiency", this.efficiency);
 		nbt.setDouble("radiationPower", this.radiationPower);
+		nbt.setDouble("antimatter", this.antimatter);
 		nbt.setDouble("particleEnergy", this.particleEnergy);
 		nbt.setDouble("percentageOn", this.percentageOn);
 		nbt.setString("problem", this.problem);
@@ -622,7 +638,7 @@ public class TileSynchrotron extends TileInventory implements IEnergyHandler, IE
 	}
 
 	public boolean canExtractItem(int slot, ItemStack stack, int slots) {
-		return slot == 1;
+		return slot != 0;
 	}
 	
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {

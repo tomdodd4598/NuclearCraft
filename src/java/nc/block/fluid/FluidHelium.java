@@ -6,8 +6,14 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class FluidHelium extends Fluid {
-	public FluidHelium() {
-		super("liquidHelium");
+	public FluidHelium(String name) {
+		super(name);
+		setLuminosity(0);
+		setDensity(125);
+		setViscosity(1);
+		setTemperature(4);
+		setUnlocalizedName(name);
+		setRarity(net.minecraft.item.EnumRarity.rare);
 	}
 
 	@SideOnly(Side.CLIENT)

@@ -43,42 +43,45 @@ public class BlockSimpleQuantum extends BlockContainer {
 	}
 
 	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(int p_149691_1_, int p_149691_2_) {
+	public IIcon getIcon(int i, int j) {
 		return blockIcon;
 	}
 	
-	public static void set(double a, boolean s, World worldObj, int xCoord, int yCoord, int zCoord) {
-		int i = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
-		TileSimpleQuantum tileentity = (TileSimpleQuantum) worldObj.getTileEntity(xCoord, yCoord, zCoord);
-		if(s) worldObj.setBlock(xCoord, yCoord, zCoord, NCBlocks.simpleQuantumUp);
-		else worldObj.setBlock(xCoord, yCoord, zCoord, NCBlocks.simpleQuantumDown);
-		tileentity.angle = a;
-		worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, i, 2);
-		if(tileentity != null) {
-			tileentity.validate();
-			worldObj.setTileEntity(xCoord, yCoord, zCoord, tileentity);
+	public static void set(double a, boolean s, World worldObj, int x, int y, int z) {
+		int meta = worldObj.getBlockMetadata(x, y, z);
+		TileSimpleQuantum tile = (TileSimpleQuantum) worldObj.getTileEntity(x, y, z);
+		if(s) worldObj.setBlock(x, y, z, NCBlocks.simpleQuantumUp);
+		else worldObj.setBlock(x, y, z, NCBlocks.simpleQuantumDown);
+		tile.angle = a;
+		worldObj.setBlockMetadataWithNotify(x, y, z, meta, 2);
+		if(tile != null) {
+			tile.validate();
+			worldObj.setTileEntity(x, y, z, tile);
 		}
 	}
 	
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		if (!player.isSneaking()) {
 			TileSimpleQuantum t = (TileSimpleQuantum) world.getTileEntity(x, y, z);
-			double newAngle = (double) (player.rotationYaw+360)%360;
+			double newAngle = (double) ((player.rotationYaw + 360) % 360);
 			double p = Math.pow(Math.cos(((t.angle-newAngle)/2)*(Math.PI/180)), 2);
 			double rand = new Random().nextDouble();
 			boolean s = false;
 			if (player != null) {
 				if (!world.isRemote) {
 					if (p == 0) {
-						t.spin=false; s=false;
+						t.spin = false;
+						s = false;
 					} else if (p >= rand) {
-						t.spin=true; s=true;
+						t.spin = true;
+						s = true;
 					} else {
-						t.spin=false; s=false;
+						t.spin = false;
+						s = false;
 					}
 					set(newAngle, s, world, x, y, z);
 				}
-				if (s==true) {
+				if (s == true) {
 					t.angle = newAngle;
 				} else {
 					t.angle = 180 + newAngle;
@@ -90,10 +93,10 @@ public class BlockSimpleQuantum extends BlockContainer {
 	}
 	
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entityLivingBase, ItemStack itemstack) {
-		double l = (double) entityLivingBase.rotationYaw;
+		double l = (double) ((entityLivingBase.rotationYaw + 360) % 360);
 		TileSimpleQuantum t = (TileSimpleQuantum) world.getTileEntity(x, y, z);
 		t.angle = l;
-		t.spin=true;
+		t.spin = true;
 		
 		if (world.isRemote) ((ICommandSender) entityLivingBase).addChatMessage(new ChatComponentText(EnumChatFormatting.WHITE + ("Angle: " + Math.round(t.angle))));
 	}

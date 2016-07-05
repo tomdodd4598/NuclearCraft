@@ -1,3 +1,48 @@
+v1.8
+
+Turn off all Fission Reactors and delete old fission and fusion configs before updating to this version!
+
++ Added info tooltips to most items and blocks
++ Simply hold Shift while over an item or block from the mod
+
++ Added portable Lithium Ion Batteries
++ Added Rhodochrosite (drops from Redstone Ore) and many more ingredients used to construct Lithium Ion Batteries
+
++ The power of Fission Reactors is no longer explicitly dependant on the size of the reactor
++ Because of this, all fission fuels are four times as powerful
+
++ Added Steam Fission Reactors
++ Temporary mechanics - produces Steam/Dense Steam/Superdense Steam instead of RF
++ Produces roughly 50% more power than a standard RF-producing Fission Reactor
+
++ Added Dense Steam and Superdense Steam
++ Added Steam Generator
++ Added Steam and Dense Steam Decompressors
+
++ Added Antimatter as a temporary product of Synchrotrons
++ Added Antimatter Bomb
+
++ Added button the the Assembler to configure whether to try to keep the recipe intact or use all ingredients available
++ Added config option for Fusion Reactors to asymptotically reach 100% efficiency
+
+* Edited some extra block drops, extra mob drops and dungeon loot
+* Changed some ore generation rates as they were too low
+* Changed some internal workings of the Fusion Reactor
+* Tweaks to achievements
+* Quietened down Fusion Reactor and Synchrotron sound effects
+* Slightly nerfed Reaction Generator, again
+
+* Fixed non-RF machine fuel lifetimes
+* Yellorium is no longer processed into Uranium
+* Exception is the Separator, where Yellorium is processed less efficiently
+* Fixed crashes related to searching for non-existing fluids
+
++ Added Matrix and Complex classes to prepare for quantum mechanics
+
+* Other minor bug fixes
+* Minor file rearranging
+- Removed unused items
+
 v1.7h
 
 * Fixed major issues with Fission Reactor structure searching
@@ -10,9 +55,9 @@ v1.7h
 
 v1.7g
 
-* Mekansim gases can now be used in the Fusion Reactor - just pipe them in
+* Mekanism gases can now be used in the Fusion Reactor - just pipe them in
 * Changed some internal workings of the Fusion Reactor - it's possible that your input slots will become clogged up, so simply swap the stacks if this is the case
-* The fusion reactor will now recognise a redstone signal giong into anywhere at its base
+* The fusion reactor will now recognise a redstone signal going into anywhere at its base
 
 * The base power and fuel consumption of all fission fuels has been halved
 * Fixed bug with meltdowns

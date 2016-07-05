@@ -6,8 +6,15 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class FluidSteam extends Fluid {
-	public FluidSteam() {
-		super("steam");
+	public FluidSteam(String name) {
+		super(name);
+		setLuminosity(0);
+		setDensity(-20);
+		setViscosity(100);
+		setTemperature(5000);
+		setGaseous(true);
+		setUnlocalizedName(name);
+		setRarity(net.minecraft.item.EnumRarity.rare);
 	}
 
 	@SideOnly(Side.CLIENT)

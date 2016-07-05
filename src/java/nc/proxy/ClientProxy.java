@@ -1,6 +1,7 @@
 package nc.proxy;
 
 import nc.block.NCBlocks;
+import nc.entity.EntityAntimatterBombPrimed;
 import nc.entity.EntityBullet;
 import nc.entity.EntityNuclearGrenade;
 import nc.entity.EntityNuclearMonster;
@@ -13,6 +14,7 @@ import nc.render.ItemRenderFusionReactor;
 import nc.render.ItemRenderNuclearWorkspace;
 import nc.render.ItemRenderTubing1;
 import nc.render.ItemRenderTubing2;
+import nc.render.RenderAntimatterBombPrimed;
 import nc.render.RenderBullet;
 import nc.render.RenderFusionReactor;
 import nc.render.RenderNuclearMonster;
@@ -25,12 +27,15 @@ import nc.tile.crafting.TileNuclearWorkspace;
 import nc.tile.generator.TileFusionReactor;
 import nc.tile.other.TileTubing1;
 import nc.tile.other.TileTubing2;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.RenderSnowball;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.MinecraftForgeClient;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
+import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 
 public class ClientProxy extends CommonProxy {
 	
@@ -58,6 +63,9 @@ public void registerRenderThings() {
 		//Nuke Primed
 		RenderingRegistry.registerEntityRenderingHandler(EntityNukePrimed.class, new RenderNukePrimed());
 		
+		//Antimatter Bomb Primed
+		RenderingRegistry.registerEntityRenderingHandler(EntityAntimatterBombPrimed.class, new RenderAntimatterBombPrimed());
+		
 		//Entities
 		RenderingRegistry.registerEntityRenderingHandler(EntityNuclearMonster.class, new RenderNuclearMonster(new ModelNuclearMonster(), 0.3F));
 		RenderingRegistry.registerEntityRenderingHandler(EntityPaul.class, new RenderPaul(new ModelPaul(), 1.0F));
@@ -67,6 +75,11 @@ public void registerRenderThings() {
 		
 		//DU Bullet
 		RenderingRegistry.registerEntityRenderingHandler(EntityBullet.class, new RenderBullet());
+	}
+
+	@Override
+	public EntityPlayer getPlayerEntity(MessageContext ctx) {
+		return (ctx.side.isClient() ? Minecraft.getMinecraft().thePlayer : super.getPlayerEntity(ctx));
 	}
 
 	public void registerSounds() {}

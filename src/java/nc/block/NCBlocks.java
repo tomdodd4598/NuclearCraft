@@ -39,6 +39,8 @@ public class NCBlocks {
 	public static Block blastBlock;
 	public static Block fissionReactorGraphiteIdle;
 	public static Block fissionReactorGraphiteActive;
+	public static Block fissionReactorSteamIdle;
+	public static Block fissionReactorSteamActive;
 	public static Block nuclearWorkspace;
 	public static Block fusionReactor;
 	public static Block fusionReactorBlock;
@@ -52,6 +54,8 @@ public class NCBlocks {
 	public static Block collectorActive;
 	public static Block nuke;
 	public static Block nukeE;
+	public static Block antimatterBomb;
+	public static Block antimatterBombE;
 	public static Block electrolyserIdle;
 	public static Block electrolyserActive;
 	public static Block oxidiserIdle;
@@ -86,6 +90,11 @@ public class NCBlocks {
 	
 	public static Block blockHelium;
 	public static Block blockFusionPlasma;
-	public static Block plasmaFire;
 	public static Block blockSteam;
+	public static Block blockDenseSteam;
+	public static Block blockSuperdenseSteam;
+	
+	public static Block steamGenerator;
+	public static Block steamDecompressor;
+	public static Block denseSteamDecompressor;
 }

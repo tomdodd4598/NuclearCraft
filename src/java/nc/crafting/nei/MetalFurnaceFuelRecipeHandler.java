@@ -69,7 +69,7 @@ public class MetalFurnaceFuelRecipeHandler extends MetalFurnaceRecipeHandler
     public List<String> handleItemTooltip(GuiRecipe gui, ItemStack stack, List<String> currenttip, int recipe) {
         CachedFuelRecipe crecipe = (CachedFuelRecipe) arecipes.get(recipe);
         MetalFuelPair fuel = crecipe.metalfuel;
-        float burnTime = (float) (2*fuel.burnTime / Math.ceil((100/(double) NuclearCraft.metalFurnaceCookSpeed)*100));
+        float burnTime = (float) ((double) (fuel.burnTime*NuclearCraft.metalFurnaceCookSpeed)/8000);
 
         if (gui.isMouseOver(fuel.stack, recipe) && burnTime < 1) {
             burnTime = 1F / burnTime;

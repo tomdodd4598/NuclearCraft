@@ -33,13 +33,14 @@ public class BlockDropHandler {
 	@SubscribeEvent
 	public void onBlockDrops(BlockEvent.HarvestDropsEvent event) {
 		if (NuclearCraft.extraDrops) {
-			chanceExtra(event, Blocks.lapis_ore, new ItemStack(NCItems.material, 1+rand.nextInt(3), 41), 30);
-			chanceExtra(event, Blocks.quartz_ore, new ItemStack(NCItems.material, 1, 70), 30);
+			chanceExtra(event, Blocks.quartz_ore, new ItemStack(NCItems.material, 1, 70), 50);
 			
 			chanceMetaExtra(event, NCBlocks.blockOre, 6, new ItemStack(NCItems.material, 1, 33), 25);
-			chanceMetaExtra(event, NCBlocks.blockOre, 6, new ItemStack(NCItems.material, 1, 62), 4);
-			chanceMetaExtra(event, NCBlocks.blockOre, 6, new ItemStack(NCItems.material, 1, 35), 35);
-			chanceMetaExtra(event, NCBlocks.blockOre, 6, new ItemStack(NCItems.material, 1, 37), 30);
+			chanceMetaExtra(event, NCBlocks.blockOre, 6, new ItemStack(NCItems.material, 1, 35), 25);
+			chanceMetaExtra(event, NCBlocks.blockOre, 6, new ItemStack(NCItems.material, 1, 37), 25);
+			chanceMetaExtra(event, NCBlocks.blockOre, 6, new ItemStack(NCItems.material, 1, 62), 5);
 		}
+		chanceExtra(event, Blocks.redstone_ore, new ItemStack(NCItems.material, 1, 73), 10);
+		chanceExtra(event, Blocks.lit_redstone_ore, new ItemStack(NCItems.material, 1, 73), 10);
 	}
 }

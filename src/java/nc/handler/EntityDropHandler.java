@@ -18,7 +18,7 @@ public class EntityDropHandler {
 				if (rand.nextInt(100) < 1) event.entityLiving.dropItem(NCItems.dominoes, 1);
 				if (rand.nextInt(100) < 3) event.entityLiving.dropItem(NCItems.ricecake, 1);
 				if (rand.nextInt(100) < 1) event.entityLiving.dropItem(NCItems.fishAndRicecake, 1);
-				if (rand.nextInt(100) < 10) event.entityLiving.dropItem(NCItems.dUBullet, 1);
+				if (rand.nextInt(100) < 5) event.entityLiving.dropItem(NCItems.dUBullet, 1);
 				if (rand.nextInt(200) < 1) event.entityLiving.dropItem(NCItems.recordArea51, 1);
 				if (rand.nextInt(200) < 1) event.entityLiving.dropItem(NCItems.recordNeighborhood, 1);
 				if (rand.nextInt(200) < 1) event.entityLiving.dropItem(NCItems.recordPractice, 1);

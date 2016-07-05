@@ -20,7 +20,7 @@ public abstract class ContainerMachine extends Container {
 	public double lastSU;
 	public int lastGetSpeed;
 	public int lastReqEnergy;
-  
+	
 	public ContainerMachine(InventoryPlayer inventory, TileMachine tileentity, NCRecipeHelper recipe) {
 		entity = tileentity;
 		recipes = recipe;

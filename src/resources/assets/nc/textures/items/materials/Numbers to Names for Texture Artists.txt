@@ -69,5 +69,14 @@
 68: Tiny Pu-241 Oxide
 69: Tiny Li-6
 70: Tiny B-10
-71: MgB Ingot
-72: Crushed MgB
+71: Magnesium Diboride Ingot
+72: Crushed Magnesium Diboride
+73: Rhodochrosite
+74: Crushed Manganese Oxide
+75: Crushed Manganese Dioxide
+76: Graphite Ingot
+77: Crushed Graphite
+78: Hard Carbon Ingot
+79: Crushed Hard Carbon
+80: Lithium Manganese Dioxide Ingot
+81: Crushed Lithium Manganese Dioxide

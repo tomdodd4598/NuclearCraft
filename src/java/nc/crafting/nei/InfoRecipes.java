@@ -25,13 +25,14 @@ public class InfoRecipes {
 		return infoBase;
 	}
 	
-	public String text(String s) {
+	private String text(String s) {
 		return StatCollector.translateToLocal(s);
 	}
 	
 	private InfoRecipes() {
 		
-		addRecipe(new ItemStack(NCBlocks.fissionReactorGraphiteIdle), "-Nuclear fuel types below-Check uses in NEI-for more info:--"+text("gui.LEU")+"     "+text("gui.HEU")+"     "+text("gui.LEUOx")+"     "+text("gui.HEUOx")+"-"+text("gui.LEP")+"     "+text("gui.HEP")+"     "+text("gui.LEPOx")+"     "+text("gui.HEPOx")+"-"+text("gui.MOX")+"     "+text("gui.TBU")+"--Requires fission multiblock-structure to function");
+		addRecipe(new ItemStack(NCBlocks.fissionReactorGraphiteIdle), "-Nuclear fuel types below-Check uses in NEI-for more info:--"+text("gui.LEU")+"     "+text("gui.HEU")+"     "+text("gui.LEUOx")+"     "+text("gui.HEUOx")+"-"+text("gui.LEP")+"     "+text("gui.HEP")+"     "+text("gui.LEPOx")+"     "+text("gui.HEPOx")+"-"+text("gui.MOX")+"     "+text("gui.TBU")+"--Requires fission multiblock-structure to function and-outputs RF");
+		addRecipe(new ItemStack(NCBlocks.fissionReactorSteamIdle), "-Nuclear fuel types below-Check uses in NEI-for more info:--"+text("gui.LEU")+"     "+text("gui.HEU")+"     "+text("gui.LEUOx")+"     "+text("gui.HEUOx")+"-"+text("gui.LEP")+"     "+text("gui.HEP")+"     "+text("gui.LEPOx")+"     "+text("gui.HEPOx")+"-"+text("gui.MOX")+"     "+text("gui.TBU")+"--Requires fission multiblock-structure to function and-outputs steam");
 		addRecipe(new ItemStack(NCBlocks.reactionGeneratorIdle), "-Uses nuclear fuel-and Universal Reactant-as the catalyst to-generate " + (TileReactionGenerator.power) + " RF/t");
 		addRecipe(new ItemStack(NCBlocks.nuclearFurnaceIdle), "-Smelts items very fast-and uses simple nuclear fuels");
 		addRecipe(new ItemStack(NCBlocks.furnaceIdle), "-A more efficient furnace");
@@ -44,15 +45,19 @@ public class InfoRecipes {
 		addRecipe(new ItemStack(NCBlocks.reactorBlock), "-Simple block that makes up-the exterior of Fission-Reactors");
 		addRecipe(new ItemStack(NCBlocks.machineBlock), "-Used in the construction of-many machines");
 		addRecipe(new ItemStack(NCBlocks.blastBlock), "-Three times as blast-resistant as obsidian--Can resist nuke explosions");
-		addRecipe(new ItemStack(NCBlocks.nuclearWorkspace), "-An advanced 5x5-crafting table used to-make many things from-NuclearCraft" + (!NuclearCraft.workspace ? "--Currently disabled" : ""));
+		addRecipe(new ItemStack(NCBlocks.nuclearWorkspace), "-An advanced 5x5-crafting table used to-make many things in-NuclearCraft" + (!NuclearCraft.workspace ? "--Currently disabled" : ""));
 		addRecipe(new ItemStack(NCBlocks.fusionReactor), "-An advanced RF generator-that fuses Hydrogen, Deuterium,-Tritium, Helium3, Lithium6,-Lithium7 and Boron11 to-generate a very large-amount of RF--Requires a ring of powered-electromagnets to function");
 		addRecipe(new ItemStack(NCBlocks.tubing1), "-Purely decorative block--Looks nice at the edges of-Fission Reactors");
 		addRecipe(new ItemStack(NCBlocks.tubing2), "-Purely decorative block--Looks nice at the edges of-Fission Reactors");
 		addRecipe(new ItemStack(NCBlocks.RTG), "-Generates a constant-stream of " + NuclearCraft.RTGRF + " RF/t");
 		addRecipe(new ItemStack(NCBlocks.WRTG), "-Generates a constant-stream of " + NuclearCraft.WRTGRF + " RF/t");
+		addRecipe(new ItemStack(NCBlocks.steamGenerator), "-Generates RF from steam-at a maximum rate of-2000 mB/t to 4000 RF/t-(2 RF per 1 mB of Steam)");
+		addRecipe(new ItemStack(NCBlocks.steamDecompressor), "-Takes in dense steam-and decompresses it to-form steam at a maximum-rate of 2 mB/t of dense-steam to 2000 mB/t of steam");
+		addRecipe(new ItemStack(NCBlocks.denseSteamDecompressor), "-Takes in superdense steam-and decompresses it to-form dense steam at a-maximum rate of 2 mB/t of-superdense steam to-2000 mB/t of dense steam");
 		addRecipe(new ItemStack(NCBlocks.solarPanel), "-Generates a constant-stream of " + NuclearCraft.solarRF + " RF/t during-the day");
 		addRecipe(new ItemStack(NCBlocks.collectorIdle), "-Slowly generates Helium4-from the Thorium inside it");
 		addRecipe(new ItemStack(NCBlocks.nuke), "-A cruel joke, a fun time,-or just a big hole--Nuff said");
+		addRecipe(new ItemStack(NCBlocks.antimatterBomb), "-Show the world what-would have happened if-Ewan McGregor did not-have a helicopter at-his disposal...");
 		addRecipe(new ItemStack(NCBlocks.electrolyserIdle), "-Uses RF to separate-water into Oxygen, Hydrogen-and Deuterium--Can accept speed and-efficiency upgrades");
 		addRecipe(new ItemStack(NCBlocks.oxidiserIdle), "-Uses RF to oxidise materials--Makes nuclear fuels more-efficient--Can accept speed and-efficiency upgrades");
 		addRecipe(new ItemStack(NCBlocks.ioniserIdle), "-Uses RF to ionise atoms--Can accept speed and-efficiency upgrades");
@@ -61,9 +66,9 @@ public class InfoRecipes {
 		addRecipe(new ItemStack(NCBlocks.factoryIdle), "-A very useful machine-that uses RF to create-machine parts and-efficiently process ores--Can accept speed and-efficiency upgrades");
 		addRecipe(new ItemStack(NCBlocks.assemblerIdle), "-A very useful machine-that uses RF to automate-Nuclear Workspace recipes--Use sticks to block slots--Will not leave empty slots--Can accept speed and-efficiency upgrades");
 		addRecipe(new ItemStack(NCBlocks.heliumExtractorIdle), "-Uses RF to carefully-extract Liquid Helium-from its cells, so that it-can be transferred as a fluid");
-		addRecipe(new ItemStack(NCBlocks.superElectromagnetIdle), "-Used to control the-beams in particle-accelerators--Require " + NuclearCraft.superElectromagnetRF + " RF/t to run-continuously, and require-cooling from Supercoolers");
-		addRecipe(new ItemStack(NCBlocks.electromagnetIdle), "-Used to control a-Fusion Reactor's-superhot plasma--Require " + NuclearCraft.electromagnetRF + " RF/t to run-continuously");
-		addRecipe(new ItemStack(NCBlocks.supercoolerIdle), "-Used in the construction-of particle accelerators-to cool the superconducting-electromagnets--Require " + NuclearCraft.electromagnetHe + " mB of Liquid-Helium per second to run-continuously");
+		addRecipe(new ItemStack(NCBlocks.superElectromagnetIdle), "-Used to control the-beams in particle-accelerators--Requires " + NuclearCraft.superElectromagnetRF + " RF/t to run-continuously");
+		addRecipe(new ItemStack(NCBlocks.electromagnetIdle), "-Used to control a-Fusion Reactor's-superhot plasma--Requires " + NuclearCraft.electromagnetRF + " RF/t to run-continuously");
+		addRecipe(new ItemStack(NCBlocks.supercoolerIdle), "-Used in the construction-of particle accelerators-to cool the superconducting-electromagnets--Requires " + NuclearCraft.electromagnetHe + " mB of Liquid-Helium per second to run-continuously");
 		addRecipe(new ItemStack(NCBlocks.synchrotronIdle), "-Place at the corner of a-particle accelerator ring--Takes in electron cells and-fires them into the accelerator");
 		addRecipe(new ItemStack(NCBlocks.simpleQuantumUp), "-A block that mimics the-probabilistic quantum-mechanical physics of a spin-1/2 particle, such as an-electron or a neutron");
 		addRecipe(new ItemStack(NCBlocks.simpleQuantumDown), "-A block that mimics the-probabilistic quantum-mechanical physics of a spin-1/2 particle, such as an-electron or a neutron");
@@ -81,7 +86,7 @@ public class InfoRecipes {
 		addRecipe(new ItemStack(NCItems.nuclearGrenade), "-A VERY deadly bomb--It is highly recommended-that this is kept off your-hotbar while not about-to be used");
 		addRecipe(new ItemStack(NCItems.portableEnderChest), "-Portable access to your-vanilla Ender Chest inventory");
 		
-		addRecipe(new ItemStack(NCItems.recordArea51), "-Jimmy, with his newly-aquired map, must make-his way the the mines of-Area 51 to recover his-invisibility technology...");
+		addRecipe(new ItemStack(NCItems.recordArea51), "-Jimmy, with his newly-aquired map, must make-his way to the mines of-Area 51 to recover his-invisibility technology...");
 		addRecipe(new ItemStack(NCItems.recordNeighborhood), "-Jimmy's hometown: a quiet-and green place with-roads to many great-places such as Retroland-and Downtown...");
 		addRecipe(new ItemStack(NCItems.recordPractice), "-Whenever Jimmy has some-new discoveries to test-out, his virtual practice-labs are the best places-to see what's possible...");
 		
@@ -139,7 +144,7 @@ public class InfoRecipes {
 	}
 
 	public void fissionFuelInfo(int meta, int power, int time, int heat) {
-		addRecipe(new ItemStack(NCItems.fuel, 1, meta), "Base Power = " + power*NuclearCraft.fissionRF/100 + " RF/t-Base Lifetime = " + (10000000/(time*20))*NuclearCraft.fissionEfficiency + " s-Base Heat = "+ heat + " H/t-For a n*m*k Reactor with-c cells and efficiency e:-Multiply Base Power by:-c*(e/100)*cbrt(n*m*k)-Multiply Base Lifetime by:-1/c-Heat produced is determined-by the positions of cells");
+		addRecipe(new ItemStack(NCItems.fuel, 1, meta), "Base Power = " + power*NuclearCraft.fissionRF/100 + " RF/t-Base Lifetime = " + (10000000/(time*20))*NuclearCraft.fissionEfficiency + " s-Base Heat = " + heat + " H/t-For a n*m*k Reactor with-c cells and efficiency e:-Multiply Base Power by:-c*(e/100)-Multiply Base Lifetime by:-1/c-Heat produced is determined-by the positions of cells");
 	}
 	
 	public void coolerInfo(Block cooler, int heat, String extra) {

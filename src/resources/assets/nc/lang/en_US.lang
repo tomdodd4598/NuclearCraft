@@ -3,6 +3,7 @@ itemGroup.tabNC=NuclearCraft
 entity.NuclearMonster.name=Nuclear Monster
 entity.Paul.name=Paul
 entity.NukePrimed.name=Nuke - RUN!
+entity.AntimatterBombPrimed.name=Antimatter Bomb - RUN!
 entity.NuclearGrenade.name=Nuclear Grenade
 entity.EntityBullet.name=DU Bullet
 
@@ -50,7 +51,8 @@ tile.emptyCoolerBlock.name=Empty Reactor Cooler
 tile.speedBlock.name=Reactor Speed Block
 tile.blastBlock.name=Blast Resistant Block
 tile.nuke.name=Nuke
-tile.machineBlock.name=Machine Base
+tile.antimatterBomb.name=Antimatter Bomb
+tile.machineBlockNC.name=Machine Base
 
 tile.tubing1.name=Horizontal Reinforced Tubing
 tile.tubing2.name=Vertical Reinforced Tubing
@@ -62,6 +64,10 @@ fluid.fusionPlasma=Fusion Plasma
 tile.plasmaFire.name=Fire
 tile.steamBlock.name=Steam
 fluid.steam=Steam
+tile.denseSteamBlock.name=Dense Steam
+fluid.denseSteam=Dense Steam
+tile.superdenseSteamBlock.name=Superdense Steam
+fluid.superdenseSteam=Superdense Steam
 
 tile.nuclearFurnaceIdle.name=Nuclear Furnace
 tile.nuclearFurnaceActive.name=Nuclear Furnace
@@ -81,6 +87,8 @@ tile.hastenerIdle.name=Decay Hastener
 tile.hastenerActive.name=Decay Hastener
 tile.fissionReactorGraphiteIdle.name=Fission Controller
 tile.fissionReactorGraphiteActive.name=Fission Controller
+tile.fissionReactorSteamIdle.name=Steam Fission Controller
+tile.fissionReactorSteamActive.name=Steam Fission Controller
 tile.nuclearWorkspace.name=Heavy Duty Workspace
 tile.fusionReactor.name=Fusion Reactor Core
 tile.fusionReactorBlock.name=Fusion Reactor Core
@@ -114,10 +122,14 @@ tile.supercoolerIdle.name=Electromagnet Supercooler
 tile.supercoolerActive.name=Electromagnet Supercooler
 tile.synchrotronIdle.name=Synchrotron Controller
 tile.synchrotronActive.name=Synchrotron Controller
+tile.steamGenerator.name=Steam Generator
+tile.steamDecompressor.name=Steam Decompressor
+tile.denseSteamDecompressor.name=Dense Steam Decompressor
 
 gui.reactor=Reactor
 gui.fuel=Fuel
 gui.heat=Heat
+gui.heatCore=Core Heat
 gui.noFuel=No Fuel
 gui.casingIncomplete=Casing Incomplete
 gui.invalidStructure=Invalid Structure
@@ -140,6 +152,8 @@ gui.LEUOx=LEUOx
 gui.HEUOx=HEUOx
 gui.LEPOx=LEPOx
 gui.HEPOx=HEPOx
+gui.dense=Dense
+gui.superdense=S-Dense
 
 gui.energyStored=Energy Stored
 gui.level1=Level 1
@@ -168,6 +182,7 @@ gui.tubeIncomplete=Tube Incomplete
 gui.cornerIncomplete=Corner Incomplete
 gui.ringNotBigEnough=Ring Too Small
 gui.radiationPower=Radiation Power
+gui.antimatterProgress=Antimatter
 
 gui.online=Online
 gui.offline=Offline
@@ -188,6 +203,27 @@ lithiumIngot.name=Lithium Ingot
 boronIngot.name=Boron Ingot
 magnesiumIngot.name=Magnesium Ingot
 MgBIngot.name=Magnesium Diboride Ingot
+
+crushedIron.name=Crushed Iron
+crushedGold.name=Crushed Gold
+crushedLapis.name=Crushed Lapis
+crushedDiamond.name=Crushed Diamond
+crushedEmerald.name=Crushed Emerald
+crushedQuartz.name=Crushed Quartz
+crushedCoal.name=Crushed Coal
+crushedCopper.name=Crushed Copper
+crushedLead.name=Crushed Lead
+crushedTin.name=Crushed Tin
+crushedSilver.name=Crushed Silver
+crushedUranium.name=Crushed Uranium
+crushedThorium.name=Crushed Thorium
+crushedBronze.name=Crushed Bronze
+crushedLithium.name=Crushed Lithium
+crushedBoron.name=Crushed Boron
+crushedMagnesium.name=Crushed Magnesium
+crushedMgB.name=Crushed Magnesium Diboride
+crushedObsidian.name=Crushed Obsidian
+tinyCrushedLead.name=Tiny Pile of Crushed Lead
 
 item.dominoes.name=Domino's Special
 item.boiledEgg.name=Boiled Egg
@@ -222,7 +258,6 @@ B10.name=Boron-10
 B11.name=Boron-11
 tinyLi6.name=Tiny Lump of Lithium-6
 tinyB10.name=Tiny Lump of Boron-10
-
 uraniumOxideIngot.name=Uranium Oxide Ingot
 crushedUraniumOxide.name=Crushed Uranium Oxide
 U238Oxide.name=Uranium-238 Oxide
@@ -239,6 +274,16 @@ Pu242Oxide.name=Plutonium-242 Oxide
 tinyPu242Oxide.name=Tiny Lump of Plutonium-242 Oxide
 Pu241Oxide.name=Plutonium-241 Oxide
 tinyPu241Oxide.name=Tiny Lump of Plutonium-241 Oxide
+
+rhodochrosite.name=Rhodochrosite
+crushedMnO.name=Crushed Manganese Oxide
+crushedMnO2.name=Crushed Manganese Dioxide
+graphiteIngot.name=Graphite Ingot
+crushedGraphite.name=Crushed Graphite
+hardCarbonIngot.name=Hard Carbon Ingot
+crushedHardCarbon.name=Crushed Hard Carbon
+LiMnO2Ingot.name=Lithium Manganese Dioxide Ingot
+crushedLiMnO2.name=Crushed Lithium Manganese Dioxide
 
 LEU235.name=LEU-235 Fuel
 HEU235.name=HEU-235 Fuel
@@ -344,28 +389,6 @@ MgBWiring.name=Magnesium Diboride Wiring
 computerPlate.name=Computer Plate
 mechanicalPart.name=Mechanical Part
 
-crushedIron.name=Crushed Iron
-crushedGold.name=Crushed Gold
-crushedLapis.name=Crushed Lapis
-crushedDiamond.name=Crushed Diamond
-crushedEmerald.name=Crushed Emerald
-crushedQuartz.name=Crushed Quartz
-crushedCoal.name=Crushed Coal
-crushedCopper.name=Crushed Copper
-crushedLead.name=Crushed Lead
-crushedTin.name=Crushed Tin
-crushedSilver.name=Crushed Silver
-crushedUranium.name=Crushed Uranium
-crushedThorium.name=Crushed Thorium
-crushedBronze.name=Crushed Bronze
-crushedLithium.name=Crushed Lithium
-crushedBoron.name=Crushed Boron
-crushedMagnesium.name=Crushed Magnesium
-crushedMgB.name=Crushed Magnesium Diboride
-crushedObsidian.name=Crushed Obsidian
-
-tinyCrushedLead.name=Tiny Pile of Crushed Lead
-
 item.pistol.name=Pistol
 item.dUBullet.name=DU Bullet
 
@@ -427,7 +450,12 @@ item.recordArea51.name=NuclearCraft Music Disc
 item.Area51.desc=Jimmy in Area 51
 item.recordNeighborhood.name=NuclearCraft Music Disc
 item.Neighborhood.desc=Retroville Neighbourhood
+
 item.blank.name=Blank
+
+item.antimatter.name=Antimatter (Temporary)
+
+item.lithiumIonBattery.name=Lithium Ion Battery
 
 achievement.nuclearFurnace=Speed Smelting
 achievement.nuclearFurnace.desc=Make a Nuclear Furnace
@@ -437,7 +465,7 @@ achievement.fishAndRicecake=Strict Diet
 achievement.fishAndRicecake.desc=Make Fish and a Ricecake
 achievement.heavyDutyWorkspace=Nuclear Engineer
 achievement.heavyDutyWorkspace.desc=Make a Heavy Duty Workspace
-achievement.nuke=Death, the Destroyer of Worlds
+achievement.nuke=War... War Never Changes
 achievement.nuke.desc=Make a Nuke
 achievement.tool=One Tool to Rule... Most Other Tools
 achievement.tool.desc=Make a Depleted Uranium Spaxelhoe
@@ -461,6 +489,8 @@ achievement.solar=Eco-Friendly
 achievement.solar.desc=Make a Solar Panel
 achievement.synchrotron=Extreme Photonics
 achievement.synchrotron.desc=Make a Synchrotron Controller
+achievement.antimatterBomb=Death, the Destroyer of Worlds
+achievement.antimatterBomb.desc=Make an Antimatter Bomb
 
 death.attack.heliumfreeze=%1$s froze to death in a pool of Liquid Helium
 death.attack.plasmaburn=%1$s was incinerated by Superhot Plasma

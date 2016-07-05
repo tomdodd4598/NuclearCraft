@@ -37,8 +37,8 @@ public class FactoryRecipes extends NCRecipeHelper {
     	oreIngot("Silver", 2);
     	oreIngot("Lead", 2);
     	oreIngot("Uranium", 2);
-    	addRecipe(oreStack("oreYellorite", 1), oreStack("ingotUranium", 2));
-    	addRecipe(oreStack("oreYellorium", 1), oreStack("ingotUranium", 2));
+    	addRecipe(oreStack("oreYellorite", 1), oreStack("ingotYellorite", 2));
+    	addRecipe(oreStack("oreYellorium", 1), oreStack("ingotYellorium", 2));
     	oreIngot("Thorium", 2);
     	oreIngot("Lithium", 2);
     	oreIngot("Boron", 2);
@@ -68,7 +68,7 @@ public class FactoryRecipes extends NCRecipeHelper {
     	addRecipe(new ItemStack(Blocks.enchanting_table, 1), new ItemStack(Items.diamond, 2));
     	addRecipe(new ItemStack(Blocks.anvil, 1), new ItemStack(Blocks.iron_block, 3));
     	addRecipe(new ItemStack(Items.bucket, 1), new ItemStack(Items.iron_ingot, 3));
-    	addRecipe(new ItemStack(Items.rotten_flesh, 2), new ItemStack(Items.leather, 1));
+    	addRecipe(new ItemStack(Items.rotten_flesh, 4), new ItemStack(Items.leather, 1));
     	addRecipe(new ItemStack(Items.coal, 64), new ItemStack(Items.diamond, 1));
     }
 	

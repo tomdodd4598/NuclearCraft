@@ -40,6 +40,9 @@ public class GuiSynchrotron extends GuiContainer {
         
         String rgen = this.entity.radiationPower < 10000 ? StatCollector.translateToLocal("gui.radiationPower")+": "+Math.round(this.entity.radiationPower)+" kW" : (this.entity.radiationPower > 10000000 ? StatCollector.translateToLocal("gui.radiationPower")+": "+((int)(Math.round(this.entity.radiationPower/1000000))) + " GW" : StatCollector.translateToLocal("gui.radiationPower")+": "+((int)(Math.round(this.entity.radiationPower/1000))) + " MW");
         this.fontRendererObj.drawString(rgen, 47, 71, (this.entity.complete == 1 ? -1 : 15597568));
+        
+        String anti = StatCollector.translateToLocal("gui.antimatterProgress") + ": " + (int) ((this.entity.antimatter)/64) + " ppm";
+        this.fontRendererObj.drawString(anti, 47, 82, (this.entity.complete == 1 ? -1 : 15597568));
     }
 
     protected void drawGuiContainerBackgroundLayer(float var1, int var2, int var3) {
@@ -54,5 +57,8 @@ public class GuiSynchrotron extends GuiContainer {
         this.drawTexturedModalRect(this.guiLeft + 28, this.guiTop + 6 + 109 - k3, 186, 3 + 109 - k3 + (this.entity.complete == 1 ? 0 : 109), 5, k3);
         int k4 = (int) (this.entity.percentageOn * 109 / 100);
         this.drawTexturedModalRect(this.guiLeft + 38, this.guiTop + 6 + 109 - k4, 191, 3 + 109 - k4 + (this.entity.complete == 1 ? 0 : 109), 5, k4);
+        
+        int antimatterGUI = (int) Math.round(this.entity.antimatter * 14 / 64000000);
+        if (this.entity.antimatter <= 64000000) drawTexturedModalRect(guiLeft + 153, guiTop + 117, 176, 2, antimatterGUI, 1); else drawTexturedModalRect(guiLeft + 153, guiTop + 117, 176, 2, 14, 1);
     }
 }

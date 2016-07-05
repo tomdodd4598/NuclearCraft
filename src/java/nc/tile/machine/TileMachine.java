@@ -366,7 +366,19 @@ public abstract class TileMachine extends TileEntity implements IEnergyHandler, 
 	}
 
 	public boolean isItemValidForSlot(int slot, ItemStack itemstack) {
-		if (isOxidiser() && isOxygen(itemstack)) return slot == 1; else if (isIrradiator() && isNeutronCapsule(itemstack)) return slot == 1; else if (isIoniser() && isHydrogen(itemstack)) return slot == 1; else return slot < inputSize;
+		if (isOxidiser()) {
+			if (isOxygen(itemstack)) return slot == 1;
+			else return slot == 0;
+		}
+		else if (isIrradiator()) {
+			if (isNeutronCapsule(itemstack)) return slot == 1;
+			else return slot == 0;
+		}
+		else if (isIoniser()) {
+			if (isHydrogen(itemstack)) return slot == 1;
+			else return slot == 0;
+		}
+		else return slot < inputSize;
 	}
 
 	public boolean canInsertItem(int slot, ItemStack itemstack, int side) {

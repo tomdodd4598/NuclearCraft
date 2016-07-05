@@ -2,6 +2,7 @@ package nc.tile.quantum;
 
 import nc.block.quantum.BlockSimpleQuantum;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
@@ -44,5 +45,10 @@ public class TileSimpleQuantum extends TileEntity {
 	public Packet getDescriptionPacket() {
 		NBTTagCompound nbtTag = new NBTTagCompound();
 		return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 0, nbtTag);
+	}
+	
+	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
+		super.onDataPacket(net, packet);
+		this.readFromNBT(packet.func_148857_g());
 	}
 }

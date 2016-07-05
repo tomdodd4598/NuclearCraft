@@ -2,82 +2,60 @@ package nc.item;
 
 import java.util.List;
 
-import nc.NuclearCraft;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
+import nc.util.InfoNC;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemPart extends Item {
+public class ItemPart extends ItemMeta {
 
-	public ItemPart(String unlocalizedName) {
-		super();
-		this.setHasSubtypes(true);
-		this.setUnlocalizedName(unlocalizedName);
-		this.setCreativeTab(NuclearCraft.tabNC);
+	public ItemPart() {
+		super("parts", "parts", 20);
 	}
-
-	public IIcon[] icons = new IIcon[6];
-	public IIcon[] icons1 = new IIcon[6];
-	public IIcon[] icons2 = new IIcon[6];
-	public IIcon[] icons3 = new IIcon[2];
-
-	public void registerIcons(IIconRegister reg) {
-	    for (int i = 0; i < 6; i ++) {
-	        this.icons[i] = reg.registerIcon("nc:parts/" + (i));
-	    }
-	    for (int i = 0; i < 6; i ++) {
-	        this.icons1[i] = reg.registerIcon("nc:parts/" + (i+6));
-	    }
-	    for (int i = 0; i < 6; i ++) {
-	        this.icons2[i] = reg.registerIcon("nc:parts/" + (i+12));
-	    }
-	    for (int i = 0; i < 2; i ++) {
-	        this.icons3[i] = reg.registerIcon("nc:parts/" + (i+18));
-	    }
+	
+	@SuppressWarnings({ "rawtypes" })
+	@SideOnly(Side.CLIENT)
+	public void addInformation(ItemStack itemStack, EntityPlayer player, List list, boolean whatIsThis) {
+        super.addInformation(itemStack, player, list, whatIsThis);
+        if (info(itemStack.getItemDamage()) == InfoNC.nul); else if (info(itemStack.getItemDamage()).length > 0) InfoNC.infoFull(list, info(itemStack.getItemDamage()));
+    }
+	
+	public String[] info(int m) {
+		if (m == 18 || m == 19) return info("Only craftable in the Assembler.");
+		else return InfoNC.nul;
 	}
-
-	public IIcon getIconFromDamage(int meta) {
-	    if (meta > 19) meta = 0;
-	    if (meta >= 0 && meta < 6) { return this.icons[meta]; }
-	    else if (meta >= 6 && meta < 12) { return this.icons1[meta-6]; }
-	    else if (meta >= 12 && meta < 18) { return this.icons2[meta-12]; }
-	    else if (meta >= 18 && meta < 20) { return this.icons3[meta-18]; }
-	    else { return null; }
-	}
-
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public void getSubItems(Item item, CreativeTabs tab, List list) {
-	    for (int i = 0; i < 20; i ++) {
-	        list.add(new ItemStack(item, 1, i));
-	    }
+	
+	public String[] info(String string) {
+		String[] inf = {
+			string
+		};
+		return inf;
 	}
 
 	public String getUnlocalizedName(ItemStack stack) {
 	    switch (stack.getItemDamage()) {
-	    case 0: return "simpleNeutronReflector";
-	    case 1: return "ironPlating";
-	    case 2: return "conGrind";
-	    case 3: return "advancedNeutronReflector";
-	    case 4: return "universalReactant";
-	    case 5: return "reactionVessel";
-	    case 6: return "tinPlating";
-	    case 7: return "iWater";
-	    case 8: return "dUPlating";
-	    case 9: return "aPlating";
-	    case 10: return "ironGrating";
-	    case 11: return "goldContacts";
-	    case 12: return "copperWiring";
-	    case 13: return "tinTubing";
-	    case 14: return "leadPlating";
-	    case 15: return "silverPanel";
-	    case 16: return "bronzeBearing";
-	    case 17: return "MgBWiring";
-	    case 18: return "computerPlate";
-	    case 19: return "mechanicalPart";
-	    default:
-	        return this.getUnlocalizedName();
+		    case 0: return "simpleNeutronReflector";
+		    case 1: return "ironPlating";
+		    case 2: return "conGrind";
+		    case 3: return "advancedNeutronReflector";
+		    case 4: return "universalReactant";
+		    case 5: return "reactionVessel";
+		    case 6: return "tinPlating";
+		    case 7: return "iWater";
+		    case 8: return "dUPlating";
+		    case 9: return "aPlating";
+		    case 10: return "ironGrating";
+		    case 11: return "goldContacts";
+		    case 12: return "copperWiring";
+		    case 13: return "tinTubing";
+		    case 14: return "leadPlating";
+		    case 15: return "silverPanel";
+		    case 16: return "bronzeBearing";
+		    case 17: return "MgBWiring";
+		    case 18: return "computerPlate";
+		    case 19: return "mechanicalPart";
+		    default: return this.getUnlocalizedName();
 	    }
 	}
 }

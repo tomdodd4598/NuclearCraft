@@ -69,7 +69,7 @@ public class BlockSteam extends BlockFluidClassic {
     
     public void updateTick(World world, int x, int y, int z, Random rand) {
     	super.updateTick(world, x, y, z, rand);
-    	if (tickCount >= 2) {
+    	if (tickCount >= 10) {
     		if (isSourceBlock(world, x, y, z)) world.setBlockToAir(x, y, z);
     	}	else tickCount ++;
     }

@@ -27,8 +27,7 @@ public class BlockBlock extends Block {
 	}
 
 	public IIcon[] icons = new IIcon[6];
-	public IIcon[] icons2 = new IIcon[2];
-	public IIcon[] icons3 = new IIcon[3];
+	public IIcon[] icons2 = new IIcon[5];
 	
 	@SideOnly(Side.CLIENT)
 	@Override
@@ -36,27 +35,22 @@ public class BlockBlock extends Block {
 		for (int i = 0; i < 6; i ++) {
 			this.icons[i] = reg.registerIcon(this.textureName + i);
 		}
-		for (int i = 0; i < 2; i ++) {
+		for (int i = 0; i < 5; i ++) {
 			this.icons2[i] = reg.registerIcon(this.textureName + (i+6));
-		}
-		for (int i = 0; i < 3; i ++) {
-			this.icons3[i] = reg.registerIcon(this.textureName + (i+8));
 		}
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
 	public IIcon getIcon(int side, int meta) {
-		if (meta < 6){ return this.icons[meta]; }
-		else if (meta >= 6 && meta < 8) { return this.icons2[meta-6]; }
-		else if (meta >= 8 && meta < 11) { return this.icons3[meta-8]; }
-		else { return null; }
+		if (meta < 6) return this.icons[meta];
+		else if (meta >= 6 && meta < 11) return this.icons2[meta-6];
+		else return null;
 	}
 
 	@Override
 	public int damageDropped(int meta) {
-		if (meta < 11) {
-	    return meta; }
+		if (meta < 11) return meta;
 		else return 0;
 	}
 	

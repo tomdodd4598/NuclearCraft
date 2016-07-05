@@ -29,8 +29,7 @@ public class BlockOre extends Block {
 	}
 	
 	public IIcon[] icons = new IIcon[6];
-	public IIcon[] icons2 = new IIcon[1];
-	public IIcon[] icons3 = new IIcon[3];
+	public IIcon[] icons2 = new IIcon[4];
 	
 	@SideOnly(Side.CLIENT)
 	@Override
@@ -38,11 +37,8 @@ public class BlockOre extends Block {
 		for (int i = 0; i < 6; i ++) {
 			this.icons[i] = reg.registerIcon(this.textureName + i);
 		}
-		for (int i = 0; i < 1; i ++) {
+		for (int i = 0; i < 4; i ++) {
 			this.icons2[i] = reg.registerIcon(this.textureName + (i+6));
-		}
-		for (int i = 0; i < 3; i ++) {
-			this.icons3[i] = reg.registerIcon(this.textureName + (i+7));
 		}
 	}
 	
@@ -50,8 +46,7 @@ public class BlockOre extends Block {
 	@Override
 	public IIcon getIcon(int side, int meta) {
 		if (meta < 6){ return this.icons[meta]; }
-		else if (meta >= 6 && meta < 7) { return this.icons2[meta-6]; }
-		else if (meta >= 7 && meta < 10) { return this.icons3[meta-7]; }
+		else if (meta >= 6 && meta < 10) { return this.icons2[meta-6]; }
 		else { return null; }
 	}
 	

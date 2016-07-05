@@ -51,6 +51,14 @@ public class EntityHandler {
 	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public static void registerAntimatterBomb(Class entityClass, String name) {
+		int entityId = EntityRegistry.findGlobalUniqueEntityId();
+
+		EntityRegistry.registerGlobalEntityID(entityClass, name, entityId);
+		EntityRegistry.registerModEntity(entityClass, name, entityId, NuclearCraft.instance, 64, 1, true);
+	}
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static void registerNuclearGrenade(Class entityClass, String name) {
 		int entityId = EntityRegistry.findGlobalUniqueEntityId();
 

@@ -35,8 +35,8 @@ public class CrusherRecipes extends NCRecipeHelper {
     	oreDust("Silver", 2);
     	oreDust("Lead", 2);
     	oreDust("Uranium", 2);
-    	addRecipe(oreStack("oreYellorite", 1), oreStack("dustUranium", 2));
-    	addRecipe(oreStack("oreYellorium", 1), oreStack("dustUranium", 2));
+    	addRecipe(oreStack("oreYellorite", 1), oreStack("dustYellorite", 2));
+    	addRecipe(oreStack("oreYellorium", 1), oreStack("dustYellorium", 2));
     	oreDust("Thorium", 2);
     	addRecipe(oreStack("orePlutonium", 1), new ItemStack(NCItems.material, 2, 33));
     	oreDust("Lithium", 2);
@@ -72,6 +72,7 @@ public class CrusherRecipes extends NCRecipeHelper {
     	addRecipe(oreStack("crystalCertusQuartz", 1), oreStack("dustCertusQuartz", 1));
     	addRecipe(oreStack("crystalCertusQuartzCharged", 1), oreStack("dustCertusQuartz", 1));
     	addRecipe(oreStack("crystalFluix", 1), oreStack("dustFluix", 1));
+    	addRecipe(oreStack("gemRhodochrosite", 1), oreStack("dustManganeseOxide", 1));
     	
     	//Ingots to Dust
     	ingotDust("Iron");
@@ -82,8 +83,8 @@ public class CrusherRecipes extends NCRecipeHelper {
     	ingotDust("Silver");
     	ingotDust("Uranium");
     	ingotDust("Tough");
-    	addRecipe(oreStack("ingotYellorite", 1), oreStack("dustUranium", 1));
-    	addRecipe(oreStack("ingotYellorium", 1), oreStack("dustUranium", 1));
+    	addRecipe(oreStack("ingotYellorite", 1), oreStack("dustYellorite", 1));
+    	addRecipe(oreStack("ingotYellorium", 1), oreStack("dustYellorium", 1));
     	ingotDust("Thorium");
     	ingotDust("Bronze");
     	ingotDust("Lithium");
@@ -112,6 +113,9 @@ public class CrusherRecipes extends NCRecipeHelper {
     	ingotDust("UraniumOxide");
     	ingotDust("Magnesium");
     	ingotDust("MagnesiumDiboride");
+    	ingotDust("Graphite");
+    	ingotDust("HardCarbon");
+    	ingotDust("LithiumManganeseDioxide");
     	
     	//Other Recipes
     	addRecipe(oreStack("stone", 1), new ItemStack(Blocks.cobblestone, 1));

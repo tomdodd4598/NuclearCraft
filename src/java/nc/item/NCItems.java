@@ -60,7 +60,6 @@ public class NCItems {
 	public static Item dominoes;
 	public static Item upgradeSpeed;
 	public static Item upgradeEnergy;
-	public static Item tabItem;
 	
 	public static Item nuclearGrenade;
 	public static Item nuclearGrenadeThrown;
@@ -73,4 +72,8 @@ public class NCItems {
 	public static Item recordArea51;
 	public static Item recordNeighborhood;
 	public static Item blank;
+	
+	public static Item antimatter;
+	
+	public static Item lithiumIonBattery;
 }

@@ -2,10 +2,6 @@ package nc;
 
 import java.io.File;
 
-import nc.armour.BoronArmour;
-import nc.armour.BronzeArmour;
-import nc.armour.DUArmour;
-import nc.armour.ToughArmour;
 import nc.block.NCBlocks;
 import nc.block.accelerator.BlockSuperElectromagnet;
 import nc.block.accelerator.BlockSupercooler;
@@ -13,25 +9,30 @@ import nc.block.accelerator.BlockSynchrotron;
 import nc.block.basic.BlockBlock;
 import nc.block.basic.BlockMachineBlock;
 import nc.block.basic.BlockOre;
-import nc.block.basic.BlockPlasmaFire;
 import nc.block.crafting.BlockNuclearWorkspace;
+import nc.block.fluid.BlockDenseSteam;
 import nc.block.fluid.BlockHelium;
 import nc.block.fluid.BlockPlasma;
 import nc.block.fluid.BlockSteam;
+import nc.block.fluid.BlockSuperdenseSteam;
+import nc.block.fluid.FluidDenseSteam;
 import nc.block.fluid.FluidHelium;
 import nc.block.fluid.FluidPlasma;
 import nc.block.fluid.FluidSteam;
+import nc.block.fluid.FluidSuperdenseSteam;
+import nc.block.generator.BlockDenseSteamDecompressor;
 import nc.block.generator.BlockElectromagnet;
 import nc.block.generator.BlockFissionReactor;
+import nc.block.generator.BlockFissionReactorSteam;
 import nc.block.generator.BlockFusionReactor;
 import nc.block.generator.BlockFusionReactorBlock;
 import nc.block.generator.BlockFusionReactorBlockTop;
 import nc.block.generator.BlockRTG;
 import nc.block.generator.BlockReactionGenerator;
 import nc.block.generator.BlockSolarPanel;
+import nc.block.generator.BlockSteamDecompressor;
+import nc.block.generator.BlockSteamGenerator;
 import nc.block.generator.BlockWRTG;
-import nc.block.itemblock.ItemBlockBlock;
-import nc.block.itemblock.ItemBlockOre;
 import nc.block.machine.BlockAssembler;
 import nc.block.machine.BlockCollector;
 import nc.block.machine.BlockCooler;
@@ -48,6 +49,8 @@ import nc.block.machine.BlockIrradiator;
 import nc.block.machine.BlockNuclearFurnace;
 import nc.block.machine.BlockOxidiser;
 import nc.block.machine.BlockSeparator;
+import nc.block.nuke.BlockAntimatterBomb;
+import nc.block.nuke.BlockAntimatterBombExploding;
 import nc.block.nuke.BlockNuke;
 import nc.block.nuke.BlockNukeExploding;
 import nc.block.quantum.BlockSimpleQuantum;
@@ -60,6 +63,7 @@ import nc.block.reactor.BlockReactorBlock;
 import nc.block.reactor.BlockSpeedBlock;
 import nc.block.reactor.BlockTubing1;
 import nc.block.reactor.BlockTubing2;
+import nc.entity.EntityAntimatterBombPrimed;
 import nc.entity.EntityBullet;
 import nc.entity.EntityNuclearGrenade;
 import nc.entity.EntityNuclearMonster;
@@ -71,13 +75,19 @@ import nc.handler.BlockDropHandler;
 import nc.handler.EntityDropHandler;
 import nc.handler.EntityHandler;
 import nc.handler.FuelHandler;
+import nc.item.ItemAntimatter;
+import nc.item.ItemBattery;
+import nc.item.ItemDominos;
 import nc.item.ItemEnderChest;
+import nc.item.ItemFoodNC;
 import nc.item.ItemFuel;
 import nc.item.ItemMaterial;
+import nc.item.ItemNC;
 import nc.item.ItemNuclearGrenade;
 import nc.item.ItemPart;
 import nc.item.ItemPistol;
 import nc.item.ItemToughBow;
+import nc.item.ItemUpgrade;
 import nc.item.NCAxe;
 import nc.item.NCHoe;
 import nc.item.NCItems;
@@ -86,22 +96,57 @@ import nc.item.NCPickaxe;
 import nc.item.NCRecord;
 import nc.item.NCShovel;
 import nc.item.NCSword;
+import nc.item.armour.BoronArmour;
+import nc.item.armour.BronzeArmour;
+import nc.item.armour.DUArmour;
+import nc.item.armour.ToughArmour;
+import nc.itemblock.accelerator.ItemBlockSuperElectromagnet;
+import nc.itemblock.accelerator.ItemBlockSupercooler;
+import nc.itemblock.accelerator.ItemBlockSynchrotron;
+import nc.itemblock.basic.ItemBlockBlock;
+import nc.itemblock.basic.ItemBlockOre;
+import nc.itemblock.crafting.ItemBlockNuclearWorkspace;
+import nc.itemblock.generator.ItemBlockDenseSteamDecompressor;
+import nc.itemblock.generator.ItemBlockElectromagnet;
+import nc.itemblock.generator.ItemBlockFissionReactor;
+import nc.itemblock.generator.ItemBlockFissionReactorSteam;
+import nc.itemblock.generator.ItemBlockFusionReactor;
+import nc.itemblock.generator.ItemBlockRTG;
+import nc.itemblock.generator.ItemBlockReactionGenerator;
+import nc.itemblock.generator.ItemBlockSolarPanel;
+import nc.itemblock.generator.ItemBlockSteamDecompressor;
+import nc.itemblock.generator.ItemBlockSteamGenerator;
+import nc.itemblock.generator.ItemBlockWRTG;
+import nc.itemblock.nuke.ItemBlockAntimatterBomb;
+import nc.itemblock.nuke.ItemBlockNuke;
+import nc.itemblock.quantum.ItemBlockSimpleQuantum;
+import nc.itemblock.reactor.ItemBlockBlastBlock;
+import nc.itemblock.reactor.ItemBlockCellBlock;
+import nc.itemblock.reactor.ItemBlockCoolerBlock;
+import nc.itemblock.reactor.ItemBlockFusionConnector;
+import nc.itemblock.reactor.ItemBlockGraphiteBlock;
+import nc.itemblock.reactor.ItemBlockReactorBlock;
+import nc.itemblock.reactor.ItemBlockSpeedBlock;
+import nc.packet.PacketHandler;
 import nc.proxy.CommonProxy;
 import nc.tile.accelerator.TileSuperElectromagnet;
 import nc.tile.accelerator.TileSupercooler;
 import nc.tile.accelerator.TileSynchrotron;
 import nc.tile.crafting.TileNuclearWorkspace;
+import nc.tile.generator.TileDenseSteamDecompressor;
 import nc.tile.generator.TileElectromagnet;
 import nc.tile.generator.TileFissionReactor;
+import nc.tile.generator.TileFissionReactorSteam;
 import nc.tile.generator.TileFusionReactor;
 import nc.tile.generator.TileFusionReactorBlock;
 import nc.tile.generator.TileFusionReactorBlockTop;
 import nc.tile.generator.TileRTG;
 import nc.tile.generator.TileReactionGenerator;
 import nc.tile.generator.TileSolarPanel;
+import nc.tile.generator.TileSteamDecompressor;
+import nc.tile.generator.TileSteamGenerator;
 import nc.tile.generator.TileWRTG;
 import nc.tile.machine.TileAssembler;
-import nc.tile.machine.TileAutoWorkspace;
 import nc.tile.machine.TileCollector;
 import nc.tile.machine.TileCooler;
 import nc.tile.machine.TileCrusher;
@@ -132,7 +177,6 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
-import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.stats.Achievement;
@@ -156,13 +200,14 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLInterModComms;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 @Mod(modid = NuclearCraft.modid, version = NuclearCraft.version)
 
 public class NuclearCraft {
 	public static final String modid = "NuclearCraft";
-	public static final String version = "1.7h";
+	public static final String version = "1.8";
 	
 	public static final CreativeTabs tabNC = new CreativeTabs("tabNC") {
 		// Creative Tab Shown Item
@@ -202,8 +247,8 @@ public class NuclearCraft {
 	public static final int guiIdFactory = 17;
 	public static final int guiIdHeliumExtractor = 18;
 	public static final int guiIdSynchrotron = 19;
-	public static final int guiIdAutoWorkspace = 20;
-	public static final int guiIdAssembler = 21;
+	public static final int guiIdAssembler = 20;
+	public static final int guiIdFissionReactorSteam = 21;
 	
 	// Config File
 	public static boolean workspace;
@@ -301,6 +346,7 @@ public class NuclearCraft {
 	
 	public static int fissionMaxLength;
 	public static int fissionRF;
+	public static int fissionSteam;
 	public static int fissionEfficiency;
 	public static int fissionHeat;
 	public static boolean nuclearMeltdowns;
@@ -351,6 +397,7 @@ public class NuclearCraft {
 	public static int fusionHeat;
 	public static int electromagnetRF;
 	public static boolean fusionMeltdowns;
+	public static boolean fusionEfficiencyConverge;
 	public static boolean fusionSounds;
 	public static int baseRFHH;
 	public static int baseRFHD;
@@ -502,6 +549,8 @@ public class NuclearCraft {
 	public static Fluid liquidHelium;
 	public static Fluid fusionPlasma;
 	public static Fluid steam;
+	public static Fluid denseSteam;
+	public static Fluid superdenseSteam;
 	
 	@SidedProxy(clientSide = "nc.proxy.ClientProxy", serverSide = "nc.proxy.CommonProxy")
 	public static CommonProxy NCProxy;
@@ -529,13 +578,11 @@ public class NuclearCraft {
 	public static Achievement separatorAchievement;
 	public static Achievement pistolAchievement;
 	public static Achievement solarAchievement;
-	public static Achievement synchrotronAchievement;
 	public static Achievement oxidiserAchievement;
+	public static Achievement synchrotronAchievement;
+	public static Achievement antimatterBombAchievement;
 	
-	public static final ArmorMaterial ToughArmorMaterial = EnumHelper.addArmorMaterial("ToughArmorMaterial", 50, new int [] {5, 9, 5, 3}, 10);
-	public static final ArmorMaterial BoronArmorMaterial = EnumHelper.addArmorMaterial("BoronArmorMaterial", 30, new int [] {3, 7, 5, 3}, 5);
-	public static final ArmorMaterial BronzeArmorMaterial = EnumHelper.addArmorMaterial("BronzeArmorMaterial", 20, new int [] {2, 6, 5, 2}, 9);
-	public static final ArmorMaterial dUArmorMaterial = EnumHelper.addArmorMaterial("dUArmorMaterial", 100, new int [] {5, 9, 6, 4}, 50);
+	public static SimpleNetworkWrapper network;
 	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {	
@@ -571,13 +618,13 @@ public class NuclearCraft {
 		oreRaritySilver = config.getInt("Gen Rate", "0.3: Silver Ore", 10, 1, 100, "");
 		oreMaxHeightSilver = config.getInt("Max Height", "0.3: Silver Ore", 40, 1, 255, "");
 		oreGenUranium = config.getBoolean("Generation", "0.4: Uranium Ore", true, "");
-		oreSizeUranium = config.getInt("Chunk Size", "0.4: Uranium Ore", 3, 1, 100, "");
-		oreRarityUranium = config.getInt("Gen Rate", "0.4: Uranium Ore", 5, 1, 100, "");
-		oreMaxHeightUranium = config.getInt("Max Height", "0.4: Uranium Ore", 40, 1, 255, "");
+		oreSizeUranium = config.getInt("Chunk Size", "0.4: Uranium Ore", 9, 1, 100, "");
+		oreRarityUranium = config.getInt("Gen Rate", "0.4: Uranium Ore", 2, 1, 100, "");
+		oreMaxHeightUranium = config.getInt("Max Height", "0.4: Uranium Ore", 36, 1, 255, "");
 		oreGenThorium = config.getBoolean("Generation", "0.5: Thorium Ore", true, "");
-		oreSizeThorium = config.getInt("Chunk Size", "0.5: Thorium Ore", 3, 1, 100, "");
-		oreRarityThorium = config.getInt("Gen Rate", "0.5: Thorium Ore", 5, 1, 100, "");
-		oreMaxHeightThorium = config.getInt("Max Height", "0.5: Thorium Ore", 40, 1, 255, "");
+		oreSizeThorium = config.getInt("Chunk Size", "0.5: Thorium Ore", 7, 1, 100, "");
+		oreRarityThorium = config.getInt("Gen Rate", "0.5: Thorium Ore", 2, 1, 100, "");
+		oreMaxHeightThorium = config.getInt("Max Height", "0.5: Thorium Ore", 36, 1, 255, "");
 		oreGenLithium = config.getBoolean("Generation", "0.6: Lithium Ore", true, "");
 		oreSizeLithium = config.getInt("Chunk Size", "0.6: Lithium Ore", 6, 1, 100, "");
 		oreRarityLithium = config.getInt("Gen Rate", "0.6: Lithium Ore", 7, 1, 100, "");
@@ -587,12 +634,12 @@ public class NuclearCraft {
 		oreRarityBoron = config.getInt("Gen Rate", "0.7: Boron Ore", 7, 1, 100, "");
 		oreMaxHeightBoron = config.getInt("Max Height", "0.7: Boron Ore", 24, 1, 255, "");
 		oreGenMagnesium = config.getBoolean("Generation", "0.8: Magnesium Ore", true, "");
-		oreSizeMagnesium = config.getInt("Chunk Size", "0.8: Magnesium Ore", 5, 1, 100, "");
-		oreRarityMagnesium = config.getInt("Gen Rate", "0.8: Magnesium Ore", 6, 1, 100, "");
+		oreSizeMagnesium = config.getInt("Chunk Size", "0.8: Magnesium Ore", 6, 1, 100, "");
+		oreRarityMagnesium = config.getInt("Gen Rate", "0.8: Magnesium Ore", 7, 1, 100, "");
 		oreMaxHeightMagnesium = config.getInt("Max Height", "0.8: Magnesium Ore", 24, 1, 255, "");
 		oreGenPlutonium = config.getBoolean("Generation", "0.9: Plutonium Ore", true, "");
-		oreSizePlutonium = config.getInt("Chunk Size", "0.9: Plutonium Ore", 2, 1, 100, "");
-		oreRarityPlutonium = config.getInt("Gen Rate", "0.9: Plutonium Ore", 5, 1, 100, "");
+		oreSizePlutonium = config.getInt("Chunk Size", "0.9: Plutonium Ore", 9, 1, 100, "");
+		oreRarityPlutonium = config.getInt("Gen Rate", "0.9: Plutonium Ore", 2, 1, 100, "");
 		oreMaxHeightPlutonium = config.getInt("Max Height", "0.9: Plutonium Ore", 255, 1, 255, "");
 
 		electricCrusherCrushSpeed = config.getInt("Electic Crusher Speed Multiplier", "1.0: RF Machines", 100, 10, 1000, "");
@@ -619,7 +666,7 @@ public class NuclearCraft {
 		heliumExtractorEfficiency = config.getInt("Helium Extractor Efficiency Multiplier", "1.0: RF Machines", 100, 10, 1000, "");
 		assemblerSpeed = config.getInt("Assembler Speed Multiplier", "1.0: RF Machines", 100, 10, 1000, "");
 		assemblerEfficiency = config.getInt("Assembler Efficiency Multiplier", "1.0: RF Machines", 100, 10, 1000, "");
-		reactionGeneratorRF = config.getInt("Reaction Generator RF Production Multiplier", "1.1: RF Generators", 100, 10, 1000, "");
+		reactionGeneratorRF = config.getInt("Reaction Generator RF/t", "1.1: RF Generators", 100, 10, 1000, "");
 		reactionGeneratorEfficiency = config.getInt("Reaction Generator Efficiency Multiplier", "1.1: RF Generators", 100, 10, 1000, "");
 		RTGRF = config.getInt("RTG RF/t", "1.1: RF Generators", 150, 1, 1000, "");
 		WRTGRF = config.getInt("WRTG RF/t", "1.1: RF Generators", 5, 1, 1000, "");
@@ -642,20 +689,21 @@ public class NuclearCraft {
 		fissionUpdateRate = fissionConfig.getInt("Number of ticks per update of Fission Reactors", "!: Update Rate", 20, 1, 1000, "");
 		fissionMaxLength = fissionConfig.getInt("Fission Reactor Maximum Interior Length", "0: General", 25, 1, 100, "");
 		fissionRF = fissionConfig.getInt("Fission Reactor RF Production Multiplier", "0: General", 100, 10, 1000, "");
+		fissionSteam = fissionConfig.getInt("Fission Reactor Steam Production Multiplier", "0: General", 100, 10, 1000, "");
 		fissionEfficiency = fissionConfig.getInt("Fission Reactor Fuel Efficiency Multiplier", "0: General", 100, 10, 1000, "");
 		fissionHeat = fissionConfig.getInt("Fission Reactor Heat Production Multiplier", "0: General", 100, 10, 1000, "");
 		nuclearMeltdowns = fissionConfig.getBoolean("Enable Fission Reactor Meltdowns", "0: General", true, "");
 		alternateCasing = fissionConfig.getBoolean("Use Alternate Casing Texture", "0: General", false, "");
-		baseRFLEU = fissionConfig.getInt("LEU Base Power", "1: Fission Fuel Base Power", 50, 5, 500, "");
-		baseRFHEU = fissionConfig.getInt("HEU Base Power", "1: Fission Fuel Base Power", 200, 20, 2000, "");
-		baseRFLEP = fissionConfig.getInt("LEP Base Power", "1: Fission Fuel Base Power", 100, 10, 1000, "");
-		baseRFHEP = fissionConfig.getInt("HEP Base Power", "1: Fission Fuel Base Power", 400, 40, 4000, "");
-		baseRFMOX = fissionConfig.getInt("MOX Base Power", "1: Fission Fuel Base Power", 125, 12, 1250, "");
-		baseRFTBU = fissionConfig.getInt("TBU Base Power", "1: Fission Fuel Base Power", 25, 2, 250, "");
-		baseRFLEUOx = fissionConfig.getInt("LEU-Ox Base Power", "1: Fission Fuel Base Power", 75, 7, 750, "");
-		baseRFHEUOx = fissionConfig.getInt("HEU-Ox Base Power", "1: Fission Fuel Base Power", 300, 30, 3000, "");
-		baseRFLEPOx = fissionConfig.getInt("LEP-Ox Base Power", "1: Fission Fuel Base Power", 150, 15, 1500, "");
-		baseRFHEPOx = fissionConfig.getInt("HEP-Ox Base Power", "1: Fission Fuel Base Power", 600, 60, 6000, "");
+		baseRFLEU = fissionConfig.getInt("LEU Base Power", "1: Fission Fuel Base Power/Steam Production", 200, 20, 2000, "");
+		baseRFHEU = fissionConfig.getInt("HEU Base Power", "1: Fission Fuel Base Power/Steam Production", 800, 80, 8000, "");
+		baseRFLEP = fissionConfig.getInt("LEP Base Power", "1: Fission Fuel Base Power/Steam Production", 400, 40, 4000, "");
+		baseRFHEP = fissionConfig.getInt("HEP Base Power", "1: Fission Fuel Base Power/Steam Production", 1600, 160, 16000, "");
+		baseRFMOX = fissionConfig.getInt("MOX Base Power", "1: Fission Fuel Base Power/Steam Production", 500, 50, 5000, "");
+		baseRFTBU = fissionConfig.getInt("TBU Base Power", "1: Fission Fuel Base Power/Steam Production", 100, 10, 1000, "");
+		baseRFLEUOx = fissionConfig.getInt("LEU-Ox Base Power", "1: Fission Fuel Base Power/Steam Production", 300, 30, 3000, "");
+		baseRFHEUOx = fissionConfig.getInt("HEU-Ox Base Power", "1: Fission Fuel Base Power/Steam Production", 1200, 120, 12000, "");
+		baseRFLEPOx = fissionConfig.getInt("LEP-Ox Base Power", "1: Fission Fuel Base Power/Steam Production", 600, 60, 6000, "");
+		baseRFHEPOx = fissionConfig.getInt("HEP-Ox Base Power", "1: Fission Fuel Base Power/Steam Production", 2400, 240, 24000, "");
 		baseFuelLEU = fissionConfig.getInt("LEU Usage Rate", "2: Fission Fuel Usage Rate", 25000, 2500, 250000, "");
 		baseFuelHEU = fissionConfig.getInt("HEU Usage Rate", "2: Fission Fuel Usage Rate", 25000, 2500, 250000, "");
 		baseFuelLEP = fissionConfig.getInt("LEP Usage Rate", "2: Fission Fuel Usage Rate", 50000, 5000, 500000, "");
@@ -687,6 +735,7 @@ public class NuclearCraft {
 		
 		fusionUpdateRate = fusionConfig.getInt("Number of ticks per update of Fusion Reactors", "!: Update Rate", 20, 1, 1000, "");
 		fusionSounds = fusionConfig.getBoolean("Enable Fusion Reactor Sound Effects", "!: Sounds", true, "");
+		fusionEfficiencyConverge = fusionConfig.getBoolean("Make Fusion Reactors' efficiencies converge towards 100% - this would mean comparators would not be needed", "!: Efficiency Converge", false, "");
 		fusionMaxRadius = fusionConfig.getInt("Fusion Reactor Maximum Radius - Defined as Number of Fusion Connectors Between the Control Chunk and a Central Inner Electromagnet", "0: General", 25, 1, 100, "");
 		fusionRF = fusionConfig.getInt("Fusion Reactor RF Production Multiplier", "0: General", 100, 10, 1000, "");
 		fusionEfficiency = fusionConfig.getInt("Fusion Reactor Fuel Efficiency Multiplier", "0: General", 100, 10, 1000, "");
@@ -721,34 +770,34 @@ public class NuclearCraft {
 		baseRFLi6Li6 = fusionConfig.getInt("Li6Li6 Base Power", "1: Fusion Combo Base Power", 20, 2, 200, "");
 		baseRFLi6Li7 = fusionConfig.getInt("Li6Li7 Base Power", "1: Fusion Combo Base Power", 20, 2, 200, "");
 		baseRFLi7Li7 = fusionConfig.getInt("Li7Li7 Base Power", "1: Fusion Combo Base Power", 20, 2, 200, "");
-		baseFuelHH = fusionConfig.getInt("HH Base Fuel Usage Rate", "2: Fusion Combo Base Fuel Usage Rate", 200, 20, 2000, "");
-		baseFuelHD = fusionConfig.getInt("HD Base Fuel Usage Rate", "2: Fusion Combo Base Fuel Usage Rate", 120, 12, 1200, "");
-		baseFuelHT = fusionConfig.getInt("HT Base Fuel Usage Rate", "2: Fusion Combo Base Fuel Usage Rate", 80, 8, 800, "");
-		baseFuelHHe = fusionConfig.getInt("HHe Base Fuel Usage Rate", "2: Fusion Combo Base Fuel Usage Rate", 80, 8, 800, "");
-		baseFuelHB = fusionConfig.getInt("HB Base Fuel Usage Rate", "2: Fusion Combo Base Fuel Usage Rate", 20, 2, 200, "");
-		baseFuelHLi6 = fusionConfig.getInt("HLi6 Base Fuel Usage Rate", "2: Fusion Combo Base Fuel Usage Rate", 20, 2, 200, "");
-		baseFuelHLi7 = fusionConfig.getInt("HLi7 Base Fuel Usage Rate", "2: Fusion Combo Base Fuel Usage Rate", 40, 4, 400, "");
-		baseFuelDD = fusionConfig.getInt("DD Base Fuel Usage Rate", "2: Fusion Combo Base Fuel Usage Rate", 80, 8, 800, "");
-		baseFuelDT = fusionConfig.getInt("DT Base Fuel Usage Rate", "2: Fusion Combo Base Fuel Usage Rate", 160, 16, 1600, "");
-		baseFuelDHe = fusionConfig.getInt("DHe Base Fuel Usage Rate", "2: Fusion Combo Base Fuel Usage Rate", 50, 5, 500, "");
-		baseFuelDB = fusionConfig.getInt("DB Base Fuel Usage Rate", "2: Fusion Combo Base Fuel Usage Rate", 20, 2, 200, "");
-		baseFuelDLi6 = fusionConfig.getInt("DLi6 Base Fuel Usage Rate", "2: Fusion Combo Base Fuel Usage Rate", 50, 5, 500, "");
-		baseFuelDLi7 = fusionConfig.getInt("DLi7 Base Fuel Usage Rate", "2: Fusion Combo Base Fuel Usage Rate", 10, 1, 100, "");
-		baseFuelTT = fusionConfig.getInt("TT Base Fuel Usage Rate", "2: Fusion Combo Base Fuel Usage Rate", 30, 3, 300, "");
-		baseFuelTHe = fusionConfig.getInt("THe Base Fuel Usage Rate", "2: Fusion Combo Base Fuel Usage Rate", 20, 2, 200, "");
-		baseFuelTB = fusionConfig.getInt("TB Base Fuel Usage Rate", "2: Fusion Combo Base Fuel Usage Rate", 20, 2, 200, "");
-		baseFuelTLi6 = fusionConfig.getInt("TLi6 Base Fuel Usage Rate", "2: Fusion Combo Base Fuel Usage Rate", 4, 1, 40, "");
-		baseFuelTLi7 = fusionConfig.getInt("TLi7 Base Fuel Usage Rate", "2: Fusion Combo Base Fuel Usage Rate", 8, 1, 80, "");
-		baseFuelHeHe = fusionConfig.getInt("HeHe Base Fuel Usage Rate", "2: Fusion Combo Base Fuel Usage Rate", 30, 3, 300, "");
-		baseFuelHeB = fusionConfig.getInt("HeB Base Fuel Usage Rate", "2: Fusion Combo Base Fuel Usage Rate", 10, 1, 100, "");
-		baseFuelHeLi6 = fusionConfig.getInt("HeLi6 Base Fuel Usage Rate", "2: Fusion Combo Base Fuel Usage Rate", 40, 4, 400, "");
-		baseFuelHeLi7 = fusionConfig.getInt("HeLi7 Base Fuel Usage Rate", "2: Fusion Combo Base Fuel Usage Rate", 20, 2, 200, "");
-		baseFuelBB = fusionConfig.getInt("BB Base Fuel Usage Rate", "2: Fusion Combo Base Fuel Usage Rate", 10, 1, 100, "");
-		baseFuelBLi6 = fusionConfig.getInt("BLi6 Base Fuel Usage Rate", "2: Fusion Combo Base Fuel Usage Rate", 10, 1, 100, "");
-		baseFuelBLi7 = fusionConfig.getInt("BLi7 Base Fuel Usage Rate", "2: Fusion Combo Base Fuel Usage Rate", 5, 1, 50, "");
-		baseFuelLi6Li6 = fusionConfig.getInt("Li6Li6 Base Fuel Usage Rate", "2: Fusion Combo Base Fuel Usage Rate", 5, 1, 50, "");
-		baseFuelLi6Li7 = fusionConfig.getInt("Li6Li7 Base Fuel Usage Rate", "2: Fusion Combo Base Fuel Usage Rate", 10, 1, 100, "");
-		baseFuelLi7Li7 = fusionConfig.getInt("Li7Li7 Base Fuel Usage Rate", "2: Fusion Combo Base Fuel Usage Rate", 5, 1, 50, "");
+		baseFuelHH = fusionConfig.getInt("HH Base Fuel Usage Rate", "2: Fusion Combo Base Fuel Usage Rate", 800, 80, 8000, "");
+		baseFuelHD = fusionConfig.getInt("HD Base Fuel Usage Rate", "2: Fusion Combo Base Fuel Usage Rate", 480, 48, 4800, "");
+		baseFuelHT = fusionConfig.getInt("HT Base Fuel Usage Rate", "2: Fusion Combo Base Fuel Usage Rate", 320, 32, 3200, "");
+		baseFuelHHe = fusionConfig.getInt("HHe Base Fuel Usage Rate", "2: Fusion Combo Base Fuel Usage Rate", 320, 32, 3200, "");
+		baseFuelHB = fusionConfig.getInt("HB Base Fuel Usage Rate", "2: Fusion Combo Base Fuel Usage Rate", 80, 8, 800, "");
+		baseFuelHLi6 = fusionConfig.getInt("HLi6 Base Fuel Usage Rate", "2: Fusion Combo Base Fuel Usage Rate", 80, 8, 800, "");
+		baseFuelHLi7 = fusionConfig.getInt("HLi7 Base Fuel Usage Rate", "2: Fusion Combo Base Fuel Usage Rate", 160, 16, 1600, "");
+		baseFuelDD = fusionConfig.getInt("DD Base Fuel Usage Rate", "2: Fusion Combo Base Fuel Usage Rate", 320, 32, 3200, "");
+		baseFuelDT = fusionConfig.getInt("DT Base Fuel Usage Rate", "2: Fusion Combo Base Fuel Usage Rate", 640, 64, 6400, "");
+		baseFuelDHe = fusionConfig.getInt("DHe Base Fuel Usage Rate", "2: Fusion Combo Base Fuel Usage Rate", 200, 20, 2000, "");
+		baseFuelDB = fusionConfig.getInt("DB Base Fuel Usage Rate", "2: Fusion Combo Base Fuel Usage Rate", 80, 8, 800, "");
+		baseFuelDLi6 = fusionConfig.getInt("DLi6 Base Fuel Usage Rate", "2: Fusion Combo Base Fuel Usage Rate", 200, 20, 2000, "");
+		baseFuelDLi7 = fusionConfig.getInt("DLi7 Base Fuel Usage Rate", "2: Fusion Combo Base Fuel Usage Rate", 40, 4, 400, "");
+		baseFuelTT = fusionConfig.getInt("TT Base Fuel Usage Rate", "2: Fusion Combo Base Fuel Usage Rate", 120, 12, 1200, "");
+		baseFuelTHe = fusionConfig.getInt("THe Base Fuel Usage Rate", "2: Fusion Combo Base Fuel Usage Rate", 80, 8, 800, "");
+		baseFuelTB = fusionConfig.getInt("TB Base Fuel Usage Rate", "2: Fusion Combo Base Fuel Usage Rate", 80, 8, 800, "");
+		baseFuelTLi6 = fusionConfig.getInt("TLi6 Base Fuel Usage Rate", "2: Fusion Combo Base Fuel Usage Rate", 16, 1, 160, "");
+		baseFuelTLi7 = fusionConfig.getInt("TLi7 Base Fuel Usage Rate", "2: Fusion Combo Base Fuel Usage Rate", 32, 3, 320, "");
+		baseFuelHeHe = fusionConfig.getInt("HeHe Base Fuel Usage Rate", "2: Fusion Combo Base Fuel Usage Rate", 120, 12, 1200, "");
+		baseFuelHeB = fusionConfig.getInt("HeB Base Fuel Usage Rate", "2: Fusion Combo Base Fuel Usage Rate", 40, 4, 400, "");
+		baseFuelHeLi6 = fusionConfig.getInt("HeLi6 Base Fuel Usage Rate", "2: Fusion Combo Base Fuel Usage Rate", 160, 16, 1600, "");
+		baseFuelHeLi7 = fusionConfig.getInt("HeLi7 Base Fuel Usage Rate", "2: Fusion Combo Base Fuel Usage Rate", 80, 8, 800, "");
+		baseFuelBB = fusionConfig.getInt("BB Base Fuel Usage Rate", "2: Fusion Combo Base Fuel Usage Rate", 40, 4, 400, "");
+		baseFuelBLi6 = fusionConfig.getInt("BLi6 Base Fuel Usage Rate", "2: Fusion Combo Base Fuel Usage Rate", 40, 4, 400, "");
+		baseFuelBLi7 = fusionConfig.getInt("BLi7 Base Fuel Usage Rate", "2: Fusion Combo Base Fuel Usage Rate", 20, 2, 200, "");
+		baseFuelLi6Li6 = fusionConfig.getInt("Li6Li6 Base Fuel Usage Rate", "2: Fusion Combo Base Fuel Usage Rate", 20, 2, 200, "");
+		baseFuelLi6Li7 = fusionConfig.getInt("Li6Li7 Base Fuel Usage Rate", "2: Fusion Combo Base Fuel Usage Rate", 40, 4, 400, "");
+		baseFuelLi7Li7 = fusionConfig.getInt("Li7Li7 Base Fuel Usage Rate", "2: Fusion Combo Base Fuel Usage Rate", 20, 2, 200, "");
 		heatHH = fusionConfig.getInt("HH Heat Variable", "3: Fusion Combo Heat Variable", 2140, 500, 20000, "");
 		heatHD = fusionConfig.getInt("HD Heat Variable", "3: Fusion Combo Heat Variable", 1380, 500, 20000, "");
 		heatHT = fusionConfig.getInt("HT Heat Variable", "3: Fusion Combo Heat Variable", 4700, 500, 20000, "");
@@ -831,28 +880,43 @@ public class NuclearCraft {
 		RecipeSorter.register("nuclearcraft:workspaceshapeless", NuclearWorkspaceShapelessOreRecipe.class, Category.SHAPELESS, "after:minecraft:shapeless");*/
 		
 		// Tool Materials
-		ToolMaterial Bronze = EnumHelper.addToolMaterial("Bronze", bronzeHarvestLevel, bronzeDurability, bronzeSpeed, bronzeDamage, 12).setRepairItem(new ItemStack(NCItems.material, 1, 6));
+		ToolMaterial Bronze = EnumHelper.addToolMaterial("Bronze", bronzeHarvestLevel, bronzeDurability, bronzeSpeed, bronzeDamage, 10).setRepairItem(new ItemStack(NCItems.material, 1, 6));
 		ToolMaterial ToughAlloy = EnumHelper.addToolMaterial("ToughAlloy", toughHarvestLevel, toughDurability, toughSpeed, toughDamage, 10).setRepairItem(new ItemStack(NCItems.material, 1, 7));
 		ToolMaterial ToughPaxel = EnumHelper.addToolMaterial("ToughPaxel", tPHarvestLevel, tPDurability, tPSpeed, tPDamage, 10).setRepairItem(new ItemStack(NCItems.material, 1, 7));
 		ToolMaterial dU = EnumHelper.addToolMaterial("dU", dUHarvestLevel, dUDurability, dUSpeed, dUDamage, 50).setRepairItem(new ItemStack(NCItems.parts, 1, 8));
 		ToolMaterial dUPaxel = EnumHelper.addToolMaterial("dUPaxel", dUPHarvestLevel, dUPDurability, dUPSpeed, dUPDamage, 50).setRepairItem(new ItemStack(NCItems.parts, 1, 8));
 		ToolMaterial Boron = EnumHelper.addToolMaterial("Boron", boronHarvestLevel, boronDurability, boronSpeed, boronDamage, 5).setRepairItem(new ItemStack(NCItems.material, 1, 43));
 		
+		// Armour Materials - 5, 8, 7, 3 - 12, 17, 12, 8
+		ArmorMaterial ToughArmorMaterial = EnumHelper.addArmorMaterial("ToughArmorMaterial", 40, (workspace ? new int [] {4, 8, 5, 3} : new int [] {3, 8, 6, 3}), 10);
+		ArmorMaterial BoronArmorMaterial = EnumHelper.addArmorMaterial("BoronArmorMaterial", 30, new int [] {3, 7, 5, 3}, 5);
+		ArmorMaterial BronzeArmorMaterial = EnumHelper.addArmorMaterial("BronzeArmorMaterial", 20, new int [] {3, 6, 5, 2}, 10);
+		ArmorMaterial dUArmorMaterial = EnumHelper.addArmorMaterial("dUArmorMaterial", 80, (workspace ? new int [] {5, 8, 6, 3} : new int [] {4, 8, 6, 4}), 50);
+		
 		// Fluid Registry
-		liquidHelium = new FluidHelium().setLuminosity(0).setDensity(125).setViscosity(1).setTemperature(4).setUnlocalizedName("liquidHelium").setRarity(net.minecraft.item.EnumRarity.rare);
+		liquidHelium = new FluidHelium("liquidHelium");
 		FluidRegistry.registerFluid(liquidHelium);
 		NCBlocks.blockHelium = new BlockHelium(liquidHelium, liquidhelium.setReplaceable(), NuclearCraft.heliumfreeze).setCreativeTab(tabNC).setBlockName("liquidHeliumBlock");
 		GameRegistry.registerBlock(NCBlocks.blockHelium, "liquidHeliumBlock");
-		fusionPlasma = new FluidPlasma().setLuminosity(15).setDensity(3000).setViscosity(450).setTemperature(1000000000).setGaseous(true).setUnlocalizedName("fusionPlasma").setRarity(net.minecraft.item.EnumRarity.rare);
+		fusionPlasma = new FluidPlasma("fusionPlasma");
 		FluidRegistry.registerFluid(fusionPlasma);
 		NCBlocks.blockFusionPlasma = new BlockPlasma(fusionPlasma, fusionplasma.setReplaceable(), NuclearCraft.plasmaburn).setCreativeTab(tabNC).setBlockName("fusionPlasmaBlock");
 		GameRegistry.registerBlock(NCBlocks.blockFusionPlasma, "fusionPlasmaBlock");
-		NCBlocks.plasmaFire = new BlockPlasmaFire().setBlockName("plasmaFire").setStepSound(Block.soundTypeWood).setHardness(0.0F).setLightLevel(1.0F).setBlockTextureName("nc:generator/fusionFire/fire");
-		GameRegistry.registerBlock(NCBlocks.plasmaFire, "plasmaFire");
-		steam = new FluidSteam().setLuminosity(0).setDensity(-10).setViscosity(100).setTemperature(5000).setGaseous(true).setUnlocalizedName("steam").setRarity(net.minecraft.item.EnumRarity.rare);
+		
+		steam = new FluidSteam("steam");
 		FluidRegistry.registerFluid(steam);
 		NCBlocks.blockSteam = new BlockSteam(steam, steamMaterial.setReplaceable(), NuclearCraft.steamburn).setCreativeTab(tabNC).setBlockName("steamBlock");
 		GameRegistry.registerBlock(NCBlocks.blockSteam, "steamBlock");
+		
+		denseSteam = new FluidDenseSteam("denseSteam");
+		FluidRegistry.registerFluid(denseSteam);
+		NCBlocks.blockDenseSteam = new BlockDenseSteam(denseSteam, steamMaterial.setReplaceable(), NuclearCraft.steamburn).setCreativeTab(tabNC).setBlockName("denseSteamBlock");
+		GameRegistry.registerBlock(NCBlocks.blockDenseSteam, "denseSteamBlock");
+		
+		superdenseSteam = new FluidSuperdenseSteam("superdenseSteam");
+		FluidRegistry.registerFluid(superdenseSteam);
+		NCBlocks.blockSuperdenseSteam = new BlockSuperdenseSteam(superdenseSteam, steamMaterial.setReplaceable(), NuclearCraft.steamburn).setCreativeTab(tabNC).setBlockName("superdenseSteamBlock");
+		GameRegistry.registerBlock(NCBlocks.blockSuperdenseSteam, "superdenseSteamBlock");
 		
 		// Ore Registry
 		GameRegistry.registerBlock(NCBlocks.blockOre = new BlockOre("blockOre", Material.rock), ItemBlockOre.class, "blockOre");
@@ -861,74 +925,74 @@ public class NuclearCraft {
 		GameRegistry.registerBlock(NCBlocks.blockBlock = new BlockBlock("blockBlock", Material.iron), ItemBlockBlock.class, "blockBlock");
 		
 		NCBlocks.simpleQuantumUp = new BlockSimpleQuantum(true).setBlockName("simpleQuantumUp").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(5.0F).setHardness(2.0F);
-		GameRegistry.registerBlock(NCBlocks.simpleQuantumUp, "simpleQuantumUp");
+		GameRegistry.registerBlock(NCBlocks.simpleQuantumUp, ItemBlockSimpleQuantum.class, "simpleQuantumUp");
 		NCBlocks.simpleQuantumDown = new BlockSimpleQuantum(false).setBlockName("simpleQuantumDown").setStepSound(Block.soundTypeMetal).setResistance(5.0F).setHardness(2.0F);
-		GameRegistry.registerBlock(NCBlocks.simpleQuantumDown, "simpleQuantumDown");
+		GameRegistry.registerBlock(NCBlocks.simpleQuantumDown, ItemBlockSimpleQuantum.class, "simpleQuantumDown");
 		
 		NCBlocks.graphiteBlock = new BlockGraphiteBlock().setBlockName("graphiteBlock").setCreativeTab(tabNC).setStepSound(Block.soundTypeStone).setResistance(5.0F).setHardness(2.0F);
-		GameRegistry.registerBlock(NCBlocks.graphiteBlock, "graphiteBlock");
+		GameRegistry.registerBlock(NCBlocks.graphiteBlock, ItemBlockGraphiteBlock.class, "graphiteBlock");
 		NCBlocks.cellBlock = new BlockCellBlock().setBlockName("cellBlock").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(5.0F).setHardness(2.0F);
-		GameRegistry.registerBlock(NCBlocks.cellBlock, "cellBlock");
+		GameRegistry.registerBlock(NCBlocks.cellBlock, ItemBlockCellBlock.class, "cellBlock");
 		NCBlocks.reactorBlock = new BlockReactorBlock().setBlockName("reactorBlock").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(5.0F).setHardness(3.0F);
-		GameRegistry.registerBlock(NCBlocks.reactorBlock, "reactorBlock");
+		GameRegistry.registerBlock(NCBlocks.reactorBlock, ItemBlockReactorBlock.class, "reactorBlock");
 		NCBlocks.fusionConnector = new BlockFusionConnector().setBlockName("fusionConnector").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(5.0F).setHardness(3.0F);
-		GameRegistry.registerBlock(NCBlocks.fusionConnector, "fusionConnector");
+		GameRegistry.registerBlock(NCBlocks.fusionConnector, ItemBlockFusionConnector.class, "fusionConnector");
 		
 		NCBlocks.coolerBlock = new BlockCoolerBlock().setBlockName("coolerBlock").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(5.0F).setHardness(2.0F);
-		GameRegistry.registerBlock(NCBlocks.coolerBlock, "coolerBlock");
+		GameRegistry.registerBlock(NCBlocks.coolerBlock, ItemBlockCoolerBlock.class, "coolerBlock");
 		NCBlocks.emptyCoolerBlock = new BlockCoolerBlock().setBlockName("emptyCoolerBlock").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(5.0F).setHardness(2.0F);
 		GameRegistry.registerBlock(NCBlocks.emptyCoolerBlock, "emptyCoolerBlock");
 		NCBlocks.waterCoolerBlock = new BlockCoolerBlock().setBlockName("waterCoolerBlock").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(5.0F).setHardness(2.0F);
-		GameRegistry.registerBlock(NCBlocks.waterCoolerBlock, "waterCoolerBlock");
+		GameRegistry.registerBlock(NCBlocks.waterCoolerBlock, ItemBlockCoolerBlock.class, "waterCoolerBlock");
 		NCBlocks.cryotheumCoolerBlock = new BlockCoolerBlock().setBlockName("cryotheumCoolerBlock").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(5.0F).setHardness(2.0F).setLightLevel(0.25F);
-		GameRegistry.registerBlock(NCBlocks.cryotheumCoolerBlock, "cryotheumCoolerBlock");
+		GameRegistry.registerBlock(NCBlocks.cryotheumCoolerBlock, ItemBlockCoolerBlock.class, "cryotheumCoolerBlock");
 		NCBlocks.redstoneCoolerBlock = new BlockCoolerBlock().setBlockName("redstoneCoolerBlock").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(5.0F).setHardness(2.0F).setLightLevel(0.25F);
-		GameRegistry.registerBlock(NCBlocks.redstoneCoolerBlock, "redstoneCoolerBlock");
+		GameRegistry.registerBlock(NCBlocks.redstoneCoolerBlock, ItemBlockCoolerBlock.class, "redstoneCoolerBlock");
 		NCBlocks.enderiumCoolerBlock = new BlockCoolerBlock().setBlockName("enderiumCoolerBlock").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(5.0F).setHardness(2.0F).setLightLevel(0.25F);
-		GameRegistry.registerBlock(NCBlocks.enderiumCoolerBlock, "enderiumCoolerBlock");
+		GameRegistry.registerBlock(NCBlocks.enderiumCoolerBlock, ItemBlockCoolerBlock.class, "enderiumCoolerBlock");
 		NCBlocks.glowstoneCoolerBlock = new BlockCoolerBlock().setBlockName("glowstoneCoolerBlock").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(5.0F).setHardness(2.0F).setLightLevel(1F);
-		GameRegistry.registerBlock(NCBlocks.glowstoneCoolerBlock, "glowstoneCoolerBlock");
+		GameRegistry.registerBlock(NCBlocks.glowstoneCoolerBlock, ItemBlockCoolerBlock.class, "glowstoneCoolerBlock");
 		NCBlocks.coolantCoolerBlock = new BlockCoolerBlock().setBlockName("coolantCoolerBlock").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(5.0F).setHardness(2.0F);
-		GameRegistry.registerBlock(NCBlocks.coolantCoolerBlock, "coolantCoolerBlock");
+		GameRegistry.registerBlock(NCBlocks.coolantCoolerBlock, ItemBlockCoolerBlock.class, "coolantCoolerBlock");
 		NCBlocks.heliumCoolerBlock = new BlockCoolerBlock().setBlockName("heliumCoolerBlock").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(5.0F).setHardness(2.0F);
-		GameRegistry.registerBlock(NCBlocks.heliumCoolerBlock, "heliumCoolerBlock");
+		GameRegistry.registerBlock(NCBlocks.heliumCoolerBlock, ItemBlockCoolerBlock.class, "heliumCoolerBlock");
 		
 		NCBlocks.speedBlock = new BlockSpeedBlock().setBlockName("speedBlock").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(5.0F).setHardness(2.0F);
-		GameRegistry.registerBlock(NCBlocks.speedBlock, "speedBlock");
-		NCBlocks.blastBlock = new BlockBlastBlock().setBlockName("blastBlock").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(4000.0F).setHardness(30.0F);
-		GameRegistry.registerBlock(NCBlocks.blastBlock, "blastBlock");
-		NCBlocks.machineBlock = new BlockMachineBlock().setBlockName("machineBlock").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(4000.0F).setHardness(30.0F);
-		GameRegistry.registerBlock(NCBlocks.machineBlock, "machineBlock");
+		GameRegistry.registerBlock(NCBlocks.speedBlock, ItemBlockSpeedBlock.class, "speedBlock");
+		NCBlocks.blastBlock = new BlockBlastBlock().setBlockName("blastBlock").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(6000.0F).setHardness(10.0F);
+		GameRegistry.registerBlock(NCBlocks.blastBlock, ItemBlockBlastBlock.class, "blastBlock");
+		NCBlocks.machineBlock = new BlockMachineBlock().setBlockName("machineBlockNC").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(5.0F).setHardness(2.0F);
+		GameRegistry.registerBlock(NCBlocks.machineBlock, "machineBlockNC");
 		
-		NCBlocks.tubing1 = new BlockTubing1().setBlockName("tubing1").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(20.0F).setHardness(5.0F);
+		NCBlocks.tubing1 = new BlockTubing1().setBlockName("tubing1").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(5.0F).setHardness(2.0F);
 		GameRegistry.registerBlock(NCBlocks.tubing1, "tubing1");
-		NCBlocks.tubing2 = new BlockTubing2().setBlockName("tubing2").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(20.0F).setHardness(5.0F);
+		NCBlocks.tubing2 = new BlockTubing2().setBlockName("tubing2").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(5.0F).setHardness(2.0F);
 		GameRegistry.registerBlock(NCBlocks.tubing2, "tubing2");
 	
 		// Machine Registry
 			// Block
 		NCBlocks.electromagnetIdle = new BlockElectromagnet(false).setBlockName("electromagnetIdle").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(8.0F).setHardness(3.0F);
-		GameRegistry.registerBlock(NCBlocks.electromagnetIdle, "electromagnetIdle");
+		GameRegistry.registerBlock(NCBlocks.electromagnetIdle, ItemBlockElectromagnet.class, "electromagnetIdle");
 		NCBlocks.electromagnetActive = new BlockElectromagnet(true).setBlockName("electromagnetActive").setStepSound(Block.soundTypeMetal).setResistance(8.0F).setHardness(3.0F);
-		GameRegistry.registerBlock(NCBlocks.electromagnetActive, "electromagnetActive");
+		GameRegistry.registerBlock(NCBlocks.electromagnetActive, ItemBlockElectromagnet.class, "electromagnetActive");
 		NCBlocks.superElectromagnetIdle = new BlockSuperElectromagnet(false).setBlockName("superElectromagnetIdle").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(8.0F).setHardness(3.0F);
-		GameRegistry.registerBlock(NCBlocks.superElectromagnetIdle, "superElectromagnetIdle");
+		GameRegistry.registerBlock(NCBlocks.superElectromagnetIdle, ItemBlockSuperElectromagnet.class, "superElectromagnetIdle");
 		NCBlocks.superElectromagnetActive = new BlockSuperElectromagnet(true).setBlockName("superElectromagnetActive").setStepSound(Block.soundTypeMetal).setResistance(8.0F).setHardness(3.0F);
-		GameRegistry.registerBlock(NCBlocks.superElectromagnetActive, "superElectromagnetActive");
+		GameRegistry.registerBlock(NCBlocks.superElectromagnetActive, ItemBlockSuperElectromagnet.class, "superElectromagnetActive");
 		NCBlocks.supercoolerIdle = new BlockSupercooler(false).setBlockName("supercoolerIdle").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(8.0F).setHardness(3.0F);
-		GameRegistry.registerBlock(NCBlocks.supercoolerIdle, "supercoolerIdle");
+		GameRegistry.registerBlock(NCBlocks.supercoolerIdle, ItemBlockSupercooler.class, "supercoolerIdle");
 		NCBlocks.supercoolerActive = new BlockSupercooler(true).setBlockName("supercoolerActive").setStepSound(Block.soundTypeMetal).setResistance(8.0F).setHardness(3.0F);
-		GameRegistry.registerBlock(NCBlocks.supercoolerActive, "supercoolerActive");
+		GameRegistry.registerBlock(NCBlocks.supercoolerActive, ItemBlockSupercooler.class, "supercoolerActive");
 		NCBlocks.synchrotronIdle = new BlockSynchrotron(false).setBlockName("synchrotronIdle").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(8.0F).setHardness(3.0F);
-		GameRegistry.registerBlock(NCBlocks.synchrotronIdle, "synchrotronIdle");
+		GameRegistry.registerBlock(NCBlocks.synchrotronIdle, ItemBlockSynchrotron.class, "synchrotronIdle");
 		NCBlocks.synchrotronActive = new BlockSynchrotron(true).setBlockName("synchrotronActive").setStepSound(Block.soundTypeMetal).setResistance(8.0F).setHardness(3.0F);
-		GameRegistry.registerBlock(NCBlocks.synchrotronActive, "synchrotronActive");
+		GameRegistry.registerBlock(NCBlocks.synchrotronActive, ItemBlockSynchrotron.class, "synchrotronActive");
 		
 		NCBlocks.nuclearWorkspace = new BlockNuclearWorkspace(Material.iron).setBlockName("nuclearWorkspace").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(20.0F).setHardness(5.0F);
-		GameRegistry.registerBlock(NCBlocks.nuclearWorkspace, "nuclearWorkspace");
+		GameRegistry.registerBlock(NCBlocks.nuclearWorkspace, ItemBlockNuclearWorkspace.class, "nuclearWorkspace");
 		
 		NCBlocks.fusionReactor = new BlockFusionReactor(Material.iron).setBlockName("fusionReactor").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(20.0F).setHardness(5.0F);
-		GameRegistry.registerBlock(NCBlocks.fusionReactor, "fusionReactor");
+		GameRegistry.registerBlock(NCBlocks.fusionReactor, ItemBlockFusionReactor.class, "fusionReactor");
 		NCBlocks.fusionReactorBlock = new BlockFusionReactorBlock().setBlockName("fusionReactorBlock").setStepSound(Block.soundTypeMetal).setResistance(20.0F).setHardness(5.0F);
 		GameRegistry.registerBlock(NCBlocks.fusionReactorBlock, "fusionReactorBlock");
 		NCBlocks.fusionReactorBlockTop = new BlockFusionReactorBlockTop().setBlockName("fusionReactorBlockTop").setStepSound(Block.soundTypeMetal).setResistance(20.0F).setHardness(5.0F);
@@ -955,9 +1019,9 @@ public class NuclearCraft {
 		NCBlocks.electricFurnaceActive = new BlockElectricFurnace(true).setBlockName("electricFurnaceActive").setStepSound(Block.soundTypeMetal).setResistance(20.0F).setHardness(5.0F);
 		GameRegistry.registerBlock(NCBlocks.electricFurnaceActive, "electricFurnaceActive");
 		NCBlocks.reactionGeneratorIdle = new BlockReactionGenerator(false).setBlockName("reactionGeneratorIdle").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(20.0F).setHardness(5.0F);
-		GameRegistry.registerBlock(NCBlocks.reactionGeneratorIdle, "reactionGeneratorIdle");
+		GameRegistry.registerBlock(NCBlocks.reactionGeneratorIdle, ItemBlockReactionGenerator.class, "reactionGeneratorIdle");
 		NCBlocks.reactionGeneratorActive = new BlockReactionGenerator(true).setBlockName("reactionGeneratorActive").setStepSound(Block.soundTypeMetal).setResistance(20.0F).setHardness(5.0F);
-		GameRegistry.registerBlock(NCBlocks.reactionGeneratorActive, "reactionGeneratorActive");
+		GameRegistry.registerBlock(NCBlocks.reactionGeneratorActive, ItemBlockReactionGenerator.class, "reactionGeneratorActive");
 		NCBlocks.separatorIdle = new BlockSeparator(false).setBlockName("separatorIdle").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(20.0F).setHardness(5.0F);
 		GameRegistry.registerBlock(NCBlocks.separatorIdle, "separatorIdle");
 		NCBlocks.separatorActive = new BlockSeparator(true).setBlockName("separatorActive").setStepSound(Block.soundTypeMetal).setResistance(20.0F).setHardness(5.0F);
@@ -970,16 +1034,23 @@ public class NuclearCraft {
 		GameRegistry.registerBlock(NCBlocks.electrolyserIdle, "electrolyserIdle");
 		NCBlocks.electrolyserActive = new BlockElectrolyser(true).setBlockName("electrolyserActive").setStepSound(Block.soundTypeMetal).setResistance(20.0F).setHardness(5.0F);
 		GameRegistry.registerBlock(NCBlocks.electrolyserActive, "electrolyserActive");
+		
 		NCBlocks.fissionReactorGraphiteIdle = new BlockFissionReactor(false).setBlockName("fissionReactorGraphiteIdle").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(5.0F).setHardness(5.0F);
-		GameRegistry.registerBlock(NCBlocks.fissionReactorGraphiteIdle, "fissionReactorGraphiteIdle");
+		GameRegistry.registerBlock(NCBlocks.fissionReactorGraphiteIdle, ItemBlockFissionReactor.class, "fissionReactorGraphiteIdle");
 		NCBlocks.fissionReactorGraphiteActive = new BlockFissionReactor(true).setBlockName("fissionReactorGraphiteActive").setStepSound(Block.soundTypeMetal).setResistance(5.0F).setHardness(5.0F);
-		GameRegistry.registerBlock(NCBlocks.fissionReactorGraphiteActive, "fissionReactorGraphiteActive");
+		GameRegistry.registerBlock(NCBlocks.fissionReactorGraphiteActive, ItemBlockFissionReactor.class, "fissionReactorGraphiteActive");
+		
+		NCBlocks.fissionReactorSteamIdle = new BlockFissionReactorSteam(false).setBlockName("fissionReactorSteamIdle").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(5.0F).setHardness(5.0F);
+		GameRegistry.registerBlock(NCBlocks.fissionReactorSteamIdle, ItemBlockFissionReactorSteam.class, "fissionReactorSteamIdle");
+		NCBlocks.fissionReactorSteamActive = new BlockFissionReactorSteam(true).setBlockName("fissionReactorSteamActive").setStepSound(Block.soundTypeMetal).setResistance(5.0F).setHardness(5.0F);
+		GameRegistry.registerBlock(NCBlocks.fissionReactorSteamActive, ItemBlockFissionReactorSteam.class, "fissionReactorSteamActive");
+		
 		NCBlocks.RTG = new BlockRTG().setBlockName("RTG").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(5.0F).setHardness(5.0F);
-		GameRegistry.registerBlock(NCBlocks.RTG, "RTG");
+		GameRegistry.registerBlock(NCBlocks.RTG, ItemBlockRTG.class, "RTG");
 		NCBlocks.WRTG = new BlockWRTG().setBlockName("WRTG").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(5.0F).setHardness(5.0F);
-		GameRegistry.registerBlock(NCBlocks.WRTG, "WRTG");
+		GameRegistry.registerBlock(NCBlocks.WRTG, ItemBlockWRTG.class, "WRTG");
 		NCBlocks.solarPanel = new BlockSolarPanel().setBlockName("solarPanel").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(5.0F).setHardness(5.0F);
-		GameRegistry.registerBlock(NCBlocks.solarPanel, "solarPanel");
+		GameRegistry.registerBlock(NCBlocks.solarPanel, ItemBlockSolarPanel.class, "solarPanel");
 		NCBlocks.collectorIdle = new BlockCollector(false).setBlockName("collectorIdle").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(20.0F).setHardness(5.0F);
 		GameRegistry.registerBlock(NCBlocks.collectorIdle, "collectorIdle");
 		NCBlocks.collectorActive = new BlockCollector(true).setBlockName("collectorActive").setStepSound(Block.soundTypeMetal).setResistance(20.0F).setHardness(5.0F);
@@ -1013,15 +1084,22 @@ public class NuclearCraft {
 		NCBlocks.assemblerActive = new BlockAssembler(true).setBlockName("assemblerActive").setStepSound(Block.soundTypeMetal).setResistance(20.0F).setHardness(5.0F);
 		GameRegistry.registerBlock(NCBlocks.assemblerActive, "factassemblerve");
 		
-		/*NCBlocks.autoWorkspaceIdle = new BlockAutoWorkspace(false).setBlockName("autoWorkspaceIdle").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(20.0F).setHardness(5.0F);
-		GameRegistry.registerBlock(NCBlocks.autoWorkspaceIdle, "autoWorkspaceIdle");
-		NCBlocks.autoWorkspaceActive = new BlockAutoWorkspace(true).setBlockName("autoWorkspaceActive").setStepSound(Block.soundTypeMetal).setResistance(20.0F).setHardness(5.0F);
-		GameRegistry.registerBlock(NCBlocks.autoWorkspaceActive, "autoWorkspaceActive");*/
+		NCBlocks.steamGenerator = new BlockSteamGenerator().setBlockName("steamGenerator").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(5.0F).setHardness(5.0F);
+		GameRegistry.registerBlock(NCBlocks.steamGenerator, ItemBlockSteamGenerator.class, "steamGenerator");
+		NCBlocks.steamDecompressor = new BlockSteamDecompressor().setBlockName("steamDecompressor").setStepSound(Block.soundTypeMetal).setResistance(5.0F).setHardness(5.0F);
+		GameRegistry.registerBlock(NCBlocks.steamDecompressor, ItemBlockSteamDecompressor.class, "steamDecompressor");
+		NCBlocks.denseSteamDecompressor = new BlockDenseSteamDecompressor().setBlockName("denseSteamDecompressor").setStepSound(Block.soundTypeMetal).setResistance(5.0F).setHardness(5.0F);
+		GameRegistry.registerBlock(NCBlocks.denseSteamDecompressor, ItemBlockDenseSteamDecompressor.class, "denseSteamDecompressor");
 		
 		NCBlocks.nuke = new BlockNuke().setBlockName("nuke").setCreativeTab(tabNC).setStepSound(Block.soundTypeCloth).setHardness(0.0F);
-		GameRegistry.registerBlock(NCBlocks.nuke, "nuke");
+		GameRegistry.registerBlock(NCBlocks.nuke, ItemBlockNuke.class, "nuke");
 		NCBlocks.nukeE = new BlockNukeExploding().setBlockName("nukeE").setStepSound(Block.soundTypeCloth).setHardness(0.0F);
-		GameRegistry.registerBlock(NCBlocks.nukeE, "nukeE");
+		GameRegistry.registerBlock(NCBlocks.nukeE, ItemBlockNuke.class, "nukeE");
+		
+		NCBlocks.antimatterBomb = new BlockAntimatterBomb().setBlockName("antimatterBomb").setCreativeTab(tabNC).setStepSound(Block.soundTypeCloth).setHardness(0.0F);
+		GameRegistry.registerBlock(NCBlocks.antimatterBomb, ItemBlockAntimatterBomb.class, "antimatterBomb");
+		NCBlocks.antimatterBombE = new BlockAntimatterBombExploding().setBlockName("antimatterBombE").setStepSound(Block.soundTypeCloth).setHardness(0.0F);
+		GameRegistry.registerBlock(NCBlocks.antimatterBombE, ItemBlockAntimatterBomb.class, "antimatterBombE");
 			
 			// Tile Entity
 		GameRegistry.registerTileEntity(TileNuclearFurnace.class, "nuclearFurnace");
@@ -1035,12 +1113,16 @@ public class NuclearCraft {
 		GameRegistry.registerTileEntity(TileCollector.class, "collector");
 		GameRegistry.registerTileEntity(TileElectrolyser.class, "electrolyser");
 		GameRegistry.registerTileEntity(TileFissionReactor.class, "fissionReactorGraphite");
+		GameRegistry.registerTileEntity(TileFissionReactorSteam.class, "fissionReactorSteam");
 		GameRegistry.registerTileEntity(TileNuclearWorkspace.class, "nuclearWorkspace");
 		GameRegistry.registerTileEntity(TileFusionReactor.class, "fusionReactor");
 		GameRegistry.registerTileEntity(TileTubing1.class, "TEtubing1");
 		GameRegistry.registerTileEntity(TileTubing2.class, "TEtubing2");
 		GameRegistry.registerTileEntity(TileRTG.class, "RTG");
 		GameRegistry.registerTileEntity(TileWRTG.class, "WRTG");
+		GameRegistry.registerTileEntity(TileSteamGenerator.class, "steamGenerator");
+		GameRegistry.registerTileEntity(TileSteamDecompressor.class, "steamDecompressor");
+		GameRegistry.registerTileEntity(TileDenseSteamDecompressor.class, "denseSteamDecompressor");
 		GameRegistry.registerTileEntity(TileFusionReactorBlock.class, "fusionReactorBlock");
 		GameRegistry.registerTileEntity(TileFusionReactorBlockTop.class, "fusionReactorBlockTop");
 		GameRegistry.registerTileEntity(TileOxidiser.class, "oxidiser");
@@ -1051,7 +1133,6 @@ public class NuclearCraft {
 		GameRegistry.registerTileEntity(TileFactory.class, "factory");
 		GameRegistry.registerTileEntity(TileHeliumExtractor.class, "heliumExtractor");
 		GameRegistry.registerTileEntity(TileSolarPanel.class, "solarPanel");
-		GameRegistry.registerTileEntity(TileAutoWorkspace.class, "autoWorkspace");
 		
 		GameRegistry.registerTileEntity(TileElectromagnet.class, "electromagnet");
 		GameRegistry.registerTileEntity(TileSuperElectromagnet.class, "superElectromagnet");
@@ -1060,141 +1141,146 @@ public class NuclearCraft {
 		
 		GameRegistry.registerTileEntity(TileSimpleQuantum.class, "simpleQuantum");
 	
-		// Item Registry	
-		NCItems.dominoes = new ItemFood(12, 1.4F, false).setCreativeTab(tabNC).setUnlocalizedName("dominoes").setTextureName("nc:food/" + "dominoes");
+		// Item Registry
+		GameRegistry.registerItem(NCItems.fuel = new ItemFuel(), "fuel");
+		GameRegistry.registerItem(NCItems.material = new ItemMaterial(), "material");
+		GameRegistry.registerItem(NCItems.parts = new ItemPart(), "parts");
+		
+		NCItems.dominoes = new ItemDominos(12, 1.4F, false, "dominoes", "Paul's favourite - he'll follow anyone", "he sees carrying this in their hand...", "Restores 12 hunger.");
 		GameRegistry.registerItem(NCItems.dominoes, "dominoes");
-		NCItems.boiledEgg = new ItemFood(5, 0.6F, false).setCreativeTab(tabNC).setUnlocalizedName("boiledEgg").setTextureName("nc:food/" + "boiledEgg");
+		NCItems.boiledEgg = new ItemFoodNC(5, 0.6F, false, "boiledEgg", "A tasty snack that restores 5 hunger.");
 		GameRegistry.registerItem(NCItems.boiledEgg, "boiledEgg");
 		
-		NCItems.ricecake = new ItemFood(4, 0.4F, false).setCreativeTab(tabNC).setUnlocalizedName("ricecake").setTextureName("nc:food/" + "ricecake");
+		NCItems.ricecake = new ItemFoodNC(4, 0.4F, false, "ricecake", "A healthy meal, especially with fish. Restores 4 hunger.");
 		GameRegistry.registerItem(NCItems.ricecake, "ricecake");
-		NCItems.fishAndRicecake = new ItemFood(8, 0.6F, false).setCreativeTab(tabNC).setUnlocalizedName("fishAndRicecake").setTextureName("nc:food/" + "fishAndRicecake");
+		NCItems.fishAndRicecake = new ItemFoodNC(9, 1.0F, false, "fishAndRicecake", "At 8 in the morning he'll have fish and a ricecake, at 10 he'll have fish,", "at 12 he'll have fish and a ricecake, at 2 he'll have fish, at 4, just", "before he trains, he'll have fish and a ricecake, he'll train, he'll have", "his fish, he'll come home and have some more fish with a ricecake and then", "have some fish before he goes to bed.");
 		GameRegistry.registerItem(NCItems.fishAndRicecake, "fishAndRicecake");
 		
-		NCItems.upgradeSpeed = new Item().setCreativeTab(tabNC).setUnlocalizedName("upgradeSpeed").setTextureName("nc:upgrades/" + "upgradeSpeed").setMaxStackSize(8);
+		NCItems.upgradeSpeed = new ItemUpgrade("upgradeSpeed", "Used to increase the speed of machines.", "Stacked upgrades increase the speed exponentially.").setMaxStackSize(8);
 		GameRegistry.registerItem(NCItems.upgradeSpeed, "upgradeSpeed");
-		NCItems.upgradeEnergy = new Item().setCreativeTab(tabNC).setUnlocalizedName("upgradeEnergy").setTextureName("nc:upgrades/" + "upgradeEnergy").setMaxStackSize(8);
+		NCItems.upgradeEnergy = new ItemUpgrade("upgradeEnergy", "Used to increase the energy efficiency of machines.", "Stacked upgrades increase the efficiency exponentially.").setMaxStackSize(8);
 		GameRegistry.registerItem(NCItems.upgradeEnergy, "upgradeEnergy");
 		
-		NCItems.tabItem = new Item().setUnlocalizedName("tabItem").setTextureName("nc:fuel/" + "11");
-		GameRegistry.registerItem(NCItems.tabItem, "tabItem");
-		
-		GameRegistry.registerItem(NCItems.fuel = new ItemFuel("fuel"), "fuel");
-		GameRegistry.registerItem(NCItems.material = new ItemMaterial("material"), "material");
-		GameRegistry.registerItem(NCItems.parts = new ItemPart("parts"), "parts");
-		
-		NCItems.nuclearGrenade = new ItemNuclearGrenade().setCreativeTab(tabNC).setUnlocalizedName("nuclearGrenade").setTextureName("nc:weapons/" + "nuclearGrenade");
+		NCItems.nuclearGrenade = new ItemNuclearGrenade("nuclearGrenade", "A VERY deadly bomb. It is highly recommended", "that this is kept off your hotbar while not", "about to be used.");
 		GameRegistry.registerItem(NCItems.nuclearGrenade, "nuclearGrenade");
-		NCItems.nuclearGrenadeThrown = new Item().setUnlocalizedName("nuclearGrenadeThrown").setTextureName("nc:weapons/" + "nuclearGrenadeThrown");
+		NCItems.nuclearGrenadeThrown = new ItemNC("weapons", "nuclearGrenadeThrown", false);
 		GameRegistry.registerItem(NCItems.nuclearGrenadeThrown, "nuclearGrenadeThrown");
 		
-		NCItems.portableEnderChest = new ItemEnderChest().setCreativeTab(tabNC).setUnlocalizedName("portableEnderChest").setTextureName("nc:" + "portableEnderChest").setMaxStackSize(1);
+		NCItems.portableEnderChest = new ItemEnderChest("portableEnderChest", "Portable access to your Ender Chest.").setMaxStackSize(1);
 		GameRegistry.registerItem(NCItems.portableEnderChest, "portableEnderChest");
 		
 		// Tool Registry
-		NCItems.bronzePickaxe = new NCPickaxe(Bronze).setCreativeTab(tabNC).setUnlocalizedName("bronzePickaxe").setTextureName("nc:tools/" + "bronzePickaxe");
+		NCItems.bronzePickaxe = new NCPickaxe(Bronze, "bronzePickaxe", "Can be repaired in an Anvil using Bronze.");
 		GameRegistry.registerItem(NCItems.bronzePickaxe, "bronzePickaxe");
-		NCItems.bronzeShovel = new NCShovel(Bronze).setCreativeTab(tabNC).setUnlocalizedName("bronzeShovel").setTextureName("nc:tools/" + "bronzeShovel");
+		NCItems.bronzeShovel = new NCShovel(Bronze, "bronzeShovel", "Can be repaired in an Anvil using Bronze.");
 		GameRegistry.registerItem(NCItems.bronzeShovel, "bronzeShovel");
-		NCItems.bronzeAxe = new NCAxe(Bronze).setCreativeTab(tabNC).setUnlocalizedName("bronzeAxe").setTextureName("nc:tools/" + "bronzeAxe");
+		NCItems.bronzeAxe = new NCAxe(Bronze, "bronzeAxe", "Can be repaired in an Anvil using Bronze.");
 		GameRegistry.registerItem(NCItems.bronzeAxe, "bronzeAxe");
-		NCItems.bronzeHoe = new NCHoe(Bronze).setCreativeTab(tabNC).setUnlocalizedName("bronzeHoe").setTextureName("nc:tools/" + "bronzeHoe");
+		NCItems.bronzeHoe = new NCHoe(Bronze, "bronzeHoe", "Can be repaired in an Anvil using Bronze.");
 		GameRegistry.registerItem(NCItems.bronzeHoe, "bronzeHoe");
-		NCItems.bronzeSword = new NCSword(Bronze).setCreativeTab(tabNC).setUnlocalizedName("bronzeSword").setTextureName("nc:tools/" + "bronzeSword");
+		NCItems.bronzeSword = new NCSword(Bronze, "bronzeSword", "Can be repaired in an Anvil using Bronze.");
 		GameRegistry.registerItem(NCItems.bronzeSword, "bronzeSword");
 		
-		NCItems.boronPickaxe = new NCPickaxe(Boron).setCreativeTab(tabNC).setUnlocalizedName("boronPickaxe").setTextureName("nc:tools/" + "boronPickaxe");
+		NCItems.boronPickaxe = new NCPickaxe(Boron, "boronPickaxe", "Can be repaired in an Anvil using Boron.");
 		GameRegistry.registerItem(NCItems.boronPickaxe, "boronPickaxe");
-		NCItems.boronShovel = new NCShovel(Boron).setCreativeTab(tabNC).setUnlocalizedName("boronShovel").setTextureName("nc:tools/" + "boronShovel");
+		NCItems.boronShovel = new NCShovel(Boron, "boronShovel", "Can be repaired in an Anvil using Boron.");
 		GameRegistry.registerItem(NCItems.boronShovel, "boronShovel");
-		NCItems.boronAxe = new NCAxe(Boron).setCreativeTab(tabNC).setUnlocalizedName("boronAxe").setTextureName("nc:tools/" + "boronAxe");
+		NCItems.boronAxe = new NCAxe(Boron, "boronAxe", "Can be repaired in an Anvil using Boron.");
 		GameRegistry.registerItem(NCItems.boronAxe, "boronAxe");
-		NCItems.boronHoe = new NCHoe(Boron).setCreativeTab(tabNC).setUnlocalizedName("boronHoe").setTextureName("nc:tools/" + "boronHoe");
+		NCItems.boronHoe = new NCHoe(Boron, "boronHoe", "Can be repaired in an Anvil using Boron.");
 		GameRegistry.registerItem(NCItems.boronHoe, "boronHoe");
-		NCItems.boronSword = new NCSword(Boron).setCreativeTab(tabNC).setUnlocalizedName("boronSword").setTextureName("nc:tools/" + "boronSword");
+		NCItems.boronSword = new NCSword(Boron, "boronSword", "Can be repaired in an Anvil using Boron.");
 		GameRegistry.registerItem(NCItems.boronSword, "boronSword");
 		
-		NCItems.toughAlloyPickaxe = new NCPickaxe(ToughAlloy).setCreativeTab(tabNC).setUnlocalizedName("toughAlloyPickaxe").setTextureName("nc:tools/" + "toughAlloyPickaxe");
+		NCItems.toughAlloyPickaxe = new NCPickaxe(ToughAlloy, "toughAlloyPickaxe", "Can be repaired in an Anvil using Tough Alloy.");
 		GameRegistry.registerItem(NCItems.toughAlloyPickaxe, "toughAlloyPickaxe");
-		NCItems.toughAlloyShovel = new NCShovel(ToughAlloy).setCreativeTab(tabNC).setUnlocalizedName("toughAlloyShovel").setTextureName("nc:tools/" + "toughAlloyShovel");
+		NCItems.toughAlloyShovel = new NCShovel(ToughAlloy, "toughAlloyShovel", "Can be repaired in an Anvil using Tough Alloy.");
 		GameRegistry.registerItem(NCItems.toughAlloyShovel, "toughAlloyShovel");
-		NCItems.toughAlloyAxe = new NCAxe(ToughAlloy).setCreativeTab(tabNC).setUnlocalizedName("toughAlloyAxe").setTextureName("nc:tools/" + "toughAlloyAxe");
+		NCItems.toughAlloyAxe = new NCAxe(ToughAlloy, "toughAlloyAxe", "Can be repaired in an Anvil using Tough Alloy.");
 		GameRegistry.registerItem(NCItems.toughAlloyAxe, "toughAlloyAxe");
-		NCItems.toughAlloyHoe = new NCHoe(ToughAlloy).setCreativeTab(tabNC).setUnlocalizedName("toughAlloyHoe").setTextureName("nc:tools/" + "toughAlloyHoe");
+		NCItems.toughAlloyHoe = new NCHoe(ToughAlloy, "toughAlloyHoe", "Can be repaired in an Anvil using Tough Alloy.");
 		GameRegistry.registerItem(NCItems.toughAlloyHoe, "toughAlloyHoe");
-		NCItems.toughAlloySword = new NCSword(ToughAlloy).setCreativeTab(tabNC).setUnlocalizedName("toughAlloySword").setTextureName("nc:tools/" + "toughAlloySword");
+		NCItems.toughAlloySword = new NCSword(ToughAlloy, "toughAlloySword", "Can be repaired in an Anvil using Tough Alloy.");
 		GameRegistry.registerItem(NCItems.toughAlloySword, "toughAlloySword");
-		NCItems.toughAlloyPaxel = new NCPaxel(ToughPaxel).setCreativeTab(tabNC).setUnlocalizedName("toughAlloyPaxel").setTextureName("nc:tools/" + "toughAlloyPaxel");
+		NCItems.toughAlloyPaxel = new NCPaxel(ToughPaxel, "toughAlloyPaxel", "A multitool that can be repaired", "in an Anvil using Tough Alloy.");
 		GameRegistry.registerItem(NCItems.toughAlloyPaxel, "toughAlloyPaxel");
 		
-		NCItems.dUPickaxe = new NCPickaxe(dU).setCreativeTab(tabNC).setUnlocalizedName("dUPickaxe").setTextureName("nc:tools/" + "dUPickaxe");
+		NCItems.dUPickaxe = new NCPickaxe(dU, "dUPickaxe", "Can be repaired in an Anvil using Depleted Uranium Plating.");
 		GameRegistry.registerItem(NCItems.dUPickaxe, "dUPickaxe");
-		NCItems.dUShovel = new NCShovel(dU).setCreativeTab(tabNC).setUnlocalizedName("dUShovel").setTextureName("nc:tools/" + "dUShovel");
+		NCItems.dUShovel = new NCShovel(dU, "dUShovel", "Can be repaired in an Anvil using Depleted Uranium Plating.");
 		GameRegistry.registerItem(NCItems.dUShovel, "dUShovel");
-		NCItems.dUAxe = new NCAxe(dU).setCreativeTab(tabNC).setUnlocalizedName("dUAxe").setTextureName("nc:tools/" + "dUAxe");
+		NCItems.dUAxe = new NCAxe(dU, "dUAxe", "Can be repaired in an Anvil using Depleted Uranium Plating.");
 		GameRegistry.registerItem(NCItems.dUAxe, "dUAxe");
-		NCItems.dUHoe = new NCHoe(dU).setCreativeTab(tabNC).setUnlocalizedName("dUHoe").setTextureName("nc:tools/" + "dUHoe");
+		NCItems.dUHoe = new NCHoe(dU, "dUHoe", "Can be repaired in an Anvil using Depleted Uranium Plating.");
 		GameRegistry.registerItem(NCItems.dUHoe, "dUHoe");
-		NCItems.dUSword = new NCSword(dU).setCreativeTab(tabNC).setUnlocalizedName("dUSword").setTextureName("nc:tools/" + "dUSword");
+		NCItems.dUSword = new NCSword(dU, "dUSword", "Can be repaired in an Anvil using Depleted Uranium Plating.");
 		GameRegistry.registerItem(NCItems.dUSword, "dUSword");
-		NCItems.dUPaxel = new NCPaxel(dUPaxel).setCreativeTab(tabNC).setUnlocalizedName("dUPaxel").setTextureName("nc:tools/" + "dUPaxel");
+		NCItems.dUPaxel = new NCPaxel(dUPaxel, "dUPaxel", "A multitool that can be repaired in", "an Anvil using Depleted Uranium Plating.");
 		GameRegistry.registerItem(NCItems.dUPaxel, "dUPaxel");
 		
-		NCItems.toughBow = new ItemToughBow().setCreativeTab(tabNC).setUnlocalizedName("toughBow").setMaxStackSize(1);
+		NCItems.toughBow = new ItemToughBow("toughBow", "A better version of the vanilla bow - it does", "more damage and has a higher durability.", "Can be repaired in an Anvil using Tough Alloy.").setMaxStackSize(1);
 		GameRegistry.registerItem(NCItems.toughBow, "toughBow");
-		NCItems.pistol = new ItemPistol().setCreativeTab(tabNC).setUnlocalizedName("pistol").setMaxStackSize(1).setTextureName("nc:tools/" + "pistol");
+		NCItems.pistol = new ItemPistol("pistol", "Uses DU bullets as ammunition.", "Deals a large amount of damage.");
 		GameRegistry.registerItem(NCItems.pistol, "pistol");
-		NCItems.dUBullet = new Item().setCreativeTab(tabNC).setUnlocalizedName("dUBullet").setTextureName("nc:tools/" + "dUBullet");
+		NCItems.dUBullet = new ItemNC("tools", "dUBullet", "Ammo for the Pistol.");
 		GameRegistry.registerItem(NCItems.dUBullet, "dUBullet");
 		
 		//Armor Registry
-		NCItems.toughHelm = new ToughArmour(ToughArmorMaterial, toughHelmID, 0).setUnlocalizedName("toughHelm").setTextureName("nc:armour/" + "toughHelm");
+		NCItems.toughHelm = new ToughArmour(ToughArmorMaterial, toughHelmID, 0, "toughHelm");
 		GameRegistry.registerItem(NCItems.toughHelm, "toughHelm");
-		NCItems.toughChest = new ToughArmour(ToughArmorMaterial, toughChestID, 1).setUnlocalizedName("toughChest").setTextureName("nc:armour/" + "toughChest");
+		NCItems.toughChest = new ToughArmour(ToughArmorMaterial, toughChestID, 1, "toughChest");
 		GameRegistry.registerItem(NCItems.toughChest, "toughChest");
-		NCItems.toughLegs = new ToughArmour(ToughArmorMaterial, toughLegsID, 2).setUnlocalizedName("toughLegs").setTextureName("nc:armour/" + "toughLegs");
+		NCItems.toughLegs = new ToughArmour(ToughArmorMaterial, toughLegsID, 2, "toughLegs");
 		GameRegistry.registerItem(NCItems.toughLegs, "toughLegs");
-		NCItems.toughBoots = new ToughArmour(ToughArmorMaterial, toughBootsID, 3).setUnlocalizedName("toughBoots").setTextureName("nc:armour/" + "toughBoots");
+		NCItems.toughBoots = new ToughArmour(ToughArmorMaterial, toughBootsID, 3, "toughBoots");
 		GameRegistry.registerItem(NCItems.toughBoots, "toughBoots");
 		
-		NCItems.boronHelm = new BoronArmour(BoronArmorMaterial, boronHelmID, 0).setUnlocalizedName("boronHelm").setTextureName("nc:armour/" + "boronHelm");
+		NCItems.boronHelm = new BoronArmour(BoronArmorMaterial, boronHelmID, 0, "boronHelm");
 		GameRegistry.registerItem(NCItems.boronHelm, "boronHelm");
-		NCItems.boronChest = new BoronArmour(BoronArmorMaterial, boronChestID, 1).setUnlocalizedName("boronChest").setTextureName("nc:armour/" + "boronChest");
+		NCItems.boronChest = new BoronArmour(BoronArmorMaterial, boronChestID, 1, "boronChest");
 		GameRegistry.registerItem(NCItems.boronChest, "boronChest");
-		NCItems.boronLegs = new BoronArmour(BoronArmorMaterial, boronLegsID, 2).setUnlocalizedName("boronLegs").setTextureName("nc:armour/" + "boronLegs");
+		NCItems.boronLegs = new BoronArmour(BoronArmorMaterial, boronLegsID, 2, "boronLegs");
 		GameRegistry.registerItem(NCItems.boronLegs, "boronLegs");
-		NCItems.boronBoots = new BoronArmour(BoronArmorMaterial, boronBootsID, 3).setUnlocalizedName("boronBoots").setTextureName("nc:armour/" + "boronBoots");
+		NCItems.boronBoots = new BoronArmour(BoronArmorMaterial, boronBootsID, 3, "boronBoots");
 		GameRegistry.registerItem(NCItems.boronBoots, "boronBoots");
 		
-		NCItems.bronzeHelm = new BronzeArmour(BronzeArmorMaterial, bronzeHelmID, 0).setUnlocalizedName("bronzeHelm").setTextureName("nc:armour/" + "bronzeHelm");
+		NCItems.bronzeHelm = new BronzeArmour(BronzeArmorMaterial, bronzeHelmID, 0, "bronzeHelm");
 		GameRegistry.registerItem(NCItems.bronzeHelm, "bronzeHelm");
-		NCItems.bronzeChest = new BronzeArmour(BronzeArmorMaterial, bronzeChestID, 1).setUnlocalizedName("bronzeChest").setTextureName("nc:armour/" + "bronzeChest");
+		NCItems.bronzeChest = new BronzeArmour(BronzeArmorMaterial, bronzeChestID, 1, "bronzeChest");
 		GameRegistry.registerItem(NCItems.bronzeChest, "bronzeChest");
-		NCItems.bronzeLegs = new BronzeArmour(BronzeArmorMaterial, bronzeLegsID, 2).setUnlocalizedName("bronzeLegs").setTextureName("nc:armour/" + "bronzeLegs");
+		NCItems.bronzeLegs = new BronzeArmour(BronzeArmorMaterial, bronzeLegsID, 2, "bronzeLegs");
 		GameRegistry.registerItem(NCItems.bronzeLegs, "bronzeLegs");
-		NCItems.bronzeBoots = new BronzeArmour(BronzeArmorMaterial, bronzeBootsID, 3).setUnlocalizedName("bronzeBoots").setTextureName("nc:armour/" + "bronzeBoots");
+		NCItems.bronzeBoots = new BronzeArmour(BronzeArmorMaterial, bronzeBootsID, 3, "bronzeBoots");
 		GameRegistry.registerItem(NCItems.bronzeBoots, "bronzeBoots");
 		
-		NCItems.dUHelm = new DUArmour(dUArmorMaterial, dUHelmID, 0).setUnlocalizedName("dUHelm").setTextureName("nc:armour/" + "dUHelm");
+		NCItems.dUHelm = new DUArmour(dUArmorMaterial, dUHelmID, 0, "dUHelm");
 		GameRegistry.registerItem(NCItems.dUHelm, "dUHelm");
-		NCItems.dUChest = new DUArmour(dUArmorMaterial, dUChestID, 1).setUnlocalizedName("dUChest").setTextureName("nc:armour/" + "dUChest");
+		NCItems.dUChest = new DUArmour(dUArmorMaterial, dUChestID, 1, "dUChest");
 		GameRegistry.registerItem(NCItems.dUChest, "dUChest");
-		NCItems.dULegs = new DUArmour(dUArmorMaterial, dULegsID, 2).setUnlocalizedName("dULegs").setTextureName("nc:armour/" + "dULegs");
+		NCItems.dULegs = new DUArmour(dUArmorMaterial, dULegsID, 2, "dULegs");
 		GameRegistry.registerItem(NCItems.dULegs, "dULegs");
-		NCItems.dUBoots = new DUArmour(dUArmorMaterial, dUBootsID, 3).setUnlocalizedName("dUBoots").setTextureName("nc:armour/" + "dUBoots");
+		NCItems.dUBoots = new DUArmour(dUArmorMaterial, dUBootsID, 3, "dUBoots");
 		GameRegistry.registerItem(NCItems.dUBoots, "dUBoots");
 		
 		//Records
-		NCItems.recordPractice = new NCRecord(0, "Practice").setCreativeTab(tabNC).setUnlocalizedName("recordPractice").setTextureName("nc:record/" + "recordPractice");
+		NCItems.recordPractice = new NCRecord(0, "Practice", "recordPractice", "Whenever Jimmy has some new discoveries", "to test out, his virtual practice labs are", "the best places to see what's possible...");
 		GameRegistry.registerItem(NCItems.recordPractice, "recordPractice");
-		NCItems.recordArea51 = new NCRecord(0, "Area51").setCreativeTab(tabNC).setUnlocalizedName("recordArea51").setTextureName("nc:record/" + "recordArea51");
+		NCItems.recordArea51 = new NCRecord(0, "Area51", "recordArea51", "Jimmy, with his newly aquired map, must", "make his way to the mines of Area 51", "to recover his invisibility technology...");
 		GameRegistry.registerItem(NCItems.recordArea51, "recordArea51");
-		NCItems.recordNeighborhood = new NCRecord(0, "Neighborhood").setCreativeTab(tabNC).setUnlocalizedName("recordNeighborhood").setTextureName("nc:record/" + "recordNeighborhood");
+		NCItems.recordNeighborhood = new NCRecord(0, "Neighborhood", "recordNeighborhood", "Jimmy's hometown - a quiet and green place", "with roads to many great places such as", "Retroland and Downtown...");
 		GameRegistry.registerItem(NCItems.recordNeighborhood, "recordNeighborhood");
 		
 		//Blank
-		NCItems.blank = new Item().setUnlocalizedName("blank").setTextureName("nc:blank");
+		NCItems.blank = new ItemNC("", "blank", false);
 		GameRegistry.registerItem(NCItems.blank, "blank");
+		
+		//Antimatter
+		NCItems.antimatter = new ItemAntimatter("antimatter", "This is a temporary product of the Synchrotron.", "DO NOT drop this on the floor, or your base...", "...may go sadface...");
+		GameRegistry.registerItem(NCItems.antimatter, "antimatter");
+		
+		//Batteries
+		NCItems.lithiumIonBattery = new ItemBattery(10000000, 50000, "lithiumIonBattery", "A battery capable of", "storing up to 10 MRF.");
+		GameRegistry.registerItem(NCItems.lithiumIonBattery, "lithiumIonBattery");
 		
 		// Block Crafting Recipes
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCBlocks.blockBlock, 1, 4), true, new Object[] {"XXX", "XXX", "XXX", 'X', "ingotUranium"}));
@@ -1207,6 +1293,7 @@ public class NuclearCraft {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCBlocks.blockBlock, 1, 8), true, new Object[] {"XXX", "XXX", "XXX", 'X',  "ingotLithium"}));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCBlocks.blockBlock, 1, 9), true, new Object[] {"XXX", "XXX", "XXX", 'X',  "ingotBoron"}));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCBlocks.blockBlock, 1, 10), true, new Object[] {"XXX", "XXX", "XXX", 'X',  "ingotMagnesium"}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCBlocks.graphiteBlock, 1), true, new Object[] {"XXX", "XXX", "XXX", 'X',  "ingotGraphite"}));
 		
 		// Tiny Dust to Full Dust
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCItems.material, 1, 17), true, new Object[] {"XXX", "XXX", "XXX", 'X', new ItemStack (NCItems.material, 1, 23)}));
@@ -1299,6 +1386,7 @@ public class NuclearCraft {
 		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.material, 9, 43), new Object[] {new ItemStack(NCBlocks.blockBlock, 1, 9)});
 		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.material, 25, 7), new Object[] {new ItemStack(NCBlocks.blockBlock, 1, 7)});
 		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.material, 9, 50), new Object[] {new ItemStack(NCBlocks.blockBlock, 1, 10)});
+		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.material, 9, 76), new Object[] {new ItemStack(NCBlocks.graphiteBlock, 1)});
 		
 		GameRegistry.addShapelessRecipe(new ItemStack(NCBlocks.tubing1, 1), new Object[] {new ItemStack(NCBlocks.tubing2)});
 		GameRegistry.addShapelessRecipe(new ItemStack(NCBlocks.tubing2, 1), new Object[] {new ItemStack(NCBlocks.tubing1)});
@@ -1381,6 +1469,11 @@ public class NuclearCraft {
 		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.fuel, 1, 43), (new ItemStack (NCItems.material, 1, 48)), (new ItemStack (NCItems.fuel, 1, 33)));
 		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.fuel, 1, 44), (new ItemStack (NCItems.material, 1, 49)), (new ItemStack (NCItems.fuel, 1, 33)));
 		
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.material, 2, 79), new Object[] {"dustGraphite", "dustDiamond"}));
+		
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.material, 2, 80), new Object[] {"ingotLithium", "ingotManganeseDioxide"}));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.material, 2, 81), new Object[] {"dustLithium", "dustManganeseDioxide"}));
+		
 		// Workspace Recipes
 		if (!workspace) {
 			GameRegistry.addRecipe(new ShapelessOreRecipe(NCBlocks.machineBlock, new Object[] {"plateBasic", "plateLead", "plateLead", new ItemStack(NCItems.parts, 1, 10), new ItemStack(NCItems.parts, 1, 11), new ItemStack(NCItems.parts, 1, 12), new ItemStack(NCItems.parts, 1, 13), new ItemStack(NCItems.parts, 1, 16), "dustRedstone"}));
@@ -1389,6 +1482,7 @@ public class NuclearCraft {
 			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCBlocks.emptyCoolerBlock, 8), true, new Object[] {"ABA", "B B", "ABA", 'A', "universalReactant", 'B', "plateBasic"}));
 			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCBlocks.speedBlock, 4), true, new Object[] {"ABA", "BCB", "ABA", 'A', Items.blaze_powder, 'B', "plateBasic", 'C', "dustRedstone"}));
 			GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.fissionReactorGraphiteIdle, true, new Object[] {"BAB", "ACA", "BAB", 'A', "plateReinforced", 'B', "plateDU", 'C', NCBlocks.machineBlock}));
+			GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.fissionReactorSteamIdle, true, new Object[] {"BAB", "ACA", "BAB", 'A', new ItemStack(NCItems.parts, 1, 7), 'B', "plateAdvanced", 'C', NCBlocks.fissionReactorGraphiteIdle}));
 			GameRegistry.addRecipe(new ShapelessOreRecipe(NCBlocks.blastBlock, new Object[] {NCBlocks.reactorBlock, "oreObsidian"}));
 			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCItems.parts, 1, 9), true, new Object[] {"AAA", "BCB", "AAA", 'A', new ItemStack(NCItems.material, 1, 48), 'B', "plateDU", 'C', "dustDiamond"}));
 			GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.separatorIdle, true, new Object[] {"ABA", "CDC", "ABA", 'A', "plateLead", 'B', "ingotTough", 'C', "dustRedstone", 'D', NCBlocks.machineBlock}));
@@ -1434,9 +1528,13 @@ public class NuclearCraft {
 			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCItems.dUBoots, 1), true, new Object[] {"X X", "X X", 'X', "plateDU"}));
 			GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.RTG, true, new Object[] {"ABA", "BCB", "ABA", 'A', new ItemStack(NCItems.parts, 1, 11), 'B', new ItemStack(NCItems.parts, 1, 15), 'C', new ItemStack(NCItems.fuel, 1, 46)}));
 			GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.WRTG, true, new Object[] {"ABA", "BBB", "ABA", 'A', "plateLead", 'B', "U238"}));
+			GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.steamGenerator, true, new Object[] {"PCP", "MMM", "PCP", 'P', "plateIron", 'C', new ItemStack(NCItems.parts, 1, 12), 'M', new ItemStack(NCItems.parts, 1, 19)}));
+			GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.steamDecompressor, true, new Object[] {"PCP", "GMG", "PCP", 'P', "plateIron", 'C', Blocks.piston, 'G', new ItemStack(NCItems.parts, 1, 10), 'M', new ItemStack(NCItems.parts, 1, 19)}));
+			GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.denseSteamDecompressor, true, new Object[] {"PPP", "CCC", "PPP", 'P', "plateAdvanced", 'C', NCBlocks.steamDecompressor}));
 			if (enableNukes) {
 				GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.nuke, true, new Object[] {"ABA", "BBB", "ABA", 'A', "plateReinforced", 'B', new ItemStack(NCItems.material, 1, 67)}));
 				GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCItems.nuclearGrenade, 3), true, new Object[] {"  S", " S ", "N  ", 'S', Items.string, 'N', NCBlocks.nuke}));
+				GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.antimatterBomb, true, new Object[] {"AAA", "ABA", "AAA", 'A', NCItems.antimatter, 'B', NCBlocks.superElectromagnetIdle}));
 			}
 			GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.solarPanel, true, new Object[] {"DDD", "ECE", "ABA", 'A', new ItemStack(NCItems.parts, 1, 12), 'B', Blocks.iron_block, 'C', "dustCoal", 'D', new ItemStack(NCItems.parts, 1, 15), 'E', "universalReactant"}));
 			GameRegistry.addRecipe(new ShapedOreRecipe(NCItems.portableEnderChest, true, new Object[] {"ABA", "CDC", "AAA", 'A', Blocks.wool, 'B', Items.string, 'C', "plateLead", 'D', Items.ender_eye}));
@@ -1482,6 +1580,9 @@ public class NuclearCraft {
 		GameRegistry.addSmelting(new ItemStack (NCItems.material, 1, 51), new ItemStack(NCItems.material, 1, 50), 0.0F);
 		GameRegistry.addSmelting(new ItemStack (NCItems.material, 1, 54), new ItemStack(NCItems.material, 1, 53), 0.0F);
 		GameRegistry.addSmelting(new ItemStack (NCItems.material, 1, 72), new ItemStack(NCItems.material, 1, 71), 0.0F);
+		GameRegistry.addSmelting(new ItemStack (NCItems.material, 1, 77), new ItemStack(NCItems.material, 1, 76), 0.0F);
+		GameRegistry.addSmelting(new ItemStack (NCItems.material, 1, 79), new ItemStack(NCItems.material, 1, 78), 0.0F);
+		GameRegistry.addSmelting(new ItemStack (NCItems.material, 1, 81), new ItemStack(NCItems.material, 1, 80), 0.0F);
 		
 		GameRegistry.addSmelting(new ItemStack (Items.egg, 1), new ItemStack(NCItems.boiledEgg, 1), 0.1F);
 		
@@ -1494,10 +1595,14 @@ public class NuclearCraft {
 		NCProxy.registerSounds();
 		NCProxy.registerTileEntitySpecialRenderer();
 		
+		// Packets
+		PacketHandler.init();
+		
 		// Entities
 		EntityHandler.registerMonsters(EntityNuclearMonster.class, "NuclearMonster");
 		EntityHandler.registerPaul(EntityPaul.class, "Paul");
 		EntityHandler.registerNuke(EntityNukePrimed.class, "NukePrimed");
+		EntityHandler.registerAntimatterBomb(EntityAntimatterBombPrimed.class, "AntimatterBombPrimed");
 		EntityHandler.registerNuclearGrenade(EntityNuclearGrenade.class, "NuclearGrenade");
 		EntityHandler.registerEntityBullet(EntityBullet.class, "EntityBullet");
 				
@@ -1506,59 +1611,57 @@ public class NuclearCraft {
 			
 		// Random Chest Loot
 		if (enableLoot) {
-			ChestGenHooks.getInfo(ChestGenHooks.DUNGEON_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.dominoes, 1), 2, 4, 2*lootModifier));
-			ChestGenHooks.getInfo(ChestGenHooks.DUNGEON_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.ricecake, 1), 2, 4, 2*lootModifier));
+			ChestGenHooks.getInfo(ChestGenHooks.DUNGEON_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.dominoes, 1), 2, 4, 5*lootModifier));
+			ChestGenHooks.getInfo(ChestGenHooks.DUNGEON_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.ricecake, 1), 2, 4, 4*lootModifier));
 			ChestGenHooks.getInfo(ChestGenHooks.DUNGEON_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.toughAlloyPickaxe, 1), 1, 1, lootModifier));
 			ChestGenHooks.getInfo(ChestGenHooks.DUNGEON_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.toughAlloySword, 1), 1, 1, lootModifier));
-			ChestGenHooks.getInfo(ChestGenHooks.DUNGEON_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCBlocks.WRTG, 1), 1, 1, lootModifier));
+			ChestGenHooks.getInfo(ChestGenHooks.DUNGEON_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCBlocks.WRTG, 1), 1, 1, 2*lootModifier));
 			ChestGenHooks.getInfo(ChestGenHooks.DUNGEON_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.toughAlloyShovel, 1), 1, 1, lootModifier));
 			ChestGenHooks.getInfo(ChestGenHooks.DUNGEON_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.toughAlloyAxe, 1), 1, 1, lootModifier));
 			ChestGenHooks.getInfo(ChestGenHooks.DUNGEON_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.toughBow, 1), 1, 1, lootModifier));
-			ChestGenHooks.getInfo(ChestGenHooks.DUNGEON_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.recordPractice, 1), 1, 1, lootModifier));
-			ChestGenHooks.getInfo(ChestGenHooks.DUNGEON_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.recordArea51, 1), 1, 1, lootModifier));
-			ChestGenHooks.getInfo(ChestGenHooks.DUNGEON_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.recordNeighborhood, 1), 1, 1, lootModifier));
-			ChestGenHooks.getInfo(ChestGenHooks.DUNGEON_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCBlocks.simpleQuantumUp, 1), 1, 1, lootModifier));
+			ChestGenHooks.getInfo(ChestGenHooks.DUNGEON_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.recordPractice, 1), 1, 1, 2*lootModifier));
+			ChestGenHooks.getInfo(ChestGenHooks.DUNGEON_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.recordArea51, 1), 1, 1, 2*lootModifier));
+			ChestGenHooks.getInfo(ChestGenHooks.DUNGEON_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.recordNeighborhood, 1), 1, 1, 2*lootModifier));
 			ChestGenHooks.getInfo(ChestGenHooks.DUNGEON_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.boronHelm, 1), 1, 1, lootModifier));
 			ChestGenHooks.getInfo(ChestGenHooks.DUNGEON_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.boronChest, 1), 1, 1, lootModifier));
 			ChestGenHooks.getInfo(ChestGenHooks.DUNGEON_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.boronLegs, 1), 1, 1, lootModifier));
 			ChestGenHooks.getInfo(ChestGenHooks.DUNGEON_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.boronBoots, 1), 1, 1, lootModifier));
-			ChestGenHooks.getInfo(ChestGenHooks.DUNGEON_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.pistol, 1), 1, 1, lootModifier));
-			ChestGenHooks.getInfo(ChestGenHooks.DUNGEON_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.dUBullet, 1), 6, 8, 2*lootModifier));
+			ChestGenHooks.getInfo(ChestGenHooks.DUNGEON_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.pistol, 1), 1, 1, 2*lootModifier));
+			ChestGenHooks.getInfo(ChestGenHooks.DUNGEON_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.dUBullet, 1), 6, 8, 4*lootModifier));
 			
 			ChestGenHooks.getInfo(ChestGenHooks.MINESHAFT_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.dominoes, 1), 1, 3, 2*lootModifier));
 			ChestGenHooks.getInfo(ChestGenHooks.MINESHAFT_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.ricecake, 1), 1, 3, 2*lootModifier));
 			ChestGenHooks.getInfo(ChestGenHooks.MINESHAFT_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.upgradeSpeed, 1), 1, 2, lootModifier));
-			ChestGenHooks.getInfo(ChestGenHooks.MINESHAFT_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.material, 1, 7), 3, 4, lootModifier));
+			ChestGenHooks.getInfo(ChestGenHooks.MINESHAFT_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.material, 1, 7), 3, 4, 3*lootModifier));
 			ChestGenHooks.getInfo(ChestGenHooks.MINESHAFT_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.upgradeEnergy, 1), 2, 5, lootModifier));
-			ChestGenHooks.getInfo(ChestGenHooks.MINESHAFT_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.material, 1, 22), 3, 4, lootModifier));
-			ChestGenHooks.getInfo(ChestGenHooks.MINESHAFT_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.material, 1, 28), 3, 4, lootModifier));
+			ChestGenHooks.getInfo(ChestGenHooks.MINESHAFT_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.material, 1, 22), 3, 4, 3*lootModifier));
+			ChestGenHooks.getInfo(ChestGenHooks.MINESHAFT_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.material, 1, 28), 3, 4, 3*lootModifier));
 			ChestGenHooks.getInfo(ChestGenHooks.MINESHAFT_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.recordPractice, 1), 1, 1, lootModifier));
 			ChestGenHooks.getInfo(ChestGenHooks.MINESHAFT_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.recordArea51, 1), 1, 1, lootModifier));
 			ChestGenHooks.getInfo(ChestGenHooks.MINESHAFT_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.recordNeighborhood, 1), 1, 1, lootModifier));
-			ChestGenHooks.getInfo(ChestGenHooks.MINESHAFT_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.material, 1, 40), 3, 4, 2*lootModifier));
-			ChestGenHooks.getInfo(ChestGenHooks.MINESHAFT_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.material, 1, 44), 3, 4, 2*lootModifier));
-			ChestGenHooks.getInfo(ChestGenHooks.MINESHAFT_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.material, 1, 45), 3, 4, 2*lootModifier));
-			ChestGenHooks.getInfo(ChestGenHooks.MINESHAFT_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.material, 1, 54), 3, 4, 2*lootModifier));
-			ChestGenHooks.getInfo(ChestGenHooks.MINESHAFT_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.material, 1, 71), 3, 4, 2*lootModifier));
-			ChestGenHooks.getInfo(ChestGenHooks.MINESHAFT_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.pistol, 1), 1, 1, lootModifier));
-			ChestGenHooks.getInfo(ChestGenHooks.MINESHAFT_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.dUBullet, 1), 6, 8, 4*lootModifier));
+			ChestGenHooks.getInfo(ChestGenHooks.MINESHAFT_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.material, 1, 40), 3, 4, 3*lootModifier));
+			ChestGenHooks.getInfo(ChestGenHooks.MINESHAFT_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.material, 1, 44), 3, 4, 3*lootModifier));
+			ChestGenHooks.getInfo(ChestGenHooks.MINESHAFT_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.material, 1, 45), 3, 4, 3*lootModifier));
+			ChestGenHooks.getInfo(ChestGenHooks.MINESHAFT_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.material, 1, 54), 3, 4, 3*lootModifier));
+			ChestGenHooks.getInfo(ChestGenHooks.MINESHAFT_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.material, 1, 71), 3, 4, 3*lootModifier));
+			ChestGenHooks.getInfo(ChestGenHooks.MINESHAFT_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.pistol, 1), 1, 1, 2*lootModifier));
+			ChestGenHooks.getInfo(ChestGenHooks.MINESHAFT_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.dUBullet, 1), 6, 8, 6*lootModifier));
 			
 			ChestGenHooks.getInfo(ChestGenHooks.PYRAMID_DESERT_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.dominoes, 1), 1, 2, lootModifier));
-			ChestGenHooks.getInfo(ChestGenHooks.PYRAMID_DESERT_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.ricecake, 1), 1, 2, 2*lootModifier));
-			ChestGenHooks.getInfo(ChestGenHooks.PYRAMID_DESERT_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCBlocks.reactorBlock, 1), 1, 1, lootModifier));
-			ChestGenHooks.getInfo(ChestGenHooks.PYRAMID_DESERT_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCBlocks.cellBlock, 1), 1, 1, lootModifier));
-			ChestGenHooks.getInfo(ChestGenHooks.PYRAMID_DESERT_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCBlocks.RTG, 1), 1, 1, lootModifier));
+			ChestGenHooks.getInfo(ChestGenHooks.PYRAMID_DESERT_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.ricecake, 1), 1, 2, 6*lootModifier));
+			ChestGenHooks.getInfo(ChestGenHooks.PYRAMID_DESERT_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCBlocks.reactorBlock, 1), 8, 12, 3*lootModifier));
+			ChestGenHooks.getInfo(ChestGenHooks.PYRAMID_DESERT_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCBlocks.cellBlock, 1), 2, 3, 3*lootModifier));
 			ChestGenHooks.getInfo(ChestGenHooks.PYRAMID_DESERT_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCBlocks.WRTG, 1), 1, 1, lootModifier));
-			ChestGenHooks.getInfo(ChestGenHooks.PYRAMID_DESERT_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCBlocks.tubing1, 1), 1, 1, lootModifier));
-			ChestGenHooks.getInfo(ChestGenHooks.PYRAMID_DESERT_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCBlocks.tubing2, 1), 1, 1, lootModifier));
-			ChestGenHooks.getInfo(ChestGenHooks.PYRAMID_DESERT_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.recordPractice, 1), 1, 1, lootModifier));
-			ChestGenHooks.getInfo(ChestGenHooks.PYRAMID_DESERT_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.recordArea51, 1), 1, 1, lootModifier));
-			ChestGenHooks.getInfo(ChestGenHooks.PYRAMID_DESERT_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.recordNeighborhood, 1), 1, 1, lootModifier));
-			ChestGenHooks.getInfo(ChestGenHooks.PYRAMID_DESERT_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCBlocks.simpleQuantumUp, 1), 1, 1, lootModifier));
+			ChestGenHooks.getInfo(ChestGenHooks.PYRAMID_DESERT_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCBlocks.tubing1, 1), 6, 8, lootModifier));
+			ChestGenHooks.getInfo(ChestGenHooks.PYRAMID_DESERT_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCBlocks.tubing2, 1), 6, 8, lootModifier));
+			ChestGenHooks.getInfo(ChestGenHooks.PYRAMID_DESERT_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.recordPractice, 1), 1, 1, 2*lootModifier));
+			ChestGenHooks.getInfo(ChestGenHooks.PYRAMID_DESERT_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.recordArea51, 1), 1, 1, 2*lootModifier));
+			ChestGenHooks.getInfo(ChestGenHooks.PYRAMID_DESERT_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.recordNeighborhood, 1), 1, 1, 2*lootModifier));
 			ChestGenHooks.getInfo(ChestGenHooks.PYRAMID_DESERT_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCBlocks.electromagnetIdle, 1), 1, 1, lootModifier));
-			ChestGenHooks.getInfo(ChestGenHooks.PYRAMID_DESERT_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCBlocks.speedBlock, 1), 1, 1, lootModifier));
-			ChestGenHooks.getInfo(ChestGenHooks.PYRAMID_DESERT_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCBlocks.graphiteBlock, 1), 1, 1, 2*lootModifier));
-			ChestGenHooks.getInfo(ChestGenHooks.PYRAMID_DESERT_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCBlocks.coolerBlock, 1), 1, 1, lootModifier));
+			ChestGenHooks.getInfo(ChestGenHooks.PYRAMID_DESERT_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCBlocks.redstoneCoolerBlock, 1), 3, 4, 2*lootModifier));
+			ChestGenHooks.getInfo(ChestGenHooks.PYRAMID_DESERT_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCBlocks.graphiteBlock, 1), 3, 4, 2*lootModifier));
+			ChestGenHooks.getInfo(ChestGenHooks.PYRAMID_DESERT_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCBlocks.coolerBlock, 1), 3, 4, 2*lootModifier));
+			ChestGenHooks.getInfo(ChestGenHooks.PYRAMID_DESERT_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCBlocks.waterCoolerBlock, 1), 3, 4, 2*lootModifier));
 			
 			ChestGenHooks.getInfo(ChestGenHooks.PYRAMID_JUNGLE_DISPENSER).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.toughBow, 1), 1, 1, lootModifier));
 			ChestGenHooks.getInfo(ChestGenHooks.PYRAMID_JUNGLE_DISPENSER).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.pistol, 1), 1, 1, lootModifier));
@@ -1568,58 +1671,50 @@ public class NuclearCraft {
 			ChestGenHooks.getInfo(ChestGenHooks.PYRAMID_JUNGLE_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.ricecake, 1), 1, 5, 2*lootModifier));
 			ChestGenHooks.getInfo(ChestGenHooks.PYRAMID_JUNGLE_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.fuel, 1, 4), 1, 2, lootModifier));
 			ChestGenHooks.getInfo(ChestGenHooks.PYRAMID_JUNGLE_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCBlocks.WRTG, 1), 1, 1, 2*lootModifier));
-			ChestGenHooks.getInfo(ChestGenHooks.PYRAMID_JUNGLE_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.material, 1, 32), 2, 5, lootModifier));
-			ChestGenHooks.getInfo(ChestGenHooks.PYRAMID_JUNGLE_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.material, 1, 59), 3, 4, lootModifier));
-			ChestGenHooks.getInfo(ChestGenHooks.PYRAMID_JUNGLE_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.fuel, 1, 47), 1, 2, lootModifier));
+			ChestGenHooks.getInfo(ChestGenHooks.PYRAMID_JUNGLE_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.material, 1, 32), 2, 5, 3*lootModifier));
+			ChestGenHooks.getInfo(ChestGenHooks.PYRAMID_JUNGLE_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.material, 1, 59), 3, 4, 3*lootModifier));
+			ChestGenHooks.getInfo(ChestGenHooks.PYRAMID_JUNGLE_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.fuel, 1, 47), 1, 2, 3*lootModifier));
 			ChestGenHooks.getInfo(ChestGenHooks.PYRAMID_JUNGLE_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.recordPractice, 1), 1, 1, lootModifier));
 			ChestGenHooks.getInfo(ChestGenHooks.PYRAMID_JUNGLE_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.recordArea51, 1), 1, 1, lootModifier));
 			ChestGenHooks.getInfo(ChestGenHooks.PYRAMID_JUNGLE_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.recordNeighborhood, 1), 1, 1, lootModifier));
-			ChestGenHooks.getInfo(ChestGenHooks.PYRAMID_JUNGLE_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCBlocks.simpleQuantumUp, 1), 1, 1, lootModifier));
 			ChestGenHooks.getInfo(ChestGenHooks.PYRAMID_JUNGLE_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.dUHelm, 1), 1, 1, lootModifier));
 			ChestGenHooks.getInfo(ChestGenHooks.PYRAMID_JUNGLE_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.dUChest, 1), 1, 1, lootModifier));
 			ChestGenHooks.getInfo(ChestGenHooks.PYRAMID_JUNGLE_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.dULegs, 1), 1, 1, lootModifier));
 			ChestGenHooks.getInfo(ChestGenHooks.PYRAMID_JUNGLE_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.dUBoots, 1), 1, 1, lootModifier));
 			
-			ChestGenHooks.getInfo(ChestGenHooks.VILLAGE_BLACKSMITH).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.dominoes, 1), 4, 5, 2*lootModifier));
-			ChestGenHooks.getInfo(ChestGenHooks.VILLAGE_BLACKSMITH).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.ricecake, 1), 4, 5, 2*lootModifier));
+			ChestGenHooks.getInfo(ChestGenHooks.VILLAGE_BLACKSMITH).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.dominoes, 1), 4, 5, 4*lootModifier));
+			ChestGenHooks.getInfo(ChestGenHooks.VILLAGE_BLACKSMITH).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.ricecake, 1), 4, 5, 4*lootModifier));
 			ChestGenHooks.getInfo(ChestGenHooks.VILLAGE_BLACKSMITH).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.boronSword, 1), 1, 1, 2*lootModifier));
 			ChestGenHooks.getInfo(ChestGenHooks.VILLAGE_BLACKSMITH).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.toughAlloySword, 1), 1, 1, 2*lootModifier));
 			ChestGenHooks.getInfo(ChestGenHooks.VILLAGE_BLACKSMITH).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.dUSword, 1), 1, 1, lootModifier));
-			ChestGenHooks.getInfo(ChestGenHooks.VILLAGE_BLACKSMITH).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.boronHelm, 1), 1, 1, lootModifier));
-			ChestGenHooks.getInfo(ChestGenHooks.VILLAGE_BLACKSMITH).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.toughHelm, 1), 1, 1, lootModifier));
-			ChestGenHooks.getInfo(ChestGenHooks.VILLAGE_BLACKSMITH).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.dUHelm, 1), 1, 1, lootModifier));
+			ChestGenHooks.getInfo(ChestGenHooks.VILLAGE_BLACKSMITH).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.toughHelm, 1), 1, 1, 2*lootModifier));
 			ChestGenHooks.getInfo(ChestGenHooks.VILLAGE_BLACKSMITH).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.recordPractice, 1), 1, 1, lootModifier));
 			ChestGenHooks.getInfo(ChestGenHooks.VILLAGE_BLACKSMITH).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.recordArea51, 1), 1, 1, lootModifier));
 			ChestGenHooks.getInfo(ChestGenHooks.VILLAGE_BLACKSMITH).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.recordNeighborhood, 1), 1, 1, lootModifier));
 			ChestGenHooks.getInfo(ChestGenHooks.VILLAGE_BLACKSMITH).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.toughChest, 1), 1, 1, lootModifier));
 			ChestGenHooks.getInfo(ChestGenHooks.VILLAGE_BLACKSMITH).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.toughLegs, 1), 1, 1, lootModifier));
 			ChestGenHooks.getInfo(ChestGenHooks.VILLAGE_BLACKSMITH).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.toughBoots, 1), 1, 1, lootModifier));
-			ChestGenHooks.getInfo(ChestGenHooks.VILLAGE_BLACKSMITH).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.dUChest, 1), 1, 1, lootModifier));
-			ChestGenHooks.getInfo(ChestGenHooks.VILLAGE_BLACKSMITH).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.dULegs, 1), 1, 1, lootModifier));
-			ChestGenHooks.getInfo(ChestGenHooks.VILLAGE_BLACKSMITH).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.dUBoots, 1), 1, 1, lootModifier));
 			ChestGenHooks.getInfo(ChestGenHooks.VILLAGE_BLACKSMITH).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.toughBow, 1), 1, 1, lootModifier));
 			
-			ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.fishAndRicecake, 1), 4, 5, 2*lootModifier));
+			ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.fishAndRicecake, 1), 4, 5, 8*lootModifier));
 			ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.toughAlloyPaxel, 1), 1, 1, lootModifier));
 			ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.dUPaxel, 1), 1, 1, lootModifier));
-			ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.nuclearGrenade, 1), 1, 1, lootModifier));
 			ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(NCBlocks.RTG, 1), 1, 1, lootModifier));
 			ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.toughAlloySword, 1), 1, 1, 2*lootModifier));
 			ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.dUSword, 1), 1, 1, 2*lootModifier));
-			ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.parts, 1, 9), 2, 4, 2*lootModifier));
+			ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.parts, 1, 9), 4, 6, 4*lootModifier));
 			ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.recordPractice, 1), 1, 1, lootModifier));
 			ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.recordArea51, 1), 1, 1, lootModifier));
 			ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.recordNeighborhood, 1), 1, 1, lootModifier));
-			ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.parts, 1, 16), 4, 8, lootModifier));
-			ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.parts, 1, 17), 4, 8, lootModifier));
-			ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.parts, 1, 0), 4, 8, lootModifier));
-			ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.parts, 1, 4), 4, 8, lootModifier));
-			ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.parts, 1, 14), 6, 8, lootModifier));
+			ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.parts, 1, 16), 7, 8, 4*lootModifier));
+			ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.parts, 1, 17), 7, 8, 4*lootModifier));
+			ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.parts, 1, 0), 7, 8, 4*lootModifier));
+			ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.parts, 1, 4), 7, 8, 4*lootModifier));
+			ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.parts, 1, 14), 6, 8, 4*lootModifier));
 			
-			ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_CROSSING).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.fishAndRicecake, 1), 4, 5, 2*lootModifier));
+			ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_CROSSING).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.fishAndRicecake, 1), 4, 5, 8*lootModifier));
 			ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_CROSSING).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.toughAlloyPaxel, 1), 1, 1, lootModifier));
 			ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_CROSSING).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.dUPaxel, 1), 1, 1, lootModifier));
-			ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_CROSSING).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.nuclearGrenade, 1), 1, 1, lootModifier));
 			ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_CROSSING).addItem(new WeightedRandomChestContent(new ItemStack(NCBlocks.RTG, 1), 1, 1, lootModifier));
 			ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_CROSSING).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.toughAlloySword, 1), 1, 1, lootModifier));
 			ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_CROSSING).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.dUSword, 1), 1, 1, lootModifier));
@@ -1627,16 +1722,16 @@ public class NuclearCraft {
 			ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_CROSSING).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.recordPractice, 1), 1, 1, 2*lootModifier));
 			ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_CROSSING).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.recordArea51, 1), 1, 1, 2*lootModifier));
 			ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_CROSSING).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.recordNeighborhood, 1), 1, 1, 2*lootModifier));
-			ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_CROSSING).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.parts, 1, 16), 4, 8, lootModifier));
-			ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_CROSSING).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.parts, 1, 17), 4, 8, lootModifier));
-			ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_CROSSING).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.parts, 1, 0), 4, 8, lootModifier));
-			ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_CROSSING).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.parts, 1, 4), 4, 8, lootModifier));
-			ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_CROSSING).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.parts, 1, 14), 6, 8, lootModifier));
+			ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_CROSSING).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.parts, 1, 16), 4, 8, 4*lootModifier));
+			ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_CROSSING).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.parts, 1, 17), 4, 8, 4*lootModifier));
+			ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_CROSSING).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.parts, 1, 0), 4, 8, 4*lootModifier));
+			ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_CROSSING).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.parts, 1, 4), 4, 8, 4*lootModifier));
+			ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_CROSSING).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.parts, 1, 14), 6, 8, 4*lootModifier));
 			
-			ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_LIBRARY).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.dominoes, 1), 4, 5, lootModifier));
-			ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_LIBRARY).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.ricecake, 1), 4, 5, lootModifier));
-			ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_LIBRARY).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.fuel, 1, 46), 1, 1, lootModifier));
-			ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_LIBRARY).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.fuel, 1, 75), 4, 8, lootModifier));
+			ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_LIBRARY).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.dominoes, 1), 4, 5, 3*lootModifier));
+			ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_LIBRARY).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.ricecake, 1), 4, 5, 3*lootModifier));
+			ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_LIBRARY).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.fuel, 1, 46), 1, 1, 3*lootModifier));
+			ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_LIBRARY).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.fuel, 1, 75), 4, 5, 8*lootModifier));
 			ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_LIBRARY).addItem(new WeightedRandomChestContent(new ItemStack(NCBlocks.RTG, 1), 1, 1, lootModifier));
 			ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_LIBRARY).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.fuel, 1, 49), 2, 4, lootModifier));
 			ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_LIBRARY).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.fuel, 1, 50), 2, 4, lootModifier));
@@ -1644,19 +1739,19 @@ public class NuclearCraft {
 			ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_LIBRARY).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.recordPractice, 1), 1, 1, lootModifier));
 			ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_LIBRARY).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.recordArea51, 1), 1, 1, lootModifier));
 			ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_LIBRARY).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.recordNeighborhood, 1), 1, 1, lootModifier));
-			ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_LIBRARY).addItem(new WeightedRandomChestContent(new ItemStack(NCBlocks.simpleQuantumUp, 1), 1, 1, 6*lootModifier));
+			ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_LIBRARY).addItem(new WeightedRandomChestContent(new ItemStack(NCBlocks.simpleQuantumUp, 1), 1, 1, lootModifier));
 			ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_LIBRARY).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.dUHelm, 1), 1, 1, lootModifier));
 			ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_LIBRARY).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.dUChest, 1), 1, 1, lootModifier));
 			ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_LIBRARY).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.dULegs, 1), 1, 1, lootModifier));
 			ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_LIBRARY).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.dUBoots, 1), 1, 1, lootModifier));
 			
-			ChestGenHooks.getInfo(ChestGenHooks.BONUS_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.dominoes, 1), 2, 4, lootModifier));
-			ChestGenHooks.getInfo(ChestGenHooks.BONUS_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.ricecake, 1), 2, 4, 2*lootModifier));
-			ChestGenHooks.getInfo(ChestGenHooks.BONUS_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.boiledEgg, 1), 3, 5, 2*lootModifier));
-			ChestGenHooks.getInfo(ChestGenHooks.BONUS_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.boronHelm, 1), 1, 1, lootModifier));
-			ChestGenHooks.getInfo(ChestGenHooks.BONUS_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.boronBoots, 1), 1, 1, lootModifier));
-			ChestGenHooks.getInfo(ChestGenHooks.BONUS_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.bronzeChest, 1), 1, 1, lootModifier));
-			ChestGenHooks.getInfo(ChestGenHooks.BONUS_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.bronzeLegs, 1), 1, 1, lootModifier));
+			ChestGenHooks.getInfo(ChestGenHooks.BONUS_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.dominoes, 1), 2, 3, 4*lootModifier));
+			ChestGenHooks.getInfo(ChestGenHooks.BONUS_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.ricecake, 1), 2, 3, 4*lootModifier));
+			ChestGenHooks.getInfo(ChestGenHooks.BONUS_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.boiledEgg, 1), 2, 3, 4*lootModifier));
+			ChestGenHooks.getInfo(ChestGenHooks.BONUS_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.bronzeHelm, 1), 1, 1, 2*lootModifier));
+			ChestGenHooks.getInfo(ChestGenHooks.BONUS_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.bronzeBoots, 1), 1, 1, 2*lootModifier));
+			ChestGenHooks.getInfo(ChestGenHooks.BONUS_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.bronzeChest, 1), 1, 1, 2*lootModifier));
+			ChestGenHooks.getInfo(ChestGenHooks.BONUS_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCItems.bronzeLegs, 1), 1, 1, 2*lootModifier));
 			ChestGenHooks.getInfo(ChestGenHooks.BONUS_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(NCBlocks.WRTG, 1), 1, 1, lootModifier));
 		}
 		
@@ -1764,6 +1859,26 @@ public class NuclearCraft {
 		mgbIngotCrushing.setTag("output", new ItemStack(NCItems.material, 1, 72).writeToNBT(new NBTTagCompound()));
 		FMLInterModComms.sendMessage("Mekanism", "CrusherRecipe", mgbIngotCrushing);
 		
+		NBTTagCompound rCrushing = new NBTTagCompound();
+		rCrushing.setTag("input", new ItemStack(NCItems.material, 1, 73).writeToNBT(new NBTTagCompound()));
+		rCrushing.setTag("output", new ItemStack(NCItems.material, 1, 74).writeToNBT(new NBTTagCompound()));
+		FMLInterModComms.sendMessage("Mekanism", "CrusherRecipe", rCrushing);
+		
+		NBTTagCompound graphiteIngotCrushing = new NBTTagCompound();
+		graphiteIngotCrushing.setTag("input", new ItemStack(NCItems.material, 1, 76).writeToNBT(new NBTTagCompound()));
+		graphiteIngotCrushing.setTag("output", new ItemStack(NCItems.material, 1, 77).writeToNBT(new NBTTagCompound()));
+		FMLInterModComms.sendMessage("Mekanism", "CrusherRecipe", graphiteIngotCrushing);
+		
+		NBTTagCompound hardCarbonIngotCrushing = new NBTTagCompound();
+		hardCarbonIngotCrushing.setTag("input", new ItemStack(NCItems.material, 1, 78).writeToNBT(new NBTTagCompound()));
+		hardCarbonIngotCrushing.setTag("output", new ItemStack(NCItems.material, 1, 79).writeToNBT(new NBTTagCompound()));
+		FMLInterModComms.sendMessage("Mekanism", "CrusherRecipe", hardCarbonIngotCrushing);
+		
+		NBTTagCompound LiMnO2IngotCrushing = new NBTTagCompound();
+		LiMnO2IngotCrushing.setTag("input", new ItemStack(NCItems.material, 1, 80).writeToNBT(new NBTTagCompound()));
+		LiMnO2IngotCrushing.setTag("output", new ItemStack(NCItems.material, 1, 81).writeToNBT(new NBTTagCompound()));
+		FMLInterModComms.sendMessage("Mekanism", "CrusherRecipe", LiMnO2IngotCrushing);
+		
 		// Inter Mod Comms - AE2
 		FMLInterModComms.sendMessage("appliedenergistics2", "whitelist-spatial", TileNuclearFurnace.class.getCanonicalName());
 		FMLInterModComms.sendMessage("appliedenergistics2", "whitelist-spatial", TileFurnace.class.getCanonicalName());
@@ -1774,14 +1889,17 @@ public class NuclearCraft {
 		FMLInterModComms.sendMessage("appliedenergistics2", "whitelist-spatial", TileSeparator.class.getCanonicalName());
 		FMLInterModComms.sendMessage("appliedenergistics2", "whitelist-spatial", TileHastener.class.getCanonicalName());
 		FMLInterModComms.sendMessage("appliedenergistics2", "whitelist-spatial", TileCollector.class.getCanonicalName());
-		FMLInterModComms.sendMessage("appliedenergistics2", "whitelist-spatial", TileAutoWorkspace.class.getCanonicalName());
 		FMLInterModComms.sendMessage("appliedenergistics2", "whitelist-spatial", TileFissionReactor.class.getCanonicalName());
+		FMLInterModComms.sendMessage("appliedenergistics2", "whitelist-spatial", TileFissionReactorSteam.class.getCanonicalName());
 		FMLInterModComms.sendMessage("appliedenergistics2", "whitelist-spatial", TileNuclearWorkspace.class.getCanonicalName());
 		FMLInterModComms.sendMessage("appliedenergistics2", "whitelist-spatial", TileFusionReactor.class.getCanonicalName());
 		FMLInterModComms.sendMessage("appliedenergistics2", "whitelist-spatial", TileTubing1.class.getCanonicalName());
 		FMLInterModComms.sendMessage("appliedenergistics2", "whitelist-spatial", TileTubing2.class.getCanonicalName());
 		FMLInterModComms.sendMessage("appliedenergistics2", "whitelist-spatial", TileRTG.class.getCanonicalName());
 		FMLInterModComms.sendMessage("appliedenergistics2", "whitelist-spatial", TileWRTG.class.getCanonicalName());
+		FMLInterModComms.sendMessage("appliedenergistics2", "whitelist-spatial", TileSteamGenerator.class.getCanonicalName());
+		FMLInterModComms.sendMessage("appliedenergistics2", "whitelist-spatial", TileSteamDecompressor.class.getCanonicalName());
+		FMLInterModComms.sendMessage("appliedenergistics2", "whitelist-spatial", TileDenseSteamDecompressor.class.getCanonicalName());
 		FMLInterModComms.sendMessage("appliedenergistics2", "whitelist-spatial", TileFusionReactorBlock.class.getCanonicalName());
 		FMLInterModComms.sendMessage("appliedenergistics2", "whitelist-spatial", TileFusionReactorBlockTop.class.getCanonicalName());
 		FMLInterModComms.sendMessage("appliedenergistics2", "whitelist-spatial", TileElectrolyser.class.getCanonicalName());
@@ -1830,6 +1948,10 @@ public class NuclearCraft {
 		OreDictionary.registerOre("ingotMagnesium", new ItemStack(NCItems.material, 1, 50));
 		OreDictionary.registerOre("ingotUraniumOxide", new ItemStack(NCItems.material, 1, 53));
 		OreDictionary.registerOre("ingotMagnesiumDiboride", new ItemStack(NCItems.material, 1, 71));
+		OreDictionary.registerOre("gemRhodochrosite", new ItemStack(NCItems.material, 1, 73));
+		OreDictionary.registerOre("ingotGraphite", new ItemStack(NCItems.material, 1, 76));
+		OreDictionary.registerOre("ingotHardCarbon", new ItemStack(NCItems.material, 1, 78));
+		OreDictionary.registerOre("ingotLithiumManganeseDioxide", new ItemStack(NCItems.material, 1, 80));
 			
 		// Dusts Ore Dictionary
 		OreDictionary.registerOre("dustIron", new ItemStack(NCItems.material, 1, 8));
@@ -1853,6 +1975,11 @@ public class NuclearCraft {
 		OreDictionary.registerOre("dustObsidian", new ItemStack(NCItems.material, 1, 52));
 		OreDictionary.registerOre("dustUraniumOxide", new ItemStack(NCItems.material, 1, 54));
 		OreDictionary.registerOre("dustMagnesiumDiboride", new ItemStack(NCItems.material, 1, 72));
+		OreDictionary.registerOre("dustManganeseOxide", new ItemStack(NCItems.material, 1, 74));
+		OreDictionary.registerOre("dustManganeseDioxide", new ItemStack(NCItems.material, 1, 75));
+		OreDictionary.registerOre("dustGraphite", new ItemStack(NCItems.material, 1, 77));
+		OreDictionary.registerOre("dustHardCarbon", new ItemStack(NCItems.material, 1, 79));
+		OreDictionary.registerOre("dustLithiumManganeseDioxide", new ItemStack(NCItems.material, 1, 81));
 		
 		// Blocks Ore Dictionary
 		OreDictionary.registerOre("blockUranium", new ItemStack(NCBlocks.blockBlock, 1, 4));
@@ -1866,16 +1993,17 @@ public class NuclearCraft {
 		OreDictionary.registerOre("blockLithium", new ItemStack(NCBlocks.blockBlock, 1, 8));
 		OreDictionary.registerOre("blockBoron", new ItemStack(NCBlocks.blockBlock, 1, 9));
 		OreDictionary.registerOre("blockMagnesium", new ItemStack(NCBlocks.blockBlock, 1, 10));
+		OreDictionary.registerOre("blockGraphite", new ItemStack(NCBlocks.graphiteBlock));
 		
 		// Parts Ore Dictionary
-		OreDictionary.registerOre("universalReactant", new ItemStack(NCItems.parts, 1, 4));
 		OreDictionary.registerOre("plateBasic", new ItemStack(NCItems.parts, 1, 0));
+		OreDictionary.registerOre("plateIron", new ItemStack(NCItems.parts, 1, 1));
 		OreDictionary.registerOre("plateReinforced", new ItemStack(NCItems.parts, 1, 3));
+		OreDictionary.registerOre("universalReactant", new ItemStack(NCItems.parts, 1, 4));
+		OreDictionary.registerOre("plateTin", new ItemStack(NCItems.parts, 1, 6));
 		OreDictionary.registerOre("plateDU", new ItemStack(NCItems.parts, 1, 8));
 		OreDictionary.registerOre("plateAdvanced", new ItemStack(NCItems.parts, 1, 9));
 		OreDictionary.registerOre("plateLead", new ItemStack(NCItems.parts, 1, 14));
-		OreDictionary.registerOre("plateIron", new ItemStack(NCItems.parts, 1, 1));
-		OreDictionary.registerOre("plateTin", new ItemStack(NCItems.parts, 1, 6));
 		
 		// Non-Fissile Materials Ore Dictionary
 		OreDictionary.registerOre("U238", new ItemStack(NCItems.material, 1, 24));
@@ -1906,6 +2034,18 @@ public class NuclearCraft {
 		OreDictionary.registerOre("Pu241", new ItemStack(NCItems.material, 1, 67));
 		OreDictionary.registerOre("tinyPu241", new ItemStack(NCItems.material, 1, 37));
 		OreDictionary.registerOre("tinyPu241", new ItemStack(NCItems.material, 1, 68));
+		OreDictionary.registerOre("Th232", new ItemStack(NCItems.material, 1, 38));
+		OreDictionary.registerOre("tinyTh232", new ItemStack(NCItems.material, 1, 39));
+		OreDictionary.registerOre("Th230", new ItemStack(NCItems.material, 1, 40));
+		OreDictionary.registerOre("tinyTh230", new ItemStack(NCItems.material, 1, 41));
+		
+		// Lithium and Boron Isotopes
+		OreDictionary.registerOre("Li6", new ItemStack(NCItems.material, 1, 46));
+		OreDictionary.registerOre("tinyLi6", new ItemStack(NCItems.material, 1, 69));
+		OreDictionary.registerOre("Li7", new ItemStack(NCItems.material, 1, 47));
+		OreDictionary.registerOre("B10", new ItemStack(NCItems.material, 1, 48));
+		OreDictionary.registerOre("tinyB10", new ItemStack(NCItems.material, 1, 70));
+		OreDictionary.registerOre("B11", new ItemStack(NCItems.material, 1, 49));
 		
 		// Vanilla Ore Dictionary
 		OreDictionary.registerOre("gemCoal", new ItemStack(Items.coal, 1));
@@ -1944,7 +2084,7 @@ public class NuclearCraft {
 		dominosAchievement = a("dominos", -4, -2, NCItems.dominoes, null);
 		fishAndRicecakeAchievement = a("fishAndRicecake", -6, -2, NCItems.fishAndRicecake, null);
 		if (workspace) heavyDutyWorkspaceAchievement = a("heavyDutyWorkspace", 0, 0, NCBlocks.nuclearWorkspace, null);
-		nukeAchievement = a("nuke", -2, -2, NCBlocks.nuke, workspace ? heavyDutyWorkspaceAchievement : null);
+		nukeAchievement = a("nuke", -2, -2, NCBlocks.nukeE, workspace ? heavyDutyWorkspaceAchievement : null);
 		toolAchievement = a("tool", 2, -2, NCItems.dUPaxel, workspace ? heavyDutyWorkspaceAchievement : null);
 		reactionGeneratorAchievement = a("reactionGenerator", -2, 0, NCBlocks.reactionGeneratorIdle, workspace ? heavyDutyWorkspaceAchievement : null);
 		factoryAchievement = a("factory", 0, 2, NCBlocks.factoryIdle, workspace ? heavyDutyWorkspaceAchievement : null);
@@ -1956,6 +2096,7 @@ public class NuclearCraft {
 		pistolAchievement = a("pistol", -4, 2, NCItems.pistol, separatorAchievement);
 		solarAchievement = a("solar", 2, 4, NCBlocks.solarPanel, factoryAchievement);
 		synchrotronAchievement = a("synchrotron", 4, 6, NCBlocks.synchrotronIdle, factoryAchievement);
+		synchrotronAchievement = a("antimatterBomb", 4, 8, NCBlocks.antimatterBombE, synchrotronAchievement);
 	}
 	
 	public Achievement a(String name, int x, int y, Block req, Achievement pre) {

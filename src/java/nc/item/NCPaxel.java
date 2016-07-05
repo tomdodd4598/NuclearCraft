@@ -1,9 +1,14 @@
 package nc.item;
 
+import java.util.List;
 import java.util.Set;
 
+import nc.NuclearCraft;
+import nc.util.InfoNC;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -15,15 +20,42 @@ import net.minecraftforge.event.entity.player.UseHoeEvent;
 import com.google.common.collect.Sets;
 
 import cpw.mods.fml.common.eventhandler.Event.Result;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class NCPaxel extends ItemTool {
 	
 	@SuppressWarnings("rawtypes")
 	private static final Set fieldPaxel = Sets.newHashSet(new Block[] {Blocks.obsidian, Blocks.cobblestone, Blocks.double_stone_slab, Blocks.stone_slab, Blocks.stone, Blocks.sandstone, Blocks.mossy_cobblestone, Blocks.iron_ore, Blocks.iron_block, Blocks.coal_ore, Blocks.gold_block, Blocks.gold_ore, Blocks.diamond_ore, Blocks.diamond_block, Blocks.ice, Blocks.netherrack, Blocks.lapis_ore, Blocks.lapis_block, Blocks.redstone_ore, Blocks.lit_redstone_ore, Blocks.rail, Blocks.detector_rail, Blocks.golden_rail, Blocks.activator_rail, Blocks.grass, Blocks.dirt, Blocks.sand, Blocks.gravel, Blocks.snow_layer, Blocks.snow, Blocks.clay, Blocks.farmland, Blocks.soul_sand, Blocks.mycelium, Blocks.planks, Blocks.bookshelf, Blocks.log, Blocks.log2, Blocks.chest, Blocks.pumpkin, Blocks.lit_pumpkin});
 
-	public NCPaxel(ToolMaterial material) {
+	String[] info;
+	String name;
+	
+	public NCPaxel(ToolMaterial material, String nam, String... lines) {
 		super(4.0F, material, fieldPaxel);
+		String[] strings = new String[lines.length];
+		for (int i = 0; i < lines.length; i++) {
+			strings[i] = lines[i];
+		}
+		info = strings;
+		name = nam;
+		setUnlocalizedName(nam);
 		//material.setRepairItem(new ItemStack(NCItems.material, 1, 7));
+	}
+	
+	public String getUnlocalizedName() {
+		return "item." + name;
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public CreativeTabs getCreativeTab() {
+		return NuclearCraft.tabNC;
+	}
+	
+	@SideOnly(Side.CLIENT)
+	@Override
+	public void registerIcons(IIconRegister iconRegister) {
+		itemIcon = iconRegister.registerIcon("nc:" + "tools/" + name);
 	}
 	
 	public boolean func_150897_b(Block p_150897_1_) {
@@ -63,5 +95,11 @@ public class NCPaxel extends ItemTool {
                 return false;
             }
         }
-    }  
+    }
+    
+    @SuppressWarnings({ "rawtypes" })
+	public void addInformation(ItemStack itemStack, EntityPlayer player, List list, boolean whatIsThis) {
+        super.addInformation(itemStack, player, list, whatIsThis);
+        InfoNC.infoFull(list, info);
+    }
 }
