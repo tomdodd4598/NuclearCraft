@@ -51,5 +51,5 @@ exclude '**/Thumbs.db'
 }
 
 archivesBaseName = "NuclearCraft"
-version = "1.8--1.7.10"
+version = "1.8a--1.7.10"
 minecraft.version = "10.13.4.1558-1.7.10"

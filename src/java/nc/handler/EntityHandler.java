@@ -20,8 +20,9 @@ public class EntityHandler {
 		
 		EntityRegistry.registerGlobalEntityID(entityClass, name, entityId);
 		if(NuclearCraft.enableNuclearMonster) {
-		EntityRegistry.addSpawn(entityClass, 2, 1, 2, EnumCreatureType.monster, BiomeGenBase.beach, BiomeGenBase.birchForest, BiomeGenBase.birchForestHills, BiomeGenBase.desert, BiomeGenBase.desertHills, BiomeGenBase.extremeHills, BiomeGenBase.forestHills, BiomeGenBase.mesa, BiomeGenBase.mesaPlateau, BiomeGenBase.plains, BiomeGenBase.river, BiomeGenBase.roofedForest, BiomeGenBase.savanna, BiomeGenBase.swampland, BiomeGenBase.taiga); }
-		else { EntityRegistry.addSpawn(entityClass, 0, 1, 1, EnumCreatureType.monster, BiomeGenBase.beach, BiomeGenBase.birchForest, BiomeGenBase.birchForestHills, BiomeGenBase.desert, BiomeGenBase.desertHills, BiomeGenBase.extremeHills, BiomeGenBase.forestHills, BiomeGenBase.mesa, BiomeGenBase.mesaPlateau, BiomeGenBase.plains, BiomeGenBase.river, BiomeGenBase.roofedForest, BiomeGenBase.savanna, BiomeGenBase.swampland, BiomeGenBase.taiga); }
+			EntityRegistry.addSpawn(entityClass, 3, 1, 1, EnumCreatureType.monster, BiomeGenBase.beach, BiomeGenBase.birchForest, BiomeGenBase.birchForestHills, BiomeGenBase.desert, BiomeGenBase.desertHills, BiomeGenBase.extremeHills, BiomeGenBase.forestHills, BiomeGenBase.mesa, BiomeGenBase.mesaPlateau, BiomeGenBase.plains, BiomeGenBase.river, BiomeGenBase.roofedForest, BiomeGenBase.savanna, BiomeGenBase.swampland, BiomeGenBase.taiga);
+			EntityRegistry.addSpawn(entityClass, 8, 1, 1, EnumCreatureType.monster, BiomeGenBase.hell);
+		}
 		EntityRegistry.registerModEntity(entityClass, name, entityId, NuclearCraft.instance, 64, 1, true);
 		EntityList.entityEggs.put(Integer.valueOf(entityId), new EntityList.EntityEggInfo(entityId, mainColor, subColor));
 	}
@@ -36,8 +37,8 @@ public class EntityHandler {
 		
 		EntityRegistry.registerGlobalEntityID(entityClass, name, entityId);
 		if(NuclearCraft.enablePaul) {
-		EntityRegistry.addSpawn(entityClass, 1, 1, 1, EnumCreatureType.monster, BiomeGenBase.beach, BiomeGenBase.birchForest, BiomeGenBase.birchForestHills, BiomeGenBase.desert, BiomeGenBase.desertHills, BiomeGenBase.extremeHills, BiomeGenBase.forestHills, BiomeGenBase.mesa, BiomeGenBase.mesaPlateau, BiomeGenBase.plains, BiomeGenBase.river, BiomeGenBase.roofedForest, BiomeGenBase.savanna, BiomeGenBase.swampland, BiomeGenBase.taiga/*, BiomeGenBase.sky*/); }
-		else { EntityRegistry.addSpawn(entityClass, 0, 1, 1, EnumCreatureType.monster, BiomeGenBase.beach, BiomeGenBase.birchForest, BiomeGenBase.birchForestHills, BiomeGenBase.desert, BiomeGenBase.desertHills, BiomeGenBase.extremeHills, BiomeGenBase.forestHills, BiomeGenBase.mesa, BiomeGenBase.mesaPlateau, BiomeGenBase.plains, BiomeGenBase.river, BiomeGenBase.roofedForest, BiomeGenBase.savanna, BiomeGenBase.swampland, BiomeGenBase.taiga/*, BiomeGenBase.sky*/); }
+			EntityRegistry.addSpawn(entityClass, 1, 1, 1, EnumCreatureType.monster, BiomeGenBase.beach, BiomeGenBase.birchForest, BiomeGenBase.birchForestHills, BiomeGenBase.desert, BiomeGenBase.desertHills, BiomeGenBase.extremeHills, BiomeGenBase.forestHills, BiomeGenBase.mesa, BiomeGenBase.mesaPlateau, BiomeGenBase.plains, BiomeGenBase.river, BiomeGenBase.roofedForest, BiomeGenBase.savanna, BiomeGenBase.swampland, BiomeGenBase.taiga);
+		}
 		EntityRegistry.registerModEntity(entityClass, name, entityId, NuclearCraft.instance, 64, 1, true);
 		EntityList.entityEggs.put(Integer.valueOf(entityId), new EntityList.EntityEggInfo(entityId, mainColor, subColor));
 	}

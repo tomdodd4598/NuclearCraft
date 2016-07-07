@@ -117,6 +117,22 @@ import nc.itemblock.generator.ItemBlockSolarPanel;
 import nc.itemblock.generator.ItemBlockSteamDecompressor;
 import nc.itemblock.generator.ItemBlockSteamGenerator;
 import nc.itemblock.generator.ItemBlockWRTG;
+import nc.itemblock.machine.ItemBlockAssembler;
+import nc.itemblock.machine.ItemBlockCollector;
+import nc.itemblock.machine.ItemBlockCooler;
+import nc.itemblock.machine.ItemBlockCrusher;
+import nc.itemblock.machine.ItemBlockElectricCrusher;
+import nc.itemblock.machine.ItemBlockElectricFurnace;
+import nc.itemblock.machine.ItemBlockElectrolyser;
+import nc.itemblock.machine.ItemBlockFactory;
+import nc.itemblock.machine.ItemBlockFurnace;
+import nc.itemblock.machine.ItemBlockHastener;
+import nc.itemblock.machine.ItemBlockHeliumExtractor;
+import nc.itemblock.machine.ItemBlockIoniser;
+import nc.itemblock.machine.ItemBlockIrradiator;
+import nc.itemblock.machine.ItemBlockNuclearFurnace;
+import nc.itemblock.machine.ItemBlockOxidiser;
+import nc.itemblock.machine.ItemBlockSeparator;
 import nc.itemblock.nuke.ItemBlockAntimatterBomb;
 import nc.itemblock.nuke.ItemBlockNuke;
 import nc.itemblock.quantum.ItemBlockSimpleQuantum;
@@ -207,7 +223,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 public class NuclearCraft {
 	public static final String modid = "NuclearCraft";
-	public static final String version = "1.8";
+	public static final String version = "1.8a";
 	
 	public static final CreativeTabs tabNC = new CreativeTabs("tabNC") {
 		// Creative Tab Shown Item
@@ -618,7 +634,7 @@ public class NuclearCraft {
 		oreRaritySilver = config.getInt("Gen Rate", "0.3: Silver Ore", 10, 1, 100, "");
 		oreMaxHeightSilver = config.getInt("Max Height", "0.3: Silver Ore", 40, 1, 255, "");
 		oreGenUranium = config.getBoolean("Generation", "0.4: Uranium Ore", true, "");
-		oreSizeUranium = config.getInt("Chunk Size", "0.4: Uranium Ore", 9, 1, 100, "");
+		oreSizeUranium = config.getInt("Chunk Size", "0.4: Uranium Ore", 10, 1, 100, "");
 		oreRarityUranium = config.getInt("Gen Rate", "0.4: Uranium Ore", 2, 1, 100, "");
 		oreMaxHeightUranium = config.getInt("Max Height", "0.4: Uranium Ore", 36, 1, 255, "");
 		oreGenThorium = config.getBoolean("Generation", "0.5: Thorium Ore", true, "");
@@ -626,20 +642,20 @@ public class NuclearCraft {
 		oreRarityThorium = config.getInt("Gen Rate", "0.5: Thorium Ore", 2, 1, 100, "");
 		oreMaxHeightThorium = config.getInt("Max Height", "0.5: Thorium Ore", 36, 1, 255, "");
 		oreGenLithium = config.getBoolean("Generation", "0.6: Lithium Ore", true, "");
-		oreSizeLithium = config.getInt("Chunk Size", "0.6: Lithium Ore", 6, 1, 100, "");
+		oreSizeLithium = config.getInt("Chunk Size", "0.6: Lithium Ore", 7, 1, 100, "");
 		oreRarityLithium = config.getInt("Gen Rate", "0.6: Lithium Ore", 7, 1, 100, "");
 		oreMaxHeightLithium = config.getInt("Max Height", "0.6: Lithium Ore", 32, 1, 255, "");
 		oreGenBoron = config.getBoolean("Generation", "0.7: Boron Ore", true, "");
-		oreSizeBoron = config.getInt("Chunk Size", "0.7: Boron Ore", 6, 1, 100, "");
+		oreSizeBoron = config.getInt("Chunk Size", "0.7: Boron Ore", 7, 1, 100, "");
 		oreRarityBoron = config.getInt("Gen Rate", "0.7: Boron Ore", 7, 1, 100, "");
 		oreMaxHeightBoron = config.getInt("Max Height", "0.7: Boron Ore", 24, 1, 255, "");
 		oreGenMagnesium = config.getBoolean("Generation", "0.8: Magnesium Ore", true, "");
-		oreSizeMagnesium = config.getInt("Chunk Size", "0.8: Magnesium Ore", 6, 1, 100, "");
+		oreSizeMagnesium = config.getInt("Chunk Size", "0.8: Magnesium Ore", 7, 1, 100, "");
 		oreRarityMagnesium = config.getInt("Gen Rate", "0.8: Magnesium Ore", 7, 1, 100, "");
 		oreMaxHeightMagnesium = config.getInt("Max Height", "0.8: Magnesium Ore", 24, 1, 255, "");
 		oreGenPlutonium = config.getBoolean("Generation", "0.9: Plutonium Ore", true, "");
-		oreSizePlutonium = config.getInt("Chunk Size", "0.9: Plutonium Ore", 9, 1, 100, "");
-		oreRarityPlutonium = config.getInt("Gen Rate", "0.9: Plutonium Ore", 2, 1, 100, "");
+		oreSizePlutonium = config.getInt("Chunk Size", "0.9: Plutonium Ore", 17, 1, 100, "");
+		oreRarityPlutonium = config.getInt("Gen Rate", "0.9: Plutonium Ore", 1, 1, 100, "");
 		oreMaxHeightPlutonium = config.getInt("Max Height", "0.9: Plutonium Ore", 255, 1, 255, "");
 
 		electricCrusherCrushSpeed = config.getInt("Electic Crusher Speed Multiplier", "1.0: RF Machines", 100, 10, 1000, "");
@@ -668,7 +684,7 @@ public class NuclearCraft {
 		assemblerEfficiency = config.getInt("Assembler Efficiency Multiplier", "1.0: RF Machines", 100, 10, 1000, "");
 		reactionGeneratorRF = config.getInt("Reaction Generator RF/t", "1.1: RF Generators", 100, 10, 1000, "");
 		reactionGeneratorEfficiency = config.getInt("Reaction Generator Efficiency Multiplier", "1.1: RF Generators", 100, 10, 1000, "");
-		RTGRF = config.getInt("RTG RF/t", "1.1: RF Generators", 150, 1, 1000, "");
+		RTGRF = config.getInt("RTG RF/t", "1.1: RF Generators", 100, 1, 1000, "");
 		WRTGRF = config.getInt("WRTG RF/t", "1.1: RF Generators", 5, 1, 1000, "");
 		solarRF = config.getInt("Solar Panel RF/t", "1.1: RF Generators", 10, 1, 1000, "");
 		nuclearFurnaceCookSpeed = config.getInt("Nuclear Furnace Speed Multiplier", "1.2: Non-RF Machines", 100, 10, 1000, "");
@@ -681,7 +697,7 @@ public class NuclearCraft {
 		
 		enableNuclearMonster = config.getBoolean("Enable Nuclear Monsters Spawning", "2.0: Mobs", true, "");
 		enablePaul = config.getBoolean("Enable Paul", "2.0: Mobs", true, "");
-		enableNukes = config.getBoolean("Enable Nuclear Weapons", "2.1: Other", true, "");
+		enableNukes = config.getBoolean("Enable Nuclear and Antimatter Weapons", "2.1: Other", true, "");
 		enableLoot = config.getBoolean("Enable Loot in Generated Chests", "2.1: Other", true, "");
 		lootModifier = config.getInt("Dungeon Loot Frequency", "2.1: Other", 1, 0, 10, "");
 		extraDrops = config.getBoolean("Enable Extra Mob and Ore Drops", "2.1: Other", true, "");
@@ -865,8 +881,8 @@ public class NuclearCraft {
 		dUPDamage = toolConfig.getInt("DU Paxel Damage", "4: DU Paxel", 20, 0, 25, "");
 		
 		boronHarvestLevel = toolConfig.getInt("Boron Harvest Level", "5: Boron", 2, 0, 10, "");
-		boronDurability = toolConfig.getInt("Boron Durability", "5: Boron", 1200, 1, 32767, "");
-		boronSpeed = toolConfig.getInt("Boron Speed", "5: Boron", 9, 1, 50, "");
+		boronDurability = toolConfig.getInt("Boron Durability", "5: Boron", 1000, 1, 32767, "");
+		boronSpeed = toolConfig.getInt("Boron Speed", "5: Boron", 8, 1, 50, "");
 		boronDamage = toolConfig.getInt("Boron Damage", "5: Boron", 3, 0, 25, "");
 		
 		config.save();
@@ -887,11 +903,11 @@ public class NuclearCraft {
 		ToolMaterial dUPaxel = EnumHelper.addToolMaterial("dUPaxel", dUPHarvestLevel, dUPDurability, dUPSpeed, dUPDamage, 50).setRepairItem(new ItemStack(NCItems.parts, 1, 8));
 		ToolMaterial Boron = EnumHelper.addToolMaterial("Boron", boronHarvestLevel, boronDurability, boronSpeed, boronDamage, 5).setRepairItem(new ItemStack(NCItems.material, 1, 43));
 		
-		// Armour Materials - 5, 8, 7, 3 - 12, 17, 12, 8
+		// Armour Materials - 12, 17, 12, 8 - 5, 8, 7, 4
 		ArmorMaterial ToughArmorMaterial = EnumHelper.addArmorMaterial("ToughArmorMaterial", 40, (workspace ? new int [] {4, 8, 5, 3} : new int [] {3, 8, 6, 3}), 10);
-		ArmorMaterial BoronArmorMaterial = EnumHelper.addArmorMaterial("BoronArmorMaterial", 30, new int [] {3, 7, 5, 3}, 5);
-		ArmorMaterial BronzeArmorMaterial = EnumHelper.addArmorMaterial("BronzeArmorMaterial", 20, new int [] {3, 6, 5, 2}, 10);
-		ArmorMaterial dUArmorMaterial = EnumHelper.addArmorMaterial("dUArmorMaterial", 80, (workspace ? new int [] {5, 8, 6, 3} : new int [] {4, 8, 6, 4}), 50);
+		ArmorMaterial BoronArmorMaterial = EnumHelper.addArmorMaterial("BoronArmorMaterial", 30, new int [] {3, 7, 5, 2}, 5);
+		ArmorMaterial BronzeArmorMaterial = EnumHelper.addArmorMaterial("BronzeArmorMaterial", 20, new int [] {2, 6, 5, 2}, 10);
+		ArmorMaterial dUArmorMaterial = EnumHelper.addArmorMaterial("dUArmorMaterial", 80, (workspace ? new int [] {5, 8, 5, 3} : new int [] {4, 8, 6, 3}), 50);
 		
 		// Fluid Registry
 		liquidHelium = new FluidHelium("liquidHelium");
@@ -999,41 +1015,30 @@ public class NuclearCraft {
 		GameRegistry.registerBlock(NCBlocks.fusionReactorBlockTop, "fusionReactorBlockTop");
 		
 		NCBlocks.nuclearFurnaceIdle = new BlockNuclearFurnace(false).setBlockName("nuclearFurnaceIdle").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(20.0F).setHardness(5.0F);
-		GameRegistry.registerBlock(NCBlocks.nuclearFurnaceIdle, "nuclearFurnaceIdle");
+		GameRegistry.registerBlock(NCBlocks.nuclearFurnaceIdle, ItemBlockNuclearFurnace.class, "nuclearFurnaceIdle");
 		NCBlocks.nuclearFurnaceActive = new BlockNuclearFurnace(true).setBlockName("nuclearFurnaceActive").setStepSound(Block.soundTypeMetal).setResistance(20.0F).setHardness(5.0F);
-		GameRegistry.registerBlock(NCBlocks.nuclearFurnaceActive, "nuclearFurnaceActive");
+		GameRegistry.registerBlock(NCBlocks.nuclearFurnaceActive, ItemBlockNuclearFurnace.class, "nuclearFurnaceActive");
 		NCBlocks.furnaceIdle = new BlockFurnace(false).setBlockName("furnaceIdle").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(20.0F).setHardness(5.0F);
-		GameRegistry.registerBlock(NCBlocks.furnaceIdle, "furnaceIdle");
+		GameRegistry.registerBlock(NCBlocks.furnaceIdle, ItemBlockFurnace.class, "furnaceIdle");
 		NCBlocks.furnaceActive = new BlockFurnace(true).setBlockName("furnaceActive").setStepSound(Block.soundTypeMetal).setResistance(20.0F).setHardness(5.0F);
-		GameRegistry.registerBlock(NCBlocks.furnaceActive, "furnaceActive");
+		GameRegistry.registerBlock(NCBlocks.furnaceActive, ItemBlockFurnace.class, "furnaceActive");
 		NCBlocks.crusherIdle = new BlockCrusher(false).setBlockName("crusherIdle").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(20.0F).setHardness(5.0F);
-		GameRegistry.registerBlock(NCBlocks.crusherIdle, "crusherIdle");
+		GameRegistry.registerBlock(NCBlocks.crusherIdle, ItemBlockCrusher.class, "crusherIdle");
 		NCBlocks.crusherActive = new BlockCrusher(true).setBlockName("crusherActive").setStepSound(Block.soundTypeMetal).setResistance(20.0F).setHardness(5.0F);
-		GameRegistry.registerBlock(NCBlocks.crusherActive, "crusherActive");
+		GameRegistry.registerBlock(NCBlocks.crusherActive, ItemBlockCrusher.class, "crusherActive");
 		NCBlocks.electricCrusherIdle = new BlockElectricCrusher(false).setBlockName("electricCrusherIdle").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(20.0F).setHardness(5.0F);
-		GameRegistry.registerBlock(NCBlocks.electricCrusherIdle, "electricCrusherIdle");
+		GameRegistry.registerBlock(NCBlocks.electricCrusherIdle, ItemBlockElectricCrusher.class, "electricCrusherIdle");
 		NCBlocks.electricCrusherActive = new BlockElectricCrusher(true).setBlockName("electricCrusherActive").setStepSound(Block.soundTypeMetal).setResistance(20.0F).setHardness(5.0F);
-		GameRegistry.registerBlock(NCBlocks.electricCrusherActive, "electricCrusherActive");
+		GameRegistry.registerBlock(NCBlocks.electricCrusherActive, ItemBlockElectricCrusher.class, "electricCrusherActive");
 		NCBlocks.electricFurnaceIdle = new BlockElectricFurnace(false).setBlockName("electricFurnaceIdle").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(20.0F).setHardness(5.0F);
-		GameRegistry.registerBlock(NCBlocks.electricFurnaceIdle, "electricFurnaceIdle");
+		GameRegistry.registerBlock(NCBlocks.electricFurnaceIdle, ItemBlockElectricFurnace.class, "electricFurnaceIdle");
 		NCBlocks.electricFurnaceActive = new BlockElectricFurnace(true).setBlockName("electricFurnaceActive").setStepSound(Block.soundTypeMetal).setResistance(20.0F).setHardness(5.0F);
-		GameRegistry.registerBlock(NCBlocks.electricFurnaceActive, "electricFurnaceActive");
+		GameRegistry.registerBlock(NCBlocks.electricFurnaceActive, ItemBlockElectricFurnace.class, "electricFurnaceActive");
+		
 		NCBlocks.reactionGeneratorIdle = new BlockReactionGenerator(false).setBlockName("reactionGeneratorIdle").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(20.0F).setHardness(5.0F);
 		GameRegistry.registerBlock(NCBlocks.reactionGeneratorIdle, ItemBlockReactionGenerator.class, "reactionGeneratorIdle");
 		NCBlocks.reactionGeneratorActive = new BlockReactionGenerator(true).setBlockName("reactionGeneratorActive").setStepSound(Block.soundTypeMetal).setResistance(20.0F).setHardness(5.0F);
 		GameRegistry.registerBlock(NCBlocks.reactionGeneratorActive, ItemBlockReactionGenerator.class, "reactionGeneratorActive");
-		NCBlocks.separatorIdle = new BlockSeparator(false).setBlockName("separatorIdle").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(20.0F).setHardness(5.0F);
-		GameRegistry.registerBlock(NCBlocks.separatorIdle, "separatorIdle");
-		NCBlocks.separatorActive = new BlockSeparator(true).setBlockName("separatorActive").setStepSound(Block.soundTypeMetal).setResistance(20.0F).setHardness(5.0F);
-		GameRegistry.registerBlock(NCBlocks.separatorActive, "separatorActive");
-		NCBlocks.hastenerIdle = new BlockHastener(false).setBlockName("hastenerIdle").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(20.0F).setHardness(5.0F);
-		GameRegistry.registerBlock(NCBlocks.hastenerIdle, "hastenerIdle");
-		NCBlocks.hastenerActive = new BlockHastener(true).setBlockName("hastenerActive").setStepSound(Block.soundTypeMetal).setResistance(20.0F).setHardness(5.0F);
-		GameRegistry.registerBlock(NCBlocks.hastenerActive, "hastenerActive");
-		NCBlocks.electrolyserIdle = new BlockElectrolyser(false).setBlockName("electrolyserIdle").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(20.0F).setHardness(5.0F);
-		GameRegistry.registerBlock(NCBlocks.electrolyserIdle, "electrolyserIdle");
-		NCBlocks.electrolyserActive = new BlockElectrolyser(true).setBlockName("electrolyserActive").setStepSound(Block.soundTypeMetal).setResistance(20.0F).setHardness(5.0F);
-		GameRegistry.registerBlock(NCBlocks.electrolyserActive, "electrolyserActive");
 		
 		NCBlocks.fissionReactorGraphiteIdle = new BlockFissionReactor(false).setBlockName("fissionReactorGraphiteIdle").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(5.0F).setHardness(5.0F);
 		GameRegistry.registerBlock(NCBlocks.fissionReactorGraphiteIdle, ItemBlockFissionReactor.class, "fissionReactorGraphiteIdle");
@@ -1051,38 +1056,53 @@ public class NuclearCraft {
 		GameRegistry.registerBlock(NCBlocks.WRTG, ItemBlockWRTG.class, "WRTG");
 		NCBlocks.solarPanel = new BlockSolarPanel().setBlockName("solarPanel").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(5.0F).setHardness(5.0F);
 		GameRegistry.registerBlock(NCBlocks.solarPanel, ItemBlockSolarPanel.class, "solarPanel");
+		
+
+		NCBlocks.separatorIdle = new BlockSeparator(false).setBlockName("separatorIdle").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(20.0F).setHardness(5.0F);
+		GameRegistry.registerBlock(NCBlocks.separatorIdle, ItemBlockSeparator.class, "separatorIdle");
+		NCBlocks.separatorActive = new BlockSeparator(true).setBlockName("separatorActive").setStepSound(Block.soundTypeMetal).setResistance(20.0F).setHardness(5.0F);
+		GameRegistry.registerBlock(NCBlocks.separatorActive, ItemBlockSeparator.class, "separatorActive");
+		NCBlocks.hastenerIdle = new BlockHastener(false).setBlockName("hastenerIdle").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(20.0F).setHardness(5.0F);
+		GameRegistry.registerBlock(NCBlocks.hastenerIdle, ItemBlockHastener.class, "hastenerIdle");
+		NCBlocks.hastenerActive = new BlockHastener(true).setBlockName("hastenerActive").setStepSound(Block.soundTypeMetal).setResistance(20.0F).setHardness(5.0F);
+		GameRegistry.registerBlock(NCBlocks.hastenerActive, ItemBlockHastener.class, "hastenerActive");
+		NCBlocks.electrolyserIdle = new BlockElectrolyser(false).setBlockName("electrolyserIdle").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(20.0F).setHardness(5.0F);
+		GameRegistry.registerBlock(NCBlocks.electrolyserIdle, ItemBlockElectrolyser.class, "electrolyserIdle");
+		NCBlocks.electrolyserActive = new BlockElectrolyser(true).setBlockName("electrolyserActive").setStepSound(Block.soundTypeMetal).setResistance(20.0F).setHardness(5.0F);
+		GameRegistry.registerBlock(NCBlocks.electrolyserActive, ItemBlockElectrolyser.class, "electrolyserActive");
+		
 		NCBlocks.collectorIdle = new BlockCollector(false).setBlockName("collectorIdle").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(20.0F).setHardness(5.0F);
-		GameRegistry.registerBlock(NCBlocks.collectorIdle, "collectorIdle");
+		GameRegistry.registerBlock(NCBlocks.collectorIdle, ItemBlockCollector.class, "collectorIdle");
 		NCBlocks.collectorActive = new BlockCollector(true).setBlockName("collectorActive").setStepSound(Block.soundTypeMetal).setResistance(20.0F).setHardness(5.0F);
-		GameRegistry.registerBlock(NCBlocks.collectorActive, "collectorActive");
+		GameRegistry.registerBlock(NCBlocks.collectorActive, ItemBlockCollector.class, "collectorActive");
 		NCBlocks.oxidiserIdle = new BlockOxidiser(false).setBlockName("oxidiserIdle").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(20.0F).setHardness(5.0F);
-		GameRegistry.registerBlock(NCBlocks.oxidiserIdle, "oxidiserIdle");
+		GameRegistry.registerBlock(NCBlocks.oxidiserIdle, ItemBlockOxidiser.class, "oxidiserIdle");
 		NCBlocks.oxidiserActive = new BlockOxidiser(true).setBlockName("oxidiserActive").setStepSound(Block.soundTypeMetal).setResistance(20.0F).setHardness(5.0F);
-		GameRegistry.registerBlock(NCBlocks.oxidiserActive, "oxidiserActive");
+		GameRegistry.registerBlock(NCBlocks.oxidiserActive, ItemBlockOxidiser.class, "oxidiserActive");
 		NCBlocks.ioniserIdle = new BlockIoniser(false).setBlockName("ioniserIdle").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(20.0F).setHardness(5.0F);
-		GameRegistry.registerBlock(NCBlocks.ioniserIdle, "ioniserIdle");
+		GameRegistry.registerBlock(NCBlocks.ioniserIdle, ItemBlockIoniser.class, "ioniserIdle");
 		NCBlocks.ioniserActive = new BlockIoniser(true).setBlockName("ioniserActive").setStepSound(Block.soundTypeMetal).setResistance(20.0F).setHardness(5.0F);
-		GameRegistry.registerBlock(NCBlocks.ioniserActive, "ioniserActive");
+		GameRegistry.registerBlock(NCBlocks.ioniserActive, ItemBlockIoniser.class, "ioniserActive");
 		NCBlocks.irradiatorIdle = new BlockIrradiator(false).setBlockName("irradiatorIdle").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(20.0F).setHardness(5.0F);
-		GameRegistry.registerBlock(NCBlocks.irradiatorIdle, "irradiatorIdle");
+		GameRegistry.registerBlock(NCBlocks.irradiatorIdle, ItemBlockIrradiator.class, "irradiatorIdle");
 		NCBlocks.irradiatorActive = new BlockIrradiator(true).setBlockName("irradiatorActive").setStepSound(Block.soundTypeMetal).setResistance(20.0F).setHardness(5.0F);
-		GameRegistry.registerBlock(NCBlocks.irradiatorActive, "irradiatorActive");
+		GameRegistry.registerBlock(NCBlocks.irradiatorActive, ItemBlockIrradiator.class, "irradiatorActive");
 		NCBlocks.coolerIdle = new BlockCooler(false).setBlockName("coolerIdle").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(20.0F).setHardness(5.0F);
-		GameRegistry.registerBlock(NCBlocks.coolerIdle, "coolerIdle");
+		GameRegistry.registerBlock(NCBlocks.coolerIdle, ItemBlockCooler.class, "coolerIdle");
 		NCBlocks.coolerActive = new BlockCooler(true).setBlockName("coolerActive").setStepSound(Block.soundTypeMetal).setResistance(20.0F).setHardness(5.0F);
-		GameRegistry.registerBlock(NCBlocks.coolerActive, "coolerActive");
+		GameRegistry.registerBlock(NCBlocks.coolerActive, ItemBlockCooler.class, "coolerActive");
 		NCBlocks.factoryIdle = new BlockFactory(false).setBlockName("factoryIdle").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(20.0F).setHardness(5.0F);
-		GameRegistry.registerBlock(NCBlocks.factoryIdle, "factoryIdle");
+		GameRegistry.registerBlock(NCBlocks.factoryIdle, ItemBlockFactory.class, "factoryIdle");
 		NCBlocks.factoryActive = new BlockFactory(true).setBlockName("factoryActive").setStepSound(Block.soundTypeMetal).setResistance(20.0F).setHardness(5.0F);
-		GameRegistry.registerBlock(NCBlocks.factoryActive, "factoryActive");
+		GameRegistry.registerBlock(NCBlocks.factoryActive, ItemBlockFactory.class, "factoryActive");
 		NCBlocks.heliumExtractorIdle = new BlockHeliumExtractor(false).setBlockName("heliumExtractorIdle").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(20.0F).setHardness(5.0F);
-		GameRegistry.registerBlock(NCBlocks.heliumExtractorIdle, "heliumExtractorIdle");
+		GameRegistry.registerBlock(NCBlocks.heliumExtractorIdle, ItemBlockHeliumExtractor.class, "heliumExtractorIdle");
 		NCBlocks.heliumExtractorActive = new BlockHeliumExtractor(true).setBlockName("heliumExtractorActive").setStepSound(Block.soundTypeMetal).setResistance(20.0F).setHardness(5.0F);
-		GameRegistry.registerBlock(NCBlocks.heliumExtractorActive, "heliumExtractorActive");
+		GameRegistry.registerBlock(NCBlocks.heliumExtractorActive, ItemBlockHeliumExtractor.class, "heliumExtractorActive");
 		NCBlocks.assemblerIdle = new BlockAssembler(false).setBlockName("assemblerIdle").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(20.0F).setHardness(5.0F);
-		GameRegistry.registerBlock(NCBlocks.assemblerIdle, "assemblerIdle");
+		GameRegistry.registerBlock(NCBlocks.assemblerIdle, ItemBlockAssembler.class, "assemblerIdle");
 		NCBlocks.assemblerActive = new BlockAssembler(true).setBlockName("assemblerActive").setStepSound(Block.soundTypeMetal).setResistance(20.0F).setHardness(5.0F);
-		GameRegistry.registerBlock(NCBlocks.assemblerActive, "factassemblerve");
+		GameRegistry.registerBlock(NCBlocks.assemblerActive, ItemBlockAssembler.class, "assemblerActive");
 		
 		NCBlocks.steamGenerator = new BlockSteamGenerator().setBlockName("steamGenerator").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(5.0F).setHardness(5.0F);
 		GameRegistry.registerBlock(NCBlocks.steamGenerator, ItemBlockSteamGenerator.class, "steamGenerator");
@@ -1551,6 +1571,8 @@ public class NuclearCraft {
 			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCItems.fuel, 8, 48), true, new Object[] {"ABA", "BCB", "ABA", 'B', new ItemStack(NCItems.parts, 1, 15), 'C', "ingotTough", 'A', new ItemStack (NCItems.parts, 1, 3)}));
 			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCItems.dUBullet, 4), true, new Object[] {"ABC", 'A', "U238", 'B', Items.gunpowder, 'C', "ingotTough"}));
 			GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.fuel, 1, 46), new Object[] {new ItemStack(NCItems.fuel, 1, 48), "Pu238"}));
+			
+			GameRegistry.addRecipe(new ShapedOreRecipe(NCItems.lithiumIonBattery, true, new Object[] {"AAA", "BCB", "DDD", 'A', "ingotLithiumManganeseDioxide", 'B', "plateAdvanced", 'C', "dustLithium", 'D', "ingotHardCarbon"}));
 		}
 		
 		// Smelting Recipes

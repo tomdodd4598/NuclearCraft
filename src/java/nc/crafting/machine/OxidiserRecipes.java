@@ -29,6 +29,8 @@ public class OxidiserRecipes extends NCRecipeHelper {
 		for (int i = 0; i < 4; i++) fuelFuel(16, 28+i, 71+i);
 		
 		matMat(8, 74, 75);
+		
+		oreDict(8, "dustManganese", "dustManganeseOxide");
 	}
 	
 	public void fuelFuel(int oxyNum, int metaIn, int metaOut) {
@@ -37,5 +39,9 @@ public class OxidiserRecipes extends NCRecipeHelper {
 	
 	public void matMat(int oxyNum, int metaIn, int metaOut) {
 		addRecipe(new ItemStack(NCItems.material, 1, metaIn), new ItemStack(NCItems.fuel, oxyNum, 35), new ItemStack(NCItems.material, 1, metaOut), new ItemStack(NCItems.fuel, oxyNum, 45));
+	}
+	
+	public void oreDict(int oxyNum, String in, String out) {
+		addRecipe(oreStack(in, 1), new ItemStack(NCItems.fuel, oxyNum, 35), oreStack(out, 1), new ItemStack(NCItems.fuel, oxyNum, 45));
 	}
 }

@@ -80,12 +80,12 @@ public class SeparatorRecipes extends NCRecipeHelper {
 		addRecipe(new ItemStack(NCItems.fuel, 1, 74), new ItemStack(NCItems.material, 28, 66), new ItemStack(NCItems.material, 8, 62));
 		
 		addRecipe(oreStack("dustUranium", 1), new ItemStack(NCItems.material, 2, 24), new ItemStack(NCItems.material, 2, 27));
-		addRecipe(oreStack("dustYellorium", 1), new ItemStack(NCItems.material, 2, 24), new ItemStack(NCItems.material, 2, 27));
-		addRecipe(oreStack("dustYellorite", 1), new ItemStack(NCItems.material, 2, 24), new ItemStack(NCItems.material, 2, 27));
+		addRecipe(oreStack("dustYellorium", 1), new ItemStack(NCItems.material, 1, 24), new ItemStack(NCItems.material, 1, 27));
+		addRecipe(oreStack("dustYellorite", 1), new ItemStack(NCItems.material, 1, 24), new ItemStack(NCItems.material, 1, 27));
 		addRecipe(oreStack("dustThorium", 1), new ItemStack(NCItems.material, 2, 38), new ItemStack(NCItems.material, 1, 41));
 		addRecipe(oreStack("ingotUranium", 1), new ItemStack(NCItems.material, 2, 24), new ItemStack(NCItems.material, 2, 27));
-		addRecipe(oreStack("ingotYellorium", 1), new ItemStack(NCItems.material, 2, 24), new ItemStack(NCItems.material, 2, 27));
-		addRecipe(oreStack("ingotYellorite", 1), new ItemStack(NCItems.material, 2, 24), new ItemStack(NCItems.material, 2, 27));
+		addRecipe(oreStack("ingotYellorium", 1), new ItemStack(NCItems.material, 1, 24), new ItemStack(NCItems.material, 1, 27));
+		addRecipe(oreStack("ingotYellorite", 1), new ItemStack(NCItems.material, 1, 24), new ItemStack(NCItems.material, 1, 27));
 		addRecipe(oreStack("ingotThorium", 1), new ItemStack(NCItems.material, 2, 38), new ItemStack(NCItems.material, 1, 41));
 		
 		addRecipe(oreStack("dustUraniumOxide", 1), new ItemStack(NCItems.material, 2, 55), new ItemStack(NCItems.material, 2, 58));

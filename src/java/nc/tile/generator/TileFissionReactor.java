@@ -668,7 +668,7 @@ public class TileFissionReactor extends TileGenerator {
     	else return false;
     }
     
-    private boolean find(Block block, Block block2, int x, int y, int z) {
+    /*private boolean find(Block block, Block block2, int x, int y, int z) {
     	int xc = xCoord;
     	int yc = yCoord + y;
     	int zc = zCoord;
@@ -677,6 +677,18 @@ public class TileFissionReactor extends TileGenerator {
     	else if (this.getBlockMetadata() == 2) return (worldObj.getBlock(xc-z, yc, zc+x) == block || worldObj.getBlock(xc-z, yc, zc+x) == block2);
     	else if (this.getBlockMetadata() == 5) return (worldObj.getBlock(xc-x, yc, zc-z) == block || worldObj.getBlock(xc-x, yc, zc-z) == block2);
     	else if (this.getBlockMetadata() == 3) return (worldObj.getBlock(xc+z, yc, zc-x) == block || worldObj.getBlock(xc+z, yc, zc-x) == block2);
+    	else return false;
+    }*/
+    
+    private boolean find(Block block, Block block2, Block block3, Block block4, int x, int y, int z) {
+    	int xc = xCoord;
+    	int yc = yCoord + y;
+    	int zc = zCoord;
+    	
+    	if (this.getBlockMetadata() == 4) return (worldObj.getBlock(xc+x, yc, zc+z) == block || worldObj.getBlock(xc+x, yc, zc+z) == block2 || worldObj.getBlock(xc+x, yc, zc+z) == block3 || worldObj.getBlock(xc+x, yc, zc+z) == block4);
+    	else if (this.getBlockMetadata() == 2) return (worldObj.getBlock(xc-z, yc, zc+x) == block || worldObj.getBlock(xc-z, yc, zc+x) == block2 || worldObj.getBlock(xc-z, yc, zc+x) == block3 || worldObj.getBlock(xc-z, yc, zc+x) == block4);
+    	else if (this.getBlockMetadata() == 5) return (worldObj.getBlock(xc-x, yc, zc-z) == block || worldObj.getBlock(xc-x, yc, zc-z) == block2 || worldObj.getBlock(xc-x, yc, zc-z) == block3 || worldObj.getBlock(xc-x, yc, zc-z) == block4);
+    	else if (this.getBlockMetadata() == 3) return (worldObj.getBlock(xc+z, yc, zc-x) == block || worldObj.getBlock(xc+z, yc, zc-x) == block2 || worldObj.getBlock(xc+z, yc, zc-x) == block3 || worldObj.getBlock(xc+z, yc, zc-x) == block4);
     	else return false;
     }
     
@@ -779,7 +791,7 @@ public class TileFissionReactor extends TileGenerator {
 	    	for (int z = z0; z <= z1; z++) {
 	    		for (int x = x0; x <= x1; x++) {
 	    			for (int y = y0; y <= y1; y++) {
-	    				if(find(r, rr, x, y, z)) {
+	    				if(find(r, rr, rs, rrs, x, y, z)) {
 	    					if (x == 0 && y == 0 && z == 0) {} else {
 	    						problem = StatCollector.translateToLocal("gui.multipleControllers");
 	    						complete = 0;
@@ -832,7 +844,7 @@ public class TileFissionReactor extends TileGenerator {
 	    	for (int z = z0 + 1; z <= z1 - 1; z++) {
 	    		for (int x = x0 + 1; x <= x1 - 1; x++) {
 	    			for (int y = y0 + 1; y <= y1 - 1; y++) {
-	    				if(find(b, x, y, z)) {
+	    				if(find(b, r, rr, rs, rrs, x, y, z)) {
 	    					problem = StatCollector.translateToLocal("gui.casingInInterior");
 	    					complete = 0;
 	    					return false;

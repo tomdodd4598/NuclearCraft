@@ -130,6 +130,8 @@ public class NuclearWorkspaceCraftingManager {
 	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.portableEnderChest, 1), true, new Object[] {"WSSSW", " WPW ", " OEO ", "OPPPO", "WWWWW", 'P', "plateBasic", 'E', Items.ender_eye, 'S', Items.string, 'O', "oreObsidian", 'W', Blocks.wool}));
 	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.pistol, 1), true, new Object[] {"BBBB ", "TTTTB", "  ATT", "   TT", "   TT", 'A', "plateAdvanced", 'B', "plateReinforced", 'T', "ingotTough"}));
 	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.dUBullet, 4), true, new Object[] {"TUGT", 'G', Items.gunpowder, 'T', "U238", 'U', "ingotTough"}));
+	    	
+	    	this.addRecipe(new NuclearWorkspaceShapedOreRecipe(new ItemStack(NCItems.lithiumIonBattery, 1), true, new Object[] {"AAAA", "BCCB", "BCCB", "DDDD", 'A', "ingotLithiumManganeseDioxide", 'B', "plateAdvanced", 'C', "dustLithium", 'D', "ingotHardCarbon"}));
     	}
     	
         Collections.sort(this.recipes, new NuclearWorkspaceRecipeSorter());

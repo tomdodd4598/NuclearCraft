@@ -1,3 +1,26 @@
+v1.8a
+
++ Added info tooltips to all machines
+* Fixed Fission Controllers not checking for other Controllers correctly
+
+* Fixed Domino's crash
+* Fixed missing textures for some items
+
++ Added Lithium Ion Battery crafting recipes
+
+* Fixed conflicting Assembler recipes
+* Fixed nuclear weapons being craftable in the Assembler regardless of the config option
+
++ Added Manganese dust oxidising recipe
+
+* Nerfed the RTG a little
+* Nuclear Monsters now spawn in the Nether
+* Tweaked some tool and armour stats
+* Tweaked ore generation
+
+* Improved the Antimatter Bomb texture
+* Made description of nuclear weapons config option more clear
+
 v1.8
 
 Turn off all Fission Reactors and delete old fission and fusion configs before updating to this version!

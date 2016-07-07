@@ -43,7 +43,7 @@ public final class TERecipes {
 		
 		//Fluid Transposer
 		try {ThermalExpansionHelper.addTransposerFill(1000, new ItemStack(NCItems.fuel, 1, 45), new ItemStack(NCItems.fuel, 1, 34), new FluidStack(FluidRegistry.WATER, 1000), true);} catch(Exception e) {}
-		if (FluidRegistry.isFluidRegistered("cryotheum")) {try {ThermalExpansionHelper.addTransposerFill(1000, new ItemStack(NCItems.fuel, 1, 45), new ItemStack(NCItems.fuel, 1, 75), new FluidStack(NuclearCraft.liquidHelium, 1000), true);} catch(Exception e) {}}
+		try {ThermalExpansionHelper.addTransposerFill(1000, new ItemStack(NCItems.fuel, 1, 45), new ItemStack(NCItems.fuel, 1, 75), new FluidStack(NuclearCraft.liquidHelium, 1000), true);} catch(Exception e) {}
 		
 		try {ThermalExpansionHelper.addTransposerFill(1000, new ItemStack(NCBlocks.emptyCoolerBlock, 1), new ItemStack(NCBlocks.waterCoolerBlock, 1), new FluidStack(FluidRegistry.WATER, 1000), true);} catch(Exception e) {}
 		if (FluidRegistry.isFluidRegistered("cryotheum")) {try {ThermalExpansionHelper.addTransposerFill(1000, new ItemStack(NCBlocks.emptyCoolerBlock, 1), new ItemStack(NCBlocks.cryotheumCoolerBlock, 1), new FluidStack(FluidRegistry.getFluid("cryotheum"), 500), true);} catch(Exception e) {}}

@@ -8,7 +8,7 @@ import net.minecraft.world.World;
 public class ItemNuclearGrenade extends ItemNC {
 
 	public ItemNuclearGrenade(String nam, String... lines) {
-		super("weapons/", nam, lines);
+		super("weapons", nam, lines);
 	}
 
 	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer) {

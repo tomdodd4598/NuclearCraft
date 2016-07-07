@@ -51,7 +51,9 @@ tile.emptyCoolerBlock.name=Empty Reactor Cooler
 tile.speedBlock.name=Reactor Speed Block
 tile.blastBlock.name=Blast Resistant Block
 tile.nuke.name=Nuke
+tile.nukeE.name=Nuke
 tile.antimatterBomb.name=Antimatter Bomb
+tile.antimatterBombE.name=Antimatter Bomb
 tile.machineBlockNC.name=Machine Base
 
 tile.tubing1.name=Horizontal Reinforced Tubing

@@ -14,7 +14,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class ItemPistol extends ItemNC {
 
     public ItemPistol(String nam, String... lines) {
-		super("tools/", nam, lines);
+		super("tools", nam, lines);
 		this.setMaxDamage(-1);
 	}
 
