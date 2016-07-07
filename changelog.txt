@@ -1,6 +1,8 @@
 v1.8a
 
 + Added info tooltips to all machines
+
+* Fixed Steam Fission Reactors producing four times as much steam as they should have been
 * Fixed Fission Controllers not checking for other Controllers correctly
 
 * Fixed Domino's crash
