@@ -44,7 +44,7 @@ public class GuiFissionReactor extends GuiContainer {
         String hgen = Math.abs(this.entity.H) < 100000 ? (this.entity.H)+" H/t" : (Math.abs(this.entity.H) < 10000000 ? ((int)(Math.round(this.entity.H/1000))) + " kH/t" : ((int)(Math.round(this.entity.H/1000000))) + " MH/t");
         this.fontRendererObj.drawString(hgen, 7, 74, (this.entity.complete == 0 ? 15597568 : (this.entity.off==1 ? 15641088 : -1)));
         
-        String numberCells = StatCollector.translateToLocal("gui.cells") + ": " + this.entity.numberOfCells;
+        String numberCells = /*StatCollector.translateToLocal("gui.cells")*/ "Cells" + ": " + this.entity.numberOfCells;
         this.fontRendererObj.drawString(numberCells, 7, 85, (this.entity.complete == 1 ? -1 : 15597568));
     }
 

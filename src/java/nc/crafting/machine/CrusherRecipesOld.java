@@ -99,6 +99,7 @@ public class CrusherRecipesOld
     	this.AddRecipe("ingotMagnesium", new ItemStack(NCItems.material, 1, 51));
     	this.AddRecipe("ingotMagnesiumDiboride", new ItemStack(NCItems.material, 1, 72));
     	this.AddRecipe("ingotGraphite", new ItemStack(NCItems.material, 1, 77));
+    	this.AddRecipe("blockGraphite", new ItemStack(NCItems.material, 9, 77));
     	this.AddRecipe("ingotHardCarbon", new ItemStack(NCItems.material, 1, 79));
     	this.AddRecipe("ingotLithiumManganeseDioxide", new ItemStack(NCItems.material, 1, 81));
     	

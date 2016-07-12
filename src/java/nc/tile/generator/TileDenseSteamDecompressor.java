@@ -13,7 +13,6 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
-import net.minecraftforge.fluids.TileFluidHandler;
 
 public class TileDenseSteamDecompressor extends TileEntity implements IFluidHandler {
 	public int fluid;
@@ -37,27 +36,10 @@ public class TileDenseSteamDecompressor extends TileEntity implements IFluidHand
     }
 	
 	public void addSteam() {
-		int i = 0;
 		for (ForgeDirection side : ForgeDirection.VALID_DIRECTIONS) {
 			TileEntity tile = this.worldObj.getTileEntity(xCoord + side.offsetX, yCoord + side.offsetY, zCoord + side.offsetZ);
 			if (tile instanceof TileSteamDecompressor) {
-				if ((tile instanceof IFluidHandler)) {
-					tank2.drain(((IFluidHandler)tile).fill(side.getOpposite(), tank2.drain(tank2.getCapacity(), false), true), true);
-					i ++;
-				}
-			}
-		}
-		if (i > 0) return;
-		
-		for (ForgeDirection side : ForgeDirection.VALID_DIRECTIONS) {
-			TileEntity tile = this.worldObj.getTileEntity(xCoord + side.offsetX, yCoord + side.offsetY, zCoord + side.offsetZ);
-			
-			if (!(tile instanceof TileDenseSteamDecompressor)) {
-				if ((tile instanceof IFluidHandler)) {
-					tank2.drain(((IFluidHandler)tile).fill(side.getOpposite(), tank2.drain(tank2.getCapacity(), false), true), true);
-				} else if ((tile instanceof TileFluidHandler)) {
-					tank2.drain(((TileFluidHandler)tile).fill(side.getOpposite(), tank2.drain(tank2.getCapacity(), false), true), true);
-				}
+				tank2.drain(((TileSteamDecompressor)tile).fill(side.getOpposite(), tank2.drain(tank2.getCapacity(), false), true), true);
 			}
 		}
 	}

@@ -38,7 +38,7 @@ public class GuiIrradiator extends GuiContainer {
 		int e = irradiator.energy * 82 / 250000;
 		drawTexturedModalRect(guiLeft + 8, guiTop + 6 + 82 - e, 176, 3 + 82 - e, 16, e);
      
-		int k = (int) Math.ceil(this.irradiator.cookTime * 70 / this.irradiator.getFurnaceSpeed);
+		int k = (int) Math.ceil(this.irradiator.cookTime * 70 / this.irradiator.getProcessTime);
 		drawTexturedModalRect(guiLeft + 59, guiTop + 37, 3, 174, k, 37);
 	}
 }

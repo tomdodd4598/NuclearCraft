@@ -6,7 +6,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotFurnace;
 
-public class ContainerHastener extends ContainerMachine {
+public class ContainerHastener extends ContainerMachineBase {
 	public ContainerHastener(InventoryPlayer inventory, TileHastener tileentity) {
 		super(inventory, tileentity, HastenerRecipes.instance());
 		addSlotToContainer(new Slot(tileentity, 0, 56, 35));

@@ -38,7 +38,7 @@ public class GuiCooler extends GuiContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
-		int k = (int) Math.ceil(this.cooler.cookTime * (23 + this.cooler.speedUpgrade/3) / this.cooler.getFurnaceSpeed);
+		int k = (int) Math.ceil(this.cooler.cookTime * (23 + this.cooler.speedUpgrade/3) / this.cooler.getProcessTime);
 		drawTexturedModalRect(guiLeft + 79, guiTop + 34, 176, 14, k + 1, 16);
 		
 		int e = cooler.energy * 74 / 250000;

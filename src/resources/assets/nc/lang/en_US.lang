@@ -167,7 +167,6 @@ gui.temp=Temperature
 gui.heatVar=Heat Variable
 gui.input=Input
 gui.output=Output
-gui.cells=Cells
 gui.connectorsIncomplete=Connectors Incomplete
 gui.ringIncomplete=Electromagnet Ring Incomplete
 gui.powerIssue=Electromagnets Not Fully Powered

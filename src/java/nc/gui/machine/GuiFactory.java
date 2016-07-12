@@ -38,7 +38,7 @@ public class GuiFactory extends GuiContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
-		int k = (int) Math.ceil(this.factory.cookTime * (23 + this.factory.speedUpgrade/3) / this.factory.getFurnaceSpeed);
+		int k = (int) Math.ceil(this.factory.cookTime * (23 + this.factory.speedUpgrade/3) / this.factory.getProcessTime);
 		drawTexturedModalRect(guiLeft + 79, guiTop + 34, 176, 14, k + 1, 16);
 		
 		int e = factory.energy * 74 / 250000;

@@ -38,7 +38,7 @@ public class GuiSeparator extends GuiContainer {
 		int e = separator.energy * 82 / 250000;
 		drawTexturedModalRect(guiLeft + 8, guiTop + 6 + 82 - e, 176, 3 + 82 - e, 16, e);
      
-		int k = (int) Math.ceil(this.separator.cookTime * (70 + this.separator.speedUpgrade/3) / this.separator.getFurnaceSpeed);
+		int k = (int) Math.ceil(this.separator.cookTime * (70 + this.separator.speedUpgrade/3) / this.separator.getProcessTime);
 		drawTexturedModalRect(guiLeft + 59, guiTop + 17, 3, 174, k, 68);
 	}
 }

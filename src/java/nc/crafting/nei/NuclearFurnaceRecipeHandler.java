@@ -9,8 +9,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import nc.NuclearCraft;
 import nc.gui.machine.GuiNuclearFurnace;
-import nc.tile.machine.TileNuclearFurnace;
+import nc.item.NCItems;
 import net.minecraft.block.Block;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.init.Blocks;
@@ -142,9 +143,27 @@ public class NuclearFurnaceRecipeHandler extends TemplateRecipeHandler
         Set<Item> enuclearfuels = excludednuclearfuels();
         for (ItemStack item : ItemList.items)
             if (!enuclearfuels.contains(item.getItem())) {
-                int burnTime = TileNuclearFurnace.getItemBurnTime(item);
+                int burnTime = getItemBurnTime(item);
                 if (burnTime > 0)
-                    anuclearnuclearfuels.add(new nuclearfuelPair(item.copy(), burnTime));
+                	anuclearnuclearfuels.add(new nuclearfuelPair(item.copy(), burnTime));
             }
     }
+    
+    public static int getItemBurnTime(ItemStack itemstack) {
+		if (itemstack == null) {
+			return 0;
+		} else {
+			Item item = itemstack.getItem();
+			if(item == new ItemStack(NCItems.material, 1, 4).getItem() && item.getDamage(itemstack) == 4) {
+				return (int) Math.ceil(((NuclearCraft.nuclearFurnaceCookSpeed*32)/NuclearCraft.nuclearFurnaceCookEfficiency)*Math.ceil(300/NuclearCraft.nuclearFurnaceCookSpeed));
+			} else if(item == new ItemStack(NCItems.material, 1, 5).getItem() && item.getDamage(itemstack) == 5) {
+				return (int) Math.ceil(((NuclearCraft.nuclearFurnaceCookSpeed*32)/NuclearCraft.nuclearFurnaceCookEfficiency)*Math.ceil(300/NuclearCraft.nuclearFurnaceCookSpeed));
+			} else if(item == new ItemStack(NCItems.material, 1, 19).getItem() && item.getDamage(itemstack) == 19) {
+				return (int) Math.ceil(((NuclearCraft.nuclearFurnaceCookSpeed*32)/NuclearCraft.nuclearFurnaceCookEfficiency)*Math.ceil(300/NuclearCraft.nuclearFurnaceCookSpeed));
+			} else if(item == new ItemStack(NCItems.material, 1, 20).getItem() && item.getDamage(itemstack) == 20) {
+				return (int) Math.ceil(((NuclearCraft.nuclearFurnaceCookSpeed*32)/NuclearCraft.nuclearFurnaceCookEfficiency)*Math.ceil(300/NuclearCraft.nuclearFurnaceCookSpeed));
+			}
+		return 0;
+		}
+	}
 }

@@ -119,7 +119,7 @@ public class ContainerCrusher extends Container {
 						return null;
 					}
 				}
-				else if(TileCrusher.isItemFuel(itemstack1))
+				else if(entity.getItemBurnTime(itemstack1) > 0)
 				{
 					if(!this.mergeItemStack(itemstack1, 1, 2, false))
 					{

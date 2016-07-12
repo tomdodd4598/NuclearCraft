@@ -39,7 +39,7 @@ public class GuiHeliumExtractor extends GuiContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
-		int k = (int) Math.ceil(this.heliumExtractor.cookTime * (23 + this.heliumExtractor.speedUpgrade/3) / this.heliumExtractor.getFurnaceSpeed);
+		int k = (int) Math.ceil(this.heliumExtractor.cookTime * (23 + this.heliumExtractor.speedUpgrade/3) / this.heliumExtractor.getProcessTime);
 		drawTexturedModalRect(guiLeft + 76, guiTop + 34, 176, 14, k + 1, 16);
 		
 		int e = heliumExtractor.energy * 74 / 250000;

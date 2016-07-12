@@ -21,7 +21,6 @@ public final class RecipeHelper
 	 * @param input - input ItemStack
 	 * @param output - output ItemStack
 	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static void addEnrichmentChamberRecipe(ItemStack input, ItemStack output)
 	{
 		try {
@@ -38,7 +37,6 @@ public final class RecipeHelper
 	 * @param input - input ItemStack
 	 * @param output - output ItemStack
 	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static void addOsmiumCompressorRecipe(ItemStack input, ItemStack output)
 	{
 		try {
@@ -55,7 +53,6 @@ public final class RecipeHelper
 	 * @param input - input ItemStack
 	 * @param output - output ItemStack
 	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static void addCombinerRecipe(ItemStack input, ItemStack output)
 	{
 		try {
@@ -72,7 +69,6 @@ public final class RecipeHelper
 	 * @param input - input ItemStack
 	 * @param output - output ItemStack
 	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static void addCrusherRecipe(ItemStack input, ItemStack output)
 	{
 		try {
@@ -89,7 +85,6 @@ public final class RecipeHelper
 	 * @param input - input ItemStack
 	 * @param output - output ItemStack
 	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static void addPurificationChamberRecipe(ItemStack input, ItemStack output)
 	{
 		try {
@@ -106,7 +101,6 @@ public final class RecipeHelper
 	 * @param input - input ItemStack
 	 * @param output - output GasStack
 	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static void addChemicalOxidizerRecipe(ItemStack input, GasStack output)
 	{
 		try {
@@ -124,7 +118,6 @@ public final class RecipeHelper
 	 * @param rightInput - right input GasStack
 	 * @param output - output GasStack
 	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static void addChemicalInfuserRecipe(GasStack leftInput, GasStack rightInput, GasStack output)
 	{
 		try {
@@ -143,7 +136,6 @@ public final class RecipeHelper
 	 * @param secondaryOutput - possible extra output
 	 * @param chance - probability of obtaining extra output
 	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static void addPrecisionSawmillRecipe(ItemStack input, ItemStack primaryOutput, ItemStack secondaryOutput, double chance)
 	{
 		try {
@@ -160,7 +152,6 @@ public final class RecipeHelper
 	 * @param input - input ItemStack
 	 * @param primaryOutput - guaranteed output
 	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static void addPrecisionSawmillRecipe(ItemStack input, ItemStack primaryOutput)
 	{
 		try {
@@ -177,7 +168,6 @@ public final class RecipeHelper
 	 * @param input - input AdvancedInput
 	 * @param output - output ItemStack
 	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static void addChemicalInjectionChamberRecipe(ItemStack input, String gasName, ItemStack output)
 	{
 		try {
@@ -196,7 +186,6 @@ public final class RecipeHelper
 	 * @param leftOutput - left output GasStack
 	 * @param rightOutput - right output GasStack
 	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static void addElectrolyticSeparatorRecipe(FluidStack input, double energy, GasStack leftOutput, GasStack rightOutput)
 	{
 		try {
@@ -213,7 +202,6 @@ public final class RecipeHelper
 	 * @param input - input ItemStack
 	 * @param output - output GasStack
 	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static void addChemicalDissolutionChamberRecipe(ItemStack input, GasStack output)
 	{
 		try {
@@ -230,7 +218,6 @@ public final class RecipeHelper
 	 * @param input - input GasStack
 	 * @param output - output GasStack
 	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static void addChemicalWasherRecipe(GasStack input, GasStack output)
 	{
 		try {
@@ -247,7 +234,6 @@ public final class RecipeHelper
 	 * @param input - input GasStack
 	 * @param output - output ItemStack
 	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static void addChemicalCrystallizerRecipe(GasStack input, ItemStack output)
 	{
 		try {
@@ -266,7 +252,6 @@ public final class RecipeHelper
 	 * @param input - input ItemStack
 	 * @param output - output ItemStack
 	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static void addMetallurgicInfuserRecipe(InfuseType infuse, int amount, ItemStack input, ItemStack output)
 	{
 		try {
@@ -288,7 +273,6 @@ public final class RecipeHelper
 	 * @param extraEnergy - extra energy needed by the recipe
 	 * @param ticks - amount of ticks it takes for this recipe to complete
 	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static void addPRCRecipe(ItemStack inputSolid, FluidStack inputFluid, GasStack inputGas, ItemStack outputSolid, GasStack outputGas, double extraEnergy, int ticks)
 	{
 		try {
@@ -305,7 +289,6 @@ public final class RecipeHelper
 	 * @param input - input GasStack
 	 * @param output - output GasStack
 	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static void addThermalEvaporationRecipe(FluidStack input, FluidStack output)
 	{
 		try {
@@ -322,7 +305,6 @@ public final class RecipeHelper
 	 * @param input - input GasStack
 	 * @param output - output GasStack
 	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static void addSolarNeutronRecipe(GasStack input, GasStack output)
 	{
 		try {

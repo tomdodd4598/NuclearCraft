@@ -6,7 +6,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotFurnace;
 
-public class ContainerFactory extends ContainerMachine {
+public class ContainerFactory extends ContainerMachineBase {
 	public ContainerFactory(InventoryPlayer inventory, TileFactory tileentity) {
 		super(inventory, tileentity, FactoryRecipes.instance());
 		addSlotToContainer(new Slot(tileentity, 0, 56, 35));

@@ -52,7 +52,6 @@ public abstract class DynamicNetwork<A, N extends DynamicNetwork<A, N>> implemen
 		transmittersToAdd.addAll(newTransmitters);
 	}
 
-	@SuppressWarnings("unchecked")
 	public void commit()
 	{
 		if(!transmittersToAdd.isEmpty())
@@ -203,7 +202,6 @@ public abstract class DynamicNetwork<A, N extends DynamicNetwork<A, N>> implemen
 		TransmitterNetworkRegistry.registerChangedNetwork(this);
 	}
 
-	@SuppressWarnings("unchecked")
 	public void adoptTransmittersAndAcceptorsFrom(N net)
 	{
 		for(IGridTransmitter<A, N> transmitter : net.transmitters)
@@ -240,7 +238,6 @@ public abstract class DynamicNetwork<A, N extends DynamicNetwork<A, N>> implemen
 		return packetRange;
 	}
 	
-	@SuppressWarnings("rawtypes")
 	protected Range4D genPacketRange()
 	{
 		if(getSize() == 0)
@@ -346,7 +343,6 @@ public abstract class DynamicNetwork<A, N extends DynamicNetwork<A, N>> implemen
 		onUpdate();
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void onUpdate()
 	{
 		if(FMLCommonHandler.instance().getEffectiveSide().isServer())
@@ -404,10 +400,8 @@ public abstract class DynamicNetwork<A, N extends DynamicNetwork<A, N>> implemen
 	{
 		public DynamicNetwork<?, ?> network;
 		public boolean newNetwork;
-		@SuppressWarnings("rawtypes")
 		public Collection<IGridTransmitter> newTransmitters;
 
-		@SuppressWarnings("rawtypes")
 		public TransmittersAddedEvent(DynamicNetwork net, boolean newNet, Collection<IGridTransmitter> added)
 		{
 			network = net;
@@ -418,11 +412,9 @@ public abstract class DynamicNetwork<A, N extends DynamicNetwork<A, N>> implemen
 
 	public static class ClientTickUpdate extends Event
 	{
-		@SuppressWarnings("rawtypes")
 		public DynamicNetwork network;
 		public byte operation; /*0 remove, 1 add*/
 
-		@SuppressWarnings("rawtypes")
 		public ClientTickUpdate(DynamicNetwork net, byte b)
 		{
 			network = net;

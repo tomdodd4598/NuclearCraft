@@ -75,7 +75,6 @@ public final class GasTransmission
 	 * @param side - side to attempt connection on
 	 * @return if this tile and side are connectable
 	 */
-	@SuppressWarnings("rawtypes")
 	public static boolean canConnect(TileEntity tileEntity, ForgeDirection side)
 	{
 		if(tileEntity instanceof ITubeConnection && (!(tileEntity instanceof ITransmitterTile) || TransmissionType.checkTransmissionType(((ITransmitterTile)tileEntity).getTransmitter(), TransmissionType.GAS)))

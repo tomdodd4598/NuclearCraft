@@ -1,7 +1,7 @@
 package nc.container.machine;
 
 import nc.crafting.NCRecipeHelper;
-import nc.tile.machine.TileMachine;
+import nc.tile.machine.TileMachineFluidOut;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -11,17 +11,18 @@ import net.minecraft.item.ItemStack;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public abstract class ContainerMachine extends Container {
-	public TileMachine entity;
+public abstract class ContainerMachineFluidOut extends Container {
+	public TileMachineFluidOut entity;
 	public NCRecipeHelper recipes;
 	public int lastCookTime;
 	public int lastEnergy;
+	public int lastFluid;
 	public double lastEU;
 	public double lastSU;
 	public int lastGetSpeed;
 	public int lastReqEnergy;
 	
-	public ContainerMachine(InventoryPlayer inventory, TileMachine tileentity, NCRecipeHelper recipe) {
+	public ContainerMachineFluidOut(InventoryPlayer inventory, TileMachineFluidOut tileentity, NCRecipeHelper recipe) {
 		entity = tileentity;
 		recipes = recipe;
 	}
@@ -41,10 +42,10 @@ public abstract class ContainerMachine extends Container {
 			if (entity.hasEnergy) {
 				icrafting.sendProgressBarUpdate(this, 200, entity.energyStorage.getEnergyStored());
 				icrafting.sendProgressBarUpdate(this, 201, entity.energyStorage.getEnergyStored() >> 16);
-				icrafting.sendProgressBarUpdate(this, 202, (int) entity.getFurnaceSpeed);
-				icrafting.sendProgressBarUpdate(this, 203, (int) entity.getFurnaceSpeed >> 16);
-				icrafting.sendProgressBarUpdate(this, 204, (int) entity.getRequiredEnergy);
-				icrafting.sendProgressBarUpdate(this, 205, (int) entity.getRequiredEnergy >> 16);
+				icrafting.sendProgressBarUpdate(this, 202, (int) entity.getProcessTime);
+				icrafting.sendProgressBarUpdate(this, 203, (int) entity.getProcessTime >> 16);
+				icrafting.sendProgressBarUpdate(this, 204, (int) entity.getEnergyRequired);
+				icrafting.sendProgressBarUpdate(this, 205, (int) entity.getEnergyRequired >> 16);
 			}
 			if (entity.hasUpgrades) {
 				icrafting.sendProgressBarUpdate(this, 100, (int) entity.energyUpgrade);
@@ -52,6 +53,8 @@ public abstract class ContainerMachine extends Container {
 				icrafting.sendProgressBarUpdate(this, 102, (int) entity.speedUpgrade);
 				icrafting.sendProgressBarUpdate(this, 103, (int) entity.speedUpgrade >> 16);
 			}
+			icrafting.sendProgressBarUpdate(this, 300, entity.tank.getFluidAmount());
+			icrafting.sendProgressBarUpdate(this, 301, entity.tank.getFluidAmount() >> 16);
 		}
 		lastCookTime = entity.cookTime;
 	}
@@ -74,14 +77,14 @@ public abstract class ContainerMachine extends Container {
 				lastGetSpeed = upcastShort(value);
 			}
 			if (slot == 203) {
-				entity.getFurnaceSpeed = lastGetSpeed | value << 16;
+				entity.getProcessTime = lastGetSpeed | value << 16;
 			}
 			
 			if (slot == 204) {
 				lastReqEnergy = upcastShort(value);
 			}
 			if (slot == 205) {
-				entity.getRequiredEnergy = lastReqEnergy | value << 16;
+				entity.getEnergyRequired = lastReqEnergy | value << 16;
 			}
 		}
 		if (entity.hasUpgrades) {
@@ -97,6 +100,12 @@ public abstract class ContainerMachine extends Container {
 			if (slot == 103) {
 				entity.speedUpgrade = (int) lastSU | value << 16;
 			}
+		}
+		if (slot == 300) {
+			lastFluid = upcastShort(value);
+		}
+		if (slot == 301) {
+			entity.fluid = lastFluid | value << 16;
 		}
 	}
   
@@ -124,12 +133,12 @@ public abstract class ContainerMachine extends Container {
 				slot.onSlotChange(itemstack1, itemstack);
 			}
 			else if(clickedSlotNumber > invStart - 1) {
-				if (TileMachine.isSpeedUpgrade(itemstack1) && entity.hasUpgrades) {
+				if (TileMachineFluidOut.isSpeedUpgrade(itemstack1) && entity.hasUpgrades) {
 					if (!mergeItemStack(itemstack1, sSlot, sSlot + 1, false)) {
 						return null;
 					}
 				}
-				else if (TileMachine.isEnergyUpgrade(itemstack1) && entity.hasUpgrades) {
+				else if (TileMachineFluidOut.isEnergyUpgrade(itemstack1) && entity.hasUpgrades) {
 					if (!mergeItemStack(itemstack1, eSlot, eSlot + 1, false)) {
 						return null;
 					}

@@ -77,7 +77,7 @@ public class InfoRecipes {
 		addRecipe(new ItemStack(NCBlocks.blockSteam), "-Can be used in any-machine or generator-that uses Steam");
 		
 		addRecipe(new ItemStack(NCItems.toughBow), "-A better version of the Bow--Does more damage and has a-higher durability--Can be repaired in an Anvil-using Tough Alloy");
-		addRecipe(new ItemStack(NCItems.pistol), "-Uses Depleted Uranium-bullets--Deals big damage");
+		addRecipe(new ItemStack(NCItems.pistol), "-Uses DU bullets--Deals big damage");
 		addRecipe(new ItemStack(NCItems.dUBullet), "-Pistol ammo");
 		addRecipe(new ItemStack(NCItems.toughAlloyPaxel), "-A multitool--Can be repaired in an Anvil-using Tough Alloy");
 		addRecipe(new ItemStack(NCItems.dUPaxel), "-A multitool--Can be repaired in an Anvil-using Depleted Uranium Plating");

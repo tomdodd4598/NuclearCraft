@@ -38,7 +38,7 @@ public class GuiHastener extends GuiContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
-		int k = (int) Math.ceil(this.hastener.cookTime * (23 + this.hastener.speedUpgrade/3) / this.hastener.getFurnaceSpeed);
+		int k = (int) Math.ceil(this.hastener.cookTime * (23 + this.hastener.speedUpgrade/3) / this.hastener.getProcessTime);
 		drawTexturedModalRect(guiLeft + 79, guiTop + 34, 176, 14, k + 1, 16);
 		
 		int e = hastener.energy * 74 / 250000;

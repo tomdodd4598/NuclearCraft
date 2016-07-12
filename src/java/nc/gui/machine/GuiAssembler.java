@@ -58,7 +58,7 @@ public class GuiAssembler extends GuiContainer {
 		int e = assembler.energy * 82 / 250000;
 		drawTexturedModalRect(guiLeft + 8, guiTop + 6 + 82 - e, 176, 3 + 82 - e, 16, e);
      
-		int k = (int) Math.ceil(assembler.cookTime * 64 / assembler.getFurnaceSpeed);
+		int k = (int) Math.ceil(assembler.cookTime * 64 / assembler.getProcessTime);
 		drawTexturedModalRect(guiLeft + 68, guiTop + 37, 3, 174, k, 37);
 	}
 	

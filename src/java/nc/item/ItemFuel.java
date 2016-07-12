@@ -51,7 +51,7 @@ public class ItemFuel extends ItemMeta {
 			"",
 			"The heat produced is determined by",
 			"the positions of the Cell Compartments.",
-			"Each Cell Compartments adjacent to",
+			"Each Cell Compartment adjacent to",
 			"n other Cell Compartments produces",
 			"(n+1)(n+2)/2 times the Base Heat of",
 			"the fuel.",

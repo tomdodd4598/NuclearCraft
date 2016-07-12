@@ -10,7 +10,6 @@ import net.minecraft.creativetab.CreativeTabs;
 public final class TabProxy
 {
 	/** The 'Mekanism' class where the tab instance is stored. */
-	@SuppressWarnings("rawtypes")
 	public static Class Mekanism;
 
 	/**

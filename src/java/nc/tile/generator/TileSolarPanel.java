@@ -3,15 +3,14 @@ package nc.tile.generator;
 import nc.NuclearCraft;
 
 public class TileSolarPanel extends TileContinuousBase {
-	public int power = NuclearCraft.solarRF;
-
+	
 	public TileSolarPanel() {
-		super("RTG", NuclearCraft.solarRF*2, 1);
+		super("RTG", NuclearCraft.solarRF);
 	}
 	
 	public void energy() {
-		if (this.storage.getEnergyStored() == 0 && worldObj.canBlockSeeTheSky(xCoord, yCoord+1, zCoord) /*&& Math.floor(worldObj.getTotalWorldTime()/12000)%2==0*/ && worldObj.getBlockLightValue(xCoord, yCoord+1, zCoord) == 15) {
-			this.storage.receiveEnergy(power, false);
+		if (storage.getEnergyStored() == 0 && worldObj.canBlockSeeTheSky(xCoord, yCoord + 1, zCoord) && worldObj.getBlockLightValue(xCoord, yCoord + 1, zCoord) > 0) {
+			storage.receiveEnergy(power*worldObj.getBlockLightValue(xCoord, yCoord + 1, zCoord)/15, false);
 		}
 	}
 }

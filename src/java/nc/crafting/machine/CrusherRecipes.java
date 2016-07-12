@@ -1,6 +1,5 @@
 package nc.crafting.machine;
 
-import nc.block.NCBlocks;
 import nc.crafting.NCRecipeHelper;
 import nc.item.NCItems;
 import net.minecraft.init.Blocks;
@@ -161,7 +160,7 @@ public class CrusherRecipes extends NCRecipeHelper {
     	addRecipe(new ItemStack(Items.fireworks), new ItemStack(Items.gunpowder, 1));
     	addRecipe(new ItemStack(Items.enchanted_book), new ItemStack(Items.leather, 1));
     	
-    	addRecipe(new ItemStack(NCBlocks.graphiteBlock), new ItemStack(NCItems.material, 9, 14));
+    	addRecipe(oreStack("blockGraphite", 1), new ItemStack(NCItems.material, 9, 77));
     	
     	//Lithium and Boron Cells
     	addRecipe(new ItemStack(NCItems.fuel, 1, 41), new ItemStack(NCItems.material, 1, 46));

@@ -6,7 +6,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotFurnace;
 
-public class ContainerIrradiator extends ContainerMachine {
+public class ContainerIrradiator extends ContainerMachineBase {
 	public ContainerIrradiator(InventoryPlayer inventory, TileIrradiator tileentity) {
 		super(inventory, tileentity, IrradiatorRecipes.instance());
 		addSlotToContainer(new Slot(tileentity, 0, 41, 38));

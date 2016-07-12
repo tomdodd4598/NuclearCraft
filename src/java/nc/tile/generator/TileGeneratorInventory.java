@@ -1,7 +1,9 @@
 package nc.tile.generator;
- 
-import nc.NuclearCraft;
+
+import nc.tile.machine.TileInventory;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
@@ -12,28 +14,24 @@ import cofh.api.energy.IEnergyConnection;
 import cofh.api.energy.IEnergyHandler;
 import cofh.api.energy.IEnergyReceiver;
 
-public abstract class TileContinuousBase extends TileEntity implements IEnergyHandler, IEnergyConnection {
+public abstract class TileGeneratorInventory extends TileInventory implements IEnergyHandler, IEnergyConnection {
 	public int maxStorage;
+	public boolean flag;
+	public boolean flag1 = false;
 	public int energy;
-	public int power = NuclearCraft.WRTGRF;
 	public EnergyStorage storage;
+	public int[] automation;
 	
-	public TileContinuousBase(String localName, int pow) {
-		storage = new EnergyStorage(pow*2, pow*2);
-		power = pow;
-	}
-	
-	public void updateEntity() {
-    	super.updateEntity();
-    	if(!worldObj.isRemote) {
-    		energy();
-    		addEnergy();
-    	}
-        markDirty();
-    }
-	
-	public void energy() {
-		storage.receiveEnergy(power, false);
+	public TileGeneratorInventory(String localName, int energyMax, int slotsNumber) {
+		storage = new EnergyStorage(energyMax, energyMax);
+		localizedName = localName;
+		slots = new ItemStack[slotsNumber];
+		
+		int[] a = new int[slotsNumber];
+		for (int i = 0; i < a.length; i++) {
+			a[i] = i;
+		}
+		automation = a;
 	}
 
 	public void addEnergy() {
@@ -49,10 +47,48 @@ public abstract class TileContinuousBase extends TileEntity implements IEnergyHa
 
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
+		if (nbt.hasKey("storage")) {
+			storage.readFromNBT(nbt.getCompoundTag("storage"));
+		}
+		flag = nbt.getBoolean("flag");
+		flag1 = nbt.getBoolean("flag1");
+		NBTTagList list = nbt.getTagList("Items", 10);
+		slots = new ItemStack[getSizeInventory()];
+
+		for (int i = 0; i < list.tagCount(); ++i) {
+			NBTTagCompound compound = list.getCompoundTagAt(i);
+			byte b = compound.getByte("Slot");
+
+			if (b >= 0 && b < slots.length) {
+				slots[b] = ItemStack.loadItemStackFromNBT(compound);
+			}
+		}
 	}
 
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
+		
+		NBTTagCompound energyTag = new NBTTagCompound();
+		storage.writeToNBT(energyTag);
+		nbt.setTag("storage", energyTag);
+		nbt.setBoolean("flag", flag);
+		nbt.setBoolean("flag1", flag1);
+		NBTTagList list = new NBTTagList();
+
+		for (int i = 0; i < slots.length; ++i) {
+			if (slots[i] != null) {
+				NBTTagCompound compound = new NBTTagCompound();
+				compound.setByte("Slot", (byte)i);
+				slots[i].writeToNBT(compound);
+				list.appendTag(compound);
+			}
+		}
+
+		nbt.setTag("Items", list);
+		
+		if(isInventoryNameLocalized()) {
+			nbt.setString("CustomName", localizedName);
+		}
 	}
 
 	public Packet getDescriptionPacket() {
@@ -100,5 +136,13 @@ public abstract class TileContinuousBase extends TileEntity implements IEnergyHa
 
 	public int getMaxEnergyStored(ForgeDirection paramForgeDirection) {
 		return storage.getMaxEnergyStored();
+	}
+
+	public int[] getAccessibleSlotsFromSide(int slot) {
+		return automation;
+	}
+
+	public boolean canInsertItem(int slot, ItemStack stack, int par) {
+		return isItemValidForSlot(slot, stack);
 	}
 }

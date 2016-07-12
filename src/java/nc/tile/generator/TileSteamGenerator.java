@@ -18,7 +18,7 @@ public class TileSteamGenerator extends TileContinuousBase implements IFluidHand
 	public FluidTank tank;
 
 	public TileSteamGenerator() {
-		super("steamGenerator", 20000, 1);
+		super("steamGenerator", 20000);
 		tank = new FluidTank(2000);
 	}
 	

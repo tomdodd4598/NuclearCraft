@@ -73,7 +73,6 @@ public class GasRegistry
 	 * Gets the list of all gasses registered in GasRegistry.
 	 * @return a cloned list of all registered gasses
 	 */
-	@SuppressWarnings("unchecked")
 	public static List<Gas> getRegisteredGasses()
 	{
 		return (List<Gas>)registeredGasses.clone();

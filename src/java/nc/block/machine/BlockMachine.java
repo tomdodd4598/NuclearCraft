@@ -4,7 +4,7 @@ import java.util.Random;
 
 import nc.NuclearCraft;
 import nc.tile.machine.TileElectricCrusher;
-import nc.tile.machine.TileMachine;
+import nc.tile.machine.TileMachineBase;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -152,7 +152,7 @@ public abstract class BlockMachine extends BlockContainer {
 			world.setBlockMetadataWithNotify(x, y, z, 4, 2);
 		}
 		if (itemstack.hasDisplayName()) {
-			((TileMachine)world.getTileEntity(x, y, z)).setGuiDisplayName(itemstack.getDisplayName());
+			((TileMachineBase)world.getTileEntity(x, y, z)).setGuiDisplayName(itemstack.getDisplayName());
 		}
 	}
 

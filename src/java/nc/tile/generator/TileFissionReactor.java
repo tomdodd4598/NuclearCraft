@@ -14,7 +14,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.StatCollector;
 
-public class TileFissionReactor extends TileGenerator {
+public class TileFissionReactor extends TileGeneratorInventory {
 	
 	private int tickCount = 0;
     public int complete;
@@ -37,7 +37,6 @@ public class TileFissionReactor extends TileGenerator {
     public int HReal;
     public int HCooling;
     public int FReal;
-    public int energy;
     public int fueltime;
 	public int fueltype;
 	public int heat;
@@ -48,11 +47,9 @@ public class TileFissionReactor extends TileGenerator {
     public String typeoffuel = StatCollector.translateToLocal("gui.noFuel");
     public int MBNumber;
     public String problem = StatCollector.translateToLocal("gui.casingIncomplete");
-    private static final int[] slotsTop = new int[] {0, 1};
-    private static final int[] slotsSides = new int[] {0, 1};
 
     public TileFissionReactor() {
-		super("Fission Reactor", 25000000, 3);
+		super("Fission Reactor", 25000000, 2);
 	}
 
     public void updateEntity() {
@@ -579,7 +576,6 @@ public class TileFissionReactor extends TileGenerator {
 
     public void readFromNBT(NBTTagCompound nbt) {
         super.readFromNBT(nbt);
-        if (nbt.hasKey("storage")) this.storage.readFromNBT(nbt.getCompoundTag("storage"));
         this.typeoffuel = nbt.getString("Typeoffuel");
         this.problem = nbt.getString("problem");
         this.fueltime = nbt.getInteger("Fueltime");
@@ -611,9 +607,6 @@ public class TileFissionReactor extends TileGenerator {
 
     public void writeToNBT(NBTTagCompound nbt) {
         super.writeToNBT(nbt);
-        NBTTagCompound energyTag = new NBTTagCompound();
-		this.storage.writeToNBT(energyTag);
-		nbt.setTag("storage", energyTag);
         nbt.setInteger("Fueltime", this.fueltime);
         nbt.setInteger("Fueltype", this.fueltype);
         
@@ -648,10 +641,6 @@ public class TileFissionReactor extends TileGenerator {
         else return false;
     }
 
-    public int[] getAccessibleSlotsFromSide(int slot) {
-    	return slot == 0 ? slotsSides : slotsTop;
-    }
-
     public boolean canExtractItem(int slot, ItemStack stack, int slots) {
         return slot == 1;
     }
@@ -667,18 +656,6 @@ public class TileFissionReactor extends TileGenerator {
     	else if (this.getBlockMetadata() == 3) return (worldObj.getBlock(xc+z, yc, zc-x) == block);
     	else return false;
     }
-    
-    /*private boolean find(Block block, Block block2, int x, int y, int z) {
-    	int xc = xCoord;
-    	int yc = yCoord + y;
-    	int zc = zCoord;
-    	
-    	if (this.getBlockMetadata() == 4) return (worldObj.getBlock(xc+x, yc, zc+z) == block || worldObj.getBlock(xc+x, yc, zc+z) == block2);
-    	else if (this.getBlockMetadata() == 2) return (worldObj.getBlock(xc-z, yc, zc+x) == block || worldObj.getBlock(xc-z, yc, zc+x) == block2);
-    	else if (this.getBlockMetadata() == 5) return (worldObj.getBlock(xc-x, yc, zc-z) == block || worldObj.getBlock(xc-x, yc, zc-z) == block2);
-    	else if (this.getBlockMetadata() == 3) return (worldObj.getBlock(xc+z, yc, zc-x) == block || worldObj.getBlock(xc+z, yc, zc-x) == block2);
-    	else return false;
-    }*/
     
     private boolean find(Block block, Block block2, Block block3, Block block4, int x, int y, int z) {
     	int xc = xCoord;

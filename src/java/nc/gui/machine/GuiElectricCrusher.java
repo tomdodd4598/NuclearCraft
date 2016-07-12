@@ -38,7 +38,7 @@ public class GuiElectricCrusher extends GuiContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
-		int k = (int) Math.ceil(this.electricCrusher.cookTime * (23 + this.electricCrusher.speedUpgrade/3) / this.electricCrusher.getFurnaceSpeed);
+		int k = (int) Math.ceil(this.electricCrusher.cookTime * (23 + this.electricCrusher.speedUpgrade/3) / this.electricCrusher.getProcessTime);
 		drawTexturedModalRect(guiLeft + 79, guiTop + 34, 176, 14, k + 1, 16);
 		
 		int e = electricCrusher.energy * 74 / 250000;

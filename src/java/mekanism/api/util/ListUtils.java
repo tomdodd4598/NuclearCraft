@@ -75,7 +75,6 @@ public class ListUtils
 		return newList;
 	}
 
-	@SuppressWarnings("unused")
 	public static <V> List<V> capRemains(List<V> list, int cap)
 	{
 		List<V> toReturn = new ArrayList<V>();
@@ -85,7 +84,7 @@ public class ListUtils
 			return toReturn;
 		}
 		else {
-			List<V> inverse = inverse(list);
+			//List<V> inverse = inverse(list);
 
 			int iterNeeded = list.size() - cap;
 			int count = 0;
@@ -161,13 +160,11 @@ public class ListUtils
 		return null;
 	}
 
-	@SuppressWarnings("unchecked")
 	public static <V> List<V> asList(Set<V> set)
 	{
 		return (List<V>)Arrays.asList(set.toArray());
 	}
 
-	@SuppressWarnings("unchecked")
 	public static <V> List<V> asList(V... values)
 	{
 		return (List<V>)Arrays.asList(values);

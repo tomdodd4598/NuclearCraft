@@ -35,7 +35,7 @@ import org.lwjgl.opengl.GL11;
      Minecraft.getMinecraft().getTextureManager().bindTexture(bground);
      drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
      
-     double k2 = 114*this.collector.cookTime/this.collector.FurnaceSpeed();
+     double k2 = 114*this.collector.cookTime/this.collector.ProcessTime();
      int k = (int) Math.ceil(k2);
      drawTexturedModalRect(guiLeft + 30, guiTop + 8, 3, 174, k, 78);
    }

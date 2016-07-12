@@ -1,3 +1,18 @@
+v1.8b
+
+* Electrolyser now requires an input of water to operate - empty fluid cells can now be used
+* Solar panels now generate small amounts of power during dawn, dusk and the night
++ Added config options for the heat and efficiency levels at which full Comparator signals are emitted for the Fission and Fusion Reactor, respectively
+
+* Fixed crash bug related to steam decompressors
+* Fixed graphite block crushing to coal dust rather than graphite dust
+* Minor changes to the fuel usage of non-RF machines
+* Minor changes to the spin-1/2 block
+* Fixed some errors in tooltip info
+* Hopefully fixed bug where mobs would drop rare loot even when mob drops was disabled
+* Minor texture changes
+* Many internal changes
+
 v1.8a
 
 + Added info tooltips to all machines

@@ -27,7 +27,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import cofh.api.energy.IEnergyHandler;
 import cofh.api.energy.IEnergyReceiver;
 
-public class TileFusionReactor extends TileGenerator implements IEnergyReceiver, IGasHandler, ITubeConnection {
+public class TileFusionReactor extends TileGeneratorInventory implements IEnergyReceiver, IGasHandler, ITubeConnection {
 	
 	public GasTank gasTank;
 	public GasTank gasTank2;
@@ -868,7 +868,7 @@ public class TileFusionReactor extends TileGenerator implements IEnergyReceiver,
 								
 								TileEntity tile = this.worldObj.getTileEntity(xCoord + side.offsetX + x, yCoord + side.offsetY + y, zCoord + side.offsetZ + z);
 				
-								if (!(tile instanceof TileGenerator) && !(tile instanceof TileReactionGenerator) && !(tile instanceof TileContinuousBase) && !(tile instanceof TileRTG) && !(tile instanceof TileWRTG) && !(tile instanceof TileFusionReactor) && !(tile instanceof TileFusionReactorBlock) && !(tile instanceof TileFissionReactor)) {
+								if (!(tile instanceof TileGeneratorInventory) && !(tile instanceof TileReactionGenerator) && !(tile instanceof TileContinuousBase) && !(tile instanceof TileRTG) && !(tile instanceof TileWRTG) && !(tile instanceof TileFusionReactor) && !(tile instanceof TileFusionReactorBlock) && !(tile instanceof TileFissionReactor)) {
 									if ((tile instanceof IEnergyHandler)) {
 										storage.extractEnergy(((IEnergyHandler)tile).receiveEnergy(side.getOpposite(), storage.extractEnergy(storage.getMaxEnergyStored(), true), false), false);
 									}

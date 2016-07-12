@@ -6,7 +6,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotFurnace;
 
-public class ContainerOxidiser extends ContainerMachine {
+public class ContainerOxidiser extends ContainerMachineBase {
 	public ContainerOxidiser(InventoryPlayer inventory, TileOxidiser tileentity) {
 		super(inventory, tileentity, OxidiserRecipes.instance());
 		addSlotToContainer(new Slot(tileentity, 0, 41, 38));

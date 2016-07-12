@@ -38,7 +38,7 @@ public class GuiIoniser extends GuiContainer {
 		int e = ioniser.energy * 82 / 250000;
 		drawTexturedModalRect(guiLeft + 8, guiTop + 6 + 82 - e, 176, 3 + 82 - e, 16, e);
      
-		int k = (int) Math.ceil(this.ioniser.cookTime * 70 / this.ioniser.getFurnaceSpeed);
+		int k = (int) Math.ceil(this.ioniser.cookTime * 70 / this.ioniser.getProcessTime);
 		drawTexturedModalRect(guiLeft + 59, guiTop + 37, 3, 174, k, 37);
 	}
 }

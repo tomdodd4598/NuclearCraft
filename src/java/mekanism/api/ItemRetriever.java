@@ -13,11 +13,9 @@ import net.minecraft.item.ItemStack;
 public final class ItemRetriever
 {
 	/** The 'MekanismItems' class that items are retrieved from. */
-	@SuppressWarnings("rawtypes")
 	private static Class MekanismItems;
 	
 	/** The 'MekanismBlocks' class that blocks are retrieved from. */
-	@SuppressWarnings("rawtypes")
 	private static Class MekanismBlocks;
 
 	/**

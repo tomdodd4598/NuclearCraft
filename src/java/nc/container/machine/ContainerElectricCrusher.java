@@ -6,7 +6,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotFurnace;
 
-public class ContainerElectricCrusher extends ContainerMachine {
+public class ContainerElectricCrusher extends ContainerMachineBase {
 	public ContainerElectricCrusher(InventoryPlayer inventory, TileElectricCrusher tileentity) {
 		super(inventory, tileentity, CrusherRecipes.instance());
 		addSlotToContainer(new Slot(tileentity, 0, 56, 35));

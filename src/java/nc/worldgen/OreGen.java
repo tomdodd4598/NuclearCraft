@@ -24,6 +24,7 @@ public class OreGen implements IWorldGenerator {
 	WorldGenMinable boron;
 	WorldGenMinable magnesium;
 	WorldGenMinable plutonium;
+	WorldGenMinable liquidHelium;
     
     public OreGen() {
 		copper = new WorldGenMinable(NCBlocks.blockOre, 0, NuclearCraft.oreSizeCopper, Blocks.stone);
@@ -36,15 +37,17 @@ public class OreGen implements IWorldGenerator {
 		boron = new WorldGenMinable(NCBlocks.blockOre, 8, NuclearCraft.oreSizeBoron, Blocks.stone);
 		magnesium = new WorldGenMinable(NCBlocks.blockOre, 9, NuclearCraft.oreSizeMagnesium, Blocks.stone);
         plutonium = new WorldGenMinable(NCBlocks.blockOre, 6, NuclearCraft.oreSizePlutonium, Blocks.netherrack);
+        liquidHelium = new WorldGenMinable(NCBlocks.blockHelium, 0, 8, Blocks.end_stone);
     }
 	
 	@Override
-    public void generate (Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider) {
+    public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider) {
         if (world.provider.isHellWorld) generateNether(random, chunkX * 16, chunkZ * 16, world);
+        else if (world.provider.dimensionId == 1) generateEnd(random, chunkX * 16, chunkZ * 16, world);
         else if (world.provider.terrainType != WorldType.FLAT) generateSurface(random, chunkX * 16, chunkZ * 16, world);
     }
  
-	void generateSurface (Random random, int xChunk, int zChunk, World world) {
+	void generateSurface(Random random, int xChunk, int zChunk, World world) {
 		int xPos, yPos, zPos;
         if (NuclearCraft.oreGenCopper)
         { for (int i = 0; i < NuclearCraft.oreRarityCopper; i++) { xPos = xChunk + random.nextInt(16); yPos = random.nextInt(NuclearCraft.oreMaxHeightCopper); zPos = zChunk + random.nextInt(16);
@@ -83,11 +86,18 @@ public class OreGen implements IWorldGenerator {
                 magnesium.generate(world, random, xPos, yPos, zPos); } }
 	}
     
-    void generateNether (Random random, int xChunk, int zChunk, World world) {
+    void generateNether(Random random, int xChunk, int zChunk, World world) {
         int xPos, yPos, zPos;
         if (NuclearCraft.oreGenPlutonium)
         { for (int i = 0; i < NuclearCraft.oreRarityPlutonium; i++) { xPos = xChunk + random.nextInt(16); yPos = random.nextInt(NuclearCraft.oreMaxHeightPlutonium); zPos = zChunk + random.nextInt(16);
                 plutonium.generate(world, random, xPos, yPos, zPos); } }
+    }
+    
+    void generateEnd(Random random, int xChunk, int zChunk, World world) {
+        int xPos, yPos, zPos;
+        if (NuclearCraft.liquidHeliumLakeGen > 0)
+        { for (int i = 0; i < NuclearCraft.liquidHeliumLakeGen; i++) { xPos = xChunk + random.nextInt(16); yPos = random.nextInt(128); zPos = zChunk + random.nextInt(16);
+        		liquidHelium.generate(world, random, xPos, yPos, zPos); } }
     }
  
     /**

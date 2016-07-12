@@ -19,7 +19,7 @@ public class BlockAntimatterBomb extends BlockTNT {
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void registerBlockIcons(IIconRegister iconRegister) {
-		this.blockIcon = iconRegister.registerIcon("nc:nuke/" + "antimatterBomb");
+		this.blockIcon = iconRegister.registerIcon("nc:nuke/" + "antimatterBombOn");
 	}
 	
 	@SideOnly(Side.CLIENT)

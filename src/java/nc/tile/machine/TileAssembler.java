@@ -9,8 +9,7 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 
-public class TileAssembler extends TileMachine {
-	public static final int[] in = {0, 1, 2, 3, 4};
+public class TileAssembler extends TileMachineBase {
 	
 	public static enum Mode {
 		KEEP,
@@ -36,7 +35,7 @@ public class TileAssembler extends TileMachine {
 		super.updateEntity();
 		if (flag != flag1) {
 			flag1 = flag;
-			BlockAssembler.updateBlockState(flag, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+			BlockAssembler.updateBlockState(flag, worldObj, xCoord, yCoord, zCoord);
 		}
 		markDirty();
 	}
@@ -57,7 +56,7 @@ public class TileAssembler extends TileMachine {
 	
 	public boolean canCook() {
 		for (int i = 0; i < inputSize; i++) {
-			if (this.slots[i] == null) {
+			if (slots[i] == null) {
 				flag = false;
 				return false;
 			}
@@ -65,29 +64,29 @@ public class TileAssembler extends TileMachine {
 		ItemStack[] output = getOutput(inputs());
 		for (int i = 0; i < inputSize; i++) {
 			if (recipes != null) {
-				if (mode == Mode.KEEP && recipes.getInputSize(i, output) >= this.slots[i].stackSize) {
+				if (mode == Mode.KEEP && recipes.getInputSize(i, output) >= slots[i].stackSize) {
 					flag = false;
 					return false;
-				} else if (mode == Mode.USE && recipes.getInputSize(i, output) > this.slots[i].stackSize) {
+				} else if (mode == Mode.USE && recipes.getInputSize(i, output) > slots[i].stackSize) {
 					flag = false;
 					return false;
 				}
 			}
 		}
-		if (this.cookTime >= getFurnaceSpeed) {
+		if (cookTime >= getProcessTime) {
 			flag = true;
 			return true;
 		}
-		if (getRequiredEnergy > this.energyStorage.getMaxEnergyStored() && cookTime <= 0 && this.energyStorage.getEnergyStored() < this.energyStorage.getMaxEnergyStored() - (int) Math.ceil(getRequiredEnergy/getFurnaceSpeed)) {
+		if (getEnergyRequired > energyStorage.getMaxEnergyStored() && cookTime <= 0 && energyStorage.getEnergyStored() < energyStorage.getMaxEnergyStored() - (int) Math.ceil(getEnergyRequired/getProcessTime)) {
 			flag = false;
 			return false;
 		}
 		if (hasEnergy) {
-			if (this.energyStorage.getEnergyStored() < 1*((int) Math.ceil(getRequiredEnergy/getFurnaceSpeed))) {
+			if (energyStorage.getEnergyStored() < 1*((int) Math.ceil(getEnergyRequired/getProcessTime))) {
 				flag = false;
 				return false;
 			}
-			if (this.energyStorage.getEnergyStored() == 0) {
+			if (energyStorage.getEnergyStored() == 0) {
 				flag = false;
 				return false;
 			}
@@ -100,11 +99,11 @@ public class TileAssembler extends TileMachine {
 				flag = false;
 				return false;
 			} else {
-				if (this.slots[j + inputSize] != null) {
-					if (!this.slots[j + inputSize].isItemEqual(output[j])) {
+				if (slots[j + inputSize] != null) {
+					if (!slots[j + inputSize].isItemEqual(output[j])) {
 						flag = false;
 						return false;
-					} else if (this.slots[j + inputSize].stackSize + output[j].stackSize > this.slots[j + inputSize].getMaxStackSize()) {
+					} else if (slots[j + inputSize].stackSize + output[j].stackSize > slots[j + inputSize].getMaxStackSize()) {
 						flag = false;
 						return false;
 					}
@@ -113,10 +112,6 @@ public class TileAssembler extends TileMachine {
 		}
 		flag = true;
 		return true;
-	}
-	
-	public int[] getAccessibleSlotsFromSide(int i) {
-		return in;
 	}
 	
 	public void readMode(NBTTagCompound nbt) {
@@ -140,12 +135,12 @@ public class TileAssembler extends TileMachine {
 	
 	public Packet getDescriptionPacket() {
 		NBTTagCompound nbtTag = new NBTTagCompound();
-		nbtTag.setInteger("Energy", this.energyStorage.getEnergyStored());
-		this.energy = nbtTag.getInteger("Energy");
+		nbtTag.setInteger("Energy", energyStorage.getEnergyStored());
+		energy = nbtTag.getInteger("Energy");
 		writeSides(nbtTag);
 		writeEnergy(nbtTag);
 		nbtTag.setShort("mode", (short) mode.ordinal());
-		return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 0, nbtTag);
+		return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 0, nbtTag);
 	}
 	
 	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {

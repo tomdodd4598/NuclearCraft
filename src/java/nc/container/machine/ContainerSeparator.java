@@ -6,7 +6,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotFurnace;
 
-public class ContainerSeparator extends ContainerMachine {
+public class ContainerSeparator extends ContainerMachineBase {
 	public ContainerSeparator(InventoryPlayer inventory, TileSeparator tileentity) {
 		super(inventory, tileentity, SeparatorRecipes.instance());
 		addSlotToContainer(new Slot(tileentity, 0, 41, 43));

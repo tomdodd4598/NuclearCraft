@@ -6,7 +6,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotFurnace;
 
-public class ContainerElectrolyser extends ContainerMachine {
+public class ContainerElectrolyser extends ContainerMachineFluidIn {
 	public ContainerElectrolyser(InventoryPlayer inventory, TileElectrolyser tileentity) {
 		super(inventory, tileentity, ElectrolyserRecipes.instance());
 		addSlotToContainer(new Slot(tileentity, 0, 41, 43));

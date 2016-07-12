@@ -109,7 +109,7 @@ public class Matrix {
 	public static Complex dot(Complex[] a, Complex[] b) {
 		Complex c = new Complex(0, 0);
 		for (int i = 0; i < a.length; i++) {
-			c.add(Complex.multiply(Complex.conjugate(a[i]), b[i]));
+			c.add(Complex.multiply(a[i].conjugate(), b[i]));
 		}
 		return c;
 	}
@@ -140,7 +140,7 @@ public class Matrix {
 		Complex[][] c = new Complex[a.length][a.length];
 		for (int i = 0; i < a.length; i++) {
 			for (int j = 0; j < a.length; j++) {
-				c[j][i] = Complex.multiply(a[i], Complex.conjugate(b[j]));
+				c[j][i] = Complex.multiply(a[j], b[i].conjugate());
 			}
 		}
 		return c;
@@ -215,7 +215,7 @@ public class Matrix {
 		Complex[][] c = new Complex[dim(s)][dim(s)];
 		for (int i = 0; i < dim(s); i++) {
 			for (int j = 0; j < dim(s); j++) {
-				if (i >= 0 && j >= 0) c[j][i] = new Complex(delta(j, i - 1)*rMinus(s, s - j), 0);
+				if (i >= 0 && j >= 0) c[j][i] = new Complex(delta(j, i - 1)*rPlus(s, s - j - 1), 0);
 			}
 		}
 		return c;
@@ -244,7 +244,8 @@ public class Matrix {
 	}
 	
 	public static Complex[][] projection(Complex[] a) {
-		return dyad(a, a);
+		Complex[] b = normalise(a);
+		return dyad(b, b);
 	}
 	
 	public static Complex[][] spinZ(int a, double... spin) {
@@ -341,11 +342,28 @@ public class Matrix {
 		return c;
 	}
 	
+	public static Complex[][] totalSpinHamiltonian(double... spin) {
+		double[] s = new double[spin.length];
+		for (int i = 0; i < spin.length; i++) {
+			s[i] = spin[i];
+		}
+		Complex[][] c = zero(dim(s));
+		for (int i = 1; i <= s.length; i++) {
+			for (int j = 1; j <= s.length; j++) {
+				if (i != j) c = add(c, twoSpinInteraction(i, j, spin));
+			}
+		}
+		return Matrix.multiply(new Complex(0.5, 0), c);
+	}
+	
 	public static Complex[][] projection(Complex[][] p, int a, double... spin) {
 		double[] s = new double[spin.length];
 		for (int i = 0; i < spin.length; i++) {
 			s[i] = spin[i];
 		}
+		
+		if (spin.length == 1) return p;
+		
 		int x = 1;
 		int y = 1;
 		for (int i = 1; i <= a - 1; i++) {
@@ -354,6 +372,7 @@ public class Matrix {
 		for (int i = a + 1; i <= spin.length; i++) {
 			y *= dim(s[i - 1]);
 		}
+		
 		return tensorProduct(I(x), tensorProduct(p, I(y)));
 	}
 	

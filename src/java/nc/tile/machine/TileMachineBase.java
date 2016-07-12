@@ -2,30 +2,26 @@ package nc.tile.machine;
  
 import nc.crafting.NCRecipeHelper;
 import nc.item.NCItems;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyHandler;
 import cofh.api.energy.IEnergyReceiver;
 
-public abstract class TileMachine extends TileEntity implements IEnergyHandler, IEnergyReceiver, ISidedInventory {
-	public double speedOfMachine;
-	public double timeOfMachine;
+public abstract class TileMachineBase extends TileInventory implements IEnergyHandler, IEnergyReceiver {
+	public double processTime;
+	public double energyRequired;
 	public int inputSize;
 	public int outputSize;
 	public int speedMod = 100;
 	public int timeMod = 100;
 	public String localizedName;
-    public ItemStack[] slots;
-	public EnergyStorage energyStorage;
+    public EnergyStorage energyStorage;
 	public boolean flag;
 	public boolean flag1 = false;
 	public boolean hasUpgrades;
@@ -38,15 +34,14 @@ public abstract class TileMachine extends TileEntity implements IEnergyHandler, 
 	public int energy;
 	public int cookTime = 0;
 	public boolean update;
-	//public static final int[] input = {0};
-	//public static final int[] output = {1};
+	public int[] automation;
 	public int currentItemBurnTime;
 	public double speedUpgrade = 1;
 	public double energyUpgrade = 1;
-	public double getFurnaceSpeed = Math.ceil(FurnaceSpeed()/speedUpgrade);
-	public double getRequiredEnergy = Math.ceil(speedUpgrade*(RequiredEnergy()/energyUpgrade));
+	public double getProcessTime = Math.ceil(ProcessTime()/speedUpgrade);
+	public double getEnergyRequired = Math.ceil(speedUpgrade*(EnergyRequired()/energyUpgrade));
 
-	public TileMachine(String localName, int energyMax, int inSize, int outSize, boolean usesUpgrades, boolean usesEnergy, double som, double tom, int smod, int tmod, NCRecipeHelper ncrecipes) {
+	public TileMachineBase(String localName, int energyMax, int inSize, int outSize, boolean usesUpgrades, boolean usesEnergy, double pt, double er, int smod, int tmod, NCRecipeHelper ncrecipes) {
 		energyStorage = new EnergyStorage(energyMax, energyMax);
 		localizedName = localName;
 		inputSize = inSize;
@@ -54,11 +49,17 @@ public abstract class TileMachine extends TileEntity implements IEnergyHandler, 
 		hasUpgrades = usesUpgrades;
 		hasEnergy = usesEnergy;
 		slots = new ItemStack[inSize + outSize + (usesUpgrades ? 2 : 0)];
-		speedOfMachine = som;
-		timeOfMachine = tom;
+		processTime = pt;
+		energyRequired = er;
 		speedMod = smod;
 		timeMod = tmod;
 		recipes = ncrecipes;
+		
+		int[] a = new int[inSize + outSize];
+		for (int i = 0; i < a.length; i++) {
+			a[i] = i;
+		}
+		automation = a;
 	}
 
 	public void updateEntity() {
@@ -66,21 +67,21 @@ public abstract class TileMachine extends TileEntity implements IEnergyHandler, 
 		upgradeSpeed();
 		upgradeEnergy();
 		if (hasUpgrades) {
-			getFurnaceSpeed = Math.ceil(FurnaceSpeed()/speedUpgrade);
+			getProcessTime = Math.ceil(ProcessTime()/speedUpgrade);
 		} else {
-			getFurnaceSpeed = FurnaceSpeed();
+			getProcessTime = ProcessTime();
 		}
 		if (hasUpgrades) {
-			getRequiredEnergy = Math.ceil(speedUpgrade*(RequiredEnergy()/energyUpgrade));
+			getEnergyRequired = Math.ceil(speedUpgrade*(EnergyRequired()/energyUpgrade));
 		} else {
-			getRequiredEnergy = RequiredEnergy();
+			getEnergyRequired = EnergyRequired();
 		}
 		if(!this.worldObj.isRemote) {
 			canCook();
 			if (canCook()) {
 				this.cookTime += 1;
-				if (inputSize!=9) this.energyStorage.extractEnergy((int) Math.ceil(getRequiredEnergy/getFurnaceSpeed), false);
-				if (this.cookTime >= getFurnaceSpeed) {
+				this.energyStorage.extractEnergy((int) Math.ceil(getEnergyRequired/getProcessTime), false);
+				if (this.cookTime >= getProcessTime) {
 					this.cookTime = 0;
 					cookItem();
 				}
@@ -129,20 +130,20 @@ public abstract class TileMachine extends TileEntity implements IEnergyHandler, 
 				return false;
 			}
 		}
-		if (this.cookTime >= getFurnaceSpeed) {
+		if (this.cookTime >= getProcessTime) {
 			flag = true;
 			return true;
 		}
-		if (getRequiredEnergy > this.energyStorage.getMaxEnergyStored() && cookTime <= 0 && this.energyStorage.getEnergyStored() < this.energyStorage.getMaxEnergyStored() - (int) Math.ceil(getRequiredEnergy/getFurnaceSpeed)) {
+		if (getEnergyRequired > this.energyStorage.getMaxEnergyStored() && cookTime <= 0 && this.energyStorage.getEnergyStored() < this.energyStorage.getMaxEnergyStored() - (int) Math.ceil(getEnergyRequired/getProcessTime)) {
 			flag = false;
 			return false;
 		}
-		if (getRequiredEnergy < this.energyStorage.getMaxEnergyStored() && cookTime <= 0 && getRequiredEnergy > this.energyStorage.getEnergyStored()) {
+		if (getEnergyRequired < this.energyStorage.getMaxEnergyStored() && cookTime <= 0 && getEnergyRequired > this.energyStorage.getEnergyStored()) {
 			flag = false;
 			return false;
 		}
 		if (hasEnergy) {
-			if (this.energyStorage.getEnergyStored() < 1*((int) Math.ceil(getRequiredEnergy/getFurnaceSpeed))) {
+			if (this.energyStorage.getEnergyStored() < 1*((int) Math.ceil(getEnergyRequired/getProcessTime))) {
 				flag = false;
 				return false;
 			}
@@ -179,12 +180,12 @@ public abstract class TileMachine extends TileEntity implements IEnergyHandler, 
 		return recipes.getOutput(itemstacks);
 	}
 
-	public double FurnaceSpeed() {
-		return speedOfMachine*(100/speedMod);
+	public double ProcessTime() {
+		return processTime*(100/speedMod);
 	}
 
-	public double RequiredEnergy() {
-		return timeOfMachine*(100/timeMod);
+	public double EnergyRequired() {
+		return energyRequired*(100/timeMod);
 	}
 
 	public int getInputSize(ItemStack stack, int slot) {
@@ -251,8 +252,8 @@ public abstract class TileMachine extends TileEntity implements IEnergyHandler, 
 			this.energyStorage.readFromNBT(nbt.getCompoundTag("energyStorage"));
 			this.speedUpgrade = nbt.getDouble("sU");
 			this.energyUpgrade = nbt.getDouble("eU");
-			this.getFurnaceSpeed = nbt.getDouble("s");
-			this.getRequiredEnergy = nbt.getDouble("e");
+			this.getProcessTime = nbt.getDouble("s");
+			this.getEnergyRequired = nbt.getDouble("e");
 		}
 		NBTTagList list = nbt.getTagList("Items", 10);
 		this.slots = new ItemStack[getSizeInventory()];
@@ -293,8 +294,8 @@ public abstract class TileMachine extends TileEntity implements IEnergyHandler, 
 		nbt.setBoolean("flag1", this.flag1);
 		nbt.setDouble("sU", this.speedUpgrade);
 		nbt.setDouble("eU", this.energyUpgrade);
-		nbt.setDouble("s", this.getFurnaceSpeed);
-		nbt.setDouble("e", this.getRequiredEnergy);
+		nbt.setDouble("s", this.getProcessTime);
+		nbt.setDouble("e", this.getEnergyRequired);
 		for (int i = 0; i < this.slots.length; i++) {
 			if (this.slots[i] != null) {
 				NBTTagCompound compound = new NBTTagCompound();
@@ -380,6 +381,10 @@ public abstract class TileMachine extends TileEntity implements IEnergyHandler, 
 		}
 		else return slot < inputSize;
 	}
+	
+	public int[] getAccessibleSlotsFromSide(int i) {
+		return automation;
+	}
 
 	public boolean canInsertItem(int slot, ItemStack itemstack, int side) {
 		return isItemValidForSlot(slot, itemstack);
@@ -387,46 +392,6 @@ public abstract class TileMachine extends TileEntity implements IEnergyHandler, 
 
 	public boolean canExtractItem(int slot, ItemStack stack, int side) {
 		return (slot > inputSize-1 && slot < outputSize+inputSize);
-	}
-
-	public ItemStack getStackInSlot(int i) {
-		return this.slots[i];
-	}
-
-	public void setInventorySlotContents(int i, ItemStack itemstack) {
-		this.slots[i] = itemstack;
-		if(itemstack != null && itemstack.stackSize > this.getInventoryStackLimit()) {
-			itemstack.stackSize = this.getInventoryStackLimit();
-		}
-	}
-
-	public ItemStack decrStackSize(int i, int j) {
-		if(this.slots[i] != null) {
-			ItemStack itemstack;
-			if(this.slots[i].stackSize <= j) {
-				itemstack = this.slots[i];
-				this.slots[i] = null;
-				return itemstack;
-			} else {
-				itemstack = this.slots[i].splitStack(j);
-				if(this.slots[i].stackSize == 0) {
-						this.slots[i] = null;
-				}
-				return itemstack;
-			}
-		} else {
-			return null;
-		}
-	}
-
-	public ItemStack getStackInSlotOnClosing(int i) {
-		if(this.slots[i] != null) {
-			ItemStack itemstack = this.slots[i];
-			this.slots[i] = null;
-			return itemstack;
-		} else {
-			return null;
-		}
 	}
 
 	public int getSizeInventory() {
@@ -439,37 +404,5 @@ public abstract class TileMachine extends TileEntity implements IEnergyHandler, 
 
 	public int getType() {
 		return getBlockMetadata();
-	}
-
-	public int[] getAccessibleSlotsFromSide(int i) {
-		return /*i == 1 ? input : output*/ null;
-	}
-	
-	public void setGuiDisplayName(String name) {
-        this.localizedName = name;
-    }
-	
-	public boolean isInventoryNameLocalized() {
-        return this.localizedName != null && this.localizedName.length() > 0;
-    }
-	
-	public String getInventoryName() {
-        return this.isInventoryNameLocalized() ? this.localizedName : "NC TileEntity";
-    }
-	
-	public int getInventoryStackLimit() {
-        return 64;
-    }
-	
-	public boolean isUseableByPlayer(EntityPlayer entityplayer) {
-        return this.worldObj.getTileEntity(this.xCoord, this.yCoord, this.zCoord) == this;
-    }
-
-    public void openInventory() {}
-
-    public void closeInventory() {}
-    
-    public boolean hasCustomInventoryName() {
-		return false;
 	}
 }

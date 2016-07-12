@@ -3,7 +3,6 @@ package nc.tile.machine;
 import nc.NuclearCraft;
 import nc.block.machine.BlockElectricFurnace;
 import nc.item.NCItems;
-import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
@@ -16,7 +15,7 @@ import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyHandler;
 import cofh.api.energy.IEnergyReceiver;
 
-public class TileElectricFurnace extends TileInventory implements IEnergyHandler, IEnergyReceiver, ISidedInventory {
+public class TileElectricFurnace extends TileInventory implements IEnergyHandler, IEnergyReceiver {
 	public EnergyStorage energyStorage;
 	public boolean flag;
 	public boolean flag1 = false;
@@ -27,8 +26,7 @@ public class TileElectricFurnace extends TileInventory implements IEnergyHandler
 	public int energy;
 	public int cookTime = 0;
 	public boolean update;
-	public static final int[] input = {0, 1};
-	public static final int[] output = {0, 1};
+	public static final int[] automation = {0, 1};
 	public int currentItemBurnTime;
 	public double speedUpgrade = 1;
 	public double energyUpgrade = 1;
@@ -36,9 +34,9 @@ public class TileElectricFurnace extends TileInventory implements IEnergyHandler
 	public double getRequiredEnergy = Math.ceil(speedUpgrade*(RequiredEnergy()/energyUpgrade));
 	
 	public TileElectricFurnace() {
-	  this.energyStorage = new EnergyStorage(250000, 250000);
-	  this.localizedName = "Machine Single Output";
-	  this.slots = new ItemStack[4];
+	  energyStorage = new EnergyStorage(250000, 250000);
+	  localizedName = "Machine Single Output";
+	  slots = new ItemStack[4];
 	}
 	
 	public void updateEntity() {
@@ -48,21 +46,21 @@ public class TileElectricFurnace extends TileInventory implements IEnergyHandler
 		getFurnaceSpeed = Math.ceil(FurnaceSpeed()/speedUpgrade);
 		getRequiredEnergy = Math.ceil(speedUpgrade*(RequiredEnergy()/energyUpgrade));
 		   
-		if(!this.worldObj.isRemote) {
+		if(!worldObj.isRemote) {
 			canCook();
 			if (canCook()) {
-				this.cookTime += 1;
-				this.energyStorage.extractEnergy((int) Math.ceil(getRequiredEnergy/getFurnaceSpeed), false);
-				if (this.cookTime >= getFurnaceSpeed) {
-					this.cookTime = 0;
+				cookTime += 1;
+				energyStorage.extractEnergy((int) Math.ceil(getRequiredEnergy/getFurnaceSpeed), false);
+				if (cookTime >= getFurnaceSpeed) {
+					cookTime = 0;
 					cookItem();
 				}
 			} else {
-				this.cookTime = 0;
+				cookTime = 0;
 			}
 	}
 		   
-		   if (flag != flag1) { flag1 = flag; BlockElectricFurnace.updateBlockState(flag, this.worldObj, this.xCoord, this.yCoord, this.zCoord); }
+		   if (flag != flag1) { flag1 = flag; BlockElectricFurnace.updateBlockState(flag, worldObj, xCoord, yCoord, zCoord); }
 			markDirty();
 	}
 	
@@ -75,42 +73,42 @@ public class TileElectricFurnace extends TileInventory implements IEnergyHandler
 	}
 	
 	public boolean canCook() {
-		if (this.slots[0] == null) {
+		if (slots[0] == null) {
 			flag = false;
 			return false;
 		}
-		if (this.cookTime >= getFurnaceSpeed) {
+		if (cookTime >= getFurnaceSpeed) {
 			flag = true;
 			return true;
 		}
-		if (getRequiredEnergy > this.energyStorage.getMaxEnergyStored() && cookTime <= 0 && this.energyStorage.getEnergyStored() < this.energyStorage.getMaxEnergyStored() - (int) Math.ceil(getRequiredEnergy/getFurnaceSpeed)) {
+		if (getRequiredEnergy > energyStorage.getMaxEnergyStored() && cookTime <= 0 && energyStorage.getEnergyStored() < energyStorage.getMaxEnergyStored() - (int) Math.ceil(getRequiredEnergy/getFurnaceSpeed)) {
 			flag = false;
 			return false;
 		}
-		if (getRequiredEnergy < this.energyStorage.getMaxEnergyStored() && cookTime <= 0 && getRequiredEnergy > this.energyStorage.getEnergyStored()) {
+		if (getRequiredEnergy < energyStorage.getMaxEnergyStored() && cookTime <= 0 && getRequiredEnergy > energyStorage.getEnergyStored()) {
 			flag = false;
 			return false;
 		}
-		if (this.energyStorage.getEnergyStored() < 1*((int) Math.ceil(getRequiredEnergy/getFurnaceSpeed))) {
+		if (energyStorage.getEnergyStored() < 1*((int) Math.ceil(getRequiredEnergy/getFurnaceSpeed))) {
 			flag = false;
 			return false;
 		}
-		if (this.energyStorage.getEnergyStored() == 0) {
+		if (energyStorage.getEnergyStored() == 0) {
 			flag = false;
 			return false;
 		}
 	  
-		ItemStack itemstack = getOutput(this.slots[0]);
+		ItemStack itemstack = getOutput(slots[0]);
 		if (itemstack == null) {
 			flag = false;
 			return false;
 		}
-		if (this.slots[1] != null) {
-			if (!this.slots[1].isItemEqual(itemstack)) {
+		if (slots[1] != null) {
+			if (!slots[1].isItemEqual(itemstack)) {
 				flag = false;
 				return false;
 			}
-			if (this.slots[1].stackSize + itemstack.stackSize > this.slots[1].getMaxStackSize()) {
+			if (slots[1].stackSize + itemstack.stackSize > slots[1].getMaxStackSize()) {
 				flag = false;
 				return false;
 			}
@@ -120,23 +118,23 @@ public class TileElectricFurnace extends TileInventory implements IEnergyHandler
 	}
 	
 	private void cookItem() {
-	  ItemStack itemstack = getOutput(this.slots[0]);
-	  if (this.slots[1] == null) {
-	    this.slots[1] = itemstack.copy();
-	  } else if (this.slots[1].isItemEqual(itemstack)) {
-	    this.slots[1].stackSize += itemstack.stackSize;
+	  ItemStack itemstack = getOutput(slots[0]);
+	  if (slots[1] == null) {
+	    slots[1] = itemstack.copy();
+	  } else if (slots[1].isItemEqual(itemstack)) {
+	    slots[1].stackSize += itemstack.stackSize;
 	  }
 	  
-	  this.slots[0].stackSize -= getInputSize(this.slots[0], 0);
+	  slots[0].stackSize -= getInputSize(slots[0], 0);
 	  
 	
-	  if (this.slots[0].stackSize <= 0) {
-	    this.slots[0] = null;
+	  if (slots[0].stackSize <= 0) {
+	    slots[0] = null;
 	  }
 	}
 	
 	public void upgradeSpeed() {
-		ItemStack stack = this.getStackInSlot(2);
+		ItemStack stack = getStackInSlot(2);
 		if (stack != null && isSpeedUpgrade(stack) /*&& speedUpgrade != Math.pow(1.8, stack.stackSize)*/) {
 			speedUpgrade = Math.pow(1.8, stack.stackSize);
 		} else speedUpgrade = 1;
@@ -147,7 +145,7 @@ public class TileElectricFurnace extends TileInventory implements IEnergyHandler
 	}
 
 	public void upgradeEnergy() {
-		ItemStack stack = this.getStackInSlot(3);
+		ItemStack stack = getStackInSlot(3);
 		if (stack != null && isEnergyUpgrade(stack) /*&& energyUpgrade != Math.pow(1.7, stack.stackSize)*/) {
 			energyUpgrade = Math.pow(1.7, stack.stackSize);
 		} else energyUpgrade = 1;
@@ -161,40 +159,40 @@ public class TileElectricFurnace extends TileInventory implements IEnergyHandler
 	{
 	  super.readFromNBT(nbt);
 	  if (nbt.hasKey("energyStorage")) {
-	    this.energyStorage.readFromNBT(nbt.getCompoundTag("energyStorage"));
-	    this.speedUpgrade = nbt.getDouble("sU");
-	    this.energyUpgrade = nbt.getDouble("eU");
-	    this.getFurnaceSpeed = nbt.getDouble("s");
-	    this.getRequiredEnergy = nbt.getDouble("e");
+	    energyStorage.readFromNBT(nbt.getCompoundTag("energyStorage"));
+	    speedUpgrade = nbt.getDouble("sU");
+	    energyUpgrade = nbt.getDouble("eU");
+	    getFurnaceSpeed = nbt.getDouble("s");
+	    getRequiredEnergy = nbt.getDouble("e");
 	  }
 	  
 	  NBTTagList list = nbt.getTagList("Items", 10);
-	  this.slots = new ItemStack[getSizeInventory()];
+	  slots = new ItemStack[getSizeInventory()];
 	  for (int i = 0; i < list.tagCount(); i++) {
 	    NBTTagCompound compound = list.getCompoundTagAt(i);
 	    byte b = compound.getByte("Slot");
-	    if ((b >= 0) && (b < this.slots.length)) {
-	      this.slots[b] = ItemStack.loadItemStackFromNBT(compound);
+	    if ((b >= 0) && (b < slots.length)) {
+	      slots[b] = ItemStack.loadItemStackFromNBT(compound);
 	    }
 	  }
 	  
-	  this.cookTime = nbt.getShort("CookTime");
-	  this.top = nbt.getShort("Top");
-	  this.bottom = nbt.getShort("Bottom");
-	  this.side1 = nbt.getShort("Side1");
-	  this.flag = nbt.getBoolean("flag");
-	  this.flag1 = nbt.getBoolean("flag1");
+	  cookTime = nbt.getShort("CookTime");
+	  top = nbt.getShort("Top");
+	  bottom = nbt.getShort("Bottom");
+	  side1 = nbt.getShort("Side1");
+	  flag = nbt.getBoolean("flag");
+	  flag1 = nbt.getBoolean("flag1");
 	}
 	
 	public void readSides(NBTTagCompound nbt) {
-	  this.top = nbt.getShort("Top");
-	  this.bottom = nbt.getShort("Bottom");
-	  this.side1 = nbt.getShort("Side1");
+	  top = nbt.getShort("Top");
+	  bottom = nbt.getShort("Bottom");
+	  side1 = nbt.getShort("Side1");
 	}
 	
 	public void readEnergy(NBTTagCompound nbt) {
 	  if (nbt.hasKey("energyStorage")) {
-	    this.energyStorage.readFromNBT(nbt.getCompoundTag("energyStorage"));
+	    energyStorage.readFromNBT(nbt.getCompoundTag("energyStorage"));
 	  }
 	}
 	
@@ -204,46 +202,46 @@ public class TileElectricFurnace extends TileInventory implements IEnergyHandler
 	  super.writeToNBT(nbt);
 	  
 	  NBTTagCompound energyTag = new NBTTagCompound();
-	  this.energyStorage.writeToNBT(energyTag);
+	  energyStorage.writeToNBT(energyTag);
 	  nbt.setTag("energyStorage", energyTag);
 	  NBTTagList list = new NBTTagList();
-	  nbt.setBoolean("flag", this.flag);
-	  nbt.setBoolean("flag1", this.flag1);
-	  nbt.setDouble("sU", this.speedUpgrade);
-	  nbt.setDouble("eU", this.energyUpgrade);
-	  nbt.setDouble("s", this.getFurnaceSpeed);
-	  nbt.setDouble("e", this.getRequiredEnergy);
+	  nbt.setBoolean("flag", flag);
+	  nbt.setBoolean("flag1", flag1);
+	  nbt.setDouble("sU", speedUpgrade);
+	  nbt.setDouble("eU", energyUpgrade);
+	  nbt.setDouble("s", getFurnaceSpeed);
+	  nbt.setDouble("e", getRequiredEnergy);
 	
-	  for (int i = 0; i < this.slots.length; i++) {
-	    if (this.slots[i] != null) {
+	  for (int i = 0; i < slots.length; i++) {
+	    if (slots[i] != null) {
 	      NBTTagCompound compound = new NBTTagCompound();
 	      compound.setByte("Slot", (byte)i);
-	      this.slots[i].writeToNBT(compound);
+	      slots[i].writeToNBT(compound);
 	      list.appendTag(compound);
 	    }
 	  }
 	  
-	  nbt.setShort("CookTime", (short)this.cookTime);
-	  nbt.setShort("Top", (short)this.top);
-	  nbt.setShort("Bottom", (short)this.bottom);
-	  nbt.setShort("Side1", (short)this.side1);
+	  nbt.setShort("CookTime", (short)cookTime);
+	  nbt.setShort("Top", (short)top);
+	  nbt.setShort("Bottom", (short)bottom);
+	  nbt.setShort("Side1", (short)side1);
 	  nbt.setTag("Items", list);
 	}
 	
 	
 	public void writeSides(NBTTagCompound nbt)
 	{
-	  nbt.setShort("Top", (short)this.top);
-	  nbt.setShort("Bottom", (short)this.bottom);
-	  nbt.setShort("Side1", (short)this.side1);
-	  this.update = false;
+	  nbt.setShort("Top", (short)top);
+	  nbt.setShort("Bottom", (short)bottom);
+	  nbt.setShort("Side1", (short)side1);
+	  update = false;
 	}
 	
 	
 	public void writeEnergy(NBTTagCompound nbt)
 	{
 	  NBTTagCompound energyTag = new NBTTagCompound();
-	  this.energyStorage.writeToNBT(energyTag);
+	  energyStorage.writeToNBT(energyTag);
 	  nbt.setTag("energyStorage", energyTag);
 	}
 	
@@ -251,12 +249,12 @@ public class TileElectricFurnace extends TileInventory implements IEnergyHandler
 	{
 	  NBTTagCompound nbtTag = new NBTTagCompound();
 	
-	  nbtTag.setInteger("Energy", this.energyStorage.getEnergyStored());
-	  this.energy = nbtTag.getInteger("Energy");
+	  nbtTag.setInteger("Energy", energyStorage.getEnergyStored());
+	  energy = nbtTag.getInteger("Energy");
 	  
 	  writeSides(nbtTag);
 	  writeEnergy(nbtTag);
-	  return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 0, nbtTag);
+	  return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 0, nbtTag);
 	}
 	
 	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet)
@@ -271,7 +269,7 @@ public class TileElectricFurnace extends TileInventory implements IEnergyHandler
 	}
 	
 	public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
-	  return this.energyStorage.receiveEnergy(maxReceive, simulate);
+	  return energyStorage.receiveEnergy(maxReceive, simulate);
 	}
 	
 	
@@ -281,17 +279,17 @@ public class TileElectricFurnace extends TileInventory implements IEnergyHandler
 	
 	
 	public int getEnergyStored(ForgeDirection from) {
-		return this.energyStorage.getEnergyStored();
+		return energyStorage.getEnergyStored();
 	}
 	
 	
 	public int getMaxEnergyStored(ForgeDirection from) {
-		return this.energyStorage.getMaxEnergyStored();
+		return energyStorage.getMaxEnergyStored();
 	}
 	
 	public int getEnergy() {
-		if (this.energyStorage.getEnergyStored() == 0) return this.energy;
-		return this.energyStorage.getEnergyStored();
+		if (energyStorage.getEnergyStored() == 0) return energy;
+		return energyStorage.getEnergyStored();
 	}
 	
 	public double FurnaceSpeed() {
@@ -307,66 +305,15 @@ public class TileElectricFurnace extends TileInventory implements IEnergyHandler
 	}
 
 	public boolean canInsertItem(int slot, ItemStack stack, int j){
-		return this.isItemValidForSlot(slot, stack);
+		return isItemValidForSlot(slot, stack);
 	}
 
 	public boolean canExtractItem(int slot, ItemStack itemstack, int j) {
 		return slot == 1;
 	}
-	
-	public ItemStack getStackInSlot(int i)
-	{
-		return this.slots[i];
-	}
-	
-	public void setInventorySlotContents(int i, ItemStack itemstack) {
-		this.slots[i] = itemstack;
-		
-		if(itemstack != null && itemstack.stackSize > this.getInventoryStackLimit()) {
-			itemstack.stackSize = this.getInventoryStackLimit();
-		}
-	}
-	
-	public ItemStack decrStackSize(int i, int j) {
-		if(this.slots[i] != null) {
-			ItemStack itemstack;
-				
-				if(this.slots[i].stackSize <= j) {
-					itemstack = this.slots[i];
-					
-					this.slots[i] = null;
-					
-					return itemstack;
-				} else {
-					itemstack = this.slots[i].splitStack(j);
-					
-					if(this.slots[i].stackSize == 0) {
-						this.slots[i] = null;
-					}
-					return itemstack;
-					
-				}
-		} else {
-			return null;
-		}
-	}
-
-	public ItemStack getStackInSlotOnClosing(int i) {
-		if(this.slots[i] != null) {
-			ItemStack itemstack = this.slots[i];
-			this.slots[i] = null;
-			return itemstack;
-		} else {
-			return null;
-		}
-	}
-	
-	public int getSizeInventory() {
-		return this.slots.length;
-	}
 
 	public String getName() {
-		return this.getBlockType().getUnlocalizedName();
+		return getBlockType().getUnlocalizedName();
 	}
 	
 	public int getType() {
@@ -374,6 +321,6 @@ public class TileElectricFurnace extends TileInventory implements IEnergyHandler
 	}
 
 	public int[] getAccessibleSlotsFromSide(int var1) {
-		return var1 == 0 ? output : (var1 == 1 ? input : output);
+		return automation;
 	}
 }

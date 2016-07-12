@@ -3,25 +3,20 @@ package nc.tile.machine;
 import nc.NuclearCraft;
 import nc.block.machine.BlockElectrolyser;
 import nc.crafting.machine.ElectrolyserRecipes;
+import net.minecraftforge.fluids.FluidRegistry;
 
-public class TileElectrolyser extends TileMachine {
-	public static final int[] input = {0, 1, 2, 3, 4};
-	public static final int[] output = {0, 1, 2, 3, 4};
+public class TileElectrolyser extends TileMachineFluidIn {
 	
 	public TileElectrolyser() {
-		super("Electrolyser", 250000, 1, 4, true, true, 20000, 1000000, NuclearCraft.electrolyserSpeed, NuclearCraft.electrolyserEfficiency, ElectrolyserRecipes.instance());
+		super("Electrolyser", 250000, 48000, 1, 4, true, true, 20000, 1000000, FluidRegistry.WATER, 12000, NuclearCraft.electrolyserSpeed, NuclearCraft.electrolyserEfficiency, ElectrolyserRecipes.instance());
 	}
 	
 	public void updateEntity() {
 		super.updateEntity();
 		if (flag != flag1) {
 			flag1 = flag;
-			BlockElectrolyser.updateBlockState(flag, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+			BlockElectrolyser.updateBlockState(flag, worldObj, xCoord, yCoord, zCoord);
 		}
 		markDirty();
-	}
-	
-	public int[] getAccessibleSlotsFromSide(int i) {
-		return i == 1 ? input : output;
 	}
 }

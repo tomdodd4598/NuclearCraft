@@ -41,8 +41,11 @@ import org.lwjgl.opengl.GL11;
      int e = electrolyser.energy * 82 / 250000;
      drawTexturedModalRect(guiLeft + 8, guiTop + 6 + 82 - e, 176, 3 + 82 - e, 16, e);
      
+     int f = electrolyser.fluid * 16 / 48000;
+     drawTexturedModalRect(guiLeft + 31, guiTop + 43 + 16 - f, 192, 3 + 16 - f, 6, f);
+     
  
-     int k = (int) Math.ceil(this.electrolyser.cookTime * 70 / this.electrolyser.getFurnaceSpeed);
+     int k = (int) Math.ceil(this.electrolyser.cookTime * 70 / this.electrolyser.getProcessTime);
      drawTexturedModalRect(guiLeft + 59, guiTop + 32, 3, 174, k, 38);
    }
  }

@@ -143,7 +143,6 @@ public class Coord4D
 	 * Writes this Coord4D's data to an ArrayList for packet transfer.
 	 * @param data - the ArrayList to add the data to
 	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void write(ArrayList data)
 	{
 		data.add(xCoord);

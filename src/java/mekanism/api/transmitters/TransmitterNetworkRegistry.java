@@ -24,14 +24,10 @@ public class TransmitterNetworkRegistry
 	private static TransmitterNetworkRegistry INSTANCE = new TransmitterNetworkRegistry();
 	private static boolean loaderRegistered = false;
 
-	@SuppressWarnings("rawtypes")
 	private HashSet<DynamicNetwork> networks = Sets.newHashSet();
-	@SuppressWarnings("rawtypes")
 	private HashSet<DynamicNetwork> networksToChange = Sets.newHashSet();
 
-	@SuppressWarnings("rawtypes")
 	private HashSet<IGridTransmitter> invalidTransmitters = Sets.newHashSet();
-	@SuppressWarnings("rawtypes")
 	private HashMap<Coord4D, IGridTransmitter> orphanTransmitters = Maps.newHashMap();
 
 	private Logger logger = LogManager.getLogger("MekanismTransmitters");
@@ -54,19 +50,16 @@ public class TransmitterNetworkRegistry
 		getInstance().orphanTransmitters.clear();
 	}
 
-	@SuppressWarnings("rawtypes")
 	public static void invalidateTransmitter(IGridTransmitter transmitter)
 	{
 		getInstance().invalidTransmitters.add(transmitter);
 	}
 
-	@SuppressWarnings("rawtypes")
 	public static void registerOrphanTransmitter(IGridTransmitter transmitter)
 	{
 		getInstance().orphanTransmitters.put(transmitter.coord(), transmitter);
 	}
 
-	@SuppressWarnings("rawtypes")
 	public static void registerChangedNetwork(DynamicNetwork network)
 	{
 		getInstance().networksToChange.add(network);
@@ -77,13 +70,11 @@ public class TransmitterNetworkRegistry
 		return INSTANCE;
 	}
 
-	@SuppressWarnings("rawtypes")
 	public void registerNetwork(DynamicNetwork network)
 	{
 		networks.add(network);
 	}
 
-	@SuppressWarnings("rawtypes")
 	public void removeNetwork(DynamicNetwork network)
 	{
 		if(networks.contains(network))
@@ -101,7 +92,6 @@ public class TransmitterNetworkRegistry
 		}
 	}
 
-	@SuppressWarnings("rawtypes")
 	public void tickEnd()
 	{
 		removeInvalidTransmitters();
@@ -116,7 +106,6 @@ public class TransmitterNetworkRegistry
 		}
 	}
 
-	@SuppressWarnings("rawtypes")
 	public void removeInvalidTransmitters()
 	{
 		if(MekanismAPI.debug && !invalidTransmitters.isEmpty())
@@ -140,7 +129,6 @@ public class TransmitterNetworkRegistry
 		invalidTransmitters.clear();
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void assignOrphans()
 	{
 		if(MekanismAPI.debug && !orphanTransmitters.isEmpty())
@@ -207,7 +195,6 @@ public class TransmitterNetworkRegistry
 		return null;
 	}
 
-	@SuppressWarnings("rawtypes")
 	public void commitChanges()
 	{
 		for(DynamicNetwork network : networksToChange)
@@ -224,7 +211,6 @@ public class TransmitterNetworkRegistry
 		return "Network Registry:\n" + networks;
 	}
 
-	@SuppressWarnings("rawtypes")
 	public String[] toStrings()
 	{
 		String[] strings = new String[networks.size()];
@@ -257,7 +243,6 @@ public class TransmitterNetworkRegistry
 			iterate(startPoint.coord(), ForgeDirection.UNKNOWN);
 		}
 
-		@SuppressWarnings("unchecked")
 		public void iterate(Coord4D from, ForgeDirection fromDirection)
 		{
 			if(iterated.contains(from))

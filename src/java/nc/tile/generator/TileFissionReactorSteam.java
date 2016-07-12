@@ -50,11 +50,9 @@ public class TileFissionReactorSteam extends TileSteamProducer {
     public String typeoffuel = StatCollector.translateToLocal("gui.noFuel");
     public int MBNumber;
     public String problem = StatCollector.translateToLocal("gui.casingIncomplete");
-    private static final int[] slotsTop = new int[] {0, 1};
-    private static final int[] slotsSides = new int[] {0, 1};
 
     public TileFissionReactorSteam() {
-		super("Fission Reactor Steam", 100000, 3);
+		super("Fission Reactor Steam", 100000, 2);
 	}
 
     public void updateEntity() {
@@ -668,10 +666,6 @@ public class TileFissionReactorSteam extends TileSteamProducer {
     public boolean isItemValidForSlot(int slot, ItemStack stack) {
         if (slot == 0) return isFuel(stack);
         else return false;
-    }
-
-    public int[] getAccessibleSlotsFromSide(int slot) {
-    	return slot == 0 ? slotsSides : slotsTop;
     }
 
     public boolean canExtractItem(int slot, ItemStack stack, int slots) {
