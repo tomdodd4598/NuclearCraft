@@ -10,7 +10,7 @@ import net.minecraft.item.ItemStack;
 public class TileIoniser extends TileMachineBase {
 	
 	public TileIoniser() {
-		super("Ioniser", 250000, 2, 2, true, true, 600, 60000, NuclearCraft.ioniserSpeed, NuclearCraft.ioniserEfficiency, IoniserRecipes.instance());
+		super("ioniser", 250000, 2, 2, true, true, 600, 60000, NuclearCraft.ioniserSpeed, NuclearCraft.ioniserEfficiency, IoniserRecipes.instance());
 	}
 	
 	public void updateEntity() {

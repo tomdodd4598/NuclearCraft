@@ -20,6 +20,8 @@ import nc.block.fluid.FluidHelium;
 import nc.block.fluid.FluidPlasma;
 import nc.block.fluid.FluidSteam;
 import nc.block.fluid.FluidSuperdenseSteam;
+import nc.block.generator.BlockAmRTG;
+import nc.block.generator.BlockCfRTG;
 import nc.block.generator.BlockDenseSteamDecompressor;
 import nc.block.generator.BlockElectromagnet;
 import nc.block.generator.BlockFissionReactor;
@@ -27,6 +29,9 @@ import nc.block.generator.BlockFissionReactorSteam;
 import nc.block.generator.BlockFusionReactor;
 import nc.block.generator.BlockFusionReactorBlock;
 import nc.block.generator.BlockFusionReactorBlockTop;
+import nc.block.generator.BlockFusionReactorSteam;
+import nc.block.generator.BlockFusionReactorSteamBlock;
+import nc.block.generator.BlockFusionReactorSteamBlockTop;
 import nc.block.generator.BlockRTG;
 import nc.block.generator.BlockReactionGenerator;
 import nc.block.generator.BlockSolarPanel;
@@ -48,9 +53,12 @@ import nc.block.machine.BlockIoniser;
 import nc.block.machine.BlockIrradiator;
 import nc.block.machine.BlockNuclearFurnace;
 import nc.block.machine.BlockOxidiser;
+import nc.block.machine.BlockRecycler;
 import nc.block.machine.BlockSeparator;
 import nc.block.nuke.BlockAntimatterBomb;
 import nc.block.nuke.BlockAntimatterBombExploding;
+import nc.block.nuke.BlockEMP;
+import nc.block.nuke.BlockEMPExploding;
 import nc.block.nuke.BlockNuke;
 import nc.block.nuke.BlockNukeExploding;
 import nc.block.quantum.BlockSimpleQuantum;
@@ -63,8 +71,11 @@ import nc.block.reactor.BlockReactorBlock;
 import nc.block.reactor.BlockSpeedBlock;
 import nc.block.reactor.BlockTubing1;
 import nc.block.reactor.BlockTubing2;
+import nc.block.storage.BlockLithiumIonBattery;
+import nc.block.storage.BlockVoltaicPile;
 import nc.entity.EntityAntimatterBombPrimed;
 import nc.entity.EntityBullet;
+import nc.entity.EntityEMPPrimed;
 import nc.entity.EntityNuclearGrenade;
 import nc.entity.EntityNuclearMonster;
 import nc.entity.EntityNukePrimed;
@@ -106,11 +117,14 @@ import nc.itemblock.accelerator.ItemBlockSynchrotron;
 import nc.itemblock.basic.ItemBlockBlock;
 import nc.itemblock.basic.ItemBlockOre;
 import nc.itemblock.crafting.ItemBlockNuclearWorkspace;
+import nc.itemblock.generator.ItemBlockAmRTG;
+import nc.itemblock.generator.ItemBlockCfRTG;
 import nc.itemblock.generator.ItemBlockDenseSteamDecompressor;
 import nc.itemblock.generator.ItemBlockElectromagnet;
 import nc.itemblock.generator.ItemBlockFissionReactor;
 import nc.itemblock.generator.ItemBlockFissionReactorSteam;
 import nc.itemblock.generator.ItemBlockFusionReactor;
+import nc.itemblock.generator.ItemBlockFusionReactorSteam;
 import nc.itemblock.generator.ItemBlockRTG;
 import nc.itemblock.generator.ItemBlockReactionGenerator;
 import nc.itemblock.generator.ItemBlockSolarPanel;
@@ -132,8 +146,10 @@ import nc.itemblock.machine.ItemBlockIoniser;
 import nc.itemblock.machine.ItemBlockIrradiator;
 import nc.itemblock.machine.ItemBlockNuclearFurnace;
 import nc.itemblock.machine.ItemBlockOxidiser;
+import nc.itemblock.machine.ItemBlockRecycler;
 import nc.itemblock.machine.ItemBlockSeparator;
 import nc.itemblock.nuke.ItemBlockAntimatterBomb;
+import nc.itemblock.nuke.ItemBlockEMP;
 import nc.itemblock.nuke.ItemBlockNuke;
 import nc.itemblock.quantum.ItemBlockSimpleQuantum;
 import nc.itemblock.reactor.ItemBlockBlastBlock;
@@ -143,12 +159,16 @@ import nc.itemblock.reactor.ItemBlockFusionConnector;
 import nc.itemblock.reactor.ItemBlockGraphiteBlock;
 import nc.itemblock.reactor.ItemBlockReactorBlock;
 import nc.itemblock.reactor.ItemBlockSpeedBlock;
+import nc.itemblock.storage.ItemBlockLithiumIonBattery;
+import nc.itemblock.storage.ItemBlockVoltaicPile;
 import nc.packet.PacketHandler;
 import nc.proxy.CommonProxy;
 import nc.tile.accelerator.TileSuperElectromagnet;
 import nc.tile.accelerator.TileSupercooler;
 import nc.tile.accelerator.TileSynchrotron;
 import nc.tile.crafting.TileNuclearWorkspace;
+import nc.tile.generator.TileAmRTG;
+import nc.tile.generator.TileCfRTG;
 import nc.tile.generator.TileDenseSteamDecompressor;
 import nc.tile.generator.TileElectromagnet;
 import nc.tile.generator.TileFissionReactor;
@@ -156,6 +176,9 @@ import nc.tile.generator.TileFissionReactorSteam;
 import nc.tile.generator.TileFusionReactor;
 import nc.tile.generator.TileFusionReactorBlock;
 import nc.tile.generator.TileFusionReactorBlockTop;
+import nc.tile.generator.TileFusionReactorSteam;
+import nc.tile.generator.TileFusionReactorSteamBlock;
+import nc.tile.generator.TileFusionReactorSteamBlockTop;
 import nc.tile.generator.TileRTG;
 import nc.tile.generator.TileReactionGenerator;
 import nc.tile.generator.TileSolarPanel;
@@ -177,10 +200,13 @@ import nc.tile.machine.TileIoniser;
 import nc.tile.machine.TileIrradiator;
 import nc.tile.machine.TileNuclearFurnace;
 import nc.tile.machine.TileOxidiser;
+import nc.tile.machine.TileRecycler;
 import nc.tile.machine.TileSeparator;
 import nc.tile.other.TileTubing1;
 import nc.tile.other.TileTubing2;
 import nc.tile.quantum.TileSimpleQuantum;
+import nc.tile.storage.TileLithiumIonBattery;
+import nc.tile.storage.TileVoltaicPile;
 import nc.util.Achievements;
 import nc.worldgen.OreGen;
 import net.minecraft.block.Block;
@@ -223,7 +249,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 public class NuclearCraft {
 	public static final String modid = "NuclearCraft";
-	public static final String version = "1.8b";
+	public static final String version = "1.9";
 	
 	public static final CreativeTabs tabNC = new CreativeTabs("tabNC") {
 		// Creative Tab Shown Item
@@ -265,6 +291,8 @@ public class NuclearCraft {
 	public static final int guiIdSynchrotron = 19;
 	public static final int guiIdAssembler = 20;
 	public static final int guiIdFissionReactorSteam = 21;
+	public static final int guiIdFusionReactorSteam = 22;
+	public static final int guiIdRecycler = 23;
 	
 	// Config File
 	public static boolean workspace;
@@ -350,15 +378,22 @@ public class NuclearCraft {
 	public static int heliumExtractorEfficiency;
 	public static int assemblerSpeed;
 	public static int assemblerEfficiency;
+	public static int recyclerSpeed;
+	public static int recyclerEfficiency;
 	public static int reactionGeneratorRF;
 	public static int reactionGeneratorEfficiency;
 	public static int RTGRF;
+	public static int AmRTGRF;
+	public static int CfRTGRF;
 	public static int WRTGRF;
 	public static int solarRF;
+	public static int lithiumIonRF;
+	public static int voltaicPileRF;
 	
 	public static boolean enablePaul;
 	public static boolean enableNuclearMonster;
 	public static boolean enableNukes;
+	public static boolean enableEMP;
 	public static boolean enableLoot;
 	public static int lootModifier;
 	public static boolean extraDrops;
@@ -371,6 +406,7 @@ public class NuclearCraft {
 	public static boolean nuclearMeltdowns;
 	public static int upgradeMax;
 	public static boolean alternateCasing;
+	
 	public static int baseRFLEU;
 	public static int baseRFHEU;
 	public static int baseRFLEP;
@@ -381,6 +417,20 @@ public class NuclearCraft {
 	public static int baseRFHEUOx;
 	public static int baseRFLEPOx;
 	public static int baseRFHEPOx;
+	public static int baseRFTBUOx;
+	public static int baseRFLEN;
+	public static int baseRFHEN;
+	public static int baseRFLEA;
+	public static int baseRFHEA;
+	public static int baseRFLEC;
+	public static int baseRFHEC;
+	public static int baseRFLENOx;
+	public static int baseRFHENOx;
+	public static int baseRFLEAOx;
+	public static int baseRFHEAOx;
+	public static int baseRFLECOx;
+	public static int baseRFHECOx;
+	
 	public static int baseFuelLEU;
 	public static int baseFuelHEU;
 	public static int baseFuelLEP;
@@ -391,6 +441,20 @@ public class NuclearCraft {
 	public static int baseFuelHEUOx;
 	public static int baseFuelLEPOx;
 	public static int baseFuelHEPOx;
+	public static int baseFuelTBUOx;
+	public static int baseFuelLEN;
+	public static int baseFuelHEN;
+	public static int baseFuelLEA;
+	public static int baseFuelHEA;
+	public static int baseFuelLEC;
+	public static int baseFuelHEC;
+	public static int baseFuelLENOx;
+	public static int baseFuelHENOx;
+	public static int baseFuelLEAOx;
+	public static int baseFuelHEAOx;
+	public static int baseFuelLECOx;
+	public static int baseFuelHECOx;
+	
 	public static int baseHeatLEU;
 	public static int baseHeatHEU;
 	public static int baseHeatLEP;
@@ -401,6 +465,20 @@ public class NuclearCraft {
 	public static int baseHeatHEUOx;
 	public static int baseHeatLEPOx;
 	public static int baseHeatHEPOx;
+	public static int baseHeatTBUOx;
+	public static int baseHeatLEN;
+	public static int baseHeatHEN;
+	public static int baseHeatLEA;
+	public static int baseHeatHEA;
+	public static int baseHeatLEC;
+	public static int baseHeatHEC;
+	public static int baseHeatLENOx;
+	public static int baseHeatHENOx;
+	public static int baseHeatLEAOx;
+	public static int baseHeatHEAOx;
+	public static int baseHeatLECOx;
+	public static int baseHeatHECOx;
+	
 	public static int standardCool;
 	public static int waterCool;
 	public static int cryotheumCool;
@@ -412,6 +490,7 @@ public class NuclearCraft {
 	
 	public static int fusionMaxRadius;
 	public static int fusionRF;
+	public static int fusionSteam;
 	public static int fusionEfficiency;
 	public static int fusionHeat;
 	public static int electromagnetRF;
@@ -419,6 +498,7 @@ public class NuclearCraft {
 	public static boolean fusionEfficiencyConverge;
 	public static int fusionComparatorEfficiency;
 	public static boolean fusionSounds;
+	
 	public static int baseRFHH;
 	public static int baseRFHD;
 	public static int baseRFHT;
@@ -447,6 +527,7 @@ public class NuclearCraft {
 	public static int baseRFLi6Li6;
 	public static int baseRFLi6Li7;
 	public static int baseRFLi7Li7;
+	
 	public static int baseFuelHH;
 	public static int baseFuelHD;
 	public static int baseFuelHT;
@@ -475,6 +556,7 @@ public class NuclearCraft {
 	public static int baseFuelLi6Li6;
 	public static int baseFuelLi6Li7;
 	public static int baseFuelLi7Li7;
+	
 	public static int heatHH;
 	public static int heatHD;
 	public static int heatHT;
@@ -688,9 +770,13 @@ public class NuclearCraft {
 		heliumExtractorEfficiency = config.getInt("Helium Extractor Efficiency Multiplier", "1.0: RF Machines", 100, 10, 1000, "");
 		assemblerSpeed = config.getInt("Assembler Speed Multiplier", "1.0: RF Machines", 100, 10, 1000, "");
 		assemblerEfficiency = config.getInt("Assembler Efficiency Multiplier", "1.0: RF Machines", 100, 10, 1000, "");
+		recyclerSpeed = config.getInt("Fuel Recycler Speed Multiplier", "1.0: RF Machines", 100, 10, 1000, "");
+		recyclerEfficiency = config.getInt("Fuel Recycler Efficiency Multiplier", "1.0: RF Machines", 100, 10, 1000, "");
 		reactionGeneratorRF = config.getInt("Reaction Generator RF/t", "1.1: RF Generators", 100, 10, 1000, "");
 		reactionGeneratorEfficiency = config.getInt("Reaction Generator Efficiency Multiplier", "1.1: RF Generators", 100, 10, 1000, "");
-		RTGRF = config.getInt("RTG RF/t", "1.1: RF Generators", 100, 1, 1000, "");
+		RTGRF = config.getInt("Plutonium RTG RF/t", "1.1: RF Generators", 100, 1, 1000, "");
+		AmRTGRF = config.getInt("Americium RTG RF/t", "1.1: RF Generators", 40, 1, 1000, "");
+		CfRTGRF = config.getInt("Californium RTG RF/t", "1.1: RF Generators", 500, 1, 1000, "");
 		WRTGRF = config.getInt("WRTG RF/t", "1.1: RF Generators", 5, 1, 1000, "");
 		solarRF = config.getInt("Solar Panel RF/t", "1.1: RF Generators", 10, 1, 1000, "");
 		nuclearFurnaceCookSpeed = config.getInt("Nuclear Furnace Speed Multiplier", "1.2: Non-RF Machines", 100, 10, 1000, "");
@@ -700,10 +786,13 @@ public class NuclearCraft {
 		crusherCrushSpeed = config.getInt("Crusher Speed Multiplier", "1.2: Non-RF Machines", 100, 10, 1000, "");
 		crusherCrushEfficiency = config.getInt("Crusher Fuel Usage Multiplier", "1.2: Non-RF Machines", 100, 10, 1000, "");
 		collectorSpeed = config.getInt("Helium Collector Speed Multiplier", "1.2: Non-RF Machines", 100, 10, 1000, "");
+		lithiumIonRF = config.getInt("Lithium Ion Battery RF", "1.3: RF Storage", 10000000, 1, 100000000, "");
+		voltaicPileRF = config.getInt("Voltaic Pile RF", "1.3: RF Storage", 1000000, 1, 100000000, "");
 		
 		enableNuclearMonster = config.getBoolean("Enable Nuclear Monsters Spawning", "2.0: Mobs", true, "");
 		enablePaul = config.getBoolean("Enable Paul", "2.0: Mobs", true, "");
 		enableNukes = config.getBoolean("Enable Nuclear and Antimatter Weapons", "2.1: Other", true, "");
+		enableEMP = config.getBoolean("Enable EMP Weapon", "2.1: Other", true, "");
 		enableLoot = config.getBoolean("Enable Loot in Generated Chests", "2.1: Other", true, "");
 		lootModifier = config.getInt("Dungeon Loot Frequency", "2.1: Other", 2, 0, 10, "");
 		extraDrops = config.getBoolean("Enable Extra Mob and Ore Drops", "2.1: Other", true, "");
@@ -717,6 +806,7 @@ public class NuclearCraft {
 		fissionHeat = fissionConfig.getInt("Fission Reactor Heat Production Multiplier", "0: General", 100, 10, 1000, "");
 		nuclearMeltdowns = fissionConfig.getBoolean("Enable Fission Reactor Meltdowns", "0: General", true, "");
 		alternateCasing = fissionConfig.getBoolean("Use Alternate Casing Texture", "0: General", false, "");
+		
 		baseRFLEU = fissionConfig.getInt("LEU Base Power", "1: Fission Fuel Base Power/Steam Production", 200, 20, 2000, "");
 		baseRFHEU = fissionConfig.getInt("HEU Base Power", "1: Fission Fuel Base Power/Steam Production", 800, 80, 8000, "");
 		baseRFLEP = fissionConfig.getInt("LEP Base Power", "1: Fission Fuel Base Power/Steam Production", 400, 40, 4000, "");
@@ -727,6 +817,21 @@ public class NuclearCraft {
 		baseRFHEUOx = fissionConfig.getInt("HEU-Ox Base Power", "1: Fission Fuel Base Power/Steam Production", 1200, 120, 12000, "");
 		baseRFLEPOx = fissionConfig.getInt("LEP-Ox Base Power", "1: Fission Fuel Base Power/Steam Production", 600, 60, 6000, "");
 		baseRFHEPOx = fissionConfig.getInt("HEP-Ox Base Power", "1: Fission Fuel Base Power/Steam Production", 2400, 240, 24000, "");
+		baseRFTBUOx = fissionConfig.getInt("TBU-Ox Base Power", "1: Fission Fuel Base Power/Steam Production", 150, 15, 1500, "");
+		
+		baseRFLEN = fissionConfig.getInt("LEN Base Power", "1: Fission Fuel Base Power/Steam Production", 150, 15, 1500, "");
+		baseRFHEN = fissionConfig.getInt("HEN Base Power", "1: Fission Fuel Base Power/Steam Production", 600, 60, 6000, "");
+		baseRFLEA = fissionConfig.getInt("LEA Base Power", "1: Fission Fuel Base Power/Steam Production", 300, 30, 3000, "");
+		baseRFHEA = fissionConfig.getInt("HEA Base Power", "1: Fission Fuel Base Power/Steam Production", 1200, 120, 12000, "");
+		baseRFLEC = fissionConfig.getInt("LEC Base Power", "1: Fission Fuel Base Power/Steam Production", 500, 50, 5000, "");
+		baseRFHEC = fissionConfig.getInt("HEC Base Power", "1: Fission Fuel Base Power/Steam Production", 2000, 200, 20000, "");
+		baseRFLENOx = fissionConfig.getInt("LEN-Ox Base Power", "1: Fission Fuel Base Power/Steam Production", 225, 22, 2250, "");
+		baseRFHENOx = fissionConfig.getInt("HEN-Ox Base Power", "1: Fission Fuel Base Power/Steam Production", 900, 90, 9000, "");
+		baseRFLEAOx = fissionConfig.getInt("LEA-Ox Base Power", "1: Fission Fuel Base Power/Steam Production", 450, 45, 4500, "");
+		baseRFHEAOx = fissionConfig.getInt("HEA-Ox Base Power", "1: Fission Fuel Base Power/Steam Production", 1800, 180, 18000, "");
+		baseRFLECOx = fissionConfig.getInt("LEC-Ox Base Power", "1: Fission Fuel Base Power/Steam Production", 750, 75, 7500, "");
+		baseRFHECOx = fissionConfig.getInt("HEC-Ox Base Power", "1: Fission Fuel Base Power/Steam Production", 3000, 300, 30000, "");
+		
 		baseFuelLEU = fissionConfig.getInt("LEU Usage Rate", "2: Fission Fuel Usage Rate", 25000, 2500, 250000, "");
 		baseFuelHEU = fissionConfig.getInt("HEU Usage Rate", "2: Fission Fuel Usage Rate", 25000, 2500, 250000, "");
 		baseFuelLEP = fissionConfig.getInt("LEP Usage Rate", "2: Fission Fuel Usage Rate", 50000, 5000, 500000, "");
@@ -737,6 +842,21 @@ public class NuclearCraft {
 		baseFuelHEUOx = fissionConfig.getInt("HEU-Ox Usage Rate", "2: Fission Fuel Usage Rate", 25000, 2500, 250000, "");
 		baseFuelLEPOx = fissionConfig.getInt("LEP-Ox Usage Rate", "2: Fission Fuel Usage Rate", 50000, 5000, 500000, "");
 		baseFuelHEPOx = fissionConfig.getInt("HEP-Ox Usage Rate", "2: Fission Fuel Usage Rate", 50000, 5000, 500000, "");
+		baseFuelTBUOx = fissionConfig.getInt("TBU-Ox Usage Rate", "2: Fission Fuel Usage Rate", 12500, 1250, 125000, "");
+		
+		baseFuelLEN = fissionConfig.getInt("LEN Usage Rate", "2: Fission Fuel Usage Rate", 12500, 1250, 125000, "");
+		baseFuelHEN = fissionConfig.getInt("HEN Usage Rate", "2: Fission Fuel Usage Rate", 12500, 1250, 125000, "");
+		baseFuelLEA = fissionConfig.getInt("LEA Usage Rate", "2: Fission Fuel Usage Rate", 25000, 2500, 250000, "");
+		baseFuelHEA = fissionConfig.getInt("HEA Usage Rate", "2: Fission Fuel Usage Rate", 25000, 2500, 250000, "");
+		baseFuelLEC = fissionConfig.getInt("LEC Usage Rate", "2: Fission Fuel Usage Rate", 37500, 3750, 375000, "");
+		baseFuelHEC = fissionConfig.getInt("HEC Usage Rate", "2: Fission Fuel Usage Rate", 37500, 3750, 375000, "");
+		baseFuelLENOx = fissionConfig.getInt("LEN-Ox Usage Rate", "2: Fission Fuel Usage Rate", 12500, 1250, 125000, "");
+		baseFuelHENOx = fissionConfig.getInt("HEN-Ox Usage Rate", "2: Fission Fuel Usage Rate", 12500, 1250, 125000, "");
+		baseFuelLEAOx = fissionConfig.getInt("LEA-Ox Usage Rate", "2: Fission Fuel Usage Rate", 25000, 2500, 250000, "");
+		baseFuelHEAOx = fissionConfig.getInt("HEA-Ox Usage Rate", "2: Fission Fuel Usage Rate", 25000, 2500, 250000, "");
+		baseFuelLECOx = fissionConfig.getInt("LEC-Ox Usage Rate", "2: Fission Fuel Usage Rate", 37500, 3750, 375000, "");
+		baseFuelHECOx = fissionConfig.getInt("HEC-Ox Usage Rate", "2: Fission Fuel Usage Rate", 37500, 3750, 375000, "");
+		
 		baseHeatLEU = fissionConfig.getInt("LEU Base Heat", "3: Fission Fuel Base Heat", 80, 8, 800, "");
 		baseHeatHEU = fissionConfig.getInt("HEU Base Heat", "3: Fission Fuel Base Heat", 640, 64, 6400, "");
 		baseHeatLEP = fissionConfig.getInt("LEP Base Heat", "3: Fission Fuel Base Heat", 200, 20, 2000, "");
@@ -747,6 +867,21 @@ public class NuclearCraft {
 		baseHeatHEUOx = fissionConfig.getInt("HEU-Ox Base Heat", "3: Fission Fuel Base Heat", 800, 80, 8000, "");
 		baseHeatLEPOx = fissionConfig.getInt("LEP-Ox Base Heat", "3: Fission Fuel Base Heat", 250, 25, 2500, "");
 		baseHeatHEPOx = fissionConfig.getInt("HEP-Ox Base Heat", "3: Fission Fuel Base Heat", 2000, 200, 20000, "");
+		baseHeatTBUOx = fissionConfig.getInt("TBU-Ox Base Heat", "3: Fission Fuel Base Heat", 25, 2, 250, "");
+		
+		baseHeatLEN = fissionConfig.getInt("LEN Base Heat", "3: Fission Fuel Base Heat", 40, 4, 400, "");
+		baseHeatHEN = fissionConfig.getInt("HEN Base Heat", "3: Fission Fuel Base Heat", 320, 32, 3200, "");
+		baseHeatLEA = fissionConfig.getInt("LEA Base Heat", "3: Fission Fuel Base Heat", 120, 12, 1200, "");
+		baseHeatHEA = fissionConfig.getInt("HEA Base Heat", "3: Fission Fuel Base Heat", 960, 96, 9600, "");
+		baseHeatLEC = fissionConfig.getInt("LEC Base Heat", "3: Fission Fuel Base Heat", 300, 30, 3000, "");
+		baseHeatHEC = fissionConfig.getInt("HEC Base Heat", "3: Fission Fuel Base Heat", 2400, 240, 24000, "");
+		baseHeatLENOx = fissionConfig.getInt("LEN-Ox Base Heat", "3: Fission Fuel Base Heat", 50, 5, 500, "");
+		baseHeatHENOx = fissionConfig.getInt("HEN-Ox Base Heat", "3: Fission Fuel Base Heat", 400, 40, 4000, "");
+		baseHeatLEAOx = fissionConfig.getInt("LEA-Ox Base Heat", "3: Fission Fuel Base Heat", 150, 15, 1500, "");
+		baseHeatHEAOx = fissionConfig.getInt("HEA-Ox Base Heat", "3: Fission Fuel Base Heat", 1200, 120, 12000, "");
+		baseHeatLECOx = fissionConfig.getInt("LEC-Ox Base Heat", "3: Fission Fuel Base Heat", 375, 37, 3750, "");
+		baseHeatHECOx = fissionConfig.getInt("HEC-Ox Base Heat", "3: Fission Fuel Base Heat", 3000, 300, 30000, "");
+		
 		standardCool = fissionConfig.getInt("Standard Cooler", "5: Cooler Base Cooling Rates (H/t)", 30, 1, 250, "");
 		waterCool = fissionConfig.getInt("Water Cooler", "5: Cooler Base Cooling Rates (H/t)", 30, 1, 250, "");
 		cryotheumCool = fissionConfig.getInt("Cryotheum Cooler", "5: Cooler Base Cooling Rates (H/t)", 80, 1, 250, "");
@@ -762,10 +897,12 @@ public class NuclearCraft {
 		fusionComparatorEfficiency = fusionConfig.getInt("The efficiency at which the comparator will emit a full redstone signal", "!: Comparator Efficiency", 90, 1, 100, "");
 		fusionMaxRadius = fusionConfig.getInt("Fusion Reactor Maximum Radius - Defined as Number of Fusion Connectors Between the Control Chunk and a Central Inner Electromagnet", "0: General", 25, 1, 100, "");
 		fusionRF = fusionConfig.getInt("Fusion Reactor RF Production Multiplier", "0: General", 100, 10, 1000, "");
+		fusionSteam = fusionConfig.getInt("Fusion Reactor Steam Production Multiplier", "0: General", 100, 10, 1000, "");
 		fusionEfficiency = fusionConfig.getInt("Fusion Reactor Fuel Efficiency Multiplier", "0: General", 100, 10, 1000, "");
 		fusionHeat = fusionConfig.getInt("Fusion Reactor Heat Production Multiplier", "0: General", 100, 10, 1000, "");
 		electromagnetRF = fusionConfig.getInt("Electromagnet RF/t Requirement", "0: General", 50, 0, 1000, "");
 		fusionMeltdowns = fusionConfig.getBoolean("Enable Fusion Reactor Overheating", "0: General", true, "");
+		
 		baseRFHH = fusionConfig.getInt("HH Base Power", "1: Fusion Combo Base Power", 320, 32, 3200, "");
 		baseRFHD = fusionConfig.getInt("HD Base Power", "1: Fusion Combo Base Power", 240, 24, 2400, "");
 		baseRFHT = fusionConfig.getInt("HT Base Power", "1: Fusion Combo Base Power", 80, 8, 800, "");
@@ -794,6 +931,7 @@ public class NuclearCraft {
 		baseRFLi6Li6 = fusionConfig.getInt("Li6Li6 Base Power", "1: Fusion Combo Base Power", 20, 2, 200, "");
 		baseRFLi6Li7 = fusionConfig.getInt("Li6Li7 Base Power", "1: Fusion Combo Base Power", 20, 2, 200, "");
 		baseRFLi7Li7 = fusionConfig.getInt("Li7Li7 Base Power", "1: Fusion Combo Base Power", 20, 2, 200, "");
+		
 		baseFuelHH = fusionConfig.getInt("HH Base Fuel Usage Rate", "2: Fusion Combo Base Fuel Usage Rate", 800, 80, 8000, "");
 		baseFuelHD = fusionConfig.getInt("HD Base Fuel Usage Rate", "2: Fusion Combo Base Fuel Usage Rate", 480, 48, 4800, "");
 		baseFuelHT = fusionConfig.getInt("HT Base Fuel Usage Rate", "2: Fusion Combo Base Fuel Usage Rate", 320, 32, 3200, "");
@@ -822,6 +960,7 @@ public class NuclearCraft {
 		baseFuelLi6Li6 = fusionConfig.getInt("Li6Li6 Base Fuel Usage Rate", "2: Fusion Combo Base Fuel Usage Rate", 20, 2, 200, "");
 		baseFuelLi6Li7 = fusionConfig.getInt("Li6Li7 Base Fuel Usage Rate", "2: Fusion Combo Base Fuel Usage Rate", 40, 4, 400, "");
 		baseFuelLi7Li7 = fusionConfig.getInt("Li7Li7 Base Fuel Usage Rate", "2: Fusion Combo Base Fuel Usage Rate", 20, 2, 200, "");
+		
 		heatHH = fusionConfig.getInt("HH Heat Variable", "3: Fusion Combo Heat Variable", 2140, 500, 20000, "");
 		heatHD = fusionConfig.getInt("HD Heat Variable", "3: Fusion Combo Heat Variable", 1380, 500, 20000, "");
 		heatHT = fusionConfig.getInt("HT Heat Variable", "3: Fusion Combo Heat Variable", 4700, 500, 20000, "");
@@ -1022,6 +1161,13 @@ public class NuclearCraft {
 		NCBlocks.fusionReactorBlockTop = new BlockFusionReactorBlockTop().setBlockName("fusionReactorBlockTop").setStepSound(Block.soundTypeMetal).setResistance(20.0F).setHardness(5.0F);
 		GameRegistry.registerBlock(NCBlocks.fusionReactorBlockTop, "fusionReactorBlockTop");
 		
+		NCBlocks.fusionReactorSteam = new BlockFusionReactorSteam(Material.iron).setBlockName("fusionReactorSteam").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(20.0F).setHardness(5.0F);
+		GameRegistry.registerBlock(NCBlocks.fusionReactorSteam, ItemBlockFusionReactorSteam.class, "fusionReactorSteam");
+		NCBlocks.fusionReactorSteamBlock = new BlockFusionReactorSteamBlock().setBlockName("fusionReactorSteamBlock").setStepSound(Block.soundTypeMetal).setResistance(20.0F).setHardness(5.0F);
+		GameRegistry.registerBlock(NCBlocks.fusionReactorSteamBlock, "fusionReactorSteamBlock");
+		NCBlocks.fusionReactorSteamBlockTop = new BlockFusionReactorSteamBlockTop().setBlockName("fusionReactorSteamBlockTop").setStepSound(Block.soundTypeMetal).setResistance(20.0F).setHardness(5.0F);
+		GameRegistry.registerBlock(NCBlocks.fusionReactorSteamBlockTop, "fusionReactorSteamBlockTop");
+		
 		NCBlocks.nuclearFurnaceIdle = new BlockNuclearFurnace(false).setBlockName("nuclearFurnaceIdle").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(20.0F).setHardness(5.0F);
 		GameRegistry.registerBlock(NCBlocks.nuclearFurnaceIdle, ItemBlockNuclearFurnace.class, "nuclearFurnaceIdle");
 		NCBlocks.nuclearFurnaceActive = new BlockNuclearFurnace(true).setBlockName("nuclearFurnaceActive").setStepSound(Block.soundTypeMetal).setResistance(20.0F).setHardness(5.0F);
@@ -1060,12 +1206,20 @@ public class NuclearCraft {
 		
 		NCBlocks.RTG = new BlockRTG().setBlockName("RTG").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(5.0F).setHardness(5.0F);
 		GameRegistry.registerBlock(NCBlocks.RTG, ItemBlockRTG.class, "RTG");
+		NCBlocks.AmRTG = new BlockAmRTG().setBlockName("AmRTG").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(5.0F).setHardness(5.0F);
+		GameRegistry.registerBlock(NCBlocks.AmRTG, ItemBlockAmRTG.class, "AmRTG");
+		NCBlocks.CfRTG = new BlockCfRTG().setBlockName("CfRTG").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(5.0F).setHardness(5.0F);
+		GameRegistry.registerBlock(NCBlocks.CfRTG, ItemBlockCfRTG.class, "CfRTG");
 		NCBlocks.WRTG = new BlockWRTG().setBlockName("WRTG").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(5.0F).setHardness(5.0F);
 		GameRegistry.registerBlock(NCBlocks.WRTG, ItemBlockWRTG.class, "WRTG");
 		NCBlocks.solarPanel = new BlockSolarPanel().setBlockName("solarPanel").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(5.0F).setHardness(5.0F);
 		GameRegistry.registerBlock(NCBlocks.solarPanel, ItemBlockSolarPanel.class, "solarPanel");
 		
-
+		NCBlocks.lithiumIonBatteryBlock = new BlockLithiumIonBattery().setBlockName("lithiumIonBatteryBlock").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(5.0F).setHardness(5.0F);
+		GameRegistry.registerBlock(NCBlocks.lithiumIonBatteryBlock, ItemBlockLithiumIonBattery.class, "lithiumIonBatteryBlock");
+		NCBlocks.voltaicPile = new BlockVoltaicPile().setBlockName("voltaicPile").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(5.0F).setHardness(5.0F);
+		GameRegistry.registerBlock(NCBlocks.voltaicPile, ItemBlockVoltaicPile.class, "voltaicPile");
+		
 		NCBlocks.separatorIdle = new BlockSeparator(false).setBlockName("separatorIdle").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(20.0F).setHardness(5.0F);
 		GameRegistry.registerBlock(NCBlocks.separatorIdle, ItemBlockSeparator.class, "separatorIdle");
 		NCBlocks.separatorActive = new BlockSeparator(true).setBlockName("separatorActive").setStepSound(Block.soundTypeMetal).setResistance(20.0F).setHardness(5.0F);
@@ -1111,6 +1265,10 @@ public class NuclearCraft {
 		GameRegistry.registerBlock(NCBlocks.assemblerIdle, ItemBlockAssembler.class, "assemblerIdle");
 		NCBlocks.assemblerActive = new BlockAssembler(true).setBlockName("assemblerActive").setStepSound(Block.soundTypeMetal).setResistance(20.0F).setHardness(5.0F);
 		GameRegistry.registerBlock(NCBlocks.assemblerActive, ItemBlockAssembler.class, "assemblerActive");
+		NCBlocks.recyclerIdle = new BlockRecycler(false).setBlockName("recyclerIdle").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(20.0F).setHardness(5.0F);
+		GameRegistry.registerBlock(NCBlocks.recyclerIdle, ItemBlockRecycler.class, "recyclerIdle");
+		NCBlocks.recyclerActive = new BlockRecycler(true).setBlockName("recyclerActive").setStepSound(Block.soundTypeMetal).setResistance(20.0F).setHardness(5.0F);
+		GameRegistry.registerBlock(NCBlocks.recyclerActive, ItemBlockRecycler.class, "recyclerActive");
 		
 		NCBlocks.steamGenerator = new BlockSteamGenerator().setBlockName("steamGenerator").setCreativeTab(tabNC).setStepSound(Block.soundTypeMetal).setResistance(5.0F).setHardness(5.0F);
 		GameRegistry.registerBlock(NCBlocks.steamGenerator, ItemBlockSteamGenerator.class, "steamGenerator");
@@ -1128,53 +1286,67 @@ public class NuclearCraft {
 		GameRegistry.registerBlock(NCBlocks.antimatterBomb, ItemBlockAntimatterBomb.class, "antimatterBomb");
 		NCBlocks.antimatterBombE = new BlockAntimatterBombExploding().setBlockName("antimatterBombE").setStepSound(Block.soundTypeCloth).setHardness(0.0F);
 		GameRegistry.registerBlock(NCBlocks.antimatterBombE, ItemBlockAntimatterBomb.class, "antimatterBombE");
+		
+		NCBlocks.EMP = new BlockEMP().setBlockName("EMP").setCreativeTab(tabNC).setStepSound(Block.soundTypeCloth).setHardness(0.0F);
+		GameRegistry.registerBlock(NCBlocks.EMP, ItemBlockEMP.class, "EMP");
+		NCBlocks.EMPE = new BlockEMPExploding().setBlockName("EMPE").setStepSound(Block.soundTypeCloth).setHardness(0.0F);
+		GameRegistry.registerBlock(NCBlocks.EMPE, ItemBlockEMP.class, "EMPE");
 			
 			// Tile Entity
-		GameRegistry.registerTileEntity(TileNuclearFurnace.class, "nuclearFurnace");
-		GameRegistry.registerTileEntity(TileFurnace.class, "furnace");
-		GameRegistry.registerTileEntity(TileCrusher.class, "crusher");
-		GameRegistry.registerTileEntity(TileElectricCrusher.class, "electricCrusher");
-		GameRegistry.registerTileEntity(TileElectricFurnace.class, "electricFurnace");
-		GameRegistry.registerTileEntity(TileReactionGenerator.class, "reactionGenerator");
-		GameRegistry.registerTileEntity(TileSeparator.class, "separator");
-		GameRegistry.registerTileEntity(TileHastener.class, "hastener");
-		GameRegistry.registerTileEntity(TileCollector.class, "collector");
-		GameRegistry.registerTileEntity(TileElectrolyser.class, "electrolyser");
-		GameRegistry.registerTileEntity(TileFissionReactor.class, "fissionReactorGraphite");
-		GameRegistry.registerTileEntity(TileFissionReactorSteam.class, "fissionReactorSteam");
-		GameRegistry.registerTileEntity(TileNuclearWorkspace.class, "nuclearWorkspace");
-		GameRegistry.registerTileEntity(TileFusionReactor.class, "fusionReactor");
-		GameRegistry.registerTileEntity(TileTubing1.class, "TEtubing1");
-		GameRegistry.registerTileEntity(TileTubing2.class, "TEtubing2");
-		GameRegistry.registerTileEntity(TileRTG.class, "RTG");
-		GameRegistry.registerTileEntity(TileWRTG.class, "WRTG");
-		GameRegistry.registerTileEntity(TileSteamGenerator.class, "steamGenerator");
-		GameRegistry.registerTileEntity(TileSteamDecompressor.class, "steamDecompressor");
-		GameRegistry.registerTileEntity(TileDenseSteamDecompressor.class, "denseSteamDecompressor");
-		GameRegistry.registerTileEntity(TileFusionReactorBlock.class, "fusionReactorBlock");
-		GameRegistry.registerTileEntity(TileFusionReactorBlockTop.class, "fusionReactorBlockTop");
-		GameRegistry.registerTileEntity(TileOxidiser.class, "oxidiser");
-		GameRegistry.registerTileEntity(TileIoniser.class, "ioniser");
-		GameRegistry.registerTileEntity(TileIrradiator.class, "irradiator");
-		GameRegistry.registerTileEntity(TileCooler.class, "cooler");
-		GameRegistry.registerTileEntity(TileAssembler.class, "assembler");
-		GameRegistry.registerTileEntity(TileFactory.class, "factory");
-		GameRegistry.registerTileEntity(TileHeliumExtractor.class, "heliumExtractor");
-		GameRegistry.registerTileEntity(TileSolarPanel.class, "solarPanel");
+		GameRegistry.registerTileEntity(TileNuclearFurnace.class, "nuclearFurnaceNC");
+		GameRegistry.registerTileEntity(TileFurnace.class, "furnaceNC");
+		GameRegistry.registerTileEntity(TileCrusher.class, "crusherNC");
+		GameRegistry.registerTileEntity(TileElectricCrusher.class, "electricCrusherNC");
+		GameRegistry.registerTileEntity(TileElectricFurnace.class, "electricFurnaceNC");
+		GameRegistry.registerTileEntity(TileReactionGenerator.class, "reactionGeneratorNC");
+		GameRegistry.registerTileEntity(TileSeparator.class, "separatorNC");
+		GameRegistry.registerTileEntity(TileHastener.class, "hastenerNC");
+		GameRegistry.registerTileEntity(TileCollector.class, "collectorNC");
+		GameRegistry.registerTileEntity(TileElectrolyser.class, "electrolyserNC");
+		GameRegistry.registerTileEntity(TileFissionReactor.class, "fissionReactorGraphiteNC");
+		GameRegistry.registerTileEntity(TileFissionReactorSteam.class, "fissionReactorSteamNC");
+		GameRegistry.registerTileEntity(TileNuclearWorkspace.class, "nuclearWorkspaceNC");
+		GameRegistry.registerTileEntity(TileFusionReactor.class, "fusionReactorNC");
+		GameRegistry.registerTileEntity(TileFusionReactorSteam.class, "fusionReactorSteamNC");
+		GameRegistry.registerTileEntity(TileTubing1.class, "TEtubing1NC");
+		GameRegistry.registerTileEntity(TileTubing2.class, "TEtubing2NC");
+		GameRegistry.registerTileEntity(TileRTG.class, "RTGNC");
+		GameRegistry.registerTileEntity(TileAmRTG.class, "AmRTGNC");
+		GameRegistry.registerTileEntity(TileCfRTG.class, "CfRTGNC");
+		GameRegistry.registerTileEntity(TileWRTG.class, "WRTGNC");
+		GameRegistry.registerTileEntity(TileSteamGenerator.class, "steamGeneratorNC");
+		GameRegistry.registerTileEntity(TileSteamDecompressor.class, "steamDecompressorNC");
+		GameRegistry.registerTileEntity(TileDenseSteamDecompressor.class, "denseSteamDecompressorNC");
+		GameRegistry.registerTileEntity(TileFusionReactorBlock.class, "fusionReactorBlockNC");
+		GameRegistry.registerTileEntity(TileFusionReactorBlockTop.class, "fusionReactorBlockTopNC");
+		GameRegistry.registerTileEntity(TileFusionReactorSteamBlock.class, "fusionReactorSteamBlockNC");
+		GameRegistry.registerTileEntity(TileFusionReactorSteamBlockTop.class, "fusionReactorSteamBlockTopNC");
+		GameRegistry.registerTileEntity(TileOxidiser.class, "oxidiserNC");
+		GameRegistry.registerTileEntity(TileIoniser.class, "ioniserNC");
+		GameRegistry.registerTileEntity(TileIrradiator.class, "irradiatorNC");
+		GameRegistry.registerTileEntity(TileCooler.class, "coolerNC");
+		GameRegistry.registerTileEntity(TileAssembler.class, "assemblerNC");
+		GameRegistry.registerTileEntity(TileFactory.class, "factoryNC");
+		GameRegistry.registerTileEntity(TileHeliumExtractor.class, "heliumExtractorNC");
+		GameRegistry.registerTileEntity(TileRecycler.class, "recyclerNC");
+		GameRegistry.registerTileEntity(TileSolarPanel.class, "solarPanelNC");
 		
-		GameRegistry.registerTileEntity(TileElectromagnet.class, "electromagnet");
-		GameRegistry.registerTileEntity(TileSuperElectromagnet.class, "superElectromagnet");
-		GameRegistry.registerTileEntity(TileSupercooler.class, "supercooler");
-		GameRegistry.registerTileEntity(TileSynchrotron.class, "synchrotron");
+		GameRegistry.registerTileEntity(TileElectromagnet.class, "electromagnetNC");
+		GameRegistry.registerTileEntity(TileSuperElectromagnet.class, "superElectromagnetNC");
+		GameRegistry.registerTileEntity(TileSupercooler.class, "supercoolerNC");
+		GameRegistry.registerTileEntity(TileSynchrotron.class, "synchrotronNC");
 		
-		GameRegistry.registerTileEntity(TileSimpleQuantum.class, "simpleQuantum");
+		GameRegistry.registerTileEntity(TileLithiumIonBattery.class, "lithiumIonBatteryBlockNC");
+		GameRegistry.registerTileEntity(TileVoltaicPile.class, "voltaicPileNC");
+		
+		GameRegistry.registerTileEntity(TileSimpleQuantum.class, "simpleQuantumNC");
 	
 		// Item Registry
 		GameRegistry.registerItem(NCItems.fuel = new ItemFuel(), "fuel");
 		GameRegistry.registerItem(NCItems.material = new ItemMaterial(), "material");
 		GameRegistry.registerItem(NCItems.parts = new ItemPart(), "parts");
 		
-		NCItems.dominoes = new ItemDominos(12, 1.4F, false, "dominoes", "Paul's favourite - he'll follow anyone", "he sees carrying this in their hand...", "Restores 12 hunger.");
+		NCItems.dominoes = new ItemDominos(16, 1.4F, false, "dominoes", "Paul's favourite - he'll follow anyone", "he sees carrying this in their hand...", "Restores 16 hunger.");
 		GameRegistry.registerItem(NCItems.dominoes, "dominoes");
 		NCItems.boiledEgg = new ItemFoodNC(5, 0.6F, false, "boiledEgg", "A tasty snack that restores 5 hunger.");
 		GameRegistry.registerItem(NCItems.boiledEgg, "boiledEgg");
@@ -1307,46 +1479,70 @@ public class NuclearCraft {
 		GameRegistry.registerItem(NCItems.antimatter, "antimatter");
 		
 		//Batteries
-		NCItems.lithiumIonBattery = new ItemBattery(10000000, 50000, "lithiumIonBattery", "A battery capable of", "storing up to 10 MRF.");
+		NCItems.lithiumIonBattery = new ItemBattery(lithiumIonRF, (int) Math.ceil(lithiumIonRF/20), "lithiumIonBattery", "A battery capable of storing " + (NuclearCraft.lithiumIonRF >= 1000000 ? NuclearCraft.lithiumIonRF/1000000 + " M" : (NuclearCraft.lithiumIonRF >= 1000 ? NuclearCraft.lithiumIonRF/1000 + " k" : NuclearCraft.lithiumIonRF + " ")) + "RF.");
 		GameRegistry.registerItem(NCItems.lithiumIonBattery, "lithiumIonBattery");
 		
 		// Block Crafting Recipes
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCBlocks.blockBlock, 1, 4), true, new Object[] {"XXX", "XXX", "XXX", 'X', "ingotUranium"}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCBlocks.blockBlock, 1, 0), true, new Object[] {"XXX", "XXX", "XXX", 'X',  "ingotCopper"}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCBlocks.blockBlock, 1, 1), true, new Object[] {"XXX", "XXX", "XXX", 'X',  "ingotTin"}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCBlocks.blockBlock, 1, 2), true, new Object[] {"XXX", "XXX", "XXX", 'X',  "ingotLead"}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCBlocks.blockBlock, 1, 3), true, new Object[] {"XXX", "XXX", "XXX", 'X',  "ingotSilver"}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCBlocks.blockBlock, 1, 6), true, new Object[] {"XXX", "XXX", "XXX", 'X',  "ingotBronze"}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCBlocks.blockBlock, 1, 5), true, new Object[] {"XXX", "XXX", "XXX", 'X',  "ingotThorium"}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCBlocks.blockBlock, 1, 8), true, new Object[] {"XXX", "XXX", "XXX", 'X',  "ingotLithium"}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCBlocks.blockBlock, 1, 9), true, new Object[] {"XXX", "XXX", "XXX", 'X',  "ingotBoron"}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCBlocks.blockBlock, 1, 10), true, new Object[] {"XXX", "XXX", "XXX", 'X',  "ingotMagnesium"}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCBlocks.graphiteBlock, 1), true, new Object[] {"XXX", "XXX", "XXX", 'X',  "ingotGraphite"}));
+		b(0, "ingotCopper");
+		b(1, "ingotTin");
+		b(2, "ingotLead");
+		b(3, "ingotSilver");
+		b(4, "ingotUranium");
+		b(5, "ingotThorium");
+		b(6, "ingotBronze");
+		b(8, "ingotLithium");
+		b(9, "ingotBoron");
+		b(10, "ingotMagnesium");
+		b(NCBlocks.graphiteBlock, "ingotGraphite");
 		
 		// Tiny Dust to Full Dust
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCItems.material, 1, 17), true, new Object[] {"XXX", "XXX", "XXX", 'X', new ItemStack (NCItems.material, 1, 23)}));
+		m(17, "dustTinyLead");
 		
 		// Isotope Lump Recipes
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCItems.material, 1, 28), true, new Object[] {"XXX", "XXX", "XXX", 'X', new ItemStack (NCItems.material, 1, 29)}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCItems.material, 1, 26), true, new Object[] {"XXX", "XXX", "XXX", 'X', new ItemStack (NCItems.material, 1, 27)}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCItems.material, 1, 24), true, new Object[] {"XXX", "XXX", "XXX", 'X', new ItemStack (NCItems.material, 1, 25)}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCItems.material, 1, 30), true, new Object[] {"XXX", "XXX", "XXX", 'X', new ItemStack (NCItems.material, 1, 31)}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCItems.material, 1, 32), true, new Object[] {"XXX", "XXX", "XXX", 'X', new ItemStack (NCItems.material, 1, 33)}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCItems.material, 1, 34), true, new Object[] {"XXX", "XXX", "XXX", 'X', new ItemStack (NCItems.material, 1, 35)}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCItems.material, 1, 36), true, new Object[] {"XXX", "XXX", "XXX", 'X', new ItemStack (NCItems.material, 1, 37)}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCItems.material, 1, 38), true, new Object[] {"XXX", "XXX", "XXX", 'X', new ItemStack (NCItems.material, 1, 39)}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCItems.material, 1, 40), true, new Object[] {"XXX", "XXX", "XXX", 'X', new ItemStack (NCItems.material, 1, 41)}));
+		m(24, "tinyU238Base");
+		m(26, "tinyU235Base");
+		m(28, "tinyU233Base");
+		m(30, "tinyPu238Base");
+		m(32, "tinyPu239Base");
+		m(34, "tinyPu242Base");
+		m(36, "tinyPu241Base");
+		m(38, "tinyTh232Base");
+		m(40, "tinyTh230Base");
 		
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCItems.material, 1, 59), true, new Object[] {"XXX", "XXX", "XXX", 'X', new ItemStack (NCItems.material, 1, 60)}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCItems.material, 1, 57), true, new Object[] {"XXX", "XXX", "XXX", 'X', new ItemStack (NCItems.material, 1, 58)}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCItems.material, 1, 55), true, new Object[] {"XXX", "XXX", "XXX", 'X', new ItemStack (NCItems.material, 1, 56)}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCItems.material, 1, 61), true, new Object[] {"XXX", "XXX", "XXX", 'X', new ItemStack (NCItems.material, 1, 62)}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCItems.material, 1, 63), true, new Object[] {"XXX", "XXX", "XXX", 'X', new ItemStack (NCItems.material, 1, 64)}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCItems.material, 1, 65), true, new Object[] {"XXX", "XXX", "XXX", 'X', new ItemStack (NCItems.material, 1, 66)}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCItems.material, 1, 67), true, new Object[] {"XXX", "XXX", "XXX", 'X', new ItemStack (NCItems.material, 1, 68)}));
+		m(55, "tinyU238Oxide");
+		m(57, "tinyU235Oxide");
+		m(59, "tinyU233Oxide");
+		m(61, "tinyPu238Oxide");
+		m(63, "tinyPu239Oxide");
+		m(65, "tinyPu242Oxide");
+		m(67, "tinyPu241Oxide");
+		m(82, "tinyTh232Oxide");
+		m(84, "tinyTh230Oxide");
 		
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCItems.material, 1, 46), true, new Object[] {"XXX", "XXX", "XXX", 'X', new ItemStack (NCItems.material, 1, 69)}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack (NCItems.material, 1, 48), true, new Object[] {"XXX", "XXX", "XXX", 'X', new ItemStack (NCItems.material, 1, 70)}));
+		m(46, "tinyLi6");
+		m(48, "tinyB10");
+		
+		m(86, "tinyNp236Base");
+		m(88, "tinyNp237Base");
+		m(90, "tinyAm241Base");
+		m(92, "tinyAm242Base");
+		m(94, "tinyAm243Base");
+		m(96, "tinyCm243Base");
+		m(98, "tinyCm245Base");
+		m(100, "tinyCm246Base");
+		m(102, "tinyCm247Base");
+		m(122, "tinyCf250Base");
+		
+		m(104, "tinyNp236Oxide");
+		m(106, "tinyNp237Oxide");
+		m(108, "tinyAm241Oxide");
+		m(110, "tinyAm242Oxide");
+		m(112, "tinyAm243Oxide");
+		m(114, "tinyCm243Oxide");
+		m(116, "tinyCm245Oxide");
+		m(118, "tinyCm246Oxide");
+		m(120, "tinyCm247Oxide");
+		m(124, "tinyCf250Oxide");
 		
 		// Shaped Crafting Recipes
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCItems.fuel, 16, 33), true, new Object[] {" I ", "I I", " I ", 'I', "plateIron"}));
@@ -1362,17 +1558,19 @@ public class NuclearCraft {
 		GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.furnaceIdle, true, new Object[] {"PPP", "PXP", "PPP", 'P', "plateIron", 'X', Blocks.furnace}));
 		GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.crusherIdle, true, new Object[] {"PPP", "PCP", "PPP", 'P', "plateIron", 'C', new ItemStack(NCItems.parts, 1, 2)}));
 		
-		GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.electricFurnaceIdle, true, new Object[] {"PRP", "RCR", "PRP", 'P', "plateIron", 'R', Items.redstone, 'C', NCBlocks.furnaceIdle}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.electricCrusherIdle, true, new Object[] {"PRP", "RCR", "PRP", 'P', "plateIron", 'R', Items.redstone, 'C', NCBlocks.crusherIdle}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.electricFurnaceIdle, true, new Object[] {"PRP", "RCR", "PRP", 'P', "plateIron", 'R', new ItemStack(NCItems.parts, 1, 12), 'C', NCBlocks.furnaceIdle}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.electricCrusherIdle, true, new Object[] {"PRP", "RCR", "PRP", 'P', "plateIron", 'R', new ItemStack(NCItems.parts, 1, 12), 'C', NCBlocks.crusherIdle}));
 		
 		if (workspace) GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.nuclearWorkspace, true, new Object[] {"NNN", " T ", "TTT", 'N', "plateBasic", 'T', "ingotTough"}));
 		
 		GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.graphiteBlock, true, new Object[] {"CDC", "DCD", "CDC", 'D', "dustCoal", 'C', Items.coal}));
 		
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCBlocks.fusionConnector, 2), true, new Object[] {"CC", 'C', NCBlocks.electromagnetIdle}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCBlocks.fusionConnector, 4), true, new Object[] {"CC", 'C', NCBlocks.electromagnetIdle}));
 		
 		GameRegistry.addRecipe(new ShapedOreRecipe(NCItems.upgradeSpeed, true, new Object[] {"PPP", "PCP", "PPP", 'P', "dustLapis", 'C', "plateIron"}));
 		GameRegistry.addRecipe(new ShapedOreRecipe(NCItems.upgradeEnergy, true, new Object[] {"PPP", "PCP", "PPP", 'P', "universalReactant", 'C', "plateIron"}));
+		
+		GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.voltaicPile, true, new Object[] {"PCP", "PMP", 'P', "plateBasic", 'C', "blockCopper", 'M', "blockMagnesium"}));
 	
 		// Tool Crafting Recipes
 		GameRegistry.addRecipe(new ShapedOreRecipe(NCItems.bronzePickaxe, true, new Object[] {"XXX", " S ", " S ", 'X', "ingotBronze", 'S', Items.stick}));
@@ -1428,27 +1626,102 @@ public class NuclearCraft {
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.material, 3, 71), new Object[] {"ingotMagnesium", "ingotBoron", "ingotBoron"}));
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.material, 3, 72), new Object[] {"dustMagnesium", "dustBoron", "dustBoron"}));
 		
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.fuel, 1, 0), new Object[] {"U238", "U238", "U238", "U238", "U238", "U238", "U238", "U238", new ItemStack(NCItems.material, 1, 26)}));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.fuel, 1, 6), new Object[] {"U238", "U238", "U238", "U238", "U238", "U238", "U238", "U238", new ItemStack(NCItems.material, 1, 28)}));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.fuel, 1, 1), new Object[] {"U238", "U238", "U238", "U238", "U238", new ItemStack(NCItems.material, 1, 26), new ItemStack(NCItems.material, 1, 26), new ItemStack(NCItems.material, 1, 26), new ItemStack(NCItems.material, 1, 26)}));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.fuel, 1, 7), new Object[] {"U238", "U238", "U238", "U238", "U238", new ItemStack(NCItems.material, 1, 28), new ItemStack(NCItems.material, 1, 28), new ItemStack(NCItems.material, 1, 28), new ItemStack(NCItems.material, 1, 28)}));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.fuel, 1, 2), new Object[] {"Pu242", "Pu242", "Pu242", "Pu242", "Pu242", "Pu242", "Pu242", "Pu242", new ItemStack(NCItems.material, 1, 32)}));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.fuel, 1, 8), new Object[] {"Pu242", "Pu242", "Pu242", "Pu242", "Pu242", "Pu242", "Pu242", "Pu242", new ItemStack(NCItems.material, 1, 36)}));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.fuel, 1, 3), new Object[] {"Pu242", "Pu242", "Pu242", "Pu242", "Pu242", new ItemStack(NCItems.material, 1, 32), new ItemStack(NCItems.material, 1, 32), new ItemStack(NCItems.material, 1, 32), new ItemStack(NCItems.material, 1, 32)}));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.fuel, 1, 9), new Object[] {"Pu242", "Pu242", "Pu242", "Pu242", "Pu242", new ItemStack(NCItems.material, 1, 36), new ItemStack(NCItems.material, 1, 36), new ItemStack(NCItems.material, 1, 36), new ItemStack(NCItems.material, 1, 36)}));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.fuel, 1, 5), new Object[] {new ItemStack(NCItems.material, 1, 38), new ItemStack(NCItems.material, 1, 38), new ItemStack(NCItems.material, 1, 38), new ItemStack(NCItems.material, 1, 38), new ItemStack(NCItems.material, 1, 38), new ItemStack(NCItems.material, 1, 38), new ItemStack(NCItems.material, 1, 38), new ItemStack(NCItems.material, 1, 38), new ItemStack(NCItems.material, 1, 38)}));
+		// Fission Fuel Shapeless Recipes
+		l(0, "U238", "U235Base");
+		h(1, "U238", "U235Base");
+		l(2, "Pu242", "Pu239Base");
+		h(3, "Pu242", "Pu239Base");
+		l(4, "U238", "Pu239Oxide");
+		f(5, "Th232Base");
+		l(6, "U238", "U233Base");
+		h(7, "U238", "U233Base");
+		l(8, "Pu242", "Pu241Base");
+		h(9, "Pu242", "Pu241Base");
+		l(10, "U238", "Pu241Oxide");
+		f(76, "Th232Oxide");
 		
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.fuel, 1, 51), new Object[] {"U238", "U238", "U238", "U238", "U238", "U238", "U238", "U238", new ItemStack(NCItems.material, 1, 57)}));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.fuel, 1, 55), new Object[] {"U238", "U238", "U238", "U238", "U238", "U238", "U238", "U238", new ItemStack(NCItems.material, 1, 59)}));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.fuel, 1, 52), new Object[] {"U238", "U238", "U238", "U238", "U238", new ItemStack(NCItems.material, 1, 57), new ItemStack(NCItems.material, 1, 57), new ItemStack(NCItems.material, 1, 57), new ItemStack(NCItems.material, 1, 57)}));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.fuel, 1, 56), new Object[] {"U238", "U238", "U238", "U238", "U238", new ItemStack(NCItems.material, 1, 59), new ItemStack(NCItems.material, 1, 59), new ItemStack(NCItems.material, 1, 59), new ItemStack(NCItems.material, 1, 59)}));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.fuel, 1, 53), new Object[] {"Pu242", "Pu242", "Pu242", "Pu242", "Pu242", "Pu242", "Pu242", "Pu242", new ItemStack(NCItems.material, 1, 63)}));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.fuel, 1, 57), new Object[] {"Pu242", "Pu242", "Pu242", "Pu242", "Pu242", "Pu242", "Pu242", "Pu242", new ItemStack(NCItems.material, 1, 67)}));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.fuel, 1, 54), new Object[] {"Pu242", "Pu242", "Pu242", "Pu242", "Pu242", new ItemStack(NCItems.material, 1, 63), new ItemStack(NCItems.material, 1, 63), new ItemStack(NCItems.material, 1, 63), new ItemStack(NCItems.material, 1, 63)}));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.fuel, 1, 58), new Object[] {"Pu242", "Pu242", "Pu242", "Pu242", "Pu242", new ItemStack(NCItems.material, 1, 67), new ItemStack(NCItems.material, 1, 67), new ItemStack(NCItems.material, 1, 67), new ItemStack(NCItems.material, 1, 67)}));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.fuel, 1, 4), new Object[] {"U238", "U238", "U238", "U238", "U238", "U238", "U238", "U238", new ItemStack(NCItems.material, 1, 63)}));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.fuel, 1, 10), new Object[] {"U238", "U238", "U238", "U238", "U238", "U238", "U238", "U238", new ItemStack(NCItems.material, 1, 67)}));
+		l(51, "U238", "U235Oxide");
+		h(52, "U238", "U235Oxide");
+		l(53, "Pu242", "Pu239Oxide");
+		h(54, "Pu242", "Pu239Oxide");
+		l(55, "U238", "U233Oxide");
+		h(56, "U238", "U233Oxide");
+		l(57, "Pu242", "Pu241Oxide");
+		h(58, "Pu242", "Pu241Oxide");
 		
+		l(79, "Np237", "Np236Base");
+		h(80, "Np237", "Np236Base");
+		l(81, "Am243", "Am242Base");
+		h(82, "Am243", "Am242Base");
+		l(83, "Cm246", "Cm243Base");
+		h(84, "Cm246", "Cm243Base");
+		l(85, "Cm246", "Cm245Base");
+		h(86, "Cm246", "Cm245Base");
+		l(87, "Cm246", "Cm247Base");
+		h(88, "Cm246", "Cm247Base");
+		
+		l(89, "Np237", "Np236Oxide");
+		h(90, "Np237", "Np236Oxide");
+		l(91, "Am243", "Am242Oxide");
+		h(92, "Am243", "Am242Oxide");
+		l(93, "Cm246", "Cm243Oxide");
+		h(94, "Cm246", "Cm243Oxide");
+		l(95, "Cm246", "Cm245Oxide");
+		h(96, "Cm246", "Cm245Oxide");
+		l(97, "Cm246", "Cm247Oxide");
+		h(98, "Cm246", "Cm247Oxide");
+		
+		// Fuel Cell Shapeless Recipes
+		c(11, "LEU235");
+		c(12, "HEU235");
+		c(13, "LEP239");
+		c(14, "HEP239");
+		c(15, "MOX239");
+		c(16, "TBU");
+		c(17, "LEU233");
+		c(18, "HEU233");
+		c(19, "LEP241");
+		c(20, "HEP241");
+		c(21, "MOX241");
+		c(77, "TBUOxide");
+		
+		c(59, "LEU235Oxide");
+		c(60, "HEU235Oxide");
+		c(61, "LEP239Oxide");
+		c(62, "HEP239Oxide");
+		c(63, "LEU233Oxide");
+		c(64, "HEU233Oxide");
+		c(65, "LEP241Oxide");
+		c(66, "HEP241Oxide");
+		
+		c(99, "LEN236");
+		c(100, "HEN236");
+		c(101, "LEA242");
+		c(102, "HEA242");
+		c(103, "LEC243");
+		c(104, "HEC243");
+		c(105, "LEC245");
+		c(106, "HEC245");
+		c(107, "LEC247");
+		c(108, "HEC247");
+		
+		c(109, "LEN236Oxide");
+		c(110, "HEN236Oxide");
+		c(111, "LEA242Oxide");
+		c(112, "HEA242Oxide");
+		c(113, "LEC243Oxide");
+		c(114, "HEC243Oxide");
+		c(115, "LEC245Oxide");
+		c(116, "HEC245Oxide");
+		c(117, "LEC247Oxide");
+		c(118, "HEC247Oxide");
+		
+		c(41, "Li6");
+		c(42, "Li7");
+		c(43, "B10");
+		c(44, "B11");
+		
+		// Other Shapeless Recipes
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.parts, 3, 4), new Object[] {Items.sugar, "dustLapis", Items.redstone}));
 		
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.fishAndRicecake, 1), new Object[] {Items.cooked_fished, NCItems.ricecake}));
@@ -1471,32 +1744,6 @@ public class NuclearCraft {
 		
 		GameRegistry.addShapelessRecipe(new ItemStack(NCBlocks.heliumCoolerBlock, 1), (new ItemStack (NCItems.fuel, 1, 75)), (new ItemStack (NCBlocks.emptyCoolerBlock, 1)));
 		
-		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.fuel, 1, 11), (new ItemStack (NCItems.fuel, 1, 0)), (new ItemStack (NCItems.fuel, 1, 33)));
-		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.fuel, 1, 17), (new ItemStack (NCItems.fuel, 1, 6)), (new ItemStack (NCItems.fuel, 1, 33)));
-		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.fuel, 1, 12), (new ItemStack (NCItems.fuel, 1, 1)), (new ItemStack (NCItems.fuel, 1, 33)));
-		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.fuel, 1, 18), (new ItemStack (NCItems.fuel, 1, 7)), (new ItemStack (NCItems.fuel, 1, 33)));
-		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.fuel, 1, 13), (new ItemStack (NCItems.fuel, 1, 2)), (new ItemStack (NCItems.fuel, 1, 33)));
-		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.fuel, 1, 19), (new ItemStack (NCItems.fuel, 1, 8)), (new ItemStack (NCItems.fuel, 1, 33)));
-		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.fuel, 1, 14), (new ItemStack (NCItems.fuel, 1, 3)), (new ItemStack (NCItems.fuel, 1, 33)));
-		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.fuel, 1, 20), (new ItemStack (NCItems.fuel, 1, 9)), (new ItemStack (NCItems.fuel, 1, 33)));
-		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.fuel, 1, 15), (new ItemStack (NCItems.fuel, 1, 4)), (new ItemStack (NCItems.fuel, 1, 33)));
-		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.fuel, 1, 21), (new ItemStack (NCItems.fuel, 1, 10)), (new ItemStack (NCItems.fuel, 1, 33)));
-		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.fuel, 1, 16), (new ItemStack (NCItems.fuel, 1, 5)), (new ItemStack (NCItems.fuel, 1, 33)));
-		
-		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.fuel, 1, 59), (new ItemStack (NCItems.fuel, 1, 51)), (new ItemStack (NCItems.fuel, 1, 33)));
-		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.fuel, 1, 63), (new ItemStack (NCItems.fuel, 1, 55)), (new ItemStack (NCItems.fuel, 1, 33)));
-		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.fuel, 1, 60), (new ItemStack (NCItems.fuel, 1, 52)), (new ItemStack (NCItems.fuel, 1, 33)));
-		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.fuel, 1, 64), (new ItemStack (NCItems.fuel, 1, 56)), (new ItemStack (NCItems.fuel, 1, 33)));
-		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.fuel, 1, 61), (new ItemStack (NCItems.fuel, 1, 53)), (new ItemStack (NCItems.fuel, 1, 33)));
-		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.fuel, 1, 65), (new ItemStack (NCItems.fuel, 1, 57)), (new ItemStack (NCItems.fuel, 1, 33)));
-		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.fuel, 1, 62), (new ItemStack (NCItems.fuel, 1, 54)), (new ItemStack (NCItems.fuel, 1, 33)));
-		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.fuel, 1, 66), (new ItemStack (NCItems.fuel, 1, 58)), (new ItemStack (NCItems.fuel, 1, 33)));
-		
-		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.fuel, 1, 41), (new ItemStack (NCItems.material, 1, 46)), (new ItemStack (NCItems.fuel, 1, 33)));
-		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.fuel, 1, 42), (new ItemStack (NCItems.material, 1, 47)), (new ItemStack (NCItems.fuel, 1, 33)));
-		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.fuel, 1, 43), (new ItemStack (NCItems.material, 1, 48)), (new ItemStack (NCItems.fuel, 1, 33)));
-		GameRegistry.addShapelessRecipe(new ItemStack(NCItems.fuel, 1, 44), (new ItemStack (NCItems.material, 1, 49)), (new ItemStack (NCItems.fuel, 1, 33)));
-		
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.material, 2, 79), new Object[] {"dustGraphite", "dustDiamond"}));
 		
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.material, 2, 80), new Object[] {"ingotLithium", "ingotManganeseDioxide"}));
@@ -1514,6 +1761,7 @@ public class NuclearCraft {
 			GameRegistry.addRecipe(new ShapelessOreRecipe(NCBlocks.blastBlock, new Object[] {NCBlocks.reactorBlock, "oreObsidian"}));
 			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCItems.parts, 1, 9), true, new Object[] {"AAA", "BCB", "AAA", 'A', new ItemStack(NCItems.material, 1, 48), 'B', "plateDU", 'C', "dustDiamond"}));
 			GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.separatorIdle, true, new Object[] {"ABA", "CDC", "ABA", 'A', "plateLead", 'B', "ingotTough", 'C', "dustRedstone", 'D', NCBlocks.machineBlock}));
+			GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.recyclerIdle, true, new Object[] {"ABA", "CDC", "ABA", 'A', "plateLead", 'B', "ingotTough", 'C', "ingotHardCarbon", 'D', NCBlocks.machineBlock}));
 			GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.hastenerIdle, true, new Object[] {"ABA", "CDC", "ABA", 'A', "plateLead", 'B', "universalReactant", 'C', "ingotTough", 'D', NCBlocks.machineBlock}));
 			GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.collectorIdle, true, new Object[] {"ABA", "BBB", "ABA", 'A', "plateBasic", 'B', new ItemStack(NCItems.material, 1, 40)}));
 			GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.reactionGeneratorIdle, true, new Object[] {"ABA", "CDC", "ABA", 'A', "plateLead", 'B', new ItemStack(NCItems.parts, 1, 5), 'C', "plateBasic", 'D', NCBlocks.machineBlock}));
@@ -1527,6 +1775,7 @@ public class NuclearCraft {
 			GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.heliumExtractorIdle, true, new Object[] {"ABA", "CDC", "ABA", 'A', "plateReinforced", 'B', new ItemStack(NCItems.parts, 1, 5), 'C', "plateTin", 'D', NCBlocks.machineBlock}));
 			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCBlocks.electromagnetIdle, 2), true, new Object[] {"AAA", "BCB", "AAA", 'A', "plateReinforced", 'B', new ItemStack(NCItems.parts, 1, 12), 'C', "ingotIron"}));
 			GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.fusionReactor, true, new Object[] {"ABA", "BCB", "ABA", 'A', NCBlocks.reactionGeneratorIdle, 'B', "plateAdvanced", 'C', NCBlocks.electromagnetIdle}));
+			GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.fusionReactorSteam, true, new Object[] {"BAB", "ACA", "BAB", 'A', new ItemStack(NCItems.parts, 1, 7), 'B', "plateAdvanced", 'C', NCBlocks.fusionReactor}));
 			GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.superElectromagnetIdle, true, new Object[] {"AAA", "BCB", "AAA", 'A', "plateAdvanced", 'B', new ItemStack(NCItems.parts, 1, 17), 'C', "ingotTough"}));
 			GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.synchrotronIdle, true, new Object[] {"AAA", "BCB", "AAA", 'A', NCBlocks.superElectromagnetIdle, 'B', "plateAdvanced", 'C', NCBlocks.machineBlock}));
 			GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.supercoolerIdle, true, new Object[] {"AAA", "BCB", "AAA", 'A', "plateAdvanced", 'B', new ItemStack(NCItems.parts, 1, 13), 'C', "universalReactant"}));
@@ -1555,6 +1804,8 @@ public class NuclearCraft {
 			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCItems.dULegs, 1), true, new Object[] {"XXX", "X X", "X X", 'X', "plateDU"}));
 			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCItems.dUBoots, 1), true, new Object[] {"X X", "X X", 'X', "plateDU"}));
 			GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.RTG, true, new Object[] {"ABA", "BCB", "ABA", 'A', new ItemStack(NCItems.parts, 1, 11), 'B', new ItemStack(NCItems.parts, 1, 15), 'C', new ItemStack(NCItems.fuel, 1, 46)}));
+			GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.AmRTG, true, new Object[] {"ABA", "BCB", "ABA", 'A', new ItemStack(NCItems.parts, 1, 11), 'B', new ItemStack(NCItems.parts, 1, 15), 'C', new ItemStack(NCItems.fuel, 1, 139)}));
+			GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.CfRTG, true, new Object[] {"ABA", "BCB", "ABA", 'A', new ItemStack(NCItems.parts, 1, 11), 'B', new ItemStack(NCItems.parts, 1, 15), 'C', new ItemStack(NCItems.fuel, 1, 140)}));
 			GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.WRTG, true, new Object[] {"ABA", "BBB", "ABA", 'A', "plateLead", 'B', "U238"}));
 			GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.steamGenerator, true, new Object[] {"PCP", "MMM", "PCP", 'P', "plateIron", 'C', new ItemStack(NCItems.parts, 1, 12), 'M', new ItemStack(NCItems.parts, 1, 19)}));
 			GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.steamDecompressor, true, new Object[] {"PCP", "GMG", "PCP", 'P', "plateIron", 'C', Blocks.piston, 'G', new ItemStack(NCItems.parts, 1, 10), 'M', new ItemStack(NCItems.parts, 1, 19)}));
@@ -1579,6 +1830,8 @@ public class NuclearCraft {
 			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCItems.fuel, 8, 48), true, new Object[] {"ABA", "BCB", "ABA", 'B', new ItemStack(NCItems.parts, 1, 15), 'C', "ingotTough", 'A', new ItemStack (NCItems.parts, 1, 3)}));
 			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCItems.dUBullet, 4), true, new Object[] {"ABC", 'A', "U238", 'B', Items.gunpowder, 'C', "ingotTough"}));
 			GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.fuel, 1, 46), new Object[] {new ItemStack(NCItems.fuel, 1, 48), "Pu238"}));
+			GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.fuel, 1, 139), new Object[] {new ItemStack(NCItems.fuel, 1, 48), "Am241"}));
+			GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.fuel, 1, 140), new Object[] {new ItemStack(NCItems.fuel, 1, 48), "Cf250"}));
 			
 			GameRegistry.addRecipe(new ShapedOreRecipe(NCItems.lithiumIonBattery, true, new Object[] {"AAA", "BCB", "DDD", 'A', "ingotLithiumManganeseDioxide", 'B', "plateAdvanced", 'C', "dustLithium", 'D', "ingotHardCarbon"}));
 		}
@@ -1609,6 +1862,7 @@ public class NuclearCraft {
 		GameRegistry.addSmelting(new ItemStack (NCItems.material, 1, 45), new ItemStack(NCItems.material, 1, 43), 0.0F);
 		GameRegistry.addSmelting(new ItemStack (NCItems.material, 1, 51), new ItemStack(NCItems.material, 1, 50), 0.0F);
 		GameRegistry.addSmelting(new ItemStack (NCItems.material, 1, 54), new ItemStack(NCItems.material, 1, 53), 0.0F);
+		GameRegistry.addSmelting(new ItemStack (NCItems.material, 1, 127), new ItemStack(NCItems.material, 1, 126), 0.0F);
 		GameRegistry.addSmelting(new ItemStack (NCItems.material, 1, 72), new ItemStack(NCItems.material, 1, 71), 0.0F);
 		GameRegistry.addSmelting(new ItemStack (NCItems.material, 1, 77), new ItemStack(NCItems.material, 1, 76), 0.0F);
 		GameRegistry.addSmelting(new ItemStack (NCItems.material, 1, 79), new ItemStack(NCItems.material, 1, 78), 0.0F);
@@ -1632,6 +1886,7 @@ public class NuclearCraft {
 		EntityHandler.registerMonsters(EntityNuclearMonster.class, "NuclearMonster");
 		EntityHandler.registerPaul(EntityPaul.class, "Paul");
 		EntityHandler.registerNuke(EntityNukePrimed.class, "NukePrimed");
+		EntityHandler.registerEMP(EntityEMPPrimed.class, "EMPPrimed");
 		EntityHandler.registerAntimatterBomb(EntityAntimatterBombPrimed.class, "AntimatterBombPrimed");
 		EntityHandler.registerNuclearGrenade(EntityNuclearGrenade.class, "NuclearGrenade");
 		EntityHandler.registerEntityBullet(EntityBullet.class, "EntityBullet");
@@ -1883,6 +2138,16 @@ public class NuclearCraft {
 		thoriumIngotCrushing.setTag("output", new ItemStack(NCItems.material, 1, 20).writeToNBT(new NBTTagCompound()));
 		FMLInterModComms.sendMessage("Mekanism", "CrusherRecipe", thoriumIngotCrushing);
 		
+		NBTTagCompound uraniumIngotOxideCrushing = new NBTTagCompound();
+		uraniumIngotOxideCrushing.setTag("input", new ItemStack(NCItems.material, 1, 53).writeToNBT(new NBTTagCompound()));
+		uraniumIngotOxideCrushing.setTag("output", new ItemStack(NCItems.material, 1, 54).writeToNBT(new NBTTagCompound()));
+		FMLInterModComms.sendMessage("Mekanism", "CrusherRecipe", uraniumIngotOxideCrushing);
+		
+		NBTTagCompound thoriumIngotOxideCrushing = new NBTTagCompound();
+		thoriumIngotOxideCrushing.setTag("input", new ItemStack(NCItems.material, 1, 126).writeToNBT(new NBTTagCompound()));
+		thoriumIngotOxideCrushing.setTag("output", new ItemStack(NCItems.material, 1, 127).writeToNBT(new NBTTagCompound()));
+		FMLInterModComms.sendMessage("Mekanism", "CrusherRecipe", thoriumIngotOxideCrushing);
+		
 		NBTTagCompound bronzeIngotCrushing = new NBTTagCompound();
 		bronzeIngotCrushing.setTag("input", new ItemStack(NCItems.material, 1, 6).writeToNBT(new NBTTagCompound()));
 		bronzeIngotCrushing.setTag("output", new ItemStack(NCItems.material, 1, 21).writeToNBT(new NBTTagCompound()));
@@ -1971,15 +2236,20 @@ public class NuclearCraft {
 		FMLInterModComms.sendMessage("appliedenergistics2", "whitelist-spatial", TileFissionReactorSteam.class.getCanonicalName());
 		FMLInterModComms.sendMessage("appliedenergistics2", "whitelist-spatial", TileNuclearWorkspace.class.getCanonicalName());
 		FMLInterModComms.sendMessage("appliedenergistics2", "whitelist-spatial", TileFusionReactor.class.getCanonicalName());
+		FMLInterModComms.sendMessage("appliedenergistics2", "whitelist-spatial", TileFusionReactorSteam.class.getCanonicalName());
 		FMLInterModComms.sendMessage("appliedenergistics2", "whitelist-spatial", TileTubing1.class.getCanonicalName());
 		FMLInterModComms.sendMessage("appliedenergistics2", "whitelist-spatial", TileTubing2.class.getCanonicalName());
 		FMLInterModComms.sendMessage("appliedenergistics2", "whitelist-spatial", TileRTG.class.getCanonicalName());
+		FMLInterModComms.sendMessage("appliedenergistics2", "whitelist-spatial", TileAmRTG.class.getCanonicalName());
+		FMLInterModComms.sendMessage("appliedenergistics2", "whitelist-spatial", TileCfRTG.class.getCanonicalName());
 		FMLInterModComms.sendMessage("appliedenergistics2", "whitelist-spatial", TileWRTG.class.getCanonicalName());
 		FMLInterModComms.sendMessage("appliedenergistics2", "whitelist-spatial", TileSteamGenerator.class.getCanonicalName());
 		FMLInterModComms.sendMessage("appliedenergistics2", "whitelist-spatial", TileSteamDecompressor.class.getCanonicalName());
 		FMLInterModComms.sendMessage("appliedenergistics2", "whitelist-spatial", TileDenseSteamDecompressor.class.getCanonicalName());
 		FMLInterModComms.sendMessage("appliedenergistics2", "whitelist-spatial", TileFusionReactorBlock.class.getCanonicalName());
 		FMLInterModComms.sendMessage("appliedenergistics2", "whitelist-spatial", TileFusionReactorBlockTop.class.getCanonicalName());
+		FMLInterModComms.sendMessage("appliedenergistics2", "whitelist-spatial", TileFusionReactorSteamBlock.class.getCanonicalName());
+		FMLInterModComms.sendMessage("appliedenergistics2", "whitelist-spatial", TileFusionReactorSteamBlockTop.class.getCanonicalName());
 		FMLInterModComms.sendMessage("appliedenergistics2", "whitelist-spatial", TileElectrolyser.class.getCanonicalName());
 		FMLInterModComms.sendMessage("appliedenergistics2", "whitelist-spatial", TileOxidiser.class.getCanonicalName());
 		FMLInterModComms.sendMessage("appliedenergistics2", "whitelist-spatial", TileIoniser.class.getCanonicalName());
@@ -1988,6 +2258,7 @@ public class NuclearCraft {
 		FMLInterModComms.sendMessage("appliedenergistics2", "whitelist-spatial", TileFactory.class.getCanonicalName());
 		FMLInterModComms.sendMessage("appliedenergistics2", "whitelist-spatial", TileAssembler.class.getCanonicalName());
 		FMLInterModComms.sendMessage("appliedenergistics2", "whitelist-spatial", TileHeliumExtractor.class.getCanonicalName());
+		FMLInterModComms.sendMessage("appliedenergistics2", "whitelist-spatial", TileRecycler.class.getCanonicalName());
 		FMLInterModComms.sendMessage("appliedenergistics2", "whitelist-spatial", TileSolarPanel.class.getCanonicalName());
 		
 		FMLInterModComms.sendMessage("appliedenergistics2", "whitelist-spatial", TileElectromagnet.class.getCanonicalName());
@@ -1995,7 +2266,38 @@ public class NuclearCraft {
 		FMLInterModComms.sendMessage("appliedenergistics2", "whitelist-spatial", TileSupercooler.class.getCanonicalName());
 		FMLInterModComms.sendMessage("appliedenergistics2", "whitelist-spatial", TileSynchrotron.class.getCanonicalName());
 		
+		FMLInterModComms.sendMessage("appliedenergistics2", "whitelist-spatial", TileLithiumIonBattery.class.getCanonicalName());
+		FMLInterModComms.sendMessage("appliedenergistics2", "whitelist-spatial", TileVoltaicPile.class.getCanonicalName());
+		
 		FMLInterModComms.sendMessage("appliedenergistics2", "whitelist-spatial", TileSimpleQuantum.class.getCanonicalName());
+	}
+	
+	public void b(int meta, String item) {
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCBlocks.blockBlock, 1, meta), true, new Object[] {"XXX", "XXX", "XXX", 'X', item}));
+	}
+	
+	public void b(Block block, String item) {
+		GameRegistry.addRecipe(new ShapedOreRecipe(block, true, new Object[] {"XXX", "XXX", "XXX", 'X', item}));
+	}
+	
+	public void l(int meta, String fertile, String fissile) {
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.fuel, 1, meta), new Object[] {fertile, fertile, fertile, fertile, fertile, fertile, fertile, fertile, fissile}));
+	}
+	
+	public void h(int meta, String fertile, String fissile) {
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.fuel, 1, meta), new Object[] {fertile, fertile, fertile, fertile, fertile, fissile, fissile, fissile, fissile}));
+	}
+	
+	public void f(int meta, String fertile) {
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.fuel, 1, meta), new Object[] {fertile, fertile, fertile, fertile, fertile, fertile, fertile, fertile, fertile}));
+	}
+	
+	public void m(int meta, String item) {
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCItems.material, 1, meta), true, new Object[] {"XXX", "XXX", "XXX", 'X', item}));
+	}
+	
+	public void c(int meta, String fuel) {
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.fuel, 1, meta), new Object[] {fuel, new ItemStack (NCItems.fuel, 1, 33)}));
 	}
 	
 	@EventHandler
@@ -2025,6 +2327,7 @@ public class NuclearCraft {
 		OreDictionary.registerOre("ingotTough", new ItemStack(NCItems.material, 1, 7));
 		OreDictionary.registerOre("ingotMagnesium", new ItemStack(NCItems.material, 1, 50));
 		OreDictionary.registerOre("ingotUraniumOxide", new ItemStack(NCItems.material, 1, 53));
+		OreDictionary.registerOre("ingotThoriumOxide", new ItemStack(NCItems.material, 1, 126));
 		OreDictionary.registerOre("ingotMagnesiumDiboride", new ItemStack(NCItems.material, 1, 71));
 		OreDictionary.registerOre("gemRhodochrosite", new ItemStack(NCItems.material, 1, 73));
 		OreDictionary.registerOre("ingotGraphite", new ItemStack(NCItems.material, 1, 76));
@@ -2041,6 +2344,7 @@ public class NuclearCraft {
 		OreDictionary.registerOre("dustCoal", new ItemStack(NCItems.material, 1, 14));
 		OreDictionary.registerOre("dustCopper", new ItemStack(NCItems.material, 1, 15));
 		OreDictionary.registerOre("dustLead", new ItemStack(NCItems.material, 1, 17));
+		OreDictionary.registerOre("dustTinyLead", new ItemStack(NCItems.material, 1, 23));
 		OreDictionary.registerOre("dustTin", new ItemStack(NCItems.material, 1, 16));
 		OreDictionary.registerOre("dustSilver", new ItemStack(NCItems.material, 1, 18));
 		OreDictionary.registerOre("dustUranium", new ItemStack(NCItems.material, 1, 19));
@@ -2052,6 +2356,7 @@ public class NuclearCraft {
 		OreDictionary.registerOre("dustMagnesium", new ItemStack(NCItems.material, 1, 51));
 		OreDictionary.registerOre("dustObsidian", new ItemStack(NCItems.material, 1, 52));
 		OreDictionary.registerOre("dustUraniumOxide", new ItemStack(NCItems.material, 1, 54));
+		OreDictionary.registerOre("dustThoriumOxide", new ItemStack(NCItems.material, 1, 127));
 		OreDictionary.registerOre("dustMagnesiumDiboride", new ItemStack(NCItems.material, 1, 72));
 		OreDictionary.registerOre("dustManganeseOxide", new ItemStack(NCItems.material, 1, 74));
 		OreDictionary.registerOre("dustManganeseDioxide", new ItemStack(NCItems.material, 1, 75));
@@ -2083,39 +2388,177 @@ public class NuclearCraft {
 		OreDictionary.registerOre("plateAdvanced", new ItemStack(NCItems.parts, 1, 9));
 		OreDictionary.registerOre("plateLead", new ItemStack(NCItems.parts, 1, 14));
 		
-		// Non-Fissile Materials Ore Dictionary
+		// Fission Fuel Materials Ore Dictionary
 		OreDictionary.registerOre("U238", new ItemStack(NCItems.material, 1, 24));
+		OreDictionary.registerOre("U238Base", new ItemStack(NCItems.material, 1, 24));
 		OreDictionary.registerOre("U238", new ItemStack(NCItems.material, 1, 55));
+		OreDictionary.registerOre("U238Oxide", new ItemStack(NCItems.material, 1, 55));
 		OreDictionary.registerOre("tinyU238", new ItemStack(NCItems.material, 1, 25));
+		OreDictionary.registerOre("tinyU238Base", new ItemStack(NCItems.material, 1, 25));
 		OreDictionary.registerOre("tinyU238", new ItemStack(NCItems.material, 1, 56));
+		OreDictionary.registerOre("tinyU238Oxide", new ItemStack(NCItems.material, 1, 56));
+		
 		OreDictionary.registerOre("U235", new ItemStack(NCItems.material, 1, 26));
+		OreDictionary.registerOre("U235Base", new ItemStack(NCItems.material, 1, 26));
 		OreDictionary.registerOre("U235", new ItemStack(NCItems.material, 1, 57));
+		OreDictionary.registerOre("U235Oxide", new ItemStack(NCItems.material, 1, 57));
 		OreDictionary.registerOre("tinyU235", new ItemStack(NCItems.material, 1, 27));
+		OreDictionary.registerOre("tinyU235Base", new ItemStack(NCItems.material, 1, 27));
 		OreDictionary.registerOre("tinyU235", new ItemStack(NCItems.material, 1, 58));
+		OreDictionary.registerOre("tinyU235Oxide", new ItemStack(NCItems.material, 1, 58));
+		
 		OreDictionary.registerOre("U233", new ItemStack(NCItems.material, 1, 28));
+		OreDictionary.registerOre("U233Base", new ItemStack(NCItems.material, 1, 28));
 		OreDictionary.registerOre("U233", new ItemStack(NCItems.material, 1, 59));
+		OreDictionary.registerOre("U233Oxide", new ItemStack(NCItems.material, 1, 59));
 		OreDictionary.registerOre("tinyU233", new ItemStack(NCItems.material, 1, 29));
+		OreDictionary.registerOre("tinyU233Base", new ItemStack(NCItems.material, 1, 29));
 		OreDictionary.registerOre("tinyU233", new ItemStack(NCItems.material, 1, 60));
+		OreDictionary.registerOre("tinyU233Oxide", new ItemStack(NCItems.material, 1, 60));
+		
 		OreDictionary.registerOre("Pu238", new ItemStack(NCItems.material, 1, 30));
+		OreDictionary.registerOre("Pu238Base", new ItemStack(NCItems.material, 1, 30));
 		OreDictionary.registerOre("Pu238", new ItemStack(NCItems.material, 1, 61));
+		OreDictionary.registerOre("Pu238Oxide", new ItemStack(NCItems.material, 1, 61));
 		OreDictionary.registerOre("tinyPu238", new ItemStack(NCItems.material, 1, 31));
+		OreDictionary.registerOre("tinyPu238Base", new ItemStack(NCItems.material, 1, 31));
 		OreDictionary.registerOre("tinyPu238", new ItemStack(NCItems.material, 1, 62));
+		OreDictionary.registerOre("tinyPu238Oxide", new ItemStack(NCItems.material, 1, 62));
+		
 		OreDictionary.registerOre("Pu239", new ItemStack(NCItems.material, 1, 32));
+		OreDictionary.registerOre("Pu239Base", new ItemStack(NCItems.material, 1, 32));
 		OreDictionary.registerOre("Pu239", new ItemStack(NCItems.material, 1, 63));
+		OreDictionary.registerOre("Pu239Oxide", new ItemStack(NCItems.material, 1, 63));
 		OreDictionary.registerOre("tinyPu239", new ItemStack(NCItems.material, 1, 33));
+		OreDictionary.registerOre("tinyPu239Base", new ItemStack(NCItems.material, 1, 33));
 		OreDictionary.registerOre("tinyPu239", new ItemStack(NCItems.material, 1, 64));
+		OreDictionary.registerOre("tinyPu239Oxide", new ItemStack(NCItems.material, 1, 64));
+		
 		OreDictionary.registerOre("Pu242", new ItemStack(NCItems.material, 1, 34));
+		OreDictionary.registerOre("Pu242Base", new ItemStack(NCItems.material, 1, 34));
 		OreDictionary.registerOre("Pu242", new ItemStack(NCItems.material, 1, 65));
+		OreDictionary.registerOre("Pu242Oxide", new ItemStack(NCItems.material, 1, 65));
 		OreDictionary.registerOre("tinyPu242", new ItemStack(NCItems.material, 1, 35));
+		OreDictionary.registerOre("tinyPu242Base", new ItemStack(NCItems.material, 1, 35));
 		OreDictionary.registerOre("tinyPu242", new ItemStack(NCItems.material, 1, 66));
+		OreDictionary.registerOre("tinyPu242Oxide", new ItemStack(NCItems.material, 1, 66));
+		
 		OreDictionary.registerOre("Pu241", new ItemStack(NCItems.material, 1, 36));
+		OreDictionary.registerOre("Pu241Base", new ItemStack(NCItems.material, 1, 36));
 		OreDictionary.registerOre("Pu241", new ItemStack(NCItems.material, 1, 67));
+		OreDictionary.registerOre("Pu241Oxide", new ItemStack(NCItems.material, 1, 67));
 		OreDictionary.registerOre("tinyPu241", new ItemStack(NCItems.material, 1, 37));
+		OreDictionary.registerOre("tinyPu241Base", new ItemStack(NCItems.material, 1, 37));
 		OreDictionary.registerOre("tinyPu241", new ItemStack(NCItems.material, 1, 68));
+		OreDictionary.registerOre("tinyPu241Oxide", new ItemStack(NCItems.material, 1, 68));
+		
 		OreDictionary.registerOre("Th232", new ItemStack(NCItems.material, 1, 38));
+		OreDictionary.registerOre("Th232Base", new ItemStack(NCItems.material, 1, 38));
+		OreDictionary.registerOre("Th232", new ItemStack(NCItems.material, 1, 82));
+		OreDictionary.registerOre("Th232Oxide", new ItemStack(NCItems.material, 1, 82));
 		OreDictionary.registerOre("tinyTh232", new ItemStack(NCItems.material, 1, 39));
+		OreDictionary.registerOre("tinyTh232Base", new ItemStack(NCItems.material, 1, 39));
+		OreDictionary.registerOre("tinyTh232", new ItemStack(NCItems.material, 1, 83));
+		OreDictionary.registerOre("tinyTh232Oxide", new ItemStack(NCItems.material, 1, 83));
+		
 		OreDictionary.registerOre("Th230", new ItemStack(NCItems.material, 1, 40));
+		OreDictionary.registerOre("Th230Base", new ItemStack(NCItems.material, 1, 40));
+		OreDictionary.registerOre("Th230", new ItemStack(NCItems.material, 1, 84));
+		OreDictionary.registerOre("Th230Oxide", new ItemStack(NCItems.material, 1, 84));
 		OreDictionary.registerOre("tinyTh230", new ItemStack(NCItems.material, 1, 41));
+		OreDictionary.registerOre("tinyTh230Base", new ItemStack(NCItems.material, 1, 41));
+		OreDictionary.registerOre("tinyTh230", new ItemStack(NCItems.material, 1, 85));
+		OreDictionary.registerOre("tinyTh230Oxide", new ItemStack(NCItems.material, 1, 85));
+		
+		OreDictionary.registerOre("Np236", new ItemStack(NCItems.material, 1, 86));
+		OreDictionary.registerOre("Np236Base", new ItemStack(NCItems.material, 1, 86));
+		OreDictionary.registerOre("Np236", new ItemStack(NCItems.material, 1, 104));
+		OreDictionary.registerOre("Np236Oxide", new ItemStack(NCItems.material, 1, 104));
+		OreDictionary.registerOre("tinyNp236", new ItemStack(NCItems.material, 1, 87));
+		OreDictionary.registerOre("tinyNp236Base", new ItemStack(NCItems.material, 1, 87));
+		OreDictionary.registerOre("tinyNp236", new ItemStack(NCItems.material, 1, 105));
+		OreDictionary.registerOre("tinyNp236Oxide", new ItemStack(NCItems.material, 1, 105));
+		
+		OreDictionary.registerOre("Np237", new ItemStack(NCItems.material, 1, 88));
+		OreDictionary.registerOre("Np237Base", new ItemStack(NCItems.material, 1, 88));
+		OreDictionary.registerOre("Np237", new ItemStack(NCItems.material, 1, 106));
+		OreDictionary.registerOre("Np237Oxide", new ItemStack(NCItems.material, 1, 106));
+		OreDictionary.registerOre("tinyNp237", new ItemStack(NCItems.material, 1, 89));
+		OreDictionary.registerOre("tinyNp237Base", new ItemStack(NCItems.material, 1, 89));
+		OreDictionary.registerOre("tinyNp237", new ItemStack(NCItems.material, 1, 107));
+		OreDictionary.registerOre("tinyNp237Oxide", new ItemStack(NCItems.material, 1, 107));
+		
+		OreDictionary.registerOre("Am241", new ItemStack(NCItems.material, 1, 90));
+		OreDictionary.registerOre("Am241Base", new ItemStack(NCItems.material, 1, 90));
+		OreDictionary.registerOre("Am241", new ItemStack(NCItems.material, 1, 108));
+		OreDictionary.registerOre("Am241Oxide", new ItemStack(NCItems.material, 1, 108));
+		OreDictionary.registerOre("tinyAm241", new ItemStack(NCItems.material, 1, 91));
+		OreDictionary.registerOre("tinyAm241Base", new ItemStack(NCItems.material, 1, 91));
+		OreDictionary.registerOre("tinyAm241", new ItemStack(NCItems.material, 1, 109));
+		OreDictionary.registerOre("tinyAm241Oxide", new ItemStack(NCItems.material, 1, 109));
+		
+		OreDictionary.registerOre("Am242", new ItemStack(NCItems.material, 1, 92));
+		OreDictionary.registerOre("Am242Base", new ItemStack(NCItems.material, 1, 92));
+		OreDictionary.registerOre("Am242", new ItemStack(NCItems.material, 1, 110));
+		OreDictionary.registerOre("Am242Oxide", new ItemStack(NCItems.material, 1, 110));
+		OreDictionary.registerOre("tinyAm242", new ItemStack(NCItems.material, 1, 93));
+		OreDictionary.registerOre("tinyAm242Base", new ItemStack(NCItems.material, 1, 93));
+		OreDictionary.registerOre("tinyAm242", new ItemStack(NCItems.material, 1, 111));
+		OreDictionary.registerOre("tinyAm242Oxide", new ItemStack(NCItems.material, 1, 111));
+		
+		OreDictionary.registerOre("Am243", new ItemStack(NCItems.material, 1, 94));
+		OreDictionary.registerOre("Am243Base", new ItemStack(NCItems.material, 1, 94));
+		OreDictionary.registerOre("Am243", new ItemStack(NCItems.material, 1, 112));
+		OreDictionary.registerOre("Am243Oxide", new ItemStack(NCItems.material, 1, 112));
+		OreDictionary.registerOre("tinyAm243", new ItemStack(NCItems.material, 1, 95));
+		OreDictionary.registerOre("tinyAm243Base", new ItemStack(NCItems.material, 1, 95));
+		OreDictionary.registerOre("tinyAm243", new ItemStack(NCItems.material, 1, 113));
+		OreDictionary.registerOre("tinyAm243Oxide", new ItemStack(NCItems.material, 1, 113));
+		
+		OreDictionary.registerOre("Cm243", new ItemStack(NCItems.material, 1, 96));
+		OreDictionary.registerOre("Cm243Base", new ItemStack(NCItems.material, 1, 96));
+		OreDictionary.registerOre("Cm243", new ItemStack(NCItems.material, 1, 114));
+		OreDictionary.registerOre("Cm243Oxide", new ItemStack(NCItems.material, 1, 114));
+		OreDictionary.registerOre("tinyCm243", new ItemStack(NCItems.material, 1, 97));
+		OreDictionary.registerOre("tinyCm243Base", new ItemStack(NCItems.material, 1, 97));
+		OreDictionary.registerOre("tinyCm243", new ItemStack(NCItems.material, 1, 115));
+		OreDictionary.registerOre("tinyCm243Oxide", new ItemStack(NCItems.material, 1, 115));
+		
+		OreDictionary.registerOre("Cm245", new ItemStack(NCItems.material, 1, 98));
+		OreDictionary.registerOre("Cm245Base", new ItemStack(NCItems.material, 1, 98));
+		OreDictionary.registerOre("Cm245", new ItemStack(NCItems.material, 1, 116));
+		OreDictionary.registerOre("Cm245Oxide", new ItemStack(NCItems.material, 1, 116));
+		OreDictionary.registerOre("tinyCm245", new ItemStack(NCItems.material, 1, 99));
+		OreDictionary.registerOre("tinyCm245Base", new ItemStack(NCItems.material, 1, 99));
+		OreDictionary.registerOre("tinyCm245", new ItemStack(NCItems.material, 1, 117));
+		OreDictionary.registerOre("tinyCm245Oxide", new ItemStack(NCItems.material, 1, 117));
+		
+		OreDictionary.registerOre("Cm246", new ItemStack(NCItems.material, 1, 100));
+		OreDictionary.registerOre("Cm246Base", new ItemStack(NCItems.material, 1, 100));
+		OreDictionary.registerOre("Cm246", new ItemStack(NCItems.material, 1, 118));
+		OreDictionary.registerOre("Cm246Oxide", new ItemStack(NCItems.material, 1, 118));
+		OreDictionary.registerOre("tinyCm246", new ItemStack(NCItems.material, 1, 101));
+		OreDictionary.registerOre("tinyCm246Base", new ItemStack(NCItems.material, 1, 101));
+		OreDictionary.registerOre("tinyCm246", new ItemStack(NCItems.material, 1, 119));
+		OreDictionary.registerOre("tinyCm246Oxide", new ItemStack(NCItems.material, 1, 119));
+		
+		OreDictionary.registerOre("Cm247", new ItemStack(NCItems.material, 1, 102));
+		OreDictionary.registerOre("Cm247Base", new ItemStack(NCItems.material, 1, 102));
+		OreDictionary.registerOre("Cm247", new ItemStack(NCItems.material, 1, 120));
+		OreDictionary.registerOre("Cm247Oxide", new ItemStack(NCItems.material, 1, 120));
+		OreDictionary.registerOre("tinyCm247", new ItemStack(NCItems.material, 1, 103));
+		OreDictionary.registerOre("tinyCm247Base", new ItemStack(NCItems.material, 1, 103));
+		OreDictionary.registerOre("tinyCm247", new ItemStack(NCItems.material, 1, 121));
+		OreDictionary.registerOre("tinyCm247Oxide", new ItemStack(NCItems.material, 1, 121));
+		
+		OreDictionary.registerOre("Cf250", new ItemStack(NCItems.material, 1, 122));
+		OreDictionary.registerOre("Cf250Base", new ItemStack(NCItems.material, 1, 122));
+		OreDictionary.registerOre("Cf250", new ItemStack(NCItems.material, 1, 124));
+		OreDictionary.registerOre("Cf250Oxide", new ItemStack(NCItems.material, 1, 124));
+		OreDictionary.registerOre("tinyCf250", new ItemStack(NCItems.material, 1, 123));
+		OreDictionary.registerOre("tinyCf250Base", new ItemStack(NCItems.material, 1, 123));
+		OreDictionary.registerOre("tinyCf250", new ItemStack(NCItems.material, 1, 125));
+		OreDictionary.registerOre("tinyCf250Oxide", new ItemStack(NCItems.material, 1, 125));
 		
 		// Lithium and Boron Isotopes
 		OreDictionary.registerOre("Li6", new ItemStack(NCItems.material, 1, 46));
@@ -2124,6 +2567,148 @@ public class NuclearCraft {
 		OreDictionary.registerOre("B10", new ItemStack(NCItems.material, 1, 48));
 		OreDictionary.registerOre("tinyB10", new ItemStack(NCItems.material, 1, 70));
 		OreDictionary.registerOre("B11", new ItemStack(NCItems.material, 1, 49));
+		
+		// Fission Fuels Ore Dictionary
+		OreDictionary.registerOre("LEU235", new ItemStack(NCItems.fuel, 1, 0));
+		OreDictionary.registerOre("LEU235Oxide", new ItemStack(NCItems.fuel, 1, 51));
+		OreDictionary.registerOre("LEU235Cell", new ItemStack(NCItems.fuel, 1, 11));
+		OreDictionary.registerOre("LEU235CellOxide", new ItemStack(NCItems.fuel, 1, 59));
+		OreDictionary.registerOre("dLEU235Cell", new ItemStack(NCItems.fuel, 1, 22));
+		OreDictionary.registerOre("dLEU235CellOxide", new ItemStack(NCItems.fuel, 1, 67));
+		
+		OreDictionary.registerOre("HEU235", new ItemStack(NCItems.fuel, 1, 1));
+		OreDictionary.registerOre("HEU235Oxide", new ItemStack(NCItems.fuel, 1, 52));
+		OreDictionary.registerOre("HEU235Cell", new ItemStack(NCItems.fuel, 1, 12));
+		OreDictionary.registerOre("HEU235CellOxide", new ItemStack(NCItems.fuel, 1, 60));
+		OreDictionary.registerOre("dHEU235Cell", new ItemStack(NCItems.fuel, 1, 23));
+		OreDictionary.registerOre("dHEU235CellOxide", new ItemStack(NCItems.fuel, 1, 68));
+		
+		OreDictionary.registerOre("LEP239", new ItemStack(NCItems.fuel, 1, 2));
+		OreDictionary.registerOre("LEP239Oxide", new ItemStack(NCItems.fuel, 1, 53));
+		OreDictionary.registerOre("LEP239Cell", new ItemStack(NCItems.fuel, 1, 13));
+		OreDictionary.registerOre("LEP239CellOxide", new ItemStack(NCItems.fuel, 1, 61));
+		OreDictionary.registerOre("dLEP239Cell", new ItemStack(NCItems.fuel, 1, 24));
+		OreDictionary.registerOre("dLEP239CellOxide", new ItemStack(NCItems.fuel, 1, 69));
+		
+		OreDictionary.registerOre("HEP239", new ItemStack(NCItems.fuel, 1, 3));
+		OreDictionary.registerOre("HEP239Oxide", new ItemStack(NCItems.fuel, 1, 54));
+		OreDictionary.registerOre("HEP239Cell", new ItemStack(NCItems.fuel, 1, 14));
+		OreDictionary.registerOre("HEP239CellOxide", new ItemStack(NCItems.fuel, 1, 62));
+		OreDictionary.registerOre("dHEP239Cell", new ItemStack(NCItems.fuel, 1, 25));
+		OreDictionary.registerOre("dHEP239CellOxide", new ItemStack(NCItems.fuel, 1, 70));
+		
+		OreDictionary.registerOre("MOX239", new ItemStack(NCItems.fuel, 1, 4));
+		OreDictionary.registerOre("MOX239Cell", new ItemStack(NCItems.fuel, 1, 15));
+		OreDictionary.registerOre("dMOX239Cell", new ItemStack(NCItems.fuel, 1, 26));
+		
+		OreDictionary.registerOre("TBU", new ItemStack(NCItems.fuel, 1, 5));
+		OreDictionary.registerOre("TBUOxide", new ItemStack(NCItems.fuel, 1, 76));
+		OreDictionary.registerOre("TBUCell", new ItemStack(NCItems.fuel, 1, 16));
+		OreDictionary.registerOre("TBUCellOxide", new ItemStack(NCItems.fuel, 1, 77));
+		OreDictionary.registerOre("dTBUCell", new ItemStack(NCItems.fuel, 1, 27));
+		OreDictionary.registerOre("dTBUCellOxide", new ItemStack(NCItems.fuel, 1, 78));
+		
+		OreDictionary.registerOre("LEU233", new ItemStack(NCItems.fuel, 1, 6));
+		OreDictionary.registerOre("LEU233Oxide", new ItemStack(NCItems.fuel, 1, 55));
+		OreDictionary.registerOre("LEU233Cell", new ItemStack(NCItems.fuel, 1, 17));
+		OreDictionary.registerOre("LEU233CellOxide", new ItemStack(NCItems.fuel, 1, 63));
+		OreDictionary.registerOre("dLEU233Cell", new ItemStack(NCItems.fuel, 1, 28));
+		OreDictionary.registerOre("dLEU233CellOxide", new ItemStack(NCItems.fuel, 1, 71));
+		
+		OreDictionary.registerOre("HEU233", new ItemStack(NCItems.fuel, 1, 7));
+		OreDictionary.registerOre("HEU233Oxide", new ItemStack(NCItems.fuel, 1, 56));
+		OreDictionary.registerOre("HEU233Cell", new ItemStack(NCItems.fuel, 1, 18));
+		OreDictionary.registerOre("HEU233CellOxide", new ItemStack(NCItems.fuel, 1, 64));
+		OreDictionary.registerOre("dHEU233Cell", new ItemStack(NCItems.fuel, 1, 29));
+		OreDictionary.registerOre("dHEU233CellOxide", new ItemStack(NCItems.fuel, 1, 72));
+		
+		OreDictionary.registerOre("LEP241", new ItemStack(NCItems.fuel, 1, 8));
+		OreDictionary.registerOre("LEP241Oxide", new ItemStack(NCItems.fuel, 1, 57));
+		OreDictionary.registerOre("LEP241Cell", new ItemStack(NCItems.fuel, 1, 19));
+		OreDictionary.registerOre("LEP241CellOxide", new ItemStack(NCItems.fuel, 1, 65));
+		OreDictionary.registerOre("dLEP241Cell", new ItemStack(NCItems.fuel, 1, 30));
+		OreDictionary.registerOre("dLEP241CellOxide", new ItemStack(NCItems.fuel, 1, 73));
+		
+		OreDictionary.registerOre("HEP241", new ItemStack(NCItems.fuel, 1, 9));
+		OreDictionary.registerOre("HEP241Oxide", new ItemStack(NCItems.fuel, 1, 58));
+		OreDictionary.registerOre("HEP241Cell", new ItemStack(NCItems.fuel, 1, 20));
+		OreDictionary.registerOre("HEP241CellOxide", new ItemStack(NCItems.fuel, 1, 66));
+		OreDictionary.registerOre("dHEP241Cell", new ItemStack(NCItems.fuel, 1, 31));
+		OreDictionary.registerOre("dHEP241CellOxide", new ItemStack(NCItems.fuel, 1, 74));
+		
+		OreDictionary.registerOre("MOX241", new ItemStack(NCItems.fuel, 1, 10));
+		OreDictionary.registerOre("MOX241Cell", new ItemStack(NCItems.fuel, 1, 21));
+		OreDictionary.registerOre("dMOX241Cell", new ItemStack(NCItems.fuel, 1, 32));
+		
+		OreDictionary.registerOre("LEN236", new ItemStack(NCItems.fuel, 1, 79));
+		OreDictionary.registerOre("LEN236Oxide", new ItemStack(NCItems.fuel, 1, 89));
+		OreDictionary.registerOre("LEN236Cell", new ItemStack(NCItems.fuel, 1, 99));
+		OreDictionary.registerOre("LEN236CellOxide", new ItemStack(NCItems.fuel, 1, 109));
+		OreDictionary.registerOre("dLEN236Cell", new ItemStack(NCItems.fuel, 1, 119));
+		OreDictionary.registerOre("dLEN236CellOxide", new ItemStack(NCItems.fuel, 1, 129));
+		
+		OreDictionary.registerOre("HEN236", new ItemStack(NCItems.fuel, 1, 80));
+		OreDictionary.registerOre("HEN236Oxide", new ItemStack(NCItems.fuel, 1, 90));
+		OreDictionary.registerOre("HEN236Cell", new ItemStack(NCItems.fuel, 1, 100));
+		OreDictionary.registerOre("HEN236CellOxide", new ItemStack(NCItems.fuel, 1, 110));
+		OreDictionary.registerOre("dHEN236Cell", new ItemStack(NCItems.fuel, 1, 120));
+		OreDictionary.registerOre("dHEN236CellOxide", new ItemStack(NCItems.fuel, 1, 130));
+		
+		OreDictionary.registerOre("LEA242", new ItemStack(NCItems.fuel, 1, 81));
+		OreDictionary.registerOre("LEA242Oxide", new ItemStack(NCItems.fuel, 1, 91));
+		OreDictionary.registerOre("LEA242Cell", new ItemStack(NCItems.fuel, 1, 101));
+		OreDictionary.registerOre("LEA242CellOxide", new ItemStack(NCItems.fuel, 1, 111));
+		OreDictionary.registerOre("dLEA242Cell", new ItemStack(NCItems.fuel, 1, 121));
+		OreDictionary.registerOre("dLEA242CellOxide", new ItemStack(NCItems.fuel, 1, 131));
+		
+		OreDictionary.registerOre("HEA242", new ItemStack(NCItems.fuel, 1, 82));
+		OreDictionary.registerOre("HEA242Oxide", new ItemStack(NCItems.fuel, 1, 92));
+		OreDictionary.registerOre("HEA242Cell", new ItemStack(NCItems.fuel, 1, 102));
+		OreDictionary.registerOre("HEA242CellOxide", new ItemStack(NCItems.fuel, 1, 112));
+		OreDictionary.registerOre("dHEA242Cell", new ItemStack(NCItems.fuel, 1, 122));
+		OreDictionary.registerOre("dHEA242CellOxide", new ItemStack(NCItems.fuel, 1, 132));
+		
+		OreDictionary.registerOre("LEC243", new ItemStack(NCItems.fuel, 1, 83));
+		OreDictionary.registerOre("LEC243Oxide", new ItemStack(NCItems.fuel, 1, 93));
+		OreDictionary.registerOre("LEC243Cell", new ItemStack(NCItems.fuel, 1, 103));
+		OreDictionary.registerOre("LEC243CellOxide", new ItemStack(NCItems.fuel, 1, 113));
+		OreDictionary.registerOre("dLEC243Cell", new ItemStack(NCItems.fuel, 1, 123));
+		OreDictionary.registerOre("dLEC243CellOxide", new ItemStack(NCItems.fuel, 1, 133));
+		
+		OreDictionary.registerOre("HEC243", new ItemStack(NCItems.fuel, 1, 84));
+		OreDictionary.registerOre("HEC243Oxide", new ItemStack(NCItems.fuel, 1, 94));
+		OreDictionary.registerOre("HEC243Cell", new ItemStack(NCItems.fuel, 1, 104));
+		OreDictionary.registerOre("HEC243CellOxide", new ItemStack(NCItems.fuel, 1, 114));
+		OreDictionary.registerOre("dHEC243Cell", new ItemStack(NCItems.fuel, 1, 124));
+		OreDictionary.registerOre("dHEC243CellOxide", new ItemStack(NCItems.fuel, 1, 134));
+		
+		OreDictionary.registerOre("LEC245", new ItemStack(NCItems.fuel, 1, 85));
+		OreDictionary.registerOre("LEC245Oxide", new ItemStack(NCItems.fuel, 1, 95));
+		OreDictionary.registerOre("LEC245Cell", new ItemStack(NCItems.fuel, 1, 105));
+		OreDictionary.registerOre("LEC245CellOxide", new ItemStack(NCItems.fuel, 1, 115));
+		OreDictionary.registerOre("dLEC245Cell", new ItemStack(NCItems.fuel, 1, 125));
+		OreDictionary.registerOre("dLEC245CellOxide", new ItemStack(NCItems.fuel, 1, 135));
+		
+		OreDictionary.registerOre("HEC245", new ItemStack(NCItems.fuel, 1, 86));
+		OreDictionary.registerOre("HEC245Oxide", new ItemStack(NCItems.fuel, 1, 96));
+		OreDictionary.registerOre("HEC245Cell", new ItemStack(NCItems.fuel, 1, 106));
+		OreDictionary.registerOre("HEC245CellOxide", new ItemStack(NCItems.fuel, 1, 116));
+		OreDictionary.registerOre("dHEC245Cell", new ItemStack(NCItems.fuel, 1, 126));
+		OreDictionary.registerOre("dHEC245CellOxide", new ItemStack(NCItems.fuel, 1, 136));
+		
+		OreDictionary.registerOre("LEC247", new ItemStack(NCItems.fuel, 1, 87));
+		OreDictionary.registerOre("LEC247Oxide", new ItemStack(NCItems.fuel, 1, 97));
+		OreDictionary.registerOre("LEC247Cell", new ItemStack(NCItems.fuel, 1, 107));
+		OreDictionary.registerOre("LEC247CellOxide", new ItemStack(NCItems.fuel, 1, 117));
+		OreDictionary.registerOre("dLEC247Cell", new ItemStack(NCItems.fuel, 1, 127));
+		OreDictionary.registerOre("dLEC247CellOxide", new ItemStack(NCItems.fuel, 1, 137));
+		
+		OreDictionary.registerOre("HEC247", new ItemStack(NCItems.fuel, 1, 88));
+		OreDictionary.registerOre("HEC247Oxide", new ItemStack(NCItems.fuel, 1, 98));
+		OreDictionary.registerOre("HEC247Cell", new ItemStack(NCItems.fuel, 1, 108));
+		OreDictionary.registerOre("HEC247CellOxide", new ItemStack(NCItems.fuel, 1, 118));
+		OreDictionary.registerOre("dHEC247Cell", new ItemStack(NCItems.fuel, 1, 128));
+		OreDictionary.registerOre("dHEC247CellOxide", new ItemStack(NCItems.fuel, 1, 138));
 		
 		// Vanilla Ore Dictionary
 		OreDictionary.registerOre("gemCoal", new ItemStack(Items.coal, 1));

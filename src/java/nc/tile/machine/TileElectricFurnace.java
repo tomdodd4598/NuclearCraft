@@ -35,7 +35,7 @@ public class TileElectricFurnace extends TileInventory implements IEnergyHandler
 	
 	public TileElectricFurnace() {
 	  energyStorage = new EnergyStorage(250000, 250000);
-	  localizedName = "Machine Single Output";
+	  localizedName = "electricFurnace";
 	  slots = new ItemStack[4];
 	}
 	

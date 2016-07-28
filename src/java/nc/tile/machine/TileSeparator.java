@@ -7,7 +7,7 @@ import nc.crafting.machine.SeparatorRecipes;
 public class TileSeparator extends TileMachineBase {
 	
 	public TileSeparator() {
-		super("Isotope Separator", 250000, 1, 2, true, true, 200, 8000, NuclearCraft.separatorSpeed, NuclearCraft.separatorEfficiency, SeparatorRecipes.instance());
+		super("isotopeSeparator", 250000, 1, 2, true, true, 200, 8000, NuclearCraft.separatorSpeed, NuclearCraft.separatorEfficiency, SeparatorRecipes.instance());
 	}
 	
 	public void updateEntity() {

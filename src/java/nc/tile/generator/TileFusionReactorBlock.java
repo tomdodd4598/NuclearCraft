@@ -20,9 +20,10 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 import cofh.api.energy.IEnergyConnection;
 import cofh.api.energy.IEnergyHandler;
+import cofh.api.energy.IEnergyProvider;
 import cofh.api.energy.IEnergyReceiver;
 
-public class TileFusionReactorBlock extends TileEntity implements IEnergyHandler, IEnergyConnection, IEnergyReceiver, ISidedInventory, IGasHandler, ITubeConnection {
+public class TileFusionReactorBlock extends TileEntity implements IEnergyHandler, IEnergyConnection, IEnergyReceiver, IEnergyProvider, ISidedInventory, IGasHandler, ITubeConnection {
 
 	public int xOffset;
 	public int yOffset;
@@ -112,7 +113,9 @@ public class TileFusionReactorBlock extends TileEntity implements IEnergyHandler
 	}
 
 	public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulate) {
-		return 0;
+		IEnergyHandler main = (IEnergyHandler)worldObj.getTileEntity(xCoord + xOffset, yCoord + yOffset, zCoord + zOffset);
+		if (main == null || isNotReady()) {return 0;}
+		return main.extractEnergy(from, maxExtract, simulate);
 	}
 
 	public int getEnergyStored(ForgeDirection from) {

@@ -12,7 +12,7 @@ import org.lwjgl.opengl.GL11;
 
 public class RenderFusionReactor extends TileEntitySpecialRenderer {
 
-	private static final ResourceLocation texture = new ResourceLocation("nc:textures/model/FusionReactor.png");
+	private static final ResourceLocation texture = new ResourceLocation("nc:textures/model/fusionReactor.png");
 	
 	private ModelFusionReactor model;
 	

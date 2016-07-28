@@ -110,6 +110,7 @@ public class CrusherRecipes extends NCRecipeHelper {
     	ingotDust("Lumium");
     	ingotDust("Enderium");
     	ingotDust("UraniumOxide");
+    	ingotDust("ThoriumOxide");
     	ingotDust("Magnesium");
     	ingotDust("MagnesiumDiboride");
     	ingotDust("Graphite");

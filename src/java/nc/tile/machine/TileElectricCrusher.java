@@ -7,7 +7,7 @@ import nc.crafting.machine.CrusherRecipes;
 public class TileElectricCrusher extends TileMachineBase {
 	
 	public TileElectricCrusher() {
-		super("Electric Crusher", 250000, 1, 1, true, true, 200, 8000, NuclearCraft.electricCrusherCrushSpeed, NuclearCraft.electricCrusherCrushEfficiency, CrusherRecipes.instance());
+		super("electricCrusher", 250000, 1, 1, true, true, 200, 8000, NuclearCraft.electricCrusherCrushSpeed, NuclearCraft.electricCrusherCrushEfficiency, CrusherRecipes.instance());
 	}
 	
 	public void updateEntity() {

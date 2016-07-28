@@ -7,6 +7,6 @@ import net.minecraft.block.Block;
 public class ItemBlockReactionGenerator extends ItemBlockNC {
 
 	public ItemBlockReactionGenerator(Block block) {
-		super(block, "Uses nuclear fuel and Universal Reactant", "to generate " + (TileReactionGenerator.power) + " RF/t");
+		super(block, "Uses basic nuclear fuel and Universal Reactant", "to generate " + (TileReactionGenerator.power) + " RF/t");
 	}
 }

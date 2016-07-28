@@ -45,9 +45,14 @@ public class NCBlocks {
 	public static Block fusionReactor;
 	public static Block fusionReactorBlock;
 	public static Block fusionReactorBlockTop;
+	public static Block fusionReactorSteam;
+	public static Block fusionReactorSteamBlock;
+	public static Block fusionReactorSteamBlockTop;
 	public static Block tubing1;
 	public static Block tubing2;
 	public static Block RTG;
+	public static Block AmRTG;
+	public static Block CfRTG;
 	public static Block WRTG;
 	public static Block solarPanel;
 	public static Block collectorIdle;
@@ -56,6 +61,8 @@ public class NCBlocks {
 	public static Block nukeE;
 	public static Block antimatterBomb;
 	public static Block antimatterBombE;
+	public static Block EMP;
+	public static Block EMPE;
 	public static Block electrolyserIdle;
 	public static Block electrolyserActive;
 	public static Block oxidiserIdle;
@@ -72,8 +79,8 @@ public class NCBlocks {
 	public static Block assemblerActive;
 	public static Block heliumExtractorIdle;
 	public static Block heliumExtractorActive;
-	public static Block autoWorkspaceIdle;
-	public static Block autoWorkspaceActive;
+	public static Block recyclerIdle;
+	public static Block recyclerActive;
 	
 	public static Block fusionConnector;
 	public static Block electromagnetIdle;
@@ -84,6 +91,9 @@ public class NCBlocks {
 	public static Block supercoolerActive;
 	public static Block synchrotronIdle;
 	public static Block synchrotronActive;
+	
+	public static Block lithiumIonBatteryBlock;
+	public static Block voltaicPile;
 	
 	public static Block simpleQuantumUp;
 	public static Block simpleQuantumDown;

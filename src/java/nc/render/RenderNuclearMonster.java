@@ -10,7 +10,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class RenderNuclearMonster extends RenderLiving {
 
-	private static final ResourceLocation texture = new ResourceLocation("nc:textures/model/NuclearMonster.png");
+	private static final ResourceLocation texture = new ResourceLocation("nc:textures/model/nuclearMonster.png");
 	
 	protected ModelNuclearMonster modelEntity;
 	

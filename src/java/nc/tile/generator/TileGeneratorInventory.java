@@ -12,9 +12,10 @@ import net.minecraftforge.common.util.ForgeDirection;
 import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyConnection;
 import cofh.api.energy.IEnergyHandler;
+import cofh.api.energy.IEnergyProvider;
 import cofh.api.energy.IEnergyReceiver;
 
-public abstract class TileGeneratorInventory extends TileInventory implements IEnergyHandler, IEnergyConnection {
+public abstract class TileGeneratorInventory extends TileInventory implements IEnergyHandler, IEnergyProvider, IEnergyConnection {
 	public int maxStorage;
 	public boolean flag;
 	public boolean flag1 = false;
@@ -37,9 +38,9 @@ public abstract class TileGeneratorInventory extends TileInventory implements IE
 	public void addEnergy() {
 		for (ForgeDirection side : ForgeDirection.VALID_DIRECTIONS) {
 			TileEntity tile = worldObj.getTileEntity(xCoord + side.offsetX, yCoord + side.offsetY, zCoord + side.offsetZ);
-			if ((tile instanceof IEnergyReceiver)) {
+			if (tile instanceof IEnergyReceiver) {
 				storage.extractEnergy(((IEnergyReceiver)tile).receiveEnergy(side.getOpposite(), storage.extractEnergy(storage.getMaxEnergyStored(), true), false), false);
-			} else if ((tile instanceof IEnergyHandler)) {
+			} else if (tile instanceof IEnergyHandler) {
 				storage.extractEnergy(((IEnergyHandler)tile).receiveEnergy(side.getOpposite(), storage.extractEnergy(storage.getMaxEnergyStored(), true), false), false);
 			}
 		}
@@ -127,7 +128,7 @@ public abstract class TileGeneratorInventory extends TileInventory implements IE
 	}
 
 	public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulate) {
-		return 0;
+		return storage.extractEnergy(maxExtract, simulate);
 	}
 
 	public int getEnergyStored(ForgeDirection paramForgeDirection) {

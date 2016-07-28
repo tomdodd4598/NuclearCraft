@@ -10,9 +10,10 @@ import net.minecraftforge.common.util.ForgeDirection;
 import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyConnection;
 import cofh.api.energy.IEnergyHandler;
+import cofh.api.energy.IEnergyProvider;
 import cofh.api.energy.IEnergyReceiver;
 
-public abstract class TileContinuousBase extends TileEntity implements IEnergyHandler, IEnergyConnection {
+public abstract class TileContinuousBase extends TileEntity implements IEnergyHandler, IEnergyProvider, IEnergyConnection {
 	public int maxStorage;
 	public int energy;
 	public int power = NuclearCraft.WRTGRF;
@@ -91,7 +92,7 @@ public abstract class TileContinuousBase extends TileEntity implements IEnergyHa
 	}
 
 	public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulate) {
-		return 0;
+		return storage.extractEnergy(maxExtract, simulate);
 	}
 
 	public int getEnergyStored(ForgeDirection paramForgeDirection) {

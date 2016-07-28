@@ -7,11 +7,9 @@ import java.util.Map;
 import nc.NuclearCraft;
 import nc.block.NCBlocks;
 import nc.item.NCItems;
-import nc.tile.generator.TileReactionGenerator;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.StatCollector;
 
 public class InfoRecipes {
 	
@@ -25,13 +23,13 @@ public class InfoRecipes {
 		return infoBase;
 	}
 	
-	private String text(String s) {
+	/*private String text(String s) {
 		return StatCollector.translateToLocal(s);
-	}
+	}*/
 	
 	private InfoRecipes() {
 		
-		addRecipe(new ItemStack(NCBlocks.fissionReactorGraphiteIdle), "-Nuclear fuel types below-Check uses in NEI-for more info:--"+text("gui.LEU")+"     "+text("gui.HEU")+"     "+text("gui.LEUOx")+"     "+text("gui.HEUOx")+"-"+text("gui.LEP")+"     "+text("gui.HEP")+"     "+text("gui.LEPOx")+"     "+text("gui.HEPOx")+"-"+text("gui.MOX")+"     "+text("gui.TBU")+"--Requires fission multiblock-structure to function and-outputs RF");
+		/*addRecipe(new ItemStack(NCBlocks.fissionReactorGraphiteIdle), "-Nuclear fuel types below-Check uses in NEI-for more info:--"+text("gui.LEU")+"     "+text("gui.HEU")+"     "+text("gui.LEUOx")+"     "+text("gui.HEUOx")+"-"+text("gui.LEP")+"     "+text("gui.HEP")+"     "+text("gui.LEPOx")+"     "+text("gui.HEPOx")+"-"+text("gui.MOX")+"     "+text("gui.TBU")+"--Requires fission multiblock-structure to function and-outputs RF");
 		addRecipe(new ItemStack(NCBlocks.fissionReactorSteamIdle), "-Nuclear fuel types below-Check uses in NEI-for more info:--"+text("gui.LEU")+"     "+text("gui.HEU")+"     "+text("gui.LEUOx")+"     "+text("gui.HEUOx")+"-"+text("gui.LEP")+"     "+text("gui.HEP")+"     "+text("gui.LEPOx")+"     "+text("gui.HEPOx")+"-"+text("gui.MOX")+"     "+text("gui.TBU")+"--Requires fission multiblock-structure to function and-outputs steam");
 		addRecipe(new ItemStack(NCBlocks.reactionGeneratorIdle), "-Uses nuclear fuel-and Universal Reactant-as the catalyst to-generate " + (TileReactionGenerator.power) + " RF/t");
 		addRecipe(new ItemStack(NCBlocks.nuclearFurnaceIdle), "-Smelts items very fast-and uses simple nuclear fuels");
@@ -89,7 +87,7 @@ public class InfoRecipes {
 		addRecipe(new ItemStack(NCItems.recordArea51), "-Jimmy, with his newly-aquired map, must make-his way to the mines of-Area 51 to recover his-invisibility technology...");
 		addRecipe(new ItemStack(NCItems.recordNeighborhood), "-Jimmy's hometown: a quiet-and green place with-roads to many great-places such as Retroland-and Downtown...");
 		addRecipe(new ItemStack(NCItems.recordPractice), "-Whenever Jimmy has some-new discoveries to test-out, his virtual practice-labs are the best places-to see what's possible...");
-		
+		*/
 		fissionFuelInfo(11, NuclearCraft.baseRFLEU, NuclearCraft.baseFuelLEU, NuclearCraft.baseHeatLEU);
 		fissionFuelInfo(17, NuclearCraft.baseRFLEU, NuclearCraft.baseFuelLEU, NuclearCraft.baseHeatLEU);
 		fissionFuelInfo(12, NuclearCraft.baseRFHEU, NuclearCraft.baseFuelHEU, NuclearCraft.baseHeatHEU);
@@ -124,15 +122,15 @@ public class InfoRecipes {
 		coolerInfo(NCBlocks.glowstoneCoolerBlock, NuclearCraft.glowstoneCool, "Quadrupally effective when-adjacent to Graphite on-all six sides");
 		coolerInfo(NCBlocks.heliumCoolerBlock, NuclearCraft.heliumCool, "Not affected by its-position in the structure");
 		coolerInfo(NCBlocks.coolantCoolerBlock, NuclearCraft.coolantCool, "Doubly effective when adjacent-to Water");
-		
-		addRecipe(new ItemStack(NCItems.dominoes), "-Paul's Favourite: He'll-follow anyone he sees-carrying this in their hand...--Restores 12 hunger");
+		/*
+		addRecipe(new ItemStack(NCItems.dominoes), "-Paul's Favourite: He'll-follow anyone he sees-carrying this in their hand...--Restores 16 hunger");
 		addRecipe(new ItemStack(NCItems.boiledEgg), "-Restores 5 hunger");
 		addRecipe(new ItemStack(NCItems.fuel, 1, 34), "-Right click on a water-source block with an-empty fluid cell to obtain");
 		addRecipe(new ItemStack(NCItems.fuel, 1, 45), "-Right click on a water-source block to-obtain a water cell");
 		
 		addRecipe(new ItemStack(NCItems.ricecake), "-Healthy meal,-especially with fish--Restores 4 hunger");
 		addRecipe(new ItemStack(NCItems.fishAndRicecake), "-At 8 in the morning he'll have-fish and a ricecake, at 10 he'll-have fish, at 12 he'll have fish-and a ricecake, at 2 he'll-have fish, at 4, just before he-trains, he'll have fish and a-ricecake, he'll train, he'll have-his fish, he'll come home and-have some more fish with a-ricecake and then have some-fish before he goes to bed");
-		
+		*/
 		addRecipe(new ItemStack(NCItems.fuel, 1, 35), "-Used to oxidise and-improve fission fuels");
 		addRecipe(new ItemStack(NCItems.fuel, 1, 36), "-Fusion fuel--Best combined with Boron11-or Lithium7");
 		addRecipe(new ItemStack(NCItems.fuel, 1, 37), "-Fusion fuel--Best combined with Deuterium,-Tritium, Helium3 or Lithium6");

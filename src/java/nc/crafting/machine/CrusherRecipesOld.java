@@ -96,6 +96,7 @@ public class CrusherRecipesOld
     	this.AddRecipe("ingotLithium", new ItemStack(NCItems.material, 1, 44));
     	this.AddRecipe("ingotBoron", new ItemStack(NCItems.material, 1, 45));
     	this.AddRecipe("ingotUraniumOxide", new ItemStack(NCItems.material, 1, 54));
+    	this.AddRecipe("ingotThoriumOxide", new ItemStack(NCItems.material, 1, 127));
     	this.AddRecipe("ingotMagnesium", new ItemStack(NCItems.material, 1, 51));
     	this.AddRecipe("ingotMagnesiumDiboride", new ItemStack(NCItems.material, 1, 72));
     	this.AddRecipe("ingotGraphite", new ItemStack(NCItems.material, 1, 77));

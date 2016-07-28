@@ -34,7 +34,7 @@ public abstract class TileFuelUser extends TileInventory {
 	}
 	
 	public String getInvName() {
-		return isInvNameLocalized() ? localizedName : "Fuel User";
+		return isInvNameLocalized() ? localizedName : "fuelUser";
 	}
 	
 	public boolean isInvNameLocalized() {

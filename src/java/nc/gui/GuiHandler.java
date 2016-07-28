@@ -6,6 +6,7 @@ import nc.container.crafting.ContainerNuclearWorkspace;
 import nc.container.generator.ContainerFissionReactor;
 import nc.container.generator.ContainerFissionReactorSteam;
 import nc.container.generator.ContainerFusionReactor;
+import nc.container.generator.ContainerFusionReactorSteam;
 import nc.container.generator.ContainerReactionGenerator;
 import nc.container.machine.ContainerAssembler;
 import nc.container.machine.ContainerCollector;
@@ -23,11 +24,13 @@ import nc.container.machine.ContainerIrradiator;
 import nc.container.machine.ContainerNuclearFurnace;
 import nc.container.machine.ContainerOxidiser;
 import nc.container.machine.ContainerSeparator;
+import nc.container.machine.ContainerRecycler;
 import nc.gui.accelerator.GuiSynchrotron;
 import nc.gui.crafting.GuiNuclearWorkspace;
 import nc.gui.generator.GuiFissionReactor;
 import nc.gui.generator.GuiFissionReactorSteam;
 import nc.gui.generator.GuiFusionReactor;
+import nc.gui.generator.GuiFusionReactorSteam;
 import nc.gui.generator.GuiReactionGenerator;
 import nc.gui.machine.GuiAssembler;
 import nc.gui.machine.GuiCollector;
@@ -45,11 +48,13 @@ import nc.gui.machine.GuiIrradiator;
 import nc.gui.machine.GuiNuclearFurnace;
 import nc.gui.machine.GuiOxidiser;
 import nc.gui.machine.GuiSeparator;
+import nc.gui.machine.GuiRecycler;
 import nc.tile.accelerator.TileSynchrotron;
 import nc.tile.crafting.TileNuclearWorkspace;
 import nc.tile.generator.TileFissionReactor;
 import nc.tile.generator.TileFissionReactorSteam;
 import nc.tile.generator.TileFusionReactor;
+import nc.tile.generator.TileFusionReactorSteam;
 import nc.tile.generator.TileReactionGenerator;
 import nc.tile.machine.TileAssembler;
 import nc.tile.machine.TileCollector;
@@ -67,6 +72,7 @@ import nc.tile.machine.TileIrradiator;
 import nc.tile.machine.TileNuclearFurnace;
 import nc.tile.machine.TileOxidiser;
 import nc.tile.machine.TileSeparator;
+import nc.tile.machine.TileRecycler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -150,6 +156,12 @@ public class GuiHandler implements IGuiHandler {
 				case 21:
 					if(entity instanceof TileFissionReactorSteam) return new ContainerFissionReactorSteam(player.inventory, (TileFissionReactorSteam) entity);
 					return null;
+				case 22:
+					if(entity instanceof TileFusionReactorSteam) return new ContainerFusionReactorSteam(player.inventory, (TileFusionReactorSteam) entity);
+					return null;
+				case 23:
+					if(entity instanceof TileRecycler) return new ContainerRecycler(player.inventory, (TileRecycler) entity);
+					return null;
 			}
 		}
 		return null;
@@ -224,6 +236,12 @@ public class GuiHandler implements IGuiHandler {
 					return null;
 				case 21:
 					if(entity instanceof TileFissionReactorSteam) return new GuiFissionReactorSteam(player.inventory, (TileFissionReactorSteam) entity);
+					return null;
+				case 22:
+					if(entity instanceof TileFusionReactorSteam) return new GuiFusionReactorSteam(player.inventory, (TileFusionReactorSteam) entity);
+					return null;
+				case 23:
+					if(entity instanceof TileRecycler) return new GuiRecycler(player.inventory, (TileRecycler) entity);
 					return null;
 			}
 		}

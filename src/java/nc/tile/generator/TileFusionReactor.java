@@ -114,7 +114,7 @@ public class TileFusionReactor extends TileGeneratorInventory implements IEnergy
 	public final int[] output = new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8};
 	
 	public TileFusionReactor() {
-		super("Fusion Reactor", 10000000, 9);
+		super("fusionReactor", 10000000, 9);
 		this.gasTank = new GasTank(3200);
 		this.gasTank2 = new GasTank(3200);
 	}
@@ -859,28 +859,28 @@ public class TileFusionReactor extends TileGeneratorInventory implements IEnergy
 	}
 
 	public void addEnergy() {
-			lastE = storage.getEnergyStored();
-			if (heat >= 8 && HLevel + DLevel + TLevel + HeLevel + BLevel + Li6Level + Li7Level > 0 && HLevel2 + DLevel2 + TLevel2 + HeLevel2 + BLevel2 + Li6Level2 + Li7Level2 > 0 && complete == 1) {
-				for (ForgeDirection side : ForgeDirection.VALID_DIRECTIONS) {
-					for (int x = -1; x < 2; ++x) {
-						for (int y = 0; y < 3; ++y) {
-							for (int z = -1; z < 2; ++z) {
-								
-								TileEntity tile = this.worldObj.getTileEntity(xCoord + side.offsetX + x, yCoord + side.offsetY + y, zCoord + side.offsetZ + z);
-				
-								if (!(tile instanceof TileGeneratorInventory) && !(tile instanceof TileReactionGenerator) && !(tile instanceof TileContinuousBase) && !(tile instanceof TileRTG) && !(tile instanceof TileWRTG) && !(tile instanceof TileFusionReactor) && !(tile instanceof TileFusionReactorBlock) && !(tile instanceof TileFissionReactor)) {
-									if ((tile instanceof IEnergyHandler)) {
-										storage.extractEnergy(((IEnergyHandler)tile).receiveEnergy(side.getOpposite(), storage.extractEnergy(storage.getMaxEnergyStored(), true), false), false);
-									}
-								}
+		lastE = storage.getEnergyStored();
+		if (heat >= 8 && HLevel + DLevel + TLevel + HeLevel + BLevel + Li6Level + Li7Level > 0 && HLevel2 + DLevel2 + TLevel2 + HeLevel2 + BLevel2 + Li6Level2 + Li7Level2 > 0 && complete == 1) {
+			for (ForgeDirection side : ForgeDirection.VALID_DIRECTIONS) {
+				for (int x = -1; x < 2; ++x) {
+					for (int y = 0; y < 3; ++y) {
+						for (int z = -1; z < 2; ++z) {
+							
+							TileEntity tile = this.worldObj.getTileEntity(xCoord + side.offsetX + x, yCoord + side.offsetY + y, zCoord + side.offsetZ + z);
+			
+							if ((tile instanceof IEnergyReceiver)) {
+								storage.extractEnergy(((IEnergyReceiver)tile).receiveEnergy(side.getOpposite(), storage.extractEnergy(storage.getMaxEnergyStored(), true), false), false);
+							} else if ((tile instanceof IEnergyHandler)) {
+								storage.extractEnergy(((IEnergyHandler)tile).receiveEnergy(side.getOpposite(), storage.extractEnergy(storage.getMaxEnergyStored(), true), false), false);
 							}
 						}
 					}
 				}
 			}
-			E = storage.getEnergyStored();
-			if (E != lastE) BlockFusionReactor.updateBlockState(this.worldObj, this.xCoord, this.yCoord, this.zCoord);
 		}
+		E = storage.getEnergyStored();
+		if (E != lastE) BlockFusionReactor.updateBlockState(this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+	}
 	
 	private void fuel1() {
 	    ItemStack stack = this.getStackInSlot(0);
@@ -1231,9 +1231,7 @@ public class TileFusionReactor extends TileGeneratorInventory implements IEnergy
 	
 	public void readFromNBT(NBTTagCompound nbt) {
 	    super.readFromNBT(nbt);
-	    if (nbt.hasKey("storage")) {
-	    	this.storage.readFromNBT(nbt.getCompoundTag("storage"));
-	    }
+	    
 	    this.EShown = nbt.getInteger("EShown");
 	    this.HLevel = nbt.getInteger("HLevel");
 	    this.DLevel = nbt.getInteger("DLevel");
@@ -1272,10 +1270,6 @@ public class TileFusionReactor extends TileGeneratorInventory implements IEnergy
 
 	public void writeToNBT(NBTTagCompound nbt) {
 	    super.writeToNBT(nbt);
-	    
-	    NBTTagCompound energyTag = new NBTTagCompound();
-	    this.storage.writeToNBT(energyTag);
-	    nbt.setTag("storage", energyTag);
 	    
 	    nbt.setInteger("EShown", this.EShown);
 	    nbt.setInteger("HLevel", this.HLevel);
@@ -1361,8 +1355,7 @@ public class TileFusionReactor extends TileGeneratorInventory implements IEnergy
 	public int Li6Level2() { return Li6Level2; }
 	public int Li7Level2() { return Li7Level2; }
 
-	public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate)
-	{
+	public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
 		if (heat < 8 || (HLevel + DLevel + TLevel + HeLevel + BLevel + Li6Level + Li7Level <= 0 || HLevel2 + DLevel2 + TLevel2 + HeLevel2 + BLevel2 + Li6Level2 + Li7Level2 <= 0) || complete == 0) {
 			return this.storage.receiveEnergy(maxReceive, simulate);
 		}

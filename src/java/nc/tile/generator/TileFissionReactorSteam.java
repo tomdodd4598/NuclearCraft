@@ -6,14 +6,13 @@ import nc.block.generator.BlockFissionReactorSteam;
 import nc.handler.BombType;
 import nc.handler.EntityBomb;
 import nc.handler.NCExplosion;
-import nc.item.NCItems;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.oredict.OreDictionary;
 
 public class TileFissionReactorSteam extends TileSteamProducer {
 	
@@ -52,13 +51,69 @@ public class TileFissionReactorSteam extends TileSteamProducer {
     public String problem = StatCollector.translateToLocal("gui.casingIncomplete");
 
     public TileFissionReactorSteam() {
-		super("Fission Reactor Steam", 100000, 2);
+		super("fissionSteam", 100000, 2);
 	}
+    
+    public static String[] cellTypes = {
+		"LEU235Cell", "HEU235Cell",
+		"LEP239Cell", "HEP239Cell",
+		"MOX239Cell",
+		"TBUCell",
+		"LEU233Cell", "HEU233Cell",
+		"LEP241Cell", "HEP241Cell",
+		"MOX241Cell",
+		
+		"LEU235CellOxide", "HEU235CellOxide",
+		"LEP239CellOxide", "HEP239CellOxide",
+		"LEU233CellOxide", "HEU233CellOxide",
+		"LEP241CellOxide", "HEP241CellOxide",
+		
+		"LEN236Cell", "HEN236Cell",
+		"LEA242Cell", "HEA242Cell",
+		"LEC243Cell", "HEC243Cell",
+		"LEC245Cell", "HEC245Cell",
+		"LEC247Cell", "HEC247Cell",
+		
+		"LEN236CellOxide", "HEN236CellOxide",
+		"LEA242CellOxide", "HEA242CellOxide",
+		"LEC243CellOxide", "HEC243CellOxide",
+		"LEC245CellOxide", "HEC245CellOxide",
+		"LEC247CellOxide", "HEC247CellOxide",
+		"TBUCellOxide"
+	};
+    
+    public static String[] fuelTypes = {
+		"LEU", "HEU",
+		"LEP", "HEP",
+		"MOX",
+		"TBU",
+		"LEU", "HEU",
+		"LEP", "HEP",
+		"MOX",
+		
+		"LEU-Ox", "HEU-Ox",
+		"LEP-Ox", "HEP-Ox",
+		"LEU-Ox", "HEU-Ox",
+		"LEP-Ox", "HEP-Ox",
+		
+		"LEN", "HEN",
+		"LEA", "HEA",
+		"LEC", "HEC",
+		"LEC", "HEC",
+		"LEC", "HEC",
+		
+		"LEN-Ox", "HEN-Ox",
+		"LEA-Ox", "HEA-Ox",
+		"LEC-Ox", "HEC-Ox",
+		"LEC-Ox", "HEC-Ox",
+		"LEC-Ox", "HEC-Ox",
+		"TBU-Ox"
+	};
 
     public void updateEntity() {
     	super.updateEntity();
     	checkStructure();
-    	if(!this.worldObj.isRemote) {
+    	if(!worldObj.isRemote) {
         	product();
     		fuel();
     		steam();
@@ -67,49 +122,33 @@ public class TileFissionReactorSteam extends TileSteamProducer {
     	typeoffuelx();
     	if (flag != flag1) {
         	flag1 = flag;
-        	BlockFissionReactorSteam.updateBlockState(flag, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+        	BlockFissionReactorSteam.updateBlockState(flag, worldObj, xCoord, yCoord, zCoord);
         }
         markDirty();
-        if (this.fueltime < 0) this.fueltime = 0;
+        if (fueltime < 0) fueltime = 0;
     }
     
     public void overheat() {
-    	if (this.heat >= 1000000) {
+    	if (heat >= 1000000) {
         	
     		if (NuclearCraft.nuclearMeltdowns) {
-    			if (this.getBlockMetadata() == 4) NCExplosion.createExplosion(new EntityBomb(worldObj).setType(BombType.BOMB_STANDARD), worldObj, xCoord+((x0 + x1)/2), yCoord+((y0 + y1)/2), zCoord+((z0 + z1)/2), lx + ly + lz, lx + ly + lz, true);
-            	else if (this.getBlockMetadata() == 2) NCExplosion.createExplosion(new EntityBomb(worldObj).setType(BombType.BOMB_STANDARD), worldObj, xCoord-((z0 + z1)/2), yCoord+((y0 + y1)/2), zCoord+((x0 + x1)/2), lx + ly + lz, lx + ly + lz, true);
-            	else if (this.getBlockMetadata() == 5) NCExplosion.createExplosion(new EntityBomb(worldObj).setType(BombType.BOMB_STANDARD), worldObj, xCoord-((x0 + x1)/2), yCoord+((y0 + y1)/2), zCoord-((z0 + z1)/2), lx + ly + lz, lx + ly + lz, true);
-            	else if (this.getBlockMetadata() == 3) NCExplosion.createExplosion(new EntityBomb(worldObj).setType(BombType.BOMB_STANDARD), worldObj, xCoord+((z0 + z1)/2), yCoord+((y0 + y1)/2), zCoord-((x0 + x1)/2), lx + ly + lz, lx + ly + lz, true);
+    			if (getBlockMetadata() == 4) NCExplosion.createExplosion(new EntityBomb(worldObj).setType(BombType.BOMB_STANDARD), worldObj, xCoord+((x0 + x1)/2), yCoord+((y0 + y1)/2), zCoord+((z0 + z1)/2), lx + ly + lz, lx + ly + lz, true);
+            	else if (getBlockMetadata() == 2) NCExplosion.createExplosion(new EntityBomb(worldObj).setType(BombType.BOMB_STANDARD), worldObj, xCoord-((z0 + z1)/2), yCoord+((y0 + y1)/2), zCoord+((x0 + x1)/2), lx + ly + lz, lx + ly + lz, true);
+            	else if (getBlockMetadata() == 5) NCExplosion.createExplosion(new EntityBomb(worldObj).setType(BombType.BOMB_STANDARD), worldObj, xCoord-((x0 + x1)/2), yCoord+((y0 + y1)/2), zCoord-((z0 + z1)/2), lx + ly + lz, lx + ly + lz, true);
+            	else if (getBlockMetadata() == 3) NCExplosion.createExplosion(new EntityBomb(worldObj).setType(BombType.BOMB_STANDARD), worldObj, xCoord+((z0 + z1)/2), yCoord+((y0 + y1)/2), zCoord-((x0 + x1)/2), lx + ly + lz, lx + ly + lz, true);
     			worldObj.setBlockToAir(xCoord, yCoord, zCoord);
-    		} else this.heat = 1000000;
+    		} else heat = 1000000;
     	}
     }
     
     public void typeoffuelx() {
-    	if (this.fueltype == 1) typeoffuel = StatCollector.translateToLocal("gui.LEU");
-    	else if (this.fueltype == 2) typeoffuel = StatCollector.translateToLocal("gui.HEU");
-    	else if (this.fueltype == 3) typeoffuel = StatCollector.translateToLocal("gui.LEP");
-    	else if (this.fueltype == 4) typeoffuel = StatCollector.translateToLocal("gui.HEP");
-    	else if (this.fueltype == 5) typeoffuel = StatCollector.translateToLocal("gui.MOX");
-    	else if (this.fueltype == 6) typeoffuel = StatCollector.translateToLocal("gui.TBU");
-    	else if (this.fueltype == 7) typeoffuel = StatCollector.translateToLocal("gui.LEU");
-    	else if (this.fueltype == 8) typeoffuel = StatCollector.translateToLocal("gui.HEU");
-    	else if (this.fueltype == 9) typeoffuel = StatCollector.translateToLocal("gui.LEP");
-    	else if (this.fueltype == 10) typeoffuel = StatCollector.translateToLocal("gui.HEP");
-    	else if (this.fueltype == 11) typeoffuel = StatCollector.translateToLocal("gui.MOX");
-    	
-    	else if (this.fueltype == 12) typeoffuel = StatCollector.translateToLocal("gui.LEU-Ox");
-    	else if (this.fueltype == 13) typeoffuel = StatCollector.translateToLocal("gui.HEU-Ox");
-    	else if (this.fueltype == 14) typeoffuel = StatCollector.translateToLocal("gui.LEP-Ox");
-    	else if (this.fueltype == 15) typeoffuel = StatCollector.translateToLocal("gui.HEP-Ox");
-    	else if (this.fueltype == 16) typeoffuel = StatCollector.translateToLocal("gui.LEU-Ox");
-    	else if (this.fueltype == 17) typeoffuel = StatCollector.translateToLocal("gui.HEU-Ox");
-    	else if (this.fueltype == 18) typeoffuel = StatCollector.translateToLocal("gui.LEP-Ox");
-    	else if (this.fueltype == 19) typeoffuel = StatCollector.translateToLocal("gui.HEP-Ox");
-    	
-    	else if (this.fueltype == 0) typeoffuel = StatCollector.translateToLocal("gui.noFuel");
-    	else typeoffuel = StatCollector.translateToLocal("gui.noFuel");
+    	for (int i = 0; i < fuelTypes.length; i ++) {
+    		if (fueltype == i + 1) {
+    			typeoffuel = StatCollector.translateToLocal("gui." + fuelTypes[i]);
+    			return;
+    		}
+    	}
+    	typeoffuel = StatCollector.translateToLocal("gui.noFuel");
     }
 
     private void steam() {
@@ -131,10 +170,10 @@ public class TileFissionReactorSteam extends TileSteamProducer {
     	double baseFuel = 0;
     	double baseHeat = 0;
     	
-    	if (this.getStackInSlot(1) == null && worldObj.isBlockIndirectlyGettingPowered(this.xCoord, this.yCoord, this.zCoord) && this.fueltime > 0 && this.fueltype != 0 && complete == 1) {
+    	if (doesFuelMatchDepleted() && worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord) && fueltime > 0 && fueltype != 0 && complete == 1) {
     		off = 0;
     		flag = true;
-    	} else if (this.getStackInSlot(1) == null && !worldObj.isBlockIndirectlyGettingPowered(this.xCoord, this.yCoord, this.zCoord) && this.fueltime > 0 && this.fueltype != 0 && complete == 1) {
+    	} else if (doesFuelMatchDepleted() && !worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord) && fueltime > 0 && fueltype != 0 && complete == 1) {
     		off = 1;
     		flag = false;
     	} else {
@@ -169,82 +208,173 @@ public class TileFissionReactorSteam extends TileSteamProducer {
 	        	}
 	        }
 	    	
-	        if (this.getStackInSlot(1) == null && worldObj.isBlockIndirectlyGettingPowered(this.xCoord, this.yCoord, this.zCoord) && this.fueltime > 0 && this.fueltype != 0 && complete == 1) {
+	        if (doesFuelMatchDepleted() && worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord) && fueltime > 0 && fueltype != 0 && complete == 1) {
 	        	
 	        	flag = true;
 	        	off = 0;
 	        	
 	        	//LEU
-	        	if (this.fueltype == 1 || this.fueltype == 7) {
+	        	if (fueltype == 1 || fueltype == 7) {
 	        		baseSteam = NuclearCraft.baseRFLEU;
 	            	baseFuel = NuclearCraft.baseFuelLEU;
 	            	baseHeat = NuclearCraft.baseHeatLEU;
 	        	}
 	
 	        	//HEU
-	        	if (this.fueltype == 2 || this.fueltype == 8) {
+	        	if (fueltype == 2 || fueltype == 8) {
 	        		baseSteam = NuclearCraft.baseRFHEU;
 	            	baseFuel = NuclearCraft.baseFuelHEU;
 	            	baseHeat = NuclearCraft.baseHeatHEU;
 	        	}
 	
 	        	//LEP
-	        	if (this.fueltype == 3 || this.fueltype == 9) {
+	        	if (fueltype == 3 || fueltype == 9) {
 	        		baseSteam = NuclearCraft.baseRFLEP;
 	            	baseFuel = NuclearCraft.baseFuelLEP;
 	            	baseHeat = NuclearCraft.baseHeatLEP;
 	        	}
 	
 	        	//HEP
-	        	if (this.fueltype == 4 || this.fueltype == 10) {
+	        	if (fueltype == 4 || fueltype == 10) {
 	        		baseSteam = NuclearCraft.baseRFHEP;
 	            	baseFuel = NuclearCraft.baseFuelHEP;
 	            	baseHeat = NuclearCraft.baseHeatHEP;
 	        	}
 	
 	        	//MOX
-	        	if (this.fueltype == 5 || this.fueltype == 11) {
+	        	if (fueltype == 5 || fueltype == 11) {
 	        		baseSteam = NuclearCraft.baseRFMOX;
 	            	baseFuel = NuclearCraft.baseFuelMOX;
 	            	baseHeat = NuclearCraft.baseHeatMOX;
 	        	}
 	        	
 	        	//TBU
-	        	if (this.fueltype == 6) {
+	        	if (fueltype == 6) {
 	        		baseSteam = NuclearCraft.baseRFTBU;
 	            	baseFuel = NuclearCraft.baseFuelTBU;
 	            	baseHeat = NuclearCraft.baseHeatTBU;
 	        	}
 	        	
 	        	//LEU-Ox
-	        	if (this.fueltype == 12 || this.fueltype == 16) {
+	        	if (fueltype == 12 || fueltype == 16) {
 	        		baseSteam = NuclearCraft.baseRFLEUOx;
 	            	baseFuel = NuclearCraft.baseFuelLEUOx;
 	            	baseHeat = NuclearCraft.baseHeatLEUOx;
 	        	}
 	
 	        	//HEU-Ox
-	        	if (this.fueltype == 13 || this.fueltype == 17) {
+	        	if (fueltype == 13 || fueltype == 17) {
 	        		baseSteam = NuclearCraft.baseRFHEUOx;
 	            	baseFuel = NuclearCraft.baseFuelHEUOx;
 	            	baseHeat = NuclearCraft.baseHeatHEUOx;
 	        	}
 	
 	        	//LEP-Ox
-	        	if (this.fueltype == 14 || this.fueltype == 18) {
+	        	if (fueltype == 14 || fueltype == 18) {
 	        		baseSteam = NuclearCraft.baseRFLEPOx;
 	            	baseFuel = NuclearCraft.baseFuelLEPOx;
 	            	baseHeat = NuclearCraft.baseHeatLEPOx;
 	        	}
 	
 	        	//HEP-Ox
-	        	if (this.fueltype == 15 || this.fueltype == 19) {
+	        	if (fueltype == 15 || fueltype == 19) {
 	        		baseSteam = NuclearCraft.baseRFHEPOx;
 	            	baseFuel = NuclearCraft.baseFuelHEPOx;
 	            	baseHeat = NuclearCraft.baseHeatHEPOx;
 	        	}
 	        	
-	        	steamThisTick += baseSteam*(10000*sMult + this.heat)*(numberOfCells + 2*adj1 + 3*adj2 + 4*adj3 + 5*adj4 + 6*adj5 + 7*adj6) /* *Math.cbrt((lx - 2)*(ly - 2)*(lz - 2))*/ /1000000;
+	        	//LEN
+	        	if (fueltype == 20) {
+	        		baseSteam = NuclearCraft.baseRFLEN;
+	            	baseFuel = NuclearCraft.baseFuelLEN;
+	            	baseHeat = NuclearCraft.baseHeatLEN;
+	        	}
+	
+	        	//HEN
+	        	if (fueltype == 21) {
+	        		baseSteam = NuclearCraft.baseRFHEN;
+	            	baseFuel = NuclearCraft.baseFuelHEN;
+	            	baseHeat = NuclearCraft.baseHeatHEN;
+	        	}
+	        	
+	        	//LEA
+	        	if (fueltype == 22) {
+	        		baseSteam = NuclearCraft.baseRFLEA;
+	            	baseFuel = NuclearCraft.baseFuelLEA;
+	            	baseHeat = NuclearCraft.baseHeatLEA;
+	        	}
+	
+	        	//HEA
+	        	if (fueltype == 23) {
+	        		baseSteam = NuclearCraft.baseRFHEA;
+	            	baseFuel = NuclearCraft.baseFuelHEA;
+	            	baseHeat = NuclearCraft.baseHeatHEA;
+	        	}
+	        	
+	        	//LEC
+	        	if (fueltype == 24 || fueltype == 26 || fueltype == 28) {
+	        		baseSteam = NuclearCraft.baseRFLEC;
+	            	baseFuel = NuclearCraft.baseFuelLEC;
+	            	baseHeat = NuclearCraft.baseHeatLEC;
+	        	}
+	
+	        	//HEC
+	        	if (fueltype == 25 || fueltype == 27 || fueltype == 29) {
+	        		baseSteam = NuclearCraft.baseRFHEC;
+	            	baseFuel = NuclearCraft.baseFuelHEC;
+	            	baseHeat = NuclearCraft.baseHeatHEC;
+	        	}
+	        	
+	        	//LEN-Ox
+	        	if (fueltype == 30) {
+	        		baseSteam = NuclearCraft.baseRFLENOx;
+	            	baseFuel = NuclearCraft.baseFuelLENOx;
+	            	baseHeat = NuclearCraft.baseHeatLENOx;
+	        	}
+	
+	        	//HEN-Ox
+	        	if (fueltype == 31) {
+	        		baseSteam = NuclearCraft.baseRFHENOx;
+	            	baseFuel = NuclearCraft.baseFuelHENOx;
+	            	baseHeat = NuclearCraft.baseHeatHENOx;
+	        	}
+	        	
+	        	//LEA-Ox
+	        	if (fueltype == 32) {
+	        		baseSteam = NuclearCraft.baseRFLEAOx;
+	            	baseFuel = NuclearCraft.baseFuelLEAOx;
+	            	baseHeat = NuclearCraft.baseHeatLEAOx;
+	        	}
+	
+	        	//HEA-Ox
+	        	if (fueltype == 33) {
+	        		baseSteam = NuclearCraft.baseRFHEAOx;
+	            	baseFuel = NuclearCraft.baseFuelHEAOx;
+	            	baseHeat = NuclearCraft.baseHeatHEAOx;
+	        	}
+	        	
+	        	//LEC-Ox
+	        	if (fueltype == 34 || fueltype == 36 || fueltype == 38) {
+	        		baseSteam = NuclearCraft.baseRFLECOx;
+	            	baseFuel = NuclearCraft.baseFuelLECOx;
+	            	baseHeat = NuclearCraft.baseHeatLECOx;
+	        	}
+	
+	        	//HEC-Ox
+	        	if (fueltype == 35 || fueltype == 37 || fueltype == 39) {
+	        		baseSteam = NuclearCraft.baseRFHECOx;
+	            	baseFuel = NuclearCraft.baseFuelHECOx;
+	            	baseHeat = NuclearCraft.baseHeatHECOx;
+	        	}
+	        	
+	        	//TBU-Ox
+	        	if (fueltype == 40) {
+	        		baseSteam = NuclearCraft.baseRFTBUOx;
+	            	baseFuel = NuclearCraft.baseFuelTBUOx;
+	            	baseHeat = NuclearCraft.baseHeatTBUOx;
+	        	}
+	        	
+	        	steamThisTick += baseSteam*(10000*sMult + heat)*(numberOfCells + 2*adj1 + 3*adj2 + 4*adj3 + 5*adj4 + 6*adj5 + 7*adj6) /* *Math.cbrt((lx - 2)*(ly - 2)*(lz - 2))*/ /1000000;
 	        	heatThisTick += baseHeat*(numberOfCells + 3*adj1 + 6*adj2 + 10*adj3 + 15*adj4 + 21*adj5 + 28*adj6);
 	        	fuelThisTick += (numberOfCells + adj1 + adj2 + adj3 + adj4 + adj5 + adj6)*baseFuel/NuclearCraft.fissionEfficiency;
 	        	
@@ -252,7 +382,7 @@ public class TileFissionReactorSteam extends TileSteamProducer {
 	        		for (int x = x0 + 1; x <= x1 - 1; x++) {
 	        			for (int y = y0 + 1; y <= y1 - 1; y++) {
 	        				if(find(NCBlocks.graphiteBlock, x, y, z)) {
-	        					steamThisTick += (10000*sMult + this.heat)*baseSteam*(numberOfCells + adj1 + adj2 + adj3 + adj4 + adj5 + adj6)/10000000;
+	        					steamThisTick += (10000*sMult + heat)*baseSteam*(numberOfCells + adj1 + adj2 + adj3 + adj4 + adj5 + adj6)/10000000;
 	        					heatThisTick += (hMult/100)*baseSteam*(numberOfCells + adj1 + adj2 + adj3 + adj4 + adj5 + adj6)/5;
 	        				}
 	        				if(find(Blocks.water, x, y, z) && (numberOfCells + adj1 + adj2 + adj3 + adj4 + adj5 + adj6) > 0) {
@@ -265,78 +395,156 @@ public class TileFissionReactorSteam extends TileSteamProducer {
 	        		}
 	        	}
 	        
-	        } else if(this.getStackInSlot(1) == null && !worldObj.isBlockIndirectlyGettingPowered(this.xCoord, this.yCoord, this.zCoord) && this.fueltime > 0 && this.fueltype != 0 && complete == 1) {
+	        } else if(doesFuelMatchDepleted() && !worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord) && fueltime > 0 && fueltype != 0 && complete == 1) {
 	        	
 	        	off = 1;
 	        	
 	        	//LEU
-	        	if (this.fueltype == 1 || this.fueltype == 7) {
+	        	if (fueltype == 1 || fueltype == 7) {
 	        		baseSteam = NuclearCraft.baseRFLEU;
 	            	baseHeat = NuclearCraft.baseHeatLEU;
 	        	}
 	
 	        	//HEU
-	        	if (this.fueltype == 2 || this.fueltype == 8) {
+	        	if (fueltype == 2 || fueltype == 8) {
 	        		baseSteam = NuclearCraft.baseRFHEU;
 	            	baseHeat = NuclearCraft.baseHeatHEU;
 	        	}
 	
 	        	//LEP
-	        	if (this.fueltype == 3 || this.fueltype == 9) {
+	        	if (fueltype == 3 || fueltype == 9) {
 	        		baseSteam = NuclearCraft.baseRFLEP;
 	            	baseHeat = NuclearCraft.baseHeatLEP;
 	        	}
 	
 	        	//HEP
-	        	if (this.fueltype == 4 || this.fueltype == 10) {
+	        	if (fueltype == 4 || fueltype == 10) {
 	        		baseSteam = NuclearCraft.baseRFHEP;
 	            	baseHeat = NuclearCraft.baseHeatHEP;
 	        	}
 	
 	        	//MOX
-	        	if (this.fueltype == 5 || this.fueltype == 11) {
+	        	if (fueltype == 5 || fueltype == 11) {
 	        		baseSteam = NuclearCraft.baseRFMOX;
 	            	baseHeat = NuclearCraft.baseHeatMOX;
 	        	}
 	        	
 	        	//TBU
-	        	if (this.fueltype == 6) {
+	        	if (fueltype == 6) {
 	        		baseSteam = NuclearCraft.baseRFTBU;
 	            	baseHeat = NuclearCraft.baseHeatTBU;
 	        	}
 	        	
 	        	//LEU-Ox
-	        	if (this.fueltype == 12 || this.fueltype == 16) {
+	        	if (fueltype == 12 || fueltype == 16) {
 	        		baseSteam = NuclearCraft.baseRFLEUOx;
 	            	baseHeat = NuclearCraft.baseHeatLEUOx;
 	        	}
 	
 	        	//HEU-Ox
-	        	if (this.fueltype == 13 || this.fueltype == 17) {
+	        	if (fueltype == 13 || fueltype == 17) {
 	        		baseSteam = NuclearCraft.baseRFHEUOx;
 	            	baseHeat = NuclearCraft.baseHeatHEUOx;
 	        	}
 	
 	        	//LEP-Ox
-	        	if (this.fueltype == 14 || this.fueltype == 18) {
+	        	if (fueltype == 14 || fueltype == 18) {
 	        		baseSteam = NuclearCraft.baseRFLEPOx;
 	            	baseHeat = NuclearCraft.baseHeatLEPOx;
 	        	}
 	
 	        	//HEP-Ox
-	        	if (this.fueltype == 15 || this.fueltype == 19) {
+	        	if (fueltype == 15 || fueltype == 19) {
 	        		baseSteam = NuclearCraft.baseRFHEPOx;
 	            	baseHeat = NuclearCraft.baseHeatHEPOx;
 	        	}
 	        	
-	        	fakeSteamThisTick += baseSteam*(10000*sMult + this.heat)*(numberOfCells + 2*adj1 + 3*adj2 + 4*adj3 + 5*adj4 + 6*adj5 + 7*adj6) /* *Math.cbrt((lx - 2)*(ly - 2)*(lz - 2))*/ /1000000;
+	        	//LEN
+	        	if (fueltype == 20) {
+	        		baseSteam = NuclearCraft.baseRFLEN;
+	            	baseHeat = NuclearCraft.baseHeatLEN;
+	        	}
+	
+	        	//HEN
+	        	if (fueltype == 21) {
+	        		baseSteam = NuclearCraft.baseRFHEN;
+	            	baseHeat = NuclearCraft.baseHeatHEN;
+	        	}
+	        	
+	        	//LEA
+	        	if (fueltype == 22) {
+	        		baseSteam = NuclearCraft.baseRFLEA;
+	            	baseHeat = NuclearCraft.baseHeatLEA;
+	        	}
+	
+	        	//HEA
+	        	if (fueltype == 23) {
+	        		baseSteam = NuclearCraft.baseRFHEA;
+	            	baseHeat = NuclearCraft.baseHeatHEA;
+	        	}
+	        	
+	        	//LEC
+	        	if (fueltype == 24 || fueltype == 26 || fueltype == 28) {
+	        		baseSteam = NuclearCraft.baseRFLEC;
+	            	baseHeat = NuclearCraft.baseHeatLEC;
+	        	}
+	
+	        	//HEC
+	        	if (fueltype == 25 || fueltype == 27 || fueltype == 29) {
+	        		baseSteam = NuclearCraft.baseRFHEC;
+	            	baseHeat = NuclearCraft.baseHeatHEC;
+	        	}
+	        	
+	        	//LEN-Ox
+	        	if (fueltype == 30) {
+	        		baseSteam = NuclearCraft.baseRFLENOx;
+	            	baseHeat = NuclearCraft.baseHeatLENOx;
+	        	}
+	
+	        	//HEN-Ox
+	        	if (fueltype == 31) {
+	        		baseSteam = NuclearCraft.baseRFHENOx;
+	            	baseHeat = NuclearCraft.baseHeatHENOx;
+	        	}
+	        	
+	        	//LEA-Ox
+	        	if (fueltype == 32) {
+	        		baseSteam = NuclearCraft.baseRFLEAOx;
+	            	baseHeat = NuclearCraft.baseHeatLEAOx;
+	        	}
+	
+	        	//HEA-Ox
+	        	if (fueltype == 33) {
+	        		baseSteam = NuclearCraft.baseRFHEAOx;
+	            	baseHeat = NuclearCraft.baseHeatHEAOx;
+	        	}
+	        	
+	        	//LEC-Ox
+	        	if (fueltype == 34 || fueltype == 36 || fueltype == 38) {
+	        		baseSteam = NuclearCraft.baseRFLECOx;
+	            	baseHeat = NuclearCraft.baseHeatLECOx;
+	        	}
+	
+	        	//HEC-Ox
+	        	if (fueltype == 35 || fueltype == 37 || fueltype == 39) {
+	        		baseSteam = NuclearCraft.baseRFHECOx;
+	            	baseHeat = NuclearCraft.baseHeatHECOx;
+	        	}
+	        	
+	        	//TBU-Ox
+	        	if (fueltype == 40) {
+	        		baseSteam = NuclearCraft.baseRFTBUOx;
+	            	baseHeat = NuclearCraft.baseHeatTBUOx;
+	        	}
+	        	
+	        	fakeSteamThisTick += baseSteam*(10000*sMult + heat)*(numberOfCells + 2*adj1 + 3*adj2 + 4*adj3 + 5*adj4 + 6*adj5 + 7*adj6) /* *Math.cbrt((lx - 2)*(ly - 2)*(lz - 2))*/ /1000000;
 	    		fakeHeatThisTick += baseHeat*(hMult/100)*(numberOfCells + 3*adj1 + 6*adj2 + 10*adj3 + 15*adj4 + 21*adj5 + 28*adj6);
 	        	
 	    		for (int z = z0 + 1; z <= z1 - 1; z++) {
 	        		for (int x = x0 + 1; x <= x1 - 1; x++) {
 	        			for (int y = y0 + 1; y <= y1 - 1; y++) {
 	        				if(find(NCBlocks.graphiteBlock, x, y, z)) {
-	        					fakeSteamThisTick += (10000*sMult + this.heat)*baseSteam*(numberOfCells + adj1 + adj2 + adj3 + adj4 + adj5 + adj6)/10000000;
+	        					fakeSteamThisTick += (10000*sMult + heat)*baseSteam*(numberOfCells + adj1 + adj2 + adj3 + adj4 + adj5 + adj6)/10000000;
 	        					fakeHeatThisTick += (hMult/100)*baseSteam*(numberOfCells + adj1 + adj2 + adj3 + adj4 + adj5 + adj6)/5;
 	        				}
 	        				if(find(Blocks.water, x, y, z) && (numberOfCells + adj1 + adj2 + adj3 + adj4 + adj5 + adj6) > 0) {
@@ -413,46 +621,46 @@ public class TileFissionReactorSteam extends TileSteamProducer {
         if (off == 0 && flag) {
         	if (steam <= 1000000000) steam += SReal;
 	        if ((int) SReal < 200) {
-	        	if (this.tank.getFluidAmount() != 0) if (this.tank.getFluid().getFluid() != NuclearCraft.steam) this.tank.drain(100000, true);
+	        	if (tank.getFluidAmount() != 0) if (tank.getFluid().getFluid() != NuclearCraft.steam) tank.drain(100000, true);
 	        	if (steam >= 200) {
-	        		this.tank.fill(new FluidStack(NuclearCraft.steam, 200), true);
+	        		tank.fill(new FluidStack(NuclearCraft.steam, 200), true);
 	        		steam -= 200;
 	        	}
 	        } else if ((int) SReal < 40000) {
-	        	if (this.tank.getFluidAmount() != 0) if (this.tank.getFluid().getFluid() != NuclearCraft.denseSteam) this.tank.drain(100000, true);
+	        	if (tank.getFluidAmount() != 0) if (tank.getFluid().getFluid() != NuclearCraft.denseSteam) tank.drain(100000, true);
 	        	if (steam >= 40000) {
-	        		this.tank.fill(new FluidStack(NuclearCraft.denseSteam, 40), true);
+	        		tank.fill(new FluidStack(NuclearCraft.denseSteam, 40), true);
 	        		steam -= 40000;
 	        	}
 	        } else {
-	        	if (this.tank.getFluidAmount() != 0) if (this.tank.getFluid().getFluid() != NuclearCraft.superdenseSteam) this.tank.drain(100000, true);
+	        	if (tank.getFluidAmount() != 0) if (tank.getFluid().getFluid() != NuclearCraft.superdenseSteam) tank.drain(100000, true);
 	        	for (int i = 0; i < 100; i++) {
 		        	if (steam >= 1000000) {
-		        		this.tank.fill(new FluidStack(NuclearCraft.superdenseSteam, 1), true);
+		        		tank.fill(new FluidStack(NuclearCraft.superdenseSteam, 1), true);
 		        		steam -= 1000000;
 		        	} else break;
 	        	}
 	        }
         }
         
-        if (off == 0 && flag) this.fueltime -= FReal;
+        if (off == 0 && flag) fueltime -= FReal;
         
         if (off == 0 && flag) {
-        	if (this.heat + (int) HReal >= 0) {
-        		this.heat += (int) HReal;
+        	if (heat + (int) HReal >= 0) {
+        		heat += (int) HReal;
         	} else {
-        		this.heat = 0;
+        		heat = 0;
         	}
         } else if (off == 1 && !flag) {
-        	if (this.heat + (int) HCooling >= 0) {
-        		this.heat += (int) HCooling;
+        	if (heat + (int) HCooling >= 0) {
+        		heat += (int) HCooling;
         	} else {
-        		this.heat = 0;
+        		heat = 0;
         	}
         }
         
-        if (this.fueltime < 0) this.fueltime = 0;	
-        if (this.fueltime == 0) S = 0;
+        if (fueltime < 0) fueltime = 0;	
+        if (fueltime == 0) S = 0;
 	}
     
     public boolean findBasic(Block block, int x, int y, int z) {
@@ -477,190 +685,146 @@ public class TileFissionReactorSteam extends TileSteamProducer {
     	} return false;
 	}
 
+	private boolean doesFuelMatchDepleted() {
+		if (slots[0] == null) return true;
+		if (slots[1] != null) {
+			int type = TileFissionReactorSteam.setfueltype(slots[0]);
+			for (int id : OreDictionary.getOreIDs(slots[1])) {
+				if (OreDictionary.getOres("d" + cellTypes[type - 1]).get(0).getItem() == OreDictionary.getOres(OreDictionary.getOreName(id)).get(0).getItem() && OreDictionary.getOres("d" + cellTypes[type - 1]).get(0).getItemDamage() == OreDictionary.getOres(OreDictionary.getOreName(id)).get(0).getItemDamage() && slots[1].stackSize < 64) {
+					return true;
+				}
+			}
+			return false;
+		}
+		return true;
+	}
+
 	private void fuel() {
-    	ItemStack stack = this.getStackInSlot(0);
-    	ItemStack pstack = this.getStackInSlot(1);
+		ItemStack fuel = getStackInSlot(0);
+		if (fuel != null && doesFuelMatchDepleted() && isFuel(fuel) && fueltime == 0 && fueltype == 0) {
+			fueltime += fuelValue(fuel);
+			fueltype = TileFissionReactorSteam.setfueltype(fuel);
+			slots[0].stackSize--;
 
-        if (stack != null && pstack == null && isFuel(stack) && this.fueltime == 0 && this.fueltype == 0) {
-            this.fueltime += fuelValue(stack);
-            
-            this.fueltype = TileFissionReactorSteam.setfueltype(stack);
-            
-            --this.slots[0].stackSize;
-
-            if (this.slots[0].stackSize <= 0) {
-                this.slots[0] = null;
-            }
-            off = 1;
-        }
-    }
+			if (slots[0].stackSize <= 0) {
+				slots[0] = null;
+			}
+			off = 1;
+		}
+	}
     
-    private void product() {
-        if (this.slots[1] == null && this.fueltime <= 0 && this.fueltype != 0) {    
-        	if (this.fueltype == 1) {
-        		this.slots[1] = new ItemStack(NCItems.fuel, 1, 22); this.fueltype = 0;
-        	} else if (this.fueltype == 2) {
-        		this.slots[1] = new ItemStack(NCItems.fuel, 1, 23); this.fueltype = 0;
-        	} else if (this.fueltype == 3) {
-        		this.slots[1] = new ItemStack(NCItems.fuel, 1, 24); this.fueltype = 0;
-        	} else if (this.fueltype == 4) {
-        		this.slots[1] = new ItemStack(NCItems.fuel, 1, 25); this.fueltype = 0;
-        	} else if (this.fueltype == 5) {
-        		this.slots[1] = new ItemStack(NCItems.fuel, 1, 26); this.fueltype = 0;
-        	} else if (this.fueltype == 6) {
-        		this.slots[1] = new ItemStack(NCItems.fuel, 1, 27); this.fueltype = 0;
-        	} else if (this.fueltype == 7) {
-        		this.slots[1] = new ItemStack(NCItems.fuel, 1, 28); this.fueltype = 0;
-        	} else if (this.fueltype == 8) {
-        		this.slots[1] = new ItemStack(NCItems.fuel, 1, 29); this.fueltype = 0;
-        	} else if (this.fueltype == 9) {
-        		this.slots[1] = new ItemStack(NCItems.fuel, 1, 30); this.fueltype = 0;
-        	} else if (this.fueltype == 10) {
-        		this.slots[1] = new ItemStack(NCItems.fuel, 1, 31); this.fueltype = 0;
-        	} else if (this.fueltype == 11) {
-        		this.slots[1] = new ItemStack(NCItems.fuel, 1, 32); this.fueltype = 0;
-        	} else if (this.fueltype == 12) {
-        		this.slots[1] = new ItemStack(NCItems.fuel, 1, 67); this.fueltype = 0;
-        	} else if (this.fueltype == 13) {
-        		this.slots[1] = new ItemStack(NCItems.fuel, 1, 68); this.fueltype = 0;
-        	} else if (this.fueltype == 14) {
-        		this.slots[1] = new ItemStack(NCItems.fuel, 1, 69); this.fueltype = 0;
-        	} else if (this.fueltype == 15) {
-        		this.slots[1] = new ItemStack(NCItems.fuel, 1, 70); this.fueltype = 0;
-        	} else if (this.fueltype == 16) {
-        		this.slots[1] = new ItemStack(NCItems.fuel, 1, 71); this.fueltype = 0;
-        	} else if (this.fueltype == 17) {
-        		this.slots[1] = new ItemStack(NCItems.fuel, 1, 72); this.fueltype = 0;
-        	} else if (this.fueltype == 18) {
-        		this.slots[1] = new ItemStack(NCItems.fuel, 1, 73); this.fueltype = 0;
-        	} else if (this.fueltype == 19) {
-        		this.slots[1] = new ItemStack(NCItems.fuel, 1, 74); this.fueltype = 0;
-        	} else {
-        	}
-        	this.fueltime = 0;
-        }
-    }
+	private void product() {
+		if (slots[1] == null && fueltime <= 0 && fueltype != 0) {
+			for (int i = 0; i < cellTypes.length; i ++) {
+				if (fueltype == i + 1) {
+					slots[1] = new ItemStack(OreDictionary.getOres("d" + cellTypes[i]).get(0).getItem(), 1, OreDictionary.getOres("d" + cellTypes[i]).get(0).getItemDamage());
+					fueltype = 0;
+				}
+			}
+			fueltime = 0;
+		} else if (slots[1] != null && fueltime <= 0 && fueltype != 0) {
+			for (int i = 0; i < cellTypes.length; i ++) {
+				for (int id : OreDictionary.getOreIDs(slots[1])) {
+					if (OreDictionary.getOres("d" + cellTypes[i]).get(0).getItem() == OreDictionary.getOres(OreDictionary.getOreName(id)).get(0).getItem() && OreDictionary.getOres("d" + cellTypes[i]).get(0).getItemDamage() == OreDictionary.getOres(OreDictionary.getOreName(id)).get(0).getItemDamage() && slots[1].stackSize < 64) {
+						if (fueltype == i + 1) {
+							slots[1].stackSize++;
+							fueltype = 0;
+						}
+					}
+				}
+			}
+			fueltime = 0;
+		}
+	}
     
     public static boolean isFuel(ItemStack stack) {
         return fuelValue(stack) > 0 && setfueltype(stack) != 0;
     }
-    
-    public static int fuelValue(ItemStack stack) {
-    	if (stack == null) return 0; else {
-    		Item item = stack.getItem();
-        	
-        	if(item == new ItemStack (NCItems.fuel, 1, 11).getItem() && item.getDamage(stack) == 11) return 10000000;
-        	else if(item == new ItemStack (NCItems.fuel, 1, 12).getItem() && item.getDamage(stack) == 12) return 10000000;
-        	else if(item == new ItemStack (NCItems.fuel, 1, 13).getItem() && item.getDamage(stack) == 13) return 10000000;
-        	else if(item == new ItemStack (NCItems.fuel, 1, 14).getItem() && item.getDamage(stack) == 14) return 10000000;
-        	else if(item == new ItemStack (NCItems.fuel, 1, 15).getItem() && item.getDamage(stack) == 15) return 10000000;
-        	else if(item == new ItemStack (NCItems.fuel, 1, 16).getItem() && item.getDamage(stack) == 16) return 10000000;
-        	else if(item == new ItemStack (NCItems.fuel, 1, 17).getItem() && item.getDamage(stack) == 17) return 10000000;
-        	else if(item == new ItemStack (NCItems.fuel, 1, 18).getItem() && item.getDamage(stack) == 18) return 10000000;
-        	else if(item == new ItemStack (NCItems.fuel, 1, 19).getItem() && item.getDamage(stack) == 19) return 10000000;
-        	else if(item == new ItemStack (NCItems.fuel, 1, 20).getItem() && item.getDamage(stack) == 20) return 10000000;
-        	else if(item == new ItemStack (NCItems.fuel, 1, 21).getItem() && item.getDamage(stack) == 21) return 10000000;
-        	else if(item == new ItemStack (NCItems.fuel, 1, 59).getItem() && item.getDamage(stack) == 59) return 10000000;
-        	else if(item == new ItemStack (NCItems.fuel, 1, 60).getItem() && item.getDamage(stack) == 60) return 10000000;
-        	else if(item == new ItemStack (NCItems.fuel, 1, 61).getItem() && item.getDamage(stack) == 61) return 10000000;
-        	else if(item == new ItemStack (NCItems.fuel, 1, 62).getItem() && item.getDamage(stack) == 62) return 10000000;
-        	else if(item == new ItemStack (NCItems.fuel, 1, 63).getItem() && item.getDamage(stack) == 63) return 10000000;
-        	else if(item == new ItemStack (NCItems.fuel, 1, 64).getItem() && item.getDamage(stack) == 64) return 10000000;
-        	else if(item == new ItemStack (NCItems.fuel, 1, 65).getItem() && item.getDamage(stack) == 65) return 10000000;
-        	else if(item == new ItemStack (NCItems.fuel, 1, 66).getItem() && item.getDamage(stack) == 66) return 10000000;
-        	return 0;
-        }
+	
+	public static int fuelValue(ItemStack stack) {
+		if (stack == null) return 0; else {
+			for (int i = 0; i < cellTypes.length; i ++) {
+				for (int id : OreDictionary.getOreIDs(stack)) {
+					if(OreDictionary.getOreID(cellTypes[i]) == id) return 10000000;
+				}
+			}
+			return 0;
+		}
 	}
-    
-    public static int setfueltype(ItemStack stack) {
-    	if (stack == null) return 0; else {
-    		Item item = stack.getItem();
-        	
-    		if(item == new ItemStack (NCItems.fuel, 1, 11).getItem() && item.getDamage(stack) == 11) return 1;
-    		else if(item == new ItemStack (NCItems.fuel, 1, 12).getItem() && item.getDamage(stack) == 12) return 2;
-    		else if(item == new ItemStack (NCItems.fuel, 1, 13).getItem() && item.getDamage(stack) == 13) return 3;
-    		else if(item == new ItemStack (NCItems.fuel, 1, 14).getItem() && item.getDamage(stack) == 14) return 4;
-    		else if(item == new ItemStack (NCItems.fuel, 1, 15).getItem() && item.getDamage(stack) == 15) return 5;
-    		else if(item == new ItemStack (NCItems.fuel, 1, 16).getItem() && item.getDamage(stack) == 16) return 6;
-    		else if(item == new ItemStack (NCItems.fuel, 1, 17).getItem() && item.getDamage(stack) == 17) return 7;
-     		else if(item == new ItemStack (NCItems.fuel, 1, 18).getItem() && item.getDamage(stack) == 18) return 8;
-     		else if(item == new ItemStack (NCItems.fuel, 1, 19).getItem() && item.getDamage(stack) == 19) return 9;
-     		else if(item == new ItemStack (NCItems.fuel, 1, 20).getItem() && item.getDamage(stack) == 20) return 10;
-     		else if(item == new ItemStack (NCItems.fuel, 1, 21).getItem() && item.getDamage(stack) == 21) return 11;
-     		else if(item == new ItemStack (NCItems.fuel, 1, 59).getItem() && item.getDamage(stack) == 59) return 12;
-     		else if(item == new ItemStack (NCItems.fuel, 1, 60).getItem() && item.getDamage(stack) == 60) return 13;
-     		else if(item == new ItemStack (NCItems.fuel, 1, 61).getItem() && item.getDamage(stack) == 61) return 14;
-     		else if(item == new ItemStack (NCItems.fuel, 1, 62).getItem() && item.getDamage(stack) == 62) return 15;
-     		else if(item == new ItemStack (NCItems.fuel, 1, 63).getItem() && item.getDamage(stack) == 63) return 16;
-     		else if(item == new ItemStack (NCItems.fuel, 1, 64).getItem() && item.getDamage(stack) == 64) return 17;
-     		else if(item == new ItemStack (NCItems.fuel, 1, 65).getItem() && item.getDamage(stack) == 65) return 18;
-     		else if(item == new ItemStack (NCItems.fuel, 1, 66).getItem() && item.getDamage(stack) == 66) return 19;
-    		return 0;
-    	}
-    }
+	
+	public static int setfueltype(ItemStack stack) {
+		if (stack == null) return 0; else {
+			for (int i = 0; i < cellTypes.length; i ++) {
+				for (int id : OreDictionary.getOreIDs(stack)) {
+					if(OreDictionary.getOreID(cellTypes[i]) == id) return i + 1;
+				}
+			}
+			return 0;
+		}
+	}
 
     public void readFromNBT(NBTTagCompound nbt) {
         super.readFromNBT(nbt);
-        this.typeoffuel = nbt.getString("Typeoffuel");
-        this.problem = nbt.getString("problem");
-        this.fueltime = nbt.getInteger("Fueltime");
-        this.fueltype = nbt.getInteger("Fueltype");
+        typeoffuel = nbt.getString("Typeoffuel");
+        problem = nbt.getString("problem");
+        fueltime = nbt.getInteger("Fueltime");
+        fueltype = nbt.getInteger("Fueltype");
         
-        this.x0 = nbt.getInteger("x0");
-        this.y0 = nbt.getInteger("y0");
-        this.z0 = nbt.getInteger("z0");
-        this.x1 = nbt.getInteger("x1");
-        this.y1 = nbt.getInteger("y1");
-        this.z1 = nbt.getInteger("z1");
-        this.lx = nbt.getInteger("lx");
-        this.ly = nbt.getInteger("ly");
-        this.lz = nbt.getInteger("lz");
+        x0 = nbt.getInteger("x0");
+        y0 = nbt.getInteger("y0");
+        z0 = nbt.getInteger("z0");
+        x1 = nbt.getInteger("x1");
+        y1 = nbt.getInteger("y1");
+        z1 = nbt.getInteger("z1");
+        lx = nbt.getInteger("lx");
+        ly = nbt.getInteger("ly");
+        lz = nbt.getInteger("lz");
         
-        this.S = nbt.getInteger("S");
-        this.H = nbt.getInteger("H");
-        this.off = nbt.getInteger("off");
-        this.MBNumber = nbt.getInteger("MBN");
-        this.heat = nbt.getInteger("Heat");
-        this.efficiency = nbt.getInteger("efficiency");
-        this.numberOfCells = nbt.getInteger("numberOfCells");
-        this.SReal = nbt.getInteger("SReal");
-        this.HReal = nbt.getInteger("HReal");
-        this.steam = nbt.getDouble("steam");
-        this.HCooling = nbt.getInteger("HCooling");
-        this.FReal = nbt.getInteger("FReal");
-        this.complete = nbt.getInteger("complete");
+        S = nbt.getInteger("S");
+        H = nbt.getInteger("H");
+        off = nbt.getInteger("off");
+        MBNumber = nbt.getInteger("MBN");
+        heat = nbt.getInteger("Heat");
+        efficiency = nbt.getInteger("efficiency");
+        numberOfCells = nbt.getInteger("numberOfCells");
+        SReal = nbt.getInteger("SReal");
+        HReal = nbt.getInteger("HReal");
+        steam = nbt.getDouble("steam");
+        HCooling = nbt.getInteger("HCooling");
+        FReal = nbt.getInteger("FReal");
+        complete = nbt.getInteger("complete");
     }
 
     public void writeToNBT(NBTTagCompound nbt) {
         super.writeToNBT(nbt);
-        nbt.setInteger("Fueltime", this.fueltime);
-        nbt.setInteger("Fueltype", this.fueltype);
+        nbt.setInteger("Fueltime", fueltime);
+        nbt.setInteger("Fueltype", fueltype);
         
-        nbt.setInteger("x0", this.x0);
-        nbt.setInteger("y0", this.y0);
-        nbt.setInteger("z0", this.z0);
-        nbt.setInteger("x1", this.x1);
-        nbt.setInteger("y1", this.y1);
-        nbt.setInteger("z1", this.z1);
-        nbt.setInteger("lx", this.lx);
-        nbt.setInteger("ly", this.ly);
-        nbt.setInteger("lz", this.lz);
+        nbt.setInteger("x0", x0);
+        nbt.setInteger("y0", y0);
+        nbt.setInteger("z0", z0);
+        nbt.setInteger("x1", x1);
+        nbt.setInteger("y1", y1);
+        nbt.setInteger("z1", z1);
+        nbt.setInteger("lx", lx);
+        nbt.setInteger("ly", ly);
+        nbt.setInteger("lz", lz);
         
-        nbt.setInteger("S", this.S);
-        nbt.setInteger("H", this.H);
-        nbt.setInteger("off", this.off);
-        nbt.setInteger("MBN", this.MBNumber);
-        nbt.setInteger("Heat", this.heat);
-        nbt.setInteger("efficiency", this.efficiency);
-        nbt.setInteger("numberOfCells", this.numberOfCells);
-        nbt.setString("Typeoffuel", this.typeoffuel);
-        nbt.setString("problem", this.problem);
-        nbt.setInteger("SReal", this.SReal);
-        nbt.setInteger("HReal", this.HReal);
-        nbt.setDouble("steam", this.steam);
-        nbt.setInteger("HCooling", this.HCooling);
-        nbt.setInteger("FReal", this.FReal);
-        nbt.setInteger("complete", this.complete);
+        nbt.setInteger("S", S);
+        nbt.setInteger("H", H);
+        nbt.setInteger("off", off);
+        nbt.setInteger("MBN", MBNumber);
+        nbt.setInteger("Heat", heat);
+        nbt.setInteger("efficiency", efficiency);
+        nbt.setInteger("numberOfCells", numberOfCells);
+        nbt.setString("Typeoffuel", typeoffuel);
+        nbt.setString("problem", problem);
+        nbt.setInteger("SReal", SReal);
+        nbt.setInteger("HReal", HReal);
+        nbt.setDouble("steam", steam);
+        nbt.setInteger("HCooling", HCooling);
+        nbt.setInteger("FReal", FReal);
+        nbt.setInteger("complete", complete);
     }
 
     public boolean isItemValidForSlot(int slot, ItemStack stack) {
@@ -677,34 +841,22 @@ public class TileFissionReactorSteam extends TileSteamProducer {
     	int yc = yCoord + y;
     	int zc = zCoord;
     	
-    	if (this.getBlockMetadata() == 4) return (worldObj.getBlock(xc+x, yc, zc+z) == block);
-    	else if (this.getBlockMetadata() == 2) return (worldObj.getBlock(xc-z, yc, zc+x) == block);
-    	else if (this.getBlockMetadata() == 5) return (worldObj.getBlock(xc-x, yc, zc-z) == block);
-    	else if (this.getBlockMetadata() == 3) return (worldObj.getBlock(xc+z, yc, zc-x) == block);
+    	if (getBlockMetadata() == 4) return (worldObj.getBlock(xc+x, yc, zc+z) == block);
+    	else if (getBlockMetadata() == 2) return (worldObj.getBlock(xc-z, yc, zc+x) == block);
+    	else if (getBlockMetadata() == 5) return (worldObj.getBlock(xc-x, yc, zc-z) == block);
+    	else if (getBlockMetadata() == 3) return (worldObj.getBlock(xc+z, yc, zc-x) == block);
     	else return false;
     }
-    
-    /*private boolean find(Block block, Block block2, int x, int y, int z) {
-    	int xc = xCoord;
-    	int yc = yCoord + y;
-    	int zc = zCoord;
-    	
-    	if (this.getBlockMetadata() == 4) return (worldObj.getBlock(xc+x, yc, zc+z) == block || worldObj.getBlock(xc+x, yc, zc+z) == block2);
-    	else if (this.getBlockMetadata() == 2) return (worldObj.getBlock(xc-z, yc, zc+x) == block || worldObj.getBlock(xc-z, yc, zc+x) == block2);
-    	else if (this.getBlockMetadata() == 5) return (worldObj.getBlock(xc-x, yc, zc-z) == block || worldObj.getBlock(xc-x, yc, zc-z) == block2);
-    	else if (this.getBlockMetadata() == 3) return (worldObj.getBlock(xc+z, yc, zc-x) == block || worldObj.getBlock(xc+z, yc, zc-x) == block2);
-    	else return false;
-    }*/
     
     private boolean find(Block block, Block block2, Block block3, Block block4, int x, int y, int z) {
     	int xc = xCoord;
     	int yc = yCoord + y;
     	int zc = zCoord;
     	
-    	if (this.getBlockMetadata() == 4) return (worldObj.getBlock(xc+x, yc, zc+z) == block || worldObj.getBlock(xc+x, yc, zc+z) == block2 || worldObj.getBlock(xc+x, yc, zc+z) == block3 || worldObj.getBlock(xc+x, yc, zc+z) == block4);
-    	else if (this.getBlockMetadata() == 2) return (worldObj.getBlock(xc-z, yc, zc+x) == block || worldObj.getBlock(xc-z, yc, zc+x) == block2 || worldObj.getBlock(xc-z, yc, zc+x) == block3 || worldObj.getBlock(xc-z, yc, zc+x) == block4);
-    	else if (this.getBlockMetadata() == 5) return (worldObj.getBlock(xc-x, yc, zc-z) == block || worldObj.getBlock(xc-x, yc, zc-z) == block2 || worldObj.getBlock(xc-x, yc, zc-z) == block3 || worldObj.getBlock(xc-x, yc, zc-z) == block4);
-    	else if (this.getBlockMetadata() == 3) return (worldObj.getBlock(xc+z, yc, zc-x) == block || worldObj.getBlock(xc+z, yc, zc-x) == block2 || worldObj.getBlock(xc+z, yc, zc-x) == block3 || worldObj.getBlock(xc+z, yc, zc-x) == block4);
+    	if (getBlockMetadata() == 4) return (worldObj.getBlock(xc+x, yc, zc+z) == block || worldObj.getBlock(xc+x, yc, zc+z) == block2 || worldObj.getBlock(xc+x, yc, zc+z) == block3 || worldObj.getBlock(xc+x, yc, zc+z) == block4);
+    	else if (getBlockMetadata() == 2) return (worldObj.getBlock(xc-z, yc, zc+x) == block || worldObj.getBlock(xc-z, yc, zc+x) == block2 || worldObj.getBlock(xc-z, yc, zc+x) == block3 || worldObj.getBlock(xc-z, yc, zc+x) == block4);
+    	else if (getBlockMetadata() == 5) return (worldObj.getBlock(xc-x, yc, zc-z) == block || worldObj.getBlock(xc-x, yc, zc-z) == block2 || worldObj.getBlock(xc-x, yc, zc-z) == block3 || worldObj.getBlock(xc-x, yc, zc-z) == block4);
+    	else if (getBlockMetadata() == 3) return (worldObj.getBlock(xc+z, yc, zc-x) == block || worldObj.getBlock(xc+z, yc, zc-x) == block2 || worldObj.getBlock(xc+z, yc, zc-x) == block3 || worldObj.getBlock(xc+z, yc, zc-x) == block4);
     	else return false;
     }
     
@@ -713,10 +865,10 @@ public class TileFissionReactorSteam extends TileSteamProducer {
     	int yc = yCoord + y;
     	int zc = zCoord;
     	
-    	if (this.getBlockMetadata() == 4) return (worldObj.getBlock(xc+x, yc, zc+z) == block || worldObj.getBlock(xc+x, yc, zc+z) == block2 || worldObj.getBlock(xc+x, yc, zc+z) == block3 || worldObj.getBlock(xc+x, yc, zc+z) == block4 || worldObj.getBlock(xc+x, yc, zc+z) == block5);
-    	else if (this.getBlockMetadata() == 2) return (worldObj.getBlock(xc-z, yc, zc+x) == block || worldObj.getBlock(xc-z, yc, zc+x) == block2 || worldObj.getBlock(xc-z, yc, zc+x) == block3 || worldObj.getBlock(xc-z, yc, zc+x) == block4 || worldObj.getBlock(xc-z, yc, zc+x) == block5);
-    	else if (this.getBlockMetadata() == 5) return (worldObj.getBlock(xc-x, yc, zc-z) == block || worldObj.getBlock(xc-x, yc, zc-z) == block2 || worldObj.getBlock(xc-x, yc, zc-z) == block3 || worldObj.getBlock(xc-x, yc, zc-z) == block4 || worldObj.getBlock(xc-x, yc, zc-z) == block5);
-    	else if (this.getBlockMetadata() == 3) return (worldObj.getBlock(xc+z, yc, zc-x) == block || worldObj.getBlock(xc+z, yc, zc-x) == block2 || worldObj.getBlock(xc+z, yc, zc-x) == block3 || worldObj.getBlock(xc+z, yc, zc-x) == block4 || worldObj.getBlock(xc+z, yc, zc-x) == block5);
+    	if (getBlockMetadata() == 4) return (worldObj.getBlock(xc+x, yc, zc+z) == block || worldObj.getBlock(xc+x, yc, zc+z) == block2 || worldObj.getBlock(xc+x, yc, zc+z) == block3 || worldObj.getBlock(xc+x, yc, zc+z) == block4 || worldObj.getBlock(xc+x, yc, zc+z) == block5);
+    	else if (getBlockMetadata() == 2) return (worldObj.getBlock(xc-z, yc, zc+x) == block || worldObj.getBlock(xc-z, yc, zc+x) == block2 || worldObj.getBlock(xc-z, yc, zc+x) == block3 || worldObj.getBlock(xc-z, yc, zc+x) == block4 || worldObj.getBlock(xc-z, yc, zc+x) == block5);
+    	else if (getBlockMetadata() == 5) return (worldObj.getBlock(xc-x, yc, zc-z) == block || worldObj.getBlock(xc-x, yc, zc-z) == block2 || worldObj.getBlock(xc-x, yc, zc-z) == block3 || worldObj.getBlock(xc-x, yc, zc-z) == block4 || worldObj.getBlock(xc-x, yc, zc-z) == block5);
+    	else if (getBlockMetadata() == 3) return (worldObj.getBlock(xc+z, yc, zc-x) == block || worldObj.getBlock(xc+z, yc, zc-x) == block2 || worldObj.getBlock(xc+z, yc, zc-x) == block3 || worldObj.getBlock(xc+z, yc, zc-x) == block4 || worldObj.getBlock(xc+z, yc, zc-x) == block5);
     	else return false;
     }
     

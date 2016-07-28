@@ -16,9 +16,7 @@ public class PacketAssemblerState implements IMessage {
 
 	private TileAssembler.Mode mode;
 
-	public PacketAssemblerState() {
-
-	}
+	public PacketAssemblerState() {}
 
 	public PacketAssemblerState(TileAssembler tile) {
 		x = tile.xCoord;
@@ -27,7 +25,6 @@ public class PacketAssemblerState implements IMessage {
 		mode = tile.getMode();
 	}
 
-	@Override
 	public void toBytes(ByteBuf buf) {
 		buf.writeInt(x);
 		buf.writeInt(y);
@@ -35,7 +32,6 @@ public class PacketAssemblerState implements IMessage {
 		buf.writeShort(mode.ordinal());
 	}
 
-	@Override
 	public void fromBytes(ByteBuf buf) {
 		x = buf.readInt();
 		y = buf.readInt();

@@ -7,7 +7,7 @@ import nc.crafting.machine.CoolerRecipes;
 public class TileCooler extends TileMachineBase {
 	
 	public TileCooler() {
-		super("Cooler", 250000, 1, 1, true, true, 20000, 2000000, NuclearCraft.coolerSpeed, NuclearCraft.coolerEfficiency, CoolerRecipes.instance());
+		super("cooler", 250000, 1, 1, true, true, 20000, 2000000, NuclearCraft.coolerSpeed, NuclearCraft.coolerEfficiency, CoolerRecipes.instance());
 	}
 	
 	public void updateEntity() {

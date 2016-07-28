@@ -9,7 +9,7 @@ import net.minecraft.item.ItemStack;
 public class TileNuclearFurnace extends TileFuelUser {
 	
 	public TileNuclearFurnace() {
-		super(Math.ceil(300/NuclearCraft.nuclearFurnaceCookSpeed), "Nuclear Furnace");
+		super(Math.ceil(300/NuclearCraft.nuclearFurnaceCookSpeed), "nuclearFurnace");
 	}
 	
 	public void updateEntity() {
@@ -41,6 +41,16 @@ public class TileNuclearFurnace extends TileFuelUser {
 				return (int) Math.ceil(((NuclearCraft.nuclearFurnaceCookSpeed*32)/NuclearCraft.nuclearFurnaceCookEfficiency)*furnaceSpeed);
 			} else if(item == new ItemStack(NCItems.material, 1, 20).getItem() && item.getDamage(itemstack) == 20) {
 				return (int) Math.ceil(((NuclearCraft.nuclearFurnaceCookSpeed*32)/NuclearCraft.nuclearFurnaceCookEfficiency)*furnaceSpeed);
+			}
+			
+			if(item == new ItemStack(NCItems.material, 1, 53).getItem() && item.getDamage(itemstack) == 53) {
+				return (int) Math.ceil(((NuclearCraft.nuclearFurnaceCookSpeed*48)/NuclearCraft.nuclearFurnaceCookEfficiency)*furnaceSpeed);
+			} else if(item == new ItemStack(NCItems.material, 1, 54).getItem() && item.getDamage(itemstack) == 54) {
+				return (int) Math.ceil(((NuclearCraft.nuclearFurnaceCookSpeed*48)/NuclearCraft.nuclearFurnaceCookEfficiency)*furnaceSpeed);
+			} else if(item == new ItemStack(NCItems.material, 1, 126).getItem() && item.getDamage(itemstack) == 126) {
+				return (int) Math.ceil(((NuclearCraft.nuclearFurnaceCookSpeed*48)/NuclearCraft.nuclearFurnaceCookEfficiency)*furnaceSpeed);
+			} else if(item == new ItemStack(NCItems.material, 1, 127).getItem() && item.getDamage(itemstack) == 127) {
+				return (int) Math.ceil(((NuclearCraft.nuclearFurnaceCookSpeed*48)/NuclearCraft.nuclearFurnaceCookEfficiency)*furnaceSpeed);
 			}
 		return 0;
 		}

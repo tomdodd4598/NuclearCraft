@@ -18,7 +18,7 @@ public abstract class TileInventory extends TileEntity implements ISidedInventor
 	}
 	
 	public String getInventoryName() {
-		return isInventoryNameLocalized() ? localizedName : "NC Tile Entity";
+		return isInventoryNameLocalized() ? localizedName : "NCTileEntity";
 	}
 
 	public int getSizeInventory() {

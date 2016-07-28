@@ -6,6 +6,6 @@ import net.minecraft.block.Block;
 public class ItemBlockElectrolyser extends ItemBlockNC {
 
 	public ItemBlockElectrolyser(Block block) {
-		super(block, "Uses RF to separate water into Oxygen, Hydrogen and Deuterium,", "and can accept speed and efficiency upgrades.");
+		super(block, "Uses RF and water to produce Oxygen, Hydrogen and Deuterium,", "and can accept speed and efficiency upgrades.");
 	}
 }

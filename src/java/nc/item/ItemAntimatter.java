@@ -23,7 +23,8 @@ public class ItemAntimatter extends ItemNC {
 		    			}
 		    		}
 		        }
-		        entityItem.worldObj.playSoundEffect(entityItem.posX, entityItem.posY, entityItem.posZ, "random.explode", 4.0F, (1.0F + (entityItem.worldObj.rand.nextFloat() - entityItem.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
+		        entityItem.worldObj.playSoundEffect(entityItem.posX, entityItem.posY, entityItem.posZ, "random.explode", 4.0F, 1.0F);
+		        entityItem.worldObj.playSoundEffect(entityItem.posX, entityItem.posY, entityItem.posZ, "nc:shield2", 12.0F, 1.0F);
 				entityItem.setDead();
 		        return true;
 			}

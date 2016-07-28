@@ -6,7 +6,7 @@ import nc.block.machine.BlockFurnace;
 public class TileFurnace extends TileFuelUser {
 	
 	public TileFurnace() {
-		super(8000/NuclearCraft.metalFurnaceCookSpeed, "Furnace");
+		super(8000/NuclearCraft.metalFurnaceCookSpeed, "furnace");
 	}
 	
 	public void updateEntity() {

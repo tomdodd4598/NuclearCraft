@@ -9,7 +9,7 @@ import org.lwjgl.opengl.GL11;
 
 public class RenderNuclearWorkspace extends TileEntitySpecialRenderer {
 
-	private static final ResourceLocation texture = new ResourceLocation("nc:textures/model/NuclearWorkspace.png");
+	private static final ResourceLocation texture = new ResourceLocation("nc:textures/model/nuclearWorkspace.png");
 	
 	private ModelNuclearWorkspace model;
 	

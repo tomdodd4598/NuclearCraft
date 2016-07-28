@@ -19,11 +19,18 @@ public abstract class TileSteamProducer extends TileInventory implements IFluidH
 	public boolean flag1 = false;
 	public int fluid;
 	public FluidTank tank;
+	public int[] automation;
 	
 	public TileSteamProducer(String localName, int fluidMax, int slotsNumber) {
 		tank = new FluidTank(fluidMax);
 		localizedName = localName;
 		slots = new ItemStack[slotsNumber];
+		
+		int[] a = new int[slotsNumber];
+		for (int i = 0; i < a.length; i++) {
+			a[i] = i;
+		}
+		automation = a;
 	}
 
 	public void readFromNBT(NBTTagCompound nbt) {
@@ -101,7 +108,7 @@ public abstract class TileSteamProducer extends TileInventory implements IFluidH
 	}
 
 	public int[] getAccessibleSlotsFromSide(int slot) {
-		return null;
+		return automation;
 	}
 
 	public boolean canInsertItem(int slot, ItemStack stack, int par) {

@@ -10,7 +10,7 @@ import org.lwjgl.opengl.GL11;
 
 public class RenderTubing1 extends TileEntitySpecialRenderer {
 
-	private static final ResourceLocation texture = new ResourceLocation("nc:textures/model/AccStraight1.png");
+	private static final ResourceLocation texture = new ResourceLocation("nc:textures/model/tubing1.png");
 	
 	private ModelTubing1 model;
 	

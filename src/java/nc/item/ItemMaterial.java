@@ -11,7 +11,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class ItemMaterial extends ItemMeta {
 	
 	public ItemMaterial() {
-		super("materials", "materials", 82);
+		super("materials", "materials", 128);
 	}
 	
 	@SuppressWarnings({ "rawtypes" })
@@ -117,6 +117,52 @@ public class ItemMaterial extends ItemMeta {
 		    case 79: return "crushedHardCarbon";
 		    case 80: return "LiMnO2Ingot";
 		    case 81: return "crushedLiMnO2";
+		    case 82: return "Th232Oxide";
+		    case 83: return "tinyTh232Oxide";
+		    case 84: return "Th230Oxide";
+		    case 85: return "tinyTh230Oxide";
+		    case 86: return "Np236";
+		    case 87: return "tinyNp236";
+		    case 88: return "Np237";
+		    case 89: return "tinyNp237";
+		    case 90: return "Am241";
+		    case 91: return "tinyAm241";
+		    case 92: return "Am242";
+		    case 93: return "tinyAm242";
+		    case 94: return "Am243";
+		    case 95: return "tinyAm243";
+		    case 96: return "Cm243";
+		    case 97: return "tinyCm243";
+		    case 98: return "Cm245";
+		    case 99: return "tinyCm245";
+		    case 100: return "Cm246";
+		    case 101: return "tinyCm246";
+		    case 102: return "Cm247";
+		    case 103: return "tinyCm247";
+		    case 104: return "Np236Oxide";
+		    case 105: return "tinyNp236Oxide";
+		    case 106: return "Np237Oxide";
+		    case 107: return "tinyNp237Oxide";
+		    case 108: return "Am241Oxide";
+		    case 109: return "tinyAm241Oxide";
+		    case 110: return "Am242Oxide";
+		    case 111: return "tinyAm242Oxide";
+		    case 112: return "Am243Oxide";
+		    case 113: return "tinyAm243Oxide";
+		    case 114: return "Cm243Oxide";
+		    case 115: return "tinyCm243Oxide";
+		    case 116: return "Cm245Oxide";
+		    case 117: return "tinyCm245Oxide";
+		    case 118: return "Cm246Oxide";
+		    case 119: return "tinyCm246Oxide";
+		    case 120: return "Cm247Oxide";
+		    case 121: return "tinyCm247Oxide";
+		    case 122: return "Cf250";
+		    case 123: return "tinyCf250";
+		    case 124: return "Cf250Oxide";
+		    case 125: return "tinyCf250Oxide";
+		    case 126: return "thoriumOxideIngot";
+		    case 127: return "crushedThoriumOxide";
 		    default: return this.getUnlocalizedName();
 	    }
 	}

@@ -27,7 +27,7 @@ public class TileAssembler extends TileMachineBase {
 	public Mode mode;
 	
 	public TileAssembler() {
-		super("Assembler", 250000, 4, 1, true, true, 100, 2000, NuclearCraft.assemblerSpeed, NuclearCraft.assemblerEfficiency, AssemblerRecipes.instance());
+		super("assembler", 250000, 4, 1, true, true, 100, 2000, NuclearCraft.assemblerSpeed, NuclearCraft.assemblerEfficiency, AssemblerRecipes.instance());
 		mode = Mode.KEEP;
 	}
 	

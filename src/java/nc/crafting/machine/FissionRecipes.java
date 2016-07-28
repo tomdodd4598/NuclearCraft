@@ -1,8 +1,6 @@
 package nc.crafting.machine;
 
 import nc.crafting.NCRecipeHelper;
-import nc.item.NCItems;
-import net.minecraft.item.ItemStack;
 
 public class FissionRecipes extends NCRecipeHelper {
 
@@ -16,25 +14,36 @@ public class FissionRecipes extends NCRecipeHelper {
 	}
 
 	public void addRecipes() {
-		addRecipe(new ItemStack(NCItems.fuel, 1, 11), new ItemStack(NCItems.fuel, 1, 22));
-    	addRecipe(new ItemStack(NCItems.fuel, 1, 17), new ItemStack(NCItems.fuel, 1, 28));
-    	addRecipe(new ItemStack(NCItems.fuel, 1, 12), new ItemStack(NCItems.fuel, 1, 23));
-    	addRecipe(new ItemStack(NCItems.fuel, 1, 18), new ItemStack(NCItems.fuel, 1, 29));
-    	addRecipe(new ItemStack(NCItems.fuel, 1, 13), new ItemStack(NCItems.fuel, 1, 24));
-    	addRecipe(new ItemStack(NCItems.fuel, 1, 19), new ItemStack(NCItems.fuel, 1, 30));
-    	addRecipe(new ItemStack(NCItems.fuel, 1, 14), new ItemStack(NCItems.fuel, 1, 25));
-    	addRecipe(new ItemStack(NCItems.fuel, 1, 20), new ItemStack(NCItems.fuel, 1, 31));
-    	addRecipe(new ItemStack(NCItems.fuel, 1, 15), new ItemStack(NCItems.fuel, 1, 26));
-    	addRecipe(new ItemStack(NCItems.fuel, 1, 21), new ItemStack(NCItems.fuel, 1, 32));
-    	addRecipe(new ItemStack(NCItems.fuel, 1, 16), new ItemStack(NCItems.fuel, 1, 27));
-    	
-    	addRecipe(new ItemStack(NCItems.fuel, 1, 59), new ItemStack(NCItems.fuel, 1, 67));
-    	addRecipe(new ItemStack(NCItems.fuel, 1, 60), new ItemStack(NCItems.fuel, 1, 68));
-    	addRecipe(new ItemStack(NCItems.fuel, 1, 61), new ItemStack(NCItems.fuel, 1, 69));
-    	addRecipe(new ItemStack(NCItems.fuel, 1, 62), new ItemStack(NCItems.fuel, 1, 70));
-    	addRecipe(new ItemStack(NCItems.fuel, 1, 63), new ItemStack(NCItems.fuel, 1, 71));
-    	addRecipe(new ItemStack(NCItems.fuel, 1, 64), new ItemStack(NCItems.fuel, 1, 72));
-    	addRecipe(new ItemStack(NCItems.fuel, 1, 65), new ItemStack(NCItems.fuel, 1, 73));
-    	addRecipe(new ItemStack(NCItems.fuel, 1, 66), new ItemStack(NCItems.fuel, 1, 74));
+		deplete2("LEU235");
+		deplete2("HEU235");
+		deplete2("LEP239");
+		deplete2("HEP239");
+		deplete("MOX239");
+		deplete2("TBU");
+		deplete2("LEU233");
+		deplete2("HEU233");
+		deplete2("LEP241");
+		deplete2("HEP241");
+		deplete("MOX241");
+		
+		deplete2("LEN236");
+		deplete2("HEN236");
+		deplete2("LEA242");
+		deplete2("HEA242");
+		deplete2("LEC243");
+		deplete2("HEC243");
+		deplete2("LEC245");
+		deplete2("HEC245");
+		deplete2("LEC247");
+		deplete2("HEC247");
+	}
+	
+	public void deplete(String fuel) {
+		addRecipe(fuel + "Cell", "d" + fuel + "Cell");
+	}
+	
+	public void deplete2(String fuel) {
+		addRecipe(fuel + "Cell", "d" + fuel + "Cell");
+		addRecipe(fuel + "CellOxide", "d" + fuel + "CellOxide");
 	}
 }

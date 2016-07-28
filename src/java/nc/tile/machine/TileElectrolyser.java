@@ -8,7 +8,7 @@ import net.minecraftforge.fluids.FluidRegistry;
 public class TileElectrolyser extends TileMachineFluidIn {
 	
 	public TileElectrolyser() {
-		super("Electrolyser", 250000, 48000, 1, 4, true, true, 20000, 1000000, FluidRegistry.WATER, 12000, NuclearCraft.electrolyserSpeed, NuclearCraft.electrolyserEfficiency, ElectrolyserRecipes.instance());
+		super("electrolyser", 250000, 48000, 1, 4, true, true, 20000, 1000000, FluidRegistry.WATER, 12000, NuclearCraft.electrolyserSpeed, NuclearCraft.electrolyserEfficiency, ElectrolyserRecipes.instance());
 	}
 	
 	public void updateEntity() {

@@ -1,6 +1,5 @@
 package nc.entity;
 
-import nc.handler.BombType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
@@ -66,13 +65,13 @@ public class EntityAntimatterBombPrimed extends Entity {
             this.setDead();
 
             if (!this.worldObj.isRemote) {
-                this.explode(worldObj, BombType.BOMB_STANDARD);
+                this.explode(worldObj);
             }
         }
         else {
         	this.worldObj.spawnParticle("lava", this.posX, this.posY + 0.5D, this.posZ, 0.0D, 0.0D, 0.0D);
         	this.worldObj.spawnParticle("depthsuspend", this.posX, this.posY + 0.5D, this.posZ, 0.0D, 0.5D, 0.0D);
-            this.worldObj.spawnParticle("reddust", this.posX-0.375D, this.posY + 0.5D, this.posZ-0.375D, 0.0D, 0.0D, 0.0D);
+            this.worldObj.spawnParticle("reddust", this.posX-0.375D, this.posY + 0.5D, this.posZ-0.375D, 0.0D, 0.3D, 0.0D);
             this.worldObj.spawnParticle("reddust", this.posX-0.125D, this.posY + 0.5D, this.posZ-0.375D, 0.0D, 0.3D, 0.0D);
             this.worldObj.spawnParticle("reddust", this.posX+0.125D, this.posY + 0.5D, this.posZ-0.375D, 0.0D, 0.3D, 0.0D);
             this.worldObj.spawnParticle("reddust", this.posX+0.375D, this.posY + 0.5D, this.posZ-0.375D, 0.0D, 0.3D, 0.0D);
@@ -106,8 +105,7 @@ public class EntityAntimatterBombPrimed extends Entity {
         }
     }
 	
-	private void explode(World world, BombType type) {
-        //NCExplosion.createExplosion(new EntityBomb(world).setType(type), world, this.posX, this.posY, this.posZ, 150F, 1000F, true);
+	private void explode(World world) {
         int x = (int) Math.floor(posX); int y = (int) Math.floor(posY); int z = (int) Math.floor(posZ);
         
         for (int i = -80; i <= 80; i++) {
@@ -119,7 +117,8 @@ public class EntityAntimatterBombPrimed extends Entity {
     			}
     		}
         }
-        worldObj.playSoundEffect(posX, posY, posZ, "random.explode", 4.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
+        worldObj.playSoundEffect(posX, posY, posZ, "random.explode", 16.0F, 1.0F);
+        worldObj.playSoundEffect(posX, posY, posZ, "nc:shield2", 40.0F, 1.0F);
     }
 	
 	protected void writeEntityToNBT(NBTTagCompound nbt) {

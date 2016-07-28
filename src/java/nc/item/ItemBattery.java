@@ -63,7 +63,6 @@ public class ItemBattery extends ItemEnergyContainer {
 	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@Override
     public void addInformation(ItemStack itemStack, EntityPlayer player, List list, boolean whatIsThis) {
         super.addInformation(itemStack, player, list, whatIsThis);
         NBTTagCompound tagCompound = itemStack.getTagCompound();
@@ -122,7 +121,6 @@ public class ItemBattery extends ItemEnergyContainer {
         return container.stackTagCompound.getInteger("Energy");
     }
 
-    @Override
     public int getMaxEnergyStored(ItemStack container) {
         return capacity;
     }

@@ -10,7 +10,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class RenderPaul extends RenderLiving {
 
-	private static final ResourceLocation texture = new ResourceLocation("nc:textures/model/Paul.jpg");
+	private static final ResourceLocation texture = new ResourceLocation("nc:textures/model/paul.png");
 	
 	protected ModelPaul modelEntity;
 	

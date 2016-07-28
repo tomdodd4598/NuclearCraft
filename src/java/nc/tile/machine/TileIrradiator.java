@@ -10,7 +10,7 @@ import net.minecraft.item.ItemStack;
 public class TileIrradiator extends TileMachineBase {
 	
 	public TileIrradiator() {
-		super("Irradiator", 250000, 2, 3, true, true, 2000, 200000, NuclearCraft.irradiatorSpeed, NuclearCraft.irradiatorEfficiency, IrradiatorRecipes.instance());
+		super("irradiator", 250000, 2, 3, true, true, 2000, 200000, NuclearCraft.irradiatorSpeed, NuclearCraft.irradiatorEfficiency, IrradiatorRecipes.instance());
 	}
 	
 	public void updateEntity() {

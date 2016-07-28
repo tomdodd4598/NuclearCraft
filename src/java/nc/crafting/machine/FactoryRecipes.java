@@ -1,5 +1,6 @@
 package nc.crafting.machine;
 
+import nc.block.NCBlocks;
 import nc.crafting.NCRecipeHelper;
 import nc.item.NCItems;
 import net.minecraft.init.Blocks;
@@ -70,6 +71,8 @@ public class FactoryRecipes extends NCRecipeHelper {
     	addRecipe(new ItemStack(Items.bucket, 1), new ItemStack(Items.iron_ingot, 3));
     	addRecipe(new ItemStack(Items.rotten_flesh, 4), new ItemStack(Items.leather, 1));
     	addRecipe(new ItemStack(Items.coal, 64), new ItemStack(Items.diamond, 1));
+    	
+    	addRecipe(new ItemStack(NCItems.lithiumIonBattery, 8), new ItemStack(NCBlocks.lithiumIonBatteryBlock, 1));
     }
 	
 	public void oreIngot(String type, int amount) {

@@ -80,3 +80,49 @@
 79: Crushed Hard Carbon
 80: Lithium Manganese Dioxide Ingot
 81: Crushed Lithium Manganese Dioxide
+82: Th-232 Oxide
+83: Tiny Th-232 Oxide
+84: Th-230 Oxide
+85: Tiny Th-230 Oxide
+86: Np-236
+87: Tiny Np-236
+88: Np-237
+89: Tiny Np-237
+90: Am-241
+91: Tiny Am-241
+92: Am-242
+93: Tiny Am-242
+94: Am-243
+95: Tiny Am-243
+96: Cm-243
+97: Tiny Cm-243
+98: Cm-245
+99: Tiny Cm-245
+100: Cm-246
+101: Tiny Cm-246
+102: Cm-247
+103: Tiny Cm-247
+104: Np-236 Oxide
+105: Tiny Np-236 Oxide
+106: Np-237 Oxide
+107: Tiny Np-237 Oxide
+108: Am-241 Oxide
+109: Tiny Am-241 Oxide
+110: Am-242 Oxide
+111: Tiny Am-242 Oxide
+112: Am-243 Oxide
+113: Tiny Am-243 Oxide
+114: Cm-243 Oxide
+115: Tiny Cm-243 Oxide
+116: Cm-245 Oxide
+117: Tiny Cm-245 Oxide
+118: Cm-246 Oxide
+119: Tiny Cm-246 Oxide
+120: Cm-247 Oxide
+121: Tiny Cm-247 Oxide
+122: Cf-250
+123: Tiny Cf-250
+124: Cf-250 Oxide
+125: Tiny Cf-250 Oxide
+126: Thorium Oxide Ingot
+127: Crushed Thorium Oxide

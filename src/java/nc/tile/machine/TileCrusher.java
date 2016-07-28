@@ -18,7 +18,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 public class TileCrusher extends TileFuelUser {
 	
 	public TileCrusher() {
-		super(16000/NuclearCraft.crusherCrushSpeed, "Crusher");
+		super(16000/NuclearCraft.crusherCrushSpeed, "crusher");
 	}
 	
 	public void updateEntity() {

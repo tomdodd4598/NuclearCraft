@@ -81,11 +81,11 @@ public class GuiFusionReactor extends GuiContainer
         this.fontRendererObj.drawString(fuel1, 11, 40, (this.entity.complete == 1 ? -1 : 15597568));
         String fuel2 = f2() + " " + StatCollector.translateToLocal("gui.level2") + ": " + Math.round(level2() / 64000) + "%";
         this.fontRendererObj.drawString(fuel2, 11, 50, (this.entity.complete == 1 ? -1 : 15597568));
-        String egen = ((this.entity.HLevel + this.entity.DLevel + this.entity.TLevel + this.entity.HeLevel + this.entity.BLevel + this.entity.Li6Level + this.entity.Li7Level == 0 || this.entity.HLevel2 + this.entity.DLevel2 + this.entity.TLevel2 + this.entity.HeLevel2 + this.entity.BLevel2 + this.entity.Li6Level2 + this.entity.Li7Level2 == 0) ? 0 : this.entity.EShown) + " RF/t";
+        String egen = StatCollector.translateToLocal("gui.power") + ": " + ((this.entity.HLevel + this.entity.DLevel + this.entity.TLevel + this.entity.HeLevel + this.entity.BLevel + this.entity.Li6Level + this.entity.Li7Level == 0 || this.entity.HLevel2 + this.entity.DLevel2 + this.entity.TLevel2 + this.entity.HeLevel2 + this.entity.BLevel2 + this.entity.Li6Level2 + this.entity.Li7Level2 == 0) ? 0 : this.entity.EShown) + " RF/t";
         this.fontRendererObj.drawString(egen, 11, 60, (this.entity.complete == 1 ? -1 : 15597568));
         String efficiency = StatCollector.translateToLocal("gui.efficiency") + ": " + Math.round(entity.efficiency) + "%";
         this.fontRendererObj.drawString(efficiency, 11, 70, (this.entity.complete == 1 ? -1 : 15597568));
-        String heat = StatCollector.translateToLocal("gui.temp") + ": " + Math.round(entity.heat) + " MK";
+        String heat = StatCollector.translateToLocal("gui.temperature") + ": " + (int) entity.heat + " MK";
         this.fontRendererObj.drawString(heat, 11, 80, (this.entity.complete == 1 ? -1 : 15597568));
         //String heatVar = StatCollector.translateToLocal("gui.heatVar") + ": " + entity.heatVar;
         //this.fontRendererObj.drawString(heatVar, 11, 90, (this.entity.complete == 1 ? -1 : 15597568));
