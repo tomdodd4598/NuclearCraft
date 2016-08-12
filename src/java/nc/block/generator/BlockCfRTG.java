@@ -19,17 +19,17 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class BlockCfRTG extends BlockContainer {
 	
 	@SideOnly(Side.CLIENT)
-	private IIcon iconFront;
+	private IIcon iconTop;
 
 	public BlockCfRTG() {
-	super(Material.iron);
+		super(Material.iron);
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void registerBlockIcons(IIconRegister iconRegister) {
-	this.blockIcon = iconRegister.registerIcon("nc:generator/" + "CfRTG");
-	this.iconFront = iconRegister.registerIcon("nc:generator/" + "CfRTG");
+	this.blockIcon = iconRegister.registerIcon("nc:generator/RTG/" + "CfRTGSide");
+	this.iconTop = iconRegister.registerIcon("nc:generator/RTG/" + "CfRTG");
 	}
 
 	public Item getItemDropped(int par1, Random random, int par3) {
@@ -38,7 +38,7 @@ public class BlockCfRTG extends BlockContainer {
 	
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int metadata) {
-		return metadata == 0 && side == 3 ? this.iconFront : (side == metadata ? this.iconFront : this.blockIcon);
+		return side < 2 ? this.iconTop : this.blockIcon;
 	}
 	
 	public TileEntity createNewTileEntity(World world, int par1) {

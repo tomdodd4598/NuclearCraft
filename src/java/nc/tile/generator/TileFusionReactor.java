@@ -307,7 +307,6 @@ public class TileFusionReactor extends TileGeneratorInventory implements IEnergy
 			if (!(a(x + r, y + 1, z + size + 2) && a(x + r, y + 1, z - size - 2) && a(x + size + 2, y + 1, z + r) && a(x - size - 2, y + 1, z + r))) {
 				complete = 0;
 				StatCollector.translateToLocal("gui.ringBlock");
-				return false;
 			}
 		}
 		for (int r = -size - 1; r <= size + 1; r++) {
@@ -336,6 +335,14 @@ public class TileFusionReactor extends TileGeneratorInventory implements IEnergy
 				complete = 0;
 				problem = StatCollector.translateToLocal("gui.powerIssue");
 				return false;
+			}
+		}
+		for (int r = -size - 2; r <= size + 2; r++) {
+			if (!(a(x + r, y + 1, z + size + 2) && a(x + r, y + 1, z - size - 2) && a(x + size + 2, y + 1, z + r) && a(x - size - 2, y + 1, z + r))) {
+				aa(worldObj, x + r, y + 1, z + size + 2);
+				aa(worldObj, x + r, y + 1, z - size - 2);
+				aa(worldObj, x + size + 2, y + 1, z + r);
+				aa(worldObj, x - size - 2, y + 1, z + r);
 			}
 		}
 		complete = 1;

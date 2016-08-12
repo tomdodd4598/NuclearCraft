@@ -1,3 +1,38 @@
+v1.9a
+
+* Fixed Fusion Reactor Core struggling to find its structure with RailCraft installed (or other mods which add custom air blocks)
+
+- Removed Electrolyser Water Cell recipe
+* Changed RTG textures
+* Name changes and typo fixes
+
+v1.9
+
++ Added Neptunium, Americium, Curium and Californium
++ Added 21 new fission fuels - TBU-Oxide and 10 non-oxisided and 10 oxidised made from the new materials
+
++ The fission reactor will now use up fuel cells more intelligently:
++ If the depleted fuel just produced matches the fuel about to be used, the reactor will use up the fuel and run
+
++ Added Fuel Recycler
+* All depleted fuel recycle recipes have moved from the Isotope Separator to this machine
+
++ Added Americium-241 and Californium-250 RTGs
+
++ Added Voltaic Pile and Lithium Ion Battery RF storage blocks
+
++ Added Steam Fusion Reactor
++ Produces Steam/Dense Steam/Superdense steam depending on the reactor's size
+
++ Added many new Isotope Separator, Decay Hastener and Fission recipes
++ Added EMP bomb (not currently craftable)
+* Reaction Generator now only accepts basic Uranium and Thorium as fuel
+- Removed annoying message that appeared when placing generators
+- Removed many unnecessary IC2 recipes
+* Other minor changes to code, recipes and textures
+
+* Updated Java and APIs
+
 v1.8b
 
 * Electrolyser now requires an input of water to operate - empty fluid cells can now be used
