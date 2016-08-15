@@ -20,6 +20,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -299,8 +300,7 @@ public class BlockCrusher extends BlockContainer {
 		return Container.calcRedstoneFromInventory((IInventory)world.getTileEntity(x, y, z));
 	}
 	
-	public Block idPicked(World world, int x, int y, int z)
-	{
-		return NCBlocks.crusherIdle;
+	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z, EntityPlayer player) {
+		return new ItemStack(NCBlocks.crusherIdle);
 	}
 }

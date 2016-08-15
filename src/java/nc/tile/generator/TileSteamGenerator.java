@@ -18,8 +18,8 @@ public class TileSteamGenerator extends TileContinuousBase implements IFluidHand
 	public FluidTank tank;
 
 	public TileSteamGenerator() {
-		super("steamGenerator", 20000);
-		tank = new FluidTank(2000);
+		super("steamGenerator", NuclearCraft.steamRFUsageRate*20);
+		tank = new FluidTank(NuclearCraft.steamRFUsageRate);
 	}
 	
 	public void energy() {

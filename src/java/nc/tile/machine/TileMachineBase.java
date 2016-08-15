@@ -181,11 +181,11 @@ public abstract class TileMachineBase extends TileInventory implements IEnergyHa
 	}
 
 	public double ProcessTime() {
-		return processTime*(100/speedMod);
+		return processTime*(100D/speedMod);
 	}
 
 	public double EnergyRequired() {
-		return energyRequired*(100/timeMod);
+		return energyRequired*(100D/timeMod);
 	}
 
 	public int getInputSize(ItemStack stack, int slot) {

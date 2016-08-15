@@ -7,10 +7,12 @@ import nc.block.NCBlocks;
 import nc.tile.machine.TileElectricCrusher;
 import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
 public class BlockElectricCrusher extends BlockMachine {
@@ -43,8 +45,8 @@ public class BlockElectricCrusher extends BlockMachine {
 		return Item.getItemFromBlock(NCBlocks.electricCrusherIdle);
 	}
 	
-	public Block idPicked(World world, int x, int y, int z) {
-		return NCBlocks.electricCrusherIdle;
+	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z, EntityPlayer player) {
+		return new ItemStack(NCBlocks.electricCrusherIdle);
 	}
 	
 	public void breakBlock(World world, int x, int y, int z, Block oldBlockID, int oldMetadata) {

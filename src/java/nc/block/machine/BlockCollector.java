@@ -8,11 +8,13 @@ import nc.tile.machine.TileCollector;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -59,8 +61,8 @@ public class BlockCollector extends BlockMachine {
 		return Item.getItemFromBlock(NCBlocks.collectorIdle);
 	}
 	
-	public Block idPicked(World world, int x, int y, int z) {
-		return NCBlocks.collectorIdle;
+	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z, EntityPlayer player) {
+		return new ItemStack(NCBlocks.collectorIdle);
 	}
 	
 	public void breakBlock(World world, int x, int y, int z, Block oldBlockID, int oldMetadata) {

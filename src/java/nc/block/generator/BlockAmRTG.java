@@ -33,7 +33,7 @@ public class BlockAmRTG extends BlockContainer {
 	}
 
 	public Item getItemDropped(int par1, Random random, int par3) {
-		return Item.getItemFromBlock(NCBlocks.RTG);
+		return Item.getItemFromBlock(NCBlocks.AmRTG);
 	}
 	
 	@SideOnly(Side.CLIENT)

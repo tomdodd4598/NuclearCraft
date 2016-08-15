@@ -17,6 +17,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import scala.actors.threadpool.Arrays;
@@ -129,5 +130,9 @@ public class BlockSimpleQuantum extends BlockContainer {
 	public int isProvidingWeakPower(IBlockAccess world, int x, int y, int z, int side) {
 		if (world.getBlock(x, y, z) == NCBlocks.simpleQuantumUp) return 0;
 		else return 15;
+	}
+	
+	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z, EntityPlayer player) {
+		return new ItemStack(NCBlocks.simpleQuantumUp);
 	}
 }

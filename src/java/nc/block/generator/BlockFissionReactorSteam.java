@@ -18,6 +18,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -207,7 +208,7 @@ public class BlockFissionReactorSteam extends BlockContainer {
 		return tileentity.heat <= NuclearCraft.fissionComparatorHeat ? (int) (15D*tileentity.heat/NuclearCraft.fissionComparatorHeat) : 15;
 	}
 	
-	public Block idPicked(World world, int x, int y, int z) {
-		return NCBlocks.fissionReactorSteamIdle;
+	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z, EntityPlayer player) {
+		return new ItemStack(NCBlocks.fissionReactorSteamIdle);
 	}
 }

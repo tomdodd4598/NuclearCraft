@@ -75,7 +75,7 @@ public class GuiFusionReactorSteam extends GuiContainer
         this.fontRendererObj.drawString((this.entity.complete == 1 ? name1 : name2), 11, 10, (this.entity.complete == 1 ? -1 : 15597568));
         String radius = StatCollector.translateToLocal("gui.ringRadius") + ": " + entity.size;
         this.fontRendererObj.drawString(radius, 11, 20, (this.entity.complete == 1 ? -1 : 15597568));
-        String power = StatCollector.translateToLocal("gui.steamStored") + ": " + (int) this.entity.steam + " mB" + (this.entity.S < 2000 ? "" : (this.entity.S < 400000 ? " (" + StatCollector.translateToLocal("gui.dense") + ")" : " (" + StatCollector.translateToLocal("gui.superdense") + ")"));
+        String power = StatCollector.translateToLocal("gui.steamStored") + ": " + this.entity.fluid + " mB" + (this.entity.S < 2000 ? "" : (this.entity.S < 400000 ? " (" + StatCollector.translateToLocal("gui.dense") + ")" : " (" + StatCollector.translateToLocal("gui.superdense") + ")"));
         this.fontRendererObj.drawString(power, 11, 30, (this.entity.complete == 1 ? -1 : 15597568));
         String fuel1 = f1() + " " + StatCollector.translateToLocal("gui.level1") + ": " + Math.round(level1() / 64000) + "%";
         this.fontRendererObj.drawString(fuel1, 11, 40, (this.entity.complete == 1 ? -1 : 15597568));
@@ -102,7 +102,7 @@ public class GuiFusionReactorSteam extends GuiContainer
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         Minecraft.getMinecraft().getTextureManager().bindTexture(bground);
         this.drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
-        int k = (int) (this.entity.steam * 162 / 10000000);
+        int k = (int) (this.entity.fluid * 162 / 10000000);
         for (int texi = 0; texi < 5; ++texi) {
         	this.drawTexturedModalRect(this.guiLeft + 213 + texi, this.guiTop + 7 + 162 - k, 244, 3 + 162 - k, 1, k);
         }

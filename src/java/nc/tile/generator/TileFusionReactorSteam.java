@@ -16,6 +16,7 @@ import nc.handler.EntityBomb;
 import nc.handler.NCExplosion;
 import nc.item.NCItems;
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -67,7 +68,6 @@ public class TileFusionReactorSteam extends TileSteamProducer implements IEnergy
 	public int Li6Level2;
 	public int Li7Level2;
 	
-	public int fluid;
 	public double steam;
 	
 	public double HOut;
@@ -275,7 +275,7 @@ public class TileFusionReactorSteam extends TileSteamProducer implements IEnergy
 	}
 	
 	public boolean a(int x, int y, int z) {
-		return this.worldObj.getBlock(x, y, z) == Blocks.air || this.worldObj.getBlock(x, y, z) == NCBlocks.blockFusionPlasma || this.worldObj.getBlock(x, y, z) == Blocks.fire;
+		return this.worldObj.getBlock(x, y, z).getMaterial() == Material.air || this.worldObj.getBlock(x, y, z).getMaterial() == Material.fire || this.worldObj.getBlock(x, y, z).getMaterial() == Material.snow || this.worldObj.getBlock(x, y, z) == NCBlocks.blockFusionPlasma;
 	}
 	
 	public boolean p(int x, int y, int z) {
@@ -325,6 +325,7 @@ public class TileFusionReactorSteam extends TileSteamProducer implements IEnergy
 			if (!(a(x + r, y + 1, z + size + 2) && a(x + r, y + 1, z - size - 2) && a(x + size + 2, y + 1, z + r) && a(x - size - 2, y + 1, z + r))) {
 				complete = 0;
 				StatCollector.translateToLocal("gui.ringBlock");
+				return false;
 			}
 		}
 		for (int r = -size - 1; r <= size + 1; r++) {
@@ -353,14 +354,6 @@ public class TileFusionReactorSteam extends TileSteamProducer implements IEnergy
 				complete = 0;
 				problem = StatCollector.translateToLocal("gui.powerIssue");
 				return false;
-			}
-		}
-		for (int r = -size - 2; r <= size + 2; r++) {
-			if (!(a(x + r, y + 1, z + size + 2) && a(x + r, y + 1, z - size - 2) && a(x + size + 2, y + 1, z + r) && a(x - size - 2, y + 1, z + r))) {
-				aa(worldObj, x + r, y + 1, z + size + 2);
-				aa(worldObj, x + r, y + 1, z - size - 2);
-				aa(worldObj, x + size + 2, y + 1, z + r);
-				aa(worldObj, x - size - 2, y + 1, z + r);
 			}
 		}
 		complete = 1;
@@ -878,13 +871,13 @@ public class TileFusionReactorSteam extends TileSteamProducer implements IEnergy
 		SShown = (int) Math.ceil(newS);
 		
 		if (steam + newS <= 10000000) steam += newS;
-        if ((int) (newS/efficiency)*100 < 2000) {
+        if ((int) (newS/efficiency)*100 < 2000 || steamType() == 1) {
         	if (this.tank.getFluidAmount() != 0) if (this.tank.getFluid().getFluid() != NuclearCraft.steam) this.tank.drain(10000000, true);
         	if (steam >= 2000) {
         		this.tank.fill(new FluidStack(NuclearCraft.steam, 2000), true);
         		steam -= 2000;
         	}
-        } else if ((int) (newS/efficiency)*100 < 400000) {
+        } else if ((int) (newS/efficiency)*100 < 400000 || steamType() == 2) {
         	if (this.tank.getFluidAmount() != 0) if (this.tank.getFluid().getFluid() != NuclearCraft.denseSteam) this.tank.drain(10000000, true);
         	if (steam >= 400000) {
         		this.tank.fill(new FluidStack(NuclearCraft.denseSteam, 400), true);
@@ -904,6 +897,14 @@ public class TileFusionReactorSteam extends TileSteamProducer implements IEnergy
   	
       	if (HLevel + DLevel + TLevel + HeLevel + BLevel + Li6Level + Li7Level <= 0) {HLevel=0; DLevel=0; TLevel=0; HeLevel=0; BLevel=0; Li6Level=0; Li7Level=0;}
       	if (HLevel2 + DLevel2 + TLevel2 + HeLevel2 + BLevel2 + Li6Level2 + Li7Level2 <= 0) {HLevel2=0; DLevel2=0; TLevel2=0; HeLevel2=0; BLevel2=0; Li6Level2=0; Li7Level2=0;}
+	}
+	
+	public int steamType() {
+		if (this.tank.getFluidAmount() == 0) return 0;
+		if (this.tank.getFluid().getFluid() == NuclearCraft.steam) return 1;
+		if (this.tank.getFluid().getFluid() == NuclearCraft.denseSteam) return 2;
+		if (this.tank.getFluid().getFluid() == NuclearCraft.superdenseSteam) return 3;
+		return 0;
 	}
 
 	public void addEnergy() {

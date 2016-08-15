@@ -14,6 +14,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -268,5 +269,9 @@ public class BlockFusionReactorBlock extends BlockFusionReactor {
 					return bi.getComparatorInputOverride(world, x+1, y-1, z+1, i);
 				}
 				return 0;
+			}
+			
+			public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z, EntityPlayer player) {
+				return new ItemStack(NCBlocks.fusionReactor);
 			}
 }

@@ -249,7 +249,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 public class NuclearCraft {
 	public static final String modid = "NuclearCraft";
-	public static final String version = "1.9a";
+	public static final String version = "1.9b";
 	
 	public static final CreativeTabs tabNC = new CreativeTabs("tabNC") {
 		// Creative Tab Shown Item
@@ -389,6 +389,8 @@ public class NuclearCraft {
 	public static int solarRF;
 	public static int lithiumIonRF;
 	public static int voltaicPileRF;
+	public static int steamDecompressRate;
+	public static int steamRFUsageRate;
 	
 	public static boolean enablePaul;
 	public static boolean enableNuclearMonster;
@@ -788,6 +790,9 @@ public class NuclearCraft {
 		collectorSpeed = config.getInt("Helium Collector Speed Multiplier", "1.2: Non-RF Machines", 100, 10, 1000, "");
 		lithiumIonRF = config.getInt("Lithium Ion Battery RF", "1.3: RF Storage", 10000000, 1, 100000000, "");
 		voltaicPileRF = config.getInt("Voltaic Pile RF", "1.3: RF Storage", 1000000, 1, 100000000, "");
+		
+		steamDecompressRate = config.getInt("Steam Decompressor Rate", "1.4: Steam Manipulators", 2, 1, 100, "");
+		steamRFUsageRate = config.getInt("Steam Generator Usage Rate", "1.4: Steam Manipulators", 2000, 1, 100000, "");
 		
 		enableNuclearMonster = config.getBoolean("Enable Nuclear Monsters Spawning", "2.0: Mobs", true, "");
 		enablePaul = config.getBoolean("Enable Paul", "2.0: Mobs", true, "");

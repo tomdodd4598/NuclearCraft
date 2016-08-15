@@ -12,7 +12,6 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -67,34 +66,34 @@ public class BlockFusionReactorSteam extends BlockContainer {
 	}
 	
 	public boolean canPlaceBlockAt(World world, int x, int y, int z) {
-		if (world.getBlock(x+1, y, z) != Blocks.air) return false;
-		else if (world.getBlock(x+1, y, z+1) != Blocks.air) return false;
-		else if (world.getBlock(x, y, z+1) != Blocks.air) return false;
-		else if (world.getBlock(x-1, y, z+1) != Blocks.air) return false;
-		else if (world.getBlock(x-1, y, z) != Blocks.air) return false;
-		else if (world.getBlock(x-1, y, z-1) != Blocks.air) return false;
-		else if (world.getBlock(x, y, z-1) != Blocks.air) return false;
-		else if (world.getBlock(x+1, y, z-1) != Blocks.air) return false;
+		if (world.getBlock(x+1, y, z).getMaterial() != Material.air) return false;
+		else if (world.getBlock(x+1, y, z+1).getMaterial() != Material.air) return false;
+		else if (world.getBlock(x, y, z+1).getMaterial() != Material.air) return false;
+		else if (world.getBlock(x-1, y, z+1).getMaterial() != Material.air) return false;
+		else if (world.getBlock(x-1, y, z).getMaterial() != Material.air) return false;
+		else if (world.getBlock(x-1, y, z-1).getMaterial() != Material.air) return false;
+		else if (world.getBlock(x, y, z-1).getMaterial() != Material.air) return false;
+		else if (world.getBlock(x+1, y, z-1).getMaterial() != Material.air) return false;
 		
-		else if (world.getBlock(x, y+1, z) != Blocks.air) return false;
-		else if (world.getBlock(x+1, y+1, z) != Blocks.air) return false;
-		else if (world.getBlock(x+1, y+1, z+1) != Blocks.air) return false;
-		else if (world.getBlock(x, y+1, z+1) != Blocks.air) return false;
-		else if (world.getBlock(x-1, y+1, z+1) != Blocks.air) return false;
-		else if (world.getBlock(x-1, y+1, z) != Blocks.air) return false;
-		else if (world.getBlock(x-1, y+1, z-1) != Blocks.air) return false;
-		else if (world.getBlock(x, y+1, z-1) != Blocks.air) return false;
-		else if (world.getBlock(x+1, y+1, z-1) != Blocks.air) return false;
+		else if (world.getBlock(x, y+1, z).getMaterial() != Material.air) return false;
+		else if (world.getBlock(x+1, y+1, z).getMaterial() != Material.air) return false;
+		else if (world.getBlock(x+1, y+1, z+1).getMaterial() != Material.air) return false;
+		else if (world.getBlock(x, y+1, z+1).getMaterial() != Material.air) return false;
+		else if (world.getBlock(x-1, y+1, z+1).getMaterial() != Material.air) return false;
+		else if (world.getBlock(x-1, y+1, z).getMaterial() != Material.air) return false;
+		else if (world.getBlock(x-1, y+1, z-1).getMaterial() != Material.air) return false;
+		else if (world.getBlock(x, y+1, z-1).getMaterial() != Material.air) return false;
+		else if (world.getBlock(x+1, y+1, z-1).getMaterial() != Material.air) return false;
 		
-		else if (world.getBlock(x, y+2, z) != Blocks.air) return false;
-		else if (world.getBlock(x+1, y+2, z) != Blocks.air) return false;
-		else if (world.getBlock(x+1, y+2, z+1) != Blocks.air) return false;
-		else if (world.getBlock(x, y+2, z+1) != Blocks.air) return false;
-		else if (world.getBlock(x-1, y+2, z+1) != Blocks.air) return false;
-		else if (world.getBlock(x-1, y+2, z) != Blocks.air) return false;
-		else if (world.getBlock(x-1, y+2, z-1) != Blocks.air) return false;
-		else if (world.getBlock(x, y+2, z-1) != Blocks.air) return false;
-		else if (world.getBlock(x+1, y+2, z-1) != Blocks.air) return false;
+		else if (world.getBlock(x, y+2, z).getMaterial() != Material.air) return false;
+		else if (world.getBlock(x+1, y+2, z).getMaterial() != Material.air) return false;
+		else if (world.getBlock(x+1, y+2, z+1).getMaterial() != Material.air) return false;
+		else if (world.getBlock(x, y+2, z+1).getMaterial() != Material.air) return false;
+		else if (world.getBlock(x-1, y+2, z+1).getMaterial() != Material.air) return false;
+		else if (world.getBlock(x-1, y+2, z).getMaterial() != Material.air) return false;
+		else if (world.getBlock(x-1, y+2, z-1).getMaterial() != Material.air) return false;
+		else if (world.getBlock(x, y+2, z-1).getMaterial() != Material.air) return false;
+		else if (world.getBlock(x+1, y+2, z-1).getMaterial() != Material.air) return false;
 		return true;
 	}
 	

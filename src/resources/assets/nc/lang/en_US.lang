@@ -142,7 +142,6 @@ tile.voltaicPile.name=Voltaic Pile
 gui.reactor=Reactor
 gui.fuel=Fuel
 gui.heat=Heat
-gui.heatCore=Core Heat
 gui.noFuel=No Fuel
 gui.casingIncomplete=Casing Incomplete
 gui.invalidStructure=Invalid Structure

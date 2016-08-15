@@ -38,7 +38,6 @@ public class TileFissionReactorSteam extends TileSteamProducer {
     public int HCooling;
     public double steam;
     public int FReal;
-    public int fluid;
     public int fueltime;
 	public int fueltype;
 	public int heat;

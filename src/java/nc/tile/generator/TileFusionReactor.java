@@ -16,6 +16,7 @@ import nc.handler.EntityBomb;
 import nc.handler.NCExplosion;
 import nc.item.NCItems;
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -257,7 +258,7 @@ public class TileFusionReactor extends TileGeneratorInventory implements IEnergy
 	}
 	
 	public boolean a(int x, int y, int z) {
-		return this.worldObj.getBlock(x, y, z) == Blocks.air || this.worldObj.getBlock(x, y, z) == NCBlocks.blockFusionPlasma || this.worldObj.getBlock(x, y, z) == Blocks.fire;
+		return this.worldObj.getBlock(x, y, z).getMaterial() == Material.air || this.worldObj.getBlock(x, y, z).getMaterial() == Material.fire || this.worldObj.getBlock(x, y, z).getMaterial() == Material.snow || this.worldObj.getBlock(x, y, z) == NCBlocks.blockFusionPlasma;
 	}
 	
 	public boolean p(int x, int y, int z) {
@@ -307,6 +308,7 @@ public class TileFusionReactor extends TileGeneratorInventory implements IEnergy
 			if (!(a(x + r, y + 1, z + size + 2) && a(x + r, y + 1, z - size - 2) && a(x + size + 2, y + 1, z + r) && a(x - size - 2, y + 1, z + r))) {
 				complete = 0;
 				StatCollector.translateToLocal("gui.ringBlock");
+				return false;
 			}
 		}
 		for (int r = -size - 1; r <= size + 1; r++) {
@@ -335,14 +337,6 @@ public class TileFusionReactor extends TileGeneratorInventory implements IEnergy
 				complete = 0;
 				problem = StatCollector.translateToLocal("gui.powerIssue");
 				return false;
-			}
-		}
-		for (int r = -size - 2; r <= size + 2; r++) {
-			if (!(a(x + r, y + 1, z + size + 2) && a(x + r, y + 1, z - size - 2) && a(x + size + 2, y + 1, z + r) && a(x - size - 2, y + 1, z + r))) {
-				aa(worldObj, x + r, y + 1, z + size + 2);
-				aa(worldObj, x + r, y + 1, z - size - 2);
-				aa(worldObj, x + size + 2, y + 1, z + r);
-				aa(worldObj, x - size - 2, y + 1, z + r);
 			}
 		}
 		complete = 1;

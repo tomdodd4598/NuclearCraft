@@ -12,12 +12,12 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -67,34 +67,34 @@ public class BlockFusionReactor extends BlockContainer {
 	}
 	
 	public boolean canPlaceBlockAt(World world, int x, int y, int z) {
-		if (world.getBlock(x+1, y, z) != Blocks.air) return false;
-		else if (world.getBlock(x+1, y, z+1) != Blocks.air) return false;
-		else if (world.getBlock(x, y, z+1) != Blocks.air) return false;
-		else if (world.getBlock(x-1, y, z+1) != Blocks.air) return false;
-		else if (world.getBlock(x-1, y, z) != Blocks.air) return false;
-		else if (world.getBlock(x-1, y, z-1) != Blocks.air) return false;
-		else if (world.getBlock(x, y, z-1) != Blocks.air) return false;
-		else if (world.getBlock(x+1, y, z-1) != Blocks.air) return false;
+		if (world.getBlock(x+1, y, z).getMaterial() != Material.air) return false;
+		else if (world.getBlock(x+1, y, z+1).getMaterial() != Material.air) return false;
+		else if (world.getBlock(x, y, z+1).getMaterial() != Material.air) return false;
+		else if (world.getBlock(x-1, y, z+1).getMaterial() != Material.air) return false;
+		else if (world.getBlock(x-1, y, z).getMaterial() != Material.air) return false;
+		else if (world.getBlock(x-1, y, z-1).getMaterial() != Material.air) return false;
+		else if (world.getBlock(x, y, z-1).getMaterial() != Material.air) return false;
+		else if (world.getBlock(x+1, y, z-1).getMaterial() != Material.air) return false;
 		
-		else if (world.getBlock(x, y+1, z) != Blocks.air) return false;
-		else if (world.getBlock(x+1, y+1, z) != Blocks.air) return false;
-		else if (world.getBlock(x+1, y+1, z+1) != Blocks.air) return false;
-		else if (world.getBlock(x, y+1, z+1) != Blocks.air) return false;
-		else if (world.getBlock(x-1, y+1, z+1) != Blocks.air) return false;
-		else if (world.getBlock(x-1, y+1, z) != Blocks.air) return false;
-		else if (world.getBlock(x-1, y+1, z-1) != Blocks.air) return false;
-		else if (world.getBlock(x, y+1, z-1) != Blocks.air) return false;
-		else if (world.getBlock(x+1, y+1, z-1) != Blocks.air) return false;
+		else if (world.getBlock(x, y+1, z).getMaterial() != Material.air) return false;
+		else if (world.getBlock(x+1, y+1, z).getMaterial() != Material.air) return false;
+		else if (world.getBlock(x+1, y+1, z+1).getMaterial() != Material.air) return false;
+		else if (world.getBlock(x, y+1, z+1).getMaterial() != Material.air) return false;
+		else if (world.getBlock(x-1, y+1, z+1).getMaterial() != Material.air) return false;
+		else if (world.getBlock(x-1, y+1, z).getMaterial() != Material.air) return false;
+		else if (world.getBlock(x-1, y+1, z-1).getMaterial() != Material.air) return false;
+		else if (world.getBlock(x, y+1, z-1).getMaterial() != Material.air) return false;
+		else if (world.getBlock(x+1, y+1, z-1).getMaterial() != Material.air) return false;
 		
-		else if (world.getBlock(x, y+2, z) != Blocks.air) return false;
-		else if (world.getBlock(x+1, y+2, z) != Blocks.air) return false;
-		else if (world.getBlock(x+1, y+2, z+1) != Blocks.air) return false;
-		else if (world.getBlock(x, y+2, z+1) != Blocks.air) return false;
-		else if (world.getBlock(x-1, y+2, z+1) != Blocks.air) return false;
-		else if (world.getBlock(x-1, y+2, z) != Blocks.air) return false;
-		else if (world.getBlock(x-1, y+2, z-1) != Blocks.air) return false;
-		else if (world.getBlock(x, y+2, z-1) != Blocks.air) return false;
-		else if (world.getBlock(x+1, y+2, z-1) != Blocks.air) return false;
+		else if (world.getBlock(x, y+2, z).getMaterial() != Material.air) return false;
+		else if (world.getBlock(x+1, y+2, z).getMaterial() != Material.air) return false;
+		else if (world.getBlock(x+1, y+2, z+1).getMaterial() != Material.air) return false;
+		else if (world.getBlock(x, y+2, z+1).getMaterial() != Material.air) return false;
+		else if (world.getBlock(x-1, y+2, z+1).getMaterial() != Material.air) return false;
+		else if (world.getBlock(x-1, y+2, z).getMaterial() != Material.air) return false;
+		else if (world.getBlock(x-1, y+2, z-1).getMaterial() != Material.air) return false;
+		else if (world.getBlock(x, y+2, z-1).getMaterial() != Material.air) return false;
+		else if (world.getBlock(x+1, y+2, z-1).getMaterial() != Material.air) return false;
 		return true;
 	}
 	
@@ -302,8 +302,7 @@ public class BlockFusionReactor extends BlockContainer {
 		return tileentity.efficiency <= NuclearCraft.fusionComparatorEfficiency ? (int) (15D*tileentity.efficiency/NuclearCraft.fusionComparatorEfficiency) : 15;
 	}
 	
-	public Block idPicked(World world, int x, int y, int z)
-	{
-		return NCBlocks.fusionReactor;
+	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z, EntityPlayer player) {
+		return new ItemStack(NCBlocks.fusionReactor);
 	}
 }

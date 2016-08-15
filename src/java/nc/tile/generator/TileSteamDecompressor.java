@@ -22,8 +22,8 @@ public class TileSteamDecompressor extends TileEntity implements IFluidHandler {
 
 	public TileSteamDecompressor() {
 		super();
-		tank = new FluidTank(2);
-		tank2 = new FluidTank(2000);
+		tank = new FluidTank(NuclearCraft.steamDecompressRate);
+		tank2 = new FluidTank(NuclearCraft.steamDecompressRate*1000);
 	}
 	
 	public void updateEntity() {
@@ -47,7 +47,7 @@ public class TileSteamDecompressor extends TileEntity implements IFluidHandler {
 	public void steam() {
 		if (tank.getFluidAmount() != 0) {
 			if (tank.getFluid().getFluid() == NuclearCraft.denseSteam || tank.getFluid().getFluid() == FluidRegistry.getFluid("denseSteam")) {
-				for (int i = 0; i < 4; i++) {
+				for (int i = 0; i < NuclearCraft.steamDecompressRate; i++) {
 					if (tank2.getFluidAmount() <= tank2.getCapacity() - 1000 && tank.getFluidAmount() != 0) {
 						tank2.fill(new FluidStack(NuclearCraft.steam, 1000), true);
 						tank.drain(1, true);

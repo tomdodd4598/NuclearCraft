@@ -17,6 +17,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IChatComponent;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -84,8 +85,8 @@ public class BlockSynchrotron extends BlockMachine {
 		return Item.getItemFromBlock(NCBlocks.synchrotronIdle);
 	}
 	
-	public Block idPicked(World world, int x, int y, int z) {
-		return NCBlocks.synchrotronIdle;
+	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z, EntityPlayer player) {
+		return new ItemStack(NCBlocks.synchrotronIdle);
 	}
 	
 	public void breakBlock(World world, int x, int y, int z, Block oldBlockID, int oldMetadata) {

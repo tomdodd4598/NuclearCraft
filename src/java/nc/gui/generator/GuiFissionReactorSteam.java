@@ -30,7 +30,7 @@ public class GuiFissionReactorSteam extends GuiContainer {
         this.fontRendererObj.drawString(power, 67, 16, (this.entity.complete == 1 ? -1 : 15597568));
         String fueltime = (this.entity.fueltime/100000) + "% " + StatCollector.translateToLocal("gui.fuel");
         this.fontRendererObj.drawString(fueltime, 67, 27, (this.entity.complete == 1 ? -1 : 15597568));
-        String heat = (this.entity.heat) + " "+ StatCollector.translateToLocal("gui.heatCore");
+        String heat = (this.entity.heat) + " "+ StatCollector.translateToLocal("gui.heat");
         this.fontRendererObj.drawString(heat, 67, 38, (this.entity.complete == 1 ? -1 : 15597568));
         
         String efficiency = (this.entity.efficiency + "% " + StatCollector.translateToLocal("gui.efficiency"))+"";

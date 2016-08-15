@@ -151,8 +151,8 @@ public class ContainerFusionReactorSteam extends Container {
             icrafting.sendProgressBarUpdate(this, 55, this.entity.complete);
             icrafting.sendProgressBarUpdate(this, 56, this.entity.complete >> 16);
             
-            icrafting.sendProgressBarUpdate(this, 57, this.entity.fluid);
-            icrafting.sendProgressBarUpdate(this, 58, this.entity.fluid >> 16);
+            icrafting.sendProgressBarUpdate(this, 57, this.entity.tank.getFluidAmount());
+            icrafting.sendProgressBarUpdate(this, 58, this.entity.tank.getFluidAmount() >> 16);
             
             icrafting.sendProgressBarUpdate(this, 59, (int) this.entity.steam);
             icrafting.sendProgressBarUpdate(this, 60, (int) this.entity.steam >> 16);
