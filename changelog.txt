@@ -1,8 +1,14 @@
+v1.9c
+
+* Fixed Steam Fusion Reactor GUI to make clear what type of steam is being produced
+* Fixed a few recipes and textures
++ Added general explosion radius config option
+
 v1.9b
 
 + Added config option to modify the work rates of Steam Generators and Decompressors
 
-* Vaslty improved mechanism to deal with non-vanilla air blocks in Fusion Reactor rings
+* Vastly improved mechanism to deal with non-vanilla air blocks in Fusion Reactor rings
 
 * Fixed machines acting weirdly when speed and efficiency configs were modified
 * Fixed Steam Fusion Reactor showing the wrong quantities in its GUI
@@ -23,7 +29,7 @@ v1.9a
 v1.9
 
 + Added Neptunium, Americium, Curium and Californium
-+ Added 21 new fission fuels - TBU-Oxide and 10 non-oxisided and 10 oxidised made from the new materials
++ Added 21 new fission fuels - TBU-Oxide and 10 non-oxidised and 10 oxidised made from the new materials
 
 + The fission reactor will now use up fuel cells more intelligently:
 + If the depleted fuel just produced matches the fuel about to be used, the reactor will use up the fuel and run
@@ -111,7 +117,7 @@ Turn off all Fission Reactors and delete old fission and fusion configs before u
 + Added Antimatter as a temporary product of Synchrotrons
 + Added Antimatter Bomb
 
-+ Added button the the Assembler to configure whether to try to keep the recipe intact or use all ingredients available
++ Added button the Assembler to configure whether to try to keep the recipe intact or use all ingredients available
 + Added config option for Fusion Reactors to asymptotically reach 100% efficiency
 
 * Edited some extra block drops, extra mob drops and dungeon loot
@@ -229,7 +235,7 @@ v1.7b
 
 v1.7a
 
-* Made attempts to reduce lag produced by Electromagnets, Sychrotrons and Fission Reactors
+* Made attempts to reduce lag produced by Electromagnets, Synchrotrons and Fission Reactors
 + Added sound effects to the Fusion Reactor and Synchrotron
 
 * Changed the effects of Fusion Plasma leaks
@@ -237,7 +243,7 @@ v1.7a
 v1.7
 
 * Fusion reactors no longer stack and instead require a ring of powered electromagnets
-* Check the YouTube video on Fusion more more details
+* Check the YouTube video on Fusion more details
 * Fixed bug where the energy required to start the reaction was far too high
 
 * Fission reactors no longer require a vertical line of cell compartments down the middle
@@ -278,7 +284,7 @@ v1.6d
 + Added Achievements
 
 + Thermal Expansion support
-* Speed and Energy Upgrades now increase the speed and energy efficiency of machines exponetially
+* Speed and Energy Upgrades now increase the speed and energy efficiency of machines exponentially
 + Many, many new configs
 * Changed Fusion Reactor Efficiency equation to one which varies more smoothly and adds more flexibility
 * Fusion Reactors can now overheat
@@ -392,8 +398,8 @@ v1.5
 + Added Uranium Oxide Ingots and Dust
 
 * All machines and generators can now import and export items on all sides
-* Imported items will be handled sensibly if certian items need to go to certain slots
-* The exceptions to this are upgrades which can not be imported or exported
+* Imported items will be handled sensibly if certain items need to go to certain slots
+* The exceptions to this are upgrades which cannot be imported or exported
 
 + Added Capsules to store Pu-238 for RTGs and Neutrons
 + Added Depleted Uranium Plating as an upgrade to Tough Alloy
@@ -459,7 +465,7 @@ v1.3
 * Hugely improved all machines' recipe systems
 * Tweaked the power production of the Fission Reactor
 * Fixed bugs in some machines' inventories
-* Hopefully fixed RTGs not ouptutting power sometimes
+* Hopefully fixed RTGs not outputting power sometimes
 * Fixed incorrect info on the fission fuels in NEI
 * Nuclear Monster doesn't run at warp 10 anymore
 
@@ -490,7 +496,7 @@ v1.1
 + Added Boron armour - between iron and diamond
 
 * Fixed Ore Dictionary not working
-* Fixed adjacent generators not ouputting power correctly
+* Fixed adjacent generators not outputting power correctly
 * Made Fission Reactors run faster (use more fuel but produce more power)
 * Fixed shift clicking in some machines
 * Made the paxel more durable
@@ -532,7 +538,7 @@ v0.9
 + Added Reactor Upgrade
 
 + Added config option to change the efficiency with the Reaction Generator
-+ Added config option to diable Nuclear Monsters spawning
++ Added config option to disable Nuclear Monsters spawning
 
 + Added decorative tubing blocks (looks nice around edges of fission reactors)
 
