@@ -150,7 +150,7 @@ public class TileFusionReactor extends TileGeneratorInventory implements IEnergy
 	    }
 	    if (flag != flag1) { flag1 = flag; BlockFusionReactor.updateBlockState(worldObj, xCoord, yCoord, zCoord); }
 	    if (this.worldObj.getBlock(xCoord, yCoord, zCoord) == NCBlocks.fusionReactor && (ppp(xCoord + 1, yCoord, zCoord) || ppp(xCoord - 1, yCoord, zCoord) || ppp(xCoord, yCoord + 1, zCoord) || ppp(xCoord, yCoord - 1, zCoord) || ppp(xCoord, yCoord, zCoord + 1) || ppp(xCoord, yCoord, zCoord - 1))) {
-			if (rand.nextFloat() > 0.99875) NCExplosion.createExplosion(new EntityBomb(worldObj).setType(BombType.BOMB_STANDARD), worldObj, (double)this.xCoord, (double)this.yCoord, (double)this.zCoord, NuclearCraft.fusionMeltdowns ? 12.5F : 0F, 20F, true);
+			if (rand.nextFloat() > 0.99875) NCExplosion.createExplosion(new EntityBomb(worldObj).setType(BombType.BOMB_STANDARD), worldObj, (double)this.xCoord, (double)this.yCoord, (double)this.zCoord, NuclearCraft.fusionMeltdowns ? 0.125F*NuclearCraft.explosionRadius : 0F, 40F, true);
 		}
 	    
 	    if (soundCount >= 67) {

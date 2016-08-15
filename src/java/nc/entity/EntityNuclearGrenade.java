@@ -1,5 +1,6 @@
 package nc.entity;
 
+import nc.NuclearCraft;
 import nc.handler.BombType;
 import nc.handler.EntityBomb;
 import nc.handler.NCExplosion;
@@ -44,13 +45,13 @@ public class EntityNuclearGrenade extends EntityThrowable {
 					break;
 			}
 			if (!this.worldObj.isRemote) {
-				this.explode(worldObj, this.posX, this.posY, this.posZ, 30F, BombType.BOMB_STANDARD);
+				this.explode(worldObj, this.posX, this.posY, this.posZ, 0.3F*NuclearCraft.explosionRadius, BombType.BOMB_STANDARD);
 				this.setDead();
 			}
 		}
 	}
 
 	private void explode(World world, double x, double y, double z, float radius, BombType type) {
-		NCExplosion.createExplosion(new EntityBomb(world).setType(type), world, (double)this.posX, (double)this.posY, (double)this.posZ, 30F, 1000F, true);
+		NCExplosion.createExplosion(new EntityBomb(world).setType(type), world, (double)this.posX, (double)this.posY, (double)this.posZ, radius, 0.5F*NuclearCraft.explosionRadius, true);
 	}
 }

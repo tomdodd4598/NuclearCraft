@@ -1,5 +1,6 @@
 package nc.entity;
 
+import nc.NuclearCraft;
 import nc.handler.BombType;
 import nc.handler.EntityBomb;
 import nc.handler.NCExplosion;
@@ -67,7 +68,7 @@ public class EntityNukePrimed extends Entity {
             this.setDead();
 
             if (!this.worldObj.isRemote) {
-                this.explode(worldObj, this.posX, this.posY, this.posZ, 60F, BombType.BOMB_STANDARD);
+                this.explode(worldObj, this.posX, this.posY, this.posZ, 0.6F*NuclearCraft.explosionRadius, BombType.BOMB_STANDARD);
             }
         }
         else {
@@ -92,7 +93,7 @@ public class EntityNukePrimed extends Entity {
     }
 	
 	private void explode(World world, double x, double y, double z, float radius, BombType type) {
-        NCExplosion.createExplosion(new EntityBomb(world).setType(type), world, (double)this.posX, (double)this.posY, (double)this.posZ, 60F, 1000F, true);
+        NCExplosion.createExplosion(new EntityBomb(world).setType(type), world, (double)this.posX, (double)this.posY, (double)this.posZ, radius, NuclearCraft.explosionRadius, true);
     }
 	
 	protected void writeEntityToNBT(NBTTagCompound nbt) {

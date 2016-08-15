@@ -12,22 +12,15 @@ public class BlockEMPExploding extends Block {
 	public BlockEMPExploding() {
 	super(Material.tnt);
 	}
-	
-	@SideOnly(Side.CLIENT)
-	private IIcon iconTop;
-	@SideOnly(Side.CLIENT)
-	private IIcon iconBottom;
 
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void registerBlockIcons(IIconRegister iconRegister) {
-	this.blockIcon = iconRegister.registerIcon("nc:nuke/" + "EMP" + "SideOn");
-	this.iconBottom = iconRegister.registerIcon("nc:nuke/" + "EMP" + "Bottom");
-	this.iconTop = iconRegister.registerIcon("nc:nuke/" + "EMP" + "Top");
+		this.blockIcon = iconRegister.registerIcon("nc:nuke/" + "EMP");
 	}
 
 	@SideOnly(Side.CLIENT)
-	 public IIcon getIcon(int side, int metadata) {
-		return side == 0 ? this.iconBottom : (side == 1 ? this.iconTop : this.blockIcon);
-	}
+    public IIcon getIcon(int int1, int int2) {
+        return this.blockIcon;
+    }
 }

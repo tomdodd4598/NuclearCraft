@@ -1,5 +1,6 @@
 package nc.entity;
 
+import nc.NuclearCraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
@@ -108,10 +109,10 @@ public class EntityAntimatterBombPrimed extends Entity {
 	private void explode(World world) {
         int x = (int) Math.floor(posX); int y = (int) Math.floor(posY); int z = (int) Math.floor(posZ);
         
-        for (int i = -80; i <= 80; i++) {
-    		for (int j = -80; j <= 80; j++) {
-    			for (int k = -80; k <= 80; k++) {
-    				if (i*i + j*j + k*k <= 6400 && world.getBlock(x + i, y + j, z + k) != Blocks.bedrock) {
+        for (int i = -((int)0.8D*NuclearCraft.explosionRadius); i <= ((int)0.8D*NuclearCraft.explosionRadius); i++) {
+    		for (int j = -((int)0.8D*NuclearCraft.explosionRadius); j <= ((int)0.8D*NuclearCraft.explosionRadius); j++) {
+    			for (int k = -((int)0.8D*NuclearCraft.explosionRadius); k <= ((int)0.8D*NuclearCraft.explosionRadius); k++) {
+    				if (i*i + j*j + k*k <= ((int)0.8D*NuclearCraft.explosionRadius)*((int)0.8D*NuclearCraft.explosionRadius) && world.getBlock(x + i, y + j, z + k) != Blocks.bedrock) {
     					world.setBlockToAir(x + i, y + j, z + k);
     				}
     			}

@@ -46,7 +46,10 @@ public class TileDenseSteamDecompressor extends TileEntity implements IFluidHand
 	
 	public void steam() {
 		if (tank.getFluidAmount() != 0) {
-			if (tank.getFluid().getFluid() == NuclearCraft.superdenseSteam || tank.getFluid().getFluid() == FluidRegistry.getFluid("superdenseSteam")) {
+			if (tank.getFluid().getFluid() != NuclearCraft.superdenseSteam && tank.getFluid().getFluid() != FluidRegistry.getFluid("superdenseSteam")) {
+				tank.drain(NuclearCraft.steamDecompressRate, true);
+			}
+			else if (tank.getFluid().getFluid() == NuclearCraft.superdenseSteam || tank.getFluid().getFluid() == FluidRegistry.getFluid("superdenseSteam")) {
 				for (int i = 0; i < NuclearCraft.steamDecompressRate; i++) {
 					if (tank2.getFluidAmount() <= tank2.getCapacity() - 1000 && tank.getFluidAmount() != 0) {
 						tank2.fill(new FluidStack(NuclearCraft.denseSteam, 1000), true);

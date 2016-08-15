@@ -74,7 +74,7 @@ public class RecyclerRecipeHandler extends TemplateRecipeHandler {
 	}
 
 	public String getRecipeName() {
-		return "Recycler";
+		return "Reprocessing Plant";
 	}
 
 	public void loadCraftingRecipes(String outputId, Object... results) {

@@ -1,4 +1,3 @@
-As of Version 1.9b.
 The Power Variables are used to determine the amount of RF generated per tick:
 powerGen = efficiency*fusionRF*size*powerVariable/100,
 Where size is the Size of the Fusion Reactor, fusionRF is the Fusion Reactor's Power Generation config value, and efficiency is the Efficiency of the Reactor, calculated by the Efficiency Equation:

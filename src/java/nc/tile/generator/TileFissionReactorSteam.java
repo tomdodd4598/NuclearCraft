@@ -131,10 +131,10 @@ public class TileFissionReactorSteam extends TileSteamProducer {
     	if (heat >= 1000000) {
         	
     		if (NuclearCraft.nuclearMeltdowns) {
-    			if (getBlockMetadata() == 4) NCExplosion.createExplosion(new EntityBomb(worldObj).setType(BombType.BOMB_STANDARD), worldObj, xCoord+((x0 + x1)/2), yCoord+((y0 + y1)/2), zCoord+((z0 + z1)/2), lx + ly + lz, lx + ly + lz, true);
-            	else if (getBlockMetadata() == 2) NCExplosion.createExplosion(new EntityBomb(worldObj).setType(BombType.BOMB_STANDARD), worldObj, xCoord-((z0 + z1)/2), yCoord+((y0 + y1)/2), zCoord+((x0 + x1)/2), lx + ly + lz, lx + ly + lz, true);
-            	else if (getBlockMetadata() == 5) NCExplosion.createExplosion(new EntityBomb(worldObj).setType(BombType.BOMB_STANDARD), worldObj, xCoord-((x0 + x1)/2), yCoord+((y0 + y1)/2), zCoord-((z0 + z1)/2), lx + ly + lz, lx + ly + lz, true);
-            	else if (getBlockMetadata() == 3) NCExplosion.createExplosion(new EntityBomb(worldObj).setType(BombType.BOMB_STANDARD), worldObj, xCoord+((z0 + z1)/2), yCoord+((y0 + y1)/2), zCoord-((x0 + x1)/2), lx + ly + lz, lx + ly + lz, true);
+    			if (getBlockMetadata() == 4) NCExplosion.createExplosion(new EntityBomb(worldObj).setType(BombType.BOMB_STANDARD), worldObj, xCoord+((x0 + x1)/2), yCoord+((y0 + y1)/2), zCoord+((z0 + z1)/2), 0.01F*(lx + ly + lz)*NuclearCraft.explosionRadius, 0.01F*(lx + ly + lz)*NuclearCraft.explosionRadius, true);
+            	else if (getBlockMetadata() == 2) NCExplosion.createExplosion(new EntityBomb(worldObj).setType(BombType.BOMB_STANDARD), worldObj, xCoord-((z0 + z1)/2), yCoord+((y0 + y1)/2), zCoord+((x0 + x1)/2), 0.01F*(lx + ly + lz)*NuclearCraft.explosionRadius, 0.01F*(lx + ly + lz)*NuclearCraft.explosionRadius, true);
+            	else if (getBlockMetadata() == 5) NCExplosion.createExplosion(new EntityBomb(worldObj).setType(BombType.BOMB_STANDARD), worldObj, xCoord-((x0 + x1)/2), yCoord+((y0 + y1)/2), zCoord-((z0 + z1)/2), 0.01F*(lx + ly + lz)*NuclearCraft.explosionRadius, 0.01F*(lx + ly + lz)*NuclearCraft.explosionRadius, true);
+            	else if (getBlockMetadata() == 3) NCExplosion.createExplosion(new EntityBomb(worldObj).setType(BombType.BOMB_STANDARD), worldObj, xCoord+((z0 + z1)/2), yCoord+((y0 + y1)/2), zCoord-((x0 + x1)/2), 0.01F*(lx + ly + lz)*NuclearCraft.explosionRadius, 0.01F*(lx + ly + lz)*NuclearCraft.explosionRadius, true);
     			worldObj.setBlockToAir(xCoord, yCoord, zCoord);
     		} else heat = 1000000;
     	}

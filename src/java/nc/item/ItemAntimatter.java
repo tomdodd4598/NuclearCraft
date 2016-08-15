@@ -1,5 +1,6 @@
 package nc.item;
 
+import nc.NuclearCraft;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
 
@@ -14,10 +15,10 @@ public class ItemAntimatter extends ItemNC {
 			if (entityItem.onGround) {
 				int x = (int) Math.floor(entityItem.posX); int y = (int) Math.floor(entityItem.posY); int z = (int) Math.floor(entityItem.posZ);
 		        
-		        for (int i = -20; i <= 20; i++) {
-		    		for (int j = -20; j <= 20; j++) {
-		    			for (int k = -20; k <= 20; k++) {
-		    				if (i*i + j*j + k*k <= 400 && entityItem.worldObj.getBlock(x + i, y + j, z + k) != Blocks.bedrock) {
+		        for (int i = -((int)0.2D*NuclearCraft.explosionRadius); i <= ((int)0.2D*NuclearCraft.explosionRadius); i++) {
+		    		for (int j = -((int)0.2D*NuclearCraft.explosionRadius); j <= ((int)0.2D*NuclearCraft.explosionRadius); j++) {
+		    			for (int k = -((int)0.2D*NuclearCraft.explosionRadius); k <= ((int)0.2D*NuclearCraft.explosionRadius); k++) {
+		    				if (i*i + j*j + k*k <= ((int)0.2D*NuclearCraft.explosionRadius)*((int)0.2D*NuclearCraft.explosionRadius) && entityItem.worldObj.getBlock(x + i, y + j, z + k) != Blocks.bedrock) {
 		    					entityItem.worldObj.setBlockToAir(x + i, y + j, z + k);
 		    				}
 		    			}

@@ -75,7 +75,7 @@ public class GuiFusionReactorSteam extends GuiContainer
         this.fontRendererObj.drawString((this.entity.complete == 1 ? name1 : name2), 11, 10, (this.entity.complete == 1 ? -1 : 15597568));
         String radius = StatCollector.translateToLocal("gui.ringRadius") + ": " + entity.size;
         this.fontRendererObj.drawString(radius, 11, 20, (this.entity.complete == 1 ? -1 : 15597568));
-        String power = StatCollector.translateToLocal("gui.steamStored") + ": " + this.entity.fluid + " mB" + (this.entity.S < 2000 ? "" : (this.entity.S < 400000 ? " (" + StatCollector.translateToLocal("gui.dense") + ")" : " (" + StatCollector.translateToLocal("gui.superdense") + ")"));
+        String power = StatCollector.translateToLocal("gui.steamStored") + ": " + this.entity.fluid + " mB" + (this.entity.SShown < 2000 ? "" : (this.entity.SShown < 400000 ? " (" + StatCollector.translateToLocal("gui.dense") + ")" : " (" + StatCollector.translateToLocal("gui.superdense") + ")"));
         this.fontRendererObj.drawString(power, 11, 30, (this.entity.complete == 1 ? -1 : 15597568));
         String fuel1 = f1() + " " + StatCollector.translateToLocal("gui.level1") + ": " + Math.round(level1() / 64000) + "%";
         this.fontRendererObj.drawString(fuel1, 11, 40, (this.entity.complete == 1 ? -1 : 15597568));

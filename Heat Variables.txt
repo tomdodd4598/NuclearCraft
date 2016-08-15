@@ -1,4 +1,3 @@
-As of Version 1.9b.
 The Heat Variables are used in the Efficiency Equation:
 efficiency = 742*(e^(-t/h)+tanh(t/h)-1),
 where 't' is the current Reactor Temperature and 'h' is the fuel combo's Heat Variable.

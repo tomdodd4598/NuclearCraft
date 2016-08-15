@@ -29,7 +29,7 @@ public class RecyclerRecipes extends NCRecipeHelper {
 		recipe("dLEU235CellOxide", "tinyU238Oxide", 24, "tinyNp236Oxide", 4, "tinyNp237Oxide", 4, "tinyPu239Oxide", 8);
 		recipe("dHEU235CellOxide", "tinyU238Oxide", 16, "tinyNp237Oxide", 8, "tinyPu239Oxide", 8, "tinyPu242Oxide", 8);
 		recipe("dLEP239CellOxide", "tinyPu242Oxide", 24, "tinyPu241Oxide", 4, "tinyAm242Oxide", 4, "tinyAm243Oxide", 8);
-		recipe("dHEP239CellOxide", "tinyPu242Oxide", 16, "tinyPu241Base", 8, "tinyAm242Oxide", 8, "tinyAm243Oxide", 8);
+		recipe("dHEP239CellOxide", "tinyPu242Oxide", 16, "tinyPu241Oxide", 8, "tinyAm242Oxide", 8, "tinyAm243Oxide", 8);
 		recipe("dTBUCellOxide", "tinyU233Oxide", 24, "tinyU235Oxide", 4, "tinyNp236Oxide", 4, "tinyNp237Oxide", 8);
 		recipe("dLEU233CellOxide", "tinyU238Oxide", 24, "tinyU235Oxide", 4, "tinyNp236Oxide", 4, "tinyNp237Oxide", 8);
 		recipe("dHEU233CellOxide", "tinyU238Oxide", 16, "tinyNp236Oxide", 8, "tinyNp237Oxide", 8, "tinyPu239Oxide", 8);
