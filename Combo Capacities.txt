@@ -1,0 +1,44 @@
+The Combo Capacity of a fuel combination is the RF produced by one fuel cell of each fuel, containing 100000 fuel units each, in a size 1 fusion reactor at 100% efficiency:
+comboCapacity = 100000*fusionRF*powerVariable/fuelUsage
+Where 'fusionRF' is the fusion reactor's Power Generation config value and 'powerVariable' is the Power Variable of the fuel combination.
+The 'fuelUsage' is the number of fuel units used by the fusion reactor per tick:
+fuelUsage = 100*fuelVariable/fusionEfficiency,
+Where 'fuelVariable' is the fuel combo's Fuel Variable and 'fusionEfficiency' is the fusion reactor's Fuel Efficiency config value.
+The overall equation is therefore:
+comboCapacity = 1000*fusionRF*powerVariable*fusionEfficiency/fuelVariable
+The Power Variables and Fuel Variables are all configurable in the fusion config file.
+
+H-H: 32 MRF
+H-D: 40 MRF
+H-T: 20 MRF
+H-He: 20 MRF
+H-B: 320 MRF
+H-Li6: 120 MRF
+H-Li7: 240 MRF
+
+D-D: 140 MRF
+D-T: 100 MRF
+D-He: 256 MRF
+D-B: 80 MRF
+D-Li6: 240 MRF
+D-Li7: 40 MRF
+
+T-T: 120 MRF
+T-He: 160 MRF
+T-B: 40 MRF
+T-Li6: 100 MRF
+T-Li7: 100 MRF
+
+He-He: 240 MRF
+He-B: 40 MRF
+He-Li6: 200 MRF
+He-Li7: 120 MRF
+
+B-B: 80 MRF
+B-Li6: 40 MRF
+B-Li7: 40 MRF
+
+Li6-Li6: 40 MRF
+Li6-Li7: 40 MRF
+
+Li7-Li7: 40 MRF

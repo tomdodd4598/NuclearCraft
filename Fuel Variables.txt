@@ -1,7 +1,8 @@
-The Fuel Variables are used to determine the amount of Fuel used up per tick:
+The Fuel Variables are used to determine the 'fuelUsage', the number of fuel units used up per tick:
 fuelUsage = 100*size*fuelVariable/fusionEfficiency,
-Where size is the Size of the Fusion Reactor, fuelVariable is the fuel combo's Fuel Variable and fusionEfficiency is the Fusion Reactor's Fuel Efficiency config value
-All of the values below are changeable in the Fusion config file
+Where 'size' is the toroid size of the fusion reactor, 'fuelVariable' is the fuel combo's Fuel Variable and 'fusionEfficiency' is the fusion reactor's Fuel Efficiency config value.
+Each fuel cell contains 100000 units of fuel.
+All of the values below are configurable in the fusion config file.
 
 H-H: 100
 H-D: 60

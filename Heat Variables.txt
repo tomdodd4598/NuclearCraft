@@ -1,7 +1,9 @@
-The Heat Variables are used in the Efficiency Equation:
-efficiency = 742*(e^(-t/h)+tanh(t/h)-1),
-where 't' is the current Reactor Temperature and 'h' is the fuel combo's Heat Variable.
-All of the values below are changeable in the Fusion config file
+The Heat Variables are used in the efficiency equation:
+efficiency = 742*(e^(-t/h) + tanh(t/h) - 1),
+where 't' is the current temperature of the fusion reactor and 'h' is the fuel combo's Heat Variable.
+To find the temperature at which the efficiency is maximised, solve the following equation:
+sech^2(t/h) = e^(-t/h).
+All of the values below are configurable in the Fusion config file.
 
 H-H: 2140
 H-D: 1380

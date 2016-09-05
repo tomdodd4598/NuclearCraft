@@ -1,9 +1,9 @@
 The Power Variables are used to determine the amount of RF generated per tick:
 powerGen = efficiency*fusionRF*size*powerVariable/100,
-Where size is the Size of the Fusion Reactor, fusionRF is the Fusion Reactor's Power Generation config value, and efficiency is the Efficiency of the Reactor, calculated by the Efficiency Equation:
-efficiency = 742*(e^(-t/h)+tanh(t/h)-1),
-where 't' is the current Reactor Temperature and 'h' is the fuel combo's Heat Variable.
-All of the values below are changeable in the Fusion config file
+Where 'size' is the toroid size of the fusion reactor, 'fusionRF' is the fusion reactor's Power Generation config value, and 'efficiency' is the efficiency of the fusion reactor, calculated by the efficiency equation:
+efficiency = 742*(e^(-t/h) + tanh(t/h) - 1),
+where 't' is the current temperature of the fusion reactor and 'h' is the fuel combo's Heat Variable.
+All of the values below are changeable in the Fusion config file.
 
 H-H: 320
 H-D: 240
