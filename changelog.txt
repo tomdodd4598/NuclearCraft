@@ -1,0 +1,711 @@
+v1.9e
+
++ Added non-Thermal Expansion recipes for advanced coolers in case TE is not installed
++ There is also a config option to force these new recipes to replace the TE ones
+
++ New Brazilian Portuguese translation thanks to welcler castro!
+
+* Small recipe changes
+* Fixed categorisation of sound effects
+* Fixed Plutonium Ore creative mode seletion
+
+v1.9d
+
+* Changed Fission mechanics a bit to prevent certain exploits
+* Graphite now must be adjacent to a Fuel Cell Compartment to generate additional power
+* Fuel Cell Compartments can now be separated by a single Graphite block and still be counted as 'adjacent'
+* Improved usefulness of Coolant Reactor Coolers
+* Water no longer has any effect
+
+* Fixed Steam Fusion Reactor GUI... again
+* Fixed Antimatter and EMP explosions
+* Small changes to rare mob drops
+* Updated German language file - thanks to HbmMods
+
+v1.9c
+
+* Fixed Steam Fusion Reactor GUI to make clear what type of steam is being produced
+* Fixed a few recipes and textures
++ Added general explosion radius config option
+
+v1.9b
+
++ Added config option to modify the work rates of Steam Generators and Decompressors
+
+* Vastly improved mechanism to deal with non-vanilla air blocks in Fusion Reactor rings
+
+* Fixed machines acting weirdly when speed and efficiency configs were modified
+* Fixed Steam Fusion Reactor showing the wrong quantities in its GUI
+* Fixed Americium and Californium RTGs dropping the wrong type of RTG when broken
+* Fixed Assembler recipe conflict between Reactor Casing and Reinforced Plating
+* Modified Reaction Generator's GUI texture to avoid confusion regarding the fuel it uses
+* Fixed active blocks giving wrong blocks when picked in creative mode
+* Updated language files - thanks again to Cannon_fotter
+
+v1.9a
+
+* Fixed Fusion Reactor Core struggling to find its structure with RailCraft installed (or other mods which add custom air blocks)
+
+- Removed Electrolyser Water Cell recipe
+* Changed RTG textures
+* Name changes and typo fixes
+
+v1.9
+
++ Added Neptunium, Americium, Curium and Californium
++ Added 21 new fission fuels - TBU-Oxide and 10 non-oxidised and 10 oxidised made from the new materials
+
++ The fission reactor will now use up fuel cells more intelligently:
++ If the depleted fuel just produced matches the fuel about to be used, the reactor will use up the fuel and run
+
++ Added Fuel Recycler
+* All depleted fuel recycle recipes have moved from the Isotope Separator to this machine
+
++ Added Americium-241 and Californium-250 RTGs
+
++ Added Voltaic Pile and Lithium Ion Battery RF storage blocks
+
++ Added Steam Fusion Reactor
++ Produces Steam/Dense Steam/Superdense steam depending on the reactor's size
+
++ Added many new Isotope Separator, Decay Hastener and Fission recipes
++ Added EMP bomb (not currently craftable)
+* Reaction Generator now only accepts basic Uranium and Thorium as fuel
+- Removed annoying message that appeared when placing generators
+- Removed many unnecessary IC2 recipes
+* Other minor changes to code, recipes and textures
+
+* Updated Java and APIs
+
+v1.8b
+
+* Electrolyser now requires an input of water to operate - empty fluid cells can now be used
+* Solar panels now generate small amounts of power during dawn, dusk and the night
++ Added config options for the heat and efficiency levels at which full Comparator signals are emitted for the Fission and Fusion Reactor, respectively
+
+* Fixed crash bug related to steam decompressors
+* Fixed graphite block crushing to coal dust rather than graphite dust
+* Minor changes to the fuel usage of non-RF machines
+* Minor changes to the spin-1/2 block
+* Fixed some errors in tooltip info
+* Hopefully fixed bug where mobs would drop rare loot even when mob drops was disabled
+* Minor texture changes
+* Many internal changes
+
+v1.8a
+
++ Added info tooltips to all machines
+
+* Fixed Steam Fission Reactors producing four times as much steam as they should have been
+* Fixed Fission Controllers not checking for other Controllers correctly
+
+* Fixed Domino's crash
+* Fixed missing textures for some items
+
++ Added Lithium Ion Battery crafting recipes
+
+* Fixed conflicting Assembler recipes
+* Fixed nuclear weapons being craftable in the Assembler regardless of the config option
+
++ Added Manganese dust oxidising recipe
+
+* Nerfed the RTG a little
+* Nuclear Monsters now spawn in the Nether
+* Tweaked some tool and armour stats
+* Tweaked ore generation
+
+* Improved the Antimatter Bomb texture
+* Made description of nuclear weapons config option more clear
+
+v1.8
+
+Turn off all Fission Reactors and delete old fission and fusion configs before updating to this version!
+
++ Added info tooltips to most items and blocks
++ Simply hold Shift while over an item or block from the mod
+
++ Added portable Lithium Ion Batteries
++ Added Rhodochrosite (drops from Redstone Ore) and many more ingredients used to construct Lithium Ion Batteries
+
++ The power of Fission Reactors is no longer explicitly dependant on the size of the reactor
++ Because of this, all fission fuels are four times as powerful
+
++ Added Steam Fission Reactors
++ Temporary mechanics - produces Steam/Dense Steam/Superdense Steam instead of RF
++ Produces roughly 50% more power than a standard RF-producing Fission Reactor
+
++ Added Dense Steam and Superdense Steam
++ Added Steam Generator
++ Added Steam and Dense Steam Decompressors
+
++ Added Antimatter as a temporary product of Synchrotrons
++ Added Antimatter Bomb
+
++ Added button the Assembler to configure whether to try to keep the recipe intact or use all ingredients available
++ Added config option for Fusion Reactors to asymptotically reach 100% efficiency
+
+* Edited some extra block drops, extra mob drops and dungeon loot
+* Changed some ore generation rates as they were too low
+* Changed some internal workings of the Fusion Reactor
+* Tweaks to achievements
+* Quietened down Fusion Reactor and Synchrotron sound effects
+* Slightly nerfed Reaction Generator, again
+
+* Fixed non-RF machine fuel lifetimes
+* Yellorium is no longer processed into Uranium
+* Exception is the Separator, where Yellorium is processed less efficiently
+* Fixed crashes related to searching for non-existing fluids
+
++ Added Matrix and Complex classes to prepare for quantum mechanics
+
+* Other minor bug fixes
+* Minor file rearranging
+- Removed unused items
+
+v1.7h
+
+* Fixed major issues with Fission Reactor structure searching
+* Fixed incorrect fission NEI info
+
++ Added config file for tool properties
+
++ Added configurable alternate Reactor Casing texture
+* Recipe and texture tweaks
+
+v1.7g
+
+* Mekanism gases can now be used in the Fusion Reactor - just pipe them in
+* Changed some internal workings of the Fusion Reactor - it's possible that your input slots will become clogged up, so simply swap the stacks if this is the case
+* The fusion reactor will now recognise a redstone signal going into anywhere at its base
+
+* The base power and fuel consumption of all fission fuels has been halved
+* Fixed bug with meltdowns
+* Fixed bug where the heat level was not playing a part in the reactor efficiency
+* Increased the controller's reaction speed to redstone signals, but still be careful with pulse reactors (don't try anything much over 100 kH/t)
+
+* The Heavy Duty Workspace can now hold items in its crafting grid
+
+* Fixed many issues related to machines and generators not connecting to certain RF cables or storage blocks correctly (EnderIO in particular)
+
+* Fixed a small bug with rare block drops
+* Made rare mob drops rarer
+* Nuclear Monsters are rarer
+
+v1.7f
+
++ Added Fusion Reactor NEI recipes
+* Doubled Fusion Reactors power production and fuel usage rate
+* It is highly recommended that you reset the Fusion config file
+* Improved Fusion Plasma's fire mechanics
+
++ Updated Fission and Fusion NEI info
+* Fission Reactor comparators will emit a full signal if the heat level is above 25%
+* Fixed Fission Reactor heat shown in GUI when large amounts of heat is generated
+
+* Fixed bug where Electric Furnaces would not run
+* Fixed occasional glitchy progress bars in machines
+* Fixed particle effects on some machines
++ Added a couple of new Manufactory recipes
+* Fixed some Assembler recipes
+* Minor texture changes
+
+- Removed Reactor Upgrade and Accelerator Upgrade
+- Removed Paulobrine
+
+v1.7e
+
+* Improved Fission Reactor overheat explosions
+* Improved the Fission Reactor multiblock search mechanism
+* Fixed small issue with Fusion Reactor RF generation
+
+v1.7d
+
+* Fixed major bug where overheating Fission Reactors would cause stupendous lag
+* Removed upgrade slot from Fission Reactor
+* Minor texture and GUI changes for Fission Reactor
+* Slightly tweaked Fusion RF generation
+* Other minor bug fixes
+
+v1.7c
+
+* Fission Reactors no longer require upgrades!
+* Fission reactors can now be a cuboid of any shape or size!
+* The Fission Controller can be anywhere on the exterior of the structure
+
++ Added the Assembler - a machine to autocraft Heavy Duty Workspace Recipes!
++ Will never totally empty its input slots, requires a stick in unused input slots
++ Check NEI for the recipes (require the same total resources as the 5x5 recipes)
++ Will still be available if the Workspace is disabled in the config
++ Comparable to the Auto-Workbench of BuildCraft
+
+- Removed the Lithium-7 Irradiator recipe
+* Fixed some recipe irregularity in other mods' machines
+
+* Fixed automation in non-RF machines
+
++ Added Steam fluid
++ Added Computer Plate and Mechanical Part
+* Fixed some machine particle effects
+* Fixed bug where Fusion Reactors occasionally rendered incorrectly
+* Fixed some GUI update bugs in generators
++ Added the Mekanism API (to be used in the future)
++ Added Paul's voice to Paul
+
+* Possible other things that I have forgotten
+
+v1.7b
+
+* Fixed bug with non-RF machines where automation was not possible
+
+v1.7a
+
+* Made attempts to reduce lag produced by Electromagnets, Synchrotrons and Fission Reactors
++ Added sound effects to the Fusion Reactor and Synchrotron
+
+* Changed the effects of Fusion Plasma leaks
+
+v1.7
+
+* Fusion reactors no longer stack and instead require a ring of powered electromagnets
+* Check the YouTube video on Fusion more details
+* Fixed bug where the energy required to start the reaction was far too high
+
+* Fission reactors no longer require a vertical line of cell compartments down the middle
+* The power and heat generated and the fuel used depends on the number of cell compartments and their positions
+* Adjacent cell compartments generate additional energy and heat
++ Added new cooler blocks which have better cooling rates depending on their positions in the reactor
+* Many changes to the base stats of all fuels and the energy and heat generation of graphite
+
+* Synchrotrons can now be built entirely, but do not yet have a use
+
++ Added Fusion Plasma which is contained within the Fusion Reactors' electromagnet rings
+
++ Added extra drops to certain ores
++ Added extra rare drops to monsters
++ Added anvil repair recipes to tools
+
+* Recipe tweaks
+* Other minor bug fixes
+* Minor changes to some machines
+
+* Possible other things that I have forgotten
+
+v1.6e
+
++ Highly requested feature: New config option to disable the Heavy Duty Workspace and enable vanilla crafting recipes
++ This change allows for recipes to be edited via MineTweaker and for all parts of the mod to be auto-craftable
++ When 'false', the Heavy Duty Workspace will become uncraftable, and all Heavy Duty Workspace recipes are disabled
++ This option is found at the top of the NCConfig file
+
+* Slight changes to tool durabilities
+* Minor changes to GUI textures
+* Prevented Liquid Helium Extractor from running if internal tank is too full 
+
+* Possible other things that I have forgotten
+
+v1.6d
+
++ Added Achievements
+
++ Thermal Expansion support
+* Speed and Energy Upgrades now increase the speed and energy efficiency of machines exponentially
++ Many, many new configs
+* Changed Fusion Reactor Efficiency equation to one which varies more smoothly and adds more flexibility
+* Fusion Reactors can now overheat
+
+* Fixed crash bug related to liquid helium having 0 viscosity
+* Fixed major crash when RTGs and Solar Panels were connected to Extra Utilities pipes
+
++ 3 Music Discs... 10 points to whoever knows which game the songs are from (good luck)!
++ Ricecake and Fish and a Ricecake
++ Fusion Electromagnets (currently have no use)
+
+* Re-organised configs (again... sorry! Delete or ignore the old config files) 
+* Recipe changes
+* Minor changes to RF generation from continuous generators
+* Minor changes to mob drops
+* Minor texture changes
+* Synchrotron Controllers can now determine whether it is connected to a complete Accelerator ring (still can't be used, however)
+* Made attempts to lower lag from certain blocks
+* More restructuring of the mod
+
+* Possible other things that I have forgotten
+
+v1.6c
+
++ Huge amounts of additional NEI info about blocks and items in the mod
+* Fixed crash bug related to liquid helium textures
++ Additional useful/requested recipes and additions to the Ore Dictionary
+* Cleaned up configs into one, neat file (delete or ignore the old config files)
+
++ Additional texture files, allowing for more flexibility in texture packs
+
+* A large amount of restructuring (organising) of the mod
+
+v1.6b
+
++ Liquid Helium Extractor
++ Liquid Helium transferable Fluid
++ Solar Panel
++ Particle Accelerator Electromagnets and Supercoolers
++ Magnesium and Magnesium Diboride
+
+* Fixed bug where Plutonium Ore generated in the Overworld in place of Uranium Ore
+
+* Updated Forge version to 10.13.4.1558
+* Updated all APIs
+* This should prevent strange crashes related to outdated APIs
+
+v1.6a
+
+* The Fusion Reactor comparator setup now keeps the efficiency at around 90%
+* The Fusion Reactor produces more power
+* Tweaks to heat generation in the Fusion Reactor
+
++ Comparators now read the Fission Reactor's heat level
+* Fixed some minor issues with coolant in the Fission Reactor
+* Background tweaks to heat in the Fission Reactor
+
++ New Manufactory recipes
+* Other machine recipe tweaks
++ NEI Info recipes
+
+
+v1.6
+
++ Added Neutron Irradiator
++ Added Manufactory
++ Added Supercooler
++ Added Ioniser
+* Many Machine recipe changes
+
+* Heavy Duty Workspace now has a 5*5 crafting grid
+* Many Heavy Duty Workspace recipe changes
++ Heavy Duty Workspace NEI Shift-click support
++ Heavy Duty Workspace Ore Dictionary support
+
+* Fission Reactor now gives warning about the heat that it will produce
+* Bigger Fission Reactors produce much more power
++ Fission Reactor Speed Blocks
++ Blast Resistant Blocks
+
++ Pistol and DU Bullets
++ Added Weak Radioisotope Thermoelectric Generator
++ Spin 1/2 Block (uncraftable for now)
++ More items and blocks for crafting
+
++ New configs
+* It is suggested that the config folder is deleted and reloaded (then recustomised)
+
+* Fusion Reactors' efficiency now read by comparators
+* Nerfed Reaction Generator
+* Fixed small issues with Fusion Reactor
++ Recipe info for Water Cells
++ More dungeon/village etc. loot
+* Minor texture changes
+
+* Possible other things that I have forgotten
+
+v1.5
+
+* Fusion Reactors now produce outputs
+* The products depend on the fuel combo being used
+* The products can be exported from any side of any block of the structure
+* Added sensible shift clicking mechanics to the Fusion Reactor
+* Shift clicked fuels will go to the slot which corresponds to the tank which contains that fuel or is empty
+* Added sensible automation mechanics as described below
+* Changed some Heat, Power and Fuel Usage Variables
+
++ Added Oxidiser
++ Added Oxide Fission Fuels
++ These fuels are more energy efficient and heat generating than their non-oxide counterparts
++ Added Uranium Oxide Ingots and Dust
+
+* All machines and generators can now import and export items on all sides
+* Imported items will be handled sensibly if certain items need to go to certain slots
+* The exceptions to this are upgrades which cannot be imported or exported
+
++ Added Capsules to store Pu-238 for RTGs and Neutrons
++ Added Depleted Uranium Plating as an upgrade to Tough Alloy
++ Added DU armour and tools, including a Spaxeloe
++ Added Boron tools - tier between iron and diamond
++ Added Advanced Plating
++ Added Small Lumps of Li-6 and B-10
+
+* Many Recipe changes
+* Increased ore generation rates
+* New Nuke sound effects
+* Lots of bug fixes related to the Fusion Reactor
+* Decreased durability of Tough Alloy armour and tools in response to the addition of DU Plating
+
+* Possible other things that I have forgotten
+
+v1.4
+
+* Major changes to the operation of the Fusion Reactor
+* The Fusion Reactor requires energy at first to heat up
+* Once at 8 MK, the Fusion Reactor can start to run
+* Different fuel combos have different fuel efficiencies at different heats
+* The Fusion Reactor can now be indefinitely tall
+* Fixed bug where Fusion Reactors were not saving their inventories
+* Watch the video coming out soon on the YouTube channel or the page being created on the wiki for in-depth info
+
++ Added Bronze Armour
++ Added Boiled Egg - why not
+
+* Fixed another issue with the fission fuel NEI info
+* Fixed Uranium not being crushable
+* Fixed crash when right-clicking RTG or Empty Fluid Cells in the air
+
+* Possible other things that I have forgotten
+
+v1.3b
+
+* Fixed 'true' super-spam in consoles
+
+* A few other minor bug fixes
+
+v1.3a
+
+* Fixed Lithium and Boron not spawning in the world
+
++ Added Chinese language file made by Cannon_fotter
+
+v1.3
+
++ Added Electrolyser
+
+* Fusion Reactors can now be 8 chunks tall
+* Items and power can be inserted/extracted from all blocks of the Fusion Reactor
+* Fusion Reactor is temporarily balanced while changes to its functionality are being made
+* Fusion gases are now produced in the Electrolyser
+
++ Added Nuclear Grenade
++ Added Portable Ender Chest
++ Added Tough Alloy Bow
++ Added Mekanism recipe and AE2 SpatialIO support
++ Added new Nuclear Monster sound effects
+
+* Hugely improved all machines' recipe systems
+* Tweaked the power production of the Fission Reactor
+* Fixed bugs in some machines' inventories
+* Hopefully fixed RTGs not outputting power sometimes
+* Fixed incorrect info on the fission fuels in NEI
+* Nuclear Monster doesn't run at warp 10 anymore
+
++ Added Liquid Helium block
+
+v1.2
+
++ Basic Fusion Reactor functionality
++ Temporary recipes for the fusion gases
+
+* The Fusion Reactor is still not finished, but can at least be used
+
+* Properly fixed Ore Dictionary not working
+* Fixed ores not working in the machines
+* Fixed Nuke rendering bug
+* Fixed Energy and Heat per tick not updating correctly
+* Inverted Fission Reactors' redstone behaviour
+* Gave the paxel the additional ability of a hoe
+* A few more recipe tweaks
+
+v1.1
+
++ Added Speed and Energy upgrades
++ Added Radioisotope Thermoelectric Generator
++ Added Nuke
++ Added IC2 recipe support
++ Added Helium Collector
++ Added Boron armour - between iron and diamond
+
+* Fixed Ore Dictionary not working
+* Fixed adjacent generators not outputting power correctly
+* Made Fission Reactors run faster (use more fuel but produce more power)
+* Fixed shift clicking in some machines
+* Made the paxel more durable
+* A few recipe tweaks
+
+- Removed all mod dependencies
+
+v1.0
+
+* Fixed many bugs related to lag caused by machines
+* Fixed some machines not updating properly
+* Fixed runaway Reaction Generator bug
+
+* More 32x textures
+
+* Paxel now breaks all blocks quickly
+
+* More tweaks to recipes
+
++ Began adding materials related to nuclear fusion
++ Added Fluid Cells and fusion gases
++ Added fusion products
++ Added Lithium
++ Added Boron
++ Added Fusion Reactor model - currently has no use
+
+v0.9a
+
++ Added new 32x textures
+* Bug fixes
+* A few tweaks to recipes and mechanics
+
+v0.9
+
+* Totally overhauled the way reactors work, to make them much more interesting and useful
+* Moved most items and blocks into groups, using metadata to conserve IDs
+
++ Added Plutonium Ore (found in the Nether)
++ Added Reactor Upgrade
+
++ Added config option to change the efficiency with the Reaction Generator
++ Added config option to disable Nuclear Monsters spawning
+
++ Added decorative tubing blocks (looks nice around edges of fission reactors)
+
+* Bug fixes and recipe tweaks
+* Cleaned up a lot of cumbersome code
+
+- Removed currently unused sound files
+
+v0.8b
+
+* Fixed bugs related to the config files not working
++ Added a link to an image to help with building the fission reactor when the fission controller is placed
+
++ Graphite is now useable as a burnable fuel
+
+* A few recipe tweaks
+
+v0.8a
+
+* Changed the mod's name to 'NuclearCraft'
+
+v0.8
+
++ Added Nuclear Workspace
+
++ Added Hostile Nuclear Monster
+
++ Added Tough Alloy Paxel
++ Added Tough Alloy Armor
+
+* Changed Fuel Cells and Depleted Fuel Cells to reflect the isotopes they were made from
++ Added NEI information for Nuclear Fuels
+
+* Fixed GUI bugs where the showed RF stored in some machines became negative
+* Fixed potential lag caused by machines and GUIs which weren't updating correctly
+
+* Many recipe changes and tweaks
+* Some name changes
+
++ Paul
+
+v0.7
+
++ Added Fission Reactor
+
++ Added Fission Controller
++ Added Reactor Casing
++ Added Fuel Cell Compartment
++ Added Graphite Block
++ Added Reactor Cooler
+
++ Added Depleted Fuel Cells
+
++ Added Advanced Neutron Reflector
+
+v0.6
+
++ Added Isotope Separator
++ Added Decay Hastener
+
++ Added Tough Alloy
++ Added Tough Alloy Tools
+
++ Added Uranium-233
++ Added Uranium-235
++ Added Uranium-238
++ Added Plutonium-238
++ Added Plutonium-239
++ Added Plutonium-241
++ Added Plutonium-242
++ Added Thorium-232
++ Added Thorium-234
+
++ Added Low Enriched Uranium (LEU) Fuel
++ Added High Enriched Uranium (HEU) Fuel
++ Added Low Enriched Plutonium (LEP) Fuel
++ Added High Enriched Plutonium (HEP) Fuel
++ Added Mixed Oxide (MOX) Fuel
++ Added Thorium Bred Uranium (TBU) Fuel
+
+- Removed generic Uranium Cell
+- Removed generic Thorium Cell
+
++ Added Fuel Cells
+
+* Multiple Texture and Recipe Tweaks
+
+* Split current config file into one for machines and one for ore generation
+
+v0.5
+
++ Added Reaction Generator
+
++ Added Universal Reactant
++ Added Reaction Vessel
+
+v0.4
+
++ Added RF Electric Furnace
++ Added RF Electric Crusher
+
++ Added Thorium
++ Added Thorium Cell
+
+v0.3b
+
+* Fixed major crash related to NEI looking for the crusher fuel usages
++ Added more Crusher recipes
+
+v0.3a
+
+* Fixed major crash when NEI was not installed
+
+v0.3
+
++ Added NEI recipe support for the current machines
+
+* Minor texture changes
+
+v0.2
+
++ Added Crusher
++ Added Metal Furnace
++ Added Silver
++ Added Iron Plating
+
++ Added crushed metals
+
++ Added new machine configs
++ Added ore generation config options
+
+v0.1
+
++ Added Uranium Cell
++ Added Simple Neutron Reflector
++ Added Nuclear Furnace
+
++ Added Uranium
++ Added Copper
++ Added Tin
++ Added Lead
++ Added Bronze
++ Added Bronze Tools
+
++ Added config file
++ Added "Nuclear Furnace Speed" to the config file

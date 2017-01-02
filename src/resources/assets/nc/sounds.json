@@ -1,0 +1,19 @@
+{
+"nuclearMonsterScream": {"category": "hostile", "sounds": ["nuclearMonsterScream"]},
+"nuclearMonsterHit": {"category": "hostile", "sounds": ["nuclearMonsterHit"]},
+"nuclearMonsterDeath": {"category": "hostile", "sounds": ["nuclearMonsterDeath"]},
+"paulTooFar": {"category": "neutral", "sounds": ["paulTooFar"]},
+"nukeAlarm": {"stream": "true", "category": "ambient", "sounds": ["nukeAlarm"]},
+
+"records.Area51": {"category": "record", "sounds": [{"name": "records/Area51", "stream": "true"}]},
+
+"records.Practice": {"category": "record", "sounds": [{"name": "records/Practice", "stream": "true"}]},
+
+"records.Neighborhood": {"category": "record", "sounds": [{"name": "records/Neighborhood", "stream": "true"}]},
+
+"shield1": {"category": "ambient", "sounds": ["shield1"]},
+"shield2": {"category": "ambient", "sounds": ["shield2"]},
+"shield3": {"category": "ambient", "sounds": ["shield3"]},
+"shield4": {"category": "ambient", "sounds": ["shield4"]},
+"shield5": {"category": "ambient", "sounds": ["shield5"]}
+}
