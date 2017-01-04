@@ -5,6 +5,7 @@ v1.9e
 
 + New Brazilian Portuguese translation thanks to welcler castro!
 
+* Fixed Fission Reactors showing incorrect cooling rates when many coolers are used
 * Small recipe changes
 * Fixed categorisation of sound effects
 * Fixed Plutonium Ore creative mode seletion

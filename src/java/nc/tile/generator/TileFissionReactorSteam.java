@@ -33,6 +33,7 @@ public class TileFissionReactorSteam extends TileSteamProducer {
     
     public int S;
     public int H;
+    public int MinusH;
     public int SReal;
     public int HReal;
     public int HCooling;
@@ -599,6 +600,7 @@ public class TileFissionReactorSteam extends TileSteamProducer {
 	        FReal = (int) fuelThisTick;
 	        
 	        H = (int) (heatThisTick + fakeHeatThisTick + coolerHeatThisTick);
+	        MinusH = -H;
 	        HReal = (int) (heatThisTick  + coolerHeatThisTick);
 	        HCooling = (int) coolerHeatThisTick;
 	        
@@ -787,6 +789,7 @@ public class TileFissionReactorSteam extends TileSteamProducer {
         
         S = nbt.getInteger("S");
         H = nbt.getInteger("H");
+        MinusH = nbt.getInteger("MinusH");
         off = nbt.getInteger("off");
         MBNumber = nbt.getInteger("MBN");
         heat = nbt.getInteger("Heat");
@@ -817,6 +820,7 @@ public class TileFissionReactorSteam extends TileSteamProducer {
         
         nbt.setInteger("S", S);
         nbt.setInteger("H", H);
+        nbt.setInteger("MinusH", MinusH);
         nbt.setInteger("off", off);
         nbt.setInteger("MBN", MBNumber);
         nbt.setInteger("Heat", heat);
