@@ -1,0 +1,12 @@
+{
+	"variants": {
+		"type=copper": {"model": "nuclearcraft:ore_copper"},
+		"type=tin": {"model": "nuclearcraft:ore_tin"},
+		"type=lead": {"model": "nuclearcraft:ore_lead"},
+		"type=thorium": {"model": "nuclearcraft:ore_thorium"},
+		"type=uranium": {"model": "nuclearcraft:ore_uranium"},
+		"type=boron": {"model": "nuclearcraft:ore_boron"},
+		"type=lithium": {"model": "nuclearcraft:ore_lithium"},
+		"type=magnesium": {"model": "nuclearcraft:ore_magnesium"}
+	}
+}

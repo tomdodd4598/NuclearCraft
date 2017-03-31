@@ -1,0 +1,6 @@
+{
+	"parent": "item/generated",
+	"textures": {
+		"layer0": "nuclearcraft:items/californium_250_tiny"
+	}
+}

@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "facing=north": { "model": "nuclearcraft:fuel_reprocessor_idle" },
+        "facing=south": { "model": "nuclearcraft:fuel_reprocessor_idle", "y": 180 },
+        "facing=west":  { "model": "nuclearcraft:fuel_reprocessor_idle", "y": 270 },
+        "facing=east":  { "model": "nuclearcraft:fuel_reprocessor_idle", "y": 90 }
+    }
+}

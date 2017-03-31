@@ -1,0 +1,12 @@
+{
+	"variants": {
+		"type=empty": {"model": "nuclearcraft:cooler_empty"},
+		"type=water": {"model": "nuclearcraft:cooler_water"},
+		"type=quartz": {"model": "nuclearcraft:cooler_quartz"},
+		"type=helium": {"model": "nuclearcraft:cooler_helium"},
+		"type=redstone": {"model": "nuclearcraft:cooler_redstone"},
+		"type=glowstone": {"model": "nuclearcraft:cooler_glowstone"},
+		"type=enderium": {"model": "nuclearcraft:cooler_enderium"},
+		"type=cryotheum": {"model": "nuclearcraft:cooler_cryotheum"}
+	}
+}

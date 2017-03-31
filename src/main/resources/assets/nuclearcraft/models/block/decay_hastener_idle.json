@@ -1,0 +1,8 @@
+{
+    "parent": "block/orientable",
+    "textures": {
+        "top": "nuclearcraft:blocks/decay_hastener_top",
+        "front": "nuclearcraft:blocks/decay_hastener_front_off",
+        "side": "nuclearcraft:blocks/decay_hastener_side"
+    }
+}

@@ -1,0 +1,6 @@
+{
+	"parent": "item/generated",
+	"textures": {
+		"layer0": "nuclearcraft:items/fuel_curium_hec_247_oxide"
+	}
+}

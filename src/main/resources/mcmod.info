@@ -1,0 +1,16 @@
+[
+{
+  "modid": "nuclearcraft",
+  "name": "NuclearCraft",
+  "description": "Nuclear Physics, Minecraft Style (WIP)",
+  "version": "2.0",
+  "mcversion": "1.11.2",
+  "url": "https://minecraft.curseforge.com/projects/nuclearcraft-mod",
+  "updateUrl": "",
+  "authorList": ["turbodiesel4598 (call me Tom)"],
+  "credits": "Thanks to all suggestors, bug reporters, language file makers and modders whose APIs I have used",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
