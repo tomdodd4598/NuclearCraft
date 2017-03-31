@@ -1,6 +1,6 @@
 NuclearCraft Mod
 ================
-Modern Physics Mod for Minecraft 1.7.10
+Modern Physics Mod for Minecraft 1.7.10 and above
 ---------------------------------------
 
 Summary
