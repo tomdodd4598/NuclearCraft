@@ -1,7 +1,7 @@
 package nc.tile.energy.generator;
 
 import nc.blocks.tile.energy.generator.BlockFissionController;
-import nc.crafting.processor.FissionRecipes;
+import nc.crafting.generator.FissionRecipes;
 import net.minecraft.block.Block;
 import net.minecraft.util.math.BlockPos;
 
@@ -26,7 +26,7 @@ public class TileFissionController extends TileEnergyGeneratorProcessor {
 	}
 	
 	public void setBlockState() {
-		BlockFissionController.setState(isGenerating, world, pos);
+		BlockFissionController.setState(isGenerating, worldObj, pos);
 	}
 	
 	// Generating
@@ -64,16 +64,16 @@ public class TileFissionController extends TileEnergyGeneratorProcessor {
 		int zCheck = getPos().getZ();
 		
 		if (getBlockMetadata() == 4) for (int i = 0; i < blocks.length; i++) {
-			if (world.getBlockState(new BlockPos(xCheck + x, yCheck, zCheck + z)) == blocks[i].getDefaultState()) return true;
+			if (worldObj.getBlockState(new BlockPos(xCheck + x, yCheck, zCheck + z)) == blocks[i].getDefaultState()) return true;
 		}
 		if (getBlockMetadata() == 2) for (int i = 0; i < blocks.length; i++) {
-			if (world.getBlockState(new BlockPos(xCheck - z, yCheck, zCheck + x)) == blocks[i].getDefaultState()) return true;
+			if (worldObj.getBlockState(new BlockPos(xCheck - z, yCheck, zCheck + x)) == blocks[i].getDefaultState()) return true;
 		}
 		if (getBlockMetadata() == 5) for (int i = 0; i < blocks.length; i++) {
-			if (world.getBlockState(new BlockPos(xCheck - x, yCheck, zCheck - z)) == blocks[i].getDefaultState()) return true;
+			if (worldObj.getBlockState(new BlockPos(xCheck - x, yCheck, zCheck - z)) == blocks[i].getDefaultState()) return true;
 		}
 		if (getBlockMetadata() == 3) for (int i = 0; i < blocks.length; i++) {
-			if (world.getBlockState(new BlockPos(xCheck + z, yCheck, zCheck - x)) == blocks[i].getDefaultState()) return true;
+			if (worldObj.getBlockState(new BlockPos(xCheck + z, yCheck, zCheck - x)) == blocks[i].getDefaultState()) return true;
 		}
 		
 		return false;

@@ -48,7 +48,7 @@ public abstract class TileEnergyGeneratorProcessor extends TileEnergySidedInvent
 		boolean flag = isGenerating;
 		boolean flag1 = false;
 		super.update();
-		if(!world.isRemote) {
+		if(!worldObj.isRemote) {
 			if (time == 0) {
 				consume();
 			}
@@ -81,23 +81,23 @@ public abstract class TileEnergyGeneratorProcessor extends TileEnergySidedInvent
 	
 	public void onAdded() {
 		super.onAdded();
-		if (!world.isRemote) isGenerating = isGenerating();
-		if (!world.isRemote) hasConsumed = hasConsumed();
+		if (!worldObj.isRemote) isGenerating = isGenerating();
+		if (!worldObj.isRemote) hasConsumed = hasConsumed();
 	}
 	
 	public boolean isGenerating() {
-		if (world.isRemote) return isGenerating;
+		if (worldObj.isRemote) return isGenerating;
 		return isPowered() && time > 0;
 	}
 	
 	public boolean isPowered() {
-		return world.isBlockPowered(pos);
+		return worldObj.isBlockPowered(pos);
 	}
 	
 	public boolean hasConsumed() {
-		if (world.isRemote) return hasConsumed;
+		if (worldObj.isRemote) return hasConsumed;
 		for (int i = 0; i < inputSize; i++) {
-			if (inventoryStacks.get(i + inputSize + outputSize + otherSlotsSize) != ItemStack.EMPTY) {
+			if (inventoryStacks[i + inputSize + outputSize + otherSlotsSize] != null) {
 				return true;
 			}
 		}
@@ -120,7 +120,7 @@ public abstract class TileEnergyGeneratorProcessor extends TileEnergySidedInvent
 		
 	public boolean canProcess() {
 		for (int i = 0; i < inputSize; i++) {
-			if (inventoryStacks.get(i) == ItemStack.EMPTY && !hasConsumed) {
+			if (inventoryStacks[i] == null && !hasConsumed) {
 				return false;
 			}
 		}
@@ -132,13 +132,13 @@ public abstract class TileEnergyGeneratorProcessor extends TileEnergySidedInvent
 			return false;
 		}
 		for(int j = 0; j < outputSize; j++) {
-			if (output[j] == ItemStack.EMPTY) {
+			if (output[j] == null) {
 				return false;
 			} else {
-				if (inventoryStacks.get(j + inputSize) != ItemStack.EMPTY) {
-					if (!inventoryStacks.get(j + inputSize).isItemEqual(output[j])) {
+				if (inventoryStacks[j + inputSize] != null) {
+					if (!inventoryStacks[j + inputSize].isItemEqual(output[j])) {
 						return false;
-					} else if (inventoryStacks.get(j + inputSize).getCount() + output[j].getCount() > inventoryStacks.get(j + inputSize).getMaxStackSize()) {
+					} else if (inventoryStacks[j + inputSize].stackSize + output[j].stackSize > inventoryStacks[j + inputSize].getMaxStackSize()) {
 						return false;
 					}
 				}
@@ -150,22 +150,22 @@ public abstract class TileEnergyGeneratorProcessor extends TileEnergySidedInvent
 	public void consume() {
 		if (!hasConsumed) {
 			for (int i = 0; i < inputSize; i++) {
-				if (inventoryStacks.get(i + inputSize + outputSize + otherSlotsSize) != ItemStack.EMPTY) {
-					inventoryStacks.set(i + inputSize + outputSize + otherSlotsSize, ItemStack.EMPTY);
+				if (inventoryStacks[i + inputSize + outputSize + otherSlotsSize] != null) {
+					inventoryStacks[i + inputSize + outputSize + otherSlotsSize] = null;
 				}
 			}
 			ItemStack[] output = getOutput(inputs());
-			if (output[0] == ItemStack.EMPTY) return;
+			if (output[0] == null) return;
 			for (int i = 0; i < inputSize; i++) {
 				if (recipes != null) {
-					inventoryStacks.set(i + inputSize + outputSize + otherSlotsSize, new ItemStack(inventoryStacks.get(i).getItem(), recipes.getInputSize(i, output), inventoryStacks.get(i).getMetadata()));
-					inventoryStacks.get(i).setCount(inventoryStacks.get(i).getCount() - recipes.getInputSize(i, output));
+					inventoryStacks[i + inputSize + outputSize + otherSlotsSize] = new ItemStack(inventoryStacks[i].getItem(), recipes.getInputSize(i, output), inventoryStacks[i].getMetadata());
+					inventoryStacks[i].stackSize = inventoryStacks[i].stackSize - recipes.getInputSize(i, output);
 				} else {
-					inventoryStacks.set(i + inputSize + outputSize + otherSlotsSize, new ItemStack(inventoryStacks.get(i).getItem(), 1, inventoryStacks.get(i).getMetadata()));
-					inventoryStacks.get(i).setCount(inventoryStacks.get(i).getCount() - 1);
+					inventoryStacks[i + inputSize + outputSize + otherSlotsSize] = new ItemStack(inventoryStacks[i].getItem(), 1, inventoryStacks[i].getMetadata());
+					inventoryStacks[i].stackSize = inventoryStacks[i].stackSize - 1;
 				}
-				if (inventoryStacks.get(i).getCount() <= 0) {
-					inventoryStacks.set(i, ItemStack.EMPTY);
+				if (inventoryStacks[i].stackSize <= 0) {
+					inventoryStacks[i] = null;
 				}
 			}
 			hasConsumed = true;
@@ -176,12 +176,12 @@ public abstract class TileEnergyGeneratorProcessor extends TileEnergySidedInvent
 		if (hasConsumed) {
 			ItemStack[] output = getOutput(consumedInputs());
 			for (int j = 0; j < outputSize; j++) {
-				if (output[j] != ItemStack.EMPTY) {
-					if (inventoryStacks.get(j + inputSize) == ItemStack.EMPTY) {
+				if (output[j] != null) {
+					if (inventoryStacks[j + inputSize] == null) {
 						ItemStack outputStack = output[j].copy();
-						inventoryStacks.set(j + inputSize, outputStack);
-					} else if (inventoryStacks.get(j + inputSize).isItemEqual(output[j])) {
-						inventoryStacks.get(j + inputSize).setCount(inventoryStacks.get(j + inputSize).getCount() + output[j].getCount());
+						inventoryStacks[j + inputSize] = outputStack;
+					} else if (inventoryStacks[j + inputSize].isItemEqual(output[j])) {
+						inventoryStacks[j + inputSize].stackSize = inventoryStacks[j + inputSize].stackSize + output[j].stackSize;
 					}
 				}
 			}
@@ -192,9 +192,9 @@ public abstract class TileEnergyGeneratorProcessor extends TileEnergySidedInvent
 					inventoryStacks.get(i).setCount(inventoryStacks.get(i).getCount() - 1);
 				}
 				if (inventoryStacks.get(i).getCount() <= 0) {
-					inventoryStacks.set(i, ItemStack.EMPTY);
+					inventoryStacks.set(i, null);
 				}*/
-				inventoryStacks.set(i, ItemStack.EMPTY);
+				inventoryStacks[i] = null;
 			}
 			hasConsumed = false;
 		}
@@ -203,7 +203,7 @@ public abstract class TileEnergyGeneratorProcessor extends TileEnergySidedInvent
 	public ItemStack[] inputs() {
 		ItemStack[] input = new ItemStack[inputSize];
 		for (int i = 0; i < inputSize; i++) {
-			input[i] = inventoryStacks.get(i);
+			input[i] = inventoryStacks[i];
 		}
 		return input;
 	}
@@ -211,7 +211,7 @@ public abstract class TileEnergyGeneratorProcessor extends TileEnergySidedInvent
 	public ItemStack[] consumedInputs() {
 		ItemStack[] input = new ItemStack[inputSize];
 		for (int i = 0; i < inputSize; i++) {
-			input[i] = inventoryStacks.get(i + inputSize + outputSize + otherSlotsSize);
+			input[i] = inventoryStacks[i + inputSize + outputSize + otherSlotsSize];
 		}
 		return input;
 	}
@@ -223,7 +223,7 @@ public abstract class TileEnergyGeneratorProcessor extends TileEnergySidedInvent
 	// Inventory
 	
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {
-		if (stack == ItemStack.EMPTY) return false;
+		if (stack == null) return false;
 		else if (slot >= inputSize && slot < inputSize + outputSize) return false;
 		return true;
 	}

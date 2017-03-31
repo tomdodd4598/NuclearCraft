@@ -42,12 +42,12 @@ public class TileEnergy extends NCTile implements ITileEnergy, IEnergyReceiver, 
 	
 	public void onAdded() {
 		super.onAdded();
-		if (!world.isRemote && ModCheck.ic2Loaded()) MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this));
+		if (!worldObj.isRemote && ModCheck.ic2Loaded()) MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this));
 	}
 
 	public void invalidate() {
 		super.invalidate();
-		if (!world.isRemote && ModCheck.ic2Loaded()) MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
+		if (!worldObj.isRemote && ModCheck.ic2Loaded()) MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
 	}
 	
 	// Redstone Flux
@@ -146,7 +146,7 @@ public class TileEnergy extends NCTile implements ITileEnergy, IEnergyReceiver, 
 	public void pushEnergy() {
 		if (storage.getEnergyStored() <= 0 || !connection.canExtract()) return;
 		for (EnumFacing side : EnumFacing.VALUES) {
-			TileEntity tile = world.getTileEntity(getPos().offset(side));
+			TileEntity tile = worldObj.getTileEntity(getPos().offset(side));
 			//TileEntity thisTile = world.getTileEntity(getPos());
 			
 			if (tile instanceof IEnergyReceiver /*&& tile != thisTile*/) {

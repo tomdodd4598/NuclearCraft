@@ -78,11 +78,12 @@ public class ContainerNuclearFurnace extends Container {
 	}
 	
 	public boolean canInteractWith(EntityPlayer player) {
-		return tileFurnace.isUsableByPlayer(player);
+		return tileFurnace.isUseableByPlayer(player);
 	}
 
+	@SuppressWarnings("unused")
 	public ItemStack transferStackInSlot(EntityPlayer player, int index) {
-		ItemStack itemstack = ItemStack.EMPTY;
+		ItemStack itemstack = null;
 		Slot slot = (Slot)inventorySlots.get(index);
 		
 		if (slot != null && slot.getHasStack()) {
@@ -91,41 +92,41 @@ public class ContainerNuclearFurnace extends Container {
 			
 			if (index == 2) {
 				if (!mergeItemStack(itemstack1, 3, 39, false)) {
-					return ItemStack.EMPTY;
+					return null;
 				}
 				
 				slot.onSlotChange(itemstack1, itemstack);
 			} else if (index != 1 && index != 0) {
-				if (!FurnaceRecipes.instance().getSmeltingResult(itemstack1).isEmpty()) {
+				if (!(FurnaceRecipes.instance().getSmeltingResult(itemstack1) == null)) {
 					if (!mergeItemStack(itemstack1, 0, 1, false)) {
-						return ItemStack.EMPTY;
+						return null;
 					}
 				} else if (TileNuclearFurnace.isItemFuel(itemstack1)) {
 					if (!mergeItemStack(itemstack1, 1, 2, false)) {
-						return ItemStack.EMPTY;
+						return null;
 					}
 				} else if (index >= 3 && index < 30) {
 					if (!mergeItemStack(itemstack1, 30, 39, false)) {
-						return ItemStack.EMPTY;
+						return null;
 					}
 				} else if (index >= 30 && index < 39 && !mergeItemStack(itemstack1, 3, 30, false)) {
-					return ItemStack.EMPTY;
+					return null;
 				}
 			} else if (!mergeItemStack(itemstack1, 3, 39, false)) {
-				return ItemStack.EMPTY;
+				return null;
 			}
 			
-			if (itemstack1.isEmpty()) {
-				slot.putStack(ItemStack.EMPTY);
+			if (itemstack1 == null) {
+				slot.putStack(null);
 			} else {
 				slot.onSlotChanged();
 			}
 			
-			if (itemstack1.getCount() == itemstack.getCount()) {
-				return ItemStack.EMPTY;
+			if (itemstack1.stackSize == itemstack.stackSize) {
+				return null;
 			}
 			
-			slot.onTake(player, itemstack1);
+			slot.onPickupFromSlot(player, itemstack1);
 		}
 		
 		return itemstack;

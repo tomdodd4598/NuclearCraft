@@ -14,12 +14,12 @@ public abstract class TileEnergyGenerator extends TileEnergySidedInventory {
 	
 	public void onAdded() {
 		super.onAdded();
-		if (!world.isRemote) isGenerating = isGenerating();
+		if (!worldObj.isRemote) isGenerating = isGenerating();
 	}
 	
 	public void update() {
 		super.update();
-		if(!world.isRemote) {
+		if(!worldObj.isRemote) {
 			pushEnergy();
 		}
 	}

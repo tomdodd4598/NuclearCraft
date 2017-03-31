@@ -19,7 +19,7 @@ public class DropHandler {
 	public void addEntityDrop(LivingDropsEvent event) {
 		if (event.getEntity() instanceof EntityMob && rand.nextInt(100) < 1) {
 			ItemStack stack = new ItemStack(NCItems.dominos, 1);
-			event.getDrops().add(new EntityItem(event.getEntity().world, event.getEntity().posX, event.getEntity().posY, event.getEntity().posZ, stack));
+			event.getDrops().add(new EntityItem(event.getEntity().worldObj, event.getEntity().posX, event.getEntity().posY, event.getEntity().posZ, stack));
 		}
 	}
 	

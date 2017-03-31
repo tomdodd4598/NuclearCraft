@@ -1,5 +1,7 @@
 package nc.blocks.fission;
 
+import java.util.List;
+
 import nc.blocks.BlockMeta;
 import nc.blocks.items.IMetaBlockName;
 import nc.handlers.EnumHandler.CoolerTypes;
@@ -11,7 +13,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 
@@ -40,7 +41,7 @@ public class BlockCooler extends BlockMeta implements IMetaBlockName {
 		return this.getDefaultState().withProperty(TYPE, CoolerTypes.values()[meta]);
 	}
 	
-	public void getSubBlocks(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> list) {
+	public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list) {
 		for (int i = 0; i < CoolerTypes.values().length; i++) {
 			list.add(new ItemStack(itemIn, 1, i));
 		}

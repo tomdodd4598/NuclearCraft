@@ -19,7 +19,7 @@ public class TileEnergyProcessors {
 		}
 		
 		public void setBlockState() {
-			BlockManufactory.setState(isProcessing, world, pos);
+			BlockManufactory.setState(isProcessing, worldObj, pos);
 		}
 	}
 	
@@ -30,7 +30,7 @@ public class TileEnergyProcessors {
 		}
 		
 		public void setBlockState() {
-			BlockIsotopeSeparator.setState(isProcessing, world, pos);
+			BlockIsotopeSeparator.setState(isProcessing, worldObj, pos);
 		}
 	}
 	
@@ -41,7 +41,7 @@ public class TileEnergyProcessors {
 		}
 		
 		public void setBlockState() {
-			BlockDecayHastener.setState(isProcessing, world, pos);
+			BlockDecayHastener.setState(isProcessing, worldObj, pos);
 		}
 	}
 	
@@ -52,7 +52,7 @@ public class TileEnergyProcessors {
 		}
 		
 		public void setBlockState() {
-			BlockFuelReprocessor.setState(isProcessing, world, pos);
+			BlockFuelReprocessor.setState(isProcessing, worldObj, pos);
 		}
 	}
 	

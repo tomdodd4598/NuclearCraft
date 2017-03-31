@@ -126,7 +126,7 @@ public class BasicSink extends TileEntity implements IEnergySink, ITickable {
 		if (!addedToEnet &&
 				!parent.getWorld().isRemote &&
 				Info.isIc2Available()) {
-			world = parent.getWorld();
+			worldObj = parent.getWorld();
 			pos = parent.getPos();
 
 			MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this));

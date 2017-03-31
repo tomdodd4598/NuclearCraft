@@ -15,7 +15,7 @@ public abstract class TileEnergyGeneratorContinuous extends TileEnergy {
 	
 	public void update() {
 		super.update();
-		if(!world.isRemote) {
+		if(!worldObj.isRemote) {
 			storage.changeEnergyStored(getGenerated());
 			pushEnergy();
 		}

@@ -26,6 +26,6 @@ public class ContainerTile extends NCContainer {
 	}
 	
 	public boolean canInteractWith(EntityPlayer player) {
-		return tile.isUsableByPlayer(player);
+		return tile.isUseableByPlayer(player);
 	}
 }

@@ -12,7 +12,7 @@ public abstract class TileSolarPanel extends TileEnergyGeneratorContinuous {
 	}
 	
 	public int getGenerated() {
-		if (world.canBlockSeeSky(pos.offset(EnumFacing.UP))) return (int) (world.getSunBrightnessFactor(1.0F) * (float) maxPower);
+		if (worldObj.canBlockSeeSky(pos.offset(EnumFacing.UP))) return (int) (worldObj.getSunBrightnessFactor(1.0F) * (float) maxPower);
 		return 0;
 	}
 }

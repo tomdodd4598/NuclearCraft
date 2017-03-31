@@ -10,11 +10,11 @@ buildscript {
 	}
 }
 apply plugin: 'net.minecraftforge.gradle.forge'
-//Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
+//Only edit below this line, the above code adds and enables the nessasary things for Forge to be setup.
 
 
-version = "2.0--1.11.2"
-group = "nc"
+version = "2.0--1.10.2"
+group= "nc"
 archivesBaseName = "NuclearCraft"
 
 sourceCompatibility = targetCompatibility = "1.8"
@@ -23,30 +23,30 @@ compileJava {
 }
 
 minecraft {
-	version = "1.11.2-13.20.0.2255"
+	version = "1.10.2-12.18.3.2254"
 	runDir = "run"
 	
 	// the mappings can be changed at any time, and must be in the following format.
 	// snapshot_YYYYMMDD   snapshot are built nightly.
 	// stable_#			stables are built at the discretion of the MCP team.
-	// Use non-default mappings at your own risk. they may not always work.
+	// Use non-default mappings at your own risk. they may not allways work.
 	// simply re-run your setup task after changing the mappings to update your workspace.
-	mappings = "snapshot_20161220"
+	mappings = "snapshot_20161111"
 	// makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
 }
 
 dependencies {
 	// you may put jars on which you depend on in ./libs
 	// or you may define them like so..
-	// compile "some.group:artifact:version:classifier"
-	// compile "some.group:artifact:version"
+	//compile "some.group:artifact:version:classifier"
+	//compile "some.group:artifact:version"
 	  
 	// real examples
-	// compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'
+	//compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'
 	// adds buildcraft to the dev env
 	//compile 'com.googlecode.efficient-java-matrix-library:ejml:0.24' // adds ejml to the dev env
 
-	compile files('libs/Tesla-1.11-1.3.0.51.jar')
+	compile files('libs/Tesla-1.10.2-1.2.1.50.jar')
 
 	// the 'provided' configuration is for optional dependencies that exist at compile-time but might not at runtime.
 	//provided 'com.mod-buildcraft:buildcraft:6.0.8:dev'
@@ -72,10 +72,11 @@ processResources {
 	from(sourceSets.main.resources.srcDirs) {
 		include 'mcmod.info'
 				
-		// replace version and mcversion expand 'version':project.version, 'mcversion':project.minecraft.version
+		// replace version and mcversion
+		expand 'version':project.version, 'mcversion':project.minecraft.version
 	}
 		
-	// copy everything else except the mcmod.info
+	// copy everything else, thats not the mcmod.info
 	from(sourceSets.main.resources.srcDirs) {
 		exclude 'mcmod.info'
 	}

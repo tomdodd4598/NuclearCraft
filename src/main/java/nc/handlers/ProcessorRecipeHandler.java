@@ -2,12 +2,12 @@ package nc.handlers;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.NonNullList;
 import net.minecraftforge.fml.common.FMLLog;
 import net.minecraftforge.oredict.OreDictionary;
 
@@ -51,7 +51,7 @@ public abstract class ProcessorRecipeHandler {
 						return;
 					}
 				} else if (!(i - inputSize > outputSize)) {
-					NonNullList<ItemStack> ores = OreDictionary.getOres((String) objects[i]);
+					List<ItemStack> ores = OreDictionary.getOres((String) objects[i]);
 					if(ores.size()>0){
 					stack[i] = ores.get(0);
 					}else{
@@ -66,7 +66,7 @@ public abstract class ProcessorRecipeHandler {
 						return;
 					}
 				} else if (!(i - inputSize > outputSize)) {
-					NonNullList<ItemStack> ores = OreDictionary.getOres(((OreStack) objects[i]).oreString);
+					List<ItemStack> ores = OreDictionary.getOres(((OreStack) objects[i]).oreString);
 					if (ores.size() > 0) {
 						stack[i] = new ItemStack(ores.get(0).getItem(),((OreStack) objects[i]).stackSize, ores.get(0).getItemDamage());
 					} else {
@@ -75,7 +75,7 @@ public abstract class ProcessorRecipeHandler {
 				}
 			} else if (objects[i] instanceof ItemStack[]) {
 				for (int s = 0; s < ((ItemStack[]) objects[i]).length; i++) {
-					if (((ItemStack[]) objects[i])[s] == ItemStack.EMPTY) {
+					if (((ItemStack[]) objects[i])[s] == null) {
 						return;
 					}
 				}
@@ -144,15 +144,15 @@ public abstract class ProcessorRecipeHandler {
 		if (input.length != inputSize) {
 			ItemStack[] defaultStacks = new ItemStack[outputSize];
 			for (int i = 0; i < defaultStacks.length; i++) {
-				defaultStacks[i] = ItemStack.EMPTY;
+				defaultStacks[i] = null;
 			}
 			return defaultStacks;
 		}
 		for (int i = 0; i < input.length; i++) {
-			if (input[i] == ItemStack.EMPTY) {
+			if (input[i] == null) {
 				ItemStack[] defaultStacks = new ItemStack[outputSize];
 				for (int j = 0; j < defaultStacks.length; j++) {
-					defaultStacks[j] = ItemStack.EMPTY;
+					defaultStacks[j] = null;
 				}
 				return defaultStacks;
 			}
@@ -164,7 +164,7 @@ public abstract class ProcessorRecipeHandler {
 			if (!iterator.hasNext()) {
 				ItemStack[] defaultStacks = new ItemStack[outputSize];
 				for (int j = 0; j < defaultStacks.length; j++) {
-					defaultStacks[j] = ItemStack.EMPTY;
+					defaultStacks[j] = null;
 				}
 				return defaultStacks;
 			}
@@ -196,7 +196,7 @@ public abstract class ProcessorRecipeHandler {
 			return new Object[inputSize];
 		}
 		for (int i = 0; i < output.length; i++) {
-			if (output[i] == ItemStack.EMPTY) {
+			if (output[i] == null) {
 				return new Object[inputSize];
 			}
 		}
@@ -222,7 +222,7 @@ public abstract class ProcessorRecipeHandler {
 	 * @return validity
 	 */
 	public boolean validInput(ItemStack input) {
-		if (input == ItemStack.EMPTY) {
+		if (input == null) {
 			return false;
 		}
 		Iterator<?> iterator = recipeList.entrySet().iterator();
@@ -247,7 +247,7 @@ public abstract class ProcessorRecipeHandler {
 	 * @return validity
 	 */
 	public boolean validOutput(ItemStack output) {
-		if (output == ItemStack.EMPTY) {
+		if (output == null) {
 			return false;
 		}
 		Iterator<?> iterator = recipeList.entrySet().iterator();
@@ -268,14 +268,14 @@ public abstract class ProcessorRecipeHandler {
 	private ItemStack[] convertOutput(Object[] output) {
 		ItemStack[] defaultStacks = new ItemStack[output.length];
 		for (int j = 0; j < defaultStacks.length; j++) {
-			defaultStacks[j] = ItemStack.EMPTY;
+			defaultStacks[j] = null;
 		}
 		ItemStack[] stack = defaultStacks;
 		for (int i = 0; i < output.length; i++) {
 			if (output[i] instanceof ItemStack) {
 				stack[i] = (ItemStack) output[i];
 			} else if (output[i] instanceof OreStack) {
-				NonNullList<ItemStack> ore = OreDictionary.getOres(((OreStack) output[i]).oreString);
+				List<ItemStack> ore = OreDictionary.getOres(((OreStack) output[i]).oreString);
 				stack[i] = new ItemStack(ore.get(0).getItem(), ((OreStack) output[i]).stackSize, ore.get(0).getItemDamage());
 			}
 		}
@@ -286,9 +286,9 @@ public abstract class ProcessorRecipeHandler {
 		int[] sizes = new int[input.length];
 		for (int i = 0; i < input.length; i++) {
 			if (input[i] instanceof ItemStack) {
-				sizes[i] = ((ItemStack) input[i]).getCount();
+				sizes[i] = ((ItemStack) input[i]).stackSize;
 			} else if (input[i] instanceof ItemStack[]) {
-				sizes[i] = ((ItemStack[]) input[i])[0].getCount();
+				sizes[i] = ((ItemStack[]) input[i])[0].stackSize;
 			}
 		}
 		return sizes;
@@ -341,7 +341,7 @@ public abstract class ProcessorRecipeHandler {
 					}
 				} else if (key[i] instanceof ItemStack[]) {
 					for (int s = 0; s < ((ItemStack[]) key[i]).length; s++) {
-						if (((ItemStack[]) key[i])[s] != ItemStack.EMPTY
+						if (((ItemStack[]) key[i])[s] != null
 								&& ((ItemStack[]) key[i])[s] instanceof ItemStack) {
 							if (equalStack(stack, ((ItemStack[]) key[i])[s],
 									checkSize)) {
@@ -359,14 +359,14 @@ public abstract class ProcessorRecipeHandler {
 		//System.out.print(stack.stackSize >= stack.stackSize);
 		return stack.getItem() == key.getItem()
 				&& (stack.getItemDamage() == key.getItemDamage())
-				&& (!checkSize || key.getCount() <= stack.getCount());
+				&& (!checkSize || key.stackSize <= stack.stackSize);
 	}
 
 	private int findStackSize(ItemStack stack, Object[] key, int pos) {
 		if (key[pos] != null) {
 			if (key[pos] instanceof ItemStack) {
 				if (equalStack(stack, ((ItemStack) key[pos]), false)) {
-					return ((ItemStack) key[pos]).getCount();
+					return ((ItemStack) key[pos]).stackSize;
 				}
 			} else if (key[pos] instanceof ItemStack[]) {
 				return findStackSize(stack, (ItemStack[]) key[pos], pos);
@@ -384,7 +384,7 @@ public abstract class ProcessorRecipeHandler {
 			} else if (object[i] instanceof ItemStack[]) {
 				stack[i] = (ItemStack[])object[i];
 			}else if (object[i] instanceof OreStack) {
-				NonNullList<ItemStack> ore = OreDictionary.getOres(((OreStack) object[i]).oreString);
+				List<ItemStack> ore = OreDictionary.getOres(((OreStack) object[i]).oreString);
 				ItemStack[] ores = new ItemStack[ore.size()];
 				for (int o = 0; o < ore.size(); o++) {
 					ores[o] = new ItemStack(ore.get(o).getItem(),

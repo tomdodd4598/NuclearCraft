@@ -24,7 +24,7 @@ public class BlockBattery extends BlockInventory {
 		if (player != null) {
 			TileEntity tileentity = world.getTileEntity(pos);
 			if (tileentity instanceof TileBattery) {
-				if ((player.getHeldItemMainhand().isEmpty() || !player.isSneaking()) && world.isRemote) player.sendMessage(new TextComponentString("Energy Stored: " + ((TileBattery) tileentity).storage.getEnergyStored() + " / " + ((TileBattery) tileentity).storage.getMaxEnergyStored() + " RF"));
+				if ((player.getHeldItemMainhand() == null || !player.isSneaking()) && world.isRemote) player.addChatMessage(new TextComponentString("Energy Stored: " + ((TileBattery) tileentity).storage.getEnergyStored() + " / " + ((TileBattery) tileentity).storage.getMaxEnergyStored() + " RF"));
 			}
 		}
 		return true;
