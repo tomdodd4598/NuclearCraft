@@ -1,4 +1,4 @@
-package nc.crafting.processor;
+package nc.crafting.generator;
 
 import nc.handlers.ProcessorRecipeHandler;
 

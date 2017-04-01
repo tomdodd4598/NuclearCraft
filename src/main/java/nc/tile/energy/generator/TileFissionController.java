@@ -1,7 +1,7 @@
 package nc.tile.energy.generator;
 
 import nc.blocks.tile.energy.generator.BlockFissionController;
-import nc.crafting.processor.FissionRecipes;
+import nc.crafting.generator.FissionRecipes;
 import net.minecraft.block.Block;
 import net.minecraft.util.math.BlockPos;
 

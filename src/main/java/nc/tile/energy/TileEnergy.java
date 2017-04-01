@@ -8,6 +8,7 @@ import ic2.api.energy.tile.IEnergySink;
 import ic2.api.energy.tile.IEnergySource;
 import ic2.api.energy.tile.IEnergyTile;
 import nc.ModCheck;
+import nc.config.NCConfig;
 import nc.energy.EnumStorage.Connection;
 import nc.energy.Storage;
 import nc.tile.NCTile;
@@ -25,6 +26,7 @@ public class TileEnergy extends NCTile implements ITileEnergy, IEnergyReceiver, 
 
 	public Connection connection;
 	public final Storage storage;
+	public boolean isEnergyTileSet;
 	
 	public TileEnergy(int capacity, Connection connection) {
 		this(capacity, capacity, capacity, connection);
@@ -38,6 +40,14 @@ public class TileEnergy extends NCTile implements ITileEnergy, IEnergyReceiver, 
 		super();
 		storage = new Storage(capacity, maxReceive, maxExtract);
 		this.connection = connection;
+	}
+	
+	public void update() {
+		super.update();
+		if (!isEnergyTileSet && !world.isRemote && ModCheck.ic2Loaded()) {
+			MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this));
+			isEnergyTileSet = true;
+		}
 	}
 	
 	public void onAdded() {
@@ -99,29 +109,30 @@ public class TileEnergy extends NCTile implements ITileEnergy, IEnergyReceiver, 
 	}
 
 	public double getOfferedEnergy() {
-		return Math.min(Math.pow(2, 2*getSourceTier() + 3), storage.takePower(storage.maxExtract, true) / 4);
+		return Math.min(Math.pow(2, 2*getSourceTier() + 3), storage.takePower(storage.maxExtract, true) / NCConfig.generator_rf_per_eu);
 	}
 	
 	public double getDemandedEnergy() {
-		return Math.min(Math.pow(2, 2*getSinkTier() + 3), storage.givePower(storage.maxReceive, true) / 4);
+		return Math.min(Math.pow(2, 2*getSinkTier() + 3), storage.givePower(storage.maxReceive, true) / NCConfig.processor_rf_per_eu);
 	}
 	
+	/** The normal conversion is 4 RF to 1 EU, but for RF generators, this is OP, so the ratio is instead 16:1 */
 	public void drawEnergy(double amount) {
-		storage.takePower((long) (4*amount), false);
+		storage.takePower((long) (NCConfig.generator_rf_per_eu*amount), false);
 	}
 
 	public double injectEnergy(EnumFacing directionFrom, double amount, double voltage) {
-		int energyReceived = storage.receiveEnergy((int) (4*amount), true);
+		int energyReceived = storage.receiveEnergy((int) (NCConfig.processor_rf_per_eu*amount), true);
 		storage.givePower(energyReceived, false);
-		return amount - (energyReceived/4);
+		return amount - (energyReceived/NCConfig.processor_rf_per_eu);
 	}
 	
 	public int getSourceTier() {
-		return 2;
+		return 1;
 	}
 
 	public int getSinkTier() {
-		return 2;
+		return 3;
 	}
 	
 	// NBT

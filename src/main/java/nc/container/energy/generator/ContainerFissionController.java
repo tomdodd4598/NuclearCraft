@@ -1,6 +1,6 @@
 package nc.container.energy.generator;
 
-import nc.crafting.processor.FissionRecipes;
+import nc.crafting.generator.FissionRecipes;
 import nc.tile.energy.generator.TileFissionController;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IContainerListener;
