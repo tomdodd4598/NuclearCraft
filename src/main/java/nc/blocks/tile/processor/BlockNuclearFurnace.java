@@ -2,6 +2,8 @@ package nc.blocks.tile.processor;
 
 import java.util.Random;
 
+import javax.annotation.Nullable;
+
 import nc.Global;
 import nc.NuclearCraft;
 import nc.init.NCBlocks;
@@ -107,7 +109,7 @@ public class BlockNuclearFurnace extends BlockContainer implements ITileEntityPr
 		}
 	}
 	
-	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, @Nullable ItemStack heldItem, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if (world.isRemote) {
 			return true;
 		} else if (player != null) {

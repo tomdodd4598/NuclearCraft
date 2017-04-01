@@ -1,5 +1,7 @@
 package nc.tile.energy.processor;
 
+import ic2.api.energy.event.EnergyTileUnloadEvent;
+import nc.ModCheck;
 import nc.energy.EnumStorage.Connection;
 import nc.handlers.ProcessorRecipeHandler;
 import nc.init.NCItems;
@@ -7,6 +9,7 @@ import nc.tile.energy.TileEnergySidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.MathHelper;
+import net.minecraftforge.common.MinecraftForge;
 
 public abstract class TileEnergyProcessor extends TileEnergySidedInventory {
 	
@@ -80,6 +83,11 @@ public abstract class TileEnergyProcessor extends TileEnergySidedInventory {
 			if (flag != isProcessing) {
 				flag1 = true;
 				setBlockState();
+				//invalidate();
+				if (isEnergyTileSet && ModCheck.ic2Loaded()) {
+					MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
+					isEnergyTileSet = false;
+				}
 			}
 		} else {
 			isProcessing = canProcess() && !isPowered();

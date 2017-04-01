@@ -18,7 +18,7 @@ public class TileFissionController extends TileEnergyGeneratorProcessor {
 	public int cells;
 
 	public TileFissionController() {
-		super("fission_controller", 1, 1, 0, 960000, FissionRecipes.instance());
+		super("Fission Controller (WIP)", 1, 1, 0, 960000, FissionRecipes.instance());
 	}
 	
 	public void update() {

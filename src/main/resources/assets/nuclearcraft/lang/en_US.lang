@@ -55,8 +55,8 @@ tile.fuel_reprocessor_idle.name=Fuel Reprocessor
 tile.fuel_reprocessor_idle.des0=Extracts materials from depleted fuel
 tile.fuel_reprocessor_active.name=Fuel Reprocessor
 
-tile.fission_controller_idle.name=Fission Controller
-tile.fission_controller_active.name=Fission Controller
+tile.fission_controller_idle.name=Fission Controller (WIP)
+tile.fission_controller_active.name=Fission Controller (WIP)
 
 tile.rtg_uranium.name=Uranium RTG
 tile.rtg_plutonium.name=Plutonium RTG
@@ -457,15 +457,15 @@ gui.config.category.ores=Ore Configs
 gui.config.category.ores.tooltip=Configure ore generation
 
 gui.config.ores.ore_gen=Generate Ores
-gui.config.ores.ore_gen.comment=Will ores generate in the world? Order: copper, tin, lead, uranium, thorium, boron, lithium, magnesium
+gui.config.ores.ore_gen.comment=Will ores generate in the world? Order: copper, tin, lead, thorium, uranium, boron, lithium, magnesium
 gui.config.ores.ore_size=Chunk Sizes
-gui.config.ores.ore_size.comment=Numbers of ore blocks per ore chunk. Order: copper, tin, lead, uranium, thorium, boron, lithium, magnesium
+gui.config.ores.ore_size.comment=Numbers of ore blocks per ore chunk. Order: copper, tin, lead, thorium, uranium, boron, lithium, magnesium
 gui.config.ores.ore_rate=Spawn Rates
-gui.config.ores.ore_rate.comment=Rates at which ores generate. Order: copper, tin, lead, uranium, thorium, boron, lithium, magnesium
+gui.config.ores.ore_rate.comment=Rates at which ores generate. Order: copper, tin, lead, thorium, uranium, boron, lithium, magnesium
 gui.config.ores.ore_min_height=Minimum Gen Heights
-gui.config.ores.ore_min_height.comment=Minimum heights at which ores generate. Order: copper, tin, lead, uranium, thorium, boron, lithium, magnesium
+gui.config.ores.ore_min_height.comment=Minimum heights at which ores generate. Order: copper, tin, lead, thorium, uranium, boron, lithium, magnesium
 gui.config.ores.ore_max_height=Maximum Gen Heights
-gui.config.ores.ore_max_height.comment=Maximum heights at which ores generate. Order: copper, tin, lead, uranium, thorium, boron, lithium, magnesium
+gui.config.ores.ore_max_height.comment=Maximum heights at which ores generate. Order: copper, tin, lead, thorium, uranium, boron, lithium, magnesium
 
 gui.config.category.processors=Processor Configs
 gui.config.category.processors.tooltip=Configure processors
@@ -474,6 +474,8 @@ gui.config.processors.processor_time=Processing Times
 gui.config.processors.processor_time.comment=Base ticks per process. Order: Manufactory, Isotope Separator, Decay Hastener, Fuel Reprocessor
 gui.config.processors.processor_power=Processing Power Use
 gui.config.processors.processor_power.comment=Base RF/t use during processing. Order: Manufactory, Isotope Separator, Decay Hastener, Fuel Reprocessor
+gui.config.processors.processor_rf_per_eu=RF per EU Accepted
+gui.config.processors.processor_rf_per_eu.comment=The RF received per EU injected for processors
 
 gui.config.category.generators=Generator Configs
 gui.config.category.generators.tooltip=Configure generators
@@ -482,6 +484,8 @@ gui.config.generators.rtg_power=RTG Power Gen
 gui.config.generators.rtg_power.comment=RF/t generated. Order: Uranium, Plutonium, Americium, Californium
 gui.config.generators.solar_power=Solar Panel Power Gen
 gui.config.generators.solar_power.comment=RF/t generated. Order: Basic
+gui.config.generators.generator_rf_per_eu=EU per RF Generated
+gui.config.generators.generator_rf_per_eu.comment=The RF used per EU emitted for generators
 
 gui.config.category.fission=Fission Configs
 gui.config.category.fission.tooltip=Configure aspects of nuclear fission

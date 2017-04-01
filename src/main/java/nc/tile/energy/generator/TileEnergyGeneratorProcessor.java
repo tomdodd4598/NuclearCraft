@@ -1,10 +1,13 @@
 package nc.tile.energy.generator;
 
+import ic2.api.energy.event.EnergyTileUnloadEvent;
+import nc.ModCheck;
 import nc.energy.EnumStorage.Connection;
 import nc.handlers.ProcessorRecipeHandler;
 import nc.tile.energy.TileEnergySidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.common.MinecraftForge;
 
 public abstract class TileEnergyGeneratorProcessor extends TileEnergySidedInventory {
 
@@ -66,6 +69,11 @@ public abstract class TileEnergyGeneratorProcessor extends TileEnergySidedInvent
 			if (flag != isGenerating) {
 				flag1 = true;
 				setBlockState();
+				//invalidate();
+				if (isEnergyTileSet && ModCheck.ic2Loaded()) {
+					MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
+					isEnergyTileSet = false;
+				}
 			}
 			pushEnergy();
 		} else {

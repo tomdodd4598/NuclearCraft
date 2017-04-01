@@ -34,9 +34,11 @@ public class NCConfig {
 	
 	public static int[] processor_time;
 	public static int[] processor_power;
+	public static int processor_rf_per_eu;
 	
 	public static int[] rtg_power;
 	public static int[] solar_power;
+	public static int generator_rf_per_eu;
 	
 	public static double fission_power; // Default: 1
 	public static double fission_fuel_use; // Default: 1
@@ -134,11 +136,15 @@ public class NCConfig {
 		propertyProcessorTime.setLanguageKey("gui.config.processors.processor_time");
 		Property propertyProcessorPower = config.get(CATEGORY_PROCESSORS, "processor_power", new int[] {10, 10, 10, 20}, I18n.format("gui.config.processors.processor_power.comment"), 0, 16000, true, 4);
 		propertyProcessorPower.setLanguageKey("gui.config.processors.processor_power");
+		Property propertyProcessorRFPerEU = config.get(CATEGORY_PROCESSORS, "processor_rf_per_eu", 4, I18n.format("gui.config.processors.processor_rf_per_eu.comment"), 1, 255);
+		propertyProcessorRFPerEU.setLanguageKey("gui.config.processors.processor_rf_per_eu");
 		
 		Property propertyRTGPower = config.get(CATEGORY_GENERATORS, "rtg_power", new int[] {4, 100, 50, 400}, I18n.format("gui.config.generators.rtg_power.comment"), 1, Integer.MAX_VALUE, true, 4);
 		propertyRTGPower.setLanguageKey("gui.config.generators.rtg_power");
 		Property propertySolarPower = config.get(CATEGORY_GENERATORS, "solar_power", new int[] {5}, I18n.format("gui.config.generators.solar_power.comment"), 1, Integer.MAX_VALUE, true, 1);
 		propertySolarPower.setLanguageKey("gui.config.generators.solar_power");
+		Property propertyGeneratorRFPerEU = config.get(CATEGORY_GENERATORS, "generator_rf_per_eu", 16, I18n.format("gui.config.generators.generator_rf_per_eu.comment"), 1, 255);
+		propertyGeneratorRFPerEU.setLanguageKey("gui.config.generators.generator_rf_per_eu");
 		
 		Property propertyFissionPower = config.get(CATEGORY_FISSION, "fission_power", 1.0D, I18n.format("gui.config.fission.fission_power.comment"), 0.0D, 255.0D);
 		propertyFissionPower.setLanguageKey("gui.config.fission.fission_power");
@@ -243,11 +249,13 @@ public class NCConfig {
 		List<String> propertyOrderProcessors = new ArrayList<String>();
 		propertyOrderProcessors.add(propertyProcessorTime.getName());
 		propertyOrderProcessors.add(propertyProcessorPower.getName());
+		propertyOrderProcessors.add(propertyProcessorRFPerEU.getName());
 		config.setCategoryPropertyOrder(CATEGORY_PROCESSORS, propertyOrderProcessors);
 		
 		List<String> propertyOrderGenerators = new ArrayList<String>();
 		propertyOrderGenerators.add(propertyRTGPower.getName());
 		propertyOrderGenerators.add(propertySolarPower.getName());
+		propertyOrderGenerators.add(propertyGeneratorRFPerEU.getName());
 		config.setCategoryPropertyOrder(CATEGORY_GENERATORS, propertyOrderGenerators);
 		
 		List<String> propertyOrderFission = new ArrayList<String>();
@@ -316,9 +324,11 @@ public class NCConfig {
 			
 			processor_time = propertyProcessorTime.getIntList();
 			processor_power = propertyProcessorPower.getIntList();
+			processor_rf_per_eu = propertyProcessorRFPerEU.getInt();
 			
 			rtg_power = propertyRTGPower.getIntList();
 			solar_power = propertySolarPower.getIntList();
+			generator_rf_per_eu = propertyGeneratorRFPerEU.getInt();
 			
 			fission_power = propertyFissionPower.getDouble();
 			fission_fuel_use = propertyFissionFuelUse.getDouble();
@@ -381,9 +391,11 @@ public class NCConfig {
 		
 		propertyProcessorTime.set(processor_time);
 		propertyProcessorPower.set(processor_power);
+		propertyProcessorRFPerEU.set(processor_rf_per_eu);
 		
 		propertyRTGPower.set(rtg_power);
 		propertySolarPower.set(solar_power);
+		propertyGeneratorRFPerEU.set(generator_rf_per_eu);
 		
 		propertyFissionPower.set(fission_power);
 		propertyFissionFuelUse.set(fission_fuel_use);

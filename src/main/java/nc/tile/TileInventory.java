@@ -19,7 +19,7 @@ public class TileInventory extends NCTile implements IInventory {
 	
 	public TileInventory(String name, int size) {
 		super();
-		inventoryName = Global.MOD_ID + ".container." + name;
+		inventoryName = name;
 		inventoryStacks = new ItemStack[size];
 	}
 	
@@ -69,7 +69,7 @@ public class TileInventory extends NCTile implements IInventory {
 		boolean flag = !(stack == null) && stack.isItemEqual(itemstack) && ItemStack.areItemStackTagsEqual(stack, itemstack);
 		inventoryStacks[index] = stack;
 
-		if (stack.stackSize > getInventoryStackLimit()) {
+		if (stack != null && stack.stackSize > getInventoryStackLimit()) {
 			stack.stackSize = getInventoryStackLimit();
 		}
 
@@ -105,24 +105,6 @@ public class TileInventory extends NCTile implements IInventory {
 	public NBTTagCompound writeAll(NBTTagCompound nbt) {
 		super.writeAll(nbt);
 		
-		NBTTagList nbttaglist = nbt.getTagList("Items", 10);
-		
-		inventoryStacks = new ItemStack[getSizeInventory()];
-		
-		for (int i = 0; i < nbttaglist.tagCount(); ++i) {
-			NBTTagCompound nbttagcompound = nbttaglist.getCompoundTagAt(i);
-			int j = nbttagcompound.getByte("Slot");
-			
-			if (j >= 0 && j < inventoryStacks.length) {
-				inventoryStacks[j] = ItemStack.loadItemStackFromNBT(nbttagcompound);
-			}
-		}
-		return nbt;
-	}
-	
-	public void readAll(NBTTagCompound nbt) {
-		super.readAll(nbt);
-		
 		NBTTagList nbttaglist = new NBTTagList();
 		
 		for (int i = 0; i < inventoryStacks.length; ++i) {
@@ -135,6 +117,24 @@ public class TileInventory extends NCTile implements IInventory {
 		}
 		
 		nbt.setTag("Items", nbttaglist);
+		return nbt;
+	}
+	
+	public void readAll(NBTTagCompound nbt) {
+		super.readAll(nbt);
+		
+		NBTTagList nbttaglist = nbt.getTagList("Items", 10);
+		
+		inventoryStacks = new ItemStack[getSizeInventory()];
+		
+		for (int i = 0; i < nbttaglist.tagCount(); ++i) {
+			NBTTagCompound nbttagcompound = nbttaglist.getCompoundTagAt(i);
+			int j = nbttagcompound.getByte("Slot");
+			
+			if (j >= 0 && j < inventoryStacks.length) {
+				inventoryStacks[j] = ItemStack.loadItemStackFromNBT(nbttagcompound);
+			}
+		}
 	}
 	
 	// Inventory Fields
