@@ -1,0 +1,47 @@
+v2.1a
+
+* Fixed configs crashing game when internal changes were made
+* Improved fission tooltip info
+* Modified Fission Controller GUI
++ Added Russian localisation - thank you FedorAronov!
+* Added config option to enable rare mob drops
+* Minor recipe changes
+
+v2.1
+
++ Fission Reactors can now be constructed!
++ Added new reactor coolers
+
++ Added tooltips to more items
+
+* Changed some fission fuel and cooler stats
+* Tweaked some recipes
+
+v2.0a
+
++ Added Alloy Furnace
+
+* Fixed server crash due to client-side code being used universally
+* Fixed EU voltage emitted from generators
+* Fixed Manufactory recipe being impossible
+* Fixed Portable Ender Chest not opening
+* Fixed discrepant IC2 API
+* Internal changes to the way recipes are handled
+
+v2.0
+
++ Added Manufactory
++ Added Isotope Separator
++ Added Decay Hastener
++ Added Fuel Reprocessor
++ Added Fission Controller (WIP)
++ Added RF, IC2 and Tesla support for machines
+
++ Added Voltaic Pile and Lithium Ion Battery
++ Added Uranium, Plutonium, Americium and Californium RTGs
++ Added Basic Solar Panel
+
++ Added Nuclear Furnace
+
++ Added base blocks, including ores and fission reactor components
++ Added base items, including ingots, dusts, fission materials and tools
