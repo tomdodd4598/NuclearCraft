@@ -2,6 +2,7 @@ package nc.handler;
 
 import java.util.Random;
 
+import nc.config.NCConfig;
 import nc.init.NCItems;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityMob;
@@ -17,16 +18,20 @@ public class DropHandler {
 	
 	@SubscribeEvent
 	public void addEntityDrop(LivingDropsEvent event) {
-		if (event.getEntity() instanceof EntityMob && rand.nextInt(100) < 1) {
-			ItemStack stack = new ItemStack(NCItems.dominos, 1);
-			event.getDrops().add(new EntityItem(event.getEntity().worldObj, event.getEntity().posX, event.getEntity().posY, event.getEntity().posZ, stack));
+		if (NCConfig.rare_drops && event.getEntity().getEntityWorld().getGameRules().getBoolean("doMobLoot")) {
+			if (event.getEntity() instanceof EntityMob && rand.nextInt(100) < 1) {
+				ItemStack stack = new ItemStack(NCItems.dominos, 1);
+				event.getDrops().add(new EntityItem(event.getEntity().getEntityWorld(), event.getEntity().posX, event.getEntity().posY, event.getEntity().posZ, stack));
+			}
 		}
 	}
 	
 	@SubscribeEvent
 	public void addBlockDrop(HarvestDropsEvent event) {
-		if((event.getState().getBlock() == Blocks.REDSTONE_ORE || event.getState().getBlock() == Blocks.LIT_REDSTONE_ORE) && rand.nextInt(8) < 1) {
-			event.getDrops().add(new ItemStack(NCItems.gem, 1, 0));
+		if (event.getWorld().getGameRules().getBoolean("doTileDrops")) {
+			if((event.getState().getBlock() == Blocks.REDSTONE_ORE || event.getState().getBlock() == Blocks.LIT_REDSTONE_ORE) && rand.nextInt(8) < 1) {
+				event.getDrops().add(new ItemStack(NCItems.gem, 1, 0));
+			}
 		}
 	}
 }

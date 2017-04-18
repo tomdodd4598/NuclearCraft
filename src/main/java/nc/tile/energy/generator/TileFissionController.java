@@ -116,7 +116,7 @@ public class TileFissionController extends TileEnergyGeneratorProcessor {
 	}
 	
 	public void overheat() {
-		if (heat >= 1000000 && NCConfig.fission_overheat) {
+		if (heat >= getMaxHeat() && NCConfig.fission_overheat) {
 			// meltdown();
 			worldObj.setBlockToAir(pos);
 			worldObj.setBlockState(pos, Blocks.LAVA.getDefaultState());
@@ -194,6 +194,10 @@ public class TileFissionController extends TileEnergyGeneratorProcessor {
 	
 	public int getLengthZ() {
 		return lengthZ - 2;
+	}
+	
+	public int getMaxHeat() {
+		return 1000000;
 	}
 	
 	// Finding Blocks
