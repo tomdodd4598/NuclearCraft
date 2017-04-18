@@ -9,4 +9,5 @@ public interface IFissionable {
 	public double getBaseHeat();
 	
 	public String getName();
+	
 }

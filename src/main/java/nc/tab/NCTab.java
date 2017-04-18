@@ -2,7 +2,7 @@ package nc.tab;
 
 import nc.init.NCItems;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.ItemStack;
+import net.minecraft.item.Item;
 
 public class NCTab extends CreativeTabs {
 
@@ -10,7 +10,7 @@ public class NCTab extends CreativeTabs {
 		super("nuclearcraft");
 	}
 
-	public ItemStack getTabIconItem() {
-		return new ItemStack(NCItems.fuel_rod_uranium);
+	public Item getTabIconItem() {
+		return NCItems.fuel_rod_uranium;
 	}
 }

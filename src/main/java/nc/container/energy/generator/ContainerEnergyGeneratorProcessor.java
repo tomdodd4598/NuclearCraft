@@ -54,11 +54,12 @@ public class ContainerEnergyGeneratorProcessor extends ContainerTile {
 	}
 	
 	public boolean canInteractWith(EntityPlayer player) {
-		return tile.isUsableByPlayer(player);
+		return tile.isUseableByPlayer(player);
 	}
 	
+	@SuppressWarnings("unused")
 	public ItemStack transferStackInSlot(EntityPlayer player, int index) {
-		ItemStack itemstack = ItemStack.EMPTY;
+		ItemStack itemstack = null;
 		Slot slot = inventorySlots.get(index);
 		//int otherSlots = tile.otherSlotsSize;
 		int invStart = 2*tile.inputSize + tile.outputSize + tile.otherSlotsSize;
@@ -68,38 +69,38 @@ public class ContainerEnergyGeneratorProcessor extends ContainerTile {
 			itemstack = itemstack1.copy();
 			if (index >= tile.inputSize && index < invStart) {
 				if (!mergeItemStack(itemstack1, invStart, invEnd, false)) {
-					return ItemStack.EMPTY;
+					return null;
 				}
 				slot.onSlotChange(itemstack1, itemstack);
 			}
 			else if(index >= invStart) {
 				if (recipes.validInput(itemstack1)) {
 					if (!mergeItemStack(itemstack1, 0, tile.inputSize, false)) {
-						return ItemStack.EMPTY;
+						return null;
 					}
 				}
 				else if ((index >= invStart) && (index < invEnd - 9)) {
 					if (!mergeItemStack(itemstack1, invEnd - 9, invEnd, false)) {
-						return ItemStack.EMPTY;
+						return null;
 					}
 				}
 				else if ((index >= invEnd - 9) && (index < invEnd) && (!mergeItemStack(itemstack1, invStart, invEnd - 9, false))) {
-					return ItemStack.EMPTY;
+					return null;
 				}
 			}
 			else if (!mergeItemStack(itemstack1, invStart, invEnd, false)) {
-				return ItemStack.EMPTY;
+				return null;
 			}
-			if (itemstack1.isEmpty()) {
-				slot.putStack(ItemStack.EMPTY);
+			if (itemstack1 == null) {
+				slot.putStack(null);
 			}
 			else {
 				slot.onSlotChanged();
 			}
-			if (itemstack1.getCount() == itemstack.getCount()) {
-				return ItemStack.EMPTY;
+			if (itemstack1.stackSize == itemstack.stackSize) {
+				return null;
 			}
-			slot.onTake(player, itemstack1);
+			slot.onPickupFromSlot(player, itemstack1);
 		}
 		return itemstack;
 	}

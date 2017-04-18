@@ -1,11 +1,12 @@
 package nc.item;
 
+import java.util.List;
+
 import nc.Global;
 import nc.handler.EnumHandler.DustOxideTypes;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 
 public class ItemDustOxide extends Item {
@@ -16,7 +17,7 @@ public class ItemDustOxide extends Item {
 		setHasSubtypes(true);
 	}
 
-	public void getSubItems(Item item, CreativeTabs tab, NonNullList<ItemStack> items) {
+	public void getSubItems(Item item, CreativeTabs tab, List<ItemStack> items) {
 		for (int i = 0; i < DustOxideTypes.values().length; i++) {
 			items.add(new ItemStack(item, 1, i));
 		}

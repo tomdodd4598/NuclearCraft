@@ -1,5 +1,7 @@
 package nc.block.fission;
 
+import java.util.List;
+
 import nc.block.BlockMeta;
 import nc.block.item.IMetaBlockName;
 import nc.handler.EnumHandler.FissionBlockTypes;
@@ -12,7 +14,6 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
@@ -42,7 +43,7 @@ public class BlockFission extends BlockMeta implements IMetaBlockName {
 		return this.getDefaultState().withProperty(TYPE, FissionBlockTypes.values()[meta]);
 	}
 	
-	public void getSubBlocks(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> list) {
+	public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list) {
 		for (int i = 0; i < FissionBlockTypes.values().length; i++) {
 			list.add(new ItemStack(itemIn, 1, i));
 		}

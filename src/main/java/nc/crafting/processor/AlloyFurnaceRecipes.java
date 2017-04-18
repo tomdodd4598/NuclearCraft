@@ -13,6 +13,7 @@ public class AlloyFurnaceRecipes extends ProcessorRecipeHandler {
 	public AlloyFurnaceRecipes() {
 		super(2, 0, 1, 0, true);
 	}
+	
 	public static final ProcessorRecipeHandler instance() {
 		return RECIPES;
 	}

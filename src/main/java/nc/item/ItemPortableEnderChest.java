@@ -18,7 +18,7 @@ public class ItemPortableEnderChest extends NCItem {
 		setCreativeTab(CreativeTabs.MISC);
 	}
 	
-	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
+	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand handIn) {
 		InventoryEnderChest inventoryenderchest = playerIn.getInventoryEnderChest();
 		
 		if (inventoryenderchest != null) {

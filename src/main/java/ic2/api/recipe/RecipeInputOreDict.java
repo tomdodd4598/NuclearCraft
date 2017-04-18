@@ -63,7 +63,7 @@ public class RecipeInputOreDict implements IRecipeInput {
 		boolean hasUnsuitableEntries = false;
 
 		for (ItemStack stack : ores) {
-			if (stack.getItem() == null || stack.getCount() != getAmount()) {
+			if (stack.getItem() == null || stack.stackSize != getAmount()) {
 				hasUnsuitableEntries = true;
 				break;
 			}

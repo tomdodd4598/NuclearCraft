@@ -1,4 +1,4 @@
-/*package ic2.api.recipe;
+package ic2.api.recipe;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -16,7 +16,7 @@ import ic2.api.item.IC2Items;
 
 /**
  * @deprecated Use {@link Recipes#inputFactory} instead.
- *
+ */
 @Deprecated
 public class RecipeInputFluidContainer implements IRecipeInput {
 	public RecipeInputFluidContainer(Fluid fluid) {
@@ -69,4 +69,4 @@ public class RecipeInputFluidContainer implements IRecipeInput {
 
 	public final Fluid fluid;
 	public final int amount;
-}*/
+}
