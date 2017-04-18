@@ -7,7 +7,7 @@ import java.util.Set;
 import nc.Global;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.resources.I18n;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.common.config.ConfigElement;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.client.IModGuiFactory;
@@ -36,17 +36,17 @@ public class NCConfigGuiFactory implements IModGuiFactory {
 	public static class NCConfigGui extends GuiConfig {
 		
 		public NCConfigGui(GuiScreen parentScreen) {
-			super(parentScreen, getConfigElements(), Global.MOD_ID, false, false, I18n.format("gui.config.main_title"));
+			super(parentScreen, getConfigElements(), Global.MOD_ID, false, false, I18n.translateToLocalFormatted("gui.config.main_title"));
 		}
 
 		private static List<IConfigElement> getConfigElements() {
 			List<IConfigElement> list = new ArrayList<IConfigElement>();
-			list.add(new DummyCategoryElement(I18n.format("gui.config.category.ores"), "gui.config.category.ores", CategoryEntryOres.class));
-			list.add(new DummyCategoryElement(I18n.format("gui.config.category.processors"), "gui.config.category.processors", CategoryEntryProcessors.class));
-			list.add(new DummyCategoryElement(I18n.format("gui.config.category.generators"), "gui.config.category.generators", CategoryEntryGenerators.class));
-			list.add(new DummyCategoryElement(I18n.format("gui.config.category.fission"), "gui.config.category.fission", CategoryEntryFission.class));
-			list.add(new DummyCategoryElement(I18n.format("gui.config.category.energy_storage"), "gui.config.category.energy_storage", CategoryEntryEnergyStorage.class));
-			list.add(new DummyCategoryElement(I18n.format("gui.config.category.tools"), "gui.config.category.tools", CategoryEntryTools.class));
+			list.add(new DummyCategoryElement(I18n.translateToLocalFormatted("gui.config.category.ores"), "gui.config.category.ores", CategoryEntryOres.class));
+			list.add(new DummyCategoryElement(I18n.translateToLocalFormatted("gui.config.category.processors"), "gui.config.category.processors", CategoryEntryProcessors.class));
+			list.add(new DummyCategoryElement(I18n.translateToLocalFormatted("gui.config.category.generators"), "gui.config.category.generators", CategoryEntryGenerators.class));
+			list.add(new DummyCategoryElement(I18n.translateToLocalFormatted("gui.config.category.fission"), "gui.config.category.fission", CategoryEntryFission.class));
+			list.add(new DummyCategoryElement(I18n.translateToLocalFormatted("gui.config.category.energy_storage"), "gui.config.category.energy_storage", CategoryEntryEnergyStorage.class));
+			list.add(new DummyCategoryElement(I18n.translateToLocalFormatted("gui.config.category.tools"), "gui.config.category.tools", CategoryEntryTools.class));
 			return list;
 		}
 		
@@ -60,7 +60,7 @@ public class NCConfigGuiFactory implements IModGuiFactory {
 				Configuration config = NCConfig.getConfig();
 				ConfigElement categoryOres = new ConfigElement(config.getCategory(NCConfig.CATEGORY_ORES));
 				List<IConfigElement> propertiesOnScreen = categoryOres.getChildElements();
-				String windowTitle = I18n.format("gui.config.category.ores");
+				String windowTitle = I18n.translateToLocalFormatted("gui.config.category.ores");
 				return new GuiConfig(owningScreen, propertiesOnScreen, owningScreen.modID, configElement.requiresWorldRestart() || owningScreen.allRequireWorldRestart, configElement.requiresMcRestart() || owningScreen.allRequireMcRestart, windowTitle);
 			}
 		}
@@ -75,7 +75,7 @@ public class NCConfigGuiFactory implements IModGuiFactory {
 				Configuration config = NCConfig.getConfig();
 				ConfigElement categoryProcessors = new ConfigElement(config.getCategory(NCConfig.CATEGORY_PROCESSORS));
 				List<IConfigElement> propertiesOnScreen = categoryProcessors.getChildElements();
-				String windowTitle = I18n.format("gui.config.category.processors");
+				String windowTitle = I18n.translateToLocalFormatted("gui.config.category.processors");
 				return new GuiConfig(owningScreen, propertiesOnScreen, owningScreen.modID, configElement.requiresWorldRestart() || owningScreen.allRequireWorldRestart, configElement.requiresMcRestart() || owningScreen.allRequireMcRestart, windowTitle);
 			}
 		}
@@ -90,7 +90,7 @@ public class NCConfigGuiFactory implements IModGuiFactory {
 				Configuration config = NCConfig.getConfig();
 				ConfigElement categoryGenerators = new ConfigElement(config.getCategory(NCConfig.CATEGORY_GENERATORS));
 				List<IConfigElement> propertiesOnScreen = categoryGenerators.getChildElements();
-				String windowTitle = I18n.format("gui.config.category.generators");
+				String windowTitle = I18n.translateToLocalFormatted("gui.config.category.generators");
 				return new GuiConfig(owningScreen, propertiesOnScreen, owningScreen.modID, configElement.requiresWorldRestart() || owningScreen.allRequireWorldRestart, configElement.requiresMcRestart() || owningScreen.allRequireMcRestart, windowTitle);
 			}
 		}
@@ -105,7 +105,7 @@ public class NCConfigGuiFactory implements IModGuiFactory {
 				Configuration config = NCConfig.getConfig();
 				ConfigElement categoryFission = new ConfigElement(config.getCategory(NCConfig.CATEGORY_FISSION));
 				List<IConfigElement> propertiesOnScreen = categoryFission.getChildElements();
-				String windowTitle = I18n.format("gui.config.category.fission");
+				String windowTitle = I18n.translateToLocalFormatted("gui.config.category.fission");
 				return new GuiConfig(owningScreen, propertiesOnScreen, owningScreen.modID, configElement.requiresWorldRestart() || owningScreen.allRequireWorldRestart, configElement.requiresMcRestart() || owningScreen.allRequireMcRestart, windowTitle);
 			}
 		}
@@ -120,7 +120,7 @@ public class NCConfigGuiFactory implements IModGuiFactory {
 				Configuration config = NCConfig.getConfig();
 				ConfigElement categoryEnergyStorage = new ConfigElement(config.getCategory(NCConfig.CATEGORY_ENERGY_STORAGE));
 				List<IConfigElement> propertiesOnScreen = categoryEnergyStorage.getChildElements();
-				String windowTitle = I18n.format("gui.config.category.energy_storage");
+				String windowTitle = I18n.translateToLocalFormatted("gui.config.category.energy_storage");
 				return new GuiConfig(owningScreen, propertiesOnScreen, owningScreen.modID, configElement.requiresWorldRestart() || owningScreen.allRequireWorldRestart, configElement.requiresMcRestart() || owningScreen.allRequireMcRestart, windowTitle);
 			}
 		}
@@ -135,7 +135,7 @@ public class NCConfigGuiFactory implements IModGuiFactory {
 				Configuration config = NCConfig.getConfig();
 				ConfigElement categoryTools = new ConfigElement(config.getCategory(NCConfig.CATEGORY_TOOLS));
 				List<IConfigElement> propertiesOnScreen = categoryTools.getChildElements();
-				String windowTitle = I18n.format("gui.config.category.tools");
+				String windowTitle = I18n.translateToLocalFormatted("gui.config.category.tools");
 				return new GuiConfig(owningScreen, propertiesOnScreen, owningScreen.modID, configElement.requiresWorldRestart() || owningScreen.allRequireWorldRestart, configElement.requiresMcRestart() || owningScreen.allRequireMcRestart, windowTitle);
 			}
 		}

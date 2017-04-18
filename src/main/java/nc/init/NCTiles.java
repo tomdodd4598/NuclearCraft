@@ -7,6 +7,7 @@ import nc.tile.energy.generator.TileRTGs.CaliforniumRTG;
 import nc.tile.energy.generator.TileRTGs.PlutoniumRTG;
 import nc.tile.energy.generator.TileRTGs.UraniumRTG;
 import nc.tile.energy.generator.TileSolarPanels.SolarPanelBasic;
+import nc.tile.energy.processor.TileEnergyProcessors.TileAlloyFurnace;
 import nc.tile.energy.processor.TileEnergyProcessors.TileDecayHastener;
 import nc.tile.energy.processor.TileEnergyProcessors.TileFuelReprocessor;
 import nc.tile.energy.processor.TileEnergyProcessors.TileIsotopeSeparator;
@@ -25,6 +26,7 @@ public class NCTiles {
 		GameRegistry.registerTileEntity(TileIsotopeSeparator.class, Global.MOD_ID + ":isotope_separator");
 		GameRegistry.registerTileEntity(TileDecayHastener.class, Global.MOD_ID + ":decay_hastener");
 		GameRegistry.registerTileEntity(TileFuelReprocessor.class, Global.MOD_ID + ":fuel_reprocessor");
+		GameRegistry.registerTileEntity(TileAlloyFurnace.class, Global.MOD_ID + ":alloy_furnace");
 		
 		GameRegistry.registerTileEntity(TileFissionController.class, Global.MOD_ID + ":fission_controller");
 		

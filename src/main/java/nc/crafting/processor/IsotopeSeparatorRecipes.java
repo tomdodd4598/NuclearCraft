@@ -1,14 +1,15 @@
 package nc.crafting.processor;
 
-import nc.handlers.ProcessorRecipeHandler;
+import nc.handler.ProcessorRecipeHandler;
 
 public class IsotopeSeparatorRecipes extends ProcessorRecipeHandler {
 	
 	private static final IsotopeSeparatorRecipes RECIPES = new IsotopeSeparatorRecipes();
 
 	public IsotopeSeparatorRecipes() {
-		super(1, 2);
+		super(1, 0, 2, 0, false);
 	}
+	
 	public static final ProcessorRecipeHandler instance() {
 		return RECIPES;
 	}

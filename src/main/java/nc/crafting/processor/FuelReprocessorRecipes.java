@@ -1,14 +1,15 @@
 package nc.crafting.processor;
 
-import nc.handlers.ProcessorRecipeHandler;
+import nc.handler.ProcessorRecipeHandler;
 
 public class FuelReprocessorRecipes extends ProcessorRecipeHandler {
 	
 	private static final FuelReprocessorRecipes RECIPES = new FuelReprocessorRecipes();
 
 	public FuelReprocessorRecipes() {
-		super(1, 4);
+		super(1, 0, 4, 0, false);
 	}
+	
 	public static final ProcessorRecipeHandler instance() {
 		return RECIPES;
 	}

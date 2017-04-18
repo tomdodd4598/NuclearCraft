@@ -1,15 +1,15 @@
 package nc.crafting.processor;
 
-import nc.handlers.ProcessorRecipeHandler;
-import net.minecraft.init.Items;
+import nc.handler.ProcessorRecipeHandler;
 
 public class ManufactoryRecipes extends ProcessorRecipeHandler {
 	
 	private static final ManufactoryRecipes RECIPES = new ManufactoryRecipes();
 
 	public ManufactoryRecipes() {
-		super(1, 1);
+		super(1, 0, 1, 0, false);
 	}
+	
 	public static final ProcessorRecipeHandler instance() {
 		return RECIPES;
 	}
@@ -20,6 +20,7 @@ public class ManufactoryRecipes extends ProcessorRecipeHandler {
 		addRecipe("gemDiamond", "dustDiamond");
 		addRecipe("gemRhodochrosite", "dustRhodochrosite");
 		addRecipe("gemQuartz", "dustQuartz");
-		addRecipe(oreStack("gemLapis", 3), Items.PRISMARINE_SHARD);
+		addRecipe("blockObsidian", "dustObsidian");
+		addRecipe(oreStack("blockSand", 4), "itemSilicon");
 	}
 }

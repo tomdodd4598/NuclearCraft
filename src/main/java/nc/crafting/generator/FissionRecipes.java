@@ -1,14 +1,15 @@
 package nc.crafting.generator;
 
-import nc.handlers.ProcessorRecipeHandler;
+import nc.handler.ProcessorRecipeHandler;
 
 public class FissionRecipes extends ProcessorRecipeHandler {
 	
 	private static final FissionRecipes RECIPES = new FissionRecipes();
 
 	public FissionRecipes() {
-		super(1, 1);
+		super(1, 0, 1, 0, false);
 	}
+	
 	public static final ProcessorRecipeHandler instance() {
 		return RECIPES;
 	}

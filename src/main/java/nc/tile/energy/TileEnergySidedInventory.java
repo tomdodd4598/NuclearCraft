@@ -8,7 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.energy.CapabilityEnergy;
 
-public class TileEnergySidedInventory extends TileEnergyInventory implements ISidedInventory {
+public abstract class TileEnergySidedInventory extends TileEnergyInventory implements ISidedInventory {
 
 	public int[] topSlots;
 	public int[] sideSlots;

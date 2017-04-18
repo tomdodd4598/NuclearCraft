@@ -15,21 +15,63 @@ tile.ingot_block.uranium.name=Uranium Block
 tile.ingot_block.boron.name=Boron Block
 tile.ingot_block.lithium.name=Lithium Block
 tile.ingot_block.magnesium.name=Magnesium Block
+
 tile.ingot_block.graphite.name=Graphite Block
+tile.ingot_block.graphite.des0=Graphite is only considered active if
+tile.ingot_block.graphite.des1=touching at least one Reactor Cell
 
 tile.fission_block.casing.name=Reactor Casing
+tile.fission_block.casing.des0=Used as the outer shell
+tile.fission_block.casing.des1=of fission reactors
+
 tile.fission_block.blast.name=Blast Block
+tile.fission_block.blast.des0=Highly blast resistant.
+tile.fission_block.blast.des1=Perfect for bunkers
 
 tile.cell_block.name=Reactor Cell
 
 tile.cooler.empty.name=Empty Cooler
+
 tile.cooler.water.name=Water Cooler
-tile.cooler.quartz.name=Quartz Cooler
-tile.cooler.helium.name=Liquid Helium Cooler
+tile.cooler.water.des0=Must touch at least
+tile.cooler.water.des1=one Reactor Casing
+
 tile.cooler.redstone.name=Redstone Cooler
+tile.cooler.redstone.des0=Must touch at least
+tile.cooler.redstone.des1=one Reactor Cell
+
+tile.cooler.quartz.name=Quartz Cooler
+tile.cooler.quartz.des0=Must touch at least one
+tile.cooler.quartz.des1=active Graphite Block
+
+tile.cooler.gold.name=Gold Cooler
+tile.cooler.gold.des0=Must touch at least one Water
+tile.cooler.gold.des1=Cooler and one Redstone Cooler
+
 tile.cooler.glowstone.name=Glowstone Cooler
+tile.cooler.glowstone.des0=Must touch at least three
+tile.cooler.glowstone.des1=active Graphite Blocks
+
+tile.cooler.lapis.name=Lapis Cooler
+tile.cooler.lapis.des0=Must touch at least one Reactor
+tile.cooler.lapis.des1=Cell and one Reactor Casing
+
+tile.cooler.diamond.name=Diamond Cooler
+tile.cooler.diamond.des0=Must be at least sandwiched
+tile.cooler.diamond.des1=by Water Coolers
+
+tile.cooler.helium.name=Liquid Helium Cooler
+tile.cooler.helium.des0=Must be at least between
+tile.cooler.helium.des1=Redstone Coolers
+
 tile.cooler.enderium.name=Enderium Cooler
+tile.cooler.enderium.des0=Must touch at least
+tile.cooler.enderium.des1=three Reactor Casings
+
 tile.cooler.cryotheum.name=Cryotheum Cooler
+tile.cooler.cryotheum.des0=Must touch at least
+tile.cooler.cryotheum.des1=four Reactor Cells
+
 tile.cooler.cooling_rate=Cooling rate:
 
 tile.block_depleted_uranium.name=Depleted Uranium Block
@@ -40,22 +82,33 @@ tile.nuclear_furnace_idle.des1=and thorium ingots and dust as fuel
 tile.nuclear_furnace_active.name=Nuclear Furnace
 
 tile.manufactory_idle.name=Manufactory
-tile.manufactory_idle.des0=A handy machine that has many uses
+tile.manufactory_idle.des0=A handy machine that has many uses.
+tile.manufactory_idle.des1=Can accept MV IC2 power
 tile.manufactory_active.name=Manufactory
 
 tile.isotope_separator_idle.name=Isotope Separator
-tile.isotope_separator_idle.des0=Separates materials into their isotopes
+tile.isotope_separator_idle.des0=Separates materials into their isotopes.
+tile.isotope_separator_idle.des1=Can accept MV IC2 power
 tile.isotope_separator_active.name=Isotope Separator
 
 tile.decay_hastener_idle.name=Decay Hastener
-tile.decay_hastener_idle.des0=Forces radioactive materials to decay
+tile.decay_hastener_idle.des0=Forces radioactive materials to decay.
+tile.decay_hastener_idle.des1=Can accept MV IC2 power
 tile.decay_hastener_active.name=Decay Hastener
 
 tile.fuel_reprocessor_idle.name=Fuel Reprocessor
-tile.fuel_reprocessor_idle.des0=Extracts materials from depleted fuel
+tile.fuel_reprocessor_idle.des0=Extracts materials from depleted fuel.
+tile.fuel_reprocessor_idle.des1=Can accept MV IC2 power
 tile.fuel_reprocessor_active.name=Fuel Reprocessor
 
+tile.alloy_furnace_idle.name=Alloy Furnace
+tile.alloy_furnace_idle.des0=Combines base metals into alloys.
+tile.alloy_furnace_idle.des1=Can accept MV IC2 power
+tile.alloy_furnace_active.name=Alloy Furnace
+
 tile.fission_controller_idle.name=Fission Controller (WIP)
+tile.fission_controller_idle.des0=Build a multiblock reactor!
+tile.fission_controller_idle.des1=Emits EV IC2 power
 tile.fission_controller_active.name=Fission Controller (WIP)
 
 tile.rtg_uranium.name=Uranium RTG
@@ -112,12 +165,15 @@ item.gem.rhodochrosite.name=Rhodochrosite
 item.gem_dust.diamond.name=Crushed Diamond
 item.gem_dust.rhodochrosite.name=Crushed Rhodochrosite
 item.gem_dust.quartz.name=Crushed Quartz
+item.gem_dust.obsidian.name=Crushed Obsidian
 
 item.alloy.bronze.name=Bronze Alloy
 item.alloy.tough.name=Tough Alloy
 item.alloy.hard_carbon.name=Hard Carbon Alloy
 item.alloy.magnesium_diboride.name=Magnesium Diboride Alloy
 item.alloy.lithium_manganese_dioxide.name=Lithium Manganese Dioxide Alloy
+item.alloy.steel.name=Steel Alloy
+item.alloy.ferroboron.name=Ferroboron Alloy
 
 item.part.plate_basic.name=Basic Plating
 item.part.plate_advanced.name=Advanced Plating
@@ -358,6 +414,11 @@ item.fuel_rod_californium.lec_251_oxide.name=LECf-251 Oxide Fuel Rod
 item.fuel_rod_californium.hec_251.name=HECf-251 Fuel Rod
 item.fuel_rod_californium.hec_251_oxide.name=HECf-251 Oxide Fuel Rod
 
+item.fuel_rod.base_time.des0=Base process time:
+item.fuel_rod.base_time.des1=mins
+item.fuel_rod.base_power.des0=Base power:
+item.fuel_rod.base_heat.des0=Base heat gen:
+
 item.depleted_fuel_rod_thorium.tbu.name=Depleted TBU Fuel Rod
 item.depleted_fuel_rod_thorium.tbu_oxide.name=Depleted TBU Oxide Fuel Rod
 
@@ -471,9 +532,9 @@ gui.config.category.processors=Processor Configs
 gui.config.category.processors.tooltip=Configure processors
 
 gui.config.processors.processor_time=Processing Times
-gui.config.processors.processor_time.comment=Base ticks per process. Order: Manufactory, Isotope Separator, Decay Hastener, Fuel Reprocessor
+gui.config.processors.processor_time.comment=Base ticks per process. Order: Manufactory, Isotope Separator, Decay Hastener, Fuel Reprocessor, Alloy Furnace
 gui.config.processors.processor_power=Processing Power Use
-gui.config.processors.processor_power.comment=Base RF/t use during processing. Order: Manufactory, Isotope Separator, Decay Hastener, Fuel Reprocessor
+gui.config.processors.processor_power.comment=Base RF/t use during processing. Order: Manufactory, Isotope Separator, Decay Hastener, Fuel Reprocessor, Alloy Furnace
 gui.config.processors.processor_rf_per_eu=RF per EU Accepted
 gui.config.processors.processor_rf_per_eu.comment=The RF received per EU injected for processors
 
@@ -497,9 +558,11 @@ gui.config.fission.fission_fuel_use.comment=Modifies the rate of fuel used by fi
 gui.config.fission.fission_heat_generation=Heat Gen Multiplier
 gui.config.fission.fission_heat_generation.comment=Modifies the heat generated by fission reactors
 gui.config.fission.fission_cooling_rate=Cooling Rates
-gui.config.fission.fission_cooling_rate.comment=Base heat removed per tick. Order: water, quartz, liquid helium, redstone, glowstone, enderium, cryotheum
+gui.config.fission.fission_cooling_rate.comment=Base heat removed per tick. Order: water, redstone, quartz, gold, glowstone, lapis, diamond, liquid helium, enderium, cryotheum
 gui.config.fission.fission_overheat=Enable Meltdowns
 gui.config.fission.fission_overheat.comment=Can fission reactors overheat?
+gui.config.fission.fission_update_rate=Reactor Update Rate
+gui.config.fission.fission_update_rate.comment=Ticks per structure check
 gui.config.fission.fission_min_size=Minimum Length
 gui.config.fission.fission_min_size.comment=Minimum side length of fission structures
 gui.config.fission.fission_max_size=Maximum Length
@@ -587,3 +650,11 @@ gui.config.tools.tool_attack_damage=Attack damages
 gui.config.tools.tool_attack_damage.comment=Related to the damage done per hit (wood = 0.0, stone = 1.0, etc.). Order: boron, tough alloy, tough alloy spaxelhoe
 gui.config.tools.tool_enchantability=Enchantabilities
 gui.config.tools.tool_enchantability.comment=Determines the quality of applied enchantments. Order: boron, tough alloy, tough alloy spaxelhoe
+
+gui.container.fission_controller.reactor=Reactor
+gui.container.fission_controller.casing_incomplete=Casing Incomplete
+gui.container.fission_controller.multiple_controllers=Multiple Controllers
+gui.container.fission_controller.casing_in_interior=Casing In Interior
+gui.container.fission_controller.invalid_structure=Invalid Structure
+gui.container.fission_controller.no_fuel=No Fuel
+gui.container.fission_controller.cells=Cells:

@@ -2,12 +2,12 @@ package nc.init;
 
 import nc.Global;
 import nc.config.NCConfig;
-import nc.items.tools.NCAxe;
-import nc.items.tools.NCHoe;
-import nc.items.tools.NCPickaxe;
-import nc.items.tools.NCShovel;
-import nc.items.tools.NCSpaxelhoe;
-import nc.items.tools.NCSword;
+import nc.item.tool.NCAxe;
+import nc.item.tool.NCHoe;
+import nc.item.tool.NCPickaxe;
+import nc.item.tool.NCShovel;
+import nc.item.tool.NCSpaxelhoe;
+import nc.item.tool.NCSword;
 import nc.proxy.CommonProxy;
 import nc.util.NCUtils;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
