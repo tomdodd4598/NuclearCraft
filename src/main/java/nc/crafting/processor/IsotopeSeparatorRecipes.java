@@ -9,7 +9,6 @@ public class IsotopeSeparatorRecipes extends ProcessorRecipeHandler {
 	public IsotopeSeparatorRecipes() {
 		super(1, 0, 2, 0, false);
 	}
-	
 	public static final ProcessorRecipeHandler instance() {
 		return RECIPES;
 	}

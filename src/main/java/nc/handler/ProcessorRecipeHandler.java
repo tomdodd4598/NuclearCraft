@@ -1,14 +1,13 @@
 package nc.handler;
 
-
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
@@ -68,7 +67,7 @@ public abstract class ProcessorRecipeHandler {
 						return;
 					}
 				} else if (i < totalInputSize + itemOutputSize) {
-					List<ItemStack> ores = OreDictionary.getOres((String)objects[i]);
+					NonNullList<ItemStack> ores = OreDictionary.getOres((String)objects[i]);
 					if (ores.size() > 0) {
 					stack[i] = ores.get(0);
 					} else {
@@ -91,7 +90,7 @@ public abstract class ProcessorRecipeHandler {
 				} else if (i < totalInputSize) {
 					return;
 				} else if (i < totalInputSize + itemOutputSize) {
-					List<ItemStack> ores = OreDictionary.getOres(((OreStack) objects[i]).oreString);
+					NonNullList<ItemStack> ores = OreDictionary.getOres(((OreStack) objects[i]).oreString);
 					if (ores.size() > 0) {
 						stack[i] = new ItemStack(ores.get(0).getItem(), ((OreStack) objects[i]).stackSize, ores.get(0).getItemDamage());
 					} else {
@@ -138,7 +137,7 @@ public abstract class ProcessorRecipeHandler {
 				}
 			} else if (objects[i] instanceof ItemStack[]) {
 				for (int s = 0; s < ((ItemStack[]) objects[i]).length; i++) {
-					if (((ItemStack[]) objects[i])[s] == null) {
+					if (((ItemStack[]) objects[i])[s] == ItemStack.EMPTY) {
 						return;
 					}
 				}
@@ -227,7 +226,7 @@ public abstract class ProcessorRecipeHandler {
 			return defaultStacks;
 		}
 		for (int i = 0; i < input.length; i++) {
-			if (input[i] == null) {
+			if (input[i] == ItemStack.EMPTY || input[i] == null) {
 				Object[] defaultStacks = new Object[itemOutputSize];
 				for (int j = 0; j < defaultStacks.length; j++) {
 					defaultStacks[j] = null;
@@ -274,7 +273,7 @@ public abstract class ProcessorRecipeHandler {
 			return new Object[totalInputSize];
 		}
 		for (int i = 0; i < output.length; i++) {
-			if (output[i] == null) {
+			if (output[i] == ItemStack.EMPTY || output[i] == null) {
 				return new Object[totalInputSize];
 			}
 		}
@@ -300,7 +299,7 @@ public abstract class ProcessorRecipeHandler {
 	 * @return validity
 	 */
 	public boolean validInput(Object input) {
-		if (input == null) {
+		if (input == ItemStack.EMPTY || input == null) {
 			return false;
 		}
 		Iterator<?> iterator = recipeList.entrySet().iterator();
@@ -325,7 +324,7 @@ public abstract class ProcessorRecipeHandler {
 	 * @return validity
 	 */
 	public boolean validOutput(Object output) {
-		if (output == null) {
+		if (output == ItemStack.EMPTY || output == null) {
 			return false;
 		}
 		Iterator<?> iterator = recipeList.entrySet().iterator();
@@ -352,7 +351,7 @@ public abstract class ProcessorRecipeHandler {
 			if (output[i] instanceof ItemStack) {
 				stack[i] = (ItemStack) output[i];
 			} else if (output[i] instanceof OreStack) {
-				List<ItemStack> ore = OreDictionary.getOres(((OreStack) output[i]).oreString);
+				NonNullList<ItemStack> ore = OreDictionary.getOres(((OreStack) output[i]).oreString);
 				stack[i] = new ItemStack(ore.get(0).getItem(), ((OreStack) output[i]).stackSize, ore.get(0).getItemDamage());
 			} else if (output[i] instanceof FluidStack) {
 				stack[i] = (FluidStack) output[i];
@@ -365,9 +364,9 @@ public abstract class ProcessorRecipeHandler {
 		int[] sizes = new int[input.length];
 		for (int i = 0; i < input.length; i++) {
 			if (input[i] instanceof ItemStack) {
-				sizes[i] = ((ItemStack) input[i]).stackSize;
+				sizes[i] = ((ItemStack) input[i]).getCount();
 			} else if (input[i] instanceof ItemStack[]) {
-				sizes[i] = ((ItemStack[]) input[i])[0].stackSize;
+				sizes[i] = ((ItemStack[]) input[i])[0].getCount();
 			} else if (input[i] instanceof FluidStack) {
 				sizes[i] = ((FluidStack) input[i]).amount;
 			} else if (input[i] instanceof FluidStack[]) {
@@ -506,7 +505,7 @@ public abstract class ProcessorRecipeHandler {
 					}
 				} else if (key[i] instanceof ItemStack[]) {
 					for (int s = 0; s < ((ItemStack[]) key[i]).length; s++) {
-						if (((ItemStack[]) key[i])[s] != null && ((ItemStack[]) key[i])[s] instanceof ItemStack) {
+						if (((ItemStack[]) key[i])[s] != ItemStack.EMPTY && ((ItemStack[]) key[i])[s] instanceof ItemStack) {
 							if (equalStack(stack, ((ItemStack[]) key[i])[s], checkSize)) {
 								return i;
 							}
@@ -532,7 +531,7 @@ public abstract class ProcessorRecipeHandler {
 
 	private boolean equalStack(Object stack, Object key, boolean checkSize) {
 		//System.out.print(stack.stackSize >= stack.stackSize);
-		if (stack instanceof ItemStack && key instanceof ItemStack) return ((ItemStack)stack).getItem() == ((ItemStack)key).getItem() && (((ItemStack)stack).getItemDamage() == ((ItemStack)key).getItemDamage()) && (!checkSize || ((ItemStack)key).stackSize <= ((ItemStack)stack).stackSize);
+		if (stack instanceof ItemStack && key instanceof ItemStack) return ((ItemStack)stack).getItem() == ((ItemStack)key).getItem() && (((ItemStack)stack).getItemDamage() == ((ItemStack)key).getItemDamage()) && (!checkSize || ((ItemStack)key).getCount() <= ((ItemStack)stack).getCount());
 		else if (stack instanceof FluidStack && key instanceof FluidStack) return ((FluidStack)stack).isFluidStackIdentical((FluidStack)key);
 		else return false;
 	}
@@ -541,7 +540,7 @@ public abstract class ProcessorRecipeHandler {
 		if (key[pos] != null) {
 			if (key[pos] instanceof ItemStack) {
 				if (equalStack(stack, ((ItemStack) key[pos]), false)) {
-					return ((ItemStack) key[pos]).stackSize;
+					return ((ItemStack) key[pos]).getCount();
 				}
 			} else if (key[pos] instanceof FluidStack) {
 				if (equalStack(stack, ((FluidStack) key[pos]), false)) {
@@ -564,7 +563,7 @@ public abstract class ProcessorRecipeHandler {
 			} else if (object[i] instanceof ItemStack[]) {
 				stack[i] = (ItemStack[])object[i];
 			} else if (object[i] instanceof OreStack) {
-				List<ItemStack> ore = OreDictionary.getOres(((OreStack) object[i]).oreString);
+				NonNullList<ItemStack> ore = OreDictionary.getOres(((OreStack) object[i]).oreString);
 				ItemStack[] ores = new ItemStack[ore.size()];
 				for (int o = 0; o < ore.size(); o++) {
 					ores[o] = new ItemStack(ore.get(o).getItem(), ((OreStack) object[i]).stackSize, ore.get(o).getItemDamage());

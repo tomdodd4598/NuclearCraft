@@ -22,7 +22,7 @@ public class ContainerFissionController extends ContainerEnergyGeneratorProcesso
 	protected int heatChange;
 	protected int complete;
 	protected int ready;
-
+	
 	public ContainerFissionController(EntityPlayer player, TileFissionController tileEntity) {
 		super(tileEntity, FissionRecipes.instance());
 		

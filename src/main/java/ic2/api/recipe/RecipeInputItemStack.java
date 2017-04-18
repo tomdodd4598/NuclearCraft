@@ -14,7 +14,7 @@ import net.minecraftforge.oredict.OreDictionary;
 @Deprecated
 public class RecipeInputItemStack implements IRecipeInput {
 	public RecipeInputItemStack(ItemStack input) {
-		this(input, input.stackSize);
+		this(input, input.getCount());
 	}
 
 	public RecipeInputItemStack(ItemStack input, int amount) {

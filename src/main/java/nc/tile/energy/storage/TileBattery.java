@@ -15,7 +15,7 @@ public abstract class TileBattery extends TileEnergy {
 	
 	public void update() {
 		super.update();
-		if(!worldObj.isRemote) {
+		if(!world.isRemote) {
 			pushEnergy();
 		}
 	}

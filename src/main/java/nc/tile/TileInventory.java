@@ -1,23 +1,24 @@
 package nc.tile;
 
+import nc.Global;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
 
 public class TileInventory extends NCTile implements IInventory {
 	
 	public String inventoryName;
-	public ItemStack[] inventoryStacks;
+	public NonNullList<ItemStack> inventoryStacks;
 	
 	public TileInventory(String name, int size) {
 		super();
-		inventoryName = name;
-		inventoryStacks = new ItemStack[size];
+		inventoryName = Global.MOD_ID + ".container." + name;
+		inventoryStacks = NonNullList.<ItemStack>withSize(size, ItemStack.EMPTY);
 	}
 	
 	// Inventory Name
@@ -37,12 +38,12 @@ public class TileInventory extends NCTile implements IInventory {
 	// Inventory
 
 	public int getSizeInventory() {
-		return inventoryStacks.length;
+		return inventoryStacks.size();
 	}
 
 	public boolean isEmpty() {
 		for (ItemStack itemstack : inventoryStacks) {
-			if (!(itemstack == null)) {
+			if (!itemstack.isEmpty()) {
 				return false;
 			}
 		}
@@ -50,7 +51,7 @@ public class TileInventory extends NCTile implements IInventory {
 	}
 
 	public ItemStack getStackInSlot(int slot) {
-		return inventoryStacks[slot];
+		return inventoryStacks.get(slot);
 	}
 
 	public ItemStack decrStackSize(int index, int count) {
@@ -62,12 +63,12 @@ public class TileInventory extends NCTile implements IInventory {
 	}
 
 	public void setInventorySlotContents(int index, ItemStack stack) {
-		ItemStack itemstack = inventoryStacks[index];
-		boolean flag = !(stack == null) && stack.isItemEqual(itemstack) && ItemStack.areItemStackTagsEqual(stack, itemstack);
-		inventoryStacks[index] = stack;
+		ItemStack itemstack = inventoryStacks.get(index);
+		boolean flag = !stack.isEmpty() && stack.isItemEqual(itemstack) && ItemStack.areItemStackTagsEqual(stack, itemstack);
+		inventoryStacks.set(index, stack);
 
-		if (stack != null && stack.stackSize > getInventoryStackLimit()) {
-			stack.stackSize = getInventoryStackLimit();
+		if (stack.getCount() > getInventoryStackLimit()) {
+			stack.setCount(getInventoryStackLimit());
 		}
 
 		if (index == 0 && !flag) {
@@ -84,13 +85,11 @@ public class TileInventory extends NCTile implements IInventory {
 	}
 	
 	public void clear() {
-		for (int i = 0; i < inventoryStacks.length; ++i) {
-			inventoryStacks[i] = null;
-		}
+		inventoryStacks.clear();
 	}
 
-	public boolean isUseableByPlayer(EntityPlayer player) {
-		return worldObj.getTileEntity(pos) != this ? false : player.getDistanceSq((double)pos.getX() + 0.5D, (double)pos.getY() + 0.5D, (double)pos.getZ() + 0.5D) <= 64.0D;
+	public boolean isUsableByPlayer(EntityPlayer player) {
+		return world.getTileEntity(pos) != this ? false : player.getDistanceSq((double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D) <= 64.0D;
 	}
 
 	public void openInventory(EntityPlayer player) {}
@@ -101,37 +100,14 @@ public class TileInventory extends NCTile implements IInventory {
 	
 	public NBTTagCompound writeAll(NBTTagCompound nbt) {
 		super.writeAll(nbt);
-		
-		NBTTagList nbttaglist = new NBTTagList();
-		
-		for (int i = 0; i < inventoryStacks.length; ++i) {
-			if (inventoryStacks[i] != null) {
-				NBTTagCompound nbttagcompound = new NBTTagCompound();
-				nbttagcompound.setByte("Slot", (byte)i);
-				inventoryStacks[i].writeToNBT(nbttagcompound);
-				nbttaglist.appendTag(nbttagcompound);
-			}
-		}
-		
-		nbt.setTag("Items", nbttaglist);
+		ItemStackHelper.saveAllItems(nbt, inventoryStacks);
 		return nbt;
 	}
 	
 	public void readAll(NBTTagCompound nbt) {
 		super.readAll(nbt);
-		
-		NBTTagList nbttaglist = nbt.getTagList("Items", 10);
-		
-		inventoryStacks = new ItemStack[getSizeInventory()];
-		
-		for (int i = 0; i < nbttaglist.tagCount(); ++i) {
-			NBTTagCompound nbttagcompound = nbttaglist.getCompoundTagAt(i);
-			int j = nbttagcompound.getByte("Slot");
-			
-			if (j >= 0 && j < inventoryStacks.length) {
-				inventoryStacks[j] = ItemStack.loadItemStackFromNBT(nbttagcompound);
-			}
-		}
+		inventoryStacks = NonNullList.<ItemStack>withSize(getSizeInventory(), ItemStack.EMPTY);
+		ItemStackHelper.loadAllItems(nbt, inventoryStacks);
 	}
 	
 	// Inventory Fields

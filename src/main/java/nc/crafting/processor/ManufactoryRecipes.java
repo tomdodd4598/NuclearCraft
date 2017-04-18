@@ -9,7 +9,6 @@ public class ManufactoryRecipes extends ProcessorRecipeHandler {
 	public ManufactoryRecipes() {
 		super(1, 0, 1, 0, false);
 	}
-	
 	public static final ProcessorRecipeHandler instance() {
 		return RECIPES;
 	}

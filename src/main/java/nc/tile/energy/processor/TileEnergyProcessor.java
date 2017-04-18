@@ -71,7 +71,7 @@ public abstract class TileEnergyProcessor extends TileEnergySidedInventory {
 	public void updateProcessor() {
 		boolean flag = isProcessing;
 		boolean flag1 = false;
-		if(!worldObj.isRemote) {
+		if(!world.isRemote) {
 			if (canProcess() && !isPowered()) {
 				isProcessing = true;
 				time += getSpeedMultiplier();
@@ -82,7 +82,7 @@ public abstract class TileEnergyProcessor extends TileEnergySidedInventory {
 				}
 			} else {
 				isProcessing = false;
-				if (time != 0 && !isPowered()) time = MathHelper.clamp_int(time - 2*getSpeedMultiplier(), 0, baseProcessTime);
+				if (time != 0 && !isPowered()) time = MathHelper.clamp(time - 2*getSpeedMultiplier(), 0, baseProcessTime);
 			}
 			if (flag != isProcessing) {
 				flag1 = true;
@@ -106,16 +106,16 @@ public abstract class TileEnergyProcessor extends TileEnergySidedInventory {
 	
 	public void onAdded() {
 		super.onAdded();
-		if (!worldObj.isRemote) isProcessing = isProcessing();
+		if (!world.isRemote) isProcessing = isProcessing();
 	}
 	
 	public boolean isProcessing() {
-		if (worldObj.isRemote) return isProcessing;
+		if (world.isRemote) return isProcessing;
 		return !isPowered() && canProcess();
 	}
 	
 	public boolean isPowered() {
-		return worldObj.isBlockPowered(pos);
+		return world.isBlockPowered(pos);
 	}
 	
 	public boolean canProcess() {
@@ -127,7 +127,7 @@ public abstract class TileEnergyProcessor extends TileEnergySidedInventory {
 	public int getSourceTier() {
 		return 1;
 	}
-	
+		
 	public int getSinkTier() {
 		return 2;
 	}
@@ -136,9 +136,9 @@ public abstract class TileEnergyProcessor extends TileEnergySidedInventory {
 	
 	public int getSpeedMultiplier() {
 		if (!hasUpgrades) return 1;
-		ItemStack speedStack = inventoryStacks[inputSize + outputSize];
-		if (speedStack == null) return 1;
-		return speedStack.stackSize + 1;
+		ItemStack speedStack = inventoryStacks.get(inputSize + outputSize);
+		if (speedStack == ItemStack.EMPTY) return 1;
+		return speedStack.getCount() + 1;
 	}
 	
 	public int getProcessTime() {
@@ -155,7 +155,7 @@ public abstract class TileEnergyProcessor extends TileEnergySidedInventory {
 	
 	public boolean canProcessStacks() {
 		for (int i = 0; i < inputSize; i++) {
-			if (inventoryStacks[i] == null) {
+			if (inventoryStacks.get(i) == ItemStack.EMPTY) {
 				return false;
 			}
 		}
@@ -176,13 +176,13 @@ public abstract class TileEnergyProcessor extends TileEnergySidedInventory {
 			return false;
 		}
 		for(int j = 0; j < outputSize; j++) {
-			if (output[j] == null) {
+			if (output[j] == ItemStack.EMPTY || output[j] == null) {
 				return false;
 			} else {
-				if (inventoryStacks[j + inputSize] != null) {
-					if (!inventoryStacks[j + inputSize].isItemEqual((ItemStack)output[j])) {
+				if (inventoryStacks.get(j + inputSize) != ItemStack.EMPTY) {
+					if (!inventoryStacks.get(j + inputSize).isItemEqual((ItemStack)output[j])) {
 						return false;
-					} else if (inventoryStacks[j + inputSize].stackSize + ((ItemStack)output[j]).stackSize > inventoryStacks[j + inputSize].getMaxStackSize()) {
+					} else if (inventoryStacks.get(j + inputSize).getCount() + ((ItemStack)output[j]).getCount() > inventoryStacks.get(j + inputSize).getMaxStackSize()) {
 						return false;
 					}
 				}
@@ -195,23 +195,23 @@ public abstract class TileEnergyProcessor extends TileEnergySidedInventory {
 		Object[] output = getOutput(inputs());
 		int[] inputOrder = recipes.getInputOrder(inputs(), recipes.getInput(output));
 		for (int j = 0; j < outputSize; j++) {
-			if (output[j] != null) {
-				if (inventoryStacks[j + inputSize] == null) {
+			if (output[j] != ItemStack.EMPTY) {
+				if (inventoryStacks.get(j + inputSize) == ItemStack.EMPTY) {
 					ItemStack outputStack = ((ItemStack)output[j]).copy();
-					inventoryStacks[j + inputSize] = outputStack;
-				} else if (inventoryStacks[j + inputSize].isItemEqual((ItemStack)output[j])) {
-					inventoryStacks[j + inputSize].stackSize = inventoryStacks[j + inputSize].stackSize + ((ItemStack)output[j]).stackSize;
+					inventoryStacks.set(j + inputSize, outputStack);
+				} else if (inventoryStacks.get(j + inputSize).isItemEqual((ItemStack)output[j])) {
+					inventoryStacks.get(j + inputSize).setCount(inventoryStacks.get(j + inputSize).getCount() + ((ItemStack)output[j]).getCount());
 				}
 			}
 		}
 		for (int i = 0; i < inputSize; i++) {
 			if (recipes != null) {
-				inventoryStacks[i].stackSize = inventoryStacks[i].stackSize - recipes.getInputSize(inputOrder[i], output);
+				inventoryStacks.get(i).setCount(inventoryStacks.get(i).getCount() - recipes.getInputSize(inputOrder[i], output));
 			} else {
-				inventoryStacks[i].stackSize = inventoryStacks[i].stackSize - 1;
+				inventoryStacks.get(i).setCount(inventoryStacks.get(i).getCount() - 1);
 			}
-			if (inventoryStacks[i].stackSize <= 0) {
-				inventoryStacks[i] = null;
+			if (inventoryStacks.get(i).getCount() <= 0) {
+				inventoryStacks.set(i, ItemStack.EMPTY);
 			}
 		}
 	}
@@ -219,7 +219,7 @@ public abstract class TileEnergyProcessor extends TileEnergySidedInventory {
 	public Object[] inputs() {
 		Object[] input = new Object[inputSize];
 		for (int i = 0; i < inputSize; i++) {
-			input[i] = inventoryStacks[i];
+			input[i] = inventoryStacks.get(i);
 		}
 		return input;
 	}
@@ -231,7 +231,7 @@ public abstract class TileEnergyProcessor extends TileEnergySidedInventory {
 	// Inventory
 	
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {
-		if (stack == null) return false;
+		if (stack == ItemStack.EMPTY) return false;
 		else if (hasUpgrades) {
 			if (stack.getItem() == NCItems.upgrade) {
 				if (slot == inputSize + outputSize) return stack.getMetadata() == 0;
@@ -243,7 +243,7 @@ public abstract class TileEnergyProcessor extends TileEnergySidedInventory {
 	}
 	
 	/*public boolean isOxidiser() {
-		return inventoryName == "oxidiser";
+		return inventoryName == Global.MOD_ID + ".container.oxidiser";
 	}*/
 	
 	// NBT

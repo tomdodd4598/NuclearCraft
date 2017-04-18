@@ -17,44 +17,44 @@ public class TileEnergyProcessors {
 	public static class TileManufactory extends TileEnergyProcessor {
 
 		public TileManufactory() {
-			super("Manufactory", 1, 1, NCConfig.processor_time[0], NCConfig.processor_power[0], ManufactoryRecipes.instance(), 1);
+			super("manufactory", 1, 1, NCConfig.processor_time[0], NCConfig.processor_power[0], ManufactoryRecipes.instance(), 1);
 		}
 		
 		public void setBlockState() {
-			BlockManufactory.setState(isProcessing, worldObj, pos);
+			BlockManufactory.setState(isProcessing, world, pos);
 		}
 	}
 	
 	public static class TileIsotopeSeparator extends TileEnergyProcessor {
 
 		public TileIsotopeSeparator() {
-			super("Isotope Separator", 1, 2, NCConfig.processor_time[1], NCConfig.processor_power[1], IsotopeSeparatorRecipes.instance(), 2);
+			super("isotope_separator", 1, 2, NCConfig.processor_time[1], NCConfig.processor_power[1], IsotopeSeparatorRecipes.instance(), 2);
 		}
 		
 		public void setBlockState() {
-			BlockIsotopeSeparator.setState(isProcessing, worldObj, pos);
+			BlockIsotopeSeparator.setState(isProcessing, world, pos);
 		}
 	}
 	
 	public static class TileDecayHastener extends TileEnergyProcessor {
 
 		public TileDecayHastener() {
-			super("Decay Hastener", 1, 1, NCConfig.processor_time[2], NCConfig.processor_power[2], DecayHastenerRecipes.instance(), 3);
+			super("decay_hastener", 1, 1, NCConfig.processor_time[2], NCConfig.processor_power[2], DecayHastenerRecipes.instance(), 3);
 		}
 		
 		public void setBlockState() {
-			BlockDecayHastener.setState(isProcessing, worldObj, pos);
+			BlockDecayHastener.setState(isProcessing, world, pos);
 		}
 	}
 	
 	public static class TileFuelReprocessor extends TileEnergyProcessor {
 
 		public TileFuelReprocessor() {
-			super("Fuel Reprocessor", 1, 4, NCConfig.processor_time[3], NCConfig.processor_power[3], FuelReprocessorRecipes.instance(), 4);
+			super("fuel_reprocessor", 1, 4, NCConfig.processor_time[3], NCConfig.processor_power[3], FuelReprocessorRecipes.instance(), 4);
 		}
 		
 		public void setBlockState() {
-			BlockFuelReprocessor.setState(isProcessing, worldObj, pos);
+			BlockFuelReprocessor.setState(isProcessing, world, pos);
 		}
 	}
 	
@@ -65,7 +65,7 @@ public class TileEnergyProcessors {
 		}
 		
 		public void setBlockState() {
-			BlockAlloyFurnace.setState(isProcessing, worldObj, pos);
+			BlockAlloyFurnace.setState(isProcessing, world, pos);
 		}
 	}
 	

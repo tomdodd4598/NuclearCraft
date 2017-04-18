@@ -50,13 +50,13 @@ public class TileFissionController extends TileEnergyGeneratorProcessor {
 	public String problem = I18n.translateToLocalFormatted("gui.container.fission_controller.casing_incomplete");
 
 	public TileFissionController() {
-		super("Fission Controller (WIP)", 1, 1, 0, 960000, FissionRecipes.instance());
+		super("fission_controller", 1, 1, 0, 960000, FissionRecipes.instance());
 	}
 	
 	public void updateGenerator() {
 		boolean flag = isGenerating;
 		boolean flag1 = false;
-		if(!worldObj.isRemote) {
+		if(!world.isRemote) {
 			if (time == 0) {
 				consume();
 			}
@@ -95,12 +95,12 @@ public class TileFissionController extends TileEnergyGeneratorProcessor {
 	}
 	
 	public void setBlockState() {
-		BlockFissionController.setState(isGenerating, worldObj, pos);
+		BlockFissionController.setState(isGenerating, world, pos);
 	}
 	
 	public void onAdded() {
 		super.onAdded();
-		if (!worldObj.isRemote) checkStructure();
+		if (!world.isRemote) checkStructure();
 	}
 	
 	public void tick() {
@@ -118,9 +118,9 @@ public class TileFissionController extends TileEnergyGeneratorProcessor {
 	public void overheat() {
 		if (heat >= getMaxHeat() && NCConfig.fission_overheat) {
 			// meltdown();
-			worldObj.setBlockToAir(pos);
-			worldObj.setBlockState(pos, Blocks.LAVA.getDefaultState());
-			worldObj.removeTileEntity(pos);
+			world.setBlockToAir(pos);
+			world.setBlockState(pos, Blocks.LAVA.getDefaultState());
+			world.removeTileEntity(pos);
 		}
 	}
 	
@@ -141,11 +141,11 @@ public class TileFissionController extends TileEnergyGeneratorProcessor {
 	// Generating
 
 	public int getRateMultiplier() {
-		return Math.max(1, rateMultiplier);
+		return Math.max(0, rateMultiplier);
 	}
 
 	public void setRateMultiplier(int value) {
-		rateMultiplier = Math.max(1, value);
+		rateMultiplier = Math.max(0, value);
 	}
 
 	public int getProcessTime() {
@@ -161,21 +161,21 @@ public class TileFissionController extends TileEnergyGeneratorProcessor {
 	}
 
 	public void setProcessPower(int value) {
-		processPower = value;
+		processPower = Math.max(0, value);
 	}
 	
 	public double getBaseTime() {
-		if (consumedInputs()[0] == null) return 1;
+		if (consumedInputs()[0] == ItemStack.EMPTY) return 1;
 		return (((ItemStack) consumedInputs()[0]).getItem() instanceof IFissionableItem) ? ((IFissionableItem)((ItemStack) consumedInputs()[0]).getItem()).getBaseTime((ItemStack) consumedInputs()[0]) : 1;
 	}
 
 	public double getBasePower() {
-		if (consumedInputs()[0] == null) return 0;
+		if (consumedInputs()[0] == ItemStack.EMPTY) return 0;
 		return (((ItemStack) consumedInputs()[0]).getItem() instanceof IFissionableItem) ? ((IFissionableItem)((ItemStack) consumedInputs()[0]).getItem()).getBasePower((ItemStack) consumedInputs()[0]) : 0;
 	}
 
 	public double getBaseHeat() {
-		if (consumedInputs()[0] == null) return 0;
+		if (consumedInputs()[0] == ItemStack.EMPTY) return 0;
 		return (((ItemStack) consumedInputs()[0]).getItem() instanceof IFissionableItem) ? ((IFissionableItem)((ItemStack) consumedInputs()[0]).getItem()).getBaseHeat((ItemStack) consumedInputs()[0]) : 0;
 	}
 	
@@ -209,20 +209,20 @@ public class TileFissionController extends TileEnergyGeneratorProcessor {
 		int zCheck = getPos().getZ();
 		
 		if (getBlockMetadata() == 4) for (int i = 0; i < blocks.length; i++) {
-			if (blocks[i] instanceof IBlockState) if (worldObj.getBlockState(new BlockPos(xCheck + x, yCheck, zCheck + z)) == blocks[i]) return true;
-			else if (blocks[i] instanceof Block) if (worldObj.getBlockState(new BlockPos(xCheck + x, yCheck, zCheck + z)).getBlock() == blocks[i]) return true;
+			if (blocks[i] instanceof IBlockState) if (world.getBlockState(new BlockPos(xCheck + x, yCheck, zCheck + z)) == blocks[i]) return true;
+			else if (blocks[i] instanceof Block) if (world.getBlockState(new BlockPos(xCheck + x, yCheck, zCheck + z)).getBlock() == blocks[i]) return true;
 		}
 		if (getBlockMetadata() == 2) for (int i = 0; i < blocks.length; i++) {
-			if (blocks[i] instanceof IBlockState) if (worldObj.getBlockState(new BlockPos(xCheck - z, yCheck, zCheck + x)) == blocks[i]) return true;
-			else if (blocks[i] instanceof Block) if (worldObj.getBlockState(new BlockPos(xCheck - z, yCheck, zCheck + x)).getBlock() == blocks[i]) return true;
+			if (blocks[i] instanceof IBlockState) if (world.getBlockState(new BlockPos(xCheck - z, yCheck, zCheck + x)) == blocks[i]) return true;
+			else if (blocks[i] instanceof Block) if (world.getBlockState(new BlockPos(xCheck - z, yCheck, zCheck + x)).getBlock() == blocks[i]) return true;
 		}
 		if (getBlockMetadata() == 5) for (int i = 0; i < blocks.length; i++) {
-			if (blocks[i] instanceof IBlockState) if (worldObj.getBlockState(new BlockPos(xCheck - x, yCheck, zCheck - z)) == blocks[i]) return true;
-			else if (blocks[i] instanceof Block) if (worldObj.getBlockState(new BlockPos(xCheck - x, yCheck, zCheck - z)).getBlock() == blocks[i]) return true;
+			if (blocks[i] instanceof IBlockState) if (world.getBlockState(new BlockPos(xCheck - x, yCheck, zCheck - z)) == blocks[i]) return true;
+			else if (blocks[i] instanceof Block) if (world.getBlockState(new BlockPos(xCheck - x, yCheck, zCheck - z)).getBlock() == blocks[i]) return true;
 		}
 		if (getBlockMetadata() == 3) for (int i = 0; i < blocks.length; i++) {
-			if (blocks[i] instanceof IBlockState) if (worldObj.getBlockState(new BlockPos(xCheck + z, yCheck, zCheck - x)) == blocks[i]) return true;
-			else if (blocks[i] instanceof Block) if (worldObj.getBlockState(new BlockPos(xCheck + z, yCheck, zCheck - x)).getBlock() == blocks[i]) return true;
+			if (blocks[i] instanceof IBlockState) if (world.getBlockState(new BlockPos(xCheck + z, yCheck, zCheck - x)) == blocks[i]) return true;
+			else if (blocks[i] instanceof Block) if (world.getBlockState(new BlockPos(xCheck + z, yCheck, zCheck - x)).getBlock() == blocks[i]) return true;
 		}
 		
 		return false;
@@ -234,16 +234,16 @@ public class TileFissionController extends TileEnergyGeneratorProcessor {
 		int zCheck = getPos().getZ();
 		
 		if (getBlockMetadata() == 4) {
-			return worldObj.getBlockState(new BlockPos(xCheck + x, yCheck, zCheck + z));
+			return world.getBlockState(new BlockPos(xCheck + x, yCheck, zCheck + z));
 		}
 		if (getBlockMetadata() == 2) {
-			return worldObj.getBlockState(new BlockPos(xCheck - z, yCheck, zCheck + x));
+			return world.getBlockState(new BlockPos(xCheck - z, yCheck, zCheck + x));
 		}
 		if (getBlockMetadata() == 5) {
-			return worldObj.getBlockState(new BlockPos(xCheck - x, yCheck, zCheck - z));
+			return world.getBlockState(new BlockPos(xCheck - x, yCheck, zCheck - z));
 		}
 		if (getBlockMetadata() == 3) {
-			return worldObj.getBlockState(new BlockPos(xCheck + z, yCheck, zCheck - x));
+			return world.getBlockState(new BlockPos(xCheck + z, yCheck, zCheck - x));
 		}
 		else return Blocks.AIR.getDefaultState();
 	}
@@ -617,7 +617,7 @@ public class TileFissionController extends TileEnergyGeneratorProcessor {
 			ready = 0;
 			generating = false;
 		}
-		
+
 		if (shouldUpdate()) {
 			if (complete == 1) {
 				for (int z = minZ + 1; z <= maxZ - 1; z++) {
@@ -662,7 +662,7 @@ public class TileFissionController extends TileEnergyGeneratorProcessor {
 					}
 				}
 			}
-			
+			  	
 			if (complete == 1) {
 				for (int z = minZ + 1; z <= maxZ - 1; z++) {
 					for (int x = minX + 1; x <= maxX - 1; x++) {
@@ -740,7 +740,7 @@ public class TileFissionController extends TileEnergyGeneratorProcessor {
 	
 	public NBTTagCompound writeAll(NBTTagCompound nbt) {
 		super.writeAll(nbt);
-		nbt.setInteger("processTime", processTime);
+		//nbt.setInteger("processTime", processTime);
 		nbt.setInteger("processPower", processPower);
 		nbt.setInteger("rateMultiplier", rateMultiplier);
 		nbt.setInteger("heat", heat);
@@ -765,7 +765,7 @@ public class TileFissionController extends TileEnergyGeneratorProcessor {
 			
 	public void readAll(NBTTagCompound nbt) {
 		super.readAll(nbt);
-		processTime = nbt.getInteger("processTime");
+		//processTime = nbt.getInteger("processTime");
 		processPower = nbt.getInteger("processPower");
 		rateMultiplier = nbt.getInteger("rateMultiplier");
 		heat = nbt.getInteger("heat");

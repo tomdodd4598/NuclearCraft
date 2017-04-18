@@ -6,9 +6,9 @@ import net.minecraft.nbt.NBTTagCompound;
 
 class RecipeUtil {
 	public static ItemStack setImmutableSize(ItemStack stack, int size) {
-		if (stack.stackSize != size) {
+		if (stack.getCount() != size) {
 			stack = stack.copy();
-			stack.stackSize = size;
+			stack.setCount(size);
 		}
 
 		return stack;

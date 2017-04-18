@@ -9,7 +9,6 @@ public class FissionRecipes extends ProcessorRecipeHandler {
 	public FissionRecipes() {
 		super(1, 0, 1, 0, false);
 	}
-	
 	public static final ProcessorRecipeHandler instance() {
 		return RECIPES;
 	}
