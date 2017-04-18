@@ -1,10 +1,12 @@
 package nc.tile.energy.processor;
 
-import nc.blocks.tile.energy.processor.BlockDecayHastener;
-import nc.blocks.tile.energy.processor.BlockFuelReprocessor;
-import nc.blocks.tile.energy.processor.BlockIsotopeSeparator;
-import nc.blocks.tile.energy.processor.BlockManufactory;
+import nc.block.tile.energy.processor.BlockAlloyFurnace;
+import nc.block.tile.energy.processor.BlockDecayHastener;
+import nc.block.tile.energy.processor.BlockFuelReprocessor;
+import nc.block.tile.energy.processor.BlockIsotopeSeparator;
+import nc.block.tile.energy.processor.BlockManufactory;
 import nc.config.NCConfig;
+import nc.crafting.processor.AlloyFurnaceRecipes;
 import nc.crafting.processor.DecayHastenerRecipes;
 import nc.crafting.processor.FuelReprocessorRecipes;
 import nc.crafting.processor.IsotopeSeparatorRecipes;
@@ -56,10 +58,21 @@ public class TileEnergyProcessors {
 		}
 	}
 	
+	public static class TileAlloyFurnace extends TileEnergyProcessor {
+
+		public TileAlloyFurnace() {
+			super("alloy_furnace", 2, 1, NCConfig.processor_time[4], NCConfig.processor_power[4], AlloyFurnaceRecipes.instance(), 5);
+		}
+		
+		public void setBlockState() {
+			BlockAlloyFurnace.setState(isProcessing, world, pos);
+		}
+	}
+	
 	/*public static class TileOxidiser extends TileEnergyProcessor {
 
 		public TileOxidiser() {
-			super("oxidiser", 1, 1, NCConfig.processor_time[4], NCConfig.processor_power[4], OxidiserRecipes.instance(), 5);
+			super("oxidiser", 1, 1, NCConfig.processor_time[5], NCConfig.processor_power[5], OxidiserRecipes.instance(), 6);
 		}
 		
 		public void setBlockState() {

@@ -1,7 +1,7 @@
 package nc.init;
 
 import nc.Global;
-import nc.items.armor.NCItemArmor;
+import nc.item.armor.NCItemArmor;
 import nc.proxy.CommonProxy;
 import nc.util.NCUtils;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;

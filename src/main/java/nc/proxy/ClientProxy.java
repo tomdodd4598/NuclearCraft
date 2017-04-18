@@ -65,10 +65,13 @@ public class ClientProxy extends CommonProxy {
 		ModelBakery.registerItemVariants(Item.getItemFromBlock(NCBlocks.cooler),
 				new ResourceLocation(Global.MOD_ID, "cooler_empty"),
 				new ResourceLocation(Global.MOD_ID, "cooler_water"),
-				new ResourceLocation(Global.MOD_ID, "cooler_quartz"),
-				new ResourceLocation(Global.MOD_ID, "cooler_helium"),
 				new ResourceLocation(Global.MOD_ID, "cooler_redstone"),
+				new ResourceLocation(Global.MOD_ID, "cooler_quartz"),
+				new ResourceLocation(Global.MOD_ID, "cooler_gold"),
 				new ResourceLocation(Global.MOD_ID, "cooler_glowstone"),
+				new ResourceLocation(Global.MOD_ID, "cooler_lapis"),
+				new ResourceLocation(Global.MOD_ID, "cooler_diamond"),
+				new ResourceLocation(Global.MOD_ID, "cooler_helium"),
 				new ResourceLocation(Global.MOD_ID, "cooler_enderium"),
 				new ResourceLocation(Global.MOD_ID, "cooler_cryotheum"));
 		
@@ -112,14 +115,17 @@ public class ClientProxy extends CommonProxy {
 		ModelBakery.registerItemVariants(NCItems.gem_dust,
 				new ResourceLocation(Global.MOD_ID, "gem_dust_diamond"),
 				new ResourceLocation(Global.MOD_ID, "gem_dust_rhodochrosite"),
-				new ResourceLocation(Global.MOD_ID, "gem_dust_quartz"));
+				new ResourceLocation(Global.MOD_ID, "gem_dust_quartz"),
+				new ResourceLocation(Global.MOD_ID, "gem_dust_obsidian"));
 		
 		ModelBakery.registerItemVariants(NCItems.alloy,
 				new ResourceLocation(Global.MOD_ID, "alloy_bronze"),
 				new ResourceLocation(Global.MOD_ID, "alloy_tough"),
 				new ResourceLocation(Global.MOD_ID, "alloy_hard_carbon"),
 				new ResourceLocation(Global.MOD_ID, "alloy_magnesium_diboride"),
-				new ResourceLocation(Global.MOD_ID, "alloy_lithium_manganese_dioxide"));
+				new ResourceLocation(Global.MOD_ID, "alloy_lithium_manganese_dioxide"),
+				new ResourceLocation(Global.MOD_ID, "alloy_steel"),
+				new ResourceLocation(Global.MOD_ID, "alloy_ferroboron"));
 		
 		ModelBakery.registerItemVariants(NCItems.part,
 				new ResourceLocation(Global.MOD_ID, "part_plate_basic"),

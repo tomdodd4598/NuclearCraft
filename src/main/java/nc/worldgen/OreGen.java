@@ -2,9 +2,9 @@ package nc.worldgen;
 
 import java.util.Random;
 
-import nc.blocks.BlockOre;
+import nc.block.BlockOre;
 import nc.config.NCConfig;
-import nc.handlers.EnumHandler.OreTypes;
+import nc.handler.EnumHandler.OreTypes;
 import nc.init.NCBlocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;

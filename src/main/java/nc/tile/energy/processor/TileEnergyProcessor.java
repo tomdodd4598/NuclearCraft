@@ -3,7 +3,7 @@ package nc.tile.energy.processor;
 import ic2.api.energy.event.EnergyTileUnloadEvent;
 import nc.ModCheck;
 import nc.energy.EnumStorage.Connection;
-import nc.handlers.ProcessorRecipeHandler;
+import nc.handler.ProcessorRecipeHandler;
 import nc.init.NCItems;
 import nc.tile.energy.TileEnergySidedInventory;
 import net.minecraft.item.ItemStack;
@@ -64,9 +64,13 @@ public abstract class TileEnergyProcessor extends TileEnergySidedInventory {
 	}
 	
 	public void update() {
+		super.update();
+		updateProcessor();
+	}
+	
+	public void updateProcessor() {
 		boolean flag = isProcessing;
 		boolean flag1 = false;
-		super.update();
 		if(!world.isRemote) {
 			if (canProcess() && !isPowered()) {
 				isProcessing = true;
@@ -114,6 +118,20 @@ public abstract class TileEnergyProcessor extends TileEnergySidedInventory {
 		return world.isBlockPowered(pos);
 	}
 	
+	public boolean canProcess() {
+		return canProcessStacks();
+	}
+	
+	// IC2 Tiers
+	
+	public int getSourceTier() {
+		return 1;
+	}
+		
+	public int getSinkTier() {
+		return 2;
+	}
+	
 	// Processing
 	
 	public int getSpeedMultiplier() {
@@ -135,7 +153,7 @@ public abstract class TileEnergyProcessor extends TileEnergySidedInventory {
 		return getProcessTime()*getProcessPower();
 	}
 	
-	public boolean canProcess() {
+	public boolean canProcessStacks() {
 		for (int i = 0; i < inputSize; i++) {
 			if (inventoryStacks.get(i) == ItemStack.EMPTY) {
 				return false;
@@ -153,18 +171,18 @@ public abstract class TileEnergyProcessor extends TileEnergySidedInventory {
 		if (getEnergyStored() < getProcessPower()) {
 			return false;
 		}
-		ItemStack[] output = getOutput(inputs());
+		Object[] output = getOutput(inputs());
 		if (output == null || output.length != outputSize) {
 			return false;
 		}
 		for(int j = 0; j < outputSize; j++) {
-			if (output[j] == ItemStack.EMPTY) {
+			if (output[j] == ItemStack.EMPTY || output[j] == null) {
 				return false;
 			} else {
 				if (inventoryStacks.get(j + inputSize) != ItemStack.EMPTY) {
-					if (!inventoryStacks.get(j + inputSize).isItemEqual(output[j])) {
+					if (!inventoryStacks.get(j + inputSize).isItemEqual((ItemStack)output[j])) {
 						return false;
-					} else if (inventoryStacks.get(j + inputSize).getCount() + output[j].getCount() > inventoryStacks.get(j + inputSize).getMaxStackSize()) {
+					} else if (inventoryStacks.get(j + inputSize).getCount() + ((ItemStack)output[j]).getCount() > inventoryStacks.get(j + inputSize).getMaxStackSize()) {
 						return false;
 					}
 				}
@@ -174,20 +192,21 @@ public abstract class TileEnergyProcessor extends TileEnergySidedInventory {
 	}
 	
 	public void process() {
-		ItemStack[] output = getOutput(inputs());
+		Object[] output = getOutput(inputs());
+		int[] inputOrder = recipes.getInputOrder(inputs(), recipes.getInput(output));
 		for (int j = 0; j < outputSize; j++) {
 			if (output[j] != ItemStack.EMPTY) {
 				if (inventoryStacks.get(j + inputSize) == ItemStack.EMPTY) {
-					ItemStack outputStack = output[j].copy();
+					ItemStack outputStack = ((ItemStack)output[j]).copy();
 					inventoryStacks.set(j + inputSize, outputStack);
-				} else if (inventoryStacks.get(j + inputSize).isItemEqual(output[j])) {
-					inventoryStacks.get(j + inputSize).setCount(inventoryStacks.get(j + inputSize).getCount() + output[j].getCount());
+				} else if (inventoryStacks.get(j + inputSize).isItemEqual((ItemStack)output[j])) {
+					inventoryStacks.get(j + inputSize).setCount(inventoryStacks.get(j + inputSize).getCount() + ((ItemStack)output[j]).getCount());
 				}
 			}
 		}
 		for (int i = 0; i < inputSize; i++) {
 			if (recipes != null) {
-				inventoryStacks.get(i).setCount(inventoryStacks.get(i).getCount() - recipes.getInputSize(i, output));
+				inventoryStacks.get(i).setCount(inventoryStacks.get(i).getCount() - recipes.getInputSize(inputOrder[i], output));
 			} else {
 				inventoryStacks.get(i).setCount(inventoryStacks.get(i).getCount() - 1);
 			}
@@ -197,16 +216,16 @@ public abstract class TileEnergyProcessor extends TileEnergySidedInventory {
 		}
 	}
 	
-	public ItemStack[] inputs() {
-		ItemStack[] input = new ItemStack[inputSize];
+	public Object[] inputs() {
+		Object[] input = new Object[inputSize];
 		for (int i = 0; i < inputSize; i++) {
 			input[i] = inventoryStacks.get(i);
 		}
 		return input;
 	}
 	
-	public ItemStack[] getOutput(ItemStack... itemstacks) {
-		return recipes.getOutput(itemstacks);
+	public Object[] getOutput(Object... stacks) {
+		return recipes.getOutput(stacks);
 	}
 	
 	// Inventory

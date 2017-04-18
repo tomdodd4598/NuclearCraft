@@ -1,7 +1,7 @@
 package nc;
 
 import nc.config.NCConfig;
-import nc.handlers.GuiHandler;
+import nc.handler.GuiHandler;
 import nc.proxy.CommonProxy;
 import nc.util.NCUtils;
 import net.minecraftforge.fml.common.Mod;

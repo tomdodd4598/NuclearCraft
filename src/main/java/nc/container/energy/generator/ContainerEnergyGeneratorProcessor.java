@@ -1,7 +1,7 @@
 package nc.container.energy.generator;
 
 import nc.container.ContainerTile;
-import nc.handlers.ProcessorRecipeHandler;
+import nc.handler.ProcessorRecipeHandler;
 import nc.tile.energy.generator.TileEnergyGeneratorProcessor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IContainerListener;

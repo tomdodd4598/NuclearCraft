@@ -22,7 +22,7 @@ import net.minecraftforge.energy.CapabilityEnergy;
 import cofh.api.energy.IEnergyProvider;
 import cofh.api.energy.IEnergyReceiver;
 
-public class TileEnergy extends NCTile implements ITileEnergy, IEnergyReceiver, IEnergyProvider, IEnergyTile, IEnergySink, IEnergySource {
+public abstract class TileEnergy extends NCTile implements ITileEnergy, IEnergyReceiver, IEnergyProvider, IEnergyTile, IEnergySink, IEnergySource {
 
 	public Connection connection;
 	public final Storage storage;
@@ -118,22 +118,18 @@ public class TileEnergy extends NCTile implements ITileEnergy, IEnergyReceiver, 
 	
 	/** The normal conversion is 4 RF to 1 EU, but for RF generators, this is OP, so the ratio is instead 16:1 */
 	public void drawEnergy(double amount) {
-		storage.takePower((long) (NCConfig.generator_rf_per_eu*amount), false);
+		storage.takePower((long) (NCConfig.generator_rf_per_eu * amount), false);
 	}
 
 	public double injectEnergy(EnumFacing directionFrom, double amount, double voltage) {
-		int energyReceived = storage.receiveEnergy((int) (NCConfig.processor_rf_per_eu*amount), true);
+		int energyReceived = storage.receiveEnergy((int) (NCConfig.processor_rf_per_eu * amount), true);
 		storage.givePower(energyReceived, false);
-		return amount - (energyReceived/NCConfig.processor_rf_per_eu);
+		return amount - (energyReceived / NCConfig.processor_rf_per_eu);
 	}
 	
-	public int getSourceTier() {
-		return 1;
-	}
+	public abstract int getSourceTier();
 
-	public int getSinkTier() {
-		return 3;
-	}
+	public abstract int getSinkTier();
 	
 	// NBT
 	

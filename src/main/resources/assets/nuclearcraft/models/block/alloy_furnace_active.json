@@ -1,0 +1,8 @@
+{
+    "parent": "block/orientable",
+    "textures": {
+        "top": "nuclearcraft:blocks/alloy_furnace_top",
+        "front": "nuclearcraft:blocks/alloy_furnace_front_on",
+        "side": "nuclearcraft:blocks/alloy_furnace_side"
+    }
+}

@@ -1,7 +1,7 @@
 package nc.tile.processor;
 
 import nc.Global;
-import nc.blocks.tile.processor.BlockNuclearFurnace;
+import nc.block.tile.processor.BlockNuclearFurnace;
 import nc.container.SlotFuel;
 import nc.init.NCBlocks;
 import nc.init.NCItems;

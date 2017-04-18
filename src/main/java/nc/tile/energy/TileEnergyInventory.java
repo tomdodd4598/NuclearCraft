@@ -14,7 +14,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.energy.CapabilityEnergy;
 
-public class TileEnergyInventory extends TileEnergy implements IInventory {
+public abstract class TileEnergyInventory extends TileEnergy implements IInventory {
 
 	public String inventoryName;
 	public NonNullList<ItemStack> inventoryStacks;

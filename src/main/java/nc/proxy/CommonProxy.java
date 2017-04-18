@@ -1,18 +1,18 @@
 package nc.proxy;
 
 import nc.ModCheck;
-import nc.handlers.AchievementHandler;
-import nc.handlers.DropHandler;
-import nc.handlers.FuelHandler;
-import nc.handlers.FurnaceRecipeHandler;
-import nc.handlers.OreDictHandler;
-import nc.handlers.RecipeHandler;
+import nc.handler.AchievementHandler;
+import nc.handler.DropHandler;
+import nc.handler.FuelHandler;
+import nc.handler.FurnaceRecipeHandler;
+import nc.handler.OreDictHandler;
+import nc.handler.RecipeHandler;
 import nc.init.NCArmor;
 import nc.init.NCBlocks;
 import nc.init.NCItems;
 import nc.init.NCTiles;
 import nc.init.NCTools;
-import nc.tabs.NCTab;
+import nc.tab.NCTab;
 import nc.worldgen.OreGen;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.common.MinecraftForge;
@@ -25,7 +25,7 @@ public class CommonProxy {
 	
 	public static final CreativeTabs NC_TAB = new NCTab();
 	
-	nc.handlers.EventHandler eventHandler = new nc.handlers.EventHandler();
+	nc.handler.EventHandler eventHandler = new nc.handler.EventHandler();
 
 	public void preInit(FMLPreInitializationEvent preEvent) {
 		NCBlocks.init();

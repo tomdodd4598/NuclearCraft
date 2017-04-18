@@ -3,7 +3,7 @@ package nc.tile.energy.generator;
 import ic2.api.energy.event.EnergyTileUnloadEvent;
 import nc.ModCheck;
 import nc.energy.EnumStorage.Connection;
-import nc.handlers.ProcessorRecipeHandler;
+import nc.handler.ProcessorRecipeHandler;
 import nc.tile.energy.TileEnergySidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -48,9 +48,13 @@ public abstract class TileEnergyGeneratorProcessor extends TileEnergySidedInvent
 	}
 	
 	public void update() {
+		super.update();
+		updateGenerator();
+	}
+	
+	public void updateGenerator() {
 		boolean flag = isGenerating;
 		boolean flag1 = false;
-		super.update();
 		if(!world.isRemote) {
 			if (time == 0) {
 				consume();
@@ -112,6 +116,10 @@ public abstract class TileEnergyGeneratorProcessor extends TileEnergySidedInvent
 		return false;
 	}
 	
+	public boolean canProcess() {
+		return canProcessStacks();
+	}
+	
 	// Processing
 	
 	public abstract int getRateMultiplier();
@@ -126,7 +134,7 @@ public abstract class TileEnergyGeneratorProcessor extends TileEnergySidedInvent
 		
 	public abstract void setProcessPower(int value);
 		
-	public boolean canProcess() {
+	public boolean canProcessStacks() {
 		for (int i = 0; i < inputSize; i++) {
 			if (inventoryStacks.get(i) == ItemStack.EMPTY && !hasConsumed) {
 				return false;
@@ -135,18 +143,18 @@ public abstract class TileEnergyGeneratorProcessor extends TileEnergySidedInvent
 		if (time >= getProcessTime()) {
 			return true;
 		}
-		ItemStack[] output = hasConsumed ? getOutput(consumedInputs()) : getOutput(inputs());
+		Object[] output = hasConsumed ? getOutput(consumedInputs()) : getOutput(inputs());
 		if (output == null || output.length != outputSize) {
 			return false;
 		}
 		for(int j = 0; j < outputSize; j++) {
-			if (output[j] == ItemStack.EMPTY) {
+			if (output[j] == ItemStack.EMPTY || output[j] == null) {
 				return false;
 			} else {
 				if (inventoryStacks.get(j + inputSize) != ItemStack.EMPTY) {
-					if (!inventoryStacks.get(j + inputSize).isItemEqual(output[j])) {
+					if (!inventoryStacks.get(j + inputSize).isItemEqual((ItemStack)output[j])) {
 						return false;
-					} else if (inventoryStacks.get(j + inputSize).getCount() + output[j].getCount() > inventoryStacks.get(j + inputSize).getMaxStackSize()) {
+					} else if (inventoryStacks.get(j + inputSize).getCount() + ((ItemStack)output[j]).getCount() > inventoryStacks.get(j + inputSize).getMaxStackSize()) {
 						return false;
 					}
 				}
@@ -162,12 +170,13 @@ public abstract class TileEnergyGeneratorProcessor extends TileEnergySidedInvent
 					inventoryStacks.set(i + inputSize + outputSize + otherSlotsSize, ItemStack.EMPTY);
 				}
 			}
-			ItemStack[] output = getOutput(inputs());
+			Object[] output = getOutput(inputs());
+			int[] inputOrder = recipes.getInputOrder(inputs(), output);
 			if (output[0] == ItemStack.EMPTY) return;
 			for (int i = 0; i < inputSize; i++) {
 				if (recipes != null) {
-					inventoryStacks.set(i + inputSize + outputSize + otherSlotsSize, new ItemStack(inventoryStacks.get(i).getItem(), recipes.getInputSize(i, output), inventoryStacks.get(i).getMetadata()));
-					inventoryStacks.get(i).setCount(inventoryStacks.get(i).getCount() - recipes.getInputSize(i, output));
+					inventoryStacks.set(i + inputSize + outputSize + otherSlotsSize, new ItemStack(inventoryStacks.get(i).getItem(), recipes.getInputSize(inputOrder[i], output), inventoryStacks.get(i).getMetadata()));
+					inventoryStacks.get(i).setCount(inventoryStacks.get(i).getCount() - recipes.getInputSize(inputOrder[i], output));
 				} else {
 					inventoryStacks.set(i + inputSize + outputSize + otherSlotsSize, new ItemStack(inventoryStacks.get(i).getItem(), 1, inventoryStacks.get(i).getMetadata()));
 					inventoryStacks.get(i).setCount(inventoryStacks.get(i).getCount() - 1);
@@ -182,49 +191,41 @@ public abstract class TileEnergyGeneratorProcessor extends TileEnergySidedInvent
 		
 	public void output() {
 		if (hasConsumed) {
-			ItemStack[] output = getOutput(consumedInputs());
+			Object[] output = getOutput(consumedInputs());
 			for (int j = 0; j < outputSize; j++) {
 				if (output[j] != ItemStack.EMPTY) {
 					if (inventoryStacks.get(j + inputSize) == ItemStack.EMPTY) {
-						ItemStack outputStack = output[j].copy();
+						ItemStack outputStack = ((ItemStack)output[j]).copy();
 						inventoryStacks.set(j + inputSize, outputStack);
-					} else if (inventoryStacks.get(j + inputSize).isItemEqual(output[j])) {
-						inventoryStacks.get(j + inputSize).setCount(inventoryStacks.get(j + inputSize).getCount() + output[j].getCount());
+					} else if (inventoryStacks.get(j + inputSize).isItemEqual((ItemStack)output[j])) {
+						inventoryStacks.get(j + inputSize).setCount(inventoryStacks.get(j + inputSize).getCount() + ((ItemStack)output[j]).getCount());
 					}
 				}
 			}
 			for (int i = inputSize + outputSize + otherSlotsSize; i < 2*inputSize + outputSize + otherSlotsSize; i++) {
-				/*if (recipes != null) {
-					inventoryStacks.get(i).setCount(inventoryStacks.get(i).getCount() - recipes.getInputSize(i, output));
-				} else {
-					inventoryStacks.get(i).setCount(inventoryStacks.get(i).getCount() - 1);
-				}
-				if (inventoryStacks.get(i).getCount() <= 0) {
-					inventoryStacks.set(i, ItemStack.EMPTY);
-				}*/
 				inventoryStacks.set(i, ItemStack.EMPTY);
 			}
 			hasConsumed = false;
 		}
 	}
 		
-	public ItemStack[] inputs() {
-		ItemStack[] input = new ItemStack[inputSize];
+	public Object[] inputs() {
+		Object[] input = new Object[inputSize];
 		for (int i = 0; i < inputSize; i++) {
 			input[i] = inventoryStacks.get(i);
 		}
 		return input;
 	}
 		
-	public ItemStack[] consumedInputs() {
-		ItemStack[] input = new ItemStack[inputSize];
+	public Object[] consumedInputs() {
+		Object[] input = new Object[inputSize];
 		for (int i = 0; i < inputSize; i++) {
 			input[i] = inventoryStacks.get(i + inputSize + outputSize + otherSlotsSize);
 		}
 		return input;
 	}
 		
-	public ItemStack[] getOutput(ItemStack... itemstacks) {
+	public Object[] getOutput(Object... itemstacks) {
 		return recipes.getOutput(itemstacks);
 	}
 	

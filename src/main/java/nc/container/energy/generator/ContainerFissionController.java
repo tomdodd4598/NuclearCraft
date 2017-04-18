@@ -15,7 +15,14 @@ public class ContainerFissionController extends ContainerEnergyGeneratorProcesso
 	protected int cooling;
 	protected int efficiency;
 	protected int cells;
-
+	protected int rateMultiplier;
+	protected int lengthX;
+	protected int lengthY;
+	protected int lengthZ;
+	protected int heatChange;
+	protected int complete;
+	protected int ready;
+	
 	public ContainerFissionController(EntityPlayer player, TileFissionController tileEntity) {
 		super(tileEntity, FissionRecipes.instance());
 		
@@ -27,12 +34,12 @@ public class ContainerFissionController extends ContainerEnergyGeneratorProcesso
 		
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 9; j++) {
-				addSlotToContainer(new Slot(player.inventory, j + 9*i + 9, 8 + 18*j, 84 + 18*i));
+				addSlotToContainer(new Slot(player.inventory, j + 9*i + 9, 8 + 18*j, 95 + 18*i));
 			}
 		}
 		
 		for (int i = 0; i < 9; i++) {
-			addSlotToContainer(new Slot(player.inventory, i, 8 + 18*i, 142));
+			addSlotToContainer(new Slot(player.inventory, i, 8 + 18*i, 153));
 		}
 	}
 	
@@ -73,6 +80,34 @@ public class ContainerFissionController extends ContainerEnergyGeneratorProcesso
 			if (cells != tile.getField(7)) {
 				icontainerlistener.sendProgressBarUpdate(this, 7, tile.getField(7));
 			}
+			
+			if (rateMultiplier != tile.getField(8)) {
+				icontainerlistener.sendProgressBarUpdate(this, 8, tile.getField(8));
+			}
+			
+			if (lengthX != tile.getField(9)) {
+				icontainerlistener.sendProgressBarUpdate(this, 9, tile.getField(9));
+			}
+			
+			if (lengthY != tile.getField(10)) {
+				icontainerlistener.sendProgressBarUpdate(this, 10, tile.getField(10));
+			}
+			
+			if (lengthZ != tile.getField(11)) {
+				icontainerlistener.sendProgressBarUpdate(this, 11, tile.getField(11));
+			}
+			
+			if (heatChange != tile.getField(12)) {
+				icontainerlistener.sendProgressBarUpdate(this, 12, tile.getField(12));
+			}
+			
+			if (complete != tile.getField(13)) {
+				icontainerlistener.sendProgressBarUpdate(this, 13, tile.getField(13));
+			}
+			
+			if (ready != tile.getField(14)) {
+				icontainerlistener.sendProgressBarUpdate(this, 14, tile.getField(14));
+			}
 		}
 		
 		time = tile.getField(0);
@@ -83,5 +118,12 @@ public class ContainerFissionController extends ContainerEnergyGeneratorProcesso
 		cooling = tile.getField(5);
 		efficiency = tile.getField(6);
 		cells = tile.getField(7);
+		rateMultiplier = tile.getField(8);
+		lengthX = tile.getField(9);
+		lengthY = tile.getField(10);
+		lengthZ = tile.getField(11);
+		heatChange = tile.getField(12);
+		complete = tile.getField(13);
+		ready = tile.getField(14);
 	}
 }

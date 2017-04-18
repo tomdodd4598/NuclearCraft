@@ -1,44 +1,45 @@
 package nc.init;
 
 import nc.Global;
-import nc.blocks.BlockIngot;
-import nc.blocks.BlockOre;
-import nc.blocks.BlockTransparent;
-import nc.blocks.NCBlock;
-import nc.blocks.fission.BlockCooler;
-import nc.blocks.fission.BlockFission;
-import nc.blocks.items.ItemBlockOre;
-import nc.blocks.items.ItemBlockIngot;
-import nc.blocks.items.ItemBlockFission;
-import nc.blocks.items.ItemBlockCooler;
-import nc.blocks.items.NCItemBlock;
-import nc.blocks.tile.energy.generator.BlockAmericiumRTG;
-import nc.blocks.tile.energy.generator.BlockCaliforniumRTG;
-import nc.blocks.tile.energy.generator.BlockFissionController;
-import nc.blocks.tile.energy.generator.BlockPlutoniumRTG;
-import nc.blocks.tile.energy.generator.BlockSolarPanelBasic;
-import nc.blocks.tile.energy.generator.BlockUraniumRTG;
-import nc.blocks.tile.energy.processor.BlockDecayHastener;
-import nc.blocks.tile.energy.processor.BlockFuelReprocessor;
-import nc.blocks.tile.energy.processor.BlockIsotopeSeparator;
-import nc.blocks.tile.energy.processor.BlockManufactory;
-import nc.blocks.tile.energy.storage.BlockLithiumIonBatteryBasic;
-import nc.blocks.tile.energy.storage.BlockVoltaicPileBasic;
-import nc.blocks.tile.processor.BlockNuclearFurnace;
+import nc.block.BlockIngot;
+import nc.block.BlockOre;
+import nc.block.BlockTransparent;
+import nc.block.NCBlock;
+import nc.block.fission.BlockCooler;
+import nc.block.fission.BlockFission;
+import nc.block.item.ItemBlockCooler;
+import nc.block.item.ItemBlockFission;
+import nc.block.item.ItemBlockIngot;
+import nc.block.item.ItemBlockOre;
+import nc.block.item.NCItemBlock;
+import nc.block.tile.energy.generator.BlockAmericiumRTG;
+import nc.block.tile.energy.generator.BlockCaliforniumRTG;
+import nc.block.tile.energy.generator.BlockFissionController;
+import nc.block.tile.energy.generator.BlockPlutoniumRTG;
+import nc.block.tile.energy.generator.BlockSolarPanelBasic;
+import nc.block.tile.energy.generator.BlockUraniumRTG;
+import nc.block.tile.energy.processor.BlockAlloyFurnace;
+import nc.block.tile.energy.processor.BlockDecayHastener;
+import nc.block.tile.energy.processor.BlockFuelReprocessor;
+import nc.block.tile.energy.processor.BlockIsotopeSeparator;
+import nc.block.tile.energy.processor.BlockManufactory;
+import nc.block.tile.energy.storage.BlockLithiumIonBatteryBasic;
+import nc.block.tile.energy.storage.BlockVoltaicPileBasic;
+import nc.block.tile.processor.BlockNuclearFurnace;
 import nc.config.NCConfig;
-import nc.handlers.EnumHandler.CoolerTypes;
-import nc.handlers.EnumHandler.FissionBlockTypes;
-import nc.handlers.EnumHandler.IngotTypes;
-import nc.handlers.EnumHandler.OreTypes;
+import nc.handler.EnumHandler.CoolerTypes;
+import nc.handler.EnumHandler.FissionBlockTypes;
+import nc.handler.EnumHandler.IngotTypes;
+import nc.handler.EnumHandler.OreTypes;
 import nc.proxy.CommonProxy;
 import nc.util.NCUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
@@ -63,6 +64,8 @@ public class NCBlocks {
 	public static Block decay_hastener_active;
 	public static Block fuel_reprocessor_idle;
 	public static Block fuel_reprocessor_active;
+	public static Block alloy_furnace_idle;
+	public static Block alloy_furnace_active;
 	
 	public static Block fission_controller_idle;
 	public static Block fission_controller_active;
@@ -97,9 +100,11 @@ public class NCBlocks {
 		decay_hastener_active = new BlockDecayHastener("decay_hastener_active", "decay_hastener_active", true, 3);
 		fuel_reprocessor_idle = new BlockFuelReprocessor("fuel_reprocessor_idle", "fuel_reprocessor_idle", false, 4);
 		fuel_reprocessor_active = new BlockFuelReprocessor("fuel_reprocessor_active", "fuel_reprocessor_active", true, 4);
+		alloy_furnace_idle = new BlockAlloyFurnace("alloy_furnace_idle", "alloy_furnace_idle", false, 5);
+		alloy_furnace_active = new BlockAlloyFurnace("alloy_furnace_active", "alloy_furnace_active", true, 5);
 		
-		fission_controller_idle = new BlockFissionController("fission_controller_idle", "fission_controller_idle", false, 5);
-		fission_controller_active = new BlockFissionController("fission_controller_active", "fission_controller_active", true, 5);
+		fission_controller_idle = new BlockFissionController("fission_controller_idle", "fission_controller_idle", false, 100);
+		fission_controller_active = new BlockFissionController("fission_controller_active", "fission_controller_active", true, 100);
 		
 		rtg_uranium = new BlockUraniumRTG("rtg_uranium", "rtg_uranium");
 		rtg_plutonium = new BlockPlutoniumRTG("rtg_plutonium", "rtg_plutonium");
@@ -124,27 +129,29 @@ public class NCBlocks {
 		
 		registerBlock(nuclear_furnace_idle, 2);
 		registerBlock(nuclear_furnace_active);
-		registerBlock(manufactory_idle, 1);
+		registerBlock(manufactory_idle, 2);
 		registerBlock(manufactory_active);
-		registerBlock(isotope_separator_idle, 1);
+		registerBlock(isotope_separator_idle, 2);
 		registerBlock(isotope_separator_active);
-		registerBlock(decay_hastener_idle, 1);
+		registerBlock(decay_hastener_idle, 2);
 		registerBlock(decay_hastener_active);
-		registerBlock(fuel_reprocessor_idle, 1);
+		registerBlock(fuel_reprocessor_idle, 2);
 		registerBlock(fuel_reprocessor_active);
+		registerBlock(alloy_furnace_idle, 2);
+		registerBlock(alloy_furnace_active);
 		
-		registerBlock(fission_controller_idle);
+		registerBlock(fission_controller_idle, 2);
 		registerBlock(fission_controller_active);
 		
-		registerBlock(rtg_uranium, I18n.format("tile.rtg.des0") + " " + NCConfig.rtg_power[0] + " " + I18n.format("tile.rtg.des1"));
-		registerBlock(rtg_plutonium, I18n.format("tile.rtg.des0") + " " + NCConfig.rtg_power[1] + " " + I18n.format("tile.rtg.des1"));
-		registerBlock(rtg_americium, I18n.format("tile.rtg.des0") + " " + NCConfig.rtg_power[2] + " " + I18n.format("tile.rtg.des1"));
-		registerBlock(rtg_californium, I18n.format("tile.rtg.des0") + " " + NCConfig.rtg_power[3] + " " + I18n.format("tile.rtg.des1"));
+		registerBlock(rtg_uranium, I18n.translateToLocalFormatted("tile.rtg.des0") + " " + NCConfig.rtg_power[0] + " " + I18n.translateToLocalFormatted("tile.rtg.des1"));
+		registerBlock(rtg_plutonium, I18n.translateToLocalFormatted("tile.rtg.des0") + " " + NCConfig.rtg_power[1] + " " + I18n.translateToLocalFormatted("tile.rtg.des1"));
+		registerBlock(rtg_americium, I18n.translateToLocalFormatted("tile.rtg.des0") + " " + NCConfig.rtg_power[2] + " " + I18n.translateToLocalFormatted("tile.rtg.des1"));
+		registerBlock(rtg_californium, I18n.translateToLocalFormatted("tile.rtg.des0") + " " + NCConfig.rtg_power[3] + " " + I18n.translateToLocalFormatted("tile.rtg.des1"));
 		
-		registerBlock(solar_panel_basic, I18n.format("tile.solar_panel.des0") + " " + NCConfig.solar_power[0] + " " + I18n.format("tile.solar_panel.des1"));
+		registerBlock(solar_panel_basic, I18n.translateToLocalFormatted("tile.solar_panel.des0") + " " + NCConfig.solar_power[0] + " " + I18n.translateToLocalFormatted("tile.solar_panel.des1"));
 		
-		registerBlock(voltaic_pile_basic, I18n.format("tile.energy_storage.des0") + " " + NCConfig.battery_capacity[0]/1000 + " " + I18n.format("tile.energy_storage.des1"), I18n.format("tile.energy_storage.des2"), I18n.format("tile.energy_storage.des3"), I18n.format("tile.energy_storage.des4"));
-		registerBlock(lithium_ion_battery_basic, I18n.format("tile.energy_storage.des0") + " " + NCConfig.battery_capacity[1]/1000 + " " + I18n.format("tile.energy_storage.des1"), I18n.format("tile.energy_storage.des2"), I18n.format("tile.energy_storage.des3"), I18n.format("tile.energy_storage.des4"));
+		registerBlock(voltaic_pile_basic, I18n.translateToLocalFormatted("tile.energy_storage.des0") + " " + NCConfig.battery_capacity[0]/1000 + " " + I18n.translateToLocalFormatted("tile.energy_storage.des1"), I18n.translateToLocalFormatted("tile.energy_storage.des2"), I18n.translateToLocalFormatted("tile.energy_storage.des3"), I18n.translateToLocalFormatted("tile.energy_storage.des4"));
+		registerBlock(lithium_ion_battery_basic, I18n.translateToLocalFormatted("tile.energy_storage.des0") + " " + NCConfig.battery_capacity[1]/1000 + " " + I18n.translateToLocalFormatted("tile.energy_storage.des1"), I18n.translateToLocalFormatted("tile.energy_storage.des2"), I18n.translateToLocalFormatted("tile.energy_storage.des3"), I18n.translateToLocalFormatted("tile.energy_storage.des4"));
 	}
 	
 	public static void registerRenders() {
@@ -178,6 +185,8 @@ public class NCBlocks {
 		registerRender(decay_hastener_active);
 		registerRender(fuel_reprocessor_idle);
 		registerRender(fuel_reprocessor_active);
+		registerRender(alloy_furnace_idle);
+		registerRender(alloy_furnace_active);
 		
 		registerRender(fission_controller_idle);
 		registerRender(fission_controller_active);

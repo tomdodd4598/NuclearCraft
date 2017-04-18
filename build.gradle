@@ -13,7 +13,7 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 //Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 
 
-version = "2.0--1.11.2"
+version = "2.1--1.11.2"
 group = "nc"
 archivesBaseName = "NuclearCraft"
 
@@ -47,6 +47,7 @@ dependencies {
 	//compile 'com.googlecode.efficient-java-matrix-library:ejml:0.24' // adds ejml to the dev env
 
 	compile files('libs/Tesla-1.11-1.3.0.51.jar')
+	compile files('libs/jei_1.11.2-4.3.2.264.jar')
 
 	// the 'provided' configuration is for optional dependencies that exist at compile-time but might not at runtime.
 	//provided 'com.mod-buildcraft:buildcraft:6.0.8:dev'

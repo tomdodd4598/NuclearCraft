@@ -6,12 +6,15 @@ import nc.tile.energy.TileEnergy;
 
 public abstract class TileEnergyGeneratorContinuous extends TileEnergy {
 	
+	public final int power;
+	
 	public TileEnergyGeneratorContinuous(int capacity) {
-		this(capacity*NCConfig.generator_rf_per_eu, capacity*NCConfig.generator_rf_per_eu);
+		this(capacity, capacity);
 	}
 
 	public TileEnergyGeneratorContinuous(int capacity, int maxTransfer) {
-		super(capacity, maxTransfer, Connection.OUT);
+		super(capacity*NCConfig.generator_rf_per_eu, maxTransfer*NCConfig.generator_rf_per_eu, Connection.OUT);
+		power = capacity;
 	}
 	
 	public void update() {
@@ -23,4 +26,13 @@ public abstract class TileEnergyGeneratorContinuous extends TileEnergy {
 	}
 	
 	public abstract int getGenerated();
+	
+	public int getSourceTier() {
+		double euPerTick = (double) power / (double) NCConfig.generator_rf_per_eu;
+		return euPerTick < 32.0D ? 1 : (euPerTick < 128.0D ? 2 : (euPerTick < 512.0D ? 3 : 4));
+	}
+	
+	public int getSinkTier() {
+		return 4;
+	}
 }

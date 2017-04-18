@@ -6,7 +6,7 @@ import java.util.List;
 
 import nc.Global;
 import nc.util.NCMath;
-import net.minecraft.client.resources.I18n;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
@@ -45,6 +45,7 @@ public class NCConfig {
 	public static double fission_heat_generation; // Default: 1
 	public static double[] fission_cooling_rate;
 	public static boolean fission_overheat;
+	public static int fission_update_rate;
 	public static int fission_min_size; // Default: 1
 	public static int fission_max_size; // Default: 24
 	
@@ -121,121 +122,123 @@ public class NCConfig {
 	private static void syncConfig(boolean loadFromConfigFile, boolean readFieldFromConfig) {
 		if (loadFromConfigFile) config.load();
 		
-		Property propertyOreGen = config.get(CATEGORY_ORES, "ore_gen", new boolean[] {true, true, true, true, true, true, true, true}, I18n.format("gui.config.ores.ore_gen.comment"), true, 8);
+		Property propertyOreGen = config.get(CATEGORY_ORES, "ore_gen", new boolean[] {true, true, true, true, true, true, true, true}, I18n.translateToLocalFormatted("gui.config.ores.ore_gen.comment"), true, 8);
 		propertyOreGen.setLanguageKey("gui.config.ores.ore_gen");
-		Property propertyOreSize = config.get(CATEGORY_ORES, "ore_size", new int[] {8, 8, 8, 8, 8, 8, 8, 8}, I18n.format("gui.config.ores.ore_size.comment"), 1, Integer.MAX_VALUE, true, 8);
+		Property propertyOreSize = config.get(CATEGORY_ORES, "ore_size", new int[] {8, 8, 8, 8, 8, 8, 8, 8}, I18n.translateToLocalFormatted("gui.config.ores.ore_size.comment"), 1, Integer.MAX_VALUE, true, 8);
 		propertyOreSize.setLanguageKey("gui.config.ores.ore_size");
-		Property propertyOreRate = config.get(CATEGORY_ORES, "ore_rate", new int[] {6, 6, 8, 4, 4, 8, 6, 4}, I18n.format("gui.config.ores.ore_rate.comment"), 1, Integer.MAX_VALUE, true, 8);
+		Property propertyOreRate = config.get(CATEGORY_ORES, "ore_rate", new int[] {6, 6, 8, 4, 4, 8, 6, 4}, I18n.translateToLocalFormatted("gui.config.ores.ore_rate.comment"), 1, Integer.MAX_VALUE, true, 8);
 		propertyOreRate.setLanguageKey("gui.config.ores.ore_rate");
-		Property propertyOreMinHeight = config.get(CATEGORY_ORES, "ore_min_height", new int[] {0, 0, 0, 0, 0, 0, 0, 0}, I18n.format("gui.config.ores.ore_min_height.comment"), 1, 255, true, 8);
+		Property propertyOreMinHeight = config.get(CATEGORY_ORES, "ore_min_height", new int[] {0, 0, 0, 0, 0, 0, 0, 0}, I18n.translateToLocalFormatted("gui.config.ores.ore_min_height.comment"), 1, 255, true, 8);
 		propertyOreMinHeight.setLanguageKey("gui.config.ores.ore_min_height");
-		Property propertyOreMaxHeight = config.get(CATEGORY_ORES, "ore_max_height", new int[] {32, 32, 32, 32, 32, 32, 32, 32}, I18n.format("gui.config.ores.ore_max_height.comment"), 1, 255, true, 8);
+		Property propertyOreMaxHeight = config.get(CATEGORY_ORES, "ore_max_height", new int[] {32, 32, 32, 32, 32, 32, 32, 32}, I18n.translateToLocalFormatted("gui.config.ores.ore_max_height.comment"), 1, 255, true, 8);
 		propertyOreMaxHeight.setLanguageKey("gui.config.ores.ore_max_height");
 		
-		Property propertyProcessorTime = config.get(CATEGORY_PROCESSORS, "processor_time", new int[] {400, 800, 800, 400}, I18n.format("gui.config.processors.processor_time.comment"), 1, 128000, true, 4);
+		Property propertyProcessorTime = config.get(CATEGORY_PROCESSORS, "processor_time", new int[] {400, 800, 800, 400, 400}, I18n.translateToLocalFormatted("gui.config.processors.processor_time.comment"), 1, 128000, true, 5);
 		propertyProcessorTime.setLanguageKey("gui.config.processors.processor_time");
-		Property propertyProcessorPower = config.get(CATEGORY_PROCESSORS, "processor_power", new int[] {10, 10, 10, 20}, I18n.format("gui.config.processors.processor_power.comment"), 0, 16000, true, 4);
+		Property propertyProcessorPower = config.get(CATEGORY_PROCESSORS, "processor_power", new int[] {10, 10, 10, 20, 10}, I18n.translateToLocalFormatted("gui.config.processors.processor_power.comment"), 0, 16000, true, 5);
 		propertyProcessorPower.setLanguageKey("gui.config.processors.processor_power");
-		Property propertyProcessorRFPerEU = config.get(CATEGORY_PROCESSORS, "processor_rf_per_eu", 4, I18n.format("gui.config.processors.processor_rf_per_eu.comment"), 1, 255);
+		Property propertyProcessorRFPerEU = config.get(CATEGORY_PROCESSORS, "processor_rf_per_eu", 4, I18n.translateToLocalFormatted("gui.config.processors.processor_rf_per_eu.comment"), 1, 255);
 		propertyProcessorRFPerEU.setLanguageKey("gui.config.processors.processor_rf_per_eu");
 		
-		Property propertyRTGPower = config.get(CATEGORY_GENERATORS, "rtg_power", new int[] {4, 100, 50, 400}, I18n.format("gui.config.generators.rtg_power.comment"), 1, Integer.MAX_VALUE, true, 4);
+		Property propertyRTGPower = config.get(CATEGORY_GENERATORS, "rtg_power", new int[] {4, 100, 50, 400}, I18n.translateToLocalFormatted("gui.config.generators.rtg_power.comment"), 1, Integer.MAX_VALUE, true, 4);
 		propertyRTGPower.setLanguageKey("gui.config.generators.rtg_power");
-		Property propertySolarPower = config.get(CATEGORY_GENERATORS, "solar_power", new int[] {5}, I18n.format("gui.config.generators.solar_power.comment"), 1, Integer.MAX_VALUE, true, 1);
+		Property propertySolarPower = config.get(CATEGORY_GENERATORS, "solar_power", new int[] {5}, I18n.translateToLocalFormatted("gui.config.generators.solar_power.comment"), 1, Integer.MAX_VALUE, true, 1);
 		propertySolarPower.setLanguageKey("gui.config.generators.solar_power");
-		Property propertyGeneratorRFPerEU = config.get(CATEGORY_GENERATORS, "generator_rf_per_eu", 16, I18n.format("gui.config.generators.generator_rf_per_eu.comment"), 1, 255);
+		Property propertyGeneratorRFPerEU = config.get(CATEGORY_GENERATORS, "generator_rf_per_eu", 16, I18n.translateToLocalFormatted("gui.config.generators.generator_rf_per_eu.comment"), 1, 255);
 		propertyGeneratorRFPerEU.setLanguageKey("gui.config.generators.generator_rf_per_eu");
 		
-		Property propertyFissionPower = config.get(CATEGORY_FISSION, "fission_power", 1.0D, I18n.format("gui.config.fission.fission_power.comment"), 0.0D, 255.0D);
+		Property propertyFissionPower = config.get(CATEGORY_FISSION, "fission_power", 1.0D, I18n.translateToLocalFormatted("gui.config.fission.fission_power.comment"), 0.0D, 255.0D);
 		propertyFissionPower.setLanguageKey("gui.config.fission.fission_power");
-		Property propertyFissionFuelUse = config.get(CATEGORY_FISSION, "fission_fuel_use", 1.0D, I18n.format("gui.config.fission.fission_fuel_use.comment"), 0.0D, 255.0D);
+		Property propertyFissionFuelUse = config.get(CATEGORY_FISSION, "fission_fuel_use", 1.0D, I18n.translateToLocalFormatted("gui.config.fission.fission_fuel_use.comment"), 0.0D, 255.0D);
 		propertyFissionFuelUse.setLanguageKey("gui.config.fission.fission_fuel_use");
-		Property propertyFissionHeatGeneration = config.get(CATEGORY_FISSION, "fission_heat_generation", 1.0D, I18n.format("gui.config.fission.fission_heat_generation.comment"), 0.0D, 255.0D);
+		Property propertyFissionHeatGeneration = config.get(CATEGORY_FISSION, "fission_heat_generation", 1.0D, I18n.translateToLocalFormatted("gui.config.fission.fission_heat_generation.comment"), 0.0D, 255.0D);
 		propertyFissionHeatGeneration.setLanguageKey("gui.config.fission.fission_heat_generation");
-		Property propertyFissionCoolingRate = config.get(CATEGORY_FISSION, "fission_cooling_rate", new double[] {20.0D, 40.0D, 80.0D, 50.0D, 50.0D, 50.0D, 50.0D}, I18n.format("gui.config.fission.fission_cooling_rate.comment"), 0.0D, 32767.0D, true, 7);
+		Property propertyFissionCoolingRate = config.get(CATEGORY_FISSION, "fission_cooling_rate", new double[] {20.0D, 80.0D, 80.0D, 120.0D, 160.0D, 100.0D, 120.0D, 120.0D, 150.0D, 200.0D}, I18n.translateToLocalFormatted("gui.config.fission.fission_cooling_rate.comment"), 0.0D, 32767.0D, true, 10);
 		propertyFissionCoolingRate.setLanguageKey("gui.config.fission.fission_cooling_rate");
-		Property propertyFissionOverheat = config.get(CATEGORY_FISSION, "fission_overheat", true, I18n.format("gui.config.fission.fission_overheat.comment"));
+		Property propertyFissionOverheat = config.get(CATEGORY_FISSION, "fission_overheat", true, I18n.translateToLocalFormatted("gui.config.fission.fission_overheat.comment"));
 		propertyFissionOverheat.setLanguageKey("gui.config.fission.fission_overheat");
-		Property propertyFissionMinSize = config.get(CATEGORY_FISSION, "fission_min_size", 1, I18n.format("gui.config.fission.fission_min_size.comment"), 1, 255);
+		Property propertyFissionUpdateRate = config.get(CATEGORY_FISSION, "fission_update_rate", 40, I18n.translateToLocalFormatted("gui.config.fission.fission_update_rate.comment"), 1, 1200);
+		propertyFissionUpdateRate.setLanguageKey("gui.config.fission.fission_update_rate");
+		Property propertyFissionMinSize = config.get(CATEGORY_FISSION, "fission_min_size", 1, I18n.translateToLocalFormatted("gui.config.fission.fission_min_size.comment"), 1, 255);
 		propertyFissionMinSize.setLanguageKey("gui.config.fission.fission_min_size");
-		Property propertyFissionMaxSize = config.get(CATEGORY_FISSION, "fission_max_size", 24, I18n.format("gui.config.fission.fission_max_size.comment"), 1, 255);
+		Property propertyFissionMaxSize = config.get(CATEGORY_FISSION, "fission_max_size", 24, I18n.translateToLocalFormatted("gui.config.fission.fission_max_size.comment"), 1, 255);
 		propertyFissionMaxSize.setLanguageKey("gui.config.fission.fission_max_size");
 		
-		Property propertyFissionThoriumFuelTime = config.get(CATEGORY_FISSION, "fission_thorium_fuel_time", new double[] {144000.0D, 144000.0D}, I18n.format("gui.config.fission.fission_thorium_fuel_time.comment"), 0.0D, (double) Integer.MAX_VALUE, true, 2);
+		Property propertyFissionThoriumFuelTime = config.get(CATEGORY_FISSION, "fission_thorium_fuel_time", new double[] {144000.0D, 144000.0D}, I18n.translateToLocalFormatted("gui.config.fission.fission_thorium_fuel_time.comment"), 0.0D, (double) Integer.MAX_VALUE, true, 2);
 		propertyFissionThoriumFuelTime.setLanguageKey("gui.config.fission.fission_thorium_fuel_time");
-		Property propertyFissionThoriumPower = config.get(CATEGORY_FISSION, "fission_thorium_power", new double[] {40.0D, NCMath.Round(40.0D*1.4D, 1)}, I18n.format("gui.config.fission.fission_thorium_power.comment"), 0.0D, 32767.0D, true, 2);
+		Property propertyFissionThoriumPower = config.get(CATEGORY_FISSION, "fission_thorium_power", new double[] {60.0D, NCMath.Round(60.0D*1.4D, 1)}, I18n.translateToLocalFormatted("gui.config.fission.fission_thorium_power.comment"), 0.0D, 32767.0D, true, 2);
 		propertyFissionThoriumPower.setLanguageKey("gui.config.fission.fission_thorium_power");
-		Property propertyFissionThoriumHeatGeneration = config.get(CATEGORY_FISSION, "fission_thorium_heat_generation", new double[] {18.0D, NCMath.Round(18.0D*1.25D, 1)}, I18n.format("gui.config.fission.fission_thorium_heat_generation.comment"), 0.0D, 32767.0D, true, 2);
+		Property propertyFissionThoriumHeatGeneration = config.get(CATEGORY_FISSION, "fission_thorium_heat_generation", new double[] {18.0D, NCMath.Round(18.0D*1.25D, 1)}, I18n.translateToLocalFormatted("gui.config.fission.fission_thorium_heat_generation.comment"), 0.0D, 32767.0D, true, 2);
 		propertyFissionThoriumHeatGeneration.setLanguageKey("gui.config.fission.fission_thorium_heat_generation");
 		
-		Property propertyFissionUraniumFuelTime = config.get(CATEGORY_FISSION, "fission_uranium_fuel_time", new double[] {64000.0D, 64000.0D, 64000.0D, 64000.0D, 72000.0D, 72000.0D, 72000.0D, 72000.0D}, I18n.format("gui.config.fission.fission_uranium_fuel_time.comment"), 0.0D, (double) Integer.MAX_VALUE, true, 8);
+		Property propertyFissionUraniumFuelTime = config.get(CATEGORY_FISSION, "fission_uranium_fuel_time", new double[] {64000.0D, 64000.0D, 64000.0D, 64000.0D, 72000.0D, 72000.0D, 72000.0D, 72000.0D}, I18n.translateToLocalFormatted("gui.config.fission.fission_uranium_fuel_time.comment"), 0.0D, (double) Integer.MAX_VALUE, true, 8);
 		propertyFissionUraniumFuelTime.setLanguageKey("gui.config.fission.fission_uranium_fuel_time");
-		Property propertyFissionUraniumPower = config.get(CATEGORY_FISSION, "fission_uranium_power", new double[] {96.0D, NCMath.Round(96.0D*1.4D, 1), 96.0D*4.0D, NCMath.Round(96.0D*4.0D*1.4D, 1), 80.0D, NCMath.Round(80.0D*1.4D, 1), 80.0D*4.0D, NCMath.Round(80.0D*4.0D*1.4D, 1)}, I18n.format("gui.config.fission.fission_uranium_power.comment"), 0.0D, 32767.0D, true, 8);
+		Property propertyFissionUraniumPower = config.get(CATEGORY_FISSION, "fission_uranium_power", new double[] {144.0D, NCMath.Round(144.0D*1.4D, 1), 144.0D*4.0D, NCMath.Round(144.0D*4.0D*1.4D, 1), 120.0D, NCMath.Round(120.0D*1.4D, 1), 120.0D*4.0D, NCMath.Round(120.0D*4.0D*1.4D, 1)}, I18n.translateToLocalFormatted("gui.config.fission.fission_uranium_power.comment"), 0.0D, 32767.0D, true, 8);
 		propertyFissionUraniumPower.setLanguageKey("gui.config.fission.fission_uranium_power");
-		Property propertyFissionUraniumHeatGeneration = config.get(CATEGORY_FISSION, "fission_uranium_heat_generation", new double[] {60.0D, NCMath.Round(60.0D*1.25D, 1), 60.0D*6.0D, NCMath.Round(60.0D*6.0D*1.25D, 1), 50.0D, NCMath.Round(50.0D*1.25D, 1), 50.0D*6.0D, NCMath.Round(50.0D*6.0D*1.25D, 1)}, I18n.format("gui.config.fission.fission_uranium_heat_generation.comment"), 0.0D, 32767.0D, true, 8);
+		Property propertyFissionUraniumHeatGeneration = config.get(CATEGORY_FISSION, "fission_uranium_heat_generation", new double[] {60.0D, NCMath.Round(60.0D*1.25D, 1), 60.0D*6.0D, NCMath.Round(60.0D*6.0D*1.25D, 1), 50.0D, NCMath.Round(50.0D*1.25D, 1), 50.0D*6.0D, NCMath.Round(50.0D*6.0D*1.25D, 1)}, I18n.translateToLocalFormatted("gui.config.fission.fission_uranium_heat_generation.comment"), 0.0D, 32767.0D, true, 8);
 		propertyFissionUraniumHeatGeneration.setLanguageKey("gui.config.fission.fission_uranium_heat_generation");
 		
-		Property propertyFissionNeptuniumFuelTime = config.get(CATEGORY_FISSION, "fission_neptunium_fuel_time", new double[] {102000.0D, 102000.0D, 102000.0D, 102000.0D}, I18n.format("gui.config.fission.fission_neptunium_fuel_time.comment"), 0.0D, (double) Integer.MAX_VALUE, true, 4);
+		Property propertyFissionNeptuniumFuelTime = config.get(CATEGORY_FISSION, "fission_neptunium_fuel_time", new double[] {102000.0D, 102000.0D, 102000.0D, 102000.0D}, I18n.translateToLocalFormatted("gui.config.fission.fission_neptunium_fuel_time.comment"), 0.0D, (double) Integer.MAX_VALUE, true, 4);
 		propertyFissionNeptuniumFuelTime.setLanguageKey("gui.config.fission.fission_neptunium_fuel_time");
-		Property propertyFissionNeptuniumPower = config.get(CATEGORY_FISSION, "fission_neptunium_power", new double[] {60.0D, NCMath.Round(60.0D*1.4D, 1), 60.0D*4.0D, NCMath.Round(60.0D*4.0D*1.4D, 1)}, I18n.format("gui.config.fission.fission_neptunium_power.comment"), 0.0D, 32767.0D, true, 4);
+		Property propertyFissionNeptuniumPower = config.get(CATEGORY_FISSION, "fission_neptunium_power", new double[] {90.0D, NCMath.Round(90.0D*1.4D, 1), 90.0D*4.0D, NCMath.Round(90.0D*4.0D*1.4D, 1)}, I18n.translateToLocalFormatted("gui.config.fission.fission_neptunium_power.comment"), 0.0D, 32767.0D, true, 4);
 		propertyFissionNeptuniumPower.setLanguageKey("gui.config.fission.fission_neptunium_power");
-		Property propertyFissionNeptuniumHeatGeneration = config.get(CATEGORY_FISSION, "fission_neptunium_heat_generation", new double[] {36.0D, NCMath.Round(36.0D*1.25D, 1), 36.0D*6.0D, NCMath.Round(36.0D*6.0D*1.25D, 1)}, I18n.format("gui.config.fission.fission_neptunium_heat_generation.comment"), 0.0D, 32767.0D, true, 4);
+		Property propertyFissionNeptuniumHeatGeneration = config.get(CATEGORY_FISSION, "fission_neptunium_heat_generation", new double[] {36.0D, NCMath.Round(36.0D*1.25D, 1), 36.0D*6.0D, NCMath.Round(36.0D*6.0D*1.25D, 1)}, I18n.translateToLocalFormatted("gui.config.fission.fission_neptunium_heat_generation.comment"), 0.0D, 32767.0D, true, 4);
 		propertyFissionNeptuniumHeatGeneration.setLanguageKey("gui.config.fission.fission_neptunium_heat_generation");
 		
-		Property propertyFissionPlutoniumFuelTime = config.get(CATEGORY_FISSION, "fission_plutonium_fuel_time", new double[] {92000.0D, 92000.0D, 92000.0D, 92000.0D, 60000.0D, 60000.0D, 60000.0D, 60000.0D}, I18n.format("gui.config.fission.fission_plutonium_fuel_time.comment"), 0.0D, (double) Integer.MAX_VALUE, true, 8);
+		Property propertyFissionPlutoniumFuelTime = config.get(CATEGORY_FISSION, "fission_plutonium_fuel_time", new double[] {92000.0D, 92000.0D, 92000.0D, 92000.0D, 60000.0D, 60000.0D, 60000.0D, 60000.0D}, I18n.translateToLocalFormatted("gui.config.fission.fission_plutonium_fuel_time.comment"), 0.0D, (double) Integer.MAX_VALUE, true, 8);
 		propertyFissionPlutoniumFuelTime.setLanguageKey("gui.config.fission.fission_plutonium_fuel_time");
-		Property propertyFissionPlutoniumPower = config.get(CATEGORY_FISSION, "fission_plutonium_power", new double[] {70.0D, NCMath.Round(70.0D*1.4D, 1), 70.0D*4.0D, NCMath.Round(70.0D*4.0D*1.4D, 1), 110.0D, NCMath.Round(110.0D*1.4D, 1), 110.0D*4.0D, NCMath.Round(110.0D*4.0D*1.4D, 1)}, I18n.format("gui.config.fission.fission_plutonium_power.comment"), 0.0D, 32767.0D, true, 8);
+		Property propertyFissionPlutoniumPower = config.get(CATEGORY_FISSION, "fission_plutonium_power", new double[] {105.0D, NCMath.Round(105.0D*1.4D, 1), 105.0D*4.0D, NCMath.Round(105.0D*4.0D*1.4D, 1), 165.0D, NCMath.Round(165.0D*1.4D, 1), 165.0D*4.0D, NCMath.Round(165.0D*4.0D*1.4D, 1)}, I18n.translateToLocalFormatted("gui.config.fission.fission_plutonium_power.comment"), 0.0D, 32767.0D, true, 8);
 		propertyFissionPlutoniumPower.setLanguageKey("gui.config.fission.fission_plutonium_power");
-		Property propertyFissionPlutoniumHeatGeneration = config.get(CATEGORY_FISSION, "fission_plutonium_heat_generation", new double[] {40.0D, NCMath.Round(40.0D*1.25D, 1), 40.0D*6.0D, NCMath.Round(40.0D*6.0D*1.25D, 1), 70.0D, NCMath.Round(70.0D*1.25D, 1), 70.0D*6.0D, NCMath.Round(70.0D*6.0D*1.25D, 1)}, I18n.format("gui.config.fission.fission_plutonium_heat_generation.comment"), 0.0D, 32767.0D, true, 8);
+		Property propertyFissionPlutoniumHeatGeneration = config.get(CATEGORY_FISSION, "fission_plutonium_heat_generation", new double[] {40.0D, NCMath.Round(40.0D*1.25D, 1), 40.0D*6.0D, NCMath.Round(40.0D*6.0D*1.25D, 1), 70.0D, NCMath.Round(70.0D*1.25D, 1), 70.0D*6.0D, NCMath.Round(70.0D*6.0D*1.25D, 1)}, I18n.translateToLocalFormatted("gui.config.fission.fission_plutonium_heat_generation.comment"), 0.0D, 32767.0D, true, 8);
 		propertyFissionPlutoniumHeatGeneration.setLanguageKey("gui.config.fission.fission_plutonium_heat_generation");
 		
-		Property propertyFissionMOXFuelTime = config.get(CATEGORY_FISSION, "fission_mox_fuel_time", new double[] {84000.0D, 56000.0D}, I18n.format("gui.config.fission.fission_mox_fuel_time.comment"), 0.0D, (double) Integer.MAX_VALUE, true, 2);
+		Property propertyFissionMOXFuelTime = config.get(CATEGORY_FISSION, "fission_mox_fuel_time", new double[] {84000.0D, 56000.0D}, I18n.translateToLocalFormatted("gui.config.fission.fission_mox_fuel_time.comment"), 0.0D, (double) Integer.MAX_VALUE, true, 2);
 		propertyFissionMOXFuelTime.setLanguageKey("gui.config.fission.fission_mox_fuel_time");
-		Property propertyFissionMOXPower = config.get(CATEGORY_FISSION, "fission_mox_power", new double[] {NCMath.Round(74.0D*1.4D, 1), NCMath.Round(116.0D*1.4D, 1)}, I18n.format("gui.config.fission.fission_mox_power.comment"), 0.0D, 32767.0D, true, 2);
+		Property propertyFissionMOXPower = config.get(CATEGORY_FISSION, "fission_mox_power", new double[] {NCMath.Round(111.0D*1.4D, 1), NCMath.Round(174.0D*1.4D, 1)}, I18n.translateToLocalFormatted("gui.config.fission.fission_mox_power.comment"), 0.0D, 32767.0D, true, 2);
 		propertyFissionMOXPower.setLanguageKey("gui.config.fission.fission_mox_power");
-		Property propertyFissionMOXHeatGeneration = config.get(CATEGORY_FISSION, "fission_mox_heat_generation", new double[] {NCMath.Round(46.0D*1.25D, 1), NCMath.Round(78.0D*1.25D, 1)}, I18n.format("gui.config.fission.fission_mox_heat_generation.comment"), 0.0D, 32767.0D, true, 2);
+		Property propertyFissionMOXHeatGeneration = config.get(CATEGORY_FISSION, "fission_mox_heat_generation", new double[] {NCMath.Round(46.0D*1.25D, 1), NCMath.Round(78.0D*1.25D, 1)}, I18n.translateToLocalFormatted("gui.config.fission.fission_mox_heat_generation.comment"), 0.0D, 32767.0D, true, 2);
 		propertyFissionMOXHeatGeneration.setLanguageKey("gui.config.fission.fission_mox_heat_generation");
 		
-		Property propertyFissionAmericiumFuelTime = config.get(CATEGORY_FISSION, "fission_americium_fuel_time", new double[] {54000.0D, 54000.0D, 54000.0D, 54000.0D}, I18n.format("gui.config.fission.fission_americium_fuel_time.comment"), 0.0D, (double) Integer.MAX_VALUE, true, 4);
+		Property propertyFissionAmericiumFuelTime = config.get(CATEGORY_FISSION, "fission_americium_fuel_time", new double[] {54000.0D, 54000.0D, 54000.0D, 54000.0D}, I18n.translateToLocalFormatted("gui.config.fission.fission_americium_fuel_time.comment"), 0.0D, (double) Integer.MAX_VALUE, true, 4);
 		propertyFissionAmericiumFuelTime.setLanguageKey("gui.config.fission.fission_americium_fuel_time");
-		Property propertyFissionAmericiumPower = config.get(CATEGORY_FISSION, "fission_americium_power", new double[] {128.0D, NCMath.Round(128.0D*1.4D, 1), 128.0D*4.0D, NCMath.Round(128.0D*4.0D*1.4D, 1)}, I18n.format("gui.config.fission.fission_americium_power.comment"), 0.0D, 32767.0D, true, 4);
+		Property propertyFissionAmericiumPower = config.get(CATEGORY_FISSION, "fission_americium_power", new double[] {192.0D, NCMath.Round(192.0D*1.4D, 1), 192.0D*4.0D, NCMath.Round(192.0D*4.0D*1.4D, 1)}, I18n.translateToLocalFormatted("gui.config.fission.fission_americium_power.comment"), 0.0D, 32767.0D, true, 4);
 		propertyFissionAmericiumPower.setLanguageKey("gui.config.fission.fission_americium_power");
-		Property propertyFissionAmericiumHeatGeneration = config.get(CATEGORY_FISSION, "fission_americium_heat_generation", new double[] {94.0D, NCMath.Round(94.0D*1.25D, 1), 94.0D*6.0D, NCMath.Round(94.0D*6.0D*1.25D, 1)}, I18n.format("gui.config.fission.fission_americium_heat_generation.comment"), 0.0D, 32767.0D, true, 4);
+		Property propertyFissionAmericiumHeatGeneration = config.get(CATEGORY_FISSION, "fission_americium_heat_generation", new double[] {94.0D, NCMath.Round(94.0D*1.25D, 1), 94.0D*6.0D, NCMath.Round(94.0D*6.0D*1.25D, 1)}, I18n.translateToLocalFormatted("gui.config.fission.fission_americium_heat_generation.comment"), 0.0D, 32767.0D, true, 4);
 		propertyFissionAmericiumHeatGeneration.setLanguageKey("gui.config.fission.fission_americium_heat_generation");
 		
-		Property propertyFissionCuriumFuelTime = config.get(CATEGORY_FISSION, "fission_curium_fuel_time", new double[] {52000.0D, 52000.0D, 52000.0D, 52000.0D, 68000.0D, 68000.0D, 68000.0D, 68000.0D, 78000.0D, 78000.0D, 78000.0D, 78000.0D}, I18n.format("gui.config.fission.fission_curium_fuel_time.comment"), 0.0D, (double) Integer.MAX_VALUE, true, 12);
+		Property propertyFissionCuriumFuelTime = config.get(CATEGORY_FISSION, "fission_curium_fuel_time", new double[] {52000.0D, 52000.0D, 52000.0D, 52000.0D, 68000.0D, 68000.0D, 68000.0D, 68000.0D, 78000.0D, 78000.0D, 78000.0D, 78000.0D}, I18n.translateToLocalFormatted("gui.config.fission.fission_curium_fuel_time.comment"), 0.0D, (double) Integer.MAX_VALUE, true, 12);
 		propertyFissionCuriumFuelTime.setLanguageKey("gui.config.fission.fission_curium_fuel_time");
-		Property propertyFissionCuriumPower = config.get(CATEGORY_FISSION, "fission_curium_power", new double[] {140.0D, NCMath.Round(140.0D*1.4D, 1), 140.0D*4.0D, NCMath.Round(140.0D*4.0D*1.4D, 1), 108.0D, NCMath.Round(108.0D*1.4D, 1), 108.0D*4.0D, NCMath.Round(108.0D*4.0D*1.4D, 1), 92.0D, NCMath.Round(92.0D*1.4D, 1), 92.0D*4.0D, NCMath.Round(92.0D*4.0D*1.4D, 1)}, I18n.format("gui.config.fission.fission_curium_power.comment"), 0.0D, 32767.0D, true, 12);
+		Property propertyFissionCuriumPower = config.get(CATEGORY_FISSION, "fission_curium_power", new double[] {210.0D, NCMath.Round(210.0D*1.4D, 1), 210.0D*4.0D, NCMath.Round(210.0D*4.0D*1.4D, 1), 162.0D, NCMath.Round(162.0D*1.4D, 1), 162.0D*4.0D, NCMath.Round(162.0D*4.0D*1.4D, 1), 138.0D, NCMath.Round(138.0D*1.4D, 1), 138.0D*4.0D, NCMath.Round(138.0D*4.0D*1.4D, 1)}, I18n.translateToLocalFormatted("gui.config.fission.fission_curium_power.comment"), 0.0D, 32767.0D, true, 12);
 		propertyFissionCuriumPower.setLanguageKey("gui.config.fission.fission_curium_power");
-		Property propertyFissionCuriumHeatGeneration = config.get(CATEGORY_FISSION, "fission_curium_heat_generation", new double[] {112.0D, NCMath.Round(112.0D*1.25D, 1), 112.0D*6.0D, NCMath.Round(112.0D*6.0D*1.25D, 1), 68.0D, NCMath.Round(68.0D*1.25D, 1), 68.0D*6.0D, NCMath.Round(68.0D*6.0D*1.25D, 1), 54.0D, NCMath.Round(54.0D*1.25D, 1), 54.0D*6.0D, NCMath.Round(54.0D*6.0D*1.25D, 1)}, I18n.format("gui.config.fission.fission_curium_heat_generation.comment"), 0.0D, 32767.0D, true, 12);
+		Property propertyFissionCuriumHeatGeneration = config.get(CATEGORY_FISSION, "fission_curium_heat_generation", new double[] {112.0D, NCMath.Round(112.0D*1.25D, 1), 112.0D*6.0D, NCMath.Round(112.0D*6.0D*1.25D, 1), 68.0D, NCMath.Round(68.0D*1.25D, 1), 68.0D*6.0D, NCMath.Round(68.0D*6.0D*1.25D, 1), 54.0D, NCMath.Round(54.0D*1.25D, 1), 54.0D*6.0D, NCMath.Round(54.0D*6.0D*1.25D, 1)}, I18n.translateToLocalFormatted("gui.config.fission.fission_curium_heat_generation.comment"), 0.0D, 32767.0D, true, 12);
 		propertyFissionCuriumHeatGeneration.setLanguageKey("gui.config.fission.fission_curium_heat_generation");
 		
-		Property propertyFissionBerkeliumFuelTime = config.get(CATEGORY_FISSION, "fission_berkelium_fuel_time", new double[] {86000.0D, 86000.0D, 86000.0D, 86000.0D}, I18n.format("gui.config.fission.fission_berkelium_fuel_time.comment"), 0.0D, (double) Integer.MAX_VALUE, true, 4);
+		Property propertyFissionBerkeliumFuelTime = config.get(CATEGORY_FISSION, "fission_berkelium_fuel_time", new double[] {86000.0D, 86000.0D, 86000.0D, 86000.0D}, I18n.translateToLocalFormatted("gui.config.fission.fission_berkelium_fuel_time.comment"), 0.0D, (double) Integer.MAX_VALUE, true, 4);
 		propertyFissionBerkeliumFuelTime.setLanguageKey("gui.config.fission.fission_berkelium_fuel_time");
-		Property propertyFissionBerkeliumPower = config.get(CATEGORY_FISSION, "fission_berkelium_power", new double[] {90.0D, NCMath.Round(90.0D*1.4D, 1), 90.0D*4.0D, NCMath.Round(90.0D*4.0D*1.4D, 1)}, I18n.format("gui.config.fission.fission_berkelium_power.comment"), 0.0D, 32767.0D, true, 4);
+		Property propertyFissionBerkeliumPower = config.get(CATEGORY_FISSION, "fission_berkelium_power", new double[] {135.0D, NCMath.Round(135.0D*1.4D, 1), 135.0D*4.0D, NCMath.Round(135.0D*4.0D*1.4D, 1)}, I18n.translateToLocalFormatted("gui.config.fission.fission_berkelium_power.comment"), 0.0D, 32767.0D, true, 4);
 		propertyFissionBerkeliumPower.setLanguageKey("gui.config.fission.fission_berkelium_power");
-		Property propertyFissionBerkeliumHeatGeneration = config.get(CATEGORY_FISSION, "fission_berkelium_heat_generation", new double[] {52.0D, NCMath.Round(52.0D*1.25D, 1), 52.0D*6.0D, NCMath.Round(52.0D*6.0D*1.25D, 1)}, I18n.format("gui.config.fission.fission_berkelium_heat_generation.comment"), 0.0D, 32767.0D, true, 4);
+		Property propertyFissionBerkeliumHeatGeneration = config.get(CATEGORY_FISSION, "fission_berkelium_heat_generation", new double[] {52.0D, NCMath.Round(52.0D*1.25D, 1), 52.0D*6.0D, NCMath.Round(52.0D*6.0D*1.25D, 1)}, I18n.translateToLocalFormatted("gui.config.fission.fission_berkelium_heat_generation.comment"), 0.0D, 32767.0D, true, 4);
 		propertyFissionBerkeliumHeatGeneration.setLanguageKey("gui.config.fission.fission_berkelium_heat_generation");
 		
-		Property propertyFissionCaliforniumFuelTime = config.get(CATEGORY_FISSION, "fission_californium_fuel_time", new double[] {60000.0D, 60000.0D, 60000.0D, 60000.0D, 58000.0D, 58000.0D, 58000.0D, 58000.0D}, I18n.format("gui.config.fission.fission_californium_fuel_time.comment"), 0.0D, (double) Integer.MAX_VALUE, true, 8);
+		Property propertyFissionCaliforniumFuelTime = config.get(CATEGORY_FISSION, "fission_californium_fuel_time", new double[] {60000.0D, 60000.0D, 60000.0D, 60000.0D, 58000.0D, 58000.0D, 58000.0D, 58000.0D}, I18n.translateToLocalFormatted("gui.config.fission.fission_californium_fuel_time.comment"), 0.0D, (double) Integer.MAX_VALUE, true, 8);
 		propertyFissionCaliforniumFuelTime.setLanguageKey("gui.config.fission.fission_californium_fuel_time");
-		Property propertyFissionCaliforniumPower = config.get(CATEGORY_FISSION, "fission_californium_power", new double[] {144.0D, NCMath.Round(144.0D*1.4D, 1), 144.0D*4.0D, NCMath.Round(144.0D*4.0D*1.4D, 1), 150.0D, NCMath.Round(150.0D*1.4D, 1), 150.0D*4.0D, NCMath.Round(150.0D*4.0D*1.4D, 1)}, I18n.format("gui.config.fission.fission_californium_power.comment"), 0.0D, 32767.0D, true, 8);
+		Property propertyFissionCaliforniumPower = config.get(CATEGORY_FISSION, "fission_californium_power", new double[] {216.0D, NCMath.Round(216.0D*1.4D, 1), 216.0D*4.0D, NCMath.Round(216.0D*4.0D*1.4D, 1), 225.0D, NCMath.Round(225.0D*1.4D, 1), 225.0D*4.0D, NCMath.Round(225.0D*4.0D*1.4D, 1)}, I18n.translateToLocalFormatted("gui.config.fission.fission_californium_power.comment"), 0.0D, 32767.0D, true, 8);
 		propertyFissionCaliforniumPower.setLanguageKey("gui.config.fission.fission_californium_power");
-		Property propertyFissionCaliforniumHeatGeneration = config.get(CATEGORY_FISSION, "fission_californium_heat_generation", new double[] {116.0D, NCMath.Round(116.0D*1.25D, 1), 116.0D*6.0D, NCMath.Round(116.0D*6.0D*1.25D, 1), 120.0D, NCMath.Round(120.0D*1.25D, 1), 120.0D*6.0D, NCMath.Round(120.0D*6.0D*1.25D, 1)}, I18n.format("gui.config.fission.fission_californium_heat_generation.comment"), 0.0D, 32767.0D, true, 8);
+		Property propertyFissionCaliforniumHeatGeneration = config.get(CATEGORY_FISSION, "fission_californium_heat_generation", new double[] {116.0D, NCMath.Round(116.0D*1.25D, 1), 116.0D*6.0D, NCMath.Round(116.0D*6.0D*1.25D, 1), 120.0D, NCMath.Round(120.0D*1.25D, 1), 120.0D*6.0D, NCMath.Round(120.0D*6.0D*1.25D, 1)}, I18n.translateToLocalFormatted("gui.config.fission.fission_californium_heat_generation.comment"), 0.0D, 32767.0D, true, 8);
 		propertyFissionCaliforniumHeatGeneration.setLanguageKey("gui.config.fission.fission_californium_heat_generation");
 		
-		Property propertyBatteryCapacity = config.get(CATEGORY_ENERGY_STORAGE, "battery_capacity", new int[] {1600000, 64000000}, I18n.format("gui.config.energy_storage.battery_capacity.comment"), 1, Integer.MAX_VALUE, true, 2);
+		Property propertyBatteryCapacity = config.get(CATEGORY_ENERGY_STORAGE, "battery_capacity", new int[] {1600000, 64000000}, I18n.translateToLocalFormatted("gui.config.energy_storage.battery_capacity.comment"), 1, Integer.MAX_VALUE, true, 2);
 		propertyBatteryCapacity.setLanguageKey("gui.config.energy_storage.battery_capacity");
 		
-		Property propertyToolMiningLevel = config.get(CATEGORY_TOOLS, "tool_mining_level", new int[] {2, 3, 3}, I18n.format("gui.config.tools.tool_mining_level.comment"), 1, 15, true, 3);
+		Property propertyToolMiningLevel = config.get(CATEGORY_TOOLS, "tool_mining_level", new int[] {2, 3, 3}, I18n.translateToLocalFormatted("gui.config.tools.tool_mining_level.comment"), 1, 15, true, 3);
 		propertyToolMiningLevel.setLanguageKey("gui.config.tools.tool_mining_level");
-		Property propertyToolDurability = config.get(CATEGORY_TOOLS, "tool_durability", new int[] {547, 929, 929*5}, I18n.format("gui.config.tools.tool_durability.comment"), 1, 32767, true, 3);
+		Property propertyToolDurability = config.get(CATEGORY_TOOLS, "tool_durability", new int[] {547, 929, 929*5}, I18n.translateToLocalFormatted("gui.config.tools.tool_durability.comment"), 1, 32767, true, 3);
 		propertyToolDurability.setLanguageKey("gui.config.tools.tool_durability");
-		Property propertyToolSpeed = config.get(CATEGORY_TOOLS, "tool_speed", new double[] {8.0D, 10.0D, 10.0D}, I18n.format("gui.config.tools.tool_speed.comment"), 1.0D, 255.0D, true, 3);
+		Property propertyToolSpeed = config.get(CATEGORY_TOOLS, "tool_speed", new double[] {8.0D, 10.0D, 10.0D}, I18n.translateToLocalFormatted("gui.config.tools.tool_speed.comment"), 1.0D, 255.0D, true, 3);
 		propertyToolSpeed.setLanguageKey("gui.config.tools.tool_speed");
-		Property propertyToolAttackDamage = config.get(CATEGORY_TOOLS, "tool_attack_damage", new double[] {2.5D, 3.0D, 3.0D}, I18n.format("gui.config.tools.tool_attack_damage.comment"), 0.0D, 255.0D, true, 3);
+		Property propertyToolAttackDamage = config.get(CATEGORY_TOOLS, "tool_attack_damage", new double[] {2.5D, 3.0D, 3.0D}, I18n.translateToLocalFormatted("gui.config.tools.tool_attack_damage.comment"), 0.0D, 255.0D, true, 3);
 		propertyToolAttackDamage.setLanguageKey("gui.config.tools.tool_attack_damage");
-		Property propertyToolEnchantability = config.get(CATEGORY_TOOLS, "tool_enchantability", new int[] {6, 15, 15}, I18n.format("gui.config.tools.tool_enchantability.comment"), 1, 32767, true, 3);
+		Property propertyToolEnchantability = config.get(CATEGORY_TOOLS, "tool_enchantability", new int[] {6, 15, 15}, I18n.translateToLocalFormatted("gui.config.tools.tool_enchantability.comment"), 1, 32767, true, 3);
 		propertyToolEnchantability.setLanguageKey("gui.config.tools.tool_enchantability");
 		
 		List<String> propertyOrderOres = new ArrayList<String>();
@@ -335,6 +338,7 @@ public class NCConfig {
 			fission_heat_generation = propertyFissionHeatGeneration.getDouble();
 			fission_cooling_rate = propertyFissionCoolingRate.getDoubleList();
 			fission_overheat = propertyFissionOverheat.getBoolean();
+			fission_update_rate = propertyFissionUpdateRate.getInt();
 			fission_min_size = propertyFissionMinSize.getInt();
 			fission_max_size = propertyFissionMaxSize.getInt();
 			
@@ -402,6 +406,7 @@ public class NCConfig {
 		propertyFissionHeatGeneration.set(fission_heat_generation);
 		propertyFissionCoolingRate.set(fission_cooling_rate);
 		propertyFissionOverheat.set(fission_overheat);
+		propertyFissionUpdateRate.set(fission_update_rate);
 		propertyFissionMinSize.set(fission_min_size);
 		propertyFissionMaxSize.set(fission_max_size);
 		

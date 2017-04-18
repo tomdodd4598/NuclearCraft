@@ -1,13 +1,13 @@
 package nc.crafting.processor;
 
-import nc.handlers.ProcessorRecipeHandler;
+import nc.handler.ProcessorRecipeHandler;
 
 public class DecayHastenerRecipes extends ProcessorRecipeHandler {
 	
 	private static final DecayHastenerRecipes RECIPES = new DecayHastenerRecipes();
 
 	public DecayHastenerRecipes() {
-		super(1, 1);
+		super(1, 0, 1, 0, false);
 	}
 	public static final ProcessorRecipeHandler instance() {
 		return RECIPES;
