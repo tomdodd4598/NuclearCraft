@@ -51,9 +51,9 @@ public class RecipeHandler {
 		GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.fuel_reprocessor_idle, new Object[] {"PGP", "GMG", "PGP", 'G', "ingotBronze", 'P', "plateAdvanced", 'M', NCBlocks.alloy_furnace_idle}));
 		GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.alloy_furnace_idle, new Object[] {"PWP", "WSW", "PWP", 'W', "ingotIron", 'P', "plateBasic", 'S', NCBlocks.manufactory_idle}));
 		
-		GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.fission_controller_idle, new Object[] {"PBP", "BMB", "PBP", 'B', "ingotTough", 'P', "plateElite", 'M', NCBlocks.decay_hastener_idle}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.fission_controller_idle, new Object[] {"PSP", "SMS", "PSP", 'S', "solenoidMagnesiumDiboride", 'P', "plateElite", 'M', NCBlocks.decay_hastener_idle}));
 		
-		GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.rtg_uranium, new Object[] {"PGP", "GUG", "PGP", 'G', "ingotGraphite", 'P', "plateAdvanced", 'U', "blockDepletedUranium"}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.rtg_uranium, new Object[] {"PGP", "GUG", "PGP", 'G', "ingotGraphite", 'P', "plateBasic", 'U', "blockDepletedUranium"}));
 		GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.rtg_plutonium, new Object[] {"PGP", "GUG", "PGP", 'G', "ingotGraphite", 'P', "plateAdvanced", 'U', "ingotPlutonium238"}));
 		GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.rtg_americium, new Object[] {"PGP", "GAG", "PGP", 'G', "ingotGraphite", 'P', "plateAdvanced", 'A', "ingotAmericium241"}));
 		GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.rtg_californium, new Object[] {"PGP", "GCG", "PGP", 'G', "ingotGraphite", 'P', "plateAdvanced", 'C', "ingotCalifornium250"}));

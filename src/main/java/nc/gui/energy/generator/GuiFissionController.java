@@ -50,7 +50,10 @@ public class GuiFissionController extends GuiContainer {
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
 		double e = Math.round(((double) tile.storage.getEnergyStored()) / ((double) tile.storage.getMaxEnergyStored()) * 85);
-		drawTexturedModalRect(guiLeft + 8, guiTop + 6 + 85 - (int) e, 176, 90 + 85 - (int) e, 16, (int) e);
+		drawTexturedModalRect(guiLeft + 8, guiTop + 6 + 85 - (int) e, 176, 90 + 85 - (int) e, 6, (int) e);
+		
+		double h = Math.round(((double) tile.heat) / ((double) tile.getMaxHeat()) * 85);
+		drawTexturedModalRect(guiLeft + 18, guiTop + 6 + 85 - (int) h, 182, 90 + 85 - (int) h, 6, (int) h);
 		
 		int k = getCookProgressScaled(37);
 		drawTexturedModalRect(guiLeft + 74, guiTop + 35, 176, 3, k, 16);

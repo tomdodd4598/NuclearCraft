@@ -122,7 +122,7 @@ public class NCBlocks {
 		registerBlock(ingot_block, new ItemBlockIngot(ingot_block));
 		
 		registerBlock(fission_block, new ItemBlockFission(fission_block));
-		registerBlock(cell_block);
+		registerBlock(cell_block, 11);
 		registerBlock(cooler, new ItemBlockCooler(cooler));
 		
 		registerBlock(block_depleted_uranium);
@@ -140,7 +140,7 @@ public class NCBlocks {
 		registerBlock(alloy_furnace_idle, 2);
 		registerBlock(alloy_furnace_active);
 		
-		registerBlock(fission_controller_idle, 2);
+		registerBlock(fission_controller_idle, 5);
 		registerBlock(fission_controller_active);
 		
 		registerBlock(rtg_uranium, I18n.translateToLocalFormatted("tile.rtg.des0") + " " + NCConfig.rtg_power[0] + " " + I18n.translateToLocalFormatted("tile.rtg.des1"));

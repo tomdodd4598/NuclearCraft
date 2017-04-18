@@ -18,17 +18,45 @@ tile.ingot_block.magnesium.name=Magnesium Block
 
 tile.ingot_block.graphite.name=Graphite Block
 tile.ingot_block.graphite.des0=Graphite is only considered active if
-tile.ingot_block.graphite.des1=touching at least one Reactor Cell
+tile.ingot_block.graphite.des1=touching at least one Reactor Cell.
+tile.ingot_block.graphite.des2=Active graphite increases a reactor's
+tile.ingot_block.graphite.des3=efficiency, but also produces some
+tile.ingot_block.graphite.des4=extra heat
 
 tile.fission_block.casing.name=Reactor Casing
-tile.fission_block.casing.des0=Used as the outer shell
-tile.fission_block.casing.des1=of fission reactors
+tile.fission_block.casing.des0=Used in the construction of
+tile.fission_block.casing.des1=fission reactors. To form
+tile.fission_block.casing.des2=a valid structure, build a
+tile.fission_block.casing.des3=cuboid shell of casing,
+tile.fission_block.casing.des4=making sure to *exclude* the
+tile.fission_block.casing.des5=edges - the corners don't
+tile.fission_block.casing.des6=matter. Then place a fission
+tile.fission_block.casing.des7=controller along an edge or
+tile.fission_block.casing.des8=at a corner of the structure.
+tile.fission_block.casing.des9=If the GUI shows an error,
+tile.fission_block.casing.des10=make sure the structure is
+tile.fission_block.casing.des11=valid. Then fill the interior
+tile.fission_block.casing.des12=with reactor cells, coolers
+tile.fission_block.casing.des13=and graphite blocks to start
+tile.fission_block.casing.des14=generating energy from your
+tile.fission_block.casing.des15=fission fuels!
 
 tile.fission_block.blast.name=Blast Block
 tile.fission_block.blast.des0=Highly blast resistant.
 tile.fission_block.blast.des1=Perfect for bunkers
 
 tile.cell_block.name=Reactor Cell
+tile.cell_block.des0=Used in fission reactors to
+tile.cell_block.des1=house the fission fuels.
+tile.cell_block.des2=The more cells placed, the
+tile.cell_block.des3=more rapidly fuel is used.
+tile.cell_block.des4=Cells will be more efficient
+tile.cell_block.des5=for each other cell they
+tile.cell_block.des6=are adjacent to, or for
+tile.cell_block.des7=each adjacent graphite block 
+tile.cell_block.des8=which is itself adjacent to
+tile.cell_block.des9=another cell in the same
+tile.cell_block.des10=direction (e.g. CC or CGC)
 
 tile.cooler.empty.name=Empty Cooler
 
@@ -106,10 +134,13 @@ tile.alloy_furnace_idle.des0=Combines base metals into alloys.
 tile.alloy_furnace_idle.des1=Can accept MV IC2 power
 tile.alloy_furnace_active.name=Alloy Furnace
 
-tile.fission_controller_idle.name=Fission Controller (WIP)
-tile.fission_controller_idle.des0=Build a multiblock reactor!
-tile.fission_controller_idle.des1=Emits EV IC2 power
-tile.fission_controller_active.name=Fission Controller (WIP)
+tile.fission_controller_idle.name=Fission Controller
+tile.fission_controller_idle.des0=Build a multiblock reactor
+tile.fission_controller_idle.des1=using reactor casing,
+tile.fission_controller_idle.des2=reactor cells, coolers
+tile.fission_controller_idle.des3=and graphite blocks!
+tile.fission_controller_idle.des4=Emits EV IC2 power
+tile.fission_controller_active.name=Fission Controller
 
 tile.rtg_uranium.name=Uranium RTG
 tile.rtg_plutonium.name=Plutonium RTG
@@ -650,6 +681,12 @@ gui.config.tools.tool_attack_damage=Attack damages
 gui.config.tools.tool_attack_damage.comment=Related to the damage done per hit (wood = 0.0, stone = 1.0, etc.). Order: boron, tough alloy, tough alloy spaxelhoe
 gui.config.tools.tool_enchantability=Enchantabilities
 gui.config.tools.tool_enchantability.comment=Determines the quality of applied enchantments. Order: boron, tough alloy, tough alloy spaxelhoe
+
+gui.config.category.other=Other Configs
+gui.config.category.other.tooltip=Miscellaneous configurations
+
+gui.config.other.rare_drops=Enable Rare Drops
+gui.config.other.rare_drops.comment=Will mobs drop rare items?
 
 gui.container.fission_controller.reactor=Reactor
 gui.container.fission_controller.casing_incomplete=Casing Incomplete
