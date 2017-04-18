@@ -1,3 +1,11 @@
+v1.9f
+
+* Fixed Fission Controller crash when invalid fuel was inserted
+
+* Energy storage blocks display RF stored if shift-clicked
+
++ Added Brian Williams, Paul's friend and former Shrewsbury Town F.C. winger
+
 v1.9e
 
 + Added non-Thermal Expansion recipes for advanced coolers in case TE is not installed

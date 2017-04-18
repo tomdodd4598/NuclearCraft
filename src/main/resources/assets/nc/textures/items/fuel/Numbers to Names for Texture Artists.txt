@@ -1,0 +1,141 @@
+0: LEU-235
+1: HEU-235
+2: LEP-239
+3: HEP-239
+4: MOX-239
+5: TBU
+6: LEU-233
+7: HEU-233
+8: LEP-241
+9: HEP-241
+10: MOX-241
+11: LEU-235 Cell
+12: HEU-235 Cell
+13: LEP-235 Cell
+14: HEP-235 Cell
+15: MOX-235 Cell
+16: TBU Cell
+17: LEU-235 Cell
+18: HEU-235 Cell
+19: LEP-235 Cell
+20: HEP-235 Cell
+21: MOX-235 Cell
+22: Depleted LEU-235 Cell
+23: Depleted HEU-235 Cell
+24: Depleted LEP-235 Cell
+25: Depleted HEP-235 Cell
+26: Depleted MOX-235 Cell
+27: Depleted TBU Cell
+28: Depleted LEU-235 Cell
+29: Depleted HEU-235 Cell
+30: Depleted LEP-235 Cell
+31: Depleted HEP-235 Cell
+32: Depleted MOX-235 Cell
+33: Empty Cell
+34: H2O Cell
+35: Oxygen Cell
+36: Hydrogen Cell
+37: Deuterium Cell
+38: Tritium Cell
+39: He-3 Cell
+40: He-4 Cell
+41: Li-6 Cell
+42: Li-7 Cell
+43: B-10 Cell
+44: B-11 Cell
+45: Empty Fluid Cell
+46: Pu RTG Cell
+47: Neutron Capsule
+48: Empty Capsule
+49: Proton Capsule
+50: Electron Capsule
+51: LEU-235 Oxide
+52: HEU-235 Oxide
+53: LEP-239 Oxide
+54: HEP-239 Oxide
+55: LEU-233 Oxide
+56: HEU-233 Oxide
+57: LEP-241 Oxide
+58: HEP-241 Oxide
+59: LEU-235 Oxide Cell
+60: HEU-235 Oxide Cell
+61: LEP-239 Oxide Cell
+62: HEP-239 Oxide Cell
+63: LEU-233 Oxide Cell
+64: HEU-233 Oxide Cell
+65: LEP-241 Oxide Cell
+66: HEP-241 Oxide Cell
+67: Depleted LEU-235 Oxide Cell
+68: Depleted HEU-235 Oxide Cell
+69: Depleted LEP-239 Oxide Cell
+70: Depleted HEP-239 Oxide Cell
+71: Depleted LEU-233 Oxide Cell
+72: Depleted HEU-233 Oxide Cell
+73: Depleted LEP-241 Oxide Cell
+74: Depleted HEP-241 Oxide Cell
+75: Supercooled He-4 Cell
+76: TBU Oxide
+77: TBU Oxide Cell
+78: Depleted TBU Oxide Cell
+79: LEN-236
+80: HEN-236
+81: LEA-242
+82: HEA-242
+83: LEC-243
+84: HEC-243
+85: LEC-245
+86: HEC-245
+87: LEC-247
+88: HEC-247
+89: LEN-236 Oxide
+90: HEN-236 Oxide
+91: LEA-242 Oxide
+92: HEA-242 Oxide
+93: LEC-243 Oxide
+94: HEC-243 Oxide
+95: LEC-245 Oxide
+96: HEC-245 Oxide
+97: LEC-247 Oxide
+98: HEC-247 Oxide
+99: LEN-236 Cell
+100: HEN-236 Cell
+101: LEA-242 Cell
+102: HEA-242 Cell
+103: LEC-243 Cell
+104: HEC-243 Cell
+105: LEC-245 Cell
+106: HEC-245 Cell
+107: LEC-247 Cell
+108: HEC-247 Cell
+109: LEN-236 Oxide Cell
+110: HEN-236 Oxide Cell
+111: LEA-242 Oxide Cell
+112: HEA-242 Oxide Cell
+113: LEC-243 Oxide Cell
+114: HEC-243 Oxide Cell
+115: LEC-245 Oxide Cell
+116: HEC-245 Oxide Cell
+117: LEC-247 Oxide Cell
+118: HEC-247 Oxide Cell
+119: Depleted LEN-236 Cell
+120: Depleted HEN-236 Cell
+121: Depleted LEA-242 Cell
+122: Depleted HEA-242 Cell
+123: Depleted LEC-243 Cell
+124: Depleted HEC-243 Cell
+125: Depleted LEC-245 Cell
+126: Depleted HEC-245 Cell
+127: Depleted LEC-247 Cell
+128: Depleted HEC-247 Cell
+129: Depleted LEN-236 Oxide Cell
+130: Depleted HEN-236 Oxide Cell
+131: Depleted LEA-242 Oxide Cell
+132: Depleted HEA-242 Oxide Cell
+133: Depleted LEC-243 Oxide Cell
+134: Depleted HEC-243 Oxide Cell
+135: Depleted LEC-245 Oxide Cell
+136: Depleted HEC-245 Oxide Cell
+137: Depleted LEC-247 Oxide Cell
+138: Depleted HEC-247 Oxide Cell
+139: Am RTG Cell
+140: Cf RTG Cell
