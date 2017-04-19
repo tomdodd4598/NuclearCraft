@@ -1,5 +1,7 @@
 package nc.container.energy.processor;
 
+import nc.container.SlotProcessorInput;
+import nc.container.SlotSpecificInput;
 import nc.crafting.processor.ManufactoryRecipes;
 import nc.tile.energy.processor.TileEnergyProcessor;
 import net.minecraft.entity.player.EntityPlayer;
@@ -11,11 +13,11 @@ public class ContainerManufactory extends ContainerEnergyProcessor {
 	public ContainerManufactory(EntityPlayer player, TileEnergyProcessor tileEntity) {
 		super(tileEntity, ManufactoryRecipes.instance());
 		
-		addSlotToContainer(new Slot(tileEntity, 0, 56, 35));
+		addSlotToContainer(new SlotProcessorInput(tileEntity, recipes, 0, 56, 35));
 		
 		addSlotToContainer(new SlotFurnaceOutput(player, tileEntity, 1, 116, 35));
 		
-		addSlotToContainer(new Slot(tileEntity, 2, 132, 64));
+		addSlotToContainer(new SlotSpecificInput(tileEntity, 2, 132, 64, speedUpgrade));
 		addSlotToContainer(new SlotFurnaceOutput(player, tileEntity, 3, 152, 64));
 		
 		for (int i = 0; i < 3; i++) {

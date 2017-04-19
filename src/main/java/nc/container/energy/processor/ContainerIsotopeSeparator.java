@@ -1,5 +1,7 @@
 package nc.container.energy.processor;
 
+import nc.container.SlotProcessorInput;
+import nc.container.SlotSpecificInput;
 import nc.crafting.processor.IsotopeSeparatorRecipes;
 import nc.tile.energy.processor.TileEnergyProcessor;
 import net.minecraft.entity.player.EntityPlayer;
@@ -11,12 +13,12 @@ public class ContainerIsotopeSeparator extends ContainerEnergyProcessor {
 	public ContainerIsotopeSeparator(EntityPlayer player, TileEnergyProcessor tileEntity) {
 		super(tileEntity, IsotopeSeparatorRecipes.instance());
 		
-		addSlotToContainer(new Slot(tileEntity, 0, 42, 35));
+		addSlotToContainer(new SlotProcessorInput(tileEntity, recipes, 0, 42, 35));
 		
 		addSlotToContainer(new SlotFurnaceOutput(player, tileEntity, 1, 102, 35));
 		addSlotToContainer(new SlotFurnaceOutput(player, tileEntity, 2, 130, 35));
 		
-		addSlotToContainer(new Slot(tileEntity, 3, 132, 64));
+		addSlotToContainer(new SlotSpecificInput(tileEntity, 3, 132, 64, speedUpgrade));
 		addSlotToContainer(new SlotFurnaceOutput(player, tileEntity, 4, 152, 64));
 		
 		for (int i = 0; i < 3; i++) {

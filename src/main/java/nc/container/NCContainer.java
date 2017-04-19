@@ -10,4 +10,9 @@ public class NCContainer extends Container {
 	public boolean canInteractWith(EntityPlayer playerIn) {
 		return false;
 	}
+	
+	protected int upcast(int input) {
+		if (input < 0) input += 65536;
+		return input;
+	}
 }

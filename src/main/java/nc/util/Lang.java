@@ -2,9 +2,9 @@ package nc.util;
 
 import java.util.List;
 
-import net.minecraft.util.text.translation.I18n;
-
 import com.google.common.collect.Lists;
+
+import net.minecraft.util.text.translation.I18n;
 
 public class Lang
 {

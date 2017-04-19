@@ -1,9 +1,6 @@
 package nc.tile.processor;
 
 import nc.block.tile.processor.BlockNuclearFurnace;
-import nc.container.SlotFuel;
-import nc.init.NCBlocks;
-import nc.init.NCItems;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -23,6 +20,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.oredict.OreDictionary;
 
 public class TileNuclearFurnace extends TileEntity implements ITickable, ISidedInventory {
 	private static final int[] SLOTS_TOP = new int[] {0};
@@ -243,14 +241,35 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ISidedI
 		if (stack == null) {
 			return 0;
 		} else {
-			Item item = stack.getItem();
-			int meta = stack.getMetadata();
-			if (item == Item.getItemFromBlock(NCBlocks.ingot_block)) {
-				return (meta == 3 || meta == 4) ? 3200 : 0;
-			} else if (item == NCItems.ingot || item == NCItems.dust) {
-				return (meta == 3 || meta == 4) ? 320 : 0;
-			} else if (item == NCItems.ingot_oxide || item == NCItems.dust_oxide) {
-				return (meta == 0 || meta == 1) ? 480 : 0;
+			for (int i = 0; i < OreDictionary.getOres("blockThorium").size(); i++) {
+				if (ItemStack.areItemsEqual(OreDictionary.getOres("blockThorium").get(i), stack)) return 3200;
+			}
+			for (int i = 0; i < OreDictionary.getOres("blockUranium").size(); i++) {
+				if (ItemStack.areItemsEqual(OreDictionary.getOres("blockUranium").get(i), stack)) return 3200;
+			}
+			for (int i = 0; i < OreDictionary.getOres("ingotThorium").size(); i++) {
+				if (ItemStack.areItemsEqual(OreDictionary.getOres("ingotThorium").get(i), stack)) return 320;
+			}
+			for (int i = 0; i < OreDictionary.getOres("ingotUranium").size(); i++) {
+				if (ItemStack.areItemsEqual(OreDictionary.getOres("ingotUranium").get(i), stack)) return 320;
+			}
+			for (int i = 0; i < OreDictionary.getOres("dustThorium").size(); i++) {
+				if (ItemStack.areItemsEqual(OreDictionary.getOres("dustThorium").get(i), stack)) return 320;
+			}
+			for (int i = 0; i < OreDictionary.getOres("dustUranium").size(); i++) {
+				if (ItemStack.areItemsEqual(OreDictionary.getOres("dustUranium").get(i), stack)) return 320;
+			}
+			for (int i = 0; i < OreDictionary.getOres("ingotThoriumOxide").size(); i++) {
+				if (ItemStack.areItemsEqual(OreDictionary.getOres("ingotThoriumOxide").get(i), stack)) return 480;
+			}
+			for (int i = 0; i < OreDictionary.getOres("ingotUraniumOxide").size(); i++) {
+				if (ItemStack.areItemsEqual(OreDictionary.getOres("ingotUraniumOxide").get(i), stack)) return 480;
+			}
+			for (int i = 0; i < OreDictionary.getOres("dustThoriumOxide").size(); i++) {
+				if (ItemStack.areItemsEqual(OreDictionary.getOres("dustThoriumOxide").get(i), stack)) return 480;
+			}
+			for (int i = 0; i < OreDictionary.getOres("dustUraniumOxide").size(); i++) {
+				if (ItemStack.areItemsEqual(OreDictionary.getOres("dustUraniumOxide").get(i), stack)) return 480;
 			}
 		}
 		return 0;
@@ -274,7 +293,7 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ISidedI
 		} else if (index != 1) {
 			return true;
 		} else {
-			return isItemFuel(stack) || SlotFuel.isBucket(stack) && furnaceItemStacks[1].getItem() != Items.BUCKET;
+			return isItemFuel(stack);
 		}
 	}
 

@@ -1,10 +1,9 @@
 package ic2.api.tile;
 
+import ic2.api.item.IKineticRotor;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
-
-import ic2.api.item.IKineticRotor;
 
 /**
  * Interface for {@link TileEntity}s that can have rotors, see also {@link IKineticRotor}<br/>

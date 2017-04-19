@@ -1,9 +1,8 @@
 package ic2.api.energy;
 
+import ic2.api.energy.tile.IEnergyTile;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-
-import ic2.api.energy.tile.IEnergyTile;
 
 /**
  * Interface representing the methods provided by the global EnergyNet class.

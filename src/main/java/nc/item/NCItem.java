@@ -4,11 +4,11 @@ import java.util.List;
 
 import nc.Global;
 import nc.util.NCInfo;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.translation.I18n;
 
 public class NCItem extends Item {
 	
