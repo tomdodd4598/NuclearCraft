@@ -1,3 +1,9 @@
+v2.1b
+
+* Fixed incorrect GUI displays on servers
+* Improved machine input slots
+* Improved tooltip info
+
 v2.1a
 
 * Fixed configs crashing game when internal changes were made
