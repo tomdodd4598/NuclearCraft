@@ -3,6 +3,8 @@ package nc.item.tool;
 import java.util.List;
 import java.util.Set;
 
+import com.google.common.collect.Sets;
+
 import nc.Global;
 import nc.util.NCInfo;
 import net.minecraft.block.Block;
@@ -13,8 +15,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
 import net.minecraft.util.ResourceLocation;
-
-import com.google.common.collect.Sets;
 
 public class NCAxe extends ItemTool {
 	

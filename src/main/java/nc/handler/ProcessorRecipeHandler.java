@@ -582,7 +582,7 @@ public abstract class ProcessorRecipeHandler {
 		return new OreStack(oreString, stackSize);
 	}
 
-	private static class OreStack extends Object {
+	public static class OreStack extends Object {
 		public String oreString;
 		public int stackSize;
 

@@ -1,9 +1,8 @@
 package ic2.api.item;
 
+import ic2.api.info.ITeBlock;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.ItemStack;
-
-import ic2.api.info.ITeBlock;
 
 /**
  *  Change the default icon for an {@link ITeBlock} by implementing this.

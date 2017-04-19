@@ -4,10 +4,10 @@ import java.util.List;
 
 import nc.util.NCInfo;
 import net.minecraft.block.Block;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.text.translation.I18n;
 
 public class NCItemBlock extends ItemBlock {
 	

@@ -1,10 +1,10 @@
 package nc.util;
 
-import nc.Global;
-
 import org.apache.commons.codec.language.bm.Lang;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import nc.Global;
 
 public class NCUtils {
 

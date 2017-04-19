@@ -10,8 +10,8 @@ public class ItemBlockFission extends ItemBlockMeta {
 	}
 	
 	public final static String[][] INFO() {
-		String[] infoCasing = new String[16];
-		for (int i = 0; i < 16; i++) {
+		String[] infoCasing = new String[17];
+		for (int i = 0; i < 17; i++) {
 			infoCasing[i] = I18n.translateToLocalFormatted("tile.fission_block.casing.des" + i);
 		}
 		String[] infoBlast = new String[2];

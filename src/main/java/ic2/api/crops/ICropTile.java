@@ -2,13 +2,12 @@ package ic2.api.crops;
 
 import java.util.List;
 
+import ic2.api.info.ILocatable;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-
-import ic2.api.info.ILocatable;
 
 /**
  * Interface implemented by the crop tile entity.

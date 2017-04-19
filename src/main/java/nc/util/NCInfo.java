@@ -2,9 +2,9 @@ package nc.util;
 
 import java.util.List;
 
-import net.minecraft.util.text.TextFormatting;
-
 import org.lwjgl.input.Keyboard;
+
+import net.minecraft.util.text.TextFormatting;
 
 public class NCInfo {
 	public static final String shiftString = "Press Shift for more info";

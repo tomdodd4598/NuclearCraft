@@ -30,17 +30,19 @@ public class ContainerEnergyGeneratorProcessor extends ContainerTile {
 		for (int i = 0; i < listeners.size(); i++) {
 			IContainerListener icontainerlistener = (IContainerListener) listeners.get(i);
 			
-			if (time != tile.getField(0)) {
-				icontainerlistener.sendProgressBarUpdate(this, 0, tile.getField(0));
-			}
+			//if (time != tile.getField(0)) {
+				icontainerlistener.sendProgressBarUpdate(this, 0, tile.getField(0) >> 16);
+				icontainerlistener.sendProgressBarUpdate(this, 100, tile.getField(0));
+			//}
 			
-			if (energy != tile.getField(1)) {
-				icontainerlistener.sendProgressBarUpdate(this, 1, tile.getField(1));
-			}
+			//if (energy != tile.getField(1)) {
+				icontainerlistener.sendProgressBarUpdate(this, 1, tile.getField(1) >> 16);
+				icontainerlistener.sendProgressBarUpdate(this, 101, tile.getField(1));
+			//}
 		}
 		
-		time = tile.getField(0);
-		energy = tile.getField(1);
+		/*time = tile.getField(0);
+		energy = tile.getField(1);*/
 	}
 	
 	public void addListener(IContainerListener listener) {
@@ -50,7 +52,11 @@ public class ContainerEnergyGeneratorProcessor extends ContainerTile {
 	
 	@SideOnly(Side.CLIENT)
 	public void updateProgressBar(int id, int data) {
-		tile.setField(id, data);
+		if (id == 100) time = upcast(data);
+		else if (id == 101) energy = upcast(data);
+		
+		else if (id == 0) tile.setField(id, time | data << 16);
+		else if (id == 1) tile.setField(id, energy | data << 16);
 	}
 	
 	public boolean canInteractWith(EntityPlayer player) {

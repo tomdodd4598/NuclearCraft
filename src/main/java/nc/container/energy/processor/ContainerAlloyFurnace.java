@@ -1,5 +1,7 @@
 package nc.container.energy.processor;
 
+import nc.container.SlotProcessorInput;
+import nc.container.SlotSpecificInput;
 import nc.crafting.processor.AlloyFurnaceRecipes;
 import nc.tile.energy.processor.TileEnergyProcessor;
 import net.minecraft.entity.player.EntityPlayer;
@@ -11,12 +13,12 @@ public class ContainerAlloyFurnace extends ContainerEnergyProcessor {
 	public ContainerAlloyFurnace(EntityPlayer player, TileEnergyProcessor tileEntity) {
 		super(tileEntity, AlloyFurnaceRecipes.instance());
 		
-		addSlotToContainer(new Slot(tileEntity, 0, 46, 35));
-		addSlotToContainer(new Slot(tileEntity, 1, 66, 35));
+		addSlotToContainer(new SlotProcessorInput(tileEntity, recipes, 0, 46, 35));
+		addSlotToContainer(new SlotProcessorInput(tileEntity, recipes, 1, 66, 35));
 		
 		addSlotToContainer(new SlotFurnaceOutput(player, tileEntity, 2, 126, 35));
 		
-		addSlotToContainer(new Slot(tileEntity, 3, 132, 64));
+		addSlotToContainer(new SlotSpecificInput(tileEntity, 3, 132, 64, speedUpgrade));
 		addSlotToContainer(new SlotFurnaceOutput(player, tileEntity, 4, 152, 64));
 		
 		for (int i = 0; i < 3; i++) {
