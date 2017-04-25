@@ -3,7 +3,7 @@ package nc.container.energy.processor;
 import nc.container.SlotProcessorInput;
 import nc.container.SlotSpecificInput;
 import nc.crafting.processor.FuelReprocessorRecipes;
-import nc.tile.energy.processor.TileEnergyProcessor;
+import nc.tile.processor.TileEnergyProcessor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotFurnaceOutput;

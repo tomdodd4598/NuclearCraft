@@ -4,6 +4,7 @@ import nc.config.NCConfig;
 import nc.handler.GuiHandler;
 import nc.proxy.CommonProxy;
 import nc.util.NCUtils;
+import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -15,6 +16,10 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 
 @Mod(modid = Global.MOD_ID, name = Global.MOD_NAME, version = Global.VERSION, guiFactory = Global.GUI_FACTORY)
 public class NuclearCraft {
+	
+	static {
+		FluidRegistry.enableUniversalBucket();
+	}
 	
 	@Instance(Global.MOD_ID)
 	public static NuclearCraft instance;

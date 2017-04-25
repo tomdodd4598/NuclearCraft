@@ -1,7 +1,7 @@
 package nc.gui.energy.processor;
 
 import nc.container.energy.processor.ContainerDecayHastener;
-import nc.tile.energy.processor.TileEnergyProcessor;
+import nc.tile.processor.TileEnergyProcessor;
 import net.minecraft.entity.player.EntityPlayer;
 
 public class GuiDecayHastener extends GuiEnergyProcessor {

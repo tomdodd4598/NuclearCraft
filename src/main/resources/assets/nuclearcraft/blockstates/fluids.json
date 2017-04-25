@@ -1,0 +1,59 @@
+{
+	"forge_marker": 1,
+	"variants": {
+		"fluid_oxygen": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "oxygen"
+			}
+		},
+		"fluid_hydrogen": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "hydrogen"
+			}
+		},
+		"fluid_deuterium": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "deuterium"
+			}
+		},
+		"fluid_tritium": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "tritium"
+			}
+		},
+		"fluid_helium3": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "helium3"
+			}
+		},
+		"fluid_helium": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "helium"
+			}
+		},
+		"fluid_steam": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "steam"
+			}
+		},
+		"fluid_liquid_helium": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "liquid_helium"
+			}
+		},
+		"fluid_plasma": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "plasma"
+			}
+		}
+	}
+}

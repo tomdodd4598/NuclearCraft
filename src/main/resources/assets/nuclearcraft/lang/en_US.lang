@@ -166,6 +166,33 @@ tile.energy_storage.des2=This is still being worked on
 tile.energy_storage.des3=and currently doesn't retain its
 tile.energy_storage.des4=stored energy on breaking
 
+tile.fluid_oxygen.name=Oxygen
+fluid.oxygen=Oxygen
+
+tile.fluid_hydrogen.name=Hydrogen
+fluid.hydrogen=Hydrogen
+
+tile.fluid_deuterium.name=Deuterium
+fluid.deuterium=Deuterium
+
+tile.fluid_tritium.name=Tritium
+fluid.tritium=Tritium
+
+tile.fluid_helium3.name=Helium-3
+fluid.helium3=Helium-3
+
+tile.fluid_helium.name=Helium
+fluid.helium=Helium
+
+tile.fluid_steam.name=Steam
+fluid.steam=Steam
+
+tile.fluid_liquid_helium.name=Liquid Helium
+fluid.liquid_helium=Liquid Helium
+
+tile.fluid_plasma.name=Plasma
+fluid.plasma=Plasma
+
 item.ingot.copper.name=Copper Ingot
 item.ingot.tin.name=Tin Ingot
 item.ingot.lead.name=Lead Ingot
@@ -546,7 +573,13 @@ item.portable_ender_chest.des0=Access your Ender Chest on the move
 item.dominos.name=Domino's Special
 item.dominos.des0=Paul's favourite - restores 16 hunger
 
-itemGroup.nuclearcraft=NuclearCraft
+itemGroup.nuclearcraftBaseBlockMaterials=NuclearCraft Base Blocks
+itemGroup.nuclearcraftBaseItemMaterials=NuclearCraft Base Items
+itemGroup.nuclearcraftMachines=NuclearCraft Machines
+itemGroup.nuclearcraftFissionBlocks=NuclearCraft Fission Blocks
+itemGroup.nuclearcraftFissionMaterials=NuclearCraft Fission Materials
+itemGroup.nuclearcraftFissionFuelRods=NuclearCraft Fission Fuel Rods
+itemGroup.nuclearcraftMisc=NuclearCraft Miscellaneous
 
 gui.config.main_title=NuclearCraft Configs
 
@@ -700,3 +733,7 @@ gui.container.fission_controller.casing_in_interior=Casing In Interior
 gui.container.fission_controller.invalid_structure=Invalid Structure
 gui.container.fission_controller.no_fuel=No Fuel
 gui.container.fission_controller.cells=Cells:
+
+death.attack.superfluid_freeze=%1$s froze to death in superfluid
+death.attack.plasma_burn=%1$s was incinerated by plasma
+death.attack.steam_burn=%1$s was cooked in steam

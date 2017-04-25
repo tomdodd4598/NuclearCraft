@@ -1,14 +1,22 @@
 package nc.proxy;
 
 import nc.Global;
+import nc.block.fluid.BlockFluidBase;
 import nc.config.NCConfig;
 import nc.init.NCArmor;
 import nc.init.NCBlocks;
+import nc.init.NCFluids;
 import nc.init.NCItems;
 import nc.init.NCTools;
+import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelBakery;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.renderer.block.statemap.StateMap;
+import net.minecraft.client.renderer.block.statemap.StateMapperBase;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -46,7 +54,7 @@ public class ClientProxy extends CommonProxy {
 				new ResourceLocation(Global.MOD_ID, "ore_boron"),
 				new ResourceLocation(Global.MOD_ID, "ore_lithium"),
 				new ResourceLocation(Global.MOD_ID, "ore_magnesium"));
-		
+				
 		ModelBakery.registerItemVariants(Item.getItemFromBlock(NCBlocks.ingot_block),
 				new ResourceLocation(Global.MOD_ID, "ingot_block_copper"),
 				new ResourceLocation(Global.MOD_ID, "ingot_block_tin"),
@@ -57,11 +65,11 @@ public class ClientProxy extends CommonProxy {
 				new ResourceLocation(Global.MOD_ID, "ingot_block_lithium"),
 				new ResourceLocation(Global.MOD_ID, "ingot_block_magnesium"),
 				new ResourceLocation(Global.MOD_ID, "ingot_block_graphite"));
-		
+				
 		ModelBakery.registerItemVariants(Item.getItemFromBlock(NCBlocks.fission_block),
 				new ResourceLocation(Global.MOD_ID, "fission_block_casing"),
 				new ResourceLocation(Global.MOD_ID, "fission_block_blast"));
-		
+				
 		ModelBakery.registerItemVariants(Item.getItemFromBlock(NCBlocks.cooler),
 				new ResourceLocation(Global.MOD_ID, "cooler_empty"),
 				new ResourceLocation(Global.MOD_ID, "cooler_water"),
@@ -74,7 +82,7 @@ public class ClientProxy extends CommonProxy {
 				new ResourceLocation(Global.MOD_ID, "cooler_helium"),
 				new ResourceLocation(Global.MOD_ID, "cooler_enderium"),
 				new ResourceLocation(Global.MOD_ID, "cooler_cryotheum"));
-		
+				
 		ModelBakery.registerItemVariants(NCItems.ingot,
 				new ResourceLocation(Global.MOD_ID, "ingot_copper"),
 				new ResourceLocation(Global.MOD_ID, "ingot_tin"),
@@ -85,13 +93,13 @@ public class ClientProxy extends CommonProxy {
 				new ResourceLocation(Global.MOD_ID, "ingot_lithium"),
 				new ResourceLocation(Global.MOD_ID, "ingot_magnesium"),
 				new ResourceLocation(Global.MOD_ID, "ingot_graphite"));
-		
+				
 		ModelBakery.registerItemVariants(NCItems.ingot_oxide,
 				new ResourceLocation(Global.MOD_ID, "ingot_oxide_thorium"),
 				new ResourceLocation(Global.MOD_ID, "ingot_oxide_uranium"),
 				new ResourceLocation(Global.MOD_ID, "ingot_oxide_manganese"),
 				new ResourceLocation(Global.MOD_ID, "ingot_oxide_manganese2"));
-		
+				
 		ModelBakery.registerItemVariants(NCItems.dust,
 				new ResourceLocation(Global.MOD_ID, "dust_copper"),
 				new ResourceLocation(Global.MOD_ID, "dust_tin"),
@@ -102,22 +110,22 @@ public class ClientProxy extends CommonProxy {
 				new ResourceLocation(Global.MOD_ID, "dust_lithium"),
 				new ResourceLocation(Global.MOD_ID, "dust_magnesium"),
 				new ResourceLocation(Global.MOD_ID, "dust_graphite"));
-		
+				
 		ModelBakery.registerItemVariants(NCItems.dust_oxide,
 				new ResourceLocation(Global.MOD_ID, "dust_oxide_thorium"),
 				new ResourceLocation(Global.MOD_ID, "dust_oxide_uranium"),
 				new ResourceLocation(Global.MOD_ID, "dust_oxide_manganese"),
 				new ResourceLocation(Global.MOD_ID, "dust_oxide_manganese2"));
-		
+				
 		ModelBakery.registerItemVariants(NCItems.gem,
 				new ResourceLocation(Global.MOD_ID, "gem_rhodochrosite"));
-		
+				
 		ModelBakery.registerItemVariants(NCItems.gem_dust,
 				new ResourceLocation(Global.MOD_ID, "gem_dust_diamond"),
 				new ResourceLocation(Global.MOD_ID, "gem_dust_rhodochrosite"),
 				new ResourceLocation(Global.MOD_ID, "gem_dust_quartz"),
 				new ResourceLocation(Global.MOD_ID, "gem_dust_obsidian"));
-		
+				
 		ModelBakery.registerItemVariants(NCItems.alloy,
 				new ResourceLocation(Global.MOD_ID, "alloy_bronze"),
 				new ResourceLocation(Global.MOD_ID, "alloy_tough"),
@@ -126,7 +134,7 @@ public class ClientProxy extends CommonProxy {
 				new ResourceLocation(Global.MOD_ID, "alloy_lithium_manganese_dioxide"),
 				new ResourceLocation(Global.MOD_ID, "alloy_steel"),
 				new ResourceLocation(Global.MOD_ID, "alloy_ferroboron"));
-		
+				
 		ModelBakery.registerItemVariants(NCItems.part,
 				new ResourceLocation(Global.MOD_ID, "part_plate_basic"),
 				new ResourceLocation(Global.MOD_ID, "part_plate_advanced"),
@@ -134,10 +142,10 @@ public class ClientProxy extends CommonProxy {
 				new ResourceLocation(Global.MOD_ID, "part_plate_elite"),
 				new ResourceLocation(Global.MOD_ID, "part_wire_copper"),
 				new ResourceLocation(Global.MOD_ID, "part_wire_magnesium_diboride"));
-		
+				
 		ModelBakery.registerItemVariants(NCItems.upgrade,
 				new ResourceLocation(Global.MOD_ID, "upgrade_speed"));
-		
+				
 		ModelBakery.registerItemVariants(NCItems.thorium,
 				new ResourceLocation(Global.MOD_ID, "thorium_230"),
 				new ResourceLocation(Global.MOD_ID, "thorium_230_oxide"),
@@ -147,7 +155,7 @@ public class ClientProxy extends CommonProxy {
 				new ResourceLocation(Global.MOD_ID, "thorium_232_oxide"),
 				new ResourceLocation(Global.MOD_ID, "thorium_232_tiny"),
 				new ResourceLocation(Global.MOD_ID, "thorium_232_oxide_tiny"));
-		
+				
 		ModelBakery.registerItemVariants(NCItems.uranium,
 				new ResourceLocation(Global.MOD_ID, "uranium_233"),
 				new ResourceLocation(Global.MOD_ID, "uranium_233_oxide"),
@@ -161,7 +169,7 @@ public class ClientProxy extends CommonProxy {
 				new ResourceLocation(Global.MOD_ID, "uranium_238_oxide"),
 				new ResourceLocation(Global.MOD_ID, "uranium_238_tiny"),
 				new ResourceLocation(Global.MOD_ID, "uranium_238_oxide_tiny"));
-		
+				
 		ModelBakery.registerItemVariants(NCItems.neptunium,
 				new ResourceLocation(Global.MOD_ID, "neptunium_236"),
 				new ResourceLocation(Global.MOD_ID, "neptunium_236_oxide"),
@@ -171,7 +179,7 @@ public class ClientProxy extends CommonProxy {
 				new ResourceLocation(Global.MOD_ID, "neptunium_237_oxide"),
 				new ResourceLocation(Global.MOD_ID, "neptunium_237_tiny"),
 				new ResourceLocation(Global.MOD_ID, "neptunium_237_oxide_tiny"));
-		
+				
 		ModelBakery.registerItemVariants(NCItems.plutonium,
 				new ResourceLocation(Global.MOD_ID, "plutonium_238"),
 				new ResourceLocation(Global.MOD_ID, "plutonium_238_oxide"),
@@ -189,7 +197,7 @@ public class ClientProxy extends CommonProxy {
 				new ResourceLocation(Global.MOD_ID, "plutonium_242_oxide"),
 				new ResourceLocation(Global.MOD_ID, "plutonium_242_tiny"),
 				new ResourceLocation(Global.MOD_ID, "plutonium_242_oxide_tiny"));
-		
+				
 		ModelBakery.registerItemVariants(NCItems.americium,
 				new ResourceLocation(Global.MOD_ID, "americium_241"),
 				new ResourceLocation(Global.MOD_ID, "americium_241_oxide"),
@@ -203,7 +211,7 @@ public class ClientProxy extends CommonProxy {
 				new ResourceLocation(Global.MOD_ID, "americium_243_oxide"),
 				new ResourceLocation(Global.MOD_ID, "americium_243_tiny"),
 				new ResourceLocation(Global.MOD_ID, "americium_243_oxide_tiny"));
-		
+				
 		ModelBakery.registerItemVariants(NCItems.curium,
 				new ResourceLocation(Global.MOD_ID, "curium_243"),
 				new ResourceLocation(Global.MOD_ID, "curium_243_oxide"),
@@ -221,7 +229,7 @@ public class ClientProxy extends CommonProxy {
 				new ResourceLocation(Global.MOD_ID, "curium_247_oxide"),
 				new ResourceLocation(Global.MOD_ID, "curium_247_tiny"),
 				new ResourceLocation(Global.MOD_ID, "curium_247_oxide_tiny"));
-		
+				
 		ModelBakery.registerItemVariants(NCItems.berkelium,
 				new ResourceLocation(Global.MOD_ID, "berkelium_247"),
 				new ResourceLocation(Global.MOD_ID, "berkelium_247_oxide"),
@@ -231,7 +239,7 @@ public class ClientProxy extends CommonProxy {
 				new ResourceLocation(Global.MOD_ID, "berkelium_248_oxide"),
 				new ResourceLocation(Global.MOD_ID, "berkelium_248_tiny"),
 				new ResourceLocation(Global.MOD_ID, "berkelium_248_oxide_tiny"));
-		
+				
 		ModelBakery.registerItemVariants(NCItems.californium,
 				new ResourceLocation(Global.MOD_ID, "californium_249"),
 				new ResourceLocation(Global.MOD_ID, "californium_249_oxide"),
@@ -249,11 +257,11 @@ public class ClientProxy extends CommonProxy {
 				new ResourceLocation(Global.MOD_ID, "californium_252_oxide"),
 				new ResourceLocation(Global.MOD_ID, "californium_252_tiny"),
 				new ResourceLocation(Global.MOD_ID, "californium_252_oxide_tiny"));
-		
+				
 		ModelBakery.registerItemVariants(NCItems.fuel_thorium,
 				new ResourceLocation(Global.MOD_ID, "fuel_thorium_tbu"),
 				new ResourceLocation(Global.MOD_ID, "fuel_thorium_tbu_oxide"));
-		
+				
 		ModelBakery.registerItemVariants(NCItems.fuel_uranium,
 				new ResourceLocation(Global.MOD_ID, "fuel_uranium_leu_233"),
 				new ResourceLocation(Global.MOD_ID, "fuel_uranium_leu_233_oxide"),
@@ -263,13 +271,13 @@ public class ClientProxy extends CommonProxy {
 				new ResourceLocation(Global.MOD_ID, "fuel_uranium_leu_235_oxide"),
 				new ResourceLocation(Global.MOD_ID, "fuel_uranium_heu_235"),
 				new ResourceLocation(Global.MOD_ID, "fuel_uranium_heu_235_oxide"));
-		
+				
 		ModelBakery.registerItemVariants(NCItems.fuel_neptunium,
 				new ResourceLocation(Global.MOD_ID, "fuel_neptunium_len_236"),
 				new ResourceLocation(Global.MOD_ID, "fuel_neptunium_len_236_oxide"),
 				new ResourceLocation(Global.MOD_ID, "fuel_neptunium_hen_236"),
 				new ResourceLocation(Global.MOD_ID, "fuel_neptunium_hen_236_oxide"));
-		
+				
 		ModelBakery.registerItemVariants(NCItems.fuel_plutonium,
 				new ResourceLocation(Global.MOD_ID, "fuel_plutonium_lep_239"),
 				new ResourceLocation(Global.MOD_ID, "fuel_plutonium_lep_239_oxide"),
@@ -279,17 +287,17 @@ public class ClientProxy extends CommonProxy {
 				new ResourceLocation(Global.MOD_ID, "fuel_plutonium_lep_241_oxide"),
 				new ResourceLocation(Global.MOD_ID, "fuel_plutonium_hep_241"),
 				new ResourceLocation(Global.MOD_ID, "fuel_plutonium_hep_241_oxide"));
-		
+				
 		ModelBakery.registerItemVariants(NCItems.fuel_mixed_oxide,
 				new ResourceLocation(Global.MOD_ID, "fuel_mixed_oxide_mox_239"),
 				new ResourceLocation(Global.MOD_ID, "fuel_mixed_oxide_mox_241"));
-		
+				
 		ModelBakery.registerItemVariants(NCItems.fuel_americium,
 				new ResourceLocation(Global.MOD_ID, "fuel_americium_lea_242"),
 				new ResourceLocation(Global.MOD_ID, "fuel_americium_lea_242_oxide"),
 				new ResourceLocation(Global.MOD_ID, "fuel_americium_hea_242"),
 				new ResourceLocation(Global.MOD_ID, "fuel_americium_hea_242_oxide"));
-		
+				
 		ModelBakery.registerItemVariants(NCItems.fuel_curium,
 				new ResourceLocation(Global.MOD_ID, "fuel_curium_lec_243"),
 				new ResourceLocation(Global.MOD_ID, "fuel_curium_lec_243_oxide"),
@@ -303,13 +311,13 @@ public class ClientProxy extends CommonProxy {
 				new ResourceLocation(Global.MOD_ID, "fuel_curium_lec_247_oxide"),
 				new ResourceLocation(Global.MOD_ID, "fuel_curium_hec_247"),
 				new ResourceLocation(Global.MOD_ID, "fuel_curium_hec_247_oxide"));
-		
+				
 		ModelBakery.registerItemVariants(NCItems.fuel_berkelium,
 				new ResourceLocation(Global.MOD_ID, "fuel_berkelium_leb_248"),
 				new ResourceLocation(Global.MOD_ID, "fuel_berkelium_leb_248_oxide"),
 				new ResourceLocation(Global.MOD_ID, "fuel_berkelium_heb_248"),
 				new ResourceLocation(Global.MOD_ID, "fuel_berkelium_heb_248_oxide"));
-		
+				
 		ModelBakery.registerItemVariants(NCItems.fuel_californium,
 				new ResourceLocation(Global.MOD_ID, "fuel_californium_lec_249"),
 				new ResourceLocation(Global.MOD_ID, "fuel_californium_lec_249_oxide"),
@@ -319,11 +327,11 @@ public class ClientProxy extends CommonProxy {
 				new ResourceLocation(Global.MOD_ID, "fuel_californium_lec_251_oxide"),
 				new ResourceLocation(Global.MOD_ID, "fuel_californium_hec_251"),
 				new ResourceLocation(Global.MOD_ID, "fuel_californium_hec_251_oxide"));
-		
+				
 		ModelBakery.registerItemVariants(NCItems.fuel_rod_thorium,
 				new ResourceLocation(Global.MOD_ID, "fuel_rod_thorium_tbu"),
 				new ResourceLocation(Global.MOD_ID, "fuel_rod_thorium_tbu_oxide"));
-		
+				
 		ModelBakery.registerItemVariants(NCItems.fuel_rod_uranium,
 				new ResourceLocation(Global.MOD_ID, "fuel_rod_uranium_leu_233"),
 				new ResourceLocation(Global.MOD_ID, "fuel_rod_uranium_leu_233_oxide"),
@@ -333,13 +341,13 @@ public class ClientProxy extends CommonProxy {
 				new ResourceLocation(Global.MOD_ID, "fuel_rod_uranium_leu_235_oxide"),
 				new ResourceLocation(Global.MOD_ID, "fuel_rod_uranium_heu_235"),
 				new ResourceLocation(Global.MOD_ID, "fuel_rod_uranium_heu_235_oxide"));
-		
+				
 		ModelBakery.registerItemVariants(NCItems.fuel_rod_neptunium,
 				new ResourceLocation(Global.MOD_ID, "fuel_rod_neptunium_len_236"),
 				new ResourceLocation(Global.MOD_ID, "fuel_rod_neptunium_len_236_oxide"),
 				new ResourceLocation(Global.MOD_ID, "fuel_rod_neptunium_hen_236"),
 				new ResourceLocation(Global.MOD_ID, "fuel_rod_neptunium_hen_236_oxide"));
-		
+				
 		ModelBakery.registerItemVariants(NCItems.fuel_rod_plutonium,
 				new ResourceLocation(Global.MOD_ID, "fuel_rod_plutonium_lep_239"),
 				new ResourceLocation(Global.MOD_ID, "fuel_rod_plutonium_lep_239_oxide"),
@@ -349,17 +357,17 @@ public class ClientProxy extends CommonProxy {
 				new ResourceLocation(Global.MOD_ID, "fuel_rod_plutonium_lep_241_oxide"),
 				new ResourceLocation(Global.MOD_ID, "fuel_rod_plutonium_hep_241"),
 				new ResourceLocation(Global.MOD_ID, "fuel_rod_plutonium_hep_241_oxide"));
-		
+				
 		ModelBakery.registerItemVariants(NCItems.fuel_rod_mixed_oxide,
 				new ResourceLocation(Global.MOD_ID, "fuel_rod_mixed_oxide_mox_239"),
 				new ResourceLocation(Global.MOD_ID, "fuel_rod_mixed_oxide_mox_241"));
-		
+				
 		ModelBakery.registerItemVariants(NCItems.fuel_rod_americium,
 				new ResourceLocation(Global.MOD_ID, "fuel_rod_americium_lea_242"),
 				new ResourceLocation(Global.MOD_ID, "fuel_rod_americium_lea_242_oxide"),
 				new ResourceLocation(Global.MOD_ID, "fuel_rod_americium_hea_242"),
 				new ResourceLocation(Global.MOD_ID, "fuel_rod_americium_hea_242_oxide"));
-		
+				
 		ModelBakery.registerItemVariants(NCItems.fuel_rod_curium,
 				new ResourceLocation(Global.MOD_ID, "fuel_rod_curium_lec_243"),
 				new ResourceLocation(Global.MOD_ID, "fuel_rod_curium_lec_243_oxide"),
@@ -373,13 +381,13 @@ public class ClientProxy extends CommonProxy {
 				new ResourceLocation(Global.MOD_ID, "fuel_rod_curium_lec_247_oxide"),
 				new ResourceLocation(Global.MOD_ID, "fuel_rod_curium_hec_247"),
 				new ResourceLocation(Global.MOD_ID, "fuel_rod_curium_hec_247_oxide"));
-		
+				
 		ModelBakery.registerItemVariants(NCItems.fuel_rod_berkelium,
 				new ResourceLocation(Global.MOD_ID, "fuel_rod_berkelium_leb_248"),
 				new ResourceLocation(Global.MOD_ID, "fuel_rod_berkelium_leb_248_oxide"),
 				new ResourceLocation(Global.MOD_ID, "fuel_rod_berkelium_heb_248"),
 				new ResourceLocation(Global.MOD_ID, "fuel_rod_berkelium_heb_248_oxide"));
-		
+				
 		ModelBakery.registerItemVariants(NCItems.fuel_rod_californium,
 				new ResourceLocation(Global.MOD_ID, "fuel_rod_californium_lec_249"),
 				new ResourceLocation(Global.MOD_ID, "fuel_rod_californium_lec_249_oxide"),
@@ -389,11 +397,11 @@ public class ClientProxy extends CommonProxy {
 				new ResourceLocation(Global.MOD_ID, "fuel_rod_californium_lec_251_oxide"),
 				new ResourceLocation(Global.MOD_ID, "fuel_rod_californium_hec_251"),
 				new ResourceLocation(Global.MOD_ID, "fuel_rod_californium_hec_251_oxide"));
-		
+				
 		ModelBakery.registerItemVariants(NCItems.depleted_fuel_rod_thorium,
 				new ResourceLocation(Global.MOD_ID, "depleted_fuel_rod_thorium_tbu"),
 				new ResourceLocation(Global.MOD_ID, "depleted_fuel_rod_thorium_tbu_oxide"));
-		
+				
 		ModelBakery.registerItemVariants(NCItems.depleted_fuel_rod_uranium,
 				new ResourceLocation(Global.MOD_ID, "depleted_fuel_rod_uranium_leu_233"),
 				new ResourceLocation(Global.MOD_ID, "depleted_fuel_rod_uranium_leu_233_oxide"),
@@ -403,13 +411,13 @@ public class ClientProxy extends CommonProxy {
 				new ResourceLocation(Global.MOD_ID, "depleted_fuel_rod_uranium_leu_235_oxide"),
 				new ResourceLocation(Global.MOD_ID, "depleted_fuel_rod_uranium_heu_235"),
 				new ResourceLocation(Global.MOD_ID, "depleted_fuel_rod_uranium_heu_235_oxide"));
-		
+				
 		ModelBakery.registerItemVariants(NCItems.depleted_fuel_rod_neptunium,
 				new ResourceLocation(Global.MOD_ID, "depleted_fuel_rod_neptunium_len_236"),
 				new ResourceLocation(Global.MOD_ID, "depleted_fuel_rod_neptunium_len_236_oxide"),
 				new ResourceLocation(Global.MOD_ID, "depleted_fuel_rod_neptunium_hen_236"),
 				new ResourceLocation(Global.MOD_ID, "depleted_fuel_rod_neptunium_hen_236_oxide"));
-		
+				
 		ModelBakery.registerItemVariants(NCItems.depleted_fuel_rod_plutonium,
 				new ResourceLocation(Global.MOD_ID, "depleted_fuel_rod_plutonium_lep_239"),
 				new ResourceLocation(Global.MOD_ID, "depleted_fuel_rod_plutonium_lep_239_oxide"),
@@ -419,17 +427,17 @@ public class ClientProxy extends CommonProxy {
 				new ResourceLocation(Global.MOD_ID, "depleted_fuel_rod_plutonium_lep_241_oxide"),
 				new ResourceLocation(Global.MOD_ID, "depleted_fuel_rod_plutonium_hep_241"),
 				new ResourceLocation(Global.MOD_ID, "depleted_fuel_rod_plutonium_hep_241_oxide"));
-		
+				
 		ModelBakery.registerItemVariants(NCItems.depleted_fuel_rod_mixed_oxide,
 				new ResourceLocation(Global.MOD_ID, "depleted_fuel_rod_mixed_oxide_mox_239"),
 				new ResourceLocation(Global.MOD_ID, "depleted_fuel_rod_mixed_oxide_mox_241"));
-		
+				
 		ModelBakery.registerItemVariants(NCItems.depleted_fuel_rod_americium,
 				new ResourceLocation(Global.MOD_ID, "depleted_fuel_rod_americium_lea_242"),
 				new ResourceLocation(Global.MOD_ID, "depleted_fuel_rod_americium_lea_242_oxide"),
 				new ResourceLocation(Global.MOD_ID, "depleted_fuel_rod_americium_hea_242"),
 				new ResourceLocation(Global.MOD_ID, "depleted_fuel_rod_americium_hea_242_oxide"));
-		
+				
 		ModelBakery.registerItemVariants(NCItems.depleted_fuel_rod_curium,
 				new ResourceLocation(Global.MOD_ID, "depleted_fuel_rod_curium_lec_243"),
 				new ResourceLocation(Global.MOD_ID, "depleted_fuel_rod_curium_lec_243_oxide"),
@@ -443,13 +451,13 @@ public class ClientProxy extends CommonProxy {
 				new ResourceLocation(Global.MOD_ID, "depleted_fuel_rod_curium_lec_247_oxide"),
 				new ResourceLocation(Global.MOD_ID, "depleted_fuel_rod_curium_hec_247"),
 				new ResourceLocation(Global.MOD_ID, "depleted_fuel_rod_curium_hec_247_oxide"));
-		
+				
 		ModelBakery.registerItemVariants(NCItems.depleted_fuel_rod_berkelium,
 				new ResourceLocation(Global.MOD_ID, "depleted_fuel_rod_berkelium_leb_248"),
 				new ResourceLocation(Global.MOD_ID, "depleted_fuel_rod_berkelium_leb_248_oxide"),
 				new ResourceLocation(Global.MOD_ID, "depleted_fuel_rod_berkelium_heb_248"),
 				new ResourceLocation(Global.MOD_ID, "depleted_fuel_rod_berkelium_heb_248_oxide"));
-		
+				
 		ModelBakery.registerItemVariants(NCItems.depleted_fuel_rod_californium,
 				new ResourceLocation(Global.MOD_ID, "depleted_fuel_rod_californium_lec_249"),
 				new ResourceLocation(Global.MOD_ID, "depleted_fuel_rod_californium_lec_249_oxide"),
@@ -459,5 +467,18 @@ public class ClientProxy extends CommonProxy {
 				new ResourceLocation(Global.MOD_ID, "depleted_fuel_rod_californium_lec_251_oxide"),
 				new ResourceLocation(Global.MOD_ID, "depleted_fuel_rod_californium_hec_251"),
 				new ResourceLocation(Global.MOD_ID, "depleted_fuel_rod_californium_hec_251_oxide"));
+	}
+	
+	public void registerFluidBlockRendering(BlockFluidBase block, String name) {
+		name = name.toLowerCase();
+		super.registerFluidBlockRendering(block, name);
+		final ModelResourceLocation fluidLocation = new ModelResourceLocation(Global.MOD_ID + ":fluids", name);
+
+		//ModelLoader.setCustomStateMapper(block, new StateMap.Builder().ignore(block.LEVEL).build());
+		ModelLoader.setCustomStateMapper(block, new StateMapperBase() {
+			protected ModelResourceLocation getModelResourceLocation(IBlockState state) {
+				return fluidLocation;
+			}
+		});
 	}
 }

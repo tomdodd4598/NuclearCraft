@@ -81,14 +81,14 @@ public class NCBlocks {
 	public static Block lithium_ion_battery_basic;
 	
 	public static void init() {
-		ore = new BlockOre("ore", "ore").setCreativeTab(CommonProxy.NC_TAB);
-		ingot_block = new BlockIngot("ingot_block", "ingot_block").setCreativeTab(CommonProxy.NC_TAB);
+		ore = new BlockOre("ore", "ore").setCreativeTab(CommonProxy.TAB_BASE_BLOCK_MATERIALS);
+		ingot_block = new BlockIngot("ingot_block", "ingot_block").setCreativeTab(CommonProxy.TAB_BASE_BLOCK_MATERIALS);
 		
-		fission_block = new BlockFission("fission_block", "fission_block").setCreativeTab(CommonProxy.NC_TAB);
-		cell_block = new BlockTransparent("cell_block", "cell_block", Material.IRON, false).setCreativeTab(CommonProxy.NC_TAB);
-		cooler = new BlockCooler("cooler", "cooler").setCreativeTab(CommonProxy.NC_TAB);
+		fission_block = new BlockFission("fission_block", "fission_block").setCreativeTab(CommonProxy.TAB_FISSION_BLOCKS);
+		cell_block = new BlockTransparent("cell_block", "cell_block", Material.IRON, false).setCreativeTab(CommonProxy.TAB_FISSION_BLOCKS);
+		cooler = new BlockCooler("cooler", "cooler").setCreativeTab(CommonProxy.TAB_FISSION_BLOCKS);
 		
-		block_depleted_uranium = new NCBlock("block_depleted_uranium", "block_depleted_uranium", Material.IRON).setCreativeTab(CommonProxy.NC_TAB);
+		block_depleted_uranium = new NCBlock("block_depleted_uranium", "block_depleted_uranium", Material.IRON).setCreativeTab(CommonProxy.TAB_BASE_BLOCK_MATERIALS);
 		
 		nuclear_furnace_idle = new BlockNuclearFurnace("nuclear_furnace_idle", "nuclear_furnace_idle", false, 0);
 		nuclear_furnace_active = new BlockNuclearFurnace("nuclear_furnace_active", "nuclear_furnace_active", true, 0);

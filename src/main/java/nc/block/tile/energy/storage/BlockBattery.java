@@ -2,7 +2,7 @@ package nc.block.tile.energy.storage;
 
 import nc.block.tile.BlockInventory;
 import nc.proxy.CommonProxy;
-import nc.tile.energy.storage.TileBattery;
+import nc.tile.energyStorage.TileBattery;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -17,7 +17,7 @@ public class BlockBattery extends BlockInventory {
 
 	public BlockBattery(String unlocalizedName, String registryName) {
 		super(unlocalizedName, registryName, Material.IRON);
-		setCreativeTab(CommonProxy.NC_TAB);
+		setCreativeTab(CommonProxy.TAB_MACHINES);
 	}
 	
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {

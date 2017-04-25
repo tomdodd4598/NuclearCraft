@@ -4,7 +4,7 @@ import java.util.Random;
 
 import nc.block.tile.processor.BlockProcessor;
 import nc.init.NCBlocks;
-import nc.tile.energy.generator.TileFissionController;
+import nc.tile.generator.TileFissionController;
 import nc.util.NCInventoryHelper;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.inventory.IInventory;

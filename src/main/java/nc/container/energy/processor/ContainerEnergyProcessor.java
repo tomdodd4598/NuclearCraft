@@ -3,7 +3,7 @@ package nc.container.energy.processor;
 import nc.container.ContainerTile;
 import nc.handler.ProcessorRecipeHandler;
 import nc.init.NCItems;
-import nc.tile.energy.processor.TileEnergyProcessor;
+import nc.tile.processor.TileEnergyProcessor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IContainerListener;
 import net.minecraft.inventory.Slot;

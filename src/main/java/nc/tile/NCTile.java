@@ -6,7 +6,7 @@ import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
 
-public class NCTile extends TileEntity implements ITickable {
+public abstract class NCTile extends TileEntity implements ITickable {
 	
 	public boolean isAdded;
 	public boolean isMarkedDirty;

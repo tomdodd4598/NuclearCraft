@@ -5,8 +5,8 @@ import java.util.Random;
 import nc.NuclearCraft;
 import nc.block.tile.BlockSidedInventoryGui;
 import nc.proxy.CommonProxy;
-import nc.tile.energy.generator.TileEnergyGeneratorProcessor;
-import nc.tile.energy.processor.TileEnergyProcessor;
+import nc.tile.generator.TileEnergyGeneratorProcessor;
+import nc.tile.processor.TileEnergyProcessor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -38,7 +38,7 @@ public abstract class BlockProcessor extends BlockSidedInventoryGui {
 		setHarvestLevel("pickaxe", 0);
 		setHardness(2);
 		setResistance(15);
-		if (!isActive) setCreativeTab(CommonProxy.NC_TAB);
+		if (!isActive) setCreativeTab(CommonProxy.TAB_MACHINES);
 		//else setLightLevel(0.875F);
 	}
 	

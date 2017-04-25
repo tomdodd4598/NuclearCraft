@@ -2,7 +2,7 @@ package nc.tile.energy;
 
 import nc.Global;
 import nc.ModCheck;
-import nc.energy.EnumStorage.Connection;
+import nc.energy.EnumStorage.EnergyConnection;
 import net.darkhax.tesla.capability.TeslaCapabilities;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -19,15 +19,15 @@ public abstract class TileEnergyInventory extends TileEnergy implements IInvento
 	public String inventoryName;
 	public NonNullList<ItemStack> inventoryStacks;
 	
-	public TileEnergyInventory(String name, int size, int capacity, Connection connection) {
+	public TileEnergyInventory(String name, int size, int capacity, EnergyConnection connection) {
 		this(name, size, capacity, capacity, capacity, connection);
 	}
 	
-	public TileEnergyInventory(String name, int size, int capacity, int maxTransfer, Connection connection) {
+	public TileEnergyInventory(String name, int size, int capacity, int maxTransfer, EnergyConnection connection) {
 		this(name, size, capacity, maxTransfer, maxTransfer, connection);
 	}
 	
-	public TileEnergyInventory(String name, int size, int capacity, int maxReceive, int maxExtract, Connection connection) {
+	public TileEnergyInventory(String name, int size, int capacity, int maxReceive, int maxExtract, EnergyConnection connection) {
 		super(capacity, maxReceive, maxExtract, connection);
 		inventoryName = Global.MOD_ID + ".container." + name;
 		inventoryStacks = NonNullList.<ItemStack>withSize(size, ItemStack.EMPTY);

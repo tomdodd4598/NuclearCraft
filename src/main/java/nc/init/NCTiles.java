@@ -1,20 +1,20 @@
 package nc.init;
 
 import nc.Global;
-import nc.tile.energy.generator.TileFissionController;
-import nc.tile.energy.generator.TileRTGs.AmericiumRTG;
-import nc.tile.energy.generator.TileRTGs.CaliforniumRTG;
-import nc.tile.energy.generator.TileRTGs.PlutoniumRTG;
-import nc.tile.energy.generator.TileRTGs.UraniumRTG;
-import nc.tile.energy.generator.TileSolarPanels.SolarPanelBasic;
-import nc.tile.energy.processor.TileEnergyProcessors.TileAlloyFurnace;
-import nc.tile.energy.processor.TileEnergyProcessors.TileDecayHastener;
-import nc.tile.energy.processor.TileEnergyProcessors.TileFuelReprocessor;
-import nc.tile.energy.processor.TileEnergyProcessors.TileIsotopeSeparator;
-import nc.tile.energy.processor.TileEnergyProcessors.TileManufactory;
-import nc.tile.energy.storage.TileBatteries.LithiumIonBatteryBasic;
-import nc.tile.energy.storage.TileBatteries.VoltaicPileBasic;
+import nc.tile.energyStorage.Batteries.LithiumIonBatteryBasic;
+import nc.tile.energyStorage.Batteries.VoltaicPileBasic;
+import nc.tile.generator.TileFissionController;
+import nc.tile.generator.RTGs.AmericiumRTG;
+import nc.tile.generator.RTGs.CaliforniumRTG;
+import nc.tile.generator.RTGs.PlutoniumRTG;
+import nc.tile.generator.RTGs.UraniumRTG;
+import nc.tile.generator.SolarPanels.SolarPanelBasic;
 import nc.tile.processor.TileNuclearFurnace;
+import nc.tile.processor.Processors.TileAlloyFurnace;
+import nc.tile.processor.Processors.TileDecayHastener;
+import nc.tile.processor.Processors.TileFuelReprocessor;
+import nc.tile.processor.Processors.TileIsotopeSeparator;
+import nc.tile.processor.Processors.TileManufactory;
 import nc.util.NCUtils;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 

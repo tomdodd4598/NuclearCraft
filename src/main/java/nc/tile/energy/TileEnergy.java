@@ -11,7 +11,7 @@ import ic2.api.energy.tile.IEnergySource;
 import ic2.api.energy.tile.IEnergyTile;
 import nc.ModCheck;
 import nc.config.NCConfig;
-import nc.energy.EnumStorage.Connection;
+import nc.energy.EnumStorage.EnergyConnection;
 import nc.energy.Storage;
 import nc.tile.NCTile;
 import net.darkhax.tesla.capability.TeslaCapabilities;
@@ -24,19 +24,19 @@ import net.minecraftforge.energy.CapabilityEnergy;
 
 public abstract class TileEnergy extends NCTile implements ITileEnergy, IEnergyReceiver, IEnergyProvider, IEnergyTile, IEnergySink, IEnergySource {
 
-	public Connection connection;
+	public EnergyConnection connection;
 	public final Storage storage;
 	public boolean isEnergyTileSet;
 	
-	public TileEnergy(int capacity, Connection connection) {
+	public TileEnergy(int capacity, EnergyConnection connection) {
 		this(capacity, capacity, capacity, connection);
 	}
 	
-	public TileEnergy(int capacity, int maxTransfer, Connection connection) {
+	public TileEnergy(int capacity, int maxTransfer, EnergyConnection connection) {
 		this(capacity, maxTransfer, maxTransfer, connection);
 	}
 	
-	public TileEnergy(int capacity, int maxReceive, int maxExtract, Connection connection) {
+	public TileEnergy(int capacity, int maxReceive, int maxExtract, EnergyConnection connection) {
 		super();
 		storage = new Storage(capacity, maxReceive, maxExtract);
 		this.connection = connection;
@@ -146,7 +146,7 @@ public abstract class TileEnergy extends NCTile implements ITileEnergy, IEnergyR
 	
 	// Energy Connections
 	
-	public void setConnection(Connection connection) {
+	public void setConnection(EnergyConnection connection) {
 		this.connection = connection;
 	}
 	

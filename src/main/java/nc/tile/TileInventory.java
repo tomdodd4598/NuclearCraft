@@ -10,7 +10,7 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
 
-public class TileInventory extends NCTile implements IInventory {
+public abstract class TileInventory extends NCTile implements IInventory {
 	
 	public String inventoryName;
 	public NonNullList<ItemStack> inventoryStacks;

@@ -2,7 +2,7 @@ package nc.container.energy.generator;
 
 import nc.container.ContainerTile;
 import nc.handler.ProcessorRecipeHandler;
-import nc.tile.energy.generator.TileEnergyGeneratorProcessor;
+import nc.tile.generator.TileEnergyGeneratorProcessor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IContainerListener;
 import net.minecraft.inventory.Slot;
