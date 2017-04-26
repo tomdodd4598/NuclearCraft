@@ -14,7 +14,7 @@ import nc.crafting.processor.ManufactoryRecipes;
 
 public class Processors {
 	
-	public static class TileManufactory extends TileEnergyProcessor {
+	public static class TileManufactory extends TileEnergyItemProcessor {
 
 		public TileManufactory() {
 			super("manufactory", 1, 1, NCConfig.processor_time[0], NCConfig.processor_power[0], ManufactoryRecipes.instance(), 1);
@@ -25,7 +25,7 @@ public class Processors {
 		}
 	}
 	
-	public static class TileIsotopeSeparator extends TileEnergyProcessor {
+	public static class TileIsotopeSeparator extends TileEnergyItemProcessor {
 
 		public TileIsotopeSeparator() {
 			super("isotope_separator", 1, 2, NCConfig.processor_time[1], NCConfig.processor_power[1], IsotopeSeparatorRecipes.instance(), 2);
@@ -36,7 +36,7 @@ public class Processors {
 		}
 	}
 	
-	public static class TileDecayHastener extends TileEnergyProcessor {
+	public static class TileDecayHastener extends TileEnergyItemProcessor {
 
 		public TileDecayHastener() {
 			super("decay_hastener", 1, 1, NCConfig.processor_time[2], NCConfig.processor_power[2], DecayHastenerRecipes.instance(), 3);
@@ -47,7 +47,7 @@ public class Processors {
 		}
 	}
 	
-	public static class TileFuelReprocessor extends TileEnergyProcessor {
+	public static class TileFuelReprocessor extends TileEnergyItemProcessor {
 
 		public TileFuelReprocessor() {
 			super("fuel_reprocessor", 1, 4, NCConfig.processor_time[3], NCConfig.processor_power[3], FuelReprocessorRecipes.instance(), 4);
@@ -58,7 +58,7 @@ public class Processors {
 		}
 	}
 	
-	public static class TileAlloyFurnace extends TileEnergyProcessor {
+	public static class TileAlloyFurnace extends TileEnergyItemProcessor {
 
 		public TileAlloyFurnace() {
 			super("alloy_furnace", 2, 1, NCConfig.processor_time[4], NCConfig.processor_power[4], AlloyFurnaceRecipes.instance(), 5);
@@ -69,7 +69,7 @@ public class Processors {
 		}
 	}
 	
-	/*public static class TileInfuser extends TileEnergyFluidProcessor {
+	/*public static class TileInfuser extends TileEnergyItemFluidProcessor {
 
 	public TileInfuser() {
 		super("infuser", 1, 1, 1, 0, new int[] {16000}, new FluidConnection[] {FluidConnection.IN}, new String[] {}, NCConfig.processor_time[5], NCConfig.processor_power[5], InfuserRecipes.instance(), 6);

@@ -43,16 +43,40 @@
 				"fluid": "steam"
 			}
 		},
-		"fluid_liquid_helium": {
+		"fluid_liquidhelium": {
 			"model": "forge:fluid",
 			"custom": {
-				"fluid": "liquid_helium"
+				"fluid": "liquidhelium"
 			}
 		},
 		"fluid_plasma": {
 			"model": "forge:fluid",
 			"custom": {
 				"fluid": "plasma"
+			}
+		},
+		"fluid_lithium6": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "lithium6"
+			}
+		},
+		"fluid_lithium7": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "lithium7"
+			}
+		},
+		"fluid_boron11": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "boron11"
+			}
+		},
+		"fluid_neutron": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "neutron"
 			}
 		}
 	}

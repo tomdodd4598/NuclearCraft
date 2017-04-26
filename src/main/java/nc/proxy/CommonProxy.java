@@ -1,7 +1,6 @@
 package nc.proxy;
 
 import nc.ModCheck;
-import nc.block.fluid.BlockFluidBase;
 import nc.handler.AchievementHandler;
 import nc.handler.DropHandler;
 import nc.handler.FuelHandler;
@@ -78,7 +77,7 @@ public class CommonProxy {
 		
 	}
 	
-	public void registerFluidBlockRendering(BlockFluidBase block, String name) {
+	public void registerFluidBlockRendering(Block block, String name) {
 		
 	}
 }

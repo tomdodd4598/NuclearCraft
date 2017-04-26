@@ -18,9 +18,7 @@ public abstract class TileEnergyFluidProcessor extends TileEnergyFluidSidedInven
 	
 	public final int baseProcessTime;
 	public final int baseProcessPower;
-	public final int itemInputSize;
 	public final int fluidInputSize;
-	public final int itemOutputSize;
 	public final int fluidOutputSize;
 	
 	public int time;
@@ -31,43 +29,23 @@ public abstract class TileEnergyFluidProcessor extends TileEnergyFluidSidedInven
 	
 	public final ProcessorRecipeHandler recipes;
 	
-	public TileEnergyFluidProcessor(String name, int itemInSize, int fluidInSize, int itemOutSize, int fluidOutSize, int[] fluidCapacity, FluidConnection[] fluidConnection, String[][] allowedFluids, int time, int power, ProcessorRecipeHandler recipes) {
-		this(name, itemInSize, fluidInSize, itemOutSize, fluidOutSize, fluidCapacity, fluidConnection, allowedFluids, time, power, false, recipes, 1);
+	public TileEnergyFluidProcessor(String name, int fluidInSize, int fluidOutSize, int[] fluidCapacity, FluidConnection[] fluidConnection, String[][] allowedFluids, int time, int power, ProcessorRecipeHandler recipes) {
+		this(name, fluidInSize, fluidOutSize, fluidCapacity, fluidConnection, allowedFluids, time, power, false, recipes, 1);
 	}
 	
-	public TileEnergyFluidProcessor(String name, int itemInSize, int fluidInSize, int itemOutSize, int fluidOutSize, int[] fluidCapacity, FluidConnection[] fluidConnection, String[][] allowedFluids, int time, int power, ProcessorRecipeHandler recipes, int upgradeMeta) {
-		this(name, itemInSize, fluidInSize, itemOutSize, fluidOutSize, fluidCapacity, fluidConnection, allowedFluids, time, power, true, recipes, upgradeMeta);
+	public TileEnergyFluidProcessor(String name, int fluidInSize, int fluidOutSize, int[] fluidCapacity, FluidConnection[] fluidConnection, String[][] allowedFluids, int time, int power, ProcessorRecipeHandler recipes, int upgradeMeta) {
+		this(name, fluidInSize, fluidOutSize, fluidCapacity, fluidConnection, allowedFluids, time, power, true, recipes, upgradeMeta);
 	}
 	
-	public TileEnergyFluidProcessor(String name, int itemInSize, int fluidInSize, int itemOutSize, int fluidOutSize, int[] fluidCapacity, FluidConnection[] fluidConnection, String[][] allowedFluids, int time, int power, boolean upgrades, ProcessorRecipeHandler recipes, int upgradeMeta) {
-		super(name, itemInSize + itemOutSize + (upgrades ? 2 : 0), 32000, EnergyConnection.IN, fluidCapacity, fluidCapacity, fluidCapacity, fluidConnection, allowedFluids);
-		itemInputSize = itemInSize;
+	public TileEnergyFluidProcessor(String name, int fluidInSize, int fluidOutSize, int[] fluidCapacity, FluidConnection[] fluidConnection, String[][] allowedFluids, int time, int power, boolean upgrades, ProcessorRecipeHandler recipes, int upgradeMeta) {
+		super(name, upgrades ? 2 : 0, 32000, EnergyConnection.IN, fluidCapacity, fluidCapacity, fluidCapacity, fluidConnection, allowedFluids);
 		fluidInputSize = fluidInSize;
-		itemOutputSize = itemOutSize;
 		fluidOutputSize = fluidOutSize;
 		baseProcessTime = time;
 		baseProcessPower = power;
 		hasUpgrades = upgrades;
 		this.recipes = recipes;
 		this.upgradeMeta = upgradeMeta;
-		
-		int[] topSlots1 = new int[itemInSize];
-		for (int i = 0; i < topSlots1.length; i++) {
-			topSlots1[i] = i;
-		}
-		topSlots = topSlots1;
-		
-		int[] sideSlots1 = new int[itemInSize + itemOutSize];
-		for (int i = 0; i < sideSlots1.length; i++) {
-			sideSlots1[i] = i;
-		}
-		sideSlots = sideSlots1;
-		
-		int[] bottomSlots1 = new int[itemOutSize];
-		for (int i = itemInSize; i < itemInSize + bottomSlots1.length; i++) {
-			bottomSlots1[i - itemInSize] = i;
-		}
-		bottomSlots = bottomSlots1;
 	}
 	
 	public void update() {
@@ -143,7 +121,7 @@ public abstract class TileEnergyFluidProcessor extends TileEnergyFluidSidedInven
 	
 	public int getSpeedMultiplier() {
 		if (!hasUpgrades) return 1;
-		ItemStack speedStack = inventoryStacks.get(itemInputSize + fluidInputSize + itemOutputSize + fluidOutputSize);
+		ItemStack speedStack = inventoryStacks.get(0);
 		if (speedStack == ItemStack.EMPTY) return 1;
 		return speedStack.getCount() + 1;
 	}
@@ -161,11 +139,6 @@ public abstract class TileEnergyFluidProcessor extends TileEnergyFluidSidedInven
 	}
 	
 	public boolean canProcessStacks() {
-		for (int i = 0; i < itemInputSize; i++) {
-			if (inventoryStacks.get(i) == ItemStack.EMPTY) {
-				return false;
-			}
-		}
 		for (int i = 0; i < fluidInputSize; i++) {
 			if (tanks[i].getFluidAmount() <= 0) {
 				return false;
@@ -184,30 +157,17 @@ public abstract class TileEnergyFluidProcessor extends TileEnergyFluidSidedInven
 			return false;
 		}
 		Object[] output = getOutput(inputs());
-		if (output == null || output.length != itemOutputSize) {
+		if (output == null || output.length != fluidOutputSize) {
 			return false;
-		}
-		for(int j = 0; j < itemOutputSize; j++) {
-			if (output[j] == ItemStack.EMPTY || output[j] == null) {
-				return false;
-			} else {
-				if (inventoryStacks.get(j + itemInputSize) != ItemStack.EMPTY) {
-					if (!inventoryStacks.get(j + itemInputSize).isItemEqual((ItemStack)output[j])) {
-						return false;
-					} else if (inventoryStacks.get(j + itemInputSize).getCount() + ((ItemStack)output[j]).getCount() > inventoryStacks.get(j + itemInputSize).getMaxStackSize()) {
-						return false;
-					}
-				}
-			}
 		}
 		for(int j = 0; j < fluidOutputSize; j++) {
 			if (output[recipes.itemInputSize + j] == null) {
 				return false;
 			} else {
 				if (tanks[j + fluidInputSize] != null) {
-					if (!tanks[j + fluidInputSize].getFluid().isFluidEqual((FluidStack)output[j])) {
+					if (!tanks[j + fluidInputSize].getFluid().isFluidEqual((FluidStack) output[j])) {
 						return false;
-					} else if (tanks[j + itemInputSize].getFluidAmount() + ((FluidStack)output[j]).amount > tanks[j + itemInputSize].getCapacity()) {
+					} else if (tanks[j + fluidInputSize].getFluidAmount() + ((FluidStack) output[j]).amount > tanks[j + fluidInputSize].getCapacity()) {
 						return false;
 					}
 				}
@@ -219,34 +179,14 @@ public abstract class TileEnergyFluidProcessor extends TileEnergyFluidSidedInven
 	public void process() {
 		Object[] output = getOutput(inputs());
 		int[] inputOrder = recipes.getInputOrder(inputs(), recipes.getInput(output));
-		for (int j = 0; j < itemOutputSize; j++) {
-			if (output[j] != ItemStack.EMPTY) {
-				if (inventoryStacks.get(j + itemInputSize) == ItemStack.EMPTY) {
-					ItemStack outputStack = ((ItemStack)output[j]).copy();
-					inventoryStacks.set(j + itemInputSize, outputStack);
-				} else if (inventoryStacks.get(j + itemInputSize).isItemEqual((ItemStack)output[j])) {
-					inventoryStacks.get(j + itemInputSize).setCount(inventoryStacks.get(j + itemInputSize).getCount() + ((ItemStack)output[j]).getCount());
-				}
-			}
-		}
 		for (int j = 0; j < fluidOutputSize; j++) {
 			if (output[j] != null) {
 				if (tanks[j + fluidInputSize] == null) {
-					FluidStack outputStack = ((FluidStack)output[j]).copy();
+					FluidStack outputStack = ((FluidStack) output[j]).copy();
 					tanks[j + fluidInputSize].setFluidStored(outputStack);
-				} else if (tanks[j + fluidInputSize].getFluid().isFluidEqual((FluidStack)output[j])) {
-					tanks[j + fluidInputSize].changeFluidStored(((FluidStack)output[j]).amount);
+				} else if (tanks[j + fluidInputSize].getFluid().isFluidEqual((FluidStack) output[j])) {
+					tanks[j + fluidInputSize].changeFluidStored(((FluidStack) output[j]).amount);
 				}
-			}
-		}
-		for (int i = 0; i < itemInputSize; i++) {
-			if (recipes != null) {
-				inventoryStacks.get(i).setCount(inventoryStacks.get(i).getCount() - recipes.getInputSize(inputOrder[i], output));
-			} else {
-				inventoryStacks.get(i).setCount(inventoryStacks.get(i).getCount() - 1);
-			}
-			if (inventoryStacks.get(i).getCount() <= 0) {
-				inventoryStacks.set(i, ItemStack.EMPTY);
 			}
 		}
 		for (int i = 0; i < fluidInputSize; i++) {
@@ -262,12 +202,9 @@ public abstract class TileEnergyFluidProcessor extends TileEnergyFluidSidedInven
 	}
 	
 	public Object[] inputs() {
-		Object[] input = new Object[itemInputSize + fluidInputSize];
-		for (int i = 0; i < itemInputSize; i++) {
-			input[i] = inventoryStacks.get(i);
-		}
-		for (int i = itemInputSize; i < fluidInputSize; i++) {
-			input[i] = tanks[i];
+		Object[] input = new Object[fluidInputSize];
+		for (int i = 0; i < fluidInputSize; i++) {
+			input[i] = tanks[i].getFluid();
 		}
 		return input;
 	}
@@ -282,27 +219,8 @@ public abstract class TileEnergyFluidProcessor extends TileEnergyFluidSidedInven
 		if (stack == ItemStack.EMPTY) return false;
 		else if (hasUpgrades) {
 			if (stack.getItem() == NCItems.upgrade) {
-				if (slot == itemInputSize + itemOutputSize) return stack.getMetadata() == 0;
-				else if (slot == itemInputSize + itemOutputSize + 1) return stack.getMetadata() == upgradeMeta;
-			}
-		}
-		else if (slot >= itemInputSize) return false;
-		return isItemValid(stack);
-	}
-	
-	public boolean isItemValid(ItemStack stack) {
-		Object[] inputSets = recipes.getRecipes().keySet().toArray();
-		for (int i = 0; i < inputSets.length; i++) {
-			Object[] inputSet = (Object[])(inputSets[i]);
-			for (int j = 0; j < inputSet.length; j++) {
-				if (inputSet[j] instanceof ItemStack) {
-					if (ItemStack.areItemsEqual((ItemStack)(inputSet[j]), stack)) return true;
-				} else if (inputSet[j] instanceof ItemStack[]) {
-					ItemStack[] stacks = (ItemStack[])(inputSet[j]);
-					for (int k = 0; k < stacks.length; k++) {
-						if (ItemStack.areItemsEqual(stacks[k], stack)) return true;
-					}
-				}
+				if (slot == 0) return stack.getMetadata() == 0;
+				else if (slot == 1) return stack.getMetadata() == upgradeMeta;
 			}
 		}
 		return false;
@@ -311,15 +229,25 @@ public abstract class TileEnergyFluidProcessor extends TileEnergyFluidSidedInven
 	// SidedInventory
 	
 	public int[] getSlotsForFace(EnumFacing side) {
-		return side == EnumFacing.DOWN ? bottomSlots : (side == EnumFacing.UP ? topSlots : sideSlots);
+		return new int[] {};
 	}
 
 	public boolean canInsertItem(int slot, ItemStack stack, EnumFacing direction) {
-		return isItemValidForSlot(slot, stack) && direction != EnumFacing.DOWN;
+		return false;
 	}
 
 	public boolean canExtractItem(int slot, ItemStack stack, EnumFacing direction) {
-		return direction != EnumFacing.UP && slot >= itemInputSize && slot < itemInputSize + itemOutputSize;
+		return false;
+	}
+	
+	// Fluids
+	
+	public boolean canFill(FluidStack resource, int tankNumber) {
+		if (tankNumber >= fluidInputSize) return false;
+		for (int i = 0; i < fluidInputSize; i++) {
+			if (tankNumber != i && tanks[i].getFluid().isFluidEqual(resource)) return false;
+		}
+		return true;
 	}
 	
 	// NBT

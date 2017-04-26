@@ -173,7 +173,7 @@ public abstract class TileEnergyGeneratorProcessor extends TileEnergySidedInvent
 			}
 			Object[] output = getOutput(inputs());
 			int[] inputOrder = recipes.getInputOrder(inputs(), output);
-			if (output[0] == ItemStack.EMPTY) return;
+			if (output[0] == ItemStack.EMPTY || output[0] == null) return;
 			for (int i = 0; i < inputSize; i++) {
 				if (recipes != null) {
 					inventoryStacks.set(i + inputSize + outputSize + otherSlotsSize, new ItemStack(inventoryStacks.get(i).getItem(), recipes.getInputSize(inputOrder[i], output), inventoryStacks.get(i).getMetadata()));
@@ -194,7 +194,7 @@ public abstract class TileEnergyGeneratorProcessor extends TileEnergySidedInvent
 		if (hasConsumed) {
 			Object[] output = getOutput(consumedInputs());
 			for (int j = 0; j < outputSize; j++) {
-				if (output[j] != ItemStack.EMPTY) {
+				if (output[j] != ItemStack.EMPTY || output[j] == null) {
 					if (inventoryStacks.get(j + inputSize) == ItemStack.EMPTY) {
 						ItemStack outputStack = ((ItemStack)output[j]).copy();
 						inventoryStacks.set(j + inputSize, outputStack);

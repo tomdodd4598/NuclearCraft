@@ -3,14 +3,14 @@ package nc.container.energy.processor;
 import nc.container.SlotProcessorInput;
 import nc.container.SlotSpecificInput;
 import nc.crafting.processor.DecayHastenerRecipes;
-import nc.tile.processor.TileEnergyProcessor;
+import nc.tile.processor.TileEnergyItemProcessor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotFurnaceOutput;
 
 public class ContainerDecayHastener extends ContainerEnergyProcessor {
 
-	public ContainerDecayHastener(EntityPlayer player, TileEnergyProcessor tileEntity) {
+	public ContainerDecayHastener(EntityPlayer player, TileEnergyItemProcessor tileEntity) {
 		super(tileEntity, DecayHastenerRecipes.instance());
 		
 		addSlotToContainer(new SlotProcessorInput(tileEntity, recipes, 0, 56, 35));

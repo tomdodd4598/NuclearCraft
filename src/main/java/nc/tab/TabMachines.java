@@ -1,7 +1,6 @@
 package nc.tab;
 
 import nc.init.NCBlocks;
-import nc.init.NCItems;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 

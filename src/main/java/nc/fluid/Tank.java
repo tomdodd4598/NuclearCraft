@@ -68,7 +68,7 @@ public class Tank implements IFluidTank, INBTSerializable<NBTTagCompound> {
 	}
 
 	public int fill(FluidStack resource, boolean doFill) {
-		if (!isFluidValid(resource.getFluid())) return 0;
+		if (!isFluidValid(resource.getFluid()) || (fluidStored != null && fluidStored.isFluidEqual(resource))) return 0;
 		int fluidReceived = Math.min(fluidCapacity - fluidStored.amount, Math.min(maxReceive, resource.amount));
 		if (doFill) fluidStored = new FluidStack(fluidStored.getFluid(), fluidStored.amount + fluidReceived);
 		return (int) fluidReceived;

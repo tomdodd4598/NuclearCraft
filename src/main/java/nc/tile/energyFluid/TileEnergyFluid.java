@@ -119,7 +119,7 @@ public abstract class TileEnergyFluid extends TileEnergy implements ITileFluid, 
 	public int fill(FluidStack resource, boolean doFill) {
 		if (tanks.length == 0 || tanks == null) return 0;
 		for (int i = 0; i < tanks.length; i++) {
-			if (fluidConnection[i].canFill() && tanks[i].isFluidValid(resource)) {
+			if (fluidConnection[i].canFill() && tanks[i].isFluidValid(resource) && canFill(resource, i)) {
 				return tanks[i].fill(resource, doFill);
 			}
 		}
@@ -144,6 +144,10 @@ public abstract class TileEnergyFluid extends TileEnergy implements ITileFluid, 
 			}
 		}
 		return null;
+	}
+	
+	public boolean canFill(FluidStack resource, int tankNumber) {
+		return true;
 	}
 	
 	// NBT

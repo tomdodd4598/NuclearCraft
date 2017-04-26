@@ -1,11 +1,5 @@
 package nc.tile.fluid;
 
-import javax.annotation.Nullable;
-
-import cofh.api.energy.IEnergyReceiver;
-import ic2.api.energy.tile.IEnergySink;
-import nc.energy.EnumStorage.EnergyConnection;
-import nc.fluid.Tank;
 import nc.fluid.EnumTank.FluidConnection;
 import nc.fluid.Tank;
 import nc.tile.NCTile;
@@ -72,7 +66,7 @@ public abstract class TileFluid extends NCTile implements ITileFluid, IFluidHand
 	public int fill(FluidStack resource, boolean doFill) {
 		if (tanks.length == 0 || tanks == null) return 0;
 		for (int i = 0; i < tanks.length; i++) {
-			if (connection[i].canFill() && tanks[i].isFluidValid(resource)) {
+			if (connection[i].canFill() && tanks[i].isFluidValid(resource) && canFill(resource, i)) {
 				return tanks[i].fill(resource, doFill);
 			}
 		}
@@ -97,6 +91,10 @@ public abstract class TileFluid extends NCTile implements ITileFluid, IFluidHand
 			}
 		}
 		return null;
+	}
+	
+	public boolean canFill(FluidStack resource, int tankNumber) {
+		return true;
 	}
 	
 	// NBT

@@ -2,7 +2,6 @@ package nc.tile.fluid;
 
 import nc.Global;
 import nc.fluid.EnumTank.FluidConnection;
-import nc.tile.energy.TileEnergy;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ItemStackHelper;

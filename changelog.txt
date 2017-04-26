@@ -1,3 +1,13 @@
+v2.1c
+
+* Improved mod creative tabs
+* Fixed crafting with other mods' graphite
+* Fixed Fission Controller occasionally not accepting fuel rods
+
++ Added fusion fluids
+* Began internal preparations for new machines
+* Minor recipe tweaks
+
 v2.1b
 
 * Fixed incorrect GUI displays on servers

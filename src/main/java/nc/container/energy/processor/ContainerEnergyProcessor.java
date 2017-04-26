@@ -3,7 +3,7 @@ package nc.container.energy.processor;
 import nc.container.ContainerTile;
 import nc.handler.ProcessorRecipeHandler;
 import nc.init.NCItems;
-import nc.tile.processor.TileEnergyProcessor;
+import nc.tile.processor.TileEnergyItemProcessor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IContainerListener;
 import net.minecraft.inventory.Slot;
@@ -13,7 +13,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ContainerEnergyProcessor extends ContainerTile {
 	
-	public final TileEnergyProcessor tile;
+	public final TileEnergyItemProcessor tile;
 	public final ProcessorRecipeHandler recipes;
 	
 	protected int time;
@@ -21,7 +21,7 @@ public class ContainerEnergyProcessor extends ContainerTile {
 	
 	protected ItemStack speedUpgrade = new ItemStack(NCItems.upgrade, 1, 0);
 	
-	public ContainerEnergyProcessor(TileEnergyProcessor tileEntity, ProcessorRecipeHandler recipes) {
+	public ContainerEnergyProcessor(TileEnergyItemProcessor tileEntity, ProcessorRecipeHandler recipes) {
 		super(tileEntity);
 		tile = tileEntity;
 		this.recipes = recipes;

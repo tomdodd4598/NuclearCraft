@@ -1,20 +1,19 @@
 package nc.proxy;
 
 import nc.Global;
-import nc.block.fluid.BlockFluidBase;
 import nc.config.NCConfig;
 import nc.init.NCArmor;
 import nc.init.NCBlocks;
-import nc.init.NCFluids;
 import nc.init.NCItems;
 import nc.init.NCTools;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.ItemMeshDefinition;
 import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.client.renderer.block.statemap.StateMap;
 import net.minecraft.client.renderer.block.statemap.StateMapperBase;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -469,16 +468,32 @@ public class ClientProxy extends CommonProxy {
 				new ResourceLocation(Global.MOD_ID, "depleted_fuel_rod_californium_hec_251_oxide"));
 	}
 	
-	public void registerFluidBlockRendering(BlockFluidBase block, String name) {
+	public void registerFluidBlockRendering(Block block, String name) {
 		name = name.toLowerCase();
 		super.registerFluidBlockRendering(block, name);
-		final ModelResourceLocation fluidLocation = new ModelResourceLocation(Global.MOD_ID + ":fluids", name);
+		FluidStateMapper mapper = new FluidStateMapper(name);
+		
+		Item item = Item.getItemFromBlock(block);
+		ModelBakery.registerItemVariants(item);
+		ModelLoader.setCustomMeshDefinition(item, mapper);
 
 		//ModelLoader.setCustomStateMapper(block, new StateMap.Builder().ignore(block.LEVEL).build());
-		ModelLoader.setCustomStateMapper(block, new StateMapperBase() {
-			protected ModelResourceLocation getModelResourceLocation(IBlockState state) {
-				return fluidLocation;
-			}
-		});
+		ModelLoader.setCustomStateMapper(block, mapper);
+	}
+	
+	public static class FluidStateMapper extends StateMapperBase implements ItemMeshDefinition {
+		public final ModelResourceLocation location;
+
+		public FluidStateMapper(String name) {
+			location = new ModelResourceLocation(Global.MOD_ID + ":fluids", name);
+		}
+
+		protected ModelResourceLocation getModelResourceLocation(IBlockState state) {
+			return location;
+		}
+
+		public ModelResourceLocation getModelLocation(ItemStack stack) {
+			return location;
+		}
 	}
 }

@@ -1,12 +1,12 @@
 package nc.gui.energy.processor;
 
 import nc.container.energy.processor.ContainerIsotopeSeparator;
-import nc.tile.processor.TileEnergyProcessor;
+import nc.tile.processor.TileEnergyItemProcessor;
 import net.minecraft.entity.player.EntityPlayer;
 
 public class GuiIsotopeSeparator extends GuiEnergyProcessor {
 
-	public GuiIsotopeSeparator(EntityPlayer player, TileEnergyProcessor tile) {
+	public GuiIsotopeSeparator(EntityPlayer player, TileEnergyItemProcessor tile) {
 		super("isotope_separator", player, new ContainerIsotopeSeparator(player, tile));
 		this.tile = tile;
 		xSize = 176;

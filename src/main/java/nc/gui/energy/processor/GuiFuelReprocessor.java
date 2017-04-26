@@ -1,12 +1,12 @@
 package nc.gui.energy.processor;
 
 import nc.container.energy.processor.ContainerFuelReprocessor;
-import nc.tile.processor.TileEnergyProcessor;
+import nc.tile.processor.TileEnergyItemProcessor;
 import net.minecraft.entity.player.EntityPlayer;
 
 public class GuiFuelReprocessor extends GuiEnergyProcessor {
 	
-	public GuiFuelReprocessor(EntityPlayer player, TileEnergyProcessor tile) {
+	public GuiFuelReprocessor(EntityPlayer player, TileEnergyItemProcessor tile) {
 		super("fuel_reprocessor", player, new ContainerFuelReprocessor(player, tile));
 		this.tile = tile;
 		xSize = 176;

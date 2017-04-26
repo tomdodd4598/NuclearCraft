@@ -1,16 +1,16 @@
 package nc.block.fluid;
 
-import nc.Global;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraft.init.SoundEvents;
 
 public class FluidPlasma extends FluidBase {
 	
 	public FluidPlasma(String fluidName) {
-		super(fluidName);
-		setGaseous(false);
+		super(fluidName, false);
 		setViscosity(100);
 		setTemperature(10000);
+		setLuminosity(15);
+		setDensity(500);
+		setEmptySound(SoundEvents.BLOCK_FIRE_EXTINGUISH);
+		setFillSound(SoundEvents.BLOCK_FIRE_EXTINGUISH);
 	}
 }

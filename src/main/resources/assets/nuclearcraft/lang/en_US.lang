@@ -187,11 +187,23 @@ fluid.helium=Helium
 tile.fluid_steam.name=Steam
 fluid.steam=Steam
 
-tile.fluid_liquid_helium.name=Liquid Helium
-fluid.liquid_helium=Liquid Helium
+tile.fluid_liquidhelium.name=Liquid Helium
+fluid.liquidhelium=Liquid Helium
 
 tile.fluid_plasma.name=Plasma
 fluid.plasma=Plasma
+
+tile.fluid_lithium6.name=Molten Lithium-6
+fluid.lithium6=Molten Lithium-6
+
+tile.fluid_lithium7.name=Molten Lithium-7
+fluid.lithium7=Molten Lithium-7
+
+tile.fluid_boron11.name=Molten Boron-11
+fluid.boron11=Molten Boron-11
+
+tile.fluid_neutron.name=Neutron Fluid
+fluid.neutron=Neutron Fluid
 
 item.ingot.copper.name=Copper Ingot
 item.ingot.tin.name=Tin Ingot
@@ -579,6 +591,7 @@ itemGroup.nuclearcraftMachines=NuclearCraft Machines
 itemGroup.nuclearcraftFissionBlocks=NuclearCraft Fission Blocks
 itemGroup.nuclearcraftFissionMaterials=NuclearCraft Fission Materials
 itemGroup.nuclearcraftFissionFuelRods=NuclearCraft Fission Fuel Rods
+itemGroup.nuclearcraftFluids=NuclearCraft Fluids
 itemGroup.nuclearcraftMisc=NuclearCraft Miscellaneous
 
 gui.config.main_title=NuclearCraft Configs
@@ -737,3 +750,4 @@ gui.container.fission_controller.cells=Cells:
 death.attack.superfluid_freeze=%1$s froze to death in superfluid
 death.attack.plasma_burn=%1$s was incinerated by plasma
 death.attack.steam_burn=%1$s was cooked in steam
+death.attack.molten_burn=%1$s melted to death

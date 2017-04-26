@@ -1,12 +1,12 @@
 package nc.gui.energy.processor;
 
 import nc.container.energy.processor.ContainerAlloyFurnace;
-import nc.tile.processor.TileEnergyProcessor;
+import nc.tile.processor.TileEnergyItemProcessor;
 import net.minecraft.entity.player.EntityPlayer;
 
 public class GuiAlloyFurnace extends GuiEnergyProcessor {
 	
-	public GuiAlloyFurnace(EntityPlayer player, TileEnergyProcessor tile) {
+	public GuiAlloyFurnace(EntityPlayer player, TileEnergyItemProcessor tile) {
 		super("alloy_furnace", player, new ContainerAlloyFurnace(player, tile));
 		this.tile = tile;
 		xSize = 176;
