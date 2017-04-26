@@ -2,7 +2,7 @@ package nc.gui.energy.processor;
 
 import nc.Global;
 import nc.container.energy.processor.ContainerEnergyProcessor;
-import nc.tile.energy.processor.TileEnergyProcessor;
+import nc.tile.processor.TileEnergyItemProcessor;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,7 +12,7 @@ import net.minecraft.util.ResourceLocation;
 public abstract class GuiEnergyProcessor extends GuiContainer {
 	
 	private final InventoryPlayer playerInventory;
-	protected TileEnergyProcessor tile;
+	protected TileEnergyItemProcessor tile;
 	protected final ResourceLocation gui_textures;
 
 	public GuiEnergyProcessor(String name, EntityPlayer player, ContainerEnergyProcessor inv) {

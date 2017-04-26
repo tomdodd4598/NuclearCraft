@@ -67,7 +67,7 @@ public class NCArmor {
 	}
 		
 	public static void registerItem(Item item) {
-		item.setCreativeTab(CommonProxy.NC_TAB);
+		item.setCreativeTab(CommonProxy.TAB_MISC);
 		GameRegistry.register(item);
 		NCUtils.getLogger().info("Registered armor piece " + item.getUnlocalizedName().substring(5));
 	}

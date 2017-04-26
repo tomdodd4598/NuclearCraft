@@ -4,7 +4,8 @@ import java.util.Random;
 
 import nc.block.tile.processor.BlockProcessor;
 import nc.init.NCBlocks;
-import nc.tile.energy.generator.TileFissionController;
+import nc.proxy.CommonProxy;
+import nc.tile.generator.TileFissionController;
 import nc.util.NCInventoryHelper;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.inventory.IInventory;
@@ -18,6 +19,7 @@ public class BlockFissionController extends BlockProcessor {
 
 	public BlockFissionController(String unlocalizedName, String registryName, boolean isActive, int guiId) {
 		super(unlocalizedName, registryName, "", "", null, isActive, guiId);
+		if (!isActive) setCreativeTab(CommonProxy.TAB_FISSION_BLOCKS);
 	}
 	
 	public TileEntity createNewTileEntity(World world, int meta) {

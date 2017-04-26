@@ -55,7 +55,7 @@ public class BlockNuclearFurnace extends BlockContainer implements ITileEntityPr
 		setDefaultState(blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
 		this.isBurning = isBurning;
 		this.guiId = guiId;
-		if (!isBurning) setCreativeTab(CommonProxy.NC_TAB);
+		if (!isBurning) setCreativeTab(CommonProxy.TAB_MACHINES);
 	}
 	
 	public Item getItemDropped(IBlockState state, Random rand, int fortune) {

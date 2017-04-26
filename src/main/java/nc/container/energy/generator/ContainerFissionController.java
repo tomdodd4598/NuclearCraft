@@ -2,7 +2,7 @@ package nc.container.energy.generator;
 
 import nc.container.SlotProcessorInput;
 import nc.crafting.generator.FissionRecipes;
-import nc.tile.energy.generator.TileFissionController;
+import nc.tile.generator.TileFissionController;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IContainerListener;
 import net.minecraft.inventory.Slot;

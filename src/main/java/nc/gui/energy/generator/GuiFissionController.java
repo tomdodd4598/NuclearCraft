@@ -2,7 +2,7 @@ package nc.gui.energy.generator;
 
 import nc.Global;
 import nc.container.energy.generator.ContainerFissionController;
-import nc.tile.energy.generator.TileFissionController;
+import nc.tile.generator.TileFissionController;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;

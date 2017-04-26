@@ -13,8 +13,8 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 //Only edit below this line, the above code adds and enables the nessasary things for Forge to be setup.
 
 
-version = "2.1b--1.10.2"
-group= "nc"
+version = "2.1c--1.10.2"
+group = "nc"
 archivesBaseName = "NuclearCraft"
 
 sourceCompatibility = targetCompatibility = "1.8"
@@ -27,27 +27,45 @@ minecraft {
 	runDir = "run"
 	
 	// the mappings can be changed at any time, and must be in the following format.
-	// snapshot_YYYYMMDD   snapshot are built nightly.
-	// stable_#			stables are built at the discretion of the MCP team.
+	// snapshot_YYYYMMDD	snapshot are built nightly.
+	// stable_#		stables are built at the discretion of the MCP team.
 	// Use non-default mappings at your own risk. they may not allways work.
 	// simply re-run your setup task after changing the mappings to update your workspace.
 	mappings = "snapshot_20161111"
 	// makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
 }
 
+repositories {
+	maven {
+		// Tesla
+		url "http://maven.epoxide.org"
+	}
+	maven {
+		// JEI
+		url = "http://dvs1.progwml6.com/files/maven"
+	}
+}
+
 dependencies {
 	// you may put jars on which you depend on in ./libs
 	// or you may define them like so..
-	//compile "some.group:artifact:version:classifier"
-	//compile "some.group:artifact:version"
+	// compile "some.group:artifact:version:classifier"
+	// compile "some.group:artifact:version"
 	  
 	// real examples
-	//compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'
+	// compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'
 	// adds buildcraft to the dev env
-	//compile 'com.googlecode.efficient-java-matrix-library:ejml:0.24' // adds ejml to the dev env
+	// compile 'com.googlecode.efficient-java-matrix-library:ejml:0.24' // adds ejml to the dev env
 
-	compile files('libs/Tesla-1.10.2-1.2.1.50.jar')
-	compile files('libs/jei_1.10.2-3.14.7.417.jar')
+	//compile files('libs/Tesla-1.10.2-1.2.1.50.jar')
+	//compile files('libs/jei_1.10.2-3.14.7.417.jar')
+	
+	deobfCompile "net.darkhax.tesla:Tesla:1.10.2-${tesla_version}"
+	
+	// compile against the JEI API
+	deobfCompile "mezz.jei:jei_${mc_version}:${jei_version}:api"
+	// at runtime, use the full JEI jar
+	runtime "mezz.jei:jei_${mc_version}:${jei_version}"
 
 	// the 'provided' configuration is for optional dependencies that exist at compile-time but might not at runtime.
 	//provided 'com.mod-buildcraft:buildcraft:6.0.8:dev'
@@ -77,7 +95,7 @@ processResources {
 		expand 'version':project.version, 'mcversion':project.minecraft.version
 	}
 		
-	// copy everything else, thats not the mcmod.info
+	// copy everything else except the mcmod.info
 	from(sourceSets.main.resources.srcDirs) {
 		exclude 'mcmod.info'
 	}

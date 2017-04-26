@@ -3,14 +3,14 @@ package nc.container.energy.processor;
 import nc.container.SlotProcessorInput;
 import nc.container.SlotSpecificInput;
 import nc.crafting.processor.AlloyFurnaceRecipes;
-import nc.tile.energy.processor.TileEnergyProcessor;
+import nc.tile.processor.TileEnergyItemProcessor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotFurnaceOutput;
 
 public class ContainerAlloyFurnace extends ContainerEnergyProcessor {
 
-	public ContainerAlloyFurnace(EntityPlayer player, TileEnergyProcessor tileEntity) {
+	public ContainerAlloyFurnace(EntityPlayer player, TileEnergyItemProcessor tileEntity) {
 		super(tileEntity, AlloyFurnaceRecipes.instance());
 		
 		addSlotToContainer(new SlotProcessorInput(tileEntity, recipes, 0, 46, 35));

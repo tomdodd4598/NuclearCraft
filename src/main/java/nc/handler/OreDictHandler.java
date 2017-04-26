@@ -40,7 +40,6 @@ public class OreDictHandler {
 		OreDictionary.registerOre("ingotLithium", new ItemStack(NCItems.ingot, 1, 6));
 		OreDictionary.registerOre("ingotMagnesium", new ItemStack(NCItems.ingot, 1, 7));
 		OreDictionary.registerOre("ingotGraphite", new ItemStack(NCItems.ingot, 1, 8));
-		OreDictionary.registerOre("graphite", new ItemStack(NCItems.ingot, 1, 8));
 		
 		OreDictionary.registerOre("ingotThoriumOxide", new ItemStack(NCItems.ingot_oxide, 1, 0));
 		OreDictionary.registerOre("ingotUraniumOxide", new ItemStack(NCItems.ingot_oxide, 1, 1));
@@ -56,7 +55,6 @@ public class OreDictHandler {
 		OreDictionary.registerOre("dustLithium", new ItemStack(NCItems.dust, 1, 6));
 		OreDictionary.registerOre("dustMagnesium", new ItemStack(NCItems.dust, 1, 7));
 		OreDictionary.registerOre("dustGraphite", new ItemStack(NCItems.dust, 1, 8));
-		OreDictionary.registerOre("graphite", new ItemStack(NCItems.dust, 1, 8));
 		
 		OreDictionary.registerOre("dustThoriumOxide", new ItemStack(NCItems.dust_oxide, 1, 0));
 		OreDictionary.registerOre("dustUraniumOxide", new ItemStack(NCItems.dust_oxide, 1, 1));

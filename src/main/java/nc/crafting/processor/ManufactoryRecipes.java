@@ -20,7 +20,7 @@ public class ManufactoryRecipes extends ProcessorRecipeHandler {
 		addRecipe("gemDiamond", "dustDiamond");
 		addRecipe("gemRhodochrosite", "dustRhodochrosite");
 		addRecipe("gemQuartz", "dustQuartz");
-		addRecipe("blockObsidian", "dustObsidian");
+		addRecipe("blockObsidian", oreStack("dustObsidian", 4));
 		addRecipe(oreStack("blockSand", 4), "itemSilicon");
 	}
 }

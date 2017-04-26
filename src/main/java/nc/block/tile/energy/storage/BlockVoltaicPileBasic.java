@@ -1,6 +1,6 @@
 package nc.block.tile.energy.storage;
 
-import nc.tile.energy.storage.TileBatteries;
+import nc.tile.energyStorage.Batteries;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
@@ -11,6 +11,6 @@ public class BlockVoltaicPileBasic extends BlockBattery {
 	}
 	
 	public TileEntity createNewTileEntity(World world, int meta) {
-		return new TileBatteries.VoltaicPileBasic();
+		return new Batteries.VoltaicPileBasic();
 	}
 }

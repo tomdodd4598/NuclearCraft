@@ -20,10 +20,12 @@ public class AlloyFurnaceRecipes extends ProcessorRecipeHandler {
 	
 	public void addRecipes() {
 		addRecipe(oreStack("ingotCopper", 3), "ingotTin", new ItemStack(NCItems.alloy, 4, 0));
-		addRecipe("ingotIron", oreStack("graphite", 2), new ItemStack(NCItems.alloy, 1, 5));
+		addRecipe("ingotIron", oreStack("ingotGraphite", 2), new ItemStack(NCItems.alloy, 1, 5));
+		addRecipe("ingotIron", oreStack("dustGraphite", 2), new ItemStack(NCItems.alloy, 1, 5));
 		addRecipe("ingotSteel", "ingotBoron", new ItemStack(NCItems.alloy, 2, 6));
 		addRecipe("ingotFerroboron", "ingotLithium", new ItemStack(NCItems.alloy, 2, 1));
-		addRecipe(oreStack("graphite", 2), "dustDiamond", new ItemStack(NCItems.alloy, 2, 2));
+		addRecipe(oreStack("ingotGraphite", 2), "dustDiamond", new ItemStack(NCItems.alloy, 2, 2));
+		addRecipe(oreStack("dustGraphite", 2), "dustDiamond", new ItemStack(NCItems.alloy, 2, 2));
 		addRecipe("ingotMagnesium", oreStack("ingotBoron", 2), new ItemStack(NCItems.alloy, 3, 3));
 		addRecipe("ingotLithium", "ingotManganeseDioxide", new ItemStack(NCItems.alloy, 2, 4));
 		

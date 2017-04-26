@@ -1,0 +1,83 @@
+{
+	"forge_marker": 1,
+	"variants": {
+		"fluid_oxygen": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "oxygen"
+			}
+		},
+		"fluid_hydrogen": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "hydrogen"
+			}
+		},
+		"fluid_deuterium": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "deuterium"
+			}
+		},
+		"fluid_tritium": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "tritium"
+			}
+		},
+		"fluid_helium3": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "helium3"
+			}
+		},
+		"fluid_helium": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "helium"
+			}
+		},
+		"fluid_steam": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "steam"
+			}
+		},
+		"fluid_liquidhelium": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "liquidhelium"
+			}
+		},
+		"fluid_plasma": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "plasma"
+			}
+		},
+		"fluid_lithium6": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "lithium6"
+			}
+		},
+		"fluid_lithium7": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "lithium7"
+			}
+		},
+		"fluid_boron11": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "boron11"
+			}
+		},
+		"fluid_neutron": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "neutron"
+			}
+		}
+	}
+}

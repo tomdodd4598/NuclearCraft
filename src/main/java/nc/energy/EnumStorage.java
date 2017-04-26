@@ -1,7 +1,7 @@
 package nc.energy;
 
 public class EnumStorage {
-	public enum Connection {
+	public enum EnergyConnection {
 		IN, OUT, BOTH, NON;
 
 		public boolean canReceive() {

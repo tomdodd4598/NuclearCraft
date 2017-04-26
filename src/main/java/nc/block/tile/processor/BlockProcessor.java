@@ -7,8 +7,8 @@ import javax.annotation.Nullable;
 import nc.NuclearCraft;
 import nc.block.tile.BlockSidedInventoryGui;
 import nc.proxy.CommonProxy;
-import nc.tile.energy.generator.TileEnergyGeneratorProcessor;
-import nc.tile.energy.processor.TileEnergyProcessor;
+import nc.tile.generator.TileEnergyGeneratorProcessor;
+import nc.tile.processor.TileEnergyItemProcessor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -41,7 +41,7 @@ public abstract class BlockProcessor extends BlockSidedInventoryGui {
 		setHarvestLevel("pickaxe", 0);
 		setHardness(2);
 		setResistance(15);
-		if (!isActive) setCreativeTab(CommonProxy.NC_TAB);
+		if (!isActive) setCreativeTab(CommonProxy.TAB_MACHINES);
 		//else setLightLevel(0.875F);
 	}
 	
@@ -50,7 +50,7 @@ public abstract class BlockProcessor extends BlockSidedInventoryGui {
 			return true;
 		} else if (player != null) {
 			TileEntity tileentity = world.getTileEntity(pos);
-			if (tileentity instanceof TileEnergyProcessor || tileentity instanceof TileEnergyGeneratorProcessor) {
+			if (tileentity instanceof TileEnergyItemProcessor || tileentity instanceof TileEnergyGeneratorProcessor) {
 				FMLNetworkHandler.openGui(player, NuclearCraft.instance, guiId, world, pos.getX(), pos.getY(), pos.getZ());
 			}
 		}

@@ -95,6 +95,7 @@ import nc.item.fission.ItemUranium;
 import nc.proxy.CommonProxy;
 import nc.util.NCUtils;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
@@ -219,61 +220,61 @@ public class NCItems {
 	}
 	
 	public static void register() {
-		registerItem(ingot);
-		registerItem(ingot_oxide);
-		registerItem(dust);
-		registerItem(dust_oxide);
-		registerItem(gem);
-		registerItem(gem_dust);
-		registerItem(alloy);
+		registerItem(ingot, CommonProxy.TAB_BASE_ITEM_MATERIALS);
+		registerItem(ingot_oxide, CommonProxy.TAB_BASE_ITEM_MATERIALS);
+		registerItem(dust, CommonProxy.TAB_BASE_ITEM_MATERIALS);
+		registerItem(dust_oxide, CommonProxy.TAB_BASE_ITEM_MATERIALS);
+		registerItem(gem, CommonProxy.TAB_BASE_ITEM_MATERIALS);
+		registerItem(gem_dust, CommonProxy.TAB_BASE_ITEM_MATERIALS);
+		registerItem(alloy, CommonProxy.TAB_BASE_ITEM_MATERIALS);
 		
-		registerItem(part);
-		registerItem(upgrade);
-		registerItem(fuel_rod_empty);
-		registerItem(tiny_dust_lead);
+		registerItem(part, CommonProxy.TAB_BASE_ITEM_MATERIALS);
+		registerItem(upgrade, CommonProxy.TAB_MACHINES);
+		registerItem(fuel_rod_empty, CommonProxy.TAB_FISSION_FUEL_RODS);
+		registerItem(tiny_dust_lead, CommonProxy.TAB_BASE_ITEM_MATERIALS);
 		
-		registerItem(thorium);
-		registerItem(uranium);
-		registerItem(neptunium);
-		registerItem(plutonium);
-		registerItem(americium);
-		registerItem(curium);
-		registerItem(berkelium);
-		registerItem(californium);
+		registerItem(thorium, CommonProxy.TAB_FISSION_MATERIALS);
+		registerItem(uranium, CommonProxy.TAB_FISSION_MATERIALS);
+		registerItem(neptunium, CommonProxy.TAB_FISSION_MATERIALS);
+		registerItem(plutonium, CommonProxy.TAB_FISSION_MATERIALS);
+		registerItem(americium, CommonProxy.TAB_FISSION_MATERIALS);
+		registerItem(curium, CommonProxy.TAB_FISSION_MATERIALS);
+		registerItem(berkelium, CommonProxy.TAB_FISSION_MATERIALS);
+		registerItem(californium, CommonProxy.TAB_FISSION_MATERIALS);
 		
-		registerItem(fuel_thorium);
-		registerItem(fuel_uranium);
-		registerItem(fuel_neptunium);
-		registerItem(fuel_plutonium);
-		registerItem(fuel_mixed_oxide);
-		registerItem(fuel_americium);
-		registerItem(fuel_curium);
-		registerItem(fuel_berkelium);
-		registerItem(fuel_californium);
+		registerItem(fuel_thorium, CommonProxy.TAB_FISSION_MATERIALS);
+		registerItem(fuel_uranium, CommonProxy.TAB_FISSION_MATERIALS);
+		registerItem(fuel_neptunium, CommonProxy.TAB_FISSION_MATERIALS);
+		registerItem(fuel_plutonium, CommonProxy.TAB_FISSION_MATERIALS);
+		registerItem(fuel_mixed_oxide, CommonProxy.TAB_FISSION_MATERIALS);
+		registerItem(fuel_americium, CommonProxy.TAB_FISSION_MATERIALS);
+		registerItem(fuel_curium, CommonProxy.TAB_FISSION_MATERIALS);
+		registerItem(fuel_berkelium, CommonProxy.TAB_FISSION_MATERIALS);
+		registerItem(fuel_californium, CommonProxy.TAB_FISSION_MATERIALS);
 		
-		registerItem(fuel_rod_thorium);
-		registerItem(fuel_rod_uranium);
-		registerItem(fuel_rod_neptunium);
-		registerItem(fuel_rod_plutonium);
-		registerItem(fuel_rod_mixed_oxide);
-		registerItem(fuel_rod_americium);
-		registerItem(fuel_rod_curium);
-		registerItem(fuel_rod_berkelium);
-		registerItem(fuel_rod_californium);
+		registerItem(fuel_rod_thorium, CommonProxy.TAB_FISSION_FUEL_RODS);
+		registerItem(fuel_rod_uranium, CommonProxy.TAB_FISSION_FUEL_RODS);
+		registerItem(fuel_rod_neptunium, CommonProxy.TAB_FISSION_FUEL_RODS);
+		registerItem(fuel_rod_plutonium, CommonProxy.TAB_FISSION_FUEL_RODS);
+		registerItem(fuel_rod_mixed_oxide, CommonProxy.TAB_FISSION_FUEL_RODS);
+		registerItem(fuel_rod_americium, CommonProxy.TAB_FISSION_FUEL_RODS);
+		registerItem(fuel_rod_curium, CommonProxy.TAB_FISSION_FUEL_RODS);
+		registerItem(fuel_rod_berkelium, CommonProxy.TAB_FISSION_FUEL_RODS);
+		registerItem(fuel_rod_californium, CommonProxy.TAB_FISSION_FUEL_RODS);
 		
-		registerItem(depleted_fuel_rod_thorium);
-		registerItem(depleted_fuel_rod_uranium);
-		registerItem(depleted_fuel_rod_neptunium);
-		registerItem(depleted_fuel_rod_plutonium);
-		registerItem(depleted_fuel_rod_mixed_oxide);
-		registerItem(depleted_fuel_rod_americium);
-		registerItem(depleted_fuel_rod_curium);
-		registerItem(depleted_fuel_rod_berkelium);
-		registerItem(depleted_fuel_rod_californium);
+		registerItem(depleted_fuel_rod_thorium, CommonProxy.TAB_FISSION_FUEL_RODS);
+		registerItem(depleted_fuel_rod_uranium, CommonProxy.TAB_FISSION_FUEL_RODS);
+		registerItem(depleted_fuel_rod_neptunium, CommonProxy.TAB_FISSION_FUEL_RODS);
+		registerItem(depleted_fuel_rod_plutonium, CommonProxy.TAB_FISSION_FUEL_RODS);
+		registerItem(depleted_fuel_rod_mixed_oxide, CommonProxy.TAB_FISSION_FUEL_RODS);
+		registerItem(depleted_fuel_rod_americium, CommonProxy.TAB_FISSION_FUEL_RODS);
+		registerItem(depleted_fuel_rod_curium, CommonProxy.TAB_FISSION_FUEL_RODS);
+		registerItem(depleted_fuel_rod_berkelium, CommonProxy.TAB_FISSION_FUEL_RODS);
+		registerItem(depleted_fuel_rod_californium, CommonProxy.TAB_FISSION_FUEL_RODS);
 		
-		registerItem(portable_ender_chest);
+		registerItem(portable_ender_chest, CommonProxy.TAB_MISC);
 		
-		registerItem(dominos);
+		registerItem(dominos, CommonProxy.TAB_MISC);
 	}
 	
 	public static void registerRenders() {
@@ -460,8 +461,8 @@ public class NCItems {
 		registerRender(dominos);
 	}
 	
-	public static void registerItem(Item item) {
-		item.setCreativeTab(CommonProxy.NC_TAB);
+	public static void registerItem(Item item, CreativeTabs tab) {
+		item.setCreativeTab(tab);
 		GameRegistry.register(item);
 		NCUtils.getLogger().info("Registered item " + item.getUnlocalizedName().substring(5));
 	}
