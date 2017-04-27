@@ -78,7 +78,7 @@ tile.cooler.gold.des0=Must touch at least one Water
 tile.cooler.gold.des1=Cooler and one Redstone Cooler
 
 tile.cooler.glowstone.name=Glowstone Cooler
-tile.cooler.glowstone.des0=Must touch at least three
+tile.cooler.glowstone.des0=Must touch at least two
 tile.cooler.glowstone.des1=active Graphite Blocks
 
 tile.cooler.lapis.name=Lapis Cooler
@@ -90,8 +90,8 @@ tile.cooler.diamond.des0=Must be at least sandwiched
 tile.cooler.diamond.des1=by Water Coolers
 
 tile.cooler.helium.name=Liquid Helium Cooler
-tile.cooler.helium.des0=Must be at least between
-tile.cooler.helium.des1=Redstone Coolers
+tile.cooler.helium.des0=Must touch at least one Quartz
+tile.cooler.helium.des1=Cooler and one Reactor Casing
 
 tile.cooler.enderium.name=Enderium Cooler
 tile.cooler.enderium.des0=Must touch at least
@@ -99,7 +99,7 @@ tile.cooler.enderium.des1=three Reactor Casings
 
 tile.cooler.cryotheum.name=Cryotheum Cooler
 tile.cooler.cryotheum.des0=Must touch at least
-tile.cooler.cryotheum.des1=four Reactor Cells
+tile.cooler.cryotheum.des1=two Reactor Cells
 
 tile.cooler.cooling_rate=Cooling rate:
 
@@ -147,6 +147,23 @@ tile.fission_controller_idle.des7=the faces of the structure.
 tile.fission_controller_idle.des8=Emits EV IC2 power
 tile.fission_controller_active.name=Fission Controller
 
+tile.fission_port.name=Fission Reactor Port
+tile.fission_port.des0=Place this block in the
+tile.fission_port.des1=shell of a fission reactor
+tile.fission_port.des2=in place of some reactor
+tile.fission_port.des3=casing, but *not* in the
+tile.fission_port.des4=top or bottom sides. If a
+tile.fission_port.des5=controller is attached to
+tile.fission_port.des6=the reactor structure, then
+tile.fission_port.des7=its inventory and stored
+tile.fission_port.des8=energy can be accessed by
+tile.fission_port.des9=automation through this block.
+tile.fission_port.des10=Do make sure that the port
+tile.fission_port.des11=is facing into the reactor
+tile.fission_port.des12=interior. The 'front' of the
+tile.fission_port.des13=port is the side with the
+tile.fission_port.des14=slightly different texture
+
 tile.rtg_uranium.name=Uranium RTG
 tile.rtg_plutonium.name=Plutonium RTG
 tile.rtg_americium.name=Americium RTG
@@ -165,6 +182,8 @@ tile.energy_storage.des1=kRF.
 tile.energy_storage.des2=This is still being worked on
 tile.energy_storage.des3=and currently doesn't retain its
 tile.energy_storage.des4=stored energy on breaking
+
+tile.fusion_core.name=Fusion Core
 
 tile.fluid_oxygen.name=Oxygen
 fluid.oxygen=Oxygen
@@ -591,6 +610,7 @@ itemGroup.nuclearcraftMachines=NuclearCraft Machines
 itemGroup.nuclearcraftFissionBlocks=NuclearCraft Fission Blocks
 itemGroup.nuclearcraftFissionMaterials=NuclearCraft Fission Materials
 itemGroup.nuclearcraftFissionFuelRods=NuclearCraft Fission Fuel Rods
+itemGroup.nuclearcraftFusion=NuclearCraft Fusion
 itemGroup.nuclearcraftFluids=NuclearCraft Fluids
 itemGroup.nuclearcraftMisc=NuclearCraft Miscellaneous
 

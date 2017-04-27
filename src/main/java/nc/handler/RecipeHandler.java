@@ -25,8 +25,9 @@ public class RecipeHandler {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCBlocks.fission_block, 4, 1), new Object[] {" P ", "POP", " P ", 'P', "plateBasic", 'O', "blockObsidian"}));
 		
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCBlocks.cell_block, 1), new Object[] {"TGT", "G G", "TGT", 'T', "ingotTough", 'G', "blockGlass"}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCBlocks.fission_port, 1), new Object[] {" S ", "RHR", " S ", 'S', "solenoidCopper", 'R', new ItemStack(NCBlocks.fission_block, 1, 0), 'H', Blocks.HOPPER}));
 		
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCBlocks.cooler, 1, 0), new Object[] {"TIT", "I I", "TIT", 'T', "ingotTough", 'I', "ingotIron"}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCBlocks.cooler, 2, 0), new Object[] {"TIT", "I I", "TIT", 'T', "ingotTough", 'I', "ingotSteel"}));
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCBlocks.cooler, 1, 1), new Object[] {new ItemStack(NCBlocks.cooler, 1, 0), Items.WATER_BUCKET}));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCBlocks.cooler, 1, 2), new Object[] {"R", "C", "R", 'C', new ItemStack(NCBlocks.cooler, 1, 0), 'R', "blockRedstone"}));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCBlocks.cooler, 1, 2), new Object[] {"RCR", 'C', new ItemStack(NCBlocks.cooler, 1, 0), 'R', "blockRedstone"}));
@@ -46,7 +47,7 @@ public class RecipeHandler {
 		
 		GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.nuclear_furnace_idle, new Object[] {"PTP", "TFT", "PTP", 'T', "ingotTough", 'P', "plateBasic", 'F', Blocks.FURNACE}));
 		GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.manufactory_idle, new Object[] {"PWP", "WSW", "PWP", 'W', "solenoidCopper", 'P', "ingotLead", 'S', Blocks.PISTON}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.isotope_separator_idle, new Object[] {"PRP", "RMR", "PRP", 'R', "ingotSteel", 'P', "plateAdvanced", 'M', NCBlocks.alloy_furnace_idle}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.isotope_separator_idle, new Object[] {"PRP", "RMR", "PRP", 'R', "ingotFerroboron", 'P', "plateAdvanced", 'M', NCBlocks.alloy_furnace_idle}));
 		GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.decay_hastener_idle, new Object[] {"PGP", "GMG", "PGP", 'G', "ingotMagnesium", 'P', "plateAdvanced", 'M', NCBlocks.alloy_furnace_idle}));
 		GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.fuel_reprocessor_idle, new Object[] {"PGP", "GMG", "PGP", 'G', "ingotBronze", 'P', "plateAdvanced", 'M', NCBlocks.alloy_furnace_idle}));
 		GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.alloy_furnace_idle, new Object[] {"PWP", "WSW", "PWP", 'W', "ingotIron", 'P', "plateBasic", 'S', NCBlocks.manufactory_idle}));

@@ -1,0 +1,8 @@
+{
+    "parent": "block/orientable",
+    "textures": {
+        "top": "nuclearcraft:blocks/fission_port_side",
+        "front": "nuclearcraft:blocks/fission_port_front",
+        "side": "nuclearcraft:blocks/fission_port_side"
+    }
+}
