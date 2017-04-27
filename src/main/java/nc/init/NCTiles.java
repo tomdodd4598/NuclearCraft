@@ -4,6 +4,8 @@ import nc.Global;
 import nc.tile.energyStorage.Batteries.LithiumIonBatteryBasic;
 import nc.tile.energyStorage.Batteries.VoltaicPileBasic;
 import nc.tile.generator.TileFissionController;
+import nc.tile.generator.TileFissionPort;
+import nc.tile.generator.TileFusionCore;
 import nc.tile.generator.RTGs.AmericiumRTG;
 import nc.tile.generator.RTGs.CaliforniumRTG;
 import nc.tile.generator.RTGs.PlutoniumRTG;
@@ -29,6 +31,9 @@ public class NCTiles {
 		GameRegistry.registerTileEntity(TileAlloyFurnace.class, Global.MOD_ID + ":alloy_furnace");
 		
 		GameRegistry.registerTileEntity(TileFissionController.class, Global.MOD_ID + ":fission_controller");
+		GameRegistry.registerTileEntity(TileFissionPort.class, Global.MOD_ID + ":fission_port");
+		
+		GameRegistry.registerTileEntity(TileFusionCore.class, Global.MOD_ID + ":fusion_core");
 		
 		GameRegistry.registerTileEntity(UraniumRTG.class, Global.MOD_ID + ":rtg_uranium");
 		GameRegistry.registerTileEntity(PlutoniumRTG.class, Global.MOD_ID + ":rtg_plutonium");

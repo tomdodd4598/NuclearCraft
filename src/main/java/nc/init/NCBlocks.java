@@ -15,6 +15,8 @@ import nc.block.item.NCItemBlock;
 import nc.block.tile.energy.generator.BlockAmericiumRTG;
 import nc.block.tile.energy.generator.BlockCaliforniumRTG;
 import nc.block.tile.energy.generator.BlockFissionController;
+import nc.block.tile.energy.generator.BlockFissionPort;
+import nc.block.tile.energy.generator.BlockFusionCore;
 import nc.block.tile.energy.generator.BlockPlutoniumRTG;
 import nc.block.tile.energy.generator.BlockSolarPanelBasic;
 import nc.block.tile.energy.generator.BlockUraniumRTG;
@@ -69,6 +71,9 @@ public class NCBlocks {
 	
 	public static Block fission_controller_idle;
 	public static Block fission_controller_active;
+	public static Block fission_port;
+	
+	public static Block fusion_core;
 	
 	public static Block rtg_uranium;
 	public static Block rtg_plutonium;
@@ -105,6 +110,9 @@ public class NCBlocks {
 		
 		fission_controller_idle = new BlockFissionController("fission_controller_idle", "fission_controller_idle", false, 100);
 		fission_controller_active = new BlockFissionController("fission_controller_active", "fission_controller_active", true, 100);
+		fission_port = new BlockFissionPort("fission_port", "fission_port");
+		
+		fusion_core = new BlockFusionCore("fusion_core", "fusion_core", 101);
 		
 		rtg_uranium = new BlockUraniumRTG("rtg_uranium", "rtg_uranium");
 		rtg_plutonium = new BlockPlutoniumRTG("rtg_plutonium", "rtg_plutonium");
@@ -142,6 +150,9 @@ public class NCBlocks {
 		
 		registerBlock(fission_controller_idle, 9);
 		registerBlock(fission_controller_active);
+		registerBlock(fission_port, 15);
+		
+		registerBlock(fusion_core);
 		
 		registerBlock(rtg_uranium, I18n.translateToLocalFormatted("tile.rtg.des0") + " " + NCConfig.rtg_power[0] + " " + I18n.translateToLocalFormatted("tile.rtg.des1"));
 		registerBlock(rtg_plutonium, I18n.translateToLocalFormatted("tile.rtg.des0") + " " + NCConfig.rtg_power[1] + " " + I18n.translateToLocalFormatted("tile.rtg.des1"));
@@ -190,6 +201,9 @@ public class NCBlocks {
 		
 		registerRender(fission_controller_idle);
 		registerRender(fission_controller_active);
+		registerRender(fission_port);
+		
+		registerRender(fusion_core);
 		
 		registerRender(rtg_uranium);
 		registerRender(rtg_plutonium);

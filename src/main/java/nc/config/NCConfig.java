@@ -156,7 +156,7 @@ public class NCConfig {
 		propertyFissionFuelUse.setLanguageKey("gui.config.fission.fission_fuel_use");
 		Property propertyFissionHeatGeneration = config.get(CATEGORY_FISSION, "fission_heat_generation", 1.0D, I18n.translateToLocalFormatted("gui.config.fission.fission_heat_generation.comment"), 0.0D, 255.0D);
 		propertyFissionHeatGeneration.setLanguageKey("gui.config.fission.fission_heat_generation");
-		Property propertyFissionCoolingRate = config.get(CATEGORY_FISSION, "fission_cooling_rate", new double[] {20.0D, 80.0D, 80.0D, 120.0D, 160.0D, 100.0D, 120.0D, 120.0D, 150.0D, 200.0D}, I18n.translateToLocalFormatted("gui.config.fission.fission_cooling_rate.comment"), 0.0D, 32767.0D);
+		Property propertyFissionCoolingRate = config.get(CATEGORY_FISSION, "fission_cooling_rate", new double[] {20.0D, 80.0D, 80.0D, 120.0D, 120.0D, 100.0D, 120.0D, 120.0D, 140.0D, 140.0D}, I18n.translateToLocalFormatted("gui.config.fission.fission_cooling_rate.comment"), 0.0D, 32767.0D);
 		propertyFissionCoolingRate.setLanguageKey("gui.config.fission.fission_cooling_rate");
 		Property propertyFissionOverheat = config.get(CATEGORY_FISSION, "fission_overheat", true, I18n.translateToLocalFormatted("gui.config.fission.fission_overheat.comment"));
 		propertyFissionOverheat.setLanguageKey("gui.config.fission.fission_overheat");

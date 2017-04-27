@@ -6,6 +6,8 @@ import nc.init.NCArmor;
 import nc.init.NCBlocks;
 import nc.init.NCItems;
 import nc.init.NCTools;
+import nc.render.FusionCoreTESR;
+import nc.tile.generator.TileFusionCore;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.ItemMeshDefinition;
@@ -16,6 +18,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.client.model.obj.OBJLoader;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -24,6 +28,8 @@ public class ClientProxy extends CommonProxy {
 	
 	public void preInit(FMLPreInitializationEvent preEvent) {
 		super.preInit(preEvent);
+		
+		OBJLoader.INSTANCE.addDomain(Global.MOD_ID);
 		
 		NCConfig.clientPreInit();
 		
@@ -37,6 +43,8 @@ public class ClientProxy extends CommonProxy {
 
 	public void init(FMLInitializationEvent event) {
 		super.init(event);
+		
+		ClientRegistry.bindTileEntitySpecialRenderer(TileFusionCore.class, new FusionCoreTESR());
 	}
 
 	public void postInit(FMLPostInitializationEvent postEvent) {
