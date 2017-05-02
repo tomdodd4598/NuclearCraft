@@ -5,6 +5,8 @@ import nc.ModCheck;
 import nc.energy.EnumStorage.EnergyConnection;
 import nc.handler.ProcessorRecipeHandler;
 import nc.init.NCItems;
+import nc.tile.IGui;
+import nc.tile.dummy.IInterfaceable;
 import nc.tile.energy.TileEnergySidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -12,7 +14,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.common.MinecraftForge;
 
-public abstract class TileEnergyItemProcessor extends TileEnergySidedInventory {
+public abstract class TileEnergyItemProcessor extends TileEnergySidedInventory implements IInterfaceable, IGui {
 	
 	public final int baseProcessTime;
 	public final int baseProcessPower;

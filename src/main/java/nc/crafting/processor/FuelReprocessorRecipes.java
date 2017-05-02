@@ -7,7 +7,7 @@ public class FuelReprocessorRecipes extends ProcessorRecipeHandler {
 	private static final FuelReprocessorRecipes RECIPES = new FuelReprocessorRecipes();
 
 	public FuelReprocessorRecipes() {
-		super(1, 0, 4, 0, false);
+		super(1, 0, 4, 0, false, false);
 	}
 	
 	public static final ProcessorRecipeHandler instance() {

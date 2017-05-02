@@ -13,7 +13,7 @@ import nc.block.fluid.FluidMolten;
 import nc.block.fluid.FluidParticle;
 import nc.block.fluid.FluidPlasma;
 import nc.block.fluid.SuperFluid;
-import nc.util.NCUtils;
+import nc.util.NCUtil;
 import net.minecraft.item.ItemBlock;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -135,6 +135,6 @@ public class NCFluids {
 		GameRegistry.register(block);
 		GameRegistry.register(new ItemBlock(block), block.getRegistryName());
 		NuclearCraft.proxy.registerFluidBlockRendering(block, block.getName());
-		NCUtils.getLogger().info("Registered fluid " + block.getUnlocalizedName().substring(5));
+		NCUtil.getLogger().info("Registered fluid " + block.getUnlocalizedName().substring(5));
 	}
 }

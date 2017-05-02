@@ -1,13 +1,16 @@
 package nc.crafting.processor;
 
+import nc.config.NCConfig;
 import nc.handler.ProcessorRecipeHandler;
+import nc.init.NCBlocks;
+import net.minecraft.init.Blocks;
 
 public class InfuserRecipes extends ProcessorRecipeHandler {
 	
 	private static final InfuserRecipes RECIPES = new InfuserRecipes();
 
 	public InfuserRecipes() {
-		super(1, 1, 1, 0, false);
+		super(1, 1, 1, 0, false, true);
 	}
 	
 	public static final ProcessorRecipeHandler instance() {
@@ -88,20 +91,24 @@ public class InfuserRecipes extends ProcessorRecipeHandler {
 		oxidizeFuel("HECf249");
 		oxidizeFuel("LECf251");
 		oxidizeFuel("HECf251");
+		
+		addRecipe(Blocks.ICE, fluidStack("helium", 1000), NCBlocks.block_ice, NCConfig.processor_time[5]);
+		addRecipe(Blocks.FROSTED_ICE, fluidStack("helium", 1000), NCBlocks.block_ice, NCConfig.processor_time[5]);
+		addRecipe(Blocks.PACKED_ICE, fluidStack("helium", 1000), NCBlocks.block_ice, NCConfig.processor_time[5]);
 	}
 	
 	public void oxidize(String name, int oxygen) {
-		addRecipe(name, fluidStack("oxygen", oxygen), name + "Oxide");
+		addRecipe(name, fluidStack("oxygen", oxygen), name + "Oxide", NCConfig.processor_time[5]);
 	}
 	
 	public void oxidizeBase(String name) {
-		addRecipe("ingot" + name + "Base", fluidStack("oxygen", 400), "ingot" + name + "Oxide");
-		addRecipe("tiny" + name + "Base", fluidStack("oxygen", 40), "tiny" + name + "Oxide");
+		addRecipe("ingot" + name + "Base", fluidStack("oxygen", 400), "ingot" + name + "Oxide", NCConfig.processor_time[5]/2);
+		addRecipe("tiny" + name + "Base", fluidStack("oxygen", 40), "tiny" + name + "Oxide", NCConfig.processor_time[5]/16);
 	}
 	
 	public void oxidizeFuel(String name) {
-		addRecipe("fuel" + name, fluidStack("oxygen", 4000), "fuel" + name + "Oxide");
-		addRecipe("fuelRod" + name, fluidStack("oxygen", 4000), "fuelRod" + name + "Oxide");
-		addRecipe("depletedFuelRod" + name, fluidStack("oxygen", 3000), "depletedFuelRod" + name + "Oxide");
+		addRecipe("fuel" + name, fluidStack("oxygen", 4000), "fuel" + name + "Oxide", NCConfig.processor_time[5]*4);
+		addRecipe("fuelRod" + name, fluidStack("oxygen", 4000), "fuelRod" + name + "Oxide", NCConfig.processor_time[5]*4);
+		addRecipe("depletedFuelRod" + name, fluidStack("oxygen", 3000), "depletedFuelRod" + name + "Oxide", NCConfig.processor_time[5]*4);
 	}
 }

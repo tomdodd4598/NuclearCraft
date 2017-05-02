@@ -2,6 +2,8 @@ package nc.tile.processor;
 
 import nc.Global;
 import nc.block.tile.processor.BlockNuclearFurnace;
+import nc.tile.ITileInventory;
+import nc.tile.dummy.IInterfaceable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -26,7 +28,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
 
-public class TileNuclearFurnace extends TileEntity implements ITickable, ISidedInventory {
+public class TileNuclearFurnace extends TileEntity implements ITickable, ISidedInventory, ITileInventory, IInterfaceable {
 	private static final int[] SLOTS_TOP = new int[] {0};
 	private static final int[] SLOTS_BOTTOM = new int[] {2, 1};
 	private static final int[] SLOTS_SIDES = new int[] {1};
@@ -77,6 +79,10 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ISidedI
 			cookTime = 0;
 			markDirty();
 		}
+	}
+	
+	public NonNullList<ItemStack> getInventoryStacks() {
+		return furnaceItemStacks;
 	}
 
 	public String getName() {

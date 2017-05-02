@@ -6,6 +6,8 @@ import nc.energy.EnumStorage.EnergyConnection;
 import nc.fluid.EnumTank.FluidConnection;
 import nc.handler.ProcessorRecipeHandler;
 import nc.init.NCItems;
+import nc.tile.IGui;
+import nc.tile.dummy.IInterfaceable;
 import nc.tile.energyFluid.TileEnergyFluidSidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -14,7 +16,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.FluidStack;
 
-public abstract class TileEnergyFluidProcessor extends TileEnergyFluidSidedInventory {
+public abstract class TileEnergyFluidProcessor extends TileEnergyFluidSidedInventory implements IInterfaceable, IGui {
 	
 	public final int baseProcessTime;
 	public final int baseProcessPower;
@@ -245,7 +247,7 @@ public abstract class TileEnergyFluidProcessor extends TileEnergyFluidSidedInven
 	public boolean canFill(FluidStack resource, int tankNumber) {
 		if (tankNumber >= fluidInputSize) return false;
 		for (int i = 0; i < fluidInputSize; i++) {
-			if (tankNumber != i && tanks[i].getFluid().isFluidEqual(resource)) return false;
+			if (tankNumber != i && tanks[i].getFluid() != null) if (tanks[i].getFluid().isFluidEqual(resource)) return false;
 		}
 		return true;
 	}

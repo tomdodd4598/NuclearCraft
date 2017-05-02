@@ -1,5 +1,6 @@
 package nc.crafting.processor;
 
+import nc.config.NCConfig;
 import nc.handler.ProcessorRecipeHandler;
 
 public class DecayHastenerRecipes extends ProcessorRecipeHandler {
@@ -7,7 +8,7 @@ public class DecayHastenerRecipes extends ProcessorRecipeHandler {
 	private static final DecayHastenerRecipes RECIPES = new DecayHastenerRecipes();
 
 	public DecayHastenerRecipes() {
-		super(1, 0, 1, 0, false);
+		super(1, 0, 1, 0, false, true);
 	}
 	
 	public static final ProcessorRecipeHandler instance() {
@@ -51,7 +52,7 @@ public class DecayHastenerRecipes extends ProcessorRecipeHandler {
 	public void decay(String input, String output) {
 		boolean isInputBase = input.substring(input.length() - 4, input.length()).equals("Base"), isOutputBase = output.substring(output.length() - 4, output.length()).equals("Base"), isLead = output.equals("dustLead");
 		for (String size : new String[] {"ingot", "tiny"}) for (String oxide : new String[] {"", "Oxide"}) {
-			addRecipe(size + ((oxide.equals("Oxide") && isInputBase) || (size.equals("tiny") && isInputBase) ? input.substring(0, input.length() - 4) : input) + oxide, isLead ? (size.equals("ingot") ? "dustLead" : "tinyDustLead") : (size + ((oxide.equals("Oxide") && isOutputBase) || (size.equals("tiny") && isOutputBase) ? output.substring(0, output.length() - 4) : output) + oxide));
+			addRecipe(size + ((oxide.equals("Oxide") && isInputBase) || (size.equals("tiny") && isInputBase) ? input.substring(0, input.length() - 4) : input) + oxide, isLead ? (size.equals("ingot") ? "dustLead" : "tinyDustLead") : (size + ((oxide.equals("Oxide") && isOutputBase) || (size.equals("tiny") && isOutputBase) ? output.substring(0, output.length() - 4) : output) + oxide), size.equals("tiny") ? NCConfig.processor_time[2]/8 : NCConfig.processor_time[2]);
 		}
 	}
 }

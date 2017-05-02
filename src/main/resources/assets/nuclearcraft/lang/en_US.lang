@@ -46,6 +46,8 @@ tile.fission_block.blast.name=Blast Block
 tile.fission_block.blast.des0=Highly blast resistant.
 tile.fission_block.blast.des1=Perfect for bunkers
 
+tile.fusion_connector.name=Fusion Connector
+
 tile.cell_block.name=Reactor Cell
 tile.cell_block.des0=Used in fission reactors to
 tile.cell_block.des1=house the fission fuels.
@@ -103,7 +105,9 @@ tile.cooler.cryotheum.des1=two Reactor Cells
 
 tile.cooler.cooling_rate=Cooling rate:
 
+tile.block_depleted_thorium.name=Depleted Thorium Block
 tile.block_depleted_uranium.name=Depleted Uranium Block
+tile.block_ice.name=Supercold Ice
 
 tile.nuclear_furnace_idle.name=Nuclear Furnace
 tile.nuclear_furnace_idle.des0=Smelts items very quickly - uses uranium
@@ -134,6 +138,14 @@ tile.alloy_furnace_idle.name=Alloy Furnace
 tile.alloy_furnace_idle.des0=Combines base metals into alloys.
 tile.alloy_furnace_idle.des1=Can accept MV IC2 power
 tile.alloy_furnace_active.name=Alloy Furnace
+
+tile.machine_interface.name=Machine Interface
+tile.machine_interface.des0=Automation can access the machine
+tile.machine_interface.des1=directly adjacent to this block.
+tile.machine_interface.des2=Make sure that there is only one
+tile.machine_interface.des3=adjacent machine at maximum
+
+tile.buffer.name=Buffer
 
 tile.fission_controller_idle.name=Fission Controller
 tile.fission_controller_idle.des0=Build a multiblock reactor
@@ -184,6 +196,15 @@ tile.energy_storage.des3=and currently doesn't retain its
 tile.energy_storage.des4=stored energy on breaking
 
 tile.fusion_core.name=Fusion Core
+
+tile.fusion_electromagnet_idle.name=Electromagnet
+tile.fusion_electromagnet_active.name=Electromagnet
+
+tile.accelerator_electromagnet_idle.name=Superconducting Electromagnet
+tile.accelerator_electromagnet_active.name=Superconducting Electromagnet
+
+tile.electromagnet_supercooler_idle.name=Superconducting Supercooler
+tile.electromagnet_supercooler_active.name=Superconducting Supercooler
 
 tile.fluid_oxygen.name=Oxygen
 fluid.oxygen=Oxygen
@@ -611,6 +632,7 @@ itemGroup.nuclearcraftFissionBlocks=NuclearCraft Fission Blocks
 itemGroup.nuclearcraftFissionMaterials=NuclearCraft Fission Materials
 itemGroup.nuclearcraftFissionFuelRods=NuclearCraft Fission Fuel Rods
 itemGroup.nuclearcraftFusion=NuclearCraft Fusion
+itemGroup.nuclearcraftAccelerator=NuclearCraft Accelerator
 itemGroup.nuclearcraftFluids=NuclearCraft Fluids
 itemGroup.nuclearcraftMisc=NuclearCraft Miscellaneous
 
@@ -733,6 +755,16 @@ gui.config.fission.fission_californium_power.comment=Base RF/t the fuels produce
 gui.config.fission.fission_californium_heat_generation=Californium Heat Gen
 gui.config.fission.fission_californium_heat_generation.comment=Base heat the fuels produce. Order: LECf-249, LECf-249 Oxide, HECf-249, HECf-249 Oxide, LECf-251, LECf-251 Oxide, HECf-251, HECf-251 Oxide
 
+gui.config.category.fusion=Fusion Configs
+gui.config.category.fusion.tooltip=Configure aspects of nuclear fusion
+
+gui.config.fusion.fusion_fuel_time=Fusion Fuel Combo Durations
+gui.config.fusion.fusion_fuel_time.comment=Base ticks the fuel combos last. Order: H-H, H-D, H-T, H-He3, H-Li6, H-Li7, H-B11, D-D, D-T, D-He3, ..., D-B11, T-T, ..., T-B11, ..., B11-B11
+gui.config.fusion.fusion_power=Fusion Fuel Combo Power Gen
+gui.config.fusion.fusion_power.comment=Base RF/t the fuel combos produce. Order: H-H, H-D, H-T, H-He3, H-Li6, H-Li7, H-B11, D-D, D-T, D-He3, ..., D-B11, T-T, ..., T-B11, ..., B11-B11
+gui.config.fusion.fusion_heat_variable=Fusion Fuel Combo Heat Variables
+gui.config.fusion.fusion_heat_variable.comment=Heat variables of the fuel combos - roughly proportional to the optimal temperatures. Order: H-H, H-D, H-T, H-He3, H-Li6, H-Li7, H-B11, D-D, D-T, D-He3, ..., D-B11, T-T, ..., T-B11, ..., B11-B11
+
 gui.config.category.energy_storage=Energy Storage Configs
 gui.config.category.energy_storage.tooltip=Configure energy storages
 
@@ -767,7 +799,17 @@ gui.container.fission_controller.invalid_structure=Invalid Structure
 gui.container.fission_controller.no_fuel=No Fuel
 gui.container.fission_controller.cells=Cells:
 
+gui.container.fusion_core.reactor=Reactor Size
+gui.container.fusion_core.ring_incomplete=Ring Incomplete
+gui.container.fusion_core.ring_blocked=Ring Interior Blocked
+gui.container.fusion_core.power_issue=Power Electromagnets
+gui.container.fusion_core.incorrect_structure=Invalid Structure
+
+sound.block.fusion_run=Fusion Reactor Running
+sound.block.accelerator_run=Accelerator Running
+
 death.attack.superfluid_freeze=%1$s froze to death in superfluid
 death.attack.plasma_burn=%1$s was incinerated by plasma
 death.attack.steam_burn=%1$s was cooked in steam
 death.attack.molten_burn=%1$s melted to death
+death.attack.hypothermia=%1$s died as a result of hypothermia

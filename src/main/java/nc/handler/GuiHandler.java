@@ -1,20 +1,23 @@
 package nc.handler;
 
-import nc.container.energy.generator.ContainerFissionController;
-import nc.container.energy.processor.ContainerAlloyFurnace;
-import nc.container.energy.processor.ContainerDecayHastener;
-import nc.container.energy.processor.ContainerFuelReprocessor;
-import nc.container.energy.processor.ContainerIsotopeSeparator;
-import nc.container.energy.processor.ContainerManufactory;
+import nc.container.generator.ContainerFissionController;
+import nc.container.generator.ContainerFusionCore;
+import nc.container.processor.ContainerAlloyFurnace;
+import nc.container.processor.ContainerDecayHastener;
+import nc.container.processor.ContainerFuelReprocessor;
+import nc.container.processor.ContainerIsotopeSeparator;
+import nc.container.processor.ContainerManufactory;
 import nc.container.processor.ContainerNuclearFurnace;
-import nc.gui.energy.generator.GuiFissionController;
-import nc.gui.energy.processor.GuiAlloyFurnace;
-import nc.gui.energy.processor.GuiDecayHastener;
-import nc.gui.energy.processor.GuiFuelReprocessor;
-import nc.gui.energy.processor.GuiIsotopeSeparator;
-import nc.gui.energy.processor.GuiManufactory;
+import nc.gui.generator.GuiFissionController;
+import nc.gui.generator.GuiFusionCore;
+import nc.gui.processor.GuiAlloyFurnace;
+import nc.gui.processor.GuiDecayHastener;
+import nc.gui.processor.GuiFuelReprocessor;
+import nc.gui.processor.GuiIsotopeSeparator;
+import nc.gui.processor.GuiManufactory;
 import nc.gui.processor.GuiNuclearFurnace;
 import nc.tile.generator.TileFissionController;
+import nc.tile.generator.TileFusionCore;
 import nc.tile.processor.TileNuclearFurnace;
 import nc.tile.processor.Processors.TileAlloyFurnace;
 import nc.tile.processor.Processors.TileDecayHastener;
@@ -48,6 +51,8 @@ public class GuiHandler implements IGuiHandler {
 				if (entity instanceof TileAlloyFurnace) return new ContainerAlloyFurnace(player, (TileAlloyFurnace) entity);
 			case 100:
 				if (entity instanceof TileFissionController) return new ContainerFissionController(player, (TileFissionController) entity);
+			case 101:
+				if (entity instanceof TileFusionCore) return new ContainerFusionCore(player, (TileFusionCore) entity);
 			}
 		}
 		
@@ -73,6 +78,8 @@ public class GuiHandler implements IGuiHandler {
 				if (entity instanceof TileAlloyFurnace) return new GuiAlloyFurnace(player, (TileAlloyFurnace) entity);
 			case 100:
 				if (entity instanceof TileFissionController) return new GuiFissionController(player, (TileFissionController) entity);
+			case 101:
+				if (entity instanceof TileFusionCore) return new GuiFusionCore(player, (TileFusionCore) entity);
 			}
 		}
 		

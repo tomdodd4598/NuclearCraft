@@ -1,0 +1,8 @@
+{
+    "parent": "block/orientable",
+    "textures": {
+        "top": "nuclearcraft:blocks/electromagnet_supercooler_top_off",
+        "front": "nuclearcraft:blocks/electromagnet_supercooler_side_off",
+        "side": "nuclearcraft:blocks/electromagnet_supercooler_side_off"
+    }
+}

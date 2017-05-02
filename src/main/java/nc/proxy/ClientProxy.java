@@ -38,13 +38,14 @@ public class ClientProxy extends CommonProxy {
 		NCTools.registerRenders();
 		NCArmor.registerRenders();
 		
+		ClientRegistry.bindTileEntitySpecialRenderer(TileFusionCore.class, new FusionCoreTESR());
+		//ClientRegistry.bindTileEntitySpecialRenderer(TileSpin.class, new SpinTESR());
+		
 		registerModelBakeryVariants();
 	}
 
 	public void init(FMLInitializationEvent event) {
 		super.init(event);
-		
-		ClientRegistry.bindTileEntitySpecialRenderer(TileFusionCore.class, new FusionCoreTESR());
 	}
 
 	public void postInit(FMLPostInitializationEvent postEvent) {

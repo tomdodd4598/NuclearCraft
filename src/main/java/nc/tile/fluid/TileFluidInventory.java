@@ -2,6 +2,7 @@ package nc.tile.fluid;
 
 import nc.Global;
 import nc.fluid.EnumTank.FluidConnection;
+import nc.tile.ITileInventory;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ItemStackHelper;
@@ -14,7 +15,7 @@ import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 
-public abstract class TileFluidInventory extends TileFluid implements IInventory {
+public abstract class TileFluidInventory extends TileFluid implements IInventory, ITileInventory {
 	
 	public String inventoryName;
 	public NonNullList<ItemStack> inventoryStacks;
@@ -120,6 +121,10 @@ public abstract class TileFluidInventory extends TileFluid implements IInventory
 
 	public void closeInventory(EntityPlayer player) {}
 	
+	public NonNullList<ItemStack> getInventoryStacks() {
+		return inventoryStacks;
+	}
+	
 	// NBT
 	
 	public NBTTagCompound writeAll(NBTTagCompound nbt) {
@@ -162,7 +167,7 @@ public abstract class TileFluidInventory extends TileFluid implements IInventory
 
 	public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
 		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
-			return (T) tanks;
+			return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(this);
 		}
 		if (capability == net.minecraftforge.items.CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
 			return (T) handler;

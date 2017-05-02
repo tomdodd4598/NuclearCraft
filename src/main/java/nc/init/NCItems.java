@@ -93,7 +93,7 @@ import nc.item.fission.ItemPlutonium;
 import nc.item.fission.ItemThorium;
 import nc.item.fission.ItemUranium;
 import nc.proxy.CommonProxy;
-import nc.util.NCUtils;
+import nc.util.NCUtil;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -464,16 +464,16 @@ public class NCItems {
 	public static void registerItem(Item item, CreativeTabs tab) {
 		item.setCreativeTab(tab);
 		GameRegistry.register(item);
-		NCUtils.getLogger().info("Registered item " + item.getUnlocalizedName().substring(5));
+		NCUtil.getLogger().info("Registered item " + item.getUnlocalizedName().substring(5));
 	}
 	
 	public static void registerRender(Item item) {
 		ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(new ResourceLocation(Global.MOD_ID, item.getUnlocalizedName().substring(5)), "inventory"));
-		NCUtils.getLogger().info("Registered render for item " + item.getUnlocalizedName().substring(5));
+		NCUtil.getLogger().info("Registered render for item " + item.getUnlocalizedName().substring(5));
 	}
 	
 	public static void registerRender(Item item, int meta, String fileName) {
 		ModelLoader.setCustomModelResourceLocation(item, meta, new ModelResourceLocation(new ResourceLocation(Global.MOD_ID, fileName), "inventory"));
-		NCUtils.getLogger().info("Registered render for item " + fileName);
+		NCUtil.getLogger().info("Registered render for item " + fileName);
 	}
 }

@@ -10,7 +10,7 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
 
-public abstract class TileInventory extends NCTile implements IInventory {
+public abstract class TileInventory extends NCTile implements IInventory, ITileInventory {
 	
 	public String inventoryName;
 	public NonNullList<ItemStack> inventoryStacks;
@@ -95,6 +95,10 @@ public abstract class TileInventory extends NCTile implements IInventory {
 	public void openInventory(EntityPlayer player) {}
 
 	public void closeInventory(EntityPlayer player) {}
+	
+	public NonNullList<ItemStack> getInventoryStacks() {
+		return inventoryStacks;
+	}
 	
 	// NBT
 	

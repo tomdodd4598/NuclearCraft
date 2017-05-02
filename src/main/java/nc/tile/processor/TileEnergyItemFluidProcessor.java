@@ -6,6 +6,8 @@ import nc.energy.EnumStorage.EnergyConnection;
 import nc.fluid.EnumTank.FluidConnection;
 import nc.handler.ProcessorRecipeHandler;
 import nc.init.NCItems;
+import nc.tile.IGui;
+import nc.tile.dummy.IInterfaceable;
 import nc.tile.energyFluid.TileEnergyFluidSidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -14,7 +16,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.FluidStack;
 
-public abstract class TileEnergyItemFluidProcessor extends TileEnergyFluidSidedInventory {
+public abstract class TileEnergyItemFluidProcessor extends TileEnergyFluidSidedInventory implements IInterfaceable, IGui {
 	
 	public final int baseProcessTime;
 	public final int baseProcessPower;
@@ -184,7 +186,7 @@ public abstract class TileEnergyItemFluidProcessor extends TileEnergyFluidSidedI
 			return false;
 		}
 		Object[] output = getOutput(inputs());
-		if (output == null || output.length != itemOutputSize) {
+		if (output == null || output.length != itemOutputSize + fluidInputSize) {
 			return false;
 		}
 		for(int j = 0; j < itemOutputSize; j++) {
@@ -218,7 +220,8 @@ public abstract class TileEnergyItemFluidProcessor extends TileEnergyFluidSidedI
 	
 	public void process() {
 		Object[] output = getOutput(inputs());
-		int[] inputOrder = recipes.getInputOrder(inputs(), recipes.getInput(output));
+		int[] itemInputOrder = recipes.getItemInputOrder(inputs(), recipes.getInput(output));
+		int[] fluidInputOrder = recipes.getFluidInputOrder(inputs(), recipes.getInput(output));
 		for (int j = 0; j < itemOutputSize; j++) {
 			if (output[j] != ItemStack.EMPTY || output[j] == null) {
 				if (inventoryStacks.get(j + itemInputSize) == ItemStack.EMPTY) {
@@ -241,7 +244,7 @@ public abstract class TileEnergyItemFluidProcessor extends TileEnergyFluidSidedI
 		}
 		for (int i = 0; i < itemInputSize; i++) {
 			if (recipes != null) {
-				inventoryStacks.get(i).setCount(inventoryStacks.get(i).getCount() - recipes.getInputSize(inputOrder[i], output));
+				inventoryStacks.get(i).setCount(inventoryStacks.get(i).getCount() - recipes.getInputSize(itemInputOrder[i], output));
 			} else {
 				inventoryStacks.get(i).setCount(inventoryStacks.get(i).getCount() - 1);
 			}
@@ -251,7 +254,7 @@ public abstract class TileEnergyItemFluidProcessor extends TileEnergyFluidSidedI
 		}
 		for (int i = 0; i < fluidInputSize; i++) {
 			if (recipes != null) {
-				tanks[i].changeFluidStored(-recipes.getInputSize(inputOrder[i], output));
+				tanks[i].changeFluidStored(-recipes.getInputSize(fluidInputOrder[i], output));
 			} else {
 				tanks[i].changeFluidStored(-1000);
 			}
@@ -327,7 +330,7 @@ public abstract class TileEnergyItemFluidProcessor extends TileEnergyFluidSidedI
 	public boolean canFill(FluidStack resource, int tankNumber) {
 		if (tankNumber >= fluidInputSize) return false;
 		for (int i = 0; i < fluidInputSize; i++) {
-			if (tankNumber != i && tanks[i].getFluid().isFluidEqual(resource)) return false;
+			if (tankNumber != i && tanks[i].getFluid() != null) if (tanks[i].getFluid().isFluidEqual(resource)) return false;
 		}
 		return true;
 	}

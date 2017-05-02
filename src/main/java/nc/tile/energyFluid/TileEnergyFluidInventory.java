@@ -4,6 +4,7 @@ import nc.Global;
 import nc.ModCheck;
 import nc.energy.EnumStorage.EnergyConnection;
 import nc.fluid.EnumTank.FluidConnection;
+import nc.tile.ITileInventory;
 import net.darkhax.tesla.capability.TeslaCapabilities;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -18,7 +19,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 
-public abstract class TileEnergyFluidInventory extends TileEnergyFluid implements IInventory {
+public abstract class TileEnergyFluidInventory extends TileEnergyFluid implements IInventory, ITileInventory {
 	
 	public String inventoryName;
 	public NonNullList<ItemStack> inventoryStacks;
@@ -118,7 +119,7 @@ public abstract class TileEnergyFluidInventory extends TileEnergyFluid implement
 	public int getSizeInventory() {
 		return inventoryStacks.size();
 	}
-
+	
 	public boolean isEmpty() {
 		for (ItemStack itemstack : inventoryStacks) {
 			if (!itemstack.isEmpty()) {
@@ -173,6 +174,10 @@ public abstract class TileEnergyFluidInventory extends TileEnergyFluid implement
 	public void openInventory(EntityPlayer player) {}
 
 	public void closeInventory(EntityPlayer player) {}
+	
+	public NonNullList<ItemStack> getInventoryStacks() {
+		return inventoryStacks;
+	}
 	
 	// NBT
 	
@@ -230,7 +235,7 @@ net.minecraftforge.items.IItemHandler handler = new net.minecraftforge.items.wra
 				return (T) storage;
 		}
 		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
-			return (T) tanks;
+			return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(this);
 		}
 		if (capability == net.minecraftforge.items.CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
 			return (T) handler;

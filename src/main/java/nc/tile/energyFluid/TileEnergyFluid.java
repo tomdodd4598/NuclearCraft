@@ -2,6 +2,7 @@ package nc.tile.energyFluid;
 
 import nc.ModCheck;
 import nc.energy.EnumStorage.EnergyConnection;
+import nc.fluid.EnumTank.FluidConnection;
 import nc.fluid.Tank;
 import nc.tile.energy.TileEnergy;
 import nc.tile.fluid.ITileFluid;
@@ -18,7 +19,6 @@ import net.minecraftforge.fluids.capability.FluidTankProperties;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
 import net.minecraftforge.fluids.capability.templates.EmptyFluidHandler;
-import nc.fluid.EnumTank.FluidConnection;
 
 public abstract class TileEnergyFluid extends TileEnergy implements ITileFluid, IFluidHandler {
 	
@@ -101,9 +101,17 @@ public abstract class TileEnergyFluid extends TileEnergy implements ITileFluid, 
 			Tank[] tankList = new Tank[fluidCapacity.length];
 			for (int i = 0; i < fluidCapacity.length; i++) {
 				tankList[i] = new Tank(fluidCapacity[i], maxFluidReceive[i], maxFluidExtract[i]);
-				this.fluidConnection[i] = fluidConnection[i];
 			}
 			tanks = tankList;
+		}
+		if (fluidConnection == null || fluidConnection.length == 0) {
+			this.connection = null;
+		} else {
+			FluidConnection[] connectionList = new FluidConnection[fluidConnection.length];
+			for (int i = 0; i < fluidConnection.length; i++) {
+				connectionList[i] = fluidConnection[i];
+			}
+			this.fluidConnection = connectionList;
 		}
 	}
 	
@@ -111,7 +119,7 @@ public abstract class TileEnergyFluid extends TileEnergy implements ITileFluid, 
 		if (tanks.length == 0 || tanks == null) return EmptyFluidHandler.EMPTY_TANK_PROPERTIES_ARRAY;
 		IFluidTankProperties[] properties = new IFluidTankProperties[tanks.length];
 		for (int i = 0; i < tanks.length; i++) {
-			properties[i] = new FluidTankProperties(tanks[i].fluidStored, tanks[i].fluidCapacity, fluidConnection[i].canFill(), fluidConnection[i].canDrain());
+			properties[i] = new FluidTankProperties(tanks[i].getFluid(), tanks[i].getCapacity(), fluidConnection[i].canFill(), fluidConnection[i].canDrain());
 		}
 		return properties;
 	}
@@ -119,7 +127,7 @@ public abstract class TileEnergyFluid extends TileEnergy implements ITileFluid, 
 	public int fill(FluidStack resource, boolean doFill) {
 		if (tanks.length == 0 || tanks == null) return 0;
 		for (int i = 0; i < tanks.length; i++) {
-			if (fluidConnection[i].canFill() && tanks[i].isFluidValid(resource) && canFill(resource, i)) {
+			if (fluidConnection[i].canFill() && tanks[i].isFluidValid(resource) && canFill(resource, i) && tanks[i].getFluidAmount() < tanks[i].getCapacity() && (tanks[i].getFluid() == null || tanks[i].getFluid().isFluidEqual(resource))) {
 				return tanks[i].fill(resource, doFill);
 			}
 		}
@@ -150,20 +158,31 @@ public abstract class TileEnergyFluid extends TileEnergy implements ITileFluid, 
 		return true;
 	}
 	
+	public Tank[] getTanks() {
+		return tanks;
+	}
+	
+	public FluidConnection[] getFluidConnections() {
+		return fluidConnection;
+	}
+	
 	// NBT
 	
 	public NBTTagCompound writeAll(NBTTagCompound nbt) {
 		super.writeAll(nbt);
 		if (tanks.length > 0 && tanks != null) for (int i = 0; i < tanks.length; i++) {
 			nbt.setInteger("fluidAmount" + i, tanks[i].getFluidAmount());
-			nbt.setString("fluidName" + i, tanks[i].getFluid().getFluid().getName());
+			nbt.setString("fluidName" + i, tanks[i].getFluidName());
 		}
 		return nbt;
 	}
 		
 	public void readAll(NBTTagCompound nbt) {
 		super.readAll(nbt);
-		if (tanks.length > 0 && tanks != null) for (int i = 0; i < tanks.length; i++) tanks[i].setFluidStored(FluidRegistry.getFluid(nbt.getString("fluidName" + i)), nbt.getInteger("fluidAmount" + i));
+		if (tanks.length > 0 && tanks != null) for (int i = 0; i < tanks.length; i++) {
+			if (nbt.getString("fluidName" + i) == "nullFluid" || nbt.getInteger("fluidAmount" + i) == 0) tanks[i].setFluidStored(null);
+			else tanks[i].setFluidStored(FluidRegistry.getFluid(nbt.getString("fluidName" + i)), nbt.getInteger("fluidAmount" + i));
+		}
 	}
 	
 	// Fluid Connections
@@ -215,7 +234,7 @@ public abstract class TileEnergyFluid extends TileEnergy implements ITileFluid, 
 				return (T) storage;
 		}
 		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY && tanks.length > 0 && tanks != null) {
-			return (T) tanks;
+			return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(this);
 		}
 		return super.getCapability(capability, facing);
 	}

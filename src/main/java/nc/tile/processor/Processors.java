@@ -1,10 +1,10 @@
 package nc.tile.processor;
 
-import nc.block.tile.energy.processor.BlockAlloyFurnace;
-import nc.block.tile.energy.processor.BlockDecayHastener;
-import nc.block.tile.energy.processor.BlockFuelReprocessor;
-import nc.block.tile.energy.processor.BlockIsotopeSeparator;
-import nc.block.tile.energy.processor.BlockManufactory;
+import nc.block.tile.processor.BlockAlloyFurnace;
+import nc.block.tile.processor.BlockDecayHastener;
+import nc.block.tile.processor.BlockFuelReprocessor;
+import nc.block.tile.processor.BlockIsotopeSeparator;
+import nc.block.tile.processor.BlockManufactory;
 import nc.config.NCConfig;
 import nc.crafting.processor.AlloyFurnaceRecipes;
 import nc.crafting.processor.DecayHastenerRecipes;

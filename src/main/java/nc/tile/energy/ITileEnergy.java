@@ -1,3 +1,9 @@
 package nc.tile.energy;
 
-public interface ITileEnergy {}
+import nc.energy.EnumStorage.EnergyConnection;
+import nc.energy.Storage;
+
+public interface ITileEnergy {
+	public Storage getStorage();
+	public EnergyConnection getEnergyConnection();
+}

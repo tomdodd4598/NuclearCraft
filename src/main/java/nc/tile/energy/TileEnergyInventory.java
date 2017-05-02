@@ -3,6 +3,7 @@ package nc.tile.energy;
 import nc.Global;
 import nc.ModCheck;
 import nc.energy.EnumStorage.EnergyConnection;
+import nc.tile.ITileInventory;
 import net.darkhax.tesla.capability.TeslaCapabilities;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -14,7 +15,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.energy.CapabilityEnergy;
 
-public abstract class TileEnergyInventory extends TileEnergy implements IInventory {
+public abstract class TileEnergyInventory extends TileEnergy implements IInventory, ITileInventory {
 
 	public String inventoryName;
 	public NonNullList<ItemStack> inventoryStacks;
@@ -107,6 +108,10 @@ public abstract class TileEnergyInventory extends TileEnergy implements IInvento
 	public void openInventory(EntityPlayer player) {}
 
 	public void closeInventory(EntityPlayer player) {}
+	
+	public NonNullList<ItemStack> getInventoryStacks() {
+		return inventoryStacks;
+	}
 	
 	// NBT
 	
