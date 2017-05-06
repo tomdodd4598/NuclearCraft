@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import net.minecraft.item.ItemStack;
+
 import net.minecraftforge.oredict.OreDictionary;
 
 /**
@@ -17,7 +18,7 @@ public class RecipeInputItemStack implements IRecipeInput {
 	}
 
 	public RecipeInputItemStack(ItemStack input, int amount) {
-		if (input.getItem() == null) throw new IllegalArgumentException("Invalid item stack specfied");
+		if (input == null || input.getItem() == null || input.stackSize <= 0) throw new IllegalArgumentException("invalid input stack");
 
 		this.input = input.copy(); // Never forget to copy.
 		this.amount = amount;

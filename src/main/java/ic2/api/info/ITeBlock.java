@@ -2,12 +2,14 @@ package ic2.api.info;
 
 import java.util.Set;
 
+import net.minecraft.block.material.Material;
+import net.minecraft.util.ResourceLocation;
+
+import net.minecraftforge.common.MinecraftForge;
+
 import ic2.api.event.TeBlockFinalCallEvent;
 import ic2.api.item.ITeBlockSpecialItem;
 import ic2.api.tile.IWrenchable;
-import net.minecraft.block.material.Material;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.MinecraftForge;
 
 /** First of all, yes this class is empty. It's public documentation for the actual internal interface ITeBlock. <strong>Use the internal one not this!</strong>
  *	<p>

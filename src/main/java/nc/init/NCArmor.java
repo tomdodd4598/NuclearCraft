@@ -3,7 +3,7 @@ package nc.init;
 import nc.Global;
 import nc.item.armor.NCItemArmor;
 import nc.proxy.CommonProxy;
-import nc.util.NCUtils;
+import nc.util.NCUtil;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -69,11 +69,11 @@ public class NCArmor {
 	public static void registerItem(Item item) {
 		item.setCreativeTab(CommonProxy.TAB_MISC);
 		GameRegistry.register(item);
-		NCUtils.getLogger().info("Registered armor piece " + item.getUnlocalizedName().substring(5));
+		NCUtil.getLogger().info("Registered armor piece " + item.getUnlocalizedName().substring(5));
 	}
 		
 	public static void registerRender(Item item) {
 		ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(new ResourceLocation(Global.MOD_ID, item.getUnlocalizedName().substring(5)), "inventory"));
-		NCUtils.getLogger().info("Registered render for armor piece " + item.getUnlocalizedName().substring(5));
+		NCUtil.getLogger().info("Registered render for armor piece " + item.getUnlocalizedName().substring(5));
 	}
 }

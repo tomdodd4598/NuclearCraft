@@ -29,6 +29,7 @@ public class OreDictHandler {
 		OreDictionary.registerOre("blockMagnesium", new ItemStack(NCBlocks.ingot_block, 1, 7));
 		OreDictionary.registerOre("blockGraphite", new ItemStack(NCBlocks.ingot_block, 1, 8));
 		
+		OreDictionary.registerOre("blockDepletedThorium", NCBlocks.block_depleted_thorium);
 		OreDictionary.registerOre("blockDepletedUranium", NCBlocks.block_depleted_uranium);
 		
 		OreDictionary.registerOre("ingotCopper", new ItemStack(NCItems.ingot, 1, 0));
@@ -394,9 +395,24 @@ public class OreDictHandler {
 		OreDictionary.registerOre("depletedFuelRodHECf251", new ItemStack(NCItems.depleted_fuel_rod_californium, 1, 6));
 		OreDictionary.registerOre("depletedFuelRodHECf251Oxide", new ItemStack(NCItems.depleted_fuel_rod_californium, 1, 7));
 		
+		OreDictionary.registerOre("ingotBoron10", new ItemStack(NCItems.boron, 1, 0));
+		OreDictionary.registerOre("tinyBoron10", new ItemStack(NCItems.boron, 1, 1));
+		OreDictionary.registerOre("ingotBoron11", new ItemStack(NCItems.boron, 1, 2));
+		OreDictionary.registerOre("tinyBoron11", new ItemStack(NCItems.boron, 1, 3));
+		
+		OreDictionary.registerOre("ingotLithium6", new ItemStack(NCItems.lithium, 1, 0));
+		OreDictionary.registerOre("tinyLithium6", new ItemStack(NCItems.lithium, 1, 1));
+		OreDictionary.registerOre("ingotLithium7", new ItemStack(NCItems.lithium, 1, 2));
+		OreDictionary.registerOre("tinyLithium7", new ItemStack(NCItems.lithium, 1, 3));
+		
+		// Vanilla
 		OreDictionary.registerOre("gemCoal", Items.COAL);
 		OreDictionary.registerOre("blockObsidian", Blocks.OBSIDIAN);
 		OreDictionary.registerOre("blockGlowstone", Blocks.GLOWSTONE);
+		OreDictionary.registerOre("blockIce", Blocks.ICE);
+		OreDictionary.registerOre("blockIce", Blocks.FROSTED_ICE);
+		OreDictionary.registerOre("blockIce", Blocks.PACKED_ICE);
+		
 	}
 
 }

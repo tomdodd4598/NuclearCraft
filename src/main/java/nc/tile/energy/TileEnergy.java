@@ -60,6 +60,14 @@ public abstract class TileEnergy extends NCTile implements ITileEnergy, IEnergyR
 		if (!worldObj.isRemote && ModCheck.ic2Loaded()) MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
 	}
 	
+	public Storage getStorage() {
+		return storage;
+	}
+	
+	public EnergyConnection getEnergyConnection() {
+		return connection;
+	}
+	
 	// Redstone Flux
 	
 	public int getEnergyStored(EnumFacing from) {

@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "facing=north": { "model": "nuclearcraft:electrolyser_active" },
+        "facing=south": { "model": "nuclearcraft:electrolyser_active", "y": 180 },
+        "facing=west":  { "model": "nuclearcraft:electrolyser_active", "y": 270 },
+        "facing=east":  { "model": "nuclearcraft:electrolyser_active", "y": 90 }
+    }
+}

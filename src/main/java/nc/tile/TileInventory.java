@@ -9,7 +9,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
 
-public abstract class TileInventory extends NCTile implements IInventory {
+public abstract class TileInventory extends NCTile implements IInventory, ITileInventory {
 	
 	public String inventoryName;
 	public ItemStack[] inventoryStacks;
@@ -38,15 +38,6 @@ public abstract class TileInventory extends NCTile implements IInventory {
 
 	public int getSizeInventory() {
 		return inventoryStacks.length;
-	}
-
-	public boolean isEmpty() {
-		for (ItemStack itemstack : inventoryStacks) {
-			if (!(itemstack == null)) {
-				return false;
-			}
-		}
-		return true;
 	}
 
 	public ItemStack getStackInSlot(int slot) {
@@ -96,6 +87,10 @@ public abstract class TileInventory extends NCTile implements IInventory {
 	public void openInventory(EntityPlayer player) {}
 
 	public void closeInventory(EntityPlayer player) {}
+	
+	public ItemStack[] getInventoryStacks() {
+		return inventoryStacks;
+	}
 	
 	// NBT
 	

@@ -2,7 +2,7 @@ package nc.tile.generator;
 
 import net.minecraft.util.EnumFacing;
 
-public abstract class TileSolarPanel extends TileEnergyGeneratorContinuous {
+public abstract class TileSolarPanel extends TilePassiveGenerator {
 	
 	public TileSolarPanel(int power) {
 		super(power);

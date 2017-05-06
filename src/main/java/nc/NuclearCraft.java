@@ -3,7 +3,7 @@ package nc;
 import nc.config.NCConfig;
 import nc.handler.GuiHandler;
 import nc.proxy.CommonProxy;
-import nc.util.NCUtils;
+import nc.util.NCUtil;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -29,21 +29,21 @@ public class NuclearCraft {
 	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent preEvent) {
-		NCUtils.getLogger().info("Pre Initializing...");
+		NCUtil.getLogger().info("Pre Initializing...");
 		NCConfig.preInit();
 		proxy.preInit(preEvent);
 	}
 	
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
-		NCUtils.getLogger().info("Initializing...");
+		NCUtil.getLogger().info("Initializing...");
 		proxy.init(event);
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
 	}
 	
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent postEvent) {
-		NCUtils.getLogger().info("Post Initializing...");
+		NCUtil.getLogger().info("Post Initializing...");
 		proxy.postInit(postEvent);
 	}
 }

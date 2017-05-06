@@ -1,5 +1,6 @@
 package nc.proxy;
 
+import nc.Global;
 import nc.ModCheck;
 import nc.handler.AchievementHandler;
 import nc.handler.DropHandler;
@@ -7,12 +8,15 @@ import nc.handler.FuelHandler;
 import nc.handler.FurnaceRecipeHandler;
 import nc.handler.OreDictHandler;
 import nc.handler.RecipeHandler;
+import nc.handler.SoundHandler;
 import nc.init.NCArmor;
 import nc.init.NCBlocks;
 import nc.init.NCFluids;
 import nc.init.NCItems;
 import nc.init.NCTiles;
 import nc.init.NCTools;
+import nc.network.PacketHandler;
+import nc.tab.TabAccelerator;
 import nc.tab.TabBaseBlockMaterials;
 import nc.tab.TabBaseItemMaterials;
 import nc.tab.TabFissionBlocks;
@@ -40,6 +44,7 @@ public class CommonProxy {
 	public static final CreativeTabs TAB_FISSION_MATERIALS = new TabFissionMaterials();
 	public static final CreativeTabs TAB_FISSION_FUEL_RODS = new TabFissionFuelRods();
 	public static final CreativeTabs TAB_FUSION = new TabFusion();
+	public static final CreativeTabs TAB_ACCELERATOR = new TabAccelerator();
 	public static final CreativeTabs TAB_FLUIDS = new TabFluids();
 	public static final CreativeTabs TAB_MISC = new TabMisc();
 	
@@ -60,6 +65,8 @@ public class CommonProxy {
 		
 		NCTiles.register();
 		
+		PacketHandler.registerMessages(Global.MOD_ID);
+		
 		AchievementHandler.registerAchievements();
 	}
 
@@ -73,6 +80,7 @@ public class CommonProxy {
 		GameRegistry.registerFuelHandler(new FuelHandler());
 		OreDictHandler.registerOres();
 		GameRegistry.registerWorldGenerator(new OreGen(), 0);
+		SoundHandler.init();
 	}
 
 	public void postInit(FMLPostInitializationEvent postEvent) {

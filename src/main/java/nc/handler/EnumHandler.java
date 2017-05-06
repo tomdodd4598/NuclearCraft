@@ -1771,4 +1771,66 @@ public class EnumHandler {
 			return values();
 		}
 	}
+	
+	public static enum BoronTypes implements IStringSerializable {
+		_10("_10", 0),
+		_10_TINY("_10_tiny", 1),
+		_11("_11", 2),
+		_11_TINY("_11_tiny", 3);
+		
+		private int id;
+		private String name;
+		
+		private BoronTypes(String name, int id) {
+			this.id = id;
+			this.name = name;
+		}
+
+		public String getName() {	
+			return name;
+		}
+		
+		public int getID() {	
+			return id;
+		}
+		
+		public String toString() {	
+			return getName();
+		}
+		
+		public Object[] getValues() {
+			return values();
+		}
+	}
+	
+	public static enum LithiumTypes implements IStringSerializable {
+		_6("_6", 0),
+		_6_TINY("_6_tiny", 1),
+		_7("_7", 2),
+		_7_TINY("_7_tiny", 3);
+		
+		private int id;
+		private String name;
+		
+		private LithiumTypes(String name, int id) {
+			this.id = id;
+			this.name = name;
+		}
+
+		public String getName() {	
+			return name;
+		}
+		
+		public int getID() {	
+			return id;
+		}
+		
+		public String toString() {	
+			return getName();
+		}
+		
+		public Object[] getValues() {
+			return values();
+		}
+	}
 }

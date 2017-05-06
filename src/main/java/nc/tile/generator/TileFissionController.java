@@ -3,8 +3,9 @@ package nc.tile.generator;
 import ic2.api.energy.event.EnergyTileUnloadEvent;
 import nc.ModCheck;
 import nc.block.fission.BlockCooler;
-import nc.block.tile.energy.generator.BlockFissionController;
-import nc.block.tile.energy.generator.BlockFissionPort;
+import nc.block.tile.dummy.BlockFissionPort;
+import nc.block.tile.generator.BlockFissionController;
+import nc.block.tile.passive.BlockBuffer;
 import nc.config.NCConfig;
 import nc.crafting.generator.FissionRecipes;
 import nc.handler.EnumHandler.CoolerTypes;
@@ -19,7 +20,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.common.MinecraftForge;
 
-public class TileFissionController extends TileEnergyGeneratorProcessor {
+public class TileFissionController extends TileItemGenerator {
 	
 	public int rateMultiplier;
 	
@@ -32,7 +33,8 @@ public class TileFissionController extends TileEnergyGeneratorProcessor {
 	public int efficiency;
 	public int cells;
 	
-	public int tickCount;
+	public int tickCountStructureCheck;
+	public int tickCountRunCheck;
 	
 	public int minX;
 	public int minY;
@@ -61,7 +63,8 @@ public class TileFissionController extends TileEnergyGeneratorProcessor {
 			if (time == 0) {
 				consume();
 			}
-			tick();
+			tickStructureCheck();
+			tickRunCheck();
 			checkStructure();
 			run();
 			overheat();
@@ -104,16 +107,28 @@ public class TileFissionController extends TileEnergyGeneratorProcessor {
 		if (!worldObj.isRemote) checkStructure();
 	}
 	
-	public void tick() {
-		if (tickCount > NCConfig.fission_update_rate) {
-			tickCount = 0;
+	public void tickStructureCheck() {
+		if (tickCountStructureCheck > NCConfig.fission_update_rate) {
+			tickCountStructureCheck = 0;
 		} else {
-			tickCount++;
+			tickCountStructureCheck++;
 		}
 	}
 	
-	public boolean shouldUpdate() {
-		return tickCount > NCConfig.fission_update_rate;
+	public boolean shouldStructureCheck() {
+		return tickCountStructureCheck > NCConfig.fission_update_rate;
+	}
+	
+	public void tickRunCheck() {
+		if (tickCountRunCheck > NCConfig.fission_update_rate*2) {
+			tickCountRunCheck = 0;
+		} else {
+			tickCountRunCheck++;
+		}
+	}
+	
+	public boolean shouldRunCheck() {
+		return tickCountRunCheck > NCConfig.fission_update_rate*2;
 	}
 	
 	public void overheat() {
@@ -416,6 +431,7 @@ public class TileFissionController extends TileEnergyGeneratorProcessor {
 	private boolean findCasingPort(int x, int y, int z) {
 		if (worldObj.getBlockState(position(x, y, z)) == NCBlocks.fission_block.getStateFromMeta(0)) return true;
 		if (worldObj.getBlockState(position(x, y, z)).getBlock() instanceof BlockFissionPort) return true;
+		if (worldObj.getBlockState(position(x, y, z)).getBlock() instanceof BlockBuffer) return true;
 		return false;
 	}
 	
@@ -427,13 +443,14 @@ public class TileFissionController extends TileEnergyGeneratorProcessor {
 		if (worldObj.getBlockState(position(x, y, z)) == NCBlocks.fission_block.getStateFromMeta(0)) return true;
 		if (worldObj.getBlockState(position(x, y, z)).getBlock() instanceof BlockFissionController) return true;
 		if (worldObj.getBlockState(position(x, y, z)).getBlock() instanceof BlockFissionPort) return true;
+		if (worldObj.getBlockState(position(x, y, z)).getBlock() instanceof BlockBuffer) return true;
 		return false;
 	}
 	
 	// Finding Structure
 	
 	private boolean checkStructure() {
-		if (shouldUpdate()) {
+		if (shouldStructureCheck()) {
 			int l = NCConfig.fission_max_size + 2;
 			boolean f = false;
 			int rz = 0;
@@ -445,7 +462,7 @@ public class TileFissionController extends TileEnergyGeneratorProcessor {
 			int y1 = 0;
 			for (int z = 0; z <= l; z++) {
 				if ((findCasingPort(0, 1, 0) || findCasingPort(0, -1, 0)) || ((findCasingPort(1, 1, 0) || findCasingPort(1, -1, 0)) && findCasingPort(1, 0, 0)) || ((findCasingPort(1, 1, 0) && !findCasingPort(1, -1, 0)) && !findCasingPort(1, 0, 0)) || ((!findCasingPort(1, 1, 0) && findCasingPort(1, -1, 0)) && !findCasingPort(1, 0, 0))) {
-					if (/*!find(b, 0, 0, -z) &&*/ !findCasingPort(0, 1, -z) && !findCasingPort(0, -1, -z) && (findCasingControllerPort(0, 0, -z + 1) || findCasingControllerPort(0, 1, -z + 1) || findCasingControllerPort(0, -1, -z + 1))) {
+					if (!findCasingPort(0, 1, -z) && !findCasingPort(0, -1, -z) && (findCasingControllerPort(0, 0, -z + 1) || findCasingControllerPort(0, 1, -z + 1) || findCasingControllerPort(0, -1, -z + 1))) {
 						rz = l - z;
 						z0 = -z;
 						f = true;
@@ -465,7 +482,7 @@ public class TileFissionController extends TileEnergyGeneratorProcessor {
 			}
 			f = false;
 			for (int y = 0; y <= l; y++) {
-				if (/*!find(b, x0, -y, z0) && */!findCasingPort(x0, -y + 1, z0) && !findCasingPort(x0 + 1, -y, z0) && !findCasingPort(x0, -y, z0 + 1) && findCasingControllerPort(x0 + 1, -y, z0 + 1) && findCasingControllerPort(x0, -y + 1, z0 + 1) && findCasingControllerPort(x0 + 1, -y + 1, z0)) {
+				if (!findCasingPort(x0, -y + 1, z0) && !findCasingPort(x0 + 1, -y, z0) && !findCasingPort(x0, -y, z0 + 1) && findCasingControllerPort(x0 + 1, -y, z0 + 1) && findCasingControllerPort(x0, -y + 1, z0 + 1) && findCasingControllerPort(x0 + 1, -y + 1, z0)) {
 					y0 = -y;
 					f = true;
 					break;
@@ -478,7 +495,7 @@ public class TileFissionController extends TileEnergyGeneratorProcessor {
 			}
 			f = false;
 			for (int z = 0; z <= rz; z++) {
-				if (/*!find(b, x0, y0, z) &&*/ !findCasingPort(x0, y0 + 1, z) && !findCasingPort(x0 + 1, y0, z) && !findCasingPort(x0, y0, z - 1) && findCasingControllerPort(x0 + 1, y0, z - 1) && findCasingControllerPort(x0, y0 + 1, z - 1) && findCasingControllerPort(x0 + 1, y0 + 1, z)) {
+				if (!findCasingPort(x0, y0 + 1, z) && !findCasingPort(x0 + 1, y0, z) && !findCasingPort(x0, y0, z - 1) && findCasingControllerPort(x0 + 1, y0, z - 1) && findCasingControllerPort(x0, y0 + 1, z - 1) && findCasingControllerPort(x0 + 1, y0 + 1, z)) {
 					z1 = z;
 					f = true;
 					break;
@@ -491,7 +508,7 @@ public class TileFissionController extends TileEnergyGeneratorProcessor {
 			}
 			f = false;
 			for (int x = 0; x <= l; x++) {
-				if (/*!find(b, x0 + x, y0, z0) &&*/ !findCasingPort(x0 + x, y0 + 1, z0) && !findCasingPort(x0 + x - 1, y0, z0) && !findCasingPort(x0 + x, y0, z0 + 1) && findCasingControllerPort(x0 + x - 1, y0, z0 + 1) && findCasingControllerPort(x0 + x, y0 + 1, z0 + 1) && findCasingControllerPort(x0 + x - 1, y0 + 1, z0)) {
+				if (!findCasingPort(x0 + x, y0 + 1, z0) && !findCasingPort(x0 + x - 1, y0, z0) && !findCasingPort(x0 + x, y0, z0 + 1) && findCasingControllerPort(x0 + x - 1, y0, z0 + 1) && findCasingControllerPort(x0 + x, y0 + 1, z0 + 1) && findCasingControllerPort(x0 + x - 1, y0 + 1, z0)) {
 					x1 = x0 + x;
 					f = true;
 					break;
@@ -504,7 +521,7 @@ public class TileFissionController extends TileEnergyGeneratorProcessor {
 			}
 			f = false;
 			for (int y = 0; y <= l; y++) {
-				if (/*!find(b, x0, y0 + y, z0) &&*/ !findCasingPort(x0, y0 + y - 1, z0) && !findCasingPort(x0 + 1, y0 + y, z0) && !findCasingPort(x0, y0 + y, z0 + 1) && findCasingControllerPort(x0 + 1, y0 + y, z0 + 1) && findCasingControllerPort(x0, y0 + y - 1, z0 + 1) && findCasingControllerPort(x0 + 1, y0 + y - 1, z0)) {
+				if (!findCasingPort(x0, y0 + y - 1, z0) && !findCasingPort(x0 + 1, y0 + y, z0) && !findCasingPort(x0, y0 + y, z0 + 1) && findCasingControllerPort(x0 + 1, y0 + y, z0 + 1) && findCasingControllerPort(x0, y0 + y - 1, z0 + 1) && findCasingControllerPort(x0 + 1, y0 + y - 1, z0)) {
 					y1 = y0 + y;
 					f = true;
 					break;
@@ -585,7 +602,6 @@ public class TileFissionController extends TileEnergyGeneratorProcessor {
 					}
 				}
 			}
-			//problem = I18n.translateToLocalFormatted("gui.container.fission_controller.casing_incomplete");
 			complete = 1;
 			minX = x0;
 			minY = y0;
@@ -643,7 +659,7 @@ public class TileFissionController extends TileEnergyGeneratorProcessor {
 			generating = false;
 		}
 		
-		if (shouldUpdate()) {
+		if (shouldRunCheck()) {
 			if (complete == 1) {
 				for (int z = minZ + 1; z <= maxZ - 1; z++) {
 					for (int x = minX + 1; x <= maxX - 1; x++) {

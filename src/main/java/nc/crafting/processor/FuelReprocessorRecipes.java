@@ -1,5 +1,6 @@
 package nc.crafting.processor;
 
+import nc.config.NCConfig;
 import nc.handler.ProcessorRecipeHandler;
 
 public class FuelReprocessorRecipes extends ProcessorRecipeHandler {
@@ -7,7 +8,7 @@ public class FuelReprocessorRecipes extends ProcessorRecipeHandler {
 	private static final FuelReprocessorRecipes RECIPES = new FuelReprocessorRecipes();
 
 	public FuelReprocessorRecipes() {
-		super(1, 0, 4, 0, false);
+		super(1, 0, 4, 0, false, true);
 	}
 	
 	public static final ProcessorRecipeHandler instance() {
@@ -67,7 +68,7 @@ public class FuelReprocessorRecipes extends ProcessorRecipeHandler {
 	}
 	
 	public void reprocess(String fuel, String out1, int n1, String out2, int n2, String out3, int n3, String out4, int n4) {
-		addRecipe("depletedFuelRod" + fuel, oreStack("tiny" + out1, n1), oreStack("tiny" + out2, n2), oreStack("tiny" + out3, n3), oreStack("tiny" + out4, n4));
-		addRecipe("depletedFuelRod" + fuel + "Oxide", oreStack("tiny" + out1 + "Oxide", n1), oreStack("tiny" + out2 + "Oxide", n2), oreStack("tiny" + out3 + "Oxide", n3), oreStack("tiny" + out4 + "Oxide", n4));
+		addRecipe("depletedFuelRod" + fuel, oreStack("tiny" + out1, n1), oreStack("tiny" + out2, n2), oreStack("tiny" + out3, n3), oreStack("tiny" + out4, n4), NCConfig.processor_time[3]);
+		addRecipe("depletedFuelRod" + fuel + "Oxide", oreStack("tiny" + out1 + "Oxide", n1), oreStack("tiny" + out2 + "Oxide", n2), oreStack("tiny" + out3 + "Oxide", n3), oreStack("tiny" + out4 + "Oxide", n4), NCConfig.processor_time[3]);
 	}
 }

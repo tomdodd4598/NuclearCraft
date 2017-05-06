@@ -3,6 +3,7 @@ package ic2.api.tile;
 import static net.minecraftforge.fml.relauncher.Side.CLIENT;
 
 import net.minecraft.tileentity.TileEntity;
+
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.ModContainer;
 import net.minecraftforge.fml.relauncher.SideOnly;

@@ -1,0 +1,12 @@
+{
+	"sound.block.fusion_run": {
+		"category": "block",
+		"subtitle": "sound.block.fusion_run",
+		"sounds": [ { "name": "nuclearcraft:block/fusion_run", "stream": false } ]
+	},
+	"sound.block.accelerator_run": {
+		"category": "block",
+		"subtitle": "sound.block.accelerator_run",
+		"sounds": [ { "name": "nuclearcraft:block/accelerator_run", "stream": false } ]
+	}
+}

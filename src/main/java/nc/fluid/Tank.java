@@ -5,22 +5,20 @@ import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidTankInfo;
-import net.minecraftforge.fluids.IFluidTank;
+import net.minecraftforge.fluids.FluidTank;
+import net.minecraftforge.fluids.capability.IFluidTankProperties;
 
-public class Tank implements IFluidTank, INBTSerializable<NBTTagCompound> {
+public class Tank extends FluidTank implements INBTSerializable<NBTTagCompound> {
 	
 	public int maxReceive;
 	public int maxExtract;
 	
-	public FluidStack fluidStored;
-	public int fluidCapacity;
+	protected IFluidTankProperties[] tankProperties;
 	
-	private final static String[] ALL = {"ALL"};
 	public String[] allowedFluids;
 	
 	public Tank(int capacity) {
-		this(capacity, capacity, capacity, ALL);
+		this(capacity, capacity, capacity, null);
 	}
 	
 	public Tank(int capacity, String... allowedFluids) {
@@ -28,7 +26,7 @@ public class Tank implements IFluidTank, INBTSerializable<NBTTagCompound> {
 	}
 
 	public Tank(int capacity, int maxTransfer) {
-		this(capacity, maxTransfer, maxTransfer, ALL);
+		this(capacity, maxTransfer, maxTransfer, null);
 	}
 	
 	public Tank(int capacity, int maxTransfer, String... allowedFluids) {
@@ -36,77 +34,99 @@ public class Tank implements IFluidTank, INBTSerializable<NBTTagCompound> {
 	}
 	
 	public Tank(int capacity, int maxReceive, int maxExtract) {
-		this(capacity, maxReceive, maxExtract, ALL);
+		this(capacity, maxReceive, maxExtract, null);
 	}
 
 	public Tank(int capacity, int maxReceive, int maxExtract, String... allowedFluids) {
-		fluidCapacity = capacity;
+		super(capacity);
 		this.maxReceive = maxReceive;
 		this.maxExtract = maxExtract;
 		
-		if (allowedFluids == null || allowedFluids.length == 0) this.allowedFluids = ALL; else {
+		if (allowedFluids == null || allowedFluids.length == 0) this.allowedFluids = null; else {
 			String[] fluidList = new String[allowedFluids.length];
 			for (int i = 0; i < allowedFluids.length; i++) fluidList[i] = allowedFluids[i];
 			this.allowedFluids = fluidList;
 		}
 	}
-
-	public FluidStack getFluid() {
-		return fluidStored;
-	}
-
-	public int getFluidAmount() {
-		return Math.min(fluidStored.amount, Integer.MAX_VALUE);
-	}
-
-	public int getCapacity() {
-		return Math.min(fluidCapacity, Integer.MAX_VALUE);
-	}
-
-	public FluidTankInfo getInfo() {
-		return new FluidTankInfo(this);
+	
+	public String getFluidName() {
+		return fluid != null ? FluidRegistry.getFluidName(getFluid()) : "nullFluid";
 	}
 
 	public int fill(FluidStack resource, boolean doFill) {
-		if (!isFluidValid(resource.getFluid()) || (fluidStored != null && fluidStored.isFluidEqual(resource))) return 0;
-		int fluidReceived = Math.min(fluidCapacity - fluidStored.amount, Math.min(maxReceive, resource.amount));
-		if (doFill) fluidStored = new FluidStack(fluidStored.getFluid(), fluidStored.amount + fluidReceived);
-		return (int) fluidReceived;
+		if (!isFluidValid(resource.getFluid()) || (fluid != null && (fluid != null ? !fluid.isFluidEqual(resource) : false))) return 0;
+		int fluidReceived = Math.min(capacity - getFluidAmount(), Math.min(maxReceive, resource.amount));
+		if (doFill) fluid = new FluidStack(resource, getFluidAmount() + fluidReceived);
+		return fluidReceived;
 	}
 
 	public FluidStack drain(int maxDrain, boolean doDrain) {
-		if (fluidStored == null) return null;
-		int fluidExtracted = Math.min(fluidStored.amount, Math.min(maxExtract, maxDrain));
-		if (doDrain) fluidStored = new FluidStack(fluidStored.getFluid(), fluidStored.amount - fluidExtracted);
-		Fluid type = fluidStored.getFluid();
-		if (fluidStored.amount <= 0) fluidStored = null;
+		if (fluid == null) return null;
+		int fluidExtracted = Math.min(getFluidAmount(), Math.min(maxExtract, maxDrain));
+		if (doDrain) fluid = new FluidStack(fluid.getFluid(), getFluidAmount() - fluidExtracted);
+		Fluid type = fluid.getFluid();
+		if (getFluidAmount() <= 0) fluid = null;
+		return new FluidStack(type, fluidExtracted);
+	}
+	
+	public FluidStack drain(FluidStack resource, boolean doDrain) {
+		if (fluid == null || !fluid.isFluidEqual(resource)) return null;
+		int fluidExtracted = Math.min(getFluidAmount(), Math.min(maxExtract, resource.amount));
+		if (doDrain) fluid = new FluidStack(fluid.getFluid(), getFluidAmount() - fluidExtracted);
+		Fluid type = fluid.getFluid();
+		if (getFluidAmount() <= 0) fluid = null;
 		return new FluidStack(type, fluidExtracted);
 	}
 	
 	public void changeFluidStored(Fluid fluid, int amount) {
-		fluidStored = new FluidStack(fluid, fluidStored.amount + amount);
-		if (fluidStored.amount > fluidCapacity) fluidStored = new FluidStack(fluid, fluidCapacity);
-		else if (fluidStored.amount < 0) fluidStored = null;
+		this.fluid = new FluidStack(fluid, getFluidAmount() + amount);
+		if (getFluidAmount() > capacity) this.fluid = new FluidStack(this.fluid, capacity);
+		else if (getFluidAmount() < 0) fluid = null;
 	}
 	
 	public void setFluidStored(Fluid fluid, int amount) {
-		fluidStored = new FluidStack(fluid, amount);
-		if (fluidStored.amount > fluidCapacity) fluidStored = new FluidStack(fluid, fluidCapacity);
-		else if (fluidStored.amount < 0) fluidStored = null;
+		if (amount <= 0) {
+			this.fluid = null;
+			return;
+		}
+		this.fluid = new FluidStack(fluid, amount);
+		if (getFluidAmount() > capacity) this.fluid = new FluidStack(this.fluid, capacity);
+		else if (getFluidAmount() < 0) this.fluid = null;
+	}
+	
+	public void setFluidStored(FluidStack fluid, int amount) {
+		if (amount <= 0 || fluid == null) {
+			this.fluid = null;
+			return;
+		}
+		this.fluid = new FluidStack(fluid, amount);
+		if (getFluidAmount() > capacity) this.fluid = new FluidStack(this.fluid, capacity);
+		else if (getFluidAmount() < 0) this.fluid = null;
 	}
 	
 	public void changeFluidStored(int amount) {
-		changeFluidStored(fluidStored.getFluid(), amount);
+		changeFluidStored(fluid.getFluid(), amount);
 	}
 	
 	public void setFluidStored(FluidStack stack) {
-		fluidStored = stack;
-		if (fluidStored.amount > fluidCapacity) fluidStored = new FluidStack(stack.getFluid(), fluidCapacity);
-		else if (fluidStored.amount < 0) fluidStored = null;
+		if (stack == null || stack.amount <= 0) {
+			fluid = null;
+			return;
+		}
+		fluid = stack;
+		if (getFluidAmount() > capacity) fluid = new FluidStack(stack.getFluid(), capacity);
+		else if (getFluidAmount() < 0) fluid = null;
 	}
 	
+	public void setFluidAmount(int amount) {
+		if(fluid == null) return;
+		if(amount < 0) amount = 0;
+		else if(amount > capacity) amount = capacity;
+		fluid.amount = amount;
+    }
+	
 	public boolean isFluidValid(String name) {
-		if (allowedFluids == ALL) return true;
+		if (allowedFluids == null) return true;
 		for (int i = 0; i < allowedFluids.length; i++) {
 			if (allowedFluids[i] == name) return true;
 		}
@@ -124,7 +144,7 @@ public class Tank implements IFluidTank, INBTSerializable<NBTTagCompound> {
 	// NBT
 	
 	public NBTTagCompound serializeNBT() {
-		return writeToNBT(new NBTTagCompound());
+		return writeAll(new NBTTagCompound());
 	}
 
 	public void deserializeNBT(NBTTagCompound nbt) {
@@ -132,9 +152,9 @@ public class Tank implements IFluidTank, INBTSerializable<NBTTagCompound> {
 	}
 		
 	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-		if (fluidStored.amount < 0) fluidStored = null;
-		nbt.setInteger("FluidAmount", fluidStored.amount);
-		nbt.setString("FluidName", fluidStored.getFluid().getName());
+		if (getFluidAmount() < 0) fluid = null;
+		nbt.setInteger("FluidAmount", getFluidAmount());
+		nbt.setString("FluidName", getFluidName());
 		return nbt;
 	}
 		
@@ -146,8 +166,9 @@ public class Tank implements IFluidTank, INBTSerializable<NBTTagCompound> {
 	}
 		
 	public Tank readFromNBT(NBTTagCompound nbt) {
-		fluidStored = new FluidStack (FluidRegistry.getFluid(nbt.getString("FluidName")), nbt.getInteger("FluidAmount"));
-		if (fluidStored.amount > fluidCapacity) fluidStored.amount = fluidCapacity;
+		if (nbt.getString("FluidName") == "nullFluid" || nbt.getInteger("FluidAmount") == 0) fluid = null;
+		else fluid = new FluidStack (FluidRegistry.getFluid(nbt.getString("FluidName")), nbt.getInteger("FluidAmount"));
+		if (getFluidAmount() > capacity) fluid.amount = capacity;
 		return this;
 	}
 		

@@ -7,7 +7,7 @@ public class FissionRecipes extends ProcessorRecipeHandler {
 	private static final FissionRecipes RECIPES = new FissionRecipes();
 
 	public FissionRecipes() {
-		super(1, 0, 1, 0, false);
+		super(1, 0, 1, 0, false, false);
 	}
 	
 	public static final ProcessorRecipeHandler instance() {

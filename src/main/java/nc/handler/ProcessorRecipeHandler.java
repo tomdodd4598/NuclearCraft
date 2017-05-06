@@ -1,5 +1,6 @@
 package nc.handler;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -17,13 +18,13 @@ import net.minecraftforge.oredict.OreDictionary;
 public abstract class ProcessorRecipeHandler {
 
 	public int itemInputSize, fluidInputSize, totalInputSize, itemOutputSize, fluidOutputSize, totalOutputSize;
-	public boolean shapeless;
+	public boolean shapeless, hasExtras;
 	public static final int[] INVALID_ORDER = new int[] {-1, -1, -1, -1};
 
-	/** add all your recipes here */
+	/** Add all recipes here */
 	public abstract void addRecipes();
 
-	public ProcessorRecipeHandler(int itemInputSize, int fluidInputSize, int itemOutputSize, int fluidOutputSize, boolean shapeless) {
+	public ProcessorRecipeHandler(int itemInputSize, int fluidInputSize, int itemOutputSize, int fluidOutputSize, boolean shapeless, boolean hasExtras) {
 		this.itemInputSize = itemInputSize;
 		this.fluidInputSize = fluidInputSize;
 		this.totalInputSize = itemInputSize + fluidInputSize;
@@ -31,26 +32,28 @@ public abstract class ProcessorRecipeHandler {
 		this.fluidOutputSize = fluidOutputSize;
 		this.totalOutputSize = itemOutputSize + fluidOutputSize;
 		this.shapeless = itemInputSize == 1 ? false : shapeless;
+		this.hasExtras = hasExtras;
 		
 		addRecipes();
 	}
 
 	private Map<Object[], Object[]> recipeList = new HashMap<Object[], Object[]>();
 
-	/** get the full list of recipes */
+	/** Get the full list of recipes */
 	public Map<Object[], Object[]> getRecipes() {
 		return recipeList;
 	}
 
-	/** makes sure each item/block is an itemstack */
+	/** Make sure each ingredient entry is an ItemStack or FluidStack */
 	public void addRecipe(Object... objects) {
 		Object[] stack = new Object[objects.length];
-		if(objects.length > totalInputSize + totalOutputSize) {
-			FMLLog.warning("ProcessorRecipeHandler - A recipe was removed because it was too long!");
+		if(objects.length > totalInputSize + totalOutputSize + (hasExtras ? 1 : 0)) {
+			FMLLog.warning("ProcessorRecipeHandler - a recipe was removed because it was too long!");
 			return;
 		}
 		for (int i = 0; i < totalInputSize + totalOutputSize; i++) {
 			if (objects[i] == null) {
+				FMLLog.warning("ProcessorRecipeHandler - a recipe was removed because an entry was null!");
 				return;
 			}
 			if (objects[i] instanceof String) {
@@ -58,12 +61,14 @@ public abstract class ProcessorRecipeHandler {
 					if (oreExists((String)objects[i])) {
 						stack[i] = oreStack((String)objects[i], 1);
 					} else {
+						FMLLog.warning("ProcessorRecipeHandler - a recipe was removed because an oreDict entry didn't exist!");
 						return;
 					}
 				} else if (i < totalInputSize) {
 					if (fluidExists((String)objects[i])) {
 						stack[i] = fluidStack((String)objects[i], 1000);
 					} else {
+						FMLLog.warning("ProcessorRecipeHandler - a recipe was removed because a fluidReg entry didn't exist!");
 						return;
 					}
 				} else if (i < totalInputSize + itemOutputSize) {
@@ -71,12 +76,14 @@ public abstract class ProcessorRecipeHandler {
 					if (ores.size() > 0) {
 					stack[i] = ores.get(0);
 					} else {
+						FMLLog.warning("ProcessorRecipeHandler - a recipe was removed because an oreDict entry didn't exist!");
 						return;
 					}
 				} else if (i < totalInputSize + totalOutputSize) {
 					if (fluidExists((String)objects[i])) {
 						stack[i] = fluidStack((String)objects[i], 1000);
 					} else {
+						FMLLog.warning("ProcessorRecipeHandler - a recipe was removed because a fluidReg entry didn't exist!");
 						return;
 					}
 				}
@@ -85,59 +92,72 @@ public abstract class ProcessorRecipeHandler {
 					if (OreDictionary.getOres(((OreStack) objects[i]).oreString).size() > 0) {
 						stack[i] = objects[i];
 					} else {
+						FMLLog.warning("ProcessorRecipeHandler - a recipe was removed because an oreDict entry didn't exist!");
 						return;
 					}
 				} else if (i < totalInputSize) {
+					FMLLog.warning("ProcessorRecipeHandler - a recipe was removed because an there was an input type mismatch!");
 					return;
 				} else if (i < totalInputSize + itemOutputSize) {
 					List<ItemStack> ores = OreDictionary.getOres(((OreStack) objects[i]).oreString);
 					if (ores.size() > 0) {
 						stack[i] = new ItemStack(ores.get(0).getItem(), ((OreStack) objects[i]).stackSize, ores.get(0).getItemDamage());
 					} else {
+						FMLLog.warning("ProcessorRecipeHandler - a recipe was removed because an oreDict entry didn't exist!");
 						return;
 					}
 				} else if (i < totalInputSize + totalOutputSize) {
+					FMLLog.warning("ProcessorRecipeHandler - a recipe was removed because an there was an input type mismatch!");
 					return;
 				}
 			} else if (objects[i] instanceof FluidStack) {
 				if (i < itemInputSize) {
+					FMLLog.warning("ProcessorRecipeHandler - a recipe was removed because an there was an input type mismatch!");
 					return;
 				} else if (i < totalInputSize) {
-					if (fluidExists(((FluidStack)objects[i]).getFluid().getName())) {
+					if (fluidExists(((FluidStack)objects[i]).getFluid())) {
 						stack[i] = objects[i];
 					} else {
+						FMLLog.warning("ProcessorRecipeHandler - a recipe was removed because a fluidReg entry didn't exist!");
 						return;
 					}
 				} else if (i < totalInputSize + itemOutputSize) {
+					FMLLog.warning("ProcessorRecipeHandler - a recipe was removed because an there was an input type mismatch!");
 					return;
 				} else if (i < totalInputSize + totalOutputSize) {
-					if (fluidExists(((FluidStack)objects[i]).getFluid().getName())) {
+					if (fluidExists(((FluidStack)objects[i]).getFluid())) {
 						stack[i] = objects[i];
 					} else {
+						FMLLog.warning("ProcessorRecipeHandler - a recipe was removed because a fluidReg entry didn't exist!");
 						return;
 					}
 				}
 			} else if (objects[i] instanceof Fluid) {
 				if (i < itemInputSize) {
+					FMLLog.warning("ProcessorRecipeHandler - a recipe was removed because an there was an input type mismatch!");
 					return;
 				} else if (i < totalInputSize) {
-					if (fluidExists(((Fluid)objects[i]).getName())) {
+					if (fluidExists(((Fluid)objects[i]))) {
 						stack[i] = new FluidStack((Fluid)objects[i], 1000);
 					} else {
+						FMLLog.warning("ProcessorRecipeHandler - a recipe was removed because a fluidReg entry didn't exist!");
 						return;
 					}
 				} else if (i < totalInputSize + itemOutputSize) {
+					FMLLog.warning("ProcessorRecipeHandler - a recipe was removed because an there was an input type mismatch!");
 					return;
 				} else if (i < totalInputSize + totalOutputSize) {
-					if (fluidExists(((Fluid)objects[i]).getName())) {
+					if (fluidExists(((Fluid)objects[i]))) {
 						stack[i] = new FluidStack((Fluid)objects[i], 1000);
 					} else {
+						FMLLog.warning("ProcessorRecipeHandler - a recipe was removed because a fluidReg entry didn't exist!");
 						return;
 					}
 				}
 			} else if (objects[i] instanceof ItemStack[]) {
 				for (int s = 0; s < ((ItemStack[]) objects[i]).length; i++) {
 					if (((ItemStack[]) objects[i])[s] == null) {
+						FMLLog.warning("ProcessorRecipeHandler - a recipe was removed because an input was null!");
 						return;
 					}
 				}
@@ -145,6 +165,7 @@ public abstract class ProcessorRecipeHandler {
 			} else if (objects[i] instanceof FluidStack[]) {
 				for (int s = 0; s < ((FluidStack[]) objects[i]).length; i++) {
 					if (((FluidStack[]) objects[i])[s] == null) {
+						FMLLog.warning("ProcessorRecipeHandler - a recipe was removed because an input was null!");
 						return;
 					}
 				}
@@ -153,6 +174,7 @@ public abstract class ProcessorRecipeHandler {
 				stack[i] = fixedStack(objects[i]);
 			}
 		}
+		if (hasExtras) stack[totalInputSize + totalOutputSize] = objects[totalInputSize + totalOutputSize];
 		addFinal(stack);
 	}
 	
@@ -161,17 +183,23 @@ public abstract class ProcessorRecipeHandler {
 	}
 	
 	public boolean fluidExists(String name) {
-		return FluidRegistry.getRegisteredFluids().keySet().contains(name);
+		//return FluidRegistry.getRegisteredFluids().keySet().contains(name);
+		return FluidRegistry.getFluid(name) != null;
+	}
+	
+	public boolean fluidExists(Fluid fluid) {
+		//return FluidRegistry.getRegisteredFluids().keySet().contains(name);
+		return FluidRegistry.getFluidName(fluid) != null;
 	}
 
-	/** separates the recipe into an input and output list */
+	/** Separates the recipe into an input and output list */
 	private void addFinal(Object[] stacks) {
-		Object[] input = new Object[totalInputSize], output = new Object[totalOutputSize];
+		Object[] input = new Object[totalInputSize], output = new Object[totalOutputSize + (hasExtras ? 1 : 0)];
 
 		for (int i = 0; i < stacks.length; i++) {
 			if (i < totalInputSize) {
 				input[i] = stacks[i];
-			} else if (i < totalInputSize + totalOutputSize) {
+			} else if (i < totalInputSize + (hasExtras ? 1 : 0) + totalOutputSize) {
 				output[i - totalInputSize] = stacks[i];
 			} else {
 				throw new RuntimeException("Recipe is too big!");
@@ -180,7 +208,7 @@ public abstract class ProcessorRecipeHandler {
 		addRecipe(input, output);
 	}
 
-	/** turns blocks/items into ItemStacks */
+	/** Turns blocks/items into ItemStacks */
 	private ItemStack fixedStack(Object obj) {
 		if (obj instanceof ItemStack) {
 			return ((ItemStack) obj).copy();
@@ -194,7 +222,7 @@ public abstract class ProcessorRecipeHandler {
 		}
 	}
 
-	/** adds the two input and output lists */
+	/** Adds the input and output lists */
 	private void addRecipe(Object[] input, Object[] output) {
 		recipeList.put(convertToArrays(input), output);
 	}
@@ -202,9 +230,9 @@ public abstract class ProcessorRecipeHandler {
 	/**
 	 * 
 	 * @param output
-	 *            output stack you wish to find
+	 *            Output stack you wish to find
 	 * @param input
-	 *            full list of inputs
+	 *            Full list of inputs
 	 * @return
 	 */
 	public Object getOutput(int output, Object... input) {
@@ -214,12 +242,12 @@ public abstract class ProcessorRecipeHandler {
 	/**
 	 * 
 	 * @param input
-	 *            full list of inputs
-	 * @return full list of output stacks
+	 *            Full list of inputs
+	 * @return Full list of output stacks
 	 */
 	public Object[] getOutput(Object... input) {
-		if (input.length != itemInputSize) {
-			Object[] defaultStacks = new Object[itemOutputSize];
+		if (input.length != totalInputSize) {
+			Object[] defaultStacks = new Object[totalOutputSize];
 			for (int i = 0; i < defaultStacks.length; i++) {
 				defaultStacks[i] = null;
 			}
@@ -227,7 +255,7 @@ public abstract class ProcessorRecipeHandler {
 		}
 		for (int i = 0; i < input.length; i++) {
 			if (input[i] == null) {
-				Object[] defaultStacks = new Object[itemOutputSize];
+				Object[] defaultStacks = new Object[totalOutputSize];
 				for (int j = 0; j < defaultStacks.length; j++) {
 					defaultStacks[j] = null;
 				}
@@ -239,7 +267,7 @@ public abstract class ProcessorRecipeHandler {
 		Map.Entry<?, ?> entry;
 		do {
 			if (!iterator.hasNext()) {
-				Object[] defaultStacks = new Object[itemOutputSize];
+				Object[] defaultStacks = new Object[totalOutputSize];
 				for (int j = 0; j < defaultStacks.length; j++) {
 					defaultStacks[j] = null;
 				}
@@ -247,7 +275,7 @@ public abstract class ProcessorRecipeHandler {
 			}
 
 			entry = (Map.Entry<?, ?>) iterator.next();
-		} while (!checkInput(input, (Object[]) entry.getKey())); // Need permutation check here
+		} while (!checkInput(input, (Object[]) entry.getKey()));
 
 		return convertOutput((Object[]) entry.getValue());
 	}
@@ -260,13 +288,7 @@ public abstract class ProcessorRecipeHandler {
 		return getInputSize(inputs)[input];
 	}
 
-	/**
-	 * gets the full list of inputs from list of outputs
-	 * 
-	 * @param input
-	 *            stack to check
-	 * @return
-	 */
+	/** Gets the full list of inputs from list of outputs */
 	public Object[] getInput(Object... output) {
 
 		if (output.length != totalOutputSize) {
@@ -290,14 +312,33 @@ public abstract class ProcessorRecipeHandler {
 
 		return (Object[]) entry.getKey();
 	}
+	
+	/** Gets the recipe extras from list of inputs */
+	public Object getExtras(Object... input) {
+		if (input.length != totalInputSize) {
+			return null;
+		}
+		for (int i = 0; i < input.length; i++) {
+			if (input[i] == null) {
+				return null;
+			}
+		}
+		Iterator<?> iterator = recipeList.entrySet().iterator();
 
-	/**
-	 * fixed check if the stack is used in any recipe ignoring its stack size
-	 * 
-	 * @param input
-	 *            stack to check
-	 * @return validity
-	 */
+		Map.Entry<?, ?> entry;
+		do {
+			if (!iterator.hasNext()) {
+				return null;
+			}
+
+			entry = (Map.Entry<?, ?>) iterator.next();
+		} while (!checkInput(input, (Object[]) entry.getKey()));
+		
+		Object[] output = (Object[]) entry.getValue();
+		return output[totalOutputSize];
+	}
+
+	/** Check if the ingredient is used in any recipe ignoring its stack size */
 	public boolean validInput(Object input) {
 		if (input == null) {
 			return false;
@@ -316,13 +357,7 @@ public abstract class ProcessorRecipeHandler {
 		return true;
 	}
 
-	/**
-	 * fixed check if the stack is used in any recipe ignoring its stack size
-	 * 
-	 * @param output
-	 *            stack to check
-	 * @return validity
-	 */
+	/** Check if the product is produced in any recipe ignoring its stack size */
 	public boolean validOutput(Object output) {
 		if (output == null) {
 			return false;
@@ -342,12 +377,12 @@ public abstract class ProcessorRecipeHandler {
 	}
 
 	private Object[] convertOutput(Object[] output) {
-		Object[] defaultStacks = new Object[output.length];
+		Object[] defaultStacks = new Object[output.length - (hasExtras ? 1 : 0)];
 		for (int j = 0; j < defaultStacks.length; j++) {
 			defaultStacks[j] = null;
 		}
 		Object[] stack = defaultStacks;
-		for (int i = 0; i < output.length; i++) {
+		for (int i = 0; i < output.length - (hasExtras ? 1 : 0); i++) {
 			if (output[i] instanceof ItemStack) {
 				stack[i] = (ItemStack) output[i];
 			} else if (output[i] instanceof OreStack) {
@@ -430,13 +465,14 @@ public abstract class ProcessorRecipeHandler {
 		}
 	}
 	
-	public int[] getItemInputOrder(ItemStack[] input, Object[] key) {
-		if (input.length != key.length - fluidInputSize && input.length == itemInputSize) {
+	public int[] getItemInputOrder(Object[] input, Object[] key) {
+		if (itemInputSize == 0) return new int[] {};
+		if (input.length != key.length && input.length == totalInputSize) {
 			return INVALID_ORDER;
 		}
-		int[] order = new int[input.length];
+		int[] order = new int[input.length - fluidInputSize];
 		if (!shapeless) {
-			for (int i = 0; i < input.length; i++) {
+			for (int i = 0; i < input.length - fluidInputSize; i++) {
 				order[i] = i;
 			}
 			return order;
@@ -450,28 +486,29 @@ public abstract class ProcessorRecipeHandler {
 		}
 	}
 	
-	public int[] getFluidInputOrder(FluidStack[] input, Object[] key) {
-		if (input.length != key.length - itemInputSize && input.length == fluidInputSize) {
+	public int[] getFluidInputOrder(Object[] input, Object[] key) {
+		if (fluidInputSize == 0) return new int[] {};
+		if (input.length != key.length && input.length == totalInputSize) {
 			return INVALID_ORDER;
 		}
-		int[] order = new int[input.length];
+		int[] order = new int[input.length - itemInputSize];
 		if (!shapeless) {
-			for (int i = 0; i < input.length; i++) {
-				order[i] = i;
+			for (int i = 0; i < input.length - itemInputSize; i++) {
+				order[i] = i + itemInputSize;
 			}
 			return order;
 		} else {
-			for (int i = 0; i < input.length; i++) {
+			for (int i = itemInputSize; i < input.length + itemInputSize; i++) {
 				int stackNumber = containsStack(input[i], key, true);
 				if (stackNumber == -1) return INVALID_ORDER;
-				order[i] = stackNumber;
+				order[i] = stackNumber - itemInputSize;
 			}
 			return order;
 		}
 	}
 	
 	private boolean checkOutput(Object[] output, Object[] key) {
-		if (output.length != key.length && output.length == totalInputSize) {
+		if (output.length + (hasExtras ? 1 : 0) != key.length && output.length == totalOutputSize) {
 			return false;
 		}
 		for (int i = 0; i < output.length; i++) {
@@ -532,7 +569,7 @@ public abstract class ProcessorRecipeHandler {
 	private boolean equalStack(Object stack, Object key, boolean checkSize) {
 		//System.out.print(stack.stackSize >= stack.stackSize);
 		if (stack instanceof ItemStack && key instanceof ItemStack) return ((ItemStack)stack).getItem() == ((ItemStack)key).getItem() && (((ItemStack)stack).getItemDamage() == ((ItemStack)key).getItemDamage()) && (!checkSize || ((ItemStack)key).stackSize <= ((ItemStack)stack).stackSize);
-		else if (stack instanceof FluidStack && key instanceof FluidStack) return ((FluidStack)stack).isFluidStackIdentical((FluidStack)key);
+		else if (stack instanceof FluidStack && key instanceof FluidStack) return ((FluidStack)stack).isFluidEqual((FluidStack)key) && ((FluidStack)key).amount <= ((FluidStack)stack).amount;
 		else return false;
 	}
 
@@ -592,7 +629,9 @@ public abstract class ProcessorRecipeHandler {
 		}
 	}
 	
-	public FluidStack fluidStack(String oreString, int stackSize) {
-		return new FluidStack(FluidRegistry.getFluid((String)oreString), stackSize);
+	public FluidStack fluidStack(String fluidString, int stackSize) {
+		List<String> fluidList = new ArrayList<String>(FluidRegistry.getRegisteredFluids().keySet());
+		if (fluidList.contains(fluidString)) return new FluidStack(FluidRegistry.getFluid(fluidString), stackSize);
+		else return null;
 	}
 }

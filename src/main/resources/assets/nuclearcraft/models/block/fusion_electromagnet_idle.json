@@ -1,0 +1,8 @@
+{
+    "parent": "block/orientable",
+    "textures": {
+        "top": "nuclearcraft:blocks/fusion_electromagnet_top_off",
+        "front": "nuclearcraft:blocks/fusion_electromagnet_side_off",
+        "side": "nuclearcraft:blocks/fusion_electromagnet_side_off"
+    }
+}

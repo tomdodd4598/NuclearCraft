@@ -1,6 +1,6 @@
 package nc.tile.generator;
 
-public abstract class TileRTG extends TileEnergyGeneratorContinuous {
+public abstract class TileRTG extends TilePassiveGenerator {
 	
 	public TileRTG(int power) {
 		super(power);

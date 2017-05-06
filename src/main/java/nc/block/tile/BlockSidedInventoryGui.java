@@ -3,7 +3,7 @@ package nc.block.tile;
 import javax.annotation.Nullable;
 
 import nc.NuclearCraft;
-import nc.tile.TileSidedInventory;
+import nc.tile.IGui;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -29,7 +29,7 @@ public class BlockSidedInventoryGui extends BlockSidedInventory {
 			return true;
 		} else if (player != null) {
 			TileEntity tileentity = world.getTileEntity(pos);
-			if (tileentity instanceof TileSidedInventory) {
+			if (tileentity instanceof IGui) {
 				FMLNetworkHandler.openGui(player, NuclearCraft.instance, guiId, world, pos.getX(), pos.getY(), pos.getZ());
 			}
 		}

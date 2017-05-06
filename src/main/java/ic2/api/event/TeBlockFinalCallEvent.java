@@ -1,7 +1,8 @@
 package ic2.api.event;
 
-import ic2.api.info.ITeBlock;
 import net.minecraftforge.fml.common.eventhandler.Event;
+
+import ic2.api.info.ITeBlock;
 
 /** This event is a notification for an internal event you might will to subscribe to if you're using ITeBlock, hence it is empty.
  *  <p>

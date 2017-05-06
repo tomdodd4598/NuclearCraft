@@ -10,6 +10,7 @@ import nc.handler.EnumHandler.BerkeliumDepletedFuelRodTypes;
 import nc.handler.EnumHandler.BerkeliumFuelRodTypes;
 import nc.handler.EnumHandler.BerkeliumFuelTypes;
 import nc.handler.EnumHandler.BerkeliumTypes;
+import nc.handler.EnumHandler.BoronTypes;
 import nc.handler.EnumHandler.CaliforniumDepletedFuelRodTypes;
 import nc.handler.EnumHandler.CaliforniumFuelRodTypes;
 import nc.handler.EnumHandler.CaliforniumFuelTypes;
@@ -24,6 +25,7 @@ import nc.handler.EnumHandler.GemDustTypes;
 import nc.handler.EnumHandler.GemTypes;
 import nc.handler.EnumHandler.IngotOxideTypes;
 import nc.handler.EnumHandler.IngotTypes;
+import nc.handler.EnumHandler.LithiumTypes;
 import nc.handler.EnumHandler.MixedOxideDepletedFuelRodTypes;
 import nc.handler.EnumHandler.MixedOxideFuelRodTypes;
 import nc.handler.EnumHandler.MixedOxideFuelTypes;
@@ -57,10 +59,6 @@ import nc.item.ItemPortableEnderChest;
 import nc.item.ItemUpgrade;
 import nc.item.NCItem;
 import nc.item.NCItemFood;
-import nc.item.fission.ItemAmericium;
-import nc.item.fission.ItemBerkelium;
-import nc.item.fission.ItemCalifornium;
-import nc.item.fission.ItemCurium;
 import nc.item.fission.ItemDepletedFuelRodAmericium;
 import nc.item.fission.ItemDepletedFuelRodBerkelium;
 import nc.item.fission.ItemDepletedFuelRodCalifornium;
@@ -88,12 +86,18 @@ import nc.item.fission.ItemFuelRodThorium;
 import nc.item.fission.ItemFuelRodUranium;
 import nc.item.fission.ItemFuelThorium;
 import nc.item.fission.ItemFuelUranium;
-import nc.item.fission.ItemNeptunium;
-import nc.item.fission.ItemPlutonium;
-import nc.item.fission.ItemThorium;
-import nc.item.fission.ItemUranium;
+import nc.item.isotope.ItemAmericium;
+import nc.item.isotope.ItemBerkelium;
+import nc.item.isotope.ItemBoron;
+import nc.item.isotope.ItemCalifornium;
+import nc.item.isotope.ItemCurium;
+import nc.item.isotope.ItemLithium;
+import nc.item.isotope.ItemNeptunium;
+import nc.item.isotope.ItemPlutonium;
+import nc.item.isotope.ItemThorium;
+import nc.item.isotope.ItemUranium;
 import nc.proxy.CommonProxy;
-import nc.util.NCUtils;
+import nc.util.NCUtil;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -157,6 +161,9 @@ public class NCItems {
 	public static Item depleted_fuel_rod_berkelium;
 	public static Item depleted_fuel_rod_californium;
 	
+	public static Item boron;
+	public static Item lithium;
+	
 	public static Item portable_ender_chest;
 	
 	public static Item dominos;
@@ -213,6 +220,9 @@ public class NCItems {
 		depleted_fuel_rod_curium = new ItemDepletedFuelRodCurium("depleted_fuel_rod_curium", "depleted_fuel_rod_curium");
 		depleted_fuel_rod_berkelium = new ItemDepletedFuelRodBerkelium("depleted_fuel_rod_berkelium", "depleted_fuel_rod_berkelium");
 		depleted_fuel_rod_californium = new ItemDepletedFuelRodCalifornium("depleted_fuel_rod_californium", "depleted_fuel_rod_californium");
+		
+		boron = new ItemBoron("boron", "boron");
+		lithium = new ItemLithium("lithium", "lithium");
 		
 		portable_ender_chest = new ItemPortableEnderChest("portable_ender_chest", "portable_ender_chest", 1);
 		
@@ -271,6 +281,9 @@ public class NCItems {
 		registerItem(depleted_fuel_rod_curium, CommonProxy.TAB_FISSION_FUEL_RODS);
 		registerItem(depleted_fuel_rod_berkelium, CommonProxy.TAB_FISSION_FUEL_RODS);
 		registerItem(depleted_fuel_rod_californium, CommonProxy.TAB_FISSION_FUEL_RODS);
+		
+		registerItem(boron, CommonProxy.TAB_BASE_ITEM_MATERIALS);
+		registerItem(lithium, CommonProxy.TAB_BASE_ITEM_MATERIALS);
 		
 		registerItem(portable_ender_chest, CommonProxy.TAB_MISC);
 		
@@ -456,6 +469,14 @@ public class NCItems {
 			registerRender(depleted_fuel_rod_californium, i, "depleted_fuel_rod_californium_" + CaliforniumDepletedFuelRodTypes.values()[i].getName());
 		}
 		
+		for(int i = 0; i < BoronTypes.values().length; i++) {
+			registerRender(boron, i, "boron" + BoronTypes.values()[i].getName());
+		}
+		
+		for(int i = 0; i < LithiumTypes.values().length; i++) {
+			registerRender(lithium, i, "lithium" + LithiumTypes.values()[i].getName());
+		}
+		
 		registerRender(portable_ender_chest);
 		
 		registerRender(dominos);
@@ -464,16 +485,16 @@ public class NCItems {
 	public static void registerItem(Item item, CreativeTabs tab) {
 		item.setCreativeTab(tab);
 		GameRegistry.register(item);
-		NCUtils.getLogger().info("Registered item " + item.getUnlocalizedName().substring(5));
+		NCUtil.getLogger().info("Registered item " + item.getUnlocalizedName().substring(5));
 	}
 	
 	public static void registerRender(Item item) {
 		ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(new ResourceLocation(Global.MOD_ID, item.getUnlocalizedName().substring(5)), "inventory"));
-		NCUtils.getLogger().info("Registered render for item " + item.getUnlocalizedName().substring(5));
+		NCUtil.getLogger().info("Registered render for item " + item.getUnlocalizedName().substring(5));
 	}
 	
 	public static void registerRender(Item item, int meta, String fileName) {
 		ModelLoader.setCustomModelResourceLocation(item, meta, new ModelResourceLocation(new ResourceLocation(Global.MOD_ID, fileName), "inventory"));
-		NCUtils.getLogger().info("Registered render for item " + fileName);
+		NCUtil.getLogger().info("Registered render for item " + fileName);
 	}
 }

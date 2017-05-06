@@ -1,0 +1,8 @@
+{
+    "parent": "block/orientable",
+    "textures": {
+        "top": "nuclearcraft:blocks/accelerator_electromagnet_top_on",
+        "front": "nuclearcraft:blocks/accelerator_electromagnet_side_on",
+        "side": "nuclearcraft:blocks/accelerator_electromagnet_side_on"
+    }
+}
