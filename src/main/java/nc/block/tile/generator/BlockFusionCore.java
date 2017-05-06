@@ -162,4 +162,16 @@ public class BlockFusionCore extends BlockInventoryGui {
 		IBlockState dummy = NCBlocks.fusion_dummy_top.getDefaultState();
 		world.setBlockState(getPos(pos, x, y, z), dummy);
 	}
+	
+	public static void setState(World world, BlockPos pos) {
+		TileEntity tile = world.getTileEntity(pos);
+		keepInventory = true;
+		world.setBlockState(pos, NCBlocks.fusion_core.getDefaultState(), 3);
+		keepInventory = false;
+		
+		if (tile != null) {
+			tile.validate();
+			world.setTileEntity(pos, tile);
+		}
+	}
 }

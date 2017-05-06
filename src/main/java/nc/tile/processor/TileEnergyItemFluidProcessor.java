@@ -2,6 +2,7 @@ package nc.tile.processor;
 
 import ic2.api.energy.event.EnergyTileUnloadEvent;
 import nc.ModCheck;
+import nc.config.NCConfig;
 import nc.energy.EnumStorage.EnergyConnection;
 import nc.fluid.EnumTank.FluidConnection;
 import nc.handler.ProcessorRecipeHandler;
@@ -9,6 +10,7 @@ import nc.init.NCItems;
 import nc.tile.IGui;
 import nc.tile.dummy.IInterfaceable;
 import nc.tile.energyFluid.TileEnergyFluidSidedInventory;
+import nc.util.NCUtil;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
@@ -18,7 +20,8 @@ import net.minecraftforge.fluids.FluidStack;
 
 public abstract class TileEnergyItemFluidProcessor extends TileEnergyFluidSidedInventory implements IInterfaceable, IGui {
 	
-	public final int baseProcessTime;
+	public final int defaultProcessTime;
+	public int baseProcessTime;
 	public final int baseProcessPower;
 	public final int itemInputSize;
 	public final int fluidInputSize;
@@ -30,6 +33,8 @@ public abstract class TileEnergyItemFluidProcessor extends TileEnergyFluidSidedI
 	
 	public final boolean hasUpgrades;
 	public final int upgradeMeta;
+	
+	public int tickCount;
 	
 	public final ProcessorRecipeHandler recipes;
 	
@@ -47,6 +52,7 @@ public abstract class TileEnergyItemFluidProcessor extends TileEnergyFluidSidedI
 		fluidInputSize = fluidInSize;
 		itemOutputSize = itemOutSize;
 		fluidOutputSize = fluidOutSize;
+		defaultProcessTime = time;
 		baseProcessTime = time;
 		baseProcessPower = power;
 		hasUpgrades = upgrades;
@@ -81,6 +87,7 @@ public abstract class TileEnergyItemFluidProcessor extends TileEnergyFluidSidedI
 		boolean flag = isProcessing;
 		boolean flag1 = false;
 		if(!world.isRemote) {
+			tick();
 			if (canProcess() && !isPowered()) {
 				isProcessing = true;
 				time += getSpeedMultiplier();
@@ -102,6 +109,13 @@ public abstract class TileEnergyItemFluidProcessor extends TileEnergyFluidSidedI
 					isEnergyTileSet = false;
 				}
 			}
+			if (shouldCheck() && !flag1) {
+				setBlockState();
+				if (isEnergyTileSet && ModCheck.ic2Loaded()) {
+					MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
+					isEnergyTileSet = false;
+				}
+			}
 		} else {
 			isProcessing = canProcess() && !isPowered();
 		}
@@ -113,8 +127,21 @@ public abstract class TileEnergyItemFluidProcessor extends TileEnergyFluidSidedI
 	
 	public abstract void setBlockState();
 	
+	public void tick() {
+		if (tickCount > NCConfig.processor_update_rate) {
+			tickCount = 0;
+		} else {
+			tickCount++;
+		}
+	}
+	
+	public boolean shouldCheck() {
+		return tickCount > NCConfig.processor_update_rate;
+	}
+	
 	public void onAdded() {
 		super.onAdded();
+		baseProcessTime = defaultProcessTime;
 		if (!world.isRemote) isProcessing = isProcessing();
 	}
 	
@@ -186,7 +213,11 @@ public abstract class TileEnergyItemFluidProcessor extends TileEnergyFluidSidedI
 			return false;
 		}
 		Object[] output = getOutput(inputs());
-		if (output == null || output.length != itemOutputSize + fluidInputSize) {
+		int[] itemInputOrder = recipes.getItemInputOrder(inputs(), recipes.getInput(output));
+		int[] fluidInputOrder = recipes.getFluidInputOrder(inputs(), recipes.getInput(output));
+		if (itemInputOrder.length > 0 && shouldCheck()) NCUtil.getLogger().info("First item input: " + itemInputOrder[0]);
+		if (fluidInputOrder.length > 0 && shouldCheck()) NCUtil.getLogger().info("First fluid input: " + fluidInputOrder[0]);
+		if (output == null || output.length != itemOutputSize + fluidOutputSize) {
 			return false;
 		}
 		for(int j = 0; j < itemOutputSize; j++) {
@@ -203,18 +234,19 @@ public abstract class TileEnergyItemFluidProcessor extends TileEnergyFluidSidedI
 			}
 		}
 		for(int j = 0; j < fluidOutputSize; j++) {
-			if (output[recipes.itemInputSize + j] == null) {
+			if (output[recipes.itemOutputSize + j] == null) {
 				return false;
 			} else {
-				if (tanks[j + fluidInputSize] != null) {
-					if (!tanks[j + fluidInputSize].getFluid().isFluidEqual((FluidStack)output[j])) {
+				if (tanks[j + fluidInputSize].getFluid() != null) {
+					if (!tanks[j + fluidInputSize].getFluid().isFluidEqual((FluidStack)output[recipes.itemOutputSize + j])) {
 						return false;
-					} else if (tanks[j + fluidInputSize].getFluidAmount() + ((FluidStack)output[j]).amount > tanks[j + fluidInputSize].getCapacity()) {
+					} else if (tanks[j + fluidInputSize].getFluidAmount() + ((FluidStack)output[recipes.itemOutputSize + j]).amount > tanks[j + fluidInputSize].getCapacity()) {
 						return false;
 					}
 				}
 			}
 		}
+		if (recipes.getExtras(inputs()) instanceof Integer) baseProcessTime = (int) recipes.getExtras(inputs());
 		return true;
 	}
 	
@@ -222,8 +254,10 @@ public abstract class TileEnergyItemFluidProcessor extends TileEnergyFluidSidedI
 		Object[] output = getOutput(inputs());
 		int[] itemInputOrder = recipes.getItemInputOrder(inputs(), recipes.getInput(output));
 		int[] fluidInputOrder = recipes.getFluidInputOrder(inputs(), recipes.getInput(output));
+		if (itemInputOrder.length > 0 && shouldCheck()) NCUtil.getLogger().info("First item input: " + itemInputOrder[0]);
+		if (fluidInputOrder.length > 0 && shouldCheck()) NCUtil.getLogger().info("First fluid input: " + fluidInputOrder[0]);
 		for (int j = 0; j < itemOutputSize; j++) {
-			if (output[j] != ItemStack.EMPTY || output[j] == null) {
+			if (output[j] != ItemStack.EMPTY && output[j] != null && itemInputOrder != ProcessorRecipeHandler.INVALID_ORDER && fluidInputOrder != ProcessorRecipeHandler.INVALID_ORDER) {
 				if (inventoryStacks.get(j + itemInputSize) == ItemStack.EMPTY) {
 					ItemStack outputStack = ((ItemStack)output[j]).copy();
 					inventoryStacks.set(j + itemInputSize, outputStack);
@@ -234,7 +268,7 @@ public abstract class TileEnergyItemFluidProcessor extends TileEnergyFluidSidedI
 		}
 		for (int j = 0; j < fluidOutputSize; j++) {
 			if (output[j] != null) {
-				if (tanks[j + fluidInputSize] == null) {
+				if (tanks[j + fluidInputSize].getFluid() == null) {
 					FluidStack outputStack = ((FluidStack)output[j]).copy();
 					tanks[j + fluidInputSize].setFluidStored(outputStack);
 				} else if (tanks[j + fluidInputSize].getFluid().isFluidEqual((FluidStack)output[j])) {
@@ -269,8 +303,8 @@ public abstract class TileEnergyItemFluidProcessor extends TileEnergyFluidSidedI
 		for (int i = 0; i < itemInputSize; i++) {
 			input[i] = inventoryStacks.get(i);
 		}
-		for (int i = itemInputSize; i < fluidInputSize; i++) {
-			input[i] = tanks[i].getFluid();
+		for (int i = itemInputSize; i < fluidInputSize + itemInputSize; i++) {
+			input[i] = tanks[i - itemInputSize].getFluid();
 		}
 		return input;
 	}
@@ -353,7 +387,7 @@ public abstract class TileEnergyItemFluidProcessor extends TileEnergyFluidSidedI
 	// Inventory Fields
 
 	public int getFieldCount() {
-		return 2;
+		return 3;
 	}
 
 	public int getField(int id) {
@@ -362,6 +396,8 @@ public abstract class TileEnergyItemFluidProcessor extends TileEnergyFluidSidedI
 			return time;
 		case 1:
 			return getEnergyStored();
+		case 2:
+			return baseProcessTime;
 		default:
 			return 0;
 		}
@@ -374,6 +410,9 @@ public abstract class TileEnergyItemFluidProcessor extends TileEnergyFluidSidedI
 			break;
 		case 1:
 			storage.setEnergyStored(value);
+			break;
+		case 2:
+			baseProcessTime = value;
 		}
 	}
 }

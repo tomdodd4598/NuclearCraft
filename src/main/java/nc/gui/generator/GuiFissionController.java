@@ -22,7 +22,7 @@ public class GuiFissionController extends GuiContainer {
 		this.tile = tile;
 		gui_textures = new ResourceLocation(Global.MOD_ID + ":textures/gui/container/" + "fission_controller" + ".png");
 		xSize = 176;
-		ySize = 189;
+		ySize = 177;
 	}
 
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
@@ -31,17 +31,19 @@ public class GuiFissionController extends GuiContainer {
 		fontRendererObj.drawString(s, xSize / 2 - fontRendererObj.getStringWidth(s) / 2, 6, fontColor);
 		//fontRendererObj.drawString(playerInventory.getDisplayName().getUnformattedText(), 8, ySize - 96 + 2, 4210752);
 		String energy = tile.storage.getEnergyStored() + " RF";
-		fontRendererObj.drawString(energy, 28, ySize - 105, fontColor);
+		fontRendererObj.drawString(energy, 28, ySize - 92, fontColor);
 		String power = tile.processPower + " RF/t";
-		fontRendererObj.drawString(power, 28, ySize - 116, fontColor);
+		fontRendererObj.drawString(power, 28, ySize - 103, fontColor);
 		String fuel = tile.getFuelName();
-		fontRendererObj.drawString(fuel, 28, ySize - 127, fontColor);
+		fontRendererObj.drawString(fuel, 28, ySize - 114, fontColor);
 		String heat = tile.heat + " K";
-		fontRendererObj.drawString(heat, 170 - fontRendererObj.getStringWidth(heat), ySize - 105, fontColor);
+		fontRendererObj.drawString(heat, 170 - fontRendererObj.getStringWidth(heat), ySize - 92, fontColor);
 		String heatGen = tile.heatChange + " K/t";
-		fontRendererObj.drawString(heatGen, 170 - fontRendererObj.getStringWidth(heatGen), ySize - 116, fontColor);
-		String cells = I18n.translateToLocalFormatted("gui.container.fission_controller.cells") + " " + tile.cells;
-		fontRendererObj.drawString(cells, 170 - fontRendererObj.getStringWidth(cells), ySize - 127, fontColor);
+		fontRendererObj.drawString(heatGen, 170 - fontRendererObj.getStringWidth(heatGen), ySize - 103, fontColor);
+		/*String cells = I18n.translateToLocalFormatted("gui.container.fission_controller.cells") + " " + tile.cells;
+		fontRendererObj.drawString(cells, 170 - fontRendererObj.getStringWidth(cells), ySize - 127, fontColor);*/
+		String efficiency = I18n.translateToLocalFormatted("gui.container.fission_controller.efficiency") + " " + tile.efficiency;
+		fontRendererObj.drawString(efficiency, 170 - fontRendererObj.getStringWidth(efficiency), ySize - 114, fontColor);
 	}
 	
 	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {

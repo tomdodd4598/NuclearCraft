@@ -100,7 +100,7 @@ public abstract class TileEnergyFluid extends TileEnergy implements ITileFluid, 
 		} else {
 			Tank[] tankList = new Tank[fluidCapacity.length];
 			for (int i = 0; i < fluidCapacity.length; i++) {
-				tankList[i] = new Tank(fluidCapacity[i], maxFluidReceive[i], maxFluidExtract[i]);
+				tankList[i] = new Tank(fluidCapacity[i], maxFluidReceive[i], maxFluidExtract[i], allowedFluids[i]);
 			}
 			tanks = tankList;
 		}
@@ -137,7 +137,7 @@ public abstract class TileEnergyFluid extends TileEnergy implements ITileFluid, 
 	public FluidStack drain(FluidStack resource, boolean doDrain) {
 		if (tanks.length == 0 || tanks == null) return null;
 		for (int i = 0; i < tanks.length; i++) {
-			if (fluidConnection[i].canDrain()) {
+			if (fluidConnection[i].canDrain() && tanks[i].getFluid() != null && tanks[i].getFluidAmount() > 0) {
 				return tanks[i].drain(resource.amount, doDrain);
 			}
 		}
@@ -147,7 +147,7 @@ public abstract class TileEnergyFluid extends TileEnergy implements ITileFluid, 
 	public FluidStack drain(int maxDrain, boolean doDrain) {
 		if (tanks.length == 0 || tanks == null) return null;
 		for (int i = 0; i < tanks.length; i++) {
-			if (fluidConnection[i].canDrain()) {
+			if (fluidConnection[i].canDrain() && tanks[i].getFluid() != null && tanks[i].getFluidAmount() > 0) {
 				return tanks[i].drain(maxDrain, doDrain);
 			}
 		}

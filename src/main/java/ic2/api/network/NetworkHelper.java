@@ -3,6 +3,7 @@ package ic2.api.network;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.ModContainer;
@@ -157,7 +158,7 @@ public final class NetworkHelper {
 	 */
 	public static void setInstance(INetworkManager server, INetworkManager client) {
 		ModContainer mc = Loader.instance().activeModContainer();
-		if (mc == null || !"IC2".equals(mc.getModId())) {
+		if (mc == null || !"ic2".equals(mc.getModId())) {
 			throw new IllegalAccessError();
 		}
 		serverInstance = server;

@@ -8,7 +8,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotFurnaceOutput;
 
-public class ContainerManufactory extends ContainerEnergyProcessor {
+public class ContainerManufactory extends ContainerEnergyItemProcessor {
 
 	public ContainerManufactory(EntityPlayer player, TileEnergyItemProcessor tileEntity) {
 		super(tileEntity, ManufactoryRecipes.instance());

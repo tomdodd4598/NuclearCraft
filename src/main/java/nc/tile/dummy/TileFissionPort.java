@@ -2,6 +2,7 @@ package nc.tile.dummy;
 
 import nc.block.tile.dummy.BlockFissionPort;
 import nc.block.tile.generator.BlockFissionController;
+import nc.block.tile.passive.BlockBuffer;
 import nc.config.NCConfig;
 import nc.init.NCBlocks;
 import nc.tile.generator.TileFissionController;
@@ -47,6 +48,7 @@ public class TileFissionPort extends TileDummy {
 	private boolean findCasingPort(int x, int y, int z) {
 		if (world.getBlockState(position(x, y, z)) == NCBlocks.fission_block.getStateFromMeta(0)) return true;
 		if (world.getBlockState(position(x, y, z)).getBlock() instanceof BlockFissionPort) return true;
+		if (world.getBlockState(position(x, y, z)).getBlock() instanceof BlockBuffer) return true;
 		return false;
 	}
 	
@@ -58,6 +60,7 @@ public class TileFissionPort extends TileDummy {
 		if (world.getBlockState(position(x, y, z)) == NCBlocks.fission_block.getStateFromMeta(0)) return true;
 		if (world.getBlockState(position(x, y, z)).getBlock() instanceof BlockFissionController) return true;
 		if (world.getBlockState(position(x, y, z)).getBlock() instanceof BlockFissionPort) return true;
+		if (world.getBlockState(position(x, y, z)).getBlock() instanceof BlockBuffer) return true;
 		return false;
 	}
 	

@@ -2,11 +2,13 @@ package nc.tile.generator;
 
 import ic2.api.energy.event.EnergyTileUnloadEvent;
 import nc.ModCheck;
+import nc.config.NCConfig;
 import nc.energy.EnumStorage.EnergyConnection;
 import nc.handler.ProcessorRecipeHandler;
 import nc.tile.IGui;
 import nc.tile.dummy.IInterfaceable;
 import nc.tile.energy.TileEnergySidedInventory;
+import nc.util.NCUtil;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
@@ -21,6 +23,8 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 	public int time;
 	public boolean isGenerating;
 	public boolean hasConsumed;
+	
+	public int tickCount;
 	
 	public final ProcessorRecipeHandler recipes;
 	
@@ -93,6 +97,18 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 	}
 	
 	public abstract void setBlockState();
+	
+	public void tick() {
+		if (tickCount > NCConfig.generator_update_rate) {
+			tickCount = 0;
+		} else {
+			tickCount++;
+		}
+	}
+	
+	public boolean shouldCheck() {
+		return tickCount > NCConfig.generator_update_rate;
+	}
 	
 	public void onAdded() {
 		super.onAdded();
@@ -175,7 +191,8 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 			}
 			Object[] output = getOutput(inputs());
 			int[] inputOrder = recipes.getInputOrder(inputs(), output);
-			if (output[0] == ItemStack.EMPTY || output[0] == null) return;
+			if (inputOrder.length > 0 && shouldCheck()) NCUtil.getLogger().info("First item input: " + inputOrder[0]);
+			if (output[0] == ItemStack.EMPTY || output[0] == null || inputOrder == ProcessorRecipeHandler.INVALID_ORDER) return;
 			for (int i = 0; i < inputSize; i++) {
 				if (recipes != null) {
 					inventoryStacks.set(i + inputSize + outputSize + otherSlotsSize, new ItemStack(inventoryStacks.get(i).getItem(), recipes.getInputSize(inputOrder[i], output), inventoryStacks.get(i).getMetadata()));

@@ -3,6 +3,7 @@ package ic2.api.tile;
 import static net.minecraftforge.fml.relauncher.Side.CLIENT;
 
 import net.minecraft.tileentity.TileEntity;
+
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.ModContainer;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -27,7 +28,7 @@ public class RotorRegistry {
 	 */
 	public static void setInstance(IRotorRegistry i) {
 		ModContainer mc = Loader.instance().activeModContainer();
-		if (mc == null || !"IC2".equals(mc.getModId())) {
+		if (mc == null || !"ic2".equals(mc.getModId())) {
 			throw new IllegalAccessError("Only IC2 can set the instance");
 		} else {
 			INSTANCE = i;

@@ -8,7 +8,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotFurnaceOutput;
 
-public class ContainerDecayHastener extends ContainerEnergyProcessor {
+public class ContainerDecayHastener extends ContainerEnergyItemProcessor {
 
 	public ContainerDecayHastener(EntityPlayer player, TileEnergyItemProcessor tileEntity) {
 		super(tileEntity, DecayHastenerRecipes.instance());

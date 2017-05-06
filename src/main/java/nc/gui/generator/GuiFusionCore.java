@@ -2,6 +2,7 @@ package nc.gui.generator;
 
 import nc.Global;
 import nc.container.generator.ContainerFusionCore;
+import nc.gui.GuiFluidRenderer;
 import nc.tile.generator.TileFusionCore;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
@@ -20,28 +21,37 @@ public class GuiFusionCore extends GuiContainer {
 		super(new ContainerFusionCore(player, tile));
 		playerInventory = player.inventory;
 		this.tile = tile;
-		gui_textures = new ResourceLocation(Global.MOD_ID + ":textures/gui/container/" + "fission_controller" + ".png");
-		xSize = 176;
-		ySize = 189;
+		gui_textures = new ResourceLocation(Global.MOD_ID + ":textures/gui/container/" + "fusion_core" + ".png");
+		xSize = 196;
+		ySize = 187;
+	}
+
+	protected int widthHalf(String s) {
+		return fontRendererObj.getStringWidth(s)/2;
 	}
 
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		int fontColor = tile.isGenerating ? -1 : (tile.complete == 1 ? 15641088 : 15597568);
-		String s = tile.complete == 1 ? (I18n.translateToLocalFormatted("gui.container.fusion_core.reactor") + " " + tile.size) : tile.problem;
-		fontRendererObj.drawString(s, xSize / 2 - fontRendererObj.getStringWidth(s) / 2, 6, fontColor);
-		//fontRendererObj.drawString(playerInventory.getDisplayName().getUnformattedText(), 8, ySize - 96 + 2, 4210752);
-		String energy = tile.storage.getEnergyStored() + " RF";
-		fontRendererObj.drawString(energy, 28, ySize - 105, fontColor);
-		String power = tile.processPower + " RF/t";
-		fontRendererObj.drawString(power, 28, ySize - 116, fontColor);
-		//String fuel = tile.getFuelName();
-		//fontRendererObj.drawString(fuel, 28, ySize - 127, fontColor);
-		String heat = tile.heat + " MK";
-		fontRendererObj.drawString(heat, 170 - fontRendererObj.getStringWidth(heat), ySize - 105, fontColor);
-		String heatGen = tile.heatChange + " MK/t";
-		fontRendererObj.drawString(heatGen, 170 - fontRendererObj.getStringWidth(heatGen), ySize - 116, fontColor);
-		//String cells = I18n.translateToLocalFormatted("gui.container.fission_controller.cells") + " " + tile.cells;
-		//fontRendererObj.drawString(cells, 170 - fontRendererObj.getStringWidth(cells), ySize - 127, fontColor);
+		String name = I18n.translateToLocalFormatted("gui.container.fusion_core.reactor");
+		fontRendererObj.drawString(name, 108 - widthHalf(name), 10, fontColor);
+		String size = tile.complete == 1 ? (I18n.translateToLocalFormatted("gui.container.fusion_core.size") + " " + tile.size) : tile.problem;
+		fontRendererObj.drawString(size, 108 - widthHalf(size), 21, fontColor);
+		String energy = I18n.translateToLocalFormatted("gui.container.fusion_core.energy") + " " + tile.storage.getEnergyStored() + " RF";
+		fontRendererObj.drawString(energy, 108 - widthHalf(energy), 32, fontColor);
+		String power = I18n.translateToLocalFormatted("gui.container.fusion_core.power") + " " + ((int) tile.processPower) + " RF/t";
+		fontRendererObj.drawString(power, 108 - widthHalf(power), 43, fontColor);
+		String heat = I18n.translateToLocalFormatted("gui.container.fusion_core.heat") + " " + ((int) tile.heat) + " kK";
+		fontRendererObj.drawString(heat, 108 - widthHalf(heat), 54, fontColor);
+		String efficiency = I18n.translateToLocalFormatted("gui.container.fusion_core.efficiency") + " " + ((int) tile.efficiency) + "%";
+		fontRendererObj.drawString(efficiency, 108 - widthHalf(efficiency), 65, fontColor);
+		String input1 = tile.tanks[6].getFluid() != null ? tile.tanks[6].getFluidName() : I18n.translateToLocalFormatted("gui.container.fusion_core.empty");
+		String input2 = tile.tanks[7].getFluid() != null ? tile.tanks[7].getFluidName() : I18n.translateToLocalFormatted("gui.container.fusion_core.empty");
+		String inputCap1 = input1.substring(0, 1).toUpperCase() + input1.substring(1);
+		String inputCap2 = input2.substring(0, 1).toUpperCase() + input2.substring(1);
+		String fuels1 = I18n.translateToLocalFormatted("gui.container.fusion_core.fuels");
+		fontRendererObj.drawString(fuels1, 108 - widthHalf(fuels1), 76, fontColor);
+		String fuels2 = inputCap1 + ", " + inputCap2;
+		fontRendererObj.drawString(fuels2, 108 - widthHalf(fuels2), 87, fontColor);
 	}
 	
 	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
@@ -49,25 +59,20 @@ public class GuiFusionCore extends GuiContainer {
 		mc.getTextureManager().bindTexture(gui_textures);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
-		double e = Math.round(((double) tile.storage.getEnergyStored()) / ((double) tile.storage.getMaxEnergyStored()) * 85);
-		drawTexturedModalRect(guiLeft + 8, guiTop + 6 + 85 - (int) e, 176, 90 + 85 - (int) e, 6, (int) e);
+		double energy = Math.round(((double) tile.storage.getEnergyStored()) / ((double) tile.storage.getMaxEnergyStored()) * 95D);
+		drawTexturedModalRect(guiLeft + 8, guiTop + 6 + 95 - (int) energy, 196, 90 + 95 - (int) energy, 6, (int) energy);
 		
-		double h = Math.round(((double) tile.heat) / ((double) tile.getMaxHeat()) * 85);
-		drawTexturedModalRect(guiLeft + 18, guiTop + 6 + 85 - (int) h, 182, 90 + 85 - (int) h, 6, (int) h);
+		double h = Math.round((tile.heat / tile.getMaxHeat()) * 95D);
+		drawTexturedModalRect(guiLeft + 18, guiTop + 6 + 95 - (int) h, 202, 90 + 95 - (int) h, 6, (int) h);
 		
-		double t0 = Math.round(((double) tile.fluidAmount0) / ((double) tile.tanks[0].getCapacity()) * 85);
-		drawTexturedModalRect(guiLeft + 28, guiTop + 6 + 85 - (int) t0, 182, 90 + 85 - (int) t0, 6, (int) t0);
+		double efficiency = Math.round((tile.efficiency / 100D) * 95D);
+		drawTexturedModalRect(guiLeft + 28, guiTop + 6 + 95 - (int) efficiency, 208, 90 + 95 - (int) efficiency, 6, (int) efficiency);
 		
-		double t1 = Math.round(((double) tile.fluidAmount1) / ((double) tile.tanks[1].getCapacity()) * 85);
-		drawTexturedModalRect(guiLeft + 38, guiTop + 6 + 85 - (int) t1, 182, 90 + 85 - (int) t1, 6, (int) t1);
-		
-		int k = getCookProgressScaled(37);
-		drawTexturedModalRect(guiLeft + 74, guiTop + 35, 176, 3, k, 16);
-	}
-	
-	protected int getCookProgressScaled(double pixels) {
-		double i = tile.getField(0);
-		double j = tile.getProcessTime();
-		return j != 0D ? (int) Math.round(i * pixels / j) : 0;
+		GuiFluidRenderer.renderGuiTank(tile.tanks[0], guiLeft + 38, guiTop + 6, zLevel, 6, 46);
+		GuiFluidRenderer.renderGuiTank(tile.tanks[1], guiLeft + 38, guiTop + 55, zLevel, 6, 46);
+		GuiFluidRenderer.renderGuiTank(tile.tanks[2], guiLeft + 172, guiTop + 6, zLevel, 6, 46);
+		GuiFluidRenderer.renderGuiTank(tile.tanks[3], guiLeft + 182, guiTop + 6, zLevel, 6, 46);
+		GuiFluidRenderer.renderGuiTank(tile.tanks[4], guiLeft + 172, guiTop + 55, zLevel, 6, 46);
+		GuiFluidRenderer.renderGuiTank(tile.tanks[5], guiLeft + 182, guiTop + 55, zLevel, 6, 46);
 	}
 }

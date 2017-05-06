@@ -2,8 +2,6 @@ package nc.crafting.processor;
 
 import nc.config.NCConfig;
 import nc.handler.ProcessorRecipeHandler;
-import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fluids.FluidStack;
 
 public class SupercoolerRecipes extends ProcessorRecipeHandler {
 	
@@ -18,7 +16,7 @@ public class SupercoolerRecipes extends ProcessorRecipeHandler {
 	}
 	
 	public void addRecipes() {
-		addRecipe(fluidStack("helium", 1000), fluidStack("liquidHelium", 1), NCConfig.processor_time[7]);
-		addRecipe(new FluidStack(FluidRegistry.WATER, 1000), fluidStack("ice", 1000), NCConfig.processor_time[7]/4);
+		addRecipe(fluidStack("helium", 250), fluidStack("liquidhelium", 1), NCConfig.processor_time[7]);
+		addRecipe(fluidStack("water", 1000), fluidStack("ice", 1000), NCConfig.processor_time[7]);
 	}
 }

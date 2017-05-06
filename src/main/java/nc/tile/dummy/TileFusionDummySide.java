@@ -7,8 +7,12 @@ import net.minecraft.util.math.BlockPos;
 
 public class TileFusionDummySide extends TileDummy {
 	
+	private static final String[] FUSION_FUELS = new String[] {"hydrogen", "deuterium", "tritium", "helium3", "lithium6", "lithium7", "boron11"};
+	
+	private static final String[][] ALLOWED_FUELS = new String[][] {FUSION_FUELS, FUSION_FUELS, {}, {}, {}, {}, {}, {}};
+	
 	public TileFusionDummySide() {
-		super("fusion_dummy_side", NCConfig.fusion_update_rate);
+		super("fusion_dummy_side", NCConfig.fusion_update_rate, ALLOWED_FUELS);
 	}
 	
 	public void update() {

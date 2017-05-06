@@ -146,7 +146,7 @@ public class FusionCoreTESR extends TileEntitySpecialRenderer<TileFusionCore> {
 		GlStateManager.pushAttrib();
 		GlStateManager.pushMatrix();
 		
-		long angle = (System.currentTimeMillis() / (4/*/ te.getEfficiency()*/)) % 360;
+		long angle = (((long)te.efficiency) * System.currentTimeMillis() / 400) % 360;
 		GlStateManager.rotate(angle, 0, 1, 0);
 		GlStateManager.scale(2, 2, 2);
 		

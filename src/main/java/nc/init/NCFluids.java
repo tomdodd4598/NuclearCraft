@@ -54,6 +54,9 @@ public class NCFluids {
 	public static Fluid lithium7;
 	public static BlockFluid block_lithium7;
 	
+	public static Fluid boron10;
+	public static BlockFluid block_boron10;
+	
 	public static Fluid boron11;
 	public static BlockFluid block_boron11;
 	
@@ -105,6 +108,10 @@ public class NCFluids {
 		FluidRegistry.addBucketForFluid(lithium7);
 		block_lithium7 = new BlockFluidMolten(lithium7, "fluid_lithium7");
 		
+		boron10 = new FluidMolten("boron10");
+		FluidRegistry.addBucketForFluid(boron10);
+		block_boron10 = new BlockFluidMolten(boron10, "fluid_boron10");
+		
 		boron11 = new FluidMolten("boron11");
 		FluidRegistry.addBucketForFluid(boron11);
 		block_boron11 = new BlockFluidMolten(boron11, "fluid_boron11");
@@ -126,6 +133,7 @@ public class NCFluids {
 		registerBlock(block_plasma);
 		registerBlock(block_lithium6);
 		registerBlock(block_lithium7);
+		registerBlock(block_boron10);
 		registerBlock(block_boron11);
 		registerBlock(block_neutron);
 	}

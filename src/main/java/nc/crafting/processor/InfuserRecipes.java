@@ -3,7 +3,7 @@ package nc.crafting.processor;
 import nc.config.NCConfig;
 import nc.handler.ProcessorRecipeHandler;
 import nc.init.NCBlocks;
-import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 
 public class InfuserRecipes extends ProcessorRecipeHandler {
 	
@@ -21,11 +21,11 @@ public class InfuserRecipes extends ProcessorRecipeHandler {
 		oxidize("ingotThorium", 1000);
 		oxidize("ingotUranium", 1000);
 		oxidize("ingotManganese", 1000);
-		addRecipe("ingotManganeseOxide", fluidStack("oxygen", 1000), "ingotManganeseDioxide");
+		addRecipe("ingotManganeseOxide", fluidStack("oxygen", 1000), "ingotManganeseDioxide", NCConfig.processor_time[5]);
 		oxidize("dustThorium", 1000);
 		oxidize("dustUranium", 1000);
 		oxidize("dustManganese", 1000);
-		addRecipe("dustManganeseOxide", fluidStack("oxygen", 1000), "dustManganeseDioxide");
+		addRecipe("dustManganeseOxide", fluidStack("oxygen", 1000), "dustManganeseDioxide", NCConfig.processor_time[5]);
 		
 		oxidizeBase("Thorium230");
 		oxidizeBase("Thorium232");
@@ -92,9 +92,8 @@ public class InfuserRecipes extends ProcessorRecipeHandler {
 		oxidizeFuel("LECf251");
 		oxidizeFuel("HECf251");
 		
-		addRecipe(Blocks.ICE, fluidStack("helium", 1000), NCBlocks.block_ice, NCConfig.processor_time[5]);
-		addRecipe(Blocks.FROSTED_ICE, fluidStack("helium", 1000), NCBlocks.block_ice, NCConfig.processor_time[5]);
-		addRecipe(Blocks.PACKED_ICE, fluidStack("helium", 1000), NCBlocks.block_ice, NCConfig.processor_time[5]);
+		addRecipe("blockIce", fluidStack("liquidhelium", 5), NCBlocks.block_ice, NCConfig.processor_time[5]/10);
+		addRecipe(new ItemStack(NCBlocks.cooler, 1, 0), fluidStack("liquidhelium", 50), new ItemStack(NCBlocks.cooler, 1, 8), NCConfig.processor_time[5]);
 	}
 	
 	public void oxidize(String name, int oxygen) {

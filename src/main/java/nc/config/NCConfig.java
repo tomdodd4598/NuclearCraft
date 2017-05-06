@@ -24,6 +24,7 @@ public class NCConfig {
 	public static final String CATEGORY_GENERATORS = "generators";
 	public static final String CATEGORY_FISSION = "fission";
 	public static final String CATEGORY_FUSION = "fusion";
+	public static final String CATEGORY_ACCELERATOR = "accelerator";
 	public static final String CATEGORY_ENERGY_STORAGE = "energy_storage";
 	public static final String CATEGORY_TOOLS = "tools";
 	public static final String CATEGORY_OTHER = "other";
@@ -37,10 +38,13 @@ public class NCConfig {
 	public static int[] processor_time;
 	public static int[] processor_power;
 	public static int processor_rf_per_eu;
+	public static int processor_update_rate;
+	public static int[] processor_passive_rate;
 	
 	public static int[] rtg_power;
 	public static int[] solar_power;
 	public static int generator_rf_per_eu;
+	public static int generator_update_rate;
 	
 	public static double fission_power; // Default: 1
 	public static double fission_fuel_use; // Default: 1
@@ -94,10 +98,14 @@ public class NCConfig {
 	public static int fusion_update_rate;
 	public static int fusion_min_size; // Default: 1
 	public static int fusion_max_size; // Default: 24
+	public static int fusion_electromagnet_power;
 	
 	public static double[] fusion_fuel_time;
 	public static double[] fusion_power;
 	public static double[] fusion_heat_variable;
+	
+	public static int accelerator_electromagnet_power;
+	public static int accelerator_supercooler_coolant;
 	
 	public static int[] battery_capacity;
 	
@@ -149,12 +157,16 @@ public class NCConfig {
 		Property propertyOreMaxHeight = config.get(CATEGORY_ORES, "ore_max_height", new int[] {32, 32, 32, 32, 32, 32, 32, 32}, I18n.translateToLocalFormatted("gui.config.ores.ore_max_height.comment"), 1, 255);
 		propertyOreMaxHeight.setLanguageKey("gui.config.ores.ore_max_height");
 		
-		Property propertyProcessorTime = config.get(CATEGORY_PROCESSORS, "processor_time", new int[] {400, 800, 800, 400, 400}, I18n.translateToLocalFormatted("gui.config.processors.processor_time.comment"), 1, 128000);
+		Property propertyProcessorTime = config.get(CATEGORY_PROCESSORS, "processor_time", new int[] {400, 800, 800, 400, 400, 600, 800, 1600, 1600, 800}, I18n.translateToLocalFormatted("gui.config.processors.processor_time.comment"), 1, 128000);
 		propertyProcessorTime.setLanguageKey("gui.config.processors.processor_time");
-		Property propertyProcessorPower = config.get(CATEGORY_PROCESSORS, "processor_power", new int[] {10, 10, 10, 20, 10}, I18n.translateToLocalFormatted("gui.config.processors.processor_power.comment"), 0, 16000);
+		Property propertyProcessorPower = config.get(CATEGORY_PROCESSORS, "processor_power", new int[] {10, 10, 10, 20, 10, 10, 40, 20, 40, 20}, I18n.translateToLocalFormatted("gui.config.processors.processor_power.comment"), 0, 16000);
 		propertyProcessorPower.setLanguageKey("gui.config.processors.processor_power");
 		Property propertyProcessorRFPerEU = config.get(CATEGORY_PROCESSORS, "processor_rf_per_eu", 4, I18n.translateToLocalFormatted("gui.config.processors.processor_rf_per_eu.comment"), 1, 255);
 		propertyProcessorRFPerEU.setLanguageKey("gui.config.processors.processor_rf_per_eu");
+		Property propertyProcessorUpdateRate = config.get(CATEGORY_PROCESSORS, "processor_update_rate", 20, I18n.translateToLocalFormatted("gui.config.processors.processor_update_rate.comment"), 1, 1200);
+		propertyProcessorUpdateRate.setLanguageKey("gui.config.processors.processor_update_rate");
+		Property propertyProcessorPassiveRate = config.get(CATEGORY_PROCESSORS, "processor_passive_rate", new int[] {200, 2, 400}, I18n.translateToLocalFormatted("gui.config.processors.processor_passive_rate.comment"), 1, 4000);
+		propertyProcessorPassiveRate.setLanguageKey("gui.config.processors.processor_passive_rate");
 		
 		Property propertyRTGPower = config.get(CATEGORY_GENERATORS, "rtg_power", new int[] {4, 100, 50, 400}, I18n.translateToLocalFormatted("gui.config.generators.rtg_power.comment"), 1, Integer.MAX_VALUE);
 		propertyRTGPower.setLanguageKey("gui.config.generators.rtg_power");
@@ -162,6 +174,8 @@ public class NCConfig {
 		propertySolarPower.setLanguageKey("gui.config.generators.solar_power");
 		Property propertyGeneratorRFPerEU = config.get(CATEGORY_GENERATORS, "generator_rf_per_eu", 16, I18n.translateToLocalFormatted("gui.config.generators.generator_rf_per_eu.comment"), 1, 255);
 		propertyGeneratorRFPerEU.setLanguageKey("gui.config.generators.generator_rf_per_eu");
+		Property propertyGeneratorUpdateRate = config.get(CATEGORY_GENERATORS, "generator_update_rate", 20, I18n.translateToLocalFormatted("gui.config.processors.generator_update_rate.comment"), 1, 1200);
+		propertyGeneratorUpdateRate.setLanguageKey("gui.config.processors.generator_update_rate");
 		
 		Property propertyFissionPower = config.get(CATEGORY_FISSION, "fission_power", 1D, I18n.translateToLocalFormatted("gui.config.fission.fission_power.comment"), 0D, 255D);
 		propertyFissionPower.setLanguageKey("gui.config.fission.fission_power");
@@ -257,13 +271,20 @@ public class NCConfig {
 		propertyFusionMinSize.setLanguageKey("gui.config.fusion.fusion_min_size");
 		Property propertyFusionMaxSize = config.get(CATEGORY_FUSION, "fusion_max_size", 24, I18n.translateToLocalFormatted("gui.config.fusion.fusion_max_size.comment"), 1, 255);
 		propertyFusionMaxSize.setLanguageKey("gui.config.fusion.fusion_max_size");
+		Property propertyFusionElectromagnetPower = config.get(CATEGORY_FUSION, "fusion_electromagnet_power", 1000, I18n.translateToLocalFormatted("gui.config.fusion.fusion_electromagnet_power.comment"), 0, Integer.MAX_VALUE);
+		propertyFusionElectromagnetPower.setLanguageKey("gui.config.fusion.fusion_electromagnet_power");
 		
 		Property propertyFusionFuelTime = config.get(CATEGORY_FUSION, "fusion_fuel_time", new double[] {125D, 208.3D, 312.5D, 312.5D, 1250D, 1250D, 625D, 312.5D, 156.3D, 500D, 1250D, 500D, 2500D, 833.3D, 1250D, 1250D, 6250D, 3125D, 833.3D, 2500D, 625D, 1250D, 2500D, 2500D, 5000D, 5000D, 2500D, 5000D}, I18n.translateToLocalFormatted("gui.config.fusion.fusion_fuel_time.comment"), 1D, 32767D);
 		propertyFusionFuelTime.setLanguageKey("gui.config.fusion.fusion_fuel_time");
-		Property propertyFusionPower = config.get(CATEGORY_FUSION, "fusion_power", new double[] {320D, 240D, 80D, 80D, 320D, 120D, 480D, 560D, 800D, 640D, 80D, 600D, 40D, 240D, 160D, 40D, 20D, 40D, 480D, 20D, 560D, 120D, 40D, 20D, 20D, 20D, 20D, 20D}, I18n.translateToLocalFormatted("gui.config.fusion.fusion_power.comment"), 0D, 32767D);
+		Property propertyFusionPower = config.get(CATEGORY_FUSION, "fusion_power", new double[] {640D, 480D, 160D, 160D, 640D, 240D, 960D, 1120D, 1600D, 1280D, 160D, 1200D, 80D, 480D, 320D, 80D, 40D, 80D, 960D, 40D, 1120D, 240D, 80D, 40D, 40D, 40D, 40D, 20D}, I18n.translateToLocalFormatted("gui.config.fusion.fusion_power.comment"), 0D, 32767D);
 		propertyFusionPower.setLanguageKey("gui.config.fusion.fusion_power");
 		Property propertyFusionHeatVariable = config.get(CATEGORY_FUSION, "fusion_heat_variable", new double[] {2140D, 1380D, 4700D, 4820D, 5660, 4550D, 4640D, 4780D, 670D, 2370D, 5955D, 5335D, 7345D, 3875D, 5070D, 7810D, 7510D, 8060D, 6800D, 8060D, 8800D, 12500D, 8500D, 9200D, 13000D, 12000D, 11000D, 14000D}, I18n.translateToLocalFormatted("gui.config.fusion.fusion_heat_variable.comment"), 500D, 20000D);
 		propertyFusionHeatVariable.setLanguageKey("gui.config.fusion.fusion_heat_variable");
+		
+		Property propertyAcceleratorElectromagnetPower = config.get(CATEGORY_ACCELERATOR, "accelerator_electromagnet_power", 5000, I18n.translateToLocalFormatted("gui.config.accelerator.accelerator_electromagnet_power.comment"), 0, Integer.MAX_VALUE);
+		propertyAcceleratorElectromagnetPower.setLanguageKey("gui.config.accelerator.accelerator_electromagnet_power");
+		Property propertyAcceleratorSupercoolerCoolant = config.get(CATEGORY_ACCELERATOR, "accelerator_supercooler_coolant", 1, I18n.translateToLocalFormatted("gui.config.accelerator.accelerator_supercooler_coolant.comment"), 0, 32767);
+		propertyAcceleratorSupercoolerCoolant.setLanguageKey("gui.config.accelerator.accelerator_supercooler_coolant");
 		
 		Property propertyBatteryCapacity = config.get(CATEGORY_ENERGY_STORAGE, "battery_capacity", new int[] {1600000, 64000000}, I18n.translateToLocalFormatted("gui.config.energy_storage.battery_capacity.comment"), 1, Integer.MAX_VALUE);
 		propertyBatteryCapacity.setLanguageKey("gui.config.energy_storage.battery_capacity");
@@ -294,12 +315,15 @@ public class NCConfig {
 		propertyOrderProcessors.add(propertyProcessorTime.getName());
 		propertyOrderProcessors.add(propertyProcessorPower.getName());
 		propertyOrderProcessors.add(propertyProcessorRFPerEU.getName());
+		propertyOrderProcessors.add(propertyProcessorUpdateRate.getName());
+		propertyOrderProcessors.add(propertyProcessorPassiveRate.getName());
 		config.setCategoryPropertyOrder(CATEGORY_PROCESSORS, propertyOrderProcessors);
 		
 		List<String> propertyOrderGenerators = new ArrayList<String>();
 		propertyOrderGenerators.add(propertyRTGPower.getName());
 		propertyOrderGenerators.add(propertySolarPower.getName());
 		propertyOrderGenerators.add(propertyGeneratorRFPerEU.getName());
+		propertyOrderGenerators.add(propertyGeneratorUpdateRate.getName());
 		config.setCategoryPropertyOrder(CATEGORY_GENERATORS, propertyOrderGenerators);
 		
 		List<String> propertyOrderFission = new ArrayList<String>();
@@ -359,11 +383,17 @@ public class NCConfig {
 		propertyOrderFusion.add(propertyFusionOverheat.getName());
 		propertyOrderFusion.add(propertyFusionMinSize.getName());
 		propertyOrderFusion.add(propertyFusionMaxSize.getName());
+		propertyOrderFusion.add(propertyFusionElectromagnetPower.getName());
 		
 		propertyOrderFusion.add(propertyFusionFuelTime.getName());
 		propertyOrderFusion.add(propertyFusionPower.getName());
 		propertyOrderFusion.add(propertyFusionHeatVariable.getName());
 		config.setCategoryPropertyOrder(CATEGORY_FUSION, propertyOrderFusion);
+		
+		List<String> propertyOrderAccelerator = new ArrayList<String>();
+		propertyOrderAccelerator.add(propertyAcceleratorElectromagnetPower.getName());
+		propertyOrderAccelerator.add(propertyAcceleratorSupercoolerCoolant.getName());
+		config.setCategoryPropertyOrder(CATEGORY_ACCELERATOR, propertyOrderAccelerator);
 		
 		List<String> propertyOrderTools = new ArrayList<String>();
 		propertyOrderTools.add(propertyToolMiningLevel.getName());
@@ -394,12 +424,15 @@ public class NCConfig {
 			/*processor_time = propertyProcessorTime.getIntList();
 			processor_power = propertyProcessorPower.getIntList();*/
 			processor_rf_per_eu = propertyProcessorRFPerEU.getInt();
+			processor_update_rate = propertyProcessorUpdateRate.getInt();
+			processor_passive_rate = readIntegerArrayFromConfig(propertyProcessorPassiveRate);
 			
 			rtg_power = readIntegerArrayFromConfig(propertyRTGPower);
 			solar_power = readIntegerArrayFromConfig(propertySolarPower);
 			/*rtg_power = propertyRTGPower.getIntList();
 			solar_power = propertySolarPower.getIntList();*/
 			generator_rf_per_eu = propertyGeneratorRFPerEU.getInt();
+			generator_update_rate = propertyGeneratorUpdateRate.getInt();
 			
 			fission_power = propertyFissionPower.getDouble();
 			fission_fuel_use = propertyFissionFuelUse.getDouble();
@@ -474,9 +507,6 @@ public class NCConfig {
 			fission_californium_power = propertyFissionCaliforniumPower.getDoubleList();
 			fission_californium_heat_generation = propertyFissionCaliforniumHeatGeneration.getDoubleList();*/
 			
-			battery_capacity = readIntegerArrayFromConfig(propertyBatteryCapacity);
-			//battery_capacity = propertyBatteryCapacity.getIntList();
-			
 			fusion_base_power = propertyFusionBasePower.getDouble();
 			fusion_fuel_use = propertyFusionFuelUse.getDouble();
 			fusion_heat_generation = propertyFusionHeatGeneration.getDouble();
@@ -484,10 +514,17 @@ public class NCConfig {
 			fusion_update_rate = propertyFusionUpdateRate.getInt();
 			fusion_min_size = propertyFusionMinSize.getInt();
 			fusion_max_size = propertyFusionMaxSize.getInt();
+			fusion_electromagnet_power = propertyFusionElectromagnetPower.getInt();
 			
 			fusion_fuel_time = readDoubleArrayFromConfig(propertyFusionFuelTime);
 			fusion_power = readDoubleArrayFromConfig(propertyFusionPower);
 			fusion_heat_variable = readDoubleArrayFromConfig(propertyFusionHeatVariable);
+			
+			accelerator_electromagnet_power = propertyAcceleratorElectromagnetPower.getInt();
+			accelerator_supercooler_coolant = propertyAcceleratorSupercoolerCoolant.getInt();
+			
+			battery_capacity = readIntegerArrayFromConfig(propertyBatteryCapacity);
+			//battery_capacity = propertyBatteryCapacity.getIntList();
 			
 			tool_mining_level = readIntegerArrayFromConfig(propertyToolMiningLevel);
 			tool_durability = readIntegerArrayFromConfig(propertyToolDurability);
@@ -512,10 +549,13 @@ public class NCConfig {
 		propertyProcessorTime.set(processor_time);
 		propertyProcessorPower.set(processor_power);
 		propertyProcessorRFPerEU.set(processor_rf_per_eu);
+		propertyProcessorUpdateRate.set(processor_update_rate);
+		propertyProcessorPassiveRate.set(processor_passive_rate);
 		
 		propertyRTGPower.set(rtg_power);
 		propertySolarPower.set(solar_power);
 		propertyGeneratorRFPerEU.set(generator_rf_per_eu);
+		propertyGeneratorUpdateRate.set(generator_update_rate);
 		
 		propertyFissionPower.set(fission_power);
 		propertyFissionFuelUse.set(fission_fuel_use);
@@ -562,8 +602,6 @@ public class NCConfig {
 		propertyFissionCaliforniumPower.set(fission_californium_power);
 		propertyFissionCaliforniumHeatGeneration.set(fission_californium_heat_generation);
 		
-		propertyBatteryCapacity.set(battery_capacity);
-		
 		propertyFusionBasePower.set(fusion_base_power);
 		propertyFusionFuelUse.set(fusion_fuel_use);
 		propertyFusionHeatGeneration.set(fusion_heat_generation);
@@ -571,10 +609,16 @@ public class NCConfig {
 		propertyFusionUpdateRate.set(fusion_update_rate);
 		propertyFusionMinSize.set(fusion_min_size);
 		propertyFusionMaxSize.set(fusion_max_size);
+		propertyFusionElectromagnetPower.set(fusion_electromagnet_power);
 		
 		propertyFusionFuelTime.set(fusion_fuel_time);
 		propertyFusionPower.set(fusion_power);
 		propertyFusionHeatVariable.set(fusion_heat_variable);
+		
+		propertyAcceleratorElectromagnetPower.set(accelerator_electromagnet_power);
+		propertyAcceleratorSupercoolerCoolant.set(accelerator_supercooler_coolant);
+		
+		propertyBatteryCapacity.set(battery_capacity);
 		
 		propertyToolMiningLevel.set(tool_mining_level);
 		propertyToolDurability.set(tool_durability);

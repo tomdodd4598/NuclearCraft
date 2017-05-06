@@ -84,7 +84,7 @@ public abstract class TileFluid extends NCTile implements ITileFluid, IFluidHand
 	public FluidStack drain(FluidStack resource, boolean doDrain) {
 		if (tanks.length == 0 || tanks == null) return null;
 		for (int i = 0; i < tanks.length; i++) {
-			if (connection[i].canDrain()) {
+			if (connection[i].canDrain() && tanks[i].getFluid() != null && tanks[i].getFluidAmount() > 0) {
 				return tanks[i].drain(resource.amount, doDrain);
 			}
 		}
@@ -94,7 +94,7 @@ public abstract class TileFluid extends NCTile implements ITileFluid, IFluidHand
 	public FluidStack drain(int maxDrain, boolean doDrain) {
 		if (tanks.length == 0 || tanks == null) return null;
 		for (int i = 0; i < tanks.length; i++) {
-			if (connection[i].canDrain()) {
+			if (connection[i].canDrain() && tanks[i].getFluid() != null && tanks[i].getFluidAmount() > 0) {
 				return tanks[i].drain(maxDrain, doDrain);
 			}
 		}

@@ -2,12 +2,14 @@ package nc.tile.processor;
 
 import ic2.api.energy.event.EnergyTileUnloadEvent;
 import nc.ModCheck;
+import nc.config.NCConfig;
 import nc.energy.EnumStorage.EnergyConnection;
 import nc.handler.ProcessorRecipeHandler;
 import nc.init.NCItems;
 import nc.tile.IGui;
 import nc.tile.dummy.IInterfaceable;
 import nc.tile.energy.TileEnergySidedInventory;
+import nc.util.NCUtil;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
@@ -16,7 +18,8 @@ import net.minecraftforge.common.MinecraftForge;
 
 public abstract class TileEnergyItemProcessor extends TileEnergySidedInventory implements IInterfaceable, IGui {
 	
-	public final int baseProcessTime;
+	public final int defaultProcessTime;
+	public int baseProcessTime;
 	public final int baseProcessPower;
 	public final int inputSize;
 	public final int outputSize;
@@ -26,6 +29,8 @@ public abstract class TileEnergyItemProcessor extends TileEnergySidedInventory i
 	
 	public final boolean hasUpgrades;
 	public final int upgradeMeta;
+	
+	public int tickCount;
 	
 	public final ProcessorRecipeHandler recipes;
 	
@@ -41,6 +46,7 @@ public abstract class TileEnergyItemProcessor extends TileEnergySidedInventory i
 		super(name, inSize + outSize + (upgrades ? 2 : 0), 32000, EnergyConnection.IN);
 		inputSize = inSize;
 		outputSize = outSize;
+		defaultProcessTime = time;
 		baseProcessTime = time;
 		baseProcessPower = power;
 		hasUpgrades = upgrades;
@@ -75,6 +81,7 @@ public abstract class TileEnergyItemProcessor extends TileEnergySidedInventory i
 		boolean flag = isProcessing;
 		boolean flag1 = false;
 		if(!world.isRemote) {
+			tick();
 			if (canProcess() && !isPowered()) {
 				isProcessing = true;
 				time += getSpeedMultiplier();
@@ -107,8 +114,21 @@ public abstract class TileEnergyItemProcessor extends TileEnergySidedInventory i
 	
 	public abstract void setBlockState();
 	
+	public void tick() {
+		if (tickCount > NCConfig.processor_update_rate) {
+			tickCount = 0;
+		} else {
+			tickCount++;
+		}
+	}
+	
+	public boolean shouldCheck() {
+		return tickCount > NCConfig.processor_update_rate;
+	}
+	
 	public void onAdded() {
 		super.onAdded();
+		baseProcessTime = defaultProcessTime;
 		if (!world.isRemote) isProcessing = isProcessing();
 	}
 	
@@ -175,6 +195,8 @@ public abstract class TileEnergyItemProcessor extends TileEnergySidedInventory i
 			return false;
 		}
 		Object[] output = getOutput(inputs());
+		int[] inputOrder = recipes.getInputOrder(inputs(), recipes.getInput(output));
+		if (inputOrder.length > 0 && shouldCheck()) NCUtil.getLogger().info("First item input: " + inputOrder[0]);
 		if (output == null || output.length != outputSize) {
 			return false;
 		}
@@ -191,14 +213,16 @@ public abstract class TileEnergyItemProcessor extends TileEnergySidedInventory i
 				}
 			}
 		}
+		if (recipes.getExtras(inputs()) instanceof Integer) baseProcessTime = (int) recipes.getExtras(inputs());
 		return true;
 	}
 	
 	public void process() {
 		Object[] output = getOutput(inputs());
 		int[] inputOrder = recipes.getInputOrder(inputs(), recipes.getInput(output));
+		if (inputOrder.length > 0 && shouldCheck()) NCUtil.getLogger().info("First item input: " + inputOrder[0]);
 		for (int j = 0; j < outputSize; j++) {
-			if (output[j] != ItemStack.EMPTY || output[j] == null) {
+			if (output[j] != ItemStack.EMPTY && output[j] != null && inputOrder != ProcessorRecipeHandler.INVALID_ORDER) {
 				if (inventoryStacks.get(j + inputSize) == ItemStack.EMPTY) {
 					ItemStack outputStack = ((ItemStack) output[j]).copy();
 					inventoryStacks.set(j + inputSize, outputStack);
@@ -295,7 +319,7 @@ public abstract class TileEnergyItemProcessor extends TileEnergySidedInventory i
 	// Inventory Fields
 
 	public int getFieldCount() {
-		return 2;
+		return 3;
 	}
 
 	public int getField(int id) {
@@ -304,6 +328,8 @@ public abstract class TileEnergyItemProcessor extends TileEnergySidedInventory i
 			return time;
 		case 1:
 			return getEnergyStored();
+		case 2:
+			return baseProcessTime;
 		default:
 			return 0;
 		}
@@ -316,6 +342,9 @@ public abstract class TileEnergyItemProcessor extends TileEnergySidedInventory i
 			break;
 		case 1:
 			storage.setEnergyStored(value);
+			break;
+		case 2:
+			baseProcessTime = value;
 		}
 	}
 }

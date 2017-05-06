@@ -42,8 +42,8 @@ public abstract class TileDummy extends TileEnergyFluidSidedInventory {
 	public int tickCount;
 	public final int updateRate;
 	
-	public TileDummy(String name, int updateRate) {
-		super(name, 1, 1, EnergyConnection.BOTH, new int[] {1}, new FluidConnection[] {FluidConnection.BOTH});
+	public TileDummy(String name, int updateRate, String[]... allowedFluids) {
+		super(name, 1, 1, EnergyConnection.BOTH, new int[] {1}, new FluidConnection[] {FluidConnection.BOTH}, allowedFluids);
 		this.updateRate = updateRate;
 	}
 	
@@ -330,7 +330,7 @@ public abstract class TileDummy extends TileEnergyFluidSidedInventory {
 			if (getMaster() instanceof ITileFluid) {
 				if (getTanks().length == 0 || getTanks() == null) return null;
 				for (int i = 0; i < getTanks().length; i++) {
-					if (getFluidConnections()[i].canDrain()) {
+					if (getFluidConnections()[i].canDrain() && getTanks()[i].getFluid() != null && getTanks()[i].getFluidAmount() > 0) {
 						return getTanks()[i].drain(resource.amount, doDrain);
 					}
 				}
@@ -344,7 +344,7 @@ public abstract class TileDummy extends TileEnergyFluidSidedInventory {
 			if (getMaster() instanceof ITileFluid) {
 				if (getTanks().length == 0 || getTanks() == null) return null;
 				for (int i = 0; i < getTanks().length; i++) {
-					if (getFluidConnections()[i].canDrain()) {
+					if (getFluidConnections()[i].canDrain() && getTanks()[i].getFluid() != null && getTanks()[i].getFluidAmount() > 0) {
 						return getTanks()[i].drain(maxDrain, doDrain);
 					}
 				}

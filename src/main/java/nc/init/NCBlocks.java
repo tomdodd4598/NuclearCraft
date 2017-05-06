@@ -28,20 +28,29 @@ import nc.block.tile.generator.BlockSolarPanelBasic;
 import nc.block.tile.generator.BlockUraniumRTG;
 import nc.block.tile.passive.BlockAcceleratorElectromagnet;
 import nc.block.tile.passive.BlockBuffer;
+import nc.block.tile.passive.BlockCobblestoneGenerator;
 import nc.block.tile.passive.BlockElectromagnetSupercooler;
 import nc.block.tile.passive.BlockFusionElectromagnet;
+import nc.block.tile.passive.BlockHeliumCollector;
+import nc.block.tile.passive.BlockWaterSource;
 import nc.block.tile.processor.BlockAlloyFurnace;
 import nc.block.tile.processor.BlockDecayHastener;
+import nc.block.tile.processor.BlockElectrolyser;
 import nc.block.tile.processor.BlockFuelReprocessor;
+import nc.block.tile.processor.BlockInfuser;
+import nc.block.tile.processor.BlockIrradiator;
 import nc.block.tile.processor.BlockIsotopeSeparator;
 import nc.block.tile.processor.BlockManufactory;
+import nc.block.tile.processor.BlockMelter;
 import nc.block.tile.processor.BlockNuclearFurnace;
+import nc.block.tile.processor.BlockSupercooler;
 import nc.config.NCConfig;
 import nc.handler.EnumHandler.CoolerTypes;
 import nc.handler.EnumHandler.FissionBlockTypes;
 import nc.handler.EnumHandler.IngotTypes;
 import nc.handler.EnumHandler.OreTypes;
 import nc.proxy.CommonProxy;
+import nc.util.NCMath;
 import nc.util.NCUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -78,6 +87,16 @@ public class NCBlocks {
 	public static Block fuel_reprocessor_active;
 	public static Block alloy_furnace_idle;
 	public static Block alloy_furnace_active;
+	public static Block infuser_idle;
+	public static Block infuser_active;
+	public static Block melter_idle;
+	public static Block melter_active;
+	public static Block supercooler_idle;
+	public static Block supercooler_active;
+	public static Block electrolyser_idle;
+	public static Block electrolyser_active;
+	public static Block irradiator_idle;
+	public static Block irradiator_active;
 	
 	public static Block machine_interface;
 	
@@ -109,6 +128,10 @@ public class NCBlocks {
 	public static Block electromagnet_supercooler_idle;
 	public static Block electromagnet_supercooler_active;
 	
+	public static Block helium_collector;
+	public static Block cobblestone_generator;
+	public static Block water_source;
+	
 	//public static Block spin;
 	
 	public static void init() {
@@ -135,6 +158,16 @@ public class NCBlocks {
 		fuel_reprocessor_active = new BlockFuelReprocessor("fuel_reprocessor_active", "fuel_reprocessor_active", true, 4);
 		alloy_furnace_idle = new BlockAlloyFurnace("alloy_furnace_idle", "alloy_furnace_idle", false, 5);
 		alloy_furnace_active = new BlockAlloyFurnace("alloy_furnace_active", "alloy_furnace_active", true, 5);
+		infuser_idle = new BlockInfuser("infuser_idle", "infuser_idle", false, 6);
+		infuser_active = new BlockInfuser("infuser_active", "infuser_active", true, 6);
+		melter_idle = new BlockMelter("melter_idle", "melter_idle", false, 7);
+		melter_active = new BlockMelter("melter_active", "melter_active", true, 7);
+		supercooler_idle = new BlockSupercooler("supercooler_idle", "supercooler_idle", false, 8);
+		supercooler_active = new BlockSupercooler("supercooler_active", "supercooler_active", true, 8);
+		electrolyser_idle = new BlockElectrolyser("electrolyser_idle", "electrolyser_idle", false, 9);
+		electrolyser_active = new BlockElectrolyser("electrolyser_active", "electrolyser_active", true, 9);
+		irradiator_idle = new BlockIrradiator("irradiator_idle", "irradiator_idle", false, 10);
+		irradiator_active = new BlockIrradiator("irradiator_active", "irradiator_active", true, 10);
 		
 		machine_interface = new BlockMachineInterface("machine_interface", "machine_interface");
 		
@@ -166,6 +199,10 @@ public class NCBlocks {
 		electromagnet_supercooler_idle = new BlockElectromagnetSupercooler("electromagnet_supercooler_idle", "electromagnet_supercooler_idle", false);
 		electromagnet_supercooler_active = new BlockElectromagnetSupercooler("electromagnet_supercooler_active", "electromagnet_supercooler_active", true);
 		
+		helium_collector = new BlockHeliumCollector("helium_collector", "helium_collector");
+		cobblestone_generator = new BlockCobblestoneGenerator("cobblestone_generator", "cobblestone_generator");
+		water_source = new BlockWaterSource("water_source", "water_source");
+		
 		//spin = new BlockSpin("spin", "spin");
 	}
 	
@@ -193,6 +230,16 @@ public class NCBlocks {
 		registerBlock(fuel_reprocessor_active);
 		registerBlock(alloy_furnace_idle, 2);
 		registerBlock(alloy_furnace_active);
+		registerBlock(infuser_idle, 2);
+		registerBlock(infuser_active);
+		registerBlock(melter_idle, 2);
+		registerBlock(melter_active);
+		registerBlock(supercooler_idle, 2);
+		registerBlock(supercooler_active);
+		registerBlock(electrolyser_idle, 2);
+		registerBlock(electrolyser_active);
+		registerBlock(irradiator_idle, 2);
+		registerBlock(irradiator_active);
 		
 		registerBlock(machine_interface, 4);
 		
@@ -200,10 +247,10 @@ public class NCBlocks {
 		registerBlock(fission_controller_active);
 		registerBlock(fission_port, 15);
 		
-		registerBlock(fusion_core);
+		registerBlock(fusion_core, 15);
 		registerBlock(fusion_dummy_side);
 		registerBlock(fusion_dummy_top);
-		registerBlock(fusion_connector);
+		registerBlock(fusion_connector, 2);
 		
 		registerBlock(rtg_uranium, I18n.translateToLocalFormatted("tile.rtg.des0") + " " + NCConfig.rtg_power[0] + " " + I18n.translateToLocalFormatted("tile.rtg.des1"));
 		registerBlock(rtg_plutonium, I18n.translateToLocalFormatted("tile.rtg.des0") + " " + NCConfig.rtg_power[1] + " " + I18n.translateToLocalFormatted("tile.rtg.des1"));
@@ -215,14 +262,18 @@ public class NCBlocks {
 		registerBlock(voltaic_pile_basic, I18n.translateToLocalFormatted("tile.energy_storage.des0") + " " + NCConfig.battery_capacity[0]/1000 + " " + I18n.translateToLocalFormatted("tile.energy_storage.des1"), I18n.translateToLocalFormatted("tile.energy_storage.des2"), I18n.translateToLocalFormatted("tile.energy_storage.des3"), I18n.translateToLocalFormatted("tile.energy_storage.des4"));
 		registerBlock(lithium_ion_battery_basic, I18n.translateToLocalFormatted("tile.energy_storage.des0") + " " + NCConfig.battery_capacity[1]/1000 + " " + I18n.translateToLocalFormatted("tile.energy_storage.des1"), I18n.translateToLocalFormatted("tile.energy_storage.des2"), I18n.translateToLocalFormatted("tile.energy_storage.des3"), I18n.translateToLocalFormatted("tile.energy_storage.des4"));
 		
-		registerBlock(buffer);
+		registerBlock(buffer, 4);
 		
-		registerBlock(fusion_electromagnet_idle);
-		registerBlock(fusion_electromagnet_active);
-		registerBlock(accelerator_electromagnet_idle);
-		registerBlock(accelerator_electromagnet_active);
-		registerBlock(electromagnet_supercooler_idle);
-		registerBlock(electromagnet_supercooler_active);
+		registerBlock(fusion_electromagnet_idle, I18n.translateToLocalFormatted("tile.fusion_electromagnet_idle.des0") + " " + NCMath.Round(0.05D*NCConfig.fusion_electromagnet_power, 1) + " " + I18n.translateToLocalFormatted("tile.fusion_electromagnet_idle.des1"));
+		registerBlock(fusion_electromagnet_active, I18n.translateToLocalFormatted("tile.fusion_electromagnet_idle.des0") + " " + NCMath.Round(0.05D*NCConfig.fusion_electromagnet_power, 1) + " " + I18n.translateToLocalFormatted("tile.fusion_electromagnet_idle.des1"));
+		registerBlock(accelerator_electromagnet_idle, I18n.translateToLocalFormatted("tile.accelerator_electromagnet_idle.des0") + " " + NCMath.Round(0.05D*NCConfig.accelerator_electromagnet_power, 1) + " " + I18n.translateToLocalFormatted("tile.accelerator_electromagnet_idle.des1"));
+		registerBlock(accelerator_electromagnet_active, I18n.translateToLocalFormatted("tile.accelerator_electromagnet_idle.des0") + " " + NCMath.Round(0.05D*NCConfig.accelerator_electromagnet_power, 1) + " " + I18n.translateToLocalFormatted("tile.accelerator_electromagnet_idle.des1"));
+		registerBlock(electromagnet_supercooler_idle, I18n.translateToLocalFormatted("tile.electromagnet_supercooler_idle.des0") + " " + NCMath.Round(0.05D*NCConfig.accelerator_electromagnet_power, 1) + " " + I18n.translateToLocalFormatted("tile.electromagnet_supercooler_idle.des1") + " " + NCMath.Round(0.05D*NCConfig.accelerator_supercooler_coolant, 1) + " " + I18n.translateToLocalFormatted("tile.electromagnet_supercooler_idle.des2"), I18n.translateToLocalFormatted("tile.electromagnet_supercooler_idle.des3"));
+		registerBlock(electromagnet_supercooler_active, I18n.translateToLocalFormatted("tile.electromagnet_supercooler_idle.des0") + " " + NCMath.Round(0.05D*NCConfig.accelerator_electromagnet_power, 1) + " " + I18n.translateToLocalFormatted("tile.electromagnet_supercooler_idle.des1") + " " + NCMath.Round(0.05D*NCConfig.accelerator_supercooler_coolant, 1) + " " + I18n.translateToLocalFormatted("tile.electromagnet_supercooler_idle.des2"), I18n.translateToLocalFormatted("tile.electromagnet_supercooler_idle.des3"));
+		
+		registerBlock(helium_collector, I18n.translateToLocalFormatted("tile.helium_collector.des0") + " " + NCMath.Round(0.05D*NCConfig.processor_passive_rate[0], 1) + " " + I18n.translateToLocalFormatted("tile.helium_collector.des1"));
+		registerBlock(cobblestone_generator, I18n.translateToLocalFormatted("tile.cobblestone_generator.des0") + " " + NCMath.Round(0.025D*NCConfig.processor_passive_rate[1], 1) + " " + I18n.translateToLocalFormatted("tile.cobblestone_generator.des1"));
+		registerBlock(water_source, I18n.translateToLocalFormatted("tile.water_source.des0") + " " + NCMath.Round(0.05D*NCConfig.processor_passive_rate[2], 1) + " " + I18n.translateToLocalFormatted("tile.water_source.des1"));
 		
 		//registerBlock(spin);
 	}
@@ -262,6 +313,16 @@ public class NCBlocks {
 		registerRender(fuel_reprocessor_active);
 		registerRender(alloy_furnace_idle);
 		registerRender(alloy_furnace_active);
+		registerRender(infuser_idle);
+		registerRender(infuser_active);
+		registerRender(melter_idle);
+		registerRender(melter_active);
+		registerRender(supercooler_idle);
+		registerRender(supercooler_active);
+		registerRender(electrolyser_idle);
+		registerRender(electrolyser_active);
+		registerRender(irradiator_idle);
+		registerRender(irradiator_active);
 		
 		registerRender(machine_interface);
 		
@@ -292,6 +353,10 @@ public class NCBlocks {
 		registerRender(accelerator_electromagnet_active);
 		registerRender(electromagnet_supercooler_idle);
 		registerRender(electromagnet_supercooler_active);
+		
+		registerRender(helium_collector);
+		registerRender(cobblestone_generator);
+		registerRender(water_source);
 		
 		//registerRender(spin);
 	}

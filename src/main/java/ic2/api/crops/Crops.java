@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.biome.Biome;
+
 import net.minecraftforge.common.BiomeDictionary.Type;
 
 /**

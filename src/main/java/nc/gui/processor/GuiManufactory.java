@@ -1,10 +1,12 @@
 package nc.gui.processor;
 
 import nc.container.processor.ContainerManufactory;
+import nc.gui.GuiItemRenderer;
+import nc.init.NCItems;
 import nc.tile.processor.TileEnergyItemProcessor;
 import net.minecraft.entity.player.EntityPlayer;
 
-public class GuiManufactory extends GuiEnergyProcessor {
+public class GuiManufactory extends GuiEnergyItemProcessor {
 
 	public GuiManufactory(EntityPlayer player, TileEnergyItemProcessor tile) {
 		super("manufactory", player, new ContainerManufactory(player, tile));
@@ -16,6 +18,9 @@ public class GuiManufactory extends GuiEnergyProcessor {
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		super.drawGuiContainerForegroundLayer(mouseX, mouseY);
 		fontRendererObj.drawString(tile.storage.getEnergyStored() + " RF", 28, ySize - 94, 4210752);
+		
+		GuiItemRenderer itemRenderer = new GuiItemRenderer(132, ySize - 102, 0.5F, NCItems.upgrade, 0);
+		itemRenderer.draw();
 	}
 	
 	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {

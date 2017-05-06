@@ -5,6 +5,7 @@ import nc.ModCheck;
 import nc.block.fission.BlockCooler;
 import nc.block.tile.dummy.BlockFissionPort;
 import nc.block.tile.generator.BlockFissionController;
+import nc.block.tile.passive.BlockBuffer;
 import nc.config.NCConfig;
 import nc.crafting.generator.FissionRecipes;
 import nc.handler.EnumHandler.CoolerTypes;
@@ -430,6 +431,7 @@ public class TileFissionController extends TileItemGenerator {
 	private boolean findCasingPort(int x, int y, int z) {
 		if (world.getBlockState(position(x, y, z)) == NCBlocks.fission_block.getStateFromMeta(0)) return true;
 		if (world.getBlockState(position(x, y, z)).getBlock() instanceof BlockFissionPort) return true;
+		if (world.getBlockState(position(x, y, z)).getBlock() instanceof BlockBuffer) return true;
 		return false;
 	}
 	
@@ -441,6 +443,7 @@ public class TileFissionController extends TileItemGenerator {
 		if (world.getBlockState(position(x, y, z)) == NCBlocks.fission_block.getStateFromMeta(0)) return true;
 		if (world.getBlockState(position(x, y, z)).getBlock() instanceof BlockFissionController) return true;
 		if (world.getBlockState(position(x, y, z)).getBlock() instanceof BlockFissionPort) return true;
+		if (world.getBlockState(position(x, y, z)).getBlock() instanceof BlockBuffer) return true;
 		return false;
 	}
 	

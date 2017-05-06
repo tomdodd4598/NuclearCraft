@@ -8,7 +8,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotFurnaceOutput;
 
-public class ContainerFuelReprocessor extends ContainerEnergyProcessor {
+public class ContainerFuelReprocessor extends ContainerEnergyItemProcessor {
 
 	public ContainerFuelReprocessor(EntityPlayer player, TileEnergyItemProcessor tileEntity) {
 		super(tileEntity, FuelReprocessorRecipes.instance());

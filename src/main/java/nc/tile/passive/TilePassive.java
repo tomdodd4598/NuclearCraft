@@ -60,7 +60,7 @@ public abstract class TilePassive extends TileEnergyFluidSidedInventory implemen
 		super(name, 1, energyChange == 0 ? 1 : 2*MathHelper.abs(energyChange)*changeRate*NCConfig.generator_rf_per_eu, energyChange == 0 ? 0 : MathHelper.abs(energyChange)*NCConfig.generator_rf_per_eu, energyChange > 0 ? EnergyConnection.OUT : (energyChange < 0 ? EnergyConnection.IN : EnergyConnection.NON), new int[] {fluidChange == 0 ? 1 : 2*MathHelper.abs(fluidChange)*changeRate}, new FluidConnection[] {fluidChange > 0 ? FluidConnection.OUT : (fluidChange < 0 ? FluidConnection.IN : FluidConnection.NON)}, new String[] {fluid.getName()});
 		this.energyChange = energyChange*changeRate;
 		this.itemChange = itemChange*changeRate;
-		stackChange = new ItemStack(stack.getItem(), stack.getCount(), MathHelper.abs(itemChange)*changeRate);
+		stackChange = new ItemStack(stack.getItem(), MathHelper.abs(itemChange)*changeRate, stack.getMetadata());
 		this.fluidChange = fluidChange*changeRate;
 		fluidStackChange = new FluidStack(fluid, MathHelper.abs(fluidChange)*changeRate);
 		updateRate = changeRate*20;
@@ -87,6 +87,8 @@ public abstract class TilePassive extends TileEnergyFluidSidedInventory implemen
 					isEnergyTileSet = false;
 				}
 			}
+			if (energyChange > 0) pushEnergy();
+			if (fluidChange > 0) pushFluid();
 		}
 		if (flag1) {
 			markDirty();

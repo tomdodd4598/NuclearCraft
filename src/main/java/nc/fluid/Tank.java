@@ -85,9 +85,23 @@ public class Tank extends FluidTank implements INBTSerializable<NBTTagCompound> 
 	}
 	
 	public void setFluidStored(Fluid fluid, int amount) {
+		if (amount <= 0) {
+			this.fluid = null;
+			return;
+		}
 		this.fluid = new FluidStack(fluid, amount);
 		if (getFluidAmount() > capacity) this.fluid = new FluidStack(this.fluid, capacity);
-		else if (getFluidAmount() < 0) fluid = null;
+		else if (getFluidAmount() < 0) this.fluid = null;
+	}
+	
+	public void setFluidStored(FluidStack fluid, int amount) {
+		if (amount <= 0 || fluid == null) {
+			this.fluid = null;
+			return;
+		}
+		this.fluid = new FluidStack(fluid, amount);
+		if (getFluidAmount() > capacity) this.fluid = new FluidStack(this.fluid, capacity);
+		else if (getFluidAmount() < 0) this.fluid = null;
 	}
 	
 	public void changeFluidStored(int amount) {
@@ -95,7 +109,7 @@ public class Tank extends FluidTank implements INBTSerializable<NBTTagCompound> 
 	}
 	
 	public void setFluidStored(FluidStack stack) {
-		if (stack == null) {
+		if (stack == null || stack.amount <= 0) {
 			fluid = null;
 			return;
 		}
@@ -103,6 +117,13 @@ public class Tank extends FluidTank implements INBTSerializable<NBTTagCompound> 
 		if (getFluidAmount() > capacity) fluid = new FluidStack(stack.getFluid(), capacity);
 		else if (getFluidAmount() < 0) fluid = null;
 	}
+	
+	public void setFluidAmount(int amount) {
+		if(fluid == null) return;
+		if(amount < 0) amount = 0;
+		else if(amount > capacity) amount = capacity;
+		fluid.amount = amount;
+    }
 	
 	public boolean isFluidValid(String name) {
 		if (allowedFluids == null) return true;

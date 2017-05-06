@@ -475,6 +475,18 @@ public class ClientProxy extends CommonProxy {
 				new ResourceLocation(Global.MOD_ID, "depleted_fuel_rod_californium_lec_251_oxide"),
 				new ResourceLocation(Global.MOD_ID, "depleted_fuel_rod_californium_hec_251"),
 				new ResourceLocation(Global.MOD_ID, "depleted_fuel_rod_californium_hec_251_oxide"));
+		
+		ModelBakery.registerItemVariants(NCItems.boron,
+				new ResourceLocation(Global.MOD_ID, "boron_10"),
+				new ResourceLocation(Global.MOD_ID, "boron_10_tiny"),
+				new ResourceLocation(Global.MOD_ID, "boron_11"),
+				new ResourceLocation(Global.MOD_ID, "boron_11_tiny"));
+		
+		ModelBakery.registerItemVariants(NCItems.lithium,
+				new ResourceLocation(Global.MOD_ID, "lithium_6"),
+				new ResourceLocation(Global.MOD_ID, "lithium_6_tiny"),
+				new ResourceLocation(Global.MOD_ID, "lithium_7"),
+				new ResourceLocation(Global.MOD_ID, "lithium_7_tiny"));
 	}
 	
 	public void registerFluidBlockRendering(Block block, String name) {

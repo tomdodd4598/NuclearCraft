@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "facing=north": { "model": "nuclearcraft:supercooler_idle" },
+        "facing=south": { "model": "nuclearcraft:supercooler_idle", "y": 180 },
+        "facing=west":  { "model": "nuclearcraft:supercooler_idle", "y": 270 },
+        "facing=east":  { "model": "nuclearcraft:supercooler_idle", "y": 90 }
+    }
+}

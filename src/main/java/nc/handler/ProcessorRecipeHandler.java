@@ -1,7 +1,9 @@
 package nc.handler;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import net.minecraft.block.Block;
@@ -52,6 +54,7 @@ public abstract class ProcessorRecipeHandler {
 		}
 		for (int i = 0; i < totalInputSize + totalOutputSize; i++) {
 			if (objects[i] == null) {
+				FMLLog.warning("ProcessorRecipeHandler - a recipe was removed because an entry was null!");
 				return;
 			}
 			if (objects[i] instanceof String) {
@@ -464,12 +467,13 @@ public abstract class ProcessorRecipeHandler {
 	}
 	
 	public int[] getItemInputOrder(Object[] input, Object[] key) {
+		if (itemInputSize == 0) return new int[] {};
 		if (input.length != key.length && input.length == totalInputSize) {
 			return INVALID_ORDER;
 		}
 		int[] order = new int[input.length - fluidInputSize];
 		if (!shapeless) {
-			for (int i = 0; i < input.length; i++) {
+			for (int i = 0; i < input.length - fluidInputSize; i++) {
 				order[i] = i;
 			}
 			return order;
@@ -484,13 +488,14 @@ public abstract class ProcessorRecipeHandler {
 	}
 	
 	public int[] getFluidInputOrder(Object[] input, Object[] key) {
+		if (fluidInputSize == 0) return new int[] {};
 		if (input.length != key.length && input.length == totalInputSize) {
 			return INVALID_ORDER;
 		}
 		int[] order = new int[input.length - itemInputSize];
 		if (!shapeless) {
-			for (int i = 0; i < input.length; i++) {
-				order[i] = i;
+			for (int i = 0; i < input.length - itemInputSize; i++) {
+				order[i] = i + itemInputSize;
 			}
 			return order;
 		} else {
@@ -625,7 +630,9 @@ public abstract class ProcessorRecipeHandler {
 		}
 	}
 	
-	public FluidStack fluidStack(String oreString, int stackSize) {
-		return new FluidStack(FluidRegistry.getFluid((String)oreString), stackSize);
+	public FluidStack fluidStack(String fluidString, int stackSize) {
+		List<String> fluidList = new ArrayList<String>(FluidRegistry.getRegisteredFluids().keySet());
+		if (fluidList.contains(fluidString)) return new FluidStack(FluidRegistry.getFluid(fluidString), stackSize);
+		else return null;
 	}
 }

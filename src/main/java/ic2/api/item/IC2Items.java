@@ -1,6 +1,7 @@
 package ic2.api.item;
 
 import net.minecraft.item.ItemStack;
+
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.ModContainer;
 
@@ -74,7 +75,7 @@ public final class IC2Items {
 	public static void setInstance(IItemAPI api) {
 		ModContainer mc = Loader.instance().activeModContainer();
 
-		if (mc == null || !"IC2".equals(mc.getModId())) {
+		if (mc == null || !"ic2".equals(mc.getModId())) {
 			throw new IllegalAccessError("invoked from "+mc);
 		}
 

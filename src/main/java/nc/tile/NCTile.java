@@ -53,14 +53,15 @@ public abstract class NCTile extends TileEntity implements ITickable {
 	
 	public void readAll(NBTTagCompound nbt) {}
 	
-	public NBTTagCompound getTileData() {
+	/*public NBTTagCompound getTileData() {
 		NBTTagCompound nbt = new NBTTagCompound();
 		writeToNBT(nbt);
 		return nbt;
-	}
+	}*/
 	
 	public SPacketUpdateTileEntity getUpdatePacket() {
-		NBTTagCompound nbt = writeToNBT(new NBTTagCompound());
+		NBTTagCompound nbt = new NBTTagCompound();
+		writeToNBT(nbt);
 		int metadata = getBlockMetadata();
 		return new SPacketUpdateTileEntity(pos, metadata, nbt);
 	}

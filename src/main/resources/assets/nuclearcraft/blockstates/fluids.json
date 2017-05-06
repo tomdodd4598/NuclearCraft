@@ -67,6 +67,12 @@
 				"fluid": "lithium7"
 			}
 		},
+		"fluid_boron10": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "boron10"
+			}
+		},
 		"fluid_boron11": {
 			"model": "forge:fluid",
 			"custom": {

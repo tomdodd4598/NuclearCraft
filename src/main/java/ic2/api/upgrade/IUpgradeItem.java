@@ -1,6 +1,6 @@
 package ic2.api.upgrade;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Set;
 
 import net.minecraft.item.ItemStack;
@@ -37,7 +37,8 @@ public interface IUpgradeItem {
 	 *
 	 * @param stack The upgrade stack
 	 * @param parent The parent finishing processing
-	 * @param output The list of output products from the process
+	 * @param output The list of output products from the process, read only!
+	 * @return final output
 	 */
-	void onProcessEnd(ItemStack stack, IUpgradableBlock parent, List<ItemStack> output);
+	Collection<ItemStack> onProcessEnd(ItemStack stack, IUpgradableBlock parent, Collection<ItemStack> output);
 }

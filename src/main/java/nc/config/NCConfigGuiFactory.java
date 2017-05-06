@@ -46,6 +46,7 @@ public class NCConfigGuiFactory implements IModGuiFactory {
 			list.add(new DummyCategoryElement(I18n.translateToLocalFormatted("gui.config.category.generators"), "gui.config.category.generators", CategoryEntryGenerators.class));
 			list.add(new DummyCategoryElement(I18n.translateToLocalFormatted("gui.config.category.fission"), "gui.config.category.fission", CategoryEntryFission.class));
 			list.add(new DummyCategoryElement(I18n.translateToLocalFormatted("gui.config.category.fusion"), "gui.config.category.fusion", CategoryEntryFusion.class));
+			list.add(new DummyCategoryElement(I18n.translateToLocalFormatted("gui.config.category.accelerator"), "gui.config.category.accelerator", CategoryEntryAccelerator.class));
 			list.add(new DummyCategoryElement(I18n.translateToLocalFormatted("gui.config.category.energy_storage"), "gui.config.category.energy_storage", CategoryEntryEnergyStorage.class));
 			list.add(new DummyCategoryElement(I18n.translateToLocalFormatted("gui.config.category.tools"), "gui.config.category.tools", CategoryEntryTools.class));
 			list.add(new DummyCategoryElement(I18n.translateToLocalFormatted("gui.config.category.other"), "gui.config.category.other", CategoryEntryOther.class));
@@ -123,6 +124,21 @@ public class NCConfigGuiFactory implements IModGuiFactory {
 				ConfigElement categoryFission = new ConfigElement(config.getCategory(NCConfig.CATEGORY_FUSION));
 				List<IConfigElement> propertiesOnScreen = categoryFission.getChildElements();
 				String windowTitle = I18n.translateToLocalFormatted("gui.config.category.fusion");
+				return new GuiConfig(owningScreen, propertiesOnScreen, owningScreen.modID, configElement.requiresWorldRestart() || owningScreen.allRequireWorldRestart, configElement.requiresMcRestart() || owningScreen.allRequireMcRestart, windowTitle);
+			}
+		}
+		
+		public static class CategoryEntryAccelerator extends CategoryEntry {
+
+			public CategoryEntryAccelerator(GuiConfig owningScreen, GuiConfigEntries owningEntryList, IConfigElement configElement) {
+				super(owningScreen, owningEntryList, configElement);
+			}
+			
+			protected GuiScreen buildChildScreen() {
+				Configuration config = NCConfig.getConfig();
+				ConfigElement categoryFission = new ConfigElement(config.getCategory(NCConfig.CATEGORY_ACCELERATOR));
+				List<IConfigElement> propertiesOnScreen = categoryFission.getChildElements();
+				String windowTitle = I18n.translateToLocalFormatted("gui.config.category.accelerator");
 				return new GuiConfig(owningScreen, propertiesOnScreen, owningScreen.modID, configElement.requiresWorldRestart() || owningScreen.allRequireWorldRestart, configElement.requiresMcRestart() || owningScreen.allRequireMcRestart, windowTitle);
 			}
 		}
