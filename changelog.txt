@@ -1,3 +1,41 @@
+v2.2
+
++ Added multiblock Fusion Reactor
++ Added Electromagnet
++ Added Fusion Connector
++ Added fusion fluid fuels and products
+
++ Added Fluid Infuser
++ Added Metal Melter
++ Added Supercooler
++ Added Electrolyser
++ Added Neutron Irradiator
+* Process times change depending on the recipe
+* Improved automation on machine sides
+
++ Added Fission Port
+* Tweaked fission cooler effects
+
++ Added Helium Collector
++ Added Machine Interface
++ Added Buffer
++ Added Cobblestone Generator
++ Added Infinite Water Source
+
++ Added Superconducting Electromagnet
++ Added Superconducting Supercooler
++ Added Supercooled Ice
+
++ Added many new config options
++ Added and tweaked recipes
++ Added new items and other fluids
+
+* Hopefully fixed SpongeForge crash
+* Fixed crash related to invalid recipes
+* Many, many internal changes
+* Updated IC2 API
+* Many thanks go to CrazyPants for allowing me to use EnderIO's GUI fluid rendering code!
+
 v2.1c
 
 * Improved mod creative tabs
