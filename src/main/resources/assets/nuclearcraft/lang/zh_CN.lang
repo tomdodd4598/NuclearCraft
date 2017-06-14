@@ -17,157 +17,155 @@ tile.ingot_block.lithium.name=锂块
 tile.ingot_block.magnesium.name=镁块
 
 tile.ingot_block.graphite.name=石墨块
-tile.ingot_block.graphite.des0=石墨只在这时激活，当
-tile.ingot_block.graphite.des1=touching at least one Reactor Cell.
-tile.ingot_block.graphite.des2=Active graphite increases a reactor's
-tile.ingot_block.graphite.des3=efficiency, but also produces some
-tile.ingot_block.graphite.des4=extra heat
+tile.ingot_block.graphite.des0=石墨只在当
+tile.ingot_block.graphite.des1=接触到至少一个反应堆单元时激活.
+tile.ingot_block.graphite.des2=有效的石墨块会提高一个反应堆的
+tile.ingot_block.graphite.des3=效率，但也会提供
+tile.ingot_block.graphite.des4=多余的热量
 
-tile.fission_block.casing.name=Reactor Casing
-tile.fission_block.casing.des0=Used in the construction of
-tile.fission_block.casing.des1=fission reactors. To form
-tile.fission_block.casing.des2=a valid structure, build a
-tile.fission_block.casing.des3=cuboid shell of casing,
-tile.fission_block.casing.des4=making sure to *exclude* the
-tile.fission_block.casing.des5=edges - the corners don't
-tile.fission_block.casing.des6=matter. Then place a fission
-tile.fission_block.casing.des7=controller along an edge,
-tile.fission_block.casing.des8=at a corner or within one of
-tile.fission_block.casing.des9=the faces of the structure.
-tile.fission_block.casing.des10=If the GUI shows an error,
-tile.fission_block.casing.des11=make sure the structure is
-tile.fission_block.casing.des12=valid. Then fill the interior
-tile.fission_block.casing.des13=with reactor cells, coolers
-tile.fission_block.casing.des14=and graphite blocks to start
-tile.fission_block.casing.des15=generating energy from your
-tile.fission_block.casing.des16=fission fuels!
+tile.fission_block.casing.name=反应堆外壳
+tile.fission_block.casing.des0=用在
+tile.fission_block.casing.des1=裂变堆结构中. 要形成
+tile.fission_block.casing.des2=一个有效结构, 建造一个
+tile.fission_block.casing.des3=反应堆外壳的立方体框架,
+tile.fission_block.casing.des4=记住 *不包括* 边缘
+tile.fission_block.casing.des5=- 8个角不重要
+tile.fission_block.casing.des6=然后将一个反应堆
+tile.fission_block.casing.des7=控制器放在边缘,
+tile.fission_block.casing.des8=角落或者（仅仅是）
+tile.fission_block.casing.des9=结构的某个面的一部分.
+tile.fission_block.casing.des10=如果界面显示了错误,
+tile.fission_block.casing.des11=确保结构是
+tile.fission_block.casing.des12=有效的. 然后将反应堆内部放满
+tile.fission_block.casing.des13=反应堆单元, 冷却器
+tile.fission_block.casing.des14=和石墨方块以开始
+tile.fission_block.casing.des15=从你的裂变燃料中
+tile.fission_block.casing.des16=获得能量!
 
-tile.fission_block.blast.name=Blast Block
-tile.fission_block.blast.des0=Highly blast resistant.
-tile.fission_block.blast.des1=Perfect for bunkers
+tile.fission_block.blast.name=防爆方块
+tile.fission_block.blast.des0=很高的抗爆性.
+tile.fission_block.blast.des1=合格的碉堡
 
-tile.fusion_connector.name=Fusion Connector
-tile.fusion_connector.des0=Connects a fusion core to
-tile.fusion_connector.des1=its ring of electromagnets
+tile.fusion_connector.name=聚变控制器
+tile.fusion_connector.des0=将一个聚变核心链接到
+tile.fusion_connector.des1=它的电磁体环
+tile.cell_block.name=反应堆单元
+tile.cell_block.des0=用在裂变反应堆中
+tile.cell_block.des1=以容纳裂变燃料.
+tile.cell_block.des2=单元放得越多，
+tile.cell_block.des3=燃料消耗也就越快。
+tile.cell_block.des4=单元会互相提高
+tile.cell_block.des5=与之相邻摆放的
+tile.cell_block.des6=单元的效率, 或者，
+tile.cell_block.des7=用石墨块连接起来
+tile.cell_block.des8=在同一条直线上的
+tile.cell_block.des9=两个单元
+tile.cell_block.des10=(换句话说，单元-单元或者单元-石墨块-单元相间)
 
-tile.cell_block.name=Reactor Cell
-tile.cell_block.des0=Used in fission reactors to
-tile.cell_block.des1=house the fission fuels.
-tile.cell_block.des2=The more cells placed, the
-tile.cell_block.des3=more rapidly fuel is used.
-tile.cell_block.des4=Cells will be more efficient
-tile.cell_block.des5=for each other cell they
-tile.cell_block.des6=are adjacent to, or for
-tile.cell_block.des7=each adjacent graphite block 
-tile.cell_block.des8=which is itself adjacent to
-tile.cell_block.des9=another cell in the same
-tile.cell_block.des10=direction (e.g. CC or CGC)
+tile.cooler.empty.name=空的冷却器
 
-tile.cooler.empty.name=Empty Cooler
+tile.cooler.water.name=水冷器
+tile.cooler.water.des0=必须接触至少
+tile.cooler.water.des1=一个反应堆外壳
 
-tile.cooler.water.name=Water Cooler
-tile.cooler.water.des0=Must touch at least
-tile.cooler.water.des1=one Reactor Casing
+tile.cooler.redstone.name=红石冷却器
+tile.cooler.redstone.des0=必须接触至少
+tile.cooler.redstone.des1=一个反应堆单元
 
-tile.cooler.redstone.name=Redstone Cooler
-tile.cooler.redstone.des0=Must touch at least
-tile.cooler.redstone.des1=one Reactor Cell
+tile.cooler.quartz.name=石英冷却器
+tile.cooler.quartz.des0=必须接触至少一个
+tile.cooler.quartz.des1=有效的石墨块
 
-tile.cooler.quartz.name=Quartz Cooler
-tile.cooler.quartz.des0=Must touch at least one
-tile.cooler.quartz.des1=active Graphite Block
+tile.cooler.gold.name=金冷却器
+tile.cooler.gold.des0=必须接触至少一个水冷器
+tile.cooler.gold.des1=和一个红石冷却器
 
-tile.cooler.gold.name=Gold Cooler
-tile.cooler.gold.des0=Must touch at least one Water
-tile.cooler.gold.des1=Cooler and one Redstone Cooler
+tile.cooler.glowstone.name=萤石冷却器
+tile.cooler.glowstone.des0=必须接触至少两个
+tile.cooler.glowstone.des1=有效的石墨块
 
-tile.cooler.glowstone.name=Glowstone Cooler
-tile.cooler.glowstone.des0=Must touch at least two
-tile.cooler.glowstone.des1=active Graphite Blocks
+tile.cooler.lapis.name=青金石冷却器
+tile.cooler.lapis.des0=必须接触至少一个
+tile.cooler.lapis.des1=反应堆单元和一个反应堆外壳
 
-tile.cooler.lapis.name=Lapis Cooler
-tile.cooler.lapis.des0=Must touch at least one Reactor
-tile.cooler.lapis.des1=Cell and one Reactor Casing
+tile.cooler.diamond.name=钻石冷却器
+tile.cooler.diamond.des0=必须被（至少两个）水冷器
+tile.cooler.diamond.des1=像三明治一样夹起来
 
-tile.cooler.diamond.name=Diamond Cooler
-tile.cooler.diamond.des0=Must be at least sandwiched
-tile.cooler.diamond.des1=by Water Coolers
+tile.cooler.helium.name=液氦冷却器
+tile.cooler.helium.des0=必须接触至少一个石英冷却器
+tile.cooler.helium.des1=和一个反应堆外壳
 
-tile.cooler.helium.name=Liquid Helium Cooler
-tile.cooler.helium.des0=Must touch at least one Quartz
-tile.cooler.helium.des1=Cooler and one Reactor Casing
+tile.cooler.enderium.name=末影锭冷却器
+tile.cooler.enderium.des0=必须接触至少
+tile.cooler.enderium.des1=三个反应堆外壳
 
-tile.cooler.enderium.name=Enderium Cooler
-tile.cooler.enderium.des0=Must touch at least
-tile.cooler.enderium.des1=three Reactor Casings
+tile.cooler.cryotheum.name=凛冰冷却器
+tile.cooler.cryotheum.des0=必须接触至少
+tile.cooler.cryotheum.des1=两个反应堆单元
 
-tile.cooler.cryotheum.name=Cryotheum Cooler
-tile.cooler.cryotheum.des0=Must touch at least
-tile.cooler.cryotheum.des1=two Reactor Cells
+tile.cooler.cooling_rate=冷却速率:
 
-tile.cooler.cooling_rate=Cooling rate:
+tile.block_depleted_thorium.name=贫钍块
+tile.block_depleted_uranium.name=贫铀块
+tile.block_ice.name=超冷冰
 
-tile.block_depleted_thorium.name=Depleted Thorium Block
-tile.block_depleted_uranium.name=Depleted Uranium Block
-tile.block_ice.name=Supercold Ice
+tile.nuclear_furnace_idle.name=核熔炉
+tile.nuclear_furnace_idle.des0=以极快的速度冶炼物品--使用铀
+tile.nuclear_furnace_idle.des1=和钍的锭或粉作为燃料
+tile.nuclear_furnace_active.name=核熔炉
 
-tile.nuclear_furnace_idle.name=Nuclear Furnace
-tile.nuclear_furnace_idle.des0=Smelts items very quickly - uses uranium
-tile.nuclear_furnace_idle.des1=and thorium ingots and dust as fuel
-tile.nuclear_furnace_active.name=Nuclear Furnace
+tile.manufactory_idle.name=小制造机
+tile.manufactory_idle.des0=一个有很多用处的方便机器.
+tile.manufactory_idle.des1=可以接受中压IC2电源
+tile.manufactory_active.name=小制造机
 
-tile.manufactory_idle.name=Manufactory
-tile.manufactory_idle.des0=A handy machine that has many uses.
-tile.manufactory_idle.des1=Can accept MV IC2 power
-tile.manufactory_active.name=Manufactory
+tile.isotope_separator_idle.name=同位素分离器
+tile.isotope_separator_idle.des0=将材料分离成它们的同位素.
+tile.isotope_separator_idle.des1=可以接受中压IC2电源
+tile.isotope_separator_active.name=同位素分离器
+tile.decay_hastener_idle.name=衰变加速器
+tile.decay_hastener_idle.des0=强制使放射性材料衰变.
+tile.decay_hastener_idle.des1=可以接受中压IC2电源
+tile.decay_hastener_active.name=衰变加速器
 
-tile.isotope_separator_idle.name=Isotope Separator
-tile.isotope_separator_idle.des0=Separates materials into their isotopes.
-tile.isotope_separator_idle.des1=Can accept MV IC2 power
-tile.isotope_separator_active.name=Isotope Separator
+tile.fuel_reprocessor_idle.name=燃料处理机
+tile.fuel_reprocessor_idle.des0=从废弃燃料中提取材料.
+tile.fuel_reprocessor_idle.des1=可以接受中压IC2电源
+tile.fuel_reprocessor_active.name=燃料处理机
 
-tile.decay_hastener_idle.name=Decay Hastener
-tile.decay_hastener_idle.des0=Forces radioactive materials to decay.
-tile.decay_hastener_idle.des1=Can accept MV IC2 power
-tile.decay_hastener_active.name=Decay Hastener
+tile.alloy_furnace_idle.name=合金炉
+tile.alloy_furnace_idle.des0=将基础材料熔合成合金.
+tile.alloy_furnace_idle.des1=可以接受中压IC2电源
+tile.alloy_furnace_active.name=合金炉
 
-tile.fuel_reprocessor_idle.name=Fuel Reprocessor
-tile.fuel_reprocessor_idle.des0=Extracts materials from depleted fuel.
-tile.fuel_reprocessor_idle.des1=Can accept MV IC2 power
-tile.fuel_reprocessor_active.name=Fuel Reprocessor
+tile.infuser_idle.name=流体注入器
+tile.infuser_idle.des0=用流体增强材料.
+tile.infuser_idle.des1=可以接受中压IC2能源
+tile.infuser_active.name=流体注入器
 
-tile.alloy_furnace_idle.name=Alloy Furnace
-tile.alloy_furnace_idle.des0=Combines base metals into alloys.
-tile.alloy_furnace_idle.des1=Can accept MV IC2 power
-tile.alloy_furnace_active.name=Alloy Furnace
+tile.melter_idle.name=金属熔化机
+tile.melter_idle.des0=将金属熔化为液态.
+tile.melter_idle.des1=可以接受中压IC2电源
+tile.melter_active.name=金属熔化机
 
-tile.infuser_idle.name=Fluid Infuser
-tile.infuser_idle.des0=Enhances materials with fluids.
-tile.infuser_idle.des1=Can accept MV IC2 power
-tile.infuser_active.name=Fluid Infuser
+tile.supercooler_idle.name=超冷却器
+tile.supercooler_idle.des0=降低流体温度.
+tile.supercooler_idle.des1=可以接受中压IC2电源
+tile.supercooler_active.name=超级冷却器
 
-tile.melter_idle.name=Metal Melter
-tile.melter_idle.des0=Produces liquid forms of metals.
-tile.melter_idle.des1=Can accept MV IC2 power
-tile.melter_active.name=Metal Melter
+tile.electrolyser_idle.name=电解机
+tile.electrolyser_idle.des0=将化合物分解成基本元素.
+tile.electrolyser_idle.des1=可以接受中压IC2电源
+tile.electrolyser_active.name=电解机
 
-tile.supercooler_idle.name=Supercooler
-tile.supercooler_idle.des0=Lowers the temperature of fluids.
-tile.supercooler_idle.des1=Can accept MV IC2 power
-tile.supercooler_active.name=Supercooler
+tile.irradiator_idle.name=中子辐照器
+tile.irradiator_idle.des0=引发核电结构的改变.
+tile.irradiator_idle.des1=可以接受中压IC2电源
+tile.irradiator_active.name=中子辐照器
 
-tile.electrolyser_idle.name=Electrolyser
-tile.electrolyser_idle.des0=Splits compounds into their elements.
-tile.electrolyser_idle.des1=Can accept MV IC2 power
-tile.electrolyser_active.name=Electrolyser
-
-tile.irradiator_idle.name=Neutron Irradiator
-tile.irradiator_idle.des0=Induces changes to nuclear structure.
-tile.irradiator_idle.des1=Can accept MV IC2 power
-tile.irradiator_active.name=Neutron Irradiator
-
-tile.machine_interface.name=Machine Interface
-tile.machine_interface.des0=Automation can access the machine
+tile.machine_interface.name=机器界面
+tile.machine_interface.des0=自动化系统可以进入这个机器
 tile.machine_interface.des1=directly adjacent to this block.
 tile.machine_interface.des2=Make sure that there is only one
 tile.machine_interface.des3=adjacent machine at maximum
