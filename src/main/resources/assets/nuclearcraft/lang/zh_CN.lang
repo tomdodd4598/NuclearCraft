@@ -153,7 +153,7 @@ tile.melter_active.name=金属熔化机
 tile.supercooler_idle.name=超冷却器
 tile.supercooler_idle.des0=降低流体温度.
 tile.supercooler_idle.des1=可以接受中压IC2电源
-tile.supercooler_active.name=超级冷却器
+tile.supercooler_active.name=超冷却器
 
 tile.electrolyser_idle.name=电解机
 tile.electrolyser_idle.des0=将化合物分解成基本元素.
@@ -252,111 +252,111 @@ tile.accelerator_electromagnet_idle.des0=需要
 tile.accelerator_electromagnet_idle.des1=RF/t保持激活
 tile.accelerator_electromagnet_active.name=超导电磁体
 
-tile.electromagnet_supercooler_idle.name=Superconducting Supercooler
-tile.electromagnet_supercooler_idle.des0=Requires
-tile.electromagnet_supercooler_idle.des1=RF/t and
+tile.electromagnet_supercooler_idle.name=超导超冷却器 
+tile.electromagnet_supercooler_idle.des0=需要
+tile.electromagnet_supercooler_idle.des1=RF/t 和
 tile.electromagnet_supercooler_idle.des2=mB/t
-tile.electromagnet_supercooler_idle.des3=of liquid helium to stay active
-tile.electromagnet_supercooler_active.name=Superconducting Supercooler
+tile.electromagnet_supercooler_idle.des3=的液氦保持有效
+tile.electromagnet_supercooler_active.name=超导超冷却器
 
-tile.helium_collector.name=Helium Collector
-tile.helium_collector.des0=Produces
-tile.helium_collector.des1=mB/t of helium constantly
+tile.helium_collector.name=氦收集器
+tile.helium_collector.des0=恒定产出
+tile.helium_collector.des1=mB/t的氦
 
-tile.cobblestone_generator.name=Cobblestone Generator
-tile.cobblestone_generator.des0=Produces
-tile.cobblestone_generator.des1=cobblestone/t constantly
+tile.cobblestone_generator.name=造圆石机
+tile.cobblestone_generator.des0=恒定产出
+tile.cobblestone_generator.des1=个圆石/t
 
-tile.water_source.name=Infinite Water Source
-tile.water_source.des0=Produces
-tile.water_source.des1=mB/t of water constantly
+tile.water_source.name=无限水源
+tile.water_source.des0=恒定产出
+tile.water_source.des1=mB/t水
 
-tile.fluid_oxygen.name=Oxygen
-fluid.oxygen=Oxygen
+tile.fluid_oxygen.name=氧气
+fluid.oxygen=氧气
 
-tile.fluid_hydrogen.name=Hydrogen
-fluid.hydrogen=Hydrogen
+tile.fluid_hydrogen.name=氢气
+fluid.hydrogen=氢气
 
-tile.fluid_deuterium.name=Deuterium
-fluid.deuterium=Deuterium
+tile.fluid_deuterium.name=氘
+fluid.deuterium=氘 
 
-tile.fluid_tritium.name=Tritium
-fluid.tritium=Tritium
+tile.fluid_tritium.name=氚
+fluid.tritium=氚
 
-tile.fluid_helium3.name=Helium-3
-fluid.helium3=Helium-3
+tile.fluid_helium3.name=氦-3
+fluid.helium3=氦-3
 
-tile.fluid_helium.name=Helium
-fluid.helium=Helium
+tile.fluid_helium.name=氦
+fluid.helium=氦
 
-tile.fluid_steam.name=Steam
-fluid.steam=Steam
+tile.fluid_steam.name=蒸汽
+fluid.steam=蒸汽
 
-tile.fluid_liquidhelium.name=Liquid Helium
-fluid.liquidhelium=Liquid Helium
+tile.fluid_liquidhelium.name=液氦
+fluid.liquidhelium=液氦
 
-tile.fluid_plasma.name=Plasma
-fluid.plasma=Plasma
+tile.fluid_plasma.name=等离子体
+fluid.plasma=等离子体
 
-tile.fluid_lithium6.name=Molten Lithium-6
-fluid.lithium6=Molten Lithium-6
+tile.fluid_lithium6.name=熔融锂-6
+fluid.lithium6=熔融锂-6
 
-tile.fluid_lithium7.name=Molten Lithium-7
-fluid.lithium7=Molten Lithium-7
+tile.fluid_lithium7.name=熔融锂-7
+fluid.lithium7=熔融锂-7
 
-tile.fluid_boron10.name=Molten Boron-10
+tile.fluid_boron10.name=熔融硼-10
 fluid.boron10=Molten Boron-10
 
-tile.fluid_boron11.name=Molten Boron-11
-fluid.boron11=Molten Boron-11
+tile.fluid_boron11.name=熔融硼-11
+fluid.boron11=熔融硼-11
 
-tile.fluid_neutron.name=Neutron Fluid
-fluid.neutron=Neutron Fluid
+tile.fluid_neutron.name=中子流体
+fluid.neutron=中子流体
 
-item.ingot.copper.name=Copper Ingot
-item.ingot.tin.name=Tin Ingot
-item.ingot.lead.name=Lead Ingot
-item.ingot.thorium.name=Thorium Ingot
-item.ingot.uranium.name=Uranium Ingot
-item.ingot.boron.name=Boron Ingot
-item.ingot.lithium.name=Lithium Ingot
-item.ingot.magnesium.name=Magnesium Ingot
-item.ingot.graphite.name=Graphite Ingot
+item.ingot.copper.name=铜锭
+item.ingot.tin.name=锡锭
+item.ingot.lead.name=铅锭
+item.ingot.thorium.name=钍锭
+item.ingot.uranium.name=铀锭
+item.ingot.boron.name=硼锭
+item.ingot.lithium.name=锂锭
+item.ingot.magnesium.name=镁锭
+item.ingot.graphite.name石墨锭
 
-item.ingot_oxide.thorium.name=Thorium Oxide Ingot
-item.ingot_oxide.uranium.name=Uranium Oxide Ingot
-item.ingot_oxide.manganese.name=Manganese Oxide Ingot
-item.ingot_oxide.manganese2.name=Manganese Dioxide Ingot
+item.ingot_oxide.thorium.name=氧化钍锭
+item.ingot_oxide.uranium.name=氧化铀锭
+item.ingot_oxide.manganese.name=氧化锰锭
+item.ingot_oxide.manganese2.name=二氧化锰锭
 
-item.dust.copper.name=Copper Dust
-item.dust.tin.name=Tin Dust
-item.dust.lead.name=Lead Dust
-item.dust.thorium.name=Thorium Dust
-item.dust.uranium.name=Uranium Dust
-item.dust.boron.name=Boron Dust
-item.dust.lithium.name=Lithium Dust
-item.dust.magnesium.name=Magnesium Dust
-item.dust.graphite.name=Graphite Dust
+item.dust.copper.name=铜粉
+item.dust.tin.name=锡粉
+item.dust.lead.name=铅粉
+item.dust.thorium.name=钍粉
+item.dust.uranium.name=铀粉
+item.dust.boron.name=硼粉
+item.dust.lithium.name=锂粉
+item.dust.magnesium.name=镁粉
+item.dust.graphite.name=石墨粉
 
-item.dust_oxide.thorium.name=Thorium Oxide Dust
-item.dust_oxide.uranium.name=Uranium Oxide Dust
-item.dust_oxide.manganese.name=Manganese Oxide Dust
-item.dust_oxide.manganese2.name=Manganese Dioxide Dust
+item.dust_oxide.thorium.name=氧化钍粉
+item.dust_oxide.uranium.name=氧化铀粉
+item.dust_oxide.manganese.name=氧化锰粉
+item.dust_oxide.manganese2.name=二氧化锰粉
 
-item.gem.rhodochrosite.name=Rhodochrosite
+item.gem.rhodochrosite.name=菱锰
 
-item.gem_dust.diamond.name=Crushed Diamond
-item.gem_dust.rhodochrosite.name=Crushed Rhodochrosite
-item.gem_dust.quartz.name=Crushed Quartz
-item.gem_dust.obsidian.name=Crushed Obsidian
+item.gem_dust.diamond.name=钻石粉
+item.gem_dust.rhodochrosite.name=菱锰粉
+item.gem_dust.quartz.name=石英粉
+item.gem_dust.obsidian.name=黑曜石粉
 
-item.alloy.bronze.name=Bronze Alloy
-item.alloy.tough.name=Tough Alloy
-item.alloy.hard_carbon.name=Hard Carbon Alloy
-item.alloy.magnesium_diboride.name=Magnesium Diboride Alloy
-item.alloy.lithium_manganese_dioxide.name=Lithium Manganese Dioxide Alloy
-item.alloy.steel.name=Steel Alloy
-item.alloy.ferroboron.name=Ferroboron Alloy
+item.alloy.bronze.name=青铜
+item.alloy.tough.name=高强合金
+item.alloy.hard_carbon.name=硬碳合金
+item.alloy.magnesium_diboride.name=二硼化镁合金
+item.alloy.lithium_manganese_dioxide.name=锂锰氧化物合金
+item.alloy.steel.name=钢
+item.alloy.ferroboron.name=硼铁合金
 
 item.part.plate_basic.name=Basic Plating
 item.part.plate_advanced.name=Advanced Plating
