@@ -59,7 +59,7 @@ tile.cell_block.des4=相提高与之相邻摆
 tile.cell_block.des5=放的单元的效率,或
 tile.cell_block.des6=者，用石墨块连接起
 tile.cell_block.des7=来在同一条直线上的
-tile.cell_block.des8=两个单元(换句话说，
+tile.cell_block.des8=两个单元(举个例子，
 tile.cell_block.des9=单元-单元或者单元-
 tile.cell_block.des10=石墨块-单元相间)
 
@@ -448,14 +448,14 @@ item.curium._247_oxide.name=氧化锔-247
 item.curium._247_tiny.name=小撮锔-247
 item.curium._247_oxide_tiny.name=小撮氧化锔-247
 
-item.berkelium._247.name=Berkelium-247
-item.berkelium._247_oxide.name=Berkelium-247 Oxide
-item.berkelium._247_tiny.name=Tiny Clump of Berkelium-247
-item.berkelium._247_oxide_tiny.name=Tiny Clump of Berkelium-247 Oxide
-item.berkelium._248.name=Berkelium-248
-item.berkelium._248_oxide.name=Berkelium-248 Oxide
-item.berkelium._248_tiny.name=Tiny Clump of Berkelium-248
-item.berkelium._248_oxide_tiny.name=Tiny Clump of Berkelium-248 Oxide
+item.berkelium._247.name=锫-247
+item.berkelium._247_oxide.name=氧化锫-247
+item.berkelium._247_tiny.name=小撮锫-247
+item.berkelium._247_oxide_tiny.name=小撮氧化锫-247
+item.berkelium._248.name=锫-248
+item.berkelium._248_oxide.name=氧化锫-248
+item.berkelium._248_tiny.name=小撮锫-248
+item.berkelium._248_oxide_tiny.name=小撮氧化锫-248
 
 item.californium._249.name=Californium-249
 item.californium._249_oxide.name=Californium-249 Oxide
