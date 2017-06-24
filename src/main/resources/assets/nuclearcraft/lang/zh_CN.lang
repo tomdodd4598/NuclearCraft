@@ -139,7 +139,7 @@ tile.alloy_furnace_idle.name=合金炉
 tile.alloy_furnace_idle.des0=将基础材料熔合成合金.
 tile.alloy_furnace_idle.des1=可以接受中压IC2电源
 tile.alloy_furnace_idle.des2=3铜+1锡=4青铜
-tile.alloy_furnace_idle.des3=1铁+2石墨锭=1钢
+tile.alloy_furnace_idle.des3=1铁+2石墨（粉）=1钢
 tile.alloy_furnace_idle.des4=1钢+1硼锭=2硼钢
 tile.alloy_furnace_idle.des5=1硼钢+1锂=2高强合金
 tile.alloy_furnace_idle.des6=2石墨（粉）+1钻石粉=2硬碳合金
