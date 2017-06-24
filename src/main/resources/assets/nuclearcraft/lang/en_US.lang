@@ -122,7 +122,7 @@ tile.manufactory_idle.des1=Can accept MV IC2 power
 tile.manufactory_active.name=Manufactory
 
 tile.isotope_separator_idle.name=Isotope Separator
-tile.isotope_separator_idle.des0=Separates materials into their isotopes.
+tile.isotope_separator_idle.des0=Separates materials （such as uranium ingot） into their isotopes to recipe fuels.
 tile.isotope_separator_idle.des1=Can accept MV IC2 power
 tile.isotope_separator_active.name=Isotope Separator
 
@@ -134,6 +134,13 @@ tile.decay_hastener_active.name=Decay Hastener
 tile.fuel_reprocessor_idle.name=Fuel Reprocessor
 tile.fuel_reprocessor_idle.des0=Extracts materials from depleted fuel.
 tile.fuel_reprocessor_idle.des1=Can accept MV IC2 power
+tile.fuel_reprocessor_idle.des2=3 Copper ingot+1 Tin ingot=4 Bronze ingot
+tile.fuel_reprocessor_idle.des3=1 Iron ingot+2 Graphite ingot/dust=1 Steel ingot
+tile.fuel_reprocessor_idle.des4=1 Steel ingot+1 Boron ingot=2 Ferroboron Alloy
+tile.fuel_reprocessor_idle.des5=1 Ferroboron ingot+1 Lithium ingot=2 Tough Alloy 
+tile.fuel_reprocessor_idle.des6=2 Graphite ingot/dust+1 diamond dust=2 Hard Carbon Alloy
+tile.fuel_reprocessor_idle.des7=1 Megnesium ingot+2 Boron ingot=3 Megnesium Diboride Alloy
+tile.fuel_reprocessor_idle.des8=1 Lithium ingot+1 Manganese Dioxide=2 Lithium Manganese Dioxide Alloy
 tile.fuel_reprocessor_active.name=Fuel Reprocessor
 
 tile.alloy_furnace_idle.name=Alloy Furnace
