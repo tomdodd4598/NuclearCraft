@@ -122,7 +122,7 @@ tile.manufactory_idle.des1=可以接受中压IC2电源
 tile.manufactory_active.name=小制造机
 
 tile.isotope_separator_idle.name=同位素分离器
-tile.isotope_separator_idle.des0=将材料分离成它们的同位素.
+tile.isotope_separator_idle.des0=将材料（铀锭等）分离成它们的同位素以合成燃料.
 tile.isotope_separator_idle.des1=可以接受中压IC2电源
 tile.isotope_separator_active.name=同位素分离器
 tile.decay_hastener_idle.name=衰变加速器
