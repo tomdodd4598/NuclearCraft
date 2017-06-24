@@ -138,6 +138,13 @@ tile.fuel_reprocessor_active.name=燃料处理机
 tile.alloy_furnace_idle.name=合金炉
 tile.alloy_furnace_idle.des0=将基础材料熔合成合金.
 tile.alloy_furnace_idle.des1=可以接受中压IC2电源
+tile.alloy_furnace_idle.des2=3铜+1锡=4青铜
+tile.alloy_furnace_idle.des3=1铁+2石墨锭=1钢
+tile.alloy_furnace_idle.des4=1钢+1硼锭=2硼钢
+tile.alloy_furnace_idle.des5=1硼钢+1锂=2高强合金
+tile.alloy_furnace_idle.des6=2石墨（粉）+1钻石粉=2硬碳合金
+tile.alloy_furnace_idle.des7=1镁+2硼=3二硼化镁
+tile.alloy_furnace_idle.des8=1锂+1二氧化锰=2锂锰氧化物合金
 tile.alloy_furnace_active.name=合金炉
 
 tile.infuser_idle.name=流体注入器
@@ -234,13 +241,13 @@ tile.fusion_core.des4=到核心的四个面上。这个环，
 tile.fusion_core.des5=换句话说这片场地，需要是
 tile.fusion_core.des6=中空的，而且不需要电磁体
 tile.fusion_core.des7=在中空结构中排成对角线。
-tile.fusion_core.des8=确保远处的角落也被完全削掉。
-tile.fusion_core.des9=反应堆会从两种燃料聚变产生
-tile.fusion_core.des10=的热量中产出大量能量--记
-tile.fusion_core.des11=住相同的燃料会自己与自己
-tile.fusion_core.des12=聚变。可用的燃料有氢（氕）
-tile.fusion_core.des13=，氘，氚，氦-3，锂-6，锂
-tile.fusion_core.des14=-7和硼11.
+tile.fusion_core.des8=确保远处的角落也被完全削
+tile.fusion_core.des9=掉。反应堆会从两种燃料聚
+tile.fusion_core.des10=变产生的热量中产出大量
+tile.fusion_core.des11=能量--记住相同的燃料会
+tile.fusion_core.des12=自己与自己聚变。可用的
+tile.fusion_core.des13=燃料有氢（氕），氘，氚，
+tile.fusion_core.des14=氦-3，锂-6，锂-7和硼11.
 
 tile.fusion_electromagnet_idle.name=电磁体
 tile.fusion_electromagnet_idle.des0=需要
@@ -360,7 +367,7 @@ item.alloy.ferroboron.name=硼铁合金
 
 item.part.plate_basic.name=基础版
 item.part.plate_advanced.name=高级板
-item.part.plate_du.name=DU Plating
+item.part.plate_du.name=贫铀板
 item.part.plate_elite.name=精华板
 item.part.wire_copper.name=铜螺线管
 item.part.wire_magnesium_diboride.name=二硼化镁螺线管
@@ -528,139 +535,139 @@ item.fuel_berkelium.heb_248_oxide.name=高密度氧化锫-248燃料
 
 item.fuel_californium.lec_249.name=低密度锎-249燃料
 item.fuel_californium.lec_249_oxide.name=低密度氧化锎-249燃料
-item.fuel_californium.hec_249.name=HECf-249 Fuel
-item.fuel_californium.hec_249_oxide.name=HECf-249 Oxide Fuel
-item.fuel_californium.lec_251.name=LECf-251 Fuel
-item.fuel_californium.lec_251_oxide.name=LECf-251 Oxide Fuel
-item.fuel_californium.hec_251.name=HECf-251 Fuel
-item.fuel_californium.hec_251_oxide.name=HECf-251 Oxide Fuel
+item.fuel_californium.hec_249.name=高密度锎-249燃料
+item.fuel_californium.hec_249_oxide.name=高密度氧化锎-249燃料
+item.fuel_californium.lec_251.name=低密度锎-251燃料
+item.fuel_californium.lec_251_oxide.name=低密度氧化锎-251燃料
+item.fuel_californium.hec_251.name=高密度锎-251燃料
+item.fuel_californium.hec_251_oxide.name=高密度氧化锎-251燃料
 
 item.fuel_rod_thorium.tbu.name=TBU Fuel Rod
 item.fuel_rod_thorium.tbu_oxide.name=TBU Oxide Fuel Rod
 
-item.fuel_rod_uranium.leu_233.name=LEU-233 Fuel Rod
-item.fuel_rod_uranium.leu_233_oxide.name=LEU-233 Oxide Fuel Rod
-item.fuel_rod_uranium.heu_233.name=HEU-233 Fuel Rod
-item.fuel_rod_uranium.heu_233_oxide.name=HEU-233 Oxide Fuel Rod
-item.fuel_rod_uranium.leu_235.name=LEU-235 Fuel Rod
-item.fuel_rod_uranium.leu_235_oxide.name=LEU-235 Oxide Fuel Rod
-item.fuel_rod_uranium.heu_235.name=HEU-235 Fuel Rod
-item.fuel_rod_uranium.heu_235_oxide.name=HEU-235 Oxide Fuel Rod
+item.fuel_rod_uranium.leu_233.name=低密度铀-233燃料棒
+item.fuel_rod_uranium.leu_233_oxide.name=低密度氧化铀-233燃料棒
+item.fuel_rod_uranium.heu_233.name=高密度铀-233燃料棒
+item.fuel_rod_uranium.heu_233_oxide.name=高密度氧化铀-233燃料棒
+item.fuel_rod_uranium.leu_235.name=低密度铀-235燃料棒
+item.fuel_rod_uranium.leu_235_oxide.name=低密度氧化铀-235燃料棒
+item.fuel_rod_uranium.heu_235.name=高密度铀-235燃料棒
+item.fuel_rod_uranium.heu_235_oxide.name=高密度氧化铀-235燃料棒
 
-item.fuel_rod_neptunium.len_236.name=LEN-236 Fuel Rod
-item.fuel_rod_neptunium.len_236_oxide.name=LEN-236 Oxide Fuel Rod
-item.fuel_rod_neptunium.hen_236.name=HEN-236 Fuel Rod
-item.fuel_rod_neptunium.hen_236_oxide.name=HEN-236 Oxide Fuel Rod
+item.fuel_rod_neptunium.len_236.name=低密度镎-236燃料棒
+item.fuel_rod_neptunium.len_236_oxide.name=低密度氧化镎-236燃料棒
+item.fuel_rod_neptunium.hen_236.name=高密度镎-236燃料棒
+item.fuel_rod_neptunium.hen_236_oxide.name=高密度氧化镎-236燃料棒
 
-item.fuel_rod_plutonium.lep_239.name=LEP-239 Fuel Rod
-item.fuel_rod_plutonium.lep_239_oxide.name=LEP-239 Oxide Fuel Rod
-item.fuel_rod_plutonium.hep_239.name=HEP-239 Fuel Rod
-item.fuel_rod_plutonium.hep_239_oxide.name=HEP-239 Oxide Fuel Rod
-item.fuel_rod_plutonium.lep_241.name=LEP-241 Fuel Rod
-item.fuel_rod_plutonium.lep_241_oxide.name=LEP-241 Oxide Fuel Rod
-item.fuel_rod_plutonium.hep_241.name=HEP-241 Fuel Rod
-item.fuel_rod_plutonium.hep_241_oxide.name=HEP-241 Oxide Fuel Rod
+item.fuel_rod_plutonium.lep_239.name=低密度钚-239燃料棒
+item.fuel_rod_plutonium.lep_239_oxide.name=低密度氧化钚-239燃料棒
+item.fuel_rod_plutonium.hep_239.name=高密度钚-239燃料棒
+item.fuel_rod_plutonium.hep_239_oxide.name=高密度氧化钚-239燃料棒
+item.fuel_rod_plutonium.lep_241.name=低密度钚-241燃料棒
+item.fuel_rod_plutonium.lep_241_oxide.name=低密度氧化钚-241燃料棒
+item.fuel_rod_plutonium.hep_241.name=高密度钚-241燃料棒
+item.fuel_rod_plutonium.hep_241_oxide.name=高密度氧化钚-241燃料棒
 
-item.fuel_rod_mixed_oxide.mox_239.name=MOX-239 Fuel Rod
-item.fuel_rod_mixed_oxide.mox_241.name=MOX-241 Fuel Rod
+item.fuel_rod_mixed_oxide.mox_239.name=MOX-239燃料棒
+item.fuel_rod_mixed_oxide.mox_241.name=MOX-241燃料棒
 
-item.fuel_rod_americium.lea_242.name=LEA-242 Fuel Rod
-item.fuel_rod_americium.lea_242_oxide.name=LEA-242 Oxide Fuel Rod
-item.fuel_rod_americium.hea_242.name=HEA-242 Fuel Rod
-item.fuel_rod_americium.hea_242_oxide.name=HEA-242 Oxide Fuel Rod
+item.fuel_rod_americium.lea_242.name=低密度镅-242燃料棒
+item.fuel_rod_americium.lea_242_oxide.name=低密度氧化镅-242燃料棒
+item.fuel_rod_americium.hea_242.name=高密度镅-242燃料棒
+item.fuel_rod_americium.hea_242_oxide.name=高密度氧化镅-242燃料棒
 
-item.fuel_rod_curium.lec_243.name=LECm-243 Fuel Rod
-item.fuel_rod_curium.lec_243_oxide.name=LECm-243 Oxide Fuel Rod
-item.fuel_rod_curium.hec_243.name=HECm-243 Fuel Rod
-item.fuel_rod_curium.hec_243_oxide.name=HECm-243 Oxide Fuel Rod
-item.fuel_rod_curium.lec_245.name=LECm-245 Fuel Rod
-item.fuel_rod_curium.lec_245_oxide.name=LECm-245 Oxide Fuel Rod
-item.fuel_rod_curium.hec_245.name=HECm-245 Fuel Rod
-item.fuel_rod_curium.hec_245_oxide.name=HECm-245 Oxide Fuel Rod
-item.fuel_rod_curium.lec_247.name=LECm-247 Fuel Rod
-item.fuel_rod_curium.lec_247_oxide.name=LECm-247 Oxide Fuel Rod
-item.fuel_rod_curium.hec_247.name=HECm-247 Fuel Rod
-item.fuel_rod_curium.hec_247_oxide.name=HECm-247 Oxide Fuel Rod
+item.fuel_rod_curium.lec_243.name=低密度锔-243燃料棒
+item.fuel_rod_curium.lec_243_oxide.name=低密度氧化锔-243燃料棒
+item.fuel_rod_curium.hec_243.name=高密度锔-243燃料棒
+item.fuel_rod_curium.hec_243_oxide.name=高密度氧化锔-243燃料棒
+item.fuel_rod_curium.lec_245.name=低密度锔-245燃料棒
+item.fuel_rod_curium.lec_245_oxide.name=低密度氧化锔-245燃料棒
+item.fuel_rod_curium.hec_245.name=高密度锔-245燃料棒
+item.fuel_rod_curium.hec_245_oxide.name=高密度氧化锔-245燃料棒
+item.fuel_rod_curium.lec_247.name=低密度锔-247燃料棒
+item.fuel_rod_curium.lec_247_oxide.name=低密度氧化锔-247燃料棒
+item.fuel_rod_curium.hec_247.name=高密度锔-247燃料棒
+item.fuel_rod_curium.hec_247_oxide.name=高密度氧化锔-247燃料棒
 
-item.fuel_rod_berkelium.leb_248.name=LEB-248 Fuel Rod
-item.fuel_rod_berkelium.leb_248_oxide.name=LEB-248 Oxide Fuel Rod
-item.fuel_rod_berkelium.heb_248.name=HEB-248 Fuel Rod
-item.fuel_rod_berkelium.heb_248_oxide.name=HEB-248 Oxide Fuel Rod
+item.fuel_rod_berkelium.leb_248.name=低密度锫-248燃料棒
+item.fuel_rod_berkelium.leb_248_oxide.name=低密度氧化锫-248燃料棒
+item.fuel_rod_berkelium.heb_248.name=高密度锫-248燃料棒
+item.fuel_rod_berkelium.heb_248_oxide.name=高密度氧化锫-248燃料棒
 
-item.fuel_rod_californium.lec_249.name=LECf-249 Fuel Rod
-item.fuel_rod_californium.lec_249_oxide.name=LECf-249 Oxide Fuel Rod
-item.fuel_rod_californium.hec_249.name=HECf-249 Fuel Rod
-item.fuel_rod_californium.hec_249_oxide.name=HECf-249 Oxide Fuel Rod
-item.fuel_rod_californium.lec_251.name=LECf-251 Fuel Rod
-item.fuel_rod_californium.lec_251_oxide.name=LECf-251 Oxide Fuel Rod
-item.fuel_rod_californium.hec_251.name=HECf-251 Fuel Rod
-item.fuel_rod_californium.hec_251_oxide.name=HECf-251 Oxide Fuel Rod
+item.fuel_rod_californium.lec_249.name=低密度锎-249燃料棒
+item.fuel_rod_californium.lec_249_oxide.name=低密度氧化锎-249燃料棒
+item.fuel_rod_californium.hec_249.name=高密度锎-249燃料棒
+item.fuel_rod_californium.hec_249_oxide.name=高密度氧化锎-249燃料棒
+item.fuel_rod_californium.lec_251.name=低密度锎-251燃料棒
+item.fuel_rod_californium.lec_251_oxide.name=低密度氧化锎-251燃料棒
+item.fuel_rod_californium.hec_251.name=高密度锎-251燃料棒
+item.fuel_rod_californium.hec_251_oxide.name=高密度氧化锎-251燃料棒
 
-item.fuel_rod.base_time.des0=Base process time:
-item.fuel_rod.base_time.des1=mins
-item.fuel_rod.base_power.des0=Base power:
-item.fuel_rod.base_heat.des0=Base heat gen:
+item.fuel_rod.base_time.des0=基础持续时间:
+item.fuel_rod.base_time.des1=分钟
+item.fuel_rod.base_power.des0=基础能量:
+item.fuel_rod.base_heat.des0=基础热量产生:
 
 item.depleted_fuel_rod_thorium.tbu.name=Depleted TBU Fuel Rod
 item.depleted_fuel_rod_thorium.tbu_oxide.name=Depleted TBU Oxide Fuel Rod
 
-item.depleted_fuel_rod_uranium.leu_233.name=Depleted LEU-233 Fuel Rod
-item.depleted_fuel_rod_uranium.leu_233_oxide.name=Depleted LEU-233 Oxide Fuel Rod
-item.depleted_fuel_rod_uranium.heu_233.name=Depleted HEU-233 Fuel Rod
-item.depleted_fuel_rod_uranium.heu_233_oxide.name=Depleted HEU-233 Oxide Fuel Rod
-item.depleted_fuel_rod_uranium.leu_235.name=Depleted LEU-235 Fuel Rod
-item.depleted_fuel_rod_uranium.leu_235_oxide.name=Depleted LEU-235 Oxide Fuel Rod
-item.depleted_fuel_rod_uranium.heu_235.name=Depleted HEU-235 Fuel Rod
-item.depleted_fuel_rod_uranium.heu_235_oxide.name=Depleted HEU-235 Oxide Fuel Rod
+item.depleted_fuel_rod_uranium.leu_233.name=枯竭低密度铀-233燃料棒
+item.depleted_fuel_rod_uranium.leu_233_oxide.name=枯竭低密度氧化铀-233燃料棒
+item.depleted_fuel_rod_uranium.heu_233.name=枯竭高密度铀-233燃料棒
+item.depleted_fuel_rod_uranium.heu_233_oxide.name=枯竭高密度氧化铀-233燃料棒
+item.depleted_fuel_rod_uranium.leu_235.name=枯竭低密度铀-235燃料棒
+item.depleted_fuel_rod_uranium.leu_235_oxide.name=枯竭低密度氧化铀-235燃料棒
+item.depleted_fuel_rod_uranium.heu_235.name=枯竭高密度铀-235燃料棒
+item.depleted_fuel_rod_uranium.heu_235_oxide.name=枯竭高密度氧化铀-235燃料棒
 
-item.depleted_fuel_rod_neptunium.len_236.name=Depleted LEN-236 Fuel Rod
-item.depleted_fuel_rod_neptunium.len_236_oxide.name=Depleted LEN-236 Oxide Fuel Rod
-item.depleted_fuel_rod_neptunium.hen_236.name=Depleted HEN-236 Fuel Rod
-item.depleted_fuel_rod_neptunium.hen_236_oxide.name=Depleted HEN-236 Oxide Fuel Rod
+item.depleted_fuel_rod_neptunium.len_236.name=枯竭低密度镎-236燃料棒
+item.depleted_fuel_rod_neptunium.len_236_oxide.name=枯竭低密度氧化镎-236燃料棒
+item.depleted_fuel_rod_neptunium.hen_236.name=枯竭高密度镎-236燃料棒
+item.depleted_fuel_rod_neptunium.hen_236_oxide.name=枯竭高密度氧化镎-236燃料棒
 
-item.depleted_fuel_rod_plutonium.lep_239.name=Depleted LEP-239 Fuel Rod
-item.depleted_fuel_rod_plutonium.lep_239_oxide.name=Depleted LEP-239 Oxide Fuel Rod
-item.depleted_fuel_rod_plutonium.hep_239.name=Depleted HEP-239 Fuel Rod
-item.depleted_fuel_rod_plutonium.hep_239_oxide.name=Depleted HEP-239 Oxide Fuel Rod
-item.depleted_fuel_rod_plutonium.lep_241.name=Depleted LEP-241 Fuel Rod
-item.depleted_fuel_rod_plutonium.lep_241_oxide.name=Depleted LEP-241 Oxide Fuel Rod
-item.depleted_fuel_rod_plutonium.hep_241.name=Depleted HEP-241 Fuel Rod
-item.depleted_fuel_rod_plutonium.hep_241_oxide.name=Depleted HEP-241 Oxide Fuel Rod
+item.depleted_fuel_rod_plutonium.lep_239.name=枯竭低密度钚-239燃料棒
+item.depleted_fuel_rod_plutonium.lep_239_oxide.name=枯竭低密度氧化钚-239燃料棒
+item.depleted_fuel_rod_plutonium.hep_239.name=枯竭高密度钚-239燃料棒
+item.depleted_fuel_rod_plutonium.hep_239_oxide.name=枯竭高密度氧化钚-239燃料棒
+item.depleted_fuel_rod_plutonium.lep_241.name=枯竭低密度钚-241燃料棒
+item.depleted_fuel_rod_plutonium.lep_241_oxide.name=枯竭低密度氧化钚-241燃料棒
+item.depleted_fuel_rod_plutonium.hep_241.name=枯竭高密度钚-241燃料棒
+item.depleted_fuel_rod_plutonium.hep_241_oxide.name=枯竭高密度氧化钚-241燃料棒
 
-item.depleted_fuel_rod_mixed_oxide.mox_239.name=Depleted MOX-239 Fuel Rod
-item.depleted_fuel_rod_mixed_oxide.mox_241.name=Depleted MOX-241 Fuel Rod
+item.depleted_fuel_rod_mixed_oxide.mox_239.name=枯竭MOX-239燃料棒
+item.depleted_fuel_rod_mixed_oxide.mox_241.name=枯竭MOX-241燃料棒
 
-item.depleted_fuel_rod_americium.lea_242.name=Depleted LEA-242 Fuel Rod
-item.depleted_fuel_rod_americium.lea_242_oxide.name=Depleted LEA-242 Oxide Fuel Rod
-item.depleted_fuel_rod_americium.hea_242.name=Depleted HEA-242 Fuel Rod
-item.depleted_fuel_rod_americium.hea_242_oxide.name=Depleted HEA-242 Oxide Fuel Rod
+item.depleted_fuel_rod_americium.lea_242.name=枯竭低密度镅-242燃料棒
+item.depleted_fuel_rod_americium.lea_242_oxide.name=枯竭低密度氧化镅-242燃料棒
+item.depleted_fuel_rod_americium.hea_242.name=枯竭高密度镅-242燃料棒
+item.depleted_fuel_rod_americium.lea_242_oxide.name=枯竭高密度氧化镅-242燃料棒
 
-item.depleted_fuel_rod_curium.lec_243.name=Depleted LECm-243 Fuel Rod
-item.depleted_fuel_rod_curium.lec_243_oxide.name=Depleted LECm-243 Oxide Fuel Rod
-item.depleted_fuel_rod_curium.hec_243.name=Depleted HECm-243 Fuel Rod
-item.depleted_fuel_rod_curium.hec_243_oxide.name=Depleted HECm-243 Oxide Fuel Rod
-item.depleted_fuel_rod_curium.lec_245.name=Depleted LECm-245 Fuel Rod
-item.depleted_fuel_rod_curium.lec_245_oxide.name=Depleted LECm-245 Oxide Fuel Rod
-item.depleted_fuel_rod_curium.hec_245.name=Depleted HECm-245 Fuel Rod
-item.depleted_fuel_rod_curium.hec_245_oxide.name=Depleted HECm-245 Oxide Fuel Rod
-item.depleted_fuel_rod_curium.lec_247.name=Depleted LECm-247 Fuel Rod
-item.depleted_fuel_rod_curium.lec_247_oxide.name=Depleted LECm-247 Oxide Fuel Rod
-item.depleted_fuel_rod_curium.hec_247.name=Depleted HECm-247 Fuel Rod
-item.depleted_fuel_rod_curium.hec_247_oxide.name=Depleted HECm-247 Oxide Fuel Rod
+item.depleted_fuel_rod_curium.lec_243.name=枯竭低密度锔-243燃料棒
+item.depleted_fuel_rod_curium.lec_243_oxide.name=枯竭低密度氧化锔-243燃料棒
+item.depleted_fuel_rod_curium.hec_243.name=枯竭高密度锔-243燃料棒
+item.depleted_fuel_rod_curium.hec_243_oxide.name=枯竭高密度氧化锔-243燃料棒
+item.depleted_fuel_rod_curium.lec_245.name=枯竭低密度锔-245燃料棒
+item.depleted_fuel_rod_curium.lec_245_oxide.name=枯竭低密度氧化锔-245燃料棒
+item.depleted_fuel_rod_curium.hec_245.name=枯竭高密度锔-245燃料棒
+item.depleted_fuel_rod_curium.hec_245_oxide.name=枯竭高密度氧化锔-245燃料棒
+item.depleted_fuel_rod_curium.lec_247.name=枯竭低密度锔-247燃料棒
+item.depleted_fuel_rod_curium.lec_247_oxide.name=枯竭低密度氧化锔-247燃料棒
+item.depleted_fuel_rod_curium.hec_247.name=枯竭高密度锔-247燃料棒
+item.depleted_fuel_rod_curium.hec_247_oxide.name=枯竭高密度氧化锔-247燃料棒
 
-item.depleted_fuel_rod_berkelium.leb_248.name=Depleted LEB-248 Fuel Rod
-item.depleted_fuel_rod_berkelium.leb_248_oxide.name=Depleted LEB-248 Oxide Fuel Rod
-item.depleted_fuel_rod_berkelium.heb_248.name=Depleted HEB-248 Fuel Rod
-item.depleted_fuel_rod_berkelium.heb_248_oxide.name=Depleted HEB-248 Oxide Fuel Rod
+item.depleted_fuel_rod_berkelium.leb_248.name=枯竭低密度锫-248燃料棒
+item.depleted_fuel_rod_berkelium.leb_248_oxide.name=枯竭低密度氧化锫-248燃料棒
+item.depleted_fuel_rod_berkelium.heb_248.name=枯竭高密度锫-248燃料棒
+item.depleted_fuel_rod_berkelium.heb_248_oxide.name=枯竭高密度氧化锫-248燃料棒
 
-item.depleted_fuel_rod_californium.lec_249.name=Depleted LECf-249 Fuel Rod
-item.depleted_fuel_rod_californium.lec_249_oxide.name=Depleted LECf-249 Oxide Fuel Rod
-item.depleted_fuel_rod_californium.hec_249.name=Depleted HECf-249 Fuel Rod
-item.depleted_fuel_rod_californium.hec_249_oxide.name=Depleted HECf-249 Oxide Fuel Rod
-item.depleted_fuel_rod_californium.lec_251.name=Depleted LECf-251 Fuel Rod
-item.depleted_fuel_rod_californium.lec_251_oxide.name=Depleted LECf-251 Oxide Fuel Rod
-item.depleted_fuel_rod_californium.hec_251.name=Depleted HECf-251 Fuel Rod
-item.depleted_fuel_rod_californium.hec_251_oxide.name=Depleted HECf-251 Oxide Fuel Rod
+item.depleted_fuel_rod_californium.lec_249.name=枯竭低密度锎-249燃料棒
+item.depleted_fuel_rod_californium.lec_249_oxide.name=枯竭低密度氧化锎-249燃料棒
+item.depleted_fuel_rod_californium.hec_249.name=枯竭高密度锎-249燃料棒
+item.depleted_fuel_rod_californium.hec_249_oxide.name=枯竭高密度氧化锎-249燃料棒
+item.depleted_fuel_rod_californium.lec_251.name=枯竭低密度锎-251燃料棒
+item.depleted_fuel_rod_californium.lec_251_oxide.name=枯竭低密度氧化锎-251燃料棒
+item.depleted_fuel_rod_californium.hec_251.name=枯竭高密度锎-251燃料棒
+item.depleted_fuel_rod_californium.hec_251_oxide.name=枯竭高密度氧化锎-251燃料棒
 
 item.boron._10.name=硼-10
 item.boron._10_tiny.name=小撮硼-10
@@ -672,46 +679,45 @@ item.lithium._6_tiny.name=小撮锂-6
 item.lithium._7.name=锂-7
 item.lithium._7_tiny.name=小撮锂-7
 
-item.sword_boron.name=Boron Sword
-item.pickaxe_boron.name=Boron Pickaxe
-item.shovel_boron.name=Boron Shovel
-item.axe_boron.name=Boron Axe
-item.hoe_boron.name=Boron Hoe
+item.sword_boron.name=硼剑
+item.pickaxe_boron.name=硼镐
+item.shovel_boron.name=硼铲
+item.axe_boron.name=硼斧
+item.hoe_boron.name=硼锄
 
-item.sword_tough.name=Tough Alloy Sword
-item.pickaxe_tough.name=Tough Alloy Pickaxe
-item.shovel_tough.name=Tough Alloy Shovel
-item.axe_tough.name=Tough Alloy Axe
-item.hoe_tough.name=Tough Alloy Hoe
+item.sword_tough.name=高强合金剑
+item.pickaxe_tough.name=高强合金镐
+item.shovel_tough.name=高强合金铲
+item.axe_tough.name=高强合金斧
+item.hoe_tough.name=高强合金锄
 
-item.spaxelhoe_tough.name=Tough Alloy Spaxelhoe
+item.spaxelhoe_tough.name=高强合金鹤嘴锄
 
-item.helm_boron.name=Boron Helmet
-item.chest_boron.name=Boron Chestplate
-item.legs_boron.name=Boron Leggings
-item.boots_boron.name=Boron Boots
+item.helm_boron.name=硼头盔
+item.chest_boron.name=硼胸甲
+item.legs_boron.name=硼护腿
+item.boots_boron.name=硼靴子
 
-item.helm_tough.name=Tough Alloy Helmet
-item.chest_tough.name=Tough Alloy Chestplate
-item.legs_tough.name=Tough Alloy Leggings
-item.boots_tough.name=Tough Alloy Boots
+item.helm_tough.name=高强合金头盔
+item.chest_tough.name=高强合金胸甲
+item.legs_tough.name=高强合金护腿
+item.boots_tough.name=高强合金靴子
 
-item.portable_ender_chest.name=Portable Ender Chest
-item.portable_ender_chest.des0=Access your Ender Chest on the move
+item.portable_ender_chest.name=接口末影箱
+item.portable_ender_chest.des0=在移动中使用末影箱
+item.dominos.name=Domino的大餐
+item.dominos.des0=Paul的最爱 - 16点饥饿值
 
-item.dominos.name=Domino's Special
-item.dominos.des0=Paul's favourite - restores 16 hunger
-
-itemGroup.nuclearcraftBaseBlockMaterials=NuclearCraft Base Blocks
-itemGroup.nuclearcraftBaseItemMaterials=NuclearCraft Base Items
-itemGroup.nuclearcraftMachines=NuclearCraft Machines
-itemGroup.nuclearcraftFissionBlocks=NuclearCraft Fission Blocks
-itemGroup.nuclearcraftFissionMaterials=NuclearCraft Fission Materials
-itemGroup.nuclearcraftFissionFuelRods=NuclearCraft Fission Fuel Rods
-itemGroup.nuclearcraftFusion=NuclearCraft Fusion
-itemGroup.nuclearcraftAccelerator=NuclearCraft Accelerator
-itemGroup.nuclearcraftFluids=NuclearCraft Fluids
-itemGroup.nuclearcraftMisc=NuclearCraft Miscellaneous
+itemGroup.nuclearcraftBaseBlockMaterials=核电工艺基础方块
+itemGroup.nuclearcraftBaseItemMaterials=核电工艺基础物品
+itemGroup.nuclearcraftMachines=核电工艺机器
+itemGroup.nuclearcraftFissionBlocks=核电工艺裂变方块
+itemGroup.nuclearcraftFissionMaterials=核电工艺裂变材料
+itemGroup.nuclearcraftFissionFuelRods=核电工艺裂变燃料棒
+itemGroup.nuclearcraftFusion=核电工艺聚变
+itemGroup.nuclearcraftAccelerator=核电工艺加速器
+itemGroup.nuclearcraftFluids=核电工艺流体
+itemGroup.nuclearcraftMisc=核电工艺杂项
 
 gui.config.main_title=NuclearCraft Configs
 
