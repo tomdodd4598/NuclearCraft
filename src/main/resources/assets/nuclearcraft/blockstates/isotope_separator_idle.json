@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "facing=north": { "model": "nuclearcraft:isotope_separator_idle" },
+        "facing=south": { "model": "nuclearcraft:isotope_separator_idle", "y": 180 },
+        "facing=west":  { "model": "nuclearcraft:isotope_separator_idle", "y": 270 },
+        "facing=east":  { "model": "nuclearcraft:isotope_separator_idle", "y": 90 }
+    }
+}

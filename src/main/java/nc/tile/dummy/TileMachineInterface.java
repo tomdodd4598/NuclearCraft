@@ -16,6 +16,7 @@ public class TileMachineInterface extends TileDummy {
 		super.update();
 		if(!world.isRemote) {
 			pushEnergy();
+			pushFluid();
 		}
 	}
 	
@@ -25,21 +26,14 @@ public class TileMachineInterface extends TileDummy {
 		for (EnumFacing side : EnumFacing.VALUES) {
 			TileEntity tile = world.getTileEntity(getPos().offset(side));
 			if (tile != null) {
-				if (isMaster(getPos().offset(side))) masterPosition = getPos().offset(side);
-				return;
+				if (isMaster(getPos().offset(side))) {
+					masterPosition = getPos().offset(side);
+					return;
+				}
 			}
 		}
 		masterPosition = null;
 	}
-	
-	/*public boolean isMaster(BlockPos pos) {
-		return world.getTileEntity(pos) instanceof TileEnergyItemProcessor
-				|| world.getTileEntity(pos) instanceof TileEnergyFluidProcessor
-				|| world.getTileEntity(pos) instanceof TileEnergyItemFluidProcessor
-				|| world.getTileEntity(pos) instanceof TileNuclearFurnace
-				|| world.getTileEntity(pos) instanceof TileItemGenerator
-				|| world.getTileEntity(pos) instanceof TileItemFluidGenerator;
-	}*/
 	
 	public boolean isMaster(BlockPos pos) {
 		return world.getTileEntity(pos) instanceof IInterfaceable;

@@ -24,6 +24,7 @@ public class ManufactoryRecipes extends ProcessorRecipeHandler {
 		
 		addRecipe("gemCoal", "dustGraphite", NCConfig.processor_time[0]);
 		addRecipe("dustCoal", "dustGraphite", NCConfig.processor_time[0]);
+		addRecipe("dustGraphite", "ingotGraphite", NCConfig.processor_time[0]);
 		addRecipe("gemDiamond", "dustDiamond", NCConfig.processor_time[0]*2);
 		addRecipe("gemRhodochrosite", "dustRhodochrosite", NCConfig.processor_time[0]*2);
 		addRecipe("gemQuartz", "dustQuartz", NCConfig.processor_time[0]);

@@ -3,13 +3,13 @@
   "modid": "nuclearcraft",
   "name": "NuclearCraft",
   "description": "Nuclear Physics, Minecraft Style (WIP)",
-  "version": "2.2",
+  "version": "2.3",
   "mcversion": "1.11.2",
   "url": "https://minecraft.curseforge.com/projects/nuclearcraft-mod",
   "updateUrl": "",
   "authorList": ["turbodiesel4598 (call me Tom)"],
-  "credits": "Thanks to all suggestors, bug reporters, language file makers and modders whose APIs I have used",
-  "logoFile": "",
+  "credits": "Thanks to all suggestors, bug reporters, modders whose APIs I have used and forestbat for the additional language files",
+  "logoFile": "logo.jpg",
   "screenshots": [],
   "dependencies": []
 }

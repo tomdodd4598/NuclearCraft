@@ -1,6 +1,6 @@
 package nc.tile.processor;
 
-import ic2.api.energy.event.EnergyTileUnloadEvent;
+import ic2.api.energy.EnergyNet;
 import nc.ModCheck;
 import nc.config.NCConfig;
 import nc.energy.EnumStorage.EnergyConnection;
@@ -10,12 +10,10 @@ import nc.init.NCItems;
 import nc.tile.IGui;
 import nc.tile.dummy.IInterfaceable;
 import nc.tile.energyFluid.TileEnergyFluidSidedInventory;
-import nc.util.NCUtil;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.MathHelper;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.FluidStack;
 
 public abstract class TileEnergyFluidProcessor extends TileEnergyFluidSidedInventory implements IInterfaceable, IGui {
@@ -80,19 +78,12 @@ public abstract class TileEnergyFluidProcessor extends TileEnergyFluidSidedInven
 			}
 			if (flag != isProcessing) {
 				flag1 = true;
+				if (isEnergyTileSet && ModCheck.ic2Loaded()) {
+					/*MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));*/ EnergyNet.instance.removeTile(this);
+					isEnergyTileSet = false;
+				}
 				setBlockState();
 				//invalidate();
-				if (isEnergyTileSet && ModCheck.ic2Loaded()) {
-					MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
-					isEnergyTileSet = false;
-				}
-			}
-			if (shouldCheck() && !flag1) {
-				setBlockState();
-				if (isEnergyTileSet && ModCheck.ic2Loaded()) {
-					MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
-					isEnergyTileSet = false;
-				}
 			}
 		} else {
 			isProcessing = canProcess() && !isPowered();
@@ -187,8 +178,7 @@ public abstract class TileEnergyFluidProcessor extends TileEnergyFluidSidedInven
 		}
 		Object[] output = getOutput(inputs());
 		int[] inputOrder = recipes.getInputOrder(inputs(), recipes.getInput(output));
-		if (inputOrder.length > 0 && shouldCheck()) NCUtil.getLogger().info("First fluid input: " + inputOrder[0]);
-		if (output == null || output.length != fluidOutputSize) {
+		if (output == null || output.length != fluidOutputSize || inputOrder == ProcessorRecipeHandler.INVALID_ORDER) {
 			return false;
 		}
 		for(int j = 0; j < fluidOutputSize; j++) {
@@ -211,15 +201,13 @@ public abstract class TileEnergyFluidProcessor extends TileEnergyFluidSidedInven
 	public void process() {
 		Object[] output = getOutput(inputs());
 		int[] inputOrder = recipes.getInputOrder(inputs(), recipes.getInput(output));
-		if (inputOrder.length > 0 && shouldCheck()) NCUtil.getLogger().info("First fluid input: " + inputOrder[0]);
+		if (output[0] == ItemStack.EMPTY || output[0] == null || inputOrder == ProcessorRecipeHandler.INVALID_ORDER) return;
 		for (int j = 0; j < fluidOutputSize; j++) {
-			if (output[j] != null && inputOrder != ProcessorRecipeHandler.INVALID_ORDER) {
-				if (tanks[j + fluidInputSize].getFluid() == null) {
-					FluidStack outputStack = ((FluidStack) output[j]).copy();
-					tanks[j + fluidInputSize].setFluidStored(outputStack);
-				} else if (tanks[j + fluidInputSize].getFluid().isFluidEqual((FluidStack) output[j])) {
-					tanks[j + fluidInputSize].changeFluidStored(((FluidStack) output[j]).amount);
-				}
+			if (tanks[j + fluidInputSize].getFluid() == null) {
+				FluidStack outputStack = ((FluidStack) output[j]).copy();
+				tanks[j + fluidInputSize].setFluidStored(outputStack);
+			} else if (tanks[j + fluidInputSize].getFluid().isFluidEqual((FluidStack) output[j])) {
+				tanks[j + fluidInputSize].changeFluidStored(((FluidStack) output[j]).amount);
 			}
 		}
 		for (int i = 0; i < fluidInputSize; i++) {
@@ -250,7 +238,7 @@ public abstract class TileEnergyFluidProcessor extends TileEnergyFluidSidedInven
 	
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {
 		if (stack == ItemStack.EMPTY) return false;
-		else if (hasUpgrades) {
+		if (hasUpgrades) {
 			if (stack.getItem() == NCItems.upgrade) {
 				if (slot == 0) return stack.getMetadata() == 0;
 				else if (slot == 1) return stack.getMetadata() == upgradeMeta;

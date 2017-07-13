@@ -188,4 +188,12 @@ public class NCConfigGuiFactory implements IModGuiFactory {
 			}
 		}
 	}
+
+	public boolean hasConfigGui() {
+		return true;
+	}
+
+	public GuiScreen createConfigGui(GuiScreen parentScreen) {
+		return new NCConfigGui(parentScreen);
+	}
 }

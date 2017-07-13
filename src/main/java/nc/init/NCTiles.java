@@ -8,6 +8,7 @@ import nc.tile.dummy.TileMachineInterface;
 import nc.tile.energyFluid.TileBuffer;
 import nc.tile.energyStorage.Batteries.LithiumIonBatteryBasic;
 import nc.tile.energyStorage.Batteries.VoltaicPileBasic;
+import nc.tile.fluid.TileActiveCooler;
 import nc.tile.generator.RTGs.AmericiumRTG;
 import nc.tile.generator.RTGs.CaliforniumRTG;
 import nc.tile.generator.RTGs.PlutoniumRTG;
@@ -70,6 +71,7 @@ public class NCTiles {
 		GameRegistry.registerTileEntity(LithiumIonBatteryBasic.class, Global.MOD_ID + ":lithium_ion_battery_basic");
 		
 		GameRegistry.registerTileEntity(TileBuffer.class, Global.MOD_ID + ":buffer");
+		GameRegistry.registerTileEntity(TileActiveCooler.class, Global.MOD_ID + ":active_cooler");
 		
 		GameRegistry.registerTileEntity(TileFusionElectromagnet.class, Global.MOD_ID + ":fusion_electromagnet");
 		GameRegistry.registerTileEntity(TileAcceleratorElectromagnet.class, Global.MOD_ID + ":accelerator_electromagnet");

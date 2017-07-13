@@ -1,0 +1,7 @@
+{
+    "parent": "block/orientable_vertical",
+    "textures": {
+        "front": "nuclearcraft:blocks/solar_panel_basic_top",
+        "side": "nuclearcraft:blocks/solar_panel_basic_side"
+    }
+}

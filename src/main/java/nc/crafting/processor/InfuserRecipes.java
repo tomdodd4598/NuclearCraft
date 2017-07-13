@@ -3,6 +3,7 @@ package nc.crafting.processor;
 import nc.config.NCConfig;
 import nc.handler.ProcessorRecipeHandler;
 import nc.init.NCBlocks;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 
 public class InfuserRecipes extends ProcessorRecipeHandler {
@@ -27,37 +28,37 @@ public class InfuserRecipes extends ProcessorRecipeHandler {
 		oxidize("dustManganese", 1000);
 		addRecipe("dustManganeseOxide", fluidStack("oxygen", 1000), "dustManganeseDioxide", NCConfig.processor_time[5]);
 		
-		oxidizeBase("Thorium230");
-		oxidizeBase("Thorium232");
+		oxidizeFertile("Thorium230");
+		oxidizeFissile("Thorium232");
 		
-		oxidizeBase("Uranium233");
-		oxidizeBase("Uranium235");
-		oxidizeBase("Uranium238");
+		oxidizeFissile("Uranium233");
+		oxidizeFissile("Uranium235");
+		oxidizeFertile("Uranium238");
 		
-		oxidizeBase("Neptunium236");
-		oxidizeBase("Neptunium237");
+		oxidizeFissile("Neptunium236");
+		oxidizeFertile("Neptunium237");
 		
-		oxidizeBase("Plutonium238");
-		oxidizeBase("Plutonium239");
-		oxidizeBase("Plutonium241");
-		oxidizeBase("Plutonium242");
+		oxidizeFertile("Plutonium238");
+		oxidizeFissile("Plutonium239");
+		oxidizeFissile("Plutonium241");
+		oxidizeFertile("Plutonium242");
 		
-		oxidizeBase("Americium241");
-		oxidizeBase("Americium242");
-		oxidizeBase("Americium243");
+		oxidizeFertile("Americium241");
+		oxidizeFissile("Americium242");
+		oxidizeFertile("Americium243");
 		
-		oxidizeBase("Curium243");
-		oxidizeBase("Curium245");
-		oxidizeBase("Curium246");
-		oxidizeBase("Curium247");
+		oxidizeFissile("Curium243");
+		oxidizeFissile("Curium245");
+		oxidizeFertile("Curium246");
+		oxidizeFissile("Curium247");
 		
-		oxidizeBase("Berkelium247");
-		oxidizeBase("Berkelium248");
+		oxidizeFertile("Berkelium247");
+		oxidizeFissile("Berkelium248");
 		
-		oxidizeBase("Californium249");
-		oxidizeBase("Californium250");
-		oxidizeBase("Californium251");
-		oxidizeBase("Californium252");
+		oxidizeFissile("Californium249");
+		oxidizeFertile("Californium250");
+		oxidizeFissile("Californium251");
+		oxidizeFertile("Californium252");
 		
 		oxidizeFuel("TBU");
 		
@@ -92,7 +93,9 @@ public class InfuserRecipes extends ProcessorRecipeHandler {
 		oxidizeFuel("LECf251");
 		oxidizeFuel("HECf251");
 		
-		addRecipe("blockIce", fluidStack("liquidhelium", 5), NCBlocks.block_ice, NCConfig.processor_time[5]/10);
+		addRecipe(Blocks.ICE, fluidStack("liquidhelium", 5), NCBlocks.block_ice, NCConfig.processor_time[5]/10);
+		addRecipe(Blocks.FROSTED_ICE, fluidStack("liquidhelium", 5), NCBlocks.block_ice, NCConfig.processor_time[5]/10);
+		addRecipe(Blocks.PACKED_ICE, fluidStack("liquidhelium", 5), NCBlocks.block_ice, NCConfig.processor_time[5]/10);
 		addRecipe(new ItemStack(NCBlocks.cooler, 1, 0), fluidStack("liquidhelium", 50), new ItemStack(NCBlocks.cooler, 1, 8), NCConfig.processor_time[5]);
 	}
 	
@@ -100,9 +103,14 @@ public class InfuserRecipes extends ProcessorRecipeHandler {
 		addRecipe(name, fluidStack("oxygen", oxygen), name + "Oxide", NCConfig.processor_time[5]);
 	}
 	
-	public void oxidizeBase(String name) {
+	public void oxidizeFertile(String name) {
 		addRecipe("ingot" + name + "Base", fluidStack("oxygen", 400), "ingot" + name + "Oxide", NCConfig.processor_time[5]/2);
-		addRecipe("tiny" + name + "Base", fluidStack("oxygen", 40), "tiny" + name + "Oxide", NCConfig.processor_time[5]/16);
+		addRecipe("tiny" + name, fluidStack("oxygen", 40), "tiny" + name + "Oxide", NCConfig.processor_time[5]/16);
+	}
+	
+	public void oxidizeFissile(String name) {
+		addRecipe("ingot" + name, fluidStack("oxygen", 400), "ingot" + name + "Oxide", NCConfig.processor_time[5]/2);
+		addRecipe("tiny" + name, fluidStack("oxygen", 40), "tiny" + name + "Oxide", NCConfig.processor_time[5]/16);
 	}
 	
 	public void oxidizeFuel(String name) {

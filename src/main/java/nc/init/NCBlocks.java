@@ -27,10 +27,12 @@ import nc.block.tile.generator.BlockPlutoniumRTG;
 import nc.block.tile.generator.BlockSolarPanelBasic;
 import nc.block.tile.generator.BlockUraniumRTG;
 import nc.block.tile.passive.BlockAcceleratorElectromagnet;
+import nc.block.tile.passive.BlockActiveCooler;
 import nc.block.tile.passive.BlockBuffer;
 import nc.block.tile.passive.BlockCobblestoneGenerator;
 import nc.block.tile.passive.BlockElectromagnetSupercooler;
 import nc.block.tile.passive.BlockFusionElectromagnet;
+import nc.block.tile.passive.BlockFusionElectromagnetTransparent;
 import nc.block.tile.passive.BlockHeliumCollector;
 import nc.block.tile.passive.BlockWaterSource;
 import nc.block.tile.processor.BlockAlloyFurnace;
@@ -68,6 +70,7 @@ public class NCBlocks {
 	public static Block ingot_block;
 	
 	public static Block fission_block;
+	public static Block reactor_casing_transparent;
 	public static Block cell_block;
 	public static Block cooler;
 	
@@ -120,9 +123,12 @@ public class NCBlocks {
 	public static Block lithium_ion_battery_basic;
 	
 	public static Block buffer;
+	public static Block active_cooler;
 	
 	public static Block fusion_electromagnet_idle;
 	public static Block fusion_electromagnet_active;
+	public static Block fusion_electromagnet_transparent_idle;
+	public static Block fusion_electromagnet_transparent_active;
 	public static Block accelerator_electromagnet_idle;
 	public static Block accelerator_electromagnet_active;
 	public static Block electromagnet_supercooler_idle;
@@ -139,6 +145,7 @@ public class NCBlocks {
 		ingot_block = new BlockIngot("ingot_block", "ingot_block").setCreativeTab(CommonProxy.TAB_BASE_BLOCK_MATERIALS);
 		
 		fission_block = new BlockFission("fission_block", "fission_block").setCreativeTab(CommonProxy.TAB_FISSION_BLOCKS);
+		reactor_casing_transparent = new BlockTransparent("reactor_casing_transparent", "reactor_casing_transparent", Material.IRON, true).setCreativeTab(CommonProxy.TAB_FISSION_BLOCKS);
 		cell_block = new BlockTransparent("cell_block", "cell_block", Material.IRON, false).setCreativeTab(CommonProxy.TAB_FISSION_BLOCKS);
 		cooler = new BlockCooler("cooler", "cooler").setCreativeTab(CommonProxy.TAB_FISSION_BLOCKS);
 		
@@ -191,9 +198,12 @@ public class NCBlocks {
 		lithium_ion_battery_basic = new BlockLithiumIonBatteryBasic("lithium_ion_battery_basic", "lithium_ion_battery_basic");
 		
 		buffer = new BlockBuffer("buffer", "buffer");
+		active_cooler = new BlockActiveCooler("active_cooler", "active_cooler");
 		
 		fusion_electromagnet_idle = new BlockFusionElectromagnet("fusion_electromagnet_idle", "fusion_electromagnet_idle", false);
 		fusion_electromagnet_active = new BlockFusionElectromagnet("fusion_electromagnet_active", "fusion_electromagnet_active", true);
+		fusion_electromagnet_transparent_idle = new BlockFusionElectromagnetTransparent("fusion_electromagnet_transparent_idle", "fusion_electromagnet_transparent_idle", false);
+		fusion_electromagnet_transparent_active = new BlockFusionElectromagnetTransparent("fusion_electromagnet_transparent_active", "fusion_electromagnet_transparent_active", true);
 		accelerator_electromagnet_idle = new BlockAcceleratorElectromagnet("accelerator_electromagnet_idle", "accelerator_electromagnet_idle", false);
 		accelerator_electromagnet_active = new BlockAcceleratorElectromagnet("accelerator_electromagnet_active", "accelerator_electromagnet_active", true);
 		electromagnet_supercooler_idle = new BlockElectromagnetSupercooler("electromagnet_supercooler_idle", "electromagnet_supercooler_idle", false);
@@ -211,6 +221,7 @@ public class NCBlocks {
 		registerBlock(ingot_block, new ItemBlockIngot(ingot_block));
 		
 		registerBlock(fission_block, new ItemBlockFission(fission_block));
+		registerBlock(reactor_casing_transparent, 17);
 		registerBlock(cell_block, 11);
 		registerBlock(cooler, new ItemBlockCooler(cooler));
 		
@@ -259,13 +270,16 @@ public class NCBlocks {
 		
 		registerBlock(solar_panel_basic, I18n.translateToLocalFormatted("tile.solar_panel.des0") + " " + NCConfig.solar_power[0] + " " + I18n.translateToLocalFormatted("tile.solar_panel.des1"));
 		
-		registerBlock(voltaic_pile_basic, I18n.translateToLocalFormatted("tile.energy_storage.des0") + " " + NCConfig.battery_capacity[0]/1000 + " " + I18n.translateToLocalFormatted("tile.energy_storage.des1"), I18n.translateToLocalFormatted("tile.energy_storage.des2"), I18n.translateToLocalFormatted("tile.energy_storage.des3"), I18n.translateToLocalFormatted("tile.energy_storage.des4"));
-		registerBlock(lithium_ion_battery_basic, I18n.translateToLocalFormatted("tile.energy_storage.des0") + " " + NCConfig.battery_capacity[1]/1000 + " " + I18n.translateToLocalFormatted("tile.energy_storage.des1"), I18n.translateToLocalFormatted("tile.energy_storage.des2"), I18n.translateToLocalFormatted("tile.energy_storage.des3"), I18n.translateToLocalFormatted("tile.energy_storage.des4"));
+		registerBlock(voltaic_pile_basic, I18n.translateToLocalFormatted("tile.energy_storage.des0") + " " + NCConfig.battery_capacity[0]/1000 + " " + I18n.translateToLocalFormatted("tile.energy_storage.des1"), I18n.translateToLocalFormatted("tile.energy_storage.des2"), I18n.translateToLocalFormatted("tile.energy_storage.des3"), I18n.translateToLocalFormatted("tile.energy_storage.des4"), I18n.translateToLocalFormatted("tile.energy_storage.des5"));
+		registerBlock(lithium_ion_battery_basic, I18n.translateToLocalFormatted("tile.energy_storage.des0") + " " + NCConfig.battery_capacity[1]/1000 + " " + I18n.translateToLocalFormatted("tile.energy_storage.des1"), I18n.translateToLocalFormatted("tile.energy_storage.des2"), I18n.translateToLocalFormatted("tile.energy_storage.des3"), I18n.translateToLocalFormatted("tile.energy_storage.des4"), I18n.translateToLocalFormatted("tile.energy_storage.des5"));
 		
 		registerBlock(buffer, 4);
+		registerBlock(active_cooler, 16);
 		
 		registerBlock(fusion_electromagnet_idle, I18n.translateToLocalFormatted("tile.fusion_electromagnet_idle.des0") + " " + NCMath.Round(0.05D*NCConfig.fusion_electromagnet_power, 1) + " " + I18n.translateToLocalFormatted("tile.fusion_electromagnet_idle.des1"));
 		registerBlock(fusion_electromagnet_active, I18n.translateToLocalFormatted("tile.fusion_electromagnet_idle.des0") + " " + NCMath.Round(0.05D*NCConfig.fusion_electromagnet_power, 1) + " " + I18n.translateToLocalFormatted("tile.fusion_electromagnet_idle.des1"));
+		registerBlock(fusion_electromagnet_transparent_idle, I18n.translateToLocalFormatted("tile.fusion_electromagnet_idle.des0") + " " + NCMath.Round(0.05D*NCConfig.fusion_electromagnet_power, 1) + " " + I18n.translateToLocalFormatted("tile.fusion_electromagnet_idle.des1"));
+		registerBlock(fusion_electromagnet_transparent_active, I18n.translateToLocalFormatted("tile.fusion_electromagnet_idle.des0") + " " + NCMath.Round(0.05D*NCConfig.fusion_electromagnet_power, 1) + " " + I18n.translateToLocalFormatted("tile.fusion_electromagnet_idle.des1"));
 		registerBlock(accelerator_electromagnet_idle, I18n.translateToLocalFormatted("tile.accelerator_electromagnet_idle.des0") + " " + NCMath.Round(0.05D*NCConfig.accelerator_electromagnet_power, 1) + " " + I18n.translateToLocalFormatted("tile.accelerator_electromagnet_idle.des1"));
 		registerBlock(accelerator_electromagnet_active, I18n.translateToLocalFormatted("tile.accelerator_electromagnet_idle.des0") + " " + NCMath.Round(0.05D*NCConfig.accelerator_electromagnet_power, 1) + " " + I18n.translateToLocalFormatted("tile.accelerator_electromagnet_idle.des1"));
 		registerBlock(electromagnet_supercooler_idle, I18n.translateToLocalFormatted("tile.electromagnet_supercooler_idle.des0") + " " + NCMath.Round(0.05D*NCConfig.accelerator_electromagnet_power, 1) + " " + I18n.translateToLocalFormatted("tile.electromagnet_supercooler_idle.des1") + " " + NCMath.Round(0.05D*NCConfig.accelerator_supercooler_coolant, 1) + " " + I18n.translateToLocalFormatted("tile.electromagnet_supercooler_idle.des2"), I18n.translateToLocalFormatted("tile.electromagnet_supercooler_idle.des3"));
@@ -291,6 +305,7 @@ public class NCBlocks {
 			registerRender(fission_block, i, "fission_block_" + FissionBlockTypes.values()[i].getName());
 		}
 		
+		registerRender(reactor_casing_transparent);
 		registerRender(cell_block);
 		
 		for (int i = 0; i < CoolerTypes.values().length; i++) {
@@ -346,9 +361,12 @@ public class NCBlocks {
 		registerRender(lithium_ion_battery_basic);
 		
 		registerRender(buffer);
+		registerRender(active_cooler);
 		
 		registerRender(fusion_electromagnet_idle);
 		registerRender(fusion_electromagnet_active);
+		registerRender(fusion_electromagnet_transparent_idle);
+		registerRender(fusion_electromagnet_transparent_active);
 		registerRender(accelerator_electromagnet_idle);
 		registerRender(accelerator_electromagnet_active);
 		registerRender(electromagnet_supercooler_idle);

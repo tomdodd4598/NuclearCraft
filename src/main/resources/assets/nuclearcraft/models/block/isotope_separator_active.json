@@ -1,0 +1,8 @@
+{
+    "parent": "block/orientable",
+    "textures": {
+        "top": "nuclearcraft:blocks/isotope_separator_top",
+        "front": "nuclearcraft:blocks/isotope_separator_front_on",
+        "side": "nuclearcraft:blocks/isotope_separator_side"
+    }
+}

@@ -4,6 +4,7 @@ import nc.block.tile.dummy.BlockFissionPort;
 import nc.block.tile.generator.BlockFissionController;
 import nc.block.tile.passive.BlockBuffer;
 import nc.config.NCConfig;
+import nc.energy.EnumStorage.EnergyConnection;
 import nc.init.NCBlocks;
 import nc.tile.generator.TileFissionController;
 import net.minecraft.util.math.BlockPos;
@@ -13,13 +14,14 @@ public class TileFissionPort extends TileDummy {
 	public int tickCount;
 
 	public TileFissionPort() {
-		super("fission_port", NCConfig.fission_update_rate);
+		super("fission_port", EnergyConnection.OUT, NCConfig.fission_update_rate);
 	}
 	
 	public void update() {
 		super.update();
 		if(!world.isRemote) {
 			pushEnergy();
+			pushFluid();
 		}
 	}
 	
@@ -148,9 +150,19 @@ public class TileFissionPort extends TileDummy {
 			masterPosition = null;
 			return;
 		}
-		for (int z : new int[] {z0, z1}) {
-			for (int x : new int[] {x0, x1}) {
-				for (int y = y0; y <= y1; y++) {
+		for (int y = y0; y <= y1; y++) {
+			for (int z = z0; z <= z1; z++) {
+				for (int x : new int[] {x0, x1}) {
+					if(world.getTileEntity(position(x, y, z)) != null) {
+						if(isMaster(position(x, y, z))) {
+							masterPosition = position(x, y, z);
+							return;
+						}
+					}
+				}
+			}
+			for (int z : new int[] {z0, z1}) {
+				for (int x = x0; x <= x1; x++) {
 					if(world.getTileEntity(position(x, y, z)) != null) {
 						if(isMaster(position(x, y, z))) {
 							masterPosition = position(x, y, z);

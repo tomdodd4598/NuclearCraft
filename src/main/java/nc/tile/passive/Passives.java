@@ -4,6 +4,7 @@ import nc.block.tile.passive.BlockAcceleratorElectromagnet;
 import nc.block.tile.passive.BlockCobblestoneGenerator;
 import nc.block.tile.passive.BlockElectromagnetSupercooler;
 import nc.block.tile.passive.BlockFusionElectromagnet;
+import nc.block.tile.passive.BlockFusionElectromagnetTransparent;
 import nc.block.tile.passive.BlockHeliumCollector;
 import nc.block.tile.passive.BlockWaterSource;
 import nc.config.NCConfig;
@@ -28,7 +29,7 @@ public class Passives {
 		}
 		
 		public void setBlockState() {
-			BlockFusionElectromagnet.setState(isRunning, world, pos);
+			if (world.getBlockState(pos).getBlock() instanceof BlockFusionElectromagnetTransparent) BlockFusionElectromagnetTransparent.setState(isRunning, world, pos); else BlockFusionElectromagnet.setState(isRunning, world, pos);
 		}
 	}
 	
@@ -68,7 +69,7 @@ public class Passives {
 	public static class TileCobblestoneGenerator extends TilePassive {
 		
 		public TileCobblestoneGenerator() {
-			super("cobblestone_generator", new ItemStack(Blocks.COBBLESTONE), NCConfig.processor_passive_rate[1], 5);
+			super("cobblestone_generator", new ItemStack(Blocks.COBBLESTONE), NCConfig.processor_passive_rate[1], -NCConfig.cobble_gen_power, 5);
 		}
 		
 		public void setBlockState() {

@@ -38,6 +38,8 @@ public class ContainerEnergyFluidProcessor extends ContainerTile {
 				icontainerlistener.sendProgressBarUpdate(this, j, tile.getField(j) >> 16);
 				icontainerlistener.sendProgressBarUpdate(this, 100 + j, tile.getField(j));
 			}
+			
+			//for (int j = 2; j <= 2 + tile.tanks.length; j++) icontainerlistener.sendProgressBarUpdate(this, j, tile.getField(j));
 		}
 	}
 	
@@ -55,6 +57,8 @@ public class ContainerEnergyFluidProcessor extends ContainerTile {
 		else if (id == 0) tile.setField(id, time | data << 16);
 		else if (id == 1) tile.setField(id, energy | data << 16);
 		else if (id == 2) tile.setField(id, baseTime | data << 16);
+		
+		//else if (id > 2 && id <= 2 + tile.tanks.length) tile.setField(id, data);
 	}
 	
 	public boolean canInteractWith(EntityPlayer player) {

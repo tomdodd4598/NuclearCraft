@@ -1,3 +1,47 @@
+v2.3
+
++ Added active cooling for Fission and Fusion Reactors
++ Added comparator functionality for Fission and Fusion Reactors
++ Added transparent Reactor Casing and Electromagnets
+
+* Fixed exploit that allowed coolers to be utilised in invalid positions to support other coolers
+* Fixed bug where Fission Reactor Ports would not find the Controller
+* Fixed bugs related to energy transfer
+* Fixed bug where automating machines would disable them after one run
+* Fixed bug where battery blocks did not update correctly
+
++ Additional configs
+* Recipe tweaks and additions
+
+* Updated Forge
+* Updated CoFH API (1.10.2)
+- Removed CoFH API (1.11.2)
+* Updated IC2 API
+
+v2.2d
+
+* Fixed Fusion Reactor not initiating nuclear reaction
+* Fixed Machine Interfaces not working correctly
+* Fixed certain recipes not registering correctly
+* Fixed item importing through the sides of machines
+
+v2.2c
+
+* Fixed Fission Controller efficiency level
+* Fixed weird OreDict ice issue
+
+v2.2b
+
+* Fixed crashes with certain recipes
+* Fixed flickering in GUIs
+* Fixed anomalous recipe outputs
+
+v2.2a
+
+* Fixed crash when placing some machines
+* Improved server GUI updating
+* Minor texture changes
+
 v2.2
 
 + Added multiblock Fusion Reactor

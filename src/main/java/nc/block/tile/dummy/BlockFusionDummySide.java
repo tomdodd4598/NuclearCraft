@@ -3,17 +3,21 @@ package nc.block.tile.dummy;
 import nc.NuclearCraft;
 import nc.block.tile.BlockInventory;
 import nc.block.tile.generator.BlockFusionCore;
+import nc.init.NCBlocks;
 import nc.tile.dummy.TileFusionDummySide;
 import nc.tile.generator.TileFusionCore;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraftforge.fml.relauncher.Side;
@@ -97,5 +101,19 @@ public class BlockFusionDummySide extends BlockInventory {
 	
 	private boolean isCore(World world, BlockPos pos, int x, int y, int z) {
 		return world.getBlockState(getPos(pos, x, y, z)).getBlock() instanceof BlockFusionCore;
+	}
+	
+	public int getComparatorInputOverride(IBlockState state, World world, BlockPos pos) {
+		BlockPos position = findCore(world, pos);
+		if (position == null) return 0;
+		TileEntity tile = world.getTileEntity(position);
+		if (tile != null) {
+			if (tile instanceof TileFusionCore) return (int) MathHelper.clamp(0.01*16D*((TileFusionCore)tile).efficiency, 0, 15);
+		}
+		return Container.calcRedstone(world.getTileEntity(position));
+	}
+	
+	public ItemStack getItem(World world, BlockPos pos, IBlockState state) {
+		return new ItemStack(NCBlocks.fusion_core);
 	}
 }

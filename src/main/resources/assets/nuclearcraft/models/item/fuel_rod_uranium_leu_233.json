@@ -1,0 +1,6 @@
+{
+	"parent": "item/generated",
+	"textures": {
+		"layer0": "nuclearcraft:items/fuel_rod_uranium_leu_233"
+	}
+}

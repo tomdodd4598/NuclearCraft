@@ -17,24 +17,12 @@ public class Tank extends FluidTank implements INBTSerializable<NBTTagCompound> 
 	
 	public String[] allowedFluids;
 	
-	public Tank(int capacity) {
-		this(capacity, capacity, capacity, null);
-	}
-	
 	public Tank(int capacity, String... allowedFluids) {
 		this(capacity, capacity, capacity, allowedFluids);
-	}
-
-	public Tank(int capacity, int maxTransfer) {
-		this(capacity, maxTransfer, maxTransfer, null);
 	}
 	
 	public Tank(int capacity, int maxTransfer, String... allowedFluids) {
 		this(capacity, maxTransfer, maxTransfer, allowedFluids);
-	}
-	
-	public Tank(int capacity, int maxReceive, int maxExtract) {
-		this(capacity, maxReceive, maxExtract, null);
 	}
 
 	public Tank(int capacity, int maxReceive, int maxExtract, String... allowedFluids) {

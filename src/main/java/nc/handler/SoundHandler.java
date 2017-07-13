@@ -10,10 +10,10 @@ public class SoundHandler {
 	private static int size = 0;
 	
 	public static SoundEvent FUSION_RUN;
-	public static final int FUSION_RUN_TIME = 66;
+	public static final int FUSION_RUN_TIME = 67;
 	
 	public static SoundEvent ACCELERATOR_RUN;
-	public static final int ACCELERATOR_RUN_TIME = 66;
+	public static final int ACCELERATOR_RUN_TIME = 67;
 	
 	public static void init() {
 		size = SoundEvent.REGISTRY.getKeys().size();

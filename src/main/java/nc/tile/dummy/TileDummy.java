@@ -1,9 +1,5 @@
 package nc.tile.dummy;
 
-import cofh.api.energy.IEnergyConnection;
-import cofh.api.energy.IEnergyHandler;
-import cofh.api.energy.IEnergyProvider;
-import cofh.api.energy.IEnergyReceiver;
 import ic2.api.energy.tile.IEnergyAcceptor;
 import ic2.api.energy.tile.IEnergyEmitter;
 import ic2.api.energy.tile.IEnergySink;
@@ -29,6 +25,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.energy.CapabilityEnergy;
+import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.FluidTankProperties;
@@ -43,7 +40,19 @@ public abstract class TileDummy extends TileEnergyFluidSidedInventory {
 	public final int updateRate;
 	
 	public TileDummy(String name, int updateRate, String[]... allowedFluids) {
-		super(name, 1, 1, EnergyConnection.BOTH, new int[] {1}, new FluidConnection[] {FluidConnection.BOTH}, allowedFluids);
+		this(name, EnergyConnection.BOTH, FluidConnection.BOTH, updateRate, allowedFluids);
+	}
+	
+	public TileDummy(String name, EnergyConnection energyConnection, int updateRate, String[]... allowedFluids) {
+		this(name, energyConnection, FluidConnection.BOTH, updateRate, allowedFluids);
+	}
+	
+	public TileDummy(String name, FluidConnection fluidConnection, int updateRate, String[]... allowedFluids) {
+		this(name, EnergyConnection.BOTH, fluidConnection, updateRate, allowedFluids);
+	}
+	
+	public TileDummy(String name, EnergyConnection energyConnection, FluidConnection fluidConnection, int updateRate, String[]... allowedFluids) {
+		super(name, 1, 1, energyConnection, new int[] {1}, new FluidConnection[] {fluidConnection}, allowedFluids);
 		this.updateRate = updateRate;
 	}
 	
@@ -192,55 +201,46 @@ public abstract class TileDummy extends TileEnergyFluidSidedInventory {
 		return connection;
 	}
 	
-	public int getEnergyStored(EnumFacing from) {
+	public int getEnergyStored() {
 		if (getMaster() != null) {
-			if (getMaster() instanceof IEnergyHandler) return ((IEnergyHandler) getMaster()).getEnergyStored(from);
+			if (getMaster() instanceof IEnergyStorage) return ((IEnergyStorage) getMaster()).getEnergyStored();
 		}
 		return getStorage().getEnergyStored();
 	}
 
-	public int getMaxEnergyStored(EnumFacing from) {
+	public int getMaxEnergyStored() {
 		if (getMaster() != null) {
-			if (getMaster() instanceof IEnergyHandler) return ((IEnergyHandler) getMaster()).getMaxEnergyStored(from);
+			if (getMaster() instanceof IEnergyStorage) return ((IEnergyStorage) getMaster()).getMaxEnergyStored();
 		}
 		return getStorage().getMaxEnergyStored();
 	}
-	
-	public int getEnergyStored() {
-		return getEnergyStored(EnumFacing.UP);
-	}
 
-	public int getMaxEnergyStored() {
-		return getMaxEnergyStored(EnumFacing.UP);
-	}
-
-	public boolean canConnectEnergy(EnumFacing from) {
-		if (getMaster() != null) {
-			if (getMaster() instanceof IEnergyConnection) return ((IEnergyConnection) getMaster()).canConnectEnergy(from);
-		}
-		return getEnergyConnection().canConnect();
-	}
-
-	public int receiveEnergy(EnumFacing from, int maxReceive, boolean simulate) {
-		if (getMaster() != null) {
-			if (getMaster() instanceof IEnergyReceiver) return ((IEnergyReceiver) getMaster()).receiveEnergy(from, maxReceive, simulate);
-		}
-		return 0;
-	}
-	
-	public int extractEnergy(EnumFacing from, int maxExtract, boolean simulate) {
-		if (getMaster() != null) {
-			if (getMaster() instanceof IEnergyProvider) return ((IEnergyProvider) getMaster()).extractEnergy(from, maxExtract, simulate);
-		}
-		return 0;
-	}
-	
 	public int receiveEnergy(int maxReceive, boolean simulate) {
-		return receiveEnergy(EnumFacing.UP, maxReceive, simulate);
+		if (getMaster() != null) {
+			if (getMaster() instanceof IEnergyStorage) return ((IEnergyStorage) getMaster()).receiveEnergy(maxReceive, simulate);
+		}
+		return 0;
+	}
+	
+	public int extractEnergy(int maxExtract, boolean simulate) {
+		if (getMaster() != null) {
+			if (getMaster() instanceof IEnergyStorage) return ((IEnergyStorage) getMaster()).extractEnergy(maxExtract, simulate);
+		}
+		return 0;
+	}
+	
+	public boolean canExtract() {
+		if (getMaster() != null) {
+			if (getMaster() instanceof IEnergyStorage) return ((IEnergyStorage) getMaster()).canExtract();
+		}
+		return false;
 	}
 
-	public int extractEnergy(int maxExtract, boolean simulate) {
-		return extractEnergy(EnumFacing.UP, maxExtract, simulate);
+	public boolean canReceive() {
+		if (getMaster() != null) {
+			if (getMaster() instanceof IEnergyStorage) return ((IEnergyStorage) getMaster()).canReceive();
+		}
+		return false;
 	}
 	
 	// IC2 Energy
@@ -371,10 +371,11 @@ public abstract class TileDummy extends TileEnergyFluidSidedInventory {
 		if (getStorage().getEnergyStored() <= 0 || !getEnergyConnection().canExtract()) return;
 		for (EnumFacing side : EnumFacing.VALUES) {
 			TileEntity tile = world.getTileEntity(getPos().offset(side));
+			IEnergyStorage adjStorage = tile == null ? null : tile.getCapability(CapabilityEnergy.ENERGY, side.getOpposite());
 			//TileEntity thisTile = world.getTileEntity(getPos());
 			
-			if (tile instanceof IEnergyReceiver /*&& tile != thisTile*/) {
-				getStorage().extractEnergy(((IEnergyReceiver) tile).receiveEnergy(side.getOpposite(), getStorage().extractEnergy(getStorage().getMaxEnergyStored(), true), false), false);
+			if (adjStorage != null && storage.canExtract()) {
+				getStorage().extractEnergy(adjStorage.receiveEnergy(getStorage().extractEnergy(getStorage().getMaxEnergyStored(), true), false), false);
 			}
 			else if (tile instanceof IEnergySink /*&& tile != thisTile*/) {
 				getStorage().extractEnergy((int) Math.round(((IEnergySink) tile).injectEnergy(side.getOpposite(), getStorage().extractEnergy(getStorage().getMaxEnergyStored(), true) / 24, getSourceTier())), false);

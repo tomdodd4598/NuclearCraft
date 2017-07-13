@@ -22,11 +22,9 @@ public class AlloyFurnaceRecipes extends ProcessorRecipeHandler {
 	public void addRecipes() {
 		addRecipe(oreStack("ingotCopper", 3), "ingotTin", new ItemStack(NCItems.alloy, 4, 0), NCConfig.processor_time[4]);
 		addRecipe("ingotIron", oreStack("ingotGraphite", 2), new ItemStack(NCItems.alloy, 1, 5), NCConfig.processor_time[4]);
-		addRecipe("ingotIron", oreStack("dustGraphite", 2), new ItemStack(NCItems.alloy, 1, 5), NCConfig.processor_time[4]);
 		addRecipe("ingotSteel", "ingotBoron", new ItemStack(NCItems.alloy, 2, 6), NCConfig.processor_time[4]);
 		addRecipe("ingotFerroboron", "ingotLithium", new ItemStack(NCItems.alloy, 2, 1), NCConfig.processor_time[4]*2);
 		addRecipe(oreStack("ingotGraphite", 2), "dustDiamond", new ItemStack(NCItems.alloy, 2, 2), NCConfig.processor_time[4]*2);
-		addRecipe(oreStack("dustGraphite", 2), "dustDiamond", new ItemStack(NCItems.alloy, 2, 2), NCConfig.processor_time[4]*2);
 		addRecipe("ingotMagnesium", oreStack("ingotBoron", 2), new ItemStack(NCItems.alloy, 3, 3), NCConfig.processor_time[4]);
 		addRecipe("ingotLithium", "ingotManganeseDioxide", new ItemStack(NCItems.alloy, 2, 4), NCConfig.processor_time[4]*2);
 		
@@ -46,10 +44,6 @@ public class AlloyFurnaceRecipes extends ProcessorRecipeHandler {
 		addRecipe("ingotIron", Items.ENDER_PEARL, "ingotPhasedIron", NCConfig.processor_time[4]*2);
 		addRecipe("ingotSteel", "dustObsidian", "ingotDarkSteel", NCConfig.processor_time[4]*4);
 		addRecipe("ingotGold", Blocks.SOUL_SAND, "ingotSoularium", NCConfig.processor_time[4]*2);
-		
-		// Project Red
-		addRecipe("ingotIron", oreStack("dustElectrotine", 4), "ingotElectrotineAlloy", NCConfig.processor_time[4]);
-		addRecipe("ingotIron", oreStack("dustRedstone", 4), "ingotRedAlloy", NCConfig.processor_time[4]);
 		
 		// Flaxbeard's Steam Power Mod
 		addRecipe(oreStack("ingotCopper", 3), "ingotZinc", oreStack("ingotBrass", 4), NCConfig.processor_time[4]);

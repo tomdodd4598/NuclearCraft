@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "facing=north": { "model": "nuclearcraft:decay_hastener_idle" },
+        "facing=south": { "model": "nuclearcraft:decay_hastener_idle", "y": 180 },
+        "facing=west":  { "model": "nuclearcraft:decay_hastener_idle", "y": 270 },
+        "facing=east":  { "model": "nuclearcraft:decay_hastener_idle", "y": 90 }
+    }
+}

@@ -46,6 +46,25 @@ tile.fission_block.blast.name=Blast Block
 tile.fission_block.blast.des0=Highly blast resistant.
 tile.fission_block.blast.des1=Perfect for bunkers
 
+tile.reactor_casing_transparent.name=Transparent Reactor Casing
+tile.reactor_casing_transparent.des0=Used in the construction of
+tile.reactor_casing_transparent.des1=fission reactors. To form
+tile.reactor_casing_transparent.des2=a valid structure, build a
+tile.reactor_casing_transparent.des3=cuboid shell of casing,
+tile.reactor_casing_transparent.des4=making sure to *exclude* the
+tile.reactor_casing_transparent.des5=edges - the corners don't
+tile.reactor_casing_transparent.des6=matter. Then place a fission
+tile.reactor_casing_transparent.des7=controller along an edge,
+tile.reactor_casing_transparent.des8=at a corner or within one of
+tile.reactor_casing_transparent.des9=the faces of the structure.
+tile.reactor_casing_transparent.des10=If the GUI shows an error,
+tile.reactor_casing_transparent.des11=make sure the structure is
+tile.reactor_casing_transparent.des12=valid. Then fill the interior
+tile.reactor_casing_transparent.des13=with reactor cells, coolers
+tile.reactor_casing_transparent.des14=and graphite blocks to start
+tile.reactor_casing_transparent.des15=generating energy from your
+tile.reactor_casing_transparent.des16=fission fuels!
+
 tile.fusion_connector.name=Fusion Connector
 tile.fusion_connector.des0=Connects a fusion core to
 tile.fusion_connector.des1=its ring of electromagnets
@@ -78,8 +97,9 @@ tile.cooler.quartz.des0=Must touch at least one
 tile.cooler.quartz.des1=active Graphite Block
 
 tile.cooler.gold.name=Gold Cooler
-tile.cooler.gold.des0=Must touch at least one Water
-tile.cooler.gold.des1=Cooler and one Redstone Cooler
+tile.cooler.gold.des0=Must touch at least one active
+tile.cooler.gold.des1=Water Cooler and one active
+tile.cooler.gold.des2=Redstone Cooler
 
 tile.cooler.glowstone.name=Glowstone Cooler
 tile.cooler.glowstone.des0=Must touch at least two
@@ -90,12 +110,14 @@ tile.cooler.lapis.des0=Must touch at least one Reactor
 tile.cooler.lapis.des1=Cell and one Reactor Casing
 
 tile.cooler.diamond.name=Diamond Cooler
-tile.cooler.diamond.des0=Must be at least sandwiched
-tile.cooler.diamond.des1=by Water Coolers
+tile.cooler.diamond.des0=Must be at least adjacent to
+tile.cooler.diamond.des1=four active Water Coolers in
+tile.cooler.diamond.des2=the same plane
 
 tile.cooler.helium.name=Liquid Helium Cooler
-tile.cooler.helium.des0=Must touch at least one Quartz
-tile.cooler.helium.des1=Cooler and one Reactor Casing
+tile.cooler.helium.des0=Must touch at least one active
+tile.cooler.helium.des1=Quartz Cooler and one Reactor
+tile.cooler.helium.des2=Casing
 
 tile.cooler.enderium.name=Enderium Cooler
 tile.cooler.enderium.des0=Must touch at least
@@ -178,6 +200,24 @@ tile.buffer.des1=32000 RF of energy and 16000 mB
 tile.buffer.des2=of fluid. Can be placed in the
 tile.buffer.des3=shell of fission structures
 
+tile.active_cooler.name=Active Fluid Cooler
+tile.active_cooler.des0=Pump coolant into this block to cool
+tile.active_cooler.des1=down fission and fusion reactors.
+tile.active_cooler.des2=Must be placed in a fission structure
+tile.active_cooler.des3=or on the diagonal of a fusion ring.
+tile.active_cooler.des4=If used to cool a fission reactor, the
+tile.active_cooler.des5=requirements for each fluid type are
+tile.active_cooler.des6=the same as the passive counterpart
+tile.active_cooler.des7=(Crushed ice uses that of water).
+tile.active_cooler.des8=If used to cool a fusion reactor, it
+tile.active_cooler.des9=is much more efficient for a cooler to
+tile.active_cooler.des10=have a partner on the exact opposite
+tile.active_cooler.des11=side of the entire fusion ring.
+tile.active_cooler.des12=The coolants available are: water,
+tile.active_cooler.des13=destabilised redstone, energised
+tile.active_cooler.des14=glowstone, liquid helium, resonant
+tile.active_cooler.des15=ender, gelid cryotheum and crushed ice
+
 tile.fission_controller_idle.name=Fission Controller
 tile.fission_controller_idle.des0=Build a multiblock reactor
 tile.fission_controller_idle.des1=using reactor casing,
@@ -224,7 +264,8 @@ tile.energy_storage.des0=Stores up to
 tile.energy_storage.des1=kRF.
 tile.energy_storage.des2=This is still being worked on
 tile.energy_storage.des3=and currently doesn't retain its
-tile.energy_storage.des4=stored energy on breaking
+tile.energy_storage.des4=stored energy on being broken.
+tile.energy_storage.des5=Extract energy from bottom side
 
 tile.fusion_core.name=Fusion Core
 tile.fusion_core.des0=This is the central part of the multiblock
@@ -242,11 +283,15 @@ tile.fusion_core.des11=fuels - do keep in mind that the same fuel can
 tile.fusion_core.des12=be reacted with itself. The possible fusion
 tile.fusion_core.des13=fuels are hydrogen, deuterium, tritium,
 tile.fusion_core.des14=helium-3, lithium-6, lithium-7 and boron-11
+tile.fusion_dummy_side.name=Fusion Core
+tile.fusion_dummy_top.name=Fusion Core
 
 tile.fusion_electromagnet_idle.name=Electromagnet
 tile.fusion_electromagnet_idle.des0=Requires
 tile.fusion_electromagnet_idle.des1=RF/t to stay active
 tile.fusion_electromagnet_active.name=Electromagnet
+tile.fusion_electromagnet_transparent_idle.name=Transparent Electromagnet
+tile.fusion_electromagnet_transparent_active.name=Transparent Electromagnet
 
 tile.accelerator_electromagnet_idle.name=Superconducting Electromagnet
 tile.accelerator_electromagnet_idle.des0=Requires
@@ -720,6 +765,8 @@ gui.config.main_title=NuclearCraft Configs
 gui.config.category.ores=Ore Configs
 gui.config.category.ores.tooltip=Configure ore generation
 
+gui.config.ores.ore_dims=Dimension Whitelist
+gui.config.ores.ore_dims.comment=List of IDs of dimensions in which to generate ores
 gui.config.ores.ore_gen=Generate Ores
 gui.config.ores.ore_gen.comment=Will ores generate in the world? Order: copper, tin, lead, thorium, uranium, boron, lithium, magnesium
 gui.config.ores.ore_size=Chunk Sizes
@@ -744,6 +791,8 @@ gui.config.processors.processor_update_rate=Processor Update Rate
 gui.config.processors.processor_update_rate.comment=Ticks per fluid content check
 gui.config.processors.processor_passive_rate=Passive Production Rate
 gui.config.processors.processor_passive_rate.comment=Rates at which passive machines produce materials. Order: Helium Collector, Cobblestone Generator, Infinite Water Source
+gui.config.processors.cobble_gen_power=Cobble Gen Power Use
+gui.config.processors.cobble_gen_power.comment=RF/s required for Cobblestone Generator to run
 
 gui.config.category.generators=Generator Configs
 gui.config.category.generators.tooltip=Configure generators
@@ -768,14 +817,20 @@ gui.config.fission.fission_heat_generation=Heat Gen Multiplier
 gui.config.fission.fission_heat_generation.comment=Modifies the heat generated by fission reactors
 gui.config.fission.fission_cooling_rate=Cooling Rates
 gui.config.fission.fission_cooling_rate.comment=Base heat removed per tick. Order: water, redstone, quartz, gold, glowstone, lapis, diamond, liquid helium, enderium, cryotheum
+gui.config.fission.fission_active_cooling_rate=Active Cooling Rates
+gui.config.fission.fission_active_cooling_rate.comment=Base heat removed per tick/mB. Order: water, redstone, glowstone, liquid helium, enderium, cryotheum, ice
+gui.config.fission.fission_water_cooler_requirement=Water Cooler Requirement
+gui.config.fission.fission_water_cooler_requirement.comment=Do water coolers have to be adjacent to reactor casing?
 gui.config.fission.fission_overheat=Enable Meltdowns
 gui.config.fission.fission_overheat.comment=Can fission reactors overheat?
-gui.config.fission.fission_update_rate=Reactor Update Rate
+gui.config.fission.fission_update_rate=Structure Check Delay
 gui.config.fission.fission_update_rate.comment=Ticks per structure check
-gui.config.fission.fission_min_size=Minimum Length
+gui.config.fission.fission_min_size=Minimum Structure Length
 gui.config.fission.fission_min_size.comment=Minimum side length of fission structures
-gui.config.fission.fission_max_size=Maximum Length
+gui.config.fission.fission_max_size=Maximum Structure Length
 gui.config.fission.fission_max_size.comment=Maximum side length of fission structures
+gui.config.fission.fission_active_cooler_max_rate=Maximum Active Cooler Fluid Use
+gui.config.fission.fission_active_cooler_max_rate.comment=Maximum rate at which the Active Fluid Cooler uses coolant in mB/t
 
 gui.config.fission.fission_thorium_fuel_time=Thorium Fuel Durations
 gui.config.fission.fission_thorium_fuel_time.comment=Base ticks the fuels last. Order: TBU, TBU Oxide
@@ -842,6 +897,23 @@ gui.config.fission.fission_californium_heat_generation.comment=Base heat the fue
 
 gui.config.category.fusion=Fusion Configs
 gui.config.category.fusion.tooltip=Configure aspects of nuclear fusion
+
+gui.config.fusion.fusion_base_power=Power Gen Multiplier
+gui.config.fusion.fusion_base_power.comment=Modifies the power generated by fusion reactors
+gui.config.fusion.fusion_fuel_use=Fuel Use Multiplier
+gui.config.fusion.fusion_fuel_use.comment=Modifies the rate of fuel used by fusion reactors
+gui.config.fusion.fusion_heat_generation=Heat Gen Multiplier
+gui.config.fusion.fusion_heat_generation.comment=Modifies the heat generated by fusion reactors
+gui.config.fusion.fusion_overheat=Enable Meltdowns
+gui.config.fusion.fusion_overheat.comment=Can fusion reactors overheat?
+gui.config.fusion.fusion_active_cooling=Enable Fusion Active Cooling
+gui.config.fusion.fusion_active_cooling.comment=Can fusion reactors be actively cooled (disable if suffering from lag)?
+gui.config.fusion.fusion_update_rate=Toroid Check Delay
+gui.config.fusion.fusion_update_rate.comment=Ticks per toroid check
+gui.config.fusion.fusion_min_size=Minimum Toroid Size
+gui.config.fusion.fusion_min_size.comment=Minimum size of fusion toroids
+gui.config.fusion.fusion_max_size=Maximum Toroid Size
+gui.config.fusion.fusion_max_size.comment=Maximum size of fusion toroids
 
 gui.config.fusion.fusion_fuel_time=Fusion Fuel Combo Durations
 gui.config.fusion.fusion_fuel_time.comment=Base ticks the fuel combos last. Order: H-H, H-D, H-T, H-He3, H-Li6, H-Li7, H-B11, D-D, D-T, D-He3, ..., D-B11, T-T, ..., T-B11, ..., B11-B11

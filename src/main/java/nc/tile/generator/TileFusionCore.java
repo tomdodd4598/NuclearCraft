@@ -1,24 +1,32 @@
 package nc.tile.generator;
 
-import ic2.api.energy.event.EnergyTileUnloadEvent;
+import java.util.ArrayList;
+import java.util.List;
+
+import ic2.api.energy.EnergyNet;
 import nc.ModCheck;
 import nc.block.fluid.BlockFluidPlasma;
 import nc.block.tile.generator.BlockFusionCore;
+import nc.block.tile.passive.BlockActiveCooler;
 import nc.config.NCConfig;
 import nc.crafting.generator.FusionRecipes;
 import nc.energy.EnumStorage.EnergyConnection;
 import nc.fluid.EnumTank.FluidConnection;
+import nc.fluid.Tank;
 import nc.handler.SoundHandler;
 import nc.init.NCBlocks;
 import nc.init.NCFluids;
+import nc.tile.fluid.TileActiveCooler;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockRedstoneComparator;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.translation.I18n;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.FluidStack;
 
 public class TileFusionCore extends TileFluidGenerator {
@@ -29,7 +37,6 @@ public class TileFusionCore extends TileFluidGenerator {
 	public double processPower;
 	
 	public double heat;
-	public double heatChange;
 	public double efficiency;
 	
 	public int tickCount;
@@ -59,6 +66,7 @@ public class TileFusionCore extends TileFluidGenerator {
 			setSize();
 			run();
 			heating();
+			if (shouldCheck() && NCConfig.fusion_active_cooling) cooling();
 			plasma();
 			overheat();
 			if (canProcess() && !isPowered()) {
@@ -74,24 +82,18 @@ public class TileFusionCore extends TileFluidGenerator {
 			}
 			if (flag != isGenerating) {
 				flag1 = true;
-				//invalidate();
-				/*if (isEnergyTileSet && ModCheck.ic2Loaded()) {
-					MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
-					isEnergyTileSet = false;
-				}*/
-			}
-			if (isHotEnough()) pushEnergy();
-			if (shouldCheck()) {
-				setBlockState();
 				if (isEnergyTileSet && ModCheck.ic2Loaded()) {
-					MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
+					/*MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));*/ EnergyNet.instance.removeTile(this);
 					isEnergyTileSet = false;
 				}
+				//invalidate();
 			}
+			if (isHotEnough()) pushEnergy();
+			if (findAdjacentComparator() && shouldCheck()) flag1 = true;
 		} else {
-			isGenerating = canProcess() && !isPowered();
+			isGenerating = /*canProcess() && !isPowered()*/ !isPowered() && time > 0 && isHotEnough();
+			playSounds();
 		}
-		playSounds();
 		
 		if (flag1) {
 			markDirty();
@@ -104,10 +106,26 @@ public class TileFusionCore extends TileFluidGenerator {
 	
 	public void overheat() {
 		if (heat >= getMaxHeat() && NCConfig.fusion_overheat) {
-			// meltdown();
-			world.destroyBlock(pos, false);
-			world.removeTileEntity(pos);
-			world.setBlockState(pos, NCFluids.block_plasma.getDefaultState());
+			meltdown();
+		}
+	}
+	
+	public void meltdown() {
+		world.removeTileEntity(pos);
+		world.setBlockState(pos, NCFluids.block_plasma.getDefaultState());
+		for (int r = -size - 2; r <= size + 2; r++) {
+			world.removeTileEntity(position(r, 0, size + 2));
+			world.setBlockToAir(position(r, 0, size + 2));
+			world.setBlockState(position(r, 1, size + 2), Blocks.LAVA.getDefaultState());
+			world.removeTileEntity(position(r, 0, -size - 2));
+			world.setBlockToAir(position(r, 0, -size - 2));
+			world.setBlockState(position(r, 1, -size - 2), Blocks.LAVA.getDefaultState());
+			world.removeTileEntity(position(size + 2, 0, r));
+			world.setBlockToAir(position(size + 2, 0, r));
+			world.setBlockState(position(size + 2, 1, r), Blocks.LAVA.getDefaultState());
+			world.removeTileEntity(position(-size - 2, 0, r));
+			world.setBlockToAir(position(-size - 2, 0, r));
+			world.setBlockState(position(-size - 2, 1, r), Blocks.LAVA.getDefaultState());
 		}
 	}
 	
@@ -121,6 +139,16 @@ public class TileFusionCore extends TileFluidGenerator {
 	
 	public boolean shouldCheck() {
 		return tickCount > NCConfig.fusion_update_rate;
+	}
+	
+	public boolean findAdjacentComparator() {
+		if (world.getBlockState(position(1, 0, 0)).getBlock() instanceof BlockRedstoneComparator) return true;
+		if (world.getBlockState(position(-1, 0, 0)).getBlock() instanceof BlockRedstoneComparator) return true;
+		if (world.getBlockState(position(0, 1, 0)).getBlock() instanceof BlockRedstoneComparator) return true;
+		if (world.getBlockState(position(0, -1, 0)).getBlock() instanceof BlockRedstoneComparator) return true;
+		if (world.getBlockState(position(0, 0, 1)).getBlock() instanceof BlockRedstoneComparator) return true;
+		if (world.getBlockState(position(0, 0, -1)).getBlock() instanceof BlockRedstoneComparator) return true;
+		return false;
 	}
 	
 	public boolean canProcess() {
@@ -152,7 +180,7 @@ public class TileFusionCore extends TileFluidGenerator {
 	
 	public void playSounds() {
 		if (soundCount >= SoundHandler.FUSION_RUN_TIME) {
-			if (canProcess() && !isPowered() /*&& NuclearCraft.fusionSounds*/) {
+			if (isGenerating) {
 				world.playSound(pos.getX(), pos.getY() + 1, pos.getZ(), SoundHandler.FUSION_RUN, SoundCategory.BLOCKS, 1F, 1.0F, false);
 				for (int r = 0; r <= (size - 1)/2; r++) {
 					world.playSound(pos.getX() - size - 2 + 2*r*(2*size + 5)/size, pos.getY() + 1, pos.getZ() + size + 2, SoundHandler.FUSION_RUN, SoundCategory.BLOCKS, 0.8F, 1F, false);
@@ -163,6 +191,14 @@ public class TileFusionCore extends TileFluidGenerator {
 			}
 			soundCount = 0;
 		} else soundCount ++;
+	}
+	
+	public boolean canExtract() {
+		return isHotEnough();
+	}
+
+	public boolean canReceive() {
+		return !isHotEnough();
 	}
 	
 	// IC2 Tiers
@@ -217,9 +253,9 @@ public class TileFusionCore extends TileFluidGenerator {
 	
 	public double getComboTime() {
 		if (getComboStats() != null) if (getComboStats() instanceof double[]) {
-			return ((double[]) getComboStats())[0];
+			return ((double[]) getComboStats())[0]/NCConfig.fusion_fuel_use;
 		}
-		return 1;
+		return 1D/NCConfig.fusion_fuel_use;
 	}
 	
 	public double getComboPower() {
@@ -267,6 +303,26 @@ public class TileFusionCore extends TileFluidGenerator {
 	
 	// Finding Blocks
 	
+	private BlockPos position(int x, int y, int z) {
+		int xCheck = getPos().getX();
+		int yCheck = getPos().getY() + y;
+		int zCheck = getPos().getZ();
+		
+		if (getBlockMetadata() == 4) {
+			return new BlockPos(xCheck + x, yCheck, zCheck + z);
+		}
+		if (getBlockMetadata() == 2) {
+			return new BlockPos(xCheck - z, yCheck, zCheck + x);
+		}
+		if (getBlockMetadata() == 5) {
+			return new BlockPos(xCheck - x, yCheck, zCheck - z);
+		}
+		if (getBlockMetadata() == 3) {
+			return new BlockPos(xCheck + z, yCheck, zCheck - x);
+		}
+		else return new BlockPos(xCheck + x, yCheck, zCheck + z);
+	}
+	
 	private boolean findConnector(int x, int y, int z) {
 		IBlockState findState = world.getBlockState(new BlockPos(pos.getX() + x, pos.getY() + y, pos.getZ() + z));
 		if (findState == NCBlocks.fusion_connector.getDefaultState()) return true;
@@ -276,6 +332,7 @@ public class TileFusionCore extends TileFluidGenerator {
 	private boolean findElectromagnetActive(int x, int y, int z) {
 		IBlockState findState = world.getBlockState(new BlockPos(pos.getX() + x, pos.getY() + y, pos.getZ() + z));
 		if (findState == NCBlocks.fusion_electromagnet_active.getDefaultState()) return true;
+		if (findState == NCBlocks.fusion_electromagnet_transparent_active.getDefaultState()) return true;
 		return false;
 	}
 	
@@ -283,6 +340,8 @@ public class TileFusionCore extends TileFluidGenerator {
 		IBlockState findState = world.getBlockState(new BlockPos(pos.getX() + x, pos.getY() + y, pos.getZ() + z));
 		if (findState == NCBlocks.fusion_electromagnet_idle.getDefaultState()) return true;
 		if (findState == NCBlocks.fusion_electromagnet_active.getDefaultState()) return true;
+		if (findState == NCBlocks.fusion_electromagnet_transparent_idle.getDefaultState()) return true;
+		if (findState == NCBlocks.fusion_electromagnet_transparent_active.getDefaultState()) return true;
 		return false;
 	}
 	
@@ -295,6 +354,14 @@ public class TileFusionCore extends TileFluidGenerator {
 	private boolean findPlasma(int x, int y, int z) {
 		Block findBlock = world.getBlockState(new BlockPos(pos.getX() + x, pos.getY() + y, pos.getZ() + z)).getBlock();
 		return findBlock instanceof BlockFluidPlasma;
+	}
+	
+	private boolean findActiveCooler(int x, int y, int z) {
+		if (world.getBlockState(position(x, y, z)).getBlock() instanceof BlockActiveCooler) {
+			if (world.getTileEntity(position(x, y, z)) == null) return false;
+			else if (world.getTileEntity(position(x, y, z)) instanceof TileActiveCooler) return true;
+		}
+		return false;
 	}
 	
 	// Finding Ring
@@ -384,8 +451,9 @@ public class TileFusionCore extends TileFluidGenerator {
 	public void run() {
 		processTime = (int) getComboTime();
 		efficiency = efficiency();
+		double heatChange = 0;
 		if (canProcess() && !isPowered()) {
-			heatChange = NCConfig.fusion_heat_generation*(100D - (0.94*efficiency))/2D;
+			heatChange = NCConfig.fusion_heat_generation*(100D - (0.9*efficiency))/2.2D;
 			setProcessPower((int) (efficiency*NCConfig.fusion_base_power*size*getComboPower()));
 			setRateMultiplier(size);
 		} else {
@@ -409,7 +477,8 @@ public class TileFusionCore extends TileFluidGenerator {
 		if (!canProcess()) return 0;
 		else if (isHotEnough()) {
 			double heatMK = heat/1000D;
-	    	return 742D*(Math.exp(-heatMK/getComboHeatVariable())+Math.tanh(heatMK/getComboHeatVariable())-1);
+	    	double z = 7.415D*(Math.exp(-heatMK/getComboHeatVariable())+Math.tanh(heatMK/getComboHeatVariable())-1);
+	    	return 100*Math.pow(z, 2);
 	   	} else return 0;
 	}
 	
@@ -429,6 +498,114 @@ public class TileFusionCore extends TileFluidGenerator {
 		else setConnection(EnergyConnection.OUT);
 	}
 	
+	public BlockPos getOpposite(BlockPos pos) {
+		BlockPos corePos = this.pos;
+		BlockPos relativePos = new BlockPos(pos.getX() - corePos.getX(), pos.getY() - corePos.getY(), pos.getZ() - corePos.getZ());
+		return position(-relativePos.getX(), -relativePos.getY() + 2, -relativePos.getZ());
+	}
+	
+	public void cooling() {
+		if (complete == 1) {
+			List<BlockPos> posList = new ArrayList<BlockPos>();
+			for (int r = -size - 3; r <= size + 3; r++) {
+				if (findActiveCooler(r, 0, size + 3)) {
+					if (((TileActiveCooler) world.getTileEntity(position(r, 0, size + 3))).tanks[0].getFluidAmount() > 0) posList.add(position(r, 0, size + 3));
+				}
+				if (findActiveCooler(r, 2, size + 3)) {
+					if (((TileActiveCooler) world.getTileEntity(position(r, 2, size + 3))).tanks[0].getFluidAmount() > 0) posList.add(position(r, 2, size + 3));
+				}
+				
+				if (findActiveCooler(r, 0, -size - 3)) {
+					if (((TileActiveCooler) world.getTileEntity(position(r, 0, -size - 3))).tanks[0].getFluidAmount() > 0) posList.add(position(r, 0, -size - 3));
+				}
+				if (findActiveCooler(r, 2, -size - 3)) {
+					if (((TileActiveCooler) world.getTileEntity(position(r, 2, -size - 3))).tanks[0].getFluidAmount() > 0) posList.add(position(r, 2, -size - 3));
+				}
+				
+				if (findActiveCooler(size + 3, 0, r)) {
+					if (((TileActiveCooler) world.getTileEntity(position(size + 3, 0, r))).tanks[0].getFluidAmount() > 0) posList.add(position(size + 3, 0, r));
+				}
+				if (findActiveCooler(size + 3, 2, r)) {
+					if (((TileActiveCooler) world.getTileEntity(position(size + 3, 2, r))).tanks[0].getFluidAmount() > 0) posList.add(position(size + 3, 2, r));
+				}
+				
+				if (findActiveCooler(-size - 3, 0, r)) {
+					if (((TileActiveCooler) world.getTileEntity(position(-size - 3, 0, r))).tanks[0].getFluidAmount() > 0) posList.add(position(-size - 3, 0, r));
+				}
+				if (findActiveCooler(-size - 3, 2, r)) {
+					if (((TileActiveCooler) world.getTileEntity(position(-size - 3, 2, r))).tanks[0].getFluidAmount() > 0) posList.add(position(-size - 3, 2, r));
+				}
+			}
+			
+			for (int r = -size - 1; r <= size + 1; r++) {
+				if (findActiveCooler(r, 0, size + 1)) {
+					if (((TileActiveCooler) world.getTileEntity(position(r, 0, size + 1))).tanks[0].getFluidAmount() > 0) posList.add(position(r, 0, size + 1));
+				}
+				if (findActiveCooler(r, 2, size + 1)) {
+					if (((TileActiveCooler) world.getTileEntity(position(r, 2, size + 1))).tanks[0].getFluidAmount() > 0) posList.add(position(r, 2, size + 1));
+				}
+				
+				if (findActiveCooler(r, 0, -size - 1)) {
+					if (((TileActiveCooler) world.getTileEntity(position(r, 0, -size - 1))).tanks[0].getFluidAmount() > 0) posList.add(position(r, 0, -size - 1));
+				}
+				if (findActiveCooler(r, 2, -size - 1)) {
+					if (((TileActiveCooler) world.getTileEntity(position(r, 2, -size - 1))).tanks[0].getFluidAmount() > 0) posList.add(position(r, 2, -size - 1));
+				}
+				
+				if (findActiveCooler(size + 1, 0, r)) {
+					if (((TileActiveCooler) world.getTileEntity(position(size + 1, 0, r))).tanks[0].getFluidAmount() > 0) posList.add(position(size + 1, 0, r));
+				}
+				if (findActiveCooler(size + 1, 2, r)) {
+					if (((TileActiveCooler) world.getTileEntity(position(size + 1, 2, r))).tanks[0].getFluidAmount() > 0) posList.add(position(size + 1, 2, r));
+				}
+				
+				if (findActiveCooler(-size - 1, 0, r)) {
+					if (((TileActiveCooler) world.getTileEntity(position(-size - 1, 0, r))).tanks[0].getFluidAmount() > 0) posList.add(position(-size - 1, 0, r));
+				}
+				if (findActiveCooler(-size - 1, 2, r)) {
+					if (((TileActiveCooler) world.getTileEntity(position(-size - 1, 2, r))).tanks[0].getFluidAmount() > 0) posList.add(position(-size - 1, 2, r));
+				}
+			}
+			if (posList.isEmpty()) return;
+			for (BlockPos pos : posList) {
+				TileEntity tile = world.getTileEntity(pos);
+				if (tile != null) if (tile instanceof TileActiveCooler) {
+					Tank tank = ((TileActiveCooler) tile).getTanks()[0];
+					int fluidAmount = tank.getFluidAmount();
+					if (fluidAmount > 0) {
+						if (heat > 0) {
+							double cool_mult = posList.contains(getOpposite(pos)) ? 0.02D*NCConfig.fusion_heat_generation : 0.005D*NCConfig.fusion_heat_generation;
+							if (tank.getFluidName() == "water") {
+								heat -= NCConfig.fission_active_cooling_rate[0]*fluidAmount*cool_mult;
+							}
+							else if (tank.getFluidName() == "redstone") {
+								heat -= NCConfig.fission_active_cooling_rate[1]*fluidAmount*cool_mult;
+							}
+							else if (tank.getFluidName() == "glowstone") {
+								heat -= NCConfig.fission_active_cooling_rate[2]*fluidAmount*cool_mult;
+							}
+							else if (tank.getFluidName() == "liquidhelium") {
+								heat -= NCConfig.fission_active_cooling_rate[3]*fluidAmount*cool_mult;
+							}
+							else if (tank.getFluidName() == "ender") {
+								heat -= NCConfig.fission_active_cooling_rate[4]*fluidAmount*cool_mult;
+							}
+							else if (tank.getFluidName() == "cryotheum") {
+								heat -= NCConfig.fission_active_cooling_rate[5]*fluidAmount*cool_mult;
+							}
+							else if (tank.getFluidName() == "ice") {
+								heat -= NCConfig.fission_active_cooling_rate[6]*fluidAmount*cool_mult;
+							}
+						}
+						double newHeat = heat;
+						if (newHeat > 0D) tank.drain(fluidAmount, true);
+						if (heat < 0D) heat = 0;
+					}
+				}
+			}
+		}
+	}
+	
 	// NBT
 	
 	public NBTTagCompound writeAll(NBTTagCompound nbt) {
@@ -439,7 +616,7 @@ public class TileFusionCore extends TileFluidGenerator {
 		nbt.setDouble("heat", heat);
 		nbt.setDouble("efficiency", efficiency);
 		nbt.setInteger("size", size);
-		nbt.setDouble("heatChange", heatChange);
+		//nbt.setDouble("heatChange", heatChange);
 		nbt.setInteger("complete", complete);
 		nbt.setString("problem", problem);
 		return nbt;
@@ -453,7 +630,7 @@ public class TileFusionCore extends TileFluidGenerator {
 		heat = nbt.getInteger("heat");
 		efficiency = nbt.getDouble("efficiency");
 		size = nbt.getInteger("size");
-		heatChange = nbt.getDouble("heatChange");
+		//heatChange = nbt.getDouble("heatChange");
 		complete = nbt.getInteger("complete");
 		problem = nbt.getString("problem");
 	}
@@ -461,7 +638,7 @@ public class TileFusionCore extends TileFluidGenerator {
 	// Inventory Fields
 	
 	public int getFieldCount() {
-		return 15;
+		return 9;
 	}
 
 	public int getField(int id) {
@@ -484,18 +661,6 @@ public class TileFusionCore extends TileFluidGenerator {
 			return size;
 		case 8:
 			return complete;
-		case 9:
-			return tanks[0].getFluidAmount();
-		case 10:
-			return tanks[1].getFluidAmount();
-		case 11:
-			return tanks[2].getFluidAmount();
-		case 12:
-			return tanks[3].getFluidAmount();
-		case 13:
-			return tanks[4].getFluidAmount();
-		case 14:
-			return tanks[5].getFluidAmount();
 		default:
 			return 0;
 		}
@@ -529,24 +694,6 @@ public class TileFusionCore extends TileFluidGenerator {
 			break;
 		case 8:
 			complete = value;
-			break;
-		case 9:
-			tanks[0].setFluidAmount(value);
-			break;
-		case 10:
-			tanks[1].setFluidAmount(value);
-			break;
-		case 11:
-			tanks[2].setFluidAmount(value);
-			break;
-		case 12:
-			tanks[3].setFluidAmount(value);
-			break;
-		case 13:
-			tanks[4].setFluidAmount(value);
-			break;
-		case 14:
-			tanks[5].setFluidAmount(value);
 		}
 	}
 }

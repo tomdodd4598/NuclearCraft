@@ -46,6 +46,10 @@ public class GuiFluidRenderer {
 	public static void renderGuiTank(@Nonnull FluidTank tank, double x, double y, double zLevel, double width, double height) {
 		renderGuiTank(tank.getFluid(), tank.getCapacity(), tank.getFluidAmount(), x, y, zLevel, width, height);
 	}
+	
+	public static void renderGuiTank(@Nonnull FluidStack fluid, int capacity, double x, double y, double zLevel, double width, double height) {
+		renderGuiTank(fluid, capacity, fluid != null ? fluid.amount : 0, x, y, zLevel, width, height);
+	}
 
 	public static void renderGuiTank(@Nullable FluidStack fluid, int capacity, int amount, double x, double y, double zLevel, double width, double height) {
 		

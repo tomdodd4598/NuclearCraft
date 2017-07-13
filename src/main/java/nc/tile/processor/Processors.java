@@ -127,11 +127,15 @@ public class Processors {
 	public static class TileIrradiator extends TileEnergyFluidProcessor {
 
 		public TileIrradiator() {
-			super("irradiator", 2, 2, new int[] {16000, 16000, 16000, 16000}, new FluidConnection[] {FluidConnection.IN, FluidConnection.IN, FluidConnection.OUT, FluidConnection.OUT}, new String[][] {{"lithium6", "boron10", "neutron"}, {"lithium6", "boron10", "neutron"}, {}, {}}, NCConfig.processor_time[9], NCConfig.processor_power[9], IrradiatorRecipes.instance(), 10);
+			super("irradiator", 2, 2, new int[] {16000, 16000, 16000, 16000}, new FluidConnection[] {FluidConnection.IN, FluidConnection.IN, FluidConnection.OUT, FluidConnection.OUT}, new String[][] {{"helium3", "lithium6", "boron10"}, {"neutron"}, {}, {}}, NCConfig.processor_time[9], NCConfig.processor_power[9], IrradiatorRecipes.instance(), 10);
 		}
 		
 		public void setBlockState() {
 			BlockIrradiator.setState(isProcessing, world, pos);
+		}
+		
+		public int getFieldCount() {
+			return 7;
 		}
 	}
 }

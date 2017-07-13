@@ -4,10 +4,15 @@ import nc.container.processor.ContainerElectrolyser;
 import nc.gui.GuiFluidRenderer;
 import nc.gui.GuiItemRenderer;
 import nc.init.NCItems;
+import nc.network.PacketGetFluidInTank;
+import nc.network.PacketHandler;
 import nc.tile.processor.TileEnergyFluidProcessor;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraftforge.fluids.FluidStack;
 
 public class GuiElectrolyser extends GuiEnergyFluidProcessor {
+	
+	public static FluidStack fluid0, fluid1, fluid2, fluid3, fluid4 = null;
 	
 	public GuiElectrolyser(EntityPlayer player, TileEnergyFluidProcessor tile) {
 		super("electrolyser", player, new ContainerElectrolyser(player, tile));
@@ -33,10 +38,18 @@ public class GuiElectrolyser extends GuiEnergyFluidProcessor {
 		int k = getCookProgressScaled(37);
 		drawTexturedModalRect(guiLeft + 68, guiTop + 30, 176, 3, k, 38);
 		
-		GuiFluidRenderer.renderGuiTank(tile.tanks[0], guiLeft + 50, guiTop + 41, zLevel, 16, 16);
-		GuiFluidRenderer.renderGuiTank(tile.tanks[1], guiLeft + 106, guiTop + 31, zLevel, 16, 16);
-		GuiFluidRenderer.renderGuiTank(tile.tanks[2], guiLeft + 126, guiTop + 31, zLevel, 16, 16);
-		GuiFluidRenderer.renderGuiTank(tile.tanks[3], guiLeft + 106, guiTop + 51, zLevel, 16, 16);
-		GuiFluidRenderer.renderGuiTank(tile.tanks[4], guiLeft + 126, guiTop + 51, zLevel, 16, 16);
+		if (tick == 0) {
+			PacketHandler.INSTANCE.sendToServer(new PacketGetFluidInTank(tile.getPos(), 0, "nc.gui.processor.GuiElectrolyser", "fluid0"));
+			PacketHandler.INSTANCE.sendToServer(new PacketGetFluidInTank(tile.getPos(), 1, "nc.gui.processor.GuiElectrolyser", "fluid1"));
+			PacketHandler.INSTANCE.sendToServer(new PacketGetFluidInTank(tile.getPos(), 2, "nc.gui.processor.GuiElectrolyser", "fluid2"));
+			PacketHandler.INSTANCE.sendToServer(new PacketGetFluidInTank(tile.getPos(), 3, "nc.gui.processor.GuiElectrolyser", "fluid3"));
+			PacketHandler.INSTANCE.sendToServer(new PacketGetFluidInTank(tile.getPos(), 4, "nc.gui.processor.GuiElectrolyser", "fluid4"));
+		}
+		
+		GuiFluidRenderer.renderGuiTank(fluid0, tile.tanks[0].getCapacity(), guiLeft + 50, guiTop + 41, zLevel, 16, 16);
+		GuiFluidRenderer.renderGuiTank(fluid1, tile.tanks[1].getCapacity(), guiLeft + 106, guiTop + 31, zLevel, 16, 16);
+		GuiFluidRenderer.renderGuiTank(fluid2, tile.tanks[2].getCapacity(), guiLeft + 126, guiTop + 31, zLevel, 16, 16);
+		GuiFluidRenderer.renderGuiTank(fluid3, tile.tanks[3].getCapacity(), guiLeft + 106, guiTop + 51, zLevel, 16, 16);
+		GuiFluidRenderer.renderGuiTank(fluid4, tile.tanks[4].getCapacity(), guiLeft + 126, guiTop + 51, zLevel, 16, 16);
 	}
 }

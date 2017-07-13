@@ -2,6 +2,7 @@ package nc.network;
 
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
+import net.minecraftforge.fml.relauncher.Side;
 
 public class PacketHandler {
 	
@@ -21,6 +22,10 @@ public class PacketHandler {
 	}
 
 	public static void registerMessages() {
-		//INSTANCE.registerMessage(PacketClass.Handler.class, PacketClass.class, nextID(), Side.SERVER);
+		// SERVER
+		INSTANCE.registerMessage(PacketGetFluidInTank.Handler.class, PacketGetFluidInTank.class, nextID(), Side.SERVER);
+		
+		// CLIENT
+		INSTANCE.registerMessage(PacketReturnFluidInTank.Handler.class, PacketReturnFluidInTank.class, nextID(), Side.CLIENT);
 	}
 }

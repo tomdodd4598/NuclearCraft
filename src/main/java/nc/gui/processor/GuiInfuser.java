@@ -4,10 +4,15 @@ import nc.container.processor.ContainerInfuser;
 import nc.gui.GuiFluidRenderer;
 import nc.gui.GuiItemRenderer;
 import nc.init.NCItems;
+import nc.network.PacketGetFluidInTank;
+import nc.network.PacketHandler;
 import nc.tile.processor.TileEnergyItemFluidProcessor;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraftforge.fluids.FluidStack;
 
 public class GuiInfuser extends GuiEnergyItemFluidProcessor {
+	
+	public static FluidStack fluid0 = null;
 	
 	public GuiInfuser(EntityPlayer player, TileEnergyItemFluidProcessor tile) {
 		super("infuser", player, new ContainerInfuser(player, tile));
@@ -33,6 +38,8 @@ public class GuiInfuser extends GuiEnergyItemFluidProcessor {
 		int k = getCookProgressScaled(37);
 		drawTexturedModalRect(guiLeft + 84, guiTop + 35, 176, 3, k, 16);
 		
-		GuiFluidRenderer.renderGuiTank(tile.tanks[0], guiLeft + 66, guiTop + 35, zLevel, 16, 16);
+		if (tick == 0) PacketHandler.INSTANCE.sendToServer(new PacketGetFluidInTank(tile.getPos(), 0, "nc.gui.processor.GuiInfuser", "fluid0"));
+		
+		GuiFluidRenderer.renderGuiTank(fluid0, tile.tanks[0].getCapacity(), guiLeft + 66, guiTop + 35, zLevel, 16, 16);
 	}
 }
