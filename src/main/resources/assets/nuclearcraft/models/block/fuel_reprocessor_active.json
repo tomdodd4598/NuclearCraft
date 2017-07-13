@@ -1,8 +1,0 @@
-{
-    "parent": "block/orientable",
-    "textures": {
-        "top": "nuclearcraft:blocks/fuel_reprocessor_top",
-        "front": "nuclearcraft:blocks/fuel_reprocessor_front_on",
-        "side": "nuclearcraft:blocks/fuel_reprocessor_side"
-    }
-}

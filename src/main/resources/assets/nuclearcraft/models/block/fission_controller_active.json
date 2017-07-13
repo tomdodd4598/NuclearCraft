@@ -1,8 +1,0 @@
-{
-    "parent": "block/orientable",
-    "textures": {
-        "top": "nuclearcraft:blocks/fission_controller_top",
-        "front": "nuclearcraft:blocks/fission_controller_front_on",
-        "side": "nuclearcraft:blocks/fission_controller_side"
-    }
-}

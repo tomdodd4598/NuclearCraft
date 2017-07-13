@@ -1,8 +1,0 @@
-{
-    "parent": "block/orientable",
-    "textures": {
-        "top": "nuclearcraft:blocks/rtg_plutonium_top",
-        "front": "nuclearcraft:blocks/rtg_plutonium_side",
-        "side": "nuclearcraft:blocks/rtg_plutonium_side"
-    }
-}

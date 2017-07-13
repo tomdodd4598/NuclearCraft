@@ -1,8 +1,0 @@
-{
-    "parent": "block/orientable",
-    "textures": {
-        "top": "nuclearcraft:blocks/manufactory_top",
-        "front": "nuclearcraft:blocks/manufactory_front_on",
-        "side": "nuclearcraft:blocks/manufactory_side"
-    }
-}

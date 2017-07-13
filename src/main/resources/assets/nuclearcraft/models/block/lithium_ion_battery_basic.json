@@ -1,8 +1,0 @@
-{
-    "parent": "block/orientable",
-    "textures": {
-        "top": "nuclearcraft:blocks/lithium_ion_battery_basic_top",
-        "front": "nuclearcraft:blocks/lithium_ion_battery_basic_side",
-        "side": "nuclearcraft:blocks/lithium_ion_battery_basic_side"
-    }
-}
