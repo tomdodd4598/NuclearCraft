@@ -11,6 +11,8 @@ import net.minecraft.util.ResourceLocation;
 
 public abstract class GuiEnergyFluidProcessor extends GuiContainer {
 	
+	public static int tick;
+	
 	private final InventoryPlayer playerInventory;
 	protected TileEnergyFluidProcessor tile;
 	protected final ResourceLocation gui_textures;
@@ -31,6 +33,9 @@ public abstract class GuiEnergyFluidProcessor extends GuiContainer {
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		mc.getTextureManager().bindTexture(gui_textures);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
+		
+		tick++;
+		tick %= 10;
 	}
 	
 	protected int getCookProgressScaled(double pixels) {

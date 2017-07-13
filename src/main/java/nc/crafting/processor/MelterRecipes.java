@@ -6,6 +6,7 @@ import java.util.List;
 
 import nc.config.NCConfig;
 import nc.handler.ProcessorRecipeHandler;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.oredict.OreDictionary;
@@ -33,7 +34,9 @@ public class MelterRecipes extends ProcessorRecipeHandler {
 		addRecipe("tinyBoron10", fluidStack("boron10", 12), NCConfig.processor_time[6]/8);
 		addRecipe("ingotBoron11", fluidStack("boron11", 108), NCConfig.processor_time[6]);
 		addRecipe("tinyBoron11", fluidStack("boron11", 12), NCConfig.processor_time[6]/8);
-		addRecipe("blockIce", fluidStack("water", 1000), NCConfig.processor_time[6]/2);
+		addRecipe(Blocks.ICE, fluidStack("water", 1000), NCConfig.processor_time[6]/2);
+		addRecipe(Blocks.FROSTED_ICE, fluidStack("water", 1000), NCConfig.processor_time[6]/2);
+		addRecipe(Blocks.PACKED_ICE, fluidStack("water", 1000), NCConfig.processor_time[6]/2);
 		
 		// Tinkers' Construct
 		addRecipe("blockObsidian", fluidStack("obsidian", 288), NCConfig.processor_time[6]*4);

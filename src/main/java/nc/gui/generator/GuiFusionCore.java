@@ -3,6 +3,8 @@ package nc.gui.generator;
 import nc.Global;
 import nc.container.generator.ContainerFusionCore;
 import nc.gui.GuiFluidRenderer;
+import nc.network.PacketGetFluidInTank;
+import nc.network.PacketHandler;
 import nc.tile.generator.TileFusionCore;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
@@ -10,8 +12,13 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.translation.I18n;
+import net.minecraftforge.fluids.FluidStack;
 
 public class GuiFusionCore extends GuiContainer {
+	
+	public static int tick;
+	
+	public static FluidStack fluid0, fluid1, fluid2, fluid3, fluid4, fluid5, fluid6, fluid7 = null;
 	
 	private final InventoryPlayer playerInventory;
 	protected TileFusionCore tile;
@@ -31,7 +38,7 @@ public class GuiFusionCore extends GuiContainer {
 	}
 
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-		int fontColor = tile.isGenerating ? -1 : (tile.complete == 1 ? 15641088 : 15597568);
+		int fontColor = tile.time > 0 && tile.heat > 8 ? -1 : (tile.complete == 1 ? 15641088 : 15597568);
 		String name = I18n.translateToLocalFormatted("gui.container.fusion_core.reactor");
 		fontRendererObj.drawString(name, 108 - widthHalf(name), 10, fontColor);
 		String size = tile.complete == 1 ? (I18n.translateToLocalFormatted("gui.container.fusion_core.size") + " " + tile.size) : tile.problem;
@@ -44,8 +51,8 @@ public class GuiFusionCore extends GuiContainer {
 		fontRendererObj.drawString(heat, 108 - widthHalf(heat), 54, fontColor);
 		String efficiency = I18n.translateToLocalFormatted("gui.container.fusion_core.efficiency") + " " + ((int) tile.efficiency) + "%";
 		fontRendererObj.drawString(efficiency, 108 - widthHalf(efficiency), 65, fontColor);
-		String input1 = tile.tanks[0].getFluid() != null ? tile.tanks[0].getFluidName() : I18n.translateToLocalFormatted("gui.container.fusion_core.empty");
-		String input2 = tile.tanks[1].getFluid() != null ? tile.tanks[1].getFluidName() : I18n.translateToLocalFormatted("gui.container.fusion_core.empty");
+		String input1 = fluid0 != null ? fluid0.getFluid().getName() : I18n.translateToLocalFormatted("gui.container.fusion_core.empty");
+		String input2 = fluid1 != null ? fluid1.getFluid().getName() : I18n.translateToLocalFormatted("gui.container.fusion_core.empty");
 		String inputCap1 = input1.substring(0, 1).toUpperCase() + input1.substring(1);
 		String inputCap2 = input2.substring(0, 1).toUpperCase() + input2.substring(1);
 		String fuels1 = I18n.translateToLocalFormatted("gui.container.fusion_core.fuels");
@@ -68,11 +75,25 @@ public class GuiFusionCore extends GuiContainer {
 		double efficiency = Math.round((tile.efficiency / 100D) * 95D);
 		drawTexturedModalRect(guiLeft + 28, guiTop + 6 + 95 - (int) efficiency, 208, 90 + 95 - (int) efficiency, 6, (int) efficiency);
 		
-		GuiFluidRenderer.renderGuiTank(tile.tanks[0], guiLeft + 38, guiTop + 6, zLevel, 6, 46);
-		GuiFluidRenderer.renderGuiTank(tile.tanks[1], guiLeft + 38, guiTop + 55, zLevel, 6, 46);
-		GuiFluidRenderer.renderGuiTank(tile.tanks[2], guiLeft + 172, guiTop + 6, zLevel, 6, 46);
-		GuiFluidRenderer.renderGuiTank(tile.tanks[3], guiLeft + 182, guiTop + 6, zLevel, 6, 46);
-		GuiFluidRenderer.renderGuiTank(tile.tanks[4], guiLeft + 172, guiTop + 55, zLevel, 6, 46);
-		GuiFluidRenderer.renderGuiTank(tile.tanks[5], guiLeft + 182, guiTop + 55, zLevel, 6, 46);
+		tick++;
+		tick %= 10;
+		
+		if (tick == 0) {
+			PacketHandler.INSTANCE.sendToServer(new PacketGetFluidInTank(tile.getPos(), 0, "nc.gui.generator.GuiFusionCore", "fluid0"));
+			PacketHandler.INSTANCE.sendToServer(new PacketGetFluidInTank(tile.getPos(), 1, "nc.gui.generator.GuiFusionCore", "fluid1"));
+			PacketHandler.INSTANCE.sendToServer(new PacketGetFluidInTank(tile.getPos(), 2, "nc.gui.generator.GuiFusionCore", "fluid2"));
+			PacketHandler.INSTANCE.sendToServer(new PacketGetFluidInTank(tile.getPos(), 3, "nc.gui.generator.GuiFusionCore", "fluid3"));
+			PacketHandler.INSTANCE.sendToServer(new PacketGetFluidInTank(tile.getPos(), 4, "nc.gui.generator.GuiFusionCore", "fluid4"));
+			PacketHandler.INSTANCE.sendToServer(new PacketGetFluidInTank(tile.getPos(), 5, "nc.gui.generator.GuiFusionCore", "fluid5"));
+			PacketHandler.INSTANCE.sendToServer(new PacketGetFluidInTank(tile.getPos(), 6, "nc.gui.generator.GuiFusionCore", "fluid6"));
+			PacketHandler.INSTANCE.sendToServer(new PacketGetFluidInTank(tile.getPos(), 7, "nc.gui.generator.GuiFusionCore", "fluid7"));
+		}
+		
+		GuiFluidRenderer.renderGuiTank(fluid0, tile.tanks[0].getCapacity(), guiLeft + 38, guiTop + 6, zLevel, 6, 46);
+		GuiFluidRenderer.renderGuiTank(fluid1, tile.tanks[1].getCapacity(), guiLeft + 38, guiTop + 55, zLevel, 6, 46);
+		GuiFluidRenderer.renderGuiTank(fluid2, tile.tanks[2].getCapacity(), guiLeft + 172, guiTop + 6, zLevel, 6, 46);
+		GuiFluidRenderer.renderGuiTank(fluid3, tile.tanks[3].getCapacity(), guiLeft + 182, guiTop + 6, zLevel, 6, 46);
+		GuiFluidRenderer.renderGuiTank(fluid4, tile.tanks[4].getCapacity(), guiLeft + 172, guiTop + 55, zLevel, 6, 46);
+		GuiFluidRenderer.renderGuiTank(fluid5, tile.tanks[5].getCapacity(), guiLeft + 182, guiTop + 55, zLevel, 6, 46);
 	}
 }

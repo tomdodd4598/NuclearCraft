@@ -1,24 +1,32 @@
 package nc.tile.generator;
 
-import ic2.api.energy.event.EnergyTileUnloadEvent;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+import ic2.api.energy.EnergyNet;
 import nc.ModCheck;
 import nc.block.fission.BlockCooler;
 import nc.block.tile.dummy.BlockFissionPort;
 import nc.block.tile.generator.BlockFissionController;
+import nc.block.tile.passive.BlockActiveCooler;
 import nc.block.tile.passive.BlockBuffer;
 import nc.config.NCConfig;
 import nc.crafting.generator.FissionRecipes;
+import nc.fluid.Tank;
 import nc.handler.EnumHandler.CoolerTypes;
 import nc.init.NCBlocks;
 import nc.item.fission.IFissionableItem;
+import nc.tile.fluid.TileActiveCooler;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockRedstoneComparator;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.translation.I18n;
-import net.minecraftforge.common.MinecraftForge;
 
 public class TileFissionController extends TileItemGenerator {
 	
@@ -36,21 +44,17 @@ public class TileFissionController extends TileItemGenerator {
 	public int tickCountStructureCheck;
 	public int tickCountRunCheck;
 	
-	public int minX;
-	public int minY;
-	public int minZ;
+	public int minX, minY, minZ;
 	
-	public int maxX;
-	public int maxY;
-	public int maxZ;
+	public int maxX, maxY, maxZ;
 	
-	public int lengthX;
-	public int lengthY;
-	public int lengthZ;
+	public int lengthX, lengthY, lengthZ;
 	
 	public int complete;
 	public int ready;
 	public String problem = I18n.translateToLocalFormatted("gui.container.fission_controller.casing_incomplete");
+	
+	private Random rand = new Random();
 
 	public TileFissionController() {
 		super("Fission Controller", 1, 1, 0, 960000, FissionRecipes.instance());
@@ -81,14 +85,15 @@ public class TileFissionController extends TileItemGenerator {
 			}
 			if (flag != isGenerating) {
 				flag1 = true;
-				setBlockState();
-				//invalidate();
 				if (isEnergyTileSet && ModCheck.ic2Loaded()) {
-					MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
+					/*MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));*/ EnergyNet.instance.removeTile(this);
 					isEnergyTileSet = false;
 				}
+				setBlockState();
+				//invalidate();
 			}
 			pushEnergy();
+			if (findAdjacentComparator() && shouldStructureCheck()) flag1 = true;
 		} else {
 			isGenerating = canProcess() && isPowered();
 		}
@@ -131,12 +136,31 @@ public class TileFissionController extends TileItemGenerator {
 		return tickCountRunCheck > NCConfig.fission_update_rate*2;
 	}
 	
+	public boolean findAdjacentComparator() {
+		if (worldObj.getBlockState(position(1, 0, 0)).getBlock() instanceof BlockRedstoneComparator) return true;
+		if (worldObj.getBlockState(position(-1, 0, 0)).getBlock() instanceof BlockRedstoneComparator) return true;
+		if (worldObj.getBlockState(position(0, 1, 0)).getBlock() instanceof BlockRedstoneComparator) return true;
+		if (worldObj.getBlockState(position(0, -1, 0)).getBlock() instanceof BlockRedstoneComparator) return true;
+		if (worldObj.getBlockState(position(0, 0, 1)).getBlock() instanceof BlockRedstoneComparator) return true;
+		if (worldObj.getBlockState(position(0, 0, -1)).getBlock() instanceof BlockRedstoneComparator) return true;
+		return false;
+	}
+	
 	public void overheat() {
 		if (heat >= getMaxHeat() && NCConfig.fission_overheat) {
-			// meltdown();
-			worldObj.setBlockToAir(pos);
-			worldObj.setBlockState(pos, Blocks.LAVA.getDefaultState());
-			worldObj.removeTileEntity(pos);
+			meltdown();
+		}
+	}
+	
+	public void meltdown() {
+		worldObj.removeTileEntity(pos);
+		worldObj.setBlockState(pos, Blocks.LAVA.getDefaultState());
+		for (int i = minX; i <= maxX; i++) {
+			for (int j = minY; j <= maxY; j++) {
+				for (int k = minZ; k <= maxZ; k++) {
+					if (rand.nextDouble() < 0.3D) worldObj.setBlockState(position(i, j, k), Blocks.LAVA.getStateFromMeta(1));
+				}
+			}
 		}
 	}
 	
@@ -428,8 +452,48 @@ public class TileFissionController extends TileItemGenerator {
 		return count;
 	}
 	
+	private boolean adjacentToActiveCooler(int x, int y, int z, int meta) {
+		List<BlockPos> posList = new ArrayList<BlockPos>();
+		if (findCooler(x + 1, y, z, meta)) {
+			posList.add(position(x + 1, y, z));
+		}
+		if (findCooler(x - 1, y, z, meta)) {
+			posList.add(position(x - 1, y, z));
+		}
+		if (findCooler(x, y + 1, z, meta)) {
+			posList.add(position(x, y + 1, z));
+		}
+		if (findCooler(x, y - 1, z, meta)) {
+			posList.add(position(x, y - 1, z));
+		}
+		if (findCooler(x, y, z + 1, meta)) {
+			posList.add(position(x, y, z + 1));
+		}
+		if (findCooler(x, y, z - 1, meta)) {
+			posList.add(position(x, y, z - 1));
+		}
+		if (posList.isEmpty()) return false;
+		
+		for (BlockPos pos : posList) {
+			if (meta == 1) {
+				IBlockState casing = NCBlocks.fission_block.getStateFromMeta(0);
+				IBlockState casing_transparent = NCBlocks.reactor_casing_transparent.getDefaultState();
+				if (adjacentOr(pos.getX(), pos.getY(), pos.getZ(), casing, casing_transparent)) return true;
+			}
+			else if (meta == 2) {
+				IBlockState cell = NCBlocks.cell_block.getDefaultState();
+				if (adjacentOr(pos.getX(), pos.getY(), pos.getZ(), cell)) return true;
+			}
+			else if (meta == 3) {
+				if (adjacentToActiveGraphite(pos.getX(), pos.getY(), pos.getZ()) >= 1) return true;
+			}
+		}
+		return false;
+	}
+	
 	private boolean findCasingPort(int x, int y, int z) {
 		if (worldObj.getBlockState(position(x, y, z)) == NCBlocks.fission_block.getStateFromMeta(0)) return true;
+		if (worldObj.getBlockState(position(x, y, z)) == NCBlocks.reactor_casing_transparent.getStateFromMeta(0)) return true;
 		if (worldObj.getBlockState(position(x, y, z)).getBlock() instanceof BlockFissionPort) return true;
 		if (worldObj.getBlockState(position(x, y, z)).getBlock() instanceof BlockBuffer) return true;
 		return false;
@@ -439,8 +503,13 @@ public class TileFissionController extends TileItemGenerator {
 		return worldObj.getBlockState(position(x, y, z)).getBlock() instanceof BlockFissionController;
 	}
 	
+	private boolean findActiveCooler(int x, int y, int z) {
+		return worldObj.getBlockState(position(x, y, z)).getBlock() instanceof BlockActiveCooler;
+	}
+	
 	private boolean findCasingControllerPort(int x, int y, int z) {
 		if (worldObj.getBlockState(position(x, y, z)) == NCBlocks.fission_block.getStateFromMeta(0)) return true;
+		if (worldObj.getBlockState(position(x, y, z)) == NCBlocks.reactor_casing_transparent.getStateFromMeta(0)) return true;
 		if (worldObj.getBlockState(position(x, y, z)).getBlock() instanceof BlockFissionController) return true;
 		if (worldObj.getBlockState(position(x, y, z)).getBlock() instanceof BlockFissionPort) return true;
 		if (worldObj.getBlockState(position(x, y, z)).getBlock() instanceof BlockBuffer) return true;
@@ -642,6 +711,7 @@ public class TileFissionController extends TileItemGenerator {
 		IBlockState graphite = NCBlocks.ingot_block.getStateFromMeta(8);
 		IBlockState cell = NCBlocks.cell_block.getDefaultState();
 		IBlockState casing = NCBlocks.fission_block.getStateFromMeta(0);
+		IBlockState casing_transparent = NCBlocks.reactor_casing_transparent.getDefaultState();
 		
 		IBlockState[] cooler = new IBlockState[CoolerTypes.values().length];
 		for (int i = 0; i < CoolerTypes.values().length; i++) {
@@ -709,7 +779,8 @@ public class TileFissionController extends TileItemGenerator {
 					for (int x = minX + 1; x <= maxX - 1; x++) {
 						for (int y = minY + 1; y <= maxY - 1; y++) {
 							if(findCooler(x, y, z, 1)) {
-								if (adjacentOr(x, y, z, casing)) coolerHeatThisTick -= NCConfig.fission_cooling_rate[0];
+								if (!NCConfig.fission_water_cooler_requirement) coolerHeatThisTick -= NCConfig.fission_cooling_rate[0];
+								else if (adjacentOr(x, y, z, casing, casing_transparent)) coolerHeatThisTick -= NCConfig.fission_cooling_rate[0];
 							}
 							if(findCooler(x, y, z, 2)) {
 								if (adjacentOr(x, y, z, cell)) coolerHeatThisTick -= NCConfig.fission_cooling_rate[1];
@@ -718,25 +789,66 @@ public class TileFissionController extends TileItemGenerator {
 								if (adjacentToActiveGraphite(x, y, z) >= 1) coolerHeatThisTick -= NCConfig.fission_cooling_rate[2];
 							}
 							if(findCooler(x, y, z, 4)) {
-								if (adjacentAnd(x, y, z, cooler[1], cooler[2])) coolerHeatThisTick -= NCConfig.fission_cooling_rate[3];
+								if (adjacentToActiveCooler(x, y, z, 1) && adjacentToActiveCooler(x, y, z, 2)) coolerHeatThisTick -= NCConfig.fission_cooling_rate[3];
 							}
 							if(findCooler(x, y, z, 5)) {
 								if (adjacentToActiveGraphite(x, y, z) >= 2) coolerHeatThisTick -= NCConfig.fission_cooling_rate[4];
 							}
 							if(findCooler(x, y, z, 6)) {
-								if (adjacentAnd(x, y, z, cell, casing)) coolerHeatThisTick -= NCConfig.fission_cooling_rate[5];
+								if (adjacentAnd(x, y, z, cell, casing) || adjacentAnd(x, y, z, cell, casing_transparent)) coolerHeatThisTick -= NCConfig.fission_cooling_rate[5];
 							}
 							if(findCooler(x, y, z, 7)) {
-								if (sandwich(x, y, z, cooler[1])) coolerHeatThisTick -= NCConfig.fission_cooling_rate[6];
+								if (sandwich(x, y, z, cooler[1]) && (adjacentOr(x, y, z, casing, casing_transparent) || !NCConfig.fission_water_cooler_requirement)) coolerHeatThisTick -= NCConfig.fission_cooling_rate[6];
 							}
 							if(findCooler(x, y, z, 8)) {
-								if (adjacentAnd(x, y, z, cooler[3], casing)) coolerHeatThisTick -= NCConfig.fission_cooling_rate[7];
+								if (adjacentOr(x, y, z, casing, casing_transparent) && adjacentToActiveCooler(x, y, z, 3)) coolerHeatThisTick -= NCConfig.fission_cooling_rate[7];
 							}
 							if(findCooler(x, y, z, 9)) {
-								if (adjacent(x, y, z, casing) >= 3) coolerHeatThisTick -= NCConfig.fission_cooling_rate[8];
+								if (adjacent(x, y, z, casing) + adjacent(x, y, z, casing_transparent) >= 3) coolerHeatThisTick -= NCConfig.fission_cooling_rate[8];
 							}
 							if(findCooler(x, y, z, 10)) {
 								if (adjacent(x, y, z, cell) >= 2) coolerHeatThisTick -= NCConfig.fission_cooling_rate[9];
+							}
+							
+							if(findActiveCooler(x, y, z)) {
+								TileEntity tile = worldObj.getTileEntity(position(x, y, z));
+								if (tile != null) if (tile instanceof TileActiveCooler) {
+									Tank tank = ((TileActiveCooler) tile).getTanks()[0];
+									int fluidAmount = tank.getFluidAmount();
+									if (fluidAmount > 0) {
+										double amountModified = (double) fluidAmount/(2D*NCConfig.fission_update_rate);
+										double currentHeat = heat + heatThisTick + coolerHeatThisTick;
+										if (tank.getFluidName() == "water") {
+											if (!NCConfig.fission_water_cooler_requirement) coolerHeatThisTick -= NCConfig.fission_active_cooling_rate[0]*amountModified;
+											else if (adjacentOr(x, y, z, casing, casing_transparent)) coolerHeatThisTick -= NCConfig.fission_active_cooling_rate[0]*amountModified;
+										}
+										else if (tank.getFluidName() == "redstone") {
+											if (adjacentOr(x, y, z, cell)) coolerHeatThisTick -= NCConfig.fission_active_cooling_rate[1]*amountModified;
+										}
+										else if (tank.getFluidName() == "glowstone") {
+											if (adjacentToActiveGraphite(x, y, z) >= 2) coolerHeatThisTick -= NCConfig.fission_active_cooling_rate[2]*amountModified;
+										}
+										else if (tank.getFluidName() == "liquidhelium") {
+											if (adjacentOr(x, y, z, casing, casing_transparent) && adjacentToActiveCooler(x, y, z, 3)) coolerHeatThisTick -= NCConfig.fission_active_cooling_rate[3]*amountModified;
+										}
+										else if (tank.getFluidName() == "ender") {
+											if (adjacent(x, y, z, casing) + adjacent(x, y, z, casing_transparent) >= 3) coolerHeatThisTick -= NCConfig.fission_active_cooling_rate[4]*amountModified;
+										}
+										else if (tank.getFluidName() == "cryotheum") {
+											if (adjacent(x, y, z, cell) >= 2) coolerHeatThisTick -= NCConfig.fission_active_cooling_rate[5]*amountModified;
+										}
+										else if (tank.getFluidName() == "ice") {
+											if (adjacentOr(x, y, z, casing, casing_transparent)) coolerHeatThisTick -= NCConfig.fission_active_cooling_rate[6]*amountModified;
+										}
+										if (ready == 0 && generating && currentHeat > 0) {
+											double newHeat = heat + heatThisTick + coolerHeatThisTick;
+											if (newHeat >= 0) tank.drain(fluidAmount, true); else {
+												double heatFraction = currentHeat/(currentHeat - newHeat);
+												tank.drain((int) (fluidAmount*heatFraction), true);
+											}
+										}
+									}
+								}
 							}
 						}
 					}
@@ -747,7 +859,7 @@ public class TileFissionController extends TileItemGenerator {
 			if (complete == 1) {
 				heatChange = (int) (heatThisTick + coolerHeatThisTick);
 				cooling = (int) coolerHeatThisTick;
-				efficiency = (int) ((energyThisTick)/(NCConfig.fission_power*baseRF*(numberOfCells + adj1 + adj2 + adj3 + adj4 + adj5 + adj6)));
+				efficiency = (int) (100*(energyThisTick)/(NCConfig.fission_power*baseRF*(numberOfCells + adj1 + adj2 + adj3 + adj4 + adj5 + adj6)));
 				cells = (int) (numberOfCells + adj1 + adj2 + adj3 + adj4 + adj5 + adj6);
 				setProcessPower((int) energyThisTick);
 				setRateMultiplier((int) fuelThisTick);

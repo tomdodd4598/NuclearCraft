@@ -1,9 +1,9 @@
 package nc.tile.energy;
 
+import cofh.api.energy.IEnergyHandler;
 import cofh.api.energy.IEnergyProvider;
 import cofh.api.energy.IEnergyReceiver;
-import ic2.api.energy.event.EnergyTileLoadEvent;
-import ic2.api.energy.event.EnergyTileUnloadEvent;
+import ic2.api.energy.EnergyNet;
 import ic2.api.energy.tile.IEnergyAcceptor;
 import ic2.api.energy.tile.IEnergyEmitter;
 import ic2.api.energy.tile.IEnergySink;
@@ -18,15 +18,15 @@ import net.darkhax.tesla.capability.TeslaCapabilities;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
+import net.minecraftforge.energy.IEnergyStorage;
 
-public abstract class TileEnergy extends NCTile implements ITileEnergy, IEnergyReceiver, IEnergyProvider, IEnergyTile, IEnergySink, IEnergySource {
+public abstract class TileEnergy extends NCTile implements ITileEnergy, cofh.api.energy.IEnergyStorage, IEnergyReceiver, IEnergyProvider, IEnergyHandler, IEnergyStorage, IEnergyTile, IEnergySink, IEnergySource {
 
 	public EnergyConnection connection;
 	public final Storage storage;
-	public boolean isEnergyTileSet;
+	public boolean isEnergyTileSet = true;
 	
 	public TileEnergy(int capacity, EnergyConnection connection) {
 		this(capacity, capacity, capacity, connection);
@@ -45,19 +45,20 @@ public abstract class TileEnergy extends NCTile implements ITileEnergy, IEnergyR
 	public void update() {
 		super.update();
 		if (!isEnergyTileSet && !worldObj.isRemote && ModCheck.ic2Loaded()) {
-			MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this));
+			//MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this));
+			EnergyNet.instance.addTile(this);
 			isEnergyTileSet = true;
 		}
 	}
 	
 	public void onAdded() {
 		super.onAdded();
-		if (!worldObj.isRemote && ModCheck.ic2Loaded()) MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this));
+		if (!worldObj.isRemote && ModCheck.ic2Loaded()) /*MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this));*/ EnergyNet.instance.addTile(this);
 	}
 
 	public void invalidate() {
 		super.invalidate();
-		if (!worldObj.isRemote && ModCheck.ic2Loaded()) MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
+		if (!worldObj.isRemote && ModCheck.ic2Loaded()) /*MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));*/ EnergyNet.instance.removeTile(this);
 	}
 	
 	public Storage getStorage() {
@@ -70,14 +71,6 @@ public abstract class TileEnergy extends NCTile implements ITileEnergy, IEnergyR
 	
 	// Redstone Flux
 	
-	public int getEnergyStored(EnumFacing from) {
-		return storage.getEnergyStored();
-	}
-
-	public int getMaxEnergyStored(EnumFacing from) {
-		return storage.getMaxEnergyStored();
-	}
-	
 	public int getEnergyStored() {
 		return storage.getEnergyStored();
 	}
@@ -86,24 +79,40 @@ public abstract class TileEnergy extends NCTile implements ITileEnergy, IEnergyR
 		return storage.getMaxEnergyStored();
 	}
 
-	public boolean canConnectEnergy(EnumFacing from) {
-		return connection.canConnect();
-	}
-
-	public int receiveEnergy(EnumFacing from, int maxReceive, boolean simulate) {
-		return connection.canReceive() ? storage.receiveEnergy(maxReceive, simulate) : 0;
-	}
-	
-	public int extractEnergy(EnumFacing from, int maxExtract, boolean simulate) {
+	public int extractEnergy(int maxExtract, boolean simulate) {
 		return connection.canExtract() ? storage.extractEnergy(maxExtract, simulate) : 0;
 	}
 	
 	public int receiveEnergy(int maxReceive, boolean simulate) {
 		return connection.canReceive() ? storage.receiveEnergy(maxReceive, simulate) : 0;
 	}
+	
+	public int getEnergyStored(EnumFacing from) {
+		return storage.getEnergyStored();
+	}
 
-	public int extractEnergy(int maxExtract, boolean simulate) {
+	public int getMaxEnergyStored(EnumFacing from) {
+		return storage.getMaxEnergyStored();
+	}
+
+	public boolean canConnectEnergy(EnumFacing from) {
+		return connection.canConnect();
+	}
+	
+	public int extractEnergy(EnumFacing from, int maxExtract, boolean simulate) {
 		return connection.canExtract() ? storage.extractEnergy(maxExtract, simulate) : 0;
+	}
+
+	public int receiveEnergy(EnumFacing from, int maxReceive, boolean simulate) {
+		return connection.canReceive() ? storage.receiveEnergy(maxReceive, simulate) : 0;
+	}
+	
+	public boolean canExtract() {
+		return connection.canExtract();
+	}
+
+	public boolean canReceive() {
+		return connection.canReceive();
 	}
 	
 	// IC2 Energy
@@ -162,9 +171,13 @@ public abstract class TileEnergy extends NCTile implements ITileEnergy, IEnergyR
 		if (storage.getEnergyStored() <= 0 || !connection.canExtract()) return;
 		for (EnumFacing side : EnumFacing.VALUES) {
 			TileEntity tile = worldObj.getTileEntity(getPos().offset(side));
+			IEnergyStorage adjStorage = tile == null ? null : tile.getCapability(CapabilityEnergy.ENERGY, side.getOpposite());
 			//TileEntity thisTile = world.getTileEntity(getPos());
 			
-			if (tile instanceof IEnergyReceiver /*&& tile != thisTile*/) {
+			if (adjStorage != null && storage.canExtract()) {
+				storage.extractEnergy(adjStorage.receiveEnergy(storage.extractEnergy(storage.getMaxEnergyStored(), true), false), false);
+			}
+			else if (tile instanceof IEnergyReceiver) {
 				storage.extractEnergy(((IEnergyReceiver) tile).receiveEnergy(side.getOpposite(), storage.extractEnergy(storage.getMaxEnergyStored(), true), false), false);
 			}
 			else if (tile instanceof IEnergySink /*&& tile != thisTile*/) {

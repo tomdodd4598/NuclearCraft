@@ -1,6 +1,6 @@
 package nc.tile.processor;
 
-import ic2.api.energy.event.EnergyTileUnloadEvent;
+import ic2.api.energy.EnergyNet;
 import nc.ModCheck;
 import nc.config.NCConfig;
 import nc.energy.EnumStorage.EnergyConnection;
@@ -9,12 +9,10 @@ import nc.init.NCItems;
 import nc.tile.IGui;
 import nc.tile.dummy.IInterfaceable;
 import nc.tile.energy.TileEnergySidedInventory;
-import nc.util.NCUtil;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.MathHelper;
-import net.minecraftforge.common.MinecraftForge;
 
 public abstract class TileEnergyItemProcessor extends TileEnergySidedInventory implements IInterfaceable, IGui {
 	
@@ -96,12 +94,12 @@ public abstract class TileEnergyItemProcessor extends TileEnergySidedInventory i
 			}
 			if (flag != isProcessing) {
 				flag1 = true;
-				setBlockState();
-				//invalidate();
 				if (isEnergyTileSet && ModCheck.ic2Loaded()) {
-					MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
+					/*MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));*/ EnergyNet.instance.removeTile(this);
 					isEnergyTileSet = false;
 				}
+				setBlockState();
+				//invalidate();
 			}
 		} else {
 			isProcessing = canProcess() && !isPowered();
@@ -196,8 +194,7 @@ public abstract class TileEnergyItemProcessor extends TileEnergySidedInventory i
 		}
 		Object[] output = getOutput(inputs());
 		int[] inputOrder = recipes.getInputOrder(inputs(), recipes.getInput(output));
-		if (inputOrder.length > 0 && shouldCheck() && shouldCheck()) NCUtil.getLogger().info("First item input: " + inputOrder[0]);
-		if (output == null || output.length != outputSize) {
+		if (output == null || output.length != outputSize || inputOrder == ProcessorRecipeHandler.INVALID_ORDER) {
 			return false;
 		}
 		for(int j = 0; j < outputSize; j++) {
@@ -220,15 +217,13 @@ public abstract class TileEnergyItemProcessor extends TileEnergySidedInventory i
 	public void process() {
 		Object[] output = getOutput(inputs());
 		int[] inputOrder = recipes.getInputOrder(inputs(), recipes.getInput(output));
-		if (inputOrder.length > 0 && shouldCheck() && shouldCheck()) NCUtil.getLogger().info("First item input: " + inputOrder[0]);
+		if (output[0] == null || inputOrder == ProcessorRecipeHandler.INVALID_ORDER) return;
 		for (int j = 0; j < outputSize; j++) {
-			if (output[j] != null && inputOrder != ProcessorRecipeHandler.INVALID_ORDER) {
-				if (inventoryStacks[j + inputSize] == null) {
-					ItemStack outputStack = ((ItemStack) output[j]).copy();
-					inventoryStacks[j + inputSize] = outputStack;
-				} else if (inventoryStacks[j + inputSize].isItemEqual((ItemStack) output[j])) {
-					inventoryStacks[j + inputSize].stackSize = inventoryStacks[j + inputSize].stackSize + ((ItemStack) output[j]).stackSize;
-				}
+			if (inventoryStacks[j + inputSize] == null) {
+				ItemStack outputStack = ((ItemStack) output[j]).copy();
+				inventoryStacks[j + inputSize] = outputStack;
+			} else if (inventoryStacks[j + inputSize].isItemEqual((ItemStack) output[j])) {
+				inventoryStacks[j + inputSize].stackSize = inventoryStacks[j + inputSize].stackSize + ((ItemStack) output[j]).stackSize;
 			}
 		}
 		for (int i = 0; i < inputSize; i++) {
@@ -259,13 +254,13 @@ public abstract class TileEnergyItemProcessor extends TileEnergySidedInventory i
 	
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {
 		if (stack == null) return false;
-		else if (hasUpgrades) {
+		if (hasUpgrades) {
 			if (stack.getItem() == NCItems.upgrade) {
 				if (slot == inputSize + outputSize) return stack.getMetadata() == 0;
 				else if (slot == inputSize + outputSize + 1) return stack.getMetadata() == upgradeMeta;
 			}
 		}
-		else if (slot >= inputSize) return false;
+		if (slot >= inputSize) return false;
 		return isItemValid(stack);
 	}
 	

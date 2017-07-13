@@ -4,10 +4,15 @@ import nc.container.processor.ContainerSupercooler;
 import nc.gui.GuiFluidRenderer;
 import nc.gui.GuiItemRenderer;
 import nc.init.NCItems;
+import nc.network.PacketGetFluidInTank;
+import nc.network.PacketHandler;
 import nc.tile.processor.TileEnergyFluidProcessor;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraftforge.fluids.FluidStack;
 
 public class GuiSupercooler extends GuiEnergyFluidProcessor {
+	
+	public static FluidStack fluid0, fluid1 = null;
 
 	public GuiSupercooler(EntityPlayer player, TileEnergyFluidProcessor tile) {
 		super("supercooler", player, new ContainerSupercooler(player, tile));
@@ -33,7 +38,12 @@ public class GuiSupercooler extends GuiEnergyFluidProcessor {
 		int k = getCookProgressScaled(37);
 		drawTexturedModalRect(guiLeft + 74, guiTop + 35, 176, 3, k, 16);
 		
-		GuiFluidRenderer.renderGuiTank(tile.tanks[0], guiLeft + 56, guiTop + 35, zLevel, 16, 16);
-		GuiFluidRenderer.renderGuiTank(tile.tanks[1], guiLeft + 112, guiTop + 31, zLevel, 24, 24);
+		if (tick == 0) {
+			PacketHandler.INSTANCE.sendToServer(new PacketGetFluidInTank(tile.getPos(), 0, "nc.gui.processor.GuiSupercooler", "fluid0"));
+			PacketHandler.INSTANCE.sendToServer(new PacketGetFluidInTank(tile.getPos(), 1, "nc.gui.processor.GuiSupercooler", "fluid1"));
+		}
+		
+		GuiFluidRenderer.renderGuiTank(fluid0, tile.tanks[0].getCapacity(), guiLeft + 56, guiTop + 35, zLevel, 16, 16);
+		GuiFluidRenderer.renderGuiTank(fluid1, tile.tanks[1].getCapacity(), guiLeft + 112, guiTop + 31, zLevel, 24, 24);
 	}
 }

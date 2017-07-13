@@ -106,7 +106,6 @@ public class BasicSource extends TileEntity implements IEnergySource, ITickable 
 		this.parent = parent1;
 		this.capacity = capacity1 < power ? power : capacity1;
 		this.tier = tier1;
-		this.power = power;
 	}
 
 	// in-world te forwards	>>
@@ -216,6 +215,7 @@ public class BasicSource extends TileEntity implements IEnergySource, ITickable 
 	 * @param capacity1 Capacity in EU.
 	 */
 	public void setCapacity(double capacity1) {
+		double power = EnergyNet.instance.getPowerFromTier(tier);
 		if (capacity1 < power) capacity1 = power;
 
 		this.capacity = capacity1;
@@ -241,7 +241,6 @@ public class BasicSource extends TileEntity implements IEnergySource, ITickable 
 		if (capacity < power) capacity = power;
 
 		this.tier = tier1;
-		this.power = power;
 	}
 
 
@@ -350,7 +349,7 @@ public class BasicSource extends TileEntity implements IEnergySource, ITickable 
 
 	@Override
 	public double getOfferedEnergy() {
-		return Math.min(energyStored, power);
+		return energyStored;
 	}
 
 	@Override
@@ -370,7 +369,6 @@ public class BasicSource extends TileEntity implements IEnergySource, ITickable 
 
 	protected double capacity;
 	protected int tier;
-	protected double power;
 	protected double energyStored;
 	protected boolean addedToEnet;
 }

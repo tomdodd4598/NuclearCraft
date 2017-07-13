@@ -409,9 +409,6 @@ public class OreDictHandler {
 		OreDictionary.registerOre("gemCoal", Items.COAL);
 		OreDictionary.registerOre("blockObsidian", Blocks.OBSIDIAN);
 		OreDictionary.registerOre("blockGlowstone", Blocks.GLOWSTONE);
-		OreDictionary.registerOre("blockIce", Blocks.ICE);
-		OreDictionary.registerOre("blockIce", Blocks.FROSTED_ICE);
-		OreDictionary.registerOre("blockIce", Blocks.PACKED_ICE);
 		
 	}
 

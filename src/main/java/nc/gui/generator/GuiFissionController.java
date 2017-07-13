@@ -34,15 +34,15 @@ public class GuiFissionController extends GuiContainer {
 		fontRendererObj.drawString(energy, 28, ySize - 92, fontColor);
 		String power = tile.processPower + " RF/t";
 		fontRendererObj.drawString(power, 28, ySize - 103, fontColor);
-		String fuel = tile.getFuelName();
+		String fuel = tile.getFuelName().endsWith("OXIDE") ? tile.getFuelName().substring(0, tile.getFuelName().length() - 3) : tile.getFuelName();
 		fontRendererObj.drawString(fuel, 28, ySize - 114, fontColor);
-		String heat = tile.heat + " K";
+		String heat = tile.heat + " H";
 		fontRendererObj.drawString(heat, 170 - fontRendererObj.getStringWidth(heat), ySize - 92, fontColor);
-		String heatGen = tile.heatChange + " K/t";
+		String heatGen = tile.heatChange + " H/t";
 		fontRendererObj.drawString(heatGen, 170 - fontRendererObj.getStringWidth(heatGen), ySize - 103, fontColor);
 		/*String cells = I18n.translateToLocalFormatted("gui.container.fission_controller.cells") + " " + tile.cells;
 		fontRendererObj.drawString(cells, 170 - fontRendererObj.getStringWidth(cells), ySize - 127, fontColor);*/
-		String efficiency = I18n.translateToLocalFormatted("gui.container.fission_controller.efficiency") + " " + tile.efficiency;
+		String efficiency = I18n.translateToLocalFormatted("gui.container.fission_controller.efficiency") + " " + tile.efficiency + "%";
 		fontRendererObj.drawString(efficiency, 170 - fontRendererObj.getStringWidth(efficiency), ySize - 114, fontColor);
 	}
 	

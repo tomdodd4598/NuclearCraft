@@ -1,6 +1,6 @@
 package nc.tile.passive;
 
-import ic2.api.energy.event.EnergyTileUnloadEvent;
+import ic2.api.energy.EnergyNet;
 import nc.ModCheck;
 import nc.config.NCConfig;
 import nc.energy.EnumStorage.EnergyConnection;
@@ -12,7 +12,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.MathHelper;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
@@ -44,8 +43,12 @@ public abstract class TilePassive extends TileEnergyFluidSidedInventory implemen
 		this(name, new ItemStack(Items.BEEF), 0, 0, fluid, fluidChange, changeRate);
 	}
 	
+	public TilePassive(String name, Fluid fluid, int fluidChange, int changeRate, String[] fluidTypes) {
+		this(name, new ItemStack(Items.BEEF), 0, 0, fluid, fluidChange, changeRate, fluidTypes);
+	}
+	
 	public TilePassive(String name, ItemStack stack, int itemChange, int energyChange, int changeRate) {
-		this(name, stack, itemChange, 0, FluidRegistry.LAVA, 0, changeRate);
+		this(name, stack, itemChange, energyChange, FluidRegistry.LAVA, 0, changeRate);
 	}
 	
 	public TilePassive(String name, int energyChange, Fluid fluid, int fluidChange, int changeRate) {
@@ -57,7 +60,11 @@ public abstract class TilePassive extends TileEnergyFluidSidedInventory implemen
 	}
 	
 	public TilePassive(String name, ItemStack stack, int itemChange, int energyChange, Fluid fluid, int fluidChange, int changeRate) {
-		super(name, 1, energyChange == 0 ? 1 : 2*MathHelper.abs_int(energyChange)*changeRate*NCConfig.generator_rf_per_eu, energyChange == 0 ? 0 : MathHelper.abs_int(energyChange)*NCConfig.generator_rf_per_eu, energyChange > 0 ? EnergyConnection.OUT : (energyChange < 0 ? EnergyConnection.IN : EnergyConnection.NON), new int[] {fluidChange == 0 ? 1 : 2*MathHelper.abs_int(fluidChange)*changeRate}, new FluidConnection[] {fluidChange > 0 ? FluidConnection.OUT : (fluidChange < 0 ? FluidConnection.IN : FluidConnection.NON)}, new String[] {fluid.getName()});
+		this(name, stack, itemChange, energyChange, fluid, fluidChange, changeRate, new String[] {fluid.getName()});
+	}
+	
+	public TilePassive(String name, ItemStack stack, int itemChange, int energyChange, Fluid fluid, int fluidChange, int changeRate, String[] fluidTypes) {
+		super(name, 1, energyChange == 0 ? 1 : 2*MathHelper.abs_int(energyChange)*changeRate*NCConfig.generator_rf_per_eu, energyChange == 0 ? 0 : MathHelper.abs_int(energyChange)*NCConfig.generator_rf_per_eu, energyChange > 0 ? EnergyConnection.OUT : (energyChange < 0 ? EnergyConnection.IN : EnergyConnection.NON), new int[] {fluidChange == 0 ? 1 : 2*MathHelper.abs_int(fluidChange)*changeRate}, new FluidConnection[] {fluidChange > 0 ? FluidConnection.OUT : (fluidChange < 0 ? FluidConnection.IN : FluidConnection.NON)}, fluidTypes);
 		this.energyChange = energyChange*changeRate;
 		this.itemChange = itemChange*changeRate;
 		stackChange = new ItemStack(stack.getItem(), MathHelper.abs_int(itemChange)*changeRate, stack.getMetadata());
@@ -73,19 +80,19 @@ public abstract class TilePassive extends TileEnergyFluidSidedInventory implemen
 		if(!worldObj.isRemote) {
 			tick();
 			if (shouldUpdate()) {
-				energyBool = changeEnergy();
-				stackBool = changeStack();
-				fluidBool = changeFluid();
+				energyBool = changeEnergy(false);
+				stackBool = changeStack(false);
+				fluidBool = changeFluid(false);
 			}
 			isRunning = isRunning(energyBool, stackBool, fluidBool);
 			if (flag != isRunning) {
 				flag1 = true;
-				setBlockState();
-				//invalidate();
 				if (isEnergyTileSet && ModCheck.ic2Loaded()) {
-					MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
+					/*MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));*/ EnergyNet.instance.removeTile(this);
 					isEnergyTileSet = false;
 				}
+				setBlockState();
+				//invalidate();
 			}
 			if (energyChange > 0) pushEnergy();
 			if (fluidChange > 0) pushFluid();
@@ -107,36 +114,50 @@ public abstract class TilePassive extends TileEnergyFluidSidedInventory implemen
 		return tickCount > updateRate;
 	}
 	
-	public boolean changeEnergy() {
-		if (energyChange == 0) return false;
+	public boolean changeEnergy(boolean b) {
+		if (energyChange == 0) return b;
 		if (storage.getEnergyStored() >= storage.getMaxEnergyStored() && energyChange > 0) return false;
-		if (storage.getEnergyStored() < MathHelper.abs_int(energyChange) && energyChange < 0) return false;
-		storage.changeEnergyStored(energyChange);
-		if (energyChange < 0) return storage.getEnergyStored() > 0;
+		if (storage.getEnergyStored() < MathHelper.abs(energyChange) && energyChange < 0) return false;
+		if (!b) {
+			if (changeStack(true) && changeFluid(true)) storage.changeEnergyStored(energyChange);
+		}
+		if (energyChange < 0) return storage.getEnergyStored() > -energyChange;
 		else return true;
 	}
 	
-	public boolean changeStack() {
-		if (itemChange == 0) return false;
-		if (!ItemStack.areItemsEqual(inventoryStacks[0], stackChange)) inventoryStacks[0] = null;
+	public boolean changeStack(boolean b) {
+		if (itemChange == 0) return b;
+		if (!ItemStack.areItemsEqual(inventoryStacks[0], stackChange) && !b) inventoryStacks[0] = null;
 		if (itemChange > 0) {
 			if (inventoryStacks[0] != null) if (inventoryStacks[0].stackSize + itemChange > getInventoryStackLimit()) return false;
-			if (inventoryStacks[0] == null) inventoryStacks[0] = stackChange;
-			else inventoryStacks[0].stackSize += itemChange;
+			if (inventoryStacks[0] == null && !b) {
+				if (changeEnergy(true) && changeFluid(true)) inventoryStacks[0] = stackChange;
+			}
+			else if (!b) {
+				if (changeEnergy(true) && changeFluid(true)) inventoryStacks[0].stackSize += itemChange;
+			}
 			return true;
 		} else {
 			if (inventoryStacks[0] == null || inventoryStacks[0].stackSize < MathHelper.abs_int(itemChange)) return false;
-			else if (inventoryStacks[0].stackSize > MathHelper.abs_int(itemChange)) inventoryStacks[0].stackSize += itemChange;
-			else if (inventoryStacks[0].stackSize == MathHelper.abs_int(itemChange)) inventoryStacks[0] = null;
+			else if (inventoryStacks[0].stackSize > MathHelper.abs_int(itemChange) && !b) {
+				if (changeEnergy(true) && changeFluid(true)) inventoryStacks[0].stackSize += itemChange;
+			}
+			else if (inventoryStacks[0].stackSize == MathHelper.abs_int(itemChange) && !b) {
+				if (changeEnergy(true) && changeFluid(true)) inventoryStacks[0] = null;
+			}
 			return true;
 		}
 	}
 	
-	public boolean changeFluid() {
-		if (fluidChange == 0) return false;
+	public boolean changeFluid(boolean b) {
+		if (fluidChange == 0) return b;
 		if (tanks[0].getFluidAmount() >= tanks[0].getCapacity() && fluidChange > 0) return false;
-		if (tanks[0].getFluidAmount() < MathHelper.abs_int(fluidChange) && fluidChange < 0) return false;
-		tanks[0].changeFluidStored(fluidStackChange.getFluid(), fluidStackChange.amount);
+		if (tanks[0].getFluidAmount() < MathHelper.abs(fluidChange) && fluidChange < 0) return false;
+		if (!b) {
+			if (changeEnergy(true) && changeStack(true)) {
+				if (fluidChange > 0) tanks[0].changeFluidStored(fluidStackChange.getFluid(), fluidStackChange.amount); else tanks[0].changeFluidStored(fluidStackChange.amount);
+			}
+		}
 		return true;
 	}
 	

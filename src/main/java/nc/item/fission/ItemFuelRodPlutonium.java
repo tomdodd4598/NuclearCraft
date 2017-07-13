@@ -63,7 +63,7 @@ public class ItemFuelRodPlutonium extends Item implements IFissionableItem {
 	public final static String[][] INFO() {
 		String[][] info = new String[PlutoniumFuelRodTypes.values().length][];
 		for (int i = 0; i < PlutoniumFuelRodTypes.values().length; i++) {
-			info[i] = new String[] {I18n.translateToLocalFormatted("item.fuel_rod.base_time.des0") + " " + NCMath.Round(NCConfig.fission_plutonium_fuel_time[i]/1200D, 1) + " " + I18n.translateToLocalFormatted("item.fuel_rod.base_time.des1"), I18n.translateToLocalFormatted("item.fuel_rod.base_power.des0") + " " + NCConfig.fission_plutonium_power[i] + " RF/t", I18n.translateToLocalFormatted("item.fuel_rod.base_heat.des0") + " " + NCConfig.fission_plutonium_heat_generation[i] + " K/t"};
+			info[i] = new String[] {I18n.translateToLocalFormatted("item.fuel_rod.base_time.des0") + " " + NCMath.Round(NCConfig.fission_plutonium_fuel_time[i]/1200D, 1) + " " + I18n.translateToLocalFormatted("item.fuel_rod.base_time.des1"), I18n.translateToLocalFormatted("item.fuel_rod.base_power.des0") + " " + NCConfig.fission_plutonium_power[i] + " RF/t", I18n.translateToLocalFormatted("item.fuel_rod.base_heat.des0") + " " + NCConfig.fission_plutonium_heat_generation[i] + " H/t"};
 		}
 		
 		return info;

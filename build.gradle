@@ -13,7 +13,7 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 //Only edit below this line, the above code adds and enables the nessasary things for Forge to be setup.
 
 
-version = "2.2--1.10.2"
+version = "2.3--1.10.2"
 group = "nc"
 archivesBaseName = "NuclearCraft"
 
@@ -23,7 +23,7 @@ compileJava {
 }
 
 minecraft {
-	version = "1.10.2-12.18.3.2254"
+	version = "1.10.2-12.18.3.2316"
 	runDir = "run"
 	
 	// the mappings can be changed at any time, and must be in the following format.
@@ -58,7 +58,7 @@ dependencies {
 	// compile 'com.googlecode.efficient-java-matrix-library:ejml:0.24' // adds ejml to the dev env
 
 	//compile files('libs/Tesla-1.10.2-1.2.1.50.jar')
-	//compile files('libs/jei_1.10.2-3.14.7.417.jar')
+	//compile files('libs/jei_1.10.2-3.14.7.420.jar')
 	
 	deobfCompile "net.darkhax.tesla:Tesla:1.10.2-${tesla_version}"
 	

@@ -8,11 +8,13 @@ import nc.proxy.CommonProxy;
 import nc.tile.generator.TileFissionController;
 import nc.util.NCInventoryHelper;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
 public class BlockFissionController extends BlockProcessor {
@@ -54,5 +56,13 @@ public class BlockFissionController extends BlockProcessor {
 			tile.validate();
 			world.setTileEntity(pos, tile);
 		}
+	}
+	
+	public int getComparatorInputOverride(IBlockState state, World world, BlockPos pos) {
+		TileEntity tile = world.getTileEntity(pos);
+		if (tile != null) {
+			if (tile instanceof TileFissionController) return MathHelper.clamp_int(Math.round((15F*(float)((TileFissionController)tile).heat)/((float)((TileFissionController)tile).getMaxHeat())), 0, 15);
+		}
+		return Container.calcRedstone(world.getTileEntity(pos));
 	}
 }

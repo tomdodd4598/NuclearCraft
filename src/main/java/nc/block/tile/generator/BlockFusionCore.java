@@ -6,10 +6,12 @@ import nc.proxy.CommonProxy;
 import nc.tile.generator.TileFusionCore;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.inventory.Container;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
@@ -173,5 +175,13 @@ public class BlockFusionCore extends BlockInventoryGui {
 			tile.validate();
 			world.setTileEntity(pos, tile);
 		}
+	}
+	
+	public int getComparatorInputOverride(IBlockState state, World world, BlockPos pos) {
+		TileEntity tile = world.getTileEntity(pos);
+		if (tile != null) {
+			if (tile instanceof TileFusionCore) return (int) MathHelper.clamp_double(0.01*16D*((TileFusionCore)tile).efficiency, 0, 15);
+		}
+		return Container.calcRedstone(world.getTileEntity(pos));
 	}
 }

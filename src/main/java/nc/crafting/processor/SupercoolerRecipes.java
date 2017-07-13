@@ -16,7 +16,7 @@ public class SupercoolerRecipes extends ProcessorRecipeHandler {
 	}
 	
 	public void addRecipes() {
-		addRecipe(fluidStack("helium", 250), fluidStack("liquidhelium", 1), NCConfig.processor_time[7]);
+		addRecipe(fluidStack("helium", 4000), fluidStack("liquidhelium", 25), NCConfig.processor_time[7]);
 		addRecipe(fluidStack("water", 1000), fluidStack("ice", 1000), NCConfig.processor_time[7]);
 	}
 }

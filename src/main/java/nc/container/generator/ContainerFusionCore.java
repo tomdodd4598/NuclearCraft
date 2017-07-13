@@ -57,7 +57,7 @@ public class ContainerFusionCore extends ContainerFluidGenerator {
 			icontainerlistener.sendProgressBarUpdate(this, 6, tile.getField(6) >> 16);
 			icontainerlistener.sendProgressBarUpdate(this, 106, tile.getField(6));
 			
-			for (int j : new int[] {7, 8, 9, 10, 11, 12, 13, 14}) icontainerlistener.sendProgressBarUpdate(this, j, tile.getField(j));
+			for (int j : new int[] {7, 8}) icontainerlistener.sendProgressBarUpdate(this, j, tile.getField(j));
 		}
 	}
 	
@@ -78,6 +78,6 @@ public class ContainerFusionCore extends ContainerFluidGenerator {
 		else if (id == 4) tile.setField(id, heat | data << 16);
 		else if (id == 5) tile.setField(id, efficiency | data << 16);
 		else if (id == 6) tile.setField(id, rateMultiplier | data << 16);
-		else if (id >= 7 && id <= 14) tile.setField(id, data);
+		else if (id >= 7 && id <= 8) tile.setField(id, data);
 	}
 }

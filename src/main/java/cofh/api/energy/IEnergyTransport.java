@@ -13,10 +13,10 @@ public interface IEnergyTransport extends IEnergyProvider, IEnergyReceiver {
 	/**
 	 * The type of interface for a given side of a {@link IEnergyTransport}.
 	 *
-	 * Values are:<br>
-	 * {@link SEND} for sending only<br>
-	 * {@link RECEIVE} for receiving only<br>
-	 * {@link BALANCE} for sending and receiving, and the default state
+	 * Values are:
+	 * {@link #SEND} for sending only
+	 * {@link #RECEIVE} for receiving only
+	 * {@link #BALANCE} for sending and receiving, and the default state
 	 */
 	enum InterfaceType {
 		/**
@@ -27,11 +27,11 @@ public interface IEnergyTransport extends IEnergyProvider, IEnergyReceiver {
 		 */
 		RECEIVE, /**
 		 * Indicates that this {@link IEnergyTransport} wants to balance power between itself and the
-		 * senders/receivers on this side. This is the default state.<br>
+		 * senders/receivers on this side. This is the default state.
 		 * To block any connection, use {@link IEnergyConnection#canConnectEnergy}
 		 *
 		 * IEnergyTransport based senders should check that the total power in the destination IEnergyTransport is less than the power in themselves before sending.
-		 * <br>
+		 *
 		 * Active IEnergyTransport receivers (i.e., those that call {@link IEnergyProvider#extractEnergy}) should check that they contain less power than the
 		 * source IEnergyTransport.
 		 */
@@ -40,7 +40,7 @@ public interface IEnergyTransport extends IEnergyProvider, IEnergyReceiver {
 		/**
 		 * Returns the opposite state to this InterfaceType.
 		 *
-		 * {@link #BALANCE} is considered its own opposite.<br>
+		 * {@link #BALANCE} is considered its own opposite.
 		 * {@link #SEND} is the opposite of {@link #RECEIVE} and visa versa.
 		 */
 		public InterfaceType getOpposite() {
@@ -72,25 +72,25 @@ public interface IEnergyTransport extends IEnergyProvider, IEnergyReceiver {
 	}
 
 	/**
-	 * {@inheritDoc}<br>
+	 * {@inheritDoc}
 	 * This method <b>cannot</b> be a no-op for IEnergyTransport.
 	 */
 	@Override
 	int getEnergyStored(EnumFacing from);
 
 	/**
-	 * Indicates to other IEnergyTransports the state of the given side. See {@link #InterfaceType} for details.
+	 * Indicates to other IEnergyTransports the state of the given side. See {@link InterfaceType} for details.
 	 *
 	 * For clarity of state tracking, on a tile update from another IEnergyTransport, if its mode has changed from the opposite of your own mode on that side, you
 	 * should change your mode to the opposite of its mode.
 	 *
-	 * When the user alters your mode and your state is:<br>
-	 * BALANCE, your mode should change to {@link InterFaceType#RECEIVE}.<br>
-	 * RECEIVE, your mode should change to {@link InterFaceType#SEND}.<br>
-	 * SEND, your mode should change to {@link InterFaceType#BALANCE}.<br>
+	 * When the user alters your mode and your state is:
+	 * BALANCE, your mode should change to {@link InterfaceType#RECEIVE}.
+	 * RECEIVE, your mode should change to {@link InterfaceType#SEND}.
+	 * SEND, your mode should change to {@link InterfaceType#BALANCE}.
 	 * This is not required, but will be easier for users.
 	 *
-	 * @return The type of connection to establish on this side. <b>null is NOT a valid value</b>
+	 * @return The type of connection to establish on this side. <b>null is NOT a valid value.</b>
 	 */
 	InterfaceType getTransportState(EnumFacing from);
 

@@ -32,7 +32,7 @@ public class BlockInventory extends BlockContainer implements ITileEntityProvide
 		return null;
 	}
 	
-	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
+	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, ItemStack stack) {
 		return getDefaultState();
 	}
 	

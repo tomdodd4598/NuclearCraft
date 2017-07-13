@@ -1,6 +1,6 @@
 package nc.tile.generator;
 
-import ic2.api.energy.event.EnergyTileUnloadEvent;
+import ic2.api.energy.EnergyNet;
 import nc.ModCheck;
 import nc.config.NCConfig;
 import nc.energy.EnumStorage.EnergyConnection;
@@ -8,11 +8,9 @@ import nc.handler.ProcessorRecipeHandler;
 import nc.tile.IGui;
 import nc.tile.dummy.IInterfaceable;
 import nc.tile.energy.TileEnergySidedInventory;
-import nc.util.NCUtil;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
-import net.minecraftforge.common.MinecraftForge;
 
 public abstract class TileItemGenerator extends TileEnergySidedInventory implements IInterfaceable, IGui {
 
@@ -79,12 +77,12 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 			}
 			if (flag != isGenerating) {
 				flag1 = true;
-				setBlockState();
-				//invalidate();
 				if (isEnergyTileSet && ModCheck.ic2Loaded()) {
-					MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
+					/*MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));*/ EnergyNet.instance.removeTile(this);
 					isEnergyTileSet = false;
 				}
+				setBlockState();
+				//invalidate();
 			}
 			pushEnergy();
 		} else {
@@ -163,7 +161,8 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 			return true;
 		}
 		Object[] output = hasConsumed ? getOutput(consumedInputs()) : getOutput(inputs());
-		if (output == null || output.length != outputSize) {
+		int[] inputOrder = recipes.getInputOrder(inputs(), recipes.getInput(output));
+		if (output == null || output.length != outputSize || inputOrder == ProcessorRecipeHandler.INVALID_ORDER) {
 			return false;
 		}
 		for(int j = 0; j < outputSize; j++) {
@@ -191,7 +190,6 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 			}
 			Object[] output = getOutput(inputs());
 			int[] inputOrder = recipes.getInputOrder(inputs(), recipes.getInput(output));
-			if (inputOrder.length > 0 && shouldCheck()) NCUtil.getLogger().info("First item input: " + inputOrder[0]);
 			if (output[0] == null || inputOrder == ProcessorRecipeHandler.INVALID_ORDER) return;
 			for (int i = 0; i < inputSize; i++) {
 				if (recipes != null) {

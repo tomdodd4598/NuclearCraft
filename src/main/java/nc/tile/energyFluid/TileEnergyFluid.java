@@ -20,7 +20,7 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
 import net.minecraftforge.fluids.capability.templates.EmptyFluidHandler;
 
-public abstract class TileEnergyFluid extends TileEnergy implements ITileFluid, IFluidHandler {
+public abstract class TileEnergyFluid extends TileEnergy implements ITileFluid, IFluidHandler/*, IGasHandler, ITubeConnection*/ {
 	
 	public FluidConnection[] fluidConnection;
 	public final Tank[] tanks;
@@ -99,8 +99,13 @@ public abstract class TileEnergyFluid extends TileEnergy implements ITileFluid, 
 			tanks = null;
 		} else {
 			Tank[] tankList = new Tank[fluidCapacity.length];
+			String[][] fluidWhitelists = new String[fluidCapacity.length][];
 			for (int i = 0; i < fluidCapacity.length; i++) {
-				tankList[i] = new Tank(fluidCapacity[i], maxFluidReceive[i], maxFluidExtract[i], allowedFluids[i]);
+				if (i < allowedFluids.length) fluidWhitelists[i] = allowedFluids[i];
+				else fluidWhitelists[i] = new String[] {};
+			}
+			for (int i = 0; i < fluidCapacity.length; i++) {
+				tankList[i] = new Tank(fluidCapacity[i], maxFluidReceive[i], maxFluidExtract[i], fluidWhitelists[i]);
 			}
 			tanks = tankList;
 		}
@@ -208,6 +213,43 @@ public abstract class TileEnergyFluid extends TileEnergy implements ITileFluid, 
 			}
 		}
 	}
+	
+	// Mekanism Gas
+	
+	/*public Fluid fluidFromGas(String gasString) {
+		List<String> fluidList = new ArrayList<String>(FluidRegistry.getRegisteredFluids().keySet());
+		if (fluidList.contains(gasString)) return FluidRegistry.getFluid(gasString);
+		else return null;
+	}
+	
+	public int receiveGas(EnumFacing side, GasStack stack, boolean doTransfer) {
+		String gasName = stack.getGas().getName();
+		Fluid fluid = fluidFromGas(gasName);
+		if (fluid == null) return 0;
+		return fill(new FluidStack(fluid, stack.amount), doTransfer);
+	}
+
+	public GasStack drawGas(EnumFacing side, int amount, boolean doTransfer) {
+		return null;
+	}
+
+	public boolean canReceiveGas(EnumFacing side, Gas type) {
+		for (int i = 0; i < fluidConnection.length; i++) {
+			if (fluidConnection[i].canFill()) return true;
+		}
+		return false;
+	}
+
+	public boolean canDrawGas(EnumFacing side, Gas type) {
+		return false;
+	}
+	
+	public boolean canTubeConnect(EnumFacing side) {
+		for (FluidConnection con : this.fluidConnection) {
+			if (con.canConnect()) return true;
+		}
+		return false;
+	}*/
 	
 	// Capability
 	
