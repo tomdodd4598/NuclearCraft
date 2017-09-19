@@ -398,10 +398,14 @@ public abstract class TileDummy extends TileEnergyFluidSidedInventory {
 			if (getTanks()[i].getFluidAmount() <= 0 || !getFluidConnections()[i].canDrain()) return;
 			for (EnumFacing side : EnumFacing.VALUES) {
 				TileEntity tile = world.getTileEntity(getPos().offset(side));
+				IFluidHandler adjStorage = tile == null ? null : tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side.getOpposite());
 				//TileEntity thisTile = world.getTileEntity(getPos());
 				
 				if (tile instanceof IFluidHandler /*&& tile != thisTile*/) {
 					getTanks()[i].drain(((IFluidHandler) tile).fill(getTanks()[i].drain(getTanks()[i].getCapacity(), false), true), true);
+				}
+				if (adjStorage != null) {
+					getTanks()[i].drain(adjStorage.fill(getTanks()[i].drain(getTanks()[i].getCapacity(), false), true), true);
 				}
 			}
 		}
@@ -429,7 +433,7 @@ public abstract class TileDummy extends TileEnergyFluidSidedInventory {
 	
 	@SuppressWarnings("unchecked")
 	public <T> T getCapability(net.minecraftforge.common.capabilities.Capability<T> capability, @javax.annotation.Nullable net.minecraft.util.EnumFacing facing) {
-		if (CapabilityEnergy.ENERGY == capability) {
+		if (CapabilityEnergy.ENERGY == capability && connection.canConnect()) {
 			return (T) getStorage();
 		}
 		if (connection != null && ModCheck.teslaLoaded && connection.canConnect()) {
@@ -448,6 +452,6 @@ public abstract class TileDummy extends TileEnergyFluidSidedInventory {
 				return (T) handlerSide;
 			}
 		}
-		return super.getCapability(capability, facing);
+		return null;
 	}
 }

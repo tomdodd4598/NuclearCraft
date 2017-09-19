@@ -144,7 +144,7 @@ public abstract class TileEnergyInventory extends TileEnergy implements IInvento
 	net.minecraftforge.items.IItemHandler handler = new net.minecraftforge.items.wrapper.InvWrapper(this);
 	
 	public boolean hasCapability(net.minecraftforge.common.capabilities.Capability<?> capability, @javax.annotation.Nullable net.minecraft.util.EnumFacing facing) {
-		if (CapabilityEnergy.ENERGY == capability) {
+		if (CapabilityEnergy.ENERGY == capability && connection.canConnect()) {
 			return true;
 		}
 		if (connection != null && ModCheck.teslaLoaded && connection.canConnect()) {
@@ -159,7 +159,7 @@ public abstract class TileEnergyInventory extends TileEnergy implements IInvento
 	
 	@SuppressWarnings("unchecked")
 	public <T> T getCapability(net.minecraftforge.common.capabilities.Capability<T> capability, @javax.annotation.Nullable net.minecraft.util.EnumFacing facing) {
-		if (CapabilityEnergy.ENERGY == capability) {
+		if (CapabilityEnergy.ENERGY == capability && connection.canConnect()) {
 			return (T) storage;
 		}
 		if (connection != null && ModCheck.teslaLoaded && connection.canConnect()) {

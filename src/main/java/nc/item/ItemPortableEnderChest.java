@@ -1,6 +1,5 @@
 package nc.item;
 
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.InventoryEnderChest;
 import net.minecraft.item.ItemStack;
@@ -14,8 +13,6 @@ public class ItemPortableEnderChest extends NCItem {
 	
 	public ItemPortableEnderChest(String unlocalizedName, String registryName, Object... tooltip) {
 		super(unlocalizedName, registryName, tooltip);
-		
-		setCreativeTab(CreativeTabs.MISC);
 	}
 	
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {

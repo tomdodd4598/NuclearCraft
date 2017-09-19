@@ -122,11 +122,13 @@ public class Tank extends FluidTank implements INBTSerializable<NBTTagCompound> 
 	}
 	
 	public boolean isFluidValid(Fluid fluid) {
-		return isFluidValid(fluid.getName());
+		if (fluid == null) return false;
+		else return isFluidValid(fluid.getName());
 	}
 	
 	public boolean isFluidValid(FluidStack fluid) {
-		return isFluidValid(fluid.getFluid().getName());
+		if (fluid == null) return false;
+		else return isFluidValid(fluid.getFluid().getName());
 	}
 
 	// NBT

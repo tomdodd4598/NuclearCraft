@@ -3,6 +3,7 @@ package nc.init;
 import nc.Global;
 import nc.block.BlockIce;
 import nc.block.BlockIngot;
+import nc.block.BlockMushroom;
 import nc.block.BlockOre;
 import nc.block.BlockTransparent;
 import nc.block.NCBlock;
@@ -34,17 +35,23 @@ import nc.block.tile.passive.BlockElectromagnetSupercooler;
 import nc.block.tile.passive.BlockFusionElectromagnet;
 import nc.block.tile.passive.BlockFusionElectromagnetTransparent;
 import nc.block.tile.passive.BlockHeliumCollector;
+import nc.block.tile.passive.BlockNitrogenCollector;
 import nc.block.tile.passive.BlockWaterSource;
 import nc.block.tile.processor.BlockAlloyFurnace;
+import nc.block.tile.processor.BlockChemicalReactor;
+import nc.block.tile.processor.BlockCrystallizer;
 import nc.block.tile.processor.BlockDecayHastener;
 import nc.block.tile.processor.BlockElectrolyser;
 import nc.block.tile.processor.BlockFuelReprocessor;
 import nc.block.tile.processor.BlockInfuser;
+import nc.block.tile.processor.BlockIngotFormer;
 import nc.block.tile.processor.BlockIrradiator;
 import nc.block.tile.processor.BlockIsotopeSeparator;
 import nc.block.tile.processor.BlockManufactory;
 import nc.block.tile.processor.BlockMelter;
 import nc.block.tile.processor.BlockNuclearFurnace;
+import nc.block.tile.processor.BlockPressurizer;
+import nc.block.tile.processor.BlockSaltMixer;
 import nc.block.tile.processor.BlockSupercooler;
 import nc.config.NCConfig;
 import nc.handler.EnumHandler.CoolerTypes;
@@ -100,6 +107,16 @@ public class NCBlocks {
 	public static Block electrolyser_active;
 	public static Block irradiator_idle;
 	public static Block irradiator_active;
+	public static Block ingot_former_idle;
+	public static Block ingot_former_active;
+	public static Block pressurizer_idle;
+	public static Block pressurizer_active;
+	public static Block chemical_reactor_idle;
+	public static Block chemical_reactor_active;
+	public static Block salt_mixer_idle;
+	public static Block salt_mixer_active;
+	public static Block crystallizer_idle;
+	public static Block crystallizer_active;
 	
 	public static Block machine_interface;
 	
@@ -137,6 +154,9 @@ public class NCBlocks {
 	public static Block helium_collector;
 	public static Block cobblestone_generator;
 	public static Block water_source;
+	public static Block nitrogen_collector;
+	
+	public static Block glowing_mushroom;
 	
 	//public static Block spin;
 	
@@ -175,6 +195,16 @@ public class NCBlocks {
 		electrolyser_active = new BlockElectrolyser("electrolyser_active", "electrolyser_active", true, 9);
 		irradiator_idle = new BlockIrradiator("irradiator_idle", "irradiator_idle", false, 10);
 		irradiator_active = new BlockIrradiator("irradiator_active", "irradiator_active", true, 10);
+		ingot_former_idle = new BlockIngotFormer("ingot_former_idle", "ingot_former_idle", false, 11);
+		ingot_former_active = new BlockIngotFormer("ingot_former_active", "ingot_former_active", true, 11);
+		pressurizer_idle = new BlockPressurizer("pressurizer_idle", "pressurizer_idle", false, 12);
+		pressurizer_active = new BlockPressurizer("pressurizer_active", "pressurizer_active", true, 12);
+		chemical_reactor_idle = new BlockChemicalReactor("chemical_reactor_idle", "chemical_reactor_idle", false, 13);
+		chemical_reactor_active = new BlockChemicalReactor("chemical_reactor_active", "chemical_reactor_active", true, 13);
+		salt_mixer_idle = new BlockSaltMixer("salt_mixer_idle", "salt_mixer_idle", false, 14);
+		salt_mixer_active = new BlockSaltMixer("salt_mixer_active", "salt_mixer_active", true, 14);
+		crystallizer_idle = new BlockCrystallizer("crystallizer_idle", "crystallizer_idle", false, 15);
+		crystallizer_active = new BlockCrystallizer("crystallizer_active", "crystallizer_active", true, 15);
 		
 		machine_interface = new BlockMachineInterface("machine_interface", "machine_interface");
 		
@@ -212,6 +242,9 @@ public class NCBlocks {
 		helium_collector = new BlockHeliumCollector("helium_collector", "helium_collector");
 		cobblestone_generator = new BlockCobblestoneGenerator("cobblestone_generator", "cobblestone_generator");
 		water_source = new BlockWaterSource("water_source", "water_source");
+		nitrogen_collector = new BlockNitrogenCollector("nitrogen_collector", "nitrogen_collector");
+		
+		glowing_mushroom = new BlockMushroom("glowing_mushroom", "glowing_mushroom");
 		
 		//spin = new BlockSpin("spin", "spin");
 	}
@@ -251,6 +284,16 @@ public class NCBlocks {
 		registerBlock(electrolyser_active);
 		registerBlock(irradiator_idle, 2);
 		registerBlock(irradiator_active);
+		registerBlock(ingot_former_idle, 2);
+		registerBlock(ingot_former_active);
+		registerBlock(pressurizer_idle, 2);
+		registerBlock(pressurizer_active);
+		registerBlock(chemical_reactor_idle, 2);
+		registerBlock(chemical_reactor_active);
+		registerBlock(salt_mixer_idle, 2);
+		registerBlock(salt_mixer_active);
+		registerBlock(crystallizer_idle, 2);
+		registerBlock(crystallizer_active);
 		
 		registerBlock(machine_interface, 4);
 		
@@ -288,6 +331,9 @@ public class NCBlocks {
 		registerBlock(helium_collector, I18n.translateToLocalFormatted("tile.helium_collector.des0") + " " + NCMath.Round(0.05D*NCConfig.processor_passive_rate[0], 1) + " " + I18n.translateToLocalFormatted("tile.helium_collector.des1"));
 		registerBlock(cobblestone_generator, I18n.translateToLocalFormatted("tile.cobblestone_generator.des0") + " " + NCMath.Round(0.025D*NCConfig.processor_passive_rate[1], 1) + " " + I18n.translateToLocalFormatted("tile.cobblestone_generator.des1"));
 		registerBlock(water_source, I18n.translateToLocalFormatted("tile.water_source.des0") + " " + NCMath.Round(0.05D*NCConfig.processor_passive_rate[2], 1) + " " + I18n.translateToLocalFormatted("tile.water_source.des1"));
+		registerBlock(nitrogen_collector, I18n.translateToLocalFormatted("tile.nitrogen_collector.des0") + " " + NCMath.Round(0.05D*NCConfig.processor_passive_rate[3], 1) + " " + I18n.translateToLocalFormatted("tile.nitrogen_collector.des1"));
+		
+		registerBlock(glowing_mushroom);
 		
 		//registerBlock(spin);
 	}
@@ -338,6 +384,16 @@ public class NCBlocks {
 		registerRender(electrolyser_active);
 		registerRender(irradiator_idle);
 		registerRender(irradiator_active);
+		registerRender(ingot_former_idle);
+		registerRender(ingot_former_active);
+		registerRender(pressurizer_idle);
+		registerRender(pressurizer_active);
+		registerRender(chemical_reactor_idle);
+		registerRender(chemical_reactor_active);
+		registerRender(salt_mixer_idle);
+		registerRender(salt_mixer_active);
+		registerRender(crystallizer_idle);
+		registerRender(crystallizer_active);
 		
 		registerRender(machine_interface);
 		
@@ -375,6 +431,9 @@ public class NCBlocks {
 		registerRender(helium_collector);
 		registerRender(cobblestone_generator);
 		registerRender(water_source);
+		registerRender(nitrogen_collector);
+		
+		registerRender(glowing_mushroom);
 		
 		//registerRender(spin);
 	}

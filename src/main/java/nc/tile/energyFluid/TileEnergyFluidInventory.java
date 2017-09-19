@@ -207,10 +207,10 @@ public abstract class TileEnergyFluidInventory extends TileEnergyFluid implement
 	
 	// Capability
 	
-net.minecraftforge.items.IItemHandler handler = new net.minecraftforge.items.wrapper.InvWrapper(this);
+	net.minecraftforge.items.IItemHandler handler = new net.minecraftforge.items.wrapper.InvWrapper(this);
 	
 	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
-		if (CapabilityEnergy.ENERGY == capability) {
+		if (CapabilityEnergy.ENERGY == capability && connection.canConnect()) {
 			return true;
 		}
 		if (connection != null && ModCheck.teslaLoaded && connection.canConnect()) {
@@ -227,7 +227,7 @@ net.minecraftforge.items.IItemHandler handler = new net.minecraftforge.items.wra
 	}
 
 	public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
-		if (CapabilityEnergy.ENERGY == capability) {
+		if (CapabilityEnergy.ENERGY == capability && connection.canConnect()) {
 			return (T) storage;
 		}
 		if (connection != null && ModCheck.teslaLoaded && connection.canConnect()) {

@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "facing=north": { "model": "nuclearcraft:ingot_former_idle" },
+        "facing=south": { "model": "nuclearcraft:ingot_former_idle", "y": 180 },
+        "facing=west":  { "model": "nuclearcraft:ingot_former_idle", "y": 270 },
+        "facing=east":  { "model": "nuclearcraft:ingot_former_idle", "y": 90 }
+    }
+}

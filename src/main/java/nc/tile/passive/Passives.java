@@ -6,6 +6,7 @@ import nc.block.tile.passive.BlockElectromagnetSupercooler;
 import nc.block.tile.passive.BlockFusionElectromagnet;
 import nc.block.tile.passive.BlockFusionElectromagnetTransparent;
 import nc.block.tile.passive.BlockHeliumCollector;
+import nc.block.tile.passive.BlockNitrogenCollector;
 import nc.block.tile.passive.BlockWaterSource;
 import nc.config.NCConfig;
 import nc.init.NCFluids;
@@ -85,6 +86,17 @@ public class Passives {
 		
 		public void setBlockState() {
 			BlockWaterSource.setState(world, pos);
+		}
+	}
+	
+	public static class TileNitrogenCollector extends TilePassive {
+		
+		public TileNitrogenCollector() {
+			super("nitrogen_collector", NCFluids.nitrogen, NCConfig.processor_passive_rate[3], 5);
+		}
+		
+		public void setBlockState() {
+			BlockNitrogenCollector.setState(world, pos);
 		}
 	}
 }

@@ -84,6 +84,78 @@
 			"custom": {
 				"fluid": "neutron"
 			}
+		},
+		"fluid_fluorine": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "fluorine"
+			}
+		},
+		"fluid_nitrogen": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "nitrogen"
+			}
+		},
+		"fluid_ammonia": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "ammonia"
+			}
+		},
+		"fluid_ethanol": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "ethanol"
+			}
+		},
+		"fluid_boric_acid": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "boric_acid"
+			}
+		},
+		"fluid_diborane": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "diborane"
+			}
+		},
+		"fluid_radaway": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "radaway"
+			}
+		},
+		"fluid_beryllium": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "beryllium"
+			}
+		},
+		"fluid_lif": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "lif"
+			}
+		},
+		"fluid_bef2": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "bef2"
+			}
+		},
+		"fluid_flibe": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "flibe"
+			}
+		},
+		"fluid_boron_nitride_solution": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "boron_nitride_solution"
+			}
 		}
 	}
 }

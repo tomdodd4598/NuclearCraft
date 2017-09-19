@@ -8,6 +8,8 @@
 		"type=boron": {"model": "nuclearcraft:ingot_block_boron"},
 		"type=lithium": {"model": "nuclearcraft:ingot_block_lithium"},
 		"type=magnesium": {"model": "nuclearcraft:ingot_block_magnesium"},
-		"type=graphite": {"model": "nuclearcraft:ingot_block_graphite"}
+		"type=graphite": {"model": "nuclearcraft:ingot_block_graphite"},
+		"type=beryllium": {"model": "nuclearcraft:ingot_block_beryllium"},
+		"type=zirconium": {"model": "nuclearcraft:ingot_block_zirconium"}
 	}
 }

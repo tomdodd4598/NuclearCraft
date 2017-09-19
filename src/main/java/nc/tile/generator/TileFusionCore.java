@@ -9,13 +9,12 @@ import nc.block.fluid.BlockFluidPlasma;
 import nc.block.tile.generator.BlockFusionCore;
 import nc.block.tile.passive.BlockActiveCooler;
 import nc.config.NCConfig;
-import nc.crafting.generator.FusionRecipes;
 import nc.energy.EnumStorage.EnergyConnection;
-import nc.fluid.EnumTank.FluidConnection;
 import nc.fluid.Tank;
 import nc.handler.SoundHandler;
 import nc.init.NCBlocks;
 import nc.init.NCFluids;
+import nc.recipe.generator.FusionRecipes;
 import nc.tile.fluid.TileActiveCooler;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRedstoneComparator;
@@ -47,12 +46,8 @@ public class TileFusionCore extends TileFluidGenerator {
 	public int complete;
 	public String problem = I18n.translateToLocalFormatted("gui.container.fusion_core.ring_incomplete");
 	
-	private static final String[] FUSION_FUELS = new String[] {"hydrogen", "deuterium", "tritium", "helium3", "lithium6", "lithium7", "boron11"};
-	
-	private static final String[][] ALLOWED_FUELS = new String[][] {FUSION_FUELS, FUSION_FUELS, {}, {}, {}, {}, {}, {}};
-	
 	public TileFusionCore() {
-		super("Fusion Core", 2, 4, 0, new int[] {32000, 32000, 32000, 32000, 32000, 32000, 32000, 32000}, new FluidConnection[] {FluidConnection.IN, FluidConnection.IN, FluidConnection.OUT, FluidConnection.OUT, FluidConnection.OUT, FluidConnection.OUT, FluidConnection.NON, FluidConnection.NON}, ALLOWED_FUELS, 8192000, FusionRecipes.instance());
+		super("Fusion Core", 2, 4, 0, tankCapacities(32000, 2, 4), fluidConnections(2, 4), validFluids(FusionRecipes.instance()), 8192000, FusionRecipes.instance());
 	}
 	
 	public void updateGenerator() {
@@ -142,12 +137,18 @@ public class TileFusionCore extends TileFluidGenerator {
 	}
 	
 	public boolean findAdjacentComparator() {
-		if (world.getBlockState(position(1, 0, 0)).getBlock() instanceof BlockRedstoneComparator) return true;
-		if (world.getBlockState(position(-1, 0, 0)).getBlock() instanceof BlockRedstoneComparator) return true;
-		if (world.getBlockState(position(0, 1, 0)).getBlock() instanceof BlockRedstoneComparator) return true;
-		if (world.getBlockState(position(0, -1, 0)).getBlock() instanceof BlockRedstoneComparator) return true;
-		if (world.getBlockState(position(0, 0, 1)).getBlock() instanceof BlockRedstoneComparator) return true;
-		if (world.getBlockState(position(0, 0, -1)).getBlock() instanceof BlockRedstoneComparator) return true;
+		if (world.getBlockState(position(2, 0, 1)).getBlock() instanceof BlockRedstoneComparator) return true;
+		if (world.getBlockState(position(2, 0, 0)).getBlock() instanceof BlockRedstoneComparator) return true;
+		if (world.getBlockState(position(2, 0, -1)).getBlock() instanceof BlockRedstoneComparator) return true;
+		if (world.getBlockState(position(-2, 0, 1)).getBlock() instanceof BlockRedstoneComparator) return true;
+		if (world.getBlockState(position(-2, 0, 0)).getBlock() instanceof BlockRedstoneComparator) return true;
+		if (world.getBlockState(position(-2, 0, -1)).getBlock() instanceof BlockRedstoneComparator) return true;
+		if (world.getBlockState(position(1, 0, 2)).getBlock() instanceof BlockRedstoneComparator) return true;
+		if (world.getBlockState(position(0, 0, 2)).getBlock() instanceof BlockRedstoneComparator) return true;
+		if (world.getBlockState(position(-1, 0, 2)).getBlock() instanceof BlockRedstoneComparator) return true;
+		if (world.getBlockState(position(1, 0, -2)).getBlock() instanceof BlockRedstoneComparator) return true;
+		if (world.getBlockState(position(0, 0, -2)).getBlock() instanceof BlockRedstoneComparator) return true;
+		if (world.getBlockState(position(-1, 0, -2)).getBlock() instanceof BlockRedstoneComparator) return true;
 		return false;
 	}
 	
@@ -247,27 +248,27 @@ public class TileFusionCore extends TileFluidGenerator {
 		return 20000000D;
 	}
 	
-	public Object getComboStats() {
-		return recipes.getExtras(consumedInputs());
+	public ArrayList getComboStats() {
+		return getRecipe(hasConsumed) != null ? getRecipe(hasConsumed).extras() : null;
 	}
 	
 	public double getComboTime() {
-		if (getComboStats() != null) if (getComboStats() instanceof double[]) {
-			return ((double[]) getComboStats())[0]/NCConfig.fusion_fuel_use;
+		if (getComboStats() != null) if (getComboStats().get(0) instanceof Double) {
+			return (double) getComboStats().get(0)*NCConfig.fusion_fuel_use;
 		}
-		return 1D/NCConfig.fusion_fuel_use;
+		return NCConfig.fusion_fuel_use;
 	}
 	
 	public double getComboPower() {
-		if (getComboStats() != null) if (getComboStats() instanceof double[]) {
-			return ((double[]) getComboStats())[1];
+		if (getComboStats() != null) if (getComboStats().get(1) instanceof Double) {
+			return (double) getComboStats().get(1);
 		}
 		return 0;
 	}
 	
 	public double getComboHeatVariable() {
-		if (getComboStats() != null) if (getComboStats() instanceof double[]) {
-			return ((double[]) getComboStats())[2];
+		if (getComboStats() != null) if (getComboStats().get(2) instanceof Double) {
+			return (double) getComboStats().get(2);
 		}
 		return 1000;
 	}

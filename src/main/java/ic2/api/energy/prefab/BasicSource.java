@@ -149,12 +149,12 @@ public class BasicSource extends BasicEnergyTile implements IEnergySource {
 
 	@Override
 	public double getOfferedEnergy() {
-		return energyStored;
+		return getEnergyStored();
 	}
 
 	@Override
 	public void drawEnergy(double amount) {
-		energyStored -= amount;
+		setEnergyStored(getEnergyStored() - amount);
 	}
 
 	@Override

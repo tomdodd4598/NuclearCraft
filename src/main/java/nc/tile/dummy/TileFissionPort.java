@@ -1,5 +1,6 @@
 package nc.tile.dummy;
 
+import nc.ModCheck;
 import nc.block.tile.dummy.BlockFissionPort;
 import nc.block.tile.generator.BlockFissionController;
 import nc.block.tile.passive.BlockBuffer;
@@ -7,7 +8,10 @@ import nc.config.NCConfig;
 import nc.energy.EnumStorage.EnergyConnection;
 import nc.init.NCBlocks;
 import nc.tile.generator.TileFissionController;
+import net.darkhax.tesla.capability.TeslaCapabilities;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.energy.CapabilityEnergy;
 
 public class TileFissionPort extends TileDummy {
 	
@@ -177,5 +181,32 @@ public class TileFissionPort extends TileDummy {
 	
 	public boolean isMaster(BlockPos pos) {
 		return world.getTileEntity(pos) instanceof TileFissionController;
+	}
+	
+	// Capability
+	
+	net.minecraftforge.items.IItemHandler handlerTop = new net.minecraftforge.items.wrapper.SidedInvWrapper(this, net.minecraft.util.EnumFacing.UP);
+	net.minecraftforge.items.IItemHandler handlerBottom = new net.minecraftforge.items.wrapper.SidedInvWrapper(this, net.minecraft.util.EnumFacing.DOWN);
+	net.minecraftforge.items.IItemHandler handlerSide = new net.minecraftforge.items.wrapper.SidedInvWrapper(this, net.minecraft.util.EnumFacing.WEST);
+	
+	@SuppressWarnings("unchecked")
+	public <T> T getCapability(net.minecraftforge.common.capabilities.Capability<T> capability, @javax.annotation.Nullable net.minecraft.util.EnumFacing facing) {
+		if (CapabilityEnergy.ENERGY == capability && connection.canConnect()) {
+			return (T) getStorage();
+		}
+		if (connection != null && ModCheck.teslaLoaded && connection.canConnect()) {
+			if ((capability == TeslaCapabilities.CAPABILITY_CONSUMER && connection.canReceive()) || (capability == TeslaCapabilities.CAPABILITY_PRODUCER && connection.canExtract()) || capability == TeslaCapabilities.CAPABILITY_HOLDER)
+				return (T) getStorage();
+		}
+		if (facing != null && capability == net.minecraftforge.items.CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+			if (facing == EnumFacing.DOWN) {
+				return (T) handlerBottom;
+			} else if (facing == EnumFacing.UP) {
+				return (T) handlerTop;
+			} else {
+				return (T) handlerSide;
+			}
+		}
+		return null;
 	}
 }

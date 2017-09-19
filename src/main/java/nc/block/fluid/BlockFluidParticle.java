@@ -25,7 +25,7 @@ public class BlockFluidParticle extends BlockFluid {
 	public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
 		if (!worldIn.isRemote) {
 			if (entityIn instanceof EntityLivingBase) {
-				((EntityLivingBase) entityIn).addPotionEffect(new PotionEffect(Potion.getPotionById(19), 100, 2));
+				((EntityLivingBase) entityIn).addPotionEffect(new PotionEffect(Potion.getPotionById(9), 175, 2));
 				((EntityLivingBase) entityIn).addPotionEffect(new PotionEffect(Potion.getPotionById(20), 100, 2));
 			}
 		}

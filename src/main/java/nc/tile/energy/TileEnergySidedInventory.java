@@ -42,7 +42,7 @@ public abstract class TileEnergySidedInventory extends TileEnergyInventory imple
 	
 	@SuppressWarnings("unchecked")
 	public <T> T getCapability(net.minecraftforge.common.capabilities.Capability<T> capability, @javax.annotation.Nullable net.minecraft.util.EnumFacing facing) {
-		if (CapabilityEnergy.ENERGY == capability) {
+		if (CapabilityEnergy.ENERGY == capability && connection.canConnect()) {
 			return (T) storage;
 		}
 		if (connection != null && ModCheck.teslaLoaded && connection.canConnect()) {

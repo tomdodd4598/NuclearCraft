@@ -1,0 +1,6 @@
+{
+    "parent": "block/cross",
+    "textures": {
+        "cross": "nuclearcraft:blocks/glowing_mushroom"
+    }
+}

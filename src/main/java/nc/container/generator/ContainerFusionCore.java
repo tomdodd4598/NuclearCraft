@@ -1,6 +1,6 @@
 package nc.container.generator;
 
-import nc.crafting.generator.FusionRecipes;
+import nc.recipe.generator.FusionRecipes;
 import nc.tile.generator.TileFusionCore;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IContainerListener;

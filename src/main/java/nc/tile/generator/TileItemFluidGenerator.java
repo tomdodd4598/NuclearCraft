@@ -1,17 +1,26 @@
 package nc.tile.generator;
 
+import java.util.ArrayList;
+
 import ic2.api.energy.EnergyNet;
 import nc.ModCheck;
 import nc.config.NCConfig;
 import nc.energy.EnumStorage.EnergyConnection;
 import nc.fluid.EnumTank.FluidConnection;
-import nc.handler.ProcessorRecipeHandler;
+import nc.recipe.BaseRecipeHandler;
+import nc.recipe.IIngredient;
+import nc.recipe.IRecipe;
+import nc.recipe.RecipeMethods;
+import nc.recipe.SorptionType;
 import nc.tile.IGui;
 import nc.tile.dummy.IInterfaceable;
 import nc.tile.energyFluid.TileEnergyFluidSidedInventory;
+import nc.util.NCUtil;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 
 public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInventory implements IInterfaceable, IGui {
@@ -28,9 +37,9 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 	
 	public int tickCount;
 	
-	public final ProcessorRecipeHandler recipes;
+	public final BaseRecipeHandler recipes;
 	
-	public TileItemFluidGenerator(String name, int itemInSize, int fluidInSize, int itemOutSize, int fluidOutSize, int otherSize, int[] fluidCapacity, FluidConnection[] fluidConnection, String[][] allowedFluids, int capacity, ProcessorRecipeHandler recipes) {
+	public TileItemFluidGenerator(String name, int itemInSize, int fluidInSize, int itemOutSize, int fluidOutSize, int otherSize, int[] fluidCapacity, FluidConnection[] fluidConnection, String[][] allowedFluids, int capacity, BaseRecipeHandler recipes) {
 		super(name, 2*itemInSize + itemOutSize + otherSize, capacity, EnergyConnection.OUT, fluidCapacity, fluidCapacity, fluidCapacity, fluidConnection, allowedFluids);
 		itemInputSize = itemInSize;
 		fluidInputSize = fluidInSize;
@@ -56,6 +65,60 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 			bottomSlots1[i - itemInSize] = i;
 		}
 		bottomSlots = bottomSlots1;
+	}
+	
+	public static String[][] validFluids(BaseRecipeHandler recipes, String... exceptions) {
+		int fluidInputSize = recipes.inputSizeFluid;
+		int fluidOutputSize = recipes.outputSizeFluid;
+		ArrayList<Fluid> fluidList = new ArrayList<Fluid>(FluidRegistry.getRegisteredFluids().values());
+		ArrayList<FluidStack> fluidStackList = new ArrayList<FluidStack>();
+		for (Fluid fluid : fluidList) {
+			fluidStackList.add(new FluidStack(fluid, 1000));
+		}
+		ArrayList<String> exceptionsList = new ArrayList<String>();
+		if (exceptions != null) for (int i = 0; i < exceptions.length; i++) {
+			exceptionsList.add(exceptions[i]);
+		}
+		ArrayList<String> fluidNameList = new ArrayList<String>();
+		for (FluidStack fluidStack : fluidStackList) {
+			String fluidName = fluidStack.getFluid().getName();
+			if (recipes.isValidManualInput(fluidStack) && !exceptionsList.contains(fluidName)) fluidNameList.add(fluidName);
+		}
+		String[] allowedFluidArray = new String[fluidNameList.size()];
+		for (int i = 0; i < fluidNameList.size(); i++) {
+			allowedFluidArray[i] = fluidNameList.get(i);
+		}
+		
+		String[][] allowedFluidArrays = new String[fluidInputSize + fluidOutputSize][];
+		for (int i = 0; i < fluidInputSize; i++) {
+			allowedFluidArrays[i] = allowedFluidArray;
+		}
+		for (int i = fluidInputSize; i < fluidInputSize + fluidOutputSize; i++) {
+			allowedFluidArrays[i] = new String[] {};
+		}
+		return allowedFluidArrays;
+	}
+	
+	public static FluidConnection[] fluidConnections(int inSize, int outSize) {
+		FluidConnection[] fluidConnections = new FluidConnection[2*inSize + outSize];
+		for (int i = 0; i < inSize; i++) {
+			fluidConnections[i] = FluidConnection.IN;
+		}
+		for (int i = inSize; i < inSize + outSize; i++) {
+			fluidConnections[i] = FluidConnection.OUT;
+		}
+		for (int i = inSize + outSize; i < 2*inSize + outSize; i++) {
+			fluidConnections[i] = FluidConnection.NON;
+		}
+		return fluidConnections;
+	}
+	
+	public static int[] tankCapacities(int capacity, int inSize, int outSize) {
+		int[] tankCapacities = new int[2*inSize + outSize];
+		for (int i = 0; i < 2*inSize + outSize; i++) {
+			tankCapacities[i] = capacity;
+		}
+		return tankCapacities;
 	}
 	
 	public void update() {
@@ -176,10 +239,8 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 		if (time >= getProcessTime()) {
 			return true;
 		}
-		Object[] output = hasConsumed ? getOutput(consumedInputs()) : getOutput(inputs());
-		int[] itemInputOrder = recipes.getItemInputOrder(inputs(), recipes.getInput(output));
-		int[] fluidInputOrder = recipes.getFluidInputOrder(inputs(), recipes.getInput(output));
-		if (output == null || output.length != itemOutputSize + fluidInputSize || itemInputOrder == ProcessorRecipeHandler.INVALID_ORDER || fluidInputOrder == ProcessorRecipeHandler.INVALID_ORDER) {
+		Object[] output = outputs();
+		if (output == null || output.length != itemOutputSize + fluidInputSize) {
 			return false;
 		}
 		for(int j = 0; j < itemOutputSize; j++) {
@@ -196,13 +257,13 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 			}
 		}
 		for(int j = 0; j < fluidOutputSize; j++) {
-			if (output[recipes.itemOutputSize + j] == null) {
+			if (output[recipes.outputSizeItem + j] == null) {
 				return false;
 			} else {
 				if (tanks[j + fluidInputSize].getFluid() != null) {
-					if (!tanks[j + fluidInputSize].getFluid().isFluidEqual((FluidStack)output[recipes.itemOutputSize + j])) {
+					if (!tanks[j + fluidInputSize].getFluid().isFluidEqual((FluidStack)output[recipes.outputSizeItem + j])) {
 						return false;
-					} else if (tanks[j + fluidInputSize].getFluidAmount() + ((FluidStack)output[recipes.itemOutputSize + j]).amount > tanks[j + fluidInputSize].getCapacity()) {
+					} else if (tanks[j + fluidInputSize].getFluidAmount() + ((FluidStack)output[recipes.outputSizeItem + j]).amount > tanks[j + fluidInputSize].getCapacity()) {
 						return false;
 					}
 				}
@@ -212,6 +273,11 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 	}
 		
 	public void consume() {
+		IRecipe recipe = getRecipe(false);
+		Object[] outputs = outputs();
+		int[] itemInputOrder = itemInputOrder();
+		int[] fluidInputOrder = fluidInputOrder();
+		if (outputs == null || itemInputOrder == NCUtil.INVALID || fluidInputOrder == NCUtil.INVALID) return;
 		if (!hasConsumed) {
 			for (int i = 0; i < itemInputSize; i++) {
 				if (!inventoryStacks.get(i + itemInputSize + itemOutputSize + otherSlotsSize).isEmpty()) {
@@ -223,17 +289,13 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 					tanks[i + fluidInputSize + fluidOutputSize].setFluid(null);
 				}
 			}
-			Object[] output = getOutput(inputs());
-			int[] itemInputOrder = recipes.getItemInputOrder(inputs(), recipes.getInput(output));
-			int[] fluidInputOrder = recipes.getFluidInputOrder(inputs(), recipes.getInput(output));
-			if (output[0] == ItemStack.EMPTY || output[0] == null || itemInputOrder == ProcessorRecipeHandler.INVALID_ORDER || fluidInputOrder == ProcessorRecipeHandler.INVALID_ORDER) return;
 			for (int i = 0; i < itemInputSize; i++) {
 				if (recipes != null) {
-					inventoryStacks.set(i + itemInputSize + itemOutputSize + otherSlotsSize, new ItemStack(inventoryStacks.get(i).getItem(), recipes.getInputSize(itemInputOrder[i], output), inventoryStacks.get(i).getMetadata()));
-					inventoryStacks.get(i).setCount(inventoryStacks.get(i).getCount() - recipes.getInputSize(itemInputOrder[i], output));
+					inventoryStacks.set(i + itemInputSize + itemOutputSize + otherSlotsSize, new ItemStack(inventoryStacks.get(i).getItem(), recipe.inputs().get(itemInputOrder[i]).getStackSize(), inventoryStacks.get(i).getMetadata()));
+					inventoryStacks.get(i).shrink(recipe.inputs().get(itemInputOrder[i]).getStackSize());
 				} else {
 					inventoryStacks.set(i + itemInputSize + itemOutputSize + otherSlotsSize, new ItemStack(inventoryStacks.get(i).getItem(), 1, inventoryStacks.get(i).getMetadata()));
-					inventoryStacks.get(i).setCount(inventoryStacks.get(i).getCount() - 1);
+					inventoryStacks.get(i).shrink(1);
 				}
 				if (inventoryStacks.get(i).getCount() <= 0) {
 					inventoryStacks.set(i, ItemStack.EMPTY);
@@ -241,8 +303,8 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 			}
 			for (int i = 0; i < fluidInputSize; i++) {
 				if (recipes != null) {
-					tanks[i + fluidInputSize + fluidOutputSize].changeFluidStored(tanks[i].getFluid().getFluid(), recipes.getInputSize(fluidInputOrder[i], output));
-					tanks[i].changeFluidStored(-recipes.getInputSize(fluidInputOrder[i], output));
+					tanks[i + fluidInputSize + fluidOutputSize].changeFluidStored(tanks[i].getFluid().getFluid(), recipe.inputs().get(fluidInputOrder[i] + itemInputSize).getStackSize());
+					tanks[i].changeFluidStored(-recipe.inputs().get(fluidInputOrder[i] + itemInputSize).getStackSize());
 				} else {
 					tanks[i + fluidInputSize + fluidOutputSize].changeFluidStored(tanks[i].getFluid().getFluid(), 1000);
 					tanks[i].changeFluidStored(-1000);
@@ -257,25 +319,21 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 		
 	public void output() {
 		if (hasConsumed) {
-			Object[] output = getOutput(consumedInputs());
+			Object[] outputs = outputs();
 			for (int j = 0; j < itemOutputSize; j++) {
-				if (output[j] != ItemStack.EMPTY && output[j] != null) {
-					if (inventoryStacks.get(j + itemInputSize).isEmpty()) {
-						ItemStack outputStack = ((ItemStack)output[j]).copy();
-						inventoryStacks.set(j + itemInputSize, outputStack);
-					} else if (inventoryStacks.get(j + itemInputSize).isItemEqual((ItemStack)output[j])) {
-						inventoryStacks.get(j + itemInputSize).setCount(inventoryStacks.get(j + itemInputSize).getCount() + ((ItemStack)output[j]).getCount());
-					}
+				ItemStack outputStack = (ItemStack) outputs[j];
+				if (inventoryStacks.get(j + itemInputSize).isEmpty()) {
+					inventoryStacks.set(j + itemInputSize, outputStack);
+				} else if (inventoryStacks.get(j + itemInputSize).isItemEqual(outputStack)) {
+					inventoryStacks.get(j + itemInputSize).grow(outputStack.getCount());
 				}
 			}
 			for (int j = 0; j < fluidOutputSize; j++) {
-				if (output[j] != null) {
-					if (tanks[j + fluidInputSize].getFluid() == null) {
-						FluidStack outputStack = ((FluidStack)output[j]).copy();
-						tanks[j + fluidInputSize].setFluidStored(outputStack);
-					} else if (tanks[j + fluidInputSize].getFluid().isFluidEqual((FluidStack)output[j])) {
-						tanks[j + fluidInputSize].changeFluidStored(((FluidStack)output[j]).amount);
-					}
+				FluidStack outputStack = (FluidStack) outputs[j + itemOutputSize];
+				if (tanks[j + fluidInputSize].getFluid() == null) {
+					tanks[j + fluidInputSize].setFluidStored(outputStack);
+				} else if (tanks[j + fluidInputSize].getFluid().isFluidEqual(outputStack)) {
+					tanks[j + fluidInputSize].changeFluidStored(outputStack.amount);
 				}
 			}
 			for (int i = itemInputSize + itemOutputSize + otherSlotsSize; i < 2*itemInputSize + itemOutputSize + otherSlotsSize; i++) {
@@ -288,6 +346,10 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 		}
 	}
 		
+	public IRecipe getRecipe(boolean consumed) {
+		return recipes.getRecipeFromInputs(consumed ? consumedInputs() : inputs());
+	}
+	
 	public Object[] inputs() {
 		Object[] input = new Object[itemInputSize + fluidInputSize];
 		for (int i = 0; i < itemInputSize; i++) {
@@ -298,7 +360,7 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 		}
 		return input;
 	}
-		
+	
 	public Object[] consumedInputs() {
 		Object[] input = new Object[itemInputSize + fluidInputSize];
 		for (int i = 0; i < itemInputSize; i++) {
@@ -309,9 +371,54 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 		}
 		return input;
 	}
-		
-	public Object[] getOutput(Object... itemstacks) {
-		return recipes.getOutput(itemstacks);
+	
+	public int[] itemInputOrder() {
+		int[] inputOrder = new int[itemInputSize];
+		IRecipe recipe = getRecipe(false);
+		if (recipe == null) return new int[] {};
+		ArrayList<IIngredient> recipeIngredients = recipe.inputs();
+		for (int i = 0; i < itemInputSize; i++) {
+			inputOrder[i] = -1;
+			for (int j = 0; j < recipeIngredients.size(); j++) {
+				if (recipeIngredients.get(j).matches(inputs()[i], SorptionType.INPUT)) {
+					inputOrder[i] = j;
+					break;
+				}
+			}
+			if (inputOrder[i] == -1) return NCUtil.INVALID;
+		}
+		return inputOrder;
+	}
+	
+	public int[] fluidInputOrder() {
+		int[] inputOrder = new int[fluidInputSize];
+		IRecipe recipe = getRecipe(false);
+		if (recipe == null) return new int[] {};
+		ArrayList<IIngredient> recipeIngredients = recipe.inputs();
+		for (int i = 0; i < fluidInputSize; i++) {
+			inputOrder[i] = -1;
+			for (int j = 0; j < recipeIngredients.size(); j++) {
+				if (recipeIngredients.get(j).matches(inputs()[i + itemInputSize], SorptionType.INPUT)) {
+					inputOrder[i] = j - itemInputSize;
+					break;
+				}
+			}
+			if (inputOrder[i] == -1) return NCUtil.INVALID;
+		}
+		return inputOrder;
+	}
+	
+	public Object[] outputs() {
+		Object[] output = new Object[itemOutputSize + fluidOutputSize];
+		IRecipe recipe = getRecipe(hasConsumed);
+		if (recipe == null) return null;
+		ArrayList<IIngredient> outputs = recipe.outputs();
+		for (int i = 0; i < itemOutputSize + fluidOutputSize; i++) {
+			Object out = RecipeMethods.getIngredientFromList(outputs, i);
+			if (out == null) return null;
+			else output[i] = out;
+		}
+		return output;
 	}
 	
 	// Inventory
@@ -319,25 +426,7 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {
 		if (stack == ItemStack.EMPTY) return false;
 		else if (slot >= itemInputSize && slot < itemInputSize + itemOutputSize) return false;
-		return isItemValid(stack);
-	}
-	
-	public boolean isItemValid(ItemStack stack) {
-		Object[] inputSets = recipes.getRecipes().keySet().toArray();
-		for (int i = 0; i < inputSets.length; i++) {
-			Object[] inputSet = (Object[])(inputSets[i]);
-			for (int j = 0; j < inputSet.length; j++) {
-				if (inputSet[j] instanceof ItemStack) {
-					if (ItemStack.areItemsEqual((ItemStack)(inputSet[j]), stack)) return true;
-				} else if (inputSet[j] instanceof ItemStack[]) {
-					ItemStack[] stacks = (ItemStack[])(inputSet[j]);
-					for (int k = 0; k < stacks.length; k++) {
-						if (ItemStack.areItemsEqual(stacks[k], stack)) return true;
-					}
-				}
-			}
-		}
-		return false;
+		return recipes.isValidManualInput(stack);
 	}
 	
 	// SidedInventory

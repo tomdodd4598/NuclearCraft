@@ -3,40 +3,55 @@ package nc.handler;
 import nc.container.generator.ContainerFissionController;
 import nc.container.generator.ContainerFusionCore;
 import nc.container.processor.ContainerAlloyFurnace;
+import nc.container.processor.ContainerChemicalReactor;
+import nc.container.processor.ContainerCrystallizer;
 import nc.container.processor.ContainerDecayHastener;
 import nc.container.processor.ContainerElectrolyser;
 import nc.container.processor.ContainerFuelReprocessor;
 import nc.container.processor.ContainerInfuser;
+import nc.container.processor.ContainerIngotFormer;
 import nc.container.processor.ContainerIrradiator;
 import nc.container.processor.ContainerIsotopeSeparator;
 import nc.container.processor.ContainerManufactory;
 import nc.container.processor.ContainerMelter;
 import nc.container.processor.ContainerNuclearFurnace;
+import nc.container.processor.ContainerPressurizer;
+import nc.container.processor.ContainerSaltMixer;
 import nc.container.processor.ContainerSupercooler;
 import nc.gui.generator.GuiFissionController;
 import nc.gui.generator.GuiFusionCore;
 import nc.gui.processor.GuiAlloyFurnace;
+import nc.gui.processor.GuiChemicalReactor;
+import nc.gui.processor.GuiCrystallizer;
 import nc.gui.processor.GuiDecayHastener;
 import nc.gui.processor.GuiElectrolyser;
 import nc.gui.processor.GuiFuelReprocessor;
 import nc.gui.processor.GuiInfuser;
+import nc.gui.processor.GuiIngotFormer;
 import nc.gui.processor.GuiIrradiator;
 import nc.gui.processor.GuiIsotopeSeparator;
 import nc.gui.processor.GuiManufactory;
 import nc.gui.processor.GuiMelter;
 import nc.gui.processor.GuiNuclearFurnace;
+import nc.gui.processor.GuiPressurizer;
+import nc.gui.processor.GuiSaltMixer;
 import nc.gui.processor.GuiSupercooler;
 import nc.tile.generator.TileFissionController;
 import nc.tile.generator.TileFusionCore;
 import nc.tile.processor.Processors.TileAlloyFurnace;
+import nc.tile.processor.Processors.TileChemicalReactor;
+import nc.tile.processor.Processors.TileCrystallizer;
 import nc.tile.processor.Processors.TileDecayHastener;
 import nc.tile.processor.Processors.TileElectrolyser;
 import nc.tile.processor.Processors.TileFuelReprocessor;
 import nc.tile.processor.Processors.TileInfuser;
+import nc.tile.processor.Processors.TileIngotFormer;
 import nc.tile.processor.Processors.TileIrradiator;
 import nc.tile.processor.Processors.TileIsotopeSeparator;
 import nc.tile.processor.Processors.TileManufactory;
 import nc.tile.processor.Processors.TileMelter;
+import nc.tile.processor.Processors.TilePressurizer;
+import nc.tile.processor.Processors.TileSaltMixer;
 import nc.tile.processor.Processors.TileSupercooler;
 import nc.tile.processor.TileNuclearFurnace;
 import net.minecraft.entity.player.EntityPlayer;
@@ -74,6 +89,16 @@ public class GuiHandler implements IGuiHandler {
 				if (entity instanceof TileElectrolyser) return new ContainerElectrolyser(player, (TileElectrolyser) entity);
 			case 10:
 				if (entity instanceof TileIrradiator) return new ContainerIrradiator(player, (TileIrradiator) entity);
+			case 11:
+				if (entity instanceof TileIngotFormer) return new ContainerIngotFormer(player, (TileIngotFormer) entity);
+			case 12:
+				if (entity instanceof TilePressurizer) return new ContainerPressurizer(player, (TilePressurizer) entity);
+			case 13:
+				if (entity instanceof TileChemicalReactor) return new ContainerChemicalReactor(player, (TileChemicalReactor) entity);
+			case 14:
+				if (entity instanceof TileSaltMixer) return new ContainerSaltMixer(player, (TileSaltMixer) entity);
+			case 15:
+				if (entity instanceof TileCrystallizer) return new ContainerCrystallizer(player, (TileCrystallizer) entity);
 			case 100:
 				if (entity instanceof TileFissionController) return new ContainerFissionController(player, (TileFissionController) entity);
 			case 101:
@@ -111,6 +136,16 @@ public class GuiHandler implements IGuiHandler {
 				if (entity instanceof TileElectrolyser) return new GuiElectrolyser(player, (TileElectrolyser) entity);
 			case 10:
 				if (entity instanceof TileIrradiator) return new GuiIrradiator(player, (TileIrradiator) entity);
+			case 11:
+				if (entity instanceof TileIngotFormer) return new GuiIngotFormer(player, (TileIngotFormer) entity);
+			case 12:
+				if (entity instanceof TilePressurizer) return new GuiPressurizer(player, (TilePressurizer) entity);
+			case 13:
+				if (entity instanceof TileChemicalReactor) return new GuiChemicalReactor(player, (TileChemicalReactor) entity);
+			case 14:
+				if (entity instanceof TileSaltMixer) return new GuiSaltMixer(player, (TileSaltMixer) entity);
+			case 15:
+				if (entity instanceof TileCrystallizer) return new GuiCrystallizer(player, (TileCrystallizer) entity);
 			case 100:
 				if (entity instanceof TileFissionController) return new GuiFissionController(player, (TileFissionController) entity);
 			case 101:

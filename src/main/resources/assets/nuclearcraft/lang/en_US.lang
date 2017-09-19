@@ -15,6 +15,8 @@ tile.ingot_block.uranium.name=Uranium Block
 tile.ingot_block.boron.name=Boron Block
 tile.ingot_block.lithium.name=Lithium Block
 tile.ingot_block.magnesium.name=Magnesium Block
+tile.ingot_block.beryllium.name=Beryllium Block
+tile.ingot_block.zirconium.name=Zirconium Block
 
 tile.ingot_block.graphite.name=Graphite Block
 tile.ingot_block.graphite.des0=Graphite is only considered active if
@@ -188,6 +190,31 @@ tile.irradiator_idle.des0=Induces changes to nuclear structure.
 tile.irradiator_idle.des1=Can accept MV IC2 power
 tile.irradiator_active.name=Neutron Irradiator
 
+tile.ingot_former_idle.name=Ingot Former
+tile.ingot_former_idle.des0=Forms ingots from molten metals.
+tile.ingot_former_idle.des1=Can accept MV IC2 power
+tile.ingot_former_active.name=Ingot Former
+
+tile.pressurizer_idle.name=Pressurizer
+tile.pressurizer_idle.des0=Process items under immense pressure.
+tile.pressurizer_idle.des1=Can accept MV IC2 power
+tile.pressurizer_active.name=Pressurizer
+
+tile.chemical_reactor_idle.name=Chemical Reactor
+tile.chemical_reactor_idle.des0=Houses reactions between gases.
+tile.chemical_reactor_idle.des1=Can accept MV IC2 power
+tile.chemical_reactor_active.name=Chemical Reactor
+
+tile.salt_mixer_idle.name=Salt Mixer
+tile.salt_mixer_idle.des0=Blends molten salts together.
+tile.salt_mixer_idle.des1=Can accept MV IC2 power
+tile.salt_mixer_active.name=Salt Mixer
+
+tile.crystallizer_idle.name=Crystallizer
+tile.crystallizer_idle.des0=Precipitates solids from solution.
+tile.crystallizer_idle.des1=Can accept MV IC2 power
+tile.crystallizer_active.name=Crystallizer
+
 tile.machine_interface.name=Machine Interface
 tile.machine_interface.des0=Automation can access the machine
 tile.machine_interface.des1=directly adjacent to this block.
@@ -317,6 +344,12 @@ tile.water_source.name=Infinite Water Source
 tile.water_source.des0=Produces
 tile.water_source.des1=mB/t of water constantly
 
+tile.nitrogen_collector.name=Nitrogen Collector
+tile.nitrogen_collector.des0=Produces
+tile.nitrogen_collector.des1=mB/t of nitrogen constantly
+
+tile.glowing_mushroom.name=Glowing Mushroom
+
 tile.fluid_oxygen.name=Oxygen
 fluid.oxygen=Oxygen
 
@@ -359,6 +392,42 @@ fluid.boron11=Molten Boron-11
 tile.fluid_neutron.name=Neutron Fluid
 fluid.neutron=Neutron Fluid
 
+tile.fluid_fluorine.name=Fluorine
+fluid.fluorine=Fluorine
+
+tile.fluid_nitrogen.name=Nitrogen
+fluid.nitrogen=Nitrogen
+
+tile.fluid_ammonia.name=Ammonia
+fluid.ammonia=Ammonia
+
+tile.fluid_ethanol.name=Ethanol
+fluid.ethanol=Ethanol
+
+tile.fluid_boric_acid.name=Boric Acid
+fluid.boric_acid=Boric Acid
+
+tile.fluid_diborane.name=Diborane
+fluid.diborane=Diborane
+
+tile.fluid_radaway.name=RadAway Fluid
+fluid.radaway=RadAway Fluid
+
+tile.fluid_beryllium.name=Molten Beryllium
+fluid.beryllium=Molten Beryllium
+
+tile.fluid_lif.name=Molten Lithium Fluoride
+fluid.lif=Molten Lithium Fluoride
+
+tile.fluid_bef2.name=Molten Beryllium Fluoride
+fluid.bef2=Molten Beryllium Fluoride
+
+tile.fluid_flibe.name=Molten FLiBe Salt Mixture
+fluid.flibe=Molten FLiBe Salt Mixture
+
+tile.fluid_boron_nitride_solution.name=Boron Nitride Solution
+fluid.boron_nitride_solution=Boron Nitride Solution
+
 item.ingot.copper.name=Copper Ingot
 item.ingot.tin.name=Tin Ingot
 item.ingot.lead.name=Lead Ingot
@@ -368,6 +437,8 @@ item.ingot.boron.name=Boron Ingot
 item.ingot.lithium.name=Lithium Ingot
 item.ingot.magnesium.name=Magnesium Ingot
 item.ingot.graphite.name=Graphite Ingot
+item.ingot.beryllium.name=Beryllium Ingot
+item.ingot.zirconium.name=Zirconium Ingot
 
 item.ingot_oxide.thorium.name=Thorium Oxide Ingot
 item.ingot_oxide.uranium.name=Uranium Oxide Ingot
@@ -383,6 +454,8 @@ item.dust.boron.name=Boron Dust
 item.dust.lithium.name=Lithium Dust
 item.dust.magnesium.name=Magnesium Dust
 item.dust.graphite.name=Graphite Dust
+item.dust.beryllium.name=Beryllium Dust
+item.dust.zirconium.name=Zirconium Dust
 
 item.dust_oxide.thorium.name=Thorium Oxide Dust
 item.dust_oxide.uranium.name=Uranium Oxide Dust
@@ -390,11 +463,13 @@ item.dust_oxide.manganese.name=Manganese Oxide Dust
 item.dust_oxide.manganese2.name=Manganese Dioxide Dust
 
 item.gem.rhodochrosite.name=Rhodochrosite
+item.gem.boron_nitride.name=Cubic Boron Nitride
 
 item.gem_dust.diamond.name=Crushed Diamond
 item.gem_dust.rhodochrosite.name=Crushed Rhodochrosite
 item.gem_dust.quartz.name=Crushed Quartz
 item.gem_dust.obsidian.name=Crushed Obsidian
+item.gem_dust.boron_nitride.name=Amorphous Boron Nitride
 
 item.alloy.bronze.name=Bronze Alloy
 item.alloy.tough.name=Tough Alloy
@@ -410,6 +485,7 @@ item.part.plate_du.name=DU Plating
 item.part.plate_elite.name=Elite Plating
 item.part.wire_copper.name=Copper Solenoid
 item.part.wire_magnesium_diboride.name=Magnesium Diboride Solenoid
+item.part.bioplastic.name=Bioplastic
 
 item.upgrade.speed.name=Speed Upgrade
 
@@ -724,14 +800,28 @@ item.pickaxe_boron.name=Boron Pickaxe
 item.shovel_boron.name=Boron Shovel
 item.axe_boron.name=Boron Axe
 item.hoe_boron.name=Boron Hoe
+item.spaxelhoe_boron.name=Boron Spaxelhoe
 
 item.sword_tough.name=Tough Alloy Sword
 item.pickaxe_tough.name=Tough Alloy Pickaxe
 item.shovel_tough.name=Tough Alloy Shovel
 item.axe_tough.name=Tough Alloy Axe
 item.hoe_tough.name=Tough Alloy Hoe
-
 item.spaxelhoe_tough.name=Tough Alloy Spaxelhoe
+
+item.sword_hard_carbon.name=Hard Carbon Sword
+item.pickaxe_hard_carbon.name=Hard Carbon Pickaxe
+item.shovel_hard_carbon.name=Hard Carbon Shovel
+item.axe_hard_carbon.name=Hard Carbon Axe
+item.hoe_hard_carbon.name=Hard Carbon Hoe
+item.spaxelhoe_hard_carbon.name=Hard Carbon Spaxelhoe
+
+item.sword_boron_nitride.name=Boron Nitride Sword
+item.pickaxe_boron_nitride.name=Boron Nitride Pickaxe
+item.shovel_boron_nitride.name=Boron Nitride Shovel
+item.axe_boron_nitride.name=Boron Nitride Axe
+item.hoe_boron_nitride.name=Boron Nitride Hoe
+item.spaxelhoe_boron_nitride.name=Boron Nitride Spaxelhoe
 
 item.helm_boron.name=Boron Helmet
 item.chest_boron.name=Boron Chestplate
@@ -743,11 +833,28 @@ item.chest_tough.name=Tough Alloy Chestplate
 item.legs_tough.name=Tough Alloy Leggings
 item.boots_tough.name=Tough Alloy Boots
 
+item.helm_hard_carbon.name=Hard Carbon Helmet
+item.chest_hard_carbon.name=Hard Carbon Chestplate
+item.legs_hard_carbon.name=Hard Carbon Leggings
+item.boots_hard_carbon.name=Hard Carbon Boots
+
+item.helm_boron_nitride.name=Boron Nitride Helmet
+item.chest_boron_nitride.name=Boron Nitride Chestplate
+item.legs_boron_nitride.name=Boron Nitride Leggings
+item.boots_boron_nitride.name=Boron Nitride Boots
+
 item.portable_ender_chest.name=Portable Ender Chest
 item.portable_ender_chest.des0=Access your Ender Chest on the move
 
 item.dominos.name=Domino's Special
 item.dominos.des0=Paul's favourite - restores 16 hunger
+
+item.record_wanderer.name=Music Disc
+item.record_wanderer.des0=Dion - The Wanderer
+item.record_wanderer.des1=8-Bit Cover by '8 Bit Universe'
+item.record_end_of_the_world.name=Music Disc
+item.record_end_of_the_world.des0=Skeeter Davis - The End of the World
+item.record_end_of_the_world.des1=8-Bit Cover by 'GermanPikachuGaming'
 
 itemGroup.nuclearcraftBaseBlockMaterials=NuclearCraft Base Blocks
 itemGroup.nuclearcraftBaseItemMaterials=NuclearCraft Base Items
@@ -790,7 +897,7 @@ gui.config.processors.processor_rf_per_eu.comment=The RF received per EU injecte
 gui.config.processors.processor_update_rate=Processor Update Rate
 gui.config.processors.processor_update_rate.comment=Ticks per fluid content check
 gui.config.processors.processor_passive_rate=Passive Production Rate
-gui.config.processors.processor_passive_rate.comment=Rates at which passive machines produce materials. Order: Helium Collector, Cobblestone Generator, Infinite Water Source
+gui.config.processors.processor_passive_rate.comment=Rates at which passive machines produce materials. Order: Helium Collector, Cobblestone Generator, Infinite Water Source, Nitrogen Collector
 gui.config.processors.cobble_gen_power=Cobble Gen Power Use
 gui.config.processors.cobble_gen_power.comment=RF/s required for Cobblestone Generator to run
 
@@ -942,15 +1049,33 @@ gui.config.category.tools=Tool Configs
 gui.config.category.tools.tooltip=Configure tools
 
 gui.config.tools.tool_mining_level=Mining Levels
-gui.config.tools.tool_mining_level.comment=Mining levels (wood = 0, stone = 1, etc.). Order: boron, tough alloy, tough alloy spaxelhoe
+gui.config.tools.tool_mining_level.comment=Mining levels (wood = 0, stone = 1, etc.). Order: boron, boron spaxelhoe, tough alloy, tough alloy spaxelhoe, hard carbon, hard carbon spaxelhoe, boron nitride, boron nitride spaxelhoe
 gui.config.tools.tool_durability=Durabilities
-gui.config.tools.tool_durability.comment=Max number of tool uses. Order: boron, tough alloy, tough alloy spaxelhoe
+gui.config.tools.tool_durability.comment=Max number of tool uses. Order: boron, boron spaxelhoe, tough alloy, tough alloy spaxelhoe, hard carbon, hard carbon spaxelhoe, boron nitride, boron nitride spaxelhoe
 gui.config.tools.tool_speed=Mining speeds
-gui.config.tools.tool_speed.comment=Determines the rate at which blocks are destroyed (wood = 2.0, stone = 4.0, etc.). Order: boron, tough alloy, tough alloy spaxelhoe
+gui.config.tools.tool_speed.comment=Determines the rate at which blocks are destroyed (wood = 2.0, stone = 4.0, etc.). Order: boron, boron spaxelhoe, tough alloy, tough alloy spaxelhoe, hard carbon, hard carbon spaxelhoe, boron nitride, boron nitride spaxelhoe
 gui.config.tools.tool_attack_damage=Attack damages
-gui.config.tools.tool_attack_damage.comment=Related to the damage done per hit (wood = 0.0, stone = 1.0, etc.). Order: boron, tough alloy, tough alloy spaxelhoe
+gui.config.tools.tool_attack_damage.comment=Related to the damage done per hit (wood = 0.0, stone = 1.0, etc.). Order: boron, boron spaxelhoe, tough alloy, tough alloy spaxelhoe, hard carbon, hard carbon spaxelhoe, boron nitride, boron nitride spaxelhoe
 gui.config.tools.tool_enchantability=Enchantabilities
-gui.config.tools.tool_enchantability.comment=Determines the quality of applied enchantments. Order: boron, tough alloy, tough alloy spaxelhoe
+gui.config.tools.tool_enchantability.comment=Determines the quality of applied enchantments. Order: boron, boron spaxelhoe, tough alloy, tough alloy spaxelhoe, hard carbon, hard carbon spaxelhoe, boron nitride, boron nitride spaxelhoe
+
+gui.config.category.armor=Armor Configs
+gui.config.category.armor.tooltip=Configure armor
+
+gui.config.armor.armor_durability=Durabilities
+gui.config.armor.armor_durability.comment=Durabilities of armor types. Order: boron, tough alloy, hard carbon, boron nitride
+gui.config.armor.armor_boron=Boron Armor Protection
+gui.config.armor.armor_boron.comment=Effectiveness of individual armor pieces. Order: helm, chest, legs, boots
+gui.config.armor.armor_tough=Tough Alloy Armor Protection
+gui.config.armor.armor_tough.comment=Effectiveness of individual armor pieces. Order: helm, chest, legs, boots
+gui.config.armor.armor_hard_carbon=Hard Carbon Armor Protection
+gui.config.armor.armor_hard_carbon.comment=Effectiveness of individual armor pieces. Order: helm, chest, legs, boots
+gui.config.armor.armor_boron_nitride=Boron Nitride Armor Protection
+gui.config.armor.armor_boron_nitride.comment=Effectiveness of individual armor pieces. Order: helm, chest, legs, boots
+gui.config.armor.armor_enchantability=Enchantabilities
+gui.config.armor.armor_enchantability.comment=Determines the quality of applied enchantments. Order: boron, tough alloy, hard carbon, boron nitride
+gui.config.armor.armor_toughness=Toughnesses
+gui.config.armor.armor_toughness.comment=Toughnesses of armor types. Order: boron, tough alloy, hard carbon, boron nitride
 
 gui.config.category.other=Other Configs
 gui.config.category.other.tooltip=Miscellaneous configurations
@@ -983,8 +1108,9 @@ gui.container.fusion_core.empty=Empty
 sound.block.fusion_run=Fusion Reactor Running
 sound.block.accelerator_run=Accelerator Running
 
-death.attack.superfluid_freeze=%1$s froze to death in superfluid
+death.attack.superfluid_freeze=%1$s was Bose-Einstein condensated
 death.attack.plasma_burn=%1$s was incinerated by plasma
-death.attack.steam_burn=%1$s was cooked in steam
-death.attack.molten_burn=%1$s melted to death
+death.attack.steam_burn=%1$s reached their boiling point
+death.attack.molten_burn=%1$s went to hell but didn't come back
+death.attack.acid_burn=%1$s turned out to be far too alkaline
 death.attack.hypothermia=%1$s died as a result of hypothermia

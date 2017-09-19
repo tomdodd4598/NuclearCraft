@@ -134,7 +134,9 @@ public class EnumHandler {
 		BORON("boron", 5),
 		LITHIUM("lithium", 6),
 		MAGNESIUM("magnesium", 7),
-		GRAPHITE("graphite", 8);
+		GRAPHITE("graphite", 8),
+		BERYLLIUM("beryllium", 9),
+		ZIRCONIUM("zirconium", 10);
 		
 		private int id;
 		private String name;
@@ -201,7 +203,9 @@ public class EnumHandler {
 		BORON("boron", 5),
 		LITHIUM("lithium", 6),
 		MAGNESIUM("magnesium", 7),
-		GRAPHITE("graphite", 8);
+		GRAPHITE("graphite", 8),
+		BERYLLIUM("beryllium", 9),
+		ZIRCONIUM("zirconium", 10);
 		
 		private int id;
 		private String name;
@@ -260,7 +264,8 @@ public class EnumHandler {
 	}
 	
 	public static enum GemTypes implements IStringSerializable {
-		RHODOCHROSITE("rhodochrosite", 0);
+		RHODOCHROSITE("rhodochrosite", 0),
+		BORON_NITRIDE("boron_nitride", 1);
 		
 		private int id;
 		private String name;
@@ -291,7 +296,8 @@ public class EnumHandler {
 		DIAMOND("diamond", 0),
 		RHODOCHROSITE("rhodochrosite", 1),
 		QUARTZ("quartz", 2),
-		OBSIDIAN("obsidian", 3);
+		OBSIDIAN("obsidian", 3),
+		BORON_NITRIDE("boron_nitride", 4);
 		
 		private int id;
 		private String name;
@@ -358,7 +364,8 @@ public class EnumHandler {
 		PLATE_DU("plate_du", 2),
 		PLATE_ELITE("plate_elite", 3),
 		WIRE_COPPER("wire_copper", 4),
-		WIRE_MAGNESIUM_DIBORIDE("wire_magnesium_diboride", 5);
+		WIRE_MAGNESIUM_DIBORIDE("wire_magnesium_diboride", 5),
+		BIOPLASTIC("bioplastic", 6);
 		
 		private int id;
 		private String name;

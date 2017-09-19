@@ -1,3 +1,31 @@
+v2.4
+
++ Added Ingot Former
++ Added Pressurizer
++ Added Chemical Reactor
++ Added Salt Mixer
++ Added Crystallizer
+
++ Added JEI support
++ Added MineTweaker support
+
++ Added Beryllium - drops from Coal Ore
++ Added Zirconium - drops from Quartz Ore
++ Added a bunch of new items and fluids
++ Added new tools and armor
++ Added Glowing Mushrooms to the Nether
+
+* Fixed crash related to machines trying to push null fluids
+* Fixed issues with the Fission Reactor search algorithm
+* Fixed crash when mining Redstone Ore
+
++ Additional configs
+* Recipe tweaks and additions
+* Removed lingering invalid/impossible recipes
+
+* Updated Forge
+* Updated IC2 and JEI APIs
+
 v2.3
 
 + Added active cooling for Fission and Fusion Reactors

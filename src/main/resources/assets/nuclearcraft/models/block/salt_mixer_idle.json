@@ -1,0 +1,8 @@
+{
+    "parent": "block/orientable",
+    "textures": {
+        "top": "nuclearcraft:blocks/salt_mixer_top",
+        "front": "nuclearcraft:blocks/salt_mixer_front_off",
+        "side": "nuclearcraft:blocks/salt_mixer_side"
+    }
+}

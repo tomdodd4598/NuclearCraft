@@ -85,12 +85,12 @@ public abstract class BasicSinkSource extends BasicEnergyTile implements IEnergy
 
 	@Override
 	public double getDemandedEnergy() {
-		return Math.max(0, capacity - energyStored);
+		return Math.max(0, getCapacity() - getEnergyStored());
 	}
 
 	@Override
 	public double injectEnergy(EnumFacing directionFrom, double amount, double voltage) {
-		energyStored += amount;
+		setEnergyStored(getEnergyStored() + amount);
 
 		return 0;
 	}
@@ -102,12 +102,12 @@ public abstract class BasicSinkSource extends BasicEnergyTile implements IEnergy
 
 	@Override
 	public double getOfferedEnergy() {
-		return energyStored;
+		return getEnergyStored();
 	}
 
 	@Override
 	public void drawEnergy(double amount) {
-		energyStored -= amount;
+		setEnergyStored(getEnergyStored() - amount);
 	}
 
 	@Override

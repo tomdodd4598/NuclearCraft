@@ -152,10 +152,14 @@ public abstract class TileFluid extends NCTile implements ITileFluid, IFluidHand
 			if (tanks[i].getFluidAmount() <= 0 || !connection[i].canDrain()) return;
 			for (EnumFacing side : EnumFacing.VALUES) {
 				TileEntity tile = world.getTileEntity(getPos().offset(side));
+				IFluidHandler adjStorage = tile == null ? null : tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side.getOpposite());
 				//TileEntity thisTile = world.getTileEntity(getPos());
 				
 				if (tile instanceof IFluidHandler /*&& tile != thisTile*/) {
 					tanks[i].drain(((IFluidHandler) tile).fill(tanks[i].drain(tanks[i].getCapacity(), false), true), true);
+				}
+				if (adjStorage != null) {
+					tanks[i].drain(adjStorage.fill(tanks[i].drain(tanks[i].getCapacity(), false), true), true);
 				}
 			}
 		}

@@ -163,7 +163,7 @@ public abstract class TileEnergy extends NCTile implements ITileEnergy, IEnergyS
 	// Capability
 	
 	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
-		if (CapabilityEnergy.ENERGY == capability) {
+		if (CapabilityEnergy.ENERGY == capability && connection.canConnect()) {
 			return true;
 		}
 		if (connection != null && ModCheck.teslaLoaded && connection.canConnect()) {
@@ -174,7 +174,7 @@ public abstract class TileEnergy extends NCTile implements ITileEnergy, IEnergyS
 	}
 	
 	public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
-		if (CapabilityEnergy.ENERGY == capability) {
+		if (CapabilityEnergy.ENERGY == capability && connection.canConnect()) {
 			return (T) storage;
 		}
 		if (connection != null && ModCheck.teslaLoaded && connection.canConnect()) {

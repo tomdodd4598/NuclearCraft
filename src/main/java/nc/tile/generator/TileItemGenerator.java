@@ -1,13 +1,20 @@
 package nc.tile.generator;
 
+import java.util.ArrayList;
+
 import ic2.api.energy.EnergyNet;
 import nc.ModCheck;
 import nc.config.NCConfig;
 import nc.energy.EnumStorage.EnergyConnection;
-import nc.handler.ProcessorRecipeHandler;
+import nc.recipe.BaseRecipeHandler;
+import nc.recipe.IIngredient;
+import nc.recipe.IRecipe;
+import nc.recipe.RecipeMethods;
+import nc.recipe.SorptionType;
 import nc.tile.IGui;
 import nc.tile.dummy.IInterfaceable;
 import nc.tile.energy.TileEnergySidedInventory;
+import nc.util.NCUtil;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
@@ -24,9 +31,9 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 	
 	public int tickCount;
 	
-	public final ProcessorRecipeHandler recipes;
+	public final BaseRecipeHandler recipes;
 	
-	public TileItemGenerator(String name, int inSize, int outSize, int otherSize, int capacity, ProcessorRecipeHandler recipes) {
+	public TileItemGenerator(String name, int inSize, int outSize, int otherSize, int capacity, BaseRecipeHandler recipes) {
 		super(name, 2*inSize + outSize + otherSize, capacity, EnergyConnection.OUT);
 		inputSize = inSize;
 		outputSize = outSize;
@@ -160,9 +167,8 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 		if (time >= getProcessTime()) {
 			return true;
 		}
-		Object[] output = hasConsumed ? getOutput(consumedInputs()) : getOutput(inputs());
-		int[] inputOrder = recipes.getInputOrder(inputs(), recipes.getInput(output));
-		if (output == null || output.length != outputSize || inputOrder == ProcessorRecipeHandler.INVALID_ORDER) {
+		Object[] output = hasConsumed ? outputs() : outputs();
+		if (output == null || output.length != outputSize) {
 			return false;
 		}
 		for(int j = 0; j < outputSize; j++) {
@@ -182,22 +188,23 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 	}
 		
 	public void consume() {
+		IRecipe recipe = getRecipe(false);
+		Object[] outputs = outputs();
+		int[] inputOrder = inputOrder();
+		if (outputs == null || inputOrder == NCUtil.INVALID) return;
 		if (!hasConsumed) {
 			for (int i = 0; i < inputSize; i++) {
 				if (!inventoryStacks.get(i + inputSize + outputSize + otherSlotsSize).isEmpty()) {
 					inventoryStacks.set(i + inputSize + outputSize + otherSlotsSize, ItemStack.EMPTY);
 				}
 			}
-			Object[] output = getOutput(inputs());
-			int[] inputOrder = recipes.getInputOrder(inputs(), output);
-			if (output[0] == ItemStack.EMPTY || output[0] == null || inputOrder == ProcessorRecipeHandler.INVALID_ORDER) return;
 			for (int i = 0; i < inputSize; i++) {
 				if (recipes != null) {
-					inventoryStacks.set(i + inputSize + outputSize + otherSlotsSize, new ItemStack(inventoryStacks.get(i).getItem(), recipes.getInputSize(inputOrder[i], output), inventoryStacks.get(i).getMetadata()));
-					inventoryStacks.get(i).setCount(inventoryStacks.get(i).getCount() - recipes.getInputSize(inputOrder[i], output));
+					inventoryStacks.set(i + inputSize + outputSize + otherSlotsSize, new ItemStack(inventoryStacks.get(i).getItem(), recipe.inputs().get(inputOrder[i]).getStackSize(), inventoryStacks.get(i).getMetadata()));
+					inventoryStacks.get(i).shrink(recipe.inputs().get(inputOrder[i]).getStackSize());
 				} else {
 					inventoryStacks.set(i + inputSize + outputSize + otherSlotsSize, new ItemStack(inventoryStacks.get(i).getItem(), 1, inventoryStacks.get(i).getMetadata()));
-					inventoryStacks.get(i).setCount(inventoryStacks.get(i).getCount() - 1);
+					inventoryStacks.get(i).shrink(1);
 				}
 				if (inventoryStacks.get(i).getCount() <= 0) {
 					inventoryStacks.set(i, ItemStack.EMPTY);
@@ -206,18 +213,16 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 			hasConsumed = true;
 		}
 	}
-		
+	
 	public void output() {
 		if (hasConsumed) {
-			Object[] output = getOutput(consumedInputs());
+			Object[] outputs = outputs();
 			for (int j = 0; j < outputSize; j++) {
-				if (output[j] != ItemStack.EMPTY && output[j] != null) {
-					if (inventoryStacks.get(j + inputSize).isEmpty()) {
-						ItemStack outputStack = ((ItemStack)output[j]).copy();
-						inventoryStacks.set(j + inputSize, outputStack);
-					} else if (inventoryStacks.get(j + inputSize).isItemEqual((ItemStack)output[j])) {
-						inventoryStacks.get(j + inputSize).setCount(inventoryStacks.get(j + inputSize).getCount() + ((ItemStack)output[j]).getCount());
-					}
+				ItemStack outputStack = (ItemStack) outputs[j];
+				if (inventoryStacks.get(j + inputSize).isEmpty()) {
+					inventoryStacks.set(j + inputSize, outputStack);
+				} else if (inventoryStacks.get(j + inputSize).isItemEqual(outputStack)) {
+					inventoryStacks.get(j + inputSize).grow(outputStack.getCount());
 				}
 			}
 			for (int i = inputSize + outputSize + otherSlotsSize; i < 2*inputSize + outputSize + otherSlotsSize; i++) {
@@ -227,6 +232,10 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 		}
 	}
 		
+	public IRecipe getRecipe(boolean consumed) {
+		return recipes.getRecipeFromInputs(consumed ? consumedInputs() : inputs());
+	}
+	
 	public Object[] inputs() {
 		Object[] input = new Object[inputSize];
 		for (int i = 0; i < inputSize; i++) {
@@ -234,7 +243,7 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 		}
 		return input;
 	}
-		
+	
 	public Object[] consumedInputs() {
 		Object[] input = new Object[inputSize];
 		for (int i = 0; i < inputSize; i++) {
@@ -242,9 +251,36 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 		}
 		return input;
 	}
-		
-	public Object[] getOutput(Object... itemstacks) {
-		return recipes.getOutput(itemstacks);
+	
+	public int[] inputOrder() {
+		int[] inputOrder = new int[inputSize];
+		IRecipe recipe = getRecipe(false);
+		if (recipe == null) return new int[] {};
+		ArrayList<IIngredient> recipeIngredients = recipe.inputs();
+		for (int i = 0; i < inputSize; i++) {
+			inputOrder[i] = -1;
+			for (int j = 0; j < recipeIngredients.size(); j++) {
+				if (recipeIngredients.get(j).matches(inputs()[i], SorptionType.INPUT)) {
+					inputOrder[i] = j;
+					break;
+				}
+			}
+			if (inputOrder[i] == -1) return NCUtil.INVALID;
+		}
+		return inputOrder;
+	}
+	
+	public Object[] outputs() {
+		Object[] output = new Object[outputSize];
+		IRecipe recipe = getRecipe(hasConsumed);
+		if (recipe == null) return null;
+		ArrayList<IIngredient> outputs = recipe.outputs();
+		for (int i = 0; i < outputSize; i++) {
+			Object out = RecipeMethods.getIngredientFromList(outputs, i);
+			if (out == null) return null;
+			else output[i] = out;
+		}
+		return output;
 	}
 	
 	// Inventory
@@ -252,25 +288,7 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {
 		if (stack == ItemStack.EMPTY) return false;
 		else if (slot >= inputSize && slot < inputSize + outputSize) return false;
-		return isItemValid(stack);
-	}
-	
-	public boolean isItemValid(ItemStack stack) {
-		Object[] inputSets = recipes.getRecipes().keySet().toArray();
-		for (int i = 0; i < inputSets.length; i++) {
-			Object[] inputSet = (Object[])(inputSets[i]);
-			for (int j = 0; j < inputSet.length; j++) {
-				if (inputSet[j] instanceof ItemStack) {
-					if (ItemStack.areItemsEqual((ItemStack)(inputSet[j]), stack)) return true;
-				} else if (inputSet[j] instanceof ItemStack[]) {
-					ItemStack[] stacks = (ItemStack[])(inputSet[j]);
-					for (int k = 0; k < stacks.length; k++) {
-						if (ItemStack.areItemsEqual(stacks[k], stack)) return true;
-					}
-				}
-			}
-		}
-		return false;
+		return recipes.isValidManualInput(stack);
 	}
 	
 	// SidedInventory

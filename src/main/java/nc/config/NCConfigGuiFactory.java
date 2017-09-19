@@ -49,6 +49,7 @@ public class NCConfigGuiFactory implements IModGuiFactory {
 			list.add(new DummyCategoryElement(I18n.translateToLocalFormatted("gui.config.category.accelerator"), "gui.config.category.accelerator", CategoryEntryAccelerator.class));
 			list.add(new DummyCategoryElement(I18n.translateToLocalFormatted("gui.config.category.energy_storage"), "gui.config.category.energy_storage", CategoryEntryEnergyStorage.class));
 			list.add(new DummyCategoryElement(I18n.translateToLocalFormatted("gui.config.category.tools"), "gui.config.category.tools", CategoryEntryTools.class));
+			list.add(new DummyCategoryElement(I18n.translateToLocalFormatted("gui.config.category.armor"), "gui.config.category.armor", CategoryEntryArmor.class));
 			list.add(new DummyCategoryElement(I18n.translateToLocalFormatted("gui.config.category.other"), "gui.config.category.other", CategoryEntryOther.class));
 			return list;
 		}
@@ -169,6 +170,21 @@ public class NCConfigGuiFactory implements IModGuiFactory {
 				ConfigElement categoryTools = new ConfigElement(config.getCategory(NCConfig.CATEGORY_TOOLS));
 				List<IConfigElement> propertiesOnScreen = categoryTools.getChildElements();
 				String windowTitle = I18n.translateToLocalFormatted("gui.config.category.tools");
+				return new GuiConfig(owningScreen, propertiesOnScreen, owningScreen.modID, configElement.requiresWorldRestart() || owningScreen.allRequireWorldRestart, configElement.requiresMcRestart() || owningScreen.allRequireMcRestart, windowTitle);
+			}
+		}
+		
+		public static class CategoryEntryArmor extends CategoryEntry {
+
+			public CategoryEntryArmor(GuiConfig owningScreen, GuiConfigEntries owningEntryList, IConfigElement configElement) {
+				super(owningScreen, owningEntryList, configElement);
+			}
+			
+			protected GuiScreen buildChildScreen() {
+				Configuration config = NCConfig.getConfig();
+				ConfigElement categoryTools = new ConfigElement(config.getCategory(NCConfig.CATEGORY_ARMOR));
+				List<IConfigElement> propertiesOnScreen = categoryTools.getChildElements();
+				String windowTitle = I18n.translateToLocalFormatted("gui.config.category.armor");
 				return new GuiConfig(owningScreen, propertiesOnScreen, owningScreen.modID, configElement.requiresWorldRestart() || owningScreen.allRequireWorldRestart, configElement.requiresMcRestart() || owningScreen.allRequireMcRestart, windowTitle);
 			}
 		}

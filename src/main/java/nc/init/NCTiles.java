@@ -21,16 +21,22 @@ import nc.tile.passive.Passives.TileCobblestoneGenerator;
 import nc.tile.passive.Passives.TileElectromagnetSupercooler;
 import nc.tile.passive.Passives.TileFusionElectromagnet;
 import nc.tile.passive.Passives.TileHeliumCollector;
+import nc.tile.passive.Passives.TileNitrogenCollector;
 import nc.tile.passive.Passives.TileWaterSource;
 import nc.tile.processor.Processors.TileAlloyFurnace;
+import nc.tile.processor.Processors.TileChemicalReactor;
+import nc.tile.processor.Processors.TileCrystallizer;
 import nc.tile.processor.Processors.TileDecayHastener;
 import nc.tile.processor.Processors.TileElectrolyser;
 import nc.tile.processor.Processors.TileFuelReprocessor;
 import nc.tile.processor.Processors.TileInfuser;
+import nc.tile.processor.Processors.TileIngotFormer;
 import nc.tile.processor.Processors.TileIrradiator;
 import nc.tile.processor.Processors.TileIsotopeSeparator;
 import nc.tile.processor.Processors.TileManufactory;
 import nc.tile.processor.Processors.TileMelter;
+import nc.tile.processor.Processors.TilePressurizer;
+import nc.tile.processor.Processors.TileSaltMixer;
 import nc.tile.processor.Processors.TileSupercooler;
 import nc.tile.processor.TileNuclearFurnace;
 import nc.util.NCUtil;
@@ -50,6 +56,11 @@ public class NCTiles {
 		GameRegistry.registerTileEntity(TileSupercooler.class, Global.MOD_ID + ":supercooler");
 		GameRegistry.registerTileEntity(TileElectrolyser.class, Global.MOD_ID + ":electrolyser");
 		GameRegistry.registerTileEntity(TileIrradiator.class, Global.MOD_ID + ":irradiator");
+		GameRegistry.registerTileEntity(TileIngotFormer.class, Global.MOD_ID + ":ingot_former");
+		GameRegistry.registerTileEntity(TilePressurizer.class, Global.MOD_ID + ":pressurizer");
+		GameRegistry.registerTileEntity(TileChemicalReactor.class, Global.MOD_ID + ":chemical_reactor");
+		GameRegistry.registerTileEntity(TileSaltMixer.class, Global.MOD_ID + ":salt_mixer");
+		GameRegistry.registerTileEntity(TileCrystallizer.class, Global.MOD_ID + ":crystallizer");
 		
 		GameRegistry.registerTileEntity(TileMachineInterface.class, Global.MOD_ID + ":machine_interface");
 		
@@ -80,6 +91,7 @@ public class NCTiles {
 		GameRegistry.registerTileEntity(TileHeliumCollector.class, Global.MOD_ID + ":helium_collector");
 		GameRegistry.registerTileEntity(TileCobblestoneGenerator.class, Global.MOD_ID + ":cobblestone_generator");
 		GameRegistry.registerTileEntity(TileWaterSource.class, Global.MOD_ID + ":water_source");
+		GameRegistry.registerTileEntity(TileNitrogenCollector.class, Global.MOD_ID + ":nitrogen_collector");
 		
 		//GameRegistry.registerTileEntity(TileSpin.class, Global.MOD_ID + ":spin");
 		

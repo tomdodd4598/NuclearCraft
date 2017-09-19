@@ -1,10 +1,14 @@
 package nc.tile.dummy;
 
+import nc.ModCheck;
 import nc.block.tile.generator.BlockFusionCore;
 import nc.config.NCConfig;
 import nc.tile.generator.TileFusionCore;
+import net.darkhax.tesla.capability.TeslaCapabilities;
 import net.minecraft.block.BlockRedstoneComparator;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.energy.CapabilityEnergy;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 
 public class TileFusionDummySide extends TileDummy {
 	
@@ -119,5 +123,22 @@ public class TileFusionDummySide extends TileDummy {
 	
 	public boolean isMaster(BlockPos pos) {
 		return world.getTileEntity(pos) instanceof TileFusionCore;
+	}
+	
+	// Capability
+	
+	@SuppressWarnings("unchecked")
+	public <T> T getCapability(net.minecraftforge.common.capabilities.Capability<T> capability, @javax.annotation.Nullable net.minecraft.util.EnumFacing facing) {
+		if (CapabilityEnergy.ENERGY == capability && connection.canConnect()) {
+			return (T) getStorage();
+		}
+		if (connection != null && ModCheck.teslaLoaded && connection.canConnect()) {
+			if ((capability == TeslaCapabilities.CAPABILITY_CONSUMER && connection.canReceive()) || (capability == TeslaCapabilities.CAPABILITY_PRODUCER && connection.canExtract()) || capability == TeslaCapabilities.CAPABILITY_HOLDER)
+				return (T) getStorage();
+		}
+		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
+			return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(this);
+		}
+		return null;
 	}
 }
