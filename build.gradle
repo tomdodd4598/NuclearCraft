@@ -13,7 +13,7 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 //Only edit below this line, the above code adds and enables the nessasary things for Forge to be setup.
 
 
-version = "2.3--1.10.2"
+version = "2.4--1.10.2"
 group = "nc"
 archivesBaseName = "NuclearCraft"
 
@@ -23,13 +23,13 @@ compileJava {
 }
 
 minecraft {
-	version = "1.10.2-12.18.3.2316"
+	version = "${forge_version}"
 	runDir = "run"
 	
 	// the mappings can be changed at any time, and must be in the following format.
 	// snapshot_YYYYMMDD	snapshot are built nightly.
 	// stable_#		stables are built at the discretion of the MCP team.
-	// Use non-default mappings at your own risk. they may not allways work.
+	// Use non-default mappings at your own risk. they may not always work.
 	// simply re-run your setup task after changing the mappings to update your workspace.
 	mappings = "snapshot_20161111"
 	// makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
@@ -44,6 +44,10 @@ repositories {
 		// JEI
 		url = "http://dvs1.progwml6.com/files/maven"
 	}
+	maven {
+		// CraftTweaker
+        url "http://maven.blamejared.com/"
+    }
 }
 
 dependencies {
@@ -59,6 +63,7 @@ dependencies {
 
 	//compile files('libs/Tesla-1.10.2-1.2.1.50.jar')
 	//compile files('libs/jei_1.10.2-3.14.7.420.jar')
+	//compile files('libs/CraftTweaker-1.10.2-3.0.26.jar')
 	
 	deobfCompile "net.darkhax.tesla:Tesla:1.10.2-${tesla_version}"
 	
@@ -66,6 +71,8 @@ dependencies {
 	deobfCompile "mezz.jei:jei_${mc_version}:${jei_version}:api"
 	// at runtime, use the full JEI jar
 	runtime "mezz.jei:jei_${mc_version}:${jei_version}"
+	
+	deobfCompile "MineTweaker3:MineTweaker3-API:${craftTweaker_version}.+"
 
 	// the 'provided' configuration is for optional dependencies that exist at compile-time but might not at runtime.
 	//provided 'com.mod-buildcraft:buildcraft:6.0.8:dev'

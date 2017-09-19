@@ -1,12 +1,27 @@
 {
-	"sound.block.fusion_run": {
+	"block.fusion_run": {
 		"category": "block",
-		"subtitle": "sound.block.fusion_run",
+		"subtitle": "block.fusion_run",
 		"sounds": [ { "name": "nuclearcraft:block/fusion_run", "stream": false } ]
 	},
-	"sound.block.accelerator_run": {
+	"block.accelerator_run": {
 		"category": "block",
-		"subtitle": "sound.block.accelerator_run",
+		"subtitle": "block.accelerator_run",
 		"sounds": [ { "name": "nuclearcraft:block/accelerator_run", "stream": false } ]
+	},
+	"player.geiger_tick": {
+		"category": "player",
+		"subtitle": "player.geiger_tick",
+		"sounds": [ { "name": "nuclearcraft:player/geiger_tick", "stream": false } ]
+	},
+	"music.wanderer": {
+		"category": "record",
+		"subtitle": "music.wanderer",
+		"sounds": [ { "name": "nuclearcraft:music/wanderer", "stream": true } ]
+	},
+	"music.end_of_the_world": {
+		"category": "record",
+		"subtitle": "music.end_of_the_world",
+		"sounds": [ { "name": "nuclearcraft:music/end_of_the_world", "stream": true } ]
 	}
 }

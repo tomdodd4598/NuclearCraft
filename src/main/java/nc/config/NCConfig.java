@@ -27,6 +27,7 @@ public class NCConfig {
 	public static final String CATEGORY_ACCELERATOR = "accelerator";
 	public static final String CATEGORY_ENERGY_STORAGE = "energy_storage";
 	public static final String CATEGORY_TOOLS = "tools";
+	public static final String CATEGORY_ARMOR = "armor";
 	public static final String CATEGORY_OTHER = "other";
 	
 	public static int[] ore_dims;
@@ -121,6 +122,14 @@ public class NCConfig {
 	public static double[] tool_attack_damage;
 	public static int[] tool_enchantability;
 	
+	public static int[] armor_durability;
+	public static int[] armor_boron;
+	public static int[] armor_tough;
+	public static int[] armor_hard_carbon;
+	public static int[] armor_boron_nitride;
+	public static int[] armor_enchantability;
+	public static double[] armor_toughness;
+	
 	public static boolean rare_drops;
 	
 	public static void preInit() {
@@ -165,15 +174,15 @@ public class NCConfig {
 		Property propertyOreMaxHeight = config.get(CATEGORY_ORES, "ore_max_height", new int[] {32, 32, 32, 32, 32, 32, 32, 32}, I18n.translateToLocalFormatted("gui.config.ores.ore_max_height.comment"), 1, 255);
 		propertyOreMaxHeight.setLanguageKey("gui.config.ores.ore_max_height");
 		
-		Property propertyProcessorTime = config.get(CATEGORY_PROCESSORS, "processor_time", new int[] {400, 800, 800, 400, 400, 600, 800, 1600, 1600, 800}, I18n.translateToLocalFormatted("gui.config.processors.processor_time.comment"), 1, 128000);
+		Property propertyProcessorTime = config.get(CATEGORY_PROCESSORS, "processor_time", new int[] {400, 800, 800, 400, 400, 600, 800, 1600, 1600, 800, 400, 600, 800, 600, 1600}, I18n.translateToLocalFormatted("gui.config.processors.processor_time.comment"), 1, 128000);
 		propertyProcessorTime.setLanguageKey("gui.config.processors.processor_time");
-		Property propertyProcessorPower = config.get(CATEGORY_PROCESSORS, "processor_power", new int[] {10, 10, 10, 20, 10, 10, 40, 20, 40, 20}, I18n.translateToLocalFormatted("gui.config.processors.processor_power.comment"), 0, 16000);
+		Property propertyProcessorPower = config.get(CATEGORY_PROCESSORS, "processor_power", new int[] {10, 10, 10, 20, 10, 10, 40, 20, 40, 20, 10, 40, 10, 20, 10}, I18n.translateToLocalFormatted("gui.config.processors.processor_power.comment"), 0, 16000);
 		propertyProcessorPower.setLanguageKey("gui.config.processors.processor_power");
 		Property propertyProcessorRFPerEU = config.get(CATEGORY_PROCESSORS, "processor_rf_per_eu", 4, I18n.translateToLocalFormatted("gui.config.processors.processor_rf_per_eu.comment"), 1, 255);
 		propertyProcessorRFPerEU.setLanguageKey("gui.config.processors.processor_rf_per_eu");
 		Property propertyProcessorUpdateRate = config.get(CATEGORY_PROCESSORS, "processor_update_rate", 20, I18n.translateToLocalFormatted("gui.config.processors.processor_update_rate.comment"), 1, 1200);
 		propertyProcessorUpdateRate.setLanguageKey("gui.config.processors.processor_update_rate");
-		Property propertyProcessorPassiveRate = config.get(CATEGORY_PROCESSORS, "processor_passive_rate", new int[] {200, 2, 400}, I18n.translateToLocalFormatted("gui.config.processors.processor_passive_rate.comment"), 1, 4000);
+		Property propertyProcessorPassiveRate = config.get(CATEGORY_PROCESSORS, "processor_passive_rate", new int[] {200, 2, 400, 200}, I18n.translateToLocalFormatted("gui.config.processors.processor_passive_rate.comment"), 1, 4000);
 		propertyProcessorPassiveRate.setLanguageKey("gui.config.processors.processor_passive_rate");
 		Property propertyCobbleGenPower = config.get(CATEGORY_PROCESSORS, "cobble_gen_power", 0, I18n.translateToLocalFormatted("gui.config.processors.cobble_gen_power.comment"), 0, 255);
 		propertyCobbleGenPower.setLanguageKey("gui.config.processors.cobble_gen_power");
@@ -307,16 +316,31 @@ public class NCConfig {
 		Property propertyBatteryCapacity = config.get(CATEGORY_ENERGY_STORAGE, "battery_capacity", new int[] {1600000, 64000000}, I18n.translateToLocalFormatted("gui.config.energy_storage.battery_capacity.comment"), 1, Integer.MAX_VALUE);
 		propertyBatteryCapacity.setLanguageKey("gui.config.energy_storage.battery_capacity");
 		
-		Property propertyToolMiningLevel = config.get(CATEGORY_TOOLS, "tool_mining_level", new int[] {2, 3, 3}, I18n.translateToLocalFormatted("gui.config.tools.tool_mining_level.comment"), 1, 15);
+		Property propertyToolMiningLevel = config.get(CATEGORY_TOOLS, "tool_mining_level", new int[] {2, 2, 3, 3, 3, 3, 3, 3}, I18n.translateToLocalFormatted("gui.config.tools.tool_mining_level.comment"), 1, 15);
 		propertyToolMiningLevel.setLanguageKey("gui.config.tools.tool_mining_level");
-		Property propertyToolDurability = config.get(CATEGORY_TOOLS, "tool_durability", new int[] {547, 929, 929*5}, I18n.translateToLocalFormatted("gui.config.tools.tool_durability.comment"), 1, 32767);
+		Property propertyToolDurability = config.get(CATEGORY_TOOLS, "tool_durability", new int[] {547, 547*5, 929, 929*5, 1245, 1245*5, 1928, 1928*5}, I18n.translateToLocalFormatted("gui.config.tools.tool_durability.comment"), 1, 32767);
 		propertyToolDurability.setLanguageKey("gui.config.tools.tool_durability");
-		Property propertyToolSpeed = config.get(CATEGORY_TOOLS, "tool_speed", new double[] {8D, 10D, 10D}, I18n.translateToLocalFormatted("gui.config.tools.tool_speed.comment"), 1D, 255D);
+		Property propertyToolSpeed = config.get(CATEGORY_TOOLS, "tool_speed", new double[] {8D, 8D, 10D, 10D, 11D, 11D, 12D, 12D}, I18n.translateToLocalFormatted("gui.config.tools.tool_speed.comment"), 1D, 255D);
 		propertyToolSpeed.setLanguageKey("gui.config.tools.tool_speed");
-		Property propertyToolAttackDamage = config.get(CATEGORY_TOOLS, "tool_attack_damage", new double[] {2.5D, 3D, 3D}, I18n.translateToLocalFormatted("gui.config.tools.tool_attack_damage.comment"), 0D, 255D);
+		Property propertyToolAttackDamage = config.get(CATEGORY_TOOLS, "tool_attack_damage", new double[] {2.5D, 2.5D, 3D, 3D, 3D, 3D, 3.5D, 3.5D}, I18n.translateToLocalFormatted("gui.config.tools.tool_attack_damage.comment"), 0D, 255D);
 		propertyToolAttackDamage.setLanguageKey("gui.config.tools.tool_attack_damage");
-		Property propertyToolEnchantability = config.get(CATEGORY_TOOLS, "tool_enchantability", new int[] {6, 15, 15}, I18n.translateToLocalFormatted("gui.config.tools.tool_enchantability.comment"), 1, 32767);
+		Property propertyToolEnchantability = config.get(CATEGORY_TOOLS, "tool_enchantability", new int[] {6, 6, 15, 15, 12, 12, 20, 20}, I18n.translateToLocalFormatted("gui.config.tools.tool_enchantability.comment"), 1, 255);
 		propertyToolEnchantability.setLanguageKey("gui.config.tools.tool_enchantability");
+		
+		Property propertyArmorDurability = config.get(CATEGORY_ARMOR, "armor_durability", new int[] {22, 30, 34, 42}, I18n.translateToLocalFormatted("gui.config.armor.armor_durability.comment"), 1, 127);
+		propertyArmorDurability.setLanguageKey("gui.config.armor.armor_durability");
+		Property propertyArmorBoron = config.get(CATEGORY_ARMOR, "armor_boron", new int[] {2, 5, 7, 3}, I18n.translateToLocalFormatted("gui.config.armor.armor_boron.comment"), 1, 25);
+		propertyArmorBoron.setLanguageKey("gui.config.armor.armor_boron");
+		Property propertyArmorTough = config.get(CATEGORY_ARMOR, "armor_tough", new int[] {3, 6, 7, 3}, I18n.translateToLocalFormatted("gui.config.armor.armor_tough.comment"), 1, 25);
+		propertyArmorTough.setLanguageKey("gui.config.armor.armor_tough");
+		Property propertyArmorHardCarbon = config.get(CATEGORY_ARMOR, "armor_hard_carbon", new int[] {3, 5, 7, 3}, I18n.translateToLocalFormatted("gui.config.armor.armor_hard_carbon.comment"), 1, 25);
+		propertyArmorHardCarbon.setLanguageKey("gui.config.armor.armor_hard_carbon");
+		Property propertyArmorBoronNitride = config.get(CATEGORY_ARMOR, "armor_boron_nitride", new int[] {3, 6, 8, 3}, I18n.translateToLocalFormatted("gui.config.armor.armor_boron_nitride.comment"), 1, 25);
+		propertyArmorBoronNitride.setLanguageKey("gui.config.armor.armor_boron_nitride");
+		Property propertyArmorEnchantability = config.get(CATEGORY_ARMOR, "armor_enchantability", new int[] {6, 15, 12, 20}, I18n.translateToLocalFormatted("gui.config.armor.armor_enchantability.comment"), 1, 255);
+		propertyArmorEnchantability.setLanguageKey("gui.config.armor.armor_enchantability");
+		Property propertyArmorToughness = config.get(CATEGORY_ARMOR, "armor_toughness", new double[] {1D, 2D, 1D, 2D}, I18n.translateToLocalFormatted("gui.config.armor.armor_toughness.comment"), 1, 8);
+		propertyArmorToughness.setLanguageKey("gui.config.armor.armor_toughness");
 		
 		Property propertyRareDrops = config.get(CATEGORY_OTHER, "gui.config.other.rare_drops", false, I18n.translateToLocalFormatted("gui.config.other.rare_drops.comment"));
 		propertyRareDrops.setLanguageKey("gui.config.other.rare_drops");
@@ -427,6 +451,16 @@ public class NCConfig {
 		propertyOrderTools.add(propertyToolEnchantability.getName());
 		config.setCategoryPropertyOrder(CATEGORY_TOOLS, propertyOrderTools);
 		
+		List<String> propertyOrderArmor = new ArrayList<String>();
+		propertyOrderArmor.add(propertyArmorDurability.getName());
+		propertyOrderArmor.add(propertyArmorEnchantability.getName());
+		propertyOrderArmor.add(propertyArmorBoron.getName());
+		propertyOrderArmor.add(propertyArmorTough.getName());
+		propertyOrderArmor.add(propertyArmorHardCarbon.getName());
+		propertyOrderArmor.add(propertyArmorBoronNitride.getName());
+		propertyOrderArmor.add(propertyArmorToughness.getName());
+		config.setCategoryPropertyOrder(CATEGORY_ARMOR, propertyOrderArmor);
+		
 		List<String> propertyOrderOther = new ArrayList<String>();
 		propertyOrderOther.add(propertyRareDrops.getName());
 		config.setCategoryPropertyOrder(CATEGORY_OTHER, propertyOrderOther);
@@ -524,6 +558,14 @@ public class NCConfig {
 			tool_attack_damage = readDoubleArrayFromConfig(propertyToolAttackDamage);
 			tool_enchantability = readIntegerArrayFromConfig(propertyToolEnchantability);
 			
+			armor_durability = readIntegerArrayFromConfig(propertyArmorDurability);
+			armor_enchantability = readIntegerArrayFromConfig(propertyArmorEnchantability);
+			armor_boron = readIntegerArrayFromConfig(propertyArmorBoron);
+			armor_tough = readIntegerArrayFromConfig(propertyArmorTough);
+			armor_hard_carbon = readIntegerArrayFromConfig(propertyArmorHardCarbon);
+			armor_boron_nitride = readIntegerArrayFromConfig(propertyArmorBoronNitride);
+			armor_toughness = readDoubleArrayFromConfig(propertyArmorToughness);
+			
 			rare_drops = propertyRareDrops.getBoolean();
 		}
 		
@@ -618,6 +660,14 @@ public class NCConfig {
 		propertyToolSpeed.set(tool_speed);
 		propertyToolAttackDamage.set(tool_attack_damage);
 		propertyToolEnchantability.set(tool_enchantability);
+		
+		propertyArmorDurability.set(armor_durability);
+		propertyArmorEnchantability.set(armor_enchantability);
+		propertyArmorBoron.set(armor_boron);
+		propertyArmorTough.set(armor_tough);
+		propertyArmorHardCarbon.set(armor_hard_carbon);
+		propertyArmorBoronNitride.set(armor_boron_nitride);
+		propertyArmorToughness.set(armor_toughness);
 		
 		propertyRareDrops.set(rare_drops);
 		

@@ -1,14 +1,21 @@
 package nc.tile.processor;
 
+import java.util.ArrayList;
+
 import ic2.api.energy.EnergyNet;
 import nc.ModCheck;
 import nc.config.NCConfig;
 import nc.energy.EnumStorage.EnergyConnection;
-import nc.handler.ProcessorRecipeHandler;
 import nc.init.NCItems;
+import nc.recipe.BaseRecipeHandler;
+import nc.recipe.IIngredient;
+import nc.recipe.IRecipe;
+import nc.recipe.RecipeMethods;
+import nc.recipe.SorptionType;
 import nc.tile.IGui;
 import nc.tile.dummy.IInterfaceable;
 import nc.tile.energy.TileEnergySidedInventory;
+import nc.util.NCUtil;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
@@ -30,17 +37,17 @@ public abstract class TileEnergyItemProcessor extends TileEnergySidedInventory i
 	
 	public int tickCount;
 	
-	public final ProcessorRecipeHandler recipes;
+	public final BaseRecipeHandler recipes;
 	
-	public TileEnergyItemProcessor(String name, int inSize, int outSize, int time, int power, ProcessorRecipeHandler recipes) {
+	public TileEnergyItemProcessor(String name, int inSize, int outSize, int time, int power, BaseRecipeHandler recipes) {
 		this(name, inSize, outSize, time, power, false, recipes, 1);
 	}
 	
-	public TileEnergyItemProcessor(String name, int inSize, int outSize, int time, int power, ProcessorRecipeHandler recipes, int upgradeMeta) {
+	public TileEnergyItemProcessor(String name, int inSize, int outSize, int time, int power, BaseRecipeHandler recipes, int upgradeMeta) {
 		this(name, inSize, outSize, time, power, true, recipes, upgradeMeta);
 	}
 	
-	public TileEnergyItemProcessor(String name, int inSize, int outSize, int time, int power, boolean upgrades, ProcessorRecipeHandler recipes, int upgradeMeta) {
+	public TileEnergyItemProcessor(String name, int inSize, int outSize, int time, int power, boolean upgrades, BaseRecipeHandler recipes, int upgradeMeta) {
 		super(name, inSize + outSize + (upgrades ? 2 : 0), 32000, EnergyConnection.IN);
 		inputSize = inSize;
 		outputSize = outSize;
@@ -192,50 +199,55 @@ public abstract class TileEnergyItemProcessor extends TileEnergySidedInventory i
 		if (getEnergyStored() < getProcessPower()) {
 			return false;
 		}
-		Object[] output = getOutput(inputs());
-		int[] inputOrder = recipes.getInputOrder(inputs(), recipes.getInput(output));
-		if (output == null || output.length != outputSize || inputOrder == ProcessorRecipeHandler.INVALID_ORDER) {
+		Object[] outputs = outputs();
+		if (outputs == null || outputs.length != outputSize) {
 			return false;
 		}
 		for(int j = 0; j < outputSize; j++) {
-			if (output[j] == null) {
+			if (outputs[j] == null) {
 				return false;
 			} else {
 				if (inventoryStacks[j + inputSize] != null) {
-					if (!inventoryStacks[j + inputSize].isItemEqual((ItemStack) output[j])) {
+					if (!inventoryStacks[j + inputSize].isItemEqual((ItemStack) outputs[j])) {
 						return false;
-					} else if (inventoryStacks[j + inputSize].stackSize + ((ItemStack) output[j]).stackSize > inventoryStacks[j + inputSize].getMaxStackSize()) {
+					} else if (inventoryStacks[j + inputSize].stackSize + ((ItemStack) outputs[j]).stackSize > inventoryStacks[j + inputSize].getMaxStackSize()) {
 						return false;
 					}
 				}
 			}
 		}
-		if (recipes.getExtras(inputs()) instanceof Integer) baseProcessTime = (int) recipes.getExtras(inputs());
+		Object[] inputs = inputs();
+		if (recipes.getRecipeFromInputs(inputs).extras().get(0) instanceof Integer) baseProcessTime = (int) recipes.getRecipeFromInputs(inputs).extras().get(0);
 		return true;
 	}
 	
 	public void process() {
-		Object[] output = getOutput(inputs());
-		int[] inputOrder = recipes.getInputOrder(inputs(), recipes.getInput(output));
-		if (output[0] == null || inputOrder == ProcessorRecipeHandler.INVALID_ORDER) return;
+		IRecipe recipe = getRecipe();
+		Object[] outputs = outputs();
+		int[] inputOrder = inputOrder();
+		if (outputs == null || inputOrder == NCUtil.INVALID) return;
 		for (int j = 0; j < outputSize; j++) {
+			ItemStack outputStack = (ItemStack) outputs[j];
 			if (inventoryStacks[j + inputSize] == null) {
-				ItemStack outputStack = ((ItemStack) output[j]).copy();
 				inventoryStacks[j + inputSize] = outputStack;
-			} else if (inventoryStacks[j + inputSize].isItemEqual((ItemStack) output[j])) {
-				inventoryStacks[j + inputSize].stackSize = inventoryStacks[j + inputSize].stackSize + ((ItemStack) output[j]).stackSize;
+			} else if (inventoryStacks[j + inputSize].isItemEqual(outputStack)) {
+				inventoryStacks[j + inputSize].stackSize += outputStack.stackSize;
 			}
 		}
 		for (int i = 0; i < inputSize; i++) {
 			if (recipes != null) {
-				inventoryStacks[i].stackSize = inventoryStacks[i].stackSize - recipes.getInputSize(inputOrder[i], output);
+				inventoryStacks[i].stackSize -= recipe.inputs().get(inputOrder[i]).getStackSize();
 			} else {
-				inventoryStacks[i].stackSize = inventoryStacks[i].stackSize - 1;
+				inventoryStacks[i].stackSize --;
 			}
 			if (inventoryStacks[i].stackSize <= 0) {
 				inventoryStacks[i] = null;
 			}
 		}
+	}
+	
+	public IRecipe getRecipe() {
+		return recipes.getRecipeFromInputs(inputs());
 	}
 	
 	public Object[] inputs() {
@@ -246,8 +258,35 @@ public abstract class TileEnergyItemProcessor extends TileEnergySidedInventory i
 		return input;
 	}
 	
-	public Object[] getOutput(Object... stacks) {
-		return recipes.getOutput(stacks);
+	public int[] inputOrder() {
+		int[] inputOrder = new int[inputSize];
+		IRecipe recipe = getRecipe();
+		if (recipe == null) return new int[] {};
+		ArrayList<IIngredient> recipeIngredients = recipe.inputs();
+		for (int i = 0; i < inputSize; i++) {
+			inputOrder[i] = -1;
+			for (int j = 0; j < recipeIngredients.size(); j++) {
+				if (recipeIngredients.get(j).matches(inputs()[i], SorptionType.INPUT)) {
+					inputOrder[i] = j;
+					break;
+				}
+			}
+			if (inputOrder[i] == -1) return NCUtil.INVALID;
+		}
+		return inputOrder;
+	}
+	
+	public Object[] outputs() {
+		Object[] output = new Object[outputSize];
+		IRecipe recipe = getRecipe();
+		if (recipe == null) return null;
+		ArrayList<IIngredient> outputs = recipe.outputs();
+		for (int i = 0; i < outputSize; i++) {
+			Object out = RecipeMethods.getIngredientFromList(outputs, i);
+			if (out == null) return null;
+			else output[i] = out;
+		}
+		return output;
 	}
 	
 	// Inventory
@@ -261,25 +300,7 @@ public abstract class TileEnergyItemProcessor extends TileEnergySidedInventory i
 			}
 		}
 		if (slot >= inputSize) return false;
-		return isItemValid(stack);
-	}
-	
-	public boolean isItemValid(ItemStack stack) {
-		Object[] inputSets = recipes.getRecipes().keySet().toArray();
-		for (int i = 0; i < inputSets.length; i++) {
-			Object[] inputSet = (Object[])(inputSets[i]);
-			for (int j = 0; j < inputSet.length; j++) {
-				if (inputSet[j] instanceof ItemStack) {
-					if (ItemStack.areItemsEqual((ItemStack)(inputSet[j]), stack)) return true;
-				} else if (inputSet[j] instanceof ItemStack[]) {
-					ItemStack[] stacks = (ItemStack[])(inputSet[j]);
-					for (int k = 0; k < stacks.length; k++) {
-						if (ItemStack.areItemsEqual(stacks[k], stack)) return true;
-					}
-				}
-			}
-		}
-		return false;
+		return recipes.isValidManualInput(stack);
 	}
 	
 	// SidedInventory

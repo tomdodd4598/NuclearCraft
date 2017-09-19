@@ -171,7 +171,7 @@ public class BasicSink extends TileEntity implements IEnergySink, ITickable {
 
 		NBTTagCompound data = tag.getCompoundTag("IC2BasicSink");
 
-		energyStored = data.getDouble("energy");
+		setEnergyStored(data.getDouble("energy"));
 	}
 
 	/**
@@ -189,7 +189,7 @@ public class BasicSink extends TileEntity implements IEnergySink, ITickable {
 
 		NBTTagCompound data = new NBTTagCompound();
 
-		data.setDouble("energy", energyStored);
+		data.setDouble("energy", getEnergyStored());
 
 		tag.setTag("IC2BasicSink", data);
 
@@ -263,7 +263,7 @@ public class BasicSink extends TileEntity implements IEnergySink, ITickable {
 	 * @return true if the amount is available
 	 */
 	public boolean canUseEnergy(double amount) {
-		return energyStored >= amount;
+		return getEnergyStored() >= amount;
 	}
 
 	/**
@@ -274,7 +274,7 @@ public class BasicSink extends TileEntity implements IEnergySink, ITickable {
 	 */
 	public boolean useEnergy(double amount) {
 		if (canUseEnergy(amount) && !FMLCommonHandler.instance().getEffectiveSide().isClient()) {
-			energyStored -= amount;
+			setEnergyStored(getEnergyStored() - amount);
 
 			return true;
 		}
@@ -291,14 +291,15 @@ public class BasicSink extends TileEntity implements IEnergySink, ITickable {
 	public boolean discharge(ItemStack stack, int limit) {
 		if (stack == null || !Info.isIc2Available()) return false;
 
-		double amount = capacity - energyStored;
+		double energyStored = getEnergyStored();
+		double amount = getCapacity() - energyStored;
 		if (amount <= 0) return false;
 
 		if (limit > 0 && limit < amount) amount = limit;
 
 		amount = ElectricItem.manager.discharge(stack, amount, tier, limit > 0, true, false);
 
-		energyStored += amount;
+		setEnergyStored(energyStored + amount);
 
 		return amount > 0;
 	}
@@ -347,12 +348,12 @@ public class BasicSink extends TileEntity implements IEnergySink, ITickable {
 
 	@Override
 	public double getDemandedEnergy() {
-		return Math.max(0, capacity - energyStored);
+		return Math.max(0, getCapacity() - getEnergyStored());
 	}
 
 	@Override
 	public double injectEnergy(EnumFacing directionFrom, double amount, double voltage) {
-		energyStored += amount;
+		setEnergyStored(getEnergyStored() + amount);
 
 		return 0;
 	}

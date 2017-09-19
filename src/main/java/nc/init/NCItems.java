@@ -47,6 +47,7 @@ import nc.handler.EnumHandler.UraniumDepletedFuelRodTypes;
 import nc.handler.EnumHandler.UraniumFuelRodTypes;
 import nc.handler.EnumHandler.UraniumFuelTypes;
 import nc.handler.EnumHandler.UraniumTypes;
+import nc.handler.SoundHandler;
 import nc.item.ItemAlloy;
 import nc.item.ItemDust;
 import nc.item.ItemDustOxide;
@@ -59,6 +60,7 @@ import nc.item.ItemPortableEnderChest;
 import nc.item.ItemUpgrade;
 import nc.item.NCItem;
 import nc.item.NCItemFood;
+import nc.item.NCItemRecord;
 import nc.item.fission.ItemDepletedFuelRodAmericium;
 import nc.item.fission.ItemDepletedFuelRodBerkelium;
 import nc.item.fission.ItemDepletedFuelRodCalifornium;
@@ -168,6 +170,9 @@ public class NCItems {
 	
 	public static Item dominos;
 	
+	public static Item record_wanderer;
+	public static Item record_end_of_the_world;
+	
 	public static void init() {
 		ingot = new ItemIngot("ingot", "ingot");
 		ingot_oxide = new ItemIngotOxide("ingot_oxide", "ingot_oxide");
@@ -227,6 +232,9 @@ public class NCItems {
 		portable_ender_chest = new ItemPortableEnderChest("portable_ender_chest", "portable_ender_chest", 1);
 		
 		dominos = new NCItemFood("dominos", "dominos", 16, 1.0F, false, new PotionEffect[] {new PotionEffect(Potion.getPotionById(1), 500, 2), new PotionEffect(Potion.getPotionById(3), 500, 2)}, 1);
+		
+		record_wanderer = new NCItemRecord("wanderer", "wanderer", SoundHandler.WANDERER, 2);
+		record_end_of_the_world = new NCItemRecord("end_of_the_world", "end_of_the_world", SoundHandler.END_OF_THE_WORLD, 2);
 	}
 	
 	public static void register() {
@@ -288,6 +296,9 @@ public class NCItems {
 		registerItem(portable_ender_chest, CommonProxy.TAB_MISC);
 		
 		registerItem(dominos, CommonProxy.TAB_MISC);
+		
+		registerItem(record_wanderer, CommonProxy.TAB_MISC);
+		registerItem(record_end_of_the_world, CommonProxy.TAB_MISC);
 	}
 	
 	public static void registerRenders() {
@@ -480,6 +491,9 @@ public class NCItems {
 		registerRender(portable_ender_chest);
 		
 		registerRender(dominos);
+		
+		registerRender(record_wanderer);
+		registerRender(record_end_of_the_world);
 	}
 	
 	public static void registerItem(Item item, CreativeTabs tab) {

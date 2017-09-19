@@ -1,7 +1,7 @@
 package nc.container.generator;
 
 import nc.container.ContainerTile;
-import nc.handler.ProcessorRecipeHandler;
+import nc.recipe.BaseRecipeHandler;
 import nc.tile.generator.TileItemGenerator;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IContainerListener;
@@ -13,12 +13,12 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class ContainerItemGenerator extends ContainerTile {
 	
 	public final TileItemGenerator tile;
-	public final ProcessorRecipeHandler recipes;
+	public final BaseRecipeHandler recipes;
 	
 	protected int time;
 	protected int energy;
 	
-	public ContainerItemGenerator(TileItemGenerator tileEntity, ProcessorRecipeHandler recipes) {
+	public ContainerItemGenerator(TileItemGenerator tileEntity, BaseRecipeHandler recipes) {
 		super(tileEntity);
 		tile = tileEntity;
 		this.recipes = recipes;
@@ -80,7 +80,7 @@ public class ContainerItemGenerator extends ContainerTile {
 				slot.onSlotChange(itemstack1, itemstack);
 			}
 			else if(index >= invStart) {
-				if (recipes.validInput(itemstack1)) {
+				if (recipes.isValidManualInput(itemstack1)) {
 					if (!mergeItemStack(itemstack1, 0, tile.inputSize, false)) {
 						return null;
 					}

@@ -12,11 +12,11 @@ import nc.block.tile.generator.BlockFissionController;
 import nc.block.tile.passive.BlockActiveCooler;
 import nc.block.tile.passive.BlockBuffer;
 import nc.config.NCConfig;
-import nc.crafting.generator.FissionRecipes;
 import nc.fluid.Tank;
 import nc.handler.EnumHandler.CoolerTypes;
 import nc.init.NCBlocks;
 import nc.item.fission.IFissionableItem;
+import nc.recipe.generator.FissionRecipes;
 import nc.tile.fluid.TileActiveCooler;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRedstoneComparator;
@@ -158,7 +158,7 @@ public class TileFissionController extends TileItemGenerator {
 		for (int i = minX; i <= maxX; i++) {
 			for (int j = minY; j <= maxY; j++) {
 				for (int k = minZ; k <= maxZ; k++) {
-					if (rand.nextDouble() < 0.3D) worldObj.setBlockState(position(i, j, k), Blocks.LAVA.getStateFromMeta(1));
+					if (rand.nextDouble() < 0.18D) worldObj.setBlockState(position(i, j, k), Blocks.LAVA.getStateFromMeta(rand.nextInt(2)));
 				}
 			}
 		}
@@ -452,40 +452,63 @@ public class TileFissionController extends TileItemGenerator {
 		return count;
 	}
 	
-	private boolean adjacentToActiveCooler(int x, int y, int z, int meta) {
-		List<BlockPos> posList = new ArrayList<BlockPos>();
+	private boolean isAdjacentToActiveGraphite(int x, int y, int z) {
+		IBlockState graphite = NCBlocks.ingot_block.getStateFromMeta(8);
+		IBlockState cell = NCBlocks.cell_block.getDefaultState();
+		if (find(x + 1, y, z, graphite)) {
+			if (adjacentOr(x + 1, y, z, cell)) return true;
+		}
+		if (find(x - 1, y, z, graphite)) {
+			if (adjacentOr(x - 1, y, z, cell)) return true;
+		}
+		if (find(x, y + 1, z, graphite)) {
+			if (adjacentOr(x, y + 1, z, cell)) return true;
+		}
+		if (find(x, y - 1, z, graphite)) {
+			if (adjacentOr(x, y - 1, z, cell)) return true;
+		}
+		if (find(x, y, z + 1, graphite)) {
+			if (adjacentOr(x, y, z + 1, cell)) return true;
+		}
+		if (find(x, y, z - 1, graphite)) {
+			if (adjacentOr(x, y, z - 1, cell)) return true;
+		}
+		return false;
+	}
+	
+	private boolean isAdjacentToActiveCooler(int x, int y, int z, int meta) {
+		List<int[]> posList = new ArrayList<int[]>();
 		if (findCooler(x + 1, y, z, meta)) {
-			posList.add(position(x + 1, y, z));
+			posList.add(new int[] {x + 1, y, z});
 		}
 		if (findCooler(x - 1, y, z, meta)) {
-			posList.add(position(x - 1, y, z));
+			posList.add(new int[] {x - 1, y, z});
 		}
 		if (findCooler(x, y + 1, z, meta)) {
-			posList.add(position(x, y + 1, z));
+			posList.add(new int[] {x, y + 1, z});
 		}
 		if (findCooler(x, y - 1, z, meta)) {
-			posList.add(position(x, y - 1, z));
+			posList.add(new int[] {x, y - 1, z});
 		}
 		if (findCooler(x, y, z + 1, meta)) {
-			posList.add(position(x, y, z + 1));
+			posList.add(new int[] {x, y, z + 1});
 		}
 		if (findCooler(x, y, z - 1, meta)) {
-			posList.add(position(x, y, z - 1));
+			posList.add(new int[] {x, y, z - 1});
 		}
 		if (posList.isEmpty()) return false;
-		
-		for (BlockPos pos : posList) {
+		for (int[] pos : posList) {
 			if (meta == 1) {
 				IBlockState casing = NCBlocks.fission_block.getStateFromMeta(0);
 				IBlockState casing_transparent = NCBlocks.reactor_casing_transparent.getDefaultState();
-				if (adjacentOr(pos.getX(), pos.getY(), pos.getZ(), casing, casing_transparent)) return true;
+				if (adjacentOr(pos[0], pos[1], pos[2], casing, casing_transparent)) return true;
 			}
 			else if (meta == 2) {
 				IBlockState cell = NCBlocks.cell_block.getDefaultState();
-				if (adjacentOr(pos.getX(), pos.getY(), pos.getZ(), cell)) return true;
+				if (adjacentOr(pos[0], pos[1], pos[2], cell)) return true;
 			}
 			else if (meta == 3) {
-				if (adjacentToActiveGraphite(pos.getX(), pos.getY(), pos.getZ()) >= 1) return true;
+				if (isAdjacentToActiveGraphite(pos[0], pos[1], pos[2])) return true;
 			}
 		}
 		return false;
@@ -760,7 +783,7 @@ public class TileFissionController extends TileItemGenerator {
 				
 				energyThisTick += NCConfig.fission_power*baseRF*(numberOfCells + 2*adj1 + 3*adj2 + 4*adj3 + 5*adj4 + 6*adj5 + 7*adj6);
 				heatThisTick += NCConfig.fission_heat_generation*baseHeat*(numberOfCells + 3*adj1 + 6*adj2 + 10*adj3 + 15*adj4 + 21*adj5 + 28*adj6);
-				if (generating) fuelThisTick += (numberOfCells + adj1 + adj2 + adj3 + adj4 + adj5 + adj6)/NCConfig.fission_fuel_use;
+				if (generating) fuelThisTick += (numberOfCells + adj1 + adj2 + adj3 + adj4 + adj5 + adj6)*NCConfig.fission_fuel_use;
 				
 				for (int z = minZ + 1; z <= maxZ - 1; z++) {
 					for (int x = minX + 1; x <= maxX - 1; x++) {
@@ -786,10 +809,10 @@ public class TileFissionController extends TileItemGenerator {
 								if (adjacentOr(x, y, z, cell)) coolerHeatThisTick -= NCConfig.fission_cooling_rate[1];
 							}
 							if(findCooler(x, y, z, 3)) {
-								if (adjacentToActiveGraphite(x, y, z) >= 1) coolerHeatThisTick -= NCConfig.fission_cooling_rate[2];
+								if (isAdjacentToActiveGraphite(x, y, z)) coolerHeatThisTick -= NCConfig.fission_cooling_rate[2];
 							}
 							if(findCooler(x, y, z, 4)) {
-								if (adjacentToActiveCooler(x, y, z, 1) && adjacentToActiveCooler(x, y, z, 2)) coolerHeatThisTick -= NCConfig.fission_cooling_rate[3];
+								if (isAdjacentToActiveCooler(x, y, z, 1) && isAdjacentToActiveCooler(x, y, z, 2)) coolerHeatThisTick -= NCConfig.fission_cooling_rate[3];
 							}
 							if(findCooler(x, y, z, 5)) {
 								if (adjacentToActiveGraphite(x, y, z) >= 2) coolerHeatThisTick -= NCConfig.fission_cooling_rate[4];
@@ -801,7 +824,7 @@ public class TileFissionController extends TileItemGenerator {
 								if (sandwich(x, y, z, cooler[1]) && (adjacentOr(x, y, z, casing, casing_transparent) || !NCConfig.fission_water_cooler_requirement)) coolerHeatThisTick -= NCConfig.fission_cooling_rate[6];
 							}
 							if(findCooler(x, y, z, 8)) {
-								if (adjacentOr(x, y, z, casing, casing_transparent) && adjacentToActiveCooler(x, y, z, 3)) coolerHeatThisTick -= NCConfig.fission_cooling_rate[7];
+								if (adjacentOr(x, y, z, casing, casing_transparent) && isAdjacentToActiveCooler(x, y, z, 3)) coolerHeatThisTick -= NCConfig.fission_cooling_rate[7];
 							}
 							if(findCooler(x, y, z, 9)) {
 								if (adjacent(x, y, z, casing) + adjacent(x, y, z, casing_transparent) >= 3) coolerHeatThisTick -= NCConfig.fission_cooling_rate[8];
@@ -829,7 +852,7 @@ public class TileFissionController extends TileItemGenerator {
 											if (adjacentToActiveGraphite(x, y, z) >= 2) coolerHeatThisTick -= NCConfig.fission_active_cooling_rate[2]*amountModified;
 										}
 										else if (tank.getFluidName() == "liquidhelium") {
-											if (adjacentOr(x, y, z, casing, casing_transparent) && adjacentToActiveCooler(x, y, z, 3)) coolerHeatThisTick -= NCConfig.fission_active_cooling_rate[3]*amountModified;
+											if (adjacentOr(x, y, z, casing, casing_transparent) && isAdjacentToActiveCooler(x, y, z, 3)) coolerHeatThisTick -= NCConfig.fission_active_cooling_rate[3]*amountModified;
 										}
 										else if (tank.getFluidName() == "ender") {
 											if (adjacent(x, y, z, casing) + adjacent(x, y, z, casing_transparent) >= 3) coolerHeatThisTick -= NCConfig.fission_active_cooling_rate[4]*amountModified;

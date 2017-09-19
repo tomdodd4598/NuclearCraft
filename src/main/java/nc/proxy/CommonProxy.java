@@ -4,10 +4,7 @@ import nc.Global;
 import nc.ModCheck;
 import nc.handler.AchievementHandler;
 import nc.handler.DropHandler;
-import nc.handler.FuelHandler;
-import nc.handler.FurnaceRecipeHandler;
 import nc.handler.OreDictHandler;
-import nc.handler.RecipeHandler;
 import nc.handler.SoundHandler;
 import nc.init.NCArmor;
 import nc.init.NCBlocks;
@@ -15,7 +12,11 @@ import nc.init.NCFluids;
 import nc.init.NCItems;
 import nc.init.NCTiles;
 import nc.init.NCTools;
+import nc.integration.crafttweaker.NCCraftTweaker;
 import nc.network.PacketHandler;
+import nc.recipe.vanilla.CraftingRecipeHandler;
+import nc.recipe.vanilla.FurnaceFuelHandler;
+import nc.recipe.vanilla.FurnaceRecipeHandler;
 import nc.tab.TabAccelerator;
 import nc.tab.TabBaseBlockMaterials;
 import nc.tab.TabBaseItemMaterials;
@@ -26,6 +27,7 @@ import nc.tab.TabFluids;
 import nc.tab.TabFusion;
 import nc.tab.TabMachines;
 import nc.tab.TabMisc;
+import nc.worldgen.DecorGen;
 import nc.worldgen.OreGen;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
@@ -51,6 +53,8 @@ public class CommonProxy {
 	nc.handler.EventHandler eventHandler = new nc.handler.EventHandler();
 
 	public void preInit(FMLPreInitializationEvent preEvent) {
+		SoundHandler.init();
+		
 		NCBlocks.init();
 		NCFluids.init();
 		NCItems.init();
@@ -75,16 +79,16 @@ public class CommonProxy {
 		ModCheck.init();
 		MinecraftForge.EVENT_BUS.register(new DropHandler());
 		
-		RecipeHandler.registerCraftingRecipes();
+		CraftingRecipeHandler.registerCraftingRecipes();
 		FurnaceRecipeHandler.registerFurnaceRecipes();
-		GameRegistry.registerFuelHandler(new FuelHandler());
+		GameRegistry.registerFuelHandler(new FurnaceFuelHandler());
 		OreDictHandler.registerOres();
 		GameRegistry.registerWorldGenerator(new OreGen(), 0);
-		SoundHandler.init();
+		GameRegistry.registerWorldGenerator(new DecorGen(), 50);
 	}
 
 	public void postInit(FMLPostInitializationEvent postEvent) {
-		
+		if (ModCheck.craftTweakerLoaded()) NCCraftTweaker.init();
 	}
 	
 	public void registerFluidBlockRendering(Block block, String name) {

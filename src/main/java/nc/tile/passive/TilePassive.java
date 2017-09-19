@@ -7,14 +7,18 @@ import nc.energy.EnumStorage.EnergyConnection;
 import nc.fluid.EnumTank.FluidConnection;
 import nc.tile.dummy.IInterfaceable;
 import nc.tile.energyFluid.TileEnergyFluidSidedInventory;
+import net.darkhax.tesla.capability.TeslaCapabilities;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.MathHelper;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 
 public abstract class TilePassive extends TileEnergyFluidSidedInventory implements IInterfaceable {
 	
@@ -230,5 +234,52 @@ public abstract class TilePassive extends TileEnergyFluidSidedInventory implemen
 		energyBool = nbt.getBoolean("energyBool");
 		stackBool = nbt.getBoolean("stackBool");
 		fluidBool = nbt.getBoolean("fluidBool");
+	}
+	
+	// Capability
+	
+	net.minecraftforge.items.IItemHandler handlerTop = new net.minecraftforge.items.wrapper.SidedInvWrapper(this, net.minecraft.util.EnumFacing.UP);
+	net.minecraftforge.items.IItemHandler handlerBottom = new net.minecraftforge.items.wrapper.SidedInvWrapper(this, net.minecraft.util.EnumFacing.DOWN);
+	net.minecraftforge.items.IItemHandler handlerSide = new net.minecraftforge.items.wrapper.SidedInvWrapper(this, net.minecraft.util.EnumFacing.WEST);
+	
+	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
+		if (energyChange != 0) if (CapabilityEnergy.ENERGY == capability && connection.canConnect()) {
+			return true;
+		}
+		if (energyChange != 0) if (connection != null && ModCheck.teslaLoaded && connection.canConnect()) {
+			if ((capability == TeslaCapabilities.CAPABILITY_CONSUMER && connection.canReceive()) || (capability == TeslaCapabilities.CAPABILITY_PRODUCER && connection.canExtract()) || capability == TeslaCapabilities.CAPABILITY_HOLDER)
+				return true;
+		}
+		if (fluidChange != 0) if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
+			return true;
+		}
+		if (itemChange != 0) if (capability == net.minecraftforge.items.CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+			return true;
+		}
+		return false;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public <T> T getCapability(net.minecraftforge.common.capabilities.Capability<T> capability, @javax.annotation.Nullable net.minecraft.util.EnumFacing facing) {
+		if (energyChange != 0) if (CapabilityEnergy.ENERGY == capability && connection.canConnect()) {
+			return (T) storage;
+		}
+		if (energyChange != 0) if (connection != null && ModCheck.teslaLoaded && connection.canConnect()) {
+			if ((capability == TeslaCapabilities.CAPABILITY_CONSUMER && connection.canReceive()) || (capability == TeslaCapabilities.CAPABILITY_PRODUCER && connection.canExtract()) || capability == TeslaCapabilities.CAPABILITY_HOLDER)
+				return (T) storage;
+		}
+		if (fluidChange != 0) if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
+			return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(this);
+		}
+		if (itemChange != 0) if (facing != null && capability == net.minecraftforge.items.CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+			if (facing == EnumFacing.DOWN) {
+				return (T) handlerBottom;
+			} else if (facing == EnumFacing.UP) {
+				return (T) handlerTop;
+			} else {
+				return (T) handlerSide;
+			}
+		}
+		return null;
 	}
 }

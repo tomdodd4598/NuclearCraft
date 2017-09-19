@@ -1,8 +1,8 @@
 package nc.container.processor;
 
 import nc.container.ContainerTile;
-import nc.handler.ProcessorRecipeHandler;
 import nc.init.NCItems;
+import nc.recipe.BaseRecipeHandler;
 import nc.tile.processor.TileEnergyItemProcessor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IContainerListener;
@@ -14,7 +14,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class ContainerEnergyItemProcessor extends ContainerTile {
 	
 	public final TileEnergyItemProcessor tile;
-	public final ProcessorRecipeHandler recipes;
+	public final BaseRecipeHandler recipes;
 	
 	protected int time;
 	protected int energy;
@@ -22,7 +22,7 @@ public class ContainerEnergyItemProcessor extends ContainerTile {
 	
 	protected ItemStack speedUpgrade = new ItemStack(NCItems.upgrade, 1, 0);
 	
-	public ContainerEnergyItemProcessor(TileEnergyItemProcessor tileEntity, ProcessorRecipeHandler recipes) {
+	public ContainerEnergyItemProcessor(TileEnergyItemProcessor tileEntity, BaseRecipeHandler recipes) {
 		super(tileEntity);
 		tile = tileEntity;
 		this.recipes = recipes;
@@ -91,7 +91,7 @@ public class ContainerEnergyItemProcessor extends ContainerTile {
 					}
 				}
 				
-				else if (recipes.validInput(itemstack1)) {
+				else if (recipes.isValidManualInput(itemstack1)) {
 					if (!mergeItemStack(itemstack1, 0, tile.inputSize, false)) {
 						return null;
 					}

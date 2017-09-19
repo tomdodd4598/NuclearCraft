@@ -2,7 +2,7 @@ package nc.container.processor;
 
 import nc.container.SlotProcessorInput;
 import nc.container.SlotSpecificInput;
-import nc.crafting.processor.MelterRecipes;
+import nc.recipe.processor.MelterRecipes;
 import nc.tile.processor.TileEnergyItemFluidProcessor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;

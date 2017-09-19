@@ -172,7 +172,7 @@ public class BasicSource extends TileEntity implements IEnergySource, ITickable 
 
 		NBTTagCompound data = tag.getCompoundTag("IC2BasicSource");
 
-		energyStored = data.getDouble("energy");
+		setEnergyStored(data.getDouble("energy"));
 	}
 
 	/**
@@ -190,7 +190,7 @@ public class BasicSource extends TileEntity implements IEnergySource, ITickable 
 
 		NBTTagCompound data = new NBTTagCompound();
 
-		data.setDouble("energy", energyStored);
+		data.setDouble("energy", getEnergyStored());
 
 		tag.setTag("IC2BasicSource", data);
 
@@ -238,6 +238,7 @@ public class BasicSource extends TileEntity implements IEnergySource, ITickable 
 	public void setTier(int tier1) {
 		double power = EnergyNet.instance.getPowerFromTier(tier1);
 
+		double capacity = getCapacity();
 		if (capacity < power) capacity = power;
 
 		this.tier = tier1;
@@ -271,7 +272,7 @@ public class BasicSource extends TileEntity implements IEnergySource, ITickable 
 	 * @return amount in EU
 	 */
 	public double getFreeCapacity() {
-		return capacity - energyStored;
+		return getCapacity() - getEnergyStored();
 	}
 
 	/**
@@ -282,9 +283,13 @@ public class BasicSource extends TileEntity implements IEnergySource, ITickable 
 	 */
 	public double addEnergy(double amount) {
 		if (FMLCommonHandler.instance().getEffectiveSide().isClient()) return 0;
-		if (amount > capacity - energyStored) amount = capacity - energyStored;
 
-		energyStored += amount;
+		double energyStored = getEnergyStored();
+		double capacity = getCapacity();
+
+		if (amount > getCapacity() - getEnergyStored()) amount = capacity - energyStored;
+
+		setEnergyStored(energyStored + amount);
 
 		return amount;
 	}
@@ -298,9 +303,10 @@ public class BasicSource extends TileEntity implements IEnergySource, ITickable 
 	public boolean charge(ItemStack stack) {
 		if (stack == null || !Info.isIc2Available()) return false;
 
+		double energyStored = getEnergyStored();
 		double amount = ElectricItem.manager.charge(stack, energyStored, tier, false, false);
 
-		energyStored -= amount;
+		setEnergyStored(energyStored - amount);
 
 		return amount > 0;
 	}
@@ -349,12 +355,12 @@ public class BasicSource extends TileEntity implements IEnergySource, ITickable 
 
 	@Override
 	public double getOfferedEnergy() {
-		return energyStored;
+		return getEnergyStored();
 	}
 
 	@Override
 	public void drawEnergy(double amount) {
-		energyStored -= amount;
+		setEnergyStored(getEnergyStored() - amount);
 	}
 
 	@Override

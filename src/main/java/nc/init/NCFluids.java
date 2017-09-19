@@ -2,13 +2,19 @@ package nc.init;
 
 import nc.NuclearCraft;
 import nc.block.fluid.BlockFluid;
+import nc.block.fluid.BlockFluidAcid;
+import nc.block.fluid.BlockFluidFlammable;
 import nc.block.fluid.BlockFluidGas;
+import nc.block.fluid.BlockFluidLiquid;
 import nc.block.fluid.BlockFluidMolten;
 import nc.block.fluid.BlockFluidParticle;
 import nc.block.fluid.BlockFluidPlasma;
 import nc.block.fluid.BlockFluidSteam;
 import nc.block.fluid.BlockSuperFluid;
+import nc.block.fluid.FluidAcid;
+import nc.block.fluid.FluidFlammable;
 import nc.block.fluid.FluidGas;
+import nc.block.fluid.FluidLiquid;
 import nc.block.fluid.FluidMolten;
 import nc.block.fluid.FluidParticle;
 import nc.block.fluid.FluidPlasma;
@@ -62,6 +68,42 @@ public class NCFluids {
 	
 	public static Fluid neutron;
 	public static BlockFluid block_neutron;
+	
+	public static Fluid fluorine;
+	public static BlockFluid block_fluorine;
+	
+	public static Fluid nitrogen;
+	public static BlockFluid block_nitrogen;
+	
+	public static Fluid ammonia;
+	public static BlockFluid block_ammonia;
+	
+	public static Fluid ethanol;
+	public static BlockFluid block_ethanol;
+	
+	public static Fluid boric_acid;
+	public static BlockFluid block_boric_acid;
+	
+	public static Fluid diborane;
+	public static BlockFluid block_diborane;
+	
+	public static Fluid radaway;
+	public static BlockFluid block_radaway;
+	
+	public static Fluid beryllium;
+	public static BlockFluid block_beryllium;
+	
+	public static Fluid lif;
+	public static BlockFluid block_lif;
+	
+	public static Fluid bef2;
+	public static BlockFluid block_bef2;
+	
+	public static Fluid flibe;
+	public static BlockFluid block_flibe;
+	
+	public static Fluid boron_nitride_solution;
+	public static BlockFluid block_boron_nitride_solution;
 	
 	public static void init() {
 		oxygen = new FluidGas("oxygen");
@@ -119,6 +161,54 @@ public class NCFluids {
 		neutron = new FluidParticle("neutron");
 		FluidRegistry.addBucketForFluid(neutron);
 		block_neutron = new BlockFluidParticle(neutron, "fluid_neutron");
+		
+		fluorine = new FluidGas("fluorine");
+		FluidRegistry.addBucketForFluid(fluorine);
+		block_fluorine = new BlockFluidGas(fluorine, "fluid_fluorine");
+		
+		nitrogen = new FluidGas("nitrogen");
+		FluidRegistry.addBucketForFluid(nitrogen);
+		block_nitrogen = new BlockFluidGas(nitrogen, "fluid_nitrogen");
+		
+		ammonia = new FluidGas("ammonia");
+		FluidRegistry.addBucketForFluid(ammonia);
+		block_ammonia = new BlockFluidGas(ammonia, "fluid_ammonia");
+		
+		ethanol = new FluidFlammable("ethanol");
+		FluidRegistry.addBucketForFluid(ethanol);
+		block_ethanol = new BlockFluidFlammable(ethanol, "fluid_ethanol");
+		
+		boric_acid = new FluidAcid("boric_acid");
+		FluidRegistry.addBucketForFluid(boric_acid);
+		block_boric_acid = new BlockFluidAcid(boric_acid, "fluid_boric_acid");
+		
+		diborane = new FluidGas("diborane");
+		FluidRegistry.addBucketForFluid(diborane);
+		block_diborane = new BlockFluidGas(diborane, "fluid_diborane");
+		
+		radaway = new FluidLiquid("radaway");
+		FluidRegistry.addBucketForFluid(radaway);
+		block_radaway = new BlockFluidLiquid(radaway, "fluid_radaway");
+		
+		beryllium = new FluidMolten("beryllium");
+		FluidRegistry.addBucketForFluid(beryllium);
+		block_beryllium = new BlockFluidMolten(beryllium, "fluid_beryllium");
+		
+		lif = new FluidMolten("lif");
+		FluidRegistry.addBucketForFluid(lif);
+		block_lif = new BlockFluidMolten(lif, "fluid_lif");
+		
+		bef2 = new FluidMolten("bef2");
+		FluidRegistry.addBucketForFluid(bef2);
+		block_bef2 = new BlockFluidMolten(bef2, "fluid_bef2");
+		
+		flibe = new FluidMolten("flibe");
+		FluidRegistry.addBucketForFluid(flibe);
+		block_flibe = new BlockFluidMolten(flibe, "fluid_flibe");
+		
+		boron_nitride_solution = new FluidLiquid("boron_nitride_solution");
+		FluidRegistry.addBucketForFluid(boron_nitride_solution);
+		block_boron_nitride_solution = new BlockFluidLiquid(boron_nitride_solution, "fluid_boron_nitride_solution");
 	}
 	
 	public static void register() {
@@ -136,6 +226,18 @@ public class NCFluids {
 		registerBlock(block_boron10);
 		registerBlock(block_boron11);
 		registerBlock(block_neutron);
+		registerBlock(block_fluorine);
+		registerBlock(block_nitrogen);
+		registerBlock(block_ammonia);
+		registerBlock(block_ethanol);
+		registerBlock(block_boric_acid);
+		registerBlock(block_diborane);
+		registerBlock(block_radaway);
+		registerBlock(block_beryllium);
+		registerBlock(block_lif);
+		registerBlock(block_bef2);
+		registerBlock(block_flibe);
+		registerBlock(block_boron_nitride_solution);
 	}
 	
 	public static void registerBlock(BlockFluid block) {

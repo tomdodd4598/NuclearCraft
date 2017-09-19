@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "facing=north": { "model": "nuclearcraft:pressurizer_idle" },
+        "facing=south": { "model": "nuclearcraft:pressurizer_idle", "y": 180 },
+        "facing=west":  { "model": "nuclearcraft:pressurizer_idle", "y": 270 },
+        "facing=east":  { "model": "nuclearcraft:pressurizer_idle", "y": 90 }
+    }
+}
