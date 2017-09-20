@@ -17,4 +17,4 @@ CurseForge Page: http://minecraft.curseforge.com/projects/nuclearcraft-mod
 Permissions
 -----------
 
-[...intentionally blank]
+To paraphrase the late Christopher Hitchens, "Every time you prohibit someone from using your mod, you make yourself a prisoner of your own actions, because you deny yourself the opportunity to have people play it."
