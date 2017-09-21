@@ -27,8 +27,6 @@ public class OreGen implements IWorldGenerator {
 	private WorldGenerator lithium;
 	private WorldGenerator magnesium;
 	
-	private WorldGenerator glowing_mushroom;
-	
 	public OreGen() {
 		copper = new WorldGenMinable(NCBlocks.ore.getDefaultState().withProperty(BlockOre.TYPE, OreTypes.COPPER), NCConfig.ore_size[0], new UniversalPredicate());
 		tin = new WorldGenMinable(NCBlocks.ore.getDefaultState().withProperty(BlockOre.TYPE, OreTypes.TIN), NCConfig.ore_size[1], new UniversalPredicate());
@@ -43,7 +41,7 @@ public class OreGen implements IWorldGenerator {
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
 		List<Integer> dimList = new ArrayList<Integer>();
 		for (int i = 0; i < NCConfig.ore_dims.length; i ++) dimList.add(NCConfig.ore_dims[i]);
-		if (dimList.contains(world.provider.getDimension())) generateOres(random, chunkX, chunkZ, world, chunkGenerator, chunkProvider);
+		if (dimList.contains(world.provider.getDimension()) != NCConfig.ore_dims_list_type) generateOres(random, chunkX, chunkZ, world, chunkGenerator, chunkProvider);
 	}
 	
 	private void runGenerator(WorldGenerator generator, World world, Random rand, int chunk_X, int chunk_Z, int chancesToSpawn, int minHeight, int maxHeight) {

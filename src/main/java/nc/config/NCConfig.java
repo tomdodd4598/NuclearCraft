@@ -31,6 +31,7 @@ public class NCConfig {
 	public static final String CATEGORY_OTHER = "other";
 	
 	public static int[] ore_dims;
+	public static boolean ore_dims_list_type;
 	public static boolean[] ore_gen;
 	public static int[] ore_size;
 	public static int[] ore_rate;
@@ -163,6 +164,8 @@ public class NCConfig {
 		
 		Property propertyOreDims = config.get(CATEGORY_ORES, "ore_dims", new int[] {0, 6, -11325, -9999}, I18n.translateToLocalFormatted("gui.config.ores.ore_dims.comment"), Integer.MIN_VALUE, Integer.MAX_VALUE);
 		propertyOreDims.setLanguageKey("gui.config.ores.ore_dims");
+		Property propertyOreDimsListType = config.get(CATEGORY_ORES, "ore_dims_list_type", false, I18n.translateToLocalFormatted("gui.config.ores.ore_dims_list_type.comment"));
+		propertyOreDimsListType.setLanguageKey("gui.config.ores.ore_dims_list_type");
 		Property propertyOreGen = config.get(CATEGORY_ORES, "ore_gen", new boolean[] {true, true, true, true, true, true, true, true}, I18n.translateToLocalFormatted("gui.config.ores.ore_gen.comment"));
 		propertyOreGen.setLanguageKey("gui.config.ores.ore_gen");
 		Property propertyOreSize = config.get(CATEGORY_ORES, "ore_size", new int[] {8, 8, 8, 8, 8, 8, 8, 8}, I18n.translateToLocalFormatted("gui.config.ores.ore_size.comment"), 1, Integer.MAX_VALUE);
@@ -347,6 +350,7 @@ public class NCConfig {
 		
 		List<String> propertyOrderOres = new ArrayList<String>();
 		propertyOrderOres.add(propertyOreDims.getName());
+		propertyOrderOres.add(propertyOreDimsListType.getName());
 		propertyOrderOres.add(propertyOreGen.getName());
 		propertyOrderOres.add(propertyOreSize.getName());
 		propertyOrderOres.add(propertyOreRate.getName());
@@ -467,6 +471,7 @@ public class NCConfig {
 		
 		if(readFieldFromConfig) {
 			ore_dims = propertyOreDims.getIntList();
+			ore_dims_list_type = propertyOreDimsListType.getBoolean();
 			ore_gen = readBooleanArrayFromConfig(propertyOreGen);
 			ore_size = readIntegerArrayFromConfig(propertyOreSize);
 			ore_rate = readIntegerArrayFromConfig(propertyOreRate);
@@ -570,6 +575,7 @@ public class NCConfig {
 		}
 		
 		propertyOreDims.set(ore_dims);
+		propertyOreDimsListType.set(ore_dims_list_type);
 		propertyOreGen.set(ore_gen);
 		propertyOreSize.set(ore_size);
 		propertyOreRate.set(ore_rate);

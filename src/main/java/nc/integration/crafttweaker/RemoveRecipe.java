@@ -44,10 +44,10 @@ public class RemoveRecipe<T extends BaseRecipeHandler> implements IUndoableActio
 				adaptedIngredients.add(MineTweakerMC.getItemStack((IItemStack) output));
 				continue;
 			} else if (output instanceof IOreDictEntry) {
-				adaptedIngredients.add(new RecipeOreStack(((IOreDictEntry) output).getName(), StackType.ITEM, 1));
+				adaptedIngredients.add(new RecipeOreStack(((IOreDictEntry) output).getName(), StackType.ITEM, ((IOreDictEntry) output).getAmount()));
 				continue;
 			} else if (output instanceof ILiquidStack) {
-				adaptedIngredients.add(new RecipeOreStack(((ILiquidStack) output).getName(), StackType.FLUID, 1));
+				adaptedIngredients.add(new RecipeOreStack(((ILiquidStack) output).getName(), StackType.FLUID, ((ILiquidStack) output).getAmount()));
 				continue;
 			} else if (!(output instanceof ItemStack)) {
 				MineTweakerAPI.logError(String.format("%s: Invalid ingredient: %s", helper.getRecipeName(), output));

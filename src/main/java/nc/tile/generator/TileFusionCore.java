@@ -57,8 +57,10 @@ public class TileFusionCore extends TileFluidGenerator {
 			if (time == 0) {
 				consume();
 			}
+		}
 			tick();
 			setSize();
+		if(!world.isRemote) {
 			run();
 			heating();
 			if (shouldCheck() && NCConfig.fusion_active_cooling) cooling();

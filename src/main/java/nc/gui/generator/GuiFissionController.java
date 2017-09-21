@@ -28,7 +28,9 @@ public class GuiFissionController extends GuiContainer {
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		int fontColor = tile.isGenerating ? -1 : (tile.complete == 1 ? 15641088 : 15597568);
 		String s = tile.complete == 1 ? (tile.getLengthX() + "*" +  tile.getLengthY() + "*" +  tile.getLengthZ() + " " + I18n.translateToLocalFormatted("gui.container.fission_controller.reactor")) : tile.problem;
-		fontRendererObj.drawString(s, xSize / 2 - fontRendererObj.getStringWidth(s) / 2, 6, fontColor);
+		fontRendererObj.drawString(s, 8 + xSize / 2 - fontRendererObj.getStringWidth(s) / 2, 6, fontColor);
+		String s2 = tile.problemPosBool == 0 ? "" : I18n.translateToLocalFormatted("gui.container.fission_controller.pos") + " " + tile.problemPos;
+		fontRendererObj.drawString(s2, 8 + xSize / 2 - fontRendererObj.getStringWidth(s2) / 2, 17, fontColor);
 		//fontRendererObj.drawString(playerInventory.getDisplayName().getUnformattedText(), 8, ySize - 96 + 2, 4210752);
 		String energy = tile.storage.getEnergyStored() + " RF";
 		fontRendererObj.drawString(energy, 28, ySize - 92, fontColor);

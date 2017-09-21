@@ -1,13 +1,23 @@
+v2.4a
+
+* Fission Controller will try to show details of structure issue
+* Fixed Fission and Fusion GUIs not updating correctly
+
+* Fusion Plasma will leak from unpowered Electromagnets
+
++ Added extra ore configs
+* Minor recipe fixes and tweaks
+
 v2.4
+
++ Added JEI support
++ Added CraftTweaker support
 
 + Added Ingot Former
 + Added Pressurizer
 + Added Chemical Reactor
 + Added Salt Mixer
 + Added Crystallizer
-
-+ Added JEI support
-+ Added MineTweaker support
 
 + Added Beryllium - drops from Coal Ore
 + Added Zirconium - drops from Quartz Ore

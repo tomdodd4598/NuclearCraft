@@ -6,6 +6,7 @@ import java.util.List;
 
 import nc.config.NCConfig;
 import nc.recipe.BaseRecipeHandler;
+import nc.util.NCUtil;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraftforge.fluids.Fluid;
@@ -25,7 +26,7 @@ public class MelterRecipes extends BaseRecipeHandler {
 	}
 
 	public void addRecipes() {
-		oreProcess();
+		metalMelt();
 		
 		addRecipe("ingotLithium6", fluidStack("lithium6", 144), NCConfig.processor_time[6]);
 		addRecipe("tinyLithium6", fluidStack("lithium6", 16), NCConfig.processor_time[6]/8);
@@ -42,16 +43,8 @@ public class MelterRecipes extends BaseRecipeHandler {
 		// Tinkers' Construct
 		addRecipe("blockObsidian", fluidStack("obsidian", 288), NCConfig.processor_time[6]*4);
 		addRecipe("ingotObsidian", fluidStack("obsidian", 144), NCConfig.processor_time[6]*2);
+		addRecipe(Blocks.SAND, fluidStack("glass", 1000), NCConfig.processor_time[6]);
 		addRecipe("blockGlass", fluidStack("glass", 1000), NCConfig.processor_time[6]);
-		addRecipe("blockSand", fluidStack("glass", 1000), NCConfig.processor_time[6]);
-		
-		metalMelt("Manyullyn");
-		metalMelt("Alubrass");
-		metalMelt("Pigiron");
-		metalMelt("Brass");
-		metalMelt("Bronze");
-		metalMelt("Electrum");
-		metalMelt("Steel");
 		
 		// Thermal Expansion
 		addRecipe("dustRedstone", fluidStack("redstone", 100), NCConfig.processor_time[6]/4);
@@ -67,33 +60,21 @@ public class MelterRecipes extends BaseRecipeHandler {
 		addRecipe("dustGraphite", fluidStack("coal", 100), NCConfig.processor_time[6]/4);
 	}
 	
-	public void metalMelt(String metal) {
-		addRecipe("ingot" + metal, fluidStack(metal.toLowerCase(), 144), NCConfig.processor_time[6]);
-		addRecipe("dust" + metal, fluidStack(metal.toLowerCase(), 144), NCConfig.processor_time[6]);
-		addRecipe("block" + metal, fluidStack(metal.toLowerCase(), 1296), NCConfig.processor_time[6]);
-	}
-	
-	public void oreProcess() {
+	public void metalMelt() {
 		List<String> oreList = Arrays.asList(OreDictionary.getOreNames());
 		ArrayList<Fluid> fluidValueList = new ArrayList(FluidRegistry.getRegisteredFluids().values());
 		ArrayList<String>fluidList = new ArrayList<String>();
 		for (Fluid fluid : fluidValueList) {
 			fluidList.add(fluid.getName());
 		}
-		for (String ore : oreList) {
-			if (ore.startsWith("ore")) {
-				String fluid = (ore.substring(3)).toLowerCase();
-				if (fluidList.contains(fluid)) addRecipe(ore, fluidStack(fluid, 324), NCConfig.processor_time[6]*2);
-			}
-			if (ore.startsWith("ingot")) {
-				String dust = "dust" + ore.substring(5);
-				String block = "block" + ore.substring(5);
-				String fluid = (ore.substring(5)).toLowerCase();
-				if (oreList.contains(dust) && fluidList.contains(fluid)) {
-					addRecipe(ore, fluidStack(fluid, 144), NCConfig.processor_time[6]);
-					addRecipe(dust, fluidStack(fluid, 144), NCConfig.processor_time[6]);
-					if (oreList.contains(block)) addRecipe(block, fluidStack(fluid, 1296), NCConfig.processor_time[6]*9);
-				}
+		for (String fluidName : fluidList) {
+			String ore = "ore" + NCUtil.capitalize(fluidName);
+			String ingot = "ingot" + NCUtil.capitalize(fluidName);
+			String dust = "dust" + NCUtil.capitalize(fluidName);
+			if (oreList.contains(ore)) addRecipe(ore, fluidStack(fluidName, 324), NCConfig.processor_time[6]*2);
+			if (oreList.contains(ingot) && oreList.contains(dust)) {
+				addRecipe(ingot, fluidStack(fluidName, 144), NCConfig.processor_time[6]);
+				addRecipe(dust, fluidStack(fluidName, 144), NCConfig.processor_time[6]);
 			}
 		}
 	}
