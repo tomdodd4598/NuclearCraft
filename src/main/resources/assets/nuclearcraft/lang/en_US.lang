@@ -872,8 +872,10 @@ gui.config.main_title=NuclearCraft Configs
 gui.config.category.ores=Ore Configs
 gui.config.category.ores.tooltip=Configure ore generation
 
-gui.config.ores.ore_dims=Dimension Whitelist
-gui.config.ores.ore_dims.comment=List of IDs of dimensions in which to generate ores
+gui.config.ores.ore_dims=Dimension List
+gui.config.ores.ore_dims.comment=List of IDs of dimensions to whitelist/blacklist for ore generation
+gui.config.ores.ore_dims_list_type=Whitelist/Blacklist (false/true)
+gui.config.ores.ore_dims_list_type.comment=Is the dimension list a whitelist (false) or a blacklist (true)?
 gui.config.ores.ore_gen=Generate Ores
 gui.config.ores.ore_gen.comment=Will ores generate in the world? Order: copper, tin, lead, thorium, uranium, boron, lithium, magnesium
 gui.config.ores.ore_size=Chunk Sizes
@@ -1085,17 +1087,20 @@ gui.config.other.rare_drops.comment=Will mobs drop rare items?
 
 gui.container.fission_controller.reactor=Fission Reactor
 gui.container.fission_controller.casing_incomplete=Casing Incomplete
-gui.container.fission_controller.multiple_controllers=Multiple Controllers
-gui.container.fission_controller.casing_in_interior=Casing In Interior
+gui.container.fission_controller.casing_incomplete_at=Casing Incomplete at
+gui.container.fission_controller.multiple_controllers=Extra Controller at
+gui.container.fission_controller.casing_in_interior=Casing In Interior at
 gui.container.fission_controller.invalid_structure=Invalid Structure
+gui.container.fission_controller.pos=BlockPos
 gui.container.fission_controller.no_fuel=No Fuel
 gui.container.fission_controller.cells=Cells:
 gui.container.fission_controller.efficiency=Eff:
 
 gui.container.fusion_core.reactor=Fusion Reactor
 gui.container.fusion_core.ring_incomplete=Ring Incomplete
-gui.container.fusion_core.ring_blocked=Ring Interior Blocked
-gui.container.fusion_core.power_issue=Power Electromagnets
+gui.container.fusion_core.ring_incomplete_at=Ring Incomplete at
+gui.container.fusion_core.ring_blocked=Ring Interior Blocked at
+gui.container.fusion_core.power_issue=Electromagnets not Powered at
 gui.container.fusion_core.incorrect_structure=Invalid Structure
 gui.container.fusion_core.size=Toroid Size:
 gui.container.fusion_core.energy=Energy:

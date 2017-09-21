@@ -109,7 +109,7 @@ public class BlockSpin extends NCBlock implements ITileEntityProvider {
 	}
 	
 	public boolean canConnectRedstone(IBlockState state, IBlockAccess world, BlockPos pos, @Nullable EnumFacing side) {
-		return true;
+		return side != null;
 	}
 	
 	public int getWeakPower(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {

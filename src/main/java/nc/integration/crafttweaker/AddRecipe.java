@@ -46,10 +46,10 @@ public class AddRecipe<T extends BaseRecipeHandler> implements IUndoableAction {
 				adaptedInputs.add(helper.buildRecipeObject(MineTweakerMC.getItemStack((IItemStack) input)));
 				continue;
 			} else if (input instanceof IOreDictEntry) {
-				adaptedInputs.add(new RecipeOreStack(((IOreDictEntry) input).getName(), StackType.ITEM, 1));
+				adaptedInputs.add(new RecipeOreStack(((IOreDictEntry) input).getName(), StackType.ITEM, ((IOreDictEntry) input).getAmount()));
 				continue;
 			} else if (input instanceof ILiquidStack) {
-				adaptedInputs.add(new RecipeOreStack(((ILiquidStack) input).getName(), StackType.FLUID, 1));
+				adaptedInputs.add(new RecipeOreStack(((ILiquidStack) input).getName(), StackType.FLUID, ((ILiquidStack) input).getAmount()));
 				continue;
 			} else if (!(input instanceof ItemStack)) {
 				MineTweakerAPI.logError(String.format("%s: Invalid ingredient: %s", helper.getRecipeName(), input));

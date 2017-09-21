@@ -18,6 +18,8 @@ import nc.init.NCBlocks;
 import nc.item.fission.IFissionableItem;
 import nc.recipe.generator.FissionRecipes;
 import nc.tile.fluid.TileActiveCooler;
+import nc.util.NCMath;
+import nc.util.OreStackHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRedstoneComparator;
 import net.minecraft.block.state.IBlockState;
@@ -27,6 +29,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.translation.I18n;
+import net.minecraftforge.oredict.OreDictionary;
 
 public class TileFissionController extends TileItemGenerator {
 	
@@ -53,6 +56,11 @@ public class TileFissionController extends TileItemGenerator {
 	public int complete;
 	public int ready;
 	public String problem = I18n.translateToLocalFormatted("gui.container.fission_controller.casing_incomplete");
+	public String problemPos = stringPos(pos);
+	public int problemPosX = 0;
+	public int problemPosY = 0;
+	public int problemPosZ = 0;
+	public int problemPosBool = 0;
 	
 	private Random rand = new Random();
 
@@ -67,9 +75,11 @@ public class TileFissionController extends TileItemGenerator {
 			if (time == 0) {
 				consume();
 			}
+		}
 			tickStructureCheck();
-			tickRunCheck();
 			checkStructure();
+		if(!worldObj.isRemote) {
+			tickRunCheck();
 			run();
 			overheat();
 			if (canProcess() && isPowered()) {
@@ -164,6 +174,15 @@ public class TileFissionController extends TileItemGenerator {
 		}
 	}
 	
+	public BlockPos getCentre() {
+		return position((minX + maxX)/2, (minY + maxY)/2, (minZ + maxZ)/2);
+	}
+	
+	public BlockPos getCentreWithRand() {
+		double mult = rand.nextDouble();
+		return position(minX + (int) NCMath.Round(maxX*mult, 2), minY + (int) NCMath.Round(maxY*mult, 2), minZ + (int) NCMath.Round(maxZ*mult, 2));
+	}
+	
 	public boolean canProcess() {
 		return canProcessStacks() && complete == 1;
 	}
@@ -243,6 +262,37 @@ public class TileFissionController extends TileItemGenerator {
 	// Finding Blocks
 	
 	/** returns true if any of blocks are at relative position {x,y,z} */
+	private boolean findFromOreName(int x, int y, int z, String... names) {
+		int xCheck = getPos().getX();
+		int yCheck = getPos().getY() + y;
+		int zCheck = getPos().getZ();
+		
+		List<ItemStack> types = new ArrayList<ItemStack>();
+		for (int i = 0; i < names.length; i++) {
+			List<ItemStack> stacks = OreDictionary.getOres(names[i]);
+			types.addAll(stacks);
+		}
+		
+		if (getBlockMetadata() == 4) for (int i = 0; i < names.length; i++) {
+			ItemStack stack = OreStackHelper.blockToStack(worldObj.getBlockState(new BlockPos(xCheck + x, yCheck, zCheck + z)));
+			for (ItemStack oreStack : types) if (oreStack.isItemEqual(stack)) return true;
+		}
+		if (getBlockMetadata() == 2) for (int i = 0; i < names.length; i++) {
+			ItemStack stack = OreStackHelper.blockToStack(worldObj.getBlockState(new BlockPos(xCheck - z, yCheck, zCheck + x)));
+			for (ItemStack oreStack : types) if (oreStack.isItemEqual(stack)) return true;
+		}
+		if (getBlockMetadata() == 5) for (int i = 0; i < names.length; i++) {
+			ItemStack stack = OreStackHelper.blockToStack(worldObj.getBlockState(new BlockPos(xCheck - x, yCheck, zCheck - z)));
+			for (ItemStack oreStack : types) if (oreStack.isItemEqual(stack)) return true;
+		}
+		if (getBlockMetadata() == 3) for (int i = 0; i < names.length; i++) {
+			ItemStack stack = OreStackHelper.blockToStack(worldObj.getBlockState(new BlockPos(xCheck + z, yCheck, zCheck - x)));
+			for (ItemStack oreStack : types) if (oreStack.isItemEqual(stack)) return true;
+		}
+		
+		return false;
+	}
+	
 	private boolean find(int x, int y, int z, Object... blocks) {
 		int xCheck = getPos().getX();
 		int yCheck = getPos().getY() + y;
@@ -428,49 +478,49 @@ public class TileFissionController extends TileItemGenerator {
 	}
 	
 	private int adjacentToActiveGraphite(int x, int y, int z) {
-		IBlockState graphite = NCBlocks.ingot_block.getStateFromMeta(8);
+		String graphite = "blockGraphite";
 		IBlockState cell = NCBlocks.cell_block.getDefaultState();
 		int count = 0;
-		if (find(x + 1, y, z, graphite)) {
+		if (findFromOreName(x + 1, y, z, graphite)) {
 			if (adjacentOr(x + 1, y, z, cell)) count++;
 		}
-		if (find(x - 1, y, z, graphite)) {
+		if (findFromOreName(x - 1, y, z, graphite)) {
 			if (adjacentOr(x - 1, y, z, cell)) count++;
 		}
-		if (find(x, y + 1, z, graphite)) {
+		if (findFromOreName(x, y + 1, z, graphite)) {
 			if (adjacentOr(x, y + 1, z, cell)) count++;
 		}
-		if (find(x, y - 1, z, graphite)) {
+		if (findFromOreName(x, y - 1, z, graphite)) {
 			if (adjacentOr(x, y - 1, z, cell)) count++;
 		}
-		if (find(x, y, z + 1, graphite)) {
+		if (findFromOreName(x, y, z + 1, graphite)) {
 			if (adjacentOr(x, y, z + 1, cell)) count++;
 		}
-		if (find(x, y, z - 1, graphite)) {
+		if (findFromOreName(x, y, z - 1, graphite)) {
 			if (adjacentOr(x, y, z - 1, cell)) count++;
 		}
 		return count;
 	}
 	
 	private boolean isAdjacentToActiveGraphite(int x, int y, int z) {
-		IBlockState graphite = NCBlocks.ingot_block.getStateFromMeta(8);
+		String graphite = "blockGraphite";
 		IBlockState cell = NCBlocks.cell_block.getDefaultState();
-		if (find(x + 1, y, z, graphite)) {
+		if (findFromOreName(x + 1, y, z, graphite)) {
 			if (adjacentOr(x + 1, y, z, cell)) return true;
 		}
-		if (find(x - 1, y, z, graphite)) {
+		if (findFromOreName(x - 1, y, z, graphite)) {
 			if (adjacentOr(x - 1, y, z, cell)) return true;
 		}
-		if (find(x, y + 1, z, graphite)) {
+		if (findFromOreName(x, y + 1, z, graphite)) {
 			if (adjacentOr(x, y + 1, z, cell)) return true;
 		}
-		if (find(x, y - 1, z, graphite)) {
+		if (findFromOreName(x, y - 1, z, graphite)) {
 			if (adjacentOr(x, y - 1, z, cell)) return true;
 		}
-		if (find(x, y, z + 1, graphite)) {
+		if (findFromOreName(x, y, z + 1, graphite)) {
 			if (adjacentOr(x, y, z + 1, cell)) return true;
 		}
-		if (find(x, y, z - 1, graphite)) {
+		if (findFromOreName(x, y, z - 1, graphite)) {
 			if (adjacentOr(x, y, z - 1, cell)) return true;
 		}
 		return false;
@@ -539,6 +589,10 @@ public class TileFissionController extends TileItemGenerator {
 		return false;
 	}
 	
+	private String stringPos(BlockPos pos) {
+		return "[" + pos.getX() + ", " + pos.getY() + ", " + pos.getZ() + "]";
+	}
+	
 	// Finding Structure
 	
 	private boolean checkStructure() {
@@ -546,12 +600,8 @@ public class TileFissionController extends TileItemGenerator {
 			int l = NCConfig.fission_max_size + 2;
 			boolean f = false;
 			int rz = 0;
-			int z0 = 0;
-			int x0 = 0;
-			int y0 = 0;
-			int z1 = 0;
-			int x1 = 0;
-			int y1 = 0;
+			int z0 = 0, x0 = 0, y0 = 0;
+			int z1 = 0, x1 = 0, y1 = 0;
 			for (int z = 0; z <= l; z++) {
 				if ((findCasingPort(0, 1, 0) || findCasingPort(0, -1, 0)) || ((findCasingPort(1, 1, 0) || findCasingPort(1, -1, 0)) && findCasingPort(1, 0, 0)) || ((findCasingPort(1, 1, 0) && !findCasingPort(1, -1, 0)) && !findCasingPort(1, 0, 0)) || ((!findCasingPort(1, 1, 0) && findCasingPort(1, -1, 0)) && !findCasingPort(1, 0, 0))) {
 					if (!findCasingPort(0, 1, -z) && !findCasingPort(0, -1, -z) && (findCasingControllerPort(0, 0, -z + 1) || findCasingControllerPort(0, 1, -z + 1) || findCasingControllerPort(0, -1, -z + 1))) {
@@ -570,6 +620,7 @@ public class TileFissionController extends TileItemGenerator {
 			if (!f) {
 				complete = 0;
 				problem = I18n.translateToLocalFormatted("gui.container.fission_controller.casing_incomplete");
+				problemPosBool = 0;
 				return false;
 			}
 			f = false;
@@ -583,6 +634,7 @@ public class TileFissionController extends TileItemGenerator {
 			if (!f) {
 				complete = 0;
 				problem = I18n.translateToLocalFormatted("gui.container.fission_controller.casing_incomplete");
+				problemPosBool = 0;
 				return false;
 			}
 			f = false;
@@ -596,6 +648,7 @@ public class TileFissionController extends TileItemGenerator {
 			if (!f) {
 				complete = 0;
 				problem = I18n.translateToLocalFormatted("gui.container.fission_controller.casing_incomplete");
+				problemPosBool = 0;
 				return false;
 			}
 			f = false;
@@ -609,6 +662,7 @@ public class TileFissionController extends TileItemGenerator {
 			if (!f) {
 				complete = 0;
 				problem = I18n.translateToLocalFormatted("gui.container.fission_controller.casing_incomplete");
+				problemPosBool = 0;
 				return false;
 			}
 			f = false;
@@ -622,12 +676,14 @@ public class TileFissionController extends TileItemGenerator {
 			if (!f) {
 				complete = 0;
 				problem = I18n.translateToLocalFormatted("gui.container.fission_controller.casing_incomplete");
+				problemPosBool = 0;
 				return false;
 			}
 			f = false;
 			if ((x0 > 0 || x1 < 0) || (y0 > 0 || y1 < 0) || (z0 > 0 || z1 < 0) || x1 - x0 < 1 || y1 - y0 < 1 || z1 - z0 < 1) {
 				problem = I18n.translateToLocalFormatted("gui.container.fission_controller.invalid_structure");
 				complete = 0;
+				problemPosBool = 0;
 				return false;
 			}
 			for (int z = z0; z <= z1; z++) {
@@ -637,6 +693,11 @@ public class TileFissionController extends TileItemGenerator {
 							if (x == 0 && y == 0 && z == 0) {} else {
 								problem = I18n.translateToLocalFormatted("gui.container.fission_controller.multiple_controllers");
 								complete = 0;
+								problemPosBool = 1;
+								problemPosX = x;
+								problemPosY = y;
+								problemPosZ = z;
+								problemPos = stringPos(position(problemPosX, problemPosY, problemPosZ));
 								return false;
 							}
 						}
@@ -646,13 +707,23 @@ public class TileFissionController extends TileItemGenerator {
 			for (int z = z0 + 1; z <= z1 - 1; z++) {
 				for (int x = x0 + 1; x <= x1 - 1; x++) {
 					if(!findCasingPort(x, y0, z) && !(x == 0 && y0 == 0 && z == 0)) {
-						problem = I18n.translateToLocalFormatted("gui.container.fission_controller.casing_incomplete");
+						problem = I18n.translateToLocalFormatted("gui.container.fission_controller.casing_incomplete_at");
 						complete = 0;
+						problemPosBool = 1;
+						problemPosX = x;
+						problemPosY = y0;
+						problemPosZ = z;
+						problemPos = stringPos(position(problemPosX, problemPosY, problemPosZ));
 						return false;
 					}
 					if(!findCasingPort(x, y1, z) && !(x == 0 && y1 == 0 && z == 0)) {
-						problem = I18n.translateToLocalFormatted("gui.container.fission_controller.casing_incomplete");
+						problem = I18n.translateToLocalFormatted("gui.container.fission_controller.casing_incomplete_at");
 						complete = 0;
+						problemPosBool = 1;
+						problemPosX = x;
+						problemPosY = y1;
+						problemPosZ = z;
+						problemPos = stringPos(position(problemPosX, problemPosY, problemPosZ));
 						return false;
 					}
 				}
@@ -660,25 +731,45 @@ public class TileFissionController extends TileItemGenerator {
 			for (int y = y0 + 1; y <= y1 - 1; y++) {
 				for (int x = x0 + 1; x <= x1 - 1; x++) {
 					if(!findCasingPort(x, y, z0) && !(x == 0 && y == 0 && z0 == 0)) {
-						problem = I18n.translateToLocalFormatted("gui.container.fission_controller.casing_incomplete");
+						problem = I18n.translateToLocalFormatted("gui.container.fission_controller.casing_incomplete_at");
 						complete = 0;
+						problemPosBool = 1;
+						problemPosX = x;
+						problemPosY = y;
+						problemPosZ = z0;
+						problemPos = stringPos(position(problemPosX, problemPosY, problemPosZ));
 						return false;
 					}
 					if(!findCasingPort(x, y, z1) && !(x == 0 && y == 0 && z1 == 0)) {
-						problem = I18n.translateToLocalFormatted("gui.container.fission_controller.casing_incomplete");
+						problem = I18n.translateToLocalFormatted("gui.container.fission_controller.casing_incomplete_at");
 						complete = 0;
+						problemPosBool = 1;
+						problemPosX = x;
+						problemPosY = y;
+						problemPosZ = z1;
+						problemPos = stringPos(position(problemPosX, problemPosY, problemPosZ));
 						return false;
 					}
 				}
 				for (int z = z0 + 1; z <= z1 - 1; z++) {
 					if(!findCasingPort(x0, y, z) && !(x0 == 0 && y == 0 && z == 0)) {
-						problem = I18n.translateToLocalFormatted("gui.container.fission_controller.casing_incomplete");
+						problem = I18n.translateToLocalFormatted("gui.container.fission_controller.casing_incomplete_at");
 						complete = 0;
+						problemPosBool = 1;
+						problemPosX = x0;
+						problemPosY = y;
+						problemPosZ = z;
+						problemPos = stringPos(position(problemPosX, problemPosY, problemPosZ));
 						return false;
 					}
 					if(!findCasingPort(x1, y, z) && !(x1 == 0 && y == 0 && z == 0)) {
-						problem = I18n.translateToLocalFormatted("gui.container.fission_controller.casing_incomplete");
+						problem = I18n.translateToLocalFormatted("gui.container.fission_controller.casing_incomplete_at");
 						complete = 0;
+						problemPosBool = 1;
+						problemPosX = x1;
+						problemPosY = y;
+						problemPosZ = z;
+						problemPos = stringPos(position(problemPosX, problemPosY, problemPosZ));
 						return false;
 					}
 				}
@@ -689,12 +780,18 @@ public class TileFissionController extends TileItemGenerator {
 						if(findCasingControllerPort(x, y, z)) {
 							problem = I18n.translateToLocalFormatted("gui.container.fission_controller.casing_in_interior");
 							complete = 0;
+							problemPosBool = 1;
+							problemPosX = x;
+							problemPosY = y;
+							problemPosZ = z;
+							problemPos = stringPos(position(problemPosX, problemPosY, problemPosZ));
 							return false;
 						}
 					}
 				}
 			}
 			complete = 1;
+			problemPosBool = 0;
 			minX = x0;
 			minY = y0;
 			minZ = z0;
@@ -731,7 +828,7 @@ public class TileFissionController extends TileItemGenerator {
 		processTime = (int) getBaseTime();
 		double baseHeat = getBaseHeat();
 		
-		IBlockState graphite = NCBlocks.ingot_block.getStateFromMeta(8);
+		String graphite = "blockGraphite";
 		IBlockState cell = NCBlocks.cell_block.getDefaultState();
 		IBlockState casing = NCBlocks.fission_block.getStateFromMeta(0);
 		IBlockState casing_transparent = NCBlocks.reactor_casing_transparent.getDefaultState();
@@ -759,12 +856,12 @@ public class TileFissionController extends TileItemGenerator {
 						for (int y = minY + 1; y <= maxY - 1; y++) {
 							if (find(x, y, z, cell)) {
 								extraCells = 0;
-								if (find(x + 1, y, z, cell) || (find(x + 1, y, z, graphite) && find(x + 2, y, z, cell))) extraCells += 1;
-								if (find(x - 1, y, z, cell) || (find(x - 1, y, z, graphite) && find(x - 2, y, z, cell))) extraCells += 1;
-								if (find(x, y + 1, z, cell) || (find(x, y + 1, z, graphite) && find(x, y + 2, z, cell))) extraCells += 1;
-								if (find(x, y - 1, z, cell) || (find(x, y - 1, z, graphite) && find(x, y - 2, z, cell))) extraCells += 1;
-								if (find(x, y, z + 1, cell) || (find(x, y, z + 1, graphite) && find(x, y, z + 2, cell))) extraCells += 1;
-								if (find(x, y, z - 1, cell) || (find(x, y, z - 1, graphite) && find(x, y, z - 2, cell))) extraCells += 1;
+								if (find(x + 1, y, z, cell) || (findFromOreName(x + 1, y, z, graphite) && find(x + 2, y, z, cell))) extraCells += 1;
+								if (find(x - 1, y, z, cell) || (findFromOreName(x - 1, y, z, graphite) && find(x - 2, y, z, cell))) extraCells += 1;
+								if (find(x, y + 1, z, cell) || (findFromOreName(x, y + 1, z, graphite) && find(x, y + 2, z, cell))) extraCells += 1;
+								if (find(x, y - 1, z, cell) || (findFromOreName(x, y - 1, z, graphite) && find(x, y - 2, z, cell))) extraCells += 1;
+								if (find(x, y, z + 1, cell) || (findFromOreName(x, y, z + 1, graphite) && find(x, y, z + 2, cell))) extraCells += 1;
+								if (find(x, y, z - 1, cell) || (findFromOreName(x, y, z - 1, graphite) && find(x, y, z - 2, cell))) extraCells += 1;
 								
 								if (extraCells == 0) numberOfCells += 1;
 								else if (extraCells == 1) adj1 += 1;
@@ -788,7 +885,7 @@ public class TileFissionController extends TileItemGenerator {
 				for (int z = minZ + 1; z <= maxZ - 1; z++) {
 					for (int x = minX + 1; x <= maxX - 1; x++) {
 						for (int y = minY + 1; y <= maxY - 1; y++) {
-							if(find(x, y, z, graphite)) {
+							if(findFromOreName(x, y, z, graphite)) {
 								heatThisTick += NCConfig.fission_heat_generation*baseRF*(numberOfCells + adj1 + adj2 + adj3 + adj4 + adj5 + adj6)/16.0D;
 								if (adjacentOr(x, y, z, cell)) energyThisTick += NCConfig.fission_power*baseRF*(numberOfCells + adj1 + adj2 + adj3 + adj4 + adj5 + adj6)/8.0D;
 							}
@@ -935,6 +1032,11 @@ public class TileFissionController extends TileItemGenerator {
 		nbt.setInteger("complete", complete);
 		nbt.setInteger("ready", ready);
 		nbt.setString("problem", problem);
+		nbt.setString("problemPos", problemPos);
+		nbt.setInteger("problemPosX", problemPosX);
+		nbt.setInteger("problemPosY", problemPosY);
+		nbt.setInteger("problemPosZ", problemPosZ);
+		nbt.setInteger("problemPosBool", problemPosBool);
 		return nbt;
 	}
 			
@@ -960,12 +1062,17 @@ public class TileFissionController extends TileItemGenerator {
 		complete = nbt.getInteger("complete");
 		ready = nbt.getInteger("ready");
 		problem = nbt.getString("problem");
+		problemPos = nbt.getString("problemPos");
+		problemPosX = nbt.getInteger("problemPosX");
+		problemPosY = nbt.getInteger("problemPosY");
+		problemPosZ = nbt.getInteger("problemPosZ");
+		problemPosBool = nbt.getInteger("problemPosBool");
 	}
 	
 	// Inventory Fields
 
 	public int getFieldCount() {
-		return 15;
+		return 19;
 	}
 
 	public int getField(int id) {
@@ -1000,6 +1107,14 @@ public class TileFissionController extends TileItemGenerator {
 			return complete;
 		case 14:
 			return ready;
+		case 15:
+			return problemPosX;
+		case 16:
+			return problemPosY;
+		case 17:
+			return problemPosZ;
+		case 18:
+			return problemPosBool;
 		default:
 			return 0;
 		}
@@ -1051,6 +1166,18 @@ public class TileFissionController extends TileItemGenerator {
 			break;
 		case 14:
 			ready = value;
+			break;
+		case 15:
+			problemPosX = value;
+			break;
+		case 16:
+			problemPosY = value;
+			break;
+		case 17:
+			problemPosZ = value;
+			break;
+		case 18:
+			problemPosBool = value;
 		}
 	}
 }

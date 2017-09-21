@@ -160,7 +160,8 @@ public abstract class RecipeMethods<T extends IRecipe> implements IRecipeGetter<
 					return null;
 				recipeInputs.add(input);
 			} else {
-				FMLLog.warning(getRecipeName() + " - a recipe was removed because an input was null!");
+				if (obj != null) FMLLog.warning(getRecipeName() + " - a recipe was removed because the input " + obj.toString() + " is invalid!");
+				else FMLLog.warning(getRecipeName() + " - a recipe was removed because an input was null!");
 				return null;
 			}
 		}
@@ -171,7 +172,8 @@ public abstract class RecipeMethods<T extends IRecipe> implements IRecipeGetter<
 					return null;
 				recipeOutputs.add(output);
 			} else {
-				FMLLog.warning(getRecipeName() + " - a recipe was removed because an output was null!");
+				if (obj != null) FMLLog.warning(getRecipeName() + " - a recipe was removed because the output " + obj.toString() + " is invalid!");
+				else FMLLog.warning(getRecipeName() + " - a recipe was removed because an output was null!");
 				return null;
 			}
 		}

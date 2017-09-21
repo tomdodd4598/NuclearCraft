@@ -2,11 +2,13 @@ package nc.block.fluid;
 
 import java.util.Random;
 
+import nc.init.NCBlocks;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.Fluid;
@@ -29,6 +31,10 @@ public class BlockFluidPlasma extends BlockFluid {
 	
 	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
 		super.updateTick(worldIn, pos, state, rand);
-		if (rand.nextInt(2) < 1 && !isSourceBlock(worldIn, pos)) worldIn.setBlockState(pos, Blocks.FIRE.getDefaultState());
+		if (rand.nextInt(500) < 1) for (EnumFacing side : EnumFacing.values()) {
+			BlockPos offpos = pos.offset(side);
+			if (worldIn.getBlockState(offpos) == NCBlocks.fusion_electromagnet_idle.getDefaultState() || worldIn.getBlockState(offpos) == NCBlocks.fusion_electromagnet_transparent_idle.getDefaultState()) worldIn.setBlockState(offpos, Blocks.AIR.getDefaultState());
+		}
+		if (rand.nextInt(3) < 1 && !isSourceBlock(worldIn, pos)) worldIn.setBlockState(pos, Blocks.FIRE.getDefaultState());
 	}
 }

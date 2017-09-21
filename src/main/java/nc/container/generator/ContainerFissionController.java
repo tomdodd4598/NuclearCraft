@@ -73,7 +73,7 @@ public class ContainerFissionController extends ContainerItemGenerator {
 			icontainerlistener.sendProgressBarUpdate(this, 12, tile.getField(12) >> 16);
 			icontainerlistener.sendProgressBarUpdate(this, 112, tile.getField(12));
 			
-			for (int j : new int[] {7, 9, 10, 11, 13, 14}) icontainerlistener.sendProgressBarUpdate(this, j, tile.getField(j));
+			for (int j : new int[] {7, 9, 10, 11, 13, 14, 15, 16, 17, 18}) icontainerlistener.sendProgressBarUpdate(this, j, tile.getField(j));
 		}
 	}
 	
@@ -99,6 +99,6 @@ public class ContainerFissionController extends ContainerItemGenerator {
 		else if (id == 8) tile.setField(id, rateMultiplier | data << 16);
 		else if (id == 12) tile.setField(id, heatChange | data << 16);
 		
-		else if (id == 7 || (id >= 9 && id <= 11) || (id >= 13 && id <= 14)) tile.setField(id, data);
+		else if (id == 7 || (id >= 9 && id <= 11) || (id >= 13 && id <= 18)) tile.setField(id, data);
 	}
 }
