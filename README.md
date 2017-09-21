@@ -17,4 +17,4 @@ CurseForge Page: http://minecraft.curseforge.com/projects/nuclearcraft-mod
 Permissions
 -----------
 
-Feel free to go ahead and use this mod if you wish! I love the idea of giving out the mod in exchange for additions to it by others who want to help - at the end of the day, if this mod is getting better, I'm happy ;)
+To paraphrase the late Christopher Hitchens, "Every time you prohibit someone from using your mod, you make yourself a prisoner of your own actions, because you deny yourself the opportunity to have people use it."
