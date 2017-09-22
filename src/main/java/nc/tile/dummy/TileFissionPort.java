@@ -53,6 +53,7 @@ public class TileFissionPort extends TileDummy {
 	
 	private boolean findCasingPort(int x, int y, int z) {
 		if (worldObj.getBlockState(position(x, y, z)) == NCBlocks.fission_block.getStateFromMeta(0)) return true;
+		if (worldObj.getBlockState(position(x, y, z)) == NCBlocks.reactor_casing_transparent.getStateFromMeta(0)) return true;
 		if (worldObj.getBlockState(position(x, y, z)).getBlock() instanceof BlockFissionPort) return true;
 		if (worldObj.getBlockState(position(x, y, z)).getBlock() instanceof BlockBuffer) return true;
 		return false;
@@ -64,6 +65,7 @@ public class TileFissionPort extends TileDummy {
 	
 	private boolean findCasingControllerPort(int x, int y, int z) {
 		if (worldObj.getBlockState(position(x, y, z)) == NCBlocks.fission_block.getStateFromMeta(0)) return true;
+		if (worldObj.getBlockState(position(x, y, z)) == NCBlocks.reactor_casing_transparent.getStateFromMeta(0)) return true;
 		if (worldObj.getBlockState(position(x, y, z)).getBlock() instanceof BlockFissionController) return true;
 		if (worldObj.getBlockState(position(x, y, z)).getBlock() instanceof BlockFissionPort) return true;
 		if (worldObj.getBlockState(position(x, y, z)).getBlock() instanceof BlockBuffer) return true;

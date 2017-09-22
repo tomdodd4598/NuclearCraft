@@ -196,8 +196,8 @@ public class NCConfig {
 		propertySolarPower.setLanguageKey("gui.config.generators.solar_power");
 		Property propertyGeneratorRFPerEU = config.get(CATEGORY_GENERATORS, "generator_rf_per_eu", 16, I18n.translateToLocalFormatted("gui.config.generators.generator_rf_per_eu.comment"), 1, 255);
 		propertyGeneratorRFPerEU.setLanguageKey("gui.config.generators.generator_rf_per_eu");
-		Property propertyGeneratorUpdateRate = config.get(CATEGORY_GENERATORS, "generator_update_rate", 20, I18n.translateToLocalFormatted("gui.config.processors.generator_update_rate.comment"), 1, 1200);
-		propertyGeneratorUpdateRate.setLanguageKey("gui.config.processors.generator_update_rate");
+		Property propertyGeneratorUpdateRate = config.get(CATEGORY_GENERATORS, "generator_update_rate", 20, I18n.translateToLocalFormatted("gui.config.generators.generator_update_rate.comment"), 1, 1200);
+		propertyGeneratorUpdateRate.setLanguageKey("gui.config.generators.generator_update_rate");
 		
 		Property propertyFissionPower = config.get(CATEGORY_FISSION, "fission_power", 1D, I18n.translateToLocalFormatted("gui.config.fission.fission_power.comment"), 0D, 255D);
 		propertyFissionPower.setLanguageKey("gui.config.fission.fission_power");

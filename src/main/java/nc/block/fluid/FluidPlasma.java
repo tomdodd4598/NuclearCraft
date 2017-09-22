@@ -6,7 +6,7 @@ public class FluidPlasma extends FluidBase {
 	
 	public FluidPlasma(String fluidName) {
 		super(fluidName, false);
-		setViscosity(100);
+		setViscosity(500);
 		setTemperature(10000);
 		setLuminosity(15);
 		setDensity(500);

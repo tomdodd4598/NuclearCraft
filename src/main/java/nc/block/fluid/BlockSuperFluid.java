@@ -18,8 +18,6 @@ public class BlockSuperFluid extends BlockFluid {
 	}
 	
 	public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
-		if (!worldIn.isRemote) {
-			entityIn.attackEntityFrom(superfluid_freeze, 6.0F);
-		}
+		entityIn.attackEntityFrom(superfluid_freeze, 6.0F);
 	}
 }

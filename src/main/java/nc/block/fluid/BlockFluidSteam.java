@@ -24,10 +24,8 @@ public class BlockFluidSteam extends BlockFluid {
 	}
 	
 	public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
-		if (!worldIn.isRemote) {
-			entityIn.attackEntityFrom(steam_burn, 3.0F);
-			entityIn.setFire(1);
-		}
+		entityIn.attackEntityFrom(steam_burn, 3.0F);
+		entityIn.setFire(1);
 	}
 	
 	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {

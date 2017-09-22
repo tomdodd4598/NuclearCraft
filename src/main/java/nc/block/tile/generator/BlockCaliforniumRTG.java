@@ -11,6 +11,9 @@ public class BlockCaliforniumRTG extends BlockInventory {
 
 	public BlockCaliforniumRTG(String unlocalizedName, String registryName) {
 		super(unlocalizedName, registryName, Material.IRON);
+		setHarvestLevel("pickaxe", 0);
+		setHardness(2);
+		setResistance(15);
 		setCreativeTab(CommonProxy.TAB_MACHINES);
 	}
 	

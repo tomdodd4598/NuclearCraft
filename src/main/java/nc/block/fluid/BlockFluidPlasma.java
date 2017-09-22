@@ -3,6 +3,7 @@ package nc.block.fluid;
 import java.util.Random;
 
 import nc.init.NCBlocks;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
@@ -23,18 +24,22 @@ public class BlockFluidPlasma extends BlockFluid {
 	}
 	
 	public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
-		if (!worldIn.isRemote) {
-			entityIn.attackEntityFrom(plasma_burn, 8.0F);
-			entityIn.setFire(10);
-		}
+		entityIn.attackEntityFrom(plasma_burn, 8.0F);
+		entityIn.setFire(10);
 	}
 	
 	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
-		super.updateTick(worldIn, pos, state, rand);
-		if (rand.nextInt(500) < 1) for (EnumFacing side : EnumFacing.values()) {
+		if (rand.nextInt(200) < 2) {
+			EnumFacing side = EnumFacing.values()[rand.nextInt(6)];
 			BlockPos offpos = pos.offset(side);
-			if (worldIn.getBlockState(offpos) == NCBlocks.fusion_electromagnet_idle.getDefaultState() || worldIn.getBlockState(offpos) == NCBlocks.fusion_electromagnet_transparent_idle.getDefaultState()) worldIn.setBlockState(offpos, Blocks.AIR.getDefaultState());
+			Block offBlock = worldIn.getBlockState(offpos).getBlock();
+			if (offBlock == NCBlocks.fusion_electromagnet_idle || offBlock == NCBlocks.fusion_electromagnet_transparent_idle || offBlock == NCBlocks.fusion_connector) {
+				worldIn.setBlockState(offpos, Blocks.AIR.getDefaultState());
+			}
 		}
-		if (rand.nextInt(3) < 1 && !isSourceBlock(worldIn, pos)) worldIn.setBlockState(pos, Blocks.FIRE.getDefaultState());
+		if (!isSourceBlock(worldIn, pos)) {
+			if (rand.nextInt(5) < 1) worldIn.setBlockState(pos, Blocks.FIRE.getDefaultState());
+		}
+		super.updateTick(worldIn, pos, state, rand);
 	}
 }

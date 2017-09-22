@@ -17,6 +17,9 @@ public class BlockTransparent extends NCBlock {
 	public BlockTransparent(String unlocalizedName, String registryName, Material material, boolean smartRender) {
 		super(unlocalizedName, registryName, material);
 		this.smartRender = smartRender;
+		setHarvestLevel("pickaxe", 0);
+		setHardness(1.5F);
+		setResistance(10);
 	}
 	
 	public boolean isOpaqueCube(IBlockState state) {
