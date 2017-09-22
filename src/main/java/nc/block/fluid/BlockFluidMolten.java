@@ -18,9 +18,7 @@ public class BlockFluidMolten extends BlockFluid {
 	}
 	
 	public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
-		if (!worldIn.isRemote) {
-			entityIn.attackEntityFrom(molten_burn, 4.0F);
-			entityIn.setFire(10);
-		}
+		entityIn.attackEntityFrom(molten_burn, 4.0F);
+		entityIn.setFire(10);
 	}
 }

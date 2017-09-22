@@ -8,6 +8,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -24,7 +25,7 @@ public class BlockIce extends net.minecraft.block.BlockIce {
 		setRegistryName(new ResourceLocation(Global.MOD_ID, registryName));
 		setHardness(0.5F);
 		setLightOpacity(3);
-		slipperiness = 1.08F;
+		slipperiness = 0.999F;
 		setCreativeTab(CommonProxy.TAB_BASE_BLOCK_MATERIALS);
 	}
 	
@@ -45,8 +46,10 @@ public class BlockIce extends net.minecraft.block.BlockIce {
 	}
 	
 	public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
-		if (!worldIn.isRemote) {
-			entityIn.attackEntityFrom(hypothermia, 1.0F);
-		}
+		entityIn.attackEntityFrom(hypothermia, 2.0F);
+	}
+	
+	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, World worldIn, BlockPos pos) {
+		return new AxisAlignedBB(0.002D, 0.002D, 0.002D, 0.998D, 1D, 0.998D);
 	}
 }

@@ -1,3 +1,10 @@
+v2.4b
+
+* Fixed fission ports not recognising transparent casing
+* Made fusion plasma a little less laggy
+* Fixed some machines' breaking speeds
+* Fixed some localisation issues
+
 v2.4a
 
 * Fission Controller will try to show details of structure issue
