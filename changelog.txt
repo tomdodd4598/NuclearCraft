@@ -17,6 +17,7 @@ v2.4a
 
 v2.4
 
++ Added JEI support
 + Added CraftTweaker support
 
 + Added Ingot Former
