@@ -2,14 +2,16 @@ package nc.gui.processor;
 
 import nc.Global;
 import nc.container.processor.ContainerEnergyFluidProcessor;
+import nc.gui.GuiNC;
+import nc.gui.NCGuiButton.Button;
 import nc.tile.processor.TileEnergyFluidProcessor;
-import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 
-public abstract class GuiEnergyFluidProcessor extends GuiContainer {
+public abstract class GuiEnergyFluidProcessor extends GuiNC {
 	
 	public static int tick;
 	
@@ -42,5 +44,13 @@ public abstract class GuiEnergyFluidProcessor extends GuiContainer {
 		double i = tile.getField(0);
 		double j = tile.baseProcessTime;
 		return j != 0D ? (int) Math.round(i * pixels / j) : 0;
+	}
+	
+	protected void actionPerformed(GuiButton guiButton) {
+		if (tile.getWorld().isRemote) {
+			if (guiButton != null) if (guiButton instanceof Button) {
+				
+			}
+		}
 	}
 }

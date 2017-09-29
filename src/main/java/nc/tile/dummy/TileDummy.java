@@ -393,7 +393,7 @@ public abstract class TileDummy extends TileEnergyFluidSidedInventory {
 		if (getMaster() != null) {
 			if (getMaster() instanceof ITileFluid) return ((ITileFluid) getMaster()).canFill(resource, tankNumber);
 		}
-		return true;
+		return super.canFill(resource, tankNumber);
 	}
 	
 	// Energy Connections

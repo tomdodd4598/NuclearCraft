@@ -19,6 +19,7 @@ public class SoundHandler {
 	
 	public static SoundEvent WANDERER;
 	public static SoundEvent END_OF_THE_WORLD;
+	public static SoundEvent MONEY_FOR_NOTHING;
 	
 	public static void init() {
 		size = SoundEvent.REGISTRY.getKeys().size();
@@ -28,6 +29,7 @@ public class SoundHandler {
 		GEIGER_TICK = register("player.geiger_tick");
 		WANDERER = register("music.wanderer");
 		END_OF_THE_WORLD = register("music.end_of_the_world");
+		MONEY_FOR_NOTHING = register("music.money_for_nothing");
 	}
 	
 	public static SoundEvent register(String name) {

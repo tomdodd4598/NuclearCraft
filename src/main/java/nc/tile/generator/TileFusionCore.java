@@ -24,9 +24,9 @@ import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.translation.I18n;
-import net.minecraftforge.fluids.FluidStack;
 
 public class TileFusionCore extends TileFluidGenerator {
 	
@@ -48,6 +48,7 @@ public class TileFusionCore extends TileFluidGenerator {
 	
 	public TileFusionCore() {
 		super("Fusion Core", 2, 4, 0, tankCapacities(32000, 2, 4), fluidConnections(2, 4), validFluids(FusionRecipes.instance()), 8192000, FusionRecipes.instance());
+		areTanksShared = false;
 	}
 	
 	public void updateGenerator() {
@@ -182,18 +183,26 @@ public class TileFusionCore extends TileFluidGenerator {
 	}
 	
 	public void playSounds() {
-		if (soundCount >= SoundHandler.FUSION_RUN_TIME) {
+		if (soundCount >= getSoundTime()) {
 			if (isGenerating) {
-				worldObj.playSound(pos.getX(), pos.getY() + 1, pos.getZ(), SoundHandler.FUSION_RUN, SoundCategory.BLOCKS, 1F, 1.0F, false);
+				worldObj.playSound(pos.getX(), pos.getY() + 1, pos.getZ(), getSound(), SoundCategory.BLOCKS, 1F, 1.0F, false);
 				for (int r = 0; r <= (size - 1)/2; r++) {
-					worldObj.playSound(pos.getX() - size - 2 + 2*r*(2*size + 5)/size, pos.getY() + 1, pos.getZ() + size + 2, SoundHandler.FUSION_RUN, SoundCategory.BLOCKS, 0.8F, 1F, false);
-					worldObj.playSound(pos.getX() - size - 2 + 2*r*(2*size + 5)/size, pos.getY() + 1, pos.getZ() - size - 2, SoundHandler.FUSION_RUN, SoundCategory.BLOCKS, 0.8F, 1F, false);
-					worldObj.playSound(pos.getX() + size + 2, pos.getY() + 1, pos.getZ() + size + 2 - 2*r*(2*size + 5)/size, SoundHandler.FUSION_RUN, SoundCategory.BLOCKS, 0.8F, 1F, false);
-					worldObj.playSound(pos.getX() - size - 2, pos.getY() + 1, pos.getZ() - size - 2 + 2*r*(2*size + 5)/size, SoundHandler.FUSION_RUN, SoundCategory.BLOCKS, 0.8F, 1F, false);
+					worldObj.playSound(pos.getX() - size - 2 + 2*r*(2*size + 5)/size, pos.getY() + 1, pos.getZ() + size + 2, getSound(), SoundCategory.BLOCKS, 0.8F, 1F, false);
+					worldObj.playSound(pos.getX() - size - 2 + 2*r*(2*size + 5)/size, pos.getY() + 1, pos.getZ() - size - 2, getSound(), SoundCategory.BLOCKS, 0.8F, 1F, false);
+					worldObj.playSound(pos.getX() + size + 2, pos.getY() + 1, pos.getZ() + size + 2 - 2*r*(2*size + 5)/size, getSound(), SoundCategory.BLOCKS, 0.8F, 1F, false);
+					worldObj.playSound(pos.getX() - size - 2, pos.getY() + 1, pos.getZ() - size - 2 + 2*r*(2*size + 5)/size, getSound(), SoundCategory.BLOCKS, 0.8F, 1F, false);
 				}
 			}
 			soundCount = 0;
 		} else soundCount ++;
+	}
+	
+	private int getSoundTime() {
+		return !NCConfig.fusion_alternate_sound ? SoundHandler.FUSION_RUN_TIME : SoundHandler.ACCELERATOR_RUN_TIME;
+	}
+	
+	private SoundEvent getSound() {
+		return !NCConfig.fusion_alternate_sound ? SoundHandler.FUSION_RUN : SoundHandler.ACCELERATOR_RUN;
 	}
 	
 	public boolean canExtract() {
@@ -216,9 +225,9 @@ public class TileFusionCore extends TileFluidGenerator {
 	
 	// Fluids
 	
-	public boolean canFill(FluidStack resource, int tankNumber) {
+	/*public boolean canFill(FluidStack resource, int tankNumber) {
 		return true;
-	}
+	}*/
 	
 	// Generating
 
@@ -596,12 +605,9 @@ public class TileFusionCore extends TileFluidGenerator {
 							else if (tank.getFluidName() == "cryotheum") {
 								heat -= NCConfig.fission_active_cooling_rate[5]*fluidAmount*cool_mult;
 							}
-							else if (tank.getFluidName() == "ice") {
-								heat -= NCConfig.fission_active_cooling_rate[6]*fluidAmount*cool_mult;
-							}
 						}
 						double newHeat = heat;
-						if (newHeat > 0D) tank.drain(fluidAmount, true);
+						if (newHeat > 0D) ((TileActiveCooler) worldObj.getTileEntity(pos)).getTanks()[0].drain(fluidAmount, true);
 						if (heat < 0D) heat = 0;
 					}
 				}

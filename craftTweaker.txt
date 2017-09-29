@@ -60,6 +60,10 @@ Crystallizer:
 mods.nuclearcraft.crystallizer.addRecipe(fluidInput, itemOutput, processTime[optional]);
 mods.nuclearcraft.crystallizer.removeRecipe(itemOutput);
 
+Dissolver:
+mods.nuclearcraft.dissolver.addRecipe(itemInput, fluidInput, fluidOutput, processTime[optional]);
+mods.nuclearcraft.dissolver.removeRecipe(fluidOutput);
+
 Fission:
 mods.nuclearcraft.fission.addRecipe(itemInput, itemOutput, baseTime, basePowerGen, baseHeatGen, guiName);
 mods.nuclearcraft.fission.removeRecipe(itemOutput);

@@ -16,9 +16,9 @@ public class IrradiatorRecipes extends BaseRecipeHandler {
 	}
 
 	public void addRecipes() {
-		addRecipe(fluidStack("helium3", 1000), fluidStack("neutron", 50), fluidStack("hydrogen", 1000), fluidStack("tritium", 1000), NCConfig.processor_time[9]);
-		addRecipe(fluidStack("lithium6", 144), fluidStack("neutron", 50), fluidStack("tritium", 2000), fluidStack("helium", 2000), NCConfig.processor_time[9]);
-		addRecipe(fluidStack("boron10", 144), fluidStack("neutron", 50), fluidStack("tritium", 2000), fluidStack("helium", 4000), NCConfig.processor_time[9]);
+		addRecipe(fluidStack("helium3", 1000), fluidStack("neutron", 10), fluidStack("hydrogen", 1000), fluidStack("tritium", 1000), NCConfig.processor_time[9]);
+		addRecipe(fluidStack("lithium6", 144), fluidStack("neutron", 10), fluidStack("tritium", 2000), fluidStack("helium", 2000), NCConfig.processor_time[9]);
+		addRecipe(fluidStack("boron10", 144), fluidStack("neutron", 10), fluidStack("tritium", 2000), fluidStack("helium", 4000), NCConfig.processor_time[9]);
 	}
 
 	public String getRecipeName() {

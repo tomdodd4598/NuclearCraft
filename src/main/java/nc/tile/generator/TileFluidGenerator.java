@@ -43,6 +43,7 @@ public abstract class TileFluidGenerator extends TileEnergyFluidSidedInventory i
 		fluidOutputSize = fluidOutSize;
 		otherSlotsSize = otherSize;
 		this.recipes = recipes;
+		areTanksShared = fluidInSize > 1;
 	}
 	
 	public static String[][] validFluids(BaseRecipeHandler recipes, String... exceptions) {
@@ -347,8 +348,12 @@ public abstract class TileFluidGenerator extends TileEnergyFluidSidedInventory i
 	
 	public boolean canFill(FluidStack resource, int tankNumber) {
 		if (tankNumber >= fluidInputSize) return false;
+		if (!areTanksShared) return true;
+		
 		for (int i = 0; i < fluidInputSize; i++) {
-			if (tankNumber != i && tanks[i].getFluid() != null) if (tanks[i].getFluid().isFluidEqual(resource)) return false;
+			if (tankNumber != i && fluidConnection[i].canFill() && tanks[i].getFluid() != null) {
+				if (tanks[i].getFluid().isFluidEqual(resource)) return false;
+			}
 		}
 		return true;
 	}

@@ -1,0 +1,8 @@
+{
+    "parent": "block/orientable",
+    "textures": {
+        "top": "nuclearcraft:blocks/dissolver_top",
+        "front": "nuclearcraft:blocks/dissolver_front_off",
+        "side": "nuclearcraft:blocks/dissolver_side"
+    }
+}

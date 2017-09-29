@@ -3,10 +3,13 @@ package nc.gui.processor;
 import nc.container.processor.ContainerIrradiator;
 import nc.gui.GuiFluidRenderer;
 import nc.gui.GuiItemRenderer;
+import nc.gui.NCGuiButton;
 import nc.init.NCItems;
+import nc.network.PacketEmptyTankButton;
 import nc.network.PacketGetFluidInTank;
 import nc.network.PacketHandler;
 import nc.tile.processor.TileEnergyFluidProcessor;
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fluids.FluidStack;
 
@@ -23,10 +26,17 @@ public class GuiIrradiator extends GuiEnergyFluidProcessor {
 	
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		super.drawGuiContainerForegroundLayer(mouseX, mouseY);
-		fontRendererObj.drawString(tile.storage.getEnergyStored() + " RF", 28, ySize - 94, 4210752);
+		//fontRendererObj.drawString(tile.storage.getEnergyStored() + " RF", 28, ySize - 94, 4210752);
 		
 		GuiItemRenderer itemRenderer = new GuiItemRenderer(132, ySize - 102, 0.5F, NCItems.upgrade, 0);
 		itemRenderer.draw();
+		
+		drawFluidTooltip(fluid0, mouseX, mouseY, 32, 35, 16, 16);
+		drawFluidTooltip(fluid1, mouseX, mouseY, 52, 35, 16, 16);
+		drawFluidTooltip(fluid2, mouseX, mouseY, 108, 31, 24, 24);
+		drawFluidTooltip(fluid3, mouseX, mouseY, 136, 31, 24, 24);
+		
+		drawEnergyTooltip(tile, mouseX, mouseY, 8, 6, 16, 74);
 	}
 	
 	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
@@ -49,5 +59,21 @@ public class GuiIrradiator extends GuiEnergyFluidProcessor {
 		GuiFluidRenderer.renderGuiTank(fluid1, tile.tanks[1].getCapacity(), guiLeft + 52, guiTop + 35, zLevel, 16, 16);
 		GuiFluidRenderer.renderGuiTank(fluid2, tile.tanks[2].getCapacity(), guiLeft + 108, guiTop + 31, zLevel, 24, 24);
 		GuiFluidRenderer.renderGuiTank(fluid3, tile.tanks[3].getCapacity(), guiLeft + 136, guiTop + 31, zLevel, 24, 24);
+	}
+	
+	public void initGui() {
+		super.initGui();
+		buttonList.add(new NCGuiButton.BlankButton(0, guiLeft + 32, guiTop + 35, 16, 16));
+		buttonList.add(new NCGuiButton.BlankButton(1, guiLeft + 52, guiTop + 35, 16, 16));
+		buttonList.add(new NCGuiButton.BlankButton(2, guiLeft + 108, guiTop + 31, 24, 24));
+		buttonList.add(new NCGuiButton.BlankButton(3, guiLeft + 136, guiTop + 31, 24, 24));
+	}
+	
+	protected void actionPerformed(GuiButton guiButton) {
+		if (tile.getWorld().isRemote) {
+			for (int i = 0; i < 4; i++) if (guiButton.id == i && isShiftKeyDown()) {
+				PacketHandler.INSTANCE.sendToServer(new PacketEmptyTankButton(tile, i));
+			}
+		}
 	}
 }

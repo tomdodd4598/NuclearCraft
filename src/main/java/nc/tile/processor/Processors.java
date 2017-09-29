@@ -4,6 +4,7 @@ import nc.block.tile.processor.BlockAlloyFurnace;
 import nc.block.tile.processor.BlockChemicalReactor;
 import nc.block.tile.processor.BlockCrystallizer;
 import nc.block.tile.processor.BlockDecayHastener;
+import nc.block.tile.processor.BlockDissolver;
 import nc.block.tile.processor.BlockElectrolyser;
 import nc.block.tile.processor.BlockFuelReprocessor;
 import nc.block.tile.processor.BlockInfuser;
@@ -20,6 +21,7 @@ import nc.recipe.processor.AlloyFurnaceRecipes;
 import nc.recipe.processor.ChemicalReactorRecipes;
 import nc.recipe.processor.CrystallizerRecipes;
 import nc.recipe.processor.DecayHastenerRecipes;
+import nc.recipe.processor.DissolverRecipes;
 import nc.recipe.processor.ElectrolyserRecipes;
 import nc.recipe.processor.FuelReprocessorRecipes;
 import nc.recipe.processor.InfuserRecipes;
@@ -196,6 +198,17 @@ public class Processors {
 		
 		public void setBlockState() {
 			BlockCrystallizer.setState(isProcessing, worldObj, pos);
+		}
+	}
+	
+	public static class TileDissolver extends TileEnergyItemFluidProcessor {
+
+		public TileDissolver() {
+			super("dissolver", 1, 1, 0, 1, tankCapacities(16000, 1, 1), fluidConnections(1, 1), validFluids(DissolverRecipes.instance()), NCConfig.processor_time[15], NCConfig.processor_power[15], DissolverRecipes.instance(), 16);
+		}
+		
+		public void setBlockState() {
+			BlockDissolver.setState(isProcessing, worldObj, pos);
 		}
 	}
 }

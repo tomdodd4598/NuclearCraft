@@ -1,0 +1,7 @@
+{
+    "parent": "block/door_top",
+    "textures": {
+        "bottom": "nuclearcraft:blocks/reactor_door_lower",
+        "top": "nuclearcraft:blocks/reactor_door_upper"
+    }
+}

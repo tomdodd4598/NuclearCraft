@@ -3,10 +3,12 @@ package nc.init;
 import nc.Global;
 import nc.block.BlockIce;
 import nc.block.BlockIngot;
-import nc.block.BlockMushroom;
 import nc.block.BlockOre;
 import nc.block.BlockTransparent;
 import nc.block.NCBlock;
+import nc.block.NCBlockDoor;
+import nc.block.NCBlockMushroom;
+import nc.block.NCBlockTrapDoor;
 import nc.block.fission.BlockCooler;
 import nc.block.fission.BlockFission;
 import nc.block.item.ItemBlockCooler;
@@ -29,6 +31,7 @@ import nc.block.tile.generator.BlockSolarPanelBasic;
 import nc.block.tile.generator.BlockUraniumRTG;
 import nc.block.tile.passive.BlockAcceleratorElectromagnet;
 import nc.block.tile.passive.BlockActiveCooler;
+import nc.block.tile.passive.BlockBin;
 import nc.block.tile.passive.BlockBuffer;
 import nc.block.tile.passive.BlockCobblestoneGenerator;
 import nc.block.tile.passive.BlockElectromagnetSupercooler;
@@ -41,6 +44,7 @@ import nc.block.tile.processor.BlockAlloyFurnace;
 import nc.block.tile.processor.BlockChemicalReactor;
 import nc.block.tile.processor.BlockCrystallizer;
 import nc.block.tile.processor.BlockDecayHastener;
+import nc.block.tile.processor.BlockDissolver;
 import nc.block.tile.processor.BlockElectrolyser;
 import nc.block.tile.processor.BlockFuelReprocessor;
 import nc.block.tile.processor.BlockInfuser;
@@ -80,6 +84,8 @@ public class NCBlocks {
 	public static Block reactor_casing_transparent;
 	public static Block cell_block;
 	public static Block cooler;
+	public static Block reactor_door;
+	public static Block reactor_trapdoor;
 	
 	public static Block block_depleted_thorium;
 	public static Block block_depleted_uranium;
@@ -117,6 +123,8 @@ public class NCBlocks {
 	public static Block salt_mixer_active;
 	public static Block crystallizer_idle;
 	public static Block crystallizer_active;
+	public static Block dissolver_idle;
+	public static Block dissolver_active;
 	
 	public static Block machine_interface;
 	
@@ -141,6 +149,7 @@ public class NCBlocks {
 	
 	public static Block buffer;
 	public static Block active_cooler;
+	public static Block bin;
 	
 	public static Block fusion_electromagnet_idle;
 	public static Block fusion_electromagnet_active;
@@ -168,6 +177,8 @@ public class NCBlocks {
 		reactor_casing_transparent = new BlockTransparent("reactor_casing_transparent", "reactor_casing_transparent", Material.IRON, true).setCreativeTab(CommonProxy.TAB_FISSION_BLOCKS);
 		cell_block = new BlockTransparent("cell_block", "cell_block", Material.IRON, false).setCreativeTab(CommonProxy.TAB_FISSION_BLOCKS);
 		cooler = new BlockCooler("cooler", "cooler").setCreativeTab(CommonProxy.TAB_FISSION_BLOCKS);
+		reactor_door = new NCBlockDoor("reactor_door", "reactor_door", Material.IRON, NCItems.reactor_door);
+		reactor_trapdoor = new NCBlockTrapDoor("reactor_trapdoor", "reactor_trapdoor", Material.IRON);
 		
 		block_depleted_thorium = new NCBlock("block_depleted_thorium", "block_depleted_thorium", Material.IRON).setCreativeTab(CommonProxy.TAB_BASE_BLOCK_MATERIALS);
 		block_depleted_uranium = new NCBlock("block_depleted_uranium", "block_depleted_uranium", Material.IRON).setCreativeTab(CommonProxy.TAB_BASE_BLOCK_MATERIALS);
@@ -205,6 +216,8 @@ public class NCBlocks {
 		salt_mixer_active = new BlockSaltMixer("salt_mixer_active", "salt_mixer_active", true, 14);
 		crystallizer_idle = new BlockCrystallizer("crystallizer_idle", "crystallizer_idle", false, 15);
 		crystallizer_active = new BlockCrystallizer("crystallizer_active", "crystallizer_active", true, 15);
+		dissolver_idle = new BlockDissolver("dissolver_idle", "dissolver_idle", false, 16);
+		dissolver_active = new BlockDissolver("dissolver_active", "dissolver_active", true, 16);
 		
 		machine_interface = new BlockMachineInterface("machine_interface", "machine_interface");
 		
@@ -229,6 +242,7 @@ public class NCBlocks {
 		
 		buffer = new BlockBuffer("buffer", "buffer");
 		active_cooler = new BlockActiveCooler("active_cooler", "active_cooler");
+		bin = new BlockBin("bin", "bin");
 		
 		fusion_electromagnet_idle = new BlockFusionElectromagnet("fusion_electromagnet_idle", "fusion_electromagnet_idle", false);
 		fusion_electromagnet_active = new BlockFusionElectromagnet("fusion_electromagnet_active", "fusion_electromagnet_active", true);
@@ -244,7 +258,7 @@ public class NCBlocks {
 		water_source = new BlockWaterSource("water_source", "water_source");
 		nitrogen_collector = new BlockNitrogenCollector("nitrogen_collector", "nitrogen_collector");
 		
-		glowing_mushroom = new BlockMushroom("glowing_mushroom", "glowing_mushroom");
+		glowing_mushroom = new NCBlockMushroom("glowing_mushroom", "glowing_mushroom");
 		
 		//spin = new BlockSpin("spin", "spin");
 	}
@@ -257,6 +271,8 @@ public class NCBlocks {
 		registerBlock(reactor_casing_transparent, 17);
 		registerBlock(cell_block, 11);
 		registerBlock(cooler, new ItemBlockCooler(cooler));
+		registerBlock(reactor_door);
+		registerBlock(reactor_trapdoor);
 		
 		registerBlock(block_depleted_thorium);
 		registerBlock(block_depleted_uranium);
@@ -294,6 +310,8 @@ public class NCBlocks {
 		registerBlock(salt_mixer_active);
 		registerBlock(crystallizer_idle, 2);
 		registerBlock(crystallizer_active);
+		registerBlock(dissolver_idle, 2);
+		registerBlock(dissolver_active);
 		
 		registerBlock(machine_interface, 4);
 		
@@ -317,7 +335,8 @@ public class NCBlocks {
 		registerBlock(lithium_ion_battery_basic, I18n.translateToLocalFormatted("tile.energy_storage.des0") + " " + NCConfig.battery_capacity[1]/1000 + " " + I18n.translateToLocalFormatted("tile.energy_storage.des1"), I18n.translateToLocalFormatted("tile.energy_storage.des2"), I18n.translateToLocalFormatted("tile.energy_storage.des3"), I18n.translateToLocalFormatted("tile.energy_storage.des4"), I18n.translateToLocalFormatted("tile.energy_storage.des5"));
 		
 		registerBlock(buffer, 4);
-		registerBlock(active_cooler, 16);
+		registerBlock(active_cooler, 15);
+		registerBlock(bin, 1);
 		
 		registerBlock(fusion_electromagnet_idle, I18n.translateToLocalFormatted("tile.fusion_electromagnet_idle.des0") + " " + NCMath.Round(0.05D*NCConfig.fusion_electromagnet_power, 1) + " " + I18n.translateToLocalFormatted("tile.fusion_electromagnet_idle.des1"));
 		registerBlock(fusion_electromagnet_active, I18n.translateToLocalFormatted("tile.fusion_electromagnet_idle.des0") + " " + NCMath.Round(0.05D*NCConfig.fusion_electromagnet_power, 1) + " " + I18n.translateToLocalFormatted("tile.fusion_electromagnet_idle.des1"));
@@ -358,6 +377,9 @@ public class NCBlocks {
 			registerRender(cooler, i, "cooler_" + CoolerTypes.values()[i].getName());
 		}
 		
+		registerRender(reactor_door);
+		registerRender(reactor_trapdoor);
+		
 		registerRender(block_depleted_thorium);
 		registerRender(block_depleted_uranium);
 		registerRender(block_ice);
@@ -394,6 +416,8 @@ public class NCBlocks {
 		registerRender(salt_mixer_active);
 		registerRender(crystallizer_idle);
 		registerRender(crystallizer_active);
+		registerRender(dissolver_idle);
+		registerRender(dissolver_active);
 		
 		registerRender(machine_interface);
 		
@@ -418,6 +442,7 @@ public class NCBlocks {
 		
 		registerRender(buffer);
 		registerRender(active_cooler);
+		registerRender(bin);
 		
 		registerRender(fusion_electromagnet_idle);
 		registerRender(fusion_electromagnet_active);

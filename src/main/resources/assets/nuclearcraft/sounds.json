@@ -23,5 +23,10 @@
 		"category": "record",
 		"subtitle": "music.end_of_the_world",
 		"sounds": [ { "name": "nuclearcraft:music/end_of_the_world", "stream": true } ]
+	},
+	"music.money_for_nothing": {
+		"category": "record",
+		"subtitle": "music.money_for_nothing",
+		"sounds": [ { "name": "nuclearcraft:music/money_for_nothing", "stream": true } ]
 	}
 }

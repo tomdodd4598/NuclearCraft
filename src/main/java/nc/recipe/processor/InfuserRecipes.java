@@ -93,10 +93,10 @@ public class InfuserRecipes extends BaseRecipeHandler {
 		oxidizeFuel("LECf251");
 		oxidizeFuel("HECf251");
 		
-		addRecipe(Blocks.ICE, fluidStack("liquidhelium", 5), NCBlocks.block_ice, NCConfig.processor_time[5]/10);
-		addRecipe(Blocks.FROSTED_ICE, fluidStack("liquidhelium", 5), NCBlocks.block_ice, NCConfig.processor_time[5]/10);
-		addRecipe(Blocks.PACKED_ICE, fluidStack("liquidhelium", 5), NCBlocks.block_ice, NCConfig.processor_time[5]/10);
-		addRecipe(new ItemStack(NCBlocks.cooler, 1, 0), fluidStack("liquidhelium", 250), new ItemStack(NCBlocks.cooler, 1, 8), NCConfig.processor_time[5]);
+		addRecipe(Blocks.ICE, fluidStack("liquidhelium", 40), NCBlocks.block_ice, NCConfig.processor_time[5]/10);
+		addRecipe(Blocks.FROSTED_ICE, fluidStack("liquidhelium", 40), NCBlocks.block_ice, NCConfig.processor_time[5]/10);
+		addRecipe(Blocks.PACKED_ICE, fluidStack("liquidhelium", 40), NCBlocks.block_ice, NCConfig.processor_time[5]/10);
+		addRecipe(new ItemStack(NCBlocks.cooler, 1, 0), fluidStack("liquidhelium", 1000), new ItemStack(NCBlocks.cooler, 1, 8), NCConfig.processor_time[5]);
 	}
 	
 	public void oxidize(String name, int oxygen) {

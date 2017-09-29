@@ -10,6 +10,7 @@ import minetweaker.api.minecraft.MineTweakerMC;
 import minetweaker.api.oredict.IOreDictEntry;
 import nc.integration.jei.JEIMethods;
 import nc.recipe.BaseRecipeHandler;
+import nc.recipe.IIngredient;
 import nc.recipe.IRecipe;
 import nc.recipe.RecipeOreStack;
 import nc.recipe.SorptionType;
@@ -18,13 +19,13 @@ import net.minecraft.item.ItemStack;
 
 public class RemoveRecipe<T extends BaseRecipeHandler> implements IUndoableAction {
 	
-	public ArrayList ingredients;
+	public ArrayList<IIngredient> ingredients;
 	public SorptionType type;
 	public IRecipe recipe;
 	public boolean wasNull, wrongSize;
 	public T helper;
 
-	public RemoveRecipe(T helper, SorptionType type, ArrayList ingredients) {
+	public RemoveRecipe(T helper, SorptionType type, ArrayList<Object> ingredients) {
 		this.helper = helper;
 		this.type = type;
 		if (helper instanceof BaseRecipeHandler && (type == SorptionType.OUTPUT ? ingredients.size() != ((BaseRecipeHandler) helper).outputSizeItem + ((BaseRecipeHandler) helper).outputSizeFluid : ingredients.size() != ((BaseRecipeHandler) helper).inputSizeItem + ((BaseRecipeHandler) helper).inputSizeFluid)) {
@@ -47,7 +48,7 @@ public class RemoveRecipe<T extends BaseRecipeHandler> implements IUndoableActio
 				adaptedIngredients.add(new RecipeOreStack(((IOreDictEntry) output).getName(), StackType.ITEM, ((IOreDictEntry) output).getAmount()));
 				continue;
 			} else if (output instanceof ILiquidStack) {
-				adaptedIngredients.add(new RecipeOreStack(((ILiquidStack) output).getName(), StackType.FLUID, ((ILiquidStack) output).getAmount()));
+				adaptedIngredients.add(helper.buildRecipeObject(MineTweakerMC.getLiquidStack((ILiquidStack) output)));
 				continue;
 			} else if (!(output instanceof ItemStack)) {
 				MineTweakerAPI.logError(String.format("%s: Invalid ingredient: %s", helper.getRecipeName(), output));

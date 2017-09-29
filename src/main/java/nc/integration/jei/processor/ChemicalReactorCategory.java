@@ -13,7 +13,7 @@ import nc.recipe.SorptionType;
 public class ChemicalReactorCategory extends BaseCategory {
 	
 	public ChemicalReactorCategory(IGuiHelper guiHelper, IJEIHandler handler) {
-		super(guiHelper, handler, "chemical_reactor_idle", NCConfig.processor_time[12], 31, 30, 130, 26, 176, 3, 37, 16, 70, 34);
+		super(guiHelper, handler, "chemical_reactor_idle", NCConfig.processor_time[12], 31, 30, 130, 26, 176, 3, 37, 18, 70, 34);
 	}
 	
 	public void setRecipe(IRecipeLayout recipeLayout, IRecipeWrapper recipeWrapper, IIngredients ingredients) {

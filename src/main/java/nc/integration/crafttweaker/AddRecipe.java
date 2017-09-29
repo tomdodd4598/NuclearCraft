@@ -15,7 +15,6 @@ import nc.recipe.IIngredient;
 import nc.recipe.IRecipe;
 import nc.recipe.IRecipeStack;
 import nc.recipe.RecipeOreStack;
-import nc.recipe.RecipeStack;
 import nc.recipe.StackType;
 import nc.util.NCUtil;
 import net.minecraft.item.ItemStack;
@@ -24,10 +23,11 @@ public class AddRecipe<T extends BaseRecipeHandler> implements IUndoableAction {
 	
 	public ArrayList<IIngredient> inputs;
 	public ArrayList<IIngredient> outputs;
+	public ArrayList extras;
 	public boolean wasNull, wrongSize;
 	public T helper;
 
-	public AddRecipe(T helper, ArrayList inputs, ArrayList<Object> outputs) {
+	public AddRecipe(T helper, ArrayList<Object> inputs, ArrayList<Object> outputs, ArrayList extras) {
 		this.helper = helper;
 		if (helper instanceof BaseRecipeHandler && (inputs.size() != ((BaseRecipeHandler) helper).inputSizeItem + ((BaseRecipeHandler) helper).inputSizeFluid || outputs.size() != ((BaseRecipeHandler) helper).outputSizeItem + ((BaseRecipeHandler) helper).outputSizeFluid)) {
 			MineTweakerAPI.logError("A " + helper.getRecipeName() + " recipe was the wrong size");
@@ -49,7 +49,7 @@ public class AddRecipe<T extends BaseRecipeHandler> implements IUndoableAction {
 				adaptedInputs.add(new RecipeOreStack(((IOreDictEntry) input).getName(), StackType.ITEM, ((IOreDictEntry) input).getAmount()));
 				continue;
 			} else if (input instanceof ILiquidStack) {
-				adaptedInputs.add(new RecipeOreStack(((ILiquidStack) input).getName(), StackType.FLUID, ((ILiquidStack) input).getAmount()));
+				adaptedInputs.add(helper.buildRecipeObject(MineTweakerMC.getLiquidStack((ILiquidStack) input)));
 				continue;
 			} else if (!(input instanceof ItemStack)) {
 				MineTweakerAPI.logError(String.format("%s: Invalid ingredient: %s", helper.getRecipeName(), input));
@@ -59,17 +59,38 @@ public class AddRecipe<T extends BaseRecipeHandler> implements IUndoableAction {
 				continue;
 			}
 		}
-		for (Object stack : outputs) {
-			adaptedOutputs.add(new RecipeStack(stack));
+		for (Object output : outputs) {
+			if (output == null) {
+				MineTweakerAPI.logError(String.format("An ingredient of a %s was null", helper.getRecipeName()));
+				wasNull = true;
+				return;
+			}
+			if (output instanceof IItemStack) {
+				adaptedOutputs.add(helper.buildRecipeObject(MineTweakerMC.getItemStack((IItemStack) output)));
+				continue;
+			} else if (output instanceof IOreDictEntry) {
+				adaptedOutputs.add(new RecipeOreStack(((IOreDictEntry) output).getName(), StackType.ITEM, ((IOreDictEntry) output).getAmount()));
+				continue;
+			} else if (output instanceof ILiquidStack) {
+				adaptedOutputs.add(helper.buildRecipeObject(MineTweakerMC.getLiquidStack((ILiquidStack) output)));
+				continue;
+			} else if (!(output instanceof ItemStack)) {
+				MineTweakerAPI.logError(String.format("%s: Invalid ingredient: %s", helper.getRecipeName(), output));
+				continue;
+			} else {
+				adaptedOutputs.add(helper.buildRecipeObject(output));
+				continue;
+			}
 		}
 		this.inputs = adaptedInputs;
 		this.outputs = adaptedOutputs;
+		this.extras = extras;
 	}
 	
 	public void apply() {
 		if (!wasNull && !wrongSize) {
 			boolean isShapeless = helper instanceof BaseRecipeHandler ? ((BaseRecipeHandler) helper).shapeless : true;
-			IRecipe recipe = helper.buildRecipe((ArrayList<IRecipeStack>) inputs.clone(), (ArrayList<IRecipeStack>) outputs.clone(), new ArrayList(), isShapeless);
+			IRecipe recipe = helper.buildRecipe((ArrayList<IRecipeStack>) inputs.clone(), (ArrayList<IRecipeStack>) outputs.clone(), (ArrayList) extras.clone(), isShapeless);
 			helper.addRecipe(recipe);	
 			MineTweakerAPI.getIjeiRecipeRegistry().addRecipe(JEIMethods.createJEIRecipe(recipe, helper));
 		} else {

@@ -37,6 +37,7 @@ public class NCConfig {
 	public static int[] ore_rate;
 	public static int[] ore_min_height;
 	public static int[] ore_max_height;
+	public static boolean[] ore_drops;
 	
 	public static int[] processor_time;
 	public static int[] processor_power;
@@ -107,6 +108,7 @@ public class NCConfig {
 	public static int fusion_min_size; // Default: 1
 	public static int fusion_max_size; // Default: 24
 	public static int fusion_electromagnet_power;
+	public static boolean fusion_alternate_sound;
 	
 	public static double[] fusion_fuel_time;
 	public static double[] fusion_power;
@@ -176,10 +178,12 @@ public class NCConfig {
 		propertyOreMinHeight.setLanguageKey("gui.config.ores.ore_min_height");
 		Property propertyOreMaxHeight = config.get(CATEGORY_ORES, "ore_max_height", new int[] {32, 32, 32, 32, 32, 32, 32, 32}, I18n.translateToLocalFormatted("gui.config.ores.ore_max_height.comment"), 1, 255);
 		propertyOreMaxHeight.setLanguageKey("gui.config.ores.ore_max_height");
+		Property propertyOreDrops = config.get(CATEGORY_ORES, "ore_drops", new boolean[] {true, true, true, true, true}, I18n.translateToLocalFormatted("gui.config.ores.ore_drops.comment"));
+		propertyOreDrops.setLanguageKey("gui.config.ores.ore_drops");
 		
-		Property propertyProcessorTime = config.get(CATEGORY_PROCESSORS, "processor_time", new int[] {400, 800, 800, 400, 400, 600, 800, 1600, 1600, 800, 400, 600, 800, 600, 1600}, I18n.translateToLocalFormatted("gui.config.processors.processor_time.comment"), 1, 128000);
+		Property propertyProcessorTime = config.get(CATEGORY_PROCESSORS, "processor_time", new int[] {400, 800, 800, 400, 400, 600, 800, 1600, 1600, 800, 400, 600, 800, 600, 1600, 600}, I18n.translateToLocalFormatted("gui.config.processors.processor_time.comment"), 1, 128000);
 		propertyProcessorTime.setLanguageKey("gui.config.processors.processor_time");
-		Property propertyProcessorPower = config.get(CATEGORY_PROCESSORS, "processor_power", new int[] {10, 10, 10, 20, 10, 10, 40, 20, 40, 20, 10, 40, 10, 20, 10}, I18n.translateToLocalFormatted("gui.config.processors.processor_power.comment"), 0, 16000);
+		Property propertyProcessorPower = config.get(CATEGORY_PROCESSORS, "processor_power", new int[] {20, 10, 10, 20, 10, 10, 40, 20, 40, 20, 10, 40, 10, 20, 10, 10}, I18n.translateToLocalFormatted("gui.config.processors.processor_power.comment"), 0, 16000);
 		propertyProcessorPower.setLanguageKey("gui.config.processors.processor_power");
 		Property propertyProcessorRFPerEU = config.get(CATEGORY_PROCESSORS, "processor_rf_per_eu", 4, I18n.translateToLocalFormatted("gui.config.processors.processor_rf_per_eu.comment"), 1, 255);
 		propertyProcessorRFPerEU.setLanguageKey("gui.config.processors.processor_rf_per_eu");
@@ -207,7 +211,7 @@ public class NCConfig {
 		propertyFissionHeatGeneration.setLanguageKey("gui.config.fission.fission_heat_generation");
 		Property propertyFissionCoolingRate = config.get(CATEGORY_FISSION, "fission_cooling_rate", new double[] {20D, 80D, 80D, 120D, 120D, 100D, 120D, 120D, 140D, 140D}, I18n.translateToLocalFormatted("gui.config.fission.fission_cooling_rate.comment"), 0D, 32767D);
 		propertyFissionCoolingRate.setLanguageKey("gui.config.fission.fission_cooling_rate");
-		Property propertyFissionActiveCoolingRate = config.get(CATEGORY_FISSION, "fission_active_cooling_rate", new double[] {0.5D, 16D, 24D, 250D, 32D, 32D, 5D}, I18n.translateToLocalFormatted("gui.config.fission.fission_active_cooling_rate.comment"), 0.001D, 255D);
+		Property propertyFissionActiveCoolingRate = config.get(CATEGORY_FISSION, "fission_active_cooling_rate", new double[] {200D, 6400D, 80000D, 16000D, 10800D, 12800D}, I18n.translateToLocalFormatted("gui.config.fission.fission_active_cooling_rate.comment"), 0.001D, 255D);
 		propertyFissionActiveCoolingRate.setLanguageKey("gui.config.fission.fission_active_cooling_rate");
 		Property propertyFissionWaterCoolerRequirement = config.get(CATEGORY_FISSION, "fission_water_cooler_requirement", true, I18n.translateToLocalFormatted("gui.config.fission.fission_water_cooler_requirement.comment"));
 		propertyFissionWaterCoolerRequirement.setLanguageKey("gui.config.fission.fission_water_cooler_requirement");
@@ -219,7 +223,7 @@ public class NCConfig {
 		propertyFissionMinSize.setLanguageKey("gui.config.fission.fission_min_size");
 		Property propertyFissionMaxSize = config.get(CATEGORY_FISSION, "fission_max_size", 24, I18n.translateToLocalFormatted("gui.config.fission.fission_max_size.comment"), 1, 255);
 		propertyFissionMaxSize.setLanguageKey("gui.config.fission.fission_max_size");
-		Property propertyFissionActiveCoolerMaxRate = config.get(CATEGORY_FISSION, "fission_active_cooler_max_rate", 100, I18n.translateToLocalFormatted("gui.config.fission.fission_active_cooler_max_rate.comment"), 1, 8000);
+		Property propertyFissionActiveCoolerMaxRate = config.get(CATEGORY_FISSION, "fission_active_cooler_max_rate", 5, I18n.translateToLocalFormatted("gui.config.fission.fission_active_cooler_max_rate.comment"), 1, 8000);
 		propertyFissionActiveCoolerMaxRate.setLanguageKey("gui.config.fission.fission_active_cooler_max_rate");
 		
 		Property propertyFissionThoriumFuelTime = config.get(CATEGORY_FISSION, "fission_thorium_fuel_time", new double[] {144000D, 144000D}, I18n.translateToLocalFormatted("gui.config.fission.fission_thorium_fuel_time.comment"), 1D, Double.MAX_VALUE);
@@ -303,6 +307,8 @@ public class NCConfig {
 		propertyFusionMaxSize.setLanguageKey("gui.config.fusion.fusion_max_size");
 		Property propertyFusionElectromagnetPower = config.get(CATEGORY_FUSION, "fusion_electromagnet_power", 1000, I18n.translateToLocalFormatted("gui.config.fusion.fusion_electromagnet_power.comment"), 0, Integer.MAX_VALUE);
 		propertyFusionElectromagnetPower.setLanguageKey("gui.config.fusion.fusion_electromagnet_power");
+		Property propertyFusionAlternateSound = config.get(CATEGORY_FUSION, "fusion_alternate_sound", false, I18n.translateToLocalFormatted("gui.config.fusion.fusion_alternate_sound.comment"));
+		propertyFusionAlternateSound.setLanguageKey("gui.config.fusion.fusion_alternate_sound");
 		
 		Property propertyFusionFuelTime = config.get(CATEGORY_FUSION, "fusion_fuel_time", new double[] {100D, 208.3D, 312.5D, 312.5D, 1250D, 1250D, 625D, 312.5D, 156.3D, 500D, 1250D, 500D, 2500D, 833.3D, 1250D, 1250D, 6250D, 3125D, 833.3D, 2500D, 625D, 1250D, 2500D, 2500D, 5000D, 5000D, 2500D, 5000D}, I18n.translateToLocalFormatted("gui.config.fusion.fusion_fuel_time.comment"), 1D, 32767D);
 		propertyFusionFuelTime.setLanguageKey("gui.config.fusion.fusion_fuel_time");
@@ -345,7 +351,7 @@ public class NCConfig {
 		Property propertyArmorToughness = config.get(CATEGORY_ARMOR, "armor_toughness", new double[] {1D, 2D, 1D, 2D}, I18n.translateToLocalFormatted("gui.config.armor.armor_toughness.comment"), 1, 8);
 		propertyArmorToughness.setLanguageKey("gui.config.armor.armor_toughness");
 		
-		Property propertyRareDrops = config.get(CATEGORY_OTHER, "gui.config.other.rare_drops", false, I18n.translateToLocalFormatted("gui.config.other.rare_drops.comment"));
+		Property propertyRareDrops = config.get(CATEGORY_OTHER, "rare_drops", false, I18n.translateToLocalFormatted("gui.config.other.rare_drops.comment"));
 		propertyRareDrops.setLanguageKey("gui.config.other.rare_drops");
 		
 		List<String> propertyOrderOres = new ArrayList<String>();
@@ -356,6 +362,7 @@ public class NCConfig {
 		propertyOrderOres.add(propertyOreRate.getName());
 		propertyOrderOres.add(propertyOreMinHeight.getName());
 		propertyOrderOres.add(propertyOreMaxHeight.getName());
+		propertyOrderOres.add(propertyOreDrops.getName());
 		config.setCategoryPropertyOrder(CATEGORY_ORES, propertyOrderOres);
 		
 		List<String> propertyOrderProcessors = new ArrayList<String>();
@@ -436,6 +443,7 @@ public class NCConfig {
 		propertyOrderFusion.add(propertyFusionMinSize.getName());
 		propertyOrderFusion.add(propertyFusionMaxSize.getName());
 		propertyOrderFusion.add(propertyFusionElectromagnetPower.getName());
+		propertyOrderFusion.add(propertyFusionAlternateSound.getName());
 		
 		propertyOrderFusion.add(propertyFusionFuelTime.getName());
 		propertyOrderFusion.add(propertyFusionPower.getName());
@@ -477,6 +485,7 @@ public class NCConfig {
 			ore_rate = readIntegerArrayFromConfig(propertyOreRate);
 			ore_min_height = readIntegerArrayFromConfig(propertyOreMinHeight);
 			ore_max_height = readIntegerArrayFromConfig(propertyOreMaxHeight);
+			ore_drops = readBooleanArrayFromConfig(propertyOreDrops);
 			
 			processor_time = readIntegerArrayFromConfig(propertyProcessorTime);
 			processor_power = readIntegerArrayFromConfig(propertyProcessorPower);
@@ -547,6 +556,7 @@ public class NCConfig {
 			fusion_min_size = propertyFusionMinSize.getInt();
 			fusion_max_size = propertyFusionMaxSize.getInt();
 			fusion_electromagnet_power = propertyFusionElectromagnetPower.getInt();
+			fusion_alternate_sound = propertyFusionAlternateSound.getBoolean();
 			
 			fusion_fuel_time = readDoubleArrayFromConfig(propertyFusionFuelTime);
 			fusion_power = readDoubleArrayFromConfig(propertyFusionPower);
@@ -581,6 +591,7 @@ public class NCConfig {
 		propertyOreRate.set(ore_rate);
 		propertyOreMinHeight.set(ore_min_height);
 		propertyOreMaxHeight.set(ore_max_height);
+		propertyOreDrops.set(ore_drops);
 		
 		propertyProcessorTime.set(processor_time);
 		propertyProcessorPower.set(processor_power);
@@ -651,6 +662,7 @@ public class NCConfig {
 		propertyFusionMinSize.set(fusion_min_size);
 		propertyFusionMaxSize.set(fusion_max_size);
 		propertyFusionElectromagnetPower.set(fusion_electromagnet_power);
+		propertyFusionAlternateSound.set(fusion_alternate_sound);
 		
 		propertyFusionFuelTime.set(fusion_fuel_time);
 		propertyFusionPower.set(fusion_power);

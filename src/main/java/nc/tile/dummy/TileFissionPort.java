@@ -56,6 +56,8 @@ public class TileFissionPort extends TileDummy {
 		if (worldObj.getBlockState(position(x, y, z)) == NCBlocks.reactor_casing_transparent.getStateFromMeta(0)) return true;
 		if (worldObj.getBlockState(position(x, y, z)).getBlock() instanceof BlockFissionPort) return true;
 		if (worldObj.getBlockState(position(x, y, z)).getBlock() instanceof BlockBuffer) return true;
+		if (worldObj.getBlockState(position(x, y, z)).getBlock() == NCBlocks.reactor_door) return true;
+		if (worldObj.getBlockState(position(x, y, z)).getBlock() == NCBlocks.reactor_trapdoor) return true;
 		return false;
 	}
 	
@@ -69,6 +71,8 @@ public class TileFissionPort extends TileDummy {
 		if (worldObj.getBlockState(position(x, y, z)).getBlock() instanceof BlockFissionController) return true;
 		if (worldObj.getBlockState(position(x, y, z)).getBlock() instanceof BlockFissionPort) return true;
 		if (worldObj.getBlockState(position(x, y, z)).getBlock() instanceof BlockBuffer) return true;
+		if (worldObj.getBlockState(position(x, y, z)).getBlock() == NCBlocks.reactor_door) return true;
+		if (worldObj.getBlockState(position(x, y, z)).getBlock() == NCBlocks.reactor_trapdoor) return true;
 		return false;
 	}
 	

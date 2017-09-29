@@ -4,7 +4,7 @@ public class Global {
 	
 	public static final String MOD_ID = "nuclearcraft";
 	public static final String MOD_NAME = "NuclearCraft";
-	public static final String VERSION = "2.4b";
+	public static final String VERSION = "2.5";
 
 	public static final String NC_CLIENT_PROXY = "nc.proxy.ClientProxy";
 	public static final String NC_COMMON_PROXY = "nc.proxy.CommonProxy";

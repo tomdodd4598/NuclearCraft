@@ -16,10 +16,11 @@ public class ElectrolyserRecipes extends BaseRecipeHandler {
 	}
 
 	public void addRecipes() {
-		electrolyse("water", 150, "hydrogen", 380, "hydrogen", 380, "deuterium", 40, "oxygen", 400, NCConfig.processor_time[8]);
+		electrolyse("water", 1000, "hydrogen", 475, "hydrogen", 475, "deuterium", 50, "oxygen", 500, NCConfig.processor_time[8]);
+		electrolyse("hydrofluoric_acid", 1000, "hydrogen", 250, "hydrogen", 250, "fluorine", 250, "fluorine", 250, NCConfig.processor_time[8]);
 		
 		// Mekanism
-		electrolyse("heavywater", 150, "deuterium", 380, "deuterium", 380, "tritium", 40, "oxygen", 400, NCConfig.processor_time[8]);
+		electrolyse("heavywater", 1000, "deuterium", 475, "deuterium", 475, "tritium", 50, "oxygen", 500, NCConfig.processor_time[8]);
 	}
 	
 	public void electrolyse(String in1, int amountIn1, String out1, int amountOut1, String out2, int amountOut2, String out3, int amountOut3, String out4, int amountOut4, int time) {

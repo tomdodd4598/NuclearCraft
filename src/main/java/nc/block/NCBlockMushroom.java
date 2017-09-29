@@ -5,15 +5,16 @@ import java.util.Random;
 import nc.Global;
 import nc.proxy.CommonProxy;
 import net.minecraft.block.BlockDirt;
+import net.minecraft.block.BlockMushroom;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockMushroom extends net.minecraft.block.BlockMushroom {
+public class NCBlockMushroom extends BlockMushroom {
 	
-	public BlockMushroom(String unlocalizedName, String registryName) {
+	public NCBlockMushroom(String unlocalizedName, String registryName) {
 		super();
 		setUnlocalizedName(unlocalizedName);
 		setRegistryName(new ResourceLocation(Global.MOD_ID, registryName));

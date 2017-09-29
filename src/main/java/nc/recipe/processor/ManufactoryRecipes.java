@@ -31,11 +31,12 @@ public class ManufactoryRecipes extends BaseRecipeHandler {
 		addRecipe("gemDiamond", "dustDiamond", NCConfig.processor_time[0]*2);
 		addRecipe("gemRhodochrosite", "dustRhodochrosite", NCConfig.processor_time[0]*2);
 		addRecipe("gemQuartz", "dustQuartz", NCConfig.processor_time[0]);
-		addRecipe("blockObsidian", oreStack("dustObsidian", 4), NCConfig.processor_time[0]*2);
+		addRecipe("obsidian", oreStack("dustObsidian", 4), NCConfig.processor_time[0]*2);
 		addRecipe(new ItemStack(Blocks.SAND, 4), "itemSilicon", NCConfig.processor_time[0]);
 		addRecipe(new ItemStack(Items.ROTTEN_FLESH, 4), Items.LEATHER, NCConfig.processor_time[0]/2);
 		addRecipe(new ItemStack(Items.REEDS, 4), "bioplastic", NCConfig.processor_time[0]);
-		addRecipe("gemBoronNitride", "dustBoronNitride", NCConfig.processor_time[0]);
+		addRecipe("gemBoronNitride", "dustBoronNitride", NCConfig.processor_time[0]*2);
+		addRecipe("gemFluorite", "dustFluorite", NCConfig.processor_time[0]*2);
 	}
 	
 	public void oreProcess() {
