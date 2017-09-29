@@ -14,6 +14,7 @@ import nc.container.processor.ContainerAlloyFurnace;
 import nc.container.processor.ContainerChemicalReactor;
 import nc.container.processor.ContainerCrystallizer;
 import nc.container.processor.ContainerDecayHastener;
+import nc.container.processor.ContainerDissolver;
 import nc.container.processor.ContainerElectrolyser;
 import nc.container.processor.ContainerFuelReprocessor;
 import nc.container.processor.ContainerInfuser;
@@ -31,6 +32,7 @@ import nc.gui.processor.GuiAlloyFurnace;
 import nc.gui.processor.GuiChemicalReactor;
 import nc.gui.processor.GuiCrystallizer;
 import nc.gui.processor.GuiDecayHastener;
+import nc.gui.processor.GuiDissolver;
 import nc.gui.processor.GuiElectrolyser;
 import nc.gui.processor.GuiFuelReprocessor;
 import nc.gui.processor.GuiInfuser;
@@ -49,6 +51,7 @@ import nc.integration.jei.processor.AlloyFurnaceCategory;
 import nc.integration.jei.processor.ChemicalReactorCategory;
 import nc.integration.jei.processor.CrystallizerCategory;
 import nc.integration.jei.processor.DecayHastenerCategory;
+import nc.integration.jei.processor.DissolverCategory;
 import nc.integration.jei.processor.ElectrolyserCategory;
 import nc.integration.jei.processor.FuelReprocessorCategory;
 import nc.integration.jei.processor.InfuserCategory;
@@ -68,6 +71,7 @@ import nc.recipe.processor.AlloyFurnaceRecipes;
 import nc.recipe.processor.ChemicalReactorRecipes;
 import nc.recipe.processor.CrystallizerRecipes;
 import nc.recipe.processor.DecayHastenerRecipes;
+import nc.recipe.processor.DissolverRecipes;
 import nc.recipe.processor.ElectrolyserRecipes;
 import nc.recipe.processor.FuelReprocessorRecipes;
 import nc.recipe.processor.InfuserRecipes;
@@ -121,9 +125,9 @@ public class NCJEI extends BlankModPlugin implements IJEIRecipeBuilder {
 		registry.addRecipeClickArea(GuiChemicalReactor.class, 69, 34, 37, 18, Handlers.CHEMICAL_REACTOR.getUUID());
 		registry.addRecipeClickArea(GuiSaltMixer.class, 83, 34, 37, 18, Handlers.SALT_MIXER.getUUID());
 		registry.addRecipeClickArea(GuiCrystallizer.class, 73, 34, 37, 18, Handlers.CRYSTALLIZER.getUUID());
+		registry.addRecipeClickArea(GuiDissolver.class, 83, 34, 37, 18, Handlers.DISSOLVER.getUUID());
 		registry.addRecipeClickArea(GuiFissionController.class, 73, 34, 37, 18, Handlers.FISSION.getUUID());
-		registry.addRecipeClickArea(GuiFusionCore.class, 37, 5, 7, 97, Handlers.FUSION.getUUID());
-		registry.addRecipeClickArea(GuiFusionCore.class, 171, 5, 17, 97, Handlers.FUSION.getUUID());
+		registry.addRecipeClickArea(GuiFusionCore.class, 47, 5, 121, 97, Handlers.FUSION.getUUID());
 		
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerManufactory.class, Handlers.MANUFACTORY.getUUID(), 0, 1, 4, 36);
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerIsotopeSeparator.class, Handlers.ISOTOPE_SEPARATOR.getUUID(), 0, 1, 5, 36);
@@ -140,6 +144,7 @@ public class NCJEI extends BlankModPlugin implements IJEIRecipeBuilder {
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerChemicalReactor.class, Handlers.CHEMICAL_REACTOR.getUUID(), 0, 0, 2, 36);
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerSaltMixer.class, Handlers.SALT_MIXER.getUUID(), 0, 0, 2, 36);
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerCrystallizer.class, Handlers.CRYSTALLIZER.getUUID(), 0, 0, 3, 36);
+		recipeTransferRegistry.addRecipeTransferHandler(ContainerDissolver.class, Handlers.DISSOLVER.getUUID(), 0, 1, 3, 36);
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerFissionController.class, Handlers.FISSION.getUUID(), 0, 1, 2, 36);
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerFusionCore.class, Handlers.FUSION.getUUID(), 0, 0, 0, 36);
 		
@@ -177,6 +182,7 @@ public class NCJEI extends BlankModPlugin implements IJEIRecipeBuilder {
 		CHEMICAL_REACTOR(ChemicalReactorRecipes.instance(), NCBlocks.chemical_reactor_idle, "chemical_reactor", Recipes.ChemicalReactor.class),
 		SALT_MIXER(SaltMixerRecipes.instance(), NCBlocks.salt_mixer_idle, "salt_mixer", Recipes.SaltMixer.class),
 		CRYSTALLIZER(CrystallizerRecipes.instance(), NCBlocks.crystallizer_idle, "crystallizer", Recipes.Crystallizer.class),
+		DISSOLVER(DissolverRecipes.instance(), NCBlocks.dissolver_idle, "dissolver", Recipes.Dissolver.class),
 		FISSION(FissionRecipes.instance(), NCBlocks.fission_controller_idle, "fission_controller", Recipes.Fission.class),
 		FUSION(FusionRecipes.instance(), NCBlocks.fusion_core, "fusion_core", Recipes.Fusion.class);
 		
@@ -226,6 +232,8 @@ public class NCJEI extends BlankModPlugin implements IJEIRecipeBuilder {
 				return new SaltMixerCategory(guiHelper, this);
 			case CRYSTALLIZER:
 				return new CrystallizerCategory(guiHelper, this);
+			case DISSOLVER:
+				return new DissolverCategory(guiHelper, this);
 			case FISSION:
 				return new FissionCategory(guiHelper, this);
 			case FUSION:

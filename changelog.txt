@@ -1,3 +1,22 @@
+v2.5
+
+* Made machine GUIs a little fancier
+* Added Fusion Reactor GUI option to force inputs to differ
+
++ Added Dissolver
++ Added Univeral Bin to dump excess resources
+
+* Made Active Fluid Coolers use much less coolant
++ Added Reactor Door and Trapdoor
+
++ Added Sulfur - drops from Coal Ore
++ Added Fluorite - drops from Lapis Ore
++ Added a bunch of other new materials
+
+* Fixed CraftTweaker fission recipe support
+* Fixed potential crashes with fluid transfer
+* Minor recipe tweaks
+
 v2.4b
 
 * Fixed fission ports not recognising transparent casing

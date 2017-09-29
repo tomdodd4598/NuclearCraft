@@ -36,12 +36,13 @@ public class MelterRecipes extends BaseRecipeHandler {
 		addRecipe("tinyBoron10", fluidStack("boron10", 16), NCConfig.processor_time[6]/8);
 		addRecipe("ingotBoron11", fluidStack("boron11", 144), NCConfig.processor_time[6]);
 		addRecipe("tinyBoron11", fluidStack("boron11", 16), NCConfig.processor_time[6]/8);
+		addRecipe("dustSulfur", fluidStack("sulfur", 666), NCConfig.processor_time[6]);
 		addRecipe(Blocks.ICE, fluidStack("water", 1000), NCConfig.processor_time[6]/2);
 		addRecipe(Blocks.FROSTED_ICE, fluidStack("water", 1000), NCConfig.processor_time[6]/2);
 		addRecipe(Blocks.PACKED_ICE, fluidStack("water", 1000), NCConfig.processor_time[6]/2);
 		
 		// Tinkers' Construct
-		addRecipe("blockObsidian", fluidStack("obsidian", 288), NCConfig.processor_time[6]*4);
+		addRecipe("obsidian", fluidStack("obsidian", 288), NCConfig.processor_time[6]*4);
 		addRecipe("ingotObsidian", fluidStack("obsidian", 144), NCConfig.processor_time[6]*2);
 		addRecipe(Blocks.SAND, fluidStack("glass", 1000), NCConfig.processor_time[6]);
 		addRecipe("blockGlass", fluidStack("glass", 1000), NCConfig.processor_time[6]);
@@ -50,7 +51,7 @@ public class MelterRecipes extends BaseRecipeHandler {
 		addRecipe("dustRedstone", fluidStack("redstone", 100), NCConfig.processor_time[6]/4);
 		addRecipe("blockRedstone", fluidStack("redstone", 900), NCConfig.processor_time[6]*2);
 		addRecipe("dustGlowstone", fluidStack("glowstone", 250), NCConfig.processor_time[6]/2);
-		addRecipe("blockGlowstone", fluidStack("glowstone", 1000), NCConfig.processor_time[6]*4);
+		addRecipe("glowstone", fluidStack("glowstone", 1000), NCConfig.processor_time[6]*4);
 		addRecipe(Items.ENDER_PEARL, fluidStack("ender", 250), NCConfig.processor_time[6]/2);
 		addRecipe("dustPyrotheum", fluidStack("pyrotheum", 250), NCConfig.processor_time[6]/2);
 		addRecipe("dustCryotheum", fluidStack("cryotheum", 250), NCConfig.processor_time[6]/2);

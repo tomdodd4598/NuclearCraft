@@ -1,3 +1,5 @@
+/** Massive thanks to CrazyPants, maker of EnderIO and related mods, for letting me use this code! */
+
 package nc.gui;
 
 import javax.annotation.Nonnull;
@@ -92,6 +94,10 @@ public class GuiItemRenderer extends Gui {
 	
 	public void setTexture(@Nonnull ResourceLocation textureName) {
 		this.texture = textureName;
+	}
+	
+	public static void bindTexture(String string) {
+		minecraft.renderEngine.bindTexture(new ResourceLocation(string));
 	}
 	
 	public static void bindTexture(@Nonnull ResourceLocation tex) {

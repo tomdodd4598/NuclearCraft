@@ -2,14 +2,14 @@ package nc.gui.processor;
 
 import nc.Global;
 import nc.container.processor.ContainerEnergyItemProcessor;
+import nc.gui.GuiNC;
 import nc.tile.processor.TileEnergyItemProcessor;
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 
-public abstract class GuiEnergyItemProcessor extends GuiContainer {
+public abstract class GuiEnergyItemProcessor extends GuiNC {
 	
 	private final InventoryPlayer playerInventory;
 	protected TileEnergyItemProcessor tile;

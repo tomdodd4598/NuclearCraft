@@ -156,6 +156,60 @@
 			"custom": {
 				"fluid": "boron_nitride_solution"
 			}
+		},
+		"fluid_coolant": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "coolant"
+			}
+		},
+		"fluid_sulfur": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "sulfur"
+			}
+		},
+		"fluid_sulfur_dioxide": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "sulfur_dioxide"
+			}
+		},
+		"fluid_sulfur_trioxide": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "sulfur_trioxide"
+			}
+		},
+		"fluid_sulfuric_acid": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "sulfuric_acid"
+			}
+		},
+		"fluid_fluorite_water": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "fluorite_water"
+			}
+		},
+		"fluid_calcium_sulfate_solution": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "calcium_sulfate_solution"
+			}
+		},
+		"fluid_hydrofluoric_acid": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "hydrofluoric_acid"
+			}
+		},
+		"fluid_oxygen_difluoride": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "oxygen_difluoride"
+			}
 		}
 	}
 }

@@ -24,6 +24,8 @@ public class PacketHandler {
 	public static void registerMessages() {
 		// SERVER
 		INSTANCE.registerMessage(PacketGetFluidInTank.Handler.class, PacketGetFluidInTank.class, nextID(), Side.SERVER);
+		INSTANCE.registerMessage(PacketToggleTanksSharedButton.Handler.class, PacketToggleTanksSharedButton.class, nextID(), Side.SERVER);
+		INSTANCE.registerMessage(PacketEmptyTankButton.Handler.class, PacketEmptyTankButton.class, nextID(), Side.SERVER);
 		
 		// CLIENT
 		INSTANCE.registerMessage(PacketReturnFluidInTank.Handler.class, PacketReturnFluidInTank.class, nextID(), Side.CLIENT);

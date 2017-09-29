@@ -5,9 +5,10 @@ import java.util.List;
 import org.lwjgl.input.Keyboard;
 
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.translation.I18n;
 
 public class NCInfo {
-	public static final String shiftString = "Press Shift for more info";
+	public static final String shiftString = I18n.translateToLocalFormatted("gui.inventory.shift_for_info");
 	
 	public static final String[] nul = {""};
 	

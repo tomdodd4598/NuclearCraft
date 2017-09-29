@@ -65,6 +65,7 @@ public abstract class TileEnergyItemFluidProcessor extends TileEnergyFluidSidedI
 		hasUpgrades = upgrades;
 		this.recipes = recipes;
 		this.upgradeMeta = upgradeMeta;
+		areTanksShared = fluidInSize > 1;
 		
 		int[] topSlots1 = new int[itemInSize];
 		for (int i = 0; i < topSlots1.length; i++) {
@@ -438,8 +439,12 @@ public abstract class TileEnergyItemFluidProcessor extends TileEnergyFluidSidedI
 	
 	public boolean canFill(FluidStack resource, int tankNumber) {
 		if (tankNumber >= fluidInputSize) return false;
+		if (!areTanksShared) return true;
+		
 		for (int i = 0; i < fluidInputSize; i++) {
-			if (tankNumber != i && tanks[i].getFluid() != null) if (tanks[i].getFluid().isFluidEqual(resource)) return false;
+			if (tankNumber != i && fluidConnection[i].canFill() && tanks[i].getFluid() != null) {
+				if (tanks[i].getFluid().isFluidEqual(resource)) return false;
+			}
 		}
 		return true;
 	}

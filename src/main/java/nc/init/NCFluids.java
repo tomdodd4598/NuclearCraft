@@ -105,6 +105,33 @@ public class NCFluids {
 	public static Fluid boron_nitride_solution;
 	public static BlockFluid block_boron_nitride_solution;
 	
+	public static Fluid coolant;
+	public static BlockFluid block_coolant;
+	
+	public static Fluid sulfur;
+	public static BlockFluid block_sulfur;
+	
+	public static Fluid sulfur_dioxide;
+	public static BlockFluid block_sulfur_dioxide;
+	
+	public static Fluid sulfur_trioxide;
+	public static BlockFluid block_sulfur_trioxide;
+	
+	public static Fluid sulfuric_acid;
+	public static BlockFluid block_sulfuric_acid;
+	
+	public static Fluid fluorite_water;
+	public static BlockFluid block_fluorite_water;
+	
+	public static Fluid calcium_sulfate_solution;
+	public static BlockFluid block_calcium_sulfate_solution;
+	
+	public static Fluid hydrofluoric_acid;
+	public static BlockFluid block_hydrofluoric_acid;
+	
+	public static Fluid oxygen_difluoride;
+	public static BlockFluid block_oxygen_difluoride;
+	
 	public static void init() {
 		oxygen = new FluidGas("oxygen");
 		FluidRegistry.addBucketForFluid(oxygen);
@@ -209,6 +236,42 @@ public class NCFluids {
 		boron_nitride_solution = new FluidLiquid("boron_nitride_solution");
 		FluidRegistry.addBucketForFluid(boron_nitride_solution);
 		block_boron_nitride_solution = new BlockFluidLiquid(boron_nitride_solution, "fluid_boron_nitride_solution");
+		
+		coolant = new FluidLiquid("coolant");
+		FluidRegistry.addBucketForFluid(coolant);
+		block_coolant = new BlockFluidLiquid(coolant, "fluid_coolant");
+		
+		sulfur = new FluidMolten("sulfur");
+		FluidRegistry.addBucketForFluid(sulfur);
+		block_sulfur = new BlockFluidMolten(sulfur, "fluid_sulfur");
+		
+		sulfur_dioxide = new FluidGas("sulfur_dioxide");
+		FluidRegistry.addBucketForFluid(sulfur_dioxide);
+		block_sulfur_dioxide = new BlockFluidGas(sulfur_dioxide, "fluid_sulfur_dioxide");
+		
+		sulfur_trioxide = new FluidGas("sulfur_trioxide");
+		FluidRegistry.addBucketForFluid(sulfur_trioxide);
+		block_sulfur_trioxide = new BlockFluidGas(sulfur_trioxide, "fluid_sulfur_trioxide");
+		
+		sulfuric_acid = new FluidAcid("sulfuric_acid");
+		FluidRegistry.addBucketForFluid(sulfuric_acid);
+		block_sulfuric_acid = new BlockFluidAcid(sulfuric_acid, "fluid_sulfuric_acid");
+		
+		fluorite_water = new FluidLiquid("fluorite_water");
+		FluidRegistry.addBucketForFluid(fluorite_water);
+		block_fluorite_water = new BlockFluidLiquid(fluorite_water, "fluid_fluorite_water");
+		
+		calcium_sulfate_solution = new FluidLiquid("calcium_sulfate_solution");
+		FluidRegistry.addBucketForFluid(calcium_sulfate_solution);
+		block_calcium_sulfate_solution = new BlockFluidLiquid(calcium_sulfate_solution, "fluid_calcium_sulfate_solution");
+		
+		hydrofluoric_acid = new FluidAcid("hydrofluoric_acid");
+		FluidRegistry.addBucketForFluid(hydrofluoric_acid);
+		block_hydrofluoric_acid = new BlockFluidAcid(hydrofluoric_acid, "fluid_hydrofluoric_acid");
+		
+		oxygen_difluoride = new FluidGas("oxygen_difluoride");
+		FluidRegistry.addBucketForFluid(oxygen_difluoride);
+		block_oxygen_difluoride = new BlockFluidGas(oxygen_difluoride, "fluid_oxygen_difluoride");
 	}
 	
 	public static void register() {
@@ -238,6 +301,15 @@ public class NCFluids {
 		registerBlock(block_bef2);
 		registerBlock(block_flibe);
 		registerBlock(block_boron_nitride_solution);
+		registerBlock(block_coolant);
+		registerBlock(block_sulfur);
+		registerBlock(block_sulfur_dioxide);
+		registerBlock(block_sulfur_trioxide);
+		registerBlock(block_sulfuric_acid);
+		registerBlock(block_fluorite_water);
+		registerBlock(block_calcium_sulfate_solution);
+		registerBlock(block_hydrofluoric_acid);
+		registerBlock(block_oxygen_difluoride);
 	}
 	
 	public static void registerBlock(BlockFluid block) {

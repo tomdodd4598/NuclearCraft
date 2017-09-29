@@ -170,10 +170,10 @@ tile.infuser_idle.des0=Enhances materials with fluids.
 tile.infuser_idle.des1=Can accept MV IC2 power
 tile.infuser_active.name=Fluid Infuser
 
-tile.melter_idle.name=Metal Melter
-tile.melter_idle.des0=Produces liquid forms of metals.
+tile.melter_idle.name=Melter
+tile.melter_idle.des0=Melts down materials.
 tile.melter_idle.des1=Can accept MV IC2 power
-tile.melter_active.name=Metal Melter
+tile.melter_active.name=Melter
 
 tile.supercooler_idle.name=Supercooler
 tile.supercooler_idle.des0=Lowers the temperature of fluids.
@@ -215,6 +215,11 @@ tile.crystallizer_idle.des0=Precipitates solids from solution.
 tile.crystallizer_idle.des1=Can accept MV IC2 power
 tile.crystallizer_active.name=Crystallizer
 
+tile.dissolver_idle.name=Dissolver
+tile.dissolver_idle.des0=Mixes solutes into solvents.
+tile.dissolver_idle.des1=Can accept MV IC2 power
+tile.dissolver_active.name=Dissolver
+
 tile.machine_interface.name=Machine Interface
 tile.machine_interface.des0=Automation can access the machine
 tile.machine_interface.des1=directly adjacent to this block.
@@ -234,16 +239,18 @@ tile.active_cooler.des2=Must be placed in a fission structure
 tile.active_cooler.des3=or on the diagonal of a fusion ring.
 tile.active_cooler.des4=If used to cool a fission reactor, the
 tile.active_cooler.des5=requirements for each fluid type are
-tile.active_cooler.des6=the same as the passive counterpart
-tile.active_cooler.des7=(Crushed ice uses that of water).
-tile.active_cooler.des8=If used to cool a fusion reactor, it
-tile.active_cooler.des9=is much more efficient for a cooler to
-tile.active_cooler.des10=have a partner on the exact opposite
-tile.active_cooler.des11=side of the entire fusion ring.
-tile.active_cooler.des12=The coolants available are: water,
-tile.active_cooler.des13=destabilised redstone, energised
-tile.active_cooler.des14=glowstone, liquid helium, resonant
-tile.active_cooler.des15=ender, gelid cryotheum and crushed ice
+tile.active_cooler.des6=the same as the passive counterpart.
+tile.active_cooler.des7=If used to cool a fusion reactor, it
+tile.active_cooler.des8=is much more efficient for a cooler to
+tile.active_cooler.des9=have a partner on the exact opposite
+tile.active_cooler.des10=side of the entire fusion ring.
+tile.active_cooler.des11=The coolants available are: water,
+tile.active_cooler.des12=destabilised redstone, energised
+tile.active_cooler.des13=glowstone, liquid helium, resonant
+tile.active_cooler.des14=ender and gelid cryotheum.
+
+tile.bin.name=Universal Bin
+tile.bin.des0=Destroys items, fluids and energy
 
 tile.fission_controller_idle.name=Fission Controller
 tile.fission_controller_idle.des0=Build a multiblock reactor
@@ -349,6 +356,8 @@ tile.nitrogen_collector.des0=Produces
 tile.nitrogen_collector.des1=mB/t of nitrogen constantly
 
 tile.glowing_mushroom.name=Glowing Mushroom
+tile.reactor_door.name=Reactor Door
+tile.reactor_trapdoor.name=Reactor Trapdoor
 
 tile.fluid_oxygen.name=Oxygen
 fluid.oxygen=Oxygen
@@ -428,6 +437,33 @@ fluid.flibe=Molten FLiBe Salt Mixture
 tile.fluid_boron_nitride_solution.name=Boron Nitride Solution
 fluid.boron_nitride_solution=Boron Nitride Solution
 
+tile.fluid_coolant.name=Coolant
+fluid.coolant=Coolant
+
+tile.fluid_sulfur.name=Molten Sulfur
+fluid.sulfur=Molten Sulfur
+
+tile.fluid_sulfur_dioxide.name=Sulfur Dioxide
+fluid.sulfur_dioxide=Sulfur Dioxide
+
+tile.fluid_sulfur_trioxide.name=Sulfur Trioxide
+fluid.sulfur_trioxide=Sulfur Trioxide
+
+tile.fluid_sulfuric_acid.name=Sulfuric Acid
+fluid.sulfuric_acid=Sulfuric Acid
+
+tile.fluid_fluorite_water.name=Fluorite Water
+fluid.fluorite_water=Fluorite Water
+
+tile.fluid_calcium_sulfate_solution.name=Calcium Sulfate Solution
+fluid.calcium_sulfate_solution=Calcium Sulfate Solution
+
+tile.fluid_hydrofluoric_acid.name=Hydrofluoric Acid
+fluid.hydrofluoric_acid=Hydrofluoric Acid
+
+tile.fluid_oxygen_difluoride.name=Oxygen Difluoride
+fluid.oxygen_difluoride=Oxygen Difluoride
+
 item.ingot.copper.name=Copper Ingot
 item.ingot.tin.name=Tin Ingot
 item.ingot.lead.name=Lead Ingot
@@ -464,12 +500,15 @@ item.dust_oxide.manganese2.name=Manganese Dioxide Dust
 
 item.gem.rhodochrosite.name=Rhodochrosite
 item.gem.boron_nitride.name=Cubic Boron Nitride
+item.gem.fluorite.name=Fluorite
 
 item.gem_dust.diamond.name=Crushed Diamond
 item.gem_dust.rhodochrosite.name=Crushed Rhodochrosite
 item.gem_dust.quartz.name=Crushed Quartz
 item.gem_dust.obsidian.name=Crushed Obsidian
 item.gem_dust.boron_nitride.name=Amorphous Boron Nitride
+item.gem_dust.fluorite.name=Crushed Fluorite
+item.gem_dust.sulfur.name=Sulfur
 
 item.alloy.bronze.name=Bronze Alloy
 item.alloy.tough.name=Tough Alloy
@@ -478,6 +517,8 @@ item.alloy.magnesium_diboride.name=Magnesium Diboride Alloy
 item.alloy.lithium_manganese_dioxide.name=Lithium Manganese Dioxide Alloy
 item.alloy.steel.name=Steel Alloy
 item.alloy.ferroboron.name=Ferroboron Alloy
+
+item.compound.calcium_sulfate.name=Calcium Sulfate
 
 item.part.plate_basic.name=Basic Plating
 item.part.plate_advanced.name=Advanced Plating
@@ -843,6 +884,8 @@ item.chest_boron_nitride.name=Boron Nitride Chestplate
 item.legs_boron_nitride.name=Boron Nitride Leggings
 item.boots_boron_nitride.name=Boron Nitride Boots
 
+item.reactor_door_item.name=Reactor Door
+
 item.portable_ender_chest.name=Portable Ender Chest
 item.portable_ender_chest.des0=Access your Ender Chest on the move
 
@@ -855,6 +898,9 @@ item.record_wanderer.des1=8-Bit Cover by '8 Bit Universe'
 item.record_end_of_the_world.name=Music Disc
 item.record_end_of_the_world.des0=Skeeter Davis - The End of the World
 item.record_end_of_the_world.des1=8-Bit Cover by 'GermanPikachuGaming'
+item.record_money_for_nothing.name=Music Disc
+item.record_money_for_nothing.des0=Dire Straits - Money For Nothing
+item.record_money_for_nothing.des1=8-Bit Cover by 'Omnigrad'
 
 itemGroup.nuclearcraftBaseBlockMaterials=NuclearCraft Base Blocks
 itemGroup.nuclearcraftBaseItemMaterials=NuclearCraft Base Items
@@ -886,14 +932,16 @@ gui.config.ores.ore_min_height=Minimum Gen Heights
 gui.config.ores.ore_min_height.comment=Minimum heights at which ores generate. Order: copper, tin, lead, thorium, uranium, boron, lithium, magnesium
 gui.config.ores.ore_max_height=Maximum Gen Heights
 gui.config.ores.ore_max_height.comment=Maximum heights at which ores generate. Order: copper, tin, lead, thorium, uranium, boron, lithium, magnesium
+gui.config.other.ore_drops=Enable Extra Ore Drops
+gui.config.other.ore_drops.comment=Will vanilla ores drop extra resources? Order: rhodochrosite, beryllium dust, zirconium dust, fluorite, sulfur
 
 gui.config.category.processors=Processor Configs
 gui.config.category.processors.tooltip=Configure processors
 
 gui.config.processors.processor_time=Processing Times
-gui.config.processors.processor_time.comment=Base ticks per process. Order: Manufactory, Isotope Separator, Decay Hastener, Fuel Reprocessor, Alloy Furnace, Fluid Infuser, Metal Melter, Supercooler, Electrolyser, Neutron Irradiator
+gui.config.processors.processor_time.comment=Base ticks per process. Order: Manufactory, Isotope Separator, Decay Hastener, Fuel Reprocessor, Alloy Furnace, Fluid Infuser, Melter, Supercooler, Electrolyser, Neutron Irradiator, Ingot Former, Pressurizer, Chemical Reactor, Salt Mixer, Crystallizer, Dissolver
 gui.config.processors.processor_power=Processing Power Use
-gui.config.processors.processor_power.comment=Base RF/t use during processing. Order: Manufactory, Isotope Separator, Decay Hastener, Fuel Reprocessor, Alloy Furnace, Fluid Infuser, Metal Melter, Supercooler, Electrolyser, Neutron Irradiator
+gui.config.processors.processor_power.comment=Base RF/t use during processing. Order: Manufactory, Isotope Separator, Decay Hastener, Fuel Reprocessor, Alloy Furnace, Fluid Infuser, Melter, Supercooler, Electrolyser, Neutron Irradiator, Ingot Former, Pressurizer, Chemical Reactor, Salt Mixer, Crystallizer, Dissolver
 gui.config.processors.processor_rf_per_eu=RF per EU Accepted
 gui.config.processors.processor_rf_per_eu.comment=The RF received per EU injected for processors
 gui.config.processors.processor_update_rate=Processor Update Rate
@@ -927,7 +975,7 @@ gui.config.fission.fission_heat_generation.comment=Modifies the heat generated b
 gui.config.fission.fission_cooling_rate=Cooling Rates
 gui.config.fission.fission_cooling_rate.comment=Base heat removed per tick. Order: water, redstone, quartz, gold, glowstone, lapis, diamond, liquid helium, enderium, cryotheum
 gui.config.fission.fission_active_cooling_rate=Active Cooling Rates
-gui.config.fission.fission_active_cooling_rate.comment=Base heat removed per tick/mB. Order: water, redstone, glowstone, liquid helium, enderium, cryotheum, ice
+gui.config.fission.fission_active_cooling_rate.comment=Base heat removed per tick/mB. Order: water, redstone, glowstone, liquid helium, enderium, cryotheum
 gui.config.fission.fission_water_cooler_requirement=Water Cooler Requirement
 gui.config.fission.fission_water_cooler_requirement.comment=Do water coolers have to be adjacent to reactor casing?
 gui.config.fission.fission_overheat=Enable Meltdowns
@@ -939,7 +987,7 @@ gui.config.fission.fission_min_size.comment=Minimum side length of fission struc
 gui.config.fission.fission_max_size=Maximum Structure Length
 gui.config.fission.fission_max_size.comment=Maximum side length of fission structures
 gui.config.fission.fission_active_cooler_max_rate=Maximum Active Cooler Fluid Use
-gui.config.fission.fission_active_cooler_max_rate.comment=Maximum rate at which the Active Fluid Cooler uses coolant in mB/t
+gui.config.fission.fission_active_cooler_max_rate.comment=Maximum rate at which the Active Fluid Cooler uses coolant in mB/s
 
 gui.config.fission.fission_thorium_fuel_time=Thorium Fuel Durations
 gui.config.fission.fission_thorium_fuel_time.comment=Base ticks the fuels last. Order: TBU, TBU Oxide
@@ -1023,6 +1071,8 @@ gui.config.fusion.fusion_min_size=Minimum Toroid Size
 gui.config.fusion.fusion_min_size.comment=Minimum size of fusion toroids
 gui.config.fusion.fusion_max_size=Maximum Toroid Size
 gui.config.fusion.fusion_max_size.comment=Maximum size of fusion toroids
+gui.config.fusion.fusion_alternate_sound=Use Alternate Sound
+gui.config.fusion.fusion_alternate_sound.comment=Use an alternate reactor sound effect?
 
 gui.config.fusion.fusion_fuel_time=Fusion Fuel Combo Durations
 gui.config.fusion.fusion_fuel_time.comment=Base ticks the fuel combos last. Order: H-H, H-D, H-T, H-He3, H-Li6, H-Li7, H-B11, D-D, D-T, D-He3, ..., D-B11, T-T, ..., T-B11, ..., B11-B11
@@ -1095,6 +1145,26 @@ gui.container.fission_controller.pos=BlockPos
 gui.container.fission_controller.no_fuel=No Fuel
 gui.container.fission_controller.cells=Cells:
 gui.container.fission_controller.efficiency=Eff:
+gui.container.fission_controller.heat=Heat Level:
+
+gui.container.fission_controller.tbu=TBU
+gui.container.fission_controller.leu=LEU
+gui.container.fission_controller.heu=HEU
+gui.container.fission_controller.len=LEN
+gui.container.fission_controller.hen=HEN
+gui.container.fission_controller.lep=LEP
+gui.container.fission_controller.hep=HEP
+gui.container.fission_controller.mox_239=MOX-239
+gui.container.fission_controller.mox_241=MOX-241
+gui.container.fission_controller.lea=LEA
+gui.container.fission_controller.hea=HEA
+gui.container.fission_controller.lecm=LECm
+gui.container.fission_controller.hecm=HECm
+gui.container.fission_controller.leb=LEB
+gui.container.fission_controller.heb=HEB
+gui.container.fission_controller.lecf=LECf
+gui.container.fission_controller.hecf=HECf
+gui.container.fission_controller.oxide=Ox
 
 gui.container.fusion_core.reactor=Fusion Reactor
 gui.container.fusion_core.ring_incomplete=Ring Incomplete
@@ -1106,12 +1176,22 @@ gui.container.fusion_core.size=Toroid Size:
 gui.container.fusion_core.energy=Energy:
 gui.container.fusion_core.power=Power:
 gui.container.fusion_core.heat=Temp:
+gui.container.fusion_core.temperature=Temperature:
 gui.container.fusion_core.efficiency=Efficiency:
 gui.container.fusion_core.fuels=Current Fuels:
 gui.container.fusion_core.empty=Empty
 
-sound.block.fusion_run=Fusion Reactor Running
-sound.block.accelerator_run=Accelerator Running
+gui.container.energy_stored=Energy Stored:
+gui.container.shift_clear_tank=Shift Click to clear tank
+gui.container.change_tanks_mode=Change Tanks Mode
+gui.inventory.shift_for_info=Press Shift for more info
+
+block.fusion_run=Fusion Reactor Running
+block.accelerator_run=Accelerator Running
+player.geiger_tick=Geiger Tick
+music.wanderer=Wanderer
+music.end_of_the_world=End of the World
+music.money_for_nothing=Money For Nothing
 
 death.attack.superfluid_freeze=%1$s was Bose-Einstein condensated
 death.attack.plasma_burn=%1$s was incinerated by plasma

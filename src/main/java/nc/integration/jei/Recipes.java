@@ -110,6 +110,13 @@ public class Recipes {
 		}
 	}
 	
+	public static class Dissolver extends JEIRecipe<Dissolver> {
+
+		public Dissolver(BaseRecipeHandler methods, IRecipe recipe) {
+			super(methods, recipe);
+		}
+	}
+	
 	public static class Fission extends JEIRecipe<Fission> {
 
 		public Fission(BaseRecipeHandler methods, IRecipe recipe) {

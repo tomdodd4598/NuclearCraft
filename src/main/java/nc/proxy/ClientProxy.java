@@ -133,14 +133,17 @@ public class ClientProxy extends CommonProxy {
 		
 		ModelBakery.registerItemVariants(NCItems.gem,
 		new ResourceLocation(Global.MOD_ID, "gem_rhodochrosite"),
-		new ResourceLocation(Global.MOD_ID, "gem_boron_nitride"));
+		new ResourceLocation(Global.MOD_ID, "gem_boron_nitride"),
+		new ResourceLocation(Global.MOD_ID, "gem_fluorite"));
 		
 		ModelBakery.registerItemVariants(NCItems.gem_dust,
 		new ResourceLocation(Global.MOD_ID, "gem_dust_diamond"),
 		new ResourceLocation(Global.MOD_ID, "gem_dust_rhodochrosite"),
 		new ResourceLocation(Global.MOD_ID, "gem_dust_quartz"),
 		new ResourceLocation(Global.MOD_ID, "gem_dust_obsidian"),
-		new ResourceLocation(Global.MOD_ID, "gem_dust_boron_nitride"));
+		new ResourceLocation(Global.MOD_ID, "gem_dust_boron_nitride"),
+		new ResourceLocation(Global.MOD_ID, "gem_dust_fluorite"),
+		new ResourceLocation(Global.MOD_ID, "gem_dust_sulfur"));
 		
 		ModelBakery.registerItemVariants(NCItems.alloy,
 		new ResourceLocation(Global.MOD_ID, "alloy_bronze"),
@@ -150,6 +153,9 @@ public class ClientProxy extends CommonProxy {
 		new ResourceLocation(Global.MOD_ID, "alloy_lithium_manganese_dioxide"),
 		new ResourceLocation(Global.MOD_ID, "alloy_steel"),
 		new ResourceLocation(Global.MOD_ID, "alloy_ferroboron"));
+		
+		ModelBakery.registerItemVariants(NCItems.compound,
+		new ResourceLocation(Global.MOD_ID, "compound_calcium_sulfate"));
 		
 		ModelBakery.registerItemVariants(NCItems.part,
 		new ResourceLocation(Global.MOD_ID, "part_plate_basic"),

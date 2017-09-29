@@ -1,16 +1,21 @@
 package nc.gui.generator;
 
+import java.util.List;
+
+import com.google.common.collect.Lists;
+
 import nc.Global;
 import nc.container.generator.ContainerFissionController;
+import nc.gui.GuiNC;
 import nc.tile.generator.TileFissionController;
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.translation.I18n;
 
-public class GuiFissionController extends GuiContainer {
+public class GuiFissionController extends GuiNC {
 	
 	private final InventoryPlayer playerInventory;
 	protected TileFissionController tile;
@@ -32,8 +37,10 @@ public class GuiFissionController extends GuiContainer {
 		String s2 = tile.problemPosBool == 0 ? "" : I18n.translateToLocalFormatted("gui.container.fission_controller.pos") + " " + tile.problemPos;
 		fontRendererObj.drawString(s2, 8 + xSize / 2 - fontRendererObj.getStringWidth(s2) / 2, 17, fontColor);
 		//fontRendererObj.drawString(playerInventory.getDisplayName().getUnformattedText(), 8, ySize - 96 + 2, 4210752);
-		String energy = tile.storage.getEnergyStored() + " RF";
-		fontRendererObj.drawString(energy, 28, ySize - 92, fontColor);
+		/*String energy = tile.storage.getEnergyStored() + " RF";
+		fontRendererObj.drawString(energy, 28, ySize - 92, fontColor);*/
+		String cells = I18n.translateToLocalFormatted("gui.container.fission_controller.cells") + " " + tile.cells;
+		fontRendererObj.drawString(cells, 28, ySize - 92, fontColor);
 		String power = tile.processPower + " RF/t";
 		fontRendererObj.drawString(power, 28, ySize - 103, fontColor);
 		String fuel = tile.getFuelName().endsWith("OXIDE") ? tile.getFuelName().substring(0, tile.getFuelName().length() - 3) : tile.getFuelName();
@@ -42,10 +49,20 @@ public class GuiFissionController extends GuiContainer {
 		fontRendererObj.drawString(heat, 170 - fontRendererObj.getStringWidth(heat), ySize - 92, fontColor);
 		String heatGen = tile.heatChange + " H/t";
 		fontRendererObj.drawString(heatGen, 170 - fontRendererObj.getStringWidth(heatGen), ySize - 103, fontColor);
-		/*String cells = I18n.translateToLocalFormatted("gui.container.fission_controller.cells") + " " + tile.cells;
-		fontRendererObj.drawString(cells, 170 - fontRendererObj.getStringWidth(cells), ySize - 127, fontColor);*/
 		String efficiency = I18n.translateToLocalFormatted("gui.container.fission_controller.efficiency") + " " + tile.efficiency + "%";
 		fontRendererObj.drawString(efficiency, 170 - fontRendererObj.getStringWidth(efficiency), ySize - 114, fontColor);
+		
+		drawEnergyTooltip(tile, mouseX, mouseY, 8, 6, 6, 85);
+		drawHeatTooltip(mouseX, mouseY, 18, 6, 6, 85);
+	}
+	
+	public List<String> heatInfo() {
+		String heat = tile.heat + " H";
+		return Lists.newArrayList(TextFormatting.YELLOW + I18n.translateToLocalFormatted("gui.container.fission_controller.heat"), TextFormatting.WHITE + heat);
+	}
+	
+	public void drawHeatTooltip(int mouseX, int mouseY, int x, int y, int width, int height) {
+		drawTooltip(heatInfo(), mouseX, mouseY, x, y, width, height);
 	}
 	
 	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {

@@ -5,6 +5,7 @@ import nc.tile.dummy.TileFissionPort;
 import nc.tile.dummy.TileFusionDummySide;
 import nc.tile.dummy.TileFusionDummyTop;
 import nc.tile.dummy.TileMachineInterface;
+import nc.tile.energyFluid.TileBin;
 import nc.tile.energyFluid.TileBuffer;
 import nc.tile.energyStorage.Batteries.LithiumIonBatteryBasic;
 import nc.tile.energyStorage.Batteries.VoltaicPileBasic;
@@ -27,6 +28,7 @@ import nc.tile.processor.Processors.TileAlloyFurnace;
 import nc.tile.processor.Processors.TileChemicalReactor;
 import nc.tile.processor.Processors.TileCrystallizer;
 import nc.tile.processor.Processors.TileDecayHastener;
+import nc.tile.processor.Processors.TileDissolver;
 import nc.tile.processor.Processors.TileElectrolyser;
 import nc.tile.processor.Processors.TileFuelReprocessor;
 import nc.tile.processor.Processors.TileInfuser;
@@ -61,6 +63,7 @@ public class NCTiles {
 		GameRegistry.registerTileEntity(TileChemicalReactor.class, Global.MOD_ID + ":chemical_reactor");
 		GameRegistry.registerTileEntity(TileSaltMixer.class, Global.MOD_ID + ":salt_mixer");
 		GameRegistry.registerTileEntity(TileCrystallizer.class, Global.MOD_ID + ":crystallizer");
+		GameRegistry.registerTileEntity(TileDissolver.class, Global.MOD_ID + ":dissolver");
 		
 		GameRegistry.registerTileEntity(TileMachineInterface.class, Global.MOD_ID + ":machine_interface");
 		
@@ -83,6 +86,7 @@ public class NCTiles {
 		
 		GameRegistry.registerTileEntity(TileBuffer.class, Global.MOD_ID + ":buffer");
 		GameRegistry.registerTileEntity(TileActiveCooler.class, Global.MOD_ID + ":active_cooler");
+		GameRegistry.registerTileEntity(TileBin.class, Global.MOD_ID + ":bin");
 		
 		GameRegistry.registerTileEntity(TileFusionElectromagnet.class, Global.MOD_ID + ":fusion_electromagnet");
 		GameRegistry.registerTileEntity(TileAcceleratorElectromagnet.class, Global.MOD_ID + ":accelerator_electromagnet");

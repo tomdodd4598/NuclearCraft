@@ -16,7 +16,7 @@ public class SaltMixerRecipes extends BaseRecipeHandler {
 	}
 
 	public void addRecipes() {
-		addRecipe(fluidStack("lif", 500), fluidStack("bef2", 500), fluidStack("flibe", 1000), NCConfig.processor_time[13]);
+		addRecipe(fluidStack("lif", 72), fluidStack("bef2", 72), fluidStack("flibe", 144), NCConfig.processor_time[13]);
 	}
 
 	public String getRecipeName() {

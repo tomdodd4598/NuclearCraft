@@ -1,3 +1,5 @@
+/** Massive thanks to CrazyPants, maker of EnderIO and related mods, for letting me use this code! */
+
 package nc.gui;
 
 import javax.annotation.Nonnull;

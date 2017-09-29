@@ -5,7 +5,6 @@ import nc.ModCheck;
 import nc.config.NCConfig;
 import nc.energy.EnumStorage.EnergyConnection;
 import nc.fluid.EnumTank.FluidConnection;
-import nc.tile.dummy.IInterfaceable;
 import nc.tile.energyFluid.TileEnergyFluidSidedInventory;
 import net.darkhax.tesla.capability.TeslaCapabilities;
 import net.minecraft.init.Items;
@@ -20,7 +19,7 @@ import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 
-public abstract class TilePassive extends TileEnergyFluidSidedInventory implements IInterfaceable {
+public abstract class TilePassive extends TileEnergyFluidSidedInventory /*implements IInterfaceable*/ {
 	
 	public int tickCount;
 	public final int updateRate;
@@ -159,7 +158,10 @@ public abstract class TilePassive extends TileEnergyFluidSidedInventory implemen
 		if (tanks[0].getFluidAmount() < MathHelper.abs(fluidChange) && fluidChange < 0) return false;
 		if (!b) {
 			if (changeEnergy(true) && changeStack(true)) {
-				if (fluidChange > 0) tanks[0].changeFluidStored(fluidStackChange.getFluid(), fluidStackChange.amount); else tanks[0].changeFluidStored(fluidStackChange.amount);
+				if (fluidChange > 0) {
+					if (fluidStackChange != null) tanks[0].changeFluidStored(fluidStackChange.getFluid(), fluidStackChange.amount);
+				}
+				else tanks[0].changeFluidStored(fluidStackChange.amount);
 			}
 		}
 		return true;

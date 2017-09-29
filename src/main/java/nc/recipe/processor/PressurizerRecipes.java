@@ -2,6 +2,7 @@ package nc.recipe.processor;
 
 import nc.config.NCConfig;
 import nc.recipe.BaseRecipeHandler;
+import net.minecraft.init.Blocks;
 
 public class PressurizerRecipes extends BaseRecipeHandler {
 	
@@ -21,8 +22,9 @@ public class PressurizerRecipes extends BaseRecipeHandler {
 		addRecipe("dustDiamond", "gemDiamond", NCConfig.processor_time[11]*2);
 		addRecipe("dustRhodochrosite", "gemRhodochrosite", NCConfig.processor_time[11]*2);
 		addRecipe("dustQuartz", "gemQuartz", NCConfig.processor_time[11]);
-		addRecipe(oreStack("dustObsidian", 4), "blockObsidian", NCConfig.processor_time[11]*2);
-		addRecipe("dustBoronNitride", "gemBoronNitride", NCConfig.processor_time[11]);
+		addRecipe(oreStack("dustObsidian", 4), Blocks.OBSIDIAN, NCConfig.processor_time[11]*2);
+		addRecipe("dustBoronNitride", "gemBoronNitride", NCConfig.processor_time[11]*4);
+		addRecipe("dustFluorite", "gemFluorite", NCConfig.processor_time[11]*4);
 	}
 
 	public String getRecipeName() {

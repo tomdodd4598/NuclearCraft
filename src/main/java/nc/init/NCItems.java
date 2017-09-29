@@ -15,6 +15,7 @@ import nc.handler.EnumHandler.CaliforniumDepletedFuelRodTypes;
 import nc.handler.EnumHandler.CaliforniumFuelRodTypes;
 import nc.handler.EnumHandler.CaliforniumFuelTypes;
 import nc.handler.EnumHandler.CaliforniumTypes;
+import nc.handler.EnumHandler.CompoundTypes;
 import nc.handler.EnumHandler.CuriumDepletedFuelRodTypes;
 import nc.handler.EnumHandler.CuriumFuelRodTypes;
 import nc.handler.EnumHandler.CuriumFuelTypes;
@@ -49,6 +50,7 @@ import nc.handler.EnumHandler.UraniumFuelTypes;
 import nc.handler.EnumHandler.UraniumTypes;
 import nc.handler.SoundHandler;
 import nc.item.ItemAlloy;
+import nc.item.ItemCompound;
 import nc.item.ItemDust;
 import nc.item.ItemDustOxide;
 import nc.item.ItemGem;
@@ -59,6 +61,7 @@ import nc.item.ItemPart;
 import nc.item.ItemPortableEnderChest;
 import nc.item.ItemUpgrade;
 import nc.item.NCItem;
+import nc.item.NCItemDoor;
 import nc.item.NCItemFood;
 import nc.item.NCItemRecord;
 import nc.item.fission.ItemDepletedFuelRodAmericium;
@@ -118,11 +121,13 @@ public class NCItems {
 	public static Item gem;
 	public static Item gem_dust;
 	public static Item alloy;
+	public static Item compound;
 	
 	public static Item part;
 	public static Item upgrade;
 	public static Item fuel_rod_empty;
 	public static Item tiny_dust_lead;
+	public static Item reactor_door;
 	
 	public static Item thorium;
 	public static Item uranium;
@@ -172,6 +177,7 @@ public class NCItems {
 	
 	public static Item record_wanderer;
 	public static Item record_end_of_the_world;
+	public static Item record_money_for_nothing;
 	
 	public static void init() {
 		ingot = new ItemIngot("ingot", "ingot");
@@ -181,11 +187,13 @@ public class NCItems {
 		gem = new ItemGem("gem", "gem");
 		gem_dust = new ItemGemDust("gem_dust", "gem_dust");
 		alloy = new ItemAlloy("alloy", "alloy");
+		compound = new ItemCompound("compound", "compound");
 		
 		part = new ItemPart("part", "part");
 		upgrade = new ItemUpgrade("upgrade", "upgrade");
 		fuel_rod_empty = new NCItem("fuel_rod_empty", "fuel_rod_empty");
 		tiny_dust_lead = new NCItem("tiny_dust_lead", "tiny_dust_lead");
+		reactor_door = new NCItemDoor("reactor_door_item", "reactor_door_item", NCBlocks.reactor_door);
 		
 		thorium = new ItemThorium("thorium", "thorium");
 		uranium = new ItemUranium("uranium", "uranium");
@@ -235,6 +243,7 @@ public class NCItems {
 		
 		record_wanderer = new NCItemRecord("wanderer", "wanderer", SoundHandler.WANDERER, 2);
 		record_end_of_the_world = new NCItemRecord("end_of_the_world", "end_of_the_world", SoundHandler.END_OF_THE_WORLD, 2);
+		record_money_for_nothing = new NCItemRecord("money_for_nothing", "money_for_nothing", SoundHandler.MONEY_FOR_NOTHING, 2);
 	}
 	
 	public static void register() {
@@ -245,11 +254,13 @@ public class NCItems {
 		registerItem(gem, CommonProxy.TAB_BASE_ITEM_MATERIALS);
 		registerItem(gem_dust, CommonProxy.TAB_BASE_ITEM_MATERIALS);
 		registerItem(alloy, CommonProxy.TAB_BASE_ITEM_MATERIALS);
+		registerItem(compound, CommonProxy.TAB_BASE_ITEM_MATERIALS);
 		
 		registerItem(part, CommonProxy.TAB_BASE_ITEM_MATERIALS);
 		registerItem(upgrade, CommonProxy.TAB_MACHINES);
 		registerItem(fuel_rod_empty, CommonProxy.TAB_FISSION_FUEL_RODS);
 		registerItem(tiny_dust_lead, CommonProxy.TAB_BASE_ITEM_MATERIALS);
+		registerItem(reactor_door, CommonProxy.TAB_FISSION_BLOCKS);
 		
 		registerItem(thorium, CommonProxy.TAB_FISSION_MATERIALS);
 		registerItem(uranium, CommonProxy.TAB_FISSION_MATERIALS);
@@ -299,6 +310,7 @@ public class NCItems {
 		
 		registerItem(record_wanderer, CommonProxy.TAB_MISC);
 		registerItem(record_end_of_the_world, CommonProxy.TAB_MISC);
+		registerItem(record_money_for_nothing, CommonProxy.TAB_MISC);
 	}
 	
 	public static void registerRenders() {
@@ -329,6 +341,10 @@ public class NCItems {
 			registerRender(alloy, i, "alloy_" + AlloyTypes.values()[i].getName());
 		}
 		
+		for(int i = 0; i < 	CompoundTypes.values().length; i++) {
+			registerRender(compound, i, "compound_" + CompoundTypes.values()[i].getName());
+		}
+		
 		for(int i = 0; i < PartTypes.values().length; i++) {
 			registerRender(part, i, "part_" + PartTypes.values()[i].getName());
 		}
@@ -339,6 +355,7 @@ public class NCItems {
 		
 		registerRender(fuel_rod_empty);
 		registerRender(tiny_dust_lead);
+		registerRender(reactor_door);
 		
 		for(int i = 0; i < ThoriumTypes.values().length; i++) {
 			registerRender(thorium, i, "thorium" + ThoriumTypes.values()[i].getName());
@@ -494,6 +511,7 @@ public class NCItems {
 		
 		registerRender(record_wanderer);
 		registerRender(record_end_of_the_world);
+		registerRender(record_money_for_nothing);
 	}
 	
 	public static void registerItem(Item item, CreativeTabs tab) {

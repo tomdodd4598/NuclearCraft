@@ -19,6 +19,7 @@ public abstract class TileFluid extends NCTile implements ITileFluid, IFluidHand
 	
 	public FluidConnection[] connection;
 	public final Tank[] tanks;
+	public boolean areTanksShared = false;
 	
 	public TileFluid(int capacity, FluidConnection connection, String[]... allowedFluids) {
 		this(new int[] {capacity}, new int[] {capacity}, new int[] {capacity}, new FluidConnection[] {connection}, allowedFluids);
@@ -66,6 +67,14 @@ public abstract class TileFluid extends NCTile implements ITileFluid, IFluidHand
 			this.connection = connectionList;
 		}
 	}
+	
+	public boolean getTanksShared() {
+		return areTanksShared;
+	}
+	
+	public void setTanksShared(boolean shared) {
+		areTanksShared = shared;
+	}
 
 	public IFluidTankProperties[] getTankProperties() {
 		if (tanks.length == 0 || tanks == null) return EmptyFluidHandler.EMPTY_TANK_PROPERTIES_ARRAY;
@@ -107,7 +116,18 @@ public abstract class TileFluid extends NCTile implements ITileFluid, IFluidHand
 	}
 	
 	public boolean canFill(FluidStack resource, int tankNumber) {
+		if (!areTanksShared) return true;
+		
+		for (int i = 0; i < tanks.length; i++) {
+			if (i != tankNumber && connection[i].canFill() && tanks[i].getFluid() != null) {
+				if (tanks[i].getFluid().isFluidEqual(resource)) return false;
+			}
+		}
 		return true;
+	}
+	
+	public void clearTank(int tankNo) {
+		if (tankNo < tanks.length) tanks[tankNo].setFluidStored(null);
 	}
 	
 	public Tank[] getTanks() {
@@ -126,6 +146,7 @@ public abstract class TileFluid extends NCTile implements ITileFluid, IFluidHand
 			nbt.setInteger("fluidAmount" + i, tanks[i].getFluidAmount());
 			nbt.setString("fluidName" + i, tanks[i].getFluidName());
 		}
+		nbt.setBoolean("areTanksShared", areTanksShared);
 		return nbt;
 	}
 		
@@ -135,6 +156,7 @@ public abstract class TileFluid extends NCTile implements ITileFluid, IFluidHand
 			if (nbt.getString("fluidName" + i) == "nullFluid" || nbt.getInteger("fluidAmount" + i) == 0) tanks[i].setFluidStored(null);
 			else tanks[i].setFluidStored(FluidRegistry.getFluid(nbt.getString("fluidName" + i)), nbt.getInteger("fluidAmount" + i));
 		}
+		setTanksShared(nbt.getBoolean("areTanksShared"));
 	}
 	
 	// Fluid Connections

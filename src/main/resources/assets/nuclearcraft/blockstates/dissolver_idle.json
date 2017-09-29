@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "facing=north": { "model": "nuclearcraft:dissolver_idle" },
+        "facing=south": { "model": "nuclearcraft:dissolver_idle", "y": 180 },
+        "facing=west":  { "model": "nuclearcraft:dissolver_idle", "y": 270 },
+        "facing=east":  { "model": "nuclearcraft:dissolver_idle", "y": 90 }
+    }
+}

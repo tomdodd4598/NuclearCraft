@@ -265,7 +265,8 @@ public class EnumHandler {
 	
 	public static enum GemTypes implements IStringSerializable {
 		RHODOCHROSITE("rhodochrosite", 0),
-		BORON_NITRIDE("boron_nitride", 1);
+		BORON_NITRIDE("boron_nitride", 1),
+		FLUORITE("fluorite", 2);
 		
 		private int id;
 		private String name;
@@ -297,7 +298,9 @@ public class EnumHandler {
 		RHODOCHROSITE("rhodochrosite", 1),
 		QUARTZ("quartz", 2),
 		OBSIDIAN("obsidian", 3),
-		BORON_NITRIDE("boron_nitride", 4);
+		BORON_NITRIDE("boron_nitride", 4),
+		FLUORITE("fluorite", 5),
+		SULFUR("sulfur", 6);
 		
 		private int id;
 		private String name;
@@ -337,6 +340,34 @@ public class EnumHandler {
 		private String name;
 		
 		private AlloyTypes(String name, int id) {
+			this.id = id;
+			this.name = name;
+		}
+
+		public String getName() {	
+			return name;
+		}
+		
+		public int getID() {	
+			return id;
+		}
+		
+		public String toString() {	
+			return getName();
+		}
+		
+		public Object[] getValues() {
+			return values();
+		}
+	}
+	
+	public static enum CompoundTypes implements IStringSerializable {
+		CALCIUM_SULFATE("calcium_sulfate", 0);
+		
+		private int id;
+		private String name;
+		
+		private CompoundTypes(String name, int id) {
 			this.id = id;
 			this.name = name;
 		}

@@ -2,7 +2,6 @@ package nc.handler;
 
 import nc.init.NCBlocks;
 import nc.init.NCItems;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
@@ -70,12 +69,15 @@ public class OreDictHandler {
 		
 		OreDictionary.registerOre("gemRhodochrosite", new ItemStack(NCItems.gem, 1, 0));
 		OreDictionary.registerOre("gemBoronNitride", new ItemStack(NCItems.gem, 1, 1));
+		OreDictionary.registerOre("gemFluorite", new ItemStack(NCItems.gem, 1, 2));
 		
 		OreDictionary.registerOre("dustDiamond", new ItemStack(NCItems.gem_dust, 1, 0));
 		OreDictionary.registerOre("dustRhodochrosite", new ItemStack(NCItems.gem_dust, 1, 1));
 		OreDictionary.registerOre("dustQuartz", new ItemStack(NCItems.gem_dust, 1, 2));
 		OreDictionary.registerOre("dustObsidian", new ItemStack(NCItems.gem_dust, 1, 3));
 		OreDictionary.registerOre("dustBoronNitride", new ItemStack(NCItems.gem_dust, 1, 4));
+		OreDictionary.registerOre("dustFluorite", new ItemStack(NCItems.gem_dust, 1, 5));
+		OreDictionary.registerOre("dustSulfur", new ItemStack(NCItems.gem_dust, 1, 6));
 		
 		OreDictionary.registerOre("ingotBronze", new ItemStack(NCItems.alloy, 1, 0));
 		OreDictionary.registerOre("ingotTough", new ItemStack(NCItems.alloy, 1, 1));
@@ -84,6 +86,8 @@ public class OreDictHandler {
 		OreDictionary.registerOre("ingotLithiumManganeseDioxide", new ItemStack(NCItems.alloy, 1, 4));
 		OreDictionary.registerOre("ingotSteel", new ItemStack(NCItems.alloy, 1, 5));
 		OreDictionary.registerOre("ingotFerroboron", new ItemStack(NCItems.alloy, 1, 6));
+		
+		OreDictionary.registerOre("dustCalciumSulfate", new ItemStack(NCItems.compound, 1, 0));
 		
 		OreDictionary.registerOre("plateBasic", new ItemStack(NCItems.part, 1, 0));
 		OreDictionary.registerOre("plateAdvanced", new ItemStack(NCItems.part, 1, 1));
@@ -416,11 +420,14 @@ public class OreDictHandler {
 		
 		OreDictionary.registerOre("record", NCItems.record_wanderer);
 		OreDictionary.registerOre("record", NCItems.record_end_of_the_world);
+		OreDictionary.registerOre("record", NCItems.record_money_for_nothing);
+		
+		for (ItemStack sulfur : OreDictionary.getOres("dustSulfur")) OreDictionary.registerOre("dustSulfurBinder", sulfur);
+		OreDictionary.registerOre("dustSulfurBinder", new ItemStack(NCItems.gem_dust, 1, 6));
+		OreDictionary.registerOre("dustSulfurBinder", new ItemStack(NCItems.compound, 1, 0));
 		
 		// Vanilla
 		OreDictionary.registerOre("gemCoal", Items.COAL);
-		OreDictionary.registerOre("blockObsidian", Blocks.OBSIDIAN);
-		OreDictionary.registerOre("blockGlowstone", Blocks.GLOWSTONE);
 	}
 
 }

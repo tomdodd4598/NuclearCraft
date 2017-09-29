@@ -6,6 +6,7 @@ import nc.container.processor.ContainerAlloyFurnace;
 import nc.container.processor.ContainerChemicalReactor;
 import nc.container.processor.ContainerCrystallizer;
 import nc.container.processor.ContainerDecayHastener;
+import nc.container.processor.ContainerDissolver;
 import nc.container.processor.ContainerElectrolyser;
 import nc.container.processor.ContainerFuelReprocessor;
 import nc.container.processor.ContainerInfuser;
@@ -24,6 +25,7 @@ import nc.gui.processor.GuiAlloyFurnace;
 import nc.gui.processor.GuiChemicalReactor;
 import nc.gui.processor.GuiCrystallizer;
 import nc.gui.processor.GuiDecayHastener;
+import nc.gui.processor.GuiDissolver;
 import nc.gui.processor.GuiElectrolyser;
 import nc.gui.processor.GuiFuelReprocessor;
 import nc.gui.processor.GuiInfuser;
@@ -42,6 +44,7 @@ import nc.tile.processor.Processors.TileAlloyFurnace;
 import nc.tile.processor.Processors.TileChemicalReactor;
 import nc.tile.processor.Processors.TileCrystallizer;
 import nc.tile.processor.Processors.TileDecayHastener;
+import nc.tile.processor.Processors.TileDissolver;
 import nc.tile.processor.Processors.TileElectrolyser;
 import nc.tile.processor.Processors.TileFuelReprocessor;
 import nc.tile.processor.Processors.TileInfuser;
@@ -99,6 +102,8 @@ public class GuiHandler implements IGuiHandler {
 				if (entity instanceof TileSaltMixer) return new ContainerSaltMixer(player, (TileSaltMixer) entity);
 			case 15:
 				if (entity instanceof TileCrystallizer) return new ContainerCrystallizer(player, (TileCrystallizer) entity);
+			case 16:
+				if (entity instanceof TileDissolver) return new ContainerDissolver(player, (TileDissolver) entity);
 			case 100:
 				if (entity instanceof TileFissionController) return new ContainerFissionController(player, (TileFissionController) entity);
 			case 101:
@@ -146,6 +151,8 @@ public class GuiHandler implements IGuiHandler {
 				if (entity instanceof TileSaltMixer) return new GuiSaltMixer(player, (TileSaltMixer) entity);
 			case 15:
 				if (entity instanceof TileCrystallizer) return new GuiCrystallizer(player, (TileCrystallizer) entity);
+			case 16:
+				if (entity instanceof TileDissolver) return new GuiDissolver(player, (TileDissolver) entity);
 			case 100:
 				if (entity instanceof TileFissionController) return new GuiFissionController(player, (TileFissionController) entity);
 			case 101:
