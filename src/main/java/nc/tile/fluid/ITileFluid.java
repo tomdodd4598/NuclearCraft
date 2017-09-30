@@ -12,5 +12,5 @@ public interface ITileFluid {
 	public boolean getTanksShared();
 	public void setTanksShared(boolean shared);
 	public void clearTank(int tankNo);
-	public BlockPos getPos();
+	public BlockPos getBlockPos();
 }

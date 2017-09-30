@@ -33,6 +33,7 @@ public abstract class TilePassive extends TileEnergyFluidSidedInventory /*implem
 	public final int itemChange;
 	public final int fluidChange;
 	public final FluidStack fluidStackChange;
+	public final Fluid fluidType;
 	
 	public TilePassive(String name, int energyChange, int changeRate) {
 		this(name, new ItemStack(Items.BEEF), 0, energyChange, FluidRegistry.LAVA, 0, changeRate);
@@ -73,6 +74,7 @@ public abstract class TilePassive extends TileEnergyFluidSidedInventory /*implem
 		stackChange = new ItemStack(stack.getItem(), MathHelper.abs(itemChange)*changeRate, stack.getMetadata());
 		this.fluidChange = fluidChange*changeRate;
 		fluidStackChange = new FluidStack(fluid, MathHelper.abs(fluidChange)*changeRate);
+		fluidType = fluid;
 		updateRate = changeRate*20;
 	}
 	
@@ -159,7 +161,7 @@ public abstract class TilePassive extends TileEnergyFluidSidedInventory /*implem
 		if (!b) {
 			if (changeEnergy(true) && changeStack(true)) {
 				if (fluidChange > 0) {
-					if (fluidStackChange != null) tanks[0].changeFluidStored(fluidStackChange.getFluid(), fluidStackChange.amount);
+					if (fluidStackChange != null) tanks[0].changeFluidStored(fluidType, fluidStackChange.amount);
 				}
 				else tanks[0].changeFluidStored(fluidStackChange.amount);
 			}

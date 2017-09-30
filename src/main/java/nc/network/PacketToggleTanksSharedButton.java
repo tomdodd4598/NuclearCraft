@@ -23,7 +23,7 @@ public class PacketToggleTanksSharedButton implements IMessage {
 	}
 	
 	public PacketToggleTanksSharedButton(ITileFluid machine) {
-		pos = machine.getPos();
+		pos = machine.getBlockPos();
 		tanksShared = machine.getTanksShared();
 		messageValid = true;
 	}

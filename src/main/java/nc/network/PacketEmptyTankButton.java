@@ -23,7 +23,7 @@ public class PacketEmptyTankButton implements IMessage {
 	}
 	
 	public PacketEmptyTankButton(ITileFluid machine, int tankNo) {
-		pos = machine.getPos();
+		pos = machine.getBlockPos();
 		this.tankNo = tankNo;
 		messageValid = true;
 	}
