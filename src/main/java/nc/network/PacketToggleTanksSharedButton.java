@@ -23,7 +23,7 @@ public class PacketToggleTanksSharedButton implements IMessage {
 	}
 	
 	public PacketToggleTanksSharedButton(ITileFluid machine) {
-		pos = machine.getPos();
+		pos = machine.getBlockPos();
 		tanksShared = machine.getTanksShared();
 		messageValid = true;
 	}
@@ -56,12 +56,12 @@ public class PacketToggleTanksSharedButton implements IMessage {
 		}
 		
 		void processMessage(PacketToggleTanksSharedButton message, MessageContext ctx) {
-			TileEntity tile = ctx.getServerHandler().playerEntity.getServerWorld().getTileEntity(message.pos);
+			TileEntity tile = ctx.getServerHandler().player.getServerWorld().getTileEntity(message.pos);
 			if (tile == null) return;
 			if(tile instanceof ITileFluid) {
 				ITileFluid machine = (ITileFluid) tile;
 				machine.setTanksShared(message.tanksShared);
-				ctx.getServerHandler().playerEntity.getServerWorld().getTileEntity(message.pos).markDirty();
+				ctx.getServerHandler().player.getServerWorld().getTileEntity(message.pos).markDirty();
 			}
 		}
 	}

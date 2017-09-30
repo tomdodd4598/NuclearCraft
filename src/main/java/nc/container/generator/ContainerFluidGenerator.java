@@ -30,11 +30,11 @@ public class ContainerFluidGenerator extends ContainerTile {
 		for (int i = 0; i < listeners.size(); i++) {
 			IContainerListener icontainerlistener = (IContainerListener) listeners.get(i);
 
-			icontainerlistener.sendProgressBarUpdate(this, 0, tile.getField(0) >> 16);
-			icontainerlistener.sendProgressBarUpdate(this, 100, tile.getField(0));
+			icontainerlistener.sendWindowProperty(this, 0, tile.getField(0) >> 16);
+			icontainerlistener.sendWindowProperty(this, 100, tile.getField(0));
 
-			icontainerlistener.sendProgressBarUpdate(this, 1, tile.getField(1) >> 16);
-			icontainerlistener.sendProgressBarUpdate(this, 101, tile.getField(1));
+			icontainerlistener.sendWindowProperty(this, 1, tile.getField(1) >> 16);
+			icontainerlistener.sendWindowProperty(this, 101, tile.getField(1));
 		}
 	}
 	

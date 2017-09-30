@@ -8,9 +8,9 @@ import javax.annotation.Nullable;
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
@@ -83,7 +83,7 @@ public class GuiFluidRenderer {
 				double maxV = icon.getMaxV();
 		
 				Tessellator tessellator = Tessellator.getInstance();
-				VertexBuffer tes = tessellator.getBuffer();
+				BufferBuilder tes = tessellator.getBuffer();
 				tes.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
 				tes.pos(drawX, drawY + drawHeight, 0).tex(minU, minV + (maxV - minV) * drawHeight / 16F).endVertex();
 				tes.pos(drawX + drawWidth, drawY + drawHeight, 0).tex(minU + (maxU - minU) * drawWidth / 16F, minV + (maxV - minV) * drawHeight / 16F).endVertex();

@@ -24,7 +24,7 @@ public final class NCGuiButton {
 		}
 		
 		public boolean mousePressed(Minecraft minecraft, int mouseX, int mouseY) {
-			isButtonPressed = enabled && visible && mouseX >= xPosition && mouseY >= yPosition && mouseX < xPosition + width && mouseY < yPosition + height;
+			isButtonPressed = enabled && visible && mouseX >= this.x && mouseY >= this.y && mouseX < this.x + width && mouseY < this.y + height;
 			return isButtonPressed;
 		}
 		
@@ -57,12 +57,12 @@ public final class NCGuiButton {
 			if (isButtonPressed) return pressedtexture; else return unpressedtexture;
 		}
 		
-		public void drawButton(Minecraft minecraft, int x, int y) {
+		public void drawButton(Minecraft minecraft, int x, int y, float partialTicks) {
 			if (this.visible) {
 				GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-				hovered = x >= xPosition && y >= yPosition && x < xPosition + width && y < yPosition + height;
+				hovered = x >= this.x && y >= this.y && x < this.x + width && y < this.y + height;
 				minecraft.getTextureManager().bindTexture(getTexture());
-				drawTexturedModalRect(xPosition, yPosition, textureX, textureY, textureWidth, textureHeight);
+				drawTexturedModalRect(this.x, this.y, textureX, textureY, textureWidth, textureHeight);
 			}
 		}
 	}
@@ -81,9 +81,9 @@ public final class NCGuiButton {
 			itemRenderer = new GuiItemRenderer(x + (width - 16)/2, y + (height - 16)/2, alph, item, itemMeta);
 		}
 		
-		public void drawButton(Minecraft minecraft, int x, int y) {
+		public void drawButton(Minecraft minecraft, int x, int y, float partialTicks) {
 			if (this.visible) {
-				hovered = x >= xPosition && y >= yPosition && x < xPosition + width && y < yPosition + height;
+				hovered = x >= this.x && y >= this.y && x < this.x + width && y < this.y + height;
 				itemRenderer.draw();
 			}
 		}
@@ -96,6 +96,6 @@ public final class NCGuiButton {
 			super(id, x, y, width, height, "");
 		}
 		
-		public void drawButton(Minecraft minecraft, int x, int y) {}
+		public void drawButton(Minecraft minecraft, int x, int y, float partialTicks) {}
 	}
 }

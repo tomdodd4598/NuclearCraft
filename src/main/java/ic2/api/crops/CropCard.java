@@ -9,6 +9,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
 /**
  * Base agriculture crop.
  *
@@ -379,5 +382,11 @@ public abstract class CropCard {
 		return cropTile.getWorldObj();
 	}
 
+	/**
+	 * Gets a list of textures the crop will need to be rendered when it's on crop sticks.
+	 *
+	 * @return A list of textures to be baked (return an empty list over null if necessary)
+	 */
+	@SideOnly(Side.CLIENT)
 	public abstract List<ResourceLocation> getTexturesLocation();
 }

@@ -49,7 +49,7 @@ public class BlockIce extends net.minecraft.block.BlockIce {
 		entityIn.attackEntityFrom(hypothermia, 2.0F);
 	}
 	
-	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, World worldIn, BlockPos pos) {
+	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos) {
 		return new AxisAlignedBB(0.002D, 0.002D, 0.002D, 0.998D, 1D, 0.998D);
 	}
 }

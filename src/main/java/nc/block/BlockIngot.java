@@ -37,9 +37,9 @@ public class BlockIngot extends BlockMeta implements IMetaBlockName {
 		return this.getDefaultState().withProperty(TYPE, IngotTypes.values()[meta]);
 	}
 	
-	public void getSubBlocks(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> list) {
+	public void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> list) {
 		for (int i = 0; i < IngotTypes.values().length; i++) {
-			list.add(new ItemStack(itemIn, 1, i));
+			list.add(new ItemStack(this, 1, i));
 		}
 	}
 	

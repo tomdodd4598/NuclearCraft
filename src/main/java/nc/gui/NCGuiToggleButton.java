@@ -29,7 +29,7 @@ public final class NCGuiToggleButton {
 		}
 		
 		public boolean mousePressed(Minecraft minecraft, int mouseX, int mouseY) {
-			boolean clicked = enabled && visible && mouseX >= xPosition && mouseY >= yPosition && mouseX < xPosition + width && mouseY < yPosition + height;
+			boolean clicked = enabled && visible && mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height;
 			if (clicked) togglePressed();
 			return clicked;
 		}
@@ -75,12 +75,12 @@ public final class NCGuiToggleButton {
 			if (isButtonPressed) return pressedtexture; else return unpressedtexture;
 		}
 		
-		public void drawButton(Minecraft minecraft, int x, int y) {
+		public void drawButton(Minecraft minecraft, int x, int y, float partialTicks) {
 			if (this.visible) {
 				GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-				hovered = x >= xPosition && y >= yPosition && x < xPosition + width && y < yPosition + height;
+				hovered = x >= this.x && y >= this.y && x < this.x + width && y < this.y + height;
 				minecraft.getTextureManager().bindTexture(getTexture());
-				drawTexturedModalRect(xPosition, yPosition, textureX, textureY, textureWidth, textureHeight);
+				drawTexturedModalRect(this.x, this.y, textureX, textureY, textureWidth, textureHeight);
 			}
 		}
 	}
@@ -105,9 +105,9 @@ public final class NCGuiToggleButton {
 			if (isButtonPressed) return pressedItemRenderer; else return unpressedItemRenderer;
 		}
 		
-		public void drawButton(Minecraft minecraft, int x, int y) {
+		public void drawButton(Minecraft minecraft, int x, int y, float partialTicks) {
 			if (this.visible) {
-				hovered = x >= xPosition && y >= yPosition && x < xPosition + width && y < yPosition + height;
+				hovered = x >= this.x && y >= this.y && x < this.x + width && y < this.y + height;
 				getItemRenderer().draw();
 			}
 		}

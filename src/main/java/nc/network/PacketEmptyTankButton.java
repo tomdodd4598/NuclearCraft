@@ -23,7 +23,7 @@ public class PacketEmptyTankButton implements IMessage {
 	}
 	
 	public PacketEmptyTankButton(ITileFluid machine, int tankNo) {
-		pos = machine.getPos();
+		pos = machine.getBlockPos();
 		this.tankNo = tankNo;
 		messageValid = true;
 	}
@@ -56,12 +56,12 @@ public class PacketEmptyTankButton implements IMessage {
 		}
 		
 		void processMessage(PacketEmptyTankButton message, MessageContext ctx) {
-			TileEntity tile = ctx.getServerHandler().playerEntity.getServerWorld().getTileEntity(message.pos);
+			TileEntity tile = ctx.getServerHandler().player.getServerWorld().getTileEntity(message.pos);
 			if (tile == null) return;
 			if(tile instanceof ITileFluid) {
 				ITileFluid machine = (ITileFluid) tile;
 				machine.clearTank(message.tankNo);
-				ctx.getServerHandler().playerEntity.getServerWorld().getTileEntity(message.pos).markDirty();
+				ctx.getServerHandler().player.getServerWorld().getTileEntity(message.pos).markDirty();
 			}
 		}
 	}

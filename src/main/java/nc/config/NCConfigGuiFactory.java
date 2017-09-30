@@ -29,9 +29,9 @@ public class NCConfigGuiFactory implements IModGuiFactory {
 		return null;
 	}
 
-	public RuntimeOptionGuiHandler getHandlerFor(RuntimeOptionCategoryElement element) {
+	/*public RuntimeOptionGuiHandler getHandlerFor(RuntimeOptionCategoryElement element) {
 		return null;
-	}
+	}*/
 	
 	public static class NCConfigGui extends GuiConfig {
 		

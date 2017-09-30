@@ -3,13 +3,12 @@ package nc.integration.crafttweaker;
 import java.util.ArrayList;
 import java.util.List;
 
-import minetweaker.IUndoableAction;
-import minetweaker.MineTweakerAPI;
-import minetweaker.api.item.IItemStack;
-import minetweaker.api.liquid.ILiquidStack;
-import minetweaker.api.minecraft.MineTweakerMC;
-import minetweaker.api.oredict.IOreDictEntry;
-import nc.integration.jei.JEIMethods;
+import crafttweaker.CraftTweakerAPI;
+import crafttweaker.IAction;
+import crafttweaker.api.item.IItemStack;
+import crafttweaker.api.liquid.ILiquidStack;
+import crafttweaker.api.minecraft.CraftTweakerMC;
+import crafttweaker.api.oredict.IOreDictEntry;
 import nc.recipe.BaseRecipeHandler;
 import nc.recipe.IIngredient;
 import nc.recipe.IRecipe;
@@ -19,7 +18,7 @@ import nc.recipe.StackType;
 import nc.util.NCUtil;
 import net.minecraft.item.ItemStack;
 
-public class AddRecipe<T extends BaseRecipeHandler> implements IUndoableAction {
+public class AddRecipe<T extends BaseRecipeHandler> implements IAction {
 	
 	public ArrayList<IIngredient> inputs;
 	public ArrayList<IIngredient> outputs;
@@ -30,7 +29,7 @@ public class AddRecipe<T extends BaseRecipeHandler> implements IUndoableAction {
 	public AddRecipe(T helper, ArrayList<Object> inputs, ArrayList<Object> outputs, ArrayList extras) {
 		this.helper = helper;
 		if (helper instanceof BaseRecipeHandler && (inputs.size() != ((BaseRecipeHandler) helper).inputSizeItem + ((BaseRecipeHandler) helper).inputSizeFluid || outputs.size() != ((BaseRecipeHandler) helper).outputSizeItem + ((BaseRecipeHandler) helper).outputSizeFluid)) {
-			MineTweakerAPI.logError("A " + helper.getRecipeName() + " recipe was the wrong size");
+			CraftTweakerAPI.logError("A " + helper.getRecipeName() + " recipe was the wrong size");
 			wrongSize = true;
 			return;
 		}
@@ -38,21 +37,21 @@ public class AddRecipe<T extends BaseRecipeHandler> implements IUndoableAction {
 		ArrayList<IIngredient> adaptedOutputs = new ArrayList<IIngredient>();
 		for (Object input : inputs) {
 			if (input == null) {
-				MineTweakerAPI.logError(String.format("An ingredient of a %s was null", helper.getRecipeName()));
+				CraftTweakerAPI.logError(String.format("An ingredient of a %s was null", helper.getRecipeName()));
 				wasNull = true;
 				return;
 			}
 			if (input instanceof IItemStack) {
-				adaptedInputs.add(helper.buildRecipeObject(MineTweakerMC.getItemStack((IItemStack) input)));
+				adaptedInputs.add(helper.buildRecipeObject(CraftTweakerMC.getItemStack((IItemStack) input)));
 				continue;
 			} else if (input instanceof IOreDictEntry) {
 				adaptedInputs.add(new RecipeOreStack(((IOreDictEntry) input).getName(), StackType.ITEM, ((IOreDictEntry) input).getAmount()));
 				continue;
 			} else if (input instanceof ILiquidStack) {
-				adaptedInputs.add(helper.buildRecipeObject(MineTweakerMC.getLiquidStack((ILiquidStack) input)));
+				adaptedInputs.add(helper.buildRecipeObject(CraftTweakerMC.getLiquidStack((ILiquidStack) input)));
 				continue;
 			} else if (!(input instanceof ItemStack)) {
-				MineTweakerAPI.logError(String.format("%s: Invalid ingredient: %s", helper.getRecipeName(), input));
+				CraftTweakerAPI.logError(String.format("%s: Invalid ingredient: %s", helper.getRecipeName(), input));
 				continue;
 			} else {
 				adaptedInputs.add(helper.buildRecipeObject(input));
@@ -61,21 +60,21 @@ public class AddRecipe<T extends BaseRecipeHandler> implements IUndoableAction {
 		}
 		for (Object output : outputs) {
 			if (output == null) {
-				MineTweakerAPI.logError(String.format("An ingredient of a %s was null", helper.getRecipeName()));
+				CraftTweakerAPI.logError(String.format("An ingredient of a %s was null", helper.getRecipeName()));
 				wasNull = true;
 				return;
 			}
 			if (output instanceof IItemStack) {
-				adaptedOutputs.add(helper.buildRecipeObject(MineTweakerMC.getItemStack((IItemStack) output)));
+				adaptedOutputs.add(helper.buildRecipeObject(CraftTweakerMC.getItemStack((IItemStack) output)));
 				continue;
 			} else if (output instanceof IOreDictEntry) {
 				adaptedOutputs.add(new RecipeOreStack(((IOreDictEntry) output).getName(), StackType.ITEM, ((IOreDictEntry) output).getAmount()));
 				continue;
 			} else if (output instanceof ILiquidStack) {
-				adaptedOutputs.add(helper.buildRecipeObject(MineTweakerMC.getLiquidStack((ILiquidStack) output)));
+				adaptedOutputs.add(helper.buildRecipeObject(CraftTweakerMC.getLiquidStack((ILiquidStack) output)));
 				continue;
 			} else if (!(output instanceof ItemStack)) {
-				MineTweakerAPI.logError(String.format("%s: Invalid ingredient: %s", helper.getRecipeName(), output));
+				CraftTweakerAPI.logError(String.format("%s: Invalid ingredient: %s", helper.getRecipeName(), output));
 				continue;
 			} else {
 				adaptedOutputs.add(helper.buildRecipeObject(output));
@@ -92,7 +91,7 @@ public class AddRecipe<T extends BaseRecipeHandler> implements IUndoableAction {
 			boolean isShapeless = helper instanceof BaseRecipeHandler ? ((BaseRecipeHandler) helper).shapeless : true;
 			IRecipe recipe = helper.buildRecipe((ArrayList<IRecipeStack>) inputs.clone(), (ArrayList<IRecipeStack>) outputs.clone(), (ArrayList) extras.clone(), isShapeless);
 			helper.addRecipe(recipe);	
-			MineTweakerAPI.getIjeiRecipeRegistry().addRecipe(JEIMethods.createJEIRecipe(recipe, helper));
+			//CraftTweakerAPI.getIjeiRecipeRegistry().addRecipe(JEIMethods.createJEIRecipe(recipe, helper));
 		} else {
 			NCUtil.getLogger().error(String.format("Failed to add %s recipe (%s = %s)", helper.getRecipeName(), inputs, outputs));
 		}
@@ -104,14 +103,14 @@ public class AddRecipe<T extends BaseRecipeHandler> implements IUndoableAction {
 			List values = helper.getValuesFromList(inputs);
 			IRecipe recipe = helper.getRecipeFromInputs(values.toArray());
 			if (recipe == null) {
-				MineTweakerAPI.logError(String.format("%s: Adding Recipe - Couldn't find matching recipe %s", helper.getRecipeName(), values));
+				CraftTweakerAPI.logError(String.format("%s: Adding Recipe - Couldn't find matching recipe %s", helper.getRecipeName(), values));
 				return;
 			}
 			boolean removed = helper.removeRecipe(recipe);			
 			if (!removed) {
-				MineTweakerAPI.logError(String.format("%s: Adding Recipe - Failed to remove recipe %s", helper.getRecipeName(), values));
+				CraftTweakerAPI.logError(String.format("%s: Adding Recipe - Failed to remove recipe %s", helper.getRecipeName(), values));
 			}else{
-				MineTweakerAPI.getIjeiRecipeRegistry().removeRecipe(JEIMethods.createJEIRecipe(recipe, helper));
+				//CraftTweakerAPI.getIjeiRecipeRegistry().removeRecipe(JEIMethods.createJEIRecipe(recipe, helper));
 			}
 
 		} else {

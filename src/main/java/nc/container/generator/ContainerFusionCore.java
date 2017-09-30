@@ -36,28 +36,28 @@ public class ContainerFusionCore extends ContainerFluidGenerator {
 		for (int i = 0; i < listeners.size(); i++) {
 			IContainerListener icontainerlistener = (IContainerListener) listeners.get(i);
 
-			icontainerlistener.sendProgressBarUpdate(this, 0, tile.getField(0) >> 16);
-			icontainerlistener.sendProgressBarUpdate(this, 100, tile.getField(0));
+			icontainerlistener.sendWindowProperty(this, 0, tile.getField(0) >> 16);
+			icontainerlistener.sendWindowProperty(this, 100, tile.getField(0));
 
-			icontainerlistener.sendProgressBarUpdate(this, 1, tile.getField(1) >> 16);
-			icontainerlistener.sendProgressBarUpdate(this, 101, tile.getField(1));
+			icontainerlistener.sendWindowProperty(this, 1, tile.getField(1) >> 16);
+			icontainerlistener.sendWindowProperty(this, 101, tile.getField(1));
 
-			icontainerlistener.sendProgressBarUpdate(this, 2, tile.getField(2) >> 16);
-			icontainerlistener.sendProgressBarUpdate(this, 102, tile.getField(2));
+			icontainerlistener.sendWindowProperty(this, 2, tile.getField(2) >> 16);
+			icontainerlistener.sendWindowProperty(this, 102, tile.getField(2));
 
-			icontainerlistener.sendProgressBarUpdate(this, 3, tile.getField(3) >> 16);
-			icontainerlistener.sendProgressBarUpdate(this, 103, tile.getField(3));
+			icontainerlistener.sendWindowProperty(this, 3, tile.getField(3) >> 16);
+			icontainerlistener.sendWindowProperty(this, 103, tile.getField(3));
 
-			icontainerlistener.sendProgressBarUpdate(this, 4, tile.getField(4) >> 16);
-			icontainerlistener.sendProgressBarUpdate(this, 104, tile.getField(4));
+			icontainerlistener.sendWindowProperty(this, 4, tile.getField(4) >> 16);
+			icontainerlistener.sendWindowProperty(this, 104, tile.getField(4));
 
-			icontainerlistener.sendProgressBarUpdate(this, 5, tile.getField(5) >> 16);
-			icontainerlistener.sendProgressBarUpdate(this, 105, tile.getField(5));
+			icontainerlistener.sendWindowProperty(this, 5, tile.getField(5) >> 16);
+			icontainerlistener.sendWindowProperty(this, 105, tile.getField(5));
 
-			icontainerlistener.sendProgressBarUpdate(this, 6, tile.getField(6) >> 16);
-			icontainerlistener.sendProgressBarUpdate(this, 106, tile.getField(6));
+			icontainerlistener.sendWindowProperty(this, 6, tile.getField(6) >> 16);
+			icontainerlistener.sendWindowProperty(this, 106, tile.getField(6));
 			
-			for (int j : new int[] {7, 8}) icontainerlistener.sendProgressBarUpdate(this, j, tile.getField(j));
+			for (int j : new int[] {7, 8}) icontainerlistener.sendWindowProperty(this, j, tile.getField(j));
 		}
 	}
 	

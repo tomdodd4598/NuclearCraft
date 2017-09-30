@@ -20,6 +20,7 @@ import net.minecraft.item.ItemSword;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.util.EnumHelper;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class NCTools {
@@ -153,7 +154,7 @@ public class NCTools {
 		
 	public static void registerItem(Item item) {
 		item.setCreativeTab(CommonProxy.TAB_MISC);
-		GameRegistry.register(item);
+		ForgeRegistries.ITEMS.register(item);
 		NCUtil.getLogger().info("Registered tool " + item.getUnlocalizedName().substring(5));
 	}
 		

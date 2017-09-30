@@ -4,6 +4,7 @@ import java.util.List;
 
 import nc.Global;
 import nc.util.NCInfo;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
@@ -77,8 +78,8 @@ public class NCItemFood extends ItemFood {
 		}
 	}
 	
-	public void addInformation(ItemStack itemStack, EntityPlayer player, List<String> tooltip, boolean advanced) {
-        super.addInformation(itemStack, player, tooltip, advanced);
+	public void addInformation(ItemStack itemStack, World world, List<String> tooltip, ITooltipFlag flag) {
+        super.addInformation(itemStack, world, tooltip, flag);
         if (info.length > 0) NCInfo.infoFull(tooltip, info);
     }
 }

@@ -7,6 +7,7 @@ import nc.config.NCConfig;
 import nc.handler.EnumHandler.UraniumFuelRodTypes;
 import nc.util.NCInfo;
 import nc.util.NCMath;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -14,6 +15,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.translation.I18n;
+import net.minecraft.world.World;
 
 public class ItemFuelRodUranium extends Item implements IFissionableItem {
 
@@ -23,9 +25,9 @@ public class ItemFuelRodUranium extends Item implements IFissionableItem {
 		setHasSubtypes(true);
 	}
 
-	public void getSubItems(Item item, CreativeTabs tab, NonNullList<ItemStack> items) {
+	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
 		for (int i = 0; i < UraniumFuelRodTypes.values().length; i++) {
-			items.add(new ItemStack(item, 1, i));
+			items.add(new ItemStack(this, 1, i));
 		}
 	}
 	
@@ -56,8 +58,8 @@ public class ItemFuelRodUranium extends Item implements IFissionableItem {
 		return UraniumFuelRodTypes.values()[stack.getItemDamage()].getName();
 	}
 	
-	public void addInformation(ItemStack itemStack, EntityPlayer player, List<String> tooltip, boolean advanced) {
-        super.addInformation(itemStack, player, tooltip, advanced);
+	public void addInformation(ItemStack itemStack, World world, List<String> tooltip, ITooltipFlag flag) {
+        super.addInformation(itemStack, world, tooltip, flag);
         if (INFO().length != 0) if (INFO()[itemStack.getMetadata()].length > 0) NCInfo.infoFull(tooltip, INFO()[itemStack.getMetadata()]);
     }
 	

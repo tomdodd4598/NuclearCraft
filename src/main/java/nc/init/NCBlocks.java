@@ -73,6 +73,7 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class NCBlocks {
@@ -464,14 +465,14 @@ public class NCBlocks {
 	}
 	
 	public static void registerBlock(Block block, Object... info) {
-		GameRegistry.register(block);
-		GameRegistry.register(new NCItemBlock(block, info).setRegistryName(block.getRegistryName()));
+		ForgeRegistries.BLOCKS.register(block);
+		ForgeRegistries.ITEMS.register(new NCItemBlock(block, info).setRegistryName(block.getRegistryName()));
 		NCUtil.getLogger().info("Registered block " + block.getUnlocalizedName().substring(5));
 	}
 	
 	public static void registerBlock(Block block, ItemBlock itemBlock) {
-		GameRegistry.register(block);
-		GameRegistry.register(itemBlock.setRegistryName(block.getRegistryName()));
+		ForgeRegistries.BLOCKS.register(block);
+		ForgeRegistries.ITEMS.register(itemBlock.setRegistryName(block.getRegistryName()));
 		NCUtil.getLogger().info("Registered block " + block.getUnlocalizedName().substring(5));
 	}
 	

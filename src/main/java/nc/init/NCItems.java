@@ -110,7 +110,7 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 public class NCItems {
 
@@ -516,7 +516,7 @@ public class NCItems {
 	
 	public static void registerItem(Item item, CreativeTabs tab) {
 		item.setCreativeTab(tab);
-		GameRegistry.register(item);
+		ForgeRegistries.ITEMS.register(item);
 		NCUtil.getLogger().info("Registered item " + item.getUnlocalizedName().substring(5));
 	}
 	

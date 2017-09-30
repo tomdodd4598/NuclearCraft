@@ -35,11 +35,11 @@ public class ContainerEnergyFluidProcessor extends ContainerTile {
 			IContainerListener icontainerlistener = (IContainerListener) listeners.get(i);
 			
 			for (int j = 0; j <= 2; j++) {
-				icontainerlistener.sendProgressBarUpdate(this, j, tile.getField(j) >> 16);
-				icontainerlistener.sendProgressBarUpdate(this, 100 + j, tile.getField(j));
+				icontainerlistener.sendWindowProperty(this, j, tile.getField(j) >> 16);
+				icontainerlistener.sendWindowProperty(this, 100 + j, tile.getField(j));
 			}
 			
-			//for (int j = 2; j <= 2 + tile.tanks.length; j++) icontainerlistener.sendProgressBarUpdate(this, j, tile.getField(j));
+			//for (int j = 2; j <= 2 + tile.tanks.length; j++) icontainerlistener.sendWindowProperty(this, j, tile.getField(j));
 		}
 	}
 	

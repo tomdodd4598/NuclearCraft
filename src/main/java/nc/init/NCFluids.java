@@ -23,6 +23,7 @@ import nc.util.NCUtil;
 import net.minecraft.item.ItemBlock;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class NCFluids {
@@ -314,8 +315,8 @@ public class NCFluids {
 	
 	public static void registerBlock(BlockFluid block) {
 		//block.setRegistryName(name);
-		GameRegistry.register(block);
-		GameRegistry.register(new ItemBlock(block), block.getRegistryName());
+		ForgeRegistries.BLOCKS.register(block);
+		ForgeRegistries.ITEMS.register(new ItemBlock(block).setRegistryName(block.getRegistryName()));
 		NuclearCraft.proxy.registerFluidBlockRendering(block, block.getName());
 		NCUtil.getLogger().info("Registered fluid " + block.getUnlocalizedName().substring(5));
 	}

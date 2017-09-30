@@ -29,7 +29,7 @@ public abstract class NCTile extends TileEntity implements ITickable {
 	public void onAdded() {
 		if (world.isRemote) {
 			getWorld().markBlockRangeForRenderUpdate(pos, pos);
-			getWorld().getChunkFromBlockCoords(getPos()).setChunkModified();
+			getWorld().getChunkFromBlockCoords(getPos()).markDirty();
 		}
 		markDirty();
 	}

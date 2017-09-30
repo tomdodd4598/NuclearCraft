@@ -27,7 +27,7 @@ public class FusionCoreTESR extends TileEntitySpecialRenderer<TileFusionCore> {
 	private IModel modelWithCentre, modelWithoutCentre, modelCentre;
     private IBakedModel bakedModelWithCentre, bakedModelWithoutCentre, bakedModelCentre;
 	
-	public void renderTileEntityAt(TileFusionCore te, double posX, double posY, double posZ, float partialTicks, int destroyStage) {
+	public void render(TileFusionCore te, double posX, double posY, double posZ, float partialTicks, int destroyStage, float alpha) {
 		
 		if(!(te.getBlockType() instanceof BlockFusionCore)) return;
 		

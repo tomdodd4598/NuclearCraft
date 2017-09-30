@@ -25,8 +25,8 @@ public class GuiNuclearFurnace extends GuiContainer {
 	/** Draw the foreground layer for the GuiContainer (everything in front of the items) */
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		String s = tileFurnace.getDisplayName().getUnformattedText();
-		fontRendererObj.drawString(s, xSize / 2 - fontRendererObj.getStringWidth(s) / 2, 6, 4210752);
-		fontRendererObj.drawString(playerInventory.getDisplayName().getUnformattedText(), 8, ySize - 96 + 2, 4210752);
+		fontRenderer.drawString(s, xSize / 2 - fontRenderer.getStringWidth(s) / 2, 6, 4210752);
+		fontRenderer.drawString(playerInventory.getDisplayName().getUnformattedText(), 8, ySize - 96 + 2, 4210752);
 	}
 	
 	/** Draws the background layer of this container (behind the items) */

@@ -2,13 +2,12 @@ package nc.integration.crafttweaker;
 
 import java.util.ArrayList;
 
-import minetweaker.IUndoableAction;
-import minetweaker.MineTweakerAPI;
-import minetweaker.api.item.IItemStack;
-import minetweaker.api.liquid.ILiquidStack;
-import minetweaker.api.minecraft.MineTweakerMC;
-import minetweaker.api.oredict.IOreDictEntry;
-import nc.integration.jei.JEIMethods;
+import crafttweaker.CraftTweakerAPI;
+import crafttweaker.IAction;
+import crafttweaker.api.item.IItemStack;
+import crafttweaker.api.liquid.ILiquidStack;
+import crafttweaker.api.minecraft.CraftTweakerMC;
+import crafttweaker.api.oredict.IOreDictEntry;
 import nc.recipe.BaseRecipeHandler;
 import nc.recipe.IIngredient;
 import nc.recipe.IRecipe;
@@ -17,7 +16,7 @@ import nc.recipe.SorptionType;
 import nc.recipe.StackType;
 import net.minecraft.item.ItemStack;
 
-public class RemoveRecipe<T extends BaseRecipeHandler> implements IUndoableAction {
+public class RemoveRecipe<T extends BaseRecipeHandler> implements IAction {
 	
 	public ArrayList<IIngredient> ingredients;
 	public SorptionType type;
@@ -29,7 +28,7 @@ public class RemoveRecipe<T extends BaseRecipeHandler> implements IUndoableActio
 		this.helper = helper;
 		this.type = type;
 		if (helper instanceof BaseRecipeHandler && (type == SorptionType.OUTPUT ? ingredients.size() != ((BaseRecipeHandler) helper).outputSizeItem + ((BaseRecipeHandler) helper).outputSizeFluid : ingredients.size() != ((BaseRecipeHandler) helper).inputSizeItem + ((BaseRecipeHandler) helper).inputSizeFluid)) {
-			MineTweakerAPI.logError("A " + helper.getRecipeName() + " recipe was the wrong size");
+			CraftTweakerAPI.logError("A " + helper.getRecipeName() + " recipe was the wrong size");
 			wrongSize = true;
 			return;
 		}
@@ -37,21 +36,21 @@ public class RemoveRecipe<T extends BaseRecipeHandler> implements IUndoableActio
 		ArrayList adaptedIngredients = new ArrayList();
 		for (Object output : ingredients) {
 			if (output == null) {
-				MineTweakerAPI.logError(String.format("An ingredient of a %s was null", helper.getRecipeName()));
+				CraftTweakerAPI.logError(String.format("An ingredient of a %s was null", helper.getRecipeName()));
 				wasNull = true;
 				return;
 			}
 			if (output instanceof IItemStack) {
-				adaptedIngredients.add(MineTweakerMC.getItemStack((IItemStack) output));
+				adaptedIngredients.add(CraftTweakerMC.getItemStack((IItemStack) output));
 				continue;
 			} else if (output instanceof IOreDictEntry) {
 				adaptedIngredients.add(new RecipeOreStack(((IOreDictEntry) output).getName(), StackType.ITEM, ((IOreDictEntry) output).getAmount()));
 				continue;
 			} else if (output instanceof ILiquidStack) {
-				adaptedIngredients.add(helper.buildRecipeObject(MineTweakerMC.getLiquidStack((ILiquidStack) output)));
+				adaptedIngredients.add(helper.buildRecipeObject(CraftTweakerMC.getLiquidStack((ILiquidStack) output)));
 				continue;
 			} else if (!(output instanceof ItemStack)) {
-				MineTweakerAPI.logError(String.format("%s: Invalid ingredient: %s", helper.getRecipeName(), output));
+				CraftTweakerAPI.logError(String.format("%s: Invalid ingredient: %s", helper.getRecipeName(), output));
 			} else {
 				adaptedIngredients.add(output);
 				continue;
@@ -64,15 +63,15 @@ public class RemoveRecipe<T extends BaseRecipeHandler> implements IUndoableActio
 	
 	public void apply() {
 		if (recipe == null) {
-			MineTweakerAPI.logError(String.format("%s: Removing Recipe - Couldn't find matching recipe %s", helper.getRecipeName(), ingredients));
+			CraftTweakerAPI.logError(String.format("%s: Removing Recipe - Couldn't find matching recipe %s", helper.getRecipeName(), ingredients));
 			return;
 		}
 		if (!wasNull && !wrongSize) {
 			boolean removed = helper.removeRecipe(recipe);
 			if (!removed){
-				MineTweakerAPI.logError(String.format("%s: Removing Recipe - Failed to remove recipe %s", helper.getRecipeName(), ingredients));
+				CraftTweakerAPI.logError(String.format("%s: Removing Recipe - Failed to remove recipe %s", helper.getRecipeName(), ingredients));
 			}else{
-				MineTweakerAPI.getIjeiRecipeRegistry().removeRecipe(JEIMethods.createJEIRecipe(recipe, helper));
+				//CraftTweakerAPI.getIjeiRecipeRegistry().removeRecipe(JEIMethods.createJEIRecipe(recipe, helper));
 			}
 		}
 	}
@@ -84,7 +83,7 @@ public class RemoveRecipe<T extends BaseRecipeHandler> implements IUndoableActio
 	public void undo() {
 		if (recipe != null && !wasNull && !wrongSize) {
 			helper.addRecipe(recipe);
-			MineTweakerAPI.getIjeiRecipeRegistry().addRecipe(JEIMethods.createJEIRecipe(recipe, helper));
+			//CraftTweakerAPI.getIjeiRecipeRegistry().addRecipe(JEIMethods.createJEIRecipe(recipe, helper));
 		}
 	}
 	

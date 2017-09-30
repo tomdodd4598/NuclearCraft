@@ -33,24 +33,24 @@ public class GuiFissionController extends GuiNC {
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		int fontColor = tile.isGenerating ? -1 : (tile.complete == 1 ? 15641088 : 15597568);
 		String s = tile.complete == 1 ? (tile.getLengthX() + "*" +  tile.getLengthY() + "*" +  tile.getLengthZ() + " " + I18n.translateToLocalFormatted("gui.container.fission_controller.reactor")) : tile.problem;
-		fontRendererObj.drawString(s, 8 + xSize / 2 - fontRendererObj.getStringWidth(s) / 2, 6, fontColor);
+		fontRenderer.drawString(s, 8 + xSize / 2 - fontRenderer.getStringWidth(s) / 2, 6, fontColor);
 		String s2 = tile.problemPosBool == 0 ? "" : I18n.translateToLocalFormatted("gui.container.fission_controller.pos") + " " + tile.problemPos;
-		fontRendererObj.drawString(s2, 8 + xSize / 2 - fontRendererObj.getStringWidth(s2) / 2, 17, fontColor);
-		//fontRendererObj.drawString(playerInventory.getDisplayName().getUnformattedText(), 8, ySize - 96 + 2, 4210752);
+		fontRenderer.drawString(s2, 8 + xSize / 2 - fontRenderer.getStringWidth(s2) / 2, 17, fontColor);
+		//fontRenderer.drawString(playerInventory.getDisplayName().getUnformattedText(), 8, ySize - 96 + 2, 4210752);
 		/*String energy = tile.storage.getEnergyStored() + " RF";
-		fontRendererObj.drawString(energy, 28, ySize - 92, fontColor);*/
+		fontRenderer.drawString(energy, 28, ySize - 92, fontColor);*/
 		String cells = I18n.translateToLocalFormatted("gui.container.fission_controller.cells") + " " + tile.cells;
-		fontRendererObj.drawString(cells, 28, ySize - 92, fontColor);
+		fontRenderer.drawString(cells, 28, ySize - 92, fontColor);
 		String power = tile.processPower + " RF/t";
-		fontRendererObj.drawString(power, 28, ySize - 103, fontColor);
+		fontRenderer.drawString(power, 28, ySize - 103, fontColor);
 		String fuel = tile.getFuelName().endsWith("OXIDE") ? tile.getFuelName().substring(0, tile.getFuelName().length() - 3) : tile.getFuelName();
-		fontRendererObj.drawString(fuel, 28, ySize - 114, fontColor);
+		fontRenderer.drawString(fuel, 28, ySize - 114, fontColor);
 		String heat = tile.heat + " H";
-		fontRendererObj.drawString(heat, 170 - fontRendererObj.getStringWidth(heat), ySize - 92, fontColor);
+		fontRenderer.drawString(heat, 170 - fontRenderer.getStringWidth(heat), ySize - 92, fontColor);
 		String heatGen = tile.heatChange + " H/t";
-		fontRendererObj.drawString(heatGen, 170 - fontRendererObj.getStringWidth(heatGen), ySize - 103, fontColor);
+		fontRenderer.drawString(heatGen, 170 - fontRenderer.getStringWidth(heatGen), ySize - 103, fontColor);
 		String efficiency = I18n.translateToLocalFormatted("gui.container.fission_controller.efficiency") + " " + tile.efficiency + "%";
-		fontRendererObj.drawString(efficiency, 170 - fontRendererObj.getStringWidth(efficiency), ySize - 114, fontColor);
+		fontRenderer.drawString(efficiency, 170 - fontRenderer.getStringWidth(efficiency), ySize - 114, fontColor);
 		
 		drawEnergyTooltip(tile, mouseX, mouseY, 8, 6, 6, 85);
 		drawHeatTooltip(mouseX, mouseY, 18, 6, 6, 85);

@@ -16,9 +16,9 @@ public class ItemAlloy extends Item {
 		setHasSubtypes(true);
 	}
 
-	public void getSubItems(Item item, CreativeTabs tab, NonNullList<ItemStack> items) {
+	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
 		for (int i = 0; i < AlloyTypes.values().length; i++) {
-			items.add(new ItemStack(item, 1, i));
+			items.add(new ItemStack(this, 1, i));
 		}
 	}
 	

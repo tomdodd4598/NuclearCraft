@@ -1,11 +1,19 @@
 package ic2.api.crops;
 
 import java.util.Collection;
+import java.util.Map;
 
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
 
 import net.minecraftforge.common.BiomeDictionary.Type;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.eventhandler.Event;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * General management of the crop system.
@@ -77,11 +85,19 @@ public abstract class Crops {
 	public abstract Collection<CropCard> getCrops();
 
 	/**
-	 * Register a plant and provide a legacy id for migration.
+	 * Register a plant. Designed to be called from listening to {@link CropRegisterEvent}.
 	 *
 	 * @param crop Plant to register.
 	 */
 	public abstract void registerCrop(CropCard crop);
+
+	/**
+	 * Register additional textures a crop might need if it is registered after {@link CropRegisterEvent} is posted
+	 *
+	 * @param textures The textures to add to the render map
+	 */
+	@SideOnly(Side.CLIENT)
+	public abstract void registerCropTextures(Map<ResourceLocation, TextureAtlasSprite> textures);
 
 	/**
 	 * Registers a base seed, an item used to plant a crop.
@@ -104,10 +120,33 @@ public abstract class Crops {
 	public abstract BaseSeed getBaseSeed(ItemStack stack);
 
 	/**
-	 * Execute registerSprites for all registered crop cards.
+	 * An event that occurs for the best (and latest) time to register your plants to ensure everything works.
 	 *
-	 * This method will get called by IC2, don't call it yourself.
+	 * <p>Registrations after this is posted are still perfectly possible, but stick textures will need to be added via {@link Crops#registerCropTextures(Map)}.</p>
+	 *
+	 * <p>Will be called between {@link FMLPreInitializationEvent} and {@link FMLInitializationEvent} so that textures can be loaded.</p>
+	 *
+	 * @author Chocohead
 	 */
-	//@SideOnly(Side.CLIENT)
-	//public abstract void startSpriteRegistration(IIconRegister iconRegister);
+	public static class CropRegisterEvent extends Event {
+		/**
+		 * Utility method to register a crop
+		 *
+		 * @param crop The crop to register
+		 */
+		public void register(CropCard crop) {
+			instance.registerCrop(crop);
+		}
+
+		/**
+		 * Utility method to register multiple crops
+		 *
+		 * @param crops The crops to register
+		 */
+		public void register(CropCard... crops) {
+			for (CropCard crop : crops) {
+				register(crop);
+			}
+		}
+	}
 }

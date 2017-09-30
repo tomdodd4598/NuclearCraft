@@ -4,13 +4,14 @@ import java.util.List;
 
 import nc.Global;
 import nc.util.NCInfo;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemRecord;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.text.translation.I18n;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -46,7 +47,7 @@ public class NCItemRecord extends ItemRecord {
 		}
 	}
 	
-	public void addInformation(ItemStack itemStack, EntityPlayer player, List<String> tooltip, boolean advanced) {
+	public void addInformation(ItemStack itemStack, World world, List<String> tooltip, ITooltipFlag flag) {
 		//super.addInformation(itemStack, player, tooltip, advanced);
 		if (info.length > 0) NCInfo.infoFull(tooltip, info);
 	}

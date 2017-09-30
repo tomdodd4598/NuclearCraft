@@ -42,19 +42,19 @@ public class ContainerNuclearFurnace extends ContainerTile {
 			IContainerListener icontainerlistener = (IContainerListener) listeners.get(i);
 			
 			if (furnaceBurnTime != tile.getField(0)) {
-				icontainerlistener.sendProgressBarUpdate(this, 0, tile.getField(0));
+				icontainerlistener.sendWindowProperty(this, 0, tile.getField(0));
 			}
 			
 			if (currentItemBurnTime != tile.getField(1)) {
-				icontainerlistener.sendProgressBarUpdate(this, 1, tile.getField(1));
+				icontainerlistener.sendWindowProperty(this, 1, tile.getField(1));
 			}
 			
 			if (cookTime != tile.getField(2)) {
-				icontainerlistener.sendProgressBarUpdate(this, 2, tile.getField(2));
+				icontainerlistener.sendWindowProperty(this, 2, tile.getField(2));
 			}
 			
 			if (totalCookTime != tile.getField(3)) {
-				icontainerlistener.sendProgressBarUpdate(this, 3, tile.getField(3));
+				icontainerlistener.sendWindowProperty(this, 3, tile.getField(3));
 			}
 		}
 		

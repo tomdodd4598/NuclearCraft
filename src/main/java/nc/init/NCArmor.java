@@ -14,7 +14,7 @@ import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.util.EnumHelper;
-import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 public class NCArmor {
 	
@@ -111,7 +111,7 @@ public class NCArmor {
 		
 	public static void registerItem(Item item) {
 		item.setCreativeTab(CommonProxy.TAB_MISC);
-		GameRegistry.register(item);
+		ForgeRegistries.ITEMS.register(item);
 		NCUtil.getLogger().info("Registered armor piece " + item.getUnlocalizedName().substring(5));
 	}
 		

@@ -1,6 +1,6 @@
 package nc.handler;
 
-import java.util.ArrayList;
+/*import java.util.ArrayList;
 import java.util.List;
 
 import nc.Global;
@@ -41,4 +41,4 @@ public class AchievementHandler {
 		return acheivement;
 	}
 
-}
+}*/

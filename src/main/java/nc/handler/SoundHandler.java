@@ -4,6 +4,7 @@ import nc.Global;
 import nc.util.NCUtil;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 public class SoundHandler {
 	
@@ -36,7 +37,7 @@ public class SoundHandler {
 		ResourceLocation location = new ResourceLocation(Global.MOD_ID, name);
 		SoundEvent event = new SoundEvent(location);
 		
-		SoundEvent.REGISTRY.register(size, location, event);
+		ForgeRegistries.SOUND_EVENTS.register(event.setRegistryName(location));
 		size++;
 		NCUtil.getLogger().info("Registered sound " + name);
 		return event;

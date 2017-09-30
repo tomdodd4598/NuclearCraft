@@ -44,27 +44,27 @@ public class GuiFusionCore extends GuiNC {
 	}
 
 	protected int widthHalf(String s) {
-		return fontRendererObj.getStringWidth(s)/2;
+		return fontRenderer.getStringWidth(s)/2;
 	}
 
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		int fontColor = tile.time > 0 && tile.heat > 8 ? -1 : (tile.complete == 1 ? 15641088 : 15597568);
 		String name = I18n.translateToLocalFormatted("gui.container.fusion_core.reactor");
-		fontRendererObj.drawString(name, 108 - widthHalf(name), 10, fontColor);
+		fontRenderer.drawString(name, 108 - widthHalf(name), 10, fontColor);
 		String size = tile.complete == 1 ? (I18n.translateToLocalFormatted("gui.container.fusion_core.size") + " " + tile.size) : tile.problem;
-		fontRendererObj.drawString(size, 108 - widthHalf(size), 21, fontColor);
+		fontRenderer.drawString(size, 108 - widthHalf(size), 21, fontColor);
 		String energy = I18n.translateToLocalFormatted("gui.container.fusion_core.energy") + " " + tile.storage.getEnergyStored() + " RF";
-		fontRendererObj.drawString(energy, 108 - widthHalf(energy), 32, fontColor);
+		fontRenderer.drawString(energy, 108 - widthHalf(energy), 32, fontColor);
 		String power = I18n.translateToLocalFormatted("gui.container.fusion_core.power") + " " + ((int) tile.processPower) + " RF/t";
-		fontRendererObj.drawString(power, 108 - widthHalf(power), 43, fontColor);
+		fontRenderer.drawString(power, 108 - widthHalf(power), 43, fontColor);
 		String heat = I18n.translateToLocalFormatted("gui.container.fusion_core.heat") + " " + ((int) tile.heat) + " kK";
-		fontRendererObj.drawString(heat, 108 - widthHalf(heat), 54, fontColor);
+		fontRenderer.drawString(heat, 108 - widthHalf(heat), 54, fontColor);
 		String efficiency = I18n.translateToLocalFormatted("gui.container.fusion_core.efficiency") + " " + ((int) tile.efficiency) + "%";
-		fontRendererObj.drawString(efficiency, 108 - widthHalf(efficiency), 65, fontColor);
+		fontRenderer.drawString(efficiency, 108 - widthHalf(efficiency), 65, fontColor);
 		String input1 = fluid0 != null ? fluid0.getLocalizedName() : I18n.translateToLocalFormatted("gui.container.fusion_core.empty");
 		String input2 = fluid1 != null ? fluid1.getLocalizedName() : I18n.translateToLocalFormatted("gui.container.fusion_core.empty");
-		fontRendererObj.drawString(input1, 108 - widthHalf(input1), 76, fontColor);
-		fontRendererObj.drawString(input2, 108 - widthHalf(input2), 87, fontColor);
+		fontRenderer.drawString(input1, 108 - widthHalf(input1), 76, fontColor);
+		fontRenderer.drawString(input2, 108 - widthHalf(input2), 87, fontColor);
 		
 		drawTooltip(I18n.translateToLocalFormatted("gui.container.change_tanks_mode"), mouseX, mouseY, 195, 5, 18, 18);
 		

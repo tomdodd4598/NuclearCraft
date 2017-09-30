@@ -2,7 +2,6 @@ package nc.proxy;
 
 import nc.Global;
 import nc.ModCheck;
-import nc.handler.AchievementHandler;
 import nc.handler.DropHandler;
 import nc.handler.OreDictHandler;
 import nc.handler.SoundHandler;
@@ -71,7 +70,7 @@ public class CommonProxy {
 		
 		PacketHandler.registerMessages(Global.MOD_ID);
 		
-		AchievementHandler.registerAchievements();
+		//AchievementHandler.registerAchievements();
 	}
 
 	public void init(FMLInitializationEvent event) {

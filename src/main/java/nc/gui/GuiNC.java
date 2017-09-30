@@ -17,6 +17,12 @@ public abstract class GuiNC extends GuiContainer {
 		super(inventory);
 	}
 	
+	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+		drawDefaultBackground();
+		super.drawScreen(mouseX, mouseY, partialTicks);
+		renderHoveredToolTip(mouseX, mouseY);
+	}
+	
 	public void drawTooltip(List<String> text, int mouseX, int mouseY, int x, int y, int width, int height) {
 		int xPos = x + guiLeft; int yPos = y + guiTop;
 		if (mouseX >= xPos && mouseY >= yPos && mouseX < xPos + width && mouseY < yPos + height) {

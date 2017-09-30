@@ -31,13 +31,13 @@ public class ContainerItemGenerator extends ContainerTile {
 			IContainerListener icontainerlistener = (IContainerListener) listeners.get(i);
 			
 			//if (time != tile.getField(0)) {
-				icontainerlistener.sendProgressBarUpdate(this, 0, tile.getField(0) >> 16);
-				icontainerlistener.sendProgressBarUpdate(this, 100, tile.getField(0));
+				icontainerlistener.sendWindowProperty(this, 0, tile.getField(0) >> 16);
+				icontainerlistener.sendWindowProperty(this, 100, tile.getField(0));
 			//}
 			
 			//if (energy != tile.getField(1)) {
-				icontainerlistener.sendProgressBarUpdate(this, 1, tile.getField(1) >> 16);
-				icontainerlistener.sendProgressBarUpdate(this, 101, tile.getField(1));
+				icontainerlistener.sendWindowProperty(this, 1, tile.getField(1) >> 16);
+				icontainerlistener.sendWindowProperty(this, 101, tile.getField(1));
 			//}
 		}
 		
