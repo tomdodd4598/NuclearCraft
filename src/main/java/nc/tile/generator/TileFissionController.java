@@ -73,12 +73,15 @@ public class TileFissionController extends TileItemGenerator {
 				consume();
 			}
 		}
-			tickStructureCheck();
-			checkStructure();
+		tickStructureCheck();
+		checkStructure();
+
 		if(!world.isRemote) {
 			tickRunCheck();
 			run();
-			overheat();
+			if (overheat() == true) {
+				return;
+			}
 			if (canProcess() && isPowered()) {
 				isGenerating = true;
 				time += getRateMultiplier();
@@ -148,10 +151,12 @@ public class TileFissionController extends TileItemGenerator {
 		return false;
 	}
 	
-	public void overheat() {
+	public boolean overheat() {
 		if (heat >= getMaxHeat() && NCConfig.fission_overheat) {
 			meltdown();
+			return true;
 		}
+		return false;
 	}
 	
 	public void meltdown() {
