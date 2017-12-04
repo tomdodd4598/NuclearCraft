@@ -906,7 +906,7 @@ public class TileFissionController extends TileItemGenerator {
 					for (int x = minX + 1; x <= maxX - 1; x++) {
 						for (int y = minY + 1; y <= maxY - 1; y++) {
 							if(findFromOreName(x, y, z, graphite)) {
-								heatThisTick += NCConfig.fission_heat_generation*baseRF*(numberOfCells + adj1 + adj2 + adj3 + adj4 + adj5 + adj6)/16.0D;
+								heatThisTick += NCConfig.fission_heat_generation*baseHeat*(numberOfCells + adj1 + adj2 + adj3 + adj4 + adj5 + adj6)/16.0D;
 								if (adjacentOr(x, y, z, cell)) energyThisTick += NCConfig.fission_power*baseRF*(numberOfCells + adj1 + adj2 + adj3 + adj4 + adj5 + adj6)/8.0D;
 							}
 						}
