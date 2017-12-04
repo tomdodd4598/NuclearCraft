@@ -1,6 +1,5 @@
 package nc.tile.passive;
 
-import ic2.api.energy.EnergyNet;
 import nc.ModCheck;
 import nc.config.NCConfig;
 import nc.energy.EnumStorage.EnergyConnection;
@@ -92,12 +91,7 @@ public abstract class TilePassive extends TileEnergyFluidSidedInventory /*implem
 			isRunning = isRunning(energyBool, stackBool, fluidBool);
 			if (flag != isRunning) {
 				flag1 = true;
-				if (isEnergyTileSet && ModCheck.ic2Loaded()) {
-					/*MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));*/ EnergyNet.instance.removeTile(this);
-					isEnergyTileSet = false;
-				}
 				setBlockState();
-				//invalidate();
 			}
 			if (energyChange > 0) pushEnergy();
 			if (fluidChange > 0) pushFluid();

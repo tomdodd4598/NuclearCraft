@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import ic2.api.energy.EnergyNet;
-import nc.ModCheck;
 import nc.block.fission.BlockCooler;
 import nc.block.tile.dummy.BlockFissionPort;
 import nc.block.tile.generator.BlockFissionController;
@@ -94,12 +92,7 @@ public class TileFissionController extends TileItemGenerator {
 			}
 			if (flag != isGenerating) {
 				flag1 = true;
-				if (isEnergyTileSet && ModCheck.ic2Loaded()) {
-					/*MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));*/ EnergyNet.instance.removeTile(this);
-					isEnergyTileSet = false;
-				}
 				setBlockState();
-				//invalidate();
 			}
 			pushEnergy();
 			if (findAdjacentComparator() && shouldStructureCheck()) flag1 = true;

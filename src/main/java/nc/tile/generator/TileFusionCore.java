@@ -3,8 +3,6 @@ package nc.tile.generator;
 import java.util.ArrayList;
 import java.util.List;
 
-import ic2.api.energy.EnergyNet;
-import nc.ModCheck;
 import nc.block.fluid.BlockFluidPlasma;
 import nc.block.tile.generator.BlockFusionCore;
 import nc.block.tile.passive.BlockActiveCooler;
@@ -80,11 +78,6 @@ public class TileFusionCore extends TileFluidGenerator {
 			}
 			if (flag != isGenerating) {
 				flag1 = true;
-				if (isEnergyTileSet && ModCheck.ic2Loaded()) {
-					/*MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));*/ EnergyNet.instance.removeTile(this);
-					isEnergyTileSet = false;
-				}
-				//invalidate();
 			}
 			if (isHotEnough()) pushEnergy();
 			if (findAdjacentComparator() && shouldCheck()) flag1 = true;
