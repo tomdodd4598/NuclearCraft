@@ -3,6 +3,7 @@ package nc.integration.crafttweaker;
 import com.google.common.collect.Lists;
 
 import crafttweaker.CraftTweakerAPI;
+import crafttweaker.annotations.ZenRegister;
 import crafttweaker.api.item.IIngredient;
 import nc.config.NCConfig;
 import nc.recipe.SorptionType;
@@ -24,8 +25,10 @@ import nc.recipe.processor.MelterRecipes;
 import nc.recipe.processor.PressurizerRecipes;
 import nc.recipe.processor.SaltMixerRecipes;
 import nc.recipe.processor.SupercoolerRecipes;
+import stanhebben.zenscript.annotations.Optional;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
+
 
 public class NCCraftTweaker {
 	
@@ -51,6 +54,7 @@ public class NCCraftTweaker {
 	}
 	
 	@ZenClass("mods.nuclearcraft.manufactory")
+	@ZenRegister
 	public static class ManufactoryHandler {
 		
 		@ZenMethod
@@ -70,6 +74,7 @@ public class NCCraftTweaker {
 	}
 	
 	@ZenClass("mods.nuclearcraft.isotope_separator")
+	@ZenRegister
 	public static class IsotopeSeparatorHandler {
 		
 		@ZenMethod
@@ -89,6 +94,7 @@ public class NCCraftTweaker {
 	}
 	
 	@ZenClass("mods.nuclearcraft.decay_hastener")
+	@ZenRegister
 	public static class DecayHastenerHandler {
 		
 		@ZenMethod
@@ -108,6 +114,7 @@ public class NCCraftTweaker {
 	}
 	
 	@ZenClass("mods.nuclearcraft.fuel_reprocessor")
+	@ZenRegister
 	public static class FuelReprocessorHandler {
 		
 		@ZenMethod
@@ -127,6 +134,7 @@ public class NCCraftTweaker {
 	}
 	
 	@ZenClass("mods.nuclearcraft.alloy_furnace")
+	@ZenRegister
 	public static class AlloyFurnaceHandler {
 		
 		@ZenMethod
@@ -146,6 +154,7 @@ public class NCCraftTweaker {
 	}
 	
 	@ZenClass("mods.nuclearcraft.infuser")
+	@ZenRegister
 	public static class InfuserHandler {
 		
 		@ZenMethod
@@ -165,6 +174,7 @@ public class NCCraftTweaker {
 	}
 	
 	@ZenClass("mods.nuclearcraft.melter")
+	@ZenRegister
 	public static class MelterHandler {
 		
 		@ZenMethod
@@ -184,6 +194,7 @@ public class NCCraftTweaker {
 	}
 	
 	@ZenClass("mods.nuclearcraft.supercooler")
+	@ZenRegister
 	public static class SupercoolerHandler {
 		
 		@ZenMethod
@@ -203,6 +214,7 @@ public class NCCraftTweaker {
 	}
 	
 	@ZenClass("mods.nuclearcraft.electrolyser")
+	@ZenRegister
 	public static class ElectrolyserHandler {
 		
 		@ZenMethod
@@ -222,6 +234,7 @@ public class NCCraftTweaker {
 	}
 	
 	@ZenClass("mods.nuclearcraft.irradiator")
+	@ZenRegister
 	public static class IrradiatorHandler {
 		
 		@ZenMethod
@@ -241,6 +254,7 @@ public class NCCraftTweaker {
 	}
 	
 	@ZenClass("mods.nuclearcraft.ingot_former")
+	@ZenRegister
 	public static class IngotFormerHandler {
 		
 		@ZenMethod
@@ -260,6 +274,7 @@ public class NCCraftTweaker {
 	}
 	
 	@ZenClass("mods.nuclearcraft.pressurizer")
+	@ZenRegister
 	public static class PressurizerHandler {
 		
 		@ZenMethod
@@ -279,6 +294,7 @@ public class NCCraftTweaker {
 	}
 	
 	@ZenClass("mods.nuclearcraft.chemical_reactor")
+	@ZenRegister
 	public static class ChemicalReactorHandler {
 		
 		@ZenMethod
@@ -298,6 +314,7 @@ public class NCCraftTweaker {
 	}
 	
 	@ZenClass("mods.nuclearcraft.salt_mixer")
+	@ZenRegister
 	public static class SaltMixerHandler {
 		
 		@ZenMethod
@@ -317,6 +334,7 @@ public class NCCraftTweaker {
 	}
 	
 	@ZenClass("mods.nuclearcraft.crystallizer")
+	@ZenRegister
 	public static class CrystallizerHandler {
 		
 		@ZenMethod
@@ -336,6 +354,7 @@ public class NCCraftTweaker {
 	}
 	
 	@ZenClass("mods.nuclearcraft.dissolver")
+	@ZenRegister
 	public static class DissolverHandler {
 		
 		@ZenMethod
@@ -355,6 +374,7 @@ public class NCCraftTweaker {
 	}
 	
 	@ZenClass("mods.nuclearcraft.fission")
+	@ZenRegister
 	public static class FissionHandler {
 		
 		@ZenMethod
@@ -369,6 +389,7 @@ public class NCCraftTweaker {
 	}
 	
 	@ZenClass("mods.nuclearcraft.fusion")
+	@ZenRegister
 	public static class FusionHandler {
 		
 		@ZenMethod
