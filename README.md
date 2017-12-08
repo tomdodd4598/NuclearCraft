@@ -13,6 +13,8 @@ YouTube Channel: https://www.youtube.com/c/NuclearCraftMod
 
 CurseForge Page: http://minecraft.curseforge.com/projects/nuclearcraft-mod
 
+WIP WIKI: https://ftb.gamepedia.com/NuclearCraft
+
 
 Issues & Pull Requests
 ----------------------
