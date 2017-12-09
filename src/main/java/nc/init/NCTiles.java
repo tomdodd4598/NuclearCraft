@@ -15,6 +15,7 @@ import nc.tile.generator.RTGs.CaliforniumRTG;
 import nc.tile.generator.RTGs.PlutoniumRTG;
 import nc.tile.generator.RTGs.UraniumRTG;
 import nc.tile.generator.SolarPanels.SolarPanelBasic;
+import nc.tile.generator.TileDecayGenerator;
 import nc.tile.generator.TileFissionController;
 import nc.tile.generator.TileFusionCore;
 import nc.tile.passive.Passives.TileAcceleratorElectromagnet;
@@ -80,6 +81,8 @@ public class NCTiles {
 		GameRegistry.registerTileEntity(CaliforniumRTG.class, Global.MOD_ID + ":rtg_californium");
 
 		GameRegistry.registerTileEntity(SolarPanelBasic.class, Global.MOD_ID + ":solar_panel_basic");
+		
+		GameRegistry.registerTileEntity(TileDecayGenerator.class, Global.MOD_ID + ":decay_generator");
 		
 		GameRegistry.registerTileEntity(VoltaicPileBasic.class, Global.MOD_ID + ":voltaic_pile_basic");
 		GameRegistry.registerTileEntity(LithiumIonBatteryBasic.class, Global.MOD_ID + ":lithium_ion_battery_basic");

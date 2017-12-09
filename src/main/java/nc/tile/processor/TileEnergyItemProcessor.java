@@ -46,7 +46,7 @@ public abstract class TileEnergyItemProcessor extends TileEnergySidedInventory i
 	}
 	
 	public TileEnergyItemProcessor(String name, int inSize, int outSize, int time, int power, boolean upgrades, BaseRecipeHandler recipes, int upgradeMeta) {
-		super(name, inSize + outSize + (upgrades ? 2 : 0), 32000, EnergyConnection.IN);
+		super(name, inSize + outSize + (upgrades ? 2 : 0), 32000, power != 0 ? EnergyConnection.IN : EnergyConnection.NON);
 		inputSize = inSize;
 		outputSize = outSize;
 		defaultProcessTime = time;
@@ -99,7 +99,7 @@ public abstract class TileEnergyItemProcessor extends TileEnergySidedInventory i
 			}
 			if (flag != isProcessing) {
 				flag1 = true;
-				setBlockState();
+				if (NCConfig.update_block_type) setBlockState();
 			}
 		} else {
 			isProcessing = canProcess() && !isPowered();

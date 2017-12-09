@@ -2,9 +2,9 @@ package nc.integration.jei;
 
 import java.util.ArrayList;
 
-import mezz.jei.api.BlankModPlugin;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.IJeiHelpers;
+import mezz.jei.api.IModPlugin;
 import mezz.jei.api.IModRegistry;
 import mezz.jei.api.JEIPlugin;
 import mezz.jei.api.recipe.transfer.IRecipeTransferRegistry;
@@ -45,6 +45,7 @@ import nc.gui.processor.GuiPressurizer;
 import nc.gui.processor.GuiSaltMixer;
 import nc.gui.processor.GuiSupercooler;
 import nc.init.NCBlocks;
+import nc.init.NCItems;
 import nc.integration.jei.generator.FissionCategory;
 import nc.integration.jei.generator.FusionCategory;
 import nc.integration.jei.processor.AlloyFurnaceCategory;
@@ -85,11 +86,12 @@ import nc.recipe.processor.SaltMixerRecipes;
 import nc.recipe.processor.SupercoolerRecipes;
 import nc.util.NCStackHelper;
 import nc.util.NCUtil;
+import nc.worldgen.OreGen;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.Loader;
 
 @JEIPlugin
-public class NCJEI extends BlankModPlugin implements IJEIRecipeBuilder {
+public class NCJEI implements IModPlugin, IJEIRecipeBuilder {
 	
 	{
 		JEIMethods.registerRecipeBuilder(this);
@@ -104,7 +106,7 @@ public class NCJEI extends BlankModPlugin implements IJEIRecipeBuilder {
 			JEICategory category = handler.getCategory(guiHelper);
 			registry.addRecipeCategories(category);
 			registry.addRecipeHandlers(category);
-			if (handler.getCrafterItemStack() != null) registry.addRecipeCategoryCraftingItem(handler.getCrafterItemStack(), handler.getUUID());
+			if (handler.getCrafterItemStack() != null) registry.addRecipeCatalyst(handler.getCrafterItemStack(), handler.getUUID());
 			
 			NCUtil.getLogger().info("Registering JEI recipe handler " + handler.getUUID());
 		}
@@ -148,6 +150,45 @@ public class NCJEI extends BlankModPlugin implements IJEIRecipeBuilder {
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerFissionController.class, Handlers.FISSION.getUUID(), 0, 1, 3, 36);
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerFusionCore.class, Handlers.FUSION.getUUID(), 0, 0, 0, 36);
 		
+		for (int i = 0; i < 8; i++) {
+			if (!OreGen.showOre(i)) {
+				blacklist(jeiHelpers, new ItemStack(NCBlocks.ore, 1, i));
+				blacklist(jeiHelpers, new ItemStack(NCBlocks.ingot_block, 1, i));
+				blacklist(jeiHelpers, new ItemStack(NCItems.ingot, 1, i));
+				blacklist(jeiHelpers, new ItemStack(NCItems.dust, 1, i));
+			}
+		}
+		
+		blacklist(jeiHelpers, NCBlocks.reactor_door);
+		
+		blacklist(jeiHelpers, NCBlocks.nuclear_furnace_active);
+		blacklist(jeiHelpers, NCBlocks.manufactory_active);
+		blacklist(jeiHelpers, NCBlocks.isotope_separator_active);
+		blacklist(jeiHelpers, NCBlocks.decay_hastener_active);
+		blacklist(jeiHelpers, NCBlocks.fuel_reprocessor_active);
+		blacklist(jeiHelpers, NCBlocks.alloy_furnace_active);
+		blacklist(jeiHelpers, NCBlocks.infuser_active);
+		blacklist(jeiHelpers, NCBlocks.melter_active);
+		blacklist(jeiHelpers, NCBlocks.supercooler_active);
+		blacklist(jeiHelpers, NCBlocks.electrolyser_active);
+		blacklist(jeiHelpers, NCBlocks.irradiator_active);
+		blacklist(jeiHelpers, NCBlocks.ingot_former_active);
+		blacklist(jeiHelpers, NCBlocks.pressurizer_active);
+		blacklist(jeiHelpers, NCBlocks.chemical_reactor_active);
+		blacklist(jeiHelpers, NCBlocks.salt_mixer_active);
+		blacklist(jeiHelpers, NCBlocks.crystallizer_active);
+		blacklist(jeiHelpers, NCBlocks.dissolver_active);
+		
+		blacklist(jeiHelpers, NCBlocks.fission_controller_active);
+		
+		blacklist(jeiHelpers, NCBlocks.fusion_dummy_side);
+		blacklist(jeiHelpers, NCBlocks.fusion_dummy_top);
+		
+		blacklist(jeiHelpers, NCBlocks.fusion_electromagnet_active);
+		blacklist(jeiHelpers, NCBlocks.fusion_electromagnet_transparent_active);
+		blacklist(jeiHelpers, NCBlocks.accelerator_electromagnet_active);
+		blacklist(jeiHelpers, NCBlocks.electromagnet_supercooler_active);
+		
 		NCUtil.getLogger().info("JEI integration complete");
 	}
 	
@@ -164,6 +205,10 @@ public class NCJEI extends BlankModPlugin implements IJEIRecipeBuilder {
 			}
 		}
 		return null;
+	}
+	
+	private void blacklist(IJeiHelpers jeiHelpers, Object ingredient) {
+		jeiHelpers.getIngredientBlacklist().addIngredientToBlacklist(NCStackHelper.fixItemStack(ingredient));
 	}
 	
 	public enum Handlers implements IJEIHandler {

@@ -1,9 +1,11 @@
 package nc.block.tile.dummy;
 
+import javax.annotation.Nullable;
+
 import nc.NuclearCraft;
+import nc.block.tile.BlockInventory;
 import nc.block.tile.generator.BlockFusionCore;
 import nc.init.NCBlocks;
-import nc.block.tile.BlockInventory;
 import nc.tile.dummy.TileFusionDummyTop;
 import nc.tile.generator.TileFusionCore;
 import net.minecraft.block.material.Material;
@@ -11,6 +13,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
+import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumBlockRenderType;
@@ -107,4 +110,9 @@ public class BlockFusionDummyTop extends BlockInventory {
 	public ItemStack getItem(World world, BlockPos pos, IBlockState state) {
 		return new ItemStack(NCBlocks.fusion_core);
 	}
+	
+	public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state, @Nullable TileEntity te, ItemStack stack) {
+		player.addStat(StatList.getBlockStats(NCBlocks.fusion_core));
+		player.addExhaustion(0.005F);
+    }
 }

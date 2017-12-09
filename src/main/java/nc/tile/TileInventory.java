@@ -7,8 +7,6 @@ import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.NonNullList;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentTranslation;
 
 public abstract class TileInventory extends NCTile implements IInventory, ITileInventory {
 	
@@ -25,10 +23,6 @@ public abstract class TileInventory extends NCTile implements IInventory, ITileI
 
 	public String getName() {
 		return inventoryName;
-	}
-	
-	public ITextComponent getDisplayName() {
-		return new TextComponentTranslation(blockType.getLocalizedName());
 	}
 
 	public boolean hasCustomName() {

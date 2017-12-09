@@ -130,6 +130,6 @@ public class TileFusionDummyTop extends TileDummy {
 		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
 			return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(this);
 		}
-		return null;
+		return super.getCapability(capability, facing);
 	}
 }

@@ -9,7 +9,6 @@ import nc.util.NCInfo;
 import nc.util.NCMath;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
@@ -26,7 +25,7 @@ public class ItemFuelRodAmericium extends Item implements IFissionableItem {
 	}
 
 	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
-		for (int i = 0; i < AmericiumFuelRodTypes.values().length; i++) {
+		if (this.isInCreativeTab(tab)) for (int i = 0; i < AmericiumFuelRodTypes.values().length; i++) {
 			items.add(new ItemStack(this, 1, i));
 		}
 	}

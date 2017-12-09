@@ -24,6 +24,7 @@ import nc.block.tile.energyStorage.BlockLithiumIonBatteryBasic;
 import nc.block.tile.energyStorage.BlockVoltaicPileBasic;
 import nc.block.tile.generator.BlockAmericiumRTG;
 import nc.block.tile.generator.BlockCaliforniumRTG;
+import nc.block.tile.generator.BlockDecayGenerator;
 import nc.block.tile.generator.BlockFissionController;
 import nc.block.tile.generator.BlockFusionCore;
 import nc.block.tile.generator.BlockPlutoniumRTG;
@@ -74,7 +75,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class NCBlocks {
 	
@@ -145,6 +145,8 @@ public class NCBlocks {
 	
 	public static Block solar_panel_basic;
 	
+	public static Block decay_generator;
+	
 	public static Block voltaic_pile_basic;
 	public static Block lithium_ion_battery_basic;
 	
@@ -178,7 +180,7 @@ public class NCBlocks {
 		reactor_casing_transparent = new BlockTransparent("reactor_casing_transparent", "reactor_casing_transparent", Material.IRON, true).setCreativeTab(CommonProxy.TAB_FISSION_BLOCKS);
 		cell_block = new BlockTransparent("cell_block", "cell_block", Material.IRON, false).setCreativeTab(CommonProxy.TAB_FISSION_BLOCKS);
 		cooler = new BlockCooler("cooler", "cooler").setCreativeTab(CommonProxy.TAB_FISSION_BLOCKS);
-		reactor_door = new NCBlockDoor("reactor_door", "reactor_door", Material.IRON, NCItems.reactor_door);
+		reactor_door = new NCBlockDoor("reactor_door", "reactor_door", Material.IRON);
 		reactor_trapdoor = new NCBlockTrapDoor("reactor_trapdoor", "reactor_trapdoor", Material.IRON);
 		
 		block_depleted_thorium = new NCBlock("block_depleted_thorium", "block_depleted_thorium", Material.IRON).setCreativeTab(CommonProxy.TAB_BASE_BLOCK_MATERIALS);
@@ -237,6 +239,8 @@ public class NCBlocks {
 		rtg_californium = new BlockCaliforniumRTG("rtg_californium", "rtg_californium");
 		
 		solar_panel_basic = new BlockSolarPanelBasic("solar_panel_basic", "solar_panel_basic");
+		
+		decay_generator = new BlockDecayGenerator("decay_generator", "decay_generator");
 		
 		voltaic_pile_basic = new BlockVoltaicPileBasic("voltaic_pile_basic", "voltaic_pile_basic");
 		lithium_ion_battery_basic = new BlockLithiumIonBatteryBasic("lithium_ion_battery_basic", "lithium_ion_battery_basic");
@@ -331,6 +335,8 @@ public class NCBlocks {
 		registerBlock(rtg_californium, I18n.translateToLocalFormatted("tile.rtg.des0") + " " + NCConfig.rtg_power[3] + " " + I18n.translateToLocalFormatted("tile.rtg.des1"));
 		
 		registerBlock(solar_panel_basic, I18n.translateToLocalFormatted("tile.solar_panel.des0") + " " + NCConfig.solar_power[0] + " " + I18n.translateToLocalFormatted("tile.solar_panel.des1"));
+		
+		registerBlock(decay_generator, 4);
 		
 		registerBlock(voltaic_pile_basic, I18n.translateToLocalFormatted("tile.energy_storage.des0") + " " + NCConfig.battery_capacity[0]/1000 + " " + I18n.translateToLocalFormatted("tile.energy_storage.des1"), I18n.translateToLocalFormatted("tile.energy_storage.des2"), I18n.translateToLocalFormatted("tile.energy_storage.des3"), I18n.translateToLocalFormatted("tile.energy_storage.des4"), I18n.translateToLocalFormatted("tile.energy_storage.des5"));
 		registerBlock(lithium_ion_battery_basic, I18n.translateToLocalFormatted("tile.energy_storage.des0") + " " + NCConfig.battery_capacity[1]/1000 + " " + I18n.translateToLocalFormatted("tile.energy_storage.des1"), I18n.translateToLocalFormatted("tile.energy_storage.des2"), I18n.translateToLocalFormatted("tile.energy_storage.des3"), I18n.translateToLocalFormatted("tile.energy_storage.des4"), I18n.translateToLocalFormatted("tile.energy_storage.des5"));
@@ -437,6 +443,8 @@ public class NCBlocks {
 		registerRender(rtg_californium);
 		
 		registerRender(solar_panel_basic);
+		
+		registerRender(decay_generator);
 		
 		registerRender(voltaic_pile_basic);
 		registerRender(lithium_ion_battery_basic);

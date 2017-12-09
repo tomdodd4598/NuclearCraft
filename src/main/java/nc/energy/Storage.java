@@ -96,6 +96,12 @@ public class Storage implements IEnergyStorage, ITeslaConsumer, ITeslaProducer, 
 		else if (energyStored < 0) energyStored = 0;
 	}
 	
+	public void setStorageCapacity(int newCapacity) {
+		if(newCapacity == energyCapacity || newCapacity <= 0) return;
+		if(newCapacity < energyCapacity) setEnergyStored(newCapacity);
+		energyCapacity = newCapacity;
+    }
+	
 	// NBT
 	
 	public NBTTagCompound serializeNBT() {

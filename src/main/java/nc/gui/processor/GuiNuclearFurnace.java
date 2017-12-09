@@ -2,15 +2,15 @@ package nc.gui.processor;
 
 import nc.Global;
 import nc.container.processor.ContainerNuclearFurnace;
+import nc.gui.GuiNC;
 import nc.tile.processor.TileNuclearFurnace;
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.util.ResourceLocation;
 
-public class GuiNuclearFurnace extends GuiContainer {
+public class GuiNuclearFurnace extends GuiNC {
 	private static final ResourceLocation FURNACE_GUI_TEXTURES = new ResourceLocation(Global.MOD_ID + ":textures/gui/container/nuclear_furnace.png");
 	/** The player inventory bound to this GUI */
 	private final InventoryPlayer playerInventory;

@@ -14,7 +14,9 @@ import nc.network.PacketEmptyTankButton;
 import nc.network.PacketGetFluidInTank;
 import nc.network.PacketHandler;
 import nc.network.PacketToggleTanksSharedButton;
+import nc.tile.energy.ITileEnergy;
 import nc.tile.generator.TileFusionCore;
+import nc.util.NCMath;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
@@ -48,41 +50,47 @@ public class GuiFusionCore extends GuiNC {
 	}
 
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-		int fontColor = tile.time > 0 && tile.heat > 8 ? -1 : (tile.complete == 1 ? 15641088 : 15597568);
+		int fontColor = tile.isGenerating() || tile.canProcess() ? -1 : (tile.complete == 1 ? 15641088 : 15597568);
 		String name = I18n.translateToLocalFormatted("gui.container.fusion_core.reactor");
 		fontRenderer.drawString(name, 108 - widthHalf(name), 10, fontColor);
 		String size = tile.complete == 1 ? (I18n.translateToLocalFormatted("gui.container.fusion_core.size") + " " + tile.size) : tile.problem;
 		fontRenderer.drawString(size, 108 - widthHalf(size), 21, fontColor);
-		String energy = I18n.translateToLocalFormatted("gui.container.fusion_core.energy") + " " + tile.storage.getEnergyStored() + " RF";
+		String energy = I18n.translateToLocalFormatted("gui.container.fusion_core.energy") + " " + NCMath.prefix(tile.storage.getEnergyStored(), 6, "RF");
 		fontRenderer.drawString(energy, 108 - widthHalf(energy), 32, fontColor);
-		String power = I18n.translateToLocalFormatted("gui.container.fusion_core.power") + " " + ((int) tile.processPower) + " RF/t";
+		String power = I18n.translateToLocalFormatted("gui.container.fusion_core.power") + " " + NCMath.prefix((int) tile.processPower, 6, "RF/t");
 		fontRenderer.drawString(power, 108 - widthHalf(power), 43, fontColor);
-		String heat = I18n.translateToLocalFormatted("gui.container.fusion_core.heat") + " " + ((int) tile.heat) + " kK";
+		String heat = I18n.translateToLocalFormatted("gui.container.fusion_core.heat") + " " + NCMath.prefix((int) tile.heat, 6, "K", 1);
 		fontRenderer.drawString(heat, 108 - widthHalf(heat), 54, fontColor);
 		String efficiency = I18n.translateToLocalFormatted("gui.container.fusion_core.efficiency") + " " + ((int) tile.efficiency) + "%";
 		fontRenderer.drawString(efficiency, 108 - widthHalf(efficiency), 65, fontColor);
-		String input1 = fluid0 != null ? fluid0.getLocalizedName() : I18n.translateToLocalFormatted("gui.container.fusion_core.empty");
-		String input2 = fluid1 != null ? fluid1.getLocalizedName() : I18n.translateToLocalFormatted("gui.container.fusion_core.empty");
+		String input1 = fluid0 != null ? fluid0.getLocalizedName() : (fluid6 != null ? fluid6.getLocalizedName() : I18n.translateToLocalFormatted("gui.container.fusion_core.empty"));
+		String input2 = fluid1 != null ? fluid1.getLocalizedName() : (fluid7 != null ? fluid7.getLocalizedName() : I18n.translateToLocalFormatted("gui.container.fusion_core.empty"));
 		fontRenderer.drawString(input1, 108 - widthHalf(input1), 76, fontColor);
 		fontRenderer.drawString(input2, 108 - widthHalf(input2), 87, fontColor);
 		
 		drawTooltip(I18n.translateToLocalFormatted("gui.container.change_tanks_mode"), mouseX, mouseY, 195, 5, 18, 18);
 		
-		drawFluidTooltip(fluid0, mouseX, mouseY, 38, 6, 6, 46);
-		drawFluidTooltip(fluid1, mouseX, mouseY, 38, 55, 6, 46);
-		drawFluidTooltip(fluid2, mouseX, mouseY, 172, 6, 6, 46);
-		drawFluidTooltip(fluid3, mouseX, mouseY, 182, 6, 6, 46);
-		drawFluidTooltip(fluid4, mouseX, mouseY, 172, 55, 6, 46);
-		drawFluidTooltip(fluid5, mouseX, mouseY, 182, 55, 6, 46);
+		drawFluidTooltip(fluid0, tile.tanks[0], mouseX, mouseY, 38, 6, 6, 46);
+		drawFluidTooltip(fluid1, tile.tanks[1], mouseX, mouseY, 38, 55, 6, 46);
+		drawFluidTooltip(fluid2, tile.tanks[2], mouseX, mouseY, 172, 6, 6, 46);
+		drawFluidTooltip(fluid3, tile.tanks[3], mouseX, mouseY, 182, 6, 6, 46);
+		drawFluidTooltip(fluid4, tile.tanks[4], mouseX, mouseY, 172, 55, 6, 46);
+		drawFluidTooltip(fluid5, tile.tanks[5], mouseX, mouseY, 182, 55, 6, 46);
 		
 		drawEnergyTooltip(tile, mouseX, mouseY, 8, 6, 6, 95);
 		drawHeatTooltip(mouseX, mouseY, 18, 6, 6, 95);
 		drawEfficiencyTooltip(mouseX, mouseY, 28, 6, 6, 95);
 	}
 	
+	public List<String> energyInfo(ITileEnergy tile) {
+		String energy = NCMath.prefix(tile.getStorage().getEnergyStored(), tile.getStorage().getMaxEnergyStored(), 5, "RF");
+		String power = NCMath.prefix(this.tile.getProcessPower(), 5, "RF/t");
+		return Lists.newArrayList(TextFormatting.LIGHT_PURPLE + I18n.translateToLocalFormatted("gui.container.energy_stored") + TextFormatting.WHITE + " " + energy, TextFormatting.LIGHT_PURPLE + I18n.translateToLocalFormatted("gui.container.power_gen") + TextFormatting.WHITE + " " + power);
+	}
+	
 	public List<String> heatInfo() {
-		String heat = ((int) tile.heat) + " kK";
-		return Lists.newArrayList(TextFormatting.YELLOW + I18n.translateToLocalFormatted("gui.container.fusion_core.temperature"), TextFormatting.WHITE + heat);
+		String heat = NCMath.prefix((int) tile.heat, (int) tile.getMaxHeat(), 5, "K", 1);
+		return Lists.newArrayList(TextFormatting.YELLOW + I18n.translateToLocalFormatted("gui.container.fusion_core.temperature") + TextFormatting.WHITE + " " + heat);
 	}
 	
 	public void drawHeatTooltip(int mouseX, int mouseY, int x, int y, int width, int height) {
@@ -91,7 +99,7 @@ public class GuiFusionCore extends GuiNC {
 	
 	public List<String> efficiencyInfo() {
 		String efficiency = ((int) tile.efficiency) + "%";
-		return Lists.newArrayList(TextFormatting.AQUA + I18n.translateToLocalFormatted("gui.container.fusion_core.efficiency"), TextFormatting.WHITE + efficiency);
+		return Lists.newArrayList(TextFormatting.AQUA + I18n.translateToLocalFormatted("gui.container.fusion_core.efficiency") + TextFormatting.WHITE + " " + efficiency);
 	}
 	
 	public void drawEfficiencyTooltip(int mouseX, int mouseY, int x, int y, int width, int height) {

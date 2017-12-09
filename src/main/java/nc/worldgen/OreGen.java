@@ -67,4 +67,8 @@ public class OreGen implements IWorldGenerator {
 		if (NCConfig.ore_gen[6]) runGenerator(lithium, world, random, chunkX, chunkZ, NCConfig.ore_rate[6], NCConfig.ore_min_height[6], NCConfig.ore_max_height[6]);
 		if (NCConfig.ore_gen[7]) runGenerator(magnesium, world, random, chunkX, chunkZ, NCConfig.ore_rate[7], NCConfig.ore_min_height[7], NCConfig.ore_max_height[7]);
 	}
+	
+	public static boolean showOre(int i) {
+		return NCConfig.ore_gen[i] || !NCConfig.hide_disabled_ores;
+	}
 }

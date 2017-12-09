@@ -82,7 +82,7 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 			}
 			if (flag != isGenerating) {
 				flag1 = true;
-				setBlockState();
+				if (NCConfig.update_block_type) setBlockState();
 			}
 			pushEnergy();
 		} else {

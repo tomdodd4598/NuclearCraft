@@ -6,7 +6,6 @@ import nc.util.NCInfo;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
@@ -17,8 +16,8 @@ public class NCSpaxelhoe extends NCPickaxe {
 	public NCSpaxelhoe(String unlocalizedName, ToolMaterial material, String... tooltip) {
 		super(unlocalizedName, material, tooltip);
 		attackSpeed = -2.4F;
-		damageVsEntity = 3.0F + material.getDamageVsEntity();
-		efficiency = material.getEfficiencyOnProperMaterial();
+		attackDamage = 3.0F + material.getAttackDamage();
+		efficiency = material.getEfficiency();
 	}
 	
 	public float getStrVsBlock(ItemStack stack, IBlockState state){

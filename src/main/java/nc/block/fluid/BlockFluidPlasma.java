@@ -2,9 +2,14 @@ package nc.block.fluid;
 
 import java.util.Random;
 
+import nc.block.tile.passive.BlockFusionElectromagnet;
+import nc.block.tile.passive.BlockFusionElectromagnetTransparent;
 import nc.init.NCBlocks;
+import nc.util.NCUtil;
 import net.minecraft.block.Block;
+import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialLiquid;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
@@ -16,10 +21,12 @@ import net.minecraftforge.fluids.Fluid;
 
 public class BlockFluidPlasma extends BlockFluid {
 	
+	private static final Material GAS = new MaterialLiquid(MapColor.AIR);
+	
 	public static DamageSource plasma_burn = (new DamageSource("plasma_burn")).setDamageBypassesArmor();
 
 	public BlockFluidPlasma(Fluid fluid, String name) {
-		super(fluid, name, Material.LAVA);
+		super(fluid, name, GAS);
 		setQuantaPerBlock(16);
 	}
 	
@@ -29,16 +36,35 @@ public class BlockFluidPlasma extends BlockFluid {
 	}
 	
 	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
-		if (rand.nextInt(200) < 2) {
-			EnumFacing side = EnumFacing.values()[rand.nextInt(6)];
-			BlockPos offpos = pos.offset(side);
-			Block offBlock = worldIn.getBlockState(offpos).getBlock();
-			if (offBlock == NCBlocks.fusion_electromagnet_idle || offBlock == NCBlocks.fusion_electromagnet_transparent_idle || offBlock == NCBlocks.fusion_connector) {
-				worldIn.setBlockState(offpos, Blocks.AIR.getDefaultState());
+		for (EnumFacing side : EnumFacing.HORIZONTALS) {
+			BlockPos offPos = pos.offset(side);
+			Material mat = worldIn.getBlockState(offPos).getMaterial();
+			if (NCUtil.isReplaceable(mat) && !mat.isLiquid() && mat != Material.FIRE) {
+				if (worldIn.isSideSolid(offPos.down(), EnumFacing.UP)) {
+					worldIn.setBlockState(offPos, Blocks.FIRE.getDefaultState());
+					break;
+				}
 			}
 		}
-		if (!isSourceBlock(worldIn, pos)) {
-			if (rand.nextInt(5) < 1) worldIn.setBlockState(pos, Blocks.FIRE.getDefaultState());
+		int free = 0;
+		for (EnumFacing side : EnumFacing.values()) {
+			Block offBlock = worldIn.getBlockState(pos.offset(side)).getBlock();
+			if (!(offBlock instanceof BlockFusionElectromagnet || offBlock instanceof BlockFusionElectromagnetTransparent || offBlock == NCBlocks.fusion_connector)) {
+				free++;
+				continue;
+			} if (rand.nextInt(200) < 2) {
+				if (offBlock == NCBlocks.fusion_electromagnet_idle || offBlock == NCBlocks.fusion_electromagnet_transparent_idle) {
+					worldIn.createExplosion(null, pos.offset(side).getX(), pos.offset(side).getY(), pos.offset(side).getZ(), 4F, true);
+					return;
+				} else if (offBlock == NCBlocks.fusion_core || offBlock == NCBlocks.fusion_dummy_side || offBlock == NCBlocks.fusion_dummy_top) {
+					worldIn.createExplosion(null, pos.offset(side).getX(), pos.offset(side).getY(), pos.offset(side).getZ(), 7F, true);
+					return;
+				}
+			}
+		}
+		if (free == 6 && isSourceBlock(worldIn, pos)) {
+			worldIn.setBlockToAir(pos);
+			return;
 		}
 		super.updateTick(worldIn, pos, state, rand);
 	}

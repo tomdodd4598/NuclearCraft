@@ -5,11 +5,12 @@ import java.util.Random;
 import nc.config.NCConfig;
 import nc.init.NCItems;
 import net.minecraft.block.Block;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Enchantments;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.world.BlockEvent.HarvestDropsEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -48,12 +49,7 @@ public class DropHandler {
 			}
 			boolean silkTouch = false;
 			if (heldItem != ItemStack.EMPTY && heldItem != null) {
-				NBTTagList enchants = heldItem.getEnchantmentTagList();
-				if (enchants != null) {
-					for (int i = 0; i < enchants.tagCount(); i++) {
-						if (enchants.get(i).getId() == 33) silkTouch = true;
-					}
-				}
+				if (EnchantmentHelper.getEnchantmentLevel(Enchantments.SILK_TOUCH, heldItem) > 0) silkTouch = true;
 			}
 			if (!silkTouch) event.getDrops().add(drop);
 		}

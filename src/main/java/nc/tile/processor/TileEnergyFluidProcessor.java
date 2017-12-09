@@ -50,7 +50,7 @@ public abstract class TileEnergyFluidProcessor extends TileEnergyFluidSidedInven
 	}
 	
 	public TileEnergyFluidProcessor(String name, int fluidInSize, int fluidOutSize, int[] fluidCapacity, FluidConnection[] fluidConnection, String[][] allowedFluids, int time, int power, boolean upgrades, BaseRecipeHandler recipes, int upgradeMeta) {
-		super(name, upgrades ? 2 : 0, 32000, EnergyConnection.IN, fluidCapacity, fluidCapacity, fluidCapacity, fluidConnection, allowedFluids);
+		super(name, upgrades ? 2 : 0, 32000, power != 0 ? EnergyConnection.IN : EnergyConnection.NON, fluidCapacity, fluidCapacity, fluidCapacity, fluidConnection, allowedFluids);
 		fluidInputSize = fluidInSize;
 		fluidOutputSize = fluidOutSize;
 		defaultProcessTime = time;
@@ -137,7 +137,7 @@ public abstract class TileEnergyFluidProcessor extends TileEnergyFluidSidedInven
 			}
 			if (flag != isProcessing) {
 				flag1 = true;
-				setBlockState();
+				if (NCConfig.update_block_type) setBlockState();
 			}
 		} else {
 			isProcessing = canProcess() && !isPowered();

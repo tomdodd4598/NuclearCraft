@@ -17,7 +17,7 @@ public class ItemDepletedFuelRodMixedOxide extends Item {
 	}
 
 	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
-		for (int i = 0; i < MixedOxideDepletedFuelRodTypes.values().length; i++) {
+		if (this.isInCreativeTab(tab)) for (int i = 0; i < MixedOxideDepletedFuelRodTypes.values().length; i++) {
 			items.add(new ItemStack(this, 1, i));
 		}
 	}

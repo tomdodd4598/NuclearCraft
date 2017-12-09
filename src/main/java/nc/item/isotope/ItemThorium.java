@@ -1,12 +1,18 @@
 package nc.item.isotope;
 
+import java.util.List;
+
 import nc.Global;
 import nc.handler.EnumHandler.ThoriumTypes;
+import nc.util.NCInfo;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.translation.I18n;
+import net.minecraft.world.World;
 
 public class ItemThorium extends Item {
 
@@ -17,7 +23,7 @@ public class ItemThorium extends Item {
 	}
 
 	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
-		for (int i = 0; i < ThoriumTypes.values().length; i++) {
+		if (this.isInCreativeTab(tab)) for (int i = 0; i < ThoriumTypes.values().length; i++) {
 			items.add(new ItemStack(this, 1, i));
 		}
 	}
@@ -32,4 +38,9 @@ public class ItemThorium extends Item {
 		}
 		return this.getUnlocalizedName() + "." + ThoriumTypes.values()[0].getName();
 	}
+	
+	public void addInformation(ItemStack itemStack, World world, List<String> tooltip, ITooltipFlag flag) {
+        super.addInformation(itemStack, world, tooltip, flag);
+        NCInfo.infoFull(tooltip, I18n.translateToLocalFormatted("item.thorium.desc"));
+    }
 }

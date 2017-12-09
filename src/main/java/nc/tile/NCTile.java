@@ -5,6 +5,8 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentTranslation;
 
 public abstract class NCTile extends TileEntity implements ITickable {
 	
@@ -32,6 +34,10 @@ public abstract class NCTile extends TileEntity implements ITickable {
 			getWorld().getChunkFromBlockCoords(getPos()).markDirty();
 		}
 		markDirty();
+	}
+	
+	public ITextComponent getDisplayName() {
+		if (getBlockType() != null) return new TextComponentTranslation(getBlockType().getLocalizedName()); else return null;
 	}
 	
 	// NBT

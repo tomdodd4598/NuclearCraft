@@ -14,6 +14,7 @@ import nc.init.NCBlocks;
 import nc.init.NCFluids;
 import nc.recipe.generator.FusionRecipes;
 import nc.tile.fluid.TileActiveCooler;
+import nc.util.NCUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRedstoneComparator;
 import net.minecraft.block.material.Material;
@@ -64,7 +65,7 @@ public class TileFusionCore extends TileFluidGenerator {
 			heating();
 			if (shouldCheck() && NCConfig.fusion_active_cooling) cooling();
 			plasma();
-			overheat();
+			if (overheat()) return;
 			if (canProcess() && !isPowered()) {
 				isGenerating = true;
 				time += getRateMultiplier();
@@ -78,11 +79,12 @@ public class TileFusionCore extends TileFluidGenerator {
 			}
 			if (flag != isGenerating) {
 				flag1 = true;
+				if (NCConfig.update_block_type) setBlockState();
 			}
 			if (isHotEnough()) pushEnergy();
 			if (findAdjacentComparator() && shouldCheck()) flag1 = true;
 		} else {
-			isGenerating = /*canProcess() && !isPowered()*/ !isPowered() && time > 0 && isHotEnough();
+			isGenerating = complete == 1 && !isPowered() && time > 0 && isHotEnough();
 			playSounds();
 		}
 		
@@ -95,10 +97,12 @@ public class TileFusionCore extends TileFluidGenerator {
 		BlockFusionCore.setState(world, pos);
 	}
 	
-	public void overheat() {
+	public boolean overheat() {
 		if (heat >= getMaxHeat() && NCConfig.fusion_overheat) {
 			meltdown();
+			return true;
 		}
+		return false;
 	}
 	
 	public void meltdown() {
@@ -158,7 +162,7 @@ public class TileFusionCore extends TileFluidGenerator {
 	
 	public boolean isGenerating() {
 		if (world.isRemote) return isGenerating;
-		return !isPowered() && time > 0 && isHotEnough();
+		return complete == 1 && !isPowered() && time > 0 && isHotEnough();
 	}
 	
 	public boolean isPowered() {
@@ -177,7 +181,7 @@ public class TileFusionCore extends TileFluidGenerator {
 	
 	public void playSounds() {
 		if (soundCount >= getSoundTime()) {
-			if (isGenerating) {
+			if ((isGenerating() || canProcess()) && !isPowered()) {
 				world.playSound(pos.getX(), pos.getY() + 1, pos.getZ(), SoundHandler.FUSION_RUN, SoundCategory.BLOCKS, 1F, 1.0F, false);
 				for (int r = 0; r <= (size - 1)/2; r++) {
 					world.playSound(pos.getX() - size - 2 + 2*r*(2*size + 5)/size, pos.getY() + 1, pos.getZ() + size + 2, getSound(), SoundCategory.BLOCKS, 0.8F, 1F, false);
@@ -288,7 +292,7 @@ public class TileFusionCore extends TileFluidGenerator {
 	}
 	
 	public void plasma() {
-		if (!isPowered() && isHotEnough() && complete == 1) {
+		if (isGenerating() || canProcess()) {
 			for (int r = -size - 2; r <= size + 2; r++) {
 				if (!findPlasma(r, 1, size + 2)) setPlasma(r, 1, size + 2);
 				if (!findPlasma(r, 1, -size - 2)) setPlasma(r, 1, -size - 2);
@@ -296,8 +300,8 @@ public class TileFusionCore extends TileFluidGenerator {
 				if (!findPlasma(-size - 2, 1, r)) setPlasma(-size - 2, 1, r);
 			}
 		}
-		for (int r = -size - 2; r <= size + 2; r++) {
-			if (!isPowered() && !isHotEnough() && complete == 1) {
+		else if ((!isGenerating() || !canProcess()) && complete == 1) {
+			for (int r = -size - 2; r <= size + 2; r++) {
 				if (findPlasma(r, 1, size + 2)) setAir(r, 1, size + 2);
 				if (findPlasma(r, 1, -size - 2)) setAir(r, 1, -size - 2);
 				if (findPlasma(size + 2, 1, r)) setAir(size + 2, 1, r);
@@ -353,7 +357,7 @@ public class TileFusionCore extends TileFluidGenerator {
 	private boolean findAir(int x, int y, int z) {
 		Material mat = world.getBlockState(new BlockPos(pos.getX() + x, pos.getY() + y, pos.getZ() + z)).getMaterial();
 		Block findBlock = world.getBlockState(new BlockPos(pos.getX() + x, pos.getY() + y, pos.getZ() + z)).getBlock();
-		return mat == Material.AIR || mat == Material.FIRE || mat == Material.WATER || mat == Material.VINE || mat == Material.SNOW || findBlock instanceof BlockFluidPlasma;
+		return NCUtil.isReplaceable(mat) || findBlock instanceof BlockFluidPlasma;
 	}
 	
 	private boolean findPlasma(int x, int y, int z) {

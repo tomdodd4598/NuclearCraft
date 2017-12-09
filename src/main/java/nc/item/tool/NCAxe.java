@@ -11,7 +11,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
@@ -40,7 +39,7 @@ public class NCAxe extends ItemTool {
 	
 	public float getStrVsBlock(ItemStack stack, IBlockState state){
 		Material material = state.getMaterial();
-		return material != Material.WOOD && material != Material.PLANTS && material != Material.VINE ? super.getStrVsBlock(stack, state) : this.efficiencyOnProperMaterial;
+		return material != Material.WOOD && material != Material.PLANTS && material != Material.VINE ? super.getDestroySpeed(stack, state) : this.efficiency;
     }
 	
 	public void addInformation(ItemStack itemStack, World world, List<String> tooltip, ITooltipFlag flag) {

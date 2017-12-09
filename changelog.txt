@@ -1,3 +1,50 @@
+v2.6
+
++ Added early-game Decay Generator
+
+* Fission Controller's energy and heat buffer now scales with reactor size
+* Fixed certain Fuel Rods having the wrong stats [thanks to 28Smiles!]
+* Fixed crash on Fission Reactor overheating [thanks to dizzyd!]
+* Fixed Coolers not recognising Ports/Buffers/etc. as a form of Reactor Casing
+
+* Fusion Reactor generates and removes Fusion Plasma a little more intelligently
+* Fusion Plasma will now cause explosions intead of corrosion
+* Made Fusion Plasma less laggy in general
+* Fixed Fusion Core dropping unwanted dummy blocks
+
+* Fixed (hopefully) Collectors crashing if multiple variants of Helium/Nitrogen exist
+
+* Fixed some blocks breaking instantly
+* Fixed Reactor Door not dropping after being broken
+
+* Spruced up GUIs a little bit more
+* Fixed bug where game sometimes crashed when attempting to open GUIs
+
++ Added more config options for ores
+* Fixed vanilla ores still dropping NC resources when broken with Silk Touch
+
+* CraftTweaker now works again [thanks to TheGuyRunningSouth!]
+* Removed active machines and other junk from JEI
+* Added and tweaked a few recipes
+
+* Machines can no longer be rotated (temporary fix for machines losing contents when rotated)
+* Processors can now be set to use no power in the config - this is done for the Ingot Former by default
+
+* Fixed some mods' cables/conduits disconnecting from machines (temporary fix - machine textures won't update)
+* Fixed IC2 Energy Net console spam [thanks to fscan!]
+
+* Fixed getCapability returning null
+
+* Updated Forge and APIs
+
+* Possible other things that I have forgotten
+- Removed Paulobrine and Herobrian
+
+v2.5a
+
+* Fixed items appearing in wrong creative tabs (1.12.2)
+* Tweaks to NBT data reading and writing
+
 v2.5
 
 * Made machine GUIs a little fancier

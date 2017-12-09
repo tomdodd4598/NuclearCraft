@@ -17,7 +17,7 @@ public class ItemFuelUranium extends Item {
 	}
 
 	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
-		for (int i = 0; i < UraniumFuelTypes.values().length; i++) {
+		if (this.isInCreativeTab(tab)) for (int i = 0; i < UraniumFuelTypes.values().length; i++) {
 			items.add(new ItemStack(this, 1, i));
 		}
 	}

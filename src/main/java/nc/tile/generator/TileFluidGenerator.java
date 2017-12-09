@@ -123,7 +123,7 @@ public abstract class TileFluidGenerator extends TileEnergyFluidSidedInventory i
 			}
 			if (flag != isGenerating) {
 				flag1 = true;
-				setBlockState();
+				if (NCConfig.update_block_type) setBlockState();
 			}
 			pushEnergy();
 		} else {

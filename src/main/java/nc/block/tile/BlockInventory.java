@@ -67,4 +67,8 @@ public class BlockInventory extends BlockContainer implements ITileEntityProvide
 	public EnumBlockRenderType getRenderType(IBlockState state) {
 		return EnumBlockRenderType.MODEL;
 	}
+	
+	public boolean rotateBlock(World world, BlockPos pos, EnumFacing axis) {
+		return false;
+	}
 }

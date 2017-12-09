@@ -278,6 +278,6 @@ public abstract class TilePassive extends TileEnergyFluidSidedInventory /*implem
 				return (T) handlerSide;
 			}
 		}
-		return null;
+		return super.getCapability(capability, facing);
 	}
 }
