@@ -491,6 +491,6 @@ public abstract class TileDummy extends TileEnergyFluidSidedInventory {
 				return (T) handlerSide;
 			}
 		}
-		return null;
+		return super.getCapability(capability, facing);
 	}
 }

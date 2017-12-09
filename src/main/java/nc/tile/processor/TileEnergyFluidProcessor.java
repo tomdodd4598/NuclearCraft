@@ -2,8 +2,6 @@ package nc.tile.processor;
 
 import java.util.ArrayList;
 
-import ic2.api.energy.EnergyNet;
-import nc.ModCheck;
 import nc.config.NCConfig;
 import nc.energy.EnumStorage.EnergyConnection;
 import nc.fluid.EnumTank.FluidConnection;
@@ -52,7 +50,7 @@ public abstract class TileEnergyFluidProcessor extends TileEnergyFluidSidedInven
 	}
 	
 	public TileEnergyFluidProcessor(String name, int fluidInSize, int fluidOutSize, int[] fluidCapacity, FluidConnection[] fluidConnection, String[][] allowedFluids, int time, int power, boolean upgrades, BaseRecipeHandler recipes, int upgradeMeta) {
-		super(name, upgrades ? 2 : 0, 32000, EnergyConnection.IN, fluidCapacity, fluidCapacity, fluidCapacity, fluidConnection, allowedFluids);
+		super(name, upgrades ? 2 : 0, 32000, power != 0 ? EnergyConnection.IN : EnergyConnection.NON, fluidCapacity, fluidCapacity, fluidCapacity, fluidConnection, allowedFluids);
 		fluidInputSize = fluidInSize;
 		fluidOutputSize = fluidOutSize;
 		defaultProcessTime = time;
@@ -139,12 +137,7 @@ public abstract class TileEnergyFluidProcessor extends TileEnergyFluidSidedInven
 			}
 			if (flag != isProcessing) {
 				flag1 = true;
-				if (isEnergyTileSet && ModCheck.ic2Loaded()) {
-					/*MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));*/ EnergyNet.instance.removeTile(this);
-					isEnergyTileSet = false;
-				}
-				setBlockState();
-				//invalidate();
+				if (NCConfig.update_block_type) setBlockState();
 			}
 		} else {
 			isProcessing = canProcess() && !isPowered();

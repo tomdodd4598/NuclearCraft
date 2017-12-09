@@ -27,6 +27,7 @@ public abstract class TileEnergy extends NCTile implements ITileEnergy, cofh.api
 	public EnergyConnection connection;
 	public final Storage storage;
 	public boolean isEnergyTileSet = true;
+	public boolean ic2reg = false;
 	
 	public TileEnergy(int capacity, EnergyConnection connection) {
 		this(capacity, capacity, capacity, connection);
@@ -44,21 +45,29 @@ public abstract class TileEnergy extends NCTile implements ITileEnergy, cofh.api
 	
 	public void update() {
 		super.update();
-		if (!isEnergyTileSet && !worldObj.isRemote && ModCheck.ic2Loaded()) {
+		/*if (!isEnergyTileSet && !worldObj.isRemote && ModCheck.ic2Loaded()) {
 			//MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this));
 			EnergyNet.instance.addTile(this);
 			isEnergyTileSet = true;
-		}
+		}*/
 	}
 	
 	public void onAdded() {
 		super.onAdded();
-		if (!worldObj.isRemote && ModCheck.ic2Loaded()) /*MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this));*/ EnergyNet.instance.addTile(this);
+		//if (!worldObj.isRemote && ModCheck.ic2Loaded()) /*MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this));*/ EnergyNet.instance.addTile(this);
+		addTileToENet();
 	}
 
 	public void invalidate() {
 		super.invalidate();
-		if (!worldObj.isRemote && ModCheck.ic2Loaded()) /*MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));*/ EnergyNet.instance.removeTile(this);
+		//if (!worldObj.isRemote && ModCheck.ic2Loaded()) /*MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));*/ EnergyNet.instance.removeTile(this);
+		removeTileFromENet();
+	}
+	
+	@Override
+	public void onChunkUnload() {
+		super.onChunkUnload();
+		removeTileFromENet();
 	}
 	
 	public Storage getStorage() {
@@ -147,6 +156,20 @@ public abstract class TileEnergy extends NCTile implements ITileEnergy, cofh.api
 	public abstract int getSourceTier();
 
 	public abstract int getSinkTier();
+	
+	public void addTileToENet() {
+		if (!worldObj.isRemote && ModCheck.ic2Loaded() && !ic2reg) {
+			EnergyNet.instance.addTile(this);
+			ic2reg = true;
+		}
+	}
+	
+	public void removeTileFromENet() {
+		if (!worldObj.isRemote && ModCheck.ic2Loaded() && ic2reg) {
+			EnergyNet.instance.removeTile(this);
+			ic2reg = false;
+		}
+	}
 	
 	// NBT
 	

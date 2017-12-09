@@ -38,6 +38,7 @@ public class NCConfig {
 	public static int[] ore_min_height;
 	public static int[] ore_max_height;
 	public static boolean[] ore_drops;
+	public static boolean hide_disabled_ores;
 	
 	public static int[] processor_time;
 	public static int[] processor_power;
@@ -45,9 +46,12 @@ public class NCConfig {
 	public static int processor_update_rate;
 	public static int[] processor_passive_rate;
 	public static int cobble_gen_power;
+	public static boolean ore_processing;
+	public static boolean update_block_type;
 	
 	public static int[] rtg_power;
 	public static int[] solar_power;
+	public static int[] decay_power;
 	public static int generator_rf_per_eu;
 	public static int generator_update_rate;
 	
@@ -180,10 +184,12 @@ public class NCConfig {
 		propertyOreMaxHeight.setLanguageKey("gui.config.ores.ore_max_height");
 		Property propertyOreDrops = config.get(CATEGORY_ORES, "ore_drops", new boolean[] {true, true, true, true, true}, I18n.translateToLocalFormatted("gui.config.ores.ore_drops.comment"));
 		propertyOreDrops.setLanguageKey("gui.config.ores.ore_drops");
+		Property propertyHideDisabledOres = config.get(CATEGORY_ORES, "hide_disabled_ores", false, I18n.translateToLocalFormatted("gui.config.ores.hide_disabled_ores.comment"));
+		propertyHideDisabledOres.setLanguageKey("gui.config.ores.hide_disabled_ores");
 		
 		Property propertyProcessorTime = config.get(CATEGORY_PROCESSORS, "processor_time", new int[] {400, 800, 800, 400, 400, 600, 800, 1600, 1600, 800, 400, 600, 800, 600, 1600, 600}, I18n.translateToLocalFormatted("gui.config.processors.processor_time.comment"), 1, 128000);
 		propertyProcessorTime.setLanguageKey("gui.config.processors.processor_time");
-		Property propertyProcessorPower = config.get(CATEGORY_PROCESSORS, "processor_power", new int[] {20, 10, 10, 20, 10, 10, 40, 20, 40, 20, 10, 40, 10, 20, 10, 10}, I18n.translateToLocalFormatted("gui.config.processors.processor_power.comment"), 0, 16000);
+		Property propertyProcessorPower = config.get(CATEGORY_PROCESSORS, "processor_power", new int[] {20, 10, 10, 20, 10, 10, 40, 20, 40, 20, 0, 40, 10, 20, 10, 10}, I18n.translateToLocalFormatted("gui.config.processors.processor_power.comment"), 0, 16000);
 		propertyProcessorPower.setLanguageKey("gui.config.processors.processor_power");
 		Property propertyProcessorRFPerEU = config.get(CATEGORY_PROCESSORS, "processor_rf_per_eu", 4, I18n.translateToLocalFormatted("gui.config.processors.processor_rf_per_eu.comment"), 1, 255);
 		propertyProcessorRFPerEU.setLanguageKey("gui.config.processors.processor_rf_per_eu");
@@ -193,11 +199,17 @@ public class NCConfig {
 		propertyProcessorPassiveRate.setLanguageKey("gui.config.processors.processor_passive_rate");
 		Property propertyCobbleGenPower = config.get(CATEGORY_PROCESSORS, "cobble_gen_power", 0, I18n.translateToLocalFormatted("gui.config.processors.cobble_gen_power.comment"), 0, 255);
 		propertyCobbleGenPower.setLanguageKey("gui.config.processors.cobble_gen_power");
+		Property propertyOreProcessing = config.get(CATEGORY_PROCESSORS, "ore_processing", true, I18n.translateToLocalFormatted("gui.config.processors.ore_processing.comment"));
+		propertyOreProcessing.setLanguageKey("gui.config.processors.ore_processing");
+		Property propertyUpdateBlockType = config.get(CATEGORY_PROCESSORS, "update_block_type", false, I18n.translateToLocalFormatted("gui.config.processors.update_block_type.comment"));
+		propertyUpdateBlockType.setLanguageKey("gui.config.processors.update_block_type");
 		
 		Property propertyRTGPower = config.get(CATEGORY_GENERATORS, "rtg_power", new int[] {4, 100, 50, 400}, I18n.translateToLocalFormatted("gui.config.generators.rtg_power.comment"), 1, Integer.MAX_VALUE);
 		propertyRTGPower.setLanguageKey("gui.config.generators.rtg_power");
 		Property propertySolarPower = config.get(CATEGORY_GENERATORS, "solar_power", new int[] {5}, I18n.translateToLocalFormatted("gui.config.generators.solar_power.comment"), 1, Integer.MAX_VALUE);
 		propertySolarPower.setLanguageKey("gui.config.generators.solar_power");
+		Property propertyDecayPower = config.get(CATEGORY_GENERATORS, "decay_power", new int[] {4, 4, 1, 1}, I18n.translateToLocalFormatted("gui.config.generators.decay_power.comment"), 1, Integer.MAX_VALUE);
+		propertyDecayPower.setLanguageKey("gui.config.generators.decay_power");
 		Property propertyGeneratorRFPerEU = config.get(CATEGORY_GENERATORS, "generator_rf_per_eu", 16, I18n.translateToLocalFormatted("gui.config.generators.generator_rf_per_eu.comment"), 1, 255);
 		propertyGeneratorRFPerEU.setLanguageKey("gui.config.generators.generator_rf_per_eu");
 		Property propertyGeneratorUpdateRate = config.get(CATEGORY_GENERATORS, "generator_update_rate", 20, I18n.translateToLocalFormatted("gui.config.generators.generator_update_rate.comment"), 1, 1200);
@@ -363,6 +375,7 @@ public class NCConfig {
 		propertyOrderOres.add(propertyOreMinHeight.getName());
 		propertyOrderOres.add(propertyOreMaxHeight.getName());
 		propertyOrderOres.add(propertyOreDrops.getName());
+		propertyOrderOres.add(propertyHideDisabledOres.getName());
 		config.setCategoryPropertyOrder(CATEGORY_ORES, propertyOrderOres);
 		
 		List<String> propertyOrderProcessors = new ArrayList<String>();
@@ -372,11 +385,14 @@ public class NCConfig {
 		propertyOrderProcessors.add(propertyProcessorUpdateRate.getName());
 		propertyOrderProcessors.add(propertyProcessorPassiveRate.getName());
 		propertyOrderProcessors.add(propertyCobbleGenPower.getName());
+		propertyOrderProcessors.add(propertyOreProcessing.getName());
+		propertyOrderProcessors.add(propertyUpdateBlockType.getName());
 		config.setCategoryPropertyOrder(CATEGORY_PROCESSORS, propertyOrderProcessors);
 		
 		List<String> propertyOrderGenerators = new ArrayList<String>();
 		propertyOrderGenerators.add(propertyRTGPower.getName());
 		propertyOrderGenerators.add(propertySolarPower.getName());
+		propertyOrderGenerators.add(propertyDecayPower.getName());
 		propertyOrderGenerators.add(propertyGeneratorRFPerEU.getName());
 		propertyOrderGenerators.add(propertyGeneratorUpdateRate.getName());
 		config.setCategoryPropertyOrder(CATEGORY_GENERATORS, propertyOrderGenerators);
@@ -486,6 +502,7 @@ public class NCConfig {
 			ore_min_height = readIntegerArrayFromConfig(propertyOreMinHeight);
 			ore_max_height = readIntegerArrayFromConfig(propertyOreMaxHeight);
 			ore_drops = readBooleanArrayFromConfig(propertyOreDrops);
+			hide_disabled_ores = propertyHideDisabledOres.getBoolean();
 			
 			processor_time = readIntegerArrayFromConfig(propertyProcessorTime);
 			processor_power = readIntegerArrayFromConfig(propertyProcessorPower);
@@ -493,9 +510,12 @@ public class NCConfig {
 			processor_update_rate = propertyProcessorUpdateRate.getInt();
 			processor_passive_rate = readIntegerArrayFromConfig(propertyProcessorPassiveRate);
 			cobble_gen_power = propertyCobbleGenPower.getInt();
+			ore_processing = propertyOreProcessing.getBoolean();
+			update_block_type = propertyUpdateBlockType.getBoolean();
 			
 			rtg_power = readIntegerArrayFromConfig(propertyRTGPower);
 			solar_power = readIntegerArrayFromConfig(propertySolarPower);
+			decay_power = readIntegerArrayFromConfig(propertyDecayPower);
 			generator_rf_per_eu = propertyGeneratorRFPerEU.getInt();
 			generator_update_rate = propertyGeneratorUpdateRate.getInt();
 			
@@ -592,6 +612,7 @@ public class NCConfig {
 		propertyOreMinHeight.set(ore_min_height);
 		propertyOreMaxHeight.set(ore_max_height);
 		propertyOreDrops.set(ore_drops);
+		propertyHideDisabledOres.set(hide_disabled_ores);
 		
 		propertyProcessorTime.set(processor_time);
 		propertyProcessorPower.set(processor_power);
@@ -599,9 +620,12 @@ public class NCConfig {
 		propertyProcessorUpdateRate.set(processor_update_rate);
 		propertyProcessorPassiveRate.set(processor_passive_rate);
 		propertyCobbleGenPower.set(cobble_gen_power);
+		propertyOreProcessing.set(ore_processing);
+		propertyUpdateBlockType.set(update_block_type);
 		
 		propertyRTGPower.set(rtg_power);
 		propertySolarPower.set(solar_power);
+		propertyDecayPower.set(decay_power);
 		propertyGeneratorRFPerEU.set(generator_rf_per_eu);
 		propertyGeneratorUpdateRate.set(generator_update_rate);
 		

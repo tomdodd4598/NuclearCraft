@@ -53,7 +53,7 @@ public class CraftingRecipeHandler {
 		blockOpen(NCItems.thorium, 0, NCBlocks.block_depleted_thorium);
 		blockOpen(NCItems.uranium, 8, NCBlocks.block_depleted_uranium);
 		
-GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.nuclear_furnace_idle, new Object[] {"PTP", "TFT", "PTP", 'T', "ingotTough", 'P', "plateBasic", 'F', Blocks.FURNACE}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.nuclear_furnace_idle, new Object[] {"PTP", "TFT", "PTP", 'T', "ingotTough", 'P', "plateBasic", 'F', Blocks.FURNACE}));
 		
 		GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.manufactory_idle, new Object[] {"LCL", "CPC", "LCL", 'C', "solenoidCopper", 'L', "ingotLead", 'P', Blocks.PISTON}));
 		GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.alloy_furnace_idle, new Object[] {"PIP", "IMI", "PIP", 'I', "ingotIron", 'P', "plateBasic", 'M', NCBlocks.manufactory_idle}));
@@ -87,11 +87,14 @@ GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.nuclear_furnace_idle, new Ob
 		GameRegistry.addRecipe(new ShapelessOreRecipe(NCBlocks.fusion_electromagnet_idle, new Object[] {NCBlocks.fusion_electromagnet_transparent_idle}));
 		
 		GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.rtg_uranium, new Object[] {"PGP", "GUG", "PGP", 'G', "ingotGraphite", 'P', "plateBasic", 'U', "blockDepletedUranium"}));
+		//GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.rtg_uranium, new Object[] {"LLL", "CUC", "LLL", 'L', "ingotLead", 'C', "blockCoal", 'U', "blockUranium"}));
 		GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.rtg_plutonium, new Object[] {"PGP", "GUG", "PGP", 'G', "ingotGraphite", 'P', "plateAdvanced", 'U', "ingotPlutonium238"}));
 		GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.rtg_americium, new Object[] {"PGP", "GAG", "PGP", 'G', "ingotGraphite", 'P', "plateAdvanced", 'A', "ingotAmericium241"}));
 		GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.rtg_californium, new Object[] {"PGP", "GCG", "PGP", 'G', "ingotGraphite", 'P', "plateAdvanced", 'C', "ingotCalifornium250"}));
 		
 		GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.solar_panel_basic, new Object[] {"GQG", "PLP", "WPW", 'G', "dustGraphite", 'Q', "dustQuartz", 'P', Blocks.HEAVY_WEIGHTED_PRESSURE_PLATE, 'L', "gemLapis", 'W', new ItemStack(NCItems.part, 1, 4)}));
+		
+		GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.decay_generator, new Object[] {"LCL", "CRC", "LCL", 'C', "cobblestone", 'L', "ingotLead", 'R', "dustRedstone"}));
 		
 		GameRegistry.addRecipe(new ShapedOreRecipe(NCBlocks.voltaic_pile_basic, new Object[] {"PWP", "WMW", "PWP", 'P', "plateBasic", 'W', new ItemStack(NCItems.part, 1, 4), 'M', "blockMagnesium"}));
 		

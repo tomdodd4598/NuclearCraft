@@ -7,7 +7,9 @@ import com.google.common.collect.Lists;
 import nc.Global;
 import nc.container.generator.ContainerFissionController;
 import nc.gui.GuiNC;
+import nc.tile.energy.ITileEnergy;
 import nc.tile.generator.TileFissionController;
+import nc.util.NCMath;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -41,13 +43,13 @@ public class GuiFissionController extends GuiNC {
 		fontRendererObj.drawString(energy, 28, ySize - 92, fontColor);*/
 		String cells = I18n.translateToLocalFormatted("gui.container.fission_controller.cells") + " " + tile.cells;
 		fontRendererObj.drawString(cells, 28, ySize - 92, fontColor);
-		String power = tile.processPower + " RF/t";
+		String power = NCMath.prefix(tile.processPower, 5, "RF/t");
 		fontRendererObj.drawString(power, 28, ySize - 103, fontColor);
 		String fuel = tile.getFuelName().endsWith("OXIDE") ? tile.getFuelName().substring(0, tile.getFuelName().length() - 3) : tile.getFuelName();
 		fontRendererObj.drawString(fuel, 28, ySize - 114, fontColor);
-		String heat = tile.heat + " H";
+		String heat = NCMath.prefix(tile.heat, 5, "H");
 		fontRendererObj.drawString(heat, 170 - fontRendererObj.getStringWidth(heat), ySize - 92, fontColor);
-		String heatGen = tile.heatChange + " H/t";
+		String heatGen = NCMath.prefix(tile.heatChange, 5, "H/t");
 		fontRendererObj.drawString(heatGen, 170 - fontRendererObj.getStringWidth(heatGen), ySize - 103, fontColor);
 		String efficiency = I18n.translateToLocalFormatted("gui.container.fission_controller.efficiency") + " " + tile.efficiency + "%";
 		fontRendererObj.drawString(efficiency, 170 - fontRendererObj.getStringWidth(efficiency), ySize - 114, fontColor);
@@ -56,9 +58,15 @@ public class GuiFissionController extends GuiNC {
 		drawHeatTooltip(mouseX, mouseY, 18, 6, 6, 85);
 	}
 	
+	public List<String> energyInfo(ITileEnergy tile) {
+		String energy = NCMath.prefix(tile.getStorage().getEnergyStored(), tile.getStorage().getMaxEnergyStored(), 5, "RF");
+		String power = NCMath.prefix(this.tile.getProcessPower(), 5, "RF/t");
+		return Lists.newArrayList(TextFormatting.LIGHT_PURPLE + I18n.translateToLocalFormatted("gui.container.energy_stored") + TextFormatting.WHITE + " " + energy, TextFormatting.LIGHT_PURPLE + I18n.translateToLocalFormatted("gui.container.power_gen") + TextFormatting.WHITE + " " + power);
+	}
+	
 	public List<String> heatInfo() {
-		String heat = tile.heat + " H";
-		return Lists.newArrayList(TextFormatting.YELLOW + I18n.translateToLocalFormatted("gui.container.fission_controller.heat"), TextFormatting.WHITE + heat);
+		String heat = NCMath.prefix(tile.heat, tile.getMaxHeat(), 5, "H");
+		return Lists.newArrayList(TextFormatting.YELLOW + I18n.translateToLocalFormatted("gui.container.fission_controller.heat") + TextFormatting.WHITE + " " + heat);
 	}
 	
 	public void drawHeatTooltip(int mouseX, int mouseY, int x, int y, int width, int height) {

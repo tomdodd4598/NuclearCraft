@@ -72,7 +72,9 @@ public class MelterRecipes extends BaseRecipeHandler {
 			String ore = "ore" + NCUtil.capitalize(fluidName);
 			String ingot = "ingot" + NCUtil.capitalize(fluidName);
 			String dust = "dust" + NCUtil.capitalize(fluidName);
-			if (oreList.contains(ore)) addRecipe(ore, fluidStack(fluidName, 324), NCConfig.processor_time[6]*2);
+			if (NCConfig.ore_processing) {
+				if (oreList.contains(ore)) addRecipe(ore, fluidStack(fluidName, 324), NCConfig.processor_time[6]*2);
+			}
 			if (oreList.contains(ingot) && oreList.contains(dust)) {
 				addRecipe(ingot, fluidStack(fluidName, 144), NCConfig.processor_time[6]);
 				addRecipe(dust, fluidStack(fluidName, 144), NCConfig.processor_time[6]);

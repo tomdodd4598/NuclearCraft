@@ -10,6 +10,7 @@ import net.darkhax.tesla.capability.TeslaCapabilities;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -111,7 +112,7 @@ public abstract class TileEnergyFluid extends TileEnergy implements ITileFluid, 
 			tanks = tankList;
 		}
 		if (fluidConnection == null || fluidConnection.length == 0) {
-			this.connection = null;
+			this.fluidConnection = null;
 		} else {
 			FluidConnection[] connectionList = new FluidConnection[fluidConnection.length];
 			for (int i = 0; i < fluidConnection.length; i++) {
@@ -189,6 +190,10 @@ public abstract class TileEnergyFluid extends TileEnergy implements ITileFluid, 
 	
 	public FluidConnection[] getFluidConnections() {
 		return fluidConnection;
+	}
+	
+	public BlockPos getBlockPos() {
+		return pos;
 	}
 	
 	// NBT

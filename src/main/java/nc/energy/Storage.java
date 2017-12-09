@@ -95,6 +95,12 @@ public class Storage implements cofh.api.energy.IEnergyStorage, IEnergyStorage, 
 		else if (energyStored < 0) energyStored = 0;
 	}
 	
+	public void setStorageCapacity(int newCapacity) {
+		if(newCapacity == energyCapacity || newCapacity <= 0) return;
+		if(newCapacity < energyCapacity) setEnergyStored(newCapacity);
+		energyCapacity = newCapacity;
+    }
+	
 	// NBT
 	
 	public NBTTagCompound serializeNBT() {

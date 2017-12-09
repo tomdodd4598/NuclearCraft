@@ -1,6 +1,5 @@
 package nc.tile.passive;
 
-import ic2.api.energy.EnergyNet;
 import nc.ModCheck;
 import nc.config.NCConfig;
 import nc.energy.EnumStorage.EnergyConnection;
@@ -33,6 +32,7 @@ public abstract class TilePassive extends TileEnergyFluidSidedInventory /*implem
 	public final int itemChange;
 	public final int fluidChange;
 	public final FluidStack fluidStackChange;
+	public final Fluid fluidType;
 	
 	public TilePassive(String name, int energyChange, int changeRate) {
 		this(name, new ItemStack(Items.BEEF), 0, energyChange, FluidRegistry.LAVA, 0, changeRate);
@@ -73,6 +73,7 @@ public abstract class TilePassive extends TileEnergyFluidSidedInventory /*implem
 		stackChange = new ItemStack(stack.getItem(), MathHelper.abs_int(itemChange)*changeRate, stack.getMetadata());
 		this.fluidChange = fluidChange*changeRate;
 		fluidStackChange = new FluidStack(fluid, MathHelper.abs_int(fluidChange)*changeRate);
+		fluidType = fluid;
 		updateRate = changeRate*20;
 	}
 	
@@ -90,12 +91,7 @@ public abstract class TilePassive extends TileEnergyFluidSidedInventory /*implem
 			isRunning = isRunning(energyBool, stackBool, fluidBool);
 			if (flag != isRunning) {
 				flag1 = true;
-				if (isEnergyTileSet && ModCheck.ic2Loaded()) {
-					/*MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));*/ EnergyNet.instance.removeTile(this);
-					isEnergyTileSet = false;
-				}
 				setBlockState();
-				//invalidate();
 			}
 			if (energyChange > 0) pushEnergy();
 			if (fluidChange > 0) pushFluid();
@@ -159,7 +155,7 @@ public abstract class TilePassive extends TileEnergyFluidSidedInventory /*implem
 		if (!b) {
 			if (changeEnergy(true) && changeStack(true)) {
 				if (fluidChange > 0) {
-					if (fluidStackChange != null) tanks[0].changeFluidStored(fluidStackChange.getFluid(), fluidStackChange.amount);
+					if (fluidStackChange != null) tanks[0].changeFluidStored(fluidType, fluidStackChange.amount);
 				}
 				else tanks[0].changeFluidStored(fluidStackChange.amount);
 			}
@@ -282,6 +278,6 @@ public abstract class TilePassive extends TileEnergyFluidSidedInventory /*implem
 				return (T) handlerSide;
 			}
 		}
-		return null;
+		return super.getCapability(capability, facing);
 	}
 }

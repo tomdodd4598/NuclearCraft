@@ -9,8 +9,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 
@@ -49,10 +47,6 @@ public abstract class TileFluidInventory extends TileFluid implements IInventory
 
 	public String getName() {
 		return inventoryName;
-	}
-	
-	public ITextComponent getDisplayName() {
-		return new TextComponentTranslation(blockType.getLocalizedName());
 	}
 	
 	public boolean hasCustomName() {

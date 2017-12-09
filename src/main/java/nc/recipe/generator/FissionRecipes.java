@@ -41,7 +41,7 @@ private static final FissionRecipes RECIPES = new FissionRecipes();
 		for (int type : types) {
 			fuelRodDeplete("LE" + fuel, type, count, time, power, heat);
 			fuelRodDeplete("HE" + fuel, type, count + 2, time, power, heat);
-			count++;
+			count += 4;
 		}
 	}
 	

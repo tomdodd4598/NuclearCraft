@@ -2,8 +2,6 @@ package nc.tile.generator;
 
 import java.util.ArrayList;
 
-import ic2.api.energy.EnergyNet;
-import nc.ModCheck;
 import nc.config.NCConfig;
 import nc.energy.EnumStorage.EnergyConnection;
 import nc.fluid.EnumTank.FluidConnection;
@@ -125,12 +123,7 @@ public abstract class TileFluidGenerator extends TileEnergyFluidSidedInventory i
 			}
 			if (flag != isGenerating) {
 				flag1 = true;
-				if (isEnergyTileSet && ModCheck.ic2Loaded()) {
-					/*MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));*/ EnergyNet.instance.removeTile(this);
-					isEnergyTileSet = false;
-				}
-				setBlockState();
-				//invalidate();
+				if (NCConfig.update_block_type) setBlockState();
 			}
 			pushEnergy();
 		} else {

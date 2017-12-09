@@ -10,8 +10,6 @@ import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.energy.CapabilityEnergy;
 
 public abstract class TileEnergyInventory extends TileEnergy implements IInventory, ITileInventory {
@@ -37,10 +35,6 @@ public abstract class TileEnergyInventory extends TileEnergy implements IInvento
 
 	public String getName() {
 		return inventoryName;
-	}
-	
-	public ITextComponent getDisplayName() {
-		return new TextComponentTranslation(blockType.getLocalizedName());
 	}
 	
 	public boolean hasCustomName() {
