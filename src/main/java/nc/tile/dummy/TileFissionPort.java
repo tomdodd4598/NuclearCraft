@@ -213,6 +213,6 @@ public class TileFissionPort extends TileDummy {
 				return (T) handlerSide;
 			}
 		}
-		return null;
+		return super.getCapability(capability, facing);
 	}
 }

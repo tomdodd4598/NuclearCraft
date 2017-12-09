@@ -2,6 +2,7 @@ package nc.tile.processor;
 
 import nc.Global;
 import nc.block.tile.processor.BlockNuclearFurnace;
+import nc.config.NCConfig;
 import nc.tile.ITileInventory;
 import nc.tile.dummy.IInterfaceable;
 import net.minecraft.entity.player.EntityPlayer;
@@ -180,7 +181,7 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ISidedI
 
 			if (flag != isBurning()) {
 				flag1 = true;
-				BlockNuclearFurnace.setState(isBurning(), world, pos);
+				if (NCConfig.update_block_type) BlockNuclearFurnace.setState(isBurning(), world, pos);
 			}
 		}
 

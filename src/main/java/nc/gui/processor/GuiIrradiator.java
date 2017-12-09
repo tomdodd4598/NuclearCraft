@@ -31,10 +31,10 @@ public class GuiIrradiator extends GuiEnergyFluidProcessor {
 		GuiItemRenderer itemRenderer = new GuiItemRenderer(132, ySize - 102, 0.5F, NCItems.upgrade, 0);
 		itemRenderer.draw();
 		
-		drawFluidTooltip(fluid0, mouseX, mouseY, 32, 35, 16, 16);
-		drawFluidTooltip(fluid1, mouseX, mouseY, 52, 35, 16, 16);
-		drawFluidTooltip(fluid2, mouseX, mouseY, 108, 31, 24, 24);
-		drawFluidTooltip(fluid3, mouseX, mouseY, 136, 31, 24, 24);
+		drawFluidTooltip(fluid0, tile.tanks[0], mouseX, mouseY, 32, 35, 16, 16);
+		drawFluidTooltip(fluid1, tile.tanks[1], mouseX, mouseY, 52, 35, 16, 16);
+		drawFluidTooltip(fluid2, tile.tanks[2], mouseX, mouseY, 108, 31, 24, 24);
+		drawFluidTooltip(fluid3, tile.tanks[3], mouseX, mouseY, 136, 31, 24, 24);
 		
 		drawEnergyTooltip(tile, mouseX, mouseY, 8, 6, 16, 74);
 	}
@@ -43,7 +43,7 @@ public class GuiIrradiator extends GuiEnergyFluidProcessor {
 		super.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY);
 		
 		double e = Math.round(((double) tile.storage.getEnergyStored()) / ((double) tile.storage.getMaxEnergyStored()) * 74);
-		drawTexturedModalRect(guiLeft + 8, guiTop + 6 + 74 - (int) e, 176, 90 + 74 - (int) e, 16, (int) e);
+		if (tile.baseProcessPower != 0) drawTexturedModalRect(guiLeft + 8, guiTop + 6 + 74 - (int) e, 176, 90 + 74 - (int) e, 16, (int) e);
 		
 		int k = getCookProgressScaled(37);
 		drawTexturedModalRect(guiLeft + 70, guiTop + 35, 176, 3, k, 18);

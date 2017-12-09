@@ -38,11 +38,17 @@ public class Tank extends FluidTank implements INBTSerializable<NBTTagCompound> 
 	}
 	
 	public String getFluidName() {
-		return fluid != null ? FluidRegistry.getFluidName(getFluid()) : "nullFluid";
+		if (fluid == null) return "nullFluid";
+		if (fluid.getFluid() == null) return "nullFluid";
+		
+		return FluidRegistry.getFluidName(getFluid());
 	}
 	
 	public String getFluidLocalizedName() {
-		return fluid != null ? fluid.getLocalizedName() : "";
+		if (fluid == null) return "";
+		if (fluid.getFluid() == null) return "";
+		
+		return fluid.getLocalizedName();
 	}
 
 	public int fill(FluidStack resource, boolean doFill) {
@@ -115,6 +121,12 @@ public class Tank extends FluidTank implements INBTSerializable<NBTTagCompound> 
 		if(amount < 0) amount = 0;
 		else if(amount > capacity) amount = capacity;
 		fluid.amount = amount;
+    }
+	
+	public void setTankCapacity(int newCapacity) {
+		if(newCapacity == capacity || newCapacity <= 0) return;
+		if(newCapacity < capacity) setFluidAmount(newCapacity);
+		capacity = newCapacity;
     }
 	
 	public boolean isFluidValid(String name) {

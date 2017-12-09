@@ -3,7 +3,9 @@ package nc.integration.crafttweaker;
 import com.google.common.collect.Lists;
 
 import minetweaker.MineTweakerAPI;
+import minetweaker.annotations.ModOnly;
 import minetweaker.api.item.IIngredient;
+import nc.Global;
 import nc.config.NCConfig;
 import nc.recipe.SorptionType;
 import nc.recipe.generator.FissionRecipes;
@@ -51,6 +53,7 @@ public class NCCraftTweaker {
 	}
 	
 	@ZenClass("mods.nuclearcraft.manufactory")
+	@ModOnly(Global.MOD_ID)
 	public static class ManufactoryHandler {
 		
 		@ZenMethod
@@ -70,6 +73,7 @@ public class NCCraftTweaker {
 	}
 	
 	@ZenClass("mods.nuclearcraft.isotope_separator")
+	@ModOnly(Global.MOD_ID)
 	public static class IsotopeSeparatorHandler {
 		
 		@ZenMethod
@@ -89,6 +93,7 @@ public class NCCraftTweaker {
 	}
 	
 	@ZenClass("mods.nuclearcraft.decay_hastener")
+	@ModOnly(Global.MOD_ID)
 	public static class DecayHastenerHandler {
 		
 		@ZenMethod
@@ -108,6 +113,7 @@ public class NCCraftTweaker {
 	}
 	
 	@ZenClass("mods.nuclearcraft.fuel_reprocessor")
+	@ModOnly(Global.MOD_ID)
 	public static class FuelReprocessorHandler {
 		
 		@ZenMethod
@@ -127,6 +133,7 @@ public class NCCraftTweaker {
 	}
 	
 	@ZenClass("mods.nuclearcraft.alloy_furnace")
+	@ModOnly(Global.MOD_ID)
 	public static class AlloyFurnaceHandler {
 		
 		@ZenMethod
@@ -146,6 +153,7 @@ public class NCCraftTweaker {
 	}
 	
 	@ZenClass("mods.nuclearcraft.infuser")
+	@ModOnly(Global.MOD_ID)
 	public static class InfuserHandler {
 		
 		@ZenMethod
@@ -165,6 +173,7 @@ public class NCCraftTweaker {
 	}
 	
 	@ZenClass("mods.nuclearcraft.melter")
+	@ModOnly(Global.MOD_ID)
 	public static class MelterHandler {
 		
 		@ZenMethod
@@ -184,6 +193,7 @@ public class NCCraftTweaker {
 	}
 	
 	@ZenClass("mods.nuclearcraft.supercooler")
+	@ModOnly(Global.MOD_ID)
 	public static class SupercoolerHandler {
 		
 		@ZenMethod
@@ -203,6 +213,7 @@ public class NCCraftTweaker {
 	}
 	
 	@ZenClass("mods.nuclearcraft.electrolyser")
+	@ModOnly(Global.MOD_ID)
 	public static class ElectrolyserHandler {
 		
 		@ZenMethod
@@ -222,6 +233,7 @@ public class NCCraftTweaker {
 	}
 	
 	@ZenClass("mods.nuclearcraft.irradiator")
+	@ModOnly(Global.MOD_ID)
 	public static class IrradiatorHandler {
 		
 		@ZenMethod
@@ -241,6 +253,7 @@ public class NCCraftTweaker {
 	}
 	
 	@ZenClass("mods.nuclearcraft.ingot_former")
+	@ModOnly(Global.MOD_ID)
 	public static class IngotFormerHandler {
 		
 		@ZenMethod
@@ -260,6 +273,7 @@ public class NCCraftTweaker {
 	}
 	
 	@ZenClass("mods.nuclearcraft.pressurizer")
+	@ModOnly(Global.MOD_ID)
 	public static class PressurizerHandler {
 		
 		@ZenMethod
@@ -279,6 +293,7 @@ public class NCCraftTweaker {
 	}
 	
 	@ZenClass("mods.nuclearcraft.chemical_reactor")
+	@ModOnly(Global.MOD_ID)
 	public static class ChemicalReactorHandler {
 		
 		@ZenMethod
@@ -298,6 +313,7 @@ public class NCCraftTweaker {
 	}
 	
 	@ZenClass("mods.nuclearcraft.salt_mixer")
+	@ModOnly(Global.MOD_ID)
 	public static class SaltMixerHandler {
 		
 		@ZenMethod
@@ -317,6 +333,7 @@ public class NCCraftTweaker {
 	}
 	
 	@ZenClass("mods.nuclearcraft.crystallizer")
+	@ModOnly(Global.MOD_ID)
 	public static class CrystallizerHandler {
 		
 		@ZenMethod
@@ -336,6 +353,7 @@ public class NCCraftTweaker {
 	}
 	
 	@ZenClass("mods.nuclearcraft.dissolver")
+	@ModOnly(Global.MOD_ID)
 	public static class DissolverHandler {
 		
 		@ZenMethod
@@ -355,6 +373,7 @@ public class NCCraftTweaker {
 	}
 	
 	@ZenClass("mods.nuclearcraft.fission")
+	@ModOnly(Global.MOD_ID)
 	public static class FissionHandler {
 		
 		@ZenMethod
@@ -369,6 +388,7 @@ public class NCCraftTweaker {
 	}
 	
 	@ZenClass("mods.nuclearcraft.fusion")
+	@ModOnly(Global.MOD_ID)
 	public static class FusionHandler {
 		
 		@ZenMethod

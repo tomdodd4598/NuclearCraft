@@ -9,7 +9,6 @@ import nc.block.tile.passive.BlockHeliumCollector;
 import nc.block.tile.passive.BlockNitrogenCollector;
 import nc.block.tile.passive.BlockWaterSource;
 import nc.config.NCConfig;
-import nc.init.NCFluids;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -48,7 +47,7 @@ public class Passives {
 	public static class TileElectromagnetSupercooler extends TilePassive {
 		
 		public TileElectromagnetSupercooler() {
-			super("electromagnet_supercooler", -NCConfig.accelerator_electromagnet_power, NCFluids.liquidhelium, -NCConfig.accelerator_supercooler_coolant, 5);
+			super("electromagnet_supercooler", -NCConfig.accelerator_electromagnet_power, FluidRegistry.getFluid("liquidhelium"), -NCConfig.accelerator_supercooler_coolant, 5);
 		}
 		
 		public void setBlockState() {
@@ -59,7 +58,7 @@ public class Passives {
 	public static class TileHeliumCollector extends TilePassive {
 		
 		public TileHeliumCollector() {
-			super("helium_collector", NCFluids.helium, NCConfig.processor_passive_rate[0], 5);
+			super("helium_collector", FluidRegistry.getFluid("helium"), NCConfig.processor_passive_rate[0], 5);
 		}
 		
 		public void setBlockState() {
@@ -92,7 +91,7 @@ public class Passives {
 	public static class TileNitrogenCollector extends TilePassive {
 		
 		public TileNitrogenCollector() {
-			super("nitrogen_collector", NCFluids.nitrogen, NCConfig.processor_passive_rate[3], 5);
+			super("nitrogen_collector", FluidRegistry.getFluid("nitrogen"), NCConfig.processor_passive_rate[3], 5);
 		}
 		
 		public void setBlockState() {

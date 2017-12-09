@@ -31,8 +31,8 @@ public class GuiDissolver extends GuiEnergyItemFluidProcessor {
 		GuiItemRenderer itemRenderer = new GuiItemRenderer(132, ySize - 102, 0.5F, NCItems.upgrade, 0);
 		itemRenderer.draw();
 		
-		drawFluidTooltip(fluid0, mouseX, mouseY, 66, 35, 16, 16);
-		drawFluidTooltip(fluid1, mouseX, mouseY, 122, 31, 24, 24);
+		drawFluidTooltip(fluid0, tile.tanks[0], mouseX, mouseY, 66, 35, 16, 16);
+		drawFluidTooltip(fluid1, tile.tanks[1], mouseX, mouseY, 122, 31, 24, 24);
 		
 		drawEnergyTooltip(tile, mouseX, mouseY, 8, 6, 16, 74);
 	}
@@ -41,7 +41,7 @@ public class GuiDissolver extends GuiEnergyItemFluidProcessor {
 		super.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY);
 		
 		double e = Math.round(((double) tile.storage.getEnergyStored()) / ((double) tile.storage.getMaxEnergyStored()) * 74);
-		drawTexturedModalRect(guiLeft + 8, guiTop + 6 + 74 - (int) e, 176, 90 + 74 - (int) e, 16, (int) e);
+		if (tile.baseProcessPower != 0) drawTexturedModalRect(guiLeft + 8, guiTop + 6 + 74 - (int) e, 176, 90 + 74 - (int) e, 16, (int) e);
 		
 		int k = getCookProgressScaled(37);
 		drawTexturedModalRect(guiLeft + 84, guiTop + 35, 176, 3, k, 18);

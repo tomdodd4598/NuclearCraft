@@ -112,7 +112,7 @@ public abstract class TileEnergyFluid extends TileEnergy implements ITileFluid, 
 			tanks = tankList;
 		}
 		if (fluidConnection == null || fluidConnection.length == 0) {
-			this.connection = null;
+			this.fluidConnection = null;
 		} else {
 			FluidConnection[] connectionList = new FluidConnection[fluidConnection.length];
 			for (int i = 0; i < fluidConnection.length; i++) {

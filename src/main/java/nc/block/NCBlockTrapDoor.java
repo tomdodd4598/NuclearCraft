@@ -16,6 +16,9 @@ public class NCBlockTrapDoor extends BlockTrapDoor {
 		setUnlocalizedName(unlocalizedName);
 		setRegistryName(new ResourceLocation(Global.MOD_ID, registryName));
 		setCreativeTab(CommonProxy.TAB_FISSION_BLOCKS);
+		setHarvestLevel("pickaxe", 0);
+		setHardness(2);
+		setResistance(15);
 	}
 	
 	public boolean canCreatureSpawn(IBlockState state, IBlockAccess world, BlockPos pos, net.minecraft.entity.EntityLiving.SpawnPlacementType type) {

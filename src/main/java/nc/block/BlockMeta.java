@@ -22,6 +22,9 @@ public abstract class BlockMeta extends Block implements IMetaBlockName {
 		super(material);
 		setUnlocalizedName(unlocalizedName);
 		setRegistryName(new ResourceLocation(Global.MOD_ID, registryName));
+		setHarvestLevel("pickaxe", 0);
+		setHardness(2);
+		setResistance(15);
 	}
 	
 	public Item getItemDropped(IBlockState state, Random rand, int fortune) {

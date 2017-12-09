@@ -29,7 +29,7 @@ public class GuiManufactory extends GuiEnergyItemProcessor {
 		super.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY);
 		
 		double e = Math.round(((double) tile.storage.getEnergyStored()) / ((double) tile.storage.getMaxEnergyStored()) * 74);
-		drawTexturedModalRect(guiLeft + 8, guiTop + 6 + 74 - (int) e, 176, 90 + 74 - (int) e, 16, (int) e);
+		if (tile.baseProcessPower != 0) drawTexturedModalRect(guiLeft + 8, guiTop + 6 + 74 - (int) e, 176, 90 + 74 - (int) e, 16, (int) e);
 		
 		int k = getCookProgressScaled(37);
 		drawTexturedModalRect(guiLeft + 74, guiTop + 35, 176, 3, k, 16);
