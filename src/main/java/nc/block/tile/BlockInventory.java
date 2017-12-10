@@ -69,6 +69,6 @@ public class BlockInventory extends BlockContainer implements ITileEntityProvide
 	}
 	
 	public boolean rotateBlock(World world, BlockPos pos, EnumFacing axis) {
-		return false;
+		return super.rotateBlock(world, pos, axis);
 	}
 }
