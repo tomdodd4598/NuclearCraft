@@ -43,6 +43,15 @@ public abstract class NCTile extends TileEntity implements ITickable {
 		if (getBlockType() != null) return new TextComponentTranslation(getBlockType().getLocalizedName()); else return null;
 	}
 	
+	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newSate) {
+		String oldName = oldState.getBlock().getUnlocalizedName().toString();
+		String newName = newSate.getBlock().getUnlocalizedName().toString();
+		if (oldName.contains("_idle") || oldName.contains("_active")) {
+			return !oldName.replace("_idle","").replace("_active","").equals(newName.replace("_idle","").replace("_active",""));
+		}
+		return oldState.getBlock() != newSate.getBlock();
+	}
+	
 	// NBT
 	
 	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
@@ -87,19 +96,5 @@ public abstract class NCTile extends TileEntity implements ITickable {
 
 	public void handleUpdateTag(NBTTagCompound tag) {
 		super.handleUpdateTag(tag);
-	}
-	
-	/**
-	 * Called from Chunk.setBlockIDWithMetadata and Chunk.fillChunk, determines if this tile entity should be re-created when the ID, or Metadata changes.
-	 * Use with caution as this will leave straggler TileEntities, or create conflicts with other TileEntities if not used properly.
-	 *
-	 * @param world Current world
-	 * @param pos Tile's world position
-	 * @param oldState The old ID of the block
-	 * @param newState The new ID of the block (May be the same)
-	 * @return true forcing the invalidation of the existing TE, false not to invalidate the existing TE
-	 */
-	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newSate) {
-		return (oldState.getBlock() != newSate.getBlock());
 	}
 }
