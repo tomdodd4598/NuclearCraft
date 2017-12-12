@@ -101,8 +101,10 @@ public abstract class TileEnergyItemProcessor extends TileEnergySidedInventory i
 			if (flag != isProcessing) {
 				flag1 = true;
 				if (NCConfig.update_block_type) {
+					removeTileFromENet();
 					setBlockState();
 					world.notifyNeighborsOfStateChange(pos, blockType, true);
+					addTileToENet();
 				}
 			}
 		} else {
