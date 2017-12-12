@@ -5,15 +5,15 @@ import nc.recipe.BaseRecipeHandler;
 
 public class FusionRecipes extends BaseRecipeHandler {
 	
-private static final FusionRecipes RECIPES = new FusionRecipes();
+	//private static final FusionRecipes RECIPES = new FusionRecipes();
 	
 	public FusionRecipes() {
 		super(0, 2, 0, 4, true);
 	}
 
-	public static final FusionRecipes instance() {
+	/*public static final FusionRecipes instance() {
 		return RECIPES;
-	}
+	}*/
 	
 	public void addRecipes() {
 		fusion("hydrogen", 1000, "hydrogen", 1000, "deuterium", 250, "deuterium", 250, "deuterium", 250, "deuterium", 250, 0);

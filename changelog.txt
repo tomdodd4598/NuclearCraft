@@ -1,3 +1,11 @@
+v2.7
+
+* Properly fixed all cable/pipe/conduit disconnection bugs [thanks to Thutmose for all of the help!]
+* Fixed CraftTweaker strangely deleting recipes
+* Slightly nerfed Decay Generator
+* Fixed Cobblestone Generator not working
+* Added and tweaked a few recipes
+
 v2.6
 
 + Added early-game Decay Generator

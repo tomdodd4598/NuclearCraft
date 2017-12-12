@@ -9,15 +9,15 @@ import net.minecraft.item.ItemStack;
 
 public class AlloyFurnaceRecipes extends BaseRecipeHandler {
 	
-	private static final AlloyFurnaceRecipes RECIPES = new AlloyFurnaceRecipes();
+	//private static final AlloyFurnaceRecipes RECIPES = new AlloyFurnaceRecipes();
 	
 	public AlloyFurnaceRecipes() {
 		super(2, 0, 1, 0, true);
 	}
 
-	public static final AlloyFurnaceRecipes instance() {
+	/*public static final AlloyFurnaceRecipes instance() {
 		return RECIPES;
-	}
+	}*/
 
 	public void addRecipes() {
 		addRecipe(oreStack("ingotCopper", 3), "ingotTin", new ItemStack(NCItems.alloy, 4, 0), NCConfig.processor_time[4]);

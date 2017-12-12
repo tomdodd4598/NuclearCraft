@@ -5,15 +5,15 @@ import nc.recipe.BaseRecipeHandler;
 
 public class DecayHastenerRecipes extends BaseRecipeHandler {
 	
-	private static final DecayHastenerRecipes RECIPES = new DecayHastenerRecipes();
+	//private static final DecayHastenerRecipes RECIPES = new DecayHastenerRecipes();
 	
 	public DecayHastenerRecipes() {
 		super(1, 0, 1, 0, false);
 	}
 
-	public static final DecayHastenerRecipes instance() {
+	/*public static final DecayHastenerRecipes instance() {
 		return RECIPES;
-	}
+	}*/
 
 	public void addRecipes() {
 		decay("Thorium230Base", "dustLead");

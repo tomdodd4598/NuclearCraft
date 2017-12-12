@@ -6,15 +6,15 @@ import net.minecraft.init.Blocks;
 
 public class PressurizerRecipes extends BaseRecipeHandler {
 	
-	private static final PressurizerRecipes RECIPES = new PressurizerRecipes();
+	//private static final PressurizerRecipes RECIPES = new PressurizerRecipes();
 	
 	public PressurizerRecipes() {
 		super(1, 0, 1, 0, false);
 	}
 
-	public static final PressurizerRecipes instance() {
+	/*public static final PressurizerRecipes instance() {
 		return RECIPES;
-	}
+	}*/
 
 	public void addRecipes() {
 		addRecipe("dustGraphite", "gemCoal", NCConfig.processor_time[11]);

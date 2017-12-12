@@ -5,6 +5,7 @@ import nc.config.NCConfig;
 import nc.energy.EnumStorage.EnergyConnection;
 import nc.fluid.EnumTank.FluidConnection;
 import nc.tile.energyFluid.TileEnergyFluidSidedInventory;
+import nc.util.NCStackHelper;
 import net.darkhax.tesla.capability.TeslaCapabilities;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -28,7 +29,7 @@ public abstract class TilePassive extends TileEnergyFluidSidedInventory /*implem
 	public boolean fluidBool;
 	
 	public final int energyChange;
-	public final ItemStack stackChange;
+	public static ItemStack stackChange;
 	public final int itemChange;
 	public final int fluidChange;
 	public final FluidStack fluidStackChange;
@@ -70,7 +71,7 @@ public abstract class TilePassive extends TileEnergyFluidSidedInventory /*implem
 		super(name, 1, energyChange == 0 ? 1 : 2*MathHelper.abs(energyChange)*changeRate*NCConfig.generator_rf_per_eu, energyChange == 0 ? 0 : MathHelper.abs(energyChange)*NCConfig.generator_rf_per_eu, energyChange > 0 ? EnergyConnection.OUT : (energyChange < 0 ? EnergyConnection.IN : EnergyConnection.NON), new int[] {fluidChange == 0 ? 1 : 2*MathHelper.abs(fluidChange)*changeRate}, new FluidConnection[] {fluidChange > 0 ? FluidConnection.OUT : (fluidChange < 0 ? FluidConnection.IN : FluidConnection.NON)}, fluidTypes);
 		this.energyChange = energyChange*changeRate;
 		this.itemChange = itemChange*changeRate;
-		stackChange = new ItemStack(stack.getItem(), MathHelper.abs(itemChange)*changeRate, stack.getMetadata());
+		stackChange = NCStackHelper.changeStackSize(stack, MathHelper.abs(itemChange)*changeRate);
 		this.fluidChange = fluidChange*changeRate;
 		fluidStackChange = new FluidStack(fluid, MathHelper.abs(fluidChange)*changeRate);
 		fluidType = fluid;
@@ -91,7 +92,10 @@ public abstract class TilePassive extends TileEnergyFluidSidedInventory /*implem
 			isRunning = isRunning(energyBool, stackBool, fluidBool);
 			if (flag != isRunning) {
 				flag1 = true;
-				setBlockState();
+				if (NCConfig.update_block_type) {
+					setBlockState();
+					world.notifyNeighborsOfStateChange(pos, blockType, true);
+				}
 			}
 			if (energyChange > 0) pushEnergy();
 			if (fluidChange > 0) pushFluid();
@@ -126,26 +130,30 @@ public abstract class TilePassive extends TileEnergyFluidSidedInventory /*implem
 	
 	public boolean changeStack(boolean b) {
 		if (itemChange == 0) return b;
-		if (!ItemStack.areItemsEqual(inventoryStacks.get(0), stackChange) && !b) inventoryStacks.set(0, ItemStack.EMPTY);
+		if (!ItemStack.areItemsEqual(inventoryStacks.get(0), stackChange) && !inventoryStacks.get(0).isEmpty() && !b) inventoryStacks.set(0, ItemStack.EMPTY);
 		if (itemChange > 0) {
 			if (!inventoryStacks.get(0).isEmpty()) if (inventoryStacks.get(0).getCount() + itemChange > getInventoryStackLimit()) return false;
 			if (inventoryStacks.get(0).isEmpty() && !b) {
-				if (changeEnergy(true) && changeFluid(true)) inventoryStacks.set(0, stackChange);
+				if (changeEnergy(true) && changeFluid(true)) newStack();
 			}
 			else if (!b) {
-				if (changeEnergy(true) && changeFluid(true)) inventoryStacks.get(0).setCount(inventoryStacks.get(0).getCount() + itemChange);
+				if (changeEnergy(true) && changeFluid(true)) inventoryStacks.get(0).grow(itemChange);
 			}
 			return true;
 		} else {
 			if (inventoryStacks.get(0).isEmpty() || inventoryStacks.get(0).getCount() < MathHelper.abs(itemChange)) return false;
 			else if (inventoryStacks.get(0).getCount() > MathHelper.abs(itemChange) && !b) {
-				if (changeEnergy(true) && changeFluid(true)) inventoryStacks.get(0).setCount(inventoryStacks.get(0).getCount() + itemChange);
+				if (changeEnergy(true) && changeFluid(true)) inventoryStacks.get(0).grow(itemChange);
 			}
 			else if (inventoryStacks.get(0).getCount() == MathHelper.abs(itemChange) && !b) {
 				if (changeEnergy(true) && changeFluid(true)) inventoryStacks.set(0, ItemStack.EMPTY);
 			}
 			return true;
 		}
+	}
+	
+	public void newStack() {
+		inventoryStacks.set(0, stackChange);
 	}
 	
 	public boolean changeFluid(boolean b) {
@@ -257,7 +265,6 @@ public abstract class TilePassive extends TileEnergyFluidSidedInventory /*implem
 		return false;
 	}
 	
-	@SuppressWarnings("unchecked")
 	public <T> T getCapability(net.minecraftforge.common.capabilities.Capability<T> capability, @javax.annotation.Nullable net.minecraft.util.EnumFacing facing) {
 		if (energyChange != 0) if (CapabilityEnergy.ENERGY == capability && connection.canConnect()) {
 			return (T) storage;
@@ -269,14 +276,8 @@ public abstract class TilePassive extends TileEnergyFluidSidedInventory /*implem
 		if (fluidChange != 0) if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
 			return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(this);
 		}
-		if (itemChange != 0) if (facing != null && capability == net.minecraftforge.items.CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-			if (facing == EnumFacing.DOWN) {
-				return (T) handlerBottom;
-			} else if (facing == EnumFacing.UP) {
-				return (T) handlerTop;
-			} else {
-				return (T) handlerSide;
-			}
+		if (itemChange != 0) if (capability == net.minecraftforge.items.CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+			return (T) handlerSide;
 		}
 		return super.getCapability(capability, facing);
 	}

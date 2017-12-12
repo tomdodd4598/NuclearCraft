@@ -6,25 +6,8 @@ import crafttweaker.CraftTweakerAPI;
 import crafttweaker.annotations.ZenRegister;
 import crafttweaker.api.item.IIngredient;
 import nc.config.NCConfig;
+import nc.recipe.NCRecipes;
 import nc.recipe.SorptionType;
-import nc.recipe.generator.FissionRecipes;
-import nc.recipe.generator.FusionRecipes;
-import nc.recipe.processor.AlloyFurnaceRecipes;
-import nc.recipe.processor.ChemicalReactorRecipes;
-import nc.recipe.processor.CrystallizerRecipes;
-import nc.recipe.processor.DecayHastenerRecipes;
-import nc.recipe.processor.DissolverRecipes;
-import nc.recipe.processor.ElectrolyserRecipes;
-import nc.recipe.processor.FuelReprocessorRecipes;
-import nc.recipe.processor.InfuserRecipes;
-import nc.recipe.processor.IngotFormerRecipes;
-import nc.recipe.processor.IrradiatorRecipes;
-import nc.recipe.processor.IsotopeSeparatorRecipes;
-import nc.recipe.processor.ManufactoryRecipes;
-import nc.recipe.processor.MelterRecipes;
-import nc.recipe.processor.PressurizerRecipes;
-import nc.recipe.processor.SaltMixerRecipes;
-import nc.recipe.processor.SupercoolerRecipes;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
@@ -57,17 +40,17 @@ public class NCCraftTweaker {
 		
 		@ZenMethod
 		public static void addRecipe(IIngredient input1, IIngredient output1) {
-			CraftTweakerAPI.apply(new AddRecipe(ManufactoryRecipes.instance(), Lists.newArrayList(input1), Lists.newArrayList(output1), Lists.newArrayList(NCConfig.processor_time[0])));
+			CraftTweakerAPI.apply(new AddRecipe(NCRecipes.MANUFACTORY_RECIPES, Lists.newArrayList(input1), Lists.newArrayList(output1), Lists.newArrayList(NCConfig.processor_time[0])));
 		}
 		
 		@ZenMethod
 		public static void addRecipe(IIngredient input1, IIngredient output1, int processTime) {
-			CraftTweakerAPI.apply(new AddRecipe(ManufactoryRecipes.instance(), Lists.newArrayList(input1), Lists.newArrayList(output1), Lists.newArrayList(processTime)));
+			CraftTweakerAPI.apply(new AddRecipe(NCRecipes.MANUFACTORY_RECIPES, Lists.newArrayList(input1), Lists.newArrayList(output1), Lists.newArrayList(processTime)));
 		}
 
 		@ZenMethod
 		public static void removeRecipe(IIngredient output1) {
-			CraftTweakerAPI.apply(new RemoveRecipe(ManufactoryRecipes.instance(), SorptionType.OUTPUT, Lists.newArrayList(output1)));
+			CraftTweakerAPI.apply(new RemoveRecipe(NCRecipes.MANUFACTORY_RECIPES, SorptionType.OUTPUT, Lists.newArrayList(output1)));
 		}
 	}
 	
@@ -77,17 +60,17 @@ public class NCCraftTweaker {
 		
 		@ZenMethod
 		public static void addRecipe(IIngredient input1, IIngredient output1, IIngredient output2) {
-			CraftTweakerAPI.apply(new AddRecipe(IsotopeSeparatorRecipes.instance(), Lists.newArrayList(input1), Lists.newArrayList(output1, output2), Lists.newArrayList(NCConfig.processor_time[1])));
+			CraftTweakerAPI.apply(new AddRecipe(NCRecipes.ISOTOPE_SEPARATOR_RECIPES, Lists.newArrayList(input1), Lists.newArrayList(output1, output2), Lists.newArrayList(NCConfig.processor_time[1])));
 		}
 		
 		@ZenMethod
 		public static void addRecipe(IIngredient input1, IIngredient output1, IIngredient output2, int processTime) {
-			CraftTweakerAPI.apply(new AddRecipe(IsotopeSeparatorRecipes.instance(), Lists.newArrayList(input1), Lists.newArrayList(output1, output2), Lists.newArrayList(processTime)));
+			CraftTweakerAPI.apply(new AddRecipe(NCRecipes.ISOTOPE_SEPARATOR_RECIPES, Lists.newArrayList(input1), Lists.newArrayList(output1, output2), Lists.newArrayList(processTime)));
 		}
 
 		@ZenMethod
 		public static void removeRecipe(IIngredient output1, IIngredient output2) {
-			CraftTweakerAPI.apply(new RemoveRecipe(IsotopeSeparatorRecipes.instance(), SorptionType.OUTPUT, Lists.newArrayList(output1, output2)));
+			CraftTweakerAPI.apply(new RemoveRecipe(NCRecipes.ISOTOPE_SEPARATOR_RECIPES, SorptionType.OUTPUT, Lists.newArrayList(output1, output2)));
 		}
 	}
 	
@@ -97,17 +80,17 @@ public class NCCraftTweaker {
 		
 		@ZenMethod
 		public static void addRecipe(IIngredient input1, IIngredient output1) {
-			CraftTweakerAPI.apply(new AddRecipe(DecayHastenerRecipes.instance(), Lists.newArrayList(input1), Lists.newArrayList(output1), Lists.newArrayList(NCConfig.processor_time[2])));
+			CraftTweakerAPI.apply(new AddRecipe(NCRecipes.DECAY_HASTENER_RECIPES, Lists.newArrayList(input1), Lists.newArrayList(output1), Lists.newArrayList(NCConfig.processor_time[2])));
 		}
 		
 		@ZenMethod
 		public static void addRecipe(IIngredient input1, IIngredient output1, int processTime) {
-			CraftTweakerAPI.apply(new AddRecipe(DecayHastenerRecipes.instance(), Lists.newArrayList(input1), Lists.newArrayList(output1), Lists.newArrayList(processTime)));
+			CraftTweakerAPI.apply(new AddRecipe(NCRecipes.DECAY_HASTENER_RECIPES, Lists.newArrayList(input1), Lists.newArrayList(output1), Lists.newArrayList(processTime)));
 		}
 
 		@ZenMethod
 		public static void removeRecipe(IIngredient output1) {
-			CraftTweakerAPI.apply(new RemoveRecipe(DecayHastenerRecipes.instance(), SorptionType.OUTPUT, Lists.newArrayList(output1)));
+			CraftTweakerAPI.apply(new RemoveRecipe(NCRecipes.DECAY_HASTENER_RECIPES, SorptionType.OUTPUT, Lists.newArrayList(output1)));
 		}
 	}
 	
@@ -117,17 +100,17 @@ public class NCCraftTweaker {
 		
 		@ZenMethod
 		public static void addRecipe(IIngredient input1, IIngredient output1, IIngredient output2, IIngredient output3, IIngredient output4) {
-			CraftTweakerAPI.apply(new AddRecipe(FuelReprocessorRecipes.instance(), Lists.newArrayList(input1), Lists.newArrayList(output1, output2, output3, output4), Lists.newArrayList(NCConfig.processor_time[3])));
+			CraftTweakerAPI.apply(new AddRecipe(NCRecipes.FUEL_REPROCESSOR_RECIPES, Lists.newArrayList(input1), Lists.newArrayList(output1, output2, output3, output4), Lists.newArrayList(NCConfig.processor_time[3])));
 		}
 		
 		@ZenMethod
 		public static void addRecipe(IIngredient input1, IIngredient output1, IIngredient output2, IIngredient output3, IIngredient output4, int processTime) {
-			CraftTweakerAPI.apply(new AddRecipe(FuelReprocessorRecipes.instance(), Lists.newArrayList(input1), Lists.newArrayList(output1, output2, output3, output4), Lists.newArrayList(processTime)));
+			CraftTweakerAPI.apply(new AddRecipe(NCRecipes.FUEL_REPROCESSOR_RECIPES, Lists.newArrayList(input1), Lists.newArrayList(output1, output2, output3, output4), Lists.newArrayList(processTime)));
 		}
 
 		@ZenMethod
 		public static void removeRecipe(IIngredient output1, IIngredient output2, IIngredient output3, IIngredient output4) {
-			CraftTweakerAPI.apply(new RemoveRecipe(FuelReprocessorRecipes.instance(), SorptionType.OUTPUT, Lists.newArrayList(output1, output2, output3, output4)));
+			CraftTweakerAPI.apply(new RemoveRecipe(NCRecipes.FUEL_REPROCESSOR_RECIPES, SorptionType.OUTPUT, Lists.newArrayList(output1, output2, output3, output4)));
 		}
 	}
 	
@@ -137,17 +120,17 @@ public class NCCraftTweaker {
 		
 		@ZenMethod
 		public static void addRecipe(IIngredient input1, IIngredient input2, IIngredient output1) {
-			CraftTweakerAPI.apply(new AddRecipe(AlloyFurnaceRecipes.instance(), Lists.newArrayList(input1, input2), Lists.newArrayList(output1), Lists.newArrayList(NCConfig.processor_time[4])));
+			CraftTweakerAPI.apply(new AddRecipe(NCRecipes.ALLOY_FURNACE_RECIPES, Lists.newArrayList(input1, input2), Lists.newArrayList(output1), Lists.newArrayList(NCConfig.processor_time[4])));
 		}
 		
 		@ZenMethod
 		public static void addRecipe(IIngredient input1, IIngredient input2, IIngredient output1, int processTime) {
-			CraftTweakerAPI.apply(new AddRecipe(AlloyFurnaceRecipes.instance(), Lists.newArrayList(input1, input2), Lists.newArrayList(output1), Lists.newArrayList(processTime)));
+			CraftTweakerAPI.apply(new AddRecipe(NCRecipes.ALLOY_FURNACE_RECIPES, Lists.newArrayList(input1, input2), Lists.newArrayList(output1), Lists.newArrayList(processTime)));
 		}
 
 		@ZenMethod
 		public static void removeRecipe(IIngredient output1) {
-			CraftTweakerAPI.apply(new RemoveRecipe(AlloyFurnaceRecipes.instance(), SorptionType.OUTPUT, Lists.newArrayList(output1)));
+			CraftTweakerAPI.apply(new RemoveRecipe(NCRecipes.ALLOY_FURNACE_RECIPES, SorptionType.OUTPUT, Lists.newArrayList(output1)));
 		}
 	}
 	
@@ -157,17 +140,17 @@ public class NCCraftTweaker {
 		
 		@ZenMethod
 		public static void addRecipe(IIngredient input1, IIngredient input2, IIngredient output1) {
-			CraftTweakerAPI.apply(new AddRecipe(InfuserRecipes.instance(), Lists.newArrayList(input1, input2), Lists.newArrayList(output1), Lists.newArrayList(NCConfig.processor_time[5])));
+			CraftTweakerAPI.apply(new AddRecipe(NCRecipes.INFUSER_RECIPES, Lists.newArrayList(input1, input2), Lists.newArrayList(output1), Lists.newArrayList(NCConfig.processor_time[5])));
 		}
 		
 		@ZenMethod
 		public static void addRecipe(IIngredient input1, IIngredient input2, IIngredient output1, int processTime) {
-			CraftTweakerAPI.apply(new AddRecipe(InfuserRecipes.instance(), Lists.newArrayList(input1, input2), Lists.newArrayList(output1), Lists.newArrayList(processTime)));
+			CraftTweakerAPI.apply(new AddRecipe(NCRecipes.INFUSER_RECIPES, Lists.newArrayList(input1, input2), Lists.newArrayList(output1), Lists.newArrayList(processTime)));
 		}
 
 		@ZenMethod
 		public static void removeRecipe(IIngredient output1) {
-			CraftTweakerAPI.apply(new RemoveRecipe(InfuserRecipes.instance(), SorptionType.OUTPUT, Lists.newArrayList(output1)));
+			CraftTweakerAPI.apply(new RemoveRecipe(NCRecipes.INFUSER_RECIPES, SorptionType.OUTPUT, Lists.newArrayList(output1)));
 		}
 	}
 	
@@ -177,17 +160,17 @@ public class NCCraftTweaker {
 		
 		@ZenMethod
 		public static void addRecipe(IIngredient input1, IIngredient output1) {
-			CraftTweakerAPI.apply(new AddRecipe(MelterRecipes.instance(), Lists.newArrayList(input1), Lists.newArrayList(output1), Lists.newArrayList(NCConfig.processor_time[6])));
+			CraftTweakerAPI.apply(new AddRecipe(NCRecipes.MELTER_RECIPES, Lists.newArrayList(input1), Lists.newArrayList(output1), Lists.newArrayList(NCConfig.processor_time[6])));
 		}
 		
 		@ZenMethod
 		public static void addRecipe(IIngredient input1, IIngredient output1, int processTime) {
-			CraftTweakerAPI.apply(new AddRecipe(MelterRecipes.instance(), Lists.newArrayList(input1), Lists.newArrayList(output1), Lists.newArrayList(processTime)));
+			CraftTweakerAPI.apply(new AddRecipe(NCRecipes.MELTER_RECIPES, Lists.newArrayList(input1), Lists.newArrayList(output1), Lists.newArrayList(processTime)));
 		}
 
 		@ZenMethod
 		public static void removeRecipe(IIngredient output1) {
-			CraftTweakerAPI.apply(new RemoveRecipe(MelterRecipes.instance(), SorptionType.OUTPUT, Lists.newArrayList(output1)));
+			CraftTweakerAPI.apply(new RemoveRecipe(NCRecipes.MELTER_RECIPES, SorptionType.OUTPUT, Lists.newArrayList(output1)));
 		}
 	}
 	
@@ -197,17 +180,17 @@ public class NCCraftTweaker {
 		
 		@ZenMethod
 		public static void addRecipe(IIngredient input1, IIngredient output1) {
-			CraftTweakerAPI.apply(new AddRecipe(SupercoolerRecipes.instance(), Lists.newArrayList(input1), Lists.newArrayList(output1), Lists.newArrayList(NCConfig.processor_time[7])));
+			CraftTweakerAPI.apply(new AddRecipe(NCRecipes.SUPERCOOLER_RECIPES, Lists.newArrayList(input1), Lists.newArrayList(output1), Lists.newArrayList(NCConfig.processor_time[7])));
 		}
 		
 		@ZenMethod
 		public static void addRecipe(IIngredient input1, IIngredient output1, int processTime) {
-			CraftTweakerAPI.apply(new AddRecipe(SupercoolerRecipes.instance(), Lists.newArrayList(input1), Lists.newArrayList(output1), Lists.newArrayList(processTime)));
+			CraftTweakerAPI.apply(new AddRecipe(NCRecipes.SUPERCOOLER_RECIPES, Lists.newArrayList(input1), Lists.newArrayList(output1), Lists.newArrayList(processTime)));
 		}
 
 		@ZenMethod
 		public static void removeRecipe(IIngredient output1) {
-			CraftTweakerAPI.apply(new RemoveRecipe(SupercoolerRecipes.instance(), SorptionType.OUTPUT, Lists.newArrayList(output1)));
+			CraftTweakerAPI.apply(new RemoveRecipe(NCRecipes.SUPERCOOLER_RECIPES, SorptionType.OUTPUT, Lists.newArrayList(output1)));
 		}
 	}
 	
@@ -217,17 +200,17 @@ public class NCCraftTweaker {
 		
 		@ZenMethod
 		public static void addRecipe(IIngredient input1, IIngredient output1, IIngredient output2, IIngredient output3, IIngredient output4) {
-			CraftTweakerAPI.apply(new AddRecipe(ElectrolyserRecipes.instance(), Lists.newArrayList(input1), Lists.newArrayList(output1, output2, output3, output4), Lists.newArrayList(NCConfig.processor_time[8])));
+			CraftTweakerAPI.apply(new AddRecipe(NCRecipes.ELECTROLYSER_RECIPES, Lists.newArrayList(input1), Lists.newArrayList(output1, output2, output3, output4), Lists.newArrayList(NCConfig.processor_time[8])));
 		}
 		
 		@ZenMethod
 		public static void addRecipe(IIngredient input1, IIngredient output1, IIngredient output2, IIngredient output3, IIngredient output4, int processTime) {
-			CraftTweakerAPI.apply(new AddRecipe(ElectrolyserRecipes.instance(), Lists.newArrayList(input1), Lists.newArrayList(output1, output2, output3, output4), Lists.newArrayList(processTime)));
+			CraftTweakerAPI.apply(new AddRecipe(NCRecipes.ELECTROLYSER_RECIPES, Lists.newArrayList(input1), Lists.newArrayList(output1, output2, output3, output4), Lists.newArrayList(processTime)));
 		}
 
 		@ZenMethod
 		public static void removeRecipe(IIngredient output1, IIngredient output2, IIngredient output3, IIngredient output4) {
-			CraftTweakerAPI.apply(new RemoveRecipe(ElectrolyserRecipes.instance(), SorptionType.OUTPUT, Lists.newArrayList(output1, output2, output3, output4)));
+			CraftTweakerAPI.apply(new RemoveRecipe(NCRecipes.ELECTROLYSER_RECIPES, SorptionType.OUTPUT, Lists.newArrayList(output1, output2, output3, output4)));
 		}
 	}
 	
@@ -237,17 +220,17 @@ public class NCCraftTweaker {
 		
 		@ZenMethod
 		public static void addRecipe(IIngredient input1, IIngredient input2, IIngredient output1, IIngredient output2) {
-			CraftTweakerAPI.apply(new AddRecipe(IrradiatorRecipes.instance(), Lists.newArrayList(input1, input2), Lists.newArrayList(output1, output2), Lists.newArrayList(NCConfig.processor_time[9])));
+			CraftTweakerAPI.apply(new AddRecipe(NCRecipes.IRRADIATOR_RECIPES, Lists.newArrayList(input1, input2), Lists.newArrayList(output1, output2), Lists.newArrayList(NCConfig.processor_time[9])));
 		}
 		
 		@ZenMethod
 		public static void addRecipe(IIngredient input1, IIngredient input2, IIngredient output1, IIngredient output2, int processTime) {
-			CraftTweakerAPI.apply(new AddRecipe(IrradiatorRecipes.instance(), Lists.newArrayList(input1, input2), Lists.newArrayList(output1, output2), Lists.newArrayList(processTime)));
+			CraftTweakerAPI.apply(new AddRecipe(NCRecipes.IRRADIATOR_RECIPES, Lists.newArrayList(input1, input2), Lists.newArrayList(output1, output2), Lists.newArrayList(processTime)));
 		}
 
 		@ZenMethod
 		public static void removeRecipe(IIngredient output1, IIngredient output2) {
-			CraftTweakerAPI.apply(new RemoveRecipe(IrradiatorRecipes.instance(), SorptionType.OUTPUT, Lists.newArrayList(output1, output2)));
+			CraftTweakerAPI.apply(new RemoveRecipe(NCRecipes.IRRADIATOR_RECIPES, SorptionType.OUTPUT, Lists.newArrayList(output1, output2)));
 		}
 	}
 	
@@ -257,17 +240,17 @@ public class NCCraftTweaker {
 		
 		@ZenMethod
 		public static void addRecipe(IIngredient input1, IIngredient output1) {
-			CraftTweakerAPI.apply(new AddRecipe(IngotFormerRecipes.instance(), Lists.newArrayList(input1), Lists.newArrayList(output1), Lists.newArrayList(NCConfig.processor_time[10])));
+			CraftTweakerAPI.apply(new AddRecipe(NCRecipes.INGOT_FORMER_RECIPES, Lists.newArrayList(input1), Lists.newArrayList(output1), Lists.newArrayList(NCConfig.processor_time[10])));
 		}
 		
 		@ZenMethod
 		public static void addRecipe(IIngredient input1, IIngredient output1, int processTime) {
-			CraftTweakerAPI.apply(new AddRecipe(IngotFormerRecipes.instance(), Lists.newArrayList(input1), Lists.newArrayList(output1), Lists.newArrayList(processTime)));
+			CraftTweakerAPI.apply(new AddRecipe(NCRecipes.INGOT_FORMER_RECIPES, Lists.newArrayList(input1), Lists.newArrayList(output1), Lists.newArrayList(processTime)));
 		}
 
 		@ZenMethod
 		public static void removeRecipe(IIngredient output1) {
-			CraftTweakerAPI.apply(new RemoveRecipe(IngotFormerRecipes.instance(), SorptionType.OUTPUT, Lists.newArrayList(output1)));
+			CraftTweakerAPI.apply(new RemoveRecipe(NCRecipes.INGOT_FORMER_RECIPES, SorptionType.OUTPUT, Lists.newArrayList(output1)));
 		}
 	}
 	
@@ -277,17 +260,17 @@ public class NCCraftTweaker {
 		
 		@ZenMethod
 		public static void addRecipe(IIngredient input1, IIngredient output1) {
-			CraftTweakerAPI.apply(new AddRecipe(PressurizerRecipes.instance(), Lists.newArrayList(input1), Lists.newArrayList(output1), Lists.newArrayList(NCConfig.processor_time[11])));
+			CraftTweakerAPI.apply(new AddRecipe(NCRecipes.PRESSURIZER_RECIPES, Lists.newArrayList(input1), Lists.newArrayList(output1), Lists.newArrayList(NCConfig.processor_time[11])));
 		}
 		
 		@ZenMethod
 		public static void addRecipe(IIngredient input1, IIngredient output1, int processTime) {
-			CraftTweakerAPI.apply(new AddRecipe(PressurizerRecipes.instance(), Lists.newArrayList(input1), Lists.newArrayList(output1), Lists.newArrayList(processTime)));
+			CraftTweakerAPI.apply(new AddRecipe(NCRecipes.PRESSURIZER_RECIPES, Lists.newArrayList(input1), Lists.newArrayList(output1), Lists.newArrayList(processTime)));
 		}
 
 		@ZenMethod
 		public static void removeRecipe(IIngredient output1) {
-			CraftTweakerAPI.apply(new RemoveRecipe(PressurizerRecipes.instance(), SorptionType.OUTPUT, Lists.newArrayList(output1)));
+			CraftTweakerAPI.apply(new RemoveRecipe(NCRecipes.PRESSURIZER_RECIPES, SorptionType.OUTPUT, Lists.newArrayList(output1)));
 		}
 	}
 	
@@ -297,17 +280,17 @@ public class NCCraftTweaker {
 		
 		@ZenMethod
 		public static void addRecipe(IIngredient input1, IIngredient input2, IIngredient output1, IIngredient output2) {
-			CraftTweakerAPI.apply(new AddRecipe(ChemicalReactorRecipes.instance(), Lists.newArrayList(input1, input2), Lists.newArrayList(output1, output2), Lists.newArrayList(NCConfig.processor_time[12])));
+			CraftTweakerAPI.apply(new AddRecipe(NCRecipes.CHEMICAL_REACTOR_RECIPES, Lists.newArrayList(input1, input2), Lists.newArrayList(output1, output2), Lists.newArrayList(NCConfig.processor_time[12])));
 		}
 		
 		@ZenMethod
 		public static void addRecipe(IIngredient input1, IIngredient input2, IIngredient output1, IIngredient output2, int processTime) {
-			CraftTweakerAPI.apply(new AddRecipe(ChemicalReactorRecipes.instance(), Lists.newArrayList(input1, input2), Lists.newArrayList(output1, output2), Lists.newArrayList(processTime)));
+			CraftTweakerAPI.apply(new AddRecipe(NCRecipes.CHEMICAL_REACTOR_RECIPES, Lists.newArrayList(input1, input2), Lists.newArrayList(output1, output2), Lists.newArrayList(processTime)));
 		}
 
 		@ZenMethod
 		public static void removeRecipe(IIngredient output1, IIngredient output2) {
-			CraftTweakerAPI.apply(new RemoveRecipe(ChemicalReactorRecipes.instance(), SorptionType.OUTPUT, Lists.newArrayList(output1, output2)));
+			CraftTweakerAPI.apply(new RemoveRecipe(NCRecipes.CHEMICAL_REACTOR_RECIPES, SorptionType.OUTPUT, Lists.newArrayList(output1, output2)));
 		}
 	}
 	
@@ -317,17 +300,17 @@ public class NCCraftTweaker {
 		
 		@ZenMethod
 		public static void addRecipe(IIngredient input1, IIngredient input2, IIngredient output1) {
-			CraftTweakerAPI.apply(new AddRecipe(SaltMixerRecipes.instance(), Lists.newArrayList(input1, input2), Lists.newArrayList(output1), Lists.newArrayList(NCConfig.processor_time[13])));
+			CraftTweakerAPI.apply(new AddRecipe(NCRecipes.SALT_MIXER_RECIPES, Lists.newArrayList(input1, input2), Lists.newArrayList(output1), Lists.newArrayList(NCConfig.processor_time[13])));
 		}
 		
 		@ZenMethod
 		public static void addRecipe(IIngredient input1, IIngredient input2, IIngredient output1, int processTime) {
-			CraftTweakerAPI.apply(new AddRecipe(SaltMixerRecipes.instance(), Lists.newArrayList(input1, input2), Lists.newArrayList(output1), Lists.newArrayList(processTime)));
+			CraftTweakerAPI.apply(new AddRecipe(NCRecipes.SALT_MIXER_RECIPES, Lists.newArrayList(input1, input2), Lists.newArrayList(output1), Lists.newArrayList(processTime)));
 		}
 
 		@ZenMethod
 		public static void removeRecipe(IIngredient output1) {
-			CraftTweakerAPI.apply(new RemoveRecipe(SaltMixerRecipes.instance(), SorptionType.OUTPUT, Lists.newArrayList(output1)));
+			CraftTweakerAPI.apply(new RemoveRecipe(NCRecipes.SALT_MIXER_RECIPES, SorptionType.OUTPUT, Lists.newArrayList(output1)));
 		}
 	}
 	
@@ -337,17 +320,17 @@ public class NCCraftTweaker {
 		
 		@ZenMethod
 		public static void addRecipe(IIngredient input1, IIngredient output1) {
-			CraftTweakerAPI.apply(new AddRecipe(CrystallizerRecipes.instance(), Lists.newArrayList(input1), Lists.newArrayList(output1), Lists.newArrayList(NCConfig.processor_time[14])));
+			CraftTweakerAPI.apply(new AddRecipe(NCRecipes.CRYSTALLIZER_RECIPES, Lists.newArrayList(input1), Lists.newArrayList(output1), Lists.newArrayList(NCConfig.processor_time[14])));
 		}
 		
 		@ZenMethod
 		public static void addRecipe(IIngredient input1, IIngredient output1, int processTime) {
-			CraftTweakerAPI.apply(new AddRecipe(CrystallizerRecipes.instance(), Lists.newArrayList(input1), Lists.newArrayList(output1), Lists.newArrayList(processTime)));
+			CraftTweakerAPI.apply(new AddRecipe(NCRecipes.CRYSTALLIZER_RECIPES, Lists.newArrayList(input1), Lists.newArrayList(output1), Lists.newArrayList(processTime)));
 		}
 
 		@ZenMethod
 		public static void removeRecipe(IIngredient output1) {
-			CraftTweakerAPI.apply(new RemoveRecipe(CrystallizerRecipes.instance(), SorptionType.OUTPUT, Lists.newArrayList(output1)));
+			CraftTweakerAPI.apply(new RemoveRecipe(NCRecipes.CRYSTALLIZER_RECIPES, SorptionType.OUTPUT, Lists.newArrayList(output1)));
 		}
 	}
 	
@@ -357,17 +340,17 @@ public class NCCraftTweaker {
 		
 		@ZenMethod
 		public static void addRecipe(IIngredient input1, IIngredient input2, IIngredient output1) {
-			CraftTweakerAPI.apply(new AddRecipe(DissolverRecipes.instance(), Lists.newArrayList(input1, input2), Lists.newArrayList(output1), Lists.newArrayList(NCConfig.processor_time[15])));
+			CraftTweakerAPI.apply(new AddRecipe(NCRecipes.DISSOLVER_RECIPES, Lists.newArrayList(input1, input2), Lists.newArrayList(output1), Lists.newArrayList(NCConfig.processor_time[15])));
 		}
 		
 		@ZenMethod
 		public static void addRecipe(IIngredient input1, IIngredient input2, IIngredient output1, int processTime) {
-			CraftTweakerAPI.apply(new AddRecipe(DissolverRecipes.instance(), Lists.newArrayList(input1, input2), Lists.newArrayList(output1), Lists.newArrayList(processTime)));
+			CraftTweakerAPI.apply(new AddRecipe(NCRecipes.DISSOLVER_RECIPES, Lists.newArrayList(input1, input2), Lists.newArrayList(output1), Lists.newArrayList(processTime)));
 		}
 
 		@ZenMethod
 		public static void removeRecipe(IIngredient output1) {
-			CraftTweakerAPI.apply(new RemoveRecipe(DissolverRecipes.instance(), SorptionType.OUTPUT, Lists.newArrayList(output1)));
+			CraftTweakerAPI.apply(new RemoveRecipe(NCRecipes.DISSOLVER_RECIPES, SorptionType.OUTPUT, Lists.newArrayList(output1)));
 		}
 	}
 	
@@ -377,12 +360,12 @@ public class NCCraftTweaker {
 		
 		@ZenMethod
 		public static void addRecipe(IIngredient input1, IIngredient output1, double fuelTime, double power, double heat, String name) {
-			CraftTweakerAPI.apply(new AddRecipe(FissionRecipes.instance(), Lists.newArrayList(input1), Lists.newArrayList(output1), Lists.newArrayList(fuelTime, power, heat, name)));
+			CraftTweakerAPI.apply(new AddRecipe(NCRecipes.FISSION_RECIPES, Lists.newArrayList(input1), Lists.newArrayList(output1), Lists.newArrayList(fuelTime, power, heat, name)));
 		}
 
 		@ZenMethod
 		public static void removeRecipe(IIngredient output1) {
-			CraftTweakerAPI.apply(new RemoveRecipe(FissionRecipes.instance(), SorptionType.OUTPUT, Lists.newArrayList(output1)));
+			CraftTweakerAPI.apply(new RemoveRecipe(NCRecipes.FISSION_RECIPES, SorptionType.OUTPUT, Lists.newArrayList(output1)));
 		}
 	}
 	
@@ -392,12 +375,12 @@ public class NCCraftTweaker {
 		
 		@ZenMethod
 		public static void addRecipe(IIngredient input1, IIngredient input2, IIngredient output1, IIngredient output2, IIngredient output3, IIngredient output4, double fuelTime, double power, double heatVar) {
-			CraftTweakerAPI.apply(new AddRecipe(FusionRecipes.instance(), Lists.newArrayList(input1, input2), Lists.newArrayList(output1, output2, output3, output4), Lists.newArrayList(fuelTime, power, heatVar)));
+			CraftTweakerAPI.apply(new AddRecipe(NCRecipes.FUSION_RECIPES, Lists.newArrayList(input1, input2), Lists.newArrayList(output1, output2, output3, output4), Lists.newArrayList(fuelTime, power, heatVar)));
 		}
 
 		@ZenMethod
 		public static void removeRecipe(IIngredient output1, IIngredient output2, IIngredient output3, IIngredient output4) {
-			CraftTweakerAPI.apply(new RemoveRecipe(FusionRecipes.instance(), SorptionType.OUTPUT, Lists.newArrayList(output1, output2, output3, output4)));
+			CraftTweakerAPI.apply(new RemoveRecipe(NCRecipes.FUSION_RECIPES, SorptionType.OUTPUT, Lists.newArrayList(output1, output2, output3, output4)));
 		}
 	}
 }

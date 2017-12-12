@@ -2,7 +2,7 @@ package nc.container.processor;
 
 import nc.container.SlotProcessorInput;
 import nc.container.SlotSpecificInput;
-import nc.recipe.processor.IsotopeSeparatorRecipes;
+import nc.recipe.NCRecipes;
 import nc.tile.processor.TileEnergyItemProcessor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
@@ -11,7 +11,7 @@ import net.minecraft.inventory.SlotFurnaceOutput;
 public class ContainerIsotopeSeparator extends ContainerEnergyItemProcessor {
 
 	public ContainerIsotopeSeparator(EntityPlayer player, TileEnergyItemProcessor tileEntity) {
-		super(tileEntity, IsotopeSeparatorRecipes.instance());
+		super(tileEntity, NCRecipes.ISOTOPE_SEPARATOR_RECIPES);
 		
 		addSlotToContainer(new SlotProcessorInput(tileEntity, recipes, 0, 42, 35));
 		

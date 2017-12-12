@@ -83,7 +83,7 @@ public abstract class TileEnergyItemProcessor extends TileEnergySidedInventory i
 	public void updateProcessor() {
 		boolean flag = isProcessing;
 		boolean flag1 = false;
-		//setCapacityFromSpeed();
+		setCapacityFromSpeed();
 		if(!world.isRemote) {
 			tick();
 			if (canProcess() && !isPowered()) {
@@ -181,7 +181,7 @@ public abstract class TileEnergyItemProcessor extends TileEnergySidedInventory i
 	}
 	
 	public void setCapacityFromSpeed() {
-		storage.setStorageCapacity(MathHelper.clamp(getProcessPower(), 32000, Integer.MAX_VALUE));
+		storage.setStorageCapacity(MathHelper.clamp(2*getProcessPower(), 32000, Integer.MAX_VALUE));
 	}
 	
 	public boolean canProcessStacks() {

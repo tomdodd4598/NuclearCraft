@@ -66,6 +66,8 @@ public class CommonProxy {
 		NCTools.register();
 		NCArmor.register();
 		
+		OreDictHandler.registerOres();
+		
 		NCTiles.register();
 		
 		PacketHandler.registerMessages(Global.MOD_ID);
@@ -81,7 +83,7 @@ public class CommonProxy {
 		CraftingRecipeHandler.registerCraftingRecipes();
 		FurnaceRecipeHandler.registerFurnaceRecipes();
 		GameRegistry.registerFuelHandler(new FurnaceFuelHandler());
-		OreDictHandler.registerOres();
+		
 		GameRegistry.registerWorldGenerator(new OreGen(), 0);
 		GameRegistry.registerWorldGenerator(new DecorGen(), 50);
 	}

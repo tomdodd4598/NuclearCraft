@@ -5,15 +5,15 @@ import nc.recipe.BaseRecipeHandler;
 
 public class ElectrolyserRecipes extends BaseRecipeHandler {
 	
-	private static final ElectrolyserRecipes RECIPES = new ElectrolyserRecipes();
+	//private static final ElectrolyserRecipes RECIPES = new ElectrolyserRecipes();
 	
 	public ElectrolyserRecipes() {
 		super(0, 1, 0, 4, false);
 	}
 
-	public static final ElectrolyserRecipes instance() {
+	/*public static final ElectrolyserRecipes instance() {
 		return RECIPES;
-	}
+	}*/
 
 	public void addRecipes() {
 		electrolyse("water", 1000, "hydrogen", 475, "hydrogen", 475, "deuterium", 50, "oxygen", 500, NCConfig.processor_time[8]);

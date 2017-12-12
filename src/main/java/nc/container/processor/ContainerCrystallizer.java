@@ -1,7 +1,7 @@
 package nc.container.processor;
 
 import nc.container.SlotSpecificInput;
-import nc.recipe.processor.CrystallizerRecipes;
+import nc.recipe.NCRecipes;
 import nc.tile.processor.TileEnergyItemFluidProcessor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
@@ -10,7 +10,7 @@ import net.minecraft.inventory.SlotFurnaceOutput;
 public class ContainerCrystallizer extends ContainerEnergyItemFluidProcessor {
 
 	public ContainerCrystallizer(EntityPlayer player, TileEnergyItemFluidProcessor tileEntity) {
-		super(tileEntity, CrystallizerRecipes.instance());
+		super(tileEntity, NCRecipes.CRYSTALLIZER_RECIPES);
 		
 		addSlotToContainer(new SlotFurnaceOutput(player, tileEntity, 0, 116, 35));
 		

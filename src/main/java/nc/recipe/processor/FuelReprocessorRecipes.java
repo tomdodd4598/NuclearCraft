@@ -5,15 +5,15 @@ import nc.recipe.BaseRecipeHandler;
 
 public class FuelReprocessorRecipes extends BaseRecipeHandler {
 	
-	private static final FuelReprocessorRecipes RECIPES = new FuelReprocessorRecipes();
+	//private static final FuelReprocessorRecipes RECIPES = new FuelReprocessorRecipes();
 	
 	public FuelReprocessorRecipes() {
 		super(1, 0, 4, 0, false);
 	}
 
-	public static final FuelReprocessorRecipes instance() {
+	/*public static final FuelReprocessorRecipes instance() {
 		return RECIPES;
-	}
+	}*/
 
 	public void addRecipes() {
 		/** Tier 1 *//* TBU, LEU235, HEU235 *//** Products 2x */

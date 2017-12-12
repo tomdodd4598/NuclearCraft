@@ -5,15 +5,15 @@ import nc.recipe.BaseRecipeHandler;
 
 public class IsotopeSeparatorRecipes extends BaseRecipeHandler {
 	
-	private static final IsotopeSeparatorRecipes RECIPES = new IsotopeSeparatorRecipes();
+	//private static final IsotopeSeparatorRecipes RECIPES = new IsotopeSeparatorRecipes();
 	
 	public IsotopeSeparatorRecipes() {
 		super(1, 0, 2, 0, false);
 	}
 
-	public static final IsotopeSeparatorRecipes instance() {
+	/*public static final IsotopeSeparatorRecipes instance() {
 		return RECIPES;
-	}
+	}*/
 
 	public void addRecipes() {
 		addRecipe("ingotThorium", oreStack("ingotThorium232", 2), oreStack("tinyThorium230", 2), NCConfig.processor_time[1]);

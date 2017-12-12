@@ -15,15 +15,15 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public class MelterRecipes extends BaseRecipeHandler {
 	
-	private static final MelterRecipes RECIPES = new MelterRecipes();
+	//private static final MelterRecipes RECIPES = new MelterRecipes();
 	
 	public MelterRecipes() {
 		super(1, 0, 0, 1, false);
 	}
 
-	public static final MelterRecipes instance() {
+	/*public static final MelterRecipes instance() {
 		return RECIPES;
-	}
+	}*/
 
 	public void addRecipes() {
 		metalMelt();

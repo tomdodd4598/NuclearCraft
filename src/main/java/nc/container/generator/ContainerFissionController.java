@@ -1,7 +1,7 @@
 package nc.container.generator;
 
 import nc.container.SlotProcessorInput;
-import nc.recipe.generator.FissionRecipes;
+import nc.recipe.NCRecipes;
 import nc.tile.generator.TileFissionController;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IContainerListener;
@@ -21,7 +21,7 @@ public class ContainerFissionController extends ContainerItemGenerator {
 	protected int heatChange;
 	
 	public ContainerFissionController(EntityPlayer player, TileFissionController tileEntity) {
-		super(tileEntity, FissionRecipes.instance());
+		super(tileEntity, NCRecipes.FISSION_RECIPES);
 		
 		addSlotToContainer(new SlotProcessorInput(tileEntity, recipes, 0, 56, 35));
 		

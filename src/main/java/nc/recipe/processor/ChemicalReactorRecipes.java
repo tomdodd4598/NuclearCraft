@@ -5,15 +5,15 @@ import nc.recipe.BaseRecipeHandler;
 
 public class ChemicalReactorRecipes extends BaseRecipeHandler {
 	
-	private static final ChemicalReactorRecipes RECIPES = new ChemicalReactorRecipes();
+	//private static final ChemicalReactorRecipes RECIPES = new ChemicalReactorRecipes();
 	
 	public ChemicalReactorRecipes() {
 		super(0, 2, 0, 2, true);
 	}
 
-	public static final ChemicalReactorRecipes instance() {
+	/*public static final ChemicalReactorRecipes instance() {
 		return RECIPES;
-	}
+	}*/
 
 	public void addRecipes() {
 		addRecipe(fluidStack("boron", 144), fluidStack("hydrogen", 3000), fluidStack("diborane", 500), fluidStack("diborane", 500), NCConfig.processor_time[12]*2);

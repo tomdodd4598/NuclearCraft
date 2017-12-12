@@ -13,7 +13,7 @@ import nc.config.NCConfig;
 import nc.fluid.Tank;
 import nc.handler.EnumHandler.CoolerTypes;
 import nc.init.NCBlocks;
-import nc.recipe.generator.FissionRecipes;
+import nc.recipe.NCRecipes;
 import nc.tile.fluid.TileActiveCooler;
 import nc.util.NCMath;
 import nc.util.OreStackHelper;
@@ -65,7 +65,7 @@ public class TileFissionController extends TileItemGenerator {
 	public static final int BASE_MAX_HEAT = 25000;
 
 	public TileFissionController() {
-		super("fission_controller", 1, 1, 0, BASE_CAPACITY, FissionRecipes.instance());
+		super("fission_controller", 1, 1, 0, BASE_CAPACITY, NCRecipes.FISSION_RECIPES);
 		setCapacity();
 	}
 	
@@ -96,7 +96,12 @@ public class TileFissionController extends TileItemGenerator {
 			}
 			if (flag != isGenerating) {
 				flag1 = true;
-				if (NCConfig.update_block_type) setBlockState();
+				if (NCConfig.update_block_type) {
+					removeTileFromENet();
+					setBlockState();
+					world.notifyNeighborsOfStateChange(pos, blockType, true);
+					addTileToENet();
+				}
 			}
 			pushEnergy();
 			if (findAdjacentComparator() && shouldStructureCheck()) flag1 = true;

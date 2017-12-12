@@ -8,15 +8,15 @@ import net.minecraft.item.ItemStack;
 
 public class InfuserRecipes extends BaseRecipeHandler {
 	
-	private static final InfuserRecipes RECIPES = new InfuserRecipes();
+	//private static final InfuserRecipes RECIPES = new InfuserRecipes();
 	
 	public InfuserRecipes() {
 		super(1, 1, 1, 0, false);
 	}
 
-	public static final InfuserRecipes instance() {
+	/*public static final InfuserRecipes instance() {
 		return RECIPES;
-	}
+	}*/
 
 	public void addRecipes() {
 		oxidize("ingotThorium", 1000);

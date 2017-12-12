@@ -1,7 +1,7 @@
 package nc.container.processor;
 
 import nc.container.SlotSpecificInput;
-import nc.recipe.processor.IngotFormerRecipes;
+import nc.recipe.NCRecipes;
 import nc.tile.processor.TileEnergyItemFluidProcessor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
@@ -10,7 +10,7 @@ import net.minecraft.inventory.SlotFurnaceOutput;
 public class ContainerIngotFormer extends ContainerEnergyItemFluidProcessor {
 
 	public ContainerIngotFormer(EntityPlayer player, TileEnergyItemFluidProcessor tileEntity) {
-		super(tileEntity, IngotFormerRecipes.instance());
+		super(tileEntity, NCRecipes.INGOT_FORMER_RECIPES);
 		
 		addSlotToContainer(new SlotFurnaceOutput(player, tileEntity, 0, 116, 35));
 		

@@ -6,15 +6,15 @@ import net.minecraft.util.text.translation.I18n;
 
 public class FissionRecipes extends BaseRecipeHandler {
 	
-private static final FissionRecipes RECIPES = new FissionRecipes();
+	//private static final FissionRecipes RECIPES = new FissionRecipes();
 	
 	public FissionRecipes() {
 		super(1, 0, 1, 0, false);
 	}
 
-	public static final FissionRecipes instance() {
+	/*public static final FissionRecipes instance() {
 		return RECIPES;
-	}
+	}*/
 	
 	public void addRecipes() {
 		fuelRodDeplete("TBU", NCConfig.fission_thorium_fuel_time, NCConfig.fission_thorium_power, NCConfig.fission_thorium_heat_generation);

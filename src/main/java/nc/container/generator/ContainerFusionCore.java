@@ -1,6 +1,6 @@
 package nc.container.generator;
 
-import nc.recipe.generator.FusionRecipes;
+import nc.recipe.NCRecipes;
 import nc.tile.generator.TileFusionCore;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IContainerListener;
@@ -17,7 +17,7 @@ public class ContainerFusionCore extends ContainerFluidGenerator {
 	protected int rateMultiplier;
 	
 	public ContainerFusionCore(EntityPlayer player, TileFusionCore tileEntity) {
-		super(tileEntity, FusionRecipes.instance());
+		super(tileEntity, NCRecipes.FUSION_RECIPES);
 		
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 9; j++) {

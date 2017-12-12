@@ -2,7 +2,7 @@ package nc.container.processor;
 
 import nc.container.SlotProcessorInput;
 import nc.container.SlotSpecificInput;
-import nc.recipe.processor.FuelReprocessorRecipes;
+import nc.recipe.NCRecipes;
 import nc.tile.processor.TileEnergyItemProcessor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
@@ -11,7 +11,7 @@ import net.minecraft.inventory.SlotFurnaceOutput;
 public class ContainerFuelReprocessor extends ContainerEnergyItemProcessor {
 
 	public ContainerFuelReprocessor(EntityPlayer player, TileEnergyItemProcessor tileEntity) {
-		super(tileEntity, FuelReprocessorRecipes.instance());
+		super(tileEntity, NCRecipes.FUEL_REPROCESSOR_RECIPES);
 		
 		addSlotToContainer(new SlotProcessorInput(tileEntity, recipes, 0, 50, 41));
 		

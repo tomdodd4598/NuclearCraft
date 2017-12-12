@@ -13,15 +13,15 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public class IngotFormerRecipes extends BaseRecipeHandler {
 	
-	private static final IngotFormerRecipes RECIPES = new IngotFormerRecipes();
+	//private static final IngotFormerRecipes RECIPES = new IngotFormerRecipes();
 	
 	public IngotFormerRecipes() {
 		super(0, 1, 1, 0, false);
 	}
 
-	public static final IngotFormerRecipes instance() {
+	/*public static final IngotFormerRecipes instance() {
 		return RECIPES;
-	}
+	}*/
 
 	public void addRecipes() {
 		ingotForm();

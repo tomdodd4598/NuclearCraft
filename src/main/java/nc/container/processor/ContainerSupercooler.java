@@ -1,7 +1,7 @@
 package nc.container.processor;
 
 import nc.container.SlotSpecificInput;
-import nc.recipe.processor.SupercoolerRecipes;
+import nc.recipe.NCRecipes;
 import nc.tile.processor.TileEnergyFluidProcessor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
@@ -10,7 +10,7 @@ import net.minecraft.inventory.SlotFurnaceOutput;
 public class ContainerSupercooler extends ContainerEnergyFluidProcessor {
 
 	public ContainerSupercooler(EntityPlayer player, TileEnergyFluidProcessor tileEntity) {
-		super(tileEntity, SupercoolerRecipes.instance());
+		super(tileEntity, NCRecipes.SUPERCOOLER_RECIPES);
 		
 		addSlotToContainer(new SlotSpecificInput(tileEntity, 0, 132, 64, speedUpgrade));
 		addSlotToContainer(new SlotFurnaceOutput(player, tileEntity, 1, 152, 64));

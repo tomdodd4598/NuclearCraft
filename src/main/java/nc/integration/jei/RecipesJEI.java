@@ -3,7 +3,7 @@ package nc.integration.jei;
 import nc.recipe.IRecipe;
 import nc.recipe.BaseRecipeHandler;
 
-public class Recipes {
+public class RecipesJEI {
 	
 	public static class Manufactory extends JEIRecipe<Manufactory> {
 

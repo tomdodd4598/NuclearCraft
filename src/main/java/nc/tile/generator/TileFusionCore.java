@@ -12,7 +12,7 @@ import nc.fluid.Tank;
 import nc.handler.SoundHandler;
 import nc.init.NCBlocks;
 import nc.init.NCFluids;
-import nc.recipe.generator.FusionRecipes;
+import nc.recipe.NCRecipes;
 import nc.tile.fluid.TileActiveCooler;
 import nc.util.NCUtil;
 import net.minecraft.block.Block;
@@ -46,7 +46,7 @@ public class TileFusionCore extends TileFluidGenerator {
 	public String problem = I18n.translateToLocalFormatted("gui.container.fusion_core.ring_incomplete");
 	
 	public TileFusionCore() {
-		super("Fusion Core", 2, 4, 0, tankCapacities(32000, 2, 4), fluidConnections(2, 4), validFluids(FusionRecipes.instance()), 8192000, FusionRecipes.instance());
+		super("Fusion Core", 2, 4, 0, tankCapacities(32000, 2, 4), fluidConnections(2, 4), validFluids(NCRecipes.FUSION_RECIPES), 8192000, NCRecipes.FUSION_RECIPES);
 		areTanksShared = false;
 	}
 	
@@ -79,7 +79,12 @@ public class TileFusionCore extends TileFluidGenerator {
 			}
 			if (flag != isGenerating) {
 				flag1 = true;
-				if (NCConfig.update_block_type) setBlockState();
+				if (NCConfig.update_block_type) {
+					removeTileFromENet();
+					setBlockState();
+					world.notifyNeighborsOfStateChange(pos, blockType, true);
+					addTileToENet();
+				}
 			}
 			if (isHotEnough()) pushEnergy();
 			if (findAdjacentComparator() && shouldCheck()) flag1 = true;

@@ -155,7 +155,8 @@ public class ClientProxy extends CommonProxy {
 		new ResourceLocation(Global.MOD_ID, "alloy_ferroboron"));
 		
 		ModelBakery.registerItemVariants(NCItems.compound,
-		new ResourceLocation(Global.MOD_ID, "compound_calcium_sulfate"));
+		new ResourceLocation(Global.MOD_ID, "compound_calcium_sulfate"),
+		new ResourceLocation(Global.MOD_ID, "compound_crystal_binder"));
 		
 		ModelBakery.registerItemVariants(NCItems.part,
 		new ResourceLocation(Global.MOD_ID, "part_plate_basic"),
