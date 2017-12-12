@@ -212,24 +212,24 @@ public class NCJEI extends BlankModPlugin implements IJEIRecipeBuilder {
 	}
 	
 	public enum Handlers implements IJEIHandler {
-		MANUFACTORY(ManufactoryRecipes.instance(), NCBlocks.manufactory_idle, "manufactory", Recipes.Manufactory.class),
-		ISOTOPE_SEPARATOR(IsotopeSeparatorRecipes.instance(), NCBlocks.isotope_separator_idle, "isotope_separator", Recipes.IsotopeSeparator.class),
-		DECAY_HASTENER(DecayHastenerRecipes.instance(), NCBlocks.decay_hastener_idle, "decay_hastener", Recipes.DecayHastener.class),
-		FUEL_REPROCESSOR(FuelReprocessorRecipes.instance(), NCBlocks.fuel_reprocessor_idle, "fuel_reprocessor", Recipes.FuelReprocessor.class),
-		ALLOY_FURNACE(AlloyFurnaceRecipes.instance(), NCBlocks.alloy_furnace_idle, "alloy_furnace", Recipes.AlloyFurnace.class),
-		INFUSER(InfuserRecipes.instance(), NCBlocks.infuser_idle, "infuser", Recipes.Infuser.class),
-		MELTER(MelterRecipes.instance(), NCBlocks.melter_idle, "melter", Recipes.Melter.class),
-		SUPERCOOLER(SupercoolerRecipes.instance(), NCBlocks.supercooler_idle, "supercooler", Recipes.Supercooler.class),
-		ELECTROLYSER(ElectrolyserRecipes.instance(), NCBlocks.electrolyser_idle, "electrolyser", Recipes.Electrolyser.class),
-		IRRADIATOR(IrradiatorRecipes.instance(), NCBlocks.irradiator_idle, "irradiator", Recipes.Irradiator.class),
-		INGOT_FORMER(IngotFormerRecipes.instance(), NCBlocks.ingot_former_idle, "ingot_former", Recipes.IngotFormer.class),
-		PRESSURIZER(PressurizerRecipes.instance(), NCBlocks.pressurizer_idle, "pressurizer", Recipes.Pressurizer.class),
-		CHEMICAL_REACTOR(ChemicalReactorRecipes.instance(), NCBlocks.chemical_reactor_idle, "chemical_reactor", Recipes.ChemicalReactor.class),
-		SALT_MIXER(SaltMixerRecipes.instance(), NCBlocks.salt_mixer_idle, "salt_mixer", Recipes.SaltMixer.class),
-		CRYSTALLIZER(CrystallizerRecipes.instance(), NCBlocks.crystallizer_idle, "crystallizer", Recipes.Crystallizer.class),
-		DISSOLVER(DissolverRecipes.instance(), NCBlocks.dissolver_idle, "dissolver", Recipes.Dissolver.class),
-		FISSION(FissionRecipes.instance(), NCBlocks.fission_controller_idle, "fission_controller", Recipes.Fission.class),
-		FUSION(FusionRecipes.instance(), NCBlocks.fusion_core, "fusion_core", Recipes.Fusion.class);
+		MANUFACTORY(ManufactoryRecipes.instance(), NCBlocks.manufactory_idle, "manufactory", RecipesJEI.Manufactory.class),
+		ISOTOPE_SEPARATOR(IsotopeSeparatorRecipes.instance(), NCBlocks.isotope_separator_idle, "isotope_separator", RecipesJEI.IsotopeSeparator.class),
+		DECAY_HASTENER(DecayHastenerRecipes.instance(), NCBlocks.decay_hastener_idle, "decay_hastener", RecipesJEI.DecayHastener.class),
+		FUEL_REPROCESSOR(FuelReprocessorRecipes.instance(), NCBlocks.fuel_reprocessor_idle, "fuel_reprocessor", RecipesJEI.FuelReprocessor.class),
+		ALLOY_FURNACE(AlloyFurnaceRecipes.instance(), NCBlocks.alloy_furnace_idle, "alloy_furnace", RecipesJEI.AlloyFurnace.class),
+		INFUSER(InfuserRecipes.instance(), NCBlocks.infuser_idle, "infuser", RecipesJEI.Infuser.class),
+		MELTER(MelterRecipes.instance(), NCBlocks.melter_idle, "melter", RecipesJEI.Melter.class),
+		SUPERCOOLER(SupercoolerRecipes.instance(), NCBlocks.supercooler_idle, "supercooler", RecipesJEI.Supercooler.class),
+		ELECTROLYSER(ElectrolyserRecipes.instance(), NCBlocks.electrolyser_idle, "electrolyser", RecipesJEI.Electrolyser.class),
+		IRRADIATOR(IrradiatorRecipes.instance(), NCBlocks.irradiator_idle, "irradiator", RecipesJEI.Irradiator.class),
+		INGOT_FORMER(IngotFormerRecipes.instance(), NCBlocks.ingot_former_idle, "ingot_former", RecipesJEI.IngotFormer.class),
+		PRESSURIZER(PressurizerRecipes.instance(), NCBlocks.pressurizer_idle, "pressurizer", RecipesJEI.Pressurizer.class),
+		CHEMICAL_REACTOR(ChemicalReactorRecipes.instance(), NCBlocks.chemical_reactor_idle, "chemical_reactor", RecipesJEI.ChemicalReactor.class),
+		SALT_MIXER(SaltMixerRecipes.instance(), NCBlocks.salt_mixer_idle, "salt_mixer", RecipesJEI.SaltMixer.class),
+		CRYSTALLIZER(CrystallizerRecipes.instance(), NCBlocks.crystallizer_idle, "crystallizer", RecipesJEI.Crystallizer.class),
+		DISSOLVER(DissolverRecipes.instance(), NCBlocks.dissolver_idle, "dissolver", RecipesJEI.Dissolver.class),
+		FISSION(FissionRecipes.instance(), NCBlocks.fission_controller_idle, "fission_controller", RecipesJEI.Fission.class),
+		FUSION(FusionRecipes.instance(), NCBlocks.fusion_core, "fusion_core", RecipesJEI.Fusion.class);
 		
 		public BaseRecipeHandler methods;
 		public String unlocalizedName;

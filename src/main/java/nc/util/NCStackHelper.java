@@ -64,4 +64,10 @@ public class NCStackHelper {
 			return new FluidStack((Fluid) object, 1000);
 		}
 	}
+	
+	public static ItemStack changeStackSize(ItemStack stack, int size) {
+		ItemStack newStack = stack.copy();
+		newStack.stackSize = size;
+		return newStack.copy();
+	}
 }

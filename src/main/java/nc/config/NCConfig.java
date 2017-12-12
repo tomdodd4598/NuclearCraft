@@ -47,7 +47,7 @@ public class NCConfig {
 	public static int[] processor_passive_rate;
 	public static int cobble_gen_power;
 	public static boolean ore_processing;
-	public static boolean update_block_type;
+	public static boolean update_block_type = true; // Was temporary
 	
 	public static int[] rtg_power;
 	public static int[] solar_power;
@@ -168,7 +168,7 @@ public class NCConfig {
 	private static void syncConfig(boolean loadFromConfigFile, boolean readFieldFromConfig) {
 		if (loadFromConfigFile) config.load();
 		
-		Property propertyOreDims = config.get(CATEGORY_ORES, "ore_dims", new int[] {0, 6, -11325, -9999}, I18n.translateToLocalFormatted("gui.config.ores.ore_dims.comment"), Integer.MIN_VALUE, Integer.MAX_VALUE);
+		Property propertyOreDims = config.get(CATEGORY_ORES, "ore_dims", new int[] {0, 6, -11325, -9999, -100}, I18n.translateToLocalFormatted("gui.config.ores.ore_dims.comment"), Integer.MIN_VALUE, Integer.MAX_VALUE);
 		propertyOreDims.setLanguageKey("gui.config.ores.ore_dims");
 		Property propertyOreDimsListType = config.get(CATEGORY_ORES, "ore_dims_list_type", false, I18n.translateToLocalFormatted("gui.config.ores.ore_dims_list_type.comment"));
 		propertyOreDimsListType.setLanguageKey("gui.config.ores.ore_dims_list_type");
@@ -201,14 +201,14 @@ public class NCConfig {
 		propertyCobbleGenPower.setLanguageKey("gui.config.processors.cobble_gen_power");
 		Property propertyOreProcessing = config.get(CATEGORY_PROCESSORS, "ore_processing", true, I18n.translateToLocalFormatted("gui.config.processors.ore_processing.comment"));
 		propertyOreProcessing.setLanguageKey("gui.config.processors.ore_processing");
-		Property propertyUpdateBlockType = config.get(CATEGORY_PROCESSORS, "update_block_type", false, I18n.translateToLocalFormatted("gui.config.processors.update_block_type.comment"));
-		propertyUpdateBlockType.setLanguageKey("gui.config.processors.update_block_type");
+		//Property propertyUpdateBlockType = config.get(CATEGORY_PROCESSORS, "update_block_type", true, I18n.translateToLocalFormatted("gui.config.processors.update_block_type.comment"));
+		//propertyUpdateBlockType.setLanguageKey("gui.config.processors.update_block_type");
 		
 		Property propertyRTGPower = config.get(CATEGORY_GENERATORS, "rtg_power", new int[] {4, 100, 50, 400}, I18n.translateToLocalFormatted("gui.config.generators.rtg_power.comment"), 1, Integer.MAX_VALUE);
 		propertyRTGPower.setLanguageKey("gui.config.generators.rtg_power");
 		Property propertySolarPower = config.get(CATEGORY_GENERATORS, "solar_power", new int[] {5}, I18n.translateToLocalFormatted("gui.config.generators.solar_power.comment"), 1, Integer.MAX_VALUE);
 		propertySolarPower.setLanguageKey("gui.config.generators.solar_power");
-		Property propertyDecayPower = config.get(CATEGORY_GENERATORS, "decay_power", new int[] {4, 4, 1, 1}, I18n.translateToLocalFormatted("gui.config.generators.decay_power.comment"), 1, Integer.MAX_VALUE);
+		Property propertyDecayPower = config.get(CATEGORY_GENERATORS, "decay_power", new int[] {80, 80, 10, 10}, I18n.translateToLocalFormatted("gui.config.generators.decay_power.comment"), 0, Integer.MAX_VALUE);
 		propertyDecayPower.setLanguageKey("gui.config.generators.decay_power");
 		Property propertyGeneratorRFPerEU = config.get(CATEGORY_GENERATORS, "generator_rf_per_eu", 16, I18n.translateToLocalFormatted("gui.config.generators.generator_rf_per_eu.comment"), 1, 255);
 		propertyGeneratorRFPerEU.setLanguageKey("gui.config.generators.generator_rf_per_eu");
@@ -386,7 +386,7 @@ public class NCConfig {
 		propertyOrderProcessors.add(propertyProcessorPassiveRate.getName());
 		propertyOrderProcessors.add(propertyCobbleGenPower.getName());
 		propertyOrderProcessors.add(propertyOreProcessing.getName());
-		propertyOrderProcessors.add(propertyUpdateBlockType.getName());
+		//propertyOrderProcessors.add(propertyUpdateBlockType.getName());
 		config.setCategoryPropertyOrder(CATEGORY_PROCESSORS, propertyOrderProcessors);
 		
 		List<String> propertyOrderGenerators = new ArrayList<String>();
@@ -511,7 +511,7 @@ public class NCConfig {
 			processor_passive_rate = readIntegerArrayFromConfig(propertyProcessorPassiveRate);
 			cobble_gen_power = propertyCobbleGenPower.getInt();
 			ore_processing = propertyOreProcessing.getBoolean();
-			update_block_type = propertyUpdateBlockType.getBoolean();
+			//update_block_type = propertyUpdateBlockType.getBoolean();
 			
 			rtg_power = readIntegerArrayFromConfig(propertyRTGPower);
 			solar_power = readIntegerArrayFromConfig(propertySolarPower);
@@ -621,7 +621,7 @@ public class NCConfig {
 		propertyProcessorPassiveRate.set(processor_passive_rate);
 		propertyCobbleGenPower.set(cobble_gen_power);
 		propertyOreProcessing.set(ore_processing);
-		propertyUpdateBlockType.set(update_block_type);
+		//propertyUpdateBlockType.set(update_block_type);
 		
 		propertyRTGPower.set(rtg_power);
 		propertySolarPower.set(solar_power);

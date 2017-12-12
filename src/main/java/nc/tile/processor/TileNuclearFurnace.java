@@ -192,7 +192,10 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ISidedI
 
 			if (flag != isBurning()) {
 				flag1 = true;
-				if (NCConfig.update_block_type) BlockNuclearFurnace.setState(isBurning(), worldObj, pos);
+				if (NCConfig.update_block_type) {
+					BlockNuclearFurnace.setState(isBurning(), worldObj, pos);
+					worldObj.notifyNeighborsOfStateChange(pos, blockType);
+				}
 			}
 		}
 

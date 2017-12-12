@@ -89,6 +89,7 @@ public class OreDictHandler {
 		OreDictionary.registerOre("ingotFerroboron", new ItemStack(NCItems.alloy, 1, 6));
 		
 		OreDictionary.registerOre("dustCalciumSulfate", new ItemStack(NCItems.compound, 1, 0));
+		OreDictionary.registerOre("dustCrystalBinder", new ItemStack(NCItems.compound, 1, 1));
 		
 		OreDictionary.registerOre("plateBasic", new ItemStack(NCItems.part, 1, 0));
 		OreDictionary.registerOre("plateAdvanced", new ItemStack(NCItems.part, 1, 1));
@@ -425,7 +426,11 @@ public class OreDictHandler {
 		
 		for (ItemStack sulfur : OreDictionary.getOres("dustSulfur")) OreDictionary.registerOre("dustSulfurBinder", sulfur);
 		OreDictionary.registerOre("dustSulfurBinder", new ItemStack(NCItems.gem_dust, 1, 6));
+		for (ItemStack sulfurBinder : OreDictionary.getOres("dustCalciumSulfate")) OreDictionary.registerOre("dustSulfurBinder", sulfurBinder);
 		OreDictionary.registerOre("dustSulfurBinder", new ItemStack(NCItems.compound, 1, 0));
+		
+		/*for (ItemStack dustRhodochrosite : OreDictionary.getOres("dustRhodochrosite")) OreDictionary.registerOre("dustCrystalBinder", dustRhodochrosite);
+		OreDictionary.registerOre("dustCrystalBinder", new ItemStack(NCItems.gem_dust, 1, 1));*/
 		
 		// Vanilla
 		OreDictionary.registerOre("gemCoal", Items.COAL);

@@ -121,6 +121,7 @@ public abstract class TileEnergyFluidProcessor extends TileEnergyFluidSidedInven
 	public void updateProcessor() {
 		boolean flag = isProcessing;
 		boolean flag1 = false;
+		setCapacityFromSpeed();
 		if(!worldObj.isRemote) {
 			tick();
 			if (canProcess() && !isPowered()) {
@@ -137,7 +138,12 @@ public abstract class TileEnergyFluidProcessor extends TileEnergyFluidSidedInven
 			}
 			if (flag != isProcessing) {
 				flag1 = true;
-				if (NCConfig.update_block_type) setBlockState();
+				if (NCConfig.update_block_type) {
+					removeTileFromENet();
+					setBlockState();
+					worldObj.notifyNeighborsOfStateChange(pos, blockType);
+					addTileToENet();
+				}
 			}
 		} else {
 			isProcessing = canProcess() && !isPowered();
@@ -210,6 +216,10 @@ public abstract class TileEnergyFluidProcessor extends TileEnergyFluidSidedInven
 	
 	public int getProcessEnergy() {
 		return getProcessTime()*getProcessPower();
+	}
+	
+	public void setCapacityFromSpeed() {
+		storage.setStorageCapacity(MathHelper.clamp_int(2*getProcessPower(), 32000, Integer.MAX_VALUE));
 	}
 	
 	public boolean canProcessStacks() {

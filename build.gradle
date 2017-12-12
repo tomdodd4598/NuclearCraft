@@ -13,7 +13,7 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 //Only edit below this line, the above code adds and enables the nessasary things for Forge to be setup.
 
 
-version = "2.6--1.10.2"
+version = "2.7--1.10.2"
 group = "nc"
 archivesBaseName = "NuclearCraft"
 
