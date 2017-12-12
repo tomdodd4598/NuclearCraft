@@ -115,7 +115,7 @@ public class CraftingRecipeHandler {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCItems.part, 2, 0), new Object[] {"GL", "LG", 'L', "ingotLead", 'G', "dustGraphite"}));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCItems.part, 1, 1), new Object[] {"RTR", "TPT", "RTR", 'R', "dustRedstone", 'T', "ingotTough", 'P', "plateBasic"}));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCItems.part, 1, 2), new Object[] {"SUS", "UPU", "SUS", 'S', "dustSulfurBinder", 'U', "ingotUranium238", 'P', "plateAdvanced"}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCItems.part, 1, 3), new Object[] {"RBR", "BPB", "RBR", 'R', "dustRhodochrosite", 'B', "ingotBoron", 'P', "plateDU"}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCItems.part, 1, 3), new Object[] {"RBR", "BPB", "RBR", 'R', "dustCrystalBinder", 'B', "ingotBoron", 'P', "plateDU"}));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCItems.part, 2, 4), new Object[] {"CC", "II", "CC", 'C', "ingotCopper", 'I', "ingotIron"}));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(NCItems.part, 2, 5), new Object[] {"MM", "TT", "MM", 'M', "ingotMagnesiumDiboride", 'T', "ingotTough"}));
 		
@@ -165,6 +165,7 @@ public class CraftingRecipeHandler {
 		
 		tinyClumpRecipes("Boron", NCItems.boron, 10, 11);
 		tinyClumpRecipes("Lithium", NCItems.lithium, 6, 7);
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(NCItems.compound, 4, 1), new Object[] {"dustRhodochrosite", "dustSulfurBinder", "dustObsidian", "dustMagnesium"}));
 		
 		GameRegistry.addRecipe(new ShapedOreRecipe(NCItems.portable_ender_chest, new Object[] {" S ", "WCW", "LWL", 'C', Blocks.ENDER_CHEST, 'W', new ItemStack(Blocks.WOOL, 1, 10), 'S', Items.STRING, 'L', "ingotTough"}));
 		GameRegistry.addRecipe(new ShapedOreRecipe(NCItems.portable_ender_chest, new Object[] {" S ", "WCW", "LWL", 'C', Blocks.ENDER_CHEST, 'W', new ItemStack(Blocks.WOOL, 1, 15), 'S', Items.STRING, 'L', "ingotTough"}));

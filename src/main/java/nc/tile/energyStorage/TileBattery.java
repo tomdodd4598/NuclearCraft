@@ -1,6 +1,7 @@
 package nc.tile.energyStorage;
 
 import nc.block.tile.energyStorage.BlockBattery;
+import nc.config.NCConfig;
 import nc.energy.EnumStorage.EnergyConnection;
 import nc.energy.Storage;
 import nc.tile.energy.TileEnergy;
@@ -23,7 +24,12 @@ public abstract class TileBattery extends TileEnergy implements IBattery {
 			pushEnergy();
 		}
 		tick();
-		if (shouldCheck()) updateBlock();
+		if (shouldCheck()) {
+			if (NCConfig.update_block_type) {
+				updateBlock();
+				world.notifyNeighborsOfStateChange(pos, blockType, true);
+			}
+		}
 	}
 	
 	public void updateBlock() {

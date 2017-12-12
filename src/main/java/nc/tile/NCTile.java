@@ -1,12 +1,15 @@
 package nc.tile;
 
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.world.World;
 
 public abstract class NCTile extends TileEntity implements ITickable {
 	
@@ -38,6 +41,15 @@ public abstract class NCTile extends TileEntity implements ITickable {
 	
 	public ITextComponent getDisplayName() {
 		if (getBlockType() != null) return new TextComponentTranslation(getBlockType().getLocalizedName()); else return null;
+	}
+	
+	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newSate) {
+		String oldName = oldState.getBlock().getUnlocalizedName().toString();
+		String newName = newSate.getBlock().getUnlocalizedName().toString();
+		if (oldName.contains("_idle") || oldName.contains("_active")) {
+			return !oldName.replace("_idle","").replace("_active","").equals(newName.replace("_idle","").replace("_active",""));
+		}
+		return oldState.getBlock() != newSate.getBlock();
 	}
 	
 	// NBT

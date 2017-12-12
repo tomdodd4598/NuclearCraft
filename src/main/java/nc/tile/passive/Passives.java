@@ -75,6 +75,10 @@ public class Passives {
 		public void setBlockState() {
 			BlockCobblestoneGenerator.setState(world, pos);
 		}
+		
+		public void newStack() {
+			inventoryStacks.set(0, new ItemStack(Blocks.COBBLESTONE, NCConfig.processor_passive_rate[1]*5));
+		}
 	}
 	
 	public static class TileWaterSource extends TilePassive {

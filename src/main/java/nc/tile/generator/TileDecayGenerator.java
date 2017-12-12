@@ -21,6 +21,7 @@ public class TileDecayGenerator extends TileEnergy {
 	static final String[] DECAY_BLOCK_NAMES = new String[] {"blockThorium", "blockUranium", "blockDepletedThorium", "blockDepletedUranium"};
 	static final Block[] DECAY_PATHS = new Block[] {NCBlocks.block_depleted_thorium, NCBlocks.block_depleted_uranium};
 	Random rand = new Random();
+	public int tickCount;
 	
 	public TileDecayGenerator() {
 		super(200*maxPower(), EnergyConnection.OUT);
@@ -29,9 +30,22 @@ public class TileDecayGenerator extends TileEnergy {
 	public void update() {
 		super.update();
 		if(!world.isRemote) {
-			storage.changeEnergyStored(getGenerated());
+			tick();
+			if (shouldCheck()) storage.changeEnergyStored(getGenerated());
 			pushEnergy();
 		}
+	}
+	
+	public void tick() {
+		if (tickCount > 20) {
+			tickCount = 0;
+		} else {
+			tickCount++;
+		}
+	}
+	
+	public boolean shouldCheck() {
+		return tickCount > 20;
 	}
 	
 	private static int maxPower() {
@@ -69,7 +83,7 @@ public class TileDecayGenerator extends TileEnergy {
 		for (int i = 0; i < types.size(); i++) {
 			for (ItemStack oreStack : types.get(i)) if (oreStack.isItemEqual(stack)) {
 				if (i < 2) {
-					if (rand.nextInt(36000) == 0) world.setBlockState(pos, DECAY_PATHS[i].getDefaultState());
+					if (rand.nextInt(36000/20) == 0) world.setBlockState(pos, DECAY_PATHS[i].getDefaultState());
 				}
 				return NCConfig.decay_power[i];
 			}

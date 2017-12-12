@@ -79,7 +79,12 @@ public class TileFusionCore extends TileFluidGenerator {
 			}
 			if (flag != isGenerating) {
 				flag1 = true;
-				if (NCConfig.update_block_type) setBlockState();
+				if (NCConfig.update_block_type) {
+					removeTileFromENet();
+					setBlockState();
+					world.notifyNeighborsOfStateChange(pos, blockType, true);
+					addTileToENet();
+				}
 			}
 			if (isHotEnough()) pushEnergy();
 			if (findAdjacentComparator() && shouldCheck()) flag1 = true;

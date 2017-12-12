@@ -362,7 +362,8 @@ public class EnumHandler {
 	}
 	
 	public static enum CompoundTypes implements IStringSerializable {
-		CALCIUM_SULFATE("calcium_sulfate", 0);
+		CALCIUM_SULFATE("calcium_sulfate", 0),
+		CRYSTAL_BINDER("crystal_binder", 1);
 		
 		private int id;
 		private String name;
