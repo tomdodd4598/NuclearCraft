@@ -20,3 +20,4 @@ build
 # other
 eclipse
 run
+src/main/resources/assets/nuclearcraft/textures/blocks/.DS_Store
