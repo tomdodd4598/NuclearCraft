@@ -58,7 +58,7 @@ public class CraftingRecipeHandler {
 		blockCompress(NCBlocks.block_depleted_thorium, "ingotThorium230");
 		blockCompress(NCBlocks.block_depleted_uranium, "ingotUranium238");
 		blockOpen(NCItems.americium, 3, NCBlocks.block_depleted_americium);
-		blockOpen(NCItems.californium, 2, NCBlocks.block_depleted_californium);
+		blockOpen(NCItems.californium, 1, NCBlocks.block_depleted_californium);
 		blockOpen(NCItems.plutonium, 2, NCBlocks.block_depleted_plutonium);
 		blockOpen(NCItems.neptunium, 7, NCBlocks.block_depleted_neptunium);
 		blockOpen(NCItems.thorium, 0, NCBlocks.block_depleted_thorium);
