@@ -526,10 +526,10 @@ item.alloy.ferroboron.name=Liga de Ferro-boro
 
 item.compound.calcium_sulfate.name=Sulfato de Cálcio
 
-item.part.plate_basic.name=Placas Básica
-item.part.plate_advanced.name=Placas Avançadas
-item.part.plate_du.name=Placas de Urânio
-item.part.plate_elite.name=Placas Elite
+item.part.plate_basic.name=Placa Básica
+item.part.plate_advanced.name=Placa Avançada
+item.part.plate_du.name=Placa de Urânio
+item.part.plate_elite.name=Placa Elite
 item.part.wire_copper.name=Solenóide de Cobre
 item.part.wire_magnesium_diboride.name=Solenóide de Diboreto de Magnésio
 item.part.bioplastic.name=Bioplástico
