@@ -161,10 +161,10 @@ tile.fission_controller_active.name=Controlador de Fissão
 tile.fission_port.name=Porta de Acesso de Reator de Fissão
 tile.fission_port.desc=Coloque este bloco na carcaça de um reator de fissão no lugar de algum blocos de estrutura, mas *não* pode ser no lado de cima, nem no de baixo. Se um controlador estiver ligado à estrutura do reator, então seu inventário e a energia armazenada podem ser acessados por automação através deste bloco. Tenha certeza de que está direcionado para o interior do reator. A 'frente' da porta de acesso é a que tem uma textura um pouco diferente.
 
-tile.rtg_uranium.name=Urânio GTR
-tile.rtg_plutonium.name=Plutônio GTR
-tile.rtg_americium.name=Amerício GTR
-tile.rtg_californium.name=Califórnio GTR
+tile.rtg_uranium.name=GTR de Urânio
+tile.rtg_plutonium.name=GTR de Plutônio
+tile.rtg_americium.name=GTR de Amerício
+tile.rtg_californium.name=GTR de Califórnio
 tile.rtg.desc=Produz %s constantemente
 
 tile.solar_panel_basic.name=Painel Solar Básico
