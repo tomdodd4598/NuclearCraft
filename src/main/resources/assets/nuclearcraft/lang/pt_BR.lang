@@ -16,118 +16,57 @@ tile.ingot_block.boron.name=Bloco de Boro
 tile.ingot_block.lithium.name=Bloco de Lítio
 tile.ingot_block.magnesium.name=Bloco de Magnésio
 tile.ingot_block.beryllium.name=Bloco de Berilo
-tile.ingot_block.zirconium.name=Bloco de Zicornio
+tile.ingot_block.zirconium.name=Bloco de Zircônio
 
 tile.ingot_block.graphite.name=Bloco de Grafite
-tile.ingot_block.graphite.des0=Grafite só é considerado ativo se
-tile.ingot_block.graphite.des1=estiver tocando ao menos uma
-tile.ingot_block.graphite.des2=Célula de Reator. Grafite ativo
-tile.ingot_block.graphite.des3=aumenta a eficiência do Reator,
-tile.ingot_block.graphite.des4=mas também produz algum calor
+tile.ingot_block.graphite.desc=Grafite só é considerado ativo se estiver tocando ao menos uma Célula de Reator. Grafite ativo aumenta a eficiência do Reator, mas também produz algum calor extra. A energia adicional gerada por bloco de grafite é igual ao RFBase*SemCélulas/8 RF/t, e o calor extra gerado por bloco de grafite é o RFBase*SemCélulas/16 Unidades de Calor por tick.
 
 tile.fission_block.casing.name=Estrutura de Reator
-tile.fission_block.casing.des0=Usado na construção de reatores
-tile.fission_block.casing.des1=de fissão. Para formar uma
-tile.fission_block.casing.des2=estrutura válida, construa um
-tile.fission_block.casing.des3=cubo oco feito disto, se assegu-
-tile.fission_block.casing.des4=rando de *excluir* os cantos
-tile.fission_block.casing.des5=(cantos não têm importância).
-tile.fission_block.casing.des6=Coloque um controlador de fissão
-tile.fission_block.casing.des7=em uma ponta, ou em um canto, ou
-tile.fission_block.casing.des8=em uma das faces da estrutura.
-tile.fission_block.casing.des9=Se a GUI mostrar um erro, tenha
-tile.fission_block.casing.des10=certeza de que a estrutura é
-tile.fission_block.casing.des11=válida. Então encha o interior
-tile.fission_block.casing.des12=com células de reator, com
-tile.fission_block.casing.des13=resfriadores e com blocos de
-tile.fission_block.casing.des14=grafite para começar a gerar
-tile.fission_block.casing.des15=energia do seu combustível
-tile.fission_block.casing.des16=de fissão!
+tile.fission_block.casing.desc=Usado na construção de reatores de fissão. Para formar uma estrutura válida, construa um cubo oco feito disto, se assegurando de *excluir* os cantos (cantos não têm importância). Coloque um controlador de fissão em uma ponta, ou em um canto, ou em uma das faces da estrutura. Se a GUI mostrar um erro, tenha certeza de que a estrutura é válida. Então encha o interior com células de reator, com resfriadores e com blocos de grafite para começar a gerar energia do seu combustível de fissão!
 
 tile.fission_block.blast.name=Bloco Anti-Explosão
-tile.fission_block.blast.des0=Altamente resistente.
-tile.fission_block.blast.des1=Perfeito para bunkers
+tile.fission_block.blast.desc=Um bloco altamente resistente a explosão que é perfeito para proteção contra explosivos.
 
 tile.reactor_casing_transparent.name=Estrutura Transparente de Reator
-tile.reactor_casing_transparent.des0=Usado na construção de reatores
-tile.reactor_casing_transparent.des1=de fissão. Para formar uma
-tile.reactor_casing_transparent.des2=estrutura válida, construa um
-tile.reactor_casing_transparent.des3=cubo oco feito disto, se assegu-
-tile.reactor_casing_transparent.des4=rando de *excluir* os cantos
-tile.reactor_casing_transparent.des5=(cantos não têm importância).
-tile.reactor_casing_transparent.des6=Coloque um controlador de fissão
-tile.reactor_casing_transparent.des7=em uma ponta, ou em um canto, ou
-tile.reactor_casing_transparent.des8=em uma das faces da estrutura.
-tile.reactor_casing_transparent.des9=the faces of the structure.
-tile.reactor_casing_transparent.des10=Se a GUI mostrar um erro, tenha
-tile.reactor_casing_transparent.des11=certeza de que a estrutura é
-tile.reactor_casing_transparent.des12=válida. Então encha o interior
-tile.reactor_casing_transparent.des13=com células de reator, com
-tile.reactor_casing_transparent.des14=resfriadores e com blocos de
-tile.reactor_casing_transparent.des15=energia do seu combustível
-tile.reactor_casing_transparent.des16=de fissão!
+tile.reactor_casing_transparent.desc=Usado na construção de reatores de fissão. Para formar uma estrutura válida, construa um cubo oco feito disto, se assegurando de *excluir* os cantos (cantos não têm importância). Coloque um controlador de fissão em uma ponta, ou em um canto, ou em uma das faces da estrutura. Se a GUI mostrar um erro, tenha certeza de que a estrutura é válida. Então encha o interior com células de reator, com resfriadores e com blocos de energia do seu combustível de fissão!
 
 tile.fusion_connector.name=Conector de Fusão
-tile.fusion_connector.des0=Conecta um núcleo de fusão
-tile.fusion_connector.des1=ao seu anel eletromagnético
+tile.fusion_connector.desc=Conecta um núcleo de fusão ao seu anel eletromagnético
 
 tile.cell_block.name=Célula de Reator
-tile.cell_block.des0=Usado em reatores de fissão
-tile.cell_block.des1=para o combustível de fissão.
-tile.cell_block.des2=Quanto mais células colocadas,
-tile.cell_block.des3=mais rápido o combustível é usado.
-tile.cell_block.des4=Células são mais eficientes
-tile.cell_block.des5=quando tem outra a um bloco
-tile.cell_block.des6=de distância, com um grafite
-tile.cell_block.des7=entre elas, ou com um espaço
-tile.cell_block.des8=vazio entre elas. Ou seja:
-tile.cell_block.des9=Célula, espaço, célula ou
-tile.cell_block.des10=célula, grafite, célula.
+tile.cell_block.desc=Usado em reatores de fissão para o combustível de fissão. Quanto mais células colocadas, mais rápido o combustível é usado. Células são mais eficientes quando tem outra a um bloco de distância, com um grafite entre elas, ou com um espaço vazio entre elas. Ou seja: Célula, espaço, célula ou célula, grafite, célula.
 
 tile.cooler.empty.name=Resfriador Vazio
 
 tile.cooler.water.name=Resfriador à Água
-tile.cooler.water.des0=Deve tocar ao menos
-tile.cooler.water.des1=uma estrutura de reator.
+tile.cooler.water.desc=Deve tocar ao menos uma estrutura de reator.
 
 tile.cooler.redstone.name=Resfriador à Redstone
-tile.cooler.redstone.des0=Deve tocar ao menos
-tile.cooler.redstone.des1=uma célula de reator.
+tile.cooler.redstone.desc=Deve tocar ao menos uma célula de reator.
 
 tile.cooler.quartz.name=Resfriador à Quartzo
-tile.cooler.quartz.des0=Deve tocar ao menos
-tile.cooler.quartz.des1=bloco de grafite ativo.
+tile.cooler.quartz.desc=Deve tocar ao menos bloco de grafite ativo.
 
 tile.cooler.gold.name=Resfriador à Ouro
-tile.cooler.gold.des0=Deve tocar ao menos um
-tile.cooler.gold.des1=resfriador à água ativo, e
-tile.cooler.gold.des2=um resfriador à redstone
+tile.cooler.gold.desc=Deve tocar ao menos um resfriador à água ativo, e um resfriador à redstone.
 
 tile.cooler.glowstone.name=Resfriador à Pedra Luminosa
-tile.cooler.glowstone.des0=Deve tocar ao menos dois
-tile.cooler.glowstone.des1=blocos de grafite ativos.
+tile.cooler.glowstone.desc=Deve tocar ao menos dois blocos de grafite ativos.
 
-tile.cooler.lapis.name=Resfriador à Lápis-Lazulis
-tile.cooler.lapis.des0=Deve tocar ao menos uma célula de
-tile.cooler.lapis.des1=reator e uma estrutura de reator.
+tile.cooler.lapis.name=Resfriador à Lápis-Lazúli
+tile.cooler.lapis.desc=Deve tocar ao menos uma célula de reator e uma estrutura de reator.
 
 tile.cooler.diamond.name=Resfriador à Diamante
-tile.cooler.diamond.des0=Deve tocar ao menos quatro
-tile.cooler.diamond.des1=resfriadores à água que
-tile.cooler.diamond.des2=estejam no mesmo nível.
+tile.cooler.diamond.desc=Deve tocar ao menos quatro resfriadores à água que estejam no mesmo nível.
 
 tile.cooler.helium.name=Resfriador à Hélio Líquido
-tile.cooler.helium.des0=Deve tocar ao menos um resfriador
-tile.cooler.helium.des1=à quartzo ativo e uma
-tile.cooler.helium.des2=estrutura de reator.
+tile.cooler.helium.desc=Deve tocar ao menos um resfriador à quartzo ativo e uma estrutura de reator.
 
 tile.cooler.enderium.name=Resfriador à Endério
-tile.cooler.enderium.des0=Deve tocar ao menos três
-tile.cooler.enderium.des1=estruturas de reator.
+tile.cooler.enderium.desc=Deve tocar ao menos três estruturas de reator.
 
 tile.cooler.cryotheum.name=Resfriador à Crióteum
-tile.cooler.cryotheum.des0=Deve tocar ao menos
-tile.cooler.cryotheum.des1=duas células de reator.
+tile.cooler.cryotheum.desc=Deve tocar ao menos duas células de reator.
 
 tile.cooler.cooling_rate=Taxa de Resfriamento:
 
@@ -136,230 +75,146 @@ tile.block_depleted_uranium.name=Bloco de Urânio Esgotado
 tile.block_ice.name=Gelo Super-gelado
 
 tile.nuclear_furnace_idle.name=Fornalha nuclear
-tile.nuclear_furnace_idle.des0=Funde itens muito rapidamente. Usa lingotes
-tile.nuclear_furnace_idle.des1=e pó de urânio e de tório como combustível.
+tile.nuclear_furnace_idle.desc=Funde itens muito rapidamente. Usa lingotes e pó de urânio e de tório como combustível.
 tile.nuclear_furnace_active.name=Fornalha Nuclear
 
 tile.manufactory_idle.name=Manufatura
-tile.manufactory_idle.des0=Uma máquina útil que tem muitos usos.
-tile.manufactory_idle.des1=Aceita energia de MV do IC2.
+tile.manufactory_idle.desc=Uma máquina útil que tem muitos usos. Aceita energia de MV do IC2.
 tile.manufactory_active.name=Manufatura
 
 tile.isotope_separator_idle.name=Separador de Isótopos
-tile.isotope_separator_idle.des0=Separa materiais em seus isótopos.
-tile.isotope_separator_idle.des1=Aceita energia de MV do IC2.
+tile.isotope_separator_idle.desc=Separa materiais em seus isótopos. Aceita energia de MV do IC2.
 tile.isotope_separator_active.name=Separador de Isótopos
 
 tile.decay_hastener_idle.name=Acelerador de Apodrecimento
-tile.decay_hastener_idle.des0=Força o apodrecimento de materiais radioativos.
-tile.decay_hastener_idle.des1=Aceita energia de MV do IC2.
+tile.decay_hastener_idle.desc=Força o apodrecimento de materiais radioativos. Aceita energia de MV do IC2.
 tile.decay_hastener_active.name=Acelerador de Apodrecimento
 
 tile.fuel_reprocessor_idle.name=Reprocessador de Combustível
-tile.fuel_reprocessor_idle.des0=Extrai materiais de combustíveis esgotados.
-tile.fuel_reprocessor_idle.des1=Aceita energia de MV do IC2.
+tile.fuel_reprocessor_idle.desc=Extrai materiais de combustíveis esgotados. Aceita energia de MV do IC2.
 tile.fuel_reprocessor_active.name=Reprocessador de Combustível
 
 tile.alloy_furnace_idle.name=Fundidora de Ligas
-tile.alloy_furnace_idle.des0=Cria ligas metálicas a partir de materiais básicos.
-tile.alloy_furnace_idle.des1=Aceita energia de MV do IC2.
+tile.alloy_furnace_idle.desc=Cria ligas metálicas a partir de materiais básicos. Aceita energia de MV do IC2.
 tile.alloy_furnace_active.name=Fundidora de Ligas
 
 tile.infuser_idle.name=Infusor de Fluidos
-tile.infuser_idle.des0=Melhora materiais usando fluidos.
-tile.infuser_idle.des1=Aceita energia de MV do IC2.
+tile.infuser_idle.desc=Melhora materiais usando fluidos. Aceita energia de MV do IC2.
 tile.infuser_active.name=Infusor de Fluidos
 
-tile.melter_idle.name=Fundidor
-tile.melter_idle.des0=Derrete materiais.
-tile.melter_idle.des1=Aceita energia de MV do IC2.
-tile.melter_active.name=Fundidor
+tile.melter_idle.name=Fundção
+tile.melter_idle.desc=Derrete materiais. Aceita energia de MV do IC2.
+tile.melter_active.name=Fundição
 
 tile.supercooler_idle.name=Superresfriador
-tile.supercooler_idle.des0=Diminui a temperatura de fluidos.
-tile.supercooler_idle.des1=Aceita energia de MV do IC2.
+tile.supercooler_idle.desc=Diminui a temperatura de fluidos. Aceita energia de MV do IC2.
 tile.supercooler_active.name=Superresfriador
 
 tile.electrolyser_idle.name=Eletrolisador
-tile.electrolyser_idle.des0=Divide compostos em seus componentes.
-tile.electrolyser_idle.des1=Aceita energia de MV do IC2.
+tile.electrolyser_idle.desc=Divide compostos em seus componentes. Aceita energia de MV do IC2.
 tile.electrolyser_active.name=Eletrolisador
 
 tile.irradiator_idle.name=Irradiador de Neutrons
-tile.irradiator_idle.des0=Induz mudanças a estruturas nucleares.
-tile.irradiator_idle.des1=Aceita energia de MV do IC2.
+tile.irradiator_idle.desc=Induz mudanças a estruturas nucleares. Aceita energia de MV do IC2.
 tile.irradiator_active.name=Irradiador de Neutrons
 
 tile.ingot_former_idle.name=Fôrma de Lingotes
-tile.ingot_former_idle.des0=Forma lingotes a partir de metais derretidos.
-tile.ingot_former_idle.des1=Aceita energia de MV do IC2.
+tile.ingot_former_idle.desc=Forma lingotes a partir de metais derretidos. Aceita energia de MV do IC2.
 tile.ingot_former_active.name=Fôrma de Lingotes
 
 tile.pressurizer_idle.name=Pressurizador
-tile.pressurizer_idle.des0=Processa itens usando imensas pressões.
-tile.pressurizer_idle.des1=Aceita energia de MV do IC2.
+tile.pressurizer_idle.desc=Processa itens usando imensas pressões. Aceita energia de MV do IC2.
 tile.pressurizer_active.name=Pressurizador
 
 tile.chemical_reactor_idle.name=Reator Químico
-tile.chemical_reactor_idle.des0=É o local das reações entre gases.
-tile.chemical_reactor_idle.des1=Aceita energia de MV do IC2.
+tile.chemical_reactor_idle.desc=É o local das reações entre gases. Aceita energia de MV do IC2.
 tile.chemical_reactor_active.name=Reator Químico
 
 tile.salt_mixer_idle.name=Misturador de Sais
-tile.salt_mixer_idle.des0=Mistura sais derretidos.
-tile.salt_mixer_idle.des1=Aceita energia de MV do IC2.
+tile.salt_mixer_idle.desc=Mistura sais derretidos. Aceita energia de MV do IC2.
 tile.salt_mixer_active.name=Misturador de Sais
 
 tile.crystallizer_idle.name=Cristalizador
-tile.crystallizer_idle.des0=Precipita sólidos a partir de uma solução.
-tile.crystallizer_idle.des1=Aceita energia de MV do IC2.
+tile.crystallizer_idle.desc=Precipita sólidos a partir de uma solução. Aceita energia de MV do IC2.
 tile.crystallizer_active.name=Cristalizador
 
 tile.dissolver_idle.name=Dissolvedor
-tile.dissolver_idle.des0=Mistura solutos, transformando-os em solventes.
-tile.dissolver_idle.des1=Aceita energia de MV do IC2.
+tile.dissolver_idle.desc=Mistura solutos, transformando-os em solventes. Aceita energia de MV do IC2.
 tile.dissolver_active.name=Dissolvedor
 
 tile.machine_interface.name=Interface de Máquinas
-tile.machine_interface.des0=Automações podem acessar a máquina
-tile.machine_interface.des1=que estiver diretamente adjacente a esta.
-tile.machine_interface.des2=Tenha certeza de que há apenas uma
-tile.machine_interface.des3=máquina adjacente, no máximo.
+tile.machine_interface.desc=Automações podem acessar a máquina que estiver diretamente adjacente a esta. Tenha certeza de que há apenas uma máquina adjacente, no máximo.
 
 tile.buffer.name=Buffer
-tile.buffer.des0=Armazena até um stack de um item,
-tile.buffer.des1=32000 RF de energia e 16000 mB de
-tile.buffer.des2=um fluido. Pode ser colocado em
-tile.buffer.des3=estruturas de fissão.
+tile.buffer.desc=Armazena até um stack de um item, 32000 RF de energia e 16000 mB de um fluido. Pode ser colocado em estruturas de fissão.
 
 tile.active_cooler.name=Resfriador à Liquidos Ativo
-tile.active_cooler.des0=Bombeie líquidos refrigerantes 
-tile.active_cooler.des1=para este bloco para resfriar reatores
-tile.active_cooler.des2=de fissão e fusão. Deve ser colocado
-tile.active_cooler.des3=dentro de uma estrutura de fissão
-tile.active_cooler.des4=ou na diagonal de um anel de fusão.
-tile.active_cooler.des5=Se for usado em um reator de fissão, seus
-tile.active_cooler.des6=requirementos para cada fluido são os
-tile.active_cooler.des7=mesmos que os seus contrapostos passivos.
-tile.active_cooler.des8=Se for usado em um reator de fusão, ele
-tile.active_cooler.des9=será muito mais eficiente caso haja um
-tile.active_cooler.des10=parceiro no lado oposto do anel de fusão.
-tile.active_cooler.des11=Os líquidos refrigerantes disponíveis são:
-tile.active_cooler.des12=água, redstone desestabilizada, pedra
-tile.active_cooler.des13=luminosa energizada, hélio líquido,
-tile.active_cooler.des14=ender resonante e crióteum gélido.
+tile.active_cooler.desc=Bombeie líquidos refrigerantes para este bloco para resfriar reatores de fissão e fusão. Deve ser colocado dentro de uma estrutura de fissão ou na diagonal de um anel de fusão. Se for usado em um reator de fissão, seus requirementos para cada fluido são os mesmos que os seus contrapostos passivos. Se for usado em um reator de fusão, ele será muito mais eficiente caso haja um parceiro no lado oposto do anel de fusão. Os líquidos refrigerantes disponíveis são: água, redstone desestabilizada, pedra luminosa energizada, hélio líquido, ender resonante e crióteum gélido.
 
 tile.bin.name=Lixeira Universal
-tile.bin.des0=Destrói itens, fluidos e energia.
+tile.bin.desc=Destrói itens, fluidos e energia.
 
 tile.fission_controller_idle.name=Controlador de Fissão
-tile.fission_controller_idle.des0=Contrua um reator multibloco
-tile.fission_controller_idle.des1=usando blocos de estruturas
-tile.fission_controller_idle.des2=de reator, células de reator,
-tile.fission_controller_idle.des3=resfriadores e blocos de
-tile.fission_controller_idle.des4=grafite! Coloque o controlador
-tile.fission_controller_idle.des5=em um dos cantos, em uma
-tile.fission_controller_idle.des6=das quinas ou em uma das
-tile.fission_controller_idle.des7=faces da estrutura.
-tile.fission_controller_idle.des8=Gera energia EV do IC2.
+tile.fission_controller_idle.desc=Contrua um reator multibloco usando blocos de estruturas de reator, células de reator, esfriadores e blocos de grafite! Coloque o controlador em um dos cantos, em uma das quinas ou em uma das faces da estrutura. Gera energia EV do IC2.
 tile.fission_controller_active.name=Controlador de Fissão
 
 tile.fission_port.name=Porta de Acesso de Reator de Fissão
-tile.fission_port.des0=Coloque este bloco na
-tile.fission_port.des1=carcaça de um reator de fissão
-tile.fission_port.des2=no lugar de algum blocos de
-tile.fission_port.des3=estrutura, mas *não* pode ser
-tile.fission_port.des4=no lado de cima, nem no de baixo.
-tile.fission_port.des5=Se um controlador estiver ligado
-tile.fission_port.des6=à estrutura do reator, então
-tile.fission_port.des7=seu inventário e a energia arma-
-tile.fission_port.des8=zenada podem ser acessados por
-tile.fission_port.des9=automação através deste bloco.
-tile.fission_port.des10=Tenha certeza de que está
-tile.fission_port.des11=direcionado para o interior do
-tile.fission_port.des12=reator. A 'frente' da porta de
-tile.fission_port.des13=acesso é a que tem uma textura
-tile.fission_port.des14=um pouco diferente.
+tile.fission_port.desc=Coloque este bloco na carcaça de um reator de fissão no lugar de algum blocos de estrutura, mas *não* pode ser no lado de cima, nem no de baixo. Se um controlador estiver ligado à estrutura do reator, então seu inventário e a energia armazenada podem ser acessados por automação através deste bloco. Tenha certeza de que está direcionado para o interior do reator. A 'frente' da porta de acesso é a que tem uma textura um pouco diferente.
 
 tile.rtg_uranium.name=Urânio GTR
 tile.rtg_plutonium.name=Plutônio GTR
 tile.rtg_americium.name=Amerício GTR
 tile.rtg_californium.name=Califórnio GTR
-tile.rtg.des0=Produz
-tile.rtg.des1=RF/t constantemente
+tile.rtg.desc=Produz %s constantemente
 
 tile.solar_panel_basic.name=Painel Solar Básico
-tile.solar_panel.des0=Produz até
-tile.solar_panel.des1=RF/t durante o dia
+tile.solar_panel.desc=Produz %s durante o dia
 
 tile.decay_generator.name=Gerador Apodrecedor
-tile.decay_generator.des0=Produz energia a partir do calor gerado pelo
-tile.decay_generator.des1=apodrecimento de blocos de urânio e tório
-tile.decay_generator.des2=adjacentes. Depois de algum tempo, o bloco
-tile.decay_generator.des3=apodrece e produz menos energia.
+tile.decay_generator.desc=Produz energia a partir do calor gerado pelo apodrecimento de blocos de urânio e tório adjacentes. Depois de algum tempo, o bloco apodrece e produz menos energia.
 
 tile.voltaic_pile_basic.name=Pilha Voltáica Básica (WIP)
 tile.lithium_ion_battery_basic.name=Bateria Básica de Íon de Lítio (WIP)
-tile.energy_storage.des0=Armazena até
-tile.energy_storage.des1=kRF.
-tile.energy_storage.des2=Isso ainda está sendo trabalhado
-tile.energy_storage.des3=e atualmente não mantém sua energia
-tile.energy_storage.des4=armazenada ao ser quebrado.
-tile.energy_storage.des5=Extrai energia pelo lado de baixo.
+tile.energy_storage.desc=Armazena até %s. Ela ainda está em desenvolvimento e atualmente não mantém sua energia armazenada ao ser quebrada.
 
 tile.fusion_core.name=Núcleo de Fusão
-tile.fusion_core.des0=Essa é a parte central da estrutura multibloco
-tile.fusion_core.des1=do reator de fusão. O núcleo tem que ter um
-tile.fusion_core.des2=anel de eletroímãs de fusão ao redor dele de
-tile.fusion_core.des3=maneira simétrica e deve estar conectado por
-tile.fusion_core.des4=quatro conjuntos de conectores de fusão em todos
-tile.fusion_core.des5=os quatro lados. O anel, que é, na verdade,
-tile.fusion_core.des6=quadrado, deve ser oco e não requer eletroímãs
-tile.fusion_core.des7=na diagonal da parte oca. O reator produz imensas
-tile.fusion_core.des8=quantidades de energia a partir do calor derado
-tile.fusion_core.des9=pela fusão nuclear de dois combustíveis de fusão.
-tile.fusion_core.des10=Saiba que um combustível de um mesmo tipo pode
-tile.fusion_core.des11=ser fundido consigo mesmo. Os combustíveis de
-tile.fusion_core.des12=fusão possíveis são: hidrogênio, deutério, trítio,
-tile.fusion_core.des13=hélio-3, lítio-6, lítio-7 e boro-11.
-tile.fusion_core.des14=(O anel deve ser completamente quadrado)
+tile.fusion_core.desc=Essa é a parte central da estrutura multibloco do reator de fusão. O núcleo tem que ter um anel de eletroímãs de fusão ao redor dele de maneira simétrica e deve estar conectado por quatro conjuntos de conectores de fusão em todos os quatro lados. O anel, que é, na verdade, quadrado, deve ser oco e não requer eletroímãs na diagonal da parte oca. O reator produz imensas quantidades de energia a partir do calor derado pela fusão nuclear de dois combustíveis de fusão. Saiba que um combustível de um mesmo tipo pode ser fundido consigo mesmo. Os combustíveis de fusão possíveis são: hidrogênio, deutério, trítio, hélio-3, lítio-6, lítio-7 e boro-11. (O anel deve ser completamente quadrado). Esse reator também emite Voltagem Extrema do IC2.
 tile.fusion_dummy_side.name=Núcleo de Fusão
 tile.fusion_dummy_top.name=Núcleo de Fusão
 
 tile.fusion_electromagnet_idle.name=Eletroímã de Fusão
-tile.fusion_electromagnet_idle.des0=Requer
-tile.fusion_electromagnet_idle.des1=RF/t para se manter ativo
+tile.fusion_electromagnet_idle.desc=Requer %s para se manter ativo.
 tile.fusion_electromagnet_active.name=Eletroímã de Fusão
 tile.fusion_electromagnet_transparent_idle.name=Eletroímã de Fusão Transparente
 tile.fusion_electromagnet_transparent_active.name=Eletroímã de Fusão Transparente
 
 tile.accelerator_electromagnet_idle.name=Eletroímã Supercondutor
-tile.accelerator_electromagnet_idle.des0=Requer
-tile.accelerator_electromagnet_idle.des1=RF/t para se manter ativo
+tile.accelerator_electromagnet_idle.desc=Requer %s para se manter ativo
 tile.accelerator_electromagnet_active.name=Eletroímã Supercondutor
 
 tile.electromagnet_supercooler_idle.name=Superresfriador Supercondutor
-tile.electromagnet_supercooler_idle.des0=Requer
-tile.electromagnet_supercooler_idle.des1=RF/t e
-tile.electromagnet_supercooler_idle.des2=mB/t
-tile.electromagnet_supercooler_idle.des3=de hélio líquido para se manter ativo
+tile.electromagnet_supercooler_idle.desc=Requer %s e %s de hélio líquido para se manter ativo.
 tile.electromagnet_supercooler_active.name=Superresfriador Supercondutor
 
 tile.helium_collector.name=Coletor de Hélio
-tile.helium_collector.des0=Produz
-tile.helium_collector.des1=mB/t de hélio constantemente
+tile.helium_collector_compact.name=Coletor de Hélio Compacto
+tile.helium_collector_dense.name=Coletor de Hélio Denso
+tile.helium_collector.desc=Produz %s de hélio constantemente.
 
 tile.cobblestone_generator.name=Gerador de Pedregulho
-tile.cobblestone_generator.des0=Produz
-tile.cobblestone_generator.des1=pedregulho/t constantemente
+tile.cobblestone_generator_compact.name=Gerador de Pedregulho Compacto
+tile.cobblestone_generator_dense.name=Gerador de Pedregulho Denso
+tile.cobblestone_generator.desc=Produz %s constantemente.
 
 tile.water_source.name=Bloco de Água Infinita
-tile.water_source.des0=Produz
-tile.water_source.des1=mB/t de água constantemente
+tile.water_source_compact.name=Bloco de Água Infinita Compacto
+tile.water_source_dense.name=Bloco de Água Infinita Denso
+tile.water_source.desc=Produz %s de água constantemente.
 
 tile.nitrogen_collector.name=Coletor de Nitrogênio
-tile.nitrogen_collector.des0=Produz
-tile.nitrogen_collector.des1=mB/t de nitrogênio constantemente
+tile.nitrogen_collector_compact.name=Coletor de Nitrogênio Compacto
+tile.nitrogen_collector_dense.name=Coletor de Nitrogênio Denso
+tile.nitrogen_collector.desc=Produz %s de nitrogênio constantemente.
 
 tile.glowing_mushroom.name=Cogumelo Brilhante
 tile.reactor_door.name=Porta de Reator
@@ -484,8 +339,8 @@ item.ingot.zirconium.name=Lingote de Zircônio
 
 item.ingot_oxide.thorium.name=Lingote de Óxido de Tório
 item.ingot_oxide.uranium.name=Lingote de Óxido de Urânio
-item.ingot_oxide.manganese.name=Lingote de Óxido de Maganês
-item.ingot_oxide.manganese2.name=Lingote de Dióxido de Maganês
+item.ingot_oxide.manganese.name=Lingote de Óxido de Manganês
+item.ingot_oxide.manganese2.name=Lingote de Dióxido de Manganês
 
 item.dust.copper.name=Pó de Cobre
 item.dust.tin.name=Pó de Estanho
@@ -497,24 +352,29 @@ item.dust.lithium.name=Pó de Lítio
 item.dust.magnesium.name=Pó de Magnésio
 item.dust.graphite.name=Pó de Grafite
 item.dust.beryllium.name=Pó de Berilo
+item.dust.beryllium.desc=Obtido ao minerar blocos de Minério de Carvão.
 item.dust.zirconium.name=Pó de Zircônio
+item.dust.zirconium.desc=Obtido ao minerar blocos de Quartzo do Nether.
 
 item.dust_oxide.thorium.name=Pó de Óxido de Tório
 item.dust_oxide.uranium.name=Pó de Óxido de Urânio
-item.dust_oxide.manganese.name=Pó de Óxido de Maganês
-item.dust_oxide.manganese2.name=Pó de Dióxido de Maganês
+item.dust_oxide.manganese.name=Pó de Óxido de Manganês
+item.dust_oxide.manganese2.name=Pó de Dióxido de Manganês
 
-item.gem.rhodochrosite.name=Rodocrosite
+item.gem.rhodochrosite.name=Rodocrosita
+item.gem.rhodochrosite.desc=Obtida ao minerar blocos de Minério de Redstone.
 item.gem.boron_nitride.name=Nitrido de Boro Cúbico
 item.gem.fluorite.name=Fluorita
+item.gem.fluorite.desc=Obtida ao minerar blocos de Minério de Lápis-Lazúli.
 
 item.gem_dust.diamond.name=Diamante Moído
-item.gem_dust.rhodochrosite.name=Rodocrosite Moído
+item.gem_dust.rhodochrosite.name=Rodocrosita Moído
 item.gem_dust.quartz.name=Quartzo Moído
 item.gem_dust.obsidian.name=Obsidiana Moída
 item.gem_dust.boron_nitride.name=Nitrido de Boro Amorfo
 item.gem_dust.fluorite.name=Fluorita Moída
 item.gem_dust.sulfur.name=Enxofre
+item.gem_dust.sulfur.desc=Obtida ao minerar blocos de Minério de Carvão.
 
 item.alloy.bronze.name=Liga de Bronze
 item.alloy.tough.name=Liga Resistente
@@ -525,6 +385,7 @@ item.alloy.steel.name=Liga de Aço
 item.alloy.ferroboron.name=Liga de Ferro-boro
 
 item.compound.calcium_sulfate.name=Sulfato de Cálcio
+item.compound.crystal_binder.name=Cristal Isolante
 
 item.part.plate_basic.name=Placa Básica
 item.part.plate_advanced.name=Placa Avançada
@@ -535,6 +396,7 @@ item.part.wire_magnesium_diboride.name=Solenóide de Diboreto de Magnésio
 item.part.bioplastic.name=Bioplástico
 
 item.upgrade.speed.name=Melhoria de Velocidade
+item.upgrade.speed.desc=Aumenta a velocidade de processamento das máquinas ao custo de um uso maior de energia. Essas melhorias se juntam. A velocidade aumenta de maneira linear a cada melhoria, porém o uso de energia aumenta de maneira quadrática.
 
 item.fuel_rod_empty.name=Haste de Combustível Vazia
 
@@ -548,7 +410,7 @@ item.thorium._232.name=Tório-232
 item.thorium._232_oxide.name=Óxido de Tório-232
 item.thorium._232_tiny.name=Pequeno Amontoado de Tório-232
 item.thorium._232_oxide_tiny.name=Pequeno Amontoado de Óxido de Tório-232
-item.thorium.desc=Isótopo de Tório
+item.thorium.desc=Um Isótopo de Tório.
 
 item.uranium._233.name=Urânio-233
 item.uranium._233_oxide.name=Óxido de Urânio-233
@@ -562,7 +424,7 @@ item.uranium._238.name=Urânio-238
 item.uranium._238_oxide.name=Óxido de Urânio-238
 item.uranium._238_tiny.name=Pequeno Amontoado de Urânio-238
 item.uranium._238_oxide_tiny.name=Pequeno Amontoado de Óxido de Urânio-238
-item.uranium.desc=Isótopo de Urânio
+item.uranium.desc=Um Isótopo de Urânio.
 
 item.neptunium._236.name=Neptúnio-236
 item.neptunium._236_oxide.name=Óxido de Neptúnio-236
@@ -572,7 +434,7 @@ item.neptunium._237.name=Neptúnio-237
 item.neptunium._237_oxide.name=Óxido de Neptúnio-237
 item.neptunium._237_tiny.name=Pequeno Amontoado de Neptúnio-237
 item.neptunium._237_oxide_tiny.name=Pequeno Amontoado de Óxido de Neptúnio-237
-item.neptunium.desc=Isótopo de Neptúnio
+item.neptunium.desc=Um Isótopo de Neptúnio.
 
 item.plutonium._238.name=Plutônio-238
 item.plutonium._238_oxide.name=Óxido de Plutônio-238
@@ -590,7 +452,7 @@ item.plutonium._242.name=Plutônio-242
 item.plutonium._242_oxide.name=Óxido de Plutônio-242
 item.plutonium._242_tiny.name=Pequeno Amontoado de Plutônio-242
 item.plutonium._242_oxide_tiny.name=Pequeno Amontoado de Óxido de Plutônio-242
-item.plutonium.desc=Isótopo de Plutônio
+item.plutonium.desc=Um Isótopo de Plutônio.
 
 item.americium._241.name=Amerício-241
 item.americium._241_oxide.name=Óxido de Amerício-241
@@ -604,7 +466,7 @@ item.americium._243.name=Amerício-243
 item.americium._243_oxide.name=Óxido de Amerício-243
 item.americium._243_tiny.name=Pequeno Amontoado de Amerício-243
 item.americium._243_oxide_tiny.name=Pequeno Amontoado de Óxido de Amerício-243
-item.americium.desc=Isótopo de Amerício
+item.americium.desc=Um Isótopo de Amerício.
 
 item.curium._243.name=Curio-243
 item.curium._243_oxide.name=Óxido de Curio-243
@@ -622,7 +484,7 @@ item.curium._247.name=Curio-247
 item.curium._247_oxide.name=Óxido de Curio-247
 item.curium._247_tiny.name=Pequeno Amontoado de Curio-247
 item.curium._247_oxide_tiny.name=Pequeno Amontoado de Óxido de Curio-247
-item.curium.desc=Isótopo de Curio
+item.curium.desc=Um Isótopo de Curio.
 
 item.berkelium._247.name=Berquélio-247
 item.berkelium._247_oxide.name=Óxido de Berquélio-247
@@ -632,7 +494,7 @@ item.berkelium._248.name=Berquélio-248
 item.berkelium._248_oxide.name=Óxido de Berquélio-248
 item.berkelium._248_tiny.name=Pequeno Amontoado de Berquélio-248
 item.berkelium._248_oxide_tiny.name=Pequeno Amontoado de Óxido de Berquélio-248
-item.berkelium.desc=Isótopo de Berquélio
+item.berkelium.desc=Um Isótopo de Berquélio.
 
 item.californium._249.name=Califórnio-249
 item.californium._249_oxide.name=Óxido de Califórnio-249
@@ -650,7 +512,7 @@ item.californium._252.name=Califórnio-252
 item.californium._252_oxide.name=Óxido de Califórnio-252
 item.californium._252_tiny.name=Pequeno Amontoado de Califórnio-252
 item.californium._252_oxide_tiny.name=Pequeno Amontoado de Óxido de Califórnio-252
-item.californium.desc=Isótopo de Califórnio
+item.californium.desc=Um Isótopo de Califórnio.
 
 item.fuel_thorium.tbu.name=Pastilha de Tório
 item.fuel_thorium.tbu_oxide.name=Pastilha de Óxido de Tório
@@ -774,10 +636,9 @@ item.fuel_rod_californium.lec_251_oxide.name=Haste de Combustível Óxido de LEC
 item.fuel_rod_californium.hec_251.name=Haste de Combustível HECf-251
 item.fuel_rod_californium.hec_251_oxide.name=Haste de Combustível Óxido de HECf-251
 
-item.fuel_rod.base_time.des0=Tempo de Processamento base:
-item.fuel_rod.base_time.des1=mins
-item.fuel_rod.base_power.des0=Energia base:
-item.fuel_rod.base_heat.des0=Geração de calor base:
+item.fuel_rod.base_time.desc=Tempo de Processamento base: %s min
+item.fuel_rod.base_power.desc=Energia base: %s RF/t
+item.fuel_rod.base_heat.desc=Geração de calor base: %s UC/t
 
 item.depleted_fuel_rod_thorium.tbu.name=Haste de Combustível TBU Esgotado
 item.depleted_fuel_rod_thorium.tbu_oxide.name=Haste de Combustível Óxido de TBU Esgotado
@@ -858,6 +719,7 @@ item.shovel_boron.name=Pá de Boro
 item.axe_boron.name=Machado de Boro
 item.hoe_boron.name=Enxada de Boro
 item.spaxelhoe_boron.name=Multiferramenta de Boro
+item.spaxelhoe_boron.desc=Uma ferramenta universal feita usando todas as ferramentas comuns de Boro.
 
 item.sword_tough.name=Espada de Liga Resistente
 item.pickaxe_tough.name=Picareta de Liga Resistente
@@ -865,6 +727,7 @@ item.shovel_tough.name=Pá de Liga Resistente
 item.axe_tough.name=Machado de Liga Resistente
 item.hoe_tough.name=Enxada de Liga Resistenteo
 item.spaxelhoe_tough.name=Multiferramenta de Liga Resistente
+item.spaxelhoe_tough.desc=Uma ferramenta universal feita usando todas as ferramentas comuns de Liga Resistente.
 
 item.sword_hard_carbon.name=Espada de Carbono Endurecido
 item.pickaxe_hard_carbon.name=Picareta de Carbono Endurecido
@@ -872,6 +735,7 @@ item.shovel_hard_carbon.name=Pá de Carbono Endurecido
 item.axe_hard_carbon.name=Machado de Carbono Endurecido
 item.hoe_hard_carbon.name=Enxada de Carbono Endurecido
 item.spaxelhoe_hard_carbon.name=Multiferramenta de Carbono Endurecido
+item.spaxelhoe_hard_carbon.desc=Uma ferramenta universal feita usando todas as ferramentas comuns de Carbono Endurecido.
 
 item.sword_boron_nitride.name=Espada de Nitrido de Boro
 item.pickaxe_boron_nitride.name=Picareta de Nitrido de Boro
@@ -879,6 +743,7 @@ item.shovel_boron_nitride.name=Pá de Nitrido de Boro
 item.axe_boron_nitride.name=Machado de Nitrido de Boro
 item.hoe_boron_nitride.name=Enxada de Nitrido de Boro
 item.spaxelhoe_boron_nitride.name=Multiferramenta de Nitrido de Boro
+item.spaxelhoe_boron_nitride.desc=Uma ferramenta universal feita usando todas as ferramentas comuns de Nitrido de Boro.
 
 item.helm_boron.name=Elmo de Boro
 item.chest_boron.name=Armadura de Boro
@@ -903,10 +768,10 @@ item.boots_boron_nitride.name=Botas de Nitrido de Boro
 item.reactor_door_item.name=Porta de Reator
 
 item.portable_ender_chest.name=Baú do End Portátil
-item.portable_ender_chest.des0=Acesse seu baú do end enquato se move
+item.portable_ender_chest.desc=Acesse seu baú do end enquanto se move.
 
 item.dominos.name=Biscoito de Pizza
-item.dominos.des0=O favorito do Paul - restaura 16 de saturação
+item.dominos.desc=O favorito do Paul - restaura 16 de saturação
 
 item.record_wanderer.name=Disco de Música
 item.record_wanderer.des0=Dion - O Vagante
@@ -916,7 +781,7 @@ item.record_end_of_the_world.des0=Skeeter Davis - O Fim do Mundo
 item.record_end_of_the_world.des1=Capa 8-Bit feita por 'GermanPikachuGaming'
 item.record_money_for_nothing.name=Disco de Música
 item.record_money_for_nothing.des0=Dire Straits - Money For Nothing
-item.record_money_for_nothing.des1=Capa 8-Bit feita por 'Omnigrad'
+item.record_money_for_nothing.des0=Capa 8-Bit feita por 'Omnigrad'
 
 itemGroup.nuclearcraftBaseBlockMaterials=Blocos Base NuclearCraft
 itemGroup.nuclearcraftBaseItemMaterials=Itens Base NuclearCraft
@@ -990,17 +855,17 @@ gui.config.generators.generator_update_rate.comment=Ticks para cada checagem de 
 gui.config.category.fission=Configuração de Fissão
 gui.config.category.fission.tooltip=Configura aspectos da fissão nuclear
 [
-gui.config.fission.fission_power=Power Gen Multiplier
-gui.config.fission.fission_power.comment=Modifies the power generated by fission reactors
-gui.config.fission.fission_fuel_use=Fuel Use Multiplier
-gui.config.fission.fission_fuel_use.comment=Modifies the rate of fuel used by fission reactors
-gui.config.fission.fission_heat_generation=Heat Gen Multiplier
-gui.config.fission.fission_heat_generation.comment=Modifies the heat generated by fission reactors
-gui.config.fission.fission_cooling_rate=Cooling Rates
-gui.config.fission.fission_cooling_rate.comment=Base heat removed per tick. Order: water, redstone, quartz, gold, glowstone, lapis, diamond, liquid helium, enderium, cryotheum
-gui.config.fission.fission_active_cooling_rate=Active Cooling Rates
-gui.config.fission.fission_active_cooling_rate.comment=Base heat removed per tick/mB. Order: water, redstone, glowstone, liquid helium, enderium, cryotheum
-gui.config.fission.fission_water_cooler_requirement=Water Cooler Requirement
+gui.config.fission.fission_power=Geração de Energia
+gui.config.fission.fission_power.comment=Modifica a energia gerada por reatores de fissão
+gui.config.fission.fission_fuel_use=Uso de Combustível
+gui.config.fission.fission_fuel_use.comment=Modifica a taxa de combustível usado por reatores de fissão
+gui.config.fission.fission_heat_generation=Geração de Calor
+gui.config.fission.fission_heat_generation.comment=Modifica o calor gerado por reatores de fisão
+gui.config.fission.fission_cooling_rate=Refrigeração
+gui.config.fission.fission_cooling_rate.comment=Valor base de calor que é removido por tick. Ordem: água, redstone, quartzo, ouro, pedra luminosa, lápis, diamante, hélio líquido, endério, crióteum.
+gui.config.fission.fission_active_cooling_rate=Taxas de Refrigeração Ativa
+gui.config.fission.fission_active_cooling_rate.comment=Calor base que é removido a cada tick/mB. Ordem: água, redstone, pedra luminosa, hélio líquido, endério, crióteum.
+gui.config.fission.fission_água_cooler_requirement=Water Cooler Requirement
 gui.config.fission.fission_water_cooler_requirement.comment=Do water coolers have to be adjacent to reactor casing?
 gui.config.fission.fission_overheat=Enable Meltdowns
 gui.config.fission.fission_overheat.comment=Can fission reactors overheat?
@@ -1075,10 +940,10 @@ gui.config.fission.fission_californium_power=Califórnio Power Gen
 gui.config.fission.fission_californium_power.comment=Base RF/t the fuels produce. Order: LECf-249, LECf-249 Oxide, HECf-249, HECf-249 Oxide, LECf-251, LECf-251 Oxide, HECf-251, HECf-251 Oxide
 gui.config.fission.fission_californium_heat_generation=Califórnio Heat Gen
 gui.config.fission.fission_californium_heat_generation.comment=Base heat the fuels produce. Order: LECf-249, LECf-249 Oxide, HECf-249, HECf-249 Oxide, LECf-251, LECf-251 Oxide, HECf-251, HECf-251 Oxide
-]
+
 gui.config.category.fusion=Configuração da Fusão
 gui.config.category.fusion.tooltip=Configura aspectos da fusão nuclear
-[
+
 gui.config.fusion.fusion_base_power=Multiplicador de geração de energia
 gui.config.fusion.fusion_base_power.comment=Modifica a energia gerada por reatores de fusão
 gui.config.fusion.fusion_fuel_use=Multiplicador de uso de combustível
@@ -1106,24 +971,24 @@ gui.config.fusion.fusion_heat_variable=Variáveis de aquecimento das combinaçõ
 gui.config.fusion.fusion_heat_variable.comment=Variávei de aquecimento que determinam a curva de eficiência das combinações dos combustíveis de fusão - Grosseiramente proporcional às temperaturas ideais. Ordem: H-H, H-D, H-T, H-He3, H-Li6, H-Li7, H-B11, D-D, D-T, D-He3, ..., D-B11, T-T, ..., T-B11, ..., B11-B11
 gui.config.fusion.fusion_electromagnet_power=Energia dos eletroímãs
 gui.config.fusion.fusion_electromagnet_power.comment=RF/s necessário para manter um eletroímã ativo
-]
+
 gui.config.category.accelerator=Configurações da aceleração
 gui.config.category.accelerator.tooltip=Configura aspectos da aceleração de partículas
-[
+
 gui.config.accelerator.accelerator_electromagnet_power=Energia do eletroímã supercondutor
 gui.config.accelerator.accelerator_electromagnet_power.comment=RF/s necessária para manter um eletroímã supercondutor funcionando
 gui.config.accelerator.accelerator_supercooler_coolant=Líquido do Superresfriador Supercondutor
 gui.config.accelerator.accelerator_supercooler_coolant.comment=mB/s de hélio líquido para manter um Superresfriador Supercondutor ativo
-]
+
 gui.config.category.energy_storage=Configurações do Armazenamento de Energia
 gui.config.category.energy_storage.tooltip=Configura o Armazenamento de Energia
-[
+
 gui.config.energy_storage.battery_capacity=Capacidades das baterias
 gui.config.energy_storage.battery_capacity.comment=Máximo de RF armazenável. Ordem: Pilha voltáica, Bateria de Íon de Lítio
-]
+
 gui.config.category.tools=Configurações das Ferramentas
 gui.config.category.tools.tooltip=Configura as ferramentas
-[
+
 gui.config.tools.tool_mining_level=Mining Levels
 gui.config.tools.tool_mining_level.comment=Mining levels (wood = 0, stone = 1, etc.). Order: boron, boron spaxelhoe, tough alloy, tough alloy spaxelhoe, hard carbon, hard carbon spaxelhoe, boron nitride, boron nitride spaxelhoe
 gui.config.tools.tool_durability=Durabilities
@@ -1134,10 +999,10 @@ gui.config.tools.tool_attack_damage=Attack damages
 gui.config.tools.tool_attack_damage.comment=Related to the damage done per hit (wood = 0.0, stone = 1.0, etc.). Order: boron, boron spaxelhoe, tough alloy, tough alloy spaxelhoe, hard carbon, hard carbon spaxelhoe, boron nitride, boron nitride spaxelhoe
 gui.config.tools.tool_enchantability=Enchantabilities
 gui.config.tools.tool_enchantability.comment=Determines the quality of applied enchantments. Order: boron, boron spaxelhoe, tough alloy, tough alloy spaxelhoe, hard carbon, hard carbon spaxelhoe, boron nitride, boron nitride spaxelhoe
-]
+
 gui.config.category.armor=Configurações das Armaduras
 gui.config.category.armor.tooltip=Configura as Armaduras
-[
+
 gui.config.armor.armor_durability=Durabilities
 gui.config.armor.armor_durability.comment=Durabilities of armor types. Order: boron, tough alloy, hard carbon, boron nitride
 gui.config.armor.armor_boron=Boron Armor Protection
@@ -1152,13 +1017,13 @@ gui.config.armor.armor_enchantability=Enchantabilities
 gui.config.armor.armor_enchantability.comment=Determines the quality of applied enchantments. Order: boron, tough alloy, hard carbon, boron nitride
 gui.config.armor.armor_toughness=Toughnesses
 gui.config.armor.armor_toughness.comment=Toughnesses of armor types. Order: boron, tough alloy, hard carbon, boron nitride
-]
+
 gui.config.category.other=Outras Configurações
 gui.config.category.other.tooltip=Configurações Aleatórias
-[
+
 gui.config.other.rare_drops=Habilitar Drops Raros
 gui.config.other.rare_drops.comment=Mobs devem dropar itens raros?
-]
+
 gui.container.fission_controller.reactor=Reator de Fissão
 gui.container.fission_controller.casing_incomplete=Estrutura Incompleta
 gui.container.fission_controller.casing_incomplete_at=Estrutura incompleta em
@@ -1196,9 +1061,9 @@ gui.container.fusion_core.ring_incomplete_at=Anel incompleto em
 gui.container.fusion_core.ring_blocked=Interior do anel bloqueado
 gui.container.fusion_core.power_issue=Ímãs não energizados
 gui.container.fusion_core.incorrect_structure=Estrutura inválida
-gui.container.fusion_core.size=Tamanho do Toróidee:
+gui.container.fusion_core.size=Tamanho do Toróide:
 gui.container.fusion_core.energy=Energia:
-gui.container.fusion_core.power=Sendo Gerado:
+gui.container.fusion_core.power=Gerando:
 gui.container.fusion_core.heat=Calor:
 gui.container.fusion_core.temperature=Temperatura:
 gui.container.fusion_core.efficiency=Eficiência:
