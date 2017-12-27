@@ -45,7 +45,7 @@ tile.cooler.redstone.name=Resfriador à Redstone
 tile.cooler.redstone.desc=Deve tocar ao menos uma célula de reator.
 
 tile.cooler.quartz.name=Resfriador à Quartzo
-tile.cooler.quartz.desc=Deve tocar ao menos bloco de grafite ativo.
+tile.cooler.quartz.desc=Deve tocar ao menos um bloco de grafite ativo.
 
 tile.cooler.gold.name=Resfriador à Ouro
 tile.cooler.gold.desc=Deve tocar ao menos um resfriador à água ativo, e um resfriador à redstone.
@@ -102,7 +102,7 @@ tile.infuser_idle.name=Infusor de Fluidos
 tile.infuser_idle.desc=Melhora materiais usando fluidos. Aceita energia de MV do IC2.
 tile.infuser_active.name=Infusor de Fluidos
 
-tile.melter_idle.name=Fundção
+tile.melter_idle.name=Fundição
 tile.melter_idle.desc=Derrete materiais. Aceita energia de MV do IC2.
 tile.melter_active.name=Fundição
 
@@ -374,7 +374,7 @@ item.gem_dust.obsidian.name=Obsidiana Moída
 item.gem_dust.boron_nitride.name=Nitrido de Boro Amorfo
 item.gem_dust.fluorite.name=Fluorita Moída
 item.gem_dust.sulfur.name=Enxofre
-item.gem_dust.sulfur.desc=Obtida ao minerar blocos de Minério de Carvão.
+item.gem_dust.sulfur.desc=Obtido ao minerar blocos de Minério de Carvão.
 
 item.alloy.bronze.name=Liga de Bronze
 item.alloy.tough.name=Liga Resistente
@@ -781,7 +781,7 @@ item.record_end_of_the_world.des0=Skeeter Davis - O Fim do Mundo
 item.record_end_of_the_world.des1=Capa 8-Bit feita por 'GermanPikachuGaming'
 item.record_money_for_nothing.name=Disco de Música
 item.record_money_for_nothing.des0=Dire Straits - Money For Nothing
-item.record_money_for_nothing.des0=Capa 8-Bit feita por 'Omnigrad'
+item.record_money_for_nothing.des1=Capa 8-Bit feita por 'Omnigrad'
 
 itemGroup.nuclearcraftBaseBlockMaterials=Blocos Base NuclearCraft
 itemGroup.nuclearcraftBaseItemMaterials=Itens Base NuclearCraft
