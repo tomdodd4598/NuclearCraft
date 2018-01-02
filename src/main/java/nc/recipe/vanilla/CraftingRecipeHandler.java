@@ -51,8 +51,16 @@ public class CraftingRecipeHandler {
 		addShapedOreRecipe(NCItems.reactor_door, new Object[] {"CC", "CC", "CC", 'C', new ItemStack(NCBlocks.fission_block, 1, 0)});
 		addShapedOreRecipe(NCBlocks.reactor_trapdoor, new Object[] {"CCC", "CCC", 'C', new ItemStack(NCBlocks.fission_block, 1, 0)});
 		
+		blockCompress(NCBlocks.block_depleted_americium, "ingotAmericium243");
+		blockCompress(NCBlocks.block_depleted_californium, "ingotCalifornium252");
+		blockCompress(NCBlocks.block_depleted_plutonium, "ingotPlutonium242");
+		blockCompress(NCBlocks.block_depleted_neptunium, "ingotNeptunium237");
 		blockCompress(NCBlocks.block_depleted_thorium, "ingotThorium230");
 		blockCompress(NCBlocks.block_depleted_uranium, "ingotUranium238");
+		blockOpen(NCItems.americium, 3, NCBlocks.block_depleted_americium);
+		blockOpen(NCItems.californium, 1, NCBlocks.block_depleted_californium);
+		blockOpen(NCItems.plutonium, 2, NCBlocks.block_depleted_plutonium);
+		blockOpen(NCItems.neptunium, 7, NCBlocks.block_depleted_neptunium);
 		blockOpen(NCItems.thorium, 0, NCBlocks.block_depleted_thorium);
 		blockOpen(NCItems.uranium, 8, NCBlocks.block_depleted_uranium);
 		
