@@ -58,8 +58,13 @@ public class CraftingRecipeHandler {
 		addShapedOreRecipe(NCItems.reactor_door, new Object[] {"CC", "CC", "CC", 'C', new ItemStack(NCBlocks.fission_block, 1, 0)});
 		addShapedOreRecipe(NCBlocks.reactor_trapdoor, new Object[] {"CCC", "CCC", 'C', new ItemStack(NCBlocks.fission_block, 1, 0)});
 		
+		blockCompress(NCBlocks.block_depleted_americium, "ingotAmericium243");
+		blockCompress(NCBlocks.block_depleted_californium, "ingotCalifornium252");
+		blockCompress(NCBlocks.block_depleted_plutonium, "ingotPlutonium242");
+		blockCompress(NCBlocks.block_depleted_neptunium, "ingotNeptunium237");
 		blockCompress(NCBlocks.block_depleted_thorium, "ingotThorium230");
 		blockCompress(NCBlocks.block_depleted_uranium, "ingotUranium238");
+<<<<<<< HEAD
 		blockCompress(NCBlocks.block_depleted_neptunium, "ingotNeptunium237");
 		blockCompress(NCBlocks.block_depleted_plutonium, "ingotPlutonium242");
 		blockCompress(NCBlocks.block_depleted_americium, "ingotAmericium243");
@@ -75,6 +80,14 @@ public class CraftingRecipeHandler {
 		blockOpen(NCItems.curium, 8, "blockDepletedCurium");
 		blockOpen(NCItems.berkelium, 0, "blockDepletedBerkelium");
 		blockOpen(NCItems.californium, 12, "blockDepletedCalifornium");
+=======
+		blockOpen(NCItems.americium, 3, NCBlocks.block_depleted_americium);
+		blockOpen(NCItems.californium, 1, NCBlocks.block_depleted_californium);
+		blockOpen(NCItems.plutonium, 2, NCBlocks.block_depleted_plutonium);
+		blockOpen(NCItems.neptunium, 7, NCBlocks.block_depleted_neptunium);
+		blockOpen(NCItems.thorium, 0, NCBlocks.block_depleted_thorium);
+		blockOpen(NCItems.uranium, 8, NCBlocks.block_depleted_uranium);
+>>>>>>> d265e14794a82d25c9ea33c4664cc0299be2b5d2
 		
 		addShapedOreRecipe(NCBlocks.nuclear_furnace_idle, new Object[] {"PTP", "TFT", "PTP", 'T', "ingotTough", 'P', "plateBasic", 'F', Blocks.FURNACE});
 		
