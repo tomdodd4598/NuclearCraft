@@ -13,7 +13,7 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 //Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 
 
-version = "2.7--1.12.2"
+version = "2.8--1.12.2"
 group = "nc"
 archivesBaseName = "NuclearCraft"
 
@@ -48,6 +48,10 @@ repositories {
 		// CraftTweaker
         url 'http://maven.blamejared.com/'
     }
+	maven {
+		// OpenComputers
+        url 'http://maven.cil.li/'
+    }
 }
 
 dependencies {
@@ -65,8 +69,10 @@ dependencies {
 	//compile files('libs/jei_1.12.2-4.8.5.134-api.jar')
 	//compile files('libs/ZenScript-4.0.10.302.jar')
 	//compile files('libs/CraftTweaker2-API-4.0.10.302.jar')
+	//compile files('libs/ComputerCraft1.80pr1.jar')
+	//compile files('libs/OpenComputers-MC1.12.1-1.7.1.43.jar')
 	
-	deobfCompile "net.darkhax.tesla:Tesla-1.12:${tesla_version}.+"
+	deobfCompile "net.darkhax.tesla:Tesla-1.12.2:${tesla_version}.+"
 	
 	// compile against the JEI API
 	deobfCompile "mezz.jei:jei_${mc_version}:${jei_version}:api"
@@ -75,6 +81,8 @@ dependencies {
 	
 	deobfCompile "CraftTweaker2:ZenScript:${craftTweaker_version}.+"
 	deobfCompile "CraftTweaker2:CraftTweaker2-API:${craftTweaker_version}.+"
+	
+	//compile "li.cil.oc:OpenComputers:MC1.12.1-${openComputers_version}.+:api"
 
     // the 'provided' configuration is for optional dependencies that exist at compile-time but might not at runtime.
     //provided 'com.mod-buildcraft:buildcraft:6.0.8:dev'

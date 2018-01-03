@@ -12,7 +12,6 @@ import nc.recipe.SorptionType;
 import nc.tile.IGui;
 import nc.tile.dummy.IInterfaceable;
 import nc.tile.energy.TileEnergySidedInventory;
-import nc.util.NCUtil;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
@@ -57,6 +56,7 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 		bottomSlots = bottomSlots1;
 	}
 	
+	@Override
 	public void update() {
 		super.update();
 		updateGenerator();
@@ -84,7 +84,7 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 				flag1 = true;
 				if (NCConfig.update_block_type) {
 					removeTileFromENet();
-					setBlockState();
+					setState(isGenerating);
 					world.notifyNeighborsOfStateChange(pos, blockType, true);
 					addTileToENet();
 				}
@@ -99,20 +99,15 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 		}
 	}
 	
-	public abstract void setBlockState();
-	
 	public void tick() {
-		if (tickCount > NCConfig.generator_update_rate) {
-			tickCount = 0;
-		} else {
-			tickCount++;
-		}
+		if (tickCount > NCConfig.generator_update_rate) tickCount = 0; else tickCount++;
 	}
 	
 	public boolean shouldCheck() {
 		return tickCount > NCConfig.generator_update_rate;
 	}
 	
+	@Override
 	public void onAdded() {
 		super.onAdded();
 		if (!world.isRemote) isGenerating = isGenerating();
@@ -189,7 +184,7 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 		IRecipe recipe = getRecipe(false);
 		Object[] outputs = outputs();
 		int[] inputOrder = inputOrder();
-		if (outputs == null || inputOrder == NCUtil.INVALID) return;
+		if (outputs == null || inputOrder == RecipeMethods.INVALID) return;
 		if (!hasConsumed) {
 			for (int i = 0; i < inputSize; i++) {
 				if (!inventoryStacks.get(i + inputSize + outputSize + otherSlotsSize).isEmpty()) {
@@ -263,7 +258,7 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 					break;
 				}
 			}
-			if (inputOrder[i] == -1) return NCUtil.INVALID;
+			if (inputOrder[i] == -1) return RecipeMethods.INVALID;
 		}
 		return inputOrder;
 	}
@@ -283,28 +278,33 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 	
 	// Inventory
 	
+	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {
 		if (stack == ItemStack.EMPTY) return false;
 		else if (slot >= inputSize && slot < inputSize + outputSize) return false;
-		return recipes.isValidManualInput(stack);
+		return NCConfig.smart_processor_input ? recipes.isValidInput(stack, inputs()) : recipes.isValidInput(stack);
 	}
 	
 	// SidedInventory
 	
+	@Override
 	public int[] getSlotsForFace(EnumFacing side) {
 		return side == EnumFacing.DOWN ? bottomSlots : (side == EnumFacing.UP ? topSlots : sideSlots);
 	}
 
+	@Override
 	public boolean canInsertItem(int slot, ItemStack stack, EnumFacing direction) {
 		return isItemValidForSlot(slot, stack) && direction != EnumFacing.DOWN;
 	}
 
+	@Override
 	public boolean canExtractItem(int slot, ItemStack stack, EnumFacing direction) {
 		return direction != EnumFacing.UP && slot >= inputSize && slot < inputSize + outputSize;
 	}
 		
 	// NBT
 	
+	@Override
 	public NBTTagCompound writeAll(NBTTagCompound nbt) {
 		super.writeAll(nbt);
 		nbt.setInteger("time", time);
@@ -313,6 +313,7 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 		return nbt;
 	}
 		
+	@Override
 	public void readAll(NBTTagCompound nbt) {
 		super.readAll(nbt);
 		time = nbt.getInteger("time");
@@ -322,10 +323,12 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 	
 	// Inventory Fields
 
+	@Override
 	public int getFieldCount() {
 		return 2;
 	}
 
+	@Override
 	public int getField(int id) {
 		switch (id) {
 		case 0:
@@ -337,6 +340,7 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 		}
 	}
 
+	@Override
 	public void setField(int id, int value) {
 		switch (id) {
 		case 0:

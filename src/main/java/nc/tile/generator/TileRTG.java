@@ -6,6 +6,7 @@ public abstract class TileRTG extends TilePassiveGenerator {
 		super(power);
 	}
 	
+	@Override
 	public int getGenerated() {
 		return power;
 	}

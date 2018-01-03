@@ -35,6 +35,7 @@ public class ContainerNuclearFurnace extends ContainerTile {
 	}
 	
 	/** Looks for changes made in the container, sends them to every listener */
+	@Override
 	public void detectAndSendChanges() {
 		super.detectAndSendChanges();
 		
@@ -64,6 +65,7 @@ public class ContainerNuclearFurnace extends ContainerTile {
 		totalCookTime = tile.getField(3);
 	}
 
+	@Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int index) {
 		ItemStack itemstack = ItemStack.EMPTY;
 		Slot slot = (Slot)inventorySlots.get(index);

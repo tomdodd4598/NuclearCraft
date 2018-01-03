@@ -19,6 +19,7 @@ public class BlockFluidAcid extends BlockFluid {
 		super(fluid, name, Material.WATER);
 	}
 	
+	@Override
 	public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
 		entityIn.attackEntityFrom(acid_burn, 3.0F);
 		if (entityIn instanceof EntityLivingBase) {

@@ -17,6 +17,7 @@ public class CrystallizerCategory extends BaseCategory {
 		super(guiHelper, handler, "crystallizer_idle", NCConfig.processor_time[14], 47, 30, 90, 26, 176, 3, 37, 16, 74, 35);
 	}
 	
+	@Override
 	public void setRecipe(IRecipeLayout recipeLayout, IRecipeWrapper recipeWrapper, IIngredients ingredients) {
 		RecipeItemMapper itemMapper = new RecipeItemMapper();
 		RecipeFluidMapper fluidMapper = new RecipeFluidMapper();

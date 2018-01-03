@@ -8,16 +8,11 @@ import net.minecraft.item.ItemStack;
 
 public class InfuserRecipes extends BaseRecipeHandler {
 	
-	//private static final InfuserRecipes RECIPES = new InfuserRecipes();
-	
 	public InfuserRecipes() {
 		super(1, 1, 1, 0, false);
 	}
 
-	/*public static final InfuserRecipes instance() {
-		return RECIPES;
-	}*/
-
+	@Override
 	public void addRecipes() {
 		oxidize("ingotThorium", 1000);
 		oxidize("ingotUranium", 1000);
@@ -93,10 +88,10 @@ public class InfuserRecipes extends BaseRecipeHandler {
 		oxidizeFuel("LECf251");
 		oxidizeFuel("HECf251");
 		
-		addRecipe(Blocks.ICE, fluidStack("liquidhelium", 40), NCBlocks.block_ice, NCConfig.processor_time[5]/10);
-		addRecipe(Blocks.FROSTED_ICE, fluidStack("liquidhelium", 40), NCBlocks.block_ice, NCConfig.processor_time[5]/10);
-		addRecipe(Blocks.PACKED_ICE, fluidStack("liquidhelium", 40), NCBlocks.block_ice, NCConfig.processor_time[5]/10);
-		addRecipe(new ItemStack(NCBlocks.cooler, 1, 0), fluidStack("liquidhelium", 1000), new ItemStack(NCBlocks.cooler, 1, 8), NCConfig.processor_time[5]);
+		addRecipe(Blocks.ICE, fluidStack("liquidhelium", 50), NCBlocks.block_ice, NCConfig.processor_time[5]/10);
+		addRecipe(Blocks.PACKED_ICE, fluidStack("liquidhelium", 50), NCBlocks.block_ice, NCConfig.processor_time[5]/10);
+		addRecipe(new ItemStack(NCBlocks.cooler, 1, 0), fluidStack("liquidhelium", 1000), new ItemStack(NCBlocks.cooler, 1, 8), NCConfig.processor_time[5]*2);
+		addRecipe(new ItemStack(NCBlocks.cooler, 1, 0), fluidStack("water", 1000), new ItemStack(NCBlocks.cooler, 1, 1), NCConfig.processor_time[5]*2);
 	}
 	
 	public void oxidize(String name, int oxygen) {
@@ -119,6 +114,7 @@ public class InfuserRecipes extends BaseRecipeHandler {
 		addRecipe("depletedFuelRod" + name, fluidStack("oxygen", 3000), "depletedFuelRod" + name + "Oxide", NCConfig.processor_time[5]*4);
 	}
 
+	@Override
 	public String getRecipeName() {
 		return "infuser";
 	}

@@ -66,13 +66,13 @@ public class CommonProxy {
 		NCTools.register();
 		NCArmor.register();
 		
-		OreDictHandler.registerOres();
-		
 		NCTiles.register();
+		
+		OreDictHandler.registerOres();
 		
 		PacketHandler.registerMessages(Global.MOD_ID);
 		
-		//AchievementHandler.registerAchievements();
+		//AdvancementHandler.registerAdvancements();
 	}
 
 	public void init(FMLInitializationEvent event) {
@@ -85,7 +85,7 @@ public class CommonProxy {
 		GameRegistry.registerFuelHandler(new FurnaceFuelHandler());
 		
 		GameRegistry.registerWorldGenerator(new OreGen(), 0);
-		GameRegistry.registerWorldGenerator(new DecorGen(), 50);
+		GameRegistry.registerWorldGenerator(new DecorGen(), 100);
 	}
 
 	public void postInit(FMLPostInitializationEvent postEvent) {

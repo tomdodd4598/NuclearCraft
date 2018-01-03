@@ -35,6 +35,7 @@ public class RecipeOreStack implements IIngredient, IRecipeStack {
 		this.stackSize = stackSize;
 	}
 
+	@Override
 	public Object getIngredient() {
 		if (isFluid) {
 			//if (cachedFluidRegister.size() < 1) return cachedFluidRegister;
@@ -48,6 +49,7 @@ public class RecipeOreStack implements IIngredient, IRecipeStack {
 		return item;
 	}
 
+	@Override
 	public Object getOutputStack() {
 		Object stack = isFluid ? cachedFluidRegister.get(0).copy() : cachedItemRegister.get(0).copy();
 		if (isFluid) {
@@ -60,6 +62,7 @@ public class RecipeOreStack implements IIngredient, IRecipeStack {
 		return itemstack;
 	}
 
+	@Override
 	public boolean matches(Object object, SorptionType type) {
 		if (object instanceof RecipeOreStack) {
 			RecipeOreStack oreStack = (RecipeOreStack)object;
@@ -84,10 +87,12 @@ public class RecipeOreStack implements IIngredient, IRecipeStack {
 		return false;
 	}
 
+	@Override
 	public int getStackSize() {
 		return stackSize;
 	}
 
+	@Override
 	public List<Object> getIngredientList() {
 		if (isFluid) {
 			List<Object> fluidCollection = new ArrayList<Object>();

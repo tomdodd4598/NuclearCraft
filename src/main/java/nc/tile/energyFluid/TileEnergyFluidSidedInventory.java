@@ -16,84 +16,87 @@ public abstract class TileEnergyFluidSidedInventory extends TileEnergyFluidInven
 	public int[] sideSlots;
 	public int[] bottomSlots;
 	
-	public TileEnergyFluidSidedInventory(String name, int size, int capacity, EnergyConnection connection, int fluidCapacity, FluidConnection fluidConnection, String[]... allowedFluids) {
-		super(name, size, capacity, capacity, capacity, connection, fluidCapacity, fluidCapacity, fluidCapacity, fluidConnection, allowedFluids);
+	public TileEnergyFluidSidedInventory(String name, int size, int capacity, EnergyConnection energyConnection, int fluidCapacity, FluidConnection fluidConnection, String[]... allowedFluids) {
+		super(name, size, capacity, capacity, capacity, energyConnection, fluidCapacity, fluidCapacity, fluidCapacity, fluidConnection, allowedFluids);
 	}
 	
-	public TileEnergyFluidSidedInventory(String name, int size, int capacity, EnergyConnection connection, int[] fluidCapacity, FluidConnection[] fluidConnection, String[]... allowedFluids) {
-		super(name, size, capacity, capacity, capacity, connection, fluidCapacity, fluidCapacity, fluidCapacity, fluidConnection, allowedFluids);
+	public TileEnergyFluidSidedInventory(String name, int size, int capacity, EnergyConnection energyConnection, int[] fluidCapacity, FluidConnection[] fluidConnection, String[]... allowedFluids) {
+		super(name, size, capacity, capacity, capacity, energyConnection, fluidCapacity, fluidCapacity, fluidCapacity, fluidConnection, allowedFluids);
 	}
 	
-	public TileEnergyFluidSidedInventory(String name, int size, int capacity, EnergyConnection connection, int fluidCapacity, int maxFluidTransfer, FluidConnection fluidConnection, String[]... allowedFluids) {
-		super(name, size, capacity, capacity, capacity, connection, fluidCapacity, maxFluidTransfer, maxFluidTransfer, fluidConnection, allowedFluids);
+	public TileEnergyFluidSidedInventory(String name, int size, int capacity, EnergyConnection energyConnection, int fluidCapacity, int maxFluidTransfer, FluidConnection fluidConnection, String[]... allowedFluids) {
+		super(name, size, capacity, capacity, capacity, energyConnection, fluidCapacity, maxFluidTransfer, maxFluidTransfer, fluidConnection, allowedFluids);
 	}
 	
-	public TileEnergyFluidSidedInventory(String name, int size, int capacity, EnergyConnection connection, int[] fluidCapacity, int[] maxFluidTransfer, FluidConnection[] fluidConnection, String[]... allowedFluids) {
-		super(name, size, capacity, capacity, capacity, connection, fluidCapacity, maxFluidTransfer, maxFluidTransfer, fluidConnection, allowedFluids);
+	public TileEnergyFluidSidedInventory(String name, int size, int capacity, EnergyConnection energyConnection, int[] fluidCapacity, int[] maxFluidTransfer, FluidConnection[] fluidConnection, String[]... allowedFluids) {
+		super(name, size, capacity, capacity, capacity, energyConnection, fluidCapacity, maxFluidTransfer, maxFluidTransfer, fluidConnection, allowedFluids);
 	}
 	
-	public TileEnergyFluidSidedInventory(String name, int size, int capacity, EnergyConnection connection, int fluidCapacity, int maxFluidReceive, int maxFluidExtract, FluidConnection fluidConnection, String[]... allowedFluids) {
-		super(name, size, capacity, capacity, capacity, connection, fluidCapacity, maxFluidReceive, maxFluidExtract, fluidConnection, allowedFluids);
+	public TileEnergyFluidSidedInventory(String name, int size, int capacity, EnergyConnection energyConnection, int fluidCapacity, int maxFluidReceive, int maxFluidExtract, FluidConnection fluidConnection, String[]... allowedFluids) {
+		super(name, size, capacity, capacity, capacity, energyConnection, fluidCapacity, maxFluidReceive, maxFluidExtract, fluidConnection, allowedFluids);
 	}
 	
-	public TileEnergyFluidSidedInventory(String name, int size, int capacity, EnergyConnection connection, int[] fluidCapacity, int[] maxFluidReceive, int[] maxFluidExtract, FluidConnection[] fluidConnection, String[]... allowedFluids) {
-		super(name, size, capacity, capacity, capacity, connection, fluidCapacity, maxFluidReceive, maxFluidExtract, fluidConnection, allowedFluids);
+	public TileEnergyFluidSidedInventory(String name, int size, int capacity, EnergyConnection energyConnection, int[] fluidCapacity, int[] maxFluidReceive, int[] maxFluidExtract, FluidConnection[] fluidConnection, String[]... allowedFluids) {
+		super(name, size, capacity, capacity, capacity, energyConnection, fluidCapacity, maxFluidReceive, maxFluidExtract, fluidConnection, allowedFluids);
 	}
 	
-	public TileEnergyFluidSidedInventory(String name, int size, int capacity, int maxTransfer, EnergyConnection connection, int fluidCapacity, FluidConnection fluidConnection, String[]... allowedFluids) {
-		super(name, size, capacity, maxTransfer, maxTransfer, connection, fluidCapacity, fluidCapacity, fluidCapacity, fluidConnection, allowedFluids);
+	public TileEnergyFluidSidedInventory(String name, int size, int capacity, int maxTransfer, EnergyConnection energyConnection, int fluidCapacity, FluidConnection fluidConnection, String[]... allowedFluids) {
+		super(name, size, capacity, maxTransfer, maxTransfer, energyConnection, fluidCapacity, fluidCapacity, fluidCapacity, fluidConnection, allowedFluids);
 	}
 	
-	public TileEnergyFluidSidedInventory(String name, int size, int capacity, int maxTransfer, EnergyConnection connection, int[] fluidCapacity, FluidConnection[] fluidConnection, String[]... allowedFluids) {
-		super(name, size, capacity, maxTransfer, maxTransfer, connection, fluidCapacity, fluidCapacity, fluidCapacity, fluidConnection, allowedFluids);
+	public TileEnergyFluidSidedInventory(String name, int size, int capacity, int maxTransfer, EnergyConnection energyConnection, int[] fluidCapacity, FluidConnection[] fluidConnection, String[]... allowedFluids) {
+		super(name, size, capacity, maxTransfer, maxTransfer, energyConnection, fluidCapacity, fluidCapacity, fluidCapacity, fluidConnection, allowedFluids);
 	}
 	
-	public TileEnergyFluidSidedInventory(String name, int size, int capacity, int maxTransfer, EnergyConnection connection, int fluidCapacity, int maxFluidTransfer, FluidConnection fluidConnection, String[]... allowedFluids) {
-		super(name, size, capacity, maxTransfer, maxTransfer, connection, fluidCapacity, maxFluidTransfer, maxFluidTransfer, fluidConnection, allowedFluids);
+	public TileEnergyFluidSidedInventory(String name, int size, int capacity, int maxTransfer, EnergyConnection energyConnection, int fluidCapacity, int maxFluidTransfer, FluidConnection fluidConnection, String[]... allowedFluids) {
+		super(name, size, capacity, maxTransfer, maxTransfer, energyConnection, fluidCapacity, maxFluidTransfer, maxFluidTransfer, fluidConnection, allowedFluids);
 	}
 	
-	public TileEnergyFluidSidedInventory(String name, int size, int capacity, int maxTransfer, EnergyConnection connection, int[] fluidCapacity, int[] maxFluidTransfer, FluidConnection[] fluidConnection, String[]... allowedFluids) {
-		super(name, size, capacity, maxTransfer, maxTransfer, connection, fluidCapacity, maxFluidTransfer, maxFluidTransfer, fluidConnection, allowedFluids);
+	public TileEnergyFluidSidedInventory(String name, int size, int capacity, int maxTransfer, EnergyConnection energyConnection, int[] fluidCapacity, int[] maxFluidTransfer, FluidConnection[] fluidConnection, String[]... allowedFluids) {
+		super(name, size, capacity, maxTransfer, maxTransfer, energyConnection, fluidCapacity, maxFluidTransfer, maxFluidTransfer, fluidConnection, allowedFluids);
 	}
 	
-	public TileEnergyFluidSidedInventory(String name, int size, int capacity, int maxTransfer, EnergyConnection connection, int fluidCapacity, int maxFluidReceive, int maxFluidExtract, FluidConnection fluidConnection, String[]... allowedFluids) {
-		super(name, size, capacity, maxTransfer, maxTransfer, connection, fluidCapacity, maxFluidReceive, maxFluidExtract, fluidConnection, allowedFluids);
+	public TileEnergyFluidSidedInventory(String name, int size, int capacity, int maxTransfer, EnergyConnection energyConnection, int fluidCapacity, int maxFluidReceive, int maxFluidExtract, FluidConnection fluidConnection, String[]... allowedFluids) {
+		super(name, size, capacity, maxTransfer, maxTransfer, energyConnection, fluidCapacity, maxFluidReceive, maxFluidExtract, fluidConnection, allowedFluids);
 	}
 	
-	public TileEnergyFluidSidedInventory(String name, int size, int capacity, int maxTransfer, EnergyConnection connection, int[] fluidCapacity, int[] maxFluidReceive, int[] maxFluidExtract, FluidConnection[] fluidConnection, String[]... allowedFluids) {
-		super(name, size, capacity, maxTransfer, maxTransfer, connection, fluidCapacity, maxFluidReceive, maxFluidExtract, fluidConnection, allowedFluids);
+	public TileEnergyFluidSidedInventory(String name, int size, int capacity, int maxTransfer, EnergyConnection energyConnection, int[] fluidCapacity, int[] maxFluidReceive, int[] maxFluidExtract, FluidConnection[] fluidConnection, String[]... allowedFluids) {
+		super(name, size, capacity, maxTransfer, maxTransfer, energyConnection, fluidCapacity, maxFluidReceive, maxFluidExtract, fluidConnection, allowedFluids);
 	}
 	
-	public TileEnergyFluidSidedInventory(String name, int size, int capacity, int maxReceive, int maxExtract, EnergyConnection connection, int fluidCapacity, FluidConnection fluidConnection, String[]... allowedFluids) {
-		super(name, size, capacity, maxReceive, maxExtract, connection, fluidCapacity, fluidCapacity, fluidCapacity, fluidConnection, allowedFluids);
+	public TileEnergyFluidSidedInventory(String name, int size, int capacity, int maxReceive, int maxExtract, EnergyConnection energyConnection, int fluidCapacity, FluidConnection fluidConnection, String[]... allowedFluids) {
+		super(name, size, capacity, maxReceive, maxExtract, energyConnection, fluidCapacity, fluidCapacity, fluidCapacity, fluidConnection, allowedFluids);
 	}
 	
-	public TileEnergyFluidSidedInventory(String name, int size, int capacity, int maxReceive, int maxExtract, EnergyConnection connection, int[] fluidCapacity, FluidConnection[] fluidConnection, String[]... allowedFluids) {
-		super(name, size, capacity, maxReceive, maxExtract, connection, fluidCapacity, fluidCapacity, fluidCapacity, fluidConnection, allowedFluids);
+	public TileEnergyFluidSidedInventory(String name, int size, int capacity, int maxReceive, int maxExtract, EnergyConnection energyConnection, int[] fluidCapacity, FluidConnection[] fluidConnection, String[]... allowedFluids) {
+		super(name, size, capacity, maxReceive, maxExtract, energyConnection, fluidCapacity, fluidCapacity, fluidCapacity, fluidConnection, allowedFluids);
 	}
 	
-	public TileEnergyFluidSidedInventory(String name, int size, int capacity, int maxReceive, int maxExtract, EnergyConnection connection, int fluidCapacity, int maxFluidTransfer, FluidConnection fluidConnection, String[]... allowedFluids) {
-		super(name, size, capacity, maxReceive, maxExtract, connection, fluidCapacity, maxFluidTransfer, maxFluidTransfer, fluidConnection, allowedFluids);
+	public TileEnergyFluidSidedInventory(String name, int size, int capacity, int maxReceive, int maxExtract, EnergyConnection energyConnection, int fluidCapacity, int maxFluidTransfer, FluidConnection fluidConnection, String[]... allowedFluids) {
+		super(name, size, capacity, maxReceive, maxExtract, energyConnection, fluidCapacity, maxFluidTransfer, maxFluidTransfer, fluidConnection, allowedFluids);
 	}
 	
-	public TileEnergyFluidSidedInventory(String name, int size, int capacity, int maxReceive, int maxExtract, EnergyConnection connection, int[] fluidCapacity, int[] maxFluidTransfer, FluidConnection[] fluidConnection, String[]... allowedFluids) {
-		super(name, size, capacity, maxReceive, maxExtract, connection, fluidCapacity, maxFluidTransfer, maxFluidTransfer, fluidConnection, allowedFluids);
+	public TileEnergyFluidSidedInventory(String name, int size, int capacity, int maxReceive, int maxExtract, EnergyConnection energyConnection, int[] fluidCapacity, int[] maxFluidTransfer, FluidConnection[] fluidConnection, String[]... allowedFluids) {
+		super(name, size, capacity, maxReceive, maxExtract, energyConnection, fluidCapacity, maxFluidTransfer, maxFluidTransfer, fluidConnection, allowedFluids);
 	}
 	
-	public TileEnergyFluidSidedInventory(String name, int size, int capacity, int maxReceive, int maxExtract, EnergyConnection connection, int fluidCapacity, int maxFluidReceive, int maxFluidExtract, FluidConnection fluidConnection, String[]... allowedFluids) {
-		super(name, size, capacity, maxReceive, maxExtract, connection, fluidCapacity, maxFluidReceive, maxFluidExtract, fluidConnection, allowedFluids);
+	public TileEnergyFluidSidedInventory(String name, int size, int capacity, int maxReceive, int maxExtract, EnergyConnection energyConnection, int fluidCapacity, int maxFluidReceive, int maxFluidExtract, FluidConnection fluidConnection, String[]... allowedFluids) {
+		super(name, size, capacity, maxReceive, maxExtract, energyConnection, fluidCapacity, maxFluidReceive, maxFluidExtract, fluidConnection, allowedFluids);
 	}
 	
-	public TileEnergyFluidSidedInventory(String name, int size, int capacity, int maxReceive, int maxExtract, EnergyConnection connection, int[] fluidCapacity, int[] maxFluidReceive, int[] maxFluidExtract, FluidConnection[] fluidConnection, String[]... allowedFluids) {
-		super(name, size, capacity, maxReceive, maxExtract, connection, fluidCapacity, maxFluidReceive, maxFluidExtract, fluidConnection, allowedFluids);
+	public TileEnergyFluidSidedInventory(String name, int size, int capacity, int maxReceive, int maxExtract, EnergyConnection energyConnection, int[] fluidCapacity, int[] maxFluidReceive, int[] maxFluidExtract, FluidConnection[] fluidConnection, String[]... allowedFluids) {
+		super(name, size, capacity, maxReceive, maxExtract, energyConnection, fluidCapacity, maxFluidReceive, maxFluidExtract, fluidConnection, allowedFluids);
 	}
 	
 	// SidedInventory
 	
+	@Override
 	public abstract int[] getSlotsForFace(EnumFacing side);
 
+	@Override
 	public abstract boolean canInsertItem(int slot, ItemStack stack, EnumFacing direction);
 
+	@Override
 	public abstract boolean canExtractItem(int slot, ItemStack stack, EnumFacing direction);
 	
 	// Capability
@@ -102,13 +105,14 @@ public abstract class TileEnergyFluidSidedInventory extends TileEnergyFluidInven
 	net.minecraftforge.items.IItemHandler handlerBottom = new net.minecraftforge.items.wrapper.SidedInvWrapper(this, net.minecraft.util.EnumFacing.DOWN);
 	net.minecraftforge.items.IItemHandler handlerSide = new net.minecraftforge.items.wrapper.SidedInvWrapper(this, net.minecraft.util.EnumFacing.WEST);
 	
+	@Override
 	@SuppressWarnings("unchecked")
 	public <T> T getCapability(net.minecraftforge.common.capabilities.Capability<T> capability, @javax.annotation.Nullable net.minecraft.util.EnumFacing facing) {
-		if (CapabilityEnergy.ENERGY == capability && connection.canConnect()) {
+		if (CapabilityEnergy.ENERGY == capability && energyConnection.canConnect()) {
 			return (T) storage;
 		}
-		if (connection != null && ModCheck.teslaLoaded && connection.canConnect()) {
-			if ((capability == TeslaCapabilities.CAPABILITY_CONSUMER && connection.canReceive()) || (capability == TeslaCapabilities.CAPABILITY_PRODUCER && connection.canExtract()) || capability == TeslaCapabilities.CAPABILITY_HOLDER)
+		if (energyConnection != null && ModCheck.teslaLoaded() && energyConnection.canConnect()) {
+			if ((capability == TeslaCapabilities.CAPABILITY_CONSUMER && energyConnection.canReceive()) || (capability == TeslaCapabilities.CAPABILITY_PRODUCER && energyConnection.canExtract()) || capability == TeslaCapabilities.CAPABILITY_HOLDER)
 				return (T) storage;
 		}
 		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {

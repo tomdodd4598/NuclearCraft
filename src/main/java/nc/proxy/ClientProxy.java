@@ -26,6 +26,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 public class ClientProxy extends CommonProxy {
 	
+	@Override
 	public void preInit(FMLPreInitializationEvent preEvent) {
 		super.preInit(preEvent);
 		
@@ -44,10 +45,12 @@ public class ClientProxy extends CommonProxy {
 		registerModelBakeryVariants();
 	}
 
+	@Override
 	public void init(FMLInitializationEvent event) {
 		super.init(event);
 	}
 
+	@Override
 	public void postInit(FMLPostInitializationEvent postEvent) {
 		super.postInit(postEvent);
 	}
@@ -505,6 +508,7 @@ public class ClientProxy extends CommonProxy {
 		new ResourceLocation(Global.MOD_ID, "lithium_7_tiny"));
 	}
 	
+	@Override
 	public void registerFluidBlockRendering(Block block, String name) {
 		name = name.toLowerCase();
 		super.registerFluidBlockRendering(block, name);
@@ -525,10 +529,12 @@ public class ClientProxy extends CommonProxy {
 			location = new ModelResourceLocation(Global.MOD_ID + ":fluids", name);
 		}
 
+		@Override
 		protected ModelResourceLocation getModelResourceLocation(IBlockState state) {
 			return location;
 		}
 
+		@Override
 		public ModelResourceLocation getModelLocation(ItemStack stack) {
 			return location;
 		}

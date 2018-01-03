@@ -22,6 +22,7 @@ public class BlockFluidParticle extends BlockFluid {
 		super(fluid, name, GAS);
 	}
 	
+	@Override
 	public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
 		if (entityIn instanceof EntityLivingBase) {
 			((EntityLivingBase) entityIn).addPotionEffect(new PotionEffect(Potion.getPotionById(9), 175, 2));
@@ -29,6 +30,7 @@ public class BlockFluidParticle extends BlockFluid {
 		}
 	}
 	
+	@Override
 	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
 		super.updateTick(worldIn, pos, state, rand);
 		if (rand.nextInt(5) < 1) worldIn.setBlockToAir(pos);

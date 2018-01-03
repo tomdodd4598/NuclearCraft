@@ -14,18 +14,19 @@ public class BlockTransparent extends NCBlock {
 	
 	private final boolean smartRender;
 
-	public BlockTransparent(String unlocalizedName, String registryName, Material material, boolean smartRender) {
-		super(unlocalizedName, registryName, material);
+	public BlockTransparent(String name, Material material, boolean smartRender) {
+		super(name, material);
 		this.smartRender = smartRender;
-		setHarvestLevel("pickaxe", 0);
 		setHardness(1.5F);
 		setResistance(10);
 	}
 	
+	@Override
 	public boolean isOpaqueCube(IBlockState state) {
 		return false;
 	}
 	
+	@Override
 	@SideOnly(Side.CLIENT)
 	public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
 		if (!smartRender) return true;
@@ -40,11 +41,13 @@ public class BlockTransparent extends NCBlock {
 		return block == this ? false : super.shouldSideBeRendered(blockState, blockAccess, pos, side);
     }
 	
+	@Override
 	@SideOnly(Side.CLIENT)
 	public BlockRenderLayer getBlockLayer() {
 		return BlockRenderLayer.CUTOUT;
 	}
 
+	@Override
 	public boolean isFullCube(IBlockState state) {
 		return false;
 	}

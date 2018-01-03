@@ -6,23 +6,18 @@ import java.util.List;
 
 import nc.config.NCConfig;
 import nc.recipe.BaseRecipeHandler;
-import nc.util.NCUtil;
+import nc.util.StringHelper;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class IngotFormerRecipes extends BaseRecipeHandler {
 	
-	//private static final IngotFormerRecipes RECIPES = new IngotFormerRecipes();
-	
 	public IngotFormerRecipes() {
 		super(0, 1, 1, 0, false);
 	}
 
-	/*public static final IngotFormerRecipes instance() {
-		return RECIPES;
-	}*/
-
+	@Override
 	public void addRecipes() {
 		ingotForm();
 		
@@ -48,11 +43,12 @@ public class IngotFormerRecipes extends BaseRecipeHandler {
 			fluidList.add(fluid.getName());
 		}
 		for (String fluidName : fluidList) {
-			String ingot = "ingot" + NCUtil.capitalize(fluidName);
+			String ingot = "ingot" + StringHelper.capitalize(fluidName);
 			if (oreList.contains(ingot)) addRecipe(fluidStack(fluidName, 144), ingot, NCConfig.processor_time[10]);
 		}
 	}
 
+	@Override
 	public String getRecipeName() {
 		return "ingot_former";
 	}

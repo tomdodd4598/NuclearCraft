@@ -11,6 +11,7 @@ public class SlotNuclearFuel extends Slot {
 		super(inventoryIn, slotIndex, xPosition, yPosition);
 	}
 	
+	@Override
 	public boolean isItemValid(ItemStack stack) {
 		return TileNuclearFurnace.isItemFuel(stack);
 	}

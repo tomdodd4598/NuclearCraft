@@ -17,6 +17,7 @@ public class WorldGenBush extends WorldGenerator {
 		groundBlock = ground;
 	}
 	
+	@Override
 	public boolean generate(World world, Random rand, BlockPos position) {
 		if (world.isAirBlock(position) && world.getBlockState(position.down()) == groundBlock) {
 			world.setBlockState(position, bushBlock, 2);

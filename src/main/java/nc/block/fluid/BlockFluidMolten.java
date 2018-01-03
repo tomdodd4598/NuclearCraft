@@ -17,6 +17,7 @@ public class BlockFluidMolten extends BlockFluid {
 		setQuantaPerBlock(4);
 	}
 	
+	@Override
 	public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
 		entityIn.attackEntityFrom(molten_burn, 4.0F);
 		entityIn.setFire(10);

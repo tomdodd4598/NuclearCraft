@@ -28,6 +28,7 @@ public class ContainerEnergyItemProcessor extends ContainerTile {
 		this.recipes = recipes;
 	}
 
+	@Override
 	public void detectAndSendChanges() {
 		super.detectAndSendChanges();
 		
@@ -41,11 +42,13 @@ public class ContainerEnergyItemProcessor extends ContainerTile {
 		}
 	}
 	
+	@Override
 	public void addListener(IContainerListener listener) {
 		super.addListener(listener);
 		listener.sendAllWindowProperties(this, tile);
 	}
 	
+	@Override
 	@SideOnly(Side.CLIENT)
 	public void updateProgressBar(int id, int data) {
 		if (id == 100) time = upcast(data);
@@ -57,10 +60,12 @@ public class ContainerEnergyItemProcessor extends ContainerTile {
 		else if (id == 2) tile.setField(id, baseTime | data << 16);
 	}
 	
+	@Override
 	public boolean canInteractWith(EntityPlayer player) {
 		return tile.isUsableByPlayer(player);
 	}
 	
+	@Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int index) {
 		ItemStack itemstack = ItemStack.EMPTY;
 		Slot slot = inventorySlots.get(index);
@@ -90,7 +95,7 @@ public class ContainerEnergyItemProcessor extends ContainerTile {
 					}
 				}
 				
-				else if (recipes.isValidManualInput(itemstack1)) {
+				else if (recipes.isValidInput(itemstack1)) {
 					if (!mergeItemStack(itemstack1, 0, tile.inputSize, false)) {
 						return ItemStack.EMPTY;
 					}

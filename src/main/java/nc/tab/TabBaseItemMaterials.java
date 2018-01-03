@@ -10,6 +10,7 @@ public class TabBaseItemMaterials extends CreativeTabs {
 		super("nuclearcraftBaseItemMaterials");
 	}
 
+	@Override
 	public ItemStack getTabIconItem() {
 		return new ItemStack(NCItems.alloy, 1, 1);
 	}

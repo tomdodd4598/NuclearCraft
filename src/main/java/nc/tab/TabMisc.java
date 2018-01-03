@@ -10,6 +10,7 @@ public class TabMisc extends CreativeTabs {
 		super("nuclearcraftMisc");
 	}
 
+	@Override
 	public ItemStack getTabIconItem() {
 		return new ItemStack(NCTools.spaxelhoe_tough);
 	}

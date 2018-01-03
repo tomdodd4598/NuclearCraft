@@ -61,6 +61,7 @@ public class RemoveRecipe<T extends BaseRecipeHandler> implements IAction {
 		this.recipe = type == SorptionType.OUTPUT ? helper.getRecipeFromOutputs(adaptedIngredients.toArray()) : helper.getRecipeFromInputs(adaptedIngredients.toArray());
 	}
 	
+	@Override
 	public void apply() {
 		if (recipe == null) {
 			CraftTweakerAPI.logError(String.format("%s: Removing Recipe - Couldn't find matching recipe %s", helper.getRecipeName(), ingredients));
@@ -87,6 +88,7 @@ public class RemoveRecipe<T extends BaseRecipeHandler> implements IAction {
 		}
 	}
 	
+	@Override
 	public String describe() {
 		if (recipe == null) {
 			return "ERROR: RECIPE IS NULL";

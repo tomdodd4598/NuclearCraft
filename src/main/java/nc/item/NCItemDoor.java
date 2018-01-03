@@ -7,9 +7,9 @@ import net.minecraft.util.ResourceLocation;
 
 public class NCItemDoor extends ItemDoor {
 
-	public NCItemDoor(String unlocalizedName, String registryName, Block block) {
+	public NCItemDoor(String nameIn, Block block) {
 		super(block);
-		setUnlocalizedName(unlocalizedName);
-		setRegistryName(new ResourceLocation(Global.MOD_ID, registryName));
+		setUnlocalizedName(nameIn);
+		setRegistryName(new ResourceLocation(Global.MOD_ID, nameIn));
 	}
 }

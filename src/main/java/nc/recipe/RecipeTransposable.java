@@ -16,20 +16,24 @@ public class RecipeTransposable implements IIngredient, IRecipeStack {
 		validInputs.forEach(input -> cachedObjects.add(input.getIngredient()));
 	}
 
+	@Override
 	public Object getIngredient() {
 		return cachedObjects;
 	}
 
+	@Override
 	public int getStackSize() {
 		return validInputList.get(0).getStackSize();
 	}
 
+	@Override
 	public List<Object> getIngredientList() {
 		ArrayList<Object> values = new ArrayList<Object>();
 		validInputList.forEach(object -> object.getIngredientList().forEach(obj -> values.add(obj)));
 		return values;
 	}
 
+	@Override
 	public boolean matches(Object object, SorptionType sorption) {
 		for (IIngredient ingredient : validInputList) {
 			if (ingredient.matches(object, sorption)) {
@@ -39,6 +43,7 @@ public class RecipeTransposable implements IIngredient, IRecipeStack {
 		return false;
 	}
 
+	@Override
 	public Object getOutputStack() {
 		IIngredient obj = validInputList.get(0);
 		if (obj instanceof IRecipeStack) {

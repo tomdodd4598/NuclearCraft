@@ -11,10 +11,11 @@ import net.minecraft.world.World;
 
 public class ItemPortableEnderChest extends NCItem {
 	
-	public ItemPortableEnderChest(String unlocalizedName, String registryName, Object... tooltip) {
-		super(unlocalizedName, registryName, tooltip);
+	public ItemPortableEnderChest(String nameIn, String... tooltip) {
+		super(nameIn, tooltip);
 	}
 	
+	@Override
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
 		InventoryEnderChest inventoryenderchest = playerIn.getInventoryEnderChest();
 		

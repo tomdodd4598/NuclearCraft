@@ -67,7 +67,7 @@ import nc.integration.jei.processor.SupercoolerCategory;
 import nc.recipe.BaseRecipeHandler;
 import nc.recipe.IRecipe;
 import nc.recipe.NCRecipes;
-import nc.util.NCStackHelper;
+import nc.util.StackHelper;
 import nc.util.NCUtil;
 import nc.worldgen.OreGen;
 import net.minecraft.item.ItemStack;
@@ -80,6 +80,7 @@ public class NCJEI implements IModPlugin, IJEIRecipeBuilder {
 		JEIMethods.registerRecipeBuilder(this);
 	}
 	
+	@Override
 	public void register(IModRegistry registry) {
 		IJeiHelpers jeiHelpers = registry.getJeiHelpers();
 		IGuiHelper guiHelper = jeiHelpers.getGuiHelper();
@@ -175,6 +176,7 @@ public class NCJEI implements IModPlugin, IJEIRecipeBuilder {
 		NCUtil.getLogger().info("JEI integration complete");
 	}
 	
+	@Override
 	public Object buildRecipe(IRecipe recipe, BaseRecipeHandler<IRecipe> methods) {
 		if ((Loader.isModLoaded("jei") || Loader.isModLoaded("JEI"))) {
 			for (Handlers handler : NCJEI.Handlers.values()) {
@@ -191,7 +193,7 @@ public class NCJEI implements IModPlugin, IJEIRecipeBuilder {
 	}
 	
 	private void blacklist(IJeiHelpers jeiHelpers, Object ingredient) {
-		jeiHelpers.getIngredientBlacklist().addIngredientToBlacklist(NCStackHelper.fixItemStack(ingredient));
+		jeiHelpers.getIngredientBlacklist().addIngredientToBlacklist(StackHelper.fixItemStack(ingredient));
 	}
 	
 	public enum Handlers implements IJEIHandler {
@@ -222,12 +224,13 @@ public class NCJEI implements IModPlugin, IJEIRecipeBuilder {
 		
 		Handlers(BaseRecipeHandler methods, Object crafter, String textureName, Class<? extends JEIRecipe> recipeClass) {
 			this.methods = methods;
-			crafterType = NCStackHelper.fixItemStack(crafter);
+			crafterType = StackHelper.fixItemStack(crafter);
 			this.unlocalizedName = crafterType.getUnlocalizedName() + ".name";
 			this.textureName = textureName;
 			this.recipeClass = recipeClass;
 		}
 		
+		@Override
 		public JEICategory getCategory(IGuiHelper guiHelper) {
 			switch (this) {
 			case MANUFACTORY:
@@ -271,22 +274,27 @@ public class NCJEI implements IModPlugin, IJEIRecipeBuilder {
 			}
 		}
 		
+		@Override
 		public String getTextureName() {
 			return textureName;
 		}
 		
+		@Override
 		public String getTitle() {
 			return unlocalizedName;
 		}
 		
+		@Override
 		public Class<? extends JEIRecipe> getRecipeClass() {
 			return recipeClass;
 		}
 
+		@Override
 		public BaseRecipeHandler getRecipeHandler() {
 			return methods;
 		}
 
+		@Override
 		public ArrayList<JEIRecipe> getJEIRecipes() {
 			ArrayList<JEIRecipe> recipes = new ArrayList();
 			if (methods != null && methods instanceof BaseRecipeHandler) {
@@ -302,10 +310,12 @@ public class NCJEI implements IModPlugin, IJEIRecipeBuilder {
 			return recipes;
 		}
 
+		@Override
 		public ItemStack getCrafterItemStack() {
 			return crafterType;
 		}
 		
+		@Override
 		public String getUUID() {
 			return methods.getRecipeName();
 		}

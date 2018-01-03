@@ -19,6 +19,7 @@ public class BlockFluidGas extends BlockFluid {
 		setQuantaPerBlock(16);
 	}
 	
+	@Override
 	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
 		super.updateTick(worldIn, pos, state, rand);
 		if (isSourceBlock(worldIn, pos)) worldIn.setBlockToAir(pos);

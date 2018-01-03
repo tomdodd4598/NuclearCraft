@@ -14,24 +14,27 @@ public abstract class TileEnergySidedInventory extends TileEnergyInventory imple
 	public int[] sideSlots;
 	public int[] bottomSlots;
 	
-	public TileEnergySidedInventory(String name, int size, int capacity, EnergyConnection connection) {
-		super(name, size, capacity, connection);
+	public TileEnergySidedInventory(String name, int size, int capacity, EnergyConnection energyConnection) {
+		super(name, size, capacity, energyConnection);
 	}
 	
-	public TileEnergySidedInventory(String name, int size, int capacity, int maxTransfer, EnergyConnection connection) {
-		super(name, size, capacity, maxTransfer, connection);
+	public TileEnergySidedInventory(String name, int size, int capacity, int maxTransfer, EnergyConnection energyConnection) {
+		super(name, size, capacity, maxTransfer, energyConnection);
 	}
 			
-	public TileEnergySidedInventory(String name, int size, int capacity, int maxReceive, int maxExtract, EnergyConnection connection) {
-		super(name, size, capacity, maxReceive, maxExtract, connection);
+	public TileEnergySidedInventory(String name, int size, int capacity, int maxReceive, int maxExtract, EnergyConnection energyConnection) {
+		super(name, size, capacity, maxReceive, maxExtract, energyConnection);
 	}
 	
 	// SidedInventory
 
+	@Override
 	public abstract int[] getSlotsForFace(EnumFacing side);
 
+	@Override
 	public abstract boolean canInsertItem(int slot, ItemStack stack, EnumFacing direction);
 
+	@Override
 	public abstract boolean canExtractItem(int slot, ItemStack stack, EnumFacing direction);
 	
 	// Capability
@@ -40,13 +43,14 @@ public abstract class TileEnergySidedInventory extends TileEnergyInventory imple
 	net.minecraftforge.items.IItemHandler handlerBottom = new net.minecraftforge.items.wrapper.SidedInvWrapper(this, net.minecraft.util.EnumFacing.DOWN);
 	net.minecraftforge.items.IItemHandler handlerSide = new net.minecraftforge.items.wrapper.SidedInvWrapper(this, net.minecraft.util.EnumFacing.WEST);
 	
+	@Override
 	@SuppressWarnings("unchecked")
 	public <T> T getCapability(net.minecraftforge.common.capabilities.Capability<T> capability, @javax.annotation.Nullable net.minecraft.util.EnumFacing facing) {
-		if (CapabilityEnergy.ENERGY == capability && connection.canConnect()) {
+		if (CapabilityEnergy.ENERGY == capability && energyConnection.canConnect()) {
 			return (T) storage;
 		}
-		if (connection != null && ModCheck.teslaLoaded && connection.canConnect()) {
-			if ((capability == TeslaCapabilities.CAPABILITY_CONSUMER && connection.canReceive()) || (capability == TeslaCapabilities.CAPABILITY_PRODUCER && connection.canExtract()) || capability == TeslaCapabilities.CAPABILITY_HOLDER)
+		if (energyConnection != null && ModCheck.teslaLoaded() && energyConnection.canConnect()) {
+			if ((capability == TeslaCapabilities.CAPABILITY_CONSUMER && energyConnection.canReceive()) || (capability == TeslaCapabilities.CAPABILITY_PRODUCER && energyConnection.canExtract()) || capability == TeslaCapabilities.CAPABILITY_HOLDER)
 				return (T) storage;
 		}
 		if (facing != null && capability == net.minecraftforge.items.CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {

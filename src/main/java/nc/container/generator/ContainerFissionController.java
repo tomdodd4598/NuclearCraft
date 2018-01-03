@@ -40,43 +40,23 @@ public class ContainerFissionController extends ContainerItemGenerator {
 		}
 	}
 	
+	@Override
 	public void detectAndSendChanges() {
 		super.detectAndSendChanges();
 		
 		for (int i = 0; i < listeners.size(); i++) {
 			IContainerListener icontainerlistener = (IContainerListener) listeners.get(i);
-
-			icontainerlistener.sendWindowProperty(this, 0, tile.getField(0) >> 16);
-			icontainerlistener.sendWindowProperty(this, 100, tile.getField(0));
-
-			icontainerlistener.sendWindowProperty(this, 1, tile.getField(1) >> 16);
-			icontainerlistener.sendWindowProperty(this, 101, tile.getField(1));
-
-			icontainerlistener.sendWindowProperty(this, 2, tile.getField(2) >> 16);
-			icontainerlistener.sendWindowProperty(this, 102, tile.getField(2));
-
-			icontainerlistener.sendWindowProperty(this, 3, tile.getField(3) >> 16);
-			icontainerlistener.sendWindowProperty(this, 103, tile.getField(3));
-
-			icontainerlistener.sendWindowProperty(this, 4, tile.getField(4) >> 16);
-			icontainerlistener.sendWindowProperty(this, 104, tile.getField(4));
-
-			icontainerlistener.sendWindowProperty(this, 5, tile.getField(5) >> 16);
-			icontainerlistener.sendWindowProperty(this, 105, tile.getField(5));
-
-			icontainerlistener.sendWindowProperty(this, 6, tile.getField(6) >> 16);
-			icontainerlistener.sendWindowProperty(this, 106, tile.getField(6));
-
-			icontainerlistener.sendWindowProperty(this, 8, tile.getField(8) >> 16);
-			icontainerlistener.sendWindowProperty(this, 108, tile.getField(8));
-
-			icontainerlistener.sendWindowProperty(this, 12, tile.getField(12) >> 16);
-			icontainerlistener.sendWindowProperty(this, 112, tile.getField(12));
+			
+			for (int j : new int[] {0, 1, 2, 3, 4, 5, 6, 8, 12}) {
+				icontainerlistener.sendWindowProperty(this, j, tile.getField(j) >> 16);
+				icontainerlistener.sendWindowProperty(this, 100 + j, tile.getField(j));
+			}
 			
 			for (int j : new int[] {7, 9, 10, 11, 13, 14, 15, 16, 17, 18}) icontainerlistener.sendWindowProperty(this, j, tile.getField(j));
 		}
 	}
 	
+	@Override
 	@SideOnly(Side.CLIENT)
 	public void updateProgressBar(int id, int data) {
 		if (id == 100) time = upcast(data);

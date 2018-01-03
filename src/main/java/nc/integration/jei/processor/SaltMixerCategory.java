@@ -16,6 +16,7 @@ public class SaltMixerCategory extends BaseCategory {
 		super(guiHelper, handler, "salt_mixer_idle", NCConfig.processor_time[13], 45, 30, 102, 26, 176, 3, 37, 18, 84, 34);
 	}
 	
+	@Override
 	public void setRecipe(IRecipeLayout recipeLayout, IRecipeWrapper recipeWrapper, IIngredients ingredients) {
 		RecipeFluidMapper fluidMapper = new RecipeFluidMapper();
 		fluidMapper.map(SorptionType.INPUT, 0, 0, 46 - backPosX, 35 - backPosY, 16, 16);

@@ -24,6 +24,7 @@ public class ContainerFluidGenerator extends ContainerTile {
 		this.recipes = recipes;
 	}
 
+	@Override
 	public void detectAndSendChanges() {
 		super.detectAndSendChanges();
 		
@@ -38,11 +39,13 @@ public class ContainerFluidGenerator extends ContainerTile {
 		}
 	}
 	
+	@Override
 	public void addListener(IContainerListener listener) {
 		super.addListener(listener);
 		listener.sendAllWindowProperties(this, tile);
 	}
 	
+	@Override
 	@SideOnly(Side.CLIENT)
 	public void updateProgressBar(int id, int data) {
 		if (id == 100) time = upcast(data);
@@ -52,10 +55,12 @@ public class ContainerFluidGenerator extends ContainerTile {
 		else if (id == 1) tile.setField(id, energy | data << 16);
 	}
 	
+	@Override
 	public boolean canInteractWith(EntityPlayer player) {
 		return tile.isUsableByPlayer(player);
 	}
 	
+	@Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int index) {
 		ItemStack itemstack = ItemStack.EMPTY;
 		Slot slot = inventorySlots.get(index);
@@ -72,7 +77,7 @@ public class ContainerFluidGenerator extends ContainerTile {
 				slot.onSlotChange(itemstack1, itemstack);
 			}
 			else if(index >= invStart) {
-				if (recipes.isValidManualInput(itemstack1)) {
+				if (recipes.isValidInput(itemstack1)) {
 					if (!mergeItemStack(itemstack1, 0, 0, false)) {
 						return ItemStack.EMPTY;
 					}

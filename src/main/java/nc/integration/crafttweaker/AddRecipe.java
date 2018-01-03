@@ -86,6 +86,7 @@ public class AddRecipe<T extends BaseRecipeHandler> implements IAction {
 		this.extras = extras;
 	}
 	
+	@Override
 	public void apply() {
 		if (!wasNull && !wrongSize) {
 			boolean isShapeless = helper instanceof BaseRecipeHandler ? ((BaseRecipeHandler) helper).shapeless : true;
@@ -118,6 +119,7 @@ public class AddRecipe<T extends BaseRecipeHandler> implements IAction {
 		}
 	}
 	
+	@Override
 	@SuppressWarnings("static-access")
 	public String describe() {
 		return String.format("Adding %s recipe (%s = %s)", helper.getRecipeName(), helper.getValuesFromList(inputs), helper.getValuesFromList(outputs));

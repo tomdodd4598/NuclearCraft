@@ -17,6 +17,7 @@ public class TileSpin extends NCTile {
 		stateVector = getStateFromAngles(phi, theta);
 	}
 	
+	@Override
 	public void update() {
 		super.update();
 		if (isMeasured > 0) isMeasured--;
@@ -36,6 +37,7 @@ public class TileSpin extends NCTile {
 		return isMeasured > 0;
 	}
 	
+	@Override
 	public NBTTagCompound writeAll(NBTTagCompound nbt) {
 		super.writeAll(nbt);
 		nbt.setDouble("measuredSpin", measuredSpin);
@@ -48,6 +50,7 @@ public class TileSpin extends NCTile {
 		return nbt;
 	}
 	
+	@Override
 	public void readAll(NBTTagCompound nbt) {
 		super.readAll(nbt);
 		measuredSpin = nbt.getDouble("measuredSpin");

@@ -12,10 +12,12 @@ public class BlockFluidFlammable extends BlockFluid {
 		super(fluid, name, Material.WATER);
 	}
 	
+	@Override
 	public int getFlammability(IBlockAccess world, BlockPos pos, EnumFacing face) {
 		return 250;
 	}
 	
+	@Override
 	public int getFireSpreadSpeed(IBlockAccess world, BlockPos pos, EnumFacing face) {
 		return 2000;
 	}

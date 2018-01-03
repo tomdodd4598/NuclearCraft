@@ -33,6 +33,7 @@ public abstract class BaseRecipeHandler<T extends IRecipe> extends RecipeMethods
 		addRecipe(buildDefaultRecipe(inputs, outputs, additionals, shapeless));
 	}
 
+	@Override
 	public boolean isValidRecipe(ArrayList<IIngredient> recipeInputList, ArrayList<IIngredient> recipeOutputList) {
 		return recipeInputList.size() == inputSizeItem + inputSizeFluid && recipeOutputList.size() == outputSizeItem + outputSizeFluid;
 	}

@@ -28,12 +28,14 @@ public final class NCGuiToggleButton {
 			isButtonPressed = pressed;
 		}
 		
+		@Override
 		public boolean mousePressed(Minecraft minecraft, int mouseX, int mouseY) {
 			boolean clicked = enabled && visible && mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height;
 			if (clicked) togglePressed();
 			return clicked;
 		}
 		
+		@Override
 		public void mouseReleased(int mouseX, int mouseY) {}
 		
 		public ToggleButton setPressed(boolean pressed) {
@@ -75,6 +77,7 @@ public final class NCGuiToggleButton {
 			if (isButtonPressed) return pressedtexture; else return unpressedtexture;
 		}
 		
+		@Override
 		public void drawButton(Minecraft minecraft, int x, int y, float partialTicks) {
 			if (this.visible) {
 				GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
@@ -105,6 +108,7 @@ public final class NCGuiToggleButton {
 			if (isButtonPressed) return pressedItemRenderer; else return unpressedItemRenderer;
 		}
 		
+		@Override
 		public void drawButton(Minecraft minecraft, int x, int y, float partialTicks) {
 			if (this.visible) {
 				hovered = x >= this.x && y >= this.y && x < this.x + width && y < this.y + height;

@@ -15,6 +15,8 @@ public class ContainerFusionCore extends ContainerFluidGenerator {
 	protected int heat;
 	protected int efficiency;
 	protected int rateMultiplier;
+	protected int cooling;
+	protected int heatChange;
 	
 	public ContainerFusionCore(EntityPlayer player, TileFusionCore tileEntity) {
 		super(tileEntity, NCRecipes.FUSION_RECIPES);
@@ -30,37 +32,23 @@ public class ContainerFusionCore extends ContainerFluidGenerator {
 		}
 	}
 	
+	@Override
 	public void detectAndSendChanges() {
 		super.detectAndSendChanges();
 		
 		for (int i = 0; i < listeners.size(); i++) {
 			IContainerListener icontainerlistener = (IContainerListener) listeners.get(i);
-
-			icontainerlistener.sendWindowProperty(this, 0, tile.getField(0) >> 16);
-			icontainerlistener.sendWindowProperty(this, 100, tile.getField(0));
-
-			icontainerlistener.sendWindowProperty(this, 1, tile.getField(1) >> 16);
-			icontainerlistener.sendWindowProperty(this, 101, tile.getField(1));
-
-			icontainerlistener.sendWindowProperty(this, 2, tile.getField(2) >> 16);
-			icontainerlistener.sendWindowProperty(this, 102, tile.getField(2));
-
-			icontainerlistener.sendWindowProperty(this, 3, tile.getField(3) >> 16);
-			icontainerlistener.sendWindowProperty(this, 103, tile.getField(3));
-
-			icontainerlistener.sendWindowProperty(this, 4, tile.getField(4) >> 16);
-			icontainerlistener.sendWindowProperty(this, 104, tile.getField(4));
-
-			icontainerlistener.sendWindowProperty(this, 5, tile.getField(5) >> 16);
-			icontainerlistener.sendWindowProperty(this, 105, tile.getField(5));
-
-			icontainerlistener.sendWindowProperty(this, 6, tile.getField(6) >> 16);
-			icontainerlistener.sendWindowProperty(this, 106, tile.getField(6));
+			
+			for (int j : new int[] {0, 1, 2, 3, 4, 5, 6, 9, 10}) {
+				icontainerlistener.sendWindowProperty(this, j, tile.getField(j) >> 16);
+				icontainerlistener.sendWindowProperty(this, 100 + j, tile.getField(j));
+			}
 			
 			for (int j : new int[] {7, 8}) icontainerlistener.sendWindowProperty(this, j, tile.getField(j));
 		}
 	}
 	
+	@Override
 	@SideOnly(Side.CLIENT)
 	public void updateProgressBar(int id, int data) {
 		if (id == 100) time = upcast(data);
@@ -70,6 +58,8 @@ public class ContainerFusionCore extends ContainerFluidGenerator {
 		else if (id == 104) heat = upcast(data);
 		else if (id == 105) efficiency = upcast(data);
 		else if (id == 106) rateMultiplier = upcast(data);
+		else if (id == 109) cooling = upcast(data);
+		else if (id == 110) heatChange = upcast(data);
 		
 		else if (id == 0) tile.setField(id, time | data << 16);
 		else if (id == 1) tile.setField(id, energy | data << 16);
@@ -78,6 +68,9 @@ public class ContainerFusionCore extends ContainerFluidGenerator {
 		else if (id == 4) tile.setField(id, heat | data << 16);
 		else if (id == 5) tile.setField(id, efficiency | data << 16);
 		else if (id == 6) tile.setField(id, rateMultiplier | data << 16);
-		else if (id >= 7 && id <= 8) tile.setField(id, data);
+		else if (id == 9) tile.setField(id, cooling | data << 16);
+		else if (id == 10) tile.setField(id, heatChange | data << 16);
+		
+		else if (id == 7 || id == 8) tile.setField(id, data);
 	}
 }

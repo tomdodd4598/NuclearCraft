@@ -1,5 +1,6 @@
 package nc.tile;
 
+import nc.block.tile.IActivatable;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
@@ -20,6 +21,7 @@ public abstract class NCTile extends TileEntity implements ITickable {
 		super();
 	}
 	
+	@Override
 	public void update() {
 		if (!isAdded) {
 			onAdded();
@@ -39,10 +41,12 @@ public abstract class NCTile extends TileEntity implements ITickable {
 		markDirty();
 	}
 	
+	@Override
 	public ITextComponent getDisplayName() {
 		if (getBlockType() != null) return new TextComponentTranslation(getBlockType().getLocalizedName()); else return null;
 	}
 	
+	@Override
 	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newSate) {
 		String oldName = oldState.getBlock().getUnlocalizedName().toString();
 		String newName = newSate.getBlock().getUnlocalizedName().toString();
@@ -52,8 +56,17 @@ public abstract class NCTile extends TileEntity implements ITickable {
 		return oldState.getBlock() != newSate.getBlock();
 	}
 	
+	public IBlockState getDefaultBlockState() {
+		return world.getBlockState(pos).getBlock().getDefaultState();
+	}
+	
+	public void setState(boolean isActive) {
+		if (getBlockType() instanceof IActivatable) ((IActivatable)getBlockType()).setState(isActive, world, pos);
+	}
+	
 	// NBT
 	
+	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		writeAll(nbt);
@@ -64,6 +77,7 @@ public abstract class NCTile extends TileEntity implements ITickable {
 		return nbt;
 	}
 	
+	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		readAll(nbt);
@@ -77,6 +91,7 @@ public abstract class NCTile extends TileEntity implements ITickable {
 		return nbt;
 	}*/
 	
+	@Override
 	public SPacketUpdateTileEntity getUpdatePacket() {
 		NBTTagCompound nbt = new NBTTagCompound();
 		writeToNBT(nbt);
@@ -84,16 +99,19 @@ public abstract class NCTile extends TileEntity implements ITickable {
 		return new SPacketUpdateTileEntity(pos, metadata, nbt);
 	}
 
+	@Override
 	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity packet) {
 		readFromNBT(packet.getNbtCompound());
 	}
 
+	@Override
 	public NBTTagCompound getUpdateTag() {
 		NBTTagCompound nbt = new NBTTagCompound();
 		writeToNBT(nbt);
 		return nbt;
 	}
 
+	@Override
 	public void handleUpdateTag(NBTTagCompound tag) {
 		super.handleUpdateTag(tag);
 	}

@@ -1,8 +1,8 @@
 package nc.recipe.vanilla;
 
-import nc.handler.EnumHandler.IngotOxideTypes;
-import nc.handler.EnumHandler.IngotTypes;
-import nc.handler.EnumHandler.OreTypes;
+import nc.enumm.MetaEnums.IngotOxideType;
+import nc.enumm.MetaEnums.IngotType;
+import nc.enumm.MetaEnums.OreType;
 import nc.init.NCBlocks;
 import nc.init.NCItems;
 import net.minecraft.item.Item;
@@ -12,13 +12,13 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 public class FurnaceRecipeHandler {
 	
 	public static void registerFurnaceRecipes() {
-		for (int i = 0; i < OreTypes.values().length; i++) {
+		for (int i = 0; i < OreType.values().length; i++) {
 			GameRegistry.addSmelting(new ItemStack(NCBlocks.ore, 1, i), new ItemStack(NCItems.ingot, 1, i), 0.5F);
 		}
-		for (int i = 0; i < IngotTypes.values().length; i++) {
+		for (int i = 0; i < IngotType.values().length; i++) {
 			GameRegistry.addSmelting(new ItemStack(NCItems.dust, 1, i), new ItemStack(NCItems.ingot, 1, i), 0.0F);
 		}
-		for (int i = 0; i < IngotOxideTypes.values().length; i++) {
+		for (int i = 0; i < IngotOxideType.values().length; i++) {
 			GameRegistry.addSmelting(new ItemStack(NCItems.dust_oxide, 1, i), new ItemStack(NCItems.ingot_oxide, 1, i), 0.0F);
 		}
 		

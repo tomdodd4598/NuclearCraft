@@ -12,6 +12,7 @@ public class UniversalPredicate implements Predicate<IBlockState> {
 		
 	}
 	
+	@Override
 	public boolean apply(IBlockState input) {
 		if (input != null) {
 			if (input.getBlock() == Blocks.STONE) {

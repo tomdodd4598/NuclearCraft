@@ -1,13 +1,10 @@
 package nc.item.tool;
 
-import java.util.List;
-
-import nc.util.NCInfo;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class NCSpaxelhoe extends NCPickaxe {
 	
@@ -20,17 +17,15 @@ public class NCSpaxelhoe extends NCPickaxe {
 		efficiency = material.getEfficiency();
 	}
 	
-	public float getStrVsBlock(ItemStack stack, IBlockState state){
+	@Override
+	public float getDestroySpeed(ItemStack stack, IBlockState state){
 		return efficiency;
 	}
 	
+	@Override
+	@SideOnly(Side.CLIENT)
 	public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker) {
 		stack.damageItem(1, attacker);
 		return true;
 	}
-	
-	public void addInformation(ItemStack itemStack, World world, List<String> tooltip, ITooltipFlag flag) {
-        super.addInformation(itemStack, world, tooltip, flag);
-        if (info.length > 0) NCInfo.infoFull(tooltip, info);
-    }
 }

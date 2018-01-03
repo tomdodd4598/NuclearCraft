@@ -15,6 +15,7 @@ public class GuiDecayHastener extends GuiEnergyItemProcessor {
 		ySize = 166;
 	}
 	
+	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		super.drawGuiContainerForegroundLayer(mouseX, mouseY);
 		//fontRendererObj.drawString(tile.storage.getEnergyStored() + " RF", 28, ySize - 94, 4210752);
@@ -25,6 +26,7 @@ public class GuiDecayHastener extends GuiEnergyItemProcessor {
 		drawEnergyTooltip(tile, mouseX, mouseY, 8, 6, 16, 74);
 	}
 	
+	@Override
 	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
 		super.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY);
 		

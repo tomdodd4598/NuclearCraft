@@ -16,6 +16,7 @@ public class FuelReprocessorCategory extends BaseCategory {
 		super(guiHelper, handler, "fuel_reprocessor_idle", NCConfig.processor_time[3], 49, 30, 94, 38, 176, 3, 37, 38, 68, 30);
 	}
 	
+	@Override
 	public void setRecipe(IRecipeLayout recipeLayout, IRecipeWrapper recipeWrapper, IIngredients ingredients) {
 		RecipeItemMapper itemMapper = new RecipeItemMapper();
 		itemMapper.map(SorptionType.INPUT, 0, 0, 50 - backPosX, 41 - backPosY);

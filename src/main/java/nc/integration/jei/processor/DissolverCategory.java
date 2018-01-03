@@ -17,6 +17,7 @@ public class DissolverCategory extends BaseCategory {
 		super(guiHelper, handler, "dissolver_idle", NCConfig.processor_time[15], 45, 30, 102, 26, 176, 3, 37, 16, 84, 35);
 	}
 	
+	@Override
 	public void setRecipe(IRecipeLayout recipeLayout, IRecipeWrapper recipeWrapper, IIngredients ingredients) {
 		RecipeItemMapper itemMapper = new RecipeItemMapper();
 		RecipeFluidMapper fluidMapper = new RecipeFluidMapper();

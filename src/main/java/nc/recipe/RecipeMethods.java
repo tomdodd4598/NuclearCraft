@@ -1,18 +1,21 @@
 package nc.recipe;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Nullable;
 
 import com.google.common.collect.Lists;
 
-import nc.util.NCStackHelper;
+import nc.util.StackHelper;
 import nc.util.OreStackHelper;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.FMLLog;
 
@@ -24,12 +27,16 @@ public abstract class RecipeMethods<T extends IRecipe> implements IRecipeGetter<
 	
 	public ArrayList<Class<?>> needAltering = Lists.newArrayList(Item.class, Block.class, Fluid.class);
 	
+	public static final int[] INVALID = new int[] {-1};
+	
 	public RecipeMethods() {}
 	
 	public abstract void addRecipes();
 	
+	@Override
 	public abstract String getRecipeName();
 
+	@Override
 	public ArrayList<T> getRecipes() {
 		return recipes;
 	}
@@ -202,18 +209,39 @@ public abstract class RecipeMethods<T extends IRecipe> implements IRecipeGetter<
 		return false;
 	}
 	
-	public boolean isValidInput(Object object) {
-		for (T recipe : recipes) {
+	public boolean isValidInput(Object object, Object... objects) {
+		List others = new ArrayList(Arrays.asList(objects));
+		others.removeAll(Collections.singleton(null));
+		others.removeAll(Collections.singleton(ItemStack.EMPTY));
+		if (others.size() <= 0) return isValidInput(object);
+		ArrayList<ArrayList<T>> recipeLists = Lists.<ArrayList<T>>newArrayList();
+		
+		ArrayList<T> startingRecipeList = new ArrayList(recipes);
+		recipeLoop: for (T recipe : recipes) {
 			for (IIngredient input : recipe.inputs()) {
-				if (input.matches(object, SorptionType.INPUT)) {
-					return true;
+				if (input.matches(object, SorptionType.NEUTRAL)) continue recipeLoop;
+			}
+			startingRecipeList.remove(recipe);
+		}
+		
+		recipeLists.add(new ArrayList(startingRecipeList));
+		
+		for (int i = 0; i < others.size(); i++) {
+			if (recipeLists.get(i).isEmpty()) return false;
+			
+			recipeLists.add(new ArrayList(recipeLists.get(i)));
+			recipeLoop: for (T recipe : recipeLists.get(i)) {
+				for (IIngredient input : recipe.inputs()) {
+					if (input.matches(others.get(i), SorptionType.NEUTRAL)) continue recipeLoop;
 				}
+				recipeLists.get(i + 1).remove(recipe);
 			}
 		}
-		return false;
+		
+		return !recipeLists.get(others.size()).isEmpty();
 	}
 	
-	public boolean isValidManualInput(Object object) {
+	public boolean isValidInput(Object object) {
 		for (T recipe : recipes) {
 			for (IIngredient input : recipe.inputs()) {
 				if (input.matches(object, SorptionType.NEUTRAL)) {
@@ -224,8 +252,40 @@ public abstract class RecipeMethods<T extends IRecipe> implements IRecipeGetter<
 		return false;
 	}
 	
+	public static String[][] validFluids(BaseRecipeHandler recipes, String... exceptions) {
+		int fluidInputSize = recipes.inputSizeFluid;
+		int fluidOutputSize = recipes.outputSizeFluid;
+		ArrayList<Fluid> fluidList = new ArrayList<Fluid>(FluidRegistry.getRegisteredFluids().values());
+		ArrayList<FluidStack> fluidStackList = new ArrayList<FluidStack>();
+		for (Fluid fluid : fluidList) {
+			fluidStackList.add(new FluidStack(fluid, 1000));
+		}
+		ArrayList<String> exceptionsList = new ArrayList<String>();
+		if (exceptions != null) for (int i = 0; i < exceptions.length; i++) {
+			exceptionsList.add(exceptions[i]);
+		}
+		ArrayList<String> fluidNameList = new ArrayList<String>();
+		for (FluidStack fluidStack : fluidStackList) {
+			String fluidName = fluidStack.getFluid().getName();
+			if (recipes.isValidInput(fluidStack) && !exceptionsList.contains(fluidName)) fluidNameList.add(fluidName);
+		}
+		String[] allowedFluidArray = new String[fluidNameList.size()];
+		for (int i = 0; i < fluidNameList.size(); i++) {
+			allowedFluidArray[i] = fluidNameList.get(i);
+		}
+		
+		String[][] allowedFluidArrays = new String[fluidInputSize + fluidOutputSize][];
+		for (int i = 0; i < fluidInputSize; i++) {
+			allowedFluidArrays[i] = allowedFluidArray;
+		}
+		for (int i = fluidInputSize; i < fluidInputSize + fluidOutputSize; i++) {
+			allowedFluidArrays[i] = new String[] {};
+		}
+		return allowedFluidArrays;
+	}
+	
 	public static Object adjustObject(Object object) {
-		return NCStackHelper.fixStack(object);
+		return StackHelper.fixStack(object);
 	}
 
 	public static ArrayList<List<Object>> getIngredientLists(ArrayList<IIngredient> ingredientList) {

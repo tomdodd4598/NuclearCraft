@@ -28,6 +28,7 @@ public class PacketEmptyTankButton implements IMessage {
 		messageValid = true;
 	}
 	
+	@Override
 	public void fromBytes(ByteBuf buf) {
 		try {
 			pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
@@ -39,6 +40,7 @@ public class PacketEmptyTankButton implements IMessage {
 		messageValid = true;
 	}
 	
+	@Override
 	public void toBytes(ByteBuf buf) {
 		if (!messageValid) return;
 		buf.writeInt(pos.getX());
@@ -49,6 +51,7 @@ public class PacketEmptyTankButton implements IMessage {
 	
 	public static class Handler implements IMessageHandler<PacketEmptyTankButton, IMessage> {
 		
+		@Override
 		public IMessage onMessage(PacketEmptyTankButton message, MessageContext ctx) {
 			if (!message.messageValid && ctx.side != Side.SERVER) return null;
 			FMLCommonHandler.instance().getWorldThread(ctx.netHandler).addScheduledTask(() -> processMessage(message, ctx));

@@ -24,6 +24,7 @@ public class GuiIrradiator extends GuiEnergyFluidProcessor {
 		ySize = 166;
 	}
 	
+	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		super.drawGuiContainerForegroundLayer(mouseX, mouseY);
 		//fontRendererObj.drawString(tile.storage.getEnergyStored() + " RF", 28, ySize - 94, 4210752);
@@ -39,6 +40,7 @@ public class GuiIrradiator extends GuiEnergyFluidProcessor {
 		drawEnergyTooltip(tile, mouseX, mouseY, 8, 6, 16, 74);
 	}
 	
+	@Override
 	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
 		super.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY);
 		
@@ -61,6 +63,7 @@ public class GuiIrradiator extends GuiEnergyFluidProcessor {
 		GuiFluidRenderer.renderGuiTank(fluid3, tile.tanks[3].getCapacity(), guiLeft + 136, guiTop + 31, zLevel, 24, 24);
 	}
 	
+	@Override
 	public void initGui() {
 		super.initGui();
 		buttonList.add(new NCGuiButton.BlankButton(0, guiLeft + 32, guiTop + 35, 16, 16));
@@ -69,6 +72,7 @@ public class GuiIrradiator extends GuiEnergyFluidProcessor {
 		buttonList.add(new NCGuiButton.BlankButton(3, guiLeft + 136, guiTop + 31, 24, 24));
 	}
 	
+	@Override
 	protected void actionPerformed(GuiButton guiButton) {
 		if (tile.getWorld().isRemote) {
 			for (int i = 0; i < 4; i++) if (guiButton.id == i && isShiftKeyDown()) {

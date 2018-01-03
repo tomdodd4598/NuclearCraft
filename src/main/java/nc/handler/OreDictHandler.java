@@ -33,6 +33,12 @@ public class OreDictHandler {
 		
 		OreDictionary.registerOre("blockDepletedThorium", NCBlocks.block_depleted_thorium);
 		OreDictionary.registerOre("blockDepletedUranium", NCBlocks.block_depleted_uranium);
+		OreDictionary.registerOre("blockDepletedNeptunium", NCBlocks.block_depleted_neptunium);
+		OreDictionary.registerOre("blockDepletedPlutonium", NCBlocks.block_depleted_plutonium);
+		OreDictionary.registerOre("blockDepletedAmericium", NCBlocks.block_depleted_americium);
+		OreDictionary.registerOre("blockDepletedCurium", NCBlocks.block_depleted_curium);
+		OreDictionary.registerOre("blockDepletedBerkelium", NCBlocks.block_depleted_berkelium);
+		OreDictionary.registerOre("blockDepletedCalifornium", NCBlocks.block_depleted_californium);
 		
 		if (OreGen.showOre(0)) OreDictionary.registerOre("ingotCopper", new ItemStack(NCItems.ingot, 1, 0));
 		if (OreGen.showOre(1)) OreDictionary.registerOre("ingotTin", new ItemStack(NCItems.ingot, 1, 1));
@@ -107,15 +113,18 @@ public class OreDictHandler {
 		OreDictionary.registerOre("ingotThorium230", new ItemStack(NCItems.thorium, 1, 1));
 		OreDictionary.registerOre("tinyThorium230", new ItemStack(NCItems.thorium, 1, 2));
 		OreDictionary.registerOre("tinyThorium230Oxide", new ItemStack(NCItems.thorium, 1, 3));
+		OreDictionary.registerOre("ingotThorium232Base", new ItemStack(NCItems.thorium, 1, 4));
 		OreDictionary.registerOre("ingotThorium232", new ItemStack(NCItems.thorium, 1, 4));
 		OreDictionary.registerOre("ingotThorium232Oxide", new ItemStack(NCItems.thorium, 1, 5));
 		OreDictionary.registerOre("tinyThorium232", new ItemStack(NCItems.thorium, 1, 6));
 		OreDictionary.registerOre("tinyThorium232Oxide", new ItemStack(NCItems.thorium, 1, 7));
 		
+		OreDictionary.registerOre("ingotUranium233Base", new ItemStack(NCItems.uranium, 1, 0));
 		OreDictionary.registerOre("ingotUranium233", new ItemStack(NCItems.uranium, 1, 0));
 		OreDictionary.registerOre("ingotUranium233Oxide", new ItemStack(NCItems.uranium, 1, 1));
 		OreDictionary.registerOre("tinyUranium233", new ItemStack(NCItems.uranium, 1, 2));
 		OreDictionary.registerOre("tinyUranium233Oxide", new ItemStack(NCItems.uranium, 1, 3));
+		OreDictionary.registerOre("ingotUranium235Base", new ItemStack(NCItems.uranium, 1, 4));
 		OreDictionary.registerOre("ingotUranium235", new ItemStack(NCItems.uranium, 1, 4));
 		OreDictionary.registerOre("ingotUranium235Oxide", new ItemStack(NCItems.uranium, 1, 5));
 		OreDictionary.registerOre("tinyUranium235", new ItemStack(NCItems.uranium, 1, 6));
@@ -127,6 +136,7 @@ public class OreDictHandler {
 		OreDictionary.registerOre("tinyUranium238", new ItemStack(NCItems.uranium, 1, 10));
 		OreDictionary.registerOre("tinyUranium238Oxide", new ItemStack(NCItems.uranium, 1, 11));
 		
+		OreDictionary.registerOre("ingotNeptunium236Base", new ItemStack(NCItems.neptunium, 1, 0));
 		OreDictionary.registerOre("ingotNeptunium236", new ItemStack(NCItems.neptunium, 1, 0));
 		OreDictionary.registerOre("ingotNeptunium236Oxide", new ItemStack(NCItems.neptunium, 1, 1));
 		OreDictionary.registerOre("tinyNeptunium236", new ItemStack(NCItems.neptunium, 1, 2));
@@ -144,10 +154,12 @@ public class OreDictHandler {
 		OreDictionary.registerOre("ingotPlutonium238", new ItemStack(NCItems.plutonium, 1, 1));
 		OreDictionary.registerOre("tinyPlutonium238", new ItemStack(NCItems.plutonium, 1, 2));
 		OreDictionary.registerOre("tinyPlutonium238Oxide", new ItemStack(NCItems.plutonium, 1, 3));
+		OreDictionary.registerOre("ingotPlutonium239Base", new ItemStack(NCItems.plutonium, 1, 4));
 		OreDictionary.registerOre("ingotPlutonium239", new ItemStack(NCItems.plutonium, 1, 4));
 		OreDictionary.registerOre("ingotPlutonium239Oxide", new ItemStack(NCItems.plutonium, 1, 5));
 		OreDictionary.registerOre("tinyPlutonium239", new ItemStack(NCItems.plutonium, 1, 6));
 		OreDictionary.registerOre("tinyPlutonium239Oxide", new ItemStack(NCItems.plutonium, 1, 7));
+		OreDictionary.registerOre("ingotPlutonium241Base", new ItemStack(NCItems.plutonium, 1, 8));
 		OreDictionary.registerOre("ingotPlutonium241", new ItemStack(NCItems.plutonium, 1, 8));
 		OreDictionary.registerOre("ingotPlutonium241Oxide", new ItemStack(NCItems.plutonium, 1, 9));
 		OreDictionary.registerOre("tinyPlutonium241", new ItemStack(NCItems.plutonium, 1, 10));
@@ -165,6 +177,7 @@ public class OreDictHandler {
 		OreDictionary.registerOre("ingotAmericium241", new ItemStack(NCItems.americium, 1, 1));
 		OreDictionary.registerOre("tinyAmericium241", new ItemStack(NCItems.americium, 1, 2));
 		OreDictionary.registerOre("tinyAmericium241Oxide", new ItemStack(NCItems.americium, 1, 3));
+		OreDictionary.registerOre("ingotAmericium242Base", new ItemStack(NCItems.americium, 1, 4));
 		OreDictionary.registerOre("ingotAmericium242", new ItemStack(NCItems.americium, 1, 4));
 		OreDictionary.registerOre("ingotAmericium242Oxide", new ItemStack(NCItems.americium, 1, 5));
 		OreDictionary.registerOre("tinyAmericium242", new ItemStack(NCItems.americium, 1, 6));
@@ -176,10 +189,12 @@ public class OreDictHandler {
 		OreDictionary.registerOre("tinyAmericium243", new ItemStack(NCItems.americium, 1, 10));
 		OreDictionary.registerOre("tinyAmericium243Oxide", new ItemStack(NCItems.americium, 1, 11));
 		
+		OreDictionary.registerOre("ingotCurium243Base", new ItemStack(NCItems.curium, 1, 0));
 		OreDictionary.registerOre("ingotCurium243", new ItemStack(NCItems.curium, 1, 0));
 		OreDictionary.registerOre("ingotCurium243Oxide", new ItemStack(NCItems.curium, 1, 1));
 		OreDictionary.registerOre("tinyCurium243", new ItemStack(NCItems.curium, 1, 2));
 		OreDictionary.registerOre("tinyCurium243Oxide", new ItemStack(NCItems.curium, 1, 3));
+		OreDictionary.registerOre("ingotCurium245Base", new ItemStack(NCItems.curium, 1, 4));
 		OreDictionary.registerOre("ingotCurium245", new ItemStack(NCItems.curium, 1, 4));
 		OreDictionary.registerOre("ingotCurium245Oxide", new ItemStack(NCItems.curium, 1, 5));
 		OreDictionary.registerOre("tinyCurium245", new ItemStack(NCItems.curium, 1, 6));
@@ -190,6 +205,7 @@ public class OreDictHandler {
 		OreDictionary.registerOre("ingotCurium246", new ItemStack(NCItems.curium, 1, 9));
 		OreDictionary.registerOre("tinyCurium246", new ItemStack(NCItems.curium, 1, 10));
 		OreDictionary.registerOre("tinyCurium246Oxide", new ItemStack(NCItems.curium, 1, 11));
+		OreDictionary.registerOre("ingotCurium247Base", new ItemStack(NCItems.curium, 1, 12));
 		OreDictionary.registerOre("ingotCurium247", new ItemStack(NCItems.curium, 1, 12));
 		OreDictionary.registerOre("ingotCurium247Oxide", new ItemStack(NCItems.curium, 1, 13));
 		OreDictionary.registerOre("tinyCurium247", new ItemStack(NCItems.curium, 1, 14));
@@ -201,11 +217,13 @@ public class OreDictHandler {
 		OreDictionary.registerOre("ingotBerkelium247", new ItemStack(NCItems.berkelium, 1, 1));
 		OreDictionary.registerOre("tinyBerkelium247", new ItemStack(NCItems.berkelium, 1, 2));
 		OreDictionary.registerOre("tinyBerkelium247Oxide", new ItemStack(NCItems.berkelium, 1, 3));
+		OreDictionary.registerOre("ingotBerkelium248Base", new ItemStack(NCItems.berkelium, 1, 4));
 		OreDictionary.registerOre("ingotBerkelium248", new ItemStack(NCItems.berkelium, 1, 4));
 		OreDictionary.registerOre("ingotBerkelium248Oxide", new ItemStack(NCItems.berkelium, 1, 5));
 		OreDictionary.registerOre("tinyBerkelium248", new ItemStack(NCItems.berkelium, 1, 6));
 		OreDictionary.registerOre("tinyBerkelium248Oxide", new ItemStack(NCItems.berkelium, 1, 7));
 		
+		OreDictionary.registerOre("ingotCalifornium249Base", new ItemStack(NCItems.californium, 1, 0));
 		OreDictionary.registerOre("ingotCalifornium249", new ItemStack(NCItems.californium, 1, 0));
 		OreDictionary.registerOre("ingotCalifornium249Oxide", new ItemStack(NCItems.californium, 1, 1));
 		OreDictionary.registerOre("tinyCalifornium249", new ItemStack(NCItems.californium, 1, 2));
@@ -216,6 +234,7 @@ public class OreDictHandler {
 		OreDictionary.registerOre("ingotCalifornium250", new ItemStack(NCItems.californium, 1, 5));
 		OreDictionary.registerOre("tinyCalifornium250", new ItemStack(NCItems.californium, 1, 6));
 		OreDictionary.registerOre("tinyCalifornium250Oxide", new ItemStack(NCItems.californium, 1, 7));
+		OreDictionary.registerOre("ingotCalifornium251Base", new ItemStack(NCItems.californium, 1, 8));
 		OreDictionary.registerOre("ingotCalifornium251", new ItemStack(NCItems.californium, 1, 8));
 		OreDictionary.registerOre("ingotCalifornium251Oxide", new ItemStack(NCItems.californium, 1, 9));
 		OreDictionary.registerOre("tinyCalifornium251", new ItemStack(NCItems.californium, 1, 10));
@@ -423,14 +442,6 @@ public class OreDictHandler {
 		OreDictionary.registerOre("record", NCItems.record_wanderer);
 		OreDictionary.registerOre("record", NCItems.record_end_of_the_world);
 		OreDictionary.registerOre("record", NCItems.record_money_for_nothing);
-		
-		for (ItemStack sulfur : OreDictionary.getOres("dustSulfur")) OreDictionary.registerOre("dustSulfurBinder", sulfur);
-		OreDictionary.registerOre("dustSulfurBinder", new ItemStack(NCItems.gem_dust, 1, 6));
-		for (ItemStack sulfurBinder : OreDictionary.getOres("dustCalciumSulfate")) OreDictionary.registerOre("dustSulfurBinder", sulfurBinder);
-		OreDictionary.registerOre("dustSulfurBinder", new ItemStack(NCItems.compound, 1, 0));
-		
-		/*for (ItemStack dustRhodochrosite : OreDictionary.getOres("dustRhodochrosite")) OreDictionary.registerOre("dustCrystalBinder", dustRhodochrosite);
-		OreDictionary.registerOre("dustCrystalBinder", new ItemStack(NCItems.gem_dust, 1, 1));*/
 		
 		// Vanilla
 		OreDictionary.registerOre("gemCoal", Items.COAL);

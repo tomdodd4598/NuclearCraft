@@ -23,11 +23,13 @@ public class BlockFluidSteam extends BlockFluid {
 		setQuantaPerBlock(16);
 	}
 	
+	@Override
 	public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
 		entityIn.attackEntityFrom(steam_burn, 3.0F);
 		entityIn.setFire(1);
 	}
 	
+	@Override
 	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
 		super.updateTick(worldIn, pos, state, rand);
 		if (isSourceBlock(worldIn, pos)) worldIn.setBlockToAir(pos);

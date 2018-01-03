@@ -10,6 +10,7 @@ public class TabFluids extends CreativeTabs {
 		super("nuclearcraftFluids");
 	}
 
+	@Override
 	public ItemStack getTabIconItem() {
 		return new ItemStack(NCFluids.block_liquidhelium);
 	}

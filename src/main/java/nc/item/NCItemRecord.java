@@ -3,14 +3,14 @@ package nc.item;
 import java.util.List;
 
 import nc.Global;
-import nc.util.NCInfo;
+import nc.util.Lang;
+import nc.util.InfoHelper;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemRecord;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -20,44 +20,29 @@ public class NCItemRecord extends ItemRecord {
 	public final String[] info;
 	private final String name;
 	
-	public NCItemRecord(String unlocalizedName, String registryName, SoundEvent sound, Object... tooltip) {
-		super("record_" + unlocalizedName, sound);
-		name = unlocalizedName;
-		setUnlocalizedName("record_" + unlocalizedName);
-		setRegistryName(new ResourceLocation(Global.MOD_ID, "record_" + registryName));
-		
-		if (tooltip.length == 0) {
-			String[] strings = {};
-			info = strings;
-		} else if (tooltip[0] instanceof String) {
-			String[] strings = new String[tooltip.length];
-			for (int i = 0; i < tooltip.length; i++) {
-				strings[i] = (String) tooltip[i];
-			}
-			info = strings;
-		} else if (tooltip[0] instanceof Integer) {
-			String[] strings = new String[(int) tooltip[0]];
-			for (int i = 0; i < (int) tooltip[0]; i++) {
-				strings[i] = I18n.translateToLocalFormatted("item." + "record_" + unlocalizedName + ".des" + i);
-			}
-			info = strings;
-		} else {
-			String[] strings = {};
-			info = strings;
-		}
+	public NCItemRecord(String nameIn, SoundEvent sound, String... tooltip) {
+		super("record_" + nameIn, sound);
+		name = nameIn;
+		setUnlocalizedName("record_" + nameIn);
+		setRegistryName(new ResourceLocation(Global.MOD_ID, "record_" + nameIn));
+		info = InfoHelper.buildInfo(getUnlocalizedName(), tooltip);
 	}
 	
+	@Override
+	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack itemStack, World world, List<String> tooltip, ITooltipFlag flag) {
 		//super.addInformation(itemStack, player, tooltip, advanced);
-		if (info.length > 0) NCInfo.infoFull(tooltip, info);
+		if (info.length > 0) InfoHelper.infoFull(tooltip, info);
 	}
 
+	@Override
 	public EnumRarity getRarity(ItemStack stack) {
 		return EnumRarity.EPIC;
 	}
 	
+	@Override
 	@SideOnly(Side.CLIENT)
 	public String getRecordNameLocal() {
-		return I18n.translateToLocal("item.record_" + name + ".des0");
+		return Lang.localise("item.record_" + name + ".des0");
 	}
 }

@@ -7,6 +7,7 @@ public class NCContainer extends Container {
 	
 	public NCContainer() {}
 
+	@Override
 	public boolean canInteractWith(EntityPlayer playerIn) {
 		return false;
 	}

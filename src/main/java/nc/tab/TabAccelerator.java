@@ -10,6 +10,7 @@ public class TabAccelerator extends CreativeTabs {
 		super("nuclearcraftAccelerator");
 	}
 
+	@Override
 	public ItemStack getTabIconItem() {
 		return new ItemStack(NCBlocks.accelerator_electromagnet_active);
 	}

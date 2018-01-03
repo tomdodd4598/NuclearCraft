@@ -10,6 +10,7 @@ public class TabFissionMaterials extends CreativeTabs {
 		super("nuclearcraftFissionMaterials");
 	}
 
+	@Override
 	public ItemStack getTabIconItem() {
 		return new ItemStack(NCItems.uranium, 1, 4);
 	}

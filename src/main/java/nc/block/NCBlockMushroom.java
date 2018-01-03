@@ -14,24 +14,28 @@ import net.minecraft.world.World;
 
 public class NCBlockMushroom extends BlockMushroom {
 	
-	public NCBlockMushroom(String unlocalizedName, String registryName) {
+	public NCBlockMushroom(String name) {
 		super();
-		setUnlocalizedName(unlocalizedName);
-		setRegistryName(new ResourceLocation(Global.MOD_ID, registryName));
+		setUnlocalizedName(name);
+		setRegistryName(new ResourceLocation(Global.MOD_ID, name));
 		setCreativeTab(CommonProxy.TAB_BASE_BLOCK_MATERIALS);
 		setLightLevel(1F);
 	}
 	
+	@Override
 	public boolean canGrow(World worldIn, BlockPos pos, IBlockState state, boolean isClient) {
 		return false;
 	}
 
+	@Override
 	public boolean canUseBonemeal(World worldIn, Random rand, BlockPos pos, IBlockState state) {
 		return false;
 	}
 
+	@Override
 	public void grow(World worldIn, Random rand, BlockPos pos, IBlockState state) {}
 	
+	@Override
 	public boolean canBlockStay(World worldIn, BlockPos pos, IBlockState state) {
 		if (pos.getY() >= 0 && pos.getY() < 256) {
 			IBlockState iblockstate = worldIn.getBlockState(pos.down());

@@ -27,6 +27,7 @@ public class SpinTESR extends TileEntitySpecialRenderer<TileSpin> {
 	private IModel modelAmbient, modelUp, modelDown;
     private IBakedModel bakedModelAmbient, bakedModelUp, bakedModelDown;
 	
+	@Override
 	public void render(TileSpin te, double posX, double posY, double posZ, float partialTicks, int destroyStage, float alpha) {
 		
 		if(!(te.getBlockType() instanceof BlockSpin)) return;

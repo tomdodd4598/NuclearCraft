@@ -5,16 +5,11 @@ import nc.recipe.BaseRecipeHandler;
 
 public class ChemicalReactorRecipes extends BaseRecipeHandler {
 	
-	//private static final ChemicalReactorRecipes RECIPES = new ChemicalReactorRecipes();
-	
 	public ChemicalReactorRecipes() {
 		super(0, 2, 0, 2, true);
 	}
 
-	/*public static final ChemicalReactorRecipes instance() {
-		return RECIPES;
-	}*/
-
+	@Override
 	public void addRecipes() {
 		addRecipe(fluidStack("boron", 144), fluidStack("hydrogen", 3000), fluidStack("diborane", 500), fluidStack("diborane", 500), NCConfig.processor_time[12]*2);
 		addRecipe(fluidStack("boron10", 144), fluidStack("hydrogen", 3000), fluidStack("diborane", 500), fluidStack("diborane", 500), NCConfig.processor_time[12]*2);
@@ -40,6 +35,7 @@ public class ChemicalReactorRecipes extends BaseRecipeHandler {
 		addRecipe(fluidStack("oxygen_difluoride", 500), fluidStack("sulfur_dioxide", 500), fluidStack("sulfur_trioxide", 500), fluidStack("fluorine", 500), NCConfig.processor_time[12]);
 	}
 
+	@Override
 	public String getRecipeName() {
 		return "chemical_reactor";
 	}

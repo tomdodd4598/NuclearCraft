@@ -19,6 +19,7 @@ public class DecorGen implements IWorldGenerator {
 		glowing_mushroom = new WorldGenBush(NCBlocks.glowing_mushroom.getDefaultState(), Blocks.NETHERRACK.getDefaultState());
 	}
 
+	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
 		runGenerator(glowing_mushroom, world, random, chunkX, chunkZ, 50, 0, 200);
 	}

@@ -41,25 +41,22 @@ public class BlockNuclearFurnace extends BlockContainer implements ITileEntityPr
 	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 	private final boolean isBurning;
 	private static boolean keepInventory;
-	private final int guiId;
 	
-	public BlockNuclearFurnace(String unlocalizedName, String registryName, boolean isBurning, int guiId) {
+	public BlockNuclearFurnace(boolean isBurning) {
 		super(Material.IRON);
-		setUnlocalizedName(unlocalizedName);
-		setRegistryName(new ResourceLocation(Global.MOD_ID, registryName));
-		setHarvestLevel("pickaxe", 0);
-		setHardness(2);
-		setResistance(15);
+		setUnlocalizedName("nuclear_furnace" + (isBurning ? "_active" : "_idle"));
+		setRegistryName(new ResourceLocation(Global.MOD_ID, "nuclear_furnace" + (isBurning ? "_active" : "_idle")));
 		setDefaultState(blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
 		this.isBurning = isBurning;
-		this.guiId = guiId;
 		if (!isBurning) setCreativeTab(CommonProxy.TAB_MACHINES);
 	}
 	
+	@Override
 	public Item getItemDropped(IBlockState state, Random rand, int fortune) {
 		return Item.getItemFromBlock(NCBlocks.nuclear_furnace_idle);
 	}
 	
+	@Override
 	public void onBlockAdded(World world, BlockPos pos, IBlockState state) {
 		setDefaultFacing(world, pos, state);
 	}
@@ -85,6 +82,7 @@ public class BlockNuclearFurnace extends BlockContainer implements ITileEntityPr
 		}
 	}
 	
+	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
 		return new TileNuclearFurnace();
 	}
@@ -107,18 +105,20 @@ public class BlockNuclearFurnace extends BlockContainer implements ITileEntityPr
 		}
 	}
 	
+	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if (world.isRemote) {
 			return true;
 		} else if (player != null) {
 			TileEntity tileentity = world.getTileEntity(pos);
 			if (tileentity instanceof TileNuclearFurnace) {
-				FMLNetworkHandler.openGui(player, NuclearCraft.instance, guiId, world, pos.getX(), pos.getY(), pos.getZ());
+				FMLNetworkHandler.openGui(player, NuclearCraft.instance, 0, world, pos.getX(), pos.getY(), pos.getZ());
 			}
 		}
 		return true;
 	}
 	
+	@Override
 	@SideOnly(Side.CLIENT)
 	@SuppressWarnings("incomplete-switch")
 	public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random rand) {
@@ -136,32 +136,35 @@ public class BlockNuclearFurnace extends BlockContainer implements ITileEntityPr
 			
 			switch (enumfacing) {
 				case WEST:
-					world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0 - d3, d1, d2 + d4, 0.0D, 0.0D, 0.0D, new int[0]);
-					world.spawnParticle(EnumParticleTypes.FLAME, d0 - d3, d1, d2 + d4, 0.0D, 0.0D, 0.0D, new int[0]);
+					world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0 - d3, d1, d2 + d4, 0.0D, 0.0D, 0.0D);
+					world.spawnParticle(EnumParticleTypes.FLAME, d0 - d3, d1, d2 + d4, 0.0D, 0.0D, 0.0D);
 					break;
 				case EAST:
-					world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0 + d3, d1, d2 + d4, 0.0D, 0.0D, 0.0D, new int[0]);
-					world.spawnParticle(EnumParticleTypes.FLAME, d0 + d3, d1, d2 + d4, 0.0D, 0.0D, 0.0D, new int[0]);
+					world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0 + d3, d1, d2 + d4, 0.0D, 0.0D, 0.0D);
+					world.spawnParticle(EnumParticleTypes.FLAME, d0 + d3, d1, d2 + d4, 0.0D, 0.0D, 0.0D);
 					break;
 				case NORTH:
-					world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0 + d4, d1, d2 - d3, 0.0D, 0.0D, 0.0D, new int[0]);
-					world.spawnParticle(EnumParticleTypes.FLAME, d0 + d4, d1, d2 - d3, 0.0D, 0.0D, 0.0D, new int[0]);
+					world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0 + d4, d1, d2 - d3, 0.0D, 0.0D, 0.0D);
+					world.spawnParticle(EnumParticleTypes.FLAME, d0 + d4, d1, d2 - d3, 0.0D, 0.0D, 0.0D);
 					break;
 				case SOUTH:
-					world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0 + d4, d1, d2 + d3, 0.0D, 0.0D, 0.0D, new int[0]);
-					world.spawnParticle(EnumParticleTypes.FLAME, d0 + d4, d1, d2 + d3, 0.0D, 0.0D, 0.0D, new int[0]);
+					world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0 + d4, d1, d2 + d3, 0.0D, 0.0D, 0.0D);
+					world.spawnParticle(EnumParticleTypes.FLAME, d0 + d4, d1, d2 + d3, 0.0D, 0.0D, 0.0D);
 			}
 		}
 	}
 	
+	@Override
 	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
 		return getDefaultState().withProperty(FACING, placer.getHorizontalFacing().getOpposite());
 	}
 	
+	@Override
 	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
 		world.setBlockState(pos, state.withProperty(FACING, placer.getHorizontalFacing().getOpposite()), 2);
 	}
 	
+	@Override
 	public void breakBlock(World world, BlockPos pos, IBlockState state) {
 		if (!keepInventory) {
 			TileEntity tileentity = world.getTileEntity(pos);
@@ -174,22 +177,27 @@ public class BlockNuclearFurnace extends BlockContainer implements ITileEntityPr
 		super.breakBlock(world, pos, state);
 	}
 	
+	@Override
 	public boolean hasComparatorInputOverride(IBlockState state) {
 		return true;
 	}
 	
+	@Override
 	public int getComparatorInputOverride(IBlockState state, World world, BlockPos pos) {
 		return Container.calcRedstone(world.getTileEntity(pos));
 	}
 	
+	@Override
 	public ItemStack getItem(World world, BlockPos pos, IBlockState state) {
 		return new ItemStack(NCBlocks.nuclear_furnace_idle);
 	}
 	
+	@Override
 	public EnumBlockRenderType getRenderType(IBlockState state) {
 		return EnumBlockRenderType.MODEL;
 	}
 	
+	@Override
 	public IBlockState getStateFromMeta(int meta) {
 		EnumFacing enumfacing = EnumFacing.getFront(meta);
 		
@@ -200,18 +208,22 @@ public class BlockNuclearFurnace extends BlockContainer implements ITileEntityPr
 		return getDefaultState().withProperty(FACING, enumfacing);
 	}
 	
+	@Override
 	public int getMetaFromState(IBlockState state) {
 		return ((EnumFacing) state.getValue(FACING)).getIndex();
 	}
 	
+	@Override
 	public IBlockState withRotation(IBlockState state, Rotation rot) {
 		return state.withProperty(FACING, rot.rotate((EnumFacing) state.getValue(FACING)));
 	}
 	
+	@Override
 	public IBlockState withMirror(IBlockState state, Mirror mirrorIn) {
 		return state.withRotation(mirrorIn.toRotation((EnumFacing) state.getValue(FACING)));
 	}
 	
+	@Override
 	protected BlockStateContainer createBlockState() {
 		return new BlockStateContainer(this, new IProperty[] {FACING});
 	}

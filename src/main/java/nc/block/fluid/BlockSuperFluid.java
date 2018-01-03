@@ -17,6 +17,7 @@ public class BlockSuperFluid extends BlockFluid {
 		setQuantaPerBlock(16);
 	}
 	
+	@Override
 	public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
 		entityIn.attackEntityFrom(superfluid_freeze, 6.0F);
 	}

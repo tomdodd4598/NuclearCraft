@@ -2,20 +2,15 @@ package nc.recipe.generator;
 
 import nc.config.NCConfig;
 import nc.recipe.BaseRecipeHandler;
-import net.minecraft.util.text.translation.I18n;
+import nc.util.Lang;
 
 public class FissionRecipes extends BaseRecipeHandler {
-	
-	//private static final FissionRecipes RECIPES = new FissionRecipes();
 	
 	public FissionRecipes() {
 		super(1, 0, 1, 0, false);
 	}
-
-	/*public static final FissionRecipes instance() {
-		return RECIPES;
-	}*/
 	
+	@Override
 	public void addRecipes() {
 		fuelRodDeplete("TBU", NCConfig.fission_thorium_fuel_time, NCConfig.fission_thorium_power, NCConfig.fission_thorium_heat_generation);
 		fuelRodDeplete("U", NCConfig.fission_uranium_fuel_time, NCConfig.fission_uranium_power, NCConfig.fission_uranium_heat_generation, 233, 235);
@@ -51,9 +46,10 @@ public class FissionRecipes extends BaseRecipeHandler {
 	}
 	
 	private static String localise(String string) {
-		return I18n.translateToLocalFormatted("gui.container.fission_controller." + string);
+		return Lang.localise("gui.container.fission_controller." + string);
 	}
 	
+	@Override
 	public String getRecipeName() {
 		return "fission";
 	}

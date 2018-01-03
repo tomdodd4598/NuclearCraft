@@ -16,6 +16,7 @@ public class PressurizerCategory extends BaseCategory {
 		super(guiHelper, handler, "pressurizer_idle", NCConfig.processor_time[11], 47, 30, 90, 26, 176, 3, 37, 16, 74, 35);
 	}
 	
+	@Override
 	public void setRecipe(IRecipeLayout recipeLayout, IRecipeWrapper recipeWrapper, IIngredients ingredients) {
 		RecipeItemMapper itemMapper = new RecipeItemMapper();
 		itemMapper.map(SorptionType.INPUT, 0, 0, 56 - backPosX, 35 - backPosY);

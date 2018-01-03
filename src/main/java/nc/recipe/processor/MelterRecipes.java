@@ -6,7 +6,7 @@ import java.util.List;
 
 import nc.config.NCConfig;
 import nc.recipe.BaseRecipeHandler;
-import nc.util.NCUtil;
+import nc.util.StringHelper;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraftforge.fluids.Fluid;
@@ -15,16 +15,11 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public class MelterRecipes extends BaseRecipeHandler {
 	
-	//private static final MelterRecipes RECIPES = new MelterRecipes();
-	
 	public MelterRecipes() {
 		super(1, 0, 0, 1, false);
 	}
 
-	/*public static final MelterRecipes instance() {
-		return RECIPES;
-	}*/
-
+	@Override
 	public void addRecipes() {
 		metalMelt();
 		
@@ -69,9 +64,9 @@ public class MelterRecipes extends BaseRecipeHandler {
 			fluidList.add(fluid.getName());
 		}
 		for (String fluidName : fluidList) {
-			String ore = "ore" + NCUtil.capitalize(fluidName);
-			String ingot = "ingot" + NCUtil.capitalize(fluidName);
-			String dust = "dust" + NCUtil.capitalize(fluidName);
+			String ore = "ore" + StringHelper.capitalize(fluidName);
+			String ingot = "ingot" + StringHelper.capitalize(fluidName);
+			String dust = "dust" + StringHelper.capitalize(fluidName);
 			if (NCConfig.ore_processing) {
 				if (oreList.contains(ore)) addRecipe(ore, fluidStack(fluidName, 324), NCConfig.processor_time[6]*2);
 			}
@@ -82,6 +77,7 @@ public class MelterRecipes extends BaseRecipeHandler {
 		}
 	}
 
+	@Override
 	public String getRecipeName() {
 		return "melter";
 	}

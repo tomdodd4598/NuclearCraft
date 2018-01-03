@@ -5,7 +5,7 @@ import nc.config.NCConfig;
 import nc.energy.EnumStorage.EnergyConnection;
 import nc.fluid.EnumTank.FluidConnection;
 import nc.tile.energyFluid.TileEnergyFluidSidedInventory;
-import nc.util.NCStackHelper;
+import nc.util.StackHelper;
 import net.darkhax.tesla.capability.TeslaCapabilities;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -71,19 +71,19 @@ public abstract class TilePassive extends TileEnergyFluidSidedInventory /*implem
 		super(name, 1, energyChange == 0 ? 1 : 2*MathHelper.abs(energyChange)*changeRate*NCConfig.generator_rf_per_eu, energyChange == 0 ? 0 : MathHelper.abs(energyChange)*NCConfig.generator_rf_per_eu, energyChange > 0 ? EnergyConnection.OUT : (energyChange < 0 ? EnergyConnection.IN : EnergyConnection.NON), new int[] {fluidChange == 0 ? 1 : 2*MathHelper.abs(fluidChange)*changeRate}, new FluidConnection[] {fluidChange > 0 ? FluidConnection.OUT : (fluidChange < 0 ? FluidConnection.IN : FluidConnection.NON)}, fluidTypes);
 		this.energyChange = energyChange*changeRate;
 		this.itemChange = itemChange*changeRate;
-		stackChange = NCStackHelper.changeStackSize(stack, MathHelper.abs(itemChange)*changeRate);
+		stackChange = StackHelper.changeStackSize(stack, MathHelper.abs(itemChange)*changeRate);
 		this.fluidChange = fluidChange*changeRate;
 		fluidStackChange = new FluidStack(fluid, MathHelper.abs(fluidChange)*changeRate);
 		fluidType = fluid;
 		updateRate = changeRate*20;
 	}
 	
+	@Override
 	public void update() {
 		boolean flag = isRunning;
 		boolean flag1 = false;
 		super.update();
 		if(!world.isRemote) {
-			tick();
 			if (shouldUpdate()) {
 				energyBool = changeEnergy(false);
 				stackBool = changeStack(false);
@@ -93,8 +93,10 @@ public abstract class TilePassive extends TileEnergyFluidSidedInventory /*implem
 			if (flag != isRunning) {
 				flag1 = true;
 				if (NCConfig.update_block_type) {
-					setBlockState();
+					removeTileFromENet();
+					setState(isRunning);
 					world.notifyNeighborsOfStateChange(pos, blockType, true);
+					addTileToENet();
 				}
 			}
 			if (energyChange > 0) pushEnergy();
@@ -105,15 +107,8 @@ public abstract class TilePassive extends TileEnergyFluidSidedInventory /*implem
 		}
 	}
 	
-	public void tick() {
-		if (tickCount > updateRate) {
-			tickCount = 0;
-		} else {
-			tickCount++;
-		}
-	}
-	
 	public boolean shouldUpdate() {
+		if (tickCount > updateRate) tickCount = 0; else tickCount++;
 		return tickCount > updateRate;
 	}
 	
@@ -171,8 +166,6 @@ public abstract class TilePassive extends TileEnergyFluidSidedInventory /*implem
 		return true;
 	}
 	
-	public abstract void setBlockState();
-	
 	public boolean isRunning(boolean energy, boolean stack, boolean fluid) {
 		if (energyChange >= 0) {
 			if (itemChange >= 0) {
@@ -195,36 +188,43 @@ public abstract class TilePassive extends TileEnergyFluidSidedInventory /*implem
 	
 	// Inventory
 	
+	@Override
 	public int getInventoryStackLimit() {
 		return itemChange == 0 ? 1 : 2*MathHelper.abs(itemChange);
 	}
 	
 	// Sided Inventory
 
+	@Override
 	public int[] getSlotsForFace(EnumFacing side) {
 		return new int[] {0};
 	}
 
+	@Override
 	public boolean canInsertItem(int slot, ItemStack stack, EnumFacing direction) {
 		return itemChange < 0 && ItemStack.areItemsEqual(stack, stackChange);
 	}
 
+	@Override
 	public boolean canExtractItem(int slot, ItemStack stack, EnumFacing direction) {
 		return itemChange > 0;
 	}
 	
 	// IC2 EU
 
+	@Override
 	public int getSourceTier() {
 		return 2;
 	}
 
+	@Override
 	public int getSinkTier() {
 		return 4;
 	}
 	
 	// NBT
 	
+	@Override
 	public NBTTagCompound writeAll(NBTTagCompound nbt) {
 		super.writeAll(nbt);
 		nbt.setBoolean("isRunning", isRunning);
@@ -234,6 +234,7 @@ public abstract class TilePassive extends TileEnergyFluidSidedInventory /*implem
 		return nbt;
 	}
 		
+	@Override
 	public void readAll(NBTTagCompound nbt) {
 		super.readAll(nbt);
 		isRunning = nbt.getBoolean("isRunning");
@@ -244,20 +245,21 @@ public abstract class TilePassive extends TileEnergyFluidSidedInventory /*implem
 	
 	// Capability
 	
-	net.minecraftforge.items.IItemHandler handlerTop = new net.minecraftforge.items.wrapper.SidedInvWrapper(this, net.minecraft.util.EnumFacing.UP);
-	net.minecraftforge.items.IItemHandler handlerBottom = new net.minecraftforge.items.wrapper.SidedInvWrapper(this, net.minecraft.util.EnumFacing.DOWN);
-	net.minecraftforge.items.IItemHandler handlerSide = new net.minecraftforge.items.wrapper.SidedInvWrapper(this, net.minecraft.util.EnumFacing.WEST);
+	net.minecraftforge.items.IItemHandler itemHandler = new net.minecraftforge.items.wrapper.InvWrapper(this);
 	
+	@Override
 	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
-		if (energyChange != 0) if (CapabilityEnergy.ENERGY == capability && connection.canConnect()) {
+		if (energyChange != 0) if (CapabilityEnergy.ENERGY == capability && energyConnection.canConnect()) {
 			return true;
 		}
-		if (energyChange != 0) if (connection != null && ModCheck.teslaLoaded && connection.canConnect()) {
-			if ((capability == TeslaCapabilities.CAPABILITY_CONSUMER && connection.canReceive()) || (capability == TeslaCapabilities.CAPABILITY_PRODUCER && connection.canExtract()) || capability == TeslaCapabilities.CAPABILITY_HOLDER)
+		if (energyChange != 0) if (energyConnection != null && ModCheck.teslaLoaded() && energyConnection.canConnect()) {
+			if ((capability == TeslaCapabilities.CAPABILITY_CONSUMER && energyConnection.canReceive()) || (capability == TeslaCapabilities.CAPABILITY_PRODUCER && energyConnection.canExtract()) || capability == TeslaCapabilities.CAPABILITY_HOLDER)
 				return true;
 		}
-		if (fluidChange != 0) if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
-			return true;
+		if (fluidChange != 0) {
+			if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) return true;
+			//else if (capability == mekanism.common.capabilities.Capabilities.GAS_HANDLER_CAPABILITY) return true;
+			//else if (capability == mekanism.common.capabilities.Capabilities.TUBE_CONNECTION_CAPABILITY) return true;
 		}
 		if (itemChange != 0) if (capability == net.minecraftforge.items.CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
 			return true;
@@ -265,19 +267,22 @@ public abstract class TilePassive extends TileEnergyFluidSidedInventory /*implem
 		return false;
 	}
 	
+	@Override
 	public <T> T getCapability(net.minecraftforge.common.capabilities.Capability<T> capability, @javax.annotation.Nullable net.minecraft.util.EnumFacing facing) {
-		if (energyChange != 0) if (CapabilityEnergy.ENERGY == capability && connection.canConnect()) {
+		if (energyChange != 0) if (CapabilityEnergy.ENERGY == capability && energyConnection.canConnect()) {
 			return (T) storage;
 		}
-		if (energyChange != 0) if (connection != null && ModCheck.teslaLoaded && connection.canConnect()) {
-			if ((capability == TeslaCapabilities.CAPABILITY_CONSUMER && connection.canReceive()) || (capability == TeslaCapabilities.CAPABILITY_PRODUCER && connection.canExtract()) || capability == TeslaCapabilities.CAPABILITY_HOLDER)
+		if (energyChange != 0) if (energyConnection != null && ModCheck.teslaLoaded() && energyConnection.canConnect()) {
+			if ((capability == TeslaCapabilities.CAPABILITY_CONSUMER && energyConnection.canReceive()) || (capability == TeslaCapabilities.CAPABILITY_PRODUCER && energyConnection.canExtract()) || capability == TeslaCapabilities.CAPABILITY_HOLDER)
 				return (T) storage;
 		}
-		if (fluidChange != 0) if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
-			return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(this);
+		if (fluidChange != 0) {
+			if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(this);
+			//if (capability == mekanism.common.capabilities.Capabilities.GAS_HANDLER_CAPABILITY) return mekanism.common.capabilities.Capabilities.GAS_HANDLER_CAPABILITY.cast(this);
+			//if (capability == mekanism.common.capabilities.Capabilities.TUBE_CONNECTION_CAPABILITY) return mekanism.common.capabilities.Capabilities.TUBE_CONNECTION_CAPABILITY.cast(this);
 		}
 		if (itemChange != 0) if (capability == net.minecraftforge.items.CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-			return (T) handlerSide;
+			return (T) itemHandler;
 		}
 		return super.getCapability(capability, facing);
 	}

@@ -5,32 +5,27 @@ import nc.recipe.BaseRecipeHandler;
 
 public class IsotopeSeparatorRecipes extends BaseRecipeHandler {
 	
-	//private static final IsotopeSeparatorRecipes RECIPES = new IsotopeSeparatorRecipes();
-	
 	public IsotopeSeparatorRecipes() {
 		super(1, 0, 2, 0, false);
 	}
 
-	/*public static final IsotopeSeparatorRecipes instance() {
-		return RECIPES;
-	}*/
-
+	@Override
 	public void addRecipes() {
-		addRecipe("ingotThorium", oreStack("ingotThorium232", 2), oreStack("tinyThorium230", 2), NCConfig.processor_time[1]);
-		addRecipe("ingotThoriumOxide", oreStack("ingotThorium232Oxide", 2), oreStack("tinyThorium230Oxide", 2), NCConfig.processor_time[1]);
-		addRecipe("ingotUranium", oreStack("ingotUranium238Base", 2), oreStack("tinyUranium235", 2), NCConfig.processor_time[1]);
-		addRecipe("ingotUraniumOxide", oreStack("ingotUranium238Oxide", 2), oreStack("tinyUranium235Oxide", 2), NCConfig.processor_time[1]);
-		addRecipe("dustThorium", oreStack("ingotThorium232", 2), oreStack("tinyThorium230", 2), NCConfig.processor_time[1]);
-		addRecipe("dustThoriumOxide", oreStack("ingotThorium232Oxide", 2), oreStack("tinyThorium230Oxide", 2), NCConfig.processor_time[1]);
-		addRecipe("dustUranium", oreStack("ingotUranium238Base", 2), oreStack("tinyUranium235", 2), NCConfig.processor_time[1]);
-		addRecipe("dustUraniumOxide", oreStack("ingotUranium238Oxide", 2), oreStack("tinyUranium235Oxide", 2), NCConfig.processor_time[1]);
+		addRecipe("ingotThorium", "ingotThorium232", "tinyThorium230", NCConfig.processor_time[1]);
+		addRecipe("ingotThoriumOxide", "ingotThorium232Oxide", "tinyThorium230Oxide", NCConfig.processor_time[1]);
+		addRecipe("ingotUranium", "ingotUranium238Base", "tinyUranium235", NCConfig.processor_time[1]);
+		addRecipe("ingotUraniumOxide", "ingotUranium238Oxide", "tinyUranium235Oxide", NCConfig.processor_time[1]);
+		addRecipe("dustThorium", "ingotThorium232", "tinyThorium230", NCConfig.processor_time[1]);
+		addRecipe("dustThoriumOxide", "ingotThorium232Oxide", "tinyThorium230Oxide", NCConfig.processor_time[1]);
+		addRecipe("dustUranium", "ingotUranium238Base", "tinyUranium235", NCConfig.processor_time[1]);
+		addRecipe("dustUraniumOxide", "ingotUranium238Oxide", "tinyUranium235Oxide", NCConfig.processor_time[1]);
 		
 		addRecipe("ingotYellorium", "ingotUranium238Base", "tinyUranium235", NCConfig.processor_time[1]);
 		addRecipe("dustYellorium", "ingotUranium238Base", "tinyUranium235", NCConfig.processor_time[1]);
 		addRecipe("ingotBlutonium", "ingotPlutonium242Base", "tinyPlutonium239", NCConfig.processor_time[1]);
 		addRecipe("dustBlutonium", "ingotPlutonium242Base", "tinyPlutonium239", NCConfig.processor_time[1]);
-		addRecipe("ingotPlutonium", oreStack("ingotPlutonium242Base", 2), oreStack("tinyPlutonium239", 2), NCConfig.processor_time[1]);
-		addRecipe("dustPlutonium", oreStack("ingotPlutonium242Base", 2), oreStack("tinyPlutonium239", 2), NCConfig.processor_time[1]);
+		addRecipe("ingotPlutonium", "ingotPlutonium242Base", "tinyPlutonium239", NCConfig.processor_time[1]);
+		addRecipe("dustPlutonium", "ingotPlutonium242Base", "tinyPlutonium239", NCConfig.processor_time[1]);
 		
 		addRecipe("ingotBoron", "ingotBoron11", oreStack("tinyBoron10", 3), NCConfig.processor_time[1]);
 		addRecipe("ingotLithium", "ingotLithium7", oreStack("tinyLithium6", 3), NCConfig.processor_time[1]);
@@ -61,6 +56,7 @@ public class IsotopeSeparatorRecipes extends BaseRecipeHandler {
 		}
 	}
 
+	@Override
 	public String getRecipeName() {
 		return "isotope_separator";
 	}

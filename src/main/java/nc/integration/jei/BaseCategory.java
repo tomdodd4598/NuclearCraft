@@ -8,9 +8,9 @@ import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeWrapper;
 import nc.Global;
+import nc.util.Lang;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.translation.I18n;
 
 public abstract class BaseCategory extends JEICategory {
 	
@@ -37,17 +37,21 @@ public abstract class BaseCategory extends JEICategory {
 		arrowDrawPosY = arrowPosY - backY;
 	}
 	
+	@Override
 	public void drawExtras(Minecraft minecraft) {
 		arrow.draw(minecraft, arrowDrawPosX, arrowDrawPosY);
 	}
 	
+	@Override
 	public IDrawable getBackground() {
 		return background;
 	}
 	
+	@Override
 	public abstract void setRecipe(IRecipeLayout recipeLayout, IRecipeWrapper recipeWrapper, IIngredients ingredients);
 	
+	@Override
 	public String getTitle() {
-		return I18n.translateToLocalFormatted("tile." + recipeTitle + ".name");
+		return Lang.localise("tile." + recipeTitle + ".name");
 	}
 }

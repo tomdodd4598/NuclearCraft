@@ -1,6 +1,5 @@
 package nc.energy;
 
-
 import net.darkhax.tesla.api.ITeslaConsumer;
 import net.darkhax.tesla.api.ITeslaHolder;
 import net.darkhax.tesla.api.ITeslaProducer;
@@ -34,20 +33,24 @@ public class Storage implements IEnergyStorage, ITeslaConsumer, ITeslaProducer, 
 	
 	// Tesla Energy
 
+	@Override
 	public long getStoredPower() {
 		return getEnergyStored();
 	}
 
+	@Override
 	public long getCapacity() {
 		return getMaxEnergyStored();
 	}
 
+	@Override
 	public long takePower(long power, boolean simulated) {
 		long energyExtracted = Math.min(energyStored, Math.min(maxExtract, Math.min(Integer.MAX_VALUE, power)));
 		if (!simulated) energyStored -= energyExtracted;
 		return energyExtracted;
 	}
 
+	@Override
 	public long givePower(long power, boolean simulated) {
 		long energyReceived = Math.min(energyCapacity - energyStored, Math.min(maxReceive, power));
 		if (!simulated) energyStored += energyReceived;
@@ -56,28 +59,34 @@ public class Storage implements IEnergyStorage, ITeslaConsumer, ITeslaProducer, 
 	
 	// Redstone Flux
 	
+	@Override
 	public int getEnergyStored() {
 		return (int) Math.min(energyStored, Integer.MAX_VALUE);
 	}
 
+	@Override
 	public int getMaxEnergyStored() {
 		return (int) Math.min(energyCapacity, Integer.MAX_VALUE);
 	}
 
+	@Override
 	public boolean canExtract() {
 		return true;
 	}
 
+	@Override
 	public boolean canReceive() {
 		return true;
 	}
 
+	@Override
 	public int receiveEnergy(int maxReceive, boolean simulated) {
 		long energyReceived = Math.min(energyCapacity - energyStored, Math.min(this.maxReceive, maxReceive));
 		if (!simulated) energyStored += energyReceived;
 		return (int) energyReceived;
 	}
 
+	@Override
 	public int extractEnergy(int maxExtract, boolean simulated) {
 		long energyExtracted = Math.min(energyStored, Math.min(this.maxExtract, maxExtract));
 		if (!simulated) energyStored -= energyExtracted;
@@ -98,16 +107,18 @@ public class Storage implements IEnergyStorage, ITeslaConsumer, ITeslaProducer, 
 	
 	public void setStorageCapacity(int newCapacity) {
 		if(newCapacity == energyCapacity || newCapacity <= 0) return;
-		if(newCapacity < energyCapacity) setEnergyStored(newCapacity);
 		energyCapacity = newCapacity;
+		if(newCapacity < energyStored) setEnergyStored(newCapacity);
     }
 	
 	// NBT
 	
+	@Override
 	public NBTTagCompound serializeNBT() {
 		return writeToNBT(new NBTTagCompound());
 	}
 
+	@Override
 	public void deserializeNBT(NBTTagCompound nbt) {
 		readAll(nbt);
 	}

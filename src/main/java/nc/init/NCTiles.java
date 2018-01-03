@@ -2,8 +2,8 @@ package nc.init;
 
 import nc.Global;
 import nc.tile.dummy.TileFissionPort;
-import nc.tile.dummy.TileFusionDummySide;
-import nc.tile.dummy.TileFusionDummyTop;
+import nc.tile.dummy.TileFusionDummy.TileFusionDummySide;
+import nc.tile.dummy.TileFusionDummy.TileFusionDummyTop;
 import nc.tile.dummy.TileMachineInterface;
 import nc.tile.energyFluid.TileBin;
 import nc.tile.energyFluid.TileBuffer;
@@ -20,11 +20,19 @@ import nc.tile.generator.TileFissionController;
 import nc.tile.generator.TileFusionCore;
 import nc.tile.passive.Passives.TileAcceleratorElectromagnet;
 import nc.tile.passive.Passives.TileCobblestoneGenerator;
+import nc.tile.passive.Passives.TileCobblestoneGeneratorCompact;
+import nc.tile.passive.Passives.TileCobblestoneGeneratorDense;
 import nc.tile.passive.Passives.TileElectromagnetSupercooler;
 import nc.tile.passive.Passives.TileFusionElectromagnet;
 import nc.tile.passive.Passives.TileHeliumCollector;
+import nc.tile.passive.Passives.TileHeliumCollectorCompact;
+import nc.tile.passive.Passives.TileHeliumCollectorDense;
 import nc.tile.passive.Passives.TileNitrogenCollector;
+import nc.tile.passive.Passives.TileNitrogenCollectorCompact;
+import nc.tile.passive.Passives.TileNitrogenCollectorDense;
 import nc.tile.passive.Passives.TileWaterSource;
+import nc.tile.passive.Passives.TileWaterSourceCompact;
+import nc.tile.passive.Passives.TileWaterSourceDense;
 import nc.tile.processor.Processors.TileAlloyFurnace;
 import nc.tile.processor.Processors.TileChemicalReactor;
 import nc.tile.processor.Processors.TileCrystallizer;
@@ -96,9 +104,20 @@ public class NCTiles {
 		GameRegistry.registerTileEntity(TileElectromagnetSupercooler.class, Global.MOD_ID + ":electromagnet_supercooler");
 		
 		GameRegistry.registerTileEntity(TileHeliumCollector.class, Global.MOD_ID + ":helium_collector");
+		GameRegistry.registerTileEntity(TileHeliumCollectorCompact.class, Global.MOD_ID + ":helium_collector_compact");
+		GameRegistry.registerTileEntity(TileHeliumCollectorDense.class, Global.MOD_ID + ":helium_collector_dense");
+		
 		GameRegistry.registerTileEntity(TileCobblestoneGenerator.class, Global.MOD_ID + ":cobblestone_generator");
+		GameRegistry.registerTileEntity(TileCobblestoneGeneratorCompact.class, Global.MOD_ID + ":cobblestone_generator_compact");
+		GameRegistry.registerTileEntity(TileCobblestoneGeneratorDense.class, Global.MOD_ID + ":cobblestone_generator_dense");
+		
 		GameRegistry.registerTileEntity(TileWaterSource.class, Global.MOD_ID + ":water_source");
+		GameRegistry.registerTileEntity(TileWaterSourceCompact.class, Global.MOD_ID + ":water_source_compact");
+		GameRegistry.registerTileEntity(TileWaterSourceDense.class, Global.MOD_ID + ":water_source_dense");
+		
 		GameRegistry.registerTileEntity(TileNitrogenCollector.class, Global.MOD_ID + ":nitrogen_collector");
+		GameRegistry.registerTileEntity(TileNitrogenCollectorCompact.class, Global.MOD_ID + ":nitrogen_collector_compact");
+		GameRegistry.registerTileEntity(TileNitrogenCollectorDense.class, Global.MOD_ID + ":nitrogen_collector_dense");
 		
 		//GameRegistry.registerTileEntity(TileSpin.class, Global.MOD_ID + ":spin");
 		

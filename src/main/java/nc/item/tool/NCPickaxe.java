@@ -3,12 +3,14 @@ package nc.item.tool;
 import java.util.List;
 
 import nc.Global;
-import nc.util.NCInfo;
+import nc.util.InfoHelper;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemPickaxe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class NCPickaxe extends ItemPickaxe {
 	
@@ -18,16 +20,13 @@ public class NCPickaxe extends ItemPickaxe {
 		super(material);
 		setUnlocalizedName(unlocalizedName);
 		setRegistryName(new ResourceLocation(Global.MOD_ID, unlocalizedName));
-		
-		String[] strings = new String[tooltip.length];
-		for (int i = 0; i < tooltip.length; i++) {
-			strings[i] = tooltip[i];
-		}
-		info = strings;
+		info = InfoHelper.buildInfo(getUnlocalizedName(), tooltip);
 	}
 	
+	@Override
+	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack itemStack, World world, List<String> tooltip, ITooltipFlag flag) {
         super.addInformation(itemStack, world, tooltip, flag);
-        if (info.length > 0) NCInfo.infoFull(tooltip, info);
+        if (info.length > 0) InfoHelper.infoFull(tooltip, info);
     }
 }

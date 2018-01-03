@@ -1,3 +1,29 @@
+v2.8
+
++ Added five more passive Fission Reactor Coolers
++ Added more depleted isotope blocks [thanks to xenon54xenon54!]
+
+* Fixed incorrect Fusion Reactor cooling rates
+* Fusion Core GUI now shows the rate of change of heat and active cooling rate
+* The Fusion Reactor is now gated behind Boron Nitride production
+
++ Added compact and dense forms of collector machines
+
+* Electromagnets, Active Coolers and other passive machines will distribute their stored fluid and energy to adjacent machines of the same type - DISABLED by default
+* Fixed slightly incorrect RF to EU conversion ratio
+
++ Added Brazilian Portuguese language file [thanks to InterPlay02!]
+* Made language files much easier to customise
++ Tooltip info width is now set automatically - no more manual line spacing!
+
+* Made lots of internal changes and cleaned up code
+* Some recipe tweaks and fixes
+
+v2.7a
+
+* Fixed errors with the active cooling rate configs
+* Fixed internal energy storages changing incorrectly when their capacity is altered
+
 v2.7
 
 * Properly fixed all cable/pipe/conduit disconnection bugs [thanks to Thutmose for all of the help!]

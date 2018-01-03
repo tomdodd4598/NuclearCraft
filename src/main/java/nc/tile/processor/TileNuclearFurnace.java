@@ -40,10 +40,12 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ISidedI
 	private int cookTime;
 	private int totalCookTime;
 
+	@Override
 	public int getSizeInventory() {
 		return furnaceItemStacks.size();
 	}
 
+	@Override
 	public boolean isEmpty() {
 		for (ItemStack itemstack : furnaceItemStacks) {
 			if (!itemstack.isEmpty()) {
@@ -53,18 +55,22 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ISidedI
 		return true;
 	}
 
+	@Override
 	public ItemStack getStackInSlot(int slot) {
 		return furnaceItemStacks.get(slot);
 	}
 
+	@Override
 	public ItemStack decrStackSize(int index, int amount) {
 		return ItemStackHelper.getAndSplit(furnaceItemStacks, index, amount);
 	}
 
+	@Override
 	public ItemStack removeStackFromSlot(int index) {
 		return ItemStackHelper.getAndRemove(furnaceItemStacks, index);
 	}
 
+	@Override
 	public void setInventorySlotContents(int index, ItemStack stack) {
 		ItemStack itemstack = furnaceItemStacks.get(index);
 		boolean flag = !stack.isEmpty() && stack.isItemEqual(itemstack) && ItemStack.areItemStackTagsEqual(stack, itemstack);
@@ -82,14 +88,17 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ISidedI
 		}
 	}
 	
+	@Override
 	public NonNullList<ItemStack> getInventoryStacks() {
 		return furnaceItemStacks;
 	}
 
+	@Override
 	public String getName() {
 		return Global.MOD_ID + ".container." + "nuclear_furnace";
 	}
 
+	@Override
 	public boolean hasCustomName() {
 		return false;
 	}
@@ -98,6 +107,7 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ISidedI
 		fixer.registerWalker(FixTypes.BLOCK_ENTITY, new ItemStackDataLists(TileNuclearFurnace.class, new String[] {"Items"}));
 	}
 
+	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		furnaceItemStacks = NonNullList.<ItemStack>withSize(getSizeInventory(), ItemStack.EMPTY);
@@ -108,6 +118,7 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ISidedI
 		currentItemBurnTime = getItemBurnTime(furnaceItemStacks.get(1));
 	}
 
+	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		nbt.setInteger("BurnTime", (short) furnaceBurnTime);
@@ -118,6 +129,7 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ISidedI
 		return nbt;
 	}
 
+	@Override
 	public int getInventoryStackLimit() {
 		return 64;
 	}
@@ -131,6 +143,7 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ISidedI
 		return inventory.getField(0) > 0;
 	}
 
+	@Override
 	public void update() {
 		boolean flag = isBurning();
 		boolean flag1 = false;
@@ -239,35 +252,35 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ISidedI
 		if (stack.isEmpty()) {
 			return 0;
 		} else {
-			for (int i = 0; i < OreDictionary.getOres("blockThorium").size(); i++) {
-				if (ItemStack.areItemsEqual(OreDictionary.getOres("blockThorium").get(i), stack)) return 3200;
+			for (ItemStack ore : OreDictionary.getOres("blockThorium")) {
+				if (ItemStack.areItemsEqual(ore, stack)) return 3200;
 			}
-			for (int i = 0; i < OreDictionary.getOres("blockUranium").size(); i++) {
-				if (ItemStack.areItemsEqual(OreDictionary.getOres("blockUranium").get(i), stack)) return 3200;
+			for (ItemStack ore : OreDictionary.getOres("blockUranium")) {
+				if (ItemStack.areItemsEqual(ore, stack)) return 3200;
 			}
-			for (int i = 0; i < OreDictionary.getOres("ingotThorium").size(); i++) {
-				if (ItemStack.areItemsEqual(OreDictionary.getOres("ingotThorium").get(i), stack)) return 320;
+			for (ItemStack ore : OreDictionary.getOres("ingotThorium")) {
+				if (ItemStack.areItemsEqual(ore, stack)) return 320;
 			}
-			for (int i = 0; i < OreDictionary.getOres("ingotUranium").size(); i++) {
-				if (ItemStack.areItemsEqual(OreDictionary.getOres("ingotUranium").get(i), stack)) return 320;
+			for (ItemStack ore : OreDictionary.getOres("ingotUranium")) {
+				if (ItemStack.areItemsEqual(ore, stack)) return 320;
 			}
-			for (int i = 0; i < OreDictionary.getOres("dustThorium").size(); i++) {
-				if (ItemStack.areItemsEqual(OreDictionary.getOres("dustThorium").get(i), stack)) return 320;
+			for (ItemStack ore : OreDictionary.getOres("dustThorium")) {
+				if (ItemStack.areItemsEqual(ore, stack)) return 320;
 			}
-			for (int i = 0; i < OreDictionary.getOres("dustUranium").size(); i++) {
-				if (ItemStack.areItemsEqual(OreDictionary.getOres("dustUranium").get(i), stack)) return 320;
+			for (ItemStack ore : OreDictionary.getOres("dustUranium")) {
+				if (ItemStack.areItemsEqual(ore, stack)) return 320;
 			}
-			for (int i = 0; i < OreDictionary.getOres("ingotThoriumOxide").size(); i++) {
-				if (ItemStack.areItemsEqual(OreDictionary.getOres("ingotThoriumOxide").get(i), stack)) return 480;
+			for (ItemStack ore : OreDictionary.getOres("ingotThoriumOxide")) {
+				if (ItemStack.areItemsEqual(ore, stack)) return 480;
 			}
-			for (int i = 0; i < OreDictionary.getOres("ingotUraniumOxide").size(); i++) {
-				if (ItemStack.areItemsEqual(OreDictionary.getOres("ingotUraniumOxide").get(i), stack)) return 480;
+			for (ItemStack ore : OreDictionary.getOres("ingotUraniumOxide")) {
+				if (ItemStack.areItemsEqual(ore, stack)) return 480;
 			}
-			for (int i = 0; i < OreDictionary.getOres("dustThoriumOxide").size(); i++) {
-				if (ItemStack.areItemsEqual(OreDictionary.getOres("dustThoriumOxide").get(i), stack)) return 480;
+			for (ItemStack ore : OreDictionary.getOres("dustThoriumOxide")) {
+				if (ItemStack.areItemsEqual(ore, stack)) return 480;
 			}
-			for (int i = 0; i < OreDictionary.getOres("dustUraniumOxide").size(); i++) {
-				if (ItemStack.areItemsEqual(OreDictionary.getOres("dustUraniumOxide").get(i), stack)) return 480;
+			for (ItemStack ore : OreDictionary.getOres("dustUraniumOxide")) {
+				if (ItemStack.areItemsEqual(ore, stack)) return 480;
 			}
 		}
 		return 0;
@@ -277,14 +290,18 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ISidedI
 		return getItemBurnTime(stack) > 0;
 	}
 
+	@Override
 	public boolean isUsableByPlayer(EntityPlayer player) {
 		return world.getTileEntity(pos) != this ? false : player.getDistanceSq((double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D) <= 64.0D;
 	}
 
+	@Override
 	public void openInventory(EntityPlayer player) {}
 
+	@Override
 	public void closeInventory(EntityPlayer player) {}
 
+	@Override
 	public boolean isItemValidForSlot(int index, ItemStack stack) {
 		if (index == 2) {
 			return false;
@@ -295,14 +312,17 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ISidedI
 		}
 	}
 
+	@Override
 	public int[] getSlotsForFace(EnumFacing side) {
 		return side == EnumFacing.DOWN ? SLOTS_BOTTOM : (side == EnumFacing.UP ? SLOTS_TOP : SLOTS_SIDES);
 	}
 
+	@Override
 	public boolean canInsertItem(int index, ItemStack stack, EnumFacing direction) {
 		return isItemValidForSlot(index, stack);
 	}
 
+	@Override
 	public boolean canExtractItem(int index, ItemStack stack, EnumFacing direction) {
 		if (direction == EnumFacing.DOWN && index == 1) {
 			Item item = stack.getItem();
@@ -315,10 +335,12 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ISidedI
 		return true;
 	}
 	
+	@Override
 	public int getFieldCount() {
 		return 4;
 	}
 
+	@Override
 	public int getField(int id) {
 		switch (id) {
 			case 0:
@@ -334,6 +356,7 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ISidedI
 		}
 	}
 
+	@Override
 	public void setField(int id, int value) {
 		switch (id) {
 			case 0:
@@ -350,10 +373,12 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ISidedI
 		}
 	}
 
+	@Override
 	public void clear() {
 		furnaceItemStacks.clear();
 	}
 	
+	@Override
 	public ITextComponent getDisplayName() {
 		return new TextComponentTranslation(blockType.getLocalizedName());
 	}
@@ -362,6 +387,7 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ISidedI
 	net.minecraftforge.items.IItemHandler handlerBottom = new net.minecraftforge.items.wrapper.SidedInvWrapper(this, net.minecraft.util.EnumFacing.DOWN);
 	net.minecraftforge.items.IItemHandler handlerSide = new net.minecraftforge.items.wrapper.SidedInvWrapper(this, net.minecraft.util.EnumFacing.WEST);
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public <T> T getCapability(net.minecraftforge.common.capabilities.Capability<T> capability, @javax.annotation.Nullable net.minecraft.util.EnumFacing facing) {
 		if (facing != null && capability == net.minecraftforge.items.CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {

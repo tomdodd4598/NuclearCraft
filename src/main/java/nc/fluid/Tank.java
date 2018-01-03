@@ -51,6 +51,7 @@ public class Tank extends FluidTank implements INBTSerializable<NBTTagCompound> 
 		return fluid.getLocalizedName();
 	}
 
+	@Override
 	public int fill(FluidStack resource, boolean doFill) {
 		if (!isFluidValid(resource.getFluid()) || (fluid != null && (fluid != null ? !fluid.isFluidEqual(resource) : false))) return 0;
 		int fluidReceived = Math.min(capacity - getFluidAmount(), Math.min(maxReceive, resource.amount));
@@ -58,6 +59,7 @@ public class Tank extends FluidTank implements INBTSerializable<NBTTagCompound> 
 		return fluidReceived;
 	}
 
+	@Override
 	public FluidStack drain(int maxDrain, boolean doDrain) {
 		if (fluid == null) return null;
 		int fluidExtracted = Math.min(getFluidAmount(), Math.min(maxExtract, maxDrain));
@@ -67,6 +69,7 @@ public class Tank extends FluidTank implements INBTSerializable<NBTTagCompound> 
 		return new FluidStack(type, fluidExtracted);
 	}
 	
+	@Override
 	public FluidStack drain(FluidStack resource, boolean doDrain) {
 		if (fluid == null || !fluid.isFluidEqual(resource)) return null;
 		int fluidExtracted = Math.min(getFluidAmount(), Math.min(maxExtract, resource.amount));
@@ -125,8 +128,8 @@ public class Tank extends FluidTank implements INBTSerializable<NBTTagCompound> 
 	
 	public void setTankCapacity(int newCapacity) {
 		if(newCapacity == capacity || newCapacity <= 0) return;
-		if(newCapacity < capacity) setFluidAmount(newCapacity);
 		capacity = newCapacity;
+		if(newCapacity < getFluidAmount()) setFluidAmount(newCapacity);
     }
 	
 	public boolean isFluidValid(String name) {
@@ -149,14 +152,17 @@ public class Tank extends FluidTank implements INBTSerializable<NBTTagCompound> 
 
 	// NBT
 	
+	@Override
 	public NBTTagCompound serializeNBT() {
 		return writeAll(new NBTTagCompound());
 	}
 
+	@Override
 	public void deserializeNBT(NBTTagCompound nbt) {
 		readAll(nbt);
 	}
 		
+	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
 		if (getFluidAmount() < 0) fluid = null;
 		nbt.setInteger("FluidAmount", getFluidAmount());
@@ -171,6 +177,7 @@ public class Tank extends FluidTank implements INBTSerializable<NBTTagCompound> 
 		return nbt;
 	}
 		
+	@Override
 	public Tank readFromNBT(NBTTagCompound nbt) {
 		if (nbt.getString("FluidName") == "nullFluid" || nbt.getInteger("FluidAmount") == 0) fluid = null;
 		else fluid = new FluidStack (FluidRegistry.getFluid(nbt.getString("FluidName")), nbt.getInteger("FluidAmount"));

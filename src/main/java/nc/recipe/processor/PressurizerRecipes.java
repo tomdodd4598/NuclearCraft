@@ -6,16 +6,11 @@ import net.minecraft.init.Blocks;
 
 public class PressurizerRecipes extends BaseRecipeHandler {
 	
-	//private static final PressurizerRecipes RECIPES = new PressurizerRecipes();
-	
 	public PressurizerRecipes() {
 		super(1, 0, 1, 0, false);
 	}
 
-	/*public static final PressurizerRecipes instance() {
-		return RECIPES;
-	}*/
-
+	@Override
 	public void addRecipes() {
 		addRecipe("dustGraphite", "gemCoal", NCConfig.processor_time[11]);
 		addRecipe(oreStack("ingotGraphite", 64), "gemDiamond", NCConfig.processor_time[11]*8);
@@ -27,6 +22,7 @@ public class PressurizerRecipes extends BaseRecipeHandler {
 		addRecipe("dustFluorite", "gemFluorite", NCConfig.processor_time[11]*4);
 	}
 
+	@Override
 	public String getRecipeName() {
 		return "pressurizer";
 	}

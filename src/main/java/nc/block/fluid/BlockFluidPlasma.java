@@ -2,10 +2,10 @@ package nc.block.fluid;
 
 import java.util.Random;
 
-import nc.block.tile.passive.BlockFusionElectromagnet;
-import nc.block.tile.passive.BlockFusionElectromagnetTransparent;
+import nc.block.tile.BlockActivatable;
+import nc.block.tile.BlockActivatableTransparent;
 import nc.init.NCBlocks;
-import nc.util.NCUtil;
+import nc.util.MaterialHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
@@ -30,16 +30,18 @@ public class BlockFluidPlasma extends BlockFluid {
 		setQuantaPerBlock(16);
 	}
 	
+	@Override
 	public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
 		entityIn.attackEntityFrom(plasma_burn, 8.0F);
 		entityIn.setFire(10);
 	}
 	
+	@Override
 	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
 		for (EnumFacing side : EnumFacing.HORIZONTALS) {
 			BlockPos offPos = pos.offset(side);
 			Material mat = worldIn.getBlockState(offPos).getMaterial();
-			if (NCUtil.isReplaceable(mat) && !mat.isLiquid() && mat != Material.FIRE) {
+			if (MaterialHelper.isReplaceable(mat) && !mat.isLiquid() && mat != Material.FIRE) {
 				if (worldIn.isSideSolid(offPos.down(), EnumFacing.UP)) {
 					worldIn.setBlockState(offPos, Blocks.FIRE.getDefaultState());
 					break;
@@ -49,7 +51,7 @@ public class BlockFluidPlasma extends BlockFluid {
 		int free = 0;
 		for (EnumFacing side : EnumFacing.values()) {
 			Block offBlock = worldIn.getBlockState(pos.offset(side)).getBlock();
-			if (!(offBlock instanceof BlockFusionElectromagnet || offBlock instanceof BlockFusionElectromagnetTransparent || offBlock == NCBlocks.fusion_connector)) {
+			if (!(offBlock instanceof BlockActivatable || offBlock instanceof BlockActivatableTransparent || offBlock == NCBlocks.fusion_connector)) {
 				free++;
 				continue;
 			} if (rand.nextInt(200) < 2) {

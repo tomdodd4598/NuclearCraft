@@ -4,14 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import nc.block.BlockOre;
+import nc.block.BlockMeta;
 import nc.config.NCConfig;
-import nc.handler.EnumHandler.OreTypes;
 import nc.init.NCBlocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.gen.IChunkGenerator;
 import net.minecraft.world.chunk.IChunkProvider;
+import net.minecraft.world.gen.IChunkGenerator;
 import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraftforge.fml.common.IWorldGenerator;
@@ -28,16 +27,17 @@ public class OreGen implements IWorldGenerator {
 	private WorldGenerator magnesium;
 	
 	public OreGen() {
-		copper = new WorldGenMinable(NCBlocks.ore.getDefaultState().withProperty(BlockOre.TYPE, OreTypes.COPPER), NCConfig.ore_size[0], new UniversalPredicate());
-		tin = new WorldGenMinable(NCBlocks.ore.getDefaultState().withProperty(BlockOre.TYPE, OreTypes.TIN), NCConfig.ore_size[1], new UniversalPredicate());
-		lead = new WorldGenMinable(NCBlocks.ore.getDefaultState().withProperty(BlockOre.TYPE, OreTypes.LEAD), NCConfig.ore_size[2], new UniversalPredicate());
-		thorium = new WorldGenMinable(NCBlocks.ore.getDefaultState().withProperty(BlockOre.TYPE, OreTypes.THORIUM), NCConfig.ore_size[3], new UniversalPredicate());
-		uranium = new WorldGenMinable(NCBlocks.ore.getDefaultState().withProperty(BlockOre.TYPE, OreTypes.URANIUM), NCConfig.ore_size[4], new UniversalPredicate());
-		boron = new WorldGenMinable(NCBlocks.ore.getDefaultState().withProperty(BlockOre.TYPE, OreTypes.BORON), NCConfig.ore_size[5], new UniversalPredicate());
-		lithium = new WorldGenMinable(NCBlocks.ore.getDefaultState().withProperty(BlockOre.TYPE, OreTypes.LITHIUM), NCConfig.ore_size[6], new UniversalPredicate());
-		magnesium = new WorldGenMinable(NCBlocks.ore.getDefaultState().withProperty(BlockOre.TYPE, OreTypes.MAGNESIUM), NCConfig.ore_size[7], new UniversalPredicate());
+		copper = new WorldGenMinable(((BlockMeta)NCBlocks.ore).getStateFromMeta(0), NCConfig.ore_size[0], new UniversalPredicate());
+		tin = new WorldGenMinable(((BlockMeta)NCBlocks.ore).getStateFromMeta(1), NCConfig.ore_size[1], new UniversalPredicate());
+		lead = new WorldGenMinable(((BlockMeta)NCBlocks.ore).getStateFromMeta(2), NCConfig.ore_size[2], new UniversalPredicate());
+		thorium = new WorldGenMinable(((BlockMeta)NCBlocks.ore).getStateFromMeta(3), NCConfig.ore_size[3], new UniversalPredicate());
+		uranium = new WorldGenMinable(((BlockMeta)NCBlocks.ore).getStateFromMeta(4), NCConfig.ore_size[4], new UniversalPredicate());
+		boron = new WorldGenMinable(((BlockMeta)NCBlocks.ore).getStateFromMeta(5), NCConfig.ore_size[5], new UniversalPredicate());
+		lithium = new WorldGenMinable(((BlockMeta)NCBlocks.ore).getStateFromMeta(6), NCConfig.ore_size[6], new UniversalPredicate());
+		magnesium = new WorldGenMinable(((BlockMeta)NCBlocks.ore).getStateFromMeta(7), NCConfig.ore_size[7], new UniversalPredicate());
 	}
 
+	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
 		List<Integer> dimList = new ArrayList<Integer>();
 		for (int i = 0; i < NCConfig.ore_dims.length; i ++) dimList.add(NCConfig.ore_dims[i]);

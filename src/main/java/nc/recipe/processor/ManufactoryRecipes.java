@@ -12,16 +12,11 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public class ManufactoryRecipes extends BaseRecipeHandler {
 	
-	//private static final ManufactoryRecipes RECIPES = new ManufactoryRecipes();
-	
 	public ManufactoryRecipes() {
 		super(1, 0, 1, 0, false);
 	}
 
-	/*public static final ManufactoryRecipes instance() {
-		return RECIPES;
-	}*/
-
+	@Override
 	public void addRecipes() {
 		if (NCConfig.ore_processing) oreProcess();
 		
@@ -52,6 +47,7 @@ public class ManufactoryRecipes extends BaseRecipeHandler {
 		}
 	}
 
+	@Override
 	public String getRecipeName() {
 		return "manufactory";
 	}

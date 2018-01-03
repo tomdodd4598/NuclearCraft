@@ -38,10 +38,13 @@ public abstract class TileFluidSidedInventory extends TileFluidInventory impleme
 	
 	// SidedInventory
 	
+	@Override
 	public abstract int[] getSlotsForFace(EnumFacing side);
 
+	@Override
 	public abstract boolean canInsertItem(int slot, ItemStack stack, EnumFacing direction);
 
+	@Override
 	public abstract boolean canExtractItem(int slot, ItemStack stack, EnumFacing direction);
 	
 	// Capability
@@ -50,6 +53,7 @@ public abstract class TileFluidSidedInventory extends TileFluidInventory impleme
 	net.minecraftforge.items.IItemHandler handlerBottom = new net.minecraftforge.items.wrapper.SidedInvWrapper(this, net.minecraft.util.EnumFacing.DOWN);
 	net.minecraftforge.items.IItemHandler handlerSide = new net.minecraftforge.items.wrapper.SidedInvWrapper(this, net.minecraft.util.EnumFacing.WEST);
 	
+	@Override
 	@SuppressWarnings("unchecked")
 	public <T> T getCapability(net.minecraftforge.common.capabilities.Capability<T> capability, @javax.annotation.Nullable net.minecraft.util.EnumFacing facing) {
 		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {

@@ -9,16 +9,11 @@ import net.minecraft.item.ItemStack;
 
 public class AlloyFurnaceRecipes extends BaseRecipeHandler {
 	
-	//private static final AlloyFurnaceRecipes RECIPES = new AlloyFurnaceRecipes();
-	
 	public AlloyFurnaceRecipes() {
 		super(2, 0, 1, 0, true);
 	}
 
-	/*public static final AlloyFurnaceRecipes instance() {
-		return RECIPES;
-	}*/
-
+	@Override
 	public void addRecipes() {
 		addRecipe(oreStack("ingotCopper", 3), "ingotTin", new ItemStack(NCItems.alloy, 4, 0), NCConfig.processor_time[4]);
 		addRecipe("ingotIron", oreStack("ingotGraphite", 2), new ItemStack(NCItems.alloy, 1, 5), NCConfig.processor_time[4]);
@@ -49,6 +44,7 @@ public class AlloyFurnaceRecipes extends BaseRecipeHandler {
 		addRecipe(oreStack("ingotCopper", 3), "ingotZinc", oreStack("ingotBrass", 4), NCConfig.processor_time[4]);
 	}
 
+	@Override
 	public String getRecipeName() {
 		return "alloy_furnace";
 	}

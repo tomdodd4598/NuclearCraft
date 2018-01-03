@@ -15,10 +15,12 @@ public class RecipeStack implements IIngredient, IRecipeStack {
 		this.stack = stack;
 	}
 	
+	@Override
 	public Object getIngredient() {
 		return stack instanceof ItemStack ? ((ItemStack) stack).copy() : (stack instanceof FluidStack ? ((FluidStack) stack).copy() : stack);
 	}
 
+	@Override
 	public boolean matches(Object object, SorptionType type) {
 		if (object instanceof ItemStack && stack instanceof ItemStack) {
 			ItemStack itemstack = (ItemStack) object;
@@ -43,14 +45,17 @@ public class RecipeStack implements IIngredient, IRecipeStack {
 		return false;
 	}
 
+	@Override
 	public Object getOutputStack() {
 		return stack instanceof ItemStack ? ((ItemStack) stack).copy() : (stack instanceof FluidStack ? ((FluidStack) stack).copy() : stack);
 	}
 
+	@Override
 	public List<Object> getIngredientList() {
 		return Lists.newArrayList(stack);
 	}
 
+	@Override
 	public int getStackSize() {
 		if (stack instanceof ItemStack) return ((ItemStack)stack).getCount();
 		else if (stack instanceof FluidStack) return ((FluidStack)stack).amount;

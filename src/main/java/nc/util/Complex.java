@@ -9,7 +9,8 @@ public class Complex {
         im = imag;
     }
 
-    public String toString() {
+    @Override
+	public String toString() {
         if (im == 0) return re + "";
         if (re == 0) return im + "i";
         if (im <  0) return re + " - " + (-im) + "i";

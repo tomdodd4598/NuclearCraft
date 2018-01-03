@@ -5,16 +5,11 @@ import nc.recipe.BaseRecipeHandler;
 
 public class FuelReprocessorRecipes extends BaseRecipeHandler {
 	
-	//private static final FuelReprocessorRecipes RECIPES = new FuelReprocessorRecipes();
-	
 	public FuelReprocessorRecipes() {
 		super(1, 0, 4, 0, false);
 	}
 
-	/*public static final FuelReprocessorRecipes instance() {
-		return RECIPES;
-	}*/
-
+	@Override
 	public void addRecipes() {
 		/** Tier 1 *//* TBU, LEU235, HEU235 *//** Products 2x */
 		/* 8x */	reprocess("TBU", "Uranium233", 16, "Uranium235", 8, "Neptunium236", 8, "Neptunium237", 32);
@@ -71,6 +66,7 @@ public class FuelReprocessorRecipes extends BaseRecipeHandler {
 		addRecipe("depletedFuelRod" + fuel + "Oxide", oreStack("tiny" + out1 + "Oxide", n1), oreStack("tiny" + out2 + "Oxide", n2), oreStack("tiny" + out3 + "Oxide", n3), oreStack("tiny" + out4 + "Oxide", n4), NCConfig.processor_time[3]);
 	}
 
+	@Override
 	public String getRecipeName() {
 		return "fuel_reprocessor";
 	}
