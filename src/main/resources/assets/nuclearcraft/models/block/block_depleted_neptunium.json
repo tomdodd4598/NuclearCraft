@@ -1,14 +1,6 @@
-<<<<<<< HEAD
-=======
-
->>>>>>> d265e14794a82d25c9ea33c4664cc0299be2b5d2
 {
 	"parent": "block/cube_all",
 	"textures": {
 		"all": "nuclearcraft:blocks/block_depleted_neptunium"
 	}
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> d265e14794a82d25c9ea33c4664cc0299be2b5d2
