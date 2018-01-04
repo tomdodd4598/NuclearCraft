@@ -30,8 +30,8 @@ public class TileFissionPort extends TileDummy implements IInterfaceable {
 	
 	@Override
 	public void onAdded() {
-		super.onAdded();
 		finder = new BlockFinder(pos, world, getBlockMetadata());
+		super.onAdded();
 	}
 	
 	// Finding Blocks

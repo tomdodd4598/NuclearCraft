@@ -9,10 +9,7 @@ import nc.util.InfoHelper;
 import nc.util.Lang;
 import nc.util.NCMathHelper;
 import net.minecraft.util.IStringSerializable;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
-@SideOnly(Side.CLIENT)
 public class NCInfo {
 	
 	// Coolers

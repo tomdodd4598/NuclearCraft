@@ -6,8 +6,7 @@ import com.google.common.collect.Lists;
 
 import net.minecraft.util.text.translation.I18n;
 
-public class Lang
-{
+public class Lang {
 	private static final String REGEX = "\\|";
 	public static final char CHAR = '|';
 

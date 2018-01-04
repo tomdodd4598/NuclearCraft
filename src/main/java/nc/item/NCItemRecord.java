@@ -3,8 +3,8 @@ package nc.item;
 import java.util.List;
 
 import nc.Global;
-import nc.util.Lang;
 import nc.util.InfoHelper;
+import nc.util.Lang;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemRecord;

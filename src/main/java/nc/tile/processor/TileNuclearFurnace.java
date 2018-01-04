@@ -380,7 +380,7 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ISidedI
 	
 	@Override
 	public ITextComponent getDisplayName() {
-		return new TextComponentTranslation(blockType.getLocalizedName());
+		if (getBlockType() != null) return new TextComponentTranslation(getBlockType().getLocalizedName()); else return null;
 	}
 
 	net.minecraftforge.items.IItemHandler handlerTop = new net.minecraftforge.items.wrapper.SidedInvWrapper(this, net.minecraft.util.EnumFacing.UP);

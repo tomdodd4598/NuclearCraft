@@ -5,10 +5,7 @@ import java.util.List;
 import org.lwjgl.input.Keyboard;
 
 import net.minecraft.util.text.TextFormatting;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
-@SideOnly(Side.CLIENT)
 public class InfoHelper {
 	private static final int TEXT_WIDTH = 225;
 	
