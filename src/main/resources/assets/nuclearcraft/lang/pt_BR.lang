@@ -19,7 +19,7 @@ tile.ingot_block.beryllium.name=Bloco de Berilo
 tile.ingot_block.zirconium.name=Bloco de Zircônio
 
 tile.ingot_block.graphite.name=Bloco de Grafite
-tile.ingot_block.graphite.desc=Grafite só é considerado ativo se estiver tocando ao menos uma Célula de Reator. Grafite ativo aumenta a eficiência do Reator, mas também produz algum calor extra. A energia adicional gerada por bloco de grafite é igual ao RFBase*SemCélulas/8 RF/t, e o calor extra gerado por bloco de grafite é o RFBase*SemCélulas/16 Unidades de Calor por tick.
+tile.ingot_block.graphite.desc=Grafite só é considerado ativo se estiver tocando ao menos uma Célula de Reator. Grafite ativo aumenta a eficiência do Reator, mas também produz algum calor extra. A energia adicional gerada por bloco de grafite é igual ao RFBase*SemCélulas/8 RF/t, e o calor extra gerado por bloco de grafite é o RFBase*SemCélulas/16 Unidades de Calor (UC) por tick.
 
 tile.fission_block.casing.name=Estrutura de Reator
 tile.fission_block.casing.desc=Usado na construção de reatores de fissão. Para formar uma estrutura válida, construa um cubo oco feito disto, se assegurando de *excluir* os cantos (cantos não têm importância). Coloque um controlador de fissão em uma ponta, ou em um canto, ou em uma das faces da estrutura. Se a GUI mostrar um erro, tenha certeza de que a estrutura é válida. Então encha o interior com células de reator, com resfriadores e com blocos de grafite para começar a gerar energia do seu combustível de fissão!
@@ -68,10 +68,32 @@ tile.cooler.enderium.desc=Deve tocar ao menos três estruturas de reator.
 tile.cooler.cryotheum.name=Resfriador à Crióteum
 tile.cooler.cryotheum.desc=Deve tocar ao menos duas células de reator.
 
+tile.cooler.iron.name=Resfriador de Ferro
+tile.cooler.iron.desc=Deve tocar ao menos um resfriador à ouro ativo.
+
+tile.cooler.emerald.name=Resfriador de Esmeralda
+tile.cooler.emerald.desc=Deve tocar ao menos um bloco de grafite ativo e uma célula de reactor.
+
+tile.cooler.copper.name=Resfriador de Cobre
+tile.cooler.copper.desc=Deve tocar ao menos um resfriador à pedra luminosa ativo.
+
+tile.cooler.tin.name=Resfriador de Estanho
+tile.cooler.tin.desc=Deve estar ao menos entre dois resfriadores à Lápis-Lazúli ativos, com um no lado oposto do outro.
+
+tile.cooler.magnesium.name=Resfriador de Magnésio
+tile.cooler.magnesium.desc=Deve tocar ao menos um bloco de estrutura de reator e um resfriador à Hélio Líquido ativo.
+
 tile.cooler.cooling_rate=Taxa de Resfriamento:
 
 tile.block_depleted_thorium.name=Bloco de Tório Esgotado
 tile.block_depleted_uranium.name=Bloco de Urânio Esgotado
+tile.block_depleted_neptunium.name=Bloco de Netúnio Esgotado
+tile.block_depleted_plutonium.name=Bloco de Plutônio Esgotado
+tile.block_depleted_americium.name=Bloco de Amerício Esgotado
+tile.block_depleted_curium.name=Bloco de Curio Esgotado
+tile.block_depleted_berkelium.name=Bloco de Berquélio Esgotado
+tile.block_depleted_californium.name=Bloco de Califórnio Esgotado
+
 tile.block_ice.name=Gelo Super-gelado
 
 tile.nuclear_furnace_idle.name=Fornalha nuclear
@@ -155,11 +177,11 @@ tile.bin.name=Lixeira Universal
 tile.bin.desc=Destrói itens, fluidos e energia.
 
 tile.fission_controller_idle.name=Controlador de Fissão
-tile.fission_controller_idle.desc=Contrua um reator multibloco usando blocos de estruturas de reator, células de reator, esfriadores e blocos de grafite! Coloque o controlador em um dos cantos, em uma das quinas ou em uma das faces da estrutura. Gera energia EV do IC2.
+tile.fission_controller_idle.desc=Construa um reator multibloco usando blocos de estruturas de reator, células de reator, resfriadores e blocos de grafite! Coloque o controlador em um dos cantos, ou em uma das quinas, ou em uma das faces da estrutura. Gera energia de Voltagem Extrema do IC2.
 tile.fission_controller_active.name=Controlador de Fissão
 
 tile.fission_port.name=Porta de Acesso de Reator de Fissão
-tile.fission_port.desc=Coloque este bloco na carcaça de um reator de fissão no lugar de algum blocos de estrutura, mas *não* pode ser no lado de cima, nem no de baixo. Se um controlador estiver ligado à estrutura do reator, então seu inventário e a energia armazenada podem ser acessados por automação através deste bloco. Tenha certeza de que está direcionado para o interior do reator. A 'frente' da porta de acesso é a que tem uma textura um pouco diferente.
+tile.fission_port.desc=Coloque este bloco na carcaça de um reator de fissão no lugar de algum dos blocos de estrutura, mas *não* pode ser no lado de cima, nem no de baixo. Se um controlador estiver ligado à estrutura do reator, então seu inventário e a energia armazenada podem ser acessados por automação através deste bloco. Tenha certeza de que está direcionado para o interior do reator. A 'frente' da porta de acesso é a que tem uma textura um pouco diferente.
 
 tile.rtg_uranium.name=GTR de Urânio
 tile.rtg_plutonium.name=GTR de Plutônio
@@ -178,7 +200,7 @@ tile.lithium_ion_battery_basic.name=Bateria Básica de Íon de Lítio (WIP)
 tile.energy_storage.desc=Armazena até %s. Ela ainda está em desenvolvimento e atualmente não mantém sua energia armazenada ao ser quebrada.
 
 tile.fusion_core.name=Núcleo de Fusão
-tile.fusion_core.desc=Essa é a parte central da estrutura multibloco do reator de fusão. O núcleo tem que ter um anel de eletroímãs de fusão ao redor dele de maneira simétrica e deve estar conectado por quatro conjuntos de conectores de fusão em todos os quatro lados. O anel, que é, na verdade, quadrado, deve ser oco e não requer eletroímãs na diagonal da parte oca. O reator produz imensas quantidades de energia a partir do calor derado pela fusão nuclear de dois combustíveis de fusão. Saiba que um combustível de um mesmo tipo pode ser fundido consigo mesmo. Os combustíveis de fusão possíveis são: hidrogênio, deutério, trítio, hélio-3, lítio-6, lítio-7 e boro-11. (O anel deve ser completamente quadrado). Esse reator também emite Voltagem Extrema do IC2.
+tile.fusion_core.desc=Essa é a parte central da estrutura multibloco do reator de fusão. O núcleo tem que ter um anel de eletroímãs de fusão ao redor dele de maneira simétrica e deve estar conectado por quatro conjuntos de conectores de fusão em todos os quatro lados. O anel, que é, na verdade, quadrado, deve ser oco e não requer eletroímãs na diagonal da parte oca. O reator produz imensas quantidades de energia a partir do calor gerado pela fusão nuclear de dois combustíveis de fusão. Saiba que um combustível de um mesmo tipo pode ser fundido consigo mesmo. Os combustíveis de fusão possíveis são: hidrogênio, deutério, trítio, hélio-3, lítio-6, lítio-7 e boro-11. (O anel deve ser completamente quadrado). Esse reator também emite Voltagem Extrema do IC2.
 tile.fusion_dummy_side.name=Núcleo de Fusão
 tile.fusion_dummy_top.name=Núcleo de Fusão
 
@@ -798,7 +820,7 @@ gui.config.main_title=Confiurações NuclearCraft
 
 gui.config.category.ores=Confiurações de Minérios
 gui.config.category.ores.tooltip=Configura a Geração de Minérios
-[
+
 gui.config.ores.ore_dims=Lista de Dimensões
 gui.config.ores.ore_dims.comment=Lista dos IDs de dimensão para permitir/negar a geração de minérios
 gui.config.ores.ore_dims_list_type=Permitir/Negar (false/true)
@@ -817,10 +839,10 @@ gui.config.ores.ore_drops=Habilitar Drops Extras de Minérios
 gui.config.ores.ore_drops.comment=Os minérios do vanilla droparão recusos extra? Ordem: rhodochrosite, beryllium dust, zirconium dust, fluorite, sulfur
 gui.config.ores.hide_disabled_ores=Esconder minérios desabilitados
 gui.config.ores.hide_disabled_ores.comment=Você quer remover os minérios que foram desabilitados do Ore Dictionary e do JEI?
-]
+
 gui.config.category.processors=Confiurações de Processamento
 gui.config.category.processors.tooltip=Configura os Processadores
-[
+
 gui.config.processors.processor_time=Tempos de Processamento
 gui.config.processors.processor_time.comment=Ticks base por processo. Ordem: Manufatura, Separador de Isótopos, Acelerador de Apodrecimento, Reprocessador de Combustível, Fundidora de Ligas, Infusor de Fluidos, Fundidor, Superresfriador, Eletrolisador, Irradiador de Neutrons, Fôrma de Lingotes, Pressurizador, Reator Químico, Misturador de Sais, Cristalizador, Dissolvedor
 gui.config.processors.processor_power=Uso de Energia por Processo
@@ -835,12 +857,14 @@ gui.config.processors.cobble_gen_power=Uso de energia do Gerador de Pedregulho
 gui.config.processors.cobble_gen_power.comment=RF/s necessária para ele funcionar
 gui.config.processors.ore_processing=Processamento de Minérios
 gui.config.processors.ore_processing.comment=As máquinas do NuclearCraft podem processar minérios?
-gui.config.processors.update_block_type=Atualizar tipo de bloco das máquinas
-gui.config.processors.update_block_type.comment=As máquinas devem mudar seu tipo de bloco ao ligar/desligar? Desabilitado por padrão, devido a isto causar o rompimento da ligação entre a máquina e cabos e dutos.
-]
+gui.config.processors.smart_processor_input=Entrada inteligente no processador
+gui.config.processors.smart_processor_input.comment=Entradas válidas de uma máquina vão depender das stacks já presentes em seus slots de entrada, como também de suas possíveis receitas?
+gui.config.processors.passive_permeation=Permeação Passiva
+gui.config.processors.passive_permeation.comment=Máquinas passivas, como Resfriadores Ativos e Eletroímãs, vão espalhar seu fluido e energia para máquinas adjacentes do mesmo tipo?
+
 gui.config.category.generators=Confiurações de Geradores
 gui.config.category.generators.tooltip=Configura os Geradores
-[
+
 gui.config.generators.rtg_power=Geração de Energia dos GTRs
 gui.config.generators.rtg_power.comment=RF/t gerada. Ordem: Urânio, Plutônio, Amerício, Califórnio
 gui.config.generators.solar_power=Geração de Energia do Painel Solar
@@ -851,10 +875,10 @@ gui.config.generators.generator_rf_per_eu=Uso de RF para cada EU Emitido
 gui.config.generators.generator_rf_per_eu.comment=Uso de RF para cada EU Emitido para Geradores
 gui.config.generators.generator_update_rate=Taxa de Atualização dos Geradores
 gui.config.generators.generator_update_rate.comment=Ticks para cada checagem de fluidos
-]
+
 gui.config.category.fission=Configuração de Fissão
 gui.config.category.fission.tooltip=Configura aspectos da fissão nuclear
-[
+
 gui.config.fission.fission_power=Geração de Energia
 gui.config.fission.fission_power.comment=Modifica a energia gerada por reatores de fissão
 gui.config.fission.fission_fuel_use=Uso de Combustível
@@ -875,6 +899,8 @@ gui.config.fission.fission_min_size=Minimum Structure Length
 gui.config.fission.fission_min_size.comment=Minimum side length of fission structures
 gui.config.fission.fission_max_size=Maximum Structure Length
 gui.config.fission.fission_max_size.comment=Maximum side length of fission structures
+gui.config.fission.fission_comparator_max_heat=Max Comparator Signal Heat
+gui.config.fission.fission_comparator_max_heat.comment=Percentage heat level of a fission reactor at which a comparator adjacent to the controller will output a full-strength redstone signal.
 gui.config.fission.fission_active_cooler_max_rate=Maximum Active Cooler Fluid Use
 gui.config.fission.fission_active_cooler_max_rate.comment=Maximum rate at which the Active Fluid Cooler uses coolant in mB/s
 
@@ -960,6 +986,8 @@ gui.config.fusion.fusion_min_size=Tamanho mínimo do toróide
 gui.config.fusion.fusion_min_size.comment=Tamanho mínimo do anel toróide
 gui.config.fusion.fusion_max_size=Tamanho máximo do toróide
 gui.config.fusion.fusion_max_size.comment=Tamanho máximo do anel toróide
+gui.config.fusion.fusion_comparator_max_efficiency=Max Comparator Signal Efficiency
+gui.config.fusion.fusion_comparator_max_efficiency.comment=Efficiency of a fusion reactor at which a comparator adjacent to the core will output a full-strength redstone signal.
 gui.config.fusion.fusion_alternate_sound=Usar sons diferenciados
 gui.config.fusion.fusion_alternate_sound.comment=Reatores devem usar um efeito sonoro diferenciado?
 
@@ -979,6 +1007,8 @@ gui.config.accelerator.accelerator_electromagnet_power=Energia do eletroímã su
 gui.config.accelerator.accelerator_electromagnet_power.comment=RF/s necessária para manter um eletroímã supercondutor funcionando
 gui.config.accelerator.accelerator_supercooler_coolant=Líquido do Superresfriador Supercondutor
 gui.config.accelerator.accelerator_supercooler_coolant.comment=mB/s de hélio líquido para manter um Superresfriador Supercondutor ativo
+gui.config.accelerator.accelerator_update_rate=Accelerator Ring Check Delay
+gui.config.accelerator.accelerator_update_rate.comment=Ticks per ring check.
 
 gui.config.category.energy_storage=Configurações do Armazenamento de Energia
 gui.config.category.energy_storage.tooltip=Configura o Armazenamento de Energia
@@ -1024,6 +1054,13 @@ gui.config.category.other.tooltip=Configurações Aleatórias
 gui.config.other.rare_drops=Habilitar Drops Raros
 gui.config.other.rare_drops.comment=Mobs devem dropar itens raros?
 
+gui.computer.method_not_found=Esse método não mostra em mapas ativos - perca um método, você tem que... que vergonha... que vergonha! Dá uma passada no repositório do GitHub, limpe sua mente e encontrar seu método perdido nós iremos.
+gui.computer.invalid_method_number=Número de método inválido
+gui.computer.number_of_arguments_error=%s argumentos usados, era esperado %s
+gui.computer.invalid_argument_error=Argumento inválido %s, era esperado %s
+gui.computer.integer_too_small_error=Esse número de argumento (%s) é muito pequeno, era esperado ao menos %s
+gui.computer.integer_too_large_error=Esse número de argumento (%s) é muito grande, era esperado %s no máximo
+
 gui.container.fission_controller.reactor=Reator de Fissão
 gui.container.fission_controller.casing_incomplete=Estrutura Incompleta
 gui.container.fission_controller.casing_incomplete_at=Estrutura incompleta em
@@ -1035,6 +1072,7 @@ gui.container.fission_controller.no_fuel=Sem Combustível
 gui.container.fission_controller.cells=Células:
 gui.container.fission_controller.efficiency=Efici:
 gui.container.fission_controller.heat=Níveis de Calor:
+gui.container.fission_controller.heat_gen=Ger de Calor:
 
 gui.container.fission_controller.tbu=TBU
 gui.container.fission_controller.leu=LEU
@@ -1066,9 +1104,12 @@ gui.container.fusion_core.energy=Energia:
 gui.container.fusion_core.power=Gerando:
 gui.container.fusion_core.heat=Calor:
 gui.container.fusion_core.temperature=Temperatura:
+gui.container.fusion_core.temperature_change=Mudança de Temp:
+gui.container.fusion_core.cooling_rate=Taxa de Resfr Ativo:
 gui.container.fusion_core.efficiency=Eficiência:
 gui.container.fusion_core.fuels=Combustíveis:
 gui.container.fusion_core.empty=Vazio
+gui.container.fusion_core.reactor_not_found=Incapaz de acessar o reator de fusão. A estrutura está incompleta
 
 gui.container.energy_stored=Energia Armazenada:
 gui.container.process_power=Energia por Processo:
