@@ -25,7 +25,9 @@ public class IsotopeSeparatorRecipes extends BaseRecipeHandler {
 		addRecipe("ingotBlutonium", "ingotPlutonium242Base", "tinyPlutonium239", NCConfig.processor_time[1]);
 		addRecipe("dustBlutonium", "ingotPlutonium242Base", "tinyPlutonium239", NCConfig.processor_time[1]);
 		addRecipe("ingotPlutonium", "ingotPlutonium242Base", "tinyPlutonium239", NCConfig.processor_time[1]);
+		addRecipe("ingotPlutoniumOxide", "ingotPlutonium242Oxide", "tinyPlutonium239Oxide", NCConfig.processor_time[1]);
 		addRecipe("dustPlutonium", "ingotPlutonium242Base", "tinyPlutonium239", NCConfig.processor_time[1]);
+		addRecipe("dustPlutoniumOxide", "ingotPlutonium242Oxide", "tinyPlutonium239Oxide", NCConfig.processor_time[1]);
 		
 		addRecipe("ingotBoron", "ingotBoron11", oreStack("tinyBoron10", 3), NCConfig.processor_time[1]);
 		addRecipe("ingotLithium", "ingotLithium7", oreStack("tinyLithium6", 3), NCConfig.processor_time[1]);

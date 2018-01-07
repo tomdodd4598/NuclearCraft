@@ -11,7 +11,6 @@ import nc.init.NCFluids;
 import nc.init.NCItems;
 import nc.init.NCTiles;
 import nc.init.NCTools;
-import nc.integration.crafttweaker.NCCraftTweaker;
 import nc.network.PacketHandler;
 import nc.recipe.vanilla.CraftingRecipeHandler;
 import nc.recipe.vanilla.FurnaceFuelHandler;
@@ -89,7 +88,7 @@ public class CommonProxy {
 	}
 
 	public void postInit(FMLPostInitializationEvent postEvent) {
-		if (ModCheck.craftTweakerLoaded()) NCCraftTweaker.init();
+		//if (ModCheck.craftTweakerLoaded()) NCCraftTweaker.init(); Not needed as ZenRegister registers handlers
 	}
 	
 	public void registerFluidBlockRendering(Block block, String name) {

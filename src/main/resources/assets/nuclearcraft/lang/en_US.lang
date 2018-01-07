@@ -132,9 +132,9 @@ tile.supercooler_idle.name=Supercooler
 tile.supercooler_idle.desc=Lowers the temperature of fluids. Can accept MV IC2 power.
 tile.supercooler_active.name=Supercooler
 
-tile.electrolyser_idle.name=Electrolyser
+tile.electrolyser_idle.name=Electrolyzer
 tile.electrolyser_idle.desc=Splits compounds into their elements. Can accept MV IC2 power.
-tile.electrolyser_active.name=Electrolyser
+tile.electrolyser_active.name=Electrolyzer
 
 tile.irradiator_idle.name=Neutron Irradiator
 tile.irradiator_idle.desc=Induces changes to nuclear structure. Can accept MV IC2 power.
@@ -793,7 +793,7 @@ item.portable_ender_chest.name=Portable Ender Chest
 item.portable_ender_chest.desc=Access your Ender Chest on the move.
 
 item.dominos.name=Domino's Special
-item.dominos.desc=Paul's favourite - restore 16 hunger points with this beauty.
+item.dominos.desc=Paul's favorite - restore 16 hunger points with this beauty.
 
 item.record_wanderer.name=Music Disc
 item.record_wanderer.des0=Dion - The Wanderer
@@ -844,9 +844,9 @@ gui.config.category.processors=Processor Configs
 gui.config.category.processors.tooltip=Configure processors.
 
 gui.config.processors.processor_time=Processing Times
-gui.config.processors.processor_time.comment=Base ticks per process. Order: Manufactory, Isotope Separator, Decay Hastener, Fuel Reprocessor, Alloy Furnace, Fluid Infuser, Melter, Supercooler, Electrolyser, Neutron Irradiator, Ingot Former, Pressurizer, Chemical Reactor, Salt Mixer, Crystallizer, Dissolver.
+gui.config.processors.processor_time.comment=Base ticks per process. Order: Manufactory, Isotope Separator, Decay Hastener, Fuel Reprocessor, Alloy Furnace, Fluid Infuser, Melter, Supercooler, Electrolyzer, Neutron Irradiator, Ingot Former, Pressurizer, Chemical Reactor, Salt Mixer, Crystallizer, Dissolver.
 gui.config.processors.processor_power=Processing Power Use
-gui.config.processors.processor_power.comment=Base RF/t use during processing. Order: Manufactory, Isotope Separator, Decay Hastener, Fuel Reprocessor, Alloy Furnace, Fluid Infuser, Melter, Supercooler, Electrolyser, Neutron Irradiator, Ingot Former, Pressurizer, Chemical Reactor, Salt Mixer, Crystallizer, Dissolver.
+gui.config.processors.processor_power.comment=Base RF/t use during processing. Order: Manufactory, Isotope Separator, Decay Hastener, Fuel Reprocessor, Alloy Furnace, Fluid Infuser, Melter, Supercooler, Electrolyzer, Neutron Irradiator, Ingot Former, Pressurizer, Chemical Reactor, Salt Mixer, Crystallizer, Dissolver.
 gui.config.processors.processor_rf_per_eu=RF per EU Accepted
 gui.config.processors.processor_rf_per_eu.comment=The RF received per EU injected for processors.
 gui.config.processors.processor_update_rate=Processor Update Rate

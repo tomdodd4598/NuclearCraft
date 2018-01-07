@@ -25,21 +25,21 @@ public class Passives {
 	public static class TileFusionElectromagnet extends TileElectromagnet {
 		
 		public TileFusionElectromagnet() {
-			super("fusion", NCConfig.fusion_electromagnet_power, NCConfig.fusion_update_rate / 5);
+			super("fusion", NCConfig.fusion_electromagnet_power, NCConfig.fusion_update_rate / 4);
 		}
 	}
 	
 	public static class TileAcceleratorElectromagnet extends TileElectromagnet {
 		
 		public TileAcceleratorElectromagnet() {
-			super("accelerator", NCConfig.accelerator_electromagnet_power, NCConfig.accelerator_update_rate / 5);
+			super("accelerator", NCConfig.accelerator_electromagnet_power, NCConfig.accelerator_update_rate / 4);
 		}
 	}
 	
 	public static class TileElectromagnetSupercooler extends TilePassive implements IEnergySpread, IFluidSpread {
 		
 		public TileElectromagnetSupercooler() {
-			super("electromagnet_supercooler", -NCConfig.accelerator_electromagnet_power, FluidRegistry.getFluid("liquidhelium"), -NCConfig.accelerator_supercooler_coolant, NCConfig.accelerator_update_rate / 5);
+			super("electromagnet_supercooler", -NCConfig.accelerator_electromagnet_power, FluidRegistry.getFluid("liquidhelium"), -NCConfig.accelerator_supercooler_coolant, NCConfig.accelerator_update_rate / 4);
 		}
 		
 		@Override

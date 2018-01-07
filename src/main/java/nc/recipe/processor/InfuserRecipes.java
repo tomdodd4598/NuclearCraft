@@ -90,8 +90,11 @@ public class InfuserRecipes extends BaseRecipeHandler {
 		
 		addRecipe(Blocks.ICE, fluidStack("liquidhelium", 50), NCBlocks.block_ice, NCConfig.processor_time[5]/10);
 		addRecipe(Blocks.PACKED_ICE, fluidStack("liquidhelium", 50), NCBlocks.block_ice, NCConfig.processor_time[5]/10);
+		
 		addRecipe(new ItemStack(NCBlocks.cooler, 1, 0), fluidStack("liquidhelium", 1000), new ItemStack(NCBlocks.cooler, 1, 8), NCConfig.processor_time[5]*2);
 		addRecipe(new ItemStack(NCBlocks.cooler, 1, 0), fluidStack("water", 1000), new ItemStack(NCBlocks.cooler, 1, 1), NCConfig.processor_time[5]*2);
+		
+		addRecipe("plankWood", fluidStack("creosote", 100), "plankTreatedWood", NCConfig.processor_time[5]/10);
 	}
 	
 	public void oxidize(String name, int oxygen) {

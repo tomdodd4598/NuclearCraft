@@ -627,6 +627,7 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 	
 	private void setCapacity() {
 		storage.setStorageCapacity(getNewCapacity());
+		storage.setMaxTransfer(getNewCapacity());
 	}
 	
 	private int getNewCapacity() {

@@ -132,6 +132,22 @@ public class Tank extends FluidTank implements INBTSerializable<NBTTagCompound> 
 		if(newCapacity < getFluidAmount()) setFluidAmount(newCapacity);
     }
 	
+	public void setMaxTransfer(int newMaxTransfer) {
+		if(newMaxTransfer < 0) return;
+		if(newMaxTransfer != maxReceive) maxReceive = newMaxTransfer;
+		if(newMaxTransfer != maxExtract) maxExtract = newMaxTransfer;
+    }
+	
+	public void setMaxReceive(int newMaxReceive) {
+		if(newMaxReceive == maxReceive || newMaxReceive < 0) return;
+		maxReceive = newMaxReceive;
+    }
+	
+	public void setMaxExtract(int newMaxExtract) {
+		if(newMaxExtract == maxExtract || newMaxExtract < 0) return;
+		maxReceive = newMaxExtract;
+    }
+	
 	public boolean isFluidValid(String name) {
 		if (allowedFluids == null) return true;
 		for (int i = 0; i < allowedFluids.length; i++) {

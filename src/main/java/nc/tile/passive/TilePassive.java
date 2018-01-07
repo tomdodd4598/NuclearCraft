@@ -158,9 +158,9 @@ public abstract class TilePassive extends TileEnergyFluidSidedInventory /*implem
 		if (!b) {
 			if (changeEnergy(true) && changeStack(true)) {
 				if (fluidChange > 0) {
-					if (fluidStackChange != null) tanks[0].changeFluidStored(fluidType, fluidStackChange.amount);
+					if (fluidStackChange != null) tanks[0].changeFluidStored(fluidType, fluidChange);
 				}
-				else tanks[0].changeFluidStored(fluidStackChange.amount);
+				else tanks[0].changeFluidStored(fluidChange);
 			}
 		}
 		return true;

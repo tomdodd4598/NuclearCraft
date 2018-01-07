@@ -111,6 +111,22 @@ public class Storage implements IEnergyStorage, ITeslaConsumer, ITeslaProducer, 
 		if(newCapacity < energyStored) setEnergyStored(newCapacity);
     }
 	
+	public void setMaxTransfer(int newMaxTransfer) {
+		if(newMaxTransfer < 0) return;
+		if(newMaxTransfer != maxReceive) maxReceive = newMaxTransfer;
+		if(newMaxTransfer != maxExtract) maxExtract = newMaxTransfer;
+    }
+	
+	public void setMaxReceive(int newMaxReceive) {
+		if(newMaxReceive == maxReceive || newMaxReceive < 0) return;
+		maxReceive = newMaxReceive;
+    }
+	
+	public void setMaxExtract(int newMaxExtract) {
+		if(newMaxExtract == maxExtract || newMaxExtract < 0) return;
+		maxReceive = newMaxExtract;
+    }
+	
 	// NBT
 	
 	@Override
