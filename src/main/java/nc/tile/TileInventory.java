@@ -1,12 +1,20 @@
 package nc.tile;
 
+import javax.annotation.Nullable;
+
 import nc.Global;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.wrapper.InvWrapper;
 
 public abstract class TileInventory extends NCTile implements IInventory, ITileInventory {
 	
@@ -109,6 +117,27 @@ public abstract class TileInventory extends NCTile implements IInventory, ITileI
 		return inventoryStacks;
 	}
 	
+	public void pushStacks() {
+		if (isEmpty()) return;
+		for (EnumFacing side : EnumFacing.VALUES) {
+			IItemHandler inv = getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side);
+			if (inv == null) continue;
+			for (int i = 0; i < inventoryStacks.size(); i++) {
+				if (inventoryStacks.get(i).isEmpty()) continue;
+				TileEntity tile = world.getTileEntity(getPos().offset(side));
+				IItemHandler adjInv = tile == null ? null : tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side.getOpposite());
+				
+				if (adjInv != null) {
+					for (int j = 0; j < adjInv.getSlots(); j++) {
+						if (!inv.extractItem(i, inventoryStacks.get(i).getCount() - adjInv.insertItem(j, inv.extractItem(i, getInventoryStackLimit(), true), false).getCount(), false).isEmpty()) {
+							return;
+						}
+					}
+				}
+			}
+		}
+	}
+	
 	// NBT
 	
 	@Override
@@ -142,20 +171,19 @@ public abstract class TileInventory extends NCTile implements IInventory, ITileI
 	
 	// Capability
 	
-	net.minecraftforge.items.IItemHandler handler = new net.minecraftforge.items.wrapper.InvWrapper(this);
+	IItemHandler handler = new InvWrapper(this);
 	
 	@Override
-	public boolean hasCapability(net.minecraftforge.common.capabilities.Capability<?> capability, @javax.annotation.Nullable net.minecraft.util.EnumFacing facing) {
-		if (capability == net.minecraftforge.items.CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing) {
+		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
 			return true;
 		}
 		return super.hasCapability(capability, facing);
 	}
 	
 	@Override
-	@SuppressWarnings("unchecked")
-	public <T> T getCapability(net.minecraftforge.common.capabilities.Capability<T> capability, @javax.annotation.Nullable net.minecraft.util.EnumFacing facing) {
-		if (capability == net.minecraftforge.items.CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing) {
+		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
 			return (T) handler;
 		}
 		return super.getCapability(capability, facing);

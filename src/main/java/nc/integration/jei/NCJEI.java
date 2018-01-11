@@ -69,7 +69,7 @@ import nc.recipe.IRecipe;
 import nc.recipe.NCRecipes;
 import nc.util.StackHelper;
 import nc.util.NCUtil;
-import nc.worldgen.OreGen;
+import nc.worldgen.OreGenerator;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.Loader;
 
@@ -135,7 +135,7 @@ public class NCJEI implements IModPlugin, IJEIRecipeBuilder {
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerFusionCore.class, Handlers.FUSION.getUUID(), 0, 0, 0, 36);
 		
 		for (int i = 0; i < 8; i++) {
-			if (!OreGen.showOre(i)) {
+			if (!OreGenerator.showOre(i)) {
 				blacklist(jeiHelpers, new ItemStack(NCBlocks.ore, 1, i));
 				blacklist(jeiHelpers, new ItemStack(NCBlocks.ingot_block, 1, i));
 				blacklist(jeiHelpers, new ItemStack(NCItems.ingot, 1, i));

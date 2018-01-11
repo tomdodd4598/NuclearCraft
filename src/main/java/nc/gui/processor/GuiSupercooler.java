@@ -8,16 +8,16 @@ import nc.init.NCItems;
 import nc.network.PacketEmptyTankButton;
 import nc.network.PacketGetFluidInTank;
 import nc.network.PacketHandler;
-import nc.tile.processor.TileEnergyFluidProcessor;
+import nc.tile.processor.TileFluidProcessor;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fluids.FluidStack;
 
-public class GuiSupercooler extends GuiEnergyFluidProcessor {
+public class GuiSupercooler extends GuiFluidProcessor {
 	
 	public static FluidStack fluid0, fluid1 = null;
 
-	public GuiSupercooler(EntityPlayer player, TileEnergyFluidProcessor tile) {
+	public GuiSupercooler(EntityPlayer player, TileFluidProcessor tile) {
 		super("supercooler", player, new ContainerSupercooler(player, tile));
 		this.tile = tile;
 		xSize = 176;

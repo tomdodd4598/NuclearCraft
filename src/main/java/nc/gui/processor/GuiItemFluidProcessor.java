@@ -5,11 +5,11 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 import nc.Global;
-import nc.container.processor.ContainerEnergyItemFluidProcessor;
+import nc.container.processor.ContainerItemFluidProcessor;
 import nc.gui.NCGui;
 import nc.gui.NCGuiButton.Button;
 import nc.tile.energy.ITileEnergy;
-import nc.tile.processor.TileEnergyItemFluidProcessor;
+import nc.tile.processor.TileItemFluidProcessor;
 import nc.util.Lang;
 import nc.util.UnitHelper;
 import net.minecraft.client.gui.GuiButton;
@@ -19,15 +19,15 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 
-public abstract class GuiEnergyItemFluidProcessor extends NCGui {
+public abstract class GuiItemFluidProcessor extends NCGui {
 	
 	public static int tick;
 	
 	private final InventoryPlayer playerInventory;
-	protected TileEnergyItemFluidProcessor tile;
+	protected TileItemFluidProcessor tile;
 	protected final ResourceLocation gui_textures;
 
-	public GuiEnergyItemFluidProcessor(String name, EntityPlayer player, ContainerEnergyItemFluidProcessor inv) {
+	public GuiItemFluidProcessor(String name, EntityPlayer player, ContainerItemFluidProcessor inv) {
 		super(inv);
 		playerInventory = player.inventory;
 		gui_textures = new ResourceLocation(Global.MOD_ID + ":textures/gui/container/" + name + ".png");

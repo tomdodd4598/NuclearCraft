@@ -53,21 +53,18 @@ public class TileFusionCore extends TileFluidGenerator /*implements SimpleCompon
 	
 	@Override
 	public void onAdded() {
-		super.onAdded();
 		finder = new BlockFinder(pos, world);
+		super.onAdded();
 	}
 	
 	@Override
 	public void updateGenerator() {
-		boolean flag = isGenerating;
-		boolean flag1 = false;
-		if(!world.isRemote) {
-			if (time == 0) {
-				consume();
-			}
-		}
-			tick();
-			setSize();
+		boolean wasGenerating = isGenerating;
+		isGenerating = canProcess() && !isPowered();
+		boolean shouldUpdate = false;
+		if(!world.isRemote) if (time == 0) consume();
+		tick();
+		setSize();
 		if(!world.isRemote) {
 			if (shouldCheckCooling() && NCConfig.fusion_active_cooling) setCooling();
 			double previousHeat = heat;
@@ -77,36 +74,18 @@ public class TileFusionCore extends TileFluidGenerator /*implements SimpleCompon
 			heatChange = 1000*(heat - previousHeat);
 			plasma();
 			if (overheat()) return;
-			if (canProcess() && !isPowered()) {
-				isGenerating = true;
-				time += getRateMultiplier();
-				storage.changeEnergyStored(getProcessPower());
-				if (time >= getProcessTime()) {
-					time = 0;
-					output();
-				}
-			} else {
-				isGenerating = false;
-			}
-			if (flag != isGenerating) {
-				flag1 = true;
-				if (NCConfig.update_block_type) {
-					removeTileFromENet();
-					setState(isGenerating);
-					world.notifyNeighborsOfStateChange(pos, blockType, true);
-					addTileToENet();
-				}
+			if (isGenerating) process();
+			if (wasGenerating != isGenerating) {
+				shouldUpdate = true;
+				updateBlockType();
 			}
 			if (isHotEnough()) pushEnergy();
-			//if (findAdjacentComparator() && shouldCheck()) flag1 = true;
+			if (findAdjacentComparator() && shouldCheck()) shouldUpdate = true;
 		} else {
 			isGenerating = complete == 1 && !isPowered() && time > 0 && isHotEnough();
 			playSounds();
 		}
-		
-		if (flag1) {
-			markDirty();
-		}
+		if (shouldUpdate) markDirty();
 	}
 	
 	public boolean overheat() {
@@ -145,10 +124,9 @@ public class TileFusionCore extends TileFluidGenerator /*implements SimpleCompon
 		return coolingTickCount > NCConfig.fission_update_rate*2;
 	}
 	
-	public boolean findAdjacentComparator() {
-		BlockPosHelper helper = new BlockPosHelper(pos);
-		for (BlockPos pos : helper.cutoffRing(2, 0)) if (finder.find(pos, Blocks.UNPOWERED_COMPARATOR, Blocks.POWERED_COMPARATOR)) return true;
-		return false;
+	@Override
+	public boolean isGenerating() {
+		return complete == 1 && !isPowered() && time > 0 && isHotEnough();
 	}
 	
 	@Override
@@ -156,21 +134,17 @@ public class TileFusionCore extends TileFluidGenerator /*implements SimpleCompon
 		return canProcessStacks() && complete == 1 && isHotEnough();
 	}
 	
-	public boolean isHotEnough() {
-		return heat > 8000;
-	}
-	
-	@Override
-	public boolean isGenerating() {
-		if (world.isRemote) return isGenerating;
-		return complete == 1 && !isPowered() && time > 0 && isHotEnough();
-	}
-	
 	@Override
 	public boolean isPowered() {
 		BlockPosHelper helper = new BlockPosHelper(pos);
 		for (BlockPos pos : helper.squareRing(1, 0)) if (world.isBlockPowered(pos)) return true;
 		return world.isBlockPowered(pos);
+	}
+	
+	public boolean findAdjacentComparator() {
+		BlockPosHelper helper = new BlockPosHelper(pos);
+		for (BlockPos pos : helper.cutoffRing(2, 0)) if (finder.find(pos, Blocks.UNPOWERED_COMPARATOR, Blocks.POWERED_COMPARATOR)) return true;
+		return false;
 	}
 	
 	public void playSounds() {
@@ -212,6 +186,10 @@ public class TileFusionCore extends TileFluidGenerator /*implements SimpleCompon
 	@Override
 	public boolean canReceive() {
 		return !isHotEnough();
+	}
+	
+	public boolean isHotEnough() {
+		return heat > 8000;
 	}
 	
 	// IC2 Tiers

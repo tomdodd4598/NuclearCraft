@@ -3,6 +3,8 @@ package nc.tile.dummy;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.Nullable;
+
 import nc.ModCheck;
 import nc.config.NCConfig;
 import nc.init.NCBlocks;
@@ -14,7 +16,9 @@ import nc.util.BlockPosHelper;
 import nc.util.Lang;
 import net.darkhax.tesla.capability.TeslaCapabilities;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 
@@ -117,8 +121,7 @@ public abstract class TileFusionDummy extends TileDummy /*implements SimpleCompo
 	// Capability
 	
 	@Override
-	@SuppressWarnings("unchecked")
-	public <T> T getCapability(net.minecraftforge.common.capabilities.Capability<T> capability, @javax.annotation.Nullable net.minecraft.util.EnumFacing facing) {
+	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing) {
 		if (CapabilityEnergy.ENERGY == capability && energyConnection.canConnect()) {
 			return (T) getStorage();
 		}

@@ -3,12 +3,12 @@ package nc.gui.processor;
 import nc.container.processor.ContainerFuelReprocessor;
 import nc.gui.GuiItemRenderer;
 import nc.init.NCItems;
-import nc.tile.processor.TileEnergyItemProcessor;
+import nc.tile.processor.TileItemProcessor;
 import net.minecraft.entity.player.EntityPlayer;
 
-public class GuiFuelReprocessor extends GuiEnergyItemProcessor {
+public class GuiFuelReprocessor extends GuiItemProcessor {
 	
-	public GuiFuelReprocessor(EntityPlayer player, TileEnergyItemProcessor tile) {
+	public GuiFuelReprocessor(EntityPlayer player, TileItemProcessor tile) {
 		super("fuel_reprocessor", player, new ContainerFuelReprocessor(player, tile));
 		this.tile = tile;
 		xSize = 176;

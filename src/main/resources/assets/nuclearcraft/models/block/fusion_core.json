@@ -4,7 +4,7 @@
         "0": "nuclearcraft:blocks/fusion_core/plain_face",
         "1": "nuclearcraft:blocks/fusion_core/top",
         "2": "nuclearcraft:blocks/fusion_core/core_foot",
-        "3": "nuclearcraft:blocks/fusion_core/core_foot_middle",
+        "3": "nuclearcraft:blocks/fusion_core/core_centre",
 		"particle": "nuclearcraft:blocks/fusion_dummy_side"
     },
     "elements": [
@@ -178,7 +178,7 @@
             }
         },
         {
-            "name": "foot_middle",
+            "name": "core_centre",
             "from": [ 4.0, 1.0, 4.0 ], 
             "to": [ 12.0, 23.0, 12.0 ], 
             "rotation": { "origin": [ 8.0, 8.0, 8.0 ], "axis": "y", "angle": 45.0 },

@@ -3,14 +3,14 @@ package nc.container.processor;
 import nc.container.SlotProcessorInput;
 import nc.container.SlotSpecificInput;
 import nc.recipe.NCRecipes;
-import nc.tile.processor.TileEnergyItemProcessor;
+import nc.tile.processor.TileItemProcessor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotFurnaceOutput;
 
-public class ContainerManufactory extends ContainerEnergyItemProcessor {
+public class ContainerManufactory extends ContainerItemProcessor {
 
-	public ContainerManufactory(EntityPlayer player, TileEnergyItemProcessor tileEntity) {
+	public ContainerManufactory(EntityPlayer player, TileItemProcessor tileEntity) {
 		super(tileEntity, NCRecipes.MANUFACTORY_RECIPES);
 		
 		addSlotToContainer(new SlotProcessorInput(tileEntity, recipes, 0, 56, 35));

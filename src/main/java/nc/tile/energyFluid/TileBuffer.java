@@ -18,10 +18,9 @@ public class TileBuffer extends TileEnergyFluidSidedInventory implements IInterf
 	public void update() {
 		super.update();
 		if(!world.isRemote) {
+			pushStacks();
 			pushEnergy();
 			pushFluid();
-			spreadEnergy();
-			spreadFluid();
 		}
 	}
 	

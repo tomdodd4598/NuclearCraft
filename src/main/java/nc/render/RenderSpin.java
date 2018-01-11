@@ -22,7 +22,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class SpinTESR extends TileEntitySpecialRenderer<TileSpin> {
+public class RenderSpin extends TileEntitySpecialRenderer<TileSpin> {
 	
 	private IModel modelAmbient, modelUp, modelDown;
     private IBakedModel bakedModelAmbient, bakedModelUp, bakedModelDown;

@@ -3,12 +3,12 @@ package nc.gui.processor;
 import nc.container.processor.ContainerPressurizer;
 import nc.gui.GuiItemRenderer;
 import nc.init.NCItems;
-import nc.tile.processor.TileEnergyItemProcessor;
+import nc.tile.processor.TileItemProcessor;
 import net.minecraft.entity.player.EntityPlayer;
 
-public class GuiPressurizer extends GuiEnergyItemProcessor {
+public class GuiPressurizer extends GuiItemProcessor {
 
-	public GuiPressurizer(EntityPlayer player, TileEnergyItemProcessor tile) {
+	public GuiPressurizer(EntityPlayer player, TileItemProcessor tile) {
 		super("pressurizer", player, new ContainerPressurizer(player, tile));
 		this.tile = tile;
 		xSize = 176;

@@ -53,56 +53,33 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 	
 	@Override
 	public void onAdded() {
-		super.onAdded();
 		finder = new BlockFinder(pos, world, getBlockMetadata());
+		super.onAdded();
 		tickCountStructureCheck = 2*NCConfig.fission_update_rate;
 		checkStructure();
 	}
 	
 	@Override
 	public void updateGenerator() {
-		boolean flag = isGenerating;
-		boolean flag1 = false;
-		if(!world.isRemote) {
-			if (time == 0) {
-				consume();
-			}
-		}
+		boolean wasGenerating = isGenerating;
+		isGenerating = canProcess() && isPowered();
+		boolean shouldUpdate = false;
+		if(!world.isRemote) if (time == 0) consume();
 		tickStructureCheck();
 		checkStructure();
 		if(!world.isRemote) {
 			tickRunCheck();
 			run();
 			if (overheat()) return;
-			if (canProcess() && isPowered()) {
-				isGenerating = true;
-				time += getRateMultiplier();
-				storage.changeEnergyStored(getProcessPower());
-				if (time >= getProcessTime()) {
-					time = 0;
-					output();
-				}
-			} else {
-				isGenerating = false;
-			}
-			if (flag != isGenerating) {
-				flag1 = true;
-				if (NCConfig.update_block_type) {
-					removeTileFromENet();
-					setState(isGenerating);
-					world.notifyNeighborsOfStateChange(pos, blockType, true);
-					addTileToENet();
-				}
+			if (isGenerating) process();
+			if (wasGenerating != isGenerating) {
+				shouldUpdate = true;
+				updateBlockType();
 			}
 			pushEnergy();
-			if (findAdjacentComparator() && shouldStructureCheck()) flag1 = true;
-		} else {
-			isGenerating = canProcess() && isPowered();
+			if (findAdjacentComparator() && shouldStructureCheck()) shouldUpdate = true;
 		}
-		
-		if (flag1) {
-			markDirty();
-		}
+		if (shouldUpdate) markDirty();
 	}
 	
 	public void tickStructureCheck() {
@@ -645,14 +622,14 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 		double coolerHeatThisTick = 0;
 		double numberOfCells = 0;
 		double adj1 = 0, adj2 = 0, adj3 = 0, adj4 = 0, adj5 = 0, adj6 = 0;
-		boolean generating = false;
+		double energyMultThisTick = 0;
 		
 		double baseRF = getBasePower();
 		processTime = (int) getBaseTime();
 		double baseHeat = getBaseHeat();
 		
 		ready = canProcess() && !isPowered() ? 1 : 0;
-		generating = canProcess() && isPowered();
+		boolean generating = canProcess() && isPowered();
 
 		if (shouldRunCheck()) {
 			if (complete == 1) {
@@ -673,17 +650,20 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 					}
 				}
 			}
-			
-			if (ready == 1 || generating) {
 				
+			energyMultThisTick += numberOfCells + 2*adj1 + 3*adj2 + 4*adj3 + 5*adj4 + 6*adj5 + 7*adj6;
+			if (canProcess()) {
 				energyThisTick += NCConfig.fission_power*baseRF*(numberOfCells + 2*adj1 + 3*adj2 + 4*adj3 + 5*adj4 + 6*adj5 + 7*adj6);
 				heatThisTick += NCConfig.fission_heat_generation*baseHeat*(numberOfCells + 3*adj1 + 6*adj2 + 10*adj3 + 15*adj4 + 21*adj5 + 28*adj6);
 				if (generating) fuelThisTick += (numberOfCells + adj1 + adj2 + adj3 + adj4 + adj5 + adj6)*NCConfig.fission_fuel_use;
-				
-				for (int z = minZ + 1; z <= maxZ - 1; z++) for (int x = minX + 1; x <= maxX - 1; x++) for (int y = minY + 1; y <= maxY - 1; y++) {
-					if (findGraphite(x, y, z)) {
-						heatThisTick += NCConfig.fission_heat_generation*baseRF*(numberOfCells + adj1 + adj2 + adj3 + adj4 + adj5 + adj6)/16.0D;
-						if (cellAdjacent(x, y, z)) energyThisTick += NCConfig.fission_power*baseRF*(numberOfCells + adj1 + adj2 + adj3 + adj4 + adj5 + adj6)/8.0D;
+			}
+			
+			for (int z = minZ + 1; z <= maxZ - 1; z++) for (int x = minX + 1; x <= maxX - 1; x++) for (int y = minY + 1; y <= maxY - 1; y++) {
+				if (findGraphite(x, y, z)) {
+					if (canProcess()) heatThisTick += NCConfig.fission_heat_generation*baseRF*(numberOfCells + adj1 + adj2 + adj3 + adj4 + adj5 + adj6)/16.0D;
+					if (cellAdjacent(x, y, z)) {
+						energyMultThisTick += (numberOfCells + adj1 + adj2 + adj3 + adj4 + adj5 + adj6)/8.0D;
+						if (canProcess()) energyThisTick += NCConfig.fission_power*baseRF*(numberOfCells + adj1 + adj2 + adj3 + adj4 + adj5 + adj6)/8.0D;
 					}
 				}
 			}
@@ -728,7 +708,7 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 			if (complete == 1) {
 				heatChange = (int) (heatThisTick + coolerHeatThisTick);
 				cooling = (int) coolerHeatThisTick;
-				efficiency = (int) (100*(energyThisTick)/(NCConfig.fission_power*baseRF*(numberOfCells + adj1 + adj2 + adj3 + adj4 + adj5 + adj6)));
+				efficiency = (int) (100*energyMultThisTick/(numberOfCells + adj1 + adj2 + adj3 + adj4 + adj5 + adj6));
 				cells = (int) (numberOfCells + adj1 + adj2 + adj3 + adj4 + adj5 + adj6);
 				setProcessPower((int) energyThisTick);
 				setRateMultiplier((int) fuelThisTick);
@@ -742,15 +722,15 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 			}
 		}
 		
-		if (ready == 0 && generating) {
-			if (heat + (int) heatChange >= 0) {
-				heat += (int) heatChange;
+		if (generating) {
+			if (heat + heatChange >= 0) {
+				heat += heatChange;
 			} else {
 				heat = 0;
 			}
-		} else if ((ready == 1 && !generating) || complete == 1) {
-			if (heat + (int) cooling >= 0) {
-				heat += (int) cooling;
+		} else if (ready == 1 || complete == 1) {
+			if (heat + cooling >= 0) {
+				heat += cooling;
 			} else {
 				heat = 0;
 			}

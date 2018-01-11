@@ -1,5 +1,7 @@
 package nc.tile.passive;
 
+import javax.annotation.Nullable;
+
 import nc.ModCheck;
 import nc.config.NCConfig;
 import nc.energy.EnumStorage.EnergyConnection;
@@ -18,6 +20,9 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.wrapper.InvWrapper;
 
 public abstract class TilePassive extends TileEnergyFluidSidedInventory /*implements IInterfaceable*/ {
 	
@@ -92,13 +97,12 @@ public abstract class TilePassive extends TileEnergyFluidSidedInventory /*implem
 			isRunning = isRunning(energyBool, stackBool, fluidBool);
 			if (flag != isRunning) {
 				flag1 = true;
-				if (NCConfig.update_block_type) {
-					removeTileFromENet();
-					setState(isRunning);
-					world.notifyNeighborsOfStateChange(pos, blockType, true);
-					addTileToENet();
-				}
+				removeTileFromENet();
+				setState(isRunning);
+				world.notifyNeighborsOfStateChange(pos, blockType, true);
+				addTileToENet();
 			}
+			if (itemChange > 0) pushStacks();
 			if (energyChange > 0) pushEnergy();
 			if (fluidChange > 0) pushFluid();
 		}
@@ -245,7 +249,7 @@ public abstract class TilePassive extends TileEnergyFluidSidedInventory /*implem
 	
 	// Capability
 	
-	net.minecraftforge.items.IItemHandler itemHandler = new net.minecraftforge.items.wrapper.InvWrapper(this);
+	IItemHandler itemHandler = new InvWrapper(this);
 	
 	@Override
 	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
@@ -258,17 +262,17 @@ public abstract class TilePassive extends TileEnergyFluidSidedInventory /*implem
 		}
 		if (fluidChange != 0) {
 			if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) return true;
-			//else if (capability == mekanism.common.capabilities.Capabilities.GAS_HANDLER_CAPABILITY) return true;
-			//else if (capability == mekanism.common.capabilities.Capabilities.TUBE_CONNECTION_CAPABILITY) return true;
+			//else if (capability == Capabilities.GAS_HANDLER_CAPABILITY) return true;
+			//else if (capability == Capabilities.TUBE_CONNECTION_CAPABILITY) return true;
 		}
-		if (itemChange != 0) if (capability == net.minecraftforge.items.CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+		if (itemChange != 0) if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
 			return true;
 		}
 		return false;
 	}
 	
 	@Override
-	public <T> T getCapability(net.minecraftforge.common.capabilities.Capability<T> capability, @javax.annotation.Nullable net.minecraft.util.EnumFacing facing) {
+	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing) {
 		if (energyChange != 0) if (CapabilityEnergy.ENERGY == capability && energyConnection.canConnect()) {
 			return (T) storage;
 		}
@@ -278,10 +282,10 @@ public abstract class TilePassive extends TileEnergyFluidSidedInventory /*implem
 		}
 		if (fluidChange != 0) {
 			if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(this);
-			//if (capability == mekanism.common.capabilities.Capabilities.GAS_HANDLER_CAPABILITY) return mekanism.common.capabilities.Capabilities.GAS_HANDLER_CAPABILITY.cast(this);
-			//if (capability == mekanism.common.capabilities.Capabilities.TUBE_CONNECTION_CAPABILITY) return mekanism.common.capabilities.Capabilities.TUBE_CONNECTION_CAPABILITY.cast(this);
+			//if (capability == Capabilities.GAS_HANDLER_CAPABILITY) return Capabilities.GAS_HANDLER_CAPABILITY.cast(this);
+			//if (capability == Capabilities.TUBE_CONNECTION_CAPABILITY) return Capabilities.TUBE_CONNECTION_CAPABILITY.cast(this);
 		}
-		if (itemChange != 0) if (capability == net.minecraftforge.items.CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+		if (itemChange != 0) if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
 			return (T) itemHandler;
 		}
 		return super.getCapability(capability, facing);

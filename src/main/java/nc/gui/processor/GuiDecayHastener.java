@@ -3,12 +3,12 @@ package nc.gui.processor;
 import nc.container.processor.ContainerDecayHastener;
 import nc.gui.GuiItemRenderer;
 import nc.init.NCItems;
-import nc.tile.processor.TileEnergyItemProcessor;
+import nc.tile.processor.TileItemProcessor;
 import net.minecraft.entity.player.EntityPlayer;
 
-public class GuiDecayHastener extends GuiEnergyItemProcessor {
+public class GuiDecayHastener extends GuiItemProcessor {
 	
-	public GuiDecayHastener(EntityPlayer player, TileEnergyItemProcessor tile) {
+	public GuiDecayHastener(EntityPlayer player, TileItemProcessor tile) {
 		super("decay_hastener", player, new ContainerDecayHastener(player, tile));
 		this.tile = tile;
 		xSize = 176;

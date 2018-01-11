@@ -43,24 +43,25 @@ public abstract class TileFluidGenerator extends TileEnergyFluidSidedInventory i
 	
 	public static FluidConnection[] fluidConnections(int inSize, int outSize) {
 		FluidConnection[] fluidConnections = new FluidConnection[2*inSize + outSize];
-		for (int i = 0; i < inSize; i++) {
-			fluidConnections[i] = FluidConnection.IN;
-		}
-		for (int i = inSize; i < inSize + outSize; i++) {
-			fluidConnections[i] = FluidConnection.OUT;
-		}
-		for (int i = inSize + outSize; i < 2*inSize + outSize; i++) {
-			fluidConnections[i] = FluidConnection.NON;
-		}
+		for (int i = 0; i < inSize; i++) fluidConnections[i] = FluidConnection.IN;
+		for (int i = inSize; i < inSize + outSize; i++) fluidConnections[i] = FluidConnection.OUT;
+		for (int i = inSize + outSize; i < 2*inSize + outSize; i++) fluidConnections[i] = FluidConnection.NON;
 		return fluidConnections;
 	}
 	
 	public static int[] tankCapacities(int capacity, int inSize, int outSize) {
 		int[] tankCapacities = new int[2*inSize + outSize];
-		for (int i = 0; i < 2*inSize + outSize; i++) {
-			tankCapacities[i] = capacity;
-		}
+		for (int i = 0; i < 2*inSize + outSize; i++) tankCapacities[i] = capacity;
 		return tankCapacities;
+	}
+	
+	@Override
+	public void onAdded() {
+		super.onAdded();
+		if (!world.isRemote) {
+			isGenerating = isGenerating();
+			hasConsumed = hasConsumed();
+		}
 	}
 	
 	@Override
@@ -70,40 +71,20 @@ public abstract class TileFluidGenerator extends TileEnergyFluidSidedInventory i
 	}
 	
 	public void updateGenerator() {
-		boolean flag = isGenerating;
-		boolean flag1 = false;
+		boolean wasGenerating = isGenerating;
+		isGenerating = canProcess() && isPowered();
+		boolean shouldUpdate = false;
 		if(!world.isRemote) {
-			if (time == 0) {
-				consume();
-			}
-			if (canProcess() && isPowered()) {
-				isGenerating = true;
-				time += getRateMultiplier();
-				storage.changeEnergyStored(getProcessPower());
-				if (time >= getProcessTime()) {
-					time = 0;
-					output();
-				}
-			} else {
-				isGenerating = false;
-			}
-			if (flag != isGenerating) {
-				flag1 = true;
-				if (NCConfig.update_block_type) {
-					removeTileFromENet();
-					setState(isGenerating);
-					world.notifyNeighborsOfStateChange(pos, blockType, true);
-					addTileToENet();
-				}
+			tick();
+			if (time == 0) consume();
+			if (isGenerating) process();
+			if (wasGenerating != isGenerating) {
+				shouldUpdate = true;
+				updateBlockType();
 			}
 			pushEnergy();
-		} else {
-			isGenerating = canProcess() && isPowered();
 		}
-		
-		if (flag1) {
-			markDirty();
-		}
+		if (shouldUpdate) markDirty();
 	}
 	
 	public void tick() {
@@ -114,34 +95,34 @@ public abstract class TileFluidGenerator extends TileEnergyFluidSidedInventory i
 		return tickCount > NCConfig.generator_update_rate;
 	}
 	
-	@Override
-	public void onAdded() {
-		super.onAdded();
-		if (!world.isRemote) isGenerating = isGenerating();
-		if (!world.isRemote) hasConsumed = hasConsumed();
+	public boolean isGenerating() {
+		return canProcess() && isPowered();
 	}
 	
-	public boolean isGenerating() {
-		if (world.isRemote) return isGenerating;
-		return isPowered() && time > 0;
+	public boolean canProcess() {
+		return canProcessStacks();
 	}
 	
 	public boolean isPowered() {
 		return world.isBlockPowered(pos);
 	}
 	
-	public boolean hasConsumed() {
-		if (world.isRemote) return hasConsumed;
-		for (int i = 0; i < fluidInputSize; i++) {
-			if (tanks[i + fluidInputSize + fluidOutputSize].getFluid() != null) {
-				return true;
-			}
-		}
-		return false;
+	public void process() {
+		time += getRateMultiplier();
+		storage.changeEnergyStored(getProcessPower());
+		if (time >= getProcessTime()) completeProcess();
 	}
 	
-	public boolean canProcess() {
-		return canProcessStacks();
+	public void completeProcess() {
+		time = 0;
+		produceProducts();
+	}
+	
+	public void updateBlockType() {
+		removeTileFromENet();
+		setState(isGenerating);
+		world.notifyNeighborsOfStateChange(pos, blockType, true);
+		addTileToENet();
 	}
 	
 	// Processing
@@ -157,6 +138,16 @@ public abstract class TileFluidGenerator extends TileEnergyFluidSidedInventory i
 	public abstract int getProcessPower();
 		
 	public abstract void setProcessPower(int value);
+	
+	public boolean hasConsumed() {
+		if (world.isRemote) return hasConsumed;
+		for (int i = 0; i < fluidInputSize; i++) {
+			if (tanks[i + fluidInputSize + fluidOutputSize].getFluid() != null) {
+				return true;
+			}
+		}
+		return false;
+	}
 		
 	public boolean canProcessStacks() {
 		for (int i = 0; i < fluidInputSize; i++) {
@@ -214,7 +205,7 @@ public abstract class TileFluidGenerator extends TileEnergyFluidSidedInventory i
 		}
 	}
 		
-	public void output() {
+	public void produceProducts() {
 		if (hasConsumed) {
 			Object[] outputs = outputs();
 			for (int j = 0; j < fluidOutputSize; j++) {

@@ -286,8 +286,8 @@ public abstract class TileFluid extends NCTile implements ITileFluid, IFluidHand
 		}
 		if (tanks.length > 0 && tanks != null) {
 			if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) return true;
-			//else if (capability == mekanism.common.capabilities.Capabilities.GAS_HANDLER_CAPABILITY) return true;
-			//else if (capability == mekanism.common.capabilities.Capabilities.TUBE_CONNECTION_CAPABILITY) return true;
+			//else if (capability == Capabilities.GAS_HANDLER_CAPABILITY) return true;
+			//else if (capability == Capabilities.TUBE_CONNECTION_CAPABILITY) return true;
 		}
 		return super.hasCapability(capability, facing);
 	}
@@ -296,8 +296,8 @@ public abstract class TileFluid extends NCTile implements ITileFluid, IFluidHand
 	public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
 		if (tanks.length > 0 && tanks != null) {
 			if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(this);
-			//if (capability == mekanism.common.capabilities.Capabilities.GAS_HANDLER_CAPABILITY) return mekanism.common.capabilities.Capabilities.GAS_HANDLER_CAPABILITY.cast(this);
-			//if (capability == mekanism.common.capabilities.Capabilities.TUBE_CONNECTION_CAPABILITY) return mekanism.common.capabilities.Capabilities.TUBE_CONNECTION_CAPABILITY.cast(this);
+			//if (capability == Capabilities.GAS_HANDLER_CAPABILITY) return Capabilities.GAS_HANDLER_CAPABILITY.cast(this);
+			//if (capability == Capabilities.TUBE_CONNECTION_CAPABILITY) return Capabilities.TUBE_CONNECTION_CAPABILITY.cast(this);
 		}
 		return super.getCapability(capability, facing);
 	}

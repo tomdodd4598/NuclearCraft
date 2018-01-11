@@ -94,7 +94,16 @@ public class InfuserRecipes extends BaseRecipeHandler {
 		addRecipe(new ItemStack(NCBlocks.cooler, 1, 0), fluidStack("liquidhelium", 1000), new ItemStack(NCBlocks.cooler, 1, 8), NCConfig.processor_time[5]*2);
 		addRecipe(new ItemStack(NCBlocks.cooler, 1, 0), fluidStack("water", 1000), new ItemStack(NCBlocks.cooler, 1, 1), NCConfig.processor_time[5]*2);
 		
+		// Immersive Engineering
 		addRecipe("plankWood", fluidStack("creosote", 100), "plankTreatedWood", NCConfig.processor_time[5]/10);
+		
+		// Redstone Arsenal
+		ingotInfuse("Electrum", "redstone", 500, "ElectrumFlux", 1);
+		
+		// Thermal Foundation
+		ingotInfuse("Shibuichi", "redstone", 250, "Signalum", 1);
+		ingotInfuse("TinSilver", "glowstone", 250, "Lumium", 1);
+		ingotInfuse("LeadPlatinum", "ender", 250, "Enderium", 1);
 	}
 	
 	public void oxidize(String name, int oxygen) {
@@ -115,6 +124,11 @@ public class InfuserRecipes extends BaseRecipeHandler {
 		addRecipe("fuel" + name, fluidStack("oxygen", 4000), "fuel" + name + "Oxide", NCConfig.processor_time[5]*4);
 		addRecipe("fuelRod" + name, fluidStack("oxygen", 4000), "fuelRod" + name + "Oxide", NCConfig.processor_time[5]*4);
 		addRecipe("depletedFuelRod" + name, fluidStack("oxygen", 3000), "depletedFuelRod" + name + "Oxide", NCConfig.processor_time[5]*4);
+	}
+	
+	public void ingotInfuse(String in, String fluid, int amount, String out, int time) {
+		addRecipe("ingot" + in, fluidStack(fluid, amount), "ingot" + out, NCConfig.processor_time[5]*time);
+		addRecipe("dust" + in, fluidStack(fluid, amount), "dust" + out, NCConfig.processor_time[5]*time);
 	}
 
 	@Override

@@ -3,12 +3,12 @@ package nc.gui.processor;
 import nc.container.processor.ContainerManufactory;
 import nc.gui.GuiItemRenderer;
 import nc.init.NCItems;
-import nc.tile.processor.TileEnergyItemProcessor;
+import nc.tile.processor.TileItemProcessor;
 import net.minecraft.entity.player.EntityPlayer;
 
-public class GuiManufactory extends GuiEnergyItemProcessor {
+public class GuiManufactory extends GuiItemProcessor {
 
-	public GuiManufactory(EntityPlayer player, TileEnergyItemProcessor tile) {
+	public GuiManufactory(EntityPlayer player, TileItemProcessor tile) {
 		super("manufactory", player, new ContainerManufactory(player, tile));
 		this.tile = tile;
 		xSize = 176;

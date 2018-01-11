@@ -8,16 +8,16 @@ import nc.init.NCItems;
 import nc.network.PacketEmptyTankButton;
 import nc.network.PacketGetFluidInTank;
 import nc.network.PacketHandler;
-import nc.tile.processor.TileEnergyFluidProcessor;
+import nc.tile.processor.TileFluidProcessor;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fluids.FluidStack;
 
-public class GuiChemicalReactor extends GuiEnergyFluidProcessor {
+public class GuiChemicalReactor extends GuiFluidProcessor {
 	
 	public static FluidStack fluid0, fluid1, fluid2, fluid3 = null;
 
-	public GuiChemicalReactor(EntityPlayer player, TileEnergyFluidProcessor tile) {
+	public GuiChemicalReactor(EntityPlayer player, TileFluidProcessor tile) {
 		super("chemical_reactor", player, new ContainerChemicalReactor(player, tile));
 		this.tile = tile;
 		xSize = 176;

@@ -3,7 +3,7 @@ package nc.container.processor;
 import nc.container.ContainerTile;
 import nc.init.NCItems;
 import nc.recipe.BaseRecipeHandler;
-import nc.tile.processor.TileEnergyItemProcessor;
+import nc.tile.processor.TileFluidProcessor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IContainerListener;
 import net.minecraft.inventory.Slot;
@@ -11,9 +11,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ContainerEnergyItemProcessor extends ContainerTile {
+public class ContainerFluidProcessor extends ContainerTile {
 	
-	public final TileEnergyItemProcessor tile;
+	public final TileFluidProcessor tile;
 	public final BaseRecipeHandler recipes;
 	
 	protected int time;
@@ -22,7 +22,7 @@ public class ContainerEnergyItemProcessor extends ContainerTile {
 	
 	protected ItemStack speedUpgrade = new ItemStack(NCItems.upgrade, 1, 0);
 	
-	public ContainerEnergyItemProcessor(TileEnergyItemProcessor tileEntity, BaseRecipeHandler recipes) {
+	public ContainerFluidProcessor(TileFluidProcessor tileEntity, BaseRecipeHandler recipes) {
 		super(tileEntity);
 		tile = tileEntity;
 		this.recipes = recipes;
@@ -39,6 +39,8 @@ public class ContainerEnergyItemProcessor extends ContainerTile {
 				icontainerlistener.sendWindowProperty(this, j, tile.getField(j) >> 16);
 				icontainerlistener.sendWindowProperty(this, 100 + j, tile.getField(j));
 			}
+			
+			//for (int j = 2; j <= 2 + tile.tanks.length; j++) icontainerlistener.sendWindowProperty(this, j, tile.getField(j));
 		}
 	}
 	
@@ -58,6 +60,8 @@ public class ContainerEnergyItemProcessor extends ContainerTile {
 		else if (id == 0) tile.setField(id, time | data << 16);
 		else if (id == 1) tile.setField(id, energy | data << 16);
 		else if (id == 2) tile.setField(id, baseTime | data << 16);
+		
+		//else if (id > 2 && id <= 2 + tile.tanks.length) tile.setField(id, data);
 	}
 	
 	@Override
@@ -70,14 +74,14 @@ public class ContainerEnergyItemProcessor extends ContainerTile {
 		ItemStack itemstack = ItemStack.EMPTY;
 		Slot slot = inventorySlots.get(index);
 		int upgrades = tile.hasUpgrades? 2 : 0;
-		int invStart = tile.inputSize + tile.outputSize + upgrades;
-		int speedUpgradeSlot = tile.inputSize + tile.outputSize;
-		int otherUpgradeSlot = tile.inputSize + tile.outputSize + 1;
-		int invEnd = tile.inputSize + tile.outputSize + 36 + upgrades;
+		int invStart = upgrades;
+		int speedUpgradeSlot = 0;
+		int otherUpgradeSlot = 1;
+		int invEnd = 36 + upgrades;
 		if ((slot != null) && (slot.getHasStack())) {
 			ItemStack itemstack1 = slot.getStack();
 			itemstack = itemstack1.copy();
-			if (index >= tile.inputSize && index < invStart) {
+			if (index >= 0 && index < invStart) {
 				if (!mergeItemStack(itemstack1, invStart, invEnd, false)) {
 					return ItemStack.EMPTY;
 				}
@@ -96,7 +100,7 @@ public class ContainerEnergyItemProcessor extends ContainerTile {
 				}
 				
 				else if (recipes.isValidInput(itemstack1)) {
-					if (!mergeItemStack(itemstack1, 0, tile.inputSize, false)) {
+					if (!mergeItemStack(itemstack1, 0, 0, false)) {
 						return ItemStack.EMPTY;
 					}
 				}

@@ -1,8 +1,9 @@
 package nc.tile.processor;
 
+import javax.annotation.Nullable;
+
 import nc.Global;
 import nc.block.tile.processor.BlockNuclearFurnace;
-import nc.config.NCConfig;
 import nc.tile.ITileInventory;
 import nc.tile.dummy.IInterfaceable;
 import net.minecraft.entity.player.EntityPlayer;
@@ -25,8 +26,12 @@ import net.minecraft.util.datafix.walkers.ItemStackDataLists;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.wrapper.SidedInvWrapper;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class TileNuclearFurnace extends TileEntity implements ITickable, ISidedInventory, ITileInventory, IInterfaceable {
@@ -194,10 +199,8 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ISidedI
 
 			if (flag != isBurning()) {
 				flag1 = true;
-				if (NCConfig.update_block_type) {
-					BlockNuclearFurnace.setState(isBurning(), world, pos);
-					world.notifyNeighborsOfStateChange(pos, blockType, true);
-				}
+				BlockNuclearFurnace.setState(isBurning(), world, pos);
+				world.notifyNeighborsOfStateChange(pos, blockType, true);
 			}
 		}
 
@@ -383,14 +386,13 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ISidedI
 		if (getBlockType() != null) return new TextComponentTranslation(getBlockType().getLocalizedName()); else return null;
 	}
 
-	net.minecraftforge.items.IItemHandler handlerTop = new net.minecraftforge.items.wrapper.SidedInvWrapper(this, net.minecraft.util.EnumFacing.UP);
-	net.minecraftforge.items.IItemHandler handlerBottom = new net.minecraftforge.items.wrapper.SidedInvWrapper(this, net.minecraft.util.EnumFacing.DOWN);
-	net.minecraftforge.items.IItemHandler handlerSide = new net.minecraftforge.items.wrapper.SidedInvWrapper(this, net.minecraft.util.EnumFacing.WEST);
+	IItemHandler handlerTop = new SidedInvWrapper(this, EnumFacing.UP);
+	IItemHandler handlerBottom = new SidedInvWrapper(this, EnumFacing.DOWN);
+	IItemHandler handlerSide = new SidedInvWrapper(this, EnumFacing.WEST);
 
 	@Override
-	@SuppressWarnings("unchecked")
-	public <T> T getCapability(net.minecraftforge.common.capabilities.Capability<T> capability, @javax.annotation.Nullable net.minecraft.util.EnumFacing facing) {
-		if (facing != null && capability == net.minecraftforge.items.CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing) {
+		if (facing != null && capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
 			if (facing == EnumFacing.DOWN) {
 				return (T) handlerBottom;
 			} else if (facing == EnumFacing.UP) {

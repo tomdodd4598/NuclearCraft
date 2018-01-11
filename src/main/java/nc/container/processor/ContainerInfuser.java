@@ -3,14 +3,14 @@ package nc.container.processor;
 import nc.container.SlotProcessorInput;
 import nc.container.SlotSpecificInput;
 import nc.recipe.NCRecipes;
-import nc.tile.processor.TileEnergyItemFluidProcessor;
+import nc.tile.processor.TileItemFluidProcessor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotFurnaceOutput;
 
-public class ContainerInfuser extends ContainerEnergyItemFluidProcessor {
+public class ContainerInfuser extends ContainerItemFluidProcessor {
 
-	public ContainerInfuser(EntityPlayer player, TileEnergyItemFluidProcessor tileEntity) {
+	public ContainerInfuser(EntityPlayer player, TileItemFluidProcessor tileEntity) {
 		super(tileEntity, NCRecipes.INFUSER_RECIPES);
 		
 		addSlotToContainer(new SlotProcessorInput(tileEntity, recipes, 0, 46, 35));

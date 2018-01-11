@@ -11,11 +11,14 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
 
 public abstract class TileEnergyFluidInventory extends TileEnergyFluid implements IInventory, ITileInventory {
 	
@@ -186,6 +189,27 @@ public abstract class TileEnergyFluidInventory extends TileEnergyFluid implement
 	@Override
 	public NonNullList<ItemStack> getInventoryStacks() {
 		return inventoryStacks;
+	}
+	
+	public void pushStacks() {
+		if (isEmpty()) return;
+		for (EnumFacing side : EnumFacing.VALUES) {
+			IItemHandler inv = getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side);
+			if (inv == null) continue;
+			for (int i = 0; i < inventoryStacks.size(); i++) {
+				if (inventoryStacks.get(i).isEmpty()) continue;
+				TileEntity tile = world.getTileEntity(getPos().offset(side));
+				IItemHandler adjInv = tile == null ? null : tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side.getOpposite());
+				
+				if (adjInv != null) {
+					for (int j = 0; j < adjInv.getSlots(); j++) {
+						if (!inv.extractItem(i, inventoryStacks.get(i).getCount() - adjInv.insertItem(j, inv.extractItem(i, getInventoryStackLimit(), true), false).getCount(), false).isEmpty()) {
+							return;
+						}
+					}
+				}
+			}
+		}
 	}
 	
 	// NBT

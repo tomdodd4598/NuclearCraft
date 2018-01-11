@@ -4,7 +4,9 @@ import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidUtil;
 
 public class StackHelper {
 	
@@ -69,5 +71,17 @@ public class StackHelper {
 		ItemStack newStack = stack.copy();
 		newStack.setCount(size);
 		return newStack.copy();
+	}
+	
+	public static ItemStack getBucket(FluidStack fluidStack) {
+		return FluidUtil.getFilledBucket(fluidStack);
+	}
+	
+	public static ItemStack getBucket(Fluid fluid) {
+		return getBucket(new FluidStack(fluid, 1000));
+	}
+	
+	public static ItemStack getBucket(String fluidName) {
+		return getBucket(FluidRegistry.getFluid(fluidName));
 	}
 }

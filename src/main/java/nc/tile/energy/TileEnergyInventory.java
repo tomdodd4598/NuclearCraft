@@ -1,5 +1,7 @@
 package nc.tile.energy;
 
+import javax.annotation.Nullable;
+
 import nc.Global;
 import nc.ModCheck;
 import nc.energy.EnumStorage.EnergyConnection;
@@ -10,8 +12,14 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
+import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.wrapper.InvWrapper;
 
 public abstract class TileEnergyInventory extends TileEnergy implements IInventory, ITileInventory {
 
@@ -122,6 +130,27 @@ public abstract class TileEnergyInventory extends TileEnergy implements IInvento
 		return inventoryStacks;
 	}
 	
+	public void pushStacks() {
+		if (isEmpty()) return;
+		for (EnumFacing side : EnumFacing.VALUES) {
+			IItemHandler inv = getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side);
+			if (inv == null) continue;
+			for (int i = 0; i < inventoryStacks.size(); i++) {
+				if (inventoryStacks.get(i).isEmpty()) continue;
+				TileEntity tile = world.getTileEntity(getPos().offset(side));
+				IItemHandler adjInv = tile == null ? null : tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side.getOpposite());
+				
+				if (adjInv != null) {
+					for (int j = 0; j < adjInv.getSlots(); j++) {
+						if (!inv.extractItem(i, inventoryStacks.get(i).getCount() - adjInv.insertItem(j, inv.extractItem(i, getInventoryStackLimit(), true), false).getCount(), false).isEmpty()) {
+							return;
+						}
+					}
+				}
+			}
+		}
+	}
+	
 	// NBT
 	
 	@Override
@@ -155,10 +184,10 @@ public abstract class TileEnergyInventory extends TileEnergy implements IInvento
 	
 	// Capability
 	
-	net.minecraftforge.items.IItemHandler handler = new net.minecraftforge.items.wrapper.InvWrapper(this);
+	IItemHandler handler = new InvWrapper(this);
 	
 	@Override
-	public boolean hasCapability(net.minecraftforge.common.capabilities.Capability<?> capability, @javax.annotation.Nullable net.minecraft.util.EnumFacing facing) {
+	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing) {
 		if (CapabilityEnergy.ENERGY == capability && energyConnection.canConnect()) {
 			return true;
 		}
@@ -166,15 +195,14 @@ public abstract class TileEnergyInventory extends TileEnergy implements IInvento
 			if ((capability == TeslaCapabilities.CAPABILITY_CONSUMER && energyConnection.canReceive()) || (capability == TeslaCapabilities.CAPABILITY_PRODUCER && energyConnection.canExtract()) || capability == TeslaCapabilities.CAPABILITY_HOLDER)
 				return true;
 		}
-		if (capability == net.minecraftforge.items.CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
 			return true;
 		}
 		return super.hasCapability(capability, facing);
 	}
 	
 	@Override
-	@SuppressWarnings("unchecked")
-	public <T> T getCapability(net.minecraftforge.common.capabilities.Capability<T> capability, @javax.annotation.Nullable net.minecraft.util.EnumFacing facing) {
+	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing) {
 		if (CapabilityEnergy.ENERGY == capability && energyConnection.canConnect()) {
 			return (T) storage;
 		}
@@ -182,7 +210,7 @@ public abstract class TileEnergyInventory extends TileEnergy implements IInvento
 			if ((capability == TeslaCapabilities.CAPABILITY_CONSUMER && energyConnection.canReceive()) || (capability == TeslaCapabilities.CAPABILITY_PRODUCER && energyConnection.canExtract()) || capability == TeslaCapabilities.CAPABILITY_HOLDER)
 				return (T) storage;
 		}
-		if (capability == net.minecraftforge.items.CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
 			return (T) handler;
 		}
 		return super.getCapability(capability, facing);

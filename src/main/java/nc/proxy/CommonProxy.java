@@ -25,8 +25,8 @@ import nc.tab.TabFluids;
 import nc.tab.TabFusion;
 import nc.tab.TabMachines;
 import nc.tab.TabMisc;
-import nc.worldgen.DecorGen;
-import nc.worldgen.OreGen;
+import nc.worldgen.MushroomGenerator;
+import nc.worldgen.OreGenerator;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.common.MinecraftForge;
@@ -83,8 +83,8 @@ public class CommonProxy {
 		FurnaceRecipeHandler.registerFurnaceRecipes();
 		GameRegistry.registerFuelHandler(new FurnaceFuelHandler());
 		
-		GameRegistry.registerWorldGenerator(new OreGen(), 0);
-		GameRegistry.registerWorldGenerator(new DecorGen(), 100);
+		GameRegistry.registerWorldGenerator(new OreGenerator(), 0);
+		GameRegistry.registerWorldGenerator(new MushroomGenerator(), 100);
 	}
 
 	public void postInit(FMLPostInitializationEvent postEvent) {

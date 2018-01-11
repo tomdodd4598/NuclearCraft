@@ -20,15 +20,12 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fluids.FluidStack;
 
-public abstract class TileEnergyItemFluidProcessor extends TileEnergyFluidSidedInventory implements IInterfaceable, IGui {
+public abstract class TileItemFluidProcessor extends TileEnergyFluidSidedInventory implements IInterfaceable, IGui {
 	
 	public final int defaultProcessTime;
 	public int baseProcessTime;
 	public final int baseProcessPower;
-	public final int itemInputSize;
-	public final int fluidInputSize;
-	public final int itemOutputSize;
-	public final int fluidOutputSize;
+	public final int itemInputSize, fluidInputSize, itemOutputSize, fluidOutputSize;
 	
 	public int time;
 	public boolean isProcessing;
@@ -40,15 +37,15 @@ public abstract class TileEnergyItemFluidProcessor extends TileEnergyFluidSidedI
 	
 	public final BaseRecipeHandler recipes;
 	
-	public TileEnergyItemFluidProcessor(String name, int itemInSize, int fluidInSize, int itemOutSize, int fluidOutSize, int[] fluidCapacity, FluidConnection[] fluidConnection, String[][] allowedFluids, int time, int power, BaseRecipeHandler recipes) {
+	public TileItemFluidProcessor(String name, int itemInSize, int fluidInSize, int itemOutSize, int fluidOutSize, int[] fluidCapacity, FluidConnection[] fluidConnection, String[][] allowedFluids, int time, int power, BaseRecipeHandler recipes) {
 		this(name, itemInSize, fluidInSize, itemOutSize, fluidOutSize, fluidCapacity, fluidConnection, allowedFluids, time, power, false, recipes, 1);
 	}
 	
-	public TileEnergyItemFluidProcessor(String name, int itemInSize, int fluidInSize, int itemOutSize, int fluidOutSize, int[] fluidCapacity, FluidConnection[] fluidConnection, String[][] allowedFluids, int time, int power, BaseRecipeHandler recipes, int upgradeMeta) {
+	public TileItemFluidProcessor(String name, int itemInSize, int fluidInSize, int itemOutSize, int fluidOutSize, int[] fluidCapacity, FluidConnection[] fluidConnection, String[][] allowedFluids, int time, int power, BaseRecipeHandler recipes, int upgradeMeta) {
 		this(name, itemInSize, fluidInSize, itemOutSize, fluidOutSize, fluidCapacity, fluidConnection, allowedFluids, time, power, true, recipes, upgradeMeta);
 	}
 	
-	public TileEnergyItemFluidProcessor(String name, int itemInSize, int fluidInSize, int itemOutSize, int fluidOutSize, int[] fluidCapacity, FluidConnection[] fluidConnection, String[][] allowedFluids, int time, int power, boolean upgrades, BaseRecipeHandler recipes, int upgradeMeta) {
+	public TileItemFluidProcessor(String name, int itemInSize, int fluidInSize, int itemOutSize, int fluidOutSize, int[] fluidCapacity, FluidConnection[] fluidConnection, String[][] allowedFluids, int time, int power, boolean upgrades, BaseRecipeHandler recipes, int upgradeMeta) {
 		super(name, itemInSize + itemOutSize + (upgrades ? 2 : 0), 32000, power != 0 ? EnergyConnection.IN : EnergyConnection.NON, fluidCapacity, fluidCapacity, fluidCapacity, fluidConnection, allowedFluids);
 		itemInputSize = itemInSize;
 		fluidInputSize = fluidInSize;
@@ -63,41 +60,36 @@ public abstract class TileEnergyItemFluidProcessor extends TileEnergyFluidSidedI
 		areTanksShared = fluidInSize > 1;
 		
 		int[] topSlots1 = new int[itemInSize];
-		for (int i = 0; i < topSlots1.length; i++) {
-			topSlots1[i] = i;
-		}
+		for (int i = 0; i < topSlots1.length; i++) topSlots1[i] = i;
 		topSlots = topSlots1;
 		
 		int[] sideSlots1 = new int[itemInSize + itemOutSize];
-		for (int i = 0; i < sideSlots1.length; i++) {
-			sideSlots1[i] = i;
-		}
+		for (int i = 0; i < sideSlots1.length; i++) sideSlots1[i] = i;
 		sideSlots = sideSlots1;
 		
 		int[] bottomSlots1 = new int[itemOutSize];
-		for (int i = itemInSize; i < itemInSize + bottomSlots1.length; i++) {
-			bottomSlots1[i - itemInSize] = i;
-		}
+		for (int i = itemInSize; i < itemInSize + bottomSlots1.length; i++) bottomSlots1[i - itemInSize] = i;
 		bottomSlots = bottomSlots1;
 	}
 	
 	public static FluidConnection[] fluidConnections(int inSize, int outSize) {
 		FluidConnection[] fluidConnections = new FluidConnection[inSize + outSize];
-		for (int i = 0; i < inSize; i++) {
-			fluidConnections[i] = FluidConnection.IN;
-		}
-		for (int i = inSize; i < inSize + outSize; i++) {
-			fluidConnections[i] = FluidConnection.OUT;
-		}
+		for (int i = 0; i < inSize; i++) fluidConnections[i] = FluidConnection.IN;
+		for (int i = inSize; i < inSize + outSize; i++) fluidConnections[i] = FluidConnection.OUT;
 		return fluidConnections;
 	}
 	
 	public static int[] tankCapacities(int capacity, int inSize, int outSize) {
 		int[] tankCapacities = new int[inSize + outSize];
-		for (int i = 0; i < inSize + outSize; i++) {
-			tankCapacities[i] = capacity;
-		}
+		for (int i = 0; i < inSize + outSize; i++) tankCapacities[i] = capacity;
 		return tankCapacities;
+	}
+	
+	@Override
+	public void onAdded() {
+		super.onAdded();
+		baseProcessTime = defaultProcessTime;
+		if (!world.isRemote) isProcessing = !isPowered() && canProcess();
 	}
 	
 	@Override
@@ -107,39 +99,20 @@ public abstract class TileEnergyItemFluidProcessor extends TileEnergyFluidSidedI
 	}
 	
 	public void updateProcessor() {
-		boolean flag = isProcessing;
-		boolean flag1 = false;
+		boolean wasProcessing = isProcessing;
+		isProcessing = canProcess() && !isPowered();
 		setCapacityFromSpeed();
-		if(!world.isRemote) {
+		boolean shouldUpdate = false;
+		if (!world.isRemote) {
 			tick();
-			if (canProcess() && !isPowered()) {
-				isProcessing = true;
-				time += getSpeedMultiplier();
-				storage.changeEnergyStored(-getProcessPower());
-				if (time >= baseProcessTime) {
-					time = 0;
-					process();
-				}
-			} else {
-				isProcessing = false;
-				if (time != 0 && !isPowered()) time = MathHelper.clamp(time - 2*getSpeedMultiplier(), 0, baseProcessTime);
+			if (isProcessing) process();
+			else if (!isPowered()) loseProgress();
+			if (wasProcessing != isProcessing) {
+				shouldUpdate = true;
+				updateBlockType();
 			}
-			if (flag != isProcessing) {
-				flag1 = true;
-				if (NCConfig.update_block_type) {
-					removeTileFromENet();
-					setState(isProcessing);
-					world.notifyNeighborsOfStateChange(pos, blockType, true);
-					addTileToENet();
-				}
-			}
-		} else {
-			isProcessing = canProcess() && !isPowered();
 		}
-		
-		if (flag1) {
-			markDirty();
-		}
+		if (shouldUpdate) markDirty();
 	}
 	
 	public void tick() {
@@ -150,24 +123,34 @@ public abstract class TileEnergyItemFluidProcessor extends TileEnergyFluidSidedI
 		return tickCount > NCConfig.processor_update_rate;
 	}
 	
-	@Override
-	public void onAdded() {
-		super.onAdded();
-		baseProcessTime = defaultProcessTime;
-		if (!world.isRemote) isProcessing = isProcessing();
-	}
-	
-	public boolean isProcessing() {
-		if (world.isRemote) return isProcessing;
-		return !isPowered() && canProcess();
+	public boolean canProcess() {
+		return canProcessStacks();
 	}
 	
 	public boolean isPowered() {
 		return world.isBlockPowered(pos);
 	}
 	
-	public boolean canProcess() {
-		return canProcessStacks();
+	public void process() {
+		time += getSpeedMultiplier();
+		storage.changeEnergyStored(-getProcessPower());
+		if (time >= baseProcessTime) completeProcess();
+	}
+	
+	public void completeProcess() {
+		time = 0;
+		produceProducts();
+	}
+	
+	public void loseProgress() {
+		time = MathHelper.clamp(time - 2*getSpeedMultiplier(), 0, baseProcessTime);
+	}
+	
+	public void updateBlockType() {
+		removeTileFromENet();
+		setState(isProcessing);
+		world.notifyNeighborsOfStateChange(pos, blockType, true);
+		addTileToENet();
 	}
 	
 	// IC2 Tiers
@@ -265,7 +248,7 @@ public abstract class TileEnergyItemFluidProcessor extends TileEnergyFluidSidedI
 		return true;
 	}
 	
-	public void process() {
+	public void produceProducts() {
 		IRecipe recipe = getRecipe();
 		Object[] outputs = outputs();
 		int[] itemInputOrder = itemInputOrder();

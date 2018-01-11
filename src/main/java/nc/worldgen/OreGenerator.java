@@ -15,18 +15,18 @@ import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraftforge.fml.common.IWorldGenerator;
 
-public class OreGen implements IWorldGenerator {
+public class OreGenerator implements IWorldGenerator {
 	
-	private WorldGenerator copper;
-	private WorldGenerator tin;
-	private WorldGenerator lead;
-	private WorldGenerator thorium;
-	private WorldGenerator uranium;
-	private WorldGenerator boron;
-	private WorldGenerator lithium;
-	private WorldGenerator magnesium;
+	private final WorldGenerator copper;
+	private final WorldGenerator tin;
+	private final WorldGenerator lead;
+	private final WorldGenerator thorium;
+	private final WorldGenerator uranium;
+	private final WorldGenerator boron;
+	private final WorldGenerator lithium;
+	private final WorldGenerator magnesium;
 	
-	public OreGen() {
+	public OreGenerator() {
 		copper = new WorldGenMinable(((BlockMeta)NCBlocks.ore).getStateFromMeta(0), NCConfig.ore_size[0], new UniversalPredicate());
 		tin = new WorldGenMinable(((BlockMeta)NCBlocks.ore).getStateFromMeta(1), NCConfig.ore_size[1], new UniversalPredicate());
 		lead = new WorldGenMinable(((BlockMeta)NCBlocks.ore).getStateFromMeta(2), NCConfig.ore_size[2], new UniversalPredicate());

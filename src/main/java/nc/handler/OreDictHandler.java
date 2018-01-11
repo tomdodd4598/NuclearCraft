@@ -2,7 +2,7 @@ package nc.handler;
 
 import nc.init.NCBlocks;
 import nc.init.NCItems;
-import nc.worldgen.OreGen;
+import nc.worldgen.OreGenerator;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
@@ -10,23 +10,23 @@ import net.minecraftforge.oredict.OreDictionary;
 public class OreDictHandler {
 	
 	public static void registerOres() {
-		if (OreGen.showOre(0)) OreDictionary.registerOre("oreCopper", new ItemStack(NCBlocks.ore, 1, 0));
-		if (OreGen.showOre(1)) OreDictionary.registerOre("oreTin", new ItemStack(NCBlocks.ore, 1, 1));
-		if (OreGen.showOre(2)) OreDictionary.registerOre("oreLead", new ItemStack(NCBlocks.ore, 1, 2));
-		if (OreGen.showOre(3)) OreDictionary.registerOre("oreThorium", new ItemStack(NCBlocks.ore, 1, 3));
-		if (OreGen.showOre(4)) OreDictionary.registerOre("oreUranium", new ItemStack(NCBlocks.ore, 1, 4));
-		if (OreGen.showOre(5)) OreDictionary.registerOre("oreBoron", new ItemStack(NCBlocks.ore, 1, 5));
-		if (OreGen.showOre(6)) OreDictionary.registerOre("oreLithium", new ItemStack(NCBlocks.ore, 1, 6));
-		if (OreGen.showOre(7)) OreDictionary.registerOre("oreMagnesium", new ItemStack(NCBlocks.ore, 1, 7));
+		if (OreGenerator.showOre(0)) OreDictionary.registerOre("oreCopper", new ItemStack(NCBlocks.ore, 1, 0));
+		if (OreGenerator.showOre(1)) OreDictionary.registerOre("oreTin", new ItemStack(NCBlocks.ore, 1, 1));
+		if (OreGenerator.showOre(2)) OreDictionary.registerOre("oreLead", new ItemStack(NCBlocks.ore, 1, 2));
+		if (OreGenerator.showOre(3)) OreDictionary.registerOre("oreThorium", new ItemStack(NCBlocks.ore, 1, 3));
+		if (OreGenerator.showOre(4)) OreDictionary.registerOre("oreUranium", new ItemStack(NCBlocks.ore, 1, 4));
+		if (OreGenerator.showOre(5)) OreDictionary.registerOre("oreBoron", new ItemStack(NCBlocks.ore, 1, 5));
+		if (OreGenerator.showOre(6)) OreDictionary.registerOre("oreLithium", new ItemStack(NCBlocks.ore, 1, 6));
+		if (OreGenerator.showOre(7)) OreDictionary.registerOre("oreMagnesium", new ItemStack(NCBlocks.ore, 1, 7));
 		
-		if (OreGen.showOre(0)) OreDictionary.registerOre("blockCopper", new ItemStack(NCBlocks.ingot_block, 1, 0));
-		if (OreGen.showOre(1)) OreDictionary.registerOre("blockTin", new ItemStack(NCBlocks.ingot_block, 1, 1));
-		if (OreGen.showOre(2)) OreDictionary.registerOre("blockLead", new ItemStack(NCBlocks.ingot_block, 1, 2));
-		if (OreGen.showOre(3)) OreDictionary.registerOre("blockThorium", new ItemStack(NCBlocks.ingot_block, 1, 3));
-		if (OreGen.showOre(4)) OreDictionary.registerOre("blockUranium", new ItemStack(NCBlocks.ingot_block, 1, 4));
-		if (OreGen.showOre(5)) OreDictionary.registerOre("blockBoron", new ItemStack(NCBlocks.ingot_block, 1, 5));
-		if (OreGen.showOre(6)) OreDictionary.registerOre("blockLithium", new ItemStack(NCBlocks.ingot_block, 1, 6));
-		if (OreGen.showOre(7)) OreDictionary.registerOre("blockMagnesium", new ItemStack(NCBlocks.ingot_block, 1, 7));
+		if (OreGenerator.showOre(0)) OreDictionary.registerOre("blockCopper", new ItemStack(NCBlocks.ingot_block, 1, 0));
+		if (OreGenerator.showOre(1)) OreDictionary.registerOre("blockTin", new ItemStack(NCBlocks.ingot_block, 1, 1));
+		if (OreGenerator.showOre(2)) OreDictionary.registerOre("blockLead", new ItemStack(NCBlocks.ingot_block, 1, 2));
+		if (OreGenerator.showOre(3)) OreDictionary.registerOre("blockThorium", new ItemStack(NCBlocks.ingot_block, 1, 3));
+		if (OreGenerator.showOre(4)) OreDictionary.registerOre("blockUranium", new ItemStack(NCBlocks.ingot_block, 1, 4));
+		if (OreGenerator.showOre(5)) OreDictionary.registerOre("blockBoron", new ItemStack(NCBlocks.ingot_block, 1, 5));
+		if (OreGenerator.showOre(6)) OreDictionary.registerOre("blockLithium", new ItemStack(NCBlocks.ingot_block, 1, 6));
+		if (OreGenerator.showOre(7)) OreDictionary.registerOre("blockMagnesium", new ItemStack(NCBlocks.ingot_block, 1, 7));
 		OreDictionary.registerOre("blockGraphite", new ItemStack(NCBlocks.ingot_block, 1, 8));
 		OreDictionary.registerOre("blockBeryllium", new ItemStack(NCBlocks.ingot_block, 1, 9));
 		OreDictionary.registerOre("blockZirconium", new ItemStack(NCBlocks.ingot_block, 1, 10));
@@ -40,14 +40,14 @@ public class OreDictHandler {
 		OreDictionary.registerOre("blockDepletedBerkelium", NCBlocks.block_depleted_berkelium);
 		OreDictionary.registerOre("blockDepletedCalifornium", NCBlocks.block_depleted_californium);
 		
-		if (OreGen.showOre(0)) OreDictionary.registerOre("ingotCopper", new ItemStack(NCItems.ingot, 1, 0));
-		if (OreGen.showOre(1)) OreDictionary.registerOre("ingotTin", new ItemStack(NCItems.ingot, 1, 1));
-		if (OreGen.showOre(2)) OreDictionary.registerOre("ingotLead", new ItemStack(NCItems.ingot, 1, 2));
-		if (OreGen.showOre(3)) OreDictionary.registerOre("ingotThorium", new ItemStack(NCItems.ingot, 1, 3));
-		if (OreGen.showOre(4)) OreDictionary.registerOre("ingotUranium", new ItemStack(NCItems.ingot, 1, 4));
-		if (OreGen.showOre(5)) OreDictionary.registerOre("ingotBoron", new ItemStack(NCItems.ingot, 1, 5));
-		if (OreGen.showOre(6)) OreDictionary.registerOre("ingotLithium", new ItemStack(NCItems.ingot, 1, 6));
-		if (OreGen.showOre(7)) OreDictionary.registerOre("ingotMagnesium", new ItemStack(NCItems.ingot, 1, 7));
+		if (OreGenerator.showOre(0)) OreDictionary.registerOre("ingotCopper", new ItemStack(NCItems.ingot, 1, 0));
+		if (OreGenerator.showOre(1)) OreDictionary.registerOre("ingotTin", new ItemStack(NCItems.ingot, 1, 1));
+		if (OreGenerator.showOre(2)) OreDictionary.registerOre("ingotLead", new ItemStack(NCItems.ingot, 1, 2));
+		if (OreGenerator.showOre(3)) OreDictionary.registerOre("ingotThorium", new ItemStack(NCItems.ingot, 1, 3));
+		if (OreGenerator.showOre(4)) OreDictionary.registerOre("ingotUranium", new ItemStack(NCItems.ingot, 1, 4));
+		if (OreGenerator.showOre(5)) OreDictionary.registerOre("ingotBoron", new ItemStack(NCItems.ingot, 1, 5));
+		if (OreGenerator.showOre(6)) OreDictionary.registerOre("ingotLithium", new ItemStack(NCItems.ingot, 1, 6));
+		if (OreGenerator.showOre(7)) OreDictionary.registerOre("ingotMagnesium", new ItemStack(NCItems.ingot, 1, 7));
 		OreDictionary.registerOre("ingotGraphite", new ItemStack(NCItems.ingot, 1, 8));
 		OreDictionary.registerOre("ingotBeryllium", new ItemStack(NCItems.ingot, 1, 9));
 		OreDictionary.registerOre("ingotZirconium", new ItemStack(NCItems.ingot, 1, 10));
@@ -57,14 +57,14 @@ public class OreDictHandler {
 		OreDictionary.registerOre("ingotManganeseOxide", new ItemStack(NCItems.ingot_oxide, 1, 2));
 		OreDictionary.registerOre("ingotManganeseDioxide", new ItemStack(NCItems.ingot_oxide, 1, 3));
 		
-		if (OreGen.showOre(0)) OreDictionary.registerOre("dustCopper", new ItemStack(NCItems.dust, 1, 0));
-		if (OreGen.showOre(1)) OreDictionary.registerOre("dustTin", new ItemStack(NCItems.dust, 1, 1));
-		if (OreGen.showOre(2)) OreDictionary.registerOre("dustLead", new ItemStack(NCItems.dust, 1, 2));
-		if (OreGen.showOre(3)) OreDictionary.registerOre("dustThorium", new ItemStack(NCItems.dust, 1, 3));
-		if (OreGen.showOre(4)) OreDictionary.registerOre("dustUranium", new ItemStack(NCItems.dust, 1, 4));
-		if (OreGen.showOre(5)) OreDictionary.registerOre("dustBoron", new ItemStack(NCItems.dust, 1, 5));
-		if (OreGen.showOre(6)) OreDictionary.registerOre("dustLithium", new ItemStack(NCItems.dust, 1, 6));
-		if (OreGen.showOre(7)) OreDictionary.registerOre("dustMagnesium", new ItemStack(NCItems.dust, 1, 7));
+		if (OreGenerator.showOre(0)) OreDictionary.registerOre("dustCopper", new ItemStack(NCItems.dust, 1, 0));
+		if (OreGenerator.showOre(1)) OreDictionary.registerOre("dustTin", new ItemStack(NCItems.dust, 1, 1));
+		if (OreGenerator.showOre(2)) OreDictionary.registerOre("dustLead", new ItemStack(NCItems.dust, 1, 2));
+		if (OreGenerator.showOre(3)) OreDictionary.registerOre("dustThorium", new ItemStack(NCItems.dust, 1, 3));
+		if (OreGenerator.showOre(4)) OreDictionary.registerOre("dustUranium", new ItemStack(NCItems.dust, 1, 4));
+		if (OreGenerator.showOre(5)) OreDictionary.registerOre("dustBoron", new ItemStack(NCItems.dust, 1, 5));
+		if (OreGenerator.showOre(6)) OreDictionary.registerOre("dustLithium", new ItemStack(NCItems.dust, 1, 6));
+		if (OreGenerator.showOre(7)) OreDictionary.registerOre("dustMagnesium", new ItemStack(NCItems.dust, 1, 7));
 		OreDictionary.registerOre("dustGraphite", new ItemStack(NCItems.dust, 1, 8));
 		OreDictionary.registerOre("dustBeryllium", new ItemStack(NCItems.dust, 1, 9));
 		OreDictionary.registerOre("dustZirconium", new ItemStack(NCItems.dust, 1, 10));
@@ -93,6 +93,9 @@ public class OreDictHandler {
 		OreDictionary.registerOre("ingotLithiumManganeseDioxide", new ItemStack(NCItems.alloy, 1, 4));
 		OreDictionary.registerOre("ingotSteel", new ItemStack(NCItems.alloy, 1, 5));
 		OreDictionary.registerOre("ingotFerroboron", new ItemStack(NCItems.alloy, 1, 6));
+		OreDictionary.registerOre("ingotShibuichi", new ItemStack(NCItems.alloy, 1, 7));
+		OreDictionary.registerOre("ingotTinSilver", new ItemStack(NCItems.alloy, 1, 8));
+		OreDictionary.registerOre("ingotLeadPlatinum", new ItemStack(NCItems.alloy, 1, 9));
 		
 		OreDictionary.registerOre("dustCalciumSulfate", new ItemStack(NCItems.compound, 1, 0));
 		OreDictionary.registerOre("dustCrystalBinder", new ItemStack(NCItems.compound, 1, 1));
@@ -445,6 +448,7 @@ public class OreDictHandler {
 		
 		// Vanilla
 		OreDictionary.registerOre("gemCoal", Items.COAL);
+		OreDictionary.registerOre("gemCharcoal", new ItemStack(Items.COAL, 1, 1));
 	}
 
 }

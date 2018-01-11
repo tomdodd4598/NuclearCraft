@@ -1,3 +1,14 @@
+v2.8d
+
+* Fixed Active Fluid Coolers not accepting certain coolants
+* Fixed Fusion Core rendering weirdly far from the world origin
+
+* Cobblestone Generators will now push to adjacent inventories
+
+* Fixed Glowstone Mushroom generation in the Nether causing cascades
+
+* Added many more integration recipes
+
 v2.8c
 
 * Fixed Fission Controller not updating its maximum energy transfer rate

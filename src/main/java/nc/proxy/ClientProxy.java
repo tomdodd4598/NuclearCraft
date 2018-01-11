@@ -6,7 +6,7 @@ import nc.init.NCArmor;
 import nc.init.NCBlocks;
 import nc.init.NCItems;
 import nc.init.NCTools;
-import nc.render.FusionCoreTESR;
+import nc.render.RenderFusionCore;
 import nc.tile.generator.TileFusionCore;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -39,8 +39,8 @@ public class ClientProxy extends CommonProxy {
 		NCTools.registerRenders();
 		NCArmor.registerRenders();
 		
-		ClientRegistry.bindTileEntitySpecialRenderer(TileFusionCore.class, new FusionCoreTESR());
-		//ClientRegistry.bindTileEntitySpecialRenderer(TileSpin.class, new SpinTESR());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileFusionCore.class, new RenderFusionCore());
+		//ClientRegistry.bindTileEntitySpecialRenderer(TileSpin.class, new RenderSpin());
 		
 		registerModelBakeryVariants();
 	}
@@ -155,7 +155,10 @@ public class ClientProxy extends CommonProxy {
 		new ResourceLocation(Global.MOD_ID, "alloy_magnesium_diboride"),
 		new ResourceLocation(Global.MOD_ID, "alloy_lithium_manganese_dioxide"),
 		new ResourceLocation(Global.MOD_ID, "alloy_steel"),
-		new ResourceLocation(Global.MOD_ID, "alloy_ferroboron"));
+		new ResourceLocation(Global.MOD_ID, "alloy_ferroboron"),
+		new ResourceLocation(Global.MOD_ID, "alloy_shibuichi"),
+		new ResourceLocation(Global.MOD_ID, "alloy_tin_silver"),
+		new ResourceLocation(Global.MOD_ID, "alloy_lead_platinum"));
 		
 		ModelBakery.registerItemVariants(NCItems.compound,
 		new ResourceLocation(Global.MOD_ID, "compound_calcium_sulfate"),

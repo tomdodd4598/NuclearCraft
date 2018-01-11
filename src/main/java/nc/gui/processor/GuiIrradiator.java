@@ -8,16 +8,16 @@ import nc.init.NCItems;
 import nc.network.PacketEmptyTankButton;
 import nc.network.PacketGetFluidInTank;
 import nc.network.PacketHandler;
-import nc.tile.processor.TileEnergyFluidProcessor;
+import nc.tile.processor.TileFluidProcessor;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fluids.FluidStack;
 
-public class GuiIrradiator extends GuiEnergyFluidProcessor {
+public class GuiIrradiator extends GuiFluidProcessor {
 	
 	public static FluidStack fluid0, fluid1, fluid2, fluid3 = null;
 
-	public GuiIrradiator(EntityPlayer player, TileEnergyFluidProcessor tile) {
+	public GuiIrradiator(EntityPlayer player, TileFluidProcessor tile) {
 		super("irradiator", player, new ContainerIrradiator(player, tile));
 		this.tile = tile;
 		xSize = 176;

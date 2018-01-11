@@ -47,7 +47,6 @@ public class NCConfig {
 	public static int[] processor_passive_rate;
 	public static int cobble_gen_power;
 	public static boolean ore_processing;
-	public static boolean update_block_type = true; // Was temporary
 	public static boolean smart_processor_input;
 	public static boolean passive_permeation;
 	

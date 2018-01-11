@@ -45,44 +45,39 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 		areTanksShared = fluidInSize > 1;
 		
 		int[] topSlots1 = new int[itemInSize];
-		for (int i = 0; i < topSlots1.length; i++) {
-			topSlots1[i] = i;
-		}
+		for (int i = 0; i < topSlots1.length; i++) topSlots1[i] = i;
 		topSlots = topSlots1;
 		
 		int[] sideSlots1 = new int[itemInSize + itemOutSize];
-		for (int i = 0; i < sideSlots1.length; i++) {
-			sideSlots1[i] = i;
-		}
+		for (int i = 0; i < sideSlots1.length; i++) sideSlots1[i] = i;
 		sideSlots = sideSlots1;
 		
 		int[] bottomSlots1 = new int[itemOutSize];
-		for (int i = itemInSize; i < itemInSize + bottomSlots1.length; i++) {
-			bottomSlots1[i - itemInSize] = i;
-		}
+		for (int i = itemInSize; i < itemInSize + bottomSlots1.length; i++) bottomSlots1[i - itemInSize] = i;
 		bottomSlots = bottomSlots1;
 	}
 	
 	public static FluidConnection[] fluidConnections(int inSize, int outSize) {
 		FluidConnection[] fluidConnections = new FluidConnection[2*inSize + outSize];
-		for (int i = 0; i < inSize; i++) {
-			fluidConnections[i] = FluidConnection.IN;
-		}
-		for (int i = inSize; i < inSize + outSize; i++) {
-			fluidConnections[i] = FluidConnection.OUT;
-		}
-		for (int i = inSize + outSize; i < 2*inSize + outSize; i++) {
-			fluidConnections[i] = FluidConnection.NON;
-		}
+		for (int i = 0; i < inSize; i++) fluidConnections[i] = FluidConnection.IN;
+		for (int i = inSize; i < inSize + outSize; i++) fluidConnections[i] = FluidConnection.OUT;
+		for (int i = inSize + outSize; i < 2*inSize + outSize; i++) fluidConnections[i] = FluidConnection.NON;
 		return fluidConnections;
 	}
 	
 	public static int[] tankCapacities(int capacity, int inSize, int outSize) {
 		int[] tankCapacities = new int[2*inSize + outSize];
-		for (int i = 0; i < 2*inSize + outSize; i++) {
-			tankCapacities[i] = capacity;
-		}
+		for (int i = 0; i < 2*inSize + outSize; i++) tankCapacities[i] = capacity;
 		return tankCapacities;
+	}
+	
+	@Override
+	public void onAdded() {
+		super.onAdded();
+		if (!world.isRemote) {
+			isGenerating = isGenerating();
+			hasConsumed = hasConsumed();
+		}
 	}
 	
 	@Override
@@ -92,40 +87,20 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 	}
 	
 	public void updateGenerator() {
-		boolean flag = isGenerating;
-		boolean flag1 = false;
+		boolean wasGenerating = isGenerating;
+		isGenerating = canProcess() && isPowered();
+		boolean shouldUpdate = false;
 		if(!world.isRemote) {
-			if (time == 0) {
-				consume();
-			}
-			if (canProcess() && isPowered()) {
-				isGenerating = true;
-				time += getRateMultiplier();
-				storage.changeEnergyStored(getProcessPower());
-				if (time >= getProcessTime()) {
-					time = 0;
-					output();
-				}
-			} else {
-				isGenerating = false;
-			}
-			if (flag != isGenerating) {
-				flag1 = true;
-				if (NCConfig.update_block_type) {
-					removeTileFromENet();
-					setState(isGenerating);
-					world.notifyNeighborsOfStateChange(pos, blockType, true);
-					addTileToENet();
-				}
+			tick();
+			if (time == 0) consume();
+			if (isGenerating) process();
+			if (wasGenerating != isGenerating) {
+				shouldUpdate = true;
+				updateBlockType();
 			}
 			pushEnergy();
-		} else {
-			isGenerating = canProcess() && isPowered();
 		}
-		
-		if (flag1) {
-			markDirty();
-		}
+		if (shouldUpdate) markDirty();
 	}
 	
 	public void tick() {
@@ -136,39 +111,34 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 		return tickCount > NCConfig.generator_update_rate;
 	}
 	
-	@Override
-	public void onAdded() {
-		super.onAdded();
-		if (!world.isRemote) isGenerating = isGenerating();
-		if (!world.isRemote) hasConsumed = hasConsumed();
+	public boolean isGenerating() {
+		return canProcess() && isPowered();
 	}
 	
-	public boolean isGenerating() {
-		if (world.isRemote) return isGenerating;
-		return isPowered() && time > 0;
+	public boolean canProcess() {
+		return canProcessStacks();
 	}
 	
 	public boolean isPowered() {
 		return world.isBlockPowered(pos);
 	}
 	
-	public boolean hasConsumed() {
-		if (world.isRemote) return hasConsumed;
-		for (int i = 0; i < itemInputSize; i++) {
-			if (!inventoryStacks.get(i + itemInputSize + itemOutputSize + otherSlotsSize).isEmpty()) {
-				return true;
-			}
-		}
-		for (int i = 0; i < fluidInputSize; i++) {
-			if (tanks[i + fluidInputSize + fluidOutputSize].getFluid() != null) {
-				return true;
-			}
-		}
-		return false;
+	public void process() {
+		time += getRateMultiplier();
+		storage.changeEnergyStored(getProcessPower());
+		if (time >= getProcessTime()) completeProcess();
 	}
 	
-	public boolean canProcess() {
-		return canProcessStacks();
+	public void completeProcess() {
+		time = 0;
+		produceProducts();
+	}
+	
+	public void updateBlockType() {
+		removeTileFromENet();
+		setState(isGenerating);
+		world.notifyNeighborsOfStateChange(pos, blockType, true);
+		addTileToENet();
 	}
 	
 	// Processing
@@ -184,6 +154,21 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 	public abstract int getProcessPower();
 		
 	public abstract void setProcessPower(int value);
+	
+	public boolean hasConsumed() {
+		if (world.isRemote) return hasConsumed;
+		for (int i = 0; i < itemInputSize; i++) {
+			if (!inventoryStacks.get(i + itemInputSize + itemOutputSize + otherSlotsSize).isEmpty()) {
+				return true;
+			}
+		}
+		for (int i = 0; i < fluidInputSize; i++) {
+			if (tanks[i + fluidInputSize + fluidOutputSize].getFluid() != null) {
+				return true;
+			}
+		}
+		return false;
+	}
 		
 	public boolean canProcessStacks() {
 		for (int i = 0; i < itemInputSize; i++) {
@@ -277,7 +262,7 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 		}
 	}
 		
-	public void output() {
+	public void produceProducts() {
 		if (hasConsumed) {
 			Object[] outputs = outputs();
 			for (int j = 0; j < itemOutputSize; j++) {

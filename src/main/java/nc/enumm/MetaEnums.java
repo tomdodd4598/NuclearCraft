@@ -2,7 +2,6 @@ package nc.enumm;
 
 import nc.config.NCConfig;
 import net.minecraft.util.IStringSerializable;
-import net.minecraftforge.fluids.FluidRegistry;
 
 public class MetaEnums {
 	
@@ -141,7 +140,7 @@ public class MetaEnums {
 		GLOWSTONE("glowstone", 5, NCConfig.fission_cooling_rate[4], "glowstone", 0, 2, 15, 15),
 		LAPIS("lapis", 6, NCConfig.fission_cooling_rate[5], "lapis", 0, 2, 15, 0),
 		DIAMOND("diamond", 7, NCConfig.fission_cooling_rate[6], "diamond", 0, 2, 15, 0),
-		HELIUM("helium", 8, NCConfig.fission_cooling_rate[7], "liquid_helium", 0, 2, 15, 0),
+		HELIUM("helium", 8, NCConfig.fission_cooling_rate[7], "liquidhelium", 0, 2, 15, 0),
 		ENDERIUM("enderium", 9, NCConfig.fission_cooling_rate[8], "ender", 0, 2, 15, 7),
 		CRYOTHEUM("cryotheum", 10, NCConfig.fission_cooling_rate[9], "cryotheum", 0, 2, 15, 7),
 		IRON("iron", 11, NCConfig.fission_cooling_rate[10], "iron", 0, 2, 15, 0),
@@ -153,7 +152,7 @@ public class MetaEnums {
 		private String name;
 		private int id;
 		private double coolingRate;
-		private String fluidName = "_";
+		private String fluidName;
 		private int harvestLevel;
 		private float hardness;
 		private float resistance;
@@ -163,7 +162,7 @@ public class MetaEnums {
 			this.name = name;
 			this.id = id;
 			this.coolingRate = coolingRate;
-			if (FluidRegistry.getFluid(fluidName) != null) this.fluidName = fluidName;
+			this.fluidName = fluidName;
 			this.harvestLevel = harvestLevel;
 			this.hardness = hardness;
 			this.resistance = resistance;
@@ -473,7 +472,10 @@ public class MetaEnums {
 		MAGNESIUM_DIBORIDE("magnesium_diboride", 3),
 		LITHIUM_MANGANESE_DIOXIDE("lithium_manganese_dioxide", 4),
 		STEEL("steel", 5),
-		FERROBORON("ferroboron", 6);
+		FERROBORON("ferroboron", 6),
+		SHIBUICHI("shibuichi", 7),
+		TIN_SILVER("tin_silver", 8),
+		LEAD_PLATINUM("lead_platinum", 9);
 		
 		private String name;
 		private int id;
