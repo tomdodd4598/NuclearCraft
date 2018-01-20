@@ -1,5 +1,6 @@
 package nc.util;
 
+import java.lang.reflect.Field;
 import java.util.List;
 
 import org.lwjgl.input.Keyboard;
@@ -7,12 +8,11 @@ import org.lwjgl.input.Keyboard;
 import net.minecraft.util.text.TextFormatting;
 
 public class InfoHelper {
-	private static final int TEXT_WIDTH = 225;
+	private static final int MINIMUM_TEXT_WIDTH = 225;
 	
 	public static final String SHIFT_STRING = Lang.localise("gui.inventory.shift_for_info");
 	
-	private static final String[] NUL = {};
-	private static final String[][] NUL_ARRAY = {};
+	private static final String[] EMPTY_ARRAY = {};
 	
 	public static void shiftInfo(List list) {
 		list.add(TextFormatting.ITALIC + SHIFT_STRING);
@@ -31,14 +31,14 @@ public class InfoHelper {
 	}
 	
 	public static void infoFull(List list, String... lines) {
-		if (lines == NUL) return; else {
+		if (lines == EMPTY_ARRAY) return; else {
 			if (InfoHelper.shift() || lines.length == 1) InfoHelper.infoList(list, lines);
 			else InfoHelper.shiftInfo(list);
         }
 	}
 	
 	public static String[] formattedInfo(String tooltip, Object... args) {
-		return FontRenderHelper.formattedString(Lang.localise(tooltip, args), TEXT_WIDTH);
+		return FontRenderHelper.formattedString(Lang.localise(tooltip, args), MINIMUM_TEXT_WIDTH /*Math.max(MINIMUM_TEXT_WIDTH, FontRenderHelper.maxSize(tooltip))*/);
 	}
 	
 	public static String[] buildInfo(String unlocName, String... tooltip) {
@@ -61,14 +61,21 @@ public class InfoHelper {
 	}
 	
 	public static String[] standardInfo(String unlocName, String generalName) {
-		if (Lang.canLocalise(generalName + ".desc")) return formattedInfo(generalName + ".desc");
-		if (Lang.canLocalise(unlocName + ".desc")) return formattedInfo(unlocName + ".desc");
-		String firstLine = unlocName + ".des" + 0;
-		if (!Lang.canLocalise(firstLine)) return NUL;
+		for (String name : new String[] {unlocName, generalName}) {
+			if (Lang.canLocalise(name + ".desc")) {
+				return formattedInfo(name + ".desc");
+			}
+		}
+		return getNumberedInfo(unlocName + ".des");
+	}
+	
+	public static String[] getNumberedInfo(String base) {
+		String firstLine = base + 0;
+		if (!Lang.canLocalise(firstLine)) return EMPTY_ARRAY;
 		String[] info = new String[] {Lang.localise(firstLine)};
 		int line = 1;
-		while (Lang.canLocalise(unlocName + ".des" + line)) {
-			info = ArrayHelper.concatenate(info, Lang.localise(unlocName + ".des" + line));
+		while (Lang.canLocalise(base + line)) {
+			info = ArrayHelper.concatenate(info, Lang.localise(base + line));
 			line++;
 		}
 		return info;

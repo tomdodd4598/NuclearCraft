@@ -3,8 +3,6 @@ package nc.tile.generator;
 import java.util.ArrayList;
 
 import nc.config.NCConfig;
-import nc.energy.EnumStorage.EnergyConnection;
-import nc.fluid.EnumTank.FluidConnection;
 import nc.recipe.BaseRecipeHandler;
 import nc.recipe.IIngredient;
 import nc.recipe.IRecipe;
@@ -12,7 +10,9 @@ import nc.recipe.RecipeMethods;
 import nc.recipe.SorptionType;
 import nc.tile.IGui;
 import nc.tile.dummy.IInterfaceable;
+import nc.tile.energy.storage.EnumStorage.EnergyConnection;
 import nc.tile.energyFluid.TileEnergyFluidSidedInventory;
+import nc.tile.fluid.tank.EnumTank.FluidConnection;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;

@@ -2,12 +2,12 @@ package nc.tile.energyFluid;
 
 import nc.ModCheck;
 import nc.config.NCConfig;
-import nc.energy.EnumStorage.EnergyConnection;
-import nc.fluid.EnumTank.FluidConnection;
-import nc.fluid.Tank;
 import nc.tile.energy.TileEnergy;
+import nc.tile.energy.storage.EnumStorage.EnergyConnection;
 import nc.tile.fluid.IFluidSpread;
 import nc.tile.fluid.ITileFluid;
+import nc.tile.fluid.tank.Tank;
+import nc.tile.fluid.tank.EnumTank.FluidConnection;
 import net.darkhax.tesla.capability.TeslaCapabilities;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;

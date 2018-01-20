@@ -213,6 +213,34 @@ public class BlockFinder {
 		return axialAnd(position(x, y, z), dist, blocks);
 	}
 	
+	// Vertices
+	
+	public int vertexCount(BlockPos pos, Object... blocks) {
+		BlockPosHelper posHelper = new BlockPosHelper(pos);
+		return configurationCount(posHelper.vertexList(), blocks);
+	}
+	
+	public int vertexCount(int x, int y, int z, Object... blocks) {
+		return vertexCount(position(x, y, z), blocks);
+	}
+	
+	public boolean vertex(BlockPos pos, Object... blocks) {
+		return vertexCount(pos, blocks) >= 3;
+	}
+	
+	public boolean vertex(int x, int y, int z, Object... blocks) {
+		return vertex(position(x, y, z), blocks);
+	}
+	
+	public boolean vertexAnd(BlockPos pos, Object... blocks) {
+		for (Object block : blocks) if (!vertex(pos, block)) return false;
+		return true;
+	}
+	
+	public boolean vertexAnd(int x, int y, int z, Object... blocks) {
+		return vertexAnd(position(x, y, z), blocks);
+	}
+	
 	// Other
 	
 	private Random rand = new Random();

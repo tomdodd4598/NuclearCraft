@@ -40,6 +40,29 @@ public class FontRenderHelper {
 		}
 	}
 	
+	public static int maxSize(String string) {
+		int use;
+		String longestWord = "";
+		while (!string.isEmpty()) {
+			string = string.trim();
+			use = string.indexOf(" ");
+			if (use < 0) break;
+			String cut = string.substring(0, use);
+			if (sizeString(cut) > sizeString(longestWord)) longestWord = cut;
+			string = string.substring(use + 1);
+		}
+		return sizeString(longestWord);
+	}
+	
+	private static int sizeString(String string) {
+		int size = 0;
+		for (int i = 0; i < string.length(); i++) {
+			char c = string.charAt(i);
+			size += getCharWidth(c);
+		}
+		return size;
+	}
+	
 	private static int sizeStringToWidth(String string, int textWidth) {
 		int i = string.length();
 		int j = 0;
@@ -64,7 +87,6 @@ public class FontRenderHelper {
 
 					break;
 				case '\u00a7':
-
 					if (k < i - 1) {
 						++k;
 						char c1 = string.charAt(k);

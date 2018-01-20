@@ -18,12 +18,11 @@ public class NCSpaxelhoe extends NCPickaxe {
 	}
 	
 	@Override
-	public float getDestroySpeed(ItemStack stack, IBlockState state){
+	public float getDestroySpeed(ItemStack stack, IBlockState state) {
 		return efficiency;
 	}
 	
 	@Override
-	@SideOnly(Side.CLIENT)
 	public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker) {
 		stack.damageItem(1, attacker);
 		return true;

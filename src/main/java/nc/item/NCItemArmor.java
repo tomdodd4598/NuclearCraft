@@ -3,9 +3,12 @@ package nc.item;
 import java.util.List;
 
 import nc.Global;
+import nc.init.NCArmor;
 import nc.util.InfoHelper;
+import nc.util.RarityHelper;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;

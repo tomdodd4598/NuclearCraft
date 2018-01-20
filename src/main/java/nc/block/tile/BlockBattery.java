@@ -1,7 +1,7 @@
 package nc.block.tile;
 
 import nc.enumm.BlockEnums.SimpleTileType;
-import nc.tile.energyStorage.IBattery;
+import nc.tile.energy.IBattery;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;

@@ -1,3 +1,25 @@
+v2.9
+
++ Added new OPTIONAL (disabled by default) fission reactor mechanics
++ This includes new power/heat calculations and more interesting placement rules
++ Added more heat info to the Fission Controller GUI
+
++ Added all molten fission fluids and some recipes involving them
+
+* Increased default electromagnet power requirement
+* Decay Generator will now cause all depleted blocks to decay down as far as Thorium-230
+
+* Added more integration recipes
+* Tweaked some Ore Dict entry names
+* Fixed an error where the Melter was registering faulty recipes
+* Tweaked some block and fluid textures
+
+* Updated Forge
+* Updated IC2 and JEI APIs
+
+* Possible other things that I have forgotten
+- Removed Paulobrine and Herobrian
+
 v2.8d
 
 * Fixed Active Fluid Coolers not accepting certain coolants

@@ -2,6 +2,8 @@ package nc.render;
 
 import nc.Global;
 import nc.block.tile.generator.BlockFusionCore;
+import nc.model.ModelFusionCoreCentre;
+import nc.model.ModelFusionCoreFrame;
 import nc.tile.generator.TileFusionCore;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;

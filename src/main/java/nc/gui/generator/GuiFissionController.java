@@ -39,18 +39,14 @@ public class GuiFissionController extends NCGui {
 		fontRenderer.drawString(s, 8 + xSize / 2 - fontRenderer.getStringWidth(s) / 2, 6, fontColor);
 		String s2 = tile.problemPosBool == 0 ? "" : Lang.localise("gui.container.fission_controller.pos") + " " + tile.problemPos;
 		fontRenderer.drawString(s2, 8 + xSize / 2 - fontRenderer.getStringWidth(s2) / 2, 17, fontColor);
-		String cells = Lang.localise("gui.container.fission_controller.cells") + " " + tile.cells;
-		fontRenderer.drawString(cells, 28, ySize - 92, fontColor);
-		String power = UnitHelper.prefix(tile.processPower, 6, "RF/t");
-		fontRenderer.drawString(power, 28, ySize - 103, fontColor);
 		String fuel = tile.getFuelName().endsWith("OXIDE") ? tile.getFuelName().substring(0, tile.getFuelName().length() - 3) : tile.getFuelName();
-		fontRenderer.drawString(fuel, 28, ySize - 114, fontColor);
-		String heat = UnitHelper.prefix(tile.heat, 6, "H");
-		fontRenderer.drawString(heat, 170 - fontRenderer.getStringWidth(heat), ySize - 92, fontColor);
+		fontRenderer.drawString(fuel, 28, ySize - 104, fontColor);
+		String cells = Lang.localise("gui.container.fission_controller.cells") + " " + tile.cells;
+		fontRenderer.drawString(cells, 28, ySize - 93, fontColor);
+		String power = UnitHelper.prefix(tile.processPower, 6, "RF/t");
+		fontRenderer.drawString(power, 170 - fontRenderer.getStringWidth(power), ySize - 104, fontColor);
 		String heatGen = UnitHelper.prefix(tile.heatChange, 6, "H/t");
-		fontRenderer.drawString(heatGen, 170 - fontRenderer.getStringWidth(heatGen), ySize - 103, fontColor);
-		String efficiency = Lang.localise("gui.container.fission_controller.efficiency") + " " + tile.efficiency + "%";
-		fontRenderer.drawString(efficiency, 170 - fontRenderer.getStringWidth(efficiency), ySize - 114, fontColor);
+		fontRenderer.drawString(heatGen, 170 - fontRenderer.getStringWidth(heatGen), ySize - 93, fontColor);
 		
 		drawEnergyTooltip(tile, mouseX, mouseY, 8, 6, 6, 85);
 		drawHeatTooltip(mouseX, mouseY, 18, 6, 6, 85);
@@ -60,13 +56,15 @@ public class GuiFissionController extends NCGui {
 	public List<String> energyInfo(ITileEnergy tile) {
 		String energy = UnitHelper.prefix(tile.getStorage().getEnergyStored(), tile.getStorage().getMaxEnergyStored(), 6, "RF");
 		String power = UnitHelper.prefix(this.tile.getProcessPower(), 6, "RF/t");
-		return Lists.newArrayList(TextFormatting.LIGHT_PURPLE + Lang.localise("gui.container.energy_stored") + TextFormatting.WHITE + " " + energy, TextFormatting.LIGHT_PURPLE + Lang.localise("gui.container.power_gen") + TextFormatting.WHITE + " " + power);
+		String efficiency = this.tile.efficiency + "%";
+		return Lists.newArrayList(TextFormatting.LIGHT_PURPLE + Lang.localise("gui.container.energy_stored") + TextFormatting.WHITE + " " + energy, TextFormatting.LIGHT_PURPLE + Lang.localise("gui.container.power_gen") + TextFormatting.WHITE + " " + power, TextFormatting.LIGHT_PURPLE + Lang.localise("gui.container.fission_controller.efficiency") + TextFormatting.WHITE + " " + efficiency);
 	}
 	
 	public List<String> heatInfo() {
 		String heat = UnitHelper.prefix(tile.heat, tile.getMaxHeat(), 6, "H");
 		String heatGen = UnitHelper.prefix(tile.heatChange, 6, "H/t");
-		return Lists.newArrayList(TextFormatting.YELLOW + Lang.localise("gui.container.fission_controller.heat") + TextFormatting.WHITE + " " + heat, TextFormatting.YELLOW + Lang.localise("gui.container.fission_controller.heat_gen") + TextFormatting.WHITE + " " + heatGen);
+		String heatMult = this.tile.heatMult + "%";
+		return Lists.newArrayList(TextFormatting.YELLOW + Lang.localise("gui.container.fission_controller.heat") + TextFormatting.WHITE + " " + heat, TextFormatting.YELLOW + Lang.localise("gui.container.fission_controller.heat_gen") + TextFormatting.WHITE + " " + heatGen, TextFormatting.YELLOW + Lang.localise("gui.container.fission_controller.heat_mult") + TextFormatting.WHITE + " " + heatMult);
 	}
 	
 	public void drawHeatTooltip(int mouseX, int mouseY, int x, int y, int width, int height) {

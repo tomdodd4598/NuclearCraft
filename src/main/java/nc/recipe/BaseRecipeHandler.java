@@ -5,14 +5,16 @@ import java.util.ArrayList;
 public abstract class BaseRecipeHandler<T extends IRecipe> extends RecipeMethods<T> {
 	
 	public int inputSizeItem, inputSizeFluid, outputSizeItem, outputSizeFluid;
-	public boolean shapeless;
+	public final boolean shapeless;
+	private final String recipeName;
 	
-	public BaseRecipeHandler(int inputSizeItem, int inputSizeFluid, int outputSizeItem, int outputSizeFluid, boolean shapeless) {
+	public BaseRecipeHandler(String recipeName, int inputSizeItem, int inputSizeFluid, int outputSizeItem, int outputSizeFluid, boolean shapeless) {
 		this.inputSizeItem = inputSizeItem;
 		this.inputSizeFluid = inputSizeFluid;
 		this.outputSizeItem = outputSizeItem;
 		this.outputSizeFluid = outputSizeFluid;
 		this.shapeless = shapeless;
+		this.recipeName = recipeName;
 		addRecipes();
 	}
 	
@@ -36,5 +38,10 @@ public abstract class BaseRecipeHandler<T extends IRecipe> extends RecipeMethods
 	@Override
 	public boolean isValidRecipe(ArrayList<IIngredient> recipeInputList, ArrayList<IIngredient> recipeOutputList) {
 		return recipeInputList.size() == inputSizeItem + inputSizeFluid && recipeOutputList.size() == outputSizeItem + outputSizeFluid;
+	}
+	
+	@Override
+	public String getRecipeName() {
+		return recipeName;
 	}
 }

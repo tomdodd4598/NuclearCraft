@@ -135,13 +135,16 @@ public abstract class RecipeMethods<T extends IRecipe> implements IRecipeGetter<
 						}
 					}
 				}
-				return new RecipeTransposable(buildList);
+				return new RecipeStackArray(buildList);
 			} else {
 				return null;
 			}
 		} else if (object instanceof String) {
-			if (!OreStackHelper.exists((String) object)) return null;
-			return new RecipeOreStack((String) object, StackType.UNSPECIFIED, 1);
+			if (OreStackHelper.exists((String) object, StackType.ITEM)) return new RecipeOreStack((String) object, StackType.ITEM, 1);
+			else if (OreStackHelper.exists((String) object, StackType.FLUID)) return new RecipeOreStack((String) object, StackType.FLUID, 1);
+			else if (OreStackHelper.exists((String) object, StackType.UNSPECIFIED)) return new RecipeOreStack((String) object, StackType.UNSPECIFIED, 1);
+			FMLLog.warning(getRecipeName() + " - a string ingredient '" + ((String) object) + "' is invalid!");
+			return null;
 		}
 		if (object instanceof ItemStack) {
 			return new RecipeStack((ItemStack) object);
@@ -345,12 +348,18 @@ public abstract class RecipeMethods<T extends IRecipe> implements IRecipeGetter<
 	}
 	
 	public RecipeOreStack oreStack(String oreType, int stackSize) {
-		if (!OreStackHelper.exists(oreType)) return null;
+		if (!OreStackHelper.exists(oreType, StackType.ITEM)) {
+			FMLLog.warning(getRecipeName() + " - an item ore dict stack of '" + oreType + "' is invalid!");
+			return null;
+		}
 		return new RecipeOreStack(oreType, StackType.ITEM, stackSize);
 	}
 	
 	public RecipeOreStack fluidStack(String oreType, int stackSize) {
-		if (!OreStackHelper.exists(oreType)) return null;
+		if (!OreStackHelper.exists(oreType, StackType.FLUID)) {
+			FMLLog.warning(getRecipeName() + " - a fluid ore dict stack of '" + oreType + "' is invalid!");
+			return null;
+		}
 		return new RecipeOreStack(oreType, StackType.FLUID, stackSize);
 	}
 }

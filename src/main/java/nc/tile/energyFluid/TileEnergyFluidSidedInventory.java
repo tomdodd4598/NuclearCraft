@@ -1,8 +1,8 @@
 package nc.tile.energyFluid;
 
 import nc.ModCheck;
-import nc.energy.EnumStorage.EnergyConnection;
-import nc.fluid.EnumTank.FluidConnection;
+import nc.tile.energy.storage.EnumStorage.EnergyConnection;
+import nc.tile.fluid.tank.EnumTank.FluidConnection;
 import net.darkhax.tesla.capability.TeslaCapabilities;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;

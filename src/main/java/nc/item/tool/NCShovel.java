@@ -3,10 +3,14 @@ package nc.item.tool;
 import java.util.List;
 
 import nc.Global;
+import nc.init.NCTools;
 import nc.util.InfoHelper;
+import nc.util.RarityHelper;
 import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemSpade;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;

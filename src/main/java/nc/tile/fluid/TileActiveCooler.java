@@ -2,8 +2,8 @@ package nc.tile.fluid;
 
 import nc.config.NCConfig;
 import nc.enumm.MetaEnums.CoolerType;
-import nc.fluid.EnumTank.FluidConnection;
 import nc.tile.dummy.IInterfaceable;
+import nc.tile.fluid.tank.EnumTank.FluidConnection;
 
 public class TileActiveCooler extends TileFluid implements IInterfaceable, IFluidSpread {
 	

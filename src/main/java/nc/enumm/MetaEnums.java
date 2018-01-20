@@ -133,7 +133,7 @@ public class MetaEnums {
 	
 	public static enum CoolerType implements IStringSerializable, IBlockMeta {
 		EMPTY("empty", 0, 0, "_", 0, 2, 15, 0),
-		WATER("water", 1, NCConfig.fission_cooling_rate[0], "water", 0, 2, 15, 0),
+		WATER("water", 1, NCConfig.fission_cooling_rate[0]*(NCConfig.fission_new_mechanics ? 3D : 1D), "water", 0, 2, 15, 0),
 		REDSTONE("redstone", 2, NCConfig.fission_cooling_rate[1], "redstone", 0, 2, 15, 7),
 		QUARTZ("quartz", 3, NCConfig.fission_cooling_rate[2], "quartz", 0, 2, 15, 0),
 		GOLD("gold", 4, NCConfig.fission_cooling_rate[3], "gold", 0, 2, 15, 0),

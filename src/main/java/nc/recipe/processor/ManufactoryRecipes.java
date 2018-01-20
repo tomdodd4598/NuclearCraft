@@ -13,12 +13,12 @@ import net.minecraftforge.oredict.OreDictionary;
 public class ManufactoryRecipes extends BaseRecipeHandler {
 	
 	public ManufactoryRecipes() {
-		super(1, 0, 1, 0, false);
+		super("manufactory", 1, 0, 1, 0, false);
 	}
 
 	@Override
 	public void addRecipes() {
-		if (NCConfig.ore_processing) oreProcess();
+		if (NCConfig.ore_processing) addOreProcessingRecipes();
 		
 		addRecipe("gemCoal", "dustGraphite", NCConfig.processor_time[0]);
 		addRecipe("dustCoal", "dustGraphite", NCConfig.processor_time[0]);
@@ -54,7 +54,7 @@ public class ManufactoryRecipes extends BaseRecipeHandler {
 		addRecipe(Items.ENDER_PEARL, "dustEnder", NCConfig.processor_time[0]);
 	}
 	
-	public void oreProcess() {
+	public void addOreProcessingRecipes() {
 		List<String> oreList = Arrays.asList(OreDictionary.getOreNames());
 		for (String ore : oreList) {
 			if (ore.startsWith("ore")) {
@@ -66,10 +66,5 @@ public class ManufactoryRecipes extends BaseRecipeHandler {
 				}
 			}
 		}
-	}
-
-	@Override
-	public String getRecipeName() {
-		return "manufactory";
 	}
 }

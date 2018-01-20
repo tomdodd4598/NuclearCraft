@@ -8,10 +8,10 @@ import java.util.Random;
 
 import nc.config.NCConfig;
 import nc.enumm.MetaEnums.CoolerType;
-import nc.fluid.Tank;
 import nc.init.NCBlocks;
 import nc.recipe.NCRecipes;
 import nc.tile.fluid.TileActiveCooler;
+import nc.tile.fluid.tank.Tank;
 import nc.util.BlockFinder;
 import nc.util.BlockPosHelper;
 import nc.util.Lang;
@@ -31,7 +31,7 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 	private Random rand = new Random();
 	
 	public int rateMultiplier, processTime, processPower;
-	public int heat, cooling, heatChange, efficiency, cells;
+	public int heat, cooling, heatChange, efficiency, cells, heatMult;
 	public int tickCountStructureCheck, tickCountRunCheck;
 	public int minX, minY, minZ;
 	public int maxX, maxY, maxZ;
@@ -69,7 +69,7 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 		checkStructure();
 		if(!world.isRemote) {
 			tickRunCheck();
-			run();
+			if (NCConfig.fission_new_mechanics) newRun(); else run();
 			if (overheat()) return;
 			if (isGenerating) process();
 			if (wasGenerating != isGenerating) {
@@ -247,6 +247,25 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 		return findGraphite(finder.position(x, y, z).offset(side)) && findCell(finder.position(x, y, z).offset(side, 2));
 	}
 	
+	private boolean newFindGraphiteThenCellOnSide(int x, int y, int z, EnumFacing side) {
+		for (int i = 1; i <= NCConfig.fission_neutron_reach; i++) {
+			for (int j = 1; j <= i; j++) if (!findGraphite(finder.position(x, y, z).offset(side, j))) return false;
+			if (findCell(finder.position(x, y, z).offset(side, i + 1))) return true;
+		}
+		return false;
+	}
+	
+	private int graphiteAdjacentCount(BlockPos pos) {
+		int count = 0;
+		BlockPosHelper helper = new BlockPosHelper(pos);
+		for (BlockPos blockPos : helper.adjacents()) if (findGraphite(blockPos)) count++;
+		return count;
+	}
+	
+	private int graphiteAdjacentCount(int x, int y, int z) {
+		return graphiteAdjacentCount(finder.position(x, y, z));
+	}
+	
 	private int activeGraphiteAdjacentCount(BlockPos pos) {
 		int count = 0;
 		BlockPosHelper helper = new BlockPosHelper(pos);
@@ -308,6 +327,19 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 		return activeCoolerAdjacent(finder.position(x, y, z), meta);
 	}
 	
+	private int activeCoolerAdjacentCount(BlockPos pos, int meta) {
+		int count = 0;
+		BlockPosHelper helper = new BlockPosHelper(pos);
+		for (BlockPos blockPos : helper.adjacents()) {
+			if (findCooler(blockPos, meta)) if (coolerRequirements(blockPos, meta)) count++;
+		}
+		return count;
+	}
+	
+	private int activeCoolerAdjacentCount(int x, int y, int z, int meta) {
+		return activeCoolerAdjacentCount(finder.position(x, y, z), meta);
+	}
+	
 	private boolean activeCoolerConfiguration(BlockPos pos, int meta, List<BlockPos[]> posArrays) {
 		for (BlockPos[] posArray : posArrays) {
 			if (finder.configuration(posArray, NCBlocks.cooler.getStateFromMeta(meta))) {
@@ -327,52 +359,40 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 	}
 	
 	private boolean coolerRequirements(BlockPos pos, int meta) {
-		if (meta == 1) { // Water
-			return !NCConfig.fission_water_cooler_requirement || casingAllAdjacent(pos);
-		}
-		else if (meta == 2) { // Redstone
+		switch (meta) {
+		case 1: // Water
+			return !NCConfig.fission_water_cooler_requirement || (NCConfig.fission_new_mechanics ? cellAdjacent(pos) || activeGraphiteAdjacent(pos) : casingAllAdjacent(pos));
+		case 2: // Redstone
 			return cellAdjacent(pos);
-		}
-		else if (meta == 3) { // Quartz
+		case 3: // Quartz
 			return activeGraphiteAdjacent(pos);
-		}
-		else if (meta == 4) { // Gold
+		case 4: // Gold
 			return activeCoolerAdjacent(pos, 1) && activeCoolerAdjacent(pos, 2);
-		}
-		else if (meta == 5) { // Glowstone
+		case 5: // Glowstone
 			return activeGraphiteAdjacentCount(pos) >= 2;
-		}
-		else if (meta == 6) { // Lapis
+		case 6: // Lapis
 			return cellAdjacent(pos) && casingAllAdjacent(pos);
-		}
-		else if (meta == 7) { // Diamond
-			return activeCoolerHorizontal(pos, 1) && casingAllAdjacent(pos);
-		}
-		else if (meta == 8) { // Liquid Helium
-			return activeCoolerAdjacent(pos, 3) && casingAllAdjacent(pos);
-		}
-		else if (meta == 9) { // Enderium
-			return casingAllAdjacentCount(pos) == 3;
-		}
-		else if (meta == 10) { // Cryotheum
+		case 7: // Diamond
+			return NCConfig.fission_new_mechanics ? activeCoolerAdjacentCount(pos, 1) >= 2 && activeCoolerAdjacent(pos, 3) : activeCoolerHorizontal(pos, 1) && casingAllAdjacent(pos);
+		case 8: // Liquid Helium
+			return NCConfig.fission_new_mechanics ? activeCoolerAdjacentCount(pos, 2) == 1 && casingAllAdjacent(pos) : activeCoolerAdjacent(pos, 3) && casingAllAdjacent(pos);
+		case 9: // Enderium
+			return casingAllOneVertex(pos);
+		case 10: // Cryotheum
 			return cellAdjacentCount(pos) >= 2;
-		}
-		else if (meta == 11) { // Iron
+		case 11: // Iron
 			return activeCoolerAdjacent(pos, 4);
-		}
-		else if (meta == 12) { // Emerald
+		case 12: // Emerald
 			return activeGraphiteAdjacent(pos) && cellAdjacent(pos);
-		}
-		else if (meta == 13) { // Copper
+		case 13: // Copper
 			return activeCoolerAdjacent(pos, 5);
-		}
-		else if (meta == 14) { // Tin
+		case 14: // Tin
 			return activeCoolerAxial(pos, 6);
+		case 15: // Magnesium
+			return NCConfig.fission_new_mechanics ? casingAllAdjacent(pos) && activeGraphiteAdjacent(pos) : casingAllAdjacent(pos) && activeCoolerAdjacent(pos, 8);
+		default:
+			return false;
 		}
-		else if (meta == 15) { // Magnesium
-			return casingAllAdjacent(pos) && activeCoolerAdjacent(pos, 8);
-		}
-		return false;
 	}
 	
 	private boolean coolerRequirements(int x, int y, int z, int meta) {
@@ -409,11 +429,15 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 		return false;
 	}
 	
-	private int casingAllAdjacentCount(BlockPos pos) {
+	private boolean casingAllOneVertex(BlockPos pos) {
 		int count = 0;
 		BlockPosHelper posHelper = new BlockPosHelper(pos);
-		for (BlockPos blockPos : posHelper.adjacents()) if (findCasingAll(blockPos)) count++;
-		return count;
+		posList: for (BlockPos[] vertexPosList : posHelper.vertexList()) {
+			for (BlockPos blockPos : vertexPosList) if (!findCasingAll(blockPos)) continue posList;
+			count++;
+			if (count > 1) return false;
+		}
+		return count == 1;
 	}
 	
 	// Finding Structure
@@ -622,7 +646,7 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 		double coolerHeatThisTick = 0;
 		double numberOfCells = 0;
 		double adj1 = 0, adj2 = 0, adj3 = 0, adj4 = 0, adj5 = 0, adj6 = 0;
-		double energyMultThisTick = 0;
+		double energyMultThisTick = 0, heatMultThisTick = 0;
 		
 		double baseRF = getBasePower();
 		processTime = (int) getBaseTime();
@@ -634,8 +658,10 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 		if (shouldRunCheck()) {
 			if (complete == 1) {
 				for (int z = minZ + 1; z <= maxZ - 1; z++) for (int x = minX + 1; x <= maxX - 1; x++) for (int y = minY + 1; y <= maxY - 1; y++) {
+					
+					// Cells
 					if (findCell(x, y, z)) {
-						double extraCells = 0;
+						int extraCells = 0;
 						for (EnumFacing side : EnumFacing.VALUES) {
 							if (findCellOnSide(x, y, z, side) || findGraphiteThenCellOnSide(x, y, z, side)) extraCells += 1;
 						}
@@ -648,35 +674,28 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 						else if (extraCells == 5) adj5 += 1;
 						else if (extraCells == 6) adj6 += 1;
 					}
-				}
-			}
-				
-			energyMultThisTick += numberOfCells + 2*adj1 + 3*adj2 + 4*adj3 + 5*adj4 + 6*adj5 + 7*adj6;
-			if (canProcess()) {
-				energyThisTick += NCConfig.fission_power*baseRF*(numberOfCells + 2*adj1 + 3*adj2 + 4*adj3 + 5*adj4 + 6*adj5 + 7*adj6);
-				heatThisTick += NCConfig.fission_heat_generation*baseHeat*(numberOfCells + 3*adj1 + 6*adj2 + 10*adj3 + 15*adj4 + 21*adj5 + 28*adj6);
-				if (generating) fuelThisTick += (numberOfCells + adj1 + adj2 + adj3 + adj4 + adj5 + adj6)*NCConfig.fission_fuel_use;
-			}
-			
-			for (int z = minZ + 1; z <= maxZ - 1; z++) for (int x = minX + 1; x <= maxX - 1; x++) for (int y = minY + 1; y <= maxY - 1; y++) {
-				if (findGraphite(x, y, z)) {
-					if (canProcess()) heatThisTick += NCConfig.fission_heat_generation*baseRF*(numberOfCells + adj1 + adj2 + adj3 + adj4 + adj5 + adj6)/16.0D;
-					if (cellAdjacent(x, y, z)) {
-						energyMultThisTick += (numberOfCells + adj1 + adj2 + adj3 + adj4 + adj5 + adj6)/8.0D;
-						if (canProcess()) energyThisTick += NCConfig.fission_power*baseRF*(numberOfCells + adj1 + adj2 + adj3 + adj4 + adj5 + adj6)/8.0D;
+					
+					// Graphite
+					if (findGraphite(x, y, z)) {
+						if (canProcess()) {
+							heatMultThisTick += (numberOfCells + adj1 + adj2 + adj3 + adj4 + adj5 + adj6)/16D;
+							heatThisTick += NCConfig.fission_heat_generation*baseRF*(numberOfCells + adj1 + adj2 + adj3 + adj4 + adj5 + adj6)/16D;
+						}
+						if (cellAdjacent(x, y, z)) {
+							energyMultThisTick += (numberOfCells + adj1 + adj2 + adj3 + adj4 + adj5 + adj6)/8D;
+							if (canProcess()) energyThisTick += NCConfig.fission_power*baseRF*(numberOfCells + adj1 + adj2 + adj3 + adj4 + adj5 + adj6)/8D;
+						}
 					}
-				}
-			}
-			  	
-			if (complete == 1) {
-				for (int z = minZ + 1; z <= maxZ - 1; z++) for (int x = minX + 1; x <= maxX - 1; x++) for (int y = minY + 1; y <= maxY - 1; y++) {
+					
+					// Passive Coolers
 					for (int i = 1; i < CoolerType.values().length; i++) {
 						if (findCooler(x, y, z, i)) if (coolerRequirements(x, y, z, i)) {
-							coolerHeatThisTick -= NCConfig.fission_cooling_rate[i - 1];
+							coolerHeatThisTick -= CoolerType.values()[i].getCooling();
 							break;
 						}
 					}
 					
+					// Active Coolers
 					if(finder.find(x, y, z, NCBlocks.active_cooler)) {
 						TileEntity tile = world.getTileEntity(finder.position(x, y, z));
 						if (tile != null) if (tile instanceof TileActiveCooler) {
@@ -705,10 +724,19 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 				}
 			}
 			
+			energyMultThisTick += numberOfCells + 2*adj1 + 3*adj2 + 4*adj3 + 5*adj4 + 6*adj5 + 7*adj6;
+			heatMultThisTick += numberOfCells + 3*adj1 + 6*adj2 + 10*adj3 + 15*adj4 + 21*adj5 + 28*adj6;
+			if (canProcess()) {
+				energyThisTick += NCConfig.fission_power*baseRF*(numberOfCells + 2*adj1 + 3*adj2 + 4*adj3 + 5*adj4 + 6*adj5 + 7*adj6);
+				heatThisTick += NCConfig.fission_heat_generation*baseHeat*(numberOfCells + 3*adj1 + 6*adj2 + 10*adj3 + 15*adj4 + 21*adj5 + 28*adj6);
+				if (generating) fuelThisTick += NCConfig.fission_fuel_use*(numberOfCells + adj1 + adj2 + adj3 + adj4 + adj5 + adj6);
+			}
+			
 			if (complete == 1) {
 				heatChange = (int) (heatThisTick + coolerHeatThisTick);
 				cooling = (int) coolerHeatThisTick;
-				efficiency = (int) (100*energyMultThisTick/(numberOfCells + adj1 + adj2 + adj3 + adj4 + adj5 + adj6));
+				efficiency = (int) (100D*energyMultThisTick/(numberOfCells + adj1 + adj2 + adj3 + adj4 + adj5 + adj6));
+				heatMult = (int) (100D*heatMultThisTick/(numberOfCells + adj1 + adj2 + adj3 + adj4 + adj5 + adj6));
 				cells = (int) (numberOfCells + adj1 + adj2 + adj3 + adj4 + adj5 + adj6);
 				setProcessPower((int) energyThisTick);
 				setRateMultiplier((int) fuelThisTick);
@@ -716,6 +744,137 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 				heatChange = 0;
 				cooling = 0;
 				efficiency = 0;
+				heatMult = 0;
+				cells = 0;
+				setProcessPower(0);
+				setRateMultiplier(0);
+			}
+		}
+		
+		if (generating) {
+			if (heat + heatChange >= 0) {
+				heat += heatChange;
+			} else {
+				heat = 0;
+			}
+		} else if (ready == 1 || complete == 1) {
+			if (heat + cooling >= 0) {
+				heat += cooling;
+			} else {
+				heat = 0;
+			}
+		}
+	}
+	
+	private void newRun() {
+		double energyThisTick = 0;
+		double fuelThisTick = 0;
+		double heatThisTick = 0;
+		double coolerHeatThisTick = 0;
+		double numberOfCells = 0;
+		double adj1 = 0, adj2 = 0, adj3 = 0, adj4 = 0, adj5 = 0, adj6 = 0;
+		double energyMultThisTick = 0, heatMultThisTick = 0;
+		
+		double baseRF = NCConfig.fission_power*getBasePower();
+		processTime = (int) getBaseTime();
+		double baseHeat = NCConfig.fission_heat_generation*getBaseHeat();
+		
+		double graphitePowerMultiplier = NCConfig.fission_graphite_extra_power/6D;
+		double graphiteHeatMultiplier = NCConfig.fission_graphite_extra_heat/6D;
+		
+		ready = canProcess() && !isPowered() ? 1 : 0;
+		boolean generating = canProcess() && isPowered();
+
+		if (shouldRunCheck()) {
+			if (complete == 1) {
+				for (int z = minZ + 1; z <= maxZ - 1; z++) for (int x = minX + 1; x <= maxX - 1; x++) for (int y = minY + 1; y <= maxY - 1; y++) {
+					
+					// Cells
+					if (findCell(x, y, z)) {
+						int extraCells = 0;
+						for (EnumFacing side : EnumFacing.VALUES) {
+							if (findCellOnSide(x, y, z, side) || newFindGraphiteThenCellOnSide(x, y, z, side)) extraCells += 1;
+						}
+						
+						if (extraCells == 0) numberOfCells += 1;
+						else if (extraCells == 1) adj1 += 1;
+						else if (extraCells == 2) adj2 += 1;
+						else if (extraCells == 3) adj3 += 1;
+						else if (extraCells == 4) adj4 += 1;
+						else if (extraCells == 5) adj5 += 1;
+						else if (extraCells == 6) adj6 += 1;
+						
+						// Adjacent Graphite
+						energyMultThisTick += graphitePowerMultiplier*graphiteAdjacentCount(x, y, z)*(extraCells + 1);
+						heatMultThisTick += graphiteHeatMultiplier*graphiteAdjacentCount(x, y, z)*(extraCells + 1);
+						
+						energyThisTick += baseRF*graphitePowerMultiplier*graphiteAdjacentCount(x, y, z)*(extraCells + 1);
+						heatThisTick += baseHeat*graphiteHeatMultiplier*graphiteAdjacentCount(x, y, z)*(extraCells + 1);
+					}
+					
+					// Extra Graphite
+					if (canProcess()) if (findGraphite(x, y, z)) {
+						if (!cellAdjacent(x, y, z)) heatThisTick += baseHeat;
+					}
+					
+					// Passive Coolers
+					for (int i = 1; i < CoolerType.values().length; i++) {
+						if (findCooler(x, y, z, i)) if (coolerRequirements(x, y, z, i)) {
+							coolerHeatThisTick -= CoolerType.values()[i].getCooling();
+							break;
+						}
+					}
+					
+					// Active Coolers
+					if(finder.find(x, y, z, NCBlocks.active_cooler)) {
+						TileEntity tile = world.getTileEntity(finder.position(x, y, z));
+						if (tile != null) if (tile instanceof TileActiveCooler) {
+							Tank tank = ((TileActiveCooler) tile).getTanks()[0];
+							int fluidAmount = tank.getFluidAmount();
+							if (fluidAmount > 0) {
+								double currentHeat = heat + heatThisTick + coolerHeatThisTick;
+								for (int i = 1; i < CoolerType.values().length; i++) {
+									if (tank.getFluidName() == CoolerType.values()[i].getFluidName()) {
+										if (coolerRequirements(x, y, z, i)) {
+											coolerHeatThisTick -= (NCConfig.fission_active_cooling_rate[i - 1]*fluidAmount)/(2D*NCConfig.fission_update_rate);
+											break;
+										}
+									}
+								}
+								if (currentHeat > 0) {
+									double newHeat = heat + heatThisTick + coolerHeatThisTick;
+									if (newHeat >= 0) ((TileActiveCooler) tile).getTanks()[0].drain(fluidAmount, true); else {
+										double heatFraction = currentHeat/(currentHeat - newHeat);
+										((TileActiveCooler) tile).getTanks()[0].drain((int) (fluidAmount*heatFraction), true);
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			
+			energyMultThisTick += numberOfCells + 2*adj1 + 3*adj2 + 4*adj3 + 5*adj4 + 6*adj5 + 7*adj6;
+			heatMultThisTick += numberOfCells + 3*adj1 + 6*adj2 + 10*adj3 + 15*adj4 + 21*adj5 + 28*adj6;
+			if (canProcess()) {
+				energyThisTick += baseRF*(numberOfCells + 2*adj1 + 3*adj2 + 4*adj3 + 5*adj4 + 6*adj5 + 7*adj6);
+				heatThisTick += baseHeat*(numberOfCells + 3*adj1 + 6*adj2 + 10*adj3 + 15*adj4 + 21*adj5 + 28*adj6);
+				if (generating) fuelThisTick += NCConfig.fission_fuel_use*(numberOfCells + adj1 + adj2 + adj3 + adj4 + adj5 + adj6);
+			}
+			
+			if (complete == 1) {
+				heatChange = (int) (heatThisTick + coolerHeatThisTick);
+				cooling = (int) coolerHeatThisTick;
+				efficiency = (int) (100D*energyMultThisTick/(numberOfCells + adj1 + adj2 + adj3 + adj4 + adj5 + adj6));
+				heatMult = (int) (100D*heatMultThisTick/(numberOfCells + adj1 + adj2 + adj3 + adj4 + adj5 + adj6));
+				cells = (int) (numberOfCells + adj1 + adj2 + adj3 + adj4 + adj5 + adj6);
+				setProcessPower((int) energyThisTick);
+				setRateMultiplier((int) fuelThisTick);
+			} else {
+				heatChange = 0;
+				cooling = 0;
+				efficiency = 0;
+				heatMult = 0;
 				cells = 0;
 				setProcessPower(0);
 				setRateMultiplier(0);
@@ -758,6 +917,7 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 		nbt.setInteger("lengthY", lengthY);
 		nbt.setInteger("lengthZ", lengthZ);
 		nbt.setInteger("heatChange", heatChange);
+		nbt.setInteger("heatMult", heatMult);
 		nbt.setInteger("complete", complete);
 		nbt.setInteger("ready", ready);
 		nbt.setString("problem", problem);
@@ -790,6 +950,7 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 		maxY = nbt.getInteger("maxY");
 		maxZ = nbt.getInteger("maxZ");
 		heatChange = nbt.getInteger("heatChange");
+		heatMult = nbt.getInteger("heatMult");
 		complete = nbt.getInteger("complete");
 		ready = nbt.getInteger("ready");
 		problem = nbt.getString("problem");
@@ -804,7 +965,7 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 
 	@Override
 	public int getFieldCount() {
-		return 19;
+		return 20;
 	}
 
 	@Override
@@ -848,6 +1009,8 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 			return problemPosZ;
 		case 18:
 			return problemPosBool;
+		case 19:
+			return heatMult;
 		default:
 			return 0;
 		}
@@ -912,6 +1075,9 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 			break;
 		case 18:
 			problemPosBool = value;
+			break;
+		case 19:
+			heatMult = value;
 		}
 	}
 	

@@ -1,7 +1,7 @@
 package nc.tile.fluid;
 
-import nc.fluid.EnumTank.FluidConnection;
-import nc.fluid.Tank;
+import nc.tile.fluid.tank.Tank;
+import nc.tile.fluid.tank.EnumTank.FluidConnection;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fluids.FluidStack;
 

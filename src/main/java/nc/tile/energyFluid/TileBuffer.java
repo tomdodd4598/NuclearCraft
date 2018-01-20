@@ -1,10 +1,10 @@
 package nc.tile.energyFluid;
 
-import nc.energy.EnumStorage.EnergyConnection;
-import nc.fluid.EnumTank.FluidConnection;
 import nc.tile.dummy.IInterfaceable;
 import nc.tile.energy.IEnergySpread;
+import nc.tile.energy.storage.EnumStorage.EnergyConnection;
 import nc.tile.fluid.IFluidSpread;
+import nc.tile.fluid.tank.EnumTank.FluidConnection;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 
@@ -18,9 +18,9 @@ public class TileBuffer extends TileEnergyFluidSidedInventory implements IInterf
 	public void update() {
 		super.update();
 		if(!world.isRemote) {
-			pushStacks();
+			//pushStacks();
 			pushEnergy();
-			pushFluid();
+			//pushFluid();
 		}
 	}
 	

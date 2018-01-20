@@ -1,9 +1,9 @@
 package nc.tile.fluid;
 
-import nc.fluid.EnumTank.FluidConnection;
 import nc.config.NCConfig;
-import nc.fluid.Tank;
 import nc.tile.NCTile;
+import nc.tile.fluid.tank.Tank;
+import nc.tile.fluid.tank.EnumTank.FluidConnection;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;

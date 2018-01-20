@@ -1,25 +1,39 @@
 package nc.proxy;
 
 import nc.Global;
+import nc.block.fluid.BlockFluidBase;
 import nc.config.NCConfig;
+import nc.fluid.FluidFission;
 import nc.init.NCArmor;
 import nc.init.NCBlocks;
+import nc.init.NCFissionFluids;
 import nc.init.NCItems;
 import nc.init.NCTools;
+import nc.model.ModelTexturedFluid;
 import nc.render.RenderFusionCore;
 import nc.tile.generator.TileFusionCore;
+import nc.util.NCUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemMeshDefinition;
 import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.StateMapperBase;
+import net.minecraft.client.renderer.color.BlockColors;
+import net.minecraft.client.renderer.color.IBlockColor;
+import net.minecraft.client.renderer.color.IItemColor;
+import net.minecraft.client.renderer.color.ItemColors;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -511,6 +525,10 @@ public class ClientProxy extends CommonProxy {
 		new ResourceLocation(Global.MOD_ID, "lithium_7_tiny"));
 	}
 	
+	static {
+		ModelLoaderRegistry.registerLoader(ModelTexturedFluid.FluidTexturedLoader.INSTANCE);
+	}
+	
 	@Override
 	public void registerFluidBlockRendering(Block block, String name) {
 		name = name.toLowerCase();
@@ -540,6 +558,22 @@ public class ClientProxy extends CommonProxy {
 		@Override
 		public ModelResourceLocation getModelLocation(ItemStack stack) {
 			return location;
+		}
+	}
+	
+	@Override
+	public void initFissionFluidColors() {
+		super.initFissionFluidColors();
+		if(FMLCommonHandler.instance().getEffectiveSide().isClient()) {
+			BlockColors blockcolors = Minecraft.getMinecraft().getBlockColors();
+			ItemColors itemcolors = Minecraft.getMinecraft().getItemColors();
+			for(FluidFission fluid : NCFissionFluids.fluidList) {
+				if (fluid.getBlock() != null) if (NCUtil.isSubclassOf(fluid.getBlock().getClass(), BlockFluidBase.class)) {
+					BlockFluidBase block = (BlockFluidBase) fluid.getBlock();
+					blockcolors.registerBlockColorHandler(block.block_color, block);
+					itemcolors.registerItemColorHandler(block.itemblock_color, block);
+				}
+			}
 		}
 	}
 }

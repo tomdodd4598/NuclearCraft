@@ -4,8 +4,8 @@ import javax.annotation.Nullable;
 
 import nc.Global;
 import nc.ModCheck;
-import nc.energy.EnumStorage.EnergyConnection;
-import nc.tile.ITileInventory;
+import nc.tile.energy.storage.EnumStorage.EnergyConnection;
+import nc.tile.inventory.ITileInventory;
 import net.darkhax.tesla.capability.TeslaCapabilities;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;

@@ -38,12 +38,12 @@ public class RecipeOreStack implements IIngredient, IRecipeStack {
 	@Override
 	public Object getIngredient() {
 		if (isFluid) {
-			//if (cachedFluidRegister.size() < 1) return cachedFluidRegister;
+			if (cachedFluidRegister.size() < 1) return cachedFluidRegister;
 			FluidStack fluid = cachedFluidRegister.get(0).copy();
 			fluid.amount = stackSize;
 			return fluid;
 		}
-		//if (cachedItemRegister.size() < 1) return cachedItemRegister;
+		if (cachedItemRegister.size() < 1) return cachedItemRegister;
 		ItemStack item = cachedItemRegister.get(0).copy();
 		item.setCount(stackSize);
 		return item;

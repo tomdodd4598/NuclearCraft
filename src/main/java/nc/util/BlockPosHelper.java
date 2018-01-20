@@ -118,6 +118,53 @@ public class BlockPosHelper {
 		return axialsList(1);
 	}
 	
+	// Vertices
+	
+	private static final EnumFacing[] VERTEX_DNW = new EnumFacing[] {EnumFacing.DOWN, EnumFacing.NORTH, EnumFacing.WEST};
+	private static final EnumFacing[] VERTEX_DNE = new EnumFacing[] {EnumFacing.DOWN, EnumFacing.NORTH, EnumFacing.EAST};
+	private static final EnumFacing[] VERTEX_DSW = new EnumFacing[] {EnumFacing.DOWN, EnumFacing.SOUTH, EnumFacing.WEST};
+	private static final EnumFacing[] VERTEX_DSE = new EnumFacing[] {EnumFacing.DOWN, EnumFacing.SOUTH, EnumFacing.EAST};
+	private static final EnumFacing[] VERTEX_UNW = new EnumFacing[] {EnumFacing.UP, EnumFacing.NORTH, EnumFacing.WEST};
+	private static final EnumFacing[] VERTEX_UNE = new EnumFacing[] {EnumFacing.UP, EnumFacing.NORTH, EnumFacing.EAST};
+	private static final EnumFacing[] VERTEX_USW = new EnumFacing[] {EnumFacing.UP, EnumFacing.SOUTH, EnumFacing.WEST};
+	private static final EnumFacing[] VERTEX_USE = new EnumFacing[] {EnumFacing.UP, EnumFacing.SOUTH, EnumFacing.EAST};
+	
+	public BlockPos[] vertexDNW() {
+		return offsets(VERTEX_DNW, 1);
+	}
+	
+	public BlockPos[] vertexDNE() {
+		return offsets(VERTEX_DNE, 1);
+	}
+	
+	public BlockPos[] vertexDSW() {
+		return offsets(VERTEX_DSW, 1);
+	}
+	
+	public BlockPos[] vertexDSE() {
+		return offsets(VERTEX_DSE, 1);
+	}
+	
+	public BlockPos[] vertexUNW() {
+		return offsets(VERTEX_UNW, 1);
+	}
+	
+	public BlockPos[] vertexUNE() {
+		return offsets(VERTEX_UNE, 1);
+	}
+	
+	public BlockPos[] vertexUSW() {
+		return offsets(VERTEX_USW, 1);
+	}
+	
+	public BlockPos[] vertexUSE() {
+		return offsets(VERTEX_USE, 1);
+	}
+	
+	public List<BlockPos[]> vertexList() {
+		return Lists.newArrayList(vertexDNW(), vertexDNE(), vertexDSW(), vertexDSE(), vertexUNW(), vertexUNE(), vertexUSW(), vertexUSE());
+	}
+	
 	// Ring
 	
 	public List<BlockPos> squareRing(int radius, int height) {

@@ -1,9 +1,9 @@
 package nc.tile.generator;
 
 import nc.config.NCConfig;
-import nc.energy.EnumStorage.EnergyConnection;
 import nc.tile.dummy.IInterfaceable;
 import nc.tile.energy.TileEnergy;
+import nc.tile.energy.storage.EnumStorage.EnergyConnection;
 
 public abstract class TilePassiveGenerator extends TileEnergy implements IInterfaceable {
 	

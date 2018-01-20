@@ -1,7 +1,7 @@
 package nc.tile.energy;
 
-import nc.energy.EnumStorage.EnergyConnection;
-import nc.energy.Storage;
+import nc.tile.energy.storage.Storage;
+import nc.tile.energy.storage.EnumStorage.EnergyConnection;
 
 public interface ITileEnergy {
 	public Storage getStorage();

@@ -57,4 +57,13 @@ public class UnitHelper {
 	public static String prefix(int value, int maxLength, String unit) {
 		return UnitHelper.prefix(value, maxLength, unit, 0);
 	}
+	
+	public static String ratePrefix(int perSecond, int maxLength, String unit, int startingPrefixNo) {
+		boolean useTicks = perSecond % 20 == 0;
+		return UnitHelper.prefix(useTicks ? perSecond/20 : perSecond, maxLength, unit + (useTicks ? "/t" : "/s"), startingPrefixNo);
+	}
+	
+	public static String ratePrefix(int perSecond, int maxLength, String unit) {
+		return UnitHelper.ratePrefix(perSecond, maxLength, unit, 0);
+	}
 }

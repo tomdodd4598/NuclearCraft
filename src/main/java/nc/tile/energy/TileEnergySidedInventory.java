@@ -3,7 +3,7 @@ package nc.tile.energy;
 import javax.annotation.Nullable;
 
 import nc.ModCheck;
-import nc.energy.EnumStorage.EnergyConnection;
+import nc.tile.energy.storage.EnumStorage.EnergyConnection;
 import net.darkhax.tesla.capability.TeslaCapabilities;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;

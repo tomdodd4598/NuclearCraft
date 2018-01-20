@@ -7,7 +7,7 @@ public class NCMathHelper {
 		return (double) Math.round(value * scale) / (double) Math.round(scale);
 	}
 	
-	public static double Round(double value) {
+	public static double round(double value) {
 		return round(value, 2);
 	}
 	

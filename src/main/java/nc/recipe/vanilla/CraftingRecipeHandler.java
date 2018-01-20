@@ -229,8 +229,8 @@ public class CraftingRecipeHandler {
 	
 	public static void fissionClumpRecipes(String element, Item material, int... types) {
 		for (int i = 0; i < types.length; i++) {
-			blockCompress(new ItemStack(material, 1, 4*i), "tiny" + element + types[i]);
-			blockCompress(new ItemStack(material, 1, 1 + 4*i), "tiny" + element + types[i] + "Oxide");
+			blockCompress(new ItemStack(material, 1, 4*i), "nugget" + element + types[i]);
+			blockCompress(new ItemStack(material, 1, 1 + 4*i), "nugget" + element + types[i] + "Oxide");
 			blockOpen(material, 2 + 4*i, "ingot" + element + types[i] + "Base");
 			blockOpen(material, 3 + 4*i, "ingot" + element + types[i] + "Oxide");
 		}
@@ -238,7 +238,7 @@ public class CraftingRecipeHandler {
 	
 	public static void tinyClumpRecipes(String element, Item material, int... types) {
 		for (int i = 0; i < types.length; i++) {
-			blockCompress(new ItemStack(material, 1, 2*i), "tiny" + element + types[i]);
+			blockCompress(new ItemStack(material, 1, 2*i), "nugget" + element + types[i]);
 			blockOpen(material, 1 + 2*i, "ingot" + element + types[i]);
 		}
 	}

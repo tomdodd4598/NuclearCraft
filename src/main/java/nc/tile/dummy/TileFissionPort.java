@@ -4,8 +4,8 @@ import javax.annotation.Nullable;
 
 import nc.ModCheck;
 import nc.config.NCConfig;
-import nc.energy.EnumStorage.EnergyConnection;
 import nc.init.NCBlocks;
+import nc.tile.energy.storage.EnumStorage.EnergyConnection;
 import nc.tile.generator.TileFissionController;
 import nc.util.BlockFinder;
 import net.darkhax.tesla.capability.TeslaCapabilities;

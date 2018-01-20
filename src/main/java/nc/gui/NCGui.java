@@ -4,8 +4,8 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import nc.fluid.Tank;
 import nc.tile.energy.ITileEnergy;
+import nc.tile.fluid.tank.Tank;
 import nc.util.Lang;
 import nc.util.UnitHelper;
 import net.minecraft.client.gui.inventory.GuiContainer;

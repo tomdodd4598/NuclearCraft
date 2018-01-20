@@ -276,7 +276,7 @@ public class NCBlocks {
 	
 	public static void register() {
 		registerBlock(ore, new ItemBlockMeta(ore, MetaEnums.OreType.class));
-		registerBlock(ingot_block, new ItemBlockMeta(ingot_block, MetaEnums.IngotType.class));
+		registerBlock(ingot_block, new ItemBlockMeta(ingot_block, MetaEnums.IngotType.class, NCInfo.ingotBlockInfo()));
 		
 		registerBlock(fission_block, new ItemBlockMeta(fission_block, MetaEnums.FissionBlockType.class));
 		registerBlock(reactor_casing_transparent);
@@ -358,31 +358,31 @@ public class NCBlocks {
 		registerBlock(active_cooler);
 		registerBlock(bin);
 		
-		registerBlock(fusion_electromagnet_idle, InfoHelper.formattedInfo("tile.fusion_electromagnet_idle.desc", UnitHelper.prefix(NCConfig.fusion_electromagnet_power, 5, "RF/s")));
+		registerBlock(fusion_electromagnet_idle, InfoHelper.formattedInfo("tile.fusion_electromagnet_idle.desc", UnitHelper.ratePrefix(NCConfig.fusion_electromagnet_power, 5, "RF")));
 		registerBlock(fusion_electromagnet_active);
-		registerBlock(fusion_electromagnet_transparent_idle, InfoHelper.formattedInfo("tile.fusion_electromagnet_idle.desc", UnitHelper.prefix(NCConfig.fusion_electromagnet_power, 5, "RF/s")));
+		registerBlock(fusion_electromagnet_transparent_idle, InfoHelper.formattedInfo("tile.fusion_electromagnet_idle.desc", UnitHelper.ratePrefix(NCConfig.fusion_electromagnet_power, 5, "RF")));
 		registerBlock(fusion_electromagnet_transparent_active);
 		
-		registerBlock(accelerator_electromagnet_idle, InfoHelper.formattedInfo("tile.accelerator_electromagnet_idle.desc", UnitHelper.prefix(NCConfig.accelerator_electromagnet_power, 5, "RF/s")));
+		registerBlock(accelerator_electromagnet_idle, InfoHelper.formattedInfo("tile.accelerator_electromagnet_idle.desc", UnitHelper.ratePrefix(NCConfig.accelerator_electromagnet_power, 5, "RF")));
 		registerBlock(accelerator_electromagnet_active);
-		registerBlock(electromagnet_supercooler_idle, InfoHelper.formattedInfo("tile.electromagnet_supercooler_idle.desc", UnitHelper.prefix(NCConfig.accelerator_electromagnet_power, 5, "RF/s"), UnitHelper.prefix(NCConfig.accelerator_supercooler_coolant, 5, "B/s", -1)));
+		registerBlock(electromagnet_supercooler_idle, InfoHelper.formattedInfo("tile.electromagnet_supercooler_idle.desc", UnitHelper.ratePrefix(NCConfig.accelerator_electromagnet_power, 5, "RF"), UnitHelper.ratePrefix(NCConfig.accelerator_supercooler_coolant, 5, "B", -1)));
 		registerBlock(electromagnet_supercooler_active);
 		
-		registerBlock(helium_collector, InfoHelper.formattedInfo("tile.helium_collector.desc", UnitHelper.prefix(NCConfig.processor_passive_rate[0], 5, "B/s", -1)));
-		registerBlock(helium_collector_compact, InfoHelper.formattedInfo("tile.helium_collector.desc", UnitHelper.prefix(NCConfig.processor_passive_rate[0]*8, 5, "B/s", -1)));
-		registerBlock(helium_collector_dense, InfoHelper.formattedInfo("tile.helium_collector.desc", UnitHelper.prefix(NCConfig.processor_passive_rate[0]*64, 5, "B/s", -1)));
+		registerBlock(helium_collector, InfoHelper.formattedInfo("tile.helium_collector.desc", UnitHelper.ratePrefix(NCConfig.processor_passive_rate[0], 5, "B", -1)));
+		registerBlock(helium_collector_compact, InfoHelper.formattedInfo("tile.helium_collector.desc", UnitHelper.ratePrefix(NCConfig.processor_passive_rate[0]*8, 5, "B", -1)));
+		registerBlock(helium_collector_dense, InfoHelper.formattedInfo("tile.helium_collector.desc", UnitHelper.ratePrefix(NCConfig.processor_passive_rate[0]*64, 5, "B", -1)));
 		
-		registerBlock(cobblestone_generator, InfoHelper.formattedInfo("tile.cobblestone_generator.desc", UnitHelper.prefix(NCConfig.processor_passive_rate[1], 5, "Cobblestone/s")));
-		registerBlock(cobblestone_generator_compact, InfoHelper.formattedInfo("tile.cobblestone_generator.desc", UnitHelper.prefix(NCConfig.processor_passive_rate[1]*8, 5, "Cobblestone/s")));
-		registerBlock(cobblestone_generator_dense, InfoHelper.formattedInfo("tile.cobblestone_generator.desc", UnitHelper.prefix(NCConfig.processor_passive_rate[1]*64, 5, "Cobblestone/s")));
+		registerBlock(cobblestone_generator, InfoHelper.formattedInfo("tile.cobblestone_generator.desc", UnitHelper.ratePrefix(NCConfig.processor_passive_rate[1], 5, "Cobblestone")));
+		registerBlock(cobblestone_generator_compact, InfoHelper.formattedInfo("tile.cobblestone_generator.desc", UnitHelper.ratePrefix(NCConfig.processor_passive_rate[1]*8, 5, "Cobblestone")));
+		registerBlock(cobblestone_generator_dense, InfoHelper.formattedInfo("tile.cobblestone_generator.desc", UnitHelper.ratePrefix(NCConfig.processor_passive_rate[1]*64, 5, "Cobblestone")));
 		
-		registerBlock(water_source, InfoHelper.formattedInfo("tile.water_source.desc", UnitHelper.prefix(NCConfig.processor_passive_rate[2], 5, "B/s", -1)));
-		registerBlock(water_source_compact, InfoHelper.formattedInfo("tile.water_source.desc", UnitHelper.prefix(NCConfig.processor_passive_rate[2]*8, 5, "B/s", -1)));
-		registerBlock(water_source_dense, InfoHelper.formattedInfo("tile.water_source.desc", UnitHelper.prefix(NCConfig.processor_passive_rate[2]*64, 5, "B/s", -1)));
+		registerBlock(water_source, InfoHelper.formattedInfo("tile.water_source.desc", UnitHelper.ratePrefix(NCConfig.processor_passive_rate[2], 5, "B", -1)));
+		registerBlock(water_source_compact, InfoHelper.formattedInfo("tile.water_source.desc", UnitHelper.ratePrefix(NCConfig.processor_passive_rate[2]*8, 5, "B", -1)));
+		registerBlock(water_source_dense, InfoHelper.formattedInfo("tile.water_source.desc", UnitHelper.ratePrefix(NCConfig.processor_passive_rate[2]*64, 5, "B", -1)));
 		
-		registerBlock(nitrogen_collector, InfoHelper.formattedInfo("tile.nitrogen_collector.desc", UnitHelper.prefix(NCConfig.processor_passive_rate[3], 5, "B/s", -1)));
-		registerBlock(nitrogen_collector_compact, InfoHelper.formattedInfo("tile.nitrogen_collector.desc", UnitHelper.prefix(NCConfig.processor_passive_rate[3]*8, 5, "B/s", -1)));
-		registerBlock(nitrogen_collector_dense, InfoHelper.formattedInfo("tile.nitrogen_collector.desc", UnitHelper.prefix(NCConfig.processor_passive_rate[3]*64, 5, "B/s", -1)));
+		registerBlock(nitrogen_collector, InfoHelper.formattedInfo("tile.nitrogen_collector.desc", UnitHelper.ratePrefix(NCConfig.processor_passive_rate[3], 5, "B", -1)));
+		registerBlock(nitrogen_collector_compact, InfoHelper.formattedInfo("tile.nitrogen_collector.desc", UnitHelper.ratePrefix(NCConfig.processor_passive_rate[3]*8, 5, "B", -1)));
+		registerBlock(nitrogen_collector_dense, InfoHelper.formattedInfo("tile.nitrogen_collector.desc", UnitHelper.ratePrefix(NCConfig.processor_passive_rate[3]*64, 5, "B", -1)));
 		
 		registerBlock(glowing_mushroom);
 		

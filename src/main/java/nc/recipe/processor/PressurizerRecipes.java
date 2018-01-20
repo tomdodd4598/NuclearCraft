@@ -12,12 +12,12 @@ import net.minecraftforge.oredict.OreDictionary;
 public class PressurizerRecipes extends BaseRecipeHandler {
 	
 	public PressurizerRecipes() {
-		super(1, 0, 1, 0, false);
+		super("pressurizer", 1, 0, 1, 0, false);
 	}
 
 	@Override
 	public void addRecipes() {
-		plateProcess();
+		addPlatePressingRecipes();
 		
 		addRecipe("dustGraphite", "gemCoal", NCConfig.processor_time[11]);
 		addRecipe(oreStack("ingotGraphite", 64), "gemDiamond", NCConfig.processor_time[11]*4);
@@ -35,7 +35,7 @@ public class PressurizerRecipes extends BaseRecipeHandler {
 		addRecipe("dustEnder", Items.ENDER_PEARL, NCConfig.processor_time[11]);
 	}
 	
-	public void plateProcess() {
+	public void addPlatePressingRecipes() {
 		List<String> oreList = Arrays.asList(OreDictionary.getOreNames());
 		for (String ore : oreList) {
 			if (ore.startsWith("plate")) {
@@ -54,10 +54,5 @@ public class PressurizerRecipes extends BaseRecipeHandler {
 				}
 			}
 		}
-	}
-
-	@Override
-	public String getRecipeName() {
-		return "pressurizer";
 	}
 }

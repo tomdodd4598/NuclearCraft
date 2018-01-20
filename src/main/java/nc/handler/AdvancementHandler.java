@@ -12,33 +12,33 @@ import net.minecraftforge.common.AdvancementPage;
 
 public class AdvancementHandler {
 	
-	private static List<Advancement> achievements = new ArrayList<Advancement>();
+	private static List<Advancement> advancements = new ArrayList<Advancement>();
 
 	public static void registerAdvancements() {
-		Advancement[] achievementArray = new Advancement[achievements.size()];
-		for(Advancement achievement : achievements) {
-			achievement.registerStat();
-			achievementArray[achievements.indexOf(achievement)] = achievement;
+		Advancement[] advancementArray = new Advancement[advancements.size()];
+		for(Advancement advancement : advancements) {
+			advancement.registerStat();
+			advancementArray[advancements.indexOf(advancement)] = advancement;
 		}
-		AdvancementPage.registerAdvancementPage(new AdvancementPage(Global.MOD_NAME, achievementArray));
+		AdvancementPage.registerAdvancementPage(new AdvancementPage(Global.MOD_NAME, advancementArray));
 	}
 	
 	private static Advancement createAdvancement(String name, int column, int row, Item item) {
-		Advancement acheivement = new Advancement("achievement." + name, name, column, row, item, (Advancement)null);
-		achievements.add(acheivement);
-		return acheivement;
+		Advancement advancement = new Advancement("advancement." + name, name, column, row, item, (Advancement)null);
+		advancements.add(advancement);
+		return advancement;
 	}
 	
 	private static Advancement createAdvancement(String name, int column, int row, Block block) {
-		Advancement acheivement = new Advancement("achievement." + name, name, column, row, block, (Advancement)null);
-		achievements.add(acheivement);
-		return acheivement;
+		Advancement advancement = new Advancement("advancement." + name, name, column, row, block, (Advancement)null);
+		advancements.add(advancement);
+		return advancement;
 	}
 	
 	private static Advancement createAdvancement(String name, int column, int row, ItemStack stack) {
-		Advancement acheivement = new Advancement("achievement." + name, name, column, row, stack, (Advancement)null);
-		achievements.add(acheivement);
-		return acheivement;
+		Advancement advancement = new Advancement("advancement." + name, name, column, row, stack, (Advancement)null);
+		advancements.add(advancement);
+		return advancement;
 	}
 
 }*/

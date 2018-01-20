@@ -6,15 +6,15 @@ import java.util.List;
 import java.util.Map;
 
 import nc.config.NCConfig;
-import nc.energy.EnumStorage.EnergyConnection;
 import nc.enumm.MetaEnums.CoolerType;
-import nc.fluid.Tank;
 import nc.handler.SoundHandler;
 import nc.init.NCBlocks;
 import nc.init.NCFluids;
 import nc.recipe.NCRecipes;
 import nc.recipe.RecipeMethods;
+import nc.tile.energy.storage.EnumStorage.EnergyConnection;
 import nc.tile.fluid.TileActiveCooler;
+import nc.tile.fluid.tank.Tank;
 import nc.util.BlockFinder;
 import nc.util.BlockPosHelper;
 import nc.util.Lang;

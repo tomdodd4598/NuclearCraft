@@ -4,8 +4,8 @@ import javax.annotation.Nullable;
 
 import nc.Global;
 import nc.block.tile.processor.BlockNuclearFurnace;
-import nc.tile.ITileInventory;
 import nc.tile.dummy.IInterfaceable;
+import nc.tile.inventory.ITileInventory;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;

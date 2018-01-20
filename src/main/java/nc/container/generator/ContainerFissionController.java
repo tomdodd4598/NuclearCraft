@@ -19,6 +19,7 @@ public class ContainerFissionController extends ContainerItemGenerator {
 	protected int efficiency;
 	protected int rateMultiplier;
 	protected int heatChange;
+	protected int heatMult;
 	
 	public ContainerFissionController(EntityPlayer player, TileFissionController tileEntity) {
 		super(tileEntity, NCRecipes.FISSION_RECIPES);
@@ -47,7 +48,7 @@ public class ContainerFissionController extends ContainerItemGenerator {
 		for (int i = 0; i < listeners.size(); i++) {
 			IContainerListener icontainerlistener = (IContainerListener) listeners.get(i);
 			
-			for (int j : new int[] {0, 1, 2, 3, 4, 5, 6, 8, 12}) {
+			for (int j : new int[] {0, 1, 2, 3, 4, 5, 6, 8, 12, 19}) {
 				icontainerlistener.sendWindowProperty(this, j, tile.getField(j) >> 16);
 				icontainerlistener.sendWindowProperty(this, 100 + j, tile.getField(j));
 			}
@@ -68,6 +69,7 @@ public class ContainerFissionController extends ContainerItemGenerator {
 		else if (id == 106) efficiency = upcast(data);
 		else if (id == 108) rateMultiplier = upcast(data);
 		else if (id == 112) heatChange = upcast(data);
+		else if (id == 119) heatMult = upcast(data);
 		
 		else if (id == 0) tile.setField(id, time | data << 16);
 		else if (id == 1) tile.setField(id, energy | data << 16);
@@ -78,6 +80,7 @@ public class ContainerFissionController extends ContainerItemGenerator {
 		else if (id == 6) tile.setField(id, efficiency | data << 16);
 		else if (id == 8) tile.setField(id, rateMultiplier | data << 16);
 		else if (id == 12) tile.setField(id, heatChange | data << 16);
+		else if (id == 19) tile.setField(id, heatMult | data << 16);
 		
 		else if (id == 7 || (id >= 9 && id <= 11) || (id >= 13 && id <= 18)) tile.setField(id, data);
 	}

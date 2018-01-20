@@ -7,6 +7,7 @@ import nc.handler.OreDictHandler;
 import nc.handler.SoundHandler;
 import nc.init.NCArmor;
 import nc.init.NCBlocks;
+import nc.init.NCFissionFluids;
 import nc.init.NCFluids;
 import nc.init.NCItems;
 import nc.init.NCTiles;
@@ -61,6 +62,7 @@ public class CommonProxy {
 		
 		NCBlocks.register();
 		NCFluids.register();
+		NCFissionFluids.register();
 		NCItems.register();
 		NCTools.register();
 		NCArmor.register();
@@ -75,6 +77,8 @@ public class CommonProxy {
 	}
 
 	public void init(FMLInitializationEvent event) {
+		initFissionFluidColors();
+		
 		eventHandler.registerEvents();
 		ModCheck.init();
 		MinecraftForge.EVENT_BUS.register(new DropHandler());
@@ -92,6 +96,10 @@ public class CommonProxy {
 	}
 	
 	public void registerFluidBlockRendering(Block block, String name) {
+		
+	}
+	
+	public void initFissionFluidColors() {
 		
 	}
 }

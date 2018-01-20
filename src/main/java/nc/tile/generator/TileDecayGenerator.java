@@ -5,10 +5,10 @@ import java.util.List;
 import java.util.Random;
 
 import nc.config.NCConfig;
-import nc.energy.EnumStorage.EnergyConnection;
 import nc.init.NCBlocks;
 import nc.tile.dummy.IInterfaceable;
 import nc.tile.energy.TileEnergy;
+import nc.tile.energy.storage.EnumStorage.EnergyConnection;
 import nc.util.OreStackHelper;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
@@ -19,13 +19,13 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public class TileDecayGenerator extends TileEnergy implements IInterfaceable {
 	
-	static final String[] DECAY_BLOCK_NAMES = new String[] {"blockThorium", "blockUranium", "blockDepletedThorium", "blockDepletedUranium", "blockDepletedNeptunium", "blockDepletedPlutonium", "blockDepletedAmericium", "blockDepletedCurium", "blockDepletedBerkelium", "blockDepletedCalifornium"};
-	static final IBlockState[] DECAY_PATHS = new IBlockState[] {NCBlocks.block_depleted_thorium.getDefaultState(), NCBlocks.block_depleted_uranium.getDefaultState()};
+	static final String[] DECAY_BLOCK_NAMES = new String[] 		{	"blockThorium",										"blockUranium",										"blockDepletedThorium",								"blockDepletedUranium",								"blockDepletedNeptunium",								"blockDepletedPlutonium",							"blockDepletedAmericium",								"blockDepletedCurium",									"blockDepletedBerkelium",								"blockDepletedCalifornium"							};
+	static final IBlockState[] DECAY_PATHS = new IBlockState[] 	{	NCBlocks.block_depleted_thorium.getDefaultState(),	NCBlocks.block_depleted_uranium.getDefaultState(),	NCBlocks.block_depleted_thorium.getDefaultState(),	NCBlocks.block_depleted_uranium.getDefaultState(),	NCBlocks.block_depleted_neptunium.getDefaultState(),	NCBlocks.block_depleted_uranium.getDefaultState(),	NCBlocks.block_depleted_americium.getDefaultState(),	NCBlocks.block_depleted_plutonium.getDefaultState(),	NCBlocks.block_depleted_americium.getDefaultState(),	NCBlocks.block_depleted_thorium.getDefaultState()	};
 	Random rand = new Random();
 	public int tickCount;
 	
 	public TileDecayGenerator() {
-		super(2*NCConfig.generator_rf_per_eu*maxPower(), EnergyConnection.OUT);
+		super(5*NCConfig.generator_rf_per_eu*maxPower(), EnergyConnection.OUT);
 	}
 	
 	@Override
@@ -34,6 +34,7 @@ public class TileDecayGenerator extends TileEnergy implements IInterfaceable {
 		if(!world.isRemote) {
 			if (shouldCheck()) storage.changeEnergyStored(getGenerated());
 			pushEnergy();
+			spreadEnergy();
 		}
 	}
 	
@@ -77,9 +78,7 @@ public class TileDecayGenerator extends TileEnergy implements IInterfaceable {
 		ItemStack stack = OreStackHelper.blockToStack(world.getBlockState(pos));
 		for (int i = 0; i < types.size(); i++) {
 			for (ItemStack oreStack : types.get(i)) if (oreStack.isItemEqual(stack)) {
-				if (i < 2) {
-					if (rand.nextInt(36000/20) == 0) world.setBlockState(pos, DECAY_PATHS[i]);
-				}
+				if (rand.nextInt(36000/20) == 0) world.setBlockState(pos, DECAY_PATHS[i]);
 				return getDecayPower(i);
 			}
 		}
