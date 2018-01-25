@@ -162,7 +162,7 @@ public abstract class TileItemFluidProcessor extends TileEnergyFluidSidedInvento
 		
 	@Override
 	public int getSinkTier() {
-		return 2;
+		return 4;
 	}
 	
 	// Processing
@@ -188,6 +188,7 @@ public abstract class TileItemFluidProcessor extends TileEnergyFluidSidedInvento
 	
 	public void setCapacityFromSpeed() {
 		storage.setStorageCapacity(MathHelper.clamp(2*getProcessPower(), 32000, Integer.MAX_VALUE));
+		storage.setMaxTransfer(MathHelper.clamp(2*getProcessPower(), 32000, Integer.MAX_VALUE));
 	}
 	
 	public boolean canProcessStacks() {

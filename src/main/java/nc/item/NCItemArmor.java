@@ -3,12 +3,9 @@ package nc.item;
 import java.util.List;
 
 import nc.Global;
-import nc.init.NCArmor;
 import nc.util.InfoHelper;
-import nc.util.RarityHelper;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -22,7 +19,7 @@ public class NCItemArmor extends ItemArmor {
 
 	public NCItemArmor(String unlocalizedName, ArmorMaterial materialIn, int renderIndexIn, EntityEquipmentSlot equipmentSlotIn, String... tooltip) {
 		super(materialIn, renderIndexIn, equipmentSlotIn);
-		setUnlocalizedName(unlocalizedName);
+		setUnlocalizedName(Global.MOD_ID + "." + unlocalizedName);
 		setRegistryName(new ResourceLocation(Global.MOD_ID, unlocalizedName));
 		info = InfoHelper.buildInfo(getUnlocalizedName(), tooltip);
 	}

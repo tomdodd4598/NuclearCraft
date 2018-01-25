@@ -13,7 +13,7 @@ public class NCBlockTrapDoor extends BlockTrapDoor {
 	
 	public NCBlockTrapDoor(String name, Material material) {
 		super(material);
-		setUnlocalizedName(name);
+		setUnlocalizedName(Global.MOD_ID + "." + name);
 		setRegistryName(new ResourceLocation(Global.MOD_ID, name));
 		setCreativeTab(CommonProxy.TAB_FISSION_BLOCKS);
 		setHarvestLevel("pickaxe", 0);

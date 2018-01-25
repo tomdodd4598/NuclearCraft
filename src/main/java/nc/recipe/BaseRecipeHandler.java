@@ -2,6 +2,8 @@ package nc.recipe;
 
 import java.util.ArrayList;
 
+import nc.Global;
+
 public abstract class BaseRecipeHandler<T extends IRecipe> extends RecipeMethods<T> {
 	
 	public int inputSizeItem, inputSizeFluid, outputSizeItem, outputSizeFluid;
@@ -42,6 +44,6 @@ public abstract class BaseRecipeHandler<T extends IRecipe> extends RecipeMethods
 	
 	@Override
 	public String getRecipeName() {
-		return recipeName;
+		return Global.MOD_ID + "_" + recipeName;
 	}
 }

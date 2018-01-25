@@ -1,809 +1,809 @@
-tile.ore.copper.name=Minério de Cobre
-tile.ore.tin.name=Minério de Estanho
-tile.ore.lead.name=Minério de Chumbo
-tile.ore.thorium.name=Minério de Tório
-tile.ore.uranium.name=Minério de Urânio
-tile.ore.boron.name=Minério de Boro
-tile.ore.lithium.name=Minério de Lítio
-tile.ore.magnesium.name=Minério de Magnésio
+tile.nuclearcraft.ore.copper.name=Minério de Cobre
+tile.nuclearcraft.ore.tin.name=Minério de Estanho
+tile.nuclearcraft.ore.lead.name=Minério de Chumbo
+tile.nuclearcraft.ore.thorium.name=Minério de Tório
+tile.nuclearcraft.ore.uranium.name=Minério de Urânio
+tile.nuclearcraft.ore.boron.name=Minério de Boro
+tile.nuclearcraft.ore.lithium.name=Minério de Lítio
+tile.nuclearcraft.ore.magnesium.name=Minério de Magnésio
 
-tile.ingot_block.copper.name=Bloco de Cobre
-tile.ingot_block.tin.name=Bloco de Estanho
-tile.ingot_block.lead.name=Bloco de Chumbo
-tile.ingot_block.thorium.name=Bloco de Tório
-tile.ingot_block.uranium.name=Bloco de Urânio
-tile.ingot_block.boron.name=Bloco de Boro
-tile.ingot_block.lithium.name=Bloco de Lítio
-tile.ingot_block.magnesium.name=Bloco de Magnésio
-tile.ingot_block.beryllium.name=Bloco de Berilo
-tile.ingot_block.zirconium.name=Bloco de Zircônio
+tile.nuclearcraft.ingot_block.copper.name=Bloco de Cobre
+tile.nuclearcraft.ingot_block.tin.name=Bloco de Estanho
+tile.nuclearcraft.ingot_block.lead.name=Bloco de Chumbo
+tile.nuclearcraft.ingot_block.thorium.name=Bloco de Tório
+tile.nuclearcraft.ingot_block.uranium.name=Bloco de Urânio
+tile.nuclearcraft.ingot_block.boron.name=Bloco de Boro
+tile.nuclearcraft.ingot_block.lithium.name=Bloco de Lítio
+tile.nuclearcraft.ingot_block.magnesium.name=Bloco de Magnésio
+tile.nuclearcraft.ingot_block.beryllium.name=Bloco de Berilo
+tile.nuclearcraft.ingot_block.zirconium.name=Bloco de Zircônio
 
-tile.ingot_block.graphite.name=Bloco de Grafite
-tile.ingot_block.graphite.desc=Grafite só é considerado ativo se estiver tocando ao menos uma Célula de Reator. Grafite ativo aumenta a eficiência do Reator, mas também produz algum calor extra. A energia adicional gerada por bloco de grafite é igual ao RFBase*SemCélulas/8 RF/t, e o calor extra gerado por bloco de grafite é o RFBase*SemCélulas/16 Unidades de Calor (UC) por tick.
+tile.nuclearcraft.ingot_block.graphite.name=Bloco de Grafite
+tile.nuclearcraft.ingot_block.graphite.desc=Grafite só é considerado ativo se estiver tocando ao menos uma Célula de Reator. Grafite ativo aumenta a eficiência do Reator, mas também produz algum calor extra. A energia adicional gerada por bloco de grafite é igual ao RFBase*SemCélulas/8 RF/t, e o calor extra gerado por bloco de grafite é o RFBase*SemCélulas/16 Unidades de Calor (UC) por tick.
 
-tile.fission_block.casing.name=Estrutura de Reator
-tile.fission_block.casing.desc=Usado na construção de reatores de fissão. Para formar uma estrutura válida, construa um cubo oco feito disto, se assegurando de *excluir* os cantos (cantos não têm importância). Coloque um controlador de fissão em uma ponta, ou em um canto, ou em uma das faces da estrutura. Se a GUI mostrar um erro, tenha certeza de que a estrutura é válida. Então encha o interior com células de reator, com resfriadores e com blocos de grafite para começar a gerar energia do seu combustível de fissão!
+tile.nuclearcraft.fission_block.casing.name=Estrutura de Reator
+tile.nuclearcraft.fission_block.casing.desc=Usado na construção de reatores de fissão. Para formar uma estrutura válida, construa um cubo oco feito disto, se assegurando de *excluir* os cantos (cantos não têm importância). Coloque um controlador de fissão em uma ponta, ou em um canto, ou em uma das faces da estrutura. Se a GUI mostrar um erro, tenha certeza de que a estrutura é válida. Então encha o interior com células de reator, com resfriadores e com blocos de grafite para começar a gerar energia do seu combustível de fissão!
 
-tile.fission_block.blast.name=Bloco Anti-Explosão
-tile.fission_block.blast.desc=Um bloco altamente resistente a explosão que é perfeito para proteção contra explosivos.
+tile.nuclearcraft.fission_block.blast.name=Bloco Anti-Explosão
+tile.nuclearcraft.fission_block.blast.desc=Um bloco altamente resistente a explosão que é perfeito para proteção contra explosivos.
 
-tile.reactor_casing_transparent.name=Estrutura Transparente de Reator
-tile.reactor_casing_transparent.desc=Usado na construção de reatores de fissão. Para formar uma estrutura válida, construa um cubo oco feito disto, se assegurando de *excluir* os cantos (cantos não têm importância). Coloque um controlador de fissão em uma ponta, ou em um canto, ou em uma das faces da estrutura. Se a GUI mostrar um erro, tenha certeza de que a estrutura é válida. Então encha o interior com células de reator, com resfriadores e com blocos de energia do seu combustível de fissão!
+tile.nuclearcraft.reactor_casing_transparent.name=Estrutura Transparente de Reator
+tile.nuclearcraft.reactor_casing_transparent.desc=Usado na construção de reatores de fissão. Para formar uma estrutura válida, construa um cubo oco feito disto, se assegurando de *excluir* os cantos (cantos não têm importância). Coloque um controlador de fissão em uma ponta, ou em um canto, ou em uma das faces da estrutura. Se a GUI mostrar um erro, tenha certeza de que a estrutura é válida. Então encha o interior com células de reator, com resfriadores e com blocos de energia do seu combustível de fissão!
 
-tile.fusion_connector.name=Conector de Fusão
-tile.fusion_connector.desc=Conecta um núcleo de fusão ao seu anel eletromagnético
+tile.nuclearcraft.fusion_connector.name=Conector de Fusão
+tile.nuclearcraft.fusion_connector.desc=Conecta um núcleo de fusão ao seu anel eletromagnético
 
-tile.cell_block.name=Célula de Reator
-tile.cell_block.desc=Usado em reatores de fissão para o combustível de fissão. Quanto mais células colocadas, mais rápido o combustível é usado. Células são mais eficientes quando tem outra a um bloco de distância, com um grafite entre elas, ou com um espaço vazio entre elas. Ou seja: Célula, espaço, célula ou célula, grafite, célula.
+tile.nuclearcraft.cell_block.name=Célula de Reator
+tile.nuclearcraft.cell_block.desc=Usado em reatores de fissão para o combustível de fissão. Quanto mais células colocadas, mais rápido o combustível é usado. Células são mais eficientes quando tem outra a um bloco de distância, com um grafite entre elas, ou com um espaço vazio entre elas. Ou seja: Célula, espaço, célula ou célula, grafite, célula.
 
-tile.cooler.empty.name=Resfriador Vazio
+tile.nuclearcraft.cooler.empty.name=Resfriador Vazio
 
-tile.cooler.water.name=Resfriador à Água
-tile.cooler.water.desc=Deve tocar ao menos uma estrutura de reator.
+tile.nuclearcraft.cooler.water.name=Resfriador à Água
+tile.nuclearcraft.cooler.water.desc=Deve tocar ao menos uma estrutura de reator.
 
-tile.cooler.redstone.name=Resfriador à Redstone
-tile.cooler.redstone.desc=Deve tocar ao menos uma célula de reator.
+tile.nuclearcraft.cooler.redstone.name=Resfriador à Redstone
+tile.nuclearcraft.cooler.redstone.desc=Deve tocar ao menos uma célula de reator.
 
-tile.cooler.quartz.name=Resfriador à Quartzo
-tile.cooler.quartz.desc=Deve tocar ao menos um bloco de grafite ativo.
+tile.nuclearcraft.cooler.quartz.name=Resfriador à Quartzo
+tile.nuclearcraft.cooler.quartz.desc=Deve tocar ao menos um bloco de grafite ativo.
 
-tile.cooler.gold.name=Resfriador à Ouro
-tile.cooler.gold.desc=Deve tocar ao menos um resfriador à água ativo, e um resfriador à redstone.
+tile.nuclearcraft.cooler.gold.name=Resfriador à Ouro
+tile.nuclearcraft.cooler.gold.desc=Deve tocar ao menos um resfriador à água ativo, e um resfriador à redstone.
 
-tile.cooler.glowstone.name=Resfriador à Pedra Luminosa
-tile.cooler.glowstone.desc=Deve tocar ao menos dois blocos de grafite ativos.
+tile.nuclearcraft.cooler.glowstone.name=Resfriador à Pedra Luminosa
+tile.nuclearcraft.cooler.glowstone.desc=Deve tocar ao menos dois blocos de grafite ativos.
 
-tile.cooler.lapis.name=Resfriador à Lápis-Lazúli
-tile.cooler.lapis.desc=Deve tocar ao menos uma célula de reator e uma estrutura de reator.
+tile.nuclearcraft.cooler.lapis.name=Resfriador à Lápis-Lazúli
+tile.nuclearcraft.cooler.lapis.desc=Deve tocar ao menos uma célula de reator e uma estrutura de reator.
 
-tile.cooler.diamond.name=Resfriador à Diamante
-tile.cooler.diamond.desc=Deve tocar ao menos quatro resfriadores à água que estejam no mesmo nível.
+tile.nuclearcraft.cooler.diamond.name=Resfriador à Diamante
+tile.nuclearcraft.cooler.diamond.desc=Deve tocar ao menos quatro resfriadores à água que estejam no mesmo nível.
 
-tile.cooler.helium.name=Resfriador à Hélio Líquido
-tile.cooler.helium.desc=Deve tocar ao menos um resfriador à quartzo ativo e uma estrutura de reator.
+tile.nuclearcraft.cooler.helium.name=Resfriador à Hélio Líquido
+tile.nuclearcraft.cooler.helium.desc=Deve tocar ao menos um resfriador à quartzo ativo e uma estrutura de reator.
 
-tile.cooler.enderium.name=Resfriador à Endério
-tile.cooler.enderium.desc=Deve tocar ao menos três estruturas de reator.
+tile.nuclearcraft.cooler.enderium.name=Resfriador à Endério
+tile.nuclearcraft.cooler.enderium.desc=Deve tocar ao menos três estruturas de reator.
 
-tile.cooler.cryotheum.name=Resfriador à Crióteum
-tile.cooler.cryotheum.desc=Deve tocar ao menos duas células de reator.
+tile.nuclearcraft.cooler.cryotheum.name=Resfriador à Crióteum
+tile.nuclearcraft.cooler.cryotheum.desc=Deve tocar ao menos duas células de reator.
 
-tile.cooler.iron.name=Resfriador de Ferro
-tile.cooler.iron.desc=Deve tocar ao menos um resfriador à ouro ativo.
+tile.nuclearcraft.cooler.iron.name=Resfriador de Ferro
+tile.nuclearcraft.cooler.iron.desc=Deve tocar ao menos um resfriador à ouro ativo.
 
-tile.cooler.emerald.name=Resfriador de Esmeralda
-tile.cooler.emerald.desc=Deve tocar ao menos um bloco de grafite ativo e uma célula de reactor.
+tile.nuclearcraft.cooler.emerald.name=Resfriador de Esmeralda
+tile.nuclearcraft.cooler.emerald.desc=Deve tocar ao menos um bloco de grafite ativo e uma célula de reactor.
 
-tile.cooler.copper.name=Resfriador de Cobre
-tile.cooler.copper.desc=Deve tocar ao menos um resfriador à pedra luminosa ativo.
+tile.nuclearcraft.cooler.copper.name=Resfriador de Cobre
+tile.nuclearcraft.cooler.copper.desc=Deve tocar ao menos um resfriador à pedra luminosa ativo.
 
-tile.cooler.tin.name=Resfriador de Estanho
-tile.cooler.tin.desc=Deve estar ao menos entre dois resfriadores à Lápis-Lazúli ativos, com um no lado oposto do outro.
+tile.nuclearcraft.cooler.tin.name=Resfriador de Estanho
+tile.nuclearcraft.cooler.tin.desc=Deve estar ao menos entre dois resfriadores à Lápis-Lazúli ativos, com um no lado oposto do outro.
 
-tile.cooler.magnesium.name=Resfriador de Magnésio
-tile.cooler.magnesium.desc=Deve tocar ao menos um bloco de estrutura de reator e um resfriador à Hélio Líquido ativo.
+tile.nuclearcraft.cooler.magnesium.name=Resfriador de Magnésio
+tile.nuclearcraft.cooler.magnesium.desc=Deve tocar ao menos um bloco de estrutura de reator e um resfriador à Hélio Líquido ativo.
 
-tile.cooler.cooling_rate=Taxa de Resfriamento:
+tile.nuclearcraft.cooler.cooling_rate=Taxa de Resfriamento:
 
-tile.block_depleted_thorium.name=Bloco de Tório Esgotado
-tile.block_depleted_uranium.name=Bloco de Urânio Esgotado
-tile.block_depleted_neptunium.name=Bloco de Netúnio Esgotado
-tile.block_depleted_plutonium.name=Bloco de Plutônio Esgotado
-tile.block_depleted_americium.name=Bloco de Amerício Esgotado
-tile.block_depleted_curium.name=Bloco de Curio Esgotado
-tile.block_depleted_berkelium.name=Bloco de Berquélio Esgotado
-tile.block_depleted_californium.name=Bloco de Califórnio Esgotado
+tile.nuclearcraft.block_depleted_thorium.name=Bloco de Tório Esgotado
+tile.nuclearcraft.block_depleted_uranium.name=Bloco de Urânio Esgotado
+tile.nuclearcraft.block_depleted_neptunium.name=Bloco de Netúnio Esgotado
+tile.nuclearcraft.block_depleted_plutonium.name=Bloco de Plutônio Esgotado
+tile.nuclearcraft.block_depleted_americium.name=Bloco de Amerício Esgotado
+tile.nuclearcraft.block_depleted_curium.name=Bloco de Curio Esgotado
+tile.nuclearcraft.block_depleted_berkelium.name=Bloco de Berquélio Esgotado
+tile.nuclearcraft.block_depleted_californium.name=Bloco de Califórnio Esgotado
 
-tile.block_ice.name=Gelo Super-gelado
+tile.nuclearcraft.block_ice.name=Gelo Super-gelado
 
-tile.nuclear_furnace_idle.name=Fornalha nuclear
-tile.nuclear_furnace_idle.desc=Funde itens muito rapidamente. Usa lingotes e pó de urânio e de tório como combustível.
-tile.nuclear_furnace_active.name=Fornalha Nuclear
+tile.nuclearcraft.nuclear_furnace_idle.name=Fornalha nuclear
+tile.nuclearcraft.nuclear_furnace_idle.desc=Funde itens muito rapidamente. Usa lingotes e pó de urânio e de tório como combustível.
+tile.nuclearcraft.nuclear_furnace_active.name=Fornalha Nuclear
 
-tile.manufactory_idle.name=Manufatura
-tile.manufactory_idle.desc=Uma máquina útil que tem muitos usos. Aceita energia de MV do IC2.
-tile.manufactory_active.name=Manufatura
+tile.nuclearcraft.manufactory_idle.name=Manufatura
+tile.nuclearcraft.manufactory_idle.desc=Uma máquina útil que tem muitos usos. Aceita energia de MV do IC2.
+tile.nuclearcraft.manufactory_active.name=Manufatura
 
-tile.isotope_separator_idle.name=Separador de Isótopos
-tile.isotope_separator_idle.desc=Separa materiais em seus isótopos. Aceita energia de MV do IC2.
-tile.isotope_separator_active.name=Separador de Isótopos
+tile.nuclearcraft.isotope_separator_idle.name=Separador de Isótopos
+tile.nuclearcraft.isotope_separator_idle.desc=Separa materiais em seus isótopos. Aceita energia de MV do IC2.
+tile.nuclearcraft.isotope_separator_active.name=Separador de Isótopos
 
-tile.decay_hastener_idle.name=Acelerador de Apodrecimento
-tile.decay_hastener_idle.desc=Força o apodrecimento de materiais radioativos. Aceita energia de MV do IC2.
-tile.decay_hastener_active.name=Acelerador de Apodrecimento
+tile.nuclearcraft.decay_hastener_idle.name=Acelerador de Apodrecimento
+tile.nuclearcraft.decay_hastener_idle.desc=Força o apodrecimento de materiais radioativos. Aceita energia de MV do IC2.
+tile.nuclearcraft.decay_hastener_active.name=Acelerador de Apodrecimento
 
-tile.fuel_reprocessor_idle.name=Reprocessador de Combustível
-tile.fuel_reprocessor_idle.desc=Extrai materiais de combustíveis esgotados. Aceita energia de MV do IC2.
-tile.fuel_reprocessor_active.name=Reprocessador de Combustível
+tile.nuclearcraft.fuel_reprocessor_idle.name=Reprocessador de Combustível
+tile.nuclearcraft.fuel_reprocessor_idle.desc=Extrai materiais de combustíveis esgotados. Aceita energia de MV do IC2.
+tile.nuclearcraft.fuel_reprocessor_active.name=Reprocessador de Combustível
 
-tile.alloy_furnace_idle.name=Fundidora de Ligas
-tile.alloy_furnace_idle.desc=Cria ligas metálicas a partir de materiais básicos. Aceita energia de MV do IC2.
-tile.alloy_furnace_active.name=Fundidora de Ligas
+tile.nuclearcraft.alloy_furnace_idle.name=Fundidora de Ligas
+tile.nuclearcraft.alloy_furnace_idle.desc=Cria ligas metálicas a partir de materiais básicos. Aceita energia de MV do IC2.
+tile.nuclearcraft.alloy_furnace_active.name=Fundidora de Ligas
 
-tile.infuser_idle.name=Infusor de Fluidos
-tile.infuser_idle.desc=Melhora materiais usando fluidos. Aceita energia de MV do IC2.
-tile.infuser_active.name=Infusor de Fluidos
+tile.nuclearcraft.infuser_idle.name=Infusor de Fluidos
+tile.nuclearcraft.infuser_idle.desc=Melhora materiais usando fluidos. Aceita energia de MV do IC2.
+tile.nuclearcraft.infuser_active.name=Infusor de Fluidos
 
-tile.melter_idle.name=Fundição
-tile.melter_idle.desc=Derrete materiais. Aceita energia de MV do IC2.
-tile.melter_active.name=Fundição
+tile.nuclearcraft.melter_idle.name=Fundição
+tile.nuclearcraft.melter_idle.desc=Derrete materiais. Aceita energia de MV do IC2.
+tile.nuclearcraft.melter_active.name=Fundição
 
-tile.supercooler_idle.name=Superresfriador
-tile.supercooler_idle.desc=Diminui a temperatura de fluidos. Aceita energia de MV do IC2.
-tile.supercooler_active.name=Superresfriador
+tile.nuclearcraft.supercooler_idle.name=Superresfriador
+tile.nuclearcraft.supercooler_idle.desc=Diminui a temperatura de fluidos. Aceita energia de MV do IC2.
+tile.nuclearcraft.supercooler_active.name=Superresfriador
 
-tile.electrolyser_idle.name=Eletrolisador
-tile.electrolyser_idle.desc=Divide compostos em seus componentes. Aceita energia de MV do IC2.
-tile.electrolyser_active.name=Eletrolisador
+tile.nuclearcraft.electrolyser_idle.name=Eletrolisador
+tile.nuclearcraft.electrolyser_idle.desc=Divide compostos em seus componentes. Aceita energia de MV do IC2.
+tile.nuclearcraft.electrolyser_active.name=Eletrolisador
 
-tile.irradiator_idle.name=Irradiador de Neutrons
-tile.irradiator_idle.desc=Induz mudanças a estruturas nucleares. Aceita energia de MV do IC2.
-tile.irradiator_active.name=Irradiador de Neutrons
+tile.nuclearcraft.irradiator_idle.name=Irradiador de Neutrons
+tile.nuclearcraft.irradiator_idle.desc=Induz mudanças a estruturas nucleares. Aceita energia de MV do IC2.
+tile.nuclearcraft.irradiator_active.name=Irradiador de Neutrons
 
-tile.ingot_former_idle.name=Fôrma de Lingotes
-tile.ingot_former_idle.desc=Forma lingotes a partir de metais derretidos. Aceita energia de MV do IC2.
-tile.ingot_former_active.name=Fôrma de Lingotes
+tile.nuclearcraft.ingot_former_idle.name=Fôrma de Lingotes
+tile.nuclearcraft.ingot_former_idle.desc=Forma lingotes a partir de metais derretidos. Aceita energia de MV do IC2.
+tile.nuclearcraft.ingot_former_active.name=Fôrma de Lingotes
 
-tile.pressurizer_idle.name=Pressurizador
-tile.pressurizer_idle.desc=Processa itens usando imensas pressões. Aceita energia de MV do IC2.
-tile.pressurizer_active.name=Pressurizador
+tile.nuclearcraft.pressurizer_idle.name=Pressurizador
+tile.nuclearcraft.pressurizer_idle.desc=Processa itens usando imensas pressões. Aceita energia de MV do IC2.
+tile.nuclearcraft.pressurizer_active.name=Pressurizador
 
-tile.chemical_reactor_idle.name=Reator Químico
-tile.chemical_reactor_idle.desc=É o local das reações entre gases. Aceita energia de MV do IC2.
-tile.chemical_reactor_active.name=Reator Químico
+tile.nuclearcraft.chemical_reactor_idle.name=Reator Químico
+tile.nuclearcraft.chemical_reactor_idle.desc=É o local das reações entre gases. Aceita energia de MV do IC2.
+tile.nuclearcraft.chemical_reactor_active.name=Reator Químico
 
-tile.salt_mixer_idle.name=Misturador de Sais
-tile.salt_mixer_idle.desc=Mistura sais derretidos. Aceita energia de MV do IC2.
-tile.salt_mixer_active.name=Misturador de Sais
+tile.nuclearcraft.salt_mixer_idle.name=Misturador de Sais
+tile.nuclearcraft.salt_mixer_idle.desc=Mistura sais derretidos. Aceita energia de MV do IC2.
+tile.nuclearcraft.salt_mixer_active.name=Misturador de Sais
 
-tile.crystallizer_idle.name=Cristalizador
-tile.crystallizer_idle.desc=Precipita sólidos a partir de uma solução. Aceita energia de MV do IC2.
-tile.crystallizer_active.name=Cristalizador
+tile.nuclearcraft.crystallizer_idle.name=Cristalizador
+tile.nuclearcraft.crystallizer_idle.desc=Precipita sólidos a partir de uma solução. Aceita energia de MV do IC2.
+tile.nuclearcraft.crystallizer_active.name=Cristalizador
 
-tile.dissolver_idle.name=Dissolvedor
-tile.dissolver_idle.desc=Mistura solutos, transformando-os em solventes. Aceita energia de MV do IC2.
-tile.dissolver_active.name=Dissolvedor
+tile.nuclearcraft.dissolver_idle.name=Dissolvedor
+tile.nuclearcraft.dissolver_idle.desc=Mistura solutos, transformando-os em solventes. Aceita energia de MV do IC2.
+tile.nuclearcraft.dissolver_active.name=Dissolvedor
 
-tile.machine_interface.name=Interface de Máquinas
-tile.machine_interface.desc=Automações podem acessar a máquina que estiver diretamente adjacente a esta. Tenha certeza de que há apenas uma máquina adjacente, no máximo.
+tile.nuclearcraft.machine_interface.name=Interface de Máquinas
+tile.nuclearcraft.machine_interface.desc=Automações podem acessar a máquina que estiver diretamente adjacente a esta. Tenha certeza de que há apenas uma máquina adjacente, no máximo.
 
-tile.buffer.name=Buffer
-tile.buffer.desc=Armazena até um stack de um item, 32000 RF de energia e 16000 mB de um fluido. Pode ser colocado em estruturas de fissão.
+tile.nuclearcraft.buffer.name=Buffer
+tile.nuclearcraft.buffer.desc=Armazena até um stack de um item, 32000 RF de energia e 16000 mB de um fluido. Pode ser colocado em estruturas de fissão.
 
-tile.active_cooler.name=Resfriador à Liquidos Ativo
-tile.active_cooler.desc=Bombeie líquidos refrigerantes para este bloco para resfriar reatores de fissão e fusão. Deve ser colocado dentro de uma estrutura de fissão ou na diagonal de um anel de fusão. Se for usado em um reator de fissão, seus requirementos para cada fluido são os mesmos que os seus contrapostos passivos. Se for usado em um reator de fusão, ele será muito mais eficiente caso haja um parceiro no lado oposto do anel de fusão. Os líquidos refrigerantes disponíveis são: água, redstone desestabilizada, pedra luminosa energizada, hélio líquido, ender resonante e crióteum gélido.
+tile.nuclearcraft.active_cooler.name=Resfriador à Liquidos Ativo
+tile.nuclearcraft.active_cooler.desc=Bombeie líquidos refrigerantes para este bloco para resfriar reatores de fissão e fusão. Deve ser colocado dentro de uma estrutura de fissão ou na diagonal de um anel de fusão. Se for usado em um reator de fissão, seus requirementos para cada fluido são os mesmos que os seus contrapostos passivos. Se for usado em um reator de fusão, ele será muito mais eficiente caso haja um parceiro no lado oposto do anel de fusão. Os líquidos refrigerantes disponíveis são: água, redstone desestabilizada, pedra luminosa energizada, hélio líquido, ender resonante e crióteum gélido.
 
-tile.bin.name=Lixeira Universal
-tile.bin.desc=Destrói itens, fluidos e energia.
+tile.nuclearcraft.bin.name=Lixeira Universal
+tile.nuclearcraft.bin.desc=Destrói itens, fluidos e energia.
 
-tile.fission_controller_idle.name=Controlador de Fissão
-tile.fission_controller_idle.desc=Construa um reator multibloco usando blocos de estruturas de reator, células de reator, resfriadores e blocos de grafite! Coloque o controlador em um dos cantos, ou em uma das quinas, ou em uma das faces da estrutura. Gera energia de Voltagem Extrema do IC2.
-tile.fission_controller_active.name=Controlador de Fissão
+tile.nuclearcraft.fission_controller_idle.name=Controlador de Fissão
+tile.nuclearcraft.fission_controller_idle.desc=Construa um reator multibloco usando blocos de estruturas de reator, células de reator, resfriadores e blocos de grafite! Coloque o controlador em um dos cantos, ou em uma das quinas, ou em uma das faces da estrutura. Gera energia de Voltagem Extrema do IC2.
+tile.nuclearcraft.fission_controller_active.name=Controlador de Fissão
 
-tile.fission_port.name=Porta de Acesso de Reator de Fissão
-tile.fission_port.desc=Coloque este bloco na carcaça de um reator de fissão no lugar de algum dos blocos de estrutura, mas *não* pode ser no lado de cima, nem no de baixo. Se um controlador estiver ligado à estrutura do reator, então seu inventário e a energia armazenada podem ser acessados por automação através deste bloco. Tenha certeza de que está direcionado para o interior do reator. A 'frente' da porta de acesso é a que tem uma textura um pouco diferente.
+tile.nuclearcraft.fission_port.name=Porta de Acesso de Reator de Fissão
+tile.nuclearcraft.fission_port.desc=Coloque este bloco na carcaça de um reator de fissão no lugar de algum dos blocos de estrutura, mas *não* pode ser no lado de cima, nem no de baixo. Se um controlador estiver ligado à estrutura do reator, então seu inventário e a energia armazenada podem ser acessados por automação através deste bloco. Tenha certeza de que está direcionado para o interior do reator. A 'frente' da porta de acesso é a que tem uma textura um pouco diferente.
 
-tile.rtg_uranium.name=GTR de Urânio
-tile.rtg_plutonium.name=GTR de Plutônio
-tile.rtg_americium.name=GTR de Amerício
-tile.rtg_californium.name=GTR de Califórnio
-tile.rtg.desc=Produz %s constantemente
+tile.nuclearcraft.rtg_uranium.name=GTR de Urânio
+tile.nuclearcraft.rtg_plutonium.name=GTR de Plutônio
+tile.nuclearcraft.rtg_americium.name=GTR de Amerício
+tile.nuclearcraft.rtg_californium.name=GTR de Califórnio
+tile.nuclearcraft.rtg.desc=Produz %s constantemente
 
-tile.solar_panel_basic.name=Painel Solar Básico
-tile.solar_panel.desc=Produz %s durante o dia
+tile.nuclearcraft.solar_panel_basic.name=Painel Solar Básico
+tile.nuclearcraft.solar_panel.desc=Produz %s durante o dia
 
-tile.decay_generator.name=Gerador Apodrecedor
-tile.decay_generator.desc=Produz energia a partir do calor gerado pelo apodrecimento de blocos de urânio e tório adjacentes. Depois de algum tempo, o bloco apodrece e produz menos energia.
+tile.nuclearcraft.decay_generator.name=Gerador Apodrecedor
+tile.nuclearcraft.decay_generator.desc=Produz energia a partir do calor gerado pelo apodrecimento de blocos de urânio e tório adjacentes. Depois de algum tempo, o bloco apodrece e produz menos energia.
 
-tile.voltaic_pile_basic.name=Pilha Voltáica Básica (WIP)
-tile.lithium_ion_battery_basic.name=Bateria Básica de Íon de Lítio (WIP)
-tile.energy_storage.desc=Armazena até %s. Ela ainda está em desenvolvimento e atualmente não mantém sua energia armazenada ao ser quebrada.
+tile.nuclearcraft.voltaic_pile_basic.name=Pilha Voltáica Básica (WIP)
+tile.nuclearcraft.lithium_ion_battery_basic.name=Bateria Básica de Íon de Lítio (WIP)
+tile.nuclearcraft.energy_storage.desc=Armazena até %s. Ela ainda está em desenvolvimento e atualmente não mantém sua energia armazenada ao ser quebrada.
 
-tile.fusion_core.name=Núcleo de Fusão
-tile.fusion_core.desc=Essa é a parte central da estrutura multibloco do reator de fusão. O núcleo tem que ter um anel de eletroímãs de fusão ao redor dele de maneira simétrica e deve estar conectado por quatro conjuntos de conectores de fusão em todos os quatro lados. O anel, que é, na verdade, quadrado, deve ser oco e não requer eletroímãs na diagonal da parte oca. O reator produz imensas quantidades de energia a partir do calor gerado pela fusão nuclear de dois combustíveis de fusão. Saiba que um combustível de um mesmo tipo pode ser fundido consigo mesmo. Os combustíveis de fusão possíveis são: hidrogênio, deutério, trítio, hélio-3, lítio-6, lítio-7 e boro-11. (O anel deve ser completamente quadrado). Esse reator também emite Voltagem Extrema do IC2.
-tile.fusion_dummy_side.name=Núcleo de Fusão
-tile.fusion_dummy_top.name=Núcleo de Fusão
+tile.nuclearcraft.fusion_core.name=Núcleo de Fusão
+tile.nuclearcraft.fusion_core.desc=Essa é a parte central da estrutura multibloco do reator de fusão. O núcleo tem que ter um anel de eletroímãs de fusão ao redor dele de maneira simétrica e deve estar conectado por quatro conjuntos de conectores de fusão em todos os quatro lados. O anel, que é, na verdade, quadrado, deve ser oco e não requer eletroímãs na diagonal da parte oca. O reator produz imensas quantidades de energia a partir do calor gerado pela fusão nuclear de dois combustíveis de fusão. Saiba que um combustível de um mesmo tipo pode ser fundido consigo mesmo. Os combustíveis de fusão possíveis são: hidrogênio, deutério, trítio, hélio-3, lítio-6, lítio-7 e boro-11. (O anel deve ser completamente quadrado). Esse reator também emite Voltagem Extrema do IC2.
+tile.nuclearcraft.fusion_dummy_side.name=Núcleo de Fusão
+tile.nuclearcraft.fusion_dummy_top.name=Núcleo de Fusão
 
-tile.fusion_electromagnet_idle.name=Eletroímã de Fusão
-tile.fusion_electromagnet_idle.desc=Requer %s para se manter ativo.
-tile.fusion_electromagnet_active.name=Eletroímã de Fusão
-tile.fusion_electromagnet_transparent_idle.name=Eletroímã de Fusão Transparente
-tile.fusion_electromagnet_transparent_active.name=Eletroímã de Fusão Transparente
+tile.nuclearcraft.fusion_electromagnet_idle.name=Eletroímã de Fusão
+tile.nuclearcraft.fusion_electromagnet_idle.desc=Requer %s para se manter ativo.
+tile.nuclearcraft.fusion_electromagnet_active.name=Eletroímã de Fusão
+tile.nuclearcraft.fusion_electromagnet_transparent_idle.name=Eletroímã de Fusão Transparente
+tile.nuclearcraft.fusion_electromagnet_transparent_active.name=Eletroímã de Fusão Transparente
 
-tile.accelerator_electromagnet_idle.name=Eletroímã Supercondutor
-tile.accelerator_electromagnet_idle.desc=Requer %s para se manter ativo
-tile.accelerator_electromagnet_active.name=Eletroímã Supercondutor
+tile.nuclearcraft.accelerator_electromagnet_idle.name=Eletroímã Supercondutor
+tile.nuclearcraft.accelerator_electromagnet_idle.desc=Requer %s para se manter ativo
+tile.nuclearcraft.accelerator_electromagnet_active.name=Eletroímã Supercondutor
 
-tile.electromagnet_supercooler_idle.name=Superresfriador Supercondutor
-tile.electromagnet_supercooler_idle.desc=Requer %s e %s de hélio líquido para se manter ativo.
-tile.electromagnet_supercooler_active.name=Superresfriador Supercondutor
+tile.nuclearcraft.electromagnet_supercooler_idle.name=Superresfriador Supercondutor
+tile.nuclearcraft.electromagnet_supercooler_idle.desc=Requer %s e %s de hélio líquido para se manter ativo.
+tile.nuclearcraft.electromagnet_supercooler_active.name=Superresfriador Supercondutor
 
-tile.helium_collector.name=Coletor de Hélio
-tile.helium_collector_compact.name=Coletor de Hélio Compacto
-tile.helium_collector_dense.name=Coletor de Hélio Denso
-tile.helium_collector.desc=Produz %s de hélio constantemente.
+tile.nuclearcraft.helium_collector.name=Coletor de Hélio
+tile.nuclearcraft.helium_collector_compact.name=Coletor de Hélio Compacto
+tile.nuclearcraft.helium_collector_dense.name=Coletor de Hélio Denso
+tile.nuclearcraft.helium_collector.desc=Produz %s de hélio constantemente.
 
-tile.cobblestone_generator.name=Gerador de Pedregulho
-tile.cobblestone_generator_compact.name=Gerador de Pedregulho Compacto
-tile.cobblestone_generator_dense.name=Gerador de Pedregulho Denso
-tile.cobblestone_generator.desc=Produz %s constantemente.
+tile.nuclearcraft.cobblestone_generator.name=Gerador de Pedregulho
+tile.nuclearcraft.cobblestone_generator_compact.name=Gerador de Pedregulho Compacto
+tile.nuclearcraft.cobblestone_generator_dense.name=Gerador de Pedregulho Denso
+tile.nuclearcraft.cobblestone_generator.desc=Produz %s constantemente.
 
-tile.water_source.name=Bloco de Água Infinita
-tile.water_source_compact.name=Bloco de Água Infinita Compacto
-tile.water_source_dense.name=Bloco de Água Infinita Denso
-tile.water_source.desc=Produz %s de água constantemente.
+tile.nuclearcraft.water_source.name=Bloco de Água Infinita
+tile.nuclearcraft.water_source_compact.name=Bloco de Água Infinita Compacto
+tile.nuclearcraft.water_source_dense.name=Bloco de Água Infinita Denso
+tile.nuclearcraft.water_source.desc=Produz %s de água constantemente.
 
-tile.nitrogen_collector.name=Coletor de Nitrogênio
-tile.nitrogen_collector_compact.name=Coletor de Nitrogênio Compacto
-tile.nitrogen_collector_dense.name=Coletor de Nitrogênio Denso
-tile.nitrogen_collector.desc=Produz %s de nitrogênio constantemente.
+tile.nuclearcraft.nitrogen_collector.name=Coletor de Nitrogênio
+tile.nuclearcraft.nitrogen_collector_compact.name=Coletor de Nitrogênio Compacto
+tile.nuclearcraft.nitrogen_collector_dense.name=Coletor de Nitrogênio Denso
+tile.nuclearcraft.nitrogen_collector.desc=Produz %s de nitrogênio constantemente.
 
-tile.glowing_mushroom.name=Cogumelo Brilhante
-tile.reactor_door.name=Porta de Reator
-tile.reactor_trapdoor.name=Alçapão de Reator
+tile.nuclearcraft.glowing_mushroom.name=Cogumelo Brilhante
+tile.nuclearcraft.reactor_door.name=Porta de Reator
+tile.nuclearcraft.reactor_trapdoor.name=Alçapão de Reator
 
-tile.fluid_oxygen.name=Oxigênio
+tile.nuclearcraft.fluid_oxygen.name=Oxigênio
 fluid.oxygen=Oxigênio
 
-tile.fluid_hydrogen.name=Hidrogênio
+tile.nuclearcraft.fluid_hydrogen.name=Hidrogênio
 fluid.hydrogen=Hidrogênio
 
-tile.fluid_deuterium.name=Deutério
+tile.nuclearcraft.fluid_deuterium.name=Deutério
 fluid.deuterium=Deutério
 
-tile.fluid_tritium.name=Trítio
+tile.nuclearcraft.fluid_tritium.name=Trítio
 fluid.tritium=Trítio
 
-tile.fluid_helium3.name=Hélio-3
+tile.nuclearcraft.fluid_helium3.name=Hélio-3
 fluid.helium3=Hélio-3
 
-tile.fluid_helium.name=Hélio
+tile.nuclearcraft.fluid_helium.name=Hélio
 fluid.helium=Hélio
 
-tile.fluid_steam.name=Vapor
+tile.nuclearcraft.fluid_steam.name=Vapor
 fluid.steam=Vapor
 
-tile.fluid_liquidhelium.name=Hélio Líquido
+tile.nuclearcraft.fluid_liquidhelium.name=Hélio Líquido
 fluid.liquidhelium=Hélio Líquido
 
-tile.fluid_plasma.name=Plasma
+tile.nuclearcraft.fluid_plasma.name=Plasma
 fluid.plasma=Plasma
 
-tile.fluid_lithium6.name=Lítio-6 Derretido
+tile.nuclearcraft.fluid_lithium6.name=Lítio-6 Derretido
 fluid.lithium6=Lítio-6 Derretido
 
-tile.fluid_lithium7.name=Lítio-7 Derretido
+tile.nuclearcraft.fluid_lithium7.name=Lítio-7 Derretido
 fluid.lithium7=Lítio-7 Derretido
 
-tile.fluid_boron10.name=Boro-10 Derretido
+tile.nuclearcraft.fluid_boron10.name=Boro-10 Derretido
 fluid.boron10=Boro-10 Derretido
 
-tile.fluid_boron11.name=Boro-11 Derretido
+tile.nuclearcraft.fluid_boron11.name=Boro-11 Derretido
 fluid.boron11=Boro-11 Derretido
 
-tile.fluid_neutron.name=Fluido de Neutrons
+tile.nuclearcraft.fluid_neutron.name=Fluido de Neutrons
 fluid.neutron=Fluido de Neutrons
 
-tile.fluid_fluorine.name=Flúor
+tile.nuclearcraft.fluid_fluorine.name=Flúor
 fluid.fluorine=Flúor
 
-tile.fluid_nitrogen.name=Nitrogênio
+tile.nuclearcraft.fluid_nitrogen.name=Nitrogênio
 fluid.nitrogen=Nitrogênio
 
-tile.fluid_ammonia.name=Amônia
+tile.nuclearcraft.fluid_ammonia.name=Amônia
 fluid.ammonia=Amônia
 
-tile.fluid_ethanol.name=Etanol
+tile.nuclearcraft.fluid_ethanol.name=Etanol
 fluid.ethanol=Etanol
 
-tile.fluid_boric_acid.name=Ácido Bórico
+tile.nuclearcraft.fluid_boric_acid.name=Ácido Bórico
 fluid.boric_acid=Ácido Bórico
 
-tile.fluid_diborane.name=Diborane
+tile.nuclearcraft.fluid_diborane.name=Diborane
 fluid.diborane=Diborane
 
-tile.fluid_radaway.name=Fluido RadAway
+tile.nuclearcraft.fluid_radaway.name=Fluido RadAway
 fluid.radaway=Fluido RadAway
 
-tile.fluid_beryllium.name=Berílo Derretido
+tile.nuclearcraft.fluid_beryllium.name=Berílo Derretido
 fluid.beryllium=Berílo Derretido
 
-tile.fluid_lif.name=Fluoreto de Lítio Derretido
+tile.nuclearcraft.fluid_lif.name=Fluoreto de Lítio Derretido
 fluid.lif=Fluoreto de Lítio Derretido
 
-tile.fluid_bef2.name=Fluoreto de Berílio Derretido
+tile.nuclearcraft.fluid_bef2.name=Fluoreto de Berílio Derretido
 fluid.bef2=Fluoreto de Berílio Derretido
 
-tile.fluid_flibe.name=Sais de FLiBe Derretido
+tile.nuclearcraft.fluid_flibe.name=Sais de FLiBe Derretido
 fluid.flibe=Sais de FLiBe Derretido
 
-tile.fluid_boron_nitride_solution.name=Solução de Nitrido de Boro
+tile.nuclearcraft.fluid_boron_nitride_solution.name=Solução de Nitrido de Boro
 fluid.boron_nitride_solution=Solução de Nitrido de Boro
 
-tile.fluid_coolant.name=Líquido Refrigerante
+tile.nuclearcraft.fluid_coolant.name=Líquido Refrigerante
 fluid.coolant=Líquido Refrigerante
 
-tile.fluid_sulfur.name=Enxofre Derretido
+tile.nuclearcraft.fluid_sulfur.name=Enxofre Derretido
 fluid.sulfur=Enxofre Derretido
 
-tile.fluid_sulfur_dioxide.name=Dióxido de Enxofre
+tile.nuclearcraft.fluid_sulfur_dioxide.name=Dióxido de Enxofre
 fluid.sulfur_dioxide=Dióxido de Enxofre
 
-tile.fluid_sulfur_trioxide.name=Trióxido de Enxofre
+tile.nuclearcraft.fluid_sulfur_trioxide.name=Trióxido de Enxofre
 fluid.sulfur_trioxide=Trióxido de Enxofre
 
-tile.fluid_sulfuric_acid.name=Ácido Sulfúrico
+tile.nuclearcraft.fluid_sulfuric_acid.name=Ácido Sulfúrico
 fluid.sulfuric_acid=Ácido Sulfúrico
 
-tile.fluid_fluorite_water.name=Fluorita em Água
+tile.nuclearcraft.fluid_fluorite_water.name=Fluorita em Água
 fluid.fluorite_water=Fluorita em Água
 
-tile.fluid_calcium_sulfate_solution.name=Solução de Sulfato de Cálcio
+tile.nuclearcraft.fluid_calcium_sulfate_solution.name=Solução de Sulfato de Cálcio
 fluid.calcium_sulfate_solution=Solução de Sulfato de Cálcio
 
-tile.fluid_hydrofluoric_acid.name=Ácido Hidrofluórico
+tile.nuclearcraft.fluid_hydrofluoric_acid.name=Ácido Hidrofluórico
 fluid.hydrofluoric_acid=Ácido Hidrofluórico
 
-tile.fluid_oxygen_difluoride.name=Difluoreto de Oxigênio
+tile.nuclearcraft.fluid_oxygen_difluoride.name=Difluoreto de Oxigênio
 fluid.oxygen_difluoride=Difluoreto de Oxigênio
 
-item.ingot.copper.name=Lingote de Cobre
-item.ingot.tin.name=Lingote de Estanho
-item.ingot.lead.name=Lingote de Chumbo
-item.ingot.thorium.name=Lingote de Tório
-item.ingot.uranium.name=Lingote de Urânio
-item.ingot.boron.name=Lingote de Boro
-item.ingot.lithium.name=Lingote de Lítio
-item.ingot.magnesium.name=Lingote de Magnésio
-item.ingot.graphite.name=Lingote de Grafite
-item.ingot.beryllium.name=Lingote de Berilo
-item.ingot.zirconium.name=Lingote de Zircônio
+item.nuclearcraft.ingot.copper.name=Lingote de Cobre
+item.nuclearcraft.ingot.tin.name=Lingote de Estanho
+item.nuclearcraft.ingot.lead.name=Lingote de Chumbo
+item.nuclearcraft.ingot.thorium.name=Lingote de Tório
+item.nuclearcraft.ingot.uranium.name=Lingote de Urânio
+item.nuclearcraft.ingot.boron.name=Lingote de Boro
+item.nuclearcraft.ingot.lithium.name=Lingote de Lítio
+item.nuclearcraft.ingot.magnesium.name=Lingote de Magnésio
+item.nuclearcraft.ingot.graphite.name=Lingote de Grafite
+item.nuclearcraft.ingot.beryllium.name=Lingote de Berilo
+item.nuclearcraft.ingot.zirconium.name=Lingote de Zircônio
 
-item.ingot_oxide.thorium.name=Lingote de Óxido de Tório
-item.ingot_oxide.uranium.name=Lingote de Óxido de Urânio
-item.ingot_oxide.manganese.name=Lingote de Óxido de Manganês
-item.ingot_oxide.manganese2.name=Lingote de Dióxido de Manganês
+item.nuclearcraft.ingot_oxide.thorium.name=Lingote de Óxido de Tório
+item.nuclearcraft.ingot_oxide.uranium.name=Lingote de Óxido de Urânio
+item.nuclearcraft.ingot_oxide.manganese.name=Lingote de Óxido de Manganês
+item.nuclearcraft.ingot_oxide.manganese2.name=Lingote de Dióxido de Manganês
 
-item.dust.copper.name=Pó de Cobre
-item.dust.tin.name=Pó de Estanho
-item.dust.lead.name=Pó de Chumbo
-item.dust.thorium.name=Pó de Tório
-item.dust.uranium.name=Pó de Urânio
-item.dust.boron.name=Pó de Boro
-item.dust.lithium.name=Pó de Lítio
-item.dust.magnesium.name=Pó de Magnésio
-item.dust.graphite.name=Pó de Grafite
-item.dust.beryllium.name=Pó de Berilo
-item.dust.beryllium.desc=Obtido ao minerar blocos de Minério de Carvão.
-item.dust.zirconium.name=Pó de Zircônio
-item.dust.zirconium.desc=Obtido ao minerar blocos de Quartzo do Nether.
+item.nuclearcraft.dust.copper.name=Pó de Cobre
+item.nuclearcraft.dust.tin.name=Pó de Estanho
+item.nuclearcraft.dust.lead.name=Pó de Chumbo
+item.nuclearcraft.dust.thorium.name=Pó de Tório
+item.nuclearcraft.dust.uranium.name=Pó de Urânio
+item.nuclearcraft.dust.boron.name=Pó de Boro
+item.nuclearcraft.dust.lithium.name=Pó de Lítio
+item.nuclearcraft.dust.magnesium.name=Pó de Magnésio
+item.nuclearcraft.dust.graphite.name=Pó de Grafite
+item.nuclearcraft.dust.beryllium.name=Pó de Berilo
+item.nuclearcraft.dust.beryllium.desc=Obtido ao minerar blocos de Minério de Carvão.
+item.nuclearcraft.dust.zirconium.name=Pó de Zircônio
+item.nuclearcraft.dust.zirconium.desc=Obtido ao minerar blocos de Quartzo do Nether.
 
-item.dust_oxide.thorium.name=Pó de Óxido de Tório
-item.dust_oxide.uranium.name=Pó de Óxido de Urânio
-item.dust_oxide.manganese.name=Pó de Óxido de Manganês
-item.dust_oxide.manganese2.name=Pó de Dióxido de Manganês
+item.nuclearcraft.dust_oxide.thorium.name=Pó de Óxido de Tório
+item.nuclearcraft.dust_oxide.uranium.name=Pó de Óxido de Urânio
+item.nuclearcraft.dust_oxide.manganese.name=Pó de Óxido de Manganês
+item.nuclearcraft.dust_oxide.manganese2.name=Pó de Dióxido de Manganês
 
-item.gem.rhodochrosite.name=Rodocrosita
-item.gem.rhodochrosite.desc=Obtida ao minerar blocos de Minério de Redstone.
-item.gem.boron_nitride.name=Nitrido de Boro Cúbico
-item.gem.fluorite.name=Fluorita
-item.gem.fluorite.desc=Obtida ao minerar blocos de Minério de Lápis-Lazúli.
+item.nuclearcraft.gem.rhodochrosite.name=Rodocrosita
+item.nuclearcraft.gem.rhodochrosite.desc=Obtida ao minerar blocos de Minério de Redstone.
+item.nuclearcraft.gem.boron_nitride.name=Nitrido de Boro Cúbico
+item.nuclearcraft.gem.fluorite.name=Fluorita
+item.nuclearcraft.gem.fluorite.desc=Obtida ao minerar blocos de Minério de Lápis-Lazúli.
 
-item.gem_dust.diamond.name=Diamante Moído
-item.gem_dust.rhodochrosite.name=Rodocrosita Moída
-item.gem_dust.quartz.name=Quartzo Moído
-item.gem_dust.obsidian.name=Obsidiana Moída
-item.gem_dust.boron_nitride.name=Nitrido de Boro Amorfo
-item.gem_dust.fluorite.name=Fluorita Moída
-item.gem_dust.sulfur.name=Enxofre
-item.gem_dust.sulfur.desc=Obtido ao minerar blocos de Minério de Carvão.
+item.nuclearcraft.gem_dust.diamond.name=Diamante Moído
+item.nuclearcraft.gem_dust.rhodochrosite.name=Rodocrosita Moída
+item.nuclearcraft.gem_dust.quartz.name=Quartzo Moído
+item.nuclearcraft.gem_dust.obsidian.name=Obsidiana Moída
+item.nuclearcraft.gem_dust.boron_nitride.name=Nitrido de Boro Amorfo
+item.nuclearcraft.gem_dust.fluorite.name=Fluorita Moída
+item.nuclearcraft.gem_dust.sulfur.name=Enxofre
+item.nuclearcraft.gem_dust.sulfur.desc=Obtido ao minerar blocos de Minério de Carvão.
 
-item.alloy.bronze.name=Liga de Bronze
-item.alloy.tough.name=Liga Resistente
-item.alloy.hard_carbon.name=Liga de Carbono Endurecido
-item.alloy.magnesium_diboride.name=Liga de Diboreto de Magnésio
-item.alloy.lithium_manganese_dioxide.name=Liga de Dióxido de Manganês de Lítio
-item.alloy.steel.name=Liga de Aço
-item.alloy.ferroboron.name=Liga de Ferro-boro
+item.nuclearcraft.alloy.bronze.name=Liga de Bronze
+item.nuclearcraft.alloy.tough.name=Liga Resistente
+item.nuclearcraft.alloy.hard_carbon.name=Liga de Carbono Endurecido
+item.nuclearcraft.alloy.magnesium_diboride.name=Liga de Diboreto de Magnésio
+item.nuclearcraft.alloy.lithium_manganese_dioxide.name=Liga de Dióxido de Manganês de Lítio
+item.nuclearcraft.alloy.steel.name=Liga de Aço
+item.nuclearcraft.alloy.ferroboron.name=Liga de Ferro-boro
 
-item.compound.calcium_sulfate.name=Sulfato de Cálcio
-item.compound.crystal_binder.name=Cristal Isolante
+item.nuclearcraft.compound.calcium_sulfate.name=Sulfato de Cálcio
+item.nuclearcraft.compound.crystal_binder.name=Cristal Isolante
 
-item.part.plate_basic.name=Placa Básica
-item.part.plate_advanced.name=Placa Avançada
-item.part.plate_du.name=Placa de Urânio
-item.part.plate_elite.name=Placa Elite
-item.part.wire_copper.name=Solenóide de Cobre
-item.part.wire_magnesium_diboride.name=Solenóide de Diboreto de Magnésio
-item.part.bioplastic.name=Bioplástico
+item.nuclearcraft.part.plate_basic.name=Placa Básica
+item.nuclearcraft.part.plate_advanced.name=Placa Avançada
+item.nuclearcraft.part.plate_du.name=Placa de Urânio
+item.nuclearcraft.part.plate_elite.name=Placa Elite
+item.nuclearcraft.part.wire_copper.name=Solenóide de Cobre
+item.nuclearcraft.part.wire_magnesium_diboride.name=Solenóide de Diboreto de Magnésio
+item.nuclearcraft.part.bioplastic.name=Bioplástico
 
-item.upgrade.speed.name=Melhoria de Velocidade
-item.upgrade.speed.desc=Aumenta a velocidade de processamento das máquinas ao custo de um uso maior de energia. Essas melhorias se juntam. A velocidade aumenta de maneira linear a cada melhoria, porém o uso de energia aumenta de maneira quadrática.
+item.nuclearcraft.upgrade.speed.name=Melhoria de Velocidade
+item.nuclearcraft.upgrade.speed.desc=Aumenta a velocidade de processamento das máquinas ao custo de um uso maior de energia. Essas melhorias se juntam. A velocidade aumenta de maneira linear a cada melhoria, porém o uso de energia aumenta de maneira quadrática.
 
-item.fuel_rod_empty.name=Haste de Combustível Vazia
+item.nuclearcraft.fuel_rod_empty.name=Haste de Combustível Vazia
 
-item.tiny_dust_lead.name=Pequena Pilha de Pó de Chumbo
+item.nuclearcraft.tiny_dust_lead.name=Pequena Pilha de Pó de Chumbo
 
-item.thorium._230.name=Tório-230
-item.thorium._230_oxide.name=Óxido de Tório-230
-item.thorium._230_tiny.name=Pequeno Amontoado de Tório-230
-item.thorium._230_oxide_tiny.name=Pequeno Amontoado de Óxido de Tório-230
-item.thorium._232.name=Tório-232
-item.thorium._232_oxide.name=Óxido de Tório-232
-item.thorium._232_tiny.name=Pequeno Amontoado de Tório-232
-item.thorium._232_oxide_tiny.name=Pequeno Amontoado de Óxido de Tório-232
-item.thorium.desc=Um Isótopo de Tório.
+item.nuclearcraft.thorium._230.name=Tório-230
+item.nuclearcraft.thorium._230_oxide.name=Óxido de Tório-230
+item.nuclearcraft.thorium._230_tiny.name=Pequeno Amontoado de Tório-230
+item.nuclearcraft.thorium._230_oxide_tiny.name=Pequeno Amontoado de Óxido de Tório-230
+item.nuclearcraft.thorium._232.name=Tório-232
+item.nuclearcraft.thorium._232_oxide.name=Óxido de Tório-232
+item.nuclearcraft.thorium._232_tiny.name=Pequeno Amontoado de Tório-232
+item.nuclearcraft.thorium._232_oxide_tiny.name=Pequeno Amontoado de Óxido de Tório-232
+item.nuclearcraft.thorium.desc=Um Isótopo de Tório.
 
-item.uranium._233.name=Urânio-233
-item.uranium._233_oxide.name=Óxido de Urânio-233
-item.uranium._233_tiny.name=Pequeno Amontoado de Urânio-233
-item.uranium._233_oxide_tiny.name=Pequeno Amontoado de Óxido de Urânio-233
-item.uranium._235.name=Urânio-235
-item.uranium._235_oxide.name=Óxido de Urânio-235
-item.uranium._235_tiny.name=Pequeno Amontoado de Urânio-235
-item.uranium._235_oxide_tiny.name=Pequeno Amontoado de Óxido de Urânio-235
-item.uranium._238.name=Urânio-238
-item.uranium._238_oxide.name=Óxido de Urânio-238
-item.uranium._238_tiny.name=Pequeno Amontoado de Urânio-238
-item.uranium._238_oxide_tiny.name=Pequeno Amontoado de Óxido de Urânio-238
-item.uranium.desc=Um Isótopo de Urânio.
+item.nuclearcraft.uranium._233.name=Urânio-233
+item.nuclearcraft.uranium._233_oxide.name=Óxido de Urânio-233
+item.nuclearcraft.uranium._233_tiny.name=Pequeno Amontoado de Urânio-233
+item.nuclearcraft.uranium._233_oxide_tiny.name=Pequeno Amontoado de Óxido de Urânio-233
+item.nuclearcraft.uranium._235.name=Urânio-235
+item.nuclearcraft.uranium._235_oxide.name=Óxido de Urânio-235
+item.nuclearcraft.uranium._235_tiny.name=Pequeno Amontoado de Urânio-235
+item.nuclearcraft.uranium._235_oxide_tiny.name=Pequeno Amontoado de Óxido de Urânio-235
+item.nuclearcraft.uranium._238.name=Urânio-238
+item.nuclearcraft.uranium._238_oxide.name=Óxido de Urânio-238
+item.nuclearcraft.uranium._238_tiny.name=Pequeno Amontoado de Urânio-238
+item.nuclearcraft.uranium._238_oxide_tiny.name=Pequeno Amontoado de Óxido de Urânio-238
+item.nuclearcraft.uranium.desc=Um Isótopo de Urânio.
 
-item.neptunium._236.name=Neptúnio-236
-item.neptunium._236_oxide.name=Óxido de Neptúnio-236
-item.neptunium._236_tiny.name=Pequeno Amontoado de Neptúnio-236
-item.neptunium._236_oxide_tiny.name=Pequeno Amontoado de Óxido de Neptúnio-236
-item.neptunium._237.name=Neptúnio-237
-item.neptunium._237_oxide.name=Óxido de Neptúnio-237
-item.neptunium._237_tiny.name=Pequeno Amontoado de Neptúnio-237
-item.neptunium._237_oxide_tiny.name=Pequeno Amontoado de Óxido de Neptúnio-237
-item.neptunium.desc=Um Isótopo de Neptúnio.
+item.nuclearcraft.neptunium._236.name=Neptúnio-236
+item.nuclearcraft.neptunium._236_oxide.name=Óxido de Neptúnio-236
+item.nuclearcraft.neptunium._236_tiny.name=Pequeno Amontoado de Neptúnio-236
+item.nuclearcraft.neptunium._236_oxide_tiny.name=Pequeno Amontoado de Óxido de Neptúnio-236
+item.nuclearcraft.neptunium._237.name=Neptúnio-237
+item.nuclearcraft.neptunium._237_oxide.name=Óxido de Neptúnio-237
+item.nuclearcraft.neptunium._237_tiny.name=Pequeno Amontoado de Neptúnio-237
+item.nuclearcraft.neptunium._237_oxide_tiny.name=Pequeno Amontoado de Óxido de Neptúnio-237
+item.nuclearcraft.neptunium.desc=Um Isótopo de Neptúnio.
 
-item.plutonium._238.name=Plutônio-238
-item.plutonium._238_oxide.name=Óxido de Plutônio-238
-item.plutonium._238_tiny.name=Pequeno Amontoado de Plutônio-238
-item.plutonium._238_oxide_tiny.name=Pequeno Amontoado de Óxido de Plutônio-238
-item.plutonium._239.name=Plutônio-239
-item.plutonium._239_oxide.name=Óxido de Plutônio-239
-item.plutonium._239_tiny.name=Pequeno Amontoado de Plutônio-239
-item.plutonium._239_oxide_tiny.name=Pequeno Amontoado de Óxido de Plutônio-239
-item.plutonium._241.name=Plutônio-241
-item.plutonium._241_oxide.name=Óxido de Plutônio-241
-item.plutonium._241_tiny.name=Pequeno Amontoado de Plutônio-241
-item.plutonium._241_oxide_tiny.name=Pequeno Amontoado de Óxido de Plutônio-241
-item.plutonium._242.name=Plutônio-242
-item.plutonium._242_oxide.name=Óxido de Plutônio-242
-item.plutonium._242_tiny.name=Pequeno Amontoado de Plutônio-242
-item.plutonium._242_oxide_tiny.name=Pequeno Amontoado de Óxido de Plutônio-242
-item.plutonium.desc=Um Isótopo de Plutônio.
+item.nuclearcraft.plutonium._238.name=Plutônio-238
+item.nuclearcraft.plutonium._238_oxide.name=Óxido de Plutônio-238
+item.nuclearcraft.plutonium._238_tiny.name=Pequeno Amontoado de Plutônio-238
+item.nuclearcraft.plutonium._238_oxide_tiny.name=Pequeno Amontoado de Óxido de Plutônio-238
+item.nuclearcraft.plutonium._239.name=Plutônio-239
+item.nuclearcraft.plutonium._239_oxide.name=Óxido de Plutônio-239
+item.nuclearcraft.plutonium._239_tiny.name=Pequeno Amontoado de Plutônio-239
+item.nuclearcraft.plutonium._239_oxide_tiny.name=Pequeno Amontoado de Óxido de Plutônio-239
+item.nuclearcraft.plutonium._241.name=Plutônio-241
+item.nuclearcraft.plutonium._241_oxide.name=Óxido de Plutônio-241
+item.nuclearcraft.plutonium._241_tiny.name=Pequeno Amontoado de Plutônio-241
+item.nuclearcraft.plutonium._241_oxide_tiny.name=Pequeno Amontoado de Óxido de Plutônio-241
+item.nuclearcraft.plutonium._242.name=Plutônio-242
+item.nuclearcraft.plutonium._242_oxide.name=Óxido de Plutônio-242
+item.nuclearcraft.plutonium._242_tiny.name=Pequeno Amontoado de Plutônio-242
+item.nuclearcraft.plutonium._242_oxide_tiny.name=Pequeno Amontoado de Óxido de Plutônio-242
+item.nuclearcraft.plutonium.desc=Um Isótopo de Plutônio.
 
-item.americium._241.name=Amerício-241
-item.americium._241_oxide.name=Óxido de Amerício-241
-item.americium._241_tiny.name=Pequeno Amontoado de Amerício-241
-item.americium._241_oxide_tiny.name=Pequeno Amontoado de Óxido de Amerício-241
-item.americium._242.name=Amerício-242
-item.americium._242_oxide.name=Óxido de Amerício-242
-item.americium._242_tiny.name=Pequeno Amontoado de Amerício-242
-item.americium._242_oxide_tiny.name=Pequeno Amontoado de Óxido de Amerício-242
-item.americium._243.name=Amerício-243
-item.americium._243_oxide.name=Óxido de Amerício-243
-item.americium._243_tiny.name=Pequeno Amontoado de Amerício-243
-item.americium._243_oxide_tiny.name=Pequeno Amontoado de Óxido de Amerício-243
-item.americium.desc=Um Isótopo de Amerício.
+item.nuclearcraft.americium._241.name=Amerício-241
+item.nuclearcraft.americium._241_oxide.name=Óxido de Amerício-241
+item.nuclearcraft.americium._241_tiny.name=Pequeno Amontoado de Amerício-241
+item.nuclearcraft.americium._241_oxide_tiny.name=Pequeno Amontoado de Óxido de Amerício-241
+item.nuclearcraft.americium._242.name=Amerício-242
+item.nuclearcraft.americium._242_oxide.name=Óxido de Amerício-242
+item.nuclearcraft.americium._242_tiny.name=Pequeno Amontoado de Amerício-242
+item.nuclearcraft.americium._242_oxide_tiny.name=Pequeno Amontoado de Óxido de Amerício-242
+item.nuclearcraft.americium._243.name=Amerício-243
+item.nuclearcraft.americium._243_oxide.name=Óxido de Amerício-243
+item.nuclearcraft.americium._243_tiny.name=Pequeno Amontoado de Amerício-243
+item.nuclearcraft.americium._243_oxide_tiny.name=Pequeno Amontoado de Óxido de Amerício-243
+item.nuclearcraft.americium.desc=Um Isótopo de Amerício.
 
-item.curium._243.name=Curio-243
-item.curium._243_oxide.name=Óxido de Curio-243
-item.curium._243_tiny.name=Pequeno Amontoado de Curio-243
-item.curium._243_oxide_tiny.name=Pequeno Amontoado de Óxido de Curio-243
-item.curium._245.name=Curio-245
-item.curium._245_oxide.name=Óxido de Curio-245
-item.curium._245_tiny.name=Pequeno Amontoado de Curio-245
-item.curium._245_oxide_tiny.name=Pequeno Amontoado de Óxido de Curio-245
-item.curium._246.name=Curio-246
-item.curium._246_oxide.name=Óxido de Curio-246
-item.curium._246_tiny.name=Pequeno Amontoado de Curio-246
-item.curium._246_oxide_tiny.name=Pequeno Amontoado de Óxido de Curio-246
-item.curium._247.name=Curio-247
-item.curium._247_oxide.name=Óxido de Curio-247
-item.curium._247_tiny.name=Pequeno Amontoado de Curio-247
-item.curium._247_oxide_tiny.name=Pequeno Amontoado de Óxido de Curio-247
-item.curium.desc=Um Isótopo de Curio.
+item.nuclearcraft.curium._243.name=Curio-243
+item.nuclearcraft.curium._243_oxide.name=Óxido de Curio-243
+item.nuclearcraft.curium._243_tiny.name=Pequeno Amontoado de Curio-243
+item.nuclearcraft.curium._243_oxide_tiny.name=Pequeno Amontoado de Óxido de Curio-243
+item.nuclearcraft.curium._245.name=Curio-245
+item.nuclearcraft.curium._245_oxide.name=Óxido de Curio-245
+item.nuclearcraft.curium._245_tiny.name=Pequeno Amontoado de Curio-245
+item.nuclearcraft.curium._245_oxide_tiny.name=Pequeno Amontoado de Óxido de Curio-245
+item.nuclearcraft.curium._246.name=Curio-246
+item.nuclearcraft.curium._246_oxide.name=Óxido de Curio-246
+item.nuclearcraft.curium._246_tiny.name=Pequeno Amontoado de Curio-246
+item.nuclearcraft.curium._246_oxide_tiny.name=Pequeno Amontoado de Óxido de Curio-246
+item.nuclearcraft.curium._247.name=Curio-247
+item.nuclearcraft.curium._247_oxide.name=Óxido de Curio-247
+item.nuclearcraft.curium._247_tiny.name=Pequeno Amontoado de Curio-247
+item.nuclearcraft.curium._247_oxide_tiny.name=Pequeno Amontoado de Óxido de Curio-247
+item.nuclearcraft.curium.desc=Um Isótopo de Curio.
 
-item.berkelium._247.name=Berquélio-247
-item.berkelium._247_oxide.name=Óxido de Berquélio-247
-item.berkelium._247_tiny.name=Pequeno Amontoado de Berquélio-247
-item.berkelium._247_oxide_tiny.name=Pequeno Amontoado de Óxido de Berquélio-247
-item.berkelium._248.name=Berquélio-248
-item.berkelium._248_oxide.name=Óxido de Berquélio-248
-item.berkelium._248_tiny.name=Pequeno Amontoado de Berquélio-248
-item.berkelium._248_oxide_tiny.name=Pequeno Amontoado de Óxido de Berquélio-248
-item.berkelium.desc=Um Isótopo de Berquélio.
+item.nuclearcraft.berkelium._247.name=Berquélio-247
+item.nuclearcraft.berkelium._247_oxide.name=Óxido de Berquélio-247
+item.nuclearcraft.berkelium._247_tiny.name=Pequeno Amontoado de Berquélio-247
+item.nuclearcraft.berkelium._247_oxide_tiny.name=Pequeno Amontoado de Óxido de Berquélio-247
+item.nuclearcraft.berkelium._248.name=Berquélio-248
+item.nuclearcraft.berkelium._248_oxide.name=Óxido de Berquélio-248
+item.nuclearcraft.berkelium._248_tiny.name=Pequeno Amontoado de Berquélio-248
+item.nuclearcraft.berkelium._248_oxide_tiny.name=Pequeno Amontoado de Óxido de Berquélio-248
+item.nuclearcraft.berkelium.desc=Um Isótopo de Berquélio.
 
-item.californium._249.name=Califórnio-249
-item.californium._249_oxide.name=Óxido de Califórnio-249
-item.californium._249_tiny.name=Pequeno Amontoado de Califórnio-249
-item.californium._249_oxide_tiny.name=Pequeno Amontoado de Óxido de Califórnio-249
-item.californium._250.name=Califórnio-250
-item.californium._250_oxide.name=Óxido de Califórnio-250
-item.californium._250_tiny.name=Pequeno Amontoado de Califórnio-250
-item.californium._250_oxide_tiny.name=Pequeno Amontoado de Óxido de Califórnio-250
-item.californium._251.name=Califórnio-251
-item.californium._251_oxide.name=Óxido de Califórnio-251
-item.californium._251_tiny.name=Pequeno Amontoado de Califórnio-251
-item.californium._251_oxide_tiny.name=Pequeno Amontoado de Óxido de Califórnio-251
-item.californium._252.name=Califórnio-252
-item.californium._252_oxide.name=Óxido de Califórnio-252
-item.californium._252_tiny.name=Pequeno Amontoado de Califórnio-252
-item.californium._252_oxide_tiny.name=Pequeno Amontoado de Óxido de Califórnio-252
-item.californium.desc=Um Isótopo de Califórnio.
+item.nuclearcraft.californium._249.name=Califórnio-249
+item.nuclearcraft.californium._249_oxide.name=Óxido de Califórnio-249
+item.nuclearcraft.californium._249_tiny.name=Pequeno Amontoado de Califórnio-249
+item.nuclearcraft.californium._249_oxide_tiny.name=Pequeno Amontoado de Óxido de Califórnio-249
+item.nuclearcraft.californium._250.name=Califórnio-250
+item.nuclearcraft.californium._250_oxide.name=Óxido de Califórnio-250
+item.nuclearcraft.californium._250_tiny.name=Pequeno Amontoado de Califórnio-250
+item.nuclearcraft.californium._250_oxide_tiny.name=Pequeno Amontoado de Óxido de Califórnio-250
+item.nuclearcraft.californium._251.name=Califórnio-251
+item.nuclearcraft.californium._251_oxide.name=Óxido de Califórnio-251
+item.nuclearcraft.californium._251_tiny.name=Pequeno Amontoado de Califórnio-251
+item.nuclearcraft.californium._251_oxide_tiny.name=Pequeno Amontoado de Óxido de Califórnio-251
+item.nuclearcraft.californium._252.name=Califórnio-252
+item.nuclearcraft.californium._252_oxide.name=Óxido de Califórnio-252
+item.nuclearcraft.californium._252_tiny.name=Pequeno Amontoado de Califórnio-252
+item.nuclearcraft.californium._252_oxide_tiny.name=Pequeno Amontoado de Óxido de Califórnio-252
+item.nuclearcraft.californium.desc=Um Isótopo de Califórnio.
 
-item.fuel_thorium.tbu.name=Pastilha de Tório
-item.fuel_thorium.tbu_oxide.name=Pastilha de Óxido de Tório
+item.nuclearcraft.fuel_thorium.tbu.name=Pastilha de Tório
+item.nuclearcraft.fuel_thorium.tbu_oxide.name=Pastilha de Óxido de Tório
 
-item.fuel_uranium.leu_233.name=Pastilha de LEU-233
-item.fuel_uranium.leu_233_oxide.name=Pastilha de Óxido de LEU-233
-item.fuel_uranium.heu_233.name=Pastilha de HEU-233
-item.fuel_uranium.heu_233_oxide.name=Pastilha de Óxido de HEU-233
-item.fuel_uranium.leu_235.name=Pastilha de LEU-235
-item.fuel_uranium.leu_235_oxide.name=Pastilha de Óxido de LEU-235
-item.fuel_uranium.heu_235.name=Pastilha de HEU-235
-item.fuel_uranium.heu_235_oxide.name=Pastilha de Óxido de HEU-235
+item.nuclearcraft.fuel_uranium.leu_233.name=Pastilha de LEU-233
+item.nuclearcraft.fuel_uranium.leu_233_oxide.name=Pastilha de Óxido de LEU-233
+item.nuclearcraft.fuel_uranium.heu_233.name=Pastilha de HEU-233
+item.nuclearcraft.fuel_uranium.heu_233_oxide.name=Pastilha de Óxido de HEU-233
+item.nuclearcraft.fuel_uranium.leu_235.name=Pastilha de LEU-235
+item.nuclearcraft.fuel_uranium.leu_235_oxide.name=Pastilha de Óxido de LEU-235
+item.nuclearcraft.fuel_uranium.heu_235.name=Pastilha de HEU-235
+item.nuclearcraft.fuel_uranium.heu_235_oxide.name=Pastilha de Óxido de HEU-235
 
-item.fuel_neptunium.len_236.name=Pastilha de LEN-236
-item.fuel_neptunium.len_236_oxide.name=Pastilha de Óxido de LEN-236
-item.fuel_neptunium.hen_236.name=Pastilha de HEN-236
-item.fuel_neptunium.hen_236_oxide.name=Pastilha de Óxido de HEN-236
+item.nuclearcraft.fuel_neptunium.len_236.name=Pastilha de LEN-236
+item.nuclearcraft.fuel_neptunium.len_236_oxide.name=Pastilha de Óxido de LEN-236
+item.nuclearcraft.fuel_neptunium.hen_236.name=Pastilha de HEN-236
+item.nuclearcraft.fuel_neptunium.hen_236_oxide.name=Pastilha de Óxido de HEN-236
 
-item.fuel_plutonium.lep_239.name=Pastilha de LEP-239
-item.fuel_plutonium.lep_239_oxide.name=Pastilha de Óxido de LEP-239
-item.fuel_plutonium.hep_239.name=Pastilha de HEP-239
-item.fuel_plutonium.hep_239_oxide.name=Pastilha de Óxido de HEP-239
-item.fuel_plutonium.lep_241.name=Pastilha de LEP-241
-item.fuel_plutonium.lep_241_oxide.name=Pastilha de Óxido de LEP-241
-item.fuel_plutonium.hep_241.name=Pastilha de HEP-241
-item.fuel_plutonium.hep_241_oxide.name=Pastilha de Óxido de HEP-241
+item.nuclearcraft.fuel_plutonium.lep_239.name=Pastilha de LEP-239
+item.nuclearcraft.fuel_plutonium.lep_239_oxide.name=Pastilha de Óxido de LEP-239
+item.nuclearcraft.fuel_plutonium.hep_239.name=Pastilha de HEP-239
+item.nuclearcraft.fuel_plutonium.hep_239_oxide.name=Pastilha de Óxido de HEP-239
+item.nuclearcraft.fuel_plutonium.lep_241.name=Pastilha de LEP-241
+item.nuclearcraft.fuel_plutonium.lep_241_oxide.name=Pastilha de Óxido de LEP-241
+item.nuclearcraft.fuel_plutonium.hep_241.name=Pastilha de HEP-241
+item.nuclearcraft.fuel_plutonium.hep_241_oxide.name=Pastilha de Óxido de HEP-241
 
-item.fuel_mixed_oxide.mox_239.name=Pastilha de MOX-239
-item.fuel_mixed_oxide.mox_241.name=Pastilha de MOX-241
+item.nuclearcraft.fuel_mixed_oxide.mox_239.name=Pastilha de MOX-239
+item.nuclearcraft.fuel_mixed_oxide.mox_241.name=Pastilha de MOX-241
 
-item.fuel_americium.lea_242.name=Pastilha de LEA-242
-item.fuel_americium.lea_242_oxide.name=Pastilha de Óxido de LEA-242
-item.fuel_americium.hea_242.name=Pastilha de HEA-242
-item.fuel_americium.hea_242_oxide.name=Pastilha de Óxido de HEA-242
+item.nuclearcraft.fuel_americium.lea_242.name=Pastilha de LEA-242
+item.nuclearcraft.fuel_americium.lea_242_oxide.name=Pastilha de Óxido de LEA-242
+item.nuclearcraft.fuel_americium.hea_242.name=Pastilha de HEA-242
+item.nuclearcraft.fuel_americium.hea_242_oxide.name=Pastilha de Óxido de HEA-242
 
-item.fuel_curium.lec_243.name=Pastilha de LECm-243
-item.fuel_curium.lec_243_oxide.name=Pastilha de Óxido de LECm-243
-item.fuel_curium.hec_243.name=Pastilha de HECm-243
-item.fuel_curium.hec_243_oxide.name=Pastilha de Óxido de HECm-243
-item.fuel_curium.lec_245.name=Pastilha de LECm-245
-item.fuel_curium.lec_245_oxide.name=Pastilha de Óxido de LECm-245
-item.fuel_curium.hec_245.name=Pastilha de HECm-245
-item.fuel_curium.hec_245_oxide.name=Pastilha de Óxido de HECm-245
-item.fuel_curium.lec_247.name=Pastilha de LECm-247
-item.fuel_curium.lec_247_oxide.name=Pastilha de Óxido de LECm-247
-item.fuel_curium.hec_247.name=Pastilha de HECm-247
-item.fuel_curium.hec_247_oxide.name=Pastilha de Óxido de HECm-247
+item.nuclearcraft.fuel_curium.lec_243.name=Pastilha de LECm-243
+item.nuclearcraft.fuel_curium.lec_243_oxide.name=Pastilha de Óxido de LECm-243
+item.nuclearcraft.fuel_curium.hec_243.name=Pastilha de HECm-243
+item.nuclearcraft.fuel_curium.hec_243_oxide.name=Pastilha de Óxido de HECm-243
+item.nuclearcraft.fuel_curium.lec_245.name=Pastilha de LECm-245
+item.nuclearcraft.fuel_curium.lec_245_oxide.name=Pastilha de Óxido de LECm-245
+item.nuclearcraft.fuel_curium.hec_245.name=Pastilha de HECm-245
+item.nuclearcraft.fuel_curium.hec_245_oxide.name=Pastilha de Óxido de HECm-245
+item.nuclearcraft.fuel_curium.lec_247.name=Pastilha de LECm-247
+item.nuclearcraft.fuel_curium.lec_247_oxide.name=Pastilha de Óxido de LECm-247
+item.nuclearcraft.fuel_curium.hec_247.name=Pastilha de HECm-247
+item.nuclearcraft.fuel_curium.hec_247_oxide.name=Pastilha de Óxido de HECm-247
 
-item.fuel_berkelium.leb_248.name=Pastilha de LEB-248
-item.fuel_berkelium.leb_248_oxide.name=Pastilha de Óxido de LEB-248
-item.fuel_berkelium.heb_248.name=Pastilha de HEB-248
-item.fuel_berkelium.heb_248_oxide.name=Pastilha de Óxido de HEB-248
+item.nuclearcraft.fuel_berkelium.leb_248.name=Pastilha de LEB-248
+item.nuclearcraft.fuel_berkelium.leb_248_oxide.name=Pastilha de Óxido de LEB-248
+item.nuclearcraft.fuel_berkelium.heb_248.name=Pastilha de HEB-248
+item.nuclearcraft.fuel_berkelium.heb_248_oxide.name=Pastilha de Óxido de HEB-248
 
-item.fuel_californium.lec_249.name=Pastilha de LECf-249
-item.fuel_californium.lec_249_oxide.name=Pastilha de Óxido de LECf-249
-item.fuel_californium.hec_249.name=Pastilha de HECf-249
-item.fuel_californium.hec_249_oxide.name=Pastilha de Óxido de HECf-249
-item.fuel_californium.lec_251.name=Pastilha de LECf-251
-item.fuel_californium.lec_251_oxide.name=Pastilha de Óxido de LECf-251
-item.fuel_californium.hec_251.name=Pastilha de HECf-251
-item.fuel_californium.hec_251_oxide.name=Pastilha de Óxido de HECf-251
+item.nuclearcraft.fuel_californium.lec_249.name=Pastilha de LECf-249
+item.nuclearcraft.fuel_californium.lec_249_oxide.name=Pastilha de Óxido de LECf-249
+item.nuclearcraft.fuel_californium.hec_249.name=Pastilha de HECf-249
+item.nuclearcraft.fuel_californium.hec_249_oxide.name=Pastilha de Óxido de HECf-249
+item.nuclearcraft.fuel_californium.lec_251.name=Pastilha de LECf-251
+item.nuclearcraft.fuel_californium.lec_251_oxide.name=Pastilha de Óxido de LECf-251
+item.nuclearcraft.fuel_californium.hec_251.name=Pastilha de HECf-251
+item.nuclearcraft.fuel_californium.hec_251_oxide.name=Pastilha de Óxido de HECf-251
 
-item.fuel_rod_thorium.tbu.name=Haste de Combustível TBU
-item.fuel_rod_thorium.tbu_oxide.name=Haste de Combustível Óxido de TBU
+item.nuclearcraft.fuel_rod_thorium.tbu.name=Haste de Combustível TBU
+item.nuclearcraft.fuel_rod_thorium.tbu_oxide.name=Haste de Combustível Óxido de TBU
 
-item.fuel_rod_uranium.leu_233.name=Haste de Combustível LEU-233
-item.fuel_rod_uranium.leu_233_oxide.name=Haste de Combustível Óxido de LEU-233
-item.fuel_rod_uranium.heu_233.name=Haste de Combustível HEU-233
-item.fuel_rod_uranium.heu_233_oxide.name=Haste de Combustível Óxido de HEU-233
-item.fuel_rod_uranium.leu_235.name=Haste de Combustível LEU-235
-item.fuel_rod_uranium.leu_235_oxide.name=Haste de Combustível Óxido de LEU-235
-item.fuel_rod_uranium.heu_235.name=Haste de Combustível HEU-235
-item.fuel_rod_uranium.heu_235_oxide.name=Haste de Combustível Óxido de HEU-235
+item.nuclearcraft.fuel_rod_uranium.leu_233.name=Haste de Combustível LEU-233
+item.nuclearcraft.fuel_rod_uranium.leu_233_oxide.name=Haste de Combustível Óxido de LEU-233
+item.nuclearcraft.fuel_rod_uranium.heu_233.name=Haste de Combustível HEU-233
+item.nuclearcraft.fuel_rod_uranium.heu_233_oxide.name=Haste de Combustível Óxido de HEU-233
+item.nuclearcraft.fuel_rod_uranium.leu_235.name=Haste de Combustível LEU-235
+item.nuclearcraft.fuel_rod_uranium.leu_235_oxide.name=Haste de Combustível Óxido de LEU-235
+item.nuclearcraft.fuel_rod_uranium.heu_235.name=Haste de Combustível HEU-235
+item.nuclearcraft.fuel_rod_uranium.heu_235_oxide.name=Haste de Combustível Óxido de HEU-235
 
-item.fuel_rod_neptunium.len_236.name=Haste de Combustível LEN-236
-item.fuel_rod_neptunium.len_236_oxide.name=Haste de Combustível Óxido de LEN-236
-item.fuel_rod_neptunium.hen_236.name=Haste de Combustível HEN-236
-item.fuel_rod_neptunium.hen_236_oxide.name=Haste de Combustível Óxido de HEN-236
+item.nuclearcraft.fuel_rod_neptunium.len_236.name=Haste de Combustível LEN-236
+item.nuclearcraft.fuel_rod_neptunium.len_236_oxide.name=Haste de Combustível Óxido de LEN-236
+item.nuclearcraft.fuel_rod_neptunium.hen_236.name=Haste de Combustível HEN-236
+item.nuclearcraft.fuel_rod_neptunium.hen_236_oxide.name=Haste de Combustível Óxido de HEN-236
 
-item.fuel_rod_plutonium.lep_239.name=Haste de Combustível LEP-239
-item.fuel_rod_plutonium.lep_239_oxide.name=Haste de Combustível Óxido de LEP-239
-item.fuel_rod_plutonium.hep_239.name=Haste de Combustível HEP-239
-item.fuel_rod_plutonium.hep_239_oxide.name=Haste de Combustível Óxido de HEP-239
-item.fuel_rod_plutonium.lep_241.name=Haste de Combustível LEP-241
-item.fuel_rod_plutonium.lep_241_oxide.name=Haste de Combustível Óxido de LEP-241
-item.fuel_rod_plutonium.hep_241.name=Haste de Combustível HEP-241
-item.fuel_rod_plutonium.hep_241_oxide.name=Haste de Combustível Óxido de HEP-241
+item.nuclearcraft.fuel_rod_plutonium.lep_239.name=Haste de Combustível LEP-239
+item.nuclearcraft.fuel_rod_plutonium.lep_239_oxide.name=Haste de Combustível Óxido de LEP-239
+item.nuclearcraft.fuel_rod_plutonium.hep_239.name=Haste de Combustível HEP-239
+item.nuclearcraft.fuel_rod_plutonium.hep_239_oxide.name=Haste de Combustível Óxido de HEP-239
+item.nuclearcraft.fuel_rod_plutonium.lep_241.name=Haste de Combustível LEP-241
+item.nuclearcraft.fuel_rod_plutonium.lep_241_oxide.name=Haste de Combustível Óxido de LEP-241
+item.nuclearcraft.fuel_rod_plutonium.hep_241.name=Haste de Combustível HEP-241
+item.nuclearcraft.fuel_rod_plutonium.hep_241_oxide.name=Haste de Combustível Óxido de HEP-241
 
-item.fuel_rod_mixed_oxide.mox_239.name=Haste de Combustível MOX-239
-item.fuel_rod_mixed_oxide.mox_241.name=Haste de Combustível MOX-241
+item.nuclearcraft.fuel_rod_mixed_oxide.mox_239.name=Haste de Combustível MOX-239
+item.nuclearcraft.fuel_rod_mixed_oxide.mox_241.name=Haste de Combustível MOX-241
 
-item.fuel_rod_americium.lea_242.name=Haste de Combustível LEA-242
-item.fuel_rod_americium.lea_242_oxide.name=Haste de Combustível Óxido de LEA-242
-item.fuel_rod_americium.hea_242.name=Haste de Combustível HEA-242
-item.fuel_rod_americium.hea_242_oxide.name=Haste de Combustível Óxido de HEA-242
+item.nuclearcraft.fuel_rod_americium.lea_242.name=Haste de Combustível LEA-242
+item.nuclearcraft.fuel_rod_americium.lea_242_oxide.name=Haste de Combustível Óxido de LEA-242
+item.nuclearcraft.fuel_rod_americium.hea_242.name=Haste de Combustível HEA-242
+item.nuclearcraft.fuel_rod_americium.hea_242_oxide.name=Haste de Combustível Óxido de HEA-242
 
-item.fuel_rod_curium.lec_243.name=Haste de Combustível LECm-243
-item.fuel_rod_curium.lec_243_oxide.name=Haste de Combustível Óxido de LECm-243
-item.fuel_rod_curium.hec_243.name=Haste de Combustível HECm-243
-item.fuel_rod_curium.hec_243_oxide.name=Haste de Combustível Óxido de HECm-243
-item.fuel_rod_curium.lec_245.name=Haste de Combustível LECm-245
-item.fuel_rod_curium.lec_245_oxide.name=Haste de Combustível Óxido de LECm-245
-item.fuel_rod_curium.hec_245.name=Haste de Combustível HECm-245
-item.fuel_rod_curium.hec_245_oxide.name=Haste de Combustível Óxido de HECm-245
-item.fuel_rod_curium.lec_247.name=Haste de Combustível LECm-247
-item.fuel_rod_curium.lec_247_oxide.name=Haste de Combustível Óxido de LECm-247
-item.fuel_rod_curium.hec_247.name=Haste de Combustível HECm-247
-item.fuel_rod_curium.hec_247_oxide.name=Haste de Combustível Óxido de HECm-247
+item.nuclearcraft.fuel_rod_curium.lec_243.name=Haste de Combustível LECm-243
+item.nuclearcraft.fuel_rod_curium.lec_243_oxide.name=Haste de Combustível Óxido de LECm-243
+item.nuclearcraft.fuel_rod_curium.hec_243.name=Haste de Combustível HECm-243
+item.nuclearcraft.fuel_rod_curium.hec_243_oxide.name=Haste de Combustível Óxido de HECm-243
+item.nuclearcraft.fuel_rod_curium.lec_245.name=Haste de Combustível LECm-245
+item.nuclearcraft.fuel_rod_curium.lec_245_oxide.name=Haste de Combustível Óxido de LECm-245
+item.nuclearcraft.fuel_rod_curium.hec_245.name=Haste de Combustível HECm-245
+item.nuclearcraft.fuel_rod_curium.hec_245_oxide.name=Haste de Combustível Óxido de HECm-245
+item.nuclearcraft.fuel_rod_curium.lec_247.name=Haste de Combustível LECm-247
+item.nuclearcraft.fuel_rod_curium.lec_247_oxide.name=Haste de Combustível Óxido de LECm-247
+item.nuclearcraft.fuel_rod_curium.hec_247.name=Haste de Combustível HECm-247
+item.nuclearcraft.fuel_rod_curium.hec_247_oxide.name=Haste de Combustível Óxido de HECm-247
 
-item.fuel_rod_berkelium.leb_248.name=Haste de Combustível LEB-248
-item.fuel_rod_berkelium.leb_248_oxide.name=Haste de Combustível Óxido de LEB-248
-item.fuel_rod_berkelium.heb_248.name=Haste de Combustível HEB-248
-item.fuel_rod_berkelium.heb_248_oxide.name=Haste de Combustível Óxido de HEB-248
+item.nuclearcraft.fuel_rod_berkelium.leb_248.name=Haste de Combustível LEB-248
+item.nuclearcraft.fuel_rod_berkelium.leb_248_oxide.name=Haste de Combustível Óxido de LEB-248
+item.nuclearcraft.fuel_rod_berkelium.heb_248.name=Haste de Combustível HEB-248
+item.nuclearcraft.fuel_rod_berkelium.heb_248_oxide.name=Haste de Combustível Óxido de HEB-248
 
-item.fuel_rod_californium.lec_249.name=Haste de Combustível LECf-249
-item.fuel_rod_californium.lec_249_oxide.name=Haste de Combustível Óxido de LECf-249
-item.fuel_rod_californium.hec_249.name=Haste de Combustível HECf-249
-item.fuel_rod_californium.hec_249_oxide.name=Haste de Combustível Óxido de HECf-249
-item.fuel_rod_californium.lec_251.name=Haste de Combustível LECf-251
-item.fuel_rod_californium.lec_251_oxide.name=Haste de Combustível Óxido de LECf-251
-item.fuel_rod_californium.hec_251.name=Haste de Combustível HECf-251
-item.fuel_rod_californium.hec_251_oxide.name=Haste de Combustível Óxido de HECf-251
+item.nuclearcraft.fuel_rod_californium.lec_249.name=Haste de Combustível LECf-249
+item.nuclearcraft.fuel_rod_californium.lec_249_oxide.name=Haste de Combustível Óxido de LECf-249
+item.nuclearcraft.fuel_rod_californium.hec_249.name=Haste de Combustível HECf-249
+item.nuclearcraft.fuel_rod_californium.hec_249_oxide.name=Haste de Combustível Óxido de HECf-249
+item.nuclearcraft.fuel_rod_californium.lec_251.name=Haste de Combustível LECf-251
+item.nuclearcraft.fuel_rod_californium.lec_251_oxide.name=Haste de Combustível Óxido de LECf-251
+item.nuclearcraft.fuel_rod_californium.hec_251.name=Haste de Combustível HECf-251
+item.nuclearcraft.fuel_rod_californium.hec_251_oxide.name=Haste de Combustível Óxido de HECf-251
 
-item.fuel_rod.base_time.desc=Tempo de Processamento base: %s min
-item.fuel_rod.base_power.desc=Energia base: %s RF/t
-item.fuel_rod.base_heat.desc=Geração de calor base: %s UC/t
+item.nuclearcraft.fuel_rod.base_time.desc=Tempo de Processamento base: %s min
+item.nuclearcraft.fuel_rod.base_power.desc=Energia base: %s RF/t
+item.nuclearcraft.fuel_rod.base_heat.desc=Geração de calor base: %s UC/t
 
-item.depleted_fuel_rod_thorium.tbu.name=Haste de Combustível TBU Esgotado
-item.depleted_fuel_rod_thorium.tbu_oxide.name=Haste de Combustível Óxido de TBU Esgotado
+item.nuclearcraft.depleted_fuel_rod_thorium.tbu.name=Haste de Combustível TBU Esgotado
+item.nuclearcraft.depleted_fuel_rod_thorium.tbu_oxide.name=Haste de Combustível Óxido de TBU Esgotado
 
-item.depleted_fuel_rod_uranium.leu_233.name=Haste de Combustível LEU-233 Esgotado
-item.depleted_fuel_rod_uranium.leu_233_oxide.name=Haste de Combustível Óxido de LEU-233 Esgotado
-item.depleted_fuel_rod_uranium.heu_233.name=Haste de Combustível HEU-233 Esgotado
-item.depleted_fuel_rod_uranium.heu_233_oxide.name=Haste de Combustível Óxido de HEU-233 Esgotado
-item.depleted_fuel_rod_uranium.leu_235.name=Haste de Combustível LEU-235 Esgotado
-item.depleted_fuel_rod_uranium.leu_235_oxide.name=Haste de Combustível Óxido de LEU-235 Esgotado
-item.depleted_fuel_rod_uranium.heu_235.name=Haste de Combustível HEU-235 Esgotado
-item.depleted_fuel_rod_uranium.heu_235_oxide.name=Haste de Combustível Óxido de HEU-235 Esgotado
+item.nuclearcraft.depleted_fuel_rod_uranium.leu_233.name=Haste de Combustível LEU-233 Esgotado
+item.nuclearcraft.depleted_fuel_rod_uranium.leu_233_oxide.name=Haste de Combustível Óxido de LEU-233 Esgotado
+item.nuclearcraft.depleted_fuel_rod_uranium.heu_233.name=Haste de Combustível HEU-233 Esgotado
+item.nuclearcraft.depleted_fuel_rod_uranium.heu_233_oxide.name=Haste de Combustível Óxido de HEU-233 Esgotado
+item.nuclearcraft.depleted_fuel_rod_uranium.leu_235.name=Haste de Combustível LEU-235 Esgotado
+item.nuclearcraft.depleted_fuel_rod_uranium.leu_235_oxide.name=Haste de Combustível Óxido de LEU-235 Esgotado
+item.nuclearcraft.depleted_fuel_rod_uranium.heu_235.name=Haste de Combustível HEU-235 Esgotado
+item.nuclearcraft.depleted_fuel_rod_uranium.heu_235_oxide.name=Haste de Combustível Óxido de HEU-235 Esgotado
 
-item.depleted_fuel_rod_neptunium.len_236.name=Haste de Combustível LEN-236 Esgotado
-item.depleted_fuel_rod_neptunium.len_236_oxide.name=Haste de Combustível Óxido de LEN-236 Esgotado
-item.depleted_fuel_rod_neptunium.hen_236.name=Haste de Combustível HEN-236 Esgotado
-item.depleted_fuel_rod_neptunium.hen_236_oxide.name=Haste de Combustível Óxido de HEN-236 Esgotado
+item.nuclearcraft.depleted_fuel_rod_neptunium.len_236.name=Haste de Combustível LEN-236 Esgotado
+item.nuclearcraft.depleted_fuel_rod_neptunium.len_236_oxide.name=Haste de Combustível Óxido de LEN-236 Esgotado
+item.nuclearcraft.depleted_fuel_rod_neptunium.hen_236.name=Haste de Combustível HEN-236 Esgotado
+item.nuclearcraft.depleted_fuel_rod_neptunium.hen_236_oxide.name=Haste de Combustível Óxido de HEN-236 Esgotado
 
-item.depleted_fuel_rod_plutonium.lep_239.name=Haste de Combustível LEP-239 Esgotado
-item.depleted_fuel_rod_plutonium.lep_239_oxide.name=Haste de Combustível Óxido de LEP-239 Esgotado
-item.depleted_fuel_rod_plutonium.hep_239.name=Haste de Combustível HEP-239 Esgotado
-item.depleted_fuel_rod_plutonium.hep_239_oxide.name=Haste de Combustível Óxido de HEP-239 Esgotado
-item.depleted_fuel_rod_plutonium.lep_241.name=Haste de Combustível LEP-241 Esgotado
-item.depleted_fuel_rod_plutonium.lep_241_oxide.name=Haste de Combustível Óxido de LEP-241 Esgotado
-item.depleted_fuel_rod_plutonium.hep_241.name=Haste de Combustível HEP-241 Esgotado
-item.depleted_fuel_rod_plutonium.hep_241_oxide.name=Haste de Combustível Óxido de HEP-241 Esgotado
+item.nuclearcraft.depleted_fuel_rod_plutonium.lep_239.name=Haste de Combustível LEP-239 Esgotado
+item.nuclearcraft.depleted_fuel_rod_plutonium.lep_239_oxide.name=Haste de Combustível Óxido de LEP-239 Esgotado
+item.nuclearcraft.depleted_fuel_rod_plutonium.hep_239.name=Haste de Combustível HEP-239 Esgotado
+item.nuclearcraft.depleted_fuel_rod_plutonium.hep_239_oxide.name=Haste de Combustível Óxido de HEP-239 Esgotado
+item.nuclearcraft.depleted_fuel_rod_plutonium.lep_241.name=Haste de Combustível LEP-241 Esgotado
+item.nuclearcraft.depleted_fuel_rod_plutonium.lep_241_oxide.name=Haste de Combustível Óxido de LEP-241 Esgotado
+item.nuclearcraft.depleted_fuel_rod_plutonium.hep_241.name=Haste de Combustível HEP-241 Esgotado
+item.nuclearcraft.depleted_fuel_rod_plutonium.hep_241_oxide.name=Haste de Combustível Óxido de HEP-241 Esgotado
 
-item.depleted_fuel_rod_mixed_oxide.mox_239.name=Haste de Combustível MOX-239 Esgotado
-item.depleted_fuel_rod_mixed_oxide.mox_241.name=Haste de Combustível MOX-241 Esgotado
+item.nuclearcraft.depleted_fuel_rod_mixed_oxide.mox_239.name=Haste de Combustível MOX-239 Esgotado
+item.nuclearcraft.depleted_fuel_rod_mixed_oxide.mox_241.name=Haste de Combustível MOX-241 Esgotado
 
-item.depleted_fuel_rod_americium.lea_242.name=Haste de Combustível LEA-242 Esgotado
-item.depleted_fuel_rod_americium.lea_242_oxide.name=Haste de Combustível Óxido de LEA-242 Esgotado
-item.depleted_fuel_rod_americium.hea_242.name=Haste de Combustível HEA-242 Esgotado
-item.depleted_fuel_rod_americium.hea_242_oxide.name=Haste de Combustível Óxido de HEA-242 Esgotado
+item.nuclearcraft.depleted_fuel_rod_americium.lea_242.name=Haste de Combustível LEA-242 Esgotado
+item.nuclearcraft.depleted_fuel_rod_americium.lea_242_oxide.name=Haste de Combustível Óxido de LEA-242 Esgotado
+item.nuclearcraft.depleted_fuel_rod_americium.hea_242.name=Haste de Combustível HEA-242 Esgotado
+item.nuclearcraft.depleted_fuel_rod_americium.hea_242_oxide.name=Haste de Combustível Óxido de HEA-242 Esgotado
 
-item.depleted_fuel_rod_curium.lec_243.name=Haste de Combustível LECm-243 Esgotado
-item.depleted_fuel_rod_curium.lec_243_oxide.name=Haste de Combustível Óxido de LECm-243 Esgotado
-item.depleted_fuel_rod_curium.hec_243.name=Haste de Combustível HECm-243 Esgotado
-item.depleted_fuel_rod_curium.hec_243_oxide.name=Haste de Combustível Óxido de HECm-243 Esgotado
-item.depleted_fuel_rod_curium.lec_245.name=Haste de Combustível LECm-245 Esgotado
-item.depleted_fuel_rod_curium.lec_245_oxide.name=Haste de Combustível Óxido de LECm-245 Esgotado
-item.depleted_fuel_rod_curium.hec_245.name=Haste de Combustível HECm-245 Esgotado
-item.depleted_fuel_rod_curium.hec_245_oxide.name=Haste de Combustível Óxido de HECm-245 Esgotado
-item.depleted_fuel_rod_curium.lec_247.name=Haste de Combustível LECm-247 Esgotado
-item.depleted_fuel_rod_curium.lec_247_oxide.name=Haste de Combustível Óxido de LECm-247 Esgotado
-item.depleted_fuel_rod_curium.hec_247.name=Haste de Combustível HECm-247 Esgotado
-item.depleted_fuel_rod_curium.hec_247_oxide.name=Haste de Combustível Óxido de HECm-247 Esgotado
+item.nuclearcraft.depleted_fuel_rod_curium.lec_243.name=Haste de Combustível LECm-243 Esgotado
+item.nuclearcraft.depleted_fuel_rod_curium.lec_243_oxide.name=Haste de Combustível Óxido de LECm-243 Esgotado
+item.nuclearcraft.depleted_fuel_rod_curium.hec_243.name=Haste de Combustível HECm-243 Esgotado
+item.nuclearcraft.depleted_fuel_rod_curium.hec_243_oxide.name=Haste de Combustível Óxido de HECm-243 Esgotado
+item.nuclearcraft.depleted_fuel_rod_curium.lec_245.name=Haste de Combustível LECm-245 Esgotado
+item.nuclearcraft.depleted_fuel_rod_curium.lec_245_oxide.name=Haste de Combustível Óxido de LECm-245 Esgotado
+item.nuclearcraft.depleted_fuel_rod_curium.hec_245.name=Haste de Combustível HECm-245 Esgotado
+item.nuclearcraft.depleted_fuel_rod_curium.hec_245_oxide.name=Haste de Combustível Óxido de HECm-245 Esgotado
+item.nuclearcraft.depleted_fuel_rod_curium.lec_247.name=Haste de Combustível LECm-247 Esgotado
+item.nuclearcraft.depleted_fuel_rod_curium.lec_247_oxide.name=Haste de Combustível Óxido de LECm-247 Esgotado
+item.nuclearcraft.depleted_fuel_rod_curium.hec_247.name=Haste de Combustível HECm-247 Esgotado
+item.nuclearcraft.depleted_fuel_rod_curium.hec_247_oxide.name=Haste de Combustível Óxido de HECm-247 Esgotado
 
-item.depleted_fuel_rod_berkelium.leb_248.name=Haste de Combustível LEB-248 Esgotado
-item.depleted_fuel_rod_berkelium.leb_248_oxide.name=Haste de Combustível Óxido de LEB-248 Esgotado
-item.depleted_fuel_rod_berkelium.heb_248.name=Haste de Combustível HEB-248 Esgotado
-item.depleted_fuel_rod_berkelium.heb_248_oxide.name=Haste de Combustível Óxido de HEB-248 Esgotado
+item.nuclearcraft.depleted_fuel_rod_berkelium.leb_248.name=Haste de Combustível LEB-248 Esgotado
+item.nuclearcraft.depleted_fuel_rod_berkelium.leb_248_oxide.name=Haste de Combustível Óxido de LEB-248 Esgotado
+item.nuclearcraft.depleted_fuel_rod_berkelium.heb_248.name=Haste de Combustível HEB-248 Esgotado
+item.nuclearcraft.depleted_fuel_rod_berkelium.heb_248_oxide.name=Haste de Combustível Óxido de HEB-248 Esgotado
 
-item.depleted_fuel_rod_californium.lec_249.name=Haste de Combustível LECf-249 Esgotado
-item.depleted_fuel_rod_californium.lec_249_oxide.name=Haste de Combustível Óxido de LECf-249 Esgotado
-item.depleted_fuel_rod_californium.hec_249.name=Haste de Combustível HECf-249 Esgotado
-item.depleted_fuel_rod_californium.hec_249_oxide.name=Haste de Combustível Óxido de HECf-249 Esgotado
-item.depleted_fuel_rod_californium.lec_251.name=Haste de Combustível LECf-251 Esgotado
-item.depleted_fuel_rod_californium.lec_251_oxide.name=Haste de Combustível Óxido de LECf-251 Esgotado
-item.depleted_fuel_rod_californium.hec_251.name=Haste de Combustível HECf-251 Esgotado
-item.depleted_fuel_rod_californium.hec_251_oxide.name=Haste de Combustível Óxido de HECf-251 Esgotado
+item.nuclearcraft.depleted_fuel_rod_californium.lec_249.name=Haste de Combustível LECf-249 Esgotado
+item.nuclearcraft.depleted_fuel_rod_californium.lec_249_oxide.name=Haste de Combustível Óxido de LECf-249 Esgotado
+item.nuclearcraft.depleted_fuel_rod_californium.hec_249.name=Haste de Combustível HECf-249 Esgotado
+item.nuclearcraft.depleted_fuel_rod_californium.hec_249_oxide.name=Haste de Combustível Óxido de HECf-249 Esgotado
+item.nuclearcraft.depleted_fuel_rod_californium.lec_251.name=Haste de Combustível LECf-251 Esgotado
+item.nuclearcraft.depleted_fuel_rod_californium.lec_251_oxide.name=Haste de Combustível Óxido de LECf-251 Esgotado
+item.nuclearcraft.depleted_fuel_rod_californium.hec_251.name=Haste de Combustível HECf-251 Esgotado
+item.nuclearcraft.depleted_fuel_rod_californium.hec_251_oxide.name=Haste de Combustível Óxido de HECf-251 Esgotado
 
-item.boron._10.name=Boro-10
-item.boron._10_tiny.name=Pequeno Amontoado de Boro-10
-item.boron._11.name=Boro-11
-item.boron._11_tiny.name=Pequeno Amontoado de Boro-11
-item.boron.desc=Isótopo de Boro
+item.nuclearcraft.boron._10.name=Boro-10
+item.nuclearcraft.boron._10_tiny.name=Pequeno Amontoado de Boro-10
+item.nuclearcraft.boron._11.name=Boro-11
+item.nuclearcraft.boron._11_tiny.name=Pequeno Amontoado de Boro-11
+item.nuclearcraft.boron.desc=Isótopo de Boro
 
-item.lithium._6.name=Lítio-6
-item.lithium._6_tiny.name=Pequeno Amontoado de Lítio-6
-item.lithium._7.name=Lítio-7
-item.lithium._7_tiny.name=Pequeno Amontoado de Lítio-7
-item.lithium.desc=Isótopo de Lítio
+item.nuclearcraft.lithium._6.name=Lítio-6
+item.nuclearcraft.lithium._6_tiny.name=Pequeno Amontoado de Lítio-6
+item.nuclearcraft.lithium._7.name=Lítio-7
+item.nuclearcraft.lithium._7_tiny.name=Pequeno Amontoado de Lítio-7
+item.nuclearcraft.lithium.desc=Isótopo de Lítio
 
-item.sword_boron.name=Espada de Boro
-item.pickaxe_boron.name=Picareta de Boro
-item.shovel_boron.name=Pá de Boro
-item.axe_boron.name=Machado de Boro
-item.hoe_boron.name=Enxada de Boro
-item.spaxelhoe_boron.name=Multiferramenta de Boro
-item.spaxelhoe_boron.desc=Uma ferramenta universal feita usando todas as ferramentas comuns de Boro.
+item.nuclearcraft.sword_boron.name=Espada de Boro
+item.nuclearcraft.pickaxe_boron.name=Picareta de Boro
+item.nuclearcraft.shovel_boron.name=Pá de Boro
+item.nuclearcraft.axe_boron.name=Machado de Boro
+item.nuclearcraft.hoe_boron.name=Enxada de Boro
+item.nuclearcraft.spaxelhoe_boron.name=Multiferramenta de Boro
+item.nuclearcraft.spaxelhoe_boron.desc=Uma ferramenta universal feita usando todas as ferramentas comuns de Boro.
 
-item.sword_tough.name=Espada de Liga Resistente
-item.pickaxe_tough.name=Picareta de Liga Resistente
-item.shovel_tough.name=Pá de Liga Resistente
-item.axe_tough.name=Machado de Liga Resistente
-item.hoe_tough.name=Enxada de Liga Resistenteo
-item.spaxelhoe_tough.name=Multiferramenta de Liga Resistente
-item.spaxelhoe_tough.desc=Uma ferramenta universal feita usando todas as ferramentas comuns de Liga Resistente.
+item.nuclearcraft.sword_tough.name=Espada de Liga Resistente
+item.nuclearcraft.pickaxe_tough.name=Picareta de Liga Resistente
+item.nuclearcraft.shovel_tough.name=Pá de Liga Resistente
+item.nuclearcraft.axe_tough.name=Machado de Liga Resistente
+item.nuclearcraft.hoe_tough.name=Enxada de Liga Resistenteo
+item.nuclearcraft.spaxelhoe_tough.name=Multiferramenta de Liga Resistente
+item.nuclearcraft.spaxelhoe_tough.desc=Uma ferramenta universal feita usando todas as ferramentas comuns de Liga Resistente.
 
-item.sword_hard_carbon.name=Espada de Carbono Endurecido
-item.pickaxe_hard_carbon.name=Picareta de Carbono Endurecido
-item.shovel_hard_carbon.name=Pá de Carbono Endurecido
-item.axe_hard_carbon.name=Machado de Carbono Endurecido
-item.hoe_hard_carbon.name=Enxada de Carbono Endurecido
-item.spaxelhoe_hard_carbon.name=Multiferramenta de Carbono Endurecido
-item.spaxelhoe_hard_carbon.desc=Uma ferramenta universal feita usando todas as ferramentas comuns de Carbono Endurecido.
+item.nuclearcraft.sword_hard_carbon.name=Espada de Carbono Endurecido
+item.nuclearcraft.pickaxe_hard_carbon.name=Picareta de Carbono Endurecido
+item.nuclearcraft.shovel_hard_carbon.name=Pá de Carbono Endurecido
+item.nuclearcraft.axe_hard_carbon.name=Machado de Carbono Endurecido
+item.nuclearcraft.hoe_hard_carbon.name=Enxada de Carbono Endurecido
+item.nuclearcraft.spaxelhoe_hard_carbon.name=Multiferramenta de Carbono Endurecido
+item.nuclearcraft.spaxelhoe_hard_carbon.desc=Uma ferramenta universal feita usando todas as ferramentas comuns de Carbono Endurecido.
 
-item.sword_boron_nitride.name=Espada de Nitrido de Boro
-item.pickaxe_boron_nitride.name=Picareta de Nitrido de Boro
-item.shovel_boron_nitride.name=Pá de Nitrido de Boro
-item.axe_boron_nitride.name=Machado de Nitrido de Boro
-item.hoe_boron_nitride.name=Enxada de Nitrido de Boro
-item.spaxelhoe_boron_nitride.name=Multiferramenta de Nitrido de Boro
-item.spaxelhoe_boron_nitride.desc=Uma ferramenta universal feita usando todas as ferramentas comuns de Nitrido de Boro.
+item.nuclearcraft.sword_boron_nitride.name=Espada de Nitrido de Boro
+item.nuclearcraft.pickaxe_boron_nitride.name=Picareta de Nitrido de Boro
+item.nuclearcraft.shovel_boron_nitride.name=Pá de Nitrido de Boro
+item.nuclearcraft.axe_boron_nitride.name=Machado de Nitrido de Boro
+item.nuclearcraft.hoe_boron_nitride.name=Enxada de Nitrido de Boro
+item.nuclearcraft.spaxelhoe_boron_nitride.name=Multiferramenta de Nitrido de Boro
+item.nuclearcraft.spaxelhoe_boron_nitride.desc=Uma ferramenta universal feita usando todas as ferramentas comuns de Nitrido de Boro.
 
-item.helm_boron.name=Elmo de Boro
-item.chest_boron.name=Armadura de Boro
-item.legs_boron.name=Calças de Boro
-item.boots_boron.name=Botas de Boro
+item.nuclearcraft.helm_boron.name=Elmo de Boro
+item.nuclearcraft.chest_boron.name=Armadura de Boro
+item.nuclearcraft.legs_boron.name=Calças de Boro
+item.nuclearcraft.boots_boron.name=Botas de Boro
 
-item.helm_tough.name=Elmo de Liga Resistente
-item.chest_tough.name=Armadura de Liga Resistente
-item.legs_tough.name=Calças de Liga Resistente
-item.boots_tough.name=Botas de Liga Resistente
+item.nuclearcraft.helm_tough.name=Elmo de Liga Resistente
+item.nuclearcraft.chest_tough.name=Armadura de Liga Resistente
+item.nuclearcraft.legs_tough.name=Calças de Liga Resistente
+item.nuclearcraft.boots_tough.name=Botas de Liga Resistente
 
-item.helm_hard_carbon.name=Elmo de Carbono Endurecido
-item.chest_hard_carbon.name=Armadura de Carbono Endurecido
-item.legs_hard_carbon.name=Calças de Carbono Endurecido
-item.boots_hard_carbon.name=Botas de Carbono Endurecido
+item.nuclearcraft.helm_hard_carbon.name=Elmo de Carbono Endurecido
+item.nuclearcraft.chest_hard_carbon.name=Armadura de Carbono Endurecido
+item.nuclearcraft.legs_hard_carbon.name=Calças de Carbono Endurecido
+item.nuclearcraft.boots_hard_carbon.name=Botas de Carbono Endurecido
 
-item.helm_boron_nitride.name=Elmo de Nitrido de Boro
-item.chest_boron_nitride.name=Armadura de Nitrido de Boro
-item.legs_boron_nitride.name=Calças de Nitrido de Boro
-item.boots_boron_nitride.name=Botas de Nitrido de Boro
+item.nuclearcraft.helm_boron_nitride.name=Elmo de Nitrido de Boro
+item.nuclearcraft.chest_boron_nitride.name=Armadura de Nitrido de Boro
+item.nuclearcraft.legs_boron_nitride.name=Calças de Nitrido de Boro
+item.nuclearcraft.boots_boron_nitride.name=Botas de Nitrido de Boro
 
-item.reactor_door_item.name=Porta de Reator
+item.nuclearcraft.reactor_door_item.name=Porta de Reator
 
-item.portable_ender_chest.name=Baú do End Portátil
-item.portable_ender_chest.desc=Acesse seu baú do end enquanto se move.
+item.nuclearcraft.portable_ender_chest.name=Baú do End Portátil
+item.nuclearcraft.portable_ender_chest.desc=Acesse seu baú do end enquanto se move.
 
-item.dominos.name=Biscoito de Pizza
-item.dominos.desc=O favorito do Paul - restaura 16 de saturação
+item.nuclearcraft.dominos.name=Biscoito de Pizza
+item.nuclearcraft.dominos.desc=O favorito do Paul - restaura 16 de saturação
 
-item.record_wanderer.name=Disco de Música
-item.record_wanderer.des0=Dion - O Vagante
-item.record_wanderer.des1=Capa 8-Bit feita por '8 Bit Universe'
-item.record_end_of_the_world.name=Disco de Música
-item.record_end_of_the_world.des0=Skeeter Davis - O Fim do Mundo
-item.record_end_of_the_world.des1=Capa 8-Bit feita por 'GermanPikachuGaming'
-item.record_money_for_nothing.name=Disco de Música
-item.record_money_for_nothing.des0=Dire Straits - Money For Nothing
-item.record_money_for_nothing.des1=Capa 8-Bit feita por 'Omnigrad'
+item.nuclearcraft.record_wanderer.name=Disco de Música
+item.nuclearcraft.record_wanderer.des0=Dion - O Vagante
+item.nuclearcraft.record_wanderer.des1=Capa 8-Bit feita por '8 Bit Universe'
+item.nuclearcraft.record_end_of_the_world.name=Disco de Música
+item.nuclearcraft.record_end_of_the_world.des0=Skeeter Davis - O Fim do Mundo
+item.nuclearcraft.record_end_of_the_world.des1=Capa 8-Bit feita por 'GermanPikachuGaming'
+item.nuclearcraft.record_money_for_nothing.name=Disco de Música
+item.nuclearcraft.record_money_for_nothing.des0=Dire Straits - Money For Nothing
+item.nuclearcraft.record_money_for_nothing.des1=Capa 8-Bit feita por 'Omnigrad'
 
 itemGroup.nuclearcraftBaseBlockMaterials=Blocos Base NuclearCraft
 itemGroup.nuclearcraftBaseItemMaterials=Itens Base NuclearCraft

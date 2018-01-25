@@ -22,7 +22,7 @@ public class NCItemMeta<T extends Enum<T> & IStringSerializable & IItemMeta> ext
 	public final String[][] info;
 	
 	public NCItemMeta(String nameIn, Class<T> enumm, String[]... tooltips) {
-		setUnlocalizedName(nameIn);
+		setUnlocalizedName(Global.MOD_ID + "." + nameIn);
 		setRegistryName(new ResourceLocation(Global.MOD_ID, nameIn));
 		setHasSubtypes(true);
 		values = enumm.getEnumConstants();

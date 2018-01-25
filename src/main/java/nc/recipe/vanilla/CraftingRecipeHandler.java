@@ -97,10 +97,12 @@ public class CraftingRecipeHandler {
 		addShapedOreRecipe(NCBlocks.melter_idle, new Object[] {"PNP", "NAN", "PNP", 'N', Items.NETHERBRICK, 'P', "plateAdvanced", 'A', NCBlocks.alloy_furnace_idle});
 		addShapedOreRecipe(NCBlocks.crystallizer_idle, new Object[] {"PBP", "BIB", "PBP", 'B', "ingotBeryllium", 'P', "plateAdvanced", 'I', NCBlocks.ingot_former_idle});
 		addShapedOreRecipe(NCBlocks.infuser_idle, new Object[] {"PTP", "TAT", "PTP", 'T', "ingotTin", 'P', "plateAdvanced", 'A', NCBlocks.alloy_furnace_idle});
+		addShapedOreRecipe(NCBlocks.extractor_idle, new Object[] {"PLP", "LAL", "PLP", 'L', "ingotLithiumManganeseDioxide", 'P', "plateAdvanced", 'A', NCBlocks.alloy_furnace_idle});
 		
 		addShapedOreRecipe(NCBlocks.machine_interface, new Object[] {" P ", "PBP", " P ", 'P', "plateBasic", 'B', NCBlocks.buffer});
 
-		addShapedOreRecipe(NCBlocks.fission_controller_idle, new Object[] {"PSP", "SFS", "PSP", 'S', "solenoidMagnesiumDiboride", 'P', "plateDU", 'F', NCBlocks.nuclear_furnace_idle});
+		addShapedOreRecipe(NCBlocks.fission_controller_new_idle, new Object[] {"PSP", "SFS", "PSP", 'S', "solenoidMagnesiumDiboride", 'P', "plateDU", 'F', NCBlocks.nuclear_furnace_idle});
+		addShapelessOreRecipe(NCBlocks.fission_controller_new_idle, new Object[] {NCBlocks.fission_controller_idle});
 		addShapedOreRecipe(NCBlocks.fission_port, new Object[] {" S ", "RHR", " S ", 'S', "solenoidCopper", 'R', new ItemStack(NCBlocks.fission_block, 1, 0), 'H', Blocks.HOPPER});
 		
 		addShapedOreRecipe(NCBlocks.fusion_core, new Object[] {"PSP", "SCS", "PSP", 'S', "solenoidMagnesiumDiboride", 'P', "plateElite", 'C', NCBlocks.chemical_reactor_idle});

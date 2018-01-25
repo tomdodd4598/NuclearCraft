@@ -144,7 +144,7 @@ public abstract class TileItemProcessor extends TileEnergySidedInventory impleme
 		
 	@Override
 	public int getSinkTier() {
-		return 2;
+		return 4;
 	}
 	
 	// Processing
@@ -170,6 +170,7 @@ public abstract class TileItemProcessor extends TileEnergySidedInventory impleme
 	
 	public void setCapacityFromSpeed() {
 		storage.setStorageCapacity(MathHelper.clamp(2*getProcessPower(), 32000, Integer.MAX_VALUE));
+		storage.setMaxTransfer(MathHelper.clamp(2*getProcessPower(), 32000, Integer.MAX_VALUE));
 	}
 	
 	public boolean canProcessStacks() {

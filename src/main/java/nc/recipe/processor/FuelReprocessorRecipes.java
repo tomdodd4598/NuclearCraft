@@ -62,6 +62,8 @@ public class FuelReprocessorRecipes extends BaseRecipeHandler {
 	}
 	
 	public void addReprocessingRecipes(String fuel, String out1, int n1, String out2, int n2, String out3, int n3, String out4, int n4) {
+		addRecipe("depletedFuel" + fuel, oreStack("nugget" + out1, n1), oreStack("nugget" + out2, n2), oreStack("nugget" + out3, n3), oreStack("nugget" + out4, n4), NCConfig.processor_time[3]);
+		addRecipe("depletedFuel" + fuel + "Oxide", oreStack("nugget" + out1 + "Oxide", n1), oreStack("nugget" + out2 + "Oxide", n2), oreStack("nugget" + out3 + "Oxide", n3), oreStack("nugget" + out4 + "Oxide", n4), NCConfig.processor_time[3]);
 		addRecipe("depletedFuelRod" + fuel, oreStack("nugget" + out1, n1), oreStack("nugget" + out2, n2), oreStack("nugget" + out3, n3), oreStack("nugget" + out4, n4), NCConfig.processor_time[3]);
 		addRecipe("depletedFuelRod" + fuel + "Oxide", oreStack("nugget" + out1 + "Oxide", n1), oreStack("nugget" + out2 + "Oxide", n2), oreStack("nugget" + out3 + "Oxide", n3), oreStack("nugget" + out4 + "Oxide", n4), NCConfig.processor_time[3]);
 	}

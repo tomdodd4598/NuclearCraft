@@ -14,7 +14,7 @@ public class NCBlock extends Block {
 
 	public NCBlock(String name, Material material) {
 		super(material);
-		setUnlocalizedName(name);
+		setUnlocalizedName(Global.MOD_ID + "." + name);
 		setRegistryName(new ResourceLocation(Global.MOD_ID, name));
 		setHarvestLevel("pickaxe", 0);
 		setHardness(2);

@@ -4,15 +4,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.google.common.collect.Lists;
-
 import nc.config.NCConfig;
 import nc.recipe.BaseRecipeHandler;
 import nc.util.FluidHelper;
 import nc.util.StringHelper;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 
@@ -41,7 +38,7 @@ public class MelterRecipes extends BaseRecipeHandler {
 		
 		for (String suffix : new String[] {"", "Oxide"}) {
 			for (String prefix : new String[] {"fuel", "fuelRod"}) addRecipe(prefix + "TBU" + suffix, fluidStack("thorium_tbu", FluidHelper.INGOT_BLOCK_VOLUME), NCConfig.processor_time[6]*9);
-			addRecipe("depletedFuelRodTBU" + suffix, fluidStack("depleted_thorium_tbu", FluidHelper.NUGGET_VOLUME*64), NCConfig.processor_time[6]*64/9);
+			for (String prefix : new String[] {"depletedFuel", "depletedFuelRod"}) addRecipe(prefix + "TBU" + suffix, fluidStack("depleted_thorium_tbu", FluidHelper.NUGGET_VOLUME*64), NCConfig.processor_time[6]*64/9);
 		}
 		
 		addFissionFuelMeltingRecipes("uranium", "eu", 233, 235);
@@ -124,17 +121,15 @@ public class MelterRecipes extends BaseRecipeHandler {
 	}
 	
 	public void addFissionFuelMeltingRecipes(String element, String suffix, String suffixExtra, int... types) {
-		for (int type : types) {
+		for (int type : types) for (String oxide : new String[] {"", "Oxide"}) {
 			for (String prefix : new String[] {"fuel", "fuelRod"}) {
-				addRecipe(prefix + "L" + suffix.toUpperCase() + suffixExtra + type, fluidStack("fuel_l" + suffix + suffixExtra + "_" + type, FluidHelper.INGOT_BLOCK_VOLUME), NCConfig.processor_time[6]*9);
-				addRecipe(prefix + "L" + suffix.toUpperCase() + suffixExtra + type + "Oxide", fluidStack("fuel_l" + suffix + suffixExtra + "_" + type, FluidHelper.INGOT_BLOCK_VOLUME), NCConfig.processor_time[6]*9);
-				addRecipe(prefix + "H" + suffix.toUpperCase() + suffixExtra + type, fluidStack("fuel_h" + suffix + suffixExtra + "_" + type, FluidHelper.INGOT_BLOCK_VOLUME), NCConfig.processor_time[6]*9);
-				addRecipe(prefix + "H" + suffix.toUpperCase() + suffixExtra + type + "Oxide", fluidStack("fuel_h" + suffix + suffixExtra + "_" + type, FluidHelper.INGOT_BLOCK_VOLUME), NCConfig.processor_time[6]*9);
+				addRecipe(prefix + "L" + suffix.toUpperCase() + suffixExtra + type + oxide, fluidStack("fuel_l" + suffix + suffixExtra + "_" + type, FluidHelper.INGOT_BLOCK_VOLUME), NCConfig.processor_time[6]*9);
+				addRecipe(prefix + "H" + suffix.toUpperCase() + suffixExtra + type + oxide, fluidStack("fuel_h" + suffix + suffixExtra + "_" + type, FluidHelper.INGOT_BLOCK_VOLUME), NCConfig.processor_time[6]*9);
 			}
-			addRecipe("depletedFuelRodL" + suffix.toUpperCase() + suffixExtra + type, fluidStack("depleted_fuel_l" + suffix + suffixExtra + "_" + type, FluidHelper.NUGGET_VOLUME*64), NCConfig.processor_time[6]*64/9);
-			addRecipe("depletedFuelRodL" + suffix.toUpperCase() + suffixExtra + type + "Oxide", fluidStack("depleted_fuel_l" + suffix + suffixExtra + "_" + type, FluidHelper.NUGGET_VOLUME*64), NCConfig.processor_time[6]*64/9);
-			addRecipe("depletedFuelRodH" + suffix.toUpperCase() + suffixExtra + type, fluidStack("depleted_fuel_h" + suffix + suffixExtra + "_" + type, FluidHelper.NUGGET_VOLUME*64), NCConfig.processor_time[6]*64/9);
-			addRecipe("depletedFuelRodH" + suffix.toUpperCase() + suffixExtra + type + "Oxide", fluidStack("depleted_fuel_h" + suffix + suffixExtra + "_" + type, FluidHelper.NUGGET_VOLUME*64), NCConfig.processor_time[6]*64/9);
+			for (String prefix : new String[] {"depletedFuel", "depletedFuelRod"}) {
+				addRecipe(prefix + "L" + suffix.toUpperCase() + suffixExtra + type + oxide, fluidStack("depleted_fuel_l" + suffix + suffixExtra + "_" + type, FluidHelper.NUGGET_VOLUME*64), NCConfig.processor_time[6]*64/9);
+				addRecipe(prefix + "H" + suffix.toUpperCase() + suffixExtra + type + oxide, fluidStack("depleted_fuel_h" + suffix + suffixExtra + "_" + type, FluidHelper.NUGGET_VOLUME*64), NCConfig.processor_time[6]*64/9);
+			}
 		}
 	}
 	

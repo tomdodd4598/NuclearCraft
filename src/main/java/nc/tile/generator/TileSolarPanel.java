@@ -1,16 +1,13 @@
 package nc.tile.generator;
 
-import net.minecraft.util.EnumFacing;
+import nc.config.NCConfig;
 
-public abstract class TileSolarPanel extends TilePassiveGenerator {
+public class TileSolarPanel {
 	
-	public TileSolarPanel(int power) {
-		super(power);
-	}
-	
-	@Override
-	public int getGenerated() {
-		if (world.canBlockSeeSky(pos.offset(EnumFacing.UP))) return (int) (world.getSunBrightnessFactor(1.0F) * (float) power);
-		return 0;
+	public static class Basic extends TileSolarPanelAbstract {
+
+		public Basic() {
+			super(NCConfig.solar_power[0]);
+		}
 	}
 }

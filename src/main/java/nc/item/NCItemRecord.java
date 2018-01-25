@@ -23,7 +23,7 @@ public class NCItemRecord extends ItemRecord {
 	public NCItemRecord(String nameIn, SoundEvent sound, String... tooltip) {
 		super("record_" + nameIn, sound);
 		name = nameIn;
-		setUnlocalizedName("record_" + nameIn);
+		setUnlocalizedName(Global.MOD_ID + "." + "record_" + nameIn);
 		setRegistryName(new ResourceLocation(Global.MOD_ID, "record_" + nameIn));
 		info = InfoHelper.buildInfo(getUnlocalizedName(), tooltip);
 	}

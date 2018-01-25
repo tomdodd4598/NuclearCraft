@@ -4,6 +4,7 @@ import nc.config.NCConfig;
 import nc.tile.dummy.IInterfaceable;
 import nc.tile.energy.TileEnergy;
 import nc.tile.energy.storage.EnumStorage.EnergyConnection;
+import nc.util.EnergyHelper;
 
 public abstract class TilePassiveGenerator extends TileEnergy implements IInterfaceable {
 	
@@ -32,8 +33,7 @@ public abstract class TilePassiveGenerator extends TileEnergy implements IInterf
 	
 	@Override
 	public int getSourceTier() {
-		double euPerTick = (double) power / (double) NCConfig.generator_rf_per_eu;
-		return euPerTick < 32.0D ? 1 : (euPerTick < 128.0D ? 2 : (euPerTick < 512.0D ? 3 : 4));
+		return EnergyHelper.getEUSourceTier(power);
 	}
 	
 	@Override

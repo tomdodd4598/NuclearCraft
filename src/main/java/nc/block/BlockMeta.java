@@ -34,7 +34,7 @@ public abstract class BlockMeta<T extends Enum<T> & IStringSerializable & IBlock
 	
 	public BlockMeta(String name, Class<T> enumm, PropertyEnum property, Material material) {
 		super(material);
-		setUnlocalizedName(name);
+		setUnlocalizedName(Global.MOD_ID + "." + name);
 		setRegistryName(new ResourceLocation(Global.MOD_ID, name));
 		values = enumm.getEnumConstants();
 		type = property;

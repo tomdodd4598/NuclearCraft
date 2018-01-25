@@ -8,6 +8,7 @@ import mezz.jei.api.IModPlugin;
 import mezz.jei.api.IModRegistry;
 import mezz.jei.api.JEIPlugin;
 import mezz.jei.api.recipe.transfer.IRecipeTransferRegistry;
+import nc.config.NCConfig;
 import nc.container.generator.ContainerFissionController;
 import nc.container.generator.ContainerFusionCore;
 import nc.container.processor.ContainerAlloyFurnace;
@@ -16,6 +17,7 @@ import nc.container.processor.ContainerCrystallizer;
 import nc.container.processor.ContainerDecayHastener;
 import nc.container.processor.ContainerDissolver;
 import nc.container.processor.ContainerElectrolyser;
+import nc.container.processor.ContainerExtractor;
 import nc.container.processor.ContainerFuelReprocessor;
 import nc.container.processor.ContainerInfuser;
 import nc.container.processor.ContainerIngotFormer;
@@ -26,6 +28,7 @@ import nc.container.processor.ContainerMelter;
 import nc.container.processor.ContainerPressurizer;
 import nc.container.processor.ContainerSaltMixer;
 import nc.container.processor.ContainerSupercooler;
+import nc.enumm.MetaEnums;
 import nc.gui.generator.GuiFissionController;
 import nc.gui.generator.GuiFusionCore;
 import nc.gui.processor.GuiAlloyFurnace;
@@ -34,6 +37,7 @@ import nc.gui.processor.GuiCrystallizer;
 import nc.gui.processor.GuiDecayHastener;
 import nc.gui.processor.GuiDissolver;
 import nc.gui.processor.GuiElectrolyser;
+import nc.gui.processor.GuiExtractor;
 import nc.gui.processor.GuiFuelReprocessor;
 import nc.gui.processor.GuiInfuser;
 import nc.gui.processor.GuiIngotFormer;
@@ -54,6 +58,7 @@ import nc.integration.jei.processor.CrystallizerCategory;
 import nc.integration.jei.processor.DecayHastenerCategory;
 import nc.integration.jei.processor.DissolverCategory;
 import nc.integration.jei.processor.ElectrolyserCategory;
+import nc.integration.jei.processor.ExtractorCategory;
 import nc.integration.jei.processor.FuelReprocessorCategory;
 import nc.integration.jei.processor.InfuserCategory;
 import nc.integration.jei.processor.IngotFormerCategory;
@@ -67,9 +72,11 @@ import nc.integration.jei.processor.SupercoolerCategory;
 import nc.recipe.BaseRecipeHandler;
 import nc.recipe.IRecipe;
 import nc.recipe.NCRecipes;
-import nc.util.StackHelper;
 import nc.util.NCUtil;
+import nc.util.StackHelper;
 import nc.worldgen.OreGenerator;
+import net.minecraft.block.Block;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.Loader;
 
@@ -91,8 +98,6 @@ public class NCJEI implements IModPlugin, IJEIRecipeBuilder {
 			registry.addRecipeCategories(category);
 			registry.addRecipeHandlers(category);
 			if (handler.getCrafterItemStack() != null) registry.addRecipeCatalyst(handler.getCrafterItemStack(), handler.getUUID());
-			
-			NCUtil.getLogger().info("Registering JEI recipe handler " + handler.getUUID());
 		}
 		IRecipeTransferRegistry recipeTransferRegistry = registry.getRecipeTransferRegistry();
 		
@@ -112,6 +117,7 @@ public class NCJEI implements IModPlugin, IJEIRecipeBuilder {
 		registry.addRecipeClickArea(GuiSaltMixer.class, 83, 34, 37, 18, Handlers.SALT_MIXER.getUUID());
 		registry.addRecipeClickArea(GuiCrystallizer.class, 73, 34, 37, 18, Handlers.CRYSTALLIZER.getUUID());
 		registry.addRecipeClickArea(GuiDissolver.class, 83, 34, 37, 18, Handlers.DISSOLVER.getUUID());
+		registry.addRecipeClickArea(GuiExtractor.class, 59, 34, 37, 18, Handlers.EXTRACTOR.getUUID());
 		registry.addRecipeClickArea(GuiFissionController.class, 73, 34, 37, 18, Handlers.FISSION.getUUID());
 		registry.addRecipeClickArea(GuiFusionCore.class, 47, 5, 121, 97, Handlers.FUSION.getUUID());
 		
@@ -131,6 +137,7 @@ public class NCJEI implements IModPlugin, IJEIRecipeBuilder {
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerSaltMixer.class, Handlers.SALT_MIXER.getUUID(), 0, 0, 2, 36);
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerCrystallizer.class, Handlers.CRYSTALLIZER.getUUID(), 0, 0, 3, 36);
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerDissolver.class, Handlers.DISSOLVER.getUUID(), 0, 1, 3, 36);
+		recipeTransferRegistry.addRecipeTransferHandler(ContainerExtractor.class, Handlers.EXTRACTOR.getUUID(), 0, 1, 4, 36);
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerFissionController.class, Handlers.FISSION.getUUID(), 0, 1, 3, 36);
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerFusionCore.class, Handlers.FUSION.getUUID(), 0, 0, 0, 36);
 		
@@ -162,8 +169,10 @@ public class NCJEI implements IModPlugin, IJEIRecipeBuilder {
 		blacklist(jeiHelpers, NCBlocks.salt_mixer_active);
 		blacklist(jeiHelpers, NCBlocks.crystallizer_active);
 		blacklist(jeiHelpers, NCBlocks.dissolver_active);
+		blacklist(jeiHelpers, NCBlocks.extractor_active);
 		
 		blacklist(jeiHelpers, NCBlocks.fission_controller_active);
+		blacklist(jeiHelpers, NCBlocks.fission_controller_new_active);
 		
 		blacklist(jeiHelpers, NCBlocks.fusion_dummy_side);
 		blacklist(jeiHelpers, NCBlocks.fusion_dummy_top);
@@ -172,6 +181,18 @@ public class NCJEI implements IModPlugin, IJEIRecipeBuilder {
 		blacklist(jeiHelpers, NCBlocks.fusion_electromagnet_transparent_active);
 		blacklist(jeiHelpers, NCBlocks.accelerator_electromagnet_active);
 		blacklist(jeiHelpers, NCBlocks.electromagnet_supercooler_active);
+		
+		if (!NCConfig.fission_experimental_mechanics) {
+			blacklistAll(jeiHelpers, MetaEnums.ThoriumDepletedFuelType.class, NCItems.depleted_fuel_thorium);
+			blacklistAll(jeiHelpers, MetaEnums.UraniumDepletedFuelType.class, NCItems.depleted_fuel_uranium);
+			blacklistAll(jeiHelpers, MetaEnums.NeptuniumDepletedFuelType.class, NCItems.depleted_fuel_neptunium);
+			blacklistAll(jeiHelpers, MetaEnums.PlutoniumDepletedFuelType.class, NCItems.depleted_fuel_plutonium);
+			blacklistAll(jeiHelpers, MetaEnums.MixedOxideDepletedFuelType.class, NCItems.depleted_fuel_mixed_oxide);
+			blacklistAll(jeiHelpers, MetaEnums.AmericiumDepletedFuelType.class, NCItems.depleted_fuel_americium);
+			blacklistAll(jeiHelpers, MetaEnums.CuriumDepletedFuelType.class, NCItems.depleted_fuel_curium);
+			blacklistAll(jeiHelpers, MetaEnums.BerkeliumDepletedFuelType.class, NCItems.depleted_fuel_berkelium);
+			blacklistAll(jeiHelpers, MetaEnums.CaliforniumDepletedFuelType.class, NCItems.depleted_fuel_californium);
+		}
 		
 		NCUtil.getLogger().info("JEI integration complete");
 	}
@@ -196,6 +217,14 @@ public class NCJEI implements IModPlugin, IJEIRecipeBuilder {
 		jeiHelpers.getIngredientBlacklist().addIngredientToBlacklist(StackHelper.fixItemStack(ingredient));
 	}
 	
+	private <T extends Enum<T>> void blacklistAll(IJeiHelpers jeiHelpers, Class<T> enumm, Block block) {
+		for (int i = 0; i < enumm.getEnumConstants().length; i++) blacklist(jeiHelpers, new ItemStack(block, 1, i));
+	}
+	
+	private <T extends Enum<T>> void blacklistAll(IJeiHelpers jeiHelpers, Class<T> enumm, Item item) {
+		for (int i = 0; i < enumm.getEnumConstants().length; i++) blacklist(jeiHelpers, new ItemStack(item, 1, i));
+	}
+	
 	public enum Handlers implements IJEIHandler {
 		MANUFACTORY(NCRecipes.MANUFACTORY_RECIPES, NCBlocks.manufactory_idle, "manufactory", RecipesJEI.Manufactory.class),
 		ISOTOPE_SEPARATOR(NCRecipes.ISOTOPE_SEPARATOR_RECIPES, NCBlocks.isotope_separator_idle, "isotope_separator", RecipesJEI.IsotopeSeparator.class),
@@ -213,7 +242,8 @@ public class NCJEI implements IModPlugin, IJEIRecipeBuilder {
 		SALT_MIXER(NCRecipes.SALT_MIXER_RECIPES, NCBlocks.salt_mixer_idle, "salt_mixer", RecipesJEI.SaltMixer.class),
 		CRYSTALLIZER(NCRecipes.CRYSTALLIZER_RECIPES, NCBlocks.crystallizer_idle, "crystallizer", RecipesJEI.Crystallizer.class),
 		DISSOLVER(NCRecipes.DISSOLVER_RECIPES, NCBlocks.dissolver_idle, "dissolver", RecipesJEI.Dissolver.class),
-		FISSION(NCRecipes.FISSION_RECIPES, NCBlocks.fission_controller_idle, "fission_controller", RecipesJEI.Fission.class),
+		EXTRACTOR(NCRecipes.EXTRACTOR_RECIPES, NCBlocks.extractor_idle, "extractor", RecipesJEI.Extractor.class),
+		FISSION(NCRecipes.FISSION_RECIPES, NCBlocks.fission_controller_new_idle, "fission_controller", RecipesJEI.Fission.class),
 		FUSION(NCRecipes.FUSION_RECIPES, NCBlocks.fusion_core, "fusion_core", RecipesJEI.Fusion.class);
 		
 		public BaseRecipeHandler methods;
@@ -265,6 +295,8 @@ public class NCJEI implements IModPlugin, IJEIRecipeBuilder {
 				return new CrystallizerCategory(guiHelper, this);
 			case DISSOLVER:
 				return new DissolverCategory(guiHelper, this);
+			case EXTRACTOR:
+				return new ExtractorCategory(guiHelper, this);
 			case FISSION:
 				return new FissionCategory(guiHelper, this);
 			case FUSION:

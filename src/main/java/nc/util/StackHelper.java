@@ -1,6 +1,7 @@
 package nc.util;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
@@ -65,6 +66,14 @@ public class StackHelper {
 			}
 			return new FluidStack((Fluid) object, 1000);
 		}
+	}
+	
+	public static ItemStack blockToStack(IBlockState state) {
+		if (state == null) return ItemStack.EMPTY;
+		Block block = state.getBlock();
+		if (block == null) return ItemStack.EMPTY;
+		int meta = block.getMetaFromState(state);
+		return new ItemStack(block, 1, meta);
 	}
 	
 	public static ItemStack changeStackSize(ItemStack stack, int size) {

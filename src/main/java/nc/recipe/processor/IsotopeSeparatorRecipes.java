@@ -12,22 +12,23 @@ public class IsotopeSeparatorRecipes extends BaseRecipeHandler {
 	@Override
 	public void addRecipes() {
 		addRecipe("ingotThorium", "ingotThorium232", "nuggetThorium230", NCConfig.processor_time[1]);
-		addRecipe("ingotThoriumOxide", "ingotThorium232Oxide", "nuggetThorium230Oxide", NCConfig.processor_time[1]);
-		addRecipe("ingotUranium", "ingotUranium238Base", "nuggetUranium235", NCConfig.processor_time[1]);
-		addRecipe("ingotUraniumOxide", "ingotUranium238Oxide", "nuggetUranium235Oxide", NCConfig.processor_time[1]);
 		addRecipe("dustThorium", "ingotThorium232", "nuggetThorium230", NCConfig.processor_time[1]);
+		addRecipe("ingotThoriumOxide", "ingotThorium232Oxide", "nuggetThorium230Oxide", NCConfig.processor_time[1]);
 		addRecipe("dustThoriumOxide", "ingotThorium232Oxide", "nuggetThorium230Oxide", NCConfig.processor_time[1]);
-		addRecipe("dustUranium", "ingotUranium238Base", "nuggetUranium235", NCConfig.processor_time[1]);
-		addRecipe("dustUraniumOxide", "ingotUranium238Oxide", "nuggetUranium235Oxide", NCConfig.processor_time[1]);
 		
+		addRecipe("ingotUranium", "ingotUranium238Base", "nuggetUranium235", NCConfig.processor_time[1]);
+		addRecipe("dustUranium", "ingotUranium238Base", "nuggetUranium235", NCConfig.processor_time[1]);
 		addRecipe("ingotYellorium", "ingotUranium238Base", "nuggetUranium235", NCConfig.processor_time[1]);
 		addRecipe("dustYellorium", "ingotUranium238Base", "nuggetUranium235", NCConfig.processor_time[1]);
-		addRecipe("ingotBlutonium", "ingotPlutonium242Base", "nuggetPlutonium239", NCConfig.processor_time[1]);
-		addRecipe("dustBlutonium", "ingotPlutonium242Base", "nuggetPlutonium239", NCConfig.processor_time[1]);
-		addRecipe("ingotPlutonium", "ingotPlutonium242Base", "nuggetPlutonium239", NCConfig.processor_time[1]);
-		addRecipe("ingotPlutoniumOxide", "ingotPlutonium242Oxide", "nuggetPlutonium239Oxide", NCConfig.processor_time[1]);
-		addRecipe("dustPlutonium", "ingotPlutonium242Base", "nuggetPlutonium239", NCConfig.processor_time[1]);
-		addRecipe("dustPlutoniumOxide", "ingotPlutonium242Oxide", "nuggetPlutonium239Oxide", NCConfig.processor_time[1]);
+		addRecipe("ingotUraniumOxide", "ingotUranium238Oxide", "nuggetUranium235Oxide", NCConfig.processor_time[1]);
+		addRecipe("dustUraniumOxide", "ingotUranium238Oxide", "nuggetUranium235Oxide", NCConfig.processor_time[1]);
+		
+		addRecipe("ingotBlutonium", "ingotPlutonium239Base", "nuggetPlutonium242", NCConfig.processor_time[1]);
+		addRecipe("dustBlutonium", "ingotPlutonium239Base", "nuggetPlutonium242", NCConfig.processor_time[1]);
+		addRecipe("ingotPlutonium", "ingotPlutonium239Base", "nuggetPlutonium242", NCConfig.processor_time[1]);
+		addRecipe("dustPlutonium", "ingotPlutonium239Base", "nuggetPlutonium242", NCConfig.processor_time[1]);
+		addRecipe("ingotPlutoniumOxide", "ingotPlutonium239Oxide", "nuggetPlutonium242Oxide", NCConfig.processor_time[1]);
+		addRecipe("dustPlutoniumOxide", "ingotPlutonium239Oxide", "nuggetPlutonium242Oxide", NCConfig.processor_time[1]);
 		
 		addRecipe("ingotBoron", "ingotBoron11", oreStack("nuggetBoron10", 3), NCConfig.processor_time[1]);
 		addRecipe("ingotLithium", "ingotLithium7", oreStack("nuggetLithium6", 3), NCConfig.processor_time[1]);

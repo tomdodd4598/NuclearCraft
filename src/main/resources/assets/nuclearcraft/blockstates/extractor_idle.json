@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "facing=north": { "model": "nuclearcraft:extractor_idle" },
+        "facing=south": { "model": "nuclearcraft:extractor_idle", "y": 180 },
+        "facing=west":  { "model": "nuclearcraft:extractor_idle", "y": 270 },
+        "facing=east":  { "model": "nuclearcraft:extractor_idle", "y": 90 }
+    }
+}

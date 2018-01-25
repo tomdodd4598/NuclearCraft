@@ -1,6 +1,6 @@
 {
 	"parent": "item/generated",
 	"textures": {
-		"layer0": "nuclearcraft:items/fuel_rod_californium_hec_249_oxide"
+		"layer0": "nuclearcraft:items/fuel_rod_californium_hec_251_oxide"
 	}
 }

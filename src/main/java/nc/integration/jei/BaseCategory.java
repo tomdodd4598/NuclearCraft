@@ -52,6 +52,6 @@ public abstract class BaseCategory extends JEICategory {
 	
 	@Override
 	public String getTitle() {
-		return Lang.localise("tile." + recipeTitle + ".name");
+		return Lang.localise("tile." + Global.MOD_ID + "." + recipeTitle + ".name");
 	}
 }

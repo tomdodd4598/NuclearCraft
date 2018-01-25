@@ -2,77 +2,43 @@ package nc.init;
 
 import nc.Global;
 import nc.tile.dummy.TileFissionPort;
-import nc.tile.dummy.TileFusionDummy.TileFusionDummySide;
-import nc.tile.dummy.TileFusionDummy.TileFusionDummyTop;
-import nc.tile.energy.Batteries.LithiumIonBatteryBasic;
-import nc.tile.energy.Batteries.VoltaicPileBasic;
+import nc.tile.dummy.TileFusionDummy;
 import nc.tile.dummy.TileMachineInterface;
+import nc.tile.energy.TileBattery;
 import nc.tile.energyFluid.TileBin;
 import nc.tile.energyFluid.TileBuffer;
 import nc.tile.fluid.TileActiveCooler;
-import nc.tile.generator.RTGs.AmericiumRTG;
-import nc.tile.generator.RTGs.CaliforniumRTG;
-import nc.tile.generator.RTGs.PlutoniumRTG;
-import nc.tile.generator.RTGs.UraniumRTG;
-import nc.tile.generator.SolarPanels.SolarPanelBasic;
 import nc.tile.generator.TileDecayGenerator;
 import nc.tile.generator.TileFissionController;
 import nc.tile.generator.TileFusionCore;
-import nc.tile.passive.Passives.TileAcceleratorElectromagnet;
-import nc.tile.passive.Passives.TileCobblestoneGenerator;
-import nc.tile.passive.Passives.TileCobblestoneGeneratorCompact;
-import nc.tile.passive.Passives.TileCobblestoneGeneratorDense;
-import nc.tile.passive.Passives.TileElectromagnetSupercooler;
-import nc.tile.passive.Passives.TileFusionElectromagnet;
-import nc.tile.passive.Passives.TileHeliumCollector;
-import nc.tile.passive.Passives.TileHeliumCollectorCompact;
-import nc.tile.passive.Passives.TileHeliumCollectorDense;
-import nc.tile.passive.Passives.TileNitrogenCollector;
-import nc.tile.passive.Passives.TileNitrogenCollectorCompact;
-import nc.tile.passive.Passives.TileNitrogenCollectorDense;
-import nc.tile.passive.Passives.TileWaterSource;
-import nc.tile.passive.Passives.TileWaterSourceCompact;
-import nc.tile.passive.Passives.TileWaterSourceDense;
-import nc.tile.processor.Processors.TileAlloyFurnace;
-import nc.tile.processor.Processors.TileChemicalReactor;
-import nc.tile.processor.Processors.TileCrystallizer;
-import nc.tile.processor.Processors.TileDecayHastener;
-import nc.tile.processor.Processors.TileDissolver;
-import nc.tile.processor.Processors.TileElectrolyser;
-import nc.tile.processor.Processors.TileFuelReprocessor;
-import nc.tile.processor.Processors.TileInfuser;
-import nc.tile.processor.Processors.TileIngotFormer;
-import nc.tile.processor.Processors.TileIrradiator;
-import nc.tile.processor.Processors.TileIsotopeSeparator;
-import nc.tile.processor.Processors.TileManufactory;
-import nc.tile.processor.Processors.TileMelter;
-import nc.tile.processor.Processors.TilePressurizer;
-import nc.tile.processor.Processors.TileSaltMixer;
-import nc.tile.processor.Processors.TileSupercooler;
+import nc.tile.generator.TileRTG;
+import nc.tile.generator.TileSolarPanel;
+import nc.tile.passive.TilePassive;
 import nc.tile.processor.TileNuclearFurnace;
-import nc.util.NCUtil;
+import nc.tile.processor.TileProcessor;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class NCTiles {
 	
 	public static void register() {
 		GameRegistry.registerTileEntity(TileNuclearFurnace.class, Global.MOD_ID + ":nuclear_furnace");
-		GameRegistry.registerTileEntity(TileManufactory.class, Global.MOD_ID + ":manufactory");
-		GameRegistry.registerTileEntity(TileIsotopeSeparator.class, Global.MOD_ID + ":isotope_separator");
-		GameRegistry.registerTileEntity(TileDecayHastener.class, Global.MOD_ID + ":decay_hastener");
-		GameRegistry.registerTileEntity(TileFuelReprocessor.class, Global.MOD_ID + ":fuel_reprocessor");
-		GameRegistry.registerTileEntity(TileAlloyFurnace.class, Global.MOD_ID + ":alloy_furnace");
-		GameRegistry.registerTileEntity(TileInfuser.class, Global.MOD_ID + ":infuser");
-		GameRegistry.registerTileEntity(TileMelter.class, Global.MOD_ID + ":melter");
-		GameRegistry.registerTileEntity(TileSupercooler.class, Global.MOD_ID + ":supercooler");
-		GameRegistry.registerTileEntity(TileElectrolyser.class, Global.MOD_ID + ":electrolyser");
-		GameRegistry.registerTileEntity(TileIrradiator.class, Global.MOD_ID + ":irradiator");
-		GameRegistry.registerTileEntity(TileIngotFormer.class, Global.MOD_ID + ":ingot_former");
-		GameRegistry.registerTileEntity(TilePressurizer.class, Global.MOD_ID + ":pressurizer");
-		GameRegistry.registerTileEntity(TileChemicalReactor.class, Global.MOD_ID + ":chemical_reactor");
-		GameRegistry.registerTileEntity(TileSaltMixer.class, Global.MOD_ID + ":salt_mixer");
-		GameRegistry.registerTileEntity(TileCrystallizer.class, Global.MOD_ID + ":crystallizer");
-		GameRegistry.registerTileEntity(TileDissolver.class, Global.MOD_ID + ":dissolver");
+		GameRegistry.registerTileEntity(TileProcessor.Manufactory.class, Global.MOD_ID + ":manufactory");
+		GameRegistry.registerTileEntity(TileProcessor.IsotopeSeparator.class, Global.MOD_ID + ":isotope_separator");
+		GameRegistry.registerTileEntity(TileProcessor.DecayHastener.class, Global.MOD_ID + ":decay_hastener");
+		GameRegistry.registerTileEntity(TileProcessor.FuelReprocessor.class, Global.MOD_ID + ":fuel_reprocessor");
+		GameRegistry.registerTileEntity(TileProcessor.AlloyFurnace.class, Global.MOD_ID + ":alloy_furnace");
+		GameRegistry.registerTileEntity(TileProcessor.Infuser.class, Global.MOD_ID + ":infuser");
+		GameRegistry.registerTileEntity(TileProcessor.Melter.class, Global.MOD_ID + ":melter");
+		GameRegistry.registerTileEntity(TileProcessor.Supercooler.class, Global.MOD_ID + ":supercooler");
+		GameRegistry.registerTileEntity(TileProcessor.Electrolyser.class, Global.MOD_ID + ":electrolyser");
+		GameRegistry.registerTileEntity(TileProcessor.Irradiator.class, Global.MOD_ID + ":irradiator");
+		GameRegistry.registerTileEntity(TileProcessor.IngotFormer.class, Global.MOD_ID + ":ingot_former");
+		GameRegistry.registerTileEntity(TileProcessor.Pressurizer.class, Global.MOD_ID + ":pressurizer");
+		GameRegistry.registerTileEntity(TileProcessor.ChemicalReactor.class, Global.MOD_ID + ":chemical_reactor");
+		GameRegistry.registerTileEntity(TileProcessor.SaltMixer.class, Global.MOD_ID + ":salt_mixer");
+		GameRegistry.registerTileEntity(TileProcessor.Crystallizer.class, Global.MOD_ID + ":crystallizer");
+		GameRegistry.registerTileEntity(TileProcessor.Dissolver.class, Global.MOD_ID + ":dissolver");
+		GameRegistry.registerTileEntity(TileProcessor.Extractor.class, Global.MOD_ID + ":extractor");
 		
 		GameRegistry.registerTileEntity(TileMachineInterface.class, Global.MOD_ID + ":machine_interface");
 		
@@ -80,47 +46,45 @@ public class NCTiles {
 		GameRegistry.registerTileEntity(TileFissionPort.class, Global.MOD_ID + ":fission_port");
 		
 		GameRegistry.registerTileEntity(TileFusionCore.class, Global.MOD_ID + ":fusion_core");
-		GameRegistry.registerTileEntity(TileFusionDummySide.class, Global.MOD_ID + ":fusion_dummy_side");
-		GameRegistry.registerTileEntity(TileFusionDummyTop.class, Global.MOD_ID + ":fusion_dummy_top");
+		GameRegistry.registerTileEntity(TileFusionDummy.Side.class, Global.MOD_ID + ":fusion_dummy_side");
+		GameRegistry.registerTileEntity(TileFusionDummy.Top.class, Global.MOD_ID + ":fusion_dummy_top");
 		
-		GameRegistry.registerTileEntity(UraniumRTG.class, Global.MOD_ID + ":rtg_uranium");
-		GameRegistry.registerTileEntity(PlutoniumRTG.class, Global.MOD_ID + ":rtg_plutonium");
-		GameRegistry.registerTileEntity(AmericiumRTG.class, Global.MOD_ID + ":rtg_americium");
-		GameRegistry.registerTileEntity(CaliforniumRTG.class, Global.MOD_ID + ":rtg_californium");
+		GameRegistry.registerTileEntity(TileRTG.Uranium.class, Global.MOD_ID + ":rtg_uranium");
+		GameRegistry.registerTileEntity(TileRTG.Plutonium.class, Global.MOD_ID + ":rtg_plutonium");
+		GameRegistry.registerTileEntity(TileRTG.Americium.class, Global.MOD_ID + ":rtg_americium");
+		GameRegistry.registerTileEntity(TileRTG.Californium.class, Global.MOD_ID + ":rtg_californium");
 
-		GameRegistry.registerTileEntity(SolarPanelBasic.class, Global.MOD_ID + ":solar_panel_basic");
+		GameRegistry.registerTileEntity(TileSolarPanel.Basic.class, Global.MOD_ID + ":solar_panel_basic");
 		
 		GameRegistry.registerTileEntity(TileDecayGenerator.class, Global.MOD_ID + ":decay_generator");
 		
-		GameRegistry.registerTileEntity(VoltaicPileBasic.class, Global.MOD_ID + ":voltaic_pile_basic");
-		GameRegistry.registerTileEntity(LithiumIonBatteryBasic.class, Global.MOD_ID + ":lithium_ion_battery_basic");
+		GameRegistry.registerTileEntity(TileBattery.VoltaicPileBasic.class, Global.MOD_ID + ":voltaic_pile_basic");
+		GameRegistry.registerTileEntity(TileBattery.LithiumIonBatteryBasic.class, Global.MOD_ID + ":lithium_ion_battery_basic");
 		
 		GameRegistry.registerTileEntity(TileBuffer.class, Global.MOD_ID + ":buffer");
 		GameRegistry.registerTileEntity(TileActiveCooler.class, Global.MOD_ID + ":active_cooler");
 		GameRegistry.registerTileEntity(TileBin.class, Global.MOD_ID + ":bin");
 		
-		GameRegistry.registerTileEntity(TileFusionElectromagnet.class, Global.MOD_ID + ":fusion_electromagnet");
-		GameRegistry.registerTileEntity(TileAcceleratorElectromagnet.class, Global.MOD_ID + ":accelerator_electromagnet");
-		GameRegistry.registerTileEntity(TileElectromagnetSupercooler.class, Global.MOD_ID + ":electromagnet_supercooler");
+		GameRegistry.registerTileEntity(TilePassive.FusionElectromagnet.class, Global.MOD_ID + ":fusion_electromagnet");
+		GameRegistry.registerTileEntity(TilePassive.AcceleratorElectromagnet.class, Global.MOD_ID + ":accelerator_electromagnet");
+		GameRegistry.registerTileEntity(TilePassive.ElectromagnetSupercooler.class, Global.MOD_ID + ":electromagnet_supercooler");
 		
-		GameRegistry.registerTileEntity(TileHeliumCollector.class, Global.MOD_ID + ":helium_collector");
-		GameRegistry.registerTileEntity(TileHeliumCollectorCompact.class, Global.MOD_ID + ":helium_collector_compact");
-		GameRegistry.registerTileEntity(TileHeliumCollectorDense.class, Global.MOD_ID + ":helium_collector_dense");
+		GameRegistry.registerTileEntity(TilePassive.HeliumCollector.class, Global.MOD_ID + ":helium_collector");
+		GameRegistry.registerTileEntity(TilePassive.HeliumCollectorCompact.class, Global.MOD_ID + ":helium_collector_compact");
+		GameRegistry.registerTileEntity(TilePassive.HeliumCollectorDense.class, Global.MOD_ID + ":helium_collector_dense");
 		
-		GameRegistry.registerTileEntity(TileCobblestoneGenerator.class, Global.MOD_ID + ":cobblestone_generator");
-		GameRegistry.registerTileEntity(TileCobblestoneGeneratorCompact.class, Global.MOD_ID + ":cobblestone_generator_compact");
-		GameRegistry.registerTileEntity(TileCobblestoneGeneratorDense.class, Global.MOD_ID + ":cobblestone_generator_dense");
+		GameRegistry.registerTileEntity(TilePassive.CobblestoneGenerator.class, Global.MOD_ID + ":cobblestone_generator");
+		GameRegistry.registerTileEntity(TilePassive.CobblestoneGeneratorCompact.class, Global.MOD_ID + ":cobblestone_generator_compact");
+		GameRegistry.registerTileEntity(TilePassive.CobblestoneGeneratorDense.class, Global.MOD_ID + ":cobblestone_generator_dense");
 		
-		GameRegistry.registerTileEntity(TileWaterSource.class, Global.MOD_ID + ":water_source");
-		GameRegistry.registerTileEntity(TileWaterSourceCompact.class, Global.MOD_ID + ":water_source_compact");
-		GameRegistry.registerTileEntity(TileWaterSourceDense.class, Global.MOD_ID + ":water_source_dense");
+		GameRegistry.registerTileEntity(TilePassive.WaterSource.class, Global.MOD_ID + ":water_source");
+		GameRegistry.registerTileEntity(TilePassive.WaterSourceCompact.class, Global.MOD_ID + ":water_source_compact");
+		GameRegistry.registerTileEntity(TilePassive.WaterSourceDense.class, Global.MOD_ID + ":water_source_dense");
 		
-		GameRegistry.registerTileEntity(TileNitrogenCollector.class, Global.MOD_ID + ":nitrogen_collector");
-		GameRegistry.registerTileEntity(TileNitrogenCollectorCompact.class, Global.MOD_ID + ":nitrogen_collector_compact");
-		GameRegistry.registerTileEntity(TileNitrogenCollectorDense.class, Global.MOD_ID + ":nitrogen_collector_dense");
+		GameRegistry.registerTileEntity(TilePassive.NitrogenCollector.class, Global.MOD_ID + ":nitrogen_collector");
+		GameRegistry.registerTileEntity(TilePassive.NitrogenCollectorCompact.class, Global.MOD_ID + ":nitrogen_collector_compact");
+		GameRegistry.registerTileEntity(TilePassive.NitrogenCollectorDense.class, Global.MOD_ID + ":nitrogen_collector_dense");
 		
 		//GameRegistry.registerTileEntity(TileSpin.class, Global.MOD_ID + ":spin");
-		
-		NCUtil.getLogger().info("Registered tile entities");
 	}
 }

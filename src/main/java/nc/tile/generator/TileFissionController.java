@@ -14,6 +14,7 @@ import nc.tile.fluid.TileActiveCooler;
 import nc.tile.fluid.tank.Tank;
 import nc.util.BlockFinder;
 import nc.util.BlockPosHelper;
+import nc.util.EnergyHelper;
 import nc.util.Lang;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
@@ -37,6 +38,7 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 	public int maxX, maxY, maxZ;
 	public int lengthX, lengthY, lengthZ = 3;
 	public int complete, ready;
+	public int ports = 1, currentEnergyStored;
 	
 	public String problem = Lang.localise("gui.container.fission_controller.casing_incomplete");
 	public String problemPos = BlockPosHelper.stringPos(pos);
@@ -46,9 +48,16 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 	public static final int BASE_CAPACITY = 64000, BASE_MAX_HEAT = 25000;
 	
 	private BlockFinder finder;
-
+	
+	private boolean newRules;
+	
 	public TileFissionController() {
+		this(false);
+	}
+
+	public TileFissionController(boolean newRules) {
 		super("fission_controller", 1, 1, 0, BASE_CAPACITY, NCRecipes.FISSION_RECIPES);
+		this.newRules = newRules;
 	}
 	
 	@Override
@@ -64,12 +73,12 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 		boolean wasGenerating = isGenerating;
 		isGenerating = canProcess() && isPowered();
 		boolean shouldUpdate = false;
-		if(!world.isRemote) if (time == 0) consume();
+		if (!world.isRemote) if (time == 0) consume();
 		tickStructureCheck();
 		checkStructure();
-		if(!world.isRemote) {
+		if (!world.isRemote) {
 			tickRunCheck();
-			if (NCConfig.fission_new_mechanics) newRun(); else run();
+			if (newRules) newRun(); else run();
 			if (overheat()) return;
 			if (isGenerating) process();
 			if (wasGenerating != isGenerating) {
@@ -77,6 +86,7 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 				updateBlockType();
 			}
 			pushEnergy();
+			currentEnergyStored = getEnergyStored();
 			if (findAdjacentComparator() && shouldStructureCheck()) shouldUpdate = true;
 		}
 		if (shouldUpdate) markDirty();
@@ -131,7 +141,7 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 	
 	@Override
 	public int getSourceTier() {
-		return 4;
+		return EnergyHelper.getEUSourceTier(storage.getCapacity());
 	}
 	
 	@Override
@@ -231,52 +241,52 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 		return findCell(finder.position(x, y, z));
 	}
 	
-	private boolean findGraphite(BlockPos pos) {
-		return finder.find(pos, "blockGraphite");
+	private boolean findModerator(BlockPos pos) {
+		return finder.find(pos, "blockGraphite", "blockBeryllium");
 	}
 	
-	private boolean findGraphite(int x, int y, int z) {
-		return findGraphite(finder.position(x, y, z));
+	private boolean findModerator(int x, int y, int z) {
+		return findModerator(finder.position(x, y, z));
 	}
 	
 	private boolean findCellOnSide(int x, int y, int z, EnumFacing side) {
 		return findCell(finder.position(x, y, z).offset(side));
 	}
 	
-	private boolean findGraphiteThenCellOnSide(int x, int y, int z, EnumFacing side) {
-		return findGraphite(finder.position(x, y, z).offset(side)) && findCell(finder.position(x, y, z).offset(side, 2));
+	private boolean findModeratorThenCellOnSide(int x, int y, int z, EnumFacing side) {
+		return findModerator(finder.position(x, y, z).offset(side)) && findCell(finder.position(x, y, z).offset(side, 2));
 	}
 	
-	private boolean newFindGraphiteThenCellOnSide(int x, int y, int z, EnumFacing side) {
+	private boolean newFindModeratorThenCellOnSide(int x, int y, int z, EnumFacing side) {
 		for (int i = 1; i <= NCConfig.fission_neutron_reach; i++) {
-			for (int j = 1; j <= i; j++) if (!findGraphite(finder.position(x, y, z).offset(side, j))) return false;
+			for (int j = 1; j <= i; j++) if (!findModerator(finder.position(x, y, z).offset(side, j))) return false;
 			if (findCell(finder.position(x, y, z).offset(side, i + 1))) return true;
 		}
 		return false;
 	}
 	
-	private int graphiteAdjacentCount(BlockPos pos) {
+	private int moderatorAdjacentCount(BlockPos pos) {
 		int count = 0;
 		BlockPosHelper helper = new BlockPosHelper(pos);
-		for (BlockPos blockPos : helper.adjacents()) if (findGraphite(blockPos)) count++;
+		for (BlockPos blockPos : helper.adjacents()) if (findModerator(blockPos)) count++;
 		return count;
 	}
 	
-	private int graphiteAdjacentCount(int x, int y, int z) {
-		return graphiteAdjacentCount(finder.position(x, y, z));
+	private int moderatorAdjacentCount(int x, int y, int z) {
+		return moderatorAdjacentCount(finder.position(x, y, z));
 	}
 	
-	private int activeGraphiteAdjacentCount(BlockPos pos) {
+	private int activeModeratorAdjacentCount(BlockPos pos) {
 		int count = 0;
 		BlockPosHelper helper = new BlockPosHelper(pos);
 		for (BlockPos blockPos : helper.adjacents()) {
-			if (findGraphite(blockPos) && cellAdjacent(blockPos)) count++;
+			if (findModerator(blockPos) && cellAdjacent(blockPos)) count++;
 		}
 		return count;
 	}
 	
-	private int activeGraphiteAdjacentCount(int x, int y, int z) {
-		return activeGraphiteAdjacentCount(finder.position(x, y, z));
+	private int activeModeratorAdjacentCount(int x, int y, int z) {
+		return activeModeratorAdjacentCount(finder.position(x, y, z));
 	}
 	
 	private boolean cellAdjacent(BlockPos pos) {
@@ -295,16 +305,16 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 		return cellAdjacentCount(finder.position(x, y, z));
 	}
 	
-	private boolean activeGraphiteAdjacent(BlockPos pos) {
+	private boolean activeModeratorAdjacent(BlockPos pos) {
 		BlockPosHelper helper = new BlockPosHelper(pos);
 		for (BlockPos blockPos : helper.adjacents()) {
-			if (findGraphite(blockPos) && cellAdjacent(blockPos)) return true;
+			if (findModerator(blockPos) && cellAdjacent(blockPos)) return true;
 		}
 		return false;
 	}
 	
-	private boolean activeGraphiteAdjacent(int x, int y, int z) {
-		return activeGraphiteAdjacent(finder.position(x, y, z));
+	private boolean activeModeratorAdjacent(int x, int y, int z) {
+		return activeModeratorAdjacent(finder.position(x, y, z));
 	}
 	
 	private boolean findCooler(BlockPos pos, int meta) {
@@ -361,21 +371,21 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 	private boolean coolerRequirements(BlockPos pos, int meta) {
 		switch (meta) {
 		case 1: // Water
-			return !NCConfig.fission_water_cooler_requirement || (NCConfig.fission_new_mechanics ? cellAdjacent(pos) || activeGraphiteAdjacent(pos) : casingAllAdjacent(pos));
+			return !NCConfig.fission_water_cooler_requirement || (newRules ? cellAdjacent(pos) || activeModeratorAdjacent(pos) : casingAllAdjacent(pos));
 		case 2: // Redstone
 			return cellAdjacent(pos);
 		case 3: // Quartz
-			return activeGraphiteAdjacent(pos);
+			return activeModeratorAdjacent(pos);
 		case 4: // Gold
 			return activeCoolerAdjacent(pos, 1) && activeCoolerAdjacent(pos, 2);
 		case 5: // Glowstone
-			return activeGraphiteAdjacentCount(pos) >= 2;
+			return activeModeratorAdjacentCount(pos) >= 2;
 		case 6: // Lapis
 			return cellAdjacent(pos) && casingAllAdjacent(pos);
 		case 7: // Diamond
-			return NCConfig.fission_new_mechanics ? activeCoolerAdjacentCount(pos, 1) >= 2 && activeCoolerAdjacent(pos, 3) : activeCoolerHorizontal(pos, 1) && casingAllAdjacent(pos);
+			return newRules ? activeCoolerAdjacentCount(pos, 1) >= 2 && activeCoolerAdjacent(pos, 3) : activeCoolerHorizontal(pos, 1) && casingAllAdjacent(pos);
 		case 8: // Liquid Helium
-			return NCConfig.fission_new_mechanics ? activeCoolerAdjacentCount(pos, 2) == 1 && casingAllAdjacent(pos) : activeCoolerAdjacent(pos, 3) && casingAllAdjacent(pos);
+			return newRules ? activeCoolerAdjacentCount(pos, 2) == 1 && casingAllAdjacent(pos) : activeCoolerAdjacent(pos, 3) && casingAllAdjacent(pos);
 		case 9: // Enderium
 			return casingAllOneVertex(pos);
 		case 10: // Cryotheum
@@ -383,13 +393,13 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 		case 11: // Iron
 			return activeCoolerAdjacent(pos, 4);
 		case 12: // Emerald
-			return activeGraphiteAdjacent(pos) && cellAdjacent(pos);
+			return activeModeratorAdjacent(pos) && cellAdjacent(pos);
 		case 13: // Copper
 			return activeCoolerAdjacent(pos, 5);
 		case 14: // Tin
 			return activeCoolerAxial(pos, 6);
 		case 15: // Magnesium
-			return NCConfig.fission_new_mechanics ? casingAllAdjacent(pos) && activeGraphiteAdjacent(pos) : casingAllAdjacent(pos) && activeCoolerAdjacent(pos, 8);
+			return newRules ? casingAllAdjacent(pos) && activeModeratorAdjacent(pos) : casingAllAdjacent(pos) && activeCoolerAdjacent(pos, 8);
 		default:
 			return false;
 		}
@@ -408,7 +418,7 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 	}
 	
 	private boolean findController(BlockPos pos) {
-		return finder.find(pos, NCBlocks.fission_controller_idle, NCBlocks.fission_controller_active);
+		return finder.find(pos, NCBlocks.fission_controller_idle, NCBlocks.fission_controller_active, NCBlocks.fission_controller_new_idle, NCBlocks.fission_controller_new_active);
 	}
 	
 	private boolean findController(int x, int y, int z) {
@@ -421,6 +431,14 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 	
 	private boolean findCasingAll(int x, int y, int z) {
 		return findCasingAll(finder.position(x, y, z));
+	}
+	
+	private boolean findPort(BlockPos pos) {
+		return finder.find(pos, NCBlocks.fission_port);
+	}
+	
+	private boolean findPort(int x, int y, int z) {
+		return findPort(finder.position(x, y, z));
 	}
 	
 	private boolean casingAllAdjacent(BlockPos pos) {
@@ -444,98 +462,98 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 	
 	private boolean checkStructure() {
 		if (shouldStructureCheck()) {
-			int l = NCConfig.fission_max_size + 2;
-			boolean f = false;
-			int rz = 0;
-			int z0 = 0, x0 = 0, y0 = 0;
-			int z1 = 0, x1 = 0, y1 = 0;
-			for (int z = 0; z <= l; z++) {
+			int maxLength = NCConfig.fission_max_size + 1;
+			boolean validStructure = false;
+			int maxZCheck = 0;
+			int minZ = 0, minX = 0, minY = 0;
+			int maxZ = 0, maxX = 0, maxY = 0;
+			int portCount = 0;
+			for (int z = 0; z <= maxLength; z++) {
 				if ((findCasing(0, 1, 0) || findCasing(0, -1, 0)) || ((findCasing(1, 1, 0) || findCasing(1, -1, 0)) && findCasing(1, 0, 0)) || ((findCasing(1, 1, 0) && !findCasing(1, -1, 0)) && !findCasing(1, 0, 0)) || ((!findCasing(1, 1, 0) && findCasing(1, -1, 0)) && !findCasing(1, 0, 0))) {
 					if (!findCasing(0, 1, -z) && !findCasing(0, -1, -z) && (findCasingAll(0, 0, -z + 1) || findCasingAll(0, 1, -z + 1) || findCasingAll(0, -1, -z + 1))) {
-						rz = l - z;
-						z0 = -z;
-						f = true;
+						maxZCheck = maxLength - z;
+						minZ = -z;
+						validStructure = true;
 						break;
 					}
 				} else if (!findCasing(0, 0, -z) && !findCasing(1, 1, -z) && !findCasing(1, -1, -z) && findCasingAll(0, 0, -z + 1) && findCasing(1, 0, -z) && findCasing(1, 1, -z + 1) && findCasing(1, -1, -z + 1)) {
-					rz = l - z;
-					z0 = -z;
-					f = true;
+					maxZCheck = maxLength - z;
+					minZ = -z;
+					validStructure = true;
 					break;
 				}
 			}
-			if (!f) {
+			if (!validStructure) {
 				complete = 0;
 				problem = Lang.localise("gui.container.fission_controller.casing_incomplete");
 				problemPosBool = 0;
 				return false;
 			}
-			f = false;
-			for (int y = 0; y <= l; y++) {
-				if (!findCasing(x0, -y + 1, z0) && !findCasing(x0 + 1, -y, z0) && !findCasing(x0, -y, z0 + 1) && findCasingAll(x0 + 1, -y, z0 + 1) && findCasingAll(x0, -y + 1, z0 + 1) && findCasingAll(x0 + 1, -y + 1, z0)) {
-					y0 = -y;
-					f = true;
+			validStructure = false;
+			for (int y = 0; y <= maxLength; y++) {
+				if (!findCasing(minX, -y + 1, minZ) && !findCasing(minX + 1, -y, minZ) && !findCasing(minX, -y, minZ + 1) && findCasingAll(minX + 1, -y, minZ + 1) && findCasingAll(minX, -y + 1, minZ + 1) && findCasingAll(minX + 1, -y + 1, minZ)) {
+					minY = -y;
+					validStructure = true;
 					break;
 				}
 			}
-			if (!f) {
+			if (!validStructure) {
 				complete = 0;
 				problem = Lang.localise("gui.container.fission_controller.casing_incomplete");
 				problemPosBool = 0;
 				return false;
 			}
-			f = false;
-			for (int z = 0; z <= rz; z++) {
-				if (!findCasing(x0, y0 + 1, z) && !findCasing(x0 + 1, y0, z) && !findCasing(x0, y0, z - 1) && findCasingAll(x0 + 1, y0, z - 1) && findCasingAll(x0, y0 + 1, z - 1) && findCasingAll(x0 + 1, y0 + 1, z)) {
-					z1 = z;
-					f = true;
+			validStructure = false;
+			for (int z = 0; z <= maxZCheck; z++) {
+				if (!findCasing(minX, minY + 1, z) && !findCasing(minX + 1, minY, z) && !findCasing(minX, minY, z - 1) && findCasingAll(minX + 1, minY, z - 1) && findCasingAll(minX, minY + 1, z - 1) && findCasingAll(minX + 1, minY + 1, z)) {
+					maxZ = z;
+					validStructure = true;
 					break;
 				}
 			}
-			if (!f) {
+			if (!validStructure) {
 				complete = 0;
 				problem = Lang.localise("gui.container.fission_controller.casing_incomplete");
 				problemPosBool = 0;
 				return false;
 			}
-			f = false;
-			for (int x = 0; x <= l; x++) {
-				if (!findCasing(x0 + x, y0 + 1, z0) && !findCasing(x0 + x - 1, y0, z0) && !findCasing(x0 + x, y0, z0 + 1) && findCasingAll(x0 + x - 1, y0, z0 + 1) && findCasingAll(x0 + x, y0 + 1, z0 + 1) && findCasingAll(x0 + x - 1, y0 + 1, z0)) {
-					x1 = x0 + x;
-					f = true;
+			validStructure = false;
+			for (int x = 0; x <= maxLength; x++) {
+				if (!findCasing(minX + x, minY + 1, minZ) && !findCasing(minX + x - 1, minY, minZ) && !findCasing(minX + x, minY, minZ + 1) && findCasingAll(minX + x - 1, minY, minZ + 1) && findCasingAll(minX + x, minY + 1, minZ + 1) && findCasingAll(minX + x - 1, minY + 1, minZ)) {
+					maxX = minX + x;
+					validStructure = true;
 					break;
 				}
 			}
-			if (!f) {
+			if (!validStructure) {
 				complete = 0;
 				problem = Lang.localise("gui.container.fission_controller.casing_incomplete");
 				problemPosBool = 0;
 				return false;
 			}
-			f = false;
-			for (int y = 0; y <= l; y++) {
-				if (!findCasing(x0, y0 + y - 1, z0) && !findCasing(x0 + 1, y0 + y, z0) && !findCasing(x0, y0 + y, z0 + 1) && findCasingAll(x0 + 1, y0 + y, z0 + 1) && findCasingAll(x0, y0 + y - 1, z0 + 1) && findCasingAll(x0 + 1, y0 + y - 1, z0)) {
-					y1 = y0 + y;
-					f = true;
+			validStructure = false;
+			for (int y = 0; y <= maxLength; y++) {
+				if (!findCasing(minX, minY + y - 1, minZ) && !findCasing(minX + 1, minY + y, minZ) && !findCasing(minX, minY + y, minZ + 1) && findCasingAll(minX + 1, minY + y, minZ + 1) && findCasingAll(minX, minY + y - 1, minZ + 1) && findCasingAll(minX + 1, minY + y - 1, minZ)) {
+					maxY = minY + y;
+					validStructure = true;
 					break;
 				}
 			}
-			if (!f) {
+			if (!validStructure) {
 				complete = 0;
 				problem = Lang.localise("gui.container.fission_controller.casing_incomplete");
 				problemPosBool = 0;
 				return false;
 			}
-			f = false;
-			if ((x0 > 0 || x1 < 0) || (y0 > 0 || y1 < 0) || (z0 > 0 || z1 < 0) || x1 - x0 < 1 || y1 - y0 < 1 || z1 - z0 < 1) {
+			if ((minX > 0 || maxX < 0) || (minY > 0 || maxY < 0) || (minZ > 0 || maxZ < 0) || maxX - minX < 1 || maxY - minY < 1 || maxZ - minZ < 1) {
 				problem = Lang.localise("gui.container.fission_controller.invalid_structure");
 				complete = 0;
 				problemPosBool = 0;
 				return false;
 			}
-			for (int z = z0; z <= z1; z++) for (int x = x0; x <= x1; x++) for (int y = y0; y <= y1; y++) {
-				if(findController(x, y, z)) {
-					if (x == 0 && y == 0 && z == 0) {} else {
+			for (int z = minZ; z <= maxZ; z++) for (int x = minX; x <= maxX; x++) for (int y = minY; y <= maxY; y++) {
+				if (findController(x, y, z)) {
+					if (x != 0 || y != 0 || z != 0) {
 						problem = Lang.localise("gui.container.fission_controller.multiple_controllers");
 						complete = 0;
 						problemPosBool = 1;
@@ -545,64 +563,68 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 					}
 				}
 			}
-			for (int z = z0 + 1; z <= z1 - 1; z++) for (int x = x0 + 1; x <= x1 - 1; x++) {
-				if(!findCasing(x, y0, z) && !(x == 0 && y0 == 0 && z == 0)) {
+			for (int z = minZ + 1; z <= maxZ - 1; z++) for (int x = minX + 1; x <= maxX - 1; x++) {
+				if (!findCasing(x, minY, z) && !(x == 0 && minY == 0 && z == 0)) {
 					problem = Lang.localise("gui.container.fission_controller.casing_incomplete_at");
 					complete = 0;
 					problemPosBool = 1;
-					problemPosX = x; problemPosY = y0; problemPosZ = z;
+					problemPosX = x; problemPosY = minY; problemPosZ = z;
 					problemPos = BlockPosHelper.stringPos(finder.position(problemPosX, problemPosY, problemPosZ));
 					return false;
 				}
-				if(!findCasing(x, y1, z) && !(x == 0 && y1 == 0 && z == 0)) {
+				if (!findCasing(x, maxY, z) && !(x == 0 && maxY == 0 && z == 0)) {
 					problem = Lang.localise("gui.container.fission_controller.casing_incomplete_at");
 					complete = 0;
 					problemPosBool = 1;
-					problemPosX = x; problemPosY = y1; problemPosZ = z;
+					problemPosX = x; problemPosY = maxY; problemPosZ = z;
 					problemPos = BlockPosHelper.stringPos(finder.position(problemPosX, problemPosY, problemPosZ));
 					return false;
 				}
 			}
-			for (int y = y0 + 1; y <= y1 - 1; y++) {
-				for (int x = x0 + 1; x <= x1 - 1; x++) {
-					if(!findCasing(x, y, z0) && !(x == 0 && y == 0 && z0 == 0)) {
+			for (int y = minY + 1; y <= maxY - 1; y++) {
+				for (int x = minX + 1; x <= maxX - 1; x++) {
+					if (!findCasing(x, y, minZ) && !(x == 0 && y == 0 && minZ == 0)) {
 						problem = Lang.localise("gui.container.fission_controller.casing_incomplete_at");
 						complete = 0;
 						problemPosBool = 1;
-						problemPosX = x; problemPosY = y; problemPosZ = z0;
+						problemPosX = x; problemPosY = y; problemPosZ = minZ;
 						problemPos = BlockPosHelper.stringPos(finder.position(problemPosX, problemPosY, problemPosZ));
 						return false;
 					}
-					if(!findCasing(x, y, z1) && !(x == 0 && y == 0 && z1 == 0)) {
+					if (!findCasing(x, y, maxZ) && !(x == 0 && y == 0 && maxZ == 0)) {
 						problem = Lang.localise("gui.container.fission_controller.casing_incomplete_at");
 						complete = 0;
 						problemPosBool = 1;
-						problemPosX = x; problemPosY = y; problemPosZ = z1;
+						problemPosX = x; problemPosY = y; problemPosZ = maxZ;
 						problemPos = BlockPosHelper.stringPos(finder.position(problemPosX, problemPosY, problemPosZ));
 						return false;
 					}
+					if (findPort(x, y, minZ)) portCount++;
+					if (findPort(x, y, maxZ)) portCount++;
 				}
-				for (int z = z0 + 1; z <= z1 - 1; z++) {
-					if(!findCasing(x0, y, z) && !(x0 == 0 && y == 0 && z == 0)) {
+				for (int z = minZ + 1; z <= maxZ - 1; z++) {
+					if (!findCasing(minX, y, z) && !(minX == 0 && y == 0 && z == 0)) {
 						problem = Lang.localise("gui.container.fission_controller.casing_incomplete_at");
 						complete = 0;
 						problemPosBool = 1;
-						problemPosX = x0; problemPosY = y; problemPosZ = z;
+						problemPosX = minX; problemPosY = y; problemPosZ = z;
 						problemPos = BlockPosHelper.stringPos(finder.position(problemPosX, problemPosY, problemPosZ));
 						return false;
 					}
-					if(!findCasing(x1, y, z) && !(x1 == 0 && y == 0 && z == 0)) {
+					if (!findCasing(maxX, y, z) && !(maxX == 0 && y == 0 && z == 0)) {
 						problem = Lang.localise("gui.container.fission_controller.casing_incomplete_at");
 						complete = 0;
 						problemPosBool = 1;
-						problemPosX = x1; problemPosY = y; problemPosZ = z;
+						problemPosX = maxX; problemPosY = y; problemPosZ = z;
 						problemPos = BlockPosHelper.stringPos(finder.position(problemPosX, problemPosY, problemPosZ));
 						return false;
 					}
+					if (findPort(minX, y, z)) portCount++;
+					if (findPort(maxX, y, z)) portCount++;
 				}
 			}
-			for (int z = z0 + 1; z <= z1 - 1; z++) for (int x = x0 + 1; x <= x1 - 1; x++) for (int y = y0 + 1; y <= y1 - 1; y++) {
-				if(findCasingAll(x, y, z)) {
+			for (int z = minZ + 1; z <= maxZ - 1; z++) for (int x = minX + 1; x <= maxX - 1; x++) for (int y = minY + 1; y <= maxY - 1; y++) {
+				if (findCasingAll(x, y, z)) {
 					problem = Lang.localise("gui.container.fission_controller.casing_in_interior");
 					complete = 0;
 					problemPosBool = 1;
@@ -613,9 +635,10 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 			}
 			complete = 1;
 			problemPosBool = 0;
-			minX = x0; minY = y0; minZ = z0;
-			maxX = x1; maxY = y1; maxZ = z1;
-			lengthX = x1 + 1 - x0; lengthY = y1 + 1 - y0; lengthZ = z1 + 1 - z0;
+			this.minX = minX; this.minY = minY; this.minZ = minZ;
+			this.maxX = maxX; this.maxY = maxY; this.maxZ = maxZ;
+			lengthX = maxX + 1 - minX; lengthY = maxY + 1 - minY; lengthZ = maxZ + 1 - minZ;
+			ports = Math.max(1, portCount);
 			setCapacity();
 			
 			return true;
@@ -663,7 +686,7 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 					if (findCell(x, y, z)) {
 						int extraCells = 0;
 						for (EnumFacing side : EnumFacing.VALUES) {
-							if (findCellOnSide(x, y, z, side) || findGraphiteThenCellOnSide(x, y, z, side)) extraCells += 1;
+							if (findCellOnSide(x, y, z, side) || findModeratorThenCellOnSide(x, y, z, side)) extraCells += 1;
 						}
 						
 						if (extraCells == 0) numberOfCells += 1;
@@ -675,8 +698,8 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 						else if (extraCells == 6) adj6 += 1;
 					}
 					
-					// Graphite
-					if (findGraphite(x, y, z)) {
+					// Moderators
+					if (findModerator(x, y, z)) {
 						if (canProcess()) {
 							heatMultThisTick += (numberOfCells + adj1 + adj2 + adj3 + adj4 + adj5 + adj6)/16D;
 							heatThisTick += NCConfig.fission_heat_generation*baseRF*(numberOfCells + adj1 + adj2 + adj3 + adj4 + adj5 + adj6)/16D;
@@ -696,7 +719,7 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 					}
 					
 					// Active Coolers
-					if(finder.find(x, y, z, NCBlocks.active_cooler)) {
+					if (finder.find(x, y, z, NCBlocks.active_cooler)) {
 						TileEntity tile = world.getTileEntity(finder.position(x, y, z));
 						if (tile != null) if (tile instanceof TileActiveCooler) {
 							Tank tank = ((TileActiveCooler) tile).getTanks()[0];
@@ -779,8 +802,8 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 		processTime = (int) getBaseTime();
 		double baseHeat = NCConfig.fission_heat_generation*getBaseHeat();
 		
-		double graphitePowerMultiplier = NCConfig.fission_graphite_extra_power/6D;
-		double graphiteHeatMultiplier = NCConfig.fission_graphite_extra_heat/6D;
+		double moderatorPowerMultiplier = NCConfig.fission_moderator_extra_power/6D;
+		double moderatorHeatMultiplier = NCConfig.fission_moderator_extra_heat/6D;
 		
 		ready = canProcess() && !isPowered() ? 1 : 0;
 		boolean generating = canProcess() && isPowered();
@@ -793,7 +816,7 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 					if (findCell(x, y, z)) {
 						int extraCells = 0;
 						for (EnumFacing side : EnumFacing.VALUES) {
-							if (findCellOnSide(x, y, z, side) || newFindGraphiteThenCellOnSide(x, y, z, side)) extraCells += 1;
+							if (findCellOnSide(x, y, z, side) || newFindModeratorThenCellOnSide(x, y, z, side)) extraCells += 1;
 						}
 						
 						if (extraCells == 0) numberOfCells += 1;
@@ -804,16 +827,16 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 						else if (extraCells == 5) adj5 += 1;
 						else if (extraCells == 6) adj6 += 1;
 						
-						// Adjacent Graphite
-						energyMultThisTick += graphitePowerMultiplier*graphiteAdjacentCount(x, y, z)*(extraCells + 1);
-						heatMultThisTick += graphiteHeatMultiplier*graphiteAdjacentCount(x, y, z)*(extraCells + 1);
+						// Adjacent Moderator
+						energyMultThisTick += moderatorPowerMultiplier*moderatorAdjacentCount(x, y, z)*(extraCells + 1);
+						heatMultThisTick += moderatorHeatMultiplier*moderatorAdjacentCount(x, y, z)*(extraCells + 1);
 						
-						energyThisTick += baseRF*graphitePowerMultiplier*graphiteAdjacentCount(x, y, z)*(extraCells + 1);
-						heatThisTick += baseHeat*graphiteHeatMultiplier*graphiteAdjacentCount(x, y, z)*(extraCells + 1);
+						energyThisTick += baseRF*moderatorPowerMultiplier*moderatorAdjacentCount(x, y, z)*(extraCells + 1);
+						heatThisTick += baseHeat*moderatorHeatMultiplier*moderatorAdjacentCount(x, y, z)*(extraCells + 1);
 					}
 					
-					// Extra Graphite
-					if (canProcess()) if (findGraphite(x, y, z)) {
+					// Extra Moderators
+					if (canProcess()) if (findModerator(x, y, z)) {
 						if (!cellAdjacent(x, y, z)) heatThisTick += baseHeat;
 					}
 					
@@ -826,7 +849,7 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 					}
 					
 					// Active Coolers
-					if(finder.find(x, y, z, NCBlocks.active_cooler)) {
+					if (finder.find(x, y, z, NCBlocks.active_cooler)) {
 						TileEntity tile = world.getTileEntity(finder.position(x, y, z));
 						if (tile != null) if (tile instanceof TileActiveCooler) {
 							Tank tank = ((TileActiveCooler) tile).getTanks()[0];
@@ -926,6 +949,9 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 		nbt.setInteger("problemPosY", problemPosY);
 		nbt.setInteger("problemPosZ", problemPosZ);
 		nbt.setInteger("problemPosBool", problemPosBool);
+		nbt.setBoolean("newRules", newRules);
+		nbt.setInteger("ports", ports);
+		nbt.setInteger("currentEnergyStored", currentEnergyStored);
 		
 		return nbt;
 	}
@@ -959,6 +985,9 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 		problemPosY = nbt.getInteger("problemPosY");
 		problemPosZ = nbt.getInteger("problemPosZ");
 		problemPosBool = nbt.getInteger("problemPosBool");
+		newRules = nbt.getBoolean("newRules");
+		ports = nbt.getInteger("ports");
+		currentEnergyStored = nbt.getInteger("currentEnergyStored");
 	}
 	
 	// Inventory Fields
@@ -1112,7 +1141,7 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 	public static final String[] METHOD_NAMES = new String[NUMBER_OF_METHODS];
 	static {
 		ComputerMethod[] methods = ComputerMethod.values();
-		for(ComputerMethod method : methods) {
+		for (ComputerMethod method : methods) {
 			METHOD_NAMES[method.ordinal()] = method.toString();
 		}
 	}

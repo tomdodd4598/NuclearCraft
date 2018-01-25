@@ -24,7 +24,7 @@ public class ItemFissionFuel<T extends Enum<T> & IStringSerializable & IItemMeta
 	public final String[][] info;
 	
 	public ItemFissionFuel(String nameIn, Class<T> enumm) {
-		setUnlocalizedName(nameIn);
+		setUnlocalizedName(Global.MOD_ID + "." + nameIn);
 		setRegistryName(new ResourceLocation(Global.MOD_ID, nameIn));
 		setHasSubtypes(true);
 		values = enumm.getEnumConstants();

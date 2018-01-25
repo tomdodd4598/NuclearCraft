@@ -3,14 +3,10 @@ package nc.item.tool;
 import java.util.List;
 
 import nc.Global;
-import nc.init.NCTools;
 import nc.util.InfoHelper;
-import nc.util.RarityHelper;
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemHoe;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -22,7 +18,7 @@ public class NCHoe extends ItemHoe {
 
 	public NCHoe(String unlocalizedName, ToolMaterial material, String... tooltip) {
 		super(material);
-		setUnlocalizedName(unlocalizedName);
+		setUnlocalizedName(Global.MOD_ID + "." + unlocalizedName);
 		setRegistryName(new ResourceLocation(Global.MOD_ID, unlocalizedName));
 		info = InfoHelper.buildInfo(getUnlocalizedName(), tooltip);
 	}

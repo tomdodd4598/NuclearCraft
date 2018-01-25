@@ -5,16 +5,16 @@ import nc.proxy.CommonProxy;
 import nc.tile.dummy.TileFissionPort;
 import nc.tile.dummy.TileFusionDummy;
 import nc.tile.dummy.TileMachineInterface;
-import nc.tile.energy.Batteries;
+import nc.tile.energy.TileBattery;
 import nc.tile.energyFluid.TileBin;
 import nc.tile.energyFluid.TileBuffer;
 import nc.tile.fluid.TileActiveCooler;
-import nc.tile.generator.RTGs;
-import nc.tile.generator.SolarPanels;
+import nc.tile.generator.TileRTG;
+import nc.tile.generator.TileSolarPanel;
 import nc.tile.generator.TileDecayGenerator;
 import nc.tile.generator.TileFissionController;
-import nc.tile.passive.Passives;
-import nc.tile.processor.Processors;
+import nc.tile.passive.TilePassive;
+import nc.tile.processor.TileProcessor;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.tileentity.TileEntity;
@@ -40,7 +40,9 @@ public class BlockEnums {
 		SALT_MIXER("salt_mixer", 14, "reddust", "endRod"),
 		CRYSTALLIZER("crystallizer", 15, "depthsuspend", "depthsuspend"),
 		DISSOLVER("dissolver", 16, "splash", "depthsuspend"),
-		FISSION_CONTROLLER("fission_controller", 100, "", "");
+		EXTRACTOR("extractor", 17, "reddust", "depthsuspend"),
+		FISSION_CONTROLLER("fission_controller", 100, "", ""),
+		FISSION_CONTROLLER_NEW("fission_controller_new", 100, "", "");
 		
 		private String name;
 		private int id;
@@ -66,39 +68,43 @@ public class BlockEnums {
 		public TileEntity getTile() {
 			switch (this) {
 			case MANUFACTORY:
-				return new Processors.TileManufactory();
+				return new TileProcessor.Manufactory();
 			case ISOTOPE_SEPARATOR:
-				return new Processors.TileIsotopeSeparator();
+				return new TileProcessor.IsotopeSeparator();
 			case DECAY_HASTENER:
-				return new Processors.TileDecayHastener();
+				return new TileProcessor.DecayHastener();
 			case FUEL_REPROCESSOR:
-				return new Processors.TileFuelReprocessor();
+				return new TileProcessor.FuelReprocessor();
 			case ALLOY_FURNACE:
-				return new Processors.TileAlloyFurnace();
+				return new TileProcessor.AlloyFurnace();
 			case INFUSER:
-				return new Processors.TileInfuser();
+				return new TileProcessor.Infuser();
 			case MELTER:
-				return new Processors.TileMelter();
+				return new TileProcessor.Melter();
 			case SUPERCOOLER:
-				return new Processors.TileSupercooler();
+				return new TileProcessor.Supercooler();
 			case ELECTROLYSER:
-				return new Processors.TileElectrolyser();
+				return new TileProcessor.Electrolyser();
 			case IRRADIATOR:
-				return new Processors.TileIrradiator();
+				return new TileProcessor.Irradiator();
 			case INGOT_FORMER:
-				return new Processors.TileIngotFormer();
+				return new TileProcessor.IngotFormer();
 			case PRESSURIZER:
-				return new Processors.TilePressurizer();
+				return new TileProcessor.Pressurizer();
 			case CHEMICAL_REACTOR:
-				return new Processors.TileChemicalReactor();
+				return new TileProcessor.ChemicalReactor();
 			case SALT_MIXER:
-				return new Processors.TileSaltMixer();
+				return new TileProcessor.SaltMixer();
 			case CRYSTALLIZER:
-				return new Processors.TileCrystallizer();
+				return new TileProcessor.Crystallizer();
 			case DISSOLVER:
-				return new Processors.TileDissolver();
+				return new TileProcessor.Dissolver();
+			case EXTRACTOR:
+				return new TileProcessor.Extractor();
 			case FISSION_CONTROLLER:
-				return new TileFissionController();
+				return new TileFissionController(false);
+			case FISSION_CONTROLLER_NEW:
+				return new TileFissionController(true);
 			default:
 				return null;
 			}
@@ -138,8 +144,12 @@ public class BlockEnums {
 				return NCBlocks.crystallizer_idle;
 			case DISSOLVER:
 				return NCBlocks.dissolver_idle;
+			case EXTRACTOR:
+				return NCBlocks.extractor_idle;
 			case FISSION_CONTROLLER:
 				return NCBlocks.fission_controller_idle;
+			case FISSION_CONTROLLER_NEW:
+				return NCBlocks.fission_controller_new_idle;
 			default:
 				return NCBlocks.manufactory_idle;
 			}
@@ -179,10 +189,25 @@ public class BlockEnums {
 				return NCBlocks.crystallizer_active;
 			case DISSOLVER:
 				return NCBlocks.dissolver_active;
+			case EXTRACTOR:
+				return NCBlocks.extractor_active;
 			case FISSION_CONTROLLER:
 				return NCBlocks.fission_controller_active;
+			case FISSION_CONTROLLER_NEW:
+				return NCBlocks.fission_controller_new_active;
 			default:
 				return NCBlocks.manufactory_active;
+			}
+		}
+		
+		public CreativeTabs getCreativeTab() {
+			switch (this) {
+			case FISSION_CONTROLLER:
+				return CommonProxy.TAB_FISSION_BLOCKS;
+			case FISSION_CONTROLLER_NEW:
+				return CommonProxy.TAB_FISSION_BLOCKS;
+			default:
+				return CommonProxy.TAB_MACHINES;
 			}
 		}
 		
@@ -262,49 +287,49 @@ public class BlockEnums {
 				return new TileBin();
 			
 			case RTG_URANIUM:
-				return new RTGs.UraniumRTG();
+				return new TileRTG.Uranium();
 			case RTG_PLUTONIUM:
-				return new RTGs.PlutoniumRTG();
+				return new TileRTG.Plutonium();
 			case RTG_AMERICIUM:
-				return new RTGs.AmericiumRTG();
+				return new TileRTG.Americium();
 			case RTG_CALIFORNIUM:
-				return new RTGs.CaliforniumRTG();
+				return new TileRTG.Californium();
 			
 			case SOLAR_PANEL_BASIC:
-				return new SolarPanels.SolarPanelBasic();
+				return new TileSolarPanel.Basic();
 				
 			case VOLTAIC_PILE_BASIC:
-				return new Batteries.VoltaicPileBasic();
+				return new TileBattery.VoltaicPileBasic();
 			case LITHIUM_ION_BATTERY_BASIC:
-				return new Batteries.LithiumIonBatteryBasic();
+				return new TileBattery.LithiumIonBatteryBasic();
 				
 			case HELIUM_COLLECTOR:
-				return new Passives.TileHeliumCollector();
+				return new TilePassive.HeliumCollector();
 			case HELIUM_COLLECTOR_COMPACT:
-				return new Passives.TileHeliumCollectorCompact();
+				return new TilePassive.HeliumCollectorCompact();
 			case HELIUM_COLLECTOR_DENSE:
-				return new Passives.TileHeliumCollectorDense();
+				return new TilePassive.HeliumCollectorDense();
 				
 			case COBBLESTONE_GENERATOR:
-				return new Passives.TileCobblestoneGenerator();
+				return new TilePassive.CobblestoneGenerator();
 			case COBBLESTONE_GENERATOR_COMPACT:
-				return new Passives.TileCobblestoneGeneratorCompact();
+				return new TilePassive.CobblestoneGeneratorCompact();
 			case COBBLESTONE_GENERATOR_DENSE:
-				return new Passives.TileCobblestoneGeneratorDense();
+				return new TilePassive.CobblestoneGeneratorDense();
 				
 			case WATER_SOURCE:
-				return new Passives.TileWaterSource();
+				return new TilePassive.WaterSource();
 			case WATER_SOURCE_COMPACT:
-				return new Passives.TileWaterSourceCompact();
+				return new TilePassive.WaterSourceCompact();
 			case WATER_SOURCE_DENSE:
-				return new Passives.TileWaterSourceDense();
+				return new TilePassive.WaterSourceDense();
 				
 			case NITROGEN_COLLECTOR:
-				return new Passives.TileNitrogenCollector();
+				return new TilePassive.NitrogenCollector();
 			case NITROGEN_COLLECTOR_COMPACT:
-				return new Passives.TileNitrogenCollectorCompact();
+				return new TilePassive.NitrogenCollectorCompact();
 			case NITROGEN_COLLECTOR_DENSE:
-				return new Passives.TileNitrogenCollectorDense();
+				return new TilePassive.NitrogenCollectorDense();
 			
 			default:
 				return null;
@@ -338,13 +363,13 @@ public class BlockEnums {
 		public TileEntity getTile() {
 			switch (this) {
 			case FUSION_ELECTROMAGNET:
-				return new Passives.TileFusionElectromagnet();
+				return new TilePassive.FusionElectromagnet();
 			case FUSION_ELECTROMAGNET_TRANSPARENT:
-				return new Passives.TileFusionElectromagnet();
+				return new TilePassive.FusionElectromagnet();
 			case ACCELERATOR_ELECTROMAGNET:
-				return new Passives.TileAcceleratorElectromagnet();
+				return new TilePassive.AcceleratorElectromagnet();
 			case ELECTROMAGNET_SUPERCOOLER:
-				return new Passives.TileElectromagnetSupercooler();
+				return new TilePassive.ElectromagnetSupercooler();
 			default:
 				return null;
 			}
@@ -405,9 +430,9 @@ public class BlockEnums {
 		public TileEntity getTile() {
 			switch (this) {
 			case FUSION_DUMMY_SIDE:
-				return new TileFusionDummy.TileFusionDummySide();
+				return new TileFusionDummy.Side();
 			case FUSION_DUMMY_TOP:
-				return new TileFusionDummy.TileFusionDummyTop();
+				return new TileFusionDummy.Top();
 			default:
 				return null;
 			}

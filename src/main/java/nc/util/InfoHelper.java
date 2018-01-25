@@ -1,6 +1,5 @@
 package nc.util;
 
-import java.lang.reflect.Field;
 import java.util.List;
 
 import org.lwjgl.input.Keyboard;
@@ -12,14 +11,24 @@ public class InfoHelper {
 	
 	public static final String SHIFT_STRING = Lang.localise("gui.inventory.shift_for_info");
 	
-	private static final String[] EMPTY_ARRAY = {};
+	public static final String[] EMPTY_ARRAY = {};
+	public static final String[][] EMPTY_ARRAYS = {};
+	
+	public static void infoLine(List list, TextFormatting fixedColor, String line) {
+		list.add(fixedColor + line);
+	}
+	
+	public static void infoLine(List list, String line) {
+		infoLine(list, TextFormatting.AQUA, line);
+	}
 	
 	public static void shiftInfo(List list) {
 		list.add(TextFormatting.ITALIC + SHIFT_STRING);
 	}
-
-	public static void info(List list, String line) {
-		list.add(TextFormatting.AQUA + line);
+	
+	public static void fixedInfoList(List list, TextFormatting fixedColor, String... fixedLines) {
+		for (int i = 0; i < fixedLines.length; i++) infoLine(list, fixedColor, fixedLines[i]);
+		shiftInfo(list);
 	}
 	
 	public static boolean shift() {
@@ -27,18 +36,28 @@ public class InfoHelper {
 	}
 	
 	public static void infoList(List list, String... lines) {
-		for (int i = 0; i < lines.length; i++) list.add(TextFormatting.AQUA + lines[i]);
+		for (int i = 0; i < lines.length; i++) infoLine(list, lines[i]);
+	}
+	
+	public static void infoFull(List list, TextFormatting fixedColor, String[] fixedLines, String... lines) {
+		if (lines == EMPTY_ARRAY) return; else {
+			if (fixedLines != EMPTY_ARRAY && !shift()) fixedInfoList(list, fixedColor, fixedLines);
+			else if (shift() || lines.length == 1) infoList(list, lines);
+			else shiftInfo(list);
+        }
 	}
 	
 	public static void infoFull(List list, String... lines) {
-		if (lines == EMPTY_ARRAY) return; else {
-			if (InfoHelper.shift() || lines.length == 1) InfoHelper.infoList(list, lines);
-			else InfoHelper.shiftInfo(list);
-        }
+		infoFull(list, TextFormatting.AQUA, EMPTY_ARRAY, lines);
 	}
 	
 	public static String[] formattedInfo(String tooltip, Object... args) {
 		return FontRenderHelper.formattedString(Lang.localise(tooltip, args), MINIMUM_TEXT_WIDTH /*Math.max(MINIMUM_TEXT_WIDTH, FontRenderHelper.maxSize(tooltip))*/);
+	}
+	
+	public static String[] buildFixedInfo(String unlocName, String... tooltip) {
+		if (tooltip.length == 0) return standardFixedInfo(unlocName);
+		else return tooltip;
 	}
 	
 	public static String[] buildInfo(String unlocName, String... tooltip) {
@@ -46,27 +65,47 @@ public class InfoHelper {
 		else return tooltip;
 	}
 	
+	public static String[] standardFixedInfo(String unlocName) {
+		return standardFixedInfo(unlocName, unlocName);
+	}
+	
 	public static String[] standardInfo(String unlocName) {
 		return standardInfo(unlocName, unlocName);
 	}
 	
+	public static <T extends Enum<T>> String[][] buildFixedInfo(String unlocNameBase, Class<T> enumm, String[]... tooltips) {
+		return buildGeneralInfo(unlocNameBase, enumm, ".fixd", ".fix", tooltips);
+	}
+	
 	public static <T extends Enum<T>> String[][] buildInfo(String unlocNameBase, Class<T> enumm, String[]... tooltips) {
+		return buildGeneralInfo(unlocNameBase, enumm, ".desc", ".des", tooltips);
+	}
+	
+	public static <T extends Enum<T>> String[][] buildGeneralInfo(String unlocNameBase, Class<T> enumm, String desc, String des, String[]... tooltips) {
 		String[] names = getEnumNames(enumm);
 		String[][] strings = new String[names.length][];
 		for (int i = 0; i < names.length; i++) {
-			if (ArrayHelper.isEmpty(tooltips, i)) strings[i] = standardInfo(unlocNameBase + "." + names[i], unlocNameBase);
+			if (ArrayHelper.isEmpty(tooltips, i)) strings[i] = standardGeneralInfo(unlocNameBase + "." + names[i], unlocNameBase, desc, des);
 			else strings[i] = tooltips[i];
 		}
 		return strings;
 	}
 	
+	public static String[] standardFixedInfo(String unlocName, String generalName) {
+		return standardGeneralInfo(unlocName, generalName, ".fixd", ".fix");
+	}
+	
 	public static String[] standardInfo(String unlocName, String generalName) {
+		return standardGeneralInfo(unlocName, generalName, ".desc", ".des");
+	}
+	
+	public static String[] standardGeneralInfo(String unlocName, String generalName, String desc, String des) {
 		for (String name : new String[] {unlocName, generalName}) {
-			if (Lang.canLocalise(name + ".desc")) {
-				return formattedInfo(name + ".desc");
+			if (Lang.canLocalise(name + desc)) {
+				return formattedInfo(name + desc);
 			}
 		}
-		return getNumberedInfo(unlocName + ".des");
+		return getNumberedInfo(unlocName + des);
 	}
 	
 	public static String[] getNumberedInfo(String base) {

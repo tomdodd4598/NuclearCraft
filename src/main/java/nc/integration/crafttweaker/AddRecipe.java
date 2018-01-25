@@ -16,7 +16,6 @@ import nc.recipe.IRecipe;
 import nc.recipe.IRecipeStack;
 import nc.recipe.RecipeOreStack;
 import nc.recipe.StackType;
-import nc.util.NCUtil;
 import nc.util.StackHelper;
 import net.minecraft.item.ItemStack;
 
@@ -106,7 +105,7 @@ public class AddRecipe<T extends BaseRecipeHandler> implements IAction {
 			helper.addRecipe(recipe);	
 			//CraftTweakerAPI.getIjeiRecipeRegistry().addRecipe(JEIMethods.createJEIRecipe(recipe, helper));
 		} else {
-			NCUtil.getLogger().error(String.format("Failed to add %s recipe (%s = %s)", helper.getRecipeName(), inputs, outputs));
+			CraftTweakerAPI.logError(String.format("Failed to add %s recipe (%s = %s)", helper.getRecipeName(), inputs, outputs));
 		}
 	}
 	
@@ -127,7 +126,7 @@ public class AddRecipe<T extends BaseRecipeHandler> implements IAction {
 			}
 
 		} else {
-			NCUtil.getLogger().error(String.format("Adding Recipe - Failed to remove %s recipe (%s = %s)", helper.getRecipeName(), inputs, outputs));
+			CraftTweakerAPI.logError(String.format("Adding Recipe - Failed to remove %s recipe (%s = %s)", helper.getRecipeName(), inputs, outputs));
 		}
 	}
 	

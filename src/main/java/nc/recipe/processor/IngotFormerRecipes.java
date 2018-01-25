@@ -8,7 +8,6 @@ import nc.config.NCConfig;
 import nc.recipe.BaseRecipeHandler;
 import nc.util.FluidHelper;
 import nc.util.StringHelper;
-import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 
@@ -67,6 +66,8 @@ public class IngotFormerRecipes extends BaseRecipeHandler {
 		for (int type : types) {
 			addRecipe(fluidStack("fuel_l" + suffix + suffixExtra + "_" + type, FluidHelper.INGOT_BLOCK_VOLUME), "fuelL" + suffix.toUpperCase() + suffixExtra + type, NCConfig.processor_time[10]*9);
 			addRecipe(fluidStack("fuel_h" + suffix + suffixExtra + "_" + type, FluidHelper.INGOT_BLOCK_VOLUME), "fuelH" + suffix.toUpperCase() + suffixExtra + type, NCConfig.processor_time[10]*9);
+			addRecipe(fluidStack("depleted_fuel_l" + suffix + suffixExtra + "_" + type, FluidHelper.NUGGET_VOLUME*64), "depletedFuelL" + suffix.toUpperCase() + suffixExtra + type, NCConfig.processor_time[10]*64/9);
+			addRecipe(fluidStack("depleted_fuel_h" + suffix + suffixExtra + "_" + type, FluidHelper.NUGGET_VOLUME*64), "depletedFuelH" + suffix.toUpperCase() + suffixExtra + type, NCConfig.processor_time[10]*64/9);
 		}
 	}
 	

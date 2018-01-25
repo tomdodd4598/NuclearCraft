@@ -9,7 +9,8 @@ import nc.init.NCBlocks;
 import nc.tile.dummy.IInterfaceable;
 import nc.tile.energy.TileEnergy;
 import nc.tile.energy.storage.EnumStorage.EnergyConnection;
-import nc.util.OreStackHelper;
+import nc.util.EnergyHelper;
+import nc.util.StackHelper;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
@@ -61,7 +62,7 @@ public class TileDecayGenerator extends TileEnergy implements IInterfaceable {
 	
 	@Override
 	public int getSourceTier() {
-		return 1;
+		return EnergyHelper.getEUSourceTier(maxPower());
 	}
 	
 	@Override
@@ -75,7 +76,7 @@ public class TileDecayGenerator extends TileEnergy implements IInterfaceable {
 			types.add(i, OreDictionary.getOres(DECAY_BLOCK_NAMES[i]));
 		}
 		
-		ItemStack stack = OreStackHelper.blockToStack(world.getBlockState(pos));
+		ItemStack stack = StackHelper.blockToStack(world.getBlockState(pos));
 		for (int i = 0; i < types.size(); i++) {
 			for (ItemStack oreStack : types.get(i)) if (oreStack.isItemEqual(stack)) {
 				if (rand.nextInt(36000/20) == 0) world.setBlockState(pos, DECAY_PATHS[i]);

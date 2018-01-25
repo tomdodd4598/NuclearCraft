@@ -1,0 +1,8 @@
+{
+    "parent": "block/orientable",
+    "textures": {
+        "top": "nuclearcraft:blocks/extractor_top",
+        "front": "nuclearcraft:blocks/extractor_front_on",
+        "side": "nuclearcraft:blocks/extractor_side"
+    }
+}

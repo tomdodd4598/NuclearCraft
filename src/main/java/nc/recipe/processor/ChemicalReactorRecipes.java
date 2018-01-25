@@ -1,13 +1,8 @@
 package nc.recipe.processor;
 
-import java.util.ArrayList;
-
 import nc.config.NCConfig;
 import nc.recipe.BaseRecipeHandler;
 import nc.util.FluidHelper;
-import nc.util.StringHelper;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidRegistry;
 
 public class ChemicalReactorRecipes extends BaseRecipeHandler {
 	
@@ -40,6 +35,8 @@ public class ChemicalReactorRecipes extends BaseRecipeHandler {
 		addRecipe(fluidStack("oxygen_difluoride", FluidHelper.BUCKET_VOLUME/4), fluidStack("water", FluidHelper.BUCKET_VOLUME/4), fluidStack("oxygen", FluidHelper.BUCKET_VOLUME/4), fluidStack("hydrofluoric_acid", FluidHelper.BUCKET_VOLUME/2), NCConfig.processor_time[12]);
 		addRecipe(fluidStack("oxygen_difluoride", FluidHelper.BUCKET_VOLUME/2), fluidStack("sulfur_dioxide", FluidHelper.BUCKET_VOLUME/2), fluidStack("sulfur_trioxide", FluidHelper.BUCKET_VOLUME/2), fluidStack("fluorine", FluidHelper.BUCKET_VOLUME/2), NCConfig.processor_time[12]);
 		
+		addElementFluorideRecipes("thorium", "uranium", "plutonium");
+		
 		addIsotopeFluorideRecipes("thorium", 230, 232);
 		addIsotopeFluorideRecipes("uranium", 233, 235, 238);
 		addIsotopeFluorideRecipes("neptunium", 236, 237);
@@ -56,6 +53,10 @@ public class ChemicalReactorRecipes extends BaseRecipeHandler {
 		addFissionFuelFluorideRecipes("ecm", 243, 245, 247);
 		addFissionFuelFluorideRecipes("eb", 248);
 		addFissionFuelFluorideRecipes("ecf", 249, 251);
+	}
+	
+	public void addElementFluorideRecipes(String... elements) {
+		for (String element : elements) addRecipe(fluidStack(element, FluidHelper.INGOT_VOLUME), fluidStack("fluorine", FluidHelper.BUCKET_VOLUME), fluidStack(element + "_fluoride", FluidHelper.INGOT_VOLUME/2), fluidStack(element + "_fluoride", FluidHelper.INGOT_VOLUME/2), NCConfig.processor_time[12]);
 	}
 	
 	public void addIsotopeFluorideRecipes(String element, int... types) {

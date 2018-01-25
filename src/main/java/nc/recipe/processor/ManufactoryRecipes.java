@@ -20,9 +20,8 @@ public class ManufactoryRecipes extends BaseRecipeHandler {
 	public void addRecipes() {
 		if (NCConfig.ore_processing) addOreProcessingRecipes();
 		
-		addRecipe("gemCoal", "dustGraphite", NCConfig.processor_time[0]);
+		addRecipe("gemCoal", "dustCoal", NCConfig.processor_time[0]);
 		addRecipe("dustCoal", "dustGraphite", NCConfig.processor_time[0]);
-		addRecipe("dustGraphite", "dustCoal", NCConfig.processor_time[0]);
 		
 		addRecipe("gemDiamond", "dustDiamond", NCConfig.processor_time[0]*2);
 		addRecipe("gemRhodochrosite", "dustRhodochrosite", NCConfig.processor_time[0]*2);

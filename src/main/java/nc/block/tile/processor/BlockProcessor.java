@@ -5,7 +5,6 @@ import java.util.Random;
 import nc.block.tile.BlockSidedInventoryGui;
 import nc.block.tile.IActivatable;
 import nc.enumm.BlockEnums.ProcessorType;
-import nc.proxy.CommonProxy;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
@@ -27,7 +26,7 @@ public class BlockProcessor extends BlockSidedInventoryGui implements IActivatab
 	public BlockProcessor(ProcessorType type, boolean isActive) {
 		super(type.getName() + (isActive ? "_active" : "_idle"), Material.IRON, type.getID());
 		this.isActive = isActive;
-		if (!isActive && type != ProcessorType.FISSION_CONTROLLER) setCreativeTab(CommonProxy.TAB_MACHINES);
+		if (!isActive) setCreativeTab(type.getCreativeTab());
 		this.type = type;
 	}
 	

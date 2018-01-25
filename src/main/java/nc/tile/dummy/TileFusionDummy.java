@@ -29,8 +29,8 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 })*/
 public abstract class TileFusionDummy extends TileDummy /*implements SimpleComponent, ManagedPeripheral, IPeripheral*/ {
 	
-	public static class TileFusionDummySide extends TileFusionDummy {
-		public TileFusionDummySide() {
+	public static class Side extends TileFusionDummy {
+		public Side() {
 			super("fusion_dummy_side");
 		}
 		
@@ -45,8 +45,8 @@ public abstract class TileFusionDummy extends TileDummy /*implements SimpleCompo
 		}
 	}
 	
-	public static class TileFusionDummyTop extends TileFusionDummy {
-		public TileFusionDummyTop() {
+	public static class Top extends TileFusionDummy {
+		public Top() {
 			super("fusion_dummy_top");
 		}
 		

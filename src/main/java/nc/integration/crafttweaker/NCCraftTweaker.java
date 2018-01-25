@@ -30,6 +30,7 @@ public class NCCraftTweaker {
 		CraftTweakerAPI.registerClass(SaltMixerHandler.class);
 		CraftTweakerAPI.registerClass(CrystallizerHandler.class);
 		CraftTweakerAPI.registerClass(DissolverHandler.class);
+		CraftTweakerAPI.registerClass(ExtractorHandler.class);
 		CraftTweakerAPI.registerClass(FissionHandler.class);
 		CraftTweakerAPI.registerClass(FusionHandler.class);
 	}
@@ -351,6 +352,26 @@ public class NCCraftTweaker {
 		@ZenMethod
 		public static void removeRecipe(IIngredient output1) {
 			CraftTweakerAPI.apply(new RemoveRecipe(NCRecipes.DISSOLVER_RECIPES, SorptionType.OUTPUT, Lists.newArrayList(output1)));
+		}
+	}
+	
+	@ZenClass("mods.nuclearcraft.extractor")
+	@ZenRegister
+	public static class ExtractorHandler {
+		
+		@ZenMethod
+		public static void addRecipe(IIngredient input1, IIngredient input2, IIngredient output1) {
+			CraftTweakerAPI.apply(new AddRecipe(NCRecipes.EXTRACTOR_RECIPES, Lists.newArrayList(input1, input2), Lists.newArrayList(output1), Lists.newArrayList(NCConfig.processor_time[16])));
+		}
+		
+		@ZenMethod
+		public static void addRecipe(IIngredient input1, IIngredient input2, IIngredient output1, int processTime) {
+			CraftTweakerAPI.apply(new AddRecipe(NCRecipes.EXTRACTOR_RECIPES, Lists.newArrayList(input1, input2), Lists.newArrayList(output1), Lists.newArrayList(processTime)));
+		}
+
+		@ZenMethod
+		public static void removeRecipe(IIngredient output1) {
+			CraftTweakerAPI.apply(new RemoveRecipe(NCRecipes.EXTRACTOR_RECIPES, SorptionType.OUTPUT, Lists.newArrayList(output1)));
 		}
 	}
 	

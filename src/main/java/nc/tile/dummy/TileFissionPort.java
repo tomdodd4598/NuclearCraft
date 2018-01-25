@@ -2,6 +2,7 @@ package nc.tile.dummy;
 
 import javax.annotation.Nullable;
 
+import ic2.api.energy.tile.IEnergySink;
 import nc.ModCheck;
 import nc.config.NCConfig;
 import nc.init.NCBlocks;
@@ -9,10 +10,12 @@ import nc.tile.energy.storage.EnumStorage.EnergyConnection;
 import nc.tile.generator.TileFissionController;
 import nc.util.BlockFinder;
 import net.darkhax.tesla.capability.TeslaCapabilities;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
+import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
@@ -40,6 +43,40 @@ public class TileFissionPort extends TileDummy implements IInterfaceable {
 		super.onAdded();
 	}
 	
+	private int getNumberOfPorts() {
+		if (getMaster() != null) {
+			if (getMaster() instanceof TileFissionController) return ((TileFissionController)getMaster()).ports;
+		}
+		return 1;
+	}
+	
+	private int getCurrentEnergyStored() {
+		if (getMaster() != null) {
+			if (getMaster() instanceof TileFissionController) return ((TileFissionController)getMaster()).currentEnergyStored;
+		}
+		return 1;
+	}
+	
+	// Energy Pushing - Account for multiple ports
+	
+	@Override
+	public void pushEnergy() {
+		if (getMaster() == null) return;
+		if (getStorage().getEnergyStored() <= 0 || !getEnergyConnection().canExtract()) return;
+		for (EnumFacing side : EnumFacing.VALUES) {
+			TileEntity tile = world.getTileEntity(getPos().offset(side));
+			IEnergyStorage adjStorage = tile == null ? null : tile.getCapability(CapabilityEnergy.ENERGY, side.getOpposite());
+			//TileEntity thisTile = world.getTileEntity(getPos());
+			
+			if (adjStorage != null && storage.canExtract()) {
+				getStorage().extractEnergy(adjStorage.receiveEnergy(getStorage().extractEnergy(getCurrentEnergyStored()/getNumberOfPorts(), true), false), false);
+			}
+			else if (tile instanceof IEnergySink /*&& tile != thisTile*/) {
+				getStorage().extractEnergy((int) Math.round(((IEnergySink) tile).injectEnergy(side.getOpposite(), getStorage().extractEnergy(getCurrentEnergyStored()/getNumberOfPorts(), true) / NCConfig.generator_rf_per_eu, getSourceTier())), false);
+			}
+		}
+	}
+	
 	// Finding Blocks
 	
 	private boolean findCasing(int x, int y, int z) {
@@ -47,7 +84,7 @@ public class TileFissionPort extends TileDummy implements IInterfaceable {
 	}
 	
 	private boolean findController(int x, int y, int z) {
-		return finder.find(x, y, z, NCBlocks.fission_controller_idle, NCBlocks.fission_controller_active);
+		return finder.find(x, y, z, NCBlocks.fission_controller_idle, NCBlocks.fission_controller_active, NCBlocks.fission_controller_new_idle, NCBlocks.fission_controller_new_active);
 	}
 	
 	private boolean findCasingAll(int x, int y, int z) {

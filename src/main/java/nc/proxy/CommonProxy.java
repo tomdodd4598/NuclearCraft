@@ -48,8 +48,6 @@ public class CommonProxy {
 	public static final CreativeTabs TAB_ACCELERATOR = new TabAccelerator();
 	public static final CreativeTabs TAB_FLUIDS = new TabFluids();
 	public static final CreativeTabs TAB_MISC = new TabMisc();
-	
-	nc.handler.EventHandler eventHandler = new nc.handler.EventHandler();
 
 	public void preInit(FMLPreInitializationEvent preEvent) {
 		SoundHandler.init();
@@ -79,7 +77,6 @@ public class CommonProxy {
 	public void init(FMLInitializationEvent event) {
 		initFissionFluidColors();
 		
-		eventHandler.registerEvents();
 		ModCheck.init();
 		MinecraftForge.EVENT_BUS.register(new DropHandler());
 		

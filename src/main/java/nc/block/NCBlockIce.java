@@ -22,7 +22,7 @@ public class NCBlockIce extends BlockIce {
 
 	public NCBlockIce(String name) {
 		super();
-		setUnlocalizedName(name);
+		setUnlocalizedName(Global.MOD_ID + "." + name);
 		setRegistryName(new ResourceLocation(Global.MOD_ID, name));
 		setHardness(0.5F);
 		setLightOpacity(3);

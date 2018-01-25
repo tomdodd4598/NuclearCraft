@@ -1,0 +1,6 @@
+{
+	"parent": "item/generated",
+	"textures": {
+		"layer0": "nuclearcraft:items/depleted_fuel_plutonium_lep_239_oxide"
+	}
+}

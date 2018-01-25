@@ -26,8 +26,7 @@ public abstract class JEIRecipe<T extends JEIRecipe> implements IRecipeWrapper {
 	
 	public int inputSizeItem, inputSizeFluid;
 	public int outputSizeItem, outputSizeFluid;
-
-	@SuppressWarnings("static-access")
+	
 	public JEIRecipe(BaseRecipeHandler recipeHandler, IRecipe recipe) {
 		this.recipeHandler = recipeHandler;
 		this.recipe = recipe;

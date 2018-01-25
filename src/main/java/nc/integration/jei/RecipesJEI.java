@@ -1,7 +1,7 @@
 package nc.integration.jei;
 
-import nc.recipe.IRecipe;
 import nc.recipe.BaseRecipeHandler;
+import nc.recipe.IRecipe;
 
 public class RecipesJEI {
 	
@@ -113,6 +113,13 @@ public class RecipesJEI {
 	public static class Dissolver extends JEIRecipe<Dissolver> {
 
 		public Dissolver(BaseRecipeHandler methods, IRecipe recipe) {
+			super(methods, recipe);
+		}
+	}
+	
+	public static class Extractor extends JEIRecipe<Extractor> {
+
+		public Extractor(BaseRecipeHandler methods, IRecipe recipe) {
 			super(methods, recipe);
 		}
 	}

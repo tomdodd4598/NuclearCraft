@@ -1,30 +1,40 @@
 package nc.tile.energy;
 
-import nc.tile.dummy.IInterfaceable;
-import nc.tile.energy.storage.Storage;
-import nc.tile.energy.storage.EnumStorage.EnergyConnection;
+import nc.config.NCConfig;
 
-public abstract class TileBattery extends TileEnergy implements IBattery, IInterfaceable, IEnergySpread {
+public class TileBattery {
 	
-	public TileBattery(int capacity) {
-		this(capacity, capacity);
-	}
+	public static class VoltaicPileBasic extends TileBatteryAbstract {
 
-	public TileBattery(int capacity, int maxTransfer) {
-		super(capacity, maxTransfer, EnergyConnection.BOTH);
-	}
-	
-	@Override
-	public void update() {
-		super.update();
-		if(!world.isRemote) {
-			pushEnergy();
-			spreadEnergy();
+		public VoltaicPileBasic() {
+			super(NCConfig.battery_capacity[0]);
+		}
+		
+		@Override
+		public int getSourceTier() {
+			return 2;
+		}
+		
+		@Override
+		public int getSinkTier() {
+			return 2;
 		}
 	}
+	
+	public static class LithiumIonBatteryBasic extends TileBatteryAbstract {
 
-	@Override
-	public Storage getBatteryStorage() {
-		return storage;
+		public LithiumIonBatteryBasic() {
+			super(NCConfig.battery_capacity[1]);
+		}
+		
+		@Override
+		public int getSourceTier() {
+			return 4;
+		}
+		
+		@Override
+		public int getSinkTier() {
+			return 4;
+		}
 	}
 }

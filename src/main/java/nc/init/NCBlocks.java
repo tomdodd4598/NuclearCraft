@@ -14,11 +14,12 @@ import nc.block.item.NCItemBlock;
 import nc.block.tile.BlockActivatable;
 import nc.block.tile.BlockActivatableTransparent;
 import nc.block.tile.BlockBattery;
-import nc.block.tile.BlockSimpleSidedTile;
 import nc.block.tile.BlockSimpleTile;
+import nc.block.tile.dummy.BlockFusionDummy;
+import nc.block.tile.dummy.BlockSimpleDummy;
+import nc.block.tile.dummy.BlockSimpleSidedDummy;
 import nc.block.tile.generator.BlockFissionController;
 import nc.block.tile.generator.BlockFusionCore;
-import nc.block.tile.generator.BlockFusionDummy;
 import nc.block.tile.processor.BlockNuclearFurnace;
 import nc.block.tile.processor.BlockProcessor;
 import nc.config.NCConfig;
@@ -33,7 +34,7 @@ import nc.enumm.MetaEnums.IngotType;
 import nc.enumm.MetaEnums.OreType;
 import nc.proxy.CommonProxy;
 import nc.util.InfoHelper;
-import nc.util.NCUtil;
+import nc.util.Lang;
 import nc.util.UnitHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -41,6 +42,7 @@ import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
@@ -101,11 +103,15 @@ public class NCBlocks {
 	public static Block crystallizer_active;
 	public static Block dissolver_idle;
 	public static Block dissolver_active;
+	public static Block extractor_idle;
+	public static Block extractor_active;
 	
 	public static Block machine_interface;
 	
 	public static Block fission_controller_idle;
 	public static Block fission_controller_active;
+	public static Block fission_controller_new_idle;
+	public static Block fission_controller_new_active;
 	public static Block fission_port;
 	
 	public static Block fusion_core;
@@ -215,12 +221,16 @@ public class NCBlocks {
 		crystallizer_active = new BlockProcessor(ProcessorType.CRYSTALLIZER, true);
 		dissolver_idle = new BlockProcessor(ProcessorType.DISSOLVER, false);
 		dissolver_active = new BlockProcessor(ProcessorType.DISSOLVER, true);
+		extractor_idle = new BlockProcessor(ProcessorType.EXTRACTOR, false);
+		extractor_active = new BlockProcessor(ProcessorType.EXTRACTOR, true);
 		
-		machine_interface = new BlockSimpleTile(SimpleTileType.MACHINE_INTERFACE);
+		machine_interface = new BlockSimpleDummy(SimpleTileType.MACHINE_INTERFACE);
 		
-		fission_controller_idle = new BlockFissionController(false);
-		fission_controller_active = new BlockFissionController(true);
-		fission_port = new BlockSimpleSidedTile(SimpleTileType.FISSION_PORT);
+		fission_controller_idle = new BlockFissionController(false, false);
+		fission_controller_active = new BlockFissionController(true, false);
+		fission_controller_new_idle = new BlockFissionController(false, true);
+		fission_controller_new_active = new BlockFissionController(true, true);
+		fission_port = new BlockSimpleSidedDummy(SimpleTileType.FISSION_PORT);
 		
 		fusion_core = new BlockFusionCore();
 		fusion_dummy_side = new BlockFusionDummy(FusionDummyTileType.FUSION_DUMMY_SIDE);
@@ -276,11 +286,11 @@ public class NCBlocks {
 	
 	public static void register() {
 		registerBlock(ore, new ItemBlockMeta(ore, MetaEnums.OreType.class));
-		registerBlock(ingot_block, new ItemBlockMeta(ingot_block, MetaEnums.IngotType.class, NCInfo.ingotBlockInfo()));
+		registerBlock(ingot_block, new ItemBlockMeta(ingot_block, MetaEnums.IngotType.class, NCInfo.ingotBlockFixedInfo(), NCInfo.ingotBlockInfo()));
 		
 		registerBlock(fission_block, new ItemBlockMeta(fission_block, MetaEnums.FissionBlockType.class));
 		registerBlock(reactor_casing_transparent);
-		registerBlock(cell_block);
+		registerBlock(cell_block, InfoHelper.formattedInfo(infoLine("cell_block"), Lang.localise("info.moderator.cell", NCConfig.fission_neutron_reach)));
 		registerBlock(cooler, new ItemBlockMeta(cooler, MetaEnums.CoolerType.class, NCInfo.coolerInfo()));
 		registerBlock(reactor_door);
 		registerBlock(reactor_trapdoor);
@@ -330,11 +340,15 @@ public class NCBlocks {
 		registerBlock(crystallizer_active);
 		registerBlock(dissolver_idle);
 		registerBlock(dissolver_active);
+		registerBlock(extractor_idle);
+		registerBlock(extractor_active);
 		
 		registerBlock(machine_interface);
 		
-		registerBlock(fission_controller_idle);
+		registerBlock(fission_controller_idle, TextFormatting.RED);
 		registerBlock(fission_controller_active);
+		registerBlock(fission_controller_new_idle, TextFormatting.RED);
+		registerBlock(fission_controller_new_active);
 		registerBlock(fission_port);
 		
 		registerBlock(fusion_core);
@@ -342,47 +356,47 @@ public class NCBlocks {
 		registerBlock(fusion_dummy_top);
 		registerBlock(fusion_connector);
 		
-		registerBlock(rtg_uranium, InfoHelper.formattedInfo("tile.rtg.desc", UnitHelper.prefix(NCConfig.rtg_power[0], 5, "RF/t")));
-		registerBlock(rtg_plutonium, InfoHelper.formattedInfo("tile.rtg.desc", UnitHelper.prefix(NCConfig.rtg_power[1], 5, "RF/t")));
-		registerBlock(rtg_americium, InfoHelper.formattedInfo("tile.rtg.desc", UnitHelper.prefix(NCConfig.rtg_power[2], 5, "RF/t")));
-		registerBlock(rtg_californium, InfoHelper.formattedInfo("tile.rtg.desc", UnitHelper.prefix(NCConfig.rtg_power[3], 5, "RF/t")));
+		registerBlock(rtg_uranium, InfoHelper.formattedInfo(infoLine("rtg"), UnitHelper.prefix(NCConfig.rtg_power[0], 5, "RF/t")));
+		registerBlock(rtg_plutonium, InfoHelper.formattedInfo(infoLine("rtg"), UnitHelper.prefix(NCConfig.rtg_power[1], 5, "RF/t")));
+		registerBlock(rtg_americium, InfoHelper.formattedInfo(infoLine("rtg"), UnitHelper.prefix(NCConfig.rtg_power[2], 5, "RF/t")));
+		registerBlock(rtg_californium, InfoHelper.formattedInfo(infoLine("rtg"), UnitHelper.prefix(NCConfig.rtg_power[3], 5, "RF/t")));
 		
-		registerBlock(solar_panel_basic, InfoHelper.formattedInfo("tile.solar_panel.desc", UnitHelper.prefix(NCConfig.solar_power[0], 5, "RF/t")));
+		registerBlock(solar_panel_basic, InfoHelper.formattedInfo(infoLine("solar_panel"), UnitHelper.prefix(NCConfig.solar_power[0], 5, "RF/t")));
 		
 		registerBlock(decay_generator);
 		
-		registerBlock(voltaic_pile_basic, InfoHelper.formattedInfo("tile.energy_storage.desc", UnitHelper.prefix(NCConfig.battery_capacity[0], 5, "RF")));
-		registerBlock(lithium_ion_battery_basic, InfoHelper.formattedInfo("tile.energy_storage.desc", UnitHelper.prefix(NCConfig.battery_capacity[1], 5, "RF")));
+		registerBlock(voltaic_pile_basic, InfoHelper.formattedInfo(infoLine("energy_storage"), UnitHelper.prefix(NCConfig.battery_capacity[0], 5, "RF")));
+		registerBlock(lithium_ion_battery_basic, InfoHelper.formattedInfo(infoLine("energy_storage"), UnitHelper.prefix(NCConfig.battery_capacity[1], 5, "RF")));
 		
 		registerBlock(buffer);
 		registerBlock(active_cooler);
 		registerBlock(bin);
 		
-		registerBlock(fusion_electromagnet_idle, InfoHelper.formattedInfo("tile.fusion_electromagnet_idle.desc", UnitHelper.ratePrefix(NCConfig.fusion_electromagnet_power, 5, "RF")));
+		registerBlock(fusion_electromagnet_idle, InfoHelper.formattedInfo(infoLine("fusion_electromagnet_idle"), UnitHelper.ratePrefix(NCConfig.fusion_electromagnet_power, 5, "RF")));
 		registerBlock(fusion_electromagnet_active);
-		registerBlock(fusion_electromagnet_transparent_idle, InfoHelper.formattedInfo("tile.fusion_electromagnet_idle.desc", UnitHelper.ratePrefix(NCConfig.fusion_electromagnet_power, 5, "RF")));
+		registerBlock(fusion_electromagnet_transparent_idle, InfoHelper.formattedInfo(infoLine("fusion_electromagnet_idle"), UnitHelper.ratePrefix(NCConfig.fusion_electromagnet_power, 5, "RF")));
 		registerBlock(fusion_electromagnet_transparent_active);
 		
-		registerBlock(accelerator_electromagnet_idle, InfoHelper.formattedInfo("tile.accelerator_electromagnet_idle.desc", UnitHelper.ratePrefix(NCConfig.accelerator_electromagnet_power, 5, "RF")));
+		registerBlock(accelerator_electromagnet_idle, InfoHelper.formattedInfo(infoLine("accelerator_electromagnet_idle"), UnitHelper.ratePrefix(NCConfig.accelerator_electromagnet_power, 5, "RF")));
 		registerBlock(accelerator_electromagnet_active);
-		registerBlock(electromagnet_supercooler_idle, InfoHelper.formattedInfo("tile.electromagnet_supercooler_idle.desc", UnitHelper.ratePrefix(NCConfig.accelerator_electromagnet_power, 5, "RF"), UnitHelper.ratePrefix(NCConfig.accelerator_supercooler_coolant, 5, "B", -1)));
+		registerBlock(electromagnet_supercooler_idle, InfoHelper.formattedInfo(infoLine("electromagnet_supercooler_idle"), UnitHelper.ratePrefix(NCConfig.accelerator_electromagnet_power, 5, "RF"), UnitHelper.ratePrefix(NCConfig.accelerator_supercooler_coolant, 5, "B", -1)));
 		registerBlock(electromagnet_supercooler_active);
 		
-		registerBlock(helium_collector, InfoHelper.formattedInfo("tile.helium_collector.desc", UnitHelper.ratePrefix(NCConfig.processor_passive_rate[0], 5, "B", -1)));
-		registerBlock(helium_collector_compact, InfoHelper.formattedInfo("tile.helium_collector.desc", UnitHelper.ratePrefix(NCConfig.processor_passive_rate[0]*8, 5, "B", -1)));
-		registerBlock(helium_collector_dense, InfoHelper.formattedInfo("tile.helium_collector.desc", UnitHelper.ratePrefix(NCConfig.processor_passive_rate[0]*64, 5, "B", -1)));
+		registerBlock(helium_collector, InfoHelper.formattedInfo(infoLine("helium_collector"), UnitHelper.ratePrefix(NCConfig.processor_passive_rate[0], 5, "B", -1)));
+		registerBlock(helium_collector_compact, InfoHelper.formattedInfo(infoLine("helium_collector"), UnitHelper.ratePrefix(NCConfig.processor_passive_rate[0]*8, 5, "B", -1)));
+		registerBlock(helium_collector_dense, InfoHelper.formattedInfo(infoLine("helium_collector"), UnitHelper.ratePrefix(NCConfig.processor_passive_rate[0]*64, 5, "B", -1)));
 		
-		registerBlock(cobblestone_generator, InfoHelper.formattedInfo("tile.cobblestone_generator.desc", UnitHelper.ratePrefix(NCConfig.processor_passive_rate[1], 5, "Cobblestone")));
-		registerBlock(cobblestone_generator_compact, InfoHelper.formattedInfo("tile.cobblestone_generator.desc", UnitHelper.ratePrefix(NCConfig.processor_passive_rate[1]*8, 5, "Cobblestone")));
-		registerBlock(cobblestone_generator_dense, InfoHelper.formattedInfo("tile.cobblestone_generator.desc", UnitHelper.ratePrefix(NCConfig.processor_passive_rate[1]*64, 5, "Cobblestone")));
+		registerBlock(cobblestone_generator, InfoHelper.formattedInfo(infoLine("cobblestone_generator"), UnitHelper.ratePrefix(NCConfig.processor_passive_rate[1], 5, "Cobblestone")));
+		registerBlock(cobblestone_generator_compact, InfoHelper.formattedInfo(infoLine("cobblestone_generator"), UnitHelper.ratePrefix(NCConfig.processor_passive_rate[1]*8, 5, "Cobblestone")));
+		registerBlock(cobblestone_generator_dense, InfoHelper.formattedInfo(infoLine("cobblestone_generator"), UnitHelper.ratePrefix(NCConfig.processor_passive_rate[1]*64, 5, "Cobblestone")));
 		
-		registerBlock(water_source, InfoHelper.formattedInfo("tile.water_source.desc", UnitHelper.ratePrefix(NCConfig.processor_passive_rate[2], 5, "B", -1)));
-		registerBlock(water_source_compact, InfoHelper.formattedInfo("tile.water_source.desc", UnitHelper.ratePrefix(NCConfig.processor_passive_rate[2]*8, 5, "B", -1)));
-		registerBlock(water_source_dense, InfoHelper.formattedInfo("tile.water_source.desc", UnitHelper.ratePrefix(NCConfig.processor_passive_rate[2]*64, 5, "B", -1)));
+		registerBlock(water_source, InfoHelper.formattedInfo(infoLine("water_source"), UnitHelper.ratePrefix(NCConfig.processor_passive_rate[2], 5, "B", -1)));
+		registerBlock(water_source_compact, InfoHelper.formattedInfo(infoLine("water_source"), UnitHelper.ratePrefix(NCConfig.processor_passive_rate[2]*8, 5, "B", -1)));
+		registerBlock(water_source_dense, InfoHelper.formattedInfo(infoLine("water_source"), UnitHelper.ratePrefix(NCConfig.processor_passive_rate[2]*64, 5, "B", -1)));
 		
-		registerBlock(nitrogen_collector, InfoHelper.formattedInfo("tile.nitrogen_collector.desc", UnitHelper.ratePrefix(NCConfig.processor_passive_rate[3], 5, "B", -1)));
-		registerBlock(nitrogen_collector_compact, InfoHelper.formattedInfo("tile.nitrogen_collector.desc", UnitHelper.ratePrefix(NCConfig.processor_passive_rate[3]*8, 5, "B", -1)));
-		registerBlock(nitrogen_collector_dense, InfoHelper.formattedInfo("tile.nitrogen_collector.desc", UnitHelper.ratePrefix(NCConfig.processor_passive_rate[3]*64, 5, "B", -1)));
+		registerBlock(nitrogen_collector, InfoHelper.formattedInfo(infoLine("nitrogen_collector"), UnitHelper.ratePrefix(NCConfig.processor_passive_rate[3], 5, "B", -1)));
+		registerBlock(nitrogen_collector_compact, InfoHelper.formattedInfo(infoLine("nitrogen_collector"), UnitHelper.ratePrefix(NCConfig.processor_passive_rate[3]*8, 5, "B", -1)));
+		registerBlock(nitrogen_collector_dense, InfoHelper.formattedInfo(infoLine("nitrogen_collector"), UnitHelper.ratePrefix(NCConfig.processor_passive_rate[3]*64, 5, "B", -1)));
 		
 		registerBlock(glowing_mushroom);
 		
@@ -457,11 +471,15 @@ public class NCBlocks {
 		registerRender(crystallizer_active);
 		registerRender(dissolver_idle);
 		registerRender(dissolver_active);
+		registerRender(extractor_idle);
+		registerRender(extractor_active);
 		
 		registerRender(machine_interface);
 		
 		registerRender(fission_controller_idle);
 		registerRender(fission_controller_active);
+		registerRender(fission_controller_new_idle);
+		registerRender(fission_controller_new_active);
 		registerRender(fission_port);
 		
 		registerRender(fusion_core);
@@ -516,25 +534,30 @@ public class NCBlocks {
 		//registerRender(spin);
 	}
 	
+	private static String infoLine(String name) {
+		return "tile." + Global.MOD_ID + "." + name + ".desc";
+	}
+	
 	public static void registerBlock(Block block, String... info) {
 		ForgeRegistries.BLOCKS.register(block);
 		ForgeRegistries.ITEMS.register(new NCItemBlock(block, info).setRegistryName(block.getRegistryName()));
-		NCUtil.getLogger().info("Registered block " + block.getUnlocalizedName().substring(5));
+	}
+	
+	public static void registerBlock(Block block, TextFormatting fixedColor, String... info) {
+		ForgeRegistries.BLOCKS.register(block);
+		ForgeRegistries.ITEMS.register(new NCItemBlock(block, fixedColor, info).setRegistryName(block.getRegistryName()));
 	}
 	
 	public static void registerBlock(Block block, ItemBlock itemBlock) {
 		ForgeRegistries.BLOCKS.register(block);
 		ForgeRegistries.ITEMS.register(itemBlock.setRegistryName(block.getRegistryName()));
-		NCUtil.getLogger().info("Registered block " + block.getUnlocalizedName().substring(5));
 	}
 	
 	public static void registerRender(Block block) {
-		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block), 0, new ModelResourceLocation(new ResourceLocation(Global.MOD_ID, block.getUnlocalizedName().substring(5)), "inventory"));
-		NCUtil.getLogger().info("Registered render for block " + block.getUnlocalizedName().substring(5));
+		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block), 0, new ModelResourceLocation(block.getRegistryName(), "inventory"));
 	}
 	
 	public static void registerRender(Block block, int meta, String fileName) {
 		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block), meta, new ModelResourceLocation(new ResourceLocation(Global.MOD_ID, fileName), "inventory"));
-		NCUtil.getLogger().info("Registered render for block " + fileName);
 	}
 }

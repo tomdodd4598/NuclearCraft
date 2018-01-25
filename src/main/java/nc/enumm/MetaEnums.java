@@ -133,7 +133,7 @@ public class MetaEnums {
 	
 	public static enum CoolerType implements IStringSerializable, IBlockMeta {
 		EMPTY("empty", 0, 0, "_", 0, 2, 15, 0),
-		WATER("water", 1, NCConfig.fission_cooling_rate[0]*(NCConfig.fission_new_mechanics ? 3D : 1D), "water", 0, 2, 15, 0),
+		WATER("water", 1, NCConfig.fission_cooling_rate[0], "water", 0, 2, 15, 0),
 		REDSTONE("redstone", 2, NCConfig.fission_cooling_rate[1], "redstone", 0, 2, 15, 7),
 		QUARTZ("quartz", 3, NCConfig.fission_cooling_rate[2], "quartz", 0, 2, 15, 0),
 		GOLD("gold", 4, NCConfig.fission_cooling_rate[3], "gold", 0, 2, 15, 0),
@@ -1956,6 +1956,328 @@ public class MetaEnums {
 		@Override
 		public double getBaseHeat() {
 			return heatGen;
+		}
+		
+		public Object[] getValues() {
+			return values();
+		}
+	}
+	
+	public static enum ThoriumDepletedFuelType implements IStringSerializable, IItemMeta {
+		TBU("tbu", 0),
+		TBU_OXIDE("tbu_oxide", 1);
+		
+		private String name;
+		private int id;
+		
+		private ThoriumDepletedFuelType(String name, int id) {
+			this.name = name;
+			this.id = id;
+		}
+
+		@Override
+		public String getName() {
+			return name;
+		}
+		
+		@Override
+		public String toString() {
+			return getName();
+		}
+		
+		@Override
+		public int getID() {
+			return id;
+		}
+		
+		public Object[] getValues() {
+			return values();
+		}
+	}
+	
+	public static enum UraniumDepletedFuelType implements IStringSerializable, IItemMeta {
+		LEU_233("leu_233", 0),
+		LEU_233_OXIDE("leu_233_oxide", 1),
+		HEU_233("heu_233", 2),
+		HEU_233_OXIDE("heu_233_oxide", 3),
+		LEU_235("leu_235", 4),
+		LEU_235_OXIDE("leu_235_oxide", 5),
+		HEU_235("heu_235", 6),
+		HEU_235_OXIDE("heu_235_oxide", 7);
+		
+		private String name;
+		private int id;
+		
+		private UraniumDepletedFuelType(String name, int id) {
+			this.name = name;
+			this.id = id;
+		}
+
+		@Override
+		public String getName() {
+			return name;
+		}
+		
+		@Override
+		public String toString() {
+			return getName();
+		}
+		
+		@Override
+		public int getID() {
+			return id;
+		}
+		
+		public Object[] getValues() {
+			return values();
+		}
+	}
+	
+	public static enum NeptuniumDepletedFuelType implements IStringSerializable, IItemMeta {
+		LEN_236("len_236", 0),
+		LEN_236_OXIDE("len_236_oxide", 1),
+		HEN_236("hen_236", 2),
+		HEN_236_OXIDE("hen_236_oxide", 3);
+		
+		private String name;
+		private int id;
+		
+		private NeptuniumDepletedFuelType(String name, int id) {
+			this.name = name;
+			this.id = id;
+		}
+
+		@Override
+		public String getName() {
+			return name;
+		}
+		
+		@Override
+		public String toString() {
+			return getName();
+		}
+		
+		@Override
+		public int getID() {
+			return id;
+		}
+		
+		public Object[] getValues() {
+			return values();
+		}
+	}
+	
+	public static enum PlutoniumDepletedFuelType implements IStringSerializable, IItemMeta {
+		LEP_239("lep_239", 0),
+		LEP_239_OXIDE("lep_239_oxide", 1),
+		HEP_239("hep_239", 2),
+		HEP_239_OXIDE("hep_239_oxide", 3),
+		LEP_241("lep_241", 4),
+		LEP_241_OXIDE("lep_241_oxide", 5),
+		HEP_241("hep_241", 6),
+		HEP_241_OXIDE("hep_241_oxide", 7);
+		
+		private String name;
+		private int id;
+		
+		private PlutoniumDepletedFuelType(String name, int id) {
+			this.name = name;
+			this.id = id;
+		}
+
+		@Override
+		public String getName() {
+			return name;
+		}
+		
+		@Override
+		public String toString() {
+			return getName();
+		}
+		
+		@Override
+		public int getID() {
+			return id;
+		}
+		
+		public Object[] getValues() {
+			return values();
+		}
+	}
+	
+	public static enum MixedOxideDepletedFuelType implements IStringSerializable, IItemMeta {
+		MOX_239("mox_239", 0),
+		MOX_241("mox_241", 1);
+		
+		private String name;
+		private int id;
+		
+		private MixedOxideDepletedFuelType(String name, int id) {
+			this.name = name;
+			this.id = id;
+		}
+
+		@Override
+		public String getName() {
+			return name;
+		}
+		
+		@Override
+		public String toString() {
+			return getName();
+		}
+		
+		@Override
+		public int getID() {
+			return id;
+		}
+		
+		public Object[] getValues() {
+			return values();
+		}
+	}
+	
+	public static enum AmericiumDepletedFuelType implements IStringSerializable, IItemMeta {
+		LEA_242("lea_242", 0),
+		LEA_242_OXIDE("lea_242_oxide", 1),
+		HEA_242("hea_242", 2),
+		HEA_242_OXIDE("hea_242_oxide", 3);
+		
+		private String name;
+		private int id;
+		
+		private AmericiumDepletedFuelType(String name, int id) {
+			this.name = name;
+			this.id = id;
+		}
+
+		@Override
+		public String getName() {
+			return name;
+		}
+		
+		@Override
+		public String toString() {
+			return getName();
+		}
+		
+		@Override
+		public int getID() {
+			return id;
+		}
+		
+		public Object[] getValues() {
+			return values();
+		}
+	}
+	
+	public static enum CuriumDepletedFuelType implements IStringSerializable, IItemMeta {
+		LEC_243("lec_243", 0),
+		LEC_243_OXIDE("lec_243_oxide", 1),
+		HEC_243("hec_243", 2),
+		HEC_243_OXIDE("hec_243_oxide", 3),
+		LEC_245("lec_245", 4),
+		LEC_245_OXIDE("lec_245_oxide", 5),
+		HEC_245("hec_245", 6),
+		HEC_245_OXIDE("hec_245_oxide", 7),
+		LEC_247("lec_247", 8),
+		LEC_247_OXIDE("lec_247_oxide", 9),
+		HEC_247("hec_247", 10),
+		HEC_247_OXIDE("hec_247_oxide", 11);
+		
+		private String name;
+		private int id;
+		
+		private CuriumDepletedFuelType(String name, int id) {
+			this.name = name;
+			this.id = id;
+		}
+
+		@Override
+		public String getName() {
+			return name;
+		}
+		
+		@Override
+		public String toString() {
+			return getName();
+		}
+		
+		@Override
+		public int getID() {
+			return id;
+		}
+		
+		public Object[] getValues() {
+			return values();
+		}
+	}
+	
+	public static enum BerkeliumDepletedFuelType implements IStringSerializable, IItemMeta {
+		LEB_248("leb_248", 0),
+		LEB_248_OXIDE("leb_248_oxide", 1),
+		HEB_248("heb_248", 2),
+		HEB_248_OXIDE("heb_248_oxide", 3);
+		
+		private String name;
+		private int id;
+		
+		private BerkeliumDepletedFuelType(String name, int id) {
+			this.name = name;
+			this.id = id;
+		}
+
+		@Override
+		public String getName() {
+			return name;
+		}
+		
+		@Override
+		public String toString() {
+			return getName();
+		}
+		
+		@Override
+		public int getID() {
+			return id;
+		}
+		
+		public Object[] getValues() {
+			return values();
+		}
+	}
+	
+	public static enum CaliforniumDepletedFuelType implements IStringSerializable, IItemMeta {
+		LEC_249("lec_249", 0),
+		LEC_249_OXIDE("lec_249_oxide", 1),
+		HEC_249("hec_249", 2),
+		HEC_249_OXIDE("hec_249_oxide", 3),
+		LEC_251("lec_251", 4),
+		LEC_251_OXIDE("lec_251_oxide", 5),
+		HEC_251("hec_251", 6),
+		HEC_251_OXIDE("hec_251_oxide", 7);
+		
+		private String name;
+		private int id;
+		
+		private CaliforniumDepletedFuelType(String name, int id) {
+			this.name = name;
+			this.id = id;
+		}
+
+		@Override
+		public String getName() {
+			return name;
+		}
+		
+		@Override
+		public String toString() {
+			return getName();
+		}
+		
+		@Override
+		public int getID() {
+			return id;
 		}
 		
 		public Object[] getValues() {

@@ -1,16 +1,8 @@
 package nc.recipe.processor;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import nc.config.NCConfig;
 import nc.recipe.BaseRecipeHandler;
 import nc.util.FluidHelper;
-import nc.util.StringHelper;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.oredict.OreDictionary;
 
 public class SaltMixerRecipes extends BaseRecipeHandler {
 	
@@ -21,6 +13,8 @@ public class SaltMixerRecipes extends BaseRecipeHandler {
 	@Override
 	public void addRecipes() {
 		addRecipe(fluidStack("lif", FluidHelper.INGOT_VOLUME*2), fluidStack("bef2", FluidHelper.INGOT_VOLUME), fluidStack("flibe", FluidHelper.INGOT_VOLUME), NCConfig.processor_time[13]);
+		
+		addElementFLIBERecipes("thorium", "uranium", "plutonium");
 		
 		addIsotopeFLIBERecipes("thorium", 230, 232);
 		addIsotopeFLIBERecipes("uranium", 233, 235, 238);
@@ -38,6 +32,10 @@ public class SaltMixerRecipes extends BaseRecipeHandler {
 		addFissionFuelFLIBERecipes("ecm", 243, 245, 247);
 		addFissionFuelFLIBERecipes("eb", 248);
 		addFissionFuelFLIBERecipes("ecf", 249, 251);
+	}
+	
+	public void addElementFLIBERecipes(String... elements) {
+		for (String element : elements) addRecipe(fluidStack(element + "_fluoride", FluidHelper.INGOT_VOLUME), fluidStack("flibe", FluidHelper.INGOT_VOLUME), fluidStack(element + "_fluoride_flibe", FluidHelper.INGOT_VOLUME*2), NCConfig.processor_time[13]);
 	}
 	
 	public void addIsotopeFLIBERecipes(String element, int... types) {

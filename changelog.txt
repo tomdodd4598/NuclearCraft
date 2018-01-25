@@ -1,6 +1,30 @@
+v2.9a
+
+* New fission reactor mechanics are now enabled by default
+* All newly crafted controllers will use the new mechanics
+* Old controllers will still use the old mechanics but can be updated through crafting
+
++ Added Fluid Extractor - extract Helium-3 from moon turf!
+
+* Multiple fission ports on a reactor will now output energy at the same rate
+* Fixed machines' maximum energy input rate changing with their capacity
+
+* Added config option to disable the registering of fission fluid blocks - useful if running out of block IDs
+
+* Made localisation unique to avoid any conflicts
+* Updated Chinese language file [thanks to YueLengM!]
+
+* Added 'fixed' info option for language files that shows before shift is pressed
+* Use the ".fixd" and ".fix#" suffixes
+
+* Cleaned up logging to show only important information
+* Minor recipe additions and tweaks
+* Possible other things that I have forgotten
+- Removed Paulobrine and Herobrian
+
 v2.9
 
-+ Added new OPTIONAL (disabled by default) fission reactor mechanics
++ Added new (disabled by default for now) fission reactor mechanics
 + This includes new power/heat calculations and more interesting placement rules
 + Added more heat info to the Fission Controller GUI
 

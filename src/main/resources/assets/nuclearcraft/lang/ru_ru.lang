@@ -1,453 +1,453 @@
-tile.ore.copper.name=Медная Руда
-tile.ore.tin.name=Оловянная Руда
-tile.ore.lead.name=Свинцовая Руда
-tile.ore.thorium.name=Ториевая Руда
-tile.ore.uranium.name=Урановая Руда
-tile.ore.boron.name=Руда Бора
-tile.ore.lithium.name=Литиевая Руда
-tile.ore.magnesium.name=Магниевая Руда
-
-tile.ingot_block.copper.name=Медный Блок
-tile.ingot_block.tin.name=Оловянный Блок
-tile.ingot_block.lead.name=Свинцовый Блок
-tile.ingot_block.thorium.name=Ториевый Блок
-tile.ingot_block.uranium.name=Урановый Блок
-tile.ingot_block.boron.name=Блок Бора
-tile.ingot_block.lithium.name=Блок Лития
-tile.ingot_block.magnesium.name=Блок Магния
-tile.ingot_block.graphite.name=Графитовый Блок
-
-tile.fission_block.casing.name=Корпус Реактора
-tile.fission_block.blast.name=Blast Block
-
-tile.cell_block.name=Реакторная Ячейка
-
-tile.cooler.empty.name=Пустой Охладитель
-tile.cooler.water.name=Водяной Охладитель
-tile.cooler.quartz.name=Кварцевый Охладитель
-tile.cooler.helium.name=Жидкостно-Гелиевый Охладитель
-tile.cooler.redstone.name=Редстоуновый Охладитель
-tile.cooler.glowstone.name=Охладитель из Светопыли
-tile.cooler.enderium.name=Эндериумовый Охладитель
-tile.cooler.cryotheum.name=Криотеумовый Охладитель
-tile.cooler.cooling_rate=Скорость охлаждения:
-
-tile.block_depleted_uranium.name=Блок Обедненного Урана
-
-tile.nuclear_furnace_idle.name=Атомная Печь
-tile.nuclear_furnace_idle.des0=Очень быстро переплавляет предметы за счёт использования урана
-tile.nuclear_furnace_idle.des1=и ториевых слитков и пыли в качестве топлива
-tile.nuclear_furnace_active.name=Атомная Печь
-
-tile.manufactory_idle.name=Фабрикатор
-tile.manufactory_idle.des0=Удобная машина, которая имеет множество применений
-tile.manufactory_active.name=Фабрикатор
-
-tile.isotope_separator_idle.name=Изотопный Разделитель
-tile.isotope_separator_idle.des0=Расчепляет материалы в их изотопы
-tile.isotope_separator_active.name=Изотопный Разделитель
-
-tile.decay_hastener_idle.name=Ускоритель Распада
-tile.decay_hastener_idle.des0=Принуждает радиоактивные материалы распадаться
-tile.decay_hastener_active.name=Ускоритель Распада
-
-tile.fuel_reprocessor_idle.name=Репроцессор Топлива
-tile.fuel_reprocessor_idle.des0=Выделяет материалы из обедненного топлива
-tile.fuel_reprocessor_active.name=Репроцессор Топлива
-
-tile.fission_controller_idle.name=Регулятор Деления (WIP)
-tile.fission_controller_active.name=Регулятор Деления (WIP)
-
-tile.rtg_uranium.name=Урановый РТЭГ
-tile.rtg_plutonium.name=Плутониевый РТЭГ
-tile.rtg_americium.name=Америциевый РТЭГ
-tile.rtg_californium.name=Калифорниевый РТЭГ
-tile.rtg.des0=Производит
-tile.rtg.des1=РФ/т - постоянно
-
-tile.solar_panel_basic.name=Базовая Солнечная Панель
-tile.solar_panel.des0=Производит до
-tile.solar_panel.des1=RF/t - в дневное время
-
-tile.voltaic_pile_basic.name=Basic Voltaic Pile (WIP)
-tile.lithium_ion_battery_basic.name=Базовая Литий-Ионная Батарея (WIP)
-tile.energy_storage.des0=Хранит до
-tile.energy_storage.des1=kRF.
-tile.energy_storage.des2=This is still being worked on
-tile.energy_storage.des3=and currently doesn't retain its
-tile.energy_storage.des4=stored energy on breaking
-
-item.ingot.copper.name=Слиток Меди
-item.ingot.tin.name=Оловянный Слиток
-item.ingot.lead.name=Свинцовый Слиток
-item.ingot.thorium.name=Ториевый Слиток
-item.ingot.uranium.name=Слиток Урана
-item.ingot.boron.name=Слиток Бора
-item.ingot.lithium.name=Литиевый Слиток
-item.ingot.magnesium.name=Слиток Магния
-item.ingot.graphite.name=Слиток Графита
-
-item.ingot_oxide.thorium.name=Слиток Диоксида Тория
-item.ingot_oxide.uranium.name=Слиток Оксида Урана
-item.ingot_oxide.manganese.name=Слиток Оксида Марганца
-item.ingot_oxide.manganese2.name=Слиток Диоксида Марганца
-
-item.dust.copper.name=Медная Пыль
-item.dust.tin.name=Оловянная Пыль
-item.dust.lead.name=Свинцовая Пыль
-item.dust.thorium.name=Ториевая Пыль
-item.dust.uranium.name=Урановая Пыль
-item.dust.boron.name=Пыль Бора
-item.dust.lithium.name=Литиевая Пыль
-item.dust.magnesium.name=Магниевая Пыль
-item.dust.graphite.name=Графитовая Пыль
-
-item.dust_oxide.thorium.name=Пыль Оксида Тория
-item.dust_oxide.uranium.name=Пыль Оксида Урана
-item.dust_oxide.manganese.name=Пыль Оксида Марганца
-item.dust_oxide.manganese2.name=Пыль Диоксида Марганца
-
-item.gem.rhodochrosite.name=Родохрозит
-
-item.gem_dust.diamond.name=Дробленый Алмаз
-item.gem_dust.rhodochrosite.name=Дроблёный Родохрозит
-item.gem_dust.quartz.name=Дробленый Кварц
-
-item.alloy.bronze.name=Бронзовый Сплав
-item.alloy.tough.name=Тяжелый Сплав
-item.alloy.hard_carbon.name=Жесткий Углеродный Сплава
-item.alloy.magnesium_diboride.name=Сплав Диборида Магния
-item.alloy.lithium_manganese_dioxide.name=Сплав Литий-Марганцевого Диоксида
-
-item.part.plate_basic.name=Базовое Покрытие
-item.part.plate_advanced.name=Улучшенное Покрытие
-item.part.plate_du.name=DU Plating
-item.part.plate_elite.name=Элитное Покрытие
-item.part.wire_copper.name=Медный Соленоид
-item.part.wire_magnesium_diboride.name=Соленоид из Диборида Магния
-
-item.upgrade.speed.name=Улучшение 'Скорость'
-
-item.fuel_rod_empty.name=Пустой Топливный Стержень
-
-item.tiny_dust_lead.name=Кучка Свинцовой Пыли
-
-item.thorium._230.name=Торий-230
-item.thorium._230_oxide.name=Оксид Тория-230
-item.thorium._230_tiny.name=Комок Тория-230
-item.thorium._230_oxide_tiny.name=Комок Оксида Тория-230
-item.thorium._232.name=Торий-232
-item.thorium._232_oxide.name=Оксид Тория-232
-item.thorium._232_tiny.name=Комок Тория-232
-item.thorium._232_oxide_tiny.name=Комок Оксида Тория-232
-
-item.uranium._233.name=Уран-233
-item.uranium._233_oxide.name=Оксид Урана-233
-item.uranium._233_tiny.name=Комок Урана-233
-item.uranium._233_oxide_tiny.name=Комок Оксида Урана-233
-item.uranium._235.name=Урана-235
-item.uranium._235_oxide.name=Оксид Урана-235
-item.uranium._235_tiny.name=Комок Урана-235
-item.uranium._235_oxide_tiny.name=Комок Оксида Урана-235
-item.uranium._238.name=Уран-238
-item.uranium._238_oxide.name=Оксид Урана-238
-item.uranium._238_tiny.name=Комок Урана-238
-item.uranium._238_oxide_tiny.name=Комок Оксида Урана-238
-
-item.neptunium._236.name=Нептуний-236
-item.neptunium._236_oxide.name=Оксид Нептуния-236
-item.neptunium._236_tiny.name=Комок Нептуния-236
-item.neptunium._236_oxide_tiny.name=Комок Оксида Нептуния-236
-item.neptunium._237.name=Нептуний-237
-item.neptunium._237_oxide.name=Оксид Нептуния-237
-item.neptunium._237_tiny.name=Комок Нептуния-237
-item.neptunium._237_oxide_tiny.name=Комок Оксида Нептуния-237
-
-item.plutonium._238.name=Плутоний-238
-item.plutonium._238_oxide.name=Оксид Плутония-238
-item.plutonium._238_tiny.name=Комок Плутония-238
-item.plutonium._238_oxide_tiny.name=Комок Оксида Плутония-238
-item.plutonium._239.name=Плутоний-239
-item.plutonium._239_oxide.name=Оксид Плутония-239
-item.plutonium._239_tiny.name=Комок Плутония-239
-item.plutonium._239_oxide_tiny.name=Комок Оксида Плутония-239
-item.plutonium._241.name=Плутоний-241
-item.plutonium._241_oxide.name=Оксид Плутония-241
-item.plutonium._241_tiny.name=Комок Плутония-241
-item.plutonium._241_oxide_tiny.name=Комок Оксида Плутония-241
-item.plutonium._242.name=Плутоний-242
-item.plutonium._242_oxide.name=Оксид Плутония-242
-item.plutonium._242_tiny.name=Комок Плутония-242
-item.plutonium._242_oxide_tiny.name=Комок Оксида Плутония-242
-
-item.americium._241.name=Америций-241
-item.americium._241_oxide.name=Оксид Америция-241
-item.americium._241_tiny.name=Комок Америция-241
-item.americium._241_oxide_tiny.name=Комок Оксида Америция-241
-item.americium._242.name=Америций-242
-item.americium._242_oxide.name=Оксид Америция-242
-item.americium._242_tiny.name=Комок Америция-242
-item.americium._242_oxide_tiny.name=Комок Оксида Америция-242
-item.americium._243.name=Америций-243
-item.americium._243_oxide.name=Оксид Америция-243
-item.americium._243_tiny.name=Комок Америция-243
-item.americium._243_oxide_tiny.name=Комок Оксида Америция-243
-
-item.curium._243.name=Кюрий-243
-item.curium._243_oxide.name=Оксид Кюрия-243
-item.curium._243_tiny.name=Комок Кюрия-243
-item.curium._243_oxide_tiny.name=Комок Оксида Кюрия-243
-item.curium._245.name=Кюрий-245
-item.curium._245_oxide.name=Оксид Кюрия-245
-item.curium._245_tiny.name=Комок Кюрия-245
-item.curium._245_oxide_tiny.name=Комок Оксида Кюрия-245
-item.curium._246.name=Кюрий-246
-item.curium._246_oxide.name=Оксид Кюрия-246
-item.curium._246_tiny.name=Комок Кюрия-246
-item.curium._246_oxide_tiny.name=Комок Оксида Кюрия-246
-item.curium._247.name=Кюрий-247
-item.curium._247_oxide.name=Оксид Кюрия-247
-item.curium._247_tiny.name=Комок Кюрия-247
-item.curium._247_oxide_tiny.name=Комок Оксида Кюрия-247
-
-item.berkelium._247.name=Берклий-247
-item.berkelium._247_oxide.name=Оксид Берклия-247
-item.berkelium._247_tiny.name=Комок Берклия-247
-item.berkelium._247_oxide_tiny.name=Комок Оксида Берклия-247
-item.berkelium._248.name=Берклий-248
-item.berkelium._248_oxide.name=Оксид Берклия-248
-item.berkelium._248_tiny.name=Комок Берклия-248
-item.berkelium._248_oxide_tiny.name=Комок Оксида Берклия-248
-
-item.californium._249.name=Калифорний-249
-item.californium._249_oxide.name=Оксид Калифорния-249
-item.californium._249_tiny.name=Комок Калифорния-249
-item.californium._249_oxide_tiny.name=Комок Оксида Калифорния-249
-item.californium._250.name=Калифорний-250
-item.californium._250_oxide.name=Оксид Калифорния-250
-item.californium._250_tiny.name=Комок Калифорния-250
-item.californium._250_oxide_tiny.name=Комок Оксида Калифорния-250
-item.californium._251.name=Калифорний-251
-item.californium._251_oxide.name=Оксид Калифорния-251
-item.californium._251_tiny.name=Комок Калифорния-251
-item.californium._251_oxide_tiny.name=Комок Оксида Калифорния-251
-item.californium._252.name=Калифорний-252
-item.californium._252_oxide.name=Оксид Калифорния-252
-item.californium._252_tiny.name=Комок Калифорния-252
-item.californium._252_oxide_tiny.name=Комок Оксида Калифорния-252
-
-item.fuel_thorium.tbu.name=TBU Топливо
-item.fuel_thorium.tbu_oxide.name=TBU Оксидное Топливо
-
-item.fuel_uranium.leu_233.name=LEU-233 Топливо
-item.fuel_uranium.leu_233_oxide.name=LEU-233 Оксидное Топливо
-item.fuel_uranium.heu_233.name=HEU-233 Топливо
-item.fuel_uranium.heu_233_oxide.name=HEU-233 Оксидное Топливо
-item.fuel_uranium.leu_235.name=LEU-233 Топливо
-item.fuel_uranium.leu_235_oxide.name=LEU-235 Оксидное Топливо
-item.fuel_uranium.heu_235.name=HEU-233 Топливо
-item.fuel_uranium.heu_235_oxide.name=HEU-235 Оксидное Топливо
-
-item.fuel_neptunium.len_236.name=LEN-236 Топливо
-item.fuel_neptunium.len_236_oxide.name=LEN-236 Оксидное Топливо
-item.fuel_neptunium.hen_236.name=HEN-236 Топливо
-item.fuel_neptunium.hen_236_oxide.name=HEN-236 Оксидное Топливо
-
-item.fuel_plutonium.lep_239.name=LEP-239 Топливо
-item.fuel_plutonium.lep_239_oxide.name=LEP-239 Оксидное Топливо
-item.fuel_plutonium.hep_239.name=HEP-239 Топливо
-item.fuel_plutonium.hep_239_oxide.name=HEP-239 Оксидное Топливо
-item.fuel_plutonium.lep_241.name=LEP-241 Топливо
-item.fuel_plutonium.lep_241_oxide.name=LEP-241 Оксидное Топливо
-item.fuel_plutonium.hep_241.name=HEP-241 Топливо
-item.fuel_plutonium.hep_241_oxide.name=HEP-241 Оксидное Топливо
-
-item.fuel_mixed_oxide.mox_239.name=MOX-239 Топливо
-item.fuel_mixed_oxide.mox_241.name=MOX-241 Топливо
-
-item.fuel_americium.lea_242.name=LEA-242 Топливо
-item.fuel_americium.lea_242_oxide.name=LEA-242 Оксидное Топливо
-item.fuel_americium.hea_242.name=HEA-242 Топливо
-item.fuel_americium.hea_242_oxide.name=HEA-242 Оксидное Топливо
-
-item.fuel_curium.lec_243.name=LECm-243 Топливо
-item.fuel_curium.lec_243_oxide.name=LECm-243 Оксидное Топливо
-item.fuel_curium.hec_243.name=HECm-243 Топливо
-item.fuel_curium.hec_243_oxide.name=HECm-243 Оксидное Топливо
-item.fuel_curium.lec_245.name=LECm-245 Топливо
-item.fuel_curium.lec_245_oxide.name=LECm-245 Оксидное Топливо
-item.fuel_curium.hec_245.name=HECm-245 Топливо
-item.fuel_curium.hec_245_oxide.name=HECm-245 Оксидное Топливо
-item.fuel_curium.lec_247.name=LECm-247 Топливо
-item.fuel_curium.lec_247_oxide.name=LECm-247 Оксидное Топливо
-item.fuel_curium.hec_247.name=HECm-247 Топливо
-item.fuel_curium.hec_247_oxide.name=HECm-247 Оксидное Топливо
-
-item.fuel_berkelium.leb_248.name=LEB-248 Топливо
-item.fuel_berkelium.leb_248_oxide.name=LEB-248 Оксидное Топливо
-item.fuel_berkelium.heb_248.name=HEB-248 Топливо
-item.fuel_berkelium.heb_248_oxide.name=HEB-248 Оксидное Топливо
-
-item.fuel_californium.lec_249.name=LECf-249 Топливо
-item.fuel_californium.lec_249_oxide.name=LECf-249 Оксидное Топливо
-item.fuel_californium.hec_249.name=HECf-249 Топливо
-item.fuel_californium.hec_249_oxide.name=HECf-249 Оксидное Топливо
-item.fuel_californium.lec_251.name=LECf-251 Топливо
-item.fuel_californium.lec_251_oxide.name=LECf-251 Оксидное Топливо
-item.fuel_californium.hec_251.name=HECf-251 Топливо
-item.fuel_californium.hec_251_oxide.name=HECf-251 Оксидное Топливо
-
-item.fuel_rod_thorium.tbu.name=TBU Топливный Стержень
-item.fuel_rod_thorium.tbu_oxide.name=TBU Оксидный Топливный Стержень
-
-item.fuel_rod_uranium.leu_233.name=LEU-233 Топливный Стержень
-item.fuel_rod_uranium.leu_233_oxide.name=LEU-233 Оксидный Топливный Стержень
-item.fuel_rod_uranium.heu_233.name=HEU-233 Топливный Стержень
-item.fuel_rod_uranium.heu_233_oxide.name=HEU-233 Оксидный Топливный Стержень
-item.fuel_rod_uranium.leu_235.name=LEU-235 Топливный Стержень
-item.fuel_rod_uranium.leu_235_oxide.name=LEU-235 Оксидный Топливный Стержень
-item.fuel_rod_uranium.heu_235.name=HEU-235 Топливный Стержень
-item.fuel_rod_uranium.heu_235_oxide.name=HEU-235 Оксидный Топливный Стержень
-
-item.fuel_rod_neptunium.len_236.name=LEN-236 Топливный Стержень
-item.fuel_rod_neptunium.len_236_oxide.name=LEN-236 Оксидный Топливный Стержень
-item.fuel_rod_neptunium.hen_236.name=HEN-236 Топливный Стержень
-item.fuel_rod_neptunium.hen_236_oxide.name=HEN-236 Оксидный Топливный Стержень
-
-item.fuel_rod_plutonium.lep_239.name=LEP-239 Топливный Стержень
-item.fuel_rod_plutonium.lep_239_oxide.name=LEP-239 Оксидный Топливный Стержень
-item.fuel_rod_plutonium.hep_239.name=HEP-239 Топливный Стержень
-item.fuel_rod_plutonium.hep_239_oxide.name=HEP-239 Оксидный Топливный Стержень
-item.fuel_rod_plutonium.lep_241.name=LEP-241 Топливный Стержень
-item.fuel_rod_plutonium.lep_241_oxide.name=LEP-241 Оксидный Топливный Стержень
-item.fuel_rod_plutonium.hep_241.name=HEP-241 Топливный Стержень
-item.fuel_rod_plutonium.hep_241_oxide.name=HEP-241 Оксидный Топливный Стержень
-
-item.fuel_rod_mixed_oxide.mox_239.name=MOX-239 Топливный Стержень
-item.fuel_rod_mixed_oxide.mox_241.name=MOX-241 Топливный Стержень
-
-item.fuel_rod_americium.lea_242.name=LEA-242 Топливный Стержень
-item.fuel_rod_americium.lea_242_oxide.name=LEA-242 Оксидный Топливный Стержень
-item.fuel_rod_americium.hea_242.name=HEA-242 Топливный Стержень
-item.fuel_rod_americium.hea_242_oxide.name=HEA-242 Оксидный Топливный Стержень
-
-item.fuel_rod_curium.lec_243.name=LECm-243 Топливный Стержень
-item.fuel_rod_curium.lec_243_oxide.name=LECm-243 Оксидный Топливный Стержень
-item.fuel_rod_curium.hec_243.name=HECm-243 Топливный Стержень
-item.fuel_rod_curium.hec_243_oxide.name=HECm-243 Оксидный Топливный Стержень
-item.fuel_rod_curium.lec_245.name=LECm-245 Топливный Стержень
-item.fuel_rod_curium.lec_245_oxide.name=LECm-245 Оксидный Топливный Стержень
-item.fuel_rod_curium.hec_245.name=HECm-245 Топливный Стержень
-item.fuel_rod_curium.hec_245_oxide.name=HECm-245 Оксидный Топливный Стержень
-item.fuel_rod_curium.lec_247.name=LECm-247 Топливный Стержень
-item.fuel_rod_curium.lec_247_oxide.name=LECm-247 Оксидный Топливный Стержень
-item.fuel_rod_curium.hec_247.name=HECm-247 Топливный Стержень
-item.fuel_rod_curium.hec_247_oxide.name=HECm-247 Оксидный Топливный Стержень
-
-item.fuel_rod_berkelium.leb_248.name=LEB-248 Топливный Стержень
-item.fuel_rod_berkelium.leb_248_oxide.name=LEB-248 Оксидный Топливный Стержень
-item.fuel_rod_berkelium.heb_248.name=HEB-248 Топливный Стержень
-item.fuel_rod_berkelium.heb_248_oxide.name=HEB-248 Оксидный Топливный Стержень
-
-item.fuel_rod_californium.lec_249.name=LECf-249 Топливный Стержень
-item.fuel_rod_californium.lec_249_oxide.name=LECf-249 Оксидный Топливный Стержень
-item.fuel_rod_californium.hec_249.name=HECf-249 Топливный Стержень
-item.fuel_rod_californium.hec_249_oxide.name=HECf-249 Оксидный Топливный Стержень
-item.fuel_rod_californium.lec_251.name=LECf-251 Топливный Стержень
-item.fuel_rod_californium.lec_251_oxide.name=LECf-251 Оксидный Топливный Стержень
-item.fuel_rod_californium.hec_251.name=HECf-251 Топливный Стержень
-item.fuel_rod_californium.hec_251_oxide.name=HECf-251 Оксидный Топливный Стержень
-
-item.depleted_fuel_rod_thorium.tbu.name=Обеднённый TBU Топливный Стержень
-item.depleted_fuel_rod_thorium.tbu_oxide.name=Обеднённый TBU Оксидный Топливный Стержень
-
-item.depleted_fuel_rod_uranium.leu_233.name=Обеднённый LEU-233 Топливный Стержень
-item.depleted_fuel_rod_uranium.leu_233_oxide.name=Обеднённый LEU-233 Оксидный Топливный Стержень
-item.depleted_fuel_rod_uranium.heu_233.name=Обеднённый HEU-233 Топливный Стержень
-item.depleted_fuel_rod_uranium.heu_233_oxide.name=Обеднённый HEU-233 Оксидный Топливный Стержень
-item.depleted_fuel_rod_uranium.leu_235.name=Обеднённый LEU-235 Топливный Стержень
-item.depleted_fuel_rod_uranium.leu_235_oxide.name=Обеднённый LEU-235 Оксидный Топливный Стержень
-item.depleted_fuel_rod_uranium.heu_235.name=Обеднённый HEU-235 Топливный Стержень
-item.depleted_fuel_rod_uranium.heu_235_oxide.name=Обеднённый HEU-235 Оксидный Топливный Стержень
-
-item.depleted_fuel_rod_neptunium.len_236.name=Обеднённый LEN-236 Топливный Стержень
-item.depleted_fuel_rod_neptunium.len_236_oxide.name=Обеднённый LEN-236 Оксидный Топливный Стержень
-item.depleted_fuel_rod_neptunium.hen_236.name=Обеднённый HEN-236 Топливный Стержень
-item.depleted_fuel_rod_neptunium.hen_236_oxide.name=Обеднённый HEN-236 Оксидный Топливный Стержень
-
-item.depleted_fuel_rod_plutonium.lep_239.name=Обеднённый LEP-239 Топливный Стержень
-item.depleted_fuel_rod_plutonium.lep_239_oxide.name=Обеднённый LEP-239 Оксидный Топливный Стержень
-item.depleted_fuel_rod_plutonium.hep_239.name=Обеднённый HEP-239 Топливный Стержень
-item.depleted_fuel_rod_plutonium.hep_239_oxide.name=Обеднённый HEP-239 Оксидный Топливный Стержень
-item.depleted_fuel_rod_plutonium.lep_241.name=Обеднённый LEP-241 Топливный Стержень
-item.depleted_fuel_rod_plutonium.lep_241_oxide.name=Обеднённый LEP-241 Оксидный Топливный Стержень
-item.depleted_fuel_rod_plutonium.hep_241.name=Обеднённый HEP-241 Топливный Стержень
-item.depleted_fuel_rod_plutonium.hep_241_oxide.name=Обеднённый HEP-241 Оксидный Топливный Стержень
-
-item.depleted_fuel_rod_mixed_oxide.mox_239.name=Обеднённый MOX-239 Топливный Стержень
-item.depleted_fuel_rod_mixed_oxide.mox_241.name=Обеднённый MOX-241 Топливный Стержень
-
-item.depleted_fuel_rod_americium.lea_242.name=Обеднённый LEA-242 Топливный Стержень
-item.depleted_fuel_rod_americium.lea_242_oxide.name=Обеднённый LEA-242 Оксидный Топливный Стержень
-item.depleted_fuel_rod_americium.hea_242.name=Обеднённый HEA-242 Топливный Стержень
-item.depleted_fuel_rod_americium.hea_242_oxide.name=Обеднённый HEA-242 Оксидный Топливный Стержень
-
-item.depleted_fuel_rod_curium.lec_243.name=Обеднённый LECm-243 Топливный Стержень
-item.depleted_fuel_rod_curium.lec_243_oxide.name=Обеднённый LECm-243 Оксидный Топливный Стержень
-item.depleted_fuel_rod_curium.hec_243.name=Обеднённый HECm-243 Топливный Стержень
-item.depleted_fuel_rod_curium.hec_243_oxide.name=Обеднённый HECm-243 Оксидный Топливный Стержень
-item.depleted_fuel_rod_curium.lec_245.name=Обеднённый LECm-245 Топливный Стержень
-item.depleted_fuel_rod_curium.lec_245_oxide.name=Обеднённый LECm-245 Оксидный Топливный Стержень
-item.depleted_fuel_rod_curium.hec_245.name=Обеднённый HECm-245 Топливный Стержень
-item.depleted_fuel_rod_curium.hec_245_oxide.name=Обеднённый HECm-245 Оксидный Топливный Стержень
-item.depleted_fuel_rod_curium.lec_247.name=Обеднённый LECm-247 Топливный Стержень
-item.depleted_fuel_rod_curium.lec_247_oxide.name=Обеднённый LECm-247 Оксидный Топливный Стержень
-item.depleted_fuel_rod_curium.hec_247.name=Обеднённый HECm-247 Топливный Стержень
-item.depleted_fuel_rod_curium.hec_247_oxide.name=Обеднённый HECm-247 Оксидный Топливный Стержень
-
-item.depleted_fuel_rod_berkelium.leb_248.name=Обеднённый LEB-248 Топливный Стержень
-item.depleted_fuel_rod_berkelium.leb_248_oxide.name=Обеднённый LEB-248 Оксидный Топливный Стержень
-item.depleted_fuel_rod_berkelium.heb_248.name=Обеднённый HEB-248 Топливный Стержень
-item.depleted_fuel_rod_berkelium.heb_248_oxide.name=Обеднённый HEB-248 Оксидный Топливный Стержень
-
-item.depleted_fuel_rod_californium.lec_249.name=Обеднённый LECf-249 Топливный Стержень
-item.depleted_fuel_rod_californium.lec_249_oxide.name=Обеднённый LECf-249 Оксидный Топливный Стержень
-item.depleted_fuel_rod_californium.hec_249.name=Обеднённый HECf-249 Топливный Стержень
-item.depleted_fuel_rod_californium.hec_249_oxide.name=Обеднённый HECf-249 Оксидный Топливный Стержень
-item.depleted_fuel_rod_californium.lec_251.name=Обеднённый LECf-251 Топливный Стержень
-item.depleted_fuel_rod_californium.lec_251_oxide.name=Обеднённый LECf-251 Оксидный Топливный Стержень
-item.depleted_fuel_rod_californium.hec_251.name=Обеднённый HECf-251 Топливный Стержень
-item.depleted_fuel_rod_californium.hec_251_oxide.name=Обеднённый HECf-251 Оксидный Топливный Стержень
-
-item.sword_boron.name=Меч из Бора
-item.pickaxe_boron.name=Кирка из Бора
-item.shovel_boron.name=Лопата из Бора
-item.axe_boron.name=Топор из Бора
-item.hoe_boron.name=Мотыга из Бора
-
-item.sword_tough.name=Меч из Жёсткого Сплава
-item.pickaxe_tough.name=Кирка из Жёсткого Сплава
-item.shovel_tough.name=Лопата из Жёсткого Сплава
-item.axe_tough.name=Топор из Жёсткого Сплава
-item.hoe_tough.name=Мотыга из Жёсткого Сплава
-
-item.spaxelhoe_tough.name=Универсальный Инструмент из Жёсткого Сплава
-
-item.helm_boron.name=Шлем из Бора
-item.chest_boron.name=Нагрудник из Бора
-item.legs_boron.name=Поножи из Бора
-item.boots_boron.name=Ботинки из Бора
-
-item.helm_tough.name=Шлем из Жёсткого Сплава
-item.chest_tough.name=Нагрудник из Жёсткого Сплава
-item.legs_tough.name=Поожи из Жёсткого Сплава
-item.boots_tough.name=Ботинки из Жёсткого Сплава
-
-item.portable_ender_chest.name=Портативный Эндер-Сундук
-item.portable_ender_chest.des0=Пользуётесь Вашим Эндер-Сундуком в Дороге!
-
-item.dominos.name=Domino's Special
-item.dominos.des0=Paul's favourite - restores 16 hunger
+tile.nuclearcraft.ore.copper.name=Медная Руда
+tile.nuclearcraft.ore.tin.name=Оловянная Руда
+tile.nuclearcraft.ore.lead.name=Свинцовая Руда
+tile.nuclearcraft.ore.thorium.name=Ториевая Руда
+tile.nuclearcraft.ore.uranium.name=Урановая Руда
+tile.nuclearcraft.ore.boron.name=Руда Бора
+tile.nuclearcraft.ore.lithium.name=Литиевая Руда
+tile.nuclearcraft.ore.magnesium.name=Магниевая Руда
+
+tile.nuclearcraft.ingot_block.copper.name=Медный Блок
+tile.nuclearcraft.ingot_block.tin.name=Оловянный Блок
+tile.nuclearcraft.ingot_block.lead.name=Свинцовый Блок
+tile.nuclearcraft.ingot_block.thorium.name=Ториевый Блок
+tile.nuclearcraft.ingot_block.uranium.name=Урановый Блок
+tile.nuclearcraft.ingot_block.boron.name=Блок Бора
+tile.nuclearcraft.ingot_block.lithium.name=Блок Лития
+tile.nuclearcraft.ingot_block.magnesium.name=Блок Магния
+tile.nuclearcraft.ingot_block.graphite.name=Графитовый Блок
+
+tile.nuclearcraft.fission_block.casing.name=Корпус Реактора
+tile.nuclearcraft.fission_block.blast.name=Blast Block
+
+tile.nuclearcraft.cell_block.name=Реакторная Ячейка
+
+tile.nuclearcraft.cooler.empty.name=Пустой Охладитель
+tile.nuclearcraft.cooler.water.name=Водяной Охладитель
+tile.nuclearcraft.cooler.quartz.name=Кварцевый Охладитель
+tile.nuclearcraft.cooler.helium.name=Жидкостно-Гелиевый Охладитель
+tile.nuclearcraft.cooler.redstone.name=Редстоуновый Охладитель
+tile.nuclearcraft.cooler.glowstone.name=Охладитель из Светопыли
+tile.nuclearcraft.cooler.enderium.name=Эндериумовый Охладитель
+tile.nuclearcraft.cooler.cryotheum.name=Криотеумовый Охладитель
+tile.nuclearcraft.cooler.cooling_rate=Скорость охлаждения:
+
+tile.nuclearcraft.block_depleted_uranium.name=Блок Обедненного Урана
+
+tile.nuclearcraft.nuclear_furnace_idle.name=Атомная Печь
+tile.nuclearcraft.nuclear_furnace_idle.des0=Очень быстро переплавляет предметы за счёт использования урана
+tile.nuclearcraft.nuclear_furnace_idle.des1=и ториевых слитков и пыли в качестве топлива
+tile.nuclearcraft.nuclear_furnace_active.name=Атомная Печь
+
+tile.nuclearcraft.manufactory_idle.name=Фабрикатор
+tile.nuclearcraft.manufactory_idle.des0=Удобная машина, которая имеет множество применений
+tile.nuclearcraft.manufactory_active.name=Фабрикатор
+
+tile.nuclearcraft.isotope_separator_idle.name=Изотопный Разделитель
+tile.nuclearcraft.isotope_separator_idle.des0=Расчепляет материалы в их изотопы
+tile.nuclearcraft.isotope_separator_active.name=Изотопный Разделитель
+
+tile.nuclearcraft.decay_hastener_idle.name=Ускоритель Распада
+tile.nuclearcraft.decay_hastener_idle.des0=Принуждает радиоактивные материалы распадаться
+tile.nuclearcraft.decay_hastener_active.name=Ускоритель Распада
+
+tile.nuclearcraft.fuel_reprocessor_idle.name=Репроцессор Топлива
+tile.nuclearcraft.fuel_reprocessor_idle.des0=Выделяет материалы из обедненного топлива
+tile.nuclearcraft.fuel_reprocessor_active.name=Репроцессор Топлива
+
+tile.nuclearcraft.fission_controller_idle.name=Регулятор Деления (WIP)
+tile.nuclearcraft.fission_controller_active.name=Регулятор Деления (WIP)
+
+tile.nuclearcraft.rtg_uranium.name=Урановый РТЭГ
+tile.nuclearcraft.rtg_plutonium.name=Плутониевый РТЭГ
+tile.nuclearcraft.rtg_americium.name=Америциевый РТЭГ
+tile.nuclearcraft.rtg_californium.name=Калифорниевый РТЭГ
+tile.nuclearcraft.rtg.des0=Производит
+tile.nuclearcraft.rtg.des1=РФ/т - постоянно
+
+tile.nuclearcraft.solar_panel_basic.name=Базовая Солнечная Панель
+tile.nuclearcraft.solar_panel.des0=Производит до
+tile.nuclearcraft.solar_panel.des1=RF/t - в дневное время
+
+tile.nuclearcraft.voltaic_pile_basic.name=Basic Voltaic Pile (WIP)
+tile.nuclearcraft.lithium_ion_battery_basic.name=Базовая Литий-Ионная Батарея (WIP)
+tile.nuclearcraft.energy_storage.des0=Хранит до
+tile.nuclearcraft.energy_storage.des1=kRF.
+tile.nuclearcraft.energy_storage.des2=This is still being worked on
+tile.nuclearcraft.energy_storage.des3=and currently doesn't retain its
+tile.nuclearcraft.energy_storage.des4=stored energy on breaking
+
+item.nuclearcraft.ingot.copper.name=Слиток Меди
+item.nuclearcraft.ingot.tin.name=Оловянный Слиток
+item.nuclearcraft.ingot.lead.name=Свинцовый Слиток
+item.nuclearcraft.ingot.thorium.name=Ториевый Слиток
+item.nuclearcraft.ingot.uranium.name=Слиток Урана
+item.nuclearcraft.ingot.boron.name=Слиток Бора
+item.nuclearcraft.ingot.lithium.name=Литиевый Слиток
+item.nuclearcraft.ingot.magnesium.name=Слиток Магния
+item.nuclearcraft.ingot.graphite.name=Слиток Графита
+
+item.nuclearcraft.ingot_oxide.thorium.name=Слиток Диоксида Тория
+item.nuclearcraft.ingot_oxide.uranium.name=Слиток Оксида Урана
+item.nuclearcraft.ingot_oxide.manganese.name=Слиток Оксида Марганца
+item.nuclearcraft.ingot_oxide.manganese2.name=Слиток Диоксида Марганца
+
+item.nuclearcraft.dust.copper.name=Медная Пыль
+item.nuclearcraft.dust.tin.name=Оловянная Пыль
+item.nuclearcraft.dust.lead.name=Свинцовая Пыль
+item.nuclearcraft.dust.thorium.name=Ториевая Пыль
+item.nuclearcraft.dust.uranium.name=Урановая Пыль
+item.nuclearcraft.dust.boron.name=Пыль Бора
+item.nuclearcraft.dust.lithium.name=Литиевая Пыль
+item.nuclearcraft.dust.magnesium.name=Магниевая Пыль
+item.nuclearcraft.dust.graphite.name=Графитовая Пыль
+
+item.nuclearcraft.dust_oxide.thorium.name=Пыль Оксида Тория
+item.nuclearcraft.dust_oxide.uranium.name=Пыль Оксида Урана
+item.nuclearcraft.dust_oxide.manganese.name=Пыль Оксида Марганца
+item.nuclearcraft.dust_oxide.manganese2.name=Пыль Диоксида Марганца
+
+item.nuclearcraft.gem.rhodochrosite.name=Родохрозит
+
+item.nuclearcraft.gem_dust.diamond.name=Дробленый Алмаз
+item.nuclearcraft.gem_dust.rhodochrosite.name=Дроблёный Родохрозит
+item.nuclearcraft.gem_dust.quartz.name=Дробленый Кварц
+
+item.nuclearcraft.alloy.bronze.name=Бронзовый Сплав
+item.nuclearcraft.alloy.tough.name=Тяжелый Сплав
+item.nuclearcraft.alloy.hard_carbon.name=Жесткий Углеродный Сплава
+item.nuclearcraft.alloy.magnesium_diboride.name=Сплав Диборида Магния
+item.nuclearcraft.alloy.lithium_manganese_dioxide.name=Сплав Литий-Марганцевого Диоксида
+
+item.nuclearcraft.part.plate_basic.name=Базовое Покрытие
+item.nuclearcraft.part.plate_advanced.name=Улучшенное Покрытие
+item.nuclearcraft.part.plate_du.name=DU Plating
+item.nuclearcraft.part.plate_elite.name=Элитное Покрытие
+item.nuclearcraft.part.wire_copper.name=Медный Соленоид
+item.nuclearcraft.part.wire_magnesium_diboride.name=Соленоид из Диборида Магния
+
+item.nuclearcraft.upgrade.speed.name=Улучшение 'Скорость'
+
+item.nuclearcraft.fuel_rod_empty.name=Пустой Топливный Стержень
+
+item.nuclearcraft.tiny_dust_lead.name=Кучка Свинцовой Пыли
+
+item.nuclearcraft.thorium._230.name=Торий-230
+item.nuclearcraft.thorium._230_oxide.name=Оксид Тория-230
+item.nuclearcraft.thorium._230_tiny.name=Комок Тория-230
+item.nuclearcraft.thorium._230_oxide_tiny.name=Комок Оксида Тория-230
+item.nuclearcraft.thorium._232.name=Торий-232
+item.nuclearcraft.thorium._232_oxide.name=Оксид Тория-232
+item.nuclearcraft.thorium._232_tiny.name=Комок Тория-232
+item.nuclearcraft.thorium._232_oxide_tiny.name=Комок Оксида Тория-232
+
+item.nuclearcraft.uranium._233.name=Уран-233
+item.nuclearcraft.uranium._233_oxide.name=Оксид Урана-233
+item.nuclearcraft.uranium._233_tiny.name=Комок Урана-233
+item.nuclearcraft.uranium._233_oxide_tiny.name=Комок Оксида Урана-233
+item.nuclearcraft.uranium._235.name=Урана-235
+item.nuclearcraft.uranium._235_oxide.name=Оксид Урана-235
+item.nuclearcraft.uranium._235_tiny.name=Комок Урана-235
+item.nuclearcraft.uranium._235_oxide_tiny.name=Комок Оксида Урана-235
+item.nuclearcraft.uranium._238.name=Уран-238
+item.nuclearcraft.uranium._238_oxide.name=Оксид Урана-238
+item.nuclearcraft.uranium._238_tiny.name=Комок Урана-238
+item.nuclearcraft.uranium._238_oxide_tiny.name=Комок Оксида Урана-238
+
+item.nuclearcraft.neptunium._236.name=Нептуний-236
+item.nuclearcraft.neptunium._236_oxide.name=Оксид Нептуния-236
+item.nuclearcraft.neptunium._236_tiny.name=Комок Нептуния-236
+item.nuclearcraft.neptunium._236_oxide_tiny.name=Комок Оксида Нептуния-236
+item.nuclearcraft.neptunium._237.name=Нептуний-237
+item.nuclearcraft.neptunium._237_oxide.name=Оксид Нептуния-237
+item.nuclearcraft.neptunium._237_tiny.name=Комок Нептуния-237
+item.nuclearcraft.neptunium._237_oxide_tiny.name=Комок Оксида Нептуния-237
+
+item.nuclearcraft.plutonium._238.name=Плутоний-238
+item.nuclearcraft.plutonium._238_oxide.name=Оксид Плутония-238
+item.nuclearcraft.plutonium._238_tiny.name=Комок Плутония-238
+item.nuclearcraft.plutonium._238_oxide_tiny.name=Комок Оксида Плутония-238
+item.nuclearcraft.plutonium._239.name=Плутоний-239
+item.nuclearcraft.plutonium._239_oxide.name=Оксид Плутония-239
+item.nuclearcraft.plutonium._239_tiny.name=Комок Плутония-239
+item.nuclearcraft.plutonium._239_oxide_tiny.name=Комок Оксида Плутония-239
+item.nuclearcraft.plutonium._241.name=Плутоний-241
+item.nuclearcraft.plutonium._241_oxide.name=Оксид Плутония-241
+item.nuclearcraft.plutonium._241_tiny.name=Комок Плутония-241
+item.nuclearcraft.plutonium._241_oxide_tiny.name=Комок Оксида Плутония-241
+item.nuclearcraft.plutonium._242.name=Плутоний-242
+item.nuclearcraft.plutonium._242_oxide.name=Оксид Плутония-242
+item.nuclearcraft.plutonium._242_tiny.name=Комок Плутония-242
+item.nuclearcraft.plutonium._242_oxide_tiny.name=Комок Оксида Плутония-242
+
+item.nuclearcraft.americium._241.name=Америций-241
+item.nuclearcraft.americium._241_oxide.name=Оксид Америция-241
+item.nuclearcraft.americium._241_tiny.name=Комок Америция-241
+item.nuclearcraft.americium._241_oxide_tiny.name=Комок Оксида Америция-241
+item.nuclearcraft.americium._242.name=Америций-242
+item.nuclearcraft.americium._242_oxide.name=Оксид Америция-242
+item.nuclearcraft.americium._242_tiny.name=Комок Америция-242
+item.nuclearcraft.americium._242_oxide_tiny.name=Комок Оксида Америция-242
+item.nuclearcraft.americium._243.name=Америций-243
+item.nuclearcraft.americium._243_oxide.name=Оксид Америция-243
+item.nuclearcraft.americium._243_tiny.name=Комок Америция-243
+item.nuclearcraft.americium._243_oxide_tiny.name=Комок Оксида Америция-243
+
+item.nuclearcraft.curium._243.name=Кюрий-243
+item.nuclearcraft.curium._243_oxide.name=Оксид Кюрия-243
+item.nuclearcraft.curium._243_tiny.name=Комок Кюрия-243
+item.nuclearcraft.curium._243_oxide_tiny.name=Комок Оксида Кюрия-243
+item.nuclearcraft.curium._245.name=Кюрий-245
+item.nuclearcraft.curium._245_oxide.name=Оксид Кюрия-245
+item.nuclearcraft.curium._245_tiny.name=Комок Кюрия-245
+item.nuclearcraft.curium._245_oxide_tiny.name=Комок Оксида Кюрия-245
+item.nuclearcraft.curium._246.name=Кюрий-246
+item.nuclearcraft.curium._246_oxide.name=Оксид Кюрия-246
+item.nuclearcraft.curium._246_tiny.name=Комок Кюрия-246
+item.nuclearcraft.curium._246_oxide_tiny.name=Комок Оксида Кюрия-246
+item.nuclearcraft.curium._247.name=Кюрий-247
+item.nuclearcraft.curium._247_oxide.name=Оксид Кюрия-247
+item.nuclearcraft.curium._247_tiny.name=Комок Кюрия-247
+item.nuclearcraft.curium._247_oxide_tiny.name=Комок Оксида Кюрия-247
+
+item.nuclearcraft.berkelium._247.name=Берклий-247
+item.nuclearcraft.berkelium._247_oxide.name=Оксид Берклия-247
+item.nuclearcraft.berkelium._247_tiny.name=Комок Берклия-247
+item.nuclearcraft.berkelium._247_oxide_tiny.name=Комок Оксида Берклия-247
+item.nuclearcraft.berkelium._248.name=Берклий-248
+item.nuclearcraft.berkelium._248_oxide.name=Оксид Берклия-248
+item.nuclearcraft.berkelium._248_tiny.name=Комок Берклия-248
+item.nuclearcraft.berkelium._248_oxide_tiny.name=Комок Оксида Берклия-248
+
+item.nuclearcraft.californium._249.name=Калифорний-249
+item.nuclearcraft.californium._249_oxide.name=Оксид Калифорния-249
+item.nuclearcraft.californium._249_tiny.name=Комок Калифорния-249
+item.nuclearcraft.californium._249_oxide_tiny.name=Комок Оксида Калифорния-249
+item.nuclearcraft.californium._250.name=Калифорний-250
+item.nuclearcraft.californium._250_oxide.name=Оксид Калифорния-250
+item.nuclearcraft.californium._250_tiny.name=Комок Калифорния-250
+item.nuclearcraft.californium._250_oxide_tiny.name=Комок Оксида Калифорния-250
+item.nuclearcraft.californium._251.name=Калифорний-251
+item.nuclearcraft.californium._251_oxide.name=Оксид Калифорния-251
+item.nuclearcraft.californium._251_tiny.name=Комок Калифорния-251
+item.nuclearcraft.californium._251_oxide_tiny.name=Комок Оксида Калифорния-251
+item.nuclearcraft.californium._252.name=Калифорний-252
+item.nuclearcraft.californium._252_oxide.name=Оксид Калифорния-252
+item.nuclearcraft.californium._252_tiny.name=Комок Калифорния-252
+item.nuclearcraft.californium._252_oxide_tiny.name=Комок Оксида Калифорния-252
+
+item.nuclearcraft.fuel_thorium.tbu.name=TBU Топливо
+item.nuclearcraft.fuel_thorium.tbu_oxide.name=TBU Оксидное Топливо
+
+item.nuclearcraft.fuel_uranium.leu_233.name=LEU-233 Топливо
+item.nuclearcraft.fuel_uranium.leu_233_oxide.name=LEU-233 Оксидное Топливо
+item.nuclearcraft.fuel_uranium.heu_233.name=HEU-233 Топливо
+item.nuclearcraft.fuel_uranium.heu_233_oxide.name=HEU-233 Оксидное Топливо
+item.nuclearcraft.fuel_uranium.leu_235.name=LEU-233 Топливо
+item.nuclearcraft.fuel_uranium.leu_235_oxide.name=LEU-235 Оксидное Топливо
+item.nuclearcraft.fuel_uranium.heu_235.name=HEU-233 Топливо
+item.nuclearcraft.fuel_uranium.heu_235_oxide.name=HEU-235 Оксидное Топливо
+
+item.nuclearcraft.fuel_neptunium.len_236.name=LEN-236 Топливо
+item.nuclearcraft.fuel_neptunium.len_236_oxide.name=LEN-236 Оксидное Топливо
+item.nuclearcraft.fuel_neptunium.hen_236.name=HEN-236 Топливо
+item.nuclearcraft.fuel_neptunium.hen_236_oxide.name=HEN-236 Оксидное Топливо
+
+item.nuclearcraft.fuel_plutonium.lep_239.name=LEP-239 Топливо
+item.nuclearcraft.fuel_plutonium.lep_239_oxide.name=LEP-239 Оксидное Топливо
+item.nuclearcraft.fuel_plutonium.hep_239.name=HEP-239 Топливо
+item.nuclearcraft.fuel_plutonium.hep_239_oxide.name=HEP-239 Оксидное Топливо
+item.nuclearcraft.fuel_plutonium.lep_241.name=LEP-241 Топливо
+item.nuclearcraft.fuel_plutonium.lep_241_oxide.name=LEP-241 Оксидное Топливо
+item.nuclearcraft.fuel_plutonium.hep_241.name=HEP-241 Топливо
+item.nuclearcraft.fuel_plutonium.hep_241_oxide.name=HEP-241 Оксидное Топливо
+
+item.nuclearcraft.fuel_mixed_oxide.mox_239.name=MOX-239 Топливо
+item.nuclearcraft.fuel_mixed_oxide.mox_241.name=MOX-241 Топливо
+
+item.nuclearcraft.fuel_americium.lea_242.name=LEA-242 Топливо
+item.nuclearcraft.fuel_americium.lea_242_oxide.name=LEA-242 Оксидное Топливо
+item.nuclearcraft.fuel_americium.hea_242.name=HEA-242 Топливо
+item.nuclearcraft.fuel_americium.hea_242_oxide.name=HEA-242 Оксидное Топливо
+
+item.nuclearcraft.fuel_curium.lec_243.name=LECm-243 Топливо
+item.nuclearcraft.fuel_curium.lec_243_oxide.name=LECm-243 Оксидное Топливо
+item.nuclearcraft.fuel_curium.hec_243.name=HECm-243 Топливо
+item.nuclearcraft.fuel_curium.hec_243_oxide.name=HECm-243 Оксидное Топливо
+item.nuclearcraft.fuel_curium.lec_245.name=LECm-245 Топливо
+item.nuclearcraft.fuel_curium.lec_245_oxide.name=LECm-245 Оксидное Топливо
+item.nuclearcraft.fuel_curium.hec_245.name=HECm-245 Топливо
+item.nuclearcraft.fuel_curium.hec_245_oxide.name=HECm-245 Оксидное Топливо
+item.nuclearcraft.fuel_curium.lec_247.name=LECm-247 Топливо
+item.nuclearcraft.fuel_curium.lec_247_oxide.name=LECm-247 Оксидное Топливо
+item.nuclearcraft.fuel_curium.hec_247.name=HECm-247 Топливо
+item.nuclearcraft.fuel_curium.hec_247_oxide.name=HECm-247 Оксидное Топливо
+
+item.nuclearcraft.fuel_berkelium.leb_248.name=LEB-248 Топливо
+item.nuclearcraft.fuel_berkelium.leb_248_oxide.name=LEB-248 Оксидное Топливо
+item.nuclearcraft.fuel_berkelium.heb_248.name=HEB-248 Топливо
+item.nuclearcraft.fuel_berkelium.heb_248_oxide.name=HEB-248 Оксидное Топливо
+
+item.nuclearcraft.fuel_californium.lec_249.name=LECf-249 Топливо
+item.nuclearcraft.fuel_californium.lec_249_oxide.name=LECf-249 Оксидное Топливо
+item.nuclearcraft.fuel_californium.hec_249.name=HECf-249 Топливо
+item.nuclearcraft.fuel_californium.hec_249_oxide.name=HECf-249 Оксидное Топливо
+item.nuclearcraft.fuel_californium.lec_251.name=LECf-251 Топливо
+item.nuclearcraft.fuel_californium.lec_251_oxide.name=LECf-251 Оксидное Топливо
+item.nuclearcraft.fuel_californium.hec_251.name=HECf-251 Топливо
+item.nuclearcraft.fuel_californium.hec_251_oxide.name=HECf-251 Оксидное Топливо
+
+item.nuclearcraft.fuel_rod_thorium.tbu.name=TBU Топливный Стержень
+item.nuclearcraft.fuel_rod_thorium.tbu_oxide.name=TBU Оксидный Топливный Стержень
+
+item.nuclearcraft.fuel_rod_uranium.leu_233.name=LEU-233 Топливный Стержень
+item.nuclearcraft.fuel_rod_uranium.leu_233_oxide.name=LEU-233 Оксидный Топливный Стержень
+item.nuclearcraft.fuel_rod_uranium.heu_233.name=HEU-233 Топливный Стержень
+item.nuclearcraft.fuel_rod_uranium.heu_233_oxide.name=HEU-233 Оксидный Топливный Стержень
+item.nuclearcraft.fuel_rod_uranium.leu_235.name=LEU-235 Топливный Стержень
+item.nuclearcraft.fuel_rod_uranium.leu_235_oxide.name=LEU-235 Оксидный Топливный Стержень
+item.nuclearcraft.fuel_rod_uranium.heu_235.name=HEU-235 Топливный Стержень
+item.nuclearcraft.fuel_rod_uranium.heu_235_oxide.name=HEU-235 Оксидный Топливный Стержень
+
+item.nuclearcraft.fuel_rod_neptunium.len_236.name=LEN-236 Топливный Стержень
+item.nuclearcraft.fuel_rod_neptunium.len_236_oxide.name=LEN-236 Оксидный Топливный Стержень
+item.nuclearcraft.fuel_rod_neptunium.hen_236.name=HEN-236 Топливный Стержень
+item.nuclearcraft.fuel_rod_neptunium.hen_236_oxide.name=HEN-236 Оксидный Топливный Стержень
+
+item.nuclearcraft.fuel_rod_plutonium.lep_239.name=LEP-239 Топливный Стержень
+item.nuclearcraft.fuel_rod_plutonium.lep_239_oxide.name=LEP-239 Оксидный Топливный Стержень
+item.nuclearcraft.fuel_rod_plutonium.hep_239.name=HEP-239 Топливный Стержень
+item.nuclearcraft.fuel_rod_plutonium.hep_239_oxide.name=HEP-239 Оксидный Топливный Стержень
+item.nuclearcraft.fuel_rod_plutonium.lep_241.name=LEP-241 Топливный Стержень
+item.nuclearcraft.fuel_rod_plutonium.lep_241_oxide.name=LEP-241 Оксидный Топливный Стержень
+item.nuclearcraft.fuel_rod_plutonium.hep_241.name=HEP-241 Топливный Стержень
+item.nuclearcraft.fuel_rod_plutonium.hep_241_oxide.name=HEP-241 Оксидный Топливный Стержень
+
+item.nuclearcraft.fuel_rod_mixed_oxide.mox_239.name=MOX-239 Топливный Стержень
+item.nuclearcraft.fuel_rod_mixed_oxide.mox_241.name=MOX-241 Топливный Стержень
+
+item.nuclearcraft.fuel_rod_americium.lea_242.name=LEA-242 Топливный Стержень
+item.nuclearcraft.fuel_rod_americium.lea_242_oxide.name=LEA-242 Оксидный Топливный Стержень
+item.nuclearcraft.fuel_rod_americium.hea_242.name=HEA-242 Топливный Стержень
+item.nuclearcraft.fuel_rod_americium.hea_242_oxide.name=HEA-242 Оксидный Топливный Стержень
+
+item.nuclearcraft.fuel_rod_curium.lec_243.name=LECm-243 Топливный Стержень
+item.nuclearcraft.fuel_rod_curium.lec_243_oxide.name=LECm-243 Оксидный Топливный Стержень
+item.nuclearcraft.fuel_rod_curium.hec_243.name=HECm-243 Топливный Стержень
+item.nuclearcraft.fuel_rod_curium.hec_243_oxide.name=HECm-243 Оксидный Топливный Стержень
+item.nuclearcraft.fuel_rod_curium.lec_245.name=LECm-245 Топливный Стержень
+item.nuclearcraft.fuel_rod_curium.lec_245_oxide.name=LECm-245 Оксидный Топливный Стержень
+item.nuclearcraft.fuel_rod_curium.hec_245.name=HECm-245 Топливный Стержень
+item.nuclearcraft.fuel_rod_curium.hec_245_oxide.name=HECm-245 Оксидный Топливный Стержень
+item.nuclearcraft.fuel_rod_curium.lec_247.name=LECm-247 Топливный Стержень
+item.nuclearcraft.fuel_rod_curium.lec_247_oxide.name=LECm-247 Оксидный Топливный Стержень
+item.nuclearcraft.fuel_rod_curium.hec_247.name=HECm-247 Топливный Стержень
+item.nuclearcraft.fuel_rod_curium.hec_247_oxide.name=HECm-247 Оксидный Топливный Стержень
+
+item.nuclearcraft.fuel_rod_berkelium.leb_248.name=LEB-248 Топливный Стержень
+item.nuclearcraft.fuel_rod_berkelium.leb_248_oxide.name=LEB-248 Оксидный Топливный Стержень
+item.nuclearcraft.fuel_rod_berkelium.heb_248.name=HEB-248 Топливный Стержень
+item.nuclearcraft.fuel_rod_berkelium.heb_248_oxide.name=HEB-248 Оксидный Топливный Стержень
+
+item.nuclearcraft.fuel_rod_californium.lec_249.name=LECf-249 Топливный Стержень
+item.nuclearcraft.fuel_rod_californium.lec_249_oxide.name=LECf-249 Оксидный Топливный Стержень
+item.nuclearcraft.fuel_rod_californium.hec_249.name=HECf-249 Топливный Стержень
+item.nuclearcraft.fuel_rod_californium.hec_249_oxide.name=HECf-249 Оксидный Топливный Стержень
+item.nuclearcraft.fuel_rod_californium.lec_251.name=LECf-251 Топливный Стержень
+item.nuclearcraft.fuel_rod_californium.lec_251_oxide.name=LECf-251 Оксидный Топливный Стержень
+item.nuclearcraft.fuel_rod_californium.hec_251.name=HECf-251 Топливный Стержень
+item.nuclearcraft.fuel_rod_californium.hec_251_oxide.name=HECf-251 Оксидный Топливный Стержень
+
+item.nuclearcraft.depleted_fuel_rod_thorium.tbu.name=Обеднённый TBU Топливный Стержень
+item.nuclearcraft.depleted_fuel_rod_thorium.tbu_oxide.name=Обеднённый TBU Оксидный Топливный Стержень
+
+item.nuclearcraft.depleted_fuel_rod_uranium.leu_233.name=Обеднённый LEU-233 Топливный Стержень
+item.nuclearcraft.depleted_fuel_rod_uranium.leu_233_oxide.name=Обеднённый LEU-233 Оксидный Топливный Стержень
+item.nuclearcraft.depleted_fuel_rod_uranium.heu_233.name=Обеднённый HEU-233 Топливный Стержень
+item.nuclearcraft.depleted_fuel_rod_uranium.heu_233_oxide.name=Обеднённый HEU-233 Оксидный Топливный Стержень
+item.nuclearcraft.depleted_fuel_rod_uranium.leu_235.name=Обеднённый LEU-235 Топливный Стержень
+item.nuclearcraft.depleted_fuel_rod_uranium.leu_235_oxide.name=Обеднённый LEU-235 Оксидный Топливный Стержень
+item.nuclearcraft.depleted_fuel_rod_uranium.heu_235.name=Обеднённый HEU-235 Топливный Стержень
+item.nuclearcraft.depleted_fuel_rod_uranium.heu_235_oxide.name=Обеднённый HEU-235 Оксидный Топливный Стержень
+
+item.nuclearcraft.depleted_fuel_rod_neptunium.len_236.name=Обеднённый LEN-236 Топливный Стержень
+item.nuclearcraft.depleted_fuel_rod_neptunium.len_236_oxide.name=Обеднённый LEN-236 Оксидный Топливный Стержень
+item.nuclearcraft.depleted_fuel_rod_neptunium.hen_236.name=Обеднённый HEN-236 Топливный Стержень
+item.nuclearcraft.depleted_fuel_rod_neptunium.hen_236_oxide.name=Обеднённый HEN-236 Оксидный Топливный Стержень
+
+item.nuclearcraft.depleted_fuel_rod_plutonium.lep_239.name=Обеднённый LEP-239 Топливный Стержень
+item.nuclearcraft.depleted_fuel_rod_plutonium.lep_239_oxide.name=Обеднённый LEP-239 Оксидный Топливный Стержень
+item.nuclearcraft.depleted_fuel_rod_plutonium.hep_239.name=Обеднённый HEP-239 Топливный Стержень
+item.nuclearcraft.depleted_fuel_rod_plutonium.hep_239_oxide.name=Обеднённый HEP-239 Оксидный Топливный Стержень
+item.nuclearcraft.depleted_fuel_rod_plutonium.lep_241.name=Обеднённый LEP-241 Топливный Стержень
+item.nuclearcraft.depleted_fuel_rod_plutonium.lep_241_oxide.name=Обеднённый LEP-241 Оксидный Топливный Стержень
+item.nuclearcraft.depleted_fuel_rod_plutonium.hep_241.name=Обеднённый HEP-241 Топливный Стержень
+item.nuclearcraft.depleted_fuel_rod_plutonium.hep_241_oxide.name=Обеднённый HEP-241 Оксидный Топливный Стержень
+
+item.nuclearcraft.depleted_fuel_rod_mixed_oxide.mox_239.name=Обеднённый MOX-239 Топливный Стержень
+item.nuclearcraft.depleted_fuel_rod_mixed_oxide.mox_241.name=Обеднённый MOX-241 Топливный Стержень
+
+item.nuclearcraft.depleted_fuel_rod_americium.lea_242.name=Обеднённый LEA-242 Топливный Стержень
+item.nuclearcraft.depleted_fuel_rod_americium.lea_242_oxide.name=Обеднённый LEA-242 Оксидный Топливный Стержень
+item.nuclearcraft.depleted_fuel_rod_americium.hea_242.name=Обеднённый HEA-242 Топливный Стержень
+item.nuclearcraft.depleted_fuel_rod_americium.hea_242_oxide.name=Обеднённый HEA-242 Оксидный Топливный Стержень
+
+item.nuclearcraft.depleted_fuel_rod_curium.lec_243.name=Обеднённый LECm-243 Топливный Стержень
+item.nuclearcraft.depleted_fuel_rod_curium.lec_243_oxide.name=Обеднённый LECm-243 Оксидный Топливный Стержень
+item.nuclearcraft.depleted_fuel_rod_curium.hec_243.name=Обеднённый HECm-243 Топливный Стержень
+item.nuclearcraft.depleted_fuel_rod_curium.hec_243_oxide.name=Обеднённый HECm-243 Оксидный Топливный Стержень
+item.nuclearcraft.depleted_fuel_rod_curium.lec_245.name=Обеднённый LECm-245 Топливный Стержень
+item.nuclearcraft.depleted_fuel_rod_curium.lec_245_oxide.name=Обеднённый LECm-245 Оксидный Топливный Стержень
+item.nuclearcraft.depleted_fuel_rod_curium.hec_245.name=Обеднённый HECm-245 Топливный Стержень
+item.nuclearcraft.depleted_fuel_rod_curium.hec_245_oxide.name=Обеднённый HECm-245 Оксидный Топливный Стержень
+item.nuclearcraft.depleted_fuel_rod_curium.lec_247.name=Обеднённый LECm-247 Топливный Стержень
+item.nuclearcraft.depleted_fuel_rod_curium.lec_247_oxide.name=Обеднённый LECm-247 Оксидный Топливный Стержень
+item.nuclearcraft.depleted_fuel_rod_curium.hec_247.name=Обеднённый HECm-247 Топливный Стержень
+item.nuclearcraft.depleted_fuel_rod_curium.hec_247_oxide.name=Обеднённый HECm-247 Оксидный Топливный Стержень
+
+item.nuclearcraft.depleted_fuel_rod_berkelium.leb_248.name=Обеднённый LEB-248 Топливный Стержень
+item.nuclearcraft.depleted_fuel_rod_berkelium.leb_248_oxide.name=Обеднённый LEB-248 Оксидный Топливный Стержень
+item.nuclearcraft.depleted_fuel_rod_berkelium.heb_248.name=Обеднённый HEB-248 Топливный Стержень
+item.nuclearcraft.depleted_fuel_rod_berkelium.heb_248_oxide.name=Обеднённый HEB-248 Оксидный Топливный Стержень
+
+item.nuclearcraft.depleted_fuel_rod_californium.lec_249.name=Обеднённый LECf-249 Топливный Стержень
+item.nuclearcraft.depleted_fuel_rod_californium.lec_249_oxide.name=Обеднённый LECf-249 Оксидный Топливный Стержень
+item.nuclearcraft.depleted_fuel_rod_californium.hec_249.name=Обеднённый HECf-249 Топливный Стержень
+item.nuclearcraft.depleted_fuel_rod_californium.hec_249_oxide.name=Обеднённый HECf-249 Оксидный Топливный Стержень
+item.nuclearcraft.depleted_fuel_rod_californium.lec_251.name=Обеднённый LECf-251 Топливный Стержень
+item.nuclearcraft.depleted_fuel_rod_californium.lec_251_oxide.name=Обеднённый LECf-251 Оксидный Топливный Стержень
+item.nuclearcraft.depleted_fuel_rod_californium.hec_251.name=Обеднённый HECf-251 Топливный Стержень
+item.nuclearcraft.depleted_fuel_rod_californium.hec_251_oxide.name=Обеднённый HECf-251 Оксидный Топливный Стержень
+
+item.nuclearcraft.sword_boron.name=Меч из Бора
+item.nuclearcraft.pickaxe_boron.name=Кирка из Бора
+item.nuclearcraft.shovel_boron.name=Лопата из Бора
+item.nuclearcraft.axe_boron.name=Топор из Бора
+item.nuclearcraft.hoe_boron.name=Мотыга из Бора
+
+item.nuclearcraft.sword_tough.name=Меч из Жёсткого Сплава
+item.nuclearcraft.pickaxe_tough.name=Кирка из Жёсткого Сплава
+item.nuclearcraft.shovel_tough.name=Лопата из Жёсткого Сплава
+item.nuclearcraft.axe_tough.name=Топор из Жёсткого Сплава
+item.nuclearcraft.hoe_tough.name=Мотыга из Жёсткого Сплава
+
+item.nuclearcraft.spaxelhoe_tough.name=Универсальный Инструмент из Жёсткого Сплава
+
+item.nuclearcraft.helm_boron.name=Шлем из Бора
+item.nuclearcraft.chest_boron.name=Нагрудник из Бора
+item.nuclearcraft.legs_boron.name=Поножи из Бора
+item.nuclearcraft.boots_boron.name=Ботинки из Бора
+
+item.nuclearcraft.helm_tough.name=Шлем из Жёсткого Сплава
+item.nuclearcraft.chest_tough.name=Нагрудник из Жёсткого Сплава
+item.nuclearcraft.legs_tough.name=Поожи из Жёсткого Сплава
+item.nuclearcraft.boots_tough.name=Ботинки из Жёсткого Сплава
+
+item.nuclearcraft.portable_ender_chest.name=Портативный Эндер-Сундук
+item.nuclearcraft.portable_ender_chest.des0=Пользуётесь Вашим Эндер-Сундуком в Дороге!
+
+item.nuclearcraft.dominos.name=Domino's Special
+item.nuclearcraft.dominos.des0=Paul's favourite - restores 16 hunger
 
 itemGroup.nuclearcraft=NuclearCraft
 

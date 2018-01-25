@@ -69,10 +69,11 @@ public class NCConfig {
 	public static int fission_comparator_max_heat;
 	public static int fission_active_cooler_max_rate;
 	
-	public static boolean fission_new_mechanics;
-	public static double fission_graphite_extra_power;
-	public static double fission_graphite_extra_heat;
+	public static double fission_moderator_extra_power;
+	public static double fission_moderator_extra_heat;
 	public static int fission_neutron_reach;
+	
+	public static boolean fission_experimental_mechanics;
 	
 	public static double[] fission_thorium_fuel_time;
 	public static double[] fission_thorium_power;
@@ -147,6 +148,7 @@ public class NCConfig {
 	public static double[] armor_toughness;
 	
 	public static boolean rare_drops;
+	public static boolean register_fluid_blocks;
 	
 	public static void preInit() {
 		File configFile = new File(Loader.instance().getConfigDir(), "nuclearcraft.cfg");
@@ -196,9 +198,9 @@ public class NCConfig {
 		Property propertyHideDisabledOres = config.get(CATEGORY_ORES, "hide_disabled_ores", false, Lang.localise("gui.config.ores.hide_disabled_ores.comment"));
 		propertyHideDisabledOres.setLanguageKey("gui.config.ores.hide_disabled_ores");
 		
-		Property propertyProcessorTime = config.get(CATEGORY_PROCESSORS, "processor_time", new int[] {400, 800, 800, 400, 400, 600, 800, 600, 3200, 800, 400, 600, 800, 600, 1600, 600}, Lang.localise("gui.config.processors.processor_time.comment"), 1, 128000);
+		Property propertyProcessorTime = config.get(CATEGORY_PROCESSORS, "processor_time", new int[] {400, 800, 800, 400, 400, 600, 800, 600, 3200, 800, 400, 600, 800, 600, 1600, 600, 2400}, Lang.localise("gui.config.processors.processor_time.comment"), 1, 128000);
 		propertyProcessorTime.setLanguageKey("gui.config.processors.processor_time");
-		Property propertyProcessorPower = config.get(CATEGORY_PROCESSORS, "processor_power", new int[] {20, 10, 10, 20, 10, 10, 40, 20, 40, 20, 0, 40, 10, 20, 10, 10}, Lang.localise("gui.config.processors.processor_power.comment"), 0, 16000);
+		Property propertyProcessorPower = config.get(CATEGORY_PROCESSORS, "processor_power", new int[] {20, 10, 10, 20, 10, 10, 40, 20, 40, 20, 0, 40, 10, 20, 10, 10, 10}, Lang.localise("gui.config.processors.processor_power.comment"), 0, 16000);
 		propertyProcessorPower.setLanguageKey("gui.config.processors.processor_power");
 		Property propertyProcessorRFPerEU = config.get(CATEGORY_PROCESSORS, "processor_rf_per_eu", 4, Lang.localise("gui.config.processors.processor_rf_per_eu.comment"), 1, 255);
 		propertyProcessorRFPerEU.setLanguageKey("gui.config.processors.processor_rf_per_eu");
@@ -234,7 +236,7 @@ public class NCConfig {
 		propertyFissionFuelUse.setLanguageKey("gui.config.fission.fission_fuel_use");
 		Property propertyFissionHeatGeneration = config.get(CATEGORY_FISSION, "fission_heat_generation", 1D, Lang.localise("gui.config.fission.fission_heat_generation.comment"), 0D, 255D);
 		propertyFissionHeatGeneration.setLanguageKey("gui.config.fission.fission_heat_generation");
-		Property propertyFissionCoolingRate = config.get(CATEGORY_FISSION, "fission_cooling_rate", new double[] {20D, 90D, 70D, 120D, 130D, 120D, 150D, 140D, 120D, 160D, 80D, 160D, 80D, 100D, 110D}, Lang.localise("gui.config.fission.fission_cooling_rate.comment"), 0D, 32767D);
+		Property propertyFissionCoolingRate = config.get(CATEGORY_FISSION, "fission_cooling_rate", new double[] {60D, 90D, 70D, 120D, 130D, 120D, 150D, 140D, 120D, 160D, 80D, 160D, 80D, 100D, 110D}, Lang.localise("gui.config.fission.fission_cooling_rate.comment"), 0D, 32767D);
 		propertyFissionCoolingRate.setLanguageKey("gui.config.fission.fission_cooling_rate");
 		Property propertyFissionActiveCoolingRate = config.get(CATEGORY_FISSION, "fission_active_cooling_rate", new double[] {100D, 6400D, 6000D, 9600D, 8000D, 5600D, 14000D, 13200D, 10800D, 12800D, 4800D, 7200D, 5200D, 6000D, 7200D}, Lang.localise("gui.config.fission.fission_active_cooling_rate.comment"), 1D, 16777215D);
 		propertyFissionActiveCoolingRate.setLanguageKey("gui.config.fission.fission_active_cooling_rate");
@@ -253,14 +255,15 @@ public class NCConfig {
 		Property propertyFissionActiveCoolerMaxRate = config.get(CATEGORY_FISSION, "fission_active_cooler_max_rate", 10, Lang.localise("gui.config.fission.fission_active_cooler_max_rate.comment"), 1, 8000);
 		propertyFissionActiveCoolerMaxRate.setLanguageKey("gui.config.fission.fission_active_cooler_max_rate");
 		
-		Property propertyFissionNewMechanics = config.get(CATEGORY_FISSION, "fission_new_mechanics", false, Lang.localise("gui.config.fission.fission_new_mechanics.comment"));
-		propertyFissionNewMechanics.setLanguageKey("gui.config.fission.fission_new_mechanics");
-		Property propertyFissionGraphiteExtraPower = config.get(CATEGORY_FISSION, "fission_graphite_extra_power", 1D, Lang.localise("gui.config.fission.fission_graphite_extra_power.comment"), 0D, 15D);
-		propertyFissionGraphiteExtraPower.setLanguageKey("gui.config.fission.fission_graphite_extra_power");
-		Property propertyFissionGraphiteExtraHeat = config.get(CATEGORY_FISSION, "fission_graphite_extra_heat", 2D, Lang.localise("gui.config.fission.fission_graphite_extra_heat.comment"), 0D, 15D);
-		propertyFissionGraphiteExtraHeat.setLanguageKey("gui.config.fission.fission_graphite_extra_heat");
+		Property propertyFissionModeratorExtraPower = config.get(CATEGORY_FISSION, "fission_moderator_extra_power", 1D, Lang.localise("gui.config.fission.fission_moderator_extra_power.comment"), 0D, 15D);
+		propertyFissionModeratorExtraPower.setLanguageKey("gui.config.fission.fission_moderator_extra_power");
+		Property propertyFissionModeratorExtraHeat = config.get(CATEGORY_FISSION, "fission_moderator_extra_heat", 2D, Lang.localise("gui.config.fission.fission_moderator_extra_heat.comment"), 0D, 15D);
+		propertyFissionModeratorExtraHeat.setLanguageKey("gui.config.fission.fission_moderator_extra_heat");
 		Property propertyFissionNeutronReach = config.get(CATEGORY_FISSION, "fission_neutron_reach", 4, Lang.localise("gui.config.fission.fission_neutron_reach.comment"), 0, 255);
 		propertyFissionNeutronReach.setLanguageKey("gui.config.fission.fission_neutron_reach");
+		
+		Property propertyFissionExperimentalMechanics = config.get(CATEGORY_FISSION, "fission_experimental_mechanics", false, Lang.localise("gui.config.fission.fission_experimental_mechanics.comment"));
+		propertyFissionExperimentalMechanics.setLanguageKey("gui.config.fission.fission_experimental_mechanics");
 		
 		Property propertyFissionThoriumFuelTime = config.get(CATEGORY_FISSION, "fission_thorium_fuel_time", new double[] {144000D, 144000D}, Lang.localise("gui.config.fission.fission_thorium_fuel_time.comment"), 1D, Double.MAX_VALUE);
 		propertyFissionThoriumFuelTime.setLanguageKey("gui.config.fission.fission_thorium_fuel_time");
@@ -365,7 +368,7 @@ public class NCConfig {
 		Property propertyBatteryCapacity = config.get(CATEGORY_ENERGY_STORAGE, "battery_capacity", new int[] {1600000, 64000000}, Lang.localise("gui.config.energy_storage.battery_capacity.comment"), 1, Integer.MAX_VALUE);
 		propertyBatteryCapacity.setLanguageKey("gui.config.energy_storage.battery_capacity");
 		
-		Property propertyToolMiningLevel = config.get(CATEGORY_TOOLS, "tool_mining_level", new int[] {2, 2, 3, 3, 3, 3, 3, 3}, Lang.localise("gui.config.tools.tool_mining_level.comment"), 1, 15);
+		Property propertyToolMiningLevel = config.get(CATEGORY_TOOLS, "tool_mining_level", new int[] {2, 2, 3, 3, 3, 3, 4, 4}, Lang.localise("gui.config.tools.tool_mining_level.comment"), 1, 15);
 		propertyToolMiningLevel.setLanguageKey("gui.config.tools.tool_mining_level");
 		Property propertyToolDurability = config.get(CATEGORY_TOOLS, "tool_durability", new int[] {547, 547*5, 929, 929*5, 1245, 1245*5, 1928, 1928*5}, Lang.localise("gui.config.tools.tool_durability.comment"), 1, 32767);
 		propertyToolDurability.setLanguageKey("gui.config.tools.tool_durability");
@@ -393,6 +396,8 @@ public class NCConfig {
 		
 		Property propertyRareDrops = config.get(CATEGORY_OTHER, "rare_drops", false, Lang.localise("gui.config.other.rare_drops.comment"));
 		propertyRareDrops.setLanguageKey("gui.config.other.rare_drops");
+		Property propertyRegisterFluidBlocks = config.get(CATEGORY_OTHER, "register_fluid_blocks", true, Lang.localise("gui.config.other.register_fluid_blocks.comment"));
+		propertyRegisterFluidBlocks.setLanguageKey("gui.config.other.register_fluid_blocks");
 		
 		List<String> propertyOrderOres = new ArrayList<String>();
 		propertyOrderOres.add(propertyOreDims.getName());
@@ -440,10 +445,11 @@ public class NCConfig {
 		propertyOrderFission.add(propertyFissionComparatorMaxHeat.getName());
 		propertyOrderFission.add(propertyFissionActiveCoolerMaxRate.getName());
 		
-		propertyOrderFission.add(propertyFissionNewMechanics.getName());
-		propertyOrderFission.add(propertyFissionGraphiteExtraPower.getName());
-		propertyOrderFission.add(propertyFissionGraphiteExtraHeat.getName());
+		propertyOrderFission.add(propertyFissionModeratorExtraPower.getName());
+		propertyOrderFission.add(propertyFissionModeratorExtraHeat.getName());
 		propertyOrderFission.add(propertyFissionNeutronReach.getName());
+		
+		propertyOrderFission.add(propertyFissionExperimentalMechanics.getName());
 		
 		propertyOrderFission.add(propertyFissionThoriumFuelTime.getName());
 		propertyOrderFission.add(propertyFissionThoriumPower.getName());
@@ -529,6 +535,7 @@ public class NCConfig {
 		
 		List<String> propertyOrderOther = new ArrayList<String>();
 		propertyOrderOther.add(propertyRareDrops.getName());
+		propertyOrderOther.add(propertyRegisterFluidBlocks.getName());
 		config.setCategoryPropertyOrder(CATEGORY_OTHER, propertyOrderOther);
 		
 		if(readFieldFromConfig) {
@@ -572,10 +579,11 @@ public class NCConfig {
 			fission_comparator_max_heat = propertyFissionComparatorMaxHeat.getInt();
 			fission_active_cooler_max_rate = propertyFissionActiveCoolerMaxRate.getInt();
 			
-			fission_new_mechanics = propertyFissionNewMechanics.getBoolean();
-			fission_graphite_extra_power = propertyFissionGraphiteExtraPower.getDouble();
-			fission_graphite_extra_heat = propertyFissionGraphiteExtraHeat.getDouble();
+			fission_moderator_extra_power = propertyFissionModeratorExtraPower.getDouble();
+			fission_moderator_extra_heat = propertyFissionModeratorExtraHeat.getDouble();
 			fission_neutron_reach = propertyFissionNeutronReach.getInt();
+			
+			fission_experimental_mechanics = propertyFissionExperimentalMechanics.getBoolean();
 			
 			fission_thorium_fuel_time = readDoubleArrayFromConfig(propertyFissionThoriumFuelTime);
 			fission_thorium_power = readDoubleArrayFromConfig(propertyFissionThoriumPower);
@@ -650,6 +658,7 @@ public class NCConfig {
 			armor_toughness = readDoubleArrayFromConfig(propertyArmorToughness);
 			
 			rare_drops = propertyRareDrops.getBoolean();
+			register_fluid_blocks = propertyRegisterFluidBlocks.getBoolean();
 		}
 		
 		propertyOreDims.set(ore_dims);
@@ -692,10 +701,11 @@ public class NCConfig {
 		propertyFissionComparatorMaxHeat.set(fission_comparator_max_heat);
 		propertyFissionActiveCoolerMaxRate.set(fission_active_cooler_max_rate);
 		
-		propertyFissionNewMechanics.set(fission_new_mechanics);
-		propertyFissionGraphiteExtraPower.set(fission_graphite_extra_power);
-		propertyFissionGraphiteExtraHeat.set(fission_graphite_extra_heat);
+		propertyFissionModeratorExtraPower.set(fission_moderator_extra_power);
+		propertyFissionModeratorExtraHeat.set(fission_moderator_extra_heat);
 		propertyFissionNeutronReach.set(fission_neutron_reach);
+		
+		propertyFissionExperimentalMechanics.set(fission_experimental_mechanics);
 		
 		propertyFissionThoriumFuelTime.set(fission_thorium_fuel_time);
 		propertyFissionThoriumPower.set(fission_thorium_power);
@@ -770,6 +780,7 @@ public class NCConfig {
 		propertyArmorToughness.set(armor_toughness);
 		
 		propertyRareDrops.set(rare_drops);
+		propertyRegisterFluidBlocks.set(register_fluid_blocks);
 		
 		if (config.hasChanged()) config.save();
 	}

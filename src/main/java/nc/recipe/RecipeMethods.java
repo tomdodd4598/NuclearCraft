@@ -10,6 +10,7 @@ import javax.annotation.Nullable;
 import com.google.common.collect.Lists;
 
 import nc.util.StackHelper;
+import nc.util.NCUtil;
 import nc.util.OreStackHelper;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
@@ -17,7 +18,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fml.common.FMLLog;
 
 public abstract class RecipeMethods<T extends IRecipe> implements IRecipeGetter<T> {
 	
@@ -143,7 +143,6 @@ public abstract class RecipeMethods<T extends IRecipe> implements IRecipeGetter<
 			if (OreStackHelper.exists((String) object, StackType.ITEM)) return new RecipeOreStack((String) object, StackType.ITEM, 1);
 			else if (OreStackHelper.exists((String) object, StackType.FLUID)) return new RecipeOreStack((String) object, StackType.FLUID, 1);
 			else if (OreStackHelper.exists((String) object, StackType.UNSPECIFIED)) return new RecipeOreStack((String) object, StackType.UNSPECIFIED, 1);
-			FMLLog.warning(getRecipeName() + " - a string ingredient '" + ((String) object) + "' is invalid!");
 			return null;
 		}
 		if (object instanceof ItemStack) {
@@ -170,8 +169,7 @@ public abstract class RecipeMethods<T extends IRecipe> implements IRecipeGetter<
 					return null;
 				recipeInputs.add(input);
 			} else {
-				if (obj != null) FMLLog.warning(getRecipeName() + " - a recipe was removed because the input " + obj.toString() + " is invalid!");
-				else FMLLog.warning(getRecipeName() + " - a recipe was removed because an input was null!");
+				if (obj != null) NCUtil.getLogger().info(getRecipeName() + " - a recipe was removed because the input " + obj.toString() + " is invalid!");
 				return null;
 			}
 		}
@@ -182,13 +180,12 @@ public abstract class RecipeMethods<T extends IRecipe> implements IRecipeGetter<
 					return null;
 				recipeOutputs.add(output);
 			} else {
-				if (obj != null) FMLLog.warning(getRecipeName() + " - a recipe was removed because the output " + obj.toString() + " is invalid!");
-				else FMLLog.warning(getRecipeName() + " - a recipe was removed because an output was null!");
+				if (obj != null) NCUtil.getLogger().info(getRecipeName() + " - a recipe was removed because the output " + obj.toString() + " is invalid!");
 				return null;
 			}
 		}
 		if (!isValidRecipe(recipeInputs, recipeOutputs)) {
-			FMLLog.warning(getRecipeName() + " - a recipe was removed: " + recipeInputs.toString() + " -> " + recipeOutputs.toString());
+			NCUtil.getLogger().info(getRecipeName() + " - a recipe was removed: " + recipeInputs.toString() + " -> " + recipeOutputs.toString());
 		}
 		return buildRecipe(recipeInputs, recipeOutputs, additionals, shapeless);
 	}
@@ -349,7 +346,7 @@ public abstract class RecipeMethods<T extends IRecipe> implements IRecipeGetter<
 	
 	public RecipeOreStack oreStack(String oreType, int stackSize) {
 		if (!OreStackHelper.exists(oreType, StackType.ITEM)) {
-			FMLLog.warning(getRecipeName() + " - an item ore dict stack of '" + oreType + "' is invalid!");
+			//NCUtil.getLogger().info(getRecipeName() + " - an item ore dict stack of '" + oreType + "' is invalid!");
 			return null;
 		}
 		return new RecipeOreStack(oreType, StackType.ITEM, stackSize);
@@ -357,7 +354,7 @@ public abstract class RecipeMethods<T extends IRecipe> implements IRecipeGetter<
 	
 	public RecipeOreStack fluidStack(String oreType, int stackSize) {
 		if (!OreStackHelper.exists(oreType, StackType.FLUID)) {
-			FMLLog.warning(getRecipeName() + " - a fluid ore dict stack of '" + oreType + "' is invalid!");
+			//NCUtil.getLogger().info(getRecipeName() + " - a fluid ore dict stack of '" + oreType + "' is invalid!");
 			return null;
 		}
 		return new RecipeOreStack(oreType, StackType.FLUID, stackSize);

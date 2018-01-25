@@ -1,10 +1,6 @@
 package nc.fluid;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import nc.util.ColorHelper;
-import net.minecraft.init.SoundEvents;
 
 public class FluidFission extends FluidMolten {
 	

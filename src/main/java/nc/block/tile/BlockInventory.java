@@ -23,7 +23,7 @@ public class BlockInventory extends BlockContainer implements ITileEntityProvide
 
 	public BlockInventory(String name, Material material) {
 		super(material);
-		setUnlocalizedName(name);
+		setUnlocalizedName(Global.MOD_ID + "." + name);
 		setRegistryName(new ResourceLocation(Global.MOD_ID, name));
 		setDefaultState(blockState.getBaseState());
 		setHarvestLevel("pickaxe", 0);

@@ -29,9 +29,7 @@ public class NCInfo {
 	}
 	
 	private static String coolerInfoString(int meta) {
-		String defaultInfo = "tile.cooler." + CoolerType.values()[meta].name().toLowerCase() + ".desc";
-		if (Lang.canLocalise(defaultInfo)) return Lang.localise(defaultInfo);
-		return "tile.cooler." + CoolerType.values()[meta].name().toLowerCase() + (NCConfig.fission_new_mechanics ? ".des1" : ".des0");
+		return Lang.localise("tile.cooler." + CoolerType.values()[meta].name().toLowerCase() + ".desc");
 	}
 	
 	// Fuel Rods
@@ -47,12 +45,16 @@ public class NCInfo {
 	
 	// Ingot Blocks
 	
+	public static String moderatorPowerInfo = Lang.localise("info.moderator.power", NCMathHelper.round(6D/NCConfig.fission_moderator_extra_power, 2));
+	public static String moderatorHeatInfo = Lang.localise("info.moderator.heat", NCMathHelper.round(6D/NCConfig.fission_moderator_extra_heat, 2));
+	
 	public static String[][] ingotBlockInfo() {
 		String[][] info = new String[IngotType.values().length][];
 		for (int i = 0; i < IngotType.values().length; i++) {
-			info[i] = new String[] {};
+			info[i] = InfoHelper.EMPTY_ARRAY;
 		}
-		info[8] = InfoHelper.formattedInfo(Lang.localise(ingotBlockInfoString(8), powerInfo, heatInfo));
+		info[8] = InfoHelper.formattedInfo(Lang.localise(ingotBlockInfoString(8), moderatorPowerInfo, moderatorHeatInfo));
+		info[9] = InfoHelper.formattedInfo(Lang.localise(ingotBlockInfoString(9), moderatorPowerInfo, moderatorHeatInfo));
 		return info;
 	}
 	
@@ -60,6 +62,13 @@ public class NCInfo {
 		return "tile.ingot_block." + IngotType.values()[meta].name().toLowerCase() + ".desc";
 	}
 	
-	public static String powerInfo = NCConfig.fission_new_mechanics ? Lang.localise("tile.ingot_block.graphite.des0", NCMathHelper.round(6D/NCConfig.fission_graphite_extra_power, 2)) : Lang.localise("tile.ingot_block.graphite.des1");
-	public static String heatInfo = NCConfig.fission_new_mechanics ? Lang.localise("tile.ingot_block.graphite.des2", NCMathHelper.round(6D/NCConfig.fission_graphite_extra_heat, 2)) : Lang.localise("tile.ingot_block.graphite.des3");
+	public static String[][] ingotBlockFixedInfo() {
+		String[][] info = new String[IngotType.values().length][];
+		for (int i = 0; i < IngotType.values().length; i++) {
+			info[i] = InfoHelper.EMPTY_ARRAY;
+		}
+		info[8] = new String[] {Lang.localise("info.moderator.desc")};
+		info[9] = new String[] {Lang.localise("info.moderator.desc")};
+		return info;
+	}
 }

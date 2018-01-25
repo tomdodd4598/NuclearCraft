@@ -1,5 +1,6 @@
 package nc.handler;
 
+import nc.config.NCConfig;
 import nc.init.NCBlocks;
 import nc.init.NCItems;
 import nc.worldgen.OreGenerator;
@@ -373,6 +374,69 @@ public class OreDictHandler {
 		OreDictionary.registerOre("fuelRodHECf251", new ItemStack(NCItems.fuel_rod_californium, 1, 6));
 		OreDictionary.registerOre("fuelRodHECf251Oxide", new ItemStack(NCItems.fuel_rod_californium, 1, 7));
 		
+		if (NCConfig.fission_experimental_mechanics) {
+			OreDictionary.registerOre("depletedFuelTBU", new ItemStack(NCItems.depleted_fuel_thorium, 1, 0));
+			OreDictionary.registerOre("depletedFuelTBUOxide", new ItemStack(NCItems.depleted_fuel_thorium, 1, 1));
+			
+			OreDictionary.registerOre("depletedFuelLEU233", new ItemStack(NCItems.depleted_fuel_uranium, 1, 0));
+			OreDictionary.registerOre("depletedFuelLEU233Oxide", new ItemStack(NCItems.depleted_fuel_uranium, 1, 1));
+			OreDictionary.registerOre("depletedFuelHEU233", new ItemStack(NCItems.depleted_fuel_uranium, 1, 2));
+			OreDictionary.registerOre("depletedFuelHEU233Oxide", new ItemStack(NCItems.depleted_fuel_uranium, 1, 3));
+			OreDictionary.registerOre("depletedFuelLEU235", new ItemStack(NCItems.depleted_fuel_uranium, 1, 4));
+			OreDictionary.registerOre("depletedFuelLEU235Oxide", new ItemStack(NCItems.depleted_fuel_uranium, 1, 5));
+			OreDictionary.registerOre("depletedFuelHEU235", new ItemStack(NCItems.depleted_fuel_uranium, 1, 6));
+			OreDictionary.registerOre("depletedFuelHEU235Oxide", new ItemStack(NCItems.depleted_fuel_uranium, 1, 7));
+			
+			OreDictionary.registerOre("depletedFuelLEN236", new ItemStack(NCItems.depleted_fuel_neptunium, 1, 0));
+			OreDictionary.registerOre("depletedFuelLEN236Oxide", new ItemStack(NCItems.depleted_fuel_neptunium, 1, 1));
+			OreDictionary.registerOre("depletedFuelHEN236", new ItemStack(NCItems.depleted_fuel_neptunium, 1, 2));
+			OreDictionary.registerOre("depletedFuelHEN236Oxide", new ItemStack(NCItems.depleted_fuel_neptunium, 1, 3));
+			
+			OreDictionary.registerOre("depletedFuelLEP239", new ItemStack(NCItems.depleted_fuel_plutonium, 1, 0));
+			OreDictionary.registerOre("depletedFuelLEP239Oxide", new ItemStack(NCItems.depleted_fuel_plutonium, 1, 1));
+			OreDictionary.registerOre("depletedFuelHEP239", new ItemStack(NCItems.depleted_fuel_plutonium, 1, 2));
+			OreDictionary.registerOre("depletedFuelHEP239Oxide", new ItemStack(NCItems.depleted_fuel_plutonium, 1, 3));
+			OreDictionary.registerOre("depletedFuelLEP241", new ItemStack(NCItems.depleted_fuel_plutonium, 1, 4));
+			OreDictionary.registerOre("depletedFuelLEP241Oxide", new ItemStack(NCItems.depleted_fuel_plutonium, 1, 5));
+			OreDictionary.registerOre("depletedFuelHEP241", new ItemStack(NCItems.depleted_fuel_plutonium, 1, 6));
+			OreDictionary.registerOre("depletedFuelHEP241Oxide", new ItemStack(NCItems.depleted_fuel_plutonium, 1, 7));
+			
+			OreDictionary.registerOre("depletedFuelMOX239", new ItemStack(NCItems.depleted_fuel_mixed_oxide, 1, 0));
+			OreDictionary.registerOre("depletedFuelMOX241", new ItemStack(NCItems.depleted_fuel_mixed_oxide, 1, 1));
+			
+			OreDictionary.registerOre("depletedFuelLEA242", new ItemStack(NCItems.depleted_fuel_americium, 1, 0));
+			OreDictionary.registerOre("depletedFuelLEA242Oxide", new ItemStack(NCItems.depleted_fuel_americium, 1, 1));
+			OreDictionary.registerOre("depletedFuelHEA242", new ItemStack(NCItems.depleted_fuel_americium, 1, 2));
+			OreDictionary.registerOre("depletedFuelHEA242Oxide", new ItemStack(NCItems.depleted_fuel_americium, 1, 3));
+			
+			OreDictionary.registerOre("depletedFuelLECm243", new ItemStack(NCItems.depleted_fuel_curium, 1, 0));
+			OreDictionary.registerOre("depletedFuelLECm243Oxide", new ItemStack(NCItems.depleted_fuel_curium, 1, 1));
+			OreDictionary.registerOre("depletedFuelHECm243", new ItemStack(NCItems.depleted_fuel_curium, 1, 2));
+			OreDictionary.registerOre("depletedFuelHECm243Oxide", new ItemStack(NCItems.depleted_fuel_curium, 1, 3));
+			OreDictionary.registerOre("depletedFuelLECm245", new ItemStack(NCItems.depleted_fuel_curium, 1, 4));
+			OreDictionary.registerOre("depletedFuelLECm245Oxide", new ItemStack(NCItems.depleted_fuel_curium, 1, 5));
+			OreDictionary.registerOre("depletedFuelHECm245", new ItemStack(NCItems.depleted_fuel_curium, 1, 6));
+			OreDictionary.registerOre("depletedFuelHECm245Oxide", new ItemStack(NCItems.depleted_fuel_curium, 1, 7));
+			OreDictionary.registerOre("depletedFuelLECm247", new ItemStack(NCItems.depleted_fuel_curium, 1, 8));
+			OreDictionary.registerOre("depletedFuelLECm247Oxide", new ItemStack(NCItems.depleted_fuel_curium, 1, 9));
+			OreDictionary.registerOre("depletedFuelHECm247", new ItemStack(NCItems.depleted_fuel_curium, 1, 10));
+			OreDictionary.registerOre("depletedFuelHECm247Oxide", new ItemStack(NCItems.depleted_fuel_curium, 1, 11));
+			
+			OreDictionary.registerOre("depletedFuelLEB248", new ItemStack(NCItems.depleted_fuel_berkelium, 1, 0));
+			OreDictionary.registerOre("depletedFuelLEB248Oxide", new ItemStack(NCItems.depleted_fuel_berkelium, 1, 1));
+			OreDictionary.registerOre("depletedFuelHEB248", new ItemStack(NCItems.depleted_fuel_berkelium, 1, 2));
+			OreDictionary.registerOre("depletedFuelHEB248Oxide", new ItemStack(NCItems.depleted_fuel_berkelium, 1, 3));
+			
+			OreDictionary.registerOre("depletedFuelLECf249", new ItemStack(NCItems.depleted_fuel_californium, 1, 0));
+			OreDictionary.registerOre("depletedFuelLECf249Oxide", new ItemStack(NCItems.depleted_fuel_californium, 1, 1));
+			OreDictionary.registerOre("depletedFuelHECf249", new ItemStack(NCItems.depleted_fuel_californium, 1, 2));
+			OreDictionary.registerOre("depletedFuelHECf249Oxide", new ItemStack(NCItems.depleted_fuel_californium, 1, 3));
+			OreDictionary.registerOre("depletedFuelLECf251", new ItemStack(NCItems.depleted_fuel_californium, 1, 4));
+			OreDictionary.registerOre("depletedFuelLECf251Oxide", new ItemStack(NCItems.depleted_fuel_californium, 1, 5));
+			OreDictionary.registerOre("depletedFuelHECf251", new ItemStack(NCItems.depleted_fuel_californium, 1, 6));
+			OreDictionary.registerOre("depletedFuelHECf251Oxide", new ItemStack(NCItems.depleted_fuel_californium, 1, 7));
+		}
+	
 		OreDictionary.registerOre("depletedFuelRodTBU", new ItemStack(NCItems.depleted_fuel_rod_thorium, 1, 0));
 		OreDictionary.registerOre("depletedFuelRodTBUOxide", new ItemStack(NCItems.depleted_fuel_rod_thorium, 1, 1));
 		

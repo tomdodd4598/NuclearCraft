@@ -6,12 +6,11 @@ import java.util.List;
 import nc.NuclearCraft;
 import nc.block.fluid.BlockFluid;
 import nc.block.fluid.BlockFluidFission;
+import nc.config.NCConfig;
 import nc.fluid.FluidBase;
 import nc.fluid.FluidFission;
 import nc.util.ArrayHelper;
-import nc.util.NCUtil;
 import net.minecraft.item.ItemBlock;
-import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
@@ -128,7 +127,7 @@ public class NCFissionFluids {
 			String fluidName = fluid.getFluidName();
 			FluidRegistry.addBucketForFluid(fluid);
 			BlockFluid blockFluid = new BlockFluidFission(fluid, "fluid_" + fluidName);
-			registerBlock(blockFluid);
+			if (NCConfig.register_fluid_blocks) registerBlock(blockFluid);
 		}
 	}
 	
@@ -137,7 +136,6 @@ public class NCFissionFluids {
 		ForgeRegistries.BLOCKS.register(block);
 		ForgeRegistries.ITEMS.register(new ItemBlock(block).setRegistryName(block.getRegistryName()));
 		NuclearCraft.proxy.registerFluidBlockRendering(block, "fluid_fission");
-		NCUtil.getLogger().info("Registered fluid " + block.getUnlocalizedName().substring(5));
 	}
 	
 	public static List<FluidFission> fissionFluids(String name, int color) {

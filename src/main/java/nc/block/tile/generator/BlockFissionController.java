@@ -6,7 +6,6 @@ import nc.block.tile.processor.BlockProcessor;
 import nc.config.NCConfig;
 import nc.enumm.BlockEnums.ProcessorType;
 import nc.handler.SoundHandler;
-import nc.proxy.CommonProxy;
 import nc.tile.generator.TileFissionController;
 import nc.util.BlockFinder;
 import nc.util.NCInventoryHelper;
@@ -21,9 +20,8 @@ import net.minecraft.world.World;
 
 public class BlockFissionController extends BlockProcessor {
 
-	public BlockFissionController(boolean isActive) {
-		super(ProcessorType.FISSION_CONTROLLER, isActive);
-		if (!isActive) setCreativeTab(CommonProxy.TAB_FISSION_BLOCKS);
+	public BlockFissionController(boolean isActive, boolean isNew) {
+		super(isNew ? ProcessorType.FISSION_CONTROLLER_NEW : ProcessorType.FISSION_CONTROLLER, isActive);
 	}
 	
 	@Override

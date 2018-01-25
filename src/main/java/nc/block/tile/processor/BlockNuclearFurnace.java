@@ -44,7 +44,7 @@ public class BlockNuclearFurnace extends BlockContainer implements ITileEntityPr
 	
 	public BlockNuclearFurnace(boolean isBurning) {
 		super(Material.IRON);
-		setUnlocalizedName("nuclear_furnace" + (isBurning ? "_active" : "_idle"));
+		setUnlocalizedName(Global.MOD_ID + ".nuclear_furnace" + (isBurning ? "_active" : "_idle"));
 		setRegistryName(new ResourceLocation(Global.MOD_ID, "nuclear_furnace" + (isBurning ? "_active" : "_idle")));
 		setDefaultState(blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
 		this.isBurning = isBurning;

@@ -6,20 +6,15 @@ import java.util.Set;
 import com.google.common.collect.Sets;
 
 import nc.Global;
-import nc.init.NCArmor;
-import nc.init.NCTools;
 import nc.util.InfoHelper;
-import nc.util.RarityHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
-import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -35,7 +30,7 @@ public class NCAxe extends ItemTool {
 	
 	public NCAxe(String unlocalizedName, ToolMaterial material, String... tooltip) {
 		super(material, EFFECTIVE_ON);
-		setUnlocalizedName(unlocalizedName);
+		setUnlocalizedName(Global.MOD_ID + "." + unlocalizedName);
 		setRegistryName(new ResourceLocation(Global.MOD_ID, unlocalizedName));
 		info = InfoHelper.buildInfo(getUnlocalizedName(), tooltip);
 	}

@@ -124,6 +124,7 @@ public class InfuserRecipes extends BaseRecipeHandler {
 	public void addFuelOxidizingRecipes(String name) {
 		addRecipe("fuel" + name, fluidStack("oxygen", FluidHelper.OXIDIZING_VOLUME*10), "fuel" + name + "Oxide", NCConfig.processor_time[5]*4);
 		addRecipe("fuelRod" + name, fluidStack("oxygen", FluidHelper.OXIDIZING_VOLUME*10), "fuelRod" + name + "Oxide", NCConfig.processor_time[5]*4);
+		addRecipe("depletedFuel" + name, fluidStack("oxygen", FluidHelper.OXIDIZING_VOLUME*8), "depletedFuel" + name + "Oxide", NCConfig.processor_time[5]*4);
 		addRecipe("depletedFuelRod" + name, fluidStack("oxygen", FluidHelper.OXIDIZING_VOLUME*8), "depletedFuelRod" + name + "Oxide", NCConfig.processor_time[5]*4);
 	}
 	
