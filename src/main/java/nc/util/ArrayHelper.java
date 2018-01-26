@@ -35,4 +35,16 @@ public class ArrayHelper {
 		if (arrays.length == 0) return true;
 		else return arrays[arrayNo].length == 0;
 	}
+	
+	public static int sum(int[] numberArray) {
+		int result = 0;
+		for (int i = 0; i < numberArray.length; i++) result += numberArray[i];
+		return result;
+	}
+	
+	public static double sum(double[] numberArray) {
+		double result = 0D;
+		for (int i = 0; i < numberArray.length; i++) result += numberArray[i];
+		return result;
+	}
 }

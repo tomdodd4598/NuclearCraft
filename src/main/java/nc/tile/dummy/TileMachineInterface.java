@@ -1,10 +1,11 @@
 package nc.tile.dummy;
 
+import nc.tile.energyFluid.IBufferable;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 
-public class TileMachineInterface extends TileDummy {
+public class TileMachineInterface extends TileDummy implements IBufferable {
 	
 	public int tickCount;
 

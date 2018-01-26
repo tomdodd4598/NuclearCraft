@@ -3,9 +3,10 @@ package nc.tile.fluid;
 import nc.config.NCConfig;
 import nc.enumm.MetaEnums.CoolerType;
 import nc.tile.dummy.IInterfaceable;
+import nc.tile.energyFluid.IBufferable;
 import nc.tile.fluid.tank.EnumTank.FluidConnection;
 
-public class TileActiveCooler extends TileFluid implements IInterfaceable, IFluidSpread {
+public class TileActiveCooler extends TileFluid implements IInterfaceable, IBufferable, IFluidSpread {
 	
 	public TileActiveCooler() {
 		super(2*NCConfig.fission_update_rate*NCConfig.fission_active_cooler_max_rate/20, FluidConnection.IN, validFluids());

@@ -12,6 +12,7 @@ import nc.recipe.SorptionType;
 import nc.tile.IGui;
 import nc.tile.dummy.IInterfaceable;
 import nc.tile.energy.storage.EnumStorage.EnergyConnection;
+import nc.tile.energyFluid.IBufferable;
 import nc.tile.energyFluid.TileEnergyFluidSidedInventory;
 import nc.tile.fluid.tank.EnumTank.FluidConnection;
 import net.minecraft.item.ItemStack;
@@ -20,7 +21,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fluids.FluidStack;
 
-public abstract class TileItemFluidProcessor extends TileEnergyFluidSidedInventory implements IInterfaceable, IGui {
+public abstract class TileItemFluidProcessor extends TileEnergyFluidSidedInventory implements IInterfaceable, IBufferable, IGui {
 	
 	public final int defaultProcessTime;
 	public int baseProcessTime;

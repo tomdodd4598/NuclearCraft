@@ -10,6 +10,7 @@ import nc.config.NCConfig;
 import nc.init.NCBlocks;
 import nc.recipe.NCRecipes;
 import nc.recipe.RecipeMethods;
+import nc.tile.energyFluid.IBufferable;
 import nc.tile.generator.TileFusionCore;
 import nc.util.BlockFinder;
 import nc.util.BlockPosHelper;
@@ -27,7 +28,7 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 	@Optional.Interface(iface = "li.cil.oc.api.network.ManagedPeripheral", modid = "opencomputers"),
 	@Optional.Interface(iface = "dan200.computercraft.api.peripheral.IPeripheral", modid = "computercraft")
 })*/
-public abstract class TileFusionDummy extends TileDummy /*implements SimpleComponent, ManagedPeripheral, IPeripheral*/ {
+public abstract class TileFusionDummy extends TileDummy implements IBufferable/*, SimpleComponent, ManagedPeripheral, IPeripheral*/ {
 	
 	public static class Side extends TileFusionDummy {
 		public Side() {

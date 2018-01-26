@@ -5,6 +5,7 @@ import javax.annotation.Nullable;
 import nc.Global;
 import nc.block.tile.processor.BlockNuclearFurnace;
 import nc.tile.dummy.IInterfaceable;
+import nc.tile.energyFluid.IBufferable;
 import nc.tile.inventory.ITileInventory;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -34,7 +35,7 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
 import net.minecraftforge.oredict.OreDictionary;
 
-public class TileNuclearFurnace extends TileEntity implements ITickable, ISidedInventory, ITileInventory, IInterfaceable {
+public class TileNuclearFurnace extends TileEntity implements ITickable, ISidedInventory, ITileInventory, IInterfaceable, IBufferable {
 	private static final int[] SLOTS_TOP = new int[] {0};
 	private static final int[] SLOTS_BOTTOM = new int[] {2, 1};
 	private static final int[] SLOTS_SIDES = new int[] {1};

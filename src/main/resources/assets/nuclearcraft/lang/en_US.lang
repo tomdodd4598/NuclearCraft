@@ -1630,8 +1630,8 @@ gui.config.category.other.tooltip=Miscellaneous configurations.
 
 gui.config.other.rare_drops=Enable Rare Drops
 gui.config.other.rare_drops.comment=Will mobs drop rare items?
-gui.config.other.register_fluid_blocks=Register Fluid Blocks
-gui.config.other.register_fluid_blocks.comment=Register molten fission fluid blocks? It is recommended that this is left true unless running out of block IDs.
+gui.config.other.register_fluid_blocks=Register Fission Fluids
+gui.config.other.register_fluid_blocks.comment=Register fission fluids? It is recommended that this is left true unless running out of block IDs.
 
 gui.computer.method_not_found=This method doesn't show in the archive maps - lost a method, you have... how embarassing... how embarassing! Gather round the GitHub repository, clear your mind, and find your missing method we will.
 gui.computer.invalid_method_number=Invalid method number

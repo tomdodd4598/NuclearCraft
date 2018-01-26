@@ -12,11 +12,12 @@ import nc.tile.IGui;
 import nc.tile.dummy.IInterfaceable;
 import nc.tile.energy.TileEnergySidedInventory;
 import nc.tile.energy.storage.EnumStorage.EnergyConnection;
+import nc.tile.energyFluid.IBufferable;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 
-public abstract class TileItemGenerator extends TileEnergySidedInventory implements IInterfaceable, IGui {
+public abstract class TileItemGenerator extends TileEnergySidedInventory implements IInterfaceable, IBufferable, IGui {
 
 	public final int inputSize;
 	public final int outputSize;

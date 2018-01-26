@@ -1,3 +1,12 @@
+v2.9b
+
+* Buffers will now only push items and fluids into particular machines, such as Active Coolers and Processors
+* Fixed Active Coolers not using up coolant
+* Increased rate of active water cooling in response to the new placement rules
+
+* Fixed localisation errors
+* Fixed fluid removal config option
+
 v2.9a
 
 * New fission reactor mechanics are now enabled by default

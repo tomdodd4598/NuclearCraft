@@ -12,7 +12,6 @@ import nc.block.fluid.BlockFluidPlasma;
 import nc.block.fluid.BlockFluidSaltSolution;
 import nc.block.fluid.BlockFluidSteam;
 import nc.block.fluid.BlockSuperFluid;
-import nc.config.NCConfig;
 import nc.fluid.FluidAcid;
 import nc.fluid.FluidFlammable;
 import nc.fluid.FluidGas;
@@ -277,43 +276,41 @@ public class NCFluids {
 	}
 	
 	public static void register() {
-		if (NCConfig.register_fluid_blocks) {
-			registerBlock(block_oxygen);
-			registerBlock(block_hydrogen);
-			registerBlock(block_deuterium);
-			registerBlock(block_tritium);
-			registerBlock(block_helium3);
-			registerBlock(block_helium);
-			registerBlock(block_steam);
-			registerBlock(block_liquidhelium);
-			registerBlock(block_plasma);
-			registerBlock(block_lithium6);
-			registerBlock(block_lithium7);
-			registerBlock(block_boron10);
-			registerBlock(block_boron11);
-			registerBlock(block_neutron);
-			registerBlock(block_fluorine);
-			registerBlock(block_nitrogen);
-			registerBlock(block_ammonia);
-			registerBlock(block_ethanol);
-			registerBlock(block_boric_acid);
-			registerBlock(block_diborane);
-			registerBlock(block_radaway);
-			registerBlock(block_beryllium);
-			registerBlock(block_lif);
-			registerBlock(block_bef2);
-			registerBlock(block_flibe);
-			registerBlock(block_boron_nitride_solution);
-			registerBlock(block_coolant);
-			registerBlock(block_sulfur);
-			registerBlock(block_sulfur_dioxide);
-			registerBlock(block_sulfur_trioxide);
-			registerBlock(block_sulfuric_acid);
-			registerBlock(block_fluorite_water);
-			registerBlock(block_calcium_sulfate_solution);
-			registerBlock(block_hydrofluoric_acid);
-			registerBlock(block_oxygen_difluoride);
-		}
+		registerBlock(block_oxygen);
+		registerBlock(block_hydrogen);
+		registerBlock(block_deuterium);
+		registerBlock(block_tritium);
+		registerBlock(block_helium3);
+		registerBlock(block_helium);
+		registerBlock(block_steam);
+		registerBlock(block_liquidhelium);
+		registerBlock(block_plasma);
+		registerBlock(block_lithium6);
+		registerBlock(block_lithium7);
+		registerBlock(block_boron10);
+		registerBlock(block_boron11);
+		registerBlock(block_neutron);
+		registerBlock(block_fluorine);
+		registerBlock(block_nitrogen);
+		registerBlock(block_ammonia);
+		registerBlock(block_ethanol);
+		registerBlock(block_boric_acid);
+		registerBlock(block_diborane);
+		registerBlock(block_radaway);
+		registerBlock(block_beryllium);
+		registerBlock(block_lif);
+		registerBlock(block_bef2);
+		registerBlock(block_flibe);
+		registerBlock(block_boron_nitride_solution);
+		registerBlock(block_coolant);
+		registerBlock(block_sulfur);
+		registerBlock(block_sulfur_dioxide);
+		registerBlock(block_sulfur_trioxide);
+		registerBlock(block_sulfuric_acid);
+		registerBlock(block_fluorite_water);
+		registerBlock(block_calcium_sulfate_solution);
+		registerBlock(block_hydrofluoric_acid);
+		registerBlock(block_oxygen_difluoride);
 	}
 	
 	public static void registerBlock(BlockFluid block) {

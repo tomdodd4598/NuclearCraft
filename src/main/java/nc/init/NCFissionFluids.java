@@ -6,7 +6,6 @@ import java.util.List;
 import nc.NuclearCraft;
 import nc.block.fluid.BlockFluid;
 import nc.block.fluid.BlockFluidFission;
-import nc.config.NCConfig;
 import nc.fluid.FluidBase;
 import nc.fluid.FluidFission;
 import nc.util.ArrayHelper;
@@ -127,7 +126,7 @@ public class NCFissionFluids {
 			String fluidName = fluid.getFluidName();
 			FluidRegistry.addBucketForFluid(fluid);
 			BlockFluid blockFluid = new BlockFluidFission(fluid, "fluid_" + fluidName);
-			if (NCConfig.register_fluid_blocks) registerBlock(blockFluid);
+			registerBlock(blockFluid);
 		}
 	}
 	

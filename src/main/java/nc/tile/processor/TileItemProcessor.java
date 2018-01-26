@@ -13,12 +13,13 @@ import nc.tile.IGui;
 import nc.tile.dummy.IInterfaceable;
 import nc.tile.energy.TileEnergySidedInventory;
 import nc.tile.energy.storage.EnumStorage.EnergyConnection;
+import nc.tile.energyFluid.IBufferable;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.MathHelper;
 
-public abstract class TileItemProcessor extends TileEnergySidedInventory implements IInterfaceable, IGui {
+public abstract class TileItemProcessor extends TileEnergySidedInventory implements IInterfaceable, IBufferable, IGui {
 	
 	public final int defaultProcessTime;
 	public int baseProcessTime;

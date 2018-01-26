@@ -148,7 +148,7 @@ public class NCConfig {
 	public static double[] armor_toughness;
 	
 	public static boolean rare_drops;
-	public static boolean register_fluid_blocks;
+	public static boolean register_fission_fluids;
 	
 	public static void preInit() {
 		File configFile = new File(Loader.instance().getConfigDir(), "nuclearcraft.cfg");
@@ -238,7 +238,7 @@ public class NCConfig {
 		propertyFissionHeatGeneration.setLanguageKey("gui.config.fission.fission_heat_generation");
 		Property propertyFissionCoolingRate = config.get(CATEGORY_FISSION, "fission_cooling_rate", new double[] {60D, 90D, 70D, 120D, 130D, 120D, 150D, 140D, 120D, 160D, 80D, 160D, 80D, 100D, 110D}, Lang.localise("gui.config.fission.fission_cooling_rate.comment"), 0D, 32767D);
 		propertyFissionCoolingRate.setLanguageKey("gui.config.fission.fission_cooling_rate");
-		Property propertyFissionActiveCoolingRate = config.get(CATEGORY_FISSION, "fission_active_cooling_rate", new double[] {100D, 6400D, 6000D, 9600D, 8000D, 5600D, 14000D, 13200D, 10800D, 12800D, 4800D, 7200D, 5200D, 6000D, 7200D}, Lang.localise("gui.config.fission.fission_active_cooling_rate.comment"), 1D, 16777215D);
+		Property propertyFissionActiveCoolingRate = config.get(CATEGORY_FISSION, "fission_active_cooling_rate", new double[] {300D, 6400D, 6000D, 9600D, 8000D, 5600D, 14000D, 13200D, 10800D, 12800D, 4800D, 7200D, 5200D, 6000D, 7200D}, Lang.localise("gui.config.fission.fission_active_cooling_rate.comment"), 1D, 16777215D);
 		propertyFissionActiveCoolingRate.setLanguageKey("gui.config.fission.fission_active_cooling_rate");
 		Property propertyFissionWaterCoolerRequirement = config.get(CATEGORY_FISSION, "fission_water_cooler_requirement", true, Lang.localise("gui.config.fission.fission_water_cooler_requirement.comment"));
 		propertyFissionWaterCoolerRequirement.setLanguageKey("gui.config.fission.fission_water_cooler_requirement");
@@ -658,7 +658,7 @@ public class NCConfig {
 			armor_toughness = readDoubleArrayFromConfig(propertyArmorToughness);
 			
 			rare_drops = propertyRareDrops.getBoolean();
-			register_fluid_blocks = propertyRegisterFluidBlocks.getBoolean();
+			register_fission_fluids = propertyRegisterFluidBlocks.getBoolean();
 		}
 		
 		propertyOreDims.set(ore_dims);
@@ -780,7 +780,7 @@ public class NCConfig {
 		propertyArmorToughness.set(armor_toughness);
 		
 		propertyRareDrops.set(rare_drops);
-		propertyRegisterFluidBlocks.set(register_fluid_blocks);
+		propertyRegisterFluidBlocks.set(register_fission_fluids);
 		
 		if (config.hasChanged()) config.save();
 	}

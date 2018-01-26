@@ -2,6 +2,7 @@ package nc.proxy;
 
 import nc.Global;
 import nc.ModCheck;
+import nc.config.NCConfig;
 import nc.handler.DropHandler;
 import nc.handler.OreDictHandler;
 import nc.handler.SoundHandler;
@@ -60,7 +61,7 @@ public class CommonProxy {
 		
 		NCBlocks.register();
 		NCFluids.register();
-		NCFissionFluids.register();
+		if (NCConfig.register_fission_fluids) NCFissionFluids.register();
 		NCItems.register();
 		NCTools.register();
 		NCArmor.register();

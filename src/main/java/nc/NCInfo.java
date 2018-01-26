@@ -25,11 +25,11 @@ public class NCInfo {
 	}
 	
 	private static String coolingRateString(int meta) {
-		return Lang.localise("tile.cooler.cooling_rate") + " " + CoolerType.values()[meta].getCooling() + " H/t";
+		return Lang.localise("tile." + Global.MOD_ID + ".cooler.cooling_rate") + " " + CoolerType.values()[meta].getCooling() + " H/t";
 	}
 	
 	private static String coolerInfoString(int meta) {
-		return Lang.localise("tile.cooler." + CoolerType.values()[meta].name().toLowerCase() + ".desc");
+		return Lang.localise("tile." + Global.MOD_ID + ".cooler." + CoolerType.values()[meta].name().toLowerCase() + ".desc");
 	}
 	
 	// Fuel Rods
@@ -37,7 +37,7 @@ public class NCInfo {
 	public static <T extends Enum<T> & IStringSerializable & IItemMeta & IFissionStats> String[][] fuelRodInfo(T[] values) {
 		String[][] info = new String[values.length][];
 		for (int i = 0; i < values.length; i++) {
-			info[i] = new String[] {Lang.localise("item.fuel_rod.base_time.desc", NCMathHelper.round(values[i].getBaseTime()/1200D)), Lang.localise("item.fuel_rod.base_power.desc", values[i].getBasePower()), Lang.localise("item.fuel_rod.base_heat.desc", values[i].getBaseHeat())};
+			info[i] = new String[] {Lang.localise("item." + Global.MOD_ID + ".fuel_rod.base_time.desc", NCMathHelper.round(values[i].getBaseTime()/1200D)), Lang.localise("item." + Global.MOD_ID + ".fuel_rod.base_power.desc", values[i].getBasePower()), Lang.localise("item." + Global.MOD_ID + ".fuel_rod.base_heat.desc", values[i].getBaseHeat())};
 		}
 		
 		return info;
@@ -59,7 +59,7 @@ public class NCInfo {
 	}
 	
 	private static String ingotBlockInfoString(int meta) {
-		return "tile.ingot_block." + IngotType.values()[meta].name().toLowerCase() + ".desc";
+		return "tile." + Global.MOD_ID + ".ingot_block." + IngotType.values()[meta].name().toLowerCase() + ".desc";
 	}
 	
 	public static String[][] ingotBlockFixedInfo() {
