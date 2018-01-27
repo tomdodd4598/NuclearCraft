@@ -22,7 +22,7 @@ tile.nuclearcraft.ingot_block.beryllium.desc=Beryllium is only considered active
 tile.nuclearcraft.ingot_block.zirconium.name=Zirconium Block
 
 info.moderator.power=baseRF*cellEff/%s RF/t for each adjacent reactor cell
-info.moderator.heat=baseHeat*cellEff/%s H/t for each adjacent reactor cell. If there is no adjacent cell, the graphite block will instead produce some additional heat equal to the base heat of the fuel
+info.moderator.heat=baseHeat*cellEff/%s H/t for each adjacent reactor cell. If there is no adjacent cell, the moderator block will instead produce some additional heat equal to the base heat of the fuel
 info.moderator.desc=Fission Reactor Moderator
 
 tile.nuclearcraft.fission_block.casing.name=Reactor Casing
