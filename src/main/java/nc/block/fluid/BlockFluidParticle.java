@@ -2,6 +2,7 @@ package nc.block.fluid;
 
 import java.util.Random;
 
+import nc.fluid.FluidParticle;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialLiquid;
@@ -12,14 +13,13 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fluids.Fluid;
 
 public class BlockFluidParticle extends BlockFluid {
 	
 	private static final Material GAS = new MaterialLiquid(MapColor.AIR);
 	
-	public BlockFluidParticle(Fluid fluid, String name) {
-		super(fluid, name, GAS);
+	public BlockFluidParticle(FluidParticle fluid) {
+		super(fluid, GAS);
 	}
 	
 	@Override

@@ -1,10 +1,10 @@
 package nc.block.fluid;
 
-import net.minecraftforge.fluids.Fluid;
+import nc.fluid.FluidSaltSolution;
 
-public class BlockFluidSaltSolution extends BlockFluidLiquid {
+public class BlockFluidSaltSolution extends BlockFluid {
 
-	public BlockFluidSaltSolution(Fluid fluid, String name) {
-		super(fluid, name);
+	public BlockFluidSaltSolution(FluidSaltSolution fluid) {
+		super(fluid);
 	}
 }

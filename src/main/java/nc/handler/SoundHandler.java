@@ -1,7 +1,6 @@
 package nc.handler;
 
 import nc.Global;
-import nc.util.NCUtil;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
@@ -39,7 +38,6 @@ public class SoundHandler {
 		
 		ForgeRegistries.SOUND_EVENTS.register(event.setRegistryName(location));
 		size++;
-		NCUtil.getLogger().info("Registered sound " + name);
 		return event;
 	}
 }

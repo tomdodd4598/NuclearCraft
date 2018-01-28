@@ -17,7 +17,6 @@ import nc.util.BlockFinder;
 import nc.util.BlockPosHelper;
 import nc.util.EnergyHelper;
 import nc.util.Lang;
-import nc.util.NCUtil;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -861,11 +860,9 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 					if (finder.find(x, y, z, NCBlocks.active_cooler)) {
 						TileEntity tile = world.getTileEntity(finder.position(x, y, z));
 						if (tile != null) if (tile instanceof TileActiveCooler) {
-							NCUtil.getLogger().info("Found Active Cooler");
 							Tank tank = ((TileActiveCooler) tile).getTanks()[0];
 							int fluidAmount = tank.getFluidAmount();
 							if (fluidAmount > 0) {
-								NCUtil.getLogger().info("Cooler has fluid");
 								double currentHeat = heat + heatThisTick + coolerHeatThisTick;
 								for (int i = 1; i < CoolerType.values().length; i++) {
 									if (tank.getFluidName() == CoolerType.values()[i].getFluidName()) {
@@ -875,12 +872,9 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 										}
 									}
 								}
-								NCUtil.getLogger().info("Checking heat: " + currentHeat);
 								if (currentHeat > 0) {
-									NCUtil.getLogger().info("Current heat is above 0");
 									double newHeat = heat + heatThisTick + coolerHeatThisTick;
 									if (newHeat >= 0) ((TileActiveCooler) world.getTileEntity(finder.position(x, y, z))).getTanks()[0].drain(MathHelper.ceil(fluidAmount), true); else {
-										NCUtil.getLogger().info("New heat is below 0");
 										double heatFraction = currentHeat/(currentHeat - newHeat);
 										((TileActiveCooler) world.getTileEntity(finder.position(x, y, z))).getTanks()[0].drain(MathHelper.ceil(fluidAmount*heatFraction), true);
 									}

@@ -22,7 +22,7 @@ tile.nuclearcraft.ingot_block.beryllium.desc=Beryllium is only considered active
 tile.nuclearcraft.ingot_block.zirconium.name=Zirconium Block
 
 info.moderator.power=baseRF*cellEff/%s RF/t for each adjacent reactor cell
-info.moderator.heat=baseHeat*cellEff/%s H/t for each adjacent reactor cell. If there is no adjacent cell, the moderator block will instead produce some additional heat equal to the base heat of the fuel
+info.moderator.heat=baseHeat*cellEff/%s H/t for each adjacent reactor cell. If there is no adjacent cell, it will instead produce some additional heat equal to the base heat of the fuel
 info.moderator.desc=Fission Reactor Moderator
 
 tile.nuclearcraft.fission_block.casing.name=Reactor Casing
@@ -900,6 +900,7 @@ item.nuclearcraft.gem_dust.boron_nitride.name=Hexagonal Boron Nitride
 item.nuclearcraft.gem_dust.fluorite.name=Crushed Fluorite
 item.nuclearcraft.gem_dust.sulfur.name=Sulfur
 item.nuclearcraft.gem_dust.sulfur.desc=Obtained alongside Coal when breaking Coal Ore.
+item.nuclearcraft.gem_dust.coal.name=Crushed Coal
 
 item.nuclearcraft.alloy.bronze.name=Bronze Alloy
 item.nuclearcraft.alloy.tough.name=Tough Alloy
@@ -1628,10 +1629,20 @@ gui.config.armor.armor_toughness.comment=Toughnesses of armor types. Order: boro
 gui.config.category.other=Other Configs
 gui.config.category.other.tooltip=Miscellaneous configurations.
 
+gui.config.other.mushroom_spread_rate=Mushroom Spread Rate
+gui.config.other.mushroom_spread_rate.comment=Glowing Mushroom spread rate.
+gui.config.other.mushroom_gen=Generate Mushrooms
+gui.config.other.mushroom_gen.comment=Will glowing mushrooms generate in the nether?
+gui.config.other.mushroom_gen_size=Mushroom Gen Size
+gui.config.other.mushroom_gen_size.comment=Determines how many glowing mushrooms will spawn at a time.
+gui.config.other.mushroom_gen_rate=Mushroom Gen Rate
+gui.config.other.mushroom_gen_rate.comment=Determines how often glowing mushrooms will spawn.
+
 gui.config.other.rare_drops=Enable Rare Drops
 gui.config.other.rare_drops.comment=Will mobs drop rare items?
-gui.config.other.register_fluid_blocks=Register Fission Fluids
-gui.config.other.register_fluid_blocks.comment=Register fission fluids? It is recommended that this is left true unless running out of block IDs.
+
+gui.config.other.register_fluid_blocks=Register Fission Fluid Blocks
+gui.config.other.register_fluid_blocks.comment=Register fission fluid blocks? It is recommended that this is left true unless running out of block IDs.
 
 gui.computer.method_not_found=This method doesn't show in the archive maps - lost a method, you have... how embarassing... how embarassing! Gather round the GitHub repository, clear your mind, and find your missing method we will.
 gui.computer.invalid_method_number=Invalid method number

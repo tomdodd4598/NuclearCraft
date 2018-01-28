@@ -6,7 +6,7 @@ public class FluidSaltSolution extends FluidBase {
 		super(fluidName, true);
 	}
 	
-	public FluidSaltSolution(String fluidName, int colour) {
+	public FluidSaltSolution(String fluidName, Integer colour) {
 		super(fluidName, true, "salt_solution", colour);
 	}
 }

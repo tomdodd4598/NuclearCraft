@@ -2,6 +2,7 @@ package nc.worldgen;
 
 import java.util.Random;
 
+import nc.config.NCConfig;
 import nc.init.NCBlocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -26,6 +27,11 @@ public class MushroomGenerator implements IWorldGenerator {
 	}
 	
 	public void generateNether(Random random, int chunkX, int chunkZ, World world) {
+		if (!NCConfig.mushroom_gen || NCConfig.mushroom_gen_size <= 0 || NCConfig.mushroom_gen_rate <= 0) return;
+		
+		int genRarity = 400/NCConfig.mushroom_gen_rate;
+		if (genRarity <= 0) genRarity = 1;
+		
 		int xSpawn, ySpawn, zSpawn;
 
 		int xPos = chunkX * 16 + 8;
@@ -36,8 +42,8 @@ public class MushroomGenerator implements IWorldGenerator {
 		Biome biome = world.getChunkFromBlockCoords(chunkPos).getBiome(chunkPos, world.getBiomeProvider());
 		if (biome == null) return;
 		
-		if (BiomeDictionary.hasType(biome, Type.NETHER)) {	
-			if (random.nextInt(10) == 0) {
+		if (BiomeDictionary.hasType(biome, Type.NETHER)) {
+			if (random.nextInt(genRarity) == 0) {
 				xSpawn = xPos + random.nextInt(16);
 				ySpawn = random.nextInt(128);
 				zSpawn = zPos + random.nextInt(16);

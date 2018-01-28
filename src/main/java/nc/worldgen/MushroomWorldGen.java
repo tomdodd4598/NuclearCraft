@@ -3,6 +3,7 @@ package nc.worldgen;
 import java.util.Random;
 
 import nc.block.NCBlockMushroom;
+import nc.config.NCConfig;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -24,7 +25,7 @@ public class MushroomWorldGen implements IWorldGenerator {
 	public void generateMushrooms(Random random, World world, BlockPos pos) {
 		NCBlockMushroom block = (NCBlockMushroom) mushroom.getBlock();
 		
-		for (int i = 0; i < 64; ++i) {
+		for (int i = 0; i < NCConfig.mushroom_gen_size; ++i) {
 			BlockPos blockpos = pos.add(random.nextInt(8) - random.nextInt(8), random.nextInt(4) - random.nextInt(4), random.nextInt(8) - random.nextInt(8));
 			
 			if (world.isAirBlock(blockpos) && (!world.provider.hasSkyLight() || blockpos.getY() < world.getHeight() - 1) && block.canBlockStay(world, blockpos, mushroom)) {

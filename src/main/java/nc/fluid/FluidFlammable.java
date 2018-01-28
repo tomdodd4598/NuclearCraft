@@ -8,7 +8,7 @@ public class FluidFlammable extends FluidBase {
 		setViscosity(800);
 	}
 	
-	public FluidFlammable(String fluidName, int colour) {
+	public FluidFlammable(String fluidName, Integer colour) {
 		super(fluidName, true, "liquid", colour);
 		setDensity(800);
 		setViscosity(800);

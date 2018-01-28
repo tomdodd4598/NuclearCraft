@@ -6,7 +6,7 @@ public class FluidLiquid extends FluidBase {
 		super(fluidName, true);
 	}
 	
-	public FluidLiquid(String fluidName, int colour) {
+	public FluidLiquid(String fluidName, Integer colour) {
 		super(fluidName, true, "liquid", colour);
 	}
 }

@@ -2,6 +2,7 @@ package nc.block.fluid;
 
 import java.util.Random;
 
+import nc.fluid.FluidSteam;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialLiquid;
@@ -10,7 +11,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fluids.Fluid;
 
 public class BlockFluidSteam extends BlockFluid {
 	
@@ -18,8 +18,8 @@ public class BlockFluidSteam extends BlockFluid {
 	
 	public static DamageSource steam_burn = (new DamageSource("steam_burn")).setDamageBypassesArmor();
 
-	public BlockFluidSteam(Fluid fluid, String name) {
-		super(fluid, name, GAS);
+	public BlockFluidSteam(FluidSteam fluid) {
+		super(fluid, GAS);
 		setQuantaPerBlock(16);
 	}
 	

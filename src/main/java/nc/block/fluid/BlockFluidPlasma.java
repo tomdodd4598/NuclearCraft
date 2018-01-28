@@ -4,6 +4,7 @@ import java.util.Random;
 
 import nc.block.tile.BlockActivatable;
 import nc.block.tile.BlockActivatableTransparent;
+import nc.fluid.FluidPlasma;
 import nc.init.NCBlocks;
 import nc.util.MaterialHelper;
 import net.minecraft.block.Block;
@@ -17,7 +18,6 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fluids.Fluid;
 
 public class BlockFluidPlasma extends BlockFluid {
 	
@@ -25,8 +25,8 @@ public class BlockFluidPlasma extends BlockFluid {
 	
 	public static DamageSource plasma_burn = (new DamageSource("plasma_burn")).setDamageBypassesArmor();
 
-	public BlockFluidPlasma(Fluid fluid, String name) {
-		super(fluid, name, GAS);
+	public BlockFluidPlasma(FluidPlasma fluid) {
+		super(fluid, GAS);
 		setQuantaPerBlock(16);
 	}
 	

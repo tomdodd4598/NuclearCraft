@@ -9,7 +9,6 @@ import nc.config.NCConfig;
 import nc.enumm.MetaEnums.CoolerType;
 import nc.handler.SoundHandler;
 import nc.init.NCBlocks;
-import nc.init.NCFluids;
 import nc.recipe.NCRecipes;
 import nc.recipe.RecipeMethods;
 import nc.tile.energy.storage.EnumStorage.EnergyConnection;
@@ -27,6 +26,7 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraftforge.fluids.FluidRegistry;
 
 /*@Optional.InterfaceList({
 	@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers"),
@@ -272,7 +272,7 @@ public class TileFusionCore extends TileFluidGenerator /*implements SimpleCompon
 	// Setting Blocks
 	
 	private void setPlasma(BlockPos pos) {
-		world.setBlockState(pos, NCFluids.block_plasma.getDefaultState());
+		world.setBlockState(pos, FluidRegistry.getFluid("plasma").getBlock().getDefaultState());
 	}
 	
 	public void plasma() {
@@ -305,7 +305,7 @@ public class TileFusionCore extends TileFluidGenerator /*implements SimpleCompon
 	}
 	
 	private boolean findPlasma(BlockPos pos) {
-		return finder.find(pos, NCFluids.block_plasma);
+		return finder.find(pos, FluidRegistry.getFluid("plasma").getBlock().getDefaultState());
 	}
 	
 	private boolean findActiveCooler(BlockPos pos) {

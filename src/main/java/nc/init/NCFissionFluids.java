@@ -6,11 +6,10 @@ import java.util.List;
 import nc.NuclearCraft;
 import nc.block.fluid.BlockFluid;
 import nc.block.fluid.BlockFluidFission;
-import nc.fluid.FluidBase;
+import nc.config.NCConfig;
 import nc.fluid.FluidFission;
 import nc.util.ArrayHelper;
 import net.minecraft.item.ItemBlock;
-import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 public class NCFissionFluids {
@@ -122,12 +121,7 @@ public class NCFissionFluids {
 	}
 	
 	public static void register() {
-		for (FluidBase fluid : fluidList) {
-			String fluidName = fluid.getFluidName();
-			FluidRegistry.addBucketForFluid(fluid);
-			BlockFluid blockFluid = new BlockFluidFission(fluid, "fluid_" + fluidName);
-			registerBlock(blockFluid);
-		}
+		for (FluidFission fluid : fluidList) if (NCConfig.register_fission_fluid_blocks) registerBlock(new BlockFluidFission(fluid));
 	}
 	
 	public static void registerBlock(BlockFluid block) {

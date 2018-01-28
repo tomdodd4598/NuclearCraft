@@ -435,7 +435,8 @@ public class MetaEnums {
 		OBSIDIAN("obsidian", 3),
 		BORON_NITRIDE("boron_nitride", 4),
 		FLUORITE("fluorite", 5),
-		SULFUR("sulfur", 6);
+		SULFUR("sulfur", 6),
+		COAL("coal", 7);
 		
 		private String name;
 		private int id;

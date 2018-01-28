@@ -148,7 +148,11 @@ public class NCConfig {
 	public static double[] armor_toughness;
 	
 	public static boolean rare_drops;
-	public static boolean register_fission_fluids;
+	public static int mushroom_spread_rate;
+	public static boolean mushroom_gen;
+	public static int mushroom_gen_size;
+	public static int mushroom_gen_rate;
+	public static boolean register_fission_fluid_blocks;
 	
 	public static void preInit() {
 		File configFile = new File(Loader.instance().getConfigDir(), "nuclearcraft.cfg");
@@ -396,6 +400,16 @@ public class NCConfig {
 		
 		Property propertyRareDrops = config.get(CATEGORY_OTHER, "rare_drops", false, Lang.localise("gui.config.other.rare_drops.comment"));
 		propertyRareDrops.setLanguageKey("gui.config.other.rare_drops");
+		
+		Property propertyMushroomSpreadRate = config.get(CATEGORY_OTHER, "mushroom_spread_rate", 16, Lang.localise("gui.config.other.mushroom_spread_rate.comment"), 0, 511);
+		propertyMushroomSpreadRate.setLanguageKey("gui.config.other.mushroom_spread_rate");
+		Property propertyMushroomGen = config.get(CATEGORY_OTHER, "mushroom_gen", true, Lang.localise("gui.config.other.mushroom_gen.comment"));
+		propertyMushroomGen.setLanguageKey("gui.config.other.mushroom_gen");
+		Property propertyMushroomGenSize = config.get(CATEGORY_OTHER, "mushroom_gen_size", 64, Lang.localise("gui.config.other.mushroom_gen_size.comment"), 0, 511);
+		propertyMushroomGenSize.setLanguageKey("gui.config.other.mushroom_gen_size");
+		Property propertyMushroomGenRate = config.get(CATEGORY_OTHER, "mushroom_gen_rate", 40, Lang.localise("gui.config.other.mushroom_gen_rate.comment"), 0, 511);
+		propertyMushroomGenRate.setLanguageKey("gui.config.other.mushroom_gen_rate");
+		
 		Property propertyRegisterFluidBlocks = config.get(CATEGORY_OTHER, "register_fluid_blocks", true, Lang.localise("gui.config.other.register_fluid_blocks.comment"));
 		propertyRegisterFluidBlocks.setLanguageKey("gui.config.other.register_fluid_blocks");
 		
@@ -535,6 +549,10 @@ public class NCConfig {
 		
 		List<String> propertyOrderOther = new ArrayList<String>();
 		propertyOrderOther.add(propertyRareDrops.getName());
+		propertyOrderOther.add(propertyMushroomSpreadRate.getName());
+		propertyOrderOther.add(propertyMushroomGen.getName());
+		propertyOrderOther.add(propertyMushroomGenSize.getName());
+		propertyOrderOther.add(propertyMushroomGenRate.getName());
 		propertyOrderOther.add(propertyRegisterFluidBlocks.getName());
 		config.setCategoryPropertyOrder(CATEGORY_OTHER, propertyOrderOther);
 		
@@ -658,7 +676,11 @@ public class NCConfig {
 			armor_toughness = readDoubleArrayFromConfig(propertyArmorToughness);
 			
 			rare_drops = propertyRareDrops.getBoolean();
-			register_fission_fluids = propertyRegisterFluidBlocks.getBoolean();
+			mushroom_spread_rate = propertyMushroomSpreadRate.getInt();
+			mushroom_gen = propertyMushroomGen.getBoolean();
+			mushroom_gen_size = propertyMushroomGenSize.getInt();
+			mushroom_gen_rate = propertyMushroomGenRate.getInt();
+			register_fission_fluid_blocks = propertyRegisterFluidBlocks.getBoolean();
 		}
 		
 		propertyOreDims.set(ore_dims);
@@ -780,7 +802,11 @@ public class NCConfig {
 		propertyArmorToughness.set(armor_toughness);
 		
 		propertyRareDrops.set(rare_drops);
-		propertyRegisterFluidBlocks.set(register_fission_fluids);
+		propertyMushroomSpreadRate.set(mushroom_spread_rate);
+		propertyMushroomGen.set(mushroom_gen);
+		propertyMushroomGenSize.set(mushroom_gen_size);
+		propertyMushroomGenRate.set(mushroom_gen_rate);
+		propertyRegisterFluidBlocks.set(register_fission_fluid_blocks);
 		
 		if (config.hasChanged()) config.save();
 	}

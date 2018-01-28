@@ -1,3 +1,10 @@
+v2.9c
+
+* Fixed extension blocks such as Fission Ports dropping the contents of the machine they're connected to when broken
+* Added config options for the spread and generation of glowing mushrooms
+* Added crushed coal incase it is not added by other mods - it is required to make graphite
+* Removed active cooler console spam
+
 v2.9b
 
 * Buffers will now only push items and fluids into particular machines, such as Active Coolers and Processors
@@ -28,8 +35,6 @@ v2.9a
 
 * Cleaned up logging to show only important information
 * Minor recipe additions and tweaks
-* Possible other things that I have forgotten
-- Removed Paulobrine and Herobrian
 
 v2.9
 
