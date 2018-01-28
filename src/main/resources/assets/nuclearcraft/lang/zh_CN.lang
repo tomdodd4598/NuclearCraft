@@ -15,15 +15,15 @@ tile.nuclearcraft.ingot_block.uranium.name=铀块
 tile.nuclearcraft.ingot_block.boron.name=硼块
 tile.nuclearcraft.ingot_block.lithium.name=锂块
 tile.nuclearcraft.ingot_block.magnesium.name=镁块
+tile.nuclearcraft.ingot_block.graphite.name=石墨块
+tile.nuclearcraft.ingot_block.graphite.desc=石墨块只在当接触到至少一个反应堆单元时才会被激活.激活的石墨块会增加反应堆的效率,但也会产生额外的热量.每一个激活石墨块增加的能量是 %s, 额外的热量是 %s.
 tile.nuclearcraft.ingot_block.beryllium.name=铍块
+tile.nuclearcraft.ingot_block.beryllium.desc=铍块只在当接触到至少一个反应堆单元时才会被激活.激活的铍块会增加反应堆的效率,但也会产生额外的热量.每一个激活铍块增加的能量是 %s, 额外的热量是 %s.
 tile.nuclearcraft.ingot_block.zirconium.name=锆块
 
-tile.nuclearcraft.ingot_block.graphite.name=石墨块
-tile.nuclearcraft.ingot_block.graphite.des=石墨只在当接触到至少一个反应堆单元时才会被激活.激活的石墨块会增加反应堆的效率,但也会产生额外的热量.每一个激活石墨块增加的能量是 %s, 额外的热量是 %s.
-tile.nuclearcraft.ingot_block.graphite.des0=baseRF*cellEff/%s RF/t for each adjacent reactor cell
-tile.nuclearcraft.ingot_block.graphite.des1=基础能量*单元个数/8 RF/t
-tile.nuclearcraft.ingot_block.graphite.des2=baseHeat*cellEff/%s H/t for each adjacent reactor cell. If there is no adjacent cell, the graphite block will instead produce some additional heat equal to the base heat of the fuel
-tile.nuclearcraft.ingot_block.graphite.des3=基础能量*单元个数/16 H/t
+info.moderator.power=相接单元(组)的 基础能量*单元效率/%s RF/t
+info.moderator.heat=相接单元(组)的 基础热量*单元效率/%s H/t . 如果没有相邻的单元,则会增加与基础热量等同的热量.
+info.moderator.desc=聚变反应减速剂
 
 tile.nuclearcraft.fission_block.casing.name=反应堆外壳
 tile.nuclearcraft.fission_block.casing.desc=用在裂变堆结构中.要形成一个有效结构,需要建造一个由反应堆外壳构成的立方体框架,*棱角部分是可以省略的*.然后将一个反应堆控制器放在棱,角落或者结构的某一个面的一块.如果界面显示了错误,确保结构是有效的,然后将反应堆内部放入反应堆单元, 冷却器和石墨方块来开始从裂变燃料中获得能量!
@@ -40,34 +40,33 @@ tile.nuclearcraft.fusion_connector.desc=将一个聚变核心连接到它的电�
 tile.nuclearcraft.cell_block.name=反应堆单元
 tile.nuclearcraft.cell_block.desc=用在裂变反应堆中以容纳裂变燃料.单元放得越多,燃料消耗也就越快.单元会互相提高与之相邻摆放的单元的效率,或者用石墨块连接起来在同一条直线上的两个单元(如,单元-单元 或 单元-石墨块-单元).
 
+info.moderator.cell=Cells will be more efficient for each other cell they are adjacent to, or for each adjacent line of moderator blocks, of length %s at most, ending with another cell.
+
 tile.nuclearcraft.cooler.empty.name=空的冷却器
 
 tile.nuclearcraft.cooler.water.name=水冷器
-tile.nuclearcraft.cooler.water.des0=必须接触至少一个反应堆外壳.
-tile.nuclearcraft.cooler.water.des1=必须接触至少一个反应堆单元或有效的石墨块.
+tile.nuclearcraft.cooler.water.des0=必须接触至少一个反应单元或一个减速剂方块.
 
 tile.nuclearcraft.cooler.redstone.name=红石冷却器
 tile.nuclearcraft.cooler.redstone.desc=必须接触至少一个反应堆单元.
 
 tile.nuclearcraft.cooler.quartz.name=石英冷却器
-tile.nuclearcraft.cooler.quartz.desc=必须接触至少一个有效的石墨块.
+tile.nuclearcraft.cooler.quartz.desc=必须接触至少一个有效的减速剂方块.
 
 tile.nuclearcraft.cooler.gold.name=金冷却器
 tile.nuclearcraft.cooler.gold.desc=必须接触至少一个水冷器和一个红石冷却器.
 
 tile.nuclearcraft.cooler.glowstone.name=萤石冷却器
-tile.nuclearcraft.cooler.glowstone.desc=必须接触至少两个有效的石墨块.
+tile.nuclearcraft.cooler.glowstone.desc=必须接触至少两个有效的减速剂方块.
 
 tile.nuclearcraft.cooler.lapis.name=青金石冷却器
 tile.nuclearcraft.cooler.lapis.desc=必须接触至少一个反应堆单元和一个反应堆外壳.
 
 tile.nuclearcraft.cooler.diamond.name=钻石冷却器
-tile.nuclearcraft.cooler.diamond.des0=必须被4个水冷器围一圈,同时接触至少一个反应堆外壳.
-tile.nuclearcraft.cooler.diamond.des1=必须接触至少两个水冷器和一个石英冷却器。
+tile.nuclearcraft.cooler.diamond.desc=必须接触至少两个水冷器和至少一个石英冷却器.
 
 tile.nuclearcraft.cooler.helium.name=液氦冷却器
-tile.nuclearcraft.cooler.helium.des0=必须接触至少一个石英冷却器和至少一个反应堆外壳.
-tile.nuclearcraft.cooler.helium.des1=必须接触恰好一个红石冷却器和至少一个反应堆外壳.
+tile.nuclearcraft.cooler.helium.desc=必须接触恰好一个红石冷却器和至少一个反应堆外壳.
 
 tile.nuclearcraft.cooler.enderium.name=末影冷却器
 tile.nuclearcraft.cooler.enderium.desc=必须接触三个反应堆外壳.
@@ -79,7 +78,7 @@ tile.nuclearcraft.cooler.iron.name=铁冷却器
 tile.nuclearcraft.cooler.iron.desc=必须接触至少一个金冷却器.
 
 tile.nuclearcraft.cooler.emerald.name=绿宝石冷却器
-tile.nuclearcraft.cooler.emerald.desc=必须接触至少一个有效的石墨块和一个反应堆单元.
+tile.nuclearcraft.cooler.emerald.desc=必须接触至少一个有效的减速剂方块和一个反应堆单元.
 
 tile.nuclearcraft.cooler.copper.name=铜冷却器
 tile.nuclearcraft.cooler.copper.desc=必须接触至少一个萤石冷却器.
@@ -88,8 +87,7 @@ tile.nuclearcraft.cooler.tin.name=锡冷却器
 tile.nuclearcraft.cooler.tin.desc=必须在两个青金石冷却器之间.
 
 tile.nuclearcraft.cooler.magnesium.name=镁冷却器
-tile.nuclearcraft.cooler.magnesium.des0=必须接触至少一个反应堆外壳和一个液氦冷却器.
-tile.nuclearcraft.cooler.magnesium.des1=必须接触至少一个反应堆外壳和一个激活的石墨块.
+tile.nuclearcraft.cooler.magnesium.desc=必须接触至少一个反应堆外壳和一个减速剂方块.
 
 tile.nuclearcraft.cooler.cooling_rate=冷却速率:
 
@@ -109,68 +107,72 @@ tile.nuclearcraft.nuclear_furnace_idle.desc=使用铀和钍的锭或粉作为燃
 tile.nuclearcraft.nuclear_furnace_active.name=核熔炉
 
 tile.nuclearcraft.manufactory_idle.name=小制造机
-tile.nuclearcraft.manufactory_idle.desc=一个有很多用处的方便机器.可以接受中压IC2电源
+tile.nuclearcraft.manufactory_idle.desc=一个有很多用处的方便机器.
 tile.nuclearcraft.manufactory_active.name=小制造机
 
 tile.nuclearcraft.isotope_separator_idle.name=同位素分离器
-tile.nuclearcraft.isotope_separator_idle.desc=将材料分离成它们的同位素.可以接受中压IC2电源
+tile.nuclearcraft.isotope_separator_idle.desc=将材料分离成它们的同位素.
 tile.nuclearcraft.isotope_separator_active.name=同位素分离器
 
 tile.nuclearcraft.decay_hastener_idle.name=衰变加速器
-tile.nuclearcraft.decay_hastener_idle.desc=强制使放射性材料衰变.可以接受中压IC2电源
+tile.nuclearcraft.decay_hastener_idle.desc=强制使放射性材料衰变.
 tile.nuclearcraft.decay_hastener_active.name=衰变加速器
 
 tile.nuclearcraft.fuel_reprocessor_idle.name=燃料处理机
-tile.nuclearcraft.fuel_reprocessor_idle.desc=从废弃燃料中提取材料.可以接受中压IC2电源
+tile.nuclearcraft.fuel_reprocessor_idle.desc=从废弃燃料中提取材料.
 tile.nuclearcraft.fuel_reprocessor_active.name=燃料处理机
 
 tile.nuclearcraft.alloy_furnace_idle.name=合金炉
-tile.nuclearcraft.alloy_furnace_idle.desc=将基础材料熔合成合金.可以接受中压IC2电源
+tile.nuclearcraft.alloy_furnace_idle.desc=将基础材料熔合成合金.
 tile.nuclearcraft.alloy_furnace_active.name=合金炉
 
 tile.nuclearcraft.infuser_idle.name=流体注入器
-tile.nuclearcraft.infuser_idle.desc=用流体增强材料.可以接受中压IC2能源
+tile.nuclearcraft.infuser_idle.desc=用流体增强材料.
 tile.nuclearcraft.infuser_active.name=流体注入器
 
 tile.nuclearcraft.melter_idle.name=金属熔化机
-tile.nuclearcraft.melter_idle.desc=将金属熔化为液态.可以接受中压IC2电源
+tile.nuclearcraft.melter_idle.desc=将金属熔化为液态.
 tile.nuclearcraft.melter_active.name=金属熔化机
 
 tile.nuclearcraft.supercooler_idle.name=超冷却器
-tile.nuclearcraft.supercooler_idle.desc=降低流体温度.可以接受中压IC2电源
+tile.nuclearcraft.supercooler_idle.desc=降低流体温度.
 tile.nuclearcraft.supercooler_active.name=超冷却器
 
 tile.nuclearcraft.electrolyser_idle.name=电解机
-tile.nuclearcraft.electrolyser_idle.desc=将化合物分解成基本元素.可以接受中压IC2电源
+tile.nuclearcraft.electrolyser_idle.desc=将化合物分解成基本元素.
 tile.nuclearcraft.electrolyser_active.name=电解机
 
 tile.nuclearcraft.irradiator_idle.name=中子辐照器
-tile.nuclearcraft.irradiator_idle.desc=引发核电结构的改变.可以接受中压IC2电源
+tile.nuclearcraft.irradiator_idle.desc=引发核电结构的改变.
 tile.nuclearcraft.irradiator_active.name=中子辐照器
 
 tile.nuclearcraft.ingot_former_idle.name=金属成型机
-tile.nuclearcraft.ingot_former_idle.desc=将液态金属冷却成金属锭.可以接受中压IC2电源
+tile.nuclearcraft.ingot_former_idle.desc=将液态金属冷却成金属锭.
 tile.nuclearcraft.ingot_former_active.name=金属成型机
 
 tile.nuclearcraft.pressurizer_idle.name=压缩机
-tile.nuclearcraft.pressurizer_idle.desc=用高压压缩物品.可以接受中压IC2电源
+tile.nuclearcraft.pressurizer_idle.desc=用高压压缩物品.
 tile.nuclearcraft.pressurizer_active.name=压缩机
 
 tile.nuclearcraft.chemical_reactor_idle.name=化学反应器
-tile.nuclearcraft.chemical_reactor_idle.desc=气体反应装置.可以接受中压IC2电源
+tile.nuclearcraft.chemical_reactor_idle.desc=气体反应装置.
 tile.nuclearcraft.chemical_reactor_active.name=化学反应器
 
 tile.nuclearcraft.salt_mixer_idle.name=盐混器
-tile.nuclearcraft.salt_mixer_idle.desc=将熔融盐混合到一起.可以接受中压IC2电源
+tile.nuclearcraft.salt_mixer_idle.desc=将熔融盐混合到一起.
 tile.nuclearcraft.salt_mixer_active.name=盐混器
 
 tile.nuclearcraft.crystallizer_idle.name=结晶器
-tile.nuclearcraft.crystallizer_idle.desc=从溶液种析出物质.可以接受中压IC2电源
+tile.nuclearcraft.crystallizer_idle.desc=从溶液种析出物质.
 tile.nuclearcraft.crystallizer_active.name=结晶器
 
 tile.nuclearcraft.dissolver_idle.name=溶解器
-tile.nuclearcraft.dissolver_idle.desc=溶解固体.可以接受中压IC2电源
+tile.nuclearcraft.dissolver_idle.desc=溶解固体.
 tile.nuclearcraft.dissolver_active.name=溶解器
+
+tile.nuclearcraft.extractor_idle.name=流体提取机
+tile.nuclearcraft.extractor_idle.desc=从金属中提取液体.
+tile.nuclearcraft.extractor_active.name=流体提取机
 
 tile.nuclearcraft.machine_interface.name=机器界面
 tile.nuclearcraft.machine_interface.desc=自动化系统可以进入这个机器以直接邻近这个方块摆放的形式.确保最多只有一个机器放在机器旁边
@@ -184,9 +186,15 @@ tile.nuclearcraft.active_cooler.desc=Pump coolant into this block to cool down f
 tile.nuclearcraft.bin.name=垃圾桶
 tile.nuclearcraft.bin.desc=销毁物品、流体和能量.
 
-tile.nuclearcraft.fission_controller_idle.name=裂变控制器
-tile.nuclearcraft.fission_controller_idle.desc=建造一个多方块反应堆需要用到反应堆外壳,反应堆单元,冷却器和石墨块！将控制器放在某条棱, 或者某个角落或者甚至是反应堆的某个面.发出EV级IC2电源
+tile.nuclearcraft.fission_controller_idle.name=裂变控制器(过期)
+tile.nuclearcraft.fission_controller_idle.desc=建造一个多方块反应堆需要用到反应堆外壳,反应堆单元,冷却器和石墨块！将控制器放在某条棱, 或者某个角落或者甚至是反应堆的某个面.
+tile.nuclearcraft.fission_controller_idle.fixd=重要: 你已经更新了核电工艺,同时用新控制器创建的反应堆和旧版本的规则也不一样! 这是一个旧版本的控制器,会遵循旧版本的规则.
 tile.nuclearcraft.fission_controller_active.name=裂变控制器
+
+tile.nuclearcraft.fission_controller_new_idle.name=裂变控制器
+tile.nuclearcraft.fission_controller_new_idle.desc=建造一个多方块反应堆需要用到反应堆外壳,反应堆单元,冷却器和石墨块！将控制器放在某条棱, 或者某个角落或者甚至是反应堆的某个面.
+tile.nuclearcraft.fission_controller_new_idle.fixd=重要: 你已经更新了核电工艺,同时用新控制器创建的反应堆和旧版本的规则也不一样! 这是一个新版本的控制器,会遵循新版本的规则.
+tile.nuclearcraft.fission_controller_new_active.name=裂变控制器
 
 tile.nuclearcraft.fission_port.name=裂变堆端口
 tile.nuclearcraft.fission_port.desc=将这个方块放在反应堆框架中原本是放反应堆外壳的位置,但*不要*在顶面或者底面.如果一个控制器已经贴上了反应堆结构, 那么反应堆的物品库存和能量存储就可以通过这个方块实现自动化.确保裂变堆端口是面对着反应堆内部的.端口的前面在材质上有一点轻微的不同.
@@ -198,14 +206,14 @@ tile.nuclearcraft.rtg_californium.name=锎RTG
 tile.nuclearcraft.rtg.desc=恒定产出 %s
 
 tile.nuclearcraft.solar_panel_basic.name=基础太阳能板
-tile.nuclearcraft.solar_panel.desc=白天产出最大RF/t
+tile.nuclearcraft.solar_panel.desc=白天产出 %s
 
 tile.nuclearcraft.decay_generator.name=衰变产能器
-tile.nuclearcraft.decay_generator.desc=通过相邻的铀块或钍块衰变的热量来产能.一段时间后后衰变为贫铀或贫钍，产能也会减少.
+tile.nuclearcraft.decay_generator.desc=通过相邻的铀块或钍块衰变的热量来产能.一段时间后后衰变为贫铀或贫钍,产能也会减少.
 
 tile.nuclearcraft.voltaic_pile_basic.name=基础伏打电堆 (开发中)
 tile.nuclearcraft.lithium_ion_battery_basic.name=基础锂离子电池 (开发中)
-tile.nuclearcraft.energy_storage.desc=存储最多kRF.仍然处在开发中破坏后不会保存它内部的能量
+tile.nuclearcraft.energy_storage.desc=存储最多 %s .仍然处在开发中破坏后不会保存它内部的能量
 
 tile.nuclearcraft.fusion_core.name=聚变堆核心
 tile.nuclearcraft.fusion_core.desc=这是多方块聚变反应堆的中心部分.这个核心需要一圈正方形电磁体环环绕它,用反应堆连接器将这些磁铁连接到核心的四个面上.电磁体环需要是中空的,而且不需要电磁体在中空结构中排成对角线.确保远处的角落也被完全削掉.反应堆会从两种燃料聚变产生的热量中产出大量能量--记住相同的燃料会自己与自己聚变.可用的燃料有氢（氕）,氘,氚,氦-3,锂-6,锂-7和硼11.
@@ -215,8 +223,8 @@ tile.nuclearcraft.fusion_dummy_top.name=聚变堆核心
 tile.nuclearcraft.fusion_electromagnet_idle.name=电磁体
 tile.nuclearcraft.fusion_electromagnet_idle.desc=需要 %s 来保持激活
 tile.nuclearcraft.fusion_electromagnet_active.name=电磁体
-tile.nuclearcraft.fusion_electromagnet_transparent_idle.name=透明电磁铁
-tile.nuclearcraft.fusion_electromagnet_transparent_active.name=透明电磁铁
+tile.nuclearcraft.fusion_electromagnet_transparent_idle.name=透明电磁体
+tile.nuclearcraft.fusion_electromagnet_transparent_active.name=透明电磁体
 
 tile.nuclearcraft.accelerator_electromagnet_idle.name=超导电磁体
 tile.nuclearcraft.accelerator_electromagnet_idle.desc=需要 %s 来保持激活
@@ -239,7 +247,7 @@ tile.nuclearcraft.cobblestone_generator.desc=恒定产出 %s
 tile.nuclearcraft.water_source.name=无限水
 tile.nuclearcraft.water_source_compact.name=压缩无限水
 tile.nuclearcraft.water_source_dense.name=致密无限水
-tile.nuclearcraft.water_source.des0=恒定产出mB/t水
+tile.nuclearcraft.water_source.desc=恒定产出 %s 的水
 
 tile.nuclearcraft.nitrogen_collector.name=氮收集器
 tile.nuclearcraft.nitrogen_collector_compact.name=压缩氮收集器
@@ -850,7 +858,7 @@ item.nuclearcraft.ingot.uranium.name=铀锭
 item.nuclearcraft.ingot.boron.name=硼锭
 item.nuclearcraft.ingot.lithium.name=锂锭
 item.nuclearcraft.ingot.magnesium.name=镁锭
-item.nuclearcraft.ingot.graphite.name石墨锭
+item.nuclearcraft.ingot.graphite.name=石墨锭
 item.nuclearcraft.ingot.beryllium.name=铍锭
 item.nuclearcraft.ingot.zirconium.name=锆锭
 
@@ -916,7 +924,7 @@ item.nuclearcraft.part.wire_magnesium_diboride.name=二硼化镁螺线管
 item.nuclearcraft.part.bioplastic.name=生物塑料
 
 item.nuclearcraft.upgrade.speed.name=速度升级
-item.nuclearcraft.upgrade.speed.desc=加快机器的工作速度和消耗RF的速度。堆叠时，工作速度将会程线性增长，但能量消耗将会以二次方指数增长。
+item.nuclearcraft.upgrade.speed.desc=加快机器的工作速度和消耗RF的速度.堆叠时,工作速度将会程线性增长,但能量消耗将会以二次方指数增长.
 
 item.nuclearcraft.fuel_rod_empty.name=空燃料棒
 
@@ -1160,6 +1168,67 @@ item.nuclearcraft.fuel_rod.base_time.desc=基础持续时间: %s 分钟
 item.nuclearcraft.fuel_rod.base_power.desc=基础能量: %s RF/t
 item.nuclearcraft.fuel_rod.base_heat.desc=基础热量: %s H/t
 
+item.nuclearcraft.depleted_fuel_thorium.tbu.name=枯竭TBU燃料
+item.nuclearcraft.depleted_fuel_thorium.tbu_oxide.name=枯竭氧化TBU燃料
+
+item.nuclearcraft.depleted_fuel_uranium.leu_233.name=枯竭低密度铀-233燃料
+item.nuclearcraft.depleted_fuel_uranium.leu_233_oxide.name=枯竭低密度氧化铀-233燃料
+item.nuclearcraft.depleted_fuel_uranium.heu_233.name=枯竭高密度铀-233燃料
+item.nuclearcraft.depleted_fuel_uranium.heu_233_oxide.name=枯竭高密度氧化铀-233燃料
+item.nuclearcraft.depleted_fuel_uranium.leu_235.name=枯竭低密度铀-235燃料
+item.nuclearcraft.depleted_fuel_uranium.leu_235_oxide.name=枯竭低密度氧化铀-235燃料
+item.nuclearcraft.depleted_fuel_uranium.heu_235.name=枯竭高密度铀-235燃料
+item.nuclearcraft.depleted_fuel_uranium.heu_235_oxide.name=枯竭高密度氧化铀-235燃料
+
+item.nuclearcraft.depleted_fuel_neptunium.len_236.name=枯竭低密度镎-236燃料
+item.nuclearcraft.depleted_fuel_neptunium.len_236_oxide.name=枯竭低密度氧化镎-236燃料
+item.nuclearcraft.depleted_fuel_neptunium.hen_236.name=枯竭高密度镎-236燃料
+item.nuclearcraft.depleted_fuel_neptunium.hen_236_oxide.name=枯竭高密度氧化镎-236燃料
+
+item.nuclearcraft.depleted_fuel_plutonium.lep_239.name=枯竭低密度钚-239燃料
+item.nuclearcraft.depleted_fuel_plutonium.lep_239_oxide.name=枯竭低密度氧化钚-239燃料
+item.nuclearcraft.depleted_fuel_plutonium.hep_239.name=枯竭高密度钚-239燃料
+item.nuclearcraft.depleted_fuel_plutonium.hep_239_oxide.name=枯竭高密度氧化钚-239燃料
+item.nuclearcraft.depleted_fuel_plutonium.lep_241.name=枯竭低密度钚-241燃料
+item.nuclearcraft.depleted_fuel_plutonium.lep_241_oxide.name=枯竭低密度氧化钚-241燃料
+item.nuclearcraft.depleted_fuel_plutonium.hep_241.name=枯竭高密度钚-241燃料
+item.nuclearcraft.depleted_fuel_plutonium.hep_241_oxide.name=枯竭高密度氧化钚-241燃料
+
+item.nuclearcraft.depleted_fuel_mixed_oxide.mox_239.name=枯竭MOX-239燃料
+item.nuclearcraft.depleted_fuel_mixed_oxide.mox_241.name=枯竭MOX-241燃料
+
+item.nuclearcraft.depleted_fuel_americium.lea_242.name=枯竭低密度镅-242燃料
+item.nuclearcraft.depleted_fuel_americium.lea_242_oxide.name=枯竭低密度氧化镅-242燃料
+item.nuclearcraft.depleted_fuel_americium.hea_242.name=枯竭高密度镅-242燃料
+item.nuclearcraft.depleted_fuel_americium.lea_242_oxide.name=枯竭高密度氧化镅-242燃料
+
+item.nuclearcraft.depleted_fuel_curium.lec_243.name=枯竭低密度锔-243燃料
+item.nuclearcraft.depleted_fuel_curium.lec_243_oxide.name=枯竭低密度氧化锔-243燃料
+item.nuclearcraft.depleted_fuel_curium.hec_243.name=枯竭高密度锔-243燃料
+item.nuclearcraft.depleted_fuel_curium.hec_243_oxide.name=枯竭高密度氧化锔-243燃料
+item.nuclearcraft.depleted_fuel_curium.lec_245.name=枯竭低密度锔-245燃料
+item.nuclearcraft.depleted_fuel_curium.lec_245_oxide.name=枯竭低密度氧化锔-245燃料
+item.nuclearcraft.depleted_fuel_curium.hec_245.name=枯竭高密度锔-245燃料
+item.nuclearcraft.depleted_fuel_curium.hec_245_oxide.name=枯竭高密度氧化锔-245燃料
+item.nuclearcraft.depleted_fuel_curium.lec_247.name=枯竭低密度锔-247燃料
+item.nuclearcraft.depleted_fuel_curium.lec_247_oxide.name=枯竭低密度氧化锔-247燃料
+item.nuclearcraft.depleted_fuel_curium.hec_247.name=枯竭高密度锔-247燃料
+item.nuclearcraft.depleted_fuel_curium.hec_247_oxide.name=枯竭高密度氧化锔-247燃料
+
+item.nuclearcraft.depleted_fuel_berkelium.leb_248.name=枯竭低密度锫-248燃料
+item.nuclearcraft.depleted_fuel_berkelium.leb_248_oxide.name=枯竭低密度氧化锫-248燃料
+item.nuclearcraft.depleted_fuel_berkelium.heb_248.name=枯竭高密度锫-248燃料
+item.nuclearcraft.depleted_fuel_berkelium.heb_248_oxide.name=枯竭高密度氧化锫-248燃料
+
+item.nuclearcraft.depleted_fuel_californium.lec_249.name=枯竭低密度锎-249燃料
+item.nuclearcraft.depleted_fuel_californium.lec_249_oxide.name=枯竭低密度氧化锎-249燃料
+item.nuclearcraft.depleted_fuel_californium.hec_249.name=枯竭高密度锎-249燃料
+item.nuclearcraft.depleted_fuel_californium.hec_249_oxide.name=枯竭高密度氧化锎-249燃料
+item.nuclearcraft.depleted_fuel_californium.lec_251.name=枯竭低密度锎-251燃料
+item.nuclearcraft.depleted_fuel_californium.lec_251_oxide.name=枯竭低密度氧化锎-251燃料
+item.nuclearcraft.depleted_fuel_californium.hec_251.name=枯竭高密度锎-251燃料
+item.nuclearcraft.depleted_fuel_californium.hec_251_oxide.name=枯竭高密度氧化锎-251燃料
+
 item.nuclearcraft.depleted_fuel_rod_thorium.tbu.name=枯竭TBU燃料棒
 item.nuclearcraft.depleted_fuel_rod_thorium.tbu_oxide.name=枯竭氧化TBU燃料棒
 
@@ -1239,7 +1308,7 @@ item.nuclearcraft.shovel_boron.name=硼铲
 item.nuclearcraft.axe_boron.name=硼斧
 item.nuclearcraft.hoe_boron.name=硼锄
 item.nuclearcraft.spaxelhoe_boron.name=硼鹤嘴锄
-item.nuclearcraft.spaxelhoe_boron.desc=硼工具的集优工具，具有全部工具功能.
+item.nuclearcraft.spaxelhoe_boron.desc=硼工具的集优工具,具有全部工具功能.
 
 item.nuclearcraft.sword_tough.name=高强合金剑
 item.nuclearcraft.pickaxe_tough.name=高强合金镐
@@ -1247,7 +1316,7 @@ item.nuclearcraft.shovel_tough.name=高强合金铲
 item.nuclearcraft.axe_tough.name=高强合金斧
 item.nuclearcraft.hoe_tough.name=高强合金锄
 item.nuclearcraft.spaxelhoe_tough.name=高强合金鹤嘴锄
-item.nuclearcraft.spaxelhoe_tough.desc=高强合金鹤工具的集优工具，具有全部工具功能.
+item.nuclearcraft.spaxelhoe_tough.desc=高强合金鹤工具的集优工具,具有全部工具功能.
 
 item.nuclearcraft.sword_hard_carbon.name=硬碳剑
 item.nuclearcraft.pickaxe_hard_carbon.name=硬碳镐
@@ -1255,7 +1324,7 @@ item.nuclearcraft.shovel_hard_carbon.name=硬碳铲
 item.nuclearcraft.axe_hard_carbon.name=硬碳斧
 item.nuclearcraft.hoe_hard_carbon.name=硬碳锄
 item.nuclearcraft.spaxelhoe_hard_carbon.name=硬碳鹤嘴锄
-item.nuclearcraft.spaxelhoe_hard_carbon.desc=硬碳工具的集优工具，具有全部工具功能.
+item.nuclearcraft.spaxelhoe_hard_carbon.desc=硬碳工具的集优工具,具有全部工具功能.
 
 item.nuclearcraft.sword_boron_nitride.name=氮化硼剑
 item.nuclearcraft.pickaxe_boron_nitride.name=氮化硼镐
@@ -1263,7 +1332,7 @@ item.nuclearcraft.shovel_boron_nitride.name=氮化硼铲
 item.nuclearcraft.axe_boron_nitride.name=氮化硼斧
 item.nuclearcraft.hoe_boron_nitride.name=氮化硼锄
 item.nuclearcraft.spaxelhoe_boron_nitride.name=氮化硼鹤嘴锄
-item.nuclearcraft.spaxelhoe_boron_nitride.desc=氮化硼工具的集优工具，具有全部工具功能.
+item.nuclearcraft.spaxelhoe_boron_nitride.desc=氮化硼工具的集优工具,具有全部工具功能.
 
 item.nuclearcraft.helm_boron.name=硼头盔
 item.nuclearcraft.chest_boron.name=硼胸甲
@@ -1316,7 +1385,7 @@ itemGroup.nuclearcraftMisc=核电工艺杂项
 
 gui.config.main_title=核电工艺配置(未汉化)
 
-gui.config.category.ores=Ore Configs
+gui.config.category.ores=矿物
 gui.config.category.ores.tooltip=Configure ore generation.
 
 gui.config.ores.ore_dims=Dimension List
@@ -1338,13 +1407,13 @@ gui.config.ores.ore_drops.comment=Will vanilla ores drop extra resources? Order:
 gui.config.ores.hide_disabled_ores=Hide Disabled Ores
 gui.config.ores.hide_disabled_ores.comment=Remove disabled ores from the Ore Dictionary and JEI?
 
-gui.config.category.processors=Processor Configs
+gui.config.category.processors=机器
 gui.config.category.processors.tooltip=Configure processors.
 
 gui.config.processors.processor_time=Processing Times
-gui.config.processors.processor_time.comment=Base ticks per process. Order: Manufactory, Isotope Separator, Decay Hastener, Fuel Reprocessor, Alloy Furnace, Fluid Infuser, Melter, Supercooler, Electrolyzer, Neutron Irradiator, Ingot Former, Pressurizer, Chemical Reactor, Salt Mixer, Crystallizer, Dissolver.
+gui.config.processors.processor_time.comment=Base ticks per process. Order: Manufactory, Isotope Separator, Decay Hastener, Fuel Reprocessor, Alloy Furnace, Fluid Infuser, Melter, Supercooler, Electrolyzer, Neutron Irradiator, Ingot Former, Pressurizer, Chemical Reactor, Salt Mixer, Crystallizer, Fluid Enricher, Fluid Extractor.
 gui.config.processors.processor_power=Processing Power Use
-gui.config.processors.processor_power.comment=Base RF/t use during processing. Order: Manufactory, Isotope Separator, Decay Hastener, Fuel Reprocessor, Alloy Furnace, Fluid Infuser, Melter, Supercooler, Electrolyzer, Neutron Irradiator, Ingot Former, Pressurizer, Chemical Reactor, Salt Mixer, Crystallizer, Dissolver.
+gui.config.processors.processor_power.comment=Base RF/t use during processing. Order: Manufactory, Isotope Separator, Decay Hastener, Fuel Reprocessor, Alloy Furnace, Fluid Infuser, Melter, Supercooler, Electrolyzer, Neutron Irradiator, Ingot Former, Pressurizer, Chemical Reactor, Salt Mixer, Crystallizer, Fluid Enricher, Fluid Extractor.
 gui.config.processors.processor_rf_per_eu=RF per EU Accepted
 gui.config.processors.processor_rf_per_eu.comment=The RF received per EU injected for processors.
 gui.config.processors.processor_update_rate=Processor Update Rate
@@ -1360,7 +1429,7 @@ gui.config.processors.smart_processor_input.comment=Will a machine's valid input
 gui.config.processors.passive_permeation=Passive Permeation
 gui.config.processors.passive_permeation.comment=Will passive machines such as Active Coolers and Electromagnets spread their items, fluid and energy to adjacent passive machines?
 
-gui.config.category.generators=Generator Configs
+gui.config.category.generators=产能
 gui.config.category.generators.tooltip=Configure generators.
 
 gui.config.generators.rtg_power=RTG Power Gen
@@ -1374,7 +1443,7 @@ gui.config.generators.generator_rf_per_eu.comment=The RF used per EU emitted for
 gui.config.generators.generator_update_rate=Generator Update Rate
 gui.config.generators.generator_update_rate.comment=Ticks per fluid content check.
 
-gui.config.category.fission=Fission Configs
+gui.config.category.fission=裂变
 gui.config.category.fission.tooltip=Configure aspects of nuclear fission.
 
 gui.config.fission.fission_power=Power Gen Multiplier
@@ -1402,14 +1471,15 @@ gui.config.fission.fission_comparator_max_heat.comment=Percentage heat level of 
 gui.config.fission.fission_active_cooler_max_rate=Maximum Active Cooler Fluid Use
 gui.config.fission.fission_active_cooler_max_rate.comment=Maximum rate at which the Active Fluid Cooler uses coolant in mB/s.
 
-gui.config.fission.fission_new_mechanics=New Fission Mechanics
-gui.config.fission.fission_new_mechanics.comment=Enable the new fission reactor mechanics? This includes changes to graphite's behaviour (to make it less ridiculously powerful in large designs), changes to water coolers' behaviour (to prevent players simply plastering reactor interiors with them) and farther neutron radiation reach from cells. Disabled by default not to mess with any already existing setups.
-gui.config.fission.fission_graphite_extra_power=Graphite Power Modifier
-gui.config.fission.fission_graphite_extra_power.comment=*Only effects new mechanics.* Determines the extra power generated by each block of graphite adjacent to a reactor cell. Equal to the effective number of extra cell's worth of power that would be generated by a cell totally surrounded by graphite. Each block of graphite will contribute one sixth of this amount of power (the amount of additional power scales linearly with the number of blocks of graphite).
-gui.config.fission.fission_graphite_extra_heat=Graphite Heat Modifier
-gui.config.fission.fission_graphite_extra_heat.comment=*Only effects new mechanics.* Determines the extra heat generated by each block of graphite adjacent to a reactor cell. Equal to the effective number of extra cell's worth of heat that would be generated by a cell totally surrounded by graphite. Each block of graphite will contribute one sixth of this amount of heat (the amount of additional heat scales linearly with the number of blocks of graphite).
+gui.config.fission.fission_moderator_extra_power=Moderator Power Modifier
+gui.config.fission.fission_moderator_extra_power.comment=*Only effects new mechanics.* Determines the extra power generated by each moderator block adjacent to a reactor cell. Equal to the effective number of extra cell's worth of power that would be generated by a cell totally surrounded by moderator blocks. Each moderator block will contribute one sixth of this amount of power (the amount of additional power scales linearly with the number of moderator blocks).
+gui.config.fission.fission_moderator_extra_heat=Moderator Heat Modifier
+gui.config.fission.fission_moderator_extra_heat.comment=*Only effects new mechanics.* Determines the extra heat generated by each moderator block adjacent to a reactor cell. Equal to the effective number of extra cell's worth of heat that would be generated by a cell totally surrounded by moderator blocks. Each moderator block will contribute one sixth of this amount of heat (the amount of additional heat scales linearly with the number of moderator blocks).
 gui.config.fission.fission_neutron_reach=Neutron Radiation Reach
-gui.config.fission.fission_neutron_reach.comment=*Only effects new mechanics.* Maximum number of graphite blocks that can be between two cells for neutron radiation to be shared between them and their efficiency to increase.
+gui.config.fission.fission_neutron_reach.comment=*Only effects new mechanics.* Maximum number of moderator blocks that can be between two cells for neutron radiation to be shared between them and their efficiency to increase.
+
+gui.config.fission.fission_experimental_mechanics=Experimental Fission Mechanics
+gui.config.fission.fission_experimental_mechanics.comment=Enable experimental fission reactor mechanics? Only enable this if you want to play with planned features for fission reactors - be warned that, while this is enabled, new updates of the mod may make previously stable reactors unstable. Disabled by default not to mess with any already existing setups.
 
 gui.config.fission.fission_thorium_fuel_time=Thorium Fuel Durations
 gui.config.fission.fission_thorium_fuel_time.comment=Base ticks the fuels last. Order: TBU, TBU Oxide.
@@ -1474,7 +1544,7 @@ gui.config.fission.fission_californium_power.comment=Base RF/t the fuels produce
 gui.config.fission.fission_californium_heat_generation=Californium Heat Gen
 gui.config.fission.fission_californium_heat_generation.comment=Base heat the fuels produce. Order: LECf-249, LECf-249 Oxide, HECf-249, HECf-249 Oxide, LECf-251, LECf-251 Oxide, HECf-251, HECf-251 Oxide.
 
-gui.config.category.fusion=Fusion Configs
+gui.config.category.fusion=聚变
 gui.config.category.fusion.tooltip=Configure aspects of nuclear fusion.
 
 gui.config.fusion.fusion_base_power=Power Gen Multiplier
@@ -1507,7 +1577,7 @@ gui.config.fusion.fusion_heat_variable.comment=Heat variables that determine the
 gui.config.fusion.fusion_electromagnet_power=Electromagnet Power
 gui.config.fusion.fusion_electromagnet_power.comment=RF/s required to keep an electromagnet active.
 
-gui.config.category.accelerator=Accelerator Configs
+gui.config.category.accelerator=加速器
 gui.config.category.accelerator.tooltip=Configure aspects of particle acceleration.
 
 gui.config.accelerator.accelerator_electromagnet_power=Superconducting Electromagnet Power
@@ -1517,13 +1587,13 @@ gui.config.accelerator.accelerator_supercooler_coolant.comment=mB/s of liquid he
 gui.config.accelerator.accelerator_update_rate=Accelerator Ring Check Delay
 gui.config.accelerator.accelerator_update_rate.comment=Ticks per ring check.
 
-gui.config.category.energy_storage=Energy Storage Configs
+gui.config.category.energy_storage=能量存储
 gui.config.category.energy_storage.tooltip=Configure energy storages.
 
 gui.config.energy_storage.battery_capacity=Battery Capacities
 gui.config.energy_storage.battery_capacity.comment=Maximum RF storable. Order: Voltaic Pile, Lithium Ion Battery.
 
-gui.config.category.tools=Tool Configs
+gui.config.category.tools=工具
 gui.config.category.tools.tooltip=Configure tools.
 
 gui.config.tools.tool_mining_level=Mining Levels
@@ -1537,7 +1607,7 @@ gui.config.tools.tool_attack_damage.comment=Related to the damage done per hit (
 gui.config.tools.tool_enchantability=Enchantabilities
 gui.config.tools.tool_enchantability.comment=Determines the quality of applied enchantments. Order: boron, boron spaxelhoe, tough alloy, tough alloy spaxelhoe, hard carbon, hard carbon spaxelhoe, boron nitride, boron nitride spaxelhoe.
 
-gui.config.category.armor=Armor Configs
+gui.config.category.armor=护甲
 gui.config.category.armor.tooltip=Configure armor.
 
 gui.config.armor.armor_durability=Durabilities
@@ -1555,11 +1625,13 @@ gui.config.armor.armor_enchantability.comment=Determines the quality of applied 
 gui.config.armor.armor_toughness=Toughnesses
 gui.config.armor.armor_toughness.comment=Toughnesses of armor types. Order: boron, tough alloy, hard carbon, boron nitride.
 
-gui.config.category.other=Other Configs
+gui.config.category.other=其他
 gui.config.category.other.tooltip=Miscellaneous configurations.
 
 gui.config.other.rare_drops=Enable Rare Drops
 gui.config.other.rare_drops.comment=Will mobs drop rare items?
+gui.config.other.register_fluid_blocks=Register Fission Fluids
+gui.config.other.register_fluid_blocks.comment=Register fission fluids? It is recommended that this is left true unless running out of block IDs.
 
 gui.computer.method_not_found=This method doesn't show in the archive maps - lost a method, you have... how embarassing... how embarassing! Gather round the GitHub repository, clear your mind, and find your missing method we will.
 gui.computer.invalid_method_number=Invalid method number
@@ -1568,66 +1640,66 @@ gui.computer.invalid_argument_error=Invalid argument %s, expected %s
 gui.computer.integer_too_small_error=Number argument %s too small, expected at least %s
 gui.computer.integer_too_large_error=Number argument %s too large, expected %s at most
 
-gui.container.fission_controller.reactor=Fission Reactor
-gui.container.fission_controller.casing_incomplete=Casing Incomplete
-gui.container.fission_controller.casing_incomplete_at=Casing Incomplete at
-gui.container.fission_controller.multiple_controllers=Extra Controller at
-gui.container.fission_controller.casing_in_interior=Casing In Interior at
-gui.container.fission_controller.invalid_structure=Invalid Structure
-gui.container.fission_controller.pos=BlockPos
-gui.container.fission_controller.no_fuel=No Fuel
-gui.container.fission_controller.cells=Cells:
-gui.container.fission_controller.efficiency=Efficiency:
-gui.container.fission_controller.heat=Heat Level:
-gui.container.fission_controller.heat_gen=Heat Gen:
-gui.container.fission_controller.heat_mult=Heat Multiplier:
+gui.container.fission_controller.reactor=聚变反应堆
+gui.container.fission_controller.casing_incomplete=外壳不完全
+gui.container.fission_controller.casing_incomplete_at=外壳有不完全处在 
+gui.container.fission_controller.multiple_controllers=有多余的控制器在 
+gui.container.fission_controller.casing_in_interior=内部有外壳在 
+gui.container.fission_controller.invalid_structure=错误结构
+gui.container.fission_controller.pos=位置
+gui.container.fission_controller.no_fuel=没有燃料
+gui.container.fission_controller.cells=单元数:
+gui.container.fission_controller.efficiency=效率:
+gui.container.fission_controller.heat=热量:
+gui.container.fission_controller.heat_gen=产热:
+gui.container.fission_controller.heat_mult=热量倍率:
 
 gui.container.fission_controller.tbu=TBU
-gui.container.fission_controller.leu=LEU
-gui.container.fission_controller.heu=HEU
-gui.container.fission_controller.len=LEN
-gui.container.fission_controller.hen=HEN
-gui.container.fission_controller.lep=LEP
-gui.container.fission_controller.hep=HEP
+gui.container.fission_controller.leu=低密度铀
+gui.container.fission_controller.heu=高密度铀
+gui.container.fission_controller.len=低密度镎
+gui.container.fission_controller.hen=高密度镎
+gui.container.fission_controller.lep=低密度钚
+gui.container.fission_controller.hep=高密度钚
 gui.container.fission_controller.mox_239=MOX-239
 gui.container.fission_controller.mox_241=MOX-241
-gui.container.fission_controller.lea=LEA
-gui.container.fission_controller.hea=HEA
-gui.container.fission_controller.lecm=LECm
-gui.container.fission_controller.hecm=HECm
-gui.container.fission_controller.leb=LEB
-gui.container.fission_controller.heb=HEB
-gui.container.fission_controller.lecf=LECf
-gui.container.fission_controller.hecf=HECf
-gui.container.fission_controller.oxide=Ox
+gui.container.fission_controller.lea=低密度镅
+gui.container.fission_controller.hea=高密度镅
+gui.container.fission_controller.lecm=低密度锔
+gui.container.fission_controller.hecm=高密度锔
+gui.container.fission_controller.leb=低密度锫
+gui.container.fission_controller.heb=高密度锫
+gui.container.fission_controller.lecf=低密度锎
+gui.container.fission_controller.hecf=高密度锎
+gui.container.fission_controller.oxide=氧化
 
-gui.container.fusion_core.reactor=Fusion Reactor
-gui.container.fusion_core.ring_incomplete=Ring Incomplete
-gui.container.fusion_core.ring_incomplete_at=Ring Incomplete
-gui.container.fusion_core.ring_blocked=Ring Interior Blocked
-gui.container.fusion_core.power_issue=E-magnets not Powered
-gui.container.fusion_core.incorrect_structure=Invalid Structure
-gui.container.fusion_core.size=Toroid Size:
-gui.container.fusion_core.energy=Energy:
-gui.container.fusion_core.power=Power:
-gui.container.fusion_core.heat=Temp:
-gui.container.fusion_core.temperature=Temperature:
-gui.container.fusion_core.temperature_change=Temperature Change:
+gui.container.fusion_core.reactor=聚变反应堆
+gui.container.fusion_core.ring_incomplete=磁体环未完成
+gui.container.fusion_core.ring_incomplete_at=磁体环未完成
+gui.container.fusion_core.ring_blocked=磁体环内部有方块
+gui.container.fusion_core.power_issue=磁体未充能
+gui.container.fusion_core.incorrect_structure=错误结构
+gui.container.fusion_core.size=磁环大小:
+gui.container.fusion_core.energy=储能:
+gui.container.fusion_core.power=功率:
+gui.container.fusion_core.heat=温度:
+gui.container.fusion_core.temperature=温度:
+gui.container.fusion_core.temperature_change=温度变化率:
 gui.container.fusion_core.cooling_rate=Active Cooling Rate:
-gui.container.fusion_core.efficiency=Efficiency:
-gui.container.fusion_core.fuels=Current Fuels:
-gui.container.fusion_core.empty=Empty
+gui.container.fusion_core.efficiency=效率:
+gui.container.fusion_core.fuels=当前燃料:
+gui.container.fusion_core.empty=空
 gui.container.fusion_core.reactor_not_found=Unable to access the fusion reactor - the structure is incomplete
 
-gui.container.energy_stored=Energy Stored:
-gui.container.process_power=Process Power:
-gui.container.power_gen=Power Gen:
-gui.container.speed_multiplier=Speed Multiplier:
-gui.container.power_multiplier=Power Multiplier:
-gui.container.no_energy=Does not require energy
-gui.container.shift_clear_tank=Shift Click to clear tank
-gui.container.change_tanks_mode=Change Tanks Mode
-gui.inventory.shift_for_info=Press Shift for more info
+gui.container.energy_stored=存储能量:
+gui.container.process_power=功率:
+gui.container.power_gen=发电量:
+gui.container.speed_multiplier=速度倍率:
+gui.container.power_multiplier=耗能倍率:
+gui.container.no_energy=不需要能量
+gui.container.shift_clear_tank=Shift+左键清空储罐
+gui.container.change_tanks_mode=切换储罐模式
+gui.inventory.shift_for_info=按Shift显示更多信息
 
 block.fusion_run=聚变堆运转声
 block.accelerator_run=加速器运转声
