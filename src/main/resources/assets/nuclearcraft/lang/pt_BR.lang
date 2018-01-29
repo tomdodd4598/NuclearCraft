@@ -900,6 +900,7 @@ item.nuclearcraft.gem_dust.boron_nitride.name=Nitrido de Boro Amorfo
 item.nuclearcraft.gem_dust.fluorite.name=Fluorita Moída
 item.nuclearcraft.gem_dust.sulfur.name=Enxofre
 item.nuclearcraft.gem_dust.sulfur.desc=Obtido ao minerar blocos de Minério de Carvão.
+item.nuclearcraft.gem_dust.coal.name=Carvão Triturado
 
 item.nuclearcraft.alloy.bronze.name=Liga de Bronze
 item.nuclearcraft.alloy.tough.name=Liga Resistente
@@ -1628,10 +1629,20 @@ gui.config.armor.armor_toughness.comment=Toughnesses of armor types. Ordem: boro
 gui.config.category.other=Outras Configurações
 gui.config.category.other.tooltip=Configurações Aleatórias
 
+gui.config.other.mushroom_spread_rate=Taxa de Espalhamento de Cogumelos
+gui.config.other.mushroom_spread_rate.comment=Taxa de Espalhamento de Cogumelos.
+gui.config.other.mushroom_gen=Gerar Cogumelos
+gui.config.other.mushroom_gen.comment=Cogumelos brilhantes devem ser gerados no nether?
+gui.config.other.mushroom_gen_size=Tamanho da Geração de Cogumelos
+gui.config.other.mushroom_gen_size.comment=Determina quanto Cogumelos Brilhantes aparecem de uma vez.
+gui.config.other.mushroom_gen_rate=Taxa de Geração dos Cogumelos
+gui.config.other.mushroom_gen_rate.comment=Determina o quão frequente será o aparecimento de cogumelos brilhantes.
+
 gui.config.other.rare_drops=Habilitar Drops Raros
 gui.config.other.rare_drops.comment=Mobs devem dropar itens raros?
-gui.config.other.register_fluid_blocks=Register Fission Fluids
-gui.config.other.register_fluid_blocks.comment=Register fission fluids? It is recommended that this is left true unless running out of block IDs.
+
+gui.config.other.register_fluid_blocks=Registrar Blocos de Fluidos de Fissão?
+gui.config.other.register_fluid_blocks.comment=Registrar Fluidos de Fissão? It is recommended that this is left true unless running out of block IDs.
 
 gui.computer.method_not_found=Esse método não mostra em mapas ativos - perca um método, você tem que... que vergonha... que vergonha! Dá uma passada no repositório do GitHub, limpe sua mente e encontrar seu método perdido nós iremos.
 gui.computer.invalid_method_number=Número de método inválido
