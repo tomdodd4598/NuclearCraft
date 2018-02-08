@@ -3,18 +3,19 @@ package nc.gui.processor;
 import nc.container.processor.ContainerAlloyFurnace;
 import nc.gui.GuiItemRenderer;
 import nc.init.NCItems;
-import nc.tile.processor.TileEnergyItemProcessor;
+import nc.tile.processor.TileItemProcessor;
 import net.minecraft.entity.player.EntityPlayer;
 
-public class GuiAlloyFurnace extends GuiEnergyItemProcessor {
+public class GuiAlloyFurnace extends GuiItemProcessor {
 	
-	public GuiAlloyFurnace(EntityPlayer player, TileEnergyItemProcessor tile) {
+	public GuiAlloyFurnace(EntityPlayer player, TileItemProcessor tile) {
 		super("alloy_furnace", player, new ContainerAlloyFurnace(player, tile));
 		this.tile = tile;
 		xSize = 176;
 		ySize = 166;
 	}
 	
+	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		super.drawGuiContainerForegroundLayer(mouseX, mouseY);
 		//fontRendererObj.drawString(tile.storage.getEnergyStored() + " RF", 28, ySize - 94, 4210752);
@@ -25,6 +26,7 @@ public class GuiAlloyFurnace extends GuiEnergyItemProcessor {
 		drawEnergyTooltip(tile, mouseX, mouseY, 8, 6, 16, 74);
 	}
 	
+	@Override
 	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
 		super.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY);
 		

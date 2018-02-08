@@ -8,22 +8,23 @@ import nc.init.NCItems;
 import nc.network.PacketEmptyTankButton;
 import nc.network.PacketGetFluidInTank;
 import nc.network.PacketHandler;
-import nc.tile.processor.TileEnergyItemFluidProcessor;
+import nc.tile.processor.TileItemFluidProcessor;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fluids.FluidStack;
 
-public class GuiInfuser extends GuiEnergyItemFluidProcessor {
+public class GuiInfuser extends GuiItemFluidProcessor {
 	
 	public static FluidStack fluid0 = null;
 	
-	public GuiInfuser(EntityPlayer player, TileEnergyItemFluidProcessor tile) {
+	public GuiInfuser(EntityPlayer player, TileItemFluidProcessor tile) {
 		super("infuser", player, new ContainerInfuser(player, tile));
 		this.tile = tile;
 		xSize = 176;
 		ySize = 166;
 	}
 	
+	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		super.drawGuiContainerForegroundLayer(mouseX, mouseY);
 		//fontRendererObj.drawString(tile.storage.getEnergyStored() + " RF", 28, ySize - 94, 4210752);
@@ -36,6 +37,7 @@ public class GuiInfuser extends GuiEnergyItemFluidProcessor {
 		drawEnergyTooltip(tile, mouseX, mouseY, 8, 6, 16, 74);
 	}
 	
+	@Override
 	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
 		super.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY);
 		
@@ -50,11 +52,13 @@ public class GuiInfuser extends GuiEnergyItemFluidProcessor {
 		GuiFluidRenderer.renderGuiTank(fluid0, tile.tanks[0].getCapacity(), guiLeft + 66, guiTop + 35, zLevel, 16, 16);
 	}
 	
+	@Override
 	public void initGui() {
 		super.initGui();
 		buttonList.add(new NCGuiButton.BlankButton(0, guiLeft + 66, guiTop + 35, 16, 16));
 	}
 	
+	@Override
 	protected void actionPerformed(GuiButton guiButton) {
 		if (tile.getWorld().isRemote) {
 			for (int i = 0; i < 1; i++) if (guiButton.id == i && isShiftKeyDown()) {

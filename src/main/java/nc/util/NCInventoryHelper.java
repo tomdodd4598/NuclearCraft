@@ -39,7 +39,7 @@ public class NCInventoryHelper {
 		}
 	}
 	
-	public static void spawnItemStack(World worldIn, double x, double y, double z, ItemStack stack) {
+	private static void spawnItemStack(World worldIn, double x, double y, double z, ItemStack stack) {
 		float f = RANDOM.nextFloat() * 0.8F + 0.1F;
 		float f1 = RANDOM.nextFloat() * 0.8F + 0.1F;
 		float f2 = RANDOM.nextFloat() * 0.8F + 0.1F;

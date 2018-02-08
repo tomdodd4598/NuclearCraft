@@ -9,7 +9,6 @@ import nc.item.tool.NCShovel;
 import nc.item.tool.NCSpaxelhoe;
 import nc.item.tool.NCSword;
 import nc.proxy.CommonProxy;
-import nc.util.NCUtil;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
@@ -17,7 +16,6 @@ import net.minecraft.item.ItemHoe;
 import net.minecraft.item.ItemPickaxe;
 import net.minecraft.item.ItemSpade;
 import net.minecraft.item.ItemSword;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
@@ -154,11 +152,9 @@ public class NCTools {
 	public static void registerItem(Item item) {
 		item.setCreativeTab(CommonProxy.TAB_MISC);
 		ForgeRegistries.ITEMS.register(item);
-		NCUtil.getLogger().info("Registered tool " + item.getUnlocalizedName().substring(5));
 	}
 		
 	public static void registerRender(Item item) {
-		ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(new ResourceLocation(Global.MOD_ID, item.getUnlocalizedName().substring(5)), "inventory"));
-		NCUtil.getLogger().info("Registered render for tool " + item.getUnlocalizedName().substring(5));
+		ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(item.getRegistryName(), "inventory"));
 	}
 }

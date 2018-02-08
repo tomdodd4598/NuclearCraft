@@ -9,7 +9,7 @@ import nc.integration.jei.BaseCategory;
 import nc.integration.jei.IJEIHandler;
 import nc.integration.jei.JEIMethods.RecipeFluidMapper;
 import nc.recipe.SorptionType;
-import net.minecraft.util.text.translation.I18n;
+import nc.util.Lang;
 
 public class FusionCategory extends BaseCategory {
 	
@@ -17,6 +17,7 @@ public class FusionCategory extends BaseCategory {
 		super(guiHelper, handler, "fusion_core", "_jei", (int) (NCConfig.fusion_fuel_use*200), 55, 30, 94, 26, 176, 3, 37, 16, 74, 35);
 	}
 	
+	@Override
 	public void setRecipe(IRecipeLayout recipeLayout, IRecipeWrapper recipeWrapper, IIngredients ingredients) {
 		RecipeFluidMapper fluidMapper = new RecipeFluidMapper();
 		fluidMapper.map(SorptionType.INPUT, 0, 0, 56 - backPosX, 31 - backPosY, 6, 24);
@@ -28,7 +29,8 @@ public class FusionCategory extends BaseCategory {
 		fluidMapper.mapFluidsTo(recipeLayout.getFluidStacks(), ingredients);
 	}
 	
+	@Override
 	public String getTitle() {
-		return I18n.translateToLocalFormatted("gui.container.fusion_core.reactor");
+		return Lang.localise("gui.container.fusion_core.reactor");
 	}
 }

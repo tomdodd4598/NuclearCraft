@@ -10,7 +10,8 @@ public class TabFissionBlocks extends CreativeTabs {
 		super("nuclearcraftFissionBlocks");
 	}
 
+	@Override
 	public ItemStack getTabIconItem() {
-		return new ItemStack(NCBlocks.fission_controller_active);
+		return new ItemStack(NCBlocks.fission_controller_new_active);
 	}
 }

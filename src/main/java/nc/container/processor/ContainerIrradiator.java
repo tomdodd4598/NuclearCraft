@@ -2,14 +2,14 @@ package nc.container.processor;
 
 import nc.container.SlotSpecificInput;
 import nc.recipe.NCRecipes;
-import nc.tile.processor.TileEnergyFluidProcessor;
+import nc.tile.processor.TileFluidProcessor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotFurnaceOutput;
 
-public class ContainerIrradiator extends ContainerEnergyFluidProcessor {
+public class ContainerIrradiator extends ContainerFluidProcessor {
 
-	public ContainerIrradiator(EntityPlayer player, TileEnergyFluidProcessor tileEntity) {
+	public ContainerIrradiator(EntityPlayer player, TileFluidProcessor tileEntity) {
 		super(tileEntity, NCRecipes.IRRADIATOR_RECIPES);
 		
 		addSlotToContainer(new SlotSpecificInput(tileEntity, 0, 132, 64, speedUpgrade));

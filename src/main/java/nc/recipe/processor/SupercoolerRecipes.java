@@ -2,25 +2,17 @@ package nc.recipe.processor;
 
 import nc.config.NCConfig;
 import nc.recipe.BaseRecipeHandler;
+import nc.util.FluidHelper;
 
 public class SupercoolerRecipes extends BaseRecipeHandler {
 	
-	//private static final SupercoolerRecipes RECIPES = new SupercoolerRecipes();
-	
 	public SupercoolerRecipes() {
-		super(0, 1, 0, 1, false);
+		super("supercooler", 0, 1, 0, 1, false);
 	}
 
-	/*public static final SupercoolerRecipes instance() {
-		return RECIPES;
-	}*/
-
+	@Override
 	public void addRecipes() {
-		addRecipe(fluidStack("helium", 4000), fluidStack("liquidhelium", 40), NCConfig.processor_time[7]);
-		addRecipe(fluidStack("water", 1000), fluidStack("ice", 1000), NCConfig.processor_time[7]);
-	}
-
-	public String getRecipeName() {
-		return "supercooler";
+		addRecipe(fluidStack("helium", FluidHelper.BUCKET_VOLUME*8), fluidStack("liquidhelium", FluidHelper.PARTICLE_VOLUME), NCConfig.processor_time[7]);
+		addRecipe(fluidStack("water", FluidHelper.BUCKET_VOLUME), fluidStack("ice", FluidHelper.BUCKET_VOLUME), NCConfig.processor_time[7]/8);
 	}
 }

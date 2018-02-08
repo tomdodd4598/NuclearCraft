@@ -18,19 +18,21 @@ import net.minecraft.world.World;
 
 public class NCBlockDoor extends BlockDoor {
 	
-	public NCBlockDoor(String unlocalizedName, String registryName, Material material) {
+	public NCBlockDoor(String name, Material material) {
 		super(material);
-		setUnlocalizedName(unlocalizedName);
-		setRegistryName(new ResourceLocation(Global.MOD_ID, registryName));
+		setUnlocalizedName(Global.MOD_ID + "." + name);
+		setRegistryName(new ResourceLocation(Global.MOD_ID, name));
 		setHarvestLevel("pickaxe", 0);
 		setHardness(2);
 		setResistance(15);
 	}
 	
+	@Override
 	public boolean canCreatureSpawn(IBlockState state, IBlockAccess world, BlockPos pos, net.minecraft.entity.EntityLiving.SpawnPlacementType type) {
 		return false;
 	}
 	
+	@Override
 	public ItemStack getItem(World worldIn, BlockPos pos, IBlockState state) {
 		return new ItemStack(getItem());
 	}
@@ -40,6 +42,7 @@ public class NCBlockDoor extends BlockDoor {
 		else return NCItems.reactor_door;
 	}
 	
+	@Override
 	public Item getItemDropped(IBlockState state, Random rand, int fortune) {
 		return state.getValue(HALF) == BlockDoor.EnumDoorHalf.UPPER ? Items.AIR : this.getItem();
 	}

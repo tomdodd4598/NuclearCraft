@@ -10,6 +10,7 @@ public class TabFissionFuelRods extends CreativeTabs {
 		super("nuclearcraftFissionFuelRods");
 	}
 
+	@Override
 	public ItemStack getTabIconItem() {
 		return new ItemStack(NCItems.fuel_rod_uranium);
 	}

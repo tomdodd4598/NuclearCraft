@@ -12,19 +12,21 @@ import net.minecraft.world.World;
 
 public class NCBlock extends Block {
 
-	public NCBlock(String unlocalizedName, String registryName, Material material) {
+	public NCBlock(String name, Material material) {
 		super(material);
-		setUnlocalizedName(unlocalizedName);
-		setRegistryName(new ResourceLocation(Global.MOD_ID, registryName));
+		setUnlocalizedName(Global.MOD_ID + "." + name);
+		setRegistryName(new ResourceLocation(Global.MOD_ID, name));
 		setHarvestLevel("pickaxe", 0);
 		setHardness(2);
 		setResistance(15);
 	}
 	
+	@Override
 	public boolean canCreatureSpawn(IBlockState state, IBlockAccess world, BlockPos pos, net.minecraft.entity.EntityLiving.SpawnPlacementType type) {
 		return false;
 	}
 	
+	@Override
 	public boolean rotateBlock(World world, BlockPos pos, EnumFacing axis) {
 		return false;
 	}

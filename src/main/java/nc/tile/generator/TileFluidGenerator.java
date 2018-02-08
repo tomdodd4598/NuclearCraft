@@ -3,8 +3,6 @@ package nc.tile.generator;
 import java.util.ArrayList;
 
 import nc.config.NCConfig;
-import nc.energy.EnumStorage.EnergyConnection;
-import nc.fluid.EnumTank.FluidConnection;
 import nc.recipe.BaseRecipeHandler;
 import nc.recipe.IIngredient;
 import nc.recipe.IRecipe;
@@ -12,16 +10,16 @@ import nc.recipe.RecipeMethods;
 import nc.recipe.SorptionType;
 import nc.tile.IGui;
 import nc.tile.dummy.IInterfaceable;
+import nc.tile.energy.storage.EnumStorage.EnergyConnection;
+import nc.tile.energyFluid.IBufferable;
 import nc.tile.energyFluid.TileEnergyFluidSidedInventory;
-import nc.util.NCUtil;
+import nc.tile.fluid.tank.EnumTank.FluidConnection;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 
-public abstract class TileFluidGenerator extends TileEnergyFluidSidedInventory implements IInterfaceable, IGui {
+public abstract class TileFluidGenerator extends TileEnergyFluidSidedInventory implements IInterfaceable, IBufferable, IGui {
 
 	public final int fluidInputSize;
 	public final int fluidOutputSize;
@@ -44,143 +42,88 @@ public abstract class TileFluidGenerator extends TileEnergyFluidSidedInventory i
 		areTanksShared = fluidInSize > 1;
 	}
 	
-	public static String[][] validFluids(BaseRecipeHandler recipes, String... exceptions) {
-		int fluidInputSize = recipes.inputSizeFluid;
-		int fluidOutputSize = recipes.outputSizeFluid;
-		ArrayList<Fluid> fluidList = new ArrayList<Fluid>(FluidRegistry.getRegisteredFluids().values());
-		ArrayList<FluidStack> fluidStackList = new ArrayList<FluidStack>();
-		for (Fluid fluid : fluidList) {
-			fluidStackList.add(new FluidStack(fluid, 1000));
-		}
-		ArrayList<String> exceptionsList = new ArrayList<String>();
-		if (exceptions != null) for (int i = 0; i < exceptions.length; i++) {
-			exceptionsList.add(exceptions[i]);
-		}
-		ArrayList<String> fluidNameList = new ArrayList<String>();
-		for (FluidStack fluidStack : fluidStackList) {
-			String fluidName = fluidStack.getFluid().getName();
-			if (recipes.isValidManualInput(fluidStack) && !exceptionsList.contains(fluidName)) fluidNameList.add(fluidName);
-		}
-		String[] allowedFluidArray = new String[fluidNameList.size()];
-		for (int i = 0; i < fluidNameList.size(); i++) {
-			allowedFluidArray[i] = fluidNameList.get(i);
-		}
-		
-		String[][] allowedFluidArrays = new String[fluidInputSize + fluidOutputSize][];
-		for (int i = 0; i < fluidInputSize; i++) {
-			allowedFluidArrays[i] = allowedFluidArray;
-		}
-		for (int i = fluidInputSize; i < fluidInputSize + fluidOutputSize; i++) {
-			allowedFluidArrays[i] = new String[] {};
-		}
-		return allowedFluidArrays;
-	}
-	
 	public static FluidConnection[] fluidConnections(int inSize, int outSize) {
 		FluidConnection[] fluidConnections = new FluidConnection[2*inSize + outSize];
-		for (int i = 0; i < inSize; i++) {
-			fluidConnections[i] = FluidConnection.IN;
-		}
-		for (int i = inSize; i < inSize + outSize; i++) {
-			fluidConnections[i] = FluidConnection.OUT;
-		}
-		for (int i = inSize + outSize; i < 2*inSize + outSize; i++) {
-			fluidConnections[i] = FluidConnection.NON;
-		}
+		for (int i = 0; i < inSize; i++) fluidConnections[i] = FluidConnection.IN;
+		for (int i = inSize; i < inSize + outSize; i++) fluidConnections[i] = FluidConnection.OUT;
+		for (int i = inSize + outSize; i < 2*inSize + outSize; i++) fluidConnections[i] = FluidConnection.NON;
 		return fluidConnections;
 	}
 	
 	public static int[] tankCapacities(int capacity, int inSize, int outSize) {
 		int[] tankCapacities = new int[2*inSize + outSize];
-		for (int i = 0; i < 2*inSize + outSize; i++) {
-			tankCapacities[i] = capacity;
-		}
+		for (int i = 0; i < 2*inSize + outSize; i++) tankCapacities[i] = capacity;
 		return tankCapacities;
 	}
 	
+	@Override
+	public void onAdded() {
+		super.onAdded();
+		if (!world.isRemote) {
+			isGenerating = isGenerating();
+			hasConsumed = hasConsumed();
+		}
+	}
+	
+	@Override
 	public void update() {
 		super.update();
 		updateGenerator();
 	}
 	
 	public void updateGenerator() {
-		boolean flag = isGenerating;
-		boolean flag1 = false;
+		boolean wasGenerating = isGenerating;
+		isGenerating = canProcess() && isPowered();
+		boolean shouldUpdate = false;
 		if(!world.isRemote) {
-			if (time == 0) {
-				consume();
-			}
-			if (canProcess() && isPowered()) {
-				isGenerating = true;
-				time += getRateMultiplier();
-				storage.changeEnergyStored(getProcessPower());
-				if (time >= getProcessTime()) {
-					time = 0;
-					output();
-				}
-			} else {
-				isGenerating = false;
-			}
-			if (flag != isGenerating) {
-				flag1 = true;
-				if (NCConfig.update_block_type) {
-					removeTileFromENet();
-					setBlockState();
-					world.notifyNeighborsOfStateChange(pos, blockType, true);
-					addTileToENet();
-				}
+			tick();
+			if (time == 0) consume();
+			if (isGenerating) process();
+			if (wasGenerating != isGenerating) {
+				shouldUpdate = true;
+				updateBlockType();
 			}
 			pushEnergy();
-		} else {
-			isGenerating = canProcess() && isPowered();
 		}
-		
-		if (flag1) {
-			markDirty();
-		}
+		if (shouldUpdate) markDirty();
 	}
 	
-	public abstract void setBlockState();
-	
 	public void tick() {
-		if (tickCount > NCConfig.generator_update_rate) {
-			tickCount = 0;
-		} else {
-			tickCount++;
-		}
+		if (tickCount > NCConfig.generator_update_rate) tickCount = 0; else tickCount++;
 	}
 	
 	public boolean shouldCheck() {
 		return tickCount > NCConfig.generator_update_rate;
 	}
 	
-	public void onAdded() {
-		super.onAdded();
-		if (!world.isRemote) isGenerating = isGenerating();
-		if (!world.isRemote) hasConsumed = hasConsumed();
+	public boolean isGenerating() {
+		return canProcess() && isPowered();
 	}
 	
-	public boolean isGenerating() {
-		if (world.isRemote) return isGenerating;
-		return isPowered() && time > 0;
+	public boolean canProcess() {
+		return canProcessStacks();
 	}
 	
 	public boolean isPowered() {
 		return world.isBlockPowered(pos);
 	}
 	
-	public boolean hasConsumed() {
-		if (world.isRemote) return hasConsumed;
-		for (int i = 0; i < fluidInputSize; i++) {
-			if (tanks[i + fluidInputSize + fluidOutputSize].getFluid() != null) {
-				return true;
-			}
-		}
-		return false;
+	public void process() {
+		time += getRateMultiplier();
+		storage.changeEnergyStored(getProcessPower());
+		if (time >= getProcessTime()) completeProcess();
 	}
 	
-	public boolean canProcess() {
-		return canProcessStacks();
+	public void completeProcess() {
+		time = 0;
+		produceProducts();
+	}
+	
+	public void updateBlockType() {
+		removeTileFromENet();
+		setState(isGenerating);
+		world.notifyNeighborsOfStateChange(pos, blockType, true);
+		addTileToENet();
 	}
 	
 	// Processing
@@ -196,6 +139,16 @@ public abstract class TileFluidGenerator extends TileEnergyFluidSidedInventory i
 	public abstract int getProcessPower();
 		
 	public abstract void setProcessPower(int value);
+	
+	public boolean hasConsumed() {
+		if (world.isRemote) return hasConsumed;
+		for (int i = 0; i < fluidInputSize; i++) {
+			if (tanks[i + fluidInputSize + fluidOutputSize].getFluid() != null) {
+				return true;
+			}
+		}
+		return false;
+	}
 		
 	public boolean canProcessStacks() {
 		for (int i = 0; i < fluidInputSize; i++) {
@@ -230,7 +183,7 @@ public abstract class TileFluidGenerator extends TileEnergyFluidSidedInventory i
 		IRecipe recipe = getRecipe(false);
 		Object[] outputs = outputs();
 		int[] inputOrder = inputOrder();
-		if (outputs == null || inputOrder == NCUtil.INVALID) return;
+		if (outputs == null || inputOrder == RecipeMethods.INVALID) return;
 		if (!hasConsumed) {
 			for (int i = 0; i < fluidInputSize; i++) {
 				if (tanks[i + fluidInputSize + fluidOutputSize].getFluid() != null) {
@@ -253,7 +206,7 @@ public abstract class TileFluidGenerator extends TileEnergyFluidSidedInventory i
 		}
 	}
 		
-	public void output() {
+	public void produceProducts() {
 		if (hasConsumed) {
 			Object[] outputs = outputs();
 			for (int j = 0; j < fluidOutputSize; j++) {
@@ -304,7 +257,7 @@ public abstract class TileFluidGenerator extends TileEnergyFluidSidedInventory i
 					break;
 				}
 			}
-			if (inputOrder[i] == -1) return NCUtil.INVALID;
+			if (inputOrder[i] == -1) return RecipeMethods.INVALID;
 		}
 		return inputOrder;
 	}
@@ -324,32 +277,37 @@ public abstract class TileFluidGenerator extends TileEnergyFluidSidedInventory i
 	
 	// Inventory
 	
+	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {
 		return false;
 	}
 	
 	// SidedInventory
 	
+	@Override
 	public int[] getSlotsForFace(EnumFacing side) {
 		return new int[] {};
 	}
 
+	@Override
 	public boolean canInsertItem(int slot, ItemStack stack, EnumFacing direction) {
 		return false;
 	}
 
+	@Override
 	public boolean canExtractItem(int slot, ItemStack stack, EnumFacing direction) {
 		return false;
 	}
 	
 	// Fluids
 	
+	@Override
 	public boolean canFill(FluidStack resource, int tankNumber) {
 		if (tankNumber >= fluidInputSize) return false;
 		if (!areTanksShared) return true;
 		
 		for (int i = 0; i < fluidInputSize; i++) {
-			if (tankNumber != i && fluidConnection[i].canFill() && tanks[i].getFluid() != null) {
+			if (tankNumber != i && fluidConnections[i].canFill() && tanks[i].getFluid() != null) {
 				if (tanks[i].getFluid().isFluidEqual(resource)) return false;
 			}
 		}
@@ -358,6 +316,7 @@ public abstract class TileFluidGenerator extends TileEnergyFluidSidedInventory i
 	
 	// NBT
 	
+	@Override
 	public NBTTagCompound writeAll(NBTTagCompound nbt) {
 		super.writeAll(nbt);
 		nbt.setInteger("time", time);
@@ -366,6 +325,7 @@ public abstract class TileFluidGenerator extends TileEnergyFluidSidedInventory i
 		return nbt;
 	}
 		
+	@Override
 	public void readAll(NBTTagCompound nbt) {
 		super.readAll(nbt);
 		time = nbt.getInteger("time");
@@ -375,10 +335,12 @@ public abstract class TileFluidGenerator extends TileEnergyFluidSidedInventory i
 	
 	// Inventory Fields
 
+	@Override
 	public int getFieldCount() {
 		return 2;
 	}
 
+	@Override
 	public int getField(int id) {
 		switch (id) {
 		case 0:
@@ -390,6 +352,7 @@ public abstract class TileFluidGenerator extends TileEnergyFluidSidedInventory i
 		}
 	}
 
+	@Override
 	public void setField(int id, int value) {
 		switch (id) {
 		case 0:

@@ -15,6 +15,7 @@ public class SlotSpecificInput extends Slot {
 		this.inputs = inputs;
 	}
 	
+	@Override
 	public boolean isItemValid(ItemStack stack) {
 		for (int i = 0; i < inputs.length; i++) {
 			if (inputs[i] instanceof String) {

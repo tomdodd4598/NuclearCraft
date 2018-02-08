@@ -16,6 +16,7 @@ public class ElectrolyserCategory extends BaseCategory {
 		super(guiHelper, handler, "electrolyser_idle", NCConfig.processor_time[8], 49, 30, 94, 38, 176, 3, 37, 38, 68, 30);
 	}
 	
+	@Override
 	public void setRecipe(IRecipeLayout recipeLayout, IRecipeWrapper recipeWrapper, IIngredients ingredients) {
 		RecipeFluidMapper fluidMapper = new RecipeFluidMapper();
 		fluidMapper.map(SorptionType.INPUT, 0, 0, 50 - backPosX, 41 - backPosY, 16, 16);

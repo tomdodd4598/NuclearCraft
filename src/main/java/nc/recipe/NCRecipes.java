@@ -8,6 +8,7 @@ import nc.recipe.processor.CrystallizerRecipes;
 import nc.recipe.processor.DecayHastenerRecipes;
 import nc.recipe.processor.DissolverRecipes;
 import nc.recipe.processor.ElectrolyserRecipes;
+import nc.recipe.processor.ExtractorRecipes;
 import nc.recipe.processor.FuelReprocessorRecipes;
 import nc.recipe.processor.InfuserRecipes;
 import nc.recipe.processor.IngotFormerRecipes;
@@ -36,6 +37,7 @@ public final class NCRecipes {
 	public static final SaltMixerRecipes SALT_MIXER_RECIPES = new SaltMixerRecipes();
 	public static final CrystallizerRecipes CRYSTALLIZER_RECIPES = new CrystallizerRecipes();
 	public static final DissolverRecipes DISSOLVER_RECIPES = new DissolverRecipes();
+	public static final ExtractorRecipes EXTRACTOR_RECIPES = new ExtractorRecipes();
 	public static final FissionRecipes FISSION_RECIPES = new FissionRecipes();
 	public static final FusionRecipes FUSION_RECIPES = new FusionRecipes();
 }

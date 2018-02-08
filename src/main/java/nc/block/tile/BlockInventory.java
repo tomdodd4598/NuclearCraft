@@ -21,25 +21,32 @@ public class BlockInventory extends BlockContainer implements ITileEntityProvide
 	
 	public static boolean keepInventory;
 
-	public BlockInventory(String unlocalizedName, String registryName, Material material) {
+	public BlockInventory(String name, Material material) {
 		super(material);
-		setUnlocalizedName(unlocalizedName);
-		setRegistryName(new ResourceLocation(Global.MOD_ID, registryName));
+		setUnlocalizedName(Global.MOD_ID + "." + name);
+		setRegistryName(new ResourceLocation(Global.MOD_ID, name));
 		setDefaultState(blockState.getBaseState());
+		setHarvestLevel("pickaxe", 0);
+		setHardness(2);
+		setResistance(15);
 	}
 
+	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
 		return null;
 	}
 	
+	@Override
 	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
 		return getDefaultState();
 	}
 	
+	@Override
 	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
 		world.setBlockState(pos, state, 2);
 	}
 	
+	@Override
 	public void breakBlock(World world, BlockPos pos, IBlockState state) {
 		if (!keepInventory) {
 			TileEntity tileentity = world.getTileEntity(pos);
@@ -56,18 +63,22 @@ public class BlockInventory extends BlockContainer implements ITileEntityProvide
 		InventoryHelper.dropInventoryItems(world, pos, tileentity);
 	}
 	
+	@Override
 	public boolean hasComparatorInputOverride(IBlockState state) {
 		return true;
 	}
 	
+	@Override
 	public int getComparatorInputOverride(IBlockState state, World world, BlockPos pos) {
 		return Container.calcRedstone(world.getTileEntity(pos));
 	}
 	
+	@Override
 	public EnumBlockRenderType getRenderType(IBlockState state) {
 		return EnumBlockRenderType.MODEL;
 	}
 	
+	@Override
 	public boolean rotateBlock(World world, BlockPos pos, EnumFacing axis) {
 		return super.rotateBlock(world, pos, axis);
 	}

@@ -15,6 +15,7 @@ public abstract class JEICategory extends BlankRecipeCategory implements IRecipe
 		this.handler = handler;
 	}
 
+	@Override
 	public String getUid() {
 		return handler.getUUID();
 	}
@@ -23,14 +24,17 @@ public abstract class JEICategory extends BlankRecipeCategory implements IRecipe
 		return handler.getTitle();
 	}*/
 
+	@Override
 	public Class getRecipeClass() {
 		return handler.getRecipeClass();
 	}
 
+	@Override
 	public IRecipeWrapper getRecipeWrapper(JEIRecipe recipe) {
 		return recipe;
 	}
 
+	@Override
 	public boolean isRecipeValid(JEIRecipe recipe) {
 		return recipe.recipeHandler.getRecipeName().equals(getUid());
 	}
@@ -39,15 +43,18 @@ public abstract class JEICategory extends BlankRecipeCategory implements IRecipe
 		return getUid();
 	}
 	
+	@Override
 	public String getRecipeCategoryUid(JEIRecipe id) {
 		return getUid();
 	}
 
+	@Override
 	public void setRecipe(IRecipeLayout recipeLayout, IRecipeWrapper recipeWrapper, IIngredients ingredients) {
 		recipeWrapper.getIngredients(ingredients);
 		setRecipe(recipeLayout, recipeWrapper, ingredients);
 	}
 	
+	@Override
 	public String getModName() {
 		return Global.MOD_NAME;
 	}

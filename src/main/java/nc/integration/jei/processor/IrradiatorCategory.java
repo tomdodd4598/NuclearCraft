@@ -16,6 +16,7 @@ public class IrradiatorCategory extends BaseCategory {
 		super(guiHelper, handler, "irradiator_idle", NCConfig.processor_time[9], 31, 30, 130, 26, 176, 3, 37, 16, 70, 35);
 	}
 	
+	@Override
 	public void setRecipe(IRecipeLayout recipeLayout, IRecipeWrapper recipeWrapper, IIngredients ingredients) {
 		RecipeFluidMapper fluidMapper = new RecipeFluidMapper();
 		fluidMapper.map(SorptionType.INPUT, 0, 0, 32 - backPosX, 35 - backPosY, 16, 16);

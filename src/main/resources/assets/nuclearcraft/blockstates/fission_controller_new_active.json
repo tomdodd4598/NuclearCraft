@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "facing=north": { "model": "nuclearcraft:fission_controller_new_active" },
+        "facing=south": { "model": "nuclearcraft:fission_controller_new_active", "y": 180 },
+        "facing=west":  { "model": "nuclearcraft:fission_controller_new_active", "y": 270 },
+        "facing=east":  { "model": "nuclearcraft:fission_controller_new_active", "y": 90 }
+    }
+}

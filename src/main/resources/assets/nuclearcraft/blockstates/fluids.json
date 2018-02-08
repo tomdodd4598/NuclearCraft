@@ -1,6 +1,13 @@
 {
 	"forge_marker": 1,
 	"variants": {
+		"fluid_fission": {
+			"model": "nuclearcraft:fluid",
+			"textures": {
+				"still": "nuclearcraft:blocks/fluids/molten_still",
+				"flowing": "nuclearcraft:blocks/fluids/molten_flow"
+			}
+		},
 		"fluid_oxygen": {
 			"model": "forge:fluid",
 			"custom": {
@@ -203,6 +210,12 @@
 			"model": "forge:fluid",
 			"custom": {
 				"fluid": "hydrofluoric_acid"
+			}
+		},
+		"fluid_oxygen_difluoride": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "oxygen_difluoride"
 			}
 		},
 		"fluid_oxygen_difluoride": {

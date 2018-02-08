@@ -1,3 +1,123 @@
+v2.9c
+
+* Fixed extension blocks such as Fission Ports dropping the contents of the machine they're connected to when broken
+* Added config options for the spread and generation of glowing mushrooms
+* Added crushed coal incase it is not added by other mods - it is required to make graphite
+* Removed active cooler console spam
+
+v2.9b
+
+* Buffers will now only push items and fluids into particular machines, such as Active Coolers and Processors
+* Fixed Active Coolers not using up coolant
+* Increased rate of active water cooling in response to the new placement rules
+
+* Fixed localisation errors
+* Fixed fluid removal config option
+
+v2.9a
+
+* New fission reactor mechanics are now enabled by default
+* All newly crafted controllers will use the new mechanics
+* Old controllers will still use the old mechanics but can be updated through crafting
+
++ Added Fluid Extractor - extract Helium-3 from moon turf!
+
+* Multiple fission ports on a reactor will now output energy at the same rate
+* Fixed machines' maximum energy input rate changing with their capacity
+
+* Added config option to disable the registering of fission fluid blocks - useful if running out of block IDs
+
+* Made localisation unique to avoid any conflicts
+* Updated Chinese language file [thanks to YueLengM!]
+
+* Added 'fixed' info option for language files that shows before shift is pressed
+* Use the ".fixd" and ".fix#" suffixes
+
+* Cleaned up logging to show only important information
+* Minor recipe additions and tweaks
+
+v2.9
+
++ Added new (disabled by default for now) fission reactor mechanics
++ This includes new power/heat calculations and more interesting placement rules
++ Added more heat info to the Fission Controller GUI
+
++ Added all molten fission fluids and some recipes involving them
+
+* Increased default electromagnet power requirement
+* Decay Generator will now cause all depleted blocks to decay down as far as Thorium-230
+
+* Added more integration recipes
+* Tweaked some Ore Dict entry names
+* Fixed an error where the Melter was registering faulty recipes
+* Tweaked some block and fluid textures
+
+* Updated Forge
+* Updated IC2 and JEI APIs
+
+* Possible other things that I have forgotten
+- Removed Paulobrine and Herobrian
+
+v2.8d
+
+* Fixed Active Fluid Coolers not accepting certain coolants
+* Fixed Fusion Core rendering weirdly far from the world origin
+
+* Cobblestone Generators will now push to adjacent inventories
+
+* Fixed Glowstone Mushroom generation in the Nether causing cascades
+
+* Added many more integration recipes
+
+v2.8c
+
+* Fixed Fission Controller not updating its maximum energy transfer rate
+
+* Minor recipe tweaks
+
+* Updated Brazilian Portuguese language file [thanks to InterPlay02!]
+
+v2.8b
+
+* Fixed CraftTweaker error message on login
+
+* Fixed Electromagnet Supercooler not using up liquid helium
+
+v2.8a
+
+* Fixed crash on opening Nuclear Furnace GUI
+
+* Fixed minor tooltip description error on Decay Generator
+* Fixed accelerator config localisation
+
+v2.8
+
++ Added five more passive Fission Reactor Coolers
++ Added more depleted isotope blocks [thanks to xenon54xenon54!]
+
+* Fixed incorrect Fusion Reactor cooling rates
+* Fusion Core GUI now shows the rate of change of heat and active cooling rate
+* The Fusion Reactor is now gated behind Boron Nitride production
+
++ Added compact and dense forms of collector machines
+
+* Electromagnets, Active Coolers and other passive machines can distribute their fluid and energy to each other
+* This mechanic is disabled by default in the config
+
+* Fixed Spaxelhoes not mining all blocks quickly
+
++ Added Brazilian Portuguese language file [thanks to InterPlay02!]
+* Made language files much easier to customise
++ Tooltip info width is now set automatically - no more manual line spacing!
+
+* Made lots of internal changes and cleaned up code
+* Some recipe tweaks and fixes
+
+v2.7a
+
+* Fixed errors with the active cooling rate configs
+* Fixed internal energy storages changing incorrectly when their capacity is altered
+
 v2.7
 
 * Properly fixed all cable/pipe/conduit disconnection bugs [thanks to Thutmose for all of the help!]
@@ -16,7 +136,7 @@ v2.6
 * Fixed Coolers not recognising Ports/Buffers/etc. as a form of Reactor Casing
 
 * Fusion Reactor generates and removes Fusion Plasma a little more intelligently
-* Fusion Plasma will now cause explosions intead of corrosion
+* Fusion Plasma will now cause explosions instead of corrosion
 * Made Fusion Plasma less laggy in general
 * Fixed Fusion Core dropping unwanted dummy blocks
 
@@ -59,7 +179,7 @@ v2.5
 * Added Fusion Reactor GUI option to force inputs to differ
 
 + Added Dissolver
-+ Added Univeral Bin to dump excess resources
++ Added Universal Bin to dump excess resources
 
 * Made Active Fluid Coolers use much less coolant
 + Added Reactor Door and Trapdoor

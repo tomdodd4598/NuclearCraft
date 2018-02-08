@@ -10,6 +10,7 @@ public class TabMachines extends CreativeTabs {
 		super("nuclearcraftMachines");
 	}
 
+	@Override
 	public ItemStack getTabIconItem() {
 		return new ItemStack(NCBlocks.manufactory_active);
 	}

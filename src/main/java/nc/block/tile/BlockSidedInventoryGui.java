@@ -16,11 +16,12 @@ public class BlockSidedInventoryGui extends BlockSidedInventory {
 	
 	protected final int guiId;
 
-	public BlockSidedInventoryGui(String unlocalizedName, String registryName, Material material, int guiId) {
-		super(unlocalizedName, registryName, material);
+	public BlockSidedInventoryGui(String name, Material material, int guiId) {
+		super(name, material);
 		this.guiId = guiId;
 	}
 	
+	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if (world.isRemote) {
 			return true;

@@ -6,16 +6,19 @@ import java.util.Set;
 import com.google.common.collect.Sets;
 
 import nc.Global;
-import nc.util.NCInfo;
+import nc.util.InfoHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class NCAxe extends ItemTool {
 	
@@ -27,23 +30,27 @@ public class NCAxe extends ItemTool {
 	
 	public NCAxe(String unlocalizedName, ToolMaterial material, String... tooltip) {
 		super(material, EFFECTIVE_ON);
-		setUnlocalizedName(unlocalizedName);
+		setUnlocalizedName(Global.MOD_ID + "." + unlocalizedName);
 		setRegistryName(new ResourceLocation(Global.MOD_ID, unlocalizedName));
-		
-		String[] strings = new String[tooltip.length];
-		for (int i = 0; i < tooltip.length; i++) {
-			strings[i] = tooltip[i];
-		}
-		info = strings;
+		info = InfoHelper.buildInfo(getUnlocalizedName(), tooltip);
 	}
 	
-	public float getStrVsBlock(ItemStack stack, IBlockState state){
+	@Override
+	public float getDestroySpeed(ItemStack stack, IBlockState state) {
 		Material material = state.getMaterial();
 		return material != Material.WOOD && material != Material.PLANTS && material != Material.VINE ? super.getDestroySpeed(stack, state) : this.efficiency;
     }
 	
+	@Override
+	public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker) {
+		stack.damageItem(1, attacker);
+		return true;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack itemStack, World world, List<String> tooltip, ITooltipFlag flag) {
         super.addInformation(itemStack, world, tooltip, flag);
-        if (info.length > 0) NCInfo.infoFull(tooltip, info);
+        if (info.length > 0) InfoHelper.infoFull(tooltip, info);
     }
 }

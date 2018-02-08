@@ -3,18 +3,19 @@ package nc.gui.processor;
 import nc.container.processor.ContainerDecayHastener;
 import nc.gui.GuiItemRenderer;
 import nc.init.NCItems;
-import nc.tile.processor.TileEnergyItemProcessor;
+import nc.tile.processor.TileItemProcessor;
 import net.minecraft.entity.player.EntityPlayer;
 
-public class GuiDecayHastener extends GuiEnergyItemProcessor {
+public class GuiDecayHastener extends GuiItemProcessor {
 	
-	public GuiDecayHastener(EntityPlayer player, TileEnergyItemProcessor tile) {
+	public GuiDecayHastener(EntityPlayer player, TileItemProcessor tile) {
 		super("decay_hastener", player, new ContainerDecayHastener(player, tile));
 		this.tile = tile;
 		xSize = 176;
 		ySize = 166;
 	}
 	
+	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		super.drawGuiContainerForegroundLayer(mouseX, mouseY);
 		//fontRendererObj.drawString(tile.storage.getEnergyStored() + " RF", 28, ySize - 94, 4210752);
@@ -25,6 +26,7 @@ public class GuiDecayHastener extends GuiEnergyItemProcessor {
 		drawEnergyTooltip(tile, mouseX, mouseY, 8, 6, 16, 74);
 	}
 	
+	@Override
 	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
 		super.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY);
 		

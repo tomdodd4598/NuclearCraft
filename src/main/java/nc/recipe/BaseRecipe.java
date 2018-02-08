@@ -16,22 +16,27 @@ public class BaseRecipe implements IRecipe {
 		isShapeless = shapeless;
 	}
 	
+	@Override
 	public ArrayList<IIngredient> inputs() {
 		return recipeInputList;
 	}
 
+	@Override
 	public ArrayList<IIngredient> outputs() {
 		return recipeOutputList;
 	}
 	
+	@Override
 	public ArrayList extras() {
 		return recipeExtrasList;
 	}
 
+	@Override
 	public boolean matchingInputs(Object[] inputs) {
 		return RecipeMethods.matchingIngredients(SorptionType.INPUT, recipeInputList, isShapeless, inputs);
 	}
 
+	@Override
 	public boolean matchingOutputs(Object[] outputs) {
 		return RecipeMethods.matchingIngredients(SorptionType.OUTPUT, recipeOutputList, isShapeless, outputs);
 	}

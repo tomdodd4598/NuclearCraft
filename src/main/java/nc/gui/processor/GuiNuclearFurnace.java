@@ -2,7 +2,7 @@ package nc.gui.processor;
 
 import nc.Global;
 import nc.container.processor.ContainerNuclearFurnace;
-import nc.gui.GuiNC;
+import nc.gui.NCGui;
 import nc.tile.processor.TileNuclearFurnace;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
@@ -10,7 +10,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.util.ResourceLocation;
 
-public class GuiNuclearFurnace extends GuiNC {
+public class GuiNuclearFurnace extends NCGui {
 	private static final ResourceLocation FURNACE_GUI_TEXTURES = new ResourceLocation(Global.MOD_ID + ":textures/gui/container/nuclear_furnace.png");
 	/** The player inventory bound to this GUI */
 	private final InventoryPlayer playerInventory;
@@ -23,6 +23,7 @@ public class GuiNuclearFurnace extends GuiNC {
 	}
 	
 	/** Draw the foreground layer for the GuiContainer (everything in front of the items) */
+	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		String s = tileFurnace.getDisplayName().getUnformattedText();
 		fontRenderer.drawString(s, xSize / 2 - fontRenderer.getStringWidth(s) / 2, 6, 4210752);
@@ -30,6 +31,7 @@ public class GuiNuclearFurnace extends GuiNC {
 	}
 	
 	/** Draws the background layer of this container (behind the items) */
+	@Override
 	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		mc.getTextureManager().bindTexture(FURNACE_GUI_TEXTURES);

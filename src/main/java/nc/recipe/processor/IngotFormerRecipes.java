@@ -6,54 +6,81 @@ import java.util.List;
 
 import nc.config.NCConfig;
 import nc.recipe.BaseRecipeHandler;
-import nc.util.NCUtil;
-import net.minecraftforge.fluids.Fluid;
+import nc.util.FluidHelper;
+import nc.util.StringHelper;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class IngotFormerRecipes extends BaseRecipeHandler {
 	
-	//private static final IngotFormerRecipes RECIPES = new IngotFormerRecipes();
-	
 	public IngotFormerRecipes() {
-		super(0, 1, 1, 0, false);
+		super("ingot_former", 0, 1, 1, 0, false);
 	}
 
-	/*public static final IngotFormerRecipes instance() {
-		return RECIPES;
-	}*/
-
+	@Override
 	public void addRecipes() {
-		ingotForm();
+		addIngotFormingRecipes();
+		
+		addIsotopeFormingRecipes("Thorium", 230, 232);
+		addIsotopeFormingRecipes("Uranium", 233, 235, 238);
+		addIsotopeFormingRecipes("Neptunium", 236, 237);
+		addIsotopeFormingRecipes("Plutonium", 238, 239, 241, 242);
+		addIsotopeFormingRecipes("Americium", 241, 242, 243);
+		addIsotopeFormingRecipes("Curium", 243, 245, 246, 247);
+		addIsotopeFormingRecipes("Berkelium", 247, 248);
+		addIsotopeFormingRecipes("Californium", 249, 250, 251, 252);
+		
+		addRecipe(fluidStack("thorium_tbu", FluidHelper.INGOT_BLOCK_VOLUME), "fuelTBU", NCConfig.processor_time[10]*9);
+		
+		addFissionFuelFormingRecipes("uranium", "eu", 233, 235);
+		addFissionFuelFormingRecipes("neptunium", "en", 236);
+		addFissionFuelFormingRecipes("plutonium", "ep", 239, 241);
+		addFissionFuelFormingRecipes("americium", "ea", 242);
+		addFissionFuelFormingRecipes("curium", "ec", "m", 243, 245, 247);
+		addFissionFuelFormingRecipes("berkelium", "eb", 248);
+		addFissionFuelFormingRecipes("californium", "ec", "f", 249, 251);
 		
 		// Tinkers' Construct		
-		ingotForm("Manyullyn");
-		ingotForm("Alubrass");
-		ingotForm("Pigiron");
-		ingotForm("Brass");
-		ingotForm("Bronze");
-		ingotForm("Electrum");
-		ingotForm("Steel");
+		addIngotFormingRecipe("Manyullyn");
+		addIngotFormingRecipe("Alubrass");
+		addIngotFormingRecipe("Pigiron");
+		addIngotFormingRecipe("Brass");
+		addIngotFormingRecipe("Bronze");
+		addIngotFormingRecipe("Electrum");
+		addIngotFormingRecipe("Steel");
 	}
 	
-	public void ingotForm(String metal) {
-		addRecipe(fluidStack(metal.toLowerCase(), 144), "ingot" + metal, NCConfig.processor_time[10]);
+	public void addIngotFormingRecipe(String fluid, String metal) {
+		addRecipe(fluidStack(fluid.toLowerCase(), FluidHelper.INGOT_VOLUME), "ingot" + metal, NCConfig.processor_time[10]);
 	}
 	
-	public void ingotForm() {
+	public void addIngotFormingRecipe(String metal) {
+		addIngotFormingRecipe(metal, metal);
+	}
+	
+	public void addIsotopeFormingRecipes(String element, int... types) {
+		for (int type : types) addIngotFormingRecipe(element.toLowerCase() + "_" + type, element + type + "Base");
+	}
+	
+	public void addFissionFuelFormingRecipes(String element, String suffix, String suffixExtra, int... types) {
+		for (int type : types) {
+			addRecipe(fluidStack("fuel_l" + suffix + suffixExtra + "_" + type, FluidHelper.INGOT_BLOCK_VOLUME), "fuelL" + suffix.toUpperCase() + suffixExtra + type, NCConfig.processor_time[10]*9);
+			addRecipe(fluidStack("fuel_h" + suffix + suffixExtra + "_" + type, FluidHelper.INGOT_BLOCK_VOLUME), "fuelH" + suffix.toUpperCase() + suffixExtra + type, NCConfig.processor_time[10]*9);
+			addRecipe(fluidStack("depleted_fuel_l" + suffix + suffixExtra + "_" + type, FluidHelper.NUGGET_VOLUME*64), "depletedFuelL" + suffix.toUpperCase() + suffixExtra + type, NCConfig.processor_time[10]*64/9);
+			addRecipe(fluidStack("depleted_fuel_h" + suffix + suffixExtra + "_" + type, FluidHelper.NUGGET_VOLUME*64), "depletedFuelH" + suffix.toUpperCase() + suffixExtra + type, NCConfig.processor_time[10]*64/9);
+		}
+	}
+	
+	public void addFissionFuelFormingRecipes(String element, String suffix, int... types) {
+		addFissionFuelFormingRecipes(element, suffix, "", types);
+	}
+	
+	public void addIngotFormingRecipes() {
 		List<String> oreList = Arrays.asList(OreDictionary.getOreNames());
-		ArrayList<Fluid> fluidValueList = new ArrayList(FluidRegistry.getRegisteredFluids().values());
-		ArrayList<String>fluidList = new ArrayList<String>();
-		for (Fluid fluid : fluidValueList) {
-			fluidList.add(fluid.getName());
-		}
+		ArrayList<String> fluidList = new ArrayList(FluidRegistry.getRegisteredFluids().keySet());
 		for (String fluidName : fluidList) {
-			String ingot = "ingot" + NCUtil.capitalize(fluidName);
-			if (oreList.contains(ingot)) addRecipe(fluidStack(fluidName, 144), ingot, NCConfig.processor_time[10]);
+			String ingot = "ingot" + StringHelper.capitalize(fluidName);
+			if (oreList.contains(ingot)) addRecipe(fluidStack(fluidName, FluidHelper.INGOT_VOLUME), ingot, NCConfig.processor_time[10]);
 		}
-	}
-
-	public String getRecipeName() {
-		return "ingot_former";
 	}
 }

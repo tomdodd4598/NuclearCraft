@@ -26,8 +26,7 @@ public abstract class JEIRecipe<T extends JEIRecipe> implements IRecipeWrapper {
 	
 	public int inputSizeItem, inputSizeFluid;
 	public int outputSizeItem, outputSizeFluid;
-
-	@SuppressWarnings("static-access")
+	
 	public JEIRecipe(BaseRecipeHandler recipeHandler, IRecipe recipe) {
 		this.recipeHandler = recipeHandler;
 		this.recipe = recipe;
@@ -73,6 +72,7 @@ public abstract class JEIRecipe<T extends JEIRecipe> implements IRecipeWrapper {
 		fluidOutputs = fluidOutputList;
 	}
 
+	@Override
 	public void getIngredients(IIngredients ingredients) {
 		ingredients.setInputLists(ItemStack.class, itemInputs);
 		ingredients.setInputLists(FluidStack.class, fluidInputs);
@@ -100,14 +100,17 @@ public abstract class JEIRecipe<T extends JEIRecipe> implements IRecipeWrapper {
 		return fluidOutputs;
 	}
 
+	@Override
 	public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) {}
 
 	public void drawAnimations(Minecraft minecraft, int recipeWidth, int recipeHeight) {}
 
+	@Override
 	public List<String> getTooltipStrings(int mouseX, int mouseY) {
 		return null;
 	}
 
+	@Override
 	public boolean handleClick(Minecraft minecraft, int mouseX, int mouseY, int mouseButton) {
 		return false;
 	}

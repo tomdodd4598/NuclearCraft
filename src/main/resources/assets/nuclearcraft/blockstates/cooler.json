@@ -10,6 +10,11 @@
 		"type=diamond": {"model": "nuclearcraft:cooler_diamond"},
 		"type=helium": {"model": "nuclearcraft:cooler_helium"},
 		"type=enderium": {"model": "nuclearcraft:cooler_enderium"},
-		"type=cryotheum": {"model": "nuclearcraft:cooler_cryotheum"}
+		"type=cryotheum": {"model": "nuclearcraft:cooler_cryotheum"},
+		"type=iron": {"model": "nuclearcraft:cooler_iron"},
+		"type=emerald": {"model": "nuclearcraft:cooler_emerald"},
+		"type=copper": {"model": "nuclearcraft:cooler_copper"},
+		"type=tin": {"model": "nuclearcraft:cooler_tin"},
+		"type=magnesium": {"model": "nuclearcraft:cooler_magnesium"}
 	}
 }

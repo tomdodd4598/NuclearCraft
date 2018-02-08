@@ -16,6 +16,7 @@ public class AlloyFurnaceCategory extends BaseCategory {
 		super(guiHelper, handler, "alloy_furnace_idle", NCConfig.processor_time[4], 45, 30, 102, 26, 176, 3, 37, 16, 84, 35);
 	}
 	
+	@Override
 	public void setRecipe(IRecipeLayout recipeLayout, IRecipeWrapper recipeWrapper, IIngredients ingredients) {
 		RecipeItemMapper itemMapper = new RecipeItemMapper();
 		itemMapper.map(SorptionType.INPUT, 0, 0, 46 - backPosX, 35 - backPosY);

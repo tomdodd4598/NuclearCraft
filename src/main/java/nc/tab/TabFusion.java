@@ -10,6 +10,7 @@ public class TabFusion extends CreativeTabs {
 		super("nuclearcraftFusion");
 	}
 
+	@Override
 	public ItemStack getTabIconItem() {
 		return new ItemStack(NCBlocks.fusion_core);
 	}

@@ -1,8 +1,8 @@
 package nc.tile.energyFluid;
 
-import nc.energy.EnumStorage.EnergyConnection;
-import nc.fluid.EnumTank.FluidConnection;
 import nc.tile.dummy.IInterfaceable;
+import nc.tile.energy.storage.EnumStorage.EnergyConnection;
+import nc.tile.fluid.tank.EnumTank.FluidConnection;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 
@@ -12,6 +12,7 @@ public class TileBin extends TileEnergyFluidSidedInventory implements IInterface
 		super("bin", 4, 16777216, EnergyConnection.IN, new int[] {256000, 256000, 256000, 256000}, new FluidConnection[] {FluidConnection.IN, FluidConnection.IN, FluidConnection.IN, FluidConnection.IN});
 	}
 	
+	@Override
 	public void update() {
 		super.update();
 		for (int i = 0; i < inventoryStacks.size(); i++) {
@@ -25,24 +26,29 @@ public class TileBin extends TileEnergyFluidSidedInventory implements IInterface
 	
 	// Sided Inventory
 	
+	@Override
 	public int[] getSlotsForFace(EnumFacing side) {
 		return new int[] {0, 1, 2, 3};
 	}
 
+	@Override
 	public boolean canInsertItem(int slot, ItemStack stack, EnumFacing direction) {
 		return true;
 	}
 
+	@Override
 	public boolean canExtractItem(int slot, ItemStack stack, EnumFacing direction) {
 		return false;
 	}
 	
 	// IC2 EU
 
+	@Override
 	public int getSourceTier() {
 		return 1;
 	}
 
+	@Override
 	public int getSinkTier() {
 		return 4;
 	}

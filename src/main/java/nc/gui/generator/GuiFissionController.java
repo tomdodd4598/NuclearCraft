@@ -6,18 +6,18 @@ import com.google.common.collect.Lists;
 
 import nc.Global;
 import nc.container.generator.ContainerFissionController;
-import nc.gui.GuiNC;
+import nc.gui.NCGui;
 import nc.tile.energy.ITileEnergy;
 import nc.tile.generator.TileFissionController;
-import nc.util.NCMath;
+import nc.util.Lang;
+import nc.util.UnitHelper;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.translation.I18n;
 
-public class GuiFissionController extends GuiNC {
+public class GuiFissionController extends NCGui {
 	
 	private final InventoryPlayer playerInventory;
 	protected TileFissionController tile;
@@ -32,47 +32,46 @@ public class GuiFissionController extends GuiNC {
 		ySize = 177;
 	}
 
+	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		int fontColor = tile.isGenerating ? -1 : (tile.complete == 1 ? 15641088 : 15597568);
-		String s = tile.complete == 1 ? (tile.getLengthX() + "*" +  tile.getLengthY() + "*" +  tile.getLengthZ() + " " + I18n.translateToLocalFormatted("gui.container.fission_controller.reactor")) : tile.problem;
+		String s = tile.complete == 1 ? (tile.getLengthX() + "*" +  tile.getLengthY() + "*" +  tile.getLengthZ() + " " + Lang.localise("gui.container.fission_controller.reactor")) : tile.problem;
 		fontRenderer.drawString(s, 8 + xSize / 2 - fontRenderer.getStringWidth(s) / 2, 6, fontColor);
-		String s2 = tile.problemPosBool == 0 ? "" : I18n.translateToLocalFormatted("gui.container.fission_controller.pos") + " " + tile.problemPos;
+		String s2 = tile.problemPosBool == 0 ? "" : Lang.localise("gui.container.fission_controller.pos") + " " + tile.problemPos;
 		fontRenderer.drawString(s2, 8 + xSize / 2 - fontRenderer.getStringWidth(s2) / 2, 17, fontColor);
-		//fontRenderer.drawString(playerInventory.getDisplayName().getUnformattedText(), 8, ySize - 96 + 2, 4210752);
-		/*String energy = tile.storage.getEnergyStored() + " RF";
-		fontRenderer.drawString(energy, 28, ySize - 92, fontColor);*/
-		String cells = I18n.translateToLocalFormatted("gui.container.fission_controller.cells") + " " + tile.cells;
-		fontRenderer.drawString(cells, 28, ySize - 92, fontColor);
-		String power = NCMath.prefix(tile.processPower, 5, "RF/t");
-		fontRenderer.drawString(power, 28, ySize - 103, fontColor);
 		String fuel = tile.getFuelName().endsWith("OXIDE") ? tile.getFuelName().substring(0, tile.getFuelName().length() - 3) : tile.getFuelName();
-		fontRenderer.drawString(fuel, 28, ySize - 114, fontColor);
-		String heat = NCMath.prefix(tile.heat, 5, "H");
-		fontRenderer.drawString(heat, 170 - fontRenderer.getStringWidth(heat), ySize - 92, fontColor);
-		String heatGen = NCMath.prefix(tile.heatChange, 5, "H/t");
-		fontRenderer.drawString(heatGen, 170 - fontRenderer.getStringWidth(heatGen), ySize - 103, fontColor);
-		String efficiency = I18n.translateToLocalFormatted("gui.container.fission_controller.efficiency") + " " + tile.efficiency + "%";
-		fontRenderer.drawString(efficiency, 170 - fontRenderer.getStringWidth(efficiency), ySize - 114, fontColor);
+		fontRenderer.drawString(fuel, 28, ySize - 104, fontColor);
+		String cells = Lang.localise("gui.container.fission_controller.cells") + " " + tile.cells;
+		fontRenderer.drawString(cells, 28, ySize - 93, fontColor);
+		String power = UnitHelper.prefix(tile.processPower, 6, "RF/t");
+		fontRenderer.drawString(power, 170 - fontRenderer.getStringWidth(power), ySize - 104, fontColor);
+		String heatGen = UnitHelper.prefix(tile.heatChange, 6, "H/t");
+		fontRenderer.drawString(heatGen, 170 - fontRenderer.getStringWidth(heatGen), ySize - 93, fontColor);
 		
 		drawEnergyTooltip(tile, mouseX, mouseY, 8, 6, 6, 85);
 		drawHeatTooltip(mouseX, mouseY, 18, 6, 6, 85);
 	}
 	
+	@Override
 	public List<String> energyInfo(ITileEnergy tile) {
-		String energy = NCMath.prefix(tile.getStorage().getEnergyStored(), tile.getStorage().getMaxEnergyStored(), 5, "RF");
-		String power = NCMath.prefix(this.tile.getProcessPower(), 5, "RF/t");
-		return Lists.newArrayList(TextFormatting.LIGHT_PURPLE + I18n.translateToLocalFormatted("gui.container.energy_stored") + TextFormatting.WHITE + " " + energy, TextFormatting.LIGHT_PURPLE + I18n.translateToLocalFormatted("gui.container.power_gen") + TextFormatting.WHITE + " " + power);
+		String energy = UnitHelper.prefix(tile.getStorage().getEnergyStored(), tile.getStorage().getMaxEnergyStored(), 6, "RF");
+		String power = UnitHelper.prefix(this.tile.getProcessPower(), 6, "RF/t");
+		String efficiency = this.tile.efficiency + "%";
+		return Lists.newArrayList(TextFormatting.LIGHT_PURPLE + Lang.localise("gui.container.energy_stored") + TextFormatting.WHITE + " " + energy, TextFormatting.LIGHT_PURPLE + Lang.localise("gui.container.power_gen") + TextFormatting.WHITE + " " + power, TextFormatting.LIGHT_PURPLE + Lang.localise("gui.container.fission_controller.efficiency") + TextFormatting.WHITE + " " + efficiency);
 	}
 	
 	public List<String> heatInfo() {
-		String heat = NCMath.prefix(tile.heat, tile.getMaxHeat(), 5, "H");
-		return Lists.newArrayList(TextFormatting.YELLOW + I18n.translateToLocalFormatted("gui.container.fission_controller.heat") + TextFormatting.WHITE + " " + heat);
+		String heat = UnitHelper.prefix(tile.heat, tile.getMaxHeat(), 6, "H");
+		String heatGen = UnitHelper.prefix(tile.heatChange, 6, "H/t");
+		String heatMult = this.tile.heatMult + "%";
+		return Lists.newArrayList(TextFormatting.YELLOW + Lang.localise("gui.container.fission_controller.heat") + TextFormatting.WHITE + " " + heat, TextFormatting.YELLOW + Lang.localise("gui.container.fission_controller.heat_gen") + TextFormatting.WHITE + " " + heatGen, TextFormatting.YELLOW + Lang.localise("gui.container.fission_controller.heat_mult") + TextFormatting.WHITE + " " + heatMult);
 	}
 	
 	public void drawHeatTooltip(int mouseX, int mouseY, int x, int y, int width, int height) {
 		drawTooltip(heatInfo(), mouseX, mouseY, x, y, width, height);
 	}
 	
+	@Override
 	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		mc.getTextureManager().bindTexture(gui_textures);

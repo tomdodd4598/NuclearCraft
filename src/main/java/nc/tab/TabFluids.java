@@ -1,8 +1,8 @@
 package nc.tab;
 
-import nc.init.NCFluids;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.FluidRegistry;
 
 public class TabFluids extends CreativeTabs {
 
@@ -10,7 +10,8 @@ public class TabFluids extends CreativeTabs {
 		super("nuclearcraftFluids");
 	}
 
+	@Override
 	public ItemStack getTabIconItem() {
-		return new ItemStack(NCFluids.block_liquidhelium);
+		return new ItemStack(FluidRegistry.getFluid("flibe").getBlock());
 	}
 }

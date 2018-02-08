@@ -3,123 +3,133 @@ package nc.recipe.processor;
 import nc.config.NCConfig;
 import nc.init.NCBlocks;
 import nc.recipe.BaseRecipeHandler;
+import nc.util.FluidHelper;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 
 public class InfuserRecipes extends BaseRecipeHandler {
 	
-	//private static final InfuserRecipes RECIPES = new InfuserRecipes();
-	
 	public InfuserRecipes() {
-		super(1, 1, 1, 0, false);
+		super("infuser", 1, 1, 1, 0, false);
 	}
 
-	/*public static final InfuserRecipes instance() {
-		return RECIPES;
-	}*/
-
+	@Override
 	public void addRecipes() {
-		oxidize("ingotThorium", 1000);
-		oxidize("ingotUranium", 1000);
-		oxidize("ingotManganese", 1000);
-		addRecipe("ingotManganeseOxide", fluidStack("oxygen", 1000), "ingotManganeseDioxide", NCConfig.processor_time[5]);
-		oxidize("dustThorium", 1000);
-		oxidize("dustUranium", 1000);
-		oxidize("dustManganese", 1000);
-		addRecipe("dustManganeseOxide", fluidStack("oxygen", 1000), "dustManganeseDioxide", NCConfig.processor_time[5]);
+		addOxidizingRecipe("ingotThorium", FluidHelper.BUCKET_VOLUME);
+		addOxidizingRecipe("ingotUranium", FluidHelper.BUCKET_VOLUME);
+		addOxidizingRecipe("ingotManganese", FluidHelper.BUCKET_VOLUME);
+		addRecipe("ingotManganeseOxide", fluidStack("oxygen", FluidHelper.BUCKET_VOLUME), "ingotManganeseDioxide", NCConfig.processor_time[5]);
+		addOxidizingRecipe("dustThorium", FluidHelper.BUCKET_VOLUME);
+		addOxidizingRecipe("dustUranium", FluidHelper.BUCKET_VOLUME);
+		addOxidizingRecipe("dustManganese", FluidHelper.BUCKET_VOLUME);
+		addRecipe("dustManganeseOxide", fluidStack("oxygen", FluidHelper.BUCKET_VOLUME), "dustManganeseDioxide", NCConfig.processor_time[5]);
 		
-		oxidizeFertile("Thorium230");
-		oxidizeFissile("Thorium232");
+		addFertileOxidizingRecipes("Thorium230");
+		addFissileOxidizingRecipes("Thorium232");
 		
-		oxidizeFissile("Uranium233");
-		oxidizeFissile("Uranium235");
-		oxidizeFertile("Uranium238");
+		addFissileOxidizingRecipes("Uranium233");
+		addFissileOxidizingRecipes("Uranium235");
+		addFertileOxidizingRecipes("Uranium238");
 		
-		oxidizeFissile("Neptunium236");
-		oxidizeFertile("Neptunium237");
+		addFissileOxidizingRecipes("Neptunium236");
+		addFertileOxidizingRecipes("Neptunium237");
 		
-		oxidizeFertile("Plutonium238");
-		oxidizeFissile("Plutonium239");
-		oxidizeFissile("Plutonium241");
-		oxidizeFertile("Plutonium242");
+		addFertileOxidizingRecipes("Plutonium238");
+		addFissileOxidizingRecipes("Plutonium239");
+		addFissileOxidizingRecipes("Plutonium241");
+		addFertileOxidizingRecipes("Plutonium242");
 		
-		oxidizeFertile("Americium241");
-		oxidizeFissile("Americium242");
-		oxidizeFertile("Americium243");
+		addFertileOxidizingRecipes("Americium241");
+		addFissileOxidizingRecipes("Americium242");
+		addFertileOxidizingRecipes("Americium243");
 		
-		oxidizeFissile("Curium243");
-		oxidizeFissile("Curium245");
-		oxidizeFertile("Curium246");
-		oxidizeFissile("Curium247");
+		addFissileOxidizingRecipes("Curium243");
+		addFissileOxidizingRecipes("Curium245");
+		addFertileOxidizingRecipes("Curium246");
+		addFissileOxidizingRecipes("Curium247");
 		
-		oxidizeFertile("Berkelium247");
-		oxidizeFissile("Berkelium248");
+		addFertileOxidizingRecipes("Berkelium247");
+		addFissileOxidizingRecipes("Berkelium248");
 		
-		oxidizeFissile("Californium249");
-		oxidizeFertile("Californium250");
-		oxidizeFissile("Californium251");
-		oxidizeFertile("Californium252");
+		addFissileOxidizingRecipes("Californium249");
+		addFertileOxidizingRecipes("Californium250");
+		addFissileOxidizingRecipes("Californium251");
+		addFertileOxidizingRecipes("Californium252");
 		
-		oxidizeFuel("TBU");
+		addFuelOxidizingRecipes("TBU");
 		
-		oxidizeFuel("LEU233");
-		oxidizeFuel("HEU233");
-		oxidizeFuel("LEU235");
-		oxidizeFuel("HEU235");
+		addFuelOxidizingRecipes("LEU233");
+		addFuelOxidizingRecipes("HEU233");
+		addFuelOxidizingRecipes("LEU235");
+		addFuelOxidizingRecipes("HEU235");
 		
-		oxidizeFuel("LEN236");
-		oxidizeFuel("HEN236");
+		addFuelOxidizingRecipes("LEN236");
+		addFuelOxidizingRecipes("HEN236");
 		
-		oxidizeFuel("LEP239");
-		oxidizeFuel("HEP239");
-		oxidizeFuel("LEP241");
-		oxidizeFuel("HEP241");
+		addFuelOxidizingRecipes("LEP239");
+		addFuelOxidizingRecipes("HEP239");
+		addFuelOxidizingRecipes("LEP241");
+		addFuelOxidizingRecipes("HEP241");
 		
-		oxidizeFuel("LEA242");
-		oxidizeFuel("HEA242");
+		addFuelOxidizingRecipes("LEA242");
+		addFuelOxidizingRecipes("HEA242");
 		
-		oxidizeFuel("LECm243");
-		oxidizeFuel("HECm243");
-		oxidizeFuel("LECm245");
-		oxidizeFuel("HECm245");
-		oxidizeFuel("LECm247");
-		oxidizeFuel("HECm247");
+		addFuelOxidizingRecipes("LECm243");
+		addFuelOxidizingRecipes("HECm243");
+		addFuelOxidizingRecipes("LECm245");
+		addFuelOxidizingRecipes("HECm245");
+		addFuelOxidizingRecipes("LECm247");
+		addFuelOxidizingRecipes("HECm247");
 		
-		oxidizeFuel("LEB248");
-		oxidizeFuel("HEB248");
+		addFuelOxidizingRecipes("LEB248");
+		addFuelOxidizingRecipes("HEB248");
 		
-		oxidizeFuel("LECf249");
-		oxidizeFuel("HECf249");
-		oxidizeFuel("LECf251");
-		oxidizeFuel("HECf251");
+		addFuelOxidizingRecipes("LECf249");
+		addFuelOxidizingRecipes("HECf249");
+		addFuelOxidizingRecipes("LECf251");
+		addFuelOxidizingRecipes("HECf251");
 		
-		addRecipe(Blocks.ICE, fluidStack("liquidhelium", 40), NCBlocks.block_ice, NCConfig.processor_time[5]/10);
-		addRecipe(Blocks.FROSTED_ICE, fluidStack("liquidhelium", 40), NCBlocks.block_ice, NCConfig.processor_time[5]/10);
-		addRecipe(Blocks.PACKED_ICE, fluidStack("liquidhelium", 40), NCBlocks.block_ice, NCConfig.processor_time[5]/10);
-		addRecipe(new ItemStack(NCBlocks.cooler, 1, 0), fluidStack("liquidhelium", 1000), new ItemStack(NCBlocks.cooler, 1, 8), NCConfig.processor_time[5]);
+		addRecipe(Blocks.ICE, fluidStack("liquidhelium", 50), NCBlocks.block_ice, NCConfig.processor_time[5]/10);
+		addRecipe(Blocks.PACKED_ICE, fluidStack("liquidhelium", 50), NCBlocks.block_ice, NCConfig.processor_time[5]/10);
+		
+		addRecipe(new ItemStack(NCBlocks.cooler, 1, 0), fluidStack("liquidhelium", FluidHelper.BUCKET_VOLUME), new ItemStack(NCBlocks.cooler, 1, 8), NCConfig.processor_time[5]);
+		addRecipe(new ItemStack(NCBlocks.cooler, 1, 0), fluidStack("water", FluidHelper.BUCKET_VOLUME), new ItemStack(NCBlocks.cooler, 1, 1), NCConfig.processor_time[5]);
+		
+		// Immersive Engineering
+		addRecipe("plankWood", fluidStack("creosote", 100), "plankTreatedWood", NCConfig.processor_time[5]/10);
+		
+		// Redstone Arsenal
+		addIngotInfusionRecipes("Electrum", "redstone", FluidHelper.REDSTONE_DUST_VOLUME*2, "ElectrumFlux", 1);
+		
+		// Thermal Foundation
+		addIngotInfusionRecipes("Shibuichi", "redstone", FluidHelper.EUM_DUST_VOLUME, "Signalum", 1);
+		addIngotInfusionRecipes("TinSilver", "glowstone", FluidHelper.EUM_DUST_VOLUME, "Lumium", 1);
+		addIngotInfusionRecipes("LeadPlatinum", "ender", FluidHelper.EUM_DUST_VOLUME, "Enderium", 1);
 	}
 	
-	public void oxidize(String name, int oxygen) {
-		addRecipe(name, fluidStack("oxygen", oxygen), name + "Oxide", NCConfig.processor_time[5]);
+	public void addOxidizingRecipe(String name, int oxygenAmount) {
+		addRecipe(name, fluidStack("oxygen", oxygenAmount), name + "Oxide", NCConfig.processor_time[5]);
 	}
 	
-	public void oxidizeFertile(String name) {
-		addRecipe("ingot" + name + "Base", fluidStack("oxygen", 400), "ingot" + name + "Oxide", NCConfig.processor_time[5]/2);
-		addRecipe("tiny" + name, fluidStack("oxygen", 40), "tiny" + name + "Oxide", NCConfig.processor_time[5]/16);
+	public void addFertileOxidizingRecipes(String name) {
+		addRecipe("ingot" + name + "Base", fluidStack("oxygen", FluidHelper.OXIDIZING_VOLUME), "ingot" + name + "Oxide", NCConfig.processor_time[5]/2);
+		addRecipe("nugget" + name, fluidStack("oxygen", FluidHelper.OXIDIZING_VOLUME/8), "nugget" + name + "Oxide", NCConfig.processor_time[5]/18);
 	}
 	
-	public void oxidizeFissile(String name) {
-		addRecipe("ingot" + name, fluidStack("oxygen", 400), "ingot" + name + "Oxide", NCConfig.processor_time[5]/2);
-		addRecipe("tiny" + name, fluidStack("oxygen", 40), "tiny" + name + "Oxide", NCConfig.processor_time[5]/16);
+	public void addFissileOxidizingRecipes(String name) {
+		addRecipe("ingot" + name, fluidStack("oxygen", FluidHelper.OXIDIZING_VOLUME), "ingot" + name + "Oxide", NCConfig.processor_time[5]/2);
+		addRecipe("nugget" + name, fluidStack("oxygen", FluidHelper.OXIDIZING_VOLUME/8), "nugget" + name + "Oxide", NCConfig.processor_time[5]/18);
 	}
 	
-	public void oxidizeFuel(String name) {
-		addRecipe("fuel" + name, fluidStack("oxygen", 4000), "fuel" + name + "Oxide", NCConfig.processor_time[5]*4);
-		addRecipe("fuelRod" + name, fluidStack("oxygen", 4000), "fuelRod" + name + "Oxide", NCConfig.processor_time[5]*4);
-		addRecipe("depletedFuelRod" + name, fluidStack("oxygen", 3000), "depletedFuelRod" + name + "Oxide", NCConfig.processor_time[5]*4);
+	public void addFuelOxidizingRecipes(String name) {
+		addRecipe("fuel" + name, fluidStack("oxygen", FluidHelper.OXIDIZING_VOLUME*10), "fuel" + name + "Oxide", NCConfig.processor_time[5]*4);
+		addRecipe("fuelRod" + name, fluidStack("oxygen", FluidHelper.OXIDIZING_VOLUME*10), "fuelRod" + name + "Oxide", NCConfig.processor_time[5]*4);
+		addRecipe("depletedFuel" + name, fluidStack("oxygen", FluidHelper.OXIDIZING_VOLUME*8), "depletedFuel" + name + "Oxide", NCConfig.processor_time[5]*4);
+		addRecipe("depletedFuelRod" + name, fluidStack("oxygen", FluidHelper.OXIDIZING_VOLUME*8), "depletedFuelRod" + name + "Oxide", NCConfig.processor_time[5]*4);
 	}
-
-	public String getRecipeName() {
-		return "infuser";
+	
+	public void addIngotInfusionRecipes(String in, String fluid, int amount, String out, int time) {
+		addRecipe("ingot" + in, fluidStack(fluid, amount), "ingot" + out, NCConfig.processor_time[5]*time);
+		addRecipe("dust" + in, fluidStack(fluid, amount), "dust" + out, NCConfig.processor_time[5]*time);
 	}
 }

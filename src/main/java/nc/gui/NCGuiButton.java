@@ -23,11 +23,13 @@ public final class NCGuiButton {
 			super(id, x, y, width, height, text);
 		}
 		
+		@Override
 		public boolean mousePressed(Minecraft minecraft, int mouseX, int mouseY) {
 			isButtonPressed = enabled && visible && mouseX >= this.x && mouseY >= this.y && mouseX < this.x + width && mouseY < this.y + height;
 			return isButtonPressed;
 		}
 		
+		@Override
 		public void mouseReleased(int mouseX, int mouseY) {
 			isButtonPressed = false;
 		}
@@ -57,6 +59,7 @@ public final class NCGuiButton {
 			if (isButtonPressed) return pressedtexture; else return unpressedtexture;
 		}
 		
+		@Override
 		public void drawButton(Minecraft minecraft, int x, int y, float partialTicks) {
 			if (this.visible) {
 				GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
@@ -81,6 +84,7 @@ public final class NCGuiButton {
 			itemRenderer = new GuiItemRenderer(x + (width - 16)/2, y + (height - 16)/2, alph, item, itemMeta);
 		}
 		
+		@Override
 		public void drawButton(Minecraft minecraft, int x, int y, float partialTicks) {
 			if (this.visible) {
 				hovered = x >= this.x && y >= this.y && x < this.x + width && y < this.y + height;
@@ -96,6 +100,7 @@ public final class NCGuiButton {
 			super(id, x, y, width, height, "");
 		}
 		
+		@Override
 		public void drawButton(Minecraft minecraft, int x, int y, float partialTicks) {}
 	}
 }

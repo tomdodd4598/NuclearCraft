@@ -1,12 +1,34 @@
 package nc.tile.generator;
 
-public abstract class TileRTG extends TilePassiveGenerator {
+import nc.config.NCConfig;
+
+public class TileRTG {
 	
-	public TileRTG(int power) {
-		super(power);
+	public static class Uranium extends TileRTGAbstract {
+
+		public Uranium() {
+			super(NCConfig.rtg_power[0]);
+		}
 	}
 	
-	public int getGenerated() {
-		return power;
+	public static class Plutonium extends TileRTGAbstract {
+
+		public Plutonium() {
+			super(NCConfig.rtg_power[1]);
+		}
+	}
+	
+	public static class Americium extends TileRTGAbstract {
+
+		public Americium() {
+			super(NCConfig.rtg_power[2]);
+		}
+	}
+	
+	public static class Californium extends TileRTGAbstract {
+
+		public Californium() {
+			super(NCConfig.rtg_power[3]);
+		}
 	}
 }

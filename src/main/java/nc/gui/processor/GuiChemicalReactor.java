@@ -8,22 +8,23 @@ import nc.init.NCItems;
 import nc.network.PacketEmptyTankButton;
 import nc.network.PacketGetFluidInTank;
 import nc.network.PacketHandler;
-import nc.tile.processor.TileEnergyFluidProcessor;
+import nc.tile.processor.TileFluidProcessor;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fluids.FluidStack;
 
-public class GuiChemicalReactor extends GuiEnergyFluidProcessor {
+public class GuiChemicalReactor extends GuiFluidProcessor {
 	
 	public static FluidStack fluid0, fluid1, fluid2, fluid3 = null;
 
-	public GuiChemicalReactor(EntityPlayer player, TileEnergyFluidProcessor tile) {
+	public GuiChemicalReactor(EntityPlayer player, TileFluidProcessor tile) {
 		super("chemical_reactor", player, new ContainerChemicalReactor(player, tile));
 		this.tile = tile;
 		xSize = 176;
 		ySize = 166;
 	}
 	
+	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		super.drawGuiContainerForegroundLayer(mouseX, mouseY);
 		//fontRendererObj.drawString(tile.storage.getEnergyStored() + " RF", 28, ySize - 94, 4210752);
@@ -39,6 +40,7 @@ public class GuiChemicalReactor extends GuiEnergyFluidProcessor {
 		drawEnergyTooltip(tile, mouseX, mouseY, 8, 6, 16, 74);
 	}
 	
+	@Override
 	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
 		super.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY);
 		
@@ -61,6 +63,7 @@ public class GuiChemicalReactor extends GuiEnergyFluidProcessor {
 		GuiFluidRenderer.renderGuiTank(fluid3, tile.tanks[3].getCapacity(), guiLeft + 136, guiTop + 31, zLevel, 24, 24);
 	}
 	
+	@Override
 	public void initGui() {
 		super.initGui();
 		buttonList.add(new NCGuiButton.BlankButton(0, guiLeft + 32, guiTop + 35, 16, 16));
@@ -69,6 +72,7 @@ public class GuiChemicalReactor extends GuiEnergyFluidProcessor {
 		buttonList.add(new NCGuiButton.BlankButton(3, guiLeft + 136, guiTop + 31, 24, 24));
 	}
 	
+	@Override
 	protected void actionPerformed(GuiButton guiButton) {
 		if (tile.getWorld().isRemote) {
 			for (int i = 0; i < 4; i++) if (guiButton.id == i && isShiftKeyDown()) {

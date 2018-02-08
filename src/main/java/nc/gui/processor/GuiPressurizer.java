@@ -3,18 +3,19 @@ package nc.gui.processor;
 import nc.container.processor.ContainerPressurizer;
 import nc.gui.GuiItemRenderer;
 import nc.init.NCItems;
-import nc.tile.processor.TileEnergyItemProcessor;
+import nc.tile.processor.TileItemProcessor;
 import net.minecraft.entity.player.EntityPlayer;
 
-public class GuiPressurizer extends GuiEnergyItemProcessor {
+public class GuiPressurizer extends GuiItemProcessor {
 
-	public GuiPressurizer(EntityPlayer player, TileEnergyItemProcessor tile) {
+	public GuiPressurizer(EntityPlayer player, TileItemProcessor tile) {
 		super("pressurizer", player, new ContainerPressurizer(player, tile));
 		this.tile = tile;
 		xSize = 176;
 		ySize = 166;
 	}
 	
+	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		super.drawGuiContainerForegroundLayer(mouseX, mouseY);
 		//fontRendererObj.drawString(tile.storage.getEnergyStored() + " RF", 28, ySize - 94, 4210752);
@@ -25,6 +26,7 @@ public class GuiPressurizer extends GuiEnergyItemProcessor {
 		drawEnergyTooltip(tile, mouseX, mouseY, 8, 6, 16, 74);
 	}
 	
+	@Override
 	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
 		super.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY);
 		
