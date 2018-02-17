@@ -15,11 +15,15 @@ tile.nuclearcraft.ingot_block.uranium.name=Bloco de Urânio
 tile.nuclearcraft.ingot_block.boron.name=Bloco de Boro
 tile.nuclearcraft.ingot_block.lithium.name=Bloco de Lítio
 tile.nuclearcraft.ingot_block.magnesium.name=Bloco de Magnésio
+tile.nuclearcraft.ingot_block.graphite.name=Bloco de Grafite
+tile.nuclearcraft.ingot_block.graphite.desc=Grafite só é considerado ativo se estiver tocando ao menos uma célula de reator. Grafite ativo aumenta a eficiência do reator, mas também produz algum calor extra. Para cada bloco de grafite adicional, a energia gerada é igual a %s, e o calor adicional gerado é igual a %s.
 tile.nuclearcraft.ingot_block.beryllium.name=Bloco de Berilo
+tile.nuclearcraft.ingot_block.beryllium.desc=Berilo só é considerado ativo se estiver tocando ao menos uma célula de reator. Berilo ativo aumenta a eficiência do reator, mas também produz algum calor extra. Para cada bloco de berílo adicional, a energia gerada é igual a %s, e o calor adicional gerado é igual a %s.
 tile.nuclearcraft.ingot_block.zirconium.name=Bloco de Zircônio
 
-tile.nuclearcraft.ingot_block.graphite.name=Bloco de Grafite
-tile.nuclearcraft.ingot_block.graphite.desc=Grafite só é considerado ativo se estiver tocando ao menos uma Célula de Reator. Grafite ativo aumenta a eficiência do Reator, mas também produz algum calor extra. A energia adicional gerada por bloco de grafite é igual ao RFBase*SemCélulas/8 RF/t, e o calor extra gerado por bloco de grafite é o RFBase*SemCélulas/16 Unidades de Calor (UC) por tick.
+info.moderator.power=RF Base*Eficiência da Célula/%s RF/t para cada célula de reator adjacente
+info.moderator.heat=Calor Base*Eficiência da Célula/%s Calor/t para cada célula de reator adjacente. Se não houver nenhuma célula adjacente, o bloco de grafite produzirá algum calor adicional equivalente ao calor base do combustível
+info.moderator.desc=Moderador de Reator de Fissão
 
 tile.nuclearcraft.fission_block.casing.name=Estrutura de Reator
 tile.nuclearcraft.fission_block.casing.desc=Usado na construção de reatores de fissão. Para formar uma estrutura válida, construa um cubo oco feito disto, se assegurando de *excluir* os cantos (cantos não têm importância). Coloque um controlador de fissão em uma ponta, ou em um canto, ou em uma das faces da estrutura. Se a GUI mostrar um erro, tenha certeza de que a estrutura é válida. Então encha o interior com células de reator, com resfriadores e com blocos de grafite para começar a gerar energia do seu combustível de fissão!
@@ -35,6 +39,8 @@ tile.nuclearcraft.fusion_connector.desc=Conecta um núcleo de fusão ao seu anel
 
 tile.nuclearcraft.cell_block.name=Célula de Reator
 tile.nuclearcraft.cell_block.desc=Usado em reatores de fissão para o combustível de fissão. Quanto mais células colocadas, mais rápido o combustível é usado. Células são mais eficientes quando tem outra a um bloco de distância, com um grafite entre elas, ou com um espaço vazio entre elas. Ou seja: Célula, espaço, célula ou célula, grafite, célula.
+
+info.moderator.cell=Células são mais eficientes para cada outra célula adjacente a si, ou para cada linha de blocos moderadores adjacentes a si, com o comprimento ao menos de %s, terminando com outra célula.
 
 tile.nuclearcraft.cooler.empty.name=Resfriador Vazio
 
@@ -101,68 +107,72 @@ tile.nuclearcraft.nuclear_furnace_idle.desc=Funde itens muito rapidamente. Usa l
 tile.nuclearcraft.nuclear_furnace_active.name=Fornalha Nuclear
 
 tile.nuclearcraft.manufactory_idle.name=Manufatura
-tile.nuclearcraft.manufactory_idle.desc=Uma máquina útil que tem muitos usos. Aceita energia de MV do IC2.
+tile.nuclearcraft.manufactory_idle.desc=Uma máquina útil que tem muitos usos.
 tile.nuclearcraft.manufactory_active.name=Manufatura
 
 tile.nuclearcraft.isotope_separator_idle.name=Separador de Isótopos
-tile.nuclearcraft.isotope_separator_idle.desc=Separa materiais em seus isótopos. Aceita energia de MV do IC2.
+tile.nuclearcraft.isotope_separator_idle.desc=Separa materiais em seus isótopos.
 tile.nuclearcraft.isotope_separator_active.name=Separador de Isótopos
 
 tile.nuclearcraft.decay_hastener_idle.name=Acelerador de Apodrecimento
-tile.nuclearcraft.decay_hastener_idle.desc=Força o apodrecimento de materiais radioativos. Aceita energia de MV do IC2.
+tile.nuclearcraft.decay_hastener_idle.desc=Força o apodrecimento de materiais radioativos.
 tile.nuclearcraft.decay_hastener_active.name=Acelerador de Apodrecimento
 
 tile.nuclearcraft.fuel_reprocessor_idle.name=Reprocessador de Combustível
-tile.nuclearcraft.fuel_reprocessor_idle.desc=Extrai materiais de combustíveis esgotados. Aceita energia de MV do IC2.
+tile.nuclearcraft.fuel_reprocessor_idle.desc=Extrai materiais de combustíveis esgotados.
 tile.nuclearcraft.fuel_reprocessor_active.name=Reprocessador de Combustível
 
-tile.nuclearcraft.alloy_furnace_idle.name=Fundidora de Ligas
-tile.nuclearcraft.alloy_furnace_idle.desc=Cria ligas metálicas a partir de materiais básicos. Aceita energia de MV do IC2.
-tile.nuclearcraft.alloy_furnace_active.name=Fundidora de Ligas
+tile.nuclearcraft.alloy_furnace_idle.name=Fundição de Ligas
+tile.nuclearcraft.alloy_furnace_idle.desc=Cria ligas metálicas a partir de materiais básicos.
+tile.nuclearcraft.alloy_furnace_active.name=Fundição de Ligas
 
 tile.nuclearcraft.infuser_idle.name=Infusor de Fluidos
-tile.nuclearcraft.infuser_idle.desc=Melhora materiais usando fluidos. Aceita energia de MV do IC2.
+tile.nuclearcraft.infuser_idle.desc=Melhora materiais usando fluidos.
 tile.nuclearcraft.infuser_active.name=Infusor de Fluidos
 
 tile.nuclearcraft.melter_idle.name=Fundição
-tile.nuclearcraft.melter_idle.desc=Derrete materiais. Aceita energia de MV do IC2.
+tile.nuclearcraft.melter_idle.desc=Derrete materiais.
 tile.nuclearcraft.melter_active.name=Fundição
 
 tile.nuclearcraft.supercooler_idle.name=Superresfriador
-tile.nuclearcraft.supercooler_idle.desc=Diminui a temperatura de fluidos. Aceita energia de MV do IC2.
+tile.nuclearcraft.supercooler_idle.desc=Diminui a temperatura de fluidos.
 tile.nuclearcraft.supercooler_active.name=Superresfriador
 
 tile.nuclearcraft.electrolyser_idle.name=Eletrolisador
-tile.nuclearcraft.electrolyser_idle.desc=Divide compostos em seus componentes. Aceita energia de MV do IC2.
+tile.nuclearcraft.electrolyser_idle.desc=Divide compostos em seus componentes.
 tile.nuclearcraft.electrolyser_active.name=Eletrolisador
 
 tile.nuclearcraft.irradiator_idle.name=Irradiador de Neutrons
-tile.nuclearcraft.irradiator_idle.desc=Induz mudanças a estruturas nucleares. Aceita energia de MV do IC2.
+tile.nuclearcraft.irradiator_idle.desc=Induz mudanças a estruturas nucleares.
 tile.nuclearcraft.irradiator_active.name=Irradiador de Neutrons
 
 tile.nuclearcraft.ingot_former_idle.name=Fôrma de Lingotes
-tile.nuclearcraft.ingot_former_idle.desc=Forma lingotes a partir de metais derretidos. Aceita energia de MV do IC2.
+tile.nuclearcraft.ingot_former_idle.desc=Forma lingotes a partir de metais derretidos.
 tile.nuclearcraft.ingot_former_active.name=Fôrma de Lingotes
 
 tile.nuclearcraft.pressurizer_idle.name=Pressurizador
-tile.nuclearcraft.pressurizer_idle.desc=Processa itens usando imensas pressões. Aceita energia de MV do IC2.
+tile.nuclearcraft.pressurizer_idle.desc=Processa itens usando imensas pressões.
 tile.nuclearcraft.pressurizer_active.name=Pressurizador
 
 tile.nuclearcraft.chemical_reactor_idle.name=Reator Químico
-tile.nuclearcraft.chemical_reactor_idle.desc=É o local das reações entre gases. Aceita energia de MV do IC2.
+tile.nuclearcraft.chemical_reactor_idle.desc=É o local das reações entre gases.
 tile.nuclearcraft.chemical_reactor_active.name=Reator Químico
 
 tile.nuclearcraft.salt_mixer_idle.name=Misturador de Sais
-tile.nuclearcraft.salt_mixer_idle.desc=Mistura sais derretidos. Aceita energia de MV do IC2.
+tile.nuclearcraft.salt_mixer_idle.desc=Mistura sais derretidos.
 tile.nuclearcraft.salt_mixer_active.name=Misturador de Sais
 
 tile.nuclearcraft.crystallizer_idle.name=Cristalizador
-tile.nuclearcraft.crystallizer_idle.desc=Precipita sólidos a partir de uma solução. Aceita energia de MV do IC2.
+tile.nuclearcraft.crystallizer_idle.desc=Precipita sólidos a partir de uma solução.
 tile.nuclearcraft.crystallizer_active.name=Cristalizador
 
-tile.nuclearcraft.dissolver_idle.name=Dissolvedor
-tile.nuclearcraft.dissolver_idle.desc=Mistura solutos, transformando-os em solventes. Aceita energia de MV do IC2.
+tile.nuclearcraft.dissolver_idle.name=Enriqueçedor de Fluidos
+tile.nuclearcraft.dissolver_idle.desc=Enriquece fluidos com materiais.
 tile.nuclearcraft.dissolver_active.name=Dissolvedor
+
+tile.nuclearcraft.extractor_idle.name=Extrator de Fluido
+tile.nuclearcraft.extractor_idle.desc=Extrai fluidos de materiais.
+tile.nuclearcraft.extractor_active.name=Extrator de Fluido
 
 tile.nuclearcraft.machine_interface.name=Interface de Máquinas
 tile.nuclearcraft.machine_interface.desc=Automações podem acessar a máquina que estiver diretamente adjacente a esta. Tenha certeza de que há apenas uma máquina adjacente, no máximo.
@@ -176,9 +186,15 @@ tile.nuclearcraft.active_cooler.desc=Bombeie líquidos refrigerantes para este b
 tile.nuclearcraft.bin.name=Lixeira Universal
 tile.nuclearcraft.bin.desc=Destrói itens, fluidos e energia.
 
-tile.nuclearcraft.fission_controller_idle.name=Controlador de Fissão
-tile.nuclearcraft.fission_controller_idle.desc=Construa um reator multibloco usando blocos de estruturas de reator, células de reator, resfriadores e blocos de grafite! Coloque o controlador em um dos cantos, ou em uma das quinas, ou em uma das faces da estrutura. Gera energia de Voltagem Extrema do IC2.
+tile.nuclearcraft.fission_controller_idle.name=Controlador de Fissão (Antigo)
+tile.nuclearcraft.fission_controller_idle.desc=Construa um reator multibloco usando blocos de estruturas de reator, células de reator, resfriadores e blocos de grafite! Coloque o controlador em um dos cantos, ou em uma das quinas, ou em uma das faces da estrutura.
+tile.nuclearcraft.fission_controller_idle.fixd=IMPORTANTE: Você atualizou o NuclearCraft, então as regras para qualquer reator novo que você construir com Controladores fabricados recentemente serão diferentes das regras antigas! Este, porém, é um controlador antigo. E ainda usa as regras antigas.
 tile.nuclearcraft.fission_controller_active.name=Controlador de Fissão
+
+tile.nuclearcraft.fission_controller_new_idle.name=Controlador de Fissão (Antigo)
+tile.nuclearcraft.fission_controller_new_idle.desc=Construa um reator multibloco usando blocos de estruturas de reator, células de reator, resfriadores e blocos de grafite! Coloque o controlador em um dos cantos, ou em uma das quinas, ou em uma das faces da estrutura.
+tile.nuclearcraft.fission_controller_new_idle.fixd=IMPORTANTE: Você atualizou o NuclearCraft, então as regras para qualquer reator novo que você construir com Controladores fabricados recentemente serão diferentes das regras antigas! Este é um controlador novo. Ele usará as novas regras.
+tile.nuclearcraft.fission_controller_new_active.name=Controlador de Fissão
 
 tile.nuclearcraft.fission_port.name=Porta de Acesso de Reator de Fissão
 tile.nuclearcraft.fission_port.desc=Coloque este bloco na carcaça de um reator de fissão no lugar de algum dos blocos de estrutura, mas *não* pode ser no lado de cima, nem no de baixo. Se um controlador estiver ligado à estrutura do reator, então seu inventário e a energia armazenada podem ser acessados por automação através deste bloco. Tenha certeza de que está direcionado para o interior do reator. A 'frente' da porta de acesso é a que tem uma textura um pouco diferente.
@@ -228,9 +244,9 @@ tile.nuclearcraft.cobblestone_generator_compact.name=Gerador de Pedregulho Compa
 tile.nuclearcraft.cobblestone_generator_dense.name=Gerador de Pedregulho Denso
 tile.nuclearcraft.cobblestone_generator.desc=Produz %s constantemente.
 
-tile.nuclearcraft.water_source.name=Bloco de Água Infinita
-tile.nuclearcraft.water_source_compact.name=Bloco de Água Infinita Compacto
-tile.nuclearcraft.water_source_dense.name=Bloco de Água Infinita Denso
+tile.nuclearcraft.water_source.name=Fonte de Água Infinita
+tile.nuclearcraft.water_source_compact.name=Fonte de Água Infinita Compacto
+tile.nuclearcraft.water_source_dense.name=Fonte de Água Infinita Denso
 tile.nuclearcraft.water_source.desc=Produz %s de água constantemente.
 
 tile.nuclearcraft.nitrogen_collector.name=Coletor de Nitrogênio
@@ -269,17 +285,17 @@ fluid.liquidhelium=Hélio Líquido
 tile.nuclearcraft.fluid_plasma.name=Plasma
 fluid.plasma=Plasma
 
-tile.nuclearcraft.fluid_lithium6.name=Lítio-6 Derretido
-fluid.lithium6=Lítio-6 Derretido
+tile.nuclearcraft.fluid_lithium6.name=Lítio-6
+fluid.lithium6=Lítio-6
 
-tile.nuclearcraft.fluid_lithium7.name=Lítio-7 Derretido
-fluid.lithium7=Lítio-7 Derretido
+tile.nuclearcraft.fluid_lithium7.name=Lítio-7
+fluid.lithium7=Lítio-7
 
-tile.nuclearcraft.fluid_boron10.name=Boro-10 Derretido
-fluid.boron10=Boro-10 Derretido
+tile.nuclearcraft.fluid_boron10.name=Boro-10
+fluid.boron10=Boro-10
 
-tile.nuclearcraft.fluid_boron11.name=Boro-11 Derretido
-fluid.boron11=Boro-11 Derretido
+tile.nuclearcraft.fluid_boron11.name=Boro-11
+fluid.boron11=Boro-11
 
 tile.nuclearcraft.fluid_neutron.name=Fluido de Neutrons
 fluid.neutron=Fluido de Neutrons
@@ -305,17 +321,17 @@ fluid.diborane=Diborane
 tile.nuclearcraft.fluid_radaway.name=Fluido RadAway
 fluid.radaway=Fluido RadAway
 
-tile.nuclearcraft.fluid_beryllium.name=Berílo Derretido
+tile.nuclearcraft.fluid_beryllium.name=Berilo
 fluid.beryllium=Berílo Derretido
 
-tile.nuclearcraft.fluid_lif.name=Fluoreto de Lítio Derretido
+tile.nuclearcraft.fluid_lif.name=Fluoreto de Lítio
 fluid.lif=Fluoreto de Lítio Derretido
 
-tile.nuclearcraft.fluid_bef2.name=Fluoreto de Berílio Derretido
+tile.nuclearcraft.fluid_bef2.name=Fluoreto de Berílio
 fluid.bef2=Fluoreto de Berílio Derretido
 
-tile.nuclearcraft.fluid_flibe.name=Sais de FLiBe Derretido
-fluid.flibe=Sais de FLiBe Derretido
+tile.nuclearcraft.fluid_flibe.name=Sais de FLiBe
+fluid.flibe=Sais de FLiBe Derretidos
 
 tile.nuclearcraft.fluid_boron_nitride_solution.name=Solução de Nitrido de Boro
 fluid.boron_nitride_solution=Solução de Nitrido de Boro
@@ -323,8 +339,8 @@ fluid.boron_nitride_solution=Solução de Nitrido de Boro
 tile.nuclearcraft.fluid_coolant.name=Líquido Refrigerante
 fluid.coolant=Líquido Refrigerante
 
-tile.nuclearcraft.fluid_sulfur.name=Enxofre Derretido
-fluid.sulfur=Enxofre Derretido
+tile.nuclearcraft.fluid_sulfur.name=Enxofre
+fluid.sulfur=Enxofre
 
 tile.nuclearcraft.fluid_sulfur_dioxide.name=Dióxido de Enxofre
 fluid.sulfur_dioxide=Dióxido de Enxofre
@@ -346,6 +362,493 @@ fluid.hydrofluoric_acid=Ácido Hidrofluórico
 
 tile.nuclearcraft.fluid_oxygen_difluoride.name=Difluoreto de Oxigênio
 fluid.oxygen_difluoride=Difluoreto de Oxigênio
+
+tile.nuclearcraft.fluid_thorium.name=Tório Derretido
+fluid.thorium=Tório Derretido
+tile.nuclearcraft.fluid_thorium_fluoride.name=Fluoreto de Tório Derretido
+fluid.thorium_fluoride=Fluoreto de Tório Derretido
+tile.nuclearcraft.fluid_thorium_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com Fluoreto de Tório
+fluid.thorium_fluoride_flibe=Mistura Derretida de Sais de FLiBe com Fluoreto de Tório
+tile.nuclearcraft.fluid_uranium.name=Urânio Derretido
+fluid.uranium=Urânio Derretido
+tile.nuclearcraft.fluid_uranium_fluoride.name=Fluoreto de Urânio Derretido
+fluid.uranium_fluoride=Fluoreto de Urânio Derretido
+tile.nuclearcraft.fluid_uranium_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com Fluoreto de Urânio
+fluid.uranium_fluoride_flibe=Mistura Derretida de Sais de FLiBe com Fluoreto de Urânio
+tile.nuclearcraft.fluid_plutonium.name=Plutônio Derretido
+fluid.plutonium=Plutônio Derretido
+tile.nuclearcraft.fluid_plutonium_fluoride.name=Fluoreto de Plutônio Derretido
+fluid.plutonium_fluoride=Fluoreto de Plutônio Derretido
+tile.nuclearcraft.fluid_plutonium_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com Fluoreto de Plutônio
+fluid.plutonium_fluoride_flibe=Mistura Derretida de Sais de FLiBe com Fluoreto de Plutônio
+
+tile.nuclearcraft.fluid_thorium_230.name=Tório-230 Derretido
+fluid.thorium_230=Tório-230 Derretido
+tile.nuclearcraft.fluid_thorium_230_fluoride.name=Fluoreto de Tório-230 Derretido
+fluid.thorium_230_fluoride=Fluoreto de Tório-230 Derretido
+tile.nuclearcraft.fluid_thorium_230_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com Tório-230
+fluid.thorium_230_fluoride_flibe=Mistura Derretida de Sais de FLiBe com Tório-230
+tile.nuclearcraft.fluid_thorium_232.name=Tório-232 Derretido
+fluid.thorium_232=Tório-232 Derretido
+tile.nuclearcraft.fluid_thorium_232_fluoride.name=Fluoreto de Tório-232 Derretido
+fluid.thorium_232_fluoride=Fluoreto de Tório-232 Derretido
+tile.nuclearcraft.fluid_thorium_232_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com Tório-232
+fluid.thorium_232_fluoride_flibe=Mistura Derretida de Sais de FLiBe com Tório-232
+
+tile.nuclearcraft.fluid_uranium_233.name=Urânio-233 Derretido
+fluid.uranium_233=Urânio-233 Derretido
+tile.nuclearcraft.fluid_uranium_233_fluoride.name=Fluoreto de Urânio-233 Derretido
+fluid.uranium_233_fluoride=Fluoreto de Urânio-233 Derretido
+tile.nuclearcraft.fluid_uranium_233_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com Urânio-233 
+fluid.uranium_233_fluoride_flibe=Mistura Derretida de Sais de FLiBe com Urânio-233 
+tile.nuclearcraft.fluid_uranium_235.name=Urânio-235 Derretido
+fluid.uranium_235=Urânio-235 Derretido
+tile.nuclearcraft.fluid_uranium_235_fluoride.name=Fluoreto de Urânio-235 Derretido
+fluid.uranium_235_fluoride=Fluoreto de Urânio-235 Derretido
+tile.nuclearcraft.fluid_uranium_235_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com Urânio-235 
+fluid.uranium_235_fluoride_flibe=Mistura Derretida de Sais de FLiBe com Urânio-235 
+tile.nuclearcraft.fluid_uranium_238.name=Urânio-238 Derretido
+fluid.uranium_238=Urânio-238 Derretido
+tile.nuclearcraft.fluid_uranium_238_fluoride.name=Fluoreto de Urânio-238 Derretido
+fluid.uranium_238_fluoride=Fluoreto de Urânio-238 Derretido
+tile.nuclearcraft.fluid_uranium_238_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com Urânio-238 
+fluid.uranium_238_fluoride_flibe=Mistura Derretida de Sais de FLiBe com Urânio-238 
+
+tile.nuclearcraft.fluid_neptunium_236.name=Netúnio-236 Derretido
+fluid.neptunium_236=Netúnio-236 Derretido
+tile.nuclearcraft.fluid_neptunium_236_fluoride.name=Fluoreto de Netúnio-236 Derretido
+fluid.neptunium_236_fluoride=Fluoreto de Netúnio-236 Derretido
+tile.nuclearcraft.fluid_neptunium_236_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com Netúnio-236 
+fluid.neptunium_236_fluoride_flibe=Mistura Derretida de Sais de FLiBe com Netúnio-236 
+tile.nuclearcraft.fluid_neptunium_237.name=Netúnio-237 Derretido
+fluid.neptunium_237=Netúnio-237 Derretido
+tile.nuclearcraft.fluid_neptunium_237_fluoride.name=Fluoreto de Netúnio-237 Derretido
+fluid.neptunium_237_fluoride=Fluoreto de Netúnio-237 Derretido
+tile.nuclearcraft.fluid_neptunium_237_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com Netúnio-237 
+fluid.neptunium_237_fluoride_flibe=Mistura Derretida de Sais de FLiBe com Netúnio-237 
+
+tile.nuclearcraft.fluid_plutonium_238.name=Plutônio-238 Derretido
+fluid.plutonium_238=Plutônio-238 Derretido
+tile.nuclearcraft.fluid_plutonium_238_fluoride.name=Fluoreto de Plutônio-238 Derretido
+fluid.plutonium_238_fluoride=Fluoreto de Plutônio-238 Derretido
+tile.nuclearcraft.fluid_plutonium_238_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com Plutônio-238 
+fluid.plutonium_238_fluoride_flibe=Mistura Derretida de Sais de FLiBe com Plutônio-238 
+tile.nuclearcraft.fluid_plutonium_239.name=Plutônio-239 Derretido
+fluid.plutonium_239=Plutônio-239 Derretido
+tile.nuclearcraft.fluid_plutonium_239_fluoride.name=Fluoreto de Plutônio-239 Derretido
+fluid.plutonium_239_fluoride=Fluoreto de Plutônio-239 Derretido
+tile.nuclearcraft.fluid_plutonium_239_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com Plutônio-239 
+fluid.plutonium_239_fluoride_flibe=Mistura Derretida de Sais de FLiBe com Plutônio-239 
+tile.nuclearcraft.fluid_plutonium_241.name=Plutônio-241 Derretido
+fluid.plutonium_241=Plutônio-241 Derretido
+tile.nuclearcraft.fluid_plutonium_241_fluoride.name=Fluoreto de Plutônio-241 Derretido
+fluid.plutonium_241_fluoride=Fluoreto de Plutônio-241 Derretido
+tile.nuclearcraft.fluid_plutonium_241_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com Plutônio-241 
+fluid.plutonium_241_fluoride_flibe=Mistura Derretida de Sais de FLiBe com Plutônio-241 
+tile.nuclearcraft.fluid_plutonium_242.name=Plutônio-242 Derretido
+fluid.plutonium_242=Plutônio-242 Derretido
+tile.nuclearcraft.fluid_plutonium_242_fluoride.name=Fluoreto de Plutônio-242 Derretido
+fluid.plutonium_242_fluoride=Fluoreto de Plutônio-242 Derretido
+tile.nuclearcraft.fluid_plutonium_242_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com Plutônio-242 
+fluid.plutonium_242_fluoride_flibe=Mistura Derretida de Sais de FLiBe com Plutônio-242 
+
+tile.nuclearcraft.fluid_americium_241.name=Amerício-241 Derretido
+fluid.americium_241=Amerício-241 Derretido
+tile.nuclearcraft.fluid_americium_241_fluoride.name=Fluoreto de Amerício-241 Derretido
+fluid.americium_241_fluoride=Fluoreto de Amerício-241 Derretido
+tile.nuclearcraft.fluid_americium_241_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com Amerício-241 
+fluid.americium_241_fluoride_flibe=Mistura Derretida de Sais de FLiBe com Amerício-241 
+tile.nuclearcraft.fluid_americium_242.name=Amerício-242 Derretido
+fluid.americium_242=Amerício-242 Derretido
+tile.nuclearcraft.fluid_americium_242_fluoride.name=Fluoreto de Amerício-242 Derretido
+fluid.americium_242_fluoride=Fluoreto de Amerício-242 Derretido
+tile.nuclearcraft.fluid_americium_242_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com Amerício-242 
+fluid.americium_242_fluoride_flibe=Mistura Derretida de Sais de FLiBe com Amerício-242 
+tile.nuclearcraft.fluid_americium_243.name=Amerício-243 Derretido
+fluid.americium_243=Amerício-243 Derretido
+tile.nuclearcraft.fluid_americium_243_fluoride.name=Fluoreto de Amerício-243 Derretido
+fluid.americium_243_fluoride=Fluoreto de Amerício-243 Derretido
+tile.nuclearcraft.fluid_americium_243_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com Amerício-243 
+fluid.americium_243_fluoride_flibe=Mistura Derretida de Sais de FLiBe com Amerício-243 
+
+tile.nuclearcraft.fluid_curium_243.name=Curio-243 Derretido
+fluid.curium_243=Curio-243 Derretido
+tile.nuclearcraft.fluid_curium_243_fluoride.name=Fluoreto de Curio-243 Derretido
+fluid.curium_243_fluoride=Fluoreto de Curio-243 Derretido
+tile.nuclearcraft.fluid_curium_243_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com Curio-243 
+fluid.curium_243_fluoride_flibe=Mistura Derretida de Sais de FLiBe com Curio-243 
+tile.nuclearcraft.fluid_curium_245.name=Curio-245 Derretido
+fluid.curium_245=Curio-245 Derretido
+tile.nuclearcraft.fluid_curium_245_fluoride.name=Fluoreto de Curio-245 Derretido
+fluid.curium_245_fluoride=Fluoreto de Curio-245 Derretido
+tile.nuclearcraft.fluid_curium_245_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com Curio-245 
+fluid.curium_245_fluoride_flibe=Mistura Derretida de Sais de FLiBe com Curio-245 
+tile.nuclearcraft.fluid_curium_246.name=Curio-246 Derretido
+fluid.curium_246=Curio-246 Derretido
+tile.nuclearcraft.fluid_curium_246_fluoride.name=Fluoreto de Curio-246 Derretido
+fluid.curium_246_fluoride=Fluoreto de Curio-246 Derretido
+tile.nuclearcraft.fluid_curium_246_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com Curio-246 
+fluid.curium_246_fluoride_flibe=Mistura Derretida de Sais de FLiBe com Curio-246 
+tile.nuclearcraft.fluid_curium_247.name=Curio-247 Derretido
+fluid.curium_247=Curio-247 Derretido
+tile.nuclearcraft.fluid_curium_247_fluoride.name=Fluoreto de Curio-247 Derretido
+fluid.curium_247_fluoride=Fluoreto de Curio-247 Derretido
+tile.nuclearcraft.fluid_curium_247_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com Curio-247 
+fluid.curium_247_fluoride_flibe=Mistura Derretida de Sais de FLiBe com Curio-247 
+
+tile.nuclearcraft.fluid_berkelium_247.name=Berquélio-247 Derretido
+fluid.berkelium_247=Berquélio-247 Derretido
+tile.nuclearcraft.fluid_berkelium_247_fluoride.name=Fluoreto de Berquélio-247 Derretido
+fluid.berkelium_247_fluoride=Fluoreto de Berquélio-247 Derretido
+tile.nuclearcraft.fluid_berkelium_247_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com Berquélio-247 
+fluid.berkelium_247_fluoride_flibe=Mistura Derretida de Sais de FLiBe com Berquélio-247 
+tile.nuclearcraft.fluid_berkelium_248.name=Berquélio-248 Derretido
+fluid.berkelium_248=Berquélio-248 Derretido
+tile.nuclearcraft.fluid_berkelium_248_fluoride.name=Fluoreto de Berquélio-248 Derretido
+fluid.berkelium_248_fluoride=Fluoreto de Berquélio-248 Derretido
+tile.nuclearcraft.fluid_berkelium_248_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com Berquélio-248 
+fluid.berkelium_248_fluoride_flibe=Mistura Derretida de Sais de FLiBe com Berquélio-248 
+
+tile.nuclearcraft.fluid_californium_249.name=Califórnio-249 Derretido
+fluid.californium_249=Califórnio-249 Derretido
+tile.nuclearcraft.fluid_californium_249_fluoride.name=Fluoreto de Califórnio-249  Derretido
+fluid.californium_249_fluoride=Fluoreto de Califórnio-249  Derretido
+tile.nuclearcraft.fluid_californium_249_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com Califórnio-249 
+fluid.californium_249_fluoride_flibe=Mistura Derretida de Sais de FLiBe com Califórnio-249 
+tile.nuclearcraft.fluid_californium_250.name=Califórnio-250 Derretido
+fluid.californium_250=Califórnio-250 Derretido
+tile.nuclearcraft.fluid_californium_250_fluoride.name=Fluoreto de Califórnio-250  Derretido
+fluid.californium_250_fluoride=Fluoreto de Califórnio-250  Derretido
+tile.nuclearcraft.fluid_californium_250_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com Califórnio-250 
+fluid.californium_250_fluoride_flibe=Mistura Derretida de Sais de FLiBe com Califórnio-250 
+tile.nuclearcraft.fluid_californium_251.name=Califórnio-251 Derretido
+fluid.californium_251=Califórnio-251 Derretido
+tile.nuclearcraft.fluid_californium_251_fluoride.name=Fluoreto de Califórnio-251  Derretido
+fluid.californium_251_fluoride=Fluoreto de Califórnio-251  Derretido
+tile.nuclearcraft.fluid_californium_251_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com Califórnio-251 
+fluid.californium_251_fluoride_flibe=Mistura Derretida de Sais de FLiBe com Califórnio-251 
+tile.nuclearcraft.fluid_californium_252.name=Califórnio-252 Derretido
+fluid.californium_252=Califórnio-252 Derretido
+tile.nuclearcraft.fluid_californium_252_fluoride.name=Fluoreto de Califórnio-252  Derretido
+fluid.californium_252_fluoride=Fluoreto de Califórnio-252  Derretido
+tile.nuclearcraft.fluid_californium_252_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com Califórnio-252 
+fluid.californium_252_fluoride_flibe=Mistura Derretida de Sais de FLiBe com Califórnio-252 
+
+tile.nuclearcraft.fluid_fuel_tbu.name=Combustível TBU Derretido
+fluid.fuel_tbu=Combustível TBU Derretido
+tile.nuclearcraft.fluid_fuel_tbu_fluoride.name=Fluoreto de Combustível TBU Derretido
+fluid.fuel_tbu_fluoride=Fluoreto de Combustível TBU Derretido
+tile.nuclearcraft.fluid_fuel_tbu_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com Combustível TBU
+fluid.fuel_tbu_fluoride_flibe=Mistura Derretida de Sais de FLiBe com Combustível TBU Derretido
+
+tile.nuclearcraft.fluid_fuel_leu_233.name=Combustível LEU-233 Derretido
+fluid.fuel_leu_233=Combustível LEU-233 Derretido
+tile.nuclearcraft.fluid_fuel_leu_233_fluoride.name=Fluoreto de Combustível LEU-233  Derretido
+fluid.fuel_leu_233_fluoride=Fluoreto de Combustível LEU-233 
+tile.nuclearcraft.fluid_fuel_leu_233_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com LEU-233 
+fluid.fuel_leu_233_fluoride_flibe=Mistura Derretida de Sais de FLiBe com LEU-233  Derretido
+tile.nuclearcraft.fluid_fuel_heu_233.name=Combustível HEU-233 Derretido
+fluid.fuel_heu_233=Combustível HEU-233 Derretido
+tile.nuclearcraft.fluid_fuel_heu_233_fluoride.name=Fluoreto de Combustível HEU-233  Derretido
+fluid.fuel_heu_233_fluoride=Fluoreto de Combustível HEU-233 
+tile.nuclearcraft.fluid_fuel_heu_233_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com HEU-233 
+fluid.fuel_heu_233_fluoride_flibe=Mistura Derretida de Sais de FLiBe com HEU-233  Derretido
+tile.nuclearcraft.fluid_fuel_leu_235.name=Combustível LEU-235 Derretido
+fluid.fuel_leu_235=Combustível LEU-235 Derretido
+tile.nuclearcraft.fluid_fuel_leu_235_fluoride.name=Fluoreto de Combustível LEU-235  Derretido
+fluid.fuel_leu_235_fluoride=Fluoreto de Combustível LEU-235 
+tile.nuclearcraft.fluid_fuel_leu_235_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com LEU-235 
+fluid.fuel_leu_235_fluoride_flibe=Mistura Derretida de Sais de FLiBe com LEU-235  Derretido
+tile.nuclearcraft.fluid_fuel_heu_235.name=Combustível HEU-235 Derretido
+fluid.fuel_heu_235=Combustível HEU-235 Derretido
+tile.nuclearcraft.fluid_fuel_heu_235_fluoride.name=Fluoreto de Combustível HEU-235  Derretido
+fluid.fuel_heu_235_fluoride=Fluoreto de Combustível HEU-235 
+tile.nuclearcraft.fluid_fuel_heu_235_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com HEU-235 
+fluid.fuel_heu_235_fluoride_flibe=Mistura Derretida de Sais de FLiBe com HEU-235 
+
+tile.nuclearcraft.fluid_fuel_len_236.name=Combustível LEN-236 Derretido
+fluid.fuel_len_236=Combustível LEN-236 Derretido
+tile.nuclearcraft.fluid_fuel_len_236_fluoride.name=Fluoreto de Combustível LEN-236  Derretido
+fluid.fuel_len_236_fluoride=Fluoreto de Combustível LEN-236  Derretido
+tile.nuclearcraft.fluid_fuel_len_236_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com LEN-236 
+fluid.fuel_len_236_fluoride_flibe=Mistura Derretida de Sais de FLiBe com LEN-236 
+tile.nuclearcraft.fluid_fuel_hen_236.name=Combustível HEN-236 Derretido
+fluid.fuel_hen_236=Combustível HEN-236 Derretido
+tile.nuclearcraft.fluid_fuel_hen_236_fluoride.name=Fluoreto de Combustível HEN-236  Derretido
+fluid.fuel_hen_236_fluoride=Fluoreto de Combustível HEN-236  Derretido
+tile.nuclearcraft.fluid_fuel_hen_236_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com HEN-236 
+fluid.fuel_hen_236_fluoride_flibe=Mistura Derretida de Sais de FLiBe com HEN-236 
+
+tile.nuclearcraft.fluid_fuel_lep_239.name=Combustível LEP-239 Derretido
+fluid.fuel_lep_239=Combustível LEP-239 Derretido
+tile.nuclearcraft.fluid_fuel_lep_239_fluoride.name=Fluoreto de Combustível LEP-239  Derretido
+fluid.fuel_lep_239_fluoride=Fluoreto de Combustível LEP-239  Derretido
+tile.nuclearcraft.fluid_fuel_lep_239_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com LEP-239 
+fluid.fuel_lep_239_fluoride_flibe=Mistura Derretida de Sais de FLiBe com LEP-239 
+tile.nuclearcraft.fluid_fuel_hep_239.name=Combustível HEP-239 Derretido
+fluid.fuel_hep_239=Combustível HEP-239 Derretido
+tile.nuclearcraft.fluid_fuel_hep_239_fluoride.name=Fluoreto de Combustível HEP-239  Derretido
+fluid.fuel_hep_239_fluoride=Fluoreto de Combustível HEP-239  Derretido
+tile.nuclearcraft.fluid_fuel_hep_239_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com HEP-239 
+fluid.fuel_hep_239_fluoride_flibe=Mistura Derretida de Sais de FLiBe com HEP-239 
+tile.nuclearcraft.fluid_fuel_lep_241.name=Combustível LEP-241 Derretido
+fluid.fuel_lep_241=Combustível LEP-241 Derretido
+tile.nuclearcraft.fluid_fuel_lep_241_fluoride.name=Fluoreto de Combustível LEP-241  Derretido
+fluid.fuel_lep_241_fluoride=Fluoreto de Combustível LEP-241  Derretido
+tile.nuclearcraft.fluid_fuel_lep_241_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com LEP-241 
+fluid.fuel_lep_241_fluoride_flibe=Mistura Derretida de Sais de FLiBe com LEP-241 
+tile.nuclearcraft.fluid_fuel_hep_241.name=Combustível HEP-241 Derretido
+fluid.fuel_hep_241=Combustível HEP-241 Derretido
+tile.nuclearcraft.fluid_fuel_hep_241_fluoride.name=Fluoreto de Combustível HEP-241  Derretido
+fluid.fuel_hep_241_fluoride=Fluoreto de Combustível HEP-241  Derretido
+tile.nuclearcraft.fluid_fuel_hep_241_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com HEP-241 
+fluid.fuel_hep_241_fluoride_flibe=Mistura Derretida de Sais de FLiBe com HEP-241 
+
+tile.nuclearcraft.fluid_fuel_lea_242.name=Combustível LEA-242 Derretido
+fluid.fuel_lea_242=Combustível LEA-242 Derretido
+tile.nuclearcraft.fluid_fuel_lea_242_fluoride.name=Fluoreto de Combustível LEA-242  Derretido
+fluid.fuel_lea_242_fluoride=Fluoreto de Combustível LEA-242  Derretido
+tile.nuclearcraft.fluid_fuel_lea_242_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com LEA-242 
+fluid.fuel_lea_242_fluoride_flibe=Mistura Derretida de Sais de FLiBe com LEA-242 
+tile.nuclearcraft.fluid_fuel_hea_242.name=Combustível HEA-242 Derretido
+fluid.fuel_hea_242=Combustível HEA-242 Derretido
+tile.nuclearcraft.fluid_fuel_hea_242_fluoride.name=Fluoreto de Combustível HEA-242  Derretido
+fluid.fuel_hea_242_fluoride=Fluoreto de Combustível HEA-242  Derretido
+tile.nuclearcraft.fluid_fuel_hea_242_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com HEA-242 
+fluid.fuel_hea_242_fluoride_flibe=Mistura Derretida de Sais de FLiBe com HEA-242 
+
+tile.nuclearcraft.fluid_fuel_lecm_243.name=Combustível LECm-243 Derretido
+fluid.fuel_lecm_243=Combustível LECm-243 Derretido
+tile.nuclearcraft.fluid_fuel_lecm_243_fluoride.name=Fluoreto de Combustível LECm-243  Derretido
+fluid.fuel_lecm_243_fluoride=Fluoreto de Combustível LECm-243  Derretido
+tile.nuclearcraft.fluid_fuel_lecm_243_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com LECm-243 
+fluid.fuel_lecm_243_fluoride_flibe=Mistura Derretida de Sais de FLiBe com LECm-243 
+tile.nuclearcraft.fluid_fuel_hecm_243.name=Combustível HECm-243 Derretido
+fluid.fuel_hecm_243=Combustível HECm-243 Derretido
+tile.nuclearcraft.fluid_fuel_hecm_243_fluoride.name=Fluoreto de Combustível HECm-243  Derretido
+fluid.fuel_hecm_243_fluoride=Fluoreto de Combustível HECm-243  Derretido
+tile.nuclearcraft.fluid_fuel_hecm_243_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com HECm-243 
+fluid.fuel_hecm_243_fluoride_flibe=Mistura Derretida de Sais de FLiBe com HECm-243 
+tile.nuclearcraft.fluid_fuel_lecm_245.name=Combustível LECm-245 Derretido
+fluid.fuel_lecm_245=Combustível LECm-245 Derretido
+tile.nuclearcraft.fluid_fuel_lecm_245_fluoride.name=Fluoreto de Combustível LECm-245  Derretido
+fluid.fuel_lecm_245_fluoride=Fluoreto de Combustível LECm-245  Derretido
+tile.nuclearcraft.fluid_fuel_lecm_245_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com LECm-245 
+fluid.fuel_lecm_245_fluoride_flibe=Mistura Derretida de Sais de FLiBe com LECm-245 
+tile.nuclearcraft.fluid_fuel_hecm_245.name=Combustível HECm-245 Derretido
+fluid.fuel_hecm_245=Combustível HECm-245 Derretido
+tile.nuclearcraft.fluid_fuel_hecm_245_fluoride.name=Fluoreto de Combustível HECm-245  Derretido
+fluid.fuel_hecm_245_fluoride=Fluoreto de Combustível HECm-245  Derretido
+tile.nuclearcraft.fluid_fuel_hecm_245_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com HECm-245 
+fluid.fuel_hecm_245_fluoride_flibe=Mistura Derretida de Sais de FLiBe com HECm-245 
+tile.nuclearcraft.fluid_fuel_lecm_247.name=Combustível LECm-247 Derretido
+fluid.fuel_lecm_247=Combustível LECm-247 Derretido
+tile.nuclearcraft.fluid_fuel_lecm_247_fluoride.name=Fluoreto de Combustível LECm-247  Derretido
+fluid.fuel_lecm_247_fluoride=Fluoreto de Combustível LECm-247  Derretido
+tile.nuclearcraft.fluid_fuel_lecm_247_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com LECm-247 
+fluid.fuel_lecm_247_fluoride_flibe=Mistura Derretida de Sais de FLiBe com LECm-247 
+tile.nuclearcraft.fluid_fuel_hecm_247.name=Combustível HECm-247 Derretido
+fluid.fuel_hecm_247=Combustível HECm-247 Derretido
+tile.nuclearcraft.fluid_fuel_hecm_247_fluoride.name=Fluoreto de Combustível HECm-247  Derretido
+fluid.fuel_hecm_247_fluoride=Fluoreto de Combustível HECm-247  Derretido
+tile.nuclearcraft.fluid_fuel_hecm_247_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com HECm-247 
+fluid.fuel_hecm_247_fluoride_flibe=Mistura Derretida de Sais de FLiBe com HECm-247 
+
+tile.nuclearcraft.fluid_fuel_leb_248.name=Combustível LEB-248 Derretido
+fluid.fuel_leb_248=Combustível LEB-248 Derretido
+tile.nuclearcraft.fluid_fuel_leb_248_fluoride.name=Fluoreto de Combustível LEB-248  Derretido
+fluid.fuel_leb_248_fluoride=Fluoreto de Combustível LEB-248  Derretido
+tile.nuclearcraft.fluid_fuel_leb_248_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com LEB-248 
+fluid.fuel_leb_248_fluoride_flibe=Mistura Derretida de Sais de FLiBe com LEB-248 
+tile.nuclearcraft.fluid_fuel_heb_248.name=Combustível HEB-248 Derretido
+fluid.fuel_heb_248=Combustível HEB-248 Derretido
+tile.nuclearcraft.fluid_fuel_heb_248_fluoride.name=Fluoreto de Combustível HEB-248  Derretido
+fluid.fuel_heb_248_fluoride=Fluoreto de Combustível HEB-248  Derretido
+tile.nuclearcraft.fluid_fuel_heb_248_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com HEB-248 
+fluid.fuel_heb_248_fluoride_flibe=Mistura Derretida de Sais de FLiBe com HEB-248 
+
+tile.nuclearcraft.fluid_fuel_lecf_249.name=Combustível LECf-249 Derretido
+fluid.fuel_lecf_249=Combustível LECf-249 Derretido
+tile.nuclearcraft.fluid_fuel_lecf_249_fluoride.name=Fluoreto de Combustível LECf-249  Derretido
+fluid.fuel_lecf_249_fluoride=Fluoreto de Combustível LECf-249  Derretido
+tile.nuclearcraft.fluid_fuel_lecf_249_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com LECf-249 
+fluid.fuel_lecf_249_fluoride_flibe=Mistura Derretida de Sais de FLiBe com LECf-249 
+tile.nuclearcraft.fluid_fuel_hecf_249.name=Combustível HECf-249 Derretido
+fluid.fuel_hecf_249=Combustível HECf-249 Derretido
+tile.nuclearcraft.fluid_fuel_hecf_249_fluoride.name=Fluoreto de Combustível HECf-249  Derretido
+fluid.fuel_hecf_249_fluoride=Fluoreto de Combustível HECf-249  Derretido
+tile.nuclearcraft.fluid_fuel_hecf_249_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com HECf-249 
+fluid.fuel_hecf_249_fluoride_flibe=Mistura Derretida de Sais de FLiBe com HECf-249 
+tile.nuclearcraft.fluid_fuel_lecf_251.name=Combustível LECf-251 Derretido
+fluid.fuel_lecf_251=Combustível LECf-251 Derretido
+tile.nuclearcraft.fluid_fuel_lecf_251_fluoride.name=Fluoreto de Combustível LECf-251  Derretido
+fluid.fuel_lecf_251_fluoride=Fluoreto de Combustível LECf-251  Derretido
+tile.nuclearcraft.fluid_fuel_lecf_251_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com LECf-251 
+fluid.fuel_lecf_251_fluoride_flibe=Mistura Derretida de Sais de FLiBe com LECf-251 
+tile.nuclearcraft.fluid_fuel_hecf_251.name=Combustível HECf-251 Derretido
+fluid.fuel_hecf_251=Combustível HECf-251 Derretido
+tile.nuclearcraft.fluid_fuel_hecf_251_fluoride.name=Fluoreto de Combustível HECf-251  Derretido
+fluid.fuel_hecf_251_fluoride=Fluoreto de Combustível HECf-251  Derretido
+tile.nuclearcraft.fluid_fuel_hecf_251_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com HECf-251 
+fluid.fuel_hecf_251_fluoride_flibe=Mistura Derretida de Sais de FLiBe com HECf-251 
+
+tile.nuclearcraft.fluid_depleted_fuel_tbu.name=Combustível TBU Esgotado Derretido
+fluid.depleted_fuel_tbu=Combustível TBU Esgotado Derretido
+tile.nuclearcraft.fluid_depleted_fuel_tbu_fluoride.name=Fluoreto de Combustível TBU Esgotado Derretido
+fluid.depleted_fuel_tbu_fluoride=Fluoreto de Combustível TBU Esgotado Derretido
+tile.nuclearcraft.fluid_depleted_fuel_tbu_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com Combustível TBU Esgotado
+fluid.depleted_fuel_tbu_fluoride_flibe=Mistura Derretida de Sais de FLiBe com Combustível TBU Esgotado
+
+tile.nuclearcraft.fluid_depleted_fuel_leu_233.name=Combustível LEU-233 Esgotado Derretido
+fluid.depleted_fuel_leu_233=Combustível LEU-233 Esgotado Derretido
+tile.nuclearcraft.fluid_depleted_fuel_leu_233_fluoride.name=Fluoreto de Combustível LEU-233 Esgotado Derretido
+fluid.depleted_fuel_leu_233_fluoride=Fluoreto de Combustível LEU-233 Esgotado Derretido
+tile.nuclearcraft.fluid_depleted_fuel_leu_233_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com LEU-233 Esgotado
+fluid.depleted_fuel_leu_233_fluoride_flibe=Mistura Derretida de Sais de FLiBe com LEU-233 Esgotado
+tile.nuclearcraft.fluid_depleted_fuel_heu_233.name=Combustível HEU-233 Esgotado Derretido
+fluid.depleted_fuel_heu_233=Combustível HEU-233 Esgotado Derretido
+tile.nuclearcraft.fluid_depleted_fuel_heu_233_fluoride.name=Fluoreto de Combustível HEU-233 Esgotado Derretido
+fluid.depleted_fuel_heu_233_fluoride=Fluoreto de Combustível HEU-233 Esgotado Derretido
+tile.nuclearcraft.fluid_depleted_fuel_heu_233_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com HEU-233 Esgotado
+fluid.depleted_fuel_heu_233_fluoride_flibe=Mistura Derretida de Sais de FLiBe com HEU-233 Esgotado
+tile.nuclearcraft.fluid_depleted_fuel_leu_235.name=Combustível LEU-235 Esgotado Derretido
+fluid.depleted_fuel_leu_235=Combustível LEU-235 Esgotado Derretido
+tile.nuclearcraft.fluid_depleted_fuel_leu_235_fluoride.name=Fluoreto de Combustível LEU-235 Esgotado Derretido
+fluid.depleted_fuel_leu_235_fluoride=Fluoreto de Combustível LEU-235 Esgotado Derretido
+tile.nuclearcraft.fluid_depleted_fuel_leu_235_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com LEU-235 Esgotado
+fluid.depleted_fuel_leu_235_fluoride_flibe=Mistura Derretida de Sais de FLiBe com LEU-235 Esgotado
+tile.nuclearcraft.fluid_depleted_fuel_heu_235.name=Combustível HEU-235 Esgotado Derretido
+fluid.depleted_fuel_heu_235=Combustível HEU-235 Esgotado Derretido
+tile.nuclearcraft.fluid_depleted_fuel_heu_235_fluoride.name=Fluoreto de Combustível HEU-235 Esgotado Derretido
+fluid.depleted_fuel_heu_235_fluoride=Fluoreto de Combustível HEU-235 Esgotado Derretido
+tile.nuclearcraft.fluid_depleted_fuel_heu_235_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com HEU-235 Esgotado
+fluid.depleted_fuel_heu_235_fluoride_flibe=Mistura Derretida de Sais de FLiBe com HEU-235 Esgotado
+
+tile.nuclearcraft.fluid_depleted_fuel_len_236.name=Combustível LEN-236 Esgotado Derretido
+fluid.depleted_fuel_len_236=Combustível LEN-236 Esgotado Derretido
+tile.nuclearcraft.fluid_depleted_fuel_len_236_fluoride.name=Fluoreto de Combustível LEN-236 Esgotado Derretido
+fluid.depleted_fuel_len_236_fluoride=Fluoreto de Combustível LEN-236 Esgotado Derretido
+tile.nuclearcraft.fluid_depleted_fuel_len_236_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com LEN-236 Esgotado
+fluid.depleted_fuel_len_236_fluoride_flibe=Mistura Derretida de Sais de FLiBe com LEN-236 Esgotado
+tile.nuclearcraft.fluid_depleted_fuel_hen_236.name=Combustível HEN-236 Esgotado Derretido
+fluid.depleted_fuel_hen_236=Combustível HEN-236 Esgotado Derretido
+tile.nuclearcraft.fluid_depleted_fuel_hen_236_fluoride.name=Fluoreto de Combustível HEN-236 Esgotado Derretido
+fluid.depleted_fuel_hen_236_fluoride=Fluoreto de Combustível HEN-236 Esgotado Derretido
+tile.nuclearcraft.fluid_depleted_fuel_hen_236_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com HEN-236 Esgotado
+fluid.depleted_fuel_hen_236_fluoride_flibe=Mistura Derretida de Sais de FLiBe com HEN-236 Esgotado
+
+tile.nuclearcraft.fluid_depleted_fuel_lep_239.name=Combustível LEP-239 Esgotado Derretido
+fluid.depleted_fuel_lep_239=Combustível LEP-239 Esgotado Derretido
+tile.nuclearcraft.fluid_depleted_fuel_lep_239_fluoride.name=Fluoreto de Combustível LEP-239 Esgotado Derretido
+fluid.depleted_fuel_lep_239_fluoride=Fluoreto de Combustível LEP-239 Esgotado Derretido
+tile.nuclearcraft.fluid_depleted_fuel_lep_239_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com LEP-239 Esgotado
+fluid.depleted_fuel_lep_239_fluoride_flibe=Mistura Derretida de Sais de FLiBe com LEP-239 Esgotado
+tile.nuclearcraft.fluid_depleted_fuel_hep_239.name=Combustível HEP-239 Esgotado Derretido
+fluid.depleted_fuel_hep_239=Combustível HEP-239 Esgotado Derretido
+tile.nuclearcraft.fluid_depleted_fuel_hep_239_fluoride.name=Fluoreto de Combustível HEP-239 Esgotado Derretido
+fluid.depleted_fuel_hep_239_fluoride=Fluoreto de Combustível HEP-239 Esgotado Derretido
+tile.nuclearcraft.fluid_depleted_fuel_hep_239_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com HEP-239 Esgotado
+fluid.depleted_fuel_hep_239_fluoride_flibe=Mistura Derretida de Sais de FLiBe com HEP-239 Esgotado
+tile.nuclearcraft.fluid_depleted_fuel_lep_241.name=Combustível LEP-241 Esgotado Derretido
+fluid.depleted_fuel_lep_241=Combustível LEP-241 Esgotado Derretido
+tile.nuclearcraft.fluid_depleted_fuel_lep_241_fluoride.name=Fluoreto de Combustível LEP-241 Esgotado Derretido
+fluid.depleted_fuel_lep_241_fluoride=Fluoreto de Combustível LEP-241 Esgotado Derretido
+tile.nuclearcraft.fluid_depleted_fuel_lep_241_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com LEP-241 Esgotado
+fluid.depleted_fuel_lep_241_fluoride_flibe=Mistura Derretida de Sais de FLiBe com LEP-241 Esgotado
+tile.nuclearcraft.fluid_depleted_fuel_hep_241.name=Combustível HEP-241 Esgotado Derretido
+fluid.depleted_fuel_hep_241=Combustível HEP-241 Esgotado Derretido
+tile.nuclearcraft.fluid_depleted_fuel_hep_241_fluoride.name=Fluoreto de Combustível HEP-241 Esgotado Derretido
+fluid.depleted_fuel_hep_241_fluoride=Fluoreto de Combustível HEP-241 Esgotado Derretido
+tile.nuclearcraft.fluid_depleted_fuel_hep_241_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com HEP-241 Esgotado
+fluid.depleted_fuel_hep_241_fluoride_flibe=Mistura Derretida de Sais de FLiBe com HEP-241 Esgotado
+
+tile.nuclearcraft.fluid_depleted_fuel_lea_242.name=Combustível LEA-242 Esgotado Derretido
+fluid.depleted_fuel_lea_242=Combustível LEA-242 Esgotado Derretido
+tile.nuclearcraft.fluid_depleted_fuel_lea_242_fluoride.name=Fluoreto de Combustível LEA-242 Esgotado Derretido
+fluid.depleted_fuel_lea_242_fluoride=Fluoreto de Combustível LEA-242 Esgotado Derretido
+tile.nuclearcraft.fluid_depleted_fuel_lea_242_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com LEA-242 Esgotado
+fluid.depleted_fuel_lea_242_fluoride_flibe=Mistura Derretida de Sais de FLiBe com LEA-242 Esgotado
+tile.nuclearcraft.fluid_depleted_fuel_hea_242.name=Combustível HEA-242 Esgotado Derretido
+fluid.depleted_fuel_hea_242=Combustível HEA-242 Esgotado Derretido
+tile.nuclearcraft.fluid_depleted_fuel_hea_242_fluoride.name=Fluoreto de Combustível HEA-242 Esgotado Derretido
+fluid.depleted_fuel_hea_242_fluoride=Fluoreto de Combustível HEA-242 Esgotado Derretido
+tile.nuclearcraft.fluid_depleted_fuel_hea_242_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com HEA-242 Esgotado
+fluid.depleted_fuel_hea_242_fluoride_flibe=Mistura Derretida de Sais de FLiBe com HEA-242 Esgotado
+
+tile.nuclearcraft.fluid_depleted_fuel_lecm_243.name=Combustível LECm-243 Esgotado Derretido
+fluid.depleted_fuel_lecm_243=Combustível LECm-243 Esgotado Derretido
+tile.nuclearcraft.fluid_depleted_fuel_lecm_243_fluoride.name=Fluoreto de Combustível LECm-243 Esgotado Derretido
+fluid.depleted_fuel_lecm_243_fluoride=Fluoreto de Combustível LECm-243 Esgotado Derretido
+tile.nuclearcraft.fluid_depleted_fuel_lecm_243_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com LECm-243 Esgotado
+fluid.depleted_fuel_lecm_243_fluoride_flibe=Mistura Derretida de Sais de FLiBe com LECm-243 Esgotado
+tile.nuclearcraft.fluid_depleted_fuel_hecm_243.name=Combustível HECm-243 Esgotado Derretido
+fluid.depleted_fuel_hecm_243=Combustível HECm-243 Esgotado Derretido
+tile.nuclearcraft.fluid_depleted_fuel_hecm_243_fluoride.name=Fluoreto de Combustível HECm-243 Esgotado Derretido
+fluid.depleted_fuel_hecm_243_fluoride=Fluoreto de Combustível HECm-243 Esgotado Derretido
+tile.nuclearcraft.fluid_depleted_fuel_hecm_243_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com HECm-243 Esgotado
+fluid.depleted_fuel_hecm_243_fluoride_flibe=Mistura Derretida de Sais de FLiBe com HECm-243 Esgotado
+tile.nuclearcraft.fluid_depleted_fuel_lecm_245.name=Combustível LECm-245 Esgotado Derretido
+fluid.depleted_fuel_lecm_245=Combustível LECm-245 Esgotado Derretido
+tile.nuclearcraft.fluid_depleted_fuel_lecm_245_fluoride.name=Fluoreto de Combustível LECm-245 Esgotado Derretido
+fluid.depleted_fuel_lecm_245_fluoride=Fluoreto de Combustível LECm-245 Esgotado Derretido
+tile.nuclearcraft.fluid_depleted_fuel_lecm_245_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com LECm-245 Esgotado
+fluid.depleted_fuel_lecm_245_fluoride_flibe=Mistura Derretida de Sais de FLiBe com LECm-245 Esgotado
+tile.nuclearcraft.fluid_depleted_fuel_hecm_245.name=Combustível HECm-245 Esgotado Derretido
+fluid.depleted_fuel_hecm_245=Combustível HECm-245 Esgotado Derretido
+tile.nuclearcraft.fluid_depleted_fuel_hecm_245_fluoride.name=Fluoreto de Combustível HECm-245 Esgotado Derretido
+fluid.depleted_fuel_hecm_245_fluoride=Fluoreto de Combustível HECm-245 Esgotado Derretido
+tile.nuclearcraft.fluid_depleted_fuel_hecm_245_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com HECm-245 Esgotado
+fluid.depleted_fuel_hecm_245_fluoride_flibe=Mistura Derretida de Sais de FLiBe com HECm-245 Esgotado
+tile.nuclearcraft.fluid_depleted_fuel_lecm_247.name=Combustível LECm-247 Esgotado Derretido
+fluid.depleted_fuel_lecm_247=Combustível LECm-247 Esgotado Derretido
+tile.nuclearcraft.fluid_depleted_fuel_lecm_247_fluoride.name=Fluoreto de Combustível LECm-247 Esgotado Derretido
+fluid.depleted_fuel_lecm_247_fluoride=Fluoreto de Combustível LECm-247 Esgotado Derretido
+tile.nuclearcraft.fluid_depleted_fuel_lecm_247_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com LECm-247 Esgotado
+fluid.depleted_fuel_lecm_247_fluoride_flibe=Mistura Derretida de Sais de FLiBe com LECm-247 Esgotado
+tile.nuclearcraft.fluid_depleted_fuel_hecm_247.name=Combustível HECm-247 Esgotado Derretido
+fluid.depleted_fuel_hecm_247=Combustível HECm-247 Esgotado Derretido
+tile.nuclearcraft.fluid_depleted_fuel_hecm_247_fluoride.name=Fluoreto de Combustível HECm-247 Esgotado Derretido
+fluid.depleted_fuel_hecm_247_fluoride=Fluoreto de Combustível HECm-247 Esgotado Derretido
+tile.nuclearcraft.fluid_depleted_fuel_hecm_247_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com HECm-247 Esgotado
+fluid.depleted_fuel_hecm_247_fluoride_flibe=Mistura Derretida de Sais de FLiBe com HECm-247 Esgotado
+
+tile.nuclearcraft.fluid_depleted_fuel_leb_248.name=Combustível LEB-248 Esgotado Derretido
+fluid.depleted_fuel_leb_248=Combustível LEB-248 Esgotado Derretido
+tile.nuclearcraft.fluid_depleted_fuel_leb_248_fluoride.name=Fluoreto de Combustível LEB-248 Esgotado Derretido
+fluid.depleted_fuel_leb_248_fluoride=Fluoreto de Combustível LEB-248 Esgotado Derretido
+tile.nuclearcraft.fluid_depleted_fuel_leb_248_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com LEB-248 Esgotado
+fluid.depleted_fuel_leb_248_fluoride_flibe=Mistura Derretida de Sais de FLiBe com LEB-248 Esgotado
+tile.nuclearcraft.fluid_depleted_fuel_heb_248.name=Combustível HEB-248 Esgotado Derretido
+fluid.depleted_fuel_heb_248=Combustível HEB-248 Esgotado Derretido
+tile.nuclearcraft.fluid_depleted_fuel_heb_248_fluoride.name=Fluoreto de Combustível HEB-248 Esgotado Derretido
+fluid.depleted_fuel_heb_248_fluoride=Fluoreto de Combustível HEB-248 Esgotado Derretido
+tile.nuclearcraft.fluid_depleted_fuel_heb_248_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com HEB-248 Esgotado
+fluid.depleted_fuel_heb_248_fluoride_flibe=Mistura Derretida de Sais de FLiBe com HEB-248 Esgotado
+
+tile.nuclearcraft.fluid_depleted_fuel_lecf_249.name=Combustível LECf-249 Esgotado Derretido
+fluid.depleted_fuel_lecf_249=Combustível LECf-249 Esgotado Derretido
+tile.nuclearcraft.fluid_depleted_fuel_lecf_249_fluoride.name=Fluoreto de Combustível LECf-249 Esgotado Derretido
+fluid.depleted_fuel_lecf_249_fluoride=Fluoreto de Combustível LECf-249 Esgotado Derretido
+tile.nuclearcraft.fluid_depleted_fuel_lecf_249_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com LECf-249 Esgotado
+fluid.depleted_fuel_lecf_249_fluoride_flibe=Mistura Derretida de Sais de FLiBe com LECf-249 Esgotado
+tile.nuclearcraft.fluid_depleted_fuel_hecf_249.name=Combustível HECf-249 Esgotado Derretido
+fluid.depleted_fuel_hecf_249=Combustível HECf-249 Esgotado Derretido
+tile.nuclearcraft.fluid_depleted_fuel_hecf_249_fluoride.name=Fluoreto de Combustível HECf-249 Esgotado Derretido
+fluid.depleted_fuel_hecf_249_fluoride=Fluoreto de Combustível HECf-249 Esgotado Derretido
+tile.nuclearcraft.fluid_depleted_fuel_hecf_249_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com HECf-249 Esgotado
+fluid.depleted_fuel_hecf_249_fluoride_flibe=Mistura Derretida de Sais de FLiBe com HECf-249 Esgotado
+tile.nuclearcraft.fluid_depleted_fuel_lecf_251.name=Combustível LECf-251 Esgotado Derretido
+fluid.depleted_fuel_lecf_251=Combustível LECf-251 Esgotado Derretido
+tile.nuclearcraft.fluid_depleted_fuel_lecf_251_fluoride.name=Fluoreto de Combustível LECf-251 Esgotado Derretido
+fluid.depleted_fuel_lecf_251_fluoride=Fluoreto de Combustível LECf-251 Esgotado Derretido
+tile.nuclearcraft.fluid_depleted_fuel_lecf_251_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com LECf-251 Esgotado
+fluid.depleted_fuel_lecf_251_fluoride_flibe=Mistura Derretida de Sais de FLiBe com LECf-251 Esgotado
+tile.nuclearcraft.fluid_depleted_fuel_hecf_251.name=Combustível HECf-251 Esgotado Derretido
+fluid.depleted_fuel_hecf_251=Combustível HECf-251 Esgotado Derretido
+tile.nuclearcraft.fluid_depleted_fuel_hecf_251_fluoride.name=Fluoreto de Combustível HECf-251 Esgotado Derretido
+fluid.depleted_fuel_hecf_251_fluoride=Fluoreto de Combustível HECf-251 Esgotado Derretido
+tile.nuclearcraft.fluid_depleted_fuel_hecf_251_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com HECf-251 Esgotado
+fluid.depleted_fuel_hecf_251_fluoride_flibe=Mistura Derretida de Sais de FLiBe com HECf-251 Esgotado
 
 item.nuclearcraft.ingot.copper.name=Lingote de Cobre
 item.nuclearcraft.ingot.tin.name=Lingote de Estanho
@@ -397,6 +900,7 @@ item.nuclearcraft.gem_dust.boron_nitride.name=Nitrido de Boro Amorfo
 item.nuclearcraft.gem_dust.fluorite.name=Fluorita Moída
 item.nuclearcraft.gem_dust.sulfur.name=Enxofre
 item.nuclearcraft.gem_dust.sulfur.desc=Obtido ao minerar blocos de Minério de Carvão.
+item.nuclearcraft.gem_dust.coal.name=Carvão Triturado
 
 item.nuclearcraft.alloy.bronze.name=Liga de Bronze
 item.nuclearcraft.alloy.tough.name=Liga Resistente
@@ -405,6 +909,9 @@ item.nuclearcraft.alloy.magnesium_diboride.name=Liga de Diboreto de Magnésio
 item.nuclearcraft.alloy.lithium_manganese_dioxide.name=Liga de Dióxido de Manganês de Lítio
 item.nuclearcraft.alloy.steel.name=Liga de Aço
 item.nuclearcraft.alloy.ferroboron.name=Liga de Ferro-boro
+item.nuclearcraft.alloy.shibuichi.name=Liga Shibuichi
+item.nuclearcraft.alloy.tin_silver.name=Liga de Estanho Prateado
+item.nuclearcraft.alloy.lead_platinum.name=Liga de Platina com Chumbo
 
 item.nuclearcraft.compound.calcium_sulfate.name=Sulfato de Cálcio
 item.nuclearcraft.compound.crystal_binder.name=Cristal Isolante
@@ -536,8 +1043,8 @@ item.nuclearcraft.californium._252_tiny.name=Pequeno Amontoado de Califórnio-25
 item.nuclearcraft.californium._252_oxide_tiny.name=Pequeno Amontoado de Óxido de Califórnio-252
 item.nuclearcraft.californium.desc=Um Isótopo de Califórnio.
 
-item.nuclearcraft.fuel_thorium.tbu.name=Pastilha de Tório
-item.nuclearcraft.fuel_thorium.tbu_oxide.name=Pastilha de Óxido de Tório
+item.nuclearcraft.fuel_thorium.tbu.name=Combustível TBU
+item.nuclearcraft.fuel_thorium.tbu_oxide.name=Óxido de Combustível TBU
 
 item.nuclearcraft.fuel_uranium.leu_233.name=Pastilha de LEU-233
 item.nuclearcraft.fuel_uranium.leu_233_oxide.name=Pastilha de Óxido de LEU-233
@@ -661,6 +1168,67 @@ item.nuclearcraft.fuel_rod_californium.hec_251_oxide.name=Haste de Combustível 
 item.nuclearcraft.fuel_rod.base_time.desc=Tempo de Processamento base: %s min
 item.nuclearcraft.fuel_rod.base_power.desc=Energia base: %s RF/t
 item.nuclearcraft.fuel_rod.base_heat.desc=Geração de calor base: %s UC/t
+
+item.nuclearcraft.depleted_fuel_thorium.tbu.name=Combustível TBU Esgotado
+item.nuclearcraft.depleted_fuel_thorium.tbu_oxide.name=Óxido de Combustível TBU Esgotado
+
+item.nuclearcraft.depleted_fuel_uranium.leu_233.name=Haste de Combustível LEU-233 Esgotado
+item.nuclearcraft.depleted_fuel_uranium.leu_233_oxide.name=Haste de Combustível Óxido de LEU-233 Esgotado
+item.nuclearcraft.depleted_fuel_uranium.heu_233.name=Haste de Combustível HEU-233 Esgotado
+item.nuclearcraft.depleted_fuel_uranium.heu_233_oxide.name=Haste de Combustível Óxido de HEU-233 Esgotado
+item.nuclearcraft.depleted_fuel_uranium.leu_235.name=Haste de Combustível LEU-235 Esgotado
+item.nuclearcraft.depleted_fuel_uranium.leu_235_oxide.name=Haste de Combustível Óxido de LEU-235 Esgotado
+item.nuclearcraft.depleted_fuel_uranium.heu_235.name=Haste de Combustível HEU-235 Esgotado
+item.nuclearcraft.depleted_fuel_uranium.heu_235_oxide.name=Haste de Combustível Óxido de HEU-235 Esgotado
+
+item.nuclearcraft.depleted_fuel_neptunium.len_236.name=Haste de Combustível LEN-236 Esgotado
+item.nuclearcraft.depleted_fuel_neptunium.len_236_oxide.name=Haste de Combustível Óxido de LEN-236 Esgotado
+item.nuclearcraft.depleted_fuel_neptunium.hen_236.name=Haste de Combustível HEN-236 Esgotado
+item.nuclearcraft.depleted_fuel_neptunium.hen_236_oxide.name=Haste de Combustível Óxido de HEN-236 Esgotado
+
+item.nuclearcraft.depleted_fuel_plutonium.lep_239.name=Haste de Combustível LEP-239 Esgotado
+item.nuclearcraft.depleted_fuel_plutonium.lep_239_oxide.name=Haste de Combustível Óxido de LEP-239 Esgotado
+item.nuclearcraft.depleted_fuel_plutonium.hep_239.name=Haste de Combustível HEP-239 Esgotado
+item.nuclearcraft.depleted_fuel_plutonium.hep_239_oxide.name=Haste de Combustível Óxido de HEP-239 Esgotado
+item.nuclearcraft.depleted_fuel_plutonium.lep_241.name=Haste de Combustível LEP-241 Esgotado
+item.nuclearcraft.depleted_fuel_plutonium.lep_241_oxide.name=Haste de Combustível Óxido de LEP-241 Esgotado
+item.nuclearcraft.depleted_fuel_plutonium.hep_241.name=Haste de Combustível HEP-241 Esgotado
+item.nuclearcraft.depleted_fuel_plutonium.hep_241_oxide.name=Haste de Combustível Óxido de HEP-241 Esgotado
+
+item.nuclearcraft.depleted_fuel_mixed_oxide.mox_239.name=Haste de Combustível MOX-239 Esgotado
+item.nuclearcraft.depleted_fuel_mixed_oxide.mox_241.name=Haste de Combustível MOX-241 Esgotado
+
+item.nuclearcraft.depleted_fuel_americium.lea_242.name=Haste de Combustível LEA-242 Esgotado
+item.nuclearcraft.depleted_fuel_americium.lea_242_oxide.name=Haste de Combustível Óxido de LEA-242 Esgotado
+item.nuclearcraft.depleted_fuel_americium.hea_242.name=Haste de Combustível HEA-242 Esgotado
+item.nuclearcraft.depleted_fuel_americium.hea_242_oxide.name=Haste de Combustível Óxido de HEA-242 Esgotado
+
+item.nuclearcraft.depleted_fuel_curium.lec_243.name=Haste de Combustível LECm-243 Esgotado
+item.nuclearcraft.depleted_fuel_curium.lec_243_oxide.name=Haste de Combustível Óxido de LECm-243 Esgotado
+item.nuclearcraft.depleted_fuel_curium.hec_243.name=Haste de Combustível HECm-243 Esgotado
+item.nuclearcraft.depleted_fuel_curium.hec_243_oxide.name=Haste de Combustível Óxido de HECm-243 Esgotado
+item.nuclearcraft.depleted_fuel_curium.lec_245.name=Haste de Combustível LECm-245 Esgotado
+item.nuclearcraft.depleted_fuel_curium.lec_245_oxide.name=Haste de Combustível Óxido de LECm-245 Esgotado
+item.nuclearcraft.depleted_fuel_curium.hec_245.name=Haste de Combustível HECm-245 Esgotado
+item.nuclearcraft.depleted_fuel_curium.hec_245_oxide.name=Haste de Combustível Óxido de HECm-245 Esgotado
+item.nuclearcraft.depleted_fuel_curium.lec_247.name=Haste de Combustível LECm-247 Esgotado
+item.nuclearcraft.depleted_fuel_curium.lec_247_oxide.name=Haste de Combustível Óxido de LECm-247 Esgotado
+item.nuclearcraft.depleted_fuel_curium.hec_247.name=Haste de Combustível HECm-247 Esgotado
+item.nuclearcraft.depleted_fuel_curium.hec_247_oxide.name=Haste de Combustível Óxido de HECm-247 Esgotado
+
+item.nuclearcraft.depleted_fuel_berkelium.leb_248.name=Haste de Combustível LEB-248 Esgotado
+item.nuclearcraft.depleted_fuel_berkelium.leb_248_oxide.name=Haste de Combustível Óxido de LEB-248 Esgotado
+item.nuclearcraft.depleted_fuel_berkelium.heb_248.name=Haste de Combustível HEB-248 Esgotado
+item.nuclearcraft.depleted_fuel_berkelium.heb_248_oxide.name=Haste de Combustível Óxido de HEB-248 Esgotado
+
+item.nuclearcraft.depleted_fuel_californium.lec_249.name=Haste de Combustível LECf-249 Esgotado
+item.nuclearcraft.depleted_fuel_californium.lec_249_oxide.name=Haste de Combustível Óxido de LECf-249 Esgotado
+item.nuclearcraft.depleted_fuel_californium.hec_249.name=Haste de Combustível HECf-249 Esgotado
+item.nuclearcraft.depleted_fuel_californium.hec_249_oxide.name=Haste de Combustível Óxido de HECf-249 Esgotado
+item.nuclearcraft.depleted_fuel_californium.lec_251.name=Haste de Combustível LECf-251 Esgotado
+item.nuclearcraft.depleted_fuel_californium.lec_251_oxide.name=Haste de Combustível Óxido de LECf-251 Esgotado
+item.nuclearcraft.depleted_fuel_californium.hec_251.name=Haste de Combustível HECf-251 Esgotado
+item.nuclearcraft.depleted_fuel_californium.hec_251_oxide.name=Haste de Combustível Óxido de HECf-251 Esgotado
 
 item.nuclearcraft.depleted_fuel_rod_thorium.tbu.name=Haste de Combustível TBU Esgotado
 item.nuclearcraft.depleted_fuel_rod_thorium.tbu_oxide.name=Haste de Combustível Óxido de TBU Esgotado
@@ -844,9 +1412,9 @@ gui.config.category.processors=Confiurações de Processamento
 gui.config.category.processors.tooltip=Configura os Processadores
 
 gui.config.processors.processor_time=Tempos de Processamento
-gui.config.processors.processor_time.comment=Ticks base por processo. Ordem: Manufatura, Separador de Isótopos, Acelerador de Apodrecimento, Reprocessador de Combustível, Fundidora de Ligas, Infusor de Fluidos, Fundidor, Superresfriador, Eletrolisador, Irradiador de Neutrons, Fôrma de Lingotes, Pressurizador, Reator Químico, Misturador de Sais, Cristalizador, Dissolvedor
+gui.config.processors.processor_time.comment=Ticks base por processo. Ordem: Manufatura, Separador de Isótopos, Acelerador de Apodrecimento, Reprocessador de Combustível,ra de Ligas, Infusor de Fluidos,r, Superresfriador, Eletrolisador, Irradiador de Neutrons, Fôrma de Lingotes, Pressurizador, Reator Químico, Misturador de Sais, Cristalizador, Dissolvedor
 gui.config.processors.processor_power=Uso de Energia por Processo
-gui.config.processors.processor_power.comment=Quantidade de RF/t usada por processamento. Ordem: Manufatura, Separador de Isótopos, Acelerador de Apodrecimento, Reprocessador de Combustível, Fundidora de Ligas, Infusor de Fluidos, Fundidor, Superresfriador, Eletrolisador, Irradiador de Neutrons, Fôrma de Lingotes, Pressurizador, Reator Químico, Misturador de Sais, Cristalizador, Dissolvedor
+gui.config.processors.processor_power.comment=Quantidade de RF/t usada por processamento. Ordem: Manufatura, Separador de Isótopos, Acelerador de Apodrecimento, Reprocessador de Combustível,ra de Ligas, Infusor de Fluidos,r, Superresfriador, Eletrolisador, Irradiador de Neutrons, Fôrma de Lingotes, Pressurizador, Reator Químico, Misturador de Sais, Cristalizador, Dissolvedor
 gui.config.processors.processor_rf_per_eu=RF por EU Aceito
 gui.config.processors.processor_rf_per_eu.comment=A quantidade de RF recebida por cada EU injetado em processadores
 gui.config.processors.processor_update_rate=Taxa de Atualização
@@ -891,8 +1459,8 @@ gui.config.fission.fission_active_cooling_rate=Taxas de Refrigeração Ativa
 gui.config.fission.fission_active_cooling_rate.comment=Calor base que é removido a cada tick/mB. Ordem: água, redstone, pedra luminosa, hélio líquido, endério, crióteum.
 gui.config.fission.fission_água_cooler_requirement=Water Cooler Requirement
 gui.config.fission.fission_water_cooler_requirement.comment=Do water coolers have to be adjacent to reactor casing?
-gui.config.fission.fission_overheat=Enable Meltdowns
-gui.config.fission.fission_overheat.comment=Can fission reactors overheat?
+gui.config.fission.fission_overheat=Habilitar Colapsos
+gui.config.fission.fission_overheat.comment=Reatores de fissão podem superaquecer?
 gui.config.fission.fission_update_rate=Structure Check Delay
 gui.config.fission.fission_update_rate.comment=Ticks per structure check
 gui.config.fission.fission_min_size=Minimum Structure Length
@@ -904,68 +1472,78 @@ gui.config.fission.fission_comparator_max_heat.comment=Percentage heat level of 
 gui.config.fission.fission_active_cooler_max_rate=Maximum Active Cooler Fluid Use
 gui.config.fission.fission_active_cooler_max_rate.comment=Maximum rate at which the Active Fluid Cooler uses coolant in mB/s
 
-gui.config.fission.fission_thorium_fuel_time=Thorium Fuel Durations
-gui.config.fission.fission_thorium_fuel_time.comment=Base ticks the fuels last. Order: TBU, TBU Oxide
-gui.config.fission.fission_thorium_power=Thorium Power Gen
-gui.config.fission.fission_thorium_power.comment=Base RF/t the fuels produce. Order: TBU, TBU Oxide
-gui.config.fission.fission_thorium_heat_generation=Thorium Heat Gen
-gui.config.fission.fission_thorium_heat_generation.comment=Base heat the fuels produce. Order: TBU, TBU Oxide
+gui.config.fission.fission_moderator_extra_power=Modificador de Energia dos Moderadores
+gui.config.fission.fission_moderator_extra_power.comment=*Only effects new mechanics.* Determines the extra power generated by each moderator block adjacent to a reactor cell. Equal to the effective number of extra cell's worth of power that would be generated by a cell totally surrounded by moderator blocks. Each moderator block will contribute one sixth of this amount of power (the amount of additional power scales linearly with the number of moderator blocks).
+gui.config.fission.fission_moderator_extra_heat=Modificador de Calor dos Moderadores
+gui.config.fission.fission_moderator_extra_heat.comment=*Only effects new mechanics.* Determines the extra heat generated by each moderator block adjacent to a reactor cell. Equal to the effective number of extra cell's worth of heat that would be generated by a cell totally surrounded by moderator blocks. Each moderator block will contribute one sixth of this amount of heat (the amount of additional heat scales linearly with the number of moderator blocks).
+gui.config.fission.fission_neutron_reach=Neutron Radiation Reach
+gui.config.fission.fission_neutron_reach.comment=*Only effects new mechanics.* Maximum number of moderator blocks that can be between two cells for neutron radiation to be shared between them and their efficiency to increase.
 
-gui.config.fission.fission_uranium_fuel_time=Urânio Fuel Durations
-gui.config.fission.fission_uranium_fuel_time.comment=Base ticks the fuels last. Order: LEU-233, LEU-233 Oxide, HEU-233, HEU-233 Oxide, LEU-235, LEU-235 Oxide, HEU-235, HEU-235 Oxide
-gui.config.fission.fission_uranium_power=Urânio Power Gen
-gui.config.fission.fission_uranium_power.comment=Base RF/t the fuels produce. Order: LEU-233, LEU-233 Oxide, HEU-233, HEU-233 Oxide, LEU-235, LEU-235 Oxide, HEU-235, HEU-235 Oxide
-gui.config.fission.fission_uranium_heat_generation=Urânio Heat Gen
-gui.config.fission.fission_uranium_heat_generation.comment=Base heat the fuels produce. Order: LEU-233, LEU-233 Oxide, HEU-233, HEU-233 Oxide, LEU-235, LEU-235 Oxide, HEU-235, HEU-235 Oxide
+gui.config.fission.fission_experimental_mechanics=Experimental Fission Mechanics
+gui.config.fission.fission_experimental_mechanics.comment=Enable experimental fission reactor mechanics? Only enable this if you want to play with planned features for fission reactors - be warned that, while this is enabled, new updates of the mod may make previously stable reactors unstable. Disabled by default not to mess with any already existing setups.
 
-gui.config.fission.fission_neptunium_fuel_time=Neptúnio Fuel Durations
-gui.config.fission.fission_neptunium_fuel_time.comment=Base ticks the fuels last. Order: LEN-236, LEN-236 Oxide, HEN-236, HEN-236 Oxide
-gui.config.fission.fission_neptunium_power=Neptúnio Power Gen
-gui.config.fission.fission_neptunium_power.comment=Base RF/t the fuels produce. Order: LEN-236, LEN-236 Oxide, HEN-236, HEN-236 Oxide
-gui.config.fission.fission_neptunium_heat_generation=Neptúnio Heat Gen
-gui.config.fission.fission_neptunium_heat_generation.comment=Base heat the fuels produce. Order: LEN-236, LEN-236 Oxide, HEN-236, HEN-236 Oxide
+gui.config.fission.fission_thorium_fuel_time=Tempos de Duração para o Tório
+gui.config.fission.fission_thorium_fuel_time.comment=Ticks base que combustíveis duram. Ordem: TBU, TBU (Óxido)
+gui.config.fission.fission_thorium_powerGeração de Energia do Tório
+gui.config.fission.fission_thorium_power.comment=RF/t base que combustíveis produzem. Ordem: TBU, TBU (Óxido)
+gui.config.fission.fission_thorium_heat_generation=Geração de Calor do Tório
+gui.config.fission.fission_thorium_heat_generation.comment=Calor base que combustíveis produzem. Ordem: TBU, TBU (Óxido)
 
-gui.config.fission.fission_plutonium_fuel_time=Plutônio Fuel Durations
-gui.config.fission.fission_plutonium_fuel_time.comment=Base ticks the fuels last. Order: LEP-239, LEP-239 Oxide, HEP-239, HEP-239 Oxide, LEP-241, LEP-241 Oxide, HEP-241, HEP-241 Oxide
-gui.config.fission.fission_plutonium_power=Plutônio Power Gen
-gui.config.fission.fission_plutonium_power.comment=Base RF/t the fuels produce. Order: LEP-239, LEP-239 Oxide, HEP-239, HEP-239 Oxide, LEP-241, LEP-241 Oxide, HEP-241, HEP-241 Oxide
-gui.config.fission.fission_plutonium_heat_generation=Plutônio Heat Gen
-gui.config.fission.fission_plutonium_heat_generation.comment=Base heat the fuels produce. Order: LEP-239, LEP-239 Oxide, HEP-239, HEP-239 Oxide, LEP-241, LEP-241 Oxide, HEP-241, HEP-241 Oxide
+gui.config.fission.fission_uranium_fuel_time=Tempos de Duração para o Urânio
+gui.config.fission.fission_uranium_fuel_time.comment=Ticks base que combustíveis duram. Ordem: LEU-233, LEU-233 (Óxido), HEU-233, HEU-233 (Óxido), LEU-235, LEU-235 (Óxido), HEU-235, HEU-235 (Óxido)
+gui.config.fission.fission_uranium_powerGeração de Energia do Urânio
+gui.config.fission.fission_uranium_power.comment=RF/t base que combustíveis produzem. Ordem: LEU-233, LEU-233 (Óxido), HEU-233, HEU-233 (Óxido), LEU-235, LEU-235 (Óxido), HEU-235, HEU-235 (Óxido)
+gui.config.fission.fission_uranium_heat_generation=Geração de Calor do Urânio
+gui.config.fission.fission_uranium_heat_generation.comment=Calor base que combustíveis produzem. Ordem: LEU-233, LEU-233 (Óxido), HEU-233, HEU-233 (Óxido), LEU-235, LEU-235 (Óxido), HEU-235, HEU-235 (Óxido)
 
-gui.config.fission.fission_mox_fuel_time=MOX Fuel Durations
-gui.config.fission.fission_mox_fuel_time.comment=Base ticks the fuels last. Order: MOX-239, MOX-241
-gui.config.fission.fission_mox_power=MOX Power Gen
-gui.config.fission.fission_mox_power.comment=Base RF/t the fuels produce. Order: MOX-239, MOX-241
-gui.config.fission.fission_mox_heat_generation=MOX Heat Gen
-gui.config.fission.fission_mox_heat_generation.comment=Base heat the fuels produce. Order: MOX-239, MOX-241
+gui.config.fission.fission_neptunium_fuel_time=Tempos de Duração para o Neptúnio
+gui.config.fission.fission_neptunium_fuel_time.comment=Ticks base que combustíveis duram. Ordem: LEN-236, LEN-236 (Óxido), HEN-236, HEN-236 (Óxido)
+gui.config.fission.fission_neptunium_powerGeração de Energia do Neptúnio
+gui.config.fission.fission_neptunium_power.comment=RF/t base que combustíveis produzem. Ordem: LEN-236, LEN-236 (Óxido), HEN-236, HEN-236 (Óxido)
+gui.config.fission.fission_neptunium_heat_generation=Geração de Calor do Neptúnio
+gui.config.fission.fission_neptunium_heat_generation.comment=Calor base que combustíveis produzem. Ordem: LEN-236, LEN-236 (Óxido), HEN-236, HEN-236 (Óxido)
 
-gui.config.fission.fission_americium_fuel_time=Amerício Fuel Durations
-gui.config.fission.fission_americium_fuel_time.comment=Base ticks the fuels last. Order: LEA-242, LEA-242 Oxide, HEA-242, HEA-242 Oxide
-gui.config.fission.fission_americium_power=Amerício Power Gen
-gui.config.fission.fission_americium_power.comment=Base RF/t the fuels produce. Order: LEA-242, LEA-242 Oxide, HEA-242, HEA-242 Oxide
-gui.config.fission.fission_americium_heat_generation=Amerício Heat Gen
-gui.config.fission.fission_americium_heat_generation.comment=Base heat the fuels produce. Order: LEA-242, LEA-242 Oxide, HEA-242, HEA-242 Oxide
+gui.config.fission.fission_plutonium_fuel_time=Tempos de Duração para o Plutônio
+gui.config.fission.fission_plutonium_fuel_time.comment=Ticks base que combustíveis duram. Ordem: LEP-239, LEP-239 (Óxido), HEP-239, HEP-239 (Óxido), LEP-241, LEP-241 (Óxido), HEP-241, HEP-241 (Óxido)
+gui.config.fission.fission_plutonium_powerGeração de Energia do Plutônio
+gui.config.fission.fission_plutonium_power.comment=RF/t base que combustíveis produzem. Ordem: LEP-239, LEP-239 (Óxido), HEP-239, HEP-239 (Óxido), LEP-241, LEP-241 (Óxido), HEP-241, HEP-241 (Óxido)
+gui.config.fission.fission_plutonium_heat_generation=Geração de Calor do Plutônio
+gui.config.fission.fission_plutonium_heat_generation.comment=Calor base que combustíveis produzem. Ordem: LEP-239, LEP-239 (Óxido), HEP-239, HEP-239 (Óxido), LEP-241, LEP-241 (Óxido), HEP-241, HEP-241 (Óxido)
 
-gui.config.fission.fission_curium_fuel_time=Curio Fuel Durations
-gui.config.fission.fission_curium_fuel_time.comment=Base ticks the fuels last. Order: LECm-243, LECm-243 Oxide, HECm-243, HECm-243 Oxide, LECm-245, LECm-245 Oxide, HECm-245, HECm-245 Oxide, LECm-247, LECm-247 Oxide, HECm-247, HECm-247 Oxide
-gui.config.fission.fission_curium_power=Curio Power Gen
-gui.config.fission.fission_curium_power.comment=Base RF/t the fuels produce. Order: LECm-243, LECm-243 Oxide, HECm-243, HECm-243 Oxide, LECm-245, LECm-245 Oxide, HECm-245, HECm-245 Oxide, LECm-247, LECm-247 Oxide, HECm-247, HECm-247 Oxide
-gui.config.fission.fission_curium_heat_generation=Curio Heat Gen
-gui.config.fission.fission_curium_heat_generation.comment=Base heat the fuels produce. Order: LECm-243, LECm-243 Oxide, HECm-243, HECm-243 Oxide, LECm-245, LECm-245 Oxide, HECm-245, HECm-245 Oxide, LECm-247, LECm-247 Oxide, HECm-247, HECm-247 Oxide
+gui.config.fission.fission_mox_fuel_time=Tempos de Duração para a MOX
+gui.config.fission.fission_mox_fuel_time.comment=Ticks base que combustíveis duram. Ordem: MOX-239, MOX-241
+gui.config.fission.fission_mox_powerGeração de Energia da MOX
+gui.config.fission.fission_mox_power.comment=RF/t base que combustíveis produzem. Ordem: MOX-239, MOX-241
+gui.config.fission.fission_mox_heat_generation=Geração de Calor da MOX 
+gui.config.fission.fission_mox_heat_generation.comment=Calor base que combustíveis produzem. Ordem: MOX-239, MOX-241
 
-gui.config.fission.fission_berkelium_fuel_time=Berquélio Fuel Durations
-gui.config.fission.fission_berkelium_fuel_time.comment=Base ticks the fuels last. Order: LEB-248, LEB-248 Oxide, HEB-248, HEB-248 Oxide
-gui.config.fission.fission_berkelium_power=Berquélio Power Gen
-gui.config.fission.fission_berkelium_power.comment=Base RF/t the fuels produce. Order: LEB-248, LEB-248 Oxide, HEB-248, HEB-248 Oxide
-gui.config.fission.fission_berkelium_heat_generation=Berquélio Heat Gen
-gui.config.fission.fission_berkelium_heat_generation.comment=Base heat the fuels produce. Order: LEB-248, LEB-248 Oxide, HEB-248, HEB-248 Oxide
+gui.config.fission.fission_americium_fuel_time=Tempos de Duração para o Amerício
+gui.config.fission.fission_americium_fuel_time.comment=Tempos de Duração para o Ticks base que combustíveis duram. Ordem: LEA-242, LEA-242 (Óxido), HEA-242, HEA-242 (Óxido)
+gui.config.fission.fission_americium_powerGeração de Energia do Tempos de Duração para o Amerício
+gui.config.fission.fission_americium_power.comment=Tempos de Duração para o RF/t base que combustíveis produzem. Ordem: LEA-242, LEA-242 (Óxido), HEA-242, HEA-242 (Óxido)
+gui.config.fission.fission_americium_heat_generation=Tempos de Duração para o Geração de Calor do Amerício
+gui.config.fission.fission_americium_heat_generation.comment=Tempos de Duração para o Calor base que combustíveis produzem. Ordem: LEA-242, LEA-242 (Óxido), HEA-242, HEA-242 (Óxido)
 
-gui.config.fission.fission_californium_fuel_time=Califórnio Fuel Durations
-gui.config.fission.fission_californium_fuel_time.comment=Base ticks the fuels last. Order: LECf-249, LECf-249 Oxide, HECf-249, HECf-249 Oxide, LECf-251, LECf-251 Oxide, HECf-251, HECf-251 Oxide
-gui.config.fission.fission_californium_power=Califórnio Power Gen
-gui.config.fission.fission_californium_power.comment=Base RF/t the fuels produce. Order: LECf-249, LECf-249 Oxide, HECf-249, HECf-249 Oxide, LECf-251, LECf-251 Oxide, HECf-251, HECf-251 Oxide
-gui.config.fission.fission_californium_heat_generation=Califórnio Heat Gen
-gui.config.fission.fission_californium_heat_generation.comment=Base heat the fuels produce. Order: LECf-249, LECf-249 Oxide, HECf-249, HECf-249 Oxide, LECf-251, LECf-251 Oxide, HECf-251, HECf-251 Oxide
+gui.config.fission.fission_curium_fuel_time=Tempos de Duração para o Curio
+gui.config.fission.fission_curium_fuel_time.comment=Ticks base que combustíveis duram. Ordem: LECm-243, LECm-243 (Óxido), HECm-243, HECm-243 (Óxido), LECm-245, LECm-245 (Óxido), HECm-245, HECm-245 (Óxido), LECm-247, LECm-247 (Óxido), HECm-247, HECm-247 (Óxido)
+gui.config.fission.fission_curium_powerGeração de Energia do Curio
+gui.config.fission.fission_curium_power.comment=RF/t base que combustíveis produzem. Ordem: LECm-243, LECm-243 (Óxido), HECm-243, HECm-243 (Óxido), LECm-245, LECm-245 (Óxido), HECm-245, HECm-245 (Óxido), LECm-247, LECm-247 (Óxido), HECm-247, HECm-247 (Óxido)
+gui.config.fission.fission_curium_heat_generation=Geração de Calor do Curio
+gui.config.fission.fission_curium_heat_generation.comment=Calor base que combustíveis produzem. Ordem: LECm-243, LECm-243 (Óxido), HECm-243, HECm-243 (Óxido), LECm-245, LECm-245 (Óxido), HECm-245, HECm-245 (Óxido), LECm-247, LECm-247 (Óxido), HECm-247, HECm-247 (Óxido)
+
+gui.config.fission.fission_berkelium_fuel_time=Tempos de Duração para o Berquélio
+gui.config.fission.fission_berkelium_fuel_time.comment=Ticks base que combustíveis duram. Ordem: LEB-248, LEB-248 (Óxido), HEB-248, HEB-248 (Óxido)
+gui.config.fission.fission_berkelium_powerGeração de Energia do Berquélio
+gui.config.fission.fission_berkelium_power.comment=RF/t base que combustíveis produzem. Ordem: LEB-248, LEB-248 (Óxido), HEB-248, HEB-248 (Óxido)
+gui.config.fission.fission_berkelium_heat_generation=Geração de Calor do Berquélio
+gui.config.fission.fission_berkelium_heat_generation.comment=Calor base que combustíveis produzem. Ordem: LEB-248, LEB-248 (Óxido), HEB-248, HEB-248 (Óxido)
+
+gui.config.fission.fission_californium_fuel_time=Tempos de Duração para o Califórnio
+gui.config.fission.fission_californium_fuel_time.comment=Ticks base que combustíveis duram. Ordem: LECf-249, LECf-249 (Óxido), HECf-249, HECf-249 (Óxido), LECf-251, LECf-251 (Óxido), HECf-251, HECf-251 (Óxido)
+gui.config.fission.fission_californium_powerGeração de Energia do Califórnio
+gui.config.fission.fission_californium_power.comment=RF/t base que combustíveis produzem. Ordem: LECf-249, LECf-249 (Óxido), HECf-249, HECf-249 (Óxido), LECf-251, LECf-251 (Óxido), HECf-251, HECf-251 (Óxido)
+gui.config.fission.fission_californium_heat_generation=Geração de Calor do Califórnio
+gui.config.fission.fission_californium_heat_generation.comment=Calor base que combustíveis produzem. Ordem: LECf-249, LECf-249 (Óxido), HECf-249, HECf-249 (Óxido), LECf-251, LECf-251 (Óxido), HECf-251, HECf-251 (Óxido)
 
 gui.config.category.fusion=Configuração da Fusão
 gui.config.category.fusion.tooltip=Configura aspectos da fusão nuclear
@@ -1020,39 +1598,51 @@ gui.config.category.tools=Configurações das Ferramentas
 gui.config.category.tools.tooltip=Configura as ferramentas
 
 gui.config.tools.tool_mining_level=Mining Levels
-gui.config.tools.tool_mining_level.comment=Mining levels (wood = 0, stone = 1, etc.). Order: boron, boron spaxelhoe, tough alloy, tough alloy spaxelhoe, hard carbon, hard carbon spaxelhoe, boron nitride, boron nitride spaxelhoe
+gui.config.tools.tool_mining_level.comment=Mining levels (wood = 0, stone = 1, etc.). Ordem: boron, boron spaxelhoe, tough alloy, tough alloy spaxelhoe, hard carbon, hard carbon spaxelhoe, boron nitride, boron nitride spaxelhoe
 gui.config.tools.tool_durability=Durabilities
-gui.config.tools.tool_durability.comment=Max number of tool uses. Order: boron, boron spaxelhoe, tough alloy, tough alloy spaxelhoe, hard carbon, hard carbon spaxelhoe, boron nitride, boron nitride spaxelhoe
+gui.config.tools.tool_durability.comment=Max number of tool uses. Ordem: boron, boron spaxelhoe, tough alloy, tough alloy spaxelhoe, hard carbon, hard carbon spaxelhoe, boron nitride, boron nitride spaxelhoe
 gui.config.tools.tool_speed=Mining speeds
-gui.config.tools.tool_speed.comment=Determines the rate at which blocks are destroyed (wood = 2.0, stone = 4.0, etc.). Order: boron, boron spaxelhoe, tough alloy, tough alloy spaxelhoe, hard carbon, hard carbon spaxelhoe, boron nitride, boron nitride spaxelhoe
+gui.config.tools.tool_speed.comment=Determines the rate at which blocks are destroyed (wood = 2.0, stone = 4.0, etc.). Ordem: boron, boron spaxelhoe, tough alloy, tough alloy spaxelhoe, hard carbon, hard carbon spaxelhoe, boron nitride, boron nitride spaxelhoe
 gui.config.tools.tool_attack_damage=Attack damages
-gui.config.tools.tool_attack_damage.comment=Related to the damage done per hit (wood = 0.0, stone = 1.0, etc.). Order: boron, boron spaxelhoe, tough alloy, tough alloy spaxelhoe, hard carbon, hard carbon spaxelhoe, boron nitride, boron nitride spaxelhoe
+gui.config.tools.tool_attack_damage.comment=Related to the damage done per hit (wood = 0.0, stone = 1.0, etc.). Ordem: boron, boron spaxelhoe, tough alloy, tough alloy spaxelhoe, hard carbon, hard carbon spaxelhoe, boron nitride, boron nitride spaxelhoe
 gui.config.tools.tool_enchantability=Enchantabilities
-gui.config.tools.tool_enchantability.comment=Determines the quality of applied enchantments. Order: boron, boron spaxelhoe, tough alloy, tough alloy spaxelhoe, hard carbon, hard carbon spaxelhoe, boron nitride, boron nitride spaxelhoe
+gui.config.tools.tool_enchantability.comment=Determines the quality of applied enchantments. Ordem: boron, boron spaxelhoe, tough alloy, tough alloy spaxelhoe, hard carbon, hard carbon spaxelhoe, boron nitride, boron nitride spaxelhoe
 
 gui.config.category.armor=Configurações das Armaduras
 gui.config.category.armor.tooltip=Configura as Armaduras
 
 gui.config.armor.armor_durability=Durabilities
-gui.config.armor.armor_durability.comment=Durabilities of armor types. Order: boron, tough alloy, hard carbon, boron nitride
+gui.config.armor.armor_durability.comment=Durabilities of armor types. Ordem: boron, tough alloy, hard carbon, boron nitride
 gui.config.armor.armor_boron=Boron Armor Protection
-gui.config.armor.armor_boron.comment=Effectiveness of individual armor pieces. Order: boots, legs, chest, helm
+gui.config.armor.armor_boron.comment=Effectiveness of individual armor pieces. Ordem: boots, legs, chest, helm
 gui.config.armor.armor_tough=Tough Alloy Armor Protection
-gui.config.armor.armor_tough.comment=Effectiveness of individual armor pieces. Order: boots, legs, chest, helm
+gui.config.armor.armor_tough.comment=Effectiveness of individual armor pieces. Ordem: boots, legs, chest, helm
 gui.config.armor.armor_hard_carbon=Hard Carbon Armor Protection
-gui.config.armor.armor_hard_carbon.comment=Effectiveness of individual armor pieces. Order: boots, legs, chest, helm
+gui.config.armor.armor_hard_carbon.comment=Effectiveness of individual armor pieces. Ordem: boots, legs, chest, helm
 gui.config.armor.armor_boron_nitride=Boron Nitride Armor Protection
-gui.config.armor.armor_boron_nitride.comment=Effectiveness of individual armor pieces. Order: boots, legs, chest, helm
+gui.config.armor.armor_boron_nitride.comment=Effectiveness of individual armor pieces. Ordem: boots, legs, chest, helm
 gui.config.armor.armor_enchantability=Enchantabilities
-gui.config.armor.armor_enchantability.comment=Determines the quality of applied enchantments. Order: boron, tough alloy, hard carbon, boron nitride
+gui.config.armor.armor_enchantability.comment=Determines the quality of applied enchantments. Ordem: boron, tough alloy, hard carbon, boron nitride
 gui.config.armor.armor_toughness=Toughnesses
-gui.config.armor.armor_toughness.comment=Toughnesses of armor types. Order: boron, tough alloy, hard carbon, boron nitride
+gui.config.armor.armor_toughness.comment=Toughnesses of armor types. Ordem: boron, tough alloy, hard carbon, boron nitride
 
 gui.config.category.other=Outras Configurações
 gui.config.category.other.tooltip=Configurações Aleatórias
 
+gui.config.other.mushroom_spread_rate=Mushroom Spread Rate
+gui.config.other.mushroom_spread_rate.comment=Glowing Mushroom spread rate.
+gui.config.other.mushroom_gen=Generate Mushrooms
+gui.config.other.mushroom_gen.comment=Will glowing mushrooms generate in the nether?
+gui.config.other.mushroom_gen_size=Mushroom Gen Size
+gui.config.other.mushroom_gen_size.comment=Determines how many glowing mushrooms will spawn at a time.
+gui.config.other.mushroom_gen_rate=Mushroom Gen Rate
+gui.config.other.mushroom_gen_rate.comment=Determines how often glowing mushrooms will spawn.
+
 gui.config.other.rare_drops=Habilitar Drops Raros
 gui.config.other.rare_drops.comment=Mobs devem dropar itens raros?
+
+gui.config.other.register_fluid_blocks=Register Fission Fluids
+gui.config.other.register_fluid_blocks.comment=Register fission fluids? It is recommended that this is left true unless running out of block IDs.
 
 gui.computer.method_not_found=Esse método não mostra em mapas ativos - perca um método, você tem que... que vergonha... que vergonha! Dá uma passada no repositório do GitHub, limpe sua mente e encontrar seu método perdido nós iremos.
 gui.computer.invalid_method_number=Número de método inválido
@@ -1073,6 +1663,7 @@ gui.container.fission_controller.cells=Células:
 gui.container.fission_controller.efficiency=Efici:
 gui.container.fission_controller.heat=Níveis de Calor:
 gui.container.fission_controller.heat_gen=Ger de Calor:
+gui.container.fission_controller.heat_mult=Multipl de Calor:
 
 gui.container.fission_controller.tbu=TBU
 gui.container.fission_controller.leu=LEU
@@ -1105,7 +1696,7 @@ gui.container.fusion_core.power=Gerando:
 gui.container.fusion_core.heat=Calor:
 gui.container.fusion_core.temperature=Temperatura:
 gui.container.fusion_core.temperature_change=Mudança de Temp:
-gui.container.fusion_core.cooling_rate=Taxa de Resfr Ativo:
+gui.container.fusion_core.cooling_rate=Taxa de Resfr Ativa:
 gui.container.fusion_core.efficiency=Eficiência:
 gui.container.fusion_core.fuels=Combustíveis:
 gui.container.fusion_core.empty=Vazio
