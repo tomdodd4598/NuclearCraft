@@ -43,15 +43,7 @@ public class DropHandler {
 	
 	public void blockDrop(HarvestDropsEvent event, ItemStack drop, Block block, int chance) {
 		if((event.getState().getBlock() == block) && rand.nextInt(100) < chance) {
-			ItemStack heldItem = ItemStack.EMPTY;
-			if (event.getHarvester() != null) {
-				if (event.getHarvester().getHeldItemMainhand() != null) heldItem = event.getHarvester().getHeldItemMainhand();
-			}
-			boolean silkTouch = false;
-			if (heldItem != ItemStack.EMPTY && heldItem != null) {
-				if (EnchantmentHelper.getEnchantmentLevel(Enchantments.SILK_TOUCH, heldItem) > 0) silkTouch = true;
-			}
-			if (!silkTouch) event.getDrops().add(drop);
+			if (!event.isSilkTouching()) event.getDrops().add(drop);
 		}
 	}
 }

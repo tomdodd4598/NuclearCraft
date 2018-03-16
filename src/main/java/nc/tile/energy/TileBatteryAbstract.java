@@ -1,5 +1,6 @@
 package nc.tile.energy;
 
+import nc.config.NCConfig;
 import nc.tile.dummy.IInterfaceable;
 import nc.tile.energy.storage.Storage;
 import nc.tile.energy.storage.EnumStorage.EnergyConnection;
@@ -11,7 +12,7 @@ public abstract class TileBatteryAbstract extends TileEnergy implements IBattery
 	}
 
 	public TileBatteryAbstract(int capacity, int maxTransfer) {
-		super(capacity, maxTransfer, EnergyConnection.BOTH);
+		super(capacity, maxTransfer, EnergyConnection.IN);
 	}
 	
 	@Override

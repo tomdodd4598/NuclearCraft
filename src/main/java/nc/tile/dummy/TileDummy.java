@@ -16,6 +16,7 @@ import nc.tile.fluid.ITileFluid;
 import nc.tile.fluid.tank.Tank;
 import nc.tile.fluid.tank.EnumTank.FluidConnection;
 import nc.tile.inventory.ITileInventory;
+import nc.tile.passive.ITilePassive;
 import net.darkhax.tesla.capability.TeslaCapabilities;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -464,6 +465,7 @@ public abstract class TileDummy extends TileEnergyFluidSidedInventory {
 		if (getStorage().getEnergyStored() <= 0 || !getEnergyConnection().canExtract()) return;
 		for (EnumFacing side : EnumFacing.VALUES) {
 			TileEntity tile = world.getTileEntity(getPos().offset(side));
+			if (tile instanceof ITilePassive) if (!((ITilePassive) tile).canPushEnergyTo()) continue;
 			IEnergyStorage adjStorage = tile == null ? null : tile.getCapability(CapabilityEnergy.ENERGY, side.getOpposite());
 			//TileEntity thisTile = world.getTileEntity(getPos());
 			
@@ -491,9 +493,11 @@ public abstract class TileDummy extends TileEnergyFluidSidedInventory {
 	@Override
 	public void pushFluid() {
 		if (getTanks().length > 0 && getTanks() != null) for (int i = 0; i < getTanks().length; i++) {
+			if (getTanks()[i].getFluid() == null) return;
 			if (getTanks()[i].getFluidAmount() <= 0 || !getFluidConnections()[i].canDrain()) return;
 			for (EnumFacing side : EnumFacing.VALUES) {
 				TileEntity tile = world.getTileEntity(getPos().offset(side));
+				if (tile instanceof ITilePassive) if (!((ITilePassive) tile).canPushFluidsTo()) continue;
 				IFluidHandler adjStorage = tile == null ? null : tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side.getOpposite());
 				//TileEntity thisTile = world.getTileEntity(getPos());
 				

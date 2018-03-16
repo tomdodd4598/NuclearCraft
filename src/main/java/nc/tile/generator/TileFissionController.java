@@ -734,7 +734,7 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 							Tank tank = ((TileActiveCooler) tile).getTanks()[0];
 							int fluidAmount = tank.getFluidAmount();
 							if (fluidAmount > 0) {
-								double currentHeat = heat + heatThisTick + coolerHeatThisTick;
+								double currentHeat = heat + (generating ? heatThisTick : 0) + coolerHeatThisTick;
 								for (int i = 1; i < CoolerType.values().length; i++) {
 									if (tank.getFluidName() == CoolerType.values()[i].getFluidName()) {
 										if (coolerRequirements(x, y, z, i)) {
@@ -744,7 +744,7 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 									}
 								}
 								if (currentHeat > 0) {
-									double newHeat = heat + heatThisTick + coolerHeatThisTick;
+									double newHeat = heat + (generating ? heatThisTick : 0) + coolerHeatThisTick;
 									if (newHeat >= 0) ((TileActiveCooler) world.getTileEntity(finder.position(x, y, z))).getTanks()[0].drain(MathHelper.ceil(fluidAmount), true); else {
 										double heatFraction = currentHeat/(currentHeat - newHeat);
 										((TileActiveCooler) world.getTileEntity(finder.position(x, y, z))).getTanks()[0].drain(MathHelper.ceil(fluidAmount*heatFraction), true);
@@ -863,7 +863,7 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 							Tank tank = ((TileActiveCooler) tile).getTanks()[0];
 							int fluidAmount = tank.getFluidAmount();
 							if (fluidAmount > 0) {
-								double currentHeat = heat + heatThisTick + coolerHeatThisTick;
+								double currentHeat = heat + (generating ? heatThisTick : 0) + coolerHeatThisTick;
 								for (int i = 1; i < CoolerType.values().length; i++) {
 									if (tank.getFluidName() == CoolerType.values()[i].getFluidName()) {
 										if (coolerRequirements(x, y, z, i)) {
@@ -873,7 +873,7 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 									}
 								}
 								if (currentHeat > 0) {
-									double newHeat = heat + heatThisTick + coolerHeatThisTick;
+									double newHeat = heat + (generating ? heatThisTick : 0) + coolerHeatThisTick;
 									if (newHeat >= 0) ((TileActiveCooler) world.getTileEntity(finder.position(x, y, z))).getTanks()[0].drain(MathHelper.ceil(fluidAmount), true); else {
 										double heatFraction = currentHeat/(currentHeat - newHeat);
 										((TileActiveCooler) world.getTileEntity(finder.position(x, y, z))).getTanks()[0].drain(MathHelper.ceil(fluidAmount*heatFraction), true);

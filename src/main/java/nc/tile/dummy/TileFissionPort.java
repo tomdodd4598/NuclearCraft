@@ -8,6 +8,7 @@ import nc.config.NCConfig;
 import nc.init.NCBlocks;
 import nc.tile.energy.storage.EnumStorage.EnergyConnection;
 import nc.tile.generator.TileFissionController;
+import nc.tile.passive.ITilePassive;
 import nc.util.BlockFinder;
 import net.darkhax.tesla.capability.TeslaCapabilities;
 import net.minecraft.tileentity.TileEntity;
@@ -65,6 +66,7 @@ public class TileFissionPort extends TileDummy implements IInterfaceable {
 		if (getStorage().getEnergyStored() <= 0 || !getEnergyConnection().canExtract()) return;
 		for (EnumFacing side : EnumFacing.VALUES) {
 			TileEntity tile = world.getTileEntity(getPos().offset(side));
+			if (tile instanceof ITilePassive) if (!((ITilePassive) tile).canPushEnergyTo()) continue;
 			IEnergyStorage adjStorage = tile == null ? null : tile.getCapability(CapabilityEnergy.ENERGY, side.getOpposite());
 			//TileEntity thisTile = world.getTileEntity(getPos());
 			

@@ -36,6 +36,11 @@ public class MelterRecipes extends BaseRecipeHandler {
 		addIsotopeMeltingRecipes("berkelium", 247, 248);
 		addIsotopeMeltingRecipes("californium", 249, 250, 251, 252);
 		
+		addIngotMeltingRecipes("lithium6");
+		addIngotMeltingRecipes("lithium7");
+		addIngotMeltingRecipes("boron10");
+		addIngotMeltingRecipes("boron11");
+		
 		for (String suffix : new String[] {"", "Oxide"}) {
 			for (String prefix : new String[] {"fuel", "fuelRod"}) addRecipe(prefix + "TBU" + suffix, fluidStack("thorium_tbu", FluidHelper.INGOT_BLOCK_VOLUME), NCConfig.processor_time[6]*9);
 			for (String prefix : new String[] {"depletedFuel", "depletedFuelRod"}) addRecipe(prefix + "TBU" + suffix, fluidStack("depleted_thorium_tbu", FluidHelper.NUGGET_VOLUME*64), NCConfig.processor_time[6]*64/9);

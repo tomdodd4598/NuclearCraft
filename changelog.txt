@@ -1,3 +1,26 @@
+v2.9e
+
+* Fixed active coolers using coolant even when reactor is not running
+
+* Fixed ore drop events not checking for silk touch correctly
+
+* Fixed potential crash with Tesla machines accepting null fluids
+* Fixed passive machines accepting energy when they shouldn't be
+
+* Fixed battery blocks not displaying their internal energy correctly
+
+* Fixed broken IE treated wood planks recipe
+* Minor recipe tweaks
+
++ Added config option for displaying machine particles
+
+* Updated Forge
+* Updated IC2 API
+
+v2.9d
+
+* Fixed lithium and boron isotope melting recipes not working
+
 v2.9c
 
 * Fixed extension blocks such as Fission Ports dropping the contents of the machine they're connected to when broken

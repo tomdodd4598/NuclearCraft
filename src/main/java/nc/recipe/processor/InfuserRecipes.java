@@ -4,8 +4,10 @@ import nc.config.NCConfig;
 import nc.init.NCBlocks;
 import nc.recipe.BaseRecipeHandler;
 import nc.util.FluidHelper;
+import nc.util.StackHelper;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 public class InfuserRecipes extends BaseRecipeHandler {
 	
@@ -96,7 +98,7 @@ public class InfuserRecipes extends BaseRecipeHandler {
 		addRecipe(new ItemStack(NCBlocks.cooler, 1, 0), fluidStack("water", FluidHelper.BUCKET_VOLUME), new ItemStack(NCBlocks.cooler, 1, 1), NCConfig.processor_time[5]);
 		
 		// Immersive Engineering
-		addRecipe("plankWood", fluidStack("creosote", 100), "plankTreatedWood", NCConfig.processor_time[5]/10);
+		addRecipe("plankWood", fluidStack("creosote", 100), StackHelper.blockStackFromRegistry("immersiveengineering", "treated_wood"), NCConfig.processor_time[5]/10);
 		
 		// Redstone Arsenal
 		addIngotInfusionRecipes("Electrum", "redstone", FluidHelper.REDSTONE_DUST_VOLUME*2, "ElectrumFlux", 1);

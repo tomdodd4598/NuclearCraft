@@ -49,6 +49,7 @@ public class NCConfig {
 	public static boolean ore_processing;
 	public static boolean smart_processor_input;
 	public static boolean passive_permeation;
+	public static boolean processor_particles;
 	
 	public static int[] rtg_power;
 	public static int[] solar_power;
@@ -222,6 +223,8 @@ public class NCConfig {
 		propertySmartProcessorInput.setLanguageKey("gui.config.processors.smart_processor_input");
 		Property propertyPermeation = config.get(CATEGORY_PROCESSORS, "passive_permeation", false, Lang.localise("gui.config.processors.passive_permeation.comment"));
 		propertyPermeation.setLanguageKey("gui.config.processors.passive_permeation");
+		Property propertyProcessorParticles = config.get(CATEGORY_PROCESSORS, "processor_particles", true, Lang.localise("gui.config.processors.processor_particles.comment"));
+		propertyProcessorParticles.setLanguageKey("gui.config.processors.processor_particles");
 		
 		Property propertyRTGPower = config.get(CATEGORY_GENERATORS, "rtg_power", new int[] {4, 100, 50, 400}, Lang.localise("gui.config.generators.rtg_power.comment"), 1, Integer.MAX_VALUE);
 		propertyRTGPower.setLanguageKey("gui.config.generators.rtg_power");
@@ -242,7 +245,7 @@ public class NCConfig {
 		propertyFissionHeatGeneration.setLanguageKey("gui.config.fission.fission_heat_generation");
 		Property propertyFissionCoolingRate = config.get(CATEGORY_FISSION, "fission_cooling_rate", new double[] {60D, 90D, 70D, 120D, 130D, 120D, 150D, 140D, 120D, 160D, 80D, 160D, 80D, 100D, 110D}, Lang.localise("gui.config.fission.fission_cooling_rate.comment"), 0D, 32767D);
 		propertyFissionCoolingRate.setLanguageKey("gui.config.fission.fission_cooling_rate");
-		Property propertyFissionActiveCoolingRate = config.get(CATEGORY_FISSION, "fission_active_cooling_rate", new double[] {300D, 6400D, 6000D, 9600D, 8000D, 5600D, 14000D, 13200D, 10800D, 12800D, 4800D, 7200D, 5200D, 6000D, 7200D}, Lang.localise("gui.config.fission.fission_active_cooling_rate.comment"), 1D, 16777215D);
+		Property propertyFissionActiveCoolingRate = config.get(CATEGORY_FISSION, "fission_active_cooling_rate", new double[] {100D, 6400D, 6000D, 9600D, 8000D, 5600D, 14000D, 13200D, 10800D, 12800D, 4800D, 7200D, 5200D, 6000D, 7200D}, Lang.localise("gui.config.fission.fission_active_cooling_rate.comment"), 1D, 16777215D);
 		propertyFissionActiveCoolingRate.setLanguageKey("gui.config.fission.fission_active_cooling_rate");
 		Property propertyFissionWaterCoolerRequirement = config.get(CATEGORY_FISSION, "fission_water_cooler_requirement", true, Lang.localise("gui.config.fission.fission_water_cooler_requirement.comment"));
 		propertyFissionWaterCoolerRequirement.setLanguageKey("gui.config.fission.fission_water_cooler_requirement");
@@ -436,6 +439,7 @@ public class NCConfig {
 		//propertyOrderProcessors.add(propertyUpdateBlockType.getName());
 		propertyOrderProcessors.add(propertySmartProcessorInput.getName());
 		propertyOrderProcessors.add(propertyPermeation.getName());
+		propertyOrderProcessors.add(propertyProcessorParticles.getName());
 		config.setCategoryPropertyOrder(CATEGORY_PROCESSORS, propertyOrderProcessors);
 		
 		List<String> propertyOrderGenerators = new ArrayList<String>();
@@ -577,6 +581,7 @@ public class NCConfig {
 			//update_block_type = propertyUpdateBlockType.getBoolean();
 			smart_processor_input = propertySmartProcessorInput.getBoolean();
 			passive_permeation = propertyPermeation.getBoolean();
+			processor_particles = propertyProcessorParticles.getBoolean();
 			
 			rtg_power = readIntegerArrayFromConfig(propertyRTGPower);
 			solar_power = readIntegerArrayFromConfig(propertySolarPower);
@@ -703,6 +708,7 @@ public class NCConfig {
 		//propertyUpdateBlockType.set(update_block_type);
 		propertySmartProcessorInput.set(smart_processor_input);
 		propertyPermeation.set(passive_permeation);
+		propertyProcessorParticles.set(processor_particles);
 		
 		propertyRTGPower.set(rtg_power);
 		propertySolarPower.set(solar_power);

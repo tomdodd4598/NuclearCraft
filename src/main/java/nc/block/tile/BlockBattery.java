@@ -2,6 +2,7 @@ package nc.block.tile;
 
 import nc.enumm.BlockEnums.SimpleTileType;
 import nc.tile.energy.IBattery;
+import nc.tile.energy.storage.Storage;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -20,9 +21,9 @@ public class BlockBattery extends BlockSimpleTile {
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if (player != null) {
-			TileEntity tileentity = world.getTileEntity(pos);
-			if (tileentity instanceof IBattery) {
-				if ((player.getHeldItemMainhand().isEmpty() || !player.isSneaking()) && world.isRemote) player.sendMessage(new TextComponentString("Energy Stored: " + ((IBattery) tileentity).getBatteryStorage().getEnergyStored() + " / " + ((IBattery) tileentity).getBatteryStorage().getMaxEnergyStored() + " RF"));
+			if (world.getTileEntity(pos) instanceof IBattery) {
+				Storage storage = ((IBattery) world.getTileEntity(pos)).getBatteryStorage();
+				if (!player.isSneaking() && !world.isRemote) player.sendMessage(new TextComponentString("Energy Stored: " + storage.getEnergyStored() + " / " + storage.getMaxEnergyStored() + " RF"));
 			}
 		}
 		return true;

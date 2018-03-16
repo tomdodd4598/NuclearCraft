@@ -24,6 +24,7 @@ public class PressurizerRecipes extends BaseRecipeHandler {
 		addRecipe("dustDiamond", "gemDiamond", NCConfig.processor_time[11]);
 		addRecipe("dustRhodochrosite", "gemRhodochrosite", NCConfig.processor_time[11]);
 		addRecipe("dustQuartz", "gemQuartz", NCConfig.processor_time[11]);
+		addRecipe("dustNetherQuartz", "gemQuartz", NCConfig.processor_time[11]);
 		addRecipe(oreStack("dustObsidian", 4), Blocks.OBSIDIAN, NCConfig.processor_time[11]*2);
 		addRecipe("dustBoronNitride", "gemBoronNitride", NCConfig.processor_time[11]);
 		addRecipe("dustFluorite", "gemFluorite", NCConfig.processor_time[11]);

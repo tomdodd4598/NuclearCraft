@@ -12,7 +12,7 @@ public class ElectrolyserRecipes extends BaseRecipeHandler {
 
 	@Override
 	public void addRecipes() {
-		addRecipe(fluidStack("water", FluidHelper.BUCKET_VOLUME), fluidStack("hydrogen", 475), fluidStack("hydrogen", 475), fluidStack("deuterium", 50), fluidStack("oxygen", FluidHelper.BUCKET_VOLUME/2), NCConfig.processor_time[8]);
+		addRecipe(fluidStack("water", FluidHelper.BUCKET_VOLUME), fluidStack("hydrogen", 475), fluidStack("hydrogen", 475), fluidStack("deuterium", 50), fluidStack("oxygen", FluidHelper.BUCKET_VOLUME/2), NCConfig.processor_time[8]*2);
 		addRecipe(fluidStack("hydrofluoric_acid", FluidHelper.BUCKET_VOLUME), fluidStack("hydrogen", FluidHelper.BUCKET_VOLUME/4), fluidStack("hydrogen", FluidHelper.BUCKET_VOLUME/4), fluidStack("fluorine", FluidHelper.BUCKET_VOLUME/4), fluidStack("fluorine", FluidHelper.BUCKET_VOLUME/4), NCConfig.processor_time[8]/2);
 		
 		addElementFluorideRecipes("thorium", "uranium", "plutonium");
@@ -35,7 +35,7 @@ public class ElectrolyserRecipes extends BaseRecipeHandler {
 		addFissionFuelFluorideRecipes("ecf", 249, 251);
 		
 		// Mekanism
-		addRecipe(fluidStack("heavywater", FluidHelper.BUCKET_VOLUME), fluidStack("deuterium", 475), fluidStack("deuterium", 475), fluidStack("tritium", 50), fluidStack("oxygen", FluidHelper.BUCKET_VOLUME/2), NCConfig.processor_time[8]);
+		addRecipe(fluidStack("heavywater", FluidHelper.BUCKET_VOLUME), fluidStack("deuterium", 475), fluidStack("deuterium", 475), fluidStack("tritium", 50), fluidStack("oxygen", FluidHelper.BUCKET_VOLUME/2), NCConfig.processor_time[8]*2);
 	}
 	
 	public void addElementFluorideRecipes(String... elements) {

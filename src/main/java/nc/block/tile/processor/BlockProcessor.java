@@ -4,6 +4,7 @@ import java.util.Random;
 
 import nc.block.tile.BlockSidedInventoryGui;
 import nc.block.tile.IActivatable;
+import nc.config.NCConfig;
 import nc.enumm.BlockEnums.ProcessorType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -67,7 +68,7 @@ public class BlockProcessor extends BlockSidedInventoryGui implements IActivatab
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random rand) {
-		if (type.getParticle1() == "" && type.getParticle2() == "") return;
+		if ((type.getParticle1() == "" && type.getParticle2() == "") || !NCConfig.processor_particles) return;
 		if (isActive) {
 			EnumFacing enumfacing = (EnumFacing) state.getValue(FACING);
 			double d0 = (double)pos.getX() + 0.5D;

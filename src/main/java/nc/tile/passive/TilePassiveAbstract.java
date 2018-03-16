@@ -24,7 +24,7 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 
-public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory /*implements IInterfaceable*/ {
+public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory implements /*IInterfaceable,*/ ITilePassive {
 	
 	public int tickCount;
 	public final int updateRate;
@@ -171,6 +171,7 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 	}
 	
 	public boolean isRunning(boolean energy, boolean stack, boolean fluid) {
+		if (energyChange == 0 && itemChange == 0 && fluidChange == 0) return true;
 		if (energyChange >= 0) {
 			if (itemChange >= 0) {
 				if (fluidChange >= 0) return energy || stack || fluid;
@@ -188,6 +189,30 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 				else return energy && stack && fluid;
 			}
 		}
+	}
+	
+	public int getEnergyChange() {
+		return energyChange;
+	}
+	
+	public int getItemChange() {
+		return itemChange;
+	}
+	
+	public int getFluidChange() {
+		return fluidChange;
+	}
+	
+	public boolean canPushEnergyTo() {
+		return energyChange < 0;
+	}
+	
+	public boolean canPushItemsTo() {
+		return itemChange < 0;
+	}
+	
+	public boolean canPushFluidsTo() {
+		return fluidChange < 0;
 	}
 	
 	// Inventory

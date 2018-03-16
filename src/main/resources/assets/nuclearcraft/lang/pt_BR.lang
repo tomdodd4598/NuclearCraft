@@ -122,9 +122,9 @@ tile.nuclearcraft.fuel_reprocessor_idle.name=Reprocessador de Combustível
 tile.nuclearcraft.fuel_reprocessor_idle.desc=Extrai materiais de combustíveis esgotados.
 tile.nuclearcraft.fuel_reprocessor_active.name=Reprocessador de Combustível
 
-tile.nuclearcraft.alloy_furnace_idle.name=Fundição de Ligas
+tile.nuclearcraft.alloy_furnace_idle.name=Derretidora de Ligas
 tile.nuclearcraft.alloy_furnace_idle.desc=Cria ligas metálicas a partir de materiais básicos.
-tile.nuclearcraft.alloy_furnace_active.name=Fundição de Ligas
+tile.nuclearcraft.alloy_furnace_active.name=Derretidora de Ligas
 
 tile.nuclearcraft.infuser_idle.name=Infusor de Fluidos
 tile.nuclearcraft.infuser_idle.desc=Melhora materiais usando fluidos.
@@ -170,9 +170,9 @@ tile.nuclearcraft.dissolver_idle.name=Enriqueçedor de Fluidos
 tile.nuclearcraft.dissolver_idle.desc=Enriquece fluidos com materiais.
 tile.nuclearcraft.dissolver_active.name=Dissolvedor
 
-tile.nuclearcraft.extractor_idle.name=Extrator de Fluido
-tile.nuclearcraft.extractor_idle.desc=Extrai fluidos de materiais.
-tile.nuclearcraft.extractor_active.name=Extrator de Fluido
+tile.nuclearcraft.nuclearcraft.extractor_idle.name=Extrator de Fluido
+tile.nuclearcraft.nuclearcraft.extractor_idle.desc=Extrai fluidos de materiais.
+tile.nuclearcraft.nuclearcraft.extractor_active.name=Extrator de Fluido
 
 tile.nuclearcraft.machine_interface.name=Interface de Máquinas
 tile.nuclearcraft.machine_interface.desc=Automações podem acessar a máquina que estiver diretamente adjacente a esta. Tenha certeza de que há apenas uma máquina adjacente, no máximo.
@@ -244,9 +244,9 @@ tile.nuclearcraft.cobblestone_generator_compact.name=Gerador de Pedregulho Compa
 tile.nuclearcraft.cobblestone_generator_dense.name=Gerador de Pedregulho Denso
 tile.nuclearcraft.cobblestone_generator.desc=Produz %s constantemente.
 
-tile.nuclearcraft.water_source.name=Fonte de Água Infinita
-tile.nuclearcraft.water_source_compact.name=Fonte de Água Infinita Compacto
-tile.nuclearcraft.water_source_dense.name=Fonte de Água Infinita Denso
+tile.nuclearcraft.water_source.name=Bloco de Água Infinita
+tile.nuclearcraft.water_source_compact.name=Bloco de Água Infinita Compacto
+tile.nuclearcraft.water_source_dense.name=Bloco de Água Infinita Denso
 tile.nuclearcraft.water_source.desc=Produz %s de água constantemente.
 
 tile.nuclearcraft.nitrogen_collector.name=Coletor de Nitrogênio
@@ -322,16 +322,16 @@ tile.nuclearcraft.fluid_radaway.name=Fluido RadAway
 fluid.radaway=Fluido RadAway
 
 tile.nuclearcraft.fluid_beryllium.name=Berilo
-fluid.beryllium=Berílo Derretido
+fluid.beryllium=Berílo
 
 tile.nuclearcraft.fluid_lif.name=Fluoreto de Lítio
-fluid.lif=Fluoreto de Lítio Derretido
+fluid.lif=Fluoreto de Lítio
 
 tile.nuclearcraft.fluid_bef2.name=Fluoreto de Berílio
-fluid.bef2=Fluoreto de Berílio Derretido
+fluid.bef2=Fluoreto de Berílio
 
 tile.nuclearcraft.fluid_flibe.name=Sais de FLiBe
-fluid.flibe=Sais de FLiBe Derretidos
+fluid.flibe=Sais de FLiBe
 
 tile.nuclearcraft.fluid_boron_nitride_solution.name=Solução de Nitrido de Boro
 fluid.boron_nitride_solution=Solução de Nitrido de Boro
@@ -539,8 +539,8 @@ fluid.fuel_tbu=Combustível TBU Derretido
 tile.nuclearcraft.fluid_fuel_tbu_fluoride.name=Fluoreto de Combustível TBU Derretido
 fluid.fuel_tbu_fluoride=Fluoreto de Combustível TBU Derretido
 tile.nuclearcraft.fluid_fuel_tbu_fluoride_flibe.name=Mistura Derretida de Sais de FLiBe com Combustível TBU
-fluid.fuel_tbu_fluoride_flibe=Mistura Derretida de Sais de FLiBe com Combustível TBU Derretido
-
+fluid.fuel_tbu_fluoride_flibe=Mistura Derretida de Sais de FLiBe com Combustível TBU
+ Derretido
 tile.nuclearcraft.fluid_fuel_leu_233.name=Combustível LEU-233 Derretido
 fluid.fuel_leu_233=Combustível LEU-233 Derretido
 tile.nuclearcraft.fluid_fuel_leu_233_fluoride.name=Fluoreto de Combustível LEU-233  Derretido
@@ -900,7 +900,6 @@ item.nuclearcraft.gem_dust.boron_nitride.name=Nitrido de Boro Amorfo
 item.nuclearcraft.gem_dust.fluorite.name=Fluorita Moída
 item.nuclearcraft.gem_dust.sulfur.name=Enxofre
 item.nuclearcraft.gem_dust.sulfur.desc=Obtido ao minerar blocos de Minério de Carvão.
-item.nuclearcraft.gem_dust.coal.name=Carvão Triturado
 
 item.nuclearcraft.alloy.bronze.name=Liga de Bronze
 item.nuclearcraft.alloy.tough.name=Liga Resistente
@@ -1355,7 +1354,7 @@ item.nuclearcraft.chest_boron_nitride.name=Armadura de Nitrido de Boro
 item.nuclearcraft.legs_boron_nitride.name=Calças de Nitrido de Boro
 item.nuclearcraft.boots_boron_nitride.name=Botas de Nitrido de Boro
 
-item.nuclearcraft.reactor_door_item.name=Porta de Reator
+item.nuclearcraft.reactor_door_item.nuclearcraft.name=Porta de Reator
 
 item.nuclearcraft.portable_ender_chest.name=Baú do End Portátil
 item.nuclearcraft.portable_ender_chest.desc=Acesse seu baú do end enquanto se move.
@@ -1629,18 +1628,8 @@ gui.config.armor.armor_toughness.comment=Toughnesses of armor types. Ordem: boro
 gui.config.category.other=Outras Configurações
 gui.config.category.other.tooltip=Configurações Aleatórias
 
-gui.config.other.mushroom_spread_rate=Mushroom Spread Rate
-gui.config.other.mushroom_spread_rate.comment=Glowing Mushroom spread rate.
-gui.config.other.mushroom_gen=Generate Mushrooms
-gui.config.other.mushroom_gen.comment=Will glowing mushrooms generate in the nether?
-gui.config.other.mushroom_gen_size=Mushroom Gen Size
-gui.config.other.mushroom_gen_size.comment=Determines how many glowing mushrooms will spawn at a time.
-gui.config.other.mushroom_gen_rate=Mushroom Gen Rate
-gui.config.other.mushroom_gen_rate.comment=Determines how often glowing mushrooms will spawn.
-
 gui.config.other.rare_drops=Habilitar Drops Raros
 gui.config.other.rare_drops.comment=Mobs devem dropar itens raros?
-
 gui.config.other.register_fluid_blocks=Register Fission Fluids
 gui.config.other.register_fluid_blocks.comment=Register fission fluids? It is recommended that this is left true unless running out of block IDs.
 

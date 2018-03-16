@@ -11,6 +11,7 @@ import nc.config.NCConfig;
 import nc.tile.NCTile;
 import nc.tile.energy.storage.Storage;
 import nc.tile.energy.storage.EnumStorage.EnergyConnection;
+import nc.tile.passive.ITilePassive;
 import net.darkhax.tesla.capability.TeslaCapabilities;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -190,6 +191,7 @@ public abstract class TileEnergy extends NCTile implements ITileEnergy, IEnergyS
 		if (storage.getEnergyStored() <= 0 || !energyConnection.canExtract()) return;
 		for (EnumFacing side : EnumFacing.VALUES) {
 			TileEntity tile = world.getTileEntity(getPos().offset(side));
+			if (tile instanceof ITilePassive) if (!((ITilePassive) tile).canPushEnergyTo()) continue;
 			IEnergyStorage adjStorage = tile == null ? null : tile.getCapability(CapabilityEnergy.ENERGY, side.getOpposite());
 			
 			if (adjStorage != null && storage.canExtract()) {
@@ -206,6 +208,7 @@ public abstract class TileEnergy extends NCTile implements ITileEnergy, IEnergyS
 		if (storage.getEnergyStored() <= 0 || energyConnection == EnergyConnection.NON) return;
 		for (EnumFacing side : EnumFacing.VALUES) {
 			TileEntity tile = world.getTileEntity(getPos().offset(side));
+			if (tile instanceof ITilePassive) if (!((ITilePassive) tile).canPushEnergyTo()) continue;
 			IEnergyStorage adjStorage = tile == null ? null : tile.getCapability(CapabilityEnergy.ENERGY, side.getOpposite());
 			
 			if (!(tile instanceof IEnergySpread)) continue;

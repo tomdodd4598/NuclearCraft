@@ -82,6 +82,7 @@ public class OreDictHandler {
 		OreDictionary.registerOre("dustDiamond", new ItemStack(NCItems.gem_dust, 1, 0));
 		OreDictionary.registerOre("dustRhodochrosite", new ItemStack(NCItems.gem_dust, 1, 1));
 		OreDictionary.registerOre("dustQuartz", new ItemStack(NCItems.gem_dust, 1, 2));
+		OreDictionary.registerOre("dustNetherQuartz", new ItemStack(NCItems.gem_dust, 1, 2));
 		OreDictionary.registerOre("dustObsidian", new ItemStack(NCItems.gem_dust, 1, 3));
 		OreDictionary.registerOre("dustBoronNitride", new ItemStack(NCItems.gem_dust, 1, 4));
 		OreDictionary.registerOre("dustFluorite", new ItemStack(NCItems.gem_dust, 1, 5));
