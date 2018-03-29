@@ -31,6 +31,12 @@ public class GuiFissionController extends NCGui {
 		xSize = 176;
 		ySize = 177;
 	}
+	
+	@Override
+	public void renderTooltips(int mouseX, int mouseY) {
+		drawEnergyTooltip(tile, mouseX, mouseY, 8, 6, 6, 85);
+		drawHeatTooltip(mouseX, mouseY, 18, 6, 6, 85);
+	}
 
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
@@ -47,9 +53,6 @@ public class GuiFissionController extends NCGui {
 		fontRenderer.drawString(power, 170 - fontRenderer.getStringWidth(power), ySize - 104, fontColor);
 		String heatGen = UnitHelper.prefix(tile.heatChange, 6, "H/t");
 		fontRenderer.drawString(heatGen, 170 - fontRenderer.getStringWidth(heatGen), ySize - 93, fontColor);
-		
-		drawEnergyTooltip(tile, mouseX, mouseY, 8, 6, 6, 85);
-		drawHeatTooltip(mouseX, mouseY, 18, 6, 6, 85);
 	}
 	
 	@Override

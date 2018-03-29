@@ -1,0 +1,26 @@
+{
+	"display": {
+		"icon": {
+			"item": "nuclearcraft:ingot_former_active"
+		},
+		"title": {
+			"translate": "advancement.nuclearcraft.ingot_former.name"
+		},
+		"description": {
+			"translate": "advancement.nuclearcraft.ingot_former.desc"
+		}
+	},
+	"parent": "nuclearcraft:processors/melter",
+	"criteria": {
+		"has_item": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"item": "nuclearcraft:ingot_former_idle"
+					}
+				]
+			}
+		}
+	}
+}

@@ -3,16 +3,19 @@ package nc.proxy;
 import nc.Global;
 import nc.ModCheck;
 import nc.handler.DropHandler;
+import nc.handler.DungeonLootHandler;
 import nc.handler.OreDictHandler;
 import nc.handler.SoundHandler;
 import nc.init.NCArmor;
 import nc.init.NCBlocks;
+import nc.init.NCCoolantFluids;
 import nc.init.NCFissionFluids;
 import nc.init.NCFluids;
 import nc.init.NCItems;
 import nc.init.NCTiles;
 import nc.init.NCTools;
 import nc.network.PacketHandler;
+import nc.recipe.NCRecipes;
 import nc.recipe.vanilla.CraftingRecipeHandler;
 import nc.recipe.vanilla.FurnaceFuelHandler;
 import nc.recipe.vanilla.FurnaceRecipeHandler;
@@ -26,8 +29,10 @@ import nc.tab.TabFluids;
 import nc.tab.TabFusion;
 import nc.tab.TabMachines;
 import nc.tab.TabMisc;
-import nc.worldgen.MushroomGenerator;
-import nc.worldgen.OreGenerator;
+import nc.worldgen.biome.NCBiomes;
+import nc.worldgen.decoration.BushGenerator;
+import nc.worldgen.dimension.NCWorlds;
+import nc.worldgen.ore.OreGenerator;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.common.MinecraftForge;
@@ -57,7 +62,6 @@ public class CommonProxy {
 		NCTools.init();
 		NCArmor.init();
 		
-		
 		NCBlocks.register();
 		NCItems.register();
 		NCTools.register();
@@ -65,39 +69,45 @@ public class CommonProxy {
 		
 		NCFluids.register();
 		NCFissionFluids.register();
+		NCCoolantFluids.register();
 		
 		NCTiles.register();
 		
-		OreDictHandler.registerOres();
-		
 		PacketHandler.registerMessages(Global.MOD_ID);
 		
-		//AdvancementHandler.registerAdvancements();
+		NCWorlds.registerDimensions();
 	}
 
 	public void init(FMLInitializationEvent event) {
-		initFissionFluidColors();
+		initFluidColors();
+		
+		OreDictHandler.registerOres();
 		
 		ModCheck.init();
 		MinecraftForge.EVENT_BUS.register(new DropHandler());
+		MinecraftForge.EVENT_BUS.register(new DungeonLootHandler());
 		
+		NCRecipes.init();
 		CraftingRecipeHandler.registerCraftingRecipes();
 		FurnaceRecipeHandler.registerFurnaceRecipes();
 		GameRegistry.registerFuelHandler(new FurnaceFuelHandler());
 		
+		NCBiomes.initBiomeManagerAndDictionary();
+		
 		GameRegistry.registerWorldGenerator(new OreGenerator(), 0);
-		GameRegistry.registerWorldGenerator(new MushroomGenerator(), 100);
+		GameRegistry.registerWorldGenerator(new BushGenerator(), 100);
+		//GameRegistry.registerWorldGenerator(new WastelandPortalGenerator(), 10);
 	}
 
 	public void postInit(FMLPostInitializationEvent postEvent) {
-		//if (ModCheck.craftTweakerLoaded()) NCCraftTweaker.init(); Not needed as ZenRegister registers handlers
+		
 	}
 	
 	public void registerFluidBlockRendering(Block block, String name) {
 		
 	}
 	
-	public void initFissionFluidColors() {
+	public void initFluidColors() {
 		
 	}
 }

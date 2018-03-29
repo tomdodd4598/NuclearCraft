@@ -1,0 +1,28 @@
+{
+	"display": {
+		"icon": {
+			"item": "nuclearcraft:fuel_rod_uranium"
+		},
+		"title": {
+			"translate": "advancement.nuclearcraft.root.name"
+		},
+		"description": {
+			"translate": "advancement.nuclearcraft.root.desc"
+		},
+		"background": "nuclearcraft:textures/blocks/dry_earth.png",
+		"show_toast": false,
+		"announce_to_chat": false
+	},
+	"criteria": {
+		"has_item": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"item": "minecraft:stick"
+					}
+				]
+			}
+		}
+	}
+}

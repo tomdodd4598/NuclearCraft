@@ -19,6 +19,16 @@ public class RecipeStack implements IIngredient, IRecipeStack {
 	public Object getIngredient() {
 		return stack instanceof ItemStack ? ((ItemStack) stack).copy() : (stack instanceof FluidStack ? ((FluidStack) stack).copy() : stack);
 	}
+	
+	@Override
+	public String getIngredientName() {
+		return stack instanceof ItemStack ? ((ItemStack) stack).getItem().getUnlocalizedName() : (stack instanceof FluidStack ? ((FluidStack) stack).getFluid().getName() : "");
+	}
+
+	@Override
+	public StackType getIngredientType() {
+		return stack instanceof ItemStack ? StackType.ITEM : (stack instanceof FluidStack ? StackType.FLUID : StackType.UNSPECIFIED);
+	}
 
 	@Override
 	public boolean matches(Object object, SorptionType type) {
@@ -41,6 +51,19 @@ public class RecipeStack implements IIngredient, IRecipeStack {
 				return false;
 			}
 			return type.checkStackSize(((FluidStack)stack).amount, fluidstack.amount);
+		}
+		else if (object instanceof RecipeOreStack) {
+			RecipeOreStack oreStack = (RecipeOreStack) object;
+			if (!oreStack.isFluid && stack instanceof ItemStack) {
+				for (ItemStack itemStack : oreStack.cachedItemRegister) {
+					if (matches(itemStack, type)) return type.checkStackSize(((ItemStack)stack).getCount(), oreStack.stackSize);
+				}
+			}
+			else if (oreStack.isFluid && stack instanceof FluidStack) {
+				for (FluidStack fluidstack : oreStack.cachedFluidRegister) {
+					if (matches(fluidstack, type)) return type.checkStackSize(((FluidStack)stack).amount, oreStack.stackSize);
+				}
+			}
 		}
 		return false;
 	}

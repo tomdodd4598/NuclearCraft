@@ -6,7 +6,7 @@ import nc.recipe.BaseRecipeHandler;
 public class DecayHastenerRecipes extends BaseRecipeHandler {
 	
 	public DecayHastenerRecipes() {
-		super("decay_hastener", 1, 0, 1, 0, false);
+		super("decay_hastener", 1, 0, 1, 0);
 	}
 
 	@Override

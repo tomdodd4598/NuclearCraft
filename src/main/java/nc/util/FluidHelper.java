@@ -4,14 +4,18 @@ public class FluidHelper {
 	
 	public static final int BUCKET_VOLUME = 1000;
 	
-	public static final int ORE_VOLUME = 324;
+	public static final int INGOT_ORE_VOLUME = 324;
 	public static final int INGOT_VOLUME = 144;
 	public static final int NUGGET_VOLUME = INGOT_VOLUME/9;
 	public static final int INGOT_BLOCK_VOLUME = INGOT_VOLUME*9;
 	
 	public static final int FRAGMENT_VOLUME = INGOT_VOLUME/4;
 	public static final int SHARD_VOLUME = INGOT_VOLUME/2;
+	
+	public static final int GEM_ORE_VOLUME = 1665;
 	public static final int GEM_VOLUME = 666;
+	public static final int GEM_NUGGET_VOLUME = GEM_VOLUME/9;
+	public static final int GEM_BLOCK_VOLUME = GEM_VOLUME*9;
 	
 	public static final int GLASS_VOLUME = BUCKET_VOLUME;
 	public static final int GLASS_PANE_VOLUME = (GLASS_VOLUME*6)/16;

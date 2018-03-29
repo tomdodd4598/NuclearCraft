@@ -4,7 +4,7 @@ import javax.annotation.Nullable;
 
 import nc.ModCheck;
 import nc.config.NCConfig;
-import nc.tile.energy.storage.EnumStorage.EnergyConnection;
+import nc.tile.energy.storage.EnumEnergyStorage.EnergyConnection;
 import nc.tile.energyFluid.TileEnergyFluidSidedInventory;
 import nc.tile.fluid.tank.EnumTank.FluidConnection;
 import nc.util.StackHelper;
@@ -191,26 +191,32 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 		}
 	}
 	
+	@Override
 	public int getEnergyChange() {
 		return energyChange;
 	}
 	
+	@Override
 	public int getItemChange() {
 		return itemChange;
 	}
 	
+	@Override
 	public int getFluidChange() {
 		return fluidChange;
 	}
 	
+	@Override
 	public boolean canPushEnergyTo() {
 		return energyChange < 0;
 	}
 	
+	@Override
 	public boolean canPushItemsTo() {
 		return itemChange < 0;
 	}
 	
+	@Override
 	public boolean canPushFluidsTo() {
 		return fluidChange < 0;
 	}

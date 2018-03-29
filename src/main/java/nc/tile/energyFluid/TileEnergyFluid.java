@@ -3,11 +3,11 @@ package nc.tile.energyFluid;
 import nc.ModCheck;
 import nc.config.NCConfig;
 import nc.tile.energy.TileEnergy;
-import nc.tile.energy.storage.EnumStorage.EnergyConnection;
+import nc.tile.energy.storage.EnumEnergyStorage.EnergyConnection;
 import nc.tile.fluid.IFluidSpread;
 import nc.tile.fluid.ITileFluid;
-import nc.tile.fluid.tank.Tank;
 import nc.tile.fluid.tank.EnumTank.FluidConnection;
+import nc.tile.fluid.tank.Tank;
 import nc.tile.passive.ITilePassive;
 import net.darkhax.tesla.capability.TeslaCapabilities;
 import net.minecraft.nbt.NBTTagCompound;
@@ -161,7 +161,7 @@ public abstract class TileEnergyFluid extends TileEnergy implements ITileFluid, 
 		if (tanks.length == 0 || tanks == null) return null;
 		for (int i = 0; i < tanks.length; i++) {
 			if (fluidConnections[i].canDrain() && tanks[i].getFluid() != null && tanks[i].getFluidAmount() > 0) {
-				return tanks[i].drain(resource.amount, doDrain);
+				if (resource.isFluidEqual(tanks[i].getFluid()) && tanks[i].drain(resource, false) != null) return tanks[i].drain(resource, doDrain);
 			}
 		}
 		return null;
@@ -172,7 +172,7 @@ public abstract class TileEnergyFluid extends TileEnergy implements ITileFluid, 
 		if (tanks.length == 0 || tanks == null) return null;
 		for (int i = 0; i < tanks.length; i++) {
 			if (fluidConnections[i].canDrain() && tanks[i].getFluid() != null && tanks[i].getFluidAmount() > 0) {
-				return tanks[i].drain(maxDrain, doDrain);
+				if (tanks[i].drain(maxDrain, false) != null) return tanks[i].drain(maxDrain, doDrain);
 			}
 		}
 		return null;

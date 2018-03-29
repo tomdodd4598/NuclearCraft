@@ -25,19 +25,21 @@ public class GuiIrradiator extends GuiFluidProcessor {
 	}
 	
 	@Override
-	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-		super.drawGuiContainerForegroundLayer(mouseX, mouseY);
-		//fontRendererObj.drawString(tile.storage.getEnergyStored() + " RF", 28, ySize - 94, 4210752);
-		
-		GuiItemRenderer itemRenderer = new GuiItemRenderer(132, ySize - 102, 0.5F, NCItems.upgrade, 0);
-		itemRenderer.draw();
-		
+	public void renderTooltips(int mouseX, int mouseY) {
 		drawFluidTooltip(fluid0, tile.tanks[0], mouseX, mouseY, 32, 35, 16, 16);
 		drawFluidTooltip(fluid1, tile.tanks[1], mouseX, mouseY, 52, 35, 16, 16);
 		drawFluidTooltip(fluid2, tile.tanks[2], mouseX, mouseY, 108, 31, 24, 24);
 		drawFluidTooltip(fluid3, tile.tanks[3], mouseX, mouseY, 136, 31, 24, 24);
 		
 		drawEnergyTooltip(tile, mouseX, mouseY, 8, 6, 16, 74);
+	}
+	
+	@Override
+	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
+		super.drawGuiContainerForegroundLayer(mouseX, mouseY);
+		
+		GuiItemRenderer itemRenderer = new GuiItemRenderer(132, ySize - 102, 0.5F, NCItems.upgrade, 0);
+		itemRenderer.draw();
 	}
 	
 	@Override

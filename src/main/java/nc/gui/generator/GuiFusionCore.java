@@ -45,6 +45,22 @@ public class GuiFusionCore extends NCGui {
 		xSize = 218;
 		ySize = 187;
 	}
+	
+	@Override
+	public void renderTooltips(int mouseX, int mouseY) {
+		drawTooltip(Lang.localise("gui.container.change_tanks_mode"), mouseX, mouseY, 195, 5, 18, 18);
+		
+		drawFluidTooltip(fluid0, tile.tanks[0], mouseX, mouseY, 38, 6, 6, 46);
+		drawFluidTooltip(fluid1, tile.tanks[1], mouseX, mouseY, 38, 55, 6, 46);
+		drawFluidTooltip(fluid2, tile.tanks[2], mouseX, mouseY, 172, 6, 6, 46);
+		drawFluidTooltip(fluid3, tile.tanks[3], mouseX, mouseY, 182, 6, 6, 46);
+		drawFluidTooltip(fluid4, tile.tanks[4], mouseX, mouseY, 172, 55, 6, 46);
+		drawFluidTooltip(fluid5, tile.tanks[5], mouseX, mouseY, 182, 55, 6, 46);
+		
+		drawEnergyTooltip(tile, mouseX, mouseY, 8, 6, 6, 95);
+		drawHeatTooltip(mouseX, mouseY, 18, 6, 6, 95);
+		drawEfficiencyTooltip(mouseX, mouseY, 28, 6, 6, 95);
+	}
 
 	protected int widthHalf(String s) {
 		return fontRenderer.getStringWidth(s)/2;
@@ -69,19 +85,6 @@ public class GuiFusionCore extends NCGui {
 		String input2 = fluid1 != null ? fluid1.getLocalizedName() : (fluid7 != null ? fluid7.getLocalizedName() : Lang.localise("gui.container.fusion_core.empty"));
 		fontRenderer.drawString(input1, 108 - widthHalf(input1), 76, fontColor);
 		fontRenderer.drawString(input2, 108 - widthHalf(input2), 87, fontColor);
-		
-		drawTooltip(Lang.localise("gui.container.change_tanks_mode"), mouseX, mouseY, 195, 5, 18, 18);
-		
-		drawFluidTooltip(fluid0, tile.tanks[0], mouseX, mouseY, 38, 6, 6, 46);
-		drawFluidTooltip(fluid1, tile.tanks[1], mouseX, mouseY, 38, 55, 6, 46);
-		drawFluidTooltip(fluid2, tile.tanks[2], mouseX, mouseY, 172, 6, 6, 46);
-		drawFluidTooltip(fluid3, tile.tanks[3], mouseX, mouseY, 182, 6, 6, 46);
-		drawFluidTooltip(fluid4, tile.tanks[4], mouseX, mouseY, 172, 55, 6, 46);
-		drawFluidTooltip(fluid5, tile.tanks[5], mouseX, mouseY, 182, 55, 6, 46);
-		
-		drawEnergyTooltip(tile, mouseX, mouseY, 8, 6, 6, 95);
-		drawHeatTooltip(mouseX, mouseY, 18, 6, 6, 95);
-		drawEfficiencyTooltip(mouseX, mouseY, 28, 6, 6, 95);
 	}
 	
 	@Override

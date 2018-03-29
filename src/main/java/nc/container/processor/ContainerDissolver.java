@@ -11,9 +11,9 @@ import net.minecraft.inventory.SlotFurnaceOutput;
 public class ContainerDissolver extends ContainerItemFluidProcessor {
 
 	public ContainerDissolver(EntityPlayer player, TileItemFluidProcessor tileEntity) {
-		super(tileEntity, NCRecipes.DISSOLVER_RECIPES);
+		super(tileEntity, NCRecipes.Type.DISSOLVER);
 		
-		addSlotToContainer(new SlotProcessorInput(tileEntity, recipes, 0, 46, 35));
+		addSlotToContainer(new SlotProcessorInput(tileEntity, recipeType, 0, 46, 35));
 		
 		addSlotToContainer(new SlotSpecificInput(tileEntity, 1, 132, 64, speedUpgrade));
 		addSlotToContainer(new SlotFurnaceOutput(player, tileEntity, 2, 152, 64));

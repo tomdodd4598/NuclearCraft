@@ -1,11 +1,15 @@
 package nc.proxy;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import nc.Global;
 import nc.block.fluid.BlockFluidBase;
 import nc.config.NCConfig;
-import nc.fluid.FluidFission;
+import nc.fluid.FluidBase;
 import nc.init.NCArmor;
 import nc.init.NCBlocks;
+import nc.init.NCCoolantFluids;
 import nc.init.NCFissionFluids;
 import nc.init.NCItems;
 import nc.init.NCTools;
@@ -100,12 +104,19 @@ public class ClientProxy extends CommonProxy {
 	}
 	
 	@Override
-	public void initFissionFluidColors() {
-		super.initFissionFluidColors();
+	public void initFluidColors() {
+		super.initFluidColors();
+		List<FluidBase> fluidList = new ArrayList<FluidBase>();
+		fluidList.addAll(NCCoolantFluids.fluidList);
+		fluidList.addAll(NCFissionFluids.fluidList);
+		initFluidColors(fluidList);
+	}
+	
+	private <T extends FluidBase> void initFluidColors(List<T> fluidList) {
 		if(FMLCommonHandler.instance().getEffectiveSide().isClient()) {
 			BlockColors blockcolors = Minecraft.getMinecraft().getBlockColors();
 			ItemColors itemcolors = Minecraft.getMinecraft().getItemColors();
-			for(FluidFission fluid : NCFissionFluids.fluidList) {
+			for(T fluid : fluidList) {
 				if (fluid.getBlock() != null) if (NCUtil.isSubclassOf(fluid.getBlock().getClass(), BlockFluidBase.class)) {
 					BlockFluidBase block = (BlockFluidBase) fluid.getBlock();
 					blockcolors.registerBlockColorHandler(new ColorRenderer.FluidBlockColor(block), block);

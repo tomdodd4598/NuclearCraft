@@ -1,44 +1,23 @@
 package nc.recipe.processor;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import nc.config.NCConfig;
 import nc.recipe.BaseRecipeHandler;
 import nc.util.FluidHelper;
+import nc.util.OreStackHelper;
 import nc.util.StringHelper;
 import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.oredict.OreDictionary;
 
 public class IngotFormerRecipes extends BaseRecipeHandler {
 	
 	public IngotFormerRecipes() {
-		super("ingot_former", 0, 1, 1, 0, false);
+		super("ingot_former", 0, 1, 1, 0);
 	}
 
 	@Override
 	public void addRecipes() {
 		addIngotFormingRecipes();
-		
-		addIsotopeFormingRecipes("Thorium", 230, 232);
-		addIsotopeFormingRecipes("Uranium", 233, 235, 238);
-		addIsotopeFormingRecipes("Neptunium", 236, 237);
-		addIsotopeFormingRecipes("Plutonium", 238, 239, 241, 242);
-		addIsotopeFormingRecipes("Americium", 241, 242, 243);
-		addIsotopeFormingRecipes("Curium", 243, 245, 246, 247);
-		addIsotopeFormingRecipes("Berkelium", 247, 248);
-		addIsotopeFormingRecipes("Californium", 249, 250, 251, 252);
-		
-		addRecipe(fluidStack("thorium_tbu", FluidHelper.INGOT_BLOCK_VOLUME), "fuelTBU", NCConfig.processor_time[10]*9);
-		
-		addFissionFuelFormingRecipes("uranium", "eu", 233, 235);
-		addFissionFuelFormingRecipes("neptunium", "en", 236);
-		addFissionFuelFormingRecipes("plutonium", "ep", 239, 241);
-		addFissionFuelFormingRecipes("americium", "ea", 242);
-		addFissionFuelFormingRecipes("curium", "ec", "m", 243, 245, 247);
-		addFissionFuelFormingRecipes("berkelium", "eb", 248);
-		addFissionFuelFormingRecipes("californium", "ec", "f", 249, 251);
 		
 		// Tinkers' Construct		
 		addIngotFormingRecipe("Manyullyn");
@@ -48,6 +27,26 @@ public class IngotFormerRecipes extends BaseRecipeHandler {
 		addIngotFormingRecipe("Bronze");
 		addIngotFormingRecipe("Electrum");
 		addIngotFormingRecipe("Steel");
+		
+		// Fission Isotopes
+		addIsotopeFormingRecipes("Thorium", 230, 232);
+		addIsotopeFormingRecipes("Uranium", 233, 235, 238);
+		addIsotopeFormingRecipes("Neptunium", 236, 237);
+		addIsotopeFormingRecipes("Plutonium", 238, 239, 241, 242);
+		addIsotopeFormingRecipes("Americium", 241, 242, 243);
+		addIsotopeFormingRecipes("Curium", 243, 245, 246, 247);
+		addIsotopeFormingRecipes("Berkelium", 247, 248);
+		addIsotopeFormingRecipes("Californium", 249, 250, 251, 252);
+		
+		// Fission Fuels
+		addRecipe(fluidStack("fuel_tbu", FluidHelper.INGOT_BLOCK_VOLUME), "fuelTBU", NCConfig.processor_time[10]*9);
+		addFissionFuelFormingRecipes("uranium", "eu", 233, 235);
+		addFissionFuelFormingRecipes("neptunium", "en", 236);
+		addFissionFuelFormingRecipes("plutonium", "ep", 239, 241);
+		addFissionFuelFormingRecipes("americium", "ea", 242);
+		addFissionFuelFormingRecipes("curium", "ec", "m", 243, 245, 247);
+		addFissionFuelFormingRecipes("berkelium", "eb", 248);
+		addFissionFuelFormingRecipes("californium", "ec", "f", 249, 251);
 	}
 	
 	public void addIngotFormingRecipe(String fluid, String metal) {
@@ -76,11 +75,14 @@ public class IngotFormerRecipes extends BaseRecipeHandler {
 	}
 	
 	public void addIngotFormingRecipes() {
-		List<String> oreList = Arrays.asList(OreDictionary.getOreNames());
 		ArrayList<String> fluidList = new ArrayList(FluidRegistry.getRegisteredFluids().keySet());
 		for (String fluidName : fluidList) {
-			String ingot = "ingot" + StringHelper.capitalize(fluidName);
-			if (oreList.contains(ingot)) addRecipe(fluidStack(fluidName, FluidHelper.INGOT_VOLUME), ingot, NCConfig.processor_time[10]);
+			if (fluidName == "coal") continue;
+			String materialName = StringHelper.capitalize(fluidName);
+			String ingot = "ingot" + materialName;
+			String gem = "gem" + materialName;
+			if (OreStackHelper.oreExists(ingot)) addRecipe(fluidStack(fluidName, FluidHelper.INGOT_VOLUME), ingot, NCConfig.processor_time[10]);
+			else if (OreStackHelper.oreExists(gem)) addRecipe(fluidStack(fluidName, FluidHelper.GEM_VOLUME), gem, NCConfig.processor_time[10]);
 		}
 	}
 }

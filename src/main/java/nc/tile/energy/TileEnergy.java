@@ -9,8 +9,8 @@ import ic2.api.energy.tile.IEnergyTile;
 import nc.ModCheck;
 import nc.config.NCConfig;
 import nc.tile.NCTile;
-import nc.tile.energy.storage.Storage;
-import nc.tile.energy.storage.EnumStorage.EnergyConnection;
+import nc.tile.energy.storage.EnergyStorage;
+import nc.tile.energy.storage.EnumEnergyStorage.EnergyConnection;
 import nc.tile.passive.ITilePassive;
 import net.darkhax.tesla.capability.TeslaCapabilities;
 import net.minecraft.nbt.NBTTagCompound;
@@ -23,7 +23,7 @@ import net.minecraftforge.energy.IEnergyStorage;
 public abstract class TileEnergy extends NCTile implements ITileEnergy, IEnergyStorage, IEnergyTile, IEnergySink, IEnergySource {
 
 	public EnergyConnection energyConnection;
-	public final Storage storage;
+	public final EnergyStorage storage;
 	public boolean isEnergyTileSet = true;
 	public boolean ic2reg = false;
 	
@@ -37,7 +37,7 @@ public abstract class TileEnergy extends NCTile implements ITileEnergy, IEnergyS
 	
 	public TileEnergy(int capacity, int maxReceive, int maxExtract, EnergyConnection energyConnection) {
 		super();
-		storage = new Storage(capacity, maxReceive, maxExtract);
+		storage = new EnergyStorage(capacity, maxReceive, maxExtract);
 		this.energyConnection = energyConnection;
 	}
 	
@@ -70,7 +70,7 @@ public abstract class TileEnergy extends NCTile implements ITileEnergy, IEnergyS
 	}
 	
 	@Override
-	public Storage getStorage() {
+	public EnergyStorage getStorage() {
 		return storage;
 	}
 	
@@ -125,12 +125,12 @@ public abstract class TileEnergy extends NCTile implements ITileEnergy, IEnergyS
 
 	@Override
 	public double getOfferedEnergy() {
-		return Math.min(Math.pow(2, 2*getSourceTier() + 3), storage.takePower(storage.maxExtract, true) / NCConfig.generator_rf_per_eu);
+		return Math.min(Math.pow(2, 2*getSourceTier() + 3), (double)storage.takePower(storage.maxExtract, true) / (double)NCConfig.generator_rf_per_eu);
 	}
 	
 	@Override
 	public double getDemandedEnergy() {
-		return Math.min(Math.pow(2, 2*getSinkTier() + 3), storage.givePower(storage.maxReceive, true) / NCConfig.processor_rf_per_eu);
+		return Math.min(Math.pow(2, 2*getSinkTier() + 3), (double)storage.givePower(storage.maxReceive, true) / (double)NCConfig.processor_rf_per_eu);
 	}
 	
 	/** The normal conversion is 4 RF to 1 EU, but for RF generators, this is OP, so the ratio is instead 16:1 */
@@ -141,9 +141,9 @@ public abstract class TileEnergy extends NCTile implements ITileEnergy, IEnergyS
 
 	@Override
 	public double injectEnergy(EnumFacing directionFrom, double amount, double voltage) {
-		int energyReceived = storage.receiveEnergy((int) (NCConfig.processor_rf_per_eu * amount), true);
+		int energyReceived = storage.receiveEnergy((int) ((double)NCConfig.processor_rf_per_eu * amount), true);
 		storage.givePower(energyReceived, false);
-		return amount - (energyReceived / NCConfig.processor_rf_per_eu);
+		return amount - (double)energyReceived/(double)NCConfig.processor_rf_per_eu;
 	}
 	
 	@Override

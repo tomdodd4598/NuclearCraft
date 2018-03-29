@@ -1,10 +1,8 @@
 package nc.recipe.processor;
 
-import java.util.Arrays;
-import java.util.List;
-
 import nc.config.NCConfig;
 import nc.recipe.BaseRecipeHandler;
+import nc.util.OreStackHelper;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -13,13 +11,11 @@ import net.minecraftforge.oredict.OreDictionary;
 public class ManufactoryRecipes extends BaseRecipeHandler {
 	
 	public ManufactoryRecipes() {
-		super("manufactory", 1, 0, 1, 0, false);
+		super("manufactory", 1, 0, 1, 0);
 	}
 
 	@Override
 	public void addRecipes() {
-		if (NCConfig.ore_processing) addOreProcessingRecipes();
-		
 		addRecipe("gemCoal", "dustCoal", NCConfig.processor_time[0]);
 		addRecipe("dustCoal", "dustGraphite", NCConfig.processor_time[0]);
 		
@@ -33,7 +29,7 @@ public class ManufactoryRecipes extends BaseRecipeHandler {
 		addRecipe(oreStack("sand", 4), "itemSilicon", NCConfig.processor_time[0]);
 		addRecipe("cobblestone", Blocks.SAND, NCConfig.processor_time[0]);
 		addRecipe(new ItemStack(Items.ROTTEN_FLESH, 4), Items.LEATHER, NCConfig.processor_time[0]/2);
-		addRecipe(new ItemStack(Items.REEDS, 4), "bioplastic", NCConfig.processor_time[0]);
+		addRecipe(new ItemStack(Items.REEDS, 2), "bioplastic", NCConfig.processor_time[0]/2);
 		
 		// Immersive Engineering
 		addRecipe(oreStack("dustCoke", 8), "dustHOPGraphite", NCConfig.processor_time[0]*4);
@@ -51,15 +47,16 @@ public class ManufactoryRecipes extends BaseRecipeHandler {
 		
 		// AE2
 		addRecipe(Items.ENDER_PEARL, "dustEnder", NCConfig.processor_time[0]);
+		
+		if (NCConfig.ore_processing) addOreProcessingRecipes();
 	}
 	
 	public void addOreProcessingRecipes() {
-		List<String> oreList = Arrays.asList(OreDictionary.getOreNames());
-		for (String ore : oreList) {
+		for (String ore : OreDictionary.getOreNames()) {
 			if (ore.startsWith("ore")) {
 				String dust = "dust" + ore.substring(3);
 				String ingot = "ingot" + ore.substring(3);
-				if (oreList.contains(dust) && oreList.contains(ingot)) {
+				if (OreStackHelper.oreExists(dust) && OreStackHelper.oreExists(ingot)) {
 					addRecipe(ore, oreStack(dust, 2), NCConfig.processor_time[0]);
 					addRecipe(ingot, dust, NCConfig.processor_time[0]);
 				}

@@ -16,6 +16,7 @@ public class RecipeOreStack implements IIngredient, IRecipeStack {
 	public ArrayList<ItemStack> cachedItemRegister;
 	public ArrayList<FluidStack> cachedFluidRegister;
 	public int stackSize;
+	public StackType type;
 
 	public RecipeOreStack(String oreType, StackType stacktype, int stackSize) {
 		oreString = oreType;
@@ -33,6 +34,7 @@ public class RecipeOreStack implements IIngredient, IRecipeStack {
 		}
 		else isFluid = stacktype.isFluid();
 		this.stackSize = stackSize;
+		type = stacktype;
 	}
 
 	@Override
@@ -47,6 +49,23 @@ public class RecipeOreStack implements IIngredient, IRecipeStack {
 		ItemStack item = cachedItemRegister.get(0).copy();
 		item.setCount(stackSize);
 		return item;
+	}
+	
+	@Override
+	public String getIngredientName() {
+		if (isFluid) {
+			if (cachedFluidRegister.size() < 1) return "nullFluid";
+			FluidStack fluid = cachedFluidRegister.get(0).copy();
+			return fluid.getFluid().getName();
+		}
+		if (cachedItemRegister.size() < 1) return "nullItem";
+		ItemStack item = cachedItemRegister.get(0).copy();
+		return item.getItem().getUnlocalizedName();
+	}
+
+	@Override
+	public StackType getIngredientType() {
+		return type;
 	}
 
 	@Override

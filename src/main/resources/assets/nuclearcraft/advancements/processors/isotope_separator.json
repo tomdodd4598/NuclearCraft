@@ -1,0 +1,27 @@
+{
+	"display": {
+		"icon": {
+			"item": "nuclearcraft:isotope_separator_active"
+		},
+		"title": {
+			"translate": "advancement.nuclearcraft.isotope_separator.name"
+		},
+		"description": {
+			"translate": "advancement.nuclearcraft.isotope_separator.desc"
+		},
+		"frame": "goal"
+	},
+	"parent": "nuclearcraft:root",
+	"criteria": {
+		"has_item": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"item": "nuclearcraft:isotope_separator_idle"
+					}
+				]
+			}
+		}
+	}
+}

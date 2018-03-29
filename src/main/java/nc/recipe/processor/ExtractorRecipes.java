@@ -7,7 +7,7 @@ import net.minecraft.init.Blocks;
 public class ExtractorRecipes extends BaseRecipeHandler {
 	
 	public ExtractorRecipes() {
-		super("extractor", 1, 0, 1, 1, false);
+		super("extractor", 1, 0, 1, 1);
 	}
 
 	@Override

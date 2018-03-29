@@ -7,30 +7,31 @@ import crafttweaker.IAction;
 import crafttweaker.api.item.IItemStack;
 import crafttweaker.api.item.IngredientStack;
 import crafttweaker.api.liquid.ILiquidStack;
-import crafttweaker.api.minecraft.CraftTweakerMC;
 import crafttweaker.api.oredict.IOreDictEntry;
-import nc.recipe.BaseRecipeHandler;
 import nc.recipe.IIngredient;
 import nc.recipe.IRecipe;
+import nc.recipe.NCRecipes;
+import nc.recipe.RecipeMethods;
 import nc.recipe.RecipeOreStack;
 import nc.recipe.SorptionType;
 import nc.recipe.StackType;
 import nc.util.StackHelper;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.FluidStack;
 
-public class RemoveRecipe<T extends BaseRecipeHandler> implements IAction {
+public class RemoveRecipe implements IAction {
 	
 	public ArrayList<IIngredient> ingredients;
 	public SorptionType type;
 	public IRecipe recipe;
 	public boolean wasNull, wrongSize;
-	public T helper;
+	public final NCRecipes.Type recipeType;
 
-	public RemoveRecipe(T helper, SorptionType type, ArrayList<Object> ingredients) {
-		this.helper = helper;
+	public RemoveRecipe(NCRecipes.Type recipeType, SorptionType type, ArrayList<Object> ingredients) {
+		this.recipeType = recipeType;
 		this.type = type;
-		if (helper instanceof BaseRecipeHandler && (type == SorptionType.OUTPUT ? ingredients.size() != ((BaseRecipeHandler) helper).outputSizeItem + ((BaseRecipeHandler) helper).outputSizeFluid : ingredients.size() != ((BaseRecipeHandler) helper).inputSizeItem + ((BaseRecipeHandler) helper).inputSizeFluid)) {
-			CraftTweakerAPI.logError("A " + helper.getRecipeName() + " recipe was the wrong size");
+		if (type == SorptionType.OUTPUT ? ingredients.size() != recipeType.getRecipeHandler().outputSizeItem + recipeType.getRecipeHandler().outputSizeFluid : ingredients.size() != recipeType.getRecipeHandler().inputSizeItem + recipeType.getRecipeHandler().inputSizeFluid) {
+			CraftTweakerAPI.logError("A " + recipeType.getRecipeHandler().getRecipeName() + " recipe was the wrong size");
 			wrongSize = true;
 			return;
 		}
@@ -38,26 +39,28 @@ public class RemoveRecipe<T extends BaseRecipeHandler> implements IAction {
 		ArrayList adaptedIngredients = new ArrayList();
 		for (Object output : ingredients) {
 			if (output == null) {
-				CraftTweakerAPI.logError(String.format("An ingredient of a %s was null", helper.getRecipeName()));
+				CraftTweakerAPI.logError(String.format("An ingredient of a %s was null", recipeType.getRecipeHandler().getRecipeName()));
 				wasNull = true;
 				return;
 			}
 			if (output instanceof IItemStack) {
-				adaptedIngredients.add(CraftTweakerMC.getItemStack((IItemStack) output));
+				adaptedIngredients.add(((IItemStack) output).getInternal());
 				continue;
 			} else if (output instanceof IOreDictEntry) {
 				adaptedIngredients.add(new RecipeOreStack(((IOreDictEntry) output).getName(), StackType.ITEM, ((IOreDictEntry) output).getAmount()));
 				continue;
 			} else if (output instanceof IngredientStack) {
 				ArrayList<ItemStack> stackList = new ArrayList<ItemStack>();
-				((IngredientStack) output).getItems().forEach(ingredient -> stackList.add(StackHelper.changeStackSize(CraftTweakerMC.getItemStack(ingredient), ((IngredientStack) output).getAmount())));
-				adaptedIngredients.add(helper.buildRecipeObject(stackList));
+				((IngredientStack) output).getItems().forEach(ingredient -> stackList.add(StackHelper.changeStackSize((ItemStack) ((IItemStack) ingredient).getInternal(), ((IngredientStack) output).getAmount())));
+				adaptedIngredients.add(recipeType.getRecipeHandler().buildRecipeObject(stackList));
 				continue;
 			} else if (output instanceof ILiquidStack) {
-				adaptedIngredients.add(helper.buildRecipeObject(CraftTweakerMC.getLiquidStack((ILiquidStack) output)));
+				//adaptedIngredients.add(recipeType.getRecipeHandler().buildRecipeObject(CraftTweakerMC.getLiquidStack((ILiquidStack) output)));
+				FluidStack fluidStack = (FluidStack) ((ILiquidStack) output).getInternal();
+				adaptedIngredients.add(new RecipeOreStack(fluidStack.getFluid().getName(), StackType.FLUID, fluidStack.amount));
 				continue;
 			} else if (!(output instanceof ItemStack)) {
-				CraftTweakerAPI.logError(String.format("%s: Invalid ingredient: %s, %s", helper.getRecipeName(), output.getClass().getName(), output));
+				CraftTweakerAPI.logError(String.format("%s: Invalid ingredient: %s, %s", recipeType.getRecipeHandler().getRecipeName(), output.getClass().getName(), output));
 			} else {
 				adaptedIngredients.add(output);
 				continue;
@@ -65,19 +68,19 @@ public class RemoveRecipe<T extends BaseRecipeHandler> implements IAction {
 		}
 
 		this.ingredients = adaptedIngredients;
-		this.recipe = type == SorptionType.OUTPUT ? helper.getRecipeFromOutputs(adaptedIngredients.toArray()) : helper.getRecipeFromInputs(adaptedIngredients.toArray());
+		this.recipe = type == SorptionType.OUTPUT ? recipeType.getRecipeHandler().getRecipeFromOutputs(adaptedIngredients.toArray()) : recipeType.getRecipeHandler().getRecipeFromInputs(adaptedIngredients.toArray());
 	}
 	
 	@Override
 	public void apply() {
 		if (recipe == null) {
-			CraftTweakerAPI.logError(String.format("%s: Removing Recipe - Couldn't find matching recipe %s", helper.getRecipeName(), ingredients));
+			CraftTweakerAPI.logError(String.format("%s: Removing Recipe - Couldn't find matching recipe %s", recipeType.getRecipeHandler().getRecipeName(), RecipeMethods.getIngredientNames(ingredients)));
 			return;
 		}
 		if (!wasNull && !wrongSize) {
-			boolean removed = helper.removeRecipe(recipe);
+			boolean removed = recipeType.getRecipeHandler().removeRecipe(recipe);
 			if (!removed){
-				CraftTweakerAPI.logError(String.format("%s: Removing Recipe - Failed to remove recipe %s", helper.getRecipeName(), ingredients));
+				CraftTweakerAPI.logError(String.format("%s: Removing Recipe - Failed to remove recipe %s", recipeType.getRecipeHandler().getRecipeName(), RecipeMethods.getIngredientNames(ingredients)));
 			}else{
 				//CraftTweakerAPI.getIjeiRecipeRegistry().removeRecipe(JEIMethods.createJEIRecipe(recipe, helper));
 			}
@@ -90,7 +93,7 @@ public class RemoveRecipe<T extends BaseRecipeHandler> implements IAction {
 	
 	public void undo() {
 		if (recipe != null && !wasNull && !wrongSize) {
-			helper.addRecipe(recipe);
+			recipeType.getRecipeHandler().addRecipe(recipe);
 			//CraftTweakerAPI.getIjeiRecipeRegistry().addRecipe(JEIMethods.createJEIRecipe(recipe, helper));
 		}
 	}
@@ -100,7 +103,7 @@ public class RemoveRecipe<T extends BaseRecipeHandler> implements IAction {
 		if (recipe == null) {
 			return "ERROR: RECIPE IS NULL";
 		}
-		return String.format("Removing %s recipe (%s = %s)", helper.getRecipeName(), recipe.inputs(), recipe.outputs());
+		return String.format("Removing %s recipe (%s -> %s)", recipeType.getRecipeHandler().getRecipeName(), RecipeMethods.getIngredientNames(recipe.inputs()), RecipeMethods.getIngredientNames(recipe.outputs()));
 	}
 	
 	public String describeUndo() {

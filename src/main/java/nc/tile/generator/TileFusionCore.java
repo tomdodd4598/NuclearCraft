@@ -11,7 +11,7 @@ import nc.handler.SoundHandler;
 import nc.init.NCBlocks;
 import nc.recipe.NCRecipes;
 import nc.recipe.RecipeMethods;
-import nc.tile.energy.storage.EnumStorage.EnergyConnection;
+import nc.tile.energy.storage.EnumEnergyStorage.EnergyConnection;
 import nc.tile.fluid.TileActiveCooler;
 import nc.tile.fluid.tank.Tank;
 import nc.util.BlockFinder;
@@ -47,7 +47,7 @@ public class TileFusionCore extends TileFluidGenerator /*implements SimpleCompon
 	private BlockFinder finder;
 	
 	public TileFusionCore() {
-		super("Fusion Core", 2, 4, 0, tankCapacities(32000, 2, 4), fluidConnections(2, 4), RecipeMethods.validFluids(NCRecipes.FUSION_RECIPES), 8192000, NCRecipes.FUSION_RECIPES);
+		super("Fusion Core", 2, 4, 0, tankCapacities(32000, 2, 4), fluidConnections(2, 4), RecipeMethods.validFluids(NCRecipes.Type.FUSION), 8192000, NCRecipes.Type.FUSION);
 		areTanksShared = false;
 	}
 	

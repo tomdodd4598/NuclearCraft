@@ -58,8 +58,8 @@ public abstract class GuiItemProcessor extends NCGui {
 	public List<String> energyInfo(ITileEnergy tile) {
 		String energy = UnitHelper.prefix(tile.getStorage().getEnergyStored(), tile.getStorage().getMaxEnergyStored(), 5, "RF");
 		String power = UnitHelper.prefix(this.tile.getProcessPower(), 5, "RF/t");
-		String speedMultiplier = this.tile.getSpeedMultiplier()*100 + "%";
-		String powerMultiplier = this.tile.getSpeedMultiplier()*(this.tile.getSpeedMultiplier() + 1)*50 + "%";
+		String speedMultiplier = "x" + this.tile.getSpeedMultiplier();
+		String powerMultiplier = "x" + this.tile.getPowerMultiplier();
 		return Lists.newArrayList(TextFormatting.LIGHT_PURPLE + Lang.localise("gui.container.energy_stored") + TextFormatting.WHITE + " " + energy, TextFormatting.LIGHT_PURPLE + Lang.localise("gui.container.process_power") + TextFormatting.WHITE + " " + power, TextFormatting.AQUA + Lang.localise("gui.container.speed_multiplier") + TextFormatting.WHITE + " " + speedMultiplier, TextFormatting.AQUA + Lang.localise("gui.container.power_multiplier") + TextFormatting.WHITE + " " + powerMultiplier);
 	}
 }

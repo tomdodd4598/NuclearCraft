@@ -11,9 +11,9 @@ import net.minecraft.inventory.SlotFurnaceOutput;
 public class ContainerIsotopeSeparator extends ContainerItemProcessor {
 
 	public ContainerIsotopeSeparator(EntityPlayer player, TileItemProcessor tileEntity) {
-		super(tileEntity, NCRecipes.ISOTOPE_SEPARATOR_RECIPES);
+		super(tileEntity, NCRecipes.Type.ISOTOPE_SEPARATOR);
 		
-		addSlotToContainer(new SlotProcessorInput(tileEntity, recipes, 0, 42, 35));
+		addSlotToContainer(new SlotProcessorInput(tileEntity, recipeType, 0, 42, 35));
 		
 		addSlotToContainer(new SlotFurnaceOutput(player, tileEntity, 1, 102, 35));
 		addSlotToContainer(new SlotFurnaceOutput(player, tileEntity, 2, 130, 35));

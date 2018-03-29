@@ -1,0 +1,26 @@
+{
+	"display": {
+		"icon": {
+			"item": "nuclearcraft:salt_mixer_active"
+		},
+		"title": {
+			"translate": "advancement.nuclearcraft.salt_mixer.name"
+		},
+		"description": {
+			"translate": "advancement.nuclearcraft.salt_mixer.desc"
+		}
+	},
+	"parent": "nuclearcraft:processors/melter",
+	"criteria": {
+		"has_item": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"item": "nuclearcraft:salt_mixer_idle"
+					}
+				]
+			}
+		}
+	}
+}

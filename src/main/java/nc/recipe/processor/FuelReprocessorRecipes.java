@@ -6,7 +6,7 @@ import nc.recipe.BaseRecipeHandler;
 public class FuelReprocessorRecipes extends BaseRecipeHandler {
 	
 	public FuelReprocessorRecipes() {
-		super("fuel_reprocessor", 1, 0, 4, 0, false);
+		super("fuel_reprocessor", 1, 0, 4, 0);
 	}
 
 	@Override

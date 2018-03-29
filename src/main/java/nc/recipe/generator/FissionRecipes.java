@@ -7,7 +7,7 @@ import nc.util.Lang;
 public class FissionRecipes extends BaseRecipeHandler {
 	
 	public FissionRecipes() {
-		super("fission", 1, 0, 1, 0, false);
+		super("fission", 1, 0, 1, 0);
 	}
 	
 	@Override

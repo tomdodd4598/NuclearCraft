@@ -6,11 +6,12 @@ import nc.config.NCConfig;
 import nc.recipe.BaseRecipeHandler;
 import nc.recipe.IIngredient;
 import nc.recipe.IRecipe;
+import nc.recipe.NCRecipes;
 import nc.recipe.RecipeMethods;
 import nc.recipe.SorptionType;
 import nc.tile.IGui;
 import nc.tile.dummy.IInterfaceable;
-import nc.tile.energy.storage.EnumStorage.EnergyConnection;
+import nc.tile.energy.storage.EnumEnergyStorage.EnergyConnection;
 import nc.tile.energyFluid.IBufferable;
 import nc.tile.energyFluid.TileEnergyFluidSidedInventory;
 import nc.tile.fluid.tank.EnumTank.FluidConnection;
@@ -33,17 +34,18 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 	
 	public int tickCount;
 	
-	public final BaseRecipeHandler recipes;
+	public final NCRecipes.Type recipeType;
 	
-	public TileItemFluidGenerator(String name, int itemInSize, int fluidInSize, int itemOutSize, int fluidOutSize, int otherSize, int[] fluidCapacity, FluidConnection[] fluidConnection, String[][] allowedFluids, int capacity, BaseRecipeHandler recipes) {
+	public TileItemFluidGenerator(String name, int itemInSize, int fluidInSize, int itemOutSize, int fluidOutSize, int otherSize, int[] fluidCapacity, FluidConnection[] fluidConnection, String[][] allowedFluids, int capacity, NCRecipes.Type recipeType) {
 		super(name, 2*itemInSize + itemOutSize + otherSize, capacity, EnergyConnection.OUT, fluidCapacity, fluidCapacity, fluidCapacity, fluidConnection, allowedFluids);
 		itemInputSize = itemInSize;
 		fluidInputSize = fluidInSize;
 		itemOutputSize = itemOutSize;
 		fluidOutputSize = fluidOutSize;
 		otherSlotsSize = otherSize;
-		this.recipes = recipes;
 		areTanksShared = fluidInSize > 1;
+		
+		this.recipeType = recipeType;
 		
 		int[] topSlots1 = new int[itemInSize];
 		for (int i = 0; i < topSlots1.length; i++) topSlots1[i] = i;
@@ -70,6 +72,10 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 		int[] tankCapacities = new int[2*inSize + outSize];
 		for (int i = 0; i < 2*inSize + outSize; i++) tankCapacities[i] = capacity;
 		return tankCapacities;
+	}
+	
+	public BaseRecipeHandler getRecipeHandler() {
+		return recipeType.getRecipeHandler();
 	}
 	
 	@Override
@@ -203,13 +209,13 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 			}
 		}
 		for(int j = 0; j < fluidOutputSize; j++) {
-			if (output[recipes.outputSizeItem + j] == null) {
+			if (output[getRecipeHandler().outputSizeItem + j] == null) {
 				return false;
 			} else {
 				if (tanks[j + fluidInputSize].getFluid() != null) {
-					if (!tanks[j + fluidInputSize].getFluid().isFluidEqual((FluidStack)output[recipes.outputSizeItem + j])) {
+					if (!tanks[j + fluidInputSize].getFluid().isFluidEqual((FluidStack)output[getRecipeHandler().outputSizeItem + j])) {
 						return false;
-					} else if (tanks[j + fluidInputSize].getFluidAmount() + ((FluidStack)output[recipes.outputSizeItem + j]).amount > tanks[j + fluidInputSize].getCapacity()) {
+					} else if (tanks[j + fluidInputSize].getFluidAmount() + ((FluidStack)output[getRecipeHandler().outputSizeItem + j]).amount > tanks[j + fluidInputSize].getCapacity()) {
 						return false;
 					}
 				}
@@ -236,7 +242,7 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 				}
 			}
 			for (int i = 0; i < itemInputSize; i++) {
-				if (recipes != null) {
+				if (getRecipeHandler() != null) {
 					inventoryStacks.set(i + itemInputSize + itemOutputSize + otherSlotsSize, new ItemStack(inventoryStacks.get(i).getItem(), recipe.inputs().get(itemInputOrder[i]).getStackSize(), inventoryStacks.get(i).getMetadata()));
 					inventoryStacks.get(i).shrink(recipe.inputs().get(itemInputOrder[i]).getStackSize());
 				} else {
@@ -248,7 +254,7 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 				}
 			}
 			for (int i = 0; i < fluidInputSize; i++) {
-				if (recipes != null) {
+				if (getRecipeHandler() != null) {
 					tanks[i + fluidInputSize + fluidOutputSize].changeFluidStored(tanks[i].getFluid().getFluid(), recipe.inputs().get(fluidInputOrder[i] + itemInputSize).getStackSize());
 					tanks[i].changeFluidStored(-recipe.inputs().get(fluidInputOrder[i] + itemInputSize).getStackSize());
 				} else {
@@ -293,7 +299,7 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 	}
 		
 	public IRecipe getRecipe(boolean consumed) {
-		return recipes.getRecipeFromInputs(consumed ? consumedInputs() : inputs());
+		return getRecipeHandler().getRecipeFromInputs(consumed ? consumedInputs() : inputs());
 	}
 	
 	public Object[] inputs() {
@@ -373,7 +379,7 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {
 		if (stack == ItemStack.EMPTY) return false;
 		else if (slot >= itemInputSize && slot < itemInputSize + itemOutputSize) return false;
-		return NCConfig.smart_processor_input ? recipes.isValidInput(stack, inputs()) : recipes.isValidInput(stack);
+		return NCConfig.smart_processor_input ? getRecipeHandler().isValidInput(stack, inputs()) : getRecipeHandler().isValidInput(stack);
 	}
 	
 	// SidedInventory

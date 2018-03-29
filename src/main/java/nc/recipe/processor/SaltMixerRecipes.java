@@ -7,14 +7,37 @@ import nc.util.FluidHelper;
 public class SaltMixerRecipes extends BaseRecipeHandler {
 	
 	public SaltMixerRecipes() {
-		super("salt_mixer", 0, 2, 0, 1, true);
+		super("salt_mixer", 0, 2, 0, 1);
 	}
 	
 	@Override
 	public void addRecipes() {
 		addRecipe(fluidStack("lif", FluidHelper.INGOT_VOLUME*2), fluidStack("bef2", FluidHelper.INGOT_VOLUME), fluidStack("flibe", FluidHelper.INGOT_VOLUME), NCConfig.processor_time[13]);
+		addRecipe(fluidStack("sodium", FluidHelper.INGOT_VOLUME/2), fluidStack("potassium", FluidHelper.INGOT_VOLUME*2), fluidStack("nak", FluidHelper.INGOT_VOLUME), NCConfig.processor_time[13]);
+		
+		addRecipe(fluidStack("boron11", FluidHelper.INGOT_VOLUME), fluidStack("boron10", FluidHelper.NUGGET_VOLUME*3), fluidStack("boron", FluidHelper.INGOT_VOLUME), NCConfig.processor_time[13]);
+		addRecipe(fluidStack("lithium7", FluidHelper.INGOT_VOLUME), fluidStack("lithium6", FluidHelper.NUGGET_VOLUME*3), fluidStack("lithium", FluidHelper.INGOT_VOLUME), NCConfig.processor_time[13]);
+		
+		addCoolantNAKRecipe("redstone", FluidHelper.REDSTONE_DUST_VOLUME*10);
+		addCoolantNAKRecipe("quartz", FluidHelper.GEM_VOLUME*7);
+		addCoolantNAKRecipe("gold", FluidHelper.INGOT_VOLUME*4);
+		addCoolantNAKRecipe("glowstone", FluidHelper.GLOWSTONE_DUST_VOLUME*7);
+		addCoolantNAKRecipe("lapis", FluidHelper.GEM_BLOCK_VOLUME);
+		addCoolantNAKRecipe("diamond", FluidHelper.GEM_VOLUME*4);
+		addCoolantNAKRecipe("liquidhelium", FluidHelper.BUCKET_VOLUME/2);
+		addCoolantNAKRecipe("ender", FluidHelper.EUM_DUST_VOLUME*4);
+		addCoolantNAKRecipe("cryotheum", FluidHelper.EUM_DUST_VOLUME*4);
+		addCoolantNAKRecipe("iron", FluidHelper.INGOT_VOLUME*4);
+		addCoolantNAKRecipe("emerald", FluidHelper.GEM_VOLUME*3);
+		addCoolantNAKRecipe("copper", FluidHelper.INGOT_VOLUME*4);
+		addCoolantNAKRecipe("tin", FluidHelper.INGOT_VOLUME*4);
+		addCoolantNAKRecipe("magnesium", FluidHelper.INGOT_VOLUME*4);
 		
 		addElementFLIBERecipes("thorium", "uranium", "plutonium");
+		
+		addRecipe(fluidStack("thorium_232", FluidHelper.INGOT_VOLUME), fluidStack("thorium_230", FluidHelper.NUGGET_VOLUME), fluidStack("thorium", FluidHelper.INGOT_VOLUME), NCConfig.processor_time[13]);
+		addRecipe(fluidStack("uranium_238", FluidHelper.INGOT_VOLUME), fluidStack("uranium_235", FluidHelper.NUGGET_VOLUME), fluidStack("uranium", FluidHelper.INGOT_VOLUME), NCConfig.processor_time[13]);
+		addRecipe(fluidStack("plutonium_239", FluidHelper.INGOT_VOLUME), fluidStack("plutonium_242", FluidHelper.NUGGET_VOLUME), fluidStack("plutonium", FluidHelper.INGOT_VOLUME), NCConfig.processor_time[13]);
 		
 		addIsotopeFLIBERecipes("thorium", 230, 232);
 		addIsotopeFLIBERecipes("uranium", 233, 235, 238);
@@ -32,6 +55,10 @@ public class SaltMixerRecipes extends BaseRecipeHandler {
 		addFissionFuelFLIBERecipes("ecm", 243, 245, 247);
 		addFissionFuelFLIBERecipes("eb", 248);
 		addFissionFuelFLIBERecipes("ecf", 249, 251);
+	}
+	
+	public void addCoolantNAKRecipe(String name, int amount) {
+		addRecipe(fluidStack(name, amount), fluidStack("nak", FluidHelper.INGOT_VOLUME*4), fluidStack(name + "_nak", FluidHelper.INGOT_VOLUME*4), NCConfig.processor_time[13]*4);
 	}
 	
 	public void addElementFLIBERecipes(String... elements) {

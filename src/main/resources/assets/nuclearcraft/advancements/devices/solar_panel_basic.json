@@ -1,0 +1,26 @@
+{
+	"display": {
+		"icon": {
+			"item": "nuclearcraft:solar_panel_basic"
+		},
+		"title": {
+			"translate": "advancement.nuclearcraft.solar_panel_basic.name"
+		},
+		"description": {
+			"translate": "advancement.nuclearcraft.solar_panel_basic.desc"
+		}
+	},
+	"parent": "nuclearcraft:fission/decay_generator",
+	"criteria": {
+		"has_item": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"item": "nuclearcraft:solar_panel_basic"
+					}
+				]
+			}
+		}
+	}
+}

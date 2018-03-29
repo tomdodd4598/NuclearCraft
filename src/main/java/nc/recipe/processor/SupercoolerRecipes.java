@@ -7,7 +7,7 @@ import nc.util.FluidHelper;
 public class SupercoolerRecipes extends BaseRecipeHandler {
 	
 	public SupercoolerRecipes() {
-		super("supercooler", 0, 1, 0, 1, false);
+		super("supercooler", 0, 1, 0, 1);
 	}
 
 	@Override

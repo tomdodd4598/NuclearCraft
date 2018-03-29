@@ -10,7 +10,7 @@ import net.minecraft.inventory.SlotFurnaceOutput;
 public class ContainerSupercooler extends ContainerFluidProcessor {
 
 	public ContainerSupercooler(EntityPlayer player, TileFluidProcessor tileEntity) {
-		super(tileEntity, NCRecipes.SUPERCOOLER_RECIPES);
+		super(tileEntity, NCRecipes.Type.SUPERCOOLER);
 		
 		addSlotToContainer(new SlotSpecificInput(tileEntity, 0, 132, 64, speedUpgrade));
 		addSlotToContainer(new SlotFurnaceOutput(player, tileEntity, 1, 152, 64));

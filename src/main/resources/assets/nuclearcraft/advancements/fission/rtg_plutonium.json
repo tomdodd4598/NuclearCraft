@@ -1,0 +1,27 @@
+{
+	"display": {
+		"icon": {
+			"item": "nuclearcraft:rtg_plutonium"
+		},
+		"title": {
+			"translate": "advancement.nuclearcraft.rtg_plutonium.name"
+		},
+		"description": {
+			"translate": "advancement.nuclearcraft.rtg_plutonium.desc"
+		},
+		"frame": "goal"
+	},
+	"parent": "nuclearcraft:fission/plutonium",
+	"criteria": {
+		"has_item": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"item": "nuclearcraft:rtg_plutonium"
+					}
+				]
+			}
+		}
+	}
+}

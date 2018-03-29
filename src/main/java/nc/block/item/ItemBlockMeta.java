@@ -56,8 +56,9 @@ public class ItemBlockMeta extends ItemBlock {
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack itemStack, World world, List<String> tooltip, ITooltipFlag flag) {
         super.addInformation(itemStack, world, tooltip, flag);
-        if (info.length != 0) if (info[itemStack.getMetadata()].length > 0) {
-        	InfoHelper.infoFull(tooltip, fixedColor, fixedInfo[itemStack.getMetadata()], info[itemStack.getMetadata()]);
+        int meta = itemStack.getMetadata();
+        if (info.length != 0 && info.length > meta) if (info[meta].length > 0) {
+        	InfoHelper.infoFull(tooltip, fixedColor, fixedInfo[meta], info[meta]);
         }
     }
 }

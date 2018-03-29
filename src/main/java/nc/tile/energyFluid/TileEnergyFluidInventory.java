@@ -2,7 +2,7 @@ package nc.tile.energyFluid;
 
 import nc.Global;
 import nc.ModCheck;
-import nc.tile.energy.storage.EnumStorage.EnergyConnection;
+import nc.tile.energy.storage.EnumEnergyStorage.EnergyConnection;
 import nc.tile.fluid.tank.EnumTank.FluidConnection;
 import nc.tile.inventory.ITileInventory;
 import net.darkhax.tesla.capability.TeslaCapabilities;

@@ -8,7 +8,7 @@ import nc.config.NCConfig;
 import nc.init.NCBlocks;
 import nc.tile.dummy.IInterfaceable;
 import nc.tile.energy.TileEnergy;
-import nc.tile.energy.storage.EnumStorage.EnergyConnection;
+import nc.tile.energy.storage.EnumEnergyStorage.EnergyConnection;
 import nc.util.EnergyHelper;
 import nc.util.StackHelper;
 import net.minecraft.block.state.IBlockState;

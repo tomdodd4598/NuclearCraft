@@ -24,6 +24,13 @@ public class BlockProcessor extends BlockSidedInventoryGui implements IActivatab
 	protected final boolean isActive;
 	protected final ProcessorType type;
 	
+	/*public static final PropertyEnum<ProcessorSideConfig> DOWN = PropertyEnum.create("configDown", ProcessorSideConfig.class, ProcessorSideConfig.DEFAULT);
+	public static final PropertyEnum<ProcessorSideConfig> UP = PropertyEnum.create("configUp", ProcessorSideConfig.class, ProcessorSideConfig.DEFAULT);
+	public static final PropertyEnum<ProcessorSideConfig> NORTH = PropertyEnum.create("configNorth", ProcessorSideConfig.class, ProcessorSideConfig.DEFAULT);
+	public static final PropertyEnum<ProcessorSideConfig> SOUTH = PropertyEnum.create("configSouth", ProcessorSideConfig.class, ProcessorSideConfig.DEFAULT);
+	public static final PropertyEnum<ProcessorSideConfig> WEST = PropertyEnum.create("configWest", ProcessorSideConfig.class, ProcessorSideConfig.DEFAULT);
+	public static final PropertyEnum<ProcessorSideConfig> EAST = PropertyEnum.create("configEast", ProcessorSideConfig.class, ProcessorSideConfig.DEFAULT);*/
+	
 	public BlockProcessor(ProcessorType type, boolean isActive) {
 		super(type.getName() + (isActive ? "_active" : "_idle"), Material.IRON, type.getID());
 		this.isActive = isActive;

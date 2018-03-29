@@ -16,14 +16,16 @@ public class GuiFuelReprocessor extends GuiItemProcessor {
 	}
 	
 	@Override
+	public void renderTooltips(int mouseX, int mouseY) {
+		drawEnergyTooltip(tile, mouseX, mouseY, 8, 6, 16, 86);
+	}
+	
+	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		super.drawGuiContainerForegroundLayer(mouseX, mouseY);
-		//fontRendererObj.drawString(tile.storage.getEnergyStored() + " RF", 28, ySize - 94, 4210752);
 		
 		GuiItemRenderer itemRenderer = new GuiItemRenderer(132, ySize - 102, 0.5F, NCItems.upgrade, 0);
 		itemRenderer.draw();
-		
-		drawEnergyTooltip(tile, mouseX, mouseY, 8, 6, 16, 86);
 	}
 	
 	@Override

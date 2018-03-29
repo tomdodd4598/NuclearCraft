@@ -47,13 +47,13 @@ public abstract class NCTile extends TileEntity implements ITickable {
 	}
 	
 	@Override
-	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newSate) {
+	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
 		String oldName = oldState.getBlock().getUnlocalizedName().toString();
-		String newName = newSate.getBlock().getUnlocalizedName().toString();
+		String newName = newState.getBlock().getUnlocalizedName().toString();
 		if (oldName.contains("_idle") || oldName.contains("_active")) {
 			return !oldName.replace("_idle","").replace("_active","").equals(newName.replace("_idle","").replace("_active",""));
 		}
-		return oldState.getBlock() != newSate.getBlock();
+		return oldState.getBlock() != newState.getBlock();
 	}
 	
 	public IBlockState getDefaultBlockState() {

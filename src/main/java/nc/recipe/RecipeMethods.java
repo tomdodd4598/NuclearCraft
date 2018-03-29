@@ -9,9 +9,9 @@ import javax.annotation.Nullable;
 
 import com.google.common.collect.Lists;
 
-import nc.util.StackHelper;
 import nc.util.NCUtil;
 import nc.util.OreStackHelper;
+import nc.util.StackHelper;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -68,9 +68,17 @@ public abstract class RecipeMethods<T extends IRecipe> implements IRecipeGetter<
 		ArrayList result = recipe != null ? recipe.outputs() : new ArrayList<IIngredient>();
 		return result;
 	}
+	
+	public static boolean containsIngredient(ArrayList<IIngredient> list, IIngredient ingredient) {
+		for (IIngredient i : list) {
+			if (i == null) continue;
+			if (i.matches(ingredient, SorptionType.NEUTRAL)) return true;
+		}
+		return false;
+	}
 
 	public boolean addRecipe(T recipe) {
-		return recipe != null ? recipes.add(recipe) : false;
+		return (recipe != null) ? recipes.add(recipe) : false;
 	}
 
 	public boolean removeRecipe(T recipe) {
@@ -128,13 +136,10 @@ public abstract class RecipeMethods<T extends IRecipe> implements IRecipeGetter<
 				for (Object listObject : list) {
 					if (listObject != null) {
 						IIngredient recipeObject = buildRecipeObject(listObject);
-						if (recipeObject != null) {
-							buildList.add(recipeObject);
-						} else {
-							return null;
-						}
+						if (recipeObject != null) buildList.add(recipeObject);
 					}
 				}
+				if (buildList.isEmpty()) return null;
 				return new RecipeStackArray(buildList);
 			} else {
 				return null;
@@ -252,7 +257,7 @@ public abstract class RecipeMethods<T extends IRecipe> implements IRecipeGetter<
 		return false;
 	}
 	
-	public static String[][] validFluids(BaseRecipeHandler recipes, String... exceptions) {
+	protected static String[][] validFluids(BaseRecipeHandler recipes, String... exceptions) {
 		int fluidInputSize = recipes.inputSizeFluid;
 		int fluidOutputSize = recipes.outputSizeFluid;
 		ArrayList<Fluid> fluidList = new ArrayList<Fluid>(FluidRegistry.getRegisteredFluids().values());
@@ -282,6 +287,10 @@ public abstract class RecipeMethods<T extends IRecipe> implements IRecipeGetter<
 			allowedFluidArrays[i] = new String[] {};
 		}
 		return allowedFluidArrays;
+	}
+	
+	public static String[][] validFluids(NCRecipes.Type recipeType, String... exceptions) {
+		return validFluids(recipeType.getRecipeHandler(), exceptions);
 	}
 	
 	public static Object adjustObject(Object object) {
@@ -344,6 +353,12 @@ public abstract class RecipeMethods<T extends IRecipe> implements IRecipeGetter<
 		return true;
 	}
 	
+	public static ArrayList<String> getIngredientNames(ArrayList<IIngredient> ingredientList) {
+		ArrayList<String> ingredientNames = new ArrayList<String>();
+		for (IIngredient ingredient : ingredientList) ingredientNames.add(ingredient.getStackSize() + " x " + ingredient.getIngredientName());
+		return ingredientNames;
+	}
+	
 	public RecipeOreStack oreStack(String oreType, int stackSize) {
 		if (!OreStackHelper.exists(oreType, StackType.ITEM)) {
 			//NCUtil.getLogger().info(getRecipeName() + " - an item ore dict stack of '" + oreType + "' is invalid!");
@@ -358,5 +373,25 @@ public abstract class RecipeMethods<T extends IRecipe> implements IRecipeGetter<
 			return null;
 		}
 		return new RecipeOreStack(oreType, StackType.FLUID, stackSize);
+	}
+	
+	public ArrayList<RecipeOreStack> oreStackList(ArrayList<String> oreTypes, int stackSize) {
+		ArrayList<RecipeOreStack> oreStackList = new ArrayList<RecipeOreStack>();
+		for (String oreType : oreTypes) if (oreStack(oreType, stackSize) != null) oreStackList.add(oreStack(oreType, stackSize));
+		return oreStackList;
+	}
+	
+	public ArrayList<RecipeOreStack> oreStackList(String[] oreTypes, int stackSize) {
+		return oreStackList(Lists.newArrayList(oreTypes), stackSize);
+	}
+	
+	public ArrayList<RecipeOreStack> fluidStackList(ArrayList<String> oreTypes, int stackSize) {
+		ArrayList<RecipeOreStack> fluidStackList = new ArrayList<RecipeOreStack>();
+		for (String oreType : oreTypes) if (fluidStack(oreType, stackSize) != null) fluidStackList.add(fluidStack(oreType, stackSize));
+		return fluidStackList;
+	}
+	
+	public ArrayList<RecipeOreStack> fluidStackList(String[] oreTypes, int stackSize) {
+		return fluidStackList(Lists.newArrayList(oreTypes), stackSize);
 	}
 }

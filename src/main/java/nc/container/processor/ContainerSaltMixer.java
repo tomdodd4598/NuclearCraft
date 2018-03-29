@@ -10,7 +10,7 @@ import net.minecraft.inventory.SlotFurnaceOutput;
 public class ContainerSaltMixer extends ContainerFluidProcessor {
 
 	public ContainerSaltMixer(EntityPlayer player, TileFluidProcessor tileEntity) {
-		super(tileEntity, NCRecipes.SALT_MIXER_RECIPES);
+		super(tileEntity, NCRecipes.Type.SALT_MIXER);
 		
 		addSlotToContainer(new SlotSpecificInput(tileEntity, 0, 132, 64, speedUpgrade));
 		addSlotToContainer(new SlotFurnaceOutput(player, tileEntity, 1, 152, 64));

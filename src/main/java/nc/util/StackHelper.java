@@ -4,13 +4,10 @@ import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
-import net.minecraftforge.fml.common.registry.ForgeRegistries;
-import net.minecraftforge.registries.IForgeRegistry;
 
 public class StackHelper {
 	
@@ -95,29 +92,5 @@ public class StackHelper {
 	
 	public static ItemStack getBucket(String fluidName) {
 		return getBucket(FluidRegistry.getFluid(fluidName));
-	}
-	
-	public static ItemStack blockStackFromRegistry(String domain, String name, int stackSize, int meta) {
-		return new ItemStack(ForgeRegistries.BLOCKS.getValue(new ResourceLocation(domain, name)), stackSize, meta);
-	}
-	
-	public static ItemStack blockStackFromRegistry(String domain, String name, int stackSize) {
-		return blockStackFromRegistry(domain, name, stackSize, 0);
-	}
-	
-	public static ItemStack blockStackFromRegistry(String domain, String name) {
-		return blockStackFromRegistry(domain, name, 1);
-	}
-	
-	public static ItemStack itemStackFromRegistry(String domain, String name, int stackSize, int meta) {
-		return new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(domain, name)), stackSize, meta);
-	}
-	
-	public static ItemStack itemStackFromRegistry(String domain, String name, int stackSize) {
-		return itemStackFromRegistry(domain, name, stackSize, 0);
-	}
-	
-	public static ItemStack itemStackFromRegistry(String domain, String name) {
-		return itemStackFromRegistry(domain, name, 1);
 	}
 }

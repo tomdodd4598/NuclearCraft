@@ -1,0 +1,26 @@
+{
+	"display": {
+		"icon": {
+			"item": "nuclearcraft:portable_ender_chest"
+		},
+		"title": {
+			"translate": "advancement.nuclearcraft.portable_ender_chest.name"
+		},
+		"description": {
+			"translate": "advancement.nuclearcraft.portable_ender_chest.desc"
+		}
+	},
+	"parent": "nuclearcraft:root",
+	"criteria": {
+		"has_item": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"item": "nuclearcraft:portable_ender_chest"
+					}
+				]
+			}
+		}
+	}
+}

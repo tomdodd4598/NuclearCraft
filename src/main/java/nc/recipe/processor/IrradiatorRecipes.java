@@ -7,7 +7,7 @@ import nc.util.FluidHelper;
 public class IrradiatorRecipes extends BaseRecipeHandler {
 	
 	public IrradiatorRecipes() {
-		super("irradiator", 0, 2, 0, 2, true);
+		super("irradiator", 0, 2, 0, 2);
 	}
 
 	@Override

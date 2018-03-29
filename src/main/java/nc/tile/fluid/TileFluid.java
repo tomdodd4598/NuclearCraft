@@ -2,8 +2,8 @@ package nc.tile.fluid;
 
 import nc.config.NCConfig;
 import nc.tile.NCTile;
-import nc.tile.fluid.tank.Tank;
 import nc.tile.fluid.tank.EnumTank.FluidConnection;
+import nc.tile.fluid.tank.Tank;
 import nc.tile.passive.ITilePassive;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -107,7 +107,7 @@ public abstract class TileFluid extends NCTile implements ITileFluid, IFluidHand
 		if (tanks.length == 0 || tanks == null) return null;
 		for (int i = 0; i < tanks.length; i++) {
 			if (fluidConnections[i].canDrain() && tanks[i].getFluid() != null && tanks[i].getFluidAmount() > 0) {
-				return tanks[i].drain(resource.amount, doDrain);
+				if (resource.isFluidEqual(tanks[i].getFluid()) && tanks[i].drain(resource, false) != null) return tanks[i].drain(resource, doDrain);
 			}
 		}
 		return null;
@@ -118,7 +118,7 @@ public abstract class TileFluid extends NCTile implements ITileFluid, IFluidHand
 		if (tanks.length == 0 || tanks == null) return null;
 		for (int i = 0; i < tanks.length; i++) {
 			if (fluidConnections[i].canDrain() && tanks[i].getFluid() != null && tanks[i].getFluidAmount() > 0) {
-				return tanks[i].drain(maxDrain, doDrain);
+				if (tanks[i].drain(maxDrain, false) != null) return tanks[i].drain(maxDrain, doDrain);
 			}
 		}
 		return null;

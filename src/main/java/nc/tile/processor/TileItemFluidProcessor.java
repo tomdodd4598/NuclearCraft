@@ -7,14 +7,16 @@ import nc.init.NCItems;
 import nc.recipe.BaseRecipeHandler;
 import nc.recipe.IIngredient;
 import nc.recipe.IRecipe;
+import nc.recipe.NCRecipes;
 import nc.recipe.RecipeMethods;
 import nc.recipe.SorptionType;
 import nc.tile.IGui;
 import nc.tile.dummy.IInterfaceable;
-import nc.tile.energy.storage.EnumStorage.EnergyConnection;
+import nc.tile.energy.storage.EnumEnergyStorage.EnergyConnection;
 import nc.tile.energyFluid.IBufferable;
 import nc.tile.energyFluid.TileEnergyFluidSidedInventory;
 import nc.tile.fluid.tank.EnumTank.FluidConnection;
+import nc.util.NCMathHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
@@ -36,17 +38,17 @@ public abstract class TileItemFluidProcessor extends TileEnergyFluidSidedInvento
 	
 	public int tickCount;
 	
-	public final BaseRecipeHandler recipes;
+	public final NCRecipes.Type recipeType;
 	
-	public TileItemFluidProcessor(String name, int itemInSize, int fluidInSize, int itemOutSize, int fluidOutSize, int[] fluidCapacity, FluidConnection[] fluidConnection, String[][] allowedFluids, int time, int power, BaseRecipeHandler recipes) {
-		this(name, itemInSize, fluidInSize, itemOutSize, fluidOutSize, fluidCapacity, fluidConnection, allowedFluids, time, power, false, recipes, 1);
+	public TileItemFluidProcessor(String name, int itemInSize, int fluidInSize, int itemOutSize, int fluidOutSize, int[] fluidCapacity, FluidConnection[] fluidConnection, String[][] allowedFluids, int time, int power, NCRecipes.Type recipeType) {
+		this(name, itemInSize, fluidInSize, itemOutSize, fluidOutSize, fluidCapacity, fluidConnection, allowedFluids, time, power, false, recipeType, 1);
 	}
 	
-	public TileItemFluidProcessor(String name, int itemInSize, int fluidInSize, int itemOutSize, int fluidOutSize, int[] fluidCapacity, FluidConnection[] fluidConnection, String[][] allowedFluids, int time, int power, BaseRecipeHandler recipes, int upgradeMeta) {
-		this(name, itemInSize, fluidInSize, itemOutSize, fluidOutSize, fluidCapacity, fluidConnection, allowedFluids, time, power, true, recipes, upgradeMeta);
+	public TileItemFluidProcessor(String name, int itemInSize, int fluidInSize, int itemOutSize, int fluidOutSize, int[] fluidCapacity, FluidConnection[] fluidConnection, String[][] allowedFluids, int time, int power, NCRecipes.Type recipeType, int upgradeMeta) {
+		this(name, itemInSize, fluidInSize, itemOutSize, fluidOutSize, fluidCapacity, fluidConnection, allowedFluids, time, power, true, recipeType, upgradeMeta);
 	}
 	
-	public TileItemFluidProcessor(String name, int itemInSize, int fluidInSize, int itemOutSize, int fluidOutSize, int[] fluidCapacity, FluidConnection[] fluidConnection, String[][] allowedFluids, int time, int power, boolean upgrades, BaseRecipeHandler recipes, int upgradeMeta) {
+	public TileItemFluidProcessor(String name, int itemInSize, int fluidInSize, int itemOutSize, int fluidOutSize, int[] fluidCapacity, FluidConnection[] fluidConnection, String[][] allowedFluids, int time, int power, boolean upgrades, NCRecipes.Type recipeType, int upgradeMeta) {
 		super(name, itemInSize + itemOutSize + (upgrades ? 2 : 0), 32000, power != 0 ? EnergyConnection.IN : EnergyConnection.NON, fluidCapacity, fluidCapacity, fluidCapacity, fluidConnection, allowedFluids);
 		itemInputSize = itemInSize;
 		fluidInputSize = fluidInSize;
@@ -56,9 +58,10 @@ public abstract class TileItemFluidProcessor extends TileEnergyFluidSidedInvento
 		baseProcessTime = time;
 		baseProcessPower = power;
 		hasUpgrades = upgrades;
-		this.recipes = recipes;
 		this.upgradeMeta = upgradeMeta;
 		areTanksShared = fluidInSize > 1;
+		
+		this.recipeType = recipeType;
 		
 		int[] topSlots1 = new int[itemInSize];
 		for (int i = 0; i < topSlots1.length; i++) topSlots1[i] = i;
@@ -84,6 +87,10 @@ public abstract class TileItemFluidProcessor extends TileEnergyFluidSidedInvento
 		int[] tankCapacities = new int[inSize + outSize];
 		for (int i = 0; i < inSize + outSize; i++) tankCapacities[i] = capacity;
 		return tankCapacities;
+	}
+	
+	public BaseRecipeHandler getRecipeHandler() {
+		return recipeType.getRecipeHandler();
 	}
 	
 	@Override
@@ -144,7 +151,7 @@ public abstract class TileItemFluidProcessor extends TileEnergyFluidSidedInvento
 	}
 	
 	public void loseProgress() {
-		time = MathHelper.clamp(time - 2*getSpeedMultiplier(), 0, baseProcessTime);
+		time = MathHelper.clamp(time - (int) (1.5D*getSpeedMultiplier()), 0, baseProcessTime);
 	}
 	
 	public void updateBlockType() {
@@ -168,19 +175,27 @@ public abstract class TileItemFluidProcessor extends TileEnergyFluidSidedInvento
 	
 	// Processing
 	
-	public int getSpeedMultiplier() {
+	public int getSpeedCount() {
 		if (!hasUpgrades) return 1;
 		ItemStack speedStack = inventoryStacks.get(itemInputSize + itemOutputSize);
 		if (speedStack == ItemStack.EMPTY) return 1;
 		return speedStack.getCount() + 1;
 	}
 	
+	public double getSpeedMultiplier() {
+		return getSpeedCount() > 1 ? NCConfig.speed_upgrade_multipliers[0]*(NCMathHelper.simplexNumber(getSpeedCount(), NCConfig.speed_upgrade_power_laws[0]) - 1) + 1 : 1;
+	}
+	
+	public double getPowerMultiplier() {
+		return getSpeedCount() > 1 ? NCConfig.speed_upgrade_multipliers[1]*(NCMathHelper.simplexNumber(getSpeedCount(), NCConfig.speed_upgrade_power_laws[1]) - 1) + 1 : 1;
+	}
+	
 	public int getProcessTime() {
-		return Math.max(1, baseProcessTime/getSpeedMultiplier());
+		return Math.max(1, (int) ((double)baseProcessTime/getSpeedMultiplier()));
 	}
 	
 	public int getProcessPower() {
-		return baseProcessPower*getSpeedMultiplier()*(getSpeedMultiplier() + 1) / 2;
+		return Math.min(Integer.MAX_VALUE, (int) ((double)baseProcessPower*getPowerMultiplier()));
 	}
 	
 	public int getProcessEnergy() {
@@ -233,20 +248,20 @@ public abstract class TileItemFluidProcessor extends TileEnergyFluidSidedInvento
 			}
 		}
 		for(int j = 0; j < fluidOutputSize; j++) {
-			if (outputs[recipes.outputSizeItem + j] == null) {
+			if (outputs[getRecipeHandler().outputSizeItem + j] == null) {
 				return false;
 			} else {
 				if (tanks[j + fluidInputSize].getFluid() != null) {
-					if (!tanks[j + fluidInputSize].getFluid().isFluidEqual((FluidStack) outputs[recipes.outputSizeItem + j])) {
+					if (!tanks[j + fluidInputSize].getFluid().isFluidEqual((FluidStack) outputs[getRecipeHandler().outputSizeItem + j])) {
 						return false;
-					} else if (tanks[j + fluidInputSize].getFluidAmount() + ((FluidStack) outputs[recipes.outputSizeItem + j]).amount > tanks[j + fluidInputSize].getCapacity()) {
+					} else if (tanks[j + fluidInputSize].getFluidAmount() + ((FluidStack) outputs[getRecipeHandler().outputSizeItem + j]).amount > tanks[j + fluidInputSize].getCapacity()) {
 						return false;
 					}
 				}
 			}
 		}
 		Object[] inputs = inputs();
-		if (recipes.getRecipeFromInputs(inputs).extras().get(0) instanceof Integer) baseProcessTime = (int) recipes.getRecipeFromInputs(inputs).extras().get(0);
+		if (getRecipeHandler().getRecipeFromInputs(inputs).extras().get(0) instanceof Integer) baseProcessTime = (int) getRecipeHandler().getRecipeFromInputs(inputs).extras().get(0);
 		return true;
 	}
 	
@@ -273,7 +288,7 @@ public abstract class TileItemFluidProcessor extends TileEnergyFluidSidedInvento
 			}
 		}
 		for (int i = 0; i < itemInputSize; i++) {
-			if (recipes != null) {
+			if (getRecipeHandler() != null) {
 				inventoryStacks.get(i).shrink(recipe.inputs().get(itemInputOrder[i]).getStackSize());
 			} else {
 				inventoryStacks.get(i).shrink(1);
@@ -283,7 +298,7 @@ public abstract class TileItemFluidProcessor extends TileEnergyFluidSidedInvento
 			}
 		}
 		for (int i = 0; i < fluidInputSize; i++) {
-			if (recipes != null) {
+			if (getRecipeHandler() != null) {
 				tanks[i].changeFluidStored(-recipe.inputs().get(fluidInputOrder[i] + itemInputSize).getStackSize());
 			} else {
 				tanks[i].changeFluidStored(-1000);
@@ -295,7 +310,7 @@ public abstract class TileItemFluidProcessor extends TileEnergyFluidSidedInvento
 	}
 	
 	public IRecipe getRecipe() {
-		return recipes.getRecipeFromInputs(inputs());
+		return getRecipeHandler().getRecipeFromInputs(inputs());
 	}
 	
 	public Object[] inputs() {
@@ -370,7 +385,7 @@ public abstract class TileItemFluidProcessor extends TileEnergyFluidSidedInvento
 			}
 		}
 		if (slot >= itemInputSize) return false;
-		return NCConfig.smart_processor_input ? recipes.isValidInput(stack, inputs()) : recipes.isValidInput(stack);
+		return NCConfig.smart_processor_input ? getRecipeHandler().isValidInput(stack, inputs()) : getRecipeHandler().isValidInput(stack);
 	}
 
 	// SidedInventory

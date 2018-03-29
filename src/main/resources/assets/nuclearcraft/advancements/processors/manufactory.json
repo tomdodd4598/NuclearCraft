@@ -1,0 +1,27 @@
+{
+	"display": {
+		"icon": {
+			"item": "nuclearcraft:manufactory_active"
+		},
+		"title": {
+			"translate": "advancement.nuclearcraft.manufactory.name"
+		},
+		"description": {
+			"translate": "advancement.nuclearcraft.manufactory.desc"
+		},
+		"frame": "goal"
+	},
+	"parent": "nuclearcraft:root",
+	"criteria": {
+		"has_item": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"item": "nuclearcraft:manufactory_idle"
+					}
+				]
+			}
+		}
+	}
+}

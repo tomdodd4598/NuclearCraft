@@ -7,7 +7,7 @@ import nc.util.FluidHelper;
 public class FusionRecipes extends BaseRecipeHandler {
 	
 	public FusionRecipes() {
-		super("fusion", 0, 2, 0, 4, true);
+		super("fusion", 0, 2, 0, 4);
 	}
 	
 	@Override

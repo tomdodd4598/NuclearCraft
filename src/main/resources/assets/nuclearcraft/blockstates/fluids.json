@@ -1,7 +1,7 @@
 {
 	"forge_marker": 1,
 	"variants": {
-		"fluid_fission": {
+		"fluid_molten_colored": {
 			"model": "nuclearcraft:fluid",
 			"textures": {
 				"still": "nuclearcraft:blocks/fluids/molten_still",
@@ -62,6 +62,12 @@
 				"fluid": "plasma"
 			}
 		},
+		"fluid_lithium": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "lithium"
+			}
+		},
 		"fluid_lithium6": {
 			"model": "forge:fluid",
 			"custom": {
@@ -72,6 +78,12 @@
 			"model": "forge:fluid",
 			"custom": {
 				"fluid": "lithium7"
+			}
+		},
+		"fluid_boron": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "boron"
 			}
 		},
 		"fluid_boron10": {
@@ -222,6 +234,30 @@
 			"model": "forge:fluid",
 			"custom": {
 				"fluid": "oxygen_difluoride"
+			}
+		},
+		"fluid_corium": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "corium"
+			}
+		},
+		"fluid_sodium": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "sodium"
+			}
+		},
+		"fluid_potassium": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "potassium"
+			}
+		},
+		"fluid_nak": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "nak"
 			}
 		}
 	}

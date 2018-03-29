@@ -9,6 +9,8 @@ import org.apache.commons.lang3.tuple.Pair;
 import nc.NuclearCraft;
 import nc.block.fluid.BlockFluid;
 import nc.block.fluid.BlockFluidAcid;
+import nc.block.fluid.BlockFluidCoolant;
+import nc.block.fluid.BlockFluidFission;
 import nc.block.fluid.BlockFluidFlammable;
 import nc.block.fluid.BlockFluidGas;
 import nc.block.fluid.BlockFluidLiquid;
@@ -19,6 +21,8 @@ import nc.block.fluid.BlockFluidSaltSolution;
 import nc.block.fluid.BlockSuperFluid;
 import nc.fluid.FluidAcid;
 import nc.fluid.FluidBase;
+import nc.fluid.FluidCoolant;
+import nc.fluid.FluidFission;
 import nc.fluid.FluidFlammable;
 import nc.fluid.FluidGas;
 import nc.fluid.FluidLiquid;
@@ -45,10 +49,12 @@ public static List<Pair<FluidBase, BlockFluid>> fluidPairList = new ArrayList<Pa
 			fluidPairList.add(fluidPair("helium3", 0xCBBB67, FluidGas.class, BlockFluidGas.class));
 			fluidPairList.add(fluidPair("helium", 0xC57B81, FluidGas.class, BlockFluidGas.class));
 			
-			fluidPairList.add(fluidPair("lithium6", 0xEFEFEF, FluidMolten.class, BlockFluidMolten.class));
-			fluidPairList.add(fluidPair("lithium7", 0xEFEFEF, FluidMolten.class, BlockFluidMolten.class));
+			fluidPairList.add(fluidPair("boron", 0x7B7B7B, FluidMolten.class, BlockFluidMolten.class));
 			fluidPairList.add(fluidPair("boron10", 0x7B7B7B, FluidMolten.class, BlockFluidMolten.class));
 			fluidPairList.add(fluidPair("boron11", 0x7B7B7B, FluidMolten.class, BlockFluidMolten.class));
+			fluidPairList.add(fluidPair("lithium", 0xEFEFEF, FluidMolten.class, BlockFluidMolten.class));
+			fluidPairList.add(fluidPair("lithium6", 0xEFEFEF, FluidMolten.class, BlockFluidMolten.class));
+			fluidPairList.add(fluidPair("lithium7", 0xEFEFEF, FluidMolten.class, BlockFluidMolten.class));
 			
 			fluidPairList.add(fluidPair("beryllium", 0xD4DBC2, FluidMolten.class, BlockFluidMolten.class));
 			fluidPairList.add(fluidPair("sulfur", 0xDEDE7A, FluidMolten.class, BlockFluidMolten.class));
@@ -80,12 +86,18 @@ public static List<Pair<FluidBase, BlockFluid>> fluidPairList = new ArrayList<Pa
 			fluidPairList.add(fluidPair("fluorite_water", 0x5773D7, FluidSaltSolution.class, BlockFluidSaltSolution.class));
 			fluidPairList.add(fluidPair("calcium_sulfate_solution", 0x686FD6, FluidSaltSolution.class, BlockFluidSaltSolution.class));
 			
+			fluidPairList.add(fluidPair("corium", 0x7F8178, FluidFission.class, BlockFluidFission.class));
+			
 			fluidPairList.add(fluidPair("lif", 0xCDCDCB, FluidMolten.class, BlockFluidMolten.class));
 			fluidPairList.add(fluidPair("bef2", 0xBEC6AA, FluidMolten.class, BlockFluidMolten.class));
-			fluidPairList.add(fluidPair("flibe", 0xC1C8B1, FluidMolten.class, BlockFluidMolten.class));
+			fluidPairList.add(fluidPair("flibe", 0xC1C8B0, FluidMolten.class, BlockFluidMolten.class));
 			
 			fluidPairList.add(fluidPair("steam", 0x8E8E8E, FluidGas.class, BlockFluidGas.class));
-			fluidPairList.add(fluidPair("coolant", 0x88D7CF, FluidMolten.class, BlockFluidMolten.class));
+			fluidPairList.add(fluidPair("coolant", 0x88D7CF, FluidCoolant.class, BlockFluidCoolant.class));
+			
+			fluidPairList.add(fluidPair("sodium", 0xFFFFA3, FluidMolten.class, BlockFluidMolten.class));
+			fluidPairList.add(fluidPair("potassium", 0xFFA3A3, FluidMolten.class, BlockFluidMolten.class));
+			fluidPairList.add(fluidPair("nak", 0xFFE5BC, FluidMolten.class, BlockFluidMolten.class));
 		} catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 			e.printStackTrace();
 		}

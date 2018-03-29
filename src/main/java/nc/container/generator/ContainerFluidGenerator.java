@@ -2,6 +2,7 @@ package nc.container.generator;
 
 import nc.container.ContainerTile;
 import nc.recipe.BaseRecipeHandler;
+import nc.recipe.NCRecipes;
 import nc.tile.generator.TileFluidGenerator;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IContainerListener;
@@ -13,15 +14,19 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class ContainerFluidGenerator extends ContainerTile {
 	
 	public final TileFluidGenerator tile;
-	public final BaseRecipeHandler recipes;
+	public final NCRecipes.Type recipeType;
 	
 	protected int time;
 	protected int energy;
 	
-	public ContainerFluidGenerator(TileFluidGenerator tileEntity, BaseRecipeHandler recipes) {
+	public ContainerFluidGenerator(TileFluidGenerator tileEntity, NCRecipes.Type recipeType) {
 		super(tileEntity);
 		tile = tileEntity;
-		this.recipes = recipes;
+		this.recipeType = recipeType;
+	}
+	
+	public BaseRecipeHandler getRecipeHandler() {
+		return recipeType.getRecipeHandler();
 	}
 
 	@Override
@@ -77,7 +82,7 @@ public class ContainerFluidGenerator extends ContainerTile {
 				slot.onSlotChange(itemstack1, itemstack);
 			}
 			else if(index >= invStart) {
-				if (recipes.isValidInput(itemstack1)) {
+				if (getRecipeHandler().isValidInput(itemstack1)) {
 					if (!mergeItemStack(itemstack1, 0, 0, false)) {
 						return ItemStack.EMPTY;
 					}

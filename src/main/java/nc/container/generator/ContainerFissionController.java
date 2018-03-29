@@ -22,9 +22,9 @@ public class ContainerFissionController extends ContainerItemGenerator {
 	protected int heatMult;
 	
 	public ContainerFissionController(EntityPlayer player, TileFissionController tileEntity) {
-		super(tileEntity, NCRecipes.FISSION_RECIPES);
+		super(tileEntity, NCRecipes.Type.FISSION);
 		
-		addSlotToContainer(new SlotProcessorInput(tileEntity, recipes, 0, 56, 35));
+		addSlotToContainer(new SlotProcessorInput(tileEntity, recipeType, 0, 56, 35));
 		
 		addSlotToContainer(new SlotFurnaceOutput(player, tileEntity, 1, 116, 35));
 		

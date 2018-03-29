@@ -1,5 +1,6 @@
 package nc.block;
 
+import java.util.Iterator;
 import java.util.Random;
 
 import nc.Global;
@@ -39,7 +40,7 @@ public abstract class BlockMeta<T extends Enum<T> & IStringSerializable & IBlock
 		values = enumm.getEnumConstants();
 		type = property;
 		setDefaultState(blockState.getBaseState().withProperty(type, values[0]));
-		setHarvestLevel("pickaxe", 0);
+		setHarvestLevel();
 		setHardness(2);
 		setResistance(15);
 	}
@@ -139,6 +140,14 @@ public abstract class BlockMeta<T extends Enum<T> & IStringSerializable & IBlock
 	@Override
 	public boolean canCreatureSpawn(IBlockState state, IBlockAccess world, BlockPos pos, net.minecraft.entity.EntityLiving.SpawnPlacementType type) {
 		return false;
+	}
+	
+	public void setHarvestLevel() {
+		Iterator<IBlockState> itr = getBlockState().getValidStates().iterator();
+		while (itr.hasNext()) {
+			IBlockState nextState = itr.next();
+			setHarvestLevel(((T) nextState.getValue(type)).getHarvestTool(), ((T) nextState.getValue(type)).getHarvestLevel(), nextState);
+		}
 	}
 	
 	@Override

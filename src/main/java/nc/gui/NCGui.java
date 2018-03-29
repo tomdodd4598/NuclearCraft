@@ -24,12 +24,15 @@ public abstract class NCGui extends GuiContainer {
 		drawDefaultBackground();
 		super.drawScreen(mouseX, mouseY, partialTicks);
 		renderHoveredToolTip(mouseX, mouseY);
+		renderTooltips(mouseX, mouseY);
 	}
+	
+	public void renderTooltips(int mouseX, int mouseY) {}
 	
 	public void drawTooltip(List<String> text, int mouseX, int mouseY, int x, int y, int width, int height) {
 		int xPos = x + guiLeft; int yPos = y + guiTop;
 		if (mouseX >= xPos && mouseY >= yPos && mouseX < xPos + width && mouseY < yPos + height) {
-			drawHoveringText(text, mouseX - guiLeft, mouseY - guiTop);
+			drawHoveringText(text, mouseX, mouseY);
 		}
 	}
 	

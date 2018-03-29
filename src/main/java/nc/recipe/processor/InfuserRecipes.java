@@ -1,18 +1,19 @@
 package nc.recipe.processor;
 
+import com.google.common.collect.Lists;
+
 import nc.config.NCConfig;
 import nc.init.NCBlocks;
 import nc.recipe.BaseRecipeHandler;
 import nc.util.FluidHelper;
-import nc.util.StackHelper;
+import nc.util.RegistryHelper;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 public class InfuserRecipes extends BaseRecipeHandler {
 	
 	public InfuserRecipes() {
-		super("infuser", 1, 1, 1, 0, false);
+		super("infuser", 1, 1, 1, 0);
 	}
 
 	@Override
@@ -25,6 +26,23 @@ public class InfuserRecipes extends BaseRecipeHandler {
 		addOxidizingRecipe("dustUranium", FluidHelper.BUCKET_VOLUME);
 		addOxidizingRecipe("dustManganese", FluidHelper.BUCKET_VOLUME);
 		addRecipe("dustManganeseOxide", fluidStack("oxygen", FluidHelper.BUCKET_VOLUME), "dustManganeseDioxide", NCConfig.processor_time[5]);
+		
+		addRecipe(Lists.newArrayList(Blocks.ICE, Blocks.PACKED_ICE), fluidStack("liquidhelium", 50), NCBlocks.block_ice, NCConfig.processor_time[5]/10);
+		
+		addRecipe(new ItemStack(NCBlocks.cooler, 1, 0), fluidStack("water", FluidHelper.BUCKET_VOLUME), new ItemStack(NCBlocks.cooler, 1, 1), NCConfig.processor_time[5]);
+		addRecipe(new ItemStack(NCBlocks.cooler, 1, 0), fluidStack("liquidhelium", FluidHelper.BUCKET_VOLUME), new ItemStack(NCBlocks.cooler, 1, 8), NCConfig.processor_time[5]);
+		addRecipe(new ItemStack(NCBlocks.cooler, 1, 0), fluidStack("cryotheum", FluidHelper.BUCKET_VOLUME*2), new ItemStack(NCBlocks.cooler, 1, 10), NCConfig.processor_time[5]);
+		
+		// Immersive Engineering
+		addRecipe("plankWood", fluidStack("creosote", 100), RegistryHelper.blockStackFromRegistry("immersiveengineering", "treated_wood"), NCConfig.processor_time[5]/10);
+		
+		// Redstone Arsenal
+		addIngotInfusionRecipes("Electrum", "redstone", FluidHelper.REDSTONE_DUST_VOLUME*2, "ElectrumFlux", 1);
+		
+		// Thermal Foundation
+		addIngotInfusionRecipes("Shibuichi", "redstone", FluidHelper.EUM_DUST_VOLUME, "Signalum", 1);
+		addIngotInfusionRecipes("TinSilver", "glowstone", FluidHelper.EUM_DUST_VOLUME, "Lumium", 1);
+		addIngotInfusionRecipes("LeadPlatinum", "ender", FluidHelper.EUM_DUST_VOLUME, "Enderium", 1);
 		
 		addFertileOxidizingRecipes("Thorium230");
 		addFissileOxidizingRecipes("Thorium232");
@@ -90,23 +108,6 @@ public class InfuserRecipes extends BaseRecipeHandler {
 		addFuelOxidizingRecipes("HECf249");
 		addFuelOxidizingRecipes("LECf251");
 		addFuelOxidizingRecipes("HECf251");
-		
-		addRecipe(Blocks.ICE, fluidStack("liquidhelium", 50), NCBlocks.block_ice, NCConfig.processor_time[5]/10);
-		addRecipe(Blocks.PACKED_ICE, fluidStack("liquidhelium", 50), NCBlocks.block_ice, NCConfig.processor_time[5]/10);
-		
-		addRecipe(new ItemStack(NCBlocks.cooler, 1, 0), fluidStack("liquidhelium", FluidHelper.BUCKET_VOLUME), new ItemStack(NCBlocks.cooler, 1, 8), NCConfig.processor_time[5]);
-		addRecipe(new ItemStack(NCBlocks.cooler, 1, 0), fluidStack("water", FluidHelper.BUCKET_VOLUME), new ItemStack(NCBlocks.cooler, 1, 1), NCConfig.processor_time[5]);
-		
-		// Immersive Engineering
-		addRecipe("plankWood", fluidStack("creosote", 100), StackHelper.blockStackFromRegistry("immersiveengineering", "treated_wood"), NCConfig.processor_time[5]/10);
-		
-		// Redstone Arsenal
-		addIngotInfusionRecipes("Electrum", "redstone", FluidHelper.REDSTONE_DUST_VOLUME*2, "ElectrumFlux", 1);
-		
-		// Thermal Foundation
-		addIngotInfusionRecipes("Shibuichi", "redstone", FluidHelper.EUM_DUST_VOLUME, "Signalum", 1);
-		addIngotInfusionRecipes("TinSilver", "glowstone", FluidHelper.EUM_DUST_VOLUME, "Lumium", 1);
-		addIngotInfusionRecipes("LeadPlatinum", "ender", FluidHelper.EUM_DUST_VOLUME, "Enderium", 1);
 	}
 	
 	public void addOxidizingRecipe(String name, int oxygenAmount) {

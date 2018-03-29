@@ -11,9 +11,9 @@ import net.minecraft.inventory.SlotFurnaceOutput;
 public class ContainerPressurizer extends ContainerItemProcessor {
 
 	public ContainerPressurizer(EntityPlayer player, TileItemProcessor tileEntity) {
-		super(tileEntity, NCRecipes.PRESSURIZER_RECIPES);
+		super(tileEntity, NCRecipes.Type.PRESSURIZER);
 		
-		addSlotToContainer(new SlotProcessorInput(tileEntity, recipes, 0, 56, 35));
+		addSlotToContainer(new SlotProcessorInput(tileEntity, recipeType, 0, 56, 35));
 		
 		addSlotToContainer(new SlotFurnaceOutput(player, tileEntity, 1, 116, 35));
 		

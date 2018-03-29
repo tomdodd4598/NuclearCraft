@@ -1,9 +1,8 @@
 package nc.tile.energy;
 
-import nc.config.NCConfig;
 import nc.tile.dummy.IInterfaceable;
-import nc.tile.energy.storage.Storage;
-import nc.tile.energy.storage.EnumStorage.EnergyConnection;
+import nc.tile.energy.storage.EnergyStorage;
+import nc.tile.energy.storage.EnumEnergyStorage.EnergyConnection;
 
 public abstract class TileBatteryAbstract extends TileEnergy implements IBattery, IInterfaceable, IEnergySpread {
 	
@@ -25,7 +24,7 @@ public abstract class TileBatteryAbstract extends TileEnergy implements IBattery
 	}
 
 	@Override
-	public Storage getBatteryStorage() {
+	public EnergyStorage getBatteryStorage() {
 		return storage;
 	}
 }

@@ -19,7 +19,7 @@ public class ContainerFusionCore extends ContainerFluidGenerator {
 	protected int heatChange;
 	
 	public ContainerFusionCore(EntityPlayer player, TileFusionCore tileEntity) {
-		super(tileEntity, NCRecipes.FUSION_RECIPES);
+		super(tileEntity, NCRecipes.Type.FUSION);
 		
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 9; j++) {

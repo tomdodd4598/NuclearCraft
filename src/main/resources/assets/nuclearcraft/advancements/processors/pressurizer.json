@@ -1,0 +1,26 @@
+{
+	"display": {
+		"icon": {
+			"item": "nuclearcraft:pressurizer_active"
+		},
+		"title": {
+			"translate": "advancement.nuclearcraft.pressurizer.name"
+		},
+		"description": {
+			"translate": "advancement.nuclearcraft.pressurizer.desc"
+		}
+	},
+	"parent": "nuclearcraft:processors/crystallizer",
+	"criteria": {
+		"has_item": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"item": "nuclearcraft:pressurizer_idle"
+					}
+				]
+			}
+		}
+	}
+}

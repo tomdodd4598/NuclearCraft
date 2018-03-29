@@ -11,9 +11,9 @@ import net.minecraft.inventory.SlotFurnaceOutput;
 public class ContainerManufactory extends ContainerItemProcessor {
 
 	public ContainerManufactory(EntityPlayer player, TileItemProcessor tileEntity) {
-		super(tileEntity, NCRecipes.MANUFACTORY_RECIPES);
+		super(tileEntity, NCRecipes.Type.MANUFACTORY);
 		
-		addSlotToContainer(new SlotProcessorInput(tileEntity, recipes, 0, 56, 35));
+		addSlotToContainer(new SlotProcessorInput(tileEntity, recipeType, 0, 56, 35));
 		
 		addSlotToContainer(new SlotFurnaceOutput(player, tileEntity, 1, 116, 35));
 		

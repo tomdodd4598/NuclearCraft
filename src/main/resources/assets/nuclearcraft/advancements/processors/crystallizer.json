@@ -1,0 +1,26 @@
+{
+	"display": {
+		"icon": {
+			"item": "nuclearcraft:crystallizer_active"
+		},
+		"title": {
+			"translate": "advancement.nuclearcraft.crystallizer.name"
+		},
+		"description": {
+			"translate": "advancement.nuclearcraft.crystallizer.desc"
+		}
+	},
+	"parent": "nuclearcraft:processors/chemical_reactor",
+	"criteria": {
+		"has_item": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"item": "nuclearcraft:crystallizer_idle"
+					}
+				]
+			}
+		}
+	}
+}

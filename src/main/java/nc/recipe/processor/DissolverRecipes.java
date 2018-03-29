@@ -9,7 +9,7 @@ import net.minecraft.item.ItemStack;
 public class DissolverRecipes extends BaseRecipeHandler {
 	
 	public DissolverRecipes() {
-		super("dissolver", 1, 1, 0, 1, false);
+		super("dissolver", 1, 1, 0, 1);
 	}
 
 	@Override

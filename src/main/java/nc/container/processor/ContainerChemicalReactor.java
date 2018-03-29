@@ -10,7 +10,7 @@ import net.minecraft.inventory.SlotFurnaceOutput;
 public class ContainerChemicalReactor extends ContainerFluidProcessor {
 
 	public ContainerChemicalReactor(EntityPlayer player, TileFluidProcessor tileEntity) {
-		super(tileEntity, NCRecipes.CHEMICAL_REACTOR_RECIPES);
+		super(tileEntity, NCRecipes.Type.CHEMICAL_REACTOR);
 		
 		addSlotToContainer(new SlotSpecificInput(tileEntity, 0, 132, 64, speedUpgrade));
 		addSlotToContainer(new SlotFurnaceOutput(player, tileEntity, 1, 152, 64));

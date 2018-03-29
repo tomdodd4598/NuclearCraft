@@ -3,7 +3,7 @@ package nc.handler;
 import nc.config.NCConfig;
 import nc.init.NCBlocks;
 import nc.init.NCItems;
-import nc.worldgen.OreGenerator;
+import nc.worldgen.ore.OreGenerator;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
@@ -110,6 +110,10 @@ public class OreDictHandler {
 		OreDictionary.registerOre("solenoidCopper", new ItemStack(NCItems.part, 1, 4));
 		OreDictionary.registerOre("solenoidMagnesiumDiboride", new ItemStack(NCItems.part, 1, 5));
 		OreDictionary.registerOre("bioplastic", new ItemStack(NCItems.part, 1, 6));
+		OreDictionary.registerOre("servo", new ItemStack(NCItems.part, 1, 7));
+		OreDictionary.registerOre("motor", new ItemStack(NCItems.part, 1, 8));
+		OreDictionary.registerOre("actuator", new ItemStack(NCItems.part, 1, 9));
+		OreDictionary.registerOre("chassis", new ItemStack(NCItems.part, 1, 10));
 		
 		OreDictionary.registerOre("tinyDustLead", NCItems.tiny_dust_lead);
 		

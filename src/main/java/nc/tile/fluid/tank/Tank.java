@@ -71,12 +71,11 @@ public class Tank extends FluidTank implements INBTSerializable<NBTTagCompound> 
 	
 	@Override
 	public FluidStack drain(FluidStack resource, boolean doDrain) {
-		if (fluid == null || !fluid.isFluidEqual(resource)) return null;
+		if (fluid == null || resource == null || !fluid.isFluidEqual(resource)) return null;
 		int fluidExtracted = Math.min(getFluidAmount(), Math.min(maxExtract, resource.amount));
 		if (doDrain) fluid = new FluidStack(fluid.getFluid(), getFluidAmount() - fluidExtracted);
-		Fluid type = fluid.getFluid();
 		if (getFluidAmount() <= 0) fluid = null;
-		return new FluidStack(type, fluidExtracted);
+		return new FluidStack(resource, fluidExtracted);
 	}
 	
 	public void changeFluidStored(Fluid fluid, int amount) {

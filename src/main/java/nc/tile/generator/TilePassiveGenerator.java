@@ -3,7 +3,7 @@ package nc.tile.generator;
 import nc.config.NCConfig;
 import nc.tile.dummy.IInterfaceable;
 import nc.tile.energy.TileEnergy;
-import nc.tile.energy.storage.EnumStorage.EnergyConnection;
+import nc.tile.energy.storage.EnumEnergyStorage.EnergyConnection;
 import nc.util.EnergyHelper;
 
 public abstract class TilePassiveGenerator extends TileEnergy implements IInterfaceable {

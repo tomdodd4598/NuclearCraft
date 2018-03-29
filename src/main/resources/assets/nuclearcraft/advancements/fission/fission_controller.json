@@ -1,0 +1,43 @@
+{
+	"display": {
+		"icon": {
+			"item": "nuclearcraft:fission_controller_new_active"
+		},
+		"title": {
+			"translate": "advancement.nuclearcraft.fission_controller.name"
+		},
+		"description": {
+			"translate": "advancement.nuclearcraft.fission_controller.desc"
+		},
+		"frame": "challenge"
+	},
+	"parent": "nuclearcraft:processors/isotope_separator",
+	"criteria": {
+		"has_item": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"item": "nuclearcraft:fission_controller_idle"
+					}
+				]
+			}
+		},
+		"has_item2": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"item": "nuclearcraft:fission_controller_new_idle"
+					}
+				]
+			}
+		}
+	},
+	"requirements": [
+        [
+            "has_item",
+            "has_item2"
+        ]
+    ]
+}

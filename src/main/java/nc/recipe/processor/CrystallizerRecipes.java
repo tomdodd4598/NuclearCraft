@@ -7,7 +7,7 @@ import nc.util.FluidHelper;
 public class CrystallizerRecipes extends BaseRecipeHandler {
 	
 	public CrystallizerRecipes() {
-		super("crystallizer", 0, 1, 1, 0, false);
+		super("crystallizer", 0, 1, 1, 0);
 	}
 
 	@Override

@@ -6,26 +6,28 @@ import net.minecraft.util.IStringSerializable;
 public class MetaEnums {
 	
 	public static enum OreType implements IStringSerializable, IBlockMeta {
-		COPPER("copper", 0, 1, 3, 15, 0),
-		TIN("tin", 1, 1, 3, 15, 0),
-		LEAD("lead", 2, 1, 3, 15, 0),
-		THORIUM("thorium", 3, 2, 3, 15, 0),
-		URANIUM("uranium", 4, 2, 3, 15, 0),
-		BORON("boron", 5, 2, 3, 15, 0),
-		LITHIUM("lithium", 6, 2, 3, 15, 0),
-		MAGNESIUM("magnesium", 7, 2, 3, 15, 0);
+		COPPER("copper", 0, 1, "pickaxe", 3, 15, 0),
+		TIN("tin", 1, 1, "pickaxe", 3, 15, 0),
+		LEAD("lead", 2, 1, "pickaxe", 3, 15, 0),
+		THORIUM("thorium", 3, 2, "pickaxe", 3, 15, 0),
+		URANIUM("uranium", 4, 2, "pickaxe", 3, 15, 0),
+		BORON("boron", 5, 2, "pickaxe", 3, 15, 0),
+		LITHIUM("lithium", 6, 2, "pickaxe", 3, 15, 0),
+		MAGNESIUM("magnesium", 7, 2, "pickaxe", 3, 15, 0);
 		
 		private String name;
 		private int id;
 		private int harvestLevel;
+		private String harvestTool;
 		private float hardness;
 		private float resistance;
 		private int lightValue;
 		
-		private OreType(String name, int id, int harvestLevel, float hardness, float resistance, int lightValue) {
+		private OreType(String name, int id, int harvestLevel, String harvestTool, float hardness, float resistance, int lightValue) {
 			this.name = name;
 			this.id = id;
 			this.harvestLevel = harvestLevel;
+			this.harvestTool = harvestTool;
 			this.hardness = hardness;
 			this.resistance = resistance;
 			this.lightValue = lightValue;
@@ -49,6 +51,11 @@ public class MetaEnums {
 		@Override
 		public int getHarvestLevel() {
 			return harvestLevel;
+		}
+		
+		@Override
+		public String getHarvestTool() {
+			return harvestTool;
 		}
 		
 		@Override
@@ -72,20 +79,22 @@ public class MetaEnums {
 	}
 	
 	public static enum FissionBlockType implements IStringSerializable, IBlockMeta {
-		CASING("casing", 0, 0, 2, 15, 0),
-		BLAST("blast", 1, 0, 3, 3000, 0);
+		CASING("casing", 0, 0, "pickaxe", 2, 15, 0),
+		BLAST("blast", 1, 0, "pickaxe", 3, 3000, 0);
 		
 		private String name;
 		private int id;
 		private int harvestLevel;
+		private String harvestTool;
 		private float hardness;
 		private float resistance;
 		private int lightValue;
 		
-		private FissionBlockType(String name, int id, int harvestLevel, float hardness, float resistance, int lightValue) {
+		private FissionBlockType(String name, int id, int harvestLevel, String harvestTool, float hardness, float resistance, int lightValue) {
 			this.name = name;
 			this.id = id;
 			this.harvestLevel = harvestLevel;
+			this.harvestTool = harvestTool;
 			this.hardness = hardness;
 			this.resistance = resistance;
 			this.lightValue = lightValue;
@@ -112,6 +121,11 @@ public class MetaEnums {
 		}
 		
 		@Override
+		public String getHarvestTool() {
+			return harvestTool;
+		}
+		
+		@Override
 		public float getHardness() {
 			return hardness;
 		}
@@ -132,38 +146,40 @@ public class MetaEnums {
 	}
 	
 	public static enum CoolerType implements IStringSerializable, IBlockMeta {
-		EMPTY("empty", 0, 0, "_", 0, 2, 15, 0),
-		WATER("water", 1, NCConfig.fission_cooling_rate[0], "water", 0, 2, 15, 0),
-		REDSTONE("redstone", 2, NCConfig.fission_cooling_rate[1], "redstone", 0, 2, 15, 7),
-		QUARTZ("quartz", 3, NCConfig.fission_cooling_rate[2], "quartz", 0, 2, 15, 0),
-		GOLD("gold", 4, NCConfig.fission_cooling_rate[3], "gold", 0, 2, 15, 0),
-		GLOWSTONE("glowstone", 5, NCConfig.fission_cooling_rate[4], "glowstone", 0, 2, 15, 15),
-		LAPIS("lapis", 6, NCConfig.fission_cooling_rate[5], "lapis", 0, 2, 15, 0),
-		DIAMOND("diamond", 7, NCConfig.fission_cooling_rate[6], "diamond", 0, 2, 15, 0),
-		HELIUM("helium", 8, NCConfig.fission_cooling_rate[7], "liquidhelium", 0, 2, 15, 0),
-		ENDERIUM("enderium", 9, NCConfig.fission_cooling_rate[8], "ender", 0, 2, 15, 7),
-		CRYOTHEUM("cryotheum", 10, NCConfig.fission_cooling_rate[9], "cryotheum", 0, 2, 15, 7),
-		IRON("iron", 11, NCConfig.fission_cooling_rate[10], "iron", 0, 2, 15, 0),
-		EMERALD("emerald", 12, NCConfig.fission_cooling_rate[11], "emerald", 0, 2, 15, 0),
-		COPPER("copper", 13, NCConfig.fission_cooling_rate[12], "copper", 0, 2, 15, 0),
-		TIN("tin", 14, NCConfig.fission_cooling_rate[13], "tin", 0, 2, 15, 0),
-		MAGNESIUM("magnesium", 15, NCConfig.fission_cooling_rate[14], "magnesium", 0, 2, 15, 0);
+		EMPTY("empty", 0, 0, "_", 0, "pickaxe", 2, 15, 0),
+		WATER("water", 1, NCConfig.fission_cooling_rate[0], "water", 0, "pickaxe", 2, 15, 0),
+		REDSTONE("redstone", 2, NCConfig.fission_cooling_rate[1], "redstone", 0, "pickaxe", 2, 15, 7),
+		QUARTZ("quartz", 3, NCConfig.fission_cooling_rate[2], "quartz", 0, "pickaxe", 2, 15, 0),
+		GOLD("gold", 4, NCConfig.fission_cooling_rate[3], "gold", 0, "pickaxe", 2, 15, 0),
+		GLOWSTONE("glowstone", 5, NCConfig.fission_cooling_rate[4], "glowstone", 0, "pickaxe", 2, 15, 15),
+		LAPIS("lapis", 6, NCConfig.fission_cooling_rate[5], "lapis", 0, "pickaxe", 2, 15, 0),
+		DIAMOND("diamond", 7, NCConfig.fission_cooling_rate[6], "diamond", 0, "pickaxe", 2, 15, 0),
+		HELIUM("helium", 8, NCConfig.fission_cooling_rate[7], "liquidhelium", 0, "pickaxe", 2, 15, 0),
+		ENDERIUM("enderium", 9, NCConfig.fission_cooling_rate[8], "ender", 0, "pickaxe", 2, 15, 0),
+		CRYOTHEUM("cryotheum", 10, NCConfig.fission_cooling_rate[9], "cryotheum", 0, "pickaxe", 2, 15, 0),
+		IRON("iron", 11, NCConfig.fission_cooling_rate[10], "iron", 0, "pickaxe", 2, 15, 0),
+		EMERALD("emerald", 12, NCConfig.fission_cooling_rate[11], "emerald", 0, "pickaxe", 2, 15, 0),
+		COPPER("copper", 13, NCConfig.fission_cooling_rate[12], "copper", 0, "pickaxe", 2, 15, 0),
+		TIN("tin", 14, NCConfig.fission_cooling_rate[13], "tin", 0, "pickaxe", 2, 15, 0),
+		MAGNESIUM("magnesium", 15, NCConfig.fission_cooling_rate[14], "magnesium", 0, "pickaxe", 2, 15, 0);
 		
 		private String name;
 		private int id;
 		private double coolingRate;
 		private String fluidName;
 		private int harvestLevel;
+		private String harvestTool;
 		private float hardness;
 		private float resistance;
 		private int lightValue;
 		
-		private CoolerType(String name, int id, double coolingRate, String fluidName, int harvestLevel, float hardness, float resistance, int lightValue) {
+		private CoolerType(String name, int id, double coolingRate, String fluidName, int harvestLevel, String harvestTool, float hardness, float resistance, int lightValue) {
 			this.name = name;
 			this.id = id;
 			this.coolingRate = coolingRate;
 			this.fluidName = fluidName;
 			this.harvestLevel = harvestLevel;
+			this.harvestTool = harvestTool;
 			this.hardness = hardness;
 			this.resistance = resistance;
 			this.lightValue = lightValue;
@@ -198,6 +214,11 @@ public class MetaEnums {
 		}
 		
 		@Override
+		public String getHarvestTool() {
+			return harvestTool;
+		}
+		
+		@Override
 		public float getHardness() {
 			return hardness;
 		}
@@ -218,29 +239,31 @@ public class MetaEnums {
 	}
 	
 	public static enum IngotType implements IStringSerializable, IBlockMeta, IItemMeta {
-		COPPER("copper", 0, 0, 4, 30, 0),
-		TIN("tin", 1, 0, 4, 30, 0),
-		LEAD("lead", 2, 0, 4, 30, 0),
-		THORIUM("thorium", 3, 0, 4, 30, 0),
-		URANIUM("uranium", 4, 0, 4, 30, 0),
-		BORON("boron", 5, 0, 4, 30, 0),
-		LITHIUM("lithium", 6, 0, 4, 30, 0),
-		MAGNESIUM("magnesium", 7, 0, 4, 30, 0),
-		GRAPHITE("graphite", 8, 0, 4, 30, 0),
-		BERYLLIUM("beryllium", 9, 0, 4, 30, 0),
-		ZIRCONIUM("zirconium", 10, 0, 4, 30, 0);
+		COPPER("copper", 0, 0, "pickaxe", 4, 30, 0),
+		TIN("tin", 1, 0, "pickaxe", 4, 30, 0),
+		LEAD("lead", 2, 0, "pickaxe", 4, 30, 0),
+		THORIUM("thorium", 3, 0, "pickaxe", 4, 30, 0),
+		URANIUM("uranium", 4, 0, "pickaxe", 4, 30, 0),
+		BORON("boron", 5, 0, "pickaxe", 4, 30, 0),
+		LITHIUM("lithium", 6, 0, "pickaxe", 4, 30, 0),
+		MAGNESIUM("magnesium", 7, 0, "pickaxe", 4, 30, 0),
+		GRAPHITE("graphite", 8, 0, "pickaxe", 4, 30, 0),
+		BERYLLIUM("beryllium", 9, 0, "pickaxe", 4, 30, 0),
+		ZIRCONIUM("zirconium", 10, 0, "pickaxe", 4, 30, 0);
 		
 		private String name;
 		private int id;
 		private int harvestLevel;
+		private String harvestTool;
 		private float hardness;
 		private float resistance;
 		private int lightValue;
 		
-		private IngotType(String name, int id, int harvestLevel, float hardness, float resistance, int lightValue) {
+		private IngotType(String name, int id, int harvestLevel, String harvestTool, float hardness, float resistance, int lightValue) {
 			this.name = name;
 			this.id = id;
 			this.harvestLevel = harvestLevel;
+			this.harvestTool = harvestTool;
 			this.hardness = hardness;
 			this.resistance = resistance;
 			this.lightValue = lightValue;
@@ -264,6 +287,11 @@ public class MetaEnums {
 		@Override
 		public int getHarvestLevel() {
 			return harvestLevel;
+		}
+		
+		@Override
+		public String getHarvestTool() {
+			return harvestTool;
 		}
 		
 		@Override
@@ -545,7 +573,11 @@ public class MetaEnums {
 		PLATE_ELITE("plate_elite", 3),
 		WIRE_COPPER("wire_copper", 4),
 		WIRE_MAGNESIUM_DIBORIDE("wire_magnesium_diboride", 5),
-		BIOPLASTIC("bioplastic", 6);
+		BIOPLASTIC("bioplastic", 6),
+		SERVO("servo", 7),
+		MOTOR("motor", 8),
+		ACTUATOR("actuator", 9),
+		CHASSIS("chassis", 10);
 		
 		private String name;
 		private int id;

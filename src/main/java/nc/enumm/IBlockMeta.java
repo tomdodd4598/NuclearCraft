@@ -6,6 +6,8 @@ public interface IBlockMeta {
 	
 	public int getHarvestLevel();
 	
+	public String getHarvestTool();
+	
 	public float getHardness();
 	
 	public float getResistance();

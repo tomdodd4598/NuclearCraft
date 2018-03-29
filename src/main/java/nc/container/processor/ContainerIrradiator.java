@@ -10,7 +10,7 @@ import net.minecraft.inventory.SlotFurnaceOutput;
 public class ContainerIrradiator extends ContainerFluidProcessor {
 
 	public ContainerIrradiator(EntityPlayer player, TileFluidProcessor tileEntity) {
-		super(tileEntity, NCRecipes.IRRADIATOR_RECIPES);
+		super(tileEntity, NCRecipes.Type.IRRADIATOR);
 		
 		addSlotToContainer(new SlotSpecificInput(tileEntity, 0, 132, 64, speedUpgrade));
 		addSlotToContainer(new SlotFurnaceOutput(player, tileEntity, 1, 152, 64));

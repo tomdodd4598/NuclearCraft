@@ -42,6 +42,8 @@ public class NCConfig {
 	
 	public static int[] processor_time;
 	public static int[] processor_power;
+	public static int[] speed_upgrade_power_laws;
+	public static double[] speed_upgrade_multipliers;
 	public static int processor_rf_per_eu;
 	public static int processor_update_rate;
 	public static int[] processor_passive_rate;
@@ -149,11 +151,13 @@ public class NCConfig {
 	public static double[] armor_toughness;
 	
 	public static boolean rare_drops;
+	public static boolean dungeon_loot;
 	public static int mushroom_spread_rate;
 	public static boolean mushroom_gen;
 	public static int mushroom_gen_size;
 	public static int mushroom_gen_rate;
 	public static boolean register_fission_fluid_blocks;
+	public static boolean register_cofh_fluids;
 	
 	public static void preInit() {
 		File configFile = new File(Loader.instance().getConfigDir(), "nuclearcraft.cfg");
@@ -207,6 +211,10 @@ public class NCConfig {
 		propertyProcessorTime.setLanguageKey("gui.config.processors.processor_time");
 		Property propertyProcessorPower = config.get(CATEGORY_PROCESSORS, "processor_power", new int[] {20, 10, 10, 20, 10, 10, 40, 20, 40, 20, 0, 40, 10, 20, 10, 10, 10}, Lang.localise("gui.config.processors.processor_power.comment"), 0, 16000);
 		propertyProcessorPower.setLanguageKey("gui.config.processors.processor_power");
+		Property propertySpeedUpgradePowerLaws = config.get(CATEGORY_PROCESSORS, "speed_upgrade_power_laws", new int[] {1, 2}, Lang.localise("gui.config.processors.speed_upgrade_power_laws.comment"), 1, 15);
+		propertySpeedUpgradePowerLaws.setLanguageKey("gui.config.processors.speed_upgrade_power_laws");
+		Property propertySpeedUpgradeMultipliers = config.get(CATEGORY_PROCESSORS, "speed_upgrade_multipliers", new double[] {1D, 1D}, Lang.localise("gui.config.processors.speed_upgrade_multipliers.comment"), 0D, 15D);
+		propertySpeedUpgradeMultipliers.setLanguageKey("gui.config.processors.speed_upgrade_multipliers");
 		Property propertyProcessorRFPerEU = config.get(CATEGORY_PROCESSORS, "processor_rf_per_eu", 4, Lang.localise("gui.config.processors.processor_rf_per_eu.comment"), 1, 255);
 		propertyProcessorRFPerEU.setLanguageKey("gui.config.processors.processor_rf_per_eu");
 		Property propertyProcessorUpdateRate = config.get(CATEGORY_PROCESSORS, "processor_update_rate", 20, Lang.localise("gui.config.processors.processor_update_rate.comment"), 1, 1200);
@@ -403,6 +411,8 @@ public class NCConfig {
 		
 		Property propertyRareDrops = config.get(CATEGORY_OTHER, "rare_drops", false, Lang.localise("gui.config.other.rare_drops.comment"));
 		propertyRareDrops.setLanguageKey("gui.config.other.rare_drops");
+		Property propertyDungeonLoot = config.get(CATEGORY_OTHER, "dungeon_loot", true, Lang.localise("gui.config.other.dungeon_loot.comment"));
+		propertyDungeonLoot.setLanguageKey("gui.config.other.dungeon_loot");
 		
 		Property propertyMushroomSpreadRate = config.get(CATEGORY_OTHER, "mushroom_spread_rate", 16, Lang.localise("gui.config.other.mushroom_spread_rate.comment"), 0, 511);
 		propertyMushroomSpreadRate.setLanguageKey("gui.config.other.mushroom_spread_rate");
@@ -415,6 +425,8 @@ public class NCConfig {
 		
 		Property propertyRegisterFluidBlocks = config.get(CATEGORY_OTHER, "register_fluid_blocks", true, Lang.localise("gui.config.other.register_fluid_blocks.comment"));
 		propertyRegisterFluidBlocks.setLanguageKey("gui.config.other.register_fluid_blocks");
+		Property propertyRegisterCoFHFluids = config.get(CATEGORY_OTHER, "register_cofh_fluids", false, Lang.localise("gui.config.other.register_cofh_fluids.comment"));
+		propertyRegisterCoFHFluids.setLanguageKey("gui.config.other.register_cofh_fluids");
 		
 		List<String> propertyOrderOres = new ArrayList<String>();
 		propertyOrderOres.add(propertyOreDims.getName());
@@ -431,6 +443,8 @@ public class NCConfig {
 		List<String> propertyOrderProcessors = new ArrayList<String>();
 		propertyOrderProcessors.add(propertyProcessorTime.getName());
 		propertyOrderProcessors.add(propertyProcessorPower.getName());
+		propertyOrderProcessors.add(propertySpeedUpgradePowerLaws.getName());
+		propertyOrderProcessors.add(propertySpeedUpgradeMultipliers.getName());
 		propertyOrderProcessors.add(propertyProcessorRFPerEU.getName());
 		propertyOrderProcessors.add(propertyProcessorUpdateRate.getName());
 		propertyOrderProcessors.add(propertyProcessorPassiveRate.getName());
@@ -553,11 +567,13 @@ public class NCConfig {
 		
 		List<String> propertyOrderOther = new ArrayList<String>();
 		propertyOrderOther.add(propertyRareDrops.getName());
+		propertyOrderOther.add(propertyDungeonLoot.getName());
 		propertyOrderOther.add(propertyMushroomSpreadRate.getName());
 		propertyOrderOther.add(propertyMushroomGen.getName());
 		propertyOrderOther.add(propertyMushroomGenSize.getName());
 		propertyOrderOther.add(propertyMushroomGenRate.getName());
 		propertyOrderOther.add(propertyRegisterFluidBlocks.getName());
+		propertyOrderOther.add(propertyRegisterCoFHFluids.getName());
 		config.setCategoryPropertyOrder(CATEGORY_OTHER, propertyOrderOther);
 		
 		if(readFieldFromConfig) {
@@ -573,6 +589,8 @@ public class NCConfig {
 			
 			processor_time = readIntegerArrayFromConfig(propertyProcessorTime);
 			processor_power = readIntegerArrayFromConfig(propertyProcessorPower);
+			speed_upgrade_power_laws = readIntegerArrayFromConfig(propertySpeedUpgradePowerLaws);
+			speed_upgrade_multipliers = readDoubleArrayFromConfig(propertySpeedUpgradeMultipliers);
 			processor_rf_per_eu = propertyProcessorRFPerEU.getInt();
 			processor_update_rate = propertyProcessorUpdateRate.getInt();
 			processor_passive_rate = readIntegerArrayFromConfig(propertyProcessorPassiveRate);
@@ -681,11 +699,13 @@ public class NCConfig {
 			armor_toughness = readDoubleArrayFromConfig(propertyArmorToughness);
 			
 			rare_drops = propertyRareDrops.getBoolean();
+			dungeon_loot = propertyDungeonLoot.getBoolean();
 			mushroom_spread_rate = propertyMushroomSpreadRate.getInt();
 			mushroom_gen = propertyMushroomGen.getBoolean();
 			mushroom_gen_size = propertyMushroomGenSize.getInt();
 			mushroom_gen_rate = propertyMushroomGenRate.getInt();
 			register_fission_fluid_blocks = propertyRegisterFluidBlocks.getBoolean();
+			register_cofh_fluids = propertyRegisterCoFHFluids.getBoolean();
 		}
 		
 		propertyOreDims.set(ore_dims);
@@ -700,6 +720,8 @@ public class NCConfig {
 		
 		propertyProcessorTime.set(processor_time);
 		propertyProcessorPower.set(processor_power);
+		propertySpeedUpgradePowerLaws.set(speed_upgrade_power_laws);
+		propertySpeedUpgradeMultipliers.set(speed_upgrade_multipliers);
 		propertyProcessorRFPerEU.set(processor_rf_per_eu);
 		propertyProcessorUpdateRate.set(processor_update_rate);
 		propertyProcessorPassiveRate.set(processor_passive_rate);
@@ -808,11 +830,13 @@ public class NCConfig {
 		propertyArmorToughness.set(armor_toughness);
 		
 		propertyRareDrops.set(rare_drops);
+		propertyDungeonLoot.set(dungeon_loot);
 		propertyMushroomSpreadRate.set(mushroom_spread_rate);
 		propertyMushroomGen.set(mushroom_gen);
 		propertyMushroomGenSize.set(mushroom_gen_size);
 		propertyMushroomGenRate.set(mushroom_gen_rate);
 		propertyRegisterFluidBlocks.set(register_fission_fluid_blocks);
+		propertyRegisterCoFHFluids.set(register_cofh_fluids);
 		
 		if (config.hasChanged()) config.save();
 	}

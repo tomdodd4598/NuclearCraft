@@ -6,7 +6,7 @@ import ic2.api.energy.tile.IEnergySink;
 import nc.ModCheck;
 import nc.config.NCConfig;
 import nc.init.NCBlocks;
-import nc.tile.energy.storage.EnumStorage.EnergyConnection;
+import nc.tile.energy.storage.EnumEnergyStorage.EnergyConnection;
 import nc.tile.generator.TileFissionController;
 import nc.tile.passive.ITilePassive;
 import nc.util.BlockFinder;

@@ -65,7 +65,7 @@ public abstract class TileFusionDummy extends TileDummy implements IBufferable/*
 	private BlockFinder finder;
 	
 	public TileFusionDummy(String name) {
-		super(name, NCConfig.fusion_update_rate, RecipeMethods.validFluids(NCRecipes.FUSION_RECIPES));
+		super(name, NCConfig.fusion_update_rate, RecipeMethods.validFluids(NCRecipes.Type.FUSION));
 	}
 	
 	@Override

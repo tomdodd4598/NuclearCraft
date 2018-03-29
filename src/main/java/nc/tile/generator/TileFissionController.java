@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import nc.Global;
 import nc.config.NCConfig;
 import nc.enumm.MetaEnums.CoolerType;
 import nc.init.NCBlocks;
@@ -17,6 +18,8 @@ import nc.util.BlockFinder;
 import nc.util.BlockPosHelper;
 import nc.util.EnergyHelper;
 import nc.util.Lang;
+import nc.util.RegistryHelper;
+import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -58,7 +61,7 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 	}
 
 	public TileFissionController(boolean newRules) {
-		super("fission_controller", 1, 1, 0, BASE_CAPACITY, NCRecipes.FISSION_RECIPES);
+		super("fission_controller", 1, 1, 0, BASE_CAPACITY, NCRecipes.Type.FISSION);
 		this.newRules = newRules;
 	}
 	
@@ -123,12 +126,13 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 	}
 	
 	public void meltdown() {
+		Block corium = RegistryHelper.getBlock(Global.MOD_ID, "fluid_corium");
 		world.removeTileEntity(pos);
-		world.setBlockState(pos, Blocks.LAVA.getDefaultState());
+		world.setBlockState(pos, corium.getDefaultState());
 		for (int i = minX; i <= maxX; i++) {
 			for (int j = minY; j <= maxY; j++) {
 				for (int k = minZ; k <= maxZ; k++) {
-					if (rand.nextDouble() < 0.18D) world.setBlockState(finder.position(i, j, k), Blocks.LAVA.getStateFromMeta(rand.nextInt(2)));
+					if (rand.nextDouble() < 0.18D) world.setBlockState(finder.position(i, j, k), corium.getStateFromMeta(rand.nextInt(2)));
 				}
 			}
 		}

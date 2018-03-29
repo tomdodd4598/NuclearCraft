@@ -6,6 +6,10 @@ public interface IIngredient {
 	
 	public Object getIngredient();
 	
+	public String getIngredientName();
+	
+	public StackType getIngredientType();
+	
 	public int getStackSize();
 	
 	public List<Object> getIngredientList();

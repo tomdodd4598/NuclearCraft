@@ -11,9 +11,9 @@ import net.minecraft.inventory.SlotFurnaceOutput;
 public class ContainerFuelReprocessor extends ContainerItemProcessor {
 
 	public ContainerFuelReprocessor(EntityPlayer player, TileItemProcessor tileEntity) {
-		super(tileEntity, NCRecipes.FUEL_REPROCESSOR_RECIPES);
+		super(tileEntity, NCRecipes.Type.FUEL_REPROCESSOR);
 		
-		addSlotToContainer(new SlotProcessorInput(tileEntity, recipes, 0, 50, 41));
+		addSlotToContainer(new SlotProcessorInput(tileEntity, recipeType, 0, 50, 41));
 		
 		addSlotToContainer(new SlotFurnaceOutput(player, tileEntity, 1, 106, 31));
 		addSlotToContainer(new SlotFurnaceOutput(player, tileEntity, 2, 126, 31));

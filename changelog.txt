@@ -1,3 +1,37 @@
+v2.10
+
++ Added NaK alloy and molten salt coolants
+
+* Changed many machine recipes to make them more interesting
+* Fixed a few missing recipes in a couple of machines and tweaked others
+
++ Added some NuclearCraft Advancements
+
++ Added new 'Nuclear Wasteland' biome - glowing mushrooms galore!
++ Added dungeon loot (can be disabled in config)
+
++ Added corium fluid which is now produced instead of lava after a fission reactor meltdown
+
++ Added config options to change speed upgrade power laws and effectiveness
+
+* Ores now have different pickaxe harvest levels
+
+* Fixed CraftTweaker recipe removal
++ Added option to remove recipes using either the inputs or outputs
+* The names of the recipe removal methods have changed so update them accordingly!
+* Errors in scripts should be much easier to fix with more descriptive error messages
+
+* Fixed RF/EU conversion rounding small packets of energy incorrectly
+* Improved fluid distribution methods which should reduce lag
+
+* Fixed some large tooltips showing without shift held down
+* Fixed some GUI tooltips being hidden by JEI overlay
+
+* Updated JEI, CraftTweaker and Tesla APIs
+
+- Removed many unused textures
+- Removed Paulobrine and Herobrian
+
 v2.9e
 
 * Fixed active coolers using coolant even when reactor is not running

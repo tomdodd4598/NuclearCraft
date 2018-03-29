@@ -1,5 +1,7 @@
 package nc.util;
 
+import net.minecraft.util.math.MathHelper;
+
 public class NCMathHelper {
 	
 	public static double round(double value, int precision) {
@@ -38,5 +40,45 @@ public class NCMathHelper {
 	
 	public static int numberLength(long number) {
 		return String.valueOf(number).length();
+	}
+	
+	public static int minus1Power(int pow) {
+		if ((pow & 1) == 0) return 1; else return -1;
+	}
+	
+	public static long factorial(int n) {
+		if (n < 2) return 1; 
+		if (n > 20) return Long.MAX_VALUE; 
+		long ans = 1;
+		for (int i = 2; i <= n; i++) {
+			ans *= i;
+		}
+		return ans;
+	}
+	
+	public static int choose(int n, int k) {
+		if (n == k) return 1;
+		if (n < k) return minus1Power(k)*choose(k - n - 1, k);
+		if (k > n - k) k = n - k;
+		
+		double ans = 1D;
+		for (int i = 1, m = n; i <= k; i++, m--) ans *= (double)m/(double)i;
+		return (int) ans;
+	}
+	
+	public static int simplexNumber(int n, int p) {
+		return choose(n + p - 1, p);
+	}
+	
+	public static int floorTo(int x, int mult) {
+		return mult*(MathHelper.floor(x/mult));
+	}
+	
+	public static int ceilTo(int x, int mult) {
+		return mult*(MathHelper.ceil(x/mult));
+	}
+	
+	public static int roundTo(int x, int mult) {
+		return mult*(Math.round(x/mult));
 	}
 }

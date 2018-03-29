@@ -9,8 +9,8 @@ import ic2.api.energy.tile.IEnergySource;
 import nc.ModCheck;
 import nc.config.NCConfig;
 import nc.tile.energy.ITileEnergy;
-import nc.tile.energy.storage.Storage;
-import nc.tile.energy.storage.EnumStorage.EnergyConnection;
+import nc.tile.energy.storage.EnergyStorage;
+import nc.tile.energy.storage.EnumEnergyStorage.EnergyConnection;
 import nc.tile.energyFluid.TileEnergyFluidSidedInventory;
 import nc.tile.fluid.ITileFluid;
 import nc.tile.fluid.tank.Tank;
@@ -209,7 +209,7 @@ public abstract class TileDummy extends TileEnergyFluidSidedInventory {
 	// Redstone Flux
 	
 	@Override
-	public Storage getStorage() {
+	public EnergyStorage getStorage() {
 		if (getMaster() != null) {
 			if (getMaster() instanceof ITileEnergy) return ((ITileEnergy) getMaster()).getStorage();
 		}
@@ -373,7 +373,7 @@ public abstract class TileDummy extends TileEnergyFluidSidedInventory {
 				if (getTanks().length == 0 || getTanks() == null) return null;
 				for (int i = 0; i < getTanks().length; i++) {
 					if (getFluidConnections()[i].canDrain() && getTanks()[i].getFluid() != null && getTanks()[i].getFluidAmount() > 0) {
-						return getTanks()[i].drain(resource.amount, doDrain);
+						if (resource.isFluidEqual(getTanks()[i].getFluid()) && getTanks()[i].drain(resource, false) != null) return getTanks()[i].drain(resource, doDrain);
 					}
 				}
 			}
@@ -388,7 +388,7 @@ public abstract class TileDummy extends TileEnergyFluidSidedInventory {
 				if (getTanks().length == 0 || getTanks() == null) return null;
 				for (int i = 0; i < getTanks().length; i++) {
 					if (getFluidConnections()[i].canDrain() && getTanks()[i].getFluid() != null && getTanks()[i].getFluidAmount() > 0) {
-						return getTanks()[i].drain(maxDrain, doDrain);
+						if (getTanks()[i].drain(maxDrain, false) != null) return getTanks()[i].drain(maxDrain, doDrain);
 					}
 				}
 			}

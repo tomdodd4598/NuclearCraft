@@ -162,6 +162,7 @@ public class NCBlocks {
 	public static Block nitrogen_collector_dense;
 	
 	public static Block glowing_mushroom;
+	public static Block dry_earth;
 	
 	//public static Block spin;
 	
@@ -280,6 +281,7 @@ public class NCBlocks {
 		nitrogen_collector_dense = new BlockSimpleTile(SimpleTileType.NITROGEN_COLLECTOR_DENSE);
 		
 		glowing_mushroom = new NCBlockMushroom("glowing_mushroom");
+		dry_earth = new NCBlock("dry_earth", Material.ROCK).setCreativeTab(CommonProxy.TAB_BASE_BLOCK_MATERIALS);
 		
 		//spin = new BlockSpin("spin");
 	}
@@ -399,6 +401,7 @@ public class NCBlocks {
 		registerBlock(nitrogen_collector_dense, InfoHelper.formattedInfo(infoLine("nitrogen_collector"), UnitHelper.ratePrefix(NCConfig.processor_passive_rate[3]*64, 5, "B", -1)));
 		
 		registerBlock(glowing_mushroom);
+		registerBlock(dry_earth);
 		
 		//registerBlock(spin);
 	}
@@ -530,6 +533,7 @@ public class NCBlocks {
 		registerRender(nitrogen_collector_dense);
 		
 		registerRender(glowing_mushroom);
+		registerRender(dry_earth);
 		
 		//registerRender(spin);
 	}

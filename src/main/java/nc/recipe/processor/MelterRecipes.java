@@ -1,58 +1,32 @@
 package nc.recipe.processor;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+
+import com.google.common.collect.Lists;
 
 import nc.config.NCConfig;
 import nc.recipe.BaseRecipeHandler;
 import nc.util.FluidHelper;
+import nc.util.OreStackHelper;
 import nc.util.StringHelper;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.oredict.OreDictionary;
 
 public class MelterRecipes extends BaseRecipeHandler {
 	
 	public MelterRecipes() {
-		super("melter", 1, 0, 0, 1, false);
+		super("melter", 1, 0, 0, 1);
 	}
 
 	@Override
 	public void addRecipes() {
-		addOreMeltingRecipes();
-		
 		addRecipe("dustSulfur", fluidStack("sulfur", FluidHelper.GEM_VOLUME), NCConfig.processor_time[6]);
-		addRecipe(Blocks.ICE, fluidStack("water", FluidHelper.BUCKET_VOLUME), NCConfig.processor_time[6]/2);
-		addRecipe(Blocks.PACKED_ICE, fluidStack("water", FluidHelper.BUCKET_VOLUME), NCConfig.processor_time[6]/2);
 		
-		addIsotopeMeltingRecipes("thorium", 230, 232);
-		addIsotopeMeltingRecipes("uranium", 233, 235, 238);
-		addIsotopeMeltingRecipes("neptunium", 236, 237);
-		addIsotopeMeltingRecipes("plutonium", 238, 239, 241, 242);
-		addIsotopeMeltingRecipes("americium", 241, 242, 243);
-		addIsotopeMeltingRecipes("curium", 243, 245, 246, 247);
-		addIsotopeMeltingRecipes("berkelium", 247, 248);
-		addIsotopeMeltingRecipes("californium", 249, 250, 251, 252);
-		
-		addIngotMeltingRecipes("lithium6");
-		addIngotMeltingRecipes("lithium7");
 		addIngotMeltingRecipes("boron10");
 		addIngotMeltingRecipes("boron11");
-		
-		for (String suffix : new String[] {"", "Oxide"}) {
-			for (String prefix : new String[] {"fuel", "fuelRod"}) addRecipe(prefix + "TBU" + suffix, fluidStack("thorium_tbu", FluidHelper.INGOT_BLOCK_VOLUME), NCConfig.processor_time[6]*9);
-			for (String prefix : new String[] {"depletedFuel", "depletedFuelRod"}) addRecipe(prefix + "TBU" + suffix, fluidStack("depleted_thorium_tbu", FluidHelper.NUGGET_VOLUME*64), NCConfig.processor_time[6]*64/9);
-		}
-		
-		addFissionFuelMeltingRecipes("uranium", "eu", 233, 235);
-		addFissionFuelMeltingRecipes("neptunium", "en", 236);
-		addFissionFuelMeltingRecipes("plutonium", "ep", 239, 241);
-		addFissionFuelMeltingRecipes("americium", "ea", 242);
-		addFissionFuelMeltingRecipes("curium", "ec", "m", 243, 245, 247);
-		addFissionFuelMeltingRecipes("berkelium", "eb", 248);
-		addFissionFuelMeltingRecipes("californium", "ec", "f", 249, 251);
+		addIngotMeltingRecipes("lithium6");
+		addIngotMeltingRecipes("lithium7");
 		
 		// Tinkers' Construct
 		addRecipe("obsidian", fluidStack("obsidian", FluidHelper.SEARED_BLOCK_VOLUME), NCConfig.processor_time[6]*4);
@@ -108,17 +82,73 @@ public class MelterRecipes extends BaseRecipeHandler {
 		addIngotMeltingRecipes("intermedium");
 		addIngotMeltingRecipes("superium");
 		addIngotMeltingRecipes("supremium");
+		
+		// Fission Isotopes
+		addIsotopeMeltingRecipes("thorium", 230, 232);
+		addIsotopeMeltingRecipes("uranium", 233, 235, 238);
+		addIsotopeMeltingRecipes("neptunium", 236, 237);
+		addIsotopeMeltingRecipes("plutonium", 238, 239, 241, 242);
+		addIsotopeMeltingRecipes("americium", 241, 242, 243);
+		addIsotopeMeltingRecipes("curium", 243, 245, 246, 247);
+		addIsotopeMeltingRecipes("berkelium", 247, 248);
+		addIsotopeMeltingRecipes("californium", 249, 250, 251, 252);
+		
+		// Fission Fuels
+		for (String suffix : new String[] {"", "Oxide"}) {
+			for (String prefix : new String[] {"fuel", "fuelRod"}) addRecipe(prefix + "TBU" + suffix, fluidStack("thorium_tbu", FluidHelper.INGOT_BLOCK_VOLUME), NCConfig.processor_time[6]*9);
+			for (String prefix : new String[] {"depletedFuel", "depletedFuelRod"}) addRecipe(prefix + "TBU" + suffix, fluidStack("depleted_thorium_tbu", FluidHelper.NUGGET_VOLUME*64), NCConfig.processor_time[6]*64/9);
+		}
+		addFissionFuelMeltingRecipes("uranium", "eu", 233, 235);
+		addFissionFuelMeltingRecipes("neptunium", "en", 236);
+		addFissionFuelMeltingRecipes("plutonium", "ep", 239, 241);
+		addFissionFuelMeltingRecipes("americium", "ea", 242);
+		addFissionFuelMeltingRecipes("curium", "ec", "m", 243, 245, 247);
+		addFissionFuelMeltingRecipes("berkelium", "eb", 248);
+		addFissionFuelMeltingRecipes("californium", "ec", "f", 249, 251);
+		
+		addRecipe(Blocks.ICE, fluidStack("water", FluidHelper.BUCKET_VOLUME), NCConfig.processor_time[6]/2);
+		addRecipe(Blocks.PACKED_ICE, fluidStack("water", FluidHelper.BUCKET_VOLUME), NCConfig.processor_time[6]/2);
+		
+		addOreMeltingRecipes();
+		
+		addRecipe("blockQuartz", fluidStack("quartz", FluidHelper.GEM_VOLUME*4), NCConfig.processor_time[6]*4);
+		addRecipe("blockLapis", fluidStack("lapis", FluidHelper.GEM_BLOCK_VOLUME), NCConfig.processor_time[6]*9);
+		addRecipe("blockDiamond", fluidStack("diamond", FluidHelper.GEM_BLOCK_VOLUME), NCConfig.processor_time[6]*9);
+		addRecipe("blockEmerald", fluidStack("emerald", FluidHelper.GEM_BLOCK_VOLUME), NCConfig.processor_time[6]*9);
 	}
 	
 	public void addIngotMeltingRecipes(String oreName, String fluidName) {
-		addRecipe("ingot" + StringHelper.capitalize(oreName), fluidStack(fluidName, FluidHelper.INGOT_VOLUME), NCConfig.processor_time[6]);
-		addRecipe("dust" + StringHelper.capitalize(oreName), fluidStack(fluidName, FluidHelper.INGOT_VOLUME), NCConfig.processor_time[6]);
-		addRecipe("nugget" + StringHelper.capitalize(oreName), fluidStack(fluidName, FluidHelper.NUGGET_VOLUME), NCConfig.processor_time[6]/9);
-		addRecipe("block" + StringHelper.capitalize(oreName), fluidStack(fluidName, FluidHelper.INGOT_BLOCK_VOLUME), NCConfig.processor_time[6]*9);
+		oreName = StringHelper.capitalize(oreName);
+		addRecipe("ore" + oreName, fluidStack(fluidName, FluidHelper.INGOT_ORE_VOLUME), NCConfig.processor_time[6]*2);
+		addRecipe(Lists.newArrayList("ingot" + oreName, "dust" + oreName), fluidStack(fluidName, FluidHelper.INGOT_VOLUME), NCConfig.processor_time[6]);
+		addRecipe(Lists.newArrayList("nugget" + oreName, "tinyDust" + oreName), fluidStack(fluidName, FluidHelper.NUGGET_VOLUME), NCConfig.processor_time[6]/9);
+		addRecipe("block" + oreName, fluidStack(fluidName, FluidHelper.INGOT_BLOCK_VOLUME), NCConfig.processor_time[6]*9);
 	}
 	
 	public void addIngotMeltingRecipes(String name) {
 		addIngotMeltingRecipes(name, name);
+	}
+	
+	public void addIngotOreMeltingRecipes(String name) {
+		String oreName = StringHelper.capitalize(name);
+		addRecipe("ore" + oreName, fluidStack(name, FluidHelper.INGOT_ORE_VOLUME), NCConfig.processor_time[6]*2);
+		addRecipe("ingot" + oreName, fluidStack(name, FluidHelper.INGOT_VOLUME), NCConfig.processor_time[6]);
+		addRecipe("nugget" + oreName, fluidStack(name, FluidHelper.NUGGET_VOLUME), NCConfig.processor_time[6]/9);
+		addRecipe("block" + oreName, fluidStack(name, FluidHelper.INGOT_BLOCK_VOLUME), NCConfig.processor_time[6]*9);
+	}
+	
+	public void addGemMeltingRecipes(String name) {
+		String oreName = StringHelper.capitalize(name);
+		addRecipe("ore" + oreName, fluidStack(name, FluidHelper.GEM_ORE_VOLUME), NCConfig.processor_time[6]*2);
+		addRecipe(Lists.newArrayList("gem" + oreName, "dust" + oreName), fluidStack(name, FluidHelper.GEM_VOLUME), NCConfig.processor_time[6]);
+		addRecipe(Lists.newArrayList("nugget" + oreName, "tinyDust" + oreName), fluidStack(name, FluidHelper.GEM_NUGGET_VOLUME), NCConfig.processor_time[6]/9);
+	}
+	
+	public void addGemOreMeltingRecipes(String name) {
+		String oreName = StringHelper.capitalize(name);
+		addRecipe("ore" + oreName, fluidStack(name, FluidHelper.GEM_ORE_VOLUME), NCConfig.processor_time[6]*2);
+		addRecipe("gem" + oreName, fluidStack(name, FluidHelper.GEM_VOLUME), NCConfig.processor_time[6]);
+		addRecipe("nugget" + oreName, fluidStack(name, FluidHelper.GEM_NUGGET_VOLUME), NCConfig.processor_time[6]/9);
 	}
 	
 	public void addIsotopeMeltingRecipes(String element, int... types) {
@@ -143,18 +173,18 @@ public class MelterRecipes extends BaseRecipeHandler {
 	}
 	
 	public void addOreMeltingRecipes() {
-		List<String> oreList = Arrays.asList(OreDictionary.getOreNames());
-		ArrayList<String>fluidList = new ArrayList(FluidRegistry.getRegisteredFluids().keySet());
+		ArrayList<String> fluidList = new ArrayList(FluidRegistry.getRegisteredFluids().keySet());
 		for (String fluidName : fluidList) {
-			String ore = "ore" + StringHelper.capitalize(fluidName);
-			String ingot = "ingot" + StringHelper.capitalize(fluidName);
-			String dust = "dust" + StringHelper.capitalize(fluidName);
-			if (NCConfig.ore_processing) {
-				if (oreList.contains(ore)) addRecipe(ore, fluidStack(fluidName, FluidHelper.ORE_VOLUME), NCConfig.processor_time[6]*2);
-			}
-			if (oreList.contains(ingot) && oreList.contains(dust)) {
-				addIngotMeltingRecipes(fluidName);
-			}
+			if (fluidName == "coal") continue;
+			String materialName = StringHelper.capitalize(fluidName);
+			String ore = "ore" + materialName;
+			String ingot = "ingot" + materialName;
+			String gem = "gem" + materialName;
+			String dust = "dust" + materialName;
+			if (OreStackHelper.oreExists(ingot) && OreStackHelper.oreExists(dust)) addIngotMeltingRecipes(fluidName);
+			else if (OreStackHelper.oreExists(ingot) && OreStackHelper.oreExists(ore)) addIngotOreMeltingRecipes(fluidName);
+			else if (OreStackHelper.oreExists(gem) && OreStackHelper.oreExists(dust)) addGemMeltingRecipes(fluidName);
+			else if (OreStackHelper.oreExists(gem) && OreStackHelper.oreExists(ore)) addGemOreMeltingRecipes(fluidName);
 		}
 	}
 }

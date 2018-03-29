@@ -3,6 +3,8 @@ package nc.recipe;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.common.collect.Lists;
+
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 
@@ -10,6 +12,10 @@ public class RecipeStackArray implements IIngredient, IRecipeStack {
 	
 	public ArrayList<IIngredient> validInputList;
 	public ArrayList<Object> cachedObjects = new ArrayList();
+	
+	public RecipeStackArray(IIngredient... validInputs) {
+		this(Lists.newArrayList(validInputs));
+	}
 
 	public RecipeStackArray(ArrayList<IIngredient> validInputs) {
 		validInputList = validInputs;
@@ -19,6 +25,16 @@ public class RecipeStackArray implements IIngredient, IRecipeStack {
 	@Override
 	public Object getIngredient() {
 		return cachedObjects;
+	}
+	
+	@Override
+	public String getIngredientName() {
+		return validInputList.get(0).getIngredientName();
+	}
+
+	@Override
+	public StackType getIngredientType() {
+		return validInputList.get(0).getIngredientType();
 	}
 
 	@Override
@@ -59,5 +75,4 @@ public class RecipeStackArray implements IIngredient, IRecipeStack {
 		}
 		return null;
 	}
-
 }

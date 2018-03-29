@@ -74,7 +74,7 @@ import nc.recipe.IRecipe;
 import nc.recipe.NCRecipes;
 import nc.util.NCUtil;
 import nc.util.StackHelper;
-import nc.worldgen.OreGenerator;
+import nc.worldgen.ore.OreGenerator;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -201,9 +201,9 @@ public class NCJEI implements IModPlugin, IJEIRecipeBuilder {
 	public Object buildRecipe(IRecipe recipe, BaseRecipeHandler<IRecipe> methods) {
 		if ((Loader.isModLoaded("jei") || Loader.isModLoaded("JEI"))) {
 			for (Handlers handler : NCJEI.Handlers.values()) {
-				if (handler.methods.getRecipeName().equals(methods.getRecipeName())) {
+				if (handler.getRecipeHandler().getRecipeName().equals(methods.getRecipeName())) {
 					try {
-						return handler.recipeClass.getConstructor(BaseRecipeHandler.class, IRecipe.class).newInstance(handler.methods, recipe);
+						return handler.recipeClass.getConstructor(BaseRecipeHandler.class, IRecipe.class).newInstance(handler.getRecipeHandler(), recipe);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -226,34 +226,34 @@ public class NCJEI implements IModPlugin, IJEIRecipeBuilder {
 	}
 	
 	public enum Handlers implements IJEIHandler {
-		MANUFACTORY(NCRecipes.MANUFACTORY_RECIPES, NCBlocks.manufactory_idle, "manufactory", RecipesJEI.Manufactory.class),
-		ISOTOPE_SEPARATOR(NCRecipes.ISOTOPE_SEPARATOR_RECIPES, NCBlocks.isotope_separator_idle, "isotope_separator", RecipesJEI.IsotopeSeparator.class),
-		DECAY_HASTENER(NCRecipes.DECAY_HASTENER_RECIPES, NCBlocks.decay_hastener_idle, "decay_hastener", RecipesJEI.DecayHastener.class),
-		FUEL_REPROCESSOR(NCRecipes.FUEL_REPROCESSOR_RECIPES, NCBlocks.fuel_reprocessor_idle, "fuel_reprocessor", RecipesJEI.FuelReprocessor.class),
-		ALLOY_FURNACE(NCRecipes.ALLOY_FURNACE_RECIPES, NCBlocks.alloy_furnace_idle, "alloy_furnace", RecipesJEI.AlloyFurnace.class),
-		INFUSER(NCRecipes.INFUSER_RECIPES, NCBlocks.infuser_idle, "infuser", RecipesJEI.Infuser.class),
-		MELTER(NCRecipes.MELTER_RECIPES, NCBlocks.melter_idle, "melter", RecipesJEI.Melter.class),
-		SUPERCOOLER(NCRecipes.SUPERCOOLER_RECIPES, NCBlocks.supercooler_idle, "supercooler", RecipesJEI.Supercooler.class),
-		ELECTROLYSER(NCRecipes.ELECTROLYSER_RECIPES, NCBlocks.electrolyser_idle, "electrolyser", RecipesJEI.Electrolyser.class),
-		IRRADIATOR(NCRecipes.IRRADIATOR_RECIPES, NCBlocks.irradiator_idle, "irradiator", RecipesJEI.Irradiator.class),
-		INGOT_FORMER(NCRecipes.INGOT_FORMER_RECIPES, NCBlocks.ingot_former_idle, "ingot_former", RecipesJEI.IngotFormer.class),
-		PRESSURIZER(NCRecipes.PRESSURIZER_RECIPES, NCBlocks.pressurizer_idle, "pressurizer", RecipesJEI.Pressurizer.class),
-		CHEMICAL_REACTOR(NCRecipes.CHEMICAL_REACTOR_RECIPES, NCBlocks.chemical_reactor_idle, "chemical_reactor", RecipesJEI.ChemicalReactor.class),
-		SALT_MIXER(NCRecipes.SALT_MIXER_RECIPES, NCBlocks.salt_mixer_idle, "salt_mixer", RecipesJEI.SaltMixer.class),
-		CRYSTALLIZER(NCRecipes.CRYSTALLIZER_RECIPES, NCBlocks.crystallizer_idle, "crystallizer", RecipesJEI.Crystallizer.class),
-		DISSOLVER(NCRecipes.DISSOLVER_RECIPES, NCBlocks.dissolver_idle, "dissolver", RecipesJEI.Dissolver.class),
-		EXTRACTOR(NCRecipes.EXTRACTOR_RECIPES, NCBlocks.extractor_idle, "extractor", RecipesJEI.Extractor.class),
-		FISSION(NCRecipes.FISSION_RECIPES, NCBlocks.fission_controller_new_idle, "fission_controller", RecipesJEI.Fission.class),
-		FUSION(NCRecipes.FUSION_RECIPES, NCBlocks.fusion_core, "fusion_core", RecipesJEI.Fusion.class);
+		MANUFACTORY(NCRecipes.Type.MANUFACTORY, NCBlocks.manufactory_idle, "manufactory", RecipesJEI.Manufactory.class),
+		ISOTOPE_SEPARATOR(NCRecipes.Type.ISOTOPE_SEPARATOR, NCBlocks.isotope_separator_idle, "isotope_separator", RecipesJEI.IsotopeSeparator.class),
+		DECAY_HASTENER(NCRecipes.Type.DECAY_HASTENER, NCBlocks.decay_hastener_idle, "decay_hastener", RecipesJEI.DecayHastener.class),
+		FUEL_REPROCESSOR(NCRecipes.Type.FUEL_REPROCESSOR, NCBlocks.fuel_reprocessor_idle, "fuel_reprocessor", RecipesJEI.FuelReprocessor.class),
+		ALLOY_FURNACE(NCRecipes.Type.ALLOY_FURNACE, NCBlocks.alloy_furnace_idle, "alloy_furnace", RecipesJEI.AlloyFurnace.class),
+		INFUSER(NCRecipes.Type.INFUSER, NCBlocks.infuser_idle, "infuser", RecipesJEI.Infuser.class),
+		MELTER(NCRecipes.Type.MELTER, NCBlocks.melter_idle, "melter", RecipesJEI.Melter.class),
+		SUPERCOOLER(NCRecipes.Type.SUPERCOOLER, NCBlocks.supercooler_idle, "supercooler", RecipesJEI.Supercooler.class),
+		ELECTROLYSER(NCRecipes.Type.ELECTROLYSER, NCBlocks.electrolyser_idle, "electrolyser", RecipesJEI.Electrolyser.class),
+		IRRADIATOR(NCRecipes.Type.IRRADIATOR, NCBlocks.irradiator_idle, "irradiator", RecipesJEI.Irradiator.class),
+		INGOT_FORMER(NCRecipes.Type.INGOT_FORMER, NCBlocks.ingot_former_idle, "ingot_former", RecipesJEI.IngotFormer.class),
+		PRESSURIZER(NCRecipes.Type.PRESSURIZER, NCBlocks.pressurizer_idle, "pressurizer", RecipesJEI.Pressurizer.class),
+		CHEMICAL_REACTOR(NCRecipes.Type.CHEMICAL_REACTOR, NCBlocks.chemical_reactor_idle, "chemical_reactor", RecipesJEI.ChemicalReactor.class),
+		SALT_MIXER(NCRecipes.Type.SALT_MIXER, NCBlocks.salt_mixer_idle, "salt_mixer", RecipesJEI.SaltMixer.class),
+		CRYSTALLIZER(NCRecipes.Type.CRYSTALLIZER, NCBlocks.crystallizer_idle, "crystallizer", RecipesJEI.Crystallizer.class),
+		DISSOLVER(NCRecipes.Type.DISSOLVER, NCBlocks.dissolver_idle, "dissolver", RecipesJEI.Dissolver.class),
+		EXTRACTOR(NCRecipes.Type.EXTRACTOR, NCBlocks.extractor_idle, "extractor", RecipesJEI.Extractor.class),
+		FISSION(NCRecipes.Type.FISSION, NCBlocks.fission_controller_new_idle, "fission_controller", RecipesJEI.Fission.class),
+		FUSION(NCRecipes.Type.FUSION, NCBlocks.fusion_core, "fusion_core", RecipesJEI.Fusion.class);
 		
-		public BaseRecipeHandler methods;
+		public NCRecipes.Type recipeType;
 		public String unlocalizedName;
 		public String textureName;
 		public Class<? extends JEIRecipe> recipeClass;
 		public ItemStack crafterType;
 		
-		Handlers(BaseRecipeHandler methods, Object crafter, String textureName, Class<? extends JEIRecipe> recipeClass) {
-			this.methods = methods;
+		Handlers(NCRecipes.Type recipeType, Object crafter, String textureName, Class<? extends JEIRecipe> recipeClass) {
+			this.recipeType = recipeType;
 			crafterType = StackHelper.fixItemStack(crafter);
 			this.unlocalizedName = crafterType.getUnlocalizedName() + ".name";
 			this.textureName = textureName;
@@ -323,17 +323,16 @@ public class NCJEI implements IModPlugin, IJEIRecipeBuilder {
 
 		@Override
 		public BaseRecipeHandler getRecipeHandler() {
-			return methods;
+			return recipeType.getRecipeHandler();
 		}
 
 		@Override
 		public ArrayList<JEIRecipe> getJEIRecipes() {
 			ArrayList<JEIRecipe> recipes = new ArrayList();
-			if (methods != null && methods instanceof BaseRecipeHandler) {
-				BaseRecipeHandler methods = (BaseRecipeHandler) this.methods;
-				for (IRecipe recipe : (ArrayList<IRecipe>) methods.getRecipes()) {
+			if (getRecipeHandler() != null) {
+				for (IRecipe recipe : (ArrayList<IRecipe>) getRecipeHandler().getRecipes()) {
 					try {
-						recipes.add(recipeClass.getConstructor(BaseRecipeHandler.class, IRecipe.class).newInstance(methods, recipe));
+						recipes.add(recipeClass.getConstructor(BaseRecipeHandler.class, IRecipe.class).newInstance(getRecipeHandler(), recipe));
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -349,7 +348,7 @@ public class NCJEI implements IModPlugin, IJEIRecipeBuilder {
 		
 		@Override
 		public String getUUID() {
-			return methods.getRecipeName();
+			return getRecipeHandler().getRecipeName();
 		}
 	}
 }

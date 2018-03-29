@@ -1,5 +1,6 @@
 package nc.util;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -28,6 +29,12 @@ public class ArrayHelper {
 	public static <T> List<T> concatenate(List<T> first, List<T>... rest) {
 		List<T> result = first;
 		for (List<T> list : rest) result.addAll(list);
+		return result;
+	}
+	
+	public static <T> ArrayList<T> concatenate(ArrayList<T> first, ArrayList<T>... rest) {
+		ArrayList<T> result = first;
+		for (ArrayList<T> list : rest) result.addAll(list);
 		return result;
 	}
 	
