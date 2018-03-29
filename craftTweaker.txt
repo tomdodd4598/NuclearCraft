@@ -1,77 +1,155 @@
-NuclearCraft CraftTweaker recipe addition and removal
+NuclearCraft CraftTweaker recipe addition and removal:
 
+--------------------------------------------------------------------------------------
 Manufactory:
-mods.nuclearcraft.manufactory.addRecipe(itemInput, itemOutput, processTime[optional]);
-mods.nuclearcraft.manufactory.removeRecipe(itemOutput);
 
+mods.nuclearcraft.manufactory.addRecipe(itemInput, itemOutput, {optional}processTime);
+
+mods.nuclearcraft.manufactory.removeRecipeWithInput(itemInput);
+mods.nuclearcraft.manufactory.removeRecipeWithOutput(itemOutput);
+
+--------------------------------------------------------------------------------------
 Isotope Separator:
-mods.nuclearcraft.isotope_separator.addRecipe(itemInput, itemOutput1, itemOutput2, processTime[optional]);
-mods.nuclearcraft.isotope_separator.removeRecipe(itemOutput1, itemOutput2);
 
+mods.nuclearcraft.isotope_separator.addRecipe(itemInput, itemOutput1, itemOutput2, {optional}processTime);
+
+mods.nuclearcraft.isotope_separator.removeRecipeWithInput(itemInput);
+mods.nuclearcraft.isotope_separator.removeRecipeWithOutput(itemOutput1, itemOutput2);
+
+--------------------------------------------------------------------------------------
 Decay Hastener:
-mods.nuclearcraft.decay_hastener.addRecipe(itemInput, itemOutput, processTime[optional]);
-mods.nuclearcraft.decay_hastener.removeRecipe(itemOutput);
 
+mods.nuclearcraft.decay_hastener.addRecipe(itemInput, itemOutput, {optional}processTime);
+
+mods.nuclearcraft.decay_hastener.removeRecipeWithInput(itemInput);
+mods.nuclearcraft.decay_hastener.removeRecipeWithOutput(itemOutput);
+
+--------------------------------------------------------------------------------------
 Fuel Reprocessor:
-mods.nuclearcraft.fuel_reprocessor.addRecipe(itemInput, itemOutput1, itemOutput2, itemOutput3, itemOutput4, processTime[optional]);
-mods.nuclearcraft.fuel_reprocessor.removeRecipe(itemOutput1, itemOutput2, itemOutput3, itemOutput4);
 
+mods.nuclearcraft.fuel_reprocessor.addRecipe(itemInput, itemOutput1, itemOutput2, itemOutput3, itemOutput4, {optional}processTime);
+
+mods.nuclearcraft.fuel_reprocessor.removeRecipeWithInput(itemInput);
+mods.nuclearcraft.fuel_reprocessor.removeRecipeWithOutput(itemOutput1, itemOutput2, itemOutput3, itemOutput4);
+
+--------------------------------------------------------------------------------------
 Alloy Furnace:
-mods.nuclearcraft.alloy_furnace.addRecipe(itemInput1, itemInput2, itemOutput, processTime[optional]);
-mods.nuclearcraft.alloy_furnace.removeRecipe(itemOutput);
 
+mods.nuclearcraft.alloy_furnace.addRecipe(itemInput1, itemInput2, itemOutput, {optional}processTime);
+
+mods.nuclearcraft.alloy_furnace.removeRecipeWithInput(itemInput1, itemInput2);
+mods.nuclearcraft.alloy_furnace.removeRecipeWithOutput(itemOutput);
+
+--------------------------------------------------------------------------------------
 Infuser:
-mods.nuclearcraft.infuser.addRecipe(itemInput, fluidInput, itemOutput, processTime[optional]);
-mods.nuclearcraft.infuser.removeRecipe(itemOutput);
 
+mods.nuclearcraft.infuser.addRecipe(itemInput, fluidInput, itemOutput, {optional}processTime);
+
+mods.nuclearcraft.infuser.removeRecipeWithInput(itemInput, fluidInput);
+mods.nuclearcraft.infuser.removeRecipeWithOutput(itemOutput);
+
+--------------------------------------------------------------------------------------
 Melter:
-mods.nuclearcraft.melter.addRecipe(itemInput, fluidOutput, processTime[optional]);
-mods.nuclearcraft.melter.removeRecipe(fluidOutput);
 
+mods.nuclearcraft.melter.addRecipe(itemInput, fluidOutput, {optional}processTime);
+
+mods.nuclearcraft.melter.removeRecipeWithInput(itemInput);
+mods.nuclearcraft.melter.removeRecipeWithOutput(fluidOutput);
+
+--------------------------------------------------------------------------------------
 Supercooler:
-mods.nuclearcraft.supercooler.addRecipe(fluidInput, fluidOutput, processTime[optional]);
-mods.nuclearcraft.supercooler.removeRecipe(fluidOutput);
 
-Electrolyser:
-mods.nuclearcraft.electrolyser.addRecipe(fluidInput, fluidOutput1, fluidOutput2, fluidOutput3, fluidOutput4, processTime[optional]);
-mods.nuclearcraft.electrolyser.removeRecipe(fluidOutput1, fluidOutput2, fluidOutput3, fluidOutput4);
+mods.nuclearcraft.supercooler.addRecipe(fluidInput, fluidOutput, {optional}processTime);
 
+mods.nuclearcraft.supercooler.removeRecipeWithInput(fluidInput);
+mods.nuclearcraft.supercooler.removeRecipeWithOutput(fluidOutput);
+
+--------------------------------------------------------------------------------------
+Electrolyzer:
+
+mods.nuclearcraft.electrolyser.addRecipe(fluidInput, fluidOutput1, fluidOutput2, fluidOutput3, fluidOutput4, {optional}processTime);
+
+mods.nuclearcraft.electrolyser.removeRecipeWithInput(fluidInput);
+mods.nuclearcraft.electrolyser.removeRecipeWithOutput(fluidOutput1, fluidOutput2, fluidOutput3, fluidOutput4);
+
+--------------------------------------------------------------------------------------
 Irradiator:
-mods.nuclearcraft.irradiator.addRecipe(fluidInput1, fluidInput2, fluidOutput1, fluidOutput2, processTime[optional]);
-mods.nuclearcraft.irradiator.removeRecipe(fluidOutput1, fluidOutput2);
 
+mods.nuclearcraft.irradiator.addRecipe(fluidInput1, fluidInput2, fluidOutput1, fluidOutput2, {optional}processTime);
+
+mods.nuclearcraft.irradiator.removeRecipeWithInput(fluidInput1, fluidInput2);
+mods.nuclearcraft.irradiator.removeRecipeWithOutput(fluidOutput1, fluidOutput2);
+
+--------------------------------------------------------------------------------------
 Ingot Former:
-mods.nuclearcraft.ingot_former.addRecipe(fluidInput, itemOutput, processTime[optional]);
-mods.nuclearcraft.ingot_former.removeRecipe(itemOutput);
 
+mods.nuclearcraft.ingot_former.addRecipe(fluidInput, itemOutput, {optional}processTime);
+
+mods.nuclearcraft.ingot_former.removeRecipeWithInput(fluidInput);
+mods.nuclearcraft.ingot_former.removeRecipeWithOutput(itemOutput);
+
+--------------------------------------------------------------------------------------
 Pressurizer:
-mods.nuclearcraft.pressurizer.addRecipe(itemInput, itemOutput, processTime[optional]);
-mods.nuclearcraft.pressurizer.removeRecipe(itemOutput);
 
+mods.nuclearcraft.pressurizer.addRecipe(itemInput, itemOutput, {optional}processTime);
+
+mods.nuclearcraft.pressurizer.removeRecipeWithInput(itemInput);
+mods.nuclearcraft.pressurizer.removeRecipeWithOutput(itemOutput);
+
+--------------------------------------------------------------------------------------
 Chemical Reactor:
-mods.nuclearcraft.chemical_reactor.addRecipe(fluidInput1, fluidInput2, fluidOutput1, fluidOutput2, processTime[optional]);
-mods.nuclearcraft.chemical_reactor.removeRecipe(fluidOutput1, fluidOutput2);
 
+mods.nuclearcraft.chemical_reactor.addRecipe(fluidInput1, fluidInput2, fluidOutput1, fluidOutput2, {optional}processTime);
+
+mods.nuclearcraft.chemical_reactor.removeRecipeWithInput(fluidInput1, fluidInput2);
+mods.nuclearcraft.chemical_reactor.removeRecipeWithOutput(fluidOutput1, fluidOutput2);
+
+--------------------------------------------------------------------------------------
 Salt Mixer:
-mods.nuclearcraft.salt_mixer.addRecipe(fluidInput1, fluidInput2, fluidOutput, processTime[optional]);
-mods.nuclearcraft.salt_mixer.removeRecipe(fluidOutput);
 
+mods.nuclearcraft.salt_mixer.addRecipe(fluidInput1, fluidInput2, fluidOutput, {optional}processTime);
+
+mods.nuclearcraft.salt_mixer.removeRecipeWithInput(fluidInput1, fluidInput2);
+mods.nuclearcraft.salt_mixer.removeRecipeWithOutput(fluidOutput);
+
+--------------------------------------------------------------------------------------
 Crystallizer:
-mods.nuclearcraft.crystallizer.addRecipe(fluidInput, itemOutput, processTime[optional]);
-mods.nuclearcraft.crystallizer.removeRecipe(itemOutput);
 
+mods.nuclearcraft.crystallizer.addRecipe(fluidInput, itemOutput, {optional}processTime);
+
+mods.nuclearcraft.crystallizer.removeRecipeWithInput(fluidInput);
+mods.nuclearcraft.crystallizer.removeRecipeWithOutput(itemOutput);
+
+--------------------------------------------------------------------------------------
 Fluid Enricher:
-mods.nuclearcraft.dissolver.addRecipe(itemInput, fluidInput, fluidOutput, processTime[optional]);
-mods.nuclearcraft.dissolver.removeRecipe(fluidOutput);
 
+mods.nuclearcraft.dissolver.addRecipe(itemInput, fluidInput, fluidOutput, {optional}processTime);
+
+mods.nuclearcraft.dissolver.removeRecipeWithInput(itemInput, fluidInput);
+mods.nuclearcraft.dissolver.removeRecipeWithOutput(fluidOutput);
+
+--------------------------------------------------------------------------------------
 Fluid Extractor:
-mods.nuclearcraft.extractor.addRecipe(itemInput, itemOutput, fluidOutput, processTime[optional]);
-mods.nuclearcraft.extractor.removeRecipe(itemOutput, fluidOutput);
 
+mods.nuclearcraft.extractor.addRecipe(itemInput, itemOutput, fluidOutput, {optional}processTime);
+
+mods.nuclearcraft.extractor.removeRecipeWithInput(itemInput);
+mods.nuclearcraft.extractor.removeRecipeWithOutput(itemOutput, fluidOutput);
+
+--------------------------------------------------------------------------------------
 Fission:
-mods.nuclearcraft.fission.addRecipe(itemInput, itemOutput, baseTime, basePowerGen, baseHeatGen, guiName);
-mods.nuclearcraft.fission.removeRecipe(itemOutput);
 
+mods.nuclearcraft.fission.addRecipe(itemInput, itemOutput, baseTime, basePowerGen, baseHeatGen, guiName);
+
+mods.nuclearcraft.fission.removeRecipeWithInput(itemInput);
+mods.nuclearcraft.fission.removeRecipeWithOutput(itemOutput);
+
+--------------------------------------------------------------------------------------
 Fusion:
+
 mods.nuclearcraft.fusion.addRecipe(fluidInput1, fluidInput2, fluidOutput1, fluidOutput2, fluidOutput3, fluidOutput4, comboFuelTime, comboPowerGen, comboHeatVar);
-mods.nuclearcraft.fusion.removeRecipe(fluidOutput1, fluidOutput2, fluidOutput3, fluidOutput4);
+
+mods.nuclearcraft.fusion.removeRecipeWithInput(fluidInput1, fluidInput2);
+mods.nuclearcraft.fusion.removeRecipeWithOutput(fluidOutput1, fluidOutput2, fluidOutput3, fluidOutput4);
+
+--------------------------------------------------------------------------------------
