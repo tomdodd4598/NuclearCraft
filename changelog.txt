@@ -1,3 +1,34 @@
+v2.10c
+
+* Fixed fluids not being correctly registered to the Fluid Registry
+* This also fixes the EnderIO tank crash
+
+* Fixed crash caused by extracting fuel from hidden fission slot using double-clicking
+
++ Added test molten salt fission multiblock components
++ Added hot molten salt coolants
++ Added molten salt fission and coolant heating recipes
+
+* Fixed wrongly weighted Irradiator recipes
+* Changed EnderIO integration recipes to use its new Ore Dict entries
+
+* Major Refactoring
+* IC2 is no longer packaged with the mod (still using IC2 API though!)
+* Fixed minor localisation issues
+
+v2.10b
+
+* Fixed all Ore Dictionary support for CraftTweaker methods
+* Fixed CraftTweaker recipe removals involving ItemStacks not working correctly
+
+v2.10a
+
+* Removed potential for crash with AE2 installed where dimension IDs could clash
+
+* Bigger Fusion Reactors now require more energy to heat up
+
+* Fixed minor localisation errors
+
 v2.10
 
 + Added NaK alloy and molten salt coolants
@@ -59,7 +90,7 @@ v2.9c
 
 * Fixed extension blocks such as Fission Ports dropping the contents of the machine they're connected to when broken
 * Added config options for the spread and generation of glowing mushrooms
-* Added crushed coal incase it is not added by other mods - it is required to make graphite
+* Added crushed coal in case it is not added by other mods - it is required to make graphite
 * Removed active cooler console spam
 
 v2.9b
