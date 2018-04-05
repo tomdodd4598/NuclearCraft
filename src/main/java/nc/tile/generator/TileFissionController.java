@@ -12,7 +12,7 @@ import nc.enumm.MetaEnums.CoolerType;
 import nc.init.NCBlocks;
 import nc.recipe.NCRecipes;
 import nc.tile.fluid.TileActiveCooler;
-import nc.tile.fluid.tank.Tank;
+import nc.tile.internal.Tank;
 import nc.util.ArrayHelper;
 import nc.util.BlockFinder;
 import nc.util.BlockPosHelper;

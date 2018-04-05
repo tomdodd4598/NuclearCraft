@@ -2,9 +2,9 @@ package nc.tile.energyFluid;
 
 import nc.tile.dummy.IInterfaceable;
 import nc.tile.energy.IEnergySpread;
-import nc.tile.energy.storage.EnumEnergyStorage.EnergyConnection;
 import nc.tile.fluid.IFluidSpread;
-import nc.tile.fluid.tank.EnumTank.FluidConnection;
+import nc.tile.internal.EnumEnergyStorage.EnergyConnection;
+import nc.tile.internal.EnumTank.FluidConnection;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;

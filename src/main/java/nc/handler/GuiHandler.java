@@ -40,6 +40,10 @@ import nc.gui.processor.GuiNuclearFurnace;
 import nc.gui.processor.GuiPressurizer;
 import nc.gui.processor.GuiSaltMixer;
 import nc.gui.processor.GuiSupercooler;
+import nc.multiblock.fission.moltensalt.container.ContainerSaltFissionController;
+import nc.multiblock.fission.moltensalt.gui.GuiSaltFissionController;
+import nc.multiblock.fission.moltensalt.tile.SaltFissionController;
+import nc.multiblock.fission.moltensalt.tile.TileSaltFissionController;
 import nc.tile.generator.TileFissionController;
 import nc.tile.generator.TileFusionCore;
 import nc.tile.processor.TileNuclearFurnace;
@@ -62,6 +66,7 @@ import nc.tile.processor.TileProcessor.SaltMixer;
 import nc.tile.processor.TileProcessor.Supercooler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.IGuiHandler;
@@ -70,50 +75,52 @@ public class GuiHandler implements IGuiHandler {
 	
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
-		IInventory entity = (IInventory) world.getTileEntity(new BlockPos(x, y, z));
+		TileEntity tile = world.getTileEntity(new BlockPos(x, y, z));
 		
-		if (entity != null) {
+		if (tile != null) {
 			switch(ID) {
 			case 0:
-				if (entity instanceof TileNuclearFurnace) return new ContainerNuclearFurnace(player, entity);
+				if (tile instanceof TileNuclearFurnace) return new ContainerNuclearFurnace(player, (IInventory) tile);
 			case 1:
-				if (entity instanceof Manufactory) return new ContainerManufactory(player, (Manufactory) entity);
+				if (tile instanceof Manufactory) return new ContainerManufactory(player, (Manufactory) tile);
 			case 2:
-				if (entity instanceof IsotopeSeparator) return new ContainerIsotopeSeparator(player, (IsotopeSeparator) entity);
+				if (tile instanceof IsotopeSeparator) return new ContainerIsotopeSeparator(player, (IsotopeSeparator) tile);
 			case 3:
-				if (entity instanceof DecayHastener) return new ContainerDecayHastener(player, (DecayHastener) entity);
+				if (tile instanceof DecayHastener) return new ContainerDecayHastener(player, (DecayHastener) tile);
 			case 4:
-				if (entity instanceof FuelReprocessor) return new ContainerFuelReprocessor(player, (FuelReprocessor) entity);
+				if (tile instanceof FuelReprocessor) return new ContainerFuelReprocessor(player, (FuelReprocessor) tile);
 			case 5:
-				if (entity instanceof AlloyFurnace) return new ContainerAlloyFurnace(player, (AlloyFurnace) entity);
+				if (tile instanceof AlloyFurnace) return new ContainerAlloyFurnace(player, (AlloyFurnace) tile);
 			case 6:
-				if (entity instanceof Infuser) return new ContainerInfuser(player, (Infuser) entity);
+				if (tile instanceof Infuser) return new ContainerInfuser(player, (Infuser) tile);
 			case 7:
-				if (entity instanceof Melter) return new ContainerMelter(player, (Melter) entity);
+				if (tile instanceof Melter) return new ContainerMelter(player, (Melter) tile);
 			case 8:
-				if (entity instanceof Supercooler) return new ContainerSupercooler(player, (Supercooler) entity);
+				if (tile instanceof Supercooler) return new ContainerSupercooler(player, (Supercooler) tile);
 			case 9:
-				if (entity instanceof Electrolyser) return new ContainerElectrolyser(player, (Electrolyser) entity);
+				if (tile instanceof Electrolyser) return new ContainerElectrolyser(player, (Electrolyser) tile);
 			case 10:
-				if (entity instanceof Irradiator) return new ContainerIrradiator(player, (Irradiator) entity);
+				if (tile instanceof Irradiator) return new ContainerIrradiator(player, (Irradiator) tile);
 			case 11:
-				if (entity instanceof IngotFormer) return new ContainerIngotFormer(player, (IngotFormer) entity);
+				if (tile instanceof IngotFormer) return new ContainerIngotFormer(player, (IngotFormer) tile);
 			case 12:
-				if (entity instanceof Pressurizer) return new ContainerPressurizer(player, (Pressurizer) entity);
+				if (tile instanceof Pressurizer) return new ContainerPressurizer(player, (Pressurizer) tile);
 			case 13:
-				if (entity instanceof ChemicalReactor) return new ContainerChemicalReactor(player, (ChemicalReactor) entity);
+				if (tile instanceof ChemicalReactor) return new ContainerChemicalReactor(player, (ChemicalReactor) tile);
 			case 14:
-				if (entity instanceof SaltMixer) return new ContainerSaltMixer(player, (SaltMixer) entity);
+				if (tile instanceof SaltMixer) return new ContainerSaltMixer(player, (SaltMixer) tile);
 			case 15:
-				if (entity instanceof Crystallizer) return new ContainerCrystallizer(player, (Crystallizer) entity);
+				if (tile instanceof Crystallizer) return new ContainerCrystallizer(player, (Crystallizer) tile);
 			case 16:
-				if (entity instanceof Dissolver) return new ContainerDissolver(player, (Dissolver) entity);
+				if (tile instanceof Dissolver) return new ContainerDissolver(player, (Dissolver) tile);
 			case 17:
-				if (entity instanceof Extractor) return new ContainerExtractor(player, (Extractor) entity);
+				if (tile instanceof Extractor) return new ContainerExtractor(player, (Extractor) tile);
 			case 100:
-				if (entity instanceof TileFissionController) return new ContainerFissionController(player, (TileFissionController) entity);
+				if (tile instanceof TileFissionController) return new ContainerFissionController(player, (TileFissionController) tile);
 			case 101:
-				if (entity instanceof TileFusionCore) return new ContainerFusionCore(player, (TileFusionCore) entity);
+				if (tile instanceof TileFusionCore) return new ContainerFusionCore(player, (TileFusionCore) tile);
+			case 102:
+				if (tile instanceof TileSaltFissionController) return new ContainerSaltFissionController(player, (TileSaltFissionController) tile);
 			}
 		}
 		
@@ -122,50 +129,52 @@ public class GuiHandler implements IGuiHandler {
 	
 	@Override
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
-		IInventory entity = (IInventory) world.getTileEntity(new BlockPos(x, y, z));
+		TileEntity tile = world.getTileEntity(new BlockPos(x, y, z));
 		
-		if (entity != null) {
+		if (tile != null) {
 			switch(ID) {
 			case 0:
-				if (entity instanceof TileNuclearFurnace) return new GuiNuclearFurnace(player, entity);
+				if (tile instanceof TileNuclearFurnace) return new GuiNuclearFurnace(player, (IInventory) tile);
 			case 1:
-				if (entity instanceof Manufactory) return new GuiManufactory(player, (Manufactory) entity);
+				if (tile instanceof Manufactory) return new GuiManufactory(player, (Manufactory) tile);
 			case 2:
-				if (entity instanceof IsotopeSeparator) return new GuiIsotopeSeparator(player, (IsotopeSeparator) entity);
+				if (tile instanceof IsotopeSeparator) return new GuiIsotopeSeparator(player, (IsotopeSeparator) tile);
 			case 3:
-				if (entity instanceof DecayHastener) return new GuiDecayHastener(player, (DecayHastener) entity);
+				if (tile instanceof DecayHastener) return new GuiDecayHastener(player, (DecayHastener) tile);
 			case 4:
-				if (entity instanceof FuelReprocessor) return new GuiFuelReprocessor(player, (FuelReprocessor) entity);
+				if (tile instanceof FuelReprocessor) return new GuiFuelReprocessor(player, (FuelReprocessor) tile);
 			case 5:
-				if (entity instanceof AlloyFurnace) return new GuiAlloyFurnace(player, (AlloyFurnace) entity);
+				if (tile instanceof AlloyFurnace) return new GuiAlloyFurnace(player, (AlloyFurnace) tile);
 			case 6:
-				if (entity instanceof Infuser) return new GuiInfuser(player, (Infuser) entity);
+				if (tile instanceof Infuser) return new GuiInfuser(player, (Infuser) tile);
 			case 7:
-				if (entity instanceof Melter) return new GuiMelter(player, (Melter) entity);
+				if (tile instanceof Melter) return new GuiMelter(player, (Melter) tile);
 			case 8:
-				if (entity instanceof Supercooler) return new GuiSupercooler(player, (Supercooler) entity);
+				if (tile instanceof Supercooler) return new GuiSupercooler(player, (Supercooler) tile);
 			case 9:
-				if (entity instanceof Electrolyser) return new GuiElectrolyser(player, (Electrolyser) entity);
+				if (tile instanceof Electrolyser) return new GuiElectrolyser(player, (Electrolyser) tile);
 			case 10:
-				if (entity instanceof Irradiator) return new GuiIrradiator(player, (Irradiator) entity);
+				if (tile instanceof Irradiator) return new GuiIrradiator(player, (Irradiator) tile);
 			case 11:
-				if (entity instanceof IngotFormer) return new GuiIngotFormer(player, (IngotFormer) entity);
+				if (tile instanceof IngotFormer) return new GuiIngotFormer(player, (IngotFormer) tile);
 			case 12:
-				if (entity instanceof Pressurizer) return new GuiPressurizer(player, (Pressurizer) entity);
+				if (tile instanceof Pressurizer) return new GuiPressurizer(player, (Pressurizer) tile);
 			case 13:
-				if (entity instanceof ChemicalReactor) return new GuiChemicalReactor(player, (ChemicalReactor) entity);
+				if (tile instanceof ChemicalReactor) return new GuiChemicalReactor(player, (ChemicalReactor) tile);
 			case 14:
-				if (entity instanceof SaltMixer) return new GuiSaltMixer(player, (SaltMixer) entity);
+				if (tile instanceof SaltMixer) return new GuiSaltMixer(player, (SaltMixer) tile);
 			case 15:
-				if (entity instanceof Crystallizer) return new GuiCrystallizer(player, (Crystallizer) entity);
+				if (tile instanceof Crystallizer) return new GuiCrystallizer(player, (Crystallizer) tile);
 			case 16:
-				if (entity instanceof Dissolver) return new GuiDissolver(player, (Dissolver) entity);
+				if (tile instanceof Dissolver) return new GuiDissolver(player, (Dissolver) tile);
 			case 17:
-				if (entity instanceof Extractor) return new GuiExtractor(player, (Extractor) entity);
+				if (tile instanceof Extractor) return new GuiExtractor(player, (Extractor) tile);
 			case 100:
-				if (entity instanceof TileFissionController) return new GuiFissionController(player, (TileFissionController) entity);
+				if (tile instanceof TileFissionController) return new GuiFissionController(player, (TileFissionController) tile);
 			case 101:
-				if (entity instanceof TileFusionCore) return new GuiFusionCore(player, (TileFusionCore) entity);
+				if (tile instanceof TileFusionCore) return new GuiFusionCore(player, (TileFusionCore) tile);
+			case 102:
+				if (tile instanceof TileSaltFissionController) return new GuiSaltFissionController((SaltFissionController) ((TileSaltFissionController) tile).getMultiblockController(), ((SaltFissionController) ((TileSaltFissionController) tile).getMultiblockController()).getContainer(player));
 			}
 		}
 		

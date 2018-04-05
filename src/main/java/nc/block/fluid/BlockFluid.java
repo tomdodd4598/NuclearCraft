@@ -1,15 +1,15 @@
 package nc.block.fluid;
 
-import nc.fluid.FluidBase;
 import net.minecraft.block.material.Material;
+import net.minecraftforge.fluids.Fluid;
 
 public class BlockFluid extends BlockFluidBase {
 
-	public BlockFluid(FluidBase fluid, Material material) {
+	public BlockFluid(Fluid fluid, Material material) {
 		super(fluid, material);
 	}
 	
-	public BlockFluid(FluidBase fluid) {
+	public BlockFluid(Fluid fluid) {
 		super(fluid, Material.WATER);
 	}
 }

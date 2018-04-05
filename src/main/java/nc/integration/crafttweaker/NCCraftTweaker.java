@@ -33,6 +33,8 @@ public class NCCraftTweaker {
 		CraftTweakerAPI.registerClass(ExtractorHandler.class);
 		CraftTweakerAPI.registerClass(FissionHandler.class);
 		CraftTweakerAPI.registerClass(FusionHandler.class);
+		CraftTweakerAPI.registerClass(SaltFissionHandler.class);
+		CraftTweakerAPI.registerClass(CoolantHeaterHandler.class);
 	}
 	
 	public static class RecipeHandler {
@@ -503,6 +505,46 @@ public class NCCraftTweaker {
 		@ZenMethod
 		public static void removeRecipeWithOutput(IIngredient output1, IIngredient output2, IIngredient output3, IIngredient output4) {
 			CraftTweakerAPI.apply(new RemoveRecipe(NCRecipes.Type.FUSION, SorptionType.OUTPUT, Lists.newArrayList(output1, output2, output3, output4)));
+		}
+	}
+	
+	@ZenClass("mods.nuclearcraft.salt_fission")
+	@ZenRegister
+	public static class SaltFissionHandler extends RecipeHandler {
+		
+		@ZenMethod
+		public static void addRecipe(IIngredient input1, IIngredient output1, double fuelTime, double power) {
+			CraftTweakerAPI.apply(new AddRecipe(NCRecipes.Type.SALT_FISSION, Lists.newArrayList(input1), Lists.newArrayList(output1), Lists.newArrayList(fuelTime, power)));
+		}
+
+		@ZenMethod
+		public static void removeRecipeWithInput(IIngredient input1) {
+			CraftTweakerAPI.apply(new RemoveRecipe(NCRecipes.Type.SALT_FISSION, SorptionType.INPUT, Lists.newArrayList(input1)));
+		}
+		
+		@ZenMethod
+		public static void removeRecipeWithOutput(IIngredient output1) {
+			CraftTweakerAPI.apply(new RemoveRecipe(NCRecipes.Type.SALT_FISSION, SorptionType.OUTPUT, Lists.newArrayList(output1)));
+		}
+	}
+	
+	@ZenClass("mods.nuclearcraft.coolant_heater")
+	@ZenRegister
+	public static class CoolantHeaterHandler extends RecipeHandler {
+		
+		@ZenMethod
+		public static void addRecipe(IIngredient input1, IIngredient output1) {
+			CraftTweakerAPI.apply(new AddRecipe(NCRecipes.Type.COOLANT_HEATER, Lists.newArrayList(input1), Lists.newArrayList(output1), Lists.newArrayList()));
+		}
+
+		@ZenMethod
+		public static void removeRecipeWithInput(IIngredient input1) {
+			CraftTweakerAPI.apply(new RemoveRecipe(NCRecipes.Type.COOLANT_HEATER, SorptionType.INPUT, Lists.newArrayList(input1)));
+		}
+		
+		@ZenMethod
+		public static void removeRecipeWithOutput(IIngredient output1) {
+			CraftTweakerAPI.apply(new RemoveRecipe(NCRecipes.Type.COOLANT_HEATER, SorptionType.OUTPUT, Lists.newArrayList(output1)));
 		}
 	}
 }

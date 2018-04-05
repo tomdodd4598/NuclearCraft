@@ -16,9 +16,20 @@ public class BlockFluidBase extends BlockFluidClassic {
 	String name;
 	public final Fluid fluid;
 	
+	public BlockFluidBase(Fluid fluid, Material material) {
+		super(fluid, material);
+		String fluidBlockName = "fluid_" + fluid.getName();
+		this.name = fluidBlockName;
+		setUnlocalizedName(Global.MOD_ID + "." + fluidBlockName);
+		setRegistryName(new ResourceLocation(Global.MOD_ID, fluidBlockName));
+		//NuclearCraft.proxy.registerFluidBlockRendering(this, name);
+		setCreativeTab(CommonProxy.TAB_FLUIDS);
+		this.fluid = fluid;
+	}
+	
 	public BlockFluidBase(FluidBase fluid, Material material) {
 		super(fluid, material);
-		String fluidBlockName = "fluid_" + fluid.getFluidName();
+		String fluidBlockName = "fluid_" + fluid.getName();
 		this.name = fluidBlockName;
 		setUnlocalizedName(Global.MOD_ID + "." + fluidBlockName);
 		setRegistryName(new ResourceLocation(Global.MOD_ID, fluidBlockName));

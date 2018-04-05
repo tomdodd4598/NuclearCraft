@@ -2,7 +2,7 @@ package nc.block.tile;
 
 import nc.enumm.BlockEnums.SimpleTileType;
 import nc.tile.energy.IBattery;
-import nc.tile.energy.storage.EnergyStorage;
+import nc.tile.internal.EnergyStorage;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumFacing;

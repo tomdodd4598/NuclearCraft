@@ -9,12 +9,12 @@ import ic2.api.energy.tile.IEnergySource;
 import nc.ModCheck;
 import nc.config.NCConfig;
 import nc.tile.energy.ITileEnergy;
-import nc.tile.energy.storage.EnergyStorage;
-import nc.tile.energy.storage.EnumEnergyStorage.EnergyConnection;
 import nc.tile.energyFluid.TileEnergyFluidSidedInventory;
 import nc.tile.fluid.ITileFluid;
-import nc.tile.fluid.tank.Tank;
-import nc.tile.fluid.tank.EnumTank.FluidConnection;
+import nc.tile.internal.EnergyStorage;
+import nc.tile.internal.Tank;
+import nc.tile.internal.EnumEnergyStorage.EnergyConnection;
+import nc.tile.internal.EnumTank.FluidConnection;
 import nc.tile.inventory.ITileInventory;
 import nc.tile.passive.ITilePassive;
 import net.darkhax.tesla.capability.TeslaCapabilities;
@@ -36,6 +36,7 @@ import net.minecraftforge.fluids.capability.FluidTankProperties;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
 import net.minecraftforge.fluids.capability.templates.EmptyFluidHandler;
+import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
@@ -275,32 +276,38 @@ public abstract class TileDummy extends TileEnergyFluidSidedInventory {
 	// IC2 Energy
 	
 	@Override
+	@Optional.Method(modid = "ic2")
 	public boolean acceptsEnergyFrom(IEnergyEmitter emitter, EnumFacing side) {
 		return getEnergyConnection().canReceive();
 	}
 
 	@Override
+	@Optional.Method(modid = "ic2")
 	public boolean emitsEnergyTo(IEnergyAcceptor receiver, EnumFacing side) {
 		return getEnergyConnection().canExtract();
 	}
 
 	@Override
+	@Optional.Method(modid = "ic2")
 	public double getOfferedEnergy() {
 		return Math.min(Math.pow(2, 2*getSourceTier() + 3), getStorage().takePower(getStorage().maxExtract, true) / NCConfig.generator_rf_per_eu);
 	}
 	
 	@Override
+	@Optional.Method(modid = "ic2")
 	public double getDemandedEnergy() {
 		return Math.min(Math.pow(2, 2*getSinkTier() + 3), getStorage().givePower(getStorage().maxReceive, true) / NCConfig.processor_rf_per_eu);
 	}
 	
 	/** The normal conversion is 4 RF to 1 EU, but for RF generators, this is OP, so the ratio is instead 16:1 */
 	@Override
+	@Optional.Method(modid = "ic2")
 	public void drawEnergy(double amount) {
 		getStorage().takePower((long) (NCConfig.generator_rf_per_eu * amount), false);
 	}
 
 	@Override
+	@Optional.Method(modid = "ic2")
 	public double injectEnergy(EnumFacing directionFrom, double amount, double voltage) {
 		int energyReceived = getStorage().receiveEnergy((int) (NCConfig.processor_rf_per_eu * amount), true);
 		getStorage().givePower(energyReceived, false);
@@ -308,6 +315,7 @@ public abstract class TileDummy extends TileEnergyFluidSidedInventory {
 	}
 	
 	@Override
+	@Optional.Method(modid = "ic2")
 	public int getSourceTier() {
 		if (getMaster() != null) {
 			if (getMaster() instanceof IEnergySource) return ((IEnergySource) getMaster()).getSourceTier();
@@ -316,6 +324,7 @@ public abstract class TileDummy extends TileEnergyFluidSidedInventory {
 	}
 
 	@Override
+	@Optional.Method(modid = "ic2")
 	public int getSinkTier() {
 		if (getMaster() != null) {
 			if (getMaster() instanceof IEnergySink) return ((IEnergySink) getMaster()).getSinkTier();
@@ -472,8 +481,10 @@ public abstract class TileDummy extends TileEnergyFluidSidedInventory {
 			if (adjStorage != null && storage.canExtract()) {
 				getStorage().extractEnergy(adjStorage.receiveEnergy(getStorage().extractEnergy(getStorage().getMaxEnergyStored(), true), false), false);
 			}
-			else if (tile instanceof IEnergySink /*&& tile != thisTile*/) {
-				getStorage().extractEnergy((int) Math.round(((IEnergySink) tile).injectEnergy(side.getOpposite(), getStorage().extractEnergy(getStorage().getMaxEnergyStored(), true) / NCConfig.generator_rf_per_eu, getSourceTier())), false);
+			else if (ModCheck.ic2Loaded()) {
+				if (tile instanceof IEnergySink) {
+					getStorage().extractEnergy((int) Math.round(((IEnergySink) tile).injectEnergy(side.getOpposite(), getStorage().extractEnergy(getStorage().getMaxEnergyStored(), true) / NCConfig.generator_rf_per_eu, getSourceTier())), false);
+				}
 			}
 		}
 	}

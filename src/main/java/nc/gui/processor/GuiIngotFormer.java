@@ -49,7 +49,7 @@ public class GuiIngotFormer extends GuiItemFluidProcessor {
 		int k = getCookProgressScaled(37);
 		drawTexturedModalRect(guiLeft + 74, guiTop + 35, 176, 3, k, 16);
 		
-		if (tick == 0) PacketHandler.INSTANCE.sendToServer(new PacketGetFluidInTank(tile.getPos(), 0, "nc.gui.processor.GuiIngotFormer", "fluid0"));
+		if (tick == 0) PacketHandler.instance.sendToServer(new PacketGetFluidInTank(tile.getPos(), 0, "nc.gui.processor.GuiIngotFormer", "fluid0"));
 		
 		GuiFluidRenderer.renderGuiTank(fluid0, tile.tanks[0].getCapacity(), guiLeft + 56, guiTop + 35, zLevel, 16, 16);
 	}
@@ -64,7 +64,7 @@ public class GuiIngotFormer extends GuiItemFluidProcessor {
 	protected void actionPerformed(GuiButton guiButton) {
 		if (tile.getWorld().isRemote) {
 			for (int i = 0; i < 1; i++) if (guiButton.id == i && isShiftKeyDown()) {
-				PacketHandler.INSTANCE.sendToServer(new PacketEmptyTankButton(tile, i));
+				PacketHandler.instance.sendToServer(new PacketEmptyTankButton(tile, i));
 			}
 		}
 	}

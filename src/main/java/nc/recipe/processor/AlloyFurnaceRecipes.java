@@ -42,13 +42,17 @@ public class AlloyFurnaceRecipes extends BaseRecipeHandler {
 		addAlloyIngotIngotRecipes("Copper", 1, "Nickel", 1, "Constantan", 2, 1);
 		
 		// EnderIO
-		addRecipe(Lists.newArrayList("ingotSteel", "itemSilicon"), "ingotElectricalSteel", NCConfig.processor_time[4]*2);
-		addRecipe(Lists.newArrayList("ingotEnergeticAlloy", "dustEnergeticAlloy"), Lists.newArrayList(Items.ENDER_PEARL, "dustEnder"), "ingotPhasedGold", NCConfig.processor_time[4]*4);
+		addRecipe(Lists.newArrayList("ingotSteel", "dustSteel"), "itemSilicon", "ingotElectricalSteel", NCConfig.processor_time[4]*2);
+		addRecipe(Lists.newArrayList("ingotGold", "dustGold"), "dustEnergetic", "ingotEnergeticAlloy", NCConfig.processor_time[4]*2);
+		addRecipe(Lists.newArrayList("ingotEnergeticAlloy", "dustEnergeticAlloy"), Lists.newArrayList(Items.ENDER_PEARL, "dustEnder"), "ingotVibrantAlloy", NCConfig.processor_time[4]*2);
 		addRecipe("itemSilicon", "dustRedstone", "ingotRedstoneAlloy", NCConfig.processor_time[4]);
 		addRecipe(Lists.newArrayList("ingotIron", "dustIron"), "dustRedstone", "ingotConductiveIron", NCConfig.processor_time[4]);
-		addRecipe(Lists.newArrayList("ingotIron", "dustIron"), Lists.newArrayList(Items.ENDER_PEARL, "dustEnder"), "ingotPhasedIron", NCConfig.processor_time[4]*2);
-		addRecipe(Lists.newArrayList("ingotSteel", "dustSteel"), "dustObsidian", "ingotDarkSteel", NCConfig.processor_time[4]*4);
+		addRecipe(Lists.newArrayList("ingotIron", "dustIron"), Lists.newArrayList(Items.ENDER_PEARL, "dustEnder"), "ingotPulsatingIron", NCConfig.processor_time[4]*2);
+		addRecipe(Lists.newArrayList("ingotSteel", "dustSteel"), "obsidian", "ingotDarkSteel", NCConfig.processor_time[4]*2);
 		addRecipe(Lists.newArrayList("ingotGold", "dustGold"), Blocks.SOUL_SAND, "ingotSoularium", NCConfig.processor_time[4]*2);
+		
+		addRecipe(Lists.newArrayList("gemDiamond", "dustDiamond"), oreStack("nuggetPulsatingIron", 8), "itemPulsatingCrystal", NCConfig.processor_time[4]);
+		addRecipe(Lists.newArrayList("gemEmerald", "dustEmerald"), oreStack("nuggetVibrantAlloy", 8), "itemVibrantCrystal", NCConfig.processor_time[4]);
 		
 		// Flaxbeard's Steam Power Mod
 		addAlloyIngotIngotRecipes("Copper", 3, "Zinc", 1, "Brass", 4, 1);

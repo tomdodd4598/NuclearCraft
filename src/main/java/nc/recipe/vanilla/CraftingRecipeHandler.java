@@ -209,7 +209,8 @@ public class CraftingRecipeHandler {
 		
 		tinyClumpRecipes("Boron", NCItems.boron, 10, 11);
 		tinyClumpRecipes("Lithium", NCItems.lithium, 6, 7);
-		addShapelessOreRecipe(new ItemStack(NCItems.compound, 4, 1), new Object[] {"dustRhodochrosite", "dustCalciumSulfate", "dustObsidian", "dustMagnesium"});
+		addShapelessOreRecipe(new ItemStack(NCItems.compound, 2, 1), new Object[] {"dustRhodochrosite", "dustCalciumSulfate", "dustObsidian", "dustMagnesium"});
+		addShapelessOreRecipe(new ItemStack(NCItems.compound, 1, 2), new Object[] {"dustRedstone", "dustGlowstone"});
 		
 		addShapedOreRecipe(NCItems.portable_ender_chest, new Object[] {" S ", "WCW", "LWL", 'C', "chestEnder", 'W', new ItemStack(Blocks.WOOL, 1, 10), 'S', "string", 'L', "ingotTough"});
 		addShapedOreRecipe(NCItems.portable_ender_chest, new Object[] {" S ", "WCW", "LWL", 'C', "chestEnder", 'W', new ItemStack(Blocks.WOOL, 1, 15), 'S', "string", 'L', "ingotTough"});

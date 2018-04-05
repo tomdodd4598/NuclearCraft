@@ -30,6 +30,7 @@ public class ManufactoryRecipes extends BaseRecipeHandler {
 		addRecipe("cobblestone", Blocks.SAND, NCConfig.processor_time[0]);
 		addRecipe(new ItemStack(Items.ROTTEN_FLESH, 4), Items.LEATHER, NCConfig.processor_time[0]/2);
 		addRecipe(new ItemStack(Items.REEDS, 2), "bioplastic", NCConfig.processor_time[0]/2);
+		addRecipe("cropWheat", "dustWheat", NCConfig.processor_time[0]/4);
 		
 		// Immersive Engineering
 		addRecipe(oreStack("dustCoke", 8), "dustHOPGraphite", NCConfig.processor_time[0]*4);

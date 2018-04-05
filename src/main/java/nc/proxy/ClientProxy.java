@@ -6,7 +6,6 @@ import java.util.List;
 import nc.Global;
 import nc.block.fluid.BlockFluidBase;
 import nc.config.NCConfig;
-import nc.fluid.FluidBase;
 import nc.init.NCArmor;
 import nc.init.NCBlocks;
 import nc.init.NCCoolantFluids;
@@ -32,6 +31,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.client.model.obj.OBJLoader;
+import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -106,13 +106,13 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public void initFluidColors() {
 		super.initFluidColors();
-		List<FluidBase> fluidList = new ArrayList<FluidBase>();
+		List<Fluid> fluidList = new ArrayList<Fluid>();
 		fluidList.addAll(NCCoolantFluids.fluidList);
 		fluidList.addAll(NCFissionFluids.fluidList);
 		initFluidColors(fluidList);
 	}
 	
-	private <T extends FluidBase> void initFluidColors(List<T> fluidList) {
+	private <T extends Fluid> void initFluidColors(List<T> fluidList) {
 		if(FMLCommonHandler.instance().getEffectiveSide().isClient()) {
 			BlockColors blockcolors = Minecraft.getMinecraft().getBlockColors();
 			ItemColors itemcolors = Minecraft.getMinecraft().getItemColors();

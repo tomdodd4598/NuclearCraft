@@ -2,8 +2,8 @@ package nc.tile.fluid;
 
 import nc.config.NCConfig;
 import nc.tile.NCTile;
-import nc.tile.fluid.tank.EnumTank.FluidConnection;
-import nc.tile.fluid.tank.Tank;
+import nc.tile.internal.Tank;
+import nc.tile.internal.EnumTank.FluidConnection;
 import nc.tile.passive.ITilePassive;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;

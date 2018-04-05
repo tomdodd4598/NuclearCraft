@@ -1,6 +1,6 @@
 package nc.tile.energy;
 
-import nc.tile.energy.storage.EnergyStorage;
+import nc.tile.internal.EnergyStorage;
 
 public interface IBattery {
 	public EnergyStorage getBatteryStorage();

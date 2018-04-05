@@ -102,6 +102,7 @@ public class OreDictHandler {
 		
 		OreDictionary.registerOre("dustCalciumSulfate", new ItemStack(NCItems.compound, 1, 0));
 		OreDictionary.registerOre("dustCrystalBinder", new ItemStack(NCItems.compound, 1, 1));
+		OreDictionary.registerOre("dustEnergetic", new ItemStack(NCItems.compound, 1, 2));
 		
 		OreDictionary.registerOre("plateBasic", new ItemStack(NCItems.part, 1, 0));
 		OreDictionary.registerOre("plateAdvanced", new ItemStack(NCItems.part, 1, 1));

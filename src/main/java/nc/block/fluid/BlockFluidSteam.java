@@ -11,6 +11,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.Fluid;
 
 public class BlockFluidSteam extends BlockFluid {
 	
@@ -18,6 +19,11 @@ public class BlockFluidSteam extends BlockFluid {
 	
 	public static DamageSource steam_burn = (new DamageSource("steam_burn")).setDamageBypassesArmor();
 
+	public BlockFluidSteam(Fluid fluid) {
+		super(fluid, GAS);
+		setQuantaPerBlock(16);
+	}
+	
 	public BlockFluidSteam(FluidSteam fluid) {
 		super(fluid, GAS);
 		setQuantaPerBlock(16);

@@ -26,6 +26,6 @@ public class FluidCoolant extends FluidBase {
 	}
 	
 	public static int getNAKColor(Integer colour) {
-		return ColorHelper.blend(colour.intValue(), NAK_COLOR, 0.4F);
+		return ColorHelper.blend(colour.intValue(), NAK_COLOR, 0.55F);
 	}
 }

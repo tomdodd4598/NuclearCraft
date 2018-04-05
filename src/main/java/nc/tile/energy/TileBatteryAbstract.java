@@ -1,8 +1,8 @@
 package nc.tile.energy;
 
 import nc.tile.dummy.IInterfaceable;
-import nc.tile.energy.storage.EnergyStorage;
-import nc.tile.energy.storage.EnumEnergyStorage.EnergyConnection;
+import nc.tile.internal.EnergyStorage;
+import nc.tile.internal.EnumEnergyStorage.EnergyConnection;
 
 public abstract class TileBatteryAbstract extends TileEnergy implements IBattery, IInterfaceable, IEnergySpread {
 	

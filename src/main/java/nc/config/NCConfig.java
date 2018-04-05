@@ -24,6 +24,7 @@ public class NCConfig {
 	public static final String CATEGORY_GENERATORS = "generators";
 	public static final String CATEGORY_FISSION = "fission";
 	public static final String CATEGORY_FUSION = "fusion";
+	public static final String CATEGORY_SALT_FISSION = "salt_fission";
 	public static final String CATEGORY_ACCELERATOR = "accelerator";
 	public static final String CATEGORY_ENERGY_STORAGE = "energy_storage";
 	public static final String CATEGORY_TOOLS = "tools";
@@ -130,6 +131,17 @@ public class NCConfig {
 	public static double[] fusion_power;
 	public static double[] fusion_heat_variable;
 	
+	public static double salt_fission_power; // Default: 1
+	public static double salt_fission_fuel_use; // Default: 1
+	public static double salt_fission_heat_generation; // Default: 1
+	public static boolean salt_fission_overheat;
+	public static int salt_fission_update_rate;
+	public static int salt_fission_min_size; // Default: 1
+	public static int salt_fission_max_size; // Default: 24
+	public static double[] salt_fission_cooling_rate;
+	public static int salt_fission_cooling_max_rate;
+	public static int salt_fission_redstone_max_heat;
+	
 	public static int accelerator_electromagnet_power;
 	public static int accelerator_supercooler_coolant;
 	public static int accelerator_update_rate;
@@ -152,10 +164,14 @@ public class NCConfig {
 	
 	public static boolean rare_drops;
 	public static boolean dungeon_loot;
+	
+	public static int wasteland_dimension;
+	
 	public static int mushroom_spread_rate;
 	public static boolean mushroom_gen;
 	public static int mushroom_gen_size;
 	public static int mushroom_gen_rate;
+	
 	public static boolean register_fission_fluid_blocks;
 	public static boolean register_cofh_fluids;
 	
@@ -194,9 +210,9 @@ public class NCConfig {
 		propertyOreDimsListType.setLanguageKey("gui.config.ores.ore_dims_list_type");
 		Property propertyOreGen = config.get(CATEGORY_ORES, "ore_gen", new boolean[] {true, true, true, true, true, true, true, true}, Lang.localise("gui.config.ores.ore_gen.comment"));
 		propertyOreGen.setLanguageKey("gui.config.ores.ore_gen");
-		Property propertyOreSize = config.get(CATEGORY_ORES, "ore_size", new int[] {6, 6, 6, 8, 8, 7, 7, 7}, Lang.localise("gui.config.ores.ore_size.comment"), 1, Integer.MAX_VALUE);
+		Property propertyOreSize = config.get(CATEGORY_ORES, "ore_size", new int[] {6, 6, 6, 4, 4, 5, 5, 5}, Lang.localise("gui.config.ores.ore_size.comment"), 1, Integer.MAX_VALUE);
 		propertyOreSize.setLanguageKey("gui.config.ores.ore_size");
-		Property propertyOreRate = config.get(CATEGORY_ORES, "ore_rate", new int[] {7, 7, 8, 6, 6, 8, 6, 5}, Lang.localise("gui.config.ores.ore_rate.comment"), 1, Integer.MAX_VALUE);
+		Property propertyOreRate = config.get(CATEGORY_ORES, "ore_rate", new int[] {5, 4, 6, 4, 4, 6, 6, 4}, Lang.localise("gui.config.ores.ore_rate.comment"), 1, Integer.MAX_VALUE);
 		propertyOreRate.setLanguageKey("gui.config.ores.ore_rate");
 		Property propertyOreMinHeight = config.get(CATEGORY_ORES, "ore_min_height", new int[] {0, 0, 0, 0, 0, 0, 0, 0}, Lang.localise("gui.config.ores.ore_min_height.comment"), 1, 255);
 		propertyOreMinHeight.setLanguageKey("gui.config.ores.ore_min_height");
@@ -225,8 +241,6 @@ public class NCConfig {
 		propertyCobbleGenPower.setLanguageKey("gui.config.processors.cobble_gen_power");
 		Property propertyOreProcessing = config.get(CATEGORY_PROCESSORS, "ore_processing", true, Lang.localise("gui.config.processors.ore_processing.comment"));
 		propertyOreProcessing.setLanguageKey("gui.config.processors.ore_processing");
-		//Property propertyUpdateBlockType = config.get(CATEGORY_PROCESSORS, "update_block_type", true, Lang.localise("gui.config.processors.update_block_type.comment"));
-		//propertyUpdateBlockType.setLanguageKey("gui.config.processors.update_block_type");
 		Property propertySmartProcessorInput = config.get(CATEGORY_PROCESSORS, "smart_processor_input", true, Lang.localise("gui.config.processors.smart_processor_input.comment"));
 		propertySmartProcessorInput.setLanguageKey("gui.config.processors.smart_processor_input");
 		Property propertyPermeation = config.get(CATEGORY_PROCESSORS, "passive_permeation", false, Lang.localise("gui.config.processors.passive_permeation.comment"));
@@ -247,7 +261,7 @@ public class NCConfig {
 		
 		Property propertyFissionPower = config.get(CATEGORY_FISSION, "fission_power", 1D, Lang.localise("gui.config.fission.fission_power.comment"), 0D, 255D);
 		propertyFissionPower.setLanguageKey("gui.config.fission.fission_power");
-		Property propertyFissionFuelUse = config.get(CATEGORY_FISSION, "fission_fuel_use", 1D, Lang.localise("gui.config.fission.fission_fuel_use.comment"), 0D, 255D);
+		Property propertyFissionFuelUse = config.get(CATEGORY_FISSION, "fission_fuel_use", 1D, Lang.localise("gui.config.fission.fission_fuel_use.comment"), 0.001D, 255D);
 		propertyFissionFuelUse.setLanguageKey("gui.config.fission.fission_fuel_use");
 		Property propertyFissionHeatGeneration = config.get(CATEGORY_FISSION, "fission_heat_generation", 1D, Lang.localise("gui.config.fission.fission_heat_generation.comment"), 0D, 255D);
 		propertyFissionHeatGeneration.setLanguageKey("gui.config.fission.fission_heat_generation");
@@ -373,6 +387,27 @@ public class NCConfig {
 		Property propertyFusionHeatVariable = config.get(CATEGORY_FUSION, "fusion_heat_variable", new double[] {2140D, 1380D, 4700D, 4820D, 5660, 4550D, 4640D, 4780D, 670D, 2370D, 5955D, 5335D, 7345D, 3875D, 5070D, 7810D, 7510D, 8060D, 6800D, 8060D, 8800D, 12500D, 8500D, 9200D, 13000D, 12000D, 11000D, 14000D}, Lang.localise("gui.config.fusion.fusion_heat_variable.comment"), 500D, 20000D);
 		propertyFusionHeatVariable.setLanguageKey("gui.config.fusion.fusion_heat_variable");
 		
+		Property propertySaltFissionPower = config.get(CATEGORY_SALT_FISSION, "salt_fission_power", 1D, Lang.localise("gui.config.salt_fission.salt_fission_power.comment"), 0D, 255D);
+		propertySaltFissionPower.setLanguageKey("gui.config.salt_fission.salt_fission_power");
+		Property propertySaltFissionFuelUse = config.get(CATEGORY_SALT_FISSION, "salt_fission_fuel_use", 1D, Lang.localise("gui.config.salt_fission.salt_fission_fuel_use.comment"), 0.001D, 255D);
+		propertySaltFissionFuelUse.setLanguageKey("gui.config.salt_fission.salt_fission_fuel_use");
+		Property propertySaltFissionHeatGeneration = config.get(CATEGORY_SALT_FISSION, "salt_fission_heat_generation", 1D, Lang.localise("gui.config.salt_fission.salt_fission_heat_generation.comment"), 0D, 255D);
+		propertySaltFissionHeatGeneration.setLanguageKey("gui.config.salt_fission.salt_fission_heat_generation");
+		Property propertySaltFissionOverheat = config.get(CATEGORY_SALT_FISSION, "salt_fission_overheat", true, Lang.localise("gui.config.salt_fission.salt_fission_overheat.comment"));
+		propertySaltFissionOverheat.setLanguageKey("gui.config.salt_fission.salt_fission_overheat");
+		Property propertySaltFissionUpdateRate = config.get(CATEGORY_SALT_FISSION, "salt_fission_update_rate", 1, Lang.localise("gui.config.salt_fission.salt_fission_update_rate.comment"), 1, 255);
+		propertySaltFissionUpdateRate.setLanguageKey("gui.config.salt_fission.salt_fission_update_rate");
+		Property propertySaltFissionMinSize = config.get(CATEGORY_SALT_FISSION, "salt_fission_min_size", 1, Lang.localise("gui.config.salt_fission.salt_fission_min_size.comment"), 1, 255);
+		propertySaltFissionMinSize.setLanguageKey("gui.config.salt_fission.salt_fission_min_size");
+		Property propertySaltFissionMaxSize = config.get(CATEGORY_SALT_FISSION, "salt_fission_max_size", 24, Lang.localise("gui.config.salt_fission.salt_fission_max_size.comment"), 1, 255);
+		propertyFissionMaxSize.setLanguageKey("gui.config.salt_fission.salt_fission_max_size");
+		Property propertySaltFissionCoolingRate = config.get(CATEGORY_SALT_FISSION, "salt_fission_cooling_rate", new double[] {3600D, 6400D, 6000D, 9600D, 8000D, 5600D, 14000D, 13200D, 10800D, 12800D, 4800D, 7200D, 5200D, 6000D, 7200D}, Lang.localise("gui.config.salt_fission.salt_fission_cooling_rate.comment"), 1D, 16777215D);
+		propertySaltFissionCoolingRate.setLanguageKey("gui.config.salt_fission.salt_fission_cooling_rate");
+		Property propertySaltFissionCoolingMaxRate = config.get(CATEGORY_SALT_FISSION, "salt_fission_cooling_max_rate", 16, Lang.localise("gui.config.salt_fission.salt_fission_cooling_max_rate.comment"), 1, 16000);
+		propertySaltFissionCoolingMaxRate.setLanguageKey("gui.config.salt_fission.salt_fission_cooling_max_rate");
+		Property propertySaltFissionRedstoneMaxHeat = config.get(CATEGORY_SALT_FISSION, "salt_fission_redstone_max_heat", 50, Lang.localise("gui.config.salt_fission.salt_fission_redstone_max_heat.comment"), 1, 100);
+		propertySaltFissionRedstoneMaxHeat.setLanguageKey("gui.config.salt_fission.salt_fission_redstone_max_heat");
+		
 		Property propertyAcceleratorElectromagnetPower = config.get(CATEGORY_ACCELERATOR, "accelerator_electromagnet_power", 20000, Lang.localise("gui.config.accelerator.accelerator_electromagnet_power.comment"), 0, Integer.MAX_VALUE);
 		propertyAcceleratorElectromagnetPower.setLanguageKey("gui.config.accelerator.accelerator_electromagnet_power");
 		Property propertyAcceleratorSupercoolerCoolant = config.get(CATEGORY_ACCELERATOR, "accelerator_supercooler_coolant", 5, Lang.localise("gui.config.accelerator.accelerator_supercooler_coolant.comment"), 0, 32767);
@@ -414,6 +449,9 @@ public class NCConfig {
 		Property propertyDungeonLoot = config.get(CATEGORY_OTHER, "dungeon_loot", true, Lang.localise("gui.config.other.dungeon_loot.comment"));
 		propertyDungeonLoot.setLanguageKey("gui.config.other.dungeon_loot");
 		
+		Property propertyWastelandDimension = config.get(CATEGORY_OTHER, "wasteland_dimension", 4598, Lang.localise("gui.config.other.wasteland_dimension.comment"), Integer.MIN_VALUE, Integer.MAX_VALUE);
+		propertyWastelandDimension.setLanguageKey("gui.config.other.wasteland_dimension");
+		
 		Property propertyMushroomSpreadRate = config.get(CATEGORY_OTHER, "mushroom_spread_rate", 16, Lang.localise("gui.config.other.mushroom_spread_rate.comment"), 0, 511);
 		propertyMushroomSpreadRate.setLanguageKey("gui.config.other.mushroom_spread_rate");
 		Property propertyMushroomGen = config.get(CATEGORY_OTHER, "mushroom_gen", true, Lang.localise("gui.config.other.mushroom_gen.comment"));
@@ -423,7 +461,7 @@ public class NCConfig {
 		Property propertyMushroomGenRate = config.get(CATEGORY_OTHER, "mushroom_gen_rate", 40, Lang.localise("gui.config.other.mushroom_gen_rate.comment"), 0, 511);
 		propertyMushroomGenRate.setLanguageKey("gui.config.other.mushroom_gen_rate");
 		
-		Property propertyRegisterFluidBlocks = config.get(CATEGORY_OTHER, "register_fluid_blocks", true, Lang.localise("gui.config.other.register_fluid_blocks.comment"));
+		Property propertyRegisterFluidBlocks = config.get(CATEGORY_OTHER, "register_fluid_blocks", false, Lang.localise("gui.config.other.register_fluid_blocks.comment"));
 		propertyRegisterFluidBlocks.setLanguageKey("gui.config.other.register_fluid_blocks");
 		Property propertyRegisterCoFHFluids = config.get(CATEGORY_OTHER, "register_cofh_fluids", false, Lang.localise("gui.config.other.register_cofh_fluids.comment"));
 		propertyRegisterCoFHFluids.setLanguageKey("gui.config.other.register_cofh_fluids");
@@ -520,10 +558,6 @@ public class NCConfig {
 		propertyOrderFission.add(propertyFissionCaliforniumHeatGeneration.getName());
 		config.setCategoryPropertyOrder(CATEGORY_FISSION, propertyOrderFission);
 		
-		List<String> propertyOrderEnergyStorage = new ArrayList<String>();
-		propertyOrderEnergyStorage.add(propertyBatteryCapacity.getName());
-		config.setCategoryPropertyOrder(CATEGORY_ENERGY_STORAGE, propertyOrderEnergyStorage);
-		
 		List<String> propertyOrderFusion = new ArrayList<String>();
 		propertyOrderFusion.add(propertyFusionBasePower.getName());
 		propertyOrderFusion.add(propertyFusionFuelUse.getName());
@@ -541,11 +575,28 @@ public class NCConfig {
 		propertyOrderFusion.add(propertyFusionHeatVariable.getName());
 		config.setCategoryPropertyOrder(CATEGORY_FUSION, propertyOrderFusion);
 		
+		List<String> propertyOrderSaltFission = new ArrayList<String>();
+		propertyOrderSaltFission.add(propertySaltFissionPower.getName());
+		propertyOrderSaltFission.add(propertySaltFissionFuelUse.getName());
+		propertyOrderSaltFission.add(propertySaltFissionHeatGeneration.getName());
+		propertyOrderSaltFission.add(propertySaltFissionOverheat.getName());
+		propertyOrderSaltFission.add(propertySaltFissionUpdateRate.getName());
+		propertyOrderSaltFission.add(propertySaltFissionMinSize.getName());
+		propertyOrderSaltFission.add(propertySaltFissionMaxSize.getName());
+		propertyOrderSaltFission.add(propertySaltFissionCoolingRate.getName());
+		propertyOrderSaltFission.add(propertySaltFissionCoolingMaxRate.getName());
+		propertyOrderSaltFission.add(propertySaltFissionRedstoneMaxHeat.getName());
+		config.setCategoryPropertyOrder(CATEGORY_SALT_FISSION, propertyOrderSaltFission);
+		
 		List<String> propertyOrderAccelerator = new ArrayList<String>();
 		propertyOrderAccelerator.add(propertyAcceleratorElectromagnetPower.getName());
 		propertyOrderAccelerator.add(propertyAcceleratorSupercoolerCoolant.getName());
 		propertyOrderAccelerator.add(propertyAcceleratorUpdateRate.getName());
 		config.setCategoryPropertyOrder(CATEGORY_ACCELERATOR, propertyOrderAccelerator);
+		
+		List<String> propertyOrderEnergyStorage = new ArrayList<String>();
+		propertyOrderEnergyStorage.add(propertyBatteryCapacity.getName());
+		config.setCategoryPropertyOrder(CATEGORY_ENERGY_STORAGE, propertyOrderEnergyStorage);
 		
 		List<String> propertyOrderTools = new ArrayList<String>();
 		propertyOrderTools.add(propertyToolMiningLevel.getName());
@@ -568,6 +619,7 @@ public class NCConfig {
 		List<String> propertyOrderOther = new ArrayList<String>();
 		propertyOrderOther.add(propertyRareDrops.getName());
 		propertyOrderOther.add(propertyDungeonLoot.getName());
+		propertyOrderOther.add(propertyWastelandDimension.getName());
 		propertyOrderOther.add(propertyMushroomSpreadRate.getName());
 		propertyOrderOther.add(propertyMushroomGen.getName());
 		propertyOrderOther.add(propertyMushroomGenSize.getName());
@@ -678,6 +730,17 @@ public class NCConfig {
 			fusion_power = readDoubleArrayFromConfig(propertyFusionPower);
 			fusion_heat_variable = readDoubleArrayFromConfig(propertyFusionHeatVariable);
 			
+			salt_fission_power = propertySaltFissionPower.getDouble();
+			salt_fission_fuel_use = propertySaltFissionFuelUse.getDouble();
+			salt_fission_heat_generation = propertySaltFissionHeatGeneration.getDouble();
+			salt_fission_overheat = propertySaltFissionOverheat.getBoolean();
+			salt_fission_update_rate = propertySaltFissionUpdateRate.getInt();
+			salt_fission_min_size = propertySaltFissionMinSize.getInt();
+			salt_fission_max_size = propertySaltFissionMaxSize.getInt();
+			salt_fission_cooling_rate = readDoubleArrayFromConfig(propertySaltFissionCoolingRate);
+			salt_fission_cooling_max_rate = propertySaltFissionCoolingMaxRate.getInt();
+			salt_fission_redstone_max_heat = propertySaltFissionRedstoneMaxHeat.getInt();
+			
 			accelerator_electromagnet_power = propertyAcceleratorElectromagnetPower.getInt();
 			accelerator_supercooler_coolant = propertyAcceleratorSupercoolerCoolant.getInt();
 			accelerator_update_rate = propertyAcceleratorUpdateRate.getInt();
@@ -700,6 +763,7 @@ public class NCConfig {
 			
 			rare_drops = propertyRareDrops.getBoolean();
 			dungeon_loot = propertyDungeonLoot.getBoolean();
+			wasteland_dimension = propertyWastelandDimension.getInt();
 			mushroom_spread_rate = propertyMushroomSpreadRate.getInt();
 			mushroom_gen = propertyMushroomGen.getBoolean();
 			mushroom_gen_size = propertyMushroomGenSize.getInt();
@@ -809,6 +873,17 @@ public class NCConfig {
 		propertyFusionPower.set(fusion_power);
 		propertyFusionHeatVariable.set(fusion_heat_variable);
 		
+		propertySaltFissionPower.set(salt_fission_power);
+		propertySaltFissionFuelUse.set(salt_fission_fuel_use);
+		propertySaltFissionHeatGeneration.set(salt_fission_heat_generation);
+		propertySaltFissionOverheat.set(salt_fission_overheat);
+		propertySaltFissionUpdateRate.set(salt_fission_update_rate);
+		propertySaltFissionMinSize.set(salt_fission_min_size);
+		propertySaltFissionMaxSize.set(salt_fission_max_size);
+		propertySaltFissionCoolingRate.set(salt_fission_cooling_rate);
+		propertySaltFissionCoolingMaxRate.set(salt_fission_cooling_max_rate);
+		propertySaltFissionRedstoneMaxHeat.set(salt_fission_redstone_max_heat);
+		
 		propertyAcceleratorElectromagnetPower.set(accelerator_electromagnet_power);
 		propertyAcceleratorSupercoolerCoolant.set(accelerator_supercooler_coolant);
 		propertyAcceleratorUpdateRate.set(accelerator_update_rate);
@@ -831,6 +906,7 @@ public class NCConfig {
 		
 		propertyRareDrops.set(rare_drops);
 		propertyDungeonLoot.set(dungeon_loot);
+		propertyWastelandDimension.set(wasteland_dimension);
 		propertyMushroomSpreadRate.set(mushroom_spread_rate);
 		propertyMushroomGen.set(mushroom_gen);
 		propertyMushroomGenSize.set(mushroom_gen_size);

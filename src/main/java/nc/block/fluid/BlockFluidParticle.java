@@ -13,10 +13,15 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.Fluid;
 
 public class BlockFluidParticle extends BlockFluid {
 	
 	private static final Material GAS = new MaterialLiquid(MapColor.AIR);
+	
+	public BlockFluidParticle(Fluid fluid) {
+		super(fluid, GAS);
+	}
 	
 	public BlockFluidParticle(FluidParticle fluid) {
 		super(fluid, GAS);

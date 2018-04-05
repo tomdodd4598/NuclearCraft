@@ -11,9 +11,9 @@ import nc.handler.SoundHandler;
 import nc.init.NCBlocks;
 import nc.recipe.NCRecipes;
 import nc.recipe.RecipeMethods;
-import nc.tile.energy.storage.EnumEnergyStorage.EnergyConnection;
 import nc.tile.fluid.TileActiveCooler;
-import nc.tile.fluid.tank.Tank;
+import nc.tile.internal.Tank;
+import nc.tile.internal.EnumEnergyStorage.EnergyConnection;
 import nc.util.BlockFinder;
 import nc.util.BlockPosHelper;
 import nc.util.Lang;
@@ -35,11 +35,13 @@ import net.minecraftforge.fluids.FluidRegistry;
 })*/
 public class TileFusionCore extends TileFluidGenerator /*implements SimpleComponent, ManagedPeripheral, IPeripheral*/ {
 	
+	private static final double ROOM_TEMP = 0.298D;
+	
 	public double rateMultiplier, processTime, processPower;
-	public double heat = 0.298D, efficiency, cooling, heatChange; // cooling and heatChange are in K, not kK
+	public double heat = ROOM_TEMP, efficiency, cooling, heatChange; // cooling and heatChange are in K, not kK
 	
 	public int soundCount, coolingTickCount;
-	public int size;
+	public int size = 1;
 	
 	public int complete;
 	public String problem = Lang.localise("gui.container.fusion_core.ring_incomplete");
@@ -369,15 +371,15 @@ public class TileFusionCore extends TileFluidGenerator /*implements SimpleCompon
 			setProcessPower(0);
 			setRateMultiplier(0);
 			
-			if (heat >= 0.3D) {
-				heat = heat-((heat/100000D)*Math.log10(1000*heat-298));
+			if (heat >= 1.005D*ROOM_TEMP) {
+				heat = heat-((heat/100000D)*Math.log10(1000*(heat-ROOM_TEMP)));
 			}
 		}
 		
-		if (heat + heatChange >= 0) {
+		if (heat + heatChange >= ROOM_TEMP) {
 			heat += heatChange;
 		} else {
-			heat = 0;
+			heat = ROOM_TEMP;
 		}
 	}
 	
@@ -392,11 +394,11 @@ public class TileFusionCore extends TileFluidGenerator /*implements SimpleCompon
 	
 	public void heating() {
 		if (!canProcess()) {
-			double r = 0.00005*storage.getEnergyStored();
+			double r = 0.0001D*storage.getEnergyStored()/((double) ringRadius());
 			storage.changeEnergyStored(-storage.getEnergyStored());
 			heat = heat + r*NCConfig.fusion_heat_generation;
 			setConnection(EnergyConnection.IN);
-			if (heat < 0.298D) heat = 0.298D;
+			if (heat < ROOM_TEMP) heat = ROOM_TEMP;
 		}
 		else setConnection(EnergyConnection.OUT);
 	}
@@ -422,14 +424,14 @@ public class TileFusionCore extends TileFluidGenerator /*implements SimpleCompon
 				Tank tank = ((TileActiveCooler) world.getTileEntity(pos)).getTanks()[0];
 				int fluidAmount = tank.getFluidAmount();
 				double currentHeat = heat;
-				if (currentHeat > 0.298D) {
+				if (currentHeat > ROOM_TEMP) {
 					double cool_mult = posList.contains(getOpposite(pos)) ? NCConfig.fusion_heat_generation : 0.25D*NCConfig.fusion_heat_generation;
 					for (int i = 1; i < CoolerType.values().length; i++) if (tank.getFluidName() == CoolerType.values()[i].getFluidName()) {
 						cooled += (NCConfig.fission_active_cooling_rate[i - 1]*fluidAmount*cool_mult*2D*NCConfig.fission_update_rate)/(size*5000D);
 						break;
 					}
 					currentHeat -= cooled;
-					if (currentHeat > 0.298D) ((TileActiveCooler) world.getTileEntity(pos)).getTanks()[0].drain(fluidAmount, true);
+					if (currentHeat > ROOM_TEMP) ((TileActiveCooler) world.getTileEntity(pos)).getTanks()[0].drain(fluidAmount, true);
 				}
 			}
 			cooling = 1000D*cooled/(2D*NCConfig.fission_update_rate);
@@ -438,7 +440,7 @@ public class TileFusionCore extends TileFluidGenerator /*implements SimpleCompon
 	
 	public void cooling() {
 		double coolingkK = cooling/1000;
-		if (heat - coolingkK < 0.298D) heat = 0.298D;
+		if (heat - coolingkK < ROOM_TEMP) heat = ROOM_TEMP;
 		else heat -= coolingkK;
 	}
 	

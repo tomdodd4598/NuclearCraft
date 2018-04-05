@@ -10,11 +10,16 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.Fluid;
 
 public class BlockFluidAcid extends BlockFluid {
 	
 	public static DamageSource acid_burn = new DamageSource("acid_burn");
 
+	public BlockFluidAcid(Fluid fluid) {
+		super(fluid, Material.WATER);
+	}
+	
 	public BlockFluidAcid(FluidAcid fluid) {
 		super(fluid, Material.WATER);
 	}

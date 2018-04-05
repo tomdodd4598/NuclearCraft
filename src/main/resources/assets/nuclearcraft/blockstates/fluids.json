@@ -259,6 +259,12 @@
 			"custom": {
 				"fluid": "nak"
 			}
+		},
+		"fluid_nak_hot": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "nak_hot"
+			}
 		}
 	}
 }

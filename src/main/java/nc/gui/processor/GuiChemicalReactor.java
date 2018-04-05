@@ -53,10 +53,10 @@ public class GuiChemicalReactor extends GuiFluidProcessor {
 		drawTexturedModalRect(guiLeft + 70, guiTop + 34, 176, 3, k, 18);
 		
 		if (tick == 0) {
-			PacketHandler.INSTANCE.sendToServer(new PacketGetFluidInTank(tile.getPos(), 0, "nc.gui.processor.GuiChemicalReactor", "fluid0"));
-			PacketHandler.INSTANCE.sendToServer(new PacketGetFluidInTank(tile.getPos(), 1, "nc.gui.processor.GuiChemicalReactor", "fluid1"));
-			PacketHandler.INSTANCE.sendToServer(new PacketGetFluidInTank(tile.getPos(), 2, "nc.gui.processor.GuiChemicalReactor", "fluid2"));
-			PacketHandler.INSTANCE.sendToServer(new PacketGetFluidInTank(tile.getPos(), 3, "nc.gui.processor.GuiChemicalReactor", "fluid3"));
+			PacketHandler.instance.sendToServer(new PacketGetFluidInTank(tile.getPos(), 0, "nc.gui.processor.GuiChemicalReactor", "fluid0"));
+			PacketHandler.instance.sendToServer(new PacketGetFluidInTank(tile.getPos(), 1, "nc.gui.processor.GuiChemicalReactor", "fluid1"));
+			PacketHandler.instance.sendToServer(new PacketGetFluidInTank(tile.getPos(), 2, "nc.gui.processor.GuiChemicalReactor", "fluid2"));
+			PacketHandler.instance.sendToServer(new PacketGetFluidInTank(tile.getPos(), 3, "nc.gui.processor.GuiChemicalReactor", "fluid3"));
 		}
 		
 		GuiFluidRenderer.renderGuiTank(fluid0, tile.tanks[0].getCapacity(), guiLeft + 32, guiTop + 35, zLevel, 16, 16);
@@ -78,7 +78,7 @@ public class GuiChemicalReactor extends GuiFluidProcessor {
 	protected void actionPerformed(GuiButton guiButton) {
 		if (tile.getWorld().isRemote) {
 			for (int i = 0; i < 4; i++) if (guiButton.id == i && isShiftKeyDown()) {
-				PacketHandler.INSTANCE.sendToServer(new PacketEmptyTankButton(tile, i));
+				PacketHandler.instance.sendToServer(new PacketEmptyTankButton(tile, i));
 			}
 		}
 	}

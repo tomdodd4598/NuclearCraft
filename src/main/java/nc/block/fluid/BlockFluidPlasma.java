@@ -18,6 +18,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.Fluid;
 
 public class BlockFluidPlasma extends BlockFluid {
 	
@@ -25,6 +26,11 @@ public class BlockFluidPlasma extends BlockFluid {
 	
 	public static DamageSource plasma_burn = (new DamageSource("plasma_burn")).setDamageBypassesArmor();
 
+	public BlockFluidPlasma(Fluid fluid) {
+		super(fluid, GAS);
+		setQuantaPerBlock(16);
+	}
+	
 	public BlockFluidPlasma(FluidPlasma fluid) {
 		super(fluid, GAS);
 		setQuantaPerBlock(16);

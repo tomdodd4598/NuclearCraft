@@ -1,6 +1,13 @@
 package nc.init;
 
 import nc.Global;
+import nc.multiblock.fission.moltensalt.tile.TileSaltFissionController;
+import nc.multiblock.fission.moltensalt.tile.TileSaltFissionFrame;
+import nc.multiblock.fission.moltensalt.tile.TileSaltFissionGlass;
+import nc.multiblock.fission.moltensalt.tile.TileSaltFissionHeater;
+import nc.multiblock.fission.moltensalt.tile.TileSaltFissionVent;
+import nc.multiblock.fission.moltensalt.tile.TileSaltFissionVessel;
+import nc.multiblock.fission.moltensalt.tile.TileSaltFissionWall;
 import nc.tile.dummy.TileFissionPort;
 import nc.tile.dummy.TileFusionDummy;
 import nc.tile.dummy.TileMachineInterface;
@@ -48,6 +55,14 @@ public class NCTiles {
 		GameRegistry.registerTileEntity(TileFusionCore.class, Global.MOD_ID + ":fusion_core");
 		GameRegistry.registerTileEntity(TileFusionDummy.Side.class, Global.MOD_ID + ":fusion_dummy_side");
 		GameRegistry.registerTileEntity(TileFusionDummy.Top.class, Global.MOD_ID + ":fusion_dummy_top");
+		
+		GameRegistry.registerTileEntity(TileSaltFissionController.class, Global.MOD_ID + ":salt_fission_controller");
+		GameRegistry.registerTileEntity(TileSaltFissionWall.class, Global.MOD_ID + ":salt_fission_wall");
+		GameRegistry.registerTileEntity(TileSaltFissionGlass.class, Global.MOD_ID + ":salt_fission_glass");
+		GameRegistry.registerTileEntity(TileSaltFissionFrame.class, Global.MOD_ID + ":salt_fission_frame");
+		GameRegistry.registerTileEntity(TileSaltFissionVent.class, Global.MOD_ID + ":salt_fission_vent");
+		GameRegistry.registerTileEntity(TileSaltFissionVessel.class, Global.MOD_ID + ":salt_fission_vessel");
+		GameRegistry.registerTileEntity(TileSaltFissionHeater.class, Global.MOD_ID + ":salt_fission_heater");
 		
 		GameRegistry.registerTileEntity(TileRTG.Uranium.class, Global.MOD_ID + ":rtg_uranium");
 		GameRegistry.registerTileEntity(TileRTG.Plutonium.class, Global.MOD_ID + ":rtg_plutonium");

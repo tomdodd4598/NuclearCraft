@@ -7,12 +7,13 @@ import java.util.List;
 import org.apache.commons.lang3.tuple.Pair;
 
 import nc.NuclearCraft;
-import nc.block.fluid.BlockFluid;
 import nc.block.fluid.BlockFluidAcid;
+import nc.block.fluid.BlockFluidBase;
 import nc.block.fluid.BlockFluidCoolant;
 import nc.block.fluid.BlockFluidFission;
 import nc.block.fluid.BlockFluidFlammable;
 import nc.block.fluid.BlockFluidGas;
+import nc.block.fluid.BlockFluidHotCoolant;
 import nc.block.fluid.BlockFluidLiquid;
 import nc.block.fluid.BlockFluidMolten;
 import nc.block.fluid.BlockFluidParticle;
@@ -20,11 +21,11 @@ import nc.block.fluid.BlockFluidPlasma;
 import nc.block.fluid.BlockFluidSaltSolution;
 import nc.block.fluid.BlockSuperFluid;
 import nc.fluid.FluidAcid;
-import nc.fluid.FluidBase;
 import nc.fluid.FluidCoolant;
 import nc.fluid.FluidFission;
 import nc.fluid.FluidFlammable;
 import nc.fluid.FluidGas;
+import nc.fluid.FluidHotCoolant;
 import nc.fluid.FluidLiquid;
 import nc.fluid.FluidMolten;
 import nc.fluid.FluidParticle;
@@ -33,12 +34,13 @@ import nc.fluid.FluidSaltSolution;
 import nc.fluid.SuperFluid;
 import nc.util.NCUtil;
 import net.minecraft.item.ItemBlock;
+import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 public class NCFluids {
 	
-public static List<Pair<FluidBase, BlockFluid>> fluidPairList = new ArrayList<Pair<FluidBase, BlockFluid>>();
+public static List<Pair<Fluid, BlockFluidBase>> fluidPairList = new ArrayList<Pair<Fluid, BlockFluidBase>>();
 	
 	static {
 		try {
@@ -97,35 +99,37 @@ public static List<Pair<FluidBase, BlockFluid>> fluidPairList = new ArrayList<Pa
 			
 			fluidPairList.add(fluidPair("sodium", 0xFFFFA3, FluidMolten.class, BlockFluidMolten.class));
 			fluidPairList.add(fluidPair("potassium", 0xFFA3A3, FluidMolten.class, BlockFluidMolten.class));
-			fluidPairList.add(fluidPair("nak", 0xFFE5BC, FluidMolten.class, BlockFluidMolten.class));
+			fluidPairList.add(fluidPair("nak", 0xFFE5BC, FluidCoolant.class, BlockFluidCoolant.class));
+			fluidPairList.add(fluidPair("nak_hot", 0xFFD5AC, FluidHotCoolant.class, BlockFluidHotCoolant.class));
 		} catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 			e.printStackTrace();
 		}
 	}
 	
 	public static void register() {
-		for (Pair<FluidBase, BlockFluid> fluidPair : fluidPairList) {
-			String fluidName = fluidPair.getLeft().getFluidName();
-			FluidRegistry.addBucketForFluid(fluidPair.getLeft());
+		for (Pair<Fluid, BlockFluidBase> fluidPair : fluidPairList) {
+			Fluid fluid = fluidPair.getLeft();
+			
+			boolean defaultFluid = FluidRegistry.registerFluid(fluid);
+			if (!defaultFluid) fluid = FluidRegistry.getFluid(fluid.getName());
+			FluidRegistry.addBucketForFluid(fluid);
+			
 			registerBlock(fluidPair.getRight());
 		}
 	}
 	
-	public static void registerBlock(BlockFluid block) {
-		//block.setRegistryName(name);
+	public static void registerBlock(BlockFluidBase block) {
 		ForgeRegistries.BLOCKS.register(block);
 		ForgeRegistries.ITEMS.register(new ItemBlock(block).setRegistryName(block.getRegistryName()));
 		NuclearCraft.proxy.registerFluidBlockRendering(block, block.getName());
 	}
 	
-	public static Pair<FluidBase, BlockFluid> fluidPair(FluidBase fluid, BlockFluid block) {
-		FluidRegistry.addBucketForFluid(fluid);
+	public static Pair<Fluid, BlockFluidBase> fluidPair(Fluid fluid, BlockFluidBase block) {
 		return Pair.of(fluid, block);
 	}
 	
-	public static <T extends FluidBase, V extends BlockFluid> Pair<FluidBase, BlockFluid> fluidPair(String name, int color, Class<T> fluidClass, Class<V> blockClass) throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	public static <T extends Fluid, V extends BlockFluidBase> Pair<Fluid, BlockFluidBase> fluidPair(String name, int color, Class<T> fluidClass, Class<V> blockClass) throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		T fluid = NCUtil.newInstance(fluidClass, name, color);
-		FluidRegistry.addBucketForFluid(fluid);
 		V block = NCUtil.newInstance(blockClass, fluid);
 		return Pair.of(fluid, block);
 	}

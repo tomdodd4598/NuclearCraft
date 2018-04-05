@@ -11,15 +11,18 @@ buildscript {
 	}
 }
 
+apply plugin: 'net.minecraftforge.gradle.forge'
+
 repositories {
 	maven {
+		// Tesla
 		name = "mcmoddev"
-		url = "http://maven.mcmoddev.com"
+		url = "http://maven.mcmoddev.com/"
 	}
 	maven {
 		// JEI
 		name = "progwml6"
-		url 'http://dvs1.progwml6.com/files/maven'
+		url 'http://dvs1.progwml6.com/files/maven/'
 	}
 	maven {
 		// CraftTweaker
@@ -31,9 +34,17 @@ repositories {
 		name = "cil"
 		url 'http://maven.cil.li/'
 	}
+	maven {
+		// ComputerCraft
+		name = "computercraft"
+		url 'http://cc.crzd.me/maven/'
+	}
+	maven {
+		// IC2
+		name = "ic2"
+		url 'http://maven.ic2.player.to/'
+	}
 }
-
-apply plugin: 'net.minecraftforge.gradle.forge'
 
 version = "${mod_version}--${mc_version}"
 group = "nc"
@@ -51,13 +62,14 @@ minecraft {
 }
 
 dependencies {
-	compileOnly "net.darkhax.tesla:Tesla-${mc_version}:${tesla_version}.+"
+	deobfCompile "net.darkhax.tesla:Tesla-${mc_version}:${tesla_version}.+"
 	// compile against the JEI API but do not include it at runtime
     deobfProvided "mezz.jei:jei_${mc_version}:${jei_version}.+:api"
     // at runtime, use the full JEI jar
     runtime "mezz.jei:jei_${mc_version}:${jei_version}.+"
-	compileOnly "CraftTweaker2:ZenScript:${crafttweaker_version}.+"
-	compileOnly "CraftTweaker2:CraftTweaker2-API:${crafttweaker_version}.+"
+	deobfCompile "net.industrial-craft:industrialcraft-2:${ic2_version}:api"
+	deobfCompile "CraftTweaker2:ZenScript:${crafttweaker_version}.+"
+	deobfCompile "CraftTweaker2:CraftTweaker2-API:${crafttweaker_version}.+"
 }
 
 processResources {

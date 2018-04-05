@@ -6,8 +6,13 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.Fluid;
 
 public class BlockFluidCryotheum extends BlockFluid {
+	
+	public BlockFluidCryotheum(Fluid fluid) {
+		super(fluid, Material.LAVA);
+	}
 	
 	public BlockFluidCryotheum(FluidCryotheum fluid) {
 		super(fluid, Material.LAVA);

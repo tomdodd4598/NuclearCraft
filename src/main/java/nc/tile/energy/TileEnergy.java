@@ -9,8 +9,8 @@ import ic2.api.energy.tile.IEnergyTile;
 import nc.ModCheck;
 import nc.config.NCConfig;
 import nc.tile.NCTile;
-import nc.tile.energy.storage.EnergyStorage;
-import nc.tile.energy.storage.EnumEnergyStorage.EnergyConnection;
+import nc.tile.internal.EnergyStorage;
+import nc.tile.internal.EnumEnergyStorage.EnergyConnection;
 import nc.tile.passive.ITilePassive;
 import net.darkhax.tesla.capability.TeslaCapabilities;
 import net.minecraft.nbt.NBTTagCompound;
@@ -19,7 +19,9 @@ import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
+import net.minecraftforge.fml.common.Optional;
 
+@Optional.InterfaceList({ @Optional.Interface(iface = "ic2.api.energy.tile.IEnergyTile", modid = "ic2"), @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "ic2"), @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySource", modid = "ic2") })
 public abstract class TileEnergy extends NCTile implements ITileEnergy, IEnergyStorage, IEnergyTile, IEnergySink, IEnergySource {
 
 	public EnergyConnection energyConnection;
@@ -49,7 +51,7 @@ public abstract class TileEnergy extends NCTile implements ITileEnergy, IEnergyS
 	@Override
 	public void onAdded() {
 		super.onAdded();
-		addTileToENet();
+		if (ModCheck.ic2Loaded()) addTileToENet();
 	}
 	
 	@Override
@@ -60,13 +62,13 @@ public abstract class TileEnergy extends NCTile implements ITileEnergy, IEnergyS
 	@Override
 	public void invalidate() {
 		super.invalidate();
-		removeTileFromENet();
+		if (ModCheck.ic2Loaded()) removeTileFromENet();
 	}
 	
 	@Override
 	public void onChunkUnload() {
 		super.onChunkUnload();
-		removeTileFromENet();
+		if (ModCheck.ic2Loaded()) removeTileFromENet();
 	}
 	
 	@Override
@@ -114,32 +116,38 @@ public abstract class TileEnergy extends NCTile implements ITileEnergy, IEnergyS
 	// IC2 Energy
 
 	@Override
+	@Optional.Method(modid = "ic2")
 	public boolean acceptsEnergyFrom(IEnergyEmitter emitter, EnumFacing side) {
 		return energyConnection.canReceive();
 	}
 
 	@Override
+	@Optional.Method(modid = "ic2")
 	public boolean emitsEnergyTo(IEnergyAcceptor receiver, EnumFacing side) {
 		return energyConnection.canExtract();
 	}
 
 	@Override
+	@Optional.Method(modid = "ic2")
 	public double getOfferedEnergy() {
 		return Math.min(Math.pow(2, 2*getSourceTier() + 3), (double)storage.takePower(storage.maxExtract, true) / (double)NCConfig.generator_rf_per_eu);
 	}
 	
 	@Override
+	@Optional.Method(modid = "ic2")
 	public double getDemandedEnergy() {
 		return Math.min(Math.pow(2, 2*getSinkTier() + 3), (double)storage.givePower(storage.maxReceive, true) / (double)NCConfig.processor_rf_per_eu);
 	}
 	
 	/** The normal conversion is 4 RF to 1 EU, but for RF generators, this is OP, so the ratio is instead 16:1 */
 	@Override
+	@Optional.Method(modid = "ic2")
 	public void drawEnergy(double amount) {
 		storage.takePower((long) (NCConfig.generator_rf_per_eu * amount), false);
 	}
 
 	@Override
+	@Optional.Method(modid = "ic2")
 	public double injectEnergy(EnumFacing directionFrom, double amount, double voltage) {
 		int energyReceived = storage.receiveEnergy((int) ((double)NCConfig.processor_rf_per_eu * amount), true);
 		storage.givePower(energyReceived, false);
@@ -147,11 +155,14 @@ public abstract class TileEnergy extends NCTile implements ITileEnergy, IEnergyS
 	}
 	
 	@Override
+	@Optional.Method(modid = "ic2")
 	public abstract int getSourceTier();
 
 	@Override
+	@Optional.Method(modid = "ic2")
 	public abstract int getSinkTier();
 	
+	@Optional.Method(modid = "ic2")
 	public void addTileToENet() {
 		if (!world.isRemote && ModCheck.ic2Loaded() && !ic2reg) {
 			EnergyNet.instance.addTile(this);
@@ -159,6 +170,7 @@ public abstract class TileEnergy extends NCTile implements ITileEnergy, IEnergyS
 		}
 	}
 	
+	@Optional.Method(modid = "ic2")
 	public void removeTileFromENet() {
 		if (!world.isRemote && ModCheck.ic2Loaded() && ic2reg) {
 			EnergyNet.instance.removeTile(this);
@@ -197,8 +209,10 @@ public abstract class TileEnergy extends NCTile implements ITileEnergy, IEnergyS
 			if (adjStorage != null && storage.canExtract()) {
 				storage.extractEnergy(adjStorage.receiveEnergy(storage.extractEnergy(storage.getMaxEnergyStored(), true), false), false);
 			}
-			else if (tile instanceof IEnergySink) {
-				storage.extractEnergy((int) Math.round(((IEnergySink) tile).injectEnergy(side.getOpposite(), storage.extractEnergy(storage.getMaxEnergyStored(), true) / NCConfig.generator_rf_per_eu, getSourceTier())), false);
+			else if (ModCheck.ic2Loaded()) {
+				if (tile instanceof IEnergySink) {
+					storage.extractEnergy((int) Math.round(((IEnergySink) tile).injectEnergy(side.getOpposite(), storage.extractEnergy(storage.getMaxEnergyStored(), true) / NCConfig.generator_rf_per_eu, getSourceTier())), false);
+				}
 			}
 		}
 	}

@@ -153,3 +153,19 @@ mods.nuclearcraft.fusion.removeRecipeWithInput(fluidInput1, fluidInput2);
 mods.nuclearcraft.fusion.removeRecipeWithOutput(fluidOutput1, fluidOutput2, fluidOutput3, fluidOutput4);
 
 --------------------------------------------------------------------------------------
+Salt Fission:
+
+mods.nuclearcraft.salt_fission.addRecipe(itemInput, itemOutput, baseTime, basePowerGen);
+
+mods.nuclearcraft.salt_fission.removeRecipeWithInput(itemInput);
+mods.nuclearcraft.salt_fission.removeRecipeWithOutput(itemOutput);
+
+--------------------------------------------------------------------------------------
+Coolant Heater:
+
+mods.nuclearcraft.coolant_heater.addRecipe(itemInput, itemOutput);
+
+mods.nuclearcraft.coolant_heater.removeRecipeWithInput(itemInput);
+mods.nuclearcraft.coolant_heater.removeRecipeWithOutput(itemOutput);
+
+--------------------------------------------------------------------------------------

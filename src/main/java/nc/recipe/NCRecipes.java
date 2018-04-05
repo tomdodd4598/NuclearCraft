@@ -19,6 +19,8 @@ import nc.recipe.processor.MelterRecipes;
 import nc.recipe.processor.PressurizerRecipes;
 import nc.recipe.processor.SaltMixerRecipes;
 import nc.recipe.processor.SupercoolerRecipes;
+import nc.recipe.saltFission.CoolantHeaterRecipes;
+import nc.recipe.saltFission.SaltFissionRecipes;
 
 public class NCRecipes {
 	
@@ -43,6 +45,8 @@ public class NCRecipes {
 	private static ExtractorRecipes extractor;
 	private static FissionRecipes fission;
 	private static FusionRecipes fusion;
+	private static SaltFissionRecipes salt_fission;
+	private static CoolantHeaterRecipes coolant_heater;
 	
 	public static void init() {
 		if (initialized) return;
@@ -66,6 +70,8 @@ public class NCRecipes {
 		extractor = new ExtractorRecipes();
 		fission = new FissionRecipes();
 		fusion = new FusionRecipes();
+		salt_fission = new SaltFissionRecipes();
+		coolant_heater = new CoolantHeaterRecipes();
 		
 		initialized = true;
 	}
@@ -89,7 +95,9 @@ public class NCRecipes {
 		DISSOLVER,
 		EXTRACTOR,
 		FISSION,
-		FUSION;
+		FUSION,
+		SALT_FISSION,
+		COOLANT_HEATER;
 		
 		public BaseRecipeHandler getRecipeHandler() {
 			switch (this) {
@@ -131,6 +139,10 @@ public class NCRecipes {
 				return fission;
 			case FUSION:
 				return fusion;
+			case SALT_FISSION:
+				return salt_fission;
+			case COOLANT_HEATER:
+				return coolant_heater;
 			default:
 				return manufactory;
 			}

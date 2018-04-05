@@ -54,11 +54,11 @@ public class GuiElectrolyser extends GuiFluidProcessor {
 		drawTexturedModalRect(guiLeft + 68, guiTop + 30, 176, 3, k, 38);
 		
 		if (tick == 0) {
-			PacketHandler.INSTANCE.sendToServer(new PacketGetFluidInTank(tile.getPos(), 0, "nc.gui.processor.GuiElectrolyser", "fluid0"));
-			PacketHandler.INSTANCE.sendToServer(new PacketGetFluidInTank(tile.getPos(), 1, "nc.gui.processor.GuiElectrolyser", "fluid1"));
-			PacketHandler.INSTANCE.sendToServer(new PacketGetFluidInTank(tile.getPos(), 2, "nc.gui.processor.GuiElectrolyser", "fluid2"));
-			PacketHandler.INSTANCE.sendToServer(new PacketGetFluidInTank(tile.getPos(), 3, "nc.gui.processor.GuiElectrolyser", "fluid3"));
-			PacketHandler.INSTANCE.sendToServer(new PacketGetFluidInTank(tile.getPos(), 4, "nc.gui.processor.GuiElectrolyser", "fluid4"));
+			PacketHandler.instance.sendToServer(new PacketGetFluidInTank(tile.getPos(), 0, "nc.gui.processor.GuiElectrolyser", "fluid0"));
+			PacketHandler.instance.sendToServer(new PacketGetFluidInTank(tile.getPos(), 1, "nc.gui.processor.GuiElectrolyser", "fluid1"));
+			PacketHandler.instance.sendToServer(new PacketGetFluidInTank(tile.getPos(), 2, "nc.gui.processor.GuiElectrolyser", "fluid2"));
+			PacketHandler.instance.sendToServer(new PacketGetFluidInTank(tile.getPos(), 3, "nc.gui.processor.GuiElectrolyser", "fluid3"));
+			PacketHandler.instance.sendToServer(new PacketGetFluidInTank(tile.getPos(), 4, "nc.gui.processor.GuiElectrolyser", "fluid4"));
 		}
 		
 		GuiFluidRenderer.renderGuiTank(fluid0, tile.tanks[0].getCapacity(), guiLeft + 50, guiTop + 41, zLevel, 16, 16);
@@ -82,7 +82,7 @@ public class GuiElectrolyser extends GuiFluidProcessor {
 	protected void actionPerformed(GuiButton guiButton) {
 		if (tile.getWorld().isRemote) {
 			for (int i = 0; i < 5; i++) if (guiButton.id == i && isShiftKeyDown()) {
-				PacketHandler.INSTANCE.sendToServer(new PacketEmptyTankButton(tile, i));
+				PacketHandler.instance.sendToServer(new PacketEmptyTankButton(tile, i));
 			}
 		}
 	}

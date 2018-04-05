@@ -36,8 +36,6 @@ public class BlockTransparent extends NCBlock {
 		
 		if (blockState != iblockstate) return true;
 		
-		if (block == this) return false;
-		
 		return block == this ? false : super.shouldSideBeRendered(blockState, blockAccess, pos, side);
     }
 	

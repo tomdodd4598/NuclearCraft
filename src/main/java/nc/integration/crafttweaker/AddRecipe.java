@@ -11,7 +11,6 @@ import crafttweaker.api.liquid.ILiquidStack;
 import crafttweaker.api.oredict.IOreDictEntry;
 import nc.recipe.IIngredient;
 import nc.recipe.IRecipe;
-import nc.recipe.IRecipeStack;
 import nc.recipe.NCRecipes;
 import nc.recipe.RecipeMethods;
 import nc.recipe.RecipeOreStack;
@@ -20,6 +19,8 @@ import nc.util.StackHelper;
 import net.minecraft.item.ItemStack;
 
 public class AddRecipe implements IAction {
+	
+	public static boolean hasErrored = false;
 	
 	public ArrayList<IIngredient> inputs;
 	public ArrayList<IIngredient> outputs;
@@ -43,18 +44,21 @@ public class AddRecipe implements IAction {
 				return;
 			}
 			if (input instanceof IItemStack) {
-				adaptedInputs.add(recipeType.getRecipeHandler().buildRecipeObject(((IItemStack) input).getInternal()));
+				adaptedInputs.add(recipeType.getRecipeHandler().buildRecipeObject(CTMethods.getItemStack((IItemStack) input)));
 				continue;
 			} else if (input instanceof IOreDictEntry) {
 				adaptedInputs.add(new RecipeOreStack(((IOreDictEntry) input).getName(), StackType.ITEM, ((IOreDictEntry) input).getAmount()));
 				continue;
 			} else if (input instanceof IngredientStack) {
 				ArrayList<ItemStack> stackList = new ArrayList<ItemStack>();
-				((IngredientStack) input).getItems().forEach(ingredient -> stackList.add(StackHelper.changeStackSize((ItemStack) ((IItemStack) input).getInternal(), ((IngredientStack) input).getAmount())));
-				adaptedInputs.add(recipeType.getRecipeHandler().buildRecipeObject(stackList));
+				int stackSize = ((IngredientStack) input).getAmount();
+				((IngredientStack) input).getItems().forEach(ingredient -> stackList.add(StackHelper.changeStackSize(CTMethods.getItemStack(ingredient), stackSize)));
+				RecipeOreStack oreStack = RecipeMethods.getOreStackFromItems(stackList, stackSize);
+				if (oreStack != null) adaptedInputs.add(oreStack);
+				else adaptedInputs.add(recipeType.getRecipeHandler().buildRecipeObject(stackList));
 				continue;
 			} else if (input instanceof ILiquidStack) {
-				adaptedInputs.add(recipeType.getRecipeHandler().buildRecipeObject(((ILiquidStack) input).getInternal()));
+				adaptedInputs.add(recipeType.getRecipeHandler().buildRecipeObject(CTMethods.getLiquidStack((ILiquidStack) input)));
 				continue;
 			} else if (!(input instanceof ItemStack)) {
 				CraftTweakerAPI.logError(String.format("%s: Invalid ingredient: %s, %s", recipeType.getRecipeHandler().getRecipeName(), input.getClass().getName(), input));
@@ -71,22 +75,26 @@ public class AddRecipe implements IAction {
 				return;
 			}
 			if (output instanceof IItemStack) {
-				adaptedOutputs.add(recipeType.getRecipeHandler().buildRecipeObject(((IItemStack) output).getInternal()));
+				adaptedOutputs.add(recipeType.getRecipeHandler().buildRecipeObject(CTMethods.getItemStack((IItemStack) output)));
 				continue;
 			} else if (output instanceof IOreDictEntry) {
 				adaptedOutputs.add(new RecipeOreStack(((IOreDictEntry) output).getName(), StackType.ITEM, ((IOreDictEntry) output).getAmount()));
 				continue;
 			} else if (output instanceof IngredientStack) {
 				ArrayList<ItemStack> stackList = new ArrayList<ItemStack>();
-				((IngredientStack) output).getItems().forEach(ingredient -> stackList.add(StackHelper.changeStackSize((ItemStack) ((IItemStack) ingredient).getInternal(), ((IngredientStack) output).getAmount())));
-				adaptedOutputs.add(recipeType.getRecipeHandler().buildRecipeObject(stackList));
+				int stackSize = ((IngredientStack) output).getAmount();
+				((IngredientStack) output).getItems().forEach(ingredient -> stackList.add(StackHelper.changeStackSize(CTMethods.getItemStack(ingredient), stackSize)));
+				RecipeOreStack oreStack = RecipeMethods.getOreStackFromItems(stackList, stackSize);
+				if (oreStack != null) adaptedOutputs.add(oreStack);
+				else adaptedOutputs.add(recipeType.getRecipeHandler().buildRecipeObject(stackList));
 				continue;
 			} else if (output instanceof ILiquidStack) {
-				adaptedOutputs.add(recipeType.getRecipeHandler().buildRecipeObject(((ILiquidStack) output).getInternal()));
+				adaptedOutputs.add(recipeType.getRecipeHandler().buildRecipeObject(CTMethods.getLiquidStack((ILiquidStack) output)));
 				continue;
 			} else if (!(output instanceof ItemStack)) {
 				CraftTweakerAPI.logError(String.format("%s: Invalid ingredient: %s, %s", recipeType.getRecipeHandler().getRecipeName(), output.getClass().getName(), output));
-				continue;
+				wasNull = true;
+				return;
 			} else {
 				adaptedOutputs.add(recipeType.getRecipeHandler().buildRecipeObject(output));
 				continue;
@@ -101,15 +109,15 @@ public class AddRecipe implements IAction {
 	public void apply() {
 		if (!wasNull && !wrongSize) {
 			boolean isShapeless = recipeType.getRecipeHandler().shapeless;
-			IRecipe recipe = recipeType.getRecipeHandler().buildRecipe((ArrayList<IRecipeStack>) inputs.clone(), (ArrayList<IRecipeStack>) outputs.clone(), (ArrayList) extras.clone(), isShapeless);
-			recipeType.getRecipeHandler().addRecipe(recipe);	
-			//CraftTweakerAPI.getIjeiRecipeRegistry().addRecipe(JEIMethods.createJEIRecipe(recipe, helper));
+			IRecipe recipe = recipeType.getRecipeHandler().buildDefaultRecipe(inputs, outputs, extras, isShapeless);
+			recipeType.getRecipeHandler().addRecipe(recipe);
+			//CraftTweakerAPI.getIjeiRecipeRegistry().addRecipe(JEIMethods.createJEIRecipe(recipe, recipeType.getRecipeHandler()));
 		} else {
-			CraftTweakerAPI.logError(String.format("Failed to add %s recipe (%s -> %s)", recipeType.getRecipeHandler().getRecipeName(), RecipeMethods.getIngredientNames(inputs), RecipeMethods.getIngredientNames(outputs)));
+			callError();
+			//CraftTweakerAPI.logError(String.format("Failed to add %s recipe (%s -> %s)", recipeType.getRecipeHandler().getRecipeName(), RecipeMethods.getIngredientNames(inputs), RecipeMethods.getIngredientNames(outputs)));
 		}
 	}
 	
-	@SuppressWarnings("static-access")
 	public void undo() {
 		if (!wasNull && !wrongSize) {
 			List values = recipeType.getRecipeHandler().getValuesFromList(inputs);
@@ -121,19 +129,21 @@ public class AddRecipe implements IAction {
 			boolean removed = recipeType.getRecipeHandler().removeRecipe(recipe);			
 			if (!removed) {
 				CraftTweakerAPI.logError(String.format("%s: Adding Recipe - Failed to remove recipe %s", recipeType.getRecipeHandler().getRecipeName(), values));
-			}else{
-				//CraftTweakerAPI.getIjeiRecipeRegistry().removeRecipe(JEIMethods.createJEIRecipe(recipe, helper));
+			} else {
+				//CraftTweakerAPI.getIjeiRecipeRegistry().removeRecipe(JEIMethods.createJEIRecipe(recipe, recipeType.getRecipeHandler()));
 			}
 
 		} else {
-			CraftTweakerAPI.logError(String.format("Adding Recipe - Failed to remove %s recipe (%s = %s)", recipeType.getRecipeHandler().getRecipeName(), RecipeMethods.getIngredientNames(inputs), RecipeMethods.getIngredientNames(outputs)));
+			CraftTweakerAPI.logError(String.format("Adding Recipe - Failed to remove %s recipe (%s -> %s)", recipeType.getRecipeHandler().getRecipeName(), RecipeMethods.getIngredientNames(inputs), RecipeMethods.getIngredientNames(outputs)));
 		}
 	}
 	
 	@Override
-	@SuppressWarnings("static-access")
 	public String describe() {
-		return String.format("Adding %s recipe (%s = %s)", recipeType.getRecipeHandler().getRecipeName(), RecipeMethods.getIngredientNames(inputs), RecipeMethods.getIngredientNames(outputs));
+		if (wasNull || wrongSize) {
+			return String.format("Error: Failed to add %s recipe (%s -> %s)", recipeType.getRecipeHandler().getRecipeName(), RecipeMethods.getIngredientNames(inputs), RecipeMethods.getIngredientNames(outputs));
+		}
+		return String.format("Adding %s recipe (%s -> %s)", recipeType.getRecipeHandler().getRecipeName(), RecipeMethods.getIngredientNames(inputs), RecipeMethods.getIngredientNames(outputs));
 	}
 	
 	public String describeUndo() {
@@ -146,5 +156,10 @@ public class AddRecipe implements IAction {
 	
 	public Object getOverrideKey() {
 		return null;
+	}
+	
+	public static void callError() {
+		if (!hasErrored) CraftTweakerAPI.logError("Some NuclearCraft CraftTweaker recipe addition methods have errored - check the CraftTweaker log for more details");
+		hasErrored = true;
 	}
 }

@@ -52,9 +52,9 @@ public class GuiSaltMixer extends GuiFluidProcessor {
 		drawTexturedModalRect(guiLeft + 84, guiTop + 34, 176, 3, k, 18);
 		
 		if (tick == 0) {
-			PacketHandler.INSTANCE.sendToServer(new PacketGetFluidInTank(tile.getPos(), 0, "nc.gui.processor.GuiSaltMixer", "fluid0"));
-			PacketHandler.INSTANCE.sendToServer(new PacketGetFluidInTank(tile.getPos(), 1, "nc.gui.processor.GuiSaltMixer", "fluid1"));
-			PacketHandler.INSTANCE.sendToServer(new PacketGetFluidInTank(tile.getPos(), 2, "nc.gui.processor.GuiSaltMixer", "fluid2"));
+			PacketHandler.instance.sendToServer(new PacketGetFluidInTank(tile.getPos(), 0, "nc.gui.processor.GuiSaltMixer", "fluid0"));
+			PacketHandler.instance.sendToServer(new PacketGetFluidInTank(tile.getPos(), 1, "nc.gui.processor.GuiSaltMixer", "fluid1"));
+			PacketHandler.instance.sendToServer(new PacketGetFluidInTank(tile.getPos(), 2, "nc.gui.processor.GuiSaltMixer", "fluid2"));
 		}
 		
 		GuiFluidRenderer.renderGuiTank(fluid0, tile.tanks[0].getCapacity(), guiLeft + 46, guiTop + 35, zLevel, 16, 16);
@@ -74,7 +74,7 @@ public class GuiSaltMixer extends GuiFluidProcessor {
 	protected void actionPerformed(GuiButton guiButton) {
 		if (tile.getWorld().isRemote) {
 			for (int i = 0; i < 3; i++) if (guiButton.id == i && isShiftKeyDown()) {
-				PacketHandler.INSTANCE.sendToServer(new PacketEmptyTankButton(tile, i));
+				PacketHandler.instance.sendToServer(new PacketEmptyTankButton(tile, i));
 			}
 		}
 	}

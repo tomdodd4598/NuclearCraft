@@ -7,11 +7,17 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.Fluid;
 
 public class BlockSuperFluid extends BlockFluid {
 	
 	public static DamageSource superfluid_freeze = (new DamageSource("superfluid_freeze")).setDamageBypassesArmor();
 
+	public BlockSuperFluid(Fluid fluid) {
+		super(fluid, Material.WATER);
+		setQuantaPerBlock(16);
+	}
+	
 	public BlockSuperFluid(SuperFluid fluid) {
 		super(fluid, Material.WATER);
 		setQuantaPerBlock(16);

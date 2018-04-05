@@ -9,6 +9,8 @@ import nc.block.fluid.BlockFluidFission;
 import nc.config.NCConfig;
 import nc.fluid.FluidFission;
 import net.minecraft.item.ItemBlock;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 public class NCFissionFluids {
@@ -120,7 +122,19 @@ public class NCFissionFluids {
 	}
 	
 	public static void register() {
-		for (FluidFission fluid : fluidList) if (NCConfig.register_fission_fluid_blocks) registerBlock(new BlockFluidFission(fluid));
+		for (FluidFission fluid : fluidList) {
+			
+			boolean defaultFluid = FluidRegistry.registerFluid(fluid);
+			if (!defaultFluid) {
+				Fluid fluidDefault = FluidRegistry.getFluid(fluid.getName());
+				FluidRegistry.addBucketForFluid(fluidDefault);
+				if (NCConfig.register_fission_fluid_blocks) registerBlock(new BlockFluidFission(fluidDefault));
+			}
+			else {
+				FluidRegistry.addBucketForFluid(fluid);
+				if (NCConfig.register_fission_fluid_blocks) registerBlock(new BlockFluidFission(fluid));
+			}
+		}
 	}
 	
 	public static void registerBlock(BlockFluidBase block) {

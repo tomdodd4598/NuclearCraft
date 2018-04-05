@@ -69,6 +69,8 @@ import nc.integration.jei.processor.MelterCategory;
 import nc.integration.jei.processor.PressurizerCategory;
 import nc.integration.jei.processor.SaltMixerCategory;
 import nc.integration.jei.processor.SupercoolerCategory;
+import nc.integration.jei.saltFission.CoolantHeaterCategory;
+import nc.integration.jei.saltFission.SaltFissionCategory;
 import nc.recipe.BaseRecipeHandler;
 import nc.recipe.IRecipe;
 import nc.recipe.NCRecipes;
@@ -244,7 +246,9 @@ public class NCJEI implements IModPlugin, IJEIRecipeBuilder {
 		DISSOLVER(NCRecipes.Type.DISSOLVER, NCBlocks.dissolver_idle, "dissolver", RecipesJEI.Dissolver.class),
 		EXTRACTOR(NCRecipes.Type.EXTRACTOR, NCBlocks.extractor_idle, "extractor", RecipesJEI.Extractor.class),
 		FISSION(NCRecipes.Type.FISSION, NCBlocks.fission_controller_new_idle, "fission_controller", RecipesJEI.Fission.class),
-		FUSION(NCRecipes.Type.FUSION, NCBlocks.fusion_core, "fusion_core", RecipesJEI.Fusion.class);
+		FUSION(NCRecipes.Type.FUSION, NCBlocks.fusion_core, "fusion_core", RecipesJEI.Fusion.class),
+		SALT_FISSION(NCRecipes.Type.SALT_FISSION, NCBlocks.salt_fission_vessel, "salt_fission", RecipesJEI.SaltFission.class),
+		COOLANT_HEATER(NCRecipes.Type.COOLANT_HEATER, NCBlocks.salt_fission_heater, "coolant_heater", RecipesJEI.CoolantHeater.class);
 		
 		public NCRecipes.Type recipeType;
 		public String unlocalizedName;
@@ -301,6 +305,10 @@ public class NCJEI implements IModPlugin, IJEIRecipeBuilder {
 				return new FissionCategory(guiHelper, this);
 			case FUSION:
 				return new FusionCategory(guiHelper, this);
+			case SALT_FISSION:
+				return new SaltFissionCategory(guiHelper, this);
+			case COOLANT_HEATER:
+				return new CoolantHeaterCategory(guiHelper, this);
 			default:
 				return null;
 			}

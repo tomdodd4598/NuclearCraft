@@ -4,9 +4,9 @@ import javax.annotation.Nullable;
 
 import nc.ModCheck;
 import nc.config.NCConfig;
-import nc.tile.energy.storage.EnumEnergyStorage.EnergyConnection;
 import nc.tile.energyFluid.TileEnergyFluidSidedInventory;
-import nc.tile.fluid.tank.EnumTank.FluidConnection;
+import nc.tile.internal.EnumEnergyStorage.EnergyConnection;
+import nc.tile.internal.EnumTank.FluidConnection;
 import nc.util.StackHelper;
 import net.darkhax.tesla.capability.TeslaCapabilities;
 import net.minecraft.init.Items;

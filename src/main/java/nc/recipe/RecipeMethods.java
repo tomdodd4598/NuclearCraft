@@ -355,8 +355,31 @@ public abstract class RecipeMethods<T extends IRecipe> implements IRecipeGetter<
 	
 	public static ArrayList<String> getIngredientNames(ArrayList<IIngredient> ingredientList) {
 		ArrayList<String> ingredientNames = new ArrayList<String>();
-		for (IIngredient ingredient : ingredientList) ingredientNames.add(ingredient.getStackSize() + " x " + ingredient.getIngredientName());
+		for (IIngredient ingredient : ingredientList) {
+			if (ingredient == null) ingredientNames.add("null");
+			else ingredientNames.add(ingredient.getStackSize() + " x " + ingredient.getIngredientName());
+		}
 		return ingredientNames;
+	}
+	
+	public static ArrayList<String> buildIngredientNames(ArrayList ingredientList, NCRecipes.Type recipeType) {
+		ArrayList<String> ingredientNames = new ArrayList<String>();
+		for (Object obj : ingredientList) {
+			if (obj == null) ingredientNames.add("null");
+			else {
+				if (!(obj instanceof IIngredient)) obj = recipeType.getRecipeHandler().buildRecipeObject(obj);
+				IIngredient ingredient = (IIngredient) obj;
+				ingredientNames.add(ingredient.getStackSize() + " x " + ingredient.getIngredientName());
+			}
+		}
+		return ingredientNames;
+	}
+	
+	public static RecipeOreStack getOreStackFromItems(ArrayList<ItemStack> stackList, int stackSize) {
+		if (stackList.isEmpty() || stackList == null) return null;
+		String oreName = OreStackHelper.getOreNameFromStacks(stackList);
+		if (oreName == "Unknown") return null;
+		return new RecipeOreStack(oreName, StackType.ITEM, stackSize);
 	}
 	
 	public RecipeOreStack oreStack(String oreType, int stackSize) {

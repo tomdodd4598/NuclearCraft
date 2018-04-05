@@ -9,11 +9,17 @@ import net.minecraft.block.material.MaterialLiquid;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.Fluid;
 
 public class BlockFluidGas extends BlockFluid {
 	
 	private static final Material GAS = new MaterialLiquid(MapColor.AIR);
 
+	public BlockFluidGas(Fluid fluid) {
+		super(fluid, GAS);
+		setQuantaPerBlock(16);
+	}
+	
 	public BlockFluidGas(FluidGas fluid) {
 		super(fluid, GAS);
 		setQuantaPerBlock(16);

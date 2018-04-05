@@ -137,4 +137,18 @@ public class RecipesJEI {
 			super(methods, recipe);
 		}
 	}
+	
+	public static class SaltFission extends JEIRecipe<SaltFission> {
+
+		public SaltFission(BaseRecipeHandler methods, IRecipe recipe) {
+			super(methods, recipe);
+		}
+	}
+	
+	public static class CoolantHeater extends JEIRecipe<CoolantHeater> {
+
+		public CoolantHeater(BaseRecipeHandler methods, IRecipe recipe) {
+			super(methods, recipe);
+		}
+	}
 }

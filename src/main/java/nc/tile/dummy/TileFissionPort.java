@@ -6,8 +6,8 @@ import ic2.api.energy.tile.IEnergySink;
 import nc.ModCheck;
 import nc.config.NCConfig;
 import nc.init.NCBlocks;
-import nc.tile.energy.storage.EnumEnergyStorage.EnergyConnection;
 import nc.tile.generator.TileFissionController;
+import nc.tile.internal.EnumEnergyStorage.EnergyConnection;
 import nc.tile.passive.ITilePassive;
 import nc.util.BlockFinder;
 import net.darkhax.tesla.capability.TeslaCapabilities;
@@ -73,8 +73,10 @@ public class TileFissionPort extends TileDummy implements IInterfaceable {
 			if (adjStorage != null && storage.canExtract()) {
 				getStorage().extractEnergy(adjStorage.receiveEnergy(getStorage().extractEnergy(getCurrentEnergyStored()/getNumberOfPorts(), true), false), false);
 			}
-			else if (tile instanceof IEnergySink /*&& tile != thisTile*/) {
-				getStorage().extractEnergy((int) Math.round(((IEnergySink) tile).injectEnergy(side.getOpposite(), getStorage().extractEnergy(getCurrentEnergyStored()/getNumberOfPorts(), true) / NCConfig.generator_rf_per_eu, getSourceTier())), false);
+			else if (ModCheck.ic2Loaded()) {
+				if (tile instanceof IEnergySink) {
+					getStorage().extractEnergy((int) Math.round(((IEnergySink) tile).injectEnergy(side.getOpposite(), getStorage().extractEnergy(getCurrentEnergyStored()/getNumberOfPorts(), true) / NCConfig.generator_rf_per_eu, getSourceTier())), false);
+				}
 			}
 		}
 	}

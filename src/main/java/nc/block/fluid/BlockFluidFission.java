@@ -8,8 +8,13 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.Fluid;
 
 public class BlockFluidFission extends BlockFluidMolten {
+	
+	public BlockFluidFission(Fluid fluid) {
+		super(fluid);
+	}
 	
 	public BlockFluidFission(FluidFission fluid) {
 		super(fluid);

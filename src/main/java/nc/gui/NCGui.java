@@ -5,7 +5,7 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 import nc.tile.energy.ITileEnergy;
-import nc.tile.fluid.tank.Tank;
+import nc.tile.internal.Tank;
 import nc.util.Lang;
 import nc.util.UnitHelper;
 import net.minecraft.client.gui.inventory.GuiContainer;

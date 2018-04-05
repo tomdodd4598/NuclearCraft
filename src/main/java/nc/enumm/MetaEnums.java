@@ -536,7 +536,8 @@ public class MetaEnums {
 	
 	public static enum CompoundType implements IStringSerializable, IItemMeta {
 		CALCIUM_SULFATE("calcium_sulfate", 0),
-		CRYSTAL_BINDER("crystal_binder", 1);
+		CRYSTAL_BINDER("crystal_binder", 1),
+		ENERGETIC_BLEND("energetic_blend", 2);
 		
 		private String name;
 		private int id;

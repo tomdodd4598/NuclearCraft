@@ -14,6 +14,9 @@ import nc.init.NCFluids;
 import nc.init.NCItems;
 import nc.init.NCTiles;
 import nc.init.NCTools;
+import nc.multiblock.IMultiblockRegistry;
+import nc.multiblock.MultiblockEventHandler;
+import nc.multiblock.MultiblockRegistry;
 import nc.network.PacketHandler;
 import nc.recipe.NCRecipes;
 import nc.recipe.vanilla.CraftingRecipeHandler;
@@ -29,13 +32,16 @@ import nc.tab.TabFluids;
 import nc.tab.TabFusion;
 import nc.tab.TabMachines;
 import nc.tab.TabMisc;
+import nc.tab.TabSaltFissionBlocks;
 import nc.worldgen.biome.NCBiomes;
 import nc.worldgen.decoration.BushGenerator;
 import nc.worldgen.dimension.NCWorlds;
 import nc.worldgen.ore.OreGenerator;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -50,6 +56,7 @@ public class CommonProxy {
 	public static final CreativeTabs TAB_FISSION_MATERIALS = new TabFissionMaterials();
 	public static final CreativeTabs TAB_FISSION_FUEL_RODS = new TabFissionFuelRods();
 	public static final CreativeTabs TAB_FUSION = new TabFusion();
+	public static final CreativeTabs TAB_SALT_FISSION_BLOCKS = new TabSaltFissionBlocks();
 	public static final CreativeTabs TAB_ACCELERATOR = new TabAccelerator();
 	public static final CreativeTabs TAB_FLUIDS = new TabFluids();
 	public static final CreativeTabs TAB_MISC = new TabMisc();
@@ -73,15 +80,13 @@ public class CommonProxy {
 		
 		NCTiles.register();
 		
-		PacketHandler.registerMessages(Global.MOD_ID);
+		OreDictHandler.registerOres();
 		
-		NCWorlds.registerDimensions();
+		PacketHandler.registerMessages(Global.MOD_ID);
 	}
 
 	public void init(FMLInitializationEvent event) {
 		initFluidColors();
-		
-		OreDictHandler.registerOres();
 		
 		ModCheck.init();
 		MinecraftForge.EVENT_BUS.register(new DropHandler());
@@ -93,6 +98,7 @@ public class CommonProxy {
 		GameRegistry.registerFuelHandler(new FurnaceFuelHandler());
 		
 		NCBiomes.initBiomeManagerAndDictionary();
+		NCWorlds.registerDimensions();
 		
 		GameRegistry.registerWorldGenerator(new OreGenerator(), 0);
 		GameRegistry.registerWorldGenerator(new BushGenerator(), 100);
@@ -109,5 +115,19 @@ public class CommonProxy {
 	
 	public void initFluidColors() {
 		
+	}
+	
+	public IMultiblockRegistry initMultiblockRegistry() {
+
+        if (multiblockEventHandler == null)
+            MinecraftForge.EVENT_BUS.register(multiblockEventHandler = new MultiblockEventHandler());
+
+        return MultiblockRegistry.INSTANCE;
+    }
+
+    private static MultiblockEventHandler multiblockEventHandler = null;
+	
+	public World getWorld(int dimension) {
+		return FMLCommonHandler.instance().getMinecraftServerInstance().getWorld(dimension);
 	}
 }

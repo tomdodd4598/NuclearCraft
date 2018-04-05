@@ -1,5 +1,6 @@
 package nc.network;
 
+import nc.multiblock.fission.moltensalt.network.SaltFissionHeatBufferUpdatePacket;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
@@ -8,7 +9,7 @@ public class PacketHandler {
 	
 	private static int packetId = 0;
 
-	public static SimpleNetworkWrapper INSTANCE = null;
+	public static SimpleNetworkWrapper instance = null;
 
 	public PacketHandler() {}
 
@@ -17,17 +18,18 @@ public class PacketHandler {
 	}
 
 	public static void registerMessages(String channelName) {
-		INSTANCE = NetworkRegistry.INSTANCE.newSimpleChannel(channelName);
+		instance = NetworkRegistry.INSTANCE.newSimpleChannel(channelName);
 		registerMessages();
 	}
 
 	public static void registerMessages() {
 		// SERVER
-		INSTANCE.registerMessage(PacketGetFluidInTank.Handler.class, PacketGetFluidInTank.class, nextID(), Side.SERVER);
-		INSTANCE.registerMessage(PacketToggleTanksSharedButton.Handler.class, PacketToggleTanksSharedButton.class, nextID(), Side.SERVER);
-		INSTANCE.registerMessage(PacketEmptyTankButton.Handler.class, PacketEmptyTankButton.class, nextID(), Side.SERVER);
+		instance.registerMessage(PacketGetFluidInTank.Handler.class, PacketGetFluidInTank.class, nextID(), Side.SERVER);
+		instance.registerMessage(PacketToggleTanksSharedButton.Handler.class, PacketToggleTanksSharedButton.class, nextID(), Side.SERVER);
+		instance.registerMessage(PacketEmptyTankButton.Handler.class, PacketEmptyTankButton.class, nextID(), Side.SERVER);
 		
 		// CLIENT
-		INSTANCE.registerMessage(PacketReturnFluidInTank.Handler.class, PacketReturnFluidInTank.class, nextID(), Side.CLIENT);
+		instance.registerMessage(PacketReturnFluidInTank.Handler.class, PacketReturnFluidInTank.class, nextID(), Side.CLIENT);
+		instance.registerMessage(SaltFissionHeatBufferUpdatePacket.class, SaltFissionHeatBufferUpdatePacket.class, nextID(), Side.CLIENT);
 	}
 }

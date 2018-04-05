@@ -9,9 +9,15 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.Fluid;
 
 public class BlockFluidCoolant extends BlockFluid {
 
+	public BlockFluidCoolant(Fluid fluid) {
+		super(fluid, Material.WATER);
+		setQuantaPerBlock(4);
+	}
+	
 	public BlockFluidCoolant(FluidCoolant fluid) {
 		super(fluid, Material.WATER);
 		setQuantaPerBlock(4);

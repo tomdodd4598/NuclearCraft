@@ -22,7 +22,7 @@ public class RecipeStack implements IIngredient, IRecipeStack {
 	
 	@Override
 	public String getIngredientName() {
-		return stack instanceof ItemStack ? ((ItemStack) stack).getItem().getUnlocalizedName() : (stack instanceof FluidStack ? ((FluidStack) stack).getFluid().getName() : "");
+		return stack instanceof ItemStack ? ((ItemStack) stack).getItem().getUnlocalizedName() + ":" + ((ItemStack) stack).getMetadata() : (stack instanceof FluidStack ? ((FluidStack) stack).getFluid().getName() : "");
 	}
 
 	@Override
@@ -54,6 +54,8 @@ public class RecipeStack implements IIngredient, IRecipeStack {
 		}
 		else if (object instanceof RecipeOreStack) {
 			RecipeOreStack oreStack = (RecipeOreStack) object;
+			//return (oreStack.matches(this, type));
+			
 			if (!oreStack.isFluid && stack instanceof ItemStack) {
 				for (ItemStack itemStack : oreStack.cachedItemRegister) {
 					if (matches(itemStack, type)) return type.checkStackSize(((ItemStack)stack).getCount(), oreStack.stackSize);
@@ -64,6 +66,9 @@ public class RecipeStack implements IIngredient, IRecipeStack {
 					if (matches(fluidstack, type)) return type.checkStackSize(((FluidStack)stack).amount, oreStack.stackSize);
 				}
 			}
+		}
+		else if (object instanceof RecipeStack) {
+			if (matches(((RecipeStack) object).stack, type)) return type.checkStackSize(getStackSize(), ((RecipeStack) object).getStackSize());
 		}
 		return false;
 	}

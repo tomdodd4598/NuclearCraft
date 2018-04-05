@@ -53,14 +53,8 @@ public class RecipeOreStack implements IIngredient, IRecipeStack {
 	
 	@Override
 	public String getIngredientName() {
-		if (isFluid) {
-			if (cachedFluidRegister.size() < 1) return "nullFluid";
-			FluidStack fluid = cachedFluidRegister.get(0).copy();
-			return fluid.getFluid().getName();
-		}
-		if (cachedItemRegister.size() < 1) return "nullItem";
-		ItemStack item = cachedItemRegister.get(0).copy();
-		return item.getItem().getUnlocalizedName();
+		if (isFluid) return "fluid:" + oreString;
+		return "ore:" + oreString;
 	}
 
 	@Override
@@ -88,20 +82,30 @@ public class RecipeOreStack implements IIngredient, IRecipeStack {
 			if (oreStack.oreString.equals(oreString) && oreStack.stackSize >= stackSize) {
 				return true;
 			}
-		} else if (object instanceof String) {
+		}
+		else if (object instanceof String) {
 			return oreString.equals(object);
-		} else if (object instanceof ItemStack && type.checkStackSize(stackSize, ((ItemStack) object).getCount())) {
+		}
+		else if (object instanceof ItemStack && type.checkStackSize(stackSize, ((ItemStack) object).getCount())) {
 			int oreID = OreDictionary.getOreID(oreString);
 			for (int ID : OreDictionary.getOreIDs((ItemStack)object)) {
 				if (oreID == ID) {
 					return true;
 				}
 			}
-		} else if (object instanceof FluidStack && type.checkStackSize(stackSize, ((FluidStack) object).amount)) {
+		}
+		else if (object instanceof FluidStack && type.checkStackSize(stackSize, ((FluidStack) object).amount)) {
 			String fluidName = FluidRegistry.getFluidName((FluidStack)object);
 			if (oreString == fluidName) {
 				return true;
 			}
+		}
+		else if (object instanceof RecipeStack) {
+			if (matches(((RecipeStack) object).stack, type)) return true;
+		}
+		else if (object instanceof RecipeStackArray) {
+			for (IIngredient ingredient : ((RecipeStackArray) object).validInputList) if (!matches(ingredient, type)) return false;
+			return true;
 		}
 		return false;
 	}

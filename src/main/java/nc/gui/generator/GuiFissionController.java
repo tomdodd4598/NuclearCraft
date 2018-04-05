@@ -66,8 +66,9 @@ public class GuiFissionController extends NCGui {
 	public List<String> heatInfo() {
 		String heat = UnitHelper.prefix(tile.heat, tile.getMaxHeat(), 6, "H");
 		String heatGen = UnitHelper.prefix(tile.heatChange, 6, "H/t");
+		String cooling = UnitHelper.prefix(tile.cooling, 6, "H/t");
 		String heatMult = this.tile.heatMult + "%";
-		return Lists.newArrayList(TextFormatting.YELLOW + Lang.localise("gui.container.fission_controller.heat") + TextFormatting.WHITE + " " + heat, TextFormatting.YELLOW + Lang.localise("gui.container.fission_controller.heat_gen") + TextFormatting.WHITE + " " + heatGen, TextFormatting.YELLOW + Lang.localise("gui.container.fission_controller.heat_mult") + TextFormatting.WHITE + " " + heatMult);
+		return Lists.newArrayList(TextFormatting.YELLOW + Lang.localise("gui.container.fission_controller.heat") + TextFormatting.WHITE + " " + heat, TextFormatting.YELLOW + Lang.localise("gui.container.fission_controller.heat_gen") + TextFormatting.WHITE + " " + heatGen, TextFormatting.BLUE + Lang.localise("gui.container.fission_controller.cooling") + TextFormatting.WHITE + " " + cooling, TextFormatting.YELLOW + Lang.localise("gui.container.fission_controller.heat_mult") + TextFormatting.WHITE + " " + heatMult);
 	}
 	
 	public void drawHeatTooltip(int mouseX, int mouseY, int x, int y, int width, int height) {

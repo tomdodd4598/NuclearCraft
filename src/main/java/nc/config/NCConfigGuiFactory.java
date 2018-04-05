@@ -48,6 +48,7 @@ public class NCConfigGuiFactory implements IModGuiFactory {
 			list.add(new DummyCategoryElement(Lang.localise("gui.config.category.generators"), "gui.config.category.generators", CategoryEntryGenerators.class));
 			list.add(new DummyCategoryElement(Lang.localise("gui.config.category.fission"), "gui.config.category.fission", CategoryEntryFission.class));
 			list.add(new DummyCategoryElement(Lang.localise("gui.config.category.fusion"), "gui.config.category.fusion", CategoryEntryFusion.class));
+			list.add(new DummyCategoryElement(Lang.localise("gui.config.category.salt_fission"), "gui.config.category.salt_fission", CategoryEntrySaltFission.class));
 			list.add(new DummyCategoryElement(Lang.localise("gui.config.category.accelerator"), "gui.config.category.accelerator", CategoryEntryAccelerator.class));
 			list.add(new DummyCategoryElement(Lang.localise("gui.config.category.energy_storage"), "gui.config.category.energy_storage", CategoryEntryEnergyStorage.class));
 			list.add(new DummyCategoryElement(Lang.localise("gui.config.category.tools"), "gui.config.category.tools", CategoryEntryTools.class));
@@ -132,6 +133,22 @@ public class NCConfigGuiFactory implements IModGuiFactory {
 				ConfigElement categoryFission = new ConfigElement(config.getCategory(NCConfig.CATEGORY_FUSION));
 				List<IConfigElement> propertiesOnScreen = categoryFission.getChildElements();
 				String windowTitle = Lang.localise("gui.config.category.fusion");
+				return new GuiConfig(owningScreen, propertiesOnScreen, owningScreen.modID, configElement.requiresWorldRestart() || owningScreen.allRequireWorldRestart, configElement.requiresMcRestart() || owningScreen.allRequireMcRestart, windowTitle);
+			}
+		}
+		
+		public static class CategoryEntrySaltFission extends CategoryEntry {
+
+			public CategoryEntrySaltFission(GuiConfig owningScreen, GuiConfigEntries owningEntryList, IConfigElement configElement) {
+				super(owningScreen, owningEntryList, configElement);
+			}
+			
+			@Override
+			protected GuiScreen buildChildScreen() {
+				Configuration config = NCConfig.getConfig();
+				ConfigElement categoryFission = new ConfigElement(config.getCategory(NCConfig.CATEGORY_SALT_FISSION));
+				List<IConfigElement> propertiesOnScreen = categoryFission.getChildElements();
+				String windowTitle = Lang.localise("gui.config.category.salt_fission");
 				return new GuiConfig(owningScreen, propertiesOnScreen, owningScreen.modID, configElement.requiresWorldRestart() || owningScreen.allRequireWorldRestart, configElement.requiresMcRestart() || owningScreen.allRequireMcRestart, windowTitle);
 			}
 		}

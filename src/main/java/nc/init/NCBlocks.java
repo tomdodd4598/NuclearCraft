@@ -15,9 +15,9 @@ import nc.block.tile.BlockActivatable;
 import nc.block.tile.BlockActivatableTransparent;
 import nc.block.tile.BlockBattery;
 import nc.block.tile.BlockSimpleTile;
+import nc.block.tile.dummy.BlockFissionPort;
 import nc.block.tile.dummy.BlockFusionDummy;
 import nc.block.tile.dummy.BlockSimpleDummy;
-import nc.block.tile.dummy.BlockSimpleSidedDummy;
 import nc.block.tile.generator.BlockFissionController;
 import nc.block.tile.generator.BlockFusionCore;
 import nc.block.tile.processor.BlockNuclearFurnace;
@@ -32,6 +32,13 @@ import nc.enumm.MetaEnums.CoolerType;
 import nc.enumm.MetaEnums.FissionBlockType;
 import nc.enumm.MetaEnums.IngotType;
 import nc.enumm.MetaEnums.OreType;
+import nc.multiblock.fission.moltensalt.block.BlockSaltFissionController;
+import nc.multiblock.fission.moltensalt.block.BlockSaltFissionFrame;
+import nc.multiblock.fission.moltensalt.block.BlockSaltFissionGlass;
+import nc.multiblock.fission.moltensalt.block.BlockSaltFissionHeater;
+import nc.multiblock.fission.moltensalt.block.BlockSaltFissionVent;
+import nc.multiblock.fission.moltensalt.block.BlockSaltFissionVessel;
+import nc.multiblock.fission.moltensalt.block.BlockSaltFissionWall;
 import nc.proxy.CommonProxy;
 import nc.util.InfoHelper;
 import nc.util.Lang;
@@ -140,6 +147,14 @@ public class NCBlocks {
 	public static Block fusion_electromagnet_transparent_idle;
 	public static Block fusion_electromagnet_transparent_active;
 	
+	public static Block salt_fission_controller;
+	public static Block salt_fission_wall;
+	public static Block salt_fission_glass;
+	public static Block salt_fission_frame;
+	public static Block salt_fission_vent;
+	public static Block salt_fission_vessel;
+	public static Block salt_fission_heater;
+	
 	public static Block accelerator_electromagnet_idle;
 	public static Block accelerator_electromagnet_active;
 	public static Block electromagnet_supercooler_idle;
@@ -231,7 +246,7 @@ public class NCBlocks {
 		fission_controller_active = new BlockFissionController(true, false);
 		fission_controller_new_idle = new BlockFissionController(false, true);
 		fission_controller_new_active = new BlockFissionController(true, true);
-		fission_port = new BlockSimpleSidedDummy(SimpleTileType.FISSION_PORT);
+		fission_port = new BlockFissionPort(SimpleTileType.FISSION_PORT);
 		
 		fusion_core = new BlockFusionCore();
 		fusion_dummy_side = new BlockFusionDummy(FusionDummyTileType.FUSION_DUMMY_SIDE);
@@ -258,6 +273,14 @@ public class NCBlocks {
 		fusion_electromagnet_active = new BlockActivatable(ActivatableTileType.FUSION_ELECTROMAGNET, true);
 		fusion_electromagnet_transparent_idle = new BlockActivatableTransparent(ActivatableTileType.FUSION_ELECTROMAGNET_TRANSPARENT, false);
 		fusion_electromagnet_transparent_active = new BlockActivatableTransparent(ActivatableTileType.FUSION_ELECTROMAGNET_TRANSPARENT, true);
+		
+		salt_fission_controller = new BlockSaltFissionController();
+		salt_fission_wall = new BlockSaltFissionWall();
+		salt_fission_glass = new BlockSaltFissionGlass();
+		salt_fission_frame = new BlockSaltFissionFrame();
+		salt_fission_vent = new BlockSaltFissionVent();
+		salt_fission_vessel = new BlockSaltFissionVessel();
+		salt_fission_heater = new BlockSaltFissionHeater();
 		
 		accelerator_electromagnet_idle = new BlockActivatable(ActivatableTileType.ACCELERATOR_ELECTROMAGNET, false);
 		accelerator_electromagnet_active = new BlockActivatable(ActivatableTileType.ACCELERATOR_ELECTROMAGNET, true);
@@ -378,6 +401,14 @@ public class NCBlocks {
 		registerBlock(fusion_electromagnet_active);
 		registerBlock(fusion_electromagnet_transparent_idle, InfoHelper.formattedInfo(infoLine("fusion_electromagnet_idle"), UnitHelper.ratePrefix(NCConfig.fusion_electromagnet_power, 5, "RF")));
 		registerBlock(fusion_electromagnet_transparent_active);
+		
+		registerBlock(salt_fission_controller);
+		registerBlock(salt_fission_wall);
+		registerBlock(salt_fission_glass);
+		registerBlock(salt_fission_frame);
+		registerBlock(salt_fission_vent);
+		registerBlock(salt_fission_vessel);
+		registerBlock(salt_fission_heater);
 		
 		registerBlock(accelerator_electromagnet_idle, InfoHelper.formattedInfo(infoLine("accelerator_electromagnet_idle"), UnitHelper.ratePrefix(NCConfig.accelerator_electromagnet_power, 5, "RF")));
 		registerBlock(accelerator_electromagnet_active);
@@ -510,6 +541,15 @@ public class NCBlocks {
 		registerRender(fusion_electromagnet_active);
 		registerRender(fusion_electromagnet_transparent_idle);
 		registerRender(fusion_electromagnet_transparent_active);
+		
+		registerRender(salt_fission_controller, 0, "salt_fission_controller_off");
+		registerRender(salt_fission_controller, 1, "salt_fission_controller_on");
+		registerRender(salt_fission_wall);
+		registerRender(salt_fission_glass);
+		registerRender(salt_fission_frame);
+		registerRender(salt_fission_vent);
+		registerRender(salt_fission_vessel);
+		registerRender(salt_fission_heater);
 		
 		registerRender(accelerator_electromagnet_idle);
 		registerRender(accelerator_electromagnet_active);

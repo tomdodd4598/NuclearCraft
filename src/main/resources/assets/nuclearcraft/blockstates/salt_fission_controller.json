@@ -1,0 +1,6 @@
+{
+	"variants": {
+		"on_off=0": {"model": "nuclearcraft:salt_fission_controller_off"},
+		"on_off=1": {"model": "nuclearcraft:salt_fission_controller_on"}
+	}
+}
