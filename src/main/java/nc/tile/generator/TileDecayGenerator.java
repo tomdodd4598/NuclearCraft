@@ -35,7 +35,6 @@ public class TileDecayGenerator extends TileEnergy implements IInterfaceable {
 		if(!world.isRemote) {
 			if (shouldCheck()) storage.changeEnergyStored(getGenerated());
 			pushEnergy();
-			spreadEnergy();
 		}
 	}
 	

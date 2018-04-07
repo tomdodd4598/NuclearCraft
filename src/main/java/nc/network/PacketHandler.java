@@ -24,12 +24,12 @@ public class PacketHandler {
 
 	public static void registerMessages() {
 		// SERVER
-		instance.registerMessage(PacketGetFluidInTank.Handler.class, PacketGetFluidInTank.class, nextID(), Side.SERVER);
-		instance.registerMessage(PacketToggleTanksSharedButton.Handler.class, PacketToggleTanksSharedButton.class, nextID(), Side.SERVER);
-		instance.registerMessage(PacketEmptyTankButton.Handler.class, PacketEmptyTankButton.class, nextID(), Side.SERVER);
+		instance.registerMessage(GetFluidInTankPacket.Handler.class, GetFluidInTankPacket.class, nextID(), Side.SERVER);
+		instance.registerMessage(ToggleTanksSharedButtonPacket.Handler.class, ToggleTanksSharedButtonPacket.class, nextID(), Side.SERVER);
+		instance.registerMessage(EmptyTankButtonPacket.Handler.class, EmptyTankButtonPacket.class, nextID(), Side.SERVER);
 		
 		// CLIENT
-		instance.registerMessage(PacketReturnFluidInTank.Handler.class, PacketReturnFluidInTank.class, nextID(), Side.CLIENT);
+		instance.registerMessage(ReturnFluidInTankPacket.Handler.class, ReturnFluidInTankPacket.class, nextID(), Side.CLIENT);
 		instance.registerMessage(SaltFissionHeatBufferUpdatePacket.class, SaltFissionHeatBufferUpdatePacket.class, nextID(), Side.CLIENT);
 	}
 }

@@ -2,6 +2,7 @@ package nc.tile.generator;
 
 import java.util.ArrayList;
 
+import nc.ModCheck;
 import nc.config.NCConfig;
 import nc.recipe.BaseRecipeHandler;
 import nc.recipe.IIngredient;
@@ -121,10 +122,10 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 	}
 	
 	public void updateBlockType() {
-		removeTileFromENet();
+		if (ModCheck.ic2Loaded()) removeTileFromENet();
 		setState(isGenerating);
 		world.notifyNeighborsOfStateChange(pos, blockType, true);
-		addTileToENet();
+		if (ModCheck.ic2Loaded()) addTileToENet();
 	}
 	
 	// Processing

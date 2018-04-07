@@ -12,8 +12,8 @@ import nc.init.NCBlocks;
 import nc.recipe.NCRecipes;
 import nc.recipe.RecipeMethods;
 import nc.tile.fluid.TileActiveCooler;
-import nc.tile.internal.Tank;
 import nc.tile.internal.EnumEnergyStorage.EnergyConnection;
+import nc.tile.internal.Tank;
 import nc.util.BlockFinder;
 import nc.util.BlockPosHelper;
 import nc.util.Lang;
@@ -51,6 +51,11 @@ public class TileFusionCore extends TileFluidGenerator /*implements SimpleCompon
 	public TileFusionCore() {
 		super("Fusion Core", 2, 4, 0, tankCapacities(32000, 2, 4), fluidConnections(2, 4), RecipeMethods.validFluids(NCRecipes.Type.FUSION), 8192000, NCRecipes.Type.FUSION);
 		areTanksShared = false;
+	}
+	
+	@Override
+	public int getGuiID() {
+		return 101;
 	}
 	
 	@Override

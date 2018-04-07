@@ -2,6 +2,7 @@ package nc.tile.processor;
 
 import java.util.ArrayList;
 
+import nc.ModCheck;
 import nc.config.NCConfig;
 import nc.init.NCItems;
 import nc.recipe.BaseRecipeHandler;
@@ -76,6 +77,11 @@ public abstract class TileItemProcessor extends TileEnergySidedInventory impleme
 	}
 	
 	@Override
+	public int getGuiID() {
+		return upgradeMeta;
+	}
+	
+	@Override
 	public void onAdded() {
 		super.onAdded();
 		baseProcessTime = defaultProcessTime;
@@ -137,10 +143,10 @@ public abstract class TileItemProcessor extends TileEnergySidedInventory impleme
 	}
 	
 	public void updateBlockType() {
-		removeTileFromENet();
+		if (ModCheck.ic2Loaded()) removeTileFromENet();
 		setState(isProcessing);
 		world.notifyNeighborsOfStateChange(pos, blockType, true);
-		addTileToENet();
+		if (ModCheck.ic2Loaded()) addTileToENet();
 	}
 	
 	// IC2 Tiers

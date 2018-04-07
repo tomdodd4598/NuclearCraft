@@ -10,8 +10,9 @@ public class TileSaltFissionWall extends TileSaltFissionPartBase {
 	
 	@Override
 	public void onMachineAssembled(MultiblockControllerBase controller) {
-		super.onMachineAssembled(controller);
 		doStandardNullControllerResponse(controller);
+		super.onMachineAssembled(controller);
+		if (getWorld().isRemote) return;
 	}
 	
 	@Override

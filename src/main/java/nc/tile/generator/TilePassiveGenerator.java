@@ -2,11 +2,12 @@ package nc.tile.generator;
 
 import nc.config.NCConfig;
 import nc.tile.dummy.IInterfaceable;
+import nc.tile.energy.IEnergySpread;
 import nc.tile.energy.TileEnergy;
 import nc.tile.internal.EnumEnergyStorage.EnergyConnection;
 import nc.util.EnergyHelper;
 
-public abstract class TilePassiveGenerator extends TileEnergy implements IInterfaceable {
+public abstract class TilePassiveGenerator extends TileEnergy implements IInterfaceable, IEnergySpread {
 	
 	public final int power;
 	

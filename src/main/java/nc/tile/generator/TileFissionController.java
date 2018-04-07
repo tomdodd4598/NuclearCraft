@@ -20,6 +20,7 @@ import nc.util.EnergyHelper;
 import nc.util.Lang;
 import nc.util.RegistryHelper;
 import net.minecraft.block.Block;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -63,6 +64,11 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 	public TileFissionController(boolean newRules) {
 		super("fission_controller", 1, 1, 0, BASE_CAPACITY, NCRecipes.Type.FISSION);
 		this.newRules = newRules;
+	}
+	
+	@Override
+	public int getGuiID() {
+		return 100;
 	}
 	
 	@Override
@@ -1114,6 +1120,13 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 		case 19:
 			heatMult = value;
 		}
+	}
+	
+	// Allow ports to open GUI
+	
+	@Override
+	public boolean isUsableByPlayer(EntityPlayer player) {
+		return world.getTileEntity(pos) != this ? false : player.getDistanceSq((double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D) <= Math.max(lengthX*lengthX + lengthY*lengthY + lengthZ*lengthZ, 64.0D);
 	}
 	
 	// Computers

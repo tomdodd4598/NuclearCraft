@@ -6,14 +6,14 @@ import net.minecraft.util.IStringSerializable;
 public class MetaEnums {
 	
 	public static enum OreType implements IStringSerializable, IBlockMeta {
-		COPPER("copper", 0, 1, "pickaxe", 3, 15, 0),
-		TIN("tin", 1, 1, "pickaxe", 3, 15, 0),
-		LEAD("lead", 2, 1, "pickaxe", 3, 15, 0),
-		THORIUM("thorium", 3, 2, "pickaxe", 3, 15, 0),
-		URANIUM("uranium", 4, 2, "pickaxe", 3, 15, 0),
-		BORON("boron", 5, 2, "pickaxe", 3, 15, 0),
-		LITHIUM("lithium", 6, 2, "pickaxe", 3, 15, 0),
-		MAGNESIUM("magnesium", 7, 2, "pickaxe", 3, 15, 0);
+		COPPER("copper", 0, NCConfig.ore_harvest_levels[0], "pickaxe", 3, 15, 0),
+		TIN("tin", 1, NCConfig.ore_harvest_levels[1], "pickaxe", 3, 15, 0),
+		LEAD("lead", 2, NCConfig.ore_harvest_levels[2], "pickaxe", 3, 15, 0),
+		THORIUM("thorium", 3, NCConfig.ore_harvest_levels[3], "pickaxe", 3, 15, 0),
+		URANIUM("uranium", 4, NCConfig.ore_harvest_levels[4], "pickaxe", 3, 15, 0),
+		BORON("boron", 5, NCConfig.ore_harvest_levels[5], "pickaxe", 3, 15, 0),
+		LITHIUM("lithium", 6, NCConfig.ore_harvest_levels[6], "pickaxe", 3, 15, 0),
+		MAGNESIUM("magnesium", 7, NCConfig.ore_harvest_levels[7], "pickaxe", 3, 15, 0);
 		
 		private String name;
 		private int id;

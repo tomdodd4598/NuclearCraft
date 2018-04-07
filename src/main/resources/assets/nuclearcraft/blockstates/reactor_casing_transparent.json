@@ -1,5 +1,518 @@
 {
+	"forge_marker": 1,
+	"defaults": {
+		"textures":{
+			"particle":"nuclearcraft:blocks/reactor_casing_transparent/0",
+			"north":"nuclearcraft:blocks/reactor_casing_transparent/0",
+			"east":"nuclearcraft:blocks/reactor_casing_transparent/0",
+			"south":"nuclearcraft:blocks/reactor_casing_transparent/0",
+			"west":"nuclearcraft:blocks/reactor_casing_transparent/0",
+			"up":"nuclearcraft:blocks/reactor_casing_transparent/0",
+			"down":"nuclearcraft:blocks/reactor_casing_transparent/0"
+		},
+		"model":"cube",
+		"transform":"forge:default-block"
+	},
 	"variants": {
-		"normal": {"model": "nuclearcraft:reactor_casing_transparent"}
+		"inventory": [{}],
+		"down=false,east=false,north=false,south=false,up=false,west=false": {
+			"model":"cube"
+		},
+		"down=false,east=false,north=false,south=false,up=true,west=false": {
+			"model":"cube",
+			"textures":{
+				"north":"nuclearcraft:blocks/reactor_casing_transparent/3",
+				"east":"nuclearcraft:blocks/reactor_casing_transparent/3",
+				"south":"nuclearcraft:blocks/reactor_casing_transparent/3",
+				"west":"nuclearcraft:blocks/reactor_casing_transparent/3"
+			}
+		},
+		"down=true,east=false,north=false,south=false,up=false,west=false": {
+			"model":"cube",
+			"textures":{
+				"north":"nuclearcraft:blocks/reactor_casing_transparent/1",
+				"east":"nuclearcraft:blocks/reactor_casing_transparent/1",
+				"south":"nuclearcraft:blocks/reactor_casing_transparent/1",
+				"west":"nuclearcraft:blocks/reactor_casing_transparent/1"
+			}
+		},
+		
+		"down=false,east=false,north=true,south=false,up=false,west=false": {
+			"model":"cube",
+			"textures":{
+				"east":"nuclearcraft:blocks/reactor_casing_transparent/4",
+				"west":"nuclearcraft:blocks/reactor_casing_transparent/2",
+				"up":"nuclearcraft:blocks/reactor_casing_transparent/3",
+				"down":"nuclearcraft:blocks/reactor_casing_transparent/1"
+			}
+		},
+		
+		"down=false,east=false,north=false,south=true,up=false,west=false": {
+			"model":"cube",
+			"textures":{
+				"east":"nuclearcraft:blocks/reactor_casing_transparent/2",
+				"west":"nuclearcraft:blocks/reactor_casing_transparent/4",
+				"up":"nuclearcraft:blocks/reactor_casing_transparent/1",
+				"down":"nuclearcraft:blocks/reactor_casing_transparent/3"
+			}
+		},
+		"down=false,east=false,north=false,south=false,up=false,west=true": {
+			"model":"cube",
+			"textures":{
+				"north":"nuclearcraft:blocks/reactor_casing_transparent/4",
+				"south":"nuclearcraft:blocks/reactor_casing_transparent/2",
+				"up":"nuclearcraft:blocks/reactor_casing_transparent/2",
+				"down":"nuclearcraft:blocks/reactor_casing_transparent/2"
+			}
+		},
+		"down=false,east=true,north=false,south=false,up=false,west=false": {
+			"model":"cube",
+			"textures":{
+				"north":"nuclearcraft:blocks/reactor_casing_transparent/2",
+				"south":"nuclearcraft:blocks/reactor_casing_transparent/4",
+				"up":"nuclearcraft:blocks/reactor_casing_transparent/4",
+				"down":"nuclearcraft:blocks/reactor_casing_transparent/4"
+			}
+		},
+
+		"down=false,east=true,north=false,south=false,up=true,west=false": {
+			"model":"cube",
+			"textures":{
+				"north":"nuclearcraft:blocks/reactor_casing_transparent/6",
+				"south":"nuclearcraft:blocks/reactor_casing_transparent/7",
+				"west":"nuclearcraft:blocks/reactor_casing_transparent/3",
+				"down":"nuclearcraft:blocks/reactor_casing_transparent/4"
+			}
+		},
+		"down=false,east=false,north=false,south=false,up=true,west=true": {
+			"model":"cube",
+			"textures":{
+				"north":"nuclearcraft:blocks/reactor_casing_transparent/7",
+				"south":"nuclearcraft:blocks/reactor_casing_transparent/6",
+				"east":"nuclearcraft:blocks/reactor_casing_transparent/3",
+				"down":"nuclearcraft:blocks/reactor_casing_transparent/2"
+			}
+		},
+		"down=true,east=true,north=false,south=false,up=false,west=false": {
+			"model":"cube",
+			"textures":{
+				"north":"nuclearcraft:blocks/reactor_casing_transparent/5",
+				"south":"nuclearcraft:blocks/reactor_casing_transparent/8",
+				"west":"nuclearcraft:blocks/reactor_casing_transparent/1",
+				"up":"nuclearcraft:blocks/reactor_casing_transparent/4"
+			}
+		},
+		"down=true,east=false,north=false,south=false,up=false,west=true": {
+			"model":"cube",
+			"textures":{
+				"north":"nuclearcraft:blocks/reactor_casing_transparent/8",
+				"south":"nuclearcraft:blocks/reactor_casing_transparent/5",
+				"east":"nuclearcraft:blocks/reactor_casing_transparent/1",
+				"up":"nuclearcraft:blocks/reactor_casing_transparent/2"
+			}
+		},
+		"down=false,east=false,north=true,south=false,up=true,west=false": {
+			"model":"cube",
+			"textures":{
+				"south":"nuclearcraft:blocks/reactor_casing_transparent/3",
+				"east":"nuclearcraft:blocks/reactor_casing_transparent/7",
+				"west":"nuclearcraft:blocks/reactor_casing_transparent/6",
+				"down":"nuclearcraft:blocks/reactor_casing_transparent/1"
+			}
+		},
+		"down=false,east=false,north=false,south=true,up=true,west=false": {
+			"model":"cube",
+			"textures":{
+				"north":"nuclearcraft:blocks/reactor_casing_transparent/3",
+				"east":"nuclearcraft:blocks/reactor_casing_transparent/6",
+				"west":"nuclearcraft:blocks/reactor_casing_transparent/7",
+				"down":"nuclearcraft:blocks/reactor_casing_transparent/3"
+			}
+		},
+		"down=true,east=false,north=true,south=false,up=false,west=false": {
+			"model":"cube",
+			"textures":{
+				"south":"nuclearcraft:blocks/reactor_casing_transparent/1",
+				"east":"nuclearcraft:blocks/reactor_casing_transparent/8",
+				"west":"nuclearcraft:blocks/reactor_casing_transparent/5",
+				"up":"nuclearcraft:blocks/reactor_casing_transparent/3"
+			}
+		},
+		"down=true,east=false,north=false,south=true,up=false,west=false": {
+			"model":"cube",
+			"textures":{
+				"north":"nuclearcraft:blocks/reactor_casing_transparent/1",
+				"east":"nuclearcraft:blocks/reactor_casing_transparent/5",
+				"west":"nuclearcraft:blocks/reactor_casing_transparent/8",
+				"up":"nuclearcraft:blocks/reactor_casing_transparent/1"
+			}
+		},
+		"down=false,east=true,north=true,south=false,up=false,west=false": {
+			"model":"cube",
+			"textures":{
+				"south":"nuclearcraft:blocks/reactor_casing_transparent/4",
+				"west":"nuclearcraft:blocks/reactor_casing_transparent/2",
+				"down":"nuclearcraft:blocks/reactor_casing_transparent/8",
+				"up":"nuclearcraft:blocks/reactor_casing_transparent/7"
+			}			
+		},
+		"down=false,east=true,north=false,south=true,up=false,west=false": {
+			"model":"cube",
+			"textures":{
+				"north":"nuclearcraft:blocks/reactor_casing_transparent/2",
+				"west":"nuclearcraft:blocks/reactor_casing_transparent/4",
+				"down":"nuclearcraft:blocks/reactor_casing_transparent/7",
+				"up":"nuclearcraft:blocks/reactor_casing_transparent/8"
+			}
+		},
+		"down=false,east=false,north=true,south=false,up=false,west=true": {
+			"model":"cube",
+			"textures":{
+				"south":"nuclearcraft:blocks/reactor_casing_transparent/2",
+				"east":"nuclearcraft:blocks/reactor_casing_transparent/4",
+				"down":"nuclearcraft:blocks/reactor_casing_transparent/5",
+				"up":"nuclearcraft:blocks/reactor_casing_transparent/6"
+			}
+		},
+		"down=false,east=false,north=false,south=true,up=false,west=true": {
+			"model":"cube",
+			"textures":{
+				"north":"nuclearcraft:blocks/reactor_casing_transparent/4",
+				"east":"nuclearcraft:blocks/reactor_casing_transparent/2",
+				"down":"nuclearcraft:blocks/reactor_casing_transparent/6",
+				"up":"nuclearcraft:blocks/reactor_casing_transparent/5"
+			}
+		},
+		"down=true,east=false,north=false,south=false,up=true,west=false": {
+			"model":"cube",
+			"textures":{
+				"north":"nuclearcraft:blocks/reactor_casing_transparent/9",
+				"south":"nuclearcraft:blocks/reactor_casing_transparent/9",
+				"east":"nuclearcraft:blocks/reactor_casing_transparent/9",
+				"west":"nuclearcraft:blocks/reactor_casing_transparent/9"
+			}
+		},
+		"down=false,east=true,north=false,south=false,up=false,west=true": {
+			"model":"cube",
+			"textures":{
+				"north":"nuclearcraft:blocks/reactor_casing_transparent/10",
+				"south":"nuclearcraft:blocks/reactor_casing_transparent/10",
+				"up":"nuclearcraft:blocks/reactor_casing_transparent/10",
+				"down":"nuclearcraft:blocks/reactor_casing_transparent/10"
+			}
+		},
+		"down=false,east=false,north=true,south=true,up=false,west=false": {
+			"model":"cube",
+			"textures":{
+				"east":"nuclearcraft:blocks/reactor_casing_transparent/10",
+				"west":"nuclearcraft:blocks/reactor_casing_transparent/10",
+				"down":"nuclearcraft:blocks/reactor_casing_transparent/9",
+				"up":"nuclearcraft:blocks/reactor_casing_transparent/9"
+			}
+		},
+		"down=true,east=false,north=false,south=false,up=true,west=true": {
+			"model":"cube",
+			"textures":{
+				"north":"nuclearcraft:blocks/reactor_casing_transparent/14",
+				"south":"nuclearcraft:blocks/reactor_casing_transparent/12",
+				"east":"nuclearcraft:blocks/reactor_casing_transparent/9" 
+			}
+		},
+		"down=true,east=false,north=false,south=true,up=true,west=false": {
+			"model":"cube",
+			"textures":{
+				"north":"nuclearcraft:blocks/reactor_casing_transparent/9",
+				"east":"nuclearcraft:blocks/reactor_casing_transparent/12",
+				"west":"nuclearcraft:blocks/reactor_casing_transparent/14" 
+			}
+		},
+		"down=true,east=true,north=false,south=false,up=true,west=false": {
+			"model":"cube",
+			"textures":{
+				"north":"nuclearcraft:blocks/reactor_casing_transparent/12",
+				"south":"nuclearcraft:blocks/reactor_casing_transparent/14",
+				"west":"nuclearcraft:blocks/reactor_casing_transparent/9" 
+			}
+		},
+		"down=true,east=false,north=true,south=false,up=true,west=false": {
+			"model":"cube",
+			"textures":{
+				"south":"nuclearcraft:blocks/reactor_casing_transparent/9",
+				"east":"nuclearcraft:blocks/reactor_casing_transparent/14",
+				"west":"nuclearcraft:blocks/reactor_casing_transparent/12" 
+			}
+		},
+		"down=false,east=false,north=true,south=true,up=false,west=true": {
+			"model":"cube",
+			"textures":{
+				"down":"nuclearcraft:blocks/reactor_casing_transparent/12",
+				"up":"nuclearcraft:blocks/reactor_casing_transparent/12",
+				"east":"nuclearcraft:blocks/reactor_casing_transparent/10" 
+			}
+		},
+		"down=false,east=true,north=true,south=true,up=false,west=false": {
+			"model":"cube",
+			"textures":{
+				"down":"nuclearcraft:blocks/reactor_casing_transparent/14",
+				"up":"nuclearcraft:blocks/reactor_casing_transparent/14",
+				"west":"nuclearcraft:blocks/reactor_casing_transparent/10" 
+			}
+		},
+		"down=false,east=true,north=false,south=false,up=true,west=true": {
+			"model":"cube",
+			"textures":{
+				"down":"nuclearcraft:blocks/reactor_casing_transparent/10",
+				"north":"nuclearcraft:blocks/reactor_casing_transparent/13",
+				"south":"nuclearcraft:blocks/reactor_casing_transparent/13" 
+			} 
+		},
+		"down=false,east=true,north=false,south=true,up=false,west=true": {
+			"model":"cube",
+			"textures":{
+				"down":"nuclearcraft:blocks/reactor_casing_transparent/13",
+				"north":"nuclearcraft:blocks/reactor_casing_transparent/10",
+				"up":"nuclearcraft:blocks/reactor_casing_transparent/11" 
+			}
+		},
+		"down=true,east=true,north=false,south=false,up=false,west=true": {
+			"model":"cube",
+			"textures":{
+				"up":"nuclearcraft:blocks/reactor_casing_transparent/10",
+				"north":"nuclearcraft:blocks/reactor_casing_transparent/11",
+				"south":"nuclearcraft:blocks/reactor_casing_transparent/11" 
+			}
+		},
+		"down=false,east=true,north=true,south=false,up=false,west=true": {
+			"model":"cube",
+			"textures":{
+				"up":"nuclearcraft:blocks/reactor_casing_transparent/13",
+				"south":"nuclearcraft:blocks/reactor_casing_transparent/10",
+				"down":"nuclearcraft:blocks/reactor_casing_transparent/11" 
+			}
+		},
+		"down=false,east=false,north=true,south=true,up=true,west=false": {
+			"model":"cube",
+			"textures":{
+				"down":"nuclearcraft:blocks/reactor_casing_transparent/9",
+				"east":"nuclearcraft:blocks/reactor_casing_transparent/13",
+				"west":"nuclearcraft:blocks/reactor_casing_transparent/13" 
+			}
+		},
+		"down=true,east=false,north=true,south=true,up=false,west=false": {
+			"model":"cube",
+			"textures":{
+				"up":"nuclearcraft:blocks/reactor_casing_transparent/9",
+				"east":"nuclearcraft:blocks/reactor_casing_transparent/11",
+				"west":"nuclearcraft:blocks/reactor_casing_transparent/11" 
+			}
+		},
+		"down=false,east=true,north=false,south=true,up=true,west=false": {
+			"model":"cube",
+			"textures":{
+				"down":"nuclearcraft:blocks/reactor_casing_transparent/7",
+				"north":"nuclearcraft:blocks/reactor_casing_transparent/6",
+				"west":"nuclearcraft:blocks/reactor_casing_transparent/7" 
+			}
+		},
+		"down=false,east=false,north=false,south=true,up=true,west=true": {
+			"model":"cube",
+			"textures":{
+				"down":"nuclearcraft:blocks/reactor_casing_transparent/6",
+				"north":"nuclearcraft:blocks/reactor_casing_transparent/7",
+				"east":"nuclearcraft:blocks/reactor_casing_transparent/6" 
+			}
+		},
+		"down=false,east=true,north=true,south=false,up=true,west=false": {
+			"model":"cube",
+			"textures":{			
+				"south":"nuclearcraft:blocks/reactor_casing_transparent/7",
+				"down":"nuclearcraft:blocks/reactor_casing_transparent/8",
+				"west":"nuclearcraft:blocks/reactor_casing_transparent/6"
+			} 
+		},
+		"down=true,east=true,north=true,south=false,up=false,west=false": {
+			"model":"cube",
+			"textures":{
+				"south":"nuclearcraft:blocks/reactor_casing_transparent/8",
+				"west":"nuclearcraft:blocks/reactor_casing_transparent/5",
+				"up":"nuclearcraft:blocks/reactor_casing_transparent/7"
+			}
+		},
+		"down=true,east=true,north=false,south=true,up=false,west=false": {
+			"model":"cube",
+			"textures":{
+				"north":"nuclearcraft:blocks/reactor_casing_transparent/5",
+				"west":"nuclearcraft:blocks/reactor_casing_transparent/8",
+				"up":"nuclearcraft:blocks/reactor_casing_transparent/8"
+			}
+		},
+		"down=true,east=false,north=false,south=true,up=false,west=true": {
+			"model":"cube",
+			"textures":{
+				"east":"nuclearcraft:blocks/reactor_casing_transparent/5",
+				"north":"nuclearcraft:blocks/reactor_casing_transparent/8",
+				"up":"nuclearcraft:blocks/reactor_casing_transparent/5"
+			}
+		},
+		"down=true,east=false,north=true,south=false,up=false,west=true": {
+			"model":"cube",
+			"textures":{
+				"east":"nuclearcraft:blocks/reactor_casing_transparent/8",
+				"south":"nuclearcraft:blocks/reactor_casing_transparent/5",
+				"up":"nuclearcraft:blocks/reactor_casing_transparent/6"
+			}
+		},
+		"down=false,east=false,north=true,south=false,up=true,west=true": {
+			"model":"cube",
+			"textures":{
+				"down":"nuclearcraft:blocks/reactor_casing_transparent/5",
+				"east":"nuclearcraft:blocks/reactor_casing_transparent/7",
+				"south":"nuclearcraft:blocks/reactor_casing_transparent/6"
+			}
+		},
+		"down=true,east=true,north=false,south=false,up=true,west=true": {
+			"model":"cube",
+			"textures":{
+				"north":"nuclearcraft:blocks/reactor_casing_transparent/15",
+				"south":"nuclearcraft:blocks/reactor_casing_transparent/15"
+			}
+		},
+		"down=false,east=true,north=true,south=true,up=false,west=true": {
+			"model":"cube",
+			"textures":{
+				"up":"nuclearcraft:blocks/reactor_casing_transparent/15",
+				"down":"nuclearcraft:blocks/reactor_casing_transparent/15"
+			}
+		},
+		"down=true,east=false,north=true,south=true,up=true,west=false": {
+			"model":"cube",
+			"textures":{
+				"east":"nuclearcraft:blocks/reactor_casing_transparent/15",
+				"west":"nuclearcraft:blocks/reactor_casing_transparent/15"
+			}
+		},
+		"down=true,east=false,north=true,south=false,up=true,west=true": {
+			"model":"cube",
+			"textures":{
+				"east":"nuclearcraft:blocks/reactor_casing_transparent/14",
+				"south":"nuclearcraft:blocks/reactor_casing_transparent/12"
+			}
+		},
+		"down=true,east=false,north=true,south=true,up=false,west=true": {
+			"model":"cube",
+			"textures":{
+				"east":"nuclearcraft:blocks/reactor_casing_transparent/11",
+				"up":"nuclearcraft:blocks/reactor_casing_transparent/12"
+			}
+		},
+		"down=false,east=false,north=true,south=true,up=true,west=true": {
+			"model":"cube",
+			"textures":{
+				"down":"nuclearcraft:blocks/reactor_casing_transparent/12",
+				"east":"nuclearcraft:blocks/reactor_casing_transparent/13"
+			} 
+		},
+		"down=true,east=false,north=false,south=true,up=true,west=true": {
+			"model":"cube",
+			"textures":{
+				"east":"nuclearcraft:blocks/reactor_casing_transparent/12",
+				"north":"nuclearcraft:blocks/reactor_casing_transparent/14"
+			}
+		},
+		"down=true,east=true,north=true,south=false,up=true,west=false": {
+			"model":"cube",
+			"textures":{
+				"south":"nuclearcraft:blocks/reactor_casing_transparent/14",
+				"west":"nuclearcraft:blocks/reactor_casing_transparent/12"
+			}
+		},
+		"down=true,east=true,north=false,south=true,up=true,west=false": {
+			"model":"cube",
+			"textures":{
+				"north":"nuclearcraft:blocks/reactor_casing_transparent/12",
+				"west":"nuclearcraft:blocks/reactor_casing_transparent/14"
+			}
+		},
+		"down=false,east=true,north=true,south=true,up=true,west=false": {
+			"model":"cube",
+			"textures":{
+				"down":"nuclearcraft:blocks/reactor_casing_transparent/14",
+				"west":"nuclearcraft:blocks/reactor_casing_transparent/13"
+			}
+		},
+		"down=true,east=true,north=true,south=true,up=false,west=false": {
+			"model":"cube",
+			"textures":{
+				"up":"nuclearcraft:blocks/reactor_casing_transparent/14",
+				"west":"nuclearcraft:blocks/reactor_casing_transparent/11"
+			}
+		},
+		"down=false,east=true,north=false,south=true,up=true,west=true": {
+			"model":"cube",
+			"textures":{
+				"down":"nuclearcraft:blocks/reactor_casing_transparent/13",
+				"north":"nuclearcraft:blocks/reactor_casing_transparent/13"
+			}
+		},
+		"down=true,east=true,north=false,south=true,up=false,west=true": {
+			"model":"cube",
+			"textures":{
+				"up":"nuclearcraft:blocks/reactor_casing_transparent/11",
+				"north":"nuclearcraft:blocks/reactor_casing_transparent/11"
+			}
+		},
+		"down=false,east=true,north=true,south=false,up=true,west=true": {
+			"model":"cube",
+			"textures":{
+				"down":"nuclearcraft:blocks/reactor_casing_transparent/11",
+				"south":"nuclearcraft:blocks/reactor_casing_transparent/13"
+			}
+		},
+		"down=true,east=true,north=true,south=false,up=false,west=true": {
+			"model":"cube",
+			"textures":{
+				"south":"nuclearcraft:blocks/reactor_casing_transparent/11",
+				"up":"nuclearcraft:blocks/reactor_casing_transparent/13"
+			}
+		},
+		"down=true,east=true,north=true,south=true,up=false,west=true": {
+			"model":"cube",
+			"textures":{
+				"up":"nuclearcraft:blocks/reactor_casing_transparent/15"
+			}
+		},
+		"down=true,east=true,north=false,south=true,up=true,west=true": {
+			"model":"cube",
+			"textures":{
+				"north":"nuclearcraft:blocks/reactor_casing_transparent/15"
+			}
+		},
+		"down=true,east=false,north=true,south=true,up=true,west=true": {
+			"model":"cube",
+			"textures":{
+				"east":"nuclearcraft:blocks/reactor_casing_transparent/15"
+			}
+		},
+		"down=true,east=true,north=true,south=true,up=true,west=false": {
+			"model":"cube",
+			"textures":{
+				"west":"nuclearcraft:blocks/reactor_casing_transparent/15"
+			}
+		},
+		"down=true,east=true,north=true,south=false,up=true,west=true": {
+			"model":"cube",
+			"textures":{
+				"south":"nuclearcraft:blocks/reactor_casing_transparent/15"
+			}
+		},
+		"down=false,east=true,north=true,south=true,up=true,west=true": {
+			"model":"cube",
+			"textures":{
+				"down":"nuclearcraft:blocks/reactor_casing_transparent/15"
+			} 
+		},
+		"down=true,east=true,north=true,south=true,up=true,west=true": {
+			"model":"cube"
+		}
 	}
 }

@@ -5,9 +5,9 @@ import nc.config.NCConfig;
 import nc.tile.energy.TileEnergy;
 import nc.tile.fluid.IFluidSpread;
 import nc.tile.fluid.ITileFluid;
-import nc.tile.internal.Tank;
 import nc.tile.internal.EnumEnergyStorage.EnergyConnection;
 import nc.tile.internal.EnumTank.FluidConnection;
+import nc.tile.internal.Tank;
 import nc.tile.passive.ITilePassive;
 import net.darkhax.tesla.capability.TeslaCapabilities;
 import net.minecraft.nbt.NBTTagCompound;
@@ -296,6 +296,7 @@ public abstract class TileEnergyFluid extends TileEnergy implements ITileFluid, 
 			for (EnumFacing side : EnumFacing.VALUES) {
 				TileEntity tile = world.getTileEntity(getPos().offset(side));
 				if (tile instanceof ITilePassive) if (!((ITilePassive) tile).canPushFluidsTo()) continue;
+				if (tile instanceof ITileFluid) if (!((ITileFluid) tile).getFluidConnections()[i].canFill()) continue;
 				IFluidHandler adjStorage = tile == null ? null : tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side.getOpposite());
 				
 				if (tile instanceof IFluidHandler) {

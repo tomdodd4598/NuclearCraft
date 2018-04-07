@@ -17,8 +17,8 @@ public class NCBlockTrapDoor extends BlockTrapDoor {
 		setRegistryName(new ResourceLocation(Global.MOD_ID, name));
 		setCreativeTab(CommonProxy.TAB_FISSION_BLOCKS);
 		setHarvestLevel("pickaxe", 0);
-		setHardness(2);
-		setResistance(15);
+		setHardness(2F);
+		setResistance(15F);
 	}
 	
 	@Override

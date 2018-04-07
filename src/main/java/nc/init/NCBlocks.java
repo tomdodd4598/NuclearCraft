@@ -2,8 +2,8 @@ package nc.init;
 
 import nc.Global;
 import nc.NCInfo;
+import nc.block.BlockConnected;
 import nc.block.BlockMeta;
-import nc.block.BlockTransparent;
 import nc.block.NCBlock;
 import nc.block.NCBlockDoor;
 import nc.block.NCBlockIce;
@@ -12,12 +12,12 @@ import nc.block.NCBlockTrapDoor;
 import nc.block.item.ItemBlockMeta;
 import nc.block.item.NCItemBlock;
 import nc.block.tile.BlockActivatable;
-import nc.block.tile.BlockActivatableTransparent;
+import nc.block.tile.BlockActivatableConnected;
 import nc.block.tile.BlockBattery;
 import nc.block.tile.BlockSimpleTile;
 import nc.block.tile.dummy.BlockFissionPort;
 import nc.block.tile.dummy.BlockFusionDummy;
-import nc.block.tile.dummy.BlockSimpleDummy;
+import nc.block.tile.dummy.BlockMachineInterface;
 import nc.block.tile.generator.BlockFissionController;
 import nc.block.tile.generator.BlockFusionCore;
 import nc.block.tile.processor.BlockNuclearFurnace;
@@ -186,8 +186,8 @@ public class NCBlocks {
 		ingot_block = new BlockMeta.BlockIngot("ingot_block");
 		
 		fission_block = new BlockMeta.BlockFission("fission_block");
-		reactor_casing_transparent = new BlockTransparent("reactor_casing_transparent", Material.IRON, true).setCreativeTab(CommonProxy.TAB_FISSION_BLOCKS);
-		cell_block = new BlockTransparent("cell_block", Material.IRON, false).setCreativeTab(CommonProxy.TAB_FISSION_BLOCKS);
+		reactor_casing_transparent = new BlockConnected("reactor_casing_transparent", Material.IRON, true, NCConfig.connected_textures_each[0]).setCreativeTab(CommonProxy.TAB_FISSION_BLOCKS);
+		cell_block = new NCBlock("cell_block", Material.IRON, false).setCreativeTab(CommonProxy.TAB_FISSION_BLOCKS);
 		cooler = new BlockMeta.BlockCooler("cooler");
 		reactor_door = new NCBlockDoor("reactor_door", Material.IRON);
 		reactor_trapdoor = new NCBlockTrapDoor("reactor_trapdoor", Material.IRON);
@@ -240,7 +240,7 @@ public class NCBlocks {
 		extractor_idle = new BlockProcessor(ProcessorType.EXTRACTOR, false);
 		extractor_active = new BlockProcessor(ProcessorType.EXTRACTOR, true);
 		
-		machine_interface = new BlockSimpleDummy(SimpleTileType.MACHINE_INTERFACE);
+		machine_interface = new BlockMachineInterface(SimpleTileType.MACHINE_INTERFACE);
 		
 		fission_controller_idle = new BlockFissionController(false, false);
 		fission_controller_active = new BlockFissionController(true, false);
@@ -269,10 +269,10 @@ public class NCBlocks {
 		active_cooler = new BlockSimpleTile(SimpleTileType.ACTIVE_COOLER);
 		bin = new BlockSimpleTile(SimpleTileType.BIN);
 		
-		fusion_electromagnet_idle = new BlockActivatable(ActivatableTileType.FUSION_ELECTROMAGNET, false);
-		fusion_electromagnet_active = new BlockActivatable(ActivatableTileType.FUSION_ELECTROMAGNET, true);
-		fusion_electromagnet_transparent_idle = new BlockActivatableTransparent(ActivatableTileType.FUSION_ELECTROMAGNET_TRANSPARENT, false);
-		fusion_electromagnet_transparent_active = new BlockActivatableTransparent(ActivatableTileType.FUSION_ELECTROMAGNET_TRANSPARENT, true);
+		fusion_electromagnet_idle = new BlockActivatableConnected(ActivatableTileType.FUSION_ELECTROMAGNET, false, NCConfig.connected_textures_each[1]);
+		fusion_electromagnet_active = new BlockActivatableConnected(ActivatableTileType.FUSION_ELECTROMAGNET, true, NCConfig.connected_textures_each[1]);
+		fusion_electromagnet_transparent_idle = new BlockActivatableConnected(ActivatableTileType.FUSION_ELECTROMAGNET_TRANSPARENT, false, true, NCConfig.connected_textures_each[1]);
+		fusion_electromagnet_transparent_active = new BlockActivatableConnected(ActivatableTileType.FUSION_ELECTROMAGNET_TRANSPARENT, true, true, NCConfig.connected_textures_each[1]);
 		
 		salt_fission_controller = new BlockSaltFissionController();
 		salt_fission_wall = new BlockSaltFissionWall();

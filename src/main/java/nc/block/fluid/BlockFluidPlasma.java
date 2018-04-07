@@ -3,7 +3,6 @@ package nc.block.fluid;
 import java.util.Random;
 
 import nc.block.tile.BlockActivatable;
-import nc.block.tile.BlockActivatableTransparent;
 import nc.fluid.FluidPlasma;
 import nc.init.NCBlocks;
 import nc.util.MaterialHelper;
@@ -57,7 +56,7 @@ public class BlockFluidPlasma extends BlockFluid {
 		int free = 0;
 		for (EnumFacing side : EnumFacing.values()) {
 			Block offBlock = worldIn.getBlockState(pos.offset(side)).getBlock();
-			if (!(offBlock instanceof BlockActivatable || offBlock instanceof BlockActivatableTransparent || offBlock == NCBlocks.fusion_connector)) {
+			if (!(offBlock instanceof BlockActivatable || offBlock == NCBlocks.fusion_connector)) {
 				free++;
 				continue;
 			} if (rand.nextInt(200) < 2) {

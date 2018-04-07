@@ -1,8 +1,7 @@
 {
-    "parent": "block/orientable",
+    "parent": "block/cube_column",
     "textures": {
-        "top": "nuclearcraft:blocks/voltaic_pile_basic_top",
-        "front": "nuclearcraft:blocks/voltaic_pile_basic_side",
+        "end": "nuclearcraft:blocks/voltaic_pile_basic_top",
         "side": "nuclearcraft:blocks/voltaic_pile_basic_side"
     }
 }

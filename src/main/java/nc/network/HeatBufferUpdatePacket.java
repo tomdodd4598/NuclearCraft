@@ -5,7 +5,7 @@ import java.io.IOException;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 
-public abstract class HeatBufferUpdatePacket<REQ extends SimplePacket<REQ, REPLY> , REPLY extends IMessage> extends SimplePacket<REQ, REPLY> {
+public abstract class HeatBufferUpdatePacket<REQ extends SimplePacketBase<REQ, REPLY> , REPLY extends IMessage> extends SimplePacketBase<REQ, REPLY> {
 	
 	protected long capacity;
 	protected long heat;

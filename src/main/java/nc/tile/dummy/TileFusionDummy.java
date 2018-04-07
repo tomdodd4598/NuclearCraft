@@ -36,7 +36,7 @@ public abstract class TileFusionDummy extends TileDummy implements IBufferable/*
 		}
 		
 		@Override
-		protected void findMaster() {
+		public void findMaster() {
 			BlockPosHelper helper = new BlockPosHelper(pos);
 			for (BlockPos pos : helper.cuboid(-1, -1, -1, 1, 0, 1)) if (findCore(pos)) {
 				masterPosition = pos;
@@ -52,7 +52,7 @@ public abstract class TileFusionDummy extends TileDummy implements IBufferable/*
 		}
 		
 		@Override
-		protected void findMaster() {
+		public void findMaster() {
 			BlockPosHelper helper = new BlockPosHelper(pos);
 			for (BlockPos pos : helper.cuboid(-1, -2, -1, 1, -2, 1)) if (findCore(pos)) {
 				masterPosition = pos;

@@ -1,5 +1,7 @@
 package nc.tile.internal;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.fluids.Fluid;
@@ -10,31 +12,47 @@ import net.minecraftforge.fluids.capability.IFluidTankProperties;
 
 public class Tank extends FluidTank implements INBTSerializable<NBTTagCompound> {
 	
-	public int maxReceive;
-	public int maxExtract;
+	public int maxReceive, maxExtract;
+	
+	public boolean strictlyInput, strictlyOutput;
 	
 	protected IFluidTankProperties[] tankProperties;
 	
 	public String[] allowedFluids;
 	
+	public Tank(int capacity, boolean strictlyIn, boolean strictlyOut, String... allowedFluids) {
+		this(capacity, capacity, capacity, strictlyIn, strictlyOut, allowedFluids);
+	}
+	
 	public Tank(int capacity, String... allowedFluids) {
-		this(capacity, capacity, capacity, allowedFluids);
+		this(capacity, capacity, capacity, false, false, allowedFluids);
+	}
+	
+	public Tank(int capacity, int maxTransfer, boolean strictlyIn, boolean strictlyOut, String... allowedFluids) {
+		this(capacity, maxTransfer, maxTransfer, strictlyIn, strictlyOut, allowedFluids);
 	}
 	
 	public Tank(int capacity, int maxTransfer, String... allowedFluids) {
-		this(capacity, maxTransfer, maxTransfer, allowedFluids);
+		this(capacity, maxTransfer, maxTransfer, false, false, allowedFluids);
 	}
 
-	public Tank(int capacity, int maxReceive, int maxExtract, String... allowedFluids) {
+	public Tank(int capacity, int maxReceive, int maxExtract, boolean strictlyIn, boolean strictlyOut, String... allowedFluids) {
 		super(capacity);
 		this.maxReceive = maxReceive;
 		this.maxExtract = maxExtract;
+		
+		strictlyInput = strictlyIn;
+		strictlyOutput = strictlyOut;
 		
 		if (allowedFluids == null || allowedFluids.length == 0) this.allowedFluids = null; else {
 			String[] fluidList = new String[allowedFluids.length];
 			for (int i = 0; i < allowedFluids.length; i++) fluidList[i] = allowedFluids[i];
 			this.allowedFluids = fluidList;
 		}
+	}
+	
+	public Tank(int capacity, int maxReceive, int maxExtract, String... allowedFluids) {
+		this(capacity, maxReceive, maxExtract, false, false, allowedFluids);
 	}
 	
 	public String getFluidName() {
@@ -53,15 +71,21 @@ public class Tank extends FluidTank implements INBTSerializable<NBTTagCompound> 
 
 	@Override
 	public int fill(FluidStack resource, boolean doFill) {
-		if (!isFluidValid(resource.getFluid()) || (fluid != null && (fluid != null ? !fluid.isFluidEqual(resource) : false))) return 0;
+		if (!isFluidValid(resource.getFluid()) || (fluid != null && (fluid != null ? !fluid.isFluidEqual(resource) : false)) || strictlyOutput) return 0;
 		int fluidReceived = Math.min(capacity - getFluidAmount(), Math.min(maxReceive, resource.amount));
 		if (doFill) fluid = new FluidStack(resource, getFluidAmount() + fluidReceived);
 		return fluidReceived;
 	}
+	
+	@Override
+	public int fillInternal(FluidStack resource, boolean doFill) {
+		if (strictlyOutput) return 0;
+		return super.fillInternal(resource, doFill);
+	}
 
 	@Override
 	public FluidStack drain(int maxDrain, boolean doDrain) {
-		if (fluid == null) return null;
+		if (fluid == null || strictlyInput) return null;
 		int fluidExtracted = Math.min(getFluidAmount(), Math.min(maxExtract, maxDrain));
 		if (doDrain) fluid = new FluidStack(fluid.getFluid(), getFluidAmount() - fluidExtracted);
 		Fluid type = fluid.getFluid();
@@ -71,11 +95,25 @@ public class Tank extends FluidTank implements INBTSerializable<NBTTagCompound> 
 	
 	@Override
 	public FluidStack drain(FluidStack resource, boolean doDrain) {
-		if (fluid == null || resource == null || !fluid.isFluidEqual(resource)) return null;
+		if (fluid == null || resource == null || !fluid.isFluidEqual(resource) || strictlyInput) return null;
 		int fluidExtracted = Math.min(getFluidAmount(), Math.min(maxExtract, resource.amount));
 		if (doDrain) fluid = new FluidStack(fluid.getFluid(), getFluidAmount() - fluidExtracted);
 		if (getFluidAmount() <= 0) fluid = null;
 		return new FluidStack(resource, fluidExtracted);
+	}
+	
+	@Override
+	@Nullable
+	public FluidStack drainInternal(FluidStack resource, boolean doDrain) {
+		if (strictlyInput) return null;
+		return super.drainInternal(resource, doDrain);
+	}
+	
+	@Override
+	@Nullable
+	public FluidStack drainInternal(int maxDrain, boolean doDrain) {
+		if (strictlyInput) return null;
+		return super.drainInternal(maxDrain, doDrain);
 	}
 	
 	public void changeFluidStored(Fluid fluid, int amount) {
@@ -172,6 +210,14 @@ public class Tank extends FluidTank implements INBTSerializable<NBTTagCompound> 
 	public boolean isFluidValid(FluidStack fluid) {
 		if (fluid == null) return false;
 		else return isFluidValid(fluid.getFluid().getName());
+	}
+	
+	public void setStrictlyInput(boolean input) {
+		strictlyInput = input;
+	}
+	
+	public void setStrictlyOutput(boolean output) {
+		strictlyOutput = output;
 	}
 
 	// NBT

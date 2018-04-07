@@ -81,6 +81,9 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 		fluidStackChange = new FluidStack(fluid, MathHelper.abs(fluidChange)*changeRate);
 		fluidType = fluid;
 		updateRate = changeRate*20;
+		
+		if (fluidChange < 0) tanks[0].setStrictlyInput(true);
+		else tanks[0].setStrictlyOutput(true);
 	}
 	
 	@Override
@@ -97,10 +100,10 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 			isRunning = isRunning(energyBool, stackBool, fluidBool);
 			if (flag != isRunning) {
 				flag1 = true;
-				removeTileFromENet();
+				if (ModCheck.ic2Loaded()) removeTileFromENet();
 				setState(isRunning);
 				world.notifyNeighborsOfStateChange(pos, blockType, true);
-				addTileToENet();
+				if (ModCheck.ic2Loaded()) addTileToENet();
 			}
 			if (itemChange > 0) pushStacks();
 			if (energyChange > 0) pushEnergy();

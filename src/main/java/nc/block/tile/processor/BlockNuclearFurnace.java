@@ -107,13 +107,13 @@ public class BlockNuclearFurnace extends BlockContainer implements ITileEntityPr
 	
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		if (world.isRemote) {
-			return true;
-		} else if (player != null) {
-			TileEntity tileentity = world.getTileEntity(pos);
-			if (tileentity instanceof TileNuclearFurnace) {
-				FMLNetworkHandler.openGui(player, NuclearCraft.instance, 0, world, pos.getX(), pos.getY(), pos.getZ());
-			}
+		if (player == null) return false;
+		if (hand != EnumHand.MAIN_HAND || player.isSneaking()) return false;
+		if (world.isRemote) return true;
+		
+		TileEntity tileentity = world.getTileEntity(pos);
+		if (tileentity instanceof TileNuclearFurnace) {
+			FMLNetworkHandler.openGui(player, NuclearCraft.instance, 0, world, pos.getX(), pos.getY(), pos.getZ());
 		}
 		return true;
 	}

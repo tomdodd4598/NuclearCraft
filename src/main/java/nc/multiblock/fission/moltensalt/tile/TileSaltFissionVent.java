@@ -13,9 +13,9 @@ public class TileSaltFissionVent extends TileSaltFissionPartBase implements IFlu
 	
 	@Override
 	public void onMachineAssembled(MultiblockControllerBase controller) {
+		doStandardNullControllerResponse(controller);
 		super.onMachineAssembled(controller);
 		if (getWorld().isRemote) return;
-		doStandardNullControllerResponse(controller);
 	}
 	
 	@Override

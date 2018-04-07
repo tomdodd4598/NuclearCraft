@@ -40,6 +40,7 @@ public class NCConfig {
 	public static int[] ore_max_height;
 	public static boolean[] ore_drops;
 	public static boolean hide_disabled_ores;
+	public static int[] ore_harvest_levels;
 	
 	public static int[] processor_time;
 	public static int[] processor_power;
@@ -165,6 +166,9 @@ public class NCConfig {
 	public static boolean rare_drops;
 	public static boolean dungeon_loot;
 	
+	public static boolean wasteland_biome;
+	public static int wasteland_biome_weight;
+	
 	public static int wasteland_dimension;
 	
 	public static int mushroom_spread_rate;
@@ -174,6 +178,9 @@ public class NCConfig {
 	
 	public static boolean register_fission_fluid_blocks;
 	public static boolean register_cofh_fluids;
+	
+	public static boolean connected_textures;
+	public static boolean[] connected_textures_each;
 	
 	public static void preInit() {
 		File configFile = new File(Loader.instance().getConfigDir(), "nuclearcraft.cfg");
@@ -222,6 +229,8 @@ public class NCConfig {
 		propertyOreDrops.setLanguageKey("gui.config.ores.ore_drops");
 		Property propertyHideDisabledOres = config.get(CATEGORY_ORES, "hide_disabled_ores", false, Lang.localise("gui.config.ores.hide_disabled_ores.comment"));
 		propertyHideDisabledOres.setLanguageKey("gui.config.ores.hide_disabled_ores");
+		Property propertyOreHarvestLevels = config.get(CATEGORY_ORES, "ore_harvest_levels", new int[] {1, 1, 1, 2, 2, 2, 2, 2}, Lang.localise("gui.config.ores.ore_harvest_levels.comment"), 0, 15);
+		propertyOreHarvestLevels.setLanguageKey("gui.config.ores.ore_harvest_levels");
 		
 		Property propertyProcessorTime = config.get(CATEGORY_PROCESSORS, "processor_time", new int[] {400, 800, 800, 400, 400, 600, 800, 600, 3200, 800, 400, 600, 800, 600, 1600, 600, 2400}, Lang.localise("gui.config.processors.processor_time.comment"), 1, 128000);
 		propertyProcessorTime.setLanguageKey("gui.config.processors.processor_time");
@@ -418,7 +427,7 @@ public class NCConfig {
 		Property propertyBatteryCapacity = config.get(CATEGORY_ENERGY_STORAGE, "battery_capacity", new int[] {1600000, 64000000}, Lang.localise("gui.config.energy_storage.battery_capacity.comment"), 1, Integer.MAX_VALUE);
 		propertyBatteryCapacity.setLanguageKey("gui.config.energy_storage.battery_capacity");
 		
-		Property propertyToolMiningLevel = config.get(CATEGORY_TOOLS, "tool_mining_level", new int[] {2, 2, 3, 3, 3, 3, 4, 4}, Lang.localise("gui.config.tools.tool_mining_level.comment"), 1, 15);
+		Property propertyToolMiningLevel = config.get(CATEGORY_TOOLS, "tool_mining_level", new int[] {2, 2, 3, 3, 3, 3, 4, 4}, Lang.localise("gui.config.tools.tool_mining_level.comment"), 0, 15);
 		propertyToolMiningLevel.setLanguageKey("gui.config.tools.tool_mining_level");
 		Property propertyToolDurability = config.get(CATEGORY_TOOLS, "tool_durability", new int[] {547, 547*5, 929, 929*5, 1245, 1245*5, 1928, 1928*5}, Lang.localise("gui.config.tools.tool_durability.comment"), 1, 32767);
 		propertyToolDurability.setLanguageKey("gui.config.tools.tool_durability");
@@ -449,6 +458,11 @@ public class NCConfig {
 		Property propertyDungeonLoot = config.get(CATEGORY_OTHER, "dungeon_loot", true, Lang.localise("gui.config.other.dungeon_loot.comment"));
 		propertyDungeonLoot.setLanguageKey("gui.config.other.dungeon_loot");
 		
+		Property propertyWastelandBiome = config.get(CATEGORY_OTHER, "wasteland_biome", true, Lang.localise("gui.config.other.wasteland_biome.comment"));
+		propertyWastelandBiome.setLanguageKey("gui.config.other.wasteland_biome");
+		Property propertyWastelandBiomeWeight = config.get(CATEGORY_OTHER, "wasteland_biome_weight", 5, Lang.localise("gui.config.other.wasteland_biome_weight.comment"), 0, 255);
+		propertyWastelandBiomeWeight.setLanguageKey("gui.config.other.wasteland_biome_weight");
+		
 		Property propertyWastelandDimension = config.get(CATEGORY_OTHER, "wasteland_dimension", 4598, Lang.localise("gui.config.other.wasteland_dimension.comment"), Integer.MIN_VALUE, Integer.MAX_VALUE);
 		propertyWastelandDimension.setLanguageKey("gui.config.other.wasteland_dimension");
 		
@@ -466,6 +480,11 @@ public class NCConfig {
 		Property propertyRegisterCoFHFluids = config.get(CATEGORY_OTHER, "register_cofh_fluids", false, Lang.localise("gui.config.other.register_cofh_fluids.comment"));
 		propertyRegisterCoFHFluids.setLanguageKey("gui.config.other.register_cofh_fluids");
 		
+		Property propertyConnectedTextures = config.get(CATEGORY_OTHER, "connected_textures", true, Lang.localise("gui.config.other.connected_textures.comment"));
+		propertyConnectedTextures.setLanguageKey("gui.config.other.connected_textures");
+		Property propertyConnectedTexturesEach = config.get(CATEGORY_OTHER, "connected_textures_each", new boolean[] {true, true}, Lang.localise("gui.config.other.connected_textures_each.comment"));
+		propertyConnectedTexturesEach.setLanguageKey("gui.config.other.connected_textures_each");
+		
 		List<String> propertyOrderOres = new ArrayList<String>();
 		propertyOrderOres.add(propertyOreDims.getName());
 		propertyOrderOres.add(propertyOreDimsListType.getName());
@@ -476,6 +495,7 @@ public class NCConfig {
 		propertyOrderOres.add(propertyOreMaxHeight.getName());
 		propertyOrderOres.add(propertyOreDrops.getName());
 		propertyOrderOres.add(propertyHideDisabledOres.getName());
+		propertyOrderOres.add(propertyOreHarvestLevels.getName());
 		config.setCategoryPropertyOrder(CATEGORY_ORES, propertyOrderOres);
 		
 		List<String> propertyOrderProcessors = new ArrayList<String>();
@@ -619,6 +639,8 @@ public class NCConfig {
 		List<String> propertyOrderOther = new ArrayList<String>();
 		propertyOrderOther.add(propertyRareDrops.getName());
 		propertyOrderOther.add(propertyDungeonLoot.getName());
+		propertyOrderOther.add(propertyWastelandBiome.getName());
+		propertyOrderOther.add(propertyWastelandBiomeWeight.getName());
 		propertyOrderOther.add(propertyWastelandDimension.getName());
 		propertyOrderOther.add(propertyMushroomSpreadRate.getName());
 		propertyOrderOther.add(propertyMushroomGen.getName());
@@ -626,6 +648,7 @@ public class NCConfig {
 		propertyOrderOther.add(propertyMushroomGenRate.getName());
 		propertyOrderOther.add(propertyRegisterFluidBlocks.getName());
 		propertyOrderOther.add(propertyRegisterCoFHFluids.getName());
+		propertyOrderOther.add(propertyConnectedTextures.getName());
 		config.setCategoryPropertyOrder(CATEGORY_OTHER, propertyOrderOther);
 		
 		if(readFieldFromConfig) {
@@ -638,6 +661,7 @@ public class NCConfig {
 			ore_max_height = readIntegerArrayFromConfig(propertyOreMaxHeight);
 			ore_drops = readBooleanArrayFromConfig(propertyOreDrops);
 			hide_disabled_ores = propertyHideDisabledOres.getBoolean();
+			ore_harvest_levels = readIntegerArrayFromConfig(propertyOreHarvestLevels);
 			
 			processor_time = readIntegerArrayFromConfig(propertyProcessorTime);
 			processor_power = readIntegerArrayFromConfig(propertyProcessorPower);
@@ -763,6 +787,8 @@ public class NCConfig {
 			
 			rare_drops = propertyRareDrops.getBoolean();
 			dungeon_loot = propertyDungeonLoot.getBoolean();
+			wasteland_biome = propertyWastelandBiome.getBoolean();
+			wasteland_biome_weight = propertyWastelandBiomeWeight.getInt();
 			wasteland_dimension = propertyWastelandDimension.getInt();
 			mushroom_spread_rate = propertyMushroomSpreadRate.getInt();
 			mushroom_gen = propertyMushroomGen.getBoolean();
@@ -770,6 +796,9 @@ public class NCConfig {
 			mushroom_gen_rate = propertyMushroomGenRate.getInt();
 			register_fission_fluid_blocks = propertyRegisterFluidBlocks.getBoolean();
 			register_cofh_fluids = propertyRegisterCoFHFluids.getBoolean();
+			connected_textures = propertyConnectedTextures.getBoolean();
+			connected_textures_each = readBooleanArrayFromConfig(propertyConnectedTexturesEach);
+			
 		}
 		
 		propertyOreDims.set(ore_dims);
@@ -781,6 +810,7 @@ public class NCConfig {
 		propertyOreMaxHeight.set(ore_max_height);
 		propertyOreDrops.set(ore_drops);
 		propertyHideDisabledOres.set(hide_disabled_ores);
+		propertyOreHarvestLevels.set(ore_harvest_levels);
 		
 		propertyProcessorTime.set(processor_time);
 		propertyProcessorPower.set(processor_power);
@@ -905,7 +935,9 @@ public class NCConfig {
 		propertyArmorToughness.set(armor_toughness);
 		
 		propertyRareDrops.set(rare_drops);
-		propertyDungeonLoot.set(dungeon_loot);
+		propertyWastelandBiome.set(wasteland_biome);
+		propertyWastelandBiomeWeight.set(wasteland_biome_weight);
+		propertyWastelandDimension.set(wasteland_dimension);
 		propertyWastelandDimension.set(wasteland_dimension);
 		propertyMushroomSpreadRate.set(mushroom_spread_rate);
 		propertyMushroomGen.set(mushroom_gen);
@@ -913,6 +945,8 @@ public class NCConfig {
 		propertyMushroomGenRate.set(mushroom_gen_rate);
 		propertyRegisterFluidBlocks.set(register_fission_fluid_blocks);
 		propertyRegisterCoFHFluids.set(register_cofh_fluids);
+		propertyConnectedTextures.set(connected_textures);
+		propertyConnectedTexturesEach.set(connected_textures_each);
 		
 		if (config.hasChanged()) config.save();
 	}

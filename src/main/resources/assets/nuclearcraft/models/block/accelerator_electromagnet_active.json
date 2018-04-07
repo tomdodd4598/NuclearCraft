@@ -1,8 +1,7 @@
 {
-    "parent": "block/orientable",
+    "parent": "block/cube_column",
     "textures": {
-        "top": "nuclearcraft:blocks/accelerator_electromagnet_top_on",
-        "front": "nuclearcraft:blocks/accelerator_electromagnet_side_on",
+        "end": "nuclearcraft:blocks/accelerator_electromagnet_top_on",
         "side": "nuclearcraft:blocks/accelerator_electromagnet_side_on"
     }
 }

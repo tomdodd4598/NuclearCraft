@@ -2,6 +2,7 @@ package nc.tile.processor;
 
 import java.util.ArrayList;
 
+import nc.ModCheck;
 import nc.config.NCConfig;
 import nc.init.NCItems;
 import nc.recipe.BaseRecipeHandler;
@@ -60,6 +61,11 @@ public abstract class TileFluidProcessor extends TileEnergyFluidSidedInventory i
 		areTanksShared = fluidInSize > 1;
 		
 		this.recipeType = recipeType;
+		
+		for (int i = 0; i < tanks.length; i++) {
+			if (i < fluidInputSize) tanks[i].setStrictlyInput(true);
+			else tanks[i].setStrictlyOutput(true);
+		}
 	}
 	
 	public static FluidConnection[] fluidConnections(int inSize, int outSize) {
@@ -77,6 +83,11 @@ public abstract class TileFluidProcessor extends TileEnergyFluidSidedInventory i
 	
 	public BaseRecipeHandler getRecipeHandler() {
 		return recipeType.getRecipeHandler();
+	}
+	
+	@Override
+	public int getGuiID() {
+		return upgradeMeta;
 	}
 	
 	@Override
@@ -141,10 +152,10 @@ public abstract class TileFluidProcessor extends TileEnergyFluidSidedInventory i
 	}
 	
 	public void updateBlockType() {
-		removeTileFromENet();
+		if (ModCheck.ic2Loaded()) removeTileFromENet();
 		setState(isProcessing);
 		world.notifyNeighborsOfStateChange(pos, blockType, true);
-		addTileToENet();
+		if (ModCheck.ic2Loaded()) addTileToENet();
 	}
 	
 	// IC2 Tiers

@@ -41,8 +41,8 @@ public abstract class BlockMeta<T extends Enum<T> & IStringSerializable & IBlock
 		type = property;
 		setDefaultState(blockState.getBaseState().withProperty(type, values[0]));
 		setHarvestLevel();
-		setHardness(2);
-		setResistance(15);
+		setHardness(2F);
+		setResistance(15F);
 	}
 	
 	public static class BlockOre extends BlockMeta implements IMetaBlockName {

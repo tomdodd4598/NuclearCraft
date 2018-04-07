@@ -525,7 +525,7 @@ public abstract class TileDummy extends TileEnergyFluidSidedInventory {
 	// Find Master
 	
 	/** Find the BlockPos of the master tile entity */
-	protected abstract void findMaster();
+	public abstract void findMaster();
 	
 	public abstract boolean isMaster(BlockPos pos);
 	

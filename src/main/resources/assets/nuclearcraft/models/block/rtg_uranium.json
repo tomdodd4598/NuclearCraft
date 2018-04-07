@@ -1,8 +1,7 @@
 {
-    "parent": "block/orientable",
-    "textures": {
-        "top": "nuclearcraft:blocks/rtg_uranium_top",
-        "front": "nuclearcraft:blocks/rtg_uranium_side",
-        "side": "nuclearcraft:blocks/rtg_uranium_side"
-    }
+	"parent": "block/cube_column",
+	"textures": {
+		"end": "nuclearcraft:blocks/rtg_uranium_top",
+		"side": "nuclearcraft:blocks/rtg_uranium_side"
+	}
 }

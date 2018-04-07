@@ -25,7 +25,7 @@ public class TileMachineInterface extends TileDummy implements IBufferable {
 	// Find Master
 	
 	@Override
-	protected void findMaster() {
+	public void findMaster() {
 		for (EnumFacing side : EnumFacing.VALUES) {
 			TileEntity tile = world.getTileEntity(getPos().offset(side));
 			if (tile != null) {

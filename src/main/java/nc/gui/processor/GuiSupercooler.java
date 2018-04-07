@@ -5,8 +5,8 @@ import nc.gui.GuiFluidRenderer;
 import nc.gui.GuiItemRenderer;
 import nc.gui.NCGuiButton;
 import nc.init.NCItems;
-import nc.network.PacketEmptyTankButton;
-import nc.network.PacketGetFluidInTank;
+import nc.network.EmptyTankButtonPacket;
+import nc.network.GetFluidInTankPacket;
 import nc.network.PacketHandler;
 import nc.tile.processor.TileFluidProcessor;
 import net.minecraft.client.gui.GuiButton;
@@ -51,8 +51,8 @@ public class GuiSupercooler extends GuiFluidProcessor {
 		drawTexturedModalRect(guiLeft + 74, guiTop + 35, 176, 3, k, 16);
 		
 		if (tick == 0) {
-			PacketHandler.instance.sendToServer(new PacketGetFluidInTank(tile.getPos(), 0, "nc.gui.processor.GuiSupercooler", "fluid0"));
-			PacketHandler.instance.sendToServer(new PacketGetFluidInTank(tile.getPos(), 1, "nc.gui.processor.GuiSupercooler", "fluid1"));
+			PacketHandler.instance.sendToServer(new GetFluidInTankPacket(tile.getPos(), 0, "nc.gui.processor.GuiSupercooler", "fluid0"));
+			PacketHandler.instance.sendToServer(new GetFluidInTankPacket(tile.getPos(), 1, "nc.gui.processor.GuiSupercooler", "fluid1"));
 		}
 		
 		GuiFluidRenderer.renderGuiTank(fluid0, tile.tanks[0].getCapacity(), guiLeft + 56, guiTop + 35, zLevel, 16, 16);
@@ -70,7 +70,7 @@ public class GuiSupercooler extends GuiFluidProcessor {
 	protected void actionPerformed(GuiButton guiButton) {
 		if (tile.getWorld().isRemote) {
 			for (int i = 0; i < 2; i++) if (guiButton.id == i && isShiftKeyDown()) {
-				PacketHandler.instance.sendToServer(new PacketEmptyTankButton(tile, i));
+				PacketHandler.instance.sendToServer(new EmptyTankButtonPacket(tile, i));
 			}
 		}
 	}

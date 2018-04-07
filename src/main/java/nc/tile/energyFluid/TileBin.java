@@ -19,6 +19,7 @@ public class TileBin extends TileEnergyFluidSidedInventory implements IInterface
 			if (inventoryStacks.get(i) != ItemStack.EMPTY) inventoryStacks.set(i, ItemStack.EMPTY);
 		}
 		for (int i = 0; i < tanks.length; i++) {
+			tanks[i].setStrictlyInput(true);
 			if (tanks[i].getFluidAmount() > 0) tanks[i].setFluid(null);
 		}
 		if (storage.getEnergyStored() > 0) storage.setEnergyStored(0);

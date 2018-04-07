@@ -11,11 +11,8 @@ import net.minecraftforge.fml.common.Optional;
 @Optional.InterfaceList({ @Optional.Interface(iface = "net.darkhax.tesla.api.ITeslaConsumer", modid = "tesla"), @Optional.Interface(iface = "net.darkhax.tesla.api.ITeslaHolder", modid = "tesla"), @Optional.Interface(iface = "net.darkhax.tesla.api.ITeslaProducer", modid = "tesla") })
 public class EnergyStorage implements IEnergyStorage, ITeslaConsumer, ITeslaProducer, ITeslaHolder, INBTSerializable<NBTTagCompound> {
 
-	public long maxReceive;
-	public long maxExtract;
-	
-	public long energyStored;
-	public long energyCapacity;
+	public long maxReceive, maxExtract;
+	public long energyStored, energyCapacity;
 	
 	public EnergyStorage(int capacity) {
 		this(capacity, capacity, capacity);

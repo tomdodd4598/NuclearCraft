@@ -1,3 +1,22 @@
+v2.10e
+
+* RTGs now correctly share and output energy when adjacent to each other
+* Temporary fix for battery blocks not pushing energy until configurable sides is added
+
++ Added connected textures for Fusion Electromagnets
+* Connected textures are now configurable
+
+v2.10d
+
+* Fixed crash with IC2 not installed
+
+* Buckets can now be used on machines to insert and extract fluids
+
++ Added connected textures for Transparent Reactor Casing
+
+* Ore harvest levels are now configurable
+* Wasteland biome generation is now configurable
+
 v2.10c
 
 * Fixed fluids not being correctly registered to the Fluid Registry

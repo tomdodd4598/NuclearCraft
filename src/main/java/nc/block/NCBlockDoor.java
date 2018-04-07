@@ -23,8 +23,8 @@ public class NCBlockDoor extends BlockDoor {
 		setUnlocalizedName(Global.MOD_ID + "." + name);
 		setRegistryName(new ResourceLocation(Global.MOD_ID, name));
 		setHarvestLevel("pickaxe", 0);
-		setHardness(2);
-		setResistance(15);
+		setHardness(2F);
+		setResistance(15F);
 	}
 	
 	@Override

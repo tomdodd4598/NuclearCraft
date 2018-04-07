@@ -1,5 +1,518 @@
 {
+	"forge_marker": 1,
+	"defaults": {
+		"textures":{
+			"particle":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_0",
+			"north":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_0",
+			"east":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_0",
+			"south":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_0",
+			"west":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_0",
+			"up":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/top_0",
+			"down":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/top_0"
+		},
+		"model":"cube",
+		"transform":"forge:default-block"
+	},
 	"variants": {
-		"normal": {"model": "nuclearcraft:fusion_electromagnet_transparent_active"}
+		"inventory": [{}],
+		"down=false,east=false,north=false,south=false,up=false,west=false": {
+			"model":"cube"
+		},
+		"down=false,east=false,north=false,south=false,up=true,west=false": {
+			"model":"cube",
+			"textures":{
+				"north":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_3",
+				"east":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_3",
+				"south":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_3",
+				"west":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_3"
+			}
+		},
+		"down=true,east=false,north=false,south=false,up=false,west=false": {
+			"model":"cube",
+			"textures":{
+				"north":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_1",
+				"east":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_1",
+				"south":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_1",
+				"west":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_1"
+			}
+		},
+		
+		"down=false,east=false,north=true,south=false,up=false,west=false": {
+			"model":"cube",
+			"textures":{
+				"east":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_4",
+				"west":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_2",
+				"up":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/top_3",
+				"down":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/top_1"
+			}
+		},
+		
+		"down=false,east=false,north=false,south=true,up=false,west=false": {
+			"model":"cube",
+			"textures":{
+				"east":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_2",
+				"west":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_4",
+				"up":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/top_1",
+				"down":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/top_3"
+			}
+		},
+		"down=false,east=false,north=false,south=false,up=false,west=true": {
+			"model":"cube",
+			"textures":{
+				"north":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_4",
+				"south":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_2",
+				"up":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/top_2",
+				"down":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/top_2"
+			}
+		},
+		"down=false,east=true,north=false,south=false,up=false,west=false": {
+			"model":"cube",
+			"textures":{
+				"north":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_2",
+				"south":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_4",
+				"up":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/top_4",
+				"down":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/top_4"
+			}
+		},
+
+		"down=false,east=true,north=false,south=false,up=true,west=false": {
+			"model":"cube",
+			"textures":{
+				"north":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_6",
+				"south":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_7",
+				"west":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_3",
+				"down":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/top_4"
+			}
+		},
+		"down=false,east=false,north=false,south=false,up=true,west=true": {
+			"model":"cube",
+			"textures":{
+				"north":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_7",
+				"south":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_6",
+				"east":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_3",
+				"down":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/top_2"
+			}
+		},
+		"down=true,east=true,north=false,south=false,up=false,west=false": {
+			"model":"cube",
+			"textures":{
+				"north":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_5",
+				"south":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_8",
+				"west":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_1",
+				"up":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/top_4"
+			}
+		},
+		"down=true,east=false,north=false,south=false,up=false,west=true": {
+			"model":"cube",
+			"textures":{
+				"north":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_8",
+				"south":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_5",
+				"east":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_1",
+				"up":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/top_2"
+			}
+		},
+		"down=false,east=false,north=true,south=false,up=true,west=false": {
+			"model":"cube",
+			"textures":{
+				"south":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_3",
+				"east":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_7",
+				"west":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_6",
+				"down":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/top_1"
+			}
+		},
+		"down=false,east=false,north=false,south=true,up=true,west=false": {
+			"model":"cube",
+			"textures":{
+				"north":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_3",
+				"east":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_6",
+				"west":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_7",
+				"down":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/top_3"
+			}
+		},
+		"down=true,east=false,north=true,south=false,up=false,west=false": {
+			"model":"cube",
+			"textures":{
+				"south":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_1",
+				"east":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_8",
+				"west":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_5",
+				"up":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/top_3"
+			}
+		},
+		"down=true,east=false,north=false,south=true,up=false,west=false": {
+			"model":"cube",
+			"textures":{
+				"north":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_1",
+				"east":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_5",
+				"west":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_8",
+				"up":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/top_1"
+			}
+		},
+		"down=false,east=true,north=true,south=false,up=false,west=false": {
+			"model":"cube",
+			"textures":{
+				"south":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_4",
+				"west":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_2",
+				"down":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/top_8",
+				"up":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/top_7"
+			}			
+		},
+		"down=false,east=true,north=false,south=true,up=false,west=false": {
+			"model":"cube",
+			"textures":{
+				"north":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_2",
+				"west":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_4",
+				"down":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/top_7",
+				"up":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/top_8"
+			}
+		},
+		"down=false,east=false,north=true,south=false,up=false,west=true": {
+			"model":"cube",
+			"textures":{
+				"south":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_2",
+				"east":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_4",
+				"down":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/top_5",
+				"up":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/top_6"
+			}
+		},
+		"down=false,east=false,north=false,south=true,up=false,west=true": {
+			"model":"cube",
+			"textures":{
+				"north":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_4",
+				"east":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_2",
+				"down":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/top_6",
+				"up":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/top_5"
+			}
+		},
+		"down=true,east=false,north=false,south=false,up=true,west=false": {
+			"model":"cube",
+			"textures":{
+				"north":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_9",
+				"south":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_9",
+				"east":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_9",
+				"west":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_9"
+			}
+		},
+		"down=false,east=true,north=false,south=false,up=false,west=true": {
+			"model":"cube",
+			"textures":{
+				"north":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_10",
+				"south":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_10",
+				"up":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/top_10",
+				"down":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/top_10"
+			}
+		},
+		"down=false,east=false,north=true,south=true,up=false,west=false": {
+			"model":"cube",
+			"textures":{
+				"east":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_10",
+				"west":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_10",
+				"down":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/top_9",
+				"up":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/top_9"
+			}
+		},
+		"down=true,east=false,north=false,south=false,up=true,west=true": {
+			"model":"cube",
+			"textures":{
+				"north":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_14",
+				"south":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_12",
+				"east":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_9" 
+			}
+		},
+		"down=true,east=false,north=false,south=true,up=true,west=false": {
+			"model":"cube",
+			"textures":{
+				"north":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_9",
+				"east":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_12",
+				"west":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_14" 
+			}
+		},
+		"down=true,east=true,north=false,south=false,up=true,west=false": {
+			"model":"cube",
+			"textures":{
+				"north":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_12",
+				"south":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_14",
+				"west":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_9" 
+			}
+		},
+		"down=true,east=false,north=true,south=false,up=true,west=false": {
+			"model":"cube",
+			"textures":{
+				"south":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_9",
+				"east":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_14",
+				"west":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_12" 
+			}
+		},
+		"down=false,east=false,north=true,south=true,up=false,west=true": {
+			"model":"cube",
+			"textures":{
+				"down":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/top_12",
+				"up":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/top_12",
+				"east":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_10" 
+			}
+		},
+		"down=false,east=true,north=true,south=true,up=false,west=false": {
+			"model":"cube",
+			"textures":{
+				"down":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/top_14",
+				"up":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/top_14",
+				"west":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_10" 
+			}
+		},
+		"down=false,east=true,north=false,south=false,up=true,west=true": {
+			"model":"cube",
+			"textures":{
+				"down":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/top_10",
+				"north":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_13",
+				"south":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_13" 
+			} 
+		},
+		"down=false,east=true,north=false,south=true,up=false,west=true": {
+			"model":"cube",
+			"textures":{
+				"down":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/top_13",
+				"north":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_10",
+				"up":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/top_11" 
+			}
+		},
+		"down=true,east=true,north=false,south=false,up=false,west=true": {
+			"model":"cube",
+			"textures":{
+				"up":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/top_10",
+				"north":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_11",
+				"south":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_11" 
+			}
+		},
+		"down=false,east=true,north=true,south=false,up=false,west=true": {
+			"model":"cube",
+			"textures":{
+				"up":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/top_13",
+				"south":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_10",
+				"down":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/top_11" 
+			}
+		},
+		"down=false,east=false,north=true,south=true,up=true,west=false": {
+			"model":"cube",
+			"textures":{
+				"down":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/top_9",
+				"east":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_13",
+				"west":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_13" 
+			}
+		},
+		"down=true,east=false,north=true,south=true,up=false,west=false": {
+			"model":"cube",
+			"textures":{
+				"up":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/top_9",
+				"east":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_11",
+				"west":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_11" 
+			}
+		},
+		"down=false,east=true,north=false,south=true,up=true,west=false": {
+			"model":"cube",
+			"textures":{
+				"down":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/top_7",
+				"north":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_6",
+				"west":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_7" 
+			}
+		},
+		"down=false,east=false,north=false,south=true,up=true,west=true": {
+			"model":"cube",
+			"textures":{
+				"down":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/top_6",
+				"north":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_7",
+				"east":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_6" 
+			}
+		},
+		"down=false,east=true,north=true,south=false,up=true,west=false": {
+			"model":"cube",
+			"textures":{			
+				"south":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_7",
+				"down":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/top_8",
+				"west":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_6"
+			} 
+		},
+		"down=true,east=true,north=true,south=false,up=false,west=false": {
+			"model":"cube",
+			"textures":{
+				"south":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_8",
+				"west":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_5",
+				"up":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/top_7"
+			}
+		},
+		"down=true,east=true,north=false,south=true,up=false,west=false": {
+			"model":"cube",
+			"textures":{
+				"north":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_5",
+				"west":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_8",
+				"up":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/top_8"
+			}
+		},
+		"down=true,east=false,north=false,south=true,up=false,west=true": {
+			"model":"cube",
+			"textures":{
+				"east":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_5",
+				"north":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_8",
+				"up":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/top_5"
+			}
+		},
+		"down=true,east=false,north=true,south=false,up=false,west=true": {
+			"model":"cube",
+			"textures":{
+				"east":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_8",
+				"south":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_5",
+				"up":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/top_6"
+			}
+		},
+		"down=false,east=false,north=true,south=false,up=true,west=true": {
+			"model":"cube",
+			"textures":{
+				"down":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/top_5",
+				"east":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_7",
+				"south":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_6"
+			}
+		},
+		"down=true,east=true,north=false,south=false,up=true,west=true": {
+			"model":"cube",
+			"textures":{
+				"north":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_15",
+				"south":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_15"
+			}
+		},
+		"down=false,east=true,north=true,south=true,up=false,west=true": {
+			"model":"cube",
+			"textures":{
+				"up":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/top_15",
+				"down":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/top_15"
+			}
+		},
+		"down=true,east=false,north=true,south=true,up=true,west=false": {
+			"model":"cube",
+			"textures":{
+				"east":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_15",
+				"west":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_15"
+			}
+		},
+		"down=true,east=false,north=true,south=false,up=true,west=true": {
+			"model":"cube",
+			"textures":{
+				"east":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_14",
+				"south":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_12"
+			}
+		},
+		"down=true,east=false,north=true,south=true,up=false,west=true": {
+			"model":"cube",
+			"textures":{
+				"east":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_11",
+				"up":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/top_12"
+			}
+		},
+		"down=false,east=false,north=true,south=true,up=true,west=true": {
+			"model":"cube",
+			"textures":{
+				"down":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/top_12",
+				"east":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_13"
+			} 
+		},
+		"down=true,east=false,north=false,south=true,up=true,west=true": {
+			"model":"cube",
+			"textures":{
+				"east":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_12",
+				"north":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_14"
+			}
+		},
+		"down=true,east=true,north=true,south=false,up=true,west=false": {
+			"model":"cube",
+			"textures":{
+				"south":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_14",
+				"west":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_12"
+			}
+		},
+		"down=true,east=true,north=false,south=true,up=true,west=false": {
+			"model":"cube",
+			"textures":{
+				"north":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_12",
+				"west":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_14"
+			}
+		},
+		"down=false,east=true,north=true,south=true,up=true,west=false": {
+			"model":"cube",
+			"textures":{
+				"down":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/top_14",
+				"west":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_13"
+			}
+		},
+		"down=true,east=true,north=true,south=true,up=false,west=false": {
+			"model":"cube",
+			"textures":{
+				"up":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/top_14",
+				"west":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_11"
+			}
+		},
+		"down=false,east=true,north=false,south=true,up=true,west=true": {
+			"model":"cube",
+			"textures":{
+				"down":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/top_13",
+				"north":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_13"
+			}
+		},
+		"down=true,east=true,north=false,south=true,up=false,west=true": {
+			"model":"cube",
+			"textures":{
+				"up":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/top_11",
+				"north":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_11"
+			}
+		},
+		"down=false,east=true,north=true,south=false,up=true,west=true": {
+			"model":"cube",
+			"textures":{
+				"down":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/top_11",
+				"south":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_13"
+			}
+		},
+		"down=true,east=true,north=true,south=false,up=false,west=true": {
+			"model":"cube",
+			"textures":{
+				"south":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_11",
+				"up":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/top_13"
+			}
+		},
+		"down=true,east=true,north=true,south=true,up=false,west=true": {
+			"model":"cube",
+			"textures":{
+				"up":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/top_15"
+			}
+		},
+		"down=true,east=true,north=false,south=true,up=true,west=true": {
+			"model":"cube",
+			"textures":{
+				"north":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_15"
+			}
+		},
+		"down=true,east=false,north=true,south=true,up=true,west=true": {
+			"model":"cube",
+			"textures":{
+				"east":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_15"
+			}
+		},
+		"down=true,east=true,north=true,south=true,up=true,west=false": {
+			"model":"cube",
+			"textures":{
+				"west":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_15"
+			}
+		},
+		"down=true,east=true,north=true,south=false,up=true,west=true": {
+			"model":"cube",
+			"textures":{
+				"south":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/side_15"
+			}
+		},
+		"down=false,east=true,north=true,south=true,up=true,west=true": {
+			"model":"cube",
+			"textures":{
+				"down":"nuclearcraft:blocks/fusion_electromagnet_transparent_active/top_15"
+			} 
+		},
+		"down=true,east=true,north=true,south=true,up=true,west=true": {
+			"model":"cube"
+		}
 	}
 }

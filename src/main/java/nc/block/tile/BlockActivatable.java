@@ -17,7 +17,15 @@ public class BlockActivatable extends BlockInventory implements IActivatable {
 	protected final ActivatableTileType type;
 	
 	public BlockActivatable(ActivatableTileType type, boolean isActive) {
-		super(type.getName() + (isActive ? "_active" : "_idle"), Material.IRON);
+		this(type, isActive, false, false);
+	}
+	
+	public BlockActivatable(ActivatableTileType type, boolean isActive, boolean smartRender) {
+		this(type, isActive, true, smartRender);
+	}
+	
+	public BlockActivatable(ActivatableTileType type, boolean isActive, boolean transparent, boolean smartRender) {
+		super(type.getName() + (isActive ? "_active" : "_idle"), Material.IRON, transparent, smartRender);
 		this.isActive = isActive;
 		if (!isActive) setCreativeTab(type.getTab());
 		this.type = type;

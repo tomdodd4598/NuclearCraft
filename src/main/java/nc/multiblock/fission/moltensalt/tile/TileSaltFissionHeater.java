@@ -13,9 +13,9 @@ public class TileSaltFissionHeater extends TileSaltFissionPartBase implements IF
 	
 	@Override
 	public void onMachineAssembled(MultiblockControllerBase controller) {
+		doStandardNullControllerResponse(controller);
 		super.onMachineAssembled(controller);
 		if (getWorld().isRemote) return;
-		doStandardNullControllerResponse(controller);
 	}
 	
 	@Override

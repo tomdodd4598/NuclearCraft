@@ -7,7 +7,7 @@ import nc.Global;
 import nc.config.NCConfig;
 import nc.multiblock.IMultiblockPart;
 import nc.multiblock.MultiblockControllerBase;
-import nc.multiblock.ModTileEntity.SyncReason;
+import nc.multiblock.BeefyTileBase.SyncReason;
 import nc.multiblock.cuboidal.CuboidalMultiblockControllerBase;
 import nc.multiblock.fission.moltensalt.container.ContainerSaltFissionController;
 import nc.multiblock.fission.moltensalt.network.SaltFissionHeatBufferUpdatePacket;

@@ -98,7 +98,7 @@ public class TileFissionPort extends TileDummy implements IInterfaceable {
 	// Find Master
 	
 	@Override
-	protected void findMaster() {
+	public void findMaster() {
 		int l = NCConfig.fission_max_size + 2;
 		boolean f = false;
 		int rz = 0;

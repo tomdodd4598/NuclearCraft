@@ -204,6 +204,7 @@ public abstract class TileEnergy extends NCTile implements ITileEnergy, IEnergyS
 		for (EnumFacing side : EnumFacing.VALUES) {
 			TileEntity tile = world.getTileEntity(getPos().offset(side));
 			if (tile instanceof ITilePassive) if (!((ITilePassive) tile).canPushEnergyTo()) continue;
+			if (tile instanceof ITileEnergy) if (!((ITileEnergy) tile).getEnergyConnection().canReceive()) continue;
 			IEnergyStorage adjStorage = tile == null ? null : tile.getCapability(CapabilityEnergy.ENERGY, side.getOpposite());
 			
 			if (adjStorage != null && storage.canExtract()) {

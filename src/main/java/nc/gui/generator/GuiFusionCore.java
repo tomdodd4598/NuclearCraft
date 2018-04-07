@@ -11,10 +11,10 @@ import nc.gui.GuiFluidRenderer;
 import nc.gui.NCGui;
 import nc.gui.NCGuiButton;
 import nc.gui.NCGuiToggleButton;
-import nc.network.PacketEmptyTankButton;
-import nc.network.PacketGetFluidInTank;
+import nc.network.EmptyTankButtonPacket;
+import nc.network.GetFluidInTankPacket;
 import nc.network.PacketHandler;
-import nc.network.PacketToggleTanksSharedButton;
+import nc.network.ToggleTanksSharedButtonPacket;
 import nc.tile.energy.ITileEnergy;
 import nc.tile.generator.TileFusionCore;
 import nc.util.Lang;
@@ -134,14 +134,14 @@ public class GuiFusionCore extends NCGui {
 		tick %= 10;
 		
 		if (tick == 0) {
-			PacketHandler.instance.sendToServer(new PacketGetFluidInTank(tile.getPos(), 0, "nc.gui.generator.GuiFusionCore", "fluid0"));
-			PacketHandler.instance.sendToServer(new PacketGetFluidInTank(tile.getPos(), 1, "nc.gui.generator.GuiFusionCore", "fluid1"));
-			PacketHandler.instance.sendToServer(new PacketGetFluidInTank(tile.getPos(), 2, "nc.gui.generator.GuiFusionCore", "fluid2"));
-			PacketHandler.instance.sendToServer(new PacketGetFluidInTank(tile.getPos(), 3, "nc.gui.generator.GuiFusionCore", "fluid3"));
-			PacketHandler.instance.sendToServer(new PacketGetFluidInTank(tile.getPos(), 4, "nc.gui.generator.GuiFusionCore", "fluid4"));
-			PacketHandler.instance.sendToServer(new PacketGetFluidInTank(tile.getPos(), 5, "nc.gui.generator.GuiFusionCore", "fluid5"));
-			PacketHandler.instance.sendToServer(new PacketGetFluidInTank(tile.getPos(), 6, "nc.gui.generator.GuiFusionCore", "fluid6"));
-			PacketHandler.instance.sendToServer(new PacketGetFluidInTank(tile.getPos(), 7, "nc.gui.generator.GuiFusionCore", "fluid7"));
+			PacketHandler.instance.sendToServer(new GetFluidInTankPacket(tile.getPos(), 0, "nc.gui.generator.GuiFusionCore", "fluid0"));
+			PacketHandler.instance.sendToServer(new GetFluidInTankPacket(tile.getPos(), 1, "nc.gui.generator.GuiFusionCore", "fluid1"));
+			PacketHandler.instance.sendToServer(new GetFluidInTankPacket(tile.getPos(), 2, "nc.gui.generator.GuiFusionCore", "fluid2"));
+			PacketHandler.instance.sendToServer(new GetFluidInTankPacket(tile.getPos(), 3, "nc.gui.generator.GuiFusionCore", "fluid3"));
+			PacketHandler.instance.sendToServer(new GetFluidInTankPacket(tile.getPos(), 4, "nc.gui.generator.GuiFusionCore", "fluid4"));
+			PacketHandler.instance.sendToServer(new GetFluidInTankPacket(tile.getPos(), 5, "nc.gui.generator.GuiFusionCore", "fluid5"));
+			PacketHandler.instance.sendToServer(new GetFluidInTankPacket(tile.getPos(), 6, "nc.gui.generator.GuiFusionCore", "fluid6"));
+			PacketHandler.instance.sendToServer(new GetFluidInTankPacket(tile.getPos(), 7, "nc.gui.generator.GuiFusionCore", "fluid7"));
 		}
 		
 		GuiFluidRenderer.renderGuiTank(fluid0, tile.tanks[0].getCapacity(), guiLeft + 38, guiTop + 6, zLevel, 6, 46);
@@ -169,10 +169,10 @@ public class GuiFusionCore extends NCGui {
 		if (tile.getWorld().isRemote) {
 			if (guiButton.id == 0) {
 				tile.setTanksShared(!tile.getTanksShared());
-				PacketHandler.instance.sendToServer(new PacketToggleTanksSharedButton(tile));
+				PacketHandler.instance.sendToServer(new ToggleTanksSharedButtonPacket(tile));
 			}
 			for (int i = 1; i <= 6; i++) if (guiButton.id == i && isShiftKeyDown()) {
-				PacketHandler.instance.sendToServer(new PacketEmptyTankButton(tile, i - 1));
+				PacketHandler.instance.sendToServer(new EmptyTankButtonPacket(tile, i - 1));
 			}
 		}
 	}

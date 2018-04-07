@@ -32,8 +32,8 @@ public class BlockSpin extends NCBlock implements ITileEntityProvider {
 
 	public BlockSpin(String name) {
 		super(name, Material.IRON);
-		setHardness(1);
-		setResistance(5);
+		setHardness(1F);
+		setResistance(5F);
 		setCreativeTab(CommonProxy.TAB_MISC);
 	}
 	

@@ -19,10 +19,14 @@ public class BlockBattery extends BlockSimpleTile {
 	
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+		if (world.isRemote) return true;
+		if (hand != EnumHand.MAIN_HAND) return false;
+		if (player.isSneaking()) return false;
+		
 		if (player != null) {
 			if (world.getTileEntity(pos) instanceof IBattery) {
 				EnergyStorage storage = ((IBattery) world.getTileEntity(pos)).getBatteryStorage();
-				if (!player.isSneaking() && !world.isRemote) player.sendMessage(new TextComponentString("Energy Stored: " + storage.getEnergyStored() + " / " + storage.getMaxEnergyStored() + " RF"));
+				player.sendMessage(new TextComponentString("Energy Stored: " + storage.getEnergyStored() + " / " + storage.getMaxEnergyStored() + " RF"));
 			}
 		}
 		return true;

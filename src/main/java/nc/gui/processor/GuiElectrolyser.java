@@ -5,8 +5,8 @@ import nc.gui.GuiFluidRenderer;
 import nc.gui.GuiItemRenderer;
 import nc.gui.NCGuiButton;
 import nc.init.NCItems;
-import nc.network.PacketEmptyTankButton;
-import nc.network.PacketGetFluidInTank;
+import nc.network.EmptyTankButtonPacket;
+import nc.network.GetFluidInTankPacket;
 import nc.network.PacketHandler;
 import nc.tile.processor.TileFluidProcessor;
 import net.minecraft.client.gui.GuiButton;
@@ -54,11 +54,11 @@ public class GuiElectrolyser extends GuiFluidProcessor {
 		drawTexturedModalRect(guiLeft + 68, guiTop + 30, 176, 3, k, 38);
 		
 		if (tick == 0) {
-			PacketHandler.instance.sendToServer(new PacketGetFluidInTank(tile.getPos(), 0, "nc.gui.processor.GuiElectrolyser", "fluid0"));
-			PacketHandler.instance.sendToServer(new PacketGetFluidInTank(tile.getPos(), 1, "nc.gui.processor.GuiElectrolyser", "fluid1"));
-			PacketHandler.instance.sendToServer(new PacketGetFluidInTank(tile.getPos(), 2, "nc.gui.processor.GuiElectrolyser", "fluid2"));
-			PacketHandler.instance.sendToServer(new PacketGetFluidInTank(tile.getPos(), 3, "nc.gui.processor.GuiElectrolyser", "fluid3"));
-			PacketHandler.instance.sendToServer(new PacketGetFluidInTank(tile.getPos(), 4, "nc.gui.processor.GuiElectrolyser", "fluid4"));
+			PacketHandler.instance.sendToServer(new GetFluidInTankPacket(tile.getPos(), 0, "nc.gui.processor.GuiElectrolyser", "fluid0"));
+			PacketHandler.instance.sendToServer(new GetFluidInTankPacket(tile.getPos(), 1, "nc.gui.processor.GuiElectrolyser", "fluid1"));
+			PacketHandler.instance.sendToServer(new GetFluidInTankPacket(tile.getPos(), 2, "nc.gui.processor.GuiElectrolyser", "fluid2"));
+			PacketHandler.instance.sendToServer(new GetFluidInTankPacket(tile.getPos(), 3, "nc.gui.processor.GuiElectrolyser", "fluid3"));
+			PacketHandler.instance.sendToServer(new GetFluidInTankPacket(tile.getPos(), 4, "nc.gui.processor.GuiElectrolyser", "fluid4"));
 		}
 		
 		GuiFluidRenderer.renderGuiTank(fluid0, tile.tanks[0].getCapacity(), guiLeft + 50, guiTop + 41, zLevel, 16, 16);
@@ -82,7 +82,7 @@ public class GuiElectrolyser extends GuiFluidProcessor {
 	protected void actionPerformed(GuiButton guiButton) {
 		if (tile.getWorld().isRemote) {
 			for (int i = 0; i < 5; i++) if (guiButton.id == i && isShiftKeyDown()) {
-				PacketHandler.instance.sendToServer(new PacketEmptyTankButton(tile, i));
+				PacketHandler.instance.sendToServer(new EmptyTankButtonPacket(tile, i));
 			}
 		}
 	}

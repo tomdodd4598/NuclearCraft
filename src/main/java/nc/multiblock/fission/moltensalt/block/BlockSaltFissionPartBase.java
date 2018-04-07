@@ -1,50 +1,53 @@
 package nc.multiblock.fission.moltensalt.block;
 
 import nc.Global;
+import nc.block.NCBlock;
 import nc.multiblock.IMultiblockPart;
 import nc.multiblock.MultiblockControllerBase;
 import nc.multiblock.validation.ValidationError;
 import nc.proxy.CommonProxy;
 import nc.util.Lang;
-import net.minecraft.block.BlockContainer;
+import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.InventoryHelper;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public abstract class BlockSaltFissionPartBase extends BlockContainer {
+public abstract class BlockSaltFissionPartBase extends NCBlock implements ITileEntityProvider {
+	
+	protected static boolean keepInventory;
 	
 	public BlockSaltFissionPartBase(String name) {
-		super(Material.IRON);
-		setUnlocalizedName(Global.MOD_ID + "." + name);
-		setRegistryName(new ResourceLocation(Global.MOD_ID, name));
+		this(name, false, false);
+	}
+	
+	public BlockSaltFissionPartBase(String name, boolean smartRender) {
+		this(name, true, smartRender);
+	}
+	
+	public BlockSaltFissionPartBase(String name, boolean transparent, boolean smartRender) {
+		super(name, Material.IRON, transparent, smartRender);
+		this.hasTileEntity = true;
 		setDefaultState(blockState.getBaseState());
-		setHarvestLevel("pickaxe", 0);
-		setHardness(2);
-		setResistance(15);
 		setCreativeTab(CommonProxy.TAB_SALT_FISSION_BLOCKS);
 	}
 	
 	@Override
-	public boolean canCreatureSpawn(IBlockState state, IBlockAccess world, BlockPos pos, net.minecraft.entity.EntityLiving.SpawnPlacementType type) {
-		return false;
+	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
+		return getDefaultState();
 	}
 	
 	@Override
-	public boolean rotateBlock(World world, BlockPos pos, EnumFacing axis) {
-		return false;
-	}
-
-	@Override
-	public EnumBlockRenderType getRenderType(IBlockState state) {
-		return EnumBlockRenderType.MODEL;
+	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+		world.setBlockState(pos, state, 2);
 	}
 	
 	public boolean rightClickOnPart(World world, BlockPos pos, EntityPlayer player) {
@@ -66,6 +69,31 @@ public abstract class BlockSaltFissionPartBase extends BlockContainer {
 				}
 			}
 		}
-		return false;
+		return true;
+	}
+	
+	@Override
+	public void breakBlock(World world, BlockPos pos, IBlockState state) {
+		if (!keepInventory) {
+			TileEntity tileentity = world.getTileEntity(pos);
+			
+			if (tileentity instanceof IInventory) {
+				dropItems(world, pos, (IInventory) tileentity);
+				world.updateComparatorOutputLevel(pos, this);
+			}
+		}
+		super.breakBlock(world, pos, state);
+		world.removeTileEntity(pos);
+	}
+	
+	public void dropItems(World world, BlockPos pos, IInventory tileentity) {
+		InventoryHelper.dropInventoryItems(world, pos, tileentity);
+	}
+	
+	@Override
+	public boolean eventReceived(IBlockState state, World worldIn, BlockPos pos, int id, int param) {
+		super.eventReceived(state, worldIn, pos, id, param);
+		TileEntity tileentity = worldIn.getTileEntity(pos);
+		return tileentity == null ? false : tileentity.receiveClientEvent(id, param);
 	}
 }

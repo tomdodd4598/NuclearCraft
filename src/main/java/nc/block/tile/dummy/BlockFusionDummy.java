@@ -71,15 +71,19 @@ public class BlockFusionDummy extends BlockInventory {
 	
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		if (world.isRemote) {
-			return true;
-		} else if (player != null) {
-			BlockPos corePos = findCore(world, pos);
-			if (corePos != null) {
-				TileEntity tileentity = world.getTileEntity(corePos);
-				if (tileentity instanceof TileFusionCore) {
-					FMLNetworkHandler.openGui(player, NuclearCraft.instance, 101, world, corePos.getX(), corePos.getY(), corePos.getZ());
+		if (player == null) return false;
+		if (hand != EnumHand.MAIN_HAND || player.isSneaking()) return false;
+		if (world.isRemote) return true;
+		
+		BlockPos corePos = findCore(world, pos);
+		if (corePos != null) {
+			if (world.getTileEntity(corePos) instanceof TileFusionCore) {
+				TileFusionCore core = (TileFusionCore) world.getTileEntity(corePos);
+				if (core.getTanks() != null) {
+					boolean accessedTanks = accessTankArray(player, hand, core.getTanks());
+					if (accessedTanks) return true;
 				}
+				FMLNetworkHandler.openGui(player, NuclearCraft.instance, 101, world, corePos.getX(), corePos.getY(), corePos.getZ());
 			}
 		}
 		return true;

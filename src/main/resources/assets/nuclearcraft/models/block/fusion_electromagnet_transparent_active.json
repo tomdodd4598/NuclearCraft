@@ -1,8 +1,7 @@
 {
-    "parent": "block/orientable",
+    "parent": "block/cube_column",
     "textures": {
-        "top": "nuclearcraft:blocks/fusion_electromagnet_transparent_top_on",
-        "front": "nuclearcraft:blocks/fusion_electromagnet_transparent_side_on",
+        "end": "nuclearcraft:blocks/fusion_electromagnet_transparent_top_on",
         "side": "nuclearcraft:blocks/fusion_electromagnet_transparent_side_on"
     }
 }

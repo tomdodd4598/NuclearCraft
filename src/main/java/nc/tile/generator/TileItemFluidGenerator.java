@@ -2,6 +2,7 @@ package nc.tile.generator;
 
 import java.util.ArrayList;
 
+import nc.ModCheck;
 import nc.config.NCConfig;
 import nc.recipe.BaseRecipeHandler;
 import nc.recipe.IIngredient;
@@ -58,6 +59,15 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 		int[] bottomSlots1 = new int[itemOutSize];
 		for (int i = itemInSize; i < itemInSize + bottomSlots1.length; i++) bottomSlots1[i - itemInSize] = i;
 		bottomSlots = bottomSlots1;
+		
+		for (int i = 0; i < tanks.length; i++) {
+			if (i < fluidInputSize) tanks[i].setStrictlyInput(true);
+			else if (i < fluidInputSize + fluidOutputSize) tanks[i].setStrictlyOutput(true);
+			else {
+				tanks[i].setStrictlyInput(true);
+				tanks[i].setStrictlyOutput(true);
+			}
+		}
 	}
 	
 	public static FluidConnection[] fluidConnections(int inSize, int outSize) {
@@ -142,10 +152,10 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 	}
 	
 	public void updateBlockType() {
-		removeTileFromENet();
+		if (ModCheck.ic2Loaded()) removeTileFromENet();
 		setState(isGenerating);
 		world.notifyNeighborsOfStateChange(pos, blockType, true);
-		addTileToENet();
+		if (ModCheck.ic2Loaded()) addTileToENet();
 	}
 	
 	// Processing
