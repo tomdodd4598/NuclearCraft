@@ -2,7 +2,7 @@ package nc.recipe.processor;
 
 import nc.config.NCConfig;
 import nc.recipe.BaseRecipeHandler;
-import nc.util.OreStackHelper;
+import nc.util.OreDictHelper;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -57,7 +57,7 @@ public class ManufactoryRecipes extends BaseRecipeHandler {
 			if (ore.startsWith("ore")) {
 				String dust = "dust" + ore.substring(3);
 				String ingot = "ingot" + ore.substring(3);
-				if (OreStackHelper.oreExists(dust) && OreStackHelper.oreExists(ingot)) {
+				if (OreDictHelper.oreExists(dust) && OreDictHelper.oreExists(ingot)) {
 					addRecipe(ore, oreStack(dust, 2), NCConfig.processor_time[0]);
 					addRecipe(ingot, dust, NCConfig.processor_time[0]);
 				}

@@ -6,6 +6,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -23,17 +24,9 @@ public class BlockConnected extends NCBlock implements IBlockConnected {
 	
 	protected final boolean connected;
 	
-	public BlockConnected(String name, Material material, boolean connected) {
-		this(name, material, false, false, connected);
-	}
-	
-	public BlockConnected(String name, Material material, boolean smartRender, boolean connected) {
-		this(name, material, true, smartRender, connected);
-	}
-	
-	public BlockConnected(String name, Material material, boolean transparent, boolean smartRender, boolean connected) {
-		super(name, material, transparent, smartRender);
-		this.connected = connected;
+	public BlockConnected(String name, Material material, int connectedInt) {
+		super(name, material);
+		connected = NCConfig.connected_textures_each[connectedInt];
 		this.setDefaultState(this.blockState.getBaseState().withProperty(NORTH, false).withProperty(EAST, false).withProperty(SOUTH, false).withProperty(WEST, false).withProperty(UP, false).withProperty(DOWN, false));
 	}
 	
@@ -44,7 +37,7 @@ public class BlockConnected extends NCBlock implements IBlockConnected {
 	
 	@Override
 	public IBlockState getActualState(IBlockState state, IBlockAccess world, BlockPos pos) {
-		if (!NCConfig.connected_textures) return super.getActualState(state, world, pos);
+		if (!connectedTexturesEnabled()) return getDefaultState();
 		return state.withProperty(NORTH, equalAdjacent(world, pos, EnumFacing.NORTH)).withProperty(SOUTH, equalAdjacent(world, pos, EnumFacing.SOUTH)).withProperty(WEST, equalAdjacent(world, pos, EnumFacing.WEST)).withProperty(EAST, equalAdjacent(world, pos, EnumFacing.EAST)).withProperty(UP, equalAdjacent(world, pos, EnumFacing.UP)).withProperty(DOWN, equalAdjacent(world, pos, EnumFacing.DOWN));
 	}
 	
@@ -55,18 +48,45 @@ public class BlockConnected extends NCBlock implements IBlockConnected {
 	
 	@Override
 	public boolean connectedTexturesEnabled() {
-		return connected;
+		return NCConfig.connected_textures && connected;
 	}
 	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess world, BlockPos pos, EnumFacing side) {
-		if (!transparent) return super.shouldSideBeRendered(blockState, world, pos, side);
-		if (!smartRender) return true;
+	public static class Transparent extends BlockConnected {
 		
-		IBlockState otherState = world.getBlockState(pos.offset(side));
-		Block block = otherState.getBlock();
+		protected final boolean smartRender;
 		
-		return block == this ? false : super.shouldSideBeRendered(blockState, world, pos, side);
-    }
+		public Transparent(String name, Material material, int connectedInt, boolean smartRender) {
+			super(name, material, connectedInt);
+			setHardness(1.5F);
+			setResistance(10F);
+			this.smartRender = smartRender;
+		}
+		
+		@Override
+		@SideOnly(Side.CLIENT)
+		public BlockRenderLayer getBlockLayer() {
+			return BlockRenderLayer.CUTOUT;
+		}
+
+		@Override
+		public boolean isFullCube(IBlockState state) {
+			return false;
+		}
+		
+		@Override
+		public boolean isOpaqueCube(IBlockState state) {
+			return false;
+		}
+		
+		@Override
+		@SideOnly(Side.CLIENT)
+		public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess world, BlockPos pos, EnumFacing side) {
+			if (!smartRender) return true;
+			
+			IBlockState otherState = world.getBlockState(pos.offset(side));
+			Block block = otherState.getBlock();
+			
+			return block == this ? false : super.shouldSideBeRendered(blockState, world, pos, side);
+	    }
+	}
 }

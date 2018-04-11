@@ -9,7 +9,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockSaltFissionGlass extends BlockSaltFissionPartBase {
+public class BlockSaltFissionGlass extends BlockSaltFissionPartBase.Transparent {
 
 	public BlockSaltFissionGlass() {
 		super("salt_fission_glass", true);

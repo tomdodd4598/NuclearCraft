@@ -1,32 +1,38 @@
 package nc.tile.generator;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import nc.config.NCConfig;
-import nc.init.NCBlocks;
+import nc.recipe.BaseRecipeHandler;
+import nc.recipe.IIngredient;
+import nc.recipe.IRecipe;
+import nc.recipe.NCRecipes;
+import nc.recipe.RecipeMethods;
 import nc.tile.dummy.IInterfaceable;
 import nc.tile.energy.TileEnergy;
 import nc.tile.internal.EnumEnergyStorage.EnergyConnection;
 import nc.util.EnergyHelper;
-import nc.util.StackHelper;
-import net.minecraft.block.state.IBlockState;
+import nc.util.ItemStackHelper;
+import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.oredict.OreDictionary;
 
 public class TileDecayGenerator extends TileEnergy implements IInterfaceable {
 	
-	static final String[] DECAY_BLOCK_NAMES = new String[] 		{	"blockThorium",										"blockUranium",										"blockDepletedThorium",								"blockDepletedUranium",								"blockDepletedNeptunium",								"blockDepletedPlutonium",							"blockDepletedAmericium",								"blockDepletedCurium",									"blockDepletedBerkelium",								"blockDepletedCalifornium"							};
-	static final IBlockState[] DECAY_PATHS = new IBlockState[] 	{	NCBlocks.block_depleted_thorium.getDefaultState(),	NCBlocks.block_depleted_uranium.getDefaultState(),	NCBlocks.block_depleted_thorium.getDefaultState(),	NCBlocks.block_depleted_uranium.getDefaultState(),	NCBlocks.block_depleted_neptunium.getDefaultState(),	NCBlocks.block_depleted_uranium.getDefaultState(),	NCBlocks.block_depleted_americium.getDefaultState(),	NCBlocks.block_depleted_plutonium.getDefaultState(),	NCBlocks.block_depleted_americium.getDefaultState(),	NCBlocks.block_depleted_thorium.getDefaultState()	};
 	Random rand = new Random();
 	public int tickCount;
 	
+	public final NCRecipes.Type decayGenRecipeType;
+	
 	public TileDecayGenerator() {
-		super(5*NCConfig.generator_rf_per_eu*maxPower(), EnergyConnection.OUT);
+		super(NCConfig.generator_rf_per_eu*maxPower(), EnergyConnection.OUT);
+		decayGenRecipeType = NCRecipes.Type.DECAY_GENERATOR;
+	}
+	
+	public BaseRecipeHandler getRecipeHandler() {
+		return decayGenRecipeType.getRecipeHandler();
 	}
 	
 	@Override
@@ -44,20 +50,38 @@ public class TileDecayGenerator extends TileEnergy implements IInterfaceable {
 	}
 	
 	private static int maxPower() {
-		int maxPower = getDecayPower(0);
-		for (int i = 1; i < NCConfig.decay_power.length; i++) {
-			if (getDecayPower(i) > maxPower) maxPower = getDecayPower(i);
+		int max = 0;
+		ArrayList<IRecipe> recipes = NCRecipes.Type.DECAY_GENERATOR.getRecipeHandler().getRecipes();
+		for (IRecipe recipe : recipes) {
+			if (recipe == null) continue;
+			if (recipe.extras().get(1) instanceof Integer) {
+				max = Math.max(max, (int) recipe.extras().get(1));
+			}
 		}
-		return maxPower;
+		return 6*max*NCConfig.generator_update_rate/20;
 	}
 	
 	public int getGenerated() {
 		int power = 0;
 		for (EnumFacing side : EnumFacing.VALUES) {
-			power += powerFromOreName(getPos().offset(side));
+			power += decayGen(getPos().offset(side));
 		}
 		return power;
 	}
+	
+	public int decayGen(BlockPos pos) {
+		IRecipe recipe = getDecayRecipe(pos);
+		if (recipe == null) return 0;
+		ItemStack stack = getOutput(pos);
+		if (stack.isEmpty() || stack == null) return 0;
+		Block block = ItemStackHelper.getBlockFromStack(stack);
+		if (block == null) return 0;
+		int meta = stack.getMetadata();
+		if (rand.nextDouble()*getRecipeLifetime(pos) < 1D) getWorld().setBlockState(pos, block.getStateFromMeta(meta));
+		return getRecipePower(pos);
+	}
+	
+	// IC2
 	
 	@Override
 	public int getSourceTier() {
@@ -69,23 +93,32 @@ public class TileDecayGenerator extends TileEnergy implements IInterfaceable {
 		return 4;
 	}
 	
-	private int powerFromOreName(BlockPos pos) {
-		List<NonNullList<ItemStack>> types = new ArrayList<NonNullList<ItemStack>>();
-		for (int i = 0; i < DECAY_BLOCK_NAMES.length; i++) {
-			types.add(i, OreDictionary.getOres(DECAY_BLOCK_NAMES[i]));
-		}
-		
-		ItemStack stack = StackHelper.blockToStack(world.getBlockState(pos));
-		for (int i = 0; i < types.size(); i++) {
-			for (ItemStack oreStack : types.get(i)) if (oreStack.isItemEqual(stack)) {
-				if (rand.nextInt(36000/20) == 0) world.setBlockState(pos, DECAY_PATHS[i]);
-				return getDecayPower(i);
-			}
-		}
-		return 0;
+	// Recipe from BlockPos
+	
+	public IRecipe getDecayRecipe(BlockPos pos) {
+		return getRecipeHandler().getRecipeFromInputs(new Object[] {ItemStackHelper.blockStateToStack(world.getBlockState(pos))});
 	}
 	
-	private static int getDecayPower(int i) {
-		return (NCConfig.decay_power[i]*NCConfig.generator_update_rate)/20;
+	public double getRecipeLifetime(BlockPos pos) {
+		IRecipe recipe = getDecayRecipe(pos);
+		if (recipe == null) return 1200D;
+		if (recipe.extras().get(0) instanceof Double) return ((double) recipe.extras().get(0))/NCConfig.generator_update_rate;
+		return 1200D/NCConfig.generator_update_rate;
+	}
+	
+	public int getRecipePower(BlockPos pos) {
+		IRecipe recipe = getDecayRecipe(pos);
+		if (recipe == null) return 5;
+		if (recipe.extras().get(1) instanceof Integer) return ((int) recipe.extras().get(1))*NCConfig.generator_update_rate/20;
+		return 5*NCConfig.generator_update_rate/20;
+	}
+	
+	public ItemStack getOutput(BlockPos pos) {
+		IRecipe recipe = getDecayRecipe(pos);
+		if (recipe == null) return ItemStack.EMPTY;
+		ArrayList<IIngredient> outputs = recipe.outputs();
+		Object output = RecipeMethods.getIngredientFromList(outputs, 0);
+		if (output instanceof ItemStack) return (ItemStack) output;
+		return ItemStack.EMPTY;
 	}
 }

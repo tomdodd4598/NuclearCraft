@@ -186,8 +186,8 @@ public class NCBlocks {
 		ingot_block = new BlockMeta.BlockIngot("ingot_block");
 		
 		fission_block = new BlockMeta.BlockFission("fission_block");
-		reactor_casing_transparent = new BlockConnected("reactor_casing_transparent", Material.IRON, true, NCConfig.connected_textures_each[0]).setCreativeTab(CommonProxy.TAB_FISSION_BLOCKS);
-		cell_block = new NCBlock("cell_block", Material.IRON, false).setCreativeTab(CommonProxy.TAB_FISSION_BLOCKS);
+		reactor_casing_transparent = new BlockConnected.Transparent("reactor_casing_transparent", Material.IRON, 0, true).setCreativeTab(CommonProxy.TAB_FISSION_BLOCKS);
+		cell_block = new NCBlock.Transparent("cell_block", Material.IRON, false).setCreativeTab(CommonProxy.TAB_FISSION_BLOCKS);
 		cooler = new BlockMeta.BlockCooler("cooler");
 		reactor_door = new NCBlockDoor("reactor_door", Material.IRON);
 		reactor_trapdoor = new NCBlockTrapDoor("reactor_trapdoor", Material.IRON);
@@ -269,10 +269,10 @@ public class NCBlocks {
 		active_cooler = new BlockSimpleTile(SimpleTileType.ACTIVE_COOLER);
 		bin = new BlockSimpleTile(SimpleTileType.BIN);
 		
-		fusion_electromagnet_idle = new BlockActivatableConnected(ActivatableTileType.FUSION_ELECTROMAGNET, false, NCConfig.connected_textures_each[1]);
-		fusion_electromagnet_active = new BlockActivatableConnected(ActivatableTileType.FUSION_ELECTROMAGNET, true, NCConfig.connected_textures_each[1]);
-		fusion_electromagnet_transparent_idle = new BlockActivatableConnected(ActivatableTileType.FUSION_ELECTROMAGNET_TRANSPARENT, false, true, NCConfig.connected_textures_each[1]);
-		fusion_electromagnet_transparent_active = new BlockActivatableConnected(ActivatableTileType.FUSION_ELECTROMAGNET_TRANSPARENT, true, true, NCConfig.connected_textures_each[1]);
+		fusion_electromagnet_idle = new BlockActivatableConnected(ActivatableTileType.FUSION_ELECTROMAGNET, false, 1);
+		fusion_electromagnet_active = new BlockActivatableConnected(ActivatableTileType.FUSION_ELECTROMAGNET, true, 1);
+		fusion_electromagnet_transparent_idle = new BlockActivatableConnected.Transparent(ActivatableTileType.FUSION_ELECTROMAGNET_TRANSPARENT, false, 1, true);
+		fusion_electromagnet_transparent_active = new BlockActivatableConnected.Transparent(ActivatableTileType.FUSION_ELECTROMAGNET_TRANSPARENT, true, 1, true);
 		
 		salt_fission_controller = new BlockSaltFissionController();
 		salt_fission_wall = new BlockSaltFissionWall();

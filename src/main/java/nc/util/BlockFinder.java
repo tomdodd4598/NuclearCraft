@@ -64,7 +64,7 @@ public class BlockFinder {
 			List<ItemStack> stacks = OreDictionary.getOres(names[i]);
 			stackList.addAll(stacks);
 		}
-		ItemStack stack = StackHelper.blockToStack(getBlockState(pos));
+		ItemStack stack = ItemStackHelper.blockStateToStack(getBlockState(pos));
 		for (ItemStack oreStack : stackList) if (oreStack.isItemEqual(stack)) return true;
 		return false;
 	}

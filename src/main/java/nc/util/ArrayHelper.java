@@ -82,9 +82,23 @@ public class ArrayHelper {
 		return result;
 	}
 	
+	// Special cases for primitives
+	
 	public static List<Integer> asList(int[] array) {
 		List<Integer> list = new ArrayList<Integer>();
 		for (int t : array) list.add(t);
+		return list;
+	}
+	
+	public static List<Double> asList(double[] array) {
+		List<Double> list = new ArrayList<Double>();
+		for (double t : array) list.add(t);
+		return list;
+	}
+	
+	public static List<Float> asList(float[] array) {
+		List<Float> list = new ArrayList<Float>();
+		for (float t : array) list.add(t);
 		return list;
 	}
 }

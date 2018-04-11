@@ -1,3 +1,11 @@
+v2.10f
+
+* Fixed lighting of transparent blocks
+
+* Decay Generator recipes can now be viewed in JEI and modified with CraftTweaker
+
+* Wasteland dimension can now be disabled
+
 v2.10e
 
 * RTGs now correctly share and output energy when adjacent to each other

@@ -169,6 +169,7 @@ public class NCConfig {
 	public static boolean wasteland_biome;
 	public static int wasteland_biome_weight;
 	
+	public static boolean wasteland_dimension_gen;
 	public static int wasteland_dimension;
 	
 	public static int mushroom_spread_rate;
@@ -261,7 +262,7 @@ public class NCConfig {
 		propertyRTGPower.setLanguageKey("gui.config.generators.rtg_power");
 		Property propertySolarPower = config.get(CATEGORY_GENERATORS, "solar_power", new int[] {5}, Lang.localise("gui.config.generators.solar_power.comment"), 1, Integer.MAX_VALUE);
 		propertySolarPower.setLanguageKey("gui.config.generators.solar_power");
-		Property propertyDecayPower = config.get(CATEGORY_GENERATORS, "decay_power", new int[] {80, 80, 15, 5, 10, 10, 20, 20, 25, 40}, Lang.localise("gui.config.generators.decay_power.comment"), 0, 32767);
+		Property propertyDecayPower = config.get(CATEGORY_GENERATORS, "decay_power", new int[] {80, 80, 15, 5, 10, 15, 20, 25, 30, 40}, Lang.localise("gui.config.generators.decay_power.comment"), 0, 32767);
 		propertyDecayPower.setLanguageKey("gui.config.generators.decay_power");
 		Property propertyGeneratorRFPerEU = config.get(CATEGORY_GENERATORS, "generator_rf_per_eu", 16, Lang.localise("gui.config.generators.generator_rf_per_eu.comment"), 1, 255);
 		propertyGeneratorRFPerEU.setLanguageKey("gui.config.generators.generator_rf_per_eu");
@@ -463,6 +464,8 @@ public class NCConfig {
 		Property propertyWastelandBiomeWeight = config.get(CATEGORY_OTHER, "wasteland_biome_weight", 5, Lang.localise("gui.config.other.wasteland_biome_weight.comment"), 0, 255);
 		propertyWastelandBiomeWeight.setLanguageKey("gui.config.other.wasteland_biome_weight");
 		
+		Property propertyWastelandDimensionGen = config.get(CATEGORY_OTHER, "wasteland_dimension_gen", true, Lang.localise("gui.config.other.wasteland_dimension_gen.comment"));
+		propertyWastelandDimensionGen.setLanguageKey("gui.config.other.wasteland_dimension_gen");
 		Property propertyWastelandDimension = config.get(CATEGORY_OTHER, "wasteland_dimension", 4598, Lang.localise("gui.config.other.wasteland_dimension.comment"), Integer.MIN_VALUE, Integer.MAX_VALUE);
 		propertyWastelandDimension.setLanguageKey("gui.config.other.wasteland_dimension");
 		
@@ -641,6 +644,7 @@ public class NCConfig {
 		propertyOrderOther.add(propertyDungeonLoot.getName());
 		propertyOrderOther.add(propertyWastelandBiome.getName());
 		propertyOrderOther.add(propertyWastelandBiomeWeight.getName());
+		propertyOrderOther.add(propertyWastelandDimensionGen.getName());
 		propertyOrderOther.add(propertyWastelandDimension.getName());
 		propertyOrderOther.add(propertyMushroomSpreadRate.getName());
 		propertyOrderOther.add(propertyMushroomGen.getName());
@@ -789,6 +793,7 @@ public class NCConfig {
 			dungeon_loot = propertyDungeonLoot.getBoolean();
 			wasteland_biome = propertyWastelandBiome.getBoolean();
 			wasteland_biome_weight = propertyWastelandBiomeWeight.getInt();
+			wasteland_dimension_gen = propertyWastelandDimensionGen.getBoolean();
 			wasteland_dimension = propertyWastelandDimension.getInt();
 			mushroom_spread_rate = propertyMushroomSpreadRate.getInt();
 			mushroom_gen = propertyMushroomGen.getBoolean();
@@ -937,7 +942,7 @@ public class NCConfig {
 		propertyRareDrops.set(rare_drops);
 		propertyWastelandBiome.set(wasteland_biome);
 		propertyWastelandBiomeWeight.set(wasteland_biome_weight);
-		propertyWastelandDimension.set(wasteland_dimension);
+		propertyWastelandDimensionGen.set(wasteland_dimension_gen);
 		propertyWastelandDimension.set(wasteland_dimension);
 		propertyMushroomSpreadRate.set(mushroom_spread_rate);
 		propertyMushroomGen.set(mushroom_gen);

@@ -7,7 +7,7 @@ import nc.config.NCConfig;
 import nc.tile.energyFluid.TileEnergyFluidSidedInventory;
 import nc.tile.internal.EnumEnergyStorage.EnergyConnection;
 import nc.tile.internal.EnumTank.FluidConnection;
-import nc.util.StackHelper;
+import nc.util.ItemStackHelper;
 import net.darkhax.tesla.capability.TeslaCapabilities;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -76,7 +76,7 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 		super(name, 1, energyChange == 0 ? 1 : 2*MathHelper.abs(energyChange)*changeRate*NCConfig.generator_rf_per_eu, energyChange == 0 ? 0 : MathHelper.abs(energyChange)*NCConfig.generator_rf_per_eu, energyChange > 0 ? EnergyConnection.OUT : (energyChange < 0 ? EnergyConnection.IN : EnergyConnection.NON), new int[] {fluidChange == 0 ? 1 : 2*MathHelper.abs(fluidChange)*changeRate}, new FluidConnection[] {fluidChange > 0 ? FluidConnection.OUT : (fluidChange < 0 ? FluidConnection.IN : FluidConnection.NON)}, fluidTypes);
 		this.energyChange = energyChange*changeRate;
 		this.itemChange = itemChange*changeRate;
-		stackChange = StackHelper.changeStackSize(stack, MathHelper.abs(itemChange)*changeRate);
+		stackChange = ItemStackHelper.changeStackSize(stack, MathHelper.abs(itemChange)*changeRate);
 		this.fluidChange = fluidChange*changeRate;
 		fluidStackChange = new FluidStack(fluid, MathHelper.abs(fluidChange)*changeRate);
 		fluidType = fluid;

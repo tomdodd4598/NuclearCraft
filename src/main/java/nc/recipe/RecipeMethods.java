@@ -10,8 +10,7 @@ import javax.annotation.Nullable;
 import com.google.common.collect.Lists;
 
 import nc.util.NCUtil;
-import nc.util.OreStackHelper;
-import nc.util.StackHelper;
+import nc.util.OreDictHelper;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -145,9 +144,9 @@ public abstract class RecipeMethods<T extends IRecipe> implements IRecipeGetter<
 				return null;
 			}
 		} else if (object instanceof String) {
-			if (OreStackHelper.exists((String) object, StackType.ITEM)) return new RecipeOreStack((String) object, StackType.ITEM, 1);
-			else if (OreStackHelper.exists((String) object, StackType.FLUID)) return new RecipeOreStack((String) object, StackType.FLUID, 1);
-			else if (OreStackHelper.exists((String) object, StackType.UNSPECIFIED)) return new RecipeOreStack((String) object, StackType.UNSPECIFIED, 1);
+			if (OreDictHelper.exists((String) object, StackType.ITEM)) return new RecipeOreStack((String) object, StackType.ITEM, 1);
+			else if (OreDictHelper.exists((String) object, StackType.FLUID)) return new RecipeOreStack((String) object, StackType.FLUID, 1);
+			else if (OreDictHelper.exists((String) object, StackType.UNSPECIFIED)) return new RecipeOreStack((String) object, StackType.UNSPECIFIED, 1);
 			return null;
 		}
 		if (object instanceof ItemStack) {
@@ -294,7 +293,32 @@ public abstract class RecipeMethods<T extends IRecipe> implements IRecipeGetter<
 	}
 	
 	public static Object adjustObject(Object object) {
-		return StackHelper.fixStack(object);
+		return fixStack(object);
+	}
+	
+	public static Object fixStack(Object object) {
+		if (object instanceof FluidStack) {
+			FluidStack fluidstack = ((FluidStack) object).copy();
+			if (fluidstack.amount == 0) {
+				fluidstack.amount = 1000;
+			}
+			return fluidstack;
+		} else if (object instanceof Fluid) {
+			return new FluidStack((Fluid) object, 1000);
+		} else if (object instanceof ItemStack) {
+			ItemStack stack = ((ItemStack) object).copy();
+			if (stack.getCount() == 0) {
+				stack.setCount(1);
+			}
+			return stack;
+		} else if (object instanceof Item) {
+			return new ItemStack((Item) object, 1);
+		} else {
+			if (!(object instanceof Block)) {
+				throw new RuntimeException(String.format("Invalid ItemStack: %s", object));
+			}
+			return new ItemStack((Block) object, 1);
+		}
 	}
 
 	public static ArrayList<List<Object>> getIngredientLists(ArrayList<IIngredient> ingredientList) {
@@ -377,13 +401,13 @@ public abstract class RecipeMethods<T extends IRecipe> implements IRecipeGetter<
 	
 	public static RecipeOreStack getOreStackFromItems(ArrayList<ItemStack> stackList, int stackSize) {
 		if (stackList.isEmpty() || stackList == null) return null;
-		String oreName = OreStackHelper.getOreNameFromStacks(stackList);
+		String oreName = OreDictHelper.getOreNameFromStacks(stackList);
 		if (oreName == "Unknown") return null;
 		return new RecipeOreStack(oreName, StackType.ITEM, stackSize);
 	}
 	
 	public RecipeOreStack oreStack(String oreType, int stackSize) {
-		if (!OreStackHelper.exists(oreType, StackType.ITEM)) {
+		if (!OreDictHelper.exists(oreType, StackType.ITEM)) {
 			//NCUtil.getLogger().info(getRecipeName() + " - an item ore dict stack of '" + oreType + "' is invalid!");
 			return null;
 		}
@@ -391,7 +415,7 @@ public abstract class RecipeMethods<T extends IRecipe> implements IRecipeGetter<
 	}
 	
 	public RecipeOreStack fluidStack(String oreType, int stackSize) {
-		if (!OreStackHelper.exists(oreType, StackType.FLUID)) {
+		if (!OreDictHelper.exists(oreType, StackType.FLUID)) {
 			//NCUtil.getLogger().info(getRecipeName() + " - a fluid ore dict stack of '" + oreType + "' is invalid!");
 			return null;
 		}

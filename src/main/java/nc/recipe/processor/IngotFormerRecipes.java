@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import nc.config.NCConfig;
 import nc.recipe.BaseRecipeHandler;
 import nc.util.FluidHelper;
-import nc.util.OreStackHelper;
+import nc.util.OreDictHelper;
 import nc.util.StringHelper;
 import net.minecraftforge.fluids.FluidRegistry;
 
@@ -81,8 +81,8 @@ public class IngotFormerRecipes extends BaseRecipeHandler {
 			String materialName = StringHelper.capitalize(fluidName);
 			String ingot = "ingot" + materialName;
 			String gem = "gem" + materialName;
-			if (OreStackHelper.oreExists(ingot)) addRecipe(fluidStack(fluidName, FluidHelper.INGOT_VOLUME), ingot, NCConfig.processor_time[10]);
-			else if (OreStackHelper.oreExists(gem)) addRecipe(fluidStack(fluidName, FluidHelper.GEM_VOLUME), gem, NCConfig.processor_time[10]);
+			if (OreDictHelper.oreExists(ingot)) addRecipe(fluidStack(fluidName, FluidHelper.INGOT_VOLUME), ingot, NCConfig.processor_time[10]);
+			else if (OreDictHelper.oreExists(gem)) addRecipe(fluidStack(fluidName, FluidHelper.GEM_VOLUME), gem, NCConfig.processor_time[10]);
 		}
 	}
 }

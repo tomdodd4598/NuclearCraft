@@ -10,6 +10,7 @@ import nc.enumm.BlockEnums.FusionDummyTileType;
 import nc.init.NCBlocks;
 import nc.tile.generator.TileFusionCore;
 import nc.util.BlockPosHelper;
+import nc.util.FluidHelper;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -80,7 +81,7 @@ public class BlockFusionDummy extends BlockInventory {
 			if (world.getTileEntity(corePos) instanceof TileFusionCore) {
 				TileFusionCore core = (TileFusionCore) world.getTileEntity(corePos);
 				if (core.getTanks() != null) {
-					boolean accessedTanks = accessTankArray(player, hand, core.getTanks());
+					boolean accessedTanks = FluidHelper.accessTankArray(player, hand, core.getTanks());
 					if (accessedTanks) return true;
 				}
 				FMLNetworkHandler.openGui(player, NuclearCraft.instance, 101, world, corePos.getX(), corePos.getY(), corePos.getZ());

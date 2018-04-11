@@ -3,13 +3,19 @@ package nc.block.tile;
 import java.util.Random;
 
 import nc.enumm.BlockEnums.ActivatableTileType;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockRenderLayer;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockActivatable extends BlockInventory implements IActivatable {
 	
@@ -17,15 +23,7 @@ public class BlockActivatable extends BlockInventory implements IActivatable {
 	protected final ActivatableTileType type;
 	
 	public BlockActivatable(ActivatableTileType type, boolean isActive) {
-		this(type, isActive, false, false);
-	}
-	
-	public BlockActivatable(ActivatableTileType type, boolean isActive, boolean smartRender) {
-		this(type, isActive, true, smartRender);
-	}
-	
-	public BlockActivatable(ActivatableTileType type, boolean isActive, boolean transparent, boolean smartRender) {
-		super(type.getName() + (isActive ? "_active" : "_idle"), Material.IRON, transparent, smartRender);
+		super(type.getName() + (isActive ? "_active" : "_idle"), Material.IRON);
 		this.isActive = isActive;
 		if (!isActive) setCreativeTab(type.getTab());
 		this.type = type;
@@ -62,5 +60,46 @@ public class BlockActivatable extends BlockInventory implements IActivatable {
 			tile.validate();
 			world.setTileEntity(pos, tile);
 		}
+	}
+	
+	public static class Transparent extends BlockActivatable {
+		
+		protected final boolean smartRender;
+		
+		public Transparent(ActivatableTileType type, boolean isActive, boolean smartRender) {
+			super(type, isActive);
+			setHardness(1.5F);
+			setResistance(10F);
+			this.smartRender = smartRender;
+		}
+		
+		@Override
+		@SideOnly(Side.CLIENT)
+		public BlockRenderLayer getBlockLayer() {
+			return BlockRenderLayer.CUTOUT;
+		}
+
+		@Override
+		public boolean isFullCube(IBlockState state) {
+			return false;
+		}
+		
+		@Override
+		public boolean isOpaqueCube(IBlockState state) {
+			return false;
+		}
+		
+		@Override
+		@SideOnly(Side.CLIENT)
+		public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess world, BlockPos pos, EnumFacing side) {
+			if (!smartRender) return true;
+			
+			IBlockState otherState = world.getBlockState(pos.offset(side));
+			Block block = otherState.getBlock();
+			
+			if (blockState != otherState) return true;
+			
+			return block == this ? false : super.shouldSideBeRendered(blockState, world, pos, side);
+	    }
 	}
 }

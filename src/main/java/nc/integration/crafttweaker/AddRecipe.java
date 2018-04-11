@@ -15,7 +15,7 @@ import nc.recipe.NCRecipes;
 import nc.recipe.RecipeMethods;
 import nc.recipe.RecipeOreStack;
 import nc.recipe.StackType;
-import nc.util.StackHelper;
+import nc.util.ItemStackHelper;
 import net.minecraft.item.ItemStack;
 
 public class AddRecipe implements IAction {
@@ -52,7 +52,7 @@ public class AddRecipe implements IAction {
 			} else if (input instanceof IngredientStack) {
 				ArrayList<ItemStack> stackList = new ArrayList<ItemStack>();
 				int stackSize = ((IngredientStack) input).getAmount();
-				((IngredientStack) input).getItems().forEach(ingredient -> stackList.add(StackHelper.changeStackSize(CTMethods.getItemStack(ingredient), stackSize)));
+				((IngredientStack) input).getItems().forEach(ingredient -> stackList.add(ItemStackHelper.changeStackSize(CTMethods.getItemStack(ingredient), stackSize)));
 				RecipeOreStack oreStack = RecipeMethods.getOreStackFromItems(stackList, stackSize);
 				if (oreStack != null) adaptedInputs.add(oreStack);
 				else adaptedInputs.add(recipeType.getRecipeHandler().buildRecipeObject(stackList));
@@ -83,7 +83,7 @@ public class AddRecipe implements IAction {
 			} else if (output instanceof IngredientStack) {
 				ArrayList<ItemStack> stackList = new ArrayList<ItemStack>();
 				int stackSize = ((IngredientStack) output).getAmount();
-				((IngredientStack) output).getItems().forEach(ingredient -> stackList.add(StackHelper.changeStackSize(CTMethods.getItemStack(ingredient), stackSize)));
+				((IngredientStack) output).getItems().forEach(ingredient -> stackList.add(ItemStackHelper.changeStackSize(CTMethods.getItemStack(ingredient), stackSize)));
 				RecipeOreStack oreStack = RecipeMethods.getOreStackFromItems(stackList, stackSize);
 				if (oreStack != null) adaptedOutputs.add(oreStack);
 				else adaptedOutputs.add(recipeType.getRecipeHandler().buildRecipeObject(stackList));

@@ -31,6 +31,7 @@ public class NCCraftTweaker {
 		CraftTweakerAPI.registerClass(CrystallizerHandler.class);
 		CraftTweakerAPI.registerClass(DissolverHandler.class);
 		CraftTweakerAPI.registerClass(ExtractorHandler.class);
+		CraftTweakerAPI.registerClass(DecayGeneratorHandler.class);
 		CraftTweakerAPI.registerClass(FissionHandler.class);
 		CraftTweakerAPI.registerClass(FusionHandler.class);
 		CraftTweakerAPI.registerClass(SaltFissionHandler.class);
@@ -465,6 +466,26 @@ public class NCCraftTweaker {
 		@ZenMethod
 		public static void removeRecipeWithOutput(IIngredient output1) {
 			CraftTweakerAPI.apply(new RemoveRecipe(NCRecipes.Type.EXTRACTOR, SorptionType.OUTPUT, Lists.newArrayList(output1)));
+		}
+	}
+	
+	@ZenClass("mods.nuclearcraft.decay_generator")
+	@ZenRegister
+	public static class DecayGeneratorHandler extends RecipeHandler {
+		
+		@ZenMethod
+		public static void addRecipe(IIngredient input1, IIngredient output1, double lifetime, int power) {
+			CraftTweakerAPI.apply(new AddRecipe(NCRecipes.Type.DECAY_GENERATOR, Lists.newArrayList(input1), Lists.newArrayList(output1), Lists.newArrayList(lifetime, power)));
+		}
+
+		@ZenMethod
+		public static void removeRecipeWithInput(IIngredient input1) {
+			CraftTweakerAPI.apply(new RemoveRecipe(NCRecipes.Type.DECAY_GENERATOR, SorptionType.INPUT, Lists.newArrayList(input1)));
+		}
+		
+		@ZenMethod
+		public static void removeRecipeWithOutput(IIngredient output1) {
+			CraftTweakerAPI.apply(new RemoveRecipe(NCRecipes.Type.DECAY_GENERATOR, SorptionType.OUTPUT, Lists.newArrayList(output1)));
 		}
 	}
 	

@@ -50,6 +50,7 @@ import nc.gui.processor.GuiSaltMixer;
 import nc.gui.processor.GuiSupercooler;
 import nc.init.NCBlocks;
 import nc.init.NCItems;
+import nc.integration.jei.generator.DecayGeneratorCategory;
 import nc.integration.jei.generator.FissionCategory;
 import nc.integration.jei.generator.FusionCategory;
 import nc.integration.jei.processor.AlloyFurnaceCategory;
@@ -74,8 +75,8 @@ import nc.integration.jei.saltFission.SaltFissionCategory;
 import nc.recipe.BaseRecipeHandler;
 import nc.recipe.IRecipe;
 import nc.recipe.NCRecipes;
+import nc.util.ItemStackHelper;
 import nc.util.NCUtil;
-import nc.util.StackHelper;
 import nc.worldgen.ore.OreGenerator;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
@@ -216,7 +217,7 @@ public class NCJEI implements IModPlugin, IJEIRecipeBuilder {
 	}
 	
 	private void blacklist(IJeiHelpers jeiHelpers, Object ingredient) {
-		jeiHelpers.getIngredientBlacklist().addIngredientToBlacklist(StackHelper.fixItemStack(ingredient));
+		jeiHelpers.getIngredientBlacklist().addIngredientToBlacklist(ItemStackHelper.fixItemStack(ingredient));
 	}
 	
 	private <T extends Enum<T>> void blacklistAll(IJeiHelpers jeiHelpers, Class<T> enumm, Block block) {
@@ -245,6 +246,7 @@ public class NCJEI implements IModPlugin, IJEIRecipeBuilder {
 		CRYSTALLIZER(NCRecipes.Type.CRYSTALLIZER, NCBlocks.crystallizer_idle, "crystallizer", RecipesJEI.Crystallizer.class),
 		DISSOLVER(NCRecipes.Type.DISSOLVER, NCBlocks.dissolver_idle, "dissolver", RecipesJEI.Dissolver.class),
 		EXTRACTOR(NCRecipes.Type.EXTRACTOR, NCBlocks.extractor_idle, "extractor", RecipesJEI.Extractor.class),
+		DECAY_GENERATOR(NCRecipes.Type.DECAY_GENERATOR, NCBlocks.decay_generator, "decay_generator", RecipesJEI.DecayGenerator.class),
 		FISSION(NCRecipes.Type.FISSION, NCBlocks.fission_controller_new_idle, "fission_controller", RecipesJEI.Fission.class),
 		FUSION(NCRecipes.Type.FUSION, NCBlocks.fusion_core, "fusion_core", RecipesJEI.Fusion.class),
 		SALT_FISSION(NCRecipes.Type.SALT_FISSION, NCBlocks.salt_fission_vessel, "salt_fission", RecipesJEI.SaltFission.class),
@@ -258,7 +260,7 @@ public class NCJEI implements IModPlugin, IJEIRecipeBuilder {
 		
 		Handlers(NCRecipes.Type recipeType, Object crafter, String textureName, Class<? extends JEIRecipe> recipeClass) {
 			this.recipeType = recipeType;
-			crafterType = StackHelper.fixItemStack(crafter);
+			crafterType = ItemStackHelper.fixItemStack(crafter);
 			this.unlocalizedName = crafterType.getUnlocalizedName() + ".name";
 			this.textureName = textureName;
 			this.recipeClass = recipeClass;
@@ -301,6 +303,8 @@ public class NCJEI implements IModPlugin, IJEIRecipeBuilder {
 				return new DissolverCategory(guiHelper, this);
 			case EXTRACTOR:
 				return new ExtractorCategory(guiHelper, this);
+			case DECAY_GENERATOR:
+				return new DecayGeneratorCategory(guiHelper, this);
 			case FISSION:
 				return new FissionCategory(guiHelper, this);
 			case FUSION:

@@ -7,7 +7,7 @@ import com.google.common.collect.Lists;
 import nc.config.NCConfig;
 import nc.recipe.BaseRecipeHandler;
 import nc.util.FluidHelper;
-import nc.util.OreStackHelper;
+import nc.util.OreDictHelper;
 import nc.util.StringHelper;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -181,10 +181,10 @@ public class MelterRecipes extends BaseRecipeHandler {
 			String ingot = "ingot" + materialName;
 			String gem = "gem" + materialName;
 			String dust = "dust" + materialName;
-			if (OreStackHelper.oreExists(ingot) && OreStackHelper.oreExists(dust)) addIngotMeltingRecipes(fluidName);
-			else if (OreStackHelper.oreExists(ingot) && OreStackHelper.oreExists(ore)) addIngotOreMeltingRecipes(fluidName);
-			else if (OreStackHelper.oreExists(gem) && OreStackHelper.oreExists(dust)) addGemMeltingRecipes(fluidName);
-			else if (OreStackHelper.oreExists(gem) && OreStackHelper.oreExists(ore)) addGemOreMeltingRecipes(fluidName);
+			if (OreDictHelper.oreExists(ingot) && OreDictHelper.oreExists(dust)) addIngotMeltingRecipes(fluidName);
+			else if (OreDictHelper.oreExists(ingot) && OreDictHelper.oreExists(ore)) addIngotOreMeltingRecipes(fluidName);
+			else if (OreDictHelper.oreExists(gem) && OreDictHelper.oreExists(dust)) addGemMeltingRecipes(fluidName);
+			else if (OreDictHelper.oreExists(gem) && OreDictHelper.oreExists(ore)) addGemOreMeltingRecipes(fluidName);
 		}
 	}
 }

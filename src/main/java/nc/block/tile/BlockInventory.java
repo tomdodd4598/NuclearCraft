@@ -4,7 +4,7 @@ import nc.NuclearCraft;
 import nc.block.NCBlock;
 import nc.tile.IGui;
 import nc.tile.fluid.ITileFluid;
-import nc.tile.internal.Tank;
+import nc.util.FluidHelper;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -24,17 +24,9 @@ import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
 public abstract class BlockInventory extends NCBlock implements ITileEntityProvider {
 	
 	protected static boolean keepInventory;
-	
-	public BlockInventory(String name, Material material) {
-		this(name, material, false, false);
-	}
-	
-	public BlockInventory(String name, Material material, boolean smartRender) {
-		this(name, material, true, smartRender);
-	}
 
-	public BlockInventory(String name, Material material, boolean transparent, boolean smartRender) {
-		super(name, material, transparent, smartRender);
+	public BlockInventory(String name, Material material) {
+		super(name, material);
 		this.hasTileEntity = true;
 		setDefaultState(blockState.getBaseState());
 	}
@@ -63,7 +55,7 @@ public abstract class BlockInventory extends NCBlock implements ITileEntityProvi
 		if (tileentity instanceof ITileFluid) {
 			ITileFluid tileFluid = (ITileFluid) tileentity;
 			if (tileFluid.getTanks() != null) {
-				boolean accessedTanks = accessTankArray(player, hand, tileFluid.getTanks());
+				boolean accessedTanks = FluidHelper.accessTankArray(player, hand, tileFluid.getTanks());
 				if (accessedTanks) return true;
 			}
 		}
@@ -74,21 +66,6 @@ public abstract class BlockInventory extends NCBlock implements ITileEntityProvi
 		else return false;
 		
 		return true;
-	}
-	
-	public boolean accessTankArray(EntityPlayer player, EnumHand hand, Tank[] tanks) {
-		ItemStack heldItem = player.getHeldItem(hand);
-		for (int i = 0; i < tanks.length; i++) {
-			boolean accessedTank = accessTank(player, hand, tanks[i]);
-			if (accessedTank) return true;
-		}
-		return false;
-	}
-	
-	public boolean accessTank(EntityPlayer player, EnumHand hand, Tank tank) {
-		ItemStack heldItem = player.getHeldItem(hand);
-		if (heldItem == null) return false;
-		return FluidUtil.interactWithFluidHandler(player, hand, tank);
 	}
 	
 	@Override

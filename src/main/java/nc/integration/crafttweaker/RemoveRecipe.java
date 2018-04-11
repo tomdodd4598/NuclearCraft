@@ -15,7 +15,7 @@ import nc.recipe.RecipeMethods;
 import nc.recipe.RecipeOreStack;
 import nc.recipe.SorptionType;
 import nc.recipe.StackType;
-import nc.util.StackHelper;
+import nc.util.ItemStackHelper;
 import net.minecraft.item.ItemStack;
 
 public class RemoveRecipe implements IAction {
@@ -52,7 +52,7 @@ public class RemoveRecipe implements IAction {
 				continue;
 			} else if (output instanceof IngredientStack) {
 				ArrayList<ItemStack> stackList = new ArrayList<ItemStack>();
-				((IngredientStack) output).getItems().forEach(ingredient -> stackList.add(StackHelper.changeStackSize(CTMethods.getItemStack(ingredient), ((IngredientStack) output).getAmount())));
+				((IngredientStack) output).getItems().forEach(ingredient -> stackList.add(ItemStackHelper.changeStackSize(CTMethods.getItemStack(ingredient), ((IngredientStack) output).getAmount())));
 				adaptedIngredients.add(recipeType.getRecipeHandler().buildRecipeObject(stackList));
 				continue;
 			} else if (output instanceof ILiquidStack) {

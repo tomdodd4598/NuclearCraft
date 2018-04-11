@@ -4,7 +4,7 @@ import com.google.common.collect.Lists;
 
 import nc.config.NCConfig;
 import nc.recipe.BaseRecipeHandler;
-import nc.util.OreStackHelper;
+import nc.util.OreDictHelper;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraftforge.oredict.OreDictionary;
@@ -40,15 +40,15 @@ public class PressurizerRecipes extends BaseRecipeHandler {
 			if (ore.startsWith("plate")) {
 				String ingot = "ingot" + ore.substring(5);
 				String gem = "gem" + ore.substring(5);
-				if (OreStackHelper.oreExists(ingot)) {
+				if (OreDictHelper.oreExists(ingot)) {
 					addRecipe(ingot, ore, NCConfig.processor_time[11]);
-				} else if (OreStackHelper.oreExists(gem)) {
+				} else if (OreDictHelper.oreExists(gem)) {
 					addRecipe(gem, ore, NCConfig.processor_time[11]);
 				}
 			}
 			if (ore.startsWith("plateDense")) {
 				String plate = "plate" + ore.substring(10);
-				if (OreStackHelper.oreExists(plate)) {
+				if (OreDictHelper.oreExists(plate)) {
 					addRecipe(oreStack(plate, 9), ore, NCConfig.processor_time[11]*4);
 				}
 			}
