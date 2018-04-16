@@ -2,8 +2,8 @@ package nc.tile.fluid;
 
 import nc.config.NCConfig;
 import nc.tile.NCTile;
-import nc.tile.internal.EnumTank.FluidConnection;
-import nc.tile.internal.Tank;
+import nc.tile.internal.fluid.FluidConnection;
+import nc.tile.internal.fluid.Tank;
 import nc.tile.passive.ITilePassive;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -83,20 +83,20 @@ public abstract class TileFluid extends NCTile implements ITileFluid, IFluidHand
 
 	@Override
 	public IFluidTankProperties[] getTankProperties() {
-		if (tanks.length == 0 || tanks == null) return EmptyFluidHandler.EMPTY_TANK_PROPERTIES_ARRAY;
-		IFluidTankProperties[] properties = new IFluidTankProperties[tanks.length];
-		for (int i = 0; i < tanks.length; i++) {
-			properties[i] = new FluidTankProperties(tanks[i].getFluid(), tanks[i].getCapacity(), fluidConnections[i].canFill(), fluidConnections[i].canDrain());
+		if (getTanks().length == 0 || getTanks() == null) return EmptyFluidHandler.EMPTY_TANK_PROPERTIES_ARRAY;
+		IFluidTankProperties[] properties = new IFluidTankProperties[getTanks().length];
+		for (int i = 0; i < getTanks().length; i++) {
+			properties[i] = new FluidTankProperties(getTanks()[i].getFluid(), getTanks()[i].getCapacity(), fluidConnections[i].canFill(), fluidConnections[i].canDrain());
 		}
 		return properties;
 	}
 
 	@Override
 	public int fill(FluidStack resource, boolean doFill) {
-		if (tanks.length == 0 || tanks == null) return 0;
-		for (int i = 0; i < tanks.length; i++) {
-			if (fluidConnections[i].canFill() && tanks[i].isFluidValid(resource) && canFill(resource, i) && tanks[i].getFluidAmount() < tanks[i].getCapacity() && (tanks[i].getFluid() == null || tanks[i].getFluid().isFluidEqual(resource))) {
-				return tanks[i].fill(resource, doFill);
+		if (getTanks().length == 0 || getTanks() == null) return 0;
+		for (int i = 0; i < getTanks().length; i++) {
+			if (fluidConnections[i].canFill() && getTanks()[i].isFluidValid(resource) && canFill(resource, i) && getTanks()[i].getFluidAmount() < getTanks()[i].getCapacity() && (getTanks()[i].getFluid() == null || getTanks()[i].getFluid().isFluidEqual(resource))) {
+				return getTanks()[i].fill(resource, doFill);
 			}
 		}
 		return 0;
@@ -104,10 +104,10 @@ public abstract class TileFluid extends NCTile implements ITileFluid, IFluidHand
 
 	@Override
 	public FluidStack drain(FluidStack resource, boolean doDrain) {
-		if (tanks.length == 0 || tanks == null) return null;
-		for (int i = 0; i < tanks.length; i++) {
-			if (fluidConnections[i].canDrain() && tanks[i].getFluid() != null && tanks[i].getFluidAmount() > 0) {
-				if (resource.isFluidEqual(tanks[i].getFluid()) && tanks[i].drain(resource, false) != null) return tanks[i].drain(resource, doDrain);
+		if (getTanks().length == 0 || getTanks() == null) return null;
+		for (int i = 0; i < getTanks().length; i++) {
+			if (fluidConnections[i].canDrain() && getTanks()[i].getFluid() != null && getTanks()[i].getFluidAmount() > 0) {
+				if (resource.isFluidEqual(getTanks()[i].getFluid()) && getTanks()[i].drain(resource, false) != null) return getTanks()[i].drain(resource, doDrain);
 			}
 		}
 		return null;
@@ -115,10 +115,10 @@ public abstract class TileFluid extends NCTile implements ITileFluid, IFluidHand
 
 	@Override
 	public FluidStack drain(int maxDrain, boolean doDrain) {
-		if (tanks.length == 0 || tanks == null) return null;
-		for (int i = 0; i < tanks.length; i++) {
-			if (fluidConnections[i].canDrain() && tanks[i].getFluid() != null && tanks[i].getFluidAmount() > 0) {
-				if (tanks[i].drain(maxDrain, false) != null) return tanks[i].drain(maxDrain, doDrain);
+		if (getTanks().length == 0 || getTanks() == null) return null;
+		for (int i = 0; i < getTanks().length; i++) {
+			if (fluidConnections[i].canDrain() && getTanks()[i].getFluid() != null && getTanks()[i].getFluidAmount() > 0) {
+				if (getTanks()[i].drain(maxDrain, false) != null) return getTanks()[i].drain(maxDrain, doDrain);
 			}
 		}
 		return null;
@@ -128,9 +128,9 @@ public abstract class TileFluid extends NCTile implements ITileFluid, IFluidHand
 	public boolean canFill(FluidStack resource, int tankNumber) {
 		if (!areTanksShared) return true;
 		
-		for (int i = 0; i < tanks.length; i++) {
-			if (i != tankNumber && fluidConnections[i].canFill() && tanks[i].getFluid() != null) {
-				if (tanks[i].getFluid().isFluidEqual(resource)) return false;
+		for (int i = 0; i < getTanks().length; i++) {
+			if (i != tankNumber && fluidConnections[i].canFill() && getTanks()[i].getFluid() != null) {
+				if (getTanks()[i].getFluid().isFluidEqual(resource)) return false;
 			}
 		}
 		return true;
@@ -138,7 +138,7 @@ public abstract class TileFluid extends NCTile implements ITileFluid, IFluidHand
 	
 	@Override
 	public void clearTank(int tankNo) {
-		if (tankNo < tanks.length) tanks[tankNo].setFluidStored(null);
+		if (tankNo < getTanks().length) getTanks()[tankNo].setFluidStored(null);
 	}
 	
 	@Override
@@ -164,10 +164,10 @@ public abstract class TileFluid extends NCTile implements ITileFluid, IFluidHand
 		if (fluid == null) return 0;
 		FluidStack fluidStack = new FluidStack(fluid, 1000);
 		
-		if (tanks.length == 0 || tanks == null) return 0;
-		for (int i = 0; i < tanks.length; i++) {
-			if (fluidConnections[i].canFill() && tanks[i].isFluidValid(fluidStack) && canFill(fluidStack, i) && tanks[i].getFluidAmount() < tanks[i].getCapacity() && (tanks[i].getFluid() == null || tanks[i].getFluid().isFluidEqual(fluidStack))) {
-				return tanks[i].fill(fluidStack, doTransfer);
+		if (getTanks().length == 0 || getTanks() == null) return 0;
+		for (int i = 0; i < getTanks().length; i++) {
+			if (fluidConnections[i].canFill() && getTanks()[i].isFluidValid(fluidStack) && canFill(fluidStack, i) && getTanks()[i].getFluidAmount() < getTanks()[i].getCapacity() && (getTanks()[i].getFluid() == null || getTanks()[i].getFluid().isFluidEqual(fluidStack))) {
+				return getTanks()[i].fill(fluidStack, doTransfer);
 			}
 		}
 		return 0;
@@ -183,9 +183,9 @@ public abstract class TileFluid extends NCTile implements ITileFluid, IFluidHand
 		if (!areTanksShared) return true;
 		
 		FluidStack fluidStack = new FluidStack(fluid, 1000);
-		for (int i = 0; i < tanks.length; i++) {
-			if (fluidConnections[i].canFill() && tanks[i].getFluid() != null) {
-				if (tanks[i].getFluidAmount() >= tanks[i].getCapacity() && tanks[i].getFluid().isFluidEqual(fluidStack)) return false;
+		for (int i = 0; i < getTanks().length; i++) {
+			if (fluidConnections[i].canFill() && getTanks()[i].getFluid() != null) {
+				if (getTanks()[i].getFluidAmount() >= getTanks()[i].getCapacity() && getTanks()[i].getFluid().isFluidEqual(fluidStack)) return false;
 			}
 		}
 		return true;
@@ -207,9 +207,9 @@ public abstract class TileFluid extends NCTile implements ITileFluid, IFluidHand
 	@Override
 	public NBTTagCompound writeAll(NBTTagCompound nbt) {
 		super.writeAll(nbt);
-		if (tanks.length > 0 && tanks != null) for (int i = 0; i < tanks.length; i++) {
-			nbt.setInteger("fluidAmount" + i, tanks[i].getFluidAmount());
-			nbt.setString("fluidName" + i, tanks[i].getFluidName());
+		if (getTanks().length > 0 && getTanks() != null) for (int i = 0; i < getTanks().length; i++) {
+			nbt.setInteger("fluidAmount" + i, getTanks()[i].getFluidAmount());
+			nbt.setString("fluidName" + i, getTanks()[i].getFluidName());
 		}
 		nbt.setBoolean("areTanksShared", areTanksShared);
 		return nbt;
@@ -218,9 +218,9 @@ public abstract class TileFluid extends NCTile implements ITileFluid, IFluidHand
 	@Override
 	public void readAll(NBTTagCompound nbt) {
 		super.readAll(nbt);
-		if (tanks.length > 0 && tanks != null) for (int i = 0; i < tanks.length; i++) {
-			if (nbt.getString("fluidName" + i) == "nullFluid" || nbt.getInteger("fluidAmount" + i) == 0) tanks[i].setFluidStored(null);
-			else tanks[i].setFluidStored(FluidRegistry.getFluid(nbt.getString("fluidName" + i)), nbt.getInteger("fluidAmount" + i));
+		if (getTanks().length > 0 && getTanks() != null) for (int i = 0; i < getTanks().length; i++) {
+			if (nbt.getString("fluidName" + i) == "nullFluid" || nbt.getInteger("fluidAmount" + i) == 0) getTanks()[i].setFluidStored(null);
+			else getTanks()[i].setFluidStored(FluidRegistry.getFluid(nbt.getString("fluidName" + i)), nbt.getInteger("fluidAmount" + i));
 		}
 		setTanksShared(nbt.getBoolean("areTanksShared"));
 	}
@@ -228,17 +228,17 @@ public abstract class TileFluid extends NCTile implements ITileFluid, IFluidHand
 	// Fluid Connections
 	
 	public void setConnection(FluidConnection[] fluidConnections) {
-		if (tanks.length > 0 && tanks != null) this.fluidConnections = fluidConnections;
+		if (getTanks().length > 0 && getTanks() != null) this.fluidConnections = fluidConnections;
 	}
 	
 	public void setConnection(FluidConnection fluidConnections, int tankNumber) {
-		if (tanks.length > 0 && tanks != null) this.fluidConnections[tankNumber] = fluidConnections;
+		if (getTanks().length > 0 && getTanks() != null) this.fluidConnections[tankNumber] = fluidConnections;
 	}
 	
 	public void pushFluid() {
-		if (tanks.length > 0 && tanks != null) for (int i = 0; i < tanks.length; i++) {
-			if (tanks[i].getFluid() == null) return;
-			if (tanks[i].getFluidAmount() <= 0 || !fluidConnections[i].canDrain()) return;
+		if (getTanks().length > 0 && getTanks() != null) for (int i = 0; i < getTanks().length; i++) {
+			if (getTanks()[i].getFluid() == null) return;
+			if (getTanks()[i].getFluidAmount() <= 0 || !fluidConnections[i].canDrain()) return;
 			for (EnumFacing side : EnumFacing.VALUES) {
 				TileEntity tile = world.getTileEntity(getPos().offset(side));
 				if (tile instanceof ITilePassive) if (!((ITilePassive) tile).canPushFluidsTo()) continue;
@@ -246,10 +246,10 @@ public abstract class TileFluid extends NCTile implements ITileFluid, IFluidHand
 				IFluidHandler adjStorage = tile == null ? null : tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side.getOpposite());
 				
 				if (tile instanceof IFluidHandler) {
-					tanks[i].drain(((IFluidHandler) tile).fill(tanks[i].drain(tanks[i].getCapacity(), false), true), true);
+					getTanks()[i].drain(((IFluidHandler) tile).fill(getTanks()[i].drain(getTanks()[i].getCapacity(), false), true), true);
 				}
 				else if (adjStorage != null) {
-					tanks[i].drain(adjStorage.fill(tanks[i].drain(tanks[i].getCapacity(), false), true), true);
+					getTanks()[i].drain(adjStorage.fill(getTanks()[i].drain(getTanks()[i].getCapacity(), false), true), true);
 				}
 			}
 		}
@@ -257,9 +257,9 @@ public abstract class TileFluid extends NCTile implements ITileFluid, IFluidHand
 	
 	public void spreadFluid() {
 		if (!NCConfig.passive_permeation) return;
-		if (tanks.length > 0 && tanks != null) for (int i = 0; i < tanks.length; i++) {
-			if (tanks[i].getFluid() == null) return;
-			if (tanks[i].getFluidAmount() <= 0 || fluidConnections[i] == FluidConnection.NON) return;
+		if (getTanks().length > 0 && getTanks() != null) for (int i = 0; i < getTanks().length; i++) {
+			if (getTanks()[i].getFluid() == null) return;
+			if (getTanks()[i].getFluidAmount() <= 0 || fluidConnections[i] == FluidConnection.NON) return;
 			for (EnumFacing side : EnumFacing.VALUES) {
 				TileEntity tile = world.getTileEntity(getPos().offset(side));
 				if (tile instanceof ITilePassive) if (!((ITilePassive) tile).canPushFluidsTo()) continue;
@@ -268,16 +268,16 @@ public abstract class TileFluid extends NCTile implements ITileFluid, IFluidHand
 				if (!(tile instanceof IFluidSpread)) continue;
 				
 				if (tile instanceof IFluidHandler) {
-					int maxDrain = tanks[i].getFluidAmount()/2;
+					int maxDrain = getTanks()[i].getFluidAmount()/2;
 					FluidStack stack = ((IFluidHandler) tile).getTankProperties()[0].getContents();
 					if (stack != null) maxDrain -= stack.amount/2;
-					if (maxDrain > 0) tanks[i].drain(((IFluidHandler) tile).fill(tanks[i].drain(maxDrain, false), true), true);
+					if (maxDrain > 0) getTanks()[i].drain(((IFluidHandler) tile).fill(getTanks()[i].drain(maxDrain, false), true), true);
 				}
 				else if (adjStorage != null) {
-					int maxDrain = tanks[i].getFluidAmount()/2;
+					int maxDrain = getTanks()[i].getFluidAmount()/2;
 					FluidStack stack = adjStorage.getTankProperties()[0].getContents();
 					if (stack != null) maxDrain -= stack.amount/2;
-					if (maxDrain > 0) tanks[i].drain(adjStorage.fill(tanks[i].drain(tanks[i].getCapacity(), false), true), true);
+					if (maxDrain > 0) getTanks()[i].drain(adjStorage.fill(getTanks()[i].drain(getTanks()[i].getCapacity(), false), true), true);
 				}
 			}
 		}
@@ -287,10 +287,7 @@ public abstract class TileFluid extends NCTile implements ITileFluid, IFluidHand
 	
 	@Override
 	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
-		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY && tanks.length > 0 && tanks != null) {
-			return true;
-		}
-		if (tanks.length > 0 && tanks != null) {
+		if (getTanks().length > 0 && getTanks() != null) {
 			if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) return true;
 			//else if (capability == Capabilities.GAS_HANDLER_CAPABILITY) return true;
 			//else if (capability == Capabilities.TUBE_CONNECTION_CAPABILITY) return true;
@@ -300,7 +297,7 @@ public abstract class TileFluid extends NCTile implements ITileFluid, IFluidHand
 
 	@Override
 	public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
-		if (tanks.length > 0 && tanks != null) {
+		if (getTanks().length > 0 && getTanks() != null) {
 			if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(this);
 			//if (capability == Capabilities.GAS_HANDLER_CAPABILITY) return Capabilities.GAS_HANDLER_CAPABILITY.cast(this);
 			//if (capability == Capabilities.TUBE_CONNECTION_CAPABILITY) return Capabilities.TUBE_CONNECTION_CAPABILITY.cast(this);

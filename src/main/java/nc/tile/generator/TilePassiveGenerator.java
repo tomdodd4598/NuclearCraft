@@ -4,7 +4,7 @@ import nc.config.NCConfig;
 import nc.tile.dummy.IInterfaceable;
 import nc.tile.energy.IEnergySpread;
 import nc.tile.energy.TileEnergy;
-import nc.tile.internal.EnumEnergyStorage.EnergyConnection;
+import nc.tile.internal.energy.EnergyConnection;
 import nc.util.EnergyHelper;
 
 public abstract class TilePassiveGenerator extends TileEnergy implements IInterfaceable, IEnergySpread {
@@ -16,7 +16,7 @@ public abstract class TilePassiveGenerator extends TileEnergy implements IInterf
 	}
 
 	public TilePassiveGenerator(int capacity, int maxTransfer) {
-		super(2*capacity*NCConfig.generator_rf_per_eu, maxTransfer*NCConfig.generator_rf_per_eu, EnergyConnection.OUT);
+		super(2*capacity*NCConfig.generator_rf_per_eu, maxTransfer*NCConfig.generator_rf_per_eu, energyConnectionAll(EnergyConnection.OUT));
 		power = capacity;
 	}
 	
@@ -24,7 +24,7 @@ public abstract class TilePassiveGenerator extends TileEnergy implements IInterf
 	public void update() {
 		super.update();
 		if(!world.isRemote) {
-			storage.changeEnergyStored(getGenerated());
+			getEnergyStorage().changeEnergyStored(getGenerated());
 			pushEnergy();
 			spreadEnergy();
 		}

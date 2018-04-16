@@ -1,15 +1,15 @@
 package nc.tile.energyFluid;
 
 import nc.tile.dummy.IInterfaceable;
-import nc.tile.internal.EnumEnergyStorage.EnergyConnection;
-import nc.tile.internal.EnumTank.FluidConnection;
+import nc.tile.internal.energy.EnergyConnection;
+import nc.tile.internal.fluid.FluidConnection;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 
 public class TileBin extends TileEnergyFluidSidedInventory implements IInterfaceable {
 	
 	public TileBin() {
-		super("bin", 4, 16777216, EnergyConnection.IN, new int[] {256000, 256000, 256000, 256000}, new FluidConnection[] {FluidConnection.IN, FluidConnection.IN, FluidConnection.IN, FluidConnection.IN});
+		super("bin", 4, 16777216, energyConnectionAll(EnergyConnection.IN), new int[] {256000, 256000, 256000, 256000}, new FluidConnection[] {FluidConnection.IN, FluidConnection.IN, FluidConnection.IN, FluidConnection.IN});
 	}
 	
 	@Override
@@ -22,7 +22,7 @@ public class TileBin extends TileEnergyFluidSidedInventory implements IInterface
 			tanks[i].setStrictlyInput(true);
 			if (tanks[i].getFluidAmount() > 0) tanks[i].setFluid(null);
 		}
-		if (storage.getEnergyStored() > 0) storage.setEnergyStored(0);
+		if (getEnergyStorage().getEnergyStored() > 0) getEnergyStorage().setEnergyStored(0);
 	}
 	
 	// Sided Inventory

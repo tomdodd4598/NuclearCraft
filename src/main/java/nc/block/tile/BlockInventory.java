@@ -1,5 +1,11 @@
 package nc.block.tile;
 
+import java.util.List;
+
+import javax.annotation.Nullable;
+
+import com.google.common.collect.Lists;
+
 import nc.NuclearCraft;
 import nc.block.NCBlock;
 import nc.tile.IGui;
@@ -17,6 +23,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
@@ -34,11 +41,6 @@ public abstract class BlockInventory extends NCBlock implements ITileEntityProvi
 	@Override
 	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
 		return getDefaultState();
-	}
-	
-	@Override
-	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
-		world.setBlockState(pos, state, 2);
 	}
 	
 	@Override
@@ -87,9 +89,36 @@ public abstract class BlockInventory extends NCBlock implements ITileEntityProvi
 	}
 	
 	@Override
+	public void harvestBlock(World world, EntityPlayer player, BlockPos pos, IBlockState state, @Nullable TileEntity tile, ItemStack stack) {
+		super.harvestBlock(world, player, pos, state, tile, stack);
+		world.setBlockToAir(pos);
+	}
+	
+	@Override
 	public boolean eventReceived(IBlockState state, World worldIn, BlockPos pos, int id, int param) {
 		super.eventReceived(state, worldIn, pos, id, param);
 		TileEntity tileentity = worldIn.getTileEntity(pos);
 		return tileentity == null ? false : tileentity.receiveClientEvent(id, param);
+	}
+	
+	// NBT Stuff
+	
+	@Override
+	public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest) {
+		if (this instanceof INBTDrop && willHarvest) return true;
+		return super.removedByPlayer(state, world, pos, player, willHarvest);
+	}
+	
+	@Override
+	public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
+		if (this instanceof INBTDrop) return Lists.newArrayList(((INBTDrop)this).getNBTDrop(world, pos, state));
+		return super.getDrops(world, pos, state, fortune);
+	}
+	
+	@Override
+	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase player, ItemStack stack) {
+		world.setBlockState(pos, state, 2);
+		if (this instanceof INBTDrop && stack.hasTagCompound()) ((INBTDrop)this).readStackData(world, pos, player, stack);
+		world.notifyBlockUpdate(pos, state, state, 3);
 	}
 }

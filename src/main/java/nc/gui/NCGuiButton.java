@@ -2,6 +2,7 @@ package nc.gui;
 
 import javax.annotation.Nonnull;
 
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 import nc.Global;
@@ -32,6 +33,10 @@ public final class NCGuiButton {
 		@Override
 		public void mouseReleased(int mouseX, int mouseY) {
 			isButtonPressed = false;
+		}
+		
+		public static boolean isShiftKeyDown() {
+			return Keyboard.isKeyDown(42) || Keyboard.isKeyDown(54);
 		}
 		
 		//public void onPressed() {}
@@ -102,5 +107,19 @@ public final class NCGuiButton {
 		
 		@Override
 		public void drawButton(Minecraft minecraft, int x, int y, float partialTicks) {}
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public static class EmptyTankButton extends BlankButton {
+		
+		public EmptyTankButton(int id, int x, int y, int width, int height) {
+			super(id, x, y, width, height);
+		}
+		
+		@Override
+		public boolean mousePressed(Minecraft minecraft, int mouseX, int mouseY) {
+			isButtonPressed = isShiftKeyDown() && enabled && visible && mouseX >= this.x && mouseY >= this.y && mouseX < this.x + width && mouseY < this.y + height;
+			return isButtonPressed;
+		}
 	}
 }

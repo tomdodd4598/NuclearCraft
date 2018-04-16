@@ -12,7 +12,7 @@ import nc.enumm.MetaEnums.CoolerType;
 import nc.init.NCBlocks;
 import nc.recipe.NCRecipes;
 import nc.tile.fluid.TileActiveCooler;
-import nc.tile.internal.Tank;
+import nc.tile.internal.fluid.Tank;
 import nc.util.ArrayHelper;
 import nc.util.BlockFinder;
 import nc.util.BlockPosHelper;
@@ -153,7 +153,7 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 	
 	@Override
 	public int getSourceTier() {
-		return EnergyHelper.getEUSourceTier(storage.getCapacity());
+		return EnergyHelper.getEUSourceTier(getEnergyStorage().getMaxEnergyStored());
 	}
 	
 	@Override
@@ -662,8 +662,8 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 	}
 	
 	private void setCapacity() {
-		storage.setStorageCapacity(getNewCapacity());
-		storage.setMaxTransfer(getNewCapacity());
+		getEnergyStorage().setStorageCapacity(getNewCapacity());
+		getEnergyStorage().setMaxTransfer(getNewCapacity());
 	}
 	
 	private int getNewCapacity() {
@@ -972,7 +972,7 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 		lengthX = nbt.getInteger("lengthX");
 		lengthY = nbt.getInteger("lengthY");
 		lengthZ = nbt.getInteger("lengthZ");
-		storage.setStorageCapacity(getNewCapacity());
+		getEnergyStorage().setStorageCapacity(getNewCapacity());
 		super.readAll(nbt);
 		processPower = nbt.getInteger("processPower");
 		rateMultiplier = nbt.getInteger("rateMultiplier");
@@ -1064,7 +1064,7 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 			time = value;
 			break;
 		case 1:
-			storage.setEnergyStored(value);
+			getEnergyStorage().setEnergyStored(value);
 			break;
 		case 2:
 			setProcessTime(value);

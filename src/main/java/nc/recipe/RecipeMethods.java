@@ -9,6 +9,8 @@ import javax.annotation.Nullable;
 
 import com.google.common.collect.Lists;
 
+import nc.ModCheck;
+import nc.util.ArrayHelper;
 import nc.util.NCUtil;
 import nc.util.OreDictHelper;
 import net.minecraft.block.Block;
@@ -126,6 +128,9 @@ public abstract class RecipeMethods<T extends IRecipe> implements IRecipeGetter<
 		if (requiresAdjustment(object)) {
 			object = adjustObject(object);
 		}
+		if (ModCheck.mekanismLoaded() && object instanceof RecipeOreStack) {
+			if (((RecipeOreStack)object).isFluid) return buildRecipeObject(mekanismFluidStackList((RecipeOreStack)object));
+		}
 		if (object instanceof IIngredient) {
 			return (IIngredient) object;
 		} else if (object instanceof ArrayList) {
@@ -133,7 +138,10 @@ public abstract class RecipeMethods<T extends IRecipe> implements IRecipeGetter<
 			ArrayList<IIngredient> buildList = new ArrayList();
 			if (!list.isEmpty()) {
 				for (Object listObject : list) {
-					if (listObject != null) {
+					if (listObject instanceof IIngredient) {
+						buildList.add((IIngredient)listObject);
+					}
+					else if (listObject != null) {
 						IIngredient recipeObject = buildRecipeObject(listObject);
 						if (recipeObject != null) buildList.add(recipeObject);
 					}
@@ -259,32 +267,24 @@ public abstract class RecipeMethods<T extends IRecipe> implements IRecipeGetter<
 	protected static String[][] validFluids(BaseRecipeHandler recipes, String... exceptions) {
 		int fluidInputSize = recipes.inputSizeFluid;
 		int fluidOutputSize = recipes.outputSizeFluid;
-		ArrayList<Fluid> fluidList = new ArrayList<Fluid>(FluidRegistry.getRegisteredFluids().values());
+		
 		ArrayList<FluidStack> fluidStackList = new ArrayList<FluidStack>();
-		for (Fluid fluid : fluidList) {
-			fluidStackList.add(new FluidStack(fluid, 1000));
-		}
-		ArrayList<String> exceptionsList = new ArrayList<String>();
-		if (exceptions != null) for (int i = 0; i < exceptions.length; i++) {
-			exceptionsList.add(exceptions[i]);
-		}
+		for (Fluid fluid : FluidRegistry.getRegisteredFluids().values()) fluidStackList.add(new FluidStack(fluid, 1000));
+		
+		ArrayList<String> exceptionsList = Lists.newArrayList(exceptions);
+		
 		ArrayList<String> fluidNameList = new ArrayList<String>();
 		for (FluidStack fluidStack : fluidStackList) {
 			String fluidName = fluidStack.getFluid().getName();
 			if (recipes.isValidInput(fluidStack) && !exceptionsList.contains(fluidName)) fluidNameList.add(fluidName);
 		}
-		String[] allowedFluidArray = new String[fluidNameList.size()];
-		for (int i = 0; i < fluidNameList.size(); i++) {
-			allowedFluidArray[i] = fluidNameList.get(i);
-		}
+		
+		String[] allowedFluidArray = ArrayHelper.asStringArray(fluidNameList);
 		
 		String[][] allowedFluidArrays = new String[fluidInputSize + fluidOutputSize][];
-		for (int i = 0; i < fluidInputSize; i++) {
-			allowedFluidArrays[i] = allowedFluidArray;
-		}
-		for (int i = fluidInputSize; i < fluidInputSize + fluidOutputSize; i++) {
-			allowedFluidArrays[i] = new String[] {};
-		}
+		for (int i = 0; i < fluidInputSize; i++) allowedFluidArrays[i] = allowedFluidArray;
+		for (int i = fluidInputSize; i < fluidInputSize + fluidOutputSize; i++) allowedFluidArrays[i] = new String[] {};
+		
 		return allowedFluidArrays;
 	}
 	
@@ -332,13 +332,7 @@ public abstract class RecipeMethods<T extends IRecipe> implements IRecipeGetter<
 		list.forEach(object -> values.add(object.getIngredient()));
 		return values;
 	}
-
-	public static ArrayList getValuesFromList(ArrayList<IIngredient> list) {
-		ArrayList values = new ArrayList();
-		list.forEach(object -> values.add(object.getIngredient()));
-		return values;
-	}
-
+	
 	@Nullable
 	public static Object getIngredientFromList(ArrayList<IIngredient> list, int pos) {
 		if (!list.isEmpty() && pos < list.size()) {
@@ -440,5 +434,9 @@ public abstract class RecipeMethods<T extends IRecipe> implements IRecipeGetter<
 	
 	public ArrayList<RecipeOreStack> fluidStackList(String[] oreTypes, int stackSize) {
 		return fluidStackList(Lists.newArrayList(oreTypes), stackSize);
+	}
+	
+	public ArrayList<RecipeOreStack> mekanismFluidStackList(RecipeOreStack stack) {
+		return stack.oreString.equals("helium") ? Lists.newArrayList(stack) : fluidStackList(Lists.newArrayList(stack.oreString, "liquid" + stack.oreString), stack.stackSize);
 	}
 }

@@ -58,7 +58,7 @@ public class JEIMethods {
 					items.init(recipe.slotPos, entry.getKey() == SorptionType.INPUT, recipe.xPos, recipe.yPos);
 					Object obj = objects.get(mapping.getKey());
 					if (obj instanceof List) {
-						items.set(recipe.slotPos, (List) obj);
+						items.set(recipe.slotPos, (List<ItemStack>) obj);
 					} else {
 						items.set(recipe.slotPos, (ItemStack) obj);
 					}
@@ -91,8 +91,8 @@ public class JEIMethods {
 					RecipeFluidMapping recipe = mapping.getValue();
 					Object obj = objects.get(mapping.getKey());
 					if (obj instanceof List) {
-						fluids.init(recipe.slotPos, entry.getKey() == SorptionType.INPUT, recipe.xPos + 1, recipe.yPos + 1, recipe.xSize, recipe.ySize, ((FluidStack) ((List) obj).get(0)).amount, true, null);
-						fluids.set(recipe.slotPos, (List) obj);
+						fluids.init(recipe.slotPos, entry.getKey() == SorptionType.INPUT, recipe.xPos + 1, recipe.yPos + 1, recipe.xSize, recipe.ySize, ((FluidStack) ((List<FluidStack>) obj).get(0)).amount, true, null);
+						fluids.set(recipe.slotPos, (List<FluidStack>) obj);
 					} else {
 						fluids.init(recipe.slotPos, entry.getKey() == SorptionType.INPUT, recipe.xPos + 1, recipe.yPos + 1, recipe.xSize, recipe.ySize, ((FluidStack) obj).amount, true, null);
 						fluids.set(recipe.slotPos, (FluidStack) obj);

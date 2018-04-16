@@ -14,6 +14,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -21,6 +22,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class ItemFissionFuel<T extends Enum<T> & IStringSerializable & IItemMeta & IFissionStats> extends Item {
 
 	public final T[] values;
+	public final String[] fixedInfo;
 	public final String[][] info;
 	
 	public ItemFissionFuel(String nameIn, Class<T> enumm) {
@@ -28,6 +30,7 @@ public class ItemFissionFuel<T extends Enum<T> & IStringSerializable & IItemMeta
 		setRegistryName(new ResourceLocation(Global.MOD_ID, nameIn));
 		setHasSubtypes(true);
 		values = enumm.getEnumConstants();
+		fixedInfo = InfoHelper.buildFixedInfo(getUnlocalizedName(), InfoHelper.EMPTY_ARRAY);
 		info = InfoHelper.buildInfo(getUnlocalizedName(), enumm, NCInfo.fuelRodInfo(values));
 	}
 	
@@ -51,6 +54,6 @@ public class ItemFissionFuel<T extends Enum<T> & IStringSerializable & IItemMeta
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack itemStack, World world, List<String> tooltip, ITooltipFlag flag) {
 		super.addInformation(itemStack, world, tooltip, flag);
-		if (info.length != 0) if (info[itemStack.getMetadata()].length > 0) InfoHelper.infoFull(tooltip, info[itemStack.getMetadata()]);
+		if (info.length != 0) if (info[itemStack.getMetadata()].length > 0) InfoHelper.infoFull(tooltip, TextFormatting.GREEN, fixedInfo, info[itemStack.getMetadata()]);
 	}
 }

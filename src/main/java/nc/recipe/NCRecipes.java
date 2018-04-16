@@ -4,6 +4,7 @@ import nc.recipe.generator.DecayGeneratorRecipes;
 import nc.recipe.generator.FissionRecipes;
 import nc.recipe.generator.FusionRecipes;
 import nc.recipe.processor.AlloyFurnaceRecipes;
+import nc.recipe.processor.CentrifugeRecipes;
 import nc.recipe.processor.ChemicalReactorRecipes;
 import nc.recipe.processor.CrystallizerRecipes;
 import nc.recipe.processor.DecayHastenerRecipes;
@@ -44,6 +45,7 @@ public class NCRecipes {
 	private static CrystallizerRecipes crystallizer;
 	private static DissolverRecipes dissolver;
 	private static ExtractorRecipes extractor;
+	private static CentrifugeRecipes centrifuge;
 	private static DecayGeneratorRecipes decay_generator;
 	private static FissionRecipes fission;
 	private static FusionRecipes fusion;
@@ -70,6 +72,7 @@ public class NCRecipes {
 		crystallizer = new CrystallizerRecipes();
 		dissolver = new DissolverRecipes();
 		extractor = new ExtractorRecipes();
+		centrifuge = new CentrifugeRecipes();
 		decay_generator = new DecayGeneratorRecipes();
 		fission = new FissionRecipes();
 		fusion = new FusionRecipes();
@@ -97,6 +100,7 @@ public class NCRecipes {
 		CRYSTALLIZER,
 		DISSOLVER,
 		EXTRACTOR,
+		CENTRIFUGE,
 		DECAY_GENERATOR,
 		FISSION,
 		FUSION,
@@ -139,6 +143,8 @@ public class NCRecipes {
 				return dissolver;
 			case EXTRACTOR:
 				return extractor;
+			case CENTRIFUGE:
+				return centrifuge;
 			case DECAY_GENERATOR:
 				return decay_generator;
 			case FISSION:

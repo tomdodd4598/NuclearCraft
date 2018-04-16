@@ -11,7 +11,7 @@ import nc.multiblock.fission.moltensalt.tile.TileSaltFissionWall;
 import nc.tile.dummy.TileFissionPort;
 import nc.tile.dummy.TileFusionDummy;
 import nc.tile.dummy.TileMachineInterface;
-import nc.tile.energy.TileBattery;
+import nc.tile.energy.battery.TileBattery;
 import nc.tile.energyFluid.TileBin;
 import nc.tile.energyFluid.TileBuffer;
 import nc.tile.fluid.TileActiveCooler;
@@ -46,6 +46,7 @@ public class NCTiles {
 		GameRegistry.registerTileEntity(TileProcessor.Crystallizer.class, Global.MOD_ID + ":crystallizer");
 		GameRegistry.registerTileEntity(TileProcessor.Dissolver.class, Global.MOD_ID + ":dissolver");
 		GameRegistry.registerTileEntity(TileProcessor.Extractor.class, Global.MOD_ID + ":extractor");
+		GameRegistry.registerTileEntity(TileProcessor.Centrifuge.class, Global.MOD_ID + ":centrifuge");
 		
 		GameRegistry.registerTileEntity(TileMachineInterface.class, Global.MOD_ID + ":machine_interface");
 		

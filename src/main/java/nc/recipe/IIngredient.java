@@ -8,6 +8,8 @@ public interface IIngredient {
 	
 	public String getIngredientName();
 	
+	public String getIngredientNames();
+	
 	public StackType getIngredientType();
 	
 	public int getStackSize();

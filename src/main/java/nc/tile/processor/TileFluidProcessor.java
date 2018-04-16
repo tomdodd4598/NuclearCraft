@@ -15,8 +15,8 @@ import nc.tile.IGui;
 import nc.tile.dummy.IInterfaceable;
 import nc.tile.energyFluid.IBufferable;
 import nc.tile.energyFluid.TileEnergyFluidSidedInventory;
-import nc.tile.internal.EnumEnergyStorage.EnergyConnection;
-import nc.tile.internal.EnumTank.FluidConnection;
+import nc.tile.internal.energy.EnergyConnection;
+import nc.tile.internal.fluid.FluidConnection;
 import nc.util.NCMathHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -50,7 +50,7 @@ public abstract class TileFluidProcessor extends TileEnergyFluidSidedInventory i
 	}
 	
 	public TileFluidProcessor(String name, int fluidInSize, int fluidOutSize, int[] fluidCapacity, FluidConnection[] fluidConnection, String[][] allowedFluids, int time, int power, boolean upgrades, NCRecipes.Type recipeType, int upgradeMeta) {
-		super(name, upgrades ? 2 : 0, 32000, power != 0 ? EnergyConnection.IN : EnergyConnection.NON, fluidCapacity, fluidCapacity, fluidCapacity, fluidConnection, allowedFluids);
+		super(name, upgrades ? 2 : 0, 32000, power != 0 ? energyConnectionAll(EnergyConnection.IN) : energyConnectionAll(EnergyConnection.NON), fluidCapacity, fluidCapacity, fluidCapacity, fluidConnection, allowedFluids);
 		fluidInputSize = fluidInSize;
 		fluidOutputSize = fluidOutSize;
 		defaultProcessTime = time;
@@ -138,7 +138,7 @@ public abstract class TileFluidProcessor extends TileEnergyFluidSidedInventory i
 	
 	public void process() {
 		time += getSpeedMultiplier();
-		storage.changeEnergyStored(-getProcessPower());
+		getEnergyStorage().changeEnergyStored(-getProcessPower());
 		if (time >= baseProcessTime) completeProcess();
 	}
 	
@@ -200,8 +200,8 @@ public abstract class TileFluidProcessor extends TileEnergyFluidSidedInventory i
 	}
 	
 	public void setCapacityFromSpeed() {
-		storage.setStorageCapacity(MathHelper.clamp(2*getProcessPower(), 32000, Integer.MAX_VALUE));
-		storage.setMaxTransfer(MathHelper.clamp(2*getProcessPower(), 32000, Integer.MAX_VALUE));
+		getEnergyStorage().setStorageCapacity(MathHelper.clamp(2*getProcessPower(), 32000, Integer.MAX_VALUE));
+		getEnergyStorage().setMaxTransfer(MathHelper.clamp(2*getProcessPower(), 32000, Integer.MAX_VALUE));
 	}
 	
 	public boolean canProcessStacks() {
@@ -403,7 +403,7 @@ public abstract class TileFluidProcessor extends TileEnergyFluidSidedInventory i
 			time = value;
 			break;
 		case 1:
-			storage.setEnergyStored(value);
+			getEnergyStorage().setEnergyStored(value);
 			break;
 		case 2:
 			baseProcessTime = value;

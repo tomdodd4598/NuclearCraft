@@ -23,7 +23,7 @@ public class NCItem extends Item {
 		setUnlocalizedName(Global.MOD_ID + "." + nameIn);
 		setRegistryName(new ResourceLocation(Global.MOD_ID, nameIn));
 		this.fixedColor = fixedColor;
-		fixedInfo = InfoHelper.buildFixedInfo(getUnlocalizedName(), tooltip);
+		fixedInfo = InfoHelper.buildFixedInfo(getUnlocalizedName(), fixedTooltip);
 		info = InfoHelper.buildInfo(getUnlocalizedName(), tooltip);
 	}
 	
@@ -43,6 +43,6 @@ public class NCItem extends Item {
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack itemStack, World world, List<String> tooltip, ITooltipFlag flag) {
         super.addInformation(itemStack, world, tooltip, flag);
-        if (info.length > 0) InfoHelper.infoFull(tooltip, fixedColor, fixedInfo, info);
+        if (info.length + fixedInfo.length > 0) InfoHelper.infoFull(tooltip, fixedColor, fixedInfo, info);
     }
 }

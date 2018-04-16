@@ -56,6 +56,11 @@ public class RecipeOreStack implements IIngredient, IRecipeStack {
 		if (isFluid) return "fluid:" + oreString;
 		return "ore:" + oreString;
 	}
+	
+	@Override
+	public String getIngredientNames() {
+		return getIngredientName();
+	}
 
 	@Override
 	public StackType getIngredientType() {
@@ -96,7 +101,7 @@ public class RecipeOreStack implements IIngredient, IRecipeStack {
 		}
 		else if (object instanceof FluidStack && type.checkStackSize(stackSize, ((FluidStack) object).amount)) {
 			String fluidName = FluidRegistry.getFluidName((FluidStack)object);
-			if (oreString == fluidName) {
+			if (oreString.equals(fluidName)) {
 				return true;
 			}
 		}

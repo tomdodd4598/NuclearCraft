@@ -1,23 +1,15 @@
 package nc.tile.dummy;
 
-import javax.annotation.Nullable;
-
-import ic2.api.energy.tile.IEnergyAcceptor;
-import ic2.api.energy.tile.IEnergyEmitter;
 import ic2.api.energy.tile.IEnergySink;
 import ic2.api.energy.tile.IEnergySource;
-import nc.ModCheck;
-import nc.config.NCConfig;
 import nc.tile.energy.ITileEnergy;
 import nc.tile.energyFluid.TileEnergyFluidSidedInventory;
 import nc.tile.fluid.ITileFluid;
-import nc.tile.internal.EnergyStorage;
-import nc.tile.internal.Tank;
-import nc.tile.internal.EnumEnergyStorage.EnergyConnection;
-import nc.tile.internal.EnumTank.FluidConnection;
+import nc.tile.internal.energy.EnergyConnection;
+import nc.tile.internal.energy.EnergyStorage;
+import nc.tile.internal.fluid.FluidConnection;
+import nc.tile.internal.fluid.Tank;
 import nc.tile.inventory.ITileInventory;
-import nc.tile.passive.ITilePassive;
-import net.darkhax.tesla.capability.TeslaCapabilities;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
@@ -27,19 +19,11 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.energy.CapabilityEnergy;
-import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.FluidTankProperties;
-import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
 import net.minecraftforge.fluids.capability.templates.EmptyFluidHandler;
 import net.minecraftforge.fml.common.Optional;
-import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.wrapper.SidedInvWrapper;
 
 public abstract class TileDummy extends TileEnergyFluidSidedInventory {
 	
@@ -48,19 +32,19 @@ public abstract class TileDummy extends TileEnergyFluidSidedInventory {
 	public final int updateRate;
 	
 	public TileDummy(String name, int updateRate, String[]... allowedFluids) {
-		this(name, EnergyConnection.BOTH, FluidConnection.BOTH, updateRate, allowedFluids);
+		this(name, energyConnectionAll(EnergyConnection.BOTH), FluidConnection.BOTH, updateRate, allowedFluids);
 	}
 	
-	public TileDummy(String name, EnergyConnection energyConnection, int updateRate, String[]... allowedFluids) {
-		this(name, energyConnection, FluidConnection.BOTH, updateRate, allowedFluids);
+	public TileDummy(String name, EnergyConnection[] energyConnections, int updateRate, String[]... allowedFluids) {
+		this(name, energyConnections, FluidConnection.BOTH, updateRate, allowedFluids);
 	}
 	
 	public TileDummy(String name, FluidConnection fluidConnection, int updateRate, String[]... allowedFluids) {
-		this(name, EnergyConnection.BOTH, fluidConnection, updateRate, allowedFluids);
+		this(name, energyConnectionAll(EnergyConnection.BOTH), fluidConnection, updateRate, allowedFluids);
 	}
 	
-	public TileDummy(String name, EnergyConnection energyConnection, FluidConnection fluidConnection, int updateRate, String[]... allowedFluids) {
-		super(name, 1, 1, energyConnection, 1, fluidConnection, allowedFluids);
+	public TileDummy(String name, EnergyConnection[] energyConnections, FluidConnection fluidConnection, int updateRate, String[]... allowedFluids) {
+		super(name, 1, 1, energyConnections, 1, fluidConnection, allowedFluids);
 		this.updateRate = updateRate;
 	}
 	
@@ -210,109 +194,70 @@ public abstract class TileDummy extends TileEnergyFluidSidedInventory {
 	// Redstone Flux
 	
 	@Override
-	public EnergyStorage getStorage() {
+	public EnergyStorage getEnergyStorage() {
 		if (getMaster() != null) {
-			if (getMaster() instanceof ITileEnergy) return ((ITileEnergy) getMaster()).getStorage();
+			if (getMaster() instanceof ITileEnergy) return ((ITileEnergy) getMaster()).getEnergyStorage();
 		}
-		return storage;
+		return super.getEnergyStorage();
 	}
 	
 	@Override
-	public EnergyConnection getEnergyConnection() {
+	public EnergyConnection getEnergyConnection(EnumFacing side) {
 		if (getMaster() != null) {
-			if (getMaster() instanceof ITileEnergy) return ((ITileEnergy) getMaster()).getEnergyConnection();
+			if (getMaster() instanceof ITileEnergy) return ((ITileEnergy) getMaster()).getEnergyConnection(side);
 		}
-		return energyConnection;
+		return super.getEnergyConnection(side);
 	}
 	
 	@Override
 	public int getEnergyStored() {
 		if (getMaster() != null) {
-			if (getMaster() instanceof IEnergyStorage) return ((IEnergyStorage) getMaster()).getEnergyStored();
+			if (getMaster() instanceof ITileEnergy) return ((ITileEnergy) getMaster()).getEnergyStored();
 		}
-		return getStorage().getEnergyStored();
+		return super.getEnergyStored();
 	}
 
 	@Override
 	public int getMaxEnergyStored() {
 		if (getMaster() != null) {
-			if (getMaster() instanceof IEnergyStorage) return ((IEnergyStorage) getMaster()).getMaxEnergyStored();
+			if (getMaster() instanceof ITileEnergy) return ((ITileEnergy) getMaster()).getMaxEnergyStored();
 		}
-		return getStorage().getMaxEnergyStored();
+		return super.getMaxEnergyStored();
 	}
 
 	@Override
-	public int receiveEnergy(int maxReceive, boolean simulate) {
+	public boolean canReceiveEnergy(EnumFacing side) {
 		if (getMaster() != null) {
-			if (getMaster() instanceof IEnergyStorage) return ((IEnergyStorage) getMaster()).receiveEnergy(maxReceive, simulate);
+			if (getMaster() instanceof ITileEnergy) return ((ITileEnergy) getMaster()).canReceiveEnergy(side);
+		}
+		return false;
+	}
+	
+	@Override
+	public boolean canExtractEnergy(EnumFacing side) {
+		if (getMaster() != null) {
+			if (getMaster() instanceof ITileEnergy) return ((ITileEnergy) getMaster()).canExtractEnergy(side);
+		}
+		return false;
+	}
+	
+	@Override
+	public int receiveEnergy(int maxReceive, EnumFacing side, boolean simulate) {
+		if (getMaster() != null) {
+			if (getMaster() instanceof ITileEnergy) return ((ITileEnergy) getMaster()).receiveEnergy(maxReceive, side, simulate);
 		}
 		return 0;
 	}
 	
 	@Override
-	public int extractEnergy(int maxExtract, boolean simulate) {
+	public int extractEnergy(int maxExtract, EnumFacing side, boolean simulate) {
 		if (getMaster() != null) {
-			if (getMaster() instanceof IEnergyStorage) return ((IEnergyStorage) getMaster()).extractEnergy(maxExtract, simulate);
+			if (getMaster() instanceof ITileEnergy) return ((ITileEnergy) getMaster()).extractEnergy(maxExtract, side, simulate);
 		}
 		return 0;
-	}
-	
-	@Override
-	public boolean canExtract() {
-		if (getMaster() != null) {
-			if (getMaster() instanceof IEnergyStorage) return ((IEnergyStorage) getMaster()).canExtract();
-		}
-		return false;
-	}
-
-	@Override
-	public boolean canReceive() {
-		if (getMaster() != null) {
-			if (getMaster() instanceof IEnergyStorage) return ((IEnergyStorage) getMaster()).canReceive();
-		}
-		return false;
 	}
 	
 	// IC2 Energy
-	
-	@Override
-	@Optional.Method(modid = "ic2")
-	public boolean acceptsEnergyFrom(IEnergyEmitter emitter, EnumFacing side) {
-		return getEnergyConnection().canReceive();
-	}
-
-	@Override
-	@Optional.Method(modid = "ic2")
-	public boolean emitsEnergyTo(IEnergyAcceptor receiver, EnumFacing side) {
-		return getEnergyConnection().canExtract();
-	}
-
-	@Override
-	@Optional.Method(modid = "ic2")
-	public double getOfferedEnergy() {
-		return Math.min(Math.pow(2, 2*getSourceTier() + 3), getStorage().takePower(getStorage().maxExtract, true) / NCConfig.generator_rf_per_eu);
-	}
-	
-	@Override
-	@Optional.Method(modid = "ic2")
-	public double getDemandedEnergy() {
-		return Math.min(Math.pow(2, 2*getSinkTier() + 3), getStorage().givePower(getStorage().maxReceive, true) / NCConfig.processor_rf_per_eu);
-	}
-	
-	/** The normal conversion is 4 RF to 1 EU, but for RF generators, this is OP, so the ratio is instead 16:1 */
-	@Override
-	@Optional.Method(modid = "ic2")
-	public void drawEnergy(double amount) {
-		getStorage().takePower((long) (NCConfig.generator_rf_per_eu * amount), false);
-	}
-
-	@Override
-	@Optional.Method(modid = "ic2")
-	public double injectEnergy(EnumFacing directionFrom, double amount, double voltage) {
-		int energyReceived = getStorage().receiveEnergy((int) (NCConfig.processor_rf_per_eu * amount), true);
-		getStorage().givePower(energyReceived, false);
-		return amount - (energyReceived / NCConfig.processor_rf_per_eu);
-	}
 	
 	@Override
 	@Optional.Method(modid = "ic2")
@@ -464,29 +409,15 @@ public abstract class TileDummy extends TileEnergyFluidSidedInventory {
 	// Energy Connections
 	
 	@Override
-	public void setConnection(EnergyConnection energyConnection) {
-		this.energyConnection = energyConnection;
+	public void pushEnergy() {
+		if (getMaster() == null) return;
+		super.pushEnergy();
 	}
 	
 	@Override
-	public void pushEnergy() {
+	public void spreadEnergy() {
 		if (getMaster() == null) return;
-		if (getStorage().getEnergyStored() <= 0 || !getEnergyConnection().canExtract()) return;
-		for (EnumFacing side : EnumFacing.VALUES) {
-			TileEntity tile = world.getTileEntity(getPos().offset(side));
-			if (tile instanceof ITilePassive) if (!((ITilePassive) tile).canPushEnergyTo()) continue;
-			IEnergyStorage adjStorage = tile == null ? null : tile.getCapability(CapabilityEnergy.ENERGY, side.getOpposite());
-			//TileEntity thisTile = world.getTileEntity(getPos());
-			
-			if (adjStorage != null && storage.canExtract()) {
-				getStorage().extractEnergy(adjStorage.receiveEnergy(getStorage().extractEnergy(getStorage().getMaxEnergyStored(), true), false), false);
-			}
-			else if (ModCheck.ic2Loaded()) {
-				if (tile instanceof IEnergySink) {
-					getStorage().extractEnergy((int) Math.round(((IEnergySink) tile).injectEnergy(side.getOpposite(), getStorage().extractEnergy(getStorage().getMaxEnergyStored(), true) / NCConfig.generator_rf_per_eu, getSourceTier())), false);
-				}
-			}
-		}
+		super.spreadEnergy();
 	}
 	
 	// Fluid Connections
@@ -503,23 +434,14 @@ public abstract class TileDummy extends TileEnergyFluidSidedInventory {
 	
 	@Override
 	public void pushFluid() {
-		if (getTanks().length > 0 && getTanks() != null) for (int i = 0; i < getTanks().length; i++) {
-			if (getTanks()[i].getFluid() == null) return;
-			if (getTanks()[i].getFluidAmount() <= 0 || !getFluidConnections()[i].canDrain()) return;
-			for (EnumFacing side : EnumFacing.VALUES) {
-				TileEntity tile = world.getTileEntity(getPos().offset(side));
-				if (tile instanceof ITilePassive) if (!((ITilePassive) tile).canPushFluidsTo()) continue;
-				IFluidHandler adjStorage = tile == null ? null : tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side.getOpposite());
-				//TileEntity thisTile = world.getTileEntity(getPos());
-				
-				if (tile instanceof IFluidHandler /*&& tile != thisTile*/) {
-					getTanks()[i].drain(((IFluidHandler) tile).fill(getTanks()[i].drain(getTanks()[i].getCapacity(), false), true), true);
-				}
-				if (adjStorage != null) {
-					getTanks()[i].drain(adjStorage.fill(getTanks()[i].drain(getTanks()[i].getCapacity(), false), true), true);
-				}
-			}
-		}
+		if (getMaster() == null) return;
+		super.pushFluid();
+	}
+	
+	@Override
+	public void spreadFluid() {
+		if (getMaster() == null) return;
+		super.spreadFluid();
 	}
 	
 	// Find Master
@@ -534,37 +456,5 @@ public abstract class TileDummy extends TileEnergyFluidSidedInventory {
 		if (world.getTileEntity(masterPosition) == null) return null;
 		if (isMaster(masterPosition)) return world.getTileEntity(masterPosition);
 		return null;
-	}
-	
-	// Capability
-	
-	IItemHandler handlerTop = new SidedInvWrapper(this, EnumFacing.UP);
-	IItemHandler handlerBottom = new SidedInvWrapper(this, EnumFacing.DOWN);
-	IItemHandler handlerSide = new SidedInvWrapper(this, EnumFacing.WEST);
-	
-	@Override
-	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing) {
-		if (CapabilityEnergy.ENERGY == capability && energyConnection.canConnect()) {
-			return (T) getStorage();
-		}
-		if (energyConnection != null && ModCheck.teslaLoaded() && energyConnection.canConnect()) {
-			if ((capability == TeslaCapabilities.CAPABILITY_CONSUMER && energyConnection.canReceive()) || (capability == TeslaCapabilities.CAPABILITY_PRODUCER && energyConnection.canExtract()) || capability == TeslaCapabilities.CAPABILITY_HOLDER)
-				return (T) getStorage();
-		}
-		
-		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(this);
-		//if (capability == Capabilities.GAS_HANDLER_CAPABILITY) return Capabilities.GAS_HANDLER_CAPABILITY.cast(this);
-		//if (capability == Capabilities.TUBE_CONNECTION_CAPABILITY) return Capabilities.TUBE_CONNECTION_CAPABILITY.cast(this);
-		
-		if (facing != null && capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-			if (facing == EnumFacing.DOWN) {
-				return (T) handlerBottom;
-			} else if (facing == EnumFacing.UP) {
-				return (T) handlerTop;
-			} else {
-				return (T) handlerSide;
-			}
-		}
-		return super.getCapability(capability, facing);
 	}
 }

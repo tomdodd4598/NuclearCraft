@@ -26,7 +26,7 @@ import nc.tab.TabAccelerator;
 import nc.tab.TabBaseBlockMaterials;
 import nc.tab.TabBaseItemMaterials;
 import nc.tab.TabFissionBlocks;
-import nc.tab.TabFissionFuelRods;
+import nc.tab.TabFissionFuels;
 import nc.tab.TabFissionMaterials;
 import nc.tab.TabFluids;
 import nc.tab.TabFusion;
@@ -54,7 +54,7 @@ public class CommonProxy {
 	public static final CreativeTabs TAB_MACHINES = new TabMachines();
 	public static final CreativeTabs TAB_FISSION_BLOCKS = new TabFissionBlocks();
 	public static final CreativeTabs TAB_FISSION_MATERIALS = new TabFissionMaterials();
-	public static final CreativeTabs TAB_FISSION_FUEL_RODS = new TabFissionFuelRods();
+	public static final CreativeTabs TAB_FISSION_FUELS = new TabFissionFuels();
 	public static final CreativeTabs TAB_FUSION = new TabFusion();
 	public static final CreativeTabs TAB_SALT_FISSION_BLOCKS = new TabSaltFissionBlocks();
 	public static final CreativeTabs TAB_ACCELERATOR = new TabAccelerator();

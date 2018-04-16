@@ -34,7 +34,7 @@ public abstract class SimplePacketBase<REQ extends SimplePacketBase<REQ, REPLY> 
 		int x = readInt();
 		int y = readInt();
 		int z = readInt();
-		return WorldHelper.getTileEntityClient(dimension, x, y, z);
+		return WorldHelper.getTileClient(dimension, x, y, z);
 	}
 	
 	
@@ -43,7 +43,7 @@ public abstract class SimplePacketBase<REQ extends SimplePacketBase<REQ, REPLY> 
 		int x = readInt();
 		int y = readInt();
 		int z = readInt();
-		return WorldHelper.getTileEntityServer(dimension, x, y, z);
+		return WorldHelper.getTileServer(dimension, x, y, z);
 	}
 	
 	public byte[] readByteArray() throws IOException {

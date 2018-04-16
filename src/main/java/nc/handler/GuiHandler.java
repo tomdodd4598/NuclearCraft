@@ -3,6 +3,7 @@ package nc.handler;
 import nc.container.generator.ContainerFissionController;
 import nc.container.generator.ContainerFusionCore;
 import nc.container.processor.ContainerAlloyFurnace;
+import nc.container.processor.ContainerCentrifuge;
 import nc.container.processor.ContainerChemicalReactor;
 import nc.container.processor.ContainerCrystallizer;
 import nc.container.processor.ContainerDecayHastener;
@@ -23,6 +24,7 @@ import nc.container.processor.ContainerSupercooler;
 import nc.gui.generator.GuiFissionController;
 import nc.gui.generator.GuiFusionCore;
 import nc.gui.processor.GuiAlloyFurnace;
+import nc.gui.processor.GuiCentrifuge;
 import nc.gui.processor.GuiChemicalReactor;
 import nc.gui.processor.GuiCrystallizer;
 import nc.gui.processor.GuiDecayHastener;
@@ -48,6 +50,7 @@ import nc.tile.generator.TileFissionController;
 import nc.tile.generator.TileFusionCore;
 import nc.tile.processor.TileNuclearFurnace;
 import nc.tile.processor.TileProcessor.AlloyFurnace;
+import nc.tile.processor.TileProcessor.Centrifuge;
 import nc.tile.processor.TileProcessor.ChemicalReactor;
 import nc.tile.processor.TileProcessor.Crystallizer;
 import nc.tile.processor.TileProcessor.DecayHastener;
@@ -115,6 +118,8 @@ public class GuiHandler implements IGuiHandler {
 				if (tile instanceof Dissolver) return new ContainerDissolver(player, (Dissolver) tile);
 			case 17:
 				if (tile instanceof Extractor) return new ContainerExtractor(player, (Extractor) tile);
+			case 18:
+				if (tile instanceof Centrifuge) return new ContainerCentrifuge(player, (Centrifuge) tile);
 			case 100:
 				if (tile instanceof TileFissionController) return new ContainerFissionController(player, (TileFissionController) tile);
 			case 101:
@@ -169,6 +174,8 @@ public class GuiHandler implements IGuiHandler {
 				if (tile instanceof Dissolver) return new GuiDissolver(player, (Dissolver) tile);
 			case 17:
 				if (tile instanceof Extractor) return new GuiExtractor(player, (Extractor) tile);
+			case 18:
+				if (tile instanceof Centrifuge) return new GuiCentrifuge(player, (Centrifuge) tile);
 			case 100:
 				if (tile instanceof TileFissionController) return new GuiFissionController(player, (TileFissionController) tile);
 			case 101:

@@ -23,12 +23,12 @@ public class ContainerFusionCore extends ContainerFluidGenerator {
 		
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 9; j++) {
-				addSlotToContainer(new Slot(player.inventory, j + 9*i + 9, 18 + 18*j, 105 + 18*i));
+				addSlotToContainer(new Slot(player.inventory, j + 9*i + 9, 8 + 18*j, 105 + 18*i));
 			}
 		}
 		
 		for (int i = 0; i < 9; i++) {
-			addSlotToContainer(new Slot(player.inventory, i, 18 + 18*i, 163));
+			addSlotToContainer(new Slot(player.inventory, i, 8 + 18*i, 163));
 		}
 	}
 	

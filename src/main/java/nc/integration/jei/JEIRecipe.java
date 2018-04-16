@@ -5,8 +5,8 @@ import java.util.List;
 
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeWrapper;
-import nc.recipe.IRecipe;
 import nc.recipe.BaseRecipeHandler;
+import nc.recipe.IRecipe;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;

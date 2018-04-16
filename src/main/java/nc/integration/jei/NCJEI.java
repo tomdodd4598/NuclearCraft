@@ -8,10 +8,10 @@ import mezz.jei.api.IModPlugin;
 import mezz.jei.api.IModRegistry;
 import mezz.jei.api.JEIPlugin;
 import mezz.jei.api.recipe.transfer.IRecipeTransferRegistry;
-import nc.config.NCConfig;
 import nc.container.generator.ContainerFissionController;
 import nc.container.generator.ContainerFusionCore;
 import nc.container.processor.ContainerAlloyFurnace;
+import nc.container.processor.ContainerCentrifuge;
 import nc.container.processor.ContainerChemicalReactor;
 import nc.container.processor.ContainerCrystallizer;
 import nc.container.processor.ContainerDecayHastener;
@@ -32,6 +32,7 @@ import nc.enumm.MetaEnums;
 import nc.gui.generator.GuiFissionController;
 import nc.gui.generator.GuiFusionCore;
 import nc.gui.processor.GuiAlloyFurnace;
+import nc.gui.processor.GuiCentrifuge;
 import nc.gui.processor.GuiChemicalReactor;
 import nc.gui.processor.GuiCrystallizer;
 import nc.gui.processor.GuiDecayHastener;
@@ -54,6 +55,7 @@ import nc.integration.jei.generator.DecayGeneratorCategory;
 import nc.integration.jei.generator.FissionCategory;
 import nc.integration.jei.generator.FusionCategory;
 import nc.integration.jei.processor.AlloyFurnaceCategory;
+import nc.integration.jei.processor.CentrifugeCategory;
 import nc.integration.jei.processor.ChemicalReactorCategory;
 import nc.integration.jei.processor.CrystallizerCategory;
 import nc.integration.jei.processor.DecayHastenerCategory;
@@ -121,6 +123,7 @@ public class NCJEI implements IModPlugin, IJEIRecipeBuilder {
 		registry.addRecipeClickArea(GuiCrystallizer.class, 73, 34, 37, 18, Handlers.CRYSTALLIZER.getUUID());
 		registry.addRecipeClickArea(GuiDissolver.class, 83, 34, 37, 18, Handlers.DISSOLVER.getUUID());
 		registry.addRecipeClickArea(GuiExtractor.class, 59, 34, 37, 18, Handlers.EXTRACTOR.getUUID());
+		registry.addRecipeClickArea(GuiCentrifuge.class, 67, 30, 37, 38, Handlers.CENTRIFUGE.getUUID());
 		registry.addRecipeClickArea(GuiFissionController.class, 73, 34, 37, 18, Handlers.FISSION.getUUID());
 		registry.addRecipeClickArea(GuiFusionCore.class, 47, 5, 121, 97, Handlers.FUSION.getUUID());
 		
@@ -141,6 +144,7 @@ public class NCJEI implements IModPlugin, IJEIRecipeBuilder {
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerCrystallizer.class, Handlers.CRYSTALLIZER.getUUID(), 0, 0, 3, 36);
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerDissolver.class, Handlers.DISSOLVER.getUUID(), 0, 1, 3, 36);
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerExtractor.class, Handlers.EXTRACTOR.getUUID(), 0, 1, 4, 36);
+		recipeTransferRegistry.addRecipeTransferHandler(ContainerCentrifuge.class, Handlers.CENTRIFUGE.getUUID(), 0, 0, 2, 36);
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerFissionController.class, Handlers.FISSION.getUUID(), 0, 1, 3, 36);
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerFusionCore.class, Handlers.FUSION.getUUID(), 0, 0, 0, 36);
 		
@@ -173,6 +177,7 @@ public class NCJEI implements IModPlugin, IJEIRecipeBuilder {
 		blacklist(jeiHelpers, NCBlocks.crystallizer_active);
 		blacklist(jeiHelpers, NCBlocks.dissolver_active);
 		blacklist(jeiHelpers, NCBlocks.extractor_active);
+		blacklist(jeiHelpers, NCBlocks.centrifuge_active);
 		
 		blacklist(jeiHelpers, NCBlocks.fission_controller_active);
 		blacklist(jeiHelpers, NCBlocks.fission_controller_new_active);
@@ -185,17 +190,27 @@ public class NCJEI implements IModPlugin, IJEIRecipeBuilder {
 		blacklist(jeiHelpers, NCBlocks.accelerator_electromagnet_active);
 		blacklist(jeiHelpers, NCBlocks.electromagnet_supercooler_active);
 		
-		if (!NCConfig.fission_experimental_mechanics) {
-			blacklistAll(jeiHelpers, MetaEnums.ThoriumDepletedFuelType.class, NCItems.depleted_fuel_thorium);
-			blacklistAll(jeiHelpers, MetaEnums.UraniumDepletedFuelType.class, NCItems.depleted_fuel_uranium);
-			blacklistAll(jeiHelpers, MetaEnums.NeptuniumDepletedFuelType.class, NCItems.depleted_fuel_neptunium);
-			blacklistAll(jeiHelpers, MetaEnums.PlutoniumDepletedFuelType.class, NCItems.depleted_fuel_plutonium);
-			blacklistAll(jeiHelpers, MetaEnums.MixedOxideDepletedFuelType.class, NCItems.depleted_fuel_mixed_oxide);
-			blacklistAll(jeiHelpers, MetaEnums.AmericiumDepletedFuelType.class, NCItems.depleted_fuel_americium);
-			blacklistAll(jeiHelpers, MetaEnums.CuriumDepletedFuelType.class, NCItems.depleted_fuel_curium);
-			blacklistAll(jeiHelpers, MetaEnums.BerkeliumDepletedFuelType.class, NCItems.depleted_fuel_berkelium);
-			blacklistAll(jeiHelpers, MetaEnums.CaliforniumDepletedFuelType.class, NCItems.depleted_fuel_californium);
-		}
+		blacklist(jeiHelpers, NCItems.fuel_rod_empty);
+		
+		blacklistAll(jeiHelpers, MetaEnums.ThoriumFuelRodType.class, NCItems.fuel_rod_thorium);
+		blacklistAll(jeiHelpers, MetaEnums.UraniumFuelRodType.class, NCItems.fuel_rod_uranium);
+		blacklistAll(jeiHelpers, MetaEnums.NeptuniumFuelRodType.class, NCItems.fuel_rod_neptunium);
+		blacklistAll(jeiHelpers, MetaEnums.PlutoniumFuelRodType.class, NCItems.fuel_rod_plutonium);
+		blacklistAll(jeiHelpers, MetaEnums.MixedOxideFuelRodType.class, NCItems.fuel_rod_mixed_oxide);
+		blacklistAll(jeiHelpers, MetaEnums.AmericiumFuelRodType.class, NCItems.fuel_rod_americium);
+		blacklistAll(jeiHelpers, MetaEnums.CuriumFuelRodType.class, NCItems.fuel_rod_curium);
+		blacklistAll(jeiHelpers, MetaEnums.BerkeliumFuelRodType.class, NCItems.fuel_rod_berkelium);
+		blacklistAll(jeiHelpers, MetaEnums.CaliforniumFuelRodType.class, NCItems.fuel_rod_californium);
+		
+		blacklistAll(jeiHelpers, MetaEnums.ThoriumDepletedFuelRodType.class, NCItems.depleted_fuel_rod_thorium);
+		blacklistAll(jeiHelpers, MetaEnums.UraniumDepletedFuelRodType.class, NCItems.depleted_fuel_rod_uranium);
+		blacklistAll(jeiHelpers, MetaEnums.NeptuniumDepletedFuelRodType.class, NCItems.depleted_fuel_rod_neptunium);
+		blacklistAll(jeiHelpers, MetaEnums.PlutoniumDepletedFuelRodType.class, NCItems.depleted_fuel_rod_plutonium);
+		blacklistAll(jeiHelpers, MetaEnums.MixedOxideDepletedFuelRodType.class, NCItems.depleted_fuel_rod_mixed_oxide);
+		blacklistAll(jeiHelpers, MetaEnums.AmericiumDepletedFuelRodType.class, NCItems.depleted_fuel_rod_americium);
+		blacklistAll(jeiHelpers, MetaEnums.CuriumDepletedFuelRodType.class, NCItems.depleted_fuel_rod_curium);
+		blacklistAll(jeiHelpers, MetaEnums.BerkeliumDepletedFuelRodType.class, NCItems.depleted_fuel_rod_berkelium);
+		blacklistAll(jeiHelpers, MetaEnums.CaliforniumDepletedFuelRodType.class, NCItems.depleted_fuel_rod_californium);
 		
 		NCUtil.getLogger().info("JEI integration complete");
 	}
@@ -246,6 +261,7 @@ public class NCJEI implements IModPlugin, IJEIRecipeBuilder {
 		CRYSTALLIZER(NCRecipes.Type.CRYSTALLIZER, NCBlocks.crystallizer_idle, "crystallizer", RecipesJEI.Crystallizer.class),
 		DISSOLVER(NCRecipes.Type.DISSOLVER, NCBlocks.dissolver_idle, "dissolver", RecipesJEI.Dissolver.class),
 		EXTRACTOR(NCRecipes.Type.EXTRACTOR, NCBlocks.extractor_idle, "extractor", RecipesJEI.Extractor.class),
+		CENTRIFUGE(NCRecipes.Type.CENTRIFUGE, NCBlocks.centrifuge_idle, "centrifuge", RecipesJEI.Centrifuge.class),
 		DECAY_GENERATOR(NCRecipes.Type.DECAY_GENERATOR, NCBlocks.decay_generator, "decay_generator", RecipesJEI.DecayGenerator.class),
 		FISSION(NCRecipes.Type.FISSION, NCBlocks.fission_controller_new_idle, "fission_controller", RecipesJEI.Fission.class),
 		FUSION(NCRecipes.Type.FUSION, NCBlocks.fusion_core, "fusion_core", RecipesJEI.Fusion.class),
@@ -303,6 +319,8 @@ public class NCJEI implements IModPlugin, IJEIRecipeBuilder {
 				return new DissolverCategory(guiHelper, this);
 			case EXTRACTOR:
 				return new ExtractorCategory(guiHelper, this);
+			case CENTRIFUGE:
+				return new CentrifugeCategory(guiHelper, this);
 			case DECAY_GENERATOR:
 				return new DecayGeneratorCategory(guiHelper, this);
 			case FISSION:

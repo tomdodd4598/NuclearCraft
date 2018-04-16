@@ -27,11 +27,11 @@ public class OreDictHelper {
 	public static String getOreNameFromStacks(ArrayList<ItemStack> stackList) {
 		List<Integer> idList = new ArrayList<Integer>();
 		if (stackList.isEmpty() || stackList == null) return "Unknown";
-		idList.addAll(ArrayHelper.asList(OreDictionary.getOreIDs(stackList.get(0))));
+		idList.addAll(ArrayHelper.asIntegerList(OreDictionary.getOreIDs(stackList.get(0))));
 		
 		for (ItemStack stack : stackList) {
 			if (stack.isEmpty() || stack == null) return "Unknown";
-			idList = ArrayHelper.intersect(idList, ArrayHelper.asList(OreDictionary.getOreIDs(stack)));
+			idList = ArrayHelper.intersect(idList, ArrayHelper.asIntegerList(OreDictionary.getOreIDs(stack)));
 			if (idList.isEmpty()) return "Unknown";
 		}
 		return OreDictionary.getOreName(idList.get(0));

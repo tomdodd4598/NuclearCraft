@@ -1,7 +1,7 @@
 package nc.tile.fluid;
 
 import nc.Global;
-import nc.tile.internal.EnumTank.FluidConnection;
+import nc.tile.internal.fluid.FluidConnection;
 import nc.tile.inventory.ITileInventory;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;

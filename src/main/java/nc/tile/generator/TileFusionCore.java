@@ -12,8 +12,8 @@ import nc.init.NCBlocks;
 import nc.recipe.NCRecipes;
 import nc.recipe.RecipeMethods;
 import nc.tile.fluid.TileActiveCooler;
-import nc.tile.internal.EnumEnergyStorage.EnergyConnection;
-import nc.tile.internal.Tank;
+import nc.tile.internal.energy.EnergyConnection;
+import nc.tile.internal.fluid.Tank;
 import nc.util.BlockFinder;
 import nc.util.BlockPosHelper;
 import nc.util.Lang;
@@ -186,12 +186,12 @@ public class TileFusionCore extends TileFluidGenerator /*implements SimpleCompon
 	}
 	
 	@Override
-	public boolean canExtract() {
+	public boolean canExtractEnergy(EnumFacing side) {
 		return isHotEnough();
 	}
 
 	@Override
-	public boolean canReceive() {
+	public boolean canReceiveEnergy(EnumFacing side) {
 		return !isHotEnough();
 	}
 	
@@ -399,13 +399,13 @@ public class TileFusionCore extends TileFluidGenerator /*implements SimpleCompon
 	
 	public void heating() {
 		if (!canProcess()) {
-			double r = 0.0001D*storage.getEnergyStored()/((double) ringRadius());
-			storage.changeEnergyStored(-storage.getEnergyStored());
+			double r = 0.0001D*getEnergyStorage().getEnergyStored()/((double) ringRadius());
+			getEnergyStorage().setEnergyStored(0);
 			heat = heat + r*NCConfig.fusion_heat_generation;
-			setConnection(EnergyConnection.IN);
+			setEnergyConnectionAll(EnergyConnection.IN);
 			if (heat < ROOM_TEMP) heat = ROOM_TEMP;
 		}
-		else setConnection(EnergyConnection.OUT);
+		else setEnergyConnectionAll(EnergyConnection.OUT);
 	}
 	
 	public BlockPos getOpposite(BlockPos pos) {
@@ -526,7 +526,7 @@ public class TileFusionCore extends TileFluidGenerator /*implements SimpleCompon
 			time = value;
 			break;
 		case 1:
-			storage.setEnergyStored(value);
+			getEnergyStorage().setEnergyStored(value);
 			break;
 		case 2:
 			setProcessTime(value);
@@ -617,7 +617,7 @@ public class TileFusionCore extends TileFluidGenerator /*implements SimpleCompon
 		case getSize:
 			return new Object[] { size };
 		case getEnergyStored:
-			return new Object[] { storage.getEnergyStored() };
+			return new Object[] { getEnergyStorage().getEnergyStored() };
 		case getHeatLevel:
 			return new Object[] { heat };
 		case getHeatChange:

@@ -117,6 +117,22 @@ public class SaltFissionController extends CuboidalMultiblockControllerBase {
 	public Set<TileSaltFissionHeater> getHeaters() {
 		return heaters;
 	}
+	
+	public int getNoControllers() {
+		return getControllers().size();
+	}
+	
+	public int getNoVents() {
+		return getVents().size();
+	}
+	
+	public int getNoVessels() {
+		return getVessels().size();
+	}
+	
+	public int getNoHeaters() {
+		return getHeaters().size();
+	}
 
 	@Override
 	protected void onMachineAssembled() {

@@ -84,21 +84,47 @@ public class ArrayHelper {
 	
 	// Special cases for primitives
 	
-	public static List<Integer> asList(int[] array) {
+	public static List<Integer> asIntegerList(int[] array) {
 		List<Integer> list = new ArrayList<Integer>();
 		for (int t : array) list.add(t);
 		return list;
 	}
 	
-	public static List<Double> asList(double[] array) {
+	public static List<Double> asDoubleList(double[] array) {
 		List<Double> list = new ArrayList<Double>();
 		for (double t : array) list.add(t);
 		return list;
 	}
 	
-	public static List<Float> asList(float[] array) {
+	public static List<Float> asFloatList(float[] array) {
 		List<Float> list = new ArrayList<Float>();
 		for (float t : array) list.add(t);
 		return list;
+	}
+	
+	// List to Array
+	
+	public static int[] asIntegerArray(List<Integer> list) {
+		int[] array = new int[list.size()];
+		for (int i = 0; i < list.size(); i++) array[i] = list.get(i);
+		return array;
+	}
+	
+	public static double[] asDoubleArray(List<Double> list) {
+		double[] array = new double[list.size()];
+		for (int i = 0; i < list.size(); i++) array[i] = list.get(i);
+		return array;
+	}
+	
+	public static float[] asFloatArray(List<Float> list) {
+		float[] array = new float[list.size()];
+		for (int i = 0; i < list.size(); i++) array[i] = list.get(i);
+		return array;
+	}
+	
+	public static String[] asStringArray(List<String> list) {
+		String[] array = new String[list.size()];
+		for (int i = 0; i < list.size(); i++) array[i] = list.get(i);
+		return array;
 	}
 }

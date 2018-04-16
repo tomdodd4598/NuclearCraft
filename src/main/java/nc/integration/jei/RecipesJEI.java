@@ -124,6 +124,13 @@ public class RecipesJEI {
 		}
 	}
 	
+	public static class Centrifuge extends JEIRecipe<Centrifuge> {
+
+		public Centrifuge(BaseRecipeHandler methods, IRecipe recipe) {
+			super(methods, recipe);
+		}
+	}
+	
 	public static class DecayGenerator extends JEIRecipe<DecayGenerator> {
 
 		public DecayGenerator(BaseRecipeHandler methods, IRecipe recipe) {

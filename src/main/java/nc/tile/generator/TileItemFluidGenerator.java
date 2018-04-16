@@ -14,8 +14,8 @@ import nc.tile.IGui;
 import nc.tile.dummy.IInterfaceable;
 import nc.tile.energyFluid.IBufferable;
 import nc.tile.energyFluid.TileEnergyFluidSidedInventory;
-import nc.tile.internal.EnumEnergyStorage.EnergyConnection;
-import nc.tile.internal.EnumTank.FluidConnection;
+import nc.tile.internal.energy.EnergyConnection;
+import nc.tile.internal.fluid.FluidConnection;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
@@ -38,7 +38,7 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 	public final NCRecipes.Type recipeType;
 	
 	public TileItemFluidGenerator(String name, int itemInSize, int fluidInSize, int itemOutSize, int fluidOutSize, int otherSize, int[] fluidCapacity, FluidConnection[] fluidConnection, String[][] allowedFluids, int capacity, NCRecipes.Type recipeType) {
-		super(name, 2*itemInSize + itemOutSize + otherSize, capacity, EnergyConnection.OUT, fluidCapacity, fluidCapacity, fluidCapacity, fluidConnection, allowedFluids);
+		super(name, 2*itemInSize + itemOutSize + otherSize, capacity, energyConnectionAll(EnergyConnection.OUT), fluidCapacity, fluidCapacity, fluidCapacity, fluidConnection, allowedFluids);
 		itemInputSize = itemInSize;
 		fluidInputSize = fluidInSize;
 		itemOutputSize = itemOutSize;
@@ -142,7 +142,7 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 	
 	public void process() {
 		time += getRateMultiplier();
-		storage.changeEnergyStored(getProcessPower());
+		getEnergyStorage().changeEnergyStored(getProcessPower());
 		if (time >= getProcessTime()) completeProcess();
 	}
 	
@@ -469,7 +469,7 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 			time = value;
 			break;
 		case 1:
-			storage.setEnergyStored(value);
+			getEnergyStorage().setEnergyStored(value);
 		}
 	}
 }

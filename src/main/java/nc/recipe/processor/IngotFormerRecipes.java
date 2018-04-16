@@ -29,7 +29,8 @@ public class IngotFormerRecipes extends BaseRecipeHandler {
 		addIngotFormingRecipe("Steel");
 		
 		// Fission Isotopes
-		addIsotopeFormingRecipes("Thorium", 230, 232);
+		addIsotopeFormingRecipes("Thorium", 230);
+		addIngotFormingRecipe("fuel_tbu", "Thorium232Base");
 		addIsotopeFormingRecipes("Uranium", 233, 235, 238);
 		addIsotopeFormingRecipes("Neptunium", 236, 237);
 		addIsotopeFormingRecipes("Plutonium", 238, 239, 241, 242);
@@ -40,6 +41,7 @@ public class IngotFormerRecipes extends BaseRecipeHandler {
 		
 		// Fission Fuels
 		addRecipe(fluidStack("fuel_tbu", FluidHelper.INGOT_BLOCK_VOLUME), "fuelTBU", NCConfig.processor_time[10]*9);
+		addRecipe(fluidStack("depleted_fuel_tbu", FluidHelper.NUGGET_VOLUME*64), "depletedFuelTBU", NCConfig.processor_time[10]*64/9);
 		addFissionFuelFormingRecipes("uranium", "eu", 233, 235);
 		addFissionFuelFormingRecipes("neptunium", "en", 236);
 		addFissionFuelFormingRecipes("plutonium", "ep", 239, 241);

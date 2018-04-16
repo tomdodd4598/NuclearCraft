@@ -1,5 +1,7 @@
 package nc.util;
 
+import java.util.List;
+
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 
@@ -18,5 +20,15 @@ public class FluidStackHelper {
 			}
 			return new FluidStack((Fluid) object, 1000);
 		}
+	}
+	
+	public static String stackName(FluidStack stack) {
+		return stack.getFluid().getName();
+	}
+	
+	public static String stackListNames(List<FluidStack> list) {
+		String names = "";
+		for (FluidStack stack : list) names += (", " + stackName(stack));
+		return names.substring(2);
 	}
 }

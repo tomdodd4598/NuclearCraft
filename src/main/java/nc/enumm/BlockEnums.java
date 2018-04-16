@@ -5,7 +5,7 @@ import nc.proxy.CommonProxy;
 import nc.tile.dummy.TileFissionPort;
 import nc.tile.dummy.TileFusionDummy;
 import nc.tile.dummy.TileMachineInterface;
-import nc.tile.energy.TileBattery;
+import nc.tile.energy.battery.TileBattery;
 import nc.tile.energyFluid.TileBin;
 import nc.tile.energyFluid.TileBuffer;
 import nc.tile.fluid.TileActiveCooler;
@@ -41,6 +41,7 @@ public class BlockEnums {
 		CRYSTALLIZER("crystallizer", 15, "depthsuspend", "depthsuspend"),
 		DISSOLVER("dissolver", 16, "splash", "depthsuspend"),
 		EXTRACTOR("extractor", 17, "reddust", "depthsuspend"),
+		CENTRIFUGE("centrifuge", 18, "endRod", "depthsuspend"),
 		FISSION_CONTROLLER("fission_controller", 100, "", ""),
 		FISSION_CONTROLLER_NEW("fission_controller_new", 100, "", "");
 		
@@ -101,6 +102,8 @@ public class BlockEnums {
 				return new TileProcessor.Dissolver();
 			case EXTRACTOR:
 				return new TileProcessor.Extractor();
+			case CENTRIFUGE:
+				return new TileProcessor.Centrifuge();
 			case FISSION_CONTROLLER:
 				return new TileFissionController(false);
 			case FISSION_CONTROLLER_NEW:
@@ -146,6 +149,8 @@ public class BlockEnums {
 				return NCBlocks.dissolver_idle;
 			case EXTRACTOR:
 				return NCBlocks.extractor_idle;
+			case CENTRIFUGE:
+				return NCBlocks.centrifuge_idle;
 			case FISSION_CONTROLLER:
 				return NCBlocks.fission_controller_idle;
 			case FISSION_CONTROLLER_NEW:
@@ -191,6 +196,8 @@ public class BlockEnums {
 				return NCBlocks.dissolver_active;
 			case EXTRACTOR:
 				return NCBlocks.extractor_active;
+			case CENTRIFUGE:
+				return NCBlocks.centrifuge_active;
 			case FISSION_CONTROLLER:
 				return NCBlocks.fission_controller_active;
 			case FISSION_CONTROLLER_NEW:

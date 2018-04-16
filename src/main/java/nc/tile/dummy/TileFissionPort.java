@@ -1,32 +1,26 @@
 package nc.tile.dummy;
 
-import javax.annotation.Nullable;
-
 import ic2.api.energy.tile.IEnergySink;
 import nc.ModCheck;
 import nc.config.NCConfig;
 import nc.init.NCBlocks;
+import nc.tile.energy.ITileEnergy;
 import nc.tile.generator.TileFissionController;
-import nc.tile.internal.EnumEnergyStorage.EnergyConnection;
+import nc.tile.internal.energy.EnergyConnection;
 import nc.tile.passive.ITilePassive;
 import nc.util.BlockFinder;
-import net.darkhax.tesla.capability.TeslaCapabilities;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
-import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.wrapper.SidedInvWrapper;
 
 public class TileFissionPort extends TileDummy implements IInterfaceable {
 	
 	private BlockFinder finder;
 
 	public TileFissionPort() {
-		super("fission_port", EnergyConnection.OUT, NCConfig.fission_update_rate);
+		super("fission_port", energyConnectionAll(EnergyConnection.OUT), NCConfig.fission_update_rate);
 	}
 	
 	@Override
@@ -61,22 +55,22 @@ public class TileFissionPort extends TileDummy implements IInterfaceable {
 	// Energy Pushing - Account for multiple ports
 	
 	@Override
-	public void pushEnergy() {
-		if (getMaster() == null) return;
-		if (getStorage().getEnergyStored() <= 0 || !getEnergyConnection().canExtract()) return;
-		for (EnumFacing side : EnumFacing.VALUES) {
-			TileEntity tile = world.getTileEntity(getPos().offset(side));
-			if (tile instanceof ITilePassive) if (!((ITilePassive) tile).canPushEnergyTo()) continue;
-			IEnergyStorage adjStorage = tile == null ? null : tile.getCapability(CapabilityEnergy.ENERGY, side.getOpposite());
-			//TileEntity thisTile = world.getTileEntity(getPos());
-			
-			if (adjStorage != null && storage.canExtract()) {
-				getStorage().extractEnergy(adjStorage.receiveEnergy(getStorage().extractEnergy(getCurrentEnergyStored()/getNumberOfPorts(), true), false), false);
-			}
-			else if (ModCheck.ic2Loaded()) {
-				if (tile instanceof IEnergySink) {
-					getStorage().extractEnergy((int) Math.round(((IEnergySink) tile).injectEnergy(side.getOpposite(), getStorage().extractEnergy(getCurrentEnergyStored()/getNumberOfPorts(), true) / NCConfig.generator_rf_per_eu, getSourceTier())), false);
-				}
+	public void pushEnergyToSide(EnumFacing side) {
+		if (getEnergyStorage().getEnergyStored() <= 0 || !getEnergyConnection(side).canExtract()) return;
+		
+		TileEntity tile = world.getTileEntity(getPos().offset(side));
+		
+		if (tile instanceof ITileEnergy) if (!((ITileEnergy) tile).getEnergyConnection(side.getOpposite()).canReceive()) return;
+		if (tile instanceof ITilePassive) if (!((ITilePassive) tile).canPushEnergyTo()) return;
+		
+		IEnergyStorage adjStorage = tile == null ? null : tile.getCapability(CapabilityEnergy.ENERGY, side.getOpposite());
+		
+		if (adjStorage != null && getEnergyStorage().canExtract()) {
+			getEnergyStorage().extractEnergy(adjStorage.receiveEnergy(getEnergyStorage().extractEnergy(getCurrentEnergyStored()/getNumberOfPorts(), true), false), false);
+		}
+		else if (ModCheck.ic2Loaded()) {
+			if (tile instanceof IEnergySink) {
+				getEnergyStorage().extractEnergy((int) Math.round(((IEnergySink) tile).injectEnergy(side.getOpposite(), getEnergyStorage().extractEnergy(getCurrentEnergyStored()/getNumberOfPorts(), true) / NCConfig.generator_rf_per_eu, getSourceTier())), false);
 			}
 		}
 	}
@@ -208,32 +202,5 @@ public class TileFissionPort extends TileDummy implements IInterfaceable {
 	@Override
 	public boolean isMaster(BlockPos pos) {
 		return world.getTileEntity(pos) instanceof TileFissionController;
-	}
-	
-	// Capability
-	
-	IItemHandler handlerTop = new SidedInvWrapper(this, net.minecraft.util.EnumFacing.UP);
-	IItemHandler handlerBottom = new SidedInvWrapper(this, net.minecraft.util.EnumFacing.DOWN);
-	IItemHandler handlerSide = new SidedInvWrapper(this, net.minecraft.util.EnumFacing.WEST);
-	
-	@Override
-	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing) {
-		if (CapabilityEnergy.ENERGY == capability && energyConnection.canConnect()) {
-			return (T) getStorage();
-		}
-		if (energyConnection != null && ModCheck.teslaLoaded() && energyConnection.canConnect()) {
-			if ((capability == TeslaCapabilities.CAPABILITY_CONSUMER && energyConnection.canReceive()) || (capability == TeslaCapabilities.CAPABILITY_PRODUCER && energyConnection.canExtract()) || capability == TeslaCapabilities.CAPABILITY_HOLDER)
-				return (T) getStorage();
-		}
-		if (facing != null && capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-			if (facing == EnumFacing.DOWN) {
-				return (T) handlerBottom;
-			} else if (facing == EnumFacing.UP) {
-				return (T) handlerTop;
-			} else {
-				return (T) handlerSide;
-			}
-		}
-		return super.getCapability(capability, facing);
 	}
 }

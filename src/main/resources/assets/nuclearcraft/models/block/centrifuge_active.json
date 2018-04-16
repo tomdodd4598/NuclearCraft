@@ -1,0 +1,8 @@
+{
+    "parent": "block/orientable",
+    "textures": {
+        "top": "nuclearcraft:blocks/centrifuge_top",
+        "front": "nuclearcraft:blocks/centrifuge_front_on",
+        "side": "nuclearcraft:blocks/centrifuge_side"
+    }
+}

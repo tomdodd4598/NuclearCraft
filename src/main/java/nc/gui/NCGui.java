@@ -5,7 +5,7 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 import nc.tile.energy.ITileEnergy;
-import nc.tile.internal.Tank;
+import nc.tile.internal.fluid.Tank;
 import nc.util.Lang;
 import nc.util.UnitHelper;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -54,7 +54,7 @@ public abstract class NCGui extends GuiContainer {
 	}
 	
 	public List<String> energyInfo(ITileEnergy tile) {
-		String energy = UnitHelper.prefix(tile.getStorage().getEnergyStored(), tile.getStorage().getMaxEnergyStored(), 5, "RF");
+		String energy = UnitHelper.prefix(tile.getEnergyStorage().getEnergyStored(), tile.getEnergyStorage().getMaxEnergyStored(), 5, "RF");
 		return Lists.newArrayList(TextFormatting.LIGHT_PURPLE + Lang.localise("gui.container.energy_stored") + TextFormatting.WHITE + " " + energy);
 	}
 	
@@ -68,5 +68,9 @@ public abstract class NCGui extends GuiContainer {
 	
 	public void drawNoEnergyTooltip(int mouseX, int mouseY, int x, int y, int width, int height) {
 		drawTooltip(noEnergyInfo(), mouseX, mouseY, x, y, width, height);
+	}
+	
+	protected int widthHalf(String string) {
+		return fontRenderer.getStringWidth(string)/2;
 	}
 }

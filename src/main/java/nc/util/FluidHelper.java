@@ -1,6 +1,6 @@
 package nc.util;
 
-import nc.tile.internal.Tank;
+import nc.tile.internal.fluid.Tank;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;

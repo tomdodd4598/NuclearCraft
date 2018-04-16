@@ -5,10 +5,9 @@ import javax.annotation.Nullable;
 import nc.ModCheck;
 import nc.config.NCConfig;
 import nc.tile.energyFluid.TileEnergyFluidSidedInventory;
-import nc.tile.internal.EnumEnergyStorage.EnergyConnection;
-import nc.tile.internal.EnumTank.FluidConnection;
+import nc.tile.internal.energy.EnergyConnection;
+import nc.tile.internal.fluid.FluidConnection;
 import nc.util.ItemStackHelper;
-import net.darkhax.tesla.capability.TeslaCapabilities;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -73,7 +72,7 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 	}
 	
 	public TilePassiveAbstract(String name, ItemStack stack, int itemChange, int energyChange, Fluid fluid, int fluidChange, int changeRate, String[] fluidTypes) {
-		super(name, 1, energyChange == 0 ? 1 : 2*MathHelper.abs(energyChange)*changeRate*NCConfig.generator_rf_per_eu, energyChange == 0 ? 0 : MathHelper.abs(energyChange)*NCConfig.generator_rf_per_eu, energyChange > 0 ? EnergyConnection.OUT : (energyChange < 0 ? EnergyConnection.IN : EnergyConnection.NON), new int[] {fluidChange == 0 ? 1 : 2*MathHelper.abs(fluidChange)*changeRate}, new FluidConnection[] {fluidChange > 0 ? FluidConnection.OUT : (fluidChange < 0 ? FluidConnection.IN : FluidConnection.NON)}, fluidTypes);
+		super(name, 1, energyChange == 0 ? 1 : 2*MathHelper.abs(energyChange)*changeRate*NCConfig.generator_rf_per_eu, energyChange == 0 ? 0 : MathHelper.abs(energyChange)*NCConfig.generator_rf_per_eu, energyChange > 0 ? energyConnectionAll(EnergyConnection.OUT) : (energyChange < 0 ? energyConnectionAll(EnergyConnection.IN) : energyConnectionAll(EnergyConnection.NON)), new int[] {fluidChange == 0 ? 1 : 2*MathHelper.abs(fluidChange)*changeRate}, new FluidConnection[] {fluidChange > 0 ? FluidConnection.OUT : (fluidChange < 0 ? FluidConnection.IN : FluidConnection.NON)}, fluidTypes);
 		this.energyChange = energyChange*changeRate;
 		this.itemChange = itemChange*changeRate;
 		stackChange = ItemStackHelper.changeStackSize(stack, MathHelper.abs(itemChange)*changeRate);
@@ -121,12 +120,12 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 	
 	public boolean changeEnergy(boolean b) {
 		if (energyChange == 0) return b;
-		if (storage.getEnergyStored() >= storage.getMaxEnergyStored() && energyChange > 0) return false;
-		if (storage.getEnergyStored() < MathHelper.abs(energyChange) && energyChange < 0) return false;
+		if (getEnergyStorage().getEnergyStored() >= getEnergyStorage().getMaxEnergyStored() && energyChange > 0) return false;
+		if (getEnergyStorage().getEnergyStored() < MathHelper.abs(energyChange) && energyChange < 0) return false;
 		if (!b) {
-			if (changeStack(true) && changeFluid(true)) storage.changeEnergyStored(energyChange);
+			if (changeStack(true) && changeFluid(true)) getEnergyStorage().changeEnergyStored(energyChange);
 		}
-		if (energyChange < 0) return storage.getEnergyStored() > -energyChange;
+		if (energyChange < 0) return getEnergyStorage().getEnergyStored() > -energyChange;
 		else return true;
 	}
 	
@@ -286,42 +285,34 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 	IItemHandler itemHandler = new InvWrapper(this);
 	
 	@Override
-	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
-		if (energyChange != 0) if (CapabilityEnergy.ENERGY == capability && energyConnection.canConnect()) {
-			return true;
-		}
-		if (energyChange != 0) if (energyConnection != null && ModCheck.teslaLoaded() && energyConnection.canConnect()) {
-			if ((capability == TeslaCapabilities.CAPABILITY_CONSUMER && energyConnection.canReceive()) || (capability == TeslaCapabilities.CAPABILITY_PRODUCER && energyConnection.canExtract()) || capability == TeslaCapabilities.CAPABILITY_HOLDER)
-				return true;
+	public boolean hasCapability(Capability<?> capability, EnumFacing side) {
+		if (energyChange != 0) {
+			if (CapabilityEnergy.ENERGY == capability) return getEnergySide(side) != null;
 		}
 		if (fluidChange != 0) {
 			if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) return true;
 			//else if (capability == Capabilities.GAS_HANDLER_CAPABILITY) return true;
 			//else if (capability == Capabilities.TUBE_CONNECTION_CAPABILITY) return true;
 		}
-		if (itemChange != 0) if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-			return true;
+		if (itemChange != 0) {
+			if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) return true;
 		}
 		return false;
 	}
 	
 	@Override
-	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing) {
-		if (energyChange != 0) if (CapabilityEnergy.ENERGY == capability && energyConnection.canConnect()) {
-			return (T) storage;
-		}
-		if (energyChange != 0) if (energyConnection != null && ModCheck.teslaLoaded() && energyConnection.canConnect()) {
-			if ((capability == TeslaCapabilities.CAPABILITY_CONSUMER && energyConnection.canReceive()) || (capability == TeslaCapabilities.CAPABILITY_PRODUCER && energyConnection.canExtract()) || capability == TeslaCapabilities.CAPABILITY_HOLDER)
-				return (T) storage;
+	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing side) {
+		if (energyChange != 0) {
+			if (CapabilityEnergy.ENERGY == capability) return (T) getEnergySide(side);
 		}
 		if (fluidChange != 0) {
 			if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(this);
 			//if (capability == Capabilities.GAS_HANDLER_CAPABILITY) return Capabilities.GAS_HANDLER_CAPABILITY.cast(this);
 			//if (capability == Capabilities.TUBE_CONNECTION_CAPABILITY) return Capabilities.TUBE_CONNECTION_CAPABILITY.cast(this);
 		}
-		if (itemChange != 0) if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-			return (T) itemHandler;
+		if (itemChange != 0) {
+			if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) return (T) itemHandler;
 		}
-		return super.getCapability(capability, facing);
+		return null;
 	}
 }

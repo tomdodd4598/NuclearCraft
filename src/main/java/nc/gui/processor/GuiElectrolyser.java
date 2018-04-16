@@ -47,7 +47,7 @@ public class GuiElectrolyser extends GuiFluidProcessor {
 	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
 		super.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY);
 		
-		double e = Math.round(((double) tile.storage.getEnergyStored()) / ((double) tile.storage.getMaxEnergyStored()) * 86);
+		double e = Math.round(((double) tile.getEnergyStorage().getEnergyStored()) / ((double) tile.getEnergyStorage().getMaxEnergyStored()) * 86);
 		if (tile.baseProcessPower != 0) drawTexturedModalRect(guiLeft + 8, guiTop + 6 + 86 - (int) e, 176, 90 + 86 - (int) e, 16, (int) e);
 		
 		int k = getCookProgressScaled(37);
@@ -71,11 +71,11 @@ public class GuiElectrolyser extends GuiFluidProcessor {
 	@Override
 	public void initGui() {
 		super.initGui();
-		buttonList.add(new NCGuiButton.BlankButton(0, guiLeft + 50, guiTop + 41, 16, 16));
-		buttonList.add(new NCGuiButton.BlankButton(1, guiLeft + 106, guiTop + 31, 16, 16));
-		buttonList.add(new NCGuiButton.BlankButton(2, guiLeft + 126, guiTop + 31, 16, 16));
-		buttonList.add(new NCGuiButton.BlankButton(3, guiLeft + 106, guiTop + 51, 16, 16));
-		buttonList.add(new NCGuiButton.BlankButton(4, guiLeft + 126, guiTop + 51, 16, 16));
+		buttonList.add(new NCGuiButton.EmptyTankButton(0, guiLeft + 50, guiTop + 41, 16, 16));
+		buttonList.add(new NCGuiButton.EmptyTankButton(1, guiLeft + 106, guiTop + 31, 16, 16));
+		buttonList.add(new NCGuiButton.EmptyTankButton(2, guiLeft + 126, guiTop + 31, 16, 16));
+		buttonList.add(new NCGuiButton.EmptyTankButton(3, guiLeft + 106, guiTop + 51, 16, 16));
+		buttonList.add(new NCGuiButton.EmptyTankButton(4, guiLeft + 126, guiTop + 51, 16, 16));
 	}
 	
 	@Override

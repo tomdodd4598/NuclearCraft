@@ -1,3 +1,19 @@
+v2.10h
+
++ Added support for Mekanism's condensentrated gases in machine recipes
+
+v2.10g
+
++ Added Lithium Ion Cell
+* Battery blocks now have configurable sides and retain their energy when broken
+
++ Added Centrifuge - used to separate and reprocess molten salt fuels
+* Fixed missing molten thorium fuel recipes
+
+* Fuel rods are no longer required for nuclear fuels
+
+* CTM is now used for connected textures!
+
 v2.10f
 
 * Fixed lighting of transparent blocks

@@ -29,22 +29,22 @@ public abstract class BlockSidedInventory extends BlockInventory {
 	
 	private void setDefaultFacing(World world, BlockPos pos, IBlockState state) {
 		if (!world.isRemote) {
-			IBlockState state0 = world.getBlockState(pos.north());
-			IBlockState state1 = world.getBlockState(pos.south());
-			IBlockState state2 = world.getBlockState(pos.west());
-			IBlockState state3 = world.getBlockState(pos.east());
-			EnumFacing enumfacing = (EnumFacing)state.getValue(FACING);
+			IBlockState northBlock = world.getBlockState(pos.north());
+			IBlockState southBlock = world.getBlockState(pos.south());
+			IBlockState westBlock = world.getBlockState(pos.west());
+			IBlockState eastBlock = world.getBlockState(pos.east());
+			EnumFacing facing = (EnumFacing)state.getValue(FACING);
 			
-			if (enumfacing == EnumFacing.NORTH && state0.isFullBlock() && !state1.isFullBlock()) {
-				enumfacing = EnumFacing.SOUTH;
-			} else if (enumfacing == EnumFacing.SOUTH && state1.isFullBlock() && !state0.isFullBlock()) {
-				enumfacing = EnumFacing.NORTH;
-			} else if (enumfacing == EnumFacing.WEST && state2.isFullBlock() && !state3.isFullBlock()) {
-				enumfacing = EnumFacing.EAST;
-			} else if (enumfacing == EnumFacing.EAST && state3.isFullBlock() && !state2.isFullBlock()) {
-				enumfacing = EnumFacing.WEST;
+			if (facing == EnumFacing.NORTH && northBlock.isFullBlock() && !southBlock.isFullBlock()) {
+				facing = EnumFacing.SOUTH;
+			} else if (facing == EnumFacing.SOUTH && southBlock.isFullBlock() && !northBlock.isFullBlock()) {
+				facing = EnumFacing.NORTH;
+			} else if (facing == EnumFacing.WEST && westBlock.isFullBlock() && !eastBlock.isFullBlock()) {
+				facing = EnumFacing.EAST;
+			} else if (facing == EnumFacing.EAST && eastBlock.isFullBlock() && !westBlock.isFullBlock()) {
+				facing = EnumFacing.WEST;
 			}
-			world.setBlockState(pos, state.withProperty(FACING, enumfacing), 2);
+			world.setBlockState(pos, state.withProperty(FACING, facing), 2);
 		}
 	}
 	

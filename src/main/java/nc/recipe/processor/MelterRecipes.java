@@ -84,7 +84,8 @@ public class MelterRecipes extends BaseRecipeHandler {
 		addIngotMeltingRecipes("supremium");
 		
 		// Fission Isotopes
-		addIsotopeMeltingRecipes("thorium", 230, 232);
+		addIsotopeMeltingRecipes("thorium", 230);
+		addIngotMeltingRecipes("thorium232", "fuel_tbu");
 		addIsotopeMeltingRecipes("uranium", 233, 235, 238);
 		addIsotopeMeltingRecipes("neptunium", 236, 237);
 		addIsotopeMeltingRecipes("plutonium", 238, 239, 241, 242);
@@ -95,8 +96,8 @@ public class MelterRecipes extends BaseRecipeHandler {
 		
 		// Fission Fuels
 		for (String suffix : new String[] {"", "Oxide"}) {
-			for (String prefix : new String[] {"fuel", "fuelRod"}) addRecipe(prefix + "TBU" + suffix, fluidStack("thorium_tbu", FluidHelper.INGOT_BLOCK_VOLUME), NCConfig.processor_time[6]*9);
-			for (String prefix : new String[] {"depletedFuel", "depletedFuelRod"}) addRecipe(prefix + "TBU" + suffix, fluidStack("depleted_thorium_tbu", FluidHelper.NUGGET_VOLUME*64), NCConfig.processor_time[6]*64/9);
+			for (String prefix : new String[] {"fuel", "fuelRod"}) addRecipe(prefix + "TBU" + suffix, fluidStack("fuel_tbu", FluidHelper.INGOT_BLOCK_VOLUME), NCConfig.processor_time[6]*9);
+			for (String prefix : new String[] {"depletedFuel", "depletedFuelRod"}) addRecipe(prefix + "TBU" + suffix, fluidStack("depleted_fuel_tbu", FluidHelper.NUGGET_VOLUME*64), NCConfig.processor_time[6]*64/9);
 		}
 		addFissionFuelMeltingRecipes("uranium", "eu", 233, 235);
 		addFissionFuelMeltingRecipes("neptunium", "en", 236);
@@ -169,7 +170,7 @@ public class MelterRecipes extends BaseRecipeHandler {
 	}
 	
 	public void addFissionFuelMeltingRecipes(String element, String suffix, int... types) {
-		this.addFissionFuelMeltingRecipes(element, suffix, "", types);
+		addFissionFuelMeltingRecipes(element, suffix, "", types);
 	}
 	
 	public void addOreMeltingRecipes() {

@@ -124,4 +124,11 @@ public class TileProcessor {
 			super("extractor", 1, 0, 1, 1, tankCapacities(16000, 0, 1), fluidConnections(0, 1), RecipeMethods.validFluids(NCRecipes.Type.EXTRACTOR), NCConfig.processor_time[16], NCConfig.processor_power[16], NCRecipes.Type.EXTRACTOR, 17);
 		}
 	}
+	
+	public static class Centrifuge extends TileFluidProcessor {
+
+		public Centrifuge() {
+			super("centrifuge", 1, 4, tankCapacities(16000, 1, 4), fluidConnections(1, 4), RecipeMethods.validFluids(NCRecipes.Type.CENTRIFUGE), NCConfig.processor_time[17], NCConfig.processor_power[17], NCRecipes.Type.CENTRIFUGE, 18);
+		}
+	}
 }

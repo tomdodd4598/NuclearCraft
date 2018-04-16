@@ -5,6 +5,7 @@ import com.google.common.collect.Lists;
 import crafttweaker.CraftTweakerAPI;
 import crafttweaker.annotations.ZenRegister;
 import crafttweaker.api.item.IIngredient;
+import nc.ModCheck;
 import nc.config.NCConfig;
 import nc.recipe.NCRecipes;
 import nc.recipe.SorptionType;
@@ -40,6 +41,7 @@ public class NCCraftTweaker {
 	
 	public static class RecipeHandler {
 		static {
+			ModCheck.init();
 			NCRecipes.init();
 		}
 	}
@@ -466,6 +468,31 @@ public class NCCraftTweaker {
 		@ZenMethod
 		public static void removeRecipeWithOutput(IIngredient output1) {
 			CraftTweakerAPI.apply(new RemoveRecipe(NCRecipes.Type.EXTRACTOR, SorptionType.OUTPUT, Lists.newArrayList(output1)));
+		}
+	}
+	
+	@ZenClass("mods.nuclearcraft.centrifuge")
+	@ZenRegister
+	public static class CentrifugeHandler extends RecipeHandler {
+		
+		@ZenMethod
+		public static void addRecipe(IIngredient input1, IIngredient output1, IIngredient output2, IIngredient output3, IIngredient output4) {
+			CraftTweakerAPI.apply(new AddRecipe(NCRecipes.Type.CENTRIFUGE, Lists.newArrayList(input1), Lists.newArrayList(output1, output2, output3, output4), Lists.newArrayList(NCConfig.processor_time[17])));
+		}
+		
+		@ZenMethod
+		public static void addRecipe(IIngredient input1, IIngredient output1, IIngredient output2, IIngredient output3, IIngredient output4, int processTime) {
+			CraftTweakerAPI.apply(new AddRecipe(NCRecipes.Type.CENTRIFUGE, Lists.newArrayList(input1), Lists.newArrayList(output1, output2, output3, output4), Lists.newArrayList(processTime)));
+		}
+		
+		@ZenMethod
+		public static void removeRecipeWithInput(IIngredient input1) {
+			CraftTweakerAPI.apply(new RemoveRecipe(NCRecipes.Type.CENTRIFUGE, SorptionType.INPUT, Lists.newArrayList(input1)));
+		}
+
+		@ZenMethod
+		public static void removeRecipeWithOutput(IIngredient output1, IIngredient output2, IIngredient output3, IIngredient output4) {
+			CraftTweakerAPI.apply(new RemoveRecipe(NCRecipes.Type.CENTRIFUGE, SorptionType.OUTPUT, Lists.newArrayList(output1, output2, output3, output4)));
 		}
 	}
 	

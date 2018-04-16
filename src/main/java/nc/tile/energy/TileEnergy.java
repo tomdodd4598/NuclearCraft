@@ -9,38 +9,42 @@ import ic2.api.energy.tile.IEnergyTile;
 import nc.ModCheck;
 import nc.config.NCConfig;
 import nc.tile.NCTile;
-import nc.tile.internal.EnergyStorage;
-import nc.tile.internal.EnumEnergyStorage.EnergyConnection;
+import nc.tile.internal.energy.EnergyConnection;
+import nc.tile.internal.energy.EnergyStorage;
+import nc.tile.internal.energy.EnergyTileWrapper;
 import nc.tile.passive.ITilePassive;
-import net.darkhax.tesla.capability.TeslaCapabilities;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.fml.common.Optional;
 
 @Optional.InterfaceList({ @Optional.Interface(iface = "ic2.api.energy.tile.IEnergyTile", modid = "ic2"), @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "ic2"), @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySource", modid = "ic2") })
-public abstract class TileEnergy extends NCTile implements ITileEnergy, IEnergyStorage, IEnergyTile, IEnergySink, IEnergySource {
+public abstract class TileEnergy extends NCTile implements ITileEnergy, IEnergyTile, IEnergySink, IEnergySource {
 
-	public EnergyConnection energyConnection;
-	public final EnergyStorage storage;
+	private EnergyConnection[] energyConnections;
+	protected boolean configurableEnergyConnections;
+	private EnergyTileWrapper[] energySides;
+	private final EnergyStorage storage;
 	public boolean isEnergyTileSet = true;
 	public boolean ic2reg = false;
 	
-	public TileEnergy(int capacity, EnergyConnection energyConnection) {
-		this(capacity, capacity, capacity, energyConnection);
+	public TileEnergy(int capacity, EnergyConnection[] energyConnections) {
+		this(capacity, capacity, capacity, energyConnections);
 	}
 	
-	public TileEnergy(int capacity, int maxTransfer, EnergyConnection energyConnection) {
-		this(capacity, maxTransfer, maxTransfer, energyConnection);
+	public TileEnergy(int capacity, int maxTransfer, EnergyConnection[] energyConnections) {
+		this(capacity, maxTransfer, maxTransfer, energyConnections);
 	}
 	
-	public TileEnergy(int capacity, int maxReceive, int maxExtract, EnergyConnection energyConnection) {
+	public TileEnergy(int capacity, int maxReceive, int maxExtract, EnergyConnection[] energyConnections) {
 		super();
 		storage = new EnergyStorage(capacity, maxReceive, maxExtract);
-		this.energyConnection = energyConnection;
+		this.energyConnections = energyConnections;
+		energySides = getDefaultEnergySides(this);
 	}
 	
 	@Override
@@ -71,46 +75,11 @@ public abstract class TileEnergy extends NCTile implements ITileEnergy, IEnergyS
 		if (ModCheck.ic2Loaded()) removeTileFromENet();
 	}
 	
+	// Forge Energy
+	
 	@Override
-	public EnergyStorage getStorage() {
+	public EnergyStorage getEnergyStorage() {
 		return storage;
-	}
-	
-	@Override
-	public EnergyConnection getEnergyConnection() {
-		return energyConnection;
-	}
-	
-	// Redstone Flux
-	
-	@Override
-	public int getEnergyStored() {
-		return storage.getEnergyStored();
-	}
-
-	@Override
-	public int getMaxEnergyStored() {
-		return storage.getMaxEnergyStored();
-	}
-
-	@Override
-	public int extractEnergy(int maxExtract, boolean simulate) {
-		return energyConnection.canExtract() ? storage.extractEnergy(maxExtract, simulate) : 0;
-	}
-	
-	@Override
-	public int receiveEnergy(int maxReceive, boolean simulate) {
-		return energyConnection.canReceive() ? storage.receiveEnergy(maxReceive, simulate) : 0;
-	}
-	
-	@Override
-	public boolean canExtract() {
-		return energyConnection.canExtract();
-	}
-
-	@Override
-	public boolean canReceive() {
-		return energyConnection.canReceive();
 	}
 	
 	// IC2 Energy
@@ -118,39 +87,39 @@ public abstract class TileEnergy extends NCTile implements ITileEnergy, IEnergyS
 	@Override
 	@Optional.Method(modid = "ic2")
 	public boolean acceptsEnergyFrom(IEnergyEmitter emitter, EnumFacing side) {
-		return energyConnection.canReceive();
+		return getEnergyConnection(side).canReceive();
 	}
 
 	@Override
 	@Optional.Method(modid = "ic2")
 	public boolean emitsEnergyTo(IEnergyAcceptor receiver, EnumFacing side) {
-		return energyConnection.canExtract();
+		return getEnergyConnection(side).canExtract();
 	}
 
 	@Override
 	@Optional.Method(modid = "ic2")
 	public double getOfferedEnergy() {
-		return Math.min(Math.pow(2, 2*getSourceTier() + 3), (double)storage.takePower(storage.maxExtract, true) / (double)NCConfig.generator_rf_per_eu);
+		return Math.min(Math.pow(2, 2*getSourceTier() + 3), (double)getEnergyStorage().extractEnergy(getEnergyStorage().getMaxExtract(), true) / (double)NCConfig.generator_rf_per_eu);
 	}
 	
 	@Override
 	@Optional.Method(modid = "ic2")
 	public double getDemandedEnergy() {
-		return Math.min(Math.pow(2, 2*getSinkTier() + 3), (double)storage.givePower(storage.maxReceive, true) / (double)NCConfig.processor_rf_per_eu);
+		return Math.min(Math.pow(2, 2*getSinkTier() + 3), (double)getEnergyStorage().receiveEnergy(getEnergyStorage().getMaxReceive(), true) / (double)NCConfig.processor_rf_per_eu);
 	}
 	
 	/** The normal conversion is 4 RF to 1 EU, but for RF generators, this is OP, so the ratio is instead 16:1 */
 	@Override
 	@Optional.Method(modid = "ic2")
 	public void drawEnergy(double amount) {
-		storage.takePower((long) (NCConfig.generator_rf_per_eu * amount), false);
+		getEnergyStorage().extractEnergy((int) (NCConfig.generator_rf_per_eu * amount), false);
 	}
 
 	@Override
 	@Optional.Method(modid = "ic2")
 	public double injectEnergy(EnumFacing directionFrom, double amount, double voltage) {
-		int energyReceived = storage.receiveEnergy((int) ((double)NCConfig.processor_rf_per_eu * amount), true);
-		storage.givePower(energyReceived, false);
+		int energyReceived = getEnergyStorage().receiveEnergy((int) ((double)NCConfig.processor_rf_per_eu * amount), true);
+		getEnergyStorage().receiveEnergy(energyReceived, false);
 		return amount - (double)energyReceived/(double)NCConfig.processor_rf_per_eu;
 	}
 	
@@ -178,86 +147,148 @@ public abstract class TileEnergy extends NCTile implements ITileEnergy, IEnergyS
 		}
 	}
 	
+	@Override
+	public BlockPos getBlockPos() {
+		return pos;
+	}
+	
 	// NBT
+	
+	@Override
+	public NBTTagCompound writeEnergy(NBTTagCompound nbt) {
+		nbt.setInteger("energy", getEnergyStorage().getEnergyStored());
+		nbt.setInteger("capacity", getEnergyStorage().getMaxEnergyStored());
+		nbt.setInteger("maxReceive", getEnergyStorage().getMaxReceive());
+		nbt.setInteger("maxExtract", getEnergyStorage().getMaxExtract());
+		return nbt;
+	}
+	
+	@Override
+	public void readEnergy(NBTTagCompound nbt) {
+		getEnergyStorage().setEnergyStored(nbt.getInteger("energy"));
+	}
+	
+	@Override
+	public NBTTagCompound writeEnergyConnections(NBTTagCompound nbt) {
+		for (int i = 0; i < 6; i++) nbt.setInteger("energyConnections" + i, energyConnections[i].ordinal());
+		return nbt;
+	}
+	
+	@Override
+	public void readEnergyConnections(NBTTagCompound nbt) {
+		if (configurableEnergyConnections) for (int i = 0; i < 6; i++) energyConnections[i] = EnergyConnection.values()[nbt.getInteger("energyConnections" + i)];
+	}
 	
 	@Override
 	public NBTTagCompound writeAll(NBTTagCompound nbt) {
 		super.writeAll(nbt);
-		nbt.setInteger("energy", storage.getEnergyStored());
+		writeEnergy(nbt);
+		writeEnergyConnections(nbt);
 		return nbt;
 	}
 	
 	@Override
 	public void readAll(NBTTagCompound nbt) {
 		super.readAll(nbt);
-		storage.setEnergyStored(nbt.getInteger("energy"));
+		readEnergy(nbt);
+		readEnergyConnections(nbt);
 	}
 	
 	// Energy Connections
 	
-	public void setConnection(EnergyConnection energyConnection) {
-		this.energyConnection = energyConnection;
+	public static EnergyConnection[] energyConnectionAll(EnergyConnection connection) {
+		EnergyConnection[] array = new EnergyConnection[6];
+		for (int i = 0; i < 6; i++) array[i] = connection;
+		return array;
+	}
+	
+	@Override
+	public EnergyConnection getEnergyConnection(EnumFacing side) {
+		return energyConnections[side.getIndex()];
+	}
+	
+	@Override
+	public void setEnergyConnection(EnergyConnection energyConnection, EnumFacing side) {
+		energyConnections[side.getIndex()] = energyConnection;
+	}
+	
+	public void setEnergyConnectionAll(EnergyConnection energyConnection) {
+		energyConnections = energyConnectionAll(energyConnection);
+	}
+	
+	@Override
+	public void toggleEnergyConnection(EnumFacing side) {
+		if (ModCheck.ic2Loaded()) removeTileFromENet();
+		setEnergyConnection(getEnergyConnection(side).next(), side);
+		markAndRefresh();
+		if (ModCheck.ic2Loaded()) addTileToENet();
 	}
 	
 	public void pushEnergy() {
-		if (storage.getEnergyStored() <= 0 || !energyConnection.canExtract()) return;
-		for (EnumFacing side : EnumFacing.VALUES) {
-			TileEntity tile = world.getTileEntity(getPos().offset(side));
-			if (tile instanceof ITilePassive) if (!((ITilePassive) tile).canPushEnergyTo()) continue;
-			if (tile instanceof ITileEnergy) if (!((ITileEnergy) tile).getEnergyConnection().canReceive()) continue;
-			IEnergyStorage adjStorage = tile == null ? null : tile.getCapability(CapabilityEnergy.ENERGY, side.getOpposite());
-			
-			if (adjStorage != null && storage.canExtract()) {
-				storage.extractEnergy(adjStorage.receiveEnergy(storage.extractEnergy(storage.getMaxEnergyStored(), true), false), false);
-			}
-			else if (ModCheck.ic2Loaded()) {
-				if (tile instanceof IEnergySink) {
-					storage.extractEnergy((int) Math.round(((IEnergySink) tile).injectEnergy(side.getOpposite(), storage.extractEnergy(storage.getMaxEnergyStored(), true) / NCConfig.generator_rf_per_eu, getSourceTier())), false);
-				}
+		if (getEnergyStorage().getEnergyStored() <= 0) return;
+		for (EnumFacing side : EnumFacing.VALUES) pushEnergyToSide(side);
+	}
+	
+	public void spreadEnergy() {
+		if (!NCConfig.passive_permeation || getEnergyStorage().getEnergyStored() <= 0) return;
+		for (EnumFacing side : EnumFacing.VALUES) spreadEnergyToSide(side);
+	}
+	
+	public void pushEnergyToSide(EnumFacing side) {
+		if (getEnergyStorage().getEnergyStored() <= 0 || !getEnergyConnection(side).canExtract()) return;
+		
+		TileEntity tile = world.getTileEntity(getPos().offset(side));
+		
+		if (tile instanceof ITileEnergy) if (!((ITileEnergy) tile).getEnergyConnection(side.getOpposite()).canReceive()) return;
+		if (tile instanceof ITilePassive) if (!((ITilePassive) tile).canPushEnergyTo()) return;
+		
+		IEnergyStorage adjStorage = tile == null ? null : tile.getCapability(CapabilityEnergy.ENERGY, side.getOpposite());
+		
+		if (adjStorage != null && getEnergyStorage().canExtract()) {
+			getEnergyStorage().extractEnergy(adjStorage.receiveEnergy(getEnergyStorage().extractEnergy(getEnergyStorage().getMaxEnergyStored(), true), false), false);
+		}
+		else if (ModCheck.ic2Loaded()) {
+			if (tile instanceof IEnergySink) {
+				getEnergyStorage().extractEnergy((int) Math.round(((IEnergySink) tile).injectEnergy(side.getOpposite(), getEnergyStorage().extractEnergy(getEnergyStorage().getMaxEnergyStored(), true) / NCConfig.generator_rf_per_eu, getSourceTier())), false);
 			}
 		}
 	}
 	
-	public void spreadEnergy() {
-		if (!NCConfig.passive_permeation) return;
-		if (storage.getEnergyStored() <= 0 || energyConnection == EnergyConnection.NON) return;
-		for (EnumFacing side : EnumFacing.VALUES) {
-			TileEntity tile = world.getTileEntity(getPos().offset(side));
-			if (tile instanceof ITilePassive) if (!((ITilePassive) tile).canPushEnergyTo()) continue;
-			IEnergyStorage adjStorage = tile == null ? null : tile.getCapability(CapabilityEnergy.ENERGY, side.getOpposite());
-			
-			if (!(tile instanceof IEnergySpread)) continue;
-			
-			if (adjStorage != null && storage.canExtract()) {
-				int maxExtract = (storage.getEnergyStored() - adjStorage.getEnergyStored())/2;
-				if (maxExtract > 0) storage.extractEnergy(adjStorage.receiveEnergy(storage.extractEnergy(maxExtract, true), false), false);
-			}
+	public void spreadEnergyToSide(EnumFacing side) {
+		if (getEnergyStorage().getEnergyStored() <= 0 || !getEnergyConnection(side).canConnect()) return;
+		
+		TileEntity tile = world.getTileEntity(getPos().offset(side));
+		
+		if (!(tile instanceof IEnergySpread)) return;
+		if (tile instanceof ITilePassive) if (!((ITilePassive) tile).canPushEnergyTo()) return;
+		IEnergyStorage adjStorage = tile == null ? null : tile.getCapability(CapabilityEnergy.ENERGY, side.getOpposite());
+		
+		if (adjStorage != null && getEnergyStorage().canExtract()) {
+			int maxExtract = (getEnergyStorage().getEnergyStored() - adjStorage.getEnergyStored())/2;
+			if (maxExtract > 0) getEnergyStorage().extractEnergy(adjStorage.receiveEnergy(getEnergyStorage().extractEnergy(maxExtract, true), false), false);
 		}
 	}
 	
 	// Capability
 	
-	@Override
-	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
-		if (CapabilityEnergy.ENERGY == capability && energyConnection.canConnect()) {
-			return true;
-		}
-		if (energyConnection != null && ModCheck.teslaLoaded() && energyConnection.canConnect()) {
-			if ((capability == TeslaCapabilities.CAPABILITY_CONSUMER && energyConnection.canReceive()) || (capability == TeslaCapabilities.CAPABILITY_PRODUCER && energyConnection.canExtract()) || capability == TeslaCapabilities.CAPABILITY_HOLDER)
-				return true;
-		}
-		return super.hasCapability(capability, facing);
+	public static EnergyTileWrapper[] getDefaultEnergySides(ITileEnergy tile) {
+		return new EnergyTileWrapper[] {new EnergyTileWrapper(tile, EnumFacing.DOWN), new EnergyTileWrapper(tile, EnumFacing.UP), new EnergyTileWrapper(tile, EnumFacing.NORTH), new EnergyTileWrapper(tile, EnumFacing.SOUTH), new EnergyTileWrapper(tile, EnumFacing.WEST), new EnergyTileWrapper(tile, EnumFacing.EAST)};
 	}
 	
 	@Override
-	public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
-		if (CapabilityEnergy.ENERGY == capability && energyConnection.canConnect()) {
-			return (T) storage;
-		}
-		if (energyConnection != null && ModCheck.teslaLoaded() && energyConnection.canConnect()) {
-			if ((capability == TeslaCapabilities.CAPABILITY_CONSUMER && energyConnection.canReceive()) || (capability == TeslaCapabilities.CAPABILITY_PRODUCER && energyConnection.canExtract()) || capability == TeslaCapabilities.CAPABILITY_HOLDER)
-				return (T) storage;
-		}
-		return super.getCapability(capability, facing);
+	public EnergyTileWrapper getEnergySide(EnumFacing side) {
+		return side == null ? energySides[0] : energySides[side.getIndex()];
+	}
+	
+	@Override
+	public boolean hasCapability(Capability<?> capability, EnumFacing side) {
+		if (capability == CapabilityEnergy.ENERGY) return getEnergySide(side) != null;
+		return super.hasCapability(capability, side);
+	}
+	
+	@Override
+	public <T> T getCapability(Capability<T> capability, EnumFacing side) {
+		if (capability == CapabilityEnergy.ENERGY) return (T) getEnergySide(side);
+		return super.getCapability(capability, side);
 	}
 }

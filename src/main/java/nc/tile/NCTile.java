@@ -64,6 +64,22 @@ public abstract class NCTile extends TileEntity implements ITickable {
 		if (getBlockType() instanceof IActivatable) ((IActivatable)getBlockType()).setState(isActive, world, pos);
 	}
 	
+	// State Updating
+	
+	public void markAndRefresh() {
+		markAndRefresh(getPos(), world.getBlockState(getPos()));
+	}
+	
+	public void markAndRefresh(IBlockState newState) {
+		markAndRefresh(getPos(), newState);
+	}
+	
+	public void markAndRefresh(BlockPos pos, IBlockState newState) {
+		markDirty();
+		world.notifyBlockUpdate(pos, world.getBlockState(pos), newState, 3);
+		world.notifyNeighborsOfStateChange(pos, getBlockType(), true);
+	}
+	
 	// NBT
 	
 	@Override

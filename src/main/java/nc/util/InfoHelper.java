@@ -26,9 +26,9 @@ public class InfoHelper {
 		list.add(TextFormatting.ITALIC + SHIFT_STRING);
 	}
 	
-	public static void fixedInfoList(List list, TextFormatting fixedColor, String... fixedLines) {
+	public static void fixedInfoList(List list, boolean infoBelow, TextFormatting fixedColor, String... fixedLines) {
 		for (int i = 0; i < fixedLines.length; i++) infoLine(list, fixedColor, fixedLines[i]);
-		shiftInfo(list);
+		if (infoBelow) shiftInfo(list);
 	}
 	
 	public static boolean shift() {
@@ -40,11 +40,9 @@ public class InfoHelper {
 	}
 	
 	public static void infoFull(List list, TextFormatting fixedColor, String[] fixedLines, String... lines) {
-		if (lines == EMPTY_ARRAY) return; else {
-			if (fixedLines != EMPTY_ARRAY && !shift()) fixedInfoList(list, fixedColor, fixedLines);
-			else if (shift() || lines.length == 1) infoList(list, lines);
-			else shiftInfo(list);
-        }
+		if (fixedLines != EMPTY_ARRAY && (!shift() || lines == EMPTY_ARRAY)) fixedInfoList(list, lines != EMPTY_ARRAY, fixedColor, fixedLines);
+		else if ((shift() && lines != EMPTY_ARRAY) || lines.length == 1) infoList(list, lines);
+		else if (lines != EMPTY_ARRAY) shiftInfo(list);
 	}
 	
 	public static void infoFull(List list, String... lines) {

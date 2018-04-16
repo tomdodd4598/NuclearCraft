@@ -1,5 +1,7 @@
 package nc.util;
 
+import java.util.List;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
@@ -46,5 +48,15 @@ public class ItemStackHelper {
 		ItemStack newStack = stack.copy();
 		newStack.setCount(size);
 		return newStack.copy();
+	}
+	
+	public static String stackName(ItemStack stack) {
+		return stack.getItem().getUnlocalizedName() + ":" + stack.getMetadata();
+	}
+	
+	public static String stackListNames(List<ItemStack> list) {
+		String names = "";
+		for (ItemStack stack : list) names += (", " + stackName(stack));
+		return names.substring(2);
 	}
 }

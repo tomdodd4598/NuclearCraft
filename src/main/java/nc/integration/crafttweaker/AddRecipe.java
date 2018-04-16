@@ -120,7 +120,7 @@ public class AddRecipe implements IAction {
 	
 	public void undo() {
 		if (!wasNull && !wrongSize) {
-			List values = recipeType.getRecipeHandler().getValuesFromList(inputs);
+			List values = recipeType.getRecipeHandler().getIngredientList(inputs);
 			IRecipe recipe = recipeType.getRecipeHandler().getRecipeFromInputs(values.toArray());
 			if (recipe == null) {
 				CraftTweakerAPI.logError(String.format("%s: Adding Recipe - Couldn't find matching recipe %s", recipeType.getRecipeHandler().getRecipeName(), values));

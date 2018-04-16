@@ -24,12 +24,20 @@ public class RecipeStackArray implements IIngredient, IRecipeStack {
 
 	@Override
 	public Object getIngredient() {
-		return cachedObjects;
+		if (cachedObjects.size() < 1) return cachedObjects;
+		return cachedObjects.get(0);
 	}
 	
 	@Override
 	public String getIngredientName() {
 		return validInputList.get(0).getIngredientName();
+	}
+	
+	@Override
+	public String getIngredientNames() {
+		String names = "";
+		for (IIngredient ingredient : validInputList) names += (", " + ingredient.getIngredientName());
+		return names.substring(2);
 	}
 
 	@Override

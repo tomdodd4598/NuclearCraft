@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
+import nc.util.FluidStackHelper;
+import nc.util.ItemStackHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 
@@ -22,7 +24,12 @@ public class RecipeStack implements IIngredient, IRecipeStack {
 	
 	@Override
 	public String getIngredientName() {
-		return stack instanceof ItemStack ? ((ItemStack) stack).getItem().getUnlocalizedName() + ":" + ((ItemStack) stack).getMetadata() : (stack instanceof FluidStack ? ((FluidStack) stack).getFluid().getName() : "");
+		return stack instanceof ItemStack ? ItemStackHelper.stackName((ItemStack) stack) : (stack instanceof FluidStack ? FluidStackHelper.stackName((FluidStack) stack) : "");
+	}
+	
+	@Override
+	public String getIngredientNames() {
+		return getIngredientName();
 	}
 
 	@Override

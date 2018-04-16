@@ -1,17 +1,10 @@
 {
-  "animation": {
-    "frametime": 3,
-    "frames": [
-      0,
-      1,
-      2,
-      3,
-      4,
-      5,
-      4,
-      3,
-	  2,
-	  1
-    ]
-  }
+	"ctm": {
+		"ctm_version": 1,
+		"type":"ctm",
+		"layer":"CUTOUT",
+		"textures":[
+			"nuclearcraft:blocks/fusion_electromagnet_transparent_top_on_ctm"
+		]
+	}
 }

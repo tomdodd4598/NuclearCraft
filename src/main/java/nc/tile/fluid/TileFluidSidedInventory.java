@@ -2,7 +2,7 @@ package nc.tile.fluid;
 
 import javax.annotation.Nullable;
 
-import nc.tile.internal.EnumTank.FluidConnection;
+import nc.tile.internal.fluid.FluidConnection;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;

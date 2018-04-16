@@ -2,7 +2,6 @@ package nc.init;
 
 import nc.Global;
 import nc.NCInfo;
-import nc.block.BlockConnected;
 import nc.block.BlockMeta;
 import nc.block.NCBlock;
 import nc.block.NCBlockDoor;
@@ -11,8 +10,8 @@ import nc.block.NCBlockMushroom;
 import nc.block.NCBlockTrapDoor;
 import nc.block.item.ItemBlockMeta;
 import nc.block.item.NCItemBlock;
+import nc.block.item.energy.ItemBlockBattery;
 import nc.block.tile.BlockActivatable;
-import nc.block.tile.BlockActivatableConnected;
 import nc.block.tile.BlockBattery;
 import nc.block.tile.BlockSimpleTile;
 import nc.block.tile.dummy.BlockFissionPort;
@@ -40,6 +39,7 @@ import nc.multiblock.fission.moltensalt.block.BlockSaltFissionVent;
 import nc.multiblock.fission.moltensalt.block.BlockSaltFissionVessel;
 import nc.multiblock.fission.moltensalt.block.BlockSaltFissionWall;
 import nc.proxy.CommonProxy;
+import nc.tile.energy.battery.BatteryType;
 import nc.util.InfoHelper;
 import nc.util.Lang;
 import nc.util.UnitHelper;
@@ -112,6 +112,8 @@ public class NCBlocks {
 	public static Block dissolver_active;
 	public static Block extractor_idle;
 	public static Block extractor_active;
+	public static Block centrifuge_idle;
+	public static Block centrifuge_active;
 	
 	public static Block machine_interface;
 	
@@ -186,7 +188,7 @@ public class NCBlocks {
 		ingot_block = new BlockMeta.BlockIngot("ingot_block");
 		
 		fission_block = new BlockMeta.BlockFission("fission_block");
-		reactor_casing_transparent = new BlockConnected.Transparent("reactor_casing_transparent", Material.IRON, 0, true).setCreativeTab(CommonProxy.TAB_FISSION_BLOCKS);
+		reactor_casing_transparent = new NCBlock.Transparent("reactor_casing_transparent", Material.IRON, true).setCreativeTab(CommonProxy.TAB_FISSION_BLOCKS);
 		cell_block = new NCBlock.Transparent("cell_block", Material.IRON, false).setCreativeTab(CommonProxy.TAB_FISSION_BLOCKS);
 		cooler = new BlockMeta.BlockCooler("cooler");
 		reactor_door = new NCBlockDoor("reactor_door", Material.IRON);
@@ -239,6 +241,8 @@ public class NCBlocks {
 		dissolver_active = new BlockProcessor(ProcessorType.DISSOLVER, true);
 		extractor_idle = new BlockProcessor(ProcessorType.EXTRACTOR, false);
 		extractor_active = new BlockProcessor(ProcessorType.EXTRACTOR, true);
+		centrifuge_idle = new BlockProcessor(ProcessorType.CENTRIFUGE, false);
+		centrifuge_active = new BlockProcessor(ProcessorType.CENTRIFUGE, true);
 		
 		machine_interface = new BlockMachineInterface(SimpleTileType.MACHINE_INTERFACE);
 		
@@ -269,10 +273,10 @@ public class NCBlocks {
 		active_cooler = new BlockSimpleTile(SimpleTileType.ACTIVE_COOLER);
 		bin = new BlockSimpleTile(SimpleTileType.BIN);
 		
-		fusion_electromagnet_idle = new BlockActivatableConnected(ActivatableTileType.FUSION_ELECTROMAGNET, false, 1);
-		fusion_electromagnet_active = new BlockActivatableConnected(ActivatableTileType.FUSION_ELECTROMAGNET, true, 1);
-		fusion_electromagnet_transparent_idle = new BlockActivatableConnected.Transparent(ActivatableTileType.FUSION_ELECTROMAGNET_TRANSPARENT, false, 1, true);
-		fusion_electromagnet_transparent_active = new BlockActivatableConnected.Transparent(ActivatableTileType.FUSION_ELECTROMAGNET_TRANSPARENT, true, 1, true);
+		fusion_electromagnet_idle = new BlockActivatable(ActivatableTileType.FUSION_ELECTROMAGNET, false);
+		fusion_electromagnet_active = new BlockActivatable(ActivatableTileType.FUSION_ELECTROMAGNET, true);
+		fusion_electromagnet_transparent_idle = new BlockActivatable.Transparent(ActivatableTileType.FUSION_ELECTROMAGNET_TRANSPARENT, false, true);
+		fusion_electromagnet_transparent_active = new BlockActivatable.Transparent(ActivatableTileType.FUSION_ELECTROMAGNET_TRANSPARENT, true, true);
 		
 		salt_fission_controller = new BlockSaltFissionController();
 		salt_fission_wall = new BlockSaltFissionWall();
@@ -367,6 +371,8 @@ public class NCBlocks {
 		registerBlock(dissolver_active);
 		registerBlock(extractor_idle);
 		registerBlock(extractor_active);
+		registerBlock(centrifuge_idle);
+		registerBlock(centrifuge_active);
 		
 		registerBlock(machine_interface);
 		
@@ -390,8 +396,8 @@ public class NCBlocks {
 		
 		registerBlock(decay_generator);
 		
-		registerBlock(voltaic_pile_basic, InfoHelper.formattedInfo(infoLine("energy_storage"), UnitHelper.prefix(NCConfig.battery_capacity[0], 5, "RF")));
-		registerBlock(lithium_ion_battery_basic, InfoHelper.formattedInfo(infoLine("energy_storage"), UnitHelper.prefix(NCConfig.battery_capacity[1], 5, "RF")));
+		registerBlock(voltaic_pile_basic, new ItemBlockBattery(voltaic_pile_basic, BatteryType.VOLTAIC_PILE_BASIC, InfoHelper.formattedInfo(infoLine("energy_storage"))));
+		registerBlock(lithium_ion_battery_basic, new ItemBlockBattery(lithium_ion_battery_basic, BatteryType.LITHIUM_ION_BATTERY_BASIC, InfoHelper.formattedInfo(infoLine("energy_storage"))));
 		
 		registerBlock(buffer);
 		registerBlock(active_cooler);
@@ -507,6 +513,8 @@ public class NCBlocks {
 		registerRender(dissolver_active);
 		registerRender(extractor_idle);
 		registerRender(extractor_active);
+		registerRender(centrifuge_idle);
+		registerRender(centrifuge_active);
 		
 		registerRender(machine_interface);
 		

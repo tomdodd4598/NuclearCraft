@@ -137,6 +137,14 @@ mods.nuclearcraft.extractor.removeRecipeWithInput(itemInput);
 mods.nuclearcraft.extractor.removeRecipeWithOutput(itemOutput, fluidOutput);
 
 ---------------------------------------------------------------------------------------------------------------------------
+Centrifuge:
+
+mods.nuclearcraft.centrifuge.addRecipe(fluidInput, fluidOutput1, fluidOutput2, fluidOutput3, fluidOutput4, {optional}processTime);
+
+mods.nuclearcraft.centrifuge.removeRecipeWithInput(fluidInput);
+mods.nuclearcraft.centrifuge.removeRecipeWithOutput(fluidOutput1, fluidOutput2, fluidOutput3, fluidOutput4);
+
+---------------------------------------------------------------------------------------------------------------------------
 Decay Generator:
 
 mods.nuclearcraft.decay_generator.addRecipe(blockInput, blockOutput, lifetimeTicks, energyPerSecond);

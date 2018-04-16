@@ -57,7 +57,7 @@ public class GuiFissionController extends NCGui {
 	
 	@Override
 	public List<String> energyInfo(ITileEnergy tile) {
-		String energy = UnitHelper.prefix(tile.getStorage().getEnergyStored(), tile.getStorage().getMaxEnergyStored(), 6, "RF");
+		String energy = UnitHelper.prefix(tile.getEnergyStorage().getEnergyStored(), tile.getEnergyStorage().getMaxEnergyStored(), 6, "RF");
 		String power = UnitHelper.prefix(this.tile.getProcessPower(), 6, "RF/t");
 		String efficiency = this.tile.efficiency + "%";
 		return Lists.newArrayList(TextFormatting.LIGHT_PURPLE + Lang.localise("gui.container.energy_stored") + TextFormatting.WHITE + " " + energy, TextFormatting.LIGHT_PURPLE + Lang.localise("gui.container.power_gen") + TextFormatting.WHITE + " " + power, TextFormatting.LIGHT_PURPLE + Lang.localise("gui.container.fission_controller.efficiency") + TextFormatting.WHITE + " " + efficiency);
@@ -81,7 +81,7 @@ public class GuiFissionController extends NCGui {
 		mc.getTextureManager().bindTexture(gui_textures);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
-		double e = Math.round(((double) tile.storage.getEnergyStored()) / ((double) tile.storage.getMaxEnergyStored()) * 85);
+		double e = Math.round(((double) tile.getEnergyStorage().getEnergyStored()) / ((double) tile.getEnergyStorage().getMaxEnergyStored()) * 85);
 		drawTexturedModalRect(guiLeft + 8, guiTop + 6 + 85 - (int) e, 176, 90 + 85 - (int) e, 6, (int) e);
 		
 		double h = Math.round(((double) tile.heat) / ((double) tile.getMaxHeat()) * 85);

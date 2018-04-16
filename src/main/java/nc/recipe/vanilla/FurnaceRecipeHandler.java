@@ -1,6 +1,5 @@
 package nc.recipe.vanilla;
 
-import nc.config.NCConfig;
 import nc.enumm.MetaEnums.IngotOxideType;
 import nc.enumm.MetaEnums.IngotType;
 import nc.enumm.MetaEnums.OreType;
@@ -48,7 +47,7 @@ public class FurnaceRecipeHandler {
 		for (int i = 0; i < noFuelTypes; i++) {
 			GameRegistry.addSmelting(new ItemStack(fuelType, 1, 1 + 2*i), new ItemStack(fuelType, 1, 2*i), 0.0F);
 			GameRegistry.addSmelting(new ItemStack(rodType, 1, 1 + 2*i), new ItemStack(rodType, 1, 2*i), 0.0F);
-			if (NCConfig.fission_experimental_mechanics) GameRegistry.addSmelting(new ItemStack(depletedFuelType, 1, 1 + 2*i), new ItemStack(depletedFuelType, 1, 2*i), 0.0F);
+			GameRegistry.addSmelting(new ItemStack(depletedFuelType, 1, 1 + 2*i), new ItemStack(depletedFuelType, 1, 2*i), 0.0F);
 			GameRegistry.addSmelting(new ItemStack(depletedRodType, 1, 1 + 2*i), new ItemStack(depletedRodType, 1, 2*i), 0.0F);
 		}
 	}

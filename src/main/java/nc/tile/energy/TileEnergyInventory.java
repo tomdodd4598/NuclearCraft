@@ -3,10 +3,8 @@ package nc.tile.energy;
 import javax.annotation.Nullable;
 
 import nc.Global;
-import nc.ModCheck;
-import nc.tile.internal.EnumEnergyStorage.EnergyConnection;
+import nc.tile.internal.energy.EnergyConnection;
 import nc.tile.inventory.ITileInventory;
-import net.darkhax.tesla.capability.TeslaCapabilities;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ItemStackHelper;
@@ -16,7 +14,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
@@ -26,16 +23,16 @@ public abstract class TileEnergyInventory extends TileEnergy implements IInvento
 	public String inventoryName;
 	public NonNullList<ItemStack> inventoryStacks;
 	
-	public TileEnergyInventory(String name, int size, int capacity, EnergyConnection energyConnection) {
-		this(name, size, capacity, capacity, capacity, energyConnection);
+	public TileEnergyInventory(String name, int size, int capacity, EnergyConnection[] energyConnections) {
+		this(name, size, capacity, capacity, capacity, energyConnections);
 	}
 	
-	public TileEnergyInventory(String name, int size, int capacity, int maxTransfer, EnergyConnection energyConnection) {
-		this(name, size, capacity, maxTransfer, maxTransfer, energyConnection);
+	public TileEnergyInventory(String name, int size, int capacity, int maxTransfer, EnergyConnection[] energyConnections) {
+		this(name, size, capacity, maxTransfer, maxTransfer, energyConnections);
 	}
 	
-	public TileEnergyInventory(String name, int size, int capacity, int maxReceive, int maxExtract, EnergyConnection energyConnection) {
-		super(capacity, maxReceive, maxExtract, energyConnection);
+	public TileEnergyInventory(String name, int size, int capacity, int maxReceive, int maxExtract, EnergyConnection[] energyConnections) {
+		super(capacity, maxReceive, maxExtract, energyConnections);
 		inventoryName = Global.MOD_ID + ".container." + name;
 		inventoryStacks = NonNullList.<ItemStack>withSize(size, ItemStack.EMPTY);
 	}
@@ -188,31 +185,13 @@ public abstract class TileEnergyInventory extends TileEnergy implements IInvento
 	
 	@Override
 	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing) {
-		if (CapabilityEnergy.ENERGY == capability && energyConnection.canConnect()) {
-			return true;
-		}
-		if (energyConnection != null && ModCheck.teslaLoaded() && energyConnection.canConnect()) {
-			if ((capability == TeslaCapabilities.CAPABILITY_CONSUMER && energyConnection.canReceive()) || (capability == TeslaCapabilities.CAPABILITY_PRODUCER && energyConnection.canExtract()) || capability == TeslaCapabilities.CAPABILITY_HOLDER)
-				return true;
-		}
-		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-			return true;
-		}
+		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) return true;
 		return super.hasCapability(capability, facing);
 	}
 	
 	@Override
 	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing) {
-		if (CapabilityEnergy.ENERGY == capability && energyConnection.canConnect()) {
-			return (T) storage;
-		}
-		if (energyConnection != null && ModCheck.teslaLoaded() && energyConnection.canConnect()) {
-			if ((capability == TeslaCapabilities.CAPABILITY_CONSUMER && energyConnection.canReceive()) || (capability == TeslaCapabilities.CAPABILITY_PRODUCER && energyConnection.canExtract()) || capability == TeslaCapabilities.CAPABILITY_HOLDER)
-				return (T) storage;
-		}
-		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-			return (T) handler;
-		}
+		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) return (T) handler;
 		return super.getCapability(capability, facing);
 	}
 }

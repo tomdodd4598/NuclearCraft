@@ -3,8 +3,8 @@ package nc.tile.energyFluid;
 import nc.tile.dummy.IInterfaceable;
 import nc.tile.energy.IEnergySpread;
 import nc.tile.fluid.IFluidSpread;
-import nc.tile.internal.EnumEnergyStorage.EnergyConnection;
-import nc.tile.internal.EnumTank.FluidConnection;
+import nc.tile.internal.energy.EnergyConnection;
+import nc.tile.internal.fluid.FluidConnection;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -16,7 +16,7 @@ import net.minecraftforge.items.IItemHandler;
 public class TileBuffer extends TileEnergyFluidSidedInventory implements IInterfaceable, IEnergySpread, IFluidSpread {
 	
 	public TileBuffer() {
-		super("buffer", 1, 32000, EnergyConnection.BOTH, 16000, FluidConnection.BOTH);
+		super("buffer", 1, 32000, energyConnectionAll(EnergyConnection.BOTH), 16000, FluidConnection.BOTH);
 	}
 	
 	@Override

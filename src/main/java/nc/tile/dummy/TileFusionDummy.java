@@ -3,9 +3,6 @@ package nc.tile.dummy;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.annotation.Nullable;
-
-import nc.ModCheck;
 import nc.config.NCConfig;
 import nc.init.NCBlocks;
 import nc.recipe.NCRecipes;
@@ -15,13 +12,9 @@ import nc.tile.generator.TileFusionCore;
 import nc.util.BlockFinder;
 import nc.util.BlockPosHelper;
 import nc.util.Lang;
-import net.darkhax.tesla.capability.TeslaCapabilities;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.energy.CapabilityEnergy;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 
 /*@Optional.InterfaceList({
 	@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers"),
@@ -85,19 +78,19 @@ public abstract class TileFusionDummy extends TileDummy implements IBufferable/*
 	}
 	
 	// Redstone Flux
-	
+
 	@Override
-	public boolean canExtract() {
+	public boolean canReceiveEnergy(EnumFacing side) {
 		if (getMaster() != null) {
-			if (isMaster(masterPosition)) return ((TileFusionCore) getMaster()).isHotEnough();
+			if (isMaster(masterPosition)) return !((TileFusionCore) getMaster()).isHotEnough();
 		}
 		return false;
 	}
-
+	
 	@Override
-	public boolean canReceive() {
+	public boolean canExtractEnergy(EnumFacing side) {
 		if (getMaster() != null) {
-			if (isMaster(masterPosition)) return !((TileFusionCore) getMaster()).isHotEnough();
+			if (isMaster(masterPosition)) return ((TileFusionCore) getMaster()).isHotEnough();
 		}
 		return false;
 	}
@@ -117,23 +110,6 @@ public abstract class TileFusionDummy extends TileDummy implements IBufferable/*
 	@Override
 	public boolean isMaster(BlockPos pos) {
 		return world.getTileEntity(pos) instanceof TileFusionCore;
-	}
-	
-	// Capability
-	
-	@Override
-	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing) {
-		if (CapabilityEnergy.ENERGY == capability && energyConnection.canConnect()) {
-			return (T) getStorage();
-		}
-		if (energyConnection != null && ModCheck.teslaLoaded() && energyConnection.canConnect()) {
-			if ((capability == TeslaCapabilities.CAPABILITY_CONSUMER && energyConnection.canReceive()) || (capability == TeslaCapabilities.CAPABILITY_PRODUCER && energyConnection.canExtract()) || capability == TeslaCapabilities.CAPABILITY_HOLDER)
-				return (T) getStorage();
-		}
-		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
-			return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(this);
-		}
-		return super.getCapability(capability, facing);
 	}
 	
 	// Computers
@@ -199,7 +175,7 @@ public abstract class TileFusionDummy extends TileDummy implements IBufferable/*
 		case getSize:
 			return new Object[] { core.size };
 		case getEnergyStored:
-			return new Object[] { storage.getEnergyStored() };
+			return new Object[] { getEnergyStorage().getEnergyStored() };
 		case getHeatLevel:
 			return new Object[] { core.heat };
 		case getHeatChange:

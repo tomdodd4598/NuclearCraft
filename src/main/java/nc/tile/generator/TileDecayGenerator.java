@@ -11,7 +11,7 @@ import nc.recipe.NCRecipes;
 import nc.recipe.RecipeMethods;
 import nc.tile.dummy.IInterfaceable;
 import nc.tile.energy.TileEnergy;
-import nc.tile.internal.EnumEnergyStorage.EnergyConnection;
+import nc.tile.internal.energy.EnergyConnection;
 import nc.util.EnergyHelper;
 import nc.util.ItemStackHelper;
 import net.minecraft.block.Block;
@@ -27,7 +27,7 @@ public class TileDecayGenerator extends TileEnergy implements IInterfaceable {
 	public final NCRecipes.Type decayGenRecipeType;
 	
 	public TileDecayGenerator() {
-		super(NCConfig.generator_rf_per_eu*maxPower(), EnergyConnection.OUT);
+		super(NCConfig.generator_rf_per_eu*maxPower(), energyConnectionAll(EnergyConnection.OUT));
 		decayGenRecipeType = NCRecipes.Type.DECAY_GENERATOR;
 	}
 	
@@ -39,7 +39,7 @@ public class TileDecayGenerator extends TileEnergy implements IInterfaceable {
 	public void update() {
 		super.update();
 		if(!world.isRemote) {
-			if (shouldCheck()) storage.changeEnergyStored(getGenerated());
+			if (shouldCheck()) getEnergyStorage().changeEnergyStored(getGenerated());
 			pushEnergy();
 		}
 	}

@@ -41,6 +41,6 @@ public class NCItemBlock extends ItemBlock {
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack itemStack, World world, List<String> tooltip, ITooltipFlag flag) {
         super.addInformation(itemStack, world, tooltip, flag);
-        if (info.length > 0) InfoHelper.infoFull(tooltip, fixedColor, fixedInfo, info);
+        if (info.length + fixedInfo.length > 0) InfoHelper.infoFull(tooltip, fixedColor, fixedInfo, info);
     }
 }

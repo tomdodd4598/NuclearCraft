@@ -20,7 +20,7 @@ public class ElectrolyserRecipes extends BaseRecipeHandler {
 		
 		addElementFluorideRecipes("thorium", "uranium", "plutonium");
 		
-		addIsotopeFluorideRecipes("thorium", 230, 232);
+		addIsotopeFluorideRecipes("thorium", 230);
 		addIsotopeFluorideRecipes("uranium", 233, 235, 238);
 		addIsotopeFluorideRecipes("neptunium", 236, 237);
 		addIsotopeFluorideRecipes("plutonium", 238, 239, 241, 242);
@@ -29,6 +29,8 @@ public class ElectrolyserRecipes extends BaseRecipeHandler {
 		addIsotopeFluorideRecipes("berkelium", 247, 248);
 		addIsotopeFluorideRecipes("californium", 249, 250, 251, 252);
 		
+		addRecipe(fluidStack("fuel_tbu_fluoride", FluidHelper.INGOT_VOLUME), fluidStack("fuel_tbu", FluidHelper.INGOT_VOLUME/2), fluidStack("fuel_tbu", FluidHelper.INGOT_VOLUME/2), fluidStack("fluorine", FluidHelper.BUCKET_VOLUME/2), fluidStack("fluorine", FluidHelper.BUCKET_VOLUME/2), NCConfig.processor_time[8]/4);
+		addRecipe(fluidStack("depleted_fuel_tbu_fluoride", FluidHelper.INGOT_VOLUME), fluidStack("depleted_fuel_tbu", FluidHelper.INGOT_VOLUME/2), fluidStack("depleted_fuel_tbu", FluidHelper.INGOT_VOLUME/2), fluidStack("fluorine", FluidHelper.BUCKET_VOLUME/2), fluidStack("fluorine", FluidHelper.BUCKET_VOLUME/2), NCConfig.processor_time[8]/4);
 		addFissionFuelFluorideRecipes("eu", 233, 235);
 		addFissionFuelFluorideRecipes("en", 236);
 		addFissionFuelFluorideRecipes("ep", 239, 241);

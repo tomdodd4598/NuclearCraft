@@ -15,7 +15,7 @@ import nc.tile.IGui;
 import nc.tile.dummy.IInterfaceable;
 import nc.tile.energy.TileEnergySidedInventory;
 import nc.tile.energyFluid.IBufferable;
-import nc.tile.internal.EnumEnergyStorage.EnergyConnection;
+import nc.tile.internal.energy.EnergyConnection;
 import nc.util.NCMathHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -48,7 +48,7 @@ public abstract class TileItemProcessor extends TileEnergySidedInventory impleme
 	}
 	
 	public TileItemProcessor(String name, int inSize, int outSize, int time, int power, boolean upgrades, NCRecipes.Type recipeType, int upgradeMeta) {
-		super(name, inSize + outSize + (upgrades ? 2 : 0), 32000, power != 0 ? EnergyConnection.IN : EnergyConnection.NON);
+		super(name, inSize + outSize + (upgrades ? 2 : 0), 32000, power != 0 ? energyConnectionAll(EnergyConnection.IN) : energyConnectionAll(EnergyConnection.NON));
 		inputSize = inSize;
 		outputSize = outSize;
 		defaultProcessTime = time;
@@ -129,7 +129,7 @@ public abstract class TileItemProcessor extends TileEnergySidedInventory impleme
 	
 	public void process() {
 		time += getSpeedMultiplier();
-		storage.changeEnergyStored(-getProcessPower());
+		getEnergyStorage().changeEnergyStored(-getProcessPower());
 		if (time >= baseProcessTime) completeProcess();
 	}
 	
@@ -191,8 +191,8 @@ public abstract class TileItemProcessor extends TileEnergySidedInventory impleme
 	}
 	
 	public void setCapacityFromSpeed() {
-		storage.setStorageCapacity(MathHelper.clamp(2*getProcessPower(), 32000, Integer.MAX_VALUE));
-		storage.setMaxTransfer(MathHelper.clamp(2*getProcessPower(), 32000, Integer.MAX_VALUE));
+		getEnergyStorage().setStorageCapacity(MathHelper.clamp(2*getProcessPower(), 32000, Integer.MAX_VALUE));
+		getEnergyStorage().setMaxTransfer(MathHelper.clamp(2*getProcessPower(), 32000, Integer.MAX_VALUE));
 	}
 	
 	public boolean canProcessStacks() {
@@ -380,7 +380,7 @@ public abstract class TileItemProcessor extends TileEnergySidedInventory impleme
 			time = value;
 			break;
 		case 1:
-			storage.setEnergyStored(value);
+			getEnergyStorage().setEnergyStored(value);
 			break;
 		case 2:
 			baseProcessTime = value;

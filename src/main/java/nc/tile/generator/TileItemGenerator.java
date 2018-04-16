@@ -14,7 +14,7 @@ import nc.tile.IGui;
 import nc.tile.dummy.IInterfaceable;
 import nc.tile.energy.TileEnergySidedInventory;
 import nc.tile.energyFluid.IBufferable;
-import nc.tile.internal.EnumEnergyStorage.EnergyConnection;
+import nc.tile.internal.energy.EnergyConnection;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
@@ -34,7 +34,7 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 	public final NCRecipes.Type recipeType;
 	
 	public TileItemGenerator(String name, int inSize, int outSize, int otherSize, int capacity, NCRecipes.Type recipeType) {
-		super(name, 2*inSize + outSize + otherSize, capacity, EnergyConnection.OUT);
+		super(name, 2*inSize + outSize + otherSize, capacity, energyConnectionAll(EnergyConnection.OUT));
 		inputSize = inSize;
 		outputSize = outSize;
 		otherSlotsSize = otherSize;
@@ -112,7 +112,7 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 	
 	public void process() {
 		time += getRateMultiplier();
-		storage.changeEnergyStored(getProcessPower());
+		getEnergyStorage().changeEnergyStored(getProcessPower());
 		if (time >= getProcessTime()) completeProcess();
 	}
 	
@@ -348,7 +348,7 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 			time = value;
 			break;
 		case 1:
-			storage.setEnergyStored(value);
+			getEnergyStorage().setEnergyStored(value);
 		}
 	}
 }

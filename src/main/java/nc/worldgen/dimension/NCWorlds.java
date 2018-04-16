@@ -16,7 +16,7 @@ public class NCWorlds {
 	public static final WorldProvider WASTELAND_WORLD_PROVIDER = new WorldProviderWasteland();
 	
 	public static final void registerDimensions() {
-		DimensionManager.registerDimension(WASTELAND_DIM_ID, WASTELAND_DIM_TYPE);
+		if (NCConfig.wasteland_dimension_gen) DimensionManager.registerDimension(WASTELAND_DIM_ID, WASTELAND_DIM_TYPE);
 	}
 	
 	@Nullable

@@ -42,13 +42,13 @@ public class GuiFusionCore extends NCGui {
 		playerInventory = player.inventory;
 		this.tile = tile;
 		gui_textures = new ResourceLocation(Global.MOD_ID + ":textures/gui/container/" + "fusion_core" + ".png");
-		xSize = 218;
+		xSize = 196;
 		ySize = 187;
 	}
 	
 	@Override
 	public void renderTooltips(int mouseX, int mouseY) {
-		drawTooltip(Lang.localise("gui.container.change_tanks_mode"), mouseX, mouseY, 195, 5, 18, 18);
+		drawTooltip(Lang.localise("gui.container.change_tanks_mode"), mouseX, mouseY, 171, 104, 18, 18);
 		
 		drawFluidTooltip(fluid0, tile.tanks[0], mouseX, mouseY, 38, 6, 6, 46);
 		drawFluidTooltip(fluid1, tile.tanks[1], mouseX, mouseY, 38, 55, 6, 46);
@@ -62,10 +62,6 @@ public class GuiFusionCore extends NCGui {
 		drawEfficiencyTooltip(mouseX, mouseY, 28, 6, 6, 95);
 	}
 
-	protected int widthHalf(String s) {
-		return fontRenderer.getStringWidth(s)/2;
-	}
-
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		int fontColor = tile.isGenerating() || tile.canProcess() ? -1 : (tile.complete == 1 ? 15641088 : 15597568);
@@ -73,7 +69,7 @@ public class GuiFusionCore extends NCGui {
 		fontRenderer.drawString(name, 108 - widthHalf(name), 10, fontColor);
 		String size = tile.complete == 1 ? (Lang.localise("gui.container.fusion_core.size") + " " + tile.size) : tile.problem;
 		fontRenderer.drawString(size, 108 - widthHalf(size), 21, fontColor);
-		String energy = Lang.localise("gui.container.fusion_core.energy") + " " + UnitHelper.prefix(tile.storage.getEnergyStored(), 6, "RF");
+		String energy = Lang.localise("gui.container.fusion_core.energy") + " " + UnitHelper.prefix(tile.getEnergyStorage().getEnergyStored(), 6, "RF");
 		fontRenderer.drawString(energy, 108 - widthHalf(energy), 32, fontColor);
 		String power = Lang.localise("gui.container.fusion_core.power") + " " + UnitHelper.prefix((int) tile.processPower, 6, "RF/t");
 		fontRenderer.drawString(power, 108 - widthHalf(power), 43, fontColor);
@@ -89,7 +85,7 @@ public class GuiFusionCore extends NCGui {
 	
 	@Override
 	public List<String> energyInfo(ITileEnergy tile) {
-		String energy = UnitHelper.prefix(tile.getStorage().getEnergyStored(), tile.getStorage().getMaxEnergyStored(), 6, "RF");
+		String energy = UnitHelper.prefix(tile.getEnergyStorage().getEnergyStored(), tile.getEnergyStorage().getMaxEnergyStored(), 6, "RF");
 		String power = UnitHelper.prefix(this.tile.getProcessPower(), 6, "RF/t");
 		return Lists.newArrayList(TextFormatting.LIGHT_PURPLE + Lang.localise("gui.container.energy_stored") + TextFormatting.WHITE + " " + energy, TextFormatting.LIGHT_PURPLE + Lang.localise("gui.container.power_gen") + TextFormatting.WHITE + " " + power);
 	}
@@ -121,14 +117,14 @@ public class GuiFusionCore extends NCGui {
 		mc.getTextureManager().bindTexture(gui_textures);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
-		double energy = Math.round(((double) tile.storage.getEnergyStored()) / ((double) tile.storage.getMaxEnergyStored()) * 95D);
-		drawTexturedModalRect(guiLeft + 8, guiTop + 6 + 95 - (int) energy, 218, 90 + 95 - (int) energy, 6, (int) energy);
+		double energy = Math.round(((double) tile.getEnergyStorage().getEnergyStored()) / ((double) tile.getEnergyStorage().getMaxEnergyStored()) * 95D);
+		drawTexturedModalRect(guiLeft + 8, guiTop + 6 + 95 - (int) energy, 196, 90 + 95 - (int) energy, 6, (int) energy);
 		
 		double h = Math.round((tile.heat / tile.getMaxHeat()) * 95D);
-		drawTexturedModalRect(guiLeft + 18, guiTop + 6 + 95 - (int) h, 224, 90 + 95 - (int) h, 6, (int) h);
+		drawTexturedModalRect(guiLeft + 18, guiTop + 6 + 95 - (int) h, 202, 90 + 95 - (int) h, 6, (int) h);
 		
 		double efficiency = Math.round((tile.efficiency / 100D) * 95D);
-		drawTexturedModalRect(guiLeft + 28, guiTop + 6 + 95 - (int) efficiency, 230, 90 + 95 - (int) efficiency, 6, (int) efficiency);
+		drawTexturedModalRect(guiLeft + 28, guiTop + 6 + 95 - (int) efficiency, 208, 90 + 95 - (int) efficiency, 6, (int) efficiency);
 		
 		tick++;
 		tick %= 10;
@@ -155,13 +151,13 @@ public class GuiFusionCore extends NCGui {
 	@Override
 	public void initGui() {
 		super.initGui();
-		buttonList.add(new NCGuiToggleButton.ToggleTanksSharedButton(0, guiLeft + 195, guiTop + 5, tile, true));
-		buttonList.add(new NCGuiButton.BlankButton(1, guiLeft + 38, guiTop + 6, 6, 46));
-		buttonList.add(new NCGuiButton.BlankButton(2, guiLeft + 38, guiTop + 55, 6, 46));
-		buttonList.add(new NCGuiButton.BlankButton(3, guiLeft + 172, guiTop + 6, 6, 46));
-		buttonList.add(new NCGuiButton.BlankButton(4, guiLeft + 182, guiTop + 6, 6, 46));
-		buttonList.add(new NCGuiButton.BlankButton(5, guiLeft + 172, guiTop + 55, 6, 46));
-		buttonList.add(new NCGuiButton.BlankButton(6, guiLeft + 182, guiTop + 55, 6, 46));
+		buttonList.add(new NCGuiToggleButton.ToggleTanksSharedButton(0, guiLeft + 171, guiTop + 104, tile, true));
+		buttonList.add(new NCGuiButton.EmptyTankButton(1, guiLeft + 38, guiTop + 6, 6, 46));
+		buttonList.add(new NCGuiButton.EmptyTankButton(2, guiLeft + 38, guiTop + 55, 6, 46));
+		buttonList.add(new NCGuiButton.EmptyTankButton(3, guiLeft + 172, guiTop + 6, 6, 46));
+		buttonList.add(new NCGuiButton.EmptyTankButton(4, guiLeft + 182, guiTop + 6, 6, 46));
+		buttonList.add(new NCGuiButton.EmptyTankButton(5, guiLeft + 172, guiTop + 55, 6, 46));
+		buttonList.add(new NCGuiButton.EmptyTankButton(6, guiLeft + 182, guiTop + 55, 6, 46));
 	}
 	
 	@Override
