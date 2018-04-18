@@ -8,7 +8,6 @@ import nc.tile.passive.ITilePassive;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
@@ -23,6 +22,8 @@ public abstract class TileFluid extends NCTile implements ITileFluid, IFluidHand
 	public FluidConnection[] fluidConnections;
 	public final Tank[] tanks;
 	public boolean areTanksShared = false;
+	public boolean emptyUnusable = false;
+	public boolean voidExcessOutputs = false;
 	
 	public TileFluid(int capacity, FluidConnection fluidConnections, String[]... allowedFluids) {
 		this(new int[] {capacity}, new int[] {capacity}, new int[] {capacity}, new FluidConnection[] {fluidConnections}, allowedFluids);
@@ -79,6 +80,26 @@ public abstract class TileFluid extends NCTile implements ITileFluid, IFluidHand
 	@Override
 	public void setTanksShared(boolean shared) {
 		areTanksShared = shared;
+	}
+	
+	@Override
+	public boolean getTanksEmptyUnusable() {
+		return emptyUnusable;
+	}
+	
+	@Override
+	public void setTanksEmptyUnusable(boolean emptyUnusable) {
+		this.emptyUnusable = emptyUnusable;
+	}
+	
+	@Override
+	public boolean getVoidExcessOutputs() {
+		return voidExcessOutputs;
+	}
+	
+	@Override
+	public void setVoidExcessOutputs(boolean voidExcessOutputs) {
+		this.voidExcessOutputs = voidExcessOutputs;
 	}
 
 	@Override
@@ -151,11 +172,6 @@ public abstract class TileFluid extends NCTile implements ITileFluid, IFluidHand
 		return fluidConnections;
 	}
 	
-	@Override
-	public BlockPos getBlockPos() {
-		return pos;
-	}
-	
 	// Mekanism Gas
 	
 	/*public int receiveGas(EnumFacing side, GasStack stack, boolean doTransfer) {
@@ -212,6 +228,8 @@ public abstract class TileFluid extends NCTile implements ITileFluid, IFluidHand
 			nbt.setString("fluidName" + i, getTanks()[i].getFluidName());
 		}
 		nbt.setBoolean("areTanksShared", areTanksShared);
+		nbt.setBoolean("emptyUnusable", emptyUnusable);
+		nbt.setBoolean("voidExcessOutputs", voidExcessOutputs);
 		return nbt;
 	}
 		
@@ -223,6 +241,8 @@ public abstract class TileFluid extends NCTile implements ITileFluid, IFluidHand
 			else getTanks()[i].setFluidStored(FluidRegistry.getFluid(nbt.getString("fluidName" + i)), nbt.getInteger("fluidAmount" + i));
 		}
 		setTanksShared(nbt.getBoolean("areTanksShared"));
+		setTanksEmptyUnusable(nbt.getBoolean("emptyUnusable"));
+		setVoidExcessOutputs(nbt.getBoolean("voidExcessOutputs"));
 	}
 	
 	// Fluid Connections

@@ -11,20 +11,20 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
 
-public class ToggleTanksSharedButtonPacket implements IMessage {
+public class ToggleTanksEmptyUnusableButtonPacket implements IMessage {
 	
 	boolean messageValid;
 	
 	BlockPos pos;
-	boolean tanksShared;
+	boolean emptyUnusable;
 	
-	public ToggleTanksSharedButtonPacket() {
+	public ToggleTanksEmptyUnusableButtonPacket() {
 		messageValid = false;
 	}
 	
-	public ToggleTanksSharedButtonPacket(ITileFluid machine) {
+	public ToggleTanksEmptyUnusableButtonPacket(ITileFluid machine) {
 		pos = machine.getPos();
-		tanksShared = machine.getTanksShared();
+		emptyUnusable = machine.getTanksEmptyUnusable();
 		messageValid = true;
 	}
 	
@@ -32,7 +32,7 @@ public class ToggleTanksSharedButtonPacket implements IMessage {
 	public void fromBytes(ByteBuf buf) {
 		try {
 			pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
-			tanksShared = buf.readBoolean();
+			emptyUnusable = buf.readBoolean();
 		} catch (IndexOutOfBoundsException ioe) {
 			NCUtil.getLogger().catching(ioe);
 			return;
@@ -46,24 +46,24 @@ public class ToggleTanksSharedButtonPacket implements IMessage {
 		buf.writeInt(pos.getX());
 		buf.writeInt(pos.getY());
 		buf.writeInt(pos.getZ());
-		buf.writeBoolean(tanksShared);
+		buf.writeBoolean(emptyUnusable);
 	}
 	
-	public static class Handler implements IMessageHandler<ToggleTanksSharedButtonPacket, IMessage> {
+	public static class Handler implements IMessageHandler<ToggleTanksEmptyUnusableButtonPacket, IMessage> {
 		
 		@Override
-		public IMessage onMessage(ToggleTanksSharedButtonPacket message, MessageContext ctx) {
+		public IMessage onMessage(ToggleTanksEmptyUnusableButtonPacket message, MessageContext ctx) {
 			if (!message.messageValid && ctx.side != Side.SERVER) return null;
 			FMLCommonHandler.instance().getWorldThread(ctx.netHandler).addScheduledTask(() -> processMessage(message, ctx));
 			return null;
 		}
 		
-		void processMessage(ToggleTanksSharedButtonPacket message, MessageContext ctx) {
+		void processMessage(ToggleTanksEmptyUnusableButtonPacket message, MessageContext ctx) {
 			TileEntity tile = ctx.getServerHandler().player.getServerWorld().getTileEntity(message.pos);
 			if (tile == null) return;
 			if(tile instanceof ITileFluid) {
 				ITileFluid machine = (ITileFluid) tile;
-				machine.setTanksShared(message.tanksShared);
+				machine.setTanksEmptyUnusable(message.emptyUnusable);
 				ctx.getServerHandler().player.getServerWorld().getTileEntity(message.pos).markDirty();
 			}
 		}

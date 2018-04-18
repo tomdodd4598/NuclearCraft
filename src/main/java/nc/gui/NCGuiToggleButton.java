@@ -6,6 +6,7 @@ import org.lwjgl.opengl.GL11;
 
 import nc.Global;
 import nc.gui.NCGuiButton.Button;
+import nc.tile.NCTile;
 import nc.tile.fluid.ITileFluid;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.Item;
@@ -120,8 +121,32 @@ public final class NCGuiToggleButton {
 	@SideOnly(Side.CLIENT)
 	public static class ToggleTanksSharedButton extends ImageToggleButton {
 		
-		public ToggleTanksSharedButton(int id, int x, int y, ITileFluid machine, boolean darkGui) {
-			super(id, x, y, darkGui ? 18 : 0, 0, 18, 18, machine.getTanksShared());
+		public ToggleTanksSharedButton(int id, int x, int y, ITileFluid machine) {
+			super(id, x, y, 0, 0, 18, 18, machine.getTanksShared());
+		}
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public static class ToggleTanksEmptyUnusableButton extends ImageToggleButton {
+		
+		public ToggleTanksEmptyUnusableButton(int id, int x, int y, ITileFluid machine) {
+			super(id, x, y, 18, 0, 18, 18, machine.getTanksEmptyUnusable());
+		}
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public static class ToggleVoidExcessOutputsButton extends ImageToggleButton {
+		
+		public ToggleVoidExcessOutputsButton(int id, int x, int y, ITileFluid machine) {
+			super(id, x, y, 36, 0, 18, 18, machine.getVoidExcessOutputs());
+		}
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public static class ToggleAlternateComparatorButton extends ImageToggleButton {
+		
+		public ToggleAlternateComparatorButton(int id, int x, int y, NCTile machine) {
+			super(id, x, y, 54, 0, 18, 18, machine.getAlternateComparator());
 		}
 	}
 }

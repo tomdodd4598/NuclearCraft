@@ -101,12 +101,19 @@ public class BlockFusionDummy extends BlockInventory {
 	}
 	
 	@Override
+	public boolean hasComparatorInputOverride(IBlockState state) {
+		return true;
+	}
+	
+	@Override
 	public int getComparatorInputOverride(IBlockState state, World world, BlockPos pos) {
 		BlockPos position = findCore(world, pos);
 		if (position == null) return 0;
 		TileEntity tile = world.getTileEntity(position);
-		if (tile != null) {
-			if (tile instanceof TileFusionCore) return (int) MathHelper.clamp(15D*(double)((TileFusionCore)tile).efficiency/(double)NCConfig.fusion_comparator_max_efficiency, 0, 15);
+		if (tile instanceof TileFusionCore) {
+			TileFusionCore core = (TileFusionCore) tile;
+			double strength = core.getAlternateComparator() ? (double)core.heat/core.getMaxHeat() : (double)core.efficiency/(double)NCConfig.fusion_comparator_max_efficiency;
+			return (int) MathHelper.clamp(15D*strength, 0, 15);
 		}
 		return Container.calcRedstone(world.getTileEntity(position));
 	}

@@ -7,6 +7,8 @@ import net.minecraftforge.fluids.FluidStack;
 
 public interface ITileFluid {
 	
+	public BlockPos getPos();
+	
 	public Tank[] getTanks();
 	
 	public FluidConnection[] getFluidConnections();
@@ -19,7 +21,13 @@ public interface ITileFluid {
 	
 	public void setTanksShared(boolean shared);
 	
-	public void clearTank(int tankNo);
+	public boolean getTanksEmptyUnusable();
 	
-	public BlockPos getBlockPos();
+	public void setTanksEmptyUnusable(boolean emptyUnusable);
+	
+	public boolean getVoidExcessOutputs();
+	
+	public void setVoidExcessOutputs(boolean voidExcessOutputs);
+	
+	public void clearTank(int tankNo);
 }

@@ -11,7 +11,6 @@ import nc.tile.passive.ITilePassive;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
@@ -26,6 +25,8 @@ public abstract class TileEnergyFluid extends TileEnergy implements ITileFluid, 
 	public FluidConnection[] fluidConnections;
 	public final Tank[] tanks;
 	public boolean areTanksShared = false;
+	public boolean emptyUnusable = false;
+	public boolean voidExcessOutputs = false;
 	
 	public TileEnergyFluid(int capacity, EnergyConnection[] energyConnections, int fluidCapacity, FluidConnection fluidConnections, String[]... allowedFluids) {
 		this(capacity, capacity, capacity, energyConnections, new int[] {fluidCapacity}, new int[] {fluidCapacity}, new int[] {fluidCapacity}, new FluidConnection[] {fluidConnections}, allowedFluids);
@@ -133,6 +134,26 @@ public abstract class TileEnergyFluid extends TileEnergy implements ITileFluid, 
 	}
 	
 	@Override
+	public boolean getTanksEmptyUnusable() {
+		return emptyUnusable;
+	}
+	
+	@Override
+	public void setTanksEmptyUnusable(boolean emptyUnusable) {
+		this.emptyUnusable = emptyUnusable;
+	}
+	
+	@Override
+	public boolean getVoidExcessOutputs() {
+		return voidExcessOutputs;
+	}
+	
+	@Override
+	public void setVoidExcessOutputs(boolean voidExcessOutputs) {
+		this.voidExcessOutputs = voidExcessOutputs;
+	}
+	
+	@Override
 	public IFluidTankProperties[] getTankProperties() {
 		if (getTanks().length == 0 || getTanks() == null) return EmptyFluidHandler.EMPTY_TANK_PROPERTIES_ARRAY;
 		IFluidTankProperties[] properties = new IFluidTankProperties[getTanks().length];
@@ -202,11 +223,6 @@ public abstract class TileEnergyFluid extends TileEnergy implements ITileFluid, 
 		return fluidConnections;
 	}
 	
-	@Override
-	public BlockPos getBlockPos() {
-		return pos;
-	}
-	
 	// Mekanism Gas
 	
 	/*public int receiveGas(EnumFacing side, GasStack stack, boolean doTransfer) {
@@ -263,6 +279,8 @@ public abstract class TileEnergyFluid extends TileEnergy implements ITileFluid, 
 			nbt.setString("fluidName" + i, getTanks()[i].getFluidName());
 		}
 		nbt.setBoolean("areTanksShared", areTanksShared);
+		nbt.setBoolean("emptyUnusable", emptyUnusable);
+		nbt.setBoolean("voidExcessOutputs", voidExcessOutputs);
 		return nbt;
 	}
 		
@@ -274,6 +292,8 @@ public abstract class TileEnergyFluid extends TileEnergy implements ITileFluid, 
 			else getTanks()[i].setFluidStored(FluidRegistry.getFluid(nbt.getString("fluidName" + i)), nbt.getInteger("fluidAmount" + i));
 		}
 		setTanksShared(nbt.getBoolean("areTanksShared"));
+		setTanksEmptyUnusable(nbt.getBoolean("emptyUnusable"));
+		setVoidExcessOutputs(nbt.getBoolean("voidExcessOutputs"));
 	}
 	
 	// Fluid Connections

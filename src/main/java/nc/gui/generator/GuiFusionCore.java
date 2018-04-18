@@ -14,7 +14,10 @@ import nc.gui.NCGuiToggleButton;
 import nc.network.EmptyTankButtonPacket;
 import nc.network.GetFluidInTankPacket;
 import nc.network.PacketHandler;
+import nc.network.ToggleAlternateComparatorButtonPacket;
+import nc.network.ToggleTanksEmptyUnusableButtonPacket;
 import nc.network.ToggleTanksSharedButtonPacket;
+import nc.network.ToggleVoidExcessOutputsButtonPacket;
 import nc.tile.energy.ITileEnergy;
 import nc.tile.generator.TileFusionCore;
 import nc.util.Lang;
@@ -49,6 +52,9 @@ public class GuiFusionCore extends NCGui {
 	@Override
 	public void renderTooltips(int mouseX, int mouseY) {
 		drawTooltip(Lang.localise("gui.container.change_tanks_mode"), mouseX, mouseY, 171, 104, 18, 18);
+		drawTooltip(Lang.localise("gui.container.void_leftover_fluid"), mouseX, mouseY, 171, 123, 18, 18);
+		drawTooltip(Lang.localise("gui.container.void_outputs"), mouseX, mouseY, 171, 142, 18, 18);
+		drawTooltip(Lang.localise("gui.container.comparator_mode"), mouseX, mouseY, 171, 162, 18, 18);
 		
 		drawFluidTooltip(fluid0, tile.tanks[0], mouseX, mouseY, 38, 6, 6, 46);
 		drawFluidTooltip(fluid1, tile.tanks[1], mouseX, mouseY, 38, 55, 6, 46);
@@ -64,7 +70,7 @@ public class GuiFusionCore extends NCGui {
 
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-		int fontColor = tile.isGenerating() || tile.canProcess() ? -1 : (tile.complete == 1 ? 15641088 : 15597568);
+		int fontColor = tile.canGenerate() ? -1 : (tile.complete == 1 ? 15641088 : 15597568);
 		String name = Lang.localise("gui.container.fusion_core.reactor");
 		fontRenderer.drawString(name, 108 - widthHalf(name), 10, fontColor);
 		String size = tile.complete == 1 ? (Lang.localise("gui.container.fusion_core.size") + " " + tile.size) : tile.problem;
@@ -151,24 +157,39 @@ public class GuiFusionCore extends NCGui {
 	@Override
 	public void initGui() {
 		super.initGui();
-		buttonList.add(new NCGuiToggleButton.ToggleTanksSharedButton(0, guiLeft + 171, guiTop + 104, tile, true));
-		buttonList.add(new NCGuiButton.EmptyTankButton(1, guiLeft + 38, guiTop + 6, 6, 46));
-		buttonList.add(new NCGuiButton.EmptyTankButton(2, guiLeft + 38, guiTop + 55, 6, 46));
-		buttonList.add(new NCGuiButton.EmptyTankButton(3, guiLeft + 172, guiTop + 6, 6, 46));
-		buttonList.add(new NCGuiButton.EmptyTankButton(4, guiLeft + 182, guiTop + 6, 6, 46));
-		buttonList.add(new NCGuiButton.EmptyTankButton(5, guiLeft + 172, guiTop + 55, 6, 46));
-		buttonList.add(new NCGuiButton.EmptyTankButton(6, guiLeft + 182, guiTop + 55, 6, 46));
+		buttonList.add(new NCGuiButton.EmptyTankButton(0, guiLeft + 38, guiTop + 6, 6, 46));
+		buttonList.add(new NCGuiButton.EmptyTankButton(1, guiLeft + 38, guiTop + 55, 6, 46));
+		buttonList.add(new NCGuiButton.EmptyTankButton(2, guiLeft + 172, guiTop + 6, 6, 46));
+		buttonList.add(new NCGuiButton.EmptyTankButton(3, guiLeft + 182, guiTop + 6, 6, 46));
+		buttonList.add(new NCGuiButton.EmptyTankButton(4, guiLeft + 172, guiTop + 55, 6, 46));
+		buttonList.add(new NCGuiButton.EmptyTankButton(5, guiLeft + 182, guiTop + 55, 6, 46));
+		buttonList.add(new NCGuiToggleButton.ToggleTanksSharedButton(6, guiLeft + 171, guiTop + 104, tile));
+		buttonList.add(new NCGuiToggleButton.ToggleTanksEmptyUnusableButton(7, guiLeft + 171, guiTop + 123, tile));
+		buttonList.add(new NCGuiToggleButton.ToggleVoidExcessOutputsButton(8, guiLeft + 171, guiTop + 142, tile));
+		buttonList.add(new NCGuiToggleButton.ToggleAlternateComparatorButton(9, guiLeft + 171, guiTop + 162, tile));
 	}
 	
 	@Override
 	protected void actionPerformed(GuiButton guiButton) {
 		if (tile.getWorld().isRemote) {
-			if (guiButton.id == 0) {
+			for (int i = 0; i < 6; i++) if (guiButton.id == i && isShiftKeyDown()) {
+				PacketHandler.instance.sendToServer(new EmptyTankButtonPacket(tile, i));
+			}
+			if (guiButton.id == 6) {
 				tile.setTanksShared(!tile.getTanksShared());
 				PacketHandler.instance.sendToServer(new ToggleTanksSharedButtonPacket(tile));
 			}
-			for (int i = 1; i <= 6; i++) if (guiButton.id == i && isShiftKeyDown()) {
-				PacketHandler.instance.sendToServer(new EmptyTankButtonPacket(tile, i - 1));
+			if (guiButton.id == 7) {
+				tile.setTanksEmptyUnusable(!tile.getTanksEmptyUnusable());
+				PacketHandler.instance.sendToServer(new ToggleTanksEmptyUnusableButtonPacket(tile));
+			}
+			if (guiButton.id == 8) {
+				tile.setVoidExcessOutputs(!tile.getVoidExcessOutputs());
+				PacketHandler.instance.sendToServer(new ToggleVoidExcessOutputsButtonPacket(tile));
+			}
+			if (guiButton.id == 9) {
+				tile.setAlternateComparator(!tile.getAlternateComparator());
+				PacketHandler.instance.sendToServer(new ToggleAlternateComparatorButtonPacket(tile));
 			}
 		}
 	}

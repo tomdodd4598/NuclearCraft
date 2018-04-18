@@ -104,19 +104,19 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 	}
 	
 	public void tickStructureCheck() {
-		if (tickCountStructureCheck > NCConfig.fission_update_rate) tickCountStructureCheck = 0; else tickCountStructureCheck++;
+		tickCountStructureCheck++; tickCountStructureCheck %= NCConfig.fission_update_rate;
 	}
 	
 	public boolean shouldStructureCheck() {
-		return tickCountStructureCheck > NCConfig.fission_update_rate;
+		return tickCountStructureCheck == 0;
 	}
 	
 	public void tickRunCheck() {
-		if (tickCountRunCheck > NCConfig.fission_update_rate*2) tickCountRunCheck = 0; else tickCountRunCheck++;
+		tickCountRunCheck++; tickCountRunCheck %= NCConfig.fission_update_rate*2;
 	}
 	
 	public boolean shouldRunCheck() {
-		return tickCountRunCheck > NCConfig.fission_update_rate*2;
+		return tickCountRunCheck == 0;
 	}
 	
 	public boolean findAdjacentComparator() {
@@ -147,6 +147,13 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 	@Override
 	public boolean canProcess() {
 		return canProcessStacks() && complete == 1;
+	}
+	
+	@Override
+	public void updateBlockType() {
+		super.updateBlockType();
+		tickCountStructureCheck = -1;
+		tickCountRunCheck = -1;
 	}
 	
 	// IC2 Tiers

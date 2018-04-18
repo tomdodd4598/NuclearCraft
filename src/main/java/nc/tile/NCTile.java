@@ -17,6 +17,8 @@ public abstract class NCTile extends TileEntity implements ITickable {
 	public boolean isAdded;
 	public boolean isMarkedDirty;
 	
+	public boolean alternateComparator;
+	
 	public NCTile() {
 		super();
 	}
@@ -90,6 +92,7 @@ public abstract class NCTile extends TileEntity implements ITickable {
 	}
 	
 	public NBTTagCompound writeAll(NBTTagCompound nbt) {
+		nbt.setBoolean("alternateComparator", alternateComparator);
 		return nbt;
 	}
 	
@@ -99,7 +102,9 @@ public abstract class NCTile extends TileEntity implements ITickable {
 		readAll(nbt);
 	}
 	
-	public void readAll(NBTTagCompound nbt) {}
+	public void readAll(NBTTagCompound nbt) {
+		setAlternateComparator(nbt.getBoolean("alternateComparator"));
+	}
 	
 	/*public NBTTagCompound getTileData() {
 		NBTTagCompound nbt = new NBTTagCompound();
@@ -130,5 +135,13 @@ public abstract class NCTile extends TileEntity implements ITickable {
 	@Override
 	public void handleUpdateTag(NBTTagCompound tag) {
 		super.handleUpdateTag(tag);
+	}
+	
+	public boolean getAlternateComparator() {
+		return alternateComparator;
+	}
+	
+	public void setAlternateComparator(boolean alternate) {
+		alternateComparator = alternate;
 	}
 }

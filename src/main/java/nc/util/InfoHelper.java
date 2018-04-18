@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.lwjgl.input.Keyboard;
 
+import nc.config.NCConfig;
 import net.minecraft.util.text.TextFormatting;
 
 public class InfoHelper {
@@ -32,7 +33,7 @@ public class InfoHelper {
 	}
 	
 	public static boolean shift() {
-		return Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT);
+		return NCConfig.ctrl_info ? (Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) || Keyboard.isKeyDown(Keyboard.KEY_RCONTROL)) : (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT));
 	}
 	
 	public static void infoList(List list, String... lines) {

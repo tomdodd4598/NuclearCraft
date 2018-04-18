@@ -1,3 +1,14 @@
+v2.10j
+
++ Added extra control buttons to Fusion Reactor
+
+* Fixed default active water cooling rate
++ Added config option to use Ctrl rather than Shift for tooltip info
+
+v2.10i
+
+* Fixed comparator reading of the heat and efficiency of fission and fusion reactors
+
 v2.10h
 
 + Added support for Mekanism's condensentrated gases in machine recipes

@@ -1,7 +1,7 @@
 package nc.network;
 
 import io.netty.buffer.ByteBuf;
-import nc.tile.fluid.ITileFluid;
+import nc.tile.NCTile;
 import nc.util.NCUtil;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
@@ -11,20 +11,20 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
 
-public class ToggleTanksSharedButtonPacket implements IMessage {
+public class ToggleAlternateComparatorButtonPacket implements IMessage {
 	
 	boolean messageValid;
 	
 	BlockPos pos;
-	boolean tanksShared;
+	boolean alternateComparator;
 	
-	public ToggleTanksSharedButtonPacket() {
+	public ToggleAlternateComparatorButtonPacket() {
 		messageValid = false;
 	}
 	
-	public ToggleTanksSharedButtonPacket(ITileFluid machine) {
+	public ToggleAlternateComparatorButtonPacket(NCTile machine) {
 		pos = machine.getPos();
-		tanksShared = machine.getTanksShared();
+		alternateComparator = machine.getAlternateComparator();
 		messageValid = true;
 	}
 	
@@ -32,7 +32,7 @@ public class ToggleTanksSharedButtonPacket implements IMessage {
 	public void fromBytes(ByteBuf buf) {
 		try {
 			pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
-			tanksShared = buf.readBoolean();
+			alternateComparator = buf.readBoolean();
 		} catch (IndexOutOfBoundsException ioe) {
 			NCUtil.getLogger().catching(ioe);
 			return;
@@ -46,24 +46,24 @@ public class ToggleTanksSharedButtonPacket implements IMessage {
 		buf.writeInt(pos.getX());
 		buf.writeInt(pos.getY());
 		buf.writeInt(pos.getZ());
-		buf.writeBoolean(tanksShared);
+		buf.writeBoolean(alternateComparator);
 	}
 	
-	public static class Handler implements IMessageHandler<ToggleTanksSharedButtonPacket, IMessage> {
+	public static class Handler implements IMessageHandler<ToggleAlternateComparatorButtonPacket, IMessage> {
 		
 		@Override
-		public IMessage onMessage(ToggleTanksSharedButtonPacket message, MessageContext ctx) {
+		public IMessage onMessage(ToggleAlternateComparatorButtonPacket message, MessageContext ctx) {
 			if (!message.messageValid && ctx.side != Side.SERVER) return null;
 			FMLCommonHandler.instance().getWorldThread(ctx.netHandler).addScheduledTask(() -> processMessage(message, ctx));
 			return null;
 		}
 		
-		void processMessage(ToggleTanksSharedButtonPacket message, MessageContext ctx) {
+		void processMessage(ToggleAlternateComparatorButtonPacket message, MessageContext ctx) {
 			TileEntity tile = ctx.getServerHandler().player.getServerWorld().getTileEntity(message.pos);
 			if (tile == null) return;
-			if(tile instanceof ITileFluid) {
-				ITileFluid machine = (ITileFluid) tile;
-				machine.setTanksShared(message.tanksShared);
+			if(tile instanceof NCTile) {
+				NCTile machine = (NCTile) tile;
+				machine.setAlternateComparator(message.alternateComparator);
 				ctx.getServerHandler().player.getServerWorld().getTileEntity(message.pos).markDirty();
 			}
 		}

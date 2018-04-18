@@ -1793,6 +1793,9 @@ gui.config.armor.armor_toughness.comment=Toughnesses of armor types. Order: boro
 gui.config.category.other=Other Configs
 gui.config.category.other.tooltip=Miscellaneous configurations.
 
+gui.config.other.ctrl_info=Ctrl for more info
+gui.config.other.ctrl_info.comment=Hold down control rather than shift to show extra tooltip info?
+
 gui.config.other.wasteland_biome=Generate Wasteland Biome
 gui.config.other.wasteland_biome.comment=Will the Wasteland Biome generate in the Overworld?
 gui.config.other.wasteland_biome_weight=Wasteland Biome Gen Weight
@@ -1890,7 +1893,10 @@ gui.container.speed_multiplier=Speed Multiplier:
 gui.container.power_multiplier=Power Multiplier:
 gui.container.no_energy=Does not require energy
 gui.container.shift_clear_tank=Shift Click to clear tank
-gui.container.change_tanks_mode=Change Tanks Mode
+gui.container.change_tanks_mode=Prevent Input Overflow
+gui.container.void_leftover_fluid=Void Leftover Fluid
+gui.container.void_outputs=Void Output Overflow
+gui.container.comparator_mode=Efficiency/Heat Comparator
 
 nuclearcraft.multiblock_validation.no_controller=Not connected to a controller - this is due to lag or a bug. It is recommended that this block is destroyed and replaced if these errors continue
 

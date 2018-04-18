@@ -16,7 +16,6 @@ import nc.tile.passive.ITilePassive;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
@@ -145,11 +144,6 @@ public abstract class TileEnergy extends NCTile implements ITileEnergy, IEnergyT
 			EnergyNet.instance.removeTile(this);
 			ic2reg = false;
 		}
-	}
-	
-	@Override
-	public BlockPos getBlockPos() {
-		return pos;
 	}
 	
 	// NBT

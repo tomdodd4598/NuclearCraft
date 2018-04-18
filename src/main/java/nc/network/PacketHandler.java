@@ -27,6 +27,9 @@ public class PacketHandler {
 		instance.registerMessage(GetFluidInTankPacket.Handler.class, GetFluidInTankPacket.class, nextID(), Side.SERVER);
 		instance.registerMessage(ToggleTanksSharedButtonPacket.Handler.class, ToggleTanksSharedButtonPacket.class, nextID(), Side.SERVER);
 		instance.registerMessage(EmptyTankButtonPacket.Handler.class, EmptyTankButtonPacket.class, nextID(), Side.SERVER);
+		instance.registerMessage(ToggleTanksEmptyUnusableButtonPacket.Handler.class, ToggleTanksEmptyUnusableButtonPacket.class, nextID(), Side.SERVER);
+		instance.registerMessage(ToggleVoidExcessOutputsButtonPacket.Handler.class, ToggleVoidExcessOutputsButtonPacket.class, nextID(), Side.SERVER);
+		instance.registerMessage(ToggleAlternateComparatorButtonPacket.Handler.class, ToggleAlternateComparatorButtonPacket.class, nextID(), Side.SERVER);
 		
 		// CLIENT
 		instance.registerMessage(ReturnFluidInTankPacket.Handler.class, ReturnFluidInTankPacket.class, nextID(), Side.CLIENT);

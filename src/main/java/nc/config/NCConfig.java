@@ -162,6 +162,8 @@ public class NCConfig {
 	public static int[] armor_enchantability;
 	public static double[] armor_toughness;
 	
+	public static boolean ctrl_info;
+	
 	public static boolean rare_drops;
 	public static boolean dungeon_loot;
 	
@@ -273,7 +275,7 @@ public class NCConfig {
 		propertyFissionHeatGeneration.setLanguageKey("gui.config.fission.fission_heat_generation");
 		Property propertyFissionCoolingRate = config.get(CATEGORY_FISSION, "fission_cooling_rate", new double[] {60D, 90D, 70D, 120D, 130D, 120D, 150D, 140D, 120D, 160D, 80D, 160D, 80D, 100D, 110D}, Lang.localise("gui.config.fission.fission_cooling_rate.comment"), 0D, 32767D);
 		propertyFissionCoolingRate.setLanguageKey("gui.config.fission.fission_cooling_rate");
-		Property propertyFissionActiveCoolingRate = config.get(CATEGORY_FISSION, "fission_active_cooling_rate", new double[] {100D, 6400D, 6000D, 9600D, 8000D, 5600D, 14000D, 13200D, 10800D, 12800D, 4800D, 7200D, 5200D, 6000D, 7200D}, Lang.localise("gui.config.fission.fission_active_cooling_rate.comment"), 1D, 16777215D);
+		Property propertyFissionActiveCoolingRate = config.get(CATEGORY_FISSION, "fission_active_cooling_rate", new double[] {300D, 6400D, 6000D, 9600D, 8000D, 5600D, 14000D, 13200D, 10800D, 12800D, 4800D, 7200D, 5200D, 6000D, 7200D}, Lang.localise("gui.config.fission.fission_active_cooling_rate.comment"), 1D, 16777215D);
 		propertyFissionActiveCoolingRate.setLanguageKey("gui.config.fission.fission_active_cooling_rate");
 		Property propertyFissionWaterCoolerRequirement = config.get(CATEGORY_FISSION, "fission_water_cooler_requirement", true, Lang.localise("gui.config.fission.fission_water_cooler_requirement.comment"));
 		propertyFissionWaterCoolerRequirement.setLanguageKey("gui.config.fission.fission_water_cooler_requirement");
@@ -446,6 +448,9 @@ public class NCConfig {
 		propertyArmorEnchantability.setLanguageKey("gui.config.armor.armor_enchantability");
 		Property propertyArmorToughness = config.get(CATEGORY_ARMOR, "armor_toughness", new double[] {1D, 2D, 1D, 2D}, Lang.localise("gui.config.armor.armor_toughness.comment"), 1, 8);
 		propertyArmorToughness.setLanguageKey("gui.config.armor.armor_toughness");
+		
+		Property propertyCtrlInfo = config.get(CATEGORY_OTHER, "ctrl_info", false, Lang.localise("gui.config.other.ctrl_info.comment"));
+		propertyCtrlInfo.setLanguageKey("gui.config.other.ctrl_info");
 		
 		Property propertyRareDrops = config.get(CATEGORY_OTHER, "rare_drops", false, Lang.localise("gui.config.other.rare_drops.comment"));
 		propertyRareDrops.setLanguageKey("gui.config.other.rare_drops");
@@ -626,6 +631,7 @@ public class NCConfig {
 		config.setCategoryPropertyOrder(CATEGORY_ARMOR, propertyOrderArmor);
 		
 		List<String> propertyOrderOther = new ArrayList<String>();
+		propertyOrderOther.add(propertyCtrlInfo.getName());
 		propertyOrderOther.add(propertyRareDrops.getName());
 		propertyOrderOther.add(propertyDungeonLoot.getName());
 		propertyOrderOther.add(propertyWastelandBiome.getName());
@@ -772,6 +778,7 @@ public class NCConfig {
 			armor_boron_nitride = readIntegerArrayFromConfig(propertyArmorBoronNitride);
 			armor_toughness = readDoubleArrayFromConfig(propertyArmorToughness);
 			
+			ctrl_info = propertyCtrlInfo.getBoolean();
 			rare_drops = propertyRareDrops.getBoolean();
 			dungeon_loot = propertyDungeonLoot.getBoolean();
 			wasteland_biome = propertyWastelandBiome.getBoolean();
@@ -918,6 +925,7 @@ public class NCConfig {
 		propertyArmorBoronNitride.set(armor_boron_nitride);
 		propertyArmorToughness.set(armor_toughness);
 		
+		propertyCtrlInfo.set(ctrl_info);
 		propertyRareDrops.set(rare_drops);
 		propertyWastelandBiome.set(wasteland_biome);
 		propertyWastelandBiomeWeight.set(wasteland_biome_weight);
