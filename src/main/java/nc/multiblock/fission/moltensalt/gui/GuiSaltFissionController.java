@@ -2,18 +2,18 @@ package nc.multiblock.fission.moltensalt.gui;
 
 import nc.Global;
 import nc.gui.NCGui;
-import nc.multiblock.fission.moltensalt.tile.SaltFissionController;
+import nc.multiblock.fission.moltensalt.tile.SaltFissionReactor;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
 
 public class GuiSaltFissionController extends NCGui {
 	
-	SaltFissionController controller;
+	SaltFissionReactor controller;
 	
 	private final ResourceLocation gui_textures = new ResourceLocation(Global.MOD_ID + ":textures/gui/container/" + "salt_fission_controller" + ".png");
 	
-	public GuiSaltFissionController(SaltFissionController controller, Container container) {
+	public GuiSaltFissionController(SaltFissionReactor controller, Container container) {
 		super(container);
 		this.controller = controller;
 	}

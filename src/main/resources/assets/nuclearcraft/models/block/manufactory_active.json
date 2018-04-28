@@ -1,8 +1,6 @@
 {
-    "parent": "block/orientable",
+    "parent": "nuclearcraft:block/processor",
     "textures": {
-        "top": "nuclearcraft:blocks/manufactory_top",
-        "front": "nuclearcraft:blocks/manufactory_front_on",
-        "side": "nuclearcraft:blocks/manufactory_side"
+        "front": "nuclearcraft:blocks/manufactory_front_on"
     }
 }

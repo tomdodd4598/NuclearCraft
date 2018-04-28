@@ -46,8 +46,8 @@ public class NCConfig {
 	public static int[] processor_power;
 	public static int[] speed_upgrade_power_laws;
 	public static double[] speed_upgrade_multipliers;
-	public static int processor_rf_per_eu;
-	public static int processor_update_rate;
+	public static int rf_per_eu;
+	public static int machine_update_rate;
 	public static int[] processor_passive_rate;
 	public static int cobble_gen_power;
 	public static boolean ore_processing;
@@ -58,9 +58,6 @@ public class NCConfig {
 	public static int[] rtg_power;
 	public static int[] solar_power;
 	public static int[] decay_power;
-	public static double[] decay_lifetimes;
-	public static int generator_rf_per_eu;
-	public static int generator_update_rate;
 	
 	public static double fission_power; // Default: 1
 	public static double fission_fuel_use; // Default: 1
@@ -69,11 +66,10 @@ public class NCConfig {
 	public static double[] fission_active_cooling_rate;
 	public static boolean fission_water_cooler_requirement;
 	public static boolean fission_overheat;
-	public static int fission_update_rate;
 	public static int fission_min_size; // Default: 1
 	public static int fission_max_size; // Default: 24
 	public static int fission_comparator_max_heat;
-	public static int fission_active_cooler_max_rate;
+	public static int active_cooler_max_rate;
 	
 	public static double fission_moderator_extra_power;
 	public static double fission_moderator_extra_heat;
@@ -120,7 +116,7 @@ public class NCConfig {
 	public static double fusion_heat_generation; // Default: 1
 	public static boolean fusion_overheat;
 	public static boolean fusion_active_cooling;
-	public static int fusion_update_rate;
+	public static double[] fusion_active_cooling_rate;
 	public static int fusion_min_size; // Default: 1
 	public static int fusion_max_size; // Default: 24
 	public static int fusion_comparator_max_efficiency;
@@ -135,7 +131,6 @@ public class NCConfig {
 	public static double salt_fission_fuel_use; // Default: 1
 	public static double salt_fission_heat_generation; // Default: 1
 	public static boolean salt_fission_overheat;
-	public static int salt_fission_update_rate;
 	public static int salt_fission_min_size; // Default: 1
 	public static int salt_fission_max_size; // Default: 24
 	public static double[] salt_fission_cooling_rate;
@@ -144,7 +139,6 @@ public class NCConfig {
 	
 	public static int accelerator_electromagnet_power;
 	public static int accelerator_supercooler_coolant;
-	public static int accelerator_update_rate;
 	
 	public static int[] battery_capacity;
 	
@@ -239,10 +233,10 @@ public class NCConfig {
 		propertySpeedUpgradePowerLaws.setLanguageKey("gui.config.processors.speed_upgrade_power_laws");
 		Property propertySpeedUpgradeMultipliers = config.get(CATEGORY_PROCESSORS, "speed_upgrade_multipliers", new double[] {1D, 1D}, Lang.localise("gui.config.processors.speed_upgrade_multipliers.comment"), 0D, 15D);
 		propertySpeedUpgradeMultipliers.setLanguageKey("gui.config.processors.speed_upgrade_multipliers");
-		Property propertyProcessorRFPerEU = config.get(CATEGORY_PROCESSORS, "processor_rf_per_eu", 4, Lang.localise("gui.config.processors.processor_rf_per_eu.comment"), 1, 255);
-		propertyProcessorRFPerEU.setLanguageKey("gui.config.processors.processor_rf_per_eu");
-		Property propertyProcessorUpdateRate = config.get(CATEGORY_PROCESSORS, "processor_update_rate", 20, Lang.localise("gui.config.processors.processor_update_rate.comment"), 1, 1200);
-		propertyProcessorUpdateRate.setLanguageKey("gui.config.processors.processor_update_rate");
+		Property propertyRFPerEU = config.get(CATEGORY_PROCESSORS, "rf_per_eu", 16, Lang.localise("gui.config.processors.rf_per_eu.comment"), 1, 2000);
+		propertyRFPerEU.setLanguageKey("gui.config.processors.rf_per_eu");
+		Property propertyMachineUpdateRate = config.get(CATEGORY_PROCESSORS, "machine_update_rate", 20, Lang.localise("gui.config.processors.machine_update_rate.comment"), 1, 1200);
+		propertyMachineUpdateRate.setLanguageKey("gui.config.processors.machine_update_rate");
 		Property propertyProcessorPassiveRate = config.get(CATEGORY_PROCESSORS, "processor_passive_rate", new int[] {100, 2, 200, 50}, Lang.localise("gui.config.processors.processor_passive_rate.comment"), 1, 4000);
 		propertyProcessorPassiveRate.setLanguageKey("gui.config.processors.processor_passive_rate");
 		Property propertyCobbleGenPower = config.get(CATEGORY_PROCESSORS, "cobble_gen_power", 0, Lang.localise("gui.config.processors.cobble_gen_power.comment"), 0, 255);
@@ -262,10 +256,6 @@ public class NCConfig {
 		propertySolarPower.setLanguageKey("gui.config.generators.solar_power");
 		Property propertyDecayPower = config.get(CATEGORY_GENERATORS, "decay_power", new int[] {80, 80, 15, 5, 10, 15, 20, 25, 30, 40}, Lang.localise("gui.config.generators.decay_power.comment"), 0, 32767);
 		propertyDecayPower.setLanguageKey("gui.config.generators.decay_power");
-		Property propertyGeneratorRFPerEU = config.get(CATEGORY_GENERATORS, "generator_rf_per_eu", 16, Lang.localise("gui.config.generators.generator_rf_per_eu.comment"), 1, 255);
-		propertyGeneratorRFPerEU.setLanguageKey("gui.config.generators.generator_rf_per_eu");
-		Property propertyGeneratorUpdateRate = config.get(CATEGORY_GENERATORS, "generator_update_rate", 20, Lang.localise("gui.config.generators.generator_update_rate.comment"), 1, 1200);
-		propertyGeneratorUpdateRate.setLanguageKey("gui.config.generators.generator_update_rate");
 		
 		Property propertyFissionPower = config.get(CATEGORY_FISSION, "fission_power", 1D, Lang.localise("gui.config.fission.fission_power.comment"), 0D, 255D);
 		propertyFissionPower.setLanguageKey("gui.config.fission.fission_power");
@@ -273,7 +263,7 @@ public class NCConfig {
 		propertyFissionFuelUse.setLanguageKey("gui.config.fission.fission_fuel_use");
 		Property propertyFissionHeatGeneration = config.get(CATEGORY_FISSION, "fission_heat_generation", 1D, Lang.localise("gui.config.fission.fission_heat_generation.comment"), 0D, 255D);
 		propertyFissionHeatGeneration.setLanguageKey("gui.config.fission.fission_heat_generation");
-		Property propertyFissionCoolingRate = config.get(CATEGORY_FISSION, "fission_cooling_rate", new double[] {60D, 90D, 70D, 120D, 130D, 120D, 150D, 140D, 120D, 160D, 80D, 160D, 80D, 100D, 110D}, Lang.localise("gui.config.fission.fission_cooling_rate.comment"), 0D, 32767D);
+		Property propertyFissionCoolingRate = config.get(CATEGORY_FISSION, "fission_cooling_rate", new double[] {60D, 90D, 70D, 120D, 130D, 120D, 150D, 140D, 120D, 160D, 80D, 160D, 80D, 120D, 110D}, Lang.localise("gui.config.fission.fission_cooling_rate.comment"), 0D, 32767D);
 		propertyFissionCoolingRate.setLanguageKey("gui.config.fission.fission_cooling_rate");
 		Property propertyFissionActiveCoolingRate = config.get(CATEGORY_FISSION, "fission_active_cooling_rate", new double[] {300D, 6400D, 6000D, 9600D, 8000D, 5600D, 14000D, 13200D, 10800D, 12800D, 4800D, 7200D, 5200D, 6000D, 7200D}, Lang.localise("gui.config.fission.fission_active_cooling_rate.comment"), 1D, 16777215D);
 		propertyFissionActiveCoolingRate.setLanguageKey("gui.config.fission.fission_active_cooling_rate");
@@ -281,8 +271,6 @@ public class NCConfig {
 		propertyFissionWaterCoolerRequirement.setLanguageKey("gui.config.fission.fission_water_cooler_requirement");
 		Property propertyFissionOverheat = config.get(CATEGORY_FISSION, "fission_overheat", true, Lang.localise("gui.config.fission.fission_overheat.comment"));
 		propertyFissionOverheat.setLanguageKey("gui.config.fission.fission_overheat");
-		Property propertyFissionUpdateRate = config.get(CATEGORY_FISSION, "fission_update_rate", 40, Lang.localise("gui.config.fission.fission_update_rate.comment"), 1, 1200);
-		propertyFissionUpdateRate.setLanguageKey("gui.config.fission.fission_update_rate");
 		Property propertyFissionMinSize = config.get(CATEGORY_FISSION, "fission_min_size", 1, Lang.localise("gui.config.fission.fission_min_size.comment"), 1, 255);
 		propertyFissionMinSize.setLanguageKey("gui.config.fission.fission_min_size");
 		Property propertyFissionMaxSize = config.get(CATEGORY_FISSION, "fission_max_size", 24, Lang.localise("gui.config.fission.fission_max_size.comment"), 1, 255);
@@ -372,8 +360,8 @@ public class NCConfig {
 		propertyFusionOverheat.setLanguageKey("gui.config.fusion.fusion_overheat");
 		Property propertyFusionActiveCooling = config.get(CATEGORY_FUSION, "fusion_active_cooling", true, Lang.localise("gui.config.fusion.fusion_active_cooling.comment"));
 		propertyFusionActiveCooling.setLanguageKey("gui.config.fusion.fusion_active_cooling");
-		Property propertyFusionUpdateRate = config.get(CATEGORY_FUSION, "fusion_update_rate", 40, Lang.localise("gui.config.fusion.fusion_update_rate.comment"), 1, 1200);
-		propertyFusionUpdateRate.setLanguageKey("gui.config.fusion.fusion_update_rate");
+		Property propertyFusionActiveCoolingRate = config.get(CATEGORY_FUSION, "fusion_active_cooling_rate", new double[] {400D, 25600D, 24000D, 38400D, 32000D, 22400D, 56000D, 52800D, 43200D, 51200D, 19200D, 28800D, 20800D, 24000D, 28800D}, Lang.localise("gui.config.fusion.fusion_active_cooling_rate.comment"), 1D, 16777215D);
+		propertyFusionActiveCoolingRate.setLanguageKey("gui.config.fusion.fusion_active_cooling_rate");
 		Property propertyFusionMinSize = config.get(CATEGORY_FUSION, "fusion_min_size", 1, Lang.localise("gui.config.fusion.fusion_min_size.comment"), 1, 255);
 		propertyFusionMinSize.setLanguageKey("gui.config.fusion.fusion_min_size");
 		Property propertyFusionMaxSize = config.get(CATEGORY_FUSION, "fusion_max_size", 24, Lang.localise("gui.config.fusion.fusion_max_size.comment"), 1, 255);
@@ -400,8 +388,6 @@ public class NCConfig {
 		propertySaltFissionHeatGeneration.setLanguageKey("gui.config.salt_fission.salt_fission_heat_generation");
 		Property propertySaltFissionOverheat = config.get(CATEGORY_SALT_FISSION, "salt_fission_overheat", true, Lang.localise("gui.config.salt_fission.salt_fission_overheat.comment"));
 		propertySaltFissionOverheat.setLanguageKey("gui.config.salt_fission.salt_fission_overheat");
-		Property propertySaltFissionUpdateRate = config.get(CATEGORY_SALT_FISSION, "salt_fission_update_rate", 1, Lang.localise("gui.config.salt_fission.salt_fission_update_rate.comment"), 1, 255);
-		propertySaltFissionUpdateRate.setLanguageKey("gui.config.salt_fission.salt_fission_update_rate");
 		Property propertySaltFissionMinSize = config.get(CATEGORY_SALT_FISSION, "salt_fission_min_size", 1, Lang.localise("gui.config.salt_fission.salt_fission_min_size.comment"), 1, 255);
 		propertySaltFissionMinSize.setLanguageKey("gui.config.salt_fission.salt_fission_min_size");
 		Property propertySaltFissionMaxSize = config.get(CATEGORY_SALT_FISSION, "salt_fission_max_size", 24, Lang.localise("gui.config.salt_fission.salt_fission_max_size.comment"), 1, 255);
@@ -417,8 +403,6 @@ public class NCConfig {
 		propertyAcceleratorElectromagnetPower.setLanguageKey("gui.config.accelerator.accelerator_electromagnet_power");
 		Property propertyAcceleratorSupercoolerCoolant = config.get(CATEGORY_ACCELERATOR, "accelerator_supercooler_coolant", 5, Lang.localise("gui.config.accelerator.accelerator_supercooler_coolant.comment"), 0, 32767);
 		propertyAcceleratorSupercoolerCoolant.setLanguageKey("gui.config.accelerator.accelerator_supercooler_coolant");
-		Property propertyAcceleratorUpdateRate = config.get(CATEGORY_ACCELERATOR, "accelerator_update_rate", 40, Lang.localise("gui.config.accelerator.accelerator_update_rate.comment"), 1, 1200);
-		propertyAcceleratorUpdateRate.setLanguageKey("gui.config.accelerator.accelerator_update_rate");
 		
 		Property propertyBatteryCapacity = config.get(CATEGORY_ENERGY_STORAGE, "battery_capacity", new int[] {1600000, 64000000}, Lang.localise("gui.config.energy_storage.battery_capacity.comment"), 1, Integer.MAX_VALUE);
 		propertyBatteryCapacity.setLanguageKey("gui.config.energy_storage.battery_capacity");
@@ -499,8 +483,8 @@ public class NCConfig {
 		propertyOrderProcessors.add(propertyProcessorPower.getName());
 		propertyOrderProcessors.add(propertySpeedUpgradePowerLaws.getName());
 		propertyOrderProcessors.add(propertySpeedUpgradeMultipliers.getName());
-		propertyOrderProcessors.add(propertyProcessorRFPerEU.getName());
-		propertyOrderProcessors.add(propertyProcessorUpdateRate.getName());
+		propertyOrderProcessors.add(propertyRFPerEU.getName());
+		propertyOrderProcessors.add(propertyMachineUpdateRate.getName());
 		propertyOrderProcessors.add(propertyProcessorPassiveRate.getName());
 		propertyOrderProcessors.add(propertyCobbleGenPower.getName());
 		propertyOrderProcessors.add(propertyOreProcessing.getName());
@@ -514,8 +498,6 @@ public class NCConfig {
 		propertyOrderGenerators.add(propertyRTGPower.getName());
 		propertyOrderGenerators.add(propertySolarPower.getName());
 		propertyOrderGenerators.add(propertyDecayPower.getName());
-		propertyOrderGenerators.add(propertyGeneratorRFPerEU.getName());
-		propertyOrderGenerators.add(propertyGeneratorUpdateRate.getName());
 		config.setCategoryPropertyOrder(CATEGORY_GENERATORS, propertyOrderGenerators);
 		
 		List<String> propertyOrderFission = new ArrayList<String>();
@@ -578,6 +560,7 @@ public class NCConfig {
 		propertyOrderFusion.add(propertyFusionHeatGeneration.getName());
 		propertyOrderFusion.add(propertyFusionOverheat.getName());
 		propertyOrderFusion.add(propertyFusionActiveCooling.getName());
+		propertyOrderFusion.add(propertyFusionActiveCoolingRate.getName());
 		propertyOrderFusion.add(propertyFusionMinSize.getName());
 		propertyOrderFusion.add(propertyFusionMaxSize.getName());
 		propertyOrderFusion.add(propertyFusionComparatorMaxEfficiency.getName());
@@ -594,7 +577,6 @@ public class NCConfig {
 		propertyOrderSaltFission.add(propertySaltFissionFuelUse.getName());
 		propertyOrderSaltFission.add(propertySaltFissionHeatGeneration.getName());
 		propertyOrderSaltFission.add(propertySaltFissionOverheat.getName());
-		propertyOrderSaltFission.add(propertySaltFissionUpdateRate.getName());
 		propertyOrderSaltFission.add(propertySaltFissionMinSize.getName());
 		propertyOrderSaltFission.add(propertySaltFissionMaxSize.getName());
 		propertyOrderSaltFission.add(propertySaltFissionCoolingRate.getName());
@@ -605,7 +587,6 @@ public class NCConfig {
 		List<String> propertyOrderAccelerator = new ArrayList<String>();
 		propertyOrderAccelerator.add(propertyAcceleratorElectromagnetPower.getName());
 		propertyOrderAccelerator.add(propertyAcceleratorSupercoolerCoolant.getName());
-		propertyOrderAccelerator.add(propertyAcceleratorUpdateRate.getName());
 		config.setCategoryPropertyOrder(CATEGORY_ACCELERATOR, propertyOrderAccelerator);
 		
 		List<String> propertyOrderEnergyStorage = new ArrayList<String>();
@@ -662,8 +643,8 @@ public class NCConfig {
 			processor_power = readIntegerArrayFromConfig(propertyProcessorPower);
 			speed_upgrade_power_laws = readIntegerArrayFromConfig(propertySpeedUpgradePowerLaws);
 			speed_upgrade_multipliers = readDoubleArrayFromConfig(propertySpeedUpgradeMultipliers);
-			processor_rf_per_eu = propertyProcessorRFPerEU.getInt();
-			processor_update_rate = propertyProcessorUpdateRate.getInt();
+			rf_per_eu = propertyRFPerEU.getInt();
+			machine_update_rate = propertyMachineUpdateRate.getInt();
 			processor_passive_rate = readIntegerArrayFromConfig(propertyProcessorPassiveRate);
 			cobble_gen_power = propertyCobbleGenPower.getInt();
 			ore_processing = propertyOreProcessing.getBoolean();
@@ -675,8 +656,6 @@ public class NCConfig {
 			rtg_power = readIntegerArrayFromConfig(propertyRTGPower);
 			solar_power = readIntegerArrayFromConfig(propertySolarPower);
 			decay_power = readIntegerArrayFromConfig(propertyDecayPower);
-			generator_rf_per_eu = propertyGeneratorRFPerEU.getInt();
-			generator_update_rate = propertyGeneratorUpdateRate.getInt();
 			
 			fission_power = propertyFissionPower.getDouble();
 			fission_fuel_use = propertyFissionFuelUse.getDouble();
@@ -685,11 +664,10 @@ public class NCConfig {
 			fission_active_cooling_rate = readDoubleArrayFromConfig(propertyFissionActiveCoolingRate);
 			fission_water_cooler_requirement = propertyFissionWaterCoolerRequirement.getBoolean();
 			fission_overheat = propertyFissionOverheat.getBoolean();
-			fission_update_rate = propertyFissionUpdateRate.getInt();
 			fission_min_size = propertyFissionMinSize.getInt();
 			fission_max_size = propertyFissionMaxSize.getInt();
 			fission_comparator_max_heat = propertyFissionComparatorMaxHeat.getInt();
-			fission_active_cooler_max_rate = propertyFissionActiveCoolerMaxRate.getInt();
+			active_cooler_max_rate = propertyFissionActiveCoolerMaxRate.getInt();
 			
 			fission_moderator_extra_power = propertyFissionModeratorExtraPower.getDouble();
 			fission_moderator_extra_heat = propertyFissionModeratorExtraHeat.getDouble();
@@ -736,7 +714,7 @@ public class NCConfig {
 			fusion_heat_generation = propertyFusionHeatGeneration.getDouble();
 			fusion_overheat = propertyFusionOverheat.getBoolean();
 			fusion_active_cooling = propertyFusionActiveCooling.getBoolean();
-			fusion_update_rate = propertyFusionUpdateRate.getInt();
+			fusion_active_cooling_rate = readDoubleArrayFromConfig(propertyFusionActiveCoolingRate);
 			fusion_min_size = propertyFusionMinSize.getInt();
 			fusion_max_size = propertyFusionMaxSize.getInt();
 			fusion_comparator_max_efficiency = propertyFusionComparatorMaxEfficiency.getInt();
@@ -751,7 +729,6 @@ public class NCConfig {
 			salt_fission_fuel_use = propertySaltFissionFuelUse.getDouble();
 			salt_fission_heat_generation = propertySaltFissionHeatGeneration.getDouble();
 			salt_fission_overheat = propertySaltFissionOverheat.getBoolean();
-			salt_fission_update_rate = propertySaltFissionUpdateRate.getInt();
 			salt_fission_min_size = propertySaltFissionMinSize.getInt();
 			salt_fission_max_size = propertySaltFissionMaxSize.getInt();
 			salt_fission_cooling_rate = readDoubleArrayFromConfig(propertySaltFissionCoolingRate);
@@ -760,7 +737,6 @@ public class NCConfig {
 			
 			accelerator_electromagnet_power = propertyAcceleratorElectromagnetPower.getInt();
 			accelerator_supercooler_coolant = propertyAcceleratorSupercoolerCoolant.getInt();
-			accelerator_update_rate = propertyAcceleratorUpdateRate.getInt();
 			
 			battery_capacity = readIntegerArrayFromConfig(propertyBatteryCapacity);
 			
@@ -809,8 +785,8 @@ public class NCConfig {
 		propertyProcessorPower.set(processor_power);
 		propertySpeedUpgradePowerLaws.set(speed_upgrade_power_laws);
 		propertySpeedUpgradeMultipliers.set(speed_upgrade_multipliers);
-		propertyProcessorRFPerEU.set(processor_rf_per_eu);
-		propertyProcessorUpdateRate.set(processor_update_rate);
+		propertyRFPerEU.set(rf_per_eu);
+		propertyMachineUpdateRate.set(machine_update_rate);
 		propertyProcessorPassiveRate.set(processor_passive_rate);
 		propertyCobbleGenPower.set(cobble_gen_power);
 		propertyOreProcessing.set(ore_processing);
@@ -822,8 +798,6 @@ public class NCConfig {
 		propertyRTGPower.set(rtg_power);
 		propertySolarPower.set(solar_power);
 		propertyDecayPower.set(decay_power);
-		propertyGeneratorRFPerEU.set(generator_rf_per_eu);
-		propertyGeneratorUpdateRate.set(generator_update_rate);
 		
 		propertyFissionPower.set(fission_power);
 		propertyFissionFuelUse.set(fission_fuel_use);
@@ -832,11 +806,10 @@ public class NCConfig {
 		propertyFissionActiveCoolingRate.set(fission_active_cooling_rate);
 		propertyFissionWaterCoolerRequirement.set(fission_water_cooler_requirement);
 		propertyFissionOverheat.set(fission_overheat);
-		propertyFissionUpdateRate.set(fission_update_rate);
 		propertyFissionMinSize.set(fission_min_size);
 		propertyFissionMaxSize.set(fission_max_size);
 		propertyFissionComparatorMaxHeat.set(fission_comparator_max_heat);
-		propertyFissionActiveCoolerMaxRate.set(fission_active_cooler_max_rate);
+		propertyFissionActiveCoolerMaxRate.set(active_cooler_max_rate);
 		
 		propertyFissionModeratorExtraPower.set(fission_moderator_extra_power);
 		propertyFissionModeratorExtraHeat.set(fission_moderator_extra_heat);
@@ -883,7 +856,7 @@ public class NCConfig {
 		propertyFusionHeatGeneration.set(fusion_heat_generation);
 		propertyFusionOverheat.set(fusion_overheat);
 		propertyFusionActiveCooling.set(fusion_active_cooling);
-		propertyFusionUpdateRate.set(fusion_update_rate);
+		propertyFusionActiveCoolingRate.set(fusion_active_cooling_rate);
 		propertyFusionMinSize.set(fusion_min_size);
 		propertyFusionMaxSize.set(fusion_max_size);
 		propertyFusionComparatorMaxEfficiency.set(fusion_comparator_max_efficiency);
@@ -898,7 +871,6 @@ public class NCConfig {
 		propertySaltFissionFuelUse.set(salt_fission_fuel_use);
 		propertySaltFissionHeatGeneration.set(salt_fission_heat_generation);
 		propertySaltFissionOverheat.set(salt_fission_overheat);
-		propertySaltFissionUpdateRate.set(salt_fission_update_rate);
 		propertySaltFissionMinSize.set(salt_fission_min_size);
 		propertySaltFissionMaxSize.set(salt_fission_max_size);
 		propertySaltFissionCoolingRate.set(salt_fission_cooling_rate);
@@ -907,7 +879,6 @@ public class NCConfig {
 		
 		propertyAcceleratorElectromagnetPower.set(accelerator_electromagnet_power);
 		propertyAcceleratorSupercoolerCoolant.set(accelerator_supercooler_coolant);
-		propertyAcceleratorUpdateRate.set(accelerator_update_rate);
 		
 		propertyBatteryCapacity.set(battery_capacity);
 		

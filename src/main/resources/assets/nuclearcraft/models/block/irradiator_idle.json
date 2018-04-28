@@ -1,8 +1,6 @@
 {
-    "parent": "block/orientable",
+    "parent": "nuclearcraft:block/processor",
     "textures": {
-        "top": "nuclearcraft:blocks/irradiator_top",
-        "front": "nuclearcraft:blocks/irradiator_front_off",
-        "side": "nuclearcraft:blocks/irradiator_side"
+        "front": "nuclearcraft:blocks/irradiator_front_off"
     }
 }

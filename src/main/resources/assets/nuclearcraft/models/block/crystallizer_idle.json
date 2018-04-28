@@ -1,8 +1,6 @@
 {
-    "parent": "block/orientable",
+    "parent": "nuclearcraft:block/processor",
     "textures": {
-        "top": "nuclearcraft:blocks/crystallizer_top",
-        "front": "nuclearcraft:blocks/crystallizer_front_off",
-        "side": "nuclearcraft:blocks/crystallizer_side"
+        "front": "nuclearcraft:blocks/crystallizer_front_off"
     }
 }

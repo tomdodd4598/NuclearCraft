@@ -23,6 +23,8 @@ import net.minecraftforge.fluids.FluidStack;
 
 public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInventory implements IInterfaceable, IBufferable, IGui {
 
+	public final int[] slots;
+	
 	public final int itemInputSize;
 	public final int fluidInputSize;
 	public final int itemOutputSize;
@@ -48,17 +50,9 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 		
 		this.recipeType = recipeType;
 		
-		int[] topSlots1 = new int[itemInSize];
-		for (int i = 0; i < topSlots1.length; i++) topSlots1[i] = i;
-		topSlots = topSlots1;
-		
-		int[] sideSlots1 = new int[itemInSize + itemOutSize];
-		for (int i = 0; i < sideSlots1.length; i++) sideSlots1[i] = i;
-		sideSlots = sideSlots1;
-		
-		int[] bottomSlots1 = new int[itemOutSize];
-		for (int i = itemInSize; i < itemInSize + bottomSlots1.length; i++) bottomSlots1[i - itemInSize] = i;
-		bottomSlots = bottomSlots1;
+		int[] slots = new int[itemInSize + itemOutSize];
+		for (int i = 0; i < slots.length; i++) slots[i] = i;
+		this.slots = slots;
 		
 		for (int i = 0; i < tanks.length; i++) {
 			if (i < fluidInputSize) tanks[i].setStrictlyInput(true);
@@ -118,14 +112,6 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 			pushEnergy();
 		}
 		if (shouldUpdate) markDirty();
-	}
-	
-	public void tick() {
-		if (tickCount > NCConfig.generator_update_rate) tickCount = 0; else tickCount++;
-	}
-	
-	public boolean shouldCheck() {
-		return tickCount > NCConfig.generator_update_rate;
 	}
 	
 	public boolean isGenerating() {
@@ -323,6 +309,14 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 		return input;
 	}
 	
+	public ArrayList<ItemStack> inputItemStacksExcludingSlot(int slot) {
+		ArrayList<ItemStack> stacks = new ArrayList<ItemStack>();
+		for (int i = 0; i < itemInputSize; i++) {
+			if (i != slot) stacks.add(inventoryStacks.get(i));
+		}
+		return stacks;
+	}
+	
 	public Object[] consumedInputs() {
 		Object[] input = new Object[itemInputSize + fluidInputSize];
 		for (int i = 0; i < itemInputSize; i++) {
@@ -389,24 +383,24 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {
 		if (stack == ItemStack.EMPTY) return false;
 		else if (slot >= itemInputSize && slot < itemInputSize + itemOutputSize) return false;
-		return NCConfig.smart_processor_input ? getRecipeHandler().isValidInput(stack, inputs()) : getRecipeHandler().isValidInput(stack);
+		return NCConfig.smart_processor_input ? getRecipeHandler().isValidInput(stack, inventoryStacks.get(slot), inputItemStacksExcludingSlot(slot)) : getRecipeHandler().isValidInput(stack);
 	}
 	
 	// SidedInventory
 	
 	@Override
 	public int[] getSlotsForFace(EnumFacing side) {
-		return side == EnumFacing.DOWN ? bottomSlots : (side == EnumFacing.UP ? topSlots : sideSlots);
+		return slots;
 	}
 
 	@Override
 	public boolean canInsertItem(int slot, ItemStack stack, EnumFacing direction) {
-		return isItemValidForSlot(slot, stack) && direction != EnumFacing.DOWN;
+		return isItemValidForSlot(slot, stack);
 	}
 
 	@Override
 	public boolean canExtractItem(int slot, ItemStack stack, EnumFacing direction) {
-		return direction != EnumFacing.UP && slot >= itemInputSize && slot < itemInputSize + itemOutputSize;
+		return slot >= itemInputSize && slot < itemInputSize + itemOutputSize;
 	}
 	
 	// Fluids

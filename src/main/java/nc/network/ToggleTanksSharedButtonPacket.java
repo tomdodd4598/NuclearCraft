@@ -23,7 +23,7 @@ public class ToggleTanksSharedButtonPacket implements IMessage {
 	}
 	
 	public ToggleTanksSharedButtonPacket(ITileFluid machine) {
-		pos = machine.getPos();
+		pos = machine.getFluidTilePos();
 		tanksShared = machine.getTanksShared();
 		messageValid = true;
 	}

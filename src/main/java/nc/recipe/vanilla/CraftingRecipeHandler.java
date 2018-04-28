@@ -51,7 +51,6 @@ public class CraftingRecipeHandler {
 		addShapelessOreRecipe(new ItemStack(NCBlocks.cooler, 1, 8), new Object[] {new ItemStack(NCBlocks.cooler, 1, 0), FluidHelper.getBucket("liquidhelium")});
 		addShapedOreRecipe(new ItemStack(NCBlocks.cooler, 1, 9), new Object[] {"EEE", "ECE", "EEE", 'C', new ItemStack(NCBlocks.cooler, 1, 0), 'E', "ingotEnderium"});
 		addShapedOreRecipe(new ItemStack(NCBlocks.cooler, 1, 10), new Object[] {"DDD", "DCD", "DDD", 'C', new ItemStack(NCBlocks.cooler, 1, 0), 'D', "dustCryotheum"});
-		
 		addShapedOreRecipe(new ItemStack(NCBlocks.cooler, 1, 11), new Object[] {"III", "ICI", "III", 'C', new ItemStack(NCBlocks.cooler, 1, 0), 'I', "ingotIron"});
 		addShapedOreRecipe(new ItemStack(NCBlocks.cooler, 1, 12), new Object[] {"EEE", " C ", "EEE", 'C', new ItemStack(NCBlocks.cooler, 1, 0), 'E', "gemEmerald"});
 		addShapedOreRecipe(new ItemStack(NCBlocks.cooler, 1, 12), new Object[] {"E E", "ECE", "E E", 'C', new ItemStack(NCBlocks.cooler, 1, 0), 'E', "gemEmerald"});
@@ -129,7 +128,7 @@ public class CraftingRecipeHandler {
 		
 		addShapedOreRecipe(NCBlocks.decay_generator, new Object[] {"LCL", "CRC", "LCL", 'C', "cobblestone", 'L', "ingotLead", 'R', "dustRedstone"});
 		
-		addShapedOreRecipe(NCBlocks.voltaic_pile_basic, new Object[] {"PWP", "WMW", "PWP", 'P', "plateBasic", 'W', new ItemStack(NCItems.part, 1, 4), 'M', "blockMagnesium"});
+		addShapedOreRecipe(NCBlocks.voltaic_pile_basic, new Object[] {"PSP", "SMS", "PSP", 'P', "plateBasic", 'S', "solenoidCopper", 'M', "blockMagnesium"});
 		
 		addShapedOreRecipe(NCItems.lithium_ion_cell, new Object[] {"CCC", "FLF", "DDD", 'C', "ingotHardCarbon", 'F', "ingotFerroboron", 'L', "ingotLithium", 'D', "ingotLithiumManganeseDioxide"});
 		addShapedOreRecipe(NCBlocks.lithium_ion_battery_basic, new Object[] {"PCP", "CSC", "PCP", 'C', NCItems.lithium_ion_cell, 'P', "plateElite", 'S', "solenoidMagnesiumDiboride"});
@@ -163,9 +162,9 @@ public class CraftingRecipeHandler {
 		addShapedOreRecipe(new ItemStack(NCItems.part, 1, 3), new Object[] {"RBR", "BPB", "RBR", 'R', "dustCrystalBinder", 'B', "ingotBoron", 'P', "plateDU"});
 		addShapedOreRecipe(new ItemStack(NCItems.part, 2, 4), new Object[] {"CC", "II", "CC", 'C', "ingotCopper", 'I', "ingotIron"});
 		addShapedOreRecipe(new ItemStack(NCItems.part, 2, 5), new Object[] {"MM", "TT", "MM", 'M', "ingotMagnesiumDiboride", 'T', "ingotTough"});
-		addShapedOreRecipe(new ItemStack(NCItems.part, 1, 7), new Object[] {"F F", "RSR", "SCS", 'F', "ingotFerroboron", 'S', "ingotSteel", 'C', "solenoidCopper", 'R', "dustRedstone"});
+		addShapedOreRecipe(new ItemStack(NCItems.part, 1, 7), new Object[] {"F F", "RSR", "SCS", 'F', "ingotFerroboron", 'S', "ingotSteel", 'C', "ingotCopper", 'R', "dustRedstone"});
 		addShapedOreRecipe(new ItemStack(NCItems.part, 1, 8), new Object[] {"SSG", "CCI", "SSG", 'G', "nuggetGold", 'S', "ingotSteel", 'I', "ingotIron", 'C', "solenoidCopper"});
-		addShapedOreRecipe(new ItemStack(NCItems.part, 1, 9), new Object[] {"  S", "FP ", "CF ", 'F', "ingotFerroboron", 'S', "ingotSteel", 'P', Blocks.PISTON, 'C', "solenoidCopper"});
+		addShapedOreRecipe(new ItemStack(NCItems.part, 1, 9), new Object[] {"  S", "FP ", "CF ", 'F', "ingotFerroboron", 'S', "ingotSteel", 'P', Blocks.PISTON, 'C', "ingotCopper"});
 		addShapedOreRecipe(new ItemStack(NCItems.part, 1, 10), new Object[] {"LSL", "STS", "LSL", 'L', "ingotLead", 'T', "ingotTough", 'S', "ingotSteel"});
 		
 		addShapedOreRecipe(new ItemStack(NCItems.upgrade, 1, 0), new Object[] {"LRL", "RPR", "LRL", 'L', "gemLapis", 'R', "dustRedstone", 'P', Blocks.HEAVY_WEIGHTED_PRESSURE_PLATE});

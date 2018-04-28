@@ -1,6 +1,6 @@
 package nc.multiblock.fission.moltensalt.network;
 
-import nc.multiblock.fission.moltensalt.tile.SaltFissionController;
+import nc.multiblock.fission.moltensalt.tile.SaltFissionReactor;
 import nc.multiblock.fission.moltensalt.tile.TileSaltFissionController;
 import nc.network.HeatBufferUpdatePacket;
 import net.minecraft.tileentity.TileEntity;
@@ -19,7 +19,7 @@ public class SaltFissionHeatBufferUpdatePacket extends HeatBufferUpdatePacket<Sa
 	@Override
 	protected IMessage executeOnClient() {
 		if(tile instanceof TileSaltFissionController) {
-			((SaltFissionController) ((TileSaltFissionController) tile).getMultiblockController()).onPacket(capacity, heat);
+			((SaltFissionReactor) ((TileSaltFissionController) tile).getMultiblockController()).onPacket(capacity, heat);
 		}
 		return null;
 	}

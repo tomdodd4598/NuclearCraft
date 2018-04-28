@@ -9,7 +9,7 @@ import net.minecraft.util.math.BlockPos;
 
 public interface ITileEnergy {
 	
-	public BlockPos getPos();
+	public BlockPos getEnergyTilePos();
 	
 	public EnergyStorage getEnergyStorage();
 	

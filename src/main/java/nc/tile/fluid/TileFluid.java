@@ -8,6 +8,7 @@ import nc.tile.passive.ITilePassive;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
@@ -70,6 +71,11 @@ public abstract class TileFluid extends NCTile implements ITileFluid, IFluidHand
 			}
 			this.fluidConnections = fluidConnectionsList;
 		}
+	}
+	
+	@Override
+	public BlockPos getFluidTilePos() {
+		return pos;
 	}
 	
 	@Override

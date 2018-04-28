@@ -104,14 +104,6 @@ public abstract class TileFluidGenerator extends TileEnergyFluidSidedInventory i
 		if (shouldUpdate) markDirty();
 	}
 	
-	public void tick() {
-		if (tickCount > NCConfig.generator_update_rate) tickCount = 0; else tickCount++;
-	}
-	
-	public boolean shouldCheck() {
-		return tickCount > NCConfig.generator_update_rate;
-	}
-	
 	public boolean isGenerating() {
 		return canProcess() && isPowered();
 	}

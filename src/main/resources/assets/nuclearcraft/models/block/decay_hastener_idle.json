@@ -1,8 +1,6 @@
 {
-    "parent": "block/orientable",
+    "parent": "nuclearcraft:block/processor",
     "textures": {
-        "top": "nuclearcraft:blocks/decay_hastener_top",
-        "front": "nuclearcraft:blocks/decay_hastener_front_off",
-        "side": "nuclearcraft:blocks/decay_hastener_side"
+        "front": "nuclearcraft:blocks/decay_hastener_front_off"
     }
 }

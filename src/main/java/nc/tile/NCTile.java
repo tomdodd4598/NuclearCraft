@@ -1,6 +1,7 @@
 package nc.tile;
 
 import nc.block.tile.IActivatable;
+import nc.config.NCConfig;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
@@ -16,6 +17,8 @@ public abstract class NCTile extends TileEntity implements ITickable {
 	
 	public boolean isAdded;
 	public boolean isMarkedDirty;
+	
+	public int tickCount;
 	
 	public boolean alternateComparator;
 	
@@ -41,6 +44,14 @@ public abstract class NCTile extends TileEntity implements ITickable {
 			getWorld().getChunkFromBlockCoords(getPos()).markDirty();
 		}
 		markDirty();
+	}
+	
+	public void tick() {
+		tickCount++; tickCount %= NCConfig.machine_update_rate;
+	}
+	
+	public boolean shouldCheck() {
+		return tickCount == 0;
 	}
 	
 	@Override

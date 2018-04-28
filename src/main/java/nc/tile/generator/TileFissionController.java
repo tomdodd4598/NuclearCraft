@@ -39,7 +39,6 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 	
 	public int rateMultiplier, processTime, processPower;
 	public int heat, cooling, heatChange, efficiency, cells, heatMult;
-	public int tickCountStructureCheck, tickCountRunCheck;
 	public int minX, minY, minZ;
 	public int maxX, maxY, maxZ;
 	public int lengthX, lengthY, lengthZ = 3;
@@ -75,7 +74,7 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 	public void onAdded() {
 		finder = new BlockFinder(pos, world, getBlockMetadata());
 		super.onAdded();
-		tickCountStructureCheck = 2*NCConfig.fission_update_rate;
+		tickCount = -1;
 		checkStructure();
 	}
 	
@@ -85,10 +84,9 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 		isGenerating = canProcess() && isPowered();
 		boolean shouldUpdate = false;
 		if (!world.isRemote) if (time == 0) consume();
-		tickStructureCheck();
+		tick();
 		checkStructure();
 		if (!world.isRemote) {
-			tickRunCheck();
 			if (newRules) newRun(); else run();
 			if (overheat()) return;
 			if (isGenerating) process();
@@ -98,25 +96,14 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 			}
 			pushEnergy();
 			currentEnergyStored = getEnergyStored();
-			if (findAdjacentComparator() && shouldStructureCheck()) shouldUpdate = true;
+			if (findAdjacentComparator() && shouldCheck()) shouldUpdate = true;
 		}
 		if (shouldUpdate) markDirty();
 	}
 	
-	public void tickStructureCheck() {
-		tickCountStructureCheck++; tickCountStructureCheck %= NCConfig.fission_update_rate;
-	}
-	
-	public boolean shouldStructureCheck() {
-		return tickCountStructureCheck == 0;
-	}
-	
-	public void tickRunCheck() {
-		tickCountRunCheck++; tickCountRunCheck %= NCConfig.fission_update_rate*2;
-	}
-	
-	public boolean shouldRunCheck() {
-		return tickCountRunCheck == 0;
+	@Override
+	public void tick() {
+		tickCount++; tickCount %= 4*NCConfig.machine_update_rate;
 	}
 	
 	public boolean findAdjacentComparator() {
@@ -152,15 +139,14 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 	@Override
 	public void updateBlockType() {
 		super.updateBlockType();
-		tickCountStructureCheck = -1;
-		tickCountRunCheck = -1;
+		tickCount = -1;
 	}
 	
 	// IC2 Tiers
 	
 	@Override
 	public int getSourceTier() {
-		return EnergyHelper.getEUSourceTier(getEnergyStorage().getMaxEnergyStored());
+		return EnergyHelper.getEUTier(getProcessPower());
 	}
 	
 	@Override
@@ -480,7 +466,7 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 	// Finding Structure
 	
 	private boolean checkStructure() {
-		if (shouldStructureCheck()) {
+		if (shouldCheck()) {
 			int maxLength = NCConfig.fission_max_size + 1;
 			boolean validStructure = false;
 			int maxZCheck = 0;
@@ -696,7 +682,7 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 		ready = canProcess() && !isPowered() ? 1 : 0;
 		boolean generating = canProcess() && isPowered();
 
-		if (shouldRunCheck()) {
+		if (shouldCheck()) {
 			if (complete == 1) {
 				for (int z = minZ + 1; z <= maxZ - 1; z++) for (int x = minX + 1; x <= maxX - 1; x++) for (int y = minY + 1; y <= maxY - 1; y++) {
 					
@@ -749,13 +735,13 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 						TileEntity tile = world.getTileEntity(finder.position(x, y, z));
 						if (tile != null) if (tile instanceof TileActiveCooler) {
 							Tank tank = ((TileActiveCooler) tile).getTanks()[0];
-							int fluidAmount = tank.getFluidAmount();
+							int fluidAmount = Math.min(tank.getFluidAmount(), 4*NCConfig.machine_update_rate*NCConfig.active_cooler_max_rate/20);
 							if (fluidAmount > 0) {
 								double currentHeat = heat + (generating ? heatThisTick : 0) + coolerHeatThisTick;
 								for (int i = 1; i < CoolerType.values().length; i++) {
 									if (tank.getFluidName() == CoolerType.values()[i].getFluidName()) {
 										if (coolerRequirements(x, y, z, i)) {
-											coolerHeatThisTick -= (NCConfig.fission_active_cooling_rate[i - 1]*fluidAmount)/(2D*NCConfig.fission_update_rate);
+											coolerHeatThisTick -= (NCConfig.fission_active_cooling_rate[i - 1]*fluidAmount)/(4*NCConfig.machine_update_rate);
 											break;
 										}
 									}
@@ -825,7 +811,7 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 		ready = canProcess() && !isPowered() ? 1 : 0;
 		boolean generating = canProcess() && isPowered();
 
-		if (shouldRunCheck()) {
+		if (shouldCheck()) {
 			if (complete == 1) {
 				for (int z = minZ + 1; z <= maxZ - 1; z++) for (int x = minX + 1; x <= maxX - 1; x++) for (int y = minY + 1; y <= maxY - 1; y++) {
 					
@@ -878,13 +864,13 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 						TileEntity tile = world.getTileEntity(finder.position(x, y, z));
 						if (tile != null) if (tile instanceof TileActiveCooler) {
 							Tank tank = ((TileActiveCooler) tile).getTanks()[0];
-							int fluidAmount = tank.getFluidAmount();
+							int fluidAmount = Math.min(tank.getFluidAmount(), 4*NCConfig.machine_update_rate*NCConfig.active_cooler_max_rate/20);
 							if (fluidAmount > 0) {
 								double currentHeat = heat + (generating ? heatThisTick : 0) + coolerHeatThisTick;
 								for (int i = 1; i < CoolerType.values().length; i++) {
 									if (tank.getFluidName() == CoolerType.values()[i].getFluidName()) {
 										if (coolerRequirements(x, y, z, i)) {
-											coolerHeatThisTick -= (NCConfig.fission_active_cooling_rate[i - 1]*fluidAmount)/(2D*NCConfig.fission_update_rate);
+											coolerHeatThisTick -= (NCConfig.fission_active_cooling_rate[i - 1]*fluidAmount)/(4*NCConfig.machine_update_rate);
 											break;
 										}
 									}

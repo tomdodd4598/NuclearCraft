@@ -1,8 +1,10 @@
 {
-    "parent": "block/orientable",
-    "textures": {
-        "top": "nuclearcraft:blocks/fission_controller_new_top",
-        "front": "nuclearcraft:blocks/fission_controller_new_front_on",
-        "side": "nuclearcraft:blocks/fission_controller_new_side"
-    }
+    "parent": "nuclearcraft:block/machine",
+	"textures": {
+		"top": "nuclearcraft:blocks/fission_controller_new_top",
+		"bottom": "nuclearcraft:blocks/fission_controller_new_bottom",
+		"front": "nuclearcraft:blocks/fission_controller_new_front_on",
+		"side": "nuclearcraft:blocks/fission_controller_new_side",
+		"back": "nuclearcraft:blocks/fission_controller_new_back"
+	}
 }

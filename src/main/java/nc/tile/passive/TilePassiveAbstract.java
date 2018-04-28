@@ -72,7 +72,7 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 	}
 	
 	public TilePassiveAbstract(String name, ItemStack stack, int itemChange, int energyChange, Fluid fluid, int fluidChange, int changeRate, String[] fluidTypes) {
-		super(name, 1, energyChange == 0 ? 1 : 2*MathHelper.abs(energyChange)*changeRate*NCConfig.generator_rf_per_eu, energyChange == 0 ? 0 : MathHelper.abs(energyChange)*NCConfig.generator_rf_per_eu, energyChange > 0 ? energyConnectionAll(EnergyConnection.OUT) : (energyChange < 0 ? energyConnectionAll(EnergyConnection.IN) : energyConnectionAll(EnergyConnection.NON)), new int[] {fluidChange == 0 ? 1 : 2*MathHelper.abs(fluidChange)*changeRate}, new FluidConnection[] {fluidChange > 0 ? FluidConnection.OUT : (fluidChange < 0 ? FluidConnection.IN : FluidConnection.NON)}, fluidTypes);
+		super(name, 1, energyChange == 0 ? 1 : NCConfig.rf_per_eu*MathHelper.abs(energyChange)*changeRate, energyChange == 0 ? 0 : NCConfig.rf_per_eu*MathHelper.abs(energyChange), energyChange > 0 ? energyConnectionAll(EnergyConnection.OUT) : (energyChange < 0 ? energyConnectionAll(EnergyConnection.IN) : energyConnectionAll(EnergyConnection.NON)), new int[] {fluidChange == 0 ? 1 : 2*MathHelper.abs(fluidChange)*changeRate}, new FluidConnection[] {fluidChange > 0 ? FluidConnection.OUT : (fluidChange < 0 ? FluidConnection.IN : FluidConnection.NON)}, fluidTypes);
 		this.energyChange = energyChange*changeRate;
 		this.itemChange = itemChange*changeRate;
 		stackChange = ItemStackHelper.changeStackSize(stack, MathHelper.abs(itemChange)*changeRate);
@@ -114,54 +114,64 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 	}
 	
 	public boolean shouldUpdate() {
-		if (tickCount > updateRate) tickCount = 0; else tickCount++;
-		return tickCount > updateRate;
+		return tickCount == 0;
 	}
 	
-	public boolean changeEnergy(boolean b) {
-		if (energyChange == 0) return b;
+	@Override
+	public boolean shouldCheck() {
+		int currentCount = tickCount;
+		currentCount %= updateRate/20;
+		return currentCount == 0;
+	}
+	
+	@Override
+	public void tick() {
+		tickCount++; tickCount %= updateRate;
+	}
+	
+	public boolean changeEnergy(boolean simulateChange) {
+		if (energyChange == 0) return simulateChange;
 		if (getEnergyStorage().getEnergyStored() >= getEnergyStorage().getMaxEnergyStored() && energyChange > 0) return false;
 		if (getEnergyStorage().getEnergyStored() < MathHelper.abs(energyChange) && energyChange < 0) return false;
-		if (!b) {
+		if (!simulateChange) {
 			if (changeStack(true) && changeFluid(true)) getEnergyStorage().changeEnergyStored(energyChange);
 		}
-		if (energyChange < 0) return getEnergyStorage().getEnergyStored() > -energyChange;
-		else return true;
+		return true;
 	}
 	
-	public boolean changeStack(boolean b) {
-		if (itemChange == 0) return b;
-		if (!ItemStack.areItemsEqual(inventoryStacks.get(0), stackChange) && !inventoryStacks.get(0).isEmpty() && !b) inventoryStacks.set(0, ItemStack.EMPTY);
+	public boolean changeStack(boolean simulateChange) {
+		if (itemChange == 0) return simulateChange;
+		if (!ItemStack.areItemsEqual(inventoryStacks.get(0), stackChange) && !inventoryStacks.get(0).isEmpty() && !simulateChange) inventoryStacks.set(0, ItemStack.EMPTY);
 		if (itemChange > 0) {
 			if (!inventoryStacks.get(0).isEmpty()) if (inventoryStacks.get(0).getCount() + itemChange > getInventoryStackLimit()) return false;
-			if (inventoryStacks.get(0).isEmpty() && !b) {
-				if (changeEnergy(true) && changeFluid(true)) newStack();
+			if (inventoryStacks.get(0).isEmpty() && !simulateChange) {
+				if (changeEnergy(true) && changeFluid(true)) setNewStack();
 			}
-			else if (!b) {
+			else if (!simulateChange) {
 				if (changeEnergy(true) && changeFluid(true)) inventoryStacks.get(0).grow(itemChange);
 			}
 			return true;
 		} else {
 			if (inventoryStacks.get(0).isEmpty() || inventoryStacks.get(0).getCount() < MathHelper.abs(itemChange)) return false;
-			else if (inventoryStacks.get(0).getCount() > MathHelper.abs(itemChange) && !b) {
+			else if (inventoryStacks.get(0).getCount() > MathHelper.abs(itemChange) && !simulateChange) {
 				if (changeEnergy(true) && changeFluid(true)) inventoryStacks.get(0).grow(itemChange);
 			}
-			else if (inventoryStacks.get(0).getCount() == MathHelper.abs(itemChange) && !b) {
+			else if (inventoryStacks.get(0).getCount() == MathHelper.abs(itemChange) && !simulateChange) {
 				if (changeEnergy(true) && changeFluid(true)) inventoryStacks.set(0, ItemStack.EMPTY);
 			}
 			return true;
 		}
 	}
 	
-	public void newStack() {
+	public void setNewStack() {
 		inventoryStacks.set(0, stackChange);
 	}
 	
-	public boolean changeFluid(boolean b) {
-		if (fluidChange == 0) return b;
+	public boolean changeFluid(boolean simulateChange) {
+		if (fluidChange == 0) return simulateChange;
 		if (tanks[0].getFluidAmount() >= tanks[0].getCapacity() && fluidChange > 0) return false;
 		if (tanks[0].getFluidAmount() < MathHelper.abs(fluidChange) && fluidChange < 0) return false;
-		if (!b) {
+		if (!simulateChange) {
 			if (changeEnergy(true) && changeStack(true)) {
 				if (fluidChange > 0) {
 					if (fluidStackChange != null) tanks[0].changeFluidStored(fluidType, fluidChange);

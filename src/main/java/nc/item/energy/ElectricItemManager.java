@@ -19,11 +19,11 @@ public class ElectricItemManager implements IElectricItemManager {
 	@Override
 	public double charge(ItemStack stack, double amount, int tier, boolean ignoreTransferLimit, boolean simulate) {
 		if(item.canReceive(stack)) {
-			double energyToStore = Math.min(Math.min(amount * NCConfig.generator_rf_per_eu, Math.pow(10, 1 + item.getEnergyTier(stack)) * NCConfig.generator_rf_per_eu), item.getMaxEnergyStored(stack) - item.getEnergyStored(stack));
+			double energyToStore = Math.min(Math.min(amount * NCConfig.rf_per_eu, Math.pow(10, 1 + item.getEnergyTier(stack)) * NCConfig.rf_per_eu), item.getMaxEnergyStored(stack) - item.getEnergyStored(stack));
 			
 			if(!simulate) item.setEnergyStored(stack, item.getEnergyStored(stack) + (int)energyToStore);
 
-			return (int)Math.round(energyToStore / (double)NCConfig.generator_rf_per_eu);
+			return (int)Math.round(energyToStore / (double)NCConfig.rf_per_eu);
 		}
 		return 0;
 	}
@@ -31,23 +31,23 @@ public class ElectricItemManager implements IElectricItemManager {
 	@Override
 	public double discharge(ItemStack stack, double amount, int tier, boolean ignoreTransferLimit, boolean externally, boolean simulate) {
 		if(item.canExtract(stack)) {
-			double energyToGive = Math.min(Math.min(amount * NCConfig.generator_rf_per_eu, Math.pow(10, 1 + item.getEnergyTier(stack)) * NCConfig.generator_rf_per_eu), item.getEnergyStored(stack));
+			double energyToGive = Math.min(Math.min(amount * NCConfig.rf_per_eu, Math.pow(10, 1 + item.getEnergyTier(stack)) * NCConfig.rf_per_eu), item.getEnergyStored(stack));
 			
 			if(!simulate) item.setEnergyStored(stack, item.getEnergyStored(stack) - (int)energyToGive);
 			
-			return Math.round(energyToGive / (double)NCConfig.generator_rf_per_eu);
+			return Math.round(energyToGive / (double)NCConfig.rf_per_eu);
 		}
 		return 0;
 	}
 	
 	@Override
 	public double getCharge(ItemStack stack) {
-		return (double)item.getEnergyStored(stack) / (double)NCConfig.generator_rf_per_eu;
+		return (double)item.getEnergyStored(stack) / (double)NCConfig.rf_per_eu;
 	}
 	
 	@Override
 	public double getMaxCharge(ItemStack stack) {
-		return (double)item.getMaxEnergyStored(stack) / (double)NCConfig.generator_rf_per_eu;
+		return (double)item.getMaxEnergyStored(stack) / (double)NCConfig.rf_per_eu;
 	}
 	
 	@Override

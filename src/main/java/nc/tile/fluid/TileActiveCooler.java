@@ -9,13 +9,16 @@ import nc.tile.internal.fluid.FluidConnection;
 public class TileActiveCooler extends TileFluid implements IInterfaceable, IBufferable, IFluidSpread {
 	
 	public TileActiveCooler() {
-		super(2*NCConfig.fission_update_rate*NCConfig.fission_active_cooler_max_rate/20, FluidConnection.IN, validFluids());
+		super(4*NCConfig.machine_update_rate*NCConfig.active_cooler_max_rate, FluidConnection.IN, validFluids());
 	}
 	
 	@Override
 	public void update() {
 		super.update();
-		spreadFluid();
+		if (!world.isRemote && shouldCheck()) {
+			spreadFluid();
+		}
+		tick();
 	}
 	
 	private static String[] validFluids() {

@@ -1,8 +1,6 @@
 {
-    "parent": "block/orientable",
+    "parent": "nuclearcraft:block/processor",
     "textures": {
-        "top": "nuclearcraft:blocks/salt_mixer_top",
-        "front": "nuclearcraft:blocks/salt_mixer_front_on",
-        "side": "nuclearcraft:blocks/salt_mixer_side"
+        "front": "nuclearcraft:blocks/salt_mixer_front_on"
     }
 }

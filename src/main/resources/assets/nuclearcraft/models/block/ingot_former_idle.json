@@ -1,8 +1,6 @@
 {
-    "parent": "block/orientable",
+    "parent": "nuclearcraft:block/processor",
     "textures": {
-        "top": "nuclearcraft:blocks/ingot_former_top",
-        "front": "nuclearcraft:blocks/ingot_former_front_off",
-        "side": "nuclearcraft:blocks/ingot_former_side"
+        "front": "nuclearcraft:blocks/ingot_former_front_off"
     }
 }

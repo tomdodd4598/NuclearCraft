@@ -21,6 +21,8 @@ import net.minecraft.util.EnumFacing;
 
 public abstract class TileItemGenerator extends TileEnergySidedInventory implements IInterfaceable, IBufferable, IGui {
 
+	public final int[] slots;
+	
 	public final int inputSize;
 	public final int outputSize;
 	public final int otherSlotsSize;
@@ -41,17 +43,9 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 		
 		this.recipeType = recipeType;
 		
-		int[] topSlots1 = new int[inSize];
-		for (int i = 0; i < topSlots1.length; i++) topSlots1[i] = i;
-		topSlots = topSlots1;
-		
-		int[] sideSlots1 = new int[inSize + outSize];
-		for (int i = 0; i < sideSlots1.length; i++) sideSlots1[i] = i;
-		sideSlots = sideSlots1;
-		
-		int[] bottomSlots1 = new int[outSize];
-		for (int i = inSize; i < inSize + bottomSlots1.length; i++) bottomSlots1[i - inSize] = i;
-		bottomSlots = bottomSlots1;
+		int[] slots = new int[inSize + outSize];
+		for (int i = 0; i < slots.length; i++) slots[i] = i;
+		this.slots = slots;
 	}
 	
 	public BaseRecipeHandler getRecipeHandler() {
@@ -88,14 +82,6 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 			pushEnergy();
 		}
 		if (shouldUpdate) markDirty();
-	}
-	
-	public void tick() {
-		if (tickCount > NCConfig.generator_update_rate) tickCount = 0; else tickCount++;
-	}
-	
-	public boolean shouldCheck() {
-		return tickCount > NCConfig.generator_update_rate;
 	}
 	
 	public boolean isGenerating() {
@@ -238,6 +224,14 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 		return input;
 	}
 	
+	public ArrayList<ItemStack> inputItemStacksExcludingSlot(int slot) {
+		ArrayList<ItemStack> stacks = new ArrayList<ItemStack>();
+		for (int i = 0; i < inputSize; i++) {
+			if (i != slot) stacks.add(inventoryStacks.get(i));
+		}
+		return stacks;
+	}
+	
 	public Object[] consumedInputs() {
 		Object[] input = new Object[inputSize];
 		for (int i = 0; i < inputSize; i++) {
@@ -283,24 +277,24 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {
 		if (stack == ItemStack.EMPTY) return false;
 		else if (slot >= inputSize && slot < inputSize + outputSize) return false;
-		return NCConfig.smart_processor_input ? getRecipeHandler().isValidInput(stack, inputs()) : getRecipeHandler().isValidInput(stack);
+		return NCConfig.smart_processor_input ? getRecipeHandler().isValidInput(stack, inventoryStacks.get(slot), inputItemStacksExcludingSlot(slot)) : getRecipeHandler().isValidInput(stack);
 	}
 	
 	// SidedInventory
 	
 	@Override
 	public int[] getSlotsForFace(EnumFacing side) {
-		return side == EnumFacing.DOWN ? bottomSlots : (side == EnumFacing.UP ? topSlots : sideSlots);
+		return slots;
 	}
 
 	@Override
 	public boolean canInsertItem(int slot, ItemStack stack, EnumFacing direction) {
-		return isItemValidForSlot(slot, stack) && direction != EnumFacing.DOWN;
+		return isItemValidForSlot(slot, stack);
 	}
 
 	@Override
 	public boolean canExtractItem(int slot, ItemStack stack, EnumFacing direction) {
-		return direction != EnumFacing.UP && slot >= inputSize && slot < inputSize + outputSize;
+		return slot >= inputSize && slot < inputSize + outputSize;
 	}
 		
 	// NBT

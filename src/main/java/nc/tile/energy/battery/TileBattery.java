@@ -33,10 +33,11 @@ public class TileBattery extends TileEnergy implements IBattery, IInterfaceable,
 	@Override
 	public void update() {
 		super.update();
-		if(!world.isRemote) {
-			pushEnergy();
+		pushEnergy();
+		if(!world.isRemote && shouldCheck()) {
 			spreadEnergy();
 		}
+		tick();
 	}
 
 	@Override

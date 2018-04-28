@@ -1,8 +1,6 @@
 {
-    "parent": "block/orientable",
+    "parent": "nuclearcraft:block/processor",
     "textures": {
-        "top": "nuclearcraft:blocks/electrolyser_top",
-        "front": "nuclearcraft:blocks/electrolyser_front_on",
-        "side": "nuclearcraft:blocks/electrolyser_side"
+        "front": "nuclearcraft:blocks/electrolyser_front_on"
     }
 }

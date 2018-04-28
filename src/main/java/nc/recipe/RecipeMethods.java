@@ -221,36 +221,42 @@ public abstract class RecipeMethods<T extends IRecipe> implements IRecipeGetter<
 		return false;
 	}
 	
-	public boolean isValidInput(Object object, Object... objects) {
-		List others = new ArrayList(Arrays.asList(objects));
-		others.removeAll(Collections.singleton(null));
-		others.removeAll(Collections.singleton(ItemStack.EMPTY));
-		if (others.size() <= 0) return isValidInput(object);
-		ArrayList<ArrayList<T>> recipeLists = Lists.<ArrayList<T>>newArrayList();
+	// Smart item insertion
+	public boolean isValidInput(ItemStack stack, ItemStack slotStack, ArrayList<ItemStack> otherInputs) {
+		if (otherInputs.isEmpty()) return isValidInput(stack);
 		
-		ArrayList<T> startingRecipeList = new ArrayList(recipes);
+		ArrayList<ItemStack> otherStacks = new ArrayList<ItemStack>();
+		for (ItemStack otherInput : otherInputs) {
+			if (!otherInput.isEmpty()) otherStacks.add(otherInput);
+		}
+		if (otherStacks.isEmpty()) return isValidInput(stack);
+		
+		ArrayList<ItemStack> allStacks = Lists.newArrayList(stack);
+		allStacks.addAll(otherStacks);
+		
+		ArrayList<T> recipeList = new ArrayList(recipes);
 		recipeLoop: for (T recipe : recipes) {
-			for (IIngredient input : recipe.inputs()) {
-				if (input.matches(object, SorptionType.NEUTRAL)) continue recipeLoop;
-			}
-			startingRecipeList.remove(recipe);
-		}
-		
-		recipeLists.add(new ArrayList(startingRecipeList));
-		
-		for (int i = 0; i < others.size(); i++) {
-			if (recipeLists.get(i).isEmpty()) return false;
-			
-			recipeLists.add(new ArrayList(recipeLists.get(i)));
-			recipeLoop: for (T recipe : recipeLists.get(i)) {
+			objLoop: for (ItemStack obj : allStacks) {
 				for (IIngredient input : recipe.inputs()) {
-					if (input.matches(others.get(i), SorptionType.NEUTRAL)) continue recipeLoop;
+					if (input.matches(obj, SorptionType.NEUTRAL)) continue objLoop;
 				}
-				recipeLists.get(i + 1).remove(recipe);
+				recipeList.remove(recipe);
+				continue recipeLoop;
 			}
 		}
 		
-		return !recipeLists.get(others.size()).isEmpty();
+		for (T recipe : recipeList) {
+			for (IIngredient input : recipe.inputs()) {
+				if (input.matches(stack, SorptionType.NEUTRAL)) {
+					for (ItemStack other : otherStacks) {
+						if (input.matches(other, SorptionType.NEUTRAL)) return false;
+					}
+					return true;
+				}
+			}
+		}
+		
+		return false;
 	}
 	
 	public boolean isValidInput(Object object) {

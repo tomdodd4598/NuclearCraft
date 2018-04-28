@@ -16,6 +16,7 @@ import nc.tile.internal.energy.EnergyConnection;
 import nc.tile.internal.fluid.Tank;
 import nc.util.BlockFinder;
 import nc.util.BlockPosHelper;
+import nc.util.EnergyHelper;
 import nc.util.Lang;
 import nc.util.MaterialHelper;
 import net.minecraft.block.material.Material;
@@ -41,7 +42,7 @@ public class TileFusionCore extends TileFluidGenerator /*implements SimpleCompon
 	public double rateMultiplier, processTime, processPower;
 	public double heat = ROOM_TEMP, efficiency, cooling, heatChange; // cooling and heatChange are in K, not kK
 	
-	public int soundCount, tickCountCoolingCheck;
+	public int soundCount;
 	public int size = 1;
 	
 	public int complete;
@@ -74,11 +75,11 @@ public class TileFusionCore extends TileFluidGenerator /*implements SimpleCompon
 		tick();
 		setSize();
 		if(!world.isRemote) {
-			if (shouldCheckCooling() && NCConfig.fusion_active_cooling) setCooling();
+			if (shouldCheck() && NCConfig.fusion_active_cooling) setCooling();
 			double previousHeat = heat;
 			run();
-			heating();
-			cooling();
+			doHeating();
+			doCooling();
 			heatChange = 1000*(heat - previousHeat);
 			plasma();
 			if (overheat()) return;
@@ -94,6 +95,11 @@ public class TileFusionCore extends TileFluidGenerator /*implements SimpleCompon
 			playSounds();
 		}
 		if (shouldUpdate) markDirty();
+	}
+	
+	@Override
+	public void tick() {
+		tickCount++; tickCount %= 4*NCConfig.machine_update_rate;
 	}
 	
 	public boolean overheat() {
@@ -115,21 +121,6 @@ public class TileFusionCore extends TileFluidGenerator /*implements SimpleCompon
 			world.removeTileEntity(pos);
 			world.setBlockToAir(pos);
 		}
-	}
-	
-	@Override
-	public void tick() {
-		tickCount++; tickCount %= NCConfig.fusion_update_rate;
-		tickCountCoolingCheck++; tickCountCoolingCheck %= NCConfig.fission_update_rate*2;
-	}
-	
-	@Override
-	public boolean shouldCheck() {
-		return tickCount == 0;
-	}
-	
-	public boolean shouldCheckCooling() {
-		return tickCountCoolingCheck == 0;
 	}
 	
 	@Override
@@ -208,7 +199,6 @@ public class TileFusionCore extends TileFluidGenerator /*implements SimpleCompon
 	public void updateBlockType() {
 		super.updateBlockType();
 		tickCount = -1;
-		tickCountCoolingCheck = -1;
 	}
 	
 	@Override
@@ -258,7 +248,7 @@ public class TileFusionCore extends TileFluidGenerator /*implements SimpleCompon
 
 	@Override
 	public int getSourceTier() {
-		return 4;
+		return EnergyHelper.getEUTier(getProcessPower());
 	}
 	
 	@Override
@@ -452,7 +442,7 @@ public class TileFusionCore extends TileFluidGenerator /*implements SimpleCompon
 	   	} else return 0;
 	}
 	
-	public void heating() {
+	public void doHeating() {
 		if (!canProcess()) {
 			double r = 0.0001D*getEnergyStorage().getEnergyStored()/((double) ringRadius());
 			getEnergyStorage().setEnergyStored(0);
@@ -479,26 +469,26 @@ public class TileFusionCore extends TileFluidGenerator /*implements SimpleCompon
 				cooling = 0D;
 				return;
 			}
-			double cooled = 0;
+			double cooled = 0; // in kK
+			double currentHeat = heat;
 			for (BlockPos pos : posList) {
 				Tank tank = ((TileActiveCooler) world.getTileEntity(pos)).getTanks()[0];
-				int fluidAmount = tank.getFluidAmount();
-				double currentHeat = heat;
+				int fluidAmount = Math.min(tank.getFluidAmount(), 4*NCConfig.machine_update_rate*NCConfig.active_cooler_max_rate/20);
 				if (currentHeat > ROOM_TEMP) {
-					double cool_mult = posList.contains(getOpposite(pos)) ? NCConfig.fusion_heat_generation : 0.25D*NCConfig.fusion_heat_generation;
+					double cool_mult = posList.contains(getOpposite(pos)) ? NCConfig.fusion_heat_generation*4 : NCConfig.fusion_heat_generation;
 					for (int i = 1; i < CoolerType.values().length; i++) if (tank.getFluidName() == CoolerType.values()[i].getFluidName()) {
-						cooled += (NCConfig.fission_active_cooling_rate[i - 1]*fluidAmount*cool_mult*2D*NCConfig.fission_update_rate)/(size*5000D);
+						cooled += (NCConfig.fusion_active_cooling_rate[i - 1]*fluidAmount*cool_mult)/(size*1000D);
 						break;
 					}
 					currentHeat -= cooled;
 					if (currentHeat > ROOM_TEMP) ((TileActiveCooler) world.getTileEntity(pos)).getTanks()[0].drain(fluidAmount, true);
 				}
 			}
-			cooling = 1000D*cooled/(2D*NCConfig.fission_update_rate);
+			cooling = 1000D*cooled/(4*NCConfig.machine_update_rate);
 		}
 	}
 	
-	public void cooling() {
+	public void doCooling() {
 		double coolingkK = cooling/1000;
 		if (heat - coolingkK < ROOM_TEMP) heat = ROOM_TEMP;
 		else heat -= coolingkK;

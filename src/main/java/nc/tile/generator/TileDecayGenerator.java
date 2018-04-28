@@ -27,7 +27,7 @@ public class TileDecayGenerator extends TileEnergy implements IInterfaceable {
 	public final NCRecipes.Type decayGenRecipeType;
 	
 	public TileDecayGenerator() {
-		super(NCConfig.generator_rf_per_eu*maxPower(), energyConnectionAll(EnergyConnection.OUT));
+		super(maxPower(), energyConnectionAll(EnergyConnection.OUT));
 		decayGenRecipeType = NCRecipes.Type.DECAY_GENERATOR;
 	}
 	
@@ -44,11 +44,6 @@ public class TileDecayGenerator extends TileEnergy implements IInterfaceable {
 		}
 	}
 	
-	public boolean shouldCheck() {
-		if (tickCount > NCConfig.generator_update_rate) tickCount = 0; else tickCount++;
-		return tickCount > NCConfig.generator_update_rate;
-	}
-	
 	private static int maxPower() {
 		int max = 0;
 		ArrayList<IRecipe> recipes = NCRecipes.Type.DECAY_GENERATOR.getRecipeHandler().getRecipes();
@@ -58,7 +53,7 @@ public class TileDecayGenerator extends TileEnergy implements IInterfaceable {
 				max = Math.max(max, (int) recipe.extras().get(1));
 			}
 		}
-		return 6*max*NCConfig.generator_update_rate/20;
+		return 6*max*NCConfig.machine_update_rate/20;
 	}
 	
 	public int getGenerated() {
@@ -85,7 +80,7 @@ public class TileDecayGenerator extends TileEnergy implements IInterfaceable {
 	
 	@Override
 	public int getSourceTier() {
-		return EnergyHelper.getEUSourceTier(maxPower());
+		return EnergyHelper.getEUTier(maxPower());
 	}
 	
 	@Override
@@ -102,15 +97,15 @@ public class TileDecayGenerator extends TileEnergy implements IInterfaceable {
 	public double getRecipeLifetime(BlockPos pos) {
 		IRecipe recipe = getDecayRecipe(pos);
 		if (recipe == null) return 1200D;
-		if (recipe.extras().get(0) instanceof Double) return ((double) recipe.extras().get(0))/NCConfig.generator_update_rate;
-		return 1200D/NCConfig.generator_update_rate;
+		if (recipe.extras().get(0) instanceof Double) return ((double) recipe.extras().get(0))/NCConfig.machine_update_rate;
+		return 1200D/NCConfig.machine_update_rate;
 	}
 	
 	public int getRecipePower(BlockPos pos) {
 		IRecipe recipe = getDecayRecipe(pos);
 		if (recipe == null) return 5;
-		if (recipe.extras().get(1) instanceof Integer) return ((int) recipe.extras().get(1))*NCConfig.generator_update_rate/20;
-		return 5*NCConfig.generator_update_rate/20;
+		if (recipe.extras().get(1) instanceof Integer) return ((int) recipe.extras().get(1))*NCConfig.machine_update_rate/20;
+		return 5*NCConfig.machine_update_rate/20;
 	}
 	
 	public ItemStack getOutput(BlockPos pos) {

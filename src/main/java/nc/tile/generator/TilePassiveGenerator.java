@@ -11,13 +11,13 @@ public abstract class TilePassiveGenerator extends TileEnergy implements IInterf
 	
 	public final int power;
 	
-	public TilePassiveGenerator(int capacity) {
-		this(capacity, capacity);
+	public TilePassiveGenerator(int maxPowerGen) {
+		this(maxPowerGen, maxPowerGen);
 	}
 
-	public TilePassiveGenerator(int capacity, int maxTransfer) {
-		super(2*capacity*NCConfig.generator_rf_per_eu, maxTransfer*NCConfig.generator_rf_per_eu, energyConnectionAll(EnergyConnection.OUT));
-		power = capacity;
+	public TilePassiveGenerator(int maxPowerGen, int maxTransfer) {
+		super(2*maxPowerGen, maxTransfer, energyConnectionAll(EnergyConnection.OUT));
+		power = maxPowerGen;
 	}
 	
 	@Override
@@ -34,7 +34,7 @@ public abstract class TilePassiveGenerator extends TileEnergy implements IInterf
 	
 	@Override
 	public int getSourceTier() {
-		return EnergyHelper.getEUSourceTier(power);
+		return EnergyHelper.getEUTier(power);
 	}
 	
 	@Override

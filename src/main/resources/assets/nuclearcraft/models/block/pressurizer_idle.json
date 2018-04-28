@@ -1,8 +1,6 @@
 {
-    "parent": "block/orientable",
+    "parent": "nuclearcraft:block/processor",
     "textures": {
-        "top": "nuclearcraft:blocks/pressurizer_top",
-        "front": "nuclearcraft:blocks/pressurizer_front_off",
-        "side": "nuclearcraft:blocks/pressurizer_side"
+        "front": "nuclearcraft:blocks/pressurizer_front_off"
     }
 }

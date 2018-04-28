@@ -49,6 +49,9 @@ public class BlockNuclearFurnace extends BlockContainer implements ITileEntityPr
 		setDefaultState(blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
 		this.isBurning = isBurning;
 		if (!isBurning) setCreativeTab(CommonProxy.TAB_MACHINES);
+		setHarvestLevel("pickaxe", 0);
+		setHardness(2F);
+		setResistance(15F);
 	}
 	
 	@Override

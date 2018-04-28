@@ -12,10 +12,6 @@ import net.minecraftforge.items.wrapper.SidedInvWrapper;
 
 public abstract class TileEnergyFluidSidedInventory extends TileEnergyFluidInventory implements ISidedInventory {
 	
-	public int[] topSlots;
-	public int[] sideSlots;
-	public int[] bottomSlots;
-	
 	public TileEnergyFluidSidedInventory(String name, int size, int capacity, EnergyConnection[] energyConnections, int fluidCapacity, FluidConnection fluidConnection, String[]... allowedFluids) {
 		super(name, size, capacity, capacity, capacity, energyConnections, fluidCapacity, fluidCapacity, fluidCapacity, fluidConnection, allowedFluids);
 	}

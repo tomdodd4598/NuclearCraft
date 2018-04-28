@@ -52,17 +52,9 @@ public abstract class TileDummy extends TileEnergyFluidSidedInventory {
 	public void update() {
 		super.update();
 		if(!world.isRemote) {
-			if (shouldUpdate()) findMaster();
+			if (shouldCheck()) findMaster();
 			tick();
 		}
-	}
-	
-	public void tick() {
-		if (tickCount > updateRate) tickCount = 0; else tickCount++;
-	}
-	
-	public boolean shouldUpdate() {
-		return tickCount > updateRate;
 	}
 	
 	@Override

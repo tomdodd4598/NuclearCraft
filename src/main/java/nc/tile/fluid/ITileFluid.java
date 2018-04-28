@@ -7,7 +7,7 @@ import net.minecraftforge.fluids.FluidStack;
 
 public interface ITileFluid {
 	
-	public BlockPos getPos();
+	public BlockPos getFluidTilePos();
 	
 	public Tank[] getTanks();
 	

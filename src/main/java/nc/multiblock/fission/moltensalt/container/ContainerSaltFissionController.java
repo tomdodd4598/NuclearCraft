@@ -1,6 +1,6 @@
 package nc.multiblock.fission.moltensalt.container;
 
-import nc.multiblock.fission.moltensalt.tile.SaltFissionController;
+import nc.multiblock.fission.moltensalt.tile.SaltFissionReactor;
 import nc.multiblock.fission.moltensalt.tile.TileSaltFissionController;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -12,7 +12,7 @@ public class ContainerSaltFissionController extends Container {
 
 	public ContainerSaltFissionController(EntityPlayer player, TileSaltFissionController controller) {
 		tile = controller;
-		if (tile.getMultiblockController() !=null) ((SaltFissionController)tile.getMultiblockController()).beginUpdatingPlayer(player);
+		if (tile.getMultiblockController() !=null) ((SaltFissionReactor)tile.getMultiblockController()).beginUpdatingPlayer(player);
 	}
 
 	@Override
@@ -28,6 +28,6 @@ public class ContainerSaltFissionController extends Container {
 	@Override
 	public void onContainerClosed(EntityPlayer player) {
 		super.onContainerClosed(player);
-		if(tile != null && tile.getMultiblockController() != null) ((SaltFissionController)tile.getMultiblockController()).stopUpdatingPlayer(player);
+		if(tile != null && tile.getMultiblockController() != null) ((SaltFissionReactor)tile.getMultiblockController()).stopUpdatingPlayer(player);
 	}
 }

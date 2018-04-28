@@ -24,6 +24,8 @@ import net.minecraft.util.math.MathHelper;
 
 public abstract class TileItemProcessor extends TileEnergySidedInventory implements IInterfaceable, IBufferable, IGui {
 	
+	public final int[] slots;
+	
 	public final int defaultProcessTime;
 	public int baseProcessTime;
 	public final int baseProcessPower;
@@ -59,17 +61,9 @@ public abstract class TileItemProcessor extends TileEnergySidedInventory impleme
 		
 		this.recipeType = recipeType;
 		
-		int[] topSlots1 = new int[inSize];
-		for (int i = 0; i < topSlots1.length; i++) topSlots1[i] = i;
-		topSlots = topSlots1;
-		
-		int[] sideSlots1 = new int[inSize + outSize];
-		for (int i = 0; i < sideSlots1.length; i++) sideSlots1[i] = i;
-		sideSlots = sideSlots1;
-		
-		int[] bottomSlots1 = new int[outSize];
-		for (int i = inSize; i < inSize + bottomSlots1.length; i++) bottomSlots1[i - inSize] = i;
-		bottomSlots = bottomSlots1;
+		int[] slots = new int[inSize + outSize];
+		for (int i = 0; i < slots.length; i++) slots[i] = i;
+		this.slots = slots;
 	}
 	
 	public BaseRecipeHandler getRecipeHandler() {
@@ -109,14 +103,6 @@ public abstract class TileItemProcessor extends TileEnergySidedInventory impleme
 			}
 		}
 		if (shouldUpdate) markDirty();
-	}
-	
-	public void tick() {
-		if (tickCount > NCConfig.processor_update_rate) tickCount = 0; else tickCount++;
-	}
-	
-	public boolean shouldCheck() {
-		return tickCount > NCConfig.processor_update_rate;
 	}
 	
 	public boolean canProcess() {
@@ -272,6 +258,14 @@ public abstract class TileItemProcessor extends TileEnergySidedInventory impleme
 		return input;
 	}
 	
+	public ArrayList<ItemStack> inputItemStacksExcludingSlot(int slot) {
+		ArrayList<ItemStack> stacks = new ArrayList<ItemStack>();
+		for (int i = 0; i < inputSize; i++) {
+			if (i != slot) stacks.add(inventoryStacks.get(i));
+		}
+		return stacks;
+	}
+	
 	public int[] inputOrder() {
 		int[] inputOrder = new int[inputSize];
 		IRecipe recipe = getRecipe();
@@ -315,24 +309,24 @@ public abstract class TileItemProcessor extends TileEnergySidedInventory impleme
 			}
 		}
 		if (slot >= inputSize) return false;
-		return NCConfig.smart_processor_input ? getRecipeHandler().isValidInput(stack, inputs()) : getRecipeHandler().isValidInput(stack);
+		return NCConfig.smart_processor_input ? getRecipeHandler().isValidInput(stack, inventoryStacks.get(slot), inputItemStacksExcludingSlot(slot)) : getRecipeHandler().isValidInput(stack);
 	}
 	
 	// SidedInventory
 	
 	@Override
 	public int[] getSlotsForFace(EnumFacing side) {
-		return side == EnumFacing.DOWN ? bottomSlots : (side == EnumFacing.UP ? topSlots : sideSlots);
+		return slots;
 	}
 
 	@Override
 	public boolean canInsertItem(int slot, ItemStack stack, EnumFacing direction) {
-		return isItemValidForSlot(slot, stack) && direction != EnumFacing.DOWN;
+		return isItemValidForSlot(slot, stack);
 	}
 
 	@Override
 	public boolean canExtractItem(int slot, ItemStack stack, EnumFacing direction) {
-		return direction != EnumFacing.UP && slot >= inputSize && slot < inputSize + outputSize;
+		return slot >= inputSize && slot < inputSize + outputSize;
 	}
 	
 	// NBT

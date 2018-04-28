@@ -1,3 +1,18 @@
+v2.10k
+
+* Major texture overhaul!
+
+* Machines can accept and output items through all sides
+* Smart item insertion will now not allow slots to overflow, making automation much easier
+
+* Energy and fluid spread now happens less regularly to reduce lag
+
+* Split active cooling rates into two separate configs for fission and fusion
+* The RF to EU conversion ratio is now 16:1 in both directions
+* Combined all machine update rate configs into one universal config
+
+* Fixed Nuclear Furnace breaking instantly
+
 v2.10j
 
 + Added extra control buttons to Fusion Reactor

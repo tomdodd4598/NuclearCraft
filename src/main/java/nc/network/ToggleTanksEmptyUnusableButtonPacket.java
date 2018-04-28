@@ -23,7 +23,7 @@ public class ToggleTanksEmptyUnusableButtonPacket implements IMessage {
 	}
 	
 	public ToggleTanksEmptyUnusableButtonPacket(ITileFluid machine) {
-		pos = machine.getPos();
+		pos = machine.getFluidTilePos();
 		emptyUnusable = machine.getTanksEmptyUnusable();
 		messageValid = true;
 	}

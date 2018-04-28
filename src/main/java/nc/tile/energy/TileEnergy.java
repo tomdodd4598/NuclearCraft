@@ -16,6 +16,7 @@ import nc.tile.passive.ITilePassive;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
@@ -74,6 +75,11 @@ public abstract class TileEnergy extends NCTile implements ITileEnergy, IEnergyT
 		if (ModCheck.ic2Loaded()) removeTileFromENet();
 	}
 	
+	@Override
+	public BlockPos getEnergyTilePos() {
+		return pos;
+	}
+	
 	// Forge Energy
 	
 	@Override
@@ -98,28 +104,28 @@ public abstract class TileEnergy extends NCTile implements ITileEnergy, IEnergyT
 	@Override
 	@Optional.Method(modid = "ic2")
 	public double getOfferedEnergy() {
-		return Math.min(Math.pow(2, 2*getSourceTier() + 3), (double)getEnergyStorage().extractEnergy(getEnergyStorage().getMaxExtract(), true) / (double)NCConfig.generator_rf_per_eu);
+		return Math.min(Math.pow(2, 2*getSourceTier() + 3), (double)getEnergyStorage().extractEnergy(getEnergyStorage().getMaxExtract(), true) / (double)NCConfig.rf_per_eu);
 	}
 	
 	@Override
 	@Optional.Method(modid = "ic2")
 	public double getDemandedEnergy() {
-		return Math.min(Math.pow(2, 2*getSinkTier() + 3), (double)getEnergyStorage().receiveEnergy(getEnergyStorage().getMaxReceive(), true) / (double)NCConfig.processor_rf_per_eu);
+		return Math.min(Math.pow(2, 2*getSinkTier() + 3), (double)getEnergyStorage().receiveEnergy(getEnergyStorage().getMaxReceive(), true) / (double)NCConfig.rf_per_eu);
 	}
 	
 	/** The normal conversion is 4 RF to 1 EU, but for RF generators, this is OP, so the ratio is instead 16:1 */
 	@Override
 	@Optional.Method(modid = "ic2")
 	public void drawEnergy(double amount) {
-		getEnergyStorage().extractEnergy((int) (NCConfig.generator_rf_per_eu * amount), false);
+		getEnergyStorage().extractEnergy((int) (NCConfig.rf_per_eu * amount), false);
 	}
 
 	@Override
 	@Optional.Method(modid = "ic2")
 	public double injectEnergy(EnumFacing directionFrom, double amount, double voltage) {
-		int energyReceived = getEnergyStorage().receiveEnergy((int) ((double)NCConfig.processor_rf_per_eu * amount), true);
+		int energyReceived = getEnergyStorage().receiveEnergy((int) ((double)NCConfig.rf_per_eu * amount), true);
 		getEnergyStorage().receiveEnergy(energyReceived, false);
-		return amount - (double)energyReceived/(double)NCConfig.processor_rf_per_eu;
+		return amount - (double)energyReceived/(double)NCConfig.rf_per_eu;
 	}
 	
 	@Override
@@ -243,7 +249,7 @@ public abstract class TileEnergy extends NCTile implements ITileEnergy, IEnergyT
 		}
 		else if (ModCheck.ic2Loaded()) {
 			if (tile instanceof IEnergySink) {
-				getEnergyStorage().extractEnergy((int) Math.round(((IEnergySink) tile).injectEnergy(side.getOpposite(), getEnergyStorage().extractEnergy(getEnergyStorage().getMaxEnergyStored(), true) / NCConfig.generator_rf_per_eu, getSourceTier())), false);
+				getEnergyStorage().extractEnergy((int) Math.round(((IEnergySink) tile).injectEnergy(side.getOpposite(), getEnergyStorage().extractEnergy(getEnergyStorage().getMaxEnergyStored(), true) / NCConfig.rf_per_eu, getSourceTier())), false);
 			}
 		}
 	}

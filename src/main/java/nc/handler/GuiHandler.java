@@ -44,7 +44,7 @@ import nc.gui.processor.GuiSaltMixer;
 import nc.gui.processor.GuiSupercooler;
 import nc.multiblock.fission.moltensalt.container.ContainerSaltFissionController;
 import nc.multiblock.fission.moltensalt.gui.GuiSaltFissionController;
-import nc.multiblock.fission.moltensalt.tile.SaltFissionController;
+import nc.multiblock.fission.moltensalt.tile.SaltFissionReactor;
 import nc.multiblock.fission.moltensalt.tile.TileSaltFissionController;
 import nc.tile.generator.TileFissionController;
 import nc.tile.generator.TileFusionCore;
@@ -181,7 +181,7 @@ public class GuiHandler implements IGuiHandler {
 			case 101:
 				if (tile instanceof TileFusionCore) return new GuiFusionCore(player, (TileFusionCore) tile);
 			case 102:
-				if (tile instanceof TileSaltFissionController) return new GuiSaltFissionController((SaltFissionController) ((TileSaltFissionController) tile).getMultiblockController(), ((SaltFissionController) ((TileSaltFissionController) tile).getMultiblockController()).getContainer(player));
+				if (tile instanceof TileSaltFissionController) return new GuiSaltFissionController((SaltFissionReactor) ((TileSaltFissionController) tile).getMultiblockController(), ((SaltFissionReactor) ((TileSaltFissionController) tile).getMultiblockController()).getContainer(player));
 			}
 		}
 		

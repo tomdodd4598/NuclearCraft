@@ -1,8 +1,6 @@
 {
-    "parent": "block/orientable",
+    "parent": "nuclearcraft:block/processor",
     "textures": {
-        "top": "nuclearcraft:blocks/infuser_top",
-        "front": "nuclearcraft:blocks/infuser_front_on",
-        "side": "nuclearcraft:blocks/infuser_side"
+        "front": "nuclearcraft:blocks/infuser_front_on"
     }
 }

@@ -1,8 +1,10 @@
 {
-    "parent": "block/orientable",
-    "textures": {
-        "top": "nuclearcraft:blocks/nuclear_furnace_top",
-        "front": "nuclearcraft:blocks/nuclear_furnace_front_on",
-        "side": "nuclearcraft:blocks/nuclear_furnace_side"
-    }
+	"parent": "nuclearcraft:block/machine",
+	"textures": {
+		"top": "nuclearcraft:blocks/nuclear_furnace_top",
+		"bottom": "nuclearcraft:blocks/nuclear_furnace_side",
+		"front": "nuclearcraft:blocks/nuclear_furnace_front_on",
+		"side": "nuclearcraft:blocks/nuclear_furnace_side",
+		"back": "nuclearcraft:blocks/nuclear_furnace_side"
+	}
 }

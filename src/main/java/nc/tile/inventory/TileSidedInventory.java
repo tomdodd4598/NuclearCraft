@@ -11,11 +11,7 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
 
 public abstract class TileSidedInventory extends TileInventory implements ISidedInventory {
-	
-	public int[] topSlots;
-	public int[] sideSlots;
-	public int[] bottomSlots;
-			
+		
 	public TileSidedInventory(String name, int size) {
 		super(name, size);
 	}

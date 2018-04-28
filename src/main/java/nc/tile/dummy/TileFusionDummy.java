@@ -58,7 +58,7 @@ public abstract class TileFusionDummy extends TileDummy implements IBufferable/*
 	private BlockFinder finder;
 	
 	public TileFusionDummy(String name) {
-		super(name, NCConfig.fusion_update_rate, RecipeMethods.validFluids(NCRecipes.Type.FUSION));
+		super(name, NCConfig.machine_update_rate, RecipeMethods.validFluids(NCRecipes.Type.FUSION));
 	}
 	
 	@Override
@@ -74,7 +74,7 @@ public abstract class TileFusionDummy extends TileDummy implements IBufferable/*
 			pushEnergy();
 			pushFluid();
 		}
-		if (findAdjacentComparator() && shouldUpdate()) markDirty();
+		if (findAdjacentComparator() && shouldCheck()) markDirty();
 	}
 	
 	// Redstone Flux

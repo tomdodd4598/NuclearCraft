@@ -120,14 +120,6 @@ public abstract class TileFluidProcessor extends TileEnergyFluidSidedInventory i
 		if (shouldUpdate) markDirty();
 	}
 	
-	public void tick() {
-		if (tickCount > NCConfig.processor_update_rate) tickCount = 0; else tickCount++;
-	}
-	
-	public boolean shouldCheck() {
-		return tickCount > NCConfig.processor_update_rate;
-	}
-	
 	public boolean canProcess() {
 		return canProcessStacks();
 	}

@@ -19,12 +19,12 @@ public abstract class TileSaltFissionPartBase extends CuboidalMultiblockTileEnti
 	
 	@Override
 	public MultiblockControllerBase createNewMultiblock() {
-		return new SaltFissionController(getWorld());
+		return new SaltFissionReactor(getWorld());
 	}
 
 	@Override
 	public Class<? extends MultiblockControllerBase> getMultiblockControllerType() {
-		return SaltFissionController.class;
+		return SaltFissionReactor.class;
 	}
 	
 	@Override

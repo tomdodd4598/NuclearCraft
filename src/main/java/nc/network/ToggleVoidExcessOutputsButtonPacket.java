@@ -23,7 +23,7 @@ public class ToggleVoidExcessOutputsButtonPacket implements IMessage {
 	}
 	
 	public ToggleVoidExcessOutputsButtonPacket(ITileFluid machine) {
-		pos = machine.getPos();
+		pos = machine.getFluidTilePos();
 		voidExcessOutputs = machine.getVoidExcessOutputs();
 		messageValid = true;
 	}

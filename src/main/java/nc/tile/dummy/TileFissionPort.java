@@ -20,7 +20,7 @@ public class TileFissionPort extends TileDummy implements IInterfaceable {
 	private BlockFinder finder;
 
 	public TileFissionPort() {
-		super("fission_port", energyConnectionAll(EnergyConnection.OUT), NCConfig.fission_update_rate);
+		super("fission_port", energyConnectionAll(EnergyConnection.OUT), NCConfig.machine_update_rate);
 	}
 	
 	@Override
@@ -70,7 +70,7 @@ public class TileFissionPort extends TileDummy implements IInterfaceable {
 		}
 		else if (ModCheck.ic2Loaded()) {
 			if (tile instanceof IEnergySink) {
-				getEnergyStorage().extractEnergy((int) Math.round(((IEnergySink) tile).injectEnergy(side.getOpposite(), getEnergyStorage().extractEnergy(getCurrentEnergyStored()/getNumberOfPorts(), true) / NCConfig.generator_rf_per_eu, getSourceTier())), false);
+				getEnergyStorage().extractEnergy((int) Math.round(((IEnergySink) tile).injectEnergy(side.getOpposite(), getEnergyStorage().extractEnergy(getCurrentEnergyStored()/getNumberOfPorts(), true) / NCConfig.rf_per_eu, getSourceTier())), false);
 			}
 		}
 	}
