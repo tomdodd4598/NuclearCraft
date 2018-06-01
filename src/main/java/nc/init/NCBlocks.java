@@ -31,10 +31,12 @@ import nc.enumm.MetaEnums.CoolerType;
 import nc.enumm.MetaEnums.FissionBlockType;
 import nc.enumm.MetaEnums.IngotType;
 import nc.enumm.MetaEnums.OreType;
+import nc.multiblock.fission.moltensalt.block.BlockSaltFissionBeam;
 import nc.multiblock.fission.moltensalt.block.BlockSaltFissionController;
 import nc.multiblock.fission.moltensalt.block.BlockSaltFissionFrame;
 import nc.multiblock.fission.moltensalt.block.BlockSaltFissionGlass;
 import nc.multiblock.fission.moltensalt.block.BlockSaltFissionHeater;
+import nc.multiblock.fission.moltensalt.block.BlockSaltFissionModerator;
 import nc.multiblock.fission.moltensalt.block.BlockSaltFissionVent;
 import nc.multiblock.fission.moltensalt.block.BlockSaltFissionVessel;
 import nc.multiblock.fission.moltensalt.block.BlockSaltFissionWall;
@@ -114,6 +116,8 @@ public class NCBlocks {
 	public static Block extractor_active;
 	public static Block centrifuge_idle;
 	public static Block centrifuge_active;
+	public static Block rock_crusher_idle;
+	public static Block rock_crusher_active;
 	
 	public static Block machine_interface;
 	
@@ -153,9 +157,11 @@ public class NCBlocks {
 	public static Block salt_fission_wall;
 	public static Block salt_fission_glass;
 	public static Block salt_fission_frame;
+	public static Block salt_fission_beam;
 	public static Block salt_fission_vent;
 	public static Block salt_fission_vessel;
 	public static Block salt_fission_heater;
+	public static Block salt_fission_moderator;
 	
 	public static Block accelerator_electromagnet_idle;
 	public static Block accelerator_electromagnet_active;
@@ -205,44 +211,46 @@ public class NCBlocks {
 		
 		block_ice = new NCBlockIce("block_ice");
 		
-		nuclear_furnace_idle = new BlockNuclearFurnace(false);
-		nuclear_furnace_active = new BlockNuclearFurnace(true);
-		manufactory_idle = new BlockProcessor(ProcessorType.MANUFACTORY, false);
-		manufactory_active = new BlockProcessor(ProcessorType.MANUFACTORY, true);
-		isotope_separator_idle = new BlockProcessor(ProcessorType.ISOTOPE_SEPARATOR, false);
-		isotope_separator_active = new BlockProcessor(ProcessorType.ISOTOPE_SEPARATOR, true);
-		decay_hastener_idle = new BlockProcessor(ProcessorType.DECAY_HASTENER, false);
-		decay_hastener_active = new BlockProcessor(ProcessorType.DECAY_HASTENER, true);
-		fuel_reprocessor_idle = new BlockProcessor(ProcessorType.FUEL_REPROCESSOR, false);
-		fuel_reprocessor_active = new BlockProcessor(ProcessorType.FUEL_REPROCESSOR, true);
-		alloy_furnace_idle = new BlockProcessor(ProcessorType.ALLOY_FURNACE, false);
-		alloy_furnace_active = new BlockProcessor(ProcessorType.ALLOY_FURNACE, true);
-		infuser_idle = new BlockProcessor(ProcessorType.INFUSER, false);
-		infuser_active = new BlockProcessor(ProcessorType.INFUSER, true);
-		melter_idle = new BlockProcessor(ProcessorType.MELTER, false);
-		melter_active = new BlockProcessor(ProcessorType.MELTER, true);
-		supercooler_idle = new BlockProcessor(ProcessorType.SUPERCOOLER, false);
-		supercooler_active = new BlockProcessor(ProcessorType.SUPERCOOLER, true);
-		electrolyser_idle = new BlockProcessor(ProcessorType.ELECTROLYSER, false);
-		electrolyser_active = new BlockProcessor(ProcessorType.ELECTROLYSER, true);
-		irradiator_idle = new BlockProcessor(ProcessorType.IRRADIATOR, false);
-		irradiator_active = new BlockProcessor(ProcessorType.IRRADIATOR, true);
-		ingot_former_idle = new BlockProcessor(ProcessorType.INGOT_FORMER, false);
-		ingot_former_active = new BlockProcessor(ProcessorType.INGOT_FORMER, true);
-		pressurizer_idle = new BlockProcessor(ProcessorType.PRESSURIZER, false);
-		pressurizer_active = new BlockProcessor(ProcessorType.PRESSURIZER, true);
-		chemical_reactor_idle = new BlockProcessor(ProcessorType.CHEMICAL_REACTOR, false);
-		chemical_reactor_active = new BlockProcessor(ProcessorType.CHEMICAL_REACTOR, true);
-		salt_mixer_idle = new BlockProcessor(ProcessorType.SALT_MIXER, false);
-		salt_mixer_active = new BlockProcessor(ProcessorType.SALT_MIXER, true);
-		crystallizer_idle = new BlockProcessor(ProcessorType.CRYSTALLIZER, false);
-		crystallizer_active = new BlockProcessor(ProcessorType.CRYSTALLIZER, true);
-		dissolver_idle = new BlockProcessor(ProcessorType.DISSOLVER, false);
-		dissolver_active = new BlockProcessor(ProcessorType.DISSOLVER, true);
-		extractor_idle = new BlockProcessor(ProcessorType.EXTRACTOR, false);
-		extractor_active = new BlockProcessor(ProcessorType.EXTRACTOR, true);
-		centrifuge_idle = new BlockProcessor(ProcessorType.CENTRIFUGE, false);
-		centrifuge_active = new BlockProcessor(ProcessorType.CENTRIFUGE, true);
+		if (NCConfig.register_processor[0]) nuclear_furnace_idle = new BlockNuclearFurnace(false);
+		if (NCConfig.register_processor[0]) nuclear_furnace_active = new BlockNuclearFurnace(true);
+		if (NCConfig.register_processor[1]) manufactory_idle = new BlockProcessor(ProcessorType.MANUFACTORY, false);
+		if (NCConfig.register_processor[1]) manufactory_active = new BlockProcessor(ProcessorType.MANUFACTORY, true);
+		if (NCConfig.register_processor[2]) isotope_separator_idle = new BlockProcessor(ProcessorType.ISOTOPE_SEPARATOR, false);
+		if (NCConfig.register_processor[2]) isotope_separator_active = new BlockProcessor(ProcessorType.ISOTOPE_SEPARATOR, true);
+		if (NCConfig.register_processor[3]) decay_hastener_idle = new BlockProcessor(ProcessorType.DECAY_HASTENER, false);
+		if (NCConfig.register_processor[3]) decay_hastener_active = new BlockProcessor(ProcessorType.DECAY_HASTENER, true);
+		if (NCConfig.register_processor[4]) fuel_reprocessor_idle = new BlockProcessor(ProcessorType.FUEL_REPROCESSOR, false);
+		if (NCConfig.register_processor[4]) fuel_reprocessor_active = new BlockProcessor(ProcessorType.FUEL_REPROCESSOR, true);
+		if (NCConfig.register_processor[5]) alloy_furnace_idle = new BlockProcessor(ProcessorType.ALLOY_FURNACE, false);
+		if (NCConfig.register_processor[5]) alloy_furnace_active = new BlockProcessor(ProcessorType.ALLOY_FURNACE, true);
+		if (NCConfig.register_processor[6]) infuser_idle = new BlockProcessor(ProcessorType.INFUSER, false);
+		if (NCConfig.register_processor[6]) infuser_active = new BlockProcessor(ProcessorType.INFUSER, true);
+		if (NCConfig.register_processor[7]) melter_idle = new BlockProcessor(ProcessorType.MELTER, false);
+		if (NCConfig.register_processor[7]) melter_active = new BlockProcessor(ProcessorType.MELTER, true);
+		if (NCConfig.register_processor[8]) supercooler_idle = new BlockProcessor(ProcessorType.SUPERCOOLER, false);
+		if (NCConfig.register_processor[8]) supercooler_active = new BlockProcessor(ProcessorType.SUPERCOOLER, true);
+		if (NCConfig.register_processor[9]) electrolyser_idle = new BlockProcessor(ProcessorType.ELECTROLYSER, false);
+		if (NCConfig.register_processor[9]) electrolyser_active = new BlockProcessor(ProcessorType.ELECTROLYSER, true);
+		if (NCConfig.register_processor[10]) irradiator_idle = new BlockProcessor(ProcessorType.IRRADIATOR, false);
+		if (NCConfig.register_processor[10]) irradiator_active = new BlockProcessor(ProcessorType.IRRADIATOR, true);
+		if (NCConfig.register_processor[11]) ingot_former_idle = new BlockProcessor(ProcessorType.INGOT_FORMER, false);
+		if (NCConfig.register_processor[11]) ingot_former_active = new BlockProcessor(ProcessorType.INGOT_FORMER, true);
+		if (NCConfig.register_processor[12]) pressurizer_idle = new BlockProcessor(ProcessorType.PRESSURIZER, false);
+		if (NCConfig.register_processor[12]) pressurizer_active = new BlockProcessor(ProcessorType.PRESSURIZER, true);
+		if (NCConfig.register_processor[13]) chemical_reactor_idle = new BlockProcessor(ProcessorType.CHEMICAL_REACTOR, false);
+		if (NCConfig.register_processor[13]) chemical_reactor_active = new BlockProcessor(ProcessorType.CHEMICAL_REACTOR, true);
+		if (NCConfig.register_processor[14]) salt_mixer_idle = new BlockProcessor(ProcessorType.SALT_MIXER, false);
+		if (NCConfig.register_processor[14]) salt_mixer_active = new BlockProcessor(ProcessorType.SALT_MIXER, true);
+		if (NCConfig.register_processor[15]) crystallizer_idle = new BlockProcessor(ProcessorType.CRYSTALLIZER, false);
+		if (NCConfig.register_processor[15]) crystallizer_active = new BlockProcessor(ProcessorType.CRYSTALLIZER, true);
+		if (NCConfig.register_processor[16]) dissolver_idle = new BlockProcessor(ProcessorType.DISSOLVER, false);
+		if (NCConfig.register_processor[16]) dissolver_active = new BlockProcessor(ProcessorType.DISSOLVER, true);
+		if (NCConfig.register_processor[17]) extractor_idle = new BlockProcessor(ProcessorType.EXTRACTOR, false);
+		if (NCConfig.register_processor[17]) extractor_active = new BlockProcessor(ProcessorType.EXTRACTOR, true);
+		if (NCConfig.register_processor[18]) centrifuge_idle = new BlockProcessor(ProcessorType.CENTRIFUGE, false);
+		if (NCConfig.register_processor[18]) centrifuge_active = new BlockProcessor(ProcessorType.CENTRIFUGE, true);
+		if (NCConfig.register_processor[19]) rock_crusher_idle = new BlockProcessor(ProcessorType.ROCK_CRUSHER, false);
+		if (NCConfig.register_processor[19]) rock_crusher_active = new BlockProcessor(ProcessorType.ROCK_CRUSHER, true);
 		
 		machine_interface = new BlockMachineInterface(SimpleTileType.MACHINE_INTERFACE);
 		
@@ -282,30 +290,40 @@ public class NCBlocks {
 		salt_fission_wall = new BlockSaltFissionWall();
 		salt_fission_glass = new BlockSaltFissionGlass();
 		salt_fission_frame = new BlockSaltFissionFrame();
+		salt_fission_beam = new BlockSaltFissionBeam();
 		salt_fission_vent = new BlockSaltFissionVent();
 		salt_fission_vessel = new BlockSaltFissionVessel();
 		salt_fission_heater = new BlockSaltFissionHeater();
+		salt_fission_moderator = new BlockSaltFissionModerator();
 		
 		accelerator_electromagnet_idle = new BlockActivatable(ActivatableTileType.ACCELERATOR_ELECTROMAGNET, false);
 		accelerator_electromagnet_active = new BlockActivatable(ActivatableTileType.ACCELERATOR_ELECTROMAGNET, true);
 		electromagnet_supercooler_idle = new BlockActivatable(ActivatableTileType.ELECTROMAGNET_SUPERCOOLER, false);
 		electromagnet_supercooler_active = new BlockActivatable(ActivatableTileType.ELECTROMAGNET_SUPERCOOLER, true);
 		
-		helium_collector = new BlockSimpleTile(SimpleTileType.HELIUM_COLLECTOR);
-		helium_collector_compact = new BlockSimpleTile(SimpleTileType.HELIUM_COLLECTOR_COMPACT);
-		helium_collector_dense = new BlockSimpleTile(SimpleTileType.HELIUM_COLLECTOR_DENSE);
+		if (NCConfig.register_passive[0]) {
+			helium_collector = new BlockSimpleTile(SimpleTileType.HELIUM_COLLECTOR);
+			helium_collector_compact = new BlockSimpleTile(SimpleTileType.HELIUM_COLLECTOR_COMPACT);
+			helium_collector_dense = new BlockSimpleTile(SimpleTileType.HELIUM_COLLECTOR_DENSE);
+		}
 		
-		cobblestone_generator = new BlockSimpleTile(SimpleTileType.COBBLESTONE_GENERATOR);
-		cobblestone_generator_compact = new BlockSimpleTile(SimpleTileType.COBBLESTONE_GENERATOR_COMPACT);
-		cobblestone_generator_dense = new BlockSimpleTile(SimpleTileType.COBBLESTONE_GENERATOR_DENSE);
+		if (NCConfig.register_passive[1]) {
+			cobblestone_generator = new BlockSimpleTile(SimpleTileType.COBBLESTONE_GENERATOR);
+			cobblestone_generator_compact = new BlockSimpleTile(SimpleTileType.COBBLESTONE_GENERATOR_COMPACT);
+			cobblestone_generator_dense = new BlockSimpleTile(SimpleTileType.COBBLESTONE_GENERATOR_DENSE);
+		}
 		
-		water_source = new BlockSimpleTile(SimpleTileType.WATER_SOURCE);
-		water_source_compact = new BlockSimpleTile(SimpleTileType.WATER_SOURCE_COMPACT);
-		water_source_dense = new BlockSimpleTile(SimpleTileType.WATER_SOURCE_DENSE);
+		if (NCConfig.register_passive[2]) {
+			water_source = new BlockSimpleTile(SimpleTileType.WATER_SOURCE);
+			water_source_compact = new BlockSimpleTile(SimpleTileType.WATER_SOURCE_COMPACT);
+			water_source_dense = new BlockSimpleTile(SimpleTileType.WATER_SOURCE_DENSE);
+		}
 		
-		nitrogen_collector = new BlockSimpleTile(SimpleTileType.NITROGEN_COLLECTOR);
-		nitrogen_collector_compact = new BlockSimpleTile(SimpleTileType.NITROGEN_COLLECTOR_COMPACT);
-		nitrogen_collector_dense = new BlockSimpleTile(SimpleTileType.NITROGEN_COLLECTOR_DENSE);
+		if (NCConfig.register_passive[3]) {
+			nitrogen_collector = new BlockSimpleTile(SimpleTileType.NITROGEN_COLLECTOR);
+			nitrogen_collector_compact = new BlockSimpleTile(SimpleTileType.NITROGEN_COLLECTOR_COMPACT);
+			nitrogen_collector_dense = new BlockSimpleTile(SimpleTileType.NITROGEN_COLLECTOR_DENSE);
+		}
 		
 		glowing_mushroom = new NCBlockMushroom("glowing_mushroom");
 		dry_earth = new NCBlock("dry_earth", Material.ROCK).setCreativeTab(CommonProxy.TAB_BASE_BLOCK_MATERIALS);
@@ -335,44 +353,46 @@ public class NCBlocks {
 		
 		registerBlock(block_ice);
 		
-		registerBlock(nuclear_furnace_idle);
-		registerBlock(nuclear_furnace_active);
-		registerBlock(manufactory_idle);
-		registerBlock(manufactory_active);
-		registerBlock(isotope_separator_idle);
-		registerBlock(isotope_separator_active);
-		registerBlock(decay_hastener_idle);
-		registerBlock(decay_hastener_active);
-		registerBlock(fuel_reprocessor_idle);
-		registerBlock(fuel_reprocessor_active);
-		registerBlock(alloy_furnace_idle);
-		registerBlock(alloy_furnace_active);
-		registerBlock(infuser_idle);
-		registerBlock(infuser_active);
-		registerBlock(melter_idle);
-		registerBlock(melter_active);
-		registerBlock(supercooler_idle);
-		registerBlock(supercooler_active);
-		registerBlock(electrolyser_idle);
-		registerBlock(electrolyser_active);
-		registerBlock(irradiator_idle);
-		registerBlock(irradiator_active);
-		registerBlock(ingot_former_idle);
-		registerBlock(ingot_former_active);
-		registerBlock(pressurizer_idle);
-		registerBlock(pressurizer_active);
-		registerBlock(chemical_reactor_idle);
-		registerBlock(chemical_reactor_active);
-		registerBlock(salt_mixer_idle);
-		registerBlock(salt_mixer_active);
-		registerBlock(crystallizer_idle);
-		registerBlock(crystallizer_active);
-		registerBlock(dissolver_idle);
-		registerBlock(dissolver_active);
-		registerBlock(extractor_idle);
-		registerBlock(extractor_active);
-		registerBlock(centrifuge_idle);
-		registerBlock(centrifuge_active);
+		if (NCConfig.register_processor[0]) registerBlock(nuclear_furnace_idle);
+		if (NCConfig.register_processor[0]) registerBlock(nuclear_furnace_active);
+		if (NCConfig.register_processor[1]) registerBlock(manufactory_idle);
+		if (NCConfig.register_processor[1]) registerBlock(manufactory_active);
+		if (NCConfig.register_processor[2]) registerBlock(isotope_separator_idle);
+		if (NCConfig.register_processor[2]) registerBlock(isotope_separator_active);
+		if (NCConfig.register_processor[3]) registerBlock(decay_hastener_idle);
+		if (NCConfig.register_processor[3]) registerBlock(decay_hastener_active);
+		if (NCConfig.register_processor[4]) registerBlock(fuel_reprocessor_idle);
+		if (NCConfig.register_processor[4]) registerBlock(fuel_reprocessor_active);
+		if (NCConfig.register_processor[5]) registerBlock(alloy_furnace_idle);
+		if (NCConfig.register_processor[5]) registerBlock(alloy_furnace_active);
+		if (NCConfig.register_processor[6]) registerBlock(infuser_idle);
+		if (NCConfig.register_processor[6]) registerBlock(infuser_active);
+		if (NCConfig.register_processor[7]) registerBlock(melter_idle);
+		if (NCConfig.register_processor[7]) registerBlock(melter_active);
+		if (NCConfig.register_processor[8]) registerBlock(supercooler_idle);
+		if (NCConfig.register_processor[8]) registerBlock(supercooler_active);
+		if (NCConfig.register_processor[9]) registerBlock(electrolyser_idle);
+		if (NCConfig.register_processor[9]) registerBlock(electrolyser_active);
+		if (NCConfig.register_processor[10]) registerBlock(irradiator_idle);
+		if (NCConfig.register_processor[10]) registerBlock(irradiator_active);
+		if (NCConfig.register_processor[11]) registerBlock(ingot_former_idle);
+		if (NCConfig.register_processor[11]) registerBlock(ingot_former_active);
+		if (NCConfig.register_processor[12]) registerBlock(pressurizer_idle);
+		if (NCConfig.register_processor[12]) registerBlock(pressurizer_active);
+		if (NCConfig.register_processor[13]) registerBlock(chemical_reactor_idle);
+		if (NCConfig.register_processor[13]) registerBlock(chemical_reactor_active);
+		if (NCConfig.register_processor[14]) registerBlock(salt_mixer_idle);
+		if (NCConfig.register_processor[14]) registerBlock(salt_mixer_active);
+		if (NCConfig.register_processor[15]) registerBlock(crystallizer_idle);
+		if (NCConfig.register_processor[15]) registerBlock(crystallizer_active);
+		if (NCConfig.register_processor[16]) registerBlock(dissolver_idle);
+		if (NCConfig.register_processor[16]) registerBlock(dissolver_active);
+		if (NCConfig.register_processor[17]) registerBlock(extractor_idle);
+		if (NCConfig.register_processor[17]) registerBlock(extractor_active);
+		if (NCConfig.register_processor[18]) registerBlock(centrifuge_idle);
+		if (NCConfig.register_processor[18]) registerBlock(centrifuge_active);
+		if (NCConfig.register_processor[19]) registerBlock(rock_crusher_idle);
+		if (NCConfig.register_processor[19]) registerBlock(rock_crusher_active);
 		
 		registerBlock(machine_interface);
 		
@@ -412,30 +432,40 @@ public class NCBlocks {
 		registerBlock(salt_fission_wall);
 		registerBlock(salt_fission_glass);
 		registerBlock(salt_fission_frame);
+		registerBlock(salt_fission_beam);
 		registerBlock(salt_fission_vent);
 		registerBlock(salt_fission_vessel);
 		registerBlock(salt_fission_heater);
+		registerBlock(salt_fission_moderator);
 		
 		registerBlock(accelerator_electromagnet_idle, InfoHelper.formattedInfo(infoLine("accelerator_electromagnet_idle"), UnitHelper.ratePrefix(NCConfig.accelerator_electromagnet_power, 5, "RF")));
 		registerBlock(accelerator_electromagnet_active);
 		registerBlock(electromagnet_supercooler_idle, InfoHelper.formattedInfo(infoLine("electromagnet_supercooler_idle"), UnitHelper.ratePrefix(NCConfig.accelerator_electromagnet_power, 5, "RF"), UnitHelper.ratePrefix(NCConfig.accelerator_supercooler_coolant, 5, "B", -1)));
 		registerBlock(electromagnet_supercooler_active);
 		
-		registerBlock(helium_collector, InfoHelper.formattedInfo(infoLine("helium_collector"), UnitHelper.ratePrefix(NCConfig.processor_passive_rate[0], 5, "B", -1)));
-		registerBlock(helium_collector_compact, InfoHelper.formattedInfo(infoLine("helium_collector"), UnitHelper.ratePrefix(NCConfig.processor_passive_rate[0]*8, 5, "B", -1)));
-		registerBlock(helium_collector_dense, InfoHelper.formattedInfo(infoLine("helium_collector"), UnitHelper.ratePrefix(NCConfig.processor_passive_rate[0]*64, 5, "B", -1)));
+		if (NCConfig.register_passive[0]) {
+			registerBlock(helium_collector, InfoHelper.formattedInfo(infoLine("helium_collector"), UnitHelper.ratePrefix(NCConfig.processor_passive_rate[0], 5, "B", -1)));
+			registerBlock(helium_collector_compact, InfoHelper.formattedInfo(infoLine("helium_collector"), UnitHelper.ratePrefix(NCConfig.processor_passive_rate[0]*8, 5, "B", -1)));
+			registerBlock(helium_collector_dense, InfoHelper.formattedInfo(infoLine("helium_collector"), UnitHelper.ratePrefix(NCConfig.processor_passive_rate[0]*64, 5, "B", -1)));
+		}
 		
-		registerBlock(cobblestone_generator, InfoHelper.formattedInfo(infoLine("cobblestone_generator"), UnitHelper.ratePrefix(NCConfig.processor_passive_rate[1], 5, "Cobblestone")));
-		registerBlock(cobblestone_generator_compact, InfoHelper.formattedInfo(infoLine("cobblestone_generator"), UnitHelper.ratePrefix(NCConfig.processor_passive_rate[1]*8, 5, "Cobblestone")));
-		registerBlock(cobblestone_generator_dense, InfoHelper.formattedInfo(infoLine("cobblestone_generator"), UnitHelper.ratePrefix(NCConfig.processor_passive_rate[1]*64, 5, "Cobblestone")));
+		if (NCConfig.register_passive[1]) {
+			registerBlock(cobblestone_generator, InfoHelper.formattedInfo(infoLine("cobblestone_generator"), UnitHelper.ratePrefix(NCConfig.processor_passive_rate[1], 5, "Cobblestone")));
+			registerBlock(cobblestone_generator_compact, InfoHelper.formattedInfo(infoLine("cobblestone_generator"), UnitHelper.ratePrefix(NCConfig.processor_passive_rate[1]*8, 5, "Cobblestone")));
+			registerBlock(cobblestone_generator_dense, InfoHelper.formattedInfo(infoLine("cobblestone_generator"), UnitHelper.ratePrefix(NCConfig.processor_passive_rate[1]*64, 5, "Cobblestone")));
+		}
 		
-		registerBlock(water_source, InfoHelper.formattedInfo(infoLine("water_source"), UnitHelper.ratePrefix(NCConfig.processor_passive_rate[2], 5, "B", -1)));
-		registerBlock(water_source_compact, InfoHelper.formattedInfo(infoLine("water_source"), UnitHelper.ratePrefix(NCConfig.processor_passive_rate[2]*8, 5, "B", -1)));
-		registerBlock(water_source_dense, InfoHelper.formattedInfo(infoLine("water_source"), UnitHelper.ratePrefix(NCConfig.processor_passive_rate[2]*64, 5, "B", -1)));
+		if (NCConfig.register_passive[2]) {
+			registerBlock(water_source, InfoHelper.formattedInfo(infoLine("water_source"), UnitHelper.ratePrefix(NCConfig.processor_passive_rate[2], 5, "B", -1)));
+			registerBlock(water_source_compact, InfoHelper.formattedInfo(infoLine("water_source"), UnitHelper.ratePrefix(NCConfig.processor_passive_rate[2]*8, 5, "B", -1)));
+			registerBlock(water_source_dense, InfoHelper.formattedInfo(infoLine("water_source"), UnitHelper.ratePrefix(NCConfig.processor_passive_rate[2]*64, 5, "B", -1)));
+		}
 		
-		registerBlock(nitrogen_collector, InfoHelper.formattedInfo(infoLine("nitrogen_collector"), UnitHelper.ratePrefix(NCConfig.processor_passive_rate[3], 5, "B", -1)));
-		registerBlock(nitrogen_collector_compact, InfoHelper.formattedInfo(infoLine("nitrogen_collector"), UnitHelper.ratePrefix(NCConfig.processor_passive_rate[3]*8, 5, "B", -1)));
-		registerBlock(nitrogen_collector_dense, InfoHelper.formattedInfo(infoLine("nitrogen_collector"), UnitHelper.ratePrefix(NCConfig.processor_passive_rate[3]*64, 5, "B", -1)));
+		if (NCConfig.register_passive[3]) {
+			registerBlock(nitrogen_collector, InfoHelper.formattedInfo(infoLine("nitrogen_collector"), UnitHelper.ratePrefix(NCConfig.processor_passive_rate[3], 5, "B", -1)));
+			registerBlock(nitrogen_collector_compact, InfoHelper.formattedInfo(infoLine("nitrogen_collector"), UnitHelper.ratePrefix(NCConfig.processor_passive_rate[3]*8, 5, "B", -1)));
+			registerBlock(nitrogen_collector_dense, InfoHelper.formattedInfo(infoLine("nitrogen_collector"), UnitHelper.ratePrefix(NCConfig.processor_passive_rate[3]*64, 5, "B", -1)));
+		}
 		
 		registerBlock(glowing_mushroom);
 		registerBlock(dry_earth);
@@ -477,44 +507,46 @@ public class NCBlocks {
 		
 		registerRender(block_ice);
 		
-		registerRender(nuclear_furnace_idle);
-		registerRender(nuclear_furnace_active);
-		registerRender(manufactory_idle);
-		registerRender(manufactory_active);
-		registerRender(isotope_separator_idle);
-		registerRender(isotope_separator_active);
-		registerRender(decay_hastener_idle);
-		registerRender(decay_hastener_active);
-		registerRender(fuel_reprocessor_idle);
-		registerRender(fuel_reprocessor_active);
-		registerRender(alloy_furnace_idle);
-		registerRender(alloy_furnace_active);
-		registerRender(infuser_idle);
-		registerRender(infuser_active);
-		registerRender(melter_idle);
-		registerRender(melter_active);
-		registerRender(supercooler_idle);
-		registerRender(supercooler_active);
-		registerRender(electrolyser_idle);
-		registerRender(electrolyser_active);
-		registerRender(irradiator_idle);
-		registerRender(irradiator_active);
-		registerRender(ingot_former_idle);
-		registerRender(ingot_former_active);
-		registerRender(pressurizer_idle);
-		registerRender(pressurizer_active);
-		registerRender(chemical_reactor_idle);
-		registerRender(chemical_reactor_active);
-		registerRender(salt_mixer_idle);
-		registerRender(salt_mixer_active);
-		registerRender(crystallizer_idle);
-		registerRender(crystallizer_active);
-		registerRender(dissolver_idle);
-		registerRender(dissolver_active);
-		registerRender(extractor_idle);
-		registerRender(extractor_active);
-		registerRender(centrifuge_idle);
-		registerRender(centrifuge_active);
+		if (NCConfig.register_processor[0]) registerRender(nuclear_furnace_idle);
+		if (NCConfig.register_processor[0]) registerRender(nuclear_furnace_active);
+		if (NCConfig.register_processor[1]) registerRender(manufactory_idle);
+		if (NCConfig.register_processor[1]) registerRender(manufactory_active);
+		if (NCConfig.register_processor[2]) registerRender(isotope_separator_idle);
+		if (NCConfig.register_processor[2]) registerRender(isotope_separator_active);
+		if (NCConfig.register_processor[3]) registerRender(decay_hastener_idle);
+		if (NCConfig.register_processor[3]) registerRender(decay_hastener_active);
+		if (NCConfig.register_processor[4]) registerRender(fuel_reprocessor_idle);
+		if (NCConfig.register_processor[4]) registerRender(fuel_reprocessor_active);
+		if (NCConfig.register_processor[5]) registerRender(alloy_furnace_idle);
+		if (NCConfig.register_processor[5]) registerRender(alloy_furnace_active);
+		if (NCConfig.register_processor[6]) registerRender(infuser_idle);
+		if (NCConfig.register_processor[6]) registerRender(infuser_active);
+		if (NCConfig.register_processor[7]) registerRender(melter_idle);
+		if (NCConfig.register_processor[7]) registerRender(melter_active);
+		if (NCConfig.register_processor[8]) registerRender(supercooler_idle);
+		if (NCConfig.register_processor[8]) registerRender(supercooler_active);
+		if (NCConfig.register_processor[9]) registerRender(electrolyser_idle);
+		if (NCConfig.register_processor[9]) registerRender(electrolyser_active);
+		if (NCConfig.register_processor[10]) registerRender(irradiator_idle);
+		if (NCConfig.register_processor[10]) registerRender(irradiator_active);
+		if (NCConfig.register_processor[11]) registerRender(ingot_former_idle);
+		if (NCConfig.register_processor[11]) registerRender(ingot_former_active);
+		if (NCConfig.register_processor[12]) registerRender(pressurizer_idle);
+		if (NCConfig.register_processor[12]) registerRender(pressurizer_active);
+		if (NCConfig.register_processor[13]) registerRender(chemical_reactor_idle);
+		if (NCConfig.register_processor[13]) registerRender(chemical_reactor_active);
+		if (NCConfig.register_processor[14]) registerRender(salt_mixer_idle);
+		if (NCConfig.register_processor[14]) registerRender(salt_mixer_active);
+		if (NCConfig.register_processor[15]) registerRender(crystallizer_idle);
+		if (NCConfig.register_processor[15]) registerRender(crystallizer_active);
+		if (NCConfig.register_processor[16]) registerRender(dissolver_idle);
+		if (NCConfig.register_processor[16]) registerRender(dissolver_active);
+		if (NCConfig.register_processor[17]) registerRender(extractor_idle);
+		if (NCConfig.register_processor[17]) registerRender(extractor_active);
+		if (NCConfig.register_processor[18]) registerRender(centrifuge_idle);
+		if (NCConfig.register_processor[18]) registerRender(centrifuge_active);
+		if (NCConfig.register_processor[19]) registerRender(rock_crusher_idle);
+		if (NCConfig.register_processor[19]) registerRender(rock_crusher_active);
 		
 		registerRender(machine_interface);
 		
@@ -551,34 +583,43 @@ public class NCBlocks {
 		registerRender(fusion_electromagnet_transparent_active);
 		
 		registerRender(salt_fission_controller, 0, "salt_fission_controller_off");
-		registerRender(salt_fission_controller, 1, "salt_fission_controller_on");
 		registerRender(salt_fission_wall);
 		registerRender(salt_fission_glass);
 		registerRender(salt_fission_frame);
+		registerRender(salt_fission_beam);
 		registerRender(salt_fission_vent);
 		registerRender(salt_fission_vessel);
 		registerRender(salt_fission_heater);
+		registerRender(salt_fission_moderator);
 		
 		registerRender(accelerator_electromagnet_idle);
 		registerRender(accelerator_electromagnet_active);
 		registerRender(electromagnet_supercooler_idle);
 		registerRender(electromagnet_supercooler_active);
 		
-		registerRender(helium_collector);
-		registerRender(helium_collector_compact);
-		registerRender(helium_collector_dense);
+		if (NCConfig.register_passive[0]) {
+			registerRender(helium_collector);
+			registerRender(helium_collector_compact);
+			registerRender(helium_collector_dense);
+		}
 		
-		registerRender(cobblestone_generator);
-		registerRender(cobblestone_generator_compact);
-		registerRender(cobblestone_generator_dense);
+		if (NCConfig.register_passive[1]) {
+			registerRender(cobblestone_generator);
+			registerRender(cobblestone_generator_compact);
+			registerRender(cobblestone_generator_dense);
+		}
 		
-		registerRender(water_source);
-		registerRender(water_source_compact);
-		registerRender(water_source_dense);
+		if (NCConfig.register_passive[2]) {
+			registerRender(water_source);
+			registerRender(water_source_compact);
+			registerRender(water_source_dense);
+		}
 		
-		registerRender(nitrogen_collector);
-		registerRender(nitrogen_collector_compact);
-		registerRender(nitrogen_collector_dense);
+		if (NCConfig.register_passive[3]) {
+			registerRender(nitrogen_collector);
+			registerRender(nitrogen_collector_compact);
+			registerRender(nitrogen_collector_dense);
+		}
 		
 		registerRender(glowing_mushroom);
 		registerRender(dry_earth);

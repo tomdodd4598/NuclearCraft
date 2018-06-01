@@ -39,12 +39,14 @@ import nc.worldgen.dimension.NCWorlds;
 import nc.worldgen.ore.OreGenerator;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class CommonProxy {
@@ -109,6 +111,24 @@ public class CommonProxy {
 		
 	}
 	
+	// Packets
+	
+	public World getWorld(int dimensionId) {
+		return FMLCommonHandler.instance().getMinecraftServerInstance().getWorld(dimensionId);
+	}
+
+	public int getCurrentClientDimension() {
+		return -8954;
+	}
+	
+	public EntityPlayer getPlayerEntity(MessageContext ctx) {
+		return ctx.getServerHandler().player;
+	}
+	
+	
+	
+	// Fluid Colours
+	
 	public void registerFluidBlockRendering(Block block, String name) {
 		
 	}
@@ -116,6 +136,8 @@ public class CommonProxy {
 	public void initFluidColors() {
 		
 	}
+	
+	// Multiblocks
 	
 	public IMultiblockRegistry initMultiblockRegistry() {
 
@@ -126,8 +148,4 @@ public class CommonProxy {
     }
 
     private static MultiblockEventHandler multiblockEventHandler = null;
-	
-	public World getWorld(int dimension) {
-		return FMLCommonHandler.instance().getMinecraftServerInstance().getWorld(dimension);
-	}
 }

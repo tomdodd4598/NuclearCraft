@@ -80,6 +80,8 @@ public class NCItems {
 	public static Item depleted_fuel_berkelium;
 	public static Item depleted_fuel_californium;
 	
+	public static Item depleted_fuel_ic2;
+	
 	public static Item depleted_fuel_rod_thorium;
 	public static Item depleted_fuel_rod_uranium;
 	public static Item depleted_fuel_rod_neptunium;
@@ -157,6 +159,8 @@ public class NCItems {
 		depleted_fuel_curium = new ItemDepletedFissionFuel("depleted_fuel_curium", MetaEnums.CuriumDepletedFuelType.class);
 		depleted_fuel_berkelium = new ItemDepletedFissionFuel("depleted_fuel_berkelium", MetaEnums.BerkeliumDepletedFuelType.class);
 		depleted_fuel_californium = new ItemDepletedFissionFuel("depleted_fuel_californium", MetaEnums.CaliforniumDepletedFuelType.class);
+		
+		depleted_fuel_ic2 = new ItemDepletedFissionFuel("depleted_fuel_ic2", MetaEnums.IC2DepletedFuelType.class);
 		
 		depleted_fuel_rod_thorium = new ItemDepletedFissionFuel("depleted_fuel_rod_thorium", MetaEnums.ThoriumDepletedFuelRodType.class);
 		depleted_fuel_rod_uranium = new ItemDepletedFissionFuel("depleted_fuel_rod_uranium", MetaEnums.UraniumDepletedFuelRodType.class);
@@ -236,6 +240,8 @@ public class NCItems {
 		registerItem(depleted_fuel_curium, CommonProxy.TAB_FISSION_MATERIALS);
 		registerItem(depleted_fuel_berkelium, CommonProxy.TAB_FISSION_MATERIALS);
 		registerItem(depleted_fuel_californium, CommonProxy.TAB_FISSION_MATERIALS);
+		
+		registerItem(depleted_fuel_ic2, CommonProxy.TAB_FISSION_MATERIALS);
 		
 		registerItem(depleted_fuel_rod_thorium, null);
 		registerItem(depleted_fuel_rod_uranium, null);
@@ -443,6 +449,10 @@ public class NCItems {
 		
 		for(int i = 0; i < MetaEnums.CaliforniumDepletedFuelType.values().length; i++) {
 			registerRender(depleted_fuel_californium, i, "depleted_fuel_californium_" + MetaEnums.CaliforniumDepletedFuelType.values()[i].getName());
+		}
+		
+		for(int i = 0; i < MetaEnums.IC2DepletedFuelType.values().length; i++) {
+			registerRender(depleted_fuel_ic2, i, "depleted_fuel_ic2_" + MetaEnums.IC2DepletedFuelType.values()[i].getName());
 		}
 		
 		for(int i = 0; i < MetaEnums.ThoriumDepletedFuelRodType.values().length; i++) {

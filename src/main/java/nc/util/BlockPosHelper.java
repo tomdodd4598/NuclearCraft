@@ -118,6 +118,10 @@ public class BlockPosHelper {
 		return axialsList(1);
 	}
 	
+	public static List<EnumFacing[]> axialsDirList() {
+		return Lists.newArrayList(AXIALS_X, AXIALS_Y, AXIALS_Z);
+	}
+	
 	// Vertices
 	
 	private static final EnumFacing[] VERTEX_DNW = new EnumFacing[] {EnumFacing.DOWN, EnumFacing.NORTH, EnumFacing.WEST};
@@ -163,6 +167,10 @@ public class BlockPosHelper {
 	
 	public List<BlockPos[]> vertexList() {
 		return Lists.newArrayList(vertexDNW(), vertexDNE(), vertexDSW(), vertexDSE(), vertexUNW(), vertexUNE(), vertexUSW(), vertexUSE());
+	}
+	
+	public static List<EnumFacing[]> vertexDirList() {
+		return Lists.newArrayList(VERTEX_DNW, VERTEX_DNE, VERTEX_DSW, VERTEX_DSE, VERTEX_UNW, VERTEX_UNE, VERTEX_USW, VERTEX_USE);
 	}
 	
 	// Ring

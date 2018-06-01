@@ -3,14 +3,19 @@ package nc.multiblock.fission.moltensalt.tile;
 import nc.Global;
 import nc.multiblock.MultiblockControllerBase;
 import nc.multiblock.cuboidal.CuboidalMultiblockTileEntityBase;
+import nc.multiblock.fission.moltensalt.SaltFissionReactor;
 import nc.multiblock.validation.IMultiblockValidator;
 import nc.util.NCUtil;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 
 public abstract class TileSaltFissionPartBase extends CuboidalMultiblockTileEntityBase {
 	
 	private final PartPositionType positionType;
+	
+	public boolean isReactorOn;
 	
 	public TileSaltFissionPartBase(PartPositionType positionType) {
 		super();
@@ -27,6 +32,20 @@ public abstract class TileSaltFissionPartBase extends CuboidalMultiblockTileEnti
 		return SaltFissionReactor.class;
 	}
 	
+	public SaltFissionReactor getReactor() {
+		if (getMultiblockController() instanceof SaltFissionReactor) return (SaltFissionReactor) getMultiblockController();
+		return null;
+	}
+	
+	public boolean isMultiblockAssembled() {
+		if (getMultiblockController() == null) return false;
+		return getMultiblockController().isAssembled();
+	}
+	
+	public void setIsReactorOn() {
+		if (getReactor() != null) isReactorOn = getReactor().isReactorOn;
+	}
+	
 	@Override
 	public void onMachineActivated() {
 		
@@ -35,6 +54,10 @@ public abstract class TileSaltFissionPartBase extends CuboidalMultiblockTileEnti
 	@Override
 	public void onMachineDeactivated() {
 		
+	}
+	
+	public PartPositionType getPartPositionType() {
+		return positionType;
 	}
 	
 	static enum PartPositionType {
@@ -55,8 +78,12 @@ public abstract class TileSaltFissionPartBase extends CuboidalMultiblockTileEnti
 		}
 	}
 	
+	IBlockState getBlockState(BlockPos pos) {
+		return getWorld().getBlockState(pos);
+	}
+	
 	Block getBlock(BlockPos pos) {
-		return this.getWorld().getBlockState(pos).getBlock();
+		return getBlockState(pos).getBlock();
 	}
 	
 	@Override
@@ -115,5 +142,20 @@ public abstract class TileSaltFissionPartBase extends CuboidalMultiblockTileEnti
 	
 	void nullControllerWarn() {
 		NCUtil.getLogger().warn(getBlock(getPos()).getLocalizedName() + " at (%d, %d, %d) is being assembled without being attached to a controller. It is recommended that the multiblock is completely disassambled and rebuilt if these errors continue!", getPos().getX(), getPos().getY(), getPos().getZ());
+	}
+	
+	// NBT
+	
+	@Override
+	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+		nbt.setBoolean("isReactorOn", isReactorOn);
+		return nbt;
+	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+		isReactorOn = nbt.getBoolean("isReactorOn");
 	}
 }

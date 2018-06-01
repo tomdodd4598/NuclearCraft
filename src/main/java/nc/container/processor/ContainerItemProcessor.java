@@ -75,14 +75,14 @@ public class ContainerItemProcessor extends ContainerTile {
 		ItemStack itemstack = ItemStack.EMPTY;
 		Slot slot = inventorySlots.get(index);
 		int upgrades = tile.hasUpgrades? 2 : 0;
-		int invStart = tile.inputSize + tile.outputSize + upgrades;
-		int speedUpgradeSlot = tile.inputSize + tile.outputSize;
-		int otherUpgradeSlot = tile.inputSize + tile.outputSize + 1;
-		int invEnd = tile.inputSize + tile.outputSize + 36 + upgrades;
+		int invStart = tile.itemInputSize + tile.itemOutputSize + upgrades;
+		int speedUpgradeSlot = tile.itemInputSize + tile.itemOutputSize;
+		int otherUpgradeSlot = tile.itemInputSize + tile.itemOutputSize + 1;
+		int invEnd = tile.itemInputSize + tile.itemOutputSize + 36 + upgrades;
 		if ((slot != null) && (slot.getHasStack())) {
 			ItemStack itemstack1 = slot.getStack();
 			itemstack = itemstack1.copy();
-			if (index >= tile.inputSize && index < invStart) {
+			if (index >= tile.itemInputSize && index < invStart) {
 				if (!mergeItemStack(itemstack1, invStart, invEnd, false)) {
 					return ItemStack.EMPTY;
 				}
@@ -101,7 +101,7 @@ public class ContainerItemProcessor extends ContainerTile {
 				}
 				
 				else if (getRecipeHandler().isValidInput(itemstack1)) {
-					if (!mergeItemStack(itemstack1, 0, tile.inputSize, false)) {
+					if (!mergeItemStack(itemstack1, 0, tile.itemInputSize, false)) {
 						return ItemStack.EMPTY;
 					}
 				}

@@ -11,6 +11,7 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -72,6 +73,21 @@ public class BlockBattery extends BlockSimpleTile implements INBTDrop {
 			}
 		}
 		return true;
+	}
+	
+	@Override
+	public boolean hasComparatorInputOverride(IBlockState state) {
+		return true;
+	}
+	
+	@Override
+	public int getComparatorInputOverride(IBlockState state, World world, BlockPos pos) {
+		TileEntity tile = world.getTileEntity(pos);
+		if (tile instanceof IBattery) {
+			EnergyStorage storage = ((IBattery) tile).getBatteryStorage();
+			return (int) Math.round(15D*(double)storage.getEnergyStored()/(double)storage.getMaxEnergyStored());
+		}
+		return Container.calcRedstone(world.getTileEntity(pos));
 	}
 	
 	// NBT Stuff

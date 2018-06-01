@@ -1,10 +1,12 @@
 package nc.init;
 
 import nc.Global;
+import nc.multiblock.fission.moltensalt.tile.TileSaltFissionBeam;
 import nc.multiblock.fission.moltensalt.tile.TileSaltFissionController;
 import nc.multiblock.fission.moltensalt.tile.TileSaltFissionFrame;
 import nc.multiblock.fission.moltensalt.tile.TileSaltFissionGlass;
 import nc.multiblock.fission.moltensalt.tile.TileSaltFissionHeater;
+import nc.multiblock.fission.moltensalt.tile.TileSaltFissionModerator;
 import nc.multiblock.fission.moltensalt.tile.TileSaltFissionVent;
 import nc.multiblock.fission.moltensalt.tile.TileSaltFissionVessel;
 import nc.multiblock.fission.moltensalt.tile.TileSaltFissionWall;
@@ -47,6 +49,7 @@ public class NCTiles {
 		GameRegistry.registerTileEntity(TileProcessor.Dissolver.class, Global.MOD_ID + ":dissolver");
 		GameRegistry.registerTileEntity(TileProcessor.Extractor.class, Global.MOD_ID + ":extractor");
 		GameRegistry.registerTileEntity(TileProcessor.Centrifuge.class, Global.MOD_ID + ":centrifuge");
+		GameRegistry.registerTileEntity(TileProcessor.RockCrusher.class, Global.MOD_ID + ":rock_crusher");
 		
 		GameRegistry.registerTileEntity(TileMachineInterface.class, Global.MOD_ID + ":machine_interface");
 		
@@ -61,9 +64,11 @@ public class NCTiles {
 		GameRegistry.registerTileEntity(TileSaltFissionWall.class, Global.MOD_ID + ":salt_fission_wall");
 		GameRegistry.registerTileEntity(TileSaltFissionGlass.class, Global.MOD_ID + ":salt_fission_glass");
 		GameRegistry.registerTileEntity(TileSaltFissionFrame.class, Global.MOD_ID + ":salt_fission_frame");
+		GameRegistry.registerTileEntity(TileSaltFissionBeam.class, Global.MOD_ID + ":salt_fission_beam");
 		GameRegistry.registerTileEntity(TileSaltFissionVent.class, Global.MOD_ID + ":salt_fission_vent");
 		GameRegistry.registerTileEntity(TileSaltFissionVessel.class, Global.MOD_ID + ":salt_fission_vessel");
 		GameRegistry.registerTileEntity(TileSaltFissionHeater.class, Global.MOD_ID + ":salt_fission_heater");
+		GameRegistry.registerTileEntity(TileSaltFissionModerator.class, Global.MOD_ID + ":salt_fission_moderator");
 		
 		GameRegistry.registerTileEntity(TileRTG.Uranium.class, Global.MOD_ID + ":rtg_uranium");
 		GameRegistry.registerTileEntity(TileRTG.Plutonium.class, Global.MOD_ID + ":rtg_plutonium");

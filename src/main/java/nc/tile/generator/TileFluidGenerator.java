@@ -3,7 +3,6 @@ package nc.tile.generator;
 import java.util.ArrayList;
 
 import nc.ModCheck;
-import nc.config.NCConfig;
 import nc.recipe.BaseRecipeHandler;
 import nc.recipe.IIngredient;
 import nc.recipe.IRecipe;
@@ -23,15 +22,10 @@ import net.minecraftforge.fluids.FluidStack;
 
 public abstract class TileFluidGenerator extends TileEnergyFluidSidedInventory implements IInterfaceable, IBufferable, IGui {
 
-	public final int fluidInputSize;
-	public final int fluidOutputSize;
-	public final int otherSlotsSize;
+	public final int fluidInputSize, fluidOutputSize, otherSlotsSize;
 	
 	public int time;
-	public boolean isGenerating;
-	public boolean hasConsumed;
-	
-	public int tickCount;
+	public boolean isGenerating, hasConsumed, canProcessStacks;
 	
 	public final NCRecipes.Type recipeType;
 	
@@ -88,6 +82,7 @@ public abstract class TileFluidGenerator extends TileEnergyFluidSidedInventory i
 	}
 	
 	public void updateGenerator() {
+		canProcessStacks = canProcessStacks();
 		boolean wasGenerating = isGenerating;
 		isGenerating = canProcess() && isPowered();
 		boolean shouldUpdate = false;
@@ -109,7 +104,7 @@ public abstract class TileFluidGenerator extends TileEnergyFluidSidedInventory i
 	}
 	
 	public boolean canProcess() {
-		return canProcessStacks();
+		return canProcessStacks;
 	}
 	
 	public boolean isPowered() {
@@ -117,7 +112,7 @@ public abstract class TileFluidGenerator extends TileEnergyFluidSidedInventory i
 	}
 	
 	public void process() {
-		time += getRateMultiplier();
+		time += getSpeedMultiplier();
 		getEnergyStorage().changeEnergyStored(getProcessPower());
 		if (time >= getProcessTime()) completeProcess();
 	}
@@ -136,9 +131,9 @@ public abstract class TileFluidGenerator extends TileEnergyFluidSidedInventory i
 	
 	// Processing
 	
-	public abstract int getRateMultiplier();
+	public abstract int getSpeedMultiplier();
 		
-	public abstract void setRateMultiplier(int value);
+	public abstract void setSpeedMultiplier(int value);
 		
 	public abstract int getProcessTime();
 		
@@ -330,6 +325,7 @@ public abstract class TileFluidGenerator extends TileEnergyFluidSidedInventory i
 		nbt.setInteger("time", time);
 		nbt.setBoolean("isGenerating", isGenerating);
 		nbt.setBoolean("hasConsumed", hasConsumed);
+		nbt.setBoolean("canProcessStacks", canProcessStacks);
 		return nbt;
 	}
 		
@@ -339,6 +335,7 @@ public abstract class TileFluidGenerator extends TileEnergyFluidSidedInventory i
 		time = nbt.getInteger("time");
 		isGenerating = nbt.getBoolean("isGenerating");
 		hasConsumed = nbt.getBoolean("hasConsumed");
+		canProcessStacks = nbt.getBoolean("canProcessStacks");
 	}
 	
 	// Inventory Fields

@@ -1,6 +1,11 @@
 package nc.multiblock.fission.moltensalt.tile;
 
+import nc.Global;
+import nc.config.NCConfig;
 import nc.multiblock.MultiblockControllerBase;
+import nc.multiblock.fission.moltensalt.block.BlockSaltFissionController;
+import nc.util.RegistryHelper;
+import net.minecraft.block.Block;
 
 public class TileSaltFissionController extends TileSaltFissionPartBase {
 	
@@ -22,4 +27,27 @@ public class TileSaltFissionController extends TileSaltFissionPartBase {
 		//getWorld().setBlockState(getPos(), getWorld().getBlockState(getPos()), 2);
 	}
 	
+	@Override
+	public void update() {
+		super.update();
+		tick();
+		if (shouldCheck()) if (getBlock(pos) instanceof BlockSaltFissionController) {
+			((BlockSaltFissionController) getBlock(pos)).setActiveState(getBlockState(pos), world, pos, world.isBlockPowered(pos) && isMultiblockAssembled());
+		}
+	}
+	
+	@Override
+	public void tick() {
+		tickCount++; tickCount %= NCConfig.machine_update_rate / 4;
+	}
+	
+	public void doMeltdown() {
+		Block corium = RegistryHelper.getBlock(Global.MOD_ID, "fluid_corium");
+		world.removeTileEntity(pos);
+		world.setBlockState(pos, corium.getDefaultState());
+	}
+	
+	public boolean isPowered() {
+		return world.isBlockPowered(pos);
+	}
 }

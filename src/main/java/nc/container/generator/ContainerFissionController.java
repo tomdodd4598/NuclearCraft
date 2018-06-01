@@ -18,7 +18,7 @@ public class ContainerFissionController extends ContainerItemGenerator {
 	protected int heat;
 	protected int cooling;
 	protected int efficiency;
-	protected int rateMultiplier;
+	protected int speedMultiplier;
 	protected int heatChange;
 	protected int heatMult;
 	
@@ -68,7 +68,7 @@ public class ContainerFissionController extends ContainerItemGenerator {
 		else if (id == 104) heat = upcast(data);
 		else if (id == 105) cooling = upcast(data);
 		else if (id == 106) efficiency = upcast(data);
-		else if (id == 108) rateMultiplier = upcast(data);
+		else if (id == 108) speedMultiplier = upcast(data);
 		else if (id == 112) heatChange = upcast(data);
 		else if (id == 119) heatMult = upcast(data);
 		
@@ -79,7 +79,7 @@ public class ContainerFissionController extends ContainerItemGenerator {
 		else if (id == 4) tile.setField(id, heat | data << 16);
 		else if (id == 5) tile.setField(id, cooling | data << 16);
 		else if (id == 6) tile.setField(id, efficiency | data << 16);
-		else if (id == 8) tile.setField(id, rateMultiplier | data << 16);
+		else if (id == 8) tile.setField(id, speedMultiplier | data << 16);
 		else if (id == 12) tile.setField(id, heatChange | data << 16);
 		else if (id == 19) tile.setField(id, heatMult | data << 16);
 		

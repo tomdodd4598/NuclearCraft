@@ -17,6 +17,7 @@ import nc.tile.energyFluid.IBufferable;
 import nc.tile.energyFluid.TileEnergyFluidSidedInventory;
 import nc.tile.internal.energy.EnergyConnection;
 import nc.tile.internal.fluid.FluidConnection;
+import nc.util.ArrayHelper;
 import nc.util.NCMathHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -34,12 +35,10 @@ public abstract class TileItemFluidProcessor extends TileEnergyFluidSidedInvento
 	public final int itemInputSize, fluidInputSize, itemOutputSize, fluidOutputSize;
 	
 	public int time;
-	public boolean isProcessing;
+	public boolean isProcessing, canProcessStacks;
 	
 	public final boolean hasUpgrades;
 	public final int upgradeMeta;
-	
-	public int tickCount;
 	
 	public final NCRecipes.Type recipeType;
 	
@@ -66,9 +65,7 @@ public abstract class TileItemFluidProcessor extends TileEnergyFluidSidedInvento
 		
 		this.recipeType = recipeType;
 		
-		int[] slots = new int[itemInSize + itemOutSize];
-		for (int i = 0; i < slots.length; i++) slots[i] = i;
-		this.slots = slots;
+		slots = ArrayHelper.increasingArray(itemInSize + itemOutSize);
 		
 		for (int i = 0; i < tanks.length; i++) {
 			if (i < fluidInputSize) tanks[i].setStrictlyInput(true);
@@ -112,6 +109,7 @@ public abstract class TileItemFluidProcessor extends TileEnergyFluidSidedInvento
 	}
 	
 	public void updateProcessor() {
+		canProcessStacks = canProcessStacks();
 		boolean wasProcessing = isProcessing;
 		isProcessing = canProcess() && !isPowered();
 		setCapacityFromSpeed();
@@ -129,7 +127,7 @@ public abstract class TileItemFluidProcessor extends TileEnergyFluidSidedInvento
 	}
 	
 	public boolean canProcess() {
-		return canProcessStacks();
+		return canProcessStacks;
 	}
 	
 	public boolean isPowered() {
@@ -432,6 +430,7 @@ public abstract class TileItemFluidProcessor extends TileEnergyFluidSidedInvento
 		super.writeAll(nbt);
 		nbt.setInteger("time", time);
 		nbt.setBoolean("isProcessing", isProcessing);
+		nbt.setBoolean("canProcessStacks", canProcessStacks);
 		return nbt;
 	}
 	
@@ -440,6 +439,7 @@ public abstract class TileItemFluidProcessor extends TileEnergyFluidSidedInvento
 		super.readAll(nbt);
 		time = nbt.getInteger("time");
 		isProcessing = nbt.getBoolean("isProcessing");
+		canProcessStacks = nbt.getBoolean("canProcessStacks");
 	}
 	
 	// Inventory Fields

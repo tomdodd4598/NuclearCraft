@@ -145,6 +145,14 @@ mods.nuclearcraft.centrifuge.removeRecipeWithInput(fluidInput);
 mods.nuclearcraft.centrifuge.removeRecipeWithOutput(fluidOutput1, fluidOutput2, fluidOutput3, fluidOutput4);
 
 ---------------------------------------------------------------------------------------------------------------------------
+Rock Crusher:
+
+mods.nuclearcraft.rock_crusher.addRecipe(itemInput, itemOutput1, itemOutput2, itemOutput3, {optional}processTime);
+
+mods.nuclearcraft.rock_crusher.removeRecipeWithInput(itemInput);
+mods.nuclearcraft.rock_crusher.removeRecipeWithOutput(itemOutput1, itemOutput2, itemOutput3);
+
+---------------------------------------------------------------------------------------------------------------------------
 Decay Generator:
 
 mods.nuclearcraft.decay_generator.addRecipe(blockInput, blockOutput, lifetimeTicks, energyPerSecond);

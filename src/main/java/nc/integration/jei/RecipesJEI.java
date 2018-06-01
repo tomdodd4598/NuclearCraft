@@ -131,6 +131,13 @@ public class RecipesJEI {
 		}
 	}
 	
+	public static class RockCrusher extends JEIRecipe<RockCrusher> {
+
+		public RockCrusher(BaseRecipeHandler methods, IRecipe recipe) {
+			super(methods, recipe);
+		}
+	}
+	
 	public static class DecayGenerator extends JEIRecipe<DecayGenerator> {
 
 		public DecayGenerator(BaseRecipeHandler methods, IRecipe recipe) {

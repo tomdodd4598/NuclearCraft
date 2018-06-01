@@ -14,7 +14,7 @@ public class ContainerFusionCore extends ContainerFluidGenerator {
 	protected int processPower;
 	protected int heat;
 	protected int efficiency;
-	protected int rateMultiplier;
+	protected int speedMultiplier;
 	protected int cooling;
 	protected int heatChange;
 	
@@ -57,7 +57,7 @@ public class ContainerFusionCore extends ContainerFluidGenerator {
 		else if (id == 103) processPower = upcast(data);
 		else if (id == 104) heat = upcast(data);
 		else if (id == 105) efficiency = upcast(data);
-		else if (id == 106) rateMultiplier = upcast(data);
+		else if (id == 106) speedMultiplier = upcast(data);
 		else if (id == 109) cooling = upcast(data);
 		else if (id == 110) heatChange = upcast(data);
 		
@@ -67,7 +67,7 @@ public class ContainerFusionCore extends ContainerFluidGenerator {
 		else if (id == 3) tile.setField(id, processPower | data << 16);
 		else if (id == 4) tile.setField(id, heat | data << 16);
 		else if (id == 5) tile.setField(id, efficiency | data << 16);
-		else if (id == 6) tile.setField(id, rateMultiplier | data << 16);
+		else if (id == 6) tile.setField(id, speedMultiplier | data << 16);
 		else if (id == 9) tile.setField(id, cooling | data << 16);
 		else if (id == 10) tile.setField(id, heatChange | data << 16);
 		

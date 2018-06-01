@@ -24,10 +24,16 @@ public class ManufactoryRecipes extends BaseRecipeHandler {
 		addRecipe("gemQuartz", "dustQuartz", NCConfig.processor_time[0]);
 		addRecipe("gemBoronNitride", "dustBoronNitride", NCConfig.processor_time[0]*2);
 		addRecipe("gemFluorite", "dustFluorite", NCConfig.processor_time[0]*2);
+		addRecipe("gemVilliaumite", "dustVilliaumite", NCConfig.processor_time[0]*2);
+		addRecipe("gemCarobbiite", "dustCarobbiite", NCConfig.processor_time[0]*2);
+		
+		addRecipe("dustVilliaumite", "dustSodiumFluoride", NCConfig.processor_time[0]);
+		addRecipe("dustCarobbiite", "dustPotassiumFluoride", NCConfig.processor_time[0]);
 		
 		addRecipe("obsidian", oreStack("dustObsidian", 4), NCConfig.processor_time[0]*2);
 		addRecipe(oreStack("sand", 4), "itemSilicon", NCConfig.processor_time[0]);
 		addRecipe("cobblestone", Blocks.SAND, NCConfig.processor_time[0]);
+		addRecipe("gravel", Items.FLINT, NCConfig.processor_time[0]);
 		addRecipe(new ItemStack(Items.ROTTEN_FLESH, 4), Items.LEATHER, NCConfig.processor_time[0]/2);
 		addRecipe(new ItemStack(Items.REEDS, 2), "bioplastic", NCConfig.processor_time[0]/2);
 		addRecipe("cropWheat", "dustWheat", NCConfig.processor_time[0]/4);

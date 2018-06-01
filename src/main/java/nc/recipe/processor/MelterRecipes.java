@@ -22,6 +22,8 @@ public class MelterRecipes extends BaseRecipeHandler {
 	@Override
 	public void addRecipes() {
 		addRecipe("dustSulfur", fluidStack("sulfur", FluidHelper.GEM_VOLUME), NCConfig.processor_time[6]);
+		addRecipe("dustSodiumHydroxide", fluidStack("naoh", FluidHelper.GEM_VOLUME), NCConfig.processor_time[6]);
+		addRecipe("dustPotassiumHydroxide", fluidStack("koh", FluidHelper.GEM_VOLUME), NCConfig.processor_time[6]);
 		
 		addIngotMeltingRecipes("boron10");
 		addIngotMeltingRecipes("boron11");

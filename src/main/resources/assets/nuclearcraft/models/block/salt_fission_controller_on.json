@@ -1,6 +1,10 @@
 {
-	"parent": "block/cube_all",
+    "parent": "nuclearcraft:block/machine",
 	"textures": {
-		"all": "nuclearcraft:blocks/salt_fission/salt_fission_controller_on"
+		"top": "nuclearcraft:blocks/salt_fission/salt_fission_controller_top",
+		"bottom": "nuclearcraft:blocks/salt_fission/salt_fission_controller_bottom",
+		"front": "nuclearcraft:blocks/salt_fission/salt_fission_controller_front_on",
+		"side": "nuclearcraft:blocks/salt_fission/salt_fission_controller_side",
+		"back": "nuclearcraft:blocks/salt_fission/salt_fission_controller_back"
 	}
 }

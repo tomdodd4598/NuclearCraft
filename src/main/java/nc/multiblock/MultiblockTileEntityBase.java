@@ -16,7 +16,7 @@ import net.minecraftforge.fml.common.FMLLog;
  * Base logic class for Multiblock-connected tile entities. Most multiblock machines
  * should derive from this and implement their game logic in certain abstract methods.
  */
-public abstract class MultiblockTileEntityBase extends BeefyTileBase implements IMultiblockPart {
+public abstract class MultiblockTileEntityBase extends TileBeefBase implements IMultiblockPart {
 	private MultiblockControllerBase controller;
 	private boolean visited;
 	
@@ -191,7 +191,7 @@ public abstract class MultiblockTileEntityBase extends BeefyTileBase implements 
 
 	@Override
 	public abstract void onMachineBroken();
-
+	
 	@Override
 	public abstract void onMachineActivated();
 

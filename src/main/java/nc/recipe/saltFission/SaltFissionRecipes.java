@@ -22,15 +22,15 @@ public class SaltFissionRecipes extends BaseRecipeHandler {
 		addFuelDepleteRecipes("cf", NCConfig.fission_californium_fuel_time, NCConfig.fission_californium_power, 249, 251);
 	}
 	
-	public void addFuelDepleteRecipe(String fuel, double time, double power) {
-		addRecipe(fluidStack("fuel_" + fuel + "_fluoride_flibe", 16), fluidStack("depleted_fuel_" + fuel + "_fluoride_flibe", 16), time, power);
+	public void addFuelDepleteRecipe(String fuel, double time, double heat) {
+		addRecipe(fluidStack("fuel_" + fuel + "_fluoride_flibe", 1), fluidStack("depleted_fuel_" + fuel + "_fluoride_flibe", 1), time/1296D, heat);
 	}
 	
-	public void addFuelDepleteRecipes(String fuel, double[] times, double[] powers, int... types) {
+	public void addFuelDepleteRecipes(String fuel, double[] times, double[] heats, int... types) {
 		int count = 0;
 		for (int type : types) {
-			addFuelDepleteRecipe("le" + fuel + "_" + type, times[count], powers[count]);
-			addFuelDepleteRecipe("he" + fuel + "_" + type, times[count + 2], powers[count + 2]);
+			addFuelDepleteRecipe("le" + fuel + "_" + type, times[count], heats[count]);
+			addFuelDepleteRecipe("he" + fuel + "_" + type, times[count + 2], heats[count + 2]);
 			count += 4;
 		}
 	}

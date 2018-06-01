@@ -605,19 +605,19 @@ public abstract class MultiblockControllerBase implements IMultiblockValidator {
 	 * Data synchronization
 	 */
 
-	/*
+	/**
 	 * Sync controller data from the given NBT compound
 	 * @param data the data
 	 * @param syncReason the reason why the synchronization is necessary
 	 */
-	protected abstract void syncDataFrom(NBTTagCompound data, BeefyTileBase.SyncReason syncReason);
+	protected abstract void syncDataFrom(NBTTagCompound data, TileBeefBase.SyncReason syncReason);
 
 	/**
 	 * Sync controller data to the given NBT compound
 	 * @param data the data
 	 * @param syncReason the reason why the synchronization is necessary
 	 */
-	protected abstract void syncDataTo(NBTTagCompound data, BeefyTileBase.SyncReason syncReason);
+	protected abstract void syncDataTo(NBTTagCompound data, TileBeefBase.SyncReason syncReason);
 
 	/**
 	 * Force this multiblock to recalculate its minimum and maximum coordinates

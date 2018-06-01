@@ -1,5 +1,7 @@
 package nc.tab;
 
+import nc.config.NCConfig;
+import nc.init.NCItems;
 import nc.init.NCTools;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
@@ -12,6 +14,6 @@ public class TabMisc extends CreativeTabs {
 
 	@Override
 	public ItemStack getTabIconItem() {
-		return new ItemStack(NCTools.spaxelhoe_tough);
+		return new ItemStack(NCConfig.register_tool[1] ? NCTools.spaxelhoe_tough : NCItems.portable_ender_chest);
 	}
 }

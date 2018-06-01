@@ -4,6 +4,14 @@ import net.minecraft.util.math.MathHelper;
 
 public class NCMathHelper {
 	
+	public static int square(int number) {
+		return number*number;
+	}
+	
+	public static int cube(int number) {
+		return number*number*number;
+	}
+	
 	public static double round(double value, int precision) {
 		double scale = Math.pow(10.0D, (double) precision);
 		return (double) Math.round(value * scale) / (double) Math.round(scale);
@@ -34,7 +42,7 @@ public class NCMathHelper {
 		return (1D*in)*Math.pow(10D, 1D*power);
 	}
 	
-	public static boolean atLimit(int number, int divider) {
+	public static boolean atIntLimit(int number, int divider) {
 		return Math.abs(number) > Integer.MAX_VALUE/divider;
 	}
 	
@@ -44,16 +52,6 @@ public class NCMathHelper {
 	
 	public static int minus1Power(int pow) {
 		if ((pow & 1) == 0) return 1; else return -1;
-	}
-	
-	public static long factorial(int n) {
-		if (n < 2) return 1; 
-		if (n > 20) return Long.MAX_VALUE; 
-		long ans = 1;
-		for (int i = 2; i <= n; i++) {
-			ans *= i;
-		}
-		return ans;
 	}
 	
 	public static int choose(int n, int k) {

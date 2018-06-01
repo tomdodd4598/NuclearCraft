@@ -32,12 +32,10 @@ public abstract class TileFluidProcessor extends TileEnergyFluidSidedInventory i
 	public final int fluidInputSize, fluidOutputSize;
 	
 	public int time;
-	public boolean isProcessing;
+	public boolean isProcessing, canProcessStacks;
 	
 	public final boolean hasUpgrades;
 	public final int upgradeMeta;
-	
-	public int tickCount;
 	
 	public final NCRecipes.Type recipeType;
 	
@@ -104,6 +102,7 @@ public abstract class TileFluidProcessor extends TileEnergyFluidSidedInventory i
 	}
 	
 	public void updateProcessor() {
+		canProcessStacks = canProcessStacks();
 		boolean wasProcessing = isProcessing;
 		isProcessing = canProcess() && !isPowered();
 		setCapacityFromSpeed();
@@ -121,7 +120,7 @@ public abstract class TileFluidProcessor extends TileEnergyFluidSidedInventory i
 	}
 	
 	public boolean canProcess() {
-		return canProcessStacks();
+		return canProcessStacks;
 	}
 	
 	public boolean isPowered() {
@@ -357,6 +356,7 @@ public abstract class TileFluidProcessor extends TileEnergyFluidSidedInventory i
 		super.writeAll(nbt);
 		nbt.setInteger("time", time);
 		nbt.setBoolean("isProcessing", isProcessing);
+		nbt.setBoolean("canProcessStacks", canProcessStacks);
 		return nbt;
 	}
 	
@@ -365,6 +365,7 @@ public abstract class TileFluidProcessor extends TileEnergyFluidSidedInventory i
 		super.readAll(nbt);
 		time = nbt.getInteger("time");
 		isProcessing = nbt.getBoolean("isProcessing");
+		canProcessStacks = nbt.getBoolean("canProcessStacks");
 	}
 	
 	// Inventory Fields

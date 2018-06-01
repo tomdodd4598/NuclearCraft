@@ -15,6 +15,9 @@ public class ElectrolyserRecipes extends BaseRecipeHandler {
 		addRecipe(fluidStack("water", FluidHelper.BUCKET_VOLUME), fluidStack("hydrogen", 475), fluidStack("hydrogen", 475), fluidStack("deuterium", 50), fluidStack("oxygen", FluidHelper.BUCKET_VOLUME/2), NCConfig.processor_time[8]*2);
 		addRecipe(fluidStack("hydrofluoric_acid", FluidHelper.BUCKET_VOLUME), fluidStack("hydrogen", FluidHelper.BUCKET_VOLUME/4), fluidStack("hydrogen", FluidHelper.BUCKET_VOLUME/4), fluidStack("fluorine", FluidHelper.BUCKET_VOLUME/4), fluidStack("fluorine", FluidHelper.BUCKET_VOLUME/4), NCConfig.processor_time[8]/2);
 		
+		addRecipe(fluidStack("naoh", FluidHelper.GEM_VOLUME), fluidStack("sodium", FluidHelper.INGOT_VOLUME), fluidStack("water", FluidHelper.BUCKET_VOLUME/2), fluidStack("water", FluidHelper.BUCKET_VOLUME/2), fluidStack("oxygen", FluidHelper.BUCKET_VOLUME/2), NCConfig.processor_time[8]);
+		addRecipe(fluidStack("koh", FluidHelper.GEM_VOLUME), fluidStack("potassium", FluidHelper.INGOT_VOLUME), fluidStack("water", FluidHelper.BUCKET_VOLUME/2), fluidStack("water", FluidHelper.BUCKET_VOLUME/2), fluidStack("oxygen", FluidHelper.BUCKET_VOLUME/2), NCConfig.processor_time[8]);
+		
 		// Mekanism
 		addRecipe(fluidStack("heavywater", FluidHelper.BUCKET_VOLUME), fluidStack("deuterium", 475), fluidStack("deuterium", 475), fluidStack("tritium", 50), fluidStack("oxygen", FluidHelper.BUCKET_VOLUME/2), NCConfig.processor_time[8]*2);
 		

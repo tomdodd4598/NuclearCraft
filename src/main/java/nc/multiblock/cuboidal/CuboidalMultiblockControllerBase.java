@@ -3,6 +3,7 @@ package nc.multiblock.cuboidal;
 import nc.multiblock.MultiblockControllerBase;
 import nc.multiblock.validation.IMultiblockValidator;
 import nc.multiblock.validation.ValidationError;
+import nc.util.NCMathHelper;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -160,6 +161,34 @@ public abstract class CuboidalMultiblockControllerBase extends MultiblockControl
 		}
 
 		return true;
-	}	
+	}
+	
+	protected int getHollowCubeNumberOfBlocks(int exteriorSize) {
+		return NCMathHelper.cube(exteriorSize) - NCMathHelper.cube(exteriorSize - 2);
+	}
+	
+	public int getExteriorLengthX() {
+		return Math.abs(getMaximumCoord().getX() - getMinimumCoord().getX()) + 1;
+	}
+	
+	public int getExteriorLengthY() {
+		return Math.abs(getMaximumCoord().getY() - getMinimumCoord().getY()) + 1;
+	}
+	
+	public int getExteriorLengthZ() {
+		return Math.abs(getMaximumCoord().getZ() - getMinimumCoord().getZ()) + 1;
+	}
+	
+	public int getInteriorLengthX() {
+		return getExteriorLengthX() - 2;
+	}
+	
+	public int getInteriorLengthY() {
+		return getExteriorLengthY() - 2;
+	}
+	
+	public int getInteriorLengthZ() {
+		return getExteriorLengthZ() - 2;
+	}
 	
 }

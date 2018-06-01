@@ -11,9 +11,11 @@ public class CoolantHeaterRecipes extends BaseRecipeHandler {
 	
 	@Override
 	public void addRecipes() {
-		addRecipe(fluidStack("nak", NCConfig.salt_fission_cooling_max_rate), fluidStack("nak_hot", NCConfig.salt_fission_cooling_max_rate));
-		for (String coolant : new String[] {"redstone", "quartz", "gold", "glowstone", "lapis", "diamond", "liquidhelium", "ender", "cryotheum", "iron", "emerald", "copper", "tin", "magnesium"}) {
-			addRecipe(fluidStack(coolant + "_nak", NCConfig.salt_fission_cooling_max_rate), fluidStack(coolant + "_nak_hot", NCConfig.salt_fission_cooling_max_rate));
+		addRecipe(fluidStack("nak", NCConfig.salt_fission_cooling_max_rate), fluidStack("nak_hot", NCConfig.salt_fission_cooling_max_rate), NCConfig.salt_fission_cooling_rate[0]);
+		for (int i = 0; i < COOLANTS.length; i++) {
+			addRecipe(fluidStack(COOLANTS[i] + "_nak", NCConfig.salt_fission_cooling_max_rate), fluidStack(COOLANTS[i] + "_nak_hot", NCConfig.salt_fission_cooling_max_rate), NCConfig.salt_fission_cooling_rate[i + 1]);
 		}
 	}
+	
+	static final String[] COOLANTS = new String[] {"redstone", "quartz", "gold", "glowstone", "lapis", "diamond", "liquidhelium", "ender", "cryotheum", "iron", "emerald", "copper", "tin", "magnesium"};
 }

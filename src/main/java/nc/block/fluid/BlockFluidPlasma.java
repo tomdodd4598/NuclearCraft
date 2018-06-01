@@ -2,17 +2,16 @@ package nc.block.fluid;
 
 import java.util.Random;
 
-import nc.block.tile.BlockActivatable;
 import nc.fluid.FluidPlasma;
-import nc.init.NCBlocks;
+import nc.tile.passive.TilePassive;
 import nc.util.MaterialHelper;
-import net.minecraft.block.Block;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialLiquid;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
@@ -55,21 +54,19 @@ public class BlockFluidPlasma extends BlockFluid {
 		}
 		int free = 0;
 		for (EnumFacing side : EnumFacing.values()) {
-			Block offBlock = worldIn.getBlockState(pos.offset(side)).getBlock();
-			if (!(offBlock instanceof BlockActivatable || offBlock == NCBlocks.fusion_connector)) {
+			TileEntity tile = worldIn.getTileEntity(pos.offset(side));
+			if (!(tile instanceof TilePassive.FusionElectromagnet)) {
 				free++;
 				continue;
-			} if (rand.nextInt(200) < 2) {
-				if (offBlock == NCBlocks.fusion_electromagnet_idle || offBlock == NCBlocks.fusion_electromagnet_transparent_idle) {
+			} if (rand.nextInt(100) < 1) {
+				TilePassive.FusionElectromagnet magnet = (TilePassive.FusionElectromagnet) tile;
+				if (magnet.isRunning) {
 					worldIn.createExplosion(null, pos.offset(side).getX(), pos.offset(side).getY(), pos.offset(side).getZ(), 4F, true);
-					return;
-				} else if (offBlock == NCBlocks.fusion_core || offBlock == NCBlocks.fusion_dummy_side || offBlock == NCBlocks.fusion_dummy_top) {
-					worldIn.createExplosion(null, pos.offset(side).getX(), pos.offset(side).getY(), pos.offset(side).getZ(), 7F, true);
 					return;
 				}
 			}
 		}
-		if (free == 6 && isSourceBlock(worldIn, pos)) {
+		if (free >= 6 && isSourceBlock(worldIn, pos)) {
 			worldIn.setBlockToAir(pos);
 			return;
 		}

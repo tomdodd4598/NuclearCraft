@@ -70,7 +70,11 @@ public abstract class NCGui extends GuiContainer {
 		drawTooltip(noEnergyInfo(), mouseX, mouseY, x, y, width, height);
 	}
 	
+	protected int width(String string) {
+		return fontRenderer.getStringWidth(string);
+	}
+	
 	protected int widthHalf(String string) {
-		return fontRenderer.getStringWidth(string)/2;
+		return width(string)/2;
 	}
 }

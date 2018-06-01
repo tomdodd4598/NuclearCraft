@@ -131,4 +131,11 @@ public class TileProcessor {
 			super("centrifuge", 1, 4, tankCapacities(16000, 1, 4), fluidConnections(1, 4), RecipeMethods.validFluids(NCRecipes.Type.CENTRIFUGE), NCConfig.processor_time[17], NCConfig.processor_power[17], NCRecipes.Type.CENTRIFUGE, 18);
 		}
 	}
+	
+	public static class RockCrusher extends TileItemProcessor {
+
+		public RockCrusher() {
+			super("rock_crusher", 1, 3, NCConfig.processor_time[18], NCConfig.processor_power[18], NCRecipes.Type.ROCK_CRUSHER, 19);
+		}
+	}
 }

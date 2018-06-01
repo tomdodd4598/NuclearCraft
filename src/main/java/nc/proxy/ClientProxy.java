@@ -26,8 +26,10 @@ import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.StateMapperBase;
 import net.minecraft.client.renderer.color.BlockColors;
 import net.minecraft.client.renderer.color.ItemColors;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.client.model.obj.OBJLoader;
@@ -37,6 +39,7 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 public class ClientProxy extends CommonProxy {
 	
@@ -66,6 +69,28 @@ public class ClientProxy extends CommonProxy {
 	public void postInit(FMLPostInitializationEvent postEvent) {
 		super.postInit(postEvent);
 	}
+	
+	// Packets
+	
+	@Override
+	public World getWorld(int dimensionId) {
+		if (getCurrentClientDimension() != dimensionId) {
+			return null;
+		} else
+			return Minecraft.getMinecraft().world;
+	}
+
+	@Override
+	public int getCurrentClientDimension() {
+		return Minecraft.getMinecraft().world.provider.getDimension();
+	}
+	
+	@Override
+	public EntityPlayer getPlayerEntity(MessageContext ctx) {
+		return ctx.side.isClient() ? Minecraft.getMinecraft().player : super.getPlayerEntity(ctx);
+	}
+	
+	// Fluid Colours
 	
 	static {
 		ModelLoaderRegistry.registerLoader(ModelTexturedFluid.FluidTexturedLoader.INSTANCE);

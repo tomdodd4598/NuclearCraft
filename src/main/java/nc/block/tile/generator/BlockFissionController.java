@@ -25,6 +25,15 @@ public class BlockFissionController extends BlockProcessor {
 	}
 	
 	@Override
+	public void onGuiOpened(World world, BlockPos pos) {
+		TileEntity tile = world.getTileEntity(pos);
+		if (tile instanceof TileFissionController) {
+			TileFissionController controller = (TileFissionController) tile;
+			controller.tickCount = -1;
+		}
+	}
+	
+	@Override
 	public void dropItems(World world, BlockPos pos, IInventory tileentity) {
 		NCInventoryHelper.dropInventoryItems(world, pos, tileentity, 0, 1);
 	}
@@ -53,9 +62,10 @@ public class BlockFissionController extends BlockProcessor {
 			TileFissionController controller = (TileFissionController) tile;
 			BlockFinder finder = new BlockFinder(pos, world, controller.getBlockMetadata());
 			BlockPos position = finder.randomWithin(controller.minX, controller.maxX, controller.minY, controller.maxY, controller.minZ, controller.maxZ);
-			double rate = Math.max(Math.sqrt(controller.cells)/NCConfig.fission_max_size, 1);
 			
-			if (controller.isGenerating()) if (rand.nextDouble() < rate) {
+			if (controller.cells <= 0) return;
+			double soundRate = MathHelper.clamp(0.04D, Math.sqrt(controller.cells)/NCConfig.fission_max_size, 1D);
+			if (controller.isGenerating()) if (rand.nextDouble() < soundRate) {
 				world.playSound((double)position.getX(), (double)position.getY(), (double)position.getZ(), SoundHandler.geiger_tick, SoundCategory.BLOCKS, 1.6F, 1.0F + 0.12F*(rand.nextFloat() - 0.5F), false);
 			}
 		}

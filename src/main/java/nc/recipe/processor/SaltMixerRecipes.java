@@ -47,8 +47,8 @@ public class SaltMixerRecipes extends BaseRecipeHandler {
 		addRecipe(fluidStack("fuel_tbu_fluoride", FluidHelper.INGOT_VOLUME), fluidStack("thorium_230_fluoride", FluidHelper.NUGGET_VOLUME), fluidStack("thorium_fluoride", FluidHelper.INGOT_VOLUME), NCConfig.processor_time[13]);
 		addRecipe(fluidStack("fuel_tbu_fluoride_flibe", FluidHelper.INGOT_VOLUME), fluidStack("thorium_230_fluoride_flibe", FluidHelper.NUGGET_VOLUME), fluidStack("thorium_fluoride_flibe", FluidHelper.INGOT_VOLUME), NCConfig.processor_time[13]);
 
-		addIsotopeMixRecipes("uranium", 238, 235);
-		addIsotopeMixRecipes("plutonium", 239, 242);
+		//addIsotopeMixRecipes("uranium", 238, 235);
+		//addIsotopeMixRecipes("plutonium", 239, 242);
 		
 		addIsotopeFLIBERecipes("thorium", 230);
 		addIsotopeFLIBERecipes("uranium", 233, 235, 238);

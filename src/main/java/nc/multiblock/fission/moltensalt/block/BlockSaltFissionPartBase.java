@@ -64,7 +64,7 @@ public abstract class BlockSaltFissionPartBase extends NCBlock implements ITileE
 						return true;
 					}
 				}
-			}
+			} else return false;
 		}
 		return true;
 	}

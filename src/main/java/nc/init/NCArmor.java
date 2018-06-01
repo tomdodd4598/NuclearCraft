@@ -42,69 +42,93 @@ public class NCArmor {
 	public static ItemArmor boots_boron_nitride;
 
 	public static void init() {
-		helm_boron = new NCItemArmor("helm_boron", BORON, 1, EntityEquipmentSlot.HEAD);
-		chest_boron = new NCItemArmor("chest_boron", BORON, 1, EntityEquipmentSlot.CHEST);
-		legs_boron = new NCItemArmor("legs_boron", BORON, 2, EntityEquipmentSlot.LEGS);
-		boots_boron = new NCItemArmor("boots_boron", BORON, 1, EntityEquipmentSlot.FEET);
+		if (NCConfig.register_armor[0]) {
+			helm_boron = new NCItemArmor("helm_boron", BORON, 1, EntityEquipmentSlot.HEAD);
+			chest_boron = new NCItemArmor("chest_boron", BORON, 1, EntityEquipmentSlot.CHEST);
+			legs_boron = new NCItemArmor("legs_boron", BORON, 2, EntityEquipmentSlot.LEGS);
+			boots_boron = new NCItemArmor("boots_boron", BORON, 1, EntityEquipmentSlot.FEET);
+		}
 		
-		helm_tough = new NCItemArmor("helm_tough", TOUGH, 1, EntityEquipmentSlot.HEAD);
-		chest_tough = new NCItemArmor("chest_tough", TOUGH, 1, EntityEquipmentSlot.CHEST);
-		legs_tough = new NCItemArmor("legs_tough", TOUGH, 2, EntityEquipmentSlot.LEGS);
-		boots_tough = new NCItemArmor("boots_tough", TOUGH, 1, EntityEquipmentSlot.FEET);
+		if (NCConfig.register_armor[1]) {
+			helm_tough = new NCItemArmor("helm_tough", TOUGH, 1, EntityEquipmentSlot.HEAD);
+			chest_tough = new NCItemArmor("chest_tough", TOUGH, 1, EntityEquipmentSlot.CHEST);
+			legs_tough = new NCItemArmor("legs_tough", TOUGH, 2, EntityEquipmentSlot.LEGS);
+			boots_tough = new NCItemArmor("boots_tough", TOUGH, 1, EntityEquipmentSlot.FEET);
+		}
 		
-		helm_hard_carbon = new NCItemArmor("helm_hard_carbon", HARD_CARBON, 1, EntityEquipmentSlot.HEAD);
-		chest_hard_carbon = new NCItemArmor("chest_hard_carbon", HARD_CARBON, 1, EntityEquipmentSlot.CHEST);
-		legs_hard_carbon = new NCItemArmor("legs_hard_carbon", HARD_CARBON, 2, EntityEquipmentSlot.LEGS);
-		boots_hard_carbon = new NCItemArmor("boots_hard_carbon", HARD_CARBON, 1, EntityEquipmentSlot.FEET);
+		if (NCConfig.register_armor[2]) {
+			helm_hard_carbon = new NCItemArmor("helm_hard_carbon", HARD_CARBON, 1, EntityEquipmentSlot.HEAD);
+			chest_hard_carbon = new NCItemArmor("chest_hard_carbon", HARD_CARBON, 1, EntityEquipmentSlot.CHEST);
+			legs_hard_carbon = new NCItemArmor("legs_hard_carbon", HARD_CARBON, 2, EntityEquipmentSlot.LEGS);
+			boots_hard_carbon = new NCItemArmor("boots_hard_carbon", HARD_CARBON, 1, EntityEquipmentSlot.FEET);
+		}
 		
-		helm_boron_nitride = new NCItemArmor("helm_boron_nitride", BORON_NITRIDE, 1, EntityEquipmentSlot.HEAD);
-		chest_boron_nitride = new NCItemArmor("chest_boron_nitride", BORON_NITRIDE, 1, EntityEquipmentSlot.CHEST);
-		legs_boron_nitride = new NCItemArmor("legs_boron_nitride", BORON_NITRIDE, 2, EntityEquipmentSlot.LEGS);
-		boots_boron_nitride = new NCItemArmor("boots_boron_nitride", BORON_NITRIDE, 1, EntityEquipmentSlot.FEET);
+		if (NCConfig.register_armor[3]) {
+			helm_boron_nitride = new NCItemArmor("helm_boron_nitride", BORON_NITRIDE, 1, EntityEquipmentSlot.HEAD);
+			chest_boron_nitride = new NCItemArmor("chest_boron_nitride", BORON_NITRIDE, 1, EntityEquipmentSlot.CHEST);
+			legs_boron_nitride = new NCItemArmor("legs_boron_nitride", BORON_NITRIDE, 2, EntityEquipmentSlot.LEGS);
+			boots_boron_nitride = new NCItemArmor("boots_boron_nitride", BORON_NITRIDE, 1, EntityEquipmentSlot.FEET);
+		}
 	}
 		
 	public static void register() {
-		registerItem(helm_boron);
-		registerItem(chest_boron);
-		registerItem(legs_boron);
-		registerItem(boots_boron);
+		if (NCConfig.register_armor[0]) {
+			registerItem(helm_boron);
+			registerItem(chest_boron);
+			registerItem(legs_boron);
+			registerItem(boots_boron);
+		}
 		
-		registerItem(helm_tough);
-		registerItem(chest_tough);
-		registerItem(legs_tough);
-		registerItem(boots_tough);
+		if (NCConfig.register_armor[1]) {
+			registerItem(helm_tough);
+			registerItem(chest_tough);
+			registerItem(legs_tough);
+			registerItem(boots_tough);
+		}
 		
-		registerItem(helm_hard_carbon);
-		registerItem(chest_hard_carbon);
-		registerItem(legs_hard_carbon);
-		registerItem(boots_hard_carbon);
+		if (NCConfig.register_armor[2]) {
+			registerItem(helm_hard_carbon);
+			registerItem(chest_hard_carbon);
+			registerItem(legs_hard_carbon);
+			registerItem(boots_hard_carbon);
+		}
 		
-		registerItem(helm_boron_nitride);
-		registerItem(chest_boron_nitride);
-		registerItem(legs_boron_nitride);
-		registerItem(boots_boron_nitride);
+		if (NCConfig.register_armor[3]) {
+			registerItem(helm_boron_nitride);
+			registerItem(chest_boron_nitride);
+			registerItem(legs_boron_nitride);
+			registerItem(boots_boron_nitride);
+		}
 	}
 		
 	public static void registerRenders() {
-		registerRender(helm_boron);
-		registerRender(chest_boron);
-		registerRender(legs_boron);
-		registerRender(boots_boron);
+		if (NCConfig.register_armor[0]) {
+			registerRender(helm_boron);
+			registerRender(chest_boron);
+			registerRender(legs_boron);
+			registerRender(boots_boron);
+		}
 		
-		registerRender(helm_tough);
-		registerRender(chest_tough);
-		registerRender(legs_tough);
-		registerRender(boots_tough);
+		if (NCConfig.register_armor[1]) {
+			registerRender(helm_tough);
+			registerRender(chest_tough);
+			registerRender(legs_tough);
+			registerRender(boots_tough);
+		}
 		
-		registerRender(helm_hard_carbon);
-		registerRender(chest_hard_carbon);
-		registerRender(legs_hard_carbon);
-		registerRender(boots_hard_carbon);
+		if (NCConfig.register_armor[2]) {
+			registerRender(helm_hard_carbon);
+			registerRender(chest_hard_carbon);
+			registerRender(legs_hard_carbon);
+			registerRender(boots_hard_carbon);
+		}
 		
-		registerRender(helm_boron_nitride);
-		registerRender(chest_boron_nitride);
-		registerRender(legs_boron_nitride);
-		registerRender(boots_boron_nitride);
+		if (NCConfig.register_armor[3]) {
+			registerRender(helm_boron_nitride);
+			registerRender(chest_boron_nitride);
+			registerRender(legs_boron_nitride);
+			registerRender(boots_boron_nitride);
+		}
 	}
 		
 	public static void registerItem(Item item) {

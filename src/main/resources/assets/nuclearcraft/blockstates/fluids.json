@@ -265,6 +265,42 @@
 			"custom": {
 				"fluid": "nak_hot"
 			}
+		},
+		"fluid_sodium_fluoride_solution": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "sodium_fluoride_solution"
+			}
+		},
+		"fluid_potassium_fluoride_solution": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "potassium_fluoride_solution"
+			}
+		},
+		"fluid_sodium_hydroxide_solution": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "sodium_hydroxide_solution"
+			}
+		},
+		"fluid_potassium_hydroxide_solution": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "potassium_hydroxide_solution"
+			}
+		},
+		"fluid_naoh": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "naoh"
+			}
+		},
+		"fluid_koh": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "koh"
+			}
 		}
 	}
 }

@@ -42,6 +42,7 @@ public class BlockEnums {
 		DISSOLVER("dissolver", 16, "splash", "depthsuspend"),
 		EXTRACTOR("extractor", 17, "reddust", "depthsuspend"),
 		CENTRIFUGE("centrifuge", 18, "endRod", "depthsuspend"),
+		ROCK_CRUSHER("rock_crusher", 19, "smoke", "smoke"),
 		FISSION_CONTROLLER("fission_controller", 100, "", ""),
 		FISSION_CONTROLLER_NEW("fission_controller_new", 100, "", "");
 		
@@ -104,6 +105,8 @@ public class BlockEnums {
 				return new TileProcessor.Extractor();
 			case CENTRIFUGE:
 				return new TileProcessor.Centrifuge();
+			case ROCK_CRUSHER:
+				return new TileProcessor.RockCrusher();
 			case FISSION_CONTROLLER:
 				return new TileFissionController(false);
 			case FISSION_CONTROLLER_NEW:
@@ -151,6 +154,8 @@ public class BlockEnums {
 				return NCBlocks.extractor_idle;
 			case CENTRIFUGE:
 				return NCBlocks.centrifuge_idle;
+			case ROCK_CRUSHER:
+				return NCBlocks.rock_crusher_idle;
 			case FISSION_CONTROLLER:
 				return NCBlocks.fission_controller_idle;
 			case FISSION_CONTROLLER_NEW:
@@ -198,6 +203,8 @@ public class BlockEnums {
 				return NCBlocks.extractor_active;
 			case CENTRIFUGE:
 				return NCBlocks.centrifuge_active;
+			case ROCK_CRUSHER:
+				return NCBlocks.rock_crusher_active;
 			case FISSION_CONTROLLER:
 				return NCBlocks.fission_controller_active;
 			case FISSION_CONTROLLER_NEW:

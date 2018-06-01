@@ -26,6 +26,7 @@ import nc.container.processor.ContainerIsotopeSeparator;
 import nc.container.processor.ContainerManufactory;
 import nc.container.processor.ContainerMelter;
 import nc.container.processor.ContainerPressurizer;
+import nc.container.processor.ContainerRockCrusher;
 import nc.container.processor.ContainerSaltMixer;
 import nc.container.processor.ContainerSupercooler;
 import nc.enumm.MetaEnums;
@@ -47,6 +48,7 @@ import nc.gui.processor.GuiIsotopeSeparator;
 import nc.gui.processor.GuiManufactory;
 import nc.gui.processor.GuiMelter;
 import nc.gui.processor.GuiPressurizer;
+import nc.gui.processor.GuiRockCrusher;
 import nc.gui.processor.GuiSaltMixer;
 import nc.gui.processor.GuiSupercooler;
 import nc.init.NCBlocks;
@@ -70,6 +72,7 @@ import nc.integration.jei.processor.IsotopeSeparatorCategory;
 import nc.integration.jei.processor.ManufactoryCategory;
 import nc.integration.jei.processor.MelterCategory;
 import nc.integration.jei.processor.PressurizerCategory;
+import nc.integration.jei.processor.RockCrusherCategory;
 import nc.integration.jei.processor.SaltMixerCategory;
 import nc.integration.jei.processor.SupercoolerCategory;
 import nc.integration.jei.saltFission.CoolantHeaterCategory;
@@ -124,6 +127,7 @@ public class NCJEI implements IModPlugin, IJEIRecipeBuilder {
 		registry.addRecipeClickArea(GuiDissolver.class, 83, 34, 37, 18, Handlers.DISSOLVER.getUUID());
 		registry.addRecipeClickArea(GuiExtractor.class, 59, 34, 37, 18, Handlers.EXTRACTOR.getUUID());
 		registry.addRecipeClickArea(GuiCentrifuge.class, 67, 30, 37, 38, Handlers.CENTRIFUGE.getUUID());
+		registry.addRecipeClickArea(GuiRockCrusher.class, 55, 34, 37, 18, Handlers.ROCK_CRUSHER.getUUID());
 		registry.addRecipeClickArea(GuiFissionController.class, 73, 34, 37, 18, Handlers.FISSION.getUUID());
 		registry.addRecipeClickArea(GuiFusionCore.class, 47, 5, 121, 97, Handlers.FUSION.getUUID());
 		
@@ -145,6 +149,7 @@ public class NCJEI implements IModPlugin, IJEIRecipeBuilder {
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerDissolver.class, Handlers.DISSOLVER.getUUID(), 0, 1, 3, 36);
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerExtractor.class, Handlers.EXTRACTOR.getUUID(), 0, 1, 4, 36);
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerCentrifuge.class, Handlers.CENTRIFUGE.getUUID(), 0, 0, 2, 36);
+		recipeTransferRegistry.addRecipeTransferHandler(ContainerRockCrusher.class, Handlers.ROCK_CRUSHER.getUUID(), 0, 1, 6, 36);
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerFissionController.class, Handlers.FISSION.getUUID(), 0, 1, 3, 36);
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerFusionCore.class, Handlers.FUSION.getUUID(), 0, 0, 0, 36);
 		
@@ -178,6 +183,7 @@ public class NCJEI implements IModPlugin, IJEIRecipeBuilder {
 		blacklist(jeiHelpers, NCBlocks.dissolver_active);
 		blacklist(jeiHelpers, NCBlocks.extractor_active);
 		blacklist(jeiHelpers, NCBlocks.centrifuge_active);
+		blacklist(jeiHelpers, NCBlocks.rock_crusher_active);
 		
 		blacklist(jeiHelpers, NCBlocks.fission_controller_active);
 		blacklist(jeiHelpers, NCBlocks.fission_controller_new_active);
@@ -232,14 +238,17 @@ public class NCJEI implements IModPlugin, IJEIRecipeBuilder {
 	}
 	
 	private void blacklist(IJeiHelpers jeiHelpers, Object ingredient) {
+		if (ingredient == null) return;
 		jeiHelpers.getIngredientBlacklist().addIngredientToBlacklist(ItemStackHelper.fixItemStack(ingredient));
 	}
 	
 	private <T extends Enum<T>> void blacklistAll(IJeiHelpers jeiHelpers, Class<T> enumm, Block block) {
+		if (block == null) return;
 		for (int i = 0; i < enumm.getEnumConstants().length; i++) blacklist(jeiHelpers, new ItemStack(block, 1, i));
 	}
 	
 	private <T extends Enum<T>> void blacklistAll(IJeiHelpers jeiHelpers, Class<T> enumm, Item item) {
+		if (item == null) return;
 		for (int i = 0; i < enumm.getEnumConstants().length; i++) blacklist(jeiHelpers, new ItemStack(item, 1, i));
 	}
 	
@@ -262,6 +271,7 @@ public class NCJEI implements IModPlugin, IJEIRecipeBuilder {
 		DISSOLVER(NCRecipes.Type.DISSOLVER, NCBlocks.dissolver_idle, "dissolver", RecipesJEI.Dissolver.class),
 		EXTRACTOR(NCRecipes.Type.EXTRACTOR, NCBlocks.extractor_idle, "extractor", RecipesJEI.Extractor.class),
 		CENTRIFUGE(NCRecipes.Type.CENTRIFUGE, NCBlocks.centrifuge_idle, "centrifuge", RecipesJEI.Centrifuge.class),
+		ROCK_CRUSHER(NCRecipes.Type.ROCK_CRUSHER, NCBlocks.rock_crusher_idle, "rock_crusher", RecipesJEI.RockCrusher.class),
 		DECAY_GENERATOR(NCRecipes.Type.DECAY_GENERATOR, NCBlocks.decay_generator, "decay_generator", RecipesJEI.DecayGenerator.class),
 		FISSION(NCRecipes.Type.FISSION, NCBlocks.fission_controller_new_idle, "fission_controller", RecipesJEI.Fission.class),
 		FUSION(NCRecipes.Type.FUSION, NCBlocks.fusion_core, "fusion_core", RecipesJEI.Fusion.class),
@@ -276,8 +286,8 @@ public class NCJEI implements IModPlugin, IJEIRecipeBuilder {
 		
 		Handlers(NCRecipes.Type recipeType, Object crafter, String textureName, Class<? extends JEIRecipe> recipeClass) {
 			this.recipeType = recipeType;
-			crafterType = ItemStackHelper.fixItemStack(crafter);
-			this.unlocalizedName = crafterType.getUnlocalizedName() + ".name";
+			crafterType = crafter != null ? ItemStackHelper.fixItemStack(crafter) : null;
+			this.unlocalizedName = crafterType != null ? crafterType.getUnlocalizedName() + ".name" : "";
 			this.textureName = textureName;
 			this.recipeClass = recipeClass;
 		}
@@ -321,6 +331,8 @@ public class NCJEI implements IModPlugin, IJEIRecipeBuilder {
 				return new ExtractorCategory(guiHelper, this);
 			case CENTRIFUGE:
 				return new CentrifugeCategory(guiHelper, this);
+			case ROCK_CRUSHER:
+				return new RockCrusherCategory(guiHelper, this);
 			case DECAY_GENERATOR:
 				return new DecayGeneratorCategory(guiHelper, this);
 			case FISSION:

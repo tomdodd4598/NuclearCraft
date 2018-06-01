@@ -18,7 +18,7 @@ public class UnitHelper {
 			newDouble = NCMathHelper.magnitudeMult(newDouble, 3);
 			newMaxDouble = NCMathHelper.magnitudeMult(newMaxDouble, 3);
             prefixNumber--;
-            if (NCMathHelper.atLimit((int) newDouble, 1000) || NCMathHelper.atLimit((int) newMaxDouble, 1000) || prefixNumber == minPrefixNumber) break;
+            if (NCMathHelper.atIntLimit((int) newDouble, 1000) || NCMathHelper.atIntLimit((int) newMaxDouble, 1000) || prefixNumber == minPrefixNumber) break;
 		}
 		int maxLengthFixed = Math.max(maxLength, 3);
 		int newValue = (int) newDouble;

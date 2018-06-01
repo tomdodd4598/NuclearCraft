@@ -1,5 +1,7 @@
 package nc.recipe.vanilla;
 
+import java.util.Arrays;
+
 import nc.Global;
 import nc.enumm.MetaEnums.IngotType;
 import nc.init.NCArmor;
@@ -299,6 +301,7 @@ public class CraftingRecipeHandler {
 	private static int recipeID = 0;
 	
 	public static void addShapedOreRecipe(Object out, Object... inputs) {
+		if (out == null || Arrays.asList(inputs).contains(null)) return;
 		ItemStack outStack = ItemStackHelper.fixItemStack(out);
 		if (!outStack.isEmpty() && inputs != null) {
 			ResourceLocation location = new ResourceLocation(Global.MOD_ID, outStack.getUnlocalizedName() + recipeID++);
@@ -309,6 +312,7 @@ public class CraftingRecipeHandler {
 	}
 	
 	public static void addShapelessOreRecipe(Object out, Object... inputs) {
+		if (out == null || Arrays.asList(inputs).contains(null)) return;
 		ItemStack outStack = ItemStackHelper.fixItemStack(out);
 		if (!outStack.isEmpty() && inputs != null) {
 			ResourceLocation location = new ResourceLocation(Global.MOD_ID, outStack.getUnlocalizedName() + recipeID++);

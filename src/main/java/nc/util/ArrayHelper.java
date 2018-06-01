@@ -127,4 +127,16 @@ public class ArrayHelper {
 		for (int i = 0; i < list.size(); i++) array[i] = list.get(i);
 		return array;
 	}
+	
+	// Other methods
+	
+	public static int[] increasingArray(int start, int length) {
+		int[] array = new int[length];
+		for (int i = 0; i < length; i++) array[i] = start + i;
+		return array;
+	}
+	
+	public static int[] increasingArray(int length) {
+		return increasingArray(0, length);
+	}
 }

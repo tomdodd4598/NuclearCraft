@@ -1,6 +1,10 @@
 package nc.tile.internal.fluid;
 
+import java.util.ArrayList;
+
 import javax.annotation.Nullable;
+
+import com.google.common.collect.Lists;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.INBTSerializable;
@@ -18,7 +22,7 @@ public class Tank extends FluidTank implements INBTSerializable<NBTTagCompound> 
 	
 	protected IFluidTankProperties[] tankProperties;
 	
-	public String[] allowedFluids;
+	public ArrayList<String> allowedFluids;
 	
 	public Tank(int capacity, boolean strictlyIn, boolean strictlyOut, String... allowedFluids) {
 		this(capacity, capacity, capacity, strictlyIn, strictlyOut, allowedFluids);
@@ -47,7 +51,7 @@ public class Tank extends FluidTank implements INBTSerializable<NBTTagCompound> 
 		if (allowedFluids == null || allowedFluids.length == 0) this.allowedFluids = null; else {
 			String[] fluidList = new String[allowedFluids.length];
 			for (int i = 0; i < allowedFluids.length; i++) fluidList[i] = allowedFluids[i];
-			this.allowedFluids = fluidList;
+			this.allowedFluids = Lists.newArrayList(fluidList);
 		}
 	}
 	
@@ -196,10 +200,7 @@ public class Tank extends FluidTank implements INBTSerializable<NBTTagCompound> 
 	
 	public boolean isFluidValid(String name) {
 		if (allowedFluids == null) return true;
-		for (int i = 0; i < allowedFluids.length; i++) {
-			if (allowedFluids[i] == name) return true;
-		}
-		return false;
+		return allowedFluids.contains(name);
 	}
 	
 	public boolean isFluidValid(Fluid fluid) {

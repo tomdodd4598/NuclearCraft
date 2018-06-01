@@ -32,6 +32,7 @@ import nc.fluid.FluidParticle;
 import nc.fluid.FluidPlasma;
 import nc.fluid.FluidSaltSolution;
 import nc.fluid.SuperFluid;
+import nc.util.ColorHelper;
 import nc.util.NCUtil;
 import net.minecraft.item.ItemBlock;
 import net.minecraftforge.fluids.Fluid;
@@ -84,21 +85,27 @@ public static List<Pair<Fluid, BlockFluidBase>> fluidPairList = new ArrayList<Pa
 			fluidPairList.add(fluidPair("boric_acid", 0x696939, FluidAcid.class, BlockFluidAcid.class));
 			fluidPairList.add(fluidPair("sulfuric_acid", 0x454500, FluidAcid.class, BlockFluidAcid.class));
 			
-			fluidPairList.add(fluidPair("boron_nitride_solution", 0x3671C0, FluidSaltSolution.class, BlockFluidSaltSolution.class));
-			fluidPairList.add(fluidPair("fluorite_water", 0x5773D7, FluidSaltSolution.class, BlockFluidSaltSolution.class));
-			fluidPairList.add(fluidPair("calcium_sulfate_solution", 0x686FD6, FluidSaltSolution.class, BlockFluidSaltSolution.class));
+			fluidPairList.add(fluidPair("boron_nitride_solution", waterBlend(0x6F8E5C), FluidSaltSolution.class, BlockFluidSaltSolution.class));
+			fluidPairList.add(fluidPair("fluorite_water", waterBlend(0x8AB492), FluidSaltSolution.class, BlockFluidSaltSolution.class));
+			fluidPairList.add(fluidPair("calcium_sulfate_solution", waterBlend(0xB8B0A6), FluidSaltSolution.class, BlockFluidSaltSolution.class));
+			fluidPairList.add(fluidPair("sodium_fluoride_solution", waterBlend(0xC2B1A1), FluidSaltSolution.class, BlockFluidSaltSolution.class));
+			fluidPairList.add(fluidPair("potassium_fluoride_solution", waterBlend(0xC1C99D), FluidSaltSolution.class, BlockFluidSaltSolution.class));
+			fluidPairList.add(fluidPair("sodium_hydroxide_solution", waterBlend(0xC2B7BB), FluidSaltSolution.class, BlockFluidSaltSolution.class));
+			fluidPairList.add(fluidPair("potassium_hydroxide_solution", waterBlend(0xB8C6B0), FluidSaltSolution.class, BlockFluidSaltSolution.class));
 			
 			fluidPairList.add(fluidPair("corium", 0x7F8178, FluidFission.class, BlockFluidFission.class));
 			
 			fluidPairList.add(fluidPair("lif", 0xCDCDCB, FluidMolten.class, BlockFluidMolten.class));
 			fluidPairList.add(fluidPair("bef2", 0xBEC6AA, FluidMolten.class, BlockFluidMolten.class));
 			fluidPairList.add(fluidPair("flibe", 0xC1C8B0, FluidMolten.class, BlockFluidMolten.class));
+			fluidPairList.add(fluidPair("naoh", 0xC2B7BB, FluidMolten.class, BlockFluidMolten.class));
+			fluidPairList.add(fluidPair("koh", 0xB8C6B0, FluidMolten.class, BlockFluidMolten.class));
 			
 			fluidPairList.add(fluidPair("steam", 0x8E8E8E, FluidGas.class, BlockFluidGas.class));
 			fluidPairList.add(fluidPair("coolant", 0x88D7CF, FluidCoolant.class, BlockFluidCoolant.class));
 			
-			fluidPairList.add(fluidPair("sodium", 0xFFFFA3, FluidMolten.class, BlockFluidMolten.class));
-			fluidPairList.add(fluidPair("potassium", 0xFFA3A3, FluidMolten.class, BlockFluidMolten.class));
+			fluidPairList.add(fluidPair("sodium", 0xC1898C, FluidMolten.class, BlockFluidMolten.class));
+			fluidPairList.add(fluidPair("potassium", 0xB8C503, FluidMolten.class, BlockFluidMolten.class));
 			fluidPairList.add(fluidPair("nak", 0xFFE5BC, FluidCoolant.class, BlockFluidCoolant.class));
 			fluidPairList.add(fluidPair("nak_hot", 0xFFD5AC, FluidHotCoolant.class, BlockFluidHotCoolant.class));
 		} catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
@@ -132,5 +139,9 @@ public static List<Pair<Fluid, BlockFluidBase>> fluidPairList = new ArrayList<Pa
 		T fluid = NCUtil.newInstance(fluidClass, name, color);
 		V block = NCUtil.newInstance(blockClass, fluid);
 		return Pair.of(fluid, block);
+	}
+	
+	static int waterBlend(int soluteColor) {
+		return ColorHelper.blend(0x2F43F4, soluteColor, 0.5F);
 	}
 }

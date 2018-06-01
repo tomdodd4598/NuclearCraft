@@ -32,6 +32,8 @@ public class NCCraftTweaker {
 		CraftTweakerAPI.registerClass(CrystallizerHandler.class);
 		CraftTweakerAPI.registerClass(DissolverHandler.class);
 		CraftTweakerAPI.registerClass(ExtractorHandler.class);
+		CraftTweakerAPI.registerClass(CentrifugeHandler.class);
+		CraftTweakerAPI.registerClass(RockCrusherHandler.class);
 		CraftTweakerAPI.registerClass(DecayGeneratorHandler.class);
 		CraftTweakerAPI.registerClass(FissionHandler.class);
 		CraftTweakerAPI.registerClass(FusionHandler.class);
@@ -493,6 +495,31 @@ public class NCCraftTweaker {
 		@ZenMethod
 		public static void removeRecipeWithOutput(IIngredient output1, IIngredient output2, IIngredient output3, IIngredient output4) {
 			CraftTweakerAPI.apply(new RemoveRecipe(NCRecipes.Type.CENTRIFUGE, SorptionType.OUTPUT, Lists.newArrayList(output1, output2, output3, output4)));
+		}
+	}
+	
+	@ZenClass("mods.nuclearcraft.rock_crusher")
+	@ZenRegister
+	public static class RockCrusherHandler extends RecipeHandler {
+		
+		@ZenMethod
+		public static void addRecipe(IIngredient input1, IIngredient output1, IIngredient output2, IIngredient output3) {
+			CraftTweakerAPI.apply(new AddRecipe(NCRecipes.Type.ROCK_CRUSHER, Lists.newArrayList(input1), Lists.newArrayList(output1, output2, output3), Lists.newArrayList(NCConfig.processor_time[18])));
+		}
+		
+		@ZenMethod
+		public static void addRecipe(IIngredient input1, IIngredient output1, IIngredient output2, IIngredient output3, int processTime) {
+			CraftTweakerAPI.apply(new AddRecipe(NCRecipes.Type.ROCK_CRUSHER, Lists.newArrayList(input1), Lists.newArrayList(output1, output2, output3), Lists.newArrayList(processTime)));
+		}
+		
+		@ZenMethod
+		public static void removeRecipeWithInput(IIngredient input1) {
+			CraftTweakerAPI.apply(new RemoveRecipe(NCRecipes.Type.ROCK_CRUSHER, SorptionType.INPUT, Lists.newArrayList(input1)));
+		}
+
+		@ZenMethod
+		public static void removeRecipeWithOutput(IIngredient output1, IIngredient output2, IIngredient output3) {
+			CraftTweakerAPI.apply(new RemoveRecipe(NCRecipes.Type.ROCK_CRUSHER, SorptionType.OUTPUT, Lists.newArrayList(output1, output2, output3)));
 		}
 	}
 	

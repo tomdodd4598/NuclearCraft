@@ -1,6 +1,5 @@
 package nc.tile.generator;
 
-import nc.config.NCConfig;
 import nc.tile.dummy.IInterfaceable;
 import nc.tile.energy.IEnergySpread;
 import nc.tile.energy.TileEnergy;

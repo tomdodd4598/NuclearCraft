@@ -31,6 +31,9 @@ public class OreDictHandler {
 		OreDictionary.registerOre("blockBeryllium", new ItemStack(NCBlocks.ingot_block, 1, 9));
 		OreDictionary.registerOre("blockZirconium", new ItemStack(NCBlocks.ingot_block, 1, 10));
 		
+		OreDictionary.registerOre("blockFissionModerator", new ItemStack(NCBlocks.ingot_block, 1, 8));
+		OreDictionary.registerOre("blockFissionModerator", new ItemStack(NCBlocks.ingot_block, 1, 9));
+		
 		OreDictionary.registerOre("blockDepletedThorium", NCBlocks.block_depleted_thorium);
 		OreDictionary.registerOre("blockDepletedUranium", NCBlocks.block_depleted_uranium);
 		OreDictionary.registerOre("blockDepletedNeptunium", NCBlocks.block_depleted_neptunium);
@@ -77,6 +80,8 @@ public class OreDictHandler {
 		OreDictionary.registerOre("gemRhodochrosite", new ItemStack(NCItems.gem, 1, 0));
 		OreDictionary.registerOre("gemBoronNitride", new ItemStack(NCItems.gem, 1, 1));
 		OreDictionary.registerOre("gemFluorite", new ItemStack(NCItems.gem, 1, 2));
+		OreDictionary.registerOre("gemVilliaumite", new ItemStack(NCItems.gem, 1, 3));
+		OreDictionary.registerOre("gemCarobbiite", new ItemStack(NCItems.gem, 1, 4));
 		
 		OreDictionary.registerOre("dustDiamond", new ItemStack(NCItems.gem_dust, 1, 0));
 		OreDictionary.registerOre("dustRhodochrosite", new ItemStack(NCItems.gem_dust, 1, 1));
@@ -87,6 +92,8 @@ public class OreDictHandler {
 		OreDictionary.registerOre("dustFluorite", new ItemStack(NCItems.gem_dust, 1, 5));
 		OreDictionary.registerOre("dustSulfur", new ItemStack(NCItems.gem_dust, 1, 6));
 		OreDictionary.registerOre("dustCoal", new ItemStack(NCItems.gem_dust, 1, 7));
+		OreDictionary.registerOre("dustVilliaumite", new ItemStack(NCItems.gem_dust, 1, 8));
+		OreDictionary.registerOre("dustCarobbiite", new ItemStack(NCItems.gem_dust, 1, 9));
 		
 		OreDictionary.registerOre("ingotBronze", new ItemStack(NCItems.alloy, 1, 0));
 		OreDictionary.registerOre("ingotTough", new ItemStack(NCItems.alloy, 1, 1));
@@ -102,6 +109,10 @@ public class OreDictHandler {
 		OreDictionary.registerOre("dustCalciumSulfate", new ItemStack(NCItems.compound, 1, 0));
 		OreDictionary.registerOre("dustCrystalBinder", new ItemStack(NCItems.compound, 1, 1));
 		OreDictionary.registerOre("dustEnergetic", new ItemStack(NCItems.compound, 1, 2));
+		OreDictionary.registerOre("dustSodiumFluoride", new ItemStack(NCItems.compound, 1, 3));
+		OreDictionary.registerOre("dustPotassiumFluoride", new ItemStack(NCItems.compound, 1, 4));
+		OreDictionary.registerOre("dustSodiumHydroxide", new ItemStack(NCItems.compound, 1, 5));
+		OreDictionary.registerOre("dustPotassiumHydroxide", new ItemStack(NCItems.compound, 1, 6));
 		
 		OreDictionary.registerOre("plateBasic", new ItemStack(NCItems.part, 1, 0));
 		OreDictionary.registerOre("plateAdvanced", new ItemStack(NCItems.part, 1, 1));
@@ -440,6 +451,9 @@ public class OreDictHandler {
 		OreDictionary.registerOre("depletedFuelLECf251Oxide", new ItemStack(NCItems.depleted_fuel_californium, 1, 5));
 		OreDictionary.registerOre("depletedFuelHECf251", new ItemStack(NCItems.depleted_fuel_californium, 1, 6));
 		OreDictionary.registerOre("depletedFuelHECf251Oxide", new ItemStack(NCItems.depleted_fuel_californium, 1, 7));
+		
+		OreDictionary.registerOre("depletedFuelIC2U", new ItemStack(NCItems.depleted_fuel_ic2, 1, 0));
+		OreDictionary.registerOre("depletedFuelIC2MOX", new ItemStack(NCItems.depleted_fuel_ic2, 1, 1));
 		
 		OreDictionary.registerOre("depletedFuelRodTBU", new ItemStack(NCItems.depleted_fuel_rod_thorium, 1, 0));
 		OreDictionary.registerOre("depletedFuelRodTBUOxide", new ItemStack(NCItems.depleted_fuel_rod_thorium, 1, 1));

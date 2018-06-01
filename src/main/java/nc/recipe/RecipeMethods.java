@@ -1,8 +1,6 @@
 package nc.recipe;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Nullable;
@@ -223,7 +221,9 @@ public abstract class RecipeMethods<T extends IRecipe> implements IRecipeGetter<
 	
 	// Smart item insertion
 	public boolean isValidInput(ItemStack stack, ItemStack slotStack, ArrayList<ItemStack> otherInputs) {
-		if (otherInputs.isEmpty()) return isValidInput(stack);
+		if (otherInputs.isEmpty() || (stack.isItemEqual(slotStack) && ItemStack.areItemStackTagsEqual(stack, slotStack))) {
+			return isValidInput(stack);
+		}
 		
 		ArrayList<ItemStack> otherStacks = new ArrayList<ItemStack>();
 		for (ItemStack otherInput : otherInputs) {

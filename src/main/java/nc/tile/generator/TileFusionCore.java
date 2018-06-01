@@ -1,6 +1,7 @@
 package nc.tile.generator;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +15,7 @@ import nc.recipe.RecipeMethods;
 import nc.tile.fluid.TileActiveCooler;
 import nc.tile.internal.energy.EnergyConnection;
 import nc.tile.internal.fluid.Tank;
+import nc.util.ArrayHelper;
 import nc.util.BlockFinder;
 import nc.util.BlockPosHelper;
 import nc.util.EnergyHelper;
@@ -39,7 +41,7 @@ public class TileFusionCore extends TileFluidGenerator /*implements SimpleCompon
 	
 	private static final double ROOM_TEMP = 0.298D;
 	
-	public double rateMultiplier, processTime, processPower;
+	public double speedMultiplier, processTime, processPower;
 	public double heat = ROOM_TEMP, efficiency, cooling, heatChange; // cooling and heatChange are in K, not kK
 	
 	public int soundCount;
@@ -50,8 +52,10 @@ public class TileFusionCore extends TileFluidGenerator /*implements SimpleCompon
 	
 	private BlockFinder finder;
 	
+	private static final long MAX_POWER = (long) (100*Collections.max(ArrayHelper.asDoubleList(NCConfig.fusion_power))*NCConfig.fusion_base_power*NCConfig.fusion_max_size);
+	
 	public TileFusionCore() {
-		super("Fusion Core", 2, 4, 0, tankCapacities(32000, 2, 4), fluidConnections(2, 4), RecipeMethods.validFluids(NCRecipes.Type.FUSION), 8192000, NCRecipes.Type.FUSION);
+		super("Fusion Core", 2, 4, 0, tankCapacities(32000, 2, 4), fluidConnections(2, 4), RecipeMethods.validFluids(NCRecipes.Type.FUSION), 2*MAX_POWER < Integer.MAX_VALUE ? (int) (2*MAX_POWER) : Integer.MAX_VALUE, NCRecipes.Type.FUSION);
 		areTanksShared = false;
 	}
 	
@@ -68,11 +72,14 @@ public class TileFusionCore extends TileFluidGenerator /*implements SimpleCompon
 	
 	@Override
 	public void updateGenerator() {
+		canProcessStacks = canProcessStacks();
 		boolean wasGenerating = isGenerating;
 		isGenerating = canGenerate();
 		boolean shouldUpdate = false;
-		if(!world.isRemote) if (time == 0) consume();
-		tick();
+		if(!world.isRemote) {
+			tick();
+			if (time == 0) consume();
+		}
 		setSize();
 		if(!world.isRemote) {
 			if (shouldCheck() && NCConfig.fusion_active_cooling) setCooling();
@@ -130,7 +137,7 @@ public class TileFusionCore extends TileFluidGenerator /*implements SimpleCompon
 	
 	@Override
 	public boolean canProcess() {
-		return canProcessStacks() && complete == 1 && isHotEnough();
+		return canProcessStacks && complete == 1 && isHotEnough();
 	}
 	
 	public boolean canGenerate() {
@@ -259,13 +266,13 @@ public class TileFusionCore extends TileFluidGenerator /*implements SimpleCompon
 	// Generating
 
 	@Override
-	public int getRateMultiplier() {
-		return (int) Math.max(1, rateMultiplier);
+	public int getSpeedMultiplier() {
+		return (int) Math.max(0, speedMultiplier);
 	}
 
 	@Override
-	public void setRateMultiplier(int value) {
-		rateMultiplier = Math.max(1, value);
+	public void setSpeedMultiplier(int value) {
+		speedMultiplier = Math.max(0, value);
 	}
 
 	@Override
@@ -415,11 +422,11 @@ public class TileFusionCore extends TileFluidGenerator /*implements SimpleCompon
 		if (canGenerate()) {
 			heatChange = NCConfig.fusion_heat_generation*(100D - (0.9*efficiency))/2D;
 			setProcessPower((int) (MathHelper.clamp(efficiency, 0D, 100D)*NCConfig.fusion_base_power*size*getComboPower()));
-			setRateMultiplier(size);
+			setSpeedMultiplier(size);
 		} else {
 			heatChange = 0;
 			setProcessPower(0);
-			setRateMultiplier(0);
+			setSpeedMultiplier(0);
 			
 			if (heat >= 1.005D*ROOM_TEMP) {
 				heat = heat-((heat/100000D)*Math.log10(1000*(heat-ROOM_TEMP)));
@@ -501,7 +508,7 @@ public class TileFusionCore extends TileFluidGenerator /*implements SimpleCompon
 		super.writeAll(nbt);
 		nbt.setDouble("processTime", processTime);
 		nbt.setDouble("processPower", processPower);
-		nbt.setDouble("rateMultiplier", rateMultiplier);
+		nbt.setDouble("speedMultiplier", speedMultiplier);
 		nbt.setDouble("heat", heat);
 		nbt.setDouble("cooling", cooling);
 		nbt.setDouble("heatChange", heatChange);
@@ -517,7 +524,7 @@ public class TileFusionCore extends TileFluidGenerator /*implements SimpleCompon
 		super.readAll(nbt);
 		processTime = nbt.getDouble("processTime");
 		processPower = nbt.getDouble("processPower");
-		rateMultiplier = nbt.getDouble("rateMultiplier");
+		speedMultiplier = nbt.getDouble("speedMultiplier");
 		heat = nbt.getDouble("heat");
 		cooling = nbt.getDouble("cooling");
 		heatChange = nbt.getDouble("heatChange");
@@ -550,7 +557,7 @@ public class TileFusionCore extends TileFluidGenerator /*implements SimpleCompon
 		case 5:
 			return (int) efficiency;
 		case 6:
-			return getRateMultiplier();
+			return getSpeedMultiplier();
 		case 7:
 			return size;
 		case 8:
@@ -586,7 +593,7 @@ public class TileFusionCore extends TileFluidGenerator /*implements SimpleCompon
 			efficiency = value;
 			break;
 		case 6:
-			setRateMultiplier(value);
+			setSpeedMultiplier(value);
 			break;
 		case 7:
 			size = value;

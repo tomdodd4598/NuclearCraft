@@ -17,6 +17,10 @@ public class DissolverRecipes extends BaseRecipeHandler {
 		addRecipe("dustBoronNitride", fluidStack("water", FluidHelper.BUCKET_VOLUME), fluidStack("boron_nitride_solution", FluidHelper.GEM_VOLUME), NCConfig.processor_time[15]);
 		addRecipe("dustFluorite", fluidStack("water", FluidHelper.BUCKET_VOLUME), fluidStack("fluorite_water", FluidHelper.GEM_VOLUME), NCConfig.processor_time[15]);
 		addRecipe("dustCalciumSulfate", fluidStack("water", FluidHelper.BUCKET_VOLUME), fluidStack("calcium_sulfate_solution", FluidHelper.GEM_VOLUME), NCConfig.processor_time[15]);
+		addRecipe("dustSodiumFluoride", fluidStack("water", FluidHelper.BUCKET_VOLUME), fluidStack("sodium_fluoride_solution", FluidHelper.GEM_VOLUME), NCConfig.processor_time[15]);
+		addRecipe("dustPotassiumFluoride", fluidStack("water", FluidHelper.BUCKET_VOLUME), fluidStack("potassium_fluoride_solution", FluidHelper.GEM_VOLUME), NCConfig.processor_time[15]);
+		addRecipe("dustSodiumHydroxide", fluidStack("water", FluidHelper.BUCKET_VOLUME), fluidStack("sodium_hydroxide_solution", FluidHelper.GEM_VOLUME), NCConfig.processor_time[15]);
+		addRecipe("dustPotassiumHydroxide", fluidStack("water", FluidHelper.BUCKET_VOLUME), fluidStack("potassium_hydroxide_solution", FluidHelper.GEM_VOLUME), NCConfig.processor_time[15]);
 		
 		addRecipe(new ItemStack(NCBlocks.glowing_mushroom, 3), fluidStack("ethanol", FluidHelper.BUCKET_VOLUME/4), fluidStack("radaway", FluidHelper.BUCKET_VOLUME/4), NCConfig.processor_time[15]);
 	}

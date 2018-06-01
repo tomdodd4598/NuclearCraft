@@ -19,6 +19,7 @@ import nc.container.processor.ContainerManufactory;
 import nc.container.processor.ContainerMelter;
 import nc.container.processor.ContainerNuclearFurnace;
 import nc.container.processor.ContainerPressurizer;
+import nc.container.processor.ContainerRockCrusher;
 import nc.container.processor.ContainerSaltMixer;
 import nc.container.processor.ContainerSupercooler;
 import nc.gui.generator.GuiFissionController;
@@ -40,11 +41,12 @@ import nc.gui.processor.GuiManufactory;
 import nc.gui.processor.GuiMelter;
 import nc.gui.processor.GuiNuclearFurnace;
 import nc.gui.processor.GuiPressurizer;
+import nc.gui.processor.GuiRockCrusher;
 import nc.gui.processor.GuiSaltMixer;
 import nc.gui.processor.GuiSupercooler;
+import nc.multiblock.fission.moltensalt.SaltFissionReactor;
 import nc.multiblock.fission.moltensalt.container.ContainerSaltFissionController;
 import nc.multiblock.fission.moltensalt.gui.GuiSaltFissionController;
-import nc.multiblock.fission.moltensalt.tile.SaltFissionReactor;
 import nc.multiblock.fission.moltensalt.tile.TileSaltFissionController;
 import nc.tile.generator.TileFissionController;
 import nc.tile.generator.TileFusionCore;
@@ -65,6 +67,7 @@ import nc.tile.processor.TileProcessor.IsotopeSeparator;
 import nc.tile.processor.TileProcessor.Manufactory;
 import nc.tile.processor.TileProcessor.Melter;
 import nc.tile.processor.TileProcessor.Pressurizer;
+import nc.tile.processor.TileProcessor.RockCrusher;
 import nc.tile.processor.TileProcessor.SaltMixer;
 import nc.tile.processor.TileProcessor.Supercooler;
 import net.minecraft.entity.player.EntityPlayer;
@@ -120,6 +123,8 @@ public class GuiHandler implements IGuiHandler {
 				if (tile instanceof Extractor) return new ContainerExtractor(player, (Extractor) tile);
 			case 18:
 				if (tile instanceof Centrifuge) return new ContainerCentrifuge(player, (Centrifuge) tile);
+			case 19:
+				if (tile instanceof RockCrusher) return new ContainerRockCrusher(player, (RockCrusher) tile);
 			case 100:
 				if (tile instanceof TileFissionController) return new ContainerFissionController(player, (TileFissionController) tile);
 			case 101:
@@ -176,6 +181,8 @@ public class GuiHandler implements IGuiHandler {
 				if (tile instanceof Extractor) return new GuiExtractor(player, (Extractor) tile);
 			case 18:
 				if (tile instanceof Centrifuge) return new GuiCentrifuge(player, (Centrifuge) tile);
+			case 19:
+				if (tile instanceof RockCrusher) return new GuiRockCrusher(player, (RockCrusher) tile);
 			case 100:
 				if (tile instanceof TileFissionController) return new GuiFissionController(player, (TileFissionController) tile);
 			case 101:

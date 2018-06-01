@@ -156,6 +156,11 @@ public class NCConfig {
 	public static int[] armor_enchantability;
 	public static double[] armor_toughness;
 	
+	public static boolean[] register_processor;
+	public static boolean[] register_passive;
+	public static boolean[] register_tool;
+	public static boolean[] register_armor;
+	
 	public static boolean ctrl_info;
 	
 	public static boolean rare_drops;
@@ -174,6 +179,9 @@ public class NCConfig {
 	
 	public static boolean register_fission_fluid_blocks;
 	public static boolean register_cofh_fluids;
+	
+	public static boolean ore_dict_priority_bool;
+	public static String[] ore_dict_priority;
 	
 	public static void preInit() {
 		File configFile = new File(Loader.instance().getConfigDir(), "nuclearcraft.cfg");
@@ -218,16 +226,16 @@ public class NCConfig {
 		propertyOreMinHeight.setLanguageKey("gui.config.ores.ore_min_height");
 		Property propertyOreMaxHeight = config.get(CATEGORY_ORES, "ore_max_height", new int[] {48, 40, 36, 32, 32, 28, 28, 24}, Lang.localise("gui.config.ores.ore_max_height.comment"), 1, 255);
 		propertyOreMaxHeight.setLanguageKey("gui.config.ores.ore_max_height");
-		Property propertyOreDrops = config.get(CATEGORY_ORES, "ore_drops", new boolean[] {true, true, true, true, true}, Lang.localise("gui.config.ores.ore_drops.comment"));
+		Property propertyOreDrops = config.get(CATEGORY_ORES, "ore_drops", new boolean[] {false, false, false, false, false, false, false}, Lang.localise("gui.config.ores.ore_drops.comment"));
 		propertyOreDrops.setLanguageKey("gui.config.ores.ore_drops");
 		Property propertyHideDisabledOres = config.get(CATEGORY_ORES, "hide_disabled_ores", false, Lang.localise("gui.config.ores.hide_disabled_ores.comment"));
 		propertyHideDisabledOres.setLanguageKey("gui.config.ores.hide_disabled_ores");
 		Property propertyOreHarvestLevels = config.get(CATEGORY_ORES, "ore_harvest_levels", new int[] {1, 1, 1, 2, 2, 2, 2, 2}, Lang.localise("gui.config.ores.ore_harvest_levels.comment"), 0, 15);
 		propertyOreHarvestLevels.setLanguageKey("gui.config.ores.ore_harvest_levels");
 		
-		Property propertyProcessorTime = config.get(CATEGORY_PROCESSORS, "processor_time", new int[] {400, 800, 800, 400, 400, 600, 800, 600, 3200, 800, 400, 600, 800, 600, 1600, 600, 2400, 1200}, Lang.localise("gui.config.processors.processor_time.comment"), 1, 128000);
+		Property propertyProcessorTime = config.get(CATEGORY_PROCESSORS, "processor_time", new int[] {400, 800, 800, 400, 400, 600, 800, 600, 3200, 800, 400, 600, 800, 600, 1600, 600, 2400, 1200, 800}, Lang.localise("gui.config.processors.processor_time.comment"), 1, 128000);
 		propertyProcessorTime.setLanguageKey("gui.config.processors.processor_time");
-		Property propertyProcessorPower = config.get(CATEGORY_PROCESSORS, "processor_power", new int[] {20, 10, 10, 20, 10, 10, 40, 20, 40, 20, 0, 40, 10, 20, 10, 10, 10, 10}, Lang.localise("gui.config.processors.processor_power.comment"), 0, 16000);
+		Property propertyProcessorPower = config.get(CATEGORY_PROCESSORS, "processor_power", new int[] {20, 10, 10, 20, 10, 10, 40, 20, 40, 20, 0, 40, 10, 20, 10, 10, 10, 10, 20}, Lang.localise("gui.config.processors.processor_power.comment"), 0, 16000);
 		propertyProcessorPower.setLanguageKey("gui.config.processors.processor_power");
 		Property propertySpeedUpgradePowerLaws = config.get(CATEGORY_PROCESSORS, "speed_upgrade_power_laws", new int[] {1, 2}, Lang.localise("gui.config.processors.speed_upgrade_power_laws.comment"), 1, 15);
 		propertySpeedUpgradePowerLaws.setLanguageKey("gui.config.processors.speed_upgrade_power_laws");
@@ -392,7 +400,7 @@ public class NCConfig {
 		propertySaltFissionMinSize.setLanguageKey("gui.config.salt_fission.salt_fission_min_size");
 		Property propertySaltFissionMaxSize = config.get(CATEGORY_SALT_FISSION, "salt_fission_max_size", 24, Lang.localise("gui.config.salt_fission.salt_fission_max_size.comment"), 1, 255);
 		propertyFissionMaxSize.setLanguageKey("gui.config.salt_fission.salt_fission_max_size");
-		Property propertySaltFissionCoolingRate = config.get(CATEGORY_SALT_FISSION, "salt_fission_cooling_rate", new double[] {3600D, 6400D, 6000D, 9600D, 8000D, 5600D, 14000D, 13200D, 10800D, 12800D, 4800D, 7200D, 5200D, 6000D, 7200D}, Lang.localise("gui.config.salt_fission.salt_fission_cooling_rate.comment"), 1D, 16777215D);
+		Property propertySaltFissionCoolingRate = config.get(CATEGORY_SALT_FISSION, "salt_fission_cooling_rate", new double[] {600D, 900D, 700D, 1200D, 1300D, 1200D, 1500D, 1400D, 1200D, 1600D, 800D, 1600D, 800D, 1200D, 1100D}, Lang.localise("gui.config.salt_fission.salt_fission_cooling_rate.comment"), 1D, 16777215D);
 		propertySaltFissionCoolingRate.setLanguageKey("gui.config.salt_fission.salt_fission_cooling_rate");
 		Property propertySaltFissionCoolingMaxRate = config.get(CATEGORY_SALT_FISSION, "salt_fission_cooling_max_rate", 16, Lang.localise("gui.config.salt_fission.salt_fission_cooling_max_rate.comment"), 1, 16000);
 		propertySaltFissionCoolingMaxRate.setLanguageKey("gui.config.salt_fission.salt_fission_cooling_max_rate");
@@ -433,6 +441,15 @@ public class NCConfig {
 		Property propertyArmorToughness = config.get(CATEGORY_ARMOR, "armor_toughness", new double[] {1D, 2D, 1D, 2D}, Lang.localise("gui.config.armor.armor_toughness.comment"), 1, 8);
 		propertyArmorToughness.setLanguageKey("gui.config.armor.armor_toughness");
 		
+		Property propertyRegisterProcessor = config.get(CATEGORY_OTHER, "register_processor", new boolean[] {true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true}, Lang.localise("gui.config.other.register_processor.comment"));
+		propertyRegisterProcessor.setLanguageKey("gui.config.other.register_processor");
+		Property propertyRegisterPassive = config.get(CATEGORY_OTHER, "register_passive", new boolean[] {true, true, true, true}, Lang.localise("gui.config.other.register_passive.comment"));
+		propertyRegisterPassive.setLanguageKey("gui.config.other.register_passive");
+		Property propertyRegisterTool = config.get(CATEGORY_OTHER, "register_tool", new boolean[] {true, true, true, true}, Lang.localise("gui.config.other.register_tool.comment"));
+		propertyRegisterTool.setLanguageKey("gui.config.other.register_tool");
+		Property propertyRegisterArmor = config.get(CATEGORY_OTHER, "register_armor", new boolean[] {true, true, true, true}, Lang.localise("gui.config.other.register_armor.comment"));
+		propertyRegisterArmor.setLanguageKey("gui.config.other.register_armor");
+		
 		Property propertyCtrlInfo = config.get(CATEGORY_OTHER, "ctrl_info", false, Lang.localise("gui.config.other.ctrl_info.comment"));
 		propertyCtrlInfo.setLanguageKey("gui.config.other.ctrl_info");
 		
@@ -464,6 +481,11 @@ public class NCConfig {
 		propertyRegisterFluidBlocks.setLanguageKey("gui.config.other.register_fluid_blocks");
 		Property propertyRegisterCoFHFluids = config.get(CATEGORY_OTHER, "register_cofh_fluids", false, Lang.localise("gui.config.other.register_cofh_fluids.comment"));
 		propertyRegisterCoFHFluids.setLanguageKey("gui.config.other.register_cofh_fluids");
+		
+		Property propertyOreDictPriorityBool = config.get(CATEGORY_OTHER, "ore_dict_priority_bool", false, Lang.localise("gui.config.other.ore_dict_priority_bool.comment"));
+		propertyOreDictPriorityBool.setLanguageKey("gui.config.other.ore_dict_priority_bool");
+		Property propertyOreDictPriority = config.get(CATEGORY_OTHER, "ore_dict_priority", new String[] {"minecraft", "thermalfoundation", "techreborn", "ic2", "immersiveengineering", "mekanism", "appliedenergistics2", "actuallyadditions", "thaumcraft", "biomesoplenty"}, Lang.localise("gui.config.other.ore_dict_priority.comment"));
+		propertyOreDictPriority.setLanguageKey("gui.config.other.ore_dict_priority");
 		
 		List<String> propertyOrderOres = new ArrayList<String>();
 		propertyOrderOres.add(propertyOreDims.getName());
@@ -612,6 +634,10 @@ public class NCConfig {
 		config.setCategoryPropertyOrder(CATEGORY_ARMOR, propertyOrderArmor);
 		
 		List<String> propertyOrderOther = new ArrayList<String>();
+		propertyOrderOther.add(propertyRegisterProcessor.getName());
+		propertyOrderOther.add(propertyRegisterPassive.getName());
+		propertyOrderOther.add(propertyRegisterTool.getName());
+		propertyOrderOther.add(propertyRegisterArmor.getName());
 		propertyOrderOther.add(propertyCtrlInfo.getName());
 		propertyOrderOther.add(propertyRareDrops.getName());
 		propertyOrderOther.add(propertyDungeonLoot.getName());
@@ -625,6 +651,8 @@ public class NCConfig {
 		propertyOrderOther.add(propertyMushroomGenRate.getName());
 		propertyOrderOther.add(propertyRegisterFluidBlocks.getName());
 		propertyOrderOther.add(propertyRegisterCoFHFluids.getName());
+		propertyOrderOther.add(propertyOreDictPriorityBool.getName());
+		propertyOrderOther.add(propertyOreDictPriority.getName());
 		config.setCategoryPropertyOrder(CATEGORY_OTHER, propertyOrderOther);
 		
 		if(readFieldFromConfig) {
@@ -754,6 +782,10 @@ public class NCConfig {
 			armor_boron_nitride = readIntegerArrayFromConfig(propertyArmorBoronNitride);
 			armor_toughness = readDoubleArrayFromConfig(propertyArmorToughness);
 			
+			register_processor = readBooleanArrayFromConfig(propertyRegisterProcessor);
+			register_passive = readBooleanArrayFromConfig(propertyRegisterPassive);
+			register_tool = readBooleanArrayFromConfig(propertyRegisterTool);
+			register_armor = readBooleanArrayFromConfig(propertyRegisterArmor);
 			ctrl_info = propertyCtrlInfo.getBoolean();
 			rare_drops = propertyRareDrops.getBoolean();
 			dungeon_loot = propertyDungeonLoot.getBoolean();
@@ -767,6 +799,8 @@ public class NCConfig {
 			mushroom_gen_rate = propertyMushroomGenRate.getInt();
 			register_fission_fluid_blocks = propertyRegisterFluidBlocks.getBoolean();
 			register_cofh_fluids = propertyRegisterCoFHFluids.getBoolean();
+			ore_dict_priority_bool = propertyOreDictPriorityBool.getBoolean();
+			ore_dict_priority = propertyOreDictPriority.getStringList();
 			
 		}
 		
@@ -896,6 +930,10 @@ public class NCConfig {
 		propertyArmorBoronNitride.set(armor_boron_nitride);
 		propertyArmorToughness.set(armor_toughness);
 		
+		propertyRegisterProcessor.set(register_processor);
+		propertyRegisterPassive.set(register_passive);
+		propertyRegisterTool.set(register_tool);
+		propertyRegisterArmor.set(register_armor);
 		propertyCtrlInfo.set(ctrl_info);
 		propertyRareDrops.set(rare_drops);
 		propertyWastelandBiome.set(wasteland_biome);
@@ -908,6 +946,8 @@ public class NCConfig {
 		propertyMushroomGenRate.set(mushroom_gen_rate);
 		propertyRegisterFluidBlocks.set(register_fission_fluid_blocks);
 		propertyRegisterCoFHFluids.set(register_cofh_fluids);
+		propertyOreDictPriorityBool.set(ore_dict_priority_bool);
+		propertyOreDictPriority.set(ore_dict_priority);
 		
 		if (config.hasChanged()) config.save();
 	}

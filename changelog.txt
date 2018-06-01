@@ -1,3 +1,29 @@
+v2.10n
+
++ Added Rock Crusher - used to obtain crushed gems and rare metal dusts
+* Extra ore drops are now disabled by default due to the addition of this machine
+
++ Added Villiaumite and Carobbiite for Sodium and Potassium production
+
++ Added config option to prioritize particular mods' Ore Dictionary entries for machine outputs
++ Added config options to disable processor, passive machine, tool and armor registration
+
+* Battery blocks now output a comparator signal proportional to their stored energy
+
++ Added IC2 nuclear fuel support for fission reactors
+* Fixed fission sounds playing too often for small reactors
+
+* Fixed Fusion Core not having a large enough energy buffer when power generation configs are altered
+
+v2.10m
+
+* Improved fission and fusion structure checking to reduce lag
+* Fixed fission and fusion reactors updating too quickly
+
+v2.10l
+
+* Fixed passive item and fluid generators updating far too quickly
+
 v2.10k
 
 * Major texture overhaul!

@@ -5,6 +5,7 @@ import com.google.common.collect.Lists;
 import nc.config.NCConfig;
 import nc.recipe.BaseRecipeHandler;
 import nc.util.OreDictHelper;
+import nc.util.RegistryHelper;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraftforge.oredict.OreDictionary;
@@ -24,10 +25,15 @@ public class PressurizerRecipes extends BaseRecipeHandler {
 		addRecipe(oreStack("dustObsidian", 4), Blocks.OBSIDIAN, NCConfig.processor_time[11]*2);
 		addRecipe("dustBoronNitride", "gemBoronNitride", NCConfig.processor_time[11]);
 		addRecipe("dustFluorite", "gemFluorite", NCConfig.processor_time[11]);
+		addRecipe("dustVilliaumite", "gemVilliaumite", NCConfig.processor_time[11]);
+		addRecipe("dustCarobbiite", "gemCarobbiite", NCConfig.processor_time[11]);
 		addRecipe(oreStack("ingotGraphite", 64), "gemDiamond", NCConfig.processor_time[11]*4);
 		
 		// IC2
 		addRecipe(oreStack("dustClay", 4), "dustSiliconDioxide", NCConfig.processor_time[11]);
+		
+		// Tech Reborn
+		addRecipe(RegistryHelper.itemStackFromRegistry("techreborn", "part", 1, 34), RegistryHelper.itemStackFromRegistry("techreborn", "plates", 1, 2), NCConfig.processor_time[11]);
 		
 		// AE2
 		addRecipe("dustEnder", Items.ENDER_PEARL, NCConfig.processor_time[11]);

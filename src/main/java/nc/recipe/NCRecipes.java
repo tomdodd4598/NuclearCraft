@@ -19,6 +19,7 @@ import nc.recipe.processor.IsotopeSeparatorRecipes;
 import nc.recipe.processor.ManufactoryRecipes;
 import nc.recipe.processor.MelterRecipes;
 import nc.recipe.processor.PressurizerRecipes;
+import nc.recipe.processor.RockCrusherRecipes;
 import nc.recipe.processor.SaltMixerRecipes;
 import nc.recipe.processor.SupercoolerRecipes;
 import nc.recipe.saltFission.CoolantHeaterRecipes;
@@ -46,6 +47,7 @@ public class NCRecipes {
 	private static DissolverRecipes dissolver;
 	private static ExtractorRecipes extractor;
 	private static CentrifugeRecipes centrifuge;
+	private static RockCrusherRecipes rock_crusher;
 	private static DecayGeneratorRecipes decay_generator;
 	private static FissionRecipes fission;
 	private static FusionRecipes fusion;
@@ -73,6 +75,7 @@ public class NCRecipes {
 		dissolver = new DissolverRecipes();
 		extractor = new ExtractorRecipes();
 		centrifuge = new CentrifugeRecipes();
+		rock_crusher = new RockCrusherRecipes();
 		decay_generator = new DecayGeneratorRecipes();
 		fission = new FissionRecipes();
 		fusion = new FusionRecipes();
@@ -101,6 +104,7 @@ public class NCRecipes {
 		DISSOLVER,
 		EXTRACTOR,
 		CENTRIFUGE,
+		ROCK_CRUSHER,
 		DECAY_GENERATOR,
 		FISSION,
 		FUSION,
@@ -145,6 +149,8 @@ public class NCRecipes {
 				return extractor;
 			case CENTRIFUGE:
 				return centrifuge;
+			case ROCK_CRUSHER:
+				return rock_crusher;
 			case DECAY_GENERATOR:
 				return decay_generator;
 			case FISSION:

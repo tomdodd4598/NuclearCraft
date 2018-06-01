@@ -29,21 +29,21 @@ public abstract class SimplePacketBase<REQ extends SimplePacketBase<REQ, REPLY> 
 		write = Unpooled.buffer();
 	}
 	
-	public TileEntity readTileEntityClient() throws IOException {
-		int dimension = readInt();
+	public TileEntity readClientTileEntity() throws IOException {
+		int dimensionId = readInt();
 		int x = readInt();
 		int y = readInt();
 		int z = readInt();
-		return WorldHelper.getTileClient(dimension, x, y, z);
+		return WorldHelper.getTileClient(dimensionId, x, y, z);
 	}
 	
 	
-	public TileEntity readTileEntityServer() throws IOException {
-		int dimension = readInt();
+	public TileEntity readServerTileEntity() throws IOException {
+		int dimensionId = readInt();
 		int x = readInt();
 		int y = readInt();
 		int z = readInt();
-		return WorldHelper.getTileServer(dimension, x, y, z);
+		return WorldHelper.getTileServer(dimensionId, x, y, z);
 	}
 	
 	public byte[] readByteArray() throws IOException {

@@ -3,6 +3,7 @@ package nc.recipe;
 import java.util.ArrayList;
 import java.util.List;
 
+import nc.util.OreDictHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -20,7 +21,8 @@ public class RecipeOreStack implements IIngredient, IRecipeStack {
 
 	public RecipeOreStack(String oreType, StackType stacktype, int stackSize) {
 		oreString = oreType;
-		cachedItemRegister = new ArrayList<ItemStack>(OreDictionary.getOres(oreType));
+		//cachedItemRegister = new ArrayList<ItemStack>(OreDictionary.getOres(oreType));
+		cachedItemRegister = OreDictHelper.getPrioritisedStackList(oreType);
 		cachedFluidRegister = new ArrayList<FluidStack>();
 		ArrayList<Fluid> fluidList = new ArrayList<Fluid>(FluidRegistry.getRegisteredFluids().values());
 		for (Fluid fluid : fluidList) {

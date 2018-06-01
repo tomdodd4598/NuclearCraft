@@ -1,0 +1,6 @@
+{
+    "parent": "nuclearcraft:block/processor",
+    "textures": {
+        "front": "nuclearcraft:blocks/rock_crusher_front_off"
+    }
+}

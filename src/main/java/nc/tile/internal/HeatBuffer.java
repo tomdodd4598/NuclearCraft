@@ -11,6 +11,10 @@ public class HeatBuffer implements INBTSerializable<NBTTagCompound> {
 		heatCapacity = capacity;
 	}
 	
+	public boolean isFull() {
+		return heatStored >= heatCapacity;
+	}
+	
 	public long removeHeat(long heat, boolean simulated) {
 		long heatRemoved = Math.min(heatStored, heat);
 		if (!simulated) heatStored -= heatRemoved;
@@ -31,14 +35,14 @@ public class HeatBuffer implements INBTSerializable<NBTTagCompound> {
 		return Math.min(heatCapacity, Long.MAX_VALUE);
 	}
 	
-	public void changeHeatStored(long energy) {
-		heatStored += energy;
+	public void changeHeatStored(long heat) {
+		heatStored += heat;
 		if (heatStored > heatCapacity) heatStored = heatCapacity;
 		else if (heatStored < 0) heatStored = 0;
 	}
 	
-	public void setHeatStored(long energy) {
-		heatStored = energy;
+	public void setHeatStored(long heat) {
+		heatStored = heat;
 		if (heatStored > heatCapacity) heatStored = heatCapacity;
 		else if (heatStored < 0) heatStored = 0;
 	}

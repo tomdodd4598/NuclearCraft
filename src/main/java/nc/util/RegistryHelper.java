@@ -39,4 +39,11 @@ public class RegistryHelper {
 	public static ItemStack itemStackFromRegistry(String domain, String name) {
 		return itemStackFromRegistry(domain, name, 1);
 	}
+	
+	public static String getModID(ItemStack stack) {
+		if (stack == null) return "";
+		Item item = stack.getItem();
+		if (item == null) return "";
+		return item.delegate.name().getResourceDomain();
+	}
 }

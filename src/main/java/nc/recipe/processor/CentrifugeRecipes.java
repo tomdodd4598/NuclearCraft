@@ -57,7 +57,6 @@ public class CentrifugeRecipes extends BaseRecipeHandler {
 		addIsotopeFLIBERecipes("californium", 249, 250, 251, 252);
 		
 		addRecipe(fluidStack("fuel_tbu_fluoride_flibe", FluidHelper.INGOT_VOLUME*2), fluidStack("fuel_tbu_fluoride", FluidHelper.INGOT_VOLUME/2), fluidStack("fuel_tbu_fluoride", FluidHelper.INGOT_VOLUME/2), fluidStack("flibe", FluidHelper.INGOT_VOLUME/2), fluidStack("flibe", FluidHelper.INGOT_VOLUME/2), NCConfig.processor_time[17]);
-		addRecipe(fluidStack("depleted_fuel_tbu_fluoride_flibe", FluidHelper.INGOT_VOLUME*2), fluidStack("depleted_fuel_tbu_fluoride", FluidHelper.INGOT_VOLUME/2), fluidStack("depleted_fuel_tbu_fluoride", FluidHelper.INGOT_VOLUME/2), fluidStack("flibe", FluidHelper.INGOT_VOLUME/2), fluidStack("flibe", FluidHelper.INGOT_VOLUME/2), NCConfig.processor_time[17]);
 		addFissionFuelFLIBERecipes("eu", 233, 235);
 		addFissionFuelFLIBERecipes("en", 236);
 		addFissionFuelFLIBERecipes("ep", 239, 241);
@@ -133,14 +132,14 @@ public class CentrifugeRecipes extends BaseRecipeHandler {
 	}
 	
 	public void addFissionFuelFLIBERecipes(String suffix, int... types) {
-		for (int type : types) for (String form : new String[] {"fuel_l", "fuel_h", "depleted_fuel_l", "depleted_fuel_h"}) {
+		for (int type : types) for (String form : new String[] {"fuel_l", "fuel_h"}) {
 			addRecipe(fluidStack(form + suffix + "_" + type + "_fluoride_flibe", FluidHelper.INGOT_VOLUME*2), fluidStack(form + suffix + "_" + type + "_fluoride", FluidHelper.INGOT_VOLUME/2), fluidStack(form + suffix + "_" + type + "_fluoride", FluidHelper.INGOT_VOLUME/2), fluidStack("flibe", FluidHelper.INGOT_VOLUME/2), fluidStack("flibe", FluidHelper.INGOT_VOLUME/2), NCConfig.processor_time[17]);
 		}
 	}
 	
 	public void addReprocessingRecipes(String fuel, String out1, int n1, String out2, int n2, String out3, int n3, String out4, int n4) {
 		for (String type : new String[] {"", "_fluoride", "_fluoride_flibe"}) {
-			addRecipe(fluidStack("depleted_fuel_" + fuel + type, FluidHelper.INGOT_BLOCK_VOLUME/4), fluidStack(out1 + type, FluidHelper.NUGGET_VOLUME*n1), fluidStack(out2 + type, FluidHelper.NUGGET_VOLUME*n2), fluidStack(out3 + type, FluidHelper.NUGGET_VOLUME*n3), fluidStack(out4 + type, FluidHelper.NUGGET_VOLUME*n4), NCConfig.processor_time[17]);
+			addRecipe(fluidStack("depleted_fuel_" + fuel + type, FluidHelper.INGOT_BLOCK_VOLUME/16), fluidStack(out1 + type, 4*n1), fluidStack(out2 + type, 4*n2), fluidStack(out3 + type, 4*n3), fluidStack(out4 + type, 4*n4), NCConfig.processor_time[17]/4);
 		}
 	}
 }

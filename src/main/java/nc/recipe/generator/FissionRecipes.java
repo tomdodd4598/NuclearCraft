@@ -3,6 +3,7 @@ package nc.recipe.generator;
 import nc.config.NCConfig;
 import nc.recipe.BaseRecipeHandler;
 import nc.util.Lang;
+import nc.util.RegistryHelper;
 
 public class FissionRecipes extends BaseRecipeHandler {
 	
@@ -26,6 +27,9 @@ public class FissionRecipes extends BaseRecipeHandler {
 		addFuelRodDepleteRecipes("Cm", NCConfig.fission_curium_fuel_time, NCConfig.fission_curium_power, NCConfig.fission_curium_heat_generation, 243, 245, 247);
 		addFuelRodDepleteRecipes("B", NCConfig.fission_berkelium_fuel_time, NCConfig.fission_berkelium_power, NCConfig.fission_berkelium_heat_generation, 248);
 		addFuelRodDepleteRecipes("Cf", NCConfig.fission_californium_fuel_time, NCConfig.fission_californium_power, NCConfig.fission_californium_heat_generation, 249, 251);
+		
+		addRecipe(RegistryHelper.itemStackFromRegistry("ic2", "nuclear", 1, 0), "depletedFuelIC2U", NCConfig.fission_uranium_fuel_time[4]*19D/54D, NCConfig.fission_uranium_power[4]*18D/19D, NCConfig.fission_uranium_heat_generation[4]*18D/19D, "IC2-LEU");
+		addRecipe(RegistryHelper.itemStackFromRegistry("ic2", "nuclear", 1, 4), "depletedFuelIC2MOX", NCConfig.fission_mox_fuel_time[0]*7D/3D, NCConfig.fission_mox_power[0]*9D/7D, NCConfig.fission_mox_heat_generation[0]*9D/7D, "IC2-MOX");
 	}
 	
 	public void addFuelRodDepleteRecipes(String fuel, double[] time, double[] power, double[] heat) {

@@ -62,12 +62,17 @@ public abstract class BlockInventory extends NCBlock implements ITileEntityProvi
 			}
 		}
 		if (tileentity instanceof IGui) {
+			onGuiOpened(world, pos);
 			IGui tileGui = (IGui) tileentity;
 			FMLNetworkHandler.openGui(player, NuclearCraft.instance, tileGui.getGuiID(), world, pos.getX(), pos.getY(), pos.getZ());
 		}
 		else return false;
 		
 		return true;
+	}
+	
+	public void onGuiOpened(World world, BlockPos pos) {
+		
 	}
 	
 	@Override

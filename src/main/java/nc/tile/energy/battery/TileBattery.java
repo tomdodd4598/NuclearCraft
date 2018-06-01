@@ -5,6 +5,8 @@ import nc.tile.energy.IEnergySpread;
 import nc.tile.energy.TileEnergy;
 import nc.tile.internal.energy.EnergyConnection;
 import nc.tile.internal.energy.EnergyStorage;
+import nc.util.BlockFinder;
+import net.minecraft.init.Blocks;
 
 public class TileBattery extends TileEnergy implements IBattery, IInterfaceable, IEnergySpread {
 	
@@ -23,6 +25,7 @@ public class TileBattery extends TileEnergy implements IBattery, IInterfaceable,
 	}
 	
 	private final BatteryType type;
+	private BlockFinder finder;
 	
 	public TileBattery(BatteryType type) {
 		super(type.getCapacity(), type.getMaxTransfer(), energyConnectionAll(EnergyConnection.IN));
@@ -31,13 +34,27 @@ public class TileBattery extends TileEnergy implements IBattery, IInterfaceable,
 	}
 	
 	@Override
+	public void onAdded() {
+		finder = new BlockFinder(pos, world, getBlockMetadata());
+		super.onAdded();
+		tickCount = -1;
+	}
+	
+	@Override
 	public void update() {
 		super.update();
 		pushEnergy();
-		if(!world.isRemote && shouldCheck()) {
-			spreadEnergy();
+		boolean shouldUpdate = false;
+		if(!world.isRemote) {
+			if(shouldCheck()) spreadEnergy();
+			if (findAdjacentComparator() && shouldCheck()) shouldUpdate = true;
+			tick();
 		}
-		tick();
+		if (shouldUpdate) markDirty();
+	}
+	
+	public boolean findAdjacentComparator() {
+		return finder.adjacent(pos, 1, Blocks.UNPOWERED_COMPARATOR, Blocks.POWERED_COMPARATOR);
 	}
 
 	@Override

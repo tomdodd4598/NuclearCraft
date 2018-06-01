@@ -426,7 +426,9 @@ public class MetaEnums {
 	public static enum GemType implements IStringSerializable, IItemMeta {
 		RHODOCHROSITE("rhodochrosite", 0),
 		BORON_NITRIDE("boron_nitride", 1),
-		FLUORITE("fluorite", 2);
+		FLUORITE("fluorite", 2),
+		VILLIAUMITE("villiaumite", 3),
+		CAROBBIITE("carobbiite", 4);
 		
 		private String name;
 		private int id;
@@ -464,7 +466,9 @@ public class MetaEnums {
 		BORON_NITRIDE("boron_nitride", 4),
 		FLUORITE("fluorite", 5),
 		SULFUR("sulfur", 6),
-		COAL("coal", 7);
+		COAL("coal", 7),
+		VILLIAUMITE("villiaumite", 8),
+		CAROBBIITE("carobbiite", 9);
 		
 		private String name;
 		private int id;
@@ -537,7 +541,11 @@ public class MetaEnums {
 	public static enum CompoundType implements IStringSerializable, IItemMeta {
 		CALCIUM_SULFATE("calcium_sulfate", 0),
 		CRYSTAL_BINDER("crystal_binder", 1),
-		ENERGETIC_BLEND("energetic_blend", 2);
+		ENERGETIC_BLEND("energetic_blend", 2),
+		SODIUM_FLUORIDE("sodium_fluoride", 3),
+		POTASSIUM_FLUORIDE("potassium_fluoride", 4),
+		SODIUM_HYDROXIDE("sodium_hydroxide", 5),
+		POTASSIUM_HYDROXIDE("potassium_hydroxide", 6);
 		
 		private String name;
 		private int id;
@@ -2295,6 +2303,38 @@ public class MetaEnums {
 		private int id;
 		
 		private CaliforniumDepletedFuelType(String name, int id) {
+			this.name = name;
+			this.id = id;
+		}
+
+		@Override
+		public String getName() {
+			return name;
+		}
+		
+		@Override
+		public String toString() {
+			return getName();
+		}
+		
+		@Override
+		public int getID() {
+			return id;
+		}
+		
+		public Object[] getValues() {
+			return values();
+		}
+	}
+	
+	public static enum IC2DepletedFuelType implements IStringSerializable, IItemMeta {
+		U("u", 0),
+		MOX("mox", 1);
+		
+		private String name;
+		private int id;
+		
+		private IC2DepletedFuelType(String name, int id) {
 			this.name = name;
 			this.id = id;
 		}
