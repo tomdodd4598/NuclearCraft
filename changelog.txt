@@ -1,3 +1,20 @@
+v2.10p
+
+* Fixed crash when attempting to reprocess depleted IC2 fuels
+* Fixed bug that could cause clients to crash on opening GUIs showing empty tanks
+* Fixed the Rock Crusher not having a recipe
+
++ Added Extreme Reactors yellorium and blutonium support for fission reactors
++ Added config option to enable fission reactor explosions (disabled by default)
+
++ Added marshmallows [thanks to Ollie_Lansdell!]
+
+v2.10o
+
+* Fixed Fusion Electromagnets exploding when they shouldn't
+
+* Updated Forge and APIs
+
 v2.10n
 
 + Added Rock Crusher - used to obtain crushed gems and rare metal dusts

@@ -125,6 +125,12 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 		Block corium = RegistryHelper.getBlock(Global.MOD_ID, "fluid_corium");
 		world.removeTileEntity(pos);
 		world.setBlockState(pos, corium.getDefaultState());
+		
+		if (NCConfig.fission_explosions) {
+			BlockPos middle = finder.position((minX + maxX)/2, (minY + maxY)/2, (minZ + maxZ)/2);
+			world.createExplosion(null, middle.getX(), middle.getY(), middle.getZ(), lengthX + lengthY + lengthZ, true);
+		}
+		
 		for (int i = minX; i <= maxX; i++) {
 			for (int j = minY; j <= maxY; j++) {
 				for (int k = minZ; k <= maxZ; k++) {

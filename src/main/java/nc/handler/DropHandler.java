@@ -1,5 +1,7 @@
 package nc.handler;
 
+import java.util.Random;
+
 import nc.config.NCConfig;
 import nc.init.NCItems;
 import net.minecraft.block.Block;
@@ -12,8 +14,6 @@ import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.world.BlockEvent.HarvestDropsEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-import java.util.Random;
-
 public class DropHandler {
 	
 	private Random rand = new Random();
@@ -22,7 +22,7 @@ public class DropHandler {
 	public void addEntityDrop(LivingDropsEvent event) {
 		if (NCConfig.rare_drops && event.getEntity().getEntityWorld().getGameRules().getBoolean("doMobLoot")) {
 			if (event.getEntity() instanceof EntityMob && rand.nextInt(100) < 1) {
-				ItemStack stack = new ItemStack(rand.nextInt(2) < 1 ? NCItems.dominos : NCItems.marshmallow, 1);
+				ItemStack stack = new ItemStack(NCItems.dominos, 1);
 				event.getDrops().add(new EntityItem(event.getEntity().getEntityWorld(), event.getEntity().posX, event.getEntity().posY, event.getEntity().posZ, stack));
 			}
 		}

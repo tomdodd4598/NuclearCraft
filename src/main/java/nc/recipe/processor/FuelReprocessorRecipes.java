@@ -62,8 +62,8 @@ public class FuelReprocessorRecipes extends BaseRecipeHandler {
 		/* 1/32x */	addReprocessingRecipes("HECf251", "Californium251", 16, "Californium252", 16, "Californium252", 16, "Californium252", 16);
 		
 		// IC2
-		addRecipe("depletedFuelIC2U", RegistryHelper.itemStackFromRegistry("ic2", "nuclear", 2, 2), RegistryHelper.itemStackFromRegistry("ic2", "nuclear", 1, 2), RegistryHelper.itemStackFromRegistry("ic2", "nuclear", 1, 2), RegistryHelper.itemStackFromRegistry("ic2", "nuclear", 1, 7));
-		addRecipe("depletedFuelIC2MOX", RegistryHelper.itemStackFromRegistry("ic2", "nuclear", 7, 7), RegistryHelper.itemStackFromRegistry("ic2", "nuclear", 7, 7), RegistryHelper.itemStackFromRegistry("ic2", "nuclear", 7, 7), RegistryHelper.itemStackFromRegistry("ic2", "nuclear", 7, 7));
+		addRecipe("depletedFuelIC2U", RegistryHelper.itemStackFromRegistry("ic2", "nuclear", 2, 2), RegistryHelper.itemStackFromRegistry("ic2", "nuclear", 1, 2), RegistryHelper.itemStackFromRegistry("ic2", "nuclear", 1, 2), RegistryHelper.itemStackFromRegistry("ic2", "nuclear", 1, 7), NCConfig.processor_time[3]);
+		addRecipe("depletedFuelIC2MOX", RegistryHelper.itemStackFromRegistry("ic2", "nuclear", 7, 7), RegistryHelper.itemStackFromRegistry("ic2", "nuclear", 7, 7), RegistryHelper.itemStackFromRegistry("ic2", "nuclear", 7, 7), RegistryHelper.itemStackFromRegistry("ic2", "nuclear", 7, 7), NCConfig.processor_time[3]);
 	}
 	
 	public void addReprocessingRecipes(String fuel, String out1, int n1, String out2, int n2, String out3, int n3, String out4, int n4) {

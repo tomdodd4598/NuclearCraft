@@ -45,15 +45,18 @@ public class GuiFluidRenderer {
 		return minecraft.getTextureMapBlocks().getMissingSprite();
 	}
 
-	public static void renderGuiTank(@Nonnull FluidTank tank, double x, double y, double zLevel, double width, double height) {
+	public static void renderGuiTank(FluidTank tank, double x, double y, double zLevel, double width, double height) {
+		if (tank == null) return;
+		if (tank.getFluid() == null) return;
 		renderGuiTank(tank.getFluid(), tank.getCapacity(), tank.getFluidAmount(), x, y, zLevel, width, height);
 	}
 	
-	public static void renderGuiTank(@Nonnull FluidStack fluid, int capacity, double x, double y, double zLevel, double width, double height) {
+	public static void renderGuiTank(FluidStack fluid, int capacity, double x, double y, double zLevel, double width, double height) {
+		if (fluid == null) return;
 		renderGuiTank(fluid, capacity, fluid != null ? fluid.amount : 0, x, y, zLevel, width, height);
 	}
 
-	public static void renderGuiTank(@Nullable FluidStack fluid, int capacity, int amount, double x, double y, double zLevel, double width, double height) {
+	private static void renderGuiTank(@Nullable FluidStack fluid, int capacity, int amount, double x, double y, double zLevel, double width, double height) {
 		
 		if (fluid == null || fluid.getFluid() == null || fluid.amount <= 0) {
 			return;

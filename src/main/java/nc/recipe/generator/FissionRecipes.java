@@ -30,6 +30,9 @@ public class FissionRecipes extends BaseRecipeHandler {
 		
 		addRecipe(RegistryHelper.itemStackFromRegistry("ic2", "nuclear", 1, 0), "depletedFuelIC2U", NCConfig.fission_uranium_fuel_time[4]*19D/54D, NCConfig.fission_uranium_power[4]*18D/19D, NCConfig.fission_uranium_heat_generation[4]*18D/19D, "IC2-LEU");
 		addRecipe(RegistryHelper.itemStackFromRegistry("ic2", "nuclear", 1, 4), "depletedFuelIC2MOX", NCConfig.fission_mox_fuel_time[0]*7D/3D, NCConfig.fission_mox_power[0]*9D/7D, NCConfig.fission_mox_heat_generation[0]*9D/7D, "IC2-MOX");
+		
+		addRecipe("ingotYellorium", "ingotCyanite", NCConfig.fission_uranium_fuel_time[4]/8D, NCConfig.fission_uranium_power[4]*8D/9D, NCConfig.fission_uranium_heat_generation[4]*8D/9D, "YELLO");
+		addRecipe("ingotBlutonium", "ingotCyanite", NCConfig.fission_uranium_fuel_time[4]/8D, NCConfig.fission_uranium_power[4]*8D/9D, NCConfig.fission_uranium_heat_generation[4]*8D/9D, "BLUTO");
 	}
 	
 	public void addFuelRodDepleteRecipes(String fuel, double[] time, double[] power, double[] heat) {

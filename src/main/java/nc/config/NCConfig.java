@@ -66,6 +66,7 @@ public class NCConfig {
 	public static double[] fission_active_cooling_rate;
 	public static boolean fission_water_cooler_requirement;
 	public static boolean fission_overheat;
+	public static boolean fission_explosions;
 	public static int fission_min_size; // Default: 1
 	public static int fission_max_size; // Default: 24
 	public static int fission_comparator_max_heat;
@@ -279,6 +280,8 @@ public class NCConfig {
 		propertyFissionWaterCoolerRequirement.setLanguageKey("gui.config.fission.fission_water_cooler_requirement");
 		Property propertyFissionOverheat = config.get(CATEGORY_FISSION, "fission_overheat", true, Lang.localise("gui.config.fission.fission_overheat.comment"));
 		propertyFissionOverheat.setLanguageKey("gui.config.fission.fission_overheat");
+		Property propertyFissionExplosions = config.get(CATEGORY_FISSION, "fission_explosions", false, Lang.localise("gui.config.fission.fission_explosions.comment"));
+		propertyFissionExplosions.setLanguageKey("gui.config.fission.fission_explosions");
 		Property propertyFissionMinSize = config.get(CATEGORY_FISSION, "fission_min_size", 1, Lang.localise("gui.config.fission.fission_min_size.comment"), 1, 255);
 		propertyFissionMinSize.setLanguageKey("gui.config.fission.fission_min_size");
 		Property propertyFissionMaxSize = config.get(CATEGORY_FISSION, "fission_max_size", 24, Lang.localise("gui.config.fission.fission_max_size.comment"), 1, 255);
@@ -484,7 +487,7 @@ public class NCConfig {
 		
 		Property propertyOreDictPriorityBool = config.get(CATEGORY_OTHER, "ore_dict_priority_bool", false, Lang.localise("gui.config.other.ore_dict_priority_bool.comment"));
 		propertyOreDictPriorityBool.setLanguageKey("gui.config.other.ore_dict_priority_bool");
-		Property propertyOreDictPriority = config.get(CATEGORY_OTHER, "ore_dict_priority", new String[] {"minecraft", "thermalfoundation", "techreborn", "ic2", "immersiveengineering", "mekanism", "appliedenergistics2", "actuallyadditions", "thaumcraft", "biomesoplenty"}, Lang.localise("gui.config.other.ore_dict_priority.comment"));
+		Property propertyOreDictPriority = config.get(CATEGORY_OTHER, "ore_dict_priority", new String[] {"minecraft", "thermalfoundation", "techreborn", "ic2", "immersiveengineering", "mekanism", "nuclearcraft", "appliedenergistics2", "actuallyadditions", "thaumcraft", "biomesoplenty"}, Lang.localise("gui.config.other.ore_dict_priority.comment"));
 		propertyOreDictPriority.setLanguageKey("gui.config.other.ore_dict_priority");
 		
 		List<String> propertyOrderOres = new ArrayList<String>();
@@ -530,6 +533,7 @@ public class NCConfig {
 		propertyOrderFission.add(propertyFissionActiveCoolingRate.getName());
 		propertyOrderFission.add(propertyFissionWaterCoolerRequirement.getName());
 		propertyOrderFission.add(propertyFissionOverheat.getName());
+		propertyOrderFission.add(propertyFissionExplosions.getName());
 		propertyOrderFission.add(propertyFissionMinSize.getName());
 		propertyOrderFission.add(propertyFissionMaxSize.getName());
 		propertyOrderFission.add(propertyFissionComparatorMaxHeat.getName());
@@ -692,6 +696,7 @@ public class NCConfig {
 			fission_active_cooling_rate = readDoubleArrayFromConfig(propertyFissionActiveCoolingRate);
 			fission_water_cooler_requirement = propertyFissionWaterCoolerRequirement.getBoolean();
 			fission_overheat = propertyFissionOverheat.getBoolean();
+			fission_explosions = propertyFissionExplosions.getBoolean();
 			fission_min_size = propertyFissionMinSize.getInt();
 			fission_max_size = propertyFissionMaxSize.getInt();
 			fission_comparator_max_heat = propertyFissionComparatorMaxHeat.getInt();
@@ -840,6 +845,7 @@ public class NCConfig {
 		propertyFissionActiveCoolingRate.set(fission_active_cooling_rate);
 		propertyFissionWaterCoolerRequirement.set(fission_water_cooler_requirement);
 		propertyFissionOverheat.set(fission_overheat);
+		propertyFissionExplosions.set(fission_explosions);
 		propertyFissionMinSize.set(fission_min_size);
 		propertyFissionMaxSize.set(fission_max_size);
 		propertyFissionComparatorMaxHeat.set(fission_comparator_max_heat);

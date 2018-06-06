@@ -3,7 +3,14 @@ package nc.init;
 import nc.Global;
 import nc.enumm.MetaEnums;
 import nc.handler.SoundHandler;
-import nc.item.*;
+import nc.item.ItemDepletedFissionFuel;
+import nc.item.ItemFissionFuel;
+import nc.item.ItemPortableEnderChest;
+import nc.item.NCItem;
+import nc.item.NCItemDoor;
+import nc.item.NCItemFood;
+import nc.item.NCItemMeta;
+import nc.item.NCItemRecord;
 import nc.item.energy.ItemBattery;
 import nc.proxy.CommonProxy;
 import nc.tile.energy.battery.BatteryType;
@@ -175,7 +182,7 @@ public class NCItems {
 		
 		dominos = new NCItemFood("dominos", 16, 1.0F, false, new PotionEffect[] {new PotionEffect(Potion.getPotionById(1), 500, 2), new PotionEffect(Potion.getPotionById(3), 500, 2)});
 		marshmallow = new NCItemFood("marshmallow", 1, 0.1F, false, new PotionEffect[] {new PotionEffect(Potion.getPotionById(1), 1000, 2)});
-
+		
 		record_wanderer = new NCItemRecord("wanderer", SoundHandler.wanderer);
 		record_end_of_the_world = new NCItemRecord("end_of_the_world", SoundHandler.end_of_the_world);
 		record_money_for_nothing = new NCItemRecord("money_for_nothing", SoundHandler.money_for_nothing);
