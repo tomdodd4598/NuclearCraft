@@ -5,7 +5,7 @@ NuclearCraft - Mod for Minecraft 1.7.10 - 1.12.2
 Summary
 -------
 
-Adds nuclear physics and aims to bring nuclear, quantum and particle physics to Minecraft
+Adds nuclear physics and aims to bring quantum and particle physics to Minecraft
 
 YouTube Channel: https://www.youtube.com/c/NuclearCraftMod
 
