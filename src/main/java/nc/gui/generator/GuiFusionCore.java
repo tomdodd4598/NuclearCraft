@@ -56,12 +56,12 @@ public class GuiFusionCore extends NCGui {
 		drawTooltip(Lang.localise("gui.container.void_outputs"), mouseX, mouseY, 171, 142, 18, 18);
 		drawTooltip(Lang.localise("gui.container.comparator_mode"), mouseX, mouseY, 171, 162, 18, 18);
 		
-		drawFluidTooltip(fluid0, tile.tanks[0], mouseX, mouseY, 38, 6, 6, 46);
-		drawFluidTooltip(fluid1, tile.tanks[1], mouseX, mouseY, 38, 55, 6, 46);
-		drawFluidTooltip(fluid2, tile.tanks[2], mouseX, mouseY, 172, 6, 6, 46);
-		drawFluidTooltip(fluid3, tile.tanks[3], mouseX, mouseY, 182, 6, 6, 46);
-		drawFluidTooltip(fluid4, tile.tanks[4], mouseX, mouseY, 172, 55, 6, 46);
-		drawFluidTooltip(fluid5, tile.tanks[5], mouseX, mouseY, 182, 55, 6, 46);
+		drawFluidTooltip(fluid0, tile.tanks.get(0), mouseX, mouseY, 38, 6, 6, 46);
+		drawFluidTooltip(fluid1, tile.tanks.get(1), mouseX, mouseY, 38, 55, 6, 46);
+		drawFluidTooltip(fluid2, tile.tanks.get(2), mouseX, mouseY, 172, 6, 6, 46);
+		drawFluidTooltip(fluid3, tile.tanks.get(3), mouseX, mouseY, 182, 6, 6, 46);
+		drawFluidTooltip(fluid4, tile.tanks.get(4), mouseX, mouseY, 172, 55, 6, 46);
+		drawFluidTooltip(fluid5, tile.tanks.get(5), mouseX, mouseY, 182, 55, 6, 46);
 		
 		drawEnergyTooltip(tile, mouseX, mouseY, 8, 6, 6, 95);
 		drawHeatTooltip(mouseX, mouseY, 18, 6, 6, 95);
@@ -70,14 +70,14 @@ public class GuiFusionCore extends NCGui {
 
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-		int fontColor = tile.canGenerate() ? -1 : (tile.complete == 1 ? 15641088 : 15597568);
+		int fontColor = tile.isProcessing ? -1 : (tile.complete == 1 ? 15641088 : 15597568);
 		String name = Lang.localise("gui.container.fusion_core.reactor");
 		fontRenderer.drawString(name, 108 - widthHalf(name), 10, fontColor);
 		String size = tile.complete == 1 ? (Lang.localise("gui.container.fusion_core.size") + " " + tile.size) : tile.problem;
 		fontRenderer.drawString(size, 108 - widthHalf(size), 21, fontColor);
 		String energy = Lang.localise("gui.container.fusion_core.energy") + " " + UnitHelper.prefix(tile.getEnergyStorage().getEnergyStored(), 6, "RF");
 		fontRenderer.drawString(energy, 108 - widthHalf(energy), 32, fontColor);
-		String power = Lang.localise("gui.container.fusion_core.power") + " " + UnitHelper.prefix((int) tile.processPower, 6, "RF/t");
+		String power = Lang.localise("gui.container.fusion_core.power") + " " + UnitHelper.prefix((int)tile.processPower, 6, "RF/t");
 		fontRenderer.drawString(power, 108 - widthHalf(power), 43, fontColor);
 		String heat = Lang.localise("gui.container.fusion_core.heat") + " " + UnitHelper.prefix((int) tile.heat, 6, "K", 1);
 		fontRenderer.drawString(heat, 108 - widthHalf(heat), 54, fontColor);
@@ -92,7 +92,7 @@ public class GuiFusionCore extends NCGui {
 	@Override
 	public List<String> energyInfo(ITileEnergy tile) {
 		String energy = UnitHelper.prefix(tile.getEnergyStorage().getEnergyStored(), tile.getEnergyStorage().getMaxEnergyStored(), 6, "RF");
-		String power = UnitHelper.prefix(this.tile.getProcessPower(), 6, "RF/t");
+		String power = UnitHelper.prefix((int)this.tile.processPower, 6, "RF/t");
 		return Lists.newArrayList(TextFormatting.LIGHT_PURPLE + Lang.localise("gui.container.energy_stored") + TextFormatting.WHITE + " " + energy, TextFormatting.LIGHT_PURPLE + Lang.localise("gui.container.power_gen") + TextFormatting.WHITE + " " + power);
 	}
 	
@@ -100,8 +100,9 @@ public class GuiFusionCore extends NCGui {
 		String heat = UnitHelper.prefix((int) tile.heat, (int) tile.getMaxHeat(), 6, "K", 1);
 		String heatChange = UnitHelper.prefix((int) tile.heatChange, 6, "K/t", 0);
 		String cooling = UnitHelper.prefix((int) tile.cooling, 6, "K/t", 0);
+		int coolingPercentage = (int) (100D*tile.cooling/(5*NCConfig.fusion_heat_generation));
 		if ((int) tile.cooling == 0 || !NCConfig.fusion_active_cooling) return Lists.newArrayList(TextFormatting.YELLOW + Lang.localise("gui.container.fusion_core.temperature") + TextFormatting.WHITE + " " + heat, TextFormatting.YELLOW + Lang.localise("gui.container.fusion_core.temperature_change") + TextFormatting.WHITE + " " + heatChange);
-		return Lists.newArrayList(TextFormatting.YELLOW + Lang.localise("gui.container.fusion_core.temperature") + TextFormatting.WHITE + " " + heat, TextFormatting.YELLOW + Lang.localise("gui.container.fusion_core.temperature_change") + TextFormatting.WHITE + " " + heatChange, TextFormatting.BLUE + Lang.localise("gui.container.fusion_core.cooling_rate") + TextFormatting.WHITE + " " + cooling);
+		return Lists.newArrayList(TextFormatting.YELLOW + Lang.localise("gui.container.fusion_core.temperature") + TextFormatting.WHITE + " " + heat, TextFormatting.YELLOW + Lang.localise("gui.container.fusion_core.temperature_change") + TextFormatting.WHITE + " " + heatChange, TextFormatting.BLUE + Lang.localise("gui.container.fusion_core.cooling_rate") + TextFormatting.WHITE + " " + cooling + " [" + coolingPercentage + "%]");
 	}
 	
 	public void drawHeatTooltip(int mouseX, int mouseY, int x, int y, int width, int height) {
@@ -146,12 +147,12 @@ public class GuiFusionCore extends NCGui {
 			PacketHandler.instance.sendToServer(new GetFluidInTankPacket(tile.getPos(), 7, "nc.gui.generator.GuiFusionCore", "fluid7"));
 		}
 		
-		GuiFluidRenderer.renderGuiTank(fluid0, tile.tanks[0].getCapacity(), guiLeft + 38, guiTop + 6, zLevel, 6, 46);
-		GuiFluidRenderer.renderGuiTank(fluid1, tile.tanks[1].getCapacity(), guiLeft + 38, guiTop + 55, zLevel, 6, 46);
-		GuiFluidRenderer.renderGuiTank(fluid2, tile.tanks[2].getCapacity(), guiLeft + 172, guiTop + 6, zLevel, 6, 46);
-		GuiFluidRenderer.renderGuiTank(fluid3, tile.tanks[3].getCapacity(), guiLeft + 182, guiTop + 6, zLevel, 6, 46);
-		GuiFluidRenderer.renderGuiTank(fluid4, tile.tanks[4].getCapacity(), guiLeft + 172, guiTop + 55, zLevel, 6, 46);
-		GuiFluidRenderer.renderGuiTank(fluid5, tile.tanks[5].getCapacity(), guiLeft + 182, guiTop + 55, zLevel, 6, 46);
+		GuiFluidRenderer.renderGuiTank(fluid0, tile.tanks.get(0).getCapacity(), guiLeft + 38, guiTop + 6, zLevel, 6, 46);
+		GuiFluidRenderer.renderGuiTank(fluid1, tile.tanks.get(1).getCapacity(), guiLeft + 38, guiTop + 55, zLevel, 6, 46);
+		GuiFluidRenderer.renderGuiTank(fluid2, tile.tanks.get(2).getCapacity(), guiLeft + 172, guiTop + 6, zLevel, 6, 46);
+		GuiFluidRenderer.renderGuiTank(fluid3, tile.tanks.get(3).getCapacity(), guiLeft + 182, guiTop + 6, zLevel, 6, 46);
+		GuiFluidRenderer.renderGuiTank(fluid4, tile.tanks.get(4).getCapacity(), guiLeft + 172, guiTop + 55, zLevel, 6, 46);
+		GuiFluidRenderer.renderGuiTank(fluid5, tile.tanks.get(5).getCapacity(), guiLeft + 182, guiTop + 55, zLevel, 6, 46);
 	}
 	
 	@Override
@@ -180,11 +181,11 @@ public class GuiFusionCore extends NCGui {
 				PacketHandler.instance.sendToServer(new ToggleTanksSharedButtonPacket(tile));
 			}
 			if (guiButton.id == 7) {
-				tile.setTanksEmptyUnusable(!tile.getTanksEmptyUnusable());
+				tile.setEmptyUnusableTankInputs(!tile.getEmptyUnusableTankInputs());
 				PacketHandler.instance.sendToServer(new ToggleTanksEmptyUnusableButtonPacket(tile));
 			}
 			if (guiButton.id == 8) {
-				tile.setVoidExcessOutputs(!tile.getVoidExcessOutputs());
+				tile.setVoidExcessFluidOutputs(!tile.getVoidExcessFluidOutputs());
 				PacketHandler.instance.sendToServer(new ToggleVoidExcessOutputsButtonPacket(tile));
 			}
 			if (guiButton.id == 9) {

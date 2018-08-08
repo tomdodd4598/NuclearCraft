@@ -1,7 +1,7 @@
 package nc.block;
 
 import nc.Global;
-import nc.proxy.CommonProxy;
+import nc.tab.NCTabs;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockIce;
 import net.minecraft.block.state.IBlockState;
@@ -27,7 +27,7 @@ public class NCBlockIce extends BlockIce {
 		setHardness(0.5F);
 		setLightOpacity(3);
 		slipperiness = 0.999F;
-		setCreativeTab(CommonProxy.TAB_BASE_BLOCK_MATERIALS);
+		setCreativeTab(NCTabs.TAB_BASE_BLOCK_MATERIALS);
 	}
 	
 	@Override

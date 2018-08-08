@@ -8,7 +8,7 @@ import nc.item.tool.NCPickaxe;
 import nc.item.tool.NCShovel;
 import nc.item.tool.NCSpaxelhoe;
 import nc.item.tool.NCSword;
-import nc.proxy.CommonProxy;
+import nc.tab.NCTabs;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
@@ -174,7 +174,7 @@ public class NCTools {
 	}
 		
 	public static void registerItem(Item item) {
-		item.setCreativeTab(CommonProxy.TAB_MISC);
+		item.setCreativeTab(NCTabs.TAB_MISC);
 		ForgeRegistries.ITEMS.register(item);
 	}
 		

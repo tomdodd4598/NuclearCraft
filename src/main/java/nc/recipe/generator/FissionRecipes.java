@@ -1,11 +1,11 @@
 package nc.recipe.generator;
 
 import nc.config.NCConfig;
-import nc.recipe.BaseRecipeHandler;
+import nc.recipe.ProcessorRecipeHandler;
 import nc.util.Lang;
 import nc.util.RegistryHelper;
 
-public class FissionRecipes extends BaseRecipeHandler {
+public class FissionRecipes extends ProcessorRecipeHandler {
 	
 	public FissionRecipes() {
 		super("fission", 1, 0, 1, 0);

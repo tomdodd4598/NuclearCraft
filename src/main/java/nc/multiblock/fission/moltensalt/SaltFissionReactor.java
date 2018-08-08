@@ -33,6 +33,7 @@ import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
 public class SaltFissionReactor extends CuboidalMultiblockControllerBase {
@@ -230,8 +231,9 @@ public class SaltFissionReactor extends CuboidalMultiblockControllerBase {
 		setVesselStats();
 		doHeaterPlacementChecks();
 		setCooling();
-		heatBuffer.changeHeatStored((long) getHeatChange(true));
+		heatBuffer.changeHeatStored((long) (updateTime()*getHeatChange(true)));
 		setCoolingRate();
+		redstoneSignal = (int) (15D*MathHelper.clamp(2*(double)heatBuffer.heatStored / (double)heatBuffer.heatCapacity, 0D, 1D));
 	}
 	
 	protected void setVesselStats() {
@@ -320,7 +322,11 @@ public class SaltFissionReactor extends CuboidalMultiblockControllerBase {
 	}
 	
 	private void incrementUpdateCount() {
-		updateCount++; updateCount %= NCConfig.machine_update_rate / 4;
+		updateCount++; updateCount %= updateTime();
+	}
+	
+	private int updateTime() {
+		return NCConfig.machine_update_rate / 4;
 	}
 	
 	private boolean shouldUpdate() {

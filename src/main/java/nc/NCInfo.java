@@ -37,7 +37,7 @@ public class NCInfo {
 	public static <T extends Enum<T> & IStringSerializable & IItemMeta & IFissionStats> String[][] fuelRodInfo(T[] values) {
 		String[][] info = new String[values.length][];
 		for (int i = 0; i < values.length; i++) {
-			info[i] = new String[] {Lang.localise("item." + Global.MOD_ID + ".fuel_rod.base_time.desc", NCMathHelper.round(values[i].getBaseTime()/1200D)), Lang.localise("item." + Global.MOD_ID + ".fuel_rod.base_power.desc", values[i].getBasePower()), Lang.localise("item." + Global.MOD_ID + ".fuel_rod.base_heat.desc", values[i].getBaseHeat())};
+			info[i] = new String[] {Lang.localise("item." + Global.MOD_ID + ".fuel_rod.base_time.desc", NCMathHelper.round(values[i].getBaseTime()/(1200D*NCConfig.fission_fuel_use))), Lang.localise("item." + Global.MOD_ID + ".fuel_rod.base_power.desc", values[i].getBasePower()*NCConfig.fission_power), Lang.localise("item." + Global.MOD_ID + ".fuel_rod.base_heat.desc", values[i].getBaseHeat()*NCConfig.fission_heat_generation)};
 		}
 		
 		return info;

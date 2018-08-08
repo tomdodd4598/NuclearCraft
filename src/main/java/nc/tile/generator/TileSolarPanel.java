@@ -12,6 +12,27 @@ public class TileSolarPanel extends TilePassiveGenerator {
 		}
 	}
 	
+	public static class Advanced extends TileSolarPanel {
+
+		public Advanced() {
+			super(NCConfig.solar_power[1]);
+		}
+	}
+	
+	public static class DU extends TileSolarPanel {
+
+		public DU() {
+			super(NCConfig.solar_power[2]);
+		}
+	}
+	
+	public static class Elite extends TileSolarPanel {
+
+		public Elite() {
+			super(NCConfig.solar_power[3]);
+		}
+	}
+	
 	public TileSolarPanel(int power) {
 		super(power);
 	}

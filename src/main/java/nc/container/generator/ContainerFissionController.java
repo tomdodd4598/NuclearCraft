@@ -1,5 +1,9 @@
 package nc.container.generator;
 
+import java.util.List;
+
+import com.google.common.collect.Lists;
+
 import nc.container.SlotInaccessible;
 import nc.container.SlotProcessorInput;
 import nc.recipe.NCRecipes;
@@ -21,6 +25,9 @@ public class ContainerFissionController extends ContainerItemGenerator {
 	protected int speedMultiplier;
 	protected int heatChange;
 	protected int heatMult;
+	
+	protected static final List<Integer> UPCASTS = Lists.newArrayList(0, 1, 2, 3, 4, 5, 6, 8, 12, 19);
+	protected static final List<Integer> NON_UPCASTS = Lists.newArrayList(7, 9, 10, 11, 13, 14, 15, 16, 17, 18, 20);
 	
 	public ContainerFissionController(EntityPlayer player, TileFissionController tileEntity) {
 		super(tileEntity, NCRecipes.Type.FISSION);
@@ -49,12 +56,12 @@ public class ContainerFissionController extends ContainerItemGenerator {
 		for (int i = 0; i < listeners.size(); i++) {
 			IContainerListener icontainerlistener = (IContainerListener) listeners.get(i);
 			
-			for (int j : new int[] {0, 1, 2, 3, 4, 5, 6, 8, 12, 19}) {
+			for (int j : UPCASTS) {
 				icontainerlistener.sendWindowProperty(this, j, tile.getField(j) >> 16);
 				icontainerlistener.sendWindowProperty(this, 100 + j, tile.getField(j));
 			}
 			
-			for (int j : new int[] {7, 9, 10, 11, 13, 14, 15, 16, 17, 18}) icontainerlistener.sendWindowProperty(this, j, tile.getField(j));
+			for (int j : NON_UPCASTS) icontainerlistener.sendWindowProperty(this, j, tile.getField(j));
 		}
 	}
 	
@@ -83,6 +90,6 @@ public class ContainerFissionController extends ContainerItemGenerator {
 		else if (id == 12) tile.setField(id, heatChange | data << 16);
 		else if (id == 19) tile.setField(id, heatMult | data << 16);
 		
-		else if (id == 7 || (id >= 9 && id <= 11) || (id >= 13 && id <= 18)) tile.setField(id, data);
+		else if (NON_UPCASTS.contains(id)) tile.setField(id, data);
 	}
 }

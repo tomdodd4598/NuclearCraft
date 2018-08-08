@@ -73,7 +73,7 @@ public class GetFluidInTankPacket implements IMessage {
 			TileEntity te = ctx.getServerHandler().player.getServerWorld().getTileEntity(message.pos);
 			if (te == null) return;
 			if (!(te instanceof ITileFluid)) return;
-			FluidStack tankFluid = ((ITileFluid) te).getTanks()[message.tankNumber].getFluid();
+			FluidStack tankFluid = ((ITileFluid) te).getTanks().get(message.tankNumber).getFluid();
 			PacketHandler.instance.sendTo(new ReturnFluidInTankPacket(tankFluid, message.className, message.fluidFieldName), ctx.getServerHandler().player);
 		}
 	}

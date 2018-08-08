@@ -1,56 +1,64 @@
 package nc.tile.generator;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import nc.ModCheck;
 import nc.config.NCConfig;
-import nc.recipe.BaseRecipeHandler;
-import nc.recipe.IIngredient;
-import nc.recipe.IRecipe;
+import nc.recipe.IItemIngredient;
+import nc.recipe.IRecipeHandler;
 import nc.recipe.NCRecipes;
-import nc.recipe.RecipeMethods;
+import nc.recipe.ProcessorRecipe;
+import nc.recipe.ProcessorRecipeHandler;
 import nc.recipe.SorptionType;
 import nc.tile.IGui;
 import nc.tile.dummy.IInterfaceable;
 import nc.tile.energy.TileEnergySidedInventory;
 import nc.tile.energyFluid.IBufferable;
 import nc.tile.internal.energy.EnergyConnection;
+import nc.tile.internal.fluid.Tank;
 import nc.util.ArrayHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.MathHelper;
 
-public abstract class TileItemGenerator extends TileEnergySidedInventory implements IInterfaceable, IBufferable, IGui {
+public abstract class TileItemGenerator extends TileEnergySidedInventory implements IItemGenerator, IInterfaceable, IBufferable, IGui {
 
 	public final int[] slots;
 	
+	public final int defaultProcessTime, defaultProcessPower;
+	public double baseProcessTime = 1, baseProcessPower = 0;
+	public double processPower = 0;
+	public double speedMultiplier = 1;
 	public final int itemInputSize, itemOutputSize, otherSlotsSize;
 	
-	public int time;
-	public boolean isGenerating, hasConsumed, canProcessStacks;
+	public double time;
+	public boolean isProcessing, hasConsumed, canProcessInputs;
 	
 	public final NCRecipes.Type recipeType;
+	protected ProcessorRecipe recipe;
 	
 	public TileItemGenerator(String name, int itemInSize, int itemOutSize, int otherSize, int capacity, NCRecipes.Type recipeType) {
 		super(name, 2*itemInSize + itemOutSize + otherSize, capacity, energyConnectionAll(EnergyConnection.OUT));
 		itemInputSize = itemInSize;
 		itemOutputSize = itemOutSize;
+		
 		otherSlotsSize = otherSize;
+		
+		defaultProcessTime = 1;
+		defaultProcessPower = 0;
 		
 		this.recipeType = recipeType;
 		
 		slots = ArrayHelper.increasingArray(itemInSize + itemOutSize);
 	}
 	
-	public BaseRecipeHandler getRecipeHandler() {
-		return recipeType.getRecipeHandler();
-	}
-	
 	@Override
 	public void onAdded() {
 		super.onAdded();
 		if (!world.isRemote) {
-			isGenerating = isGenerating();
+			isProcessing = isProcessing();
 			hasConsumed = hasConsumed();
 		}
 	}
@@ -58,19 +66,20 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 	@Override
 	public void update() {
 		super.update();
-		updateGenerator();
+		updateProcessor();
 	}
 	
-	public void updateGenerator() {
-		canProcessStacks = canProcessStacks();
-		boolean wasGenerating = isGenerating;
-		isGenerating = canProcess() && isPowered();
+	public void updateProcessor() {
+		recipe = getRecipeHandler().getRecipeFromInputs(getItemInputs(hasConsumed), new ArrayList<Tank>());
+		canProcessInputs = canProcessInputs();
+		boolean wasProcessing = isProcessing;
+		isProcessing = isProcessing();
 		boolean shouldUpdate = false;
 		if(!world.isRemote) {
-			tick();
-			if (time == 0) consume();
-			if (isGenerating) process();
-			if (wasGenerating != isGenerating) {
+			tickTile();
+			if (isProcessing) process();
+			consumeInputs();
+			if (wasProcessing != isProcessing) {
 				shouldUpdate = true;
 				updateBlockType();
 			}
@@ -79,191 +88,143 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 		if (shouldUpdate) markDirty();
 	}
 	
-	public boolean isGenerating() {
-		return canProcess() && isPowered();
+	public boolean isProcessing() {
+		return readyToProcess() && isRedstonePowered();
 	}
 	
-	public boolean canProcess() {
-		return canProcessStacks;
-	}
-	
-	public boolean isPowered() {
-		return world.isBlockPowered(pos);
+	public boolean readyToProcess() {
+		return canProcessInputs && hasConsumed;
 	}
 	
 	public void process() {
-		time += getSpeedMultiplier();
-		getEnergyStorage().changeEnergyStored(getProcessPower());
-		if (time >= getProcessTime()) completeProcess();
-	}
-	
-	public void completeProcess() {
-		time = 0;
-		produceProducts();
+		time += speedMultiplier;
+		getEnergyStorage().changeEnergyStored((int) processPower);
+		if (time >= baseProcessTime) {
+			produceProducts();
+			recipe = getRecipeHandler().getRecipeFromInputs(getItemInputs(hasConsumed), new ArrayList<Tank>());
+			setRecipeStats();
+			if (recipe == null) time = 0; else time = MathHelper.clamp(time - baseProcessTime, 0D, baseProcessTime);
+		}
 	}
 	
 	public void updateBlockType() {
 		if (ModCheck.ic2Loaded()) removeTileFromENet();
-		setState(isGenerating);
+		setState(isProcessing);
 		world.notifyNeighborsOfStateChange(pos, blockType, true);
 		if (ModCheck.ic2Loaded()) addTileToENet();
 	}
 	
 	// Processing
 	
-	public abstract int getSpeedMultiplier();
-		
-	public abstract void setSpeedMultiplier(int value);
-		
-	public abstract int getProcessTime();
-		
-	public abstract void setProcessTime(int value);
-		
-	public abstract int getProcessPower();
-		
-	public abstract void setProcessPower(int value);
-	
 	public boolean hasConsumed() {
 		if (world.isRemote) return hasConsumed;
 		for (int i = 0; i < itemInputSize; i++) {
-			if (!inventoryStacks.get(i + itemInputSize + itemOutputSize + otherSlotsSize).isEmpty()) {
-				return true;
-			}
+			if (!inventoryStacks.get(i + itemInputSize + itemOutputSize).isEmpty()) return true;
 		}
 		return false;
 	}
 		
-	public boolean canProcessStacks() {
-		for (int i = 0; i < itemInputSize; i++) {
-			if (inventoryStacks.get(i).isEmpty() && !hasConsumed) {
-				return false;
-			}
-		}
-		if (time >= getProcessTime()) {
-			return true;
-		}
-		Object[] output = hasConsumed ? outputs() : outputs();
-		if (output == null || output.length != itemOutputSize) {
-			return false;
-		}
+	public boolean canProcessInputs() {
+		if (recipe == null) return false;
+		else if (time >= baseProcessTime) return true;
+		
 		for(int j = 0; j < itemOutputSize; j++) {
-			if (output[j] == ItemStack.EMPTY || output[j] == null) {
-				return false;
-			} else {
-				if (!inventoryStacks.get(j + itemInputSize).isEmpty()) {
-					if (!inventoryStacks.get(j + itemInputSize).isItemEqual((ItemStack)output[j])) {
-						return false;
-					} else if (inventoryStacks.get(j + itemInputSize).getCount() + ((ItemStack)output[j]).getCount() > inventoryStacks.get(j + itemInputSize).getMaxStackSize()) {
-						return false;
-					}
+			IItemIngredient itemProduct = getItemProducts().get(j);
+			if (itemProduct.getMaxStackSize() <= 0) continue;
+			if (itemProduct.getStack() == null || itemProduct.getStack() == ItemStack.EMPTY) return false;
+			else if (!inventoryStacks.get(j + itemInputSize).isEmpty()) {
+				if (!inventoryStacks.get(j + itemInputSize).isItemEqual(itemProduct.getStack())) {
+					return false;
+				} else if (inventoryStacks.get(j + itemInputSize).getCount() + itemProduct.getMaxStackSize() > inventoryStacks.get(j + itemInputSize).getMaxStackSize()) {
+					return false;
 				}
 			}
 		}
+		setRecipeStats();
 		return true;
 	}
+	
+	public abstract void setRecipeStats();
 		
-	public void consume() {
-		IRecipe recipe = getRecipe(false);
-		Object[] outputs = outputs();
-		int[] inputOrder = inputOrder();
-		if (outputs == null || inputOrder == RecipeMethods.INVALID) return;
-		if (!hasConsumed) {
-			for (int i = 0; i < itemInputSize; i++) {
-				if (!inventoryStacks.get(i + itemInputSize + itemOutputSize + otherSlotsSize).isEmpty()) {
-					inventoryStacks.set(i + itemInputSize + itemOutputSize + otherSlotsSize, ItemStack.EMPTY);
-				}
+	public void consumeInputs() {
+		if (hasConsumed || recipe == null) return;
+		List<Integer> itemInputOrder = getItemInputOrder();
+		if (itemInputOrder == IRecipeHandler.INVALID) return;
+		
+		for (int i = 0; i < itemInputSize; i++) {
+			if (!inventoryStacks.get(i + itemInputSize + itemOutputSize).isEmpty()) {
+				inventoryStacks.set(i + itemInputSize + itemOutputSize, ItemStack.EMPTY);
 			}
-			for (int i = 0; i < itemInputSize; i++) {
-				if (getRecipeHandler() != null) {
-					inventoryStacks.set(i + itemInputSize + itemOutputSize + otherSlotsSize, new ItemStack(inventoryStacks.get(i).getItem(), recipe.inputs().get(inputOrder[i]).getStackSize(), inventoryStacks.get(i).getMetadata()));
-					inventoryStacks.get(i).shrink(recipe.inputs().get(inputOrder[i]).getStackSize());
-				} else {
-					inventoryStacks.set(i + itemInputSize + itemOutputSize + otherSlotsSize, new ItemStack(inventoryStacks.get(i).getItem(), 1, inventoryStacks.get(i).getMetadata()));
-					inventoryStacks.get(i).shrink(1);
-				}
-				if (inventoryStacks.get(i).getCount() <= 0) {
-					inventoryStacks.set(i, ItemStack.EMPTY);
-				}
-			}
-			hasConsumed = true;
 		}
+		for (int i = 0; i < itemInputSize; i++) {
+			IItemIngredient itemIngredient = getItemIngredients().get(itemInputOrder.get(i));
+			if (itemIngredient.getMaxStackSize() > 0) {
+				inventoryStacks.set(i + itemInputSize + itemOutputSize, new ItemStack(inventoryStacks.get(i).getItem(), itemIngredient.getMaxStackSize(), inventoryStacks.get(i).getMetadata()));
+				inventoryStacks.get(i).shrink(itemIngredient.getMaxStackSize());
+			}
+			if (inventoryStacks.get(i).getCount() <= 0) inventoryStacks.set(i, ItemStack.EMPTY);
+		}
+		hasConsumed = true;
 	}
 	
 	public void produceProducts() {
-		if (hasConsumed) {
-			Object[] outputs = outputs();
-			for (int j = 0; j < itemOutputSize; j++) {
-				ItemStack outputStack = (ItemStack) outputs[j];
-				if (inventoryStacks.get(j + itemInputSize).isEmpty()) {
-					inventoryStacks.set(j + itemInputSize, outputStack);
-				} else if (inventoryStacks.get(j + itemInputSize).isItemEqual(outputStack)) {
-					inventoryStacks.get(j + itemInputSize).grow(outputStack.getCount());
-				}
-			}
-			for (int i = itemInputSize + itemOutputSize + otherSlotsSize; i < 2*itemInputSize + itemOutputSize + otherSlotsSize; i++) {
-				inventoryStacks.set(i, ItemStack.EMPTY);
-			}
-			hasConsumed = false;
-		}
-	}
+		for (int i = itemInputSize + itemOutputSize; i < 2*itemInputSize + itemOutputSize; i++) inventoryStacks.set(i, ItemStack.EMPTY);
 		
-	public IRecipe getRecipe(boolean consumed) {
-		return getRecipeHandler().getRecipeFromInputs(consumed ? consumedInputs() : inputs());
-	}
-	
-	public Object[] inputs() {
-		Object[] input = new Object[itemInputSize];
-		for (int i = 0; i < itemInputSize; i++) {
-			input[i] = inventoryStacks.get(i);
+		if (!hasConsumed || recipe == null) return;
+		
+		for (int j = 0; j < itemOutputSize; j++) {
+			IItemIngredient itemProduct = getItemProducts().get(j);
+			if (itemProduct.getNextStackSize() <= 0) continue;
+			if (inventoryStacks.get(j + itemInputSize).isEmpty()) {
+				inventoryStacks.set(j + itemInputSize, itemProduct.getNextStack());
+			} else if (inventoryStacks.get(j + itemInputSize).isItemEqual(itemProduct.getStack())) {
+				inventoryStacks.get(j + itemInputSize).grow(itemProduct.getNextStackSize());
+			}
 		}
-		return input;
+		hasConsumed = false;
 	}
 	
-	public ArrayList<ItemStack> inputItemStacksExcludingSlot(int slot) {
-		ArrayList<ItemStack> stacks = new ArrayList<ItemStack>();
-		for (int i = 0; i < itemInputSize; i++) {
-			if (i != slot) stacks.add(inventoryStacks.get(i));
-		}
-		return stacks;
+	@Override
+	public ProcessorRecipeHandler getRecipeHandler() {
+		return recipeType.getRecipeHandler();
 	}
 	
-	public Object[] consumedInputs() {
-		Object[] input = new Object[itemInputSize];
-		for (int i = 0; i < itemInputSize; i++) {
-			input[i] = inventoryStacks.get(i + itemInputSize + itemOutputSize + otherSlotsSize);
-		}
-		return input;
+	@Override
+	public ProcessorRecipe getRecipe() {
+		return recipe;
 	}
 	
-	public int[] inputOrder() {
-		int[] inputOrder = new int[itemInputSize];
-		IRecipe recipe = getRecipe(false);
-		if (recipe == null) return new int[] {};
-		ArrayList<IIngredient> recipeIngredients = recipe.inputs();
+	@Override
+	public List<ItemStack> getItemInputs(boolean consumed) {
+		return consumed ? inventoryStacks.subList(itemInputSize + itemOutputSize, 2*itemInputSize + itemOutputSize) : inventoryStacks.subList(0, itemInputSize);
+	}
+	
+	@Override
+	public List<IItemIngredient> getItemIngredients() {
+		return recipe.itemIngredients();
+	}
+	
+	@Override
+	public List<IItemIngredient> getItemProducts() {
+		return recipe.itemProducts();
+	}
+	
+	@Override
+	public List<Integer> getItemInputOrder() {
+		List<Integer> itemInputOrder = new ArrayList<Integer>();
+		List<IItemIngredient> itemIngredients = recipe.itemIngredients();
 		for (int i = 0; i < itemInputSize; i++) {
-			inputOrder[i] = -1;
-			for (int j = 0; j < recipeIngredients.size(); j++) {
-				if (recipeIngredients.get(j).matches(inputs()[i], SorptionType.INPUT)) {
-					inputOrder[i] = j;
+			int position = -1;
+			for (int j = 0; j < itemIngredients.size(); j++) {
+				if (itemIngredients.get(j).matches(getItemInputs(false).get(i), SorptionType.INPUT)) {
+					position = j;
 					break;
 				}
 			}
-			if (inputOrder[i] == -1) return RecipeMethods.INVALID;
+			if (position == -1) return IRecipeHandler.INVALID;
+			itemInputOrder.add(position);
 		}
-		return inputOrder;
-	}
-	
-	public Object[] outputs() {
-		Object[] output = new Object[itemOutputSize];
-		IRecipe recipe = getRecipe(hasConsumed);
-		if (recipe == null) return null;
-		ArrayList<IIngredient> outputs = recipe.outputs();
-		for (int i = 0; i < itemOutputSize; i++) {
-			Object out = RecipeMethods.getIngredientFromList(outputs, i);
-			if (out == null) return null;
-			else output[i] = out;
-		}
-		return output;
+		return itemInputOrder;
 	}
 	
 	// Inventory
@@ -272,7 +233,13 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {
 		if (stack == ItemStack.EMPTY) return false;
 		else if (slot >= itemInputSize && slot < itemInputSize + itemOutputSize) return false;
-		return NCConfig.smart_processor_input ? getRecipeHandler().isValidInput(stack, inventoryStacks.get(slot), inputItemStacksExcludingSlot(slot)) : getRecipeHandler().isValidInput(stack);
+		return NCConfig.smart_processor_input ? getRecipeHandler().isValidItemInput(stack, inventoryStacks.get(slot), inputItemStacksExcludingSlot(slot)) : getRecipeHandler().isValidItemInput(stack);
+	}
+	
+	public List<ItemStack> inputItemStacksExcludingSlot(int slot) {
+		List<ItemStack> inputItemsExcludingSlot = new ArrayList<ItemStack>(getItemInputs(false));
+		inputItemsExcludingSlot.remove(slot);
+		return inputItemsExcludingSlot;
 	}
 	
 	// SidedInventory
@@ -297,20 +264,20 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 	@Override
 	public NBTTagCompound writeAll(NBTTagCompound nbt) {
 		super.writeAll(nbt);
-		nbt.setInteger("time", time);
-		nbt.setBoolean("isGenerating", isGenerating);
+		nbt.setDouble("time", time);
+		nbt.setBoolean("isProcessing", isProcessing);
 		nbt.setBoolean("hasConsumed", hasConsumed);
-		nbt.setBoolean("canProcessStacks", canProcessStacks);
+		nbt.setBoolean("canProcessInputs", canProcessInputs);
 		return nbt;
 	}
 		
 	@Override
 	public void readAll(NBTTagCompound nbt) {
 		super.readAll(nbt);
-		time = nbt.getInteger("time");
-		isGenerating = nbt.getBoolean("isGenerating");
+		time = nbt.getDouble("time");
+		isProcessing = nbt.getBoolean("isProcessing");
 		hasConsumed = nbt.getBoolean("hasConsumed");
-		canProcessStacks = nbt.getBoolean("canProcessStacks");
+		canProcessInputs = nbt.getBoolean("canProcessInputs");
 	}
 	
 	// Inventory Fields
@@ -324,7 +291,7 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 	public int getField(int id) {
 		switch (id) {
 		case 0:
-			return time;
+			return (int) time;
 		case 1:
 			return getEnergyStored();
 		default:

@@ -5,7 +5,7 @@ import java.util.Random;
 import nc.Global;
 import nc.NuclearCraft;
 import nc.init.NCBlocks;
-import nc.proxy.CommonProxy;
+import nc.tab.NCTabs;
 import nc.tile.processor.TileNuclearFurnace;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.ITileEntityProvider;
@@ -48,7 +48,7 @@ public class BlockNuclearFurnace extends BlockContainer implements ITileEntityPr
 		setRegistryName(new ResourceLocation(Global.MOD_ID, "nuclear_furnace" + (isBurning ? "_active" : "_idle")));
 		setDefaultState(blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
 		this.isBurning = isBurning;
-		if (!isBurning) setCreativeTab(CommonProxy.TAB_MACHINES);
+		if (!isBurning) setCreativeTab(NCTabs.TAB_MACHINES);
 		setHarvestLevel("pickaxe", 0);
 		setHardness(2F);
 		setResistance(15F);

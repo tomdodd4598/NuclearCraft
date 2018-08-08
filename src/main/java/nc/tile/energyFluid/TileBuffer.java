@@ -16,7 +16,7 @@ import net.minecraftforge.items.IItemHandler;
 public class TileBuffer extends TileEnergyFluidSidedInventory implements IInterfaceable, IEnergySpread, IFluidSpread {
 	
 	public TileBuffer() {
-		super("buffer", 1, 32000, energyConnectionAll(EnergyConnection.BOTH), 16000, FluidConnection.BOTH);
+		super("buffer", 1, 32000, energyConnectionAll(EnergyConnection.BOTH), 16000, FluidConnection.BOTH, null);
 	}
 	
 	@Override
@@ -74,8 +74,8 @@ public class TileBuffer extends TileEnergyFluidSidedInventory implements IInterf
 	
 	@Override
 	public void pushFluid() {
-		if (tanks.length > 0 && tanks != null) for (int i = 0; i < tanks.length; i++) {
-			if (tanks[i].getFluidAmount() <= 0 || !fluidConnections[i].canDrain()) return;
+		if (tanks != null && !tanks.isEmpty()) for (int i = 0; i < tanks.size(); i++) {
+			if (tanks.get(i).getFluidAmount() <= 0 || !fluidConnections.get(i).canDrain()) return;
 			for (EnumFacing side : EnumFacing.VALUES) {
 				TileEntity tile = world.getTileEntity(getPos().offset(side));
 				IFluidHandler adjStorage = tile == null ? null : tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side.getOpposite());
@@ -83,10 +83,10 @@ public class TileBuffer extends TileEnergyFluidSidedInventory implements IInterf
 				if (!(tile instanceof IBufferable)) continue;
 				
 				if (tile instanceof IFluidHandler) {
-					tanks[i].drain(((IFluidHandler) tile).fill(tanks[i].drain(tanks[i].getCapacity(), false), true), true);
+					tanks.get(i).drain(((IFluidHandler) tile).fill(tanks.get(i).drain(tanks.get(i).getCapacity(), false), true), true);
 				}
 				else if (adjStorage != null) {
-					tanks[i].drain(adjStorage.fill(tanks[i].drain(tanks[i].getCapacity(), false), true), true);
+					tanks.get(i).drain(adjStorage.fill(tanks.get(i).drain(tanks.get(i).getCapacity(), false), true), true);
 				}
 			}
 		}

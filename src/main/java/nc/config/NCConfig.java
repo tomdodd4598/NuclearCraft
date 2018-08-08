@@ -115,6 +115,7 @@ public class NCConfig {
 	public static double fusion_base_power; // Default: 1
 	public static double fusion_fuel_use; // Default: 1
 	public static double fusion_heat_generation; // Default: 1
+	public static double fusion_heating_multiplier; // Default: 1
 	public static boolean fusion_overheat;
 	public static boolean fusion_active_cooling;
 	public static double[] fusion_active_cooling_rate;
@@ -157,12 +158,16 @@ public class NCConfig {
 	public static int[] armor_enchantability;
 	public static double[] armor_toughness;
 	
+	public static boolean single_creative_tab;
+	
 	public static boolean[] register_processor;
 	public static boolean[] register_passive;
 	public static boolean[] register_tool;
 	public static boolean[] register_armor;
 	
 	public static boolean ctrl_info;
+	
+	public static boolean jei_chance_items_include_null;
 	
 	public static boolean rare_drops;
 	public static boolean dungeon_loot;
@@ -234,7 +239,7 @@ public class NCConfig {
 		Property propertyOreHarvestLevels = config.get(CATEGORY_ORES, "ore_harvest_levels", new int[] {1, 1, 1, 2, 2, 2, 2, 2}, Lang.localise("gui.config.ores.ore_harvest_levels.comment"), 0, 15);
 		propertyOreHarvestLevels.setLanguageKey("gui.config.ores.ore_harvest_levels");
 		
-		Property propertyProcessorTime = config.get(CATEGORY_PROCESSORS, "processor_time", new int[] {400, 800, 800, 400, 400, 600, 800, 600, 3200, 800, 400, 600, 800, 600, 1600, 600, 2400, 1200, 800}, Lang.localise("gui.config.processors.processor_time.comment"), 1, 128000);
+		Property propertyProcessorTime = config.get(CATEGORY_PROCESSORS, "processor_time", new int[] {400, 800, 800, 400, 400, 600, 800, 600, 3200, 800, 400, 600, 800, 600, 1600, 600, 2400, 1200, 400}, Lang.localise("gui.config.processors.processor_time.comment"), 1, 128000);
 		propertyProcessorTime.setLanguageKey("gui.config.processors.processor_time");
 		Property propertyProcessorPower = config.get(CATEGORY_PROCESSORS, "processor_power", new int[] {20, 10, 10, 20, 10, 10, 40, 20, 40, 20, 0, 40, 10, 20, 10, 10, 10, 10, 20}, Lang.localise("gui.config.processors.processor_power.comment"), 0, 16000);
 		propertyProcessorPower.setLanguageKey("gui.config.processors.processor_power");
@@ -261,7 +266,7 @@ public class NCConfig {
 		
 		Property propertyRTGPower = config.get(CATEGORY_GENERATORS, "rtg_power", new int[] {4, 100, 50, 400}, Lang.localise("gui.config.generators.rtg_power.comment"), 1, Integer.MAX_VALUE);
 		propertyRTGPower.setLanguageKey("gui.config.generators.rtg_power");
-		Property propertySolarPower = config.get(CATEGORY_GENERATORS, "solar_power", new int[] {5}, Lang.localise("gui.config.generators.solar_power.comment"), 1, Integer.MAX_VALUE);
+		Property propertySolarPower = config.get(CATEGORY_GENERATORS, "solar_power", new int[] {5, 20, 80, 320}, Lang.localise("gui.config.generators.solar_power.comment"), 1, Integer.MAX_VALUE);
 		propertySolarPower.setLanguageKey("gui.config.generators.solar_power");
 		Property propertyDecayPower = config.get(CATEGORY_GENERATORS, "decay_power", new int[] {80, 80, 15, 5, 10, 15, 20, 25, 30, 40}, Lang.localise("gui.config.generators.decay_power.comment"), 0, 32767);
 		propertyDecayPower.setLanguageKey("gui.config.generators.decay_power");
@@ -367,6 +372,8 @@ public class NCConfig {
 		propertyFusionFuelUse.setLanguageKey("gui.config.fusion.fusion_fuel_use");
 		Property propertyFusionHeatGeneration = config.get(CATEGORY_FUSION, "fusion_heat_generation", 1D, Lang.localise("gui.config.fusion.fusion_heat_generation.comment"), 0D, 255D);
 		propertyFusionHeatGeneration.setLanguageKey("gui.config.fusion.fusion_heat_generation");
+		Property propertyFusionHeatingMultiplier = config.get(CATEGORY_FUSION, "fusion_heating_multiplier", 1D, Lang.localise("gui.config.fusion.fusion_heating_multiplier.comment"), 0D, 255D);
+		propertyFusionHeatingMultiplier.setLanguageKey("gui.config.fusion.fusion_heating_multiplier");
 		Property propertyFusionOverheat = config.get(CATEGORY_FUSION, "fusion_overheat", true, Lang.localise("gui.config.fusion.fusion_overheat.comment"));
 		propertyFusionOverheat.setLanguageKey("gui.config.fusion.fusion_overheat");
 		Property propertyFusionActiveCooling = config.get(CATEGORY_FUSION, "fusion_active_cooling", true, Lang.localise("gui.config.fusion.fusion_active_cooling.comment"));
@@ -444,6 +451,9 @@ public class NCConfig {
 		Property propertyArmorToughness = config.get(CATEGORY_ARMOR, "armor_toughness", new double[] {1D, 2D, 1D, 2D}, Lang.localise("gui.config.armor.armor_toughness.comment"), 1, 8);
 		propertyArmorToughness.setLanguageKey("gui.config.armor.armor_toughness");
 		
+		Property propertySingleCreativeTab = config.get(CATEGORY_OTHER, "single_creative_tab", false, Lang.localise("gui.config.other.single_creative_tab.comment"));
+		propertySingleCreativeTab.setLanguageKey("gui.config.other.single_creative_tab");
+		
 		Property propertyRegisterProcessor = config.get(CATEGORY_OTHER, "register_processor", new boolean[] {true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true}, Lang.localise("gui.config.other.register_processor.comment"));
 		propertyRegisterProcessor.setLanguageKey("gui.config.other.register_processor");
 		Property propertyRegisterPassive = config.get(CATEGORY_OTHER, "register_passive", new boolean[] {true, true, true, true}, Lang.localise("gui.config.other.register_passive.comment"));
@@ -455,6 +465,9 @@ public class NCConfig {
 		
 		Property propertyCtrlInfo = config.get(CATEGORY_OTHER, "ctrl_info", false, Lang.localise("gui.config.other.ctrl_info.comment"));
 		propertyCtrlInfo.setLanguageKey("gui.config.other.ctrl_info");
+		
+		Property propertyJEIChanceItemsIncludeNull = config.get(CATEGORY_OTHER, "jei_chance_items_include_null", false, Lang.localise("gui.config.other.jei_chance_items_include_null.comment"));
+		propertyJEIChanceItemsIncludeNull.setLanguageKey("gui.config.other.jei_chance_items_include_null");
 		
 		Property propertyRareDrops = config.get(CATEGORY_OTHER, "rare_drops", false, Lang.localise("gui.config.other.rare_drops.comment"));
 		propertyRareDrops.setLanguageKey("gui.config.other.rare_drops");
@@ -485,9 +498,9 @@ public class NCConfig {
 		Property propertyRegisterCoFHFluids = config.get(CATEGORY_OTHER, "register_cofh_fluids", false, Lang.localise("gui.config.other.register_cofh_fluids.comment"));
 		propertyRegisterCoFHFluids.setLanguageKey("gui.config.other.register_cofh_fluids");
 		
-		Property propertyOreDictPriorityBool = config.get(CATEGORY_OTHER, "ore_dict_priority_bool", false, Lang.localise("gui.config.other.ore_dict_priority_bool.comment"));
+		Property propertyOreDictPriorityBool = config.get(CATEGORY_OTHER, "ore_dict_priority_bool", true, Lang.localise("gui.config.other.ore_dict_priority_bool.comment"));
 		propertyOreDictPriorityBool.setLanguageKey("gui.config.other.ore_dict_priority_bool");
-		Property propertyOreDictPriority = config.get(CATEGORY_OTHER, "ore_dict_priority", new String[] {"minecraft", "thermalfoundation", "techreborn", "ic2", "immersiveengineering", "mekanism", "nuclearcraft", "appliedenergistics2", "actuallyadditions", "thaumcraft", "biomesoplenty"}, Lang.localise("gui.config.other.ore_dict_priority.comment"));
+		Property propertyOreDictPriority = config.get(CATEGORY_OTHER, "ore_dict_priority", new String[] {"minecraft", "thermalfoundation", "techreborn", "nuclearcraft", "immersiveengineering", "mekanism", "ic2", "appliedenergistics2", "actuallyadditions", "thaumcraft", "biomesoplenty"}, Lang.localise("gui.config.other.ore_dict_priority.comment"));
 		propertyOreDictPriority.setLanguageKey("gui.config.other.ore_dict_priority");
 		
 		List<String> propertyOrderOres = new ArrayList<String>();
@@ -584,6 +597,7 @@ public class NCConfig {
 		propertyOrderFusion.add(propertyFusionBasePower.getName());
 		propertyOrderFusion.add(propertyFusionFuelUse.getName());
 		propertyOrderFusion.add(propertyFusionHeatGeneration.getName());
+		propertyOrderFusion.add(propertyFusionHeatingMultiplier.getName());
 		propertyOrderFusion.add(propertyFusionOverheat.getName());
 		propertyOrderFusion.add(propertyFusionActiveCooling.getName());
 		propertyOrderFusion.add(propertyFusionActiveCoolingRate.getName());
@@ -638,11 +652,13 @@ public class NCConfig {
 		config.setCategoryPropertyOrder(CATEGORY_ARMOR, propertyOrderArmor);
 		
 		List<String> propertyOrderOther = new ArrayList<String>();
+		propertyOrderOther.add(propertySingleCreativeTab.getName());
 		propertyOrderOther.add(propertyRegisterProcessor.getName());
 		propertyOrderOther.add(propertyRegisterPassive.getName());
 		propertyOrderOther.add(propertyRegisterTool.getName());
 		propertyOrderOther.add(propertyRegisterArmor.getName());
 		propertyOrderOther.add(propertyCtrlInfo.getName());
+		propertyOrderOther.add(propertyJEIChanceItemsIncludeNull.getName());
 		propertyOrderOther.add(propertyRareDrops.getName());
 		propertyOrderOther.add(propertyDungeonLoot.getName());
 		propertyOrderOther.add(propertyWastelandBiome.getName());
@@ -745,6 +761,7 @@ public class NCConfig {
 			fusion_base_power = propertyFusionBasePower.getDouble();
 			fusion_fuel_use = propertyFusionFuelUse.getDouble();
 			fusion_heat_generation = propertyFusionHeatGeneration.getDouble();
+			fusion_heating_multiplier = propertyFusionHeatingMultiplier.getDouble();
 			fusion_overheat = propertyFusionOverheat.getBoolean();
 			fusion_active_cooling = propertyFusionActiveCooling.getBoolean();
 			fusion_active_cooling_rate = readDoubleArrayFromConfig(propertyFusionActiveCoolingRate);
@@ -787,11 +804,13 @@ public class NCConfig {
 			armor_boron_nitride = readIntegerArrayFromConfig(propertyArmorBoronNitride);
 			armor_toughness = readDoubleArrayFromConfig(propertyArmorToughness);
 			
+			single_creative_tab = propertySingleCreativeTab.getBoolean();
 			register_processor = readBooleanArrayFromConfig(propertyRegisterProcessor);
 			register_passive = readBooleanArrayFromConfig(propertyRegisterPassive);
 			register_tool = readBooleanArrayFromConfig(propertyRegisterTool);
 			register_armor = readBooleanArrayFromConfig(propertyRegisterArmor);
 			ctrl_info = propertyCtrlInfo.getBoolean();
+			jei_chance_items_include_null = propertyJEIChanceItemsIncludeNull.getBoolean();
 			rare_drops = propertyRareDrops.getBoolean();
 			dungeon_loot = propertyDungeonLoot.getBoolean();
 			wasteland_biome = propertyWastelandBiome.getBoolean();
@@ -894,6 +913,7 @@ public class NCConfig {
 		propertyFusionBasePower.set(fusion_base_power);
 		propertyFusionFuelUse.set(fusion_fuel_use);
 		propertyFusionHeatGeneration.set(fusion_heat_generation);
+		propertyFusionHeatingMultiplier.set(fusion_heating_multiplier);
 		propertyFusionOverheat.set(fusion_overheat);
 		propertyFusionActiveCooling.set(fusion_active_cooling);
 		propertyFusionActiveCoolingRate.set(fusion_active_cooling_rate);
@@ -936,11 +956,13 @@ public class NCConfig {
 		propertyArmorBoronNitride.set(armor_boron_nitride);
 		propertyArmorToughness.set(armor_toughness);
 		
+		propertySingleCreativeTab.set(single_creative_tab);
 		propertyRegisterProcessor.set(register_processor);
 		propertyRegisterPassive.set(register_passive);
 		propertyRegisterTool.set(register_tool);
 		propertyRegisterArmor.set(register_armor);
 		propertyCtrlInfo.set(ctrl_info);
+		propertyJEIChanceItemsIncludeNull.set(jei_chance_items_include_null);
 		propertyRareDrops.set(rare_drops);
 		propertyWastelandBiome.set(wasteland_biome);
 		propertyWastelandBiomeWeight.set(wasteland_biome_weight);

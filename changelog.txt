@@ -1,3 +1,39 @@
+v2.11
+
+* Totally overhauled recipe system
+* Recipes can now include empty and chance-based ingredients
+* Full CraftTweaker support for these new ingredient types - video tutorial coming soon!
+* Old CraftTweaker scripts will still work!
+
+* Fixed major fluid-related crash with EnderIO installed
+* Fixed issue with LittleTiles where some tile entities would not update correctly
+
++ Added Advanced, DU and Elite Solar Panels
+
+* Recipes can now have different processing powers as well as processing times
+* Improved server performance of processors and generators
+
++ Crafting and Furnace recipes will now take the ore dict priority list into account
+
++ Added config option to increase initial heating rate of Fusion Reactors
+* Slightly decreased explosion size of faulting fusion electromagnets
+
+* Fixed fission fuel tooltip info not taking fuel time config into account
+* Fixed Molten Salt Fission Reactor changing heat level too slowly
+* Fixed Decay Generator decaying adjacent blocks too quickly
+* Slightly reduced rounding errors in Fission Reactor calculations
+
++ Added Arsenic and other materials derived from it
++ Added config option to condense all NC content into a single creative tab
+
++ Added Tinker's Construct support for base NC metals
+
++ Added German language file [thanks to Adatrem!]
+
+* Updated Forge and APIs
+
+- Removed Paulobrine and Herobrian
+
 v2.10p
 
 * Fixed crash when attempting to reprocess depleted IC2 fuels

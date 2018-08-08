@@ -1,5 +1,7 @@
 package nc.tile.fluid;
 
+import java.util.List;
+
 import javax.annotation.Nullable;
 
 import nc.tile.internal.fluid.FluidConnection;
@@ -18,28 +20,28 @@ public abstract class TileFluidSidedInventory extends TileFluidInventory impleme
 	public int[] sideSlots;
 	public int[] bottomSlots;
 	
-	public TileFluidSidedInventory(String name, int size, int capacity, FluidConnection connection, String[]... allowedFluids) {
-		super(name, size, capacity, connection, allowedFluids);
+	public TileFluidSidedInventory(String name, int size, int capacity, FluidConnection fluidConnections, List<String> allowedFluids) {
+		super(name, size, capacity, fluidConnections, allowedFluids);
 	}
 	
-	public TileFluidSidedInventory(String name, int size, int[] capacity, FluidConnection[] connection, String[]... allowedFluids) {
-		super(name, size, capacity, connection, allowedFluids);
+	public TileFluidSidedInventory(String name, int size, List<Integer> capacity, List<FluidConnection> fluidConnections, List<List<String>> allowedFluids) {
+		super(name, size, capacity, fluidConnections, allowedFluids);
 	}
 	
-	public TileFluidSidedInventory(String name, int size, int capacity, int maxTransfer, FluidConnection connection, String[]... allowedFluids) {
-		super(name, size, capacity, maxTransfer, connection, allowedFluids);
+	public TileFluidSidedInventory(String name, int size, int capacity, int maxTransfer, FluidConnection fluidConnections, List<String> allowedFluids) {
+		super(name, size, capacity, maxTransfer, fluidConnections, allowedFluids);
 	}
 	
-	public TileFluidSidedInventory(String name, int size, int[] capacity, int[] maxTransfer, FluidConnection[] connection, String[]... allowedFluids) {
-		super(name, size, capacity, maxTransfer, connection, allowedFluids);
+	public TileFluidSidedInventory(String name, int size, List<Integer> capacity, List<Integer> maxTransfer, List<FluidConnection> fluidConnections, List<List<String>> allowedFluids) {
+		super(name, size, capacity, maxTransfer, fluidConnections, allowedFluids);
 	}
 	
-	public TileFluidSidedInventory(String name, int size, int capacity, int maxReceive, int maxExtract, FluidConnection connection, String[]... allowedFluids) {
-		super(name, size, capacity, maxReceive, maxExtract, connection, allowedFluids);
+	public TileFluidSidedInventory(String name, int size, int capacity, int maxReceive, int maxExtract, FluidConnection fluidConnections, List<String> allowedFluids) {
+		super(name, size, capacity, maxReceive, maxExtract, fluidConnections, allowedFluids);
 	}
 	
-	public TileFluidSidedInventory(String name, int size, int[] capacity, int[] maxReceive, int[] maxExtract, FluidConnection[] connection, String[]... allowedFluids) {
-		super(name, size, capacity, maxReceive, maxExtract, connection, allowedFluids);
+	public TileFluidSidedInventory(String name, int size, List<Integer> capacity, List<Integer> maxReceive, List<Integer> maxExtract, List<FluidConnection> fluidConnections, List<List<String>> allowedFluids) {
+		super(name, size, capacity, maxReceive, maxExtract, fluidConnections, allowedFluids);
 	}
 	
 	// SidedInventory

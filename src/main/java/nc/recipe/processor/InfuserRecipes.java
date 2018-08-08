@@ -2,15 +2,14 @@ package nc.recipe.processor;
 
 import com.google.common.collect.Lists;
 
-import nc.config.NCConfig;
 import nc.init.NCBlocks;
-import nc.recipe.BaseRecipeHandler;
-import nc.util.FluidHelper;
+import nc.recipe.ProcessorRecipeHandler;
+import nc.util.FluidStackHelper;
 import nc.util.RegistryHelper;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 
-public class InfuserRecipes extends BaseRecipeHandler {
+public class InfuserRecipes extends ProcessorRecipeHandler {
 	
 	public InfuserRecipes() {
 		super("infuser", 1, 1, 1, 0);
@@ -18,31 +17,34 @@ public class InfuserRecipes extends BaseRecipeHandler {
 
 	@Override
 	public void addRecipes() {
-		addOxidizingRecipe("ingotThorium", FluidHelper.BUCKET_VOLUME);
-		addOxidizingRecipe("ingotUranium", FluidHelper.BUCKET_VOLUME);
-		addOxidizingRecipe("ingotManganese", FluidHelper.BUCKET_VOLUME);
-		addRecipe("ingotManganeseOxide", fluidStack("oxygen", FluidHelper.BUCKET_VOLUME), "ingotManganeseDioxide", NCConfig.processor_time[5]);
-		addOxidizingRecipe("dustThorium", FluidHelper.BUCKET_VOLUME);
-		addOxidizingRecipe("dustUranium", FluidHelper.BUCKET_VOLUME);
-		addOxidizingRecipe("dustManganese", FluidHelper.BUCKET_VOLUME);
-		addRecipe("dustManganeseOxide", fluidStack("oxygen", FluidHelper.BUCKET_VOLUME), "dustManganeseDioxide", NCConfig.processor_time[5]);
+		addOxidizingRecipe("ingotThorium", FluidStackHelper.BUCKET_VOLUME);
+		addOxidizingRecipe("ingotUranium", FluidStackHelper.BUCKET_VOLUME);
+		addOxidizingRecipe("ingotManganese", FluidStackHelper.BUCKET_VOLUME);
+		addRecipe("ingotManganeseOxide", fluidStack("oxygen", FluidStackHelper.BUCKET_VOLUME), "ingotManganeseDioxide", 1D, 1D);
+		addOxidizingRecipe("dustThorium", FluidStackHelper.BUCKET_VOLUME);
+		addOxidizingRecipe("dustUranium", FluidStackHelper.BUCKET_VOLUME);
+		addOxidizingRecipe("dustManganese", FluidStackHelper.BUCKET_VOLUME);
+		addRecipe("dustManganeseOxide", fluidStack("oxygen", FluidStackHelper.BUCKET_VOLUME), "dustManganeseDioxide", 1D, 1D);
 		
-		addRecipe(Lists.newArrayList(Blocks.ICE, Blocks.PACKED_ICE), fluidStack("liquidhelium", 50), NCBlocks.block_ice, NCConfig.processor_time[5]/10);
+		addRecipe(Lists.newArrayList(Blocks.ICE, Blocks.PACKED_ICE), fluidStack("liquidhelium", 50), NCBlocks.block_ice, 0.2D, 0.5D);
 		
-		addRecipe(new ItemStack(NCBlocks.cooler, 1, 0), fluidStack("water", FluidHelper.BUCKET_VOLUME), new ItemStack(NCBlocks.cooler, 1, 1), NCConfig.processor_time[5]);
-		addRecipe(new ItemStack(NCBlocks.cooler, 1, 0), fluidStack("liquidhelium", FluidHelper.BUCKET_VOLUME), new ItemStack(NCBlocks.cooler, 1, 8), NCConfig.processor_time[5]);
-		addRecipe(new ItemStack(NCBlocks.cooler, 1, 0), fluidStack("cryotheum", FluidHelper.BUCKET_VOLUME*2), new ItemStack(NCBlocks.cooler, 1, 10), NCConfig.processor_time[5]);
+		addRecipe(new ItemStack(NCBlocks.cooler, 1, 0), fluidStack("water", FluidStackHelper.BUCKET_VOLUME), new ItemStack(NCBlocks.cooler, 1, 1), 1D, 1D);
+		addRecipe(new ItemStack(NCBlocks.cooler, 1, 0), fluidStack("liquidhelium", FluidStackHelper.BUCKET_VOLUME), new ItemStack(NCBlocks.cooler, 1, 8), 1D, 1D);
+		addRecipe(new ItemStack(NCBlocks.cooler, 1, 0), fluidStack("cryotheum", FluidStackHelper.BUCKET_VOLUME*2), new ItemStack(NCBlocks.cooler, 1, 10), 1D, 1D);
+		
+		addRecipe("emptyFrame", fluidStack("water", 2000), NCBlocks.water_source, 1D, 1D);
+		addRecipe(NCBlocks.water_source, fluidStack("lava", 1000), NCBlocks.cobblestone_generator, 1D, 1D);
 		
 		// Immersive Engineering
-		addRecipe("plankWood", fluidStack("creosote", 100), RegistryHelper.blockStackFromRegistry("immersiveengineering", "treated_wood"), NCConfig.processor_time[5]/10);
+		addRecipe("plankWood", fluidStack("creosote", 100), RegistryHelper.blockStackFromRegistry("immersiveengineering", "treated_wood"), 0.2D, 0.5D);
 		
 		// Redstone Arsenal
-		addIngotInfusionRecipes("Electrum", "redstone", FluidHelper.REDSTONE_DUST_VOLUME*2, "ElectrumFlux", 1);
+		addIngotInfusionRecipes("Electrum", "redstone", FluidStackHelper.REDSTONE_DUST_VOLUME*2, "ElectrumFlux", 1D, 1D);
 		
 		// Thermal Foundation
-		addIngotInfusionRecipes("Shibuichi", "redstone", FluidHelper.EUM_DUST_VOLUME, "Signalum", 1);
-		addIngotInfusionRecipes("TinSilver", "glowstone", FluidHelper.EUM_DUST_VOLUME, "Lumium", 1);
-		addIngotInfusionRecipes("LeadPlatinum", "ender", FluidHelper.EUM_DUST_VOLUME, "Enderium", 1);
+		addIngotInfusionRecipes("Shibuichi", "redstone", FluidStackHelper.EUM_DUST_VOLUME, "Signalum", 1D, 1D);
+		addIngotInfusionRecipes("TinSilver", "glowstone", FluidStackHelper.EUM_DUST_VOLUME, "Lumium", 1D, 1D);
+		addIngotInfusionRecipes("LeadPlatinum", "ender", FluidStackHelper.EUM_DUST_VOLUME, "Enderium", 1D, 1D);
 		
 		addFertileOxidizingRecipes("Thorium230");
 		addFissileOxidizingRecipes("Thorium232");
@@ -111,28 +113,28 @@ public class InfuserRecipes extends BaseRecipeHandler {
 	}
 	
 	public void addOxidizingRecipe(String name, int oxygenAmount) {
-		addRecipe(name, fluidStack("oxygen", oxygenAmount), name + "Oxide", NCConfig.processor_time[5]);
+		addRecipe(name, fluidStack("oxygen", oxygenAmount), name + "Oxide", 1D, 1D);
 	}
 	
 	public void addFertileOxidizingRecipes(String name) {
-		addRecipe("ingot" + name + "Base", fluidStack("oxygen", FluidHelper.OXIDIZING_VOLUME), "ingot" + name + "Oxide", NCConfig.processor_time[5]/2);
-		addRecipe("nugget" + name, fluidStack("oxygen", FluidHelper.OXIDIZING_VOLUME/8), "nugget" + name + "Oxide", NCConfig.processor_time[5]/18);
+		addRecipe("ingot" + name + "Base", fluidStack("oxygen", FluidStackHelper.OXIDIZING_VOLUME), "ingot" + name + "Oxide", 0.5D, 1D);
+		addRecipe("nugget" + name, fluidStack("oxygen", FluidStackHelper.OXIDIZING_VOLUME/8), "nugget" + name + "Oxide", 1D/18D, 1D);
 	}
 	
 	public void addFissileOxidizingRecipes(String name) {
-		addRecipe("ingot" + name, fluidStack("oxygen", FluidHelper.OXIDIZING_VOLUME), "ingot" + name + "Oxide", NCConfig.processor_time[5]/2);
-		addRecipe("nugget" + name, fluidStack("oxygen", FluidHelper.OXIDIZING_VOLUME/8), "nugget" + name + "Oxide", NCConfig.processor_time[5]/18);
+		addRecipe("ingot" + name, fluidStack("oxygen", FluidStackHelper.OXIDIZING_VOLUME), "ingot" + name + "Oxide", 0.5D, 1D);
+		addRecipe("nugget" + name, fluidStack("oxygen", FluidStackHelper.OXIDIZING_VOLUME/8), "nugget" + name + "Oxide", 1D/18D, 1D);
 	}
 	
 	public void addFuelOxidizingRecipes(String name) {
-		addRecipe("fuel" + name, fluidStack("oxygen", FluidHelper.OXIDIZING_VOLUME*10), "fuel" + name + "Oxide", NCConfig.processor_time[5]*4);
-		addRecipe("fuelRod" + name, fluidStack("oxygen", FluidHelper.OXIDIZING_VOLUME*10), "fuelRod" + name + "Oxide", NCConfig.processor_time[5]*4);
-		addRecipe("depletedFuel" + name, fluidStack("oxygen", FluidHelper.OXIDIZING_VOLUME*8), "depletedFuel" + name + "Oxide", NCConfig.processor_time[5]*4);
-		addRecipe("depletedFuelRod" + name, fluidStack("oxygen", FluidHelper.OXIDIZING_VOLUME*8), "depletedFuelRod" + name + "Oxide", NCConfig.processor_time[5]*4);
+		addRecipe("fuel" + name, fluidStack("oxygen", FluidStackHelper.OXIDIZING_VOLUME*10), "fuel" + name + "Oxide", 2D, 2D);
+		addRecipe("fuelRod" + name, fluidStack("oxygen", FluidStackHelper.OXIDIZING_VOLUME*10), "fuelRod" + name + "Oxide", 2D, 2D);
+		addRecipe("depletedFuel" + name, fluidStack("oxygen", FluidStackHelper.OXIDIZING_VOLUME*8), "depletedFuel" + name + "Oxide", 2D, 2D);
+		addRecipe("depletedFuelRod" + name, fluidStack("oxygen", FluidStackHelper.OXIDIZING_VOLUME*8), "depletedFuelRod" + name + "Oxide", 2D, 2D);
 	}
 	
-	public void addIngotInfusionRecipes(String in, String fluid, int amount, String out, int time) {
-		addRecipe("ingot" + in, fluidStack(fluid, amount), "ingot" + out, NCConfig.processor_time[5]*time);
-		addRecipe("dust" + in, fluidStack(fluid, amount), "dust" + out, NCConfig.processor_time[5]*time);
+	public void addIngotInfusionRecipes(String in, String fluid, int amount, String out, double time, double power) {
+		addRecipe("ingot" + in, fluidStack(fluid, amount), "ingot" + out, time, power);
+		addRecipe("dust" + in, fluidStack(fluid, amount), "dust" + out, time, power);
 	}
 }

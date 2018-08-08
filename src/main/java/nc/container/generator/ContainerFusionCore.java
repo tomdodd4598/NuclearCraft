@@ -1,5 +1,9 @@
 package nc.container.generator;
 
+import java.util.List;
+
+import com.google.common.collect.Lists;
+
 import nc.recipe.NCRecipes;
 import nc.tile.generator.TileFusionCore;
 import net.minecraft.entity.player.EntityPlayer;
@@ -17,6 +21,9 @@ public class ContainerFusionCore extends ContainerFluidGenerator {
 	protected int speedMultiplier;
 	protected int cooling;
 	protected int heatChange;
+	
+	protected static final List<Integer> UPCASTS = Lists.newArrayList(0, 1, 2, 3, 4, 5, 6, 9, 10);
+	protected static final List<Integer> NON_UPCASTS = Lists.newArrayList(7, 8, 11);
 	
 	public ContainerFusionCore(EntityPlayer player, TileFusionCore tileEntity) {
 		super(tileEntity, NCRecipes.Type.FUSION);
@@ -39,12 +46,12 @@ public class ContainerFusionCore extends ContainerFluidGenerator {
 		for (int i = 0; i < listeners.size(); i++) {
 			IContainerListener icontainerlistener = (IContainerListener) listeners.get(i);
 			
-			for (int j : new int[] {0, 1, 2, 3, 4, 5, 6, 9, 10}) {
+			for (int j : UPCASTS) {
 				icontainerlistener.sendWindowProperty(this, j, tile.getField(j) >> 16);
 				icontainerlistener.sendWindowProperty(this, 100 + j, tile.getField(j));
 			}
 			
-			for (int j : new int[] {7, 8}) icontainerlistener.sendWindowProperty(this, j, tile.getField(j));
+			for (int j : NON_UPCASTS) icontainerlistener.sendWindowProperty(this, j, tile.getField(j));
 		}
 	}
 	
@@ -71,6 +78,6 @@ public class ContainerFusionCore extends ContainerFluidGenerator {
 		else if (id == 9) tile.setField(id, cooling | data << 16);
 		else if (id == 10) tile.setField(id, heatChange | data << 16);
 		
-		else if (id == 7 || id == 8) tile.setField(id, data);
+		else if (NON_UPCASTS.contains(id)) tile.setField(id, data);
 	}
 }

@@ -1,7 +1,7 @@
 package nc.enumm;
 
 import nc.init.NCBlocks;
-import nc.proxy.CommonProxy;
+import nc.tab.NCTabs;
 import nc.tile.dummy.TileFissionPort;
 import nc.tile.dummy.TileFusionDummy;
 import nc.tile.dummy.TileMachineInterface;
@@ -9,10 +9,10 @@ import nc.tile.energy.battery.TileBattery;
 import nc.tile.energyFluid.TileBin;
 import nc.tile.energyFluid.TileBuffer;
 import nc.tile.fluid.TileActiveCooler;
-import nc.tile.generator.TileRTG;
-import nc.tile.generator.TileSolarPanel;
 import nc.tile.generator.TileDecayGenerator;
 import nc.tile.generator.TileFissionController;
+import nc.tile.generator.TileRTG;
+import nc.tile.generator.TileSolarPanel;
 import nc.tile.passive.TilePassive;
 import nc.tile.processor.TileProcessor;
 import net.minecraft.block.Block;
@@ -217,11 +217,11 @@ public class BlockEnums {
 		public CreativeTabs getCreativeTab() {
 			switch (this) {
 			case FISSION_CONTROLLER:
-				return CommonProxy.TAB_FISSION_BLOCKS;
+				return NCTabs.TAB_FISSION_BLOCKS;
 			case FISSION_CONTROLLER_NEW:
-				return CommonProxy.TAB_FISSION_BLOCKS;
+				return NCTabs.TAB_FISSION_BLOCKS;
 			default:
-				return CommonProxy.TAB_MACHINES;
+				return NCTabs.TAB_MACHINES;
 			}
 		}
 		
@@ -239,38 +239,41 @@ public class BlockEnums {
 	}
 	
 	public enum SimpleTileType implements IStringSerializable {
-		MACHINE_INTERFACE("machine_interface", CommonProxy.TAB_MACHINES),
-		FISSION_PORT("fission_port", CommonProxy.TAB_FISSION_BLOCKS),
-		DECAY_GENERATOR("decay_generator", CommonProxy.TAB_MACHINES),
-		BUFFER("buffer", CommonProxy.TAB_MACHINES),
-		ACTIVE_COOLER("active_cooler", CommonProxy.TAB_FISSION_BLOCKS),
-		BIN("bin", CommonProxy.TAB_MACHINES),
+		MACHINE_INTERFACE("machine_interface", NCTabs.TAB_MACHINES),
+		FISSION_PORT("fission_port", NCTabs.TAB_FISSION_BLOCKS),
+		DECAY_GENERATOR("decay_generator", NCTabs.TAB_MACHINES),
+		BUFFER("buffer", NCTabs.TAB_MACHINES),
+		ACTIVE_COOLER("active_cooler", NCTabs.TAB_FISSION_BLOCKS),
+		BIN("bin", NCTabs.TAB_MACHINES),
 		
-		RTG_URANIUM("rtg_uranium", CommonProxy.TAB_MACHINES),
-		RTG_PLUTONIUM("rtg_plutonium", CommonProxy.TAB_MACHINES),
-		RTG_AMERICIUM("rtg_americium", CommonProxy.TAB_MACHINES),
-		RTG_CALIFORNIUM("rtg_californium", CommonProxy.TAB_MACHINES),
+		RTG_URANIUM("rtg_uranium", NCTabs.TAB_MACHINES),
+		RTG_PLUTONIUM("rtg_plutonium", NCTabs.TAB_MACHINES),
+		RTG_AMERICIUM("rtg_americium", NCTabs.TAB_MACHINES),
+		RTG_CALIFORNIUM("rtg_californium", NCTabs.TAB_MACHINES),
 		
-		SOLAR_PANEL_BASIC("solar_panel_basic", CommonProxy.TAB_MACHINES),
+		SOLAR_PANEL_BASIC("solar_panel_basic", NCTabs.TAB_MACHINES),
+		SOLAR_PANEL_ADVANCED("solar_panel_advanced", NCTabs.TAB_MACHINES),
+		SOLAR_PANEL_DU("solar_panel_du", NCTabs.TAB_MACHINES),
+		SOLAR_PANEL_ELITE("solar_panel_elite", NCTabs.TAB_MACHINES),
 		
-		VOLTAIC_PILE_BASIC("voltaic_pile_basic", CommonProxy.TAB_MACHINES),
-		LITHIUM_ION_BATTERY_BASIC("lithium_ion_battery_basic", CommonProxy.TAB_MACHINES),
+		VOLTAIC_PILE_BASIC("voltaic_pile_basic", NCTabs.TAB_MACHINES),
+		LITHIUM_ION_BATTERY_BASIC("lithium_ion_battery_basic", NCTabs.TAB_MACHINES),
 		
-		HELIUM_COLLECTOR("helium_collector", CommonProxy.TAB_MACHINES),
-		HELIUM_COLLECTOR_COMPACT("helium_collector_compact", CommonProxy.TAB_MACHINES),
-		HELIUM_COLLECTOR_DENSE("helium_collector_dense", CommonProxy.TAB_MACHINES),
+		HELIUM_COLLECTOR("helium_collector", NCTabs.TAB_MACHINES),
+		HELIUM_COLLECTOR_COMPACT("helium_collector_compact", NCTabs.TAB_MACHINES),
+		HELIUM_COLLECTOR_DENSE("helium_collector_dense", NCTabs.TAB_MACHINES),
 		
-		COBBLESTONE_GENERATOR("cobblestone_generator", CommonProxy.TAB_MACHINES),
-		COBBLESTONE_GENERATOR_COMPACT("cobblestone_generator_compact", CommonProxy.TAB_MACHINES),
-		COBBLESTONE_GENERATOR_DENSE("cobblestone_generator_dense", CommonProxy.TAB_MACHINES),
+		COBBLESTONE_GENERATOR("cobblestone_generator", NCTabs.TAB_MACHINES),
+		COBBLESTONE_GENERATOR_COMPACT("cobblestone_generator_compact", NCTabs.TAB_MACHINES),
+		COBBLESTONE_GENERATOR_DENSE("cobblestone_generator_dense", NCTabs.TAB_MACHINES),
 		
-		WATER_SOURCE("water_source", CommonProxy.TAB_MACHINES),
-		WATER_SOURCE_COMPACT("water_source_compact", CommonProxy.TAB_MACHINES),
-		WATER_SOURCE_DENSE("water_source_dense", CommonProxy.TAB_MACHINES),
+		WATER_SOURCE("water_source", NCTabs.TAB_MACHINES),
+		WATER_SOURCE_COMPACT("water_source_compact", NCTabs.TAB_MACHINES),
+		WATER_SOURCE_DENSE("water_source_dense", NCTabs.TAB_MACHINES),
 		
-		NITROGEN_COLLECTOR("nitrogen_collector", CommonProxy.TAB_MACHINES),
-		NITROGEN_COLLECTOR_COMPACT("nitrogen_collector_compact", CommonProxy.TAB_MACHINES),
-		NITROGEN_COLLECTOR_DENSE("nitrogen_collector_dense", CommonProxy.TAB_MACHINES);
+		NITROGEN_COLLECTOR("nitrogen_collector", NCTabs.TAB_MACHINES),
+		NITROGEN_COLLECTOR_COMPACT("nitrogen_collector_compact", NCTabs.TAB_MACHINES),
+		NITROGEN_COLLECTOR_DENSE("nitrogen_collector_dense", NCTabs.TAB_MACHINES);
 		
 		private String name;
 		private CreativeTabs tab;
@@ -311,6 +314,12 @@ public class BlockEnums {
 			
 			case SOLAR_PANEL_BASIC:
 				return new TileSolarPanel.Basic();
+			case SOLAR_PANEL_ADVANCED:
+				return new TileSolarPanel.Advanced();
+			case SOLAR_PANEL_DU:
+				return new TileSolarPanel.DU();
+			case SOLAR_PANEL_ELITE:
+				return new TileSolarPanel.Elite();
 				
 			case VOLTAIC_PILE_BASIC:
 				return new TileBattery.VoltaicPileBasic();
@@ -356,10 +365,10 @@ public class BlockEnums {
 	}
 	
 	public enum ActivatableTileType implements IStringSerializable {
-		FUSION_ELECTROMAGNET("fusion_electromagnet", CommonProxy.TAB_FUSION),
-		FUSION_ELECTROMAGNET_TRANSPARENT("fusion_electromagnet_transparent", CommonProxy.TAB_FUSION),
-		ACCELERATOR_ELECTROMAGNET("accelerator_electromagnet", CommonProxy.TAB_ACCELERATOR),
-		ELECTROMAGNET_SUPERCOOLER("electromagnet_supercooler", CommonProxy.TAB_ACCELERATOR);
+		FUSION_ELECTROMAGNET("fusion_electromagnet", NCTabs.TAB_FUSION),
+		FUSION_ELECTROMAGNET_TRANSPARENT("fusion_electromagnet_transparent", NCTabs.TAB_FUSION),
+		ACCELERATOR_ELECTROMAGNET("accelerator_electromagnet", NCTabs.TAB_ACCELERATOR),
+		ELECTROMAGNET_SUPERCOOLER("electromagnet_supercooler", NCTabs.TAB_ACCELERATOR);
 		
 		private String name;
 		private CreativeTabs tab;

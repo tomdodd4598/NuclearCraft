@@ -1,10 +1,9 @@
 package nc.recipe.processor;
 
-import nc.config.NCConfig;
-import nc.recipe.BaseRecipeHandler;
-import nc.util.FluidHelper;
+import nc.recipe.ProcessorRecipeHandler;
+import nc.util.FluidStackHelper;
 
-public class SupercoolerRecipes extends BaseRecipeHandler {
+public class SupercoolerRecipes extends ProcessorRecipeHandler {
 	
 	public SupercoolerRecipes() {
 		super("supercooler", 0, 1, 0, 1);
@@ -12,7 +11,7 @@ public class SupercoolerRecipes extends BaseRecipeHandler {
 
 	@Override
 	public void addRecipes() {
-		addRecipe(fluidStack("helium", FluidHelper.BUCKET_VOLUME*8), fluidStack("liquidhelium", FluidHelper.PARTICLE_VOLUME), NCConfig.processor_time[7]);
-		addRecipe(fluidStack("water", FluidHelper.BUCKET_VOLUME), fluidStack("ice", FluidHelper.BUCKET_VOLUME), NCConfig.processor_time[7]/8);
+		addRecipe(fluidStack("helium", FluidStackHelper.BUCKET_VOLUME*8), fluidStack("liquidhelium", FluidStackHelper.PARTICLE_VOLUME), 1D, 1D);
+		addRecipe(fluidStack("water", FluidStackHelper.BUCKET_VOLUME), fluidStack("ice", FluidStackHelper.BUCKET_VOLUME), 0.2D, 0.5D);
 	}
 }

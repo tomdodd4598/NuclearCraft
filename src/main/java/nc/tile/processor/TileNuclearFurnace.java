@@ -7,6 +7,7 @@ import nc.block.tile.processor.BlockNuclearFurnace;
 import nc.tile.dummy.IInterfaceable;
 import nc.tile.energyFluid.IBufferable;
 import nc.tile.inventory.ITileInventory;
+import nc.util.OreDictHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -33,7 +34,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
-import net.minecraftforge.oredict.OreDictionary;
 
 public class TileNuclearFurnace extends TileEntity implements ITickable, ISidedInventory, ITileInventory, IInterfaceable, IBufferable {
 	private static final int[] SLOTS_TOP = new int[] {0};
@@ -253,41 +253,18 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ISidedI
 	}
 
 	public static int getItemBurnTime(ItemStack stack) {
-		if (stack.isEmpty()) {
-			return 0;
-		} else {
-			for (ItemStack ore : OreDictionary.getOres("blockThorium")) {
-				if (ItemStack.areItemsEqual(ore, stack)) return 3200;
-			}
-			for (ItemStack ore : OreDictionary.getOres("blockUranium")) {
-				if (ItemStack.areItemsEqual(ore, stack)) return 3200;
-			}
-			for (ItemStack ore : OreDictionary.getOres("ingotThorium")) {
-				if (ItemStack.areItemsEqual(ore, stack)) return 320;
-			}
-			for (ItemStack ore : OreDictionary.getOres("ingotUranium")) {
-				if (ItemStack.areItemsEqual(ore, stack)) return 320;
-			}
-			for (ItemStack ore : OreDictionary.getOres("dustThorium")) {
-				if (ItemStack.areItemsEqual(ore, stack)) return 320;
-			}
-			for (ItemStack ore : OreDictionary.getOres("dustUranium")) {
-				if (ItemStack.areItemsEqual(ore, stack)) return 320;
-			}
-			for (ItemStack ore : OreDictionary.getOres("ingotThoriumOxide")) {
-				if (ItemStack.areItemsEqual(ore, stack)) return 480;
-			}
-			for (ItemStack ore : OreDictionary.getOres("ingotUraniumOxide")) {
-				if (ItemStack.areItemsEqual(ore, stack)) return 480;
-			}
-			for (ItemStack ore : OreDictionary.getOres("dustThoriumOxide")) {
-				if (ItemStack.areItemsEqual(ore, stack)) return 480;
-			}
-			for (ItemStack ore : OreDictionary.getOres("dustUraniumOxide")) {
-				if (ItemStack.areItemsEqual(ore, stack)) return 480;
-			}
-		}
-		return 0;
+		if (stack.isEmpty()) return 0;
+		else if (OreDictHelper.isOreMember(stack, "blockThorium")) return 3200;
+		else if (OreDictHelper.isOreMember(stack, "blockUranium")) return 3200;
+		else if (OreDictHelper.isOreMember(stack, "ingotThorium")) return 320;
+		else if (OreDictHelper.isOreMember(stack, "ingotUranium")) return 320;
+		else if (OreDictHelper.isOreMember(stack, "dustThorium")) return 320;
+		else if (OreDictHelper.isOreMember(stack, "dustUranium")) return 320;
+		else if (OreDictHelper.isOreMember(stack, "ingotThoriumOxide")) return 480;
+		else if (OreDictHelper.isOreMember(stack, "ingotUraniumOxide")) return 480;
+		else if (OreDictHelper.isOreMember(stack, "dustThoriumOxide")) return 480;
+		else if (OreDictHelper.isOreMember(stack, "dustUraniumOxide")) return 480;
+		else return 0;
 	}
 
 	public static boolean isItemFuel(ItemStack stack) {

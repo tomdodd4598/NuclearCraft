@@ -1,5 +1,6 @@
 package nc.multiblock;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -12,7 +13,9 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 
+import nc.block.tile.IActivatable;
 import nc.config.NCConfig;
+import nc.tile.ITile;
 
 /**
  * A base class for modded tile entities
@@ -20,7 +23,7 @@ import nc.config.NCConfig;
  * Partially ported from TileCoFHBase
  * https://github.com/CoFH/CoFHCore/blob/master/src/main/java/cofh/core/block/TileCoFHBase.java
  */
-public abstract class TileBeefBase extends TileEntity implements ITickable {
+public abstract class TileBeefBase extends TileEntity implements ITile, ITickable {
 	
 	public boolean isAdded;
 	public boolean isMarkedDirty;
@@ -46,12 +49,34 @@ public abstract class TileBeefBase extends TileEntity implements ITickable {
 		markDirty();
 	}
 	
-	public void tick() {
+	@Override
+	public void tickTile() {
 		tickCount++; tickCount %= NCConfig.machine_update_rate;
 	}
 	
-	public boolean shouldCheck() {
+	@Override
+	public boolean shouldTileCheck() {
 		return tickCount == 0;
+	}
+	
+	@Override
+	public World getTileWorld() {
+		return getWorld();
+	}
+	
+	@Override
+	public BlockPos getTilePos() {
+		return getPos();
+	}
+	
+	@Override
+	public void markTileDirty() {
+		markDirty();
+	}
+	
+	@Override
+	public Block getTileBlockType() {
+		return getBlockType();
 	}
 
     public boolean isUseableByPlayer(EntityPlayer entityplayer) {
@@ -63,6 +88,11 @@ public abstract class TileBeefBase extends TileEntity implements ITickable {
         return entityplayer.getDistanceSq((double)position.getX() + 0.5D, (double)position.getY() + 0.5D,
                 (double)position.getZ() + 0.5D) <= 64D;
     }
+    
+    @Override
+	public void setState(boolean isActive) {
+		if (getBlockType() instanceof IActivatable) ((IActivatable)getBlockType()).setState(isActive, world, pos);
+	}
 
     /*
     GUI management

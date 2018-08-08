@@ -82,6 +82,7 @@ public class OreDictHandler {
 		OreDictionary.registerOre("gemFluorite", new ItemStack(NCItems.gem, 1, 2));
 		OreDictionary.registerOre("gemVilliaumite", new ItemStack(NCItems.gem, 1, 3));
 		OreDictionary.registerOre("gemCarobbiite", new ItemStack(NCItems.gem, 1, 4));
+		OreDictionary.registerOre("gemBoronArsenide", new ItemStack(NCItems.gem, 1, 5));
 		
 		OreDictionary.registerOre("dustDiamond", new ItemStack(NCItems.gem_dust, 1, 0));
 		OreDictionary.registerOre("dustRhodochrosite", new ItemStack(NCItems.gem_dust, 1, 1));
@@ -94,6 +95,7 @@ public class OreDictHandler {
 		OreDictionary.registerOre("dustCoal", new ItemStack(NCItems.gem_dust, 1, 7));
 		OreDictionary.registerOre("dustVilliaumite", new ItemStack(NCItems.gem_dust, 1, 8));
 		OreDictionary.registerOre("dustCarobbiite", new ItemStack(NCItems.gem_dust, 1, 9));
+		OreDictionary.registerOre("dustArsenic", new ItemStack(NCItems.gem_dust, 1, 10));
 		
 		OreDictionary.registerOre("ingotBronze", new ItemStack(NCItems.alloy, 1, 0));
 		OreDictionary.registerOre("ingotTough", new ItemStack(NCItems.alloy, 1, 1));
@@ -105,6 +107,8 @@ public class OreDictHandler {
 		OreDictionary.registerOre("ingotShibuichi", new ItemStack(NCItems.alloy, 1, 7));
 		OreDictionary.registerOre("ingotTinSilver", new ItemStack(NCItems.alloy, 1, 8));
 		OreDictionary.registerOre("ingotLeadPlatinum", new ItemStack(NCItems.alloy, 1, 9));
+		OreDictionary.registerOre("ingotExtreme", new ItemStack(NCItems.alloy, 1, 10));
+		OreDictionary.registerOre("ingotThermoconducting", new ItemStack(NCItems.alloy, 1, 11));
 		
 		OreDictionary.registerOre("dustCalciumSulfate", new ItemStack(NCItems.compound, 1, 0));
 		OreDictionary.registerOre("dustCrystalBinder", new ItemStack(NCItems.compound, 1, 1));
@@ -125,6 +129,7 @@ public class OreDictHandler {
 		OreDictionary.registerOre("motor", new ItemStack(NCItems.part, 1, 8));
 		OreDictionary.registerOre("actuator", new ItemStack(NCItems.part, 1, 9));
 		OreDictionary.registerOre("chassis", new ItemStack(NCItems.part, 1, 10));
+		OreDictionary.registerOre("emptyFrame", new ItemStack(NCItems.part, 1, 11));
 		
 		OreDictionary.registerOre("tinyDustLead", NCItems.tiny_dust_lead);
 		

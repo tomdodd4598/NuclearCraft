@@ -1,17 +1,17 @@
 package nc.recipe.processor;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import nc.config.NCConfig;
-import nc.recipe.BaseRecipeHandler;
+import nc.recipe.ProcessorRecipeHandler;
 import nc.recipe.RecipeOreStack;
-import nc.util.OreStackHelper;
+import nc.util.OreDictHelper;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 
-public class AlloyFurnaceRecipes extends BaseRecipeHandler {
+public class AlloyFurnaceRecipes extends ProcessorRecipeHandler {
 	
 	public AlloyFurnaceRecipes() {
 		super("alloy_furnace", 2, 0, 1, 0);
@@ -19,76 +19,79 @@ public class AlloyFurnaceRecipes extends BaseRecipeHandler {
 
 	@Override
 	public void addRecipes() {
-		addAlloyIngotIngotRecipes("Copper", 3, "Tin", 1, "Bronze", 4, 1);
-		addAlloyIngotIngotRecipes("Iron", 1, "Graphite", 1, "Steel", 1, 1);
-		addAlloyIngotGemRecipes("Iron", 1, "Coal", 2, "Steel", 1, 1);
-		addAlloyIngotIngotRecipes("Steel", 1, "Boron", 1, "Ferroboron", 2, 1);
-		addAlloyIngotIngotRecipes("Ferroboron", 1, "Lithium", 1, "Tough", 2, 2);
-		addAlloyIngotGemRecipes("Graphite", 2, "Diamond", 1, "HardCarbon", 2, 2);
-		addAlloyIngotIngotRecipes("Magnesium", 1, "Boron", 2, "MagnesiumDiboride", 3, 1);
-		addAlloyIngotIngotRecipes("Lithium", 1, "ManganeseDioxide", 1, "LithiumManganeseDioxide", 2, 2);
-		addAlloyIngotIngotRecipes("Copper", 3, "Silver", 1, "Shibuichi", 4, 2);
-		addAlloyIngotIngotRecipes("Tin", 3, "Silver", 1, "TinSilver", 4, 2);
-		addAlloyIngotIngotRecipes("Lead", 3, "Platinum", 1, "LeadPlatinum", 4, 2);
+		addAlloyIngotIngotRecipes("Copper", 3, "Tin", 1, "Bronze", 4, 1D, 1D);
+		addAlloyIngotIngotRecipes("Iron", 1, "Graphite", 1, "Steel", 1, 1D, 1D);
+		addAlloyIngotGemRecipes("Iron", 1, "Coal", 2, "Steel", 1, 1D, 1D);
+		addAlloyIngotIngotRecipes("Steel", 1, "Boron", 1, "Ferroboron", 2, 1D, 1.5D);
+		addAlloyIngotIngotRecipes("Ferroboron", 1, "Lithium", 1, "Tough", 2, 1.5D, 1.5D);
+		addAlloyIngotGemRecipes("Graphite", 2, "Diamond", 1, "HardCarbon", 2, 1D, 2D);
+		addAlloyIngotIngotRecipes("Magnesium", 1, "Boron", 2, "MagnesiumDiboride", 3, 1D, 1D);
+		addAlloyIngotIngotRecipes("Lithium", 1, "ManganeseDioxide", 1, "LithiumManganeseDioxide", 2, 1.5D, 1D);
+		addAlloyIngotIngotRecipes("Copper", 3, "Silver", 1, "Shibuichi", 4, 1.5D, 0.5D);
+		addAlloyIngotIngotRecipes("Tin", 3, "Silver", 1, "TinSilver", 4, 1.5D, 0.5D);
+		addAlloyIngotIngotRecipes("Lead", 3, "Platinum", 1, "LeadPlatinum", 4, 1.5D, 0.5D);
+		addAlloyIngotIngotRecipes("Tough", 1, "HardCarbon", 1, "Extreme", 1, 2D, 2D);
+		
+		addRecipe("ingotExtreme", "gemBoronArsenide", oreStack("ingotThermoconducting", 2), 1.5D, 1.5D);
 		
 		// Tinkers' Construct
-		addAlloyIngotIngotRecipes("Aluminum", 3, "Copper", 1, "AluminumBrass", 4, 1);
-		addAlloyIngotIngotRecipes("Aluminium", 3, "Copper", 1, "AluminumBrass", 4, 1);
-		addAlloyIngotIngotRecipes("Cobalt", 1, "Ardite", 1, "Manyullyn", 1, 2);
+		addAlloyIngotIngotRecipes("Aluminum", 3, "Copper", 1, "AluminumBrass", 4, 1D, 1D);
+		addAlloyIngotIngotRecipes("Aluminium", 3, "Copper", 1, "AluminumBrass", 4, 1D, 1D);
+		addAlloyIngotIngotRecipes("Cobalt", 1, "Ardite", 1, "Manyullyn", 1, 2D, 2D);
 		
 		// Thermal Foundation
-		addAlloyIngotIngotRecipes("Gold", 1, "Silver", 1, "Electrum", 2, 1);
-		addAlloyIngotIngotRecipes("Iron", 2, "Nickel", 1, "Invar", 3, 1);
-		addAlloyIngotIngotRecipes("Copper", 1, "Nickel", 1, "Constantan", 2, 1);
+		addAlloyIngotIngotRecipes("Gold", 1, "Silver", 1, "Electrum", 2, 1D, 0.5D);
+		addAlloyIngotIngotRecipes("Iron", 2, "Nickel", 1, "Invar", 3, 1D, 1.5D);
+		addAlloyIngotIngotRecipes("Copper", 1, "Nickel", 1, "Constantan", 2, 1D, 1D);
 		
 		// EnderIO
-		addRecipe(Lists.newArrayList("ingotSteel", "dustSteel"), "itemSilicon", "ingotElectricalSteel", NCConfig.processor_time[4]*2);
-		addRecipe(Lists.newArrayList("ingotGold", "dustGold"), "dustEnergetic", "ingotEnergeticAlloy", NCConfig.processor_time[4]*2);
-		addRecipe(Lists.newArrayList("ingotEnergeticAlloy", "dustEnergeticAlloy"), Lists.newArrayList(Items.ENDER_PEARL, "dustEnder"), "ingotVibrantAlloy", NCConfig.processor_time[4]*2);
-		addRecipe("itemSilicon", "dustRedstone", "ingotRedstoneAlloy", NCConfig.processor_time[4]);
-		addRecipe(Lists.newArrayList("ingotIron", "dustIron"), "dustRedstone", "ingotConductiveIron", NCConfig.processor_time[4]);
-		addRecipe(Lists.newArrayList("ingotIron", "dustIron"), Lists.newArrayList(Items.ENDER_PEARL, "dustEnder"), "ingotPulsatingIron", NCConfig.processor_time[4]*2);
-		addRecipe(Lists.newArrayList("ingotSteel", "dustSteel"), "obsidian", "ingotDarkSteel", NCConfig.processor_time[4]*2);
-		addRecipe(Lists.newArrayList("ingotGold", "dustGold"), Blocks.SOUL_SAND, "ingotSoularium", NCConfig.processor_time[4]*2);
+		addRecipe(Lists.newArrayList("ingotSteel", "dustSteel"), "itemSilicon", "ingotElectricalSteel", 1.5D, 1.5D);
+		addRecipe(Lists.newArrayList("ingotGold", "dustGold"), "dustEnergetic", "ingotEnergeticAlloy", 1D, 1.5D);
+		addRecipe(Lists.newArrayList("ingotEnergeticAlloy", "dustEnergeticAlloy"), Lists.newArrayList(Items.ENDER_PEARL, "dustEnder"), "ingotVibrantAlloy", 1.5D, 2D);
+		addRecipe("itemSilicon", "dustRedstone", "ingotRedstoneAlloy", 1D, 1D);
+		addRecipe(Lists.newArrayList("ingotIron", "dustIron"), "dustRedstone", "ingotConductiveIron", 1D, 1D);
+		addRecipe(Lists.newArrayList("ingotIron", "dustIron"), Lists.newArrayList(Items.ENDER_PEARL, "dustEnder"), "ingotPulsatingIron", 1.5D, 1D);
+		addRecipe(Lists.newArrayList("ingotSteel", "dustSteel"), "obsidian", "ingotDarkSteel", 1.5D, 2D);
+		addRecipe(Lists.newArrayList("ingotGold", "dustGold"), Blocks.SOUL_SAND, "ingotSoularium", 1.5D, 0.5D);
 		
-		addRecipe(Lists.newArrayList("gemDiamond", "dustDiamond"), oreStack("nuggetPulsatingIron", 8), "itemPulsatingCrystal", NCConfig.processor_time[4]);
-		addRecipe(Lists.newArrayList("gemEmerald", "dustEmerald"), oreStack("nuggetVibrantAlloy", 8), "itemVibrantCrystal", NCConfig.processor_time[4]);
+		addRecipe(Lists.newArrayList("gemDiamond", "dustDiamond"), oreStack("nuggetPulsatingIron", 8), "itemPulsatingCrystal", 1D, 1.5D);
+		addRecipe(Lists.newArrayList("gemEmerald", "dustEmerald"), oreStack("nuggetVibrantAlloy", 8), "itemVibrantCrystal", 1D, 1.5D);
 		
 		// Flaxbeard's Steam Power Mod
-		addAlloyIngotIngotRecipes("Copper", 3, "Zinc", 1, "Brass", 4, 1);
+		addAlloyIngotIngotRecipes("Copper", 3, "Zinc", 1, "Brass", 4, 1D, 1D);
 		
 		// Gadgetry
-		addAlloyIngotDustRecipes("Gold", 1, "Redstone", 2, "ingotRedmetal", 1, 1);
+		addAlloyIngotDustRecipes("Gold", 1, "Redstone", 2, "ingotRedmetal", 1, 1D, 1D);
 		
 		// Immersive Engineering
-		addAlloyIngotFuelRecipes("Iron", 2, "Coke", 1, "Steel", 2, 2);
+		addAlloyIngotFuelRecipes("Iron", 2, "Coke", 1, "Steel", 2, 1D, 1D);
 	}
 	
-	public void addAlloyIngotIngotRecipes(String in1, int inSize1, String in2, int inSize2, String out, int outSize, int time) {
-		addAlloyRecipes(in1, inSize1, in2, inSize2, out, outSize, time, OreStackHelper.NUGGET_VOLUME_TYPES, OreStackHelper.INGOT_VOLUME_TYPES, OreStackHelper.BLOCK_VOLUME_TYPES, OreStackHelper.NUGGET_VOLUME_TYPES, OreStackHelper.INGOT_VOLUME_TYPES, OreStackHelper.BLOCK_VOLUME_TYPES);
+	public void addAlloyIngotIngotRecipes(String in1, int inSize1, String in2, int inSize2, String out, int outSize, double time, double power) {
+		addAlloyRecipes(in1, inSize1, in2, inSize2, out, outSize, time, power, OreDictHelper.NUGGET_VOLUME_TYPES, OreDictHelper.INGOT_VOLUME_TYPES, OreDictHelper.BLOCK_VOLUME_TYPES, OreDictHelper.NUGGET_VOLUME_TYPES, OreDictHelper.INGOT_VOLUME_TYPES, OreDictHelper.BLOCK_VOLUME_TYPES);
 	}
 	
-	public void addAlloyIngotDustRecipes(String in1, int inSize1, String in2, int inSize2, String out, int outSize, int time) {
-		addAlloyRecipes(in1, inSize1, in2, inSize2, out, outSize, time, OreStackHelper.NUGGET_VOLUME_TYPES, OreStackHelper.INGOT_VOLUME_TYPES, OreStackHelper.BLOCK_VOLUME_TYPES, OreStackHelper.TINYDUST_VOLUME_TYPES, OreStackHelper.DUST_VOLUME_TYPES, OreStackHelper.BLOCK_VOLUME_TYPES);
+	public void addAlloyIngotDustRecipes(String in1, int inSize1, String in2, int inSize2, String out, int outSize, double time, double power) {
+		addAlloyRecipes(in1, inSize1, in2, inSize2, out, outSize, time, power, OreDictHelper.NUGGET_VOLUME_TYPES, OreDictHelper.INGOT_VOLUME_TYPES, OreDictHelper.BLOCK_VOLUME_TYPES, OreDictHelper.TINYDUST_VOLUME_TYPES, OreDictHelper.DUST_VOLUME_TYPES, OreDictHelper.BLOCK_VOLUME_TYPES);
 	}
 	
-	public void addAlloyIngotFuelRecipes(String in1, int inSize1, String in2, int inSize2, String out, int outSize, int time) {
-		addAlloyRecipes(in1, inSize1, in2, inSize2, out, outSize, time, OreStackHelper.NUGGET_VOLUME_TYPES, OreStackHelper.INGOT_VOLUME_TYPES, OreStackHelper.BLOCK_VOLUME_TYPES, OreStackHelper.TINYDUST_VOLUME_TYPES, OreStackHelper.FUEL_VOLUME_TYPES, OreStackHelper.BLOCK_VOLUME_TYPES);
+	public void addAlloyIngotFuelRecipes(String in1, int inSize1, String in2, int inSize2, String out, int outSize, double time, double power) {
+		addAlloyRecipes(in1, inSize1, in2, inSize2, out, outSize, time, power, OreDictHelper.NUGGET_VOLUME_TYPES, OreDictHelper.INGOT_VOLUME_TYPES, OreDictHelper.BLOCK_VOLUME_TYPES, OreDictHelper.TINYDUST_VOLUME_TYPES, OreDictHelper.FUEL_VOLUME_TYPES, OreDictHelper.BLOCK_VOLUME_TYPES);
 	}
 	
-	public void addAlloyIngotGemRecipes(String in1, int inSize1, String in2, int inSize2, String out, int outSize, int time) {
-		addAlloyRecipes(in1, inSize1, in2, inSize2, out, outSize, time, OreStackHelper.NUGGET_VOLUME_TYPES, OreStackHelper.INGOT_VOLUME_TYPES, OreStackHelper.BLOCK_VOLUME_TYPES, OreStackHelper.TINYDUST_VOLUME_TYPES, OreStackHelper.GEM_VOLUME_TYPES, OreStackHelper.BLOCK_VOLUME_TYPES);
+	public void addAlloyIngotGemRecipes(String in1, int inSize1, String in2, int inSize2, String out, int outSize, double time, double power) {
+		addAlloyRecipes(in1, inSize1, in2, inSize2, out, outSize, time, power, OreDictHelper.NUGGET_VOLUME_TYPES, OreDictHelper.INGOT_VOLUME_TYPES, OreDictHelper.BLOCK_VOLUME_TYPES, OreDictHelper.TINYDUST_VOLUME_TYPES, OreDictHelper.GEM_VOLUME_TYPES, OreDictHelper.BLOCK_VOLUME_TYPES);
 	}
 	
-	public ArrayList<RecipeOreStack> typeStackList(String type, String[] forms, int size) {
+	public ArrayList<RecipeOreStack> typeStackList(String type, List<String> forms, int size) {
 		ArrayList<RecipeOreStack> list = new ArrayList<RecipeOreStack>();
 		for (String form : forms) list.add(oreStack(form + type, size));
 		return list;
 	}
 	
-	public void addAlloyRecipes(String in1, int inSize1, String in2, int inSize2, String out, int outSize, int time, String[] inNuggets1, String[] inIngots1, String[] inBlocks1, String[] inNuggets2, String[] inIngots2, String[] inBlocks2) {
-		addRecipe(typeStackList(in1, inIngots1, inSize1), typeStackList(in2, inIngots2, inSize2), oreStack("ingot" + out, outSize), NCConfig.processor_time[4]*time);
-		addRecipe(typeStackList(in1, inNuggets1, inSize1), typeStackList(in2, inNuggets2, inSize2), oreStack("nugget" + out, outSize), (NCConfig.processor_time[4]*time)/9);
-		addRecipe(typeStackList(in1, inBlocks1, inSize1), typeStackList(in2, inBlocks2, inSize2), oreStack("block" + out, outSize), NCConfig.processor_time[4]*time*9);
+	public void addAlloyRecipes(String in1, int inSize1, String in2, int inSize2, String out, int outSize, double time, double power, List<String> inNuggets1, List<String> inIngots1, List<String> inBlocks1, List<String> inNuggets2, List<String> inIngots2, List<String> inBlocks2) {
+		addRecipe(typeStackList(in1, inIngots1, inSize1), typeStackList(in2, inIngots2, inSize2), oreStack("ingot" + out, outSize), time, power);
+		addRecipe(typeStackList(in1, inNuggets1, inSize1), typeStackList(in2, inNuggets2, inSize2), oreStack("nugget" + out, outSize), time/9D, power);
+		addRecipe(typeStackList(in1, inBlocks1, inSize1), typeStackList(in2, inBlocks2, inSize2), oreStack("block" + out, outSize), time*9D, power);
 	}
 }

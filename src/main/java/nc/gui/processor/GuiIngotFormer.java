@@ -26,7 +26,7 @@ public class GuiIngotFormer extends GuiItemFluidProcessor {
 	
 	@Override
 	public void renderTooltips(int mouseX, int mouseY) {
-		drawFluidTooltip(fluid0, tile.tanks[0], mouseX, mouseY, 56, 35, 16, 16);
+		drawFluidTooltip(fluid0, tile.tanks.get(0), mouseX, mouseY, 56, 35, 16, 16);
 		
 		drawEnergyTooltip(tile, mouseX, mouseY, 8, 6, 16, 74);
 	}
@@ -51,7 +51,7 @@ public class GuiIngotFormer extends GuiItemFluidProcessor {
 		
 		if (tick == 0) PacketHandler.instance.sendToServer(new GetFluidInTankPacket(tile.getPos(), 0, "nc.gui.processor.GuiIngotFormer", "fluid0"));
 		
-		GuiFluidRenderer.renderGuiTank(fluid0, tile.tanks[0].getCapacity(), guiLeft + 56, guiTop + 35, zLevel, 16, 16);
+		GuiFluidRenderer.renderGuiTank(fluid0, tile.tanks.get(0).getCapacity(), guiLeft + 56, guiTop + 35, zLevel, 16, 16);
 	}
 	
 	@Override

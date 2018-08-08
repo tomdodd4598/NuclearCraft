@@ -61,6 +61,7 @@ public static List<Pair<Fluid, BlockFluidBase>> fluidPairList = new ArrayList<Pa
 			
 			fluidPairList.add(fluidPair("beryllium", 0xD4DBC2, FluidMolten.class, BlockFluidMolten.class));
 			fluidPairList.add(fluidPair("sulfur", 0xDEDE7A, FluidMolten.class, BlockFluidMolten.class));
+			fluidPairList.add(fluidPair("arsenic", 0x818475, FluidMolten.class, BlockFluidMolten.class));
 			
 			SuperFluid liquidhelium = new SuperFluid("liquidhelium");
 			fluidPairList.add(fluidPair(liquidhelium, new BlockSuperFluid(liquidhelium)));
@@ -106,8 +107,12 @@ public static List<Pair<Fluid, BlockFluidBase>> fluidPairList = new ArrayList<Pa
 			
 			fluidPairList.add(fluidPair("sodium", 0xC1898C, FluidMolten.class, BlockFluidMolten.class));
 			fluidPairList.add(fluidPair("potassium", 0xB8C503, FluidMolten.class, BlockFluidMolten.class));
+			
 			fluidPairList.add(fluidPair("nak", 0xFFE5BC, FluidCoolant.class, BlockFluidCoolant.class));
 			fluidPairList.add(fluidPair("nak_hot", 0xFFD5AC, FluidHotCoolant.class, BlockFluidHotCoolant.class));
+			
+			fluidPairList.add(fluidPair("bas", 0x9B9B89, FluidMolten.class, BlockFluidMolten.class));
+			
 		} catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 			e.printStackTrace();
 		}

@@ -2,15 +2,14 @@ package nc.recipe.processor;
 
 import com.google.common.collect.Lists;
 
-import nc.config.NCConfig;
-import nc.recipe.BaseRecipeHandler;
+import nc.recipe.ProcessorRecipeHandler;
 import nc.util.OreDictHelper;
 import nc.util.RegistryHelper;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraftforge.oredict.OreDictionary;
 
-public class PressurizerRecipes extends BaseRecipeHandler {
+public class PressurizerRecipes extends ProcessorRecipeHandler {
 	
 	public PressurizerRecipes() {
 		super("pressurizer", 1, 0, 1, 0);
@@ -18,25 +17,25 @@ public class PressurizerRecipes extends BaseRecipeHandler {
 
 	@Override
 	public void addRecipes() {
-		addRecipe("dustGraphite", "gemCoal", NCConfig.processor_time[11]);
-		addRecipe("dustDiamond", "gemDiamond", NCConfig.processor_time[11]);
-		addRecipe("dustRhodochrosite", "gemRhodochrosite", NCConfig.processor_time[11]);
-		addRecipe(Lists.newArrayList("dustQuartz", "dustNetherQuartz"), "gemQuartz", NCConfig.processor_time[11]);
-		addRecipe(oreStack("dustObsidian", 4), Blocks.OBSIDIAN, NCConfig.processor_time[11]*2);
-		addRecipe("dustBoronNitride", "gemBoronNitride", NCConfig.processor_time[11]);
-		addRecipe("dustFluorite", "gemFluorite", NCConfig.processor_time[11]);
-		addRecipe("dustVilliaumite", "gemVilliaumite", NCConfig.processor_time[11]);
-		addRecipe("dustCarobbiite", "gemCarobbiite", NCConfig.processor_time[11]);
-		addRecipe(oreStack("ingotGraphite", 64), "gemDiamond", NCConfig.processor_time[11]*4);
+		addRecipe("dustGraphite", "gemCoal", 1D, 1D);
+		addRecipe("dustDiamond", "gemDiamond", 1D, 1D);
+		addRecipe("dustRhodochrosite", "gemRhodochrosite", 1D, 1D);
+		addRecipe(Lists.newArrayList("dustQuartz", "dustNetherQuartz"), "gemQuartz", 1D, 1D);
+		addRecipe(oreStack("dustObsidian", 4), Blocks.OBSIDIAN, 1.5D, 1.5D);
+		addRecipe("dustBoronNitride", "gemBoronNitride", 1D, 1D);
+		addRecipe("dustFluorite", "gemFluorite", 1D, 1D);
+		addRecipe("dustVilliaumite", "gemVilliaumite", 1D, 1D);
+		addRecipe("dustCarobbiite", "gemCarobbiite", 1D, 1D);
+		addRecipe(oreStack("ingotGraphite", 64), "gemDiamond", 3D, 1.5D);
 		
 		// IC2
-		addRecipe(oreStack("dustClay", 4), "dustSiliconDioxide", NCConfig.processor_time[11]);
+		addRecipe(oreStack("dustClay", 4), "dustSiliconDioxide", 1D, 1D);
 		
 		// Tech Reborn
-		addRecipe(RegistryHelper.itemStackFromRegistry("techreborn", "part", 1, 34), RegistryHelper.itemStackFromRegistry("techreborn", "plates", 1, 2), NCConfig.processor_time[11]);
+		addRecipe(RegistryHelper.itemStackFromRegistry("techreborn", "part", 1, 34), RegistryHelper.itemStackFromRegistry("techreborn", "plates", 1, 2), 1D, 1D);
 		
 		// AE2
-		addRecipe("dustEnder", Items.ENDER_PEARL, NCConfig.processor_time[11]);
+		addRecipe("dustEnder", Items.ENDER_PEARL, 1D, 1D);
 		
 		addPlatePressingRecipes();
 	}
@@ -47,15 +46,15 @@ public class PressurizerRecipes extends BaseRecipeHandler {
 				String ingot = "ingot" + ore.substring(5);
 				String gem = "gem" + ore.substring(5);
 				if (OreDictHelper.oreExists(ingot)) {
-					addRecipe(ingot, ore, NCConfig.processor_time[11]);
+					addRecipe(ingot, ore, 1D, 1D);
 				} else if (OreDictHelper.oreExists(gem)) {
-					addRecipe(gem, ore, NCConfig.processor_time[11]);
+					addRecipe(gem, ore, 1D, 1D);
 				}
 			}
 			if (ore.startsWith("plateDense")) {
 				String plate = "plate" + ore.substring(10);
 				if (OreDictHelper.oreExists(plate)) {
-					addRecipe(oreStack(plate, 9), ore, NCConfig.processor_time[11]*4);
+					addRecipe(oreStack(plate, 9), ore, 2D, 2D);
 				}
 			}
 		}

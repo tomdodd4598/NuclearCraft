@@ -30,14 +30,14 @@ public class TileSaltFissionController extends TileSaltFissionPartBase {
 	@Override
 	public void update() {
 		super.update();
-		tick();
-		if (shouldCheck()) if (getBlock(pos) instanceof BlockSaltFissionController) {
+		tickTile();
+		if (shouldTileCheck()) if (getBlock(pos) instanceof BlockSaltFissionController) {
 			((BlockSaltFissionController) getBlock(pos)).setActiveState(getBlockState(pos), world, pos, world.isBlockPowered(pos) && isMultiblockAssembled());
 		}
 	}
 	
 	@Override
-	public void tick() {
+	public void tickTile() {
 		tickCount++; tickCount %= NCConfig.machine_update_rate / 4;
 	}
 	

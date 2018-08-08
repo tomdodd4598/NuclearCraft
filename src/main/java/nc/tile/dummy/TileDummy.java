@@ -1,5 +1,7 @@
 package nc.tile.dummy;
 
+import java.util.List;
+
 import ic2.api.energy.tile.IEnergySink;
 import ic2.api.energy.tile.IEnergySource;
 import nc.tile.energy.ITileEnergy;
@@ -31,19 +33,19 @@ public abstract class TileDummy extends TileEnergyFluidSidedInventory {
 	public int tickCount;
 	public final int updateRate;
 	
-	public TileDummy(String name, int updateRate, String[]... allowedFluids) {
+	public TileDummy(String name, int updateRate, List<String> allowedFluids) {
 		this(name, energyConnectionAll(EnergyConnection.BOTH), FluidConnection.BOTH, updateRate, allowedFluids);
 	}
 	
-	public TileDummy(String name, EnergyConnection[] energyConnections, int updateRate, String[]... allowedFluids) {
+	public TileDummy(String name, EnergyConnection[] energyConnections, int updateRate, List<String> allowedFluids) {
 		this(name, energyConnections, FluidConnection.BOTH, updateRate, allowedFluids);
 	}
 	
-	public TileDummy(String name, FluidConnection fluidConnection, int updateRate, String[]... allowedFluids) {
+	public TileDummy(String name, FluidConnection fluidConnection, int updateRate, List<String> allowedFluids) {
 		this(name, energyConnectionAll(EnergyConnection.BOTH), fluidConnection, updateRate, allowedFluids);
 	}
 	
-	public TileDummy(String name, EnergyConnection[] energyConnections, FluidConnection fluidConnection, int updateRate, String[]... allowedFluids) {
+	public TileDummy(String name, EnergyConnection[] energyConnections, FluidConnection fluidConnection, int updateRate, List<String> allowedFluids) {
 		super(name, 1, 1, energyConnections, 1, fluidConnection, allowedFluids);
 		this.updateRate = updateRate;
 	}
@@ -52,8 +54,8 @@ public abstract class TileDummy extends TileEnergyFluidSidedInventory {
 	public void update() {
 		super.update();
 		if(!world.isRemote) {
-			if (shouldCheck()) findMaster();
-			tick();
+			if (shouldTileCheck()) findMaster();
+			tickTile();
 		}
 	}
 	
@@ -272,7 +274,7 @@ public abstract class TileDummy extends TileEnergyFluidSidedInventory {
 	// Fluids
 	
 	@Override
-	public Tank[] getTanks() {
+	public List<Tank> getTanks() {
 		if (getMaster() != null) {
 			if (getMaster() instanceof ITileFluid) return ((ITileFluid) getMaster()).getTanks();
 		}
@@ -280,7 +282,7 @@ public abstract class TileDummy extends TileEnergyFluidSidedInventory {
 	}
 	
 	@Override
-	public FluidConnection[] getFluidConnections() {
+	public List<FluidConnection> getFluidConnections() {
 		if (getMaster() != null) {
 			if (getMaster() instanceof ITileFluid) return ((ITileFluid) getMaster()).getFluidConnections();
 		}
@@ -289,10 +291,10 @@ public abstract class TileDummy extends TileEnergyFluidSidedInventory {
 	
 	@Override
 	public IFluidTankProperties[] getTankProperties() {
-		if (getTanks().length == 0 || getTanks() == null) return EmptyFluidHandler.EMPTY_TANK_PROPERTIES_ARRAY;
-		IFluidTankProperties[] properties = new IFluidTankProperties[getTanks().length];
-		for (int i = 0; i < getTanks().length; i++) {
-			properties[i] = new FluidTankProperties(getTanks()[i].getFluid(), getTanks()[i].getCapacity(), getFluidConnections()[i].canFill(), getFluidConnections()[i].canDrain());
+		if (getTanks() == null || getTanks().isEmpty()) return EmptyFluidHandler.EMPTY_TANK_PROPERTIES_ARRAY;
+		IFluidTankProperties[] properties = new IFluidTankProperties[getTanks().size()];
+		for (int i = 0; i < getTanks().size(); i++) {
+			properties[i] = new FluidTankProperties(getTanks().get(i).getFluid(), getTanks().get(i).getCapacity(), getFluidConnections().get(i).canFill(), getFluidConnections().get(i).canDrain());
 		}
 		return properties;
 	}
@@ -301,10 +303,10 @@ public abstract class TileDummy extends TileEnergyFluidSidedInventory {
 	public int fill(FluidStack resource, boolean doFill) {
 		if (getMaster() != null) {
 			if (getMaster() instanceof ITileFluid) {
-				if (getTanks().length == 0 || getTanks() == null) return 0;
-				for (int i = 0; i < getTanks().length; i++) {
-					if (getFluidConnections()[i].canFill() && getTanks()[i].isFluidValid(resource) && canFill(resource, i) && getTanks()[i].getFluidAmount() < getTanks()[i].getCapacity() && (getTanks()[i].getFluid() == null || getTanks()[i].getFluid().isFluidEqual(resource))) {
-						return getTanks()[i].fill(resource, doFill);
+				if (getTanks() == null || getTanks().isEmpty()) return 0;
+				for (int i = 0; i < getTanks().size(); i++) {
+					if (getFluidConnections().get(i).canFill() && getTanks().get(i).isFluidValid(resource) && canFill(resource, i) && getTanks().get(i).getFluidAmount() < getTanks().get(i).getCapacity() && (getTanks().get(i).getFluid() == null || getTanks().get(i).getFluid().isFluidEqual(resource))) {
+						return getTanks().get(i).fill(resource, doFill);
 					}
 				}
 			}
@@ -316,10 +318,10 @@ public abstract class TileDummy extends TileEnergyFluidSidedInventory {
 	public FluidStack drain(FluidStack resource, boolean doDrain) {
 		if (getMaster() != null) {
 			if (getMaster() instanceof ITileFluid) {
-				if (getTanks().length == 0 || getTanks() == null) return null;
-				for (int i = 0; i < getTanks().length; i++) {
-					if (getFluidConnections()[i].canDrain() && getTanks()[i].getFluid() != null && getTanks()[i].getFluidAmount() > 0) {
-						if (resource.isFluidEqual(getTanks()[i].getFluid()) && getTanks()[i].drain(resource, false) != null) return getTanks()[i].drain(resource, doDrain);
+				if (getTanks() == null || getTanks().isEmpty()) return null;
+				for (int i = 0; i < getTanks().size(); i++) {
+					if (getFluidConnections().get(i).canDrain() && getTanks().get(i).getFluid() != null && getTanks().get(i).getFluidAmount() > 0) {
+						if (resource.isFluidEqual(getTanks().get(i).getFluid()) && getTanks().get(i).drain(resource, false) != null) return getTanks().get(i).drain(resource, doDrain);
 					}
 				}
 			}
@@ -331,10 +333,10 @@ public abstract class TileDummy extends TileEnergyFluidSidedInventory {
 	public FluidStack drain(int maxDrain, boolean doDrain) {
 		if (getMaster() != null) {
 			if (getMaster() instanceof ITileFluid) {
-				if (getTanks().length == 0 || getTanks() == null) return null;
-				for (int i = 0; i < getTanks().length; i++) {
-					if (getFluidConnections()[i].canDrain() && getTanks()[i].getFluid() != null && getTanks()[i].getFluidAmount() > 0) {
-						if (getTanks()[i].drain(maxDrain, false) != null) return getTanks()[i].drain(maxDrain, doDrain);
+				if (getTanks() == null || getTanks().isEmpty()) return null;
+				for (int i = 0; i < getTanks().size(); i++) {
+					if (getFluidConnections().get(i).canDrain() && getTanks().get(i).getFluid() != null && getTanks().get(i).getFluidAmount() > 0) {
+						if (getTanks().get(i).drain(maxDrain, false) != null) return getTanks().get(i).drain(maxDrain, doDrain);
 					}
 				}
 			}
@@ -362,8 +364,8 @@ public abstract class TileDummy extends TileEnergyFluidSidedInventory {
 			if (getMaster() instanceof ITileFluid) {
 				if (getTanks().length == 0 || getTanks() == null) return 0;
 				for (int i = 0; i < getTanks().length; i++) {
-					if (getFluidConnections()[i].canFill() && getTanks()[i].isFluidValid(fluidStack) && canFill(fluidStack, i) && getTanks()[i].getFluidAmount() < getTanks()[i].getCapacity() && (getTanks()[i].getFluid() == null || getTanks()[i].getFluid().isFluidEqual(fluidStack))) {
-						return tanks[i].fill(fluidStack, doTransfer);
+					if (getFluidConnections().get(i).canFill() && getTanks().get(i).isFluidValid(fluidStack) && canFill(fluidStack, i) && getTanks().get(i).getFluidAmount() < getTanks().get(i).getCapacity() && (getTanks().get(i).getFluid() == null || getTanks().get(i).getFluid().isFluidEqual(fluidStack))) {
+						return tanks.get(i).fill(fluidStack, doTransfer);
 					}
 				}
 			}
@@ -415,13 +417,13 @@ public abstract class TileDummy extends TileEnergyFluidSidedInventory {
 	// Fluid Connections
 	
 	@Override
-	public void setConnection(FluidConnection[] connections) {
-		if (tanks.length > 0 && tanks != null) fluidConnections = connections;
+	public void setConnection(List<FluidConnection> connections) {
+		if (tanks != null && !tanks.isEmpty()) fluidConnections = connections;
 	}
 	
 	@Override
 	public void setConnection(FluidConnection connections, int tankNumber) {
-		if (tanks.length > 0 && tanks != null) fluidConnections[tankNumber] = connections;
+		if (tanks != null && !tanks.isEmpty()) fluidConnections.set(tankNumber, connections);
 	}
 	
 	@Override

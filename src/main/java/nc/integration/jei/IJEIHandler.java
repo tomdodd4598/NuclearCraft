@@ -3,7 +3,7 @@ package nc.integration.jei;
 import java.util.ArrayList;
 
 import mezz.jei.api.IGuiHelper;
-import nc.recipe.BaseRecipeHandler;
+import nc.recipe.ProcessorRecipeHandler;
 import net.minecraft.item.ItemStack;
 
 public interface IJEIHandler {
@@ -18,9 +18,11 @@ public interface IJEIHandler {
 	
 	public String getUUID();
 	
-	public BaseRecipeHandler getRecipeHandler();
+	public boolean getEnabled();
 	
-	public ArrayList<JEIRecipe> getJEIRecipes();
+	public ProcessorRecipeHandler getRecipeHandler();
+	
+	public ArrayList<JEIProcessorRecipe> getJEIRecipes();
 	
 	public ItemStack getCrafterItemStack();
 }

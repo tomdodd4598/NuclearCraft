@@ -45,7 +45,7 @@ public class BlockFluidPlasma extends BlockFluid {
 		for (EnumFacing side : EnumFacing.HORIZONTALS) {
 			BlockPos offPos = pos.offset(side);
 			Material mat = worldIn.getBlockState(offPos).getMaterial();
-			if (MaterialHelper.isReplaceable(mat) && !mat.isLiquid() && mat != Material.FIRE) {
+			if (mat != Material.FIRE && MaterialHelper.isReplaceable(mat) && !mat.isLiquid()) {
 				if (worldIn.isSideSolid(offPos.down(), EnumFacing.UP)) {
 					worldIn.setBlockState(offPos, Blocks.FIRE.getDefaultState());
 					break;
@@ -57,8 +57,7 @@ public class BlockFluidPlasma extends BlockFluid {
 			TileEntity tile = worldIn.getTileEntity(pos.offset(side));
 			if (!(tile instanceof TilePassive.FusionElectromagnet)) {
 				free++;
-				continue;
-			} if (rand.nextInt(100) < 1) {
+			} else if (rand.nextInt(100) < 1) {
 				TilePassive.FusionElectromagnet magnet = (TilePassive.FusionElectromagnet) tile;
 				if (!magnet.isRunning) {
 					worldIn.createExplosion(null, pos.offset(side).getX(), pos.offset(side).getY(), pos.offset(side).getZ(), 4F, true);

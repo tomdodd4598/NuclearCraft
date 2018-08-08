@@ -3,7 +3,7 @@ package nc.init;
 import nc.Global;
 import nc.config.NCConfig;
 import nc.item.NCItemArmor;
-import nc.proxy.CommonProxy;
+import nc.tab.NCTabs;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -132,7 +132,7 @@ public class NCArmor {
 	}
 		
 	public static void registerItem(Item item) {
-		item.setCreativeTab(CommonProxy.TAB_MISC);
+		item.setCreativeTab(NCTabs.TAB_MISC);
 		ForgeRegistries.ITEMS.register(item);
 	}
 		

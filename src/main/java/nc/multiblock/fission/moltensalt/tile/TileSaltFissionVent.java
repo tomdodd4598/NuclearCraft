@@ -1,10 +1,12 @@
 package nc.multiblock.fission.moltensalt.tile;
 
+import java.util.ArrayList;
+
 import nc.config.NCConfig;
 import nc.multiblock.MultiblockControllerBase;
 import nc.tile.internal.fluid.FluidConnection;
 import nc.tile.internal.fluid.Tank;
-import nc.util.FluidHelper;
+import nc.util.FluidStackHelper;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -20,11 +22,10 @@ import net.minecraftforge.fluids.capability.templates.EmptyFluidHandler;
 public class TileSaltFissionVent extends TileSaltFissionPartBase implements IFluidHandler {
 	
 	public FluidConnection fluidConnection = FluidConnection.BOTH;
-	public final Tank tank;
+	public final Tank tank = new Tank(FluidStackHelper.INGOT_BLOCK_VOLUME, new ArrayList<String>());
 	
 	public TileSaltFissionVent() {
 		super(PartPositionType.WALL);
-		tank = new Tank(FluidHelper.INGOT_BLOCK_VOLUME);
 	}
 	
 	@Override
@@ -45,13 +46,13 @@ public class TileSaltFissionVent extends TileSaltFissionPartBase implements IFlu
 	public void update() {
 		super.update();
 		if(!world.isRemote) {
-			tick();
-			if (shouldCheck()) pushFluid();
+			tickTile();
+			if (shouldTileCheck()) pushFluid();
 		}
 	}
 	
 	@Override
-	public void tick() {
+	public void tickTile() {
 		tickCount++; tickCount %= NCConfig.machine_update_rate / 4;
 	}
 	
@@ -153,5 +154,4 @@ public class TileSaltFissionVent extends TileSaltFissionPartBase implements IFlu
 		}
 		return super.getCapability(capability, facing);
 	}
-
 }

@@ -1,10 +1,9 @@
 package nc.recipe.processor;
 
-import nc.config.NCConfig;
-import nc.recipe.BaseRecipeHandler;
+import nc.recipe.ProcessorRecipeHandler;
 import nc.util.RegistryHelper;
 
-public class FuelReprocessorRecipes extends BaseRecipeHandler {
+public class FuelReprocessorRecipes extends ProcessorRecipeHandler {
 	
 	public FuelReprocessorRecipes() {
 		super("fuel_reprocessor", 1, 0, 4, 0);
@@ -62,14 +61,14 @@ public class FuelReprocessorRecipes extends BaseRecipeHandler {
 		/* 1/32x */	addReprocessingRecipes("HECf251", "Californium251", 16, "Californium252", 16, "Californium252", 16, "Californium252", 16);
 		
 		// IC2
-		addRecipe("depletedFuelIC2U", RegistryHelper.itemStackFromRegistry("ic2", "nuclear", 2, 2), RegistryHelper.itemStackFromRegistry("ic2", "nuclear", 1, 2), RegistryHelper.itemStackFromRegistry("ic2", "nuclear", 1, 2), RegistryHelper.itemStackFromRegistry("ic2", "nuclear", 1, 7), NCConfig.processor_time[3]);
-		addRecipe("depletedFuelIC2MOX", RegistryHelper.itemStackFromRegistry("ic2", "nuclear", 7, 7), RegistryHelper.itemStackFromRegistry("ic2", "nuclear", 7, 7), RegistryHelper.itemStackFromRegistry("ic2", "nuclear", 7, 7), RegistryHelper.itemStackFromRegistry("ic2", "nuclear", 7, 7), NCConfig.processor_time[3]);
+		addRecipe("depletedFuelIC2U", RegistryHelper.itemStackFromRegistry("ic2", "nuclear", 2, 2), RegistryHelper.itemStackFromRegistry("ic2", "nuclear", 1, 2), RegistryHelper.itemStackFromRegistry("ic2", "nuclear", 1, 2), RegistryHelper.itemStackFromRegistry("ic2", "nuclear", 1, 7), 1D, 1D);
+		addRecipe("depletedFuelIC2MOX", RegistryHelper.itemStackFromRegistry("ic2", "nuclear", 7, 7), RegistryHelper.itemStackFromRegistry("ic2", "nuclear", 7, 7), RegistryHelper.itemStackFromRegistry("ic2", "nuclear", 7, 7), RegistryHelper.itemStackFromRegistry("ic2", "nuclear", 7, 7), 1D, 1D);
 	}
 	
 	public void addReprocessingRecipes(String fuel, String out1, int n1, String out2, int n2, String out3, int n3, String out4, int n4) {
-		addRecipe("depletedFuel" + fuel, oreStack("nugget" + out1, n1), oreStack("nugget" + out2, n2), oreStack("nugget" + out3, n3), oreStack("nugget" + out4, n4), NCConfig.processor_time[3]);
-		addRecipe("depletedFuel" + fuel + "Oxide", oreStack("nugget" + out1 + "Oxide", n1), oreStack("nugget" + out2 + "Oxide", n2), oreStack("nugget" + out3 + "Oxide", n3), oreStack("nugget" + out4 + "Oxide", n4), NCConfig.processor_time[3]);
-		addRecipe("depletedFuelRod" + fuel, oreStack("nugget" + out1, n1), oreStack("nugget" + out2, n2), oreStack("nugget" + out3, n3), oreStack("nugget" + out4, n4), NCConfig.processor_time[3]);
-		addRecipe("depletedFuelRod" + fuel + "Oxide", oreStack("nugget" + out1 + "Oxide", n1), oreStack("nugget" + out2 + "Oxide", n2), oreStack("nugget" + out3 + "Oxide", n3), oreStack("nugget" + out4 + "Oxide", n4), NCConfig.processor_time[3]);
+		addRecipe("depletedFuel" + fuel, oreStack("nugget" + out1, n1), oreStack("nugget" + out2, n2), oreStack("nugget" + out3, n3), oreStack("nugget" + out4, n4), 1D, 1D);
+		addRecipe("depletedFuel" + fuel + "Oxide", oreStack("nugget" + out1 + "Oxide", n1), oreStack("nugget" + out2 + "Oxide", n2), oreStack("nugget" + out3 + "Oxide", n3), oreStack("nugget" + out4 + "Oxide", n4), 1D, 1D);
+		addRecipe("depletedFuelRod" + fuel, oreStack("nugget" + out1, n1), oreStack("nugget" + out2, n2), oreStack("nugget" + out3, n3), oreStack("nugget" + out4, n4), 1D, 1D);
+		addRecipe("depletedFuelRod" + fuel + "Oxide", oreStack("nugget" + out1 + "Oxide", n1), oreStack("nugget" + out2 + "Oxide", n2), oreStack("nugget" + out3 + "Oxide", n3), oreStack("nugget" + out4 + "Oxide", n4), 1D, 1D);
 	}
 }

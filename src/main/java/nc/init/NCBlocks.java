@@ -40,7 +40,7 @@ import nc.multiblock.fission.moltensalt.block.BlockSaltFissionModerator;
 import nc.multiblock.fission.moltensalt.block.BlockSaltFissionVent;
 import nc.multiblock.fission.moltensalt.block.BlockSaltFissionVessel;
 import nc.multiblock.fission.moltensalt.block.BlockSaltFissionWall;
-import nc.proxy.CommonProxy;
+import nc.tab.NCTabs;
 import nc.tile.energy.battery.BatteryType;
 import nc.util.InfoHelper;
 import nc.util.Lang;
@@ -138,6 +138,9 @@ public class NCBlocks {
 	public static Block rtg_californium;
 	
 	public static Block solar_panel_basic;
+	public static Block solar_panel_advanced;
+	public static Block solar_panel_du;
+	public static Block solar_panel_elite;
 	
 	public static Block decay_generator;
 	
@@ -194,20 +197,20 @@ public class NCBlocks {
 		ingot_block = new BlockMeta.BlockIngot("ingot_block");
 		
 		fission_block = new BlockMeta.BlockFission("fission_block");
-		reactor_casing_transparent = new NCBlock.Transparent("reactor_casing_transparent", Material.IRON, true).setCreativeTab(CommonProxy.TAB_FISSION_BLOCKS);
-		cell_block = new NCBlock.Transparent("cell_block", Material.IRON, false).setCreativeTab(CommonProxy.TAB_FISSION_BLOCKS);
+		reactor_casing_transparent = new NCBlock.Transparent("reactor_casing_transparent", Material.IRON, true).setCreativeTab(NCTabs.TAB_FISSION_BLOCKS);
+		cell_block = new NCBlock.Transparent("cell_block", Material.IRON, false).setCreativeTab(NCTabs.TAB_FISSION_BLOCKS);
 		cooler = new BlockMeta.BlockCooler("cooler");
 		reactor_door = new NCBlockDoor("reactor_door", Material.IRON);
 		reactor_trapdoor = new NCBlockTrapDoor("reactor_trapdoor", Material.IRON);
 		
-		block_depleted_thorium = new NCBlock("block_depleted_thorium", Material.IRON).setCreativeTab(CommonProxy.TAB_BASE_BLOCK_MATERIALS);
-		block_depleted_uranium = new NCBlock("block_depleted_uranium", Material.IRON).setCreativeTab(CommonProxy.TAB_BASE_BLOCK_MATERIALS);
-		block_depleted_neptunium = new NCBlock("block_depleted_neptunium", Material.IRON).setCreativeTab(CommonProxy.TAB_BASE_BLOCK_MATERIALS);
-		block_depleted_plutonium = new NCBlock("block_depleted_plutonium", Material.IRON).setCreativeTab(CommonProxy.TAB_BASE_BLOCK_MATERIALS);
-		block_depleted_americium = new NCBlock("block_depleted_americium", Material.IRON).setCreativeTab(CommonProxy.TAB_BASE_BLOCK_MATERIALS);
-		block_depleted_curium = new NCBlock("block_depleted_curium", Material.IRON).setCreativeTab(CommonProxy.TAB_BASE_BLOCK_MATERIALS);
-		block_depleted_berkelium = new NCBlock("block_depleted_berkelium", Material.IRON).setCreativeTab(CommonProxy.TAB_BASE_BLOCK_MATERIALS);
-		block_depleted_californium = new NCBlock("block_depleted_californium", Material.IRON).setCreativeTab(CommonProxy.TAB_BASE_BLOCK_MATERIALS);
+		block_depleted_thorium = new NCBlock("block_depleted_thorium", Material.IRON).setCreativeTab(NCTabs.TAB_BASE_BLOCK_MATERIALS);
+		block_depleted_uranium = new NCBlock("block_depleted_uranium", Material.IRON).setCreativeTab(NCTabs.TAB_BASE_BLOCK_MATERIALS);
+		block_depleted_neptunium = new NCBlock("block_depleted_neptunium", Material.IRON).setCreativeTab(NCTabs.TAB_BASE_BLOCK_MATERIALS);
+		block_depleted_plutonium = new NCBlock("block_depleted_plutonium", Material.IRON).setCreativeTab(NCTabs.TAB_BASE_BLOCK_MATERIALS);
+		block_depleted_americium = new NCBlock("block_depleted_americium", Material.IRON).setCreativeTab(NCTabs.TAB_BASE_BLOCK_MATERIALS);
+		block_depleted_curium = new NCBlock("block_depleted_curium", Material.IRON).setCreativeTab(NCTabs.TAB_BASE_BLOCK_MATERIALS);
+		block_depleted_berkelium = new NCBlock("block_depleted_berkelium", Material.IRON).setCreativeTab(NCTabs.TAB_BASE_BLOCK_MATERIALS);
+		block_depleted_californium = new NCBlock("block_depleted_californium", Material.IRON).setCreativeTab(NCTabs.TAB_BASE_BLOCK_MATERIALS);
 		
 		block_ice = new NCBlockIce("block_ice");
 		
@@ -263,7 +266,7 @@ public class NCBlocks {
 		fusion_core = new BlockFusionCore();
 		fusion_dummy_side = new BlockFusionDummy(FusionDummyTileType.FUSION_DUMMY_SIDE);
 		fusion_dummy_top = new BlockFusionDummy(FusionDummyTileType.FUSION_DUMMY_TOP);
-		fusion_connector = new NCBlock("fusion_connector", Material.IRON).setCreativeTab(CommonProxy.TAB_FUSION);
+		fusion_connector = new NCBlock("fusion_connector", Material.IRON).setCreativeTab(NCTabs.TAB_FUSION);
 		
 		rtg_uranium = new BlockSimpleTile(SimpleTileType.RTG_URANIUM);
 		rtg_plutonium = new BlockSimpleTile(SimpleTileType.RTG_PLUTONIUM);
@@ -271,6 +274,9 @@ public class NCBlocks {
 		rtg_californium = new BlockSimpleTile(SimpleTileType.RTG_CALIFORNIUM);
 		
 		solar_panel_basic = new BlockSimpleTile(SimpleTileType.SOLAR_PANEL_BASIC);
+		solar_panel_advanced = new BlockSimpleTile(SimpleTileType.SOLAR_PANEL_ADVANCED);
+		solar_panel_du = new BlockSimpleTile(SimpleTileType.SOLAR_PANEL_DU);
+		solar_panel_elite = new BlockSimpleTile(SimpleTileType.SOLAR_PANEL_ELITE);
 		
 		decay_generator = new BlockSimpleTile(SimpleTileType.DECAY_GENERATOR);
 		
@@ -326,7 +332,7 @@ public class NCBlocks {
 		}
 		
 		glowing_mushroom = new NCBlockMushroom("glowing_mushroom");
-		dry_earth = new NCBlock("dry_earth", Material.ROCK).setCreativeTab(CommonProxy.TAB_BASE_BLOCK_MATERIALS);
+		dry_earth = new NCBlock("dry_earth", Material.ROCK).setCreativeTab(NCTabs.TAB_BASE_BLOCK_MATERIALS);
 		
 		//spin = new BlockSpin("spin");
 	}
@@ -413,6 +419,9 @@ public class NCBlocks {
 		registerBlock(rtg_californium, InfoHelper.formattedInfo(infoLine("rtg"), UnitHelper.prefix(NCConfig.rtg_power[3], 5, "RF/t")));
 		
 		registerBlock(solar_panel_basic, InfoHelper.formattedInfo(infoLine("solar_panel"), UnitHelper.prefix(NCConfig.solar_power[0], 5, "RF/t")));
+		registerBlock(solar_panel_advanced, InfoHelper.formattedInfo(infoLine("solar_panel"), UnitHelper.prefix(NCConfig.solar_power[1], 5, "RF/t")));
+		registerBlock(solar_panel_du, InfoHelper.formattedInfo(infoLine("solar_panel"), UnitHelper.prefix(NCConfig.solar_power[2], 5, "RF/t")));
+		registerBlock(solar_panel_elite, InfoHelper.formattedInfo(infoLine("solar_panel"), UnitHelper.prefix(NCConfig.solar_power[3], 5, "RF/t")));
 		
 		registerBlock(decay_generator);
 		
@@ -567,6 +576,9 @@ public class NCBlocks {
 		registerRender(rtg_californium);
 		
 		registerRender(solar_panel_basic);
+		registerRender(solar_panel_advanced);
+		registerRender(solar_panel_du);
+		registerRender(solar_panel_elite);
 		
 		registerRender(decay_generator);
 		

@@ -1,15 +1,24 @@
 package nc.tile.energyFluid;
 
+import java.util.Arrays;
+
 import nc.tile.dummy.IInterfaceable;
 import nc.tile.internal.energy.EnergyConnection;
 import nc.tile.internal.fluid.FluidConnection;
+import nc.tile.internal.fluid.Tank;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 
 public class TileBin extends TileEnergyFluidSidedInventory implements IInterfaceable {
 	
 	public TileBin() {
-		super("bin", 4, 16777216, energyConnectionAll(EnergyConnection.IN), new int[] {256000, 256000, 256000, 256000}, new FluidConnection[] {FluidConnection.IN, FluidConnection.IN, FluidConnection.IN, FluidConnection.IN});
+		super("bin", 4, 16777216, energyConnectionAll(EnergyConnection.IN), Arrays.asList(256000, 256000, 256000, 256000), Arrays.asList(FluidConnection.IN, FluidConnection.IN, FluidConnection.IN, FluidConnection.IN), null);
+	}
+	
+	@Override
+	public void onAdded() {
+		super.onAdded();
+		for (Tank tank : tanks) tank.setStrictlyInput(true);
 	}
 	
 	@Override
@@ -18,10 +27,7 @@ public class TileBin extends TileEnergyFluidSidedInventory implements IInterface
 		for (int i = 0; i < inventoryStacks.size(); i++) {
 			if (inventoryStacks.get(i) != ItemStack.EMPTY) inventoryStacks.set(i, ItemStack.EMPTY);
 		}
-		for (int i = 0; i < tanks.length; i++) {
-			tanks[i].setStrictlyInput(true);
-			if (tanks[i].getFluidAmount() > 0) tanks[i].setFluid(null);
-		}
+		for (Tank tank : tanks) if (tank.getFluidAmount() > 0) tank.setFluid(null);
 		if (getEnergyStorage().getEnergyStored() > 0) getEnergyStorage().setEnergyStored(0);
 	}
 	

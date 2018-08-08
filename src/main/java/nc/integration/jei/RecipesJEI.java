@@ -1,174 +1,174 @@
 package nc.integration.jei;
 
-import nc.recipe.BaseRecipeHandler;
+import nc.recipe.ProcessorRecipeHandler;
 import nc.recipe.IRecipe;
 
 public class RecipesJEI {
 	
-	public static class Manufactory extends JEIRecipe<Manufactory> {
+	public static class Manufactory extends JEIProcessorRecipe<Manufactory> {
 
-		public Manufactory(BaseRecipeHandler methods, IRecipe recipe) {
+		public Manufactory(ProcessorRecipeHandler methods, IRecipe recipe) {
 			super(methods, recipe);
 		}
 	}
 	
-	public static class IsotopeSeparator extends JEIRecipe<IsotopeSeparator> {
+	public static class IsotopeSeparator extends JEIProcessorRecipe<IsotopeSeparator> {
 
-		public IsotopeSeparator(BaseRecipeHandler methods, IRecipe recipe) {
+		public IsotopeSeparator(ProcessorRecipeHandler methods, IRecipe recipe) {
 			super(methods, recipe);
 		}
 	}
 	
-	public static class DecayHastener extends JEIRecipe<DecayHastener> {
+	public static class DecayHastener extends JEIProcessorRecipe<DecayHastener> {
 
-		public DecayHastener(BaseRecipeHandler methods, IRecipe recipe) {
+		public DecayHastener(ProcessorRecipeHandler methods, IRecipe recipe) {
 			super(methods, recipe);
 		}
 	}
 	
-	public static class FuelReprocessor extends JEIRecipe<FuelReprocessor> {
+	public static class FuelReprocessor extends JEIProcessorRecipe<FuelReprocessor> {
 
-		public FuelReprocessor(BaseRecipeHandler methods, IRecipe recipe) {
+		public FuelReprocessor(ProcessorRecipeHandler methods, IRecipe recipe) {
 			super(methods, recipe);
 		}
 	}
 	
-	public static class AlloyFurnace extends JEIRecipe<AlloyFurnace> {
+	public static class AlloyFurnace extends JEIProcessorRecipe<AlloyFurnace> {
 
-		public AlloyFurnace(BaseRecipeHandler methods, IRecipe recipe) {
+		public AlloyFurnace(ProcessorRecipeHandler methods, IRecipe recipe) {
 			super(methods, recipe);
 		}
 	}
 	
-	public static class Infuser extends JEIRecipe<Infuser> {
+	public static class Infuser extends JEIProcessorRecipe<Infuser> {
 
-		public Infuser(BaseRecipeHandler methods, IRecipe recipe) {
+		public Infuser(ProcessorRecipeHandler methods, IRecipe recipe) {
 			super(methods, recipe);
 		}
 	}
 	
-	public static class Melter extends JEIRecipe<Melter> {
+	public static class Melter extends JEIProcessorRecipe<Melter> {
 
-		public Melter(BaseRecipeHandler methods, IRecipe recipe) {
+		public Melter(ProcessorRecipeHandler methods, IRecipe recipe) {
 			super(methods, recipe);
 		}
 	}
 	
-	public static class Supercooler extends JEIRecipe<Supercooler> {
+	public static class Supercooler extends JEIProcessorRecipe<Supercooler> {
 
-		public Supercooler(BaseRecipeHandler methods, IRecipe recipe) {
+		public Supercooler(ProcessorRecipeHandler methods, IRecipe recipe) {
 			super(methods, recipe);
 		}
 	}
 	
-	public static class Electrolyser extends JEIRecipe<Electrolyser> {
+	public static class Electrolyser extends JEIProcessorRecipe<Electrolyser> {
 
-		public Electrolyser(BaseRecipeHandler methods, IRecipe recipe) {
+		public Electrolyser(ProcessorRecipeHandler methods, IRecipe recipe) {
 			super(methods, recipe);
 		}
 	}
 	
-	public static class Irradiator extends JEIRecipe<Irradiator> {
+	public static class Irradiator extends JEIProcessorRecipe<Irradiator> {
 
-		public Irradiator(BaseRecipeHandler methods, IRecipe recipe) {
+		public Irradiator(ProcessorRecipeHandler methods, IRecipe recipe) {
 			super(methods, recipe);
 		}
 	}
 	
-	public static class IngotFormer extends JEIRecipe<IngotFormer> {
+	public static class IngotFormer extends JEIProcessorRecipe<IngotFormer> {
 
-		public IngotFormer(BaseRecipeHandler methods, IRecipe recipe) {
+		public IngotFormer(ProcessorRecipeHandler methods, IRecipe recipe) {
 			super(methods, recipe);
 		}
 	}
 	
-	public static class Pressurizer extends JEIRecipe<Pressurizer> {
+	public static class Pressurizer extends JEIProcessorRecipe<Pressurizer> {
 
-		public Pressurizer(BaseRecipeHandler methods, IRecipe recipe) {
+		public Pressurizer(ProcessorRecipeHandler methods, IRecipe recipe) {
 			super(methods, recipe);
 		}
 	}
 	
-	public static class ChemicalReactor extends JEIRecipe<ChemicalReactor> {
+	public static class ChemicalReactor extends JEIProcessorRecipe<ChemicalReactor> {
 
-		public ChemicalReactor(BaseRecipeHandler methods, IRecipe recipe) {
+		public ChemicalReactor(ProcessorRecipeHandler methods, IRecipe recipe) {
 			super(methods, recipe);
 		}
 	}
 	
-	public static class SaltMixer extends JEIRecipe<SaltMixer> {
+	public static class SaltMixer extends JEIProcessorRecipe<SaltMixer> {
 
-		public SaltMixer(BaseRecipeHandler methods, IRecipe recipe) {
+		public SaltMixer(ProcessorRecipeHandler methods, IRecipe recipe) {
 			super(methods, recipe);
 		}
 	}
 	
-	public static class Crystallizer extends JEIRecipe<Crystallizer> {
+	public static class Crystallizer extends JEIProcessorRecipe<Crystallizer> {
 
-		public Crystallizer(BaseRecipeHandler methods, IRecipe recipe) {
+		public Crystallizer(ProcessorRecipeHandler methods, IRecipe recipe) {
 			super(methods, recipe);
 		}
 	}
 	
-	public static class Dissolver extends JEIRecipe<Dissolver> {
+	public static class Dissolver extends JEIProcessorRecipe<Dissolver> {
 
-		public Dissolver(BaseRecipeHandler methods, IRecipe recipe) {
+		public Dissolver(ProcessorRecipeHandler methods, IRecipe recipe) {
 			super(methods, recipe);
 		}
 	}
 	
-	public static class Extractor extends JEIRecipe<Extractor> {
+	public static class Extractor extends JEIProcessorRecipe<Extractor> {
 
-		public Extractor(BaseRecipeHandler methods, IRecipe recipe) {
+		public Extractor(ProcessorRecipeHandler methods, IRecipe recipe) {
 			super(methods, recipe);
 		}
 	}
 	
-	public static class Centrifuge extends JEIRecipe<Centrifuge> {
+	public static class Centrifuge extends JEIProcessorRecipe<Centrifuge> {
 
-		public Centrifuge(BaseRecipeHandler methods, IRecipe recipe) {
+		public Centrifuge(ProcessorRecipeHandler methods, IRecipe recipe) {
 			super(methods, recipe);
 		}
 	}
 	
-	public static class RockCrusher extends JEIRecipe<RockCrusher> {
+	public static class RockCrusher extends JEIProcessorRecipe<RockCrusher> {
 
-		public RockCrusher(BaseRecipeHandler methods, IRecipe recipe) {
+		public RockCrusher(ProcessorRecipeHandler methods, IRecipe recipe) {
 			super(methods, recipe);
 		}
 	}
 	
-	public static class DecayGenerator extends JEIRecipe<DecayGenerator> {
+	public static class DecayGenerator extends JEIProcessorRecipe<DecayGenerator> {
 
-		public DecayGenerator(BaseRecipeHandler methods, IRecipe recipe) {
+		public DecayGenerator(ProcessorRecipeHandler methods, IRecipe recipe) {
 			super(methods, recipe);
 		}
 	}
 	
-	public static class Fission extends JEIRecipe<Fission> {
+	public static class Fission extends JEIProcessorRecipe<Fission> {
 
-		public Fission(BaseRecipeHandler methods, IRecipe recipe) {
+		public Fission(ProcessorRecipeHandler methods, IRecipe recipe) {
 			super(methods, recipe);
 		}
 	}
 	
-	public static class Fusion extends JEIRecipe<Fusion> {
+	public static class Fusion extends JEIProcessorRecipe<Fusion> {
 
-		public Fusion(BaseRecipeHandler methods, IRecipe recipe) {
+		public Fusion(ProcessorRecipeHandler methods, IRecipe recipe) {
 			super(methods, recipe);
 		}
 	}
 	
-	public static class SaltFission extends JEIRecipe<SaltFission> {
+	public static class SaltFission extends JEIProcessorRecipe<SaltFission> {
 
-		public SaltFission(BaseRecipeHandler methods, IRecipe recipe) {
+		public SaltFission(ProcessorRecipeHandler methods, IRecipe recipe) {
 			super(methods, recipe);
 		}
 	}
 	
-	public static class CoolantHeater extends JEIRecipe<CoolantHeater> {
+	public static class CoolantHeater extends JEIProcessorRecipe<CoolantHeater> {
 
-		public CoolantHeater(BaseRecipeHandler methods, IRecipe recipe) {
+		public CoolantHeater(ProcessorRecipeHandler methods, IRecipe recipe) {
 			super(methods, recipe);
 		}
 	}

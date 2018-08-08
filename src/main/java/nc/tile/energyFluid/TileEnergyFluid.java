@@ -1,5 +1,10 @@
 package nc.tile.energyFluid;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.google.common.collect.Lists;
+
 import nc.config.NCConfig;
 import nc.tile.energy.TileEnergy;
 import nc.tile.fluid.IFluidSpread;
@@ -11,7 +16,6 @@ import nc.tile.passive.ITilePassive;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
@@ -23,110 +27,98 @@ import net.minecraftforge.fluids.capability.templates.EmptyFluidHandler;
 
 public abstract class TileEnergyFluid extends TileEnergy implements ITileFluid, IFluidHandler/*, IGasHandler, ITubeConnection*/ {
 	
-	public FluidConnection[] fluidConnections;
-	public final Tank[] tanks;
+	public final List<Tank> tanks;
+	public List<FluidConnection> fluidConnections;
 	public boolean areTanksShared = false;
-	public boolean emptyUnusable = false;
-	public boolean voidExcessOutputs = false;
+	public boolean emptyUnusableTankInputs = false;
+	public boolean voidExcessFluidOutputs = false;
 	
-	public TileEnergyFluid(int capacity, EnergyConnection[] energyConnections, int fluidCapacity, FluidConnection fluidConnections, String[]... allowedFluids) {
-		this(capacity, capacity, capacity, energyConnections, new int[] {fluidCapacity}, new int[] {fluidCapacity}, new int[] {fluidCapacity}, new FluidConnection[] {fluidConnections}, allowedFluids);
+	public TileEnergyFluid(int capacity, EnergyConnection[] energyConnections, int fluidCapacity, FluidConnection fluidConnections, List<String> allowedFluids) {
+		this(capacity, capacity, capacity, energyConnections, Lists.newArrayList(fluidCapacity), Lists.newArrayList(fluidCapacity), Lists.newArrayList(fluidCapacity), Lists.newArrayList(fluidConnections), Lists.<List<String>>newArrayList(allowedFluids));
 	}
 	
-	public TileEnergyFluid(int capacity, EnergyConnection[] energyConnections, int[] fluidCapacity, FluidConnection[] fluidConnections, String[]... allowedFluids) {
+	public TileEnergyFluid(int capacity, EnergyConnection[] energyConnections, List<Integer> fluidCapacity, List<FluidConnection> fluidConnections, List<List<String>> allowedFluids) {
 		this(capacity, capacity, capacity, energyConnections, fluidCapacity, fluidCapacity, fluidCapacity, fluidConnections, allowedFluids);
 	}
 	
-	public TileEnergyFluid(int capacity, EnergyConnection[] energyConnections, int fluidCapacity, int maxFluidTransfer, FluidConnection fluidConnections, String[]... allowedFluids) {
-		this(capacity, capacity, capacity, energyConnections, new int[] {fluidCapacity}, new int[] {maxFluidTransfer}, new int[] {maxFluidTransfer}, new FluidConnection[] {fluidConnections}, allowedFluids);
+	public TileEnergyFluid(int capacity, EnergyConnection[] energyConnections, int fluidCapacity, int maxFluidTransfer, FluidConnection fluidConnections, List<String> allowedFluids) {
+		this(capacity, capacity, capacity, energyConnections, Lists.newArrayList(fluidCapacity), Lists.newArrayList(maxFluidTransfer), Lists.newArrayList(maxFluidTransfer), Lists.newArrayList(fluidConnections), Lists.<List<String>>newArrayList(allowedFluids));
 	}
 	
-	public TileEnergyFluid(int capacity, EnergyConnection[] energyConnections, int[] fluidCapacity, int[] maxFluidTransfer, FluidConnection[] fluidConnections, String[]... allowedFluids) {
+	public TileEnergyFluid(int capacity, EnergyConnection[] energyConnections, List<Integer> fluidCapacity, List<Integer> maxFluidTransfer, List<FluidConnection> fluidConnections, List<List<String>> allowedFluids) {
 		this(capacity, capacity, capacity, energyConnections, fluidCapacity, maxFluidTransfer, maxFluidTransfer, fluidConnections, allowedFluids);
 	}
 	
-	public TileEnergyFluid(int capacity, EnergyConnection[] energyConnections, int fluidCapacity, int maxFluidReceive, int maxFluidExtract, FluidConnection fluidConnections, String[]... allowedFluids) {
-		this(capacity, capacity, capacity, energyConnections, new int[] {fluidCapacity}, new int[] {maxFluidReceive}, new int[] {maxFluidExtract}, new FluidConnection[] {fluidConnections}, allowedFluids);
+	public TileEnergyFluid(int capacity, EnergyConnection[] energyConnections, int fluidCapacity, int maxFluidReceive, int maxFluidExtract, FluidConnection fluidConnections, List<String> allowedFluids) {
+		this(capacity, capacity, capacity, energyConnections, Lists.newArrayList(fluidCapacity), Lists.newArrayList(maxFluidReceive), Lists.newArrayList(maxFluidExtract), Lists.newArrayList(fluidConnections), Lists.<List<String>>newArrayList(allowedFluids));
 	}
 	
-	public TileEnergyFluid(int capacity, EnergyConnection[] energyConnections, int[] fluidCapacity, int[] maxFluidReceive, int[] maxFluidExtract, FluidConnection[] fluidConnections, String[]... allowedFluids) {
+	public TileEnergyFluid(int capacity, EnergyConnection[] energyConnections, List<Integer> fluidCapacity, List<Integer> maxFluidReceive, List<Integer> maxFluidExtract, List<FluidConnection> fluidConnections, List<List<String>> allowedFluids) {
 		this(capacity, capacity, capacity, energyConnections, fluidCapacity, maxFluidReceive, maxFluidExtract, fluidConnections, allowedFluids);
 	}
 	
-	public TileEnergyFluid(int capacity, int maxTransfer, EnergyConnection[] energyConnections, int fluidCapacity, FluidConnection fluidConnections, String[]... allowedFluids) {
-		this(capacity, maxTransfer, maxTransfer, energyConnections, new int[] {fluidCapacity}, new int[] {fluidCapacity}, new int[] {fluidCapacity}, new FluidConnection[] {fluidConnections}, allowedFluids);
+	public TileEnergyFluid(int capacity, int maxTransfer, EnergyConnection[] energyConnections, int fluidCapacity, FluidConnection fluidConnections, List<String> allowedFluids) {
+		this(capacity, maxTransfer, maxTransfer, energyConnections, Lists.newArrayList(fluidCapacity), Lists.newArrayList(fluidCapacity), Lists.newArrayList(fluidCapacity), Lists.newArrayList(fluidConnections), Lists.<List<String>>newArrayList(allowedFluids));
 	}
 	
-	public TileEnergyFluid(int capacity, int maxTransfer, EnergyConnection[] energyConnections, int[] fluidCapacity, FluidConnection[] fluidConnections, String[]... allowedFluids) {
+	public TileEnergyFluid(int capacity, int maxTransfer, EnergyConnection[] energyConnections, List<Integer> fluidCapacity, List<FluidConnection> fluidConnections, List<List<String>> allowedFluids) {
 		this(capacity, maxTransfer, maxTransfer, energyConnections, fluidCapacity, fluidCapacity, fluidCapacity, fluidConnections, allowedFluids);
 	}
 	
-	public TileEnergyFluid(int capacity, int maxTransfer, EnergyConnection[] energyConnections, int fluidCapacity, int maxFluidTransfer, FluidConnection fluidConnections, String[]... allowedFluids) {
-		this(capacity, maxTransfer, maxTransfer, energyConnections, new int[] {fluidCapacity}, new int[] {maxFluidTransfer}, new int[] {maxFluidTransfer}, new FluidConnection[] {fluidConnections}, allowedFluids);
+	public TileEnergyFluid(int capacity, int maxTransfer, EnergyConnection[] energyConnections, int fluidCapacity, int maxFluidTransfer, FluidConnection fluidConnections, List<String> allowedFluids) {
+		this(capacity, maxTransfer, maxTransfer, energyConnections, Lists.newArrayList(fluidCapacity), Lists.newArrayList(maxFluidTransfer), Lists.newArrayList(maxFluidTransfer), Lists.newArrayList(fluidConnections), Lists.<List<String>>newArrayList(allowedFluids));
 	}
 	
-	public TileEnergyFluid(int capacity, int maxTransfer, EnergyConnection[] energyConnections, int[] fluidCapacity, int[] maxFluidTransfer, FluidConnection[] fluidConnections, String[]... allowedFluids) {
+	public TileEnergyFluid(int capacity, int maxTransfer, EnergyConnection[] energyConnections, List<Integer> fluidCapacity, List<Integer> maxFluidTransfer, List<FluidConnection> fluidConnections, List<List<String>> allowedFluids) {
 		this(capacity, maxTransfer, maxTransfer, energyConnections, fluidCapacity, maxFluidTransfer, maxFluidTransfer, fluidConnections, allowedFluids);
 	}
 	
-	public TileEnergyFluid(int capacity, int maxTransfer, EnergyConnection[] energyConnections, int fluidCapacity, int maxFluidReceive, int maxFluidExtract, FluidConnection fluidConnections, String[]... allowedFluids) {
-		this(capacity, maxTransfer, maxTransfer, energyConnections, new int[] {fluidCapacity}, new int[] {maxFluidReceive}, new int[] {maxFluidExtract}, new FluidConnection[] {fluidConnections}, allowedFluids);
+	public TileEnergyFluid(int capacity, int maxTransfer, EnergyConnection[] energyConnections, int fluidCapacity, int maxFluidReceive, int maxFluidExtract, FluidConnection fluidConnections, List<String> allowedFluids) {
+		this(capacity, maxTransfer, maxTransfer, energyConnections, Lists.newArrayList(fluidCapacity), Lists.newArrayList(maxFluidReceive), Lists.newArrayList(maxFluidExtract), Lists.newArrayList(fluidConnections), Lists.<List<String>>newArrayList(allowedFluids));
 	}
 	
-	public TileEnergyFluid(int capacity, int maxTransfer, EnergyConnection[] energyConnections, int[] fluidCapacity, int[] maxFluidReceive, int[] maxFluidExtract, FluidConnection[] fluidConnections, String[]... allowedFluids) {
+	public TileEnergyFluid(int capacity, int maxTransfer, EnergyConnection[] energyConnections, List<Integer> fluidCapacity, List<Integer> maxFluidReceive, List<Integer> maxFluidExtract, List<FluidConnection> fluidConnections, List<List<String>> allowedFluids) {
 		this(capacity, maxTransfer, maxTransfer, energyConnections, fluidCapacity, maxFluidReceive, maxFluidExtract, fluidConnections, allowedFluids);
 	}
 	
-	public TileEnergyFluid(int capacity, int maxReceive, int maxExtract, EnergyConnection[] energyConnections, int fluidCapacity, FluidConnection fluidConnections, String[]... allowedFluids) {
-		this(capacity, maxReceive, maxExtract, energyConnections, new int[] {fluidCapacity}, new int[] {fluidCapacity}, new int[] {fluidCapacity}, new FluidConnection[] {fluidConnections}, allowedFluids);
+	public TileEnergyFluid(int capacity, int maxReceive, int maxExtract, EnergyConnection[] energyConnections, int fluidCapacity, FluidConnection fluidConnections, List<String> allowedFluids) {
+		this(capacity, maxReceive, maxExtract, energyConnections, Lists.newArrayList(fluidCapacity), Lists.newArrayList(fluidCapacity), Lists.newArrayList(fluidCapacity), Lists.newArrayList(fluidConnections), Lists.<List<String>>newArrayList(allowedFluids));
 	}
 	
-	public TileEnergyFluid(int capacity, int maxReceive, int maxExtract, EnergyConnection[] energyConnections, int[] fluidCapacity, FluidConnection[] fluidConnections, String[]... allowedFluids) {
+	public TileEnergyFluid(int capacity, int maxReceive, int maxExtract, EnergyConnection[] energyConnections, List<Integer> fluidCapacity, List<FluidConnection> fluidConnections, List<List<String>> allowedFluids) {
 		this(capacity, maxReceive, maxExtract, energyConnections, fluidCapacity, fluidCapacity, fluidCapacity, fluidConnections, allowedFluids);
 	}
 	
-	public TileEnergyFluid(int capacity, int maxReceive, int maxExtract, EnergyConnection[] energyConnections, int fluidCapacity, int maxFluidTransfer, FluidConnection fluidConnections, String[]... allowedFluids) {
-		this(capacity, maxReceive, maxExtract, energyConnections, new int[] {fluidCapacity}, new int[] {maxFluidTransfer}, new int[] {maxFluidTransfer}, new FluidConnection[] {fluidConnections}, allowedFluids);
+	public TileEnergyFluid(int capacity, int maxReceive, int maxExtract, EnergyConnection[] energyConnections, int fluidCapacity, int maxFluidTransfer, FluidConnection fluidConnections, List<String> allowedFluids) {
+		this(capacity, maxReceive, maxExtract, energyConnections, Lists.newArrayList(fluidCapacity), Lists.newArrayList(maxFluidTransfer), Lists.newArrayList(maxFluidTransfer), Lists.newArrayList(fluidConnections), Lists.<List<String>>newArrayList(allowedFluids));
 	}
 	
-	public TileEnergyFluid(int capacity, int maxReceive, int maxExtract, EnergyConnection[] energyConnections, int[] fluidCapacity, int[] maxFluidTransfer, FluidConnection[] fluidConnections, String[]... allowedFluids) {
+	public TileEnergyFluid(int capacity, int maxReceive, int maxExtract, EnergyConnection[] energyConnections, List<Integer> fluidCapacity, List<Integer> maxFluidTransfer, List<FluidConnection> fluidConnections, List<List<String>> allowedFluids) {
 		this(capacity, maxReceive, maxExtract, energyConnections, fluidCapacity, maxFluidTransfer, maxFluidTransfer, fluidConnections, allowedFluids);
 	}
 	
-	public TileEnergyFluid(int capacity, int maxReceive, int maxExtract, EnergyConnection[] energyConnections, int fluidCapacity, int maxFluidReceive, int maxFluidExtract, FluidConnection fluidConnections, String[]... allowedFluids) {
-		this(capacity, maxReceive, maxExtract, energyConnections, new int[] {fluidCapacity}, new int[] {maxFluidReceive}, new int[] {maxFluidExtract}, new FluidConnection[] {fluidConnections}, allowedFluids);
+	public TileEnergyFluid(int capacity, int maxReceive, int maxExtract, EnergyConnection[] energyConnections, int fluidCapacity, int maxFluidReceive, int maxFluidExtract, FluidConnection fluidConnections, List<String> allowedFluids) {
+		this(capacity, maxReceive, maxExtract, energyConnections, Lists.newArrayList(fluidCapacity), Lists.newArrayList(maxFluidReceive), Lists.newArrayList(maxFluidExtract), Lists.newArrayList(fluidConnections), Lists.<List<String>>newArrayList(allowedFluids));
 	}
 	
-	public TileEnergyFluid(int capacity, int maxReceive, int maxExtract, EnergyConnection[] energyConnections, int[] fluidCapacity, int[] maxFluidReceive, int[] maxFluidExtract, FluidConnection[] fluidConnections, String[]... allowedFluids) {
+	public TileEnergyFluid(int capacity, int maxReceive, int maxExtract, EnergyConnection[] energyConnections, List<Integer> fluidCapacity, List<Integer> maxFluidReceive, List<Integer> maxFluidExtract, List<FluidConnection> fluidConnections, List<List<String>> allowedFluids) {
 		super(capacity, maxReceive, maxExtract, energyConnections);
-		if (fluidCapacity == null || fluidCapacity.length == 0) {
-			tanks = null;
+		if (fluidCapacity == null || fluidCapacity.isEmpty()) {
+			tanks = new ArrayList<Tank>();
 		} else {
-			Tank[] tankList = new Tank[fluidCapacity.length];
-			String[][] fluidWhitelists = new String[fluidCapacity.length][];
-			for (int i = 0; i < fluidCapacity.length; i++) {
-				if (i < allowedFluids.length) fluidWhitelists[i] = allowedFluids[i];
-				else fluidWhitelists[i] = new String[] {};
-			}
-			for (int i = 0; i < fluidCapacity.length; i++) {
-				tankList[i] = new Tank(fluidCapacity[i], maxFluidReceive[i], maxFluidExtract[i], fluidWhitelists[i]);
+			List<Tank> tankList = new ArrayList<Tank>();
+			for (int i = 0; i < fluidCapacity.size(); i++) {
+				List<String> allowedFluidList;
+				if (allowedFluids == null || allowedFluids.size() <= i) allowedFluidList = null; else allowedFluidList = allowedFluids.get(i);
+				tankList.add(new Tank(fluidCapacity.get(i), maxFluidReceive.get(i), maxFluidExtract.get(i), allowedFluidList));
 			}
 			tanks = tankList;
 		}
-		if (fluidConnections == null || fluidConnections.length == 0) {
-			this.fluidConnections = null;
+		if (fluidConnections == null || fluidConnections.isEmpty()) {
+			this.fluidConnections = new ArrayList<FluidConnection>();
 		} else {
-			FluidConnection[] fluidConnectionList = new FluidConnection[fluidConnections.length];
-			for (int i = 0; i < fluidConnections.length; i++) {
-				fluidConnectionList[i] = fluidConnections[i];
-			}
-			this.fluidConnections = fluidConnectionList;
+			this.fluidConnections = fluidConnections;
 		}
-	}
-	
-	@Override
-	public BlockPos getFluidTilePos() {
-		return pos;
 	}
 	
 	@Override
@@ -140,41 +132,41 @@ public abstract class TileEnergyFluid extends TileEnergy implements ITileFluid, 
 	}
 	
 	@Override
-	public boolean getTanksEmptyUnusable() {
-		return emptyUnusable;
+	public boolean getEmptyUnusableTankInputs() {
+		return emptyUnusableTankInputs;
 	}
 	
 	@Override
-	public void setTanksEmptyUnusable(boolean emptyUnusable) {
-		this.emptyUnusable = emptyUnusable;
+	public void setEmptyUnusableTankInputs(boolean emptyUnusableTankInputs) {
+		this.emptyUnusableTankInputs = emptyUnusableTankInputs;
 	}
 	
 	@Override
-	public boolean getVoidExcessOutputs() {
-		return voidExcessOutputs;
+	public boolean getVoidExcessFluidOutputs() {
+		return voidExcessFluidOutputs;
 	}
 	
 	@Override
-	public void setVoidExcessOutputs(boolean voidExcessOutputs) {
-		this.voidExcessOutputs = voidExcessOutputs;
+	public void setVoidExcessFluidOutputs(boolean voidExcessFluidOutputs) {
+		this.voidExcessFluidOutputs = voidExcessFluidOutputs;
 	}
 	
 	@Override
 	public IFluidTankProperties[] getTankProperties() {
-		if (getTanks().length == 0 || getTanks() == null) return EmptyFluidHandler.EMPTY_TANK_PROPERTIES_ARRAY;
-		IFluidTankProperties[] properties = new IFluidTankProperties[getTanks().length];
-		for (int i = 0; i < getTanks().length; i++) {
-			properties[i] = new FluidTankProperties(getTanks()[i].getFluid(), getTanks()[i].getCapacity(), getFluidConnections()[i].canFill(), getFluidConnections()[i].canDrain());
+		if (getTanks() == null || getTanks().isEmpty()) return EmptyFluidHandler.EMPTY_TANK_PROPERTIES_ARRAY;
+		IFluidTankProperties[] properties = new IFluidTankProperties[getTanks().size()];
+		for (int i = 0; i < getTanks().size(); i++) {
+			properties[i] = new FluidTankProperties(getTanks().get(i).getFluid(), getTanks().get(i).getCapacity(), getFluidConnections().get(i).canFill(), getFluidConnections().get(i).canDrain());
 		}
 		return properties;
 	}
 
 	@Override
 	public int fill(FluidStack resource, boolean doFill) {
-		if (getTanks().length == 0 || getTanks() == null) return 0;
-		for (int i = 0; i < getTanks().length; i++) {
-			if (getFluidConnections()[i].canFill() && getTanks()[i].isFluidValid(resource) && canFill(resource, i) && getTanks()[i].getFluidAmount() < getTanks()[i].getCapacity() && (getTanks()[i].getFluid() == null || getTanks()[i].getFluid().isFluidEqual(resource))) {
-				return getTanks()[i].fill(resource, doFill);
+		if (getTanks() == null || getTanks().isEmpty()) return 0;
+		for (int i = 0; i < getTanks().size(); i++) {
+			if (getFluidConnections().get(i).canFill() && getTanks().get(i).isFluidValid(resource) && canFill(resource, i) && getTanks().get(i).getFluidAmount() < getTanks().get(i).getCapacity() && (getTanks().get(i).getFluid() == null || getTanks().get(i).getFluid().isFluidEqual(resource))) {
+				return getTanks().get(i).fill(resource, doFill);
 			}
 		}
 		return 0;
@@ -182,10 +174,10 @@ public abstract class TileEnergyFluid extends TileEnergy implements ITileFluid, 
 
 	@Override
 	public FluidStack drain(FluidStack resource, boolean doDrain) {
-		if (getTanks().length == 0 || getTanks() == null) return null;
-		for (int i = 0; i < getTanks().length; i++) {
-			if (getFluidConnections()[i].canDrain() && getTanks()[i].getFluid() != null && getTanks()[i].getFluidAmount() > 0) {
-				if (resource.isFluidEqual(getTanks()[i].getFluid()) && getTanks()[i].drain(resource, false) != null) return getTanks()[i].drain(resource, doDrain);
+		if (getTanks() == null || getTanks().isEmpty()) return null;
+		for (int i = 0; i < getTanks().size(); i++) {
+			if (getFluidConnections().get(i).canDrain() && getTanks().get(i).getFluid() != null && getTanks().get(i).getFluidAmount() > 0) {
+				if (resource.isFluidEqual(getTanks().get(i).getFluid()) && getTanks().get(i).drain(resource, false) != null) return getTanks().get(i).drain(resource, doDrain);
 			}
 		}
 		return null;
@@ -193,10 +185,10 @@ public abstract class TileEnergyFluid extends TileEnergy implements ITileFluid, 
 
 	@Override
 	public FluidStack drain(int maxDrain, boolean doDrain) {
-		if (getTanks().length == 0 || getTanks() == null) return null;
-		for (int i = 0; i < getTanks().length; i++) {
-			if (getFluidConnections()[i].canDrain() && getTanks()[i].getFluid() != null && getTanks()[i].getFluidAmount() > 0) {
-				if (getTanks()[i].drain(maxDrain, false) != null) return getTanks()[i].drain(maxDrain, doDrain);
+		if (getTanks() == null || getTanks().isEmpty()) return null;
+		for (int i = 0; i < getTanks().size(); i++) {
+			if (getFluidConnections().get(i).canDrain() && getTanks().get(i).getFluid() != null && getTanks().get(i).getFluidAmount() > 0) {
+				if (getTanks().get(i).drain(maxDrain, false) != null) return getTanks().get(i).drain(maxDrain, doDrain);
 			}
 		}
 		return null;
@@ -206,9 +198,9 @@ public abstract class TileEnergyFluid extends TileEnergy implements ITileFluid, 
 	public boolean canFill(FluidStack resource, int tankNumber) {
 		if (!areTanksShared) return true;
 		
-		for (int i = 0; i < getTanks().length; i++) {
-			if (i != tankNumber && getFluidConnections()[i].canFill() && getTanks()[i].getFluid() != null) {
-				if (getTanks()[i].getFluid().isFluidEqual(resource)) return false;
+		for (int i = 0; i < getTanks().size(); i++) {
+			if (i != tankNumber && getFluidConnections().get(i).canFill() && getTanks().get(i).getFluid() != null) {
+				if (getTanks().get(i).getFluid().isFluidEqual(resource)) return false;
 			}
 		}
 		return true;
@@ -216,16 +208,16 @@ public abstract class TileEnergyFluid extends TileEnergy implements ITileFluid, 
 	
 	@Override
 	public void clearTank(int tankNo) {
-		if (tankNo < getTanks().length) getTanks()[tankNo].setFluidStored(null);
+		if (tankNo < getTanks().size()) getTanks().get(tankNo).setFluidStored(null);
 	}
 	
 	@Override
-	public Tank[] getTanks() {
+	public List<Tank> getTanks() {
 		return tanks;
 	}
 	
 	@Override
-	public FluidConnection[] getFluidConnections() {
+	public List<FluidConnection> getFluidConnections() {
 		return fluidConnections;
 	}
 	
@@ -237,10 +229,10 @@ public abstract class TileEnergyFluid extends TileEnergy implements ITileFluid, 
 		if (fluid == null) return 0;
 		FluidStack fluidStack = new FluidStack(fluid, 1000);
 		
-		if (getTanks().length == 0 || getTanks() == null) return 0;
-		for (int i = 0; i < getTanks().length; i++) {
-			if (fluidConnections[i].canFill() && getTanks()[i].isFluidValid(fluidStack) && canFill(fluidStack, i) && getTanks()[i].getFluidAmount() < getTanks()[i].getCapacity() && (getTanks()[i].getFluid() == null || getTanks()[i].getFluid().isFluidEqual(fluidStack))) {
-				return getTanks()[i].fill(fluidStack, doTransfer);
+		if (getTanks() == null || getTanks().isEmpty()) return 0;
+		for (int i = 0; i < getTanks().size(); i++) {
+			if (fluidConnections.get(i).canFill() && getTanks().get(i).isFluidValid(fluidStack) && canFill(fluidStack, i) && getTanks().get(i).getFluidAmount() < getTanks().get(i).getCapacity() && (getTanks().get(i).getFluid() == null || getTanks().get(i).getFluid().isFluidEqual(fluidStack))) {
+				return getTanks().get(i).fill(fluidStack, doTransfer);
 			}
 		}
 		return 0;
@@ -256,9 +248,9 @@ public abstract class TileEnergyFluid extends TileEnergy implements ITileFluid, 
 		if (!areTanksShared) return true;
 		
 		FluidStack fluidStack = new FluidStack(fluid, 1000);
-		for (int i = 0; i < getTanks().length; i++) {
-			if (fluidConnections[i].canFill() && getTanks()[i].getFluid() != null) {
-				if (getTanks()[i].getFluidAmount() >= getTanks()[i].getCapacity() && getTanks()[i].getFluid().isFluidEqual(fluidStack)) return false;
+		for (int i = 0; i < getTanks().size(); i++) {
+			if (fluidConnections.get(i).canFill() && getTanks().get(i).getFluid() != null) {
+				if (getTanks().get(i).getFluidAmount() >= getTanks().get(i).getCapacity() && getTanks().get(i).getFluid().isFluidEqual(fluidStack)) return false;
 			}
 		}
 		return true;
@@ -280,53 +272,53 @@ public abstract class TileEnergyFluid extends TileEnergy implements ITileFluid, 
 	@Override
 	public NBTTagCompound writeAll(NBTTagCompound nbt) {
 		super.writeAll(nbt);
-		if (getTanks().length > 0 && getTanks() != null) for (int i = 0; i < getTanks().length; i++) {
-			nbt.setInteger("fluidAmount" + i, getTanks()[i].getFluidAmount());
-			nbt.setString("fluidName" + i, getTanks()[i].getFluidName());
+		if (getTanks() != null && !getTanks().isEmpty()) for (int i = 0; i < getTanks().size(); i++) {
+			nbt.setInteger("fluidAmount" + i, getTanks().get(i).getFluidAmount());
+			nbt.setString("fluidName" + i, getTanks().get(i).getFluidName());
 		}
 		nbt.setBoolean("areTanksShared", areTanksShared);
-		nbt.setBoolean("emptyUnusable", emptyUnusable);
-		nbt.setBoolean("voidExcessOutputs", voidExcessOutputs);
+		nbt.setBoolean("emptyUnusable", emptyUnusableTankInputs);
+		nbt.setBoolean("voidExcessOutputs", voidExcessFluidOutputs);
 		return nbt;
 	}
 		
 	@Override
 	public void readAll(NBTTagCompound nbt) {
 		super.readAll(nbt);
-		if (getTanks().length > 0 && getTanks() != null) for (int i = 0; i < getTanks().length; i++) {
-			if (nbt.getString("fluidName" + i) == "nullFluid" || nbt.getInteger("fluidAmount" + i) == 0) getTanks()[i].setFluidStored(null);
-			else getTanks()[i].setFluidStored(FluidRegistry.getFluid(nbt.getString("fluidName" + i)), nbt.getInteger("fluidAmount" + i));
+		if (getTanks() != null && !getTanks().isEmpty()) for (int i = 0; i < getTanks().size(); i++) {
+			if (nbt.getString("fluidName" + i) == "nullFluid" || nbt.getInteger("fluidAmount" + i) == 0) getTanks().get(i).setFluidStored(null);
+			else getTanks().get(i).setFluidStored(FluidRegistry.getFluid(nbt.getString("fluidName" + i)), nbt.getInteger("fluidAmount" + i));
 		}
 		setTanksShared(nbt.getBoolean("areTanksShared"));
-		setTanksEmptyUnusable(nbt.getBoolean("emptyUnusable"));
-		setVoidExcessOutputs(nbt.getBoolean("voidExcessOutputs"));
+		setEmptyUnusableTankInputs(nbt.getBoolean("emptyUnusable"));
+		setVoidExcessFluidOutputs(nbt.getBoolean("voidExcessOutputs"));
 	}
 	
 	// Fluid Connections
 	
-	public void setConnection(FluidConnection[] energyConnection) {
-		if (getTanks().length > 0 && getTanks() != null) fluidConnections = energyConnection;
+	public void setConnection(List<FluidConnection> energyConnection) {
+		if (getTanks() != null && !getTanks().isEmpty()) fluidConnections = energyConnection;
 	}
 	
 	public void setConnection(FluidConnection energyConnection, int tankNumber) {
-		if (getTanks().length > 0 && getTanks() != null) fluidConnections[tankNumber] = energyConnection;
+		if (getTanks() != null && !getTanks().isEmpty()) fluidConnections.set(tankNumber, energyConnection);
 	}
 	
 	public void pushFluid() {
-		if (getTanks().length > 0 && getTanks() != null) for (int i = 0; i < getTanks().length; i++) {
-			if (getTanks()[i].getFluid() == null) return;
-			if (getTanks()[i].getFluidAmount() <= 0 || !getFluidConnections()[i].canDrain()) return;
+		if (getTanks() != null && !getTanks().isEmpty()) for (int i = 0; i < getTanks().size(); i++) {
+			if (getTanks().get(i).getFluid() == null || getTanks().get(i).getFluid().getFluid() == null) return;
+			if (getTanks().get(i).getFluidAmount() <= 0 || !getFluidConnections().get(i).canDrain()) return;
 			for (EnumFacing side : EnumFacing.VALUES) {
 				TileEntity tile = world.getTileEntity(getPos().offset(side));
 				if (tile instanceof ITilePassive) if (!((ITilePassive) tile).canPushFluidsTo()) continue;
-				if (tile instanceof ITileFluid) if (!((ITileFluid) tile).getFluidConnections()[i].canFill()) continue;
+				if (tile instanceof ITileFluid) if (!((ITileFluid) tile).getFluidConnections().get(i).canFill()) continue;
 				IFluidHandler adjStorage = tile == null ? null : tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side.getOpposite());
 				
 				if (tile instanceof IFluidHandler) {
-					getTanks()[i].drain(((IFluidHandler) tile).fill(getTanks()[i].drain(getTanks()[i].getCapacity(), false), true), true);
+					getTanks().get(i).drain(((IFluidHandler) tile).fill(getTanks().get(i).drain(getTanks().get(i).getCapacity(), false), true), true);
 				}
 				else if (adjStorage != null) {
-					getTanks()[i].drain(adjStorage.fill(getTanks()[i].drain(getTanks()[i].getCapacity(), false), true), true);
+					getTanks().get(i).drain(adjStorage.fill(getTanks().get(i).drain(getTanks().get(i).getCapacity(), false), true), true);
 				}
 			}
 		}
@@ -334,9 +326,9 @@ public abstract class TileEnergyFluid extends TileEnergy implements ITileFluid, 
 	
 	public void spreadFluid() {
 		if (!NCConfig.passive_permeation) return;
-		if (getTanks().length > 0 && getTanks() != null) for (int i = 0; i < getTanks().length; i++) {
-			if (getTanks()[i].getFluid() == null) return;
-			if (getTanks()[i].getFluidAmount() <= 0 || getFluidConnections()[i] == FluidConnection.NON) return;
+		if (getTanks() != null && !getTanks().isEmpty()) for (int i = 0; i < getTanks().size(); i++) {
+			if (getTanks().get(i).getFluid() == null || getTanks().get(i).getFluid().getFluid() == null) return;
+			if (getTanks().get(i).getFluidAmount() <= 0 || getFluidConnections().get(i) == FluidConnection.NON) return;
 			for (EnumFacing side : EnumFacing.VALUES) {
 				TileEntity tile = world.getTileEntity(getPos().offset(side));
 				if (tile instanceof ITilePassive) if (!((ITilePassive) tile).canPushFluidsTo()) continue;
@@ -345,16 +337,16 @@ public abstract class TileEnergyFluid extends TileEnergy implements ITileFluid, 
 				if (!(tile instanceof IFluidSpread)) continue;
 				
 				if (tile instanceof IFluidHandler) {
-					int maxDrain = getTanks()[i].getFluidAmount()/2;
+					int maxDrain = getTanks().get(i).getFluidAmount()/2;
 					FluidStack stack = ((IFluidHandler) tile).getTankProperties()[0].getContents();
 					if (stack != null) maxDrain -= stack.amount/2;
-					if (maxDrain > 0) getTanks()[i].drain(((IFluidHandler) tile).fill(getTanks()[i].drain(maxDrain, false), true), true);
+					if (maxDrain > 0) getTanks().get(i).drain(((IFluidHandler) tile).fill(getTanks().get(i).drain(maxDrain, false), true), true);
 				}
 				else if (adjStorage != null) {
-					int maxDrain = getTanks()[i].getFluidAmount()/2;
+					int maxDrain = getTanks().get(i).getFluidAmount()/2;
 					FluidStack stack = adjStorage.getTankProperties()[0].getContents();
 					if (stack != null) maxDrain -= stack.amount/2;
-					if (maxDrain > 0) getTanks()[i].drain(adjStorage.fill(getTanks()[i].drain(getTanks()[i].getCapacity(), false), true), true);
+					if (maxDrain > 0) getTanks().get(i).drain(adjStorage.fill(getTanks().get(i).drain(getTanks().get(i).getCapacity(), false), true), true);
 				}
 			}
 		}
@@ -364,7 +356,7 @@ public abstract class TileEnergyFluid extends TileEnergy implements ITileFluid, 
 	
 	@Override
 	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
-		if (getTanks().length > 0 && getTanks() != null) {
+		if (getTanks() != null && !getTanks().isEmpty()) {
 			if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) return true;
 			//else if (capability == Capabilities.GAS_HANDLER_CAPABILITY) return true;
 			//else if (capability == Capabilities.TUBE_CONNECTION_CAPABILITY) return true;
@@ -374,7 +366,7 @@ public abstract class TileEnergyFluid extends TileEnergy implements ITileFluid, 
 	
 	@Override
 	public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
-		if (getTanks().length > 0 && getTanks() != null) {
+		if (getTanks() != null && !getTanks().isEmpty()) {
 			if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(this);
 			//if (capability == Capabilities.GAS_HANDLER_CAPABILITY) return Capabilities.GAS_HANDLER_CAPABILITY.cast(this);
 			//if (capability == Capabilities.TUBE_CONNECTION_CAPABILITY) return Capabilities.TUBE_CONNECTION_CAPABILITY.cast(this);

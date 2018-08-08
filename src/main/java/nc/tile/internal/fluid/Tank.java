@@ -1,10 +1,8 @@
 package nc.tile.internal.fluid;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import javax.annotation.Nullable;
-
-import com.google.common.collect.Lists;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.INBTSerializable;
@@ -12,7 +10,6 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
-import net.minecraftforge.fluids.capability.IFluidTankProperties;
 
 public class Tank extends FluidTank implements INBTSerializable<NBTTagCompound> {
 	
@@ -20,27 +17,25 @@ public class Tank extends FluidTank implements INBTSerializable<NBTTagCompound> 
 	
 	public boolean strictlyInput, strictlyOutput;
 	
-	protected IFluidTankProperties[] tankProperties;
+	public List<String> allowedFluids;
 	
-	public ArrayList<String> allowedFluids;
-	
-	public Tank(int capacity, boolean strictlyIn, boolean strictlyOut, String... allowedFluids) {
+	public Tank(int capacity, boolean strictlyIn, boolean strictlyOut, List<String> allowedFluids) {
 		this(capacity, capacity, capacity, strictlyIn, strictlyOut, allowedFluids);
 	}
 	
-	public Tank(int capacity, String... allowedFluids) {
+	public Tank(int capacity, List<String> allowedFluids) {
 		this(capacity, capacity, capacity, false, false, allowedFluids);
 	}
 	
-	public Tank(int capacity, int maxTransfer, boolean strictlyIn, boolean strictlyOut, String... allowedFluids) {
+	public Tank(int capacity, int maxTransfer, boolean strictlyIn, boolean strictlyOut, List<String> allowedFluids) {
 		this(capacity, maxTransfer, maxTransfer, strictlyIn, strictlyOut, allowedFluids);
 	}
 	
-	public Tank(int capacity, int maxTransfer, String... allowedFluids) {
+	public Tank(int capacity, int maxTransfer, List<String> allowedFluids) {
 		this(capacity, maxTransfer, maxTransfer, false, false, allowedFluids);
 	}
 
-	public Tank(int capacity, int maxReceive, int maxExtract, boolean strictlyIn, boolean strictlyOut, String... allowedFluids) {
+	public Tank(int capacity, int maxReceive, int maxExtract, boolean strictlyIn, boolean strictlyOut, List<String> allowedFluids) {
 		super(capacity);
 		this.maxReceive = maxReceive;
 		this.maxExtract = maxExtract;
@@ -48,14 +43,10 @@ public class Tank extends FluidTank implements INBTSerializable<NBTTagCompound> 
 		strictlyInput = strictlyIn;
 		strictlyOutput = strictlyOut;
 		
-		if (allowedFluids == null || allowedFluids.length == 0) this.allowedFluids = null; else {
-			String[] fluidList = new String[allowedFluids.length];
-			for (int i = 0; i < allowedFluids.length; i++) fluidList[i] = allowedFluids[i];
-			this.allowedFluids = Lists.newArrayList(fluidList);
-		}
+		this.allowedFluids = allowedFluids;
 	}
 	
-	public Tank(int capacity, int maxReceive, int maxExtract, String... allowedFluids) {
+	public Tank(int capacity, int maxReceive, int maxExtract, List<String> allowedFluids) {
 		this(capacity, maxReceive, maxExtract, false, false, allowedFluids);
 	}
 	
@@ -199,7 +190,7 @@ public class Tank extends FluidTank implements INBTSerializable<NBTTagCompound> 
     }
 	
 	public boolean isFluidValid(String name) {
-		if (allowedFluids == null) return true;
+		if (allowedFluids == null || allowedFluids.isEmpty()) return true;
 		return allowedFluids.contains(name);
 	}
 	
@@ -219,6 +210,10 @@ public class Tank extends FluidTank implements INBTSerializable<NBTTagCompound> 
 	
 	public void setStrictlyOutput(boolean output) {
 		strictlyOutput = output;
+	}
+	
+	public boolean isEmpty() {
+		return getFluidAmount() <= 0;
 	}
 
 	// NBT

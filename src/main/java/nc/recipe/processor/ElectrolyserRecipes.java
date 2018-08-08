@@ -1,10 +1,9 @@
 package nc.recipe.processor;
 
-import nc.config.NCConfig;
-import nc.recipe.BaseRecipeHandler;
-import nc.util.FluidHelper;
+import nc.recipe.ProcessorRecipeHandler;
+import nc.util.FluidStackHelper;
 
-public class ElectrolyserRecipes extends BaseRecipeHandler {
+public class ElectrolyserRecipes extends ProcessorRecipeHandler {
 	
 	public ElectrolyserRecipes() {
 		super("electrolyser", 0, 1, 0, 4);
@@ -12,14 +11,14 @@ public class ElectrolyserRecipes extends BaseRecipeHandler {
 
 	@Override
 	public void addRecipes() {
-		addRecipe(fluidStack("water", FluidHelper.BUCKET_VOLUME), fluidStack("hydrogen", 475), fluidStack("hydrogen", 475), fluidStack("deuterium", 50), fluidStack("oxygen", FluidHelper.BUCKET_VOLUME/2), NCConfig.processor_time[8]*2);
-		addRecipe(fluidStack("hydrofluoric_acid", FluidHelper.BUCKET_VOLUME), fluidStack("hydrogen", FluidHelper.BUCKET_VOLUME/4), fluidStack("hydrogen", FluidHelper.BUCKET_VOLUME/4), fluidStack("fluorine", FluidHelper.BUCKET_VOLUME/4), fluidStack("fluorine", FluidHelper.BUCKET_VOLUME/4), NCConfig.processor_time[8]/2);
+		addRecipe(fluidStack("water", FluidStackHelper.BUCKET_VOLUME), fluidStack("hydrogen", 950), fluidStack("deuterium", 50), fluidStack("oxygen", FluidStackHelper.BUCKET_VOLUME/2), emptyFluidStack(), 1.5D, 1D);
+		addRecipe(fluidStack("hydrofluoric_acid", FluidStackHelper.BUCKET_VOLUME), fluidStack("hydrogen", FluidStackHelper.BUCKET_VOLUME/2), fluidStack("fluorine", FluidStackHelper.BUCKET_VOLUME/2), emptyFluidStack(), emptyFluidStack(), 1D, 0.5D);
 		
-		addRecipe(fluidStack("naoh", FluidHelper.GEM_VOLUME), fluidStack("sodium", FluidHelper.INGOT_VOLUME), fluidStack("water", FluidHelper.BUCKET_VOLUME/2), fluidStack("water", FluidHelper.BUCKET_VOLUME/2), fluidStack("oxygen", FluidHelper.BUCKET_VOLUME/2), NCConfig.processor_time[8]);
-		addRecipe(fluidStack("koh", FluidHelper.GEM_VOLUME), fluidStack("potassium", FluidHelper.INGOT_VOLUME), fluidStack("water", FluidHelper.BUCKET_VOLUME/2), fluidStack("water", FluidHelper.BUCKET_VOLUME/2), fluidStack("oxygen", FluidHelper.BUCKET_VOLUME/2), NCConfig.processor_time[8]);
+		addRecipe(fluidStack("naoh", FluidStackHelper.GEM_VOLUME), fluidStack("sodium", FluidStackHelper.INGOT_VOLUME), fluidStack("water", FluidStackHelper.BUCKET_VOLUME), fluidStack("oxygen", FluidStackHelper.BUCKET_VOLUME/2), emptyFluidStack(), 1.5D, 1.5D);
+		addRecipe(fluidStack("koh", FluidStackHelper.GEM_VOLUME), fluidStack("potassium", FluidStackHelper.INGOT_VOLUME), fluidStack("water", FluidStackHelper.BUCKET_VOLUME), fluidStack("oxygen", FluidStackHelper.BUCKET_VOLUME/2), emptyFluidStack(), 1.5D, 1.5D);
 		
 		// Mekanism
-		addRecipe(fluidStack("heavywater", FluidHelper.BUCKET_VOLUME), fluidStack("deuterium", 475), fluidStack("deuterium", 475), fluidStack("tritium", 50), fluidStack("oxygen", FluidHelper.BUCKET_VOLUME/2), NCConfig.processor_time[8]*2);
+		addRecipe(fluidStack("heavywater", FluidStackHelper.BUCKET_VOLUME), fluidStack("deuterium", 950), fluidStack("tritium", 50), fluidStack("oxygen", FluidStackHelper.BUCKET_VOLUME/2), emptyFluidStack(), 1.5D, 1D);
 		
 		addElementFluorideRecipes("thorium", "uranium", "plutonium");
 		
@@ -32,8 +31,8 @@ public class ElectrolyserRecipes extends BaseRecipeHandler {
 		addIsotopeFluorideRecipes("berkelium", 247, 248);
 		addIsotopeFluorideRecipes("californium", 249, 250, 251, 252);
 		
-		addRecipe(fluidStack("fuel_tbu_fluoride", FluidHelper.INGOT_VOLUME), fluidStack("fuel_tbu", FluidHelper.INGOT_VOLUME/2), fluidStack("fuel_tbu", FluidHelper.INGOT_VOLUME/2), fluidStack("fluorine", FluidHelper.BUCKET_VOLUME/2), fluidStack("fluorine", FluidHelper.BUCKET_VOLUME/2), NCConfig.processor_time[8]/4);
-		addRecipe(fluidStack("depleted_fuel_tbu_fluoride", FluidHelper.INGOT_VOLUME), fluidStack("depleted_fuel_tbu", FluidHelper.INGOT_VOLUME/2), fluidStack("depleted_fuel_tbu", FluidHelper.INGOT_VOLUME/2), fluidStack("fluorine", FluidHelper.BUCKET_VOLUME/2), fluidStack("fluorine", FluidHelper.BUCKET_VOLUME/2), NCConfig.processor_time[8]/4);
+		addRecipe(fluidStack("fuel_tbu_fluoride", FluidStackHelper.INGOT_VOLUME), fluidStack("fuel_tbu", FluidStackHelper.INGOT_VOLUME), fluidStack("fluorine", FluidStackHelper.BUCKET_VOLUME), emptyFluidStack(), emptyFluidStack(), 0.5D, 1D);
+		addRecipe(fluidStack("depleted_fuel_tbu_fluoride", FluidStackHelper.INGOT_VOLUME), fluidStack("depleted_fuel_tbu", FluidStackHelper.INGOT_VOLUME), fluidStack("fluorine", FluidStackHelper.BUCKET_VOLUME), emptyFluidStack(), emptyFluidStack(), 0.5D, 1D);
 		addFissionFuelFluorideRecipes("eu", 233, 235);
 		addFissionFuelFluorideRecipes("en", 236);
 		addFissionFuelFluorideRecipes("ep", 239, 241);
@@ -44,16 +43,16 @@ public class ElectrolyserRecipes extends BaseRecipeHandler {
 	}
 	
 	public void addElementFluorideRecipes(String... elements) {
-		for (String element : elements) addRecipe(fluidStack(element + "_fluoride", FluidHelper.INGOT_VOLUME), fluidStack(element, FluidHelper.INGOT_VOLUME/2), fluidStack(element, FluidHelper.INGOT_VOLUME/2), fluidStack("fluorine", FluidHelper.BUCKET_VOLUME/2), fluidStack("fluorine", FluidHelper.BUCKET_VOLUME/2), NCConfig.processor_time[8]/4);
+		for (String element : elements) addRecipe(fluidStack(element + "_fluoride", FluidStackHelper.INGOT_VOLUME), fluidStack(element, FluidStackHelper.INGOT_VOLUME), fluidStack("fluorine", FluidStackHelper.BUCKET_VOLUME), emptyFluidStack(), emptyFluidStack(), 0.5D, 1D);
 	}
 	
 	public void addIsotopeFluorideRecipes(String element, int... types) {
-		for (int type : types) addRecipe(fluidStack(element + "_" + type + "_fluoride", FluidHelper.INGOT_VOLUME), fluidStack(element + "_" + type, FluidHelper.INGOT_VOLUME/2), fluidStack(element + "_" + type, FluidHelper.INGOT_VOLUME/2), fluidStack("fluorine", FluidHelper.BUCKET_VOLUME/2), fluidStack("fluorine", FluidHelper.BUCKET_VOLUME/2), NCConfig.processor_time[8]/4);
+		for (int type : types) addRecipe(fluidStack(element + "_" + type + "_fluoride", FluidStackHelper.INGOT_VOLUME), fluidStack(element + "_" + type, FluidStackHelper.INGOT_VOLUME), fluidStack("fluorine", FluidStackHelper.BUCKET_VOLUME), emptyFluidStack(), emptyFluidStack(), 0.5D, 1D);
 	}
 	
 	public void addFissionFuelFluorideRecipes(String suffix, int... types) {
 		for (int type : types) for (String form : new String[] {"fuel_l", "fuel_h", "depleted_fuel_l", "depleted_fuel_h"}) {
-			addRecipe(fluidStack(form + suffix + "_" + type + "_fluoride", FluidHelper.INGOT_VOLUME), fluidStack(form + suffix + "_" + type, FluidHelper.INGOT_VOLUME/2), fluidStack(form + suffix + "_" + type, FluidHelper.INGOT_VOLUME/2), fluidStack("fluorine", FluidHelper.BUCKET_VOLUME/2), fluidStack("fluorine", FluidHelper.BUCKET_VOLUME/2), NCConfig.processor_time[8]/4);
+			addRecipe(fluidStack(form + suffix + "_" + type + "_fluoride", FluidStackHelper.INGOT_VOLUME), fluidStack(form + suffix + "_" + type, FluidStackHelper.INGOT_VOLUME), fluidStack("fluorine", FluidStackHelper.BUCKET_VOLUME), emptyFluidStack(), emptyFluidStack(), 0.5D, 1D);
 		}
 	}
 }

@@ -1,33 +1,33 @@
 package nc.tile.fluid;
 
+import java.util.List;
+
+import nc.tile.ITile;
 import nc.tile.internal.fluid.FluidConnection;
 import nc.tile.internal.fluid.Tank;
-import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fluids.FluidStack;
 
-public interface ITileFluid {
+public interface ITileFluid extends ITile {
 	
-	public BlockPos getFluidTilePos();
+	public List<Tank> getTanks();
 	
-	public Tank[] getTanks();
-	
-	public FluidConnection[] getFluidConnections();
+	public List<FluidConnection> getFluidConnections();
 	
 	public boolean canFill(FluidStack resource, int tankNumber);
 	
 	//public boolean canReceiveGas(EnumFacing side, Gas gas);
 	
+	public void clearTank(int tankNo);
+	
 	public boolean getTanksShared();
 	
 	public void setTanksShared(boolean shared);
 	
-	public boolean getTanksEmptyUnusable();
+	public boolean getEmptyUnusableTankInputs();
 	
-	public void setTanksEmptyUnusable(boolean emptyUnusable);
+	public void setEmptyUnusableTankInputs(boolean emptyUnusableTankInputs);
 	
-	public boolean getVoidExcessOutputs();
+	public boolean getVoidExcessFluidOutputs();
 	
-	public void setVoidExcessOutputs(boolean voidExcessOutputs);
-	
-	public void clearTank(int tankNo);
+	public void setVoidExcessFluidOutputs(boolean voidExcessFluidOutputs);
 }

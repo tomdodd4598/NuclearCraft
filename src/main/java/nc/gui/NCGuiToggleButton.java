@@ -130,7 +130,7 @@ public final class NCGuiToggleButton {
 	public static class ToggleTanksEmptyUnusableButton extends ImageToggleButton {
 		
 		public ToggleTanksEmptyUnusableButton(int id, int x, int y, ITileFluid machine) {
-			super(id, x, y, 18, 0, 18, 18, machine.getTanksEmptyUnusable());
+			super(id, x, y, 18, 0, 18, 18, machine.getEmptyUnusableTankInputs());
 		}
 	}
 	
@@ -138,7 +138,7 @@ public final class NCGuiToggleButton {
 	public static class ToggleVoidExcessOutputsButton extends ImageToggleButton {
 		
 		public ToggleVoidExcessOutputsButton(int id, int x, int y, ITileFluid machine) {
-			super(id, x, y, 36, 0, 18, 18, machine.getVoidExcessOutputs());
+			super(id, x, y, 36, 0, 18, 18, machine.getVoidExcessFluidOutputs());
 		}
 	}
 	

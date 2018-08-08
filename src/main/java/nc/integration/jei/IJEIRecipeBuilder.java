@@ -1,9 +1,9 @@
 package nc.integration.jei;
 
 import nc.recipe.IRecipe;
-import nc.recipe.BaseRecipeHandler;;
+import nc.recipe.ProcessorRecipeHandler;;
 
 public interface IJEIRecipeBuilder {
 	
-	public Object buildRecipe(IRecipe recipe, BaseRecipeHandler<IRecipe> methods);
+	public Object buildRecipe(IRecipe recipe, ProcessorRecipeHandler methods);
 }

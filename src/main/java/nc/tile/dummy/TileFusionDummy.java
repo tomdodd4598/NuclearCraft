@@ -6,22 +6,21 @@ import java.util.Map;
 import nc.config.NCConfig;
 import nc.init.NCBlocks;
 import nc.recipe.NCRecipes;
-import nc.recipe.RecipeMethods;
 import nc.tile.energyFluid.IBufferable;
 import nc.tile.generator.TileFusionCore;
 import nc.util.BlockFinder;
 import nc.util.BlockPosHelper;
 import nc.util.Lang;
+import nc.util.RecipeHelper;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 
 /*@Optional.InterfaceList({
 	@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers"),
-	@Optional.Interface(iface = "li.cil.oc.api.network.ManagedPeripheral", modid = "opencomputers"),
-	@Optional.Interface(iface = "dan200.computercraft.api.peripheral.IPeripheral", modid = "computercraft")
+	@Optional.Interface(iface = "li.cil.oc.api.network.ManagedPeripheral", modid = "opencomputers")
 })*/
-public abstract class TileFusionDummy extends TileDummy implements IBufferable/*, SimpleComponent, ManagedPeripheral, IPeripheral*/ {
+public abstract class TileFusionDummy extends TileDummy implements IBufferable/*, SimpleComponent, ManagedPeripheral*/ {
 	
 	public static class Side extends TileFusionDummy {
 		public Side() {
@@ -58,7 +57,7 @@ public abstract class TileFusionDummy extends TileDummy implements IBufferable/*
 	private BlockFinder finder;
 	
 	public TileFusionDummy(String name) {
-		super(name, NCConfig.machine_update_rate, RecipeMethods.validFluids(NCRecipes.Type.FUSION));
+		super(name, NCConfig.machine_update_rate, RecipeHelper.validFluids(NCRecipes.Type.FUSION).get(0));
 	}
 	
 	@Override
@@ -74,7 +73,7 @@ public abstract class TileFusionDummy extends TileDummy implements IBufferable/*
 			pushEnergy();
 			pushFluid();
 		}
-		if (findAdjacentComparator() && shouldCheck()) markDirty();
+		if (findAdjacentComparator() && shouldTileCheck()) markDirty();
 	}
 	
 	// Redstone Flux
@@ -128,9 +127,7 @@ public abstract class TileFusionDummy extends TileDummy implements IBufferable/*
 		getFuelTypes,
 		getOutputTypes,
 		getComboProcessTime,
-		getProcessTime,
 		getComboPower,
-		getPower,
 		getActiveCooling,
 		doVentFuel,
 		doVentAllFuels,
@@ -183,21 +180,17 @@ public abstract class TileFusionDummy extends TileDummy implements IBufferable/*
 		case getEfficiency:
 			return new Object[] { core.efficiency };
 		case getFuelLevels:
-			return new Object[] { getTanks()[0].getFluidAmount(), getTanks()[1].getFluidAmount() };
+			return new Object[] { getTanks().get(0).getFluidAmount(), getTanks().get(1).getFluidAmount() };
 		case getOutputLevels:
-			return new Object[] { getTanks()[2].getFluidAmount(), getTanks()[3].getFluidAmount(), getTanks()[4].getFluidAmount(), getTanks()[5].getFluidAmount() };
+			return new Object[] { getTanks().get(2).getFluidAmount(), getTanks().get(3).getFluidAmount(), getTanks().get(4).getFluidAmount(), getTanks().get(5).getFluidAmount() };
 		case getFuelTypes:
-			return new Object[] { getTanks()[0].getFluidName(), getTanks()[1].getFluidName() };
+			return new Object[] { getTanks().get(0).getFluidName(), getTanks().get(1).getFluidName() };
 		case getOutputTypes:
-			return new Object[] { getTanks()[2].getFluidName(), getTanks()[3].getFluidName(), getTanks()[4].getFluidName(), getTanks()[5].getFluidName() };
+			return new Object[] { getTanks().get(2).getFluidName(), getTanks().get(3).getFluidName(), getTanks().get(4).getFluidName(), getTanks().get(5).getFluidName() };
 		case getComboProcessTime:
-			return new Object[] { core.getComboTime() };
-		case getProcessTime:
-			return new Object[] { core.getProcessTime() };
+			return new Object[] { core.baseProcessTime };
 		case getComboPower:
-			return new Object[] { core.getComboPower() };
-		case getPower:
-			return new Object[] { core.getProcessPower() };
+			return new Object[] { core.processPower };
 		case getActiveCooling:
 			return new Object[] { core.cooling/1000 };
 		case doVentFuel: {
@@ -206,14 +199,14 @@ public abstract class TileFusionDummy extends TileDummy implements IBufferable/*
 			int tankNo = (int) arguments[0];
 			if(tankNo < 0) throw new IllegalArgumentException(Lang.localise("gui.computer.integer_too_small_error", 0, 0));
 			if(tankNo > 1) throw new IllegalArgumentException(Lang.localise("gui.computer.integer_too_large_error", 0, 1));
-			getTanks()[tankNo].setFluidStored(null);
-			getTanks()[tankNo + 6].setFluidStored(null);
+			getTanks().get(tankNo).setFluidStored(null);
+			getTanks().get(tankNo + 6).setFluidStored(null);
 			return null;
 		}
 		case doVentAllFuels: {
 			for (int i = 0; i < 2; ++i) {
-				getTanks()[i].setFluidStored(null);
-				getTanks()[i + 6].setFluidStored(null);
+				getTanks().get(i).setFluidStored(null);
+				getTanks().get(i + 6).setFluidStored(null);
 			}
 			return null;
 		}
@@ -223,11 +216,11 @@ public abstract class TileFusionDummy extends TileDummy implements IBufferable/*
 			int tankNo = (int) arguments[0];
 			if(tankNo < 0) throw new IllegalArgumentException(Lang.localise("gui.computer.integer_too_small_error", 0, 0));
 			if(tankNo > 3) throw new IllegalArgumentException(Lang.localise("gui.computer.integer_too_large_error", 0, 3));
-			getTanks()[tankNo + 2].setFluidStored(null);
+			getTanks().get(tankNo + 2).setFluidStored(null);
 			return null;
 		}
 		case doVentAllOutputs: {
-			for (int i = 2; i < 6; ++i) getTanks()[i].setFluidStored(null);
+			for (int i = 2; i < 6; ++i) getTanks().get(i).setFluidStored(null);
 			return null;
 		}
 		default: throw new Exception(Lang.localise("gui.computer.method_not_found"));
@@ -263,43 +256,5 @@ public abstract class TileFusionDummy extends TileDummy implements IBufferable/*
 	@Optional.Method(modid = "opencomputers")
 	public String[] methods() {
 		return METHOD_NAMES;
-	}*/
-	
-	// ComputerCraft
-	
-	/*@Override
-	@Optional.Method(modid = "computercraft")
-	public String getType() {
-		return Global.MOD_SHORT_ID + "_fusion_reactor";
-	}
-	
-	@Override
-	@Optional.Method(modid = "computercraft")
-	public String[] getMethodNames() {
-		return METHOD_NAMES;
-	}
-	
-	@Override
-	@Optional.Method(modid = "computercraft")
-	public Object[] callMethod(IComputerAccess computer, ILuaContext context, int method, Object[] arguments) throws LuaException {
-		try {
-			return callMethod(method, arguments);
-		} catch(Exception e) {
-			throw new LuaException(e.getMessage());
-		}
-	}
-	
-	@Override
-	@Optional.Method(modid = "computercraft")
-	public void attach(IComputerAccess computer) {}
-
-	@Override
-	@Optional.Method(modid = "computercraft")
-	public void detach(IComputerAccess computer) {}
-
-	@Override
-	@Optional.Method(modid = "computercraft")
-	public boolean equals(IPeripheral other) {
-		return hashCode() == other.hashCode();
 	}*/
 }

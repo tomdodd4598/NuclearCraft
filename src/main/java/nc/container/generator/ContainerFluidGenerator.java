@@ -1,7 +1,7 @@
 package nc.container.generator;
 
 import nc.container.ContainerTile;
-import nc.recipe.BaseRecipeHandler;
+import nc.recipe.ProcessorRecipeHandler;
 import nc.recipe.NCRecipes;
 import nc.tile.generator.TileFluidGenerator;
 import net.minecraft.entity.player.EntityPlayer;
@@ -25,7 +25,7 @@ public class ContainerFluidGenerator extends ContainerTile {
 		this.recipeType = recipeType;
 	}
 	
-	public BaseRecipeHandler getRecipeHandler() {
+	public ProcessorRecipeHandler getRecipeHandler() {
 		return recipeType.getRecipeHandler();
 	}
 
@@ -82,7 +82,7 @@ public class ContainerFluidGenerator extends ContainerTile {
 				slot.onSlotChange(itemstack1, itemstack);
 			}
 			else if(index >= invStart) {
-				if (getRecipeHandler().isValidInput(itemstack1)) {
+				if (getRecipeHandler().isValidItemInput(itemstack1)) {
 					if (!mergeItemStack(itemstack1, 0, 0, false)) {
 						return ItemStack.EMPTY;
 					}

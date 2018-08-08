@@ -1,5 +1,7 @@
 package nc.util;
 
+import java.util.List;
+
 public class StringHelper {
 	
 	public static String capitalize(String string) {
@@ -28,5 +30,13 @@ public class StringHelper {
 	
 	public static boolean beginsWith(String stringIn, String stringCheck) {
 		return starting(stringIn, stringCheck.length()) == stringCheck;
+	}
+	
+	public static String stringListConcat(List<String> stringList) {
+		return String.join(", ", stringList);
+	}
+	
+	public static String stringListConcat(List<String> firstStringList, List<String>... otherStringLists) {
+		return String.join(", ", ArrayHelper.concatenate(firstStringList, otherStringLists));
 	}
 }

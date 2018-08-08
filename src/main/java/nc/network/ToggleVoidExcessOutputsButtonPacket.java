@@ -23,8 +23,8 @@ public class ToggleVoidExcessOutputsButtonPacket implements IMessage {
 	}
 	
 	public ToggleVoidExcessOutputsButtonPacket(ITileFluid machine) {
-		pos = machine.getFluidTilePos();
-		voidExcessOutputs = machine.getVoidExcessOutputs();
+		pos = machine.getTilePos();
+		voidExcessOutputs = machine.getVoidExcessFluidOutputs();
 		messageValid = true;
 	}
 	
@@ -63,7 +63,7 @@ public class ToggleVoidExcessOutputsButtonPacket implements IMessage {
 			if (tile == null) return;
 			if(tile instanceof ITileFluid) {
 				ITileFluid machine = (ITileFluid) tile;
-				machine.setVoidExcessOutputs(message.voidExcessOutputs);
+				machine.setVoidExcessFluidOutputs(message.voidExcessOutputs);
 				ctx.getServerHandler().player.getServerWorld().getTileEntity(message.pos).markDirty();
 			}
 		}

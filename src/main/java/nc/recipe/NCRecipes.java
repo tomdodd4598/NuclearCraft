@@ -111,7 +111,7 @@ public class NCRecipes {
 		SALT_FISSION,
 		COOLANT_HEATER;
 		
-		public BaseRecipeHandler getRecipeHandler() {
+		public ProcessorRecipeHandler getRecipeHandler() {
 			switch (this) {
 			case MANUFACTORY:
 				return manufactory;
@@ -164,6 +164,10 @@ public class NCRecipes {
 			default:
 				return manufactory;
 			}
+		}
+		
+		public String getRecipeName() {
+			return getRecipeHandler().getRecipeName();
 		}
 	}
 }

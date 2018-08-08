@@ -1,5 +1,9 @@
 package nc.tile.fluid;
 
+import java.util.List;
+
+import com.google.common.collect.Lists;
+
 import nc.Global;
 import nc.tile.internal.fluid.FluidConnection;
 import nc.tile.inventory.ITileInventory;
@@ -22,28 +26,28 @@ public abstract class TileFluidInventory extends TileFluid implements IInventory
 	public String inventoryName;
 	public NonNullList<ItemStack> inventoryStacks;
 	
-	public TileFluidInventory(String name, int size, int capacity, FluidConnection connection, String[]... allowedFluids) {
-		this(name, size, new int[] {capacity}, new int[] {capacity}, new int[] {capacity}, new FluidConnection[] {connection}, allowedFluids);
+	public TileFluidInventory(String name, int size, int capacity, FluidConnection fluidConnections, List<String> allowedFluids) {
+		this(name, size, Lists.newArrayList(capacity), Lists.newArrayList(capacity), Lists.newArrayList(capacity), Lists.newArrayList(fluidConnections), Lists.<List<String>>newArrayList(allowedFluids));
 	}
 	
-	public TileFluidInventory(String name, int size, int[] capacity, FluidConnection[] connection, String[]... allowedFluids) {
-		this(name, size, capacity, capacity, capacity, connection, allowedFluids);
+	public TileFluidInventory(String name, int size, List<Integer> capacity, List<FluidConnection> fluidConnections, List<List<String>> allowedFluids) {
+		this(name, size, capacity, capacity, capacity, fluidConnections, allowedFluids);
 	}
 	
-	public TileFluidInventory(String name, int size, int capacity, int maxTransfer, FluidConnection connection, String[]... allowedFluids) {
-		this(name, size, new int[] {capacity}, new int[] {maxTransfer}, new int[] {maxTransfer}, new FluidConnection[] {connection}, allowedFluids);
+	public TileFluidInventory(String name, int size, int capacity, int maxTransfer, FluidConnection fluidConnections, List<String> allowedFluids) {
+		this(name, size, Lists.newArrayList(capacity), Lists.newArrayList(maxTransfer), Lists.newArrayList(maxTransfer), Lists.newArrayList(fluidConnections), Lists.<List<String>>newArrayList(allowedFluids));
 	}
 	
-	public TileFluidInventory(String name, int size, int[] capacity, int[] maxTransfer, FluidConnection[] connection, String[]... allowedFluids) {
-		this(name, size, capacity, maxTransfer, maxTransfer, connection, allowedFluids);
+	public TileFluidInventory(String name, int size, List<Integer> capacity, List<Integer> maxTransfer, List<FluidConnection> fluidConnections, List<List<String>> allowedFluids) {
+		this(name, size, capacity, maxTransfer, maxTransfer, fluidConnections, allowedFluids);
 	}
 	
-	public TileFluidInventory(String name, int size, int capacity, int maxReceive, int maxExtract, FluidConnection connection, String[]... allowedFluids) {
-		this(name, size, new int[] {capacity}, new int[] {maxReceive}, new int[] {maxExtract}, new FluidConnection[] {connection}, allowedFluids);
+	public TileFluidInventory(String name, int size, int capacity, int maxReceive, int maxExtract, FluidConnection fluidConnections, List<String> allowedFluids) {
+		this(name, size, Lists.newArrayList(capacity), Lists.newArrayList(maxReceive), Lists.newArrayList(maxExtract), Lists.newArrayList(fluidConnections), Lists.<List<String>>newArrayList(allowedFluids));
 	}
 	
-	public TileFluidInventory(String name, int size, int[] capacity, int[] maxReceive, int[] maxExtract, FluidConnection[] connection, String[]... allowedFluids) {
-		super(capacity, maxReceive, maxExtract, connection, allowedFluids);
+	public TileFluidInventory(String name, int size, List<Integer> capacity, List<Integer> maxReceive, List<Integer> maxExtract, List<FluidConnection> fluidConnections, List<List<String>> allowedFluids) {
+		super(capacity, maxReceive, maxExtract, fluidConnections, allowedFluids);
 		inventoryName = Global.MOD_ID + ".container." + name;
 		inventoryStacks = NonNullList.<ItemStack>withSize(size, ItemStack.EMPTY);
 	}

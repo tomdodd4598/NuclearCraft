@@ -9,8 +9,9 @@ import java.util.Map.Entry;
 import mezz.jei.api.gui.IGuiFluidStackGroup;
 import mezz.jei.api.gui.IGuiItemStackGroup;
 import mezz.jei.api.ingredients.IIngredients;
-import nc.recipe.BaseRecipeHandler;
 import nc.recipe.IRecipe;
+import nc.recipe.ProcessorRecipe;
+import nc.recipe.ProcessorRecipeHandler;
 import nc.recipe.SorptionType;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
@@ -23,7 +24,7 @@ public class JEIMethods {
 		recipeBuilders.add(builder);
 	}
 
-	public static Object createJEIRecipe(IRecipe recipe, BaseRecipeHandler<IRecipe> helper) {
+	public static Object createJEIRecipe(IRecipe recipe, ProcessorRecipeHandler helper) {
 		for (IJEIRecipeBuilder builder : recipeBuilders) {
 			Object build = builder.buildRecipe(recipe, helper);
 			if (build != null) {
@@ -91,11 +92,14 @@ public class JEIMethods {
 					RecipeFluidMapping recipe = mapping.getValue();
 					Object obj = objects.get(mapping.getKey());
 					if (obj instanceof List) {
-						fluids.init(recipe.slotPos, entry.getKey() == SorptionType.INPUT, recipe.xPos + 1, recipe.yPos + 1, recipe.xSize, recipe.ySize, ((FluidStack) ((List<FluidStack>) obj).get(0)).amount, true, null);
-						fluids.set(recipe.slotPos, (List<FluidStack>) obj);
+						List<FluidStack> list = (List<FluidStack>) obj;
+						FluidStack stack = (list == null || list.isEmpty()) ? null : list.get(list.size() - 1);
+						fluids.init(recipe.slotPos, entry.getKey() == SorptionType.INPUT, recipe.xPos + 1, recipe.yPos + 1, recipe.xSize, recipe.ySize, stack == null ? 1000 : Math.max(1, stack.amount), true, null);
+						fluids.set(recipe.slotPos, stack == null ? null : (List<FluidStack>) obj);
 					} else {
-						fluids.init(recipe.slotPos, entry.getKey() == SorptionType.INPUT, recipe.xPos + 1, recipe.yPos + 1, recipe.xSize, recipe.ySize, ((FluidStack) obj).amount, true, null);
-						fluids.set(recipe.slotPos, (FluidStack) obj);
+						FluidStack stack = (FluidStack) obj;
+						fluids.init(recipe.slotPos, entry.getKey() == SorptionType.INPUT, recipe.xPos + 1, recipe.yPos + 1, recipe.xSize, recipe.ySize, stack == null ? 1000 : Math.max(1, stack.amount), true, null);
+						fluids.set(recipe.slotPos, stack);
 					}
 				}
 			}
@@ -124,13 +128,13 @@ public class JEIMethods {
 		}
 	}
 
-	public static ArrayList<JEIRecipe> getJEIRecipes(BaseRecipeHandler recipeHelper, Class<? extends JEIRecipe> recipeClass) {
-		ArrayList<JEIRecipe> recipes = new ArrayList();
-		if (recipeHelper != null && recipeHelper instanceof BaseRecipeHandler) {
-			BaseRecipeHandler helper = (BaseRecipeHandler) recipeHelper;
-			for (IRecipe recipe : (ArrayList<IRecipe>) helper.getRecipes()) {
+	public static ArrayList<JEIProcessorRecipe> getJEIRecipes(ProcessorRecipeHandler recipeHelper, Class<? extends JEIProcessorRecipe> recipeClass) {
+		ArrayList<JEIProcessorRecipe> recipes = new ArrayList();
+		if (recipeHelper != null && recipeHelper instanceof ProcessorRecipeHandler) {
+			ProcessorRecipeHandler helper = (ProcessorRecipeHandler) recipeHelper;
+			for (IRecipe recipe : (ArrayList<ProcessorRecipe>) helper.getRecipes()) {
 				try {
-					recipes.add(recipeClass.getConstructor(BaseRecipeHandler.class, IRecipe.class).newInstance(helper, recipe));
+					recipes.add(recipeClass.getConstructor(ProcessorRecipeHandler.class, IRecipe.class).newInstance(helper, recipe));
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

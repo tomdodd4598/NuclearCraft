@@ -21,7 +21,8 @@ public class ArrayHelper {
 	}
 	
 	public static <T> List<T> intersect(List<T> first, List<T>... rest) {
-		List<T> tList = first;
+		List<T> tList = new ArrayList<T>();
+		tList.addAll(first);
 		for (List<T> list : rest) tList = intersect(tList, list);
 		return tList;
 	}
@@ -54,14 +55,16 @@ public class ArrayHelper {
 	}
 	
 	public static <T> List<T> concatenate(List<T> first, List<T>... rest) {
-		List<T> result = first;
+		List<T> result = new ArrayList<T>();
+		result.addAll(first);
 		for (List<T> list : rest) result.addAll(list);
 		return result;
 	}
 	
-	public static <T> ArrayList<T> concatenate(ArrayList<T> first, ArrayList<T>... rest) {
-		ArrayList<T> result = first;
-		for (ArrayList<T> list : rest) result.addAll(list);
+	public static List concatGeneral(List first, List... rest) {
+		List result = new ArrayList();
+		result.addAll(first);
+		for (List list : rest) result.addAll(list);
 		return result;
 	}
 	

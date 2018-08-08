@@ -14,6 +14,7 @@ import nc.init.NCFluids;
 import nc.init.NCItems;
 import nc.init.NCTiles;
 import nc.init.NCTools;
+import nc.integration.tconstruct.TConstructIMC;
 import nc.multiblock.IMultiblockRegistry;
 import nc.multiblock.MultiblockEventHandler;
 import nc.multiblock.MultiblockRegistry;
@@ -22,23 +23,11 @@ import nc.recipe.NCRecipes;
 import nc.recipe.vanilla.CraftingRecipeHandler;
 import nc.recipe.vanilla.FurnaceFuelHandler;
 import nc.recipe.vanilla.FurnaceRecipeHandler;
-import nc.tab.TabAccelerator;
-import nc.tab.TabBaseBlockMaterials;
-import nc.tab.TabBaseItemMaterials;
-import nc.tab.TabFissionBlocks;
-import nc.tab.TabFissionFuels;
-import nc.tab.TabFissionMaterials;
-import nc.tab.TabFluids;
-import nc.tab.TabFusion;
-import nc.tab.TabMachines;
-import nc.tab.TabMisc;
-import nc.tab.TabSaltFissionBlocks;
 import nc.worldgen.biome.NCBiomes;
 import nc.worldgen.decoration.BushGenerator;
 import nc.worldgen.dimension.NCWorlds;
 import nc.worldgen.ore.OreGenerator;
 import net.minecraft.block.Block;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
@@ -50,18 +39,6 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class CommonProxy {
-	
-	public static final CreativeTabs TAB_BASE_BLOCK_MATERIALS = new TabBaseBlockMaterials();
-	public static final CreativeTabs TAB_BASE_ITEM_MATERIALS = new TabBaseItemMaterials();
-	public static final CreativeTabs TAB_MACHINES = new TabMachines();
-	public static final CreativeTabs TAB_FISSION_BLOCKS = new TabFissionBlocks();
-	public static final CreativeTabs TAB_FISSION_MATERIALS = new TabFissionMaterials();
-	public static final CreativeTabs TAB_FISSION_FUELS = new TabFissionFuels();
-	public static final CreativeTabs TAB_FUSION = new TabFusion();
-	public static final CreativeTabs TAB_SALT_FISSION_BLOCKS = new TabSaltFissionBlocks();
-	public static final CreativeTabs TAB_ACCELERATOR = new TabAccelerator();
-	public static final CreativeTabs TAB_FLUIDS = new TabFluids();
-	public static final CreativeTabs TAB_MISC = new TabMisc();
 
 	public void preInit(FMLPreInitializationEvent preEvent) {
 		SoundHandler.init();
@@ -85,6 +62,8 @@ public class CommonProxy {
 		OreDictHandler.registerOres();
 		
 		PacketHandler.registerMessages(Global.MOD_ID);
+		
+		TConstructIMC.sendIMCs();
 	}
 
 	public void init(FMLInitializationEvent event) {

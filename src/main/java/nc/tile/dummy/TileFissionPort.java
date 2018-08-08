@@ -20,7 +20,7 @@ public class TileFissionPort extends TileDummy implements IInterfaceable {
 	private BlockFinder finder;
 
 	public TileFissionPort() {
-		super("fission_port", energyConnectionAll(EnergyConnection.OUT), NCConfig.machine_update_rate);
+		super("fission_port", energyConnectionAll(EnergyConnection.OUT), NCConfig.machine_update_rate, null);
 	}
 	
 	@Override

@@ -17,7 +17,7 @@ public class RegistryHelper {
 	}
 	
 	public static ItemStack blockStackFromRegistry(String domain, String name, int stackSize, int meta) {
-		return new ItemStack(getBlock(domain, name), stackSize, meta);
+		return getBlock(domain, name) == null ? null : new ItemStack(getBlock(domain, name), stackSize, meta);
 	}
 	
 	public static ItemStack blockStackFromRegistry(String domain, String name, int stackSize) {
@@ -29,7 +29,7 @@ public class RegistryHelper {
 	}
 	
 	public static ItemStack itemStackFromRegistry(String domain, String name, int stackSize, int meta) {
-		return new ItemStack(getItem(domain, name), stackSize, meta);
+		return getItem(domain, name) == null ? null : new ItemStack(getItem(domain, name), stackSize, meta);
 	}
 	
 	public static ItemStack itemStackFromRegistry(String domain, String name, int stackSize) {

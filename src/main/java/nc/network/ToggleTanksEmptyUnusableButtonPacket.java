@@ -23,8 +23,8 @@ public class ToggleTanksEmptyUnusableButtonPacket implements IMessage {
 	}
 	
 	public ToggleTanksEmptyUnusableButtonPacket(ITileFluid machine) {
-		pos = machine.getFluidTilePos();
-		emptyUnusable = machine.getTanksEmptyUnusable();
+		pos = machine.getTilePos();
+		emptyUnusable = machine.getEmptyUnusableTankInputs();
 		messageValid = true;
 	}
 	
@@ -63,7 +63,7 @@ public class ToggleTanksEmptyUnusableButtonPacket implements IMessage {
 			if (tile == null) return;
 			if(tile instanceof ITileFluid) {
 				ITileFluid machine = (ITileFluid) tile;
-				machine.setTanksEmptyUnusable(message.emptyUnusable);
+				machine.setEmptyUnusableTankInputs(message.emptyUnusable);
 				ctx.getServerHandler().player.getServerWorld().getTileEntity(message.pos).markDirty();
 			}
 		}

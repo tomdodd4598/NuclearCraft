@@ -1,9 +1,9 @@
 package nc.recipe.saltFission;
 
 import nc.config.NCConfig;
-import nc.recipe.BaseRecipeHandler;
+import nc.recipe.ProcessorRecipeHandler;
 
-public class CoolantHeaterRecipes extends BaseRecipeHandler {
+public class CoolantHeaterRecipes extends ProcessorRecipeHandler {
 	
 	public CoolantHeaterRecipes() {
 		super("coolant_heater", 0, 1, 0, 1);

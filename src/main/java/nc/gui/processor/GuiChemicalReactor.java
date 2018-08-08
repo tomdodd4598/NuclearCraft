@@ -26,10 +26,10 @@ public class GuiChemicalReactor extends GuiFluidProcessor {
 	
 	@Override
 	public void renderTooltips(int mouseX, int mouseY) {
-		drawFluidTooltip(fluid0, tile.tanks[0], mouseX, mouseY, 32, 35, 16, 16);
-		drawFluidTooltip(fluid1, tile.tanks[1], mouseX, mouseY, 52, 35, 16, 16);
-		drawFluidTooltip(fluid2, tile.tanks[2], mouseX, mouseY, 108, 31, 24, 24);
-		drawFluidTooltip(fluid3, tile.tanks[3], mouseX, mouseY, 136, 31, 24, 24);
+		drawFluidTooltip(fluid0, tile.tanks.get(0), mouseX, mouseY, 32, 35, 16, 16);
+		drawFluidTooltip(fluid1, tile.tanks.get(1), mouseX, mouseY, 52, 35, 16, 16);
+		drawFluidTooltip(fluid2, tile.tanks.get(2), mouseX, mouseY, 108, 31, 24, 24);
+		drawFluidTooltip(fluid3, tile.tanks.get(3), mouseX, mouseY, 136, 31, 24, 24);
 		
 		drawEnergyTooltip(tile, mouseX, mouseY, 8, 6, 16, 74);
 	}
@@ -59,10 +59,10 @@ public class GuiChemicalReactor extends GuiFluidProcessor {
 			PacketHandler.instance.sendToServer(new GetFluidInTankPacket(tile.getPos(), 3, "nc.gui.processor.GuiChemicalReactor", "fluid3"));
 		}
 		
-		GuiFluidRenderer.renderGuiTank(fluid0, tile.tanks[0].getCapacity(), guiLeft + 32, guiTop + 35, zLevel, 16, 16);
-		GuiFluidRenderer.renderGuiTank(fluid1, tile.tanks[1].getCapacity(), guiLeft + 52, guiTop + 35, zLevel, 16, 16);
-		GuiFluidRenderer.renderGuiTank(fluid2, tile.tanks[2].getCapacity(), guiLeft + 108, guiTop + 31, zLevel, 24, 24);
-		GuiFluidRenderer.renderGuiTank(fluid3, tile.tanks[3].getCapacity(), guiLeft + 136, guiTop + 31, zLevel, 24, 24);
+		GuiFluidRenderer.renderGuiTank(fluid0, tile.tanks.get(0).getCapacity(), guiLeft + 32, guiTop + 35, zLevel, 16, 16);
+		GuiFluidRenderer.renderGuiTank(fluid1, tile.tanks.get(1).getCapacity(), guiLeft + 52, guiTop + 35, zLevel, 16, 16);
+		GuiFluidRenderer.renderGuiTank(fluid2, tile.tanks.get(2).getCapacity(), guiLeft + 108, guiTop + 31, zLevel, 24, 24);
+		GuiFluidRenderer.renderGuiTank(fluid3, tile.tanks.get(3).getCapacity(), guiLeft + 136, guiTop + 31, zLevel, 24, 24);
 	}
 	
 	@Override

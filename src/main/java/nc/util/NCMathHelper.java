@@ -1,8 +1,12 @@
 package nc.util;
 
+import java.util.Random;
+
 import net.minecraft.util.math.MathHelper;
 
 public class NCMathHelper {
+	
+	private static Random rand = new Random();
 	
 	public static int square(int number) {
 		return number*number;
@@ -59,9 +63,9 @@ public class NCMathHelper {
 		if (n < k) return minus1Power(k)*choose(k - n - 1, k);
 		if (k > n - k) k = n - k;
 		
-		double ans = 1D;
-		for (int i = 1, m = n; i <= k; i++, m--) ans *= (double)m/(double)i;
-		return (int) ans;
+		double x = 1D;
+		for (int i = 1, m = n; i <= k; i++, m--) x *= (double)m/(double)i;
+		return (int) x;
 	}
 	
 	public static int simplexNumber(int n, int p) {
@@ -78,5 +82,30 @@ public class NCMathHelper {
 	
 	public static int roundTo(int x, int mult) {
 		return mult*(Math.round(x/mult));
+	}
+	
+	public static int getBinomial(int n, double p) {
+		int x = 0;
+		for(int i = 0; i < n; i++) {
+			if(Math.random() < p) x++;
+		}
+		return x;
+	}
+	
+	public static int getBinomial(int n, int p) {
+		int x = 0;
+		for(int i = 0; i < n; i++) {
+			if(rand.nextInt(100) < p) x++;
+		}
+		return x;
+	}
+	
+	public static int highestCommonFactor(int a, int b) {
+		if (b == 0) return a;
+		return highestCommonFactor(b, a % b);
+	}
+	
+	public static int lowestCommonMultiple(int a, int b) {
+		return Math.abs(a*b)/highestCommonFactor(a, b);
 	}
 }

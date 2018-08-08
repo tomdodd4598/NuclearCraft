@@ -16,6 +16,6 @@ public class SlotProcessorInput extends Slot {
 	
 	@Override
 	public boolean isItemValid(ItemStack stack) {
-		return recipeType.getRecipeHandler().isValidInput(stack);
+		return recipeType.getRecipeHandler().isValidItemInput(stack);
 	}
 }

@@ -1,16 +1,27 @@
 package nc.recipe;
 
-import java.util.ArrayList;
+import java.util.List;
+
+import nc.tile.internal.fluid.Tank;
+import net.minecraft.item.ItemStack;
 
 public interface IRecipe {
 	
-	public ArrayList<IIngredient> inputs();
-
-	public ArrayList<IIngredient> outputs();
+	public List<IItemIngredient> itemIngredients();
 	
-	public ArrayList extras();
-
-	public boolean matchingInputs(Object[] inputs);
+	public List<IFluidIngredient> fluidIngredients();
 	
-	public boolean matchingOutputs(Object[] outputs);
+	public List<IItemIngredient> itemProducts();
+	
+	public List<IFluidIngredient> fluidProducts();
+	
+	public List extras();
+
+	public boolean matchingInputs(List<ItemStack> itemInputs, List<Tank> fluidInputs);
+	
+	public boolean matchingOutputs(List<ItemStack> itemOutputs, List<Tank> fluidOutputs);
+	
+	public boolean matchingIngredients(List<IItemIngredient> itemIngredients, List<IFluidIngredient> fluidIngredients);
+	
+	public boolean matchingProducts(List<IItemIngredient> itemProducts, List<IFluidIngredient> fluidProducts);
 }

@@ -4,7 +4,7 @@ import java.util.Random;
 
 import nc.Global;
 import nc.config.NCConfig;
-import nc.proxy.CommonProxy;
+import nc.tab.NCTabs;
 import net.minecraft.block.BlockMushroom;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.ResourceLocation;
@@ -17,7 +17,7 @@ public class NCBlockMushroom extends BlockMushroom {
 		super();
 		setUnlocalizedName(Global.MOD_ID + "." + name);
 		setRegistryName(new ResourceLocation(Global.MOD_ID, name));
-		setCreativeTab(CommonProxy.TAB_BASE_BLOCK_MATERIALS);
+		setCreativeTab(NCTabs.TAB_BASE_BLOCK_MATERIALS);
 		setLightLevel(1F);
 	}
 	

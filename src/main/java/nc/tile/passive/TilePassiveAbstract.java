@@ -1,6 +1,10 @@
 package nc.tile.passive;
 
+import java.util.List;
+
 import javax.annotation.Nullable;
+
+import com.google.common.collect.Lists;
 
 import nc.ModCheck;
 import nc.config.NCConfig;
@@ -51,7 +55,7 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 		this(name, new ItemStack(Items.BEEF), 0, 0, fluid, fluidChange, changeRate);
 	}
 	
-	public TilePassiveAbstract(String name, Fluid fluid, int fluidChange, int changeRate, String[] fluidTypes) {
+	public TilePassiveAbstract(String name, Fluid fluid, int fluidChange, int changeRate, List<String> fluidTypes) {
 		this(name, new ItemStack(Items.BEEF), 0, 0, fluid, fluidChange, changeRate, fluidTypes);
 	}
 	
@@ -68,11 +72,11 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 	}
 	
 	public TilePassiveAbstract(String name, ItemStack stack, int itemChange, int energyChange, Fluid fluid, int fluidChange, int changeRate) {
-		this(name, stack, itemChange, energyChange, fluid, fluidChange, changeRate, new String[] {fluid.getName()});
+		this(name, stack, itemChange, energyChange, fluid, fluidChange, changeRate, Lists.newArrayList(fluid.getName()));
 	}
 	
-	public TilePassiveAbstract(String name, ItemStack stack, int itemChange, int energyChange, Fluid fluid, int fluidChange, int changeRate, String[] fluidTypes) {
-		super(name, 1, energyChange == 0 ? 1 : NCConfig.rf_per_eu*MathHelper.abs(energyChange)*changeRate, energyChange == 0 ? 0 : NCConfig.rf_per_eu*MathHelper.abs(energyChange), energyChange > 0 ? energyConnectionAll(EnergyConnection.OUT) : (energyChange < 0 ? energyConnectionAll(EnergyConnection.IN) : energyConnectionAll(EnergyConnection.NON)), new int[] {fluidChange == 0 ? 1 : 2*MathHelper.abs(fluidChange)*changeRate}, new FluidConnection[] {fluidChange > 0 ? FluidConnection.OUT : (fluidChange < 0 ? FluidConnection.IN : FluidConnection.NON)}, fluidTypes);
+	public TilePassiveAbstract(String name, ItemStack stack, int itemChange, int energyChange, Fluid fluid, int fluidChange, int changeRate, List<String> fluidTypes) {
+		super(name, 1, energyChange == 0 ? 1 : NCConfig.rf_per_eu*MathHelper.abs(energyChange)*changeRate, energyChange == 0 ? 0 : NCConfig.rf_per_eu*MathHelper.abs(energyChange), energyChange > 0 ? energyConnectionAll(EnergyConnection.OUT) : (energyChange < 0 ? energyConnectionAll(EnergyConnection.IN) : energyConnectionAll(EnergyConnection.NON)), fluidChange == 0 ? 1 : 2*MathHelper.abs(fluidChange)*changeRate, fluidChange > 0 ? FluidConnection.OUT : (fluidChange < 0 ? FluidConnection.IN : FluidConnection.NON), fluidTypes);
 		this.energyChange = energyChange*changeRate;
 		this.itemChange = itemChange*changeRate;
 		stackChange = ItemStackHelper.changeStackSize(stack, MathHelper.abs(itemChange)*changeRate);
@@ -81,8 +85,8 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 		fluidType = fluid;
 		updateRate = changeRate*20;
 		
-		if (fluidChange < 0) tanks[0].setStrictlyInput(true);
-		else tanks[0].setStrictlyOutput(true);
+		if (fluidChange < 0) tanks.get(0).setStrictlyInput(true);
+		else tanks.get(0).setStrictlyOutput(true);
 	}
 	
 	@Override
@@ -118,14 +122,14 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 	}
 	
 	@Override
-	public boolean shouldCheck() {
+	public boolean shouldTileCheck() {
 		int currentCount = tickCount;
 		currentCount %= updateRate/20;
 		return currentCount == 0;
 	}
 	
 	@Override
-	public void tick() {
+	public void tickTile() {
 		tickCount++; tickCount %= updateRate;
 	}
 	
@@ -169,14 +173,14 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 	
 	public boolean changeFluid(boolean simulateChange) {
 		if (fluidChange == 0) return simulateChange;
-		if (tanks[0].getFluidAmount() >= tanks[0].getCapacity() && fluidChange > 0) return false;
-		if (tanks[0].getFluidAmount() < MathHelper.abs(fluidChange) && fluidChange < 0) return false;
+		if (tanks.get(0).getFluidAmount() >= tanks.get(0).getCapacity() && fluidChange > 0) return false;
+		if (tanks.get(0).getFluidAmount() < MathHelper.abs(fluidChange) && fluidChange < 0) return false;
 		if (!simulateChange) {
 			if (changeEnergy(true) && changeStack(true)) {
 				if (fluidChange > 0) {
-					if (fluidStackChange != null) tanks[0].changeFluidStored(fluidType, fluidChange);
+					if (fluidStackChange != null) tanks.get(0).changeFluidStored(fluidType, fluidChange);
 				}
-				else tanks[0].changeFluidStored(fluidChange);
+				else tanks.get(0).changeFluidStored(fluidChange);
 			}
 		}
 		return true;

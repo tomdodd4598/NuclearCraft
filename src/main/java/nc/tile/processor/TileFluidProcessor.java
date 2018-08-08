@@ -1,15 +1,16 @@
 package nc.tile.processor;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import nc.ModCheck;
 import nc.config.NCConfig;
 import nc.init.NCItems;
-import nc.recipe.BaseRecipeHandler;
-import nc.recipe.IIngredient;
-import nc.recipe.IRecipe;
+import nc.recipe.IFluidIngredient;
+import nc.recipe.IRecipeHandler;
 import nc.recipe.NCRecipes;
-import nc.recipe.RecipeMethods;
+import nc.recipe.ProcessorRecipe;
+import nc.recipe.ProcessorRecipeHandler;
 import nc.recipe.SorptionType;
 import nc.tile.IGui;
 import nc.tile.dummy.IInterfaceable;
@@ -17,6 +18,7 @@ import nc.tile.energyFluid.IBufferable;
 import nc.tile.energyFluid.TileEnergyFluidSidedInventory;
 import nc.tile.internal.energy.EnergyConnection;
 import nc.tile.internal.fluid.FluidConnection;
+import nc.tile.internal.fluid.Tank;
 import nc.util.NCMathHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -24,63 +26,63 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fluids.FluidStack;
 
-public abstract class TileFluidProcessor extends TileEnergyFluidSidedInventory implements IInterfaceable, IBufferable, IGui {
+public class TileFluidProcessor extends TileEnergyFluidSidedInventory implements IFluidProcessor, IInterfaceable, IBufferable, IGui {
 	
-	public final int defaultProcessTime;
-	public int baseProcessTime;
-	public final int baseProcessPower;
+	public final int defaultProcessTime, defaultProcessPower;
+	public double baseProcessTime, baseProcessPower;
 	public final int fluidInputSize, fluidOutputSize;
 	
-	public int time;
-	public boolean isProcessing, canProcessStacks;
+	public double time;
+	public boolean isProcessing, canProcessInputs;
 	
-	public final boolean hasUpgrades;
+	public final boolean shouldLoseProgress, hasUpgrades;
 	public final int upgradeMeta;
 	
 	public final NCRecipes.Type recipeType;
+	protected ProcessorRecipe recipe;
 	
-	public TileFluidProcessor(String name, int fluidInSize, int fluidOutSize, int[] fluidCapacity, FluidConnection[] fluidConnection, String[][] allowedFluids, int time, int power, NCRecipes.Type recipeType) {
-		this(name, fluidInSize, fluidOutSize, fluidCapacity, fluidConnection, allowedFluids, time, power, false, recipeType, 1);
+	public TileFluidProcessor(String name, int fluidInSize, int fluidOutSize, List<Integer> fluidCapacity, List<FluidConnection> fluidConnection, List<List<String>> allowedFluids, int time, int power, boolean shouldLoseProgress, NCRecipes.Type recipeType) {
+		this(name, fluidInSize, fluidOutSize, fluidCapacity, fluidConnection, allowedFluids, time, power, shouldLoseProgress, false, recipeType, 1);
 	}
 	
-	public TileFluidProcessor(String name, int fluidInSize, int fluidOutSize, int[] fluidCapacity, FluidConnection[] fluidConnection, String[][] allowedFluids, int time, int power, NCRecipes.Type recipeType, int upgradeMeta) {
-		this(name, fluidInSize, fluidOutSize, fluidCapacity, fluidConnection, allowedFluids, time, power, true, recipeType, upgradeMeta);
+	public TileFluidProcessor(String name, int fluidInSize, int fluidOutSize, List<Integer> fluidCapacity, List<FluidConnection> fluidConnection, List<List<String>> allowedFluids, int time, int power, boolean shouldLoseProgress, NCRecipes.Type recipeType, int upgradeMeta) {
+		this(name, fluidInSize, fluidOutSize, fluidCapacity, fluidConnection, allowedFluids, time, power, shouldLoseProgress, true, recipeType, upgradeMeta);
 	}
 	
-	public TileFluidProcessor(String name, int fluidInSize, int fluidOutSize, int[] fluidCapacity, FluidConnection[] fluidConnection, String[][] allowedFluids, int time, int power, boolean upgrades, NCRecipes.Type recipeType, int upgradeMeta) {
+	public TileFluidProcessor(String name, int fluidInSize, int fluidOutSize, List<Integer> fluidCapacity, List<FluidConnection> fluidConnection, List<List<String>> allowedFluids, int time, int power, boolean shouldLoseProgress, boolean upgrades, NCRecipes.Type recipeType, int upgradeMeta) {
 		super(name, upgrades ? 2 : 0, 32000, power != 0 ? energyConnectionAll(EnergyConnection.IN) : energyConnectionAll(EnergyConnection.NON), fluidCapacity, fluidCapacity, fluidCapacity, fluidConnection, allowedFluids);
 		fluidInputSize = fluidInSize;
 		fluidOutputSize = fluidOutSize;
+		
 		defaultProcessTime = time;
+		defaultProcessPower = power;
 		baseProcessTime = time;
 		baseProcessPower = power;
+		
+		this.shouldLoseProgress = shouldLoseProgress;
 		hasUpgrades = upgrades;
 		this.upgradeMeta = upgradeMeta;
 		areTanksShared = fluidInSize > 1;
 		
 		this.recipeType = recipeType;
 		
-		for (int i = 0; i < tanks.length; i++) {
-			if (i < fluidInputSize) tanks[i].setStrictlyInput(true);
-			else tanks[i].setStrictlyOutput(true);
+		for (int i = 0; i < tanks.size(); i++) {
+			if (i < fluidInputSize) tanks.get(i).setStrictlyInput(true);
+			else tanks.get(i).setStrictlyOutput(true);
 		}
 	}
 	
-	public static FluidConnection[] fluidConnections(int inSize, int outSize) {
-		FluidConnection[] fluidConnections = new FluidConnection[inSize + outSize];
-		for (int i = 0; i < inSize; i++) fluidConnections[i] = FluidConnection.IN;
-		for (int i = inSize; i < inSize + outSize; i++) fluidConnections[i] = FluidConnection.OUT;
-		return fluidConnections;
-	}
-	
-	public static int[] tankCapacities(int capacity, int inSize, int outSize) {
-		int[] tankCapacities = new int[inSize + outSize];
-		for (int i = 0; i < inSize + outSize; i++) tankCapacities[i] = capacity;
+	public static List<Integer> defaultTankCapacities(int capacity, int inSize, int outSize) {
+		List<Integer> tankCapacities = new ArrayList<Integer>();
+		for (int i = 0; i < inSize + outSize; i++) tankCapacities.add(capacity);
 		return tankCapacities;
 	}
 	
-	public BaseRecipeHandler getRecipeHandler() {
-		return recipeType.getRecipeHandler();
+	public static List<FluidConnection> defaultFluidConnections(int inSize, int outSize) {
+		List<FluidConnection> fluidConnections = new ArrayList<FluidConnection>();
+		for (int i = 0; i < inSize; i++) fluidConnections.add(FluidConnection.IN);
+		for (int i = 0; i < outSize; i++) fluidConnections.add(FluidConnection.OUT);
+		return fluidConnections;
 	}
 	
 	@Override
@@ -91,8 +93,7 @@ public abstract class TileFluidProcessor extends TileEnergyFluidSidedInventory i
 	@Override
 	public void onAdded() {
 		super.onAdded();
-		baseProcessTime = defaultProcessTime;
-		if (!world.isRemote) isProcessing = canProcess() && !isPowered();
+		if (!world.isRemote) isProcessing = isProcessing();
 	}
 	
 	@Override
@@ -102,15 +103,16 @@ public abstract class TileFluidProcessor extends TileEnergyFluidSidedInventory i
 	}
 	
 	public void updateProcessor() {
-		canProcessStacks = canProcessStacks();
+		recipe = getRecipeHandler().getRecipeFromInputs(new ArrayList<ItemStack>(), getFluidInputs());
+		canProcessInputs = canProcessInputs();
 		boolean wasProcessing = isProcessing;
-		isProcessing = canProcess() && !isPowered();
+		isProcessing = isProcessing();
 		setCapacityFromSpeed();
 		boolean shouldUpdate = false;
 		if (!world.isRemote) {
-			tick();
+			tickTile();
 			if (isProcessing) process();
-			else if (!isPowered()) loseProgress();
+			else if (!isRedstonePowered()) loseProgress();
 			if (wasProcessing != isProcessing) {
 				shouldUpdate = true;
 				updateBlockType();
@@ -119,27 +121,30 @@ public abstract class TileFluidProcessor extends TileEnergyFluidSidedInventory i
 		if (shouldUpdate) markDirty();
 	}
 	
-	public boolean canProcess() {
-		return canProcessStacks;
+	public boolean isProcessing() {
+		return readyToProcess() && !isRedstonePowered();
 	}
 	
-	public boolean isPowered() {
-		return world.isBlockPowered(pos);
+	public boolean readyToProcess() {
+		return canProcessInputs;
 	}
 	
 	public void process() {
 		time += getSpeedMultiplier();
 		getEnergyStorage().changeEnergyStored(-getProcessPower());
-		if (time >= baseProcessTime) completeProcess();
-	}
-	
-	public void completeProcess() {
-		time = 0;
-		produceProducts();
+		if (time >= baseProcessTime) {
+			produceProducts();
+			recipe = getRecipeHandler().getRecipeFromInputs(new ArrayList<ItemStack>(), getFluidInputs());
+			setRecipeStats();
+			if (recipe == null) time = 0; else time = MathHelper.clamp(time - baseProcessTime, 0D, baseProcessTime);
+			if (emptyUnusableTankInputs) {
+				for (int i = 0; i < fluidInputSize; i++) tanks.get(i).setFluid(null);
+			}
+		}
 	}
 	
 	public void loseProgress() {
-		time = MathHelper.clamp(time - (int) (1.5D*getSpeedMultiplier()), 0, baseProcessTime);
+		time = MathHelper.clamp(time - 1.5D*getSpeedMultiplier(), 0D, baseProcessTime);
 	}
 	
 	public void updateBlockType() {
@@ -178,129 +183,141 @@ public abstract class TileFluidProcessor extends TileEnergyFluidSidedInventory i
 		return getSpeedCount() > 1 ? NCConfig.speed_upgrade_multipliers[1]*(NCMathHelper.simplexNumber(getSpeedCount(), NCConfig.speed_upgrade_power_laws[1]) - 1) + 1 : 1;
 	}
 	
-	public int getProcessTime() {
-		return Math.max(1, (int) ((double)baseProcessTime/getSpeedMultiplier()));
+	public double getProcessTime() {
+		return Math.max(1, baseProcessTime/getSpeedMultiplier());
 	}
 	
 	public int getProcessPower() {
 		return Math.min(Integer.MAX_VALUE, (int) ((double)baseProcessPower*getPowerMultiplier()));
 	}
 	
-	public int getProcessEnergy() {
+	public double getProcessEnergy() {
 		return getProcessTime()*getProcessPower();
 	}
 	
 	public void setCapacityFromSpeed() {
-		getEnergyStorage().setStorageCapacity(MathHelper.clamp(2*getProcessPower(), 32000, Integer.MAX_VALUE));
-		getEnergyStorage().setMaxTransfer(MathHelper.clamp(2*getProcessPower(), 32000, Integer.MAX_VALUE));
+		getEnergyStorage().setStorageCapacity(MathHelper.clamp(NCConfig.machine_update_rate*getProcessPower(), 32000, Integer.MAX_VALUE));
+		getEnergyStorage().setMaxTransfer(MathHelper.clamp(NCConfig.machine_update_rate*getProcessPower(), 32000, Integer.MAX_VALUE));
 	}
 	
-	public boolean canProcessStacks() {
-		for (int i = 0; i < fluidInputSize; i++) {
-			if (tanks[i].getFluidAmount() <= 0) {
-				return false;
-			}
-		}
-		if (time >= baseProcessTime) {
-			return true;
-		}
-		if (getProcessEnergy() > getMaxEnergyStored() && time <= 0 && getEnergyStored() < getMaxEnergyStored() /*- getProcessPower()*/) {
-			return false;
-		}
-		if (getProcessEnergy() <= getMaxEnergyStored() && time <= 0 && getProcessEnergy() > getEnergyStored()) {
-			return false;
-		}
-		if (getEnergyStored() < getProcessPower()) {
-			return false;
-		}
-		Object[] outputs = outputs();
-		if (outputs == null || outputs.length != fluidOutputSize) {
-			return false;
-		}
-		for(int j = 0; j < fluidOutputSize; j++) {
-			if (outputs[j] == null) {
-				return false;
-			} else {
-				if (tanks[j + fluidInputSize].getFluid() != null) {
-					if (!tanks[j + fluidInputSize].getFluid().isFluidEqual((FluidStack) outputs[j])) {
-						return false;
-					} else if (tanks[j + fluidInputSize].getFluidAmount() + ((FluidStack) outputs[j]).amount > tanks[j + fluidInputSize].getCapacity()) {
-						return false;
-					}
+	public boolean canProcessInputs() {
+		if (recipe == null) return false;
+		else if (time >= baseProcessTime) return true;
+		
+		else if ((time <= 0 && (getProcessEnergy() <= getMaxEnergyStored() || getEnergyStored() < getMaxEnergyStored()) && (getProcessEnergy() > getMaxEnergyStored() || getProcessEnergy() > getEnergyStored())) || getEnergyStored() < getProcessPower()) return false;
+		
+		for (int j = 0; j < fluidOutputSize; j++) {
+			IFluidIngredient fluidProduct = getFluidProducts().get(j);
+			if (fluidProduct.getMaxStackSize() <= 0) continue;
+			if (fluidProduct.getStack() == null) return false;
+			else if (!tanks.get(j + fluidInputSize).isEmpty()) {
+				if (!tanks.get(j + fluidInputSize).getFluid().isFluidEqual(fluidProduct.getStack())) {
+					return false;
+				} else if (!voidExcessFluidOutputs && tanks.get(j + fluidInputSize).getFluidAmount() + fluidProduct.getMaxStackSize() > tanks.get(j + fluidInputSize).getCapacity()) {
+					return false;
 				}
 			}
 		}
-		Object[] inputs = inputs();
-		if (getRecipeHandler().getRecipeFromInputs(inputs).extras().get(0) instanceof Integer) baseProcessTime = (int) getRecipeHandler().getRecipeFromInputs(inputs).extras().get(0);
+		setRecipeStats();
 		return true;
 	}
 	
+	public void setRecipeStats() {
+		if (recipe == null) {
+			setDefaultRecipeStats();
+			return;
+		}
+		
+		List extras = recipe.extras();
+		
+		if (extras.isEmpty()) baseProcessTime = defaultProcessTime;
+		else {
+			Object processTimeInfo = recipe.extras().get(0);
+			/*if (processTimeInfo instanceof Integer) {
+				baseProcessTime = (int) processTimeInfo;
+			} else*/ if (processTimeInfo instanceof Double) {
+				baseProcessTime = ((double) processTimeInfo)*defaultProcessTime;
+			} else baseProcessTime = defaultProcessTime;
+		}
+		
+		if (extras.size() < 2) baseProcessPower = defaultProcessPower;
+		else {
+			Object processPowerInfo = recipe.extras().get(1);
+			/*if (processPowerInfo instanceof Integer) {
+				baseProcessPower = (int) processPowerInfo;
+			} else*/ if (processPowerInfo instanceof Double) {
+				baseProcessPower = ((double) processPowerInfo)*defaultProcessPower;
+			} else baseProcessPower = defaultProcessPower;
+		}
+	}
+	
+	public void setDefaultRecipeStats() {
+		baseProcessTime = defaultProcessTime;
+		baseProcessPower = defaultProcessPower;
+	}
+	
 	public void produceProducts() {
-		IRecipe recipe = getRecipe();
-		Object[] outputs = outputs();
-		int[] inputOrder = inputOrder();
-		if (outputs == null || inputOrder == RecipeMethods.INVALID) return;
+		if (recipe == null) return;
+		List<Integer> fluidInputOrder = getFluidInputOrder();
+		if (fluidInputOrder == IRecipeHandler.INVALID) return;
+		
+		for (int i = 0; i < fluidInputSize; i++) {
+			int fluidIngredientStackSize = getFluidIngredients().get(fluidInputOrder.get(i)).getMaxStackSize();
+			if (fluidIngredientStackSize > 0) tanks.get(i).changeFluidStored(-fluidIngredientStackSize);
+			if (tanks.get(i).getFluidAmount() <= 0) tanks.get(i).setFluidStored(null);
+		}
 		for (int j = 0; j < fluidOutputSize; j++) {
-			FluidStack outputStack = (FluidStack) outputs[j];
-			if (tanks[j + fluidInputSize].getFluid() == null) {
-				tanks[j + fluidInputSize].setFluidStored(outputStack);
-			} else if (tanks[j + fluidInputSize].getFluid().isFluidEqual(outputStack)) {
-				tanks[j + fluidInputSize].changeFluidStored(outputStack.amount);
-			}
-		}
-		for (int i = 0; i < fluidInputSize; i++) {
-			if (getRecipeHandler() != null) {
-				tanks[i].changeFluidStored(-recipe.inputs().get(inputOrder[i]).getStackSize());
-			} else {
-				tanks[i].changeFluidStored(-1000);
-			}
-			if (tanks[i].getFluidAmount() <= 0) {
-				tanks[i].setFluidStored(null);
+			IFluidIngredient fluidProduct = getFluidProducts().get(j);
+			if (fluidProduct.getMaxStackSize() <= 0) continue;
+			if (tanks.get(j + fluidInputSize).isEmpty()) {
+				tanks.get(j + fluidInputSize).setFluidStored(fluidProduct.getNextStack());
+			} else if (tanks.get(j + fluidInputSize).getFluid().isFluidEqual(fluidProduct.getStack())) {
+				tanks.get(j + fluidInputSize).changeFluidStored(fluidProduct.getNextStackSize());
 			}
 		}
 	}
 	
-	public IRecipe getRecipe() {
-		return getRecipeHandler().getRecipeFromInputs(inputs());
+	@Override
+	public ProcessorRecipeHandler getRecipeHandler() {
+		return recipeType.getRecipeHandler();
 	}
 	
-	public Object[] inputs() {
-		Object[] input = new Object[fluidInputSize];
-		for (int i = 0; i < fluidInputSize; i++) {
-			input[i] = tanks[i].getFluid();
-		}
-		return input;
+	@Override
+	public ProcessorRecipe getRecipe() {
+		return recipe;
 	}
 	
-	public int[] inputOrder() {
-		int[] inputOrder = new int[fluidInputSize];
-		IRecipe recipe = getRecipe();
-		if (recipe == null) return new int[] {};
-		ArrayList<IIngredient> recipeIngredients = recipe.inputs();
+	@Override
+	public List<Tank> getFluidInputs() {
+		return tanks.subList(0, fluidInputSize);
+	}
+	
+	@Override
+	public List<IFluidIngredient> getFluidIngredients() {
+		return recipe.fluidIngredients();
+	}
+	
+	@Override
+	public List<IFluidIngredient> getFluidProducts() {
+		return recipe.fluidProducts();
+	}
+	
+	@Override
+	public List<Integer> getFluidInputOrder() {
+		List<Integer> fluidInputOrder = new ArrayList<Integer>();
+		List<IFluidIngredient> fluidIngredients = recipe.fluidIngredients();
 		for (int i = 0; i < fluidInputSize; i++) {
-			inputOrder[i] = -1;
-			for (int j = 0; j < recipeIngredients.size(); j++) {
-				if (recipeIngredients.get(j).matches(inputs()[i], SorptionType.INPUT)) {
-					inputOrder[i] = j;
+			int position = -1;
+			for (int j = 0; j < fluidIngredients.size(); j++) {
+				if (fluidIngredients.get(j).matches(getFluidInputs().get(i), SorptionType.INPUT)) {
+					position = j;
 					break;
 				}
 			}
-			if (inputOrder[i] == -1) return RecipeMethods.INVALID;
+			if (position == -1) return IRecipeHandler.INVALID;
+			fluidInputOrder.add(position);
 		}
-		return inputOrder;
-	}
-	
-	public Object[] outputs() {
-		Object[] output = new Object[fluidOutputSize];
-		IRecipe recipe = getRecipe();
-		if (recipe == null) return null;
-		ArrayList<IIngredient> outputs = recipe.outputs();
-		for (int i = 0; i < fluidOutputSize; i++) {
-			Object out = RecipeMethods.getIngredientFromList(outputs, i);
-			if (out == null) return null;
-			else output[i] = out;
-		}
-		return output;
+		return fluidInputOrder;
 	}
 	
 	// Inventory
@@ -342,8 +359,8 @@ public abstract class TileFluidProcessor extends TileEnergyFluidSidedInventory i
 		if (!areTanksShared) return true;
 		
 		for (int i = 0; i < fluidInputSize; i++) {
-			if (tankNumber != i && fluidConnections[i].canFill() && tanks[i].getFluid() != null) {
-				if (tanks[i].getFluid().isFluidEqual(resource)) return false;
+			if (tankNumber != i && fluidConnections.get(i).canFill() && tanks.get(i).getFluid() != null) {
+				if (tanks.get(i).getFluid().isFluidEqual(resource)) return false;
 			}
 		}
 		return true;
@@ -354,36 +371,38 @@ public abstract class TileFluidProcessor extends TileEnergyFluidSidedInventory i
 	@Override
 	public NBTTagCompound writeAll(NBTTagCompound nbt) {
 		super.writeAll(nbt);
-		nbt.setInteger("time", time);
+		nbt.setDouble("time", time);
 		nbt.setBoolean("isProcessing", isProcessing);
-		nbt.setBoolean("canProcessStacks", canProcessStacks);
+		nbt.setBoolean("canProcessInputs", canProcessInputs);
 		return nbt;
 	}
 	
 	@Override
 	public void readAll(NBTTagCompound nbt) {
 		super.readAll(nbt);
-		time = nbt.getInteger("time");
+		time = nbt.getDouble("time");
 		isProcessing = nbt.getBoolean("isProcessing");
-		canProcessStacks = nbt.getBoolean("canProcessStacks");
+		canProcessInputs = nbt.getBoolean("canProcessInputs");
 	}
 	
 	// Inventory Fields
 
 	@Override
 	public int getFieldCount() {
-		return 3;
+		return 4;
 	}
 
 	@Override
 	public int getField(int id) {
 		switch (id) {
 		case 0:
-			return time;
+			return (int) time;
 		case 1:
 			return getEnergyStored();
 		case 2:
-			return baseProcessTime;
+			return (int) baseProcessTime;
+		case 3:
+			return (int) baseProcessPower;
 		default:
 			return 0;
 		}
@@ -400,6 +419,9 @@ public abstract class TileFluidProcessor extends TileEnergyFluidSidedInventory i
 			break;
 		case 2:
 			baseProcessTime = value;
+			break;
+		case 3:
+			baseProcessPower = value;
 		}
 	}
 }

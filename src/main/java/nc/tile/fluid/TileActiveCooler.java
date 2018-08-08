@@ -1,5 +1,8 @@
 package nc.tile.fluid;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import nc.config.NCConfig;
 import nc.enumm.MetaEnums.CoolerType;
 import nc.tile.dummy.IInterfaceable;
@@ -16,19 +19,19 @@ public class TileActiveCooler extends TileFluid implements IInterfaceable, IBuff
 	public void update() {
 		super.update();
 		if(!world.isRemote) {
-			if(shouldCheck()) spreadFluid();
-			tick();
+			if(shouldTileCheck()) spreadFluid();
+			tickTile();
 		}
 	}
 	
 	@Override
-	public void tick() {
+	public void tickTile() {
 		tickCount++; tickCount %= NCConfig.machine_update_rate / 5;
 	}
 	
-	private static String[] validFluids() {
-		String[] validFluids = new String[CoolerType.values().length - 1];
-		for (int i = 1; i < CoolerType.values().length; i++) validFluids[i - 1] = CoolerType.values()[i].getFluidName();
+	private static List<String> validFluids() {
+		List<String> validFluids = new ArrayList<String>();
+		for (int i = 1; i < CoolerType.values().length; i++) validFluids.add(CoolerType.values()[i].getFluidName());
 		return validFluids;
 	}
 }

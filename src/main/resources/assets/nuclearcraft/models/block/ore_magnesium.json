@@ -1,6 +1,6 @@
 {
-	"parent": "block/cube_all",
+	"parent": "nuclearcraft:block/ore",
 	"textures": {
-		"all": "nuclearcraft:blocks/ore_magnesium"
+		"ore": "nuclearcraft:blocks/ore_magnesium"
 	}
 }

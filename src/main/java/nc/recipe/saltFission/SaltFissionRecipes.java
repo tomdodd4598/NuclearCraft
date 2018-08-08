@@ -1,9 +1,9 @@
 package nc.recipe.saltFission;
 
 import nc.config.NCConfig;
-import nc.recipe.BaseRecipeHandler;
+import nc.recipe.ProcessorRecipeHandler;
 
-public class SaltFissionRecipes extends BaseRecipeHandler {
+public class SaltFissionRecipes extends ProcessorRecipeHandler {
 	
 	public SaltFissionRecipes() {
 		super("salt_fission", 0, 1, 0, 1);

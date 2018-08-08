@@ -3,19 +3,35 @@ package nc.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.common.collect.Lists;
+
 import nc.config.NCConfig;
-import nc.recipe.StackType;
+import net.minecraft.block.Block;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class OreDictHelper {
 	
-	public static boolean exists(String ore, StackType type) {
-		if (!type.isFluid()) if (!OreDictionary.getOres(ore).isEmpty()) return true;
-		if (!type.isItem()) if (FluidRegistry.getRegisteredFluids().keySet().contains(ore.toLowerCase())) return true;
+	public static final List<String> INGOT_VOLUME_TYPES = Lists.newArrayList("ingot", "dust");
+	public static final List<String> NUGGET_VOLUME_TYPES = Lists.newArrayList("nugget", "tinyDust");
+	
+	public static final List<String> GEM_VOLUME_TYPES = Lists.newArrayList("gem", "dust");
+	public static final List<String> GEM_NUGGET_VOLUME_TYPES = Lists.newArrayList("nugget", "tinyDust");
+	
+	public static final List<String> DUST_VOLUME_TYPES = Lists.newArrayList("dust");
+	public static final List<String> TINYDUST_VOLUME_TYPES = Lists.newArrayList("tinyDust");
+	
+	public static final List<String> FUEL_VOLUME_TYPES = Lists.newArrayList("fuel", "dust");
+	
+	public static final List<String> BLOCK_VOLUME_TYPES = Lists.newArrayList("block");
+	
+	public static boolean isOreMember(ItemStack stack, String oreName) {
+		for (ItemStack ore : OreDictionary.getOres(oreName)) {
+			if (ItemStack.areItemsEqual(ore, stack)) return true;
+		}
 		return false;
 	}
 	
@@ -23,11 +39,7 @@ public class OreDictHelper {
 		return !OreDictionary.getOres(ore).isEmpty();
 	}
 	
-	public static boolean fluidExists(String name) {
-		return FluidRegistry.getRegisteredFluids().keySet().contains(name.toLowerCase());
-	}
-	
-	public static String getOreNameFromStacks(ArrayList<ItemStack> stackList) {
+	public static String getOreNameFromStacks(List<ItemStack> stackList) {
 		List<Integer> idList = new ArrayList<Integer>();
 		if (stackList.isEmpty() || stackList == null) return "Unknown";
 		idList.addAll(ArrayHelper.asIntegerList(OreDictionary.getOreIDs(stackList.get(0))));
@@ -51,10 +63,10 @@ public class OreDictHelper {
 		return false;
 	}
 	
-	public static ArrayList<ItemStack> getPrioritisedStackList(String ore) {
-		ArrayList<ItemStack> defaultStackList = new ArrayList<ItemStack>(OreDictionary.getOres(ore));
+	public static List<ItemStack> getPrioritisedStackList(String ore) {
+		List<ItemStack> defaultStackList = new ArrayList<ItemStack>(OreDictionary.getOres(ore));
 		if (!NCConfig.ore_dict_priority_bool || NCConfig.ore_dict_priority.length < 1) return defaultStackList;
-		ArrayList<ItemStack> prioritisedStackList = new ArrayList<ItemStack>();
+		List<ItemStack> prioritisedStackList = new ArrayList<ItemStack>();
 		for (int i = 0; i < NCConfig.ore_dict_priority.length; i++) {
 			for (ItemStack stack : defaultStackList) {
 				if (RegistryHelper.getModID(stack).equals(NCConfig.ore_dict_priority[i]) && !prioritisedStackList.contains(stack)) {
@@ -69,5 +81,21 @@ public class OreDictHelper {
 			}
 		}
 		return prioritisedStackList;
+	}
+	
+	public static ItemStack getPrioritisedCraftingStack(ItemStack backup, String ore) {
+		List<ItemStack> stackList = getPrioritisedStackList(ore);
+		if (stackList == null || stackList.isEmpty()) return backup;
+		ItemStack stack = stackList.get(0).copy();
+		stack.setCount(backup.getCount());
+		return stack;
+	}
+	
+	public static ItemStack getPrioritisedCraftingStack(Item backup, String ore) {
+		return getPrioritisedCraftingStack(new ItemStack(backup), ore);
+	}
+	
+	public static ItemStack getPrioritisedCraftingStack(Block backup, String ore) {
+		return getPrioritisedCraftingStack(new ItemStack(backup), ore);
 	}
 }

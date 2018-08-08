@@ -26,11 +26,11 @@ public class GuiElectrolyser extends GuiFluidProcessor {
 	
 	@Override
 	public void renderTooltips(int mouseX, int mouseY) {
-		drawFluidTooltip(fluid0, tile.tanks[0], mouseX, mouseY, 50, 41, 16, 16);
-		drawFluidTooltip(fluid1, tile.tanks[1], mouseX, mouseY, 106, 31, 16, 16);
-		drawFluidTooltip(fluid2, tile.tanks[2], mouseX, mouseY, 126, 31, 16, 16);
-		drawFluidTooltip(fluid3, tile.tanks[3], mouseX, mouseY, 106, 51, 16, 16);
-		drawFluidTooltip(fluid4, tile.tanks[4], mouseX, mouseY, 126, 51, 16, 16);
+		drawFluidTooltip(fluid0, tile.tanks.get(0), mouseX, mouseY, 50, 41, 16, 16);
+		drawFluidTooltip(fluid1, tile.tanks.get(1), mouseX, mouseY, 106, 31, 16, 16);
+		drawFluidTooltip(fluid2, tile.tanks.get(2), mouseX, mouseY, 126, 31, 16, 16);
+		drawFluidTooltip(fluid3, tile.tanks.get(3), mouseX, mouseY, 106, 51, 16, 16);
+		drawFluidTooltip(fluid4, tile.tanks.get(4), mouseX, mouseY, 126, 51, 16, 16);
 		
 		drawEnergyTooltip(tile, mouseX, mouseY, 8, 6, 16, 86);
 	}
@@ -61,11 +61,11 @@ public class GuiElectrolyser extends GuiFluidProcessor {
 			PacketHandler.instance.sendToServer(new GetFluidInTankPacket(tile.getPos(), 4, "nc.gui.processor.GuiElectrolyser", "fluid4"));
 		}
 		
-		GuiFluidRenderer.renderGuiTank(fluid0, tile.tanks[0].getCapacity(), guiLeft + 50, guiTop + 41, zLevel, 16, 16);
-		GuiFluidRenderer.renderGuiTank(fluid1, tile.tanks[1].getCapacity(), guiLeft + 106, guiTop + 31, zLevel, 16, 16);
-		GuiFluidRenderer.renderGuiTank(fluid2, tile.tanks[2].getCapacity(), guiLeft + 126, guiTop + 31, zLevel, 16, 16);
-		GuiFluidRenderer.renderGuiTank(fluid3, tile.tanks[3].getCapacity(), guiLeft + 106, guiTop + 51, zLevel, 16, 16);
-		GuiFluidRenderer.renderGuiTank(fluid4, tile.tanks[4].getCapacity(), guiLeft + 126, guiTop + 51, zLevel, 16, 16);
+		GuiFluidRenderer.renderGuiTank(fluid0, tile.tanks.get(0).getCapacity(), guiLeft + 50, guiTop + 41, zLevel, 16, 16);
+		GuiFluidRenderer.renderGuiTank(fluid1, tile.tanks.get(1).getCapacity(), guiLeft + 106, guiTop + 31, zLevel, 16, 16);
+		GuiFluidRenderer.renderGuiTank(fluid2, tile.tanks.get(2).getCapacity(), guiLeft + 126, guiTop + 31, zLevel, 16, 16);
+		GuiFluidRenderer.renderGuiTank(fluid3, tile.tanks.get(3).getCapacity(), guiLeft + 106, guiTop + 51, zLevel, 16, 16);
+		GuiFluidRenderer.renderGuiTank(fluid4, tile.tanks.get(4).getCapacity(), guiLeft + 126, guiTop + 51, zLevel, 16, 16);
 	}
 	
 	@Override

@@ -1,7 +1,7 @@
 package nc.block;
 
 import nc.Global;
-import nc.proxy.CommonProxy;
+import nc.tab.NCTabs;
 import net.minecraft.block.BlockTrapDoor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -15,7 +15,7 @@ public class NCBlockTrapDoor extends BlockTrapDoor {
 		super(material);
 		setUnlocalizedName(Global.MOD_ID + "." + name);
 		setRegistryName(new ResourceLocation(Global.MOD_ID, name));
-		setCreativeTab(CommonProxy.TAB_FISSION_BLOCKS);
+		setCreativeTab(NCTabs.TAB_FISSION_BLOCKS);
 		setHarvestLevel("pickaxe", 0);
 		setHardness(2F);
 		setResistance(15F);

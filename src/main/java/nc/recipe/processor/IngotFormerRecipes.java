@@ -2,14 +2,13 @@ package nc.recipe.processor;
 
 import java.util.ArrayList;
 
-import nc.config.NCConfig;
-import nc.recipe.BaseRecipeHandler;
-import nc.util.FluidHelper;
+import nc.recipe.ProcessorRecipeHandler;
+import nc.util.FluidStackHelper;
 import nc.util.OreDictHelper;
 import nc.util.StringHelper;
 import net.minecraftforge.fluids.FluidRegistry;
 
-public class IngotFormerRecipes extends BaseRecipeHandler {
+public class IngotFormerRecipes extends ProcessorRecipeHandler {
 	
 	public IngotFormerRecipes() {
 		super("ingot_former", 0, 1, 1, 0);
@@ -18,6 +17,8 @@ public class IngotFormerRecipes extends BaseRecipeHandler {
 	@Override
 	public void addRecipes() {
 		addIngotFormingRecipes();
+		
+		addRecipe(fluidStack("bas", FluidStackHelper.GEM_VOLUME), "gemBoronArsenide", 2D, 2D);
 		
 		// Tinkers' Construct		
 		addIngotFormingRecipe("Manyullyn");
@@ -40,8 +41,8 @@ public class IngotFormerRecipes extends BaseRecipeHandler {
 		addIsotopeFormingRecipes("Californium", 249, 250, 251, 252);
 		
 		// Fission Fuels
-		//addRecipe(fluidStack("fuel_tbu", FluidHelper.INGOT_BLOCK_VOLUME), "fuelTBU", NCConfig.processor_time[10]*9);
-		addRecipe(fluidStack("depleted_fuel_tbu", FluidHelper.NUGGET_VOLUME*64), "depletedFuelTBU", NCConfig.processor_time[10]*64/9);
+		//addRecipe(fluidStack("fuel_tbu", FluidStackHelper.INGOT_BLOCK_VOLUME), "fuelTBU", NCConfig.processor_time[10]*9);
+		addRecipe(fluidStack("depleted_fuel_tbu", FluidStackHelper.NUGGET_VOLUME*64), "depletedFuelTBU", 64D/9D, 1D);
 		addFissionFuelFormingRecipes("uranium", "eu", 233, 235);
 		addFissionFuelFormingRecipes("neptunium", "en", 236);
 		addFissionFuelFormingRecipes("plutonium", "ep", 239, 241);
@@ -52,7 +53,7 @@ public class IngotFormerRecipes extends BaseRecipeHandler {
 	}
 	
 	public void addIngotFormingRecipe(String fluid, String metal) {
-		addRecipe(fluidStack(fluid.toLowerCase(), FluidHelper.INGOT_VOLUME), "ingot" + metal, NCConfig.processor_time[10]);
+		addRecipe(fluidStack(fluid.toLowerCase(), FluidStackHelper.INGOT_VOLUME), "ingot" + metal, 1D, 1D);
 	}
 	
 	public void addIngotFormingRecipe(String metal) {
@@ -65,10 +66,10 @@ public class IngotFormerRecipes extends BaseRecipeHandler {
 	
 	public void addFissionFuelFormingRecipes(String element, String suffix, String suffixExtra, int... types) {
 		for (int type : types) {
-			addRecipe(fluidStack("fuel_l" + suffix + suffixExtra + "_" + type, FluidHelper.INGOT_BLOCK_VOLUME), "fuelL" + suffix.toUpperCase() + suffixExtra + type, NCConfig.processor_time[10]*9);
-			addRecipe(fluidStack("fuel_h" + suffix + suffixExtra + "_" + type, FluidHelper.INGOT_BLOCK_VOLUME), "fuelH" + suffix.toUpperCase() + suffixExtra + type, NCConfig.processor_time[10]*9);
-			addRecipe(fluidStack("depleted_fuel_l" + suffix + suffixExtra + "_" + type, FluidHelper.NUGGET_VOLUME*64), "depletedFuelL" + suffix.toUpperCase() + suffixExtra + type, NCConfig.processor_time[10]*64/9);
-			addRecipe(fluidStack("depleted_fuel_h" + suffix + suffixExtra + "_" + type, FluidHelper.NUGGET_VOLUME*64), "depletedFuelH" + suffix.toUpperCase() + suffixExtra + type, NCConfig.processor_time[10]*64/9);
+			addRecipe(fluidStack("fuel_l" + suffix + suffixExtra + "_" + type, FluidStackHelper.INGOT_BLOCK_VOLUME), "fuelL" + suffix.toUpperCase() + suffixExtra + type, 9D, 1D);
+			addRecipe(fluidStack("fuel_h" + suffix + suffixExtra + "_" + type, FluidStackHelper.INGOT_BLOCK_VOLUME), "fuelH" + suffix.toUpperCase() + suffixExtra + type, 9D, 1D);
+			addRecipe(fluidStack("depleted_fuel_l" + suffix + suffixExtra + "_" + type, FluidStackHelper.NUGGET_VOLUME*64), "depletedFuelL" + suffix.toUpperCase() + suffixExtra + type, 64D/9D, 1D);
+			addRecipe(fluidStack("depleted_fuel_h" + suffix + suffixExtra + "_" + type, FluidStackHelper.NUGGET_VOLUME*64), "depletedFuelH" + suffix.toUpperCase() + suffixExtra + type, 64D/9D, 1D);
 		}
 	}
 	
@@ -83,8 +84,8 @@ public class IngotFormerRecipes extends BaseRecipeHandler {
 			String materialName = StringHelper.capitalize(fluidName);
 			String ingot = "ingot" + materialName;
 			String gem = "gem" + materialName;
-			if (OreDictHelper.oreExists(ingot)) addRecipe(fluidStack(fluidName, FluidHelper.INGOT_VOLUME), ingot, NCConfig.processor_time[10]);
-			else if (OreDictHelper.oreExists(gem)) addRecipe(fluidStack(fluidName, FluidHelper.GEM_VOLUME), gem, NCConfig.processor_time[10]);
+			if (OreDictHelper.oreExists(ingot)) addRecipe(fluidStack(fluidName, FluidStackHelper.INGOT_VOLUME), ingot, 1D, 1D);
+			else if (OreDictHelper.oreExists(gem)) addRecipe(fluidStack(fluidName, FluidStackHelper.GEM_VOLUME), gem, 1D, 1D);
 		}
 	}
 }

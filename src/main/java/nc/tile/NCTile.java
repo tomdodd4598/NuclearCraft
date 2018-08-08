@@ -2,6 +2,7 @@ package nc.tile;
 
 import nc.block.tile.IActivatable;
 import nc.config.NCConfig;
+import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
@@ -13,7 +14,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 
-public abstract class NCTile extends TileEntity implements ITickable {
+public abstract class NCTile extends TileEntity implements ITickable, ITile {
 	
 	public boolean isAdded;
 	public boolean isMarkedDirty;
@@ -46,12 +47,34 @@ public abstract class NCTile extends TileEntity implements ITickable {
 		markDirty();
 	}
 	
-	public void tick() {
+	@Override
+	public void tickTile() {
 		tickCount++; tickCount %= NCConfig.machine_update_rate;
 	}
 	
-	public boolean shouldCheck() {
+	@Override
+	public boolean shouldTileCheck() {
 		return tickCount == 0;
+	}
+	
+	@Override
+	public World getTileWorld() {
+		return getWorld();
+	}
+	
+	@Override
+	public BlockPos getTilePos() {
+		return getPos();
+	}
+	
+	@Override
+	public void markTileDirty() {
+		markDirty();
+	}
+	
+	@Override
+	public Block getTileBlockType() {
+		return getBlockType();
 	}
 	
 	@Override
@@ -73,6 +96,7 @@ public abstract class NCTile extends TileEntity implements ITickable {
 		return world.getBlockState(pos).getBlock().getDefaultState();
 	}
 	
+	@Override
 	public void setState(boolean isActive) {
 		if (getBlockType() instanceof IActivatable) ((IActivatable)getBlockType()).setState(isActive, world, pos);
 	}

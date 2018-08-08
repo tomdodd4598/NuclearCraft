@@ -26,8 +26,8 @@ public class GuiSupercooler extends GuiFluidProcessor {
 	
 	@Override
 	public void renderTooltips(int mouseX, int mouseY) {
-		drawFluidTooltip(fluid0, tile.tanks[0], mouseX, mouseY, 56, 35, 16, 16);
-		drawFluidTooltip(fluid1, tile.tanks[1], mouseX, mouseY, 112, 31, 24, 24);
+		drawFluidTooltip(fluid0, tile.tanks.get(0), mouseX, mouseY, 56, 35, 16, 16);
+		drawFluidTooltip(fluid1, tile.tanks.get(1), mouseX, mouseY, 112, 31, 24, 24);
 		
 		drawEnergyTooltip(tile, mouseX, mouseY, 8, 6, 16, 74);
 	}
@@ -55,8 +55,8 @@ public class GuiSupercooler extends GuiFluidProcessor {
 			PacketHandler.instance.sendToServer(new GetFluidInTankPacket(tile.getPos(), 1, "nc.gui.processor.GuiSupercooler", "fluid1"));
 		}
 		
-		GuiFluidRenderer.renderGuiTank(fluid0, tile.tanks[0].getCapacity(), guiLeft + 56, guiTop + 35, zLevel, 16, 16);
-		GuiFluidRenderer.renderGuiTank(fluid1, tile.tanks[1].getCapacity(), guiLeft + 112, guiTop + 31, zLevel, 24, 24);
+		GuiFluidRenderer.renderGuiTank(fluid0, tile.tanks.get(0).getCapacity(), guiLeft + 56, guiTop + 35, zLevel, 16, 16);
+		GuiFluidRenderer.renderGuiTank(fluid1, tile.tanks.get(1).getCapacity(), guiLeft + 112, guiTop + 31, zLevel, 24, 24);
 	}
 	
 	@Override

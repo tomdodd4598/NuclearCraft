@@ -4,16 +4,15 @@ import java.util.ArrayList;
 
 import com.google.common.collect.Lists;
 
-import nc.config.NCConfig;
-import nc.recipe.BaseRecipeHandler;
-import nc.util.FluidHelper;
+import nc.recipe.ProcessorRecipeHandler;
+import nc.util.FluidStackHelper;
 import nc.util.OreDictHelper;
 import nc.util.StringHelper;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraftforge.fluids.FluidRegistry;
 
-public class MelterRecipes extends BaseRecipeHandler {
+public class MelterRecipes extends ProcessorRecipeHandler {
 	
 	public MelterRecipes() {
 		super("melter", 1, 0, 0, 1);
@@ -21,9 +20,10 @@ public class MelterRecipes extends BaseRecipeHandler {
 
 	@Override
 	public void addRecipes() {
-		addRecipe("dustSulfur", fluidStack("sulfur", FluidHelper.GEM_VOLUME), NCConfig.processor_time[6]);
-		addRecipe("dustSodiumHydroxide", fluidStack("naoh", FluidHelper.GEM_VOLUME), NCConfig.processor_time[6]);
-		addRecipe("dustPotassiumHydroxide", fluidStack("koh", FluidHelper.GEM_VOLUME), NCConfig.processor_time[6]);
+		addRecipe("dustSulfur", fluidStack("sulfur", FluidStackHelper.GEM_VOLUME), 1D, 1D);
+		addRecipe("dustSodiumHydroxide", fluidStack("naoh", FluidStackHelper.GEM_VOLUME), 1D, 1D);
+		addRecipe("dustPotassiumHydroxide", fluidStack("koh", FluidStackHelper.GEM_VOLUME), 1D, 1D);
+		addRecipe("dustArsenic", fluidStack("arsenic", FluidStackHelper.GEM_VOLUME), 1D, 1D);
 		
 		addIngotMeltingRecipes("boron10");
 		addIngotMeltingRecipes("boron11");
@@ -31,32 +31,32 @@ public class MelterRecipes extends BaseRecipeHandler {
 		addIngotMeltingRecipes("lithium7");
 		
 		// Tinkers' Construct
-		addRecipe("obsidian", fluidStack("obsidian", FluidHelper.SEARED_BLOCK_VOLUME), NCConfig.processor_time[6]*4);
-		addRecipe("sand", fluidStack("glass", FluidHelper.GLASS_VOLUME), NCConfig.processor_time[6]);
-		addRecipe("blockGlass", fluidStack("glass", FluidHelper.GLASS_VOLUME), NCConfig.processor_time[6]);
-		addRecipe(Blocks.CLAY, fluidStack("clay", FluidHelper.BRICK_BLOCK_VOLUME), NCConfig.processor_time[6]*4);
-		addRecipe(Items.CLAY_BALL, fluidStack("clay", FluidHelper.BRICK_VOLUME), NCConfig.processor_time[6]);
-		addRecipe(Blocks.BRICK_BLOCK, fluidStack("clay", FluidHelper.BRICK_BLOCK_VOLUME), NCConfig.processor_time[6]*4);
-		addRecipe("ingotBrick", fluidStack("clay", FluidHelper.BRICK_VOLUME), NCConfig.processor_time[6]);
-		addRecipe(Blocks.HARDENED_CLAY, fluidStack("clay", FluidHelper.BRICK_BLOCK_VOLUME), NCConfig.processor_time[6]*4);
-		addRecipe("stone", fluidStack("stone", FluidHelper.SEARED_MATERIAL_VOLUME), NCConfig.processor_time[6]*2);
-		addRecipe("cobblestone", fluidStack("stone", FluidHelper.SEARED_MATERIAL_VOLUME), NCConfig.processor_time[6]*2);
-		addRecipe("dirt", fluidStack("dirt", FluidHelper.INGOT_VOLUME), NCConfig.processor_time[6]);
-		addRecipe("grass", fluidStack("dirt", FluidHelper.INGOT_VOLUME), NCConfig.processor_time[6]);
+		addRecipe("obsidian", fluidStack("obsidian", FluidStackHelper.SEARED_BLOCK_VOLUME), 2D, 2D);
+		addRecipe("sand", fluidStack("glass", FluidStackHelper.GLASS_VOLUME), 1.5D, 1.5D);
+		addRecipe("blockGlass", fluidStack("glass", FluidStackHelper.GLASS_VOLUME), 1.5D, 1.5D);
+		addRecipe(Blocks.CLAY, fluidStack("clay", FluidStackHelper.BRICK_BLOCK_VOLUME), 2D, 1.5D);
+		addRecipe(Items.CLAY_BALL, fluidStack("clay", FluidStackHelper.BRICK_VOLUME), 0.5D, 1.5D);
+		addRecipe(Blocks.BRICK_BLOCK, fluidStack("clay", FluidStackHelper.BRICK_BLOCK_VOLUME), 2D, 1.5D);
+		addRecipe("ingotBrick", fluidStack("clay", FluidStackHelper.BRICK_VOLUME), 0.5D, 1.5D);
+		addRecipe(Blocks.HARDENED_CLAY, fluidStack("clay", FluidStackHelper.BRICK_BLOCK_VOLUME), 2D, 1.5D);
+		addRecipe("stone", fluidStack("stone", FluidStackHelper.SEARED_MATERIAL_VOLUME), 1.5D, 1.5D);
+		addRecipe("cobblestone", fluidStack("stone", FluidStackHelper.SEARED_MATERIAL_VOLUME), 1.5D, 1.5D);
+		addRecipe("dirt", fluidStack("dirt", FluidStackHelper.INGOT_VOLUME), 1D, 1D);
+		addRecipe("grass", fluidStack("dirt", FluidStackHelper.INGOT_VOLUME), 1D, 1D);
 		
 		// Thermal Expansion
-		addRecipe("dustRedstone", fluidStack("redstone", FluidHelper.REDSTONE_DUST_VOLUME), NCConfig.processor_time[6]/4);
-		addRecipe("blockRedstone", fluidStack("redstone", FluidHelper.REDSTONE_BLOCK_VOLUME), NCConfig.processor_time[6]*2);
-		addRecipe("dustGlowstone", fluidStack("glowstone", FluidHelper.GLOWSTONE_DUST_VOLUME), NCConfig.processor_time[6]/2);
-		addRecipe("glowstone", fluidStack("glowstone", FluidHelper.GLOWSTONE_BLOCK_VOLUME), NCConfig.processor_time[6]*4);
-		addRecipe(Items.ENDER_PEARL, fluidStack("ender", FluidHelper.ENDER_PEARL_VOLUME), NCConfig.processor_time[6]/2);
-		addRecipe("dustEnder", fluidStack("ender", FluidHelper.ENDER_PEARL_VOLUME), NCConfig.processor_time[6]/2);
-		addRecipe("dustPyrotheum", fluidStack("pyrotheum", FluidHelper.EUM_DUST_VOLUME), NCConfig.processor_time[6]/2);
-		addRecipe("dustCryotheum", fluidStack("cryotheum", FluidHelper.EUM_DUST_VOLUME), NCConfig.processor_time[6]/2);
-		addRecipe("dustAerotheum", fluidStack("aerotheum", FluidHelper.EUM_DUST_VOLUME), NCConfig.processor_time[6]/2);
-		addRecipe("dustPetrotheum", fluidStack("petrotheum", FluidHelper.EUM_DUST_VOLUME), NCConfig.processor_time[6]/2);
-		addRecipe("dustCoal", fluidStack("coal", FluidHelper.COAL_DUST_VOLUME), NCConfig.processor_time[6]/2);
-		addRecipe("dustGraphite", fluidStack("coal", FluidHelper.COAL_DUST_VOLUME), NCConfig.processor_time[6]/4);
+		addRecipe("dustRedstone", fluidStack("redstone", FluidStackHelper.REDSTONE_DUST_VOLUME), 0.25D, 1D);
+		addRecipe("blockRedstone", fluidStack("redstone", FluidStackHelper.REDSTONE_BLOCK_VOLUME), 2D, 1D);
+		addRecipe("dustGlowstone", fluidStack("glowstone", FluidStackHelper.GLOWSTONE_DUST_VOLUME), 0.25D, 1D);
+		addRecipe("glowstone", fluidStack("glowstone", FluidStackHelper.GLOWSTONE_BLOCK_VOLUME), 2D, 1D);
+		addRecipe(Items.ENDER_PEARL, fluidStack("ender", FluidStackHelper.ENDER_PEARL_VOLUME), 0.5D, 1.5D);
+		addRecipe("dustEnder", fluidStack("ender", FluidStackHelper.ENDER_PEARL_VOLUME), 0.5D, 1.5D);
+		addRecipe("dustPyrotheum", fluidStack("pyrotheum", FluidStackHelper.EUM_DUST_VOLUME), 1D, 1D);
+		addRecipe("dustCryotheum", fluidStack("cryotheum", FluidStackHelper.EUM_DUST_VOLUME), 1D, 1D);
+		addRecipe("dustAerotheum", fluidStack("aerotheum", FluidStackHelper.EUM_DUST_VOLUME), 1D, 1D);
+		addRecipe("dustPetrotheum", fluidStack("petrotheum", FluidStackHelper.EUM_DUST_VOLUME), 1D, 1D);
+		addRecipe("dustCoal", fluidStack("coal", FluidStackHelper.COAL_DUST_VOLUME), 0.5D, 1D);
+		addRecipe("dustGraphite", fluidStack("coal", FluidStackHelper.COAL_DUST_VOLUME), 0.5D, 1D);
 		
 		// Advanced Rocketry
 		addIngotMeltingRecipes("dilithium");
@@ -98,8 +98,8 @@ public class MelterRecipes extends BaseRecipeHandler {
 		
 		// Fission Fuels
 		for (String suffix : new String[] {"", "Oxide"}) {
-			for (String prefix : new String[] {"fuel", "fuelRod"}) addRecipe(prefix + "TBU" + suffix, fluidStack("fuel_tbu", FluidHelper.INGOT_BLOCK_VOLUME), NCConfig.processor_time[6]*9);
-			for (String prefix : new String[] {"depletedFuel", "depletedFuelRod"}) addRecipe(prefix + "TBU" + suffix, fluidStack("depleted_fuel_tbu", FluidHelper.NUGGET_VOLUME*64), NCConfig.processor_time[6]*64/9);
+			for (String prefix : new String[] {"fuel", "fuelRod"}) addRecipe(prefix + "TBU" + suffix, fluidStack("fuel_tbu", FluidStackHelper.INGOT_BLOCK_VOLUME), 9D);
+			for (String prefix : new String[] {"depletedFuel", "depletedFuelRod"}) addRecipe(prefix + "TBU" + suffix, fluidStack("depleted_fuel_tbu", FluidStackHelper.NUGGET_VOLUME*64), 64D/9D);
 		}
 		addFissionFuelMeltingRecipes("uranium", "eu", 233, 235);
 		addFissionFuelMeltingRecipes("neptunium", "en", 236);
@@ -109,23 +109,23 @@ public class MelterRecipes extends BaseRecipeHandler {
 		addFissionFuelMeltingRecipes("berkelium", "eb", 248);
 		addFissionFuelMeltingRecipes("californium", "ec", "f", 249, 251);
 		
-		addRecipe(Blocks.ICE, fluidStack("water", FluidHelper.BUCKET_VOLUME), NCConfig.processor_time[6]/2);
-		addRecipe(Blocks.PACKED_ICE, fluidStack("water", FluidHelper.BUCKET_VOLUME), NCConfig.processor_time[6]/2);
+		addRecipe(Blocks.ICE, fluidStack("water", FluidStackHelper.BUCKET_VOLUME), 0.25D, 0.5D);
+		addRecipe(Blocks.PACKED_ICE, fluidStack("water", FluidStackHelper.BUCKET_VOLUME), 0.5D, 0.5D);
 		
 		addOreMeltingRecipes();
 		
-		addRecipe("blockQuartz", fluidStack("quartz", FluidHelper.GEM_VOLUME*4), NCConfig.processor_time[6]*4);
-		addRecipe("blockLapis", fluidStack("lapis", FluidHelper.GEM_BLOCK_VOLUME), NCConfig.processor_time[6]*9);
-		addRecipe("blockDiamond", fluidStack("diamond", FluidHelper.GEM_BLOCK_VOLUME), NCConfig.processor_time[6]*9);
-		addRecipe("blockEmerald", fluidStack("emerald", FluidHelper.GEM_BLOCK_VOLUME), NCConfig.processor_time[6]*9);
+		addRecipe("blockQuartz", fluidStack("quartz", FluidStackHelper.GEM_VOLUME*4), 4D, 1D);
+		addRecipe("blockLapis", fluidStack("lapis", FluidStackHelper.GEM_BLOCK_VOLUME), 9D, 1D);
+		addRecipe("blockDiamond", fluidStack("diamond", FluidStackHelper.GEM_BLOCK_VOLUME), 9D, 1D);
+		addRecipe("blockEmerald", fluidStack("emerald", FluidStackHelper.GEM_BLOCK_VOLUME), 9D, 1D);
 	}
 	
 	public void addIngotMeltingRecipes(String oreName, String fluidName) {
 		oreName = StringHelper.capitalize(oreName);
-		addRecipe("ore" + oreName, fluidStack(fluidName, FluidHelper.INGOT_ORE_VOLUME), NCConfig.processor_time[6]*2);
-		addRecipe(Lists.newArrayList("ingot" + oreName, "dust" + oreName), fluidStack(fluidName, FluidHelper.INGOT_VOLUME), NCConfig.processor_time[6]);
-		addRecipe(Lists.newArrayList("nugget" + oreName, "tinyDust" + oreName), fluidStack(fluidName, FluidHelper.NUGGET_VOLUME), NCConfig.processor_time[6]/9);
-		addRecipe("block" + oreName, fluidStack(fluidName, FluidHelper.INGOT_BLOCK_VOLUME), NCConfig.processor_time[6]*9);
+		addRecipe("ore" + oreName, fluidStack(fluidName, FluidStackHelper.INGOT_ORE_VOLUME), 1.5D, 1.5D);
+		addRecipe(Lists.newArrayList("ingot" + oreName, "dust" + oreName), fluidStack(fluidName, FluidStackHelper.INGOT_VOLUME), 1D, 1D);
+		addRecipe(Lists.newArrayList("nugget" + oreName, "tinyDust" + oreName), fluidStack(fluidName, FluidStackHelper.NUGGET_VOLUME), 1D/9D, 1D);
+		addRecipe("block" + oreName, fluidStack(fluidName, FluidStackHelper.INGOT_BLOCK_VOLUME), 9D, 1D);
 	}
 	
 	public void addIngotMeltingRecipes(String name) {
@@ -134,24 +134,24 @@ public class MelterRecipes extends BaseRecipeHandler {
 	
 	public void addIngotOreMeltingRecipes(String name) {
 		String oreName = StringHelper.capitalize(name);
-		addRecipe("ore" + oreName, fluidStack(name, FluidHelper.INGOT_ORE_VOLUME), NCConfig.processor_time[6]*2);
-		addRecipe("ingot" + oreName, fluidStack(name, FluidHelper.INGOT_VOLUME), NCConfig.processor_time[6]);
-		addRecipe("nugget" + oreName, fluidStack(name, FluidHelper.NUGGET_VOLUME), NCConfig.processor_time[6]/9);
-		addRecipe("block" + oreName, fluidStack(name, FluidHelper.INGOT_BLOCK_VOLUME), NCConfig.processor_time[6]*9);
+		addRecipe("ore" + oreName, fluidStack(name, FluidStackHelper.INGOT_ORE_VOLUME), 1.5D, 1.5D);
+		addRecipe("ingot" + oreName, fluidStack(name, FluidStackHelper.INGOT_VOLUME), 1D, 1D);
+		addRecipe("nugget" + oreName, fluidStack(name, FluidStackHelper.NUGGET_VOLUME), 1D/9D, 1D);
+		addRecipe("block" + oreName, fluidStack(name, FluidStackHelper.INGOT_BLOCK_VOLUME), 9D, 1D);
 	}
 	
 	public void addGemMeltingRecipes(String name) {
 		String oreName = StringHelper.capitalize(name);
-		addRecipe("ore" + oreName, fluidStack(name, FluidHelper.GEM_ORE_VOLUME), NCConfig.processor_time[6]*2);
-		addRecipe(Lists.newArrayList("gem" + oreName, "dust" + oreName), fluidStack(name, FluidHelper.GEM_VOLUME), NCConfig.processor_time[6]);
-		addRecipe(Lists.newArrayList("nugget" + oreName, "tinyDust" + oreName), fluidStack(name, FluidHelper.GEM_NUGGET_VOLUME), NCConfig.processor_time[6]/9);
+		addRecipe("ore" + oreName, fluidStack(name, FluidStackHelper.GEM_ORE_VOLUME), 1.5D, 1.5D);
+		addRecipe(Lists.newArrayList("gem" + oreName, "dust" + oreName), fluidStack(name, FluidStackHelper.GEM_VOLUME), 1D, 1D);
+		addRecipe(Lists.newArrayList("nugget" + oreName, "tinyDust" + oreName), fluidStack(name, FluidStackHelper.GEM_NUGGET_VOLUME), 1D/9D, 1D);
 	}
 	
 	public void addGemOreMeltingRecipes(String name) {
 		String oreName = StringHelper.capitalize(name);
-		addRecipe("ore" + oreName, fluidStack(name, FluidHelper.GEM_ORE_VOLUME), NCConfig.processor_time[6]*2);
-		addRecipe("gem" + oreName, fluidStack(name, FluidHelper.GEM_VOLUME), NCConfig.processor_time[6]);
-		addRecipe("nugget" + oreName, fluidStack(name, FluidHelper.GEM_NUGGET_VOLUME), NCConfig.processor_time[6]/9);
+		addRecipe("ore" + oreName, fluidStack(name, FluidStackHelper.GEM_ORE_VOLUME), 1.5D, 1.5D);
+		addRecipe("gem" + oreName, fluidStack(name, FluidStackHelper.GEM_VOLUME), 1D, 1D);
+		addRecipe("nugget" + oreName, fluidStack(name, FluidStackHelper.GEM_NUGGET_VOLUME), 1D/9D, 1D);
 	}
 	
 	public void addIsotopeMeltingRecipes(String element, int... types) {
@@ -161,12 +161,12 @@ public class MelterRecipes extends BaseRecipeHandler {
 	public void addFissionFuelMeltingRecipes(String element, String suffix, String suffixExtra, int... types) {
 		for (int type : types) for (String oxide : new String[] {"", "Oxide"}) {
 			for (String prefix : new String[] {"fuel", "fuelRod"}) {
-				addRecipe(prefix + "L" + suffix.toUpperCase() + suffixExtra + type + oxide, fluidStack("fuel_l" + suffix + suffixExtra + "_" + type, FluidHelper.INGOT_BLOCK_VOLUME), NCConfig.processor_time[6]*9);
-				addRecipe(prefix + "H" + suffix.toUpperCase() + suffixExtra + type + oxide, fluidStack("fuel_h" + suffix + suffixExtra + "_" + type, FluidHelper.INGOT_BLOCK_VOLUME), NCConfig.processor_time[6]*9);
+				addRecipe(prefix + "L" + suffix.toUpperCase() + suffixExtra + type + oxide, fluidStack("fuel_l" + suffix + suffixExtra + "_" + type, FluidStackHelper.INGOT_BLOCK_VOLUME), 9D, 1D);
+				addRecipe(prefix + "H" + suffix.toUpperCase() + suffixExtra + type + oxide, fluidStack("fuel_h" + suffix + suffixExtra + "_" + type, FluidStackHelper.INGOT_BLOCK_VOLUME), 9D, 1D);
 			}
 			for (String prefix : new String[] {"depletedFuel", "depletedFuelRod"}) {
-				addRecipe(prefix + "L" + suffix.toUpperCase() + suffixExtra + type + oxide, fluidStack("depleted_fuel_l" + suffix + suffixExtra + "_" + type, FluidHelper.NUGGET_VOLUME*64), NCConfig.processor_time[6]*64/9);
-				addRecipe(prefix + "H" + suffix.toUpperCase() + suffixExtra + type + oxide, fluidStack("depleted_fuel_h" + suffix + suffixExtra + "_" + type, FluidHelper.NUGGET_VOLUME*64), NCConfig.processor_time[6]*64/9);
+				addRecipe(prefix + "L" + suffix.toUpperCase() + suffixExtra + type + oxide, fluidStack("depleted_fuel_l" + suffix + suffixExtra + "_" + type, FluidStackHelper.NUGGET_VOLUME*64), 64D/9D, 1D);
+				addRecipe(prefix + "H" + suffix.toUpperCase() + suffixExtra + type + oxide, fluidStack("depleted_fuel_h" + suffix + suffixExtra + "_" + type, FluidStackHelper.NUGGET_VOLUME*64), 64D/9D, 1D);
 			}
 		}
 	}

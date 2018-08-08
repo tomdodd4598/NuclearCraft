@@ -26,7 +26,7 @@ public class GuiExtractor extends GuiItemFluidProcessor {
 	
 	@Override
 	public void renderTooltips(int mouseX, int mouseY) {
-		drawFluidTooltip(fluid0, tile.tanks[0], mouseX, mouseY, 126, 31, 24, 24);
+		drawFluidTooltip(fluid0, tile.tanks.get(0), mouseX, mouseY, 126, 31, 24, 24);
 		
 		drawEnergyTooltip(tile, mouseX, mouseY, 8, 6, 16, 74);
 	}
@@ -51,7 +51,7 @@ public class GuiExtractor extends GuiItemFluidProcessor {
 		
 		if (tick == 0) PacketHandler.instance.sendToServer(new GetFluidInTankPacket(tile.getPos(), 0, "nc.gui.processor.GuiExtractor", "fluid0"));
 		
-		GuiFluidRenderer.renderGuiTank(fluid0, tile.tanks[0].getCapacity(), guiLeft + 126, guiTop + 31, zLevel, 24, 24);
+		GuiFluidRenderer.renderGuiTank(fluid0, tile.tanks.get(0).getCapacity(), guiLeft + 126, guiTop + 31, zLevel, 24, 24);
 	}
 	
 	@Override

@@ -19,8 +19,8 @@ public class TilePassive {
 		public void update() {
 			super.update();
 			if(!world.isRemote) {
-				if(shouldCheck()) spreadEnergy();
-				tick();
+				if(shouldTileCheck()) spreadEnergy();
+				tickTile();
 			}
 		}
 	}
@@ -43,18 +43,18 @@ public class TilePassive {
 		
 		public ElectromagnetSupercooler() {
 			super("electromagnet_supercooler", -NCConfig.accelerator_electromagnet_power, FluidRegistry.getFluid("liquidhelium"), -NCConfig.accelerator_supercooler_coolant, NCConfig.machine_update_rate / 5);
-			tanks[0].setStrictlyInput(false);
+			tanks.get(0).setStrictlyInput(false);
 		}
 		
 		@Override
 		public void update() {
 			super.update();
 			if(!world.isRemote) {
-				if(shouldCheck()) {
+				if(shouldTileCheck()) {
 					spreadEnergy();
 					spreadFluid();
 				}
-				tick();
+				tickTile();
 			}
 		}
 	}
@@ -68,7 +68,7 @@ public class TilePassive {
 		@Override
 		public void update() {
 			super.update();
-			if(!world.isRemote) tick();
+			if(!world.isRemote) tickTile();
 		}
 	}
 	
@@ -105,7 +105,7 @@ public class TilePassive {
 		@Override
 		public void update() {
 			super.update();
-			if(!world.isRemote) tick();
+			if(!world.isRemote) tickTile();
 		}
 		
 		@Override
@@ -144,7 +144,7 @@ public class TilePassive {
 		@Override
 		public void update() {
 			super.update();
-			if(!world.isRemote) tick();
+			if(!world.isRemote) tickTile();
 		}
 	}
 	
@@ -178,7 +178,7 @@ public class TilePassive {
 		@Override
 		public void update() {
 			super.update();
-			if(!world.isRemote) tick();
+			if(!world.isRemote) tickTile();
 		}
 	}
 	

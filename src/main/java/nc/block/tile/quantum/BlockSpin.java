@@ -5,7 +5,7 @@ import java.util.Random;
 import javax.annotation.Nullable;
 
 import nc.block.NCBlock;
-import nc.proxy.CommonProxy;
+import nc.tab.NCTabs;
 import nc.tile.quantum.TileSpin;
 import nc.util.Complex;
 import nc.util.Matrix;
@@ -34,7 +34,7 @@ public class BlockSpin extends NCBlock implements ITileEntityProvider {
 		super(name, Material.IRON);
 		setHardness(1F);
 		setResistance(5F);
-		setCreativeTab(CommonProxy.TAB_MISC);
+		setCreativeTab(NCTabs.TAB_MISC);
 	}
 	
 	@Override

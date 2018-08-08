@@ -11,7 +11,6 @@ import nc.enumm.MetaEnums.CoolerType;
 import nc.handler.SoundHandler;
 import nc.init.NCBlocks;
 import nc.recipe.NCRecipes;
-import nc.recipe.RecipeMethods;
 import nc.tile.fluid.TileActiveCooler;
 import nc.tile.internal.energy.EnergyConnection;
 import nc.tile.internal.fluid.Tank;
@@ -21,8 +20,10 @@ import nc.util.BlockPosHelper;
 import nc.util.EnergyHelper;
 import nc.util.Lang;
 import nc.util.MaterialHelper;
+import nc.util.RecipeHelper;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.SoundCategory;
@@ -30,7 +31,6 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fluids.FluidStack;
 
 /*@Optional.InterfaceList({
 	@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers"),
@@ -41,21 +41,26 @@ public class TileFusionCore extends TileFluidGenerator /*implements SimpleCompon
 	
 	private static final double ROOM_TEMP = 0.298D;
 	
-	public double speedMultiplier, processTime, processPower;
+	public double processHeatVariable = 0;
 	public double heat = ROOM_TEMP, efficiency, cooling, heatChange; // cooling and heatChange are in K, not kK
 	
 	public int soundCount;
 	public int size = 1;
 	
 	public int complete;
-	public String problem = Lang.localise("gui.container.fusion_core.ring_incomplete");
+	public String problem = RING_INCOMPLETE;
+	
+	public static final String RING_INCOMPLETE = Lang.localise("gui.container.fusion_core.ring_incomplete");
+	public static final String RING_BLOCKED = Lang.localise("gui.container.fusion_core.ring_blocked");
+	public static final String POWER_ISSUE = Lang.localise("gui.container.fusion_core.power_issue");
+	public static final String INCORRECT_STRUCTURE = Lang.localise("gui.container.fusion_core.incorrect_structure");
 	
 	private BlockFinder finder;
 	
-	private static final long MAX_POWER = (long) (100*Collections.max(ArrayHelper.asDoubleList(NCConfig.fusion_power))*NCConfig.fusion_base_power*NCConfig.fusion_max_size);
+	private static final int MAX_POWER = (int) (100*Collections.max(ArrayHelper.asDoubleList(NCConfig.fusion_power))*NCConfig.fusion_base_power*NCConfig.fusion_max_size);
 	
 	public TileFusionCore() {
-		super("Fusion Core", 2, 4, 0, tankCapacities(32000, 2, 4), fluidConnections(2, 4), RecipeMethods.validFluids(NCRecipes.Type.FUSION), 2*MAX_POWER < Integer.MAX_VALUE ? (int) (2*MAX_POWER) : Integer.MAX_VALUE, NCRecipes.Type.FUSION);
+		super("Fusion Core", 2, 4, 0, defaultTankCapacities(32000, 2, 4), defaultFluidConnections(2, 4), RecipeHelper.validFluids(NCRecipes.Type.FUSION), 2*MAX_POWER < Integer.MAX_VALUE ? 2*MAX_POWER : Integer.MAX_VALUE, NCRecipes.Type.FUSION);
 		areTanksShared = false;
 	}
 	
@@ -71,18 +76,18 @@ public class TileFusionCore extends TileFluidGenerator /*implements SimpleCompon
 	}
 	
 	@Override
-	public void updateGenerator() {
-		canProcessStacks = canProcessStacks();
-		boolean wasGenerating = isGenerating;
-		isGenerating = canGenerate();
+	public void updateProcessor() {
+		recipe = getRecipeHandler().getRecipeFromInputs(new ArrayList<ItemStack>(), getFluidInputs(hasConsumed));
+		canProcessInputs = canProcessInputs();
+		boolean wasProcessing = isProcessing;
+		isProcessing = isProcessing();
 		boolean shouldUpdate = false;
 		if(!world.isRemote) {
-			tick();
-			if (time == 0) consume();
+			tickTile();
 		}
 		setSize();
 		if(!world.isRemote) {
-			if (shouldCheck() && NCConfig.fusion_active_cooling) setCooling();
+			if (shouldTileCheck() && NCConfig.fusion_active_cooling) setCooling();
 			double previousHeat = heat;
 			run();
 			doHeating();
@@ -90,22 +95,22 @@ public class TileFusionCore extends TileFluidGenerator /*implements SimpleCompon
 			heatChange = 1000*(heat - previousHeat);
 			plasma();
 			if (overheat()) return;
-			if (isGenerating) process();
-			if (wasGenerating != isGenerating) {
+			if (isProcessing) process();
+			consumeInputs();
+			if (wasProcessing != isProcessing) {
 				shouldUpdate = true;
 				updateBlockType();
 			}
 			if (isHotEnough()) pushEnergy();
-			if (findAdjacentComparator() && shouldCheck()) shouldUpdate = true;
+			if (findAdjacentComparator() && shouldTileCheck()) shouldUpdate = true;
 		} else {
-			isGenerating = complete == 1 && !isPowered() && time > 0 && isHotEnough();
 			playSounds();
 		}
 		if (shouldUpdate) markDirty();
 	}
 	
 	@Override
-	public void tick() {
+	public void tickTile() {
 		tickCount++; tickCount %= 4*NCConfig.machine_update_rate;
 	}
 	
@@ -131,21 +136,17 @@ public class TileFusionCore extends TileFluidGenerator /*implements SimpleCompon
 	}
 	
 	@Override
-	public boolean isGenerating() {
-		return complete == 1 && !isPowered() && time > 0 && isHotEnough();
+	public boolean isProcessing() {
+		return readyToProcess() && !isRedstonePowered();
 	}
 	
 	@Override
-	public boolean canProcess() {
-		return canProcessStacks && complete == 1 && isHotEnough();
-	}
-	
-	public boolean canGenerate() {
-		return canProcess() && !isPowered();
+	public boolean readyToProcess() {
+		return canProcessInputs && hasConsumed && isHotEnough() && complete == 1;
 	}
 	
 	@Override
-	public boolean isPowered() {
+	public boolean isRedstonePowered() {
 		BlockPosHelper helper = new BlockPosHelper(pos);
 		for (BlockPos pos : helper.squareRing(1, 0)) if (world.isBlockPowered(pos)) return true;
 		return world.isBlockPowered(pos);
@@ -159,7 +160,7 @@ public class TileFusionCore extends TileFluidGenerator /*implements SimpleCompon
 	
 	public void playSounds() {
 		if (soundCount >= getSoundTime()) {
-			if (canGenerate()) {
+			if (isProcessing) {
 				if (ringRadius() > 1) playFusionSound(0, 1, 0);
 				playFusionSound(ringRadius(), 1, ringRadius());
 				playFusionSound(ringRadius(), 1, -ringRadius());
@@ -208,54 +209,11 @@ public class TileFusionCore extends TileFluidGenerator /*implements SimpleCompon
 		tickCount = -1;
 	}
 	
-	@Override
-	public void completeProcess() {
-		super.completeProcess();
-		if (emptyUnusable) {
-			if (outputs() == null || inputOrder() == RecipeMethods.INVALID) {
-				for (int i = 0; i < fluidInputSize; i++) {
-					tanks[i].setFluidStored(null);
-					tanks[i + fluidInputSize + fluidOutputSize].setFluidStored(null);
-				}
-			}
-		}
-	}
-	
-	@Override
-	public boolean canProcessStacks() {
-		for (int i = 0; i < fluidInputSize; i++) {
-			if (tanks[i].getFluidAmount() <= 0 && !hasConsumed) {
-				return false;
-			}
-		}
-		if (time >= getProcessTime()) {
-			return true;
-		}
-		Object[] output = hasConsumed ? outputs() : outputs();
-		if (output == null || output.length != fluidOutputSize) {
-			return false;
-		}
-		for(int j = 0; j < fluidOutputSize; j++) {
-			if (output[j] == null) {
-				return false;
-			} else {
-				if (tanks[j + fluidInputSize].getFluid() != null) {
-					if (!tanks[j + fluidInputSize].getFluid().isFluidEqual((FluidStack)output[j])) {
-						return false;
-					} else if (!getVoidExcessOutputs() && tanks[j + fluidInputSize].getFluidAmount() + ((FluidStack)output[j]).amount > tanks[j + fluidInputSize].getCapacity()) {
-						return false;
-					}
-				}
-			}
-		}
-		return true;
-	}
-	
 	// IC2 Tiers
 
 	@Override
 	public int getSourceTier() {
-		return EnergyHelper.getEUTier(getProcessPower());
+		return EnergyHelper.getEUTier(processPower);
 	}
 	
 	@Override
@@ -264,36 +222,6 @@ public class TileFusionCore extends TileFluidGenerator /*implements SimpleCompon
 	}
 	
 	// Generating
-
-	@Override
-	public int getSpeedMultiplier() {
-		return (int) Math.max(0, speedMultiplier);
-	}
-
-	@Override
-	public void setSpeedMultiplier(int value) {
-		speedMultiplier = Math.max(0, value);
-	}
-
-	@Override
-	public int getProcessTime() {
-		return (int) Math.max(1, processTime);
-	}
-
-	@Override
-	public void setProcessTime(int value) {
-		processTime = Math.max(1, value);
-	}
-
-	@Override
-	public int getProcessPower() {
-		return (int) processPower;
-	}
-
-	@Override
-	public void setProcessPower(int value) {
-		processPower = value;
-	}
 	
 	public double getMaxHeat() {
 		return 20000000D;
@@ -303,29 +231,44 @@ public class TileFusionCore extends TileFluidGenerator /*implements SimpleCompon
 		return size + 2;
 	}
 	
-	public ArrayList getComboStats() {
-		return getRecipe(hasConsumed) != null ? getRecipe(hasConsumed).extras() : null;
+	@Override
+	public void setRecipeStats() {
+		if (recipe == null) {
+			setDefaultRecipeStats();
+			return;
+		}
+		
+		List extras = recipe.extras();
+		
+		if (extras.isEmpty()) baseProcessTime = defaultProcessTime;
+		else {
+			Object processTimeInfo = recipe.extras().get(0);
+			if (processTimeInfo instanceof Double) {
+				baseProcessTime = (double) processTimeInfo;
+			} else baseProcessTime = defaultProcessTime;
+		}
+		
+		if (extras.size() < 2) baseProcessPower = defaultProcessPower;
+		else {
+			Object processPowerInfo = recipe.extras().get(1);
+			if (processPowerInfo instanceof Double) {
+				baseProcessPower = (double) processPowerInfo;
+			} else baseProcessPower = defaultProcessPower;
+		}
+		
+		if (extras.size() < 3) processHeatVariable = 1000;
+		else {
+			Object processHeatVarInfo = recipe.extras().get(2);
+			if (processHeatVarInfo instanceof Double) {
+				processHeatVariable = (double) processHeatVarInfo;
+			} else processHeatVariable = 1000;
+		}
 	}
 	
-	public double getComboTime() {
-		if (getComboStats() != null) if (getComboStats().get(0) instanceof Double) {
-			return (double) getComboStats().get(0)*NCConfig.fusion_fuel_use;
-		}
-		return NCConfig.fusion_fuel_use;
-	}
-	
-	public double getComboPower() {
-		if (getComboStats() != null) if (getComboStats().get(1) instanceof Double) {
-			return (double) getComboStats().get(1);
-		}
-		return 0;
-	}
-	
-	public double getComboHeatVariable() {
-		if (getComboStats() != null) if (getComboStats().get(2) instanceof Double) {
-			return (double) getComboStats().get(2);
-		}
-		return 1000;
+	public void setDefaultRecipeStats() {
+		baseProcessTime = defaultProcessTime;
+		baseProcessPower = defaultProcessPower;
+		processHeatVariable = 1000;
 	}
 	
 	// Setting Blocks
@@ -336,10 +279,10 @@ public class TileFusionCore extends TileFluidGenerator /*implements SimpleCompon
 	
 	public void plasma() {
 		BlockPosHelper helper = new BlockPosHelper(pos);
-		if (canGenerate()) {
+		if (isProcessing) {
 			for (BlockPos pos : helper.squareRing(ringRadius(), 1)) if (!findPlasma(pos)) setPlasma(pos);
 		}
-		else if ((!isGenerating()) && complete == 1) {
+		else if ((isRedstonePowered() || (time <= 0 && canProcessInputs) || !isHotEnough()) && complete == 1) {
 			for (BlockPos pos : helper.squareRing(ringRadius(), 1)) if (findPlasma(pos)) world.setBlockToAir(pos);
 		}
 	}
@@ -375,7 +318,7 @@ public class TileFusionCore extends TileFluidGenerator /*implements SimpleCompon
 	// Finding Ring
 	
 	public boolean setSize() {
-		if (shouldCheck()) {
+		if (shouldTileCheck()) {
 			int runningSize = 1;
 			for (int r = 0; r <= NCConfig.fusion_max_size; r++) {
 				if (finder.horizontalY(pos.offset(EnumFacing.UP), r + 2, NCBlocks.fusion_connector)) {
@@ -387,26 +330,26 @@ public class TileFusionCore extends TileFluidGenerator /*implements SimpleCompon
 			for (BlockPos pos : helper.squareTube(ringRadius(), 1)) {
 				if (!(findElectromagnet(pos))) {
 					complete = 0;
-					problem = Lang.localise("gui.container.fusion_core.ring_incomplete");
+					problem = RING_INCOMPLETE;
 					return false;
 				}
 			}
 			for (BlockPos pos : helper.squareRing(ringRadius(), 1)) {
 				if (!(findAir(pos))) {
 					complete = 0;
-					Lang.localise("gui.container.fusion_core.ring_blocked");
+					problem = RING_BLOCKED;
 					return false;
 				}
 			}
 			for (BlockPos pos : helper.squareTube(ringRadius(), 1)) {
 				if (!(findActiveElectromagnet(pos))) {
 					complete = 0;
-					problem = Lang.localise("gui.container.fusion_core.power_issue");
+					problem = POWER_ISSUE;
 					return false;
 				}
 			}
 			complete = 1;
-			problem = Lang.localise("gui.container.fusion_core.incorrect_structure");
+			problem = INCORRECT_STRUCTURE;
 			return true;
 		} else {
 			return complete == 1;
@@ -416,17 +359,16 @@ public class TileFusionCore extends TileFluidGenerator /*implements SimpleCompon
 	// Set Fuel and Power and Modify Heat
 	
 	public void run() {
-		processTime = (int) getComboTime();
 		efficiency = efficiency();
 		double heatChange = 0;
-		if (canGenerate()) {
+		if (isProcessing) {
 			heatChange = NCConfig.fusion_heat_generation*(100D - (0.9*efficiency))/2D;
-			setProcessPower((int) (MathHelper.clamp(efficiency, 0D, 100D)*NCConfig.fusion_base_power*size*getComboPower()));
-			setSpeedMultiplier(size);
+			processPower = MathHelper.clamp(efficiency, 0D, 100D)*NCConfig.fusion_base_power*size*baseProcessPower;
+			speedMultiplier = size*NCConfig.fusion_fuel_use;
 		} else {
 			heatChange = 0;
-			setProcessPower(0);
-			setSpeedMultiplier(0);
+			processPower = 0;
+			speedMultiplier = 0;
 			
 			if (heat >= 1.005D*ROOM_TEMP) {
 				heat = heat-((heat/100000D)*Math.log10(1000*(heat-ROOM_TEMP)));
@@ -441,19 +383,19 @@ public class TileFusionCore extends TileFluidGenerator /*implements SimpleCompon
 	}
 	
 	public double efficiency() {
-		if (!canProcess()) return 0;
+		if (!readyToProcess()) return 0;
 		else if (isHotEnough()) {
 			double heatMK = heat/1000D;
-			double z = 7.415D*(Math.exp(-heatMK/getComboHeatVariable())+Math.tanh(heatMK/getComboHeatVariable())-1);
+			double z = 7.415D*(Math.exp(-heatMK/processHeatVariable)+Math.tanh(heatMK/processHeatVariable)-1);
 			return 100*Math.pow(z, 2);
 	   	} else return 0;
 	}
 	
 	public void doHeating() {
-		if (!canProcess()) {
+		if (!readyToProcess()) {
 			double r = 0.0001D*getEnergyStorage().getEnergyStored()/((double) ringRadius());
 			getEnergyStorage().setEnergyStored(0);
-			heat = heat + r*NCConfig.fusion_heat_generation;
+			heat = heat + r*NCConfig.fusion_heating_multiplier;
 			setEnergyConnectionAll(EnergyConnection.IN);
 			if (heat < ROOM_TEMP) heat = ROOM_TEMP;
 		}
@@ -470,7 +412,7 @@ public class TileFusionCore extends TileFluidGenerator /*implements SimpleCompon
 			List<BlockPos> posList = new ArrayList<BlockPos>();
 			BlockPosHelper helper = new BlockPosHelper(pos);
 			for (BlockPos pos : helper.squareTubeDiagonals(ringRadius(), 1)) {
-				if (findActiveCooler(pos)) if (((TileActiveCooler) world.getTileEntity(pos)).tanks[0].getFluidAmount() > 0) posList.add(pos);
+				if (findActiveCooler(pos)) if (((TileActiveCooler) world.getTileEntity(pos)).tanks.get(0).getFluidAmount() > 0) posList.add(pos);
 			}
 			if (posList.isEmpty()) {
 				cooling = 0D;
@@ -479,7 +421,7 @@ public class TileFusionCore extends TileFluidGenerator /*implements SimpleCompon
 			double cooled = 0; // in kK
 			double currentHeat = heat;
 			for (BlockPos pos : posList) {
-				Tank tank = ((TileActiveCooler) world.getTileEntity(pos)).getTanks()[0];
+				Tank tank = ((TileActiveCooler) world.getTileEntity(pos)).getTanks().get(0);
 				int fluidAmount = Math.min(tank.getFluidAmount(), 4*NCConfig.machine_update_rate*NCConfig.active_cooler_max_rate/20);
 				if (currentHeat > ROOM_TEMP) {
 					double cool_mult = posList.contains(getOpposite(pos)) ? NCConfig.fusion_heat_generation*4 : NCConfig.fusion_heat_generation;
@@ -488,7 +430,7 @@ public class TileFusionCore extends TileFluidGenerator /*implements SimpleCompon
 						break;
 					}
 					currentHeat -= cooled;
-					if (currentHeat > ROOM_TEMP) ((TileActiveCooler) world.getTileEntity(pos)).getTanks()[0].drain(fluidAmount, true);
+					if (currentHeat > ROOM_TEMP) tank.drain(fluidAmount, true);
 				}
 			}
 			cooling = 1000D*cooled/(4*NCConfig.machine_update_rate);
@@ -506,7 +448,7 @@ public class TileFusionCore extends TileFluidGenerator /*implements SimpleCompon
 	@Override
 	public NBTTagCompound writeAll(NBTTagCompound nbt) {
 		super.writeAll(nbt);
-		nbt.setDouble("processTime", processTime);
+		nbt.setDouble("baseProcessTime", baseProcessTime);
 		nbt.setDouble("processPower", processPower);
 		nbt.setDouble("speedMultiplier", speedMultiplier);
 		nbt.setDouble("heat", heat);
@@ -522,7 +464,7 @@ public class TileFusionCore extends TileFluidGenerator /*implements SimpleCompon
 	@Override
 	public void readAll(NBTTagCompound nbt) {
 		super.readAll(nbt);
-		processTime = nbt.getDouble("processTime");
+		baseProcessTime = nbt.getDouble("baseProcessTime");
 		processPower = nbt.getDouble("processPower");
 		speedMultiplier = nbt.getDouble("speedMultiplier");
 		heat = nbt.getDouble("heat");
@@ -538,26 +480,26 @@ public class TileFusionCore extends TileFluidGenerator /*implements SimpleCompon
 	
 	@Override
 	public int getFieldCount() {
-		return 11;
+		return 12;
 	}
 
 	@Override
 	public int getField(int id) {
 		switch (id) {
 		case 0:
-			return time;
+			return (int) time;
 		case 1:
 			return getEnergyStored();
 		case 2:
-			return getProcessTime();
+			return (int) baseProcessTime;
 		case 3:
-			return getProcessPower();
+			return (int) processPower;
 		case 4:
 			return (int) heat;
 		case 5:
 			return (int) efficiency;
 		case 6:
-			return getSpeedMultiplier();
+			return (int) speedMultiplier;
 		case 7:
 			return size;
 		case 8:
@@ -566,6 +508,8 @@ public class TileFusionCore extends TileFluidGenerator /*implements SimpleCompon
 			return (int) cooling;
 		case 10:
 			return (int) heatChange;
+		case 11:
+			return hasConsumed ? 1 : 0;
 		default:
 			return 0;
 		}
@@ -581,10 +525,10 @@ public class TileFusionCore extends TileFluidGenerator /*implements SimpleCompon
 			getEnergyStorage().setEnergyStored(value);
 			break;
 		case 2:
-			setProcessTime(value);
+			baseProcessTime = value;
 			break;
 		case 3:
-			setProcessPower(value);
+			processPower = value;
 			break;
 		case 4:
 			heat = value;
@@ -593,7 +537,7 @@ public class TileFusionCore extends TileFluidGenerator /*implements SimpleCompon
 			efficiency = value;
 			break;
 		case 6:
-			setSpeedMultiplier(value);
+			speedMultiplier = value;
 			break;
 		case 7:
 			size = value;
@@ -606,6 +550,9 @@ public class TileFusionCore extends TileFluidGenerator /*implements SimpleCompon
 			break;
 		case 10:
 			heatChange = value;
+			break;
+		case 11:
+			hasConsumed = value == 1;
 		}
 	}
 	
@@ -625,9 +572,7 @@ public class TileFusionCore extends TileFluidGenerator /*implements SimpleCompon
 		getFuelTypes,
 		getOutputTypes,
 		getComboProcessTime,
-		getProcessTime,
 		getComboPower,
-		getPower,
 		getActiveCooling,
 		doVentFuel,
 		doVentAllFuels,
@@ -677,21 +622,17 @@ public class TileFusionCore extends TileFluidGenerator /*implements SimpleCompon
 		case getEfficiency:
 			return new Object[] { efficiency };
 		case getFuelLevels:
-			return new Object[] { getTanks()[0].getFluidAmount(), getTanks()[1].getFluidAmount() };
+			return new Object[] { getTanks().get(0).getFluidAmount(), getTanks().get(1).getFluidAmount() };
 		case getOutputLevels:
-			return new Object[] { getTanks()[2].getFluidAmount(), getTanks()[3].getFluidAmount(), getTanks()[4].getFluidAmount(), getTanks()[5].getFluidAmount() };
+			return new Object[] { getTanks().get(2).getFluidAmount(), getTanks().get(3).getFluidAmount(), getTanks().get(4).getFluidAmount(), getTanks().get(5).getFluidAmount() };
 		case getFuelTypes:
-			return new Object[] { getTanks()[0].getFluidName(), getTanks()[1].getFluidName() };
+			return new Object[] { getTanks().get(0).getFluidName(), getTanks().get(1).getFluidName() };
 		case getOutputTypes:
-			return new Object[] { getTanks()[2].getFluidName(), getTanks()[3].getFluidName(), getTanks()[4].getFluidName(), getTanks()[5].getFluidName() };
+			return new Object[] { getTanks().get(2).getFluidName(), getTanks().get(3).getFluidName(), getTanks().get(4).getFluidName(), getTanks().get(5).getFluidName() };
 		case getComboProcessTime:
-			return new Object[] { getComboTime() };
-		case getProcessTime:
-			return new Object[] { getProcessTime() };
+			return new Object[] { baseProcessTime };
 		case getComboPower:
-			return new Object[] { getComboPower() };
-		case getPower:
-			return new Object[] { getProcessPower() };
+			return new Object[] { processPower };
 		case getActiveCooling:
 			return new Object[] { cooling/1000 };
 		case doVentFuel: {
@@ -700,14 +641,14 @@ public class TileFusionCore extends TileFluidGenerator /*implements SimpleCompon
 			int tankNo = (int) arguments[0];
 			if(tankNo < 0) throw new IllegalArgumentException(Lang.localise("gui.computer.integer_too_small_error", 0, 0));
 			if(tankNo > 1) throw new IllegalArgumentException(Lang.localise("gui.computer.integer_too_large_error", 0, 1));
-			getTanks()[tankNo].setFluidStored(null);
-			getTanks()[tankNo + 6].setFluidStored(null);
+			getTanks().get(tankNo).setFluidStored(null);
+			getTanks().get(tankNo + 6).setFluidStored(null);
 			return null;
 		}
 		case doVentAllFuels: {
 			for (int i = 0; i < 2; ++i) {
-				getTanks()[i].setFluidStored(null);
-				getTanks()[i + 6].setFluidStored(null);
+				getTanks().get(i).setFluidStored(null);
+				getTanks().get(i + 6).setFluidStored(null);
 			}
 			return null;
 		}
@@ -717,11 +658,11 @@ public class TileFusionCore extends TileFluidGenerator /*implements SimpleCompon
 			int tankNo = (int) arguments[0];
 			if(tankNo < 0) throw new IllegalArgumentException(Lang.localise("gui.computer.integer_too_small_error", 0, 0));
 			if(tankNo > 3) throw new IllegalArgumentException(Lang.localise("gui.computer.integer_too_large_error", 0, 3));
-			getTanks()[tankNo + 2].setFluidStored(null);
+			getTanks().get(tankNo + 2).setFluidStored(null);
 			return null;
 		}
 		case doVentAllOutputs: {
-			for (int i = 2; i < 6; ++i) getTanks()[i].setFluidStored(null);
+			for (int i = 2; i < 6; ++i) getTanks().get(i).setFluidStored(null);
 			return null;
 		}
 		default: throw new Exception(Lang.localise("gui.computer.method_not_found"));
@@ -757,43 +698,5 @@ public class TileFusionCore extends TileFluidGenerator /*implements SimpleCompon
 	@Optional.Method(modid = "opencomputers")
 	public String[] methods() {
 		return METHOD_NAMES;
-	}*/
-	
-	// ComputerCraft
-
-	/*@Override
-	@Optional.Method(modid = "computercraft")
-	public String getType() {
-		return Global.MOD_SHORT_ID + "_fusion_reactor";
-	}
-	
-	@Override
-	@Optional.Method(modid = "computercraft")
-	public String[] getMethodNames() {
-		return METHOD_NAMES;
-	}
-	
-	@Override
-	@Optional.Method(modid = "computercraft")
-	public Object[] callMethod(IComputerAccess computer, ILuaContext context, int method, Object[] arguments) throws LuaException {
-		try {
-			return callMethod(method, arguments);
-		} catch(Exception e) {
-			throw new LuaException(e.getMessage());
-		}
-	}
-	
-	@Override
-	@Optional.Method(modid = "computercraft")
-	public void attach(IComputerAccess computer) {}
-
-	@Override
-	@Optional.Method(modid = "computercraft")
-	public void detach(IComputerAccess computer) {}
-
-	@Override
-	@Optional.Method(modid = "computercraft")
-	public boolean equals(IPeripheral other) {
-		return hashCode() == other.hashCode();
 	}*/
 }

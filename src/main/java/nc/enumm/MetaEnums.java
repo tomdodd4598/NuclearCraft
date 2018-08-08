@@ -428,7 +428,8 @@ public class MetaEnums {
 		BORON_NITRIDE("boron_nitride", 1),
 		FLUORITE("fluorite", 2),
 		VILLIAUMITE("villiaumite", 3),
-		CAROBBIITE("carobbiite", 4);
+		CAROBBIITE("carobbiite", 4),
+		BORON_ARSENIDE("boron_arsenide", 5);
 		
 		private String name;
 		private int id;
@@ -468,7 +469,8 @@ public class MetaEnums {
 		SULFUR("sulfur", 6),
 		COAL("coal", 7),
 		VILLIAUMITE("villiaumite", 8),
-		CAROBBIITE("carobbiite", 9);
+		CAROBBIITE("carobbiite", 9),
+		ARSENIC("arsenic", 10);
 		
 		private String name;
 		private int id;
@@ -508,7 +510,9 @@ public class MetaEnums {
 		FERROBORON("ferroboron", 6),
 		SHIBUICHI("shibuichi", 7),
 		TIN_SILVER("tin_silver", 8),
-		LEAD_PLATINUM("lead_platinum", 9);
+		LEAD_PLATINUM("lead_platinum", 9),
+		EXTREME("extreme", 10),
+		THERMOCONDUCTING("thermoconducting", 11);
 		
 		private String name;
 		private int id;
@@ -586,7 +590,8 @@ public class MetaEnums {
 		SERVO("servo", 7),
 		MOTOR("motor", 8),
 		ACTUATOR("actuator", 9),
-		CHASSIS("chassis", 10);
+		CHASSIS("chassis", 10),
+		EMPTY_FRAME("empty_frame", 11);
 		
 		private String name;
 		private int id;

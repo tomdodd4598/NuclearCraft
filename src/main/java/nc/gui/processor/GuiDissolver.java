@@ -26,8 +26,8 @@ public class GuiDissolver extends GuiItemFluidProcessor {
 	
 	@Override
 	public void renderTooltips(int mouseX, int mouseY) {
-		drawFluidTooltip(fluid0, tile.tanks[0], mouseX, mouseY, 66, 35, 16, 16);
-		drawFluidTooltip(fluid1, tile.tanks[1], mouseX, mouseY, 122, 31, 24, 24);
+		drawFluidTooltip(fluid0, tile.tanks.get(0), mouseX, mouseY, 66, 35, 16, 16);
+		drawFluidTooltip(fluid1, tile.tanks.get(1), mouseX, mouseY, 122, 31, 24, 24);
 		
 		drawEnergyTooltip(tile, mouseX, mouseY, 8, 6, 16, 74);
 	}
@@ -55,8 +55,8 @@ public class GuiDissolver extends GuiItemFluidProcessor {
 			PacketHandler.instance.sendToServer(new GetFluidInTankPacket(tile.getPos(), 1, "nc.gui.processor.GuiDissolver", "fluid1"));
 		}
 		
-		GuiFluidRenderer.renderGuiTank(fluid0, tile.tanks[0].getCapacity(), guiLeft + 66, guiTop + 35, zLevel, 16, 16);
-		GuiFluidRenderer.renderGuiTank(fluid1, tile.tanks[1].getCapacity(), guiLeft + 122, guiTop + 31, zLevel, 24, 24);
+		GuiFluidRenderer.renderGuiTank(fluid0, tile.tanks.get(0).getCapacity(), guiLeft + 66, guiTop + 35, zLevel, 16, 16);
+		GuiFluidRenderer.renderGuiTank(fluid1, tile.tanks.get(1).getCapacity(), guiLeft + 122, guiTop + 31, zLevel, 24, 24);
 	}
 	
 	@Override

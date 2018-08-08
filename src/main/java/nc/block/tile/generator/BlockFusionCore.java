@@ -4,7 +4,7 @@ import nc.block.tile.BlockInventory;
 import nc.block.tile.IActivatable;
 import nc.config.NCConfig;
 import nc.init.NCBlocks;
-import nc.proxy.CommonProxy;
+import nc.tab.NCTabs;
 import nc.tile.generator.TileFusionCore;
 import nc.util.BlockPosHelper;
 import net.minecraft.block.material.Material;
@@ -22,7 +22,7 @@ public class BlockFusionCore extends BlockInventory implements IActivatable {
 	
 	public BlockFusionCore() {
 		super("fusion_core", Material.IRON);
-		setCreativeTab(CommonProxy.TAB_FUSION);
+		setCreativeTab(NCTabs.TAB_FUSION);
 	}
 	
 	@Override

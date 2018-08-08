@@ -2,11 +2,10 @@ package nc.recipe.processor;
 
 import com.google.common.collect.Lists;
 
-import nc.config.NCConfig;
-import nc.recipe.BaseRecipeHandler;
-import nc.util.FluidHelper;
+import nc.recipe.ProcessorRecipeHandler;
+import nc.util.FluidStackHelper;
 
-public class ChemicalReactorRecipes extends BaseRecipeHandler {
+public class ChemicalReactorRecipes extends ProcessorRecipeHandler {
 	
 	public ChemicalReactorRecipes() {
 		super("chemical_reactor", 0, 2, 0, 2);
@@ -14,30 +13,32 @@ public class ChemicalReactorRecipes extends BaseRecipeHandler {
 
 	@Override
 	public void addRecipes() {
-		addRecipe(fluidStackList(Lists.newArrayList("boron", "boron10", "boron11"), FluidHelper.INGOT_VOLUME), fluidStack("hydrogen", FluidHelper.BUCKET_VOLUME*3), fluidStack("diborane", FluidHelper.BUCKET_VOLUME/2), fluidStack("diborane", FluidHelper.BUCKET_VOLUME/2), NCConfig.processor_time[12]*2);
+		addRecipe(fluidStackList(Lists.newArrayList("boron", "boron10", "boron11"), FluidStackHelper.INGOT_VOLUME), fluidStack("hydrogen", FluidStackHelper.BUCKET_VOLUME*3), fluidStack("diborane", FluidStackHelper.BUCKET_VOLUME), emptyFluidStack(), 1.5D, 1D);
 		
-		addRecipe(fluidStack("diborane", FluidHelper.BUCKET_VOLUME/4), fluidStack("water", FluidHelper.BUCKET_VOLUME*3/2), fluidStack("boric_acid", FluidHelper.BUCKET_VOLUME/2), fluidStack("hydrogen", FluidHelper.BUCKET_VOLUME*3/2), NCConfig.processor_time[12]);
+		addRecipe(fluidStack("diborane", FluidStackHelper.BUCKET_VOLUME/2), fluidStack("water", FluidStackHelper.BUCKET_VOLUME*3), fluidStack("boric_acid", FluidStackHelper.BUCKET_VOLUME), fluidStack("hydrogen", FluidStackHelper.BUCKET_VOLUME*3), 1D, 1D);
 		
-		addRecipe(fluidStack("nitrogen", FluidHelper.BUCKET_VOLUME), fluidStack("hydrogen", FluidHelper.BUCKET_VOLUME*3), fluidStack("ammonia", FluidHelper.BUCKET_VOLUME), fluidStack("ammonia", FluidHelper.BUCKET_VOLUME), NCConfig.processor_time[12]);
+		addRecipe(fluidStack("nitrogen", FluidStackHelper.BUCKET_VOLUME), fluidStack("hydrogen", FluidStackHelper.BUCKET_VOLUME*3), fluidStack("ammonia", FluidStackHelper.BUCKET_VOLUME), emptyFluidStack(), 1D, 0.5D);
 		
-		addRecipe(fluidStack("boric_acid", FluidHelper.BUCKET_VOLUME), fluidStack("ammonia", FluidHelper.BUCKET_VOLUME), fluidStack("boron_nitride_solution", FluidHelper.GEM_VOLUME), fluidStack("water", FluidHelper.BUCKET_VOLUME*2), NCConfig.processor_time[12]*2);
+		addRecipe(fluidStack("boric_acid", FluidStackHelper.BUCKET_VOLUME), fluidStack("ammonia", FluidStackHelper.BUCKET_VOLUME), fluidStack("boron_nitride_solution", FluidStackHelper.GEM_VOLUME), fluidStack("water", FluidStackHelper.BUCKET_VOLUME*2), 1.5D, 1.5D);
 		
-		addRecipe(fluidStackList(Lists.newArrayList("lithium", "lithium6", "lithium7"), FluidHelper.INGOT_VOLUME), fluidStack("fluorine", FluidHelper.BUCKET_VOLUME/2), fluidStack("lif", FluidHelper.INGOT_VOLUME/2), fluidStack("lif", FluidHelper.INGOT_VOLUME/2), NCConfig.processor_time[12]);
-		addRecipe(fluidStack("beryllium", FluidHelper.INGOT_VOLUME), fluidStack("fluorine", FluidHelper.BUCKET_VOLUME/2), fluidStack("bef2", FluidHelper.INGOT_VOLUME/2), fluidStack("bef2", FluidHelper.INGOT_VOLUME/2), NCConfig.processor_time[12]);
+		addRecipe(fluidStackList(Lists.newArrayList("lithium", "lithium6", "lithium7"), FluidStackHelper.INGOT_VOLUME), fluidStack("fluorine", FluidStackHelper.BUCKET_VOLUME/2), fluidStack("lif", FluidStackHelper.INGOT_VOLUME), emptyFluidStack(), 1D, 1D);
+		addRecipe(fluidStack("beryllium", FluidStackHelper.INGOT_VOLUME), fluidStack("fluorine", FluidStackHelper.BUCKET_VOLUME/2), fluidStack("bef2", FluidStackHelper.INGOT_VOLUME), emptyFluidStack(), 1D, 1D);
 		
-		addRecipe(fluidStack("sulfur", FluidHelper.GEM_VOLUME), fluidStack("oxygen", FluidHelper.BUCKET_VOLUME), fluidStack("sulfur_dioxide", FluidHelper.BUCKET_VOLUME/2), fluidStack("sulfur_dioxide", FluidHelper.BUCKET_VOLUME/2), NCConfig.processor_time[12]*2);
-		addRecipe(fluidStack("sulfur_dioxide", FluidHelper.BUCKET_VOLUME*2), fluidStack("oxygen", FluidHelper.BUCKET_VOLUME), fluidStack("sulfur_trioxide", FluidHelper.BUCKET_VOLUME), fluidStack("sulfur_trioxide", FluidHelper.BUCKET_VOLUME), NCConfig.processor_time[12]);
-		addRecipe(fluidStack("sulfur_trioxide", FluidHelper.BUCKET_VOLUME), fluidStack("water", FluidHelper.BUCKET_VOLUME), fluidStack("sulfuric_acid", FluidHelper.BUCKET_VOLUME/2), fluidStack("sulfuric_acid", FluidHelper.BUCKET_VOLUME/2), NCConfig.processor_time[12]);
+		addRecipe(fluidStack("sulfur", FluidStackHelper.GEM_VOLUME), fluidStack("oxygen", FluidStackHelper.BUCKET_VOLUME), fluidStack("sulfur_dioxide", FluidStackHelper.BUCKET_VOLUME), emptyFluidStack(), 1D, 0.5D);
+		addRecipe(fluidStack("sulfur_dioxide", FluidStackHelper.BUCKET_VOLUME*2), fluidStack("oxygen", FluidStackHelper.BUCKET_VOLUME), fluidStack("sulfur_trioxide", FluidStackHelper.BUCKET_VOLUME*2), emptyFluidStack(), 1D, 1D);
+		addRecipe(fluidStack("sulfur_trioxide", FluidStackHelper.BUCKET_VOLUME), fluidStack("water", FluidStackHelper.BUCKET_VOLUME), fluidStack("sulfuric_acid", FluidStackHelper.BUCKET_VOLUME), emptyFluidStack(), 1.5D, 0.5D);
 		
-		addRecipe(fluidStack("fluorite_water", FluidHelper.GEM_VOLUME), fluidStack("sulfuric_acid", FluidHelper.BUCKET_VOLUME), fluidStack("hydrofluoric_acid", FluidHelper.BUCKET_VOLUME*2), fluidStack("calcium_sulfate_solution", FluidHelper.GEM_VOLUME), NCConfig.processor_time[12]);
+		addRecipe(fluidStack("fluorite_water", FluidStackHelper.GEM_VOLUME), fluidStack("sulfuric_acid", FluidStackHelper.BUCKET_VOLUME), fluidStack("hydrofluoric_acid", FluidStackHelper.BUCKET_VOLUME*2), fluidStack("calcium_sulfate_solution", FluidStackHelper.GEM_VOLUME), 1D, 1D);
 		
-		addRecipe(fluidStack("sodium_fluoride_solution", FluidHelper.GEM_VOLUME), fluidStack("water", FluidHelper.BUCKET_VOLUME), fluidStack("sodium_hydroxide_solution", FluidHelper.GEM_VOLUME), fluidStack("hydrofluoric_acid", FluidHelper.BUCKET_VOLUME), NCConfig.processor_time[12]);
-		addRecipe(fluidStack("potassium_fluoride_solution", FluidHelper.GEM_VOLUME), fluidStack("water", FluidHelper.BUCKET_VOLUME), fluidStack("potassium_hydroxide_solution", FluidHelper.GEM_VOLUME), fluidStack("hydrofluoric_acid", FluidHelper.BUCKET_VOLUME), NCConfig.processor_time[12]);
+		addRecipe(fluidStack("sodium_fluoride_solution", FluidStackHelper.GEM_VOLUME), fluidStack("water", FluidStackHelper.BUCKET_VOLUME), fluidStack("sodium_hydroxide_solution", FluidStackHelper.GEM_VOLUME), fluidStack("hydrofluoric_acid", FluidStackHelper.BUCKET_VOLUME), 1D, 1D);
+		addRecipe(fluidStack("potassium_fluoride_solution", FluidStackHelper.GEM_VOLUME), fluidStack("water", FluidStackHelper.BUCKET_VOLUME), fluidStack("potassium_hydroxide_solution", FluidStackHelper.GEM_VOLUME), fluidStack("hydrofluoric_acid", FluidStackHelper.BUCKET_VOLUME), 1D, 1D);
 		
-		addRecipe(fluidStack("oxygen_difluoride", FluidHelper.BUCKET_VOLUME), fluidStack("water", FluidHelper.BUCKET_VOLUME), fluidStack("oxygen", FluidHelper.BUCKET_VOLUME), fluidStack("hydrofluoric_acid", FluidHelper.BUCKET_VOLUME*2), NCConfig.processor_time[12]*2);
-		addRecipe(fluidStack("oxygen_difluoride", FluidHelper.BUCKET_VOLUME), fluidStack("sulfur_dioxide", FluidHelper.BUCKET_VOLUME), fluidStack("sulfur_trioxide", FluidHelper.BUCKET_VOLUME), fluidStack("fluorine", FluidHelper.BUCKET_VOLUME), NCConfig.processor_time[12]*2);
+		addRecipe(fluidStack("oxygen_difluoride", FluidStackHelper.BUCKET_VOLUME), fluidStack("water", FluidStackHelper.BUCKET_VOLUME), fluidStack("oxygen", FluidStackHelper.BUCKET_VOLUME), fluidStack("hydrofluoric_acid", FluidStackHelper.BUCKET_VOLUME*2), 1.5D, 1D);
+		addRecipe(fluidStack("oxygen_difluoride", FluidStackHelper.BUCKET_VOLUME), fluidStack("sulfur_dioxide", FluidStackHelper.BUCKET_VOLUME), fluidStack("sulfur_trioxide", FluidStackHelper.BUCKET_VOLUME), fluidStack("fluorine", FluidStackHelper.BUCKET_VOLUME), 1D, 1.5D);
 		
-		addRecipe(fluidStack("oxygen", FluidHelper.BUCKET_VOLUME), fluidStack("fluorine", FluidHelper.BUCKET_VOLUME*2), fluidStack("oxygen_difluoride", FluidHelper.BUCKET_VOLUME), fluidStack("oxygen_difluoride", FluidHelper.BUCKET_VOLUME), NCConfig.processor_time[12]);
+		addRecipe(fluidStack("oxygen", FluidStackHelper.BUCKET_VOLUME), fluidStack("fluorine", FluidStackHelper.BUCKET_VOLUME*2), fluidStack("oxygen_difluoride", FluidStackHelper.BUCKET_VOLUME*2), emptyFluidStack(), 1D, 1.5D);
+		
+		addRecipe(fluidStackList(Lists.newArrayList("boron", "boron10", "boron11"), FluidStackHelper.INGOT_VOLUME), fluidStack("arsenic", FluidStackHelper.GEM_VOLUME), fluidStack("bas", FluidStackHelper.GEM_VOLUME), emptyFluidStack(), 1.5D, 1.5D);
 		
 		addElementFluorideRecipes("thorium", "uranium", "plutonium");
 		
@@ -50,8 +51,8 @@ public class ChemicalReactorRecipes extends BaseRecipeHandler {
 		addIsotopeFluorideRecipes("berkelium", 247, 248);
 		addIsotopeFluorideRecipes("californium", 249, 250, 251, 252);
 		
-		addRecipe(fluidStack("fuel_tbu", FluidHelper.INGOT_VOLUME), fluidStack("fluorine", FluidHelper.BUCKET_VOLUME), fluidStack("fuel_tbu_fluoride", FluidHelper.INGOT_VOLUME/2), fluidStack("fuel_tbu_fluoride", FluidHelper.INGOT_VOLUME/2), NCConfig.processor_time[12]);
-		addRecipe(fluidStack("depleted_fuel_tbu", FluidHelper.INGOT_VOLUME), fluidStack("fluorine", FluidHelper.BUCKET_VOLUME), fluidStack("depleted_fuel_tbu_fluoride", FluidHelper.INGOT_VOLUME/2), fluidStack("depleted_fuel_tbu_fluoride", FluidHelper.INGOT_VOLUME/2), NCConfig.processor_time[12]);
+		addRecipe(fluidStack("fuel_tbu", FluidStackHelper.INGOT_VOLUME), fluidStack("fluorine", FluidStackHelper.BUCKET_VOLUME), fluidStack("fuel_tbu_fluoride", FluidStackHelper.INGOT_VOLUME), emptyFluidStack(), 1D, 1D);
+		addRecipe(fluidStack("depleted_fuel_tbu", FluidStackHelper.INGOT_VOLUME), fluidStack("fluorine", FluidStackHelper.BUCKET_VOLUME), fluidStack("depleted_fuel_tbu_fluoride", FluidStackHelper.INGOT_VOLUME), emptyFluidStack(), 1D, 1D);
 		addFissionFuelFluorideRecipes("eu", 233, 235);
 		addFissionFuelFluorideRecipes("en", 236);
 		addFissionFuelFluorideRecipes("ep", 239, 241);
@@ -62,16 +63,16 @@ public class ChemicalReactorRecipes extends BaseRecipeHandler {
 	}
 	
 	public void addElementFluorideRecipes(String... elements) {
-		for (String element : elements) addRecipe(fluidStack(element, FluidHelper.INGOT_VOLUME), fluidStack("fluorine", FluidHelper.BUCKET_VOLUME), fluidStack(element + "_fluoride", FluidHelper.INGOT_VOLUME/2), fluidStack(element + "_fluoride", FluidHelper.INGOT_VOLUME/2), NCConfig.processor_time[12]);
+		for (String element : elements) addRecipe(fluidStack(element, FluidStackHelper.INGOT_VOLUME), fluidStack("fluorine", FluidStackHelper.BUCKET_VOLUME), fluidStack(element + "_fluoride", FluidStackHelper.INGOT_VOLUME), emptyFluidStack(), 1D, 1D);
 	}
 	
 	public void addIsotopeFluorideRecipes(String element, int... types) {
-		for (int type : types) addRecipe(fluidStack(element + "_" + type, FluidHelper.INGOT_VOLUME), fluidStack("fluorine", FluidHelper.BUCKET_VOLUME), fluidStack(element + "_" + type + "_fluoride", FluidHelper.INGOT_VOLUME/2), fluidStack(element + "_" + type + "_fluoride", FluidHelper.INGOT_VOLUME/2), NCConfig.processor_time[12]);
+		for (int type : types) addRecipe(fluidStack(element + "_" + type, FluidStackHelper.INGOT_VOLUME), fluidStack("fluorine", FluidStackHelper.BUCKET_VOLUME), fluidStack(element + "_" + type + "_fluoride", FluidStackHelper.INGOT_VOLUME), emptyFluidStack(), 1D, 1D);
 	}
 	
 	public void addFissionFuelFluorideRecipes(String suffix, int... types) {
 		for (int type : types) for (String form : new String[] {"fuel_l", "fuel_h", "depleted_fuel_l", "depleted_fuel_h"}) {
-			addRecipe(fluidStack(form + suffix + "_" + type, FluidHelper.INGOT_VOLUME), fluidStack("fluorine", FluidHelper.BUCKET_VOLUME), fluidStack(form + suffix + "_" + type + "_fluoride", FluidHelper.INGOT_VOLUME/2), fluidStack(form + suffix + "_" + type + "_fluoride", FluidHelper.INGOT_VOLUME/2), NCConfig.processor_time[12]);
+			addRecipe(fluidStack(form + suffix + "_" + type, FluidStackHelper.INGOT_VOLUME), fluidStack("fluorine", FluidStackHelper.BUCKET_VOLUME), fluidStack(form + suffix + "_" + type + "_fluoride", FluidStackHelper.INGOT_VOLUME), emptyFluidStack(), 1D, 1D);
 		}
 	}
 }

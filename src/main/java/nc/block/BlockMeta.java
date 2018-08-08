@@ -1,13 +1,13 @@
 package nc.block;
 
 import java.util.Iterator;
-import java.util.Random;
 
 import nc.Global;
 import nc.block.item.IMetaBlockName;
 import nc.enumm.IBlockMeta;
 import nc.enumm.MetaEnums;
-import nc.proxy.CommonProxy;
+import nc.tab.NCTabs;
+import nc.util.ArrayHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -19,6 +19,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
@@ -27,6 +28,8 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public abstract class BlockMeta<T extends Enum<T> & IStringSerializable & IBlockMeta> extends Block implements IMetaBlockName {
 	
@@ -40,7 +43,7 @@ public abstract class BlockMeta<T extends Enum<T> & IStringSerializable & IBlock
 		values = enumm.getEnumConstants();
 		type = property;
 		setDefaultState(blockState.getBaseState().withProperty(type, values[0]));
-		setHarvestLevel();
+		setMetaHarvestLevels();
 		setHardness(2F);
 		setResistance(15F);
 	}
@@ -51,12 +54,18 @@ public abstract class BlockMeta<T extends Enum<T> & IStringSerializable & IBlock
 		
 		public BlockOre(String name) {
 			super(name, MetaEnums.OreType.class, TYPE, Material.ROCK);
-			setCreativeTab(CommonProxy.TAB_BASE_BLOCK_MATERIALS);
+			setCreativeTab(NCTabs.TAB_BASE_BLOCK_MATERIALS);
 		}
 		
 		@Override
 		protected BlockStateContainer createBlockState() {
 			return new BlockStateContainer(this, new IProperty[] {TYPE});
+		}
+		
+		@Override
+		@SideOnly(Side.CLIENT)
+		public BlockRenderLayer getBlockLayer() {
+			return BlockRenderLayer.CUTOUT;
 		}
 	}
 	
@@ -66,7 +75,7 @@ public abstract class BlockMeta<T extends Enum<T> & IStringSerializable & IBlock
 		
 		public BlockIngot(String name) {
 			super(name, MetaEnums.IngotType.class, TYPE, Material.IRON);
-			setCreativeTab(CommonProxy.TAB_BASE_BLOCK_MATERIALS);
+			setCreativeTab(NCTabs.TAB_BASE_BLOCK_MATERIALS);
 		}
 
 		@Override
@@ -81,7 +90,7 @@ public abstract class BlockMeta<T extends Enum<T> & IStringSerializable & IBlock
 		
 		public BlockFission(String name) {
 			super(name, MetaEnums.FissionBlockType.class, TYPE, Material.IRON);
-			setCreativeTab(CommonProxy.TAB_FISSION_BLOCKS);
+			setCreativeTab(NCTabs.TAB_FISSION_BLOCKS);
 		}
 		
 		@Override
@@ -96,7 +105,7 @@ public abstract class BlockMeta<T extends Enum<T> & IStringSerializable & IBlock
 
 		public BlockCooler(String name) {
 			super(name, MetaEnums.CoolerType.class, TYPE, Material.IRON);
-			setCreativeTab(CommonProxy.TAB_FISSION_BLOCKS);
+			setCreativeTab(NCTabs.TAB_FISSION_BLOCKS);
 		}
 
 		@Override
@@ -105,19 +114,27 @@ public abstract class BlockMeta<T extends Enum<T> & IStringSerializable & IBlock
 		}
 	}
 	
-	@Override
-	public Item getItemDropped(IBlockState state, Random rand, int fortune) {
-		return Item.getItemFromBlock(this);
+	public void setMetaHarvestLevels() {
+		Iterator<T> itr = ArrayHelper.asList(values).iterator();
+		while (itr.hasNext()) {
+			T nextState = itr.next();
+			setHarvestLevel(nextState.getHarvestTool(), nextState.getHarvestLevel(), getStateFromMeta(nextState.getID()));
+		}
 	}
 	
 	@Override
-	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
-		return new ItemStack(Item.getItemFromBlock(this), 1, getMetaFromState(world.getBlockState(pos)));
+	public int getLightValue(IBlockState state, IBlockAccess world, BlockPos pos) {
+		return ((T) state.getValue(type)).getLightValue();
 	}
 	
 	@Override
-	public int damageDropped(IBlockState state) {
-		return getMetaFromState(state);
+	public float getBlockHardness(IBlockState state, World world, BlockPos pos) {
+		return ((T) world.getBlockState(pos).getValue(type)).getHardness();
+	}
+	
+	@Override
+	public float getExplosionResistance(World world, BlockPos pos, Entity exploder, Explosion explosion) {
+		return ((T) world.getBlockState(pos).getValue(type)).getResistance();
 	}
 	
 	@Override
@@ -138,43 +155,18 @@ public abstract class BlockMeta<T extends Enum<T> & IStringSerializable & IBlock
 	}
 	
 	@Override
+	public int damageDropped(IBlockState state) {
+		return getMetaFromState(state);
+	}
+	
+	@Override
+	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
+		return new ItemStack(Item.getItemFromBlock(this), 1, getMetaFromState(world.getBlockState(pos)));
+	}
+	
+	@Override
 	public boolean canCreatureSpawn(IBlockState state, IBlockAccess world, BlockPos pos, net.minecraft.entity.EntityLiving.SpawnPlacementType type) {
 		return false;
-	}
-	
-	public void setHarvestLevel() {
-		Iterator<IBlockState> itr = getBlockState().getValidStates().iterator();
-		while (itr.hasNext()) {
-			IBlockState nextState = itr.next();
-			setHarvestLevel(((T) nextState.getValue(type)).getHarvestTool(), ((T) nextState.getValue(type)).getHarvestLevel(), nextState);
-		}
-	}
-	
-	@Override
-	public int getHarvestLevel(IBlockState state) {
-		if (state.getBlock() != this) return state.getBlock().getHarvestLevel(state);
-		else return ((T) state.getValue(type)).getHarvestLevel();
-	}
-	
-	@Override
-	public float getBlockHardness(IBlockState state, World world, BlockPos pos) {
-		IBlockState blockState = world.getBlockState(pos);
-		if (blockState.getBlock() != this) return blockState.getBlockHardness(world, pos);
-		else return ((T) blockState.getValue(type)).getHardness();
-	}
-	
-	@Override
-	public float getExplosionResistance(World world, BlockPos pos, Entity exploder, Explosion explosion) {
-		IBlockState blockState = world.getBlockState(pos);
-		if (blockState.getBlock() != this) return blockState.getBlock().getExplosionResistance(world, pos, exploder, explosion);
-		else return ((T) blockState.getValue(type)).getResistance();
-	}
-	
-	@Override
-	public int getLightValue(IBlockState state, IBlockAccess world, BlockPos pos) {
-		IBlockState blockState = world.getBlockState(pos);
-		if (blockState.getBlock() != this) return blockState.getLightValue(world, pos);
-		else return ((T) state.getValue(type)).getLightValue();
 	}
 	
 	@Override

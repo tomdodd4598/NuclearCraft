@@ -5,6 +5,8 @@ import nc.enumm.MetaEnums.IngotType;
 import nc.enumm.MetaEnums.OreType;
 import nc.init.NCBlocks;
 import nc.init.NCItems;
+import nc.util.OreDictHelper;
+import nc.util.StringHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -13,16 +15,16 @@ public class FurnaceRecipeHandler {
 	
 	public static void registerFurnaceRecipes() {
 		for (int i = 0; i < OreType.values().length; i++) {
-			GameRegistry.addSmelting(new ItemStack(NCBlocks.ore, 1, i), new ItemStack(NCItems.ingot, 1, i), 0.5F);
+			GameRegistry.addSmelting(new ItemStack(NCBlocks.ore, 1, i), OreDictHelper.getPrioritisedCraftingStack(new ItemStack(NCItems.ingot, 1, i), "ingot" + StringHelper.capitalize(OreType.values()[i].getName())), 0.5F);
 		}
 		for (int i = 0; i < IngotType.values().length; i++) {
-			GameRegistry.addSmelting(new ItemStack(NCItems.dust, 1, i), new ItemStack(NCItems.ingot, 1, i), 0.0F);
+			GameRegistry.addSmelting(new ItemStack(NCItems.dust, 1, i), OreDictHelper.getPrioritisedCraftingStack(new ItemStack(NCItems.ingot, 1, i), "ingot" + StringHelper.capitalize(IngotType.values()[i].getName())), 0.0F);
 		}
 		for (int i = 0; i < IngotOxideType.values().length; i++) {
-			GameRegistry.addSmelting(new ItemStack(NCItems.dust_oxide, 1, i), new ItemStack(NCItems.ingot_oxide, 1, i), 0.0F);
+			GameRegistry.addSmelting(new ItemStack(NCItems.dust_oxide, 1, i), OreDictHelper.getPrioritisedCraftingStack(new ItemStack(NCItems.ingot_oxide, 1, i), "ingot" + StringHelper.capitalize(IngotOxideType.values()[i].getName())), 0.0F);
 		}
 		
-		GameRegistry.addSmelting(new ItemStack(NCItems.gem_dust, 1, 1), new ItemStack(NCItems.dust_oxide, 1, 2), 0.0F);
+		GameRegistry.addSmelting(new ItemStack(NCItems.gem_dust, 1, 1), OreDictHelper.getPrioritisedCraftingStack(new ItemStack(NCItems.dust_oxide, 1, 2), "dustManganeseOxide"), 0.0F);
 		
 		oxideMaterialRecipes(NCItems.thorium, 2);
 		oxideMaterialRecipes(NCItems.uranium, 3);

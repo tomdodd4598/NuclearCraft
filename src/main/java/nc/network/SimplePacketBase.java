@@ -15,7 +15,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
 
-public abstract class SimplePacketBase<REQ extends SimplePacketBase<REQ, REPLY> , REPLY extends IMessage> implements IMessage, IMessageHandler<REQ, REPLY> {
+public abstract class SimplePacketBase<REQ extends SimplePacketBase<REQ, REPLY>, REPLY extends IMessage> implements IMessage, IMessageHandler<REQ, REPLY> {
 	private final ByteBuf write;
 	private ByteBuf read;
 	private final Gson gson = new Gson();

@@ -5,7 +5,7 @@ import nc.block.NCBlock;
 import nc.multiblock.IMultiblockPart;
 import nc.multiblock.MultiblockControllerBase;
 import nc.multiblock.validation.ValidationError;
-import nc.proxy.CommonProxy;
+import nc.tab.NCTabs;
 import nc.util.Lang;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
@@ -34,7 +34,7 @@ public abstract class BlockSaltFissionPartBase extends NCBlock implements ITileE
 		super(name, Material.IRON);
 		this.hasTileEntity = true;
 		setDefaultState(blockState.getBaseState());
-		setCreativeTab(CommonProxy.TAB_SALT_FISSION_BLOCKS);
+		setCreativeTab(NCTabs.TAB_SALT_FISSION_BLOCKS);
 	}
 	
 	@Override

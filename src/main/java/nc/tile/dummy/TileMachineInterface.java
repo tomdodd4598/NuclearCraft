@@ -10,7 +10,7 @@ public class TileMachineInterface extends TileDummy implements IBufferable {
 	public int tickCount;
 
 	public TileMachineInterface() {
-		super("machine_interface", 20);
+		super("machine_interface", 20, null);
 	}
 	
 	@Override

@@ -188,6 +188,12 @@
 				"fluid": "sulfur"
 			}
 		},
+		"fluid_arsenic": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "arsenic"
+			}
+		},
 		"fluid_sulfur_dioxide": {
 			"model": "forge:fluid",
 			"custom": {
@@ -300,6 +306,12 @@
 			"model": "forge:fluid",
 			"custom": {
 				"fluid": "koh"
+			}
+		},
+		"fluid_bas": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "bas"
 			}
 		}
 	}
