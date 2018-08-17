@@ -1,12 +1,16 @@
 package nc.tile.generator;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Callback;
+import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.network.SimpleComponent;
 import nc.Global;
+import nc.block.tile.generator.BlockFissionController;
+import nc.block.tile.generator.BlockFissionControllerNewFixed;
 import nc.config.NCConfig;
 import nc.enumm.MetaEnums.CoolerType;
 import nc.init.NCBlocks;
@@ -21,6 +25,7 @@ import nc.util.Lang;
 import nc.util.NCMathHelper;
 import nc.util.RegistryHelper;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
@@ -28,13 +33,10 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraftforge.fml.common.Optional;
 
-/*@Optional.InterfaceList({
-	@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers"),
-	@Optional.Interface(iface = "li.cil.oc.api.network.ManagedPeripheral", modid = "opencomputers"),
-	@Optional.Interface(iface = "dan200.computercraft.api.peripheral.IPeripheral", modid = "computercraft")
-})*/
-public class TileFissionController extends TileItemGenerator /*implements SimpleComponent, ManagedPeripheral, IPeripheral*/ {
+@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers")
+public class TileFissionController extends TileItemGenerator implements SimpleComponent {
 	
 	private Random rand = new Random();
 	
@@ -51,6 +53,8 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 	public String problemPos = BlockPosHelper.stringPos(pos);
 	public int problemPosX = 0, problemPosY = 0, problemPosZ = 0;
 	public int problemPosBool = 0;
+	
+	public boolean computerActivated = false;
 	
 	public static final int BASE_CAPACITY = 64000, BASE_MAX_HEAT = 25000;
 	
@@ -82,21 +86,20 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 	
 	@Override
 	public void onAdded() {
-		finder = new BlockFinder(pos, world, getBlockMetadata());
+		finder = new BlockFinder(pos, world, getBlockMetadata() & 7);
 		super.onAdded();
 		tickCount = -1;
 	}
 	
 	@Override
 	public void updateProcessor() {
+		if (fixControllerBlock()) return;
 		recipe = getRecipeHandler().getRecipeFromInputs(getItemInputs(hasConsumed), new ArrayList<Tank>());
 		canProcessInputs = canProcessInputs();
 		boolean wasProcessing = isProcessing;
 		isProcessing = isProcessing();
 		boolean shouldUpdate = false;
-		if(!world.isRemote) {
-			tickTile();
-		}
+		tickTile();
 		checkStructure();
 		if(!world.isRemote) {
 			if (newRules) newRun(); else run();
@@ -112,6 +115,20 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 			if (findAdjacentComparator() && shouldTileCheck()) shouldUpdate = true;
 		}
 		if (shouldUpdate) markDirty();
+	}
+	
+	private boolean fixControllerBlock() {
+		if (!newRules) return false;
+		IBlockState state = world.getBlockState(pos);
+		if (state.getBlock() instanceof BlockFissionController) {
+			BlockFissionController controller = (BlockFissionController) state.getBlock();
+			int meta = controller.getMetaFromState(state);
+			if (controller.isActive) meta |= 8;
+			
+			world.setBlockState(pos, NCBlocks.fission_controller_new_fixed.getStateFromMeta(meta));
+			return true;
+		}
+		return false;
 	}
 	
 	@Override
@@ -151,6 +168,15 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 	}
 	
 	@Override
+	public boolean isProcessing() {
+		return readyToProcess() && isActivated();
+	}
+	
+	private boolean isActivated() {
+		return isRedstonePowered() || computerActivated;
+	}
+	
+	@Override
 	public boolean readyToProcess() {
 		return canProcessInputs && hasConsumed && complete == 1;
 	}
@@ -161,15 +187,21 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 		tickCount = -1;
 	}
 	
+	@Override
+	public void setState(boolean isActive) {
+		super.setState(isActive);
+		if (getBlockType() instanceof BlockFissionControllerNewFixed) ((BlockFissionControllerNewFixed)getBlockType()).setActiveState(world.getBlockState(pos), world, pos, isActive);
+	}
+	
 	// IC2 Tiers
 	
 	@Override
-	public int getSourceTier() {
+	public int getEUSourceTier() {
 		return EnergyHelper.getEUTier(processPower);
 	}
 	
 	@Override
-	public int getSinkTier() {
+	public int getEUSinkTier() {
 		return 4;
 	}
 	
@@ -182,37 +214,15 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 			return;
 		}
 		
-		List extras = recipe.extras();
-		
-		if (extras.isEmpty()) baseProcessTime = defaultProcessTime;
-		else {
-			Object processTimeInfo = recipe.extras().get(0);
-			if (processTimeInfo instanceof Double) {
-				baseProcessTime = (double) processTimeInfo;
-			} else baseProcessTime = defaultProcessTime;
-		}
-		
-		if (extras.size() < 2) baseProcessPower = defaultProcessPower;
-		else {
-			Object processPowerInfo = recipe.extras().get(1);
-			if (processPowerInfo instanceof Double) {
-				baseProcessPower = (double) processPowerInfo;
-			} else baseProcessPower = defaultProcessPower;
-		}
-		
-		if (extras.size() < 3) baseProcessHeat = 0;
-		else {
-			Object processHeatInfo = recipe.extras().get(2);
-			if (processHeatInfo instanceof Double) {
-				baseProcessHeat = (double) processHeatInfo;
-			} else baseProcessHeat = 0;
-		}
+		baseProcessTime = recipe.getFissionFuelTime();
+		baseProcessPower = recipe.getFissionFuelPower();
+		baseProcessHeat = recipe.getFissionFuelHeat();
 	}
 	
 	public void setDefaultRecipeStats() {
 		baseProcessTime = defaultProcessTime;
 		baseProcessPower = defaultProcessPower;
-		baseProcessHeat = 0;
+		baseProcessHeat = 0D;
 	}
 	
 	public String getFuelName() {
@@ -428,7 +438,7 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 	}
 	
 	private boolean findController(BlockPos pos) {
-		return finder.find(pos, NCBlocks.fission_controller_idle, NCBlocks.fission_controller_active, NCBlocks.fission_controller_new_idle, NCBlocks.fission_controller_new_active);
+		return finder.find(pos, NCBlocks.fission_controller_idle, NCBlocks.fission_controller_active, NCBlocks.fission_controller_new_idle, NCBlocks.fission_controller_new_active, NCBlocks.fission_controller_new_fixed);
 	}
 	
 	private boolean findController(int x, int y, int z) {
@@ -679,8 +689,7 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 		double baseRF = baseProcessPower;
 		double baseHeat = baseProcessHeat;
 		
-		ready = readyToProcess() && !isRedstonePowered() ? 1 : 0;
-		boolean generating = readyToProcess() && isRedstonePowered();
+		ready = readyToProcess() && !isActivated() ? 1 : 0;
 
 		if (shouldTileCheck()) {
 			if (complete == 1) {
@@ -704,7 +713,7 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 							break;
 						}
 						
-						if (generating) fuelThisTick += NCConfig.fission_fuel_use;
+						if (isProcessing) fuelThisTick += NCConfig.fission_fuel_use;
 					}
 					
 					// Moderators
@@ -737,7 +746,7 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 							Tank tank = ((TileActiveCooler) tile).getTanks().get(0);
 							int fluidAmount = Math.min(tank.getFluidAmount(), 4*NCConfig.machine_update_rate*NCConfig.active_cooler_max_rate/20);
 							if (fluidAmount > 0) {
-								double currentHeat = heat + (generating ? heatThisTick : 0) + coolerHeatThisTick;
+								double currentHeat = heat + (isProcessing ? heatThisTick : 0) + coolerHeatThisTick;
 								for (int i = 1; i < CoolerType.values().length; i++) {
 									if (tank.getFluidName() == CoolerType.values()[i].getFluidName()) {
 										if (coolerRequirements(x, y, z, i)) {
@@ -747,7 +756,7 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 									}
 								}
 								if (currentHeat > 0) {
-									double newHeat = heat + (generating ? heatThisTick : 0) + coolerHeatThisTick;
+									double newHeat = heat + (isProcessing ? heatThisTick : 0) + coolerHeatThisTick;
 									if (newHeat >= 0) tank.drain(MathHelper.ceil(fluidAmount), true); else {
 										double heatFraction = currentHeat/(currentHeat - newHeat);
 										tank.drain(MathHelper.ceil(fluidAmount*heatFraction), true);
@@ -778,7 +787,7 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 			}
 		}
 		
-		if (generating) {
+		if (isProcessing) {
 			if (heat + heatChange >= 0) {
 				heat += heatChange;
 			} else {
@@ -807,8 +816,7 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 		double moderatorPowerMultiplier = NCConfig.fission_moderator_extra_power/6D;
 		double moderatorHeatMultiplier = NCConfig.fission_moderator_extra_heat/6D;
 		
-		ready = readyToProcess() && !isRedstonePowered() ? 1 : 0;
-		boolean generating = readyToProcess() && isRedstonePowered();
+		ready = readyToProcess() && !isActivated() ? 1 : 0;
 
 		if (shouldTileCheck()) {
 			if (complete == 1) {
@@ -832,7 +840,7 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 							break;
 						}
 						
-						if (generating) fuelThisTick += NCConfig.fission_fuel_use;
+						if (isProcessing) fuelThisTick += NCConfig.fission_fuel_use;
 						
 						// Adjacent Moderator
 						energyMultThisTick += moderatorPowerMultiplier*moderatorAdjacentCount(x, y, z)*(extraCells + 1D);
@@ -865,7 +873,7 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 							Tank tank = ((TileActiveCooler) tile).getTanks().get(0);
 							int fluidAmount = Math.min(tank.getFluidAmount(), 4*NCConfig.machine_update_rate*NCConfig.active_cooler_max_rate/20);
 							if (fluidAmount > 0) {
-								double currentHeat = heat + (generating ? heatThisTick : 0D) + coolerHeatThisTick;
+								double currentHeat = heat + (isProcessing ? heatThisTick : 0D) + coolerHeatThisTick;
 								for (int i = 1; i < CoolerType.values().length; i++) {
 									if (tank.getFluidName() == CoolerType.values()[i].getFluidName()) {
 										if (coolerRequirements(x, y, z, i)) {
@@ -875,7 +883,7 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 									}
 								}
 								if (currentHeat > 0) {
-									double newHeat = heat + (generating ? heatThisTick : 0D) + coolerHeatThisTick;
+									double newHeat = heat + (isProcessing ? heatThisTick : 0D) + coolerHeatThisTick;
 									if (newHeat >= 0) tank.drain(MathHelper.ceil(fluidAmount), true); else {
 										double heatFraction = currentHeat/(currentHeat - newHeat);
 										tank.drain(MathHelper.ceil(fluidAmount*heatFraction), true);
@@ -906,7 +914,7 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 			}
 		}
 		
-		if (generating) {
+		if (isProcessing) {
 			if (heat + heatChange >= 0D) {
 				heat += heatChange;
 			} else {
@@ -955,7 +963,7 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 		nbt.setBoolean("newRules", newRules);
 		nbt.setInteger("ports", ports);
 		nbt.setInteger("currentEnergyStored", currentEnergyStored);
-		
+		nbt.setBoolean("computerActivated", computerActivated);
 		return nbt;
 	}
 			
@@ -992,6 +1000,7 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 		newRules = nbt.getBoolean("newRules");
 		ports = nbt.getInteger("ports");
 		currentEnergyStored = nbt.getInteger("currentEnergyStored");
+		computerActivated = nbt.getBoolean("computerActivated");
 	}
 	
 	// Inventory Fields
@@ -1017,7 +1026,7 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 		case 5:
 			return (int) cooling;
 		case 6:
-			return (int) efficiency;
+			return (int) (efficiency*10);
 		case 7:
 			return cells;
 		case 8:
@@ -1043,9 +1052,11 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 		case 18:
 			return problemPosBool;
 		case 19:
-			return (int) heatMult;
+			return (int) (heatMult*10);
 		case 20:
 			return hasConsumed ? 1 : 0;
+		case 21:
+			return computerActivated ? 1 : 0;
 		default:
 			return 0;
 		}
@@ -1073,7 +1084,7 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 			cooling = value;
 			break;
 		case 6:
-			efficiency = value;
+			efficiency = value/10D;
 			break;
 		case 7:
 			cells = value;
@@ -1112,10 +1123,13 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 			problemPosBool = value;
 			break;
 		case 19:
-			heatMult = value;
+			heatMult = value/10D;
 			break;
 		case 20:
 			hasConsumed = value == 1;
+			break;
+		case 21:
+			computerActivated = value == 1;
 		}
 	}
 	
@@ -1126,119 +1140,127 @@ public class TileFissionController extends TileItemGenerator /*implements Simple
 		return world.getTileEntity(pos) != this ? false : player.getDistanceSq((double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D) <= Math.max(lengthX*lengthX + lengthY*lengthY + lengthZ*lengthZ, 64.0D);
 	}
 	
-	// Computers
-	
-	public enum ComputerMethod {
-		isComplete,
-		isHotEnough,
-		getProblem,
-		getSize,
-		getEnergyStored,
-		getHeatLevel,
-		getHeatChange,
-		getEfficiency,
-		getFuelLevels,
-		getOutputLevels,
-		getFuelTypes,
-		getOutputTypes,
-		getComboProcessTime,
-		getProcessTime,
-		getComboPower,
-		getPower,
-		getActiveCooling,
-		doVentFuel,
-		doVentAllFuels,
-		doVentOutput,
-		doVentAllOutputs
-	}
-	
-	public static final int NUMBER_OF_METHODS = ComputerMethod.values().length;
-
-	public static final String[] METHOD_NAMES = new String[NUMBER_OF_METHODS];
-	static {
-		ComputerMethod[] methods = ComputerMethod.values();
-		for (ComputerMethod method : methods) {
-			METHOD_NAMES[method.ordinal()] = method.toString();
-		}
-	}
-
-	public static final Map<String, Integer> METHOD_IDS = new HashMap<String, Integer>();
-	static {
-		for (int i = 0; i < NUMBER_OF_METHODS; ++i) {
-			METHOD_IDS.put(METHOD_NAMES[i], i);
-		}
-	}
-	
-	public Object[] callMethod(int method, Object[] arguments) throws Exception {
-		return new Object[] { complete == 1 };
-	}
-	
 	// OpenComputers
 	
-	/*@Override
-	@Callback
-	@Optional.Method(modid = "opencomputers")
-	public Object[] invoke(String method, Context context, Arguments args) throws Exception {
-		final Object[] arguments = new Object[args.count()];
-		for (int i = 0; i < args.count(); ++i) {
-			arguments[i] = args.checkAny(i);
-		}
-		final Integer methodId = METHOD_IDS.get(method);
-		if (methodId == null) {
-			throw new NoSuchMethodError();
-		}
-		return callMethod(methodId, arguments);
-	}
-
 	@Override
-	@Callback
 	@Optional.Method(modid = "opencomputers")
 	public String getComponentName() {
 		return Global.MOD_SHORT_ID + "_fission_reactor";
 	}
 	
-	@Override
 	@Callback
 	@Optional.Method(modid = "opencomputers")
-	public String[] methods() {
-		return METHOD_NAMES;
-	}*/
-	
-	// ComputerCraft
-	
-	/*@Override
-	@Optional.Method(modid = "computercraft")
-	public String getType() {
-		return Global.MOD_SHORT_ID + "_fission_reactor";
+	public Object[] isComplete(Context context, Arguments args) {
+		return new Object[] {complete == 1};
 	}
 	
-	@Override
-	@Optional.Method(modid = "computercraft")
-	public String[] getMethodNames() {
-		return METHOD_NAMES;
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getProblem(Context context, Arguments args) {
+		return new Object[] {problem};
 	}
 	
-	@Override
-	@Optional.Method(modid = "computercraft")
-	public Object[] callMethod(IComputerAccess computer, ILuaContext context, int method, Object[] arguments) throws LuaException {
-		try {
-			return callMethod(method, arguments);
-		} catch(Exception e) {
-			throw new LuaException(e.getMessage());
-		}
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getLengthX(Context context, Arguments args) {
+		return new Object[] {getLengthX()};
 	}
 	
-	@Override
-	@Optional.Method(modid = "computercraft")
-	public void attach(IComputerAccess computer) {}
-
-	@Override
-	@Optional.Method(modid = "computercraft")
-	public void detach(IComputerAccess computer) {}
-
-	@Override
-	@Optional.Method(modid = "computercraft")
-	public boolean equals(IPeripheral other) {
-		return hashCode() == other.hashCode();
-	}*/
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getLengthY(Context context, Arguments args) {
+		return new Object[] {getLengthY()};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getLengthZ(Context context, Arguments args) {
+		return new Object[] {getLengthZ()};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getEnergyStored(Context context, Arguments args) {
+		return new Object[] {getEnergyStored()};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getMaxEnergyStored(Context context, Arguments args) {
+		return new Object[] {getMaxEnergyStored()};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getHeatLevel(Context context, Arguments args) {
+		return new Object[] {heat};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getEfficiency(Context context, Arguments args) {
+		return new Object[] {efficiency};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getHeatMultiplier(Context context, Arguments args) {
+		return new Object[] {heatMult};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getFissionFuelTime(Context context, Arguments args) {
+		return new Object[] {baseProcessTime};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getFissionFuelPower(Context context, Arguments args) {
+		return new Object[] {baseProcessPower};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getFissionFuelHeat(Context context, Arguments args) {
+		return new Object[] {baseProcessHeat};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getReactorProcessTime(Context context, Arguments args) {
+		return new Object[] {cells == 0 ? baseProcessTime : baseProcessTime/cells};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getReactorProcessPower(Context context, Arguments args) {
+		return new Object[] {processPower};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getReactorProcessHeat(Context context, Arguments args) {
+		return new Object[] {heatChange};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getReactorCoolingRate(Context context, Arguments args) {
+		return new Object[] {cooling};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] activate(Context context, Arguments args) {
+		computerActivated = true;
+		return new Object[] {};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] deactivate(Context context, Arguments args) {
+		computerActivated = false;
+		return new Object[] {};
+	}
 }

@@ -6,29 +6,30 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IGuiFluidStackGroup;
 import mezz.jei.api.gui.IGuiItemStackGroup;
 import mezz.jei.api.ingredients.IIngredients;
-import nc.recipe.IRecipe;
+import nc.integration.jei.NCJEI.JEIHandler;
 import nc.recipe.ProcessorRecipe;
 import nc.recipe.ProcessorRecipeHandler;
 import nc.recipe.SorptionType;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fml.common.Loader;
 
 public class JEIMethods {
-
-	public static List<IJEIRecipeBuilder> recipeBuilders = new ArrayList();
-
-	public static void registerRecipeBuilder(IJEIRecipeBuilder builder) {
-		recipeBuilders.add(builder);
-	}
-
-	public static Object createJEIRecipe(IRecipe recipe, ProcessorRecipeHandler helper) {
-		for (IJEIRecipeBuilder builder : recipeBuilders) {
-			Object build = builder.buildRecipe(recipe, helper);
-			if (build != null) {
-				return build;
+	
+	public static Object buildJEIRecipe(IGuiHelper guiHelper, ProcessorRecipe recipe, ProcessorRecipeHandler methods) {
+		if ((Loader.isModLoaded("jei") || Loader.isModLoaded("JEI"))) {
+			for (JEIHandler handler : JEIHandler.values()) {
+				if (handler.getRecipeHandler().getRecipeName().equals(methods.getRecipeName())) {
+					try {
+						return handler.getJEIRecipeWrapper().getConstructor(ProcessorRecipeHandler.class, ProcessorRecipe.class).newInstance(handler.getRecipeHandler(), recipe);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
 			}
 		}
 		return null;
@@ -128,13 +129,12 @@ public class JEIMethods {
 		}
 	}
 
-	public static ArrayList<JEIProcessorRecipe> getJEIRecipes(ProcessorRecipeHandler recipeHelper, Class<? extends JEIProcessorRecipe> recipeClass) {
-		ArrayList<JEIProcessorRecipe> recipes = new ArrayList();
-		if (recipeHelper != null && recipeHelper instanceof ProcessorRecipeHandler) {
-			ProcessorRecipeHandler helper = (ProcessorRecipeHandler) recipeHelper;
-			for (IRecipe recipe : (ArrayList<ProcessorRecipe>) helper.getRecipes()) {
+	public static ArrayList<JEIProcessorRecipeWrapper> getJEIRecipes(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, Class<? extends JEIProcessorRecipeWrapper> recipeWrapper) {
+		ArrayList<JEIProcessorRecipeWrapper> recipes = new ArrayList();
+		if (recipeHandler != null) {
+			for (ProcessorRecipe recipe : recipeHandler.getRecipes()) {
 				try {
-					recipes.add(recipeClass.getConstructor(ProcessorRecipeHandler.class, IRecipe.class).newInstance(helper, recipe));
+					recipes.add(recipeWrapper.getConstructor(IGuiHelper.class, IJEIHandler.class, ProcessorRecipeHandler.class, ProcessorRecipe.class).newInstance(guiHelper, jeiHandler, recipeHandler, recipe));
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

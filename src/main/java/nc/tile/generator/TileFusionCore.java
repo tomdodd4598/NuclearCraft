@@ -2,14 +2,19 @@ package nc.tile.generator;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Callback;
+import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.network.SimpleComponent;
+import nc.Global;
 import nc.config.NCConfig;
 import nc.enumm.MetaEnums.CoolerType;
 import nc.handler.SoundHandler;
 import nc.init.NCBlocks;
+import nc.network.FusionUpdatePacket;
+import nc.network.PacketHandler;
 import nc.recipe.NCRecipes;
 import nc.tile.fluid.TileActiveCooler;
 import nc.tile.internal.energy.EnergyConnection;
@@ -31,15 +36,12 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fml.common.Optional;
 
-/*@Optional.InterfaceList({
-	@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers"),
-	@Optional.Interface(iface = "li.cil.oc.api.network.ManagedPeripheral", modid = "opencomputers"),
-	@Optional.Interface(iface = "dan200.computercraft.api.peripheral.IPeripheral", modid = "computercraft")
-})*/
-public class TileFusionCore extends TileFluidGenerator /*implements SimpleComponent, ManagedPeripheral, IPeripheral*/ {
+@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers")
+public class TileFusionCore extends TileFluidGenerator implements SimpleComponent {
 	
-	private static final double ROOM_TEMP = 0.298D;
+	public static final double ROOM_TEMP = 0.298D;
 	
 	public double processHeatVariable = 0;
 	public double heat = ROOM_TEMP, efficiency, cooling, heatChange; // cooling and heatChange are in K, not kK
@@ -54,6 +56,8 @@ public class TileFusionCore extends TileFluidGenerator /*implements SimpleCompon
 	public static final String RING_BLOCKED = Lang.localise("gui.container.fusion_core.ring_blocked");
 	public static final String POWER_ISSUE = Lang.localise("gui.container.fusion_core.power_issue");
 	public static final String INCORRECT_STRUCTURE = Lang.localise("gui.container.fusion_core.incorrect_structure");
+	
+	public boolean computerActivated = true;
 	
 	private BlockFinder finder;
 	
@@ -82,24 +86,23 @@ public class TileFusionCore extends TileFluidGenerator /*implements SimpleCompon
 		boolean wasProcessing = isProcessing;
 		isProcessing = isProcessing();
 		boolean shouldUpdate = false;
-		if(!world.isRemote) {
-			tickTile();
-		}
+		tickTile();
 		setSize();
 		if(!world.isRemote) {
 			if (shouldTileCheck() && NCConfig.fusion_active_cooling) setCooling();
 			double previousHeat = heat;
 			run();
+			if (isHotEnough()) doCooling();
 			doHeating();
-			doCooling();
 			heatChange = 1000*(heat - previousHeat);
-			plasma();
 			if (overheat()) return;
 			if (isProcessing) process();
 			consumeInputs();
 			if (wasProcessing != isProcessing) {
+				plasma();
 				shouldUpdate = true;
 				updateBlockType();
+				PacketHandler.instance.sendToAll(getFusionUpdatePacket());
 			}
 			if (isHotEnough()) pushEnergy();
 			if (findAdjacentComparator() && shouldTileCheck()) shouldUpdate = true;
@@ -112,6 +115,16 @@ public class TileFusionCore extends TileFluidGenerator /*implements SimpleCompon
 	@Override
 	public void tickTile() {
 		tickCount++; tickCount %= 4*NCConfig.machine_update_rate;
+	}
+	
+	private FusionUpdatePacket getFusionUpdatePacket() {
+		return new FusionUpdatePacket(pos, isProcessing, efficiency, computerActivated);
+	}
+	
+	public void onFusionPacket(boolean isProcessing, double efficiency, boolean computerActivated) {
+		this.isProcessing = isProcessing;
+		this.efficiency = efficiency;
+		this.computerActivated = computerActivated;
 	}
 	
 	public boolean overheat() {
@@ -137,7 +150,12 @@ public class TileFusionCore extends TileFluidGenerator /*implements SimpleCompon
 	
 	@Override
 	public boolean isProcessing() {
-		return readyToProcess() && !isRedstonePowered();
+		return readyToProcess() && !isDeactivated();
+	}
+	
+	// Because reactor is on by default
+	private boolean isDeactivated() {
+		return isRedstonePowered() || !computerActivated;
 	}
 	
 	@Override
@@ -212,12 +230,12 @@ public class TileFusionCore extends TileFluidGenerator /*implements SimpleCompon
 	// IC2 Tiers
 
 	@Override
-	public int getSourceTier() {
+	public int getEUSourceTier() {
 		return EnergyHelper.getEUTier(processPower);
 	}
 	
 	@Override
-	public int getSinkTier() {
+	public int getEUSinkTier() {
 		return 4;
 	}
 	
@@ -238,37 +256,15 @@ public class TileFusionCore extends TileFluidGenerator /*implements SimpleCompon
 			return;
 		}
 		
-		List extras = recipe.extras();
-		
-		if (extras.isEmpty()) baseProcessTime = defaultProcessTime;
-		else {
-			Object processTimeInfo = recipe.extras().get(0);
-			if (processTimeInfo instanceof Double) {
-				baseProcessTime = (double) processTimeInfo;
-			} else baseProcessTime = defaultProcessTime;
-		}
-		
-		if (extras.size() < 2) baseProcessPower = defaultProcessPower;
-		else {
-			Object processPowerInfo = recipe.extras().get(1);
-			if (processPowerInfo instanceof Double) {
-				baseProcessPower = (double) processPowerInfo;
-			} else baseProcessPower = defaultProcessPower;
-		}
-		
-		if (extras.size() < 3) processHeatVariable = 1000;
-		else {
-			Object processHeatVarInfo = recipe.extras().get(2);
-			if (processHeatVarInfo instanceof Double) {
-				processHeatVariable = (double) processHeatVarInfo;
-			} else processHeatVariable = 1000;
-		}
+		baseProcessTime = recipe.getFusionComboTime();
+		baseProcessPower = recipe.getFusionComboPower();
+		processHeatVariable = recipe.getFusionComboHeatVariable();
 	}
 	
 	public void setDefaultRecipeStats() {
 		baseProcessTime = defaultProcessTime;
 		baseProcessPower = defaultProcessPower;
-		processHeatVariable = 1000;
+		processHeatVariable = 1000D;
 	}
 	
 	// Setting Blocks
@@ -282,7 +278,7 @@ public class TileFusionCore extends TileFluidGenerator /*implements SimpleCompon
 		if (isProcessing) {
 			for (BlockPos pos : helper.squareRing(ringRadius(), 1)) if (!findPlasma(pos)) setPlasma(pos);
 		}
-		else if ((isRedstonePowered() || (time <= 0 && canProcessInputs) || !isHotEnough()) && complete == 1) {
+		else if (!canProcessInputs || !isHotEnough() || (isDeactivated() && complete == 1)) {
 			for (BlockPos pos : helper.squareRing(ringRadius(), 1)) if (findPlasma(pos)) world.setBlockToAir(pos);
 		}
 	}
@@ -458,6 +454,7 @@ public class TileFusionCore extends TileFluidGenerator /*implements SimpleCompon
 		nbt.setInteger("size", size);
 		nbt.setInteger("complete", complete);
 		nbt.setString("problem", problem);
+		nbt.setBoolean("computerActivated", computerActivated);
 		return nbt;
 	}
 			
@@ -474,6 +471,7 @@ public class TileFusionCore extends TileFluidGenerator /*implements SimpleCompon
 		size = nbt.getInteger("size");
 		complete = nbt.getInteger("complete");
 		problem = nbt.getString("problem");
+		computerActivated = nbt.getBoolean("computerActivated");
 	}
 	
 	// Inventory Fields
@@ -510,6 +508,8 @@ public class TileFusionCore extends TileFluidGenerator /*implements SimpleCompon
 			return (int) heatChange;
 		case 11:
 			return hasConsumed ? 1 : 0;
+		case 12:
+			return computerActivated ? 1 : 0;
 		default:
 			return 0;
 		}
@@ -553,150 +553,121 @@ public class TileFusionCore extends TileFluidGenerator /*implements SimpleCompon
 			break;
 		case 11:
 			hasConsumed = value == 1;
-		}
-	}
-	
-	// Computers
-	
-	public enum ComputerMethod {
-		isComplete,
-		isHotEnough,
-		getProblem,
-		getSize,
-		getEnergyStored,
-		getHeatLevel,
-		getHeatChange,
-		getEfficiency,
-		getFuelLevels,
-		getOutputLevels,
-		getFuelTypes,
-		getOutputTypes,
-		getComboProcessTime,
-		getComboPower,
-		getActiveCooling,
-		doVentFuel,
-		doVentAllFuels,
-		doVentOutput,
-		doVentAllOutputs
-	}
-	
-	public static final int NUMBER_OF_METHODS = ComputerMethod.values().length;
-
-	public static final String[] METHOD_NAMES = new String[NUMBER_OF_METHODS];
-	static {
-		ComputerMethod[] methods = ComputerMethod.values();
-		for(ComputerMethod method : methods) {
-			METHOD_NAMES[method.ordinal()] = method.toString();
-		}
-	}
-
-	public static final Map<String, Integer> METHOD_IDS = new HashMap<String, Integer>();
-	static {
-		for (int i = 0; i < NUMBER_OF_METHODS; ++i) {
-			METHOD_IDS.put(METHOD_NAMES[i], i);
-		}
-	}
-	
-	public Object[] callMethod(int method, Object[] arguments) throws Exception {
-		if(method < 0 || method >= NUMBER_OF_METHODS) throw new IllegalArgumentException(Lang.localise("gui.computer.invalid_method_number"));
-		if(method == 0) return new Object[] { complete == 1 };
-		if(complete == 0) throw new Exception(Lang.localise("gui.container.fusion_core.reactor_not_found"));
-		
-		ComputerMethod computerMethod = ComputerMethod.values()[method];
-		
-		switch(computerMethod) {
-		case isComplete:
-			return new Object[] { complete == 1 };
-		case isHotEnough:
-			return new Object[] { isHotEnough() };
-		case getProblem:
-			return new Object[] { problem };
-		case getSize:
-			return new Object[] { size };
-		case getEnergyStored:
-			return new Object[] { getEnergyStorage().getEnergyStored() };
-		case getHeatLevel:
-			return new Object[] { heat };
-		case getHeatChange:
-			return new Object[] { heatChange/1000 };
-		case getEfficiency:
-			return new Object[] { efficiency };
-		case getFuelLevels:
-			return new Object[] { getTanks().get(0).getFluidAmount(), getTanks().get(1).getFluidAmount() };
-		case getOutputLevels:
-			return new Object[] { getTanks().get(2).getFluidAmount(), getTanks().get(3).getFluidAmount(), getTanks().get(4).getFluidAmount(), getTanks().get(5).getFluidAmount() };
-		case getFuelTypes:
-			return new Object[] { getTanks().get(0).getFluidName(), getTanks().get(1).getFluidName() };
-		case getOutputTypes:
-			return new Object[] { getTanks().get(2).getFluidName(), getTanks().get(3).getFluidName(), getTanks().get(4).getFluidName(), getTanks().get(5).getFluidName() };
-		case getComboProcessTime:
-			return new Object[] { baseProcessTime };
-		case getComboPower:
-			return new Object[] { processPower };
-		case getActiveCooling:
-			return new Object[] { cooling/1000 };
-		case doVentFuel: {
-			if(arguments.length != 1) throw new IllegalArgumentException(Lang.localise("gui.computer.number_of_arguments_error", arguments.length, 1));
-			if(!(arguments[0] instanceof Integer)) throw new IllegalArgumentException(Lang.localise("gui.computer.invalid_argument_error", 0, "Number"));
-			int tankNo = (int) arguments[0];
-			if(tankNo < 0) throw new IllegalArgumentException(Lang.localise("gui.computer.integer_too_small_error", 0, 0));
-			if(tankNo > 1) throw new IllegalArgumentException(Lang.localise("gui.computer.integer_too_large_error", 0, 1));
-			getTanks().get(tankNo).setFluidStored(null);
-			getTanks().get(tankNo + 6).setFluidStored(null);
-			return null;
-		}
-		case doVentAllFuels: {
-			for (int i = 0; i < 2; ++i) {
-				getTanks().get(i).setFluidStored(null);
-				getTanks().get(i + 6).setFluidStored(null);
-			}
-			return null;
-		}
-		case doVentOutput: {
-			if(arguments.length != 1) throw new IllegalArgumentException(Lang.localise("gui.computer.number_of_arguments_error", arguments.length, 1));
-			if(!(arguments[0] instanceof Integer)) throw new IllegalArgumentException(Lang.localise("gui.computer.invalid_argument_error", 0, "Number"));
-			int tankNo = (int) arguments[0];
-			if(tankNo < 0) throw new IllegalArgumentException(Lang.localise("gui.computer.integer_too_small_error", 0, 0));
-			if(tankNo > 3) throw new IllegalArgumentException(Lang.localise("gui.computer.integer_too_large_error", 0, 3));
-			getTanks().get(tankNo + 2).setFluidStored(null);
-			return null;
-		}
-		case doVentAllOutputs: {
-			for (int i = 2; i < 6; ++i) getTanks().get(i).setFluidStored(null);
-			return null;
-		}
-		default: throw new Exception(Lang.localise("gui.computer.method_not_found"));
+			break;
+		case 12:
+			computerActivated = value == 1;
 		}
 	}
 	
 	// OpenComputers
-
-	/*@Override
-	@Callback
-	@Optional.Method(modid = "opencomputers")
-	public Object[] invoke(String method, Context context, Arguments args) throws Exception {
-		final Object[] arguments = new Object[args.count()];
-		for (int i = 0; i < args.count(); ++i) {
-			arguments[i] = args.checkAny(i);
-		}
-		final Integer methodId = METHOD_IDS.get(method);
-		if (methodId == null) {
-			throw new NoSuchMethodError();
-		}
-		return callMethod(methodId, arguments);
-	}
-
+	
 	@Override
-	@Callback
 	@Optional.Method(modid = "opencomputers")
 	public String getComponentName() {
 		return Global.MOD_SHORT_ID + "_fusion_reactor";
 	}
 	
-	@Override
 	@Callback
 	@Optional.Method(modid = "opencomputers")
-	public String[] methods() {
-		return METHOD_NAMES;
-	}*/
+	public Object[] isComplete(Context context, Arguments args) {
+		return new Object[] {complete == 1};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] isHotEnough(Context context, Arguments args) {
+		return new Object[] {isHotEnough()};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getProblem(Context context, Arguments args) {
+		return new Object[] {problem};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getToroidSize(Context context, Arguments args) {
+		return new Object[] {size};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getEnergyStored(Context context, Arguments args) {
+		return new Object[] {getEnergyStored()};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getMaxEnergyStored(Context context, Arguments args) {
+		return new Object[] {getMaxEnergyStored()};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getTemperature(Context context, Arguments args) {
+		return new Object[] {heat};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getEfficiency(Context context, Arguments args) {
+		return new Object[] {efficiency};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getFusionComboTime(Context context, Arguments args) {
+		return new Object[] {baseProcessTime};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getFusionComboPower(Context context, Arguments args) {
+		return new Object[] {baseProcessPower};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getFusionComboHeatVariable(Context context, Arguments args) {
+		return new Object[] {processHeatVariable};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getReactorProcessTime(Context context, Arguments args) {
+		return new Object[] {size == 0 ? baseProcessTime : baseProcessTime/size};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getReactorProcessPower(Context context, Arguments args) {
+		return new Object[] {processPower};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getReactorProcessHeat(Context context, Arguments args) {
+		return new Object[] {heatChange};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getReactorCoolingRate(Context context, Arguments args) {
+		return new Object[] {cooling};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] activate(Context context, Arguments args) {
+		computerActivated = true;
+		return new Object[] {};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] deactivate(Context context, Arguments args) {
+		computerActivated = false;
+		return new Object[] {};
+	}
 }

@@ -1,8 +1,7 @@
 package nc.tile.dummy;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import li.cil.oc.api.network.SimpleComponent;
+import nc.Global;
 import nc.config.NCConfig;
 import nc.init.NCBlocks;
 import nc.recipe.NCRecipes;
@@ -10,17 +9,14 @@ import nc.tile.energyFluid.IBufferable;
 import nc.tile.generator.TileFusionCore;
 import nc.util.BlockFinder;
 import nc.util.BlockPosHelper;
-import nc.util.Lang;
 import nc.util.RecipeHelper;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.fml.common.Optional;
 
-/*@Optional.InterfaceList({
-	@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers"),
-	@Optional.Interface(iface = "li.cil.oc.api.network.ManagedPeripheral", modid = "opencomputers")
-})*/
-public abstract class TileFusionDummy extends TileDummy implements IBufferable/*, SimpleComponent, ManagedPeripheral*/ {
+@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers")
+public abstract class TileFusionDummy extends TileDummy<TileFusionCore> implements IBufferable, SimpleComponent {
 	
 	public static class Side extends TileFusionDummy {
 		public Side() {
@@ -57,7 +53,7 @@ public abstract class TileFusionDummy extends TileDummy implements IBufferable/*
 	private BlockFinder finder;
 	
 	public TileFusionDummy(String name) {
-		super(name, NCConfig.machine_update_rate, RecipeHelper.validFluids(NCRecipes.Type.FUSION).get(0));
+		super(TileFusionCore.class, name, NCConfig.machine_update_rate, RecipeHelper.validFluids(NCRecipes.Type.FUSION).get(0));
 	}
 	
 	@Override
@@ -80,17 +76,13 @@ public abstract class TileFusionDummy extends TileDummy implements IBufferable/*
 
 	@Override
 	public boolean canReceiveEnergy(EnumFacing side) {
-		if (getMaster() != null) {
-			if (isMaster(masterPosition)) return !((TileFusionCore) getMaster()).isHotEnough();
-		}
+		if (hasMaster()) return !getMaster().isHotEnough();
 		return false;
 	}
 	
 	@Override
 	public boolean canExtractEnergy(EnumFacing side) {
-		if (getMaster() != null) {
-			if (isMaster(masterPosition)) return ((TileFusionCore) getMaster()).isHotEnough();
-		}
+		if (hasMaster()) return getMaster().isHotEnough();
 		return false;
 	}
 	
@@ -104,157 +96,115 @@ public abstract class TileFusionDummy extends TileDummy implements IBufferable/*
 		return finder.horizontalYCount(pos, 1, Blocks.UNPOWERED_COMPARATOR, Blocks.POWERED_COMPARATOR) > 0;
 	}
 	
-	// Find Master
-	
-	@Override
-	public boolean isMaster(BlockPos pos) {
-		return world.getTileEntity(pos) instanceof TileFusionCore;
-	}
-	
-	// Computers
-	
-	public enum ComputerMethod {
-		isComplete,
-		isHotEnough,
-		getProblem,
-		getSize,
-		getEnergyStored,
-		getHeatLevel,
-		getHeatChange,
-		getEfficiency,
-		getFuelLevels,
-		getOutputLevels,
-		getFuelTypes,
-		getOutputTypes,
-		getComboProcessTime,
-		getComboPower,
-		getActiveCooling,
-		doVentFuel,
-		doVentAllFuels,
-		doVentOutput,
-		doVentAllOutputs
-	}
-	
-	public static final int NUMBER_OF_METHODS = ComputerMethod.values().length;
-
-	public static final String[] METHOD_NAMES = new String[NUMBER_OF_METHODS];
-	static {
-		ComputerMethod[] methods = ComputerMethod.values();
-		for(ComputerMethod method : methods) {
-			METHOD_NAMES[method.ordinal()] = method.toString();
-		}
-	}
-
-	public static final Map<String, Integer> METHOD_IDS = new HashMap<String, Integer>();
-	static {
-		for (int i = 0; i < NUMBER_OF_METHODS; ++i) {
-			METHOD_IDS.put(METHOD_NAMES[i], i);
-		}
-	}
-	
-	public Object[] callMethod(int method, Object[] arguments) throws Exception {
-		if (getMaster() == null) throw new IllegalArgumentException(Lang.localise("gui.container.fusion_core.reactor_not_found"));
-		if (!isMaster(masterPosition)) throw new IllegalArgumentException(Lang.localise("gui.container.fusion_core.reactor_not_found"));
-		TileFusionCore core = (TileFusionCore) getMaster();
-		if(method < 0 || method >= NUMBER_OF_METHODS) throw new IllegalArgumentException(Lang.localise("gui.computer.invalid_method_number"));
-		if(method == 0) return new Object[] { core.complete == 1 };
-		if(core.complete == 0) throw new Exception(Lang.localise("gui.container.fusion_core.reactor_not_found"));
-		
-		ComputerMethod computerMethod = ComputerMethod.values()[method];
-		
-		switch(computerMethod) {
-		case isComplete:
-			return new Object[] { core.complete == 1 };
-		case isHotEnough:
-			return new Object[] { core.isHotEnough() };
-		case getProblem:
-			return new Object[] { core.problem };
-		case getSize:
-			return new Object[] { core.size };
-		case getEnergyStored:
-			return new Object[] { getEnergyStorage().getEnergyStored() };
-		case getHeatLevel:
-			return new Object[] { core.heat };
-		case getHeatChange:
-			return new Object[] { core.heatChange/1000 };
-		case getEfficiency:
-			return new Object[] { core.efficiency };
-		case getFuelLevels:
-			return new Object[] { getTanks().get(0).getFluidAmount(), getTanks().get(1).getFluidAmount() };
-		case getOutputLevels:
-			return new Object[] { getTanks().get(2).getFluidAmount(), getTanks().get(3).getFluidAmount(), getTanks().get(4).getFluidAmount(), getTanks().get(5).getFluidAmount() };
-		case getFuelTypes:
-			return new Object[] { getTanks().get(0).getFluidName(), getTanks().get(1).getFluidName() };
-		case getOutputTypes:
-			return new Object[] { getTanks().get(2).getFluidName(), getTanks().get(3).getFluidName(), getTanks().get(4).getFluidName(), getTanks().get(5).getFluidName() };
-		case getComboProcessTime:
-			return new Object[] { core.baseProcessTime };
-		case getComboPower:
-			return new Object[] { core.processPower };
-		case getActiveCooling:
-			return new Object[] { core.cooling/1000 };
-		case doVentFuel: {
-			if(arguments.length != 1) throw new IllegalArgumentException(Lang.localise("gui.computer.number_of_arguments_error", arguments.length, 1));
-			if(!(arguments[0] instanceof Integer)) throw new IllegalArgumentException(Lang.localise("gui.computer.invalid_argument_error", 0, "Number"));
-			int tankNo = (int) arguments[0];
-			if(tankNo < 0) throw new IllegalArgumentException(Lang.localise("gui.computer.integer_too_small_error", 0, 0));
-			if(tankNo > 1) throw new IllegalArgumentException(Lang.localise("gui.computer.integer_too_large_error", 0, 1));
-			getTanks().get(tankNo).setFluidStored(null);
-			getTanks().get(tankNo + 6).setFluidStored(null);
-			return null;
-		}
-		case doVentAllFuels: {
-			for (int i = 0; i < 2; ++i) {
-				getTanks().get(i).setFluidStored(null);
-				getTanks().get(i + 6).setFluidStored(null);
-			}
-			return null;
-		}
-		case doVentOutput: {
-			if(arguments.length != 1) throw new IllegalArgumentException(Lang.localise("gui.computer.number_of_arguments_error", arguments.length, 1));
-			if(!(arguments[0] instanceof Integer)) throw new IllegalArgumentException(Lang.localise("gui.computer.invalid_argument_error", 0, "Number"));
-			int tankNo = (int) arguments[0];
-			if(tankNo < 0) throw new IllegalArgumentException(Lang.localise("gui.computer.integer_too_small_error", 0, 0));
-			if(tankNo > 3) throw new IllegalArgumentException(Lang.localise("gui.computer.integer_too_large_error", 0, 3));
-			getTanks().get(tankNo + 2).setFluidStored(null);
-			return null;
-		}
-		case doVentAllOutputs: {
-			for (int i = 2; i < 6; ++i) getTanks().get(i).setFluidStored(null);
-			return null;
-		}
-		default: throw new Exception(Lang.localise("gui.computer.method_not_found"));
-		}
-	}
-	
 	// OpenComputers
 	
-	/*@Override
-	@Callback
-	@Optional.Method(modid = "opencomputers")
-	public Object[] invoke(String method, Context context, Arguments args) throws Exception {
-		final Object[] arguments = new Object[args.count()];
-		for (int i = 0; i < args.count(); ++i) {
-			arguments[i] = args.checkAny(i);
-		}
-		final Integer methodId = METHOD_IDS.get(method);
-		if (methodId == null) {
-			throw new NoSuchMethodError();
-		}
-		return callMethod(methodId, arguments);
-	}
-
 	@Override
-	@Callback
 	@Optional.Method(modid = "opencomputers")
 	public String getComponentName() {
-		return Global.MOD_SHORT_ID + "_fusion_reactor";
+		return Global.MOD_SHORT_ID + "_fusion_reactor_dummy";
 	}
 	
-	@Override
+	/*@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] isComplete(Context context, Arguments args) {
+		return new Object[] {hasMaster() ? getMaster().complete == 1 : false};
+	}
+	
 	@Callback
 	@Optional.Method(modid = "opencomputers")
-	public String[] methods() {
-		return METHOD_NAMES;
+	public Object[] isHotEnough(Context context, Arguments args) {
+		return new Object[] {hasMaster() ? getMaster().isHotEnough() : false};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getProblem(Context context, Arguments args) {
+		return new Object[] {hasMaster() ? getMaster().problem : TileFusionCore.INCORRECT_STRUCTURE};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getToroidSize(Context context, Arguments args) {
+		return new Object[] {hasMaster() ? getMaster().size : 0};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getEnergyStored(Context context, Arguments args) {
+		return new Object[] {hasMaster() ? getMaster().getEnergyStored() : 0};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getMaxEnergyStored(Context context, Arguments args) {
+		return new Object[] {hasMaster() ? getMaster().getMaxEnergyStored() : 1};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getTemperature(Context context, Arguments args) {
+		return new Object[] {hasMaster() ? getMaster().heat*1000 : TileFusionCore.ROOM_TEMP*1000};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getEfficiency(Context context, Arguments args) {
+		return new Object[] {hasMaster() ? getMaster().efficiency : 0};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getFusionComboTime(Context context, Arguments args) {
+		return new Object[] {hasMaster() ? getMaster().baseProcessTime : 1};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getFusionComboPower(Context context, Arguments args) {
+		return new Object[] {hasMaster() ? getMaster().baseProcessPower : 0};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getFusionComboHeatVariable(Context context, Arguments args) {
+		return new Object[] {hasMaster() ? getMaster().processHeatVariable : 1};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getReactorProcessTime(Context context, Arguments args) {
+		return new Object[] {hasMaster() ? (getMaster().size == 0 ? getMaster().baseProcessTime : getMaster().baseProcessTime/getMaster().size) : 1};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getReactorProcessPower(Context context, Arguments args) {
+		return new Object[] {hasMaster() ? getMaster().processPower : 0};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getReactorProcessHeat(Context context, Arguments args) {
+		return new Object[] {hasMaster() ? getMaster().heatChange : 0};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getReactorCoolingRate(Context context, Arguments args) {
+		return new Object[] {hasMaster() ? getMaster().cooling : 0};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] activate(Context context, Arguments args) {
+		if (hasMaster()) getMaster().computerActivated = true;
+		return new Object[] {};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] deactivate(Context context, Arguments args) {
+		if (hasMaster()) getMaster().computerActivated = false;
+		return new Object[] {};
 	}*/
 }

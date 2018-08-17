@@ -2,8 +2,6 @@ package nc.tile.dummy;
 
 import java.util.List;
 
-import ic2.api.energy.tile.IEnergySink;
-import ic2.api.energy.tile.IEnergySource;
 import nc.tile.energy.ITileEnergy;
 import nc.tile.energyFluid.TileEnergyFluidSidedInventory;
 import nc.tile.fluid.ITileFluid;
@@ -25,29 +23,31 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.FluidTankProperties;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
 import net.minecraftforge.fluids.capability.templates.EmptyFluidHandler;
-import net.minecraftforge.fml.common.Optional;
 
-public abstract class TileDummy extends TileEnergyFluidSidedInventory {
+public abstract class TileDummy<T extends TileEntity> extends TileEnergyFluidSidedInventory {
 	
 	public BlockPos masterPosition = null;
 	public int tickCount;
 	public final int updateRate;
 	
-	public TileDummy(String name, int updateRate, List<String> allowedFluids) {
-		this(name, energyConnectionAll(EnergyConnection.BOTH), FluidConnection.BOTH, updateRate, allowedFluids);
+	protected final Class<T> tClass;
+	
+	public TileDummy(Class<T> tClass, String name, int updateRate, List<String> allowedFluids) {
+		this(tClass, name, energyConnectionAll(EnergyConnection.BOTH), FluidConnection.BOTH, updateRate, allowedFluids);
 	}
 	
-	public TileDummy(String name, EnergyConnection[] energyConnections, int updateRate, List<String> allowedFluids) {
-		this(name, energyConnections, FluidConnection.BOTH, updateRate, allowedFluids);
+	public TileDummy(Class<T> tClass, String name, EnergyConnection[] energyConnections, int updateRate, List<String> allowedFluids) {
+		this(tClass, name, energyConnections, FluidConnection.BOTH, updateRate, allowedFluids);
 	}
 	
-	public TileDummy(String name, FluidConnection fluidConnection, int updateRate, List<String> allowedFluids) {
-		this(name, energyConnectionAll(EnergyConnection.BOTH), fluidConnection, updateRate, allowedFluids);
+	public TileDummy(Class<T> tClass, String name, FluidConnection fluidConnection, int updateRate, List<String> allowedFluids) {
+		this(tClass, name, energyConnectionAll(EnergyConnection.BOTH), fluidConnection, updateRate, allowedFluids);
 	}
 	
-	public TileDummy(String name, EnergyConnection[] energyConnections, FluidConnection fluidConnection, int updateRate, List<String> allowedFluids) {
+	public TileDummy(Class<T> tClass, String name, EnergyConnection[] energyConnections, FluidConnection fluidConnection, int updateRate, List<String> allowedFluids) {
 		super(name, 1, 1, energyConnections, 1, fluidConnection, allowedFluids);
 		this.updateRate = updateRate;
+		this.tClass = tClass;
 	}
 	
 	@Override
@@ -69,9 +69,7 @@ public abstract class TileDummy extends TileEnergyFluidSidedInventory {
 	
 	@Override
 	public NonNullList<ItemStack> getInventoryStacks() {
-		if (getMaster() != null) {
-			if (getMaster() instanceof ITileInventory) return ((ITileInventory) getMaster()).getInventoryStacks();
-		}
+		if (getMaster() instanceof ITileInventory) return ((ITileInventory) getMaster()).getInventoryStacks();
 		return inventoryStacks;
 	}
 	
@@ -82,13 +80,9 @@ public abstract class TileDummy extends TileEnergyFluidSidedInventory {
 
 	@Override
 	public boolean isEmpty() {
-		if (getMaster() != null) {
-			if (getMaster() instanceof IInventory) ((IInventory) getMaster()).isEmpty();
-		}
+		if (getMaster() instanceof IInventory) ((IInventory) getMaster()).isEmpty();
 		for (ItemStack itemstack : inventoryStacks) {
-			if (!itemstack.isEmpty()) {
-				return false;
-			}
+			if (!itemstack.isEmpty()) return false;
 		}
 		return true;
 	}
@@ -110,11 +104,9 @@ public abstract class TileDummy extends TileEnergyFluidSidedInventory {
 
 	@Override
 	public void setInventorySlotContents(int index, ItemStack stack) {
-		if (getMaster() != null) {
-			if (getMaster() instanceof IInventory) {
-				((IInventory) getMaster()).setInventorySlotContents(index, stack);
-				return;
-			}
+		if (getMaster() instanceof IInventory) {
+			((IInventory) getMaster()).setInventorySlotContents(index, stack);
+			return;
 		}
 		ItemStack itemstack = inventoryStacks.get(index);
 		boolean flag = !stack.isEmpty() && stack.isItemEqual(itemstack) && ItemStack.areItemStackTagsEqual(stack, itemstack);
@@ -131,17 +123,13 @@ public abstract class TileDummy extends TileEnergyFluidSidedInventory {
 		
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {
-		if (getMaster() != null) {
-			if (getMaster() instanceof IInventory) return ((IInventory) getMaster()).isItemValidForSlot(slot, stack);
-		}
+		if (getMaster() instanceof IInventory) return ((IInventory) getMaster()).isItemValidForSlot(slot, stack);
 		return false;
 	}
 
 	@Override
 	public int getInventoryStackLimit() {
-		if (getMaster() != null) {
-			if (getMaster() instanceof IInventory) return ((IInventory) getMaster()).getInventoryStackLimit();
-		}
+		if (getMaster() instanceof IInventory) return ((IInventory) getMaster()).getInventoryStackLimit();
 		return 1;
 	}
 		
@@ -163,25 +151,19 @@ public abstract class TileDummy extends TileEnergyFluidSidedInventory {
 
 	@Override
 	public int[] getSlotsForFace(EnumFacing side) {
-		if (getMaster() != null) {
-			if (getMaster() instanceof ISidedInventory) return ((ISidedInventory) getMaster()).getSlotsForFace(side);
-		}
+		if (getMaster() instanceof ISidedInventory) return ((ISidedInventory) getMaster()).getSlotsForFace(side);
 		return new int[] {0};
 	}
 
 	@Override
 	public boolean canInsertItem(int slot, ItemStack stack, EnumFacing direction) {
-		if (getMaster() != null) {
-			if (getMaster() instanceof ISidedInventory) return ((ISidedInventory) getMaster()).canInsertItem(slot, stack, direction);
-		}
+		if (getMaster() instanceof ISidedInventory) return ((ISidedInventory) getMaster()).canInsertItem(slot, stack, direction);
 		return false;
 	}
 
 	@Override
 	public boolean canExtractItem(int slot, ItemStack stack, EnumFacing direction) {
-		if (getMaster() != null) {
-			if (getMaster() instanceof ISidedInventory) return ((ISidedInventory) getMaster()).canExtractItem(slot, stack, direction);
-		}
+		if (getMaster() instanceof ISidedInventory) return ((ISidedInventory) getMaster()).canExtractItem(slot, stack, direction);
 		return false;
 	}
 	
@@ -189,85 +171,63 @@ public abstract class TileDummy extends TileEnergyFluidSidedInventory {
 	
 	@Override
 	public EnergyStorage getEnergyStorage() {
-		if (getMaster() != null) {
-			if (getMaster() instanceof ITileEnergy) return ((ITileEnergy) getMaster()).getEnergyStorage();
-		}
+		if (getMaster() instanceof ITileEnergy) return ((ITileEnergy) getMaster()).getEnergyStorage();
 		return super.getEnergyStorage();
 	}
 	
 	@Override
 	public EnergyConnection getEnergyConnection(EnumFacing side) {
-		if (getMaster() != null) {
-			if (getMaster() instanceof ITileEnergy) return ((ITileEnergy) getMaster()).getEnergyConnection(side);
-		}
+		if (getMaster() instanceof ITileEnergy) return ((ITileEnergy) getMaster()).getEnergyConnection(side);
 		return super.getEnergyConnection(side);
 	}
 	
 	@Override
 	public int getEnergyStored() {
-		if (getMaster() != null) {
-			if (getMaster() instanceof ITileEnergy) return ((ITileEnergy) getMaster()).getEnergyStored();
-		}
+		if (getMaster() instanceof ITileEnergy) return ((ITileEnergy) getMaster()).getEnergyStored();
 		return super.getEnergyStored();
 	}
 
 	@Override
 	public int getMaxEnergyStored() {
-		if (getMaster() != null) {
-			if (getMaster() instanceof ITileEnergy) return ((ITileEnergy) getMaster()).getMaxEnergyStored();
-		}
+		if (getMaster() instanceof ITileEnergy) return ((ITileEnergy) getMaster()).getMaxEnergyStored();
 		return super.getMaxEnergyStored();
 	}
 
 	@Override
 	public boolean canReceiveEnergy(EnumFacing side) {
-		if (getMaster() != null) {
-			if (getMaster() instanceof ITileEnergy) return ((ITileEnergy) getMaster()).canReceiveEnergy(side);
-		}
+		if (getMaster() instanceof ITileEnergy) return ((ITileEnergy) getMaster()).canReceiveEnergy(side);
 		return false;
 	}
 	
 	@Override
 	public boolean canExtractEnergy(EnumFacing side) {
-		if (getMaster() != null) {
-			if (getMaster() instanceof ITileEnergy) return ((ITileEnergy) getMaster()).canExtractEnergy(side);
-		}
+		if (getMaster() instanceof ITileEnergy) return ((ITileEnergy) getMaster()).canExtractEnergy(side);
 		return false;
 	}
 	
 	@Override
 	public int receiveEnergy(int maxReceive, EnumFacing side, boolean simulate) {
-		if (getMaster() != null) {
-			if (getMaster() instanceof ITileEnergy) return ((ITileEnergy) getMaster()).receiveEnergy(maxReceive, side, simulate);
-		}
+		if (getMaster() instanceof ITileEnergy) return ((ITileEnergy) getMaster()).receiveEnergy(maxReceive, side, simulate);
 		return 0;
 	}
 	
 	@Override
 	public int extractEnergy(int maxExtract, EnumFacing side, boolean simulate) {
-		if (getMaster() != null) {
-			if (getMaster() instanceof ITileEnergy) return ((ITileEnergy) getMaster()).extractEnergy(maxExtract, side, simulate);
-		}
+		if (getMaster() instanceof ITileEnergy) return ((ITileEnergy) getMaster()).extractEnergy(maxExtract, side, simulate);
 		return 0;
 	}
 	
 	// IC2 Energy
 	
 	@Override
-	@Optional.Method(modid = "ic2")
-	public int getSourceTier() {
-		if (getMaster() != null) {
-			if (getMaster() instanceof IEnergySource) return ((IEnergySource) getMaster()).getSourceTier();
-		}
+	public int getEUSourceTier() {
+		if (getMaster() instanceof ITileEnergy) return ((ITileEnergy) getMaster()).getEUSourceTier();
 		return 1;
 	}
 
 	@Override
-	@Optional.Method(modid = "ic2")
-	public int getSinkTier() {
-		if (getMaster() != null) {
-			if (getMaster() instanceof IEnergySink) return ((IEnergySink) getMaster()).getSinkTier();
-		}
+	public int getEUSinkTier() {
+		if (getMaster() instanceof ITileEnergy) return ((ITileEnergy) getMaster()).getEUSinkTier();
 		return 4;
 	}
 	
@@ -275,17 +235,13 @@ public abstract class TileDummy extends TileEnergyFluidSidedInventory {
 	
 	@Override
 	public List<Tank> getTanks() {
-		if (getMaster() != null) {
-			if (getMaster() instanceof ITileFluid) return ((ITileFluid) getMaster()).getTanks();
-		}
+		if (getMaster() instanceof ITileFluid) return ((ITileFluid) getMaster()).getTanks();
 		return tanks;
 	}
 	
 	@Override
 	public List<FluidConnection> getFluidConnections() {
-		if (getMaster() != null) {
-			if (getMaster() instanceof ITileFluid) return ((ITileFluid) getMaster()).getFluidConnections();
-		}
+		if (getMaster() instanceof ITileFluid) return ((ITileFluid) getMaster()).getFluidConnections();
 		return fluidConnections;
 	}
 	
@@ -301,13 +257,11 @@ public abstract class TileDummy extends TileEnergyFluidSidedInventory {
 
 	@Override
 	public int fill(FluidStack resource, boolean doFill) {
-		if (getMaster() != null) {
-			if (getMaster() instanceof ITileFluid) {
-				if (getTanks() == null || getTanks().isEmpty()) return 0;
-				for (int i = 0; i < getTanks().size(); i++) {
-					if (getFluidConnections().get(i).canFill() && getTanks().get(i).isFluidValid(resource) && canFill(resource, i) && getTanks().get(i).getFluidAmount() < getTanks().get(i).getCapacity() && (getTanks().get(i).getFluid() == null || getTanks().get(i).getFluid().isFluidEqual(resource))) {
-						return getTanks().get(i).fill(resource, doFill);
-					}
+		if (getMaster() instanceof ITileFluid) {
+			if (getTanks() == null || getTanks().isEmpty()) return 0;
+			for (int i = 0; i < getTanks().size(); i++) {
+				if (getFluidConnections().get(i).canFill() && getTanks().get(i).isFluidValid(resource) && canFill(resource, i) && getTanks().get(i).getFluidAmount() < getTanks().get(i).getCapacity() && (getTanks().get(i).getFluid() == null || getTanks().get(i).getFluid().isFluidEqual(resource))) {
+					return getTanks().get(i).fill(resource, doFill);
 				}
 			}
 		}
@@ -316,13 +270,11 @@ public abstract class TileDummy extends TileEnergyFluidSidedInventory {
 
 	@Override
 	public FluidStack drain(FluidStack resource, boolean doDrain) {
-		if (getMaster() != null) {
-			if (getMaster() instanceof ITileFluid) {
-				if (getTanks() == null || getTanks().isEmpty()) return null;
-				for (int i = 0; i < getTanks().size(); i++) {
-					if (getFluidConnections().get(i).canDrain() && getTanks().get(i).getFluid() != null && getTanks().get(i).getFluidAmount() > 0) {
-						if (resource.isFluidEqual(getTanks().get(i).getFluid()) && getTanks().get(i).drain(resource, false) != null) return getTanks().get(i).drain(resource, doDrain);
-					}
+		if (getMaster() instanceof ITileFluid) {
+			if (getTanks() == null || getTanks().isEmpty()) return null;
+			for (int i = 0; i < getTanks().size(); i++) {
+				if (getFluidConnections().get(i).canDrain() && getTanks().get(i).getFluid() != null && getTanks().get(i).getFluidAmount() > 0) {
+					if (resource.isFluidEqual(getTanks().get(i).getFluid()) && getTanks().get(i).drain(resource, false) != null) return getTanks().get(i).drain(resource, doDrain);
 				}
 			}
 		}
@@ -331,13 +283,11 @@ public abstract class TileDummy extends TileEnergyFluidSidedInventory {
 
 	@Override
 	public FluidStack drain(int maxDrain, boolean doDrain) {
-		if (getMaster() != null) {
-			if (getMaster() instanceof ITileFluid) {
-				if (getTanks() == null || getTanks().isEmpty()) return null;
-				for (int i = 0; i < getTanks().size(); i++) {
-					if (getFluidConnections().get(i).canDrain() && getTanks().get(i).getFluid() != null && getTanks().get(i).getFluidAmount() > 0) {
-						if (getTanks().get(i).drain(maxDrain, false) != null) return getTanks().get(i).drain(maxDrain, doDrain);
-					}
+		if (getMaster() instanceof ITileFluid) {
+			if (getTanks() == null || getTanks().isEmpty()) return null;
+			for (int i = 0; i < getTanks().size(); i++) {
+				if (getFluidConnections().get(i).canDrain() && getTanks().get(i).getFluid() != null && getTanks().get(i).getFluidAmount() > 0) {
+					if (getTanks().get(i).drain(maxDrain, false) != null) return getTanks().get(i).drain(maxDrain, doDrain);
 				}
 			}
 		}
@@ -346,9 +296,7 @@ public abstract class TileDummy extends TileEnergyFluidSidedInventory {
 	
 	@Override
 	public boolean canFill(FluidStack resource, int tankNumber) {
-		if (getMaster() != null) {
-			if (getMaster() instanceof ITileFluid) return ((ITileFluid) getMaster()).canFill(resource, tankNumber);
-		}
+		if (getMaster() instanceof ITileFluid) return ((ITileFluid) getMaster()).canFill(resource, tankNumber);
 		return super.canFill(resource, tankNumber);
 	}
 	
@@ -443,12 +391,17 @@ public abstract class TileDummy extends TileEnergyFluidSidedInventory {
 	/** Find the BlockPos of the master tile entity */
 	public abstract void findMaster();
 	
-	public abstract boolean isMaster(BlockPos pos);
+	public boolean hasMaster() {
+		if (masterPosition == null) return false;
+		return isMaster(masterPosition);
+	}
 	
-	public TileEntity getMaster() {
-		if (masterPosition == null) return null;
-		if (world.getTileEntity(masterPosition) == null) return null;
-		if (isMaster(masterPosition)) return world.getTileEntity(masterPosition);
+	public boolean isMaster(BlockPos pos) {
+		return tClass.isInstance(world.getTileEntity(pos));
+	}
+	
+	public T getMaster() {
+		if (hasMaster()) return (T) world.getTileEntity(masterPosition);
 		return null;
 	}
 }

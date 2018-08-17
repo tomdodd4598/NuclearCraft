@@ -107,8 +107,8 @@ public class CraftingRecipeHandler {
 		
 		addShapedOreRecipe(NCBlocks.machine_interface, new Object[] {" A ", "MCM", " S ", 'C', "chassis", 'A', "actuator", 'M', "motor", 'S', "servo"});
 		
-		addShapedOreRecipe(NCBlocks.fission_controller_new_idle, new Object[] {"PSP", "FCF", "PSP", 'C', "chassis", 'S', "solenoidMagnesiumDiboride", 'P', "plateAdvanced", 'F', NCBlocks.nuclear_furnace_idle});
-		addShapelessOreRecipe(NCBlocks.fission_controller_new_idle, new Object[] {NCBlocks.fission_controller_idle});
+		addShapedOreRecipe(NCBlocks.fission_controller_new_fixed, new Object[] {"PSP", "FCF", "PSP", 'C', "chassis", 'S', "solenoidMagnesiumDiboride", 'P', "plateAdvanced", 'F', NCBlocks.nuclear_furnace_idle});
+		addShapelessOreRecipe(NCBlocks.fission_controller_new_fixed, new Object[] {NCBlocks.fission_controller_idle});
 		
 		addShapedOreRecipe(NCBlocks.buffer, new Object[] {"PSP", "BHB", "PSP", 'S', "solenoidCopper", 'P', "plateBasic", 'H', Blocks.HOPPER, 'B', Items.BUCKET});
 		addShapedOreRecipe(NCBlocks.fission_port, new Object[] {" S ", "RHR", " S ", 'S', "solenoidCopper", 'R', new ItemStack(NCBlocks.fission_block, 1, 0), 'H', Blocks.HOPPER});

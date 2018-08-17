@@ -63,12 +63,12 @@ public class TileBattery extends TileEnergy implements IBattery, IInterfaceable,
 	}
 	
 	@Override
-	public int getSourceTier() {
+	public int getEUSourceTier() {
 		return type.getEnergyTier();
 	}
 	
 	@Override
-	public int getSinkTier() {
+	public int getEUSinkTier() {
 		return type.getEnergyTier();
 	}
 }

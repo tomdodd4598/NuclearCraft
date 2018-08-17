@@ -4,16 +4,15 @@ import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeWrapper;
-import nc.config.NCConfig;
-import nc.integration.jei.BaseCategory;
 import nc.integration.jei.IJEIHandler;
 import nc.integration.jei.JEIMethods.RecipeFluidMapper;
+import nc.integration.jei.JEIProcessorCategory;
 import nc.recipe.SorptionType;
 
-public class SaltMixerCategory extends BaseCategory {
+public class SaltMixerCategory extends JEIProcessorCategory {
 	
 	public SaltMixerCategory(IGuiHelper guiHelper, IJEIHandler handler) {
-		super(guiHelper, handler, "salt_mixer_idle", NCConfig.processor_time[13], 45, 30, 102, 26, 176, 3, 37, 18, 84, 34);
+		super(guiHelper, handler, "salt_mixer_idle", 45, 30, 102, 26);
 	}
 	
 	@Override

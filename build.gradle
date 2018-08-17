@@ -15,7 +15,7 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 
 repositories {
 	maven {
-		// JEI
+		// progwml6
 		name = "progwml6"
 		url = 'http://dvs1.progwml6.com/files/maven/'
 	}
@@ -59,6 +59,10 @@ dependencies {
 	runtime "mezz.jei:jei_${mc_version}:${jei_version}"
 	compile group: "net.industrial-craft", name: "industrialcraft-2", version: "${ic2_version}", classifier: "api"
 	compile group: "CraftTweaker2", name: "CraftTweaker2-API", version: "${crafttweaker_version}"
+	compile group: "slimeknights.mantle", name: "Mantle", version: "${mantle_version}"
+	compile group: "slimeknights", name: "TConstruct", version: "${tic_version}"
+	compile group: "li.cil.oc", name: "OpenComputers", version: "${oc_version}"
+	compile files('libs/gregtech-1.12.2-0.5.7.54.jar')
 }
 
 processResources {

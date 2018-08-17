@@ -19,7 +19,11 @@ public abstract class BlockSidedInventory extends BlockInventory {
 
 	public BlockSidedInventory(String name, Material material) {
 		super(name, material);
-		setDefaultState(blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
+		setDefaultState(getNewDefaultState());
+	}
+	
+	protected IBlockState getNewDefaultState() {
+		return blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH);
 	}
 	
 	@Override
@@ -62,9 +66,7 @@ public abstract class BlockSidedInventory extends BlockInventory {
 	public IBlockState getStateFromMeta(int meta) {
 		EnumFacing enumfacing = EnumFacing.getFront(meta);
 		
-		if (enumfacing.getAxis() == EnumFacing.Axis.Y) {
-			enumfacing = EnumFacing.NORTH;
-		}
+		if (enumfacing.getAxis() == EnumFacing.Axis.Y) enumfacing = EnumFacing.NORTH;
 		
 		return getDefaultState().withProperty(FACING, enumfacing);
 	}

@@ -51,11 +51,7 @@ public class GuiSaltMixer extends GuiFluidProcessor {
 		int k = getCookProgressScaled(37);
 		drawTexturedModalRect(guiLeft + 84, guiTop + 34, 176, 3, k, 18);
 		
-		if (tick == 0) {
-			PacketHandler.instance.sendToServer(new GetFluidInTankPacket(tile.getPos(), 0, "nc.gui.processor.GuiSaltMixer", "fluid0"));
-			PacketHandler.instance.sendToServer(new GetFluidInTankPacket(tile.getPos(), 1, "nc.gui.processor.GuiSaltMixer", "fluid1"));
-			PacketHandler.instance.sendToServer(new GetFluidInTankPacket(tile.getPos(), 2, "nc.gui.processor.GuiSaltMixer", "fluid2"));
-		}
+		if (tick == 0) sendTankInfo();
 		
 		GuiFluidRenderer.renderGuiTank(fluid0, tile.tanks.get(0).getCapacity(), guiLeft + 46, guiTop + 35, zLevel, 16, 16);
 		GuiFluidRenderer.renderGuiTank(fluid1, tile.tanks.get(1).getCapacity(), guiLeft + 66, guiTop + 35, zLevel, 16, 16);
@@ -77,5 +73,12 @@ public class GuiSaltMixer extends GuiFluidProcessor {
 				PacketHandler.instance.sendToServer(new EmptyTankButtonPacket(tile, i));
 			}
 		}
+	}
+	
+	@Override
+	protected void sendTankInfo() {
+		PacketHandler.instance.sendToServer(new GetFluidInTankPacket(tile.getPos(), 0, "nc.gui.processor.GuiSaltMixer", "fluid0"));
+		PacketHandler.instance.sendToServer(new GetFluidInTankPacket(tile.getPos(), 1, "nc.gui.processor.GuiSaltMixer", "fluid1"));
+		PacketHandler.instance.sendToServer(new GetFluidInTankPacket(tile.getPos(), 2, "nc.gui.processor.GuiSaltMixer", "fluid2"));
 	}
 }

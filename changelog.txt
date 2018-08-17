@@ -1,3 +1,27 @@
+v2.11a
+
++ Added OpenComputers support for Fission and Fusion Reactors
++ Check out 'openComputers.txt' on the GitHub repo for the available methods!
+
++ Added GregTech Community Edition EU support
+
++ Added Tinkers' Construct support for NC tool materials
++ Added some TiC smeltery support for NC metals and various alloys
+
+* Machine recipe speeds will now be shown correctly in JEI
+
+* Fusion active cooling will not take effect until the reactor reaches ignition temperature
+* Fixed active cooling percentage info in Fusion Reactor GUI
+* Fixed Fusion Core sound effects sometimes not updating correctly
+
++ Speed upgrades can now be piped into processors
+
+* Fixed minor incompatibilities with old CraftTweaker methods
+* Fixed CT integration sometimes not logging errors correctly
+
++ Added some alloying recipes for the Salt Mixer
+* Fixed Ingot Former casting ExU redstone gems and GTCE glass gems
+
 v2.11
 
 * Totally overhauled recipe system

@@ -7,55 +7,47 @@ import mezz.jei.api.recipe.IRecipeHandler;
 import mezz.jei.api.recipe.IRecipeWrapper;
 import nc.Global;
 
-public abstract class JEICategory extends BlankRecipeCategory implements IRecipeHandler<JEIProcessorRecipe> {
+public abstract class JEICategory extends BlankRecipeCategory implements IRecipeHandler<JEIProcessorRecipeWrapper> {
 
-	private final IJEIHandler handler;
+	protected final IJEIHandler jeiHandler;
 
-	public JEICategory(IJEIHandler handler) {
-		this.handler = handler;
-	}
-
-	@Override
-	public String getUid() {
-		return handler.getUUID();
-	}
-
-	/*public String getTitle() {
-		return handler.getTitle();
-	}*/
-
-	@Override
-	public Class getRecipeClass() {
-		return handler.getRecipeClass();
-	}
-
-	@Override
-	public IRecipeWrapper getRecipeWrapper(JEIProcessorRecipe recipe) {
-		return recipe;
-	}
-
-	@Override
-	public boolean isRecipeValid(JEIProcessorRecipe recipe) {
-		return recipe.recipeHandler.getRecipeName().equals(getUid());
-	}
-
-	public String getRecipeCategoryUid() {
-		return getUid();
-	}
-	
-	@Override
-	public String getRecipeCategoryUid(JEIProcessorRecipe id) {
-		return getUid();
-	}
-
-	@Override
-	public void setRecipe(IRecipeLayout recipeLayout, IRecipeWrapper recipeWrapper, IIngredients ingredients) {
-		recipeWrapper.getIngredients(ingredients);
-		setRecipe(recipeLayout, recipeWrapper, ingredients);
+	public JEICategory(IJEIHandler jeiHandler) {
+		this.jeiHandler = jeiHandler;
 	}
 	
 	@Override
 	public String getModName() {
 		return Global.MOD_NAME;
+	}
+	
+	@Override
+	public void setRecipe(IRecipeLayout recipeLayout, IRecipeWrapper recipeWrapper, IIngredients ingredients) {
+		recipeWrapper.getIngredients(ingredients);
+		setRecipe(recipeLayout, recipeWrapper, ingredients);
+	}
+
+	@Override
+	public String getUid() {
+		return jeiHandler.getUUID();
+	}
+
+	@Override
+	public Class getRecipeClass() {
+		return jeiHandler.getJEIRecipeWrapper();
+	}
+
+	@Override
+	public IRecipeWrapper getRecipeWrapper(JEIProcessorRecipeWrapper recipeWrapper) {
+		return recipeWrapper;
+	}
+
+	@Override
+	public boolean isRecipeValid(JEIProcessorRecipeWrapper recipeWrapper) {
+		return recipeWrapper.recipeHandler.getRecipeName().equals(getUid());
+	}
+	
+	@Override
+	public String getRecipeCategoryUid(JEIProcessorRecipeWrapper recipeWrapper) {
+		return getUid();
 	}
 }

@@ -53,13 +53,7 @@ public class GuiElectrolyser extends GuiFluidProcessor {
 		int k = getCookProgressScaled(37);
 		drawTexturedModalRect(guiLeft + 68, guiTop + 30, 176, 3, k, 38);
 		
-		if (tick == 0) {
-			PacketHandler.instance.sendToServer(new GetFluidInTankPacket(tile.getPos(), 0, "nc.gui.processor.GuiElectrolyser", "fluid0"));
-			PacketHandler.instance.sendToServer(new GetFluidInTankPacket(tile.getPos(), 1, "nc.gui.processor.GuiElectrolyser", "fluid1"));
-			PacketHandler.instance.sendToServer(new GetFluidInTankPacket(tile.getPos(), 2, "nc.gui.processor.GuiElectrolyser", "fluid2"));
-			PacketHandler.instance.sendToServer(new GetFluidInTankPacket(tile.getPos(), 3, "nc.gui.processor.GuiElectrolyser", "fluid3"));
-			PacketHandler.instance.sendToServer(new GetFluidInTankPacket(tile.getPos(), 4, "nc.gui.processor.GuiElectrolyser", "fluid4"));
-		}
+		if (tick == 0) sendTankInfo();
 		
 		GuiFluidRenderer.renderGuiTank(fluid0, tile.tanks.get(0).getCapacity(), guiLeft + 50, guiTop + 41, zLevel, 16, 16);
 		GuiFluidRenderer.renderGuiTank(fluid1, tile.tanks.get(1).getCapacity(), guiLeft + 106, guiTop + 31, zLevel, 16, 16);
@@ -85,5 +79,14 @@ public class GuiElectrolyser extends GuiFluidProcessor {
 				PacketHandler.instance.sendToServer(new EmptyTankButtonPacket(tile, i));
 			}
 		}
+	}
+	
+	@Override
+	protected void sendTankInfo() {
+		PacketHandler.instance.sendToServer(new GetFluidInTankPacket(tile.getPos(), 0, "nc.gui.processor.GuiElectrolyser", "fluid0"));
+		PacketHandler.instance.sendToServer(new GetFluidInTankPacket(tile.getPos(), 1, "nc.gui.processor.GuiElectrolyser", "fluid1"));
+		PacketHandler.instance.sendToServer(new GetFluidInTankPacket(tile.getPos(), 2, "nc.gui.processor.GuiElectrolyser", "fluid2"));
+		PacketHandler.instance.sendToServer(new GetFluidInTankPacket(tile.getPos(), 3, "nc.gui.processor.GuiElectrolyser", "fluid3"));
+		PacketHandler.instance.sendToServer(new GetFluidInTankPacket(tile.getPos(), 4, "nc.gui.processor.GuiElectrolyser", "fluid4"));
 	}
 }

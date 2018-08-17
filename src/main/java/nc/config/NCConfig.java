@@ -149,6 +149,7 @@ public class NCConfig {
 	public static double[] tool_speed;
 	public static double[] tool_attack_damage;
 	public static int[] tool_enchantability;
+	public static double[] tool_handle_modifier;
 	
 	public static int[] armor_durability;
 	public static int[] armor_boron;
@@ -435,6 +436,8 @@ public class NCConfig {
 		propertyToolAttackDamage.setLanguageKey("gui.config.tools.tool_attack_damage");
 		Property propertyToolEnchantability = config.get(CATEGORY_TOOLS, "tool_enchantability", new int[] {6, 6, 15, 15, 12, 12, 20, 20}, Lang.localise("gui.config.tools.tool_enchantability.comment"), 1, 255);
 		propertyToolEnchantability.setLanguageKey("gui.config.tools.tool_enchantability");
+		Property propertyToolHandleModifier = config.get(CATEGORY_TOOLS, "tool_handle_modifier", new double[] {0.85D, 1.1D, 1D, 0.75D}, Lang.localise("gui.config.tools.tool_handle_modifier.comment"), 0.01F, 10F);
+		propertyToolHandleModifier.setLanguageKey("gui.config.tools.tool_handle_modifier");
 		
 		Property propertyArmorDurability = config.get(CATEGORY_ARMOR, "armor_durability", new int[] {22, 30, 34, 42}, Lang.localise("gui.config.armor.armor_durability.comment"), 1, 127);
 		propertyArmorDurability.setLanguageKey("gui.config.armor.armor_durability");
@@ -639,6 +642,7 @@ public class NCConfig {
 		propertyOrderTools.add(propertyToolSpeed.getName());
 		propertyOrderTools.add(propertyToolAttackDamage.getName());
 		propertyOrderTools.add(propertyToolEnchantability.getName());
+		propertyOrderTools.add(propertyToolHandleModifier.getName());
 		config.setCategoryPropertyOrder(CATEGORY_TOOLS, propertyOrderTools);
 		
 		List<String> propertyOrderArmor = new ArrayList<String>();
@@ -795,6 +799,7 @@ public class NCConfig {
 			tool_speed = readDoubleArrayFromConfig(propertyToolSpeed);
 			tool_attack_damage = readDoubleArrayFromConfig(propertyToolAttackDamage);
 			tool_enchantability = readIntegerArrayFromConfig(propertyToolEnchantability);
+			tool_handle_modifier = readDoubleArrayFromConfig(propertyToolHandleModifier);
 			
 			armor_durability = readIntegerArrayFromConfig(propertyArmorDurability);
 			armor_enchantability = readIntegerArrayFromConfig(propertyArmorEnchantability);
@@ -947,6 +952,7 @@ public class NCConfig {
 		propertyToolSpeed.set(tool_speed);
 		propertyToolAttackDamage.set(tool_attack_damage);
 		propertyToolEnchantability.set(tool_enchantability);
+		propertyToolHandleModifier.set(tool_handle_modifier);
 		
 		propertyArmorDurability.set(armor_durability);
 		propertyArmorEnchantability.set(armor_enchantability);

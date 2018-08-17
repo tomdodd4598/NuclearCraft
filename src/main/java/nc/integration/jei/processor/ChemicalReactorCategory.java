@@ -4,16 +4,15 @@ import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeWrapper;
-import nc.config.NCConfig;
-import nc.integration.jei.BaseCategory;
 import nc.integration.jei.IJEIHandler;
 import nc.integration.jei.JEIMethods.RecipeFluidMapper;
+import nc.integration.jei.JEIProcessorCategory;
 import nc.recipe.SorptionType;
 
-public class ChemicalReactorCategory extends BaseCategory {
+public class ChemicalReactorCategory extends JEIProcessorCategory {
 	
 	public ChemicalReactorCategory(IGuiHelper guiHelper, IJEIHandler handler) {
-		super(guiHelper, handler, "chemical_reactor_idle", NCConfig.processor_time[12], 31, 30, 130, 26, 176, 3, 37, 18, 70, 34);
+		super(guiHelper, handler, "chemical_reactor_idle", 31, 30, 130, 26);
 	}
 	
 	@Override

@@ -4,16 +4,15 @@ import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeWrapper;
-import nc.config.NCConfig;
-import nc.integration.jei.BaseCategory;
 import nc.integration.jei.IJEIHandler;
 import nc.integration.jei.JEIMethods.RecipeFluidMapper;
+import nc.integration.jei.JEIProcessorCategory;
 import nc.recipe.SorptionType;
 
-public class IrradiatorCategory extends BaseCategory {
+public class IrradiatorCategory extends JEIProcessorCategory {
 	
 	public IrradiatorCategory(IGuiHelper guiHelper, IJEIHandler handler) {
-		super(guiHelper, handler, "irradiator_idle", NCConfig.processor_time[9], 31, 30, 130, 26, 176, 3, 37, 16, 70, 35);
+		super(guiHelper, handler, "irradiator_idle", 31, 30, 130, 26);
 	}
 	
 	@Override

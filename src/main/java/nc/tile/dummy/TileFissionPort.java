@@ -1,6 +1,12 @@
 package nc.tile.dummy;
 
+import gregtech.api.capability.IEnergyContainer;
 import ic2.api.energy.tile.IEnergySink;
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Callback;
+import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.network.SimpleComponent;
+import nc.Global;
 import nc.ModCheck;
 import nc.config.NCConfig;
 import nc.init.NCBlocks;
@@ -9,18 +15,20 @@ import nc.tile.generator.TileFissionController;
 import nc.tile.internal.energy.EnergyConnection;
 import nc.tile.passive.ITilePassive;
 import nc.util.BlockFinder;
+import nc.util.EnergyHelper;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
+import net.minecraftforge.fml.common.Optional;
 
-public class TileFissionPort extends TileDummy implements IInterfaceable {
+@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers")
+public class TileFissionPort extends TileDummy<TileFissionController> implements IInterfaceable, SimpleComponent {
 	
 	private BlockFinder finder;
 
 	public TileFissionPort() {
-		super("fission_port", energyConnectionAll(EnergyConnection.OUT), NCConfig.machine_update_rate, null);
+		super(TileFissionController.class, "fission_port", energyConnectionAll(EnergyConnection.OUT), NCConfig.machine_update_rate, null);
 	}
 	
 	@Override
@@ -39,16 +47,12 @@ public class TileFissionPort extends TileDummy implements IInterfaceable {
 	}
 	
 	private int getNumberOfPorts() {
-		if (getMaster() != null) {
-			if (getMaster() instanceof TileFissionController) return ((TileFissionController)getMaster()).ports;
-		}
+		if (hasMaster()) return getMaster().ports;
 		return 1;
 	}
 	
 	private int getCurrentEnergyStored() {
-		if (getMaster() != null) {
-			if (getMaster() instanceof TileFissionController) return ((TileFissionController)getMaster()).currentEnergyStored;
-		}
+		if (hasMaster()) return getMaster().currentEnergyStored;
 		return 1;
 	}
 	
@@ -67,10 +71,20 @@ public class TileFissionPort extends TileDummy implements IInterfaceable {
 		
 		if (adjStorage != null && getEnergyStorage().canExtract()) {
 			getEnergyStorage().extractEnergy(adjStorage.receiveEnergy(getEnergyStorage().extractEnergy(getCurrentEnergyStored()/getNumberOfPorts(), true), false), false);
+			return;
 		}
-		else if (ModCheck.ic2Loaded()) {
+		if (ModCheck.ic2Loaded()) {
 			if (tile instanceof IEnergySink) {
-				getEnergyStorage().extractEnergy((int) Math.round(((IEnergySink) tile).injectEnergy(side.getOpposite(), getEnergyStorage().extractEnergy(getCurrentEnergyStored()/getNumberOfPorts(), true) / NCConfig.rf_per_eu, getSourceTier())), false);
+				getEnergyStorage().extractEnergy((int) Math.round(((IEnergySink) tile).injectEnergy(side.getOpposite(), getEnergyStorage().extractEnergy(getCurrentEnergyStored()/getNumberOfPorts(), true)/NCConfig.rf_per_eu, getSourceTier())*NCConfig.rf_per_eu), false);
+				return;
+			}
+		}
+		if (ModCheck.gregtechLoaded()) {
+			IEnergyContainer adjStorageGT = tile == null ? null : tile.getCapability(IEnergyContainer.CAPABILITY_ENERGY_CONTAINER, side.getOpposite());
+			if (adjStorageGT != null && getEnergyStorage().canExtract()) {
+				int voltage = Math.min(EnergyHelper.getMaxEUFromTier(getEUSourceTier()), (getCurrentEnergyStored()/getNumberOfPorts())/NCConfig.rf_per_eu);
+				getEnergyStorage().extractEnergy((int)Math.min(voltage*adjStorageGT.acceptEnergyFromNetwork(side.getOpposite(), voltage, 1)*NCConfig.rf_per_eu, Integer.MAX_VALUE), false);
+				return;
 			}
 		}
 	}
@@ -199,8 +213,127 @@ public class TileFissionPort extends TileDummy implements IInterfaceable {
 		masterPosition = null;
 	}
 	
+	// OpenComputers
+	
 	@Override
-	public boolean isMaster(BlockPos pos) {
-		return world.getTileEntity(pos) instanceof TileFissionController;
+	@Optional.Method(modid = "opencomputers")
+	public String getComponentName() {
+		return Global.MOD_SHORT_ID + "_fission_reactor";
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] isComplete(Context context, Arguments args) {
+		return new Object[] {hasMaster() ? getMaster().complete == 1 : false};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getProblem(Context context, Arguments args) {
+		return new Object[] {hasMaster() ? getMaster().problem : TileFissionController.INVALID_STRUCTURE};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getLengthX(Context context, Arguments args) {
+		return new Object[] {hasMaster() ? getMaster().getLengthX() : 0};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getLengthY(Context context, Arguments args) {
+		return new Object[] {hasMaster() ? getMaster().getLengthY() : 0};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getLengthZ(Context context, Arguments args) {
+		return new Object[] {hasMaster() ? getMaster().getLengthZ() : 0};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getEnergyStored(Context context, Arguments args) {
+		return new Object[] {hasMaster() ? getMaster().getEnergyStored() : 0};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getMaxEnergyStored(Context context, Arguments args) {
+		return new Object[] {hasMaster() ? getMaster().getMaxEnergyStored() : 1};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getHeatLevel(Context context, Arguments args) {
+		return new Object[] {hasMaster() ? getMaster().heat : 0};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getEfficiency(Context context, Arguments args) {
+		return new Object[] {hasMaster() ? getMaster().efficiency : 0};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getHeatMultiplier(Context context, Arguments args) {
+		return new Object[] {hasMaster() ? getMaster().heatMult : 0};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getFissionFuelTime(Context context, Arguments args) {
+		return new Object[] {hasMaster() ? getMaster().baseProcessTime : 1};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getFissionFuelPower(Context context, Arguments args) {
+		return new Object[] {hasMaster() ? getMaster().baseProcessPower : 0};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getFissionFuelHeat(Context context, Arguments args) {
+		return new Object[] {hasMaster() ? getMaster().baseProcessHeat : 0};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getReactorProcessTime(Context context, Arguments args) {
+		return new Object[] {hasMaster() ? (getMaster().cells == 0 ? getMaster().baseProcessTime : getMaster().baseProcessTime/getMaster().cells) : 1};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getReactorProcessPower(Context context, Arguments args) {
+		return new Object[] {hasMaster() ? getMaster().processPower : 0};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getReactorProcessHeat(Context context, Arguments args) {
+		return new Object[] {hasMaster() ? getMaster().heatChange : 0};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getReactorCoolingRate(Context context, Arguments args) {
+		return new Object[] {hasMaster() ? getMaster().cooling : 0};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] activate(Context context, Arguments args) {
+		if (hasMaster()) getMaster().computerActivated = true;
+		return new Object[] {};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] deactivate(Context context, Arguments args) {
+		if (hasMaster()) getMaster().computerActivated = false;
+		return new Object[] {};
 	}
 }

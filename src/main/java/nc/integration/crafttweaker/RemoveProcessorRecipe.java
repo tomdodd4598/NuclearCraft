@@ -56,30 +56,28 @@ public class RemoveProcessorRecipe implements IAction {
 		this.itemIngredients = itemIngredients;
 		this.fluidIngredients = fluidIngredients;
 		this.recipe = type == SorptionType.INPUT ? recipeType.getRecipeHandler().getRecipeFromIngredients(itemIngredients, fluidIngredients) : recipeType.getRecipeHandler().getRecipeFromProducts(itemIngredients, fluidIngredients);
+		if (recipe == null) wasNull = true;
 	}
 	
 	@Override
 	public void apply() {
-		if (recipe == null) {
-			callError();
-			return;
-		}
 		if (!wasNull && !wrongSize) {
 			boolean removed = recipeType.getRecipeHandler().removeRecipe(recipe);
-			if (!removed) callError();
+			if (removed) return;
 		}
+		callError();
 	}
 	
 	@Override
 	public String describe() {
-		if (recipe == null) {
+		if (wasNull || wrongSize) {
 			return String.format("Error: Failed to remove %s recipe with %s as the " + (type == SorptionType.INPUT ? "input" : "output"), recipeType.getRecipeName(), RecipeHelper.getAllIngredientNamesConcat(itemIngredients, fluidIngredients));
 		}
 		return String.format("Removing %s recipe: %s", recipeType.getRecipeName(), RecipeHelper.getRecipeString(recipe));
 	}
 	
 	public static void callError() {
-		if (!hasErrored) CraftTweakerAPI.logError("Some NuclearCraft CraftTweaker recipe removal methods have errored - check the CraftTweaker log for more details");
+		if (!hasErrored) CraftTweakerAPI.logError("At least one NuclearCraft CraftTweaker recipe removal method has errored - check the CraftTweaker log for more details");
 		hasErrored = true;
 	}
 }

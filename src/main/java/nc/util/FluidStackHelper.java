@@ -37,6 +37,7 @@ public static final int BUCKET_VOLUME = 1000;
 	public static final int GLOWSTONE_DUST_VOLUME = 250;
 	public static final int GLOWSTONE_BLOCK_VOLUME = GLOWSTONE_DUST_VOLUME*4;
 	public static final int COAL_DUST_VOLUME = 100;
+	public static final int COAL_BLOCK_VOLUME = COAL_DUST_VOLUME*9;
 	public static final int ENDER_PEARL_VOLUME = 250;
 	
 	public static final int EUM_DUST_VOLUME = 250;

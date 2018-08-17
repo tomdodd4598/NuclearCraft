@@ -26,6 +26,7 @@ public class AddProcessorRecipe implements IAction {
 	public List<IItemIngredient> itemProducts;
 	public List<IFluidIngredient> fluidProducts;
 	public List extras;
+	public ProcessorRecipe recipe;
 	public boolean wasNull, wrongSize;
 	public final NCRecipes.Type recipeType;
 
@@ -135,19 +136,18 @@ public class AddProcessorRecipe implements IAction {
 		this.itemProducts = itemProducts;
 		this.fluidProducts = fluidProducts;
 		this.extras = extras;
+		
+		recipe = recipeType.getRecipeHandler().buildRecipe(itemIngredients, fluidIngredients, itemProducts, fluidProducts, extras, recipeType.getRecipeHandler().shapeless);
+		if (recipe == null) wasNull = true;
 	}
 	
 	@Override
 	public void apply() {
 		if (!wasNull && !wrongSize) {
-			boolean isShapeless = recipeType.getRecipeHandler().shapeless;
-			ProcessorRecipe recipe = recipeType.getRecipeHandler().buildRecipe(itemIngredients, fluidIngredients, itemProducts, fluidProducts, extras, isShapeless);
 			boolean added = recipeType.getRecipeHandler().addRecipe(recipe);
-			if (!added) {
-				callError();
-				wasNull = true;
-			}
-		} else callError();
+			if (added) return;
+		}
+		callError();
 	}
 	
 	@Override
@@ -159,7 +159,7 @@ public class AddProcessorRecipe implements IAction {
 	}
 	
 	public static void callError() {
-		if (!hasErrored) CraftTweakerAPI.logError("Some NuclearCraft CraftTweaker recipe addition methods have errored - check the CraftTweaker log for more details");
+		if (!hasErrored) CraftTweakerAPI.logError("At least one NuclearCraft CraftTweaker recipe addition method has errored - check the CraftTweaker log for more details");
 		hasErrored = true;
 	}
 }

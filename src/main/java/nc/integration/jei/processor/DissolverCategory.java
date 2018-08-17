@@ -4,17 +4,16 @@ import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeWrapper;
-import nc.config.NCConfig;
-import nc.integration.jei.BaseCategory;
 import nc.integration.jei.IJEIHandler;
 import nc.integration.jei.JEIMethods.RecipeFluidMapper;
 import nc.integration.jei.JEIMethods.RecipeItemMapper;
+import nc.integration.jei.JEIProcessorCategory;
 import nc.recipe.SorptionType;
 
-public class DissolverCategory extends BaseCategory {
+public class DissolverCategory extends JEIProcessorCategory {
 	
 	public DissolverCategory(IGuiHelper guiHelper, IJEIHandler handler) {
-		super(guiHelper, handler, "dissolver_idle", NCConfig.processor_time[15], 45, 30, 102, 26, 176, 3, 37, 16, 84, 35);
+		super(guiHelper, handler, "dissolver_idle", 45, 30, 102, 26);
 	}
 	
 	@Override

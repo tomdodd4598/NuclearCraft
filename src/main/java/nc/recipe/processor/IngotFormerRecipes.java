@@ -1,6 +1,8 @@
 package nc.recipe.processor;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import nc.recipe.ProcessorRecipeHandler;
 import nc.util.FluidStackHelper;
@@ -77,10 +79,12 @@ public class IngotFormerRecipes extends ProcessorRecipeHandler {
 		addFissionFuelFormingRecipes(element, suffix, "", types);
 	}
 	
+	private static final List<String> CASTING_BLACKLIST = Arrays.asList("coal", "redstone", "glass");
+	
 	public void addIngotFormingRecipes() {
 		ArrayList<String> fluidList = new ArrayList(FluidRegistry.getRegisteredFluids().keySet());
 		for (String fluidName : fluidList) {
-			if (fluidName == "coal") continue;
+			if (CASTING_BLACKLIST.contains(fluidName)) continue;
 			String materialName = StringHelper.capitalize(fluidName);
 			String ingot = "ingot" + materialName;
 			String gem = "gem" + materialName;

@@ -4,15 +4,15 @@ import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeWrapper;
-import nc.integration.jei.BaseCategory;
 import nc.integration.jei.IJEIHandler;
 import nc.integration.jei.JEIMethods.RecipeItemMapper;
+import nc.integration.jei.JEIProcessorCategory;
 import nc.recipe.SorptionType;
 
-public class DecayGeneratorCategory extends BaseCategory {
+public class DecayGeneratorCategory extends JEIProcessorCategory {
 	
 	public DecayGeneratorCategory(IGuiHelper guiHelper, IJEIHandler handler) {
-		super(guiHelper, handler, "decay_generator", 1200, 47, 30, 90, 26, 176, 3, 37, 16, 74, 35);
+		super(guiHelper, handler, "decay_generator", 47, 30, 90, 26);
 	}
 	
 	@Override

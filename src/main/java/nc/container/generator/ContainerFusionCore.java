@@ -23,7 +23,7 @@ public class ContainerFusionCore extends ContainerFluidGenerator {
 	protected int heatChange;
 	
 	protected static final List<Integer> UPCASTS = Lists.newArrayList(0, 1, 2, 3, 4, 5, 6, 9, 10);
-	protected static final List<Integer> NON_UPCASTS = Lists.newArrayList(7, 8, 11);
+	protected static final List<Integer> NON_UPCASTS = Lists.newArrayList(7, 8, 11, 12);
 	
 	public ContainerFusionCore(EntityPlayer player, TileFusionCore tileEntity) {
 		super(tileEntity, NCRecipes.Type.FUSION);

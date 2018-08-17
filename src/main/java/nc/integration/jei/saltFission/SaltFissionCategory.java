@@ -5,17 +5,17 @@ import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeWrapper;
 import nc.Global;
-import nc.config.NCConfig;
-import nc.integration.jei.BaseCategory;
 import nc.integration.jei.IJEIHandler;
 import nc.integration.jei.JEIMethods.RecipeFluidMapper;
+import nc.integration.jei.JEIProcessorCategory;
 import nc.recipe.SorptionType;
 import nc.util.Lang;
 
-public class SaltFissionCategory extends BaseCategory {
+public class SaltFissionCategory extends JEIProcessorCategory {
 	
 	public SaltFissionCategory(IGuiHelper guiHelper, IJEIHandler handler) {
-		super(guiHelper, handler, "salt_fission_vessel", (int) (NCConfig.salt_fission_fuel_use*100), 47, 30, 90, 26, 176, 3, 37, 16, 74, 35);
+		super(guiHelper, handler, "salt_fission_vessel", 47, 30, 90, 26);
+		recipeTitle = Lang.localise(Global.MOD_ID + ".multiblock_gui.salt_fission.jei_name");
 	}
 	
 	@Override
@@ -28,6 +28,6 @@ public class SaltFissionCategory extends BaseCategory {
 	
 	@Override
 	public String getTitle() {
-		return Lang.localise(Global.MOD_ID + ".multiblock_gui.salt_fission.jei_name");
+		return recipeTitle;
 	}
 }

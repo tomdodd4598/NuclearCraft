@@ -78,33 +78,26 @@ import nc.integration.jei.processor.SaltMixerCategory;
 import nc.integration.jei.processor.SupercoolerCategory;
 import nc.integration.jei.saltFission.CoolantHeaterCategory;
 import nc.integration.jei.saltFission.SaltFissionCategory;
-import nc.recipe.ProcessorRecipeHandler;
-import nc.recipe.IRecipe;
 import nc.recipe.NCRecipes;
-import nc.recipe.ProcessorRecipe;
+import nc.recipe.ProcessorRecipeHandler;
 import nc.util.ItemStackHelper;
 import nc.util.NCUtil;
 import nc.worldgen.ore.OreGenerator;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.common.Loader;
 
 @JEIPlugin
-public class NCJEI implements IModPlugin, IJEIRecipeBuilder {
-	
-	{
-		JEIMethods.registerRecipeBuilder(this);
-	}
+public class NCJEI implements IModPlugin {
 	
 	@Override
 	public void register(IModRegistry registry) {
 		IJeiHelpers jeiHelpers = registry.getJeiHelpers();
 		IGuiHelper guiHelper = jeiHelpers.getGuiHelper();
 		
-		for (IJEIHandler handler : Handlers.values()) {
+		for (IJEIHandler handler : JEIHandler.values()) {
 			if (!handler.getEnabled()) continue;
-			registry.addRecipes(handler.getJEIRecipes());
+			registry.addRecipes(handler.getJEIRecipes(guiHelper));
 			JEICategory category = handler.getCategory(guiHelper);
 			registry.addRecipeCategories(category);
 			registry.addRecipeHandlers(category);
@@ -112,49 +105,49 @@ public class NCJEI implements IModPlugin, IJEIRecipeBuilder {
 		}
 		IRecipeTransferRegistry recipeTransferRegistry = registry.getRecipeTransferRegistry();
 		
-		if (NCConfig.register_processor[1]) registry.addRecipeClickArea(GuiManufactory.class, 73, 34, 37, 18, Handlers.MANUFACTORY.getUUID());
-		if (NCConfig.register_processor[2]) registry.addRecipeClickArea(GuiIsotopeSeparator.class, 59, 34, 37, 18, Handlers.ISOTOPE_SEPARATOR.getUUID());
-		if (NCConfig.register_processor[3]) registry.addRecipeClickArea(GuiDecayHastener.class, 73, 34, 37, 18, Handlers.DECAY_HASTENER.getUUID());
-		if (NCConfig.register_processor[4]) registry.addRecipeClickArea(GuiFuelReprocessor.class, 67, 30, 37, 38, Handlers.FUEL_REPROCESSOR.getUUID());
-		if (NCConfig.register_processor[5]) registry.addRecipeClickArea(GuiAlloyFurnace.class, 83, 34, 37, 18, Handlers.ALLOY_FURNACE.getUUID());
-		if (NCConfig.register_processor[6]) registry.addRecipeClickArea(GuiInfuser.class, 83, 34, 37, 18, Handlers.INFUSER.getUUID());
-		if (NCConfig.register_processor[7]) registry.addRecipeClickArea(GuiMelter.class, 73, 34, 37, 18, Handlers.MELTER.getUUID());
-		if (NCConfig.register_processor[8]) registry.addRecipeClickArea(GuiSupercooler.class, 73, 34, 37, 18, Handlers.SUPERCOOLER.getUUID());
-		if (NCConfig.register_processor[9]) registry.addRecipeClickArea(GuiElectrolyser.class, 67, 30, 37, 38, Handlers.ELECTROLYSER.getUUID());
-		if (NCConfig.register_processor[10]) registry.addRecipeClickArea(GuiIrradiator.class, 69, 34, 37, 18, Handlers.IRRADIATOR.getUUID());
-		if (NCConfig.register_processor[11]) registry.addRecipeClickArea(GuiIngotFormer.class, 73, 34, 37, 18, Handlers.INGOT_FORMER.getUUID());
-		if (NCConfig.register_processor[12]) registry.addRecipeClickArea(GuiPressurizer.class, 73, 34, 37, 18, Handlers.PRESSURIZER.getUUID());
-		if (NCConfig.register_processor[13]) registry.addRecipeClickArea(GuiChemicalReactor.class, 69, 34, 37, 18, Handlers.CHEMICAL_REACTOR.getUUID());
-		if (NCConfig.register_processor[14]) registry.addRecipeClickArea(GuiSaltMixer.class, 83, 34, 37, 18, Handlers.SALT_MIXER.getUUID());
-		if (NCConfig.register_processor[15]) registry.addRecipeClickArea(GuiCrystallizer.class, 73, 34, 37, 18, Handlers.CRYSTALLIZER.getUUID());
-		if (NCConfig.register_processor[16]) registry.addRecipeClickArea(GuiDissolver.class, 83, 34, 37, 18, Handlers.DISSOLVER.getUUID());
-		if (NCConfig.register_processor[17]) registry.addRecipeClickArea(GuiExtractor.class, 59, 34, 37, 18, Handlers.EXTRACTOR.getUUID());
-		if (NCConfig.register_processor[18]) registry.addRecipeClickArea(GuiCentrifuge.class, 67, 30, 37, 38, Handlers.CENTRIFUGE.getUUID());
-		if (NCConfig.register_processor[19]) registry.addRecipeClickArea(GuiRockCrusher.class, 55, 34, 37, 18, Handlers.ROCK_CRUSHER.getUUID());
-		registry.addRecipeClickArea(GuiFissionController.class, 73, 34, 37, 18, Handlers.FISSION.getUUID());
-		registry.addRecipeClickArea(GuiFusionCore.class, 47, 5, 121, 97, Handlers.FUSION.getUUID());
+		if (NCConfig.register_processor[1]) registry.addRecipeClickArea(GuiManufactory.class, 73, 34, 37, 18, JEIHandler.MANUFACTORY.getUUID());
+		if (NCConfig.register_processor[2]) registry.addRecipeClickArea(GuiIsotopeSeparator.class, 59, 34, 37, 18, JEIHandler.ISOTOPE_SEPARATOR.getUUID());
+		if (NCConfig.register_processor[3]) registry.addRecipeClickArea(GuiDecayHastener.class, 73, 34, 37, 18, JEIHandler.DECAY_HASTENER.getUUID());
+		if (NCConfig.register_processor[4]) registry.addRecipeClickArea(GuiFuelReprocessor.class, 67, 30, 37, 38, JEIHandler.FUEL_REPROCESSOR.getUUID());
+		if (NCConfig.register_processor[5]) registry.addRecipeClickArea(GuiAlloyFurnace.class, 83, 34, 37, 18, JEIHandler.ALLOY_FURNACE.getUUID());
+		if (NCConfig.register_processor[6]) registry.addRecipeClickArea(GuiInfuser.class, 83, 34, 37, 18, JEIHandler.INFUSER.getUUID());
+		if (NCConfig.register_processor[7]) registry.addRecipeClickArea(GuiMelter.class, 73, 34, 37, 18, JEIHandler.MELTER.getUUID());
+		if (NCConfig.register_processor[8]) registry.addRecipeClickArea(GuiSupercooler.class, 73, 34, 37, 18, JEIHandler.SUPERCOOLER.getUUID());
+		if (NCConfig.register_processor[9]) registry.addRecipeClickArea(GuiElectrolyser.class, 67, 30, 37, 38, JEIHandler.ELECTROLYSER.getUUID());
+		if (NCConfig.register_processor[10]) registry.addRecipeClickArea(GuiIrradiator.class, 69, 34, 37, 18, JEIHandler.IRRADIATOR.getUUID());
+		if (NCConfig.register_processor[11]) registry.addRecipeClickArea(GuiIngotFormer.class, 73, 34, 37, 18, JEIHandler.INGOT_FORMER.getUUID());
+		if (NCConfig.register_processor[12]) registry.addRecipeClickArea(GuiPressurizer.class, 73, 34, 37, 18, JEIHandler.PRESSURIZER.getUUID());
+		if (NCConfig.register_processor[13]) registry.addRecipeClickArea(GuiChemicalReactor.class, 69, 34, 37, 18, JEIHandler.CHEMICAL_REACTOR.getUUID());
+		if (NCConfig.register_processor[14]) registry.addRecipeClickArea(GuiSaltMixer.class, 83, 34, 37, 18, JEIHandler.SALT_MIXER.getUUID());
+		if (NCConfig.register_processor[15]) registry.addRecipeClickArea(GuiCrystallizer.class, 73, 34, 37, 18, JEIHandler.CRYSTALLIZER.getUUID());
+		if (NCConfig.register_processor[16]) registry.addRecipeClickArea(GuiDissolver.class, 83, 34, 37, 18, JEIHandler.DISSOLVER.getUUID());
+		if (NCConfig.register_processor[17]) registry.addRecipeClickArea(GuiExtractor.class, 59, 34, 37, 18, JEIHandler.EXTRACTOR.getUUID());
+		if (NCConfig.register_processor[18]) registry.addRecipeClickArea(GuiCentrifuge.class, 67, 30, 37, 38, JEIHandler.CENTRIFUGE.getUUID());
+		if (NCConfig.register_processor[19]) registry.addRecipeClickArea(GuiRockCrusher.class, 55, 34, 37, 18, JEIHandler.ROCK_CRUSHER.getUUID());
+		registry.addRecipeClickArea(GuiFissionController.class, 73, 34, 37, 18, JEIHandler.FISSION.getUUID());
+		registry.addRecipeClickArea(GuiFusionCore.class, 47, 5, 121, 97, JEIHandler.FUSION.getUUID());
 		
-		recipeTransferRegistry.addRecipeTransferHandler(ContainerManufactory.class, Handlers.MANUFACTORY.getUUID(), 0, 1, 4, 36);
-		recipeTransferRegistry.addRecipeTransferHandler(ContainerIsotopeSeparator.class, Handlers.ISOTOPE_SEPARATOR.getUUID(), 0, 1, 5, 36);
-		recipeTransferRegistry.addRecipeTransferHandler(ContainerDecayHastener.class, Handlers.DECAY_HASTENER.getUUID(), 0, 1, 4, 36);
-		recipeTransferRegistry.addRecipeTransferHandler(ContainerFuelReprocessor.class, Handlers.FUEL_REPROCESSOR.getUUID(), 0, 1, 7, 36);
-		recipeTransferRegistry.addRecipeTransferHandler(ContainerAlloyFurnace.class, Handlers.ALLOY_FURNACE.getUUID(), 0, 2, 5, 36);
-		recipeTransferRegistry.addRecipeTransferHandler(ContainerInfuser.class, Handlers.INFUSER.getUUID(), 0, 1, 4, 36);
-		recipeTransferRegistry.addRecipeTransferHandler(ContainerMelter.class, Handlers.MELTER.getUUID(), 0, 1, 3, 36);
-		recipeTransferRegistry.addRecipeTransferHandler(ContainerSupercooler.class, Handlers.SUPERCOOLER.getUUID(), 0, 0, 2, 36);
-		recipeTransferRegistry.addRecipeTransferHandler(ContainerElectrolyser.class, Handlers.ELECTROLYSER.getUUID(), 0, 0, 2, 36);
-		recipeTransferRegistry.addRecipeTransferHandler(ContainerIrradiator.class, Handlers.IRRADIATOR.getUUID(), 0, 0, 2, 36);
-		recipeTransferRegistry.addRecipeTransferHandler(ContainerIngotFormer.class, Handlers.INGOT_FORMER.getUUID(), 0, 0, 3, 36);
-		recipeTransferRegistry.addRecipeTransferHandler(ContainerPressurizer.class, Handlers.PRESSURIZER.getUUID(), 0, 1, 4, 36);
-		recipeTransferRegistry.addRecipeTransferHandler(ContainerChemicalReactor.class, Handlers.CHEMICAL_REACTOR.getUUID(), 0, 0, 2, 36);
-		recipeTransferRegistry.addRecipeTransferHandler(ContainerSaltMixer.class, Handlers.SALT_MIXER.getUUID(), 0, 0, 2, 36);
-		recipeTransferRegistry.addRecipeTransferHandler(ContainerCrystallizer.class, Handlers.CRYSTALLIZER.getUUID(), 0, 0, 3, 36);
-		recipeTransferRegistry.addRecipeTransferHandler(ContainerDissolver.class, Handlers.DISSOLVER.getUUID(), 0, 1, 3, 36);
-		recipeTransferRegistry.addRecipeTransferHandler(ContainerExtractor.class, Handlers.EXTRACTOR.getUUID(), 0, 1, 4, 36);
-		recipeTransferRegistry.addRecipeTransferHandler(ContainerCentrifuge.class, Handlers.CENTRIFUGE.getUUID(), 0, 0, 2, 36);
-		recipeTransferRegistry.addRecipeTransferHandler(ContainerRockCrusher.class, Handlers.ROCK_CRUSHER.getUUID(), 0, 1, 6, 36);
-		recipeTransferRegistry.addRecipeTransferHandler(ContainerFissionController.class, Handlers.FISSION.getUUID(), 0, 1, 3, 36);
-		recipeTransferRegistry.addRecipeTransferHandler(ContainerFusionCore.class, Handlers.FUSION.getUUID(), 0, 0, 0, 36);
+		recipeTransferRegistry.addRecipeTransferHandler(ContainerManufactory.class, JEIHandler.MANUFACTORY.getUUID(), 0, 1, 4, 36);
+		recipeTransferRegistry.addRecipeTransferHandler(ContainerIsotopeSeparator.class, JEIHandler.ISOTOPE_SEPARATOR.getUUID(), 0, 1, 5, 36);
+		recipeTransferRegistry.addRecipeTransferHandler(ContainerDecayHastener.class, JEIHandler.DECAY_HASTENER.getUUID(), 0, 1, 4, 36);
+		recipeTransferRegistry.addRecipeTransferHandler(ContainerFuelReprocessor.class, JEIHandler.FUEL_REPROCESSOR.getUUID(), 0, 1, 7, 36);
+		recipeTransferRegistry.addRecipeTransferHandler(ContainerAlloyFurnace.class, JEIHandler.ALLOY_FURNACE.getUUID(), 0, 2, 5, 36);
+		recipeTransferRegistry.addRecipeTransferHandler(ContainerInfuser.class, JEIHandler.INFUSER.getUUID(), 0, 1, 4, 36);
+		recipeTransferRegistry.addRecipeTransferHandler(ContainerMelter.class, JEIHandler.MELTER.getUUID(), 0, 1, 3, 36);
+		recipeTransferRegistry.addRecipeTransferHandler(ContainerSupercooler.class, JEIHandler.SUPERCOOLER.getUUID(), 0, 0, 2, 36);
+		recipeTransferRegistry.addRecipeTransferHandler(ContainerElectrolyser.class, JEIHandler.ELECTROLYSER.getUUID(), 0, 0, 2, 36);
+		recipeTransferRegistry.addRecipeTransferHandler(ContainerIrradiator.class, JEIHandler.IRRADIATOR.getUUID(), 0, 0, 2, 36);
+		recipeTransferRegistry.addRecipeTransferHandler(ContainerIngotFormer.class, JEIHandler.INGOT_FORMER.getUUID(), 0, 0, 3, 36);
+		recipeTransferRegistry.addRecipeTransferHandler(ContainerPressurizer.class, JEIHandler.PRESSURIZER.getUUID(), 0, 1, 4, 36);
+		recipeTransferRegistry.addRecipeTransferHandler(ContainerChemicalReactor.class, JEIHandler.CHEMICAL_REACTOR.getUUID(), 0, 0, 2, 36);
+		recipeTransferRegistry.addRecipeTransferHandler(ContainerSaltMixer.class, JEIHandler.SALT_MIXER.getUUID(), 0, 0, 2, 36);
+		recipeTransferRegistry.addRecipeTransferHandler(ContainerCrystallizer.class, JEIHandler.CRYSTALLIZER.getUUID(), 0, 0, 3, 36);
+		recipeTransferRegistry.addRecipeTransferHandler(ContainerDissolver.class, JEIHandler.DISSOLVER.getUUID(), 0, 1, 3, 36);
+		recipeTransferRegistry.addRecipeTransferHandler(ContainerExtractor.class, JEIHandler.EXTRACTOR.getUUID(), 0, 1, 4, 36);
+		recipeTransferRegistry.addRecipeTransferHandler(ContainerCentrifuge.class, JEIHandler.CENTRIFUGE.getUUID(), 0, 0, 2, 36);
+		recipeTransferRegistry.addRecipeTransferHandler(ContainerRockCrusher.class, JEIHandler.ROCK_CRUSHER.getUUID(), 0, 1, 6, 36);
+		recipeTransferRegistry.addRecipeTransferHandler(ContainerFissionController.class, JEIHandler.FISSION.getUUID(), 0, 1, 3, 36);
+		recipeTransferRegistry.addRecipeTransferHandler(ContainerFusionCore.class, JEIHandler.FUSION.getUUID(), 0, 0, 0, 36);
 		
 		for (int i = 0; i < 8; i++) {
 			if (!OreGenerator.showOre(i)) {
@@ -189,6 +182,7 @@ public class NCJEI implements IModPlugin, IJEIRecipeBuilder {
 		blacklist(jeiHelpers, NCBlocks.rock_crusher_active);
 		
 		blacklist(jeiHelpers, NCBlocks.fission_controller_active);
+		blacklist(jeiHelpers, NCBlocks.fission_controller_new_idle);
 		blacklist(jeiHelpers, NCBlocks.fission_controller_new_active);
 		
 		blacklist(jeiHelpers, NCBlocks.fusion_dummy_side);
@@ -224,22 +218,6 @@ public class NCJEI implements IModPlugin, IJEIRecipeBuilder {
 		NCUtil.getLogger().info("JEI integration complete");
 	}
 	
-	@Override
-	public Object buildRecipe(IRecipe recipe, ProcessorRecipeHandler methods) {
-		if ((Loader.isModLoaded("jei") || Loader.isModLoaded("JEI"))) {
-			for (Handlers handler : NCJEI.Handlers.values()) {
-				if (handler.getRecipeHandler().getRecipeName().equals(methods.getRecipeName())) {
-					try {
-						return handler.recipeClass.getConstructor(ProcessorRecipeHandler.class, IRecipe.class).newInstance(handler.getRecipeHandler(), recipe);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}
-			}
-		}
-		return null;
-	}
-	
 	private void blacklist(IJeiHelpers jeiHelpers, Object ingredient) {
 		if (ingredient == null) return;
 		jeiHelpers.getIngredientBlacklist().addIngredientToBlacklist(ItemStackHelper.fixItemStack(ingredient));
@@ -255,51 +233,49 @@ public class NCJEI implements IModPlugin, IJEIRecipeBuilder {
 		for (int i = 0; i < enumm.getEnumConstants().length; i++) blacklist(jeiHelpers, new ItemStack(item, 1, i));
 	}
 	
-	public enum Handlers implements IJEIHandler {
-		MANUFACTORY(NCRecipes.Type.MANUFACTORY, NCBlocks.manufactory_idle, "manufactory", RecipesJEI.Manufactory.class, 1),
-		ISOTOPE_SEPARATOR(NCRecipes.Type.ISOTOPE_SEPARATOR, NCBlocks.isotope_separator_idle, "isotope_separator", RecipesJEI.IsotopeSeparator.class, 2),
-		DECAY_HASTENER(NCRecipes.Type.DECAY_HASTENER, NCBlocks.decay_hastener_idle, "decay_hastener", RecipesJEI.DecayHastener.class, 3),
-		FUEL_REPROCESSOR(NCRecipes.Type.FUEL_REPROCESSOR, NCBlocks.fuel_reprocessor_idle, "fuel_reprocessor", RecipesJEI.FuelReprocessor.class, 4),
-		ALLOY_FURNACE(NCRecipes.Type.ALLOY_FURNACE, NCBlocks.alloy_furnace_idle, "alloy_furnace", RecipesJEI.AlloyFurnace.class, 5),
-		INFUSER(NCRecipes.Type.INFUSER, NCBlocks.infuser_idle, "infuser", RecipesJEI.Infuser.class, 6),
-		MELTER(NCRecipes.Type.MELTER, NCBlocks.melter_idle, "melter", RecipesJEI.Melter.class, 7),
-		SUPERCOOLER(NCRecipes.Type.SUPERCOOLER, NCBlocks.supercooler_idle, "supercooler", RecipesJEI.Supercooler.class, 8),
-		ELECTROLYSER(NCRecipes.Type.ELECTROLYSER, NCBlocks.electrolyser_idle, "electrolyser", RecipesJEI.Electrolyser.class, 9),
-		IRRADIATOR(NCRecipes.Type.IRRADIATOR, NCBlocks.irradiator_idle, "irradiator", RecipesJEI.Irradiator.class, 10),
-		INGOT_FORMER(NCRecipes.Type.INGOT_FORMER, NCBlocks.ingot_former_idle, "ingot_former", RecipesJEI.IngotFormer.class, 11),
-		PRESSURIZER(NCRecipes.Type.PRESSURIZER, NCBlocks.pressurizer_idle, "pressurizer", RecipesJEI.Pressurizer.class, 12),
-		CHEMICAL_REACTOR(NCRecipes.Type.CHEMICAL_REACTOR, NCBlocks.chemical_reactor_idle, "chemical_reactor", RecipesJEI.ChemicalReactor.class, 13),
-		SALT_MIXER(NCRecipes.Type.SALT_MIXER, NCBlocks.salt_mixer_idle, "salt_mixer", RecipesJEI.SaltMixer.class, 14),
-		CRYSTALLIZER(NCRecipes.Type.CRYSTALLIZER, NCBlocks.crystallizer_idle, "crystallizer", RecipesJEI.Crystallizer.class, 15),
-		DISSOLVER(NCRecipes.Type.DISSOLVER, NCBlocks.dissolver_idle, "dissolver", RecipesJEI.Dissolver.class, 16),
-		EXTRACTOR(NCRecipes.Type.EXTRACTOR, NCBlocks.extractor_idle, "extractor", RecipesJEI.Extractor.class, 17),
-		CENTRIFUGE(NCRecipes.Type.CENTRIFUGE, NCBlocks.centrifuge_idle, "centrifuge", RecipesJEI.Centrifuge.class, 18),
-		ROCK_CRUSHER(NCRecipes.Type.ROCK_CRUSHER, NCBlocks.rock_crusher_idle, "rock_crusher", RecipesJEI.RockCrusher.class, 19),
-		DECAY_GENERATOR(NCRecipes.Type.DECAY_GENERATOR, NCBlocks.decay_generator, "decay_generator", RecipesJEI.DecayGenerator.class),
-		FISSION(NCRecipes.Type.FISSION, NCBlocks.fission_controller_new_idle, "fission_controller", RecipesJEI.Fission.class),
-		FUSION(NCRecipes.Type.FUSION, NCBlocks.fusion_core, "fusion_core", RecipesJEI.Fusion.class),
-		SALT_FISSION(NCRecipes.Type.SALT_FISSION, NCBlocks.salt_fission_vessel, "salt_fission", RecipesJEI.SaltFission.class),
-		COOLANT_HEATER(NCRecipes.Type.COOLANT_HEATER, NCBlocks.salt_fission_heater, "coolant_heater", RecipesJEI.CoolantHeater.class);
+	public enum JEIHandler implements IJEIHandler {
+		MANUFACTORY(NCRecipes.Type.MANUFACTORY, NCBlocks.manufactory_idle, "manufactory", JEIRecipeWrapper.Manufactory.class, 1),
+		ISOTOPE_SEPARATOR(NCRecipes.Type.ISOTOPE_SEPARATOR, NCBlocks.isotope_separator_idle, "isotope_separator", JEIRecipeWrapper.IsotopeSeparator.class, 2),
+		DECAY_HASTENER(NCRecipes.Type.DECAY_HASTENER, NCBlocks.decay_hastener_idle, "decay_hastener", JEIRecipeWrapper.DecayHastener.class, 3),
+		FUEL_REPROCESSOR(NCRecipes.Type.FUEL_REPROCESSOR, NCBlocks.fuel_reprocessor_idle, "fuel_reprocessor", JEIRecipeWrapper.FuelReprocessor.class, 4),
+		ALLOY_FURNACE(NCRecipes.Type.ALLOY_FURNACE, NCBlocks.alloy_furnace_idle, "alloy_furnace", JEIRecipeWrapper.AlloyFurnace.class, 5),
+		INFUSER(NCRecipes.Type.INFUSER, NCBlocks.infuser_idle, "infuser", JEIRecipeWrapper.Infuser.class, 6),
+		MELTER(NCRecipes.Type.MELTER, NCBlocks.melter_idle, "melter", JEIRecipeWrapper.Melter.class, 7),
+		SUPERCOOLER(NCRecipes.Type.SUPERCOOLER, NCBlocks.supercooler_idle, "supercooler", JEIRecipeWrapper.Supercooler.class, 8),
+		ELECTROLYSER(NCRecipes.Type.ELECTROLYSER, NCBlocks.electrolyser_idle, "electrolyser", JEIRecipeWrapper.Electrolyser.class, 9),
+		IRRADIATOR(NCRecipes.Type.IRRADIATOR, NCBlocks.irradiator_idle, "irradiator", JEIRecipeWrapper.Irradiator.class, 10),
+		INGOT_FORMER(NCRecipes.Type.INGOT_FORMER, NCBlocks.ingot_former_idle, "ingot_former", JEIRecipeWrapper.IngotFormer.class, 11),
+		PRESSURIZER(NCRecipes.Type.PRESSURIZER, NCBlocks.pressurizer_idle, "pressurizer", JEIRecipeWrapper.Pressurizer.class, 12),
+		CHEMICAL_REACTOR(NCRecipes.Type.CHEMICAL_REACTOR, NCBlocks.chemical_reactor_idle, "chemical_reactor", JEIRecipeWrapper.ChemicalReactor.class, 13),
+		SALT_MIXER(NCRecipes.Type.SALT_MIXER, NCBlocks.salt_mixer_idle, "salt_mixer", JEIRecipeWrapper.SaltMixer.class, 14),
+		CRYSTALLIZER(NCRecipes.Type.CRYSTALLIZER, NCBlocks.crystallizer_idle, "crystallizer", JEIRecipeWrapper.Crystallizer.class, 15),
+		DISSOLVER(NCRecipes.Type.DISSOLVER, NCBlocks.dissolver_idle, "dissolver", JEIRecipeWrapper.Dissolver.class, 16),
+		EXTRACTOR(NCRecipes.Type.EXTRACTOR, NCBlocks.extractor_idle, "extractor", JEIRecipeWrapper.Extractor.class, 17),
+		CENTRIFUGE(NCRecipes.Type.CENTRIFUGE, NCBlocks.centrifuge_idle, "centrifuge", JEIRecipeWrapper.Centrifuge.class, 18),
+		ROCK_CRUSHER(NCRecipes.Type.ROCK_CRUSHER, NCBlocks.rock_crusher_idle, "rock_crusher", JEIRecipeWrapper.RockCrusher.class, 19),
+		DECAY_GENERATOR(NCRecipes.Type.DECAY_GENERATOR, NCBlocks.decay_generator, "decay_generator", JEIRecipeWrapper.DecayGenerator.class),
+		FISSION(NCRecipes.Type.FISSION, NCBlocks.fission_controller_new_fixed, "fission_controller", JEIRecipeWrapper.Fission.class),
+		FUSION(NCRecipes.Type.FUSION, NCBlocks.fusion_core, "fusion_core", JEIRecipeWrapper.Fusion.class),
+		SALT_FISSION(NCRecipes.Type.SALT_FISSION, NCBlocks.salt_fission_vessel, "salt_fission", JEIRecipeWrapper.SaltFission.class),
+		COOLANT_HEATER(NCRecipes.Type.COOLANT_HEATER, NCBlocks.salt_fission_heater, "coolant_heater", JEIRecipeWrapper.CoolantHeater.class);
 		
-		public NCRecipes.Type recipeType;
-		public String unlocalizedName;
-		public String textureName;
-		public Class<? extends JEIProcessorRecipe> recipeClass;
-		public ItemStack crafterType;
-		public boolean enabled;
+		private NCRecipes.Type recipeType;
+		private Class<? extends JEIProcessorRecipeWrapper> recipeWrapper;
+		private boolean enabled;
+		private ItemStack crafterType;
+		private String textureName;
 		
-		Handlers(NCRecipes.Type recipeType, Object crafter, String textureName, Class<? extends JEIProcessorRecipe> recipeClass) {
+		JEIHandler(NCRecipes.Type recipeType, Object crafter, String textureName, Class<? extends JEIProcessorRecipeWrapper> recipeClass) {
 			this(recipeType, crafter, textureName, recipeClass, 0);
 			enabled = true;
 		}
 		
-		Handlers(NCRecipes.Type recipeType, Object crafter, String textureName, Class<? extends JEIProcessorRecipe> recipeClass, int enabled) {
+		JEIHandler(NCRecipes.Type recipeType, Object crafter, String textureName, Class<? extends JEIProcessorRecipeWrapper> recipeWrapper, int enabled) {
 			this.recipeType = recipeType;
-			crafterType = crafter != null ? ItemStackHelper.fixItemStack(crafter) : null;
-			this.unlocalizedName = crafterType != null ? crafterType.getUnlocalizedName() + ".name" : "";
-			this.textureName = textureName;
-			this.recipeClass = recipeClass;
+			this.recipeWrapper = recipeWrapper;
 			this.enabled = NCConfig.register_processor[enabled];
+			crafterType = crafter != null ? ItemStackHelper.fixItemStack(crafter) : null;
+			this.textureName = textureName;
 		}
 		
 		@Override
@@ -359,44 +335,20 @@ public class NCJEI implements IModPlugin, IJEIRecipeBuilder {
 		}
 		
 		@Override
-		public String getTextureName() {
-			return textureName;
-		}
-		
-		@Override
-		public String getTitle() {
-			return unlocalizedName;
-		}
-		
-		@Override
-		public Class<? extends JEIProcessorRecipe> getRecipeClass() {
-			return recipeClass;
-		}
-
-		@Override
 		public ProcessorRecipeHandler getRecipeHandler() {
 			return recipeType.getRecipeHandler();
 		}
-
+		
 		@Override
-		public ArrayList<JEIProcessorRecipe> getJEIRecipes() {
-			ArrayList<JEIProcessorRecipe> recipes = new ArrayList();
-			if (getRecipeHandler() != null) {
-				for (IRecipe recipe : (ArrayList<ProcessorRecipe>) getRecipeHandler().getRecipes()) {
-					try {
-						recipes.add(recipeClass.getConstructor(ProcessorRecipeHandler.class, IRecipe.class).newInstance(getRecipeHandler(), recipe));
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}
-			}
-			return recipes;
+		public Class<? extends JEIProcessorRecipeWrapper> getJEIRecipeWrapper() {
+			return recipeWrapper;
+		}
+		
+		@Override
+		public ArrayList<JEIProcessorRecipeWrapper> getJEIRecipes(IGuiHelper guiHelper) {
+			return JEIMethods.getJEIRecipes(guiHelper, this, getRecipeHandler(), getJEIRecipeWrapper());
 		}
 
-		@Override
-		public ItemStack getCrafterItemStack() {
-			return crafterType;
-		}
 		
 		@Override
 		public String getUUID() {
@@ -406,6 +358,16 @@ public class NCJEI implements IModPlugin, IJEIRecipeBuilder {
 		@Override
 		public boolean getEnabled() {
 			return enabled;
+		}
+		
+		@Override
+		public ItemStack getCrafterItemStack() {
+			return crafterType;
+		}
+		
+		@Override
+		public String getTextureName() {
+			return textureName;
 		}
 	}
 }

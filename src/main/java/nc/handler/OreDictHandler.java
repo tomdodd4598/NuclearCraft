@@ -535,6 +535,8 @@ public class OreDictHandler {
 		OreDictionary.registerOre("record", NCItems.record_end_of_the_world);
 		OreDictionary.registerOre("record", NCItems.record_money_for_nothing);
 		
+		OreDictionary.registerOre("gearDominos", NCItems.dominos);
+		
 		// Vanilla
 		OreDictionary.registerOre("gemCoal", Items.COAL);
 		OreDictionary.registerOre("gemCharcoal", new ItemStack(Items.COAL, 1, 1));

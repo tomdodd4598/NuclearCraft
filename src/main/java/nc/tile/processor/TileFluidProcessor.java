@@ -19,6 +19,7 @@ import nc.tile.energyFluid.TileEnergyFluidSidedInventory;
 import nc.tile.internal.energy.EnergyConnection;
 import nc.tile.internal.fluid.FluidConnection;
 import nc.tile.internal.fluid.Tank;
+import nc.util.ArrayHelper;
 import nc.util.NCMathHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -27,6 +28,8 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fluids.FluidStack;
 
 public class TileFluidProcessor extends TileEnergyFluidSidedInventory implements IFluidProcessor, IInterfaceable, IBufferable, IGui {
+	
+	public final int[] slots;
 	
 	public final int defaultProcessTime, defaultProcessPower;
 	public double baseProcessTime, baseProcessPower;
@@ -65,6 +68,8 @@ public class TileFluidProcessor extends TileEnergyFluidSidedInventory implements
 		areTanksShared = fluidInSize > 1;
 		
 		this.recipeType = recipeType;
+		
+		slots = ArrayHelper.increasingArray(hasUpgrades ? 2 : 0);
 		
 		for (int i = 0; i < tanks.size(); i++) {
 			if (i < fluidInputSize) tanks.get(i).setStrictlyInput(true);
@@ -157,12 +162,12 @@ public class TileFluidProcessor extends TileEnergyFluidSidedInventory implements
 	// IC2 Tiers
 	
 	@Override
-	public int getSourceTier() {
+	public int getEUSourceTier() {
 		return 1;
 	}
 		
 	@Override
-	public int getSinkTier() {
+	public int getEUSinkTier() {
 		return 4;
 	}
 	
@@ -228,27 +233,8 @@ public class TileFluidProcessor extends TileEnergyFluidSidedInventory implements
 			return;
 		}
 		
-		List extras = recipe.extras();
-		
-		if (extras.isEmpty()) baseProcessTime = defaultProcessTime;
-		else {
-			Object processTimeInfo = recipe.extras().get(0);
-			/*if (processTimeInfo instanceof Integer) {
-				baseProcessTime = (int) processTimeInfo;
-			} else*/ if (processTimeInfo instanceof Double) {
-				baseProcessTime = ((double) processTimeInfo)*defaultProcessTime;
-			} else baseProcessTime = defaultProcessTime;
-		}
-		
-		if (extras.size() < 2) baseProcessPower = defaultProcessPower;
-		else {
-			Object processPowerInfo = recipe.extras().get(1);
-			/*if (processPowerInfo instanceof Integer) {
-				baseProcessPower = (int) processPowerInfo;
-			} else*/ if (processPowerInfo instanceof Double) {
-				baseProcessPower = ((double) processPowerInfo)*defaultProcessPower;
-			} else baseProcessPower = defaultProcessPower;
-		}
+		baseProcessTime = recipe.getProcessTime(defaultProcessTime);
+		baseProcessPower = recipe.getProcessPower(defaultProcessPower);
 	}
 	
 	public void setDefaultRecipeStats() {
@@ -338,12 +324,12 @@ public class TileFluidProcessor extends TileEnergyFluidSidedInventory implements
 	
 	@Override
 	public int[] getSlotsForFace(EnumFacing side) {
-		return new int[] {};
+		return slots;
 	}
 
 	@Override
 	public boolean canInsertItem(int slot, ItemStack stack, EnumFacing direction) {
-		return false;
+		return isItemValidForSlot(slot, stack);
 	}
 
 	@Override

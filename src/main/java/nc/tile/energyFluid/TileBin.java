@@ -51,12 +51,12 @@ public class TileBin extends TileEnergyFluidSidedInventory implements IInterface
 	// IC2 EU
 
 	@Override
-	public int getSourceTier() {
+	public int getEUSourceTier() {
 		return 1;
 	}
 
 	@Override
-	public int getSinkTier() {
+	public int getEUSinkTier() {
 		return 4;
 	}
 }

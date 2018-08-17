@@ -7,6 +7,7 @@ import java.util.Set;
 import nc.NuclearCraft;
 import nc.multiblock.validation.IMultiblockValidator;
 import nc.multiblock.validation.ValidationError;
+import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
@@ -990,4 +991,8 @@ public abstract class MultiblockControllerBase implements IMultiblockValidator {
     static {
         REGISTRY = NuclearCraft.proxy.initMultiblockRegistry();
     }
+    
+    protected Block getBlock(int x, int y, int z) {
+		return WORLD.getBlockState(new BlockPos(x, y, z)).getBlock();
+	}
 }

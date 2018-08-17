@@ -4,16 +4,15 @@ import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeWrapper;
-import nc.config.NCConfig;
-import nc.integration.jei.BaseCategory;
 import nc.integration.jei.IJEIHandler;
 import nc.integration.jei.JEIMethods.RecipeItemMapper;
+import nc.integration.jei.JEIProcessorCategory;
 import nc.recipe.SorptionType;
 
-public class IsotopeSeparatorCategory extends BaseCategory {
+public class IsotopeSeparatorCategory extends JEIProcessorCategory {
 	
 	public IsotopeSeparatorCategory(IGuiHelper guiHelper, IJEIHandler handler) {
-		super(guiHelper, handler, "isotope_separator_idle", NCConfig.processor_time[1], 33, 30, 118, 26, 176, 3, 37, 18, 60, 34);
+		super(guiHelper, handler, "isotope_separator_idle", 33, 30, 118, 26);
 	}
 	
 	@Override

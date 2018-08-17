@@ -85,17 +85,20 @@ public class OreDictHelper {
 	
 	public static ItemStack getPrioritisedCraftingStack(ItemStack backup, String ore) {
 		List<ItemStack> stackList = getPrioritisedStackList(ore);
-		if (stackList == null || stackList.isEmpty()) return backup;
+		if (stackList == null || stackList.isEmpty()) {
+			if (backup == null || backup.isEmpty()) return null;
+			return backup;
+		}
 		ItemStack stack = stackList.get(0).copy();
-		stack.setCount(backup.getCount());
+		stack.setCount(backup == null || backup.isEmpty() ? 1 : backup.getCount());
 		return stack;
 	}
 	
 	public static ItemStack getPrioritisedCraftingStack(Item backup, String ore) {
-		return getPrioritisedCraftingStack(new ItemStack(backup), ore);
+		return getPrioritisedCraftingStack(backup == null ? ItemStack.EMPTY : new ItemStack(backup), ore);
 	}
 	
 	public static ItemStack getPrioritisedCraftingStack(Block backup, String ore) {
-		return getPrioritisedCraftingStack(new ItemStack(backup), ore);
+		return getPrioritisedCraftingStack(backup == null ? ItemStack.EMPTY : new ItemStack(backup), ore);
 	}
 }

@@ -1,15 +1,15 @@
 package nc.init;
 
 import nc.Global;
-import nc.multiblock.fission.moltensalt.tile.TileSaltFissionBeam;
-import nc.multiblock.fission.moltensalt.tile.TileSaltFissionController;
-import nc.multiblock.fission.moltensalt.tile.TileSaltFissionFrame;
-import nc.multiblock.fission.moltensalt.tile.TileSaltFissionGlass;
-import nc.multiblock.fission.moltensalt.tile.TileSaltFissionHeater;
-import nc.multiblock.fission.moltensalt.tile.TileSaltFissionModerator;
-import nc.multiblock.fission.moltensalt.tile.TileSaltFissionVent;
-import nc.multiblock.fission.moltensalt.tile.TileSaltFissionVessel;
-import nc.multiblock.fission.moltensalt.tile.TileSaltFissionWall;
+import nc.multiblock.saltFission.tile.TileSaltFissionBeam;
+import nc.multiblock.saltFission.tile.TileSaltFissionController;
+import nc.multiblock.saltFission.tile.TileSaltFissionFrame;
+import nc.multiblock.saltFission.tile.TileSaltFissionGlass;
+import nc.multiblock.saltFission.tile.TileSaltFissionHeater;
+import nc.multiblock.saltFission.tile.TileSaltFissionModerator;
+import nc.multiblock.saltFission.tile.TileSaltFissionVent;
+import nc.multiblock.saltFission.tile.TileSaltFissionVessel;
+import nc.multiblock.saltFission.tile.TileSaltFissionWall;
 import nc.tile.dummy.TileFissionPort;
 import nc.tile.dummy.TileFusionDummy;
 import nc.tile.dummy.TileMachineInterface;

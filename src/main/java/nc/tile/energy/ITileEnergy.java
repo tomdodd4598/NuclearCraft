@@ -1,15 +1,14 @@
 package nc.tile.energy;
 
+import nc.tile.ITile;
 import nc.tile.internal.energy.EnergyConnection;
 import nc.tile.internal.energy.EnergyStorage;
 import nc.tile.internal.energy.EnergyTileWrapper;
+import nc.tile.internal.energy.EnergyTileWrapperGT;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.BlockPos;
 
-public interface ITileEnergy {
-	
-	public BlockPos getEnergyTilePos();
+public interface ITileEnergy extends ITile {
 	
 	public EnergyStorage getEnergyStorage();
 	
@@ -47,7 +46,13 @@ public interface ITileEnergy {
 		return getEnergyConnection(side).canReceive();
 	}
 	
+	public abstract int getEUSourceTier();
+	
+	public abstract int getEUSinkTier();
+	
 	public EnergyTileWrapper getEnergySide(EnumFacing side);
+	
+	public EnergyTileWrapperGT getEnergySideGT(EnumFacing side);
 	
 	public NBTTagCompound writeEnergy(NBTTagCompound nbt);
 	

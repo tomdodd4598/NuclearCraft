@@ -32,6 +32,12 @@ public abstract class GuiFluidProcessor extends NCGui {
 		playerInventory = player.inventory;
 		gui_textures = new ResourceLocation(Global.MOD_ID + ":textures/gui/container/" + name + ".png");
 	}
+	
+	@Override
+	public void initGui() {
+		sendTankInfo();
+		super.initGui();
+	}
 
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
@@ -78,4 +84,6 @@ public abstract class GuiFluidProcessor extends NCGui {
 		String powerMultiplier = "x" + this.tile.getPowerMultiplier();
 		return Lists.newArrayList(TextFormatting.LIGHT_PURPLE + Lang.localise("gui.container.energy_stored") + TextFormatting.WHITE + " " + energy, TextFormatting.LIGHT_PURPLE + Lang.localise("gui.container.process_power") + TextFormatting.WHITE + " " + power, TextFormatting.AQUA + Lang.localise("gui.container.speed_multiplier") + TextFormatting.WHITE + " " + speedMultiplier, TextFormatting.AQUA + Lang.localise("gui.container.power_multiplier") + TextFormatting.WHITE + " " + powerMultiplier);
 	}
+	
+	protected abstract void sendTankInfo();
 }

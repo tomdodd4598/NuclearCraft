@@ -27,7 +27,7 @@ public class ContainerFissionController extends ContainerItemGenerator {
 	protected int heatMult;
 	
 	protected static final List<Integer> UPCASTS = Lists.newArrayList(0, 1, 2, 3, 4, 5, 6, 8, 12, 19);
-	protected static final List<Integer> NON_UPCASTS = Lists.newArrayList(7, 9, 10, 11, 13, 14, 15, 16, 17, 18, 20);
+	protected static final List<Integer> NON_UPCASTS = Lists.newArrayList(7, 9, 10, 11, 13, 14, 15, 16, 17, 18, 20, 21);
 	
 	public ContainerFissionController(EntityPlayer player, TileFissionController tileEntity) {
 		super(tileEntity, NCRecipes.Type.FISSION);

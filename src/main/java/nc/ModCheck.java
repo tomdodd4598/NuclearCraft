@@ -4,11 +4,13 @@ import net.minecraftforge.fml.common.Loader;
 
 public class ModCheck {
 	
-	public static boolean initialized = false;
+	private static boolean initialized = false;
 	
-	static boolean ic2Loaded = false;
-	static boolean mekanismLoaded = false;
-	static boolean craftTweakerLoaded = false;
+	private static boolean ic2Loaded = false;
+	private static boolean mekanismLoaded = false;
+	private static boolean craftTweakerLoaded = false;
+	private static boolean tinkersLoaded = false;
+	private static boolean gregtechLoaded = false;
 	
 	public static void init() {
 		if (initialized) return;
@@ -16,6 +18,8 @@ public class ModCheck {
 		ic2Loaded = Loader.isModLoaded("ic2") || Loader.isModLoaded("IC2");
 		mekanismLoaded = Loader.isModLoaded("mekanism") || Loader.isModLoaded("Mekanism");
 		craftTweakerLoaded = Loader.isModLoaded("minetweaker3") || Loader.isModLoaded("MineTweaker3") || Loader.isModLoaded("crafttweaker") || Loader.isModLoaded("CraftTweaker2");
+		tinkersLoaded = (Loader.isModLoaded("tconstruct") || Loader.isModLoaded("Tinkers' Construct")) && (Loader.isModLoaded("mantle") || Loader.isModLoaded("Mantle"));
+		gregtechLoaded = Loader.isModLoaded("gregtech") || Loader.isModLoaded("GregTech Community Edition");
 		
 		initialized = true;
 	}
@@ -30,5 +34,13 @@ public class ModCheck {
 	
 	public static boolean craftTweakerLoaded() {
 		return craftTweakerLoaded;
+	}
+	
+	public static boolean tinkersLoaded() {
+		return tinkersLoaded;
+	}
+	
+	public static boolean gregtechLoaded() {
+		return gregtechLoaded;
 	}
 }

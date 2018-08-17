@@ -98,6 +98,24 @@
 				"fluid": "boron11"
 			}
 		},
+		"fluid_ferroboron": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "ferroboron"
+			}
+		},
+		"fluid_tough": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "tough"
+			}
+		},
+		"fluid_hard_carbon": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "hard_carbon"
+			}
+		},
 		"fluid_neutron": {
 			"model": "forge:fluid",
 			"custom": {

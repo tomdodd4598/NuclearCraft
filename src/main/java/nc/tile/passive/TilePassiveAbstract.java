@@ -6,6 +6,7 @@ import javax.annotation.Nullable;
 
 import com.google.common.collect.Lists;
 
+import gregtech.api.capability.IEnergyContainer;
 import nc.ModCheck;
 import nc.config.NCConfig;
 import nc.tile.energyFluid.TileEnergyFluidSidedInventory;
@@ -264,12 +265,12 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 	// IC2 EU
 
 	@Override
-	public int getSourceTier() {
+	public int getEUSourceTier() {
 		return 2;
 	}
 
 	@Override
-	public int getSinkTier() {
+	public int getEUSinkTier() {
 		return 4;
 	}
 	
@@ -301,7 +302,8 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 	@Override
 	public boolean hasCapability(Capability<?> capability, EnumFacing side) {
 		if (energyChange != 0) {
-			if (CapabilityEnergy.ENERGY == capability) return getEnergySide(side) != null;
+			if (capability == CapabilityEnergy.ENERGY) return getEnergySide(side) != null;
+			if (ModCheck.gregtechLoaded()) if (capability == IEnergyContainer.CAPABILITY_ENERGY_CONTAINER) return getEnergySideGT(side) != null;
 		}
 		if (fluidChange != 0) {
 			if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) return true;
@@ -317,7 +319,8 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 	@Override
 	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing side) {
 		if (energyChange != 0) {
-			if (CapabilityEnergy.ENERGY == capability) return (T) getEnergySide(side);
+			if (capability == CapabilityEnergy.ENERGY) return (T) getEnergySide(side);
+			if (ModCheck.gregtechLoaded()) if (capability == IEnergyContainer.CAPABILITY_ENERGY_CONTAINER) return (T) getEnergySideGT(side);
 		}
 		if (fluidChange != 0) {
 			if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(this);

@@ -44,7 +44,8 @@ public class BlockEnums {
 		CENTRIFUGE("centrifuge", 18, "endRod", "depthsuspend"),
 		ROCK_CRUSHER("rock_crusher", 19, "smoke", "smoke"),
 		FISSION_CONTROLLER("fission_controller", 100, "", ""),
-		FISSION_CONTROLLER_NEW("fission_controller_new", 100, "", "");
+		FISSION_CONTROLLER_NEW("fission_controller_new", 100, "", ""),
+		FISSION_CONTROLLER_NEW_FIXED("fission_controller_new_fixed", 100, "", "");
 		
 		private String name;
 		private int id;
@@ -111,6 +112,8 @@ public class BlockEnums {
 				return new TileFissionController(false);
 			case FISSION_CONTROLLER_NEW:
 				return new TileFissionController(true);
+			case FISSION_CONTROLLER_NEW_FIXED:
+				return new TileFissionController(true);
 			default:
 				return null;
 			}
@@ -160,6 +163,8 @@ public class BlockEnums {
 				return NCBlocks.fission_controller_idle;
 			case FISSION_CONTROLLER_NEW:
 				return NCBlocks.fission_controller_new_idle;
+			case FISSION_CONTROLLER_NEW_FIXED:
+				return NCBlocks.fission_controller_new_fixed;
 			default:
 				return NCBlocks.manufactory_idle;
 			}
@@ -209,6 +214,8 @@ public class BlockEnums {
 				return NCBlocks.fission_controller_active;
 			case FISSION_CONTROLLER_NEW:
 				return NCBlocks.fission_controller_new_active;
+			case FISSION_CONTROLLER_NEW_FIXED:
+				return NCBlocks.fission_controller_new_fixed;
 			default:
 				return NCBlocks.manufactory_active;
 			}
@@ -217,8 +224,10 @@ public class BlockEnums {
 		public CreativeTabs getCreativeTab() {
 			switch (this) {
 			case FISSION_CONTROLLER:
-				return NCTabs.TAB_FISSION_BLOCKS;
+				return null;
 			case FISSION_CONTROLLER_NEW:
+				return null;
+			case FISSION_CONTROLLER_NEW_FIXED:
 				return NCTabs.TAB_FISSION_BLOCKS;
 			default:
 				return NCTabs.TAB_MACHINES;

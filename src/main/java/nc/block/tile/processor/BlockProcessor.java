@@ -18,14 +18,25 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockProcessor extends BlockSidedInventory implements IActivatable {
 	
-	protected final boolean isActive;
+	public final boolean isActive;
 	protected final ProcessorType type;
+	
+	public BlockProcessor(ProcessorType type) {
+		super(type.getName(), Material.IRON);
+		isActive = false;
+		if (!isActive && type.getCreativeTab() != null) setCreativeTab(type.getCreativeTab());
+		this.type = type;
+	}
 	
 	public BlockProcessor(ProcessorType type, boolean isActive) {
 		super(type.getName() + (isActive ? "_active" : "_idle"), Material.IRON);
 		this.isActive = isActive;
-		if (!isActive) setCreativeTab(type.getCreativeTab());
+		if (!isActive && type.getCreativeTab() != null) setCreativeTab(type.getCreativeTab());
 		this.type = type;
+	}
+	
+	protected String getActiveSuffix(boolean isActive) {
+		return isActive ? "_active" : "_idle";
 	}
 	
 	@Override

@@ -66,7 +66,7 @@ public class TileItemProcessor extends TileEnergySidedInventory implements IItem
 		
 		this.recipeType = recipeType;
 		
-		slots = ArrayHelper.increasingArray(itemInSize + itemOutSize);
+		slots = ArrayHelper.increasingArray(itemInSize + itemOutSize + (hasUpgrades ? 2 : 0));
 	}
 	
 	@Override
@@ -138,12 +138,12 @@ public class TileItemProcessor extends TileEnergySidedInventory implements IItem
 	// IC2 Tiers
 	
 	@Override
-	public int getSourceTier() {
+	public int getEUSourceTier() {
 		return 1;
 	}
 		
 	@Override
-	public int getSinkTier() {
+	public int getEUSinkTier() {
 		return 4;
 	}
 	
@@ -209,27 +209,8 @@ public class TileItemProcessor extends TileEnergySidedInventory implements IItem
 			return;
 		}
 		
-		List extras = recipe.extras();
-		
-		if (extras.isEmpty()) baseProcessTime = defaultProcessTime;
-		else {
-			Object processTimeInfo = recipe.extras().get(0);
-			/*if (processTimeInfo instanceof Integer) {
-				baseProcessTime = (int) processTimeInfo;
-			} else*/ if (processTimeInfo instanceof Double) {
-				baseProcessTime = ((double) processTimeInfo)*defaultProcessTime;
-			} else baseProcessTime = defaultProcessTime;
-		}
-		
-		if (extras.size() < 2) baseProcessPower = defaultProcessPower;
-		else {
-			Object processPowerInfo = recipe.extras().get(1);
-			/*if (processPowerInfo instanceof Integer) {
-				baseProcessPower = (int) processPowerInfo;
-			} else*/ if (processPowerInfo instanceof Double) {
-				baseProcessPower = ((double) processPowerInfo)*defaultProcessPower;
-			} else baseProcessPower = defaultProcessPower;
-		}
+		baseProcessTime = recipe.getProcessTime(defaultProcessTime);
+		baseProcessPower = recipe.getProcessPower(defaultProcessPower);
 	}
 	
 	public void setDefaultRecipeStats() {

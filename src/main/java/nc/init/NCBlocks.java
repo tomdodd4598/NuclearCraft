@@ -18,6 +18,7 @@ import nc.block.tile.dummy.BlockFissionPort;
 import nc.block.tile.dummy.BlockFusionDummy;
 import nc.block.tile.dummy.BlockMachineInterface;
 import nc.block.tile.generator.BlockFissionController;
+import nc.block.tile.generator.BlockFissionControllerNewFixed;
 import nc.block.tile.generator.BlockFusionCore;
 import nc.block.tile.processor.BlockNuclearFurnace;
 import nc.block.tile.processor.BlockProcessor;
@@ -31,15 +32,15 @@ import nc.enumm.MetaEnums.CoolerType;
 import nc.enumm.MetaEnums.FissionBlockType;
 import nc.enumm.MetaEnums.IngotType;
 import nc.enumm.MetaEnums.OreType;
-import nc.multiblock.fission.moltensalt.block.BlockSaltFissionBeam;
-import nc.multiblock.fission.moltensalt.block.BlockSaltFissionController;
-import nc.multiblock.fission.moltensalt.block.BlockSaltFissionFrame;
-import nc.multiblock.fission.moltensalt.block.BlockSaltFissionGlass;
-import nc.multiblock.fission.moltensalt.block.BlockSaltFissionHeater;
-import nc.multiblock.fission.moltensalt.block.BlockSaltFissionModerator;
-import nc.multiblock.fission.moltensalt.block.BlockSaltFissionVent;
-import nc.multiblock.fission.moltensalt.block.BlockSaltFissionVessel;
-import nc.multiblock.fission.moltensalt.block.BlockSaltFissionWall;
+import nc.multiblock.saltFission.block.BlockSaltFissionBeam;
+import nc.multiblock.saltFission.block.BlockSaltFissionController;
+import nc.multiblock.saltFission.block.BlockSaltFissionFrame;
+import nc.multiblock.saltFission.block.BlockSaltFissionGlass;
+import nc.multiblock.saltFission.block.BlockSaltFissionHeater;
+import nc.multiblock.saltFission.block.BlockSaltFissionModerator;
+import nc.multiblock.saltFission.block.BlockSaltFissionVent;
+import nc.multiblock.saltFission.block.BlockSaltFissionVessel;
+import nc.multiblock.saltFission.block.BlockSaltFissionWall;
 import nc.tab.NCTabs;
 import nc.tile.energy.battery.BatteryType;
 import nc.util.InfoHelper;
@@ -125,6 +126,7 @@ public class NCBlocks {
 	public static Block fission_controller_active;
 	public static Block fission_controller_new_idle;
 	public static Block fission_controller_new_active;
+	public static Block fission_controller_new_fixed;
 	public static Block fission_port;
 	
 	public static Block fusion_core;
@@ -261,6 +263,7 @@ public class NCBlocks {
 		fission_controller_active = new BlockFissionController(true, false);
 		fission_controller_new_idle = new BlockFissionController(false, true);
 		fission_controller_new_active = new BlockFissionController(true, true);
+		fission_controller_new_fixed = new BlockFissionControllerNewFixed();
 		fission_port = new BlockFissionPort(SimpleTileType.FISSION_PORT);
 		
 		fusion_core = new BlockFusionCore();
@@ -406,6 +409,7 @@ public class NCBlocks {
 		registerBlock(fission_controller_active);
 		registerBlock(fission_controller_new_idle, TextFormatting.RED);
 		registerBlock(fission_controller_new_active);
+		registerBlock(fission_controller_new_fixed);
 		registerBlock(fission_port);
 		
 		registerBlock(fusion_core);
@@ -563,6 +567,7 @@ public class NCBlocks {
 		registerRender(fission_controller_active);
 		registerRender(fission_controller_new_idle);
 		registerRender(fission_controller_new_active);
+		registerRender(fission_controller_new_fixed, 0, "fission_controller_new_fixed_off");
 		registerRender(fission_port);
 		
 		registerRender(fusion_core);

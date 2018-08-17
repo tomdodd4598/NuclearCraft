@@ -1,5 +1,7 @@
 package nc.recipe.processor;
 
+import com.google.common.collect.Lists;
+
 import nc.recipe.ProcessorRecipeHandler;
 import nc.util.FluidStackHelper;
 
@@ -16,6 +18,10 @@ public class SaltMixerRecipes extends ProcessorRecipeHandler {
 		
 		addRecipe(fluidStack("boron11", FluidStackHelper.INGOT_VOLUME), fluidStack("boron10", FluidStackHelper.NUGGET_VOLUME*3), fluidStack("boron", FluidStackHelper.INGOT_VOLUME), 1D, 1D);
 		addRecipe(fluidStack("lithium7", FluidStackHelper.INGOT_VOLUME), fluidStack("lithium6", FluidStackHelper.NUGGET_VOLUME*3), fluidStack("lithium", FluidStackHelper.INGOT_VOLUME), 1D, 1D);
+		
+		addRecipe(fluidStack("steel", FluidStackHelper.INGOT_VOLUME/2), fluidStackList(Lists.newArrayList("boron", "boron10", "boron11"), FluidStackHelper.INGOT_VOLUME/2), fluidStack("ferroboron", FluidStackHelper.INGOT_VOLUME), 1D, 1D);
+		addRecipe(fluidStack("ferroboron", FluidStackHelper.INGOT_VOLUME/2), fluidStackList(Lists.newArrayList("lithium", "lithium6", "lithium7"), FluidStackHelper.INGOT_VOLUME/2), fluidStack("tough", FluidStackHelper.INGOT_VOLUME), 1D, 1D);
+		addRecipe(fluidStack("coal", FluidStackHelper.COAL_DUST_VOLUME), fluidStack("diamond", FluidStackHelper.GEM_VOLUME/2), fluidStack("hardCarbon", FluidStackHelper.INGOT_VOLUME), 1D, 1D);
 		
 		addCoolantNAKRecipe("redstone", FluidStackHelper.REDSTONE_DUST_VOLUME*10);
 		addCoolantNAKRecipe("quartz", FluidStackHelper.GEM_VOLUME*7);

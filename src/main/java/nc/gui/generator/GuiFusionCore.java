@@ -100,7 +100,7 @@ public class GuiFusionCore extends NCGui {
 		String heat = UnitHelper.prefix((int) tile.heat, (int) tile.getMaxHeat(), 6, "K", 1);
 		String heatChange = UnitHelper.prefix((int) tile.heatChange, 6, "K/t", 0);
 		String cooling = UnitHelper.prefix((int) tile.cooling, 6, "K/t", 0);
-		int coolingPercentage = (int) (100D*tile.cooling/(5*NCConfig.fusion_heat_generation));
+		int coolingPercentage = (int) (0.1D*tile.cooling/(5D*NCConfig.fusion_heat_generation));
 		if ((int) tile.cooling == 0 || !NCConfig.fusion_active_cooling) return Lists.newArrayList(TextFormatting.YELLOW + Lang.localise("gui.container.fusion_core.temperature") + TextFormatting.WHITE + " " + heat, TextFormatting.YELLOW + Lang.localise("gui.container.fusion_core.temperature_change") + TextFormatting.WHITE + " " + heatChange);
 		return Lists.newArrayList(TextFormatting.YELLOW + Lang.localise("gui.container.fusion_core.temperature") + TextFormatting.WHITE + " " + heat, TextFormatting.YELLOW + Lang.localise("gui.container.fusion_core.temperature_change") + TextFormatting.WHITE + " " + heatChange, TextFormatting.BLUE + Lang.localise("gui.container.fusion_core.cooling_rate") + TextFormatting.WHITE + " " + cooling + " [" + coolingPercentage + "%]");
 	}
@@ -136,16 +136,7 @@ public class GuiFusionCore extends NCGui {
 		tick++;
 		tick %= 10;
 		
-		if (tick == 0) {
-			PacketHandler.instance.sendToServer(new GetFluidInTankPacket(tile.getPos(), 0, "nc.gui.generator.GuiFusionCore", "fluid0"));
-			PacketHandler.instance.sendToServer(new GetFluidInTankPacket(tile.getPos(), 1, "nc.gui.generator.GuiFusionCore", "fluid1"));
-			PacketHandler.instance.sendToServer(new GetFluidInTankPacket(tile.getPos(), 2, "nc.gui.generator.GuiFusionCore", "fluid2"));
-			PacketHandler.instance.sendToServer(new GetFluidInTankPacket(tile.getPos(), 3, "nc.gui.generator.GuiFusionCore", "fluid3"));
-			PacketHandler.instance.sendToServer(new GetFluidInTankPacket(tile.getPos(), 4, "nc.gui.generator.GuiFusionCore", "fluid4"));
-			PacketHandler.instance.sendToServer(new GetFluidInTankPacket(tile.getPos(), 5, "nc.gui.generator.GuiFusionCore", "fluid5"));
-			PacketHandler.instance.sendToServer(new GetFluidInTankPacket(tile.getPos(), 6, "nc.gui.generator.GuiFusionCore", "fluid6"));
-			PacketHandler.instance.sendToServer(new GetFluidInTankPacket(tile.getPos(), 7, "nc.gui.generator.GuiFusionCore", "fluid7"));
-		}
+		if (tick == 0) sendTankInfo();
 		
 		GuiFluidRenderer.renderGuiTank(fluid0, tile.tanks.get(0).getCapacity(), guiLeft + 38, guiTop + 6, zLevel, 6, 46);
 		GuiFluidRenderer.renderGuiTank(fluid1, tile.tanks.get(1).getCapacity(), guiLeft + 38, guiTop + 55, zLevel, 6, 46);
@@ -157,6 +148,7 @@ public class GuiFusionCore extends NCGui {
 	
 	@Override
 	public void initGui() {
+		sendTankInfo();
 		super.initGui();
 		buttonList.add(new NCGuiButton.EmptyTankButton(0, guiLeft + 38, guiTop + 6, 6, 46));
 		buttonList.add(new NCGuiButton.EmptyTankButton(1, guiLeft + 38, guiTop + 55, 6, 46));
@@ -193,5 +185,16 @@ public class GuiFusionCore extends NCGui {
 				PacketHandler.instance.sendToServer(new ToggleAlternateComparatorButtonPacket(tile));
 			}
 		}
+	}
+	
+	protected void sendTankInfo() {
+		PacketHandler.instance.sendToServer(new GetFluidInTankPacket(tile.getPos(), 0, "nc.gui.generator.GuiFusionCore", "fluid0"));
+		PacketHandler.instance.sendToServer(new GetFluidInTankPacket(tile.getPos(), 1, "nc.gui.generator.GuiFusionCore", "fluid1"));
+		PacketHandler.instance.sendToServer(new GetFluidInTankPacket(tile.getPos(), 2, "nc.gui.generator.GuiFusionCore", "fluid2"));
+		PacketHandler.instance.sendToServer(new GetFluidInTankPacket(tile.getPos(), 3, "nc.gui.generator.GuiFusionCore", "fluid3"));
+		PacketHandler.instance.sendToServer(new GetFluidInTankPacket(tile.getPos(), 4, "nc.gui.generator.GuiFusionCore", "fluid4"));
+		PacketHandler.instance.sendToServer(new GetFluidInTankPacket(tile.getPos(), 5, "nc.gui.generator.GuiFusionCore", "fluid5"));
+		PacketHandler.instance.sendToServer(new GetFluidInTankPacket(tile.getPos(), 6, "nc.gui.generator.GuiFusionCore", "fluid6"));
+		PacketHandler.instance.sendToServer(new GetFluidInTankPacket(tile.getPos(), 7, "nc.gui.generator.GuiFusionCore", "fluid7"));
 	}
 }

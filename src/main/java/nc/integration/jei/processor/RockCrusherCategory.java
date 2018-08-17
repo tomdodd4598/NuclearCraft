@@ -4,16 +4,15 @@ import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeWrapper;
-import nc.config.NCConfig;
-import nc.integration.jei.BaseCategory;
 import nc.integration.jei.IJEIHandler;
 import nc.integration.jei.JEIMethods.RecipeItemMapper;
+import nc.integration.jei.JEIProcessorCategory;
 import nc.recipe.SorptionType;
 
-public class RockCrusherCategory extends BaseCategory {
+public class RockCrusherCategory extends JEIProcessorCategory {
 	
 	public RockCrusherCategory(IGuiHelper guiHelper, IJEIHandler handler) {
-		super(guiHelper, handler, "rock_crusher_idle", NCConfig.processor_time[18], 29, 30, 122, 26, 176, 3, 37, 16, 56, 35);
+		super(guiHelper, handler, "rock_crusher_idle", 29, 30, 122, 26);
 	}
 	
 	@Override

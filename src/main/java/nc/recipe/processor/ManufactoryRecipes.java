@@ -48,7 +48,7 @@ public class ManufactoryRecipes extends ProcessorRecipeHandler {
 		addRecipe("sandstone", oreStack("dustSaltpeter", 2), 1D, 1D);
 		
 		// Advanced Rocketry
-		addRecipe("oreDilithium", oreStack("dustDilithium", 2), 2D, 1D);
+		addRecipe("oreDilithium", oreStack("dustDilithium", 2), 1.25D, 1D);
 		addRecipe("ingotDilithium", "dustDilithium", 1D, 1D);
 		
 		// AE2
@@ -63,7 +63,7 @@ public class ManufactoryRecipes extends ProcessorRecipeHandler {
 				String dust = "dust" + ore.substring(3);
 				String ingot = "ingot" + ore.substring(3);
 				if (OreDictHelper.oreExists(dust) && OreDictHelper.oreExists(ingot)) {
-					addRecipe(ore, oreStack(dust, 2), 1D, 1D);
+					addRecipe(ore, oreStack(dust, 2), 1.25D, 1D);
 					addRecipe(ingot, dust, 1D, 1D);
 				}
 			}

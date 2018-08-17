@@ -20,6 +20,12 @@ public abstract class NCGui extends GuiContainer {
 	}
 	
 	@Override
+	public void initGui() {
+		super.initGui();
+		buttonList.clear();
+	}
+	
+	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		drawDefaultBackground();
 		super.drawScreen(mouseX, mouseY, partialTicks);

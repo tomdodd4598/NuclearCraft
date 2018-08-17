@@ -296,5 +296,4 @@ public class RecipeHelper {
 		if (oreName == "Unknown") return null;
 		return new RecipeOreStack(oreName, stackSize);
 	}
-
 }

@@ -100,15 +100,7 @@ public class BlockFusionCore extends BlockInventory implements IActivatable {
 	
 	@Override
 	public void setState(boolean active, World world, BlockPos pos) {
-		TileEntity tile = world.getTileEntity(pos);
-		keepInventory = true;
-		world.setBlockState(pos, NCBlocks.fusion_core.getDefaultState(), 3);
-		keepInventory = false;
-		
-		if (tile != null) {
-			tile.validate();
-			world.setTileEntity(pos, tile);
-		}
+		//world.setBlockState(pos, NCBlocks.fusion_core.getDefaultState(), 2);
 	}
 	
 	@Override

@@ -4,16 +4,15 @@ import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeWrapper;
-import nc.config.NCConfig;
-import nc.integration.jei.BaseCategory;
 import nc.integration.jei.IJEIHandler;
 import nc.integration.jei.JEIMethods.RecipeFluidMapper;
+import nc.integration.jei.JEIProcessorCategory;
 import nc.recipe.SorptionType;
 
-public class CentrifugeCategory extends BaseCategory {
+public class CentrifugeCategory extends JEIProcessorCategory {
 	
 	public CentrifugeCategory(IGuiHelper guiHelper, IJEIHandler handler) {
-		super(guiHelper, handler, "centrifuge_idle", NCConfig.processor_time[17], 49, 30, 94, 38, 176, 3, 37, 38, 68, 30);
+		super(guiHelper, handler, "centrifuge_idle", 49, 30, 94, 38);
 	}
 	
 	@Override

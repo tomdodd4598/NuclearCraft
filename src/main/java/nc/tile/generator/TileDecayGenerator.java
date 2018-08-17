@@ -29,6 +29,9 @@ public class TileDecayGenerator extends TileEnergy implements IInterfaceable {
 	public final NCRecipes.Type decayGenRecipeType;
 	protected ProcessorRecipe[] recipes = new ProcessorRecipe[6];
 	
+	public static final double DEFAULT_LIFETIME = 1200D/(double)NCConfig.machine_update_rate;
+	public static final int DEFAULT_POWER = (int) (5D*NCConfig.machine_update_rate/20D);
+	
 	public TileDecayGenerator() {
 		super(maxPower(), energyConnectionAll(EnergyConnection.OUT));
 		decayGenRecipeType = NCRecipes.Type.DECAY_GENERATOR;
@@ -41,12 +44,14 @@ public class TileDecayGenerator extends TileEnergy implements IInterfaceable {
 	@Override
 	public void update() {
 		super.update();
-		for (EnumFacing side : EnumFacing.VALUES) {
-			recipes[side.getIndex()] = getRecipeHandler().getRecipeFromInputs(Arrays.asList(ItemStackHelper.blockStateToStack(world.getBlockState(getPos().offset(side)))), new ArrayList<Tank>());
-		}
 		if(!world.isRemote) {
 			tickTile();
-			if (shouldTileCheck()) getEnergyStorage().changeEnergyStored(getGenerated());
+			if (shouldTileCheck()) {
+				for (EnumFacing side : EnumFacing.VALUES) {
+					recipes[side.getIndex()] = getRecipeHandler().getRecipeFromInputs(Arrays.asList(ItemStackHelper.blockStateToStack(world.getBlockState(getPos().offset(side)))), new ArrayList<Tank>());
+				}
+				getEnergyStorage().changeEnergyStored(getGenerated());
+			}
 			pushEnergy();
 		}
 	}
@@ -86,12 +91,12 @@ public class TileDecayGenerator extends TileEnergy implements IInterfaceable {
 	// IC2
 	
 	@Override
-	public int getSourceTier() {
+	public int getEUSourceTier() {
 		return EnergyHelper.getEUTier(maxPower());
 	}
 	
 	@Override
-	public int getSinkTier() {
+	public int getEUSinkTier() {
 		return 4;
 	}
 	
@@ -102,17 +107,13 @@ public class TileDecayGenerator extends TileEnergy implements IInterfaceable {
 	}
 	
 	public double getRecipeLifetime(EnumFacing side) {
-		ProcessorRecipe recipe = getDecayRecipe(side);
-		if (recipe == null || recipe.extras().isEmpty()) return 1200D;
-		if (recipe.extras().get(0) instanceof Double) return ((double) recipe.extras().get(0))/NCConfig.machine_update_rate;
-		return 1200D/NCConfig.machine_update_rate;
+		if (getDecayRecipe(side) == null) return DEFAULT_LIFETIME;
+		return getDecayRecipe(side).getDecayLifetime();
 	}
 	
 	public int getRecipePower(EnumFacing side) {
-		ProcessorRecipe recipe = getDecayRecipe(side);
-		if (recipe == null || recipe.extras().size() < 2) return 5;
-		if (recipe.extras().get(1) instanceof Double) return (int)(((double) recipe.extras().get(1))*NCConfig.machine_update_rate/20);
-		return 5*NCConfig.machine_update_rate/20;
+		if (getDecayRecipe(side) == null) return DEFAULT_POWER;
+		return getDecayRecipe(side).getDecayPower();
 	}
 	
 	public ItemStack getOutput(EnumFacing side) {

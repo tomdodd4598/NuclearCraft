@@ -10,19 +10,17 @@ public interface IJEIHandler {
 	
 	public JEICategory getCategory(IGuiHelper guiHelper);
 	
-	public String getTextureName();
+	public ProcessorRecipeHandler getRecipeHandler();
 	
-	public String getTitle();
+	public Class<? extends JEIProcessorRecipeWrapper> getJEIRecipeWrapper();
 	
-	public Class getRecipeClass();
+	public ArrayList<JEIProcessorRecipeWrapper> getJEIRecipes(IGuiHelper guiHelper);
 	
 	public String getUUID();
 	
 	public boolean getEnabled();
 	
-	public ProcessorRecipeHandler getRecipeHandler();
-	
-	public ArrayList<JEIProcessorRecipe> getJEIRecipes();
-	
 	public ItemStack getCrafterItemStack();
+	
+	public String getTextureName();
 }

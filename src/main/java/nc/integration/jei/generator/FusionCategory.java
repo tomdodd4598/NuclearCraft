@@ -4,17 +4,17 @@ import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeWrapper;
-import nc.config.NCConfig;
-import nc.integration.jei.BaseCategory;
 import nc.integration.jei.IJEIHandler;
 import nc.integration.jei.JEIMethods.RecipeFluidMapper;
+import nc.integration.jei.JEIProcessorCategory;
 import nc.recipe.SorptionType;
 import nc.util.Lang;
 
-public class FusionCategory extends BaseCategory {
+public class FusionCategory extends JEIProcessorCategory {
 	
 	public FusionCategory(IGuiHelper guiHelper, IJEIHandler handler) {
-		super(guiHelper, handler, "fusion_core", "_jei", (int) (NCConfig.fusion_fuel_use*200), 55, 30, 94, 26, 176, 3, 37, 16, 74, 35);
+		super(guiHelper, handler, "fusion_core", "_jei", 55, 30, 94, 26);
+		recipeTitle = Lang.localise("gui.container.fusion_core.reactor");
 	}
 	
 	@Override
@@ -31,6 +31,6 @@ public class FusionCategory extends BaseCategory {
 	
 	@Override
 	public String getTitle() {
-		return Lang.localise("gui.container.fusion_core.reactor");
+		return recipeTitle;
 	}
 }

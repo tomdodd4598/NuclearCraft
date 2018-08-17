@@ -18,17 +18,7 @@
 			"conditions": {
 				"items": [
 					{
-						"item": "nuclearcraft:fission_controller_idle"
-					}
-				]
-			}
-		},
-		"has_item2": {
-			"trigger": "minecraft:inventory_changed",
-			"conditions": {
-				"items": [
-					{
-						"item": "nuclearcraft:fission_controller_new_idle"
+						"item": "nuclearcraft:fission_controller_new_fixed"
 					}
 				]
 			}
@@ -36,8 +26,7 @@
 	},
 	"requirements": [
         [
-            "has_item",
-            "has_item2"
+            "has_item"
         ]
     ]
 }

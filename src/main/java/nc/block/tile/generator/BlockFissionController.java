@@ -58,7 +58,7 @@ public class BlockFissionController extends BlockProcessor {
 		super.randomDisplayTick(state, world, pos, rand);
 		
 		TileEntity tile = world.getTileEntity(pos);
-		if (tile != null) if (tile instanceof TileFissionController) {
+		if (tile instanceof TileFissionController) {
 			TileFissionController controller = (TileFissionController) tile;
 			BlockFinder finder = new BlockFinder(pos, world, controller.getBlockMetadata());
 			BlockPos position = finder.randomWithin(controller.minX, controller.maxX, controller.minY, controller.maxY, controller.minZ, controller.maxZ);

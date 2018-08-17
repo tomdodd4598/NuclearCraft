@@ -32,12 +32,12 @@ public abstract class TilePassiveGenerator extends TileEnergy implements IInterf
 	public abstract int getGenerated();
 	
 	@Override
-	public int getSourceTier() {
+	public int getEUSourceTier() {
 		return EnergyHelper.getEUTier(power);
 	}
 	
 	@Override
-	public int getSinkTier() {
+	public int getEUSinkTier() {
 		return 4;
 	}
 }

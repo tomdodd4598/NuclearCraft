@@ -95,12 +95,12 @@ public class TileBuffer extends TileEnergyFluidSidedInventory implements IInterf
 	// IC2 EU
 
 	@Override
-	public int getSourceTier() {
+	public int getEUSourceTier() {
 		return 2;
 	}
 
 	@Override
-	public int getSinkTier() {
+	public int getEUSinkTier() {
 		return 4;
 	}
 }

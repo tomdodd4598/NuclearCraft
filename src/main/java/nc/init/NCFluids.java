@@ -52,12 +52,16 @@ public static List<Pair<Fluid, BlockFluidBase>> fluidPairList = new ArrayList<Pa
 			fluidPairList.add(fluidPair("helium3", 0xCBBB67, FluidGas.class, BlockFluidGas.class));
 			fluidPairList.add(fluidPair("helium", 0xC57B81, FluidGas.class, BlockFluidGas.class));
 			
-			fluidPairList.add(fluidPair("boron", 0x7B7B7B, FluidMolten.class, BlockFluidMolten.class));
-			fluidPairList.add(fluidPair("boron10", 0x7B7B7B, FluidMolten.class, BlockFluidMolten.class));
-			fluidPairList.add(fluidPair("boron11", 0x7B7B7B, FluidMolten.class, BlockFluidMolten.class));
+			fluidPairList.add(fluidPair("boron", 0x7D7D7D, FluidMolten.class, BlockFluidMolten.class));
+			fluidPairList.add(fluidPair("boron10", 0x7D7D7D, FluidMolten.class, BlockFluidMolten.class));
+			fluidPairList.add(fluidPair("boron11", 0x7D7D7D, FluidMolten.class, BlockFluidMolten.class));
 			fluidPairList.add(fluidPair("lithium", 0xEFEFEF, FluidMolten.class, BlockFluidMolten.class));
 			fluidPairList.add(fluidPair("lithium6", 0xEFEFEF, FluidMolten.class, BlockFluidMolten.class));
 			fluidPairList.add(fluidPair("lithium7", 0xEFEFEF, FluidMolten.class, BlockFluidMolten.class));
+			
+			fluidPairList.add(fluidPair("ferroboron", 0x4A4A4A, FluidMolten.class, BlockFluidMolten.class));
+			fluidPairList.add(fluidPair("tough", 0x150F21, FluidMolten.class, BlockFluidMolten.class));
+			fluidPairList.add(fluidPair("hard_carbon", 0x195970, FluidMolten.class, BlockFluidMolten.class));
 			
 			fluidPairList.add(fluidPair("beryllium", 0xD4DBC2, FluidMolten.class, BlockFluidMolten.class));
 			fluidPairList.add(fluidPair("sulfur", 0xDEDE7A, FluidMolten.class, BlockFluidMolten.class));

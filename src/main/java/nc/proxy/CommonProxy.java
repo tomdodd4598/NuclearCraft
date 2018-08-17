@@ -14,7 +14,9 @@ import nc.init.NCFluids;
 import nc.init.NCItems;
 import nc.init.NCTiles;
 import nc.init.NCTools;
+import nc.integration.tconstruct.TConstructExtras;
 import nc.integration.tconstruct.TConstructIMC;
+import nc.integration.tconstruct.TConstructMaterials;
 import nc.multiblock.IMultiblockRegistry;
 import nc.multiblock.MultiblockEventHandler;
 import nc.multiblock.MultiblockRegistry;
@@ -32,15 +34,19 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import slimeknights.tconstruct.library.materials.Material;
 
 public class CommonProxy {
 
 	public void preInit(FMLPreInitializationEvent preEvent) {
+		ModCheck.init();
+		
 		SoundHandler.init();
 		
 		NCBlocks.init();
@@ -64,12 +70,12 @@ public class CommonProxy {
 		PacketHandler.registerMessages(Global.MOD_ID);
 		
 		TConstructIMC.sendIMCs();
+		if (ModCheck.tinkersLoaded()) TConstructMaterials.init();
 	}
 
 	public void init(FMLInitializationEvent event) {
 		initFluidColors();
 		
-		ModCheck.init();
 		MinecraftForge.EVENT_BUS.register(new DropHandler());
 		MinecraftForge.EVENT_BUS.register(new DungeonLootHandler());
 		
@@ -84,6 +90,8 @@ public class CommonProxy {
 		GameRegistry.registerWorldGenerator(new OreGenerator(), 0);
 		GameRegistry.registerWorldGenerator(new BushGenerator(), 100);
 		//GameRegistry.registerWorldGenerator(new WastelandPortalGenerator(), 10);
+		
+		if (ModCheck.tinkersLoaded()) TConstructExtras.init();
 	}
 
 	public void postInit(FMLPostInitializationEvent postEvent) {
@@ -113,6 +121,18 @@ public class CommonProxy {
 	}
 	
 	public void initFluidColors() {
+		
+	}
+	
+	// TiC
+	
+	@Optional.Method(modid = "tconstruct")
+	public void setRenderInfo(Material mat, int color) {
+		
+	}
+	
+	@Optional.Method(modid = "tconstruct")
+	public void setRenderInfo(Material mat, int lo, int mid, int hi) {
 		
 	}
 	

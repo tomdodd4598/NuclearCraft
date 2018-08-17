@@ -36,10 +36,13 @@ import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import slimeknights.tconstruct.library.client.MaterialRenderInfo;
+import slimeknights.tconstruct.library.materials.Material;
 
 public class ClientProxy extends CommonProxy {
 	
@@ -149,5 +152,19 @@ public class ClientProxy extends CommonProxy {
 				}
 			}
 		}
+	}
+	
+	// TiC
+	
+	@Override
+	@Optional.Method(modid = "tconstruct")
+	public void setRenderInfo(Material mat, int color) {
+		mat.setRenderInfo(color);
+	}
+	
+	@Override
+	@Optional.Method(modid = "tconstruct")
+	public void setRenderInfo(Material mat, int lo, int mid, int hi) {
+		mat.setRenderInfo(new MaterialRenderInfo.MultiColor(lo, mid, hi));
 	}
 }

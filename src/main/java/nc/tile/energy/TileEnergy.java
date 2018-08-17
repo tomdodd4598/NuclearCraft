@@ -1,5 +1,6 @@
 package nc.tile.energy;
 
+import gregtech.api.capability.IEnergyContainer;
 import ic2.api.energy.EnergyNet;
 import ic2.api.energy.tile.IEnergyAcceptor;
 import ic2.api.energy.tile.IEnergyEmitter;
@@ -12,22 +13,24 @@ import nc.tile.NCTile;
 import nc.tile.internal.energy.EnergyConnection;
 import nc.tile.internal.energy.EnergyStorage;
 import nc.tile.internal.energy.EnergyTileWrapper;
+import nc.tile.internal.energy.EnergyTileWrapperGT;
 import nc.tile.passive.ITilePassive;
+import nc.util.EnergyHelper;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.fml.common.Optional;
 
-@Optional.InterfaceList({ @Optional.Interface(iface = "ic2.api.energy.tile.IEnergyTile", modid = "ic2"), @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "ic2"), @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySource", modid = "ic2") })
+@Optional.InterfaceList({@Optional.Interface(iface = "ic2.api.energy.tile.IEnergyTile", modid = "ic2"), @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "ic2"), @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySource", modid = "ic2")})
 public abstract class TileEnergy extends NCTile implements ITileEnergy, IEnergyTile, IEnergySink, IEnergySource {
 
 	private EnergyConnection[] energyConnections;
 	protected boolean configurableEnergyConnections;
 	private EnergyTileWrapper[] energySides;
+	private EnergyTileWrapperGT[] energySidesGT;
 	private final EnergyStorage storage;
 	public boolean isEnergyTileSet = true;
 	public boolean ic2reg = false;
@@ -45,6 +48,7 @@ public abstract class TileEnergy extends NCTile implements ITileEnergy, IEnergyT
 		storage = new EnergyStorage(capacity, maxReceive, maxExtract);
 		this.energyConnections = energyConnections;
 		energySides = getDefaultEnergySides(this);
+		energySidesGT = getDefaultEnergySidesGT(this);
 	}
 	
 	@Override
@@ -58,10 +62,10 @@ public abstract class TileEnergy extends NCTile implements ITileEnergy, IEnergyT
 		if (ModCheck.ic2Loaded()) addTileToENet();
 	}
 	
-	@Override
+	/*@Override
 	public void validate() {
 		super.validate();
-	}
+	}*/
 
 	@Override
 	public void invalidate() {
@@ -73,11 +77,6 @@ public abstract class TileEnergy extends NCTile implements ITileEnergy, IEnergyT
 	public void onChunkUnload() {
 		super.onChunkUnload();
 		if (ModCheck.ic2Loaded()) removeTileFromENet();
-	}
-	
-	@Override
-	public BlockPos getEnergyTilePos() {
-		return pos;
 	}
 	
 	// Forge Energy
@@ -130,11 +129,21 @@ public abstract class TileEnergy extends NCTile implements ITileEnergy, IEnergyT
 	
 	@Override
 	@Optional.Method(modid = "ic2")
-	public abstract int getSourceTier();
+	public int getSourceTier() {
+		return getEUSourceTier();
+	}
 
 	@Override
 	@Optional.Method(modid = "ic2")
-	public abstract int getSinkTier();
+	public int getSinkTier() {
+		return getEUSinkTier();
+	}
+	
+	@Override
+	public abstract int getEUSourceTier();
+
+	@Override
+	public abstract int getEUSinkTier();
 	
 	@Optional.Method(modid = "ic2")
 	public void addTileToENet() {
@@ -246,10 +255,20 @@ public abstract class TileEnergy extends NCTile implements ITileEnergy, IEnergyT
 		
 		if (adjStorage != null && getEnergyStorage().canExtract()) {
 			getEnergyStorage().extractEnergy(adjStorage.receiveEnergy(getEnergyStorage().extractEnergy(getEnergyStorage().getMaxEnergyStored(), true), false), false);
+			return;
 		}
-		else if (ModCheck.ic2Loaded()) {
+		if (ModCheck.ic2Loaded()) {
 			if (tile instanceof IEnergySink) {
-				getEnergyStorage().extractEnergy((int) Math.round(((IEnergySink) tile).injectEnergy(side.getOpposite(), getEnergyStorage().extractEnergy(getEnergyStorage().getMaxEnergyStored(), true) / NCConfig.rf_per_eu, getSourceTier())), false);
+				getEnergyStorage().extractEnergy((int) Math.round(((IEnergySink) tile).injectEnergy(side.getOpposite(), getEnergyStorage().extractEnergy(getEnergyStorage().getMaxEnergyStored(), true)/NCConfig.rf_per_eu, getSourceTier())*NCConfig.rf_per_eu), false);
+				return;
+			}
+		}
+		if (ModCheck.gregtechLoaded()) {
+			IEnergyContainer adjStorageGT = tile == null ? null : tile.getCapability(IEnergyContainer.CAPABILITY_ENERGY_CONTAINER, side.getOpposite());
+			if (adjStorageGT != null && getEnergyStorage().canExtract()) {
+				int voltage = Math.min(EnergyHelper.getMaxEUFromTier(getEUSourceTier()), getEnergyStorage().getEnergyStored()/NCConfig.rf_per_eu);
+				getEnergyStorage().extractEnergy((int)Math.min(voltage*adjStorageGT.acceptEnergyFromNetwork(side.getOpposite(), voltage, 1)*NCConfig.rf_per_eu, Integer.MAX_VALUE), false);
+				return;
 			}
 		}
 	}
@@ -275,20 +294,31 @@ public abstract class TileEnergy extends NCTile implements ITileEnergy, IEnergyT
 		return new EnergyTileWrapper[] {new EnergyTileWrapper(tile, EnumFacing.DOWN), new EnergyTileWrapper(tile, EnumFacing.UP), new EnergyTileWrapper(tile, EnumFacing.NORTH), new EnergyTileWrapper(tile, EnumFacing.SOUTH), new EnergyTileWrapper(tile, EnumFacing.WEST), new EnergyTileWrapper(tile, EnumFacing.EAST)};
 	}
 	
+	public static EnergyTileWrapperGT[] getDefaultEnergySidesGT(ITileEnergy tile) {
+		return new EnergyTileWrapperGT[] {new EnergyTileWrapperGT(tile, EnumFacing.DOWN), new EnergyTileWrapperGT(tile, EnumFacing.UP), new EnergyTileWrapperGT(tile, EnumFacing.NORTH), new EnergyTileWrapperGT(tile, EnumFacing.SOUTH), new EnergyTileWrapperGT(tile, EnumFacing.WEST), new EnergyTileWrapperGT(tile, EnumFacing.EAST)};
+	}
+	
 	@Override
 	public EnergyTileWrapper getEnergySide(EnumFacing side) {
 		return side == null ? energySides[0] : energySides[side.getIndex()];
 	}
 	
 	@Override
+	public EnergyTileWrapperGT getEnergySideGT(EnumFacing side) {
+		return side == null ? energySidesGT[0] : energySidesGT[side.getIndex()];
+	}
+	
+	@Override
 	public boolean hasCapability(Capability<?> capability, EnumFacing side) {
 		if (capability == CapabilityEnergy.ENERGY) return getEnergySide(side) != null;
+		if (ModCheck.gregtechLoaded()) if (capability == IEnergyContainer.CAPABILITY_ENERGY_CONTAINER) return getEnergySideGT(side) != null;
 		return super.hasCapability(capability, side);
 	}
 	
 	@Override
 	public <T> T getCapability(Capability<T> capability, EnumFacing side) {
 		if (capability == CapabilityEnergy.ENERGY) return (T) getEnergySide(side);
+		if (ModCheck.gregtechLoaded()) if (capability == IEnergyContainer.CAPABILITY_ENERGY_CONTAINER) return (T) getEnergySideGT(side);
 		return super.getCapability(capability, side);
 	}
 }

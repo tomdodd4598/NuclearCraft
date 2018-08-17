@@ -1,0 +1,10 @@
+{
+    "parent": "nuclearcraft:block/machine",
+	"textures": {
+		"top": "nuclearcraft:blocks/fission_controller_new_fixed_top",
+		"bottom": "nuclearcraft:blocks/fission_controller_new_fixed_bottom",
+		"front": "nuclearcraft:blocks/fission_controller_new_fixed_front_on",
+		"side": "nuclearcraft:blocks/fission_controller_new_fixed_side",
+		"back": "nuclearcraft:blocks/fission_controller_new_fixed_back"
+	}
+}
