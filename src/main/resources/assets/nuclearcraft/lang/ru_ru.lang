@@ -2150,4 +2150,8 @@ death.attack.steam_burn=%1$s было бы лучше в чайнике
 death.attack.molten_burn=%1$s отправился в ад, но не вернулся
 death.attack.hot_coolant_burn=%1$s охладился в неправильном времени и месте
 death.attack.acid_burn=%1$s оказался слишком щелочным
+<<<<<<< HEAD
 death.attack.hypothermia=%1$s умер в результате экстремальной гипотермии
+=======
+death.attack.hypothermia=%1$s умер в результате экстремальной гипотермии
+>>>>>>> ed11146a193af8bed70e2863707ad6c3b541d6db
