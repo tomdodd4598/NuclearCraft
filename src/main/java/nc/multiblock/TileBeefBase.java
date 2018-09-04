@@ -7,13 +7,17 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.common.capabilities.Capability;
 
 import javax.annotation.Nullable;
 
 import nc.block.tile.IActivatable;
+import nc.capability.radiation.IRadiationSource;
+import nc.capability.radiation.RadiationSource;
 import nc.config.NCConfig;
 import nc.tile.ITile;
 
@@ -28,6 +32,13 @@ public abstract class TileBeefBase extends TileEntity implements ITile, ITickabl
 	public boolean isAdded;
 	public boolean isMarkedDirty;
 	public int tickCount;
+	
+	private IRadiationSource radiation;
+	
+	public TileBeefBase() {
+		super();
+		radiation = new RadiationSource();
+	}
 	
 	@Override
 	public void update() {
@@ -78,170 +89,198 @@ public abstract class TileBeefBase extends TileEntity implements ITile, ITickabl
 	public Block getTileBlockType() {
 		return getBlockType();
 	}
+	
+	@Override
+	public IRadiationSource getRadiationSource() {
+		return radiation;
+	}
 
-    public boolean isUseableByPlayer(EntityPlayer entityplayer) {
-        BlockPos position = this.getPos();
+	public boolean isUseableByPlayer(EntityPlayer entityplayer) {
+		BlockPos position = this.getPos();
 
-        if (getWorld().getTileEntity(position) != this)
-            return false;
+		if (getWorld().getTileEntity(position) != this)
+			return false;
 
-        return entityplayer.getDistanceSq((double)position.getX() + 0.5D, (double)position.getY() + 0.5D,
-                (double)position.getZ() + 0.5D) <= 64D;
-    }
-    
-    @Override
+		return entityplayer.getDistanceSq((double)position.getX() + 0.5D, (double)position.getY() + 0.5D,
+				(double)position.getZ() + 0.5D) <= 64D;
+	}
+	
+	@Override
 	public void setState(boolean isActive) {
 		if (getBlockType() instanceof IActivatable) ((IActivatable)getBlockType()).setState(isActive, world, pos);
 	}
+	
+	@Override
+	public boolean hasCapability(Capability<?> capability, EnumFacing side) {
+		if (capability == IRadiationSource.CAPABILITY_RADIATION_SOURCE) return radiation != null;
+		return super.hasCapability(capability, side);
+	}
+	
+	@Override
+	public <T> T getCapability(Capability<T> capability, EnumFacing side) {
+		if (capability == IRadiationSource.CAPABILITY_RADIATION_SOURCE) return (T) radiation;
+		return super.getCapability(capability, side);
+	}
 
-    /*
-    GUI management
-     */
+	/*
+	GUI management
+	 */
 
-    /**
-     * Check if the tile entity has a GUI or not
-     * Override in derived classes to return true if your tile entity got a GUI
-     */
-    public boolean canOpenGui(World world, BlockPos posistion, IBlockState state) {
-        return false;
-    }
+	/**
+	 * Check if the tile entity has a GUI or not
+	 * Override in derived classes to return true if your tile entity got a GUI
+	 */
+	public boolean canOpenGui(World world, BlockPos posistion, IBlockState state) {
+		return false;
+	}
 
-    /**
-     * Open the specified GUI
-     *
-     * @param player the player currently interacting with your block/tile entity
-     * @param guiId the GUI to open
-     * @return true if the GUI was opened, false otherwise
-     */
-    public boolean openGui(Object mod, EntityPlayer player, int guiId) {
+	/**
+	 * Open the specified GUI
+	 *
+	 * @param player the player currently interacting with your block/tile entity
+	 * @param guiId the GUI to open
+	 * @return true if the GUI was opened, false otherwise
+	 */
+	public boolean openGui(Object mod, EntityPlayer player, int guiId) {
 
-        player.openGui(mod, guiId, this.getWorld(), this.pos.getX(), this.pos.getY(), this.pos.getZ());
-        return true;
-    }
+		player.openGui(mod, guiId, this.getWorld(), this.pos.getX(), this.pos.getY(), this.pos.getZ());
+		return true;
+	}
 
-    /**
-     * Returns a Server side Container to be displayed to the user.
-     *
-     * @param guiId the GUI ID mumber
-     * @param player the player currently interacting with your block/tile entity
-     * @return A GuiScreen/Container to be displayed to the user, null if none.
-     */
-    public Object getServerGuiElement(int guiId, EntityPlayer player) {
-        return null;
-    }
+	/**
+	 * Returns a Server side Container to be displayed to the user.
+	 *
+	 * @param guiId the GUI ID mumber
+	 * @param player the player currently interacting with your block/tile entity
+	 * @return A GuiScreen/Container to be displayed to the user, null if none.
+	 */
+	public Object getServerGuiElement(int guiId, EntityPlayer player) {
+		return null;
+	}
 
-    /**
-     * Returns a Container to be displayed to the user. On the client side, this
-     * needs to return a instance of GuiScreen On the server side, this needs to
-     * return a instance of Container
-     *
-     * @param guiId the GUI ID mumber
-     * @param player the player currently interacting with your block/tile entity
-     * @return A GuiScreen/Container to be displayed to the user, null if none.
-     */
-    public Object getClientGuiElement(int guiId, EntityPlayer player) {
-        return null;
-    }
+	/**
+	 * Returns a Container to be displayed to the user. On the client side, this
+	 * needs to return a instance of GuiScreen On the server side, this needs to
+	 * return a instance of Container
+	 *
+	 * @param guiId the GUI ID mumber
+	 * @param player the player currently interacting with your block/tile entity
+	 * @return A GuiScreen/Container to be displayed to the user, null if none.
+	 */
+	public Object getClientGuiElement(int guiId, EntityPlayer player) {
+		return null;
+	}
 
-    /*
-    TileEntity synchronization
-     */
+	/*
+	TileEntity synchronization
+	 */
 
-    public enum SyncReason {
-        FullSync,       // full sync from storage
-        NetworkUpdate   // update from the other side
-    }
+	public enum SyncReason {
+		FullSync,	   // full sync from storage
+		NetworkUpdate   // update from the other side
+	}
+	
+	public void readRadiation(NBTTagCompound data) {
+		if (data.hasKey("radiationLevel")) getRadiationSource().setRadiationLevel(data.getDouble("radiationLevel"));
+	}
+	
+	public NBTTagCompound writeRadiation(NBTTagCompound data) {
+		data.setDouble("radiationLevel", getRadiationSource().getRadiationLevel());
+		return data;
+	}
 
-    @Override
-    public void readFromNBT(NBTTagCompound data) {
-        super.readFromNBT(data);
-        this.syncDataFrom(data, SyncReason.FullSync);
-    }
+	@Override
+	public void readFromNBT(NBTTagCompound data) {
+		super.readFromNBT(data);
+		this.syncDataFrom(data, SyncReason.FullSync);
+		if (shouldSaveRadiation()) readRadiation(data);
+	}
 
-    @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound data) {
-        this.syncDataTo(super.writeToNBT(data), SyncReason.FullSync);
-        return data;
-    }
+	@Override
+	public NBTTagCompound writeToNBT(NBTTagCompound data) {
+		this.syncDataTo(super.writeToNBT(data), SyncReason.FullSync);
+		if (shouldSaveRadiation()) writeRadiation(data);
+		return data;
+	}
 
-    @Override
-    public void handleUpdateTag(NBTTagCompound data) {
-        super.readFromNBT(data);
-        this.syncDataFrom(data, SyncReason.NetworkUpdate);
-    }
+	@Override
+	public void handleUpdateTag(NBTTagCompound data) {
+		super.readFromNBT(data);
+		this.syncDataFrom(data, SyncReason.NetworkUpdate);
+	}
 
-    @Override
-    public NBTTagCompound getUpdateTag() {
-        NBTTagCompound data = super.getUpdateTag();
+	@Override
+	public NBTTagCompound getUpdateTag() {
+		NBTTagCompound data = super.getUpdateTag();
 
-        this.syncDataTo(data, SyncReason.NetworkUpdate);
-        return data;
-    }
+		this.syncDataTo(data, SyncReason.NetworkUpdate);
+		return data;
+	}
 
-    @Override
-    public final void onDataPacket(NetworkManager net, SPacketUpdateTileEntity packet) {
-        this.syncDataFrom(packet.getNbtCompound(), SyncReason.NetworkUpdate);
-    }
+	@Override
+	public final void onDataPacket(NetworkManager net, SPacketUpdateTileEntity packet) {
+		this.syncDataFrom(packet.getNbtCompound(), SyncReason.NetworkUpdate);
+	}
 
-    @Nullable
-    @Override
-    public SPacketUpdateTileEntity getUpdatePacket() {
-        NBTTagCompound data = new NBTTagCompound();
+	@Nullable
+	@Override
+	public SPacketUpdateTileEntity getUpdatePacket() {
+		NBTTagCompound data = new NBTTagCompound();
 
-        this.syncDataTo(data, SyncReason.NetworkUpdate);
-        return new SPacketUpdateTileEntity(this.getPos(), 0, data);
-    }
+		this.syncDataTo(data, SyncReason.NetworkUpdate);
+		return new SPacketUpdateTileEntity(this.getPos(), 0, data);
+	}
 
-    /**
-     * Sync tile entity data from the given NBT compound
-     * @param data the data
-     * @param syncReason the reason why the synchronization is necessary
-     */
-    protected abstract void syncDataFrom(NBTTagCompound data, SyncReason syncReason);
+	/**
+	 * Sync tile entity data from the given NBT compound
+	 * @param data the data
+	 * @param syncReason the reason why the synchronization is necessary
+	 */
+	protected abstract void syncDataFrom(NBTTagCompound data, SyncReason syncReason);
 
-    /**
-     * Sync tile entity data to the given NBT compound
-     * @param data the data
-     * @param syncReason the reason why the synchronization is necessary
-     */
-    protected abstract void syncDataTo(NBTTagCompound data, SyncReason syncReason);
+	/**
+	 * Sync tile entity data to the given NBT compound
+	 * @param data the data
+	 * @param syncReason the reason why the synchronization is necessary
+	 */
+	protected abstract void syncDataTo(NBTTagCompound data, SyncReason syncReason);
 
-    /*
-     Chunk and block updates
-     */
+	/*
+	 Chunk and block updates
+	 */
 
-    @Override
-    public void onChunkUnload() {
-        if (!tileEntityInvalid) {
-        	this.invalidate();
-        }
-    }
+	@Override
+	public void onChunkUnload() {
+		if (!tileEntityInvalid) {
+			this.invalidate();
+		}
+	}
 
-    public void markChunkDirty() {
+	public void markChunkDirty() {
 
-        this.getWorld().markChunkDirty(this.getPos(), this);
-    }
+		this.getWorld().markChunkDirty(this.getPos(), this);
+	}
 
-    public void callNeighborBlockChange() {
+	public void callNeighborBlockChange() {
 
-        this.getWorld().notifyNeighborsOfStateChange(this.getPos(), this.getBlockType(), true);
-    }
+		this.getWorld().notifyNeighborsOfStateChange(this.getPos(), this.getBlockType(), true);
+	}
 
-    @Deprecated // not implemented
-    public void callNeighborTileChange() {
-        //this.WORLD.func_147453_f(this.xCoord, this.yCoord, this.zCoord, this.getBlockType());
-    }
+	@Deprecated // not implemented
+	public void callNeighborTileChange() {
+		//this.WORLD.func_147453_f(this.xCoord, this.yCoord, this.zCoord, this.getBlockType());
+	}
 
-    public void notifyBlockUpdate() {
-        WorldHelper.notifyBlockUpdate(this.getWorld(), this.getPos(), null, null);
-    }
+	public void notifyBlockUpdate() {
+		WorldHelper.notifyBlockUpdate(this.getWorld(), this.getPos(), null, null);
+	}
 
-    public void notifyBlockUpdate(IBlockState oldState, IBlockState newState) {
-        WorldHelper.notifyBlockUpdate(this.getWorld(), this.getPos(), oldState, newState);
-    }
+	public void notifyBlockUpdate(IBlockState oldState, IBlockState newState) {
+		WorldHelper.notifyBlockUpdate(this.getWorld(), this.getPos(), oldState, newState);
+	}
 
-    public void nofityTileEntityUpdate() {
-        this.markDirty();
-        WorldHelper.notifyBlockUpdate(this.getWorld(), this.getPos(), null, null);
-    }
+	public void nofityTileEntityUpdate() {
+		this.markDirty();
+		WorldHelper.notifyBlockUpdate(this.getWorld(), this.getPos(), null, null);
+	}
 }

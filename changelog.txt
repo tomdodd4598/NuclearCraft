@@ -1,3 +1,28 @@
+v2.11b
+
++ Added Radiation - disabled by default in the configs!
++ Added Geiger Counter and Radiation Shielding
++ Added RadAway and Rad-X [thanks to Hammurabi1337 for the textures!]
+
+* Diamond coolers now only require one adjacent water cooler rather than two
+* Fixed crash when reactor door closes adjacent to Fission Controller
+* Improved structure error reporting
+
+* Updated Russian language file [thanks to kellixon!]
+* Updated German language file [thanks to Adatrem!]
+
++ Added new OpenComputers methods
+* Fixed Fusion Core dummy tiles being treated as separate OC components
+
+* Fixed speed upgrade tooltip to correctly specify power laws
+
+* Fixed Hard Carbon TiC parts not being castable
+* Modified various ore dict entries
+
+* Mobs will now spawn on Wasteland Earth
+
++ Added some seriously serious stuff such as s'mores and a new music disc
+
 v2.11a
 
 + Added OpenComputers support for Fission and Fusion Reactors

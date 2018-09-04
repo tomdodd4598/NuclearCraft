@@ -25,6 +25,6 @@ public class ItemPortableEnderChest extends NCItem {
             	playerIn.addStat(StatList.ENDERCHEST_OPENED);
 			}
 		}
-		return new ActionResult(EnumActionResult.PASS, playerIn.getHeldItem(handIn));
+		return new ActionResult<ItemStack>(EnumActionResult.PASS, playerIn.getHeldItem(handIn));
 	}
 }

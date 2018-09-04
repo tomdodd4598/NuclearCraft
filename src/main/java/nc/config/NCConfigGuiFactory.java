@@ -8,13 +8,12 @@ import nc.Global;
 import nc.util.Lang;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraftforge.common.config.ConfigElement;
-import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.client.IModGuiFactory;
 import net.minecraftforge.fml.client.config.DummyConfigElement.DummyCategoryElement;
 import net.minecraftforge.fml.client.config.GuiConfig;
 import net.minecraftforge.fml.client.config.GuiConfigEntries;
 import net.minecraftforge.fml.client.config.GuiConfigEntries.CategoryEntry;
+import net.minecraftforge.fml.client.config.GuiConfigEntries.IConfigEntry;
 import net.minecraftforge.fml.client.config.IConfigElement;
 
 public class NCConfigGuiFactory implements IModGuiFactory {
@@ -43,21 +42,29 @@ public class NCConfigGuiFactory implements IModGuiFactory {
 
 		private static List<IConfigElement> getConfigElements() {
 			List<IConfigElement> list = new ArrayList<IConfigElement>();
-			list.add(new DummyCategoryElement(Lang.localise("gui.config.category.ores"), "gui.config.category.ores", CategoryEntryOres.class));
-			list.add(new DummyCategoryElement(Lang.localise("gui.config.category.processors"), "gui.config.category.processors", CategoryEntryProcessors.class));
-			list.add(new DummyCategoryElement(Lang.localise("gui.config.category.generators"), "gui.config.category.generators", CategoryEntryGenerators.class));
-			list.add(new DummyCategoryElement(Lang.localise("gui.config.category.fission"), "gui.config.category.fission", CategoryEntryFission.class));
-			list.add(new DummyCategoryElement(Lang.localise("gui.config.category.fusion"), "gui.config.category.fusion", CategoryEntryFusion.class));
-			list.add(new DummyCategoryElement(Lang.localise("gui.config.category.salt_fission"), "gui.config.category.salt_fission", CategoryEntrySaltFission.class));
-			list.add(new DummyCategoryElement(Lang.localise("gui.config.category.accelerator"), "gui.config.category.accelerator", CategoryEntryAccelerator.class));
-			list.add(new DummyCategoryElement(Lang.localise("gui.config.category.energy_storage"), "gui.config.category.energy_storage", CategoryEntryEnergyStorage.class));
-			list.add(new DummyCategoryElement(Lang.localise("gui.config.category.tools"), "gui.config.category.tools", CategoryEntryTools.class));
-			list.add(new DummyCategoryElement(Lang.localise("gui.config.category.armor"), "gui.config.category.armor", CategoryEntryArmor.class));
-			list.add(new DummyCategoryElement(Lang.localise("gui.config.category.other"), "gui.config.category.other", CategoryEntryOther.class));
+			list.add(categoryElement(NCConfig.CATEGORY_ORES, CategoryEntryOres.class));
+			list.add(categoryElement(NCConfig.CATEGORY_PROCESSORS, CategoryEntryProcessors.class));
+			list.add(categoryElement(NCConfig.CATEGORY_GENERATORS, CategoryEntryGenerators.class));
+			list.add(categoryElement(NCConfig.CATEGORY_FISSION, CategoryEntryFission.class));
+			list.add(categoryElement(NCConfig.CATEGORY_FUSION, CategoryEntryFusion.class));
+			list.add(categoryElement(NCConfig.CATEGORY_SALT_FISSION, CategoryEntrySaltFission.class));
+			list.add(categoryElement(NCConfig.CATEGORY_HEAT_EXCHANGER, CategoryEntryHeatExchanger.class));
+			list.add(categoryElement(NCConfig.CATEGORY_TURBINE, CategoryEntryTurbine.class));
+			list.add(categoryElement(NCConfig.CATEGORY_CONDENSER, CategoryEntryCondenser.class));
+			list.add(categoryElement(NCConfig.CATEGORY_ACCELERATOR, CategoryEntryAccelerator.class));
+			list.add(categoryElement(NCConfig.CATEGORY_ENERGY_STORAGE, CategoryEntryEnergyStorage.class));
+			list.add(categoryElement(NCConfig.CATEGORY_TOOLS, CategoryEntryTools.class));
+			list.add(categoryElement(NCConfig.CATEGORY_ARMOR, CategoryEntryArmor.class));
+			list.add(categoryElement(NCConfig.CATEGORY_RADIATION, CategoryEntryRadiation.class));
+			list.add(categoryElement(NCConfig.CATEGORY_OTHER, CategoryEntryOther.class));
 			return list;
 		}
 		
-		public static class CategoryEntryOres extends CategoryEntry {
+		private static DummyCategoryElement categoryElement(String categoryName, Class<? extends IConfigEntry> categoryClass) {
+			return new DummyCategoryElement(Lang.localise("gui.config.category." + categoryName), "gui.config.category." + categoryName, categoryClass);
+		}
+		
+		public static class CategoryEntryOres extends CategoryEntry implements IConfigCategory {
 
 			public CategoryEntryOres(GuiConfig owningScreen, GuiConfigEntries owningEntryList, IConfigElement configElement) {
 				super(owningScreen, owningEntryList, configElement);
@@ -65,15 +72,11 @@ public class NCConfigGuiFactory implements IModGuiFactory {
 			
 			@Override
 			protected GuiScreen buildChildScreen() {
-				Configuration config = NCConfig.getConfig();
-				ConfigElement categoryOres = new ConfigElement(config.getCategory(NCConfig.CATEGORY_ORES));
-				List<IConfigElement> propertiesOnScreen = categoryOres.getChildElements();
-				String windowTitle = Lang.localise("gui.config.category.ores");
-				return new GuiConfig(owningScreen, propertiesOnScreen, owningScreen.modID, configElement.requiresWorldRestart() || owningScreen.allRequireWorldRestart, configElement.requiresMcRestart() || owningScreen.allRequireMcRestart, windowTitle);
+				return buildChildScreen(NCConfig.CATEGORY_ORES, owningScreen, configElement);
 			}
 		}
 		
-		public static class CategoryEntryProcessors extends CategoryEntry {
+		public static class CategoryEntryProcessors extends CategoryEntry implements IConfigCategory {
 
 			public CategoryEntryProcessors(GuiConfig owningScreen, GuiConfigEntries owningEntryList, IConfigElement configElement) {
 				super(owningScreen, owningEntryList, configElement);
@@ -81,15 +84,11 @@ public class NCConfigGuiFactory implements IModGuiFactory {
 			
 			@Override
 			protected GuiScreen buildChildScreen() {
-				Configuration config = NCConfig.getConfig();
-				ConfigElement categoryProcessors = new ConfigElement(config.getCategory(NCConfig.CATEGORY_PROCESSORS));
-				List<IConfigElement> propertiesOnScreen = categoryProcessors.getChildElements();
-				String windowTitle = Lang.localise("gui.config.category.processors");
-				return new GuiConfig(owningScreen, propertiesOnScreen, owningScreen.modID, configElement.requiresWorldRestart() || owningScreen.allRequireWorldRestart, configElement.requiresMcRestart() || owningScreen.allRequireMcRestart, windowTitle);
+				return buildChildScreen(NCConfig.CATEGORY_PROCESSORS, owningScreen, configElement);
 			}
 		}
 		
-		public static class CategoryEntryGenerators extends CategoryEntry {
+		public static class CategoryEntryGenerators extends CategoryEntry implements IConfigCategory {
 
 			public CategoryEntryGenerators(GuiConfig owningScreen, GuiConfigEntries owningEntryList, IConfigElement configElement) {
 				super(owningScreen, owningEntryList, configElement);
@@ -97,15 +96,11 @@ public class NCConfigGuiFactory implements IModGuiFactory {
 			
 			@Override
 			protected GuiScreen buildChildScreen() {
-				Configuration config = NCConfig.getConfig();
-				ConfigElement categoryGenerators = new ConfigElement(config.getCategory(NCConfig.CATEGORY_GENERATORS));
-				List<IConfigElement> propertiesOnScreen = categoryGenerators.getChildElements();
-				String windowTitle = Lang.localise("gui.config.category.generators");
-				return new GuiConfig(owningScreen, propertiesOnScreen, owningScreen.modID, configElement.requiresWorldRestart() || owningScreen.allRequireWorldRestart, configElement.requiresMcRestart() || owningScreen.allRequireMcRestart, windowTitle);
+				return buildChildScreen(NCConfig.CATEGORY_GENERATORS, owningScreen, configElement);
 			}
 		}
 		
-		public static class CategoryEntryFission extends CategoryEntry {
+		public static class CategoryEntryFission extends CategoryEntry implements IConfigCategory {
 
 			public CategoryEntryFission(GuiConfig owningScreen, GuiConfigEntries owningEntryList, IConfigElement configElement) {
 				super(owningScreen, owningEntryList, configElement);
@@ -113,15 +108,11 @@ public class NCConfigGuiFactory implements IModGuiFactory {
 			
 			@Override
 			protected GuiScreen buildChildScreen() {
-				Configuration config = NCConfig.getConfig();
-				ConfigElement categoryFission = new ConfigElement(config.getCategory(NCConfig.CATEGORY_FISSION));
-				List<IConfigElement> propertiesOnScreen = categoryFission.getChildElements();
-				String windowTitle = Lang.localise("gui.config.category.fission");
-				return new GuiConfig(owningScreen, propertiesOnScreen, owningScreen.modID, configElement.requiresWorldRestart() || owningScreen.allRequireWorldRestart, configElement.requiresMcRestart() || owningScreen.allRequireMcRestart, windowTitle);
+				return buildChildScreen(NCConfig.CATEGORY_FISSION, owningScreen, configElement);
 			}
 		}
 		
-		public static class CategoryEntryFusion extends CategoryEntry {
+		public static class CategoryEntryFusion extends CategoryEntry implements IConfigCategory {
 
 			public CategoryEntryFusion(GuiConfig owningScreen, GuiConfigEntries owningEntryList, IConfigElement configElement) {
 				super(owningScreen, owningEntryList, configElement);
@@ -129,15 +120,11 @@ public class NCConfigGuiFactory implements IModGuiFactory {
 			
 			@Override
 			protected GuiScreen buildChildScreen() {
-				Configuration config = NCConfig.getConfig();
-				ConfigElement categoryFission = new ConfigElement(config.getCategory(NCConfig.CATEGORY_FUSION));
-				List<IConfigElement> propertiesOnScreen = categoryFission.getChildElements();
-				String windowTitle = Lang.localise("gui.config.category.fusion");
-				return new GuiConfig(owningScreen, propertiesOnScreen, owningScreen.modID, configElement.requiresWorldRestart() || owningScreen.allRequireWorldRestart, configElement.requiresMcRestart() || owningScreen.allRequireMcRestart, windowTitle);
+				return buildChildScreen(NCConfig.CATEGORY_FUSION, owningScreen, configElement);
 			}
 		}
 		
-		public static class CategoryEntrySaltFission extends CategoryEntry {
+		public static class CategoryEntrySaltFission extends CategoryEntry implements IConfigCategory {
 
 			public CategoryEntrySaltFission(GuiConfig owningScreen, GuiConfigEntries owningEntryList, IConfigElement configElement) {
 				super(owningScreen, owningEntryList, configElement);
@@ -145,15 +132,47 @@ public class NCConfigGuiFactory implements IModGuiFactory {
 			
 			@Override
 			protected GuiScreen buildChildScreen() {
-				Configuration config = NCConfig.getConfig();
-				ConfigElement categoryFission = new ConfigElement(config.getCategory(NCConfig.CATEGORY_SALT_FISSION));
-				List<IConfigElement> propertiesOnScreen = categoryFission.getChildElements();
-				String windowTitle = Lang.localise("gui.config.category.salt_fission");
-				return new GuiConfig(owningScreen, propertiesOnScreen, owningScreen.modID, configElement.requiresWorldRestart() || owningScreen.allRequireWorldRestart, configElement.requiresMcRestart() || owningScreen.allRequireMcRestart, windowTitle);
+				return buildChildScreen(NCConfig.CATEGORY_SALT_FISSION, owningScreen, configElement);
 			}
 		}
 		
-		public static class CategoryEntryAccelerator extends CategoryEntry {
+		public static class CategoryEntryHeatExchanger extends CategoryEntry implements IConfigCategory {
+
+			public CategoryEntryHeatExchanger(GuiConfig owningScreen, GuiConfigEntries owningEntryList, IConfigElement configElement) {
+				super(owningScreen, owningEntryList, configElement);
+			}
+			
+			@Override
+			protected GuiScreen buildChildScreen() {
+				return buildChildScreen(NCConfig.CATEGORY_HEAT_EXCHANGER, owningScreen, configElement);
+			}
+		}
+		
+		public static class CategoryEntryTurbine extends CategoryEntry implements IConfigCategory {
+
+			public CategoryEntryTurbine(GuiConfig owningScreen, GuiConfigEntries owningEntryList, IConfigElement configElement) {
+				super(owningScreen, owningEntryList, configElement);
+			}
+			
+			@Override
+			protected GuiScreen buildChildScreen() {
+				return buildChildScreen(NCConfig.CATEGORY_TURBINE, owningScreen, configElement);
+			}
+		}
+		
+		public static class CategoryEntryCondenser extends CategoryEntry implements IConfigCategory {
+
+			public CategoryEntryCondenser(GuiConfig owningScreen, GuiConfigEntries owningEntryList, IConfigElement configElement) {
+				super(owningScreen, owningEntryList, configElement);
+			}
+			
+			@Override
+			protected GuiScreen buildChildScreen() {
+				return buildChildScreen(NCConfig.CATEGORY_CONDENSER, owningScreen, configElement);
+			}
+		}
+		
+		public static class CategoryEntryAccelerator extends CategoryEntry implements IConfigCategory {
 
 			public CategoryEntryAccelerator(GuiConfig owningScreen, GuiConfigEntries owningEntryList, IConfigElement configElement) {
 				super(owningScreen, owningEntryList, configElement);
@@ -161,15 +180,11 @@ public class NCConfigGuiFactory implements IModGuiFactory {
 			
 			@Override
 			protected GuiScreen buildChildScreen() {
-				Configuration config = NCConfig.getConfig();
-				ConfigElement categoryFission = new ConfigElement(config.getCategory(NCConfig.CATEGORY_ACCELERATOR));
-				List<IConfigElement> propertiesOnScreen = categoryFission.getChildElements();
-				String windowTitle = Lang.localise("gui.config.category.accelerator");
-				return new GuiConfig(owningScreen, propertiesOnScreen, owningScreen.modID, configElement.requiresWorldRestart() || owningScreen.allRequireWorldRestart, configElement.requiresMcRestart() || owningScreen.allRequireMcRestart, windowTitle);
+				return buildChildScreen(NCConfig.CATEGORY_ACCELERATOR, owningScreen, configElement);
 			}
 		}
 		
-		public static class CategoryEntryEnergyStorage extends CategoryEntry {
+		public static class CategoryEntryEnergyStorage extends CategoryEntry implements IConfigCategory {
 
 			public CategoryEntryEnergyStorage(GuiConfig owningScreen, GuiConfigEntries owningEntryList, IConfigElement configElement) {
 				super(owningScreen, owningEntryList, configElement);
@@ -177,15 +192,11 @@ public class NCConfigGuiFactory implements IModGuiFactory {
 			
 			@Override
 			protected GuiScreen buildChildScreen() {
-				Configuration config = NCConfig.getConfig();
-				ConfigElement categoryEnergyStorage = new ConfigElement(config.getCategory(NCConfig.CATEGORY_ENERGY_STORAGE));
-				List<IConfigElement> propertiesOnScreen = categoryEnergyStorage.getChildElements();
-				String windowTitle = Lang.localise("gui.config.category.energy_storage");
-				return new GuiConfig(owningScreen, propertiesOnScreen, owningScreen.modID, configElement.requiresWorldRestart() || owningScreen.allRequireWorldRestart, configElement.requiresMcRestart() || owningScreen.allRequireMcRestart, windowTitle);
+				return buildChildScreen(NCConfig.CATEGORY_ENERGY_STORAGE, owningScreen, configElement);
 			}
 		}
 		
-		public static class CategoryEntryTools extends CategoryEntry {
+		public static class CategoryEntryTools extends CategoryEntry implements IConfigCategory {
 
 			public CategoryEntryTools(GuiConfig owningScreen, GuiConfigEntries owningEntryList, IConfigElement configElement) {
 				super(owningScreen, owningEntryList, configElement);
@@ -193,15 +204,11 @@ public class NCConfigGuiFactory implements IModGuiFactory {
 			
 			@Override
 			protected GuiScreen buildChildScreen() {
-				Configuration config = NCConfig.getConfig();
-				ConfigElement categoryTools = new ConfigElement(config.getCategory(NCConfig.CATEGORY_TOOLS));
-				List<IConfigElement> propertiesOnScreen = categoryTools.getChildElements();
-				String windowTitle = Lang.localise("gui.config.category.tools");
-				return new GuiConfig(owningScreen, propertiesOnScreen, owningScreen.modID, configElement.requiresWorldRestart() || owningScreen.allRequireWorldRestart, configElement.requiresMcRestart() || owningScreen.allRequireMcRestart, windowTitle);
+				return buildChildScreen(NCConfig.CATEGORY_TOOLS, owningScreen, configElement);
 			}
 		}
 		
-		public static class CategoryEntryArmor extends CategoryEntry {
+		public static class CategoryEntryArmor extends CategoryEntry implements IConfigCategory {
 
 			public CategoryEntryArmor(GuiConfig owningScreen, GuiConfigEntries owningEntryList, IConfigElement configElement) {
 				super(owningScreen, owningEntryList, configElement);
@@ -209,15 +216,23 @@ public class NCConfigGuiFactory implements IModGuiFactory {
 			
 			@Override
 			protected GuiScreen buildChildScreen() {
-				Configuration config = NCConfig.getConfig();
-				ConfigElement categoryTools = new ConfigElement(config.getCategory(NCConfig.CATEGORY_ARMOR));
-				List<IConfigElement> propertiesOnScreen = categoryTools.getChildElements();
-				String windowTitle = Lang.localise("gui.config.category.armor");
-				return new GuiConfig(owningScreen, propertiesOnScreen, owningScreen.modID, configElement.requiresWorldRestart() || owningScreen.allRequireWorldRestart, configElement.requiresMcRestart() || owningScreen.allRequireMcRestart, windowTitle);
+				return buildChildScreen(NCConfig.CATEGORY_ARMOR, owningScreen, configElement);
 			}
 		}
 		
-		public static class CategoryEntryOther extends CategoryEntry {
+		public static class CategoryEntryRadiation extends CategoryEntry implements IConfigCategory {
+
+			public CategoryEntryRadiation(GuiConfig owningScreen, GuiConfigEntries owningEntryList, IConfigElement configElement) {
+				super(owningScreen, owningEntryList, configElement);
+			}
+			
+			@Override
+			protected GuiScreen buildChildScreen() {
+				return buildChildScreen(NCConfig.CATEGORY_RADIATION, owningScreen, configElement);
+			}
+		}
+		
+		public static class CategoryEntryOther extends CategoryEntry implements IConfigCategory {
 
 			public CategoryEntryOther(GuiConfig owningScreen, GuiConfigEntries owningEntryList, IConfigElement configElement) {
 				super(owningScreen, owningEntryList, configElement);
@@ -225,11 +240,7 @@ public class NCConfigGuiFactory implements IModGuiFactory {
 			
 			@Override
 			protected GuiScreen buildChildScreen() {
-				Configuration config = NCConfig.getConfig();
-				ConfigElement categoryOther = new ConfigElement(config.getCategory(NCConfig.CATEGORY_OTHER));
-				List<IConfigElement> propertiesOnScreen = categoryOther.getChildElements();
-				String windowTitle = Lang.localise("gui.config.category.other");
-				return new GuiConfig(owningScreen, propertiesOnScreen, owningScreen.modID, configElement.requiresWorldRestart() || owningScreen.allRequireWorldRestart, configElement.requiresMcRestart() || owningScreen.allRequireMcRestart, windowTitle);
+				return buildChildScreen(NCConfig.CATEGORY_OTHER, owningScreen, configElement);
 			}
 		}
 	}

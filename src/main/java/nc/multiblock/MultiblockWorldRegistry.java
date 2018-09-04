@@ -16,7 +16,7 @@ import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraftforge.fml.common.FMLLog;
 
 /**
- * This class manages all the multiblock controllers that exist in a given world,
+ * This class manages all the multiblocks that exist in a given world,
  * either client- or server-side.
  * You must create different registries for server and client worlds.
  *
@@ -26,9 +26,9 @@ final class MultiblockWorldRegistry {
 
     private World worldObj;
 
-    private final Set<MultiblockControllerBase> controllers;		// Active controllers
-    private final Set<MultiblockControllerBase> dirtyControllers;	// Controllers whose parts lists have changed
-    private final Set<MultiblockControllerBase> deadControllers;	// Controllers which are empty
+    private final Set<MultiblockBase> multiblocks;		// Active multiblocks
+    private final Set<MultiblockBase> dirtyMultiblocks;	// Multiblocks whose parts lists have changed
+    private final Set<MultiblockBase> deadMultiblocks;	// Multiblocks which are empty
 
     // A list of orphan parts - parts which currently have no master, but should seek one this tick
     // Indexed by the hashed chunk coordinate
@@ -51,9 +51,9 @@ final class MultiblockWorldRegistry {
     public MultiblockWorldRegistry(final World world) {
         worldObj = world;
 
-        controllers = new HashSet<MultiblockControllerBase>();
-        deadControllers = new HashSet<MultiblockControllerBase>();
-        dirtyControllers = new HashSet<MultiblockControllerBase>();
+        multiblocks = new HashSet<MultiblockBase>();
+        deadMultiblocks = new HashSet<MultiblockBase>();
+        dirtyMultiblocks = new HashSet<MultiblockBase>();
 
         detachedParts = new HashSet<IMultiblockPart>();
         orphanedParts = new HashSet<IMultiblockPart>();
@@ -67,17 +67,17 @@ final class MultiblockWorldRegistry {
      * Called before Tile Entities are ticked in the world. Run game logic.
      */
     public void tickStart() {
-        if(controllers.size() > 0) {
-            for(MultiblockControllerBase controller : controllers) {
-                if(controller.WORLD == worldObj && controller.WORLD.isRemote == worldObj.isRemote) {
-                    if(controller.isEmpty()) {
+        if(multiblocks.size() > 0) {
+            for(MultiblockBase multiblock : multiblocks) {
+                if(multiblock.WORLD == worldObj && multiblock.WORLD.isRemote == worldObj.isRemote) {
+                    if(multiblock.isEmpty()) {
                         // This happens on the server when the user breaks the last block. It's fine.
                         // Mark 'er dead and move on.
-                        deadControllers.add(controller);
+                        deadMultiblocks.add(multiblock);
                     }
                     else {
                         // Run the game logic for this world
-                        controller.updateMultiblockEntity();
+                        multiblock.updateMultiblockEntity();
                     }
                 }
             }
@@ -85,13 +85,13 @@ final class MultiblockWorldRegistry {
     }
 
     /**
-     * Called prior to processing multiblock controllers. Do bookkeeping.
+     * Called prior to processing multiblocks. Do bookkeeping.
      */
     public void processMultiblockChanges() {
         BlockPos coord;
 
         // Merge pools - sets of adjacent machines which should be merged later on in processing
-        List<Set<MultiblockControllerBase>> mergePools = null;
+        List<Set<MultiblockBase>> mergePools = null;
         if(orphanedParts.size() > 0) {
             Set<IMultiblockPart> orphansToProcess = null;
 
@@ -108,10 +108,10 @@ final class MultiblockWorldRegistry {
 
             if(orphansToProcess != null && orphansToProcess.size() > 0) {
                 IChunkProvider chunkProvider = this.worldObj.getChunkProvider();
-                Set<MultiblockControllerBase> compatibleControllers;
+                Set<MultiblockBase> compatibleMultiblocks;
 
                 // Process orphaned blocks
-                // These are blocks that exist in a valid chunk and require a controller
+                // These are blocks that exist in a valid chunk and require a multiblock
                 for(IMultiblockPart orphan : orphansToProcess) {
                     coord = orphan.getWorldPosition();
                     if(!this.worldObj.isBlockLoaded(coord)) {
@@ -127,25 +127,25 @@ final class MultiblockWorldRegistry {
                     }
 
                     // THIS IS THE ONLY PLACE WHERE PARTS ATTACH TO MACHINES
-                    // Try to attach to a neighbor's master controller
-                    compatibleControllers = orphan.attachToNeighbors();
-                    if(compatibleControllers == null) {
-                        // FOREVER ALONE! Create and register a new controller.
+                    // Try to attach to a neighbor's master multiblock
+                    compatibleMultiblocks = orphan.attachToNeighbors();
+                    if(compatibleMultiblocks == null) {
+                        // FOREVER ALONE! Create and register a new multiblock.
                         // THIS IS THE ONLY PLACE WHERE NEW CONTROLLERS ARE CREATED.
-                        MultiblockControllerBase newController = orphan.createNewMultiblock();
-                        newController.attachBlock(orphan);
-                        this.controllers.add(newController);
+                        MultiblockBase newMultiblock = orphan.createNewMultiblock();
+                        newMultiblock.attachBlock(orphan);
+                        this.multiblocks.add(newMultiblock);
                     }
-                    else if(compatibleControllers.size() > 1) {
-                        if(mergePools == null) { mergePools = new ArrayList<Set<MultiblockControllerBase>>(); }
+                    else if(compatibleMultiblocks.size() > 1) {
+                        if(mergePools == null) { mergePools = new ArrayList<Set<MultiblockBase>>(); }
 
                         // THIS IS THE ONLY PLACE WHERE MERGES ARE DETECTED
-                        // Multiple compatible controllers indicates an impending merge.
+                        // Multiple compatible multiblocks indicates an impending merge.
                         // Locate the appropriate merge pool(s)
                         boolean hasAddedToPool = false;
-                        List<Set<MultiblockControllerBase>> candidatePools = new ArrayList<Set<MultiblockControllerBase>>();
-                        for(Set<MultiblockControllerBase> candidatePool : mergePools) {
-                            if(!Collections.disjoint(candidatePool, compatibleControllers)) {
+                        List<Set<MultiblockBase>> candidatePools = new ArrayList<Set<MultiblockBase>>();
+                        for(Set<MultiblockBase> candidatePool : mergePools) {
+                            if(!Collections.disjoint(candidatePool, compatibleMultiblocks)) {
                                 // They share at least one element, so that means they will all touch after the merge
                                 candidatePools.add(candidatePool);
                             }
@@ -153,22 +153,22 @@ final class MultiblockWorldRegistry {
 
                         if(candidatePools.size() <= 0) {
                             // No pools nearby, create a new merge pool
-                            mergePools.add(compatibleControllers);
+                            mergePools.add(compatibleMultiblocks);
                         }
                         else if(candidatePools.size() == 1) {
                             // Only one pool nearby, simply add to that one
-                            candidatePools.get(0).addAll(compatibleControllers);
+                            candidatePools.get(0).addAll(compatibleMultiblocks);
                         }
                         else {
-                            // Multiple pools- merge into one, then add the compatible controllers
-                            Set<MultiblockControllerBase> masterPool = candidatePools.get(0);
-                            Set<MultiblockControllerBase> consumedPool;
+                            // Multiple pools- merge into one, then add the compatible multiblocks
+                            Set<MultiblockBase> masterPool = candidatePools.get(0);
+                            Set<MultiblockBase> consumedPool;
                             for(int i = 1; i < candidatePools.size(); i++) {
                                 consumedPool = candidatePools.get(i);
                                 masterPool.addAll(consumedPool);
                                 mergePools.remove(consumedPool);
                             }
-                            masterPool.addAll(compatibleControllers);
+                            masterPool.addAll(compatibleMultiblocks);
                         }
                     }
                 }
@@ -180,12 +180,12 @@ final class MultiblockWorldRegistry {
             // into the "master" machine.
             // To do this, we combine lists of machines that are touching one another and therefore
             // should voltron the fuck up.
-            for(Set<MultiblockControllerBase> mergePool : mergePools) {
+            for(Set<MultiblockBase> mergePool : mergePools) {
                 // Search for the new master machine, which will take over all the blocks contained in the other machines
-                MultiblockControllerBase newMaster = null;
-                for(MultiblockControllerBase controller : mergePool) {
-                    if(newMaster == null || controller.shouldConsume(newMaster)) {
-                        newMaster = controller;
+                MultiblockBase newMaster = null;
+                for(MultiblockBase multiblock : mergePool) {
+                    if(newMaster == null || multiblock.shouldConsume(newMaster)) {
+                        newMaster = multiblock;
                     }
                 }
 
@@ -194,12 +194,12 @@ final class MultiblockWorldRegistry {
                 }
                 else {
                     // Merge all the other machines into the master machine, then unregister them
-                    addDirtyController(newMaster);
-                    for(MultiblockControllerBase controller : mergePool) {
-                        if(controller != newMaster) {
-                            newMaster.assimilate(controller);
-                            addDeadController(controller);
-                            addDirtyController(newMaster);
+                    addDirtyMultiblock(newMaster);
+                    for(MultiblockBase multiblock : mergePool) {
+                        if(multiblock != newMaster) {
+                            newMaster.assimilate(multiblock);
+                            addDeadMultiblock(multiblock);
+                            addDirtyMultiblock(newMaster);
                         }
                     }
                 }
@@ -207,49 +207,49 @@ final class MultiblockWorldRegistry {
         }
 
         // Process splits and assembly
-        // Any controllers which have had parts removed must be checked to see if some parts are no longer
+        // Any multiblocks which have had parts removed must be checked to see if some parts are no longer
         // physically connected to their master.
-        if(dirtyControllers.size() > 0) {
+        if(dirtyMultiblocks.size() > 0) {
             Set<IMultiblockPart> newlyDetachedParts = null;
-            for(MultiblockControllerBase controller : dirtyControllers) {
+            for(MultiblockBase multiblock : dirtyMultiblocks) {
                 // Tell the machine to check if any parts are disconnected.
                 // It should return a set of parts which are no longer connected.
-                // POSTCONDITION: The controller must have informed those parts that
+                // POSTCONDITION: The multiblock must have informed those parts that
                 // they are no longer connected to this machine.
-                newlyDetachedParts = controller.checkForDisconnections();
+                newlyDetachedParts = multiblock.checkForDisconnections();
 
-                if(!controller.isEmpty()) {
-                    controller.recalculateMinMaxCoords();
-                    controller.checkIfMachineIsWhole();
+                if(!multiblock.isEmpty()) {
+                    multiblock.recalculateMinMaxCoords();
+                    multiblock.checkIfMachineIsWhole();
                 }
                 else {
-                    addDeadController(controller);
+                    addDeadMultiblock(multiblock);
                 }
 
                 if(newlyDetachedParts != null && newlyDetachedParts.size() > 0) {
-                    // Controller has shed some parts - add them to the detached list for delayed processing
+                    // Multiblock has shed some parts - add them to the detached list for delayed processing
                     detachedParts.addAll(newlyDetachedParts);
                 }
             }
 
-            dirtyControllers.clear();
+            dirtyMultiblocks.clear();
         }
 
-        // Unregister dead controllers
-        if(deadControllers.size() > 0) {
-            for(MultiblockControllerBase controller : deadControllers) {
-                // Go through any controllers which have marked themselves as potentially dead.
+        // Unregister dead multiblocks
+        if(deadMultiblocks.size() > 0) {
+            for(MultiblockBase multiblock : deadMultiblocks) {
+                // Go through any multiblocks which have marked themselves as potentially dead.
                 // Validate that they are empty/dead, then unregister them.
-                if(!controller.isEmpty()) {
-                    FMLLog.severe("Found a non-empty controller. Forcing it to shed its blocks and die. This should never happen!");
-                    detachedParts.addAll(controller.detachAllBlocks());
+                if(!multiblock.isEmpty()) {
+                    FMLLog.severe("Found a non-empty multiblock. Forcing it to shed its blocks and die. This should never happen!");
+                    detachedParts.addAll(multiblock.detachAllBlocks());
                 }
 
                 // THIS IS THE ONLY PLACE WHERE CONTROLLERS ARE UNREGISTERED.
-                this.controllers.remove(controller);
+                this.multiblocks.remove(multiblock);
             }
 
-            deadControllers.clear();
+            deadMultiblocks.clear();
         }
 
         // Process detached blocks
@@ -333,9 +333,9 @@ final class MultiblockWorldRegistry {
      * Does some housekeeping just to be nice.
      */
     public void onWorldUnloaded() {
-        controllers.clear();
-        deadControllers.clear();
-        dirtyControllers.clear();
+        multiblocks.clear();
+        deadMultiblocks.clear();
+        dirtyMultiblocks.clear();
 
         detachedParts.clear();
 
@@ -371,34 +371,34 @@ final class MultiblockWorldRegistry {
     }
 
     /**
-     * Registers a controller as dead. It will be cleaned up at the end of the next world tick.
-     * Note that a controller must shed all of its blocks before being marked as dead, or the system
+     * Registers a multiblock as dead. It will be cleaned up at the end of the next world tick.
+     * Note that a multiblock must shed all of its blocks before being marked as dead, or the system
      * will complain at you.
      *
-     * @param deadController The controller which is dead.
+     * @param deadMultiblock The multiblock which is dead.
      */
-    public void addDeadController(MultiblockControllerBase deadController) {
-        this.deadControllers.add(deadController);
+    public void addDeadMultiblock(MultiblockBase deadMultiblock) {
+        this.deadMultiblocks.add(deadMultiblock);
     }
 
     /**
-     * Registers a controller as dirty - its list of attached blocks has changed, and it
+     * Registers a multiblock as dirty - its list of attached blocks has changed, and it
      * must be re-checked for assembly and, possibly, for orphans.
      *
-     * @param dirtyController The dirty controller.
+     * @param dirtyMultiblock The dirty multiblock.
      */
-    public void addDirtyController(MultiblockControllerBase dirtyController) {
-        this.dirtyControllers.add(dirtyController);
+    public void addDirtyMultiblock(MultiblockBase dirtyMultiblock) {
+        this.dirtyMultiblocks.add(dirtyMultiblock);
     }
 
     /**
      * Use this only if you know what you're doing. You should rarely need to iterate
-     * over all controllers in a world!
+     * over all multiblocks in a world!
      *
-     * @return An (unmodifiable) set of controllers which are active in this world.
+     * @return An (unmodifiable) set of multiblocks which are active in this world.
      */
-    public Set<MultiblockControllerBase> getControllers() {
-        return Collections.unmodifiableSet(controllers);
+    public Set<MultiblockBase> getMultiblocks() {
+        return Collections.unmodifiableSet(multiblocks);
     }
 
 	/* *** INTERNAL HELPERS *** */

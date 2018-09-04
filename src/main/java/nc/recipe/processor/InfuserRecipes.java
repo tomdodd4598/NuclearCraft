@@ -3,6 +3,7 @@ package nc.recipe.processor;
 import com.google.common.collect.Lists;
 
 import nc.init.NCBlocks;
+import nc.init.NCItems;
 import nc.recipe.ProcessorRecipeHandler;
 import nc.util.FluidStackHelper;
 import nc.util.RegistryHelper;
@@ -32,8 +33,10 @@ public class InfuserRecipes extends ProcessorRecipeHandler {
 		addRecipe(new ItemStack(NCBlocks.cooler, 1, 0), fluidStack("liquidhelium", FluidStackHelper.BUCKET_VOLUME), new ItemStack(NCBlocks.cooler, 1, 8), 1D, 1D);
 		addRecipe(new ItemStack(NCBlocks.cooler, 1, 0), fluidStack("cryotheum", FluidStackHelper.BUCKET_VOLUME*2), new ItemStack(NCBlocks.cooler, 1, 10), 1D, 1D);
 		
-		addRecipe("emptyFrame", fluidStack("water", 2000), NCBlocks.water_source, 1D, 1D);
-		addRecipe(NCBlocks.water_source, fluidStack("lava", 1000), NCBlocks.cobblestone_generator, 1D, 1D);
+		addRecipe("emptyFrame", fluidStack("water", FluidStackHelper.BUCKET_VOLUME*2), NCBlocks.water_source, 1D, 1D);
+		addRecipe(NCBlocks.water_source, fluidStack("lava", FluidStackHelper.BUCKET_VOLUME), NCBlocks.cobblestone_generator, 1D, 1D);
+		
+		addRecipe(oreStack("bioplastic", 2), fluidStack("radaway", FluidStackHelper.BUCKET_VOLUME/2), NCItems.radaway, 1D, 0.5D);
 		
 		// Immersive Engineering
 		addRecipe("plankWood", fluidStack("creosote", 100), RegistryHelper.blockStackFromRegistry("immersiveengineering", "treated_wood"), 0.2D, 0.5D);

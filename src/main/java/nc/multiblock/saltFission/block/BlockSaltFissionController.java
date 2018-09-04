@@ -89,9 +89,12 @@ public class BlockSaltFissionController extends BlockSaltFissionPartBase {
 		if (hand != EnumHand.MAIN_HAND || player.isSneaking()) return false;
 		
 		if (!world.isRemote) {
-			if (world.getTileEntity(pos) != null && ((TileSaltFissionController) world.getTileEntity(pos)).getMultiblockController() != null && ((TileSaltFissionController) world.getTileEntity(pos)).getMultiblockController().isAssembled()) {
-				player.openGui(NuclearCraft.instance, 102, world, pos.getX(), pos.getY(), pos.getZ());
-				return true;
+			if (world.getTileEntity(pos) instanceof TileSaltFissionController) {
+				TileSaltFissionController controller = (TileSaltFissionController) world.getTileEntity(pos);
+				if (controller.getMultiblock() != null && controller.getMultiblock().isAssembled()) {
+					player.openGui(NuclearCraft.instance, 102, world, pos.getX(), pos.getY(), pos.getZ());
+					return true;
+				}
 			}
 		}
 		return rightClickOnPart(world, pos, player, true);

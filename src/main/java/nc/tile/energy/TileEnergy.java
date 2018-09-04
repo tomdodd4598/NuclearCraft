@@ -1,5 +1,6 @@
 package nc.tile.energy;
 
+import gregtech.api.capability.GregtechCapabilities;
 import gregtech.api.capability.IEnergyContainer;
 import ic2.api.energy.EnergyNet;
 import ic2.api.energy.tile.IEnergyAcceptor;
@@ -175,6 +176,9 @@ public abstract class TileEnergy extends NCTile implements ITileEnergy, IEnergyT
 	@Override
 	public void readEnergy(NBTTagCompound nbt) {
 		getEnergyStorage().setEnergyStored(nbt.getInteger("energy"));
+		getEnergyStorage().setStorageCapacity(nbt.getInteger("capacity"));
+		getEnergyStorage().setMaxReceive(nbt.getInteger("maxReceive"));
+		getEnergyStorage().setMaxExtract(nbt.getInteger("maxExtract"));
 	}
 	
 	@Override
@@ -264,7 +268,7 @@ public abstract class TileEnergy extends NCTile implements ITileEnergy, IEnergyT
 			}
 		}
 		if (ModCheck.gregtechLoaded()) {
-			IEnergyContainer adjStorageGT = tile == null ? null : tile.getCapability(IEnergyContainer.CAPABILITY_ENERGY_CONTAINER, side.getOpposite());
+			IEnergyContainer adjStorageGT = tile == null ? null : tile.getCapability(GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER, side.getOpposite());
 			if (adjStorageGT != null && getEnergyStorage().canExtract()) {
 				int voltage = Math.min(EnergyHelper.getMaxEUFromTier(getEUSourceTier()), getEnergyStorage().getEnergyStored()/NCConfig.rf_per_eu);
 				getEnergyStorage().extractEnergy((int)Math.min(voltage*adjStorageGT.acceptEnergyFromNetwork(side.getOpposite(), voltage, 1)*NCConfig.rf_per_eu, Integer.MAX_VALUE), false);
@@ -311,14 +315,14 @@ public abstract class TileEnergy extends NCTile implements ITileEnergy, IEnergyT
 	@Override
 	public boolean hasCapability(Capability<?> capability, EnumFacing side) {
 		if (capability == CapabilityEnergy.ENERGY) return getEnergySide(side) != null;
-		if (ModCheck.gregtechLoaded()) if (capability == IEnergyContainer.CAPABILITY_ENERGY_CONTAINER) return getEnergySideGT(side) != null;
+		if (ModCheck.gregtechLoaded()) if (capability == GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER) return getEnergySideGT(side) != null;
 		return super.hasCapability(capability, side);
 	}
 	
 	@Override
 	public <T> T getCapability(Capability<T> capability, EnumFacing side) {
 		if (capability == CapabilityEnergy.ENERGY) return (T) getEnergySide(side);
-		if (ModCheck.gregtechLoaded()) if (capability == IEnergyContainer.CAPABILITY_ENERGY_CONTAINER) return (T) getEnergySideGT(side);
+		if (ModCheck.gregtechLoaded()) if (capability == GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER) return (T) getEnergySideGT(side);
 		return super.getCapability(capability, side);
 	}
 }

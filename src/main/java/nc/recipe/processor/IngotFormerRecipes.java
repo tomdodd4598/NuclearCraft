@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import nc.init.NCItems;
 import nc.recipe.ProcessorRecipeHandler;
 import nc.util.FluidStackHelper;
 import nc.util.OreDictHelper;
 import nc.util.StringHelper;
+import net.minecraft.init.Items;
 import net.minecraftforge.fluids.FluidRegistry;
 
 public class IngotFormerRecipes extends ProcessorRecipeHandler {
@@ -30,6 +32,14 @@ public class IngotFormerRecipes extends ProcessorRecipeHandler {
 		addIngotFormingRecipe("Bronze");
 		addIngotFormingRecipe("Electrum");
 		addIngotFormingRecipe("Steel");
+		
+		addRecipe(fluidStack("cocoa_butter", FluidStackHelper.INGOT_VOLUME), NCItems.cocoa_butter, 0.5D, 0.5D);
+		addRecipe(fluidStack("unsweetened_chocolate", FluidStackHelper.INGOT_VOLUME), NCItems.unsweetened_chocolate, 0.5D, 0.5D);
+		addRecipe(fluidStack("dark_chocolate", FluidStackHelper.INGOT_VOLUME), NCItems.dark_chocolate, 0.5D, 0.5D);
+		addRecipe(fluidStack("milk_chocolate", FluidStackHelper.INGOT_VOLUME), NCItems.milk_chocolate, 0.5D, 0.5D);
+		addRecipe(fluidStack("sugar", FluidStackHelper.INGOT_VOLUME), Items.SUGAR, 0.5D, 0.5D);
+		addRecipe(fluidStack("gelatin", FluidStackHelper.INGOT_VOLUME), NCItems.gelatin, 0.5D, 0.5D);
+		addRecipe(fluidStack("marshmallow", FluidStackHelper.INGOT_VOLUME), NCItems.marshmallow, 0.5D, 0.5D);
 		
 		// Fission Isotopes
 		addIsotopeFormingRecipes("Thorium", 230);

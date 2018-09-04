@@ -2,10 +2,10 @@ package nc.tile.processor;
 
 import java.util.List;
 
-import nc.recipe.IFluidIngredient;
-import nc.recipe.IItemIngredient;
 import nc.recipe.ProcessorRecipe;
 import nc.recipe.ProcessorRecipeHandler;
+import nc.recipe.ingredient.IFluidIngredient;
+import nc.recipe.ingredient.IItemIngredient;
 import nc.tile.internal.fluid.Tank;
 import net.minecraft.item.ItemStack;
 

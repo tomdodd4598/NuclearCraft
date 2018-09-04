@@ -6,10 +6,10 @@ import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeWrapper;
 import nc.integration.jei.IJEIHandler;
 import nc.integration.jei.JEIMethods.RecipeItemMapper;
-import nc.integration.jei.JEIProcessorCategory;
+import nc.integration.jei.JEICategoryAbstract;
 import nc.recipe.SorptionType;
 
-public class IsotopeSeparatorCategory extends JEIProcessorCategory {
+public class IsotopeSeparatorCategory extends JEICategoryAbstract {
 	
 	public IsotopeSeparatorCategory(IGuiHelper guiHelper, IJEIHandler handler) {
 		super(guiHelper, handler, "isotope_separator_idle", 33, 30, 118, 26);

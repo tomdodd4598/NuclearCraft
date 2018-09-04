@@ -1,8 +1,11 @@
 package nc.recipe.vanilla;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import nc.Global;
+import nc.config.NCConfig;
 import nc.enumm.MetaEnums.IngotType;
 import nc.init.NCArmor;
 import nc.init.NCBlocks;
@@ -11,11 +14,13 @@ import nc.init.NCTools;
 import nc.util.FluidHelper;
 import nc.util.ItemStackHelper;
 import nc.util.OreDictHelper;
+import nc.util.RadiationHelper;
 import nc.util.StringHelper;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
@@ -65,23 +70,23 @@ public class CraftingRecipeHandler {
 		addShapedOreRecipe(NCItems.reactor_door, new Object[] {"CC", "CC", "CC", 'C', new ItemStack(NCBlocks.fission_block, 1, 0)});
 		addShapedOreRecipe(NCBlocks.reactor_trapdoor, new Object[] {"CCC", "CCC", 'C', new ItemStack(NCBlocks.fission_block, 1, 0)});
 		
-		blockCompress(NCBlocks.block_depleted_thorium, "blockDepletedThorium", "ingotThorium230");
-		blockCompress(NCBlocks.block_depleted_uranium, "blockDepletedUranium", "ingotUranium238");
-		blockCompress(NCBlocks.block_depleted_neptunium, "blockDepletedNeptunium", "ingotNeptunium237");
-		blockCompress(NCBlocks.block_depleted_plutonium, "blockDepletedPlutonium", "ingotPlutonium242");
-		blockCompress(NCBlocks.block_depleted_americium, "blockDepletedAmericium", "ingotAmericium243");
-		blockCompress(NCBlocks.block_depleted_curium, "blockDepletedCurium", "ingotCurium246");
-		blockCompress(NCBlocks.block_depleted_berkelium, "blockDepletedBerkelium", "ingotBerkelium247");
-		blockCompress(NCBlocks.block_depleted_californium, "blockDepletedCalifornium", "ingotCalifornium252");
+		blockCompress(NCBlocks.block_depleted_thorium, "blockThorium230", "ingotThorium230");
+		blockCompress(NCBlocks.block_depleted_uranium, "blockUranium238", "ingotUranium238");
+		blockCompress(NCBlocks.block_depleted_neptunium, "blockNeptunium237", "ingotNeptunium237");
+		blockCompress(NCBlocks.block_depleted_plutonium, "blockPlutonium242", "ingotPlutonium242");
+		blockCompress(NCBlocks.block_depleted_americium, "blockAmericium243", "ingotAmericium243");
+		blockCompress(NCBlocks.block_depleted_curium, "blockCurium246", "ingotCurium246");
+		blockCompress(NCBlocks.block_depleted_berkelium, "blockBerkelium247", "ingotBerkelium247");
+		blockCompress(NCBlocks.block_depleted_californium, "blockCalifornium252", "ingotCalifornium252");
 		
-		blockOpen(NCItems.thorium, 0, "ingotThorium230", "blockDepletedThorium");
-		blockOpen(NCItems.uranium, 8, "ingotUranium238", "blockDepletedUranium");
-		blockOpen(NCItems.neptunium, 4, "ingotNeptunium237", "blockDepletedNeptunium");
-		blockOpen(NCItems.plutonium, 12, "ingotPlutonium242", "blockDepletedPlutonium");
-		blockOpen(NCItems.americium, 8, "ingotAmericium243", "blockDepletedAmericium");
-		blockOpen(NCItems.curium, 8, "ingotCurium246", "blockDepletedCurium");
-		blockOpen(NCItems.berkelium, 0, "ingotBerkelium247", "blockDepletedBerkelium");
-		blockOpen(NCItems.californium, 12, "ingotCalifornium252", "blockDepletedCalifornium");
+		blockOpen(NCItems.thorium, 0, "ingotThorium230", "blockThorium230");
+		blockOpen(NCItems.uranium, 8, "ingotUranium238", "blockUranium238");
+		blockOpen(NCItems.neptunium, 4, "ingotNeptunium237", "blockNeptunium237");
+		blockOpen(NCItems.plutonium, 12, "ingotPlutonium242", "blockPlutonium242");
+		blockOpen(NCItems.americium, 8, "ingotAmericium243", "blockAmericium243");
+		blockOpen(NCItems.curium, 8, "ingotCurium246", "blockCurium246");
+		blockOpen(NCItems.berkelium, 0, "ingotBerkelium247", "blockBerkelium247");
+		blockOpen(NCItems.californium, 12, "ingotCalifornium252", "blockCalifornium252");
 		
 		addShapedOreRecipe(NCBlocks.nuclear_furnace_idle, new Object[] {"PTP", "TFT", "PTP", 'T', "ingotTough", 'P', "plateBasic", 'F', Blocks.FURNACE});
 		
@@ -123,7 +128,7 @@ public class CraftingRecipeHandler {
 		addShapelessOreRecipe(NCBlocks.fusion_electromagnet_transparent_idle, new Object[] {NCBlocks.fusion_electromagnet_idle, "blockGlass"});
 		addShapelessOreRecipe(NCBlocks.fusion_electromagnet_idle, new Object[] {NCBlocks.fusion_electromagnet_transparent_idle});
 		
-		addShapedOreRecipe(NCBlocks.rtg_uranium, new Object[] {"PGP", "GUG", "PGP", 'G', "ingotGraphite", 'P', "plateBasic", 'U', "blockDepletedUranium"});
+		addShapedOreRecipe(NCBlocks.rtg_uranium, new Object[] {"PGP", "GUG", "PGP", 'G', "ingotGraphite", 'P', "plateBasic", 'U', "blockUranium238"});
 		addShapedOreRecipe(NCBlocks.rtg_plutonium, new Object[] {"PGP", "GUG", "PGP", 'G', "ingotGraphite", 'P', "plateAdvanced", 'U', "ingotPlutonium238"});
 		addShapedOreRecipe(NCBlocks.rtg_americium, new Object[] {"PGP", "GAG", "PGP", 'G', "ingotGraphite", 'P', "plateAdvanced", 'A', "ingotAmericium241"});
 		addShapedOreRecipe(NCBlocks.rtg_californium, new Object[] {"PGP", "GCG", "PGP", 'G', "ingotGraphite", 'P', "plateAdvanced", 'C', "ingotCalifornium250"});
@@ -147,7 +152,7 @@ public class CraftingRecipeHandler {
 		addShapedOreRecipe(NCBlocks.accelerator_electromagnet_idle, new Object[] {"SPS", "P P", "SPS", 'P', "plateElite", 'S', "solenoidMagnesiumDiboride"});
 		addShapedOreRecipe(NCBlocks.electromagnet_supercooler_idle, new Object[] {"TIT", "IEI", "TIT", 'T', "ingotTin", 'I', NCBlocks.block_ice, 'E', NCBlocks.accelerator_electromagnet_idle});
 		
-		addShapedOreRecipe(NCBlocks.helium_collector, new Object[] {"PIP", "ITI", "PIP", 'I', "ingotZirconium", 'P', "plateBasic", 'T', "blockDepletedThorium"});
+		addShapedOreRecipe(NCBlocks.helium_collector, new Object[] {"PIP", "ITI", "PIP", 'I', "ingotZirconium", 'P', "plateBasic", 'T', "blockThorium230"});
 		addShapedOreRecipe(NCBlocks.helium_collector_compact, new Object[] {"CCC", "CIC", "CCC", 'C', NCBlocks.helium_collector, 'I', "ingotBronze"});
 		addShapedOreRecipe(NCBlocks.helium_collector_dense, new Object[] {"CCC", "CIC", "CCC", 'C', NCBlocks.helium_collector_compact, 'I', "ingotGold"});
 		
@@ -224,7 +229,7 @@ public class CraftingRecipeHandler {
 		tinyClumpRecipes("Boron", NCItems.boron, 10, 11);
 		tinyClumpRecipes("Lithium", NCItems.lithium, 6, 7);
 		addShapelessOreRecipe(new ItemStack(NCItems.compound, 2, 1), new Object[] {"dustRhodochrosite", "dustCalciumSulfate", "dustObsidian", "dustMagnesium"});
-		addShapelessOreRecipe(new ItemStack(NCItems.compound, 1, 2), new Object[] {"dustRedstone", "dustGlowstone"});
+		addShapelessOreRecipe(new ItemStack(NCItems.compound, 2, 2), new Object[] {"dustRedstone", "dustGlowstone"});
 		
 		addShapedOreRecipe(NCItems.portable_ender_chest, new Object[] {" S ", "WCW", "LWL", 'C', "chestEnder", 'W', new ItemStack(Blocks.WOOL, 1, 10), 'S', "string", 'L', "ingotTough"});
 		addShapedOreRecipe(NCItems.portable_ender_chest, new Object[] {" S ", "WCW", "LWL", 'C', "chestEnder", 'W', new ItemStack(Blocks.WOOL, 1, 15), 'S', "string", 'L', "ingotTough"});
@@ -233,9 +238,30 @@ public class CraftingRecipeHandler {
 		addShapelessOreRecipe(Blocks.BROWN_MUSHROOM, new Object[] {NCBlocks.glowing_mushroom});
 		addShapelessOreRecipe(NCBlocks.glowing_mushroom, new Object[] {Blocks.BROWN_MUSHROOM, "dustGlowstone"});
 		
+		addShapedOreRecipe(new ItemStack(Items.COOKIE, 12), new Object[] {"FCF", 'F', "dustWheat", 'C', "dustCocoa"});
+		addShapelessOreRecipe(NCItems.smore, new Object[] {NCItems.graham_cracker, NCItems.milk_chocolate, NCItems.marshmallow, NCItems.graham_cracker});
+		addShapelessOreRecipe(NCItems.moresmore, new Object[] {NCItems.smore, NCItems.milk_chocolate, NCItems.marshmallow, NCItems.smore});
+		
+		addShapedOreRecipe(NCItems.geiger_counter, new Object[] {"SFF", "CRR", "BFF", 'S', "ingotSteel", 'F', "ingotFerroboron", 'C', "ingotCopper", 'R', "dustRedstone", 'B', "bioplastic"});
+		
+		addShapedOreRecipe(NCItems.rad_x, new Object[] {"EPE", "PRP", "PBP", 'E', "dustEnergetic", 'P', "bioplastic", 'R', NCItems.radaway, 'B', Items.BLAZE_POWDER});
+		
+		addShapedOreRecipe(new ItemStack(NCItems.rad_shielding, 1, 0), new Object[] {"III", "CCC", "LLL", 'I', "ingotIron", 'C', "coal", 'L', "ingotLead"});
+		addShapedOreRecipe(new ItemStack(NCItems.rad_shielding, 1, 1), new Object[] {"BBB", "RSR", "PPP", 'B', "bioplastic", 'S', "ingotSteel", 'P', "plateBasic", 'R', new ItemStack(NCItems.rad_shielding, 1, 0)});
+		addShapedOreRecipe(new ItemStack(NCItems.rad_shielding, 1, 2), new Object[] {"BBB", "RHR", "PPP", 'B', "ingotBeryllium", 'H', "ingotHardCarbon", 'P', "plateDU", 'R', new ItemStack(NCItems.rad_shielding, 1, 1)});
+		
 		addShapelessOreRecipe(NCItems.record_wanderer, new Object[] {"record", "ingotTough"});
 		addShapelessOreRecipe(NCItems.record_end_of_the_world, new Object[] {"record", "ingotUranium"});
 		addShapelessOreRecipe(NCItems.record_money_for_nothing, new Object[] {"record", "ingotBronze"});
+		addShapelessOreRecipe(NCItems.record_hyperspace, new Object[] {"record", "ingotZirconium"});
+		
+		for (Item item : ForgeRegistries.ITEMS.getValuesCollection()) {
+			if (item instanceof ItemArmor) {
+				addShapelessOreArmorUpgradingRecipe(RadiationHelper.armorWithRadResistance(item, NCConfig.radiation_shielding_level[0]), new Object[] {item, new ItemStack(NCItems.rad_shielding, 1, 0)});
+				addShapelessOreArmorUpgradingRecipe(RadiationHelper.armorWithRadResistance(item, NCConfig.radiation_shielding_level[1]), new Object[] {item, new ItemStack(NCItems.rad_shielding, 1, 1)});
+				addShapelessOreArmorUpgradingRecipe(RadiationHelper.armorWithRadResistance(item, NCConfig.radiation_shielding_level[2]), new Object[] {item, new ItemStack(NCItems.rad_shielding, 1, 2)});
+			}
+		}
 	}
 	
 	public static void fissionFuelRecipes(String element, String fuelLetter, Item fuelType, Item rodType, int fertileNo, int... fissileNo) {
@@ -306,13 +332,19 @@ public class CraftingRecipeHandler {
 		addShapedOreRecipe(boots, new Object[] {"M M", "M M", 'M', material});
 	}
 	
-	private static int recipeID = 0;
+	private static final Map<String, Integer> RECIPE_COUNT_MAP = new HashMap<String, Integer>();
 	
 	public static void addShapedOreRecipe(Object out, Object... inputs) {
 		if (out == null || Arrays.asList(inputs).contains(null)) return;
 		ItemStack outStack = ItemStackHelper.fixItemStack(out);
 		if (!outStack.isEmpty() && inputs != null) {
-			ResourceLocation location = new ResourceLocation(Global.MOD_ID, outStack.getUnlocalizedName() + recipeID++);
+			String outName = outStack.getUnlocalizedName();
+			if (RECIPE_COUNT_MAP.containsKey(outName)) {
+				int count = RECIPE_COUNT_MAP.get(outName);
+				RECIPE_COUNT_MAP.put(outName, count + 1);
+				outName = outName + "_" + count;	
+			} else RECIPE_COUNT_MAP.put(outName, 1);
+			ResourceLocation location = new ResourceLocation(Global.MOD_ID, outName);
 			ShapedOreRecipe oreRecipe = new ShapedOreRecipe(location, outStack, inputs);
 			oreRecipe.setRegistryName(location);
 			ForgeRegistries.RECIPES.register(oreRecipe);
@@ -323,8 +355,31 @@ public class CraftingRecipeHandler {
 		if (out == null || Arrays.asList(inputs).contains(null)) return;
 		ItemStack outStack = ItemStackHelper.fixItemStack(out);
 		if (!outStack.isEmpty() && inputs != null) {
-			ResourceLocation location = new ResourceLocation(Global.MOD_ID, outStack.getUnlocalizedName() + recipeID++);
+			String outName = outStack.getUnlocalizedName();
+			if (RECIPE_COUNT_MAP.containsKey(outName)) {
+				int count = RECIPE_COUNT_MAP.get(outName);
+				RECIPE_COUNT_MAP.put(outName, count + 1);
+				outName = outName + "_" + count;	
+			} else RECIPE_COUNT_MAP.put(outName, 1);
+			ResourceLocation location = new ResourceLocation(Global.MOD_ID, outName);
 			ShapelessOreRecipe oreRecipe = new ShapelessOreRecipe(location, outStack, inputs);
+			oreRecipe.setRegistryName(location);
+			ForgeRegistries.RECIPES.register(oreRecipe);
+		}
+	}
+	
+	public static void addShapelessOreArmorUpgradingRecipe(Object out, Object... inputs) {
+		if (out == null || Arrays.asList(inputs).contains(null)) return;
+		ItemStack outStack = ItemStackHelper.fixItemStack(out);
+		if (!outStack.isEmpty() && inputs != null) {
+			String outName = outStack.getUnlocalizedName();
+			if (RECIPE_COUNT_MAP.containsKey(outName)) {
+				int count = RECIPE_COUNT_MAP.get(outName);
+				RECIPE_COUNT_MAP.put(outName, count + 1);
+				outName = outName + "_" + count;	
+			} else RECIPE_COUNT_MAP.put(outName, 1);
+			ResourceLocation location = new ResourceLocation(Global.MOD_ID, outName);
+			ShapelessOreArmorUpgradingRecipe oreRecipe = new ShapelessOreArmorUpgradingRecipe(location, outStack, inputs);
 			oreRecipe.setRegistryName(location);
 			ForgeRegistries.RECIPES.register(oreRecipe);
 		}

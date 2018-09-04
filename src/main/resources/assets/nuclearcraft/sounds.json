@@ -14,6 +14,21 @@
 		"subtitle": "player.geiger_tick",
 		"sounds": [ { "name": "nuclearcraft:player/geiger_tick", "stream": false } ]
 	},
+	"player.radaway": {
+		"category": "player",
+		"subtitle": "player.radaway",
+		"sounds": [ { "name": "nuclearcraft:player/radaway", "stream": false } ]
+	},
+	"player.rad_x": {
+		"category": "player",
+		"subtitle": "player.rad_x",
+		"sounds": [ { "name": "nuclearcraft:player/rad_x", "stream": false } ]
+	},
+	"player.chems_wear_off": {
+		"category": "player",
+		"subtitle": "player.chems_wear_off",
+		"sounds": [ { "name": "nuclearcraft:player/chems_wear_off", "stream": false } ]
+	},
 	"music.wanderer": {
 		"category": "record",
 		"subtitle": "music.wanderer",
@@ -28,5 +43,10 @@
 		"category": "record",
 		"subtitle": "music.money_for_nothing",
 		"sounds": [ { "name": "nuclearcraft:music/money_for_nothing", "stream": true } ]
+	},
+	"music.hyperspace": {
+		"category": "record",
+		"subtitle": "music.hyperspace",
+		"sounds": [ { "name": "nuclearcraft:music/hyperspace", "stream": true } ]
 	}
 }

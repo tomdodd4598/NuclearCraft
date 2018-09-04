@@ -26,8 +26,8 @@ public class ContainerFissionController extends ContainerItemGenerator {
 	protected int heatChange;
 	protected int heatMult;
 	
-	protected static final List<Integer> UPCASTS = Lists.newArrayList(0, 1, 2, 3, 4, 5, 6, 8, 12, 19);
-	protected static final List<Integer> NON_UPCASTS = Lists.newArrayList(7, 9, 10, 11, 13, 14, 15, 16, 17, 18, 20, 21);
+	protected static final List<Integer> UPCASTS = Lists.newArrayList(0, 1, 2, 3, 4, 5, 6, 8, 12, 18);
+	protected static final List<Integer> NON_UPCASTS = Lists.newArrayList(7, 9, 10, 11, 13, 14, 15, 16, 17, 19, 20);
 	
 	public ContainerFissionController(EntityPlayer player, TileFissionController tileEntity) {
 		super(tileEntity, NCRecipes.Type.FISSION);
@@ -77,7 +77,7 @@ public class ContainerFissionController extends ContainerItemGenerator {
 		else if (id == 106) efficiency = upcast(data);
 		else if (id == 108) speedMultiplier = upcast(data);
 		else if (id == 112) heatChange = upcast(data);
-		else if (id == 119) heatMult = upcast(data);
+		else if (id == 118) heatMult = upcast(data);
 		
 		else if (id == 0) tile.setField(id, time | data << 16);
 		else if (id == 1) tile.setField(id, energy | data << 16);
@@ -88,7 +88,7 @@ public class ContainerFissionController extends ContainerItemGenerator {
 		else if (id == 6) tile.setField(id, efficiency | data << 16);
 		else if (id == 8) tile.setField(id, speedMultiplier | data << 16);
 		else if (id == 12) tile.setField(id, heatChange | data << 16);
-		else if (id == 19) tile.setField(id, heatMult | data << 16);
+		else if (id == 18) tile.setField(id, heatMult | data << 16);
 		
 		else if (NON_UPCASTS.contains(id)) tile.setField(id, data);
 	}

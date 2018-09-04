@@ -6,7 +6,7 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 import nc.recipe.ProcessorRecipeHandler;
-import nc.recipe.RecipeOreStack;
+import nc.recipe.ingredient.OreIngredient;
 import nc.util.OreDictHelper;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -46,7 +46,7 @@ public class AlloyFurnaceRecipes extends ProcessorRecipeHandler {
 		
 		// EnderIO
 		addRecipe(Lists.newArrayList("ingotSteel", "dustSteel"), "itemSilicon", "ingotElectricalSteel", 1.5D, 1.5D);
-		addRecipe(Lists.newArrayList("ingotGold", "dustGold"), "dustEnergetic", "ingotEnergeticAlloy", 1D, 1.5D);
+		addRecipe(Lists.newArrayList("ingotGold", "dustGold"), oreStack("dustEnergetic", 2), "ingotEnergeticAlloy", 1D, 1.5D);
 		addRecipe(Lists.newArrayList("ingotEnergeticAlloy", "dustEnergeticAlloy"), Lists.newArrayList(Items.ENDER_PEARL, "dustEnder"), "ingotVibrantAlloy", 1.5D, 2D);
 		addRecipe("itemSilicon", "dustRedstone", "ingotRedstoneAlloy", 1D, 1D);
 		addRecipe(Lists.newArrayList("ingotIron", "dustIron"), "dustRedstone", "ingotConductiveIron", 1D, 1D);
@@ -65,6 +65,11 @@ public class AlloyFurnaceRecipes extends ProcessorRecipeHandler {
 		
 		// Immersive Engineering
 		addAlloyIngotFuelRecipes("Iron", 2, "Coke", 1, "Steel", 2, 1D, 1D);
+		
+		// Advanced Rocketry
+		addAlloyIngotFuelRecipes("Aluminum", 7, "Titanium", 3, "TitaniumAluminide", 3, 3D, 1D);
+		addAlloyIngotFuelRecipes("Aluminium", 7, "Titanium", 3, "TitaniumAluminide", 3, 3D, 1D);
+		addAlloyIngotFuelRecipes("Titanium", 1, "Iridium", 1, "TitaniumIridium", 2, 1.5D, 2D);
 	}
 	
 	public void addAlloyIngotIngotRecipes(String in1, int inSize1, String in2, int inSize2, String out, int outSize, double time, double power) {
@@ -83,8 +88,8 @@ public class AlloyFurnaceRecipes extends ProcessorRecipeHandler {
 		addAlloyRecipes(in1, inSize1, in2, inSize2, out, outSize, time, power, OreDictHelper.NUGGET_VOLUME_TYPES, OreDictHelper.INGOT_VOLUME_TYPES, OreDictHelper.BLOCK_VOLUME_TYPES, OreDictHelper.TINYDUST_VOLUME_TYPES, OreDictHelper.GEM_VOLUME_TYPES, OreDictHelper.BLOCK_VOLUME_TYPES);
 	}
 	
-	public ArrayList<RecipeOreStack> typeStackList(String type, List<String> forms, int size) {
-		ArrayList<RecipeOreStack> list = new ArrayList<RecipeOreStack>();
+	public ArrayList<OreIngredient> typeStackList(String type, List<String> forms, int size) {
+		ArrayList<OreIngredient> list = new ArrayList<OreIngredient>();
 		for (String form : forms) list.add(oreStack(form + type, size));
 		return list;
 	}

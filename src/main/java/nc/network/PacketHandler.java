@@ -1,6 +1,6 @@
 package nc.network;
 
-import nc.multiblock.saltFission.network.SaltFissionUpdatePacket;
+import nc.multiblock.network.SaltFissionUpdatePacket;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
@@ -35,5 +35,6 @@ public class PacketHandler {
 		instance.registerMessage(ReturnFluidInTankPacket.Handler.class, ReturnFluidInTankPacket.class, nextID(), Side.CLIENT);
 		instance.registerMessage(SaltFissionUpdatePacket.Handler.class, SaltFissionUpdatePacket.class, nextID(), Side.CLIENT);
 		instance.registerMessage(FusionUpdatePacket.Handler.class, FusionUpdatePacket.class, nextID(), Side.CLIENT);
+		instance.registerMessage(PlayerRadsUpdatePacket.Handler.class, PlayerRadsUpdatePacket.class, nextID(), Side.CLIENT);
 	}
 }

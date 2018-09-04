@@ -6,10 +6,10 @@ import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeWrapper;
 import nc.integration.jei.IJEIHandler;
 import nc.integration.jei.JEIMethods.RecipeItemMapper;
-import nc.integration.jei.JEIProcessorCategory;
+import nc.integration.jei.JEICategoryAbstract;
 import nc.recipe.SorptionType;
 
-public class DecayGeneratorCategory extends JEIProcessorCategory {
+public class DecayGeneratorCategory extends JEICategoryAbstract {
 	
 	public DecayGeneratorCategory(IGuiHelper guiHelper, IJEIHandler handler) {
 		super(guiHelper, handler, "decay_generator", 47, 30, 90, 26);

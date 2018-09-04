@@ -1,23 +1,30 @@
 package nc.item.energy;
 
+import gregtech.api.capability.GregtechCapabilities;
+import nc.ModCheck;
 import nc.tile.internal.energy.EnergyStorage;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.energy.CapabilityEnergy;
 
 public class ItemEnergyCapabilityProvider implements ICapabilityProvider {
 	
+	private ItemStack stack;
 	private EnergyStorage storage;
 	private ItemEnergyWrapper wrapper;
+	private ItemEnergyWrapperGT wrapperGT;
+	private final int energyTier;
 	
-	public ItemEnergyCapabilityProvider(ItemStack stack, NBTTagCompound nbt) {
-		this(stack, nbt.getInteger("energy"), nbt.getInteger("capacity"), nbt.getInteger("maxReceive"), nbt.getInteger("maxExtract"));
+	public ItemEnergyCapabilityProvider(ItemStack stack, NBTTagCompound nbt, int energyTier) {
+		this(stack, nbt.getInteger("energy"), nbt.getInteger("capacity"), nbt.getInteger("maxReceive"), nbt.getInteger("maxExtract"), energyTier);
 	}
 	
-	public ItemEnergyCapabilityProvider(ItemStack stack, int energy, int capacity, int maxReceive, int maxExtract) {
+	public ItemEnergyCapabilityProvider(ItemStack stack, int energy, int capacity, int maxReceive, int maxExtract, int energyTier) {
+		this.stack = stack;
 		storage = new EnergyStorage(capacity, maxReceive, maxExtract, energy) {
 			
 			@Override
@@ -36,6 +43,12 @@ public class ItemEnergyCapabilityProvider implements ICapabilityProvider {
 			public void setEnergyStored(int energy) {
 				if (!stack.hasTagCompound()) stack.setTagCompound(new NBTTagCompound());
 				stack.getTagCompound().setInteger("energy", energy);
+			}
+			
+			@Override
+			public void changeEnergyStored(int energy) {
+				if (!stack.hasTagCompound()) stack.setTagCompound(new NBTTagCompound());
+				stack.getTagCompound().setInteger("energy", MathHelper.clamp(stack.getTagCompound().getInteger("energy") + energy, 0, getMaxEnergyStored()));
 			}
 			
 			@Override
@@ -109,6 +122,7 @@ public class ItemEnergyCapabilityProvider implements ICapabilityProvider {
 				return energyExtracted;
 			}
 		};
+		this.energyTier = energyTier;
 	}
 
 	@Override
@@ -121,6 +135,10 @@ public class ItemEnergyCapabilityProvider implements ICapabilityProvider {
 		if (capability == CapabilityEnergy.ENERGY) {
 			if(wrapper == null) wrapper = new ItemEnergyWrapper(storage);
 			return (T) wrapper;
+		}
+		if (ModCheck.gregtechLoaded()) if (capability == GregtechCapabilities.CAPABILITY_ELECTRIC_ITEM) {
+			if(wrapperGT == null) wrapperGT = new ItemEnergyWrapperGT(stack, storage, energyTier);
+			return (T) wrapperGT;
 		}
 		return null;
 	}

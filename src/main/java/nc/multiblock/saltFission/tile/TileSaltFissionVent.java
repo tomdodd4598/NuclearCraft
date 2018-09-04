@@ -3,7 +3,8 @@ package nc.multiblock.saltFission.tile;
 import java.util.ArrayList;
 
 import nc.config.NCConfig;
-import nc.multiblock.MultiblockControllerBase;
+import nc.multiblock.cuboidal.CuboidalPartPositionType;
+import nc.multiblock.saltFission.SaltFissionReactor;
 import nc.tile.internal.fluid.FluidConnection;
 import nc.tile.internal.fluid.Tank;
 import nc.util.FluidStackHelper;
@@ -25,11 +26,11 @@ public class TileSaltFissionVent extends TileSaltFissionPartBase implements IFlu
 	public final Tank tank = new Tank(FluidStackHelper.INGOT_BLOCK_VOLUME, new ArrayList<String>());
 	
 	public TileSaltFissionVent() {
-		super(PartPositionType.WALL);
+		super(CuboidalPartPositionType.WALL);
 	}
 	
 	@Override
-	public void onMachineAssembled(MultiblockControllerBase controller) {
+	public void onMachineAssembled(SaltFissionReactor controller) {
 		doStandardNullControllerResponse(controller);
 		super.onMachineAssembled(controller);
 		if (getWorld().isRemote) return;

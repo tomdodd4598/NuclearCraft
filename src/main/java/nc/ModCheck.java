@@ -11,6 +11,7 @@ public class ModCheck {
 	private static boolean craftTweakerLoaded = false;
 	private static boolean tinkersLoaded = false;
 	private static boolean gregtechLoaded = false;
+	private static boolean openComputersLoaded = false;
 	
 	public static void init() {
 		if (initialized) return;
@@ -20,6 +21,7 @@ public class ModCheck {
 		craftTweakerLoaded = Loader.isModLoaded("minetweaker3") || Loader.isModLoaded("MineTweaker3") || Loader.isModLoaded("crafttweaker") || Loader.isModLoaded("CraftTweaker2");
 		tinkersLoaded = (Loader.isModLoaded("tconstruct") || Loader.isModLoaded("Tinkers' Construct")) && (Loader.isModLoaded("mantle") || Loader.isModLoaded("Mantle"));
 		gregtechLoaded = Loader.isModLoaded("gregtech") || Loader.isModLoaded("GregTech Community Edition");
+		openComputersLoaded = Loader.isModLoaded("OpenComputers") || Loader.isModLoaded("opencomputers");
 		
 		initialized = true;
 	}
@@ -42,5 +44,9 @@ public class ModCheck {
 	
 	public static boolean gregtechLoaded() {
 		return gregtechLoaded;
+	}
+	
+	public static boolean openComputersLoaded() {
+		return openComputersLoaded;
 	}
 }

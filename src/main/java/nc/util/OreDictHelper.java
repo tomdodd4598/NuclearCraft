@@ -39,6 +39,13 @@ public class OreDictHelper {
 		return !OreDictionary.getOres(ore).isEmpty();
 	}
 	
+	public static boolean oresExist(String... ores) {
+		for (String ore : ores) {
+			if (!oreExists(ore)) return false;
+		}
+		return true;
+	}
+	
 	public static String getOreNameFromStacks(List<ItemStack> stackList) {
 		List<Integer> idList = new ArrayList<Integer>();
 		if (stackList.isEmpty() || stackList == null) return "Unknown";

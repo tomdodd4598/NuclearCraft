@@ -1,15 +1,16 @@
 package nc.multiblock.saltFission.tile;
 
-import nc.multiblock.MultiblockControllerBase;
+import nc.multiblock.cuboidal.CuboidalPartPositionType;
+import nc.multiblock.saltFission.SaltFissionReactor;
 
 public class TileSaltFissionFrame extends TileSaltFissionPartBase {
 	
 	public TileSaltFissionFrame() {
-		super(PartPositionType.FRAME);
+		super(CuboidalPartPositionType.FRAME);
 	}
 	
 	@Override
-	public void onMachineAssembled(MultiblockControllerBase controller) {
+	public void onMachineAssembled(SaltFissionReactor controller) {
 		doStandardNullControllerResponse(controller);
 		super.onMachineAssembled(controller);
 		if (getWorld().isRemote) return;

@@ -7,6 +7,7 @@ import nc.init.NCBlocks;
 import nc.init.NCItems;
 import nc.util.OreDictHelper;
 import nc.util.StringHelper;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -43,6 +44,8 @@ public class FurnaceRecipeHandler {
 		oxideFuelRecipes(NCItems.fuel_curium, NCItems.fuel_rod_curium, NCItems.depleted_fuel_curium, NCItems.depleted_fuel_rod_curium, 6);
 		oxideFuelRecipes(NCItems.fuel_berkelium, NCItems.fuel_rod_berkelium, NCItems.depleted_fuel_berkelium, NCItems.depleted_fuel_rod_berkelium, 2);
 		oxideFuelRecipes(NCItems.fuel_californium, NCItems.fuel_rod_californium, NCItems.depleted_fuel_californium, NCItems.depleted_fuel_rod_californium, 4);
+		
+		GameRegistry.addSmelting(new ItemStack(Items.DYE, 1, 3), new ItemStack(NCItems.roasted_cocoa_beans, 1), 0.0F);
 	}
 	
 	public static void oxideFuelRecipes(Item fuelType, Item rodType, Item depletedFuelType, Item depletedRodType, int noFuelTypes) {

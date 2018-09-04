@@ -50,6 +50,42 @@
 				"fluid": "steam"
 			}
 		},
+		"fluid_high_pressure_steam": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "high_pressure_steam"
+			}
+		},
+		"fluid_exhaust_steam": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "exhaust_steam"
+			}
+		},
+		"fluid_low_pressure_steam": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "low_pressure_steam"
+			}
+		},
+		"fluid_low_quality_steam": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "low_quality_steam"
+			}
+		},
+		"fluid_preheated_water": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "preheated_water"
+			}
+		},
+		"fluid_condensate_water": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "condensate_water"
+			}
+		},
 		"fluid_liquidhelium": {
 			"model": "forge:fluid",
 			"custom": {
@@ -116,6 +152,12 @@
 				"fluid": "hard_carbon"
 			}
 		},
+		"fluid_coal": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "coal"
+			}
+		},
 		"fluid_neutron": {
 			"model": "forge:fluid",
 			"custom": {
@@ -134,6 +176,12 @@
 				"fluid": "nitrogen"
 			}
 		},
+		"fluid_fluoromethane": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "fluoromethane"
+			}
+		},
 		"fluid_ammonia": {
 			"model": "forge:fluid",
 			"custom": {
@@ -144,6 +192,18 @@
 			"model": "forge:fluid",
 			"custom": {
 				"fluid": "ethanol"
+			}
+		},
+		"fluid_ethene": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "ethene"
+			}
+		},
+		"fluid_methanol": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "methanol"
 			}
 		},
 		"fluid_boric_acid": {
@@ -264,6 +324,78 @@
 			"model": "forge:fluid",
 			"custom": {
 				"fluid": "corium"
+			}
+		},
+		"fluid_chocolate_liquor": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "chocolate_liquor"
+			}
+		},
+		"fluid_cocoa_butter": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "cocoa_butter"
+			}
+		},
+		"fluid_unsweetened_chocolate": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "unsweetened_chocolate"
+			}
+		},
+		"fluid_dark_chocolate": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "dark_chocolate"
+			}
+		},
+		"fluid_milk_chocolate": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "milk_chocolate"
+			}
+		},
+		"fluid_sugar": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "sugar"
+			}
+		},
+		"fluid_gelatin": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "gelatin"
+			}
+		},
+		"fluid_hydrated_gelatin": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "hydrated_gelatin"
+			}
+		},
+		"fluid_milk": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "milk"
+			}
+		},
+		"fluid_marshmallow": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "marshmallow"
+			}
+		},
+		"fluid_carbon_monoxide": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "carbon_monoxide"
+			}
+		},
+		"fluid_carbon_dioxide": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "carbon_dioxide"
 			}
 		},
 		"fluid_sodium": {

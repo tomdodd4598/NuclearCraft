@@ -6,10 +6,10 @@ import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeWrapper;
 import nc.integration.jei.IJEIHandler;
 import nc.integration.jei.JEIMethods.RecipeFluidMapper;
-import nc.integration.jei.JEIProcessorCategory;
+import nc.integration.jei.JEICategoryAbstract;
 import nc.recipe.SorptionType;
 
-public class SaltMixerCategory extends JEIProcessorCategory {
+public class SaltMixerCategory extends JEICategoryAbstract {
 	
 	public SaltMixerCategory(IGuiHelper guiHelper, IJEIHandler handler) {
 		super(guiHelper, handler, "salt_mixer_idle", 45, 30, 102, 26);

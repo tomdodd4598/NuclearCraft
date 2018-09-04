@@ -14,14 +14,14 @@ public class TConstructExtras {
 	public static void init() {
 		registerGemSmelteryRecipes("Diamond");
 		
-		registerMelting("gemCoal", "coal", FluidStackHelper.COAL_DUST_VOLUME);
+		registerMelting("coal", "coal", FluidStackHelper.COAL_DUST_VOLUME);
 		registerMelting("dustCoal", "coal", FluidStackHelper.COAL_DUST_VOLUME);
 		registerMelting("blockCoal", "coal", FluidStackHelper.COAL_BLOCK_VOLUME);
 		registerMelting("ingotGraphite", "coal", FluidStackHelper.COAL_DUST_VOLUME);
 		registerMelting("dustGraphite", "coal", FluidStackHelper.COAL_DUST_VOLUME);
 		registerMelting("blockGraphite", "coal", FluidStackHelper.COAL_BLOCK_VOLUME);
 		registerTableCasting(OreDictHelper.getPrioritisedCraftingStack(ItemStack.EMPTY, "ingotGraphite"), TinkerSmeltery.castIngot, "coal", FluidStackHelper.COAL_DUST_VOLUME);
-		registerTableCasting(OreDictHelper.getPrioritisedCraftingStack(ItemStack.EMPTY, "gemCoal"), TinkerSmeltery.castGem, "coal", FluidStackHelper.COAL_DUST_VOLUME);
+		registerTableCasting(OreDictHelper.getPrioritisedCraftingStack(ItemStack.EMPTY, "coal"), TinkerSmeltery.castGem, "coal", FluidStackHelper.COAL_DUST_VOLUME);
 		registerBasinCasting(OreDictHelper.getPrioritisedCraftingStack(ItemStack.EMPTY, "blockCoal"), null, "coal", FluidStackHelper.COAL_BLOCK_VOLUME);
 	}
 	

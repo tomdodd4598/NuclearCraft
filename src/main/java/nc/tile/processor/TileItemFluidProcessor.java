@@ -6,13 +6,13 @@ import java.util.List;
 import nc.ModCheck;
 import nc.config.NCConfig;
 import nc.init.NCItems;
-import nc.recipe.IFluidIngredient;
-import nc.recipe.IItemIngredient;
 import nc.recipe.IRecipeHandler;
 import nc.recipe.NCRecipes;
 import nc.recipe.ProcessorRecipe;
 import nc.recipe.ProcessorRecipeHandler;
 import nc.recipe.SorptionType;
+import nc.recipe.ingredient.IFluidIngredient;
+import nc.recipe.ingredient.IItemIngredient;
 import nc.tile.IGui;
 import nc.tile.dummy.IInterfaceable;
 import nc.tile.energyFluid.IBufferable;
@@ -21,7 +21,7 @@ import nc.tile.internal.energy.EnergyConnection;
 import nc.tile.internal.fluid.FluidConnection;
 import nc.tile.internal.fluid.Tank;
 import nc.util.ArrayHelper;
-import nc.util.NCMathHelper;
+import nc.util.NCMath;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
@@ -33,7 +33,7 @@ public class TileItemFluidProcessor extends TileEnergyFluidSidedInventory implem
 	public final int[] slots;
 	
 	public final int defaultProcessTime, defaultProcessPower;
-	public double baseProcessTime, baseProcessPower;
+	public double baseProcessTime, baseProcessPower, baseProcessRadiation;
 	public final int itemInputSize, fluidInputSize, itemOutputSize, fluidOutputSize;
 	
 	public double time;
@@ -120,7 +120,10 @@ public class TileItemFluidProcessor extends TileEnergyFluidSidedInventory implem
 		if (!world.isRemote) {
 			tickTile();
 			if (isProcessing) process();
-			else if (!isRedstonePowered()) loseProgress();
+			else {
+				getRadiationSource().setRadiationLevel(0D);
+				if (!isRedstonePowered()) loseProgress();
+			}
 			if (wasProcessing != isProcessing) {
 				shouldUpdate = true;
 				updateBlockType();
@@ -140,13 +143,17 @@ public class TileItemFluidProcessor extends TileEnergyFluidSidedInventory implem
 	public void process() {
 		time += getSpeedMultiplier();
 		getEnergyStorage().changeEnergyStored(-getProcessPower());
+		getRadiationSource().setRadiationLevel(baseProcessRadiation*getSpeedMultiplier());
 		if (time >= baseProcessTime) {
+			double oldProcessTime = baseProcessTime;
 			produceProducts();
 			recipe = getRecipeHandler().getRecipeFromInputs(getItemInputs(), getFluidInputs());
-			setRecipeStats();
-			if (recipe == null) time = 0; else time = MathHelper.clamp(time - baseProcessTime, 0D, baseProcessTime);
-			if (emptyUnusableTankInputs) {
-				for (int i = 0; i < fluidInputSize; i++) tanks.get(i).setFluid(null);
+			if (recipe == null) {
+				time = 0;
+				if (emptyUnusableTankInputs) for (int i = 0; i < fluidInputSize; i++) tanks.get(i).setFluid(null);
+			} else {
+				setRecipeStats();
+				time = MathHelper.clamp(time - oldProcessTime, 0D, baseProcessTime);
 			}
 		}
 	}
@@ -158,7 +165,7 @@ public class TileItemFluidProcessor extends TileEnergyFluidSidedInventory implem
 	public void updateBlockType() {
 		if (ModCheck.ic2Loaded()) removeTileFromENet();
 		setState(isProcessing);
-		world.notifyNeighborsOfStateChange(pos, blockType, true);
+		world.notifyNeighborsOfStateChange(pos, getBlockType(), true);
 		if (ModCheck.ic2Loaded()) addTileToENet();
 	}
 	
@@ -184,11 +191,11 @@ public class TileItemFluidProcessor extends TileEnergyFluidSidedInventory implem
 	}
 	
 	public double getSpeedMultiplier() {
-		return getSpeedCount() > 1 ? NCConfig.speed_upgrade_multipliers[0]*(NCMathHelper.simplexNumber(getSpeedCount(), NCConfig.speed_upgrade_power_laws[0]) - 1) + 1 : 1;
+		return getSpeedCount() > 1 ? NCConfig.speed_upgrade_multipliers[0]*(NCMath.simplexNumber(getSpeedCount(), NCConfig.speed_upgrade_power_laws[0]) - 1) + 1 : 1;
 	}
 	
 	public double getPowerMultiplier() {
-		return getSpeedCount() > 1 ? NCConfig.speed_upgrade_multipliers[1]*(NCMathHelper.simplexNumber(getSpeedCount(), NCConfig.speed_upgrade_power_laws[1]) - 1) + 1 : 1;
+		return getSpeedCount() > 1 ? NCConfig.speed_upgrade_multipliers[1]*(NCMath.simplexNumber(getSpeedCount(), NCConfig.speed_upgrade_power_laws[1]) - 1) + 1 : 1;
 	}
 	
 	public double getProcessTime() {
@@ -210,7 +217,8 @@ public class TileItemFluidProcessor extends TileEnergyFluidSidedInventory implem
 	
 	public boolean canProcessInputs() {
 		if (recipe == null) return false;
-		else if (time >= baseProcessTime) return true;
+		setRecipeStats();
+		if (time >= baseProcessTime) return true;
 		
 		else if ((time <= 0 && (getProcessEnergy() <= getMaxEnergyStored() || getEnergyStored() < getMaxEnergyStored()) && (getProcessEnergy() > getMaxEnergyStored() || getProcessEnergy() > getEnergyStored())) || getEnergyStored() < getProcessPower()) return false;
 		
@@ -238,7 +246,6 @@ public class TileItemFluidProcessor extends TileEnergyFluidSidedInventory implem
 				}
 			}
 		}
-		setRecipeStats();
 		return true;
 	}
 	
@@ -250,11 +257,13 @@ public class TileItemFluidProcessor extends TileEnergyFluidSidedInventory implem
 		
 		baseProcessTime = recipe.getProcessTime(defaultProcessTime);
 		baseProcessPower = recipe.getProcessPower(defaultProcessPower);
+		baseProcessRadiation = recipe.getProcessRadiation();
 	}
 	
 	public void setDefaultRecipeStats() {
 		baseProcessTime = defaultProcessTime;
 		baseProcessPower = defaultProcessPower;
+		baseProcessRadiation = 0D;
 	}
 	
 	public void produceProducts() {

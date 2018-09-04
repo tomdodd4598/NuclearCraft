@@ -228,9 +228,9 @@ public class BlockEnums {
 			case FISSION_CONTROLLER_NEW:
 				return null;
 			case FISSION_CONTROLLER_NEW_FIXED:
-				return NCTabs.TAB_FISSION_BLOCKS;
+				return NCTabs.FISSION_BLOCKS;
 			default:
-				return NCTabs.TAB_MACHINES;
+				return NCTabs.MACHINES;
 			}
 		}
 		
@@ -248,41 +248,41 @@ public class BlockEnums {
 	}
 	
 	public enum SimpleTileType implements IStringSerializable {
-		MACHINE_INTERFACE("machine_interface", NCTabs.TAB_MACHINES),
-		FISSION_PORT("fission_port", NCTabs.TAB_FISSION_BLOCKS),
-		DECAY_GENERATOR("decay_generator", NCTabs.TAB_MACHINES),
-		BUFFER("buffer", NCTabs.TAB_MACHINES),
-		ACTIVE_COOLER("active_cooler", NCTabs.TAB_FISSION_BLOCKS),
-		BIN("bin", NCTabs.TAB_MACHINES),
+		MACHINE_INTERFACE("machine_interface", NCTabs.MACHINES),
+		FISSION_PORT("fission_port", NCTabs.FISSION_BLOCKS),
+		DECAY_GENERATOR("decay_generator", NCTabs.MACHINES),
+		BUFFER("buffer", NCTabs.MACHINES),
+		ACTIVE_COOLER("active_cooler", NCTabs.FISSION_BLOCKS),
+		BIN("bin", NCTabs.MACHINES),
 		
-		RTG_URANIUM("rtg_uranium", NCTabs.TAB_MACHINES),
-		RTG_PLUTONIUM("rtg_plutonium", NCTabs.TAB_MACHINES),
-		RTG_AMERICIUM("rtg_americium", NCTabs.TAB_MACHINES),
-		RTG_CALIFORNIUM("rtg_californium", NCTabs.TAB_MACHINES),
+		RTG_URANIUM("rtg_uranium", NCTabs.MACHINES),
+		RTG_PLUTONIUM("rtg_plutonium", NCTabs.MACHINES),
+		RTG_AMERICIUM("rtg_americium", NCTabs.MACHINES),
+		RTG_CALIFORNIUM("rtg_californium", NCTabs.MACHINES),
 		
-		SOLAR_PANEL_BASIC("solar_panel_basic", NCTabs.TAB_MACHINES),
-		SOLAR_PANEL_ADVANCED("solar_panel_advanced", NCTabs.TAB_MACHINES),
-		SOLAR_PANEL_DU("solar_panel_du", NCTabs.TAB_MACHINES),
-		SOLAR_PANEL_ELITE("solar_panel_elite", NCTabs.TAB_MACHINES),
+		SOLAR_PANEL_BASIC("solar_panel_basic", NCTabs.MACHINES),
+		SOLAR_PANEL_ADVANCED("solar_panel_advanced", NCTabs.MACHINES),
+		SOLAR_PANEL_DU("solar_panel_du", NCTabs.MACHINES),
+		SOLAR_PANEL_ELITE("solar_panel_elite", NCTabs.MACHINES),
 		
-		VOLTAIC_PILE_BASIC("voltaic_pile_basic", NCTabs.TAB_MACHINES),
-		LITHIUM_ION_BATTERY_BASIC("lithium_ion_battery_basic", NCTabs.TAB_MACHINES),
+		VOLTAIC_PILE_BASIC("voltaic_pile_basic", NCTabs.MACHINES),
+		LITHIUM_ION_BATTERY_BASIC("lithium_ion_battery_basic", NCTabs.MACHINES),
 		
-		HELIUM_COLLECTOR("helium_collector", NCTabs.TAB_MACHINES),
-		HELIUM_COLLECTOR_COMPACT("helium_collector_compact", NCTabs.TAB_MACHINES),
-		HELIUM_COLLECTOR_DENSE("helium_collector_dense", NCTabs.TAB_MACHINES),
+		HELIUM_COLLECTOR("helium_collector", NCTabs.MACHINES),
+		HELIUM_COLLECTOR_COMPACT("helium_collector_compact", NCTabs.MACHINES),
+		HELIUM_COLLECTOR_DENSE("helium_collector_dense", NCTabs.MACHINES),
 		
-		COBBLESTONE_GENERATOR("cobblestone_generator", NCTabs.TAB_MACHINES),
-		COBBLESTONE_GENERATOR_COMPACT("cobblestone_generator_compact", NCTabs.TAB_MACHINES),
-		COBBLESTONE_GENERATOR_DENSE("cobblestone_generator_dense", NCTabs.TAB_MACHINES),
+		COBBLESTONE_GENERATOR("cobblestone_generator", NCTabs.MACHINES),
+		COBBLESTONE_GENERATOR_COMPACT("cobblestone_generator_compact", NCTabs.MACHINES),
+		COBBLESTONE_GENERATOR_DENSE("cobblestone_generator_dense", NCTabs.MACHINES),
 		
-		WATER_SOURCE("water_source", NCTabs.TAB_MACHINES),
-		WATER_SOURCE_COMPACT("water_source_compact", NCTabs.TAB_MACHINES),
-		WATER_SOURCE_DENSE("water_source_dense", NCTabs.TAB_MACHINES),
+		WATER_SOURCE("water_source", NCTabs.MACHINES),
+		WATER_SOURCE_COMPACT("water_source_compact", NCTabs.MACHINES),
+		WATER_SOURCE_DENSE("water_source_dense", NCTabs.MACHINES),
 		
-		NITROGEN_COLLECTOR("nitrogen_collector", NCTabs.TAB_MACHINES),
-		NITROGEN_COLLECTOR_COMPACT("nitrogen_collector_compact", NCTabs.TAB_MACHINES),
-		NITROGEN_COLLECTOR_DENSE("nitrogen_collector_dense", NCTabs.TAB_MACHINES);
+		NITROGEN_COLLECTOR("nitrogen_collector", NCTabs.MACHINES),
+		NITROGEN_COLLECTOR_COMPACT("nitrogen_collector_compact", NCTabs.MACHINES),
+		NITROGEN_COLLECTOR_DENSE("nitrogen_collector_dense", NCTabs.MACHINES);
 		
 		private String name;
 		private CreativeTabs tab;
@@ -374,10 +374,10 @@ public class BlockEnums {
 	}
 	
 	public enum ActivatableTileType implements IStringSerializable {
-		FUSION_ELECTROMAGNET("fusion_electromagnet", NCTabs.TAB_FUSION),
-		FUSION_ELECTROMAGNET_TRANSPARENT("fusion_electromagnet_transparent", NCTabs.TAB_FUSION),
-		ACCELERATOR_ELECTROMAGNET("accelerator_electromagnet", NCTabs.TAB_ACCELERATOR),
-		ELECTROMAGNET_SUPERCOOLER("electromagnet_supercooler", NCTabs.TAB_ACCELERATOR);
+		FUSION_ELECTROMAGNET("fusion_electromagnet", NCTabs.FUSION),
+		FUSION_ELECTROMAGNET_TRANSPARENT("fusion_electromagnet_transparent", NCTabs.FUSION),
+		ACCELERATOR_ELECTROMAGNET("accelerator_electromagnet", NCTabs.ACCELERATOR),
+		ELECTROMAGNET_SUPERCOOLER("electromagnet_supercooler", NCTabs.ACCELERATOR);
 		
 		private String name;
 		private CreativeTabs tab;

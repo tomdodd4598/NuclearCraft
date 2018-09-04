@@ -199,20 +199,20 @@ public class NCBlocks {
 		ingot_block = new BlockMeta.BlockIngot("ingot_block");
 		
 		fission_block = new BlockMeta.BlockFission("fission_block");
-		reactor_casing_transparent = new NCBlock.Transparent("reactor_casing_transparent", Material.IRON, true).setCreativeTab(NCTabs.TAB_FISSION_BLOCKS);
-		cell_block = new NCBlock.Transparent("cell_block", Material.IRON, false).setCreativeTab(NCTabs.TAB_FISSION_BLOCKS);
+		reactor_casing_transparent = new NCBlock.Transparent("reactor_casing_transparent", Material.IRON, true).setCreativeTab(NCTabs.FISSION_BLOCKS);
+		cell_block = new NCBlock.Transparent("cell_block", Material.IRON, false).setCreativeTab(NCTabs.FISSION_BLOCKS);
 		cooler = new BlockMeta.BlockCooler("cooler");
 		reactor_door = new NCBlockDoor("reactor_door", Material.IRON);
 		reactor_trapdoor = new NCBlockTrapDoor("reactor_trapdoor", Material.IRON);
 		
-		block_depleted_thorium = new NCBlock("block_depleted_thorium", Material.IRON).setCreativeTab(NCTabs.TAB_BASE_BLOCK_MATERIALS);
-		block_depleted_uranium = new NCBlock("block_depleted_uranium", Material.IRON).setCreativeTab(NCTabs.TAB_BASE_BLOCK_MATERIALS);
-		block_depleted_neptunium = new NCBlock("block_depleted_neptunium", Material.IRON).setCreativeTab(NCTabs.TAB_BASE_BLOCK_MATERIALS);
-		block_depleted_plutonium = new NCBlock("block_depleted_plutonium", Material.IRON).setCreativeTab(NCTabs.TAB_BASE_BLOCK_MATERIALS);
-		block_depleted_americium = new NCBlock("block_depleted_americium", Material.IRON).setCreativeTab(NCTabs.TAB_BASE_BLOCK_MATERIALS);
-		block_depleted_curium = new NCBlock("block_depleted_curium", Material.IRON).setCreativeTab(NCTabs.TAB_BASE_BLOCK_MATERIALS);
-		block_depleted_berkelium = new NCBlock("block_depleted_berkelium", Material.IRON).setCreativeTab(NCTabs.TAB_BASE_BLOCK_MATERIALS);
-		block_depleted_californium = new NCBlock("block_depleted_californium", Material.IRON).setCreativeTab(NCTabs.TAB_BASE_BLOCK_MATERIALS);
+		block_depleted_thorium = new NCBlock("block_depleted_thorium", Material.IRON).setCreativeTab(NCTabs.BASE_BLOCK_MATERIALS);
+		block_depleted_uranium = new NCBlock("block_depleted_uranium", Material.IRON).setCreativeTab(NCTabs.BASE_BLOCK_MATERIALS);
+		block_depleted_neptunium = new NCBlock("block_depleted_neptunium", Material.IRON).setCreativeTab(NCTabs.BASE_BLOCK_MATERIALS);
+		block_depleted_plutonium = new NCBlock("block_depleted_plutonium", Material.IRON).setCreativeTab(NCTabs.BASE_BLOCK_MATERIALS);
+		block_depleted_americium = new NCBlock("block_depleted_americium", Material.IRON).setCreativeTab(NCTabs.BASE_BLOCK_MATERIALS);
+		block_depleted_curium = new NCBlock("block_depleted_curium", Material.IRON).setCreativeTab(NCTabs.BASE_BLOCK_MATERIALS);
+		block_depleted_berkelium = new NCBlock("block_depleted_berkelium", Material.IRON).setCreativeTab(NCTabs.BASE_BLOCK_MATERIALS);
+		block_depleted_californium = new NCBlock("block_depleted_californium", Material.IRON).setCreativeTab(NCTabs.BASE_BLOCK_MATERIALS);
 		
 		block_ice = new NCBlockIce("block_ice");
 		
@@ -269,7 +269,7 @@ public class NCBlocks {
 		fusion_core = new BlockFusionCore();
 		fusion_dummy_side = new BlockFusionDummy(FusionDummyTileType.FUSION_DUMMY_SIDE);
 		fusion_dummy_top = new BlockFusionDummy(FusionDummyTileType.FUSION_DUMMY_TOP);
-		fusion_connector = new NCBlock("fusion_connector", Material.IRON).setCreativeTab(NCTabs.TAB_FUSION);
+		fusion_connector = new NCBlock("fusion_connector", Material.IRON).setCreativeTab(NCTabs.FUSION);
 		
 		rtg_uranium = new BlockSimpleTile(SimpleTileType.RTG_URANIUM);
 		rtg_plutonium = new BlockSimpleTile(SimpleTileType.RTG_PLUTONIUM);
@@ -334,8 +334,8 @@ public class NCBlocks {
 			nitrogen_collector_dense = new BlockSimpleTile(SimpleTileType.NITROGEN_COLLECTOR_DENSE);
 		}
 		
-		glowing_mushroom = new NCBlockMushroom("glowing_mushroom");
-		dry_earth = new NCBlock("dry_earth", Material.ROCK).setCreativeTab(NCTabs.TAB_BASE_BLOCK_MATERIALS);
+		glowing_mushroom = new NCBlockMushroom("glowing_mushroom", 0.000000001D);
+		dry_earth = new NCBlock("dry_earth", Material.ROCK, true).setCreativeTab(NCTabs.BASE_BLOCK_MATERIALS);
 		
 		//spin = new BlockSpin("spin");
 	}

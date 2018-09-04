@@ -6,7 +6,8 @@ public class EnergyHelper {
 	
 	public static int getEUTier(double powerRF) {
 		double euPerTick = (double) powerRF / (double) NCConfig.rf_per_eu;
-		return euPerTick < 32.0D ? 1 : (euPerTick < 128.0D ? 2 : (euPerTick < 512.0D ? 3 : 4));
+		for (int i = 1; i < 10; i++) if (euPerTick <= Math.pow(2, 2*i + 3)) return i;
+		return 10;
 	}
 	
 	public static int getMaxEUFromTier(int tier) {

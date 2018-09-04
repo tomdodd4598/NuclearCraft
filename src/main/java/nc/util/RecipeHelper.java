@@ -7,18 +7,18 @@ import javax.annotation.Nullable;
 
 import com.google.common.collect.Lists;
 
-import nc.recipe.IFluidIngredient;
-import nc.recipe.IItemIngredient;
 import nc.recipe.IRecipe;
 import nc.recipe.NCRecipes;
 import nc.recipe.ProcessorRecipeHandler;
-import nc.recipe.RecipeChanceFluidStack;
-import nc.recipe.RecipeChanceItemStack;
-import nc.recipe.RecipeEmptyFluidStack;
-import nc.recipe.RecipeEmptyItemStack;
-import nc.recipe.RecipeFluidStack;
-import nc.recipe.RecipeOreStack;
 import nc.recipe.SorptionType;
+import nc.recipe.ingredient.IFluidIngredient;
+import nc.recipe.ingredient.IItemIngredient;
+import nc.recipe.ingredient.ChanceFluidIngredient;
+import nc.recipe.ingredient.ChanceItemIngredient;
+import nc.recipe.ingredient.EmptyFluidIngredient;
+import nc.recipe.ingredient.EmptyItemIngredient;
+import nc.recipe.ingredient.FluidIngredient;
+import nc.recipe.ingredient.OreIngredient;
 import nc.tile.internal.fluid.Tank;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
@@ -77,13 +77,13 @@ public class RecipeHelper {
 		}
 	}
 	
-	public static RecipeOreStack oreStackFromString(String name) {
-		if (OreDictHelper.oreExists(name)) return new RecipeOreStack(name, 1);
+	public static OreIngredient oreStackFromString(String name) {
+		if (OreDictHelper.oreExists(name)) return new OreIngredient(name, 1);
 		return null;
 	}
 	
-	public static RecipeFluidStack fluidStackFromString(String name) {
-		if (FluidRegHelper.fluidExists(name)) return new RecipeFluidStack(name, 1000);
+	public static FluidIngredient fluidStackFromString(String name) {
+		if (FluidRegHelper.fluidExists(name)) return new FluidIngredient(name, 1000);
 		return null;
 	}
 
@@ -112,12 +112,12 @@ public class RecipeHelper {
 	}
 	
 	public static List<ItemStack> getItemOutputStackList(IItemIngredient ingredient) {
-		if (ingredient instanceof RecipeChanceItemStack) return ingredient.getOutputStackList();
+		if (ingredient instanceof ChanceItemIngredient) return ingredient.getOutputStackList();
 		else return Lists.newArrayList(ingredient.getStack());
 	}
 	
 	public static List<FluidStack> getFluidOutputStackList(IFluidIngredient ingredient) {
-		if (ingredient instanceof RecipeChanceFluidStack) return ingredient.getOutputStackList();
+		if (ingredient instanceof ChanceFluidIngredient) return ingredient.getOutputStackList();
 		else return Lists.newArrayList(ingredient.getStack());
 	}
 	
@@ -208,7 +208,7 @@ public class RecipeHelper {
 	public static List<String> getItemIngredientNames(List<IItemIngredient> ingredientList) {
 		List<String> ingredientNames = new ArrayList<String>();
 		for (IItemIngredient ingredient : ingredientList) {
-			if (ingredient == null || ingredient instanceof RecipeEmptyItemStack) ingredientNames.add("null");
+			if (ingredient == null || ingredient instanceof EmptyItemIngredient) ingredientNames.add("null");
 			else ingredientNames.add(ingredient.getMaxStackSize() + " x " + ingredient.getIngredientName());
 		}
 		return ingredientNames;
@@ -217,7 +217,7 @@ public class RecipeHelper {
 	public static List<String> getFluidIngredientNames(List<IFluidIngredient> ingredientList) {
 		List<String> ingredientNames = new ArrayList<String>();
 		for (IFluidIngredient ingredient : ingredientList) {
-			if (ingredient == null || ingredient instanceof RecipeEmptyFluidStack) ingredientNames.add("null");
+			if (ingredient == null || ingredient instanceof EmptyFluidIngredient) ingredientNames.add("null");
 			else ingredientNames.add(ingredient.getMaxStackSize() + " x " + ingredient.getIngredientName());
 		}
 		return ingredientNames;
@@ -290,10 +290,10 @@ public class RecipeHelper {
 		return allowedFluidLists;
 	}
 	
-	public static RecipeOreStack getOreStackFromItems(List<ItemStack> stackList, int stackSize) {
+	public static OreIngredient getOreStackFromItems(List<ItemStack> stackList, int stackSize) {
 		if (stackList.isEmpty() || stackList == null) return null;
 		String oreName = OreDictHelper.getOreNameFromStacks(stackList);
 		if (oreName == "Unknown") return null;
-		return new RecipeOreStack(oreName, stackSize);
+		return new OreIngredient(oreName, stackSize);
 	}
 }

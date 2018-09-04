@@ -8,6 +8,17 @@ import javax.annotation.Nullable;
 import com.google.common.collect.Lists;
 
 import nc.ModCheck;
+import nc.recipe.ingredient.IFluidIngredient;
+import nc.recipe.ingredient.IItemIngredient;
+import nc.recipe.ingredient.ChanceFluidIngredient;
+import nc.recipe.ingredient.ChanceItemIngredient;
+import nc.recipe.ingredient.EmptyFluidIngredient;
+import nc.recipe.ingredient.EmptyItemIngredient;
+import nc.recipe.ingredient.FluidIngredient;
+import nc.recipe.ingredient.FluidArrayIngredient;
+import nc.recipe.ingredient.ItemIngredient;
+import nc.recipe.ingredient.ItemArrayIngredient;
+import nc.recipe.ingredient.OreIngredient;
 import nc.tile.internal.fluid.Tank;
 import nc.util.FluidRegHelper;
 import nc.util.OreDictHelper;
@@ -198,7 +209,7 @@ public abstract class IRecipeHandler<T extends IRecipe> {
 					}
 				}
 				if (buildList.isEmpty()) return null;
-				return new RecipeItemStackArray(buildList);
+				return new ItemArrayIngredient(buildList);
 			} else {
 				return null;
 			}
@@ -206,7 +217,7 @@ public abstract class IRecipeHandler<T extends IRecipe> {
 			return RecipeHelper.oreStackFromString((String) object);
 		}
 		if (object instanceof ItemStack) {
-			return new RecipeItemStack((ItemStack) object);
+			return new ItemIngredient((ItemStack) object);
 		}
 		return null;
 	}
@@ -216,8 +227,8 @@ public abstract class IRecipeHandler<T extends IRecipe> {
 		if (requiresFluidFixing(object)) {
 			object = RecipeHelper.fixFluidStack(object);
 		}
-		if (ModCheck.mekanismLoaded() && object instanceof RecipeFluidStack) {
-			return buildFluidIngredient(mekanismFluidStackList((RecipeFluidStack)object));
+		if (ModCheck.mekanismLoaded() && object instanceof FluidIngredient) {
+			return buildFluidIngredient(mekanismFluidStackList((FluidIngredient)object));
 		}
 		if (object instanceof IFluidIngredient) {
 			return (IFluidIngredient) object;
@@ -235,7 +246,7 @@ public abstract class IRecipeHandler<T extends IRecipe> {
 					}
 				}
 				if (buildList.isEmpty()) return null;
-				return new RecipeFluidStackArray(buildList);
+				return new FluidArrayIngredient(buildList);
 			} else {
 				return null;
 			}
@@ -243,7 +254,7 @@ public abstract class IRecipeHandler<T extends IRecipe> {
 			return RecipeHelper.fluidStackFromString((String) object);
 		}
 		if (object instanceof FluidStack) {
-			return new RecipeFluidStack((FluidStack) object);
+			return new FluidIngredient((FluidStack) object);
 		}
 		return null;
 	}
@@ -334,91 +345,91 @@ public abstract class IRecipeHandler<T extends IRecipe> {
 	
 	// Stacks
 	
-	public RecipeOreStack oreStack(String oreType, int stackSize) {
+	public OreIngredient oreStack(String oreType, int stackSize) {
 		if (!OreDictHelper.oreExists(oreType)) return null;
-		return new RecipeOreStack(oreType, stackSize);
+		return new OreIngredient(oreType, stackSize);
 	}
 	
-	public RecipeFluidStack fluidStack(String fluidName, int stackSize) {
+	public FluidIngredient fluidStack(String fluidName, int stackSize) {
 		if (!FluidRegHelper.fluidExists(fluidName)) return null;
-		return new RecipeFluidStack(fluidName, stackSize);
+		return new FluidIngredient(fluidName, stackSize);
 	}
 	
-	public List<RecipeOreStack> oreStackList(List<String> oreTypes, int stackSize) {
-		List<RecipeOreStack> oreStackList = new ArrayList<RecipeOreStack>();
+	public List<OreIngredient> oreStackList(List<String> oreTypes, int stackSize) {
+		List<OreIngredient> oreStackList = new ArrayList<OreIngredient>();
 		for (String oreType : oreTypes) if (oreStack(oreType, stackSize) != null) oreStackList.add(oreStack(oreType, stackSize));
 		return oreStackList;
 	}
 	
-	public List<RecipeFluidStack> fluidStackList(List<String> fluidNames, int stackSize) {
-		List<RecipeFluidStack> fluidStackList = new ArrayList<RecipeFluidStack>();
+	public List<FluidIngredient> fluidStackList(List<String> fluidNames, int stackSize) {
+		List<FluidIngredient> fluidStackList = new ArrayList<FluidIngredient>();
 		for (String fluidName : fluidNames) if (fluidStack(fluidName, stackSize) != null) fluidStackList.add(fluidStack(fluidName, stackSize));
 		return fluidStackList;
 	}
 	
-	public RecipeEmptyItemStack emptyItemStack() {
-		return new RecipeEmptyItemStack();
+	public EmptyItemIngredient emptyItemStack() {
+		return new EmptyItemIngredient();
 	}
 	
-	public RecipeEmptyFluidStack emptyFluidStack() {
-		return new RecipeEmptyFluidStack();
+	public EmptyFluidIngredient emptyFluidStack() {
+		return new EmptyFluidIngredient();
 	}
 	
-	public RecipeChanceItemStack chanceItemStack(ItemStack stack, int chancePercent) {
+	public ChanceItemIngredient chanceItemStack(ItemStack stack, int chancePercent) {
 		if (stack == null) return null;
-		return new RecipeChanceItemStack(new RecipeItemStack(stack), chancePercent);
+		return new ChanceItemIngredient(new ItemIngredient(stack), chancePercent);
 	}
 	
-	public RecipeChanceItemStack chanceItemStack(ItemStack stack, int chancePercent, int minStackSize) {
+	public ChanceItemIngredient chanceItemStack(ItemStack stack, int chancePercent, int minStackSize) {
 		if (stack == null) return null;
-		return new RecipeChanceItemStack(new RecipeItemStack(stack), chancePercent, minStackSize);
+		return new ChanceItemIngredient(new ItemIngredient(stack), chancePercent, minStackSize);
 	}
 	
-	public RecipeChanceItemStack chanceOreStack(String oreType, int stackSize, int chancePercent) {
+	public ChanceItemIngredient chanceOreStack(String oreType, int stackSize, int chancePercent) {
 		if (!OreDictHelper.oreExists(oreType)) return null;
-		return new RecipeChanceItemStack(oreStack(oreType, stackSize), chancePercent);
+		return new ChanceItemIngredient(oreStack(oreType, stackSize), chancePercent);
 	}
 	
-	public RecipeChanceItemStack chanceOreStack(String oreType, int stackSize, int chancePercent, int minStackSize) {
+	public ChanceItemIngredient chanceOreStack(String oreType, int stackSize, int chancePercent, int minStackSize) {
 		if (!OreDictHelper.oreExists(oreType)) return null;
-		return new RecipeChanceItemStack(oreStack(oreType, stackSize), chancePercent, minStackSize);
+		return new ChanceItemIngredient(oreStack(oreType, stackSize), chancePercent, minStackSize);
 	}
 	
-	public RecipeChanceFluidStack chanceFluidStack(String fluidName, int stackSize, int chancePercent, int stackDiff) {
+	public ChanceFluidIngredient chanceFluidStack(String fluidName, int stackSize, int chancePercent, int stackDiff) {
 		if (!FluidRegHelper.fluidExists(fluidName)) return null;
-		return new RecipeChanceFluidStack(fluidStack(fluidName, stackSize), chancePercent, stackDiff);
+		return new ChanceFluidIngredient(fluidStack(fluidName, stackSize), chancePercent, stackDiff);
 	}
 	
-	public RecipeChanceFluidStack chanceFluidStack(String fluidName, int stackSize, int chancePercent, int stackDiff, int minStackSize) {
+	public ChanceFluidIngredient chanceFluidStack(String fluidName, int stackSize, int chancePercent, int stackDiff, int minStackSize) {
 		if (!FluidRegHelper.fluidExists(fluidName)) return null;
-		return new RecipeChanceFluidStack(fluidStack(fluidName, stackSize), chancePercent, stackDiff, minStackSize);
+		return new ChanceFluidIngredient(fluidStack(fluidName, stackSize), chancePercent, stackDiff, minStackSize);
 	}
 	
-	public List<RecipeChanceItemStack> chanceOreStackList(List<String> oreTypes, int stackSize, int chancePercent) {
-		List<RecipeChanceItemStack> oreStackList = new ArrayList<RecipeChanceItemStack>();
+	public List<ChanceItemIngredient> chanceOreStackList(List<String> oreTypes, int stackSize, int chancePercent) {
+		List<ChanceItemIngredient> oreStackList = new ArrayList<ChanceItemIngredient>();
 		for (String oreType : oreTypes) if (chanceOreStack(oreType, stackSize, chancePercent) != null) oreStackList.add(chanceOreStack(oreType, stackSize, chancePercent));
 		return oreStackList;
 	}
 	
-	public List<RecipeChanceItemStack> chanceOreStackList(List<String> oreTypes, int stackSize, int chancePercent, int minStackSize) {
-		List<RecipeChanceItemStack> oreStackList = new ArrayList<RecipeChanceItemStack>();
+	public List<ChanceItemIngredient> chanceOreStackList(List<String> oreTypes, int stackSize, int chancePercent, int minStackSize) {
+		List<ChanceItemIngredient> oreStackList = new ArrayList<ChanceItemIngredient>();
 		for (String oreType : oreTypes) if (chanceOreStack(oreType, stackSize, chancePercent, minStackSize) != null) oreStackList.add(chanceOreStack(oreType, stackSize, chancePercent, minStackSize));
 		return oreStackList;
 	}
 	
-	public List<RecipeChanceFluidStack> chanceFluidStackList(List<String> fluidNames, int stackSize, int chancePercent, int stackDiff) {
-		List<RecipeChanceFluidStack> fluidStackList = new ArrayList<RecipeChanceFluidStack>();
+	public List<ChanceFluidIngredient> chanceFluidStackList(List<String> fluidNames, int stackSize, int chancePercent, int stackDiff) {
+		List<ChanceFluidIngredient> fluidStackList = new ArrayList<ChanceFluidIngredient>();
 		for (String fluidName : fluidNames) if (chanceFluidStack(fluidName, stackSize, chancePercent, stackDiff) != null) fluidStackList.add(chanceFluidStack(fluidName, stackSize, chancePercent, stackDiff));
 		return fluidStackList;
 	}
 	
-	public List<RecipeChanceFluidStack> chanceFluidStackList(List<String> fluidNames, int stackSize, int chancePercent, int stackDiff, int minStackSize) {
-		List<RecipeChanceFluidStack> fluidStackList = new ArrayList<RecipeChanceFluidStack>();
+	public List<ChanceFluidIngredient> chanceFluidStackList(List<String> fluidNames, int stackSize, int chancePercent, int stackDiff, int minStackSize) {
+		List<ChanceFluidIngredient> fluidStackList = new ArrayList<ChanceFluidIngredient>();
 		for (String fluidName : fluidNames) if (chanceFluidStack(fluidName, stackSize, chancePercent, stackDiff, minStackSize) != null) fluidStackList.add(chanceFluidStack(fluidName, stackSize, chancePercent, stackDiff, minStackSize));
 		return fluidStackList;
 	}
 	
-	public List<RecipeFluidStack> mekanismFluidStackList(RecipeFluidStack stack) {
+	public List<FluidIngredient> mekanismFluidStackList(FluidIngredient stack) {
 		return stack.fluidName.equals("helium") ? Lists.newArrayList(stack) : fluidStackList(Lists.newArrayList(stack.fluidName, "liquid" + stack.fluidName), stack.amount);
 	}
 }

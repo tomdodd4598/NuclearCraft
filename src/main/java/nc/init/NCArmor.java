@@ -132,7 +132,7 @@ public class NCArmor {
 	}
 		
 	public static void registerItem(Item item) {
-		item.setCreativeTab(NCTabs.TAB_MISC);
+		item.setCreativeTab(NCTabs.MISC);
 		ForgeRegistries.ITEMS.register(item);
 	}
 		

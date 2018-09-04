@@ -7,10 +7,10 @@ import mezz.jei.api.recipe.IRecipeWrapper;
 import nc.integration.jei.IJEIHandler;
 import nc.integration.jei.JEIMethods.RecipeFluidMapper;
 import nc.integration.jei.JEIMethods.RecipeItemMapper;
-import nc.integration.jei.JEIProcessorCategory;
+import nc.integration.jei.JEICategoryAbstract;
 import nc.recipe.SorptionType;
 
-public class DissolverCategory extends JEIProcessorCategory {
+public class DissolverCategory extends JEICategoryAbstract {
 	
 	public DissolverCategory(IGuiHelper guiHelper, IJEIHandler handler) {
 		super(guiHelper, handler, "dissolver_idle", 45, 30, 102, 26);

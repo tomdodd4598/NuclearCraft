@@ -2,9 +2,9 @@ package nc.tile.generator;
 
 import java.util.List;
 
-import nc.recipe.IFluidIngredient;
 import nc.recipe.ProcessorRecipe;
 import nc.recipe.ProcessorRecipeHandler;
+import nc.recipe.ingredient.IFluidIngredient;
 import nc.tile.internal.fluid.Tank;
 
 public interface IFluidGenerator {

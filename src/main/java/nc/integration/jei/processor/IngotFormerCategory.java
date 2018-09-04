@@ -7,10 +7,10 @@ import mezz.jei.api.recipe.IRecipeWrapper;
 import nc.integration.jei.IJEIHandler;
 import nc.integration.jei.JEIMethods.RecipeFluidMapper;
 import nc.integration.jei.JEIMethods.RecipeItemMapper;
-import nc.integration.jei.JEIProcessorCategory;
+import nc.integration.jei.JEICategoryAbstract;
 import nc.recipe.SorptionType;
 
-public class IngotFormerCategory extends JEIProcessorCategory {
+public class IngotFormerCategory extends JEICategoryAbstract {
 	
 	public IngotFormerCategory(IGuiHelper guiHelper, IJEIHandler handler) {
 		super(guiHelper, handler, "ingot_former_idle", 47, 30, 90, 26);

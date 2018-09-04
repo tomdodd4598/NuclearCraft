@@ -6,10 +6,10 @@ import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeWrapper;
 import nc.integration.jei.IJEIHandler;
 import nc.integration.jei.JEIMethods.RecipeFluidMapper;
-import nc.integration.jei.JEIProcessorCategory;
+import nc.integration.jei.JEICategoryAbstract;
 import nc.recipe.SorptionType;
 
-public class IrradiatorCategory extends JEIProcessorCategory {
+public class IrradiatorCategory extends JEICategoryAbstract {
 	
 	public IrradiatorCategory(IGuiHelper guiHelper, IJEIHandler handler) {
 		super(guiHelper, handler, "irradiator_idle", 31, 30, 130, 26);

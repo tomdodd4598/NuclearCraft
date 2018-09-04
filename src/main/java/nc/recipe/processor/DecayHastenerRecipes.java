@@ -1,5 +1,6 @@
 package nc.recipe.processor;
 
+import nc.radiation.RadSources;
 import nc.recipe.ProcessorRecipeHandler;
 
 public class DecayHastenerRecipes extends ProcessorRecipeHandler {
@@ -46,7 +47,10 @@ public class DecayHastenerRecipes extends ProcessorRecipeHandler {
 	public void addDecayRecipes(String input, String output) {
 		boolean isInputBase = input.substring(input.length() - 4, input.length()).equals("Base"), isOutputBase = output.substring(output.length() - 4, output.length()).equals("Base"), isLead = output.equals("dustLead");
 		for (String size : new String[] {"ingot", "nugget"}) for (String oxide : new String[] {"", "Oxide"}) {
-			addRecipe(size + ((oxide.equals("Oxide") && isInputBase) || (size.equals("nugget") && isInputBase) ? input.substring(0, input.length() - 4) : input) + oxide, isLead ? (size.equals("ingot") ? "dustLead" : "tinyDustLead") : (size + ((oxide.equals("Oxide") && isOutputBase) || (size.equals("nugget") && isOutputBase) ? output.substring(0, output.length() - 4) : output) + oxide), size.equals("nugget") ? 1D/9D : 1D, 1D);
+			String inputName = size + ((oxide.equals("Oxide") && isInputBase) || (size.equals("nugget") && isInputBase) ? input.substring(0, input.length() - 4) : input) + oxide;
+			Double radiation = RadSources.SOURCE_MAP.get(inputName);
+			double radiationLevel = radiation == null ? 0D : radiation;
+			addRecipe(inputName, isLead ? (size.equals("ingot") ? "dustLead" : "tinyDustLead") : (size + ((oxide.equals("Oxide") && isOutputBase) || (size.equals("nugget") && isOutputBase) ? output.substring(0, output.length() - 4) : output) + oxide), size.equals("nugget") ? 1D/9D : 1D, 1D, radiationLevel/32D);
 		}
 	}
 }

@@ -57,6 +57,8 @@ import nc.init.NCItems;
 import nc.integration.jei.generator.DecayGeneratorCategory;
 import nc.integration.jei.generator.FissionCategory;
 import nc.integration.jei.generator.FusionCategory;
+import nc.integration.jei.multiblock.CoolantHeaterCategory;
+import nc.integration.jei.multiblock.SaltFissionCategory;
 import nc.integration.jei.processor.AlloyFurnaceCategory;
 import nc.integration.jei.processor.CentrifugeCategory;
 import nc.integration.jei.processor.ChemicalReactorCategory;
@@ -76,8 +78,6 @@ import nc.integration.jei.processor.PressurizerCategory;
 import nc.integration.jei.processor.RockCrusherCategory;
 import nc.integration.jei.processor.SaltMixerCategory;
 import nc.integration.jei.processor.SupercoolerCategory;
-import nc.integration.jei.saltFission.CoolantHeaterCategory;
-import nc.integration.jei.saltFission.SaltFissionCategory;
 import nc.recipe.NCRecipes;
 import nc.recipe.ProcessorRecipeHandler;
 import nc.util.ItemStackHelper;
@@ -260,17 +260,17 @@ public class NCJEI implements IModPlugin {
 		COOLANT_HEATER(NCRecipes.Type.COOLANT_HEATER, NCBlocks.salt_fission_heater, "coolant_heater", JEIRecipeWrapper.CoolantHeater.class);
 		
 		private NCRecipes.Type recipeType;
-		private Class<? extends JEIProcessorRecipeWrapper> recipeWrapper;
+		private Class<? extends JEIRecipeWrapperAbstract> recipeWrapper;
 		private boolean enabled;
 		private ItemStack crafterType;
 		private String textureName;
 		
-		JEIHandler(NCRecipes.Type recipeType, Object crafter, String textureName, Class<? extends JEIProcessorRecipeWrapper> recipeClass) {
+		JEIHandler(NCRecipes.Type recipeType, Object crafter, String textureName, Class<? extends JEIRecipeWrapperAbstract> recipeClass) {
 			this(recipeType, crafter, textureName, recipeClass, 0);
 			enabled = true;
 		}
 		
-		JEIHandler(NCRecipes.Type recipeType, Object crafter, String textureName, Class<? extends JEIProcessorRecipeWrapper> recipeWrapper, int enabled) {
+		JEIHandler(NCRecipes.Type recipeType, Object crafter, String textureName, Class<? extends JEIRecipeWrapperAbstract> recipeWrapper, int enabled) {
 			this.recipeType = recipeType;
 			this.recipeWrapper = recipeWrapper;
 			this.enabled = NCConfig.register_processor[enabled];
@@ -340,12 +340,12 @@ public class NCJEI implements IModPlugin {
 		}
 		
 		@Override
-		public Class<? extends JEIProcessorRecipeWrapper> getJEIRecipeWrapper() {
+		public Class<? extends JEIRecipeWrapperAbstract> getJEIRecipeWrapper() {
 			return recipeWrapper;
 		}
 		
 		@Override
-		public ArrayList<JEIProcessorRecipeWrapper> getJEIRecipes(IGuiHelper guiHelper) {
+		public ArrayList<JEIRecipeWrapperAbstract> getJEIRecipes(IGuiHelper guiHelper) {
 			return JEIMethods.getJEIRecipes(guiHelper, this, getRecipeHandler(), getJEIRecipeWrapper());
 		}
 

@@ -6,6 +6,8 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import nc.Global;
+import nc.recipe.ingredient.IFluidIngredient;
+import nc.recipe.ingredient.IItemIngredient;
 import nc.util.NCUtil;
 import nc.util.RecipeHelper;
 

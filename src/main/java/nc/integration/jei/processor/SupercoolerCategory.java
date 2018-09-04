@@ -6,10 +6,10 @@ import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeWrapper;
 import nc.integration.jei.IJEIHandler;
 import nc.integration.jei.JEIMethods.RecipeFluidMapper;
-import nc.integration.jei.JEIProcessorCategory;
+import nc.integration.jei.JEICategoryAbstract;
 import nc.recipe.SorptionType;
 
-public class SupercoolerCategory extends JEIProcessorCategory {
+public class SupercoolerCategory extends JEICategoryAbstract {
 	
 	public SupercoolerCategory(IGuiHelper guiHelper, IJEIHandler handler) {
 		super(guiHelper, handler, "supercooler_idle", 47, 30, 90, 26);

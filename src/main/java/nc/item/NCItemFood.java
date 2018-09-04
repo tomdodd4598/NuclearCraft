@@ -16,11 +16,15 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class NCItemFood extends ItemFood {
 	
-	private PotionEffect[] effects;
+	private final PotionEffect[] effects;
 	public final String[] info;
 
 	public NCItemFood(String nameIn, int amount, boolean isWolfFood, PotionEffect[] potionEffects, String... tooltip) {
 		this(nameIn, amount, 0.6F, isWolfFood, potionEffects, tooltip);
+	}
+	
+	public NCItemFood(String nameIn, int amount, float saturation, PotionEffect[] potionEffects, String... tooltip) {
+		this(nameIn, amount, saturation, false, potionEffects, tooltip);
 	}
 	
 	public NCItemFood(String nameIn, int amount, float saturation, boolean isWolfFood, PotionEffect[] potionEffects, String... tooltip) {
@@ -33,8 +37,8 @@ public class NCItemFood extends ItemFood {
 
 	@Override
 	protected void onFoodEaten(ItemStack stack, World worldIn, EntityPlayer player) {
-		for(PotionEffect effect : effects) {
-			player.addPotionEffect(effect);
+		if (effects != null && effects.length > 0) for(PotionEffect effect : effects) {
+			player.addPotionEffect(new PotionEffect(effect));
 		}
 	}
 	

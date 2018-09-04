@@ -9,6 +9,7 @@ import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
 import li.cil.oc.api.network.SimpleComponent;
 import nc.Global;
+import nc.ModCheck;
 import nc.block.tile.generator.BlockFissionController;
 import nc.block.tile.generator.BlockFissionControllerNewFixed;
 import nc.config.NCConfig;
@@ -17,12 +18,11 @@ import nc.init.NCBlocks;
 import nc.recipe.NCRecipes;
 import nc.tile.fluid.TileActiveCooler;
 import nc.tile.internal.fluid.Tank;
-import nc.util.ArrayHelper;
 import nc.util.BlockFinder;
 import nc.util.BlockPosHelper;
 import nc.util.EnergyHelper;
 import nc.util.Lang;
-import nc.util.NCMathHelper;
+import nc.util.NCMath;
 import nc.util.RegistryHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -47,24 +47,29 @@ public class TileFissionController extends TileItemGenerator implements SimpleCo
 	public int maxX, maxY, maxZ;
 	public int lengthX, lengthY, lengthZ = 3;
 	public int complete, ready;
-	public int ports = 1, currentEnergyStored;
+	public int ports = 1, currentEnergyStored = 0, energyChange = 0;
 	
 	public String problem = CASING_INCOMPLETE;
-	public String problemPos = BlockPosHelper.stringPos(pos);
+	public String problemPos = "";
 	public int problemPosX = 0, problemPosY = 0, problemPosZ = 0;
-	public int problemPosBool = 0;
-	
-	public boolean computerActivated = false;
 	
 	public static final int BASE_CAPACITY = 64000, BASE_MAX_HEAT = 25000;
 	
+	public boolean computerActivated = false;
+	
+	public boolean readLayout = false;
+	public Object[] layout;
+	
 	public static final String NO_FUEL = Lang.localise("gui.container.fission_controller.no_fuel");
 	public static final String GENERIC_FUEL = Lang.localise("gui.container.fission_controller.generic_fuel");
+	
 	public static final String CASING_INCOMPLETE = Lang.localise("gui.container.fission_controller.casing_incomplete");
 	public static final String INVALID_STRUCTURE = Lang.localise("gui.container.fission_controller.invalid_structure");
-	public static final String MULTIPLE_CONTROLLERS = Lang.localise("gui.container.fission_controller.multiple_controllers");
+	public static final String CASING_IN_INTERIOR_AT = Lang.localise("gui.container.fission_controller.casing_in_interior");
+	public static final String EXTRA_CONTROLLER_AT = Lang.localise("gui.container.fission_controller.multiple_controllers");
 	public static final String CASING_INCOMPLETE_AT = Lang.localise("gui.container.fission_controller.casing_incomplete_at");
-	public static final String CASING_IN_INTERIOR = Lang.localise("gui.container.fission_controller.casing_in_interior");
+	public static final String POS = Lang.localise("gui.container.fission_controller.pos");
+	public static final String NO_PROBLEM = Lang.localise("gui.container.fission_controller.no_problem");
 	
 	private BlockFinder finder;
 	
@@ -102,9 +107,11 @@ public class TileFissionController extends TileItemGenerator implements SimpleCo
 		tickTile();
 		checkStructure();
 		if(!world.isRemote) {
+			energyChange = getEnergyStored() - currentEnergyStored;
 			if (newRules) newRun(); else run();
 			if (overheat()) return;
 			if (isProcessing) process();
+			else getRadiationSource().setRadiationLevel(0D);
 			consumeInputs();
 			if (wasProcessing != isProcessing) {
 				shouldUpdate = true;
@@ -122,7 +129,11 @@ public class TileFissionController extends TileItemGenerator implements SimpleCo
 		IBlockState state = world.getBlockState(pos);
 		if (state.getBlock() instanceof BlockFissionController) {
 			BlockFissionController controller = (BlockFissionController) state.getBlock();
-			int meta = controller.getMetaFromState(state);
+			if (!controller.isNew) {
+				newRules = false;
+				return false;
+			}
+			int meta = NCBlocks.fission_controller_idle.getMetaFromState(state);
 			if (controller.isActive) meta |= 8;
 			
 			world.setBlockState(pos, NCBlocks.fission_controller_new_fixed.getStateFromMeta(meta));
@@ -217,12 +228,14 @@ public class TileFissionController extends TileItemGenerator implements SimpleCo
 		baseProcessTime = recipe.getFissionFuelTime();
 		baseProcessPower = recipe.getFissionFuelPower();
 		baseProcessHeat = recipe.getFissionFuelHeat();
+		baseProcessRadiation = recipe.getFissionFuelRadiation();
 	}
 	
 	public void setDefaultRecipeStats() {
 		baseProcessTime = defaultProcessTime;
 		baseProcessPower = defaultProcessPower;
 		baseProcessHeat = 0D;
+		baseProcessRadiation = 0D;
 	}
 	
 	public String getFuelName() {
@@ -246,7 +259,7 @@ public class TileFissionController extends TileItemGenerator implements SimpleCo
 	}
 	
 	public int getMaxHeat() {
-		if (NCMathHelper.atIntLimit(getLengthX()*getLengthY()*getLengthZ(), BASE_MAX_HEAT)) return Integer.MAX_VALUE;
+		if (NCMath.atIntLimit(getLengthX()*getLengthY()*getLengthZ(), BASE_MAX_HEAT)) return Integer.MAX_VALUE;
 		if (getLengthX() <= 0 || getLengthY() <= 0 || getLengthZ() <= 0) return BASE_MAX_HEAT;
 		return BASE_MAX_HEAT*getLengthX()*getLengthY()*getLengthZ();
 	}
@@ -403,7 +416,7 @@ public class TileFissionController extends TileItemGenerator implements SimpleCo
 		case 6: // Lapis
 			return cellAdjacent(pos) && casingAllAdjacent(pos);
 		case 7: // Diamond
-			return newRules ? activeCoolerAdjacentCount(pos, 1) >= 2 && activeCoolerAdjacent(pos, 3) : activeCoolerHorizontal(pos, 1) && casingAllAdjacent(pos);
+			return newRules ? activeCoolerAdjacent(pos, 1) && activeCoolerAdjacent(pos, 3) : activeCoolerHorizontal(pos, 1) && casingAllAdjacent(pos);
 		case 8: // Liquid Helium
 			return newRules ? activeCoolerAdjacentCount(pos, 2) == 1 && casingAllAdjacent(pos) : activeCoolerAdjacent(pos, 3) && casingAllAdjacent(pos);
 		case 9: // Enderium
@@ -506,7 +519,7 @@ public class TileFissionController extends TileItemGenerator implements SimpleCo
 			if (!validStructure) {
 				complete = 0;
 				problem = CASING_INCOMPLETE;
-				problemPosBool = 0;
+				problemPos = "";
 				return false;
 			}
 			validStructure = false;
@@ -520,7 +533,7 @@ public class TileFissionController extends TileItemGenerator implements SimpleCo
 			if (!validStructure) {
 				complete = 0;
 				problem = CASING_INCOMPLETE;
-				problemPosBool = 0;
+				problemPos = "";
 				return false;
 			}
 			validStructure = false;
@@ -534,7 +547,7 @@ public class TileFissionController extends TileItemGenerator implements SimpleCo
 			if (!validStructure) {
 				complete = 0;
 				problem = CASING_INCOMPLETE;
-				problemPosBool = 0;
+				problemPos = "";
 				return false;
 			}
 			validStructure = false;
@@ -548,7 +561,7 @@ public class TileFissionController extends TileItemGenerator implements SimpleCo
 			if (!validStructure) {
 				complete = 0;
 				problem = CASING_INCOMPLETE;
-				problemPosBool = 0;
+				problemPos = "";
 				return false;
 			}
 			validStructure = false;
@@ -562,23 +575,22 @@ public class TileFissionController extends TileItemGenerator implements SimpleCo
 			if (!validStructure) {
 				complete = 0;
 				problem = CASING_INCOMPLETE;
-				problemPosBool = 0;
+				problemPos = "";
 				return false;
 			}
 			if ((minX > 0 || maxX < 0) || (minY > 0 || maxY < 0) || (minZ > 0 || maxZ < 0) || maxX - minX < 1 || maxY - minY < 1 || maxZ - minZ < 1) {
 				problem = INVALID_STRUCTURE;
 				complete = 0;
-				problemPosBool = 0;
+				problemPos = "";
 				return false;
 			}
 			for (int z = minZ; z <= maxZ; z++) for (int x = minX; x <= maxX; x++) for (int y = minY; y <= maxY; y++) {
 				if (findController(x, y, z)) {
 					if (!(x == 0 && y == 0 && z == 0)) {
-						problem = MULTIPLE_CONTROLLERS;
+						problem = EXTRA_CONTROLLER_AT;
 						complete = 0;
-						problemPosBool = 1;
 						problemPosX = x; problemPosY = y; problemPosZ = z;
-						problemPos = BlockPosHelper.stringPos(finder.position(problemPosX, problemPosY, problemPosZ));
+						problemPos = POS + " " + BlockPosHelper.stringPos(finder.position(problemPosX, problemPosY, problemPosZ));
 						return false;
 					}
 				}
@@ -587,17 +599,15 @@ public class TileFissionController extends TileItemGenerator implements SimpleCo
 				if (!findCasing(x, minY, z) && !(x == 0 && minY == 0 && z == 0)) {
 					problem = CASING_INCOMPLETE_AT;
 					complete = 0;
-					problemPosBool = 1;
 					problemPosX = x; problemPosY = minY; problemPosZ = z;
-					problemPos = BlockPosHelper.stringPos(finder.position(problemPosX, problemPosY, problemPosZ));
+					problemPos = POS + " " + BlockPosHelper.stringPos(finder.position(problemPosX, problemPosY, problemPosZ));
 					return false;
 				}
 				if (!findCasing(x, maxY, z) && !(x == 0 && maxY == 0 && z == 0)) {
 					problem = CASING_INCOMPLETE_AT;
 					complete = 0;
-					problemPosBool = 1;
 					problemPosX = x; problemPosY = maxY; problemPosZ = z;
-					problemPos = BlockPosHelper.stringPos(finder.position(problemPosX, problemPosY, problemPosZ));
+					problemPos = POS + " " + BlockPosHelper.stringPos(finder.position(problemPosX, problemPosY, problemPosZ));
 					return false;
 				}
 			}
@@ -606,17 +616,15 @@ public class TileFissionController extends TileItemGenerator implements SimpleCo
 					if (!findCasing(x, y, minZ) && !(x == 0 && y == 0 && minZ == 0)) {
 						problem = CASING_INCOMPLETE_AT;
 						complete = 0;
-						problemPosBool = 1;
 						problemPosX = x; problemPosY = y; problemPosZ = minZ;
-						problemPos = BlockPosHelper.stringPos(finder.position(problemPosX, problemPosY, problemPosZ));
+						problemPos = POS + " " + BlockPosHelper.stringPos(finder.position(problemPosX, problemPosY, problemPosZ));
 						return false;
 					}
 					if (!findCasing(x, y, maxZ) && !(x == 0 && y == 0 && maxZ == 0)) {
 						problem = CASING_INCOMPLETE_AT;
 						complete = 0;
-						problemPosBool = 1;
 						problemPosX = x; problemPosY = y; problemPosZ = maxZ;
-						problemPos = BlockPosHelper.stringPos(finder.position(problemPosX, problemPosY, problemPosZ));
+						problemPos = POS + " " + BlockPosHelper.stringPos(finder.position(problemPosX, problemPosY, problemPosZ));
 						return false;
 					}
 					if (findPort(x, y, minZ)) portCount++;
@@ -626,17 +634,15 @@ public class TileFissionController extends TileItemGenerator implements SimpleCo
 					if (!findCasing(minX, y, z) && !(minX == 0 && y == 0 && z == 0)) {
 						problem = CASING_INCOMPLETE_AT;
 						complete = 0;
-						problemPosBool = 1;
 						problemPosX = minX; problemPosY = y; problemPosZ = z;
-						problemPos = BlockPosHelper.stringPos(finder.position(problemPosX, problemPosY, problemPosZ));
+						problemPos = POS + " " + BlockPosHelper.stringPos(finder.position(problemPosX, problemPosY, problemPosZ));
 						return false;
 					}
 					if (!findCasing(maxX, y, z) && !(maxX == 0 && y == 0 && z == 0)) {
 						problem = CASING_INCOMPLETE_AT;
 						complete = 0;
-						problemPosBool = 1;
 						problemPosX = maxX; problemPosY = y; problemPosZ = z;
-						problemPos = BlockPosHelper.stringPos(finder.position(problemPosX, problemPosY, problemPosZ));
+						problemPos = POS + " " + BlockPosHelper.stringPos(finder.position(problemPosX, problemPosY, problemPosZ));
 						return false;
 					}
 					if (findPort(minX, y, z)) portCount++;
@@ -645,16 +651,16 @@ public class TileFissionController extends TileItemGenerator implements SimpleCo
 			}
 			for (int z = minZ + 1; z <= maxZ - 1; z++) for (int x = minX + 1; x <= maxX - 1; x++) for (int y = minY + 1; y <= maxY - 1; y++) {
 				if (findCasingAll(x, y, z)) {
-					problem = CASING_IN_INTERIOR;
+					problem = CASING_IN_INTERIOR_AT;
 					complete = 0;
-					problemPosBool = 1;
 					problemPosX = x; problemPosY = y; problemPosZ = z;
-					problemPos = BlockPosHelper.stringPos(finder.position(problemPosX, problemPosY, problemPosZ));
+					problemPos = POS + " " + BlockPosHelper.stringPos(finder.position(problemPosX, problemPosY, problemPosZ));
 					return false;
 				}
 			}
+			problem = NO_PROBLEM;
 			complete = 1;
-			problemPosBool = 0;
+			problemPos = "";
 			this.minX = minX; this.minY = minY; this.minZ = minZ;
 			this.maxX = maxX; this.maxY = maxY; this.maxZ = maxZ;
 			lengthX = maxX + 1 - minX; lengthY = maxY + 1 - minY; lengthZ = maxZ + 1 - minZ;
@@ -671,7 +677,7 @@ public class TileFissionController extends TileItemGenerator implements SimpleCo
 	}
 	
 	private int getNewCapacity() {
-		if (NCMathHelper.atIntLimit(getLengthX()*getLengthY()*getLengthZ(), BASE_CAPACITY)) return Integer.MAX_VALUE;
+		if (NCMath.atIntLimit(getLengthX()*getLengthY()*getLengthZ(), BASE_CAPACITY)) return Integer.MAX_VALUE;
 		if (getLengthX() <= 0 || getLengthY() <= 0 || getLengthZ() <= 0) return BASE_CAPACITY;
 		return BASE_CAPACITY*getLengthX()*getLengthY()*getLengthZ();
 	}
@@ -683,7 +689,7 @@ public class TileFissionController extends TileItemGenerator implements SimpleCo
 		double fuelThisTick = 0;
 		double heatThisTick = 0;
 		double coolerHeatThisTick = 0;
-		int noAdjacentCells[] = new int[] {0, 0, 0, 0, 0, 0, 0};
+		int cellCount = 0;
 		double energyMultThisTick = 0, heatMultThisTick = 0;
 		
 		double baseRF = baseProcessPower;
@@ -702,15 +708,12 @@ public class TileFissionController extends TileItemGenerator implements SimpleCo
 							if (findCellOnSide(x, y, z, side) || findModeratorThenCellOnSide(x, y, z, side)) extraCells += 1;
 						}
 						
-						for (int n = 0; n <= 6; n++) if (extraCells == n) {
-							noAdjacentCells[n] += 1;
-							energyMultThisTick += n + 1;
-							heatMultThisTick += (n + 1)*(n + 2)/2;
-							if (readyToProcess()) {
-								energyThisTick += baseRF*(n + 1);
-								heatThisTick += baseHeat*(n + 1)*(n + 2)/2;
-							}
-							break;
+						cellCount++;
+						energyMultThisTick += extraCells + 1;
+						heatMultThisTick += (extraCells + 1)*(extraCells + 2)/2;
+						if (readyToProcess()) {
+							energyThisTick += baseRF*(extraCells + 1);
+							heatThisTick += baseHeat*(extraCells + 1)*(extraCells + 2)/2;
 						}
 						
 						if (isProcessing) fuelThisTick += NCConfig.fission_fuel_use;
@@ -719,12 +722,12 @@ public class TileFissionController extends TileItemGenerator implements SimpleCo
 					// Moderators
 					if (findModerator(x, y, z)) {
 						if (readyToProcess()) {
-							heatMultThisTick += ArrayHelper.sum(noAdjacentCells)/16D;
-							heatThisTick += NCConfig.fission_heat_generation*baseRF*ArrayHelper.sum(noAdjacentCells)/16D;
+							heatMultThisTick += cellCount/16D;
+							heatThisTick += NCConfig.fission_heat_generation*baseRF*cellCount/16D;
 						}
 						if (cellAdjacent(x, y, z)) {
-							energyMultThisTick += ArrayHelper.sum(noAdjacentCells)/8D;
-							if (readyToProcess()) energyThisTick += NCConfig.fission_power*baseRF*ArrayHelper.sum(noAdjacentCells)/8D;
+							energyMultThisTick += cellCount/8D;
+							if (readyToProcess()) energyThisTick += NCConfig.fission_power*baseRF*cellCount/8D;
 						}
 					}
 					
@@ -771,9 +774,9 @@ public class TileFissionController extends TileItemGenerator implements SimpleCo
 			if (complete == 1) {
 				heatChange = heatThisTick + coolerHeatThisTick;
 				cooling = coolerHeatThisTick;
-				cells = ArrayHelper.sum(noAdjacentCells);
-				efficiency = cells == 0 ? 0D : 100D*energyMultThisTick/ArrayHelper.sum(noAdjacentCells);
-				heatMult = cells == 0 ? 0D : 100D*heatMultThisTick/ArrayHelper.sum(noAdjacentCells);
+				cells = cellCount;
+				efficiency = cellCount == 0 ? 0D : 100D*energyMultThisTick/cellCount;
+				heatMult = cellCount == 0 ? 0D : 100D*heatMultThisTick/cellCount;
 				processPower = energyThisTick;
 				speedMultiplier = fuelThisTick;
 			} else {
@@ -807,7 +810,7 @@ public class TileFissionController extends TileItemGenerator implements SimpleCo
 		double fuelThisTick = 0D;
 		double heatThisTick = 0D;
 		double coolerHeatThisTick = 0D;
-		int noAdjacentCells[] = new int[] {0, 0, 0, 0, 0, 0, 0};
+		int cellCount = 0;
 		double energyMultThisTick = 0D, heatMultThisTick = 0D;
 		
 		double baseRF = NCConfig.fission_power*baseProcessPower;
@@ -820,6 +823,8 @@ public class TileFissionController extends TileItemGenerator implements SimpleCo
 
 		if (shouldTileCheck()) {
 			if (complete == 1) {
+				if (ModCheck.openComputersLoaded() && readLayout) layout = new Object[getLengthX()*getLengthY()*getLengthZ()];
+				
 				for (int z = minZ + 1; z <= maxZ - 1; z++) for (int x = minX + 1; x <= maxX - 1; x++) for (int y = minY + 1; y <= maxY - 1; y++) {
 					
 					// Cells
@@ -829,25 +834,24 @@ public class TileFissionController extends TileItemGenerator implements SimpleCo
 							if (findCellOnSide(x, y, z, side) || newFindModeratorThenCellOnSide(x, y, z, side)) extraCells += 1;
 						}
 						
-						for (int n = 0; n <= 6; n++) if (extraCells == n) {
-							noAdjacentCells[n] += 1;
-							energyMultThisTick += n + 1D;
-							heatMultThisTick += (n + 1D)*(n + 2D)/2D;
-							if (readyToProcess()) {
-								energyThisTick += baseRF*(n + 1D);
-								heatThisTick += baseHeat*(n + 1D)*(n + 2D)/2D;
-							}
-							break;
+						cellCount++;
+						energyMultThisTick += extraCells + 1D;
+						heatMultThisTick += (extraCells + 1D)*(extraCells + 2D)/2D;
+						if (readyToProcess()) {
+							energyThisTick += baseRF*(extraCells + 1D);
+							heatThisTick += baseHeat*(extraCells + 1D)*(extraCells + 2D)/2D;
 						}
 						
 						if (isProcessing) fuelThisTick += NCConfig.fission_fuel_use;
 						
-						// Adjacent Moderator
-						energyMultThisTick += moderatorPowerMultiplier*moderatorAdjacentCount(x, y, z)*(extraCells + 1D);
-						heatMultThisTick += moderatorHeatMultiplier*moderatorAdjacentCount(x, y, z)*(extraCells + 1D);
+						// Adjacent Moderators
+						int moderatorAdjacentCount = moderatorAdjacentCount(x, y, z);
 						
-						energyThisTick += baseRF*moderatorPowerMultiplier*moderatorAdjacentCount(x, y, z)*(extraCells + 1D);
-						heatThisTick += baseHeat*moderatorHeatMultiplier*moderatorAdjacentCount(x, y, z)*(extraCells + 1D);
+						energyMultThisTick += moderatorPowerMultiplier*moderatorAdjacentCount*(extraCells + 1D);
+						heatMultThisTick += moderatorHeatMultiplier*moderatorAdjacentCount*(extraCells + 1D);
+						
+						energyThisTick += baseRF*moderatorPowerMultiplier*moderatorAdjacentCount*(extraCells + 1D);
+						heatThisTick += baseHeat*moderatorHeatMultiplier*moderatorAdjacentCount*(extraCells + 1D);
 					}
 					
 					// Extra Moderators
@@ -892,15 +896,22 @@ public class TileFissionController extends TileItemGenerator implements SimpleCo
 							}
 						}
 					}
+					if (ModCheck.openComputersLoaded() && readLayout) {
+						int arrayX = x - minX - 1; int arrayY = y - minY - 1; int arrayZ = z - minZ - 1;
+						IBlockState layoutState = world.getBlockState(finder.position(x, y, z));
+						String mainName = layoutState.getBlock().getRegistryName().toString();
+						int meta = layoutState.getBlock().getMetaFromState(layoutState);
+						layout[arrayX + getLengthX()*arrayY + getLengthX()*getLengthY()*arrayZ] = new Object[] {new Object[] {x, y, z}, new Object[] {mainName, meta}};
+					}
 				}
 			}
 			
 			if (complete == 1) {
 				heatChange = heatThisTick + coolerHeatThisTick;
 				cooling = coolerHeatThisTick;
-				cells = ArrayHelper.sum(noAdjacentCells);
-				efficiency = cells == 0 ? 0D : 100D*energyMultThisTick/(double)ArrayHelper.sum(noAdjacentCells);
-				heatMult = cells == 0 ? 0D : 100D*heatMultThisTick/(double)ArrayHelper.sum(noAdjacentCells);
+				cells = cellCount;
+				efficiency = cellCount == 0 ? 0D : 100D*energyMultThisTick/(double)cellCount;
+				heatMult = cellCount == 0 ? 0D : 100D*heatMultThisTick/(double)cellCount;
 				processPower = energyThisTick;
 				speedMultiplier = fuelThisTick;
 			} else {
@@ -959,11 +970,11 @@ public class TileFissionController extends TileItemGenerator implements SimpleCo
 		nbt.setInteger("problemPosX", problemPosX);
 		nbt.setInteger("problemPosY", problemPosY);
 		nbt.setInteger("problemPosZ", problemPosZ);
-		nbt.setInteger("problemPosBool", problemPosBool);
 		nbt.setBoolean("newRules", newRules);
 		nbt.setInteger("ports", ports);
 		nbt.setInteger("currentEnergyStored", currentEnergyStored);
 		nbt.setBoolean("computerActivated", computerActivated);
+		nbt.setBoolean("readLayout", readLayout);
 		return nbt;
 	}
 			
@@ -996,11 +1007,11 @@ public class TileFissionController extends TileItemGenerator implements SimpleCo
 		problemPosX = nbt.getInteger("problemPosX");
 		problemPosY = nbt.getInteger("problemPosY");
 		problemPosZ = nbt.getInteger("problemPosZ");
-		problemPosBool = nbt.getInteger("problemPosBool");
 		newRules = nbt.getBoolean("newRules");
 		ports = nbt.getInteger("ports");
 		currentEnergyStored = nbt.getInteger("currentEnergyStored");
 		computerActivated = nbt.getBoolean("computerActivated");
+		readLayout = nbt.getBoolean("readLayout");
 	}
 	
 	// Inventory Fields
@@ -1050,12 +1061,10 @@ public class TileFissionController extends TileItemGenerator implements SimpleCo
 		case 17:
 			return problemPosZ;
 		case 18:
-			return problemPosBool;
-		case 19:
 			return (int) (heatMult*10);
-		case 20:
+		case 19:
 			return hasConsumed ? 1 : 0;
-		case 21:
+		case 20:
 			return computerActivated ? 1 : 0;
 		default:
 			return 0;
@@ -1120,15 +1129,12 @@ public class TileFissionController extends TileItemGenerator implements SimpleCo
 			problemPosZ = value;
 			break;
 		case 18:
-			problemPosBool = value;
-			break;
-		case 19:
 			heatMult = value/10D;
 			break;
-		case 20:
+		case 19:
 			hasConsumed = value == 1;
 			break;
-		case 21:
+		case 20:
 			computerActivated = value == 1;
 		}
 	}
@@ -1152,6 +1158,12 @@ public class TileFissionController extends TileItemGenerator implements SimpleCo
 	@Optional.Method(modid = "opencomputers")
 	public Object[] isComplete(Context context, Arguments args) {
 		return new Object[] {complete == 1};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] isProcessing(Context context, Arguments args) {
+		return new Object[] {isProcessing};
 	}
 	
 	@Callback
@@ -1192,8 +1204,26 @@ public class TileFissionController extends TileItemGenerator implements SimpleCo
 	
 	@Callback
 	@Optional.Method(modid = "opencomputers")
+	public Object[] getEnergyChange(Context context, Arguments args) {
+		return new Object[] {energyChange};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getCurrentProcessTime(Context context, Arguments args) {
+		return new Object[] {time};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
 	public Object[] getHeatLevel(Context context, Arguments args) {
 		return new Object[] {heat};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getMaxHeatLevel(Context context, Arguments args) {
+		return new Object[] {getMaxHeat()};
 	}
 	
 	@Callback
@@ -1211,7 +1241,7 @@ public class TileFissionController extends TileItemGenerator implements SimpleCo
 	@Callback
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getFissionFuelTime(Context context, Arguments args) {
-		return new Object[] {baseProcessTime};
+		return new Object[] {recipe != null ? baseProcessTime : 0};
 	}
 	
 	@Callback
@@ -1228,8 +1258,14 @@ public class TileFissionController extends TileItemGenerator implements SimpleCo
 	
 	@Callback
 	@Optional.Method(modid = "opencomputers")
+	public Object[] getFissionFuelName(Context context, Arguments args) {
+		return new Object[] {getFuelName()};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
 	public Object[] getReactorProcessTime(Context context, Arguments args) {
-		return new Object[] {cells == 0 ? baseProcessTime : baseProcessTime/cells};
+		return new Object[] {recipe != null ? (cells == 0 ? baseProcessTime : baseProcessTime/cells) : 0};
 	}
 	
 	@Callback
@@ -1248,6 +1284,19 @@ public class TileFissionController extends TileItemGenerator implements SimpleCo
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getReactorCoolingRate(Context context, Arguments args) {
 		return new Object[] {cooling};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] trackReactorLayout(Context context, Arguments args) {
+		if (args.isBoolean(0)) readLayout = args.checkBoolean(0);
+		return new Object[] {};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getReactorLayout(Context context, Arguments args) {
+		return complete == 1 && readLayout ? layout : new Object[] {};
 	}
 	
 	@Callback

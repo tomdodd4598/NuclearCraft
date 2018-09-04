@@ -7,10 +7,10 @@ import mezz.jei.api.recipe.IRecipeWrapper;
 import nc.integration.jei.IJEIHandler;
 import nc.integration.jei.JEIMethods.RecipeFluidMapper;
 import nc.integration.jei.JEIMethods.RecipeItemMapper;
-import nc.integration.jei.JEIProcessorCategory;
+import nc.integration.jei.JEICategoryAbstract;
 import nc.recipe.SorptionType;
 
-public class ExtractorCategory extends JEIProcessorCategory {
+public class ExtractorCategory extends JEICategoryAbstract {
 	
 	public ExtractorCategory(IGuiHelper guiHelper, IJEIHandler handler) {
 		super(guiHelper, handler, "extractor_idle", 33, 30, 118, 26);

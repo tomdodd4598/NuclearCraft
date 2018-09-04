@@ -5,7 +5,7 @@ import net.minecraftforge.energy.IEnergyStorage;
 
 public class ItemEnergyWrapper implements IEnergyStorage {
 	
-	public EnergyStorage storage;
+	protected EnergyStorage storage;
 	
 	public ItemEnergyWrapper(EnergyStorage storage) {
 		this.storage = storage;

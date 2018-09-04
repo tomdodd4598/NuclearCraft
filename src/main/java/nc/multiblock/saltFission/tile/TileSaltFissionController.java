@@ -2,7 +2,8 @@ package nc.multiblock.saltFission.tile;
 
 import nc.Global;
 import nc.config.NCConfig;
-import nc.multiblock.MultiblockControllerBase;
+import nc.multiblock.cuboidal.CuboidalPartPositionType;
+import nc.multiblock.saltFission.SaltFissionReactor;
 import nc.multiblock.saltFission.block.BlockSaltFissionController;
 import nc.util.RegistryHelper;
 import net.minecraft.block.Block;
@@ -10,11 +11,11 @@ import net.minecraft.block.Block;
 public class TileSaltFissionController extends TileSaltFissionPartBase {
 	
 	public TileSaltFissionController() {
-		super(PartPositionType.WALL);
+		super(CuboidalPartPositionType.WALL);
 	}
 	
 	@Override
-	public void onMachineAssembled(MultiblockControllerBase controller) {
+	public void onMachineAssembled(SaltFissionReactor controller) {
 		doStandardNullControllerResponse(controller);
 		super.onMachineAssembled(controller);
 		if (getWorld().isRemote) return;

@@ -1,6 +1,8 @@
 package nc.tile;
 
 import nc.block.tile.IActivatable;
+import nc.capability.radiation.IRadiationSource;
+import nc.capability.radiation.RadiationSource;
 import nc.config.NCConfig;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -8,11 +10,13 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
+import net.minecraftforge.common.capabilities.Capability;
 
 public abstract class NCTile extends TileEntity implements ITickable, ITile {
 	
@@ -23,8 +27,11 @@ public abstract class NCTile extends TileEntity implements ITickable, ITile {
 	
 	public boolean alternateComparator;
 	
+	private IRadiationSource radiation;
+	
 	public NCTile() {
 		super();
+		radiation = new RadiationSource();
 	}
 	
 	@Override
@@ -78,6 +85,11 @@ public abstract class NCTile extends TileEntity implements ITickable, ITile {
 	}
 	
 	@Override
+	public IRadiationSource getRadiationSource() {
+		return radiation;
+	}
+	
+	@Override
 	public ITextComponent getDisplayName() {
 		if (getBlockType() != null) return new TextComponentTranslation(getBlockType().getLocalizedName()); else return null;
 	}
@@ -119,6 +131,15 @@ public abstract class NCTile extends TileEntity implements ITickable, ITile {
 	
 	// NBT
 	
+	public NBTTagCompound writeRadiation(NBTTagCompound nbt) {
+		nbt.setDouble("radiationLevel", getRadiationSource().getRadiationLevel());
+		return nbt;
+	}
+	
+	public void readRadiation(NBTTagCompound nbt) {
+		if (nbt.hasKey("radiationLevel")) getRadiationSource().setRadiationLevel(nbt.getDouble("radiationLevel"));
+	}
+	
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
@@ -128,6 +149,7 @@ public abstract class NCTile extends TileEntity implements ITickable, ITile {
 	
 	public NBTTagCompound writeAll(NBTTagCompound nbt) {
 		nbt.setBoolean("alternateComparator", alternateComparator);
+		if (shouldSaveRadiation()) writeRadiation(nbt);
 		return nbt;
 	}
 	
@@ -139,6 +161,7 @@ public abstract class NCTile extends TileEntity implements ITickable, ITile {
 	
 	public void readAll(NBTTagCompound nbt) {
 		setAlternateComparator(nbt.getBoolean("alternateComparator"));
+		if (shouldSaveRadiation()) readRadiation(nbt);
 	}
 	
 	/*public NBTTagCompound getTileData() {
@@ -178,5 +201,17 @@ public abstract class NCTile extends TileEntity implements ITickable, ITile {
 	
 	public void setAlternateComparator(boolean alternate) {
 		alternateComparator = alternate;
+	}
+	
+	@Override
+	public boolean hasCapability(Capability<?> capability, EnumFacing side) {
+		if (capability == IRadiationSource.CAPABILITY_RADIATION_SOURCE) return radiation != null;
+		return super.hasCapability(capability, side);
+	}
+	
+	@Override
+	public <T> T getCapability(Capability<T> capability, EnumFacing side) {
+		if (capability == IRadiationSource.CAPABILITY_RADIATION_SOURCE) return (T) radiation;
+		return super.getCapability(capability, side);
 	}
 }

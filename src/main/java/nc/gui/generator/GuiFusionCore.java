@@ -83,8 +83,8 @@ public class GuiFusionCore extends NCGui {
 		fontRenderer.drawString(heat, 108 - widthHalf(heat), 54, fontColor);
 		String efficiency = Lang.localise("gui.container.fusion_core.efficiency") + " " + ((int) tile.efficiency) + "%";
 		fontRenderer.drawString(efficiency, 108 - widthHalf(efficiency), 65, fontColor);
-		String input1 = fluid0 != null ? fluid0.getLocalizedName() : (fluid6 != null ? fluid6.getLocalizedName() : Lang.localise("gui.container.fusion_core.empty"));
-		String input2 = fluid1 != null ? fluid1.getLocalizedName() : (fluid7 != null ? fluid7.getLocalizedName() : Lang.localise("gui.container.fusion_core.empty"));
+		String input1 = fluid0 != null ? fluid0.getLocalizedName() : (fluid6 != null ? fluid6.getLocalizedName() : TileFusionCore.NO_FUEL);
+		String input2 = fluid1 != null ? fluid1.getLocalizedName() : (fluid7 != null ? fluid7.getLocalizedName() : TileFusionCore.NO_FUEL);
 		fontRenderer.drawString(input1, 108 - widthHalf(input1), 76, fontColor);
 		fontRenderer.drawString(input2, 108 - widthHalf(input2), 87, fontColor);
 	}

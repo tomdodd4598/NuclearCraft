@@ -3,7 +3,6 @@ package nc.block;
 import java.util.Random;
 
 import nc.Global;
-import nc.init.NCBlocks;
 import nc.init.NCItems;
 import net.minecraft.block.BlockDoor;
 import net.minecraft.block.material.Material;
@@ -38,8 +37,7 @@ public class NCBlockDoor extends BlockDoor {
 	}
 	
 	private Item getItem() {
-		if (this == NCBlocks.reactor_door) return NCItems.reactor_door;
-		else return NCItems.reactor_door;
+		return NCItems.reactor_door;
 	}
 	
 	@Override

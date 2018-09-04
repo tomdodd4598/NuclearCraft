@@ -6,7 +6,7 @@ import javax.annotation.Nullable;
 
 import com.google.common.collect.Lists;
 
-import gregtech.api.capability.IEnergyContainer;
+import gregtech.api.capability.GregtechCapabilities;
 import nc.ModCheck;
 import nc.config.NCConfig;
 import nc.tile.energyFluid.TileEnergyFluidSidedInventory;
@@ -106,7 +106,7 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 				flag1 = true;
 				if (ModCheck.ic2Loaded()) removeTileFromENet();
 				setState(isRunning);
-				world.notifyNeighborsOfStateChange(pos, blockType, true);
+				world.notifyNeighborsOfStateChange(pos, getBlockType(), true);
 				if (ModCheck.ic2Loaded()) addTileToENet();
 			}
 			if (itemChange > 0) pushStacks();
@@ -303,7 +303,7 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 	public boolean hasCapability(Capability<?> capability, EnumFacing side) {
 		if (energyChange != 0) {
 			if (capability == CapabilityEnergy.ENERGY) return getEnergySide(side) != null;
-			if (ModCheck.gregtechLoaded()) if (capability == IEnergyContainer.CAPABILITY_ENERGY_CONTAINER) return getEnergySideGT(side) != null;
+			if (ModCheck.gregtechLoaded()) if (capability == GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER) return getEnergySideGT(side) != null;
 		}
 		if (fluidChange != 0) {
 			if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) return true;
@@ -320,7 +320,7 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing side) {
 		if (energyChange != 0) {
 			if (capability == CapabilityEnergy.ENERGY) return (T) getEnergySide(side);
-			if (ModCheck.gregtechLoaded()) if (capability == IEnergyContainer.CAPABILITY_ENERGY_CONTAINER) return (T) getEnergySideGT(side);
+			if (ModCheck.gregtechLoaded()) if (capability == GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER) return (T) getEnergySideGT(side);
 		}
 		if (fluidChange != 0) {
 			if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(this);

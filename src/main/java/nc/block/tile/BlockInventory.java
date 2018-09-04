@@ -52,9 +52,7 @@ public abstract class BlockInventory extends NCBlock implements ITileEntityProvi
 		if (!(tileentity instanceof ITileFluid) && !(tileentity instanceof IGui)) return false;
 		if (tileentity instanceof ITileFluid && !(tileentity instanceof IGui) && FluidUtil.getFluidHandler(player.getHeldItem(hand)) == null) return false;
 		
-		if (world.isRemote) return true;
-		
-		if (tileentity instanceof ITileFluid) {
+		if (!world.isRemote && tileentity instanceof ITileFluid) {
 			ITileFluid tileFluid = (ITileFluid) tileentity;
 			if (tileFluid.getTanks() != null) {
 				boolean accessedTanks = FluidHelper.accessTankArray(player, hand, tileFluid.getTanks());
@@ -62,9 +60,14 @@ public abstract class BlockInventory extends NCBlock implements ITileEntityProvi
 			}
 		}
 		if (tileentity instanceof IGui) {
-			onGuiOpened(world, pos);
-			IGui tileGui = (IGui) tileentity;
-			FMLNetworkHandler.openGui(player, NuclearCraft.instance, tileGui.getGuiID(), world, pos.getX(), pos.getY(), pos.getZ());
+			if (world.isRemote) {
+				onGuiOpened(world, pos);
+				return true;
+			} else {
+				onGuiOpened(world, pos);
+				IGui tileGui = (IGui) tileentity;
+				FMLNetworkHandler.openGui(player, NuclearCraft.instance, tileGui.getGuiID(), world, pos.getX(), pos.getY(), pos.getZ());
+			}
 		}
 		else return false;
 		

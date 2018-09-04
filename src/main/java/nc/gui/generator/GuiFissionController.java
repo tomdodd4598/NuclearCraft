@@ -43,7 +43,7 @@ public class GuiFissionController extends NCGui {
 		int fontColor = tile.isProcessing ? -1 : (tile.complete == 1 ? 15641088 : 15597568);
 		String s = tile.complete == 1 ? (tile.getLengthX() + "*" +  tile.getLengthY() + "*" +  tile.getLengthZ() + " " + Lang.localise("gui.container.fission_controller.reactor")) : tile.problem;
 		fontRenderer.drawString(s, 8 + xSize / 2 - fontRenderer.getStringWidth(s) / 2, 6, fontColor);
-		String s2 = tile.problemPosBool == 0 ? "" : Lang.localise("gui.container.fission_controller.pos") + " " + tile.problemPos;
+		String s2 = tile.problemPos;
 		fontRenderer.drawString(s2, 8 + xSize / 2 - fontRenderer.getStringWidth(s2) / 2, 17, fontColor);
 		String fuelName = tile.getFuelName();
 		String fuel = fuelName.endsWith("OXIDE") ? fuelName.substring(0, fuelName.length() - 3) : fuelName;

@@ -1,7 +1,11 @@
 package nc.tile.dummy;
 
-import li.cil.oc.api.network.SimpleComponent;
-import nc.Global;
+import li.cil.oc.api.Network;
+import li.cil.oc.api.network.Environment;
+import li.cil.oc.api.network.Message;
+import li.cil.oc.api.network.Node;
+import li.cil.oc.api.network.Visibility;
+import nc.ModCheck;
 import nc.config.NCConfig;
 import nc.init.NCBlocks;
 import nc.recipe.NCRecipes;
@@ -15,8 +19,11 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.Optional;
 
-@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers")
-public abstract class TileFusionDummy extends TileDummy<TileFusionCore> implements IBufferable, SimpleComponent {
+@Optional.Interface(iface = "li.cil.oc.api.network.Environment", modid = "opencomputers")
+public abstract class TileFusionDummy extends TileDummy<TileFusionCore> implements IBufferable, Environment {
+	
+	// Type can't be specified here as OC may not be loaded
+	Object node;
 	
 	public static class Side extends TileFusionDummy {
 		public Side() {
@@ -65,11 +72,24 @@ public abstract class TileFusionDummy extends TileDummy<TileFusionCore> implemen
 	@Override
 	public void update() {
 		super.update();
+		if (ModCheck.openComputersLoaded()) refreshNode();
 		if(!world.isRemote) {
 			pushEnergy();
 			pushFluid();
 		}
 		if (findAdjacentComparator() && shouldTileCheck()) markDirty();
+	}
+	
+	@Override
+	public void onChunkUnload() {
+		super.onChunkUnload();
+		if (ModCheck.openComputersLoaded()) removeNode();
+	}
+	
+	@Override
+	public void invalidate() {
+		super.invalidate();
+		if (ModCheck.openComputersLoaded()) removeNode();
 	}
 	
 	// Redstone Flux
@@ -98,113 +118,44 @@ public abstract class TileFusionDummy extends TileDummy<TileFusionCore> implemen
 	
 	// OpenComputers
 	
-	@Override
+	@Optional.Method(modid = "opencomputers")
+	public void removeNode() {
+		if (node instanceof Node) ((Node)node).remove();
+	}
+	
+	@Optional.Method(modid = "opencomputers")
+	public void refreshNode() {
+		if (node() == null) node = Network.newNode(this, Visibility.None).create();
+		if (node() != null && node().network() == null) Network.joinOrCreateNetwork(this);
+	}
+	
+	/*@Override
 	@Optional.Method(modid = "opencomputers")
 	public String getComponentName() {
 		return Global.MOD_SHORT_ID + "_fusion_reactor_dummy";
-	}
-	
-	/*@Callback
-	@Optional.Method(modid = "opencomputers")
-	public Object[] isComplete(Context context, Arguments args) {
-		return new Object[] {hasMaster() ? getMaster().complete == 1 : false};
-	}
-	
-	@Callback
-	@Optional.Method(modid = "opencomputers")
-	public Object[] isHotEnough(Context context, Arguments args) {
-		return new Object[] {hasMaster() ? getMaster().isHotEnough() : false};
-	}
-	
-	@Callback
-	@Optional.Method(modid = "opencomputers")
-	public Object[] getProblem(Context context, Arguments args) {
-		return new Object[] {hasMaster() ? getMaster().problem : TileFusionCore.INCORRECT_STRUCTURE};
-	}
-	
-	@Callback
-	@Optional.Method(modid = "opencomputers")
-	public Object[] getToroidSize(Context context, Arguments args) {
-		return new Object[] {hasMaster() ? getMaster().size : 0};
-	}
-	
-	@Callback
-	@Optional.Method(modid = "opencomputers")
-	public Object[] getEnergyStored(Context context, Arguments args) {
-		return new Object[] {hasMaster() ? getMaster().getEnergyStored() : 0};
-	}
-	
-	@Callback
-	@Optional.Method(modid = "opencomputers")
-	public Object[] getMaxEnergyStored(Context context, Arguments args) {
-		return new Object[] {hasMaster() ? getMaster().getMaxEnergyStored() : 1};
-	}
-	
-	@Callback
-	@Optional.Method(modid = "opencomputers")
-	public Object[] getTemperature(Context context, Arguments args) {
-		return new Object[] {hasMaster() ? getMaster().heat*1000 : TileFusionCore.ROOM_TEMP*1000};
-	}
-	
-	@Callback
-	@Optional.Method(modid = "opencomputers")
-	public Object[] getEfficiency(Context context, Arguments args) {
-		return new Object[] {hasMaster() ? getMaster().efficiency : 0};
-	}
-	
-	@Callback
-	@Optional.Method(modid = "opencomputers")
-	public Object[] getFusionComboTime(Context context, Arguments args) {
-		return new Object[] {hasMaster() ? getMaster().baseProcessTime : 1};
-	}
-	
-	@Callback
-	@Optional.Method(modid = "opencomputers")
-	public Object[] getFusionComboPower(Context context, Arguments args) {
-		return new Object[] {hasMaster() ? getMaster().baseProcessPower : 0};
-	}
-	
-	@Callback
-	@Optional.Method(modid = "opencomputers")
-	public Object[] getFusionComboHeatVariable(Context context, Arguments args) {
-		return new Object[] {hasMaster() ? getMaster().processHeatVariable : 1};
-	}
-	
-	@Callback
-	@Optional.Method(modid = "opencomputers")
-	public Object[] getReactorProcessTime(Context context, Arguments args) {
-		return new Object[] {hasMaster() ? (getMaster().size == 0 ? getMaster().baseProcessTime : getMaster().baseProcessTime/getMaster().size) : 1};
-	}
-	
-	@Callback
-	@Optional.Method(modid = "opencomputers")
-	public Object[] getReactorProcessPower(Context context, Arguments args) {
-		return new Object[] {hasMaster() ? getMaster().processPower : 0};
-	}
-	
-	@Callback
-	@Optional.Method(modid = "opencomputers")
-	public Object[] getReactorProcessHeat(Context context, Arguments args) {
-		return new Object[] {hasMaster() ? getMaster().heatChange : 0};
-	}
-	
-	@Callback
-	@Optional.Method(modid = "opencomputers")
-	public Object[] getReactorCoolingRate(Context context, Arguments args) {
-		return new Object[] {hasMaster() ? getMaster().cooling : 0};
-	}
-	
-	@Callback
-	@Optional.Method(modid = "opencomputers")
-	public Object[] activate(Context context, Arguments args) {
-		if (hasMaster()) getMaster().computerActivated = true;
-		return new Object[] {};
-	}
-	
-	@Callback
-	@Optional.Method(modid = "opencomputers")
-	public Object[] deactivate(Context context, Arguments args) {
-		if (hasMaster()) getMaster().computerActivated = false;
-		return new Object[] {};
 	}*/
+	
+	@Override
+	@Optional.Method(modid = "opencomputers")
+	public Node node() {
+		return (Node)node;
+	}
+
+	@Override
+	@Optional.Method(modid = "opencomputers")
+	public void onConnect(Node node) {
+		
+	}
+
+	@Override
+	@Optional.Method(modid = "opencomputers")
+	public void onDisconnect(Node node) {
+		
+	}
+
+	@Override
+	@Optional.Method(modid = "opencomputers")
+	public void onMessage(Message message) {
+		
+	}
 }

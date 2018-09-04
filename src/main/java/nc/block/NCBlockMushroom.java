@@ -5,6 +5,7 @@ import java.util.Random;
 import nc.Global;
 import nc.config.NCConfig;
 import nc.tab.NCTabs;
+import nc.util.RadiationHelper;
 import net.minecraft.block.BlockMushroom;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.ResourceLocation;
@@ -13,16 +14,21 @@ import net.minecraft.world.World;
 
 public class NCBlockMushroom extends BlockMushroom {
 	
-	public NCBlockMushroom(String name) {
+	private final double radiationRate;
+	
+	public NCBlockMushroom(String name, double radiationRate) {
 		super();
 		setUnlocalizedName(Global.MOD_ID + "." + name);
 		setRegistryName(new ResourceLocation(Global.MOD_ID, name));
-		setCreativeTab(NCTabs.TAB_BASE_BLOCK_MATERIALS);
+		setCreativeTab(NCTabs.BASE_BLOCK_MATERIALS);
 		setLightLevel(1F);
+		this.radiationRate = radiationRate;
 	}
 	
 	@Override
-	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+	public void updateTick(World world, BlockPos pos, IBlockState state, Random rand) {
+		RadiationHelper.transferRadiationFromBlockToChunk(world.getChunkFromBlockCoords(pos), radiationRate);
+		
 		if (NCConfig.mushroom_spread_rate <= 0) return;
 		
 		int spreadTime = 400/NCConfig.mushroom_spread_rate;
@@ -32,7 +38,7 @@ public class NCBlockMushroom extends BlockMushroom {
 			int shroomCheck = 5;
 
 			for (BlockPos blockpos : BlockPos.getAllInBoxMutable(pos.add(-4, -1, -4), pos.add(4, 1, 4))) {
-				if (worldIn.getBlockState(blockpos).getBlock() == this) {
+				if (world.getBlockState(blockpos).getBlock() == this) {
 					shroomCheck--;
 					if (shroomCheck <= 0) return;
 				}
@@ -41,12 +47,12 @@ public class NCBlockMushroom extends BlockMushroom {
 			BlockPos newPos = pos.add(rand.nextInt(3) - 1, rand.nextInt(2) - rand.nextInt(2), rand.nextInt(3) - 1);
 
 			for (int k = 0; k < 4; ++k) {
-				if (worldIn.isAirBlock(newPos) && canBlockStay(worldIn, newPos, this.getDefaultState())) pos = newPos;
+				if (world.isAirBlock(newPos) && canBlockStay(world, newPos, this.getDefaultState())) pos = newPos;
 				newPos = pos.add(rand.nextInt(3) - 1, rand.nextInt(2) - rand.nextInt(2), rand.nextInt(3) - 1);
 			}
 
-			if (worldIn.isAirBlock(newPos) && canBlockStay(worldIn, newPos, this.getDefaultState())) {
-				worldIn.setBlockState(newPos, getDefaultState(), 2);
+			if (world.isAirBlock(newPos) && canBlockStay(world, newPos, this.getDefaultState())) {
+				world.setBlockState(newPos, getDefaultState(), 2);
 			}
 		}
 	}

@@ -10,7 +10,7 @@ public class ChemicalReactorRecipes extends ProcessorRecipeHandler {
 	public ChemicalReactorRecipes() {
 		super("chemical_reactor", 0, 2, 0, 2);
 	}
-
+	
 	@Override
 	public void addRecipes() {
 		addRecipe(fluidStackList(Lists.newArrayList("boron", "boron10", "boron11"), FluidStackHelper.INGOT_VOLUME), fluidStack("hydrogen", FluidStackHelper.BUCKET_VOLUME*3), fluidStack("diborane", FluidStackHelper.BUCKET_VOLUME), emptyFluidStack(), 1.5D, 1D);
@@ -37,6 +37,16 @@ public class ChemicalReactorRecipes extends ProcessorRecipeHandler {
 		addRecipe(fluidStack("oxygen_difluoride", FluidStackHelper.BUCKET_VOLUME), fluidStack("sulfur_dioxide", FluidStackHelper.BUCKET_VOLUME), fluidStack("sulfur_trioxide", FluidStackHelper.BUCKET_VOLUME), fluidStack("fluorine", FluidStackHelper.BUCKET_VOLUME), 1D, 1.5D);
 		
 		addRecipe(fluidStack("oxygen", FluidStackHelper.BUCKET_VOLUME), fluidStack("fluorine", FluidStackHelper.BUCKET_VOLUME*2), fluidStack("oxygen_difluoride", FluidStackHelper.BUCKET_VOLUME*2), emptyFluidStack(), 1D, 1.5D);
+		
+		addRecipe(fluidStack("sugar", FluidStackHelper.INGOT_VOLUME), fluidStack("water", FluidStackHelper.BUCKET_VOLUME), fluidStack("ethanol", FluidStackHelper.BUCKET_VOLUME*4), fluidStack("carbon_dioxide", FluidStackHelper.BUCKET_VOLUME*4), 1.5D, 0.5D);
+		addRecipe(fluidStack("carbon_dioxide", FluidStackHelper.BUCKET_VOLUME), fluidStack("hydrogen", FluidStackHelper.BUCKET_VOLUME), fluidStack("carbon_monoxide", FluidStackHelper.BUCKET_VOLUME), fluidStack("water", FluidStackHelper.BUCKET_VOLUME), 2D, 0.5D);
+		addRecipe(fluidStack("carbon_monoxide", FluidStackHelper.BUCKET_VOLUME), fluidStack("hydrogen", FluidStackHelper.BUCKET_VOLUME*2), fluidStack("methanol", FluidStackHelper.BUCKET_VOLUME), emptyFluidStack(), 1D, 1D);
+		addRecipe(fluidStack("methanol", FluidStackHelper.BUCKET_VOLUME), fluidStack("hydrofluoric_acid", FluidStackHelper.BUCKET_VOLUME), fluidStack("fluoromethane", FluidStackHelper.BUCKET_VOLUME), fluidStack("water", FluidStackHelper.BUCKET_VOLUME), 1D, 1D);
+		
+		addRecipe(fluidStack("fluoromethane", FluidStackHelper.BUCKET_VOLUME), fluidStack("naoh", FluidStackHelper.GEM_VOLUME), fluidStack("ethene", FluidStackHelper.BUCKET_VOLUME/2), fluidStack("sodium_fluoride_solution", FluidStackHelper.GEM_VOLUME), 1.5D, 1D);
+		addRecipe(fluidStack("fluoromethane", FluidStackHelper.BUCKET_VOLUME), fluidStack("koh", FluidStackHelper.GEM_VOLUME), fluidStack("ethene", FluidStackHelper.BUCKET_VOLUME/2), fluidStack("potassium_fluoride_solution", FluidStackHelper.GEM_VOLUME), 1.5D, 1D);
+		
+		addRecipe(fluidStack("ethene", FluidStackHelper.BUCKET_VOLUME), fluidStack("sulfuric_acid", FluidStackHelper.BUCKET_VOLUME), fluidStack("ethanol", FluidStackHelper.BUCKET_VOLUME), fluidStack("sulfur_trioxide", FluidStackHelper.BUCKET_VOLUME), 1D, 1D);
 		
 		addRecipe(fluidStackList(Lists.newArrayList("boron", "boron10", "boron11"), FluidStackHelper.INGOT_VOLUME), fluidStack("arsenic", FluidStackHelper.GEM_VOLUME), fluidStack("bas", FluidStackHelper.GEM_VOLUME), emptyFluidStack(), 1.5D, 1.5D);
 		

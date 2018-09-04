@@ -2,7 +2,6 @@ package nc.block.fluid;
 
 import nc.Global;
 import nc.fluid.FluidBase;
-import nc.tab.NCTabs;
 import net.minecraft.block.material.Material;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -23,7 +22,6 @@ public class BlockFluidBase extends BlockFluidClassic {
 		setUnlocalizedName(Global.MOD_ID + "." + fluidBlockName);
 		setRegistryName(new ResourceLocation(Global.MOD_ID, fluidBlockName));
 		//NuclearCraft.proxy.registerFluidBlockRendering(this, name);
-		setCreativeTab(NCTabs.TAB_FLUIDS);
 		this.fluid = fluid;
 	}
 	
@@ -34,7 +32,6 @@ public class BlockFluidBase extends BlockFluidClassic {
 		setUnlocalizedName(Global.MOD_ID + "." + fluidBlockName);
 		setRegistryName(new ResourceLocation(Global.MOD_ID, fluidBlockName));
 		//NuclearCraft.proxy.registerFluidBlockRendering(this, name);
-		setCreativeTab(NCTabs.TAB_FLUIDS);
 		this.fluid = fluid;
 	}
 

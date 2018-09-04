@@ -6,13 +6,14 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 import nc.config.NCConfig;
-import nc.multiblock.MultiblockControllerBase;
-import nc.recipe.IFluidIngredient;
+import nc.multiblock.cuboidal.CuboidalPartPositionType;
+import nc.multiblock.saltFission.SaltFissionReactor;
 import nc.recipe.IRecipeHandler;
 import nc.recipe.NCRecipes;
 import nc.recipe.ProcessorRecipe;
 import nc.recipe.ProcessorRecipeHandler;
 import nc.recipe.SorptionType;
+import nc.recipe.ingredient.IFluidIngredient;
 import nc.tile.internal.fluid.FluidConnection;
 import nc.tile.internal.fluid.Tank;
 import nc.tile.processor.IFluidProcessor;
@@ -51,11 +52,11 @@ public class TileSaltFissionHeater extends TileSaltFissionPartBase implements IF
 	protected ProcessorRecipe recipe;
 	
 	public TileSaltFissionHeater() {
-		super(PartPositionType.INTERIOR);
+		super(CuboidalPartPositionType.INTERIOR);
 	}
 	
 	@Override
-	public void onMachineAssembled(MultiblockControllerBase controller) {
+	public void onMachineAssembled(SaltFissionReactor controller) {
 		doStandardNullControllerResponse(controller);
 		super.onMachineAssembled(controller);
 		if (getWorld().isRemote) return;
@@ -164,12 +165,12 @@ public class TileSaltFissionHeater extends TileSaltFissionPartBase implements IF
 		}
 		
 		else if (getCoolantName() == "diamond_nak") {
-			short nak = 0;
+			boolean nak = false;
 			boolean quartz = false;
 			for (EnumFacing dir : EnumFacing.VALUES) {
-				if (nak < 2) if (isHeaterWithCoolant(dir, "nak")) nak++;
+				if (!nak) if (isHeaterWithCoolant(dir, "nak")) nak = true;
 				if (!quartz) if (isHeaterWithCoolant(dir, "quartz_nak")) quartz = true;
-				if (nak >= 2 && quartz) {
+				if (nak && quartz) {
 					isInValidPosition = true;
 					checked = true;
 					return;
@@ -310,7 +311,7 @@ public class TileSaltFissionHeater extends TileSaltFissionPartBase implements IF
 	private boolean isWall(EnumFacing dir) {
 		if (!(world.getTileEntity(pos.offset(dir)) instanceof TileSaltFissionPartBase)) return false;
 		TileSaltFissionPartBase part = (TileSaltFissionPartBase) world.getTileEntity(pos.offset(dir));
-		return part.getPartPositionType() == PartPositionType.WALL;
+		return part.getPartPositionType() == CuboidalPartPositionType.WALL;
 	}
 	
 	private boolean isHeaterWithCoolant(EnumFacing dir, String name) {
@@ -386,17 +387,22 @@ public class TileSaltFissionHeater extends TileSaltFissionPartBase implements IF
 	public void process() {
 		time += getSpeedMultiplier();
 		if (time >= baseProcessTime) {
+			double oldProcessTime = baseProcessTime;
 			produceProducts();
 			recipe = getRecipeHandler().getRecipeFromInputs(new ArrayList<ItemStack>(), getFluidInputs());
 			setRecipeStats();
-			if (recipe == null) time = 0; else time = MathHelper.clamp(time - baseProcessTime, 0D, baseProcessTime);
+			if (recipe == null) time = 0; else {
+				setRecipeStats();
+				time = MathHelper.clamp(time - oldProcessTime, 0D, baseProcessTime);
+			}
 		}
 	}
 	
 	public boolean canProcessInputs() {
 		baseProcessCooling = 0;
 		if (recipe == null) return false;
-		else if (time >= baseProcessTime) return true;
+		setRecipeStats();
+		if (time >= baseProcessTime) return true;
 		
 		for (int j = 0; j < fluidOutputSize; j++) {
 			IFluidIngredient fluidProduct = getFluidProducts().get(j);
@@ -410,7 +416,6 @@ public class TileSaltFissionHeater extends TileSaltFissionPartBase implements IF
 				}
 			}
 		}
-		setRecipeStats();
 		return true;
 	}
 	

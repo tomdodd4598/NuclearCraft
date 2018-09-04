@@ -81,13 +81,13 @@ ________________________________________________________________________________
  Recipe Methods
 #==============#
 
-Note: recipe extras in curly brackets `{...}` are optional.
+Note: recipe extras in curly brackets `{...}` are optional, but must be in the order specified. For example, if you want to
+set a Manufactory recipe's power multiplier, you must also first set a time multiplier.
 
  Manufactory:
 >------------<
 
-mods.nuclearcraft.manufactory.addRecipe([itemInput, itemOutput, {timeMultiplier (double)}]);
-mods.nuclearcraft.manufactory.addRecipe([itemInput, itemOutput, {timeMultiplier (double), powerMultiplier (double)}]);
+mods.nuclearcraft.manufactory.addRecipe([itemInput, itemOutput, {timeMultiplier (double), powerMultiplier (double), processRadiation (double)}]);
 
 mods.nuclearcraft.manufactory.removeRecipeWithInput([itemInput]);
 mods.nuclearcraft.manufactory.removeRecipeWithOutput([itemOutput]);
@@ -96,8 +96,7 @@ ________________________________________________________________________________
  Isotope Separator:
 >------------------<
 
-mods.nuclearcraft.isotope_separator.addRecipe([itemInput, itemOutput1, itemOutput2, {timeMultiplier (double)}]);
-mods.nuclearcraft.isotope_separator.addRecipe([itemInput, itemOutput1, itemOutput2, {timeMultiplier (double), powerMultiplier (double)}]);
+mods.nuclearcraft.isotope_separator.addRecipe([itemInput, itemOutput1, itemOutput2, {timeMultiplier (double), powerMultiplier (double), processRadiation (double)}]);
 
 mods.nuclearcraft.isotope_separator.removeRecipeWithInput([itemInput]);
 mods.nuclearcraft.isotope_separator.removeRecipeWithOutput([itemOutput1, itemOutput2]);
@@ -106,8 +105,7 @@ ________________________________________________________________________________
  Decay Hastener:
 >---------------<
 
-mods.nuclearcraft.decay_hastener.addRecipe([itemInput, itemOutput, {timeMultiplier (double)}]);
-mods.nuclearcraft.decay_hastener.addRecipe([itemInput, itemOutput, {timeMultiplier (double), powerMultiplier (double)}]);
+mods.nuclearcraft.decay_hastener.addRecipe([itemInput, itemOutput, {timeMultiplier (double), powerMultiplier (double), processRadiation (double)}]);
 
 mods.nuclearcraft.decay_hastener.removeRecipeWithInput([itemInput]);
 mods.nuclearcraft.decay_hastener.removeRecipeWithOutput([itemOutput]);
@@ -116,8 +114,7 @@ ________________________________________________________________________________
  Fuel Reprocessor:
 >-----------------<
 
-mods.nuclearcraft.fuel_reprocessor.addRecipe([itemInput, itemOutput1, itemOutput2, itemOutput3, itemOutput4, {timeMultiplier (double)}]);
-mods.nuclearcraft.fuel_reprocessor.addRecipe([itemInput, itemOutput1, itemOutput2, itemOutput3, itemOutput4, {timeMultiplier (double), powerMultiplier (double)}]);
+mods.nuclearcraft.fuel_reprocessor.addRecipe([itemInput, itemOutput1, itemOutput2, itemOutput3, itemOutput4, {timeMultiplier (double), powerMultiplier (double), processRadiation (double)}]);
 
 mods.nuclearcraft.fuel_reprocessor.removeRecipeWithInput([itemInput]);
 mods.nuclearcraft.fuel_reprocessor.removeRecipeWithOutput([itemOutput1, itemOutput2, itemOutput3, itemOutput4]);
@@ -126,8 +123,7 @@ ________________________________________________________________________________
  Alloy Furnace:
 >--------------<
 
-mods.nuclearcraft.alloy_furnace.addRecipe([itemInput1, itemInput2, itemOutput, {timeMultiplier (double)}]);
-mods.nuclearcraft.alloy_furnace.addRecipe([itemInput1, itemInput2, itemOutput, {timeMultiplier (double), powerMultiplier (double)}]);
+mods.nuclearcraft.alloy_furnace.addRecipe([itemInput1, itemInput2, itemOutput, {timeMultiplier (double), powerMultiplier (double), processRadiation (double)}]);
 
 mods.nuclearcraft.alloy_furnace.removeRecipeWithInput([itemInput1, itemInput2]);
 mods.nuclearcraft.alloy_furnace.removeRecipeWithOutput([itemOutput]);
@@ -136,8 +132,7 @@ ________________________________________________________________________________
  Infuser:
 >--------<
 
-mods.nuclearcraft.infuser.addRecipe([itemInput, fluidInput, itemOutput, {timeMultiplier (double)}]);
-mods.nuclearcraft.infuser.addRecipe([itemInput, fluidInput, itemOutput, {timeMultiplier (double), powerMultiplier (double)}]);
+mods.nuclearcraft.infuser.addRecipe([itemInput, fluidInput, itemOutput, {timeMultiplier (double), powerMultiplier (double), processRadiation (double)}]);
 
 mods.nuclearcraft.infuser.removeRecipeWithInput([itemInput, fluidInput]);
 mods.nuclearcraft.infuser.removeRecipeWithOutput([itemOutput]);
@@ -146,8 +141,7 @@ ________________________________________________________________________________
  Melter:
 >-------<
 
-mods.nuclearcraft.melter.addRecipe([itemInput, fluidOutput, {timeMultiplier (double)}]);
-mods.nuclearcraft.melter.addRecipe([itemInput, fluidOutput, {timeMultiplier (double), powerMultiplier (double)}]);
+mods.nuclearcraft.melter.addRecipe([itemInput, fluidOutput, {timeMultiplier (double), powerMultiplier (double), processRadiation (double)}]);
 
 mods.nuclearcraft.melter.removeRecipeWithInput([itemInput]);
 mods.nuclearcraft.melter.removeRecipeWithOutput([fluidOutput]);
@@ -156,8 +150,7 @@ ________________________________________________________________________________
  Supercooler:
 >------------<
 
-mods.nuclearcraft.supercooler.addRecipe([fluidInput, fluidOutput, {timeMultiplier (double)}]);
-mods.nuclearcraft.supercooler.addRecipe([fluidInput, fluidOutput, {timeMultiplier (double), powerMultiplier (double)}]);
+mods.nuclearcraft.supercooler.addRecipe([fluidInput, fluidOutput, {timeMultiplier (double), powerMultiplier (double), processRadiation (double)}]);
 
 mods.nuclearcraft.supercooler.removeRecipeWithInput([fluidInput]);
 mods.nuclearcraft.supercooler.removeRecipeWithOutput([fluidOutput]);
@@ -166,8 +159,7 @@ ________________________________________________________________________________
  Electrolyzer:
 >-------------<
 
-mods.nuclearcraft.electrolyser.addRecipe([fluidInput, fluidOutput1, fluidOutput2, fluidOutput3, fluidOutput4, {timeMultiplier (double)}]);
-mods.nuclearcraft.electrolyser.addRecipe([fluidInput, fluidOutput1, fluidOutput2, fluidOutput3, fluidOutput4, {timeMultiplier (double), powerMultiplier (double)}]);
+mods.nuclearcraft.electrolyser.addRecipe([fluidInput, fluidOutput1, fluidOutput2, fluidOutput3, fluidOutput4, {timeMultiplier (double), powerMultiplier (double), processRadiation (double)}]);
 
 mods.nuclearcraft.electrolyser.removeRecipeWithInput([fluidInput]);
 mods.nuclearcraft.electrolyser.removeRecipeWithOutput([fluidOutput1, fluidOutput2, fluidOutput3, fluidOutput4]);
@@ -176,8 +168,7 @@ ________________________________________________________________________________
  Irradiator:
 >-----------<
 
-mods.nuclearcraft.irradiator.addRecipe([fluidInput1, fluidInput2, fluidOutput1, fluidOutput2, {timeMultiplier (double)}]);
-mods.nuclearcraft.irradiator.addRecipe([fluidInput1, fluidInput2, fluidOutput1, fluidOutput2, {timeMultiplier (double), powerMultiplier (double)}]);
+mods.nuclearcraft.irradiator.addRecipe([fluidInput1, fluidInput2, fluidOutput1, fluidOutput2, {timeMultiplier (double), powerMultiplier (double), processRadiation (double)}]);
 
 mods.nuclearcraft.irradiator.removeRecipeWithInput([fluidInput1, fluidInput2]);
 mods.nuclearcraft.irradiator.removeRecipeWithOutput([fluidOutput1, fluidOutput2]);
@@ -186,8 +177,7 @@ ________________________________________________________________________________
  Ingot Former:
 >-------------<
 
-mods.nuclearcraft.ingot_former.addRecipe([fluidInput, itemOutput, {timeMultiplier (double)}]);
-mods.nuclearcraft.ingot_former.addRecipe([fluidInput, itemOutput, {timeMultiplier (double), powerMultiplier (double)}]);
+mods.nuclearcraft.ingot_former.addRecipe([fluidInput, itemOutput, {timeMultiplier (double), powerMultiplier (double), processRadiation (double)}]);
 
 mods.nuclearcraft.ingot_former.removeRecipeWithInput([fluidInput]);
 mods.nuclearcraft.ingot_former.removeRecipeWithOutput([itemOutput]);
@@ -196,8 +186,7 @@ ________________________________________________________________________________
  Pressurizer:
 >------------<
 
-mods.nuclearcraft.pressurizer.addRecipe([itemInput, itemOutput, {timeMultiplier (double)}]);
-mods.nuclearcraft.pressurizer.addRecipe([itemInput, itemOutput, {timeMultiplier (double), powerMultiplier (double)}]);
+mods.nuclearcraft.pressurizer.addRecipe([itemInput, itemOutput, {timeMultiplier (double), powerMultiplier (double), processRadiation (double)}]);
 
 mods.nuclearcraft.pressurizer.removeRecipeWithInput([itemInput]);
 mods.nuclearcraft.pressurizer.removeRecipeWithOutput([itemOutput]);
@@ -206,8 +195,7 @@ ________________________________________________________________________________
  Chemical Reactor:
 >-----------------<
 
-mods.nuclearcraft.chemical_reactor.addRecipe([fluidInput1, fluidInput2, fluidOutput1, fluidOutput2, {timeMultiplier (double)}]);
-mods.nuclearcraft.chemical_reactor.addRecipe([fluidInput1, fluidInput2, fluidOutput1, fluidOutput2, {timeMultiplier (double), powerMultiplier (double)}]);
+mods.nuclearcraft.chemical_reactor.addRecipe([fluidInput1, fluidInput2, fluidOutput1, fluidOutput2, {timeMultiplier (double), powerMultiplier (double), processRadiation (double)}]);
 
 mods.nuclearcraft.chemical_reactor.removeRecipeWithInput([fluidInput1, fluidInput2]);
 mods.nuclearcraft.chemical_reactor.removeRecipeWithOutput([fluidOutput1, fluidOutput2]);
@@ -216,8 +204,7 @@ ________________________________________________________________________________
  Salt Mixer:
 >-----------<
 
-mods.nuclearcraft.salt_mixer.addRecipe([fluidInput1, fluidInput2, fluidOutput, {timeMultiplier (double)}]);
-mods.nuclearcraft.salt_mixer.addRecipe([fluidInput1, fluidInput2, fluidOutput, {timeMultiplier (double), powerMultiplier (double)}]);
+mods.nuclearcraft.salt_mixer.addRecipe([fluidInput1, fluidInput2, fluidOutput, {timeMultiplier (double), powerMultiplier (double), processRadiation (double)}]);
 
 mods.nuclearcraft.salt_mixer.removeRecipeWithInput([fluidInput1, fluidInput2]);
 mods.nuclearcraft.salt_mixer.removeRecipeWithOutput([fluidOutput]);
@@ -226,8 +213,7 @@ ________________________________________________________________________________
  Crystallizer:
 >-------------<
 
-mods.nuclearcraft.crystallizer.addRecipe([fluidInput, itemOutput, {timeMultiplier (double)}]);
-mods.nuclearcraft.crystallizer.addRecipe([fluidInput, itemOutput, {timeMultiplier (double), powerMultiplier (double)}]);
+mods.nuclearcraft.crystallizer.addRecipe([fluidInput, itemOutput, {timeMultiplier (double), powerMultiplier (double), processRadiation (double)}]);
 
 mods.nuclearcraft.crystallizer.removeRecipeWithInput([fluidInput]);
 mods.nuclearcraft.crystallizer.removeRecipeWithOutput([itemOutput]);
@@ -236,8 +222,7 @@ ________________________________________________________________________________
  Fluid Enricher:
 >---------------<
 
-mods.nuclearcraft.dissolver.addRecipe([itemInput, fluidInput, fluidOutput, {timeMultiplier (double)}]);
-mods.nuclearcraft.dissolver.addRecipe([itemInput, fluidInput, fluidOutput, {timeMultiplier (double), powerMultiplier (double)}]);
+mods.nuclearcraft.dissolver.addRecipe([itemInput, fluidInput, fluidOutput, {timeMultiplier (double), powerMultiplier (double), processRadiation (double)}]);
 
 mods.nuclearcraft.dissolver.removeRecipeWithInput([itemInput, fluidInput]);
 mods.nuclearcraft.dissolver.removeRecipeWithOutput([fluidOutput]);
@@ -246,8 +231,7 @@ ________________________________________________________________________________
  Fluid Extractor:
 >----------------<
 
-mods.nuclearcraft.extractor.addRecipe([itemInput, itemOutput, fluidOutput, {timeMultiplier (double)}]);
-mods.nuclearcraft.extractor.addRecipe([itemInput, itemOutput, fluidOutput, {timeMultiplier (double), powerMultiplier (double)}]);
+mods.nuclearcraft.extractor.addRecipe([itemInput, itemOutput, fluidOutput, {timeMultiplier (double), powerMultiplier (double), processRadiation (double)}]);
 
 mods.nuclearcraft.extractor.removeRecipeWithInput([itemInput]);
 mods.nuclearcraft.extractor.removeRecipeWithOutput([itemOutput, fluidOutput]);
@@ -256,8 +240,7 @@ ________________________________________________________________________________
  Centrifuge:
 >-----------<
 
-mods.nuclearcraft.centrifuge.addRecipe([fluidInput, fluidOutput1, fluidOutput2, fluidOutput3, fluidOutput4, {timeMultiplier (double)}]);
-mods.nuclearcraft.centrifuge.addRecipe([fluidInput, fluidOutput1, fluidOutput2, fluidOutput3, fluidOutput4, {timeMultiplier (double), powerMultiplier (double)}]);
+mods.nuclearcraft.centrifuge.addRecipe([fluidInput, fluidOutput1, fluidOutput2, fluidOutput3, fluidOutput4, {timeMultiplier (double), powerMultiplier (double), processRadiation (double)}]);
 
 mods.nuclearcraft.centrifuge.removeRecipeWithInput([fluidInput]);
 mods.nuclearcraft.centrifuge.removeRecipeWithOutput([fluidOutput1, fluidOutput2, fluidOutput3, fluidOutput4]);
@@ -266,8 +249,7 @@ ________________________________________________________________________________
  Rock Crusher:
 >-------------<
 
-mods.nuclearcraft.rock_crusher.addRecipe([itemInput, itemOutput1, itemOutput2, itemOutput3, {timeMultiplier (double)}]);
-mods.nuclearcraft.rock_crusher.addRecipe([itemInput, itemOutput1, itemOutput2, itemOutput3, {timeMultiplier (double), powerMultiplier (double)}]);
+mods.nuclearcraft.rock_crusher.addRecipe([itemInput, itemOutput1, itemOutput2, itemOutput3, {timeMultiplier (double), powerMultiplier (double), processRadiation (double)}]);
 
 mods.nuclearcraft.rock_crusher.removeRecipeWithInput([itemInput]);
 mods.nuclearcraft.rock_crusher.removeRecipeWithOutput([itemOutput1, itemOutput2, itemOutput3]);
@@ -276,7 +258,7 @@ ________________________________________________________________________________
  Decay Generator:
 >----------------<
 
-mods.nuclearcraft.decay_generator.addRecipe([blockInput, blockOutput, lifetimeTicks (double), energyPerSecond (double)]);
+mods.nuclearcraft.decay_generator.addRecipe([blockInput, blockOutput, lifetimeTicks (double), energyPerSecond (double), {processRadiation (double)}]);
 
 mods.nuclearcraft.decay_generator.removeRecipeWithInput([blockInput]);
 mods.nuclearcraft.decay_generator.removeRecipeWithOutput([blockOutput]);
@@ -285,7 +267,7 @@ ________________________________________________________________________________
  Fission:
 >--------<
 
-mods.nuclearcraft.fission.addRecipe([itemInput, itemOutput, baseTime (double), basePower (double), baseHeat (double), guiName (String)]);
+mods.nuclearcraft.fission.addRecipe([itemInput, itemOutput, baseTime (double), basePower (double), baseHeat (double), guiName (String), {processRadiation (double)}]);
 
 mods.nuclearcraft.fission.removeRecipeWithInput([itemInput]);
 mods.nuclearcraft.fission.removeRecipeWithOutput([itemOutput]);
@@ -294,7 +276,7 @@ ________________________________________________________________________________
  Fusion:
 >-------<
 
-mods.nuclearcraft.fusion.addRecipe([fluidInput1, fluidInput2, fluidOutput1, fluidOutput2, fluidOutput3, fluidOutput4, comboTime (double), comboPower (double), comboHeatVar (double)]);
+mods.nuclearcraft.fusion.addRecipe([fluidInput1, fluidInput2, fluidOutput1, fluidOutput2, fluidOutput3, fluidOutput4, comboTime (double), comboPower (double), comboHeatVar (double), {processRadiation (double)}]);
 
 mods.nuclearcraft.fusion.removeRecipeWithInput([fluidInput1, fluidInput2]);
 mods.nuclearcraft.fusion.removeRecipeWithOutput([fluidOutput1, fluidOutput2, fluidOutput3, fluidOutput4]);
@@ -303,7 +285,7 @@ ________________________________________________________________________________
  Salt Fission:
 >-------------<
 
-mods.nuclearcraft.salt_fission.addRecipe([fluidInput, fluidOutput, baseTime (double), basePower (double)]);
+mods.nuclearcraft.salt_fission.addRecipe([fluidInput, fluidOutput, baseTime (double), basePower (double), {processRadiation (double)}]);
 
 mods.nuclearcraft.salt_fission.removeRecipeWithInput([fluidInput]);
 mods.nuclearcraft.salt_fission.removeRecipeWithOutput([fluidOutput]);
@@ -316,4 +298,42 @@ mods.nuclearcraft.coolant_heater.addRecipe([fluidInput, fluidOutput, coolingRate
 
 mods.nuclearcraft.coolant_heater.removeRecipeWithInput([fluidInput]);
 mods.nuclearcraft.coolant_heater.removeRecipeWithOutput([fluidOutput]);
+___________________________________________________________________________________________________________________________
+
+ Heat Exchanger:
+>---------------<
+
+mods.nuclearcraft.heat_exchanger.addRecipe([fluidInput1, fluidInput2, fluidOutput1, fluidOutput2, {timeMultiplier (double)}]);
+
+mods.nuclearcraft.heat_exchanger.removeRecipeWithInput([fluidInput]);
+mods.nuclearcraft.heat_exchanger.removeRecipeWithOutput([fluidOutput]);
+___________________________________________________________________________________________________________________________
+
+ High Pressure Turbine:
+>----------------------<
+
+mods.nuclearcraft.high_turbine.addRecipe([fluidInput, fluidOutput, {timeMultiplier (double)}]);
+mods.nuclearcraft.high_turbine.addRecipe([fluidInput, fluidOutput, {timeMultiplier (double), powerMultiplier (double)}]);
+
+mods.nuclearcraft.high_turbine.removeRecipeWithInput([fluidInput]);
+mods.nuclearcraft.high_turbine.removeRecipeWithOutput([fluidOutput]);
+___________________________________________________________________________________________________________________________
+
+ Low Pressure Turbine:
+>---------------------<
+
+mods.nuclearcraft.low_turbine.addRecipe([fluidInput, fluidOutput, {timeMultiplier (double)}]);
+mods.nuclearcraft.low_turbine.addRecipe([fluidInput, fluidOutput, {timeMultiplier (double), powerMultiplier (double)}]);
+
+mods.nuclearcraft.low_turbine.removeRecipeWithInput([fluidInput]);
+mods.nuclearcraft.low_turbine.removeRecipeWithOutput([fluidOutput]);
+___________________________________________________________________________________________________________________________
+
+ Condenser:
+>----------<
+
+mods.nuclearcraft.condenser.addRecipe([fluidInput, fluidOutput, {timeMultiplier (double)}]);
+
+mods.nuclearcraft.condenser.removeRecipeWithInput([fluidInput]);
+mods.nuclearcraft.condenser.removeRecipeWithOutput([fluidOutput]);
 ___________________________________________________________________________________________________________________________

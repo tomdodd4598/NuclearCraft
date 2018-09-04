@@ -1,5 +1,6 @@
 package nc.tile.internal.energy;
 
+import nc.config.NCConfig;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.energy.IEnergyStorage;
@@ -90,7 +91,7 @@ public class EnergyStorage implements IEnergyStorage, INBTSerializable<NBTTagCom
 	
 	public void setStorageCapacity(int newCapacity) {
 		if(newCapacity == energyCapacity || newCapacity <= 0) return;
-		energyCapacity = newCapacity;
+		energyCapacity = Math.max(newCapacity, NCConfig.rf_per_eu);
 		if(newCapacity < energyStored) setEnergyStored(newCapacity);
     }
 	
@@ -101,18 +102,18 @@ public class EnergyStorage implements IEnergyStorage, INBTSerializable<NBTTagCom
 	
 	public void setMaxTransfer(int newMaxTransfer) {
 		if(newMaxTransfer < 0) return;
-		if(newMaxTransfer != maxReceive) maxReceive = newMaxTransfer;
-		if(newMaxTransfer != maxExtract) maxExtract = newMaxTransfer;
+		if(newMaxTransfer != maxReceive) maxReceive = Math.max(newMaxTransfer, NCConfig.rf_per_eu);
+		if(newMaxTransfer != maxExtract) maxExtract = Math.max(newMaxTransfer, NCConfig.rf_per_eu);
     }
 	
 	public void setMaxReceive(int newMaxReceive) {
 		if(newMaxReceive == maxReceive || newMaxReceive < 0) return;
-		maxReceive = newMaxReceive;
+		maxReceive = Math.max(newMaxReceive, NCConfig.rf_per_eu);
     }
 	
 	public void setMaxExtract(int newMaxExtract) {
 		if(newMaxExtract == maxExtract || newMaxExtract < 0) return;
-		maxExtract = newMaxExtract;
+		maxExtract = Math.max(newMaxExtract, NCConfig.rf_per_eu);
     }
 	
 	// NBT

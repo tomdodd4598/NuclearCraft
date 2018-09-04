@@ -48,7 +48,7 @@ public class BlockNuclearFurnace extends BlockContainer implements ITileEntityPr
 		setRegistryName(new ResourceLocation(Global.MOD_ID, "nuclear_furnace" + (isBurning ? "_active" : "_idle")));
 		setDefaultState(blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
 		this.isBurning = isBurning;
-		if (!isBurning) setCreativeTab(NCTabs.TAB_MACHINES);
+		if (!isBurning) setCreativeTab(NCTabs.MACHINES);
 		setHarvestLevel("pickaxe", 0);
 		setHardness(2F);
 		setResistance(15F);

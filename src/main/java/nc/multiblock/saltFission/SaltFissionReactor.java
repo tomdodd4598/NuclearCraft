@@ -12,23 +12,21 @@ import nc.Global;
 import nc.config.NCConfig;
 import nc.handler.SoundHandler;
 import nc.multiblock.IMultiblockPart;
-import nc.multiblock.MultiblockControllerBase;
+import nc.multiblock.MultiblockBase;
 import nc.multiblock.TileBeefBase.SyncReason;
-import nc.multiblock.cuboidal.CuboidalMultiblockControllerBase;
-import nc.multiblock.saltFission.container.ContainerSaltFissionController;
-import nc.multiblock.saltFission.network.SaltFissionUpdatePacket;
+import nc.multiblock.container.ContainerSaltFissionController;
+import nc.multiblock.cuboidal.CuboidalMultiblockBase;
+import nc.multiblock.network.SaltFissionUpdatePacket;
 import nc.multiblock.saltFission.tile.TileSaltFissionController;
 import nc.multiblock.saltFission.tile.TileSaltFissionHeater;
 import nc.multiblock.saltFission.tile.TileSaltFissionModerator;
 import nc.multiblock.saltFission.tile.TileSaltFissionVent;
 import nc.multiblock.saltFission.tile.TileSaltFissionVessel;
 import nc.multiblock.validation.IMultiblockValidator;
-import nc.network.PacketHandler;
 import nc.tile.internal.HeatBuffer;
 import nc.util.RegistryHelper;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.SoundCategory;
@@ -36,7 +34,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
-public class SaltFissionReactor extends CuboidalMultiblockControllerBase {
+public class SaltFissionReactor extends CuboidalMultiblockBase<SaltFissionUpdatePacket> {
 	
 	private Set<TileSaltFissionController> controllers;
 	private Set<TileSaltFissionVent> vents;
@@ -44,7 +42,6 @@ public class SaltFissionReactor extends CuboidalMultiblockControllerBase {
 	private Set<TileSaltFissionHeater> heaters;
 	private Set<TileSaltFissionModerator> moderators;
 	
-	private Set<EntityPlayer> playersToUpdate;
 	private TileSaltFissionController controller;
 	
 	private Random rand = new Random();
@@ -65,8 +62,6 @@ public class SaltFissionReactor extends CuboidalMultiblockControllerBase {
 		vessels = new HashSet<TileSaltFissionVessel>();
 		heaters = new HashSet<TileSaltFissionHeater>();
 		moderators = new HashSet<TileSaltFissionModerator>();
-		
-		playersToUpdate = new HashSet<EntityPlayer>();
 		
 		heatBuffer = new HeatBuffer(BASE_MAX_HEAT);
 	}
@@ -177,31 +172,26 @@ public class SaltFissionReactor extends CuboidalMultiblockControllerBase {
 	}
 	
 	@Override
-	protected boolean isBlockGoodForInterior(World world, int x, int y, int z, IMultiblockValidator validatorCallback) {
-		return true;
-	}
-	
-	@Override
 	protected boolean isMachineWhole(IMultiblockValidator validatorCallback) {
 		if (controllers.size() == 0) {
-			validatorCallback.setLastError(Global.MOD_ID + ".multiblock_validation.salt_fission.no_controller");
+			validatorCallback.setLastError(Global.MOD_ID + ".multiblock_validation.no_controller");
 			return false;
 		}
 		if (controllers.size() > 1) {
-			validatorCallback.setLastError(Global.MOD_ID + ".multiblock_validation.salt_fission.too_many_controllers");
+			validatorCallback.setLastError(Global.MOD_ID + ".multiblock_validation.too_many_controllers");
 			return false;
 		}
 		return super.isMachineWhole(validatorCallback);
 	}
 	
 	@Override
-	protected void onAssimilate(MultiblockControllerBase assimilated) {
+	protected void onAssimilate(MultiblockBase assimilated) {
 		SaltFissionReactor newController = (SaltFissionReactor) assimilated;
 		heatBuffer.mergeHeatBuffers(newController.heatBuffer);
 	}
 	
 	@Override
-	protected void onAssimilated(MultiblockControllerBase assimilator) {
+	protected void onAssimilated(MultiblockBase assimilator) {
 		
 	}
 	
@@ -259,9 +249,9 @@ public class SaltFissionReactor extends CuboidalMultiblockControllerBase {
 		}
 	}
 	
-	private static final ArrayList<String> TIER_0_COOLANTS = Lists.newArrayList("nak", "redstone_nak", "quartz_nak", "glowstone_nak", "lapis_nak", "ender_nak", "cryotheum_nak", "emerald_nak", "magnesium_nak");
-	private static final ArrayList<String> TIER_1_COOLANTS = Lists.newArrayList("gold_nak", "diamond_nak", "liquidhelium_nak", "copper_nak", "tin_nak");
-	private static final ArrayList<String> TIER_2_COOLANTS = Lists.newArrayList("iron_nak");
+	private static final ArrayList<String> STAGE_0_COOLANTS = Lists.newArrayList("nak", "redstone_nak", "quartz_nak", "glowstone_nak", "lapis_nak", "ender_nak", "cryotheum_nak", "emerald_nak", "magnesium_nak");
+	private static final ArrayList<String> STAGE_1_COOLANTS = Lists.newArrayList("gold_nak", "diamond_nak", "liquidhelium_nak", "copper_nak", "tin_nak");
+	private static final ArrayList<String> STAGE_2_COOLANTS = Lists.newArrayList("iron_nak");
 	
 	protected void doHeaterPlacementChecks() {
 		for (TileSaltFissionHeater heater : heaters) {
@@ -370,30 +360,9 @@ public class SaltFissionReactor extends CuboidalMultiblockControllerBase {
 	
 	// Packets
 	
+	@Override
 	protected SaltFissionUpdatePacket getUpdatePacket() {
 		return new SaltFissionUpdatePacket(controller.getPos(), isReactorOn, cooling, heating, efficiency, heatMult, coolingRate, heatBuffer.getHeatCapacity(), heatBuffer.getHeatStored());
-	}
-	
-	public void beginUpdatingPlayer(EntityPlayer playerToUpdate) {
-		playersToUpdate.add(playerToUpdate);
-		sendIndividualUpdate(playerToUpdate);
-	}
-	
-	public void stopUpdatingPlayer(EntityPlayer playerToRemove) {
-		playersToUpdate.remove(playerToRemove);
-	}
-	
-	protected void sendUpdateToListeningPlayers() {
-		for (EntityPlayer player : playersToUpdate) PacketHandler.instance.sendTo(getUpdatePacket(), (EntityPlayerMP) player);
-	}
-	
-	protected void sendIndividualUpdate(EntityPlayer player) {
-		if (WORLD.isRemote) return;
-		PacketHandler.instance.sendTo(getUpdatePacket(), (EntityPlayerMP) player);
-	}
-	
-	protected void sendUpdateToAllPlayers() {
-		PacketHandler.instance.sendToAll(getUpdatePacket());
 	}
 	
 	public void onPacket(boolean isReactorOn, double cooling, double heating, double efficiency, double heatMult, double coolingRate, long capacity, long heat) {
@@ -412,28 +381,9 @@ public class SaltFissionReactor extends CuboidalMultiblockControllerBase {
 	}
 	
 	// Multiblock Validators
-
+	
 	@Override
-	protected boolean isBlockGoodForBottom(World world, int x, int y, int z, IMultiblockValidator validatorCallback) {
-		validatorCallback.setLastError(Global.MOD_ID + ".multiblock_validation.salt_fission.invalid_casing", x, y, z, getBlock(x, y, z).getLocalizedName());
-		return false;
-	}
-
-	@Override
-	protected boolean isBlockGoodForFrame(World world, int x, int y, int z, IMultiblockValidator validatorCallback) {
-		validatorCallback.setLastError(Global.MOD_ID + ".multiblock_validation.salt_fission.invalid_casing", x, y, z, getBlock(x, y, z).getLocalizedName());
-		return false;
-	}
-
-	@Override
-	protected boolean isBlockGoodForSides(World world, int x, int y, int z, IMultiblockValidator validatorCallback) {
-		validatorCallback.setLastError(Global.MOD_ID + ".multiblock_validation.salt_fission.invalid_casing", x, y, z, getBlock(x, y, z).getLocalizedName());
-		return false;
-	}
-
-	@Override
-	protected boolean isBlockGoodForTop(World world, int x, int y, int z, IMultiblockValidator validatorCallback) {
-		validatorCallback.setLastError(Global.MOD_ID + ".multiblock_validation.salt_fission.invalid_casing", x, y, z, getBlock(x, y, z).getLocalizedName());
-		return false;
+	protected boolean isBlockGoodForInterior(World world, int x, int y, int z, IMultiblockValidator validatorCallback) {
+		return true;
 	}
 }

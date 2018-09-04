@@ -26,9 +26,10 @@ public class NCUtil {
 	    }
 	}
 	
+	/** NOTE: The constructor parameter types must match the argument types EXACTLY - they can NOT be superclasses */
 	public static <T> T newInstance(Class<T> clazz, Object... args) throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-		Constructor<T> fluidConstructor = clazz.getConstructor(getClasses(args));
-		return fluidConstructor.newInstance(args);
+		Constructor<T> constructor = clazz.getConstructor(getClasses(args));
+		return constructor.newInstance(args);
 	}
 	
 	public static Class<?>[] getClasses(Object... objects) {

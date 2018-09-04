@@ -2,13 +2,10 @@ package nc.worldgen.biome;
 
 import java.util.Random;
 
-import com.google.common.base.Predicate;
-
 import nc.init.NCBlocks;
 import nc.worldgen.decoration.WorldGenBush;
-import nc.worldgen.ore.UniversalPredicate;
+import nc.worldgen.ore.UniversalOrePredicate;
 import net.minecraft.block.BlockStone;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -25,8 +22,6 @@ import net.minecraftforge.event.terraingen.OreGenEvent;
 import net.minecraftforge.event.terraingen.TerrainGen;
 
 public class BiomeDecoratorNuclearWasteland extends BiomeDecorator {
-	
-	Predicate<IBlockState> replaceablePredicate = new UniversalPredicate();
 	
 	private int dirtSize = 4;
 	private int gravelSize = 26;
@@ -71,17 +66,17 @@ public class BiomeDecoratorNuclearWasteland extends BiomeDecorator {
 	protected WorldGenBush bushGen;
 
 	public BiomeDecoratorNuclearWasteland() {
-		dirtGen = new WorldGenMinable(Blocks.DIRT.getDefaultState(), dirtSize, replaceablePredicate);
-		gravelOreGen = new WorldGenMinable(Blocks.GRAVEL.getDefaultState(), gravelSize, replaceablePredicate);
-		graniteGen = new WorldGenMinable(Blocks.STONE.getDefaultState().withProperty(BlockStone.VARIANT, BlockStone.EnumType.GRANITE), graniteSize, replaceablePredicate);
-		dioriteGen = new WorldGenMinable(Blocks.STONE.getDefaultState().withProperty(BlockStone.VARIANT, BlockStone.EnumType.DIORITE), dioriteSize, replaceablePredicate);
-		andesiteGen = new WorldGenMinable(Blocks.STONE.getDefaultState().withProperty(BlockStone.VARIANT, BlockStone.EnumType.ANDESITE), andesiteSize, replaceablePredicate);
-		coalGen = new WorldGenMinable(Blocks.COAL_ORE.getDefaultState(), coalSize, replaceablePredicate);
-		ironGen = new WorldGenMinable(Blocks.IRON_ORE.getDefaultState(), ironSize, replaceablePredicate);
-		goldGen = new WorldGenMinable(Blocks.GOLD_ORE.getDefaultState(), goldSize, replaceablePredicate);
-		redstoneGen = new WorldGenMinable(Blocks.REDSTONE_ORE.getDefaultState(), redstoneSize, replaceablePredicate);
-		diamondGen = new WorldGenMinable(Blocks.DIAMOND_ORE.getDefaultState(), diamondSize, replaceablePredicate);
-		lapisGen = new WorldGenMinable(Blocks.LAPIS_ORE.getDefaultState(), lapisSize, replaceablePredicate);
+		dirtGen = new WorldGenMinable(Blocks.DIRT.getDefaultState(), dirtSize, new UniversalOrePredicate());
+		gravelOreGen = new WorldGenMinable(Blocks.GRAVEL.getDefaultState(), gravelSize, new UniversalOrePredicate());
+		graniteGen = new WorldGenMinable(Blocks.STONE.getDefaultState().withProperty(BlockStone.VARIANT, BlockStone.EnumType.GRANITE), graniteSize, new UniversalOrePredicate());
+		dioriteGen = new WorldGenMinable(Blocks.STONE.getDefaultState().withProperty(BlockStone.VARIANT, BlockStone.EnumType.DIORITE), dioriteSize, new UniversalOrePredicate());
+		andesiteGen = new WorldGenMinable(Blocks.STONE.getDefaultState().withProperty(BlockStone.VARIANT, BlockStone.EnumType.ANDESITE), andesiteSize, new UniversalOrePredicate());
+		coalGen = new WorldGenMinable(Blocks.COAL_ORE.getDefaultState(), coalSize, new UniversalOrePredicate());
+		ironGen = new WorldGenMinable(Blocks.IRON_ORE.getDefaultState(), ironSize, new UniversalOrePredicate());
+		goldGen = new WorldGenMinable(Blocks.GOLD_ORE.getDefaultState(), goldSize, new UniversalOrePredicate());
+		redstoneGen = new WorldGenMinable(Blocks.REDSTONE_ORE.getDefaultState(), redstoneSize, new UniversalOrePredicate());
+		diamondGen = new WorldGenMinable(Blocks.DIAMOND_ORE.getDefaultState(), diamondSize, new UniversalOrePredicate());
+		lapisGen = new WorldGenMinable(Blocks.LAPIS_ORE.getDefaultState(), lapisSize, new UniversalOrePredicate());
 	}
 
 	/** 

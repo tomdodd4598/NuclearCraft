@@ -23,8 +23,7 @@ public class FluidHelper {
 	}
 	
 	public static boolean accessTank(EntityPlayer player, EnumHand hand, Tank tank) {
-		ItemStack heldItem = player.getHeldItem(hand);
-		if (heldItem == null) return false;
+		if (player == null || player.getHeldItem(hand) == null) return false;
 		return FluidUtil.interactWithFluidHandler(player, hand, tank);
 	}
 	

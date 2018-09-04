@@ -34,14 +34,14 @@ public class OreDictHandler {
 		OreDictionary.registerOre("blockFissionModerator", new ItemStack(NCBlocks.ingot_block, 1, 8));
 		OreDictionary.registerOre("blockFissionModerator", new ItemStack(NCBlocks.ingot_block, 1, 9));
 		
-		OreDictionary.registerOre("blockDepletedThorium", NCBlocks.block_depleted_thorium);
-		OreDictionary.registerOre("blockDepletedUranium", NCBlocks.block_depleted_uranium);
-		OreDictionary.registerOre("blockDepletedNeptunium", NCBlocks.block_depleted_neptunium);
-		OreDictionary.registerOre("blockDepletedPlutonium", NCBlocks.block_depleted_plutonium);
-		OreDictionary.registerOre("blockDepletedAmericium", NCBlocks.block_depleted_americium);
-		OreDictionary.registerOre("blockDepletedCurium", NCBlocks.block_depleted_curium);
-		OreDictionary.registerOre("blockDepletedBerkelium", NCBlocks.block_depleted_berkelium);
-		OreDictionary.registerOre("blockDepletedCalifornium", NCBlocks.block_depleted_californium);
+		OreDictionary.registerOre("blockThorium230", NCBlocks.block_depleted_thorium);
+		OreDictionary.registerOre("blockUranium238", NCBlocks.block_depleted_uranium);
+		OreDictionary.registerOre("blockNeptunium237", NCBlocks.block_depleted_neptunium);
+		OreDictionary.registerOre("blockPlutonium242", NCBlocks.block_depleted_plutonium);
+		OreDictionary.registerOre("blockAmericium243", NCBlocks.block_depleted_americium);
+		OreDictionary.registerOre("blockCurium246", NCBlocks.block_depleted_curium);
+		OreDictionary.registerOre("blockBerkelium247", NCBlocks.block_depleted_berkelium);
+		OreDictionary.registerOre("blockCalifornium252", NCBlocks.block_depleted_californium);
 		
 		if (OreGenerator.showOre(0)) OreDictionary.registerOre("ingotCopper", new ItemStack(NCItems.ingot, 1, 0));
 		if (OreGenerator.showOre(1)) OreDictionary.registerOre("ingotTin", new ItemStack(NCItems.ingot, 1, 1));
@@ -531,15 +531,20 @@ public class OreDictHandler {
 		OreDictionary.registerOre("ingotLithium7", new ItemStack(NCItems.lithium, 1, 2));
 		OreDictionary.registerOre("nuggetLithium7", new ItemStack(NCItems.lithium, 1, 3));
 		
+		OreDictionary.registerOre("gearDominos", NCItems.dominos);
+		
+		OreDictionary.registerOre("dustWheat", NCItems.flour);
+		OreDictionary.registerOre("dyeBrown", NCItems.cocoa_solids);
+		OreDictionary.registerOre("dustCocoa", NCItems.cocoa_solids);
+		
 		OreDictionary.registerOre("record", NCItems.record_wanderer);
 		OreDictionary.registerOre("record", NCItems.record_end_of_the_world);
 		OreDictionary.registerOre("record", NCItems.record_money_for_nothing);
-		
-		OreDictionary.registerOre("gearDominos", NCItems.dominos);
+		OreDictionary.registerOre("record", NCItems.record_hyperspace);
 		
 		// Vanilla
-		OreDictionary.registerOre("gemCoal", Items.COAL);
-		OreDictionary.registerOre("gemCharcoal", new ItemStack(Items.COAL, 1, 1));
+		OreDictionary.registerOre("coal", Items.COAL);
+		OreDictionary.registerOre("charcoal", new ItemStack(Items.COAL, 1, 1));
 	}
 
 }

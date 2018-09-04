@@ -6,10 +6,10 @@ import java.util.List;
 import java.util.Random;
 
 import nc.config.NCConfig;
-import nc.recipe.IItemIngredient;
 import nc.recipe.NCRecipes;
 import nc.recipe.ProcessorRecipe;
 import nc.recipe.ProcessorRecipeHandler;
+import nc.recipe.ingredient.IItemIngredient;
 import nc.tile.dummy.IInterfaceable;
 import nc.tile.energy.TileEnergy;
 import nc.tile.internal.energy.EnergyConnection;
@@ -51,6 +51,7 @@ public class TileDecayGenerator extends TileEnergy implements IInterfaceable {
 					recipes[side.getIndex()] = getRecipeHandler().getRecipeFromInputs(Arrays.asList(ItemStackHelper.blockStateToStack(world.getBlockState(getPos().offset(side)))), new ArrayList<Tank>());
 				}
 				getEnergyStorage().changeEnergyStored(getGenerated());
+				getRadiationSource().setRadiationLevel(getRadiation());
 			}
 			pushEnergy();
 		}
@@ -74,6 +75,14 @@ public class TileDecayGenerator extends TileEnergy implements IInterfaceable {
 			power += decayGen(side);
 		}
 		return power;
+	}
+	
+	public double getRadiation() {
+		double radiation = 0D;
+		for (EnumFacing side : EnumFacing.VALUES) {
+			if (getDecayRecipe(side) != null) radiation += getDecayRecipe(side).getDecayRadiation();
+		}
+		return radiation;
 	}
 	
 	public int decayGen(EnumFacing side) {

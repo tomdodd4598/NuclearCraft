@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.google.common.collect.Lists;
 
+import nc.init.NCItems;
 import nc.recipe.ProcessorRecipeHandler;
 import nc.util.FluidStackHelper;
 import nc.util.OreDictHelper;
@@ -34,6 +35,15 @@ public class MelterRecipes extends ProcessorRecipeHandler {
 		addIngotMeltingRecipes("tough");
 		addIngotMeltingRecipes("hardCarbon", "hard_carbon");
 		
+		addRecipe(NCItems.ground_cocoa_nibs, fluidStack("chocolate_liquor", FluidStackHelper.INGOT_VOLUME), 0.25D, 0.5D);
+		addRecipe(NCItems.cocoa_butter, fluidStack("cocoa_butter", FluidStackHelper.INGOT_VOLUME), 0.25D, 0.5D);
+		addRecipe(NCItems.unsweetened_chocolate, fluidStack("unsweetened_chocolate", FluidStackHelper.INGOT_VOLUME), 0.25D, 0.5D);
+		addRecipe(NCItems.dark_chocolate, fluidStack("dark_chocolate", FluidStackHelper.INGOT_VOLUME), 0.25D, 0.5D);
+		addRecipe(NCItems.milk_chocolate, fluidStack("milk_chocolate", FluidStackHelper.INGOT_VOLUME), 0.25D, 0.5D);
+		addRecipe(Items.SUGAR, fluidStack("sugar", FluidStackHelper.INGOT_VOLUME), 0.5D, 0.5D);
+		addRecipe(NCItems.gelatin, fluidStack("gelatin", FluidStackHelper.INGOT_VOLUME), 0.5D, 0.5D);
+		addRecipe(NCItems.marshmallow, fluidStack("marshmallow", FluidStackHelper.INGOT_VOLUME), 0.5D, 0.5D);
+		
 		// Tinkers' Construct
 		addRecipe("obsidian", fluidStack("obsidian", FluidStackHelper.SEARED_BLOCK_VOLUME), 2D, 2D);
 		addRecipe("sand", fluidStack("glass", FluidStackHelper.GLASS_VOLUME), 1.5D, 1.5D);
@@ -59,7 +69,7 @@ public class MelterRecipes extends ProcessorRecipeHandler {
 		addRecipe("dustCryotheum", fluidStack("cryotheum", FluidStackHelper.EUM_DUST_VOLUME), 1D, 1D);
 		addRecipe("dustAerotheum", fluidStack("aerotheum", FluidStackHelper.EUM_DUST_VOLUME), 1D, 1D);
 		addRecipe("dustPetrotheum", fluidStack("petrotheum", FluidStackHelper.EUM_DUST_VOLUME), 1D, 1D);
-		addRecipe("gemCoal", fluidStack("coal", FluidStackHelper.COAL_DUST_VOLUME), 0.5D, 1D);
+		addRecipe("coal", fluidStack("coal", FluidStackHelper.COAL_DUST_VOLUME), 0.5D, 1D);
 		addRecipe("ingotGraphite", fluidStack("coal", FluidStackHelper.COAL_DUST_VOLUME), 0.5D, 1D);
 		addRecipe("dustCoal", fluidStack("coal", FluidStackHelper.COAL_DUST_VOLUME), 0.5D, 1D);
 		addRecipe("dustGraphite", fluidStack("coal", FluidStackHelper.COAL_DUST_VOLUME), 0.5D, 1D);

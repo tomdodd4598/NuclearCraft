@@ -27,14 +27,14 @@ public class OreGenerator implements IWorldGenerator {
 	private final WorldGenerator magnesium;
 	
 	public OreGenerator() {
-		copper = new WorldGenMinable(((BlockMeta)NCBlocks.ore).getStateFromMeta(0), NCConfig.ore_size[0], new UniversalPredicate());
-		tin = new WorldGenMinable(((BlockMeta)NCBlocks.ore).getStateFromMeta(1), NCConfig.ore_size[1], new UniversalPredicate());
-		lead = new WorldGenMinable(((BlockMeta)NCBlocks.ore).getStateFromMeta(2), NCConfig.ore_size[2], new UniversalPredicate());
-		thorium = new WorldGenMinable(((BlockMeta)NCBlocks.ore).getStateFromMeta(3), NCConfig.ore_size[3], new UniversalPredicate());
-		uranium = new WorldGenMinable(((BlockMeta)NCBlocks.ore).getStateFromMeta(4), NCConfig.ore_size[4], new UniversalPredicate());
-		boron = new WorldGenMinable(((BlockMeta)NCBlocks.ore).getStateFromMeta(5), NCConfig.ore_size[5], new UniversalPredicate());
-		lithium = new WorldGenMinable(((BlockMeta)NCBlocks.ore).getStateFromMeta(6), NCConfig.ore_size[6], new UniversalPredicate());
-		magnesium = new WorldGenMinable(((BlockMeta)NCBlocks.ore).getStateFromMeta(7), NCConfig.ore_size[7], new UniversalPredicate());
+		copper = new WorldGenMinable(((BlockMeta)NCBlocks.ore).getStateFromMeta(0), NCConfig.ore_size[0], new UniversalOrePredicate());
+		tin = new WorldGenMinable(((BlockMeta)NCBlocks.ore).getStateFromMeta(1), NCConfig.ore_size[1], new UniversalOrePredicate());
+		lead = new WorldGenMinable(((BlockMeta)NCBlocks.ore).getStateFromMeta(2), NCConfig.ore_size[2], new UniversalOrePredicate());
+		thorium = new WorldGenMinable(((BlockMeta)NCBlocks.ore).getStateFromMeta(3), NCConfig.ore_size[3], new UniversalOrePredicate());
+		uranium = new WorldGenMinable(((BlockMeta)NCBlocks.ore).getStateFromMeta(4), NCConfig.ore_size[4], new UniversalOrePredicate());
+		boron = new WorldGenMinable(((BlockMeta)NCBlocks.ore).getStateFromMeta(5), NCConfig.ore_size[5], new UniversalOrePredicate());
+		lithium = new WorldGenMinable(((BlockMeta)NCBlocks.ore).getStateFromMeta(6), NCConfig.ore_size[6], new UniversalOrePredicate());
+		magnesium = new WorldGenMinable(((BlockMeta)NCBlocks.ore).getStateFromMeta(7), NCConfig.ore_size[7], new UniversalOrePredicate());
 	}
 
 	@Override

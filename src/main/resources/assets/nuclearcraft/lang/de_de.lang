@@ -147,7 +147,7 @@ tile.nuclearcraft.irradiator_idle.desc=Bewirkt Veränderungen an der Atomstruktu
 tile.nuclearcraft.irradiator_active.name=Neutronenirritierer
 
 tile.nuclearcraft.ingot_former_idle.name=Barrenformer
-tile.nuclearcraft.ingot_former_idle.desc=Formt Barren aus geschmolzenem Metall.
+tile.nuclearcraft.ingot_former_idle.desc=Formt Barren und Edelsteine von geschmolzenen Materialien.
 tile.nuclearcraft.ingot_former_active.name=Barrenformer
 
 tile.nuclearcraft.pressurizer_idle.name=Komprimierer
@@ -155,7 +155,7 @@ tile.nuclearcraft.pressurizer_idle.desc=Verarbeitet Items unter ernormen Druck.
 tile.nuclearcraft.pressurizer_active.name=Komprimierer
 
 tile.nuclearcraft.chemical_reactor_idle.name=Chemischer Reaktor
-tile.nuclearcraft.chemical_reactor_idle.desc=Unterhält Reaktionen zwischen Gasen.
+tile.nuclearcraft.chemical_reactor_idle.desc=Unterhält Reaktionen zwischen Flüssigkeiten.
 tile.nuclearcraft.chemical_reactor_active.name=Chemischer Reaktor
 
 tile.nuclearcraft.salt_mixer_idle.name=Salzmixer
@@ -203,6 +203,9 @@ tile.nuclearcraft.fission_controller_new_idle.name=Spaltungsregeler
 tile.nuclearcraft.fission_controller_new_idle.desc=Baue einen Multiblockreaktor mithilfe von Reaktorgehäusen, Reaktorzellen, Kühlern und Moderatorblöcken! Platziere den Regeler entlang einer Kante, in einer Ecke oder in einem der Seiten der Struktur.
 tile.nuclearcraft.fission_controller_new_active.name=Spaltungsregeler
 
+tile.nuclearcraft.fission_controller_new_fixed.name=Spaltungsregeler
+tile.nuclearcraft.fission_controller_new_fixed.desc=Baue einen Multiblockreaktor mithilfe von Reaktorgehäusen, Reaktorzellen, Kühlern und Moderatorblöcken! Platziere den Regeler entlang einer Kante, in einer Ecke oder in einem der Seiten der Struktur.
+
 tile.nuclearcraft.fission_port.name=Reaktoröffnung
 tile.nuclearcraft.fission_port.desc=Platziere diesen Block im Gehäuse eines Atomreaktors anstelle eines Reaktorgehäuses, aber *nicht* in der Ober- und Unterseite. Wenn ein Regeler mit der Reaktorstruktur verbunden wird, kann sein Inventar und gespeicherte Energie durch Automatisierung über diesen Block entnommen werden. Stelle sicher, dass die Öffnung ins Reaktorinnere zeigt. Die "Vorderseite" der Öffnung ist die Seite mit leicht veränderter Textur.
 
@@ -213,6 +216,9 @@ tile.nuclearcraft.rtg_californium.name=Californium RTG
 tile.nuclearcraft.rtg.desc=Produziert konstant %s.
 
 tile.nuclearcraft.solar_panel_basic.name=Einfaches Solarpanel
+tile.nuclearcraft.solar_panel_advanced.name=Fortgeschrittenes Solarpanel
+tile.nuclearcraft.solar_panel_du.name=DU Solarpanel
+tile.nuclearcraft.solar_panel_elite.name=Elite Solarpanel
 tile.nuclearcraft.solar_panel.desc=Produziert konstant %s während der Tageszeit.
 
 tile.nuclearcraft.decay_generator.name=Zerfallsgenerator
@@ -322,6 +328,15 @@ fluid.boron10=Flüssiges Boron-10
 tile.nuclearcraft.fluid_boron11.name=Flüssiges Bor-11
 fluid.boron11=Flüssiges Bor-11
 
+tile.nuclearcraft.fluid_ferroboron.name=Flüssiges Ferrobor
+fluid.ferroboron=Flüssiges Ferrobor
+
+tile.nuclearcraft.fluid_tough.name=Flüssige harte Legierung
+fluid.tough=Flüssige harte Legierung
+
+tile.nuclearcraft.fluid_hard_carbon.name=Flüssiger harter Kohlenstoff
+fluid.hard_carbon=Flüssiger harter Kohlenstoff
+
 tile.nuclearcraft.fluid_neutron.name=Neutronenflüssigkeit
 fluid.neutron=Neutronenflüssigkeit
 
@@ -366,6 +381,9 @@ fluid.coolant=Standardkühlmittel
 
 tile.nuclearcraft.fluid_sulfur.name=Flüssiger Schwefel
 fluid.sulfur=Flüssiger Schwefel
+
+tile.nuclearcraft.fluid_arsenic.name=Flüssiges Arsenik
+fluid.arsenic=Flüssiges Arsenik
 
 tile.nuclearcraft.fluid_sulfur_dioxide.name=Schwefeldioxid
 fluid.sulfur_dioxide=Schwefeldioxid
@@ -420,6 +438,9 @@ fluid.naoh=Flüssiges Natriumhydroxid
 
 tile.nuclearcraft.fluid_koh.name=Flüssiges Kaliumhydroxid
 fluid.koh=Flüssiges Kaliumhydroxid
+
+tile.nuclearcraft.fluid_bas.name=Flüssiges Borarsenid
+fluid.bas=Flüssiges Borarsenid
 
 tile.nuclearcraft.fluid_thorium.name=Flüssiges Thorium
 fluid.thorium=Flüssiges Thorium
@@ -1046,9 +1067,10 @@ item.nuclearcraft.gem.boron_nitride.name=Kubisches Bornitrid
 item.nuclearcraft.gem.fluorite.name=Fluorit
 item.nuclearcraft.gem.fluorite.desc=Neben Lapislazuli beim Abbauen von Lapislazulierz erhalten.
 item.nuclearcraft.gem.villiaumite.name=Villiaumit
-item.nuclearcraft.gem.villiaumite.desc=Neben Redstone beim Abbauen von Diamanterz erhalten.
+item.nuclearcraft.gem.villiaumite.desc=Neben Diamanten beim Abbauen von Diamanterz erhalten.
 item.nuclearcraft.gem.carobbiite.name=Carobbiit
-item.nuclearcraft.gem.carobbiite.desc=Neben Netherquarz beim Abbauen von Diamanterz erhalten.
+item.nuclearcraft.gem.carobbiite.desc=Neben Diamanten beim Abbauen von Diamanterz erhalten.
+item.nuclearcraft.gem.boron_arsenide.name=Borarsenid
 
 item.nuclearcraft.gem_dust.diamond.name=Zerkleinerter Diamant
 item.nuclearcraft.gem_dust.rhodochrosite.name=Zerkleinerter Rhodochrosit
@@ -1061,6 +1083,7 @@ item.nuclearcraft.gem_dust.sulfur.desc=Neben Kohle beim Abbauen von Kohleerz erh
 item.nuclearcraft.gem_dust.coal.name=Zerkleinerte Kohle
 item.nuclearcraft.gem_dust.villiaumite.name=Zerkleinerter Villiaumit
 item.nuclearcraft.gem_dust.carobbiite.name=Zerkleinerter Carobbiit
+item.nuclearcraft.gem_dust.arsenic.name=Zerkleinertes Arsenik
 
 item.nuclearcraft.alloy.bronze.name=Bronzelegierung
 item.nuclearcraft.alloy.tough.name=Harte Legierung
@@ -1072,6 +1095,8 @@ item.nuclearcraft.alloy.ferroboron.name=Ferroborlegierung
 item.nuclearcraft.alloy.shibuichi.name=Shibuichilegierung
 item.nuclearcraft.alloy.tin_silver.name=Zinnsilberlegierung
 item.nuclearcraft.alloy.lead_platinum.name=Bleiplatinlegierung
+item.nuclearcraft.alloy.extreme.name=Extreme Legierung
+item.nuclearcraft.alloy.thermoconducting.name=Wärmeleitende Legierung
 
 item.nuclearcraft.compound.calcium_sulfate.name=Calciumsulfat
 item.nuclearcraft.compound.crystal_binder.name=Kristallbinder
@@ -1092,6 +1117,7 @@ item.nuclearcraft.part.servo.name=Servomechanismus
 item.nuclearcraft.part.motor.name=Elektromotor
 item.nuclearcraft.part.actuator.name=Linearer Auslöser
 item.nuclearcraft.part.chassis.name=Maschinengehäuse
+item.nuclearcraft.part.empty_frame.name=Leerer Rahmen
 
 item.nuclearcraft.upgrade.speed.name=Geschwindigkeitsupgrade
 item.nuclearcraft.upgrade.speed.desc=Erhöht die Geschwindigkeit von Maschinen auf Kosten von erhöhtem Strombedarf. Diese Upgrades können gestackt werden - die Geschwindigkeit erhöht sich mit jedem Upgrade linear während sich der Strombedarf quadriert.
@@ -1559,6 +1585,7 @@ item.nuclearcraft.record_money_for_nothing.name=Schallplatte
 item.nuclearcraft.record_money_for_nothing.des0=Dire Straits - Money For Nothing
 item.nuclearcraft.record_money_for_nothing.des1=8-Bit Cover von 'Omnigrad'
 
+itemGroup.nuclearcraft=NuclearCraft
 itemGroup.nuclearcraftBaseBlockMaterials=NuclearCraft Base Blocks
 itemGroup.nuclearcraftBaseItemMaterials=NuclearCraft Base Items
 itemGroup.nuclearcraftMachines=NuclearCraft Machines
@@ -1591,7 +1618,7 @@ gui.config.ores.ore_min_height.comment=Minimale Höhen bei welchen Erze generier
 gui.config.ores.ore_max_height=Maximale Genhöhen
 gui.config.ores.ore_max_height.comment=Maximale Höhen bei welchen Erze generieren. Reihenfolge: kupfer, zinn, blei, thorium, uran, bor, lithium, magnesium.
 gui.config.ores.ore_drops=Aktiviere Extraerzdrops
-gui.config.ores.ore_drops.comment=Sollen Vanillaerze Extraressourcen geben? Reihenfolge: rhodochrosit, berylliumstaub, zirkoniumstaub, fluor, schwefel.
+gui.config.ores.ore_drops.comment=Sollen Vanillaerze Extraressourcen geben? Reihenfolge: rhodochrosit, berylliumstaub, zirkoniumstaub, fluor, schwefel, villiaumit, carobbiit
 gui.config.ores.hide_disabled_ores=Verstecke deaktivierte Erze?
 gui.config.ores.hide_disabled_ores.comment=Entferne deaktivierte Erze vom Ore Dictionary und JEI?
 gui.config.ores.ore_harvest_levels=Erzhärte
@@ -1743,7 +1770,9 @@ gui.config.fusion.fusion_base_power.comment=Verändert erzeugte Energie von Fusi
 gui.config.fusion.fusion_fuel_use=Brennstoffverbrauchsmultiplikator
 gui.config.fusion.fusion_fuel_use.comment=Verändert den Verbrauch von Brennstoffen im Fusionsreaktor.
 gui.config.fusion.fusion_heat_generation=Hitzeerzeugungsmultiplikator
-gui.config.fusion.fusion_heat_generation.comment=Verändert die Hitzeerzeugung von Fusionsreaktoren.
+gui.config.fusion.fusion_heat_generation.comment=Verändert die Hitzeerzeugung von Fusionsreaktoren während diese laufen.
+gui.config.fusion.fusion_heating_multiplier=Erhitzungsratenmultiplikator
+gui.config.fusion.fusion_heating_multiplier.comment=Verändert die Erhitzungsrate von Fusionsreaktoren bevor diese laufen.
 gui.config.fusion.fusion_overheat=Aktiviere Kernschmelzen
 gui.config.fusion.fusion_overheat.comment=Sollen Fusionsreaktoren überhitzen können?
 gui.config.fusion.fusion_active_cooling=Aktiviere aktive Kühlung bei Fusionsreaktoren
@@ -1827,6 +1856,9 @@ gui.config.armor.armor_toughness.comment=Wiederstandsfähigkeiten der Rüstungst
 gui.config.category.other=Andere Konfigurationen
 gui.config.category.other.tooltip=Weitere Konfigrationen.
 
+gui.config.other.single_creative_tab=Einzelner Creative Tab
+gui.config.other.single_creative_tab.comment=Kombiniere alle creative tabs in einen einzigen großen?
+
 gui.config.other.register_processor=Registriere Prozessoren
 gui.config.other.register_processor.comment=Registriere Prozessoren im Spiel? Reihenfolge: Atomofen, Manufaktur, Isotopenseparator, Zerfallsbeschleuniger, Wiederaufbereitungsanlage, Legierungsofen, Flüssigkeitsinfudierer, Schmelzer, Superkühler, Elektrolysegerät, Neutronenirritierer, Barrenformer, Komprimierer, Chemischer Reaktor, Salzmixer, Kristallisierer, Flüssigkeitenanreicherer, Flüssigkeitenextraktor, Zentrifuge, Steinbrecher.
 gui.config.other.register_passive=Registriere passive Maschinen
@@ -1838,6 +1870,9 @@ gui.config.other.register_armor.comment=Registriere Rüstungstypen im Spiel? Rei
 
 gui.config.other.ctrl_info=Ctrl für mehr Info
 gui.config.other.ctrl_info.comment=Halte die Controltaste statt der Shifttaste um zusätzliche Tooltipinformation anzuzeigen?
+
+gui.config.other.jei_chance_items_include_null=JEI Chance Outputanzeige
+gui.config.other.jei_chance_items_include_null.comment=Soll die Chance des Itemoutputzyklus in JEI leere Stacks inkludieren wenn eine mögliche Outputstackgröße 0 entspricht? Wenn nicht, wird eine minimale Stackgröße von 1 angezeigt werden - wobei manche Information dadurch verloren geht, sieht es besser aus. Dies wird nur die outputs in JEI aber nicht die wirklichen outputs der Maschinen betreffen.
 
 gui.config.other.wasteland_biome=Generiere Ödlandbiom?
 gui.config.other.wasteland_biome.comment=Soll das Ödlandbiom in der Overworld generiert werden?
@@ -1902,6 +1937,7 @@ gui.container.fission_controller.casing_in_interior=Hülle im Inneren bei
 gui.container.fission_controller.invalid_structure=Falsche Struktur
 gui.container.fission_controller.pos=BlockPos
 gui.container.fission_controller.no_fuel=Kein Brennstoff
+gui.container.fission_controller.generic_fuel=Brennstoff
 gui.container.fission_controller.cells=Zellen:
 gui.container.fission_controller.efficiency=Effizienz:
 gui.container.fission_controller.heat=Hitzelevel:
@@ -2102,6 +2138,11 @@ player.geiger_tick=Geiger Tick
 music.wanderer=Wanderer
 music.end_of_the_world=End of the World
 music.money_for_nothing=Money For Nothing
+
+material.boron.name=Bor
+material.tough.name=Harte Legierung
+material.hard_carbon.name=Harter Kohlenstoff
+material.boron_nitride.name=Bornitrid
 
 death.attack.superfluid_freeze=%1$s wurde Bose-Einstein kondensiert
 death.attack.plasma_burn=%1$s wurde von Plasma incinerated eingeäschert

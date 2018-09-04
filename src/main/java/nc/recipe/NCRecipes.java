@@ -3,6 +3,12 @@ package nc.recipe;
 import nc.recipe.generator.DecayGeneratorRecipes;
 import nc.recipe.generator.FissionRecipes;
 import nc.recipe.generator.FusionRecipes;
+import nc.recipe.multiblock.CondenserRecipes;
+import nc.recipe.multiblock.CoolantHeaterRecipes;
+import nc.recipe.multiblock.HeatExchangerRecipes;
+import nc.recipe.multiblock.HighTurbineRecipes;
+import nc.recipe.multiblock.LowTurbineRecipes;
+import nc.recipe.multiblock.SaltFissionRecipes;
 import nc.recipe.processor.AlloyFurnaceRecipes;
 import nc.recipe.processor.CentrifugeRecipes;
 import nc.recipe.processor.ChemicalReactorRecipes;
@@ -22,12 +28,10 @@ import nc.recipe.processor.PressurizerRecipes;
 import nc.recipe.processor.RockCrusherRecipes;
 import nc.recipe.processor.SaltMixerRecipes;
 import nc.recipe.processor.SupercoolerRecipes;
-import nc.recipe.saltFission.CoolantHeaterRecipes;
-import nc.recipe.saltFission.SaltFissionRecipes;
 
 public class NCRecipes {
 	
-	public static boolean initialized = false;
+	private static boolean initialized = false;
 	
 	private static ManufactoryRecipes manufactory;
 	private static IsotopeSeparatorRecipes isotope_separator;
@@ -53,6 +57,10 @@ public class NCRecipes {
 	private static FusionRecipes fusion;
 	private static SaltFissionRecipes salt_fission;
 	private static CoolantHeaterRecipes coolant_heater;
+	private static HeatExchangerRecipes heat_exchanger;
+	private static HighTurbineRecipes high_turbine;
+	private static LowTurbineRecipes low_turbine;
+	private static CondenserRecipes condenser;
 	
 	public static void init() {
 		if (initialized) return;
@@ -81,6 +89,10 @@ public class NCRecipes {
 		fusion = new FusionRecipes();
 		salt_fission = new SaltFissionRecipes();
 		coolant_heater = new CoolantHeaterRecipes();
+		heat_exchanger = new HeatExchangerRecipes();
+		high_turbine = new HighTurbineRecipes();
+		low_turbine = new LowTurbineRecipes();
+		condenser = new CondenserRecipes();
 		
 		initialized = true;
 	}
@@ -109,7 +121,11 @@ public class NCRecipes {
 		FISSION,
 		FUSION,
 		SALT_FISSION,
-		COOLANT_HEATER;
+		COOLANT_HEATER,
+		HEAT_EXCHANGER,
+		HIGH_TURBINE,
+		LOW_TURBINE,
+		CONDENSER;
 		
 		public ProcessorRecipeHandler getRecipeHandler() {
 			switch (this) {
@@ -161,6 +177,14 @@ public class NCRecipes {
 				return salt_fission;
 			case COOLANT_HEATER:
 				return coolant_heater;
+			case HEAT_EXCHANGER:
+				return heat_exchanger;
+			case HIGH_TURBINE:
+				return high_turbine;
+			case LOW_TURBINE:
+				return low_turbine;
+			case CONDENSER:
+				return condenser;
 			default:
 				return manufactory;
 			}

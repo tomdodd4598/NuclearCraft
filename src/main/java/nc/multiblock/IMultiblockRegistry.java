@@ -19,18 +19,18 @@ public interface IMultiblockRegistry {
     void onPartRemovedFromWorld(World world, IMultiblockPart part);
 
     /**
-     * Call to mark a controller as dead. It should only be marked as dead
+     * Call to mark a multiblock as dead. It should only be marked as dead
      * when it has no connected parts. It will be removed after the next world tick.
      * @param world The world formerly containing the multiblock
-     * @param controller The dead controller
+     * @param multiblock The dead multiblock
      */
-    void addDeadController(World world, MultiblockControllerBase controller);
+    void addDeadMultiblock(World world, MultiblockBase multiblock);
 
     /**
-     * Call to mark a controller as dirty. Dirty means that parts have
+     * Call to mark a multiblock as dirty. Dirty means that parts have
      * been added or removed this tick.
      * @param world The world containing the multiblock
-     * @param controller The dirty controller
+     * @param multiblock The dirty multiblock
      */
-    void addDirtyController(World world, MultiblockControllerBase controller);
+    void addDirtyMultiblock(World world, MultiblockBase multiblock);
 }

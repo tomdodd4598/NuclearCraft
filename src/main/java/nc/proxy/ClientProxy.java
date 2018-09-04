@@ -6,6 +6,7 @@ import java.util.List;
 import nc.Global;
 import nc.block.fluid.BlockFluidBase;
 import nc.config.NCConfig;
+import nc.handler.TooltipHandler;
 import nc.init.NCArmor;
 import nc.init.NCBlocks;
 import nc.init.NCCoolantFluids;
@@ -13,6 +14,7 @@ import nc.init.NCFissionFluids;
 import nc.init.NCItems;
 import nc.init.NCTools;
 import nc.model.ModelTexturedFluid;
+import nc.radiation.RadiationOverlayHandler;
 import nc.render.ColorRenderer;
 import nc.render.RenderFusionCore;
 import nc.tile.generator.TileFusionCore;
@@ -33,6 +35,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.client.model.obj.OBJLoader;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -45,6 +48,8 @@ import slimeknights.tconstruct.library.client.MaterialRenderInfo;
 import slimeknights.tconstruct.library.materials.Material;
 
 public class ClientProxy extends CommonProxy {
+	
+	private final Minecraft mc = Minecraft.getMinecraft();
 	
 	@Override
 	public void preInit(FMLPreInitializationEvent preEvent) {
@@ -71,6 +76,9 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public void postInit(FMLPostInitializationEvent postEvent) {
 		super.postInit(postEvent);
+		
+		MinecraftForge.EVENT_BUS.register(new TooltipHandler());
+		MinecraftForge.EVENT_BUS.register(new RadiationOverlayHandler(mc));
 	}
 	
 	// Packets
@@ -80,17 +88,17 @@ public class ClientProxy extends CommonProxy {
 		if (getCurrentClientDimension() != dimensionId) {
 			return null;
 		} else
-			return Minecraft.getMinecraft().world;
+			return mc.world;
 	}
 
 	@Override
 	public int getCurrentClientDimension() {
-		return Minecraft.getMinecraft().world.provider.getDimension();
+		return mc.world.provider.getDimension();
 	}
 	
 	@Override
 	public EntityPlayer getPlayerEntity(MessageContext ctx) {
-		return ctx.side.isClient() ? Minecraft.getMinecraft().player : super.getPlayerEntity(ctx);
+		return ctx.side.isClient() ? mc.player : super.getPlayerEntity(ctx);
 	}
 	
 	// Fluid Colours
@@ -142,8 +150,8 @@ public class ClientProxy extends CommonProxy {
 	
 	private <T extends Fluid> void initFluidColors(List<T> fluidList) {
 		if(FMLCommonHandler.instance().getEffectiveSide().isClient()) {
-			BlockColors blockcolors = Minecraft.getMinecraft().getBlockColors();
-			ItemColors itemcolors = Minecraft.getMinecraft().getItemColors();
+			BlockColors blockcolors = mc.getBlockColors();
+			ItemColors itemcolors = mc.getItemColors();
 			for(T fluid : fluidList) {
 				if (fluid.getBlock() != null) if (NCUtil.isSubclassOf(fluid.getBlock().getClass(), BlockFluidBase.class)) {
 					BlockFluidBase block = (BlockFluidBase) fluid.getBlock();

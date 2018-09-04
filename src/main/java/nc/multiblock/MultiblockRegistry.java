@@ -42,33 +42,33 @@ public final class MultiblockRegistry implements IMultiblockRegistry {
     }
 
     /**
-     * Call to mark a controller as dead. It should only be marked as dead
+     * Call to mark a multiblock as dead. It should only be marked as dead
      * when it has no connected parts. It will be removed after the next world tick.
      * @param world The world formerly containing the multiblock
-     * @param controller The dead controller
+     * @param multiblock The dead multiblock
      */
     @Override
-    public void addDeadController(final World world, final MultiblockControllerBase controller) {
+    public void addDeadMultiblock(final World world, final MultiblockBase multiblock) {
 
         if (this._registries.containsKey(world))
-            this._registries.get(world).addDeadController(controller);
+            this._registries.get(world).addDeadMultiblock(multiblock);
         else
-            FMLLog.warning("Controller %d in world %s marked as dead, but that world is not tracked! Controller is being ignored.", controller.hashCode(), world);
+            FMLLog.warning("Multiblock %d in world %s marked as dead, but that world is not tracked! Multiblock is being ignored.", multiblock.hashCode(), world);
     }
 
     /**
-     * Call to mark a controller as dirty. Dirty means that parts have
+     * Call to mark a multiblock as dirty. Dirty means that parts have
      * been added or removed this tick.
      * @param world The world containing the multiblock
-     * @param controller The dirty controller
+     * @param multiblock The dirty multiblock
      */
     @Override
-    public void addDirtyController(final World world, final MultiblockControllerBase controller) {
+    public void addDirtyMultiblock(final World world, final MultiblockBase multiblock) {
 
         if (this._registries.containsKey(world))
-            this._registries.get(world).addDirtyController(controller);
+            this._registries.get(world).addDirtyMultiblock(multiblock);
         else
-            throw new IllegalArgumentException("Adding a dirty controller to a world that has no registered controllers!");
+            throw new IllegalArgumentException("Adding a dirty multiblock to a world that has no registered multiblocks!");
     }
 
     /*

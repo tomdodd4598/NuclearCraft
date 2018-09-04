@@ -7,10 +7,10 @@ import mezz.jei.api.recipe.IRecipeWrapper;
 import nc.integration.jei.IJEIHandler;
 import nc.integration.jei.JEIMethods.RecipeFluidMapper;
 import nc.integration.jei.JEIMethods.RecipeItemMapper;
-import nc.integration.jei.JEIProcessorCategory;
+import nc.integration.jei.JEICategoryAbstract;
 import nc.recipe.SorptionType;
 
-public class InfuserCategory extends JEIProcessorCategory {
+public class InfuserCategory extends JEICategoryAbstract {
 	
 	public InfuserCategory(IGuiHelper guiHelper, IJEIHandler handler) {
 		super(guiHelper, handler, "infuser_idle", 45, 30, 102, 26);

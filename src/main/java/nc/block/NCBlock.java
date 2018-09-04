@@ -15,18 +15,25 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class NCBlock extends Block {
 	
+	protected final boolean canCreatureSpawn;
+	
 	public NCBlock(String name, Material material) {
+		this(name, material, false);
+	}
+	
+	public NCBlock(String name, Material material, boolean canCreatureSpawn) {
 		super(material);
 		setUnlocalizedName(Global.MOD_ID + "." + name);
 		setRegistryName(new ResourceLocation(Global.MOD_ID, name));
 		setHarvestLevel("pickaxe", 0);
 		setHardness(2F);
 		setResistance(15F);
+		this.canCreatureSpawn = canCreatureSpawn;
 	}
 	
 	@Override
 	public boolean canCreatureSpawn(IBlockState state, IBlockAccess world, BlockPos pos, net.minecraft.entity.EntityLiving.SpawnPlacementType type) {
-		return false;
+		return canCreatureSpawn && super.canCreatureSpawn(state, world, pos, type);
 	}
 	
 	@Override

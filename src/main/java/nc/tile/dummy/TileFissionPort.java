@@ -1,5 +1,6 @@
 package nc.tile.dummy;
 
+import gregtech.api.capability.GregtechCapabilities;
 import gregtech.api.capability.IEnergyContainer;
 import ic2.api.energy.tile.IEnergySink;
 import li.cil.oc.api.machine.Arguments;
@@ -56,6 +57,12 @@ public class TileFissionPort extends TileDummy<TileFissionController> implements
 		return 1;
 	}
 	
+	@Override
+	public int getEUSourceTier() {
+		if (hasMaster()) return EnergyHelper.getEUTier(getMaster().processPower/getNumberOfPorts());
+		return 1;
+	}
+	
 	// Energy Pushing - Account for multiple ports
 	
 	@Override
@@ -80,7 +87,7 @@ public class TileFissionPort extends TileDummy<TileFissionController> implements
 			}
 		}
 		if (ModCheck.gregtechLoaded()) {
-			IEnergyContainer adjStorageGT = tile == null ? null : tile.getCapability(IEnergyContainer.CAPABILITY_ENERGY_CONTAINER, side.getOpposite());
+			IEnergyContainer adjStorageGT = tile == null ? null : tile.getCapability(GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER, side.getOpposite());
 			if (adjStorageGT != null && getEnergyStorage().canExtract()) {
 				int voltage = Math.min(EnergyHelper.getMaxEUFromTier(getEUSourceTier()), (getCurrentEnergyStored()/getNumberOfPorts())/NCConfig.rf_per_eu);
 				getEnergyStorage().extractEnergy((int)Math.min(voltage*adjStorageGT.acceptEnergyFromNetwork(side.getOpposite(), voltage, 1)*NCConfig.rf_per_eu, Integer.MAX_VALUE), false);
@@ -229,6 +236,12 @@ public class TileFissionPort extends TileDummy<TileFissionController> implements
 	
 	@Callback
 	@Optional.Method(modid = "opencomputers")
+	public Object[] isProcessing(Context context, Arguments args) {
+		return new Object[] {hasMaster() ? getMaster().isProcessing : false};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
 	public Object[] getProblem(Context context, Arguments args) {
 		return new Object[] {hasMaster() ? getMaster().problem : TileFissionController.INVALID_STRUCTURE};
 	}
@@ -265,8 +278,26 @@ public class TileFissionPort extends TileDummy<TileFissionController> implements
 	
 	@Callback
 	@Optional.Method(modid = "opencomputers")
+	public Object[] getEnergyChange(Context context, Arguments args) {
+		return new Object[] {hasMaster() ? getMaster().energyChange : 0};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getCurrentProcessTime(Context context, Arguments args) {
+		return new Object[] {hasMaster() ? getMaster().time : 0};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
 	public Object[] getHeatLevel(Context context, Arguments args) {
 		return new Object[] {hasMaster() ? getMaster().heat : 0};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getMaxHeatLevel(Context context, Arguments args) {
+		return new Object[] {hasMaster() ? getMaster().getMaxHeat() : 1};
 	}
 	
 	@Callback
@@ -284,7 +315,7 @@ public class TileFissionPort extends TileDummy<TileFissionController> implements
 	@Callback
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getFissionFuelTime(Context context, Arguments args) {
-		return new Object[] {hasMaster() ? getMaster().baseProcessTime : 1};
+		return new Object[] {hasMaster() ? (getMaster() != null ? getMaster().baseProcessTime : 0) : 0};
 	}
 	
 	@Callback
@@ -301,8 +332,14 @@ public class TileFissionPort extends TileDummy<TileFissionController> implements
 	
 	@Callback
 	@Optional.Method(modid = "opencomputers")
+	public Object[] getFissionFuelName(Context context, Arguments args) {
+		return new Object[] {hasMaster() ? getMaster().getFuelName() : TileFissionController.NO_FUEL};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
 	public Object[] getReactorProcessTime(Context context, Arguments args) {
-		return new Object[] {hasMaster() ? (getMaster().cells == 0 ? getMaster().baseProcessTime : getMaster().baseProcessTime/getMaster().cells) : 1};
+		return new Object[] {hasMaster() ? (getMaster() != null ? (getMaster().cells == 0 ? getMaster().baseProcessTime : getMaster().baseProcessTime/getMaster().cells) : 0) : 0};
 	}
 	
 	@Callback
@@ -321,6 +358,19 @@ public class TileFissionPort extends TileDummy<TileFissionController> implements
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getReactorCoolingRate(Context context, Arguments args) {
 		return new Object[] {hasMaster() ? getMaster().cooling : 0};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] trackReactorLayout(Context context, Arguments args) {
+		if (hasMaster() && args.isBoolean(0)) getMaster().readLayout = args.checkBoolean(0);
+		return new Object[] {};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getReactorLayout(Context context, Arguments args) {
+		return hasMaster() ? (getMaster().complete == 1 && getMaster().readLayout ? getMaster().layout : new Object[] {}) : new Object[] {};
 	}
 	
 	@Callback

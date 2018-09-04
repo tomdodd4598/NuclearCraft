@@ -2,6 +2,7 @@ package nc.recipe.processor;
 
 import com.google.common.collect.Lists;
 
+import nc.init.NCItems;
 import nc.recipe.ProcessorRecipeHandler;
 import nc.util.OreDictHelper;
 import nc.util.RegistryHelper;
@@ -17,7 +18,7 @@ public class PressurizerRecipes extends ProcessorRecipeHandler {
 
 	@Override
 	public void addRecipes() {
-		addRecipe("dustGraphite", "gemCoal", 1D, 1D);
+		addRecipe("dustGraphite", "coal", 1D, 1D);
 		addRecipe("dustDiamond", "gemDiamond", 1D, 1D);
 		addRecipe("dustRhodochrosite", "gemRhodochrosite", 1D, 1D);
 		addRecipe(Lists.newArrayList("dustQuartz", "dustNetherQuartz"), "gemQuartz", 1D, 1D);
@@ -27,6 +28,7 @@ public class PressurizerRecipes extends ProcessorRecipeHandler {
 		addRecipe("dustVilliaumite", "gemVilliaumite", 1D, 1D);
 		addRecipe("dustCarobbiite", "gemCarobbiite", 1D, 1D);
 		addRecipe(oreStack("ingotGraphite", 64), "gemDiamond", 3D, 1.5D);
+		addRecipe(oreStack("dustWheat", 2), NCItems.graham_cracker, 0.25D, 0.5D);
 		
 		// IC2
 		addRecipe(oreStack("dustClay", 4), "dustSiliconDioxide", 1D, 1D);

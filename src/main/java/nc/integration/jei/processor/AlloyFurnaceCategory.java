@@ -6,10 +6,10 @@ import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeWrapper;
 import nc.integration.jei.IJEIHandler;
 import nc.integration.jei.JEIMethods.RecipeItemMapper;
-import nc.integration.jei.JEIProcessorCategory;
+import nc.integration.jei.JEICategoryAbstract;
 import nc.recipe.SorptionType;
 
-public class AlloyFurnaceCategory extends JEIProcessorCategory {
+public class AlloyFurnaceCategory extends JEICategoryAbstract {
 	
 	public AlloyFurnaceCategory(IGuiHelper guiHelper, IJEIHandler handler) {
 		super(guiHelper, handler, "alloy_furnace_idle", 45, 30, 102, 26);

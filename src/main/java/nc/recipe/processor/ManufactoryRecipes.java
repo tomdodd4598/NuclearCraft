@@ -1,6 +1,9 @@
 package nc.recipe.processor;
 
+import com.google.common.collect.Lists;
+
 import nc.config.NCConfig;
+import nc.init.NCItems;
 import nc.recipe.ProcessorRecipeHandler;
 import nc.util.OreDictHelper;
 import net.minecraft.init.Blocks;
@@ -16,8 +19,9 @@ public class ManufactoryRecipes extends ProcessorRecipeHandler {
 
 	@Override
 	public void addRecipes() {
-		addRecipe("gemCoal", "dustCoal", 0.5D, 1D);
+		addRecipe("coal", "dustCoal", 0.5D, 1D);
 		addRecipe("dustCoal", "dustGraphite", 0.25D, 0.5D);
+		addRecipe("charcoal", "dustCharcoal", 0.5D, 0.5D);
 		
 		addRecipe("gemDiamond", "dustDiamond", 1.5D, 1.5D);
 		addRecipe("gemRhodochrosite", "dustRhodochrosite", 1.5D, 1.5D);
@@ -30,14 +34,23 @@ public class ManufactoryRecipes extends ProcessorRecipeHandler {
 		addRecipe("dustVilliaumite", "dustSodiumFluoride", 1D, 1D);
 		addRecipe("dustCarobbiite", "dustPotassiumFluoride", 1D, 1D);
 		
+		if (OreDictHelper.oreExists("ingotSilicon")) {
+			addRecipe(oreStack("sand", 4), "ingotSilicon", 1D, 0.5D);
+			addRecipe("ingotSilicon", "itemSilicon", 1D, 0.5D);
+		}
+		else addRecipe(oreStack("sand", 4), "itemSilicon", 1D, 0.5D);
+		
 		addRecipe("obsidian", oreStack("dustObsidian", 4), 2D, 1.5D);
-		addRecipe(oreStack("sand", 4), "itemSilicon", 1D, 0.5D);
 		addRecipe("cobblestone", Blocks.SAND, 1D, 1D);
 		addRecipe("gravel", Items.FLINT, 1D, 1D);
+		addRecipe(Items.BLAZE_ROD, new ItemStack(Items.BLAZE_POWDER, 4), 1D, 1D);
 		addRecipe(new ItemStack(Items.ROTTEN_FLESH, 4), Items.LEATHER, 0.5D, 1D);
 		addRecipe(new ItemStack(Items.REEDS, 2), "bioplastic", 1D, 0.5D);
 		addRecipe("cropWheat", "dustWheat", 0.25D, 0.5D);
 		addRecipe("cropBarley", "dustBarley", 0.25D, 0.5D);
+		addRecipe("bone", new ItemStack(Items.DYE, 6, 15), 0.5D, 1D);
+		addRecipe(NCItems.roasted_cocoa_beans, NCItems.ground_cocoa_nibs, 0.5D, 0.5D);
+		addRecipe(Lists.newArrayList(Items.PORKCHOP, "fish"), NCItems.gelatin, 0.5D, 0.5D);
 		
 		// Immersive Engineering
 		addRecipe(oreStack("dustCoke", 8), "dustHOPGraphite", 2D, 2D);
@@ -52,7 +65,7 @@ public class ManufactoryRecipes extends ProcessorRecipeHandler {
 		addRecipe("ingotDilithium", "dustDilithium", 1D, 1D);
 		
 		// AE2
-		addRecipe(Items.ENDER_PEARL, "dustEnder", 1D, 1D);
+		addRecipe(Items.ENDER_PEARL, oreStackList(Lists.newArrayList("dustEnder", "dustEnderPearl"), 2), 0.5D, 1D);
 		
 		if (NCConfig.ore_processing) addOreProcessingRecipes();
 	}

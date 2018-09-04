@@ -19,16 +19,6 @@ public class EnergyTileWrapperGT implements IEnergyContainer {
 		this.side = side;
 	}
 
-	/*@Override
-	@Optional.Method(modid = "gregtech")
-	public long acceptEnergyFromNetwork(EnumFacing side, long voltage, long amperage) {
-		if (tile.getEnergyStored() < tile.getMaxEnergyStored()) {
-			
-			return 1;
-		}
-		return 0;
-	}*/
-	
 	@Override
 	@Optional.Method(modid = "gregtech")
 	public long acceptEnergyFromNetwork(EnumFacing side, long voltage, long amperage) {
@@ -74,13 +64,13 @@ public class EnergyTileWrapperGT implements IEnergyContainer {
 	@Override
 	@Optional.Method(modid = "gregtech")
 	public long getInputAmperage() {
-		return 1;
+		return tile.getEnergyStored() < tile.getMaxEnergyStored() ? 1 : 0;
 	}
 	
 	@Override
 	@Optional.Method(modid = "gregtech")
 	public long getOutputAmperage() {
-		return 1;
+		return tile.getEnergyStored()/NCConfig.rf_per_eu < 1 ? 0 : 1;
 	}
 
 	@Override

@@ -22,7 +22,7 @@ public class BlockFusionCore extends BlockInventory implements IActivatable {
 	
 	public BlockFusionCore() {
 		super("fusion_core", Material.IRON);
-		setCreativeTab(NCTabs.TAB_FUSION);
+		setCreativeTab(NCTabs.FUSION);
 	}
 	
 	@Override

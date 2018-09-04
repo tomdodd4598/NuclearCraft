@@ -6,11 +6,11 @@ import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeWrapper;
 import nc.integration.jei.IJEIHandler;
 import nc.integration.jei.JEIMethods.RecipeFluidMapper;
-import nc.integration.jei.JEIProcessorCategory;
+import nc.integration.jei.JEICategoryAbstract;
 import nc.recipe.SorptionType;
 import nc.util.Lang;
 
-public class FusionCategory extends JEIProcessorCategory {
+public class FusionCategory extends JEICategoryAbstract {
 	
 	public FusionCategory(IGuiHelper guiHelper, IJEIHandler handler) {
 		super(guiHelper, handler, "fusion_core", "_jei", 55, 30, 94, 26);

@@ -5,8 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nc.Global;
+import nc.radiation.RadSources;
 import nc.util.Lang;
-import nc.util.NCMathHelper;
+import nc.util.NCMath;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
@@ -25,10 +26,14 @@ public class NCConfig {
 	public static final String CATEGORY_FISSION = "fission";
 	public static final String CATEGORY_FUSION = "fusion";
 	public static final String CATEGORY_SALT_FISSION = "salt_fission";
+	public static final String CATEGORY_HEAT_EXCHANGER = "heat_exchanger";
+	public static final String CATEGORY_TURBINE = "turbine";
+	public static final String CATEGORY_CONDENSER = "condenser";
 	public static final String CATEGORY_ACCELERATOR = "accelerator";
 	public static final String CATEGORY_ENERGY_STORAGE = "energy_storage";
 	public static final String CATEGORY_TOOLS = "tools";
 	public static final String CATEGORY_ARMOR = "armor";
+	public static final String CATEGORY_RADIATION = "radiation";
 	public static final String CATEGORY_OTHER = "other";
 	
 	public static int[] ore_dims;
@@ -79,38 +84,47 @@ public class NCConfig {
 	public static double[] fission_thorium_fuel_time;
 	public static double[] fission_thorium_power;
 	public static double[] fission_thorium_heat_generation;
+	public static double[] fission_thorium_radiation;
 	
 	public static double[] fission_uranium_fuel_time;
 	public static double[] fission_uranium_power;
 	public static double[] fission_uranium_heat_generation;
+	public static double[] fission_uranium_radiation;
 	
 	public static double[] fission_neptunium_fuel_time;
 	public static double[] fission_neptunium_power;
 	public static double[] fission_neptunium_heat_generation;
+	public static double[] fission_neptunium_radiation;
 	
 	public static double[] fission_plutonium_fuel_time;
 	public static double[] fission_plutonium_power;
 	public static double[] fission_plutonium_heat_generation;
+	public static double[] fission_plutonium_radiation;
 	
 	public static double[] fission_mox_fuel_time;
 	public static double[] fission_mox_power;
 	public static double[] fission_mox_heat_generation;
+	public static double[] fission_mox_radiation;
 	
 	public static double[] fission_americium_fuel_time;
 	public static double[] fission_americium_power;
 	public static double[] fission_americium_heat_generation;
+	public static double[] fission_americium_radiation;
 	
 	public static double[] fission_curium_fuel_time;
 	public static double[] fission_curium_power;
 	public static double[] fission_curium_heat_generation;
+	public static double[] fission_curium_radiation;
 	
 	public static double[] fission_berkelium_fuel_time;
 	public static double[] fission_berkelium_power;
 	public static double[] fission_berkelium_heat_generation;
+	public static double[] fission_berkelium_radiation;
 	
 	public static double[] fission_californium_fuel_time;
 	public static double[] fission_californium_power;
 	public static double[] fission_californium_heat_generation;
+	public static double[] fission_californium_radiation;
 	
 	public static double fusion_base_power; // Default: 1
 	public static double fusion_fuel_use; // Default: 1
@@ -124,6 +138,7 @@ public class NCConfig {
 	public static int fusion_comparator_max_efficiency;
 	public static int fusion_electromagnet_power;
 	public static boolean fusion_alternate_sound;
+	public static boolean fusion_plasma_craziness;
 	
 	public static double[] fusion_fuel_time;
 	public static double[] fusion_power;
@@ -158,6 +173,26 @@ public class NCConfig {
 	public static int[] armor_boron_nitride;
 	public static int[] armor_enchantability;
 	public static double[] armor_toughness;
+	
+	public static boolean radiation_enabled;
+	
+	public static String[] radiation_worlds;
+	
+	public static double max_player_rads;
+	public static double radiation_spread_rate;
+	public static double radiation_decay_rate;
+	public static double radiation_lowest_rate;
+	
+	public static double radiation_radaway_amount;
+	public static double radiation_radaway_rate;
+	public static double radiation_rad_x_amount;
+	public static double radiation_rad_x_lifetime;
+	public static double[] radiation_shielding_level;
+	
+	public static boolean radiation_hardcore_stacks;
+	
+	public static double radiation_hud_size;
+	public static double radiation_hud_position;
 	
 	public static boolean single_creative_tab;
 	
@@ -219,7 +254,7 @@ public class NCConfig {
 	private static void syncConfig(boolean loadFromConfigFile, boolean readFieldFromConfig) {
 		if (loadFromConfigFile) config.load();
 		
-		Property propertyOreDims = config.get(CATEGORY_ORES, "ore_dims", new int[] {0, 6, -11325, -9999, -100}, Lang.localise("gui.config.ores.ore_dims.comment"), Integer.MIN_VALUE, Integer.MAX_VALUE);
+		Property propertyOreDims = config.get(CATEGORY_ORES, "ore_dims", new int[] {0, 2, 6, -100, -9999, -11325}, Lang.localise("gui.config.ores.ore_dims.comment"), Integer.MIN_VALUE, Integer.MAX_VALUE);
 		propertyOreDims.setLanguageKey("gui.config.ores.ore_dims");
 		Property propertyOreDimsListType = config.get(CATEGORY_ORES, "ore_dims_list_type", false, Lang.localise("gui.config.ores.ore_dims_list_type.comment"));
 		propertyOreDimsListType.setLanguageKey("gui.config.ores.ore_dims_list_type");
@@ -306,66 +341,84 @@ public class NCConfig {
 		
 		Property propertyFissionThoriumFuelTime = config.get(CATEGORY_FISSION, "fission_thorium_fuel_time", new double[] {144000D, 144000D}, Lang.localise("gui.config.fission.fission_thorium_fuel_time.comment"), 1D, Double.MAX_VALUE);
 		propertyFissionThoriumFuelTime.setLanguageKey("gui.config.fission.fission_thorium_fuel_time");
-		Property propertyFissionThoriumPower = config.get(CATEGORY_FISSION, "fission_thorium_power", new double[] {60D, NCMathHelper.round(60D*1.4D, 1)}, Lang.localise("gui.config.fission.fission_thorium_power.comment"), 0D, 32767D);
+		Property propertyFissionThoriumPower = config.get(CATEGORY_FISSION, "fission_thorium_power", new double[] {60D, NCMath.round(60D*1.4D, 1)}, Lang.localise("gui.config.fission.fission_thorium_power.comment"), 0D, 32767D);
 		propertyFissionThoriumPower.setLanguageKey("gui.config.fission.fission_thorium_power");
-		Property propertyFissionThoriumHeatGeneration = config.get(CATEGORY_FISSION, "fission_thorium_heat_generation", new double[] {18D, NCMathHelper.round(18D*1.25D, 1)}, Lang.localise("gui.config.fission.fission_thorium_heat_generation.comment"), 0D, 32767D);
+		Property propertyFissionThoriumHeatGeneration = config.get(CATEGORY_FISSION, "fission_thorium_heat_generation", new double[] {18D, NCMath.round(18D*1.25D, 1)}, Lang.localise("gui.config.fission.fission_thorium_heat_generation.comment"), 0D, 32767D);
 		propertyFissionThoriumHeatGeneration.setLanguageKey("gui.config.fission.fission_thorium_heat_generation");
+		Property propertyFissionThoriumRadiation = config.get(CATEGORY_FISSION, "fission_thorium_radiation", new double[] {RadSources.TBU/64D, RadSources.TBU/64D}, Lang.localise("gui.config.fission.fission_thorium_radiation.comment"), 0D, 1000D);
+		propertyFissionThoriumRadiation.setLanguageKey("gui.config.fission.fission_thorium_radiation");
 		
 		Property propertyFissionUraniumFuelTime = config.get(CATEGORY_FISSION, "fission_uranium_fuel_time", new double[] {64000D, 64000D, 64000D, 64000D, 72000D, 72000D, 72000D, 72000D}, Lang.localise("gui.config.fission.fission_uranium_fuel_time.comment"), 1D, Double.MAX_VALUE);
 		propertyFissionUraniumFuelTime.setLanguageKey("gui.config.fission.fission_uranium_fuel_time");
-		Property propertyFissionUraniumPower = config.get(CATEGORY_FISSION, "fission_uranium_power", new double[] {144D, NCMathHelper.round(144D*1.4D, 1), 144D*4D, NCMathHelper.round(144D*4D*1.4D, 1), 120D, NCMathHelper.round(120D*1.4D, 1), 120D*4D, NCMathHelper.round(120D*4D*1.4D, 1)}, Lang.localise("gui.config.fission.fission_uranium_power.comment"), 0D, 32767D);
+		Property propertyFissionUraniumPower = config.get(CATEGORY_FISSION, "fission_uranium_power", new double[] {144D, NCMath.round(144D*1.4D, 1), 144D*4D, NCMath.round(144D*4D*1.4D, 1), 120D, NCMath.round(120D*1.4D, 1), 120D*4D, NCMath.round(120D*4D*1.4D, 1)}, Lang.localise("gui.config.fission.fission_uranium_power.comment"), 0D, 32767D);
 		propertyFissionUraniumPower.setLanguageKey("gui.config.fission.fission_uranium_power");
-		Property propertyFissionUraniumHeatGeneration = config.get(CATEGORY_FISSION, "fission_uranium_heat_generation", new double[] {60D, NCMathHelper.round(60D*1.25D, 1), 60D*6D, NCMathHelper.round(60D*6D*1.25D, 1), 50D, NCMathHelper.round(50D*1.25D, 1), 50D*6D, NCMathHelper.round(50D*6D*1.25D, 1)}, Lang.localise("gui.config.fission.fission_uranium_heat_generation.comment"), 0D, 32767D);
+		Property propertyFissionUraniumHeatGeneration = config.get(CATEGORY_FISSION, "fission_uranium_heat_generation", new double[] {60D, NCMath.round(60D*1.25D, 1), 60D*6D, NCMath.round(60D*6D*1.25D, 1), 50D, NCMath.round(50D*1.25D, 1), 50D*6D, NCMath.round(50D*6D*1.25D, 1)}, Lang.localise("gui.config.fission.fission_uranium_heat_generation.comment"), 0D, 32767D);
 		propertyFissionUraniumHeatGeneration.setLanguageKey("gui.config.fission.fission_uranium_heat_generation");
+		Property propertyFissionUraniumRadiation = config.get(CATEGORY_FISSION, "fission_uranium_radiation", new double[] {RadSources.LEU_233/64D, RadSources.LEU_233/64D, RadSources.HEU_233/64D, RadSources.HEU_233/64D, RadSources.LEU_235/64D, RadSources.LEU_235/64D, RadSources.HEU_235/64D, RadSources.HEU_235/64D}, Lang.localise("gui.config.fission.fission_uranium_radiation.comment"), 0D, 1000D);
+		propertyFissionUraniumRadiation.setLanguageKey("gui.config.fission.fission_uranium_radiation");
 		
 		Property propertyFissionNeptuniumFuelTime = config.get(CATEGORY_FISSION, "fission_neptunium_fuel_time", new double[] {102000D, 102000D, 102000D, 102000D}, Lang.localise("gui.config.fission.fission_neptunium_fuel_time.comment"), 1D, Double.MAX_VALUE);
 		propertyFissionNeptuniumFuelTime.setLanguageKey("gui.config.fission.fission_neptunium_fuel_time");
-		Property propertyFissionNeptuniumPower = config.get(CATEGORY_FISSION, "fission_neptunium_power", new double[] {90D, NCMathHelper.round(90D*1.4D, 1), 90D*4D, NCMathHelper.round(90D*4D*1.4D, 1)}, Lang.localise("gui.config.fission.fission_neptunium_power.comment"), 0D, 32767D);
+		Property propertyFissionNeptuniumPower = config.get(CATEGORY_FISSION, "fission_neptunium_power", new double[] {90D, NCMath.round(90D*1.4D, 1), 90D*4D, NCMath.round(90D*4D*1.4D, 1)}, Lang.localise("gui.config.fission.fission_neptunium_power.comment"), 0D, 32767D);
 		propertyFissionNeptuniumPower.setLanguageKey("gui.config.fission.fission_neptunium_power");
-		Property propertyFissionNeptuniumHeatGeneration = config.get(CATEGORY_FISSION, "fission_neptunium_heat_generation", new double[] {36D, NCMathHelper.round(36D*1.25D, 1), 36D*6D, NCMathHelper.round(36D*6D*1.25D, 1)}, Lang.localise("gui.config.fission.fission_neptunium_heat_generation.comment"), 0D, 32767D);
+		Property propertyFissionNeptuniumHeatGeneration = config.get(CATEGORY_FISSION, "fission_neptunium_heat_generation", new double[] {36D, NCMath.round(36D*1.25D, 1), 36D*6D, NCMath.round(36D*6D*1.25D, 1)}, Lang.localise("gui.config.fission.fission_neptunium_heat_generation.comment"), 0D, 32767D);
 		propertyFissionNeptuniumHeatGeneration.setLanguageKey("gui.config.fission.fission_neptunium_heat_generation");
+		Property propertyFissionNeptuniumRadiation = config.get(CATEGORY_FISSION, "fission_neptunium_radiation", new double[] {RadSources.LEN_236/64D, RadSources.LEN_236/64D, RadSources.HEN_236/64D, RadSources.HEN_236/64D}, Lang.localise("gui.config.fission.fission_neptunium_radiation.comment"), 0D, 1000D);
+		propertyFissionNeptuniumRadiation.setLanguageKey("gui.config.fission.fission_neptunium_radiation");
 		
 		Property propertyFissionPlutoniumFuelTime = config.get(CATEGORY_FISSION, "fission_plutonium_fuel_time", new double[] {92000D, 92000D, 92000D, 92000D, 60000D, 60000D, 60000D, 60000D}, Lang.localise("gui.config.fission.fission_plutonium_fuel_time.comment"), 1D, Double.MAX_VALUE);
 		propertyFissionPlutoniumFuelTime.setLanguageKey("gui.config.fission.fission_plutonium_fuel_time");
-		Property propertyFissionPlutoniumPower = config.get(CATEGORY_FISSION, "fission_plutonium_power", new double[] {105D, NCMathHelper.round(105D*1.4D, 1), 105D*4D, NCMathHelper.round(105D*4D*1.4D, 1), 165D, NCMathHelper.round(165D*1.4D, 1), 165D*4D, NCMathHelper.round(165D*4D*1.4D, 1)}, Lang.localise("gui.config.fission.fission_plutonium_power.comment"), 0D, 32767D);
+		Property propertyFissionPlutoniumPower = config.get(CATEGORY_FISSION, "fission_plutonium_power", new double[] {105D, NCMath.round(105D*1.4D, 1), 105D*4D, NCMath.round(105D*4D*1.4D, 1), 165D, NCMath.round(165D*1.4D, 1), 165D*4D, NCMath.round(165D*4D*1.4D, 1)}, Lang.localise("gui.config.fission.fission_plutonium_power.comment"), 0D, 32767D);
 		propertyFissionPlutoniumPower.setLanguageKey("gui.config.fission.fission_plutonium_power");
-		Property propertyFissionPlutoniumHeatGeneration = config.get(CATEGORY_FISSION, "fission_plutonium_heat_generation", new double[] {40D, NCMathHelper.round(40D*1.25D, 1), 40D*6D, NCMathHelper.round(40D*6D*1.25D, 1), 70D, NCMathHelper.round(70D*1.25D, 1), 70D*6D, NCMathHelper.round(70D*6D*1.25D, 1)}, Lang.localise("gui.config.fission.fission_plutonium_heat_generation.comment"), 0D, 32767D);
+		Property propertyFissionPlutoniumHeatGeneration = config.get(CATEGORY_FISSION, "fission_plutonium_heat_generation", new double[] {40D, NCMath.round(40D*1.25D, 1), 40D*6D, NCMath.round(40D*6D*1.25D, 1), 70D, NCMath.round(70D*1.25D, 1), 70D*6D, NCMath.round(70D*6D*1.25D, 1)}, Lang.localise("gui.config.fission.fission_plutonium_heat_generation.comment"), 0D, 32767D);
 		propertyFissionPlutoniumHeatGeneration.setLanguageKey("gui.config.fission.fission_plutonium_heat_generation");
+		Property propertyFissionPlutoniumRadiation = config.get(CATEGORY_FISSION, "fission_plutonium_radiation", new double[] {RadSources.LEP_239/64D, RadSources.LEP_239/64D, RadSources.HEP_239/64D, RadSources.HEP_239/64D, RadSources.LEP_241/64D, RadSources.LEP_241/64D, RadSources.HEP_241/64D, RadSources.HEP_241/64D}, Lang.localise("gui.config.fission.fission_plutonium_radiation.comment"), 0D, 1000D);
+		propertyFissionPlutoniumRadiation.setLanguageKey("gui.config.fission.fission_plutonium_radiation");
 		
 		Property propertyFissionMOXFuelTime = config.get(CATEGORY_FISSION, "fission_mox_fuel_time", new double[] {84000D, 56000D}, Lang.localise("gui.config.fission.fission_mox_fuel_time.comment"), 1D, Double.MAX_VALUE);
 		propertyFissionMOXFuelTime.setLanguageKey("gui.config.fission.fission_mox_fuel_time");
-		Property propertyFissionMOXPower = config.get(CATEGORY_FISSION, "fission_mox_power", new double[] {NCMathHelper.round(111D*1.4D, 1), NCMathHelper.round(174D*1.4D, 1)}, Lang.localise("gui.config.fission.fission_mox_power.comment"), 0D, 32767D);
+		Property propertyFissionMOXPower = config.get(CATEGORY_FISSION, "fission_mox_power", new double[] {NCMath.round(111D*1.4D, 1), NCMath.round(174D*1.4D, 1)}, Lang.localise("gui.config.fission.fission_mox_power.comment"), 0D, 32767D);
 		propertyFissionMOXPower.setLanguageKey("gui.config.fission.fission_mox_power");
-		Property propertyFissionMOXHeatGeneration = config.get(CATEGORY_FISSION, "fission_mox_heat_generation", new double[] {NCMathHelper.round(46D*1.25D, 1), NCMathHelper.round(78D*1.25D, 1)}, Lang.localise("gui.config.fission.fission_mox_heat_generation.comment"), 0D, 32767D);
+		Property propertyFissionMOXHeatGeneration = config.get(CATEGORY_FISSION, "fission_mox_heat_generation", new double[] {NCMath.round(46D*1.25D, 1), NCMath.round(78D*1.25D, 1)}, Lang.localise("gui.config.fission.fission_mox_heat_generation.comment"), 0D, 32767D);
 		propertyFissionMOXHeatGeneration.setLanguageKey("gui.config.fission.fission_mox_heat_generation");
+		Property propertyFissionMOXRadiation = config.get(CATEGORY_FISSION, "fission_mox_radiation", new double[] {RadSources.MOX_239/64D, RadSources.MOX_241/64D}, Lang.localise("gui.config.fission.fission_mox_radiation.comment"), 0D, 1000D);
+		propertyFissionMOXRadiation.setLanguageKey("gui.config.fission.fission_mox_radiation");
 		
 		Property propertyFissionAmericiumFuelTime = config.get(CATEGORY_FISSION, "fission_americium_fuel_time", new double[] {54000D, 54000D, 54000D, 54000D}, Lang.localise("gui.config.fission.fission_americium_fuel_time.comment"), 1D, Double.MAX_VALUE);
 		propertyFissionAmericiumFuelTime.setLanguageKey("gui.config.fission.fission_americium_fuel_time");
-		Property propertyFissionAmericiumPower = config.get(CATEGORY_FISSION, "fission_americium_power", new double[] {192D, NCMathHelper.round(192D*1.4D, 1), 192D*4D, NCMathHelper.round(192D*4D*1.4D, 1)}, Lang.localise("gui.config.fission.fission_americium_power.comment"), 0D, 32767D);
+		Property propertyFissionAmericiumPower = config.get(CATEGORY_FISSION, "fission_americium_power", new double[] {192D, NCMath.round(192D*1.4D, 1), 192D*4D, NCMath.round(192D*4D*1.4D, 1)}, Lang.localise("gui.config.fission.fission_americium_power.comment"), 0D, 32767D);
 		propertyFissionAmericiumPower.setLanguageKey("gui.config.fission.fission_americium_power");
-		Property propertyFissionAmericiumHeatGeneration = config.get(CATEGORY_FISSION, "fission_americium_heat_generation", new double[] {94D, NCMathHelper.round(94D*1.25D, 1), 94D*6D, NCMathHelper.round(94D*6D*1.25D, 1)}, Lang.localise("gui.config.fission.fission_americium_heat_generation.comment"), 0D, 32767D);
+		Property propertyFissionAmericiumHeatGeneration = config.get(CATEGORY_FISSION, "fission_americium_heat_generation", new double[] {94D, NCMath.round(94D*1.25D, 1), 94D*6D, NCMath.round(94D*6D*1.25D, 1)}, Lang.localise("gui.config.fission.fission_americium_heat_generation.comment"), 0D, 32767D);
 		propertyFissionAmericiumHeatGeneration.setLanguageKey("gui.config.fission.fission_americium_heat_generation");
+		Property propertyFissionAmericiumRadiation = config.get(CATEGORY_FISSION, "fission_americium_radiation", new double[] {RadSources.LEA_242/64D, RadSources.LEA_242/64D, RadSources.HEA_242/64D, RadSources.HEA_242/64D}, Lang.localise("gui.config.fission.fission_americium_radiation.comment"), 0D, 1000D);
+		propertyFissionAmericiumRadiation.setLanguageKey("gui.config.fission.fission_americium_radiation");
 		
 		Property propertyFissionCuriumFuelTime = config.get(CATEGORY_FISSION, "fission_curium_fuel_time", new double[] {52000D, 52000D, 52000D, 52000D, 68000D, 68000D, 68000D, 68000D, 78000D, 78000D, 78000D, 78000D}, Lang.localise("gui.config.fission.fission_curium_fuel_time.comment"), 1D, Double.MAX_VALUE);
 		propertyFissionCuriumFuelTime.setLanguageKey("gui.config.fission.fission_curium_fuel_time");
-		Property propertyFissionCuriumPower = config.get(CATEGORY_FISSION, "fission_curium_power", new double[] {210D, NCMathHelper.round(210D*1.4D, 1), 210D*4D, NCMathHelper.round(210D*4D*1.4D, 1), 162D, NCMathHelper.round(162D*1.4D, 1), 162D*4D, NCMathHelper.round(162D*4D*1.4D, 1), 138D, NCMathHelper.round(138D*1.4D, 1), 138D*4D, NCMathHelper.round(138D*4D*1.4D, 1)}, Lang.localise("gui.config.fission.fission_curium_power.comment"), 0D, 32767D);
+		Property propertyFissionCuriumPower = config.get(CATEGORY_FISSION, "fission_curium_power", new double[] {210D, NCMath.round(210D*1.4D, 1), 210D*4D, NCMath.round(210D*4D*1.4D, 1), 162D, NCMath.round(162D*1.4D, 1), 162D*4D, NCMath.round(162D*4D*1.4D, 1), 138D, NCMath.round(138D*1.4D, 1), 138D*4D, NCMath.round(138D*4D*1.4D, 1)}, Lang.localise("gui.config.fission.fission_curium_power.comment"), 0D, 32767D);
 		propertyFissionCuriumPower.setLanguageKey("gui.config.fission.fission_curium_power");
-		Property propertyFissionCuriumHeatGeneration = config.get(CATEGORY_FISSION, "fission_curium_heat_generation", new double[] {112D, NCMathHelper.round(112D*1.25D, 1), 112D*6D, NCMathHelper.round(112D*6D*1.25D, 1), 68D, NCMathHelper.round(68D*1.25D, 1), 68D*6D, NCMathHelper.round(68D*6D*1.25D, 1), 54D, NCMathHelper.round(54D*1.25D, 1), 54D*6D, NCMathHelper.round(54D*6D*1.25D, 1)}, Lang.localise("gui.config.fission.fission_curium_heat_generation.comment"), 0D, 32767D);
+		Property propertyFissionCuriumHeatGeneration = config.get(CATEGORY_FISSION, "fission_curium_heat_generation", new double[] {112D, NCMath.round(112D*1.25D, 1), 112D*6D, NCMath.round(112D*6D*1.25D, 1), 68D, NCMath.round(68D*1.25D, 1), 68D*6D, NCMath.round(68D*6D*1.25D, 1), 54D, NCMath.round(54D*1.25D, 1), 54D*6D, NCMath.round(54D*6D*1.25D, 1)}, Lang.localise("gui.config.fission.fission_curium_heat_generation.comment"), 0D, 32767D);
 		propertyFissionCuriumHeatGeneration.setLanguageKey("gui.config.fission.fission_curium_heat_generation");
+		Property propertyFissionCuriumRadiation = config.get(CATEGORY_FISSION, "fission_curium_radiation", new double[] {RadSources.LECm_243/64D, RadSources.LECm_243/64D, RadSources.HECm_243/64D, RadSources.HECm_243/64D, RadSources.LECm_245/64D, RadSources.LECm_245/64D, RadSources.HECm_245/64D, RadSources.HECm_245/64D, RadSources.LECm_247/64D, RadSources.LECm_247/64D, RadSources.HECm_247/64D, RadSources.HECm_247/64D}, Lang.localise("gui.config.fission.fission_curium_radiation.comment"), 0D, 1000D);
+		propertyFissionCuriumRadiation.setLanguageKey("gui.config.fission.fission_curium_radiation");
 		
 		Property propertyFissionBerkeliumFuelTime = config.get(CATEGORY_FISSION, "fission_berkelium_fuel_time", new double[] {86000D, 86000D, 86000D, 86000D}, Lang.localise("gui.config.fission.fission_berkelium_fuel_time.comment"), 1D, Double.MAX_VALUE);
 		propertyFissionBerkeliumFuelTime.setLanguageKey("gui.config.fission.fission_berkelium_fuel_time");
-		Property propertyFissionBerkeliumPower = config.get(CATEGORY_FISSION, "fission_berkelium_power", new double[] {135D, NCMathHelper.round(135D*1.4D, 1), 135D*4D, NCMathHelper.round(135D*4D*1.4D, 1)}, Lang.localise("gui.config.fission.fission_berkelium_power.comment"), 0D, 32767D);
+		Property propertyFissionBerkeliumPower = config.get(CATEGORY_FISSION, "fission_berkelium_power", new double[] {135D, NCMath.round(135D*1.4D, 1), 135D*4D, NCMath.round(135D*4D*1.4D, 1)}, Lang.localise("gui.config.fission.fission_berkelium_power.comment"), 0D, 32767D);
 		propertyFissionBerkeliumPower.setLanguageKey("gui.config.fission.fission_berkelium_power");
-		Property propertyFissionBerkeliumHeatGeneration = config.get(CATEGORY_FISSION, "fission_berkelium_heat_generation", new double[] {52D, NCMathHelper.round(52D*1.25D, 1), 52D*6D, NCMathHelper.round(52D*6D*1.25D, 1)}, Lang.localise("gui.config.fission.fission_berkelium_heat_generation.comment"), 0D, 32767D);
+		Property propertyFissionBerkeliumHeatGeneration = config.get(CATEGORY_FISSION, "fission_berkelium_heat_generation", new double[] {52D, NCMath.round(52D*1.25D, 1), 52D*6D, NCMath.round(52D*6D*1.25D, 1)}, Lang.localise("gui.config.fission.fission_berkelium_heat_generation.comment"), 0D, 32767D);
 		propertyFissionBerkeliumHeatGeneration.setLanguageKey("gui.config.fission.fission_berkelium_heat_generation");
+		Property propertyFissionBerkeliumRadiation = config.get(CATEGORY_FISSION, "fission_berkelium_radiation", new double[] {RadSources.LEB_248/64D, RadSources.LEB_248/64D, RadSources.HEB_248/64D, RadSources.HEB_248/64D}, Lang.localise("gui.config.fission.fission_berkelium_radiation.comment"), 0D, 1000D);
+		propertyFissionBerkeliumRadiation.setLanguageKey("gui.config.fission.fission_berkelium_radiation");
 		
 		Property propertyFissionCaliforniumFuelTime = config.get(CATEGORY_FISSION, "fission_californium_fuel_time", new double[] {60000D, 60000D, 60000D, 60000D, 58000D, 58000D, 58000D, 58000D}, Lang.localise("gui.config.fission.fission_californium_fuel_time.comment"), 1D, Double.MAX_VALUE);
 		propertyFissionCaliforniumFuelTime.setLanguageKey("gui.config.fission.fission_californium_fuel_time");
-		Property propertyFissionCaliforniumPower = config.get(CATEGORY_FISSION, "fission_californium_power", new double[] {216D, NCMathHelper.round(216D*1.4D, 1), 216D*4D, NCMathHelper.round(216D*4D*1.4D, 1), 225D, NCMathHelper.round(225D*1.4D, 1), 225D*4D, NCMathHelper.round(225D*4D*1.4D, 1)}, Lang.localise("gui.config.fission.fission_californium_power.comment"), 0D, 32767D);
+		Property propertyFissionCaliforniumPower = config.get(CATEGORY_FISSION, "fission_californium_power", new double[] {216D, NCMath.round(216D*1.4D, 1), 216D*4D, NCMath.round(216D*4D*1.4D, 1), 225D, NCMath.round(225D*1.4D, 1), 225D*4D, NCMath.round(225D*4D*1.4D, 1)}, Lang.localise("gui.config.fission.fission_californium_power.comment"), 0D, 32767D);
 		propertyFissionCaliforniumPower.setLanguageKey("gui.config.fission.fission_californium_power");
-		Property propertyFissionCaliforniumHeatGeneration = config.get(CATEGORY_FISSION, "fission_californium_heat_generation", new double[] {116D, NCMathHelper.round(116D*1.25D, 1), 116D*6D, NCMathHelper.round(116D*6D*1.25D, 1), 120D, NCMathHelper.round(120D*1.25D, 1), 120D*6D, NCMathHelper.round(120D*6D*1.25D, 1)}, Lang.localise("gui.config.fission.fission_californium_heat_generation.comment"), 0D, 32767D);
+		Property propertyFissionCaliforniumHeatGeneration = config.get(CATEGORY_FISSION, "fission_californium_heat_generation", new double[] {116D, NCMath.round(116D*1.25D, 1), 116D*6D, NCMath.round(116D*6D*1.25D, 1), 120D, NCMath.round(120D*1.25D, 1), 120D*6D, NCMath.round(120D*6D*1.25D, 1)}, Lang.localise("gui.config.fission.fission_californium_heat_generation.comment"), 0D, 32767D);
 		propertyFissionCaliforniumHeatGeneration.setLanguageKey("gui.config.fission.fission_californium_heat_generation");
+		Property propertyFissionCaliforniumRadiation = config.get(CATEGORY_FISSION, "fission_californium_radiation", new double[] {RadSources.LECf_249/64D, RadSources.LECf_249/64D, RadSources.HECf_249/64D, RadSources.HECf_249/64D, RadSources.LECf_251/64D, RadSources.LECf_251/64D, RadSources.HECf_251/64D, RadSources.HECf_251/64D}, Lang.localise("gui.config.fission.fission_californium_radiation.comment"), 0D, 1000D);
+		propertyFissionCaliforniumRadiation.setLanguageKey("gui.config.fission.fission_californium_radiation");
 		
 		Property propertyFusionBasePower = config.get(CATEGORY_FUSION, "fusion_base_power", 1D, Lang.localise("gui.config.fusion.fusion_base_power.comment"), 0D, 255D);
 		propertyFusionBasePower.setLanguageKey("gui.config.fusion.fusion_base_power");
@@ -391,6 +444,8 @@ public class NCConfig {
 		propertyFusionElectromagnetPower.setLanguageKey("gui.config.fusion.fusion_electromagnet_power");
 		Property propertyFusionAlternateSound = config.get(CATEGORY_FUSION, "fusion_alternate_sound", false, Lang.localise("gui.config.fusion.fusion_alternate_sound.comment"));
 		propertyFusionAlternateSound.setLanguageKey("gui.config.fusion.fusion_alternate_sound");
+		Property propertyFusionPlasmaCraziness = config.get(CATEGORY_FUSION, "fusion_plasma_craziness", true, Lang.localise("gui.config.fusion.fusion_plasma_craziness.comment"));
+		propertyFusionPlasmaCraziness.setLanguageKey("gui.config.fusion.fusion_plasma_craziness");
 		
 		Property propertyFusionFuelTime = config.get(CATEGORY_FUSION, "fusion_fuel_time", new double[] {100D, 208.3D, 312.5D, 312.5D, 1250D, 1250D, 625D, 312.5D, 156.3D, 500D, 1250D, 500D, 2500D, 833.3D, 1250D, 1250D, 6250D, 3125D, 833.3D, 2500D, 625D, 1250D, 2500D, 2500D, 5000D, 5000D, 2500D, 5000D}, Lang.localise("gui.config.fusion.fusion_fuel_time.comment"), 1D, 32767D);
 		propertyFusionFuelTime.setLanguageKey("gui.config.fusion.fusion_fuel_time");
@@ -436,7 +491,7 @@ public class NCConfig {
 		propertyToolAttackDamage.setLanguageKey("gui.config.tools.tool_attack_damage");
 		Property propertyToolEnchantability = config.get(CATEGORY_TOOLS, "tool_enchantability", new int[] {6, 6, 15, 15, 12, 12, 20, 20}, Lang.localise("gui.config.tools.tool_enchantability.comment"), 1, 255);
 		propertyToolEnchantability.setLanguageKey("gui.config.tools.tool_enchantability");
-		Property propertyToolHandleModifier = config.get(CATEGORY_TOOLS, "tool_handle_modifier", new double[] {0.85D, 1.1D, 1D, 0.75D}, Lang.localise("gui.config.tools.tool_handle_modifier.comment"), 0.01F, 10F);
+		Property propertyToolHandleModifier = config.get(CATEGORY_TOOLS, "tool_handle_modifier", new double[] {0.85D, 1.1D, 1D, 0.75D}, Lang.localise("gui.config.tools.tool_handle_modifier.comment"), 0.01D, 10D);
 		propertyToolHandleModifier.setLanguageKey("gui.config.tools.tool_handle_modifier");
 		
 		Property propertyArmorDurability = config.get(CATEGORY_ARMOR, "armor_durability", new int[] {22, 30, 34, 42}, Lang.localise("gui.config.armor.armor_durability.comment"), 1, 127);
@@ -453,6 +508,40 @@ public class NCConfig {
 		propertyArmorEnchantability.setLanguageKey("gui.config.armor.armor_enchantability");
 		Property propertyArmorToughness = config.get(CATEGORY_ARMOR, "armor_toughness", new double[] {1D, 2D, 1D, 2D}, Lang.localise("gui.config.armor.armor_toughness.comment"), 1, 8);
 		propertyArmorToughness.setLanguageKey("gui.config.armor.armor_toughness");
+		
+		Property propertyRadiationEnabled = config.get(CATEGORY_RADIATION, "radiation_enabled", false, Lang.localise("gui.config.radiation.radiation_enabled.comment"));
+		propertyRadiationEnabled.setLanguageKey("gui.config.radiation.radiation_enabled");
+		
+		Property propertyRadiationWorlds = config.get(CATEGORY_RADIATION, "radiation_worlds", new String[] {"4598_2.25"}, Lang.localise("gui.config.radiation.radiation_worlds.comment"));
+		propertyRadiationWorlds.setLanguageKey("gui.config.radiation.radiation_worlds");
+		
+		Property propertyRadiationMaxPlayerRads = config.get(CATEGORY_RADIATION, "max_player_rads", 1000D, Lang.localise("gui.config.radiation.max_player_rads.comment"), 1D, 1000000000D);
+		propertyRadiationMaxPlayerRads.setLanguageKey("gui.config.radiation.max_player_rads");
+		Property propertyRadiationSpreadRate = config.get(CATEGORY_RADIATION, "radiation_spread_rate", 0.1D, Lang.localise("gui.config.radiation.radiation_spread_rate.comment"), 0D, 1D);
+		propertyRadiationSpreadRate.setLanguageKey("gui.config.radiation.radiation_spread_rate");
+		Property propertyRadiationDecayRate = config.get(CATEGORY_RADIATION, "radiation_decay_rate", 0.001D, Lang.localise("gui.config.radiation.radiation_decay_rate.comment"), 0D, 1D);
+		propertyRadiationDecayRate.setLanguageKey("gui.config.radiation.radiation_decay_rate");
+		Property propertyRadiationLowestRate = config.get(CATEGORY_RADIATION, "radiation_lowest_rate", 0.000000000000001D, Lang.localise("gui.config.radiation.radiation_lowest_rate.comment"), 0.000000000000000001D, 1D);
+		propertyRadiationLowestRate.setLanguageKey("gui.config.radiation.radiation_lowest_rate");
+		
+		Property propertyRadiationRadawayAmount = config.get(CATEGORY_RADIATION, "radiation_radaway_amount", 300D, Lang.localise("gui.config.radiation.radiation_radaway_amount.comment"), 0.001D, 1000000000D);
+		propertyRadiationRadawayAmount.setLanguageKey("gui.config.radiation.radiation_radaway_amount");
+		Property propertyRadiationRadawayRate = config.get(CATEGORY_RADIATION, "radiation_radaway_rate", 7.5D, Lang.localise("gui.config.radiation.radiation_radaway_rate.comment"), 0.001D, 1000000000D);
+		propertyRadiationRadawayRate.setLanguageKey("gui.config.radiation.radiation_radaway_rate");
+		Property propertyRadiationRadXAmount = config.get(CATEGORY_RADIATION, "radiation_rad_x_amount", 25D, Lang.localise("gui.config.radiation.radiation_rad_x_amount.comment"), 0.001D, 1000000000D);
+		propertyRadiationRadXAmount.setLanguageKey("gui.config.radiation.radiation_rad_x_amount");
+		Property propertyRadiationRadXLifetime = config.get(CATEGORY_RADIATION, "radiation_rad_x_lifetime", 12000D, Lang.localise("gui.config.radiation.radiation_rad_x_lifetime.comment"), 20D, 1000000000D);
+		propertyRadiationRadXLifetime.setLanguageKey("gui.config.radiation.radiation_rad_x_lifetime");
+		Property propertyRadiationShieldingLevel = config.get(CATEGORY_RADIATION, "radiation_shielding_level", new double[] {0.0001D, 0.01D, 1D}, Lang.localise("gui.config.radiation.radiation_shielding_level.comment"), 0.000000000000000001D, 1000D);
+		propertyRadiationShieldingLevel.setLanguageKey("gui.config.radiation.radiation_shielding_level");
+		
+		Property propertyRadiationHardcoreStacks = config.get(CATEGORY_RADIATION, "radiation_hardcore_stacks", true, Lang.localise("gui.config.radiation.radiation_hardcore_stacks.comment"));
+		propertyRadiationHardcoreStacks.setLanguageKey("gui.config.radiation.radiation_hardcore_stacks");
+		
+		Property propertyRadiationHUDSize = config.get(CATEGORY_RADIATION, "radiation_hud_size", 1D, Lang.localise("gui.config.radiation.radiation_hud_size.comment"), 0.1D, 10D);
+		propertyRadiationHUDSize.setLanguageKey("gui.config.radiation.radiation_hud_size");
+		Property propertyRadiationHUDPosition = config.get(CATEGORY_RADIATION, "radiation_hud_position", 225D, Lang.localise("gui.config.radiation.radiation_hud_position.comment"), 0D, 360D);
+		propertyRadiationHUDPosition.setLanguageKey("gui.config.radiation.radiation_hud_position");
 		
 		Property propertySingleCreativeTab = config.get(CATEGORY_OTHER, "single_creative_tab", false, Lang.localise("gui.config.other.single_creative_tab.comment"));
 		propertySingleCreativeTab.setLanguageKey("gui.config.other.single_creative_tab");
@@ -503,7 +592,7 @@ public class NCConfig {
 		
 		Property propertyOreDictPriorityBool = config.get(CATEGORY_OTHER, "ore_dict_priority_bool", true, Lang.localise("gui.config.other.ore_dict_priority_bool.comment"));
 		propertyOreDictPriorityBool.setLanguageKey("gui.config.other.ore_dict_priority_bool");
-		Property propertyOreDictPriority = config.get(CATEGORY_OTHER, "ore_dict_priority", new String[] {"minecraft", "thermalfoundation", "techreborn", "nuclearcraft", "immersiveengineering", "mekanism", "ic2", "appliedenergistics2", "actuallyadditions", "thaumcraft", "biomesoplenty"}, Lang.localise("gui.config.other.ore_dict_priority.comment"));
+		Property propertyOreDictPriority = config.get(CATEGORY_OTHER, "ore_dict_priority", new String[] {"minecraft", "thermalfoundation", "techreborn", "nuclearcraft", "immersiveengineering", "mekanism", "ic2", "appliedenergistics2", "refinedstorage", "actuallyadditions", "advancedRocketry", "thaumcraft", "biomesoplenty"}, Lang.localise("gui.config.other.ore_dict_priority.comment"));
 		propertyOreDictPriority.setLanguageKey("gui.config.other.ore_dict_priority");
 		
 		List<String> propertyOrderOres = new ArrayList<String>();
@@ -562,38 +651,47 @@ public class NCConfig {
 		propertyOrderFission.add(propertyFissionThoriumFuelTime.getName());
 		propertyOrderFission.add(propertyFissionThoriumPower.getName());
 		propertyOrderFission.add(propertyFissionThoriumHeatGeneration.getName());
+		propertyOrderFission.add(propertyFissionThoriumRadiation.getName());
 		
 		propertyOrderFission.add(propertyFissionUraniumFuelTime.getName());
 		propertyOrderFission.add(propertyFissionUraniumPower.getName());
 		propertyOrderFission.add(propertyFissionUraniumHeatGeneration.getName());
+		propertyOrderFission.add(propertyFissionUraniumRadiation.getName());
 		
 		propertyOrderFission.add(propertyFissionNeptuniumFuelTime.getName());
 		propertyOrderFission.add(propertyFissionNeptuniumPower.getName());
 		propertyOrderFission.add(propertyFissionNeptuniumHeatGeneration.getName());
+		propertyOrderFission.add(propertyFissionNeptuniumRadiation.getName());
 		
 		propertyOrderFission.add(propertyFissionPlutoniumFuelTime.getName());
 		propertyOrderFission.add(propertyFissionPlutoniumPower.getName());
 		propertyOrderFission.add(propertyFissionPlutoniumHeatGeneration.getName());
+		propertyOrderFission.add(propertyFissionPlutoniumRadiation.getName());
 		
 		propertyOrderFission.add(propertyFissionMOXFuelTime.getName());
 		propertyOrderFission.add(propertyFissionMOXPower.getName());
 		propertyOrderFission.add(propertyFissionMOXHeatGeneration.getName());
+		propertyOrderFission.add(propertyFissionMOXRadiation.getName());
 		
 		propertyOrderFission.add(propertyFissionAmericiumFuelTime.getName());
 		propertyOrderFission.add(propertyFissionAmericiumPower.getName());
 		propertyOrderFission.add(propertyFissionAmericiumHeatGeneration.getName());
+		propertyOrderFission.add(propertyFissionAmericiumRadiation.getName());
 		
 		propertyOrderFission.add(propertyFissionCuriumFuelTime.getName());
 		propertyOrderFission.add(propertyFissionCuriumPower.getName());
 		propertyOrderFission.add(propertyFissionCuriumHeatGeneration.getName());
+		propertyOrderFission.add(propertyFissionCuriumRadiation.getName());
 		
 		propertyOrderFission.add(propertyFissionBerkeliumFuelTime.getName());
 		propertyOrderFission.add(propertyFissionBerkeliumPower.getName());
 		propertyOrderFission.add(propertyFissionBerkeliumHeatGeneration.getName());
+		propertyOrderFission.add(propertyFissionBerkeliumRadiation.getName());
 		
 		propertyOrderFission.add(propertyFissionCaliforniumFuelTime.getName());
 		propertyOrderFission.add(propertyFissionCaliforniumPower.getName());
 		propertyOrderFission.add(propertyFissionCaliforniumHeatGeneration.getName());
+		propertyOrderFission.add(propertyFissionCaliforniumRadiation.getName());
 		config.setCategoryPropertyOrder(CATEGORY_FISSION, propertyOrderFission);
 		
 		List<String> propertyOrderFusion = new ArrayList<String>();
@@ -609,6 +707,7 @@ public class NCConfig {
 		propertyOrderFusion.add(propertyFusionComparatorMaxEfficiency.getName());
 		propertyOrderFusion.add(propertyFusionElectromagnetPower.getName());
 		propertyOrderFusion.add(propertyFusionAlternateSound.getName());
+		propertyOrderFusion.add(propertyFusionPlasmaCraziness.getName());
 		
 		propertyOrderFusion.add(propertyFusionFuelTime.getName());
 		propertyOrderFusion.add(propertyFusionPower.getName());
@@ -626,6 +725,15 @@ public class NCConfig {
 		propertyOrderSaltFission.add(propertySaltFissionCoolingMaxRate.getName());
 		propertyOrderSaltFission.add(propertySaltFissionRedstoneMaxHeat.getName());
 		config.setCategoryPropertyOrder(CATEGORY_SALT_FISSION, propertyOrderSaltFission);
+		
+		List<String> propertyOrderHeatExchanger = new ArrayList<String>();
+		config.setCategoryPropertyOrder(CATEGORY_HEAT_EXCHANGER, propertyOrderHeatExchanger);
+		
+		List<String> propertyOrderTurbine = new ArrayList<String>();
+		config.setCategoryPropertyOrder(CATEGORY_TURBINE, propertyOrderTurbine);
+		
+		List<String> propertyOrderCondenser = new ArrayList<String>();
+		config.setCategoryPropertyOrder(CATEGORY_CONDENSER, propertyOrderCondenser);
 		
 		List<String> propertyOrderAccelerator = new ArrayList<String>();
 		propertyOrderAccelerator.add(propertyAcceleratorElectromagnetPower.getName());
@@ -654,6 +762,23 @@ public class NCConfig {
 		propertyOrderArmor.add(propertyArmorBoronNitride.getName());
 		propertyOrderArmor.add(propertyArmorToughness.getName());
 		config.setCategoryPropertyOrder(CATEGORY_ARMOR, propertyOrderArmor);
+		
+		List<String> propertyOrderRadiation = new ArrayList<String>();
+		propertyOrderRadiation.add(propertyRadiationEnabled.getName());
+		propertyOrderRadiation.add(propertyRadiationWorlds.getName());
+		propertyOrderRadiation.add(propertyRadiationMaxPlayerRads.getName());
+		propertyOrderRadiation.add(propertyRadiationSpreadRate.getName());
+		propertyOrderRadiation.add(propertyRadiationDecayRate.getName());
+		propertyOrderRadiation.add(propertyRadiationLowestRate.getName());
+		propertyOrderRadiation.add(propertyRadiationRadawayAmount.getName());
+		propertyOrderRadiation.add(propertyRadiationRadawayRate.getName());
+		propertyOrderRadiation.add(propertyRadiationRadXAmount.getName());
+		propertyOrderRadiation.add(propertyRadiationRadXLifetime.getName());
+		propertyOrderRadiation.add(propertyRadiationShieldingLevel.getName());
+		propertyOrderRadiation.add(propertyRadiationHardcoreStacks.getName());
+		propertyOrderRadiation.add(propertyRadiationHUDSize.getName());
+		propertyOrderRadiation.add(propertyRadiationHUDPosition.getName());
+		config.setCategoryPropertyOrder(CATEGORY_RADIATION, propertyOrderRadiation);
 		
 		List<String> propertyOrderOther = new ArrayList<String>();
 		propertyOrderOther.add(propertySingleCreativeTab.getName());
@@ -729,38 +854,47 @@ public class NCConfig {
 			fission_thorium_fuel_time = readDoubleArrayFromConfig(propertyFissionThoriumFuelTime);
 			fission_thorium_power = readDoubleArrayFromConfig(propertyFissionThoriumPower);
 			fission_thorium_heat_generation = readDoubleArrayFromConfig(propertyFissionThoriumHeatGeneration);
+			fission_thorium_radiation = readDoubleArrayFromConfig(propertyFissionThoriumRadiation);
 			
 			fission_uranium_fuel_time = readDoubleArrayFromConfig(propertyFissionUraniumFuelTime);
 			fission_uranium_power = readDoubleArrayFromConfig(propertyFissionUraniumPower);
 			fission_uranium_heat_generation = readDoubleArrayFromConfig(propertyFissionUraniumHeatGeneration);
+			fission_uranium_radiation = readDoubleArrayFromConfig(propertyFissionUraniumRadiation);
 			
 			fission_neptunium_fuel_time = readDoubleArrayFromConfig(propertyFissionNeptuniumFuelTime);
 			fission_neptunium_power = readDoubleArrayFromConfig(propertyFissionNeptuniumPower);
 			fission_neptunium_heat_generation = readDoubleArrayFromConfig(propertyFissionNeptuniumHeatGeneration);
+			fission_neptunium_radiation = readDoubleArrayFromConfig(propertyFissionNeptuniumRadiation);
 			
 			fission_plutonium_fuel_time = readDoubleArrayFromConfig(propertyFissionPlutoniumFuelTime);
 			fission_plutonium_power = readDoubleArrayFromConfig(propertyFissionPlutoniumPower);
 			fission_plutonium_heat_generation = readDoubleArrayFromConfig(propertyFissionPlutoniumHeatGeneration);
+			fission_plutonium_radiation = readDoubleArrayFromConfig(propertyFissionPlutoniumRadiation);
 			
 			fission_mox_fuel_time = readDoubleArrayFromConfig(propertyFissionMOXFuelTime);
 			fission_mox_power = readDoubleArrayFromConfig(propertyFissionMOXPower);
 			fission_mox_heat_generation = readDoubleArrayFromConfig(propertyFissionMOXHeatGeneration);
+			fission_mox_radiation = readDoubleArrayFromConfig(propertyFissionMOXRadiation);
 			
 			fission_americium_fuel_time = readDoubleArrayFromConfig(propertyFissionAmericiumFuelTime);
 			fission_americium_power = readDoubleArrayFromConfig(propertyFissionAmericiumPower);
 			fission_americium_heat_generation = readDoubleArrayFromConfig(propertyFissionAmericiumHeatGeneration);
+			fission_americium_radiation = readDoubleArrayFromConfig(propertyFissionAmericiumRadiation);
 			
 			fission_curium_fuel_time = readDoubleArrayFromConfig(propertyFissionCuriumFuelTime);
 			fission_curium_power = readDoubleArrayFromConfig(propertyFissionCuriumPower);
 			fission_curium_heat_generation = readDoubleArrayFromConfig(propertyFissionCuriumHeatGeneration);
+			fission_curium_radiation = readDoubleArrayFromConfig(propertyFissionCuriumRadiation);
 			
 			fission_berkelium_fuel_time = readDoubleArrayFromConfig(propertyFissionBerkeliumFuelTime);
 			fission_berkelium_power = readDoubleArrayFromConfig(propertyFissionBerkeliumPower);
 			fission_berkelium_heat_generation = readDoubleArrayFromConfig(propertyFissionBerkeliumHeatGeneration);
+			fission_berkelium_radiation = readDoubleArrayFromConfig(propertyFissionBerkeliumRadiation);
 			
 			fission_californium_fuel_time = readDoubleArrayFromConfig(propertyFissionCaliforniumFuelTime);
 			fission_californium_power = readDoubleArrayFromConfig(propertyFissionCaliforniumPower);
 			fission_californium_heat_generation = readDoubleArrayFromConfig(propertyFissionCaliforniumHeatGeneration);
+			fission_californium_radiation = readDoubleArrayFromConfig(propertyFissionCaliforniumRadiation);
 			
 			fusion_base_power = propertyFusionBasePower.getDouble();
 			fusion_fuel_use = propertyFusionFuelUse.getDouble();
@@ -774,6 +908,7 @@ public class NCConfig {
 			fusion_comparator_max_efficiency = propertyFusionComparatorMaxEfficiency.getInt();
 			fusion_electromagnet_power = propertyFusionElectromagnetPower.getInt();
 			fusion_alternate_sound = propertyFusionAlternateSound.getBoolean();
+			fusion_plasma_craziness = propertyFusionPlasmaCraziness.getBoolean();
 			
 			fusion_fuel_time = readDoubleArrayFromConfig(propertyFusionFuelTime);
 			fusion_power = readDoubleArrayFromConfig(propertyFusionPower);
@@ -808,6 +943,26 @@ public class NCConfig {
 			armor_hard_carbon = readIntegerArrayFromConfig(propertyArmorHardCarbon);
 			armor_boron_nitride = readIntegerArrayFromConfig(propertyArmorBoronNitride);
 			armor_toughness = readDoubleArrayFromConfig(propertyArmorToughness);
+			
+			radiation_enabled = propertyRadiationEnabled.getBoolean();
+			
+			radiation_worlds = propertyRadiationWorlds.getStringList();
+			
+			max_player_rads = propertyRadiationMaxPlayerRads.getDouble();
+			radiation_spread_rate = propertyRadiationSpreadRate.getDouble();
+			radiation_decay_rate = propertyRadiationDecayRate.getDouble();
+			radiation_lowest_rate = propertyRadiationLowestRate.getDouble();
+			
+			radiation_radaway_amount = propertyRadiationRadawayAmount.getDouble();
+			radiation_radaway_rate = propertyRadiationRadawayRate.getDouble();
+			radiation_rad_x_amount = propertyRadiationRadXAmount.getDouble();
+			radiation_rad_x_lifetime = propertyRadiationRadXLifetime.getDouble();
+			radiation_shielding_level = readDoubleArrayFromConfig(propertyRadiationShieldingLevel);
+			
+			radiation_hardcore_stacks = propertyRadiationHardcoreStacks.getBoolean();
+			
+			radiation_hud_size = propertyRadiationHUDSize.getDouble();
+			radiation_hud_position = propertyRadiationHUDPosition.getDouble();
 			
 			single_creative_tab = propertySingleCreativeTab.getBoolean();
 			register_processor = readBooleanArrayFromConfig(propertyRegisterProcessor);
@@ -882,38 +1037,47 @@ public class NCConfig {
 		propertyFissionThoriumFuelTime.set(fission_thorium_fuel_time);
 		propertyFissionThoriumPower.set(fission_thorium_power);
 		propertyFissionThoriumHeatGeneration.set(fission_thorium_heat_generation);
+		propertyFissionThoriumRadiation.set(fission_thorium_radiation);
 		
 		propertyFissionUraniumFuelTime.set(fission_uranium_fuel_time);
 		propertyFissionUraniumPower.set(fission_uranium_power);
 		propertyFissionUraniumHeatGeneration.set(fission_uranium_heat_generation);
+		propertyFissionUraniumRadiation.set(fission_uranium_radiation);
 		
 		propertyFissionNeptuniumFuelTime.set(fission_neptunium_fuel_time);
 		propertyFissionNeptuniumPower.set(fission_neptunium_power);
 		propertyFissionNeptuniumHeatGeneration.set(fission_neptunium_heat_generation);
+		propertyFissionNeptuniumRadiation.set(fission_neptunium_radiation);
 		
 		propertyFissionPlutoniumFuelTime.set(fission_plutonium_fuel_time);
 		propertyFissionPlutoniumPower.set(fission_plutonium_power);
 		propertyFissionPlutoniumHeatGeneration.set(fission_plutonium_heat_generation);
+		propertyFissionPlutoniumRadiation.set(fission_plutonium_radiation);
 		
 		propertyFissionMOXFuelTime.set(fission_mox_fuel_time);
 		propertyFissionMOXPower.set(fission_mox_power);
 		propertyFissionMOXHeatGeneration.set(fission_mox_heat_generation);
+		propertyFissionMOXRadiation.set(fission_mox_radiation);
 		
 		propertyFissionAmericiumFuelTime.set(fission_americium_fuel_time);
 		propertyFissionAmericiumPower.set(fission_americium_power);
 		propertyFissionAmericiumHeatGeneration.set(fission_americium_heat_generation);
+		propertyFissionAmericiumRadiation.set(fission_americium_radiation);
 		
 		propertyFissionCuriumFuelTime.set(fission_curium_fuel_time);
 		propertyFissionCuriumPower.set(fission_curium_power);
 		propertyFissionCuriumHeatGeneration.set(fission_curium_heat_generation);
+		propertyFissionCuriumRadiation.set(fission_curium_radiation);
 		
 		propertyFissionBerkeliumFuelTime.set(fission_berkelium_fuel_time);
 		propertyFissionBerkeliumPower.set(fission_berkelium_power);
 		propertyFissionBerkeliumHeatGeneration.set(fission_berkelium_heat_generation);
+		propertyFissionBerkeliumRadiation.set(fission_berkelium_radiation);
 		
 		propertyFissionCaliforniumFuelTime.set(fission_californium_fuel_time);
 		propertyFissionCaliforniumPower.set(fission_californium_power);
 		propertyFissionCaliforniumHeatGeneration.set(fission_californium_heat_generation);
+		propertyFissionCaliforniumRadiation.set(fission_californium_radiation);
 		
 		propertyFusionBasePower.set(fusion_base_power);
 		propertyFusionFuelUse.set(fusion_fuel_use);
@@ -927,6 +1091,7 @@ public class NCConfig {
 		propertyFusionComparatorMaxEfficiency.set(fusion_comparator_max_efficiency);
 		propertyFusionElectromagnetPower.set(fusion_electromagnet_power);
 		propertyFusionAlternateSound.set(fusion_alternate_sound);
+		propertyFusionPlasmaCraziness.set(fusion_plasma_craziness);
 		
 		propertyFusionFuelTime.set(fusion_fuel_time);
 		propertyFusionPower.set(fusion_power);
@@ -961,6 +1126,26 @@ public class NCConfig {
 		propertyArmorHardCarbon.set(armor_hard_carbon);
 		propertyArmorBoronNitride.set(armor_boron_nitride);
 		propertyArmorToughness.set(armor_toughness);
+		
+		propertyRadiationEnabled.set(radiation_enabled);
+		
+		propertyRadiationWorlds.set(radiation_worlds);
+		
+		propertyRadiationMaxPlayerRads.set(max_player_rads);
+		propertyRadiationSpreadRate.set(radiation_spread_rate);
+		propertyRadiationDecayRate.set(radiation_decay_rate);
+		propertyRadiationLowestRate.set(radiation_lowest_rate);
+		
+		propertyRadiationRadawayAmount.set(radiation_radaway_amount);
+		propertyRadiationRadawayRate.set(radiation_radaway_rate);
+		propertyRadiationRadXAmount.set(radiation_rad_x_amount);
+		propertyRadiationRadXLifetime.set(radiation_rad_x_lifetime);
+		propertyRadiationShieldingLevel.set(radiation_shielding_level);
+		
+		propertyRadiationHardcoreStacks.set(radiation_hardcore_stacks);
+		
+		propertyRadiationHUDSize.set(radiation_hud_size);
+		propertyRadiationHUDPosition.set(radiation_hud_position);
 		
 		propertySingleCreativeTab.set(single_creative_tab);
 		propertyRegisterProcessor.set(register_processor);

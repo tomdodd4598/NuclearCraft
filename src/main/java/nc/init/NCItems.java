@@ -1,11 +1,16 @@
 package nc.init;
 
 import nc.Global;
+import nc.NCInfo;
+import nc.config.NCConfig;
 import nc.enumm.MetaEnums;
 import nc.handler.SoundHandler;
 import nc.item.ItemDepletedFissionFuel;
 import nc.item.ItemFissionFuel;
+import nc.item.ItemGeigerCounter;
 import nc.item.ItemPortableEnderChest;
+import nc.item.ItemRadX;
+import nc.item.ItemRadaway;
 import nc.item.NCItem;
 import nc.item.NCItemDoor;
 import nc.item.NCItemFood;
@@ -14,10 +19,12 @@ import nc.item.NCItemRecord;
 import nc.item.energy.ItemBattery;
 import nc.tab.NCTabs;
 import nc.tile.energy.battery.BatteryType;
+import nc.util.InfoHelper;
+import nc.util.PotionHelper;
+import nc.util.UnitHelper;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
-import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
@@ -97,14 +104,37 @@ public class NCItems {
 	
 	public static Item lithium_ion_cell;
 	
+	public static Item geiger_counter;
+	public static Item rad_shielding;
+	
+	public static Item radaway;
+	public static Item rad_x;
+	
 	public static Item portable_ender_chest;
 	
 	public static Item dominos;
+	
+	public static Item flour;
+	public static Item graham_cracker;
+	
+	public static Item roasted_cocoa_beans;
+	public static Item ground_cocoa_nibs;
+	public static Item cocoa_butter;
+	public static Item cocoa_solids;
+	public static Item unsweetened_chocolate;
+	public static Item dark_chocolate;
+	public static Item milk_chocolate;
+	
+	public static Item gelatin;
 	public static Item marshmallow;
+	
+	public static Item smore;
+	public static Item moresmore;
 	
 	public static Item record_wanderer;
 	public static Item record_end_of_the_world;
 	public static Item record_money_for_nothing;
+	public static Item record_hyperspace;
 	
 	public static void init() {
 		ingot = new NCItemMeta("ingot", MetaEnums.IngotType.class);
@@ -117,7 +147,7 @@ public class NCItems {
 		compound = new NCItemMeta("compound", MetaEnums.CompoundType.class);
 		
 		part = new NCItemMeta("part", MetaEnums.PartType.class);
-		upgrade = new NCItemMeta("upgrade", MetaEnums.UpgradeType.class);
+		upgrade = new NCItemMeta("upgrade", MetaEnums.UpgradeType.class, NCInfo.upgradeInfo());
 		fuel_rod_empty = new NCItem("fuel_rod_empty", TextFormatting.GREEN);
 		tiny_dust_lead = new NCItem("tiny_dust_lead");
 		reactor_door = new NCItemDoor("reactor_door_item", NCBlocks.reactor_door);
@@ -178,50 +208,73 @@ public class NCItems {
 		
 		lithium_ion_cell = new ItemBattery("lithium_ion_cell", BatteryType.LITHIUM_ION_BATTERY_BASIC);
 		
+		geiger_counter = new ItemGeigerCounter("geiger_counter");
+		rad_shielding = new NCItemMeta("rad_shielding", MetaEnums.RadShieldingType.class);
+		
+		radaway = new ItemRadaway("radaway", InfoHelper.formattedInfo(infoLine("radaway"), UnitHelper.prefix(NCConfig.radiation_radaway_amount, 3, "Rads"), Math.round(100D*NCConfig.radiation_radaway_amount/NCConfig.max_player_rads) + "%"));
+		rad_x = new ItemRadX("rad_x", InfoHelper.formattedInfo(infoLine("rad_x"), (int)NCConfig.radiation_rad_x_amount, UnitHelper.applyTimeUnit(NCConfig.radiation_rad_x_lifetime, 2)));
+		
 		portable_ender_chest = new ItemPortableEnderChest("portable_ender_chest");
 		
-		dominos = new NCItemFood("dominos", 16, 1.0F, false, new PotionEffect[] {new PotionEffect(Potion.getPotionById(1), 500, 2), new PotionEffect(Potion.getPotionById(3), 500, 2)});
-		marshmallow = new NCItemFood("marshmallow", 1, 0.1F, false, new PotionEffect[] {new PotionEffect(Potion.getPotionById(1), 1000, 2)});
+		dominos = new NCItemFood("dominos", 16, 1.8F, new PotionEffect[] {PotionHelper.newEffect(1, 2, 600), PotionHelper.newEffect(3, 2, 600)});
+		
+		flour = new NCItem("flour");
+		graham_cracker = new NCItemFood("graham_cracker", 1, 0.2F, new PotionEffect[] {});
+		
+		roasted_cocoa_beans = new NCItem("roasted_cocoa_beans");
+		ground_cocoa_nibs = new NCItemFood("ground_cocoa_nibs", 1, 0.2F, new PotionEffect[] {});
+		cocoa_butter = new NCItemFood("cocoa_butter", 2, 0.2F, new PotionEffect[] {PotionHelper.newEffect(22, 1, 300)});
+		cocoa_solids = new NCItem("cocoa_solids");
+		unsweetened_chocolate = new NCItemFood("unsweetened_chocolate", 2, 0.2F, new PotionEffect[] {PotionHelper.newEffect(3, 1, 300)});
+		dark_chocolate = new NCItemFood("dark_chocolate", 3, 0.4F, new PotionEffect[] {PotionHelper.newEffect(3, 1, 300), PotionHelper.newEffect(1, 1, 300)});
+		milk_chocolate = new NCItemFood("milk_chocolate", 4, 0.6F, new PotionEffect[] {PotionHelper.newEffect(3, 1, 300), PotionHelper.newEffect(1, 1, 300), PotionHelper.newEffect(22, 1, 300)});
+		
+		gelatin = new NCItem("gelatin");
+		marshmallow = new NCItemFood("marshmallow", 1, 0.2F, new PotionEffect[] {PotionHelper.newEffect(1, 1, 300)});
+		
+		smore = new NCItemFood("smore", 8, 1.2F, new PotionEffect[] {PotionHelper.newEffect(3, 2, 300), PotionHelper.newEffect(1, 2, 300), PotionHelper.newEffect(22, 2, 300)});
+		moresmore = new NCItemFood("moresmore", 20, 2.4F, new PotionEffect[] {PotionHelper.newEffect(3, 2, 600), PotionHelper.newEffect(1, 2, 600), PotionHelper.newEffect(22, 2, 600)});
 		
 		record_wanderer = new NCItemRecord("wanderer", SoundHandler.wanderer);
 		record_end_of_the_world = new NCItemRecord("end_of_the_world", SoundHandler.end_of_the_world);
 		record_money_for_nothing = new NCItemRecord("money_for_nothing", SoundHandler.money_for_nothing);
+		record_hyperspace = new NCItemRecord("hyperspace", SoundHandler.hyperspace);
 	}
 	
 	public static void register() {
-		registerItem(ingot, NCTabs.TAB_BASE_ITEM_MATERIALS);
-		registerItem(ingot_oxide, NCTabs.TAB_BASE_ITEM_MATERIALS);
-		registerItem(dust, NCTabs.TAB_BASE_ITEM_MATERIALS);
-		registerItem(dust_oxide, NCTabs.TAB_BASE_ITEM_MATERIALS);
-		registerItem(gem, NCTabs.TAB_BASE_ITEM_MATERIALS);
-		registerItem(gem_dust, NCTabs.TAB_BASE_ITEM_MATERIALS);
-		registerItem(alloy, NCTabs.TAB_BASE_ITEM_MATERIALS);
-		registerItem(compound, NCTabs.TAB_BASE_ITEM_MATERIALS);
+		registerItem(ingot, NCTabs.BASE_ITEM_MATERIALS);
+		registerItem(ingot_oxide, NCTabs.BASE_ITEM_MATERIALS);
+		registerItem(dust, NCTabs.BASE_ITEM_MATERIALS);
+		registerItem(dust_oxide, NCTabs.BASE_ITEM_MATERIALS);
+		registerItem(gem, NCTabs.BASE_ITEM_MATERIALS);
+		registerItem(gem_dust, NCTabs.BASE_ITEM_MATERIALS);
+		registerItem(alloy, NCTabs.BASE_ITEM_MATERIALS);
+		registerItem(compound, NCTabs.BASE_ITEM_MATERIALS);
 		
-		registerItem(part, NCTabs.TAB_BASE_ITEM_MATERIALS);
-		registerItem(upgrade, NCTabs.TAB_MACHINES);
+		registerItem(part, NCTabs.BASE_ITEM_MATERIALS);
+		registerItem(upgrade, NCTabs.MACHINES);
 		registerItem(fuel_rod_empty, null);
-		registerItem(tiny_dust_lead, NCTabs.TAB_BASE_ITEM_MATERIALS);
-		registerItem(reactor_door, NCTabs.TAB_FISSION_BLOCKS);
+		registerItem(tiny_dust_lead, NCTabs.BASE_ITEM_MATERIALS);
+		registerItem(reactor_door, NCTabs.FISSION_BLOCKS);
 		
-		registerItem(thorium, NCTabs.TAB_FISSION_MATERIALS);
-		registerItem(uranium, NCTabs.TAB_FISSION_MATERIALS);
-		registerItem(neptunium, NCTabs.TAB_FISSION_MATERIALS);
-		registerItem(plutonium, NCTabs.TAB_FISSION_MATERIALS);
-		registerItem(americium, NCTabs.TAB_FISSION_MATERIALS);
-		registerItem(curium, NCTabs.TAB_FISSION_MATERIALS);
-		registerItem(berkelium, NCTabs.TAB_FISSION_MATERIALS);
-		registerItem(californium, NCTabs.TAB_FISSION_MATERIALS);
+		registerItem(thorium, NCTabs.FISSION_MATERIALS);
+		registerItem(uranium, NCTabs.FISSION_MATERIALS);
+		registerItem(neptunium, NCTabs.FISSION_MATERIALS);
+		registerItem(plutonium, NCTabs.FISSION_MATERIALS);
+		registerItem(americium, NCTabs.FISSION_MATERIALS);
+		registerItem(curium, NCTabs.FISSION_MATERIALS);
+		registerItem(berkelium, NCTabs.FISSION_MATERIALS);
+		registerItem(californium, NCTabs.FISSION_MATERIALS);
 		
-		registerItem(fuel_thorium, NCTabs.TAB_FISSION_FUELS);
-		registerItem(fuel_uranium, NCTabs.TAB_FISSION_FUELS);
-		registerItem(fuel_neptunium, NCTabs.TAB_FISSION_FUELS);
-		registerItem(fuel_plutonium, NCTabs.TAB_FISSION_FUELS);
-		registerItem(fuel_mixed_oxide, NCTabs.TAB_FISSION_FUELS);
-		registerItem(fuel_americium, NCTabs.TAB_FISSION_FUELS);
-		registerItem(fuel_curium, NCTabs.TAB_FISSION_FUELS);
-		registerItem(fuel_berkelium, NCTabs.TAB_FISSION_FUELS);
-		registerItem(fuel_californium, NCTabs.TAB_FISSION_FUELS);
+		registerItem(fuel_thorium, NCTabs.FISSION_FUELS);
+		registerItem(fuel_uranium, NCTabs.FISSION_FUELS);
+		registerItem(fuel_neptunium, NCTabs.FISSION_FUELS);
+		registerItem(fuel_plutonium, NCTabs.FISSION_FUELS);
+		registerItem(fuel_mixed_oxide, NCTabs.FISSION_FUELS);
+		registerItem(fuel_americium, NCTabs.FISSION_FUELS);
+		registerItem(fuel_curium, NCTabs.FISSION_FUELS);
+		registerItem(fuel_berkelium, NCTabs.FISSION_FUELS);
+		registerItem(fuel_californium, NCTabs.FISSION_FUELS);
 		
 		registerItem(fuel_rod_thorium, null);
 		registerItem(fuel_rod_uranium, null);
@@ -233,17 +286,17 @@ public class NCItems {
 		registerItem(fuel_rod_berkelium, null);
 		registerItem(fuel_rod_californium, null);
 		
-		registerItem(depleted_fuel_thorium, NCTabs.TAB_FISSION_MATERIALS);
-		registerItem(depleted_fuel_uranium, NCTabs.TAB_FISSION_MATERIALS);
-		registerItem(depleted_fuel_neptunium, NCTabs.TAB_FISSION_MATERIALS);
-		registerItem(depleted_fuel_plutonium, NCTabs.TAB_FISSION_MATERIALS);
-		registerItem(depleted_fuel_mixed_oxide, NCTabs.TAB_FISSION_MATERIALS);
-		registerItem(depleted_fuel_americium, NCTabs.TAB_FISSION_MATERIALS);
-		registerItem(depleted_fuel_curium, NCTabs.TAB_FISSION_MATERIALS);
-		registerItem(depleted_fuel_berkelium, NCTabs.TAB_FISSION_MATERIALS);
-		registerItem(depleted_fuel_californium, NCTabs.TAB_FISSION_MATERIALS);
+		registerItem(depleted_fuel_thorium, NCTabs.FISSION_MATERIALS);
+		registerItem(depleted_fuel_uranium, NCTabs.FISSION_MATERIALS);
+		registerItem(depleted_fuel_neptunium, NCTabs.FISSION_MATERIALS);
+		registerItem(depleted_fuel_plutonium, NCTabs.FISSION_MATERIALS);
+		registerItem(depleted_fuel_mixed_oxide, NCTabs.FISSION_MATERIALS);
+		registerItem(depleted_fuel_americium, NCTabs.FISSION_MATERIALS);
+		registerItem(depleted_fuel_curium, NCTabs.FISSION_MATERIALS);
+		registerItem(depleted_fuel_berkelium, NCTabs.FISSION_MATERIALS);
+		registerItem(depleted_fuel_californium, NCTabs.FISSION_MATERIALS);
 		
-		registerItem(depleted_fuel_ic2, NCTabs.TAB_FISSION_MATERIALS);
+		registerItem(depleted_fuel_ic2, NCTabs.FISSION_MATERIALS);
 		
 		registerItem(depleted_fuel_rod_thorium, null);
 		registerItem(depleted_fuel_rod_uranium, null);
@@ -255,19 +308,42 @@ public class NCItems {
 		registerItem(depleted_fuel_rod_berkelium, null);
 		registerItem(depleted_fuel_rod_californium, null);
 		
-		registerItem(boron, NCTabs.TAB_BASE_ITEM_MATERIALS);
-		registerItem(lithium, NCTabs.TAB_BASE_ITEM_MATERIALS);
+		registerItem(boron, NCTabs.BASE_ITEM_MATERIALS);
+		registerItem(lithium, NCTabs.BASE_ITEM_MATERIALS);
 		
-		registerItem(lithium_ion_cell, NCTabs.TAB_MACHINES);
+		registerItem(lithium_ion_cell, NCTabs.MACHINES);
 		
-		registerItem(portable_ender_chest, NCTabs.TAB_MISC);
+		registerItem(geiger_counter, NCTabs.RADIATION);
+		registerItem(rad_shielding, NCTabs.RADIATION);
 		
-		registerItem(dominos, NCTabs.TAB_MISC);
-		registerItem(marshmallow, NCTabs.TAB_MISC);
+		registerItem(radaway, NCTabs.RADIATION);
+		registerItem(rad_x, NCTabs.RADIATION);
 		
-		registerItem(record_wanderer, NCTabs.TAB_MISC);
-		registerItem(record_end_of_the_world, NCTabs.TAB_MISC);
-		registerItem(record_money_for_nothing, NCTabs.TAB_MISC);
+		registerItem(portable_ender_chest, NCTabs.MISC);
+		
+		registerItem(dominos, NCTabs.MISC);
+		
+		registerItem(flour, NCTabs.MISC);
+		registerItem(graham_cracker, NCTabs.MISC);
+		
+		registerItem(roasted_cocoa_beans, NCTabs.MISC);
+		registerItem(ground_cocoa_nibs, NCTabs.MISC);
+		registerItem(cocoa_butter, NCTabs.MISC);
+		registerItem(cocoa_solids, NCTabs.MISC);
+		registerItem(unsweetened_chocolate, NCTabs.MISC);
+		registerItem(dark_chocolate, NCTabs.MISC);
+		registerItem(milk_chocolate, NCTabs.MISC);
+		
+		registerItem(gelatin, NCTabs.MISC);
+		registerItem(marshmallow, NCTabs.MISC);
+		
+		registerItem(smore, NCTabs.MISC);
+		registerItem(moresmore, NCTabs.MISC);
+		
+		registerItem(record_wanderer, NCTabs.MISC);
+		registerItem(record_end_of_the_world, NCTabs.MISC);
+		registerItem(record_money_for_nothing, NCTabs.MISC);
+		registerItem(record_hyperspace, NCTabs.MISC);
 	}
 	
 	public static void registerRenders() {
@@ -504,14 +580,39 @@ public class NCItems {
 		
 		registerRender(lithium_ion_cell);
 		
+		registerRender(geiger_counter);
+		for(int i = 0; i < MetaEnums.RadShieldingType.values().length; i++) {
+			registerRender(rad_shielding, i, "rad_shielding_" + MetaEnums.RadShieldingType.values()[i].getName());
+		}
+		
+		registerRender(radaway);
+		registerRender(rad_x);
+		
 		registerRender(portable_ender_chest);
 		
 		registerRender(dominos);
+		
+		registerRender(flour);
+		registerRender(graham_cracker);
+		
+		registerRender(roasted_cocoa_beans);
+		registerRender(ground_cocoa_nibs);
+		registerRender(cocoa_butter);
+		registerRender(cocoa_solids);
+		registerRender(unsweetened_chocolate);
+		registerRender(dark_chocolate);
+		registerRender(milk_chocolate);
+		
+		registerRender(gelatin);
 		registerRender(marshmallow);
+		
+		registerRender(smore);
+		registerRender(moresmore);
 		
 		registerRender(record_wanderer);
 		registerRender(record_end_of_the_world);
 		registerRender(record_money_for_nothing);
+		registerRender(record_hyperspace);
 	}
 	
 	private static String infoLine(String name) {

@@ -27,7 +27,7 @@ public class NCBlockIce extends BlockIce {
 		setHardness(0.5F);
 		setLightOpacity(3);
 		slipperiness = 0.999F;
-		setCreativeTab(NCTabs.TAB_BASE_BLOCK_MATERIALS);
+		setCreativeTab(NCTabs.BASE_BLOCK_MATERIALS);
 	}
 	
 	@Override

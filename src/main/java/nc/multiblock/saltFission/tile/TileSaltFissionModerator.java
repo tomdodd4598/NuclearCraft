@@ -1,6 +1,7 @@
 package nc.multiblock.saltFission.tile;
 
-import nc.multiblock.MultiblockControllerBase;
+import nc.multiblock.cuboidal.CuboidalPartPositionType;
+import nc.multiblock.saltFission.SaltFissionReactor;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class TileSaltFissionModerator extends TileSaltFissionPartBase {
@@ -8,11 +9,11 @@ public class TileSaltFissionModerator extends TileSaltFissionPartBase {
 	public boolean isInValidPosition;
 	
 	public TileSaltFissionModerator() {
-		super(PartPositionType.INTERIOR);
+		super(CuboidalPartPositionType.INTERIOR);
 	}
 	
 	@Override
-	public void onMachineAssembled(MultiblockControllerBase controller) {
+	public void onMachineAssembled(SaltFissionReactor controller) {
 		doStandardNullControllerResponse(controller);
 		super.onMachineAssembled(controller);
 		if (getWorld().isRemote) return;

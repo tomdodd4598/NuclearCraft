@@ -20,19 +20,19 @@ import java.util.Set;
  * Preferably, you should derive from MultiblockTileEntityBase,
  * which does all the hard work for you.
  * 
- * {@link nc.multiblock.MultiblockTileEntityBase}
+ * {@link nc.multiblock.MultiblockTileBase}
  */
-public interface IMultiblockPart {
+public interface IMultiblockPart<T extends MultiblockBase> {
 
 	/**
-	 * @return True if this block is connected to a multiblock controller. False otherwise.
+	 * @return True if this block is connected to a multiblock. False otherwise.
 	 */
 	boolean isConnected();
 	
 	/**
-	 * @return The attached multiblock controller for this tile entity. 
+	 * @return The attached multiblock for this tile entity. 
 	 */
-	MultiblockControllerBase getMultiblockController();
+	T getMultiblock();
 	
 	/**
 	 * Returns the location of this multiblock part in the world, in BlockPos form.
@@ -45,55 +45,55 @@ public interface IMultiblockPart {
 	// Multiblock connection-logic callbacks
 	
 	/**
-	 * Called after this block has been attached to a new multiblock controller.
-	 * @param newController The new multiblock controller to which this tile entity is attached.
+	 * Called after this block has been attached to a new multiblock.
+	 * @param newMultiblock The new multiblock to which this tile entity is attached.
 	 */
-	void onAttached(MultiblockControllerBase newController);
+	void onAttached(T newMultiblock);
 	
 	/**
-	 * Called after this block has been detached from a multiblock controller.
-	 * @param multiblockController The multiblock controller that no longer controls this tile entity.
+	 * Called after this block has been detached from a multiblock.
+	 * @param multiblock The multiblock that no longer controls this tile entity.
 	 */
-	void onDetached(MultiblockControllerBase multiblockController);
+	void onDetached(T multiblock);
 	
 	/**
 	 * Called when this block is being orphaned. Use this to copy game-data values that
 	 * should persist despite a machine being broken.
 	 * This should NOT mark the part as disconnected. onDetached will be called immediately afterwards.
-	 * @see #onDetached(MultiblockControllerBase)
-	 * @param oldController The controller which is orphaning this block. 
-	 * @param oldControllerSize The number of connected blocks in the controller prior to shedding orphans.
-	 * @param newControllerSize The number of connected blocks in the controller after shedding orphans.
+	 * @see #onDetached(T)
+	 * @param oldMultiblock The multiblock which is orphaning this block. 
+	 * @param oldMultiblockSize The number of connected blocks in the multiblock prior to shedding orphans.
+	 * @param newMultiblockSize The number of connected blocks in the multiblock after shedding orphans.
 	 */
-	void onOrphaned(MultiblockControllerBase oldController, int oldControllerSize, int newControllerSize);
+	void onOrphaned(T oldMultiblock, int oldMultiblockSize, int newMultiblockSize);
 	
 	// Multiblock fuse/split helper methods. Here there be dragons.
 	/**
-	 * Factory method. Creates a new multiblock controller and returns it.
+	 * Factory method. Creates a new multiblock and returns it.
 	 * Does not attach this tile entity to it.
 	 * Override this in your game code!
-	 * @return A new Multiblock Controller, derived from MultiblockControllerBase.
+	 * @return A new Multiblock, derived from MultiblockBase.
 	 */
-	MultiblockControllerBase createNewMultiblock();
+	T createNewMultiblock();
 
 	/**
-	 * Retrieve the type of multiblock controller which governs this part.
+	 * Retrieve the type of multiblock which governs this part.
 	 * Used to ensure that incompatible multiblocks are not merged.
-	 * @return The class/type of the multiblock controller which governs this type of part.
+	 * @return The class/type of the multiblock which governs this type of part.
 	 */
-	Class<? extends MultiblockControllerBase> getMultiblockControllerType();
+	Class<T> getMultiblockType();
 	
 	/**
-	 * Called when this block is moved from its current controller into a new controller.
+	 * Called when this block is moved from its current multiblock into a new multiblock.
 	 * A special case of attach/detach, done here for efficiency to avoid triggering
 	 * lots of recalculation logic.
-	 * @param newController The new controller into which this tile entity is being merged.
+	 * @param newMultiblock The new multiblock into which this tile entity is being merged.
 	 */
-	void onAssimilated(MultiblockControllerBase newController);
+	void onAssimilated(T newMultiblock);
 
 	// Multiblock connection data access.
 	// You generally shouldn't toy with these!
-	// They're for use by Multiblock Controllers.
+	// They're for use by Multiblocks.
 	
 	/**
 	 * Set that this block has been visited by your validation algorithms.
@@ -130,13 +130,13 @@ public interface IMultiblockPart {
 	/**
 	 * Returns an array containing references to neighboring IMultiblockPart tile entities.
 	 * Primarily a utility method. Only works after tileentity construction, so it cannot be used in
-	 * MultiblockControllerBase::attachBlock.
+	 * MultiblockBase::attachBlock.
 	 * 
 	 * This method is chunk-safe on the server; it will not query for parts in chunks that are unloaded.
 	 * Note that no method is chunk-safe on the client, because ChunkProviderClient is stupid.
 	 * @return An array of references to neighboring IMultiblockPart tile entities.
 	 */
-	IMultiblockPart[] getNeighboringParts();
+	IMultiblockPart<T>[] getNeighboringParts();
 
 	// Multiblock business-logic callbacks - implement these!
 	/**
@@ -144,9 +144,9 @@ public interface IMultiblockPart {
 	 * it was broken by a player/entity action, not by chunk unloads.
 	 * Note that, for non-square machines, the min/max coordinates may not actually be part
 	 * of the machine! They form an outer bounding box for the whole machine itself.
-	 * @param multiblockControllerBase The controller to which this part is being assembled.
+	 * @param multiblockBase The multiblock to which this part is being assembled.
 	 */
-	void onMachineAssembled(MultiblockControllerBase multiblockControllerBase);
+	void onMachineAssembled(T multiblock);
 	
 	/**
 	 * Called when the machine is broken for game reasons, e.g. a player removed a block
@@ -171,13 +171,13 @@ public interface IMultiblockPart {
 	 * Called when this part should check its neighbors.
 	 * This method MUST NOT cause additional chunks to load.
 	 * ALWAYS check to see if a chunk is loaded before querying for its tile entity
-	 * This part should inform the controller that it is attaching at this time.
-	 * @return A Set of multiblock controllers to which this object would like to attach. It should have attached to one of the controllers in this list. Return null if there are no compatible controllers nearby. 
+	 * This part should inform the multiblock that it is attaching at this time.
+	 * @return A Set of multiblocks to which this object would like to attach. It should have attached to one of the multiblocks in this list. Return null if there are no compatible multiblocks nearby. 
 	 */
-	Set<MultiblockControllerBase> attachToNeighbors();
+	Set<T> attachToNeighbors();
 
 	/**
-	 * Assert that this part is detached. If not, log a warning and set the part's controller to null.
+	 * Assert that this part is detached. If not, log a warning and set the part's multiblock to null.
 	 * Do NOT fire the full disconnection logic.
 	 */
 	void assertDetached();
@@ -193,7 +193,7 @@ public interface IMultiblockPart {
 	NBTTagCompound getMultiblockSaveData();
 
 	/**
-	 * Called after a block is added and the controller has incorporated the part's saved
+	 * Called after a block is added and the multiblock has incorporated the part's saved
 	 * multiblock game-data into itself. Generally, you should clear the saved data here.
 	 */
 	void onMultiblockDataAssimilated();

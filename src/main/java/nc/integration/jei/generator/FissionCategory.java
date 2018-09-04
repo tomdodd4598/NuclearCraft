@@ -6,11 +6,11 @@ import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeWrapper;
 import nc.integration.jei.IJEIHandler;
 import nc.integration.jei.JEIMethods.RecipeItemMapper;
-import nc.integration.jei.JEIProcessorCategory;
+import nc.integration.jei.JEICategoryAbstract;
 import nc.recipe.SorptionType;
 import nc.util.Lang;
 
-public class FissionCategory extends JEIProcessorCategory {
+public class FissionCategory extends JEICategoryAbstract {
 	
 	public FissionCategory(IGuiHelper guiHelper, IJEIHandler handler) {
 		super(guiHelper, handler, "fission_controller_idle", "_jei", 47, 30, 90, 26);

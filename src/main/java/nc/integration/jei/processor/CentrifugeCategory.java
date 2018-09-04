@@ -6,10 +6,10 @@ import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeWrapper;
 import nc.integration.jei.IJEIHandler;
 import nc.integration.jei.JEIMethods.RecipeFluidMapper;
-import nc.integration.jei.JEIProcessorCategory;
+import nc.integration.jei.JEICategoryAbstract;
 import nc.recipe.SorptionType;
 
-public class CentrifugeCategory extends JEIProcessorCategory {
+public class CentrifugeCategory extends JEICategoryAbstract {
 	
 	public CentrifugeCategory(IGuiHelper guiHelper, IJEIHandler handler) {
 		super(guiHelper, handler, "centrifuge_idle", 49, 30, 94, 38);

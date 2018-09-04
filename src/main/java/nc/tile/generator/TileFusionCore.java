@@ -45,6 +45,7 @@ public class TileFusionCore extends TileFluidGenerator implements SimpleComponen
 	
 	public double processHeatVariable = 0;
 	public double heat = ROOM_TEMP, efficiency, cooling, heatChange; // cooling and heatChange are in K, not kK
+	public int currentEnergyStored = 0, energyChange = 0;
 	
 	public int soundCount;
 	public int size = 1;
@@ -56,6 +57,9 @@ public class TileFusionCore extends TileFluidGenerator implements SimpleComponen
 	public static final String RING_BLOCKED = Lang.localise("gui.container.fusion_core.ring_blocked");
 	public static final String POWER_ISSUE = Lang.localise("gui.container.fusion_core.power_issue");
 	public static final String INCORRECT_STRUCTURE = Lang.localise("gui.container.fusion_core.incorrect_structure");
+	public static final String NO_PROBLEM = Lang.localise("gui.container.fusion_core.no_problem");
+	
+	public static final String NO_FUEL = Lang.localise("gui.container.fusion_core.empty");
 	
 	public boolean computerActivated = true;
 	
@@ -89,6 +93,7 @@ public class TileFusionCore extends TileFluidGenerator implements SimpleComponen
 		tickTile();
 		setSize();
 		if(!world.isRemote) {
+			energyChange = getEnergyStored() - currentEnergyStored;
 			if (shouldTileCheck() && NCConfig.fusion_active_cooling) setCooling();
 			double previousHeat = heat;
 			run();
@@ -97,6 +102,7 @@ public class TileFusionCore extends TileFluidGenerator implements SimpleComponen
 			heatChange = 1000*(heat - previousHeat);
 			if (overheat()) return;
 			if (isProcessing) process();
+			else getRadiationSource().setRadiationLevel(0D);
 			consumeInputs();
 			if (wasProcessing != isProcessing) {
 				plasma();
@@ -184,7 +190,7 @@ public class TileFusionCore extends TileFluidGenerator implements SimpleComponen
 				playFusionSound(ringRadius(), 1, -ringRadius());
 				playFusionSound(-ringRadius(), 1, ringRadius());
 				playFusionSound(-ringRadius(), 1, -ringRadius());
-				if (ringRadius() > 4) {
+				if (ringRadius() > 5) {
 					playFusionSound(ringRadius(), 1, 0);
 					playFusionSound(-ringRadius(), 1, 0);
 					playFusionSound(0, 1, ringRadius());
@@ -259,12 +265,14 @@ public class TileFusionCore extends TileFluidGenerator implements SimpleComponen
 		baseProcessTime = recipe.getFusionComboTime();
 		baseProcessPower = recipe.getFusionComboPower();
 		processHeatVariable = recipe.getFusionComboHeatVariable();
+		baseProcessRadiation = recipe.getFusionComboRadiation();
 	}
 	
 	public void setDefaultRecipeStats() {
 		baseProcessTime = defaultProcessTime;
 		baseProcessPower = defaultProcessPower;
 		processHeatVariable = 1000D;
+		baseProcessRadiation = 0D;
 	}
 	
 	// Setting Blocks
@@ -345,7 +353,7 @@ public class TileFusionCore extends TileFluidGenerator implements SimpleComponen
 				}
 			}
 			complete = 1;
-			problem = INCORRECT_STRUCTURE;
+			problem = NO_PROBLEM;
 			return true;
 		} else {
 			return complete == 1;
@@ -455,6 +463,7 @@ public class TileFusionCore extends TileFluidGenerator implements SimpleComponen
 		nbt.setInteger("complete", complete);
 		nbt.setString("problem", problem);
 		nbt.setBoolean("computerActivated", computerActivated);
+		nbt.setInteger("currentEnergyStored", currentEnergyStored);
 		return nbt;
 	}
 			
@@ -472,6 +481,7 @@ public class TileFusionCore extends TileFluidGenerator implements SimpleComponen
 		complete = nbt.getInteger("complete");
 		problem = nbt.getString("problem");
 		computerActivated = nbt.getBoolean("computerActivated");
+		currentEnergyStored = nbt.getInteger("currentEnergyStored");
 	}
 	
 	// Inventory Fields
@@ -575,6 +585,12 @@ public class TileFusionCore extends TileFluidGenerator implements SimpleComponen
 	
 	@Callback
 	@Optional.Method(modid = "opencomputers")
+	public Object[] isProcessing(Context context, Arguments args) {
+		return new Object[] {isProcessing};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
 	public Object[] isHotEnough(Context context, Arguments args) {
 		return new Object[] {isHotEnough()};
 	}
@@ -605,8 +621,26 @@ public class TileFusionCore extends TileFluidGenerator implements SimpleComponen
 	
 	@Callback
 	@Optional.Method(modid = "opencomputers")
+	public Object[] getEnergyChange(Context context, Arguments args) {
+		return new Object[] {energyChange};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getCurrentProcessTime(Context context, Arguments args) {
+		return new Object[] {time};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
 	public Object[] getTemperature(Context context, Arguments args) {
 		return new Object[] {heat};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getMaxTemperature(Context context, Arguments args) {
+		return new Object[] {getMaxHeat()};
 	}
 	
 	@Callback
@@ -618,7 +652,7 @@ public class TileFusionCore extends TileFluidGenerator implements SimpleComponen
 	@Callback
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getFusionComboTime(Context context, Arguments args) {
-		return new Object[] {baseProcessTime};
+		return new Object[] {recipe != null ? baseProcessTime : 0};
 	}
 	
 	@Callback
@@ -630,13 +664,25 @@ public class TileFusionCore extends TileFluidGenerator implements SimpleComponen
 	@Callback
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getFusionComboHeatVariable(Context context, Arguments args) {
-		return new Object[] {processHeatVariable};
+		return new Object[] {recipe != null ? processHeatVariable : 0};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getFirstFusionFuel(Context context, Arguments args) {
+		return new Object[] {recipe != null ? recipe.fluidIngredients().get(0).getIngredientName() : NO_FUEL};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getSecondFusionFuel(Context context, Arguments args) {
+		return new Object[] {recipe != null ? recipe.fluidIngredients().get(1).getIngredientName() : NO_FUEL};
 	}
 	
 	@Callback
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getReactorProcessTime(Context context, Arguments args) {
-		return new Object[] {size == 0 ? baseProcessTime : baseProcessTime/size};
+		return new Object[] {recipe != null ? (size == 0 ? baseProcessTime : baseProcessTime/size) : 0};
 	}
 	
 	@Callback

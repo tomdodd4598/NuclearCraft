@@ -19,9 +19,12 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
 public class BlockFissionController extends BlockProcessor {
+	
+	public final boolean isNew;
 
 	public BlockFissionController(boolean isActive, boolean isNew) {
 		super(isNew ? ProcessorType.FISSION_CONTROLLER_NEW : ProcessorType.FISSION_CONTROLLER, isActive);
+		this.isNew = isNew;
 	}
 	
 	@Override

@@ -15,7 +15,7 @@ public class NCBlockTrapDoor extends BlockTrapDoor {
 		super(material);
 		setUnlocalizedName(Global.MOD_ID + "." + name);
 		setRegistryName(new ResourceLocation(Global.MOD_ID, name));
-		setCreativeTab(NCTabs.TAB_FISSION_BLOCKS);
+		setCreativeTab(NCTabs.FISSION_BLOCKS);
 		setHarvestLevel("pickaxe", 0);
 		setHardness(2F);
 		setResistance(15F);

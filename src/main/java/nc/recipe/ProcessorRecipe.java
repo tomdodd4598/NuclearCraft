@@ -3,6 +3,8 @@ package nc.recipe;
 import java.util.List;
 
 import nc.config.NCConfig;
+import nc.recipe.ingredient.IFluidIngredient;
+import nc.recipe.ingredient.IItemIngredient;
 import nc.tile.generator.TileDecayGenerator;
 import nc.tile.internal.fluid.Tank;
 import nc.util.RecipeHelper;
@@ -78,7 +80,7 @@ public class ProcessorRecipe implements IRecipe {
 		return RecipeHelper.matchingIngredients(SorptionType.OUTPUT, this.itemProducts, this.fluidProducts, itemProducts, fluidProducts, isShapeless);
 	}
 	
-	// Recipe Info
+	/* ================================== Recipe Info ===================================== */
 	
 	// Processors
 	
@@ -94,6 +96,12 @@ public class ProcessorRecipe implements IRecipe {
 		else return defaultProcessPower;
 	}
 	
+	public double getProcessRadiation() {
+		if (extras.size() < 3) return 0D;
+		else if (extras.get(2) instanceof Double) return (double) extras.get(2);
+		else return 0D;
+	}
+	
 	// Decay Generator
 	
 	public double getDecayLifetime() {
@@ -106,6 +114,12 @@ public class ProcessorRecipe implements IRecipe {
 		if (extras.size() < 2) return TileDecayGenerator.DEFAULT_POWER;
 		if (extras.get(1) instanceof Double) return (int) (((double) extras.get(1))*NCConfig.machine_update_rate/20D);
 		return TileDecayGenerator.DEFAULT_POWER;
+	}
+	
+	public double getDecayRadiation() {
+		if (extras.size() < 3) return 0D;
+		else if (extras.get(2) instanceof Double) return ((double) extras.get(2))/20D;
+		else return 0D;
 	}
 	
 	// Fission
@@ -128,6 +142,12 @@ public class ProcessorRecipe implements IRecipe {
 		else return 0D;
 	}
 	
+	public double getFissionFuelRadiation() {
+		if (extras.size() < 5) return 0D;
+		else if (extras.get(4) instanceof Double) return (double) extras.get(4);
+		else return 0D;
+	}
+	
 	// Fusion
 	
 	public double getFusionComboTime() {
@@ -138,14 +158,20 @@ public class ProcessorRecipe implements IRecipe {
 	
 	public double getFusionComboPower() {
 		if (extras.size() < 2) return 0D;
-		else if (extras.get(0) instanceof Double) return (double) extras.get(1);
+		else if (extras.get(1) instanceof Double) return (double) extras.get(1);
 		else return 0D;
 	}
 	
 	public double getFusionComboHeatVariable() {
 		if (extras.size() < 3) return 1000D;
-		else if (extras.get(0) instanceof Double) return (double) extras.get(2);
+		else if (extras.get(2) instanceof Double) return (double) extras.get(2);
 		else return 1000D;
+	}
+	
+	public double getFusionComboRadiation() {
+		if (extras.size() < 4) return 0D;
+		else if (extras.get(3) instanceof Double) return (double) extras.get(3);
+		else return 0D;
 	}
 	
 	// Salt Fission Vessel
@@ -159,6 +185,12 @@ public class ProcessorRecipe implements IRecipe {
 	public double getSaltFissionFuelHeat() {
 		if (extras.size() < 2) return 0D;
 		else if (extras.get(1) instanceof Double) return (double) extras.get(1);
+		else return 0D;
+	}
+	
+	public double getSaltFissionFuelRadiation() {
+		if (extras.size() < 3) return 0D;
+		else if (extras.get(2) instanceof Double) return (double) extras.get(2);
 		else return 0D;
 	}
 	

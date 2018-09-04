@@ -2,9 +2,9 @@ package nc.tile.processor;
 
 import java.util.List;
 
-import nc.recipe.IItemIngredient;
 import nc.recipe.ProcessorRecipe;
 import nc.recipe.ProcessorRecipeHandler;
+import nc.recipe.ingredient.IItemIngredient;
 import net.minecraft.item.ItemStack;
 
 public interface IItemProcessor {

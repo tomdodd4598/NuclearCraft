@@ -4,6 +4,8 @@ import javax.annotation.Nullable;
 
 import nc.Global;
 import nc.block.tile.processor.BlockNuclearFurnace;
+import nc.capability.radiation.IRadiationSource;
+import nc.radiation.RadSources;
 import nc.tile.dummy.IInterfaceable;
 import nc.tile.energyFluid.IBufferable;
 import nc.tile.inventory.ITileInventory;
@@ -36,6 +38,7 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
 
 public class TileNuclearFurnace extends TileEntity implements ITickable, ISidedInventory, ITileInventory, IInterfaceable, IBufferable {
+	
 	private static final int[] SLOTS_TOP = new int[] {0};
 	private static final int[] SLOTS_BOTTOM = new int[] {2, 1};
 	private static final int[] SLOTS_SIDES = new int[] {1};
@@ -45,6 +48,8 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ISidedI
 	private int currentItemBurnTime;
 	private int cookTime;
 	private int totalCookTime;
+	
+	private IRadiationSource radiation;
 
 	@Override
 	public int getSizeInventory() {
@@ -98,6 +103,10 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ISidedI
 	public NonNullList<ItemStack> getInventoryStacks() {
 		return furnaceItemStacks;
 	}
+	
+	public IRadiationSource getRadiationSource() {
+		return radiation;
+	}
 
 	@Override
 	public String getName() {
@@ -112,6 +121,15 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ISidedI
 	public static void registerFixesFurnace(DataFixer fixer) {
 		fixer.registerWalker(FixTypes.BLOCK_ENTITY, new ItemStackDataLists(TileNuclearFurnace.class, new String[] {"Items"}));
 	}
+	
+	public void readRadiation(NBTTagCompound nbt) {
+		if (nbt.hasKey("radiationLevel")) getRadiationSource().setRadiationLevel(nbt.getDouble("radiationLevel"));
+	}
+	
+	public NBTTagCompound writeRadiation(NBTTagCompound nbt) {
+		nbt.setDouble("radiationLevel", getRadiationSource().getRadiationLevel());
+		return nbt;
+	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
@@ -122,6 +140,7 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ISidedI
 		cookTime = nbt.getInteger("CookTime");
 		totalCookTime = nbt.getInteger("CookTimeTotal");
 		currentItemBurnTime = getItemBurnTime(furnaceItemStacks.get(1));
+		readRadiation(nbt);
 	}
 
 	@Override
@@ -131,6 +150,7 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ISidedI
 		nbt.setInteger("CookTime", (short) cookTime);
 		nbt.setInteger("CookTimeTotal", (short) totalCookTime);
 		ItemStackHelper.saveAllItems(nbt, furnaceItemStacks);
+		writeRadiation(nbt);
 		
 		return nbt;
 	}
@@ -156,6 +176,9 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ISidedI
 
 		if (isBurning()) {
 			--furnaceBurnTime;
+			getRadiationSource().setRadiationLevel(RadSources.THORIUM);
+		} else {
+			getRadiationSource().setRadiationLevel(0D);
 		}
 
 		if (!world.isRemote) {
@@ -363,13 +386,21 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ISidedI
 	public ITextComponent getDisplayName() {
 		if (getBlockType() != null) return new TextComponentTranslation(getBlockType().getLocalizedName()); else return null;
 	}
-
+	
 	IItemHandler handlerTop = new SidedInvWrapper(this, EnumFacing.UP);
 	IItemHandler handlerBottom = new SidedInvWrapper(this, EnumFacing.DOWN);
 	IItemHandler handlerSide = new SidedInvWrapper(this, EnumFacing.WEST);
-
+	
+	@Override
+	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing) {
+		if (capability == IRadiationSource.CAPABILITY_RADIATION_SOURCE) return radiation != null;
+		if (facing != null && capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) return true;
+		return super.hasCapability(capability, facing);
+	}
+	
 	@Override
 	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing) {
+		if (capability == IRadiationSource.CAPABILITY_RADIATION_SOURCE) return (T) radiation;
 		if (facing != null && capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
 			if (facing == EnumFacing.DOWN) {
 				return (T) handlerBottom;

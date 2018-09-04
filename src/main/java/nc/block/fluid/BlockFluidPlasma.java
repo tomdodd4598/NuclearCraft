@@ -2,6 +2,7 @@ package nc.block.fluid;
 
 import java.util.Random;
 
+import nc.config.NCConfig;
 import nc.fluid.FluidPlasma;
 import nc.tile.passive.TilePassive;
 import nc.util.MaterialHelper;
@@ -42,25 +43,24 @@ public class BlockFluidPlasma extends BlockFluid {
 	
 	@Override
 	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
-		for (EnumFacing side : EnumFacing.HORIZONTALS) {
-			BlockPos offPos = pos.offset(side);
-			Material mat = worldIn.getBlockState(offPos).getMaterial();
-			if (mat != Material.FIRE && MaterialHelper.isReplaceable(mat) && !mat.isLiquid()) {
-				if (worldIn.isSideSolid(offPos.down(), EnumFacing.UP)) {
-					worldIn.setBlockState(offPos, Blocks.FIRE.getDefaultState());
-					break;
-				}
-			}
-		}
 		int free = 0;
 		for (EnumFacing side : EnumFacing.values()) {
-			TileEntity tile = worldIn.getTileEntity(pos.offset(side));
-			if (!(tile instanceof TilePassive.FusionElectromagnet)) {
-				free++;
-			} else if (rand.nextInt(100) < 1) {
+			BlockPos offPos = pos.offset(side);
+			if (side != EnumFacing.UP && side != EnumFacing.DOWN && NCConfig.fusion_plasma_craziness) {
+				Material mat = worldIn.getBlockState(offPos).getMaterial();
+				if (mat != Material.FIRE && MaterialHelper.isReplaceable(mat) && !mat.isLiquid()) {
+					if (worldIn.isSideSolid(offPos.down(), EnumFacing.UP)) {
+						worldIn.setBlockState(offPos, Blocks.FIRE.getDefaultState());
+						break;
+					}
+				}
+			}
+			TileEntity tile = worldIn.getTileEntity(offPos);
+			if (!(tile instanceof TilePassive.FusionElectromagnet)) free++;
+			else if (rand.nextInt(100) < 1) {
 				TilePassive.FusionElectromagnet magnet = (TilePassive.FusionElectromagnet) tile;
 				if (!magnet.isRunning) {
-					worldIn.createExplosion(null, pos.offset(side).getX(), pos.offset(side).getY(), pos.offset(side).getZ(), 4F, true);
+					worldIn.createExplosion(null, offPos.getX(), offPos.getY(), offPos.getZ(), 4F, true);
 					return;
 				}
 			}

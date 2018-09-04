@@ -1123,4 +1123,104 @@ public class NCCraftTweaker {
 			CraftTweakerAPI.apply(new RemoveProcessorRecipe(NCRecipes.Type.COOLANT_HEATER, SorptionType.OUTPUT, Lists.newArrayList(output1)));
 		}
 	}
+	
+	@ZenClass("mods.nuclearcraft.heat_exchanger")
+	@ZenRegister
+	public static class HeatExchangerHandler extends RecipeHandler {
+		
+		@ZenMethod
+		public static void addRecipe(Object[] objects) {
+			CraftTweakerAPI.apply(new AddProcessorRecipe(NCRecipes.Type.HEAT_EXCHANGER, Lists.newArrayList(objects)));
+		}
+
+		@ZenMethod
+		public static void removeRecipeWithInput(IIngredient[] inputs) {
+			CraftTweakerAPI.apply(new RemoveProcessorRecipe(NCRecipes.Type.HEAT_EXCHANGER, SorptionType.INPUT, Lists.newArrayList(inputs)));
+		}
+		
+		@ZenMethod
+		public static void removeRecipeWithOutput(IIngredient[] outputs) {
+			CraftTweakerAPI.apply(new RemoveProcessorRecipe(NCRecipes.Type.HEAT_EXCHANGER, SorptionType.OUTPUT, Lists.newArrayList(outputs)));
+		}
+		
+		@ZenMethod
+		public static void removeAllRecipes() {
+			CraftTweakerAPI.apply(new RemoveAllProcessorRecipes(NCRecipes.Type.HEAT_EXCHANGER));
+		}
+	}
+	
+	@ZenClass("mods.nuclearcraft.high_turbine")
+	@ZenRegister
+	public static class HighTurbineHandler extends RecipeHandler {
+		
+		@ZenMethod
+		public static void addRecipe(Object[] objects) {
+			CraftTweakerAPI.apply(new AddProcessorRecipe(NCRecipes.Type.HIGH_TURBINE, Lists.newArrayList(objects)));
+		}
+
+		@ZenMethod
+		public static void removeRecipeWithInput(IIngredient[] inputs) {
+			CraftTweakerAPI.apply(new RemoveProcessorRecipe(NCRecipes.Type.HIGH_TURBINE, SorptionType.INPUT, Lists.newArrayList(inputs)));
+		}
+		
+		@ZenMethod
+		public static void removeRecipeWithOutput(IIngredient[] outputs) {
+			CraftTweakerAPI.apply(new RemoveProcessorRecipe(NCRecipes.Type.HIGH_TURBINE, SorptionType.OUTPUT, Lists.newArrayList(outputs)));
+		}
+		
+		@ZenMethod
+		public static void removeAllRecipes() {
+			CraftTweakerAPI.apply(new RemoveAllProcessorRecipes(NCRecipes.Type.HIGH_TURBINE));
+		}
+	}
+	
+	@ZenClass("mods.nuclearcraft.low_turbine")
+	@ZenRegister
+	public static class LowTurbineHandler extends RecipeHandler {
+		
+		@ZenMethod
+		public static void addRecipe(Object[] objects) {
+			CraftTweakerAPI.apply(new AddProcessorRecipe(NCRecipes.Type.LOW_TURBINE, Lists.newArrayList(objects)));
+		}
+
+		@ZenMethod
+		public static void removeRecipeWithInput(IIngredient[] inputs) {
+			CraftTweakerAPI.apply(new RemoveProcessorRecipe(NCRecipes.Type.LOW_TURBINE, SorptionType.INPUT, Lists.newArrayList(inputs)));
+		}
+		
+		@ZenMethod
+		public static void removeRecipeWithOutput(IIngredient[] outputs) {
+			CraftTweakerAPI.apply(new RemoveProcessorRecipe(NCRecipes.Type.LOW_TURBINE, SorptionType.OUTPUT, Lists.newArrayList(outputs)));
+		}
+		
+		@ZenMethod
+		public static void removeAllRecipes() {
+			CraftTweakerAPI.apply(new RemoveAllProcessorRecipes(NCRecipes.Type.LOW_TURBINE));
+		}
+	}
+	
+	@ZenClass("mods.nuclearcraft.condenser")
+	@ZenRegister
+	public static class CondenserHandler extends RecipeHandler {
+		
+		@ZenMethod
+		public static void addRecipe(Object[] objects) {
+			CraftTweakerAPI.apply(new AddProcessorRecipe(NCRecipes.Type.CONDENSER, Lists.newArrayList(objects)));
+		}
+
+		@ZenMethod
+		public static void removeRecipeWithInput(IIngredient[] inputs) {
+			CraftTweakerAPI.apply(new RemoveProcessorRecipe(NCRecipes.Type.CONDENSER, SorptionType.INPUT, Lists.newArrayList(inputs)));
+		}
+		
+		@ZenMethod
+		public static void removeRecipeWithOutput(IIngredient[] outputs) {
+			CraftTweakerAPI.apply(new RemoveProcessorRecipe(NCRecipes.Type.CONDENSER, SorptionType.OUTPUT, Lists.newArrayList(outputs)));
+		}
+		
+		@ZenMethod
+		public static void removeAllRecipes() {
+			CraftTweakerAPI.apply(new RemoveAllProcessorRecipes(NCRecipes.Type.CONDENSER));
+		}
+	}
 }
