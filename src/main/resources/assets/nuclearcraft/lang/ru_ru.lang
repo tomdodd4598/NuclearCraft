@@ -304,6 +304,24 @@ fluid.helium=Гелий
 tile.nuclearcraft.fluid_steam.name=Пар
 fluid.steam=Пар
 
+tile.nuclearcraft.fluid_high_pressure_steam.name=Пар высокого давления
+fluid.high_pressure_steam=Пар высокого давления
+
+tile.nuclearcraft.fluid_exhaust_steam.name=Выхлопной пар
+fluid.exhaust_steam=Выхлопной пар
+
+tile.nuclearcraft.fluid_low_pressure_steam.name=Пар низкого давления
+fluid.low_pressure_steam=Пар низкого давления
+
+tile.nuclearcraft.fluid_low_quality_steam.name=Низкокачественный пар
+fluid.low_quality_steam=Низкокачественный пар
+
+tile.nuclearcraft.fluid_preheated_water.name=Разогретая вода
+fluid.preheated_water=Разогретая вода
+
+tile.nuclearcraft.fluid_condensate_water.name=Конденсатная вода
+fluid.condensate_water=Конденсатная вода
+
 tile.nuclearcraft.fluid_liquidhelium.name=Жидкий гелий
 fluid.liquidhelium=Жидкий гелий
 
@@ -337,6 +355,9 @@ fluid.tough=Расплавленный прочный сплав
 tile.nuclearcraft.fluid_hard_carbon.name=Расплавленный твердый углерод
 fluid.hard_carbon=Расплавленный твердый углерод
 
+tile.nuclearcraft.fluid_coal.name=Сжиженный уголь
+fluid.coal=Сжиженный уголь
+
 tile.nuclearcraft.fluid_neutron.name=Нейтронная жидкость
 fluid.neutron=Нейтронная жидкость
 
@@ -346,11 +367,20 @@ fluid.fluorine=Фтор
 tile.nuclearcraft.fluid_nitrogen.name=Азот
 fluid.nitrogen=Азот
 
+tile.nuclearcraft.fluid_fluoromethane.name=Фторметан
+fluid.fluoromethane=Фторметан
+
 tile.nuclearcraft.fluid_ammonia.name=Аммиак
 fluid.ammonia=Аммиак
 
 tile.nuclearcraft.fluid_ethanol.name=Этанол
 fluid.ethanol=Этанол
+
+tile.nuclearcraft.fluid_ethene.name=Этилен
+fluid.ethene=Этилен
+
+tile.nuclearcraft.fluid_methanol.name=Метанол
+fluid.methanol=Метанол
 
 tile.nuclearcraft.fluid_boric_acid.name=Борная кислота
 fluid.boric_acid=Борная кислота
@@ -396,6 +426,42 @@ fluid.sulfuric_acid=Серная кислота
 
 tile.nuclearcraft.fluid_fluorite_water.name=Флюоритовая вода
 fluid.fluorite_water=Флюоритовая вода
+
+tile.nuclearcraft.fluid_chocolate_liquor.name=Шоколадный ликер
+fluid.chocolate_liquor=Шоколадный ликер
+
+tile.nuclearcraft.fluid_cocoa_butter.name=Кокосовое масло
+fluid.cocoa_butter=Кокосовое масло
+
+tile.nuclearcraft.fluid_unsweetened_chocolate.name=Расплавленный несладкий шоколад
+fluid.unsweetened_chocolate=Расплавленный несладкий шоколад
+
+tile.nuclearcraft.fluid_dark_chocolate.name=Расплавленный темный шоколад
+fluid.dark_chocolate=Расплавленный темный шоколад
+
+tile.nuclearcraft.fluid_milk_chocolate.name=Расплавленный молочный шоколад
+fluid.milk_chocolate=Расплавленный молочный шоколад
+
+tile.nuclearcraft.fluid_sugar.name=Расплавленный сахар
+fluid.sugar=Расплавленный сахар
+
+tile.nuclearcraft.fluid_gelatin.name=Расплавленный желатин
+fluid.gelatin=Расплавленный желатин
+
+tile.nuclearcraft.fluid_hydrated_gelatin.name=Гидратированный желатин
+fluid.hydrated_gelatin=Гидратированный желатин
+
+tile.nuclearcraft.fluid_milk.name=Молоко
+fluid.milk=Молоко
+
+tile.nuclearcraft.fluid_marshmallow.name=Жидкий зефир
+fluid.marshmallow=Жидкий зефир
+
+tile.nuclearcraft.fluid_carbon_dioxide.name=Углекислый газ
+fluid.carbon_dioxide=Углекислый газ
+
+tile.nuclearcraft.fluid_carbon_monoxide.name=Монооксид углерода
+fluid.carbon_monoxide=Монооксид углерода
 
 tile.nuclearcraft.fluid_calcium_sulfate_solution.name=Раствор сульфата кальция
 fluid.calcium_sulfate_solution=Раствор сульфата кальция
@@ -1025,6 +1091,9 @@ fluid.magnesium_nak=Эвтектическая смесь НаК-Магний
 tile.nuclearcraft.fluid_magnesium_nak_hot.name=Горячая эвтектическая смесь НаК-Магний
 fluid.magnesium_nak_hot=Горячая эвтектическая смесь НаК-Магний
 
+item.nuclearcraft.rads=Радиация:
+item.nuclearcraft.rad_resist=Радиационная устойчивость:
+
 item.nuclearcraft.ingot.copper.name=Медный слиток
 item.nuclearcraft.ingot.tin.name=Оловянный слиток
 item.nuclearcraft.ingot.lead.name=Свинцовый слиток
@@ -1567,13 +1636,42 @@ item.nuclearcraft.reactor_door_item.name=Дверь реактора
 
 item.nuclearcraft.lithium_ion_cell.name=Литий-ионная ячейка
 
+item.nuclearcraft.geiger_counter.name=Счетчик Гейгера
+item.nuclearcraft.geiger_counter.desc=Обнаруживает радиацию и информирует игрока о его количестве. Можно будет выключить в горячей панели.
+item.nuclearcraft.geiger_counter.rads=Радиация:
+
+item.nuclearcraft.rad_shielding.light.name=Легкое радиационное экранирование
+item.nuclearcraft.rad_shielding.medium.name=Среднее радиационное экранирование
+item.nuclearcraft.rad_shielding.heavy.name=Тяжелое радиационное экранирование
+
+item.nuclearcraft.radaway.name=Антирадин
+item.nuclearcraft.radaway.desc=Удаляет %s [%s].
+item.nuclearcraft.rad_x.name=Рад-X
+item.nuclearcraft.rad_x.desc=Увеличивает сопротивление радиации на %s для %s. Эффект может складываться, но более высокие уровни сопротивления будут изнашиваться быстрее.
+
 item.nuclearcraft.portable_ender_chest.name=Портативный эндер сундук
 item.nuclearcraft.portable_ender_chest.desc=Получите доступ к сундуку эндера.
 
 item.nuclearcraft.dominos.name=Специальное домино
 item.nuclearcraft.dominos.desc=В избранном у Пола - эта красота восстанавливает 16 голода.
+
+item.nuclearcraft.flour.name=Мука
+item.nuclearcraft.graham_cracker.name=Грэм крекер
+
+item.nuclearcraft.roasted_cocoa_beans.name=Жареные какао-бобы
+item.nuclearcraft.ground_cocoa_nibs.name=Молотые какао-бобы
+item.nuclearcraft.cocoa_butter.name=Затвердевшее какао-масло
+item.nuclearcraft.cocoa_solids.name=Твердый какао
+item.nuclearcraft.unsweetened_chocolate.name=Несладкий шоколад
+item.nuclearcraft.dark_chocolate.name=Темный шоколад
+item.nuclearcraft.milk_chocolate.name=Молочный шоколад
+
+item.nuclearcraft.gelatin.name=Желатин
 item.nuclearcraft.marshmallow.name=Зефир
 item.nuclearcraft.marshmallow.desc=Многие цивилизации не упали бы с ними на их стороне.
+
+item.nuclearcraft.smore.name=S'больше S'минго
+item.nuclearcraft.moresmore.name=БольшойS'больше ДвойнойS'минго
 
 item.nuclearcraft.record_wanderer.name=Музыкальный диск
 item.nuclearcraft.record_wanderer.des0=Dion - The Wanderer
@@ -1584,16 +1682,23 @@ item.nuclearcraft.record_end_of_the_world.des1=8-битный кавер от 'G
 item.nuclearcraft.record_money_for_nothing.name=Музыкальный диск
 item.nuclearcraft.record_money_for_nothing.des0=Dire Straits - Money For Nothing
 item.nuclearcraft.record_money_for_nothing.des1=8-битный кавер от 'Omnigrad'
+item.nuclearcraft.record_hyperspace.name=Музыкальный диск
+item.nuclearcraft.record_hyperspace.des0=Ur-Quan Masters - Hyperspace
+item.nuclearcraft.record_hyperspace.des1=Оригинальный от Riku Nuottajärvi
 
 itemGroup.nuclearcraft=NuclearCraft
 itemGroup.nuclearcraftBaseBlockMaterials=NuclearCraft: Базовые блоки
 itemGroup.nuclearcraftBaseItemMaterials=NuclearCraft: Базовые предметы
+itemGroup.nuclearcraftRadiation=NuclearCraft: Радиация
 itemGroup.nuclearcraftMachines=NuclearCraft: Машины
 itemGroup.nuclearcraftFissionBlocks=NuclearCraft: Блоки деления
 itemGroup.nuclearcraftFissionMaterials=NuclearCraft: Материалы деления
 itemGroup.nuclearcraftFissionFuels=NuclearCraft: Делящиеся топлива
 itemGroup.nuclearcraftFusion=NuclearCraft: Плавление
 itemGroup.nuclearcraftSaltFissionBlocks=NuclearCraft: Деление на расплавах солей
+itemGroup.nuclearcraftHeatExchangerBlocks=NuclearCraft: Теплообменник
+itemGroup.nuclearcraftTurbineBlocks=NuclearCraft: Паровая турбина
+itemGroup.nuclearcraftCondenserBlocks=NuclearCraft: Конденсатор
 itemGroup.nuclearcraftAccelerator=NuclearCraft: Ускоритель
 itemGroup.nuclearcraftFluids=NuclearCraft: Жидкости
 itemGroup.nuclearcraftMisc=NuclearCraft: Разное
@@ -1602,7 +1707,6 @@ gui.config.main_title=NuclearCraft Configs
 
 gui.config.category.ores=Ore Configs
 gui.config.category.ores.tooltip=Configure ore generation.
-
 gui.config.ores.ore_dims=Dimension List
 gui.config.ores.ore_dims.comment=List of IDs of dimensions to whitelist/blacklist for ore generation.
 gui.config.ores.ore_dims_list_type=Whitelist/Blacklist (false/true)
@@ -1705,6 +1809,8 @@ gui.config.fission.fission_thorium_power=Thorium Power Gen
 gui.config.fission.fission_thorium_power.comment=Base RF/t the fuels produce. Order: TBU, TBU Oxide.
 gui.config.fission.fission_thorium_heat_generation=Thorium Heat Gen
 gui.config.fission.fission_thorium_heat_generation.comment=Base heat the fuels produce. Order: TBU, TBU Oxide.
+gui.config.fission.fission_thorium_radiation=Thorium Radiation
+gui.config.fission.fission_thorium_radiation.comment=Base radiation the fuels produce while processing. Order: TBU, TBU Oxide.
 
 gui.config.fission.fission_uranium_fuel_time=Uranium Fuel Durations
 gui.config.fission.fission_uranium_fuel_time.comment=Base ticks the fuels last. Order: LEU-233, LEU-233 Oxide, HEU-233, HEU-233 Oxide, LEU-235, LEU-235 Oxide, HEU-235, HEU-235 Oxide.
@@ -1712,6 +1818,8 @@ gui.config.fission.fission_uranium_power=Uranium Power Gen
 gui.config.fission.fission_uranium_power.comment=Base RF/t the fuels produce. Order: LEU-233, LEU-233 Oxide, HEU-233, HEU-233 Oxide, LEU-235, LEU-235 Oxide, HEU-235, HEU-235 Oxide.
 gui.config.fission.fission_uranium_heat_generation=Uranium Heat Gen
 gui.config.fission.fission_uranium_heat_generation.comment=Base heat the fuels produce. Order: LEU-233, LEU-233 Oxide, HEU-233, HEU-233 Oxide, LEU-235, LEU-235 Oxide, HEU-235, HEU-235 Oxide.
+gui.config.fission.fission_uranium_radiation=Uranium Radiation
+gui.config.fission.fission_uranium_radiation.comment=Base radiation the fuels produce while processing. Order: LEU-233, LEU-233 Oxide, HEU-233, HEU-233 Oxide, LEU-235, LEU-235 Oxide, HEU-235, HEU-235 Oxide.
 
 gui.config.fission.fission_neptunium_fuel_time=Neptunium Fuel Durations
 gui.config.fission.fission_neptunium_fuel_time.comment=Base ticks the fuels last. Order: LEN-236, LEN-236 Oxide, HEN-236, HEN-236 Oxide.
@@ -1719,6 +1827,8 @@ gui.config.fission.fission_neptunium_power=Neptunium Power Gen
 gui.config.fission.fission_neptunium_power.comment=Base RF/t the fuels produce. Order: LEN-236, LEN-236 Oxide, HEN-236, HEN-236 Oxide.
 gui.config.fission.fission_neptunium_heat_generation=Neptunium Heat Gen
 gui.config.fission.fission_neptunium_heat_generation.comment=Base heat the fuels produce. Order: LEN-236, LEN-236 Oxide, HEN-236, HEN-236 Oxide.
+gui.config.fission.fission_neptunium_radiation=Neptunium Radiation
+gui.config.fission.fission_neptunium_radiation.comment=Base radiation the fuels produce while processing. Order: LEN-236, LEN-236 Oxide, HEN-236, HEN-236 Oxide.
 
 gui.config.fission.fission_plutonium_fuel_time=Plutonium Fuel Durations
 gui.config.fission.fission_plutonium_fuel_time.comment=Base ticks the fuels last. Order: LEP-239, LEP-239 Oxide, HEP-239, HEP-239 Oxide, LEP-241, LEP-241 Oxide, HEP-241, HEP-241 Oxide.
@@ -1726,6 +1836,8 @@ gui.config.fission.fission_plutonium_power=Plutonium Power Gen
 gui.config.fission.fission_plutonium_power.comment=Base RF/t the fuels produce. Order: LEP-239, LEP-239 Oxide, HEP-239, HEP-239 Oxide, LEP-241, LEP-241 Oxide, HEP-241, HEP-241 Oxide.
 gui.config.fission.fission_plutonium_heat_generation=Plutonium Heat Gen
 gui.config.fission.fission_plutonium_heat_generation.comment=Base heat the fuels produce. Order: LEP-239, LEP-239 Oxide, HEP-239, HEP-239 Oxide, LEP-241, LEP-241 Oxide, HEP-241, HEP-241 Oxide.
+gui.config.fission.fission_plutonium_radiation=Plutonium Radiation
+gui.config.fission.fission_plutonium_radiation.comment=Base radiation the fuels produce while processing. Order: LEP-239, LEP-239 Oxide, HEP-239, HEP-239 Oxide, LEP-241, LEP-241 Oxide, HEP-241, HEP-241 Oxide.
 
 gui.config.fission.fission_mox_fuel_time=MOX Fuel Durations
 gui.config.fission.fission_mox_fuel_time.comment=Base ticks the fuels last. Order: MOX-239, MOX-241.
@@ -1733,6 +1845,8 @@ gui.config.fission.fission_mox_power=MOX Power Gen
 gui.config.fission.fission_mox_power.comment=Base RF/t the fuels produce. Order: MOX-239, MOX-241.
 gui.config.fission.fission_mox_heat_generation=MOX Heat Gen
 gui.config.fission.fission_mox_heat_generation.comment=Base heat the fuels produce. Order: MOX-239, MOX-241.
+gui.config.fission.fission_mox_radiation=MOX Radiation
+gui.config.fission.fission_mox_radiation.comment=Base radiation the fuels produce while processing. Order: MOX-239, MOX-241.
 
 gui.config.fission.fission_americium_fuel_time=Americium Fuel Durations
 gui.config.fission.fission_americium_fuel_time.comment=Base ticks the fuels last. Order: LEA-242, LEA-242 Oxide, HEA-242, HEA-242 Oxide.
@@ -1740,6 +1854,8 @@ gui.config.fission.fission_americium_power=Americium Power Gen
 gui.config.fission.fission_americium_power.comment=Base RF/t the fuels produce. Order: LEA-242, LEA-242 Oxide, HEA-242, HEA-242 Oxide.
 gui.config.fission.fission_americium_heat_generation=Americium Heat Gen
 gui.config.fission.fission_americium_heat_generation.comment=Base heat the fuels produce. Order: LEA-242, LEA-242 Oxide, HEA-242, HEA-242 Oxide.
+gui.config.fission.fission_americium_radiation=Americium Radiation
+gui.config.fission.fission_americium_radiation.comment=Base radiation the fuels produce while processing. Order: LEA-242, LEA-242 Oxide, HEA-242, HEA-242 Oxide.
 
 gui.config.fission.fission_curium_fuel_time=Curium Fuel Durations
 gui.config.fission.fission_curium_fuel_time.comment=Base ticks the fuels last. Order: LECm-243, LECm-243 Oxide, HECm-243, HECm-243 Oxide, LECm-245, LECm-245 Oxide, HECm-245, HECm-245 Oxide, LECm-247, LECm-247 Oxide, HECm-247, HECm-247 Oxide.
@@ -1747,6 +1863,8 @@ gui.config.fission.fission_curium_power=Curium Power Gen
 gui.config.fission.fission_curium_power.comment=Base RF/t the fuels produce. Order: LECm-243, LECm-243 Oxide, HECm-243, HECm-243 Oxide, LECm-245, LECm-245 Oxide, HECm-245, HECm-245 Oxide, LECm-247, LECm-247 Oxide, HECm-247, HECm-247 Oxide.
 gui.config.fission.fission_curium_heat_generation=Curium Heat Gen
 gui.config.fission.fission_curium_heat_generation.comment=Base heat the fuels produce. Order: LECm-243, LECm-243 Oxide, HECm-243, HECm-243 Oxide, LECm-245, LECm-245 Oxide, HECm-245, HECm-245 Oxide, LECm-247, LECm-247 Oxide, HECm-247, HECm-247 Oxide.
+gui.config.fission.fission_curium_radiation=Curium Radiation
+gui.config.fission.fission_curium_radiation.comment=Base radiation the fuels produce while processing. Order: LECm-243, LECm-243 Oxide, HECm-243, HECm-243 Oxide, LECm-245, LECm-245 Oxide, HECm-245, HECm-245 Oxide, LECm-247, LECm-247 Oxide, HECm-247, HECm-247 Oxide.
 
 gui.config.fission.fission_berkelium_fuel_time=Berkelium Fuel Durations
 gui.config.fission.fission_berkelium_fuel_time.comment=Base ticks the fuels last. Order: LEB-248, LEB-248 Oxide, HEB-248, HEB-248 Oxide.
@@ -1754,6 +1872,8 @@ gui.config.fission.fission_berkelium_power=Berkelium Power Gen
 gui.config.fission.fission_berkelium_power.comment=Base RF/t the fuels produce. Order: LEB-248, LEB-248 Oxide, HEB-248, HEB-248 Oxide.
 gui.config.fission.fission_berkelium_heat_generation=Berkelium Heat Gen
 gui.config.fission.fission_berkelium_heat_generation.comment=Base heat the fuels produce. Order: LEB-248, LEB-248 Oxide, HEB-248, HEB-248 Oxide.
+gui.config.fission.fission_berkelium_radiation=Berkelium Radiation
+gui.config.fission.fission_berkelium_radiation.comment=Base radiation the fuels produce while processing. Order: LEB-248, LEB-248 Oxide, HEB-248, HEB-248 Oxide.
 
 gui.config.fission.fission_californium_fuel_time=Californium Fuel Durations
 gui.config.fission.fission_californium_fuel_time.comment=Base ticks the fuels last. Order: LECf-249, LECf-249 Oxide, HECf-249, HECf-249 Oxide, LECf-251, LECf-251 Oxide, HECf-251, HECf-251 Oxide.
@@ -1761,6 +1881,8 @@ gui.config.fission.fission_californium_power=Californium Power Gen
 gui.config.fission.fission_californium_power.comment=Base RF/t the fuels produce. Order: LECf-249, LECf-249 Oxide, HECf-249, HECf-249 Oxide, LECf-251, LECf-251 Oxide, HECf-251, HECf-251 Oxide.
 gui.config.fission.fission_californium_heat_generation=Californium Heat Gen
 gui.config.fission.fission_californium_heat_generation.comment=Base heat the fuels produce. Order: LECf-249, LECf-249 Oxide, HECf-249, HECf-249 Oxide, LECf-251, LECf-251 Oxide, HECf-251, HECf-251 Oxide.
+gui.config.fission.fission_californium_radiation=Californium Radiation
+gui.config.fission.fission_californium_radiation.comment=Base radiation the fuels produce while processing. Order: LECf-249, LECf-249 Oxide, HECf-249, HECf-249 Oxide, LECf-251, LECf-251 Oxide, HECf-251, HECf-251 Oxide.
 
 gui.config.category.fusion=Fusion Configs
 gui.config.category.fusion.tooltip=Configure aspects of nuclear fusion.
@@ -1787,6 +1909,8 @@ gui.config.fusion.fusion_comparator_max_efficiency=Max Comparator Signal Efficie
 gui.config.fusion.fusion_comparator_max_efficiency.comment=Efficiency of a fusion reactor at which a comparator adjacent to the core will output a full-strength redstone signal.
 gui.config.fusion.fusion_alternate_sound=Use Alternate Sound
 gui.config.fusion.fusion_alternate_sound.comment=Use an alternate reactor sound effect?
+gui.config.fusion.fusion_plasma_craziness=Fusion Plasma Fires
+gui.config.fusion.fusion_plasma_craziness.comment=Will fusion plasma start fires? Disabling this will reduce lag somewhat.
 
 gui.config.fusion.fusion_fuel_time=Fusion Fuel Combo Durations
 gui.config.fusion.fusion_fuel_time.comment=Base ticks the fuel combos last. Order: H-H, H-D, H-T, H-He3, H-Li6, H-Li7, H-B11, D-D, D-T, D-He3, ..., D-B11, T-T, ..., T-B11, ..., B11-B11.
@@ -1806,6 +1930,15 @@ gui.config.salt_fission.salt_fission_max_size=Maximum Structure Length
 gui.config.salt_fission.salt_fission_max_size.comment=Maximum side length of molten salt fission reactors.
 gui.config.salt_fission.salt_fission_cooling_rate=NaK Coolant Cooling Rates
 gui.config.salt_fission.salt_fission_cooling_rate.comment=Base heat removed per tick/mB. Order: base, redstone, quartz, gold, glowstone, lapis, diamond, liquid helium, enderium, cryotheum, iron, emerald, copper, tin, magnesium.
+
+gui.config.category.heat_exchanger=Heat Exchanger Configs
+gui.config.category.heat_exchanger.tooltip=Configure aspects of heat exchangers.
+
+gui.config.category.turbine=Steam Turbine Configs
+gui.config.category.turbine.tooltip=Configure aspects of steam turbines.
+
+gui.config.category.condenser=Condenser Configs
+gui.config.category.condenser.tooltip=Configure aspects of condensers.
 
 gui.config.category.accelerator=Accelerator Configs
 gui.config.category.accelerator.tooltip=Configure aspects of particle acceleration.
@@ -1852,6 +1985,43 @@ gui.config.armor.armor_enchantability=Enchantabilities
 gui.config.armor.armor_enchantability.comment=Determines the quality of applied enchantments. Order: boron, tough alloy, hard carbon, boron nitride.
 gui.config.armor.armor_toughness=Toughnesses
 gui.config.armor.armor_toughness.comment=Toughnesses of armor types. Order: boron, tough alloy, hard carbon, boron nitride.
+
+gui.config.category.radiation=Radiation Configs
+gui.config.category.radiation.tooltip=Configure aspects of nuclear radiation.
+
+gui.config.radiation.radiation_enabled=Enable Radiation
+gui.config.radiation.radiation_enabled.comment=Will nuclear radiation exist in the world?
+
+gui.config.radiation.radiation_worlds=World Background Radiation
+gui.config.radiation.radiation_worlds.comment=List of dimensions and their background radiation levels - make sure to separate the dimension ID and the radiation level with an underscore.
+
+gui.config.radiation.max_player_rads=Max Player Rads
+gui.config.radiation.max_player_rads.comment=The maximum number of rads a player can have before the radiation is fatal.
+gui.config.radiation.radiation_spread_rate=Radiation Spread Rate
+gui.config.radiation.radiation_spread_rate.comment=Controls the rate at which radiation will spread from chunk to chunk.
+gui.config.radiation.radiation_decay_rate=Radiation Decay Rate
+gui.config.radiation.radiation_decay_rate.comment=Controls the rate at which radiation decreases in a chunk over time.
+gui.config.radiation.radiation_lowest_rate=Lowest Radiation Rate
+gui.config.radiation.radiation_lowest_rate.comment=The lowest rate of player and chunk irradiation possible in Rads/t - amounts below this are ignored.
+
+gui.config.radiation.radiation_radaway_amount=RadAway Rads Removed
+gui.config.radiation.radiation_radaway_amount.comment=The total number of rads removed when using RadAway.
+gui.config.radiation.radiation_radaway_rate=RadAway Rad Removal Rate
+gui.config.radiation.radiation_radaway_rate.comment=The rate at which rads is removed when using RadAway in Rads/t.
+gui.config.radiation.radiation_rad_x_amount=Rad-X Radiation Resistance
+gui.config.radiation.radiation_rad_x_amount.comment=Controls the amount of radiation resistance gained when consuming Rad-X.
+gui.config.radiation.radiation_rad_x_lifetime=Rad-X Lifetime
+gui.config.radiation.radiation_rad_x_lifetime.comment=The time taken for one dose of Rad-X to wear off in ticks.
+gui.config.radiation.radiation_shielding_level=Radiation Shielding Levels
+gui.config.radiation.radiation_shielding_level.comment=The radiation resistance levels provided by the three levels of shielding. Order: light, medium, heavy.
+
+gui.config.radiation.radiation_hud_size=Radiation HUD Size
+gui.config.radiation.radiation_hud_size.comment=Modifier for the size of radiation info on the HUD.
+gui.config.radiation.radiation_hud_position=Radiation HUD Position
+gui.config.radiation.radiation_hud_position.comment=Angle from the centre of the sreen at which radiation info appears on the HUD. 0 degrees is the top of the screen, 45 is top-right, etc.
+
+gui.config.radiation.radiation_hardcore_stacks=Hardcore Stacks
+gui.config.radiation.radiation_hardcore_stacks.comment=If enabled, the radioactive stacks in a player's inventory irradiate the chunk the player is in as well as the player directly.
 
 gui.config.category.other=Other Configs
 gui.config.category.other.tooltip=Miscellaneous configurations.
@@ -1935,6 +2105,7 @@ gui.container.fission_controller.casing_incomplete_at=Корпус неполн�
 gui.container.fission_controller.multiple_controllers=Дополнительный контроллер в
 gui.container.fission_controller.casing_in_interior=Корпус в интерьере в
 gui.container.fission_controller.invalid_structure=Недопустимая структура
+gui.container.fission_controller.no_problem=Нет проблем
 gui.container.fission_controller.pos=Позиция блока
 gui.container.fission_controller.no_fuel=Нет топливо
 gui.container.fission_controller.generic_fuel=Топливо
@@ -1970,6 +2141,7 @@ gui.container.fusion_core.ring_incomplete_at=Неполное кольцо
 gui.container.fusion_core.ring_blocked=Внутреннее кольцо заблокировано
 gui.container.fusion_core.power_issue=E-магниты не запитаны
 gui.container.fusion_core.incorrect_structure=Недопустимая структура
+gui.container.fusion_core.no_problem=Нет проблем
 gui.container.fusion_core.size=Размер тороида:
 gui.container.fusion_core.energy=Энергия:
 gui.container.fusion_core.power=Мощность:
@@ -1993,6 +2165,14 @@ gui.container.salt_fission_controller.heat=Уровень тепла:
 gui.container.salt_fission_controller.heat_gen=Теплогенерация:
 gui.container.salt_fission_controller.cooling=Скорость охлаждения:
 
+gui.container.heat_exchanger_controller.heat_exchanger=Теплообменник (WIP)
+
+gui.container.high_turbine_controller.high_turbine=Турбина высокого давления (WIP)
+
+gui.container.low_turbine_controller.low_turbine=Турбина низкого давления (WIP)
+
+gui.container.condenser_controller.condenser=Конденсатор (WIP)
+
 gui.container.energy_stored=Хранится энергии:
 gui.container.process_power=Мощность процесса:
 gui.container.power_gen=Генерация энергии:
@@ -2005,12 +2185,9 @@ gui.container.void_leftover_fluid=Опустошение остаточной ж
 gui.container.void_outputs=Опустошение переполнение выхода
 gui.container.comparator_mode=Эффективность/Тепло компаратор
 
-nuclearcraft.multiblock_validation.no_controller=Не подключен к контроллеру - это связано с задержкой или ошибкой. Рекомендуется, чтобы этот блок был разрушен и заменен, если эти ошибки продолжаются
-
-nuclearcraft.multiblock_validation.salt_fission.invalid_casing=%4$s недопустимый блок в [%1$d, %2$d, %3$d]
-nuclearcraft.multiblock_validation.salt_fission.no_controller=Там должен быть регулятор для реактора в форме
-nuclearcraft.multiblock_validation.salt_fission.too_many_controllers=Для формирования реактора должен быть только один контроллер
-nuclearcraft.multiblock_validation.salt_fission.invalid_here=%4$s недопустимый блок в [%1$d, %2$d, %3$d]
+nuclearcraft.multiblock_validation.invalid_block=%4$s недопустимый блок в [%1$d, %2$d, %3$d]
+nuclearcraft.multiblock_validation.no_controller=Там должен быть регулятор для реактора в форме
+nuclearcraft.multiblock_validation.too_many_controllers=Для формирования реактора должен быть только один контроллер
 
 nuclearcraft.multiblock_gui.salt_fission.jei_name=Деление расплавленной соли
 nuclearcraft.multiblock_gui.coolant_heater.jei_name=Нагреватель охлаждающей жидкости для расплавленной соли
@@ -2144,14 +2321,13 @@ material.tough.name=Прочный сплав
 material.hard_carbon.name=Твердый углерод
 material.boron_nitride.name=Нитрид бора
 
+message.nuclearcraft.rad_x_wore_off=Ваш Рад-X выветрился...
+
 death.attack.superfluid_freeze=%1$s был конденсирован Бозе-Эйнштейном
 death.attack.plasma_burn=%1$s был испепелен плазмой
 death.attack.steam_burn=%1$s было бы лучше в чайнике
 death.attack.molten_burn=%1$s отправился в ад, но не вернулся
 death.attack.hot_coolant_burn=%1$s охладился в неправильном времени и месте
 death.attack.acid_burn=%1$s оказался слишком щелочным
-<<<<<<< HEAD
 death.attack.hypothermia=%1$s умер в результате экстремальной гипотермии
-=======
-death.attack.hypothermia=%1$s умер в результате экстремальной гипотермии
->>>>>>> ed11146a193af8bed70e2863707ad6c3b541d6db
+death.attack.fatal_rads=%1$s умер из-за фатального радиационного отравления
