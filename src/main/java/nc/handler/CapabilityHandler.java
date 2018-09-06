@@ -1,5 +1,7 @@
 package nc.handler;
 
+import java.util.Map.Entry;
+
 import nc.capability.ICapability;
 import nc.capability.radiation.EntityRads;
 import nc.capability.radiation.EntityRadsProvider;
@@ -85,11 +87,17 @@ public class CapabilityHandler {
 	@SubscribeEvent
 	public void attachStackRadiationCapability(AttachCapabilitiesEvent<ItemStack> event) {
 		ItemStack stack = event.getObject();
-		if (stack.isEmpty()) return;	
+		if (stack.isEmpty()) return;
+		for (Entry<ItemStack, Double> entry : RadSources.STACK_MAP.entrySet()) {
+			if (stack.isItemEqual(entry.getKey())) {
+				event.addCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE_NAME, new RadiationSourceProvider(entry.getValue()));
+				return;
+			}
+		}
 		for (int oreID : OreDictionary.getOreIDs(stack)) {
 			String oreName = OreDictionary.getOreName(oreID);
-			if (RadSources.SOURCE_MAP.containsKey(oreName)) {
-				event.addCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE_NAME, new RadiationSourceProvider(RadSources.SOURCE_MAP.get(oreName)));
+			if (RadSources.ORE_MAP.containsKey(oreName)) {
+				event.addCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE_NAME, new RadiationSourceProvider(RadSources.ORE_MAP.get(oreName)));
 				return;
 			}
 		}

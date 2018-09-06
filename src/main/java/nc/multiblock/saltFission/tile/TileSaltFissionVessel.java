@@ -104,7 +104,7 @@ public class TileSaltFissionVessel extends TileSaltFissionPartBase implements IF
 	}
 	
 	public void doMeltdown() {
-		Block corium = RegistryHelper.getBlock(Global.MOD_ID, "fluid_corium");
+		Block corium = RegistryHelper.getBlock(Global.MOD_ID + ":fluid_corium");
 		world.removeTileEntity(pos);
 		world.setBlockState(pos, corium.getDefaultState());
 	}
@@ -139,7 +139,7 @@ public class TileSaltFissionVessel extends TileSaltFissionPartBase implements IF
 		boolean shouldUpdate = false;
 		if(!world.isRemote) {
 			tickTile();
-			if (time == 0) consumeInputs();
+			consumeInputs();
 			if (isProcessing) process();
 			else getRadiationSource().setRadiationLevel(0D);
 			if (wasProcessing != isProcessing) {
@@ -170,10 +170,9 @@ public class TileSaltFissionVessel extends TileSaltFissionPartBase implements IF
 			double oldProcessTime = baseProcessTime;
 			produceProducts();
 			recipe = getRecipeHandler().getRecipeFromInputs(new ArrayList<ItemStack>(), getFluidInputs(hasConsumed));
-			if (recipe == null) time = 0; else {
-				setRecipeStats();
-				time = MathHelper.clamp(time - oldProcessTime, 0D, baseProcessTime);
-			}
+			setRecipeStats();
+			if (recipe == null) time = 0;
+			else time = MathHelper.clamp(time - oldProcessTime, 0D, baseProcessTime);
 		}
 	}
 	
@@ -188,7 +187,13 @@ public class TileSaltFissionVessel extends TileSaltFissionPartBase implements IF
 	public boolean canProcessInputs() {
 		baseProcessTime = 1D;
 		baseProcessHeat = 0D;
-		if (recipe == null) return false;
+		if (recipe == null) {
+			if (hasConsumed) {
+				for (Tank tank : getFluidInputs(true)) tank.setFluidStored(null);
+				hasConsumed = false;
+			}
+			return false;
+		}
 		setRecipeStats();
 		if (time >= baseProcessTime) return true;
 		
@@ -219,8 +224,8 @@ public class TileSaltFissionVessel extends TileSaltFissionPartBase implements IF
 	}
 	
 	public void setDefaultRecipeStats() {
-		baseProcessTime = 1;
-		baseProcessHeat = 0;
+		baseProcessTime = 1D;
+		baseProcessHeat = 0D;
 		baseProcessRadiation = 0D;
 	}
 		

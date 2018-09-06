@@ -134,13 +134,11 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 			double oldProcessTime = baseProcessTime;
 			produceProducts();
 			recipe = getRecipeHandler().getRecipeFromInputs(getItemInputs(hasConsumed), getFluidInputs(hasConsumed));
+			setRecipeStats();
 			if (recipe == null) {
 				time = 0;
 				if (emptyUnusableTankInputs) for (int i = 0; i < fluidInputSize; i++) tanks.get(i).setFluid(null);
-			} else {
-				setRecipeStats();
-				time = MathHelper.clamp(time - oldProcessTime, 0D, baseProcessTime);
-			}
+			} else time = MathHelper.clamp(time - oldProcessTime, 0D, baseProcessTime);
 		}
 	}
 	
@@ -165,7 +163,14 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 	}
 		
 	public boolean canProcessInputs() {
-		if (recipe == null) return false;
+		if (recipe == null) {
+			if (hasConsumed) {
+				for (int i = 0; i < itemInputSize; i++) getItemInputs(true).set(i, ItemStack.EMPTY);
+				for (Tank tank : getFluidInputs(true)) tank.setFluidStored(null);
+				hasConsumed = false;
+			}
+			return false;
+		}
 		setRecipeStats();
 		if (time >= baseProcessTime) return true;
 		

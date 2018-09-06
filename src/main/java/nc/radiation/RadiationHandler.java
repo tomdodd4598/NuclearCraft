@@ -2,6 +2,7 @@ package nc.radiation;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 import com.google.common.collect.Lists;
 
@@ -37,17 +38,32 @@ import net.minecraftforge.fml.relauncher.Side;
 
 public class RadiationHandler {
 	
+	private Random rand = new Random();
+	
 	public static final DamageSource FATAL_RADS = new DamageSource("fatal_rads").setDamageBypassesArmor().setDamageIsAbsolute();
 	
 	private static final String RAD_X_WORE_OFF = Lang.localise("message.nuclearcraft.rad_x_wore_off");
 	
 	@SubscribeEvent
 	public void updatePlayerRadiation(PlayerTickEvent event) {
+		if (!NCConfig.radiation_require_counter && event.phase == Phase.START && event.side == Side.CLIENT) {
+			EntityPlayer player = event.player;
+			if (player.hasCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null)) {
+				IEntityRads entityRads = player.getCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null);
+				if (entityRads == null) return;
+				if (!entityRads.isRadiationUndetectable()) {
+					double soundChance = Math.cbrt(entityRads.getRadiationLevel()/200D);
+					for (int i = 0; i < 2; i++) if (rand.nextDouble() < soundChance) player.playSound(SoundHandler.geiger_tick, 0.6F + rand.nextFloat()*0.2F, 0.92F + rand.nextFloat()*0.16F);
+				}
+			}
+		}
+		
 		if (event.phase != Phase.START || (event.player.world.getTotalWorldTime() % 5) != 0) return;
 		if (event.side == Side.SERVER && event.player instanceof EntityPlayerMP) {
 			EntityPlayerMP player = (EntityPlayerMP)event.player;
 			if (!player.hasCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null)) return;
 			IEntityRads playerRads = player.getCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null);
+			if (playerRads == null) return;
 			Chunk chunk = player.world.getChunkFromChunkCoords((int)player.posX >> 4, (int)player.posZ >> 4);
 			
 			double radiationLevel = RadiationHelper.transferRadsToPlayer(player.world, player, playerRads, 5) + RadiationHelper.transferRadsToPlayer(chunk, player, playerRads, 5) + RadiationHelper.transferRadsFromInventoryToPlayer(player, playerRads, chunk, 5);
@@ -75,6 +91,7 @@ public class RadiationHandler {
 			EntityPlayer player = event.player;
 			if (!player.hasCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null)) return;
 			IEntityRads playerRads = player.getCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null);
+			if (playerRads == null) return;
 			if (playerRads.getRadXWoreOff()) {
 				player.playSound(SoundHandler.chems_wear_off, 0.5F, 1F);
 				player.sendMessage(new TextComponentString(TextFormatting.ITALIC + RAD_X_WORE_OFF));
@@ -102,14 +119,16 @@ public class RadiationHandler {
 				EntityLiving entityLiving = (EntityLiving) entity;
 				if (entityLiving.hasCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null)) {
 					IEntityRads entityRads = entityLiving.getCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null);
-					RadiationHelper.transferRadsFromSourceToEntity(world, entityLiving, 20);
-					RadiationHelper.transferRadsFromSourceToEntity(chunk, entityLiving, 20);
-					if (entity instanceof EntityMob) RadiationHelper.applyMobBuffs(entityLiving, entityRads, 20);
-					else {
-						//if (entityRads.isFatal()) entityLiving.attackEntityFrom(FATAL_RADS, 1000F);
-						RadiationHelper.applySymptoms(entityLiving, entityRads, 20);
+					if (entityRads != null) {
+						RadiationHelper.transferRadsFromSourceToEntity(world, entityRads, 20);
+						RadiationHelper.transferRadsFromSourceToEntity(chunk, entityRads, 20);
+						if (entity instanceof EntityMob) RadiationHelper.applyMobBuffs(entityLiving, entityRads, 20);
+						else {
+							//if (entityRads.isFatal()) entityLiving.attackEntityFrom(FATAL_RADS, 1000F);
+							RadiationHelper.applySymptoms(entityLiving, entityRads, 20);
+						}
+						entityRads.setRadiationLevel(entityRads.getRadiationLevel()*(1D - NCConfig.radiation_decay_rate));
 					}
-					entityRads.setRadiationLevel(entityRads.getRadiationLevel()*(1D - NCConfig.radiation_decay_rate));
 				}
 			}
 		}
@@ -122,6 +141,7 @@ public class RadiationHandler {
 		for (Chunk chunk : loadedChunks) {
 			if (chunk == null || !chunk.hasCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null)) return;
 			IRadiationSource chunkRadiation = chunk.getCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null);
+			if (chunkRadiation == null) return;
 			
 			Double biomeRadiation = RadBiomes.BIOME_MAP.get(chunk.getBiome(new BlockPos(8, 8, 8), biomeProvider));
 			if (biomeRadiation != null) RadiationHelper.addToChunkBuffer(chunkRadiation, biomeRadiation);

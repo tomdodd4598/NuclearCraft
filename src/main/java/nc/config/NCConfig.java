@@ -177,6 +177,11 @@ public class NCConfig {
 	public static boolean radiation_enabled;
 	
 	public static String[] radiation_worlds;
+	public static String[] radiation_biomes;
+	
+	public static String[] radiation_ores;
+	public static String[] radiation_items;
+	public static String[] radiation_blocks;
 	
 	public static double max_player_rads;
 	public static double radiation_spread_rate;
@@ -193,6 +198,8 @@ public class NCConfig {
 	
 	public static double radiation_hud_size;
 	public static double radiation_hud_position;
+	public static double[] radiation_hud_position_cartesian;
+	public static boolean radiation_require_counter;
 	
 	public static boolean single_creative_tab;
 	
@@ -514,6 +521,15 @@ public class NCConfig {
 		
 		Property propertyRadiationWorlds = config.get(CATEGORY_RADIATION, "radiation_worlds", new String[] {"4598_2.25"}, Lang.localise("gui.config.radiation.radiation_worlds.comment"));
 		propertyRadiationWorlds.setLanguageKey("gui.config.radiation.radiation_worlds");
+		Property propertyRadiationBiomes = config.get(CATEGORY_RADIATION, "radiation_biomes", new String[] {"nuclearcraft:nuclear_wasteland_0.25"}, Lang.localise("gui.config.radiation.radiation_biomes.comment"));
+		propertyRadiationBiomes.setLanguageKey("gui.config.radiation.radiation_biomes");
+		
+		Property propertyRadiationOres = config.get(CATEGORY_RADIATION, "radiation_ores", new String[] {}, Lang.localise("gui.config.radiation.radiation_ores.comment"));
+		propertyRadiationOres.setLanguageKey("gui.config.radiation.radiation_ores");
+		Property propertyRadiationItems = config.get(CATEGORY_RADIATION, "radiation_items", new String[] {"ic2:nuclear:0_0.000000000048108553", "ic2:nuclear:1_" + RadSources.URANIUM_235, "ic2:nuclear:2_" + RadSources.URANIUM_238, "ic2:nuclear:3_" + RadSources.PLUTONIUM_239, "ic2:nuclear:4_0.000000833741517857143", "ic2:nuclear:5_" + (RadSources.URANIUM_235/9D), "ic2:nuclear:6_" + (RadSources.URANIUM_238/9D), "ic2:nuclear:7_" + (RadSources.PLUTONIUM_239/9D), "ic2:nuclear:8_0.000000000048108553", "ic2:nuclear:9_0.000000833741517857143", "ic2:nuclear:10_" + (RadSources.PLUTONIUM_238*3D), "ic2:nuclear:11_" + (RadSources.URANIUM_238*4D + RadSources.PLUTONIUM_239/9D), "ic2:nuclear:12_" + ((RadSources.URANIUM_238*4D + RadSources.PLUTONIUM_239/9D)*2D), "ic2:nuclear:13_" + ((RadSources.URANIUM_238*4D + RadSources.PLUTONIUM_239/9D)*4D), "ic2:nuclear:14_" + (RadSources.PLUTONIUM_239*28D/9D), "ic2:nuclear:15_" + (RadSources.PLUTONIUM_239*2D*28D/9D), "ic2:nuclear:16_" + (RadSources.PLUTONIUM_239*4D*28D/9D)}, Lang.localise("gui.config.radiation.radiation_items.comment"));
+		propertyRadiationItems.setLanguageKey("gui.config.radiation.radiation_items");
+		Property propertyRadiationBlocks = config.get(CATEGORY_RADIATION, "radiation_blocks", new String[] {}, Lang.localise("gui.config.radiation.radiation_blocks.comment"));
+		propertyRadiationBlocks.setLanguageKey("gui.config.radiation.radiation_blocks");
 		
 		Property propertyRadiationMaxPlayerRads = config.get(CATEGORY_RADIATION, "max_player_rads", 1000D, Lang.localise("gui.config.radiation.max_player_rads.comment"), 1D, 1000000000D);
 		propertyRadiationMaxPlayerRads.setLanguageKey("gui.config.radiation.max_player_rads");
@@ -542,6 +558,10 @@ public class NCConfig {
 		propertyRadiationHUDSize.setLanguageKey("gui.config.radiation.radiation_hud_size");
 		Property propertyRadiationHUDPosition = config.get(CATEGORY_RADIATION, "radiation_hud_position", 225D, Lang.localise("gui.config.radiation.radiation_hud_position.comment"), 0D, 360D);
 		propertyRadiationHUDPosition.setLanguageKey("gui.config.radiation.radiation_hud_position");
+		Property propertyRadiationHUDPositionCartesian = config.get(CATEGORY_RADIATION, "radiation_hud_position_cartesian", new double[] {}, Lang.localise("gui.config.radiation.radiation_hud_position_cartesian.comment"), 0D, 1D);
+		propertyRadiationHUDPositionCartesian.setLanguageKey("gui.config.radiation.radiation_hud_position_cartesian");
+		Property propertyRadiationRequireCounter = config.get(CATEGORY_RADIATION, "radiation_require_counter", true, Lang.localise("gui.config.radiation.radiation_require_counter.comment"));
+		propertyRadiationRequireCounter.setLanguageKey("gui.config.radiation.radiation_require_counter");
 		
 		Property propertySingleCreativeTab = config.get(CATEGORY_OTHER, "single_creative_tab", false, Lang.localise("gui.config.other.single_creative_tab.comment"));
 		propertySingleCreativeTab.setLanguageKey("gui.config.other.single_creative_tab");
@@ -766,6 +786,10 @@ public class NCConfig {
 		List<String> propertyOrderRadiation = new ArrayList<String>();
 		propertyOrderRadiation.add(propertyRadiationEnabled.getName());
 		propertyOrderRadiation.add(propertyRadiationWorlds.getName());
+		propertyOrderRadiation.add(propertyRadiationBiomes.getName());
+		propertyOrderRadiation.add(propertyRadiationOres.getName());
+		propertyOrderRadiation.add(propertyRadiationItems.getName());
+		propertyOrderRadiation.add(propertyRadiationBlocks.getName());
 		propertyOrderRadiation.add(propertyRadiationMaxPlayerRads.getName());
 		propertyOrderRadiation.add(propertyRadiationSpreadRate.getName());
 		propertyOrderRadiation.add(propertyRadiationDecayRate.getName());
@@ -778,6 +802,8 @@ public class NCConfig {
 		propertyOrderRadiation.add(propertyRadiationHardcoreStacks.getName());
 		propertyOrderRadiation.add(propertyRadiationHUDSize.getName());
 		propertyOrderRadiation.add(propertyRadiationHUDPosition.getName());
+		propertyOrderRadiation.add(propertyRadiationHUDPositionCartesian.getName());
+		propertyOrderRadiation.add(propertyRadiationRequireCounter.getName());
 		config.setCategoryPropertyOrder(CATEGORY_RADIATION, propertyOrderRadiation);
 		
 		List<String> propertyOrderOther = new ArrayList<String>();
@@ -947,6 +973,11 @@ public class NCConfig {
 			radiation_enabled = propertyRadiationEnabled.getBoolean();
 			
 			radiation_worlds = propertyRadiationWorlds.getStringList();
+			radiation_biomes = propertyRadiationBiomes.getStringList();
+			
+			radiation_ores = propertyRadiationOres.getStringList();
+			radiation_items = propertyRadiationItems.getStringList();
+			radiation_blocks = propertyRadiationBlocks.getStringList();
 			
 			max_player_rads = propertyRadiationMaxPlayerRads.getDouble();
 			radiation_spread_rate = propertyRadiationSpreadRate.getDouble();
@@ -963,6 +994,8 @@ public class NCConfig {
 			
 			radiation_hud_size = propertyRadiationHUDSize.getDouble();
 			radiation_hud_position = propertyRadiationHUDPosition.getDouble();
+			radiation_hud_position_cartesian = propertyRadiationHUDPositionCartesian.getDoubleList();
+			radiation_require_counter = propertyRadiationRequireCounter.getBoolean();
 			
 			single_creative_tab = propertySingleCreativeTab.getBoolean();
 			register_processor = readBooleanArrayFromConfig(propertyRegisterProcessor);
@@ -1130,6 +1163,11 @@ public class NCConfig {
 		propertyRadiationEnabled.set(radiation_enabled);
 		
 		propertyRadiationWorlds.set(radiation_worlds);
+		propertyRadiationBiomes.set(radiation_biomes);
+		
+		propertyRadiationOres.set(radiation_ores);
+		propertyRadiationItems.set(radiation_items);
+		propertyRadiationBlocks.set(radiation_blocks);
 		
 		propertyRadiationMaxPlayerRads.set(max_player_rads);
 		propertyRadiationSpreadRate.set(radiation_spread_rate);
@@ -1146,6 +1184,8 @@ public class NCConfig {
 		
 		propertyRadiationHUDSize.set(radiation_hud_size);
 		propertyRadiationHUDPosition.set(radiation_hud_position);
+		propertyRadiationHUDPositionCartesian.set(radiation_hud_position_cartesian);
+		propertyRadiationRequireCounter.set(radiation_require_counter);
 		
 		propertySingleCreativeTab.set(single_creative_tab);
 		propertyRegisterProcessor.set(register_processor);

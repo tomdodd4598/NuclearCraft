@@ -77,6 +77,7 @@ public class PlayerRadsUpdatePacket implements IMessage {
 			EntityPlayerSP player = Minecraft.getMinecraft().player;
 			if (!player.hasCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null)) return;
 			IEntityRads playerRads = player.getCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null);
+			if (playerRads == null) return;
 			playerRads.setTotalRads(message.totalRads);
 			playerRads.setRadiationLevel(message.radiationLevel);
 			playerRads.setRadiationResistance(message.radiationResistance);

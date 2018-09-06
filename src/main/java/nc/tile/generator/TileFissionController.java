@@ -160,7 +160,7 @@ public class TileFissionController extends TileItemGenerator implements SimpleCo
 	}
 	
 	public void meltdown() {
-		Block corium = RegistryHelper.getBlock(Global.MOD_ID, "fluid_corium");
+		Block corium = RegistryHelper.getBlock(Global.MOD_ID + ":fluid_corium");
 		world.removeTileEntity(pos);
 		world.setBlockState(pos, corium.getDefaultState());
 		

@@ -148,13 +148,11 @@ public class TileItemFluidProcessor extends TileEnergyFluidSidedInventory implem
 			double oldProcessTime = baseProcessTime;
 			produceProducts();
 			recipe = getRecipeHandler().getRecipeFromInputs(getItemInputs(), getFluidInputs());
+			setRecipeStats();
 			if (recipe == null) {
 				time = 0;
 				if (emptyUnusableTankInputs) for (int i = 0; i < fluidInputSize; i++) tanks.get(i).setFluid(null);
-			} else {
-				setRecipeStats();
-				time = MathHelper.clamp(time - oldProcessTime, 0D, baseProcessTime);
-			}
+			} else time = MathHelper.clamp(time - oldProcessTime, 0D, baseProcessTime);
 		}
 	}
 	

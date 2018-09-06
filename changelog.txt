@@ -1,3 +1,18 @@
+v2.11c
+
+* Fixed crash with Mekanism or Tesla installed
+* Fixed Nuclear Furnace crash on placement
+
++ Added configs for adding custom biome and itemstack radiation levels
++ Added optional config for finer overlay position control
+
+* Reshuffled some depleted molten salt fuel recipes for easier reprocessing
+* Other minor recipe tweaks
+
+* Updated Russian language file [thanks to kellixon!]
+
+* Added missing localisation for some config options
+
 v2.11b
 
 + Added Radiation - disabled by default in the configs!

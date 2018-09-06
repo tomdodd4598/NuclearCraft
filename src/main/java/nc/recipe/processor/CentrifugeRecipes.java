@@ -56,6 +56,7 @@ public class CentrifugeRecipes extends ProcessorRecipeHandler {
 		addIsotopeFLIBERecipes("californium", 249, 250, 251, 252);
 		
 		addRecipe(fluidStack("fuel_tbu_fluoride_flibe", FluidStackHelper.INGOT_VOLUME*2), fluidStack("fuel_tbu_fluoride", FluidStackHelper.INGOT_VOLUME), fluidStack("flibe", FluidStackHelper.INGOT_VOLUME), emptyFluidStack(), emptyFluidStack(), 1D, 1D);
+		addRecipe(fluidStack("depleted_fuel_tbu_fluoride_flibe", FluidStackHelper.INGOT_VOLUME*2), fluidStack("depleted_fuel_tbu_fluoride", FluidStackHelper.INGOT_VOLUME), fluidStack("flibe", FluidStackHelper.INGOT_VOLUME), emptyFluidStack(), emptyFluidStack(), 1D, 1D);
 		addFissionFuelFLIBERecipes("eu", 233, 235);
 		addFissionFuelFLIBERecipes("en", 236);
 		addFissionFuelFLIBERecipes("ep", 239, 241);
@@ -110,9 +111,9 @@ public class CentrifugeRecipes extends ProcessorRecipeHandler {
 	}
 	
 	public void addFuelIsotopeRecipes(String suffix, String element, int fertile, int... fissiles) {
-		for (String type : new String[] {"", "_fluoride", "_fluoride_flibe"}) for (int fissile : fissiles) {
+		for (String type : new String[] {"", "_fluoride"/*, "_fluoride_flibe"*/}) for (int fissile : fissiles) {
 			addRecipe(fluidStack("fuel_l" + suffix + "_" + fissile + type, FluidStackHelper.INGOT_VOLUME), fluidStack(element + "_" + fertile + type, FluidStackHelper.NUGGET_VOLUME*8), fluidStack(element + "_" + fissile + type, FluidStackHelper.NUGGET_VOLUME), emptyFluidStack(), emptyFluidStack(), 1D, 1D);
-			addRecipe(fluidStack("fuel_h" + suffix + "_" + fissile + type, FluidStackHelper.INGOT_VOLUME), fluidStack(element + "_" + fertile + type, 5*FluidStackHelper.NUGGET_VOLUME), fluidStack(element + "_" + fissile + type, FluidStackHelper.NUGGET_VOLUME*4), emptyFluidStack(), emptyFluidStack(), 1D, 1D);
+			addRecipe(fluidStack("fuel_h" + suffix + "_" + fissile + type, FluidStackHelper.INGOT_VOLUME), fluidStack(element + "_" + fertile + type, FluidStackHelper.NUGGET_VOLUME*5), fluidStack(element + "_" + fissile + type, FluidStackHelper.NUGGET_VOLUME*4), emptyFluidStack(), emptyFluidStack(), 1D, 1D);
 		}
 	}
 	
@@ -131,14 +132,14 @@ public class CentrifugeRecipes extends ProcessorRecipeHandler {
 	}
 	
 	public void addFissionFuelFLIBERecipes(String suffix, int... types) {
-		for (int type : types) for (String form : new String[] {"fuel_l", "fuel_h"}) {
+		for (int type : types) for (String form : new String[] {"fuel_l", "fuel_h", "depleted_fuel_l", "depleted_fuel_h"}) {
 			addRecipe(fluidStack(form + suffix + "_" + type + "_fluoride_flibe", FluidStackHelper.INGOT_VOLUME*2), fluidStack(form + suffix + "_" + type + "_fluoride", FluidStackHelper.INGOT_VOLUME), fluidStack("flibe", FluidStackHelper.INGOT_VOLUME), emptyFluidStack(), emptyFluidStack(), 1D, 1D);
 		}
 	}
 	
 	public void addReprocessingRecipes(String fuel, String out1, int n1, String out2, int n2, String out3, int n3, String out4, int n4) {
-		for (String type : new String[] {"", "_fluoride", "_fluoride_flibe"}) {
-			addRecipe(fluidStack("depleted_fuel_" + fuel + type, FluidStackHelper.INGOT_BLOCK_VOLUME/16), fluidStack(out1 + type, 4*n1), fluidStack(out2 + type, 4*n2), fluidStack(out3 + type, 4*n3), fluidStack(out4 + type, 4*n4), 0.5D, 0.5D);
+		for (String type : new String[] {"", "_fluoride"/*, "_fluoride_flibe"*/}) {
+			addRecipe(fluidStack("depleted_fuel_" + fuel + type, FluidStackHelper.INGOT_BLOCK_VOLUME/4), fluidStack(out1 + type, 16*n1), fluidStack(out2 + type, 16*n2), fluidStack(out3 + type, 16*n3), fluidStack(out4 + type, 16*n4), 0.5D, 0.5D);
 		}
 	}
 }

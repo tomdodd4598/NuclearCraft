@@ -39,7 +39,7 @@ public class InfuserRecipes extends ProcessorRecipeHandler {
 		addRecipe(oreStack("bioplastic", 2), fluidStack("radaway", FluidStackHelper.BUCKET_VOLUME/2), NCItems.radaway, 1D, 0.5D);
 		
 		// Immersive Engineering
-		addRecipe("plankWood", fluidStack("creosote", 100), RegistryHelper.blockStackFromRegistry("immersiveengineering", "treated_wood"), 0.2D, 0.5D);
+		addRecipe("plankWood", fluidStack("creosote", 100), RegistryHelper.blockStackFromRegistry("immersiveengineering:treated_wood"), 0.2D, 0.5D);
 		
 		// Redstone Arsenal
 		addIngotInfusionRecipes("Electrum", "redstone", FluidStackHelper.REDSTONE_DUST_VOLUME*2, "ElectrumFlux", 1D, 1D);

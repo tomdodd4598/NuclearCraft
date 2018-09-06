@@ -4,7 +4,6 @@ import nc.capability.radiation.IEntityRads;
 import nc.capability.radiation.IRadiation;
 import nc.capability.radiation.IRadiationSource;
 import nc.config.NCConfig;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -28,6 +27,7 @@ public class RadiationHelper {
 	public static void transferRadiationFromBlockToChunk(Chunk chunk, double addedRadiation) {
 		if (chunk == null || !chunk.hasCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null)) return;
 		IRadiationSource chunkRadiation = chunk.getCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null);
+		if (chunkRadiation == null) return;
 		chunkRadiation.setRadiationLevel(chunkRadiation.getRadiationLevel() + addedRadiation);
 	}
 	
@@ -36,7 +36,9 @@ public class RadiationHelper {
 	public static void transferRadiationFromStackToChunkBuffer(ItemStack stack, Chunk chunk) {
 		if (chunk == null || !stack.hasCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null) || !chunk.hasCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null)) return;
 		IRadiationSource stackRadiation = stack.getCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null);
+		if (stackRadiation == null) return;
 		IRadiationSource chunkRadiation = chunk.getCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null);
+		if (chunkRadiation == null) return;
 		addToChunkBuffer(chunkRadiation, stackRadiation.getRadiationLevel()*stack.getCount());
 	}
 	
@@ -45,7 +47,9 @@ public class RadiationHelper {
 	public static void transferRadiationFromSourceToChunkBuffer(ICapabilityProvider provider, Chunk chunk) {
 		if (chunk == null || !provider.hasCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null) || !chunk.hasCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null)) return;
 		IRadiationSource sourceRadiation = provider.getCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null);
+		if (sourceRadiation == null) return;
 		IRadiationSource chunkRadiation = chunk.getCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null);
+		if (chunkRadiation == null) return;
 		addToChunkBuffer(chunkRadiation, sourceRadiation.getRadiationLevel());
 	}
 	
@@ -69,15 +73,17 @@ public class RadiationHelper {
 	public static void spreadRadiationFromChunk(Chunk sourceChunk, Chunk targetChunk) {
 		if (sourceChunk == null || !sourceChunk.hasCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null)) return;
 		IRadiationSource sourceChunkRadiation = sourceChunk.getCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null);
+		if (sourceChunkRadiation == null) return;
 		
 		if (targetChunk != null && targetChunk.hasCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null)) {
 			IRadiationSource targetChunkRadiation = targetChunk.getCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null);
-			
-			if (!sourceChunkRadiation.isRadiationNegligible()) {
-				if (targetChunkRadiation.getRadiationLevel() == 0D || sourceChunkRadiation.getRadiationLevel()/targetChunkRadiation.getRadiationLevel() > 1.5D) {
-					double radiationSpread = (sourceChunkRadiation.getRadiationLevel() - targetChunkRadiation.getRadiationLevel())*NCConfig.radiation_spread_rate;
-					sourceChunkRadiation.setRadiationLevel(sourceChunkRadiation.getRadiationLevel() - radiationSpread);
-					targetChunkRadiation.setRadiationLevel(targetChunkRadiation.getRadiationLevel() + radiationSpread);
+			if (targetChunkRadiation != null) {
+				if (!sourceChunkRadiation.isRadiationNegligible()) {
+					if (targetChunkRadiation.getRadiationLevel() == 0D || sourceChunkRadiation.getRadiationLevel()/targetChunkRadiation.getRadiationLevel() > 1.5D) {
+						double radiationSpread = (sourceChunkRadiation.getRadiationLevel() - targetChunkRadiation.getRadiationLevel())*NCConfig.radiation_spread_rate;
+						sourceChunkRadiation.setRadiationLevel(sourceChunkRadiation.getRadiationLevel() - radiationSpread);
+						targetChunkRadiation.setRadiationLevel(targetChunkRadiation.getRadiationLevel() + radiationSpread);
+					}
 				}
 			}
 		}
@@ -134,8 +140,9 @@ public class RadiationHelper {
 	
 	private static double transferRadsFromStackToPlayer(ItemStack stack, EntityPlayer player, IEntityRads playerRads, int updateRate) {
 		if (stack.isEmpty() || !stack.hasCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null)) return 0D;
-		double stackRadiation = stack.getCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null).getRadiationLevel()*stack.getCount();
-		return addRadsToPlayer(player, playerRads, stackRadiation, updateRate);
+		IRadiationSource stackRadiation = stack.getCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null);
+		if (stackRadiation == null) return 0D;
+		return addRadsToPlayer(player, playerRads, stackRadiation.getRadiationLevel()*stack.getCount(), updateRate);
 	}
 	
 	// Source -> Player
@@ -143,15 +150,16 @@ public class RadiationHelper {
 	public static double transferRadsToPlayer(ICapabilityProvider provider, EntityPlayer player, IEntityRads playerRads, int updateRate) {
 		if (provider == null || !provider.hasCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null)) return 0D;
 		IRadiationSource sourceRadiation = provider.getCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null);
+		if (sourceRadiation == null) return 0D;
 		return addRadsToPlayer(player, playerRads, sourceRadiation.getRadiationLevel(), updateRate);
 	}
 	
 	// Source -> Entity
 	
-	public static void transferRadsFromSourceToEntity(ICapabilityProvider provider, Entity entity, int updateRate) {
-		if (entity == null || provider == null || !entity.hasCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null) || !provider.hasCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null)) return;
-		IEntityRads entityRads = entity.getCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null);
+	public static void transferRadsFromSourceToEntity(ICapabilityProvider provider, IEntityRads entityRads, int updateRate) {
+		if (provider == null || !provider.hasCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null)) return;
 		IRadiationSource sourceRadiation = provider.getCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null);
+		if (sourceRadiation == null) return;
 		entityRads.setRadiationLevel(addRadsToEntity(entityRads, sourceRadiation.getRadiationLevel(), updateRate));
 	}
 	
@@ -195,23 +203,23 @@ public class RadiationHelper {
 		}
 		else if (radPercentage < 70) {
 			entity.addPotionEffect(PotionHelper.newEffect(1, 1, updateRate + 1));
-			entity.addPotionEffect(PotionHelper.newEffect(11, 1, updateRate + 1));
+			entity.addPotionEffect(PotionHelper.newEffect(8, 1, updateRate + 1));
 		}
 		else if (radPercentage < 80) {
 			entity.addPotionEffect(PotionHelper.newEffect(1, 2, updateRate + 1));
-			entity.addPotionEffect(PotionHelper.newEffect(11, 1, updateRate + 1));
 			entity.addPotionEffect(PotionHelper.newEffect(8, 1, updateRate + 1));
+			entity.addPotionEffect(PotionHelper.newEffect(11, 1, updateRate + 1));
 		}
 		else if (radPercentage < 90) {
 			entity.addPotionEffect(PotionHelper.newEffect(1, 2, updateRate + 1));
-			entity.addPotionEffect(PotionHelper.newEffect(11, 2, updateRate + 1));
-			entity.addPotionEffect(PotionHelper.newEffect(8, 1, updateRate + 1));
+			entity.addPotionEffect(PotionHelper.newEffect(8, 2, updateRate + 1));
+			entity.addPotionEffect(PotionHelper.newEffect(11, 1, updateRate + 1));
 			entity.addPotionEffect(PotionHelper.newEffect(22, 1, updateRate + 1));
 		}
 		else {
 			entity.addPotionEffect(PotionHelper.newEffect(1, 3, updateRate + 1));
-			entity.addPotionEffect(PotionHelper.newEffect(11, 3, updateRate + 1));
-			entity.addPotionEffect(PotionHelper.newEffect(8, 2, updateRate + 1));
+			entity.addPotionEffect(PotionHelper.newEffect(8, 3, updateRate + 1));
+			entity.addPotionEffect(PotionHelper.newEffect(11, 2, updateRate + 1));
 			entity.addPotionEffect(PotionHelper.newEffect(22, 1, updateRate + 1));
 			entity.addPotionEffect(PotionHelper.newEffect(10, 1, updateRate + 1));
 		}

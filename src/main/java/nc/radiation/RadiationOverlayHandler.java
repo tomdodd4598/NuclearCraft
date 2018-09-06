@@ -38,8 +38,9 @@ public class RadiationOverlayHandler extends Gui {
 	public void addRadiationInfo(RenderGameOverlayEvent.Post event) {
 		if(event.getType() != ElementType.HOTBAR) return;
 		final EntityPlayer player = mc.player;
-		if (!player.inventory.hasItemStack(new ItemStack(NCItems.geiger_counter)) || !player.hasCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null)) return;
+		if ((NCConfig.radiation_require_counter && !player.inventory.hasItemStack(new ItemStack(NCItems.geiger_counter))) || !player.hasCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null)) return;
 		IEntityRads playerRads = player.getCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null);
+		if (playerRads == null) return;
 		
 		ScaledResolution res = new ScaledResolution(mc);
 		int barWidth = (int)(100D*playerRads.getTotalRads()/playerRads.getMaxRads());
@@ -48,8 +49,8 @@ public class RadiationOverlayHandler extends Gui {
 		int overlayWidth = Math.max(104, infoWidth);
 		int overlayHeight = 19;
 		
-		int xPos = GuiHelper.getRenderPositionXFromAngle(res, NCConfig.radiation_hud_position, overlayWidth, 3);
-		int yPos = GuiHelper.getRenderPositionYFromAngle(res, NCConfig.radiation_hud_position, overlayHeight, 3);
+		int xPos = NCConfig.radiation_hud_position_cartesian.length >= 2 ? (int)(NCConfig.radiation_hud_position_cartesian[0]*res.getScaledWidth()) : GuiHelper.getRenderPositionXFromAngle(res, NCConfig.radiation_hud_position, overlayWidth, 3);
+		int yPos = NCConfig.radiation_hud_position_cartesian.length >= 2 ? (int)(NCConfig.radiation_hud_position_cartesian[1]*res.getScaledHeight()) : GuiHelper.getRenderPositionYFromAngle(res, NCConfig.radiation_hud_position, overlayHeight, 3);
 		
 		mc.getTextureManager().bindTexture(RADS_BAR);
 		

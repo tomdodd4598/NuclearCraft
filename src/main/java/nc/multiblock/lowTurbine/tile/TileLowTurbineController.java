@@ -1,12 +1,9 @@
 package nc.multiblock.lowTurbine.tile;
 
-import nc.Global;
 import nc.config.NCConfig;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.lowTurbine.LowTurbine;
 import nc.multiblock.lowTurbine.block.BlockLowTurbineController;
-import nc.util.RegistryHelper;
-import net.minecraft.block.Block;
 
 public class TileLowTurbineController extends TileLowTurbinePartBase {
 	
@@ -40,12 +37,6 @@ public class TileLowTurbineController extends TileLowTurbinePartBase {
 	@Override
 	public void tickTile() {
 		tickCount++; tickCount %= NCConfig.machine_update_rate / 4;
-	}
-	
-	public void doMeltdown() {
-		Block corium = RegistryHelper.getBlock(Global.MOD_ID, "fluid_corium");
-		world.removeTileEntity(pos);
-		world.setBlockState(pos, corium.getDefaultState());
 	}
 	
 	public boolean isPowered() {

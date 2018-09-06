@@ -1,0 +1,10 @@
+{
+	"ctm": {
+		"ctm_version": 1,
+		"type":"ctm",
+		"layer":"SOLID",
+		"textures":[
+			"nuclearcraft:blocks/salt_fission/salt_fission_frame_ctm"
+		]
+	}
+}

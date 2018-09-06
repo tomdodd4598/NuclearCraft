@@ -28,8 +28,8 @@ public class FissionRecipes extends ProcessorRecipeHandler {
 		addFuelRodDepleteRecipes("B", NCConfig.fission_berkelium_fuel_time, NCConfig.fission_berkelium_power, NCConfig.fission_berkelium_heat_generation, NCConfig.fission_berkelium_radiation, 248);
 		addFuelRodDepleteRecipes("Cf", NCConfig.fission_californium_fuel_time, NCConfig.fission_californium_power, NCConfig.fission_californium_heat_generation, NCConfig.fission_californium_radiation, 249, 251);
 		
-		addRecipe(RegistryHelper.itemStackFromRegistry("ic2", "nuclear", 1, 0), "depletedFuelIC2U", NCConfig.fission_uranium_fuel_time[4]*19D/54D, NCConfig.fission_uranium_power[4]*18D/19D, NCConfig.fission_uranium_heat_generation[4]*18D/19D, "IC2-LEU", NCConfig.fission_uranium_radiation[4]*18D/19D);
-		addRecipe(RegistryHelper.itemStackFromRegistry("ic2", "nuclear", 1, 4), "depletedFuelIC2MOX", NCConfig.fission_mox_fuel_time[0]*7D/3D, NCConfig.fission_mox_power[0]*9D/7D, NCConfig.fission_mox_heat_generation[0]*9D/7D, "IC2-MOX", NCConfig.fission_mox_radiation[0]*9D/7D);
+		addRecipe(RegistryHelper.itemStackFromRegistry("ic2:nuclear:0", 1), "depletedFuelIC2U", NCConfig.fission_uranium_fuel_time[4]*19D/54D, NCConfig.fission_uranium_power[4]*18D/19D, NCConfig.fission_uranium_heat_generation[4]*18D/19D, "IC2-LEU", NCConfig.fission_uranium_radiation[4]*18D/19D);
+		addRecipe(RegistryHelper.itemStackFromRegistry("ic2:nuclear:4", 1), "depletedFuelIC2MOX", NCConfig.fission_mox_fuel_time[0]*7D/3D, NCConfig.fission_mox_power[0]*9D/7D, NCConfig.fission_mox_heat_generation[0]*9D/7D, "IC2-MOX", NCConfig.fission_mox_radiation[0]*9D/7D);
 		
 		addRecipe("ingotYellorium", "ingotCyanite", NCConfig.fission_uranium_fuel_time[4]/8D, NCConfig.fission_uranium_power[4]*8D/9D, NCConfig.fission_uranium_heat_generation[4]*8D/9D, "YELLO", NCConfig.fission_uranium_radiation[4]*8D/9D);
 		addRecipe("ingotBlutonium", "ingotCyanite", NCConfig.fission_uranium_fuel_time[4]/8D, NCConfig.fission_uranium_power[4]*8D/9D, NCConfig.fission_uranium_heat_generation[4]*8D/9D, "BLUTO", NCConfig.fission_uranium_radiation[4]*8D/9D);

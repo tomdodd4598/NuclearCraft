@@ -27,7 +27,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BiomeNuclearWasteland extends Biome {
 	
-	public static final String BIOME_NAME = "Nuclear_Wasteland";
+	public static final String BIOME_REGISTRY_NAME = "nuclear_wasteland";
+	public static final String BIOME_NAME = "Nuclear Wasteland";
 	
 	protected static final IBlockState BEDROCK = Blocks.BEDROCK.getDefaultState();
 	

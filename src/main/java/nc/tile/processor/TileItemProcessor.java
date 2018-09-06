@@ -124,10 +124,9 @@ public class TileItemProcessor extends TileEnergySidedInventory implements IItem
 			double oldProcessTime = baseProcessTime;
 			produceProducts();
 			recipe = getRecipeHandler().getRecipeFromInputs(getItemInputs(), new ArrayList<Tank>());
-			if (recipe == null) time = 0; else {
-				setRecipeStats();
-				time = MathHelper.clamp(time - oldProcessTime, 0D, baseProcessTime);
-			}
+			setRecipeStats();
+			if (recipe == null) time = 0;
+			else time = MathHelper.clamp(time - oldProcessTime, 0D, baseProcessTime);
 		}
 	}
 	

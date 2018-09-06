@@ -89,7 +89,7 @@ public class SaltMixerRecipes extends ProcessorRecipeHandler {
 	public void addFuelIsotopeRecipes(String suffix, String element, int fertile, int... fissiles) {
 		for (String type : new String[] {"", "_fluoride", "_fluoride_flibe"}) for (int fissile : fissiles) {
 			addRecipe(fluidStack(element + "_" + fertile + type, FluidStackHelper.NUGGET_VOLUME*8), fluidStack(element + "_" + fissile + type, FluidStackHelper.NUGGET_VOLUME), fluidStack("fuel_l" + suffix + "_" + fissile + type, FluidStackHelper.INGOT_VOLUME), 1D, 1D);
-			addRecipe(fluidStack("fuel_l" + suffix + "_" + fissile + type, FluidStackHelper.NUGGET_VOLUME*5), fluidStack(element + "_" + fissile + type, FluidStackHelper.NUGGET_VOLUME*3), fluidStack("fuel_h" + suffix + "_" + fissile + type, FluidStackHelper.NUGGET_VOLUME*8), 1D, 1D);
+			addRecipe(fluidStack("fuel_l" + suffix + "_" + fissile + type, FluidStackHelper.NUGGET_VOLUME*5), fluidStack(element + "_" + fissile + type, FluidStackHelper.NUGGET_VOLUME*3), fluidStack("fuel_h" + suffix + "_" + fissile + type, FluidStackHelper.NUGGET_VOLUME*8), 0.5D, 1D);
 		}
 	}
 	

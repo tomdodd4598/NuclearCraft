@@ -43,7 +43,7 @@ public class TileSaltFissionController extends TileSaltFissionPartBase {
 	}
 	
 	public void doMeltdown() {
-		Block corium = RegistryHelper.getBlock(Global.MOD_ID, "fluid_corium");
+		Block corium = RegistryHelper.getBlock(Global.MOD_ID + ":fluid_corium");
 		world.removeTileEntity(pos);
 		world.setBlockState(pos, corium.getDefaultState());
 	}

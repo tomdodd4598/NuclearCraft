@@ -24,6 +24,7 @@ import nc.multiblock.MultiblockEventHandler;
 import nc.multiblock.MultiblockRegistry;
 import nc.network.PacketHandler;
 import nc.radiation.RadBiomes;
+import nc.radiation.RadSources;
 import nc.radiation.RadiationHandler;
 import nc.recipe.NCRecipes;
 import nc.recipe.vanilla.CraftingRecipeHandler;
@@ -80,7 +81,7 @@ public class CommonProxy {
 	public void init(FMLInitializationEvent event) {
 		initFluidColors();
 		
-		if (NCConfig.radiation_enabled) CapabilityHandler.init();
+		CapabilityHandler.init();
 		
 		MinecraftForge.EVENT_BUS.register(new DropHandler());
 		MinecraftForge.EVENT_BUS.register(new DungeonLootHandler());
@@ -101,10 +102,11 @@ public class CommonProxy {
 	}
 
 	public void postInit(FMLPostInitializationEvent postEvent) {
-		RadBiomes.init();
 		if (NCConfig.radiation_enabled) {
+			RadSources.init();
 			MinecraftForge.EVENT_BUS.register(new CapabilityHandler());
 			MinecraftForge.EVENT_BUS.register(new RadiationHandler());
+			RadBiomes.init();
 		}
 	}
 	

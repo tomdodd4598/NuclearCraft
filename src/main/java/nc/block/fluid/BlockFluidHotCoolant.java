@@ -1,12 +1,11 @@
 package nc.block.fluid;
 
 import nc.fluid.FluidHotCoolant;
+import nc.util.PotionHelper;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -31,8 +30,8 @@ public class BlockFluidHotCoolant extends BlockFluid {
 		entityIn.attackEntityFrom(hot_coolant_burn, 2.0F);
 		entityIn.setFire(3);
 		if (entityIn instanceof EntityLivingBase) {
-			((EntityLivingBase) entityIn).addPotionEffect(new PotionEffect(Potion.getPotionById(2), 50, 1));
-			((EntityLivingBase) entityIn).addPotionEffect(new PotionEffect(Potion.getPotionById(18), 50, 1));
+			((EntityLivingBase) entityIn).addPotionEffect(PotionHelper.newEffect(2, 1, 100));
+			((EntityLivingBase) entityIn).addPotionEffect(PotionHelper.newEffect(18, 1, 100));
 		}
 	}
 }

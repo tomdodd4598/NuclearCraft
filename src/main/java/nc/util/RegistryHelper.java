@@ -1,43 +1,52 @@
 package nc.util;
 
+import org.apache.commons.lang3.StringUtils;
+
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.biome.Biome;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 public class RegistryHelper {
 	
-	public static Block getBlock(String domain, String name) {
-		return ForgeRegistries.BLOCKS.getValue(new ResourceLocation(domain, name));
+	public static Block getBlock(String location) {
+		return ForgeRegistries.BLOCKS.getValue(new ResourceLocation(location));
 	}
 	
-	public static Item getItem(String domain, String name) {
-		return ForgeRegistries.ITEMS.getValue(new ResourceLocation(domain, name));
+	public static Item getItem(String location) {
+		return ForgeRegistries.ITEMS.getValue(new ResourceLocation(location));
 	}
 	
-	public static ItemStack blockStackFromRegistry(String domain, String name, int stackSize, int meta) {
-		return getBlock(domain, name) == null ? null : new ItemStack(getBlock(domain, name), stackSize, meta);
+	public static ItemStack blockStackFromRegistry(String location, int stackSize) {
+		return getBlock(removeMeta(location)) == null ? null : new ItemStack(getBlock(removeMeta(location)), stackSize, getStackMeta(location));
 	}
 	
-	public static ItemStack blockStackFromRegistry(String domain, String name, int stackSize) {
-		return blockStackFromRegistry(domain, name, stackSize, 0);
+	public static ItemStack blockStackFromRegistry(String location) {
+		return blockStackFromRegistry(location, 1);
 	}
 	
-	public static ItemStack blockStackFromRegistry(String domain, String name) {
-		return blockStackFromRegistry(domain, name, 1);
+	public static ItemStack itemStackFromRegistry(String location, int stackSize) {
+		return getItem(removeMeta(location)) == null ? null : new ItemStack(getItem(removeMeta(location)), stackSize, getStackMeta(location));
 	}
 	
-	public static ItemStack itemStackFromRegistry(String domain, String name, int stackSize, int meta) {
-		return getItem(domain, name) == null ? null : new ItemStack(getItem(domain, name), stackSize, meta);
+	public static ItemStack itemStackFromRegistry(String location) {
+		return itemStackFromRegistry(location, 1);
 	}
 	
-	public static ItemStack itemStackFromRegistry(String domain, String name, int stackSize) {
-		return itemStackFromRegistry(domain, name, stackSize, 0);
+	public static Biome biomeFromRegistry(String location) {
+		return ForgeRegistries.BIOMES.getValue(new ResourceLocation(location));
 	}
 	
-	public static ItemStack itemStackFromRegistry(String domain, String name) {
-		return itemStackFromRegistry(domain, name, 1);
+	public static int getStackMeta(String location) {
+		if (StringUtils.countMatches(location, ':') < 2) return 0;
+		return Integer.parseInt(location.substring(location.lastIndexOf(':') + 1));
+	}
+	
+	public static String removeMeta(String location) {
+		if (StringUtils.countMatches(location, ':') < 2) return location;
+		return StringHelper.starting(location, location.lastIndexOf(':'));
 	}
 	
 	public static String getModID(ItemStack stack) {

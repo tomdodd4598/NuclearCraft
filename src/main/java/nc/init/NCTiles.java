@@ -1,6 +1,22 @@
 package nc.init;
 
 import nc.Global;
+import nc.multiblock.condenser.tile.TileCondenserController;
+import nc.multiblock.condenser.tile.TileCondenserFrame;
+import nc.multiblock.condenser.tile.TileCondenserGlass;
+import nc.multiblock.condenser.tile.TileCondenserWall;
+import nc.multiblock.heatExchanger.tile.TileHeatExchangerController;
+import nc.multiblock.heatExchanger.tile.TileHeatExchangerFrame;
+import nc.multiblock.heatExchanger.tile.TileHeatExchangerGlass;
+import nc.multiblock.heatExchanger.tile.TileHeatExchangerWall;
+import nc.multiblock.highTurbine.tile.TileHighTurbineController;
+import nc.multiblock.highTurbine.tile.TileHighTurbineFrame;
+import nc.multiblock.highTurbine.tile.TileHighTurbineGlass;
+import nc.multiblock.highTurbine.tile.TileHighTurbineWall;
+import nc.multiblock.lowTurbine.tile.TileLowTurbineController;
+import nc.multiblock.lowTurbine.tile.TileLowTurbineFrame;
+import nc.multiblock.lowTurbine.tile.TileLowTurbineGlass;
+import nc.multiblock.lowTurbine.tile.TileLowTurbineWall;
 import nc.multiblock.saltFission.tile.TileSaltFissionBeam;
 import nc.multiblock.saltFission.tile.TileSaltFissionController;
 import nc.multiblock.saltFission.tile.TileSaltFissionFrame;
@@ -69,6 +85,26 @@ public class NCTiles {
 		GameRegistry.registerTileEntity(TileSaltFissionVessel.class, Global.MOD_ID + ":salt_fission_vessel");
 		GameRegistry.registerTileEntity(TileSaltFissionHeater.class, Global.MOD_ID + ":salt_fission_heater");
 		GameRegistry.registerTileEntity(TileSaltFissionModerator.class, Global.MOD_ID + ":salt_fission_moderator");
+		
+		GameRegistry.registerTileEntity(TileHeatExchangerController.class, Global.MOD_ID + ":heat_exchanger_controller");
+		GameRegistry.registerTileEntity(TileHeatExchangerWall.class, Global.MOD_ID + ":heat_exchanger_wall");
+		GameRegistry.registerTileEntity(TileHeatExchangerGlass.class, Global.MOD_ID + ":heat_exchanger_glass");
+		GameRegistry.registerTileEntity(TileHeatExchangerFrame.class, Global.MOD_ID + ":heat_exchanger_frame");
+		
+		GameRegistry.registerTileEntity(TileHighTurbineController.class, Global.MOD_ID + ":high_turbine_controller");
+		GameRegistry.registerTileEntity(TileHighTurbineWall.class, Global.MOD_ID + ":high_turbine_wall");
+		GameRegistry.registerTileEntity(TileHighTurbineGlass.class, Global.MOD_ID + ":high_turbine_glass");
+		GameRegistry.registerTileEntity(TileHighTurbineFrame.class, Global.MOD_ID + ":high_turbine_frame");
+		
+		GameRegistry.registerTileEntity(TileLowTurbineController.class, Global.MOD_ID + ":low_turbine_controller");
+		GameRegistry.registerTileEntity(TileLowTurbineWall.class, Global.MOD_ID + ":low_turbine_wall");
+		GameRegistry.registerTileEntity(TileLowTurbineGlass.class, Global.MOD_ID + ":low_turbine_glass");
+		GameRegistry.registerTileEntity(TileLowTurbineFrame.class, Global.MOD_ID + ":low_turbine_frame");
+		
+		GameRegistry.registerTileEntity(TileCondenserController.class, Global.MOD_ID + ":condenser_controller");
+		GameRegistry.registerTileEntity(TileCondenserWall.class, Global.MOD_ID + ":condenser_wall");
+		GameRegistry.registerTileEntity(TileCondenserGlass.class, Global.MOD_ID + ":condenser_glass");
+		GameRegistry.registerTileEntity(TileCondenserFrame.class, Global.MOD_ID + ":condenser_frame");
 		
 		GameRegistry.registerTileEntity(TileRTG.Uranium.class, Global.MOD_ID + ":rtg_uranium");
 		GameRegistry.registerTileEntity(TileRTG.Plutonium.class, Global.MOD_ID + ":rtg_plutonium");

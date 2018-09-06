@@ -296,7 +296,7 @@ public class SaltFissionReactor extends CuboidalMultiblockBase<SaltFissionUpdate
 		for (BlockPos blockPos : BlockPos.getAllInBoxMutable(getMinimumCoord(), getMaximumCoord())) {
 			if (rand.nextDouble() < 0.18D) {
 				if (WORLD.getTileEntity(blockPos) != null) WORLD.removeTileEntity(blockPos);
-				Block corium = RegistryHelper.getBlock(Global.MOD_ID, "fluid_corium");
+				Block corium = RegistryHelper.getBlock(Global.MOD_ID + ":fluid_corium");
 				if (corium != null) WORLD.setBlockState(blockPos, corium.getDefaultState());
 			}
 		}

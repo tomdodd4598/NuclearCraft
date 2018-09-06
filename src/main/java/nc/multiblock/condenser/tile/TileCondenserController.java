@@ -1,12 +1,9 @@
 package nc.multiblock.condenser.tile;
 
-import nc.Global;
 import nc.config.NCConfig;
 import nc.multiblock.condenser.Condenser;
 import nc.multiblock.condenser.block.BlockCondenserController;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
-import nc.util.RegistryHelper;
-import net.minecraft.block.Block;
 
 public class TileCondenserController extends TileCondenserPartBase {
 	
@@ -40,12 +37,6 @@ public class TileCondenserController extends TileCondenserPartBase {
 	@Override
 	public void tickTile() {
 		tickCount++; tickCount %= NCConfig.machine_update_rate / 4;
-	}
-	
-	public void doMeltdown() {
-		Block corium = RegistryHelper.getBlock(Global.MOD_ID, "fluid_corium");
-		world.removeTileEntity(pos);
-		world.setBlockState(pos, corium.getDefaultState());
 	}
 	
 	public boolean isPowered() {

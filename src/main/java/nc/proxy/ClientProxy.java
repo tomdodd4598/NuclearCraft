@@ -78,7 +78,7 @@ public class ClientProxy extends CommonProxy {
 		super.postInit(postEvent);
 		
 		MinecraftForge.EVENT_BUS.register(new TooltipHandler());
-		MinecraftForge.EVENT_BUS.register(new RadiationOverlayHandler(mc));
+		if (NCConfig.radiation_enabled) MinecraftForge.EVENT_BUS.register(new RadiationOverlayHandler(mc));
 	}
 	
 	// Packets

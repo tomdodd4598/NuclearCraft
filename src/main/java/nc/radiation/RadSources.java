@@ -6,19 +6,36 @@ import java.util.Map;
 
 import com.google.common.collect.Lists;
 
+import nc.config.NCConfig;
+import nc.util.RegistryHelper;
+import net.minecraft.item.ItemStack;
+
 public class RadSources {
 	
-	public static final Map<String, Double> SOURCE_MAP = new HashMap<String, Double>();
+	public static final Map<String, Double> ORE_MAP = new HashMap<String, Double>();
+	public static final Map<ItemStack, Double> STACK_MAP = new HashMap<ItemStack, Double>();
 	
 	private static final double INGOT = 1D;
 	private static final double NUGGET = 1D/9D;
+	private static final double HALF = 1D/2D;
+	private static final double THIRD = 1D/2D;
 	private static final double SMALL = 1D/4D;
+	private static final double GEAR = 4D;
 	private static final double BLOCK = 9D;
+	private static final double SLAB = 9D/2D;
 	
-	private static final List<String> INGOT_NAME_LIST = Lists.newArrayList("ingot", "dust");
-	private static final List<String> NUGGET_NAME_LIST = Lists.newArrayList("tinyDust", "dustTiny", "nugget");
-	private static final List<String> SMALL_NAME_LIST = Lists.newArrayList("smallDust", "dustSmall", "ore");
-	private static final List<String> BLOCK_NAME_LIST = Lists.newArrayList("block");
+	private static final List<String> MATERIAL_INGOT_NAME_LIST = Lists.newArrayList("ingot", "dust", "dustDirty", "clump", "shard", "crystal", "crushed", "crushedPurified", "plate", "blockSheetmetal");
+	private static final List<String> MATERIAL_NUGGET_NAME_LIST = Lists.newArrayList("tinyDust", "dustTiny", "nugget");
+	private static final List<String> MATERIAL_HALF_NAME_LIST = Lists.newArrayList("rod, slabSheetmetal");
+	private static final List<String> MATERIAL_THIRD_NAME_LIST = Lists.newArrayList("coin");
+	private static final List<String> MATERIAL_SMALL_NAME_LIST = Lists.newArrayList("smallDust", "dustSmall", "ore");
+	private static final List<String> MATERIAL_GEAR_NAME_LIST = Lists.newArrayList("gear");
+	private static final List<String> MATERIAL_BLOCK_NAME_LIST = Lists.newArrayList("block, plateDense");
+	private static final List<String> MATERIAL_SLAB_NAME_LIST = Lists.newArrayList("slab");
+	
+	private static final List<String> ISOTOPE_INGOT_NAME_LIST = Lists.newArrayList("ingot");
+	private static final List<String> ISOTOPE_NUGGET_NAME_LIST = Lists.newArrayList("nugget");
+	private static final List<String> ISOTOPE_BLOCK_NAME_LIST = Lists.newArrayList("block");
 	
 	public static final double THORIUM = 0.0000015D;
 	public static final double URANIUM = 0.000000000385D;
@@ -57,41 +74,41 @@ public class RadSources {
 	public static final double CALIFORNIUM_252 = 0.38D;
 	
 	static {
-		putMat(THORIUM, "Thorium");
-		putMat(URANIUM, "Uranium", "Yellorium");
-		putMat(PLUTONIUM, "Plutonium", "Blutonium");
+		putMaterial(THORIUM, "Thorium");
+		putMaterial(URANIUM, "Uranium", "Yellorium");
+		putMaterial(PLUTONIUM, "Plutonium", "Blutonium");
 		
-		putMat(THORIUM_230, "Thorium230");
-		putMat(THORIUM_232, "Thorium232");
+		putIsotope(THORIUM_230, "Thorium230");
+		putIsotope(THORIUM_232, "Thorium232");
 		
-		putMat(URANIUM_233, "Uranium233");
-		putMat(URANIUM_235, "Uranium235");
-		putMat(URANIUM_238, "Uranium238", "Cyanite");
+		putIsotope(URANIUM_233, "Uranium233");
+		putMaterial(URANIUM_235, "Uranium235");
+		putMaterial(URANIUM_238, "Uranium238", "Cyanite");
 		
-		putMat(NEPTUNIUM_236, "Neptunium236");
-		putMat(NEPTUNIUM_237, "Neptunium237");
+		putIsotope(NEPTUNIUM_236, "Neptunium236");
+		putIsotope(NEPTUNIUM_237, "Neptunium237");
 		
-		putMat(PLUTONIUM_238, "Plutonium238");
-		putMat(PLUTONIUM_239, "Plutonium239");
-		putMat(PLUTONIUM_241, "Plutonium241");
-		putMat(PLUTONIUM_242, "Plutonium242");
+		putIsotope(PLUTONIUM_238, "Plutonium238");
+		putIsotope(PLUTONIUM_239, "Plutonium239");
+		putIsotope(PLUTONIUM_241, "Plutonium241");
+		putIsotope(PLUTONIUM_242, "Plutonium242");
 		
-		putMat(AMERICIUM_241, "Americium241");
-		putMat(AMERICIUM_242, "Americium242");
-		putMat(AMERICIUM_243, "Americium243");
+		putIsotope(AMERICIUM_241, "Americium241");
+		putIsotope(AMERICIUM_242, "Americium242");
+		putIsotope(AMERICIUM_243, "Americium243");
 		
-		putMat(CURIUM_243, "Curium243");
-		putMat(CURIUM_245, "Curium245");
-		putMat(CURIUM_246, "Curium246");
-		putMat(CURIUM_247, "Curium247");
+		putIsotope(CURIUM_243, "Curium243");
+		putIsotope(CURIUM_245, "Curium245");
+		putIsotope(CURIUM_246, "Curium246");
+		putIsotope(CURIUM_247, "Curium247");
 		
-		putMat(BERKELIUM_247, "Berkelium247");
-		putMat(BERKELIUM_248, "Berkelium248");
+		putIsotope(BERKELIUM_247, "Berkelium247");
+		putIsotope(BERKELIUM_248, "Berkelium248");
 		
-		putMat(CALIFORNIUM_249, "Californium249");
-		putMat(CALIFORNIUM_250, "Californium250");
-		putMat(CALIFORNIUM_251, "Californium251");
-		putMat(CALIFORNIUM_252, "Californium252");
+		putIsotope(CALIFORNIUM_249, "Californium249");
+		putIsotope(CALIFORNIUM_250, "Californium250");
+		putIsotope(CALIFORNIUM_251, "Californium251");
+		putIsotope(CALIFORNIUM_252, "Californium252");
 		
 		putFuel(THORIUM_232, 9, THORIUM_230, 0, "TBU");
 		
@@ -162,12 +179,24 @@ public class RadSources {
 		put(URANIUM_238*4, "plateDU");
 	}
 	
-	private static void putMat(double radiation, String... ores) {
+	private static void putMaterial(double radiation, String... ores) {
+		for (String ore : ores) for (String suffix : new String[] {"", "Oxide"}) {
+			for (String prefix : MATERIAL_INGOT_NAME_LIST) ORE_MAP.put(prefix + ore + suffix, radiation*INGOT);
+			for (String prefix : MATERIAL_NUGGET_NAME_LIST) ORE_MAP.put(prefix + ore + suffix, radiation*NUGGET);
+			for (String prefix : MATERIAL_HALF_NAME_LIST) ORE_MAP.put(prefix + ore + suffix, radiation*HALF);
+			for (String prefix : MATERIAL_THIRD_NAME_LIST) ORE_MAP.put(prefix + ore + suffix, radiation*THIRD);
+			for (String prefix : MATERIAL_SMALL_NAME_LIST) ORE_MAP.put(prefix + ore + suffix, radiation*SMALL);
+			for (String prefix : MATERIAL_GEAR_NAME_LIST) ORE_MAP.put(prefix + ore + suffix, radiation*GEAR);
+			for (String prefix : MATERIAL_BLOCK_NAME_LIST) ORE_MAP.put(prefix + ore + suffix, radiation*BLOCK);
+			for (String prefix : MATERIAL_SLAB_NAME_LIST) ORE_MAP.put(prefix + ore + suffix, radiation*SLAB);
+		}
+	}
+	
+	private static void putIsotope(double radiation, String... ores) {
 		for (String ore : ores) for (String suffix : new String[] {"", "Base", "Oxide"}) {
-			for (String prefix : INGOT_NAME_LIST) SOURCE_MAP.put(prefix + ore + suffix, radiation*INGOT);
-			for (String prefix : NUGGET_NAME_LIST) SOURCE_MAP.put(prefix + ore + suffix, radiation*NUGGET);
-			for (String prefix : SMALL_NAME_LIST) SOURCE_MAP.put(prefix + ore + suffix, radiation*SMALL);
-			for (String prefix : BLOCK_NAME_LIST) SOURCE_MAP.put(prefix + ore + suffix, radiation*BLOCK);
+			for (String prefix : ISOTOPE_INGOT_NAME_LIST) ORE_MAP.put(prefix + ore + suffix, radiation*INGOT);
+			for (String prefix : ISOTOPE_NUGGET_NAME_LIST) ORE_MAP.put(prefix + ore + suffix, radiation*NUGGET);
+			for (String prefix : ISOTOPE_BLOCK_NAME_LIST) ORE_MAP.put(prefix + ore + suffix, radiation*BLOCK);
 		}
 	}
 	
@@ -177,10 +206,10 @@ public class RadSources {
 	
 	private static void putFuel(double rad1, int amount1, double rad2, int amount2, String ore) {
 		double radiation = getFuelRadiation(rad1, amount1, rad2, amount2);
-		SOURCE_MAP.put("fuel" + ore, radiation);
-		SOURCE_MAP.put("fuel" + ore + "Oxide", radiation);
-		SOURCE_MAP.put("fuelRod" + ore, radiation);
-		SOURCE_MAP.put("fuelRod" + ore + "Oxide", radiation);
+		ORE_MAP.put("fuel" + ore, radiation);
+		ORE_MAP.put("fuel" + ore + "Oxide", radiation);
+		ORE_MAP.put("fuelRod" + ore, radiation);
+		ORE_MAP.put("fuelRod" + ore + "Oxide", radiation);
 	}
 	
 	private static void putFuel(double fertile, double fissile, String ore) {
@@ -194,14 +223,14 @@ public class RadSources {
 	
 	private static void putDepletedFuel(double rad1, int amount1, double rad2, int amount2, double rad3, int amount3, double rad4, int amount4, String ore) {
 		double radiation = getDepletedFuelRadiation(rad1, amount1, rad2, amount2, rad3, amount3, rad4, amount4);
-		SOURCE_MAP.put("depletedFuel" + ore, radiation);
-		SOURCE_MAP.put("depletedFuel" + ore + "Oxide", radiation);
-		SOURCE_MAP.put("depletedFuelRod" + ore, radiation);
-		SOURCE_MAP.put("depletedFuelRod" + ore + "Oxide", radiation);
+		ORE_MAP.put("depletedFuel" + ore, radiation);
+		ORE_MAP.put("depletedFuel" + ore + "Oxide", radiation);
+		ORE_MAP.put("depletedFuelRod" + ore, radiation);
+		ORE_MAP.put("depletedFuelRod" + ore + "Oxide", radiation);
 	}
 	
 	private static void put(double radiation, String... ores) {
-		for (String ore : ores) SOURCE_MAP.put(ore, radiation);
+		for (String ore : ores) ORE_MAP.put(ore, radiation);
 	}
 	
 	// Fuels
@@ -240,5 +269,27 @@ public class RadSources {
 	public static final double LECf_249 = getFuelRadiation(CALIFORNIUM_252, 8, CALIFORNIUM_249, 1);
 	public static final double HECf_249 = getFuelRadiation(CALIFORNIUM_252, 5, CALIFORNIUM_249, 4);
 	public static final double LECf_251 = getFuelRadiation(CALIFORNIUM_252, 8, CALIFORNIUM_251, 1);
-	public static final double HECf_251 = getFuelRadiation(CALIFORNIUM_252, 5, CALIFORNIUM_251, 4);	
+	public static final double HECf_251 = getFuelRadiation(CALIFORNIUM_252, 5, CALIFORNIUM_251, 4);
+	
+	// Custom Entries
+	
+	public static void init() {
+		for (String oreInfo : NCConfig.radiation_ores) {
+			int scorePos = oreInfo.lastIndexOf('_');
+			if (scorePos == -1) continue;
+			ORE_MAP.put(oreInfo.substring(0, scorePos), Double.parseDouble(oreInfo.substring(scorePos + 1)));
+		}
+		for (String itemInfo : NCConfig.radiation_items) {
+			int scorePos = itemInfo.lastIndexOf('_');
+			if (scorePos == -1) continue;
+			ItemStack stack = RegistryHelper.itemStackFromRegistry(itemInfo.substring(0, scorePos));
+			if (stack != null) STACK_MAP.put(stack, Double.parseDouble(itemInfo.substring(scorePos + 1)));
+		}
+		for (String blockInfo : NCConfig.radiation_blocks) {
+			int scorePos = blockInfo.lastIndexOf('_');
+			if (scorePos == -1) continue;
+			ItemStack stack = RegistryHelper.blockStackFromRegistry(blockInfo.substring(0, scorePos));
+			if (stack != null) STACK_MAP.put(stack, Double.parseDouble(blockInfo.substring(scorePos + 1)));
+		}
+	}
 }

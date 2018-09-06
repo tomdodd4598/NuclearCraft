@@ -391,10 +391,8 @@ public class TileSaltFissionHeater extends TileSaltFissionPartBase implements IF
 			produceProducts();
 			recipe = getRecipeHandler().getRecipeFromInputs(new ArrayList<ItemStack>(), getFluidInputs());
 			setRecipeStats();
-			if (recipe == null) time = 0; else {
-				setRecipeStats();
-				time = MathHelper.clamp(time - oldProcessTime, 0D, baseProcessTime);
-			}
+			if (recipe == null) time = 0;
+			else time = MathHelper.clamp(time - oldProcessTime, 0D, baseProcessTime);
 		}
 	}
 	
@@ -429,7 +427,7 @@ public class TileSaltFissionHeater extends TileSaltFissionPartBase implements IF
 	}
 	
 	public void setDefaultRecipeStats() {
-		baseProcessCooling = 0;
+		baseProcessCooling = 0D;
 	}
 	
 	public void produceProducts() {

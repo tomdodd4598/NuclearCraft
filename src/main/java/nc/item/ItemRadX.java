@@ -27,6 +27,7 @@ public class ItemRadX extends NCItem {
 			EntityPlayer player = (EntityPlayer)entity;
 			if (!player.hasCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null)) return stack;
 			IEntityRads playerRads = player.getCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null);
+			if (playerRads == null) return stack;
 			if (!playerRads.getConsumedMedicine()) {
 				world.playSound((EntityPlayer)null, player.posX, player.posY, player.posZ, SoundHandler.rad_x, SoundCategory.PLAYERS, 0.5F, 1F);
 				onRadawayConsumed(stack, world, player);
@@ -43,6 +44,7 @@ public class ItemRadX extends NCItem {
 	private void onRadawayConsumed(ItemStack stack, World world, EntityPlayer player) {
 		if (world.isRemote || !player.hasCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null)) return;
 		IEntityRads playerRads = player.getCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null);
+		if (playerRads == null) return;
 		playerRads.setRadiationResistance(playerRads.getRadiationResistance() + NCConfig.radiation_rad_x_amount);
 	}
 	
@@ -61,6 +63,7 @@ public class ItemRadX extends NCItem {
 		ItemStack stack = player.getHeldItem(hand);
 		if (!player.hasCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null)) return actionResult(false, stack);
 		IEntityRads playerRads = player.getCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null);
+		if (playerRads == null) return actionResult(false, stack);
 		
 		if (playerRads.getConsumedMedicine()) {
 			playerRads.setConsumedMedicine(false);

@@ -34,7 +34,7 @@ public class PressurizerRecipes extends ProcessorRecipeHandler {
 		addRecipe(oreStack("dustClay", 4), "dustSiliconDioxide", 1D, 1D);
 		
 		// Tech Reborn
-		addRecipe(RegistryHelper.itemStackFromRegistry("techreborn", "part", 1, 34), RegistryHelper.itemStackFromRegistry("techreborn", "plates", 1, 2), 1D, 1D);
+		addRecipe(RegistryHelper.itemStackFromRegistry("techreborn:part:34"), RegistryHelper.itemStackFromRegistry("techreborn:plates:2"), 1D, 1D);
 		
 		// AE2
 		addRecipe("dustEnder", Items.ENDER_PEARL, 1D, 1D);

@@ -105,10 +105,9 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 			double oldProcessTime = baseProcessTime;
 			produceProducts();
 			recipe = getRecipeHandler().getRecipeFromInputs(getItemInputs(hasConsumed), new ArrayList<Tank>());
-			if (recipe == null) time = 0; else {
-				setRecipeStats();
-				time = MathHelper.clamp(time - oldProcessTime, 0D, baseProcessTime);
-			}
+			setRecipeStats();
+			if (recipe == null) time = 0;
+			else time = MathHelper.clamp(time - oldProcessTime, 0D, baseProcessTime);
 		}
 	}
 	
@@ -130,7 +129,13 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 	}
 		
 	public boolean canProcessInputs() {
-		if (recipe == null) return false;
+		if (recipe == null) {
+			if (hasConsumed) {
+				for (int i = 0; i < itemInputSize; i++) getItemInputs(true).set(i, ItemStack.EMPTY);
+				hasConsumed = false;
+			}
+			return false;
+		}
 		setRecipeStats();
 		if (time >= baseProcessTime) return true;
 		

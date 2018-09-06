@@ -59,4 +59,11 @@ public class NCItem extends Item {
 		}
 		return false;
 	}
+	
+	protected boolean isStackInInventory(ItemStack itemStack, EntityPlayer player) {
+		for (ItemStack hotbarStack : player.inventory.mainInventory) {
+			if (itemStack.isItemEqual(hotbarStack)) return true;
+		}
+		return false;
+	}
 }
