@@ -1,3 +1,15 @@
+v2.11d
+
++ Added Radiation Scrubbers [thanks to Fatmice for all the help adding these!]
++ Added Hazmat Suit for specialised radiation protection
+
++ Added optional radiation death persistence
+
+* Speed upgrades can now be right-clicked into machines - a shift-right-click installs the whole stack
+
+* Removing recipes by outputs with CT will remove all recipes with those products rather than just one
+* Fixed crash caused by other mods registering TiC materials with the same names as NC ones
+
 v2.11c
 
 * Fixed crash with Mekanism or Tesla installed

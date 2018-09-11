@@ -30,7 +30,7 @@ public class RadSources {
 	private static final List<String> MATERIAL_THIRD_NAME_LIST = Lists.newArrayList("coin");
 	private static final List<String> MATERIAL_SMALL_NAME_LIST = Lists.newArrayList("smallDust", "dustSmall", "ore");
 	private static final List<String> MATERIAL_GEAR_NAME_LIST = Lists.newArrayList("gear");
-	private static final List<String> MATERIAL_BLOCK_NAME_LIST = Lists.newArrayList("block, plateDense");
+	private static final List<String> MATERIAL_BLOCK_NAME_LIST = Lists.newArrayList("block", "plateDense");
 	private static final List<String> MATERIAL_SLAB_NAME_LIST = Lists.newArrayList("slab");
 	
 	private static final List<String> ISOTOPE_INGOT_NAME_LIST = Lists.newArrayList("ingot");

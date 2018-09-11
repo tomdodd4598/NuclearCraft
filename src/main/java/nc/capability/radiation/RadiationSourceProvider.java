@@ -37,5 +37,4 @@ public class RadiationSourceProvider implements ICapabilitySerializable {
 	public void deserializeNBT(NBTBase nbt) {
 		IRadiationSource.CAPABILITY_RADIATION_SOURCE.readNBT(radiation, null, nbt);
 	}
-
 }

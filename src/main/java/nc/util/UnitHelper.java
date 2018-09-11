@@ -12,9 +12,10 @@ public class UnitHelper {
 		int minPrefixNumber = Math.max(lowestPrefixNo + 8, 0);
 		int prefixNumber = MathHelper.clamp(startingPrefixNo + 8, minPrefixNumber, 16);
 		String maxVal = maxValue == -1 ? "" : " / " + maxValue;
-		if (value == 0) return value + maxVal + SI_PREFIX[minPrefixNumber] + unit;
+		String sign = value > 0 ? "" : "-";
+		if (value == 0) return value + maxVal + SI_PREFIX[prefixNumber] + unit;
 		
-		double newDouble = 1D*value;
+		double newDouble = (value > 0 ? 1D : -1D)*value;
 		double newMaxDouble = maxValue == -1 ? newDouble : 1D*maxValue;
 		while (prefixNumber > minPrefixNumber) {
 			newDouble = NCMath.magnitudeMult(newDouble, 3);
@@ -30,14 +31,14 @@ public class UnitHelper {
 			length = NCMath.numberLength(newValue);
 			if (length <= maxLengthFixed) {
 				maxVal = maxValue == -1 ? "" : " / " + newMaxValue;
-				return newValue + maxVal + SI_PREFIX[prefixNumber] + unit;
+				return sign + newValue + maxVal + SI_PREFIX[prefixNumber] + unit;
 			}
 			newValue = NCMath.magnitudeMult(newValue, -3);
 			newMaxValue = NCMath.magnitudeMult(newMaxValue, -3);
             prefixNumber++;
         }
 		maxVal = maxValue == -1 ? "" : " / " + NCMath.magnitudeMult(newMaxValue, -3);
-		return NCMath.magnitudeMult(newValue, -3) + maxVal + SI_PREFIX[SI_PREFIX.length - 1] + unit;
+		return sign + NCMath.magnitudeMult(newValue, -3) + maxVal + SI_PREFIX[SI_PREFIX.length - 1] + unit;
 	}
 	
 	public static String prefix(long value, int maxLength, String unit, int startingPrefixNo, int lowestPrefixNo) {
@@ -75,8 +76,10 @@ public class UnitHelper {
 		int minPrefixNumber = Math.max(lowestPrefixNo + 8, 0);
 		int prefixNumber = MathHelper.clamp(startingPrefixNo + 8, minPrefixNumber, 16);
 		String maxVal = maxValue == -1D ? "" : " / " + (long)maxValue;
-		if (value == 0D) return (long)value + maxVal + SI_PREFIX[minPrefixNumber] + unit;
+		String sign = value > 0 ? "" : "-";
+		if (value == 0D) return (long)value + maxVal + SI_PREFIX[prefixNumber] + unit;
 		
+		value = (value > 0 ? 1D : -1D)*value;
 		double newMax = maxValue == -1D ? value : maxValue;
 		while (prefixNumber > minPrefixNumber) {
 			value = NCMath.magnitudeMult(value, 3);
@@ -90,14 +93,14 @@ public class UnitHelper {
 			length = NCMath.numberLength((long)value);
 			if (length <= maxLengthFixed) {
 				maxVal = maxValue == -1D ? "" : " / " + (long)newMax;
-				return (long)value + maxVal + SI_PREFIX[prefixNumber] + unit;
+				return sign + (long)value + maxVal + SI_PREFIX[prefixNumber] + unit;
 			}
 			value = NCMath.magnitudeMult(value, -3);
 			newMax = NCMath.magnitudeMult(newMax, -3);
             prefixNumber++;
         }
 		maxVal = maxValue == -1D ? "" : " / " + (long)NCMath.magnitudeMult(newMax, -3);
-		return (long)NCMath.magnitudeMult(value, -3) + maxVal + SI_PREFIX[SI_PREFIX.length - 1] + unit;
+		return sign + (long)NCMath.magnitudeMult(value, -3) + maxVal + SI_PREFIX[SI_PREFIX.length - 1] + unit;
 	}
 	
 	public static String prefix(double value, int maxLength, String unit, int startingPrefixNo, int lowestPrefixNo) {

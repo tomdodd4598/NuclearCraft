@@ -63,7 +63,13 @@ public class RemoveProcessorRecipe implements IAction {
 	public void apply() {
 		if (!wasNull && !wrongSize) {
 			boolean removed = recipeType.getRecipeHandler().removeRecipe(recipe);
-			if (removed) return;
+			if (removed) {
+				while (removed) {
+					recipe = type == SorptionType.INPUT ? recipeType.getRecipeHandler().getRecipeFromIngredients(itemIngredients, fluidIngredients) : recipeType.getRecipeHandler().getRecipeFromProducts(itemIngredients, fluidIngredients);
+					removed = recipeType.getRecipeHandler().removeRecipe(recipe);
+				}
+				return;
+			}
 		}
 		callError();
 	}
@@ -73,7 +79,8 @@ public class RemoveProcessorRecipe implements IAction {
 		if (wasNull || wrongSize) {
 			return String.format("Error: Failed to remove %s recipe with %s as the " + (type == SorptionType.INPUT ? "input" : "output"), recipeType.getRecipeName(), RecipeHelper.getAllIngredientNamesConcat(itemIngredients, fluidIngredients));
 		}
-		return String.format("Removing %s recipe: %s", recipeType.getRecipeName(), RecipeHelper.getRecipeString(recipe));
+		if (type == SorptionType.INPUT) return String.format("Removing %s recipe: %s", recipeType.getRecipeName(), RecipeHelper.getRecipeString(recipe));
+		else return String.format("Removing %s recipes for: %s", recipeType.getRecipeName(), RecipeHelper.getAllIngredientNamesConcat(itemIngredients, fluidIngredients));
 	}
 	
 	public static void callError() {

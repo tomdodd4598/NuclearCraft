@@ -15,6 +15,7 @@ import nc.tile.generator.TileRTG;
 import nc.tile.generator.TileSolarPanel;
 import nc.tile.passive.TilePassive;
 import nc.tile.processor.TileProcessor;
+import nc.tile.radiation.TileScrubber;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.tileentity.TileEntity;
@@ -282,7 +283,9 @@ public class BlockEnums {
 		
 		NITROGEN_COLLECTOR("nitrogen_collector", NCTabs.MACHINES),
 		NITROGEN_COLLECTOR_COMPACT("nitrogen_collector_compact", NCTabs.MACHINES),
-		NITROGEN_COLLECTOR_DENSE("nitrogen_collector_dense", NCTabs.MACHINES);
+		NITROGEN_COLLECTOR_DENSE("nitrogen_collector_dense", NCTabs.MACHINES),
+		
+		RADIATION_SCRUBBER("radiation_scrubber", NCTabs.RADIATION);
 		
 		private String name;
 		private CreativeTabs tab;
@@ -362,6 +365,9 @@ public class BlockEnums {
 				return new TilePassive.NitrogenCollectorCompact();
 			case NITROGEN_COLLECTOR_DENSE:
 				return new TilePassive.NitrogenCollectorDense();
+				
+			case RADIATION_SCRUBBER:
+				return new TileScrubber();
 			
 			default:
 				return null;

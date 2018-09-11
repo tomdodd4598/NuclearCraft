@@ -15,7 +15,8 @@ public abstract class CuboidalMultiblockTileBase<T extends MultiblockBase> exten
 	private PartPosition position;
 	private BlockFacings outwardFacings;
 	
-	public CuboidalMultiblockTileBase() {
+	public CuboidalMultiblockTileBase(Class<T> tClass) {
+		super(tClass);
 		
 		position = PartPosition.Unknown;
 		outwardFacings = BlockFacings.NONE;

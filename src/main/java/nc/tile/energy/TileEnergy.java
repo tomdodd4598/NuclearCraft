@@ -27,7 +27,7 @@ import net.minecraftforge.fml.common.Optional;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "ic2.api.energy.tile.IEnergyTile", modid = "ic2"), @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "ic2"), @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySource", modid = "ic2")})
 public abstract class TileEnergy extends NCTile implements ITileEnergy, IEnergyTile, IEnergySink, IEnergySource {
-
+	
 	private EnergyConnection[] energyConnections;
 	protected boolean configurableEnergyConnections;
 	private EnergyTileWrapper[] energySides;
@@ -67,7 +67,7 @@ public abstract class TileEnergy extends NCTile implements ITileEnergy, IEnergyT
 	public void validate() {
 		super.validate();
 	}*/
-
+	
 	@Override
 	public void invalidate() {
 		super.invalidate();
@@ -88,19 +88,19 @@ public abstract class TileEnergy extends NCTile implements ITileEnergy, IEnergyT
 	}
 	
 	// IC2 Energy
-
+	
 	@Override
 	@Optional.Method(modid = "ic2")
 	public boolean acceptsEnergyFrom(IEnergyEmitter emitter, EnumFacing side) {
 		return getEnergyConnection(side).canReceive();
 	}
-
+	
 	@Override
 	@Optional.Method(modid = "ic2")
 	public boolean emitsEnergyTo(IEnergyAcceptor receiver, EnumFacing side) {
 		return getEnergyConnection(side).canExtract();
 	}
-
+	
 	@Override
 	@Optional.Method(modid = "ic2")
 	public double getOfferedEnergy() {
@@ -119,7 +119,7 @@ public abstract class TileEnergy extends NCTile implements ITileEnergy, IEnergyT
 	public void drawEnergy(double amount) {
 		getEnergyStorage().extractEnergy((int) (NCConfig.rf_per_eu * amount), false);
 	}
-
+	
 	@Override
 	@Optional.Method(modid = "ic2")
 	public double injectEnergy(EnumFacing directionFrom, double amount, double voltage) {
@@ -133,7 +133,7 @@ public abstract class TileEnergy extends NCTile implements ITileEnergy, IEnergyT
 	public int getSourceTier() {
 		return getEUSourceTier();
 	}
-
+	
 	@Override
 	@Optional.Method(modid = "ic2")
 	public int getSinkTier() {
@@ -142,7 +142,7 @@ public abstract class TileEnergy extends NCTile implements ITileEnergy, IEnergyT
 	
 	@Override
 	public abstract int getEUSourceTier();
-
+	
 	@Override
 	public abstract int getEUSinkTier();
 	

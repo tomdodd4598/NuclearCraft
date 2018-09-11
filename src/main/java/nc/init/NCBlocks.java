@@ -22,6 +22,7 @@ import nc.block.tile.generator.BlockFissionControllerNewFixed;
 import nc.block.tile.generator.BlockFusionCore;
 import nc.block.tile.processor.BlockNuclearFurnace;
 import nc.block.tile.processor.BlockProcessor;
+import nc.block.tile.radiation.BlockScrubber;
 import nc.config.NCConfig;
 import nc.enumm.BlockEnums.ActivatableTileType;
 import nc.enumm.BlockEnums.FusionDummyTileType;
@@ -189,6 +190,8 @@ public class NCBlocks {
 	public static Block nitrogen_collector_compact;
 	public static Block nitrogen_collector_dense;
 	
+	public static Block radiation_scrubber;
+	
 	public static Block glowing_mushroom;
 	public static Block dry_earth;
 	
@@ -333,6 +336,8 @@ public class NCBlocks {
 			nitrogen_collector_compact = new BlockSimpleTile(SimpleTileType.NITROGEN_COLLECTOR_COMPACT);
 			nitrogen_collector_dense = new BlockSimpleTile(SimpleTileType.NITROGEN_COLLECTOR_DENSE);
 		}
+		
+		radiation_scrubber = new BlockScrubber();
 		
 		glowing_mushroom = new NCBlockMushroom("glowing_mushroom", 0.000000001D);
 		dry_earth = new NCBlock("dry_earth", Material.ROCK, true).setCreativeTab(NCTabs.BASE_BLOCK_MATERIALS);
@@ -479,6 +484,8 @@ public class NCBlocks {
 			registerBlock(nitrogen_collector_compact, InfoHelper.formattedInfo(infoLine("nitrogen_collector"), UnitHelper.ratePrefix(NCConfig.processor_passive_rate[3]*8, 5, "B", -1)));
 			registerBlock(nitrogen_collector_dense, InfoHelper.formattedInfo(infoLine("nitrogen_collector"), UnitHelper.ratePrefix(NCConfig.processor_passive_rate[3]*64, 5, "B", -1)));
 		}
+		
+		registerBlock(radiation_scrubber);
 		
 		registerBlock(glowing_mushroom);
 		registerBlock(dry_earth);
@@ -637,6 +644,8 @@ public class NCBlocks {
 			registerRender(nitrogen_collector_compact);
 			registerRender(nitrogen_collector_dense);
 		}
+		
+		registerRender(radiation_scrubber);
 		
 		registerRender(glowing_mushroom);
 		registerRender(dry_earth);

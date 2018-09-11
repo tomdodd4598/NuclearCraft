@@ -33,5 +33,4 @@ public class EntityRadsProvider implements ICapabilitySerializable {
 	public void deserializeNBT(NBTBase nbt) {
 		IEntityRads.CAPABILITY_ENTITY_RADS.readNBT(entityRads, null, nbt);
 	}
-
 }

@@ -13,7 +13,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BlockSimpleTile extends BlockInventory {
+public class BlockSimpleTile extends BlockTile {
 	
 	private final SimpleTileType type;
 

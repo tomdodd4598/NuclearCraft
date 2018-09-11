@@ -134,4 +134,8 @@ public class NCMath {
 	public static int lowestCommonMultiple(int a, int b) {
 		return Math.abs(a*b)/highestCommonFactor(a, b);
 	}
+	
+	public static int hollowCube(int length) {
+		return cube(length) - cube(length - 2);
+	}
 }

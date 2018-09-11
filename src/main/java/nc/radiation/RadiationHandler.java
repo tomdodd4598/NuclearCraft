@@ -12,6 +12,7 @@ import nc.config.NCConfig;
 import nc.handler.SoundHandler;
 import nc.network.PacketHandler;
 import nc.network.PlayerRadsUpdatePacket;
+import nc.tile.radiation.IRadiationEnvironmentHandler;
 import nc.util.Lang;
 import nc.util.RadiationHelper;
 import net.minecraft.entity.Entity;
@@ -135,6 +136,7 @@ public class RadiationHandler {
 		for (TileEntity tile : Lists.newArrayList(world.loadedTileEntityList)) {
 			Chunk chunk = world.getChunkFromChunkCoords(tile.getPos().getX() >> 4, tile.getPos().getZ() >> 4);
 			RadiationHelper.transferRadiationFromSourceToChunkBuffer(tile, chunk);
+			if (tile instanceof IRadiationEnvironmentHandler) RadiationHelper.addToChunkBuffer(chunk, ((IRadiationEnvironmentHandler)tile).getChunkBufferContribution());
 		}
 		
 		BiomeProvider biomeProvider = world.getBiomeProvider();
@@ -146,9 +148,10 @@ public class RadiationHandler {
 			Double biomeRadiation = RadBiomes.BIOME_MAP.get(chunk.getBiome(new BlockPos(8, 8, 8), biomeProvider));
 			if (biomeRadiation != null) RadiationHelper.addToChunkBuffer(chunkRadiation, biomeRadiation);
 			
-			double changeRate = chunkRadiation.getRadiationLevel() < chunkRadiation.getRadiationBuffer() ? NCConfig.radiation_spread_rate : NCConfig.radiation_decay_rate;
+			double changeRate = (chunkRadiation.getRadiationLevel() < chunkRadiation.getRadiationBuffer() || chunkRadiation.getRadiationBuffer() < 0D) ? NCConfig.radiation_spread_rate : NCConfig.radiation_decay_rate;
+			double buffer = Math.min(0D, chunkRadiation.getRadiationBuffer());
 			
-			chunkRadiation.setRadiationLevel(chunkRadiation.getRadiationLevel() + (chunkRadiation.getRadiationBuffer() - chunkRadiation.getRadiationLevel())*changeRate);
+			chunkRadiation.setRadiationLevel(chunkRadiation.getRadiationLevel() + (buffer - chunkRadiation.getRadiationLevel())*changeRate);
 			chunkRadiation.setRadiationBuffer(0D);
 		}
 		for (Chunk chunk : loadedChunks) RadiationHelper.spreadRadiationFromChunk(chunk, getRandomAdjacentChunk(chunkProvider, chunk));

@@ -2,6 +2,7 @@ package nc.recipe.vanilla;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import nc.Global;
@@ -246,6 +247,8 @@ public class CraftingRecipeHandler {
 		
 		addShapedOreRecipe(NCItems.rad_x, new Object[] {"EPE", "PRP", "PBP", 'E', "dustEnergetic", 'P', "bioplastic", 'R', NCItems.radaway, 'B', Items.BLAZE_POWDER});
 		
+		addShapedOreRecipe(NCBlocks.radiation_scrubber, new Object[] {"PCP", "CEC", "PCP", 'P', "plateElite", 'E', "ingotExtreme", 'C', "dustCalciumSulfate"});
+		
 		addShapedOreRecipe(new ItemStack(NCItems.rad_shielding, 1, 0), new Object[] {"III", "CCC", "LLL", 'I', "ingotIron", 'C', "coal", 'L', "ingotLead"});
 		addShapedOreRecipe(new ItemStack(NCItems.rad_shielding, 1, 1), new Object[] {"BBB", "RFR", "PPP", 'B', "bioplastic", 'F', "ingotFerroboron", 'P', "plateBasic", 'R', new ItemStack(NCItems.rad_shielding, 1, 0)});
 		addShapedOreRecipe(new ItemStack(NCItems.rad_shielding, 1, 2), new Object[] {"BBB", "RHR", "PPP", 'B', "ingotBeryllium", 'H', "ingotHardCarbon", 'P', "plateDU", 'R', new ItemStack(NCItems.rad_shielding, 1, 1)});
@@ -255,13 +258,19 @@ public class CraftingRecipeHandler {
 		addShapelessOreRecipe(NCItems.record_money_for_nothing, new Object[] {"record", "ingotBronze"});
 		addShapelessOreRecipe(NCItems.record_hyperspace, new Object[] {"record", "ingotZirconium"});
 		
+		List<Item> hazmatPieces = Arrays.asList(NCArmor.helm_hazmat, NCArmor.chest_hazmat, NCArmor.legs_hazmat, NCArmor.boots_hazmat);
 		for (Item item : ForgeRegistries.ITEMS.getValuesCollection()) {
-			if (item instanceof ItemArmor) {
-				addShapelessOreArmorUpgradingRecipe(RadiationHelper.armorWithRadResistance(item, NCConfig.radiation_shielding_level[0]), new Object[] {item, new ItemStack(NCItems.rad_shielding, 1, 0)});
-				addShapelessOreArmorUpgradingRecipe(RadiationHelper.armorWithRadResistance(item, NCConfig.radiation_shielding_level[1]), new Object[] {item, new ItemStack(NCItems.rad_shielding, 1, 1)});
-				addShapelessOreArmorUpgradingRecipe(RadiationHelper.armorWithRadResistance(item, NCConfig.radiation_shielding_level[2]), new Object[] {item, new ItemStack(NCItems.rad_shielding, 1, 2)});
+			if (item instanceof ItemArmor && !hazmatPieces.contains(item)) {
+				addShapelessArmorUpgradeOreRecipe(RadiationHelper.armorWithRadResistance(item, NCConfig.radiation_shielding_level[0]), new Object[] {item, new ItemStack(NCItems.rad_shielding, 1, 0)});
+				addShapelessArmorUpgradeOreRecipe(RadiationHelper.armorWithRadResistance(item, NCConfig.radiation_shielding_level[1]), new Object[] {item, new ItemStack(NCItems.rad_shielding, 1, 1)});
+				addShapelessArmorUpgradeOreRecipe(RadiationHelper.armorWithRadResistance(item, NCConfig.radiation_shielding_level[2]), new Object[] {item, new ItemStack(NCItems.rad_shielding, 1, 2)});
 			}
 		}
+		
+		addShapedOreRecipe(RadiationHelper.armorWithRadResistance(NCArmor.helm_hazmat, NCConfig.radiation_hazmat_shielding[0]), new Object[] {"YWY", "SLS", "BIB", 'Y', "dyeYellow", 'W', "wool", 'L', Items.LEATHER_HELMET, 'B', "bioplastic", 'I', "ingotSteel", 'S', new ItemStack(NCItems.rad_shielding, 1, 2)});
+		addShapedOreRecipe(RadiationHelper.armorWithRadResistance(NCArmor.chest_hazmat, NCConfig.radiation_hazmat_shielding[1]), new Object[] {"WSW", "YLY", "SWS", 'Y', "dyeYellow", 'W', "wool", 'L', Items.LEATHER_CHESTPLATE, 'S', new ItemStack(NCItems.rad_shielding, 1, 2)});
+		addShapedOreRecipe(RadiationHelper.armorWithRadResistance(NCArmor.legs_hazmat, NCConfig.radiation_hazmat_shielding[2]), new Object[] {"YBY", "SLS", "W W", 'Y', "dyeYellow", 'W', "wool", 'L', Items.LEATHER_LEGGINGS, 'B', "bioplastic", 'S', new ItemStack(NCItems.rad_shielding, 1, 2)});
+		addShapedOreRecipe(RadiationHelper.armorWithRadResistance(NCArmor.boots_hazmat, NCConfig.radiation_hazmat_shielding[3]), new Object[] {"SDS", "BLB", 'D', "dyeBlack", 'L', Items.LEATHER_BOOTS, 'B', "bioplastic", 'S', new ItemStack(NCItems.rad_shielding, 1, 2)});
 	}
 	
 	public static void fissionFuelRecipes(String element, String fuelLetter, Item fuelType, Item rodType, int fertileNo, int... fissileNo) {
@@ -368,7 +377,7 @@ public class CraftingRecipeHandler {
 		}
 	}
 	
-	public static void addShapelessOreArmorUpgradingRecipe(Object out, Object... inputs) {
+	public static void addShapelessArmorUpgradeOreRecipe(Object out, Object... inputs) {
 		if (out == null || Arrays.asList(inputs).contains(null)) return;
 		ItemStack outStack = ItemStackHelper.fixItemStack(out);
 		if (!outStack.isEmpty() && inputs != null) {
@@ -379,7 +388,7 @@ public class CraftingRecipeHandler {
 				outName = outName + "_" + count;	
 			} else RECIPE_COUNT_MAP.put(outName, 1);
 			ResourceLocation location = new ResourceLocation(Global.MOD_ID, outName);
-			ShapelessOreArmorUpgradingRecipe oreRecipe = new ShapelessOreArmorUpgradingRecipe(location, outStack, inputs);
+			ShapelessArmorUpgradeOreRecipe oreRecipe = new ShapelessArmorUpgradeOreRecipe(location, outStack, inputs);
 			oreRecipe.setRegistryName(location);
 			ForgeRegistries.RECIPES.register(oreRecipe);
 		}

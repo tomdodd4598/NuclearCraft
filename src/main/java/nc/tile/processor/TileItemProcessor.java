@@ -25,7 +25,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.MathHelper;
 
-public class TileItemProcessor extends TileEnergySidedInventory implements IItemProcessor, IInterfaceable, IBufferable, IGui {
+public class TileItemProcessor extends TileEnergySidedInventory implements IItemProcessor, IInterfaceable, IBufferable, IGui, IUpgradable {
 	
 	public final int[] slots;
 	
@@ -311,6 +311,21 @@ public class TileItemProcessor extends TileEnergySidedInventory implements IItem
 		List<ItemStack> inputItemsExcludingSlot = new ArrayList<ItemStack>(getItemInputs());
 		inputItemsExcludingSlot.remove(slot);
 		return inputItemsExcludingSlot;
+	}
+	
+	@Override
+	public boolean hasUpgrades() {
+		return hasUpgrades;
+	}
+	
+	@Override
+	public int getSpeedUpgradeSlot() {
+		return itemInputSize + itemOutputSize;
+	}
+	
+	@Override
+	public int getUpgradeMeta() {
+		return upgradeMeta;
 	}
 	
 	// SidedInventory

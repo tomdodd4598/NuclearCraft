@@ -5,7 +5,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class BlockSimpleSidedTile extends BlockSidedInventory {
+public class BlockSimpleSidedTile extends BlockSidedTile {
 	
 	private final SimpleTileType type;
 

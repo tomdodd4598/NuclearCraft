@@ -3,7 +3,7 @@ package nc.block.tile.dummy;
 import javax.annotation.Nullable;
 
 import nc.NuclearCraft;
-import nc.block.tile.BlockInventory;
+import nc.block.tile.BlockTile;
 import nc.block.tile.generator.BlockFusionCore;
 import nc.config.NCConfig;
 import nc.enumm.BlockEnums.FusionDummyTileType;
@@ -29,7 +29,7 @@ import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BlockFusionDummy extends BlockInventory {
+public class BlockFusionDummy extends BlockTile {
 	
 	private final FusionDummyTileType type;
 	

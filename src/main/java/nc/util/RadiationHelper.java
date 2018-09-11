@@ -24,11 +24,11 @@ public class RadiationHelper {
 	
 	// Block -> Chunk
 	
-	public static void transferRadiationFromBlockToChunk(Chunk chunk, double addedRadiation) {
+	public static void addToChunkBuffer(Chunk chunk, double addedRadiation) {
 		if (chunk == null || !chunk.hasCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null)) return;
 		IRadiationSource chunkRadiation = chunk.getCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null);
 		if (chunkRadiation == null) return;
-		chunkRadiation.setRadiationLevel(chunkRadiation.getRadiationLevel() + addedRadiation);
+		chunkRadiation.setRadiationBuffer(chunkRadiation.getRadiationLevel() + addedRadiation);
 	}
 	
 	// ItemStack -> ChunkBuffer
@@ -229,12 +229,12 @@ public class RadiationHelper {
 	
 	public static TextFormatting getRadsTextColor(IEntityRads playerRads) {
 		int radsPercent = playerRads.getRadsPercentage();
-		return radsPercent < 10 ? TextFormatting.WHITE : (radsPercent < 40 ? TextFormatting.YELLOW : (radsPercent < 70 ? TextFormatting.RED : TextFormatting.DARK_RED));
+		return radsPercent < 30 ? TextFormatting.WHITE : (radsPercent < 55 ? TextFormatting.YELLOW : (radsPercent < 80 ? TextFormatting.RED : TextFormatting.DARK_RED));
 	}
 	
 	public static TextFormatting getRadiationTextColor(IRadiation irradiated) {
-		if (irradiated.isRadiationNegligible()) return TextFormatting.WHITE;
 		double radiation = irradiated.getRadiationLevel();
-		return radiation < 0.001D ? TextFormatting.YELLOW : (radiation < 1D ? TextFormatting.RED : TextFormatting.DARK_RED);
+		if (radiation < 0.000000001D) return TextFormatting.WHITE;
+		return radiation < 0.01D ? TextFormatting.YELLOW : (radiation < 1D ? TextFormatting.RED : TextFormatting.DARK_RED);
 	}
 }

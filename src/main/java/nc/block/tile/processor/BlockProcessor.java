@@ -2,7 +2,7 @@ package nc.block.tile.processor;
 
 import java.util.Random;
 
-import nc.block.tile.BlockSidedInventory;
+import nc.block.tile.BlockSidedTile;
 import nc.block.tile.IActivatable;
 import nc.enumm.BlockEnums.ProcessorType;
 import nc.util.BlockHelper;
@@ -16,7 +16,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BlockProcessor extends BlockSidedInventory implements IActivatable {
+public class BlockProcessor extends BlockSidedTile implements IActivatable {
 	
 	public final boolean isActive;
 	protected final ProcessorType type;

@@ -44,6 +44,6 @@ public class RadiationSource implements IRadiationSource {
 	
 	@Override
 	public void setRadiationBuffer(double newBuffer) {
-		radiationBuffer = Math.max(newBuffer, 0D);
+		radiationBuffer = newBuffer;
 	}
 }

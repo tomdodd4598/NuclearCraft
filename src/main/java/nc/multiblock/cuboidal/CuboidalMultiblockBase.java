@@ -4,7 +4,6 @@ import nc.multiblock.MultiblockBase;
 import nc.multiblock.network.MultiblockUpdatePacket;
 import nc.multiblock.validation.IMultiblockValidator;
 import nc.multiblock.validation.ValidationError;
-import nc.util.NCMath;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -162,10 +161,6 @@ public abstract class CuboidalMultiblockBase<PACKET extends MultiblockUpdatePack
 		}
 
 		return true;
-	}
-	
-	protected int getHollowCubeNumberOfBlocks(int exteriorSize) {
-		return NCMath.cube(exteriorSize) - NCMath.cube(exteriorSize - 2);
 	}
 	
 	public int getExteriorLengthX() {

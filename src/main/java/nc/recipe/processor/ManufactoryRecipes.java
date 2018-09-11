@@ -50,7 +50,7 @@ public class ManufactoryRecipes extends ProcessorRecipeHandler {
 		addRecipe("cropBarley", "dustBarley", 0.25D, 0.5D);
 		addRecipe("bone", new ItemStack(Items.DYE, 6, 15), 0.5D, 1D);
 		addRecipe(NCItems.roasted_cocoa_beans, NCItems.ground_cocoa_nibs, 0.5D, 0.5D);
-		addRecipe(Lists.newArrayList(Items.PORKCHOP, "fish"), NCItems.gelatin, 0.5D, 0.5D);
+		addRecipe(Lists.newArrayList(Items.PORKCHOP, Items.FISH, new ItemStack(Items.FISH, 1, 1), new ItemStack(Items.FISH, 1, 2), new ItemStack(Items.FISH, 1, 3)), NCItems.gelatin, 0.5D, 0.5D);
 		
 		// Immersive Engineering
 		addRecipe(oreStack("dustCoke", 8), "dustHOPGraphite", 2D, 2D);
@@ -61,21 +61,23 @@ public class ManufactoryRecipes extends ProcessorRecipeHandler {
 		addRecipe("sandstone", oreStack("dustSaltpeter", 2), 1D, 1D);
 		
 		// Advanced Rocketry
-		addRecipe("oreDilithium", oreStack("dustDilithium", 2), 1.25D, 1D);
-		addRecipe("ingotDilithium", "dustDilithium", 1D, 1D);
+		if (NCConfig.ore_processing) {
+			addRecipe("oreDilithium", oreStack("dustDilithium", 2), 1.25D, 1D);
+			addRecipe("ingotDilithium", "dustDilithium", 1D, 1D);
+		}
 		
 		// AE2
 		addRecipe(Items.ENDER_PEARL, oreStackList(Lists.newArrayList("dustEnder", "dustEnderPearl"), 2), 0.5D, 1D);
 		
-		if (NCConfig.ore_processing) addOreProcessingRecipes();
+		if (NCConfig.ore_processing) addMetalProcessingRecipes();
 	}
 	
-	public void addOreProcessingRecipes() {
-		for (String ore : OreDictionary.getOreNames()) {
-			if (ore.startsWith("ore")) {
-				String dust = "dust" + ore.substring(3);
-				String ingot = "ingot" + ore.substring(3);
-				if (OreDictHelper.oreExists(dust) && OreDictHelper.oreExists(ingot)) {
+	public void addMetalProcessingRecipes() {
+		for (String ingot : OreDictionary.getOreNames()) {
+			if (ingot.startsWith("ingot")) {
+				String ore = "ore" + ingot.substring(5);
+				String dust = "dust" + ingot.substring(5);
+				if (OreDictHelper.oreExists(dust)) {
 					addRecipe(ore, oreStack(dust, 2), 1.25D, 1D);
 					addRecipe(ingot, dust, 1D, 1D);
 				}

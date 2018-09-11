@@ -13,17 +13,9 @@ public abstract class TileCuboidalMultiblockPartBase<T extends MultiblockBase> e
 	
 	protected final CuboidalPartPositionType positionType;
 	
-	protected final Class<T> tClass;
-	
 	public TileCuboidalMultiblockPartBase(Class<T> tClass, CuboidalPartPositionType positionType) {
-		super();
-		this.tClass = tClass;
+		super(tClass);
 		this.positionType = positionType;
-	}
-
-	@Override
-	public Class<T> getMultiblockType() {
-		return tClass;
 	}
 	
 	public boolean isMultiblockAssembled() {

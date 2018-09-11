@@ -1,6 +1,6 @@
 package nc.block.tile.generator;
 
-import nc.block.tile.BlockInventory;
+import nc.block.tile.BlockTile;
 import nc.block.tile.IActivatable;
 import nc.config.NCConfig;
 import nc.init.NCBlocks;
@@ -18,7 +18,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockFusionCore extends BlockInventory implements IActivatable {
+public class BlockFusionCore extends BlockTile implements IActivatable {
 	
 	public BlockFusionCore() {
 		super("fusion_core", Material.IRON);

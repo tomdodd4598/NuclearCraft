@@ -7,6 +7,7 @@ import nc.handler.CapabilityHandler;
 import nc.handler.DropHandler;
 import nc.handler.DungeonLootHandler;
 import nc.handler.OreDictHandler;
+import nc.handler.PlayerRespawnHandler;
 import nc.handler.SoundHandler;
 import nc.init.NCArmor;
 import nc.init.NCBlocks;
@@ -26,6 +27,7 @@ import nc.network.PacketHandler;
 import nc.radiation.RadBiomes;
 import nc.radiation.RadSources;
 import nc.radiation.RadiationHandler;
+import nc.radiation.environment.RadiationEnvironmentHandler;
 import nc.recipe.NCRecipes;
 import nc.recipe.vanilla.CraftingRecipeHandler;
 import nc.recipe.vanilla.FurnaceFuelHandler;
@@ -106,8 +108,10 @@ public class CommonProxy {
 			RadSources.init();
 			MinecraftForge.EVENT_BUS.register(new CapabilityHandler());
 			MinecraftForge.EVENT_BUS.register(new RadiationHandler());
+			MinecraftForge.EVENT_BUS.register(new RadiationEnvironmentHandler());
 			RadBiomes.init();
 		}
+		MinecraftForge.EVENT_BUS.register(new PlayerRespawnHandler());
 	}
 	
 	// Packets

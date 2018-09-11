@@ -25,6 +25,13 @@ public class TConstructMaterials {
 	}
 	
 	private static void registerMaterial(String materialName, String oreSuffix, String repairItem, String fluidName, boolean casted, ITrait headTrait, ITrait extraTrait, int colorLow, int colorMed, int colorHigh, boolean transparent, int toolNumber) {
+		for (MaterialIntegration matInteg : TinkerRegistry.getMaterialIntegrations()) {
+			if (matInteg != null && matInteg.material != null) {
+				if (matInteg.material.getIdentifier() == materialName) return;
+			}
+		}
+		if (TinkerRegistry.getMaterial(materialName) != Material.UNKNOWN) return;
+		
 		Material material = new Material(materialName, colorMed);
 		material.addTrait(headTrait);
 		material.addTrait(extraTrait, MaterialTypes.HANDLE);

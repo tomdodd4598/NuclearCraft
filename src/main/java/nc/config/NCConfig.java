@@ -193,8 +193,12 @@ public class NCConfig {
 	public static double radiation_rad_x_amount;
 	public static double radiation_rad_x_lifetime;
 	public static double[] radiation_shielding_level;
+	public static double[] radiation_hazmat_shielding;
+	public static double radiation_scrubber_rate;
 	
 	public static boolean radiation_hardcore_stacks;
+	public static boolean radiation_death_persist;
+	public static double radiation_death_persist_fraction;
 	
 	public static double radiation_hud_size;
 	public static double radiation_hud_position;
@@ -550,9 +554,18 @@ public class NCConfig {
 		propertyRadiationRadXLifetime.setLanguageKey("gui.config.radiation.radiation_rad_x_lifetime");
 		Property propertyRadiationShieldingLevel = config.get(CATEGORY_RADIATION, "radiation_shielding_level", new double[] {0.0001D, 0.01D, 1D}, Lang.localise("gui.config.radiation.radiation_shielding_level.comment"), 0.000000000000000001D, 1000D);
 		propertyRadiationShieldingLevel.setLanguageKey("gui.config.radiation.radiation_shielding_level");
+		Property propertyRadiationHazmatShielding = config.get(CATEGORY_RADIATION, "radiation_hazmat_shielding", new double[] {2D, 3D, 2D, 2D}, Lang.localise("gui.config.radiation.radiation_hazmat_shielding.comment"), 0.000000000000000001D, 1000D);
+		propertyRadiationHazmatShielding.setLanguageKey("gui.config.radiation.radiation_hazmat_shielding");
+		Property propertyRadiationScrubberRate = config.get(CATEGORY_RADIATION, "radiation_scrubber_rate", 0.025D, Lang.localise("gui.config.radiation.radiation_scrubber_rate.comment"), 0.001D, 100D);
+		propertyRadiationScrubberRate.setLanguageKey("gui.config.radiation.radiation_scrubber_rate");
 		
 		Property propertyRadiationHardcoreStacks = config.get(CATEGORY_RADIATION, "radiation_hardcore_stacks", true, Lang.localise("gui.config.radiation.radiation_hardcore_stacks.comment"));
 		propertyRadiationHardcoreStacks.setLanguageKey("gui.config.radiation.radiation_hardcore_stacks");
+		Property propertyRadiationDeathPersist = config.get(CATEGORY_RADIATION, "radiation_death_persist", false, Lang.localise("gui.config.radiation.radiation_death_persist.comment"));
+		propertyRadiationDeathPersist.setLanguageKey("gui.config.radiation.radiation_death_persist");
+		
+		Property propertyRadiationDeathPersistFraction = config.get(CATEGORY_RADIATION, "radiation_death_persist_fraction", 1D, Lang.localise("gui.config.radiation.radiation_death_persist_fraction.comment"), 0D, 1D);
+		propertyRadiationDeathPersistFraction.setLanguageKey("gui.config.radiation.radiation_death_persist_fraction");
 		
 		Property propertyRadiationHUDSize = config.get(CATEGORY_RADIATION, "radiation_hud_size", 1D, Lang.localise("gui.config.radiation.radiation_hud_size.comment"), 0.1D, 10D);
 		propertyRadiationHUDSize.setLanguageKey("gui.config.radiation.radiation_hud_size");
@@ -799,7 +812,11 @@ public class NCConfig {
 		propertyOrderRadiation.add(propertyRadiationRadXAmount.getName());
 		propertyOrderRadiation.add(propertyRadiationRadXLifetime.getName());
 		propertyOrderRadiation.add(propertyRadiationShieldingLevel.getName());
+		propertyOrderRadiation.add(propertyRadiationHazmatShielding.getName());
+		propertyOrderRadiation.add(propertyRadiationScrubberRate.getName());
 		propertyOrderRadiation.add(propertyRadiationHardcoreStacks.getName());
+		propertyOrderRadiation.add(propertyRadiationDeathPersist.getName());
+		propertyOrderRadiation.add(propertyRadiationDeathPersistFraction.getName());
 		propertyOrderRadiation.add(propertyRadiationHUDSize.getName());
 		propertyOrderRadiation.add(propertyRadiationHUDPosition.getName());
 		propertyOrderRadiation.add(propertyRadiationHUDPositionCartesian.getName());
@@ -989,8 +1006,12 @@ public class NCConfig {
 			radiation_rad_x_amount = propertyRadiationRadXAmount.getDouble();
 			radiation_rad_x_lifetime = propertyRadiationRadXLifetime.getDouble();
 			radiation_shielding_level = readDoubleArrayFromConfig(propertyRadiationShieldingLevel);
+			radiation_hazmat_shielding = readDoubleArrayFromConfig(propertyRadiationHazmatShielding);
+			radiation_scrubber_rate = propertyRadiationScrubberRate.getDouble();
 			
 			radiation_hardcore_stacks = propertyRadiationHardcoreStacks.getBoolean();
+			radiation_death_persist = propertyRadiationDeathPersist.getBoolean();
+			radiation_death_persist_fraction = propertyRadiationDeathPersistFraction.getDouble();
 			
 			radiation_hud_size = propertyRadiationHUDSize.getDouble();
 			radiation_hud_position = propertyRadiationHUDPosition.getDouble();
@@ -1179,8 +1200,12 @@ public class NCConfig {
 		propertyRadiationRadXAmount.set(radiation_rad_x_amount);
 		propertyRadiationRadXLifetime.set(radiation_rad_x_lifetime);
 		propertyRadiationShieldingLevel.set(radiation_shielding_level);
+		propertyRadiationHazmatShielding.set(radiation_hazmat_shielding);
+		propertyRadiationScrubberRate.set(radiation_scrubber_rate);
 		
 		propertyRadiationHardcoreStacks.set(radiation_hardcore_stacks);
+		propertyRadiationDeathPersist.set(radiation_death_persist);
+		propertyRadiationDeathPersistFraction.set(radiation_death_persist_fraction);
 		
 		propertyRadiationHUDSize.set(radiation_hud_size);
 		propertyRadiationHUDPosition.set(radiation_hud_position);

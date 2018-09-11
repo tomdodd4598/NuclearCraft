@@ -3,6 +3,7 @@ package nc.handler;
 import nc.init.NCBlocks;
 import nc.init.NCItems;
 import nc.worldgen.ore.OreGenerator;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
@@ -545,6 +546,8 @@ public class OreDictHandler {
 		// Vanilla
 		OreDictionary.registerOre("coal", Items.COAL);
 		OreDictionary.registerOre("charcoal", new ItemStack(Items.COAL, 1, 1));
+		OreDictionary.registerOre("wool", new ItemStack(Blocks.WOOL, 1, OreDictionary.WILDCARD_VALUE));
+		
 	}
 
 }

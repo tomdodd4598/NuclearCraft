@@ -9,14 +9,6 @@ import nc.multiblock.heatExchanger.tile.TileHeatExchangerController;
 import nc.multiblock.heatExchanger.tile.TileHeatExchangerFrame;
 import nc.multiblock.heatExchanger.tile.TileHeatExchangerGlass;
 import nc.multiblock.heatExchanger.tile.TileHeatExchangerWall;
-import nc.multiblock.highTurbine.tile.TileHighTurbineController;
-import nc.multiblock.highTurbine.tile.TileHighTurbineFrame;
-import nc.multiblock.highTurbine.tile.TileHighTurbineGlass;
-import nc.multiblock.highTurbine.tile.TileHighTurbineWall;
-import nc.multiblock.lowTurbine.tile.TileLowTurbineController;
-import nc.multiblock.lowTurbine.tile.TileLowTurbineFrame;
-import nc.multiblock.lowTurbine.tile.TileLowTurbineGlass;
-import nc.multiblock.lowTurbine.tile.TileLowTurbineWall;
 import nc.multiblock.saltFission.tile.TileSaltFissionBeam;
 import nc.multiblock.saltFission.tile.TileSaltFissionController;
 import nc.multiblock.saltFission.tile.TileSaltFissionFrame;
@@ -26,6 +18,14 @@ import nc.multiblock.saltFission.tile.TileSaltFissionModerator;
 import nc.multiblock.saltFission.tile.TileSaltFissionVent;
 import nc.multiblock.saltFission.tile.TileSaltFissionVessel;
 import nc.multiblock.saltFission.tile.TileSaltFissionWall;
+import nc.multiblock.turbine.high.tile.TileHighTurbineController;
+import nc.multiblock.turbine.high.tile.TileHighTurbineFrame;
+import nc.multiblock.turbine.high.tile.TileHighTurbineGlass;
+import nc.multiblock.turbine.high.tile.TileHighTurbineWall;
+import nc.multiblock.turbine.low.tile.TileLowTurbineController;
+import nc.multiblock.turbine.low.tile.TileLowTurbineFrame;
+import nc.multiblock.turbine.low.tile.TileLowTurbineGlass;
+import nc.multiblock.turbine.low.tile.TileLowTurbineWall;
 import nc.tile.dummy.TileFissionPort;
 import nc.tile.dummy.TileFusionDummy;
 import nc.tile.dummy.TileMachineInterface;
@@ -41,6 +41,7 @@ import nc.tile.generator.TileSolarPanel;
 import nc.tile.passive.TilePassive;
 import nc.tile.processor.TileNuclearFurnace;
 import nc.tile.processor.TileProcessor;
+import nc.tile.radiation.TileScrubber;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class NCTiles {
@@ -144,6 +145,8 @@ public class NCTiles {
 		GameRegistry.registerTileEntity(TilePassive.NitrogenCollector.class, Global.MOD_ID + ":nitrogen_collector");
 		GameRegistry.registerTileEntity(TilePassive.NitrogenCollectorCompact.class, Global.MOD_ID + ":nitrogen_collector_compact");
 		GameRegistry.registerTileEntity(TilePassive.NitrogenCollectorDense.class, Global.MOD_ID + ":nitrogen_collector_dense");
+		
+		GameRegistry.registerTileEntity(TileScrubber.class, Global.MOD_ID + ":radiation_scrubber");
 		
 		//GameRegistry.registerTileEntity(TileSpin.class, Global.MOD_ID + ":spin");
 	}

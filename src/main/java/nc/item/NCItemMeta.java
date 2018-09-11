@@ -4,14 +4,18 @@ import java.util.List;
 
 import nc.Global;
 import nc.enumm.IItemMeta;
+import nc.init.NCItems;
 import nc.util.InfoHelper;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -53,5 +57,11 @@ public class NCItemMeta<T extends Enum<T> & IStringSerializable & IItemMeta> ext
 		if (info.length != 0 && info.length > meta) if (info[meta].length > 0) {
 			InfoHelper.infoFull(tooltip, info[meta]);
 		}
+	}
+	
+	// Allow upgrades to be right-clicked into machines
+	@Override
+	public boolean doesSneakBypassUse(ItemStack stack, IBlockAccess world, BlockPos pos, EntityPlayer player) {
+		return stack.getItem() == NCItems.upgrade;
 	}
 }

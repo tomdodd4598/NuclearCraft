@@ -27,7 +27,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fluids.FluidStack;
 
-public class TileFluidProcessor extends TileEnergyFluidSidedInventory implements IFluidProcessor, IInterfaceable, IBufferable, IGui {
+public class TileFluidProcessor extends TileEnergyFluidSidedInventory implements IFluidProcessor, IInterfaceable, IBufferable, IGui, IUpgradable {
 	
 	public final int[] slots;
 	
@@ -325,6 +325,21 @@ public class TileFluidProcessor extends TileEnergyFluidSidedInventory implements
 			}
 		}
 		return false;
+	}
+	
+	@Override
+	public boolean hasUpgrades() {
+		return hasUpgrades;
+	}
+	
+	@Override
+	public int getSpeedUpgradeSlot() {
+		return 0;
+	}
+	
+	@Override
+	public int getUpgradeMeta() {
+		return upgradeMeta;
 	}
 
 	// SidedInventory

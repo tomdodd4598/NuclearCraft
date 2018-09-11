@@ -27,7 +27,7 @@ public class NCBlockMushroom extends BlockMushroom {
 	
 	@Override
 	public void updateTick(World world, BlockPos pos, IBlockState state, Random rand) {
-		RadiationHelper.transferRadiationFromBlockToChunk(world.getChunkFromBlockCoords(pos), radiationRate);
+		RadiationHelper.addToChunkBuffer(world.getChunkFromBlockCoords(pos), radiationRate);
 		
 		if (NCConfig.mushroom_spread_rate <= 0) return;
 		

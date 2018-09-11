@@ -17,7 +17,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BlockActivatable extends BlockInventory implements IActivatable {
+public class BlockActivatable extends BlockTile implements IActivatable {
 	
 	protected final boolean isActive;
 	protected final ActivatableTileType type;

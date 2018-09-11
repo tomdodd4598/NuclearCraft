@@ -24,6 +24,7 @@ import nc.multiblock.saltFission.tile.TileSaltFissionVent;
 import nc.multiblock.saltFission.tile.TileSaltFissionVessel;
 import nc.multiblock.validation.IMultiblockValidator;
 import nc.tile.internal.HeatBuffer;
+import nc.util.NCMath;
 import nc.util.RegistryHelper;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
@@ -92,7 +93,7 @@ public class SaltFissionReactor extends CuboidalMultiblockBase<SaltFissionUpdate
 	
 	@Override
 	protected int getMinimumNumberOfBlocksForAssembledMachine() {
-		return getHollowCubeNumberOfBlocks(NCConfig.salt_fission_min_size + 2);
+		return NCMath.hollowCube(NCConfig.salt_fission_min_size + 2);
 	}
 	
 	@Override

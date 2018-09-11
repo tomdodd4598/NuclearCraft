@@ -17,20 +17,29 @@ import net.minecraftforge.fml.common.FMLLog;
  * should derive from this and implement their game logic in certain abstract methods.
  */
 public abstract class MultiblockTileBase<T extends MultiblockBase> extends TileBeefBase implements IMultiblockPart<T> {
+	
 	private T multiblock;
+	protected final Class<T> tClass;
+	
 	private boolean visited;
 	
 	private boolean saveMultiblockData;
 	private NBTTagCompound cachedMultiblockData;
 	private boolean paused;
 
-	public MultiblockTileBase() {
+	public MultiblockTileBase(Class<T> tClass) {
 		super();
 		multiblock = null;
+		this.tClass = tClass;
 		visited = false;
 		saveMultiblockData = false;
 		paused = false;
 		cachedMultiblockData = null;
+	}
+	
+	@Override
+	public Class<T> getMultiblockType() {
+		return tClass;
 	}
 
 	///// Multiblock Connection Base Logic
@@ -44,7 +53,7 @@ public abstract class MultiblockTileBase<T extends MultiblockBase> extends TileB
 		for(IMultiblockPart<T> neighborPart : partsToCheck) {
 			if(neighborPart.isConnected()) {
 				T candidate = neighborPart.getMultiblock();
-				if(!candidate.getClass().equals(this.getMultiblockType())) {
+				if(!candidate.getClass().equals(getMultiblockType())) {
 					// Skip multiblocks with incompatible types
 					continue;
 				}

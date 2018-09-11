@@ -312,7 +312,6 @@ ________________________________________________________________________________
  High Pressure Turbine:
 >----------------------<
 
-mods.nuclearcraft.high_turbine.addRecipe([fluidInput, fluidOutput, {timeMultiplier (double)}]);
 mods.nuclearcraft.high_turbine.addRecipe([fluidInput, fluidOutput, {timeMultiplier (double), powerMultiplier (double)}]);
 
 mods.nuclearcraft.high_turbine.removeRecipeWithInput([fluidInput]);
@@ -322,7 +321,6 @@ ________________________________________________________________________________
  Low Pressure Turbine:
 >---------------------<
 
-mods.nuclearcraft.low_turbine.addRecipe([fluidInput, fluidOutput, {timeMultiplier (double)}]);
 mods.nuclearcraft.low_turbine.addRecipe([fluidInput, fluidOutput, {timeMultiplier (double), powerMultiplier (double)}]);
 
 mods.nuclearcraft.low_turbine.removeRecipeWithInput([fluidInput]);
