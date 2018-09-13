@@ -48,15 +48,7 @@ public class RadiationHandler {
 	@SubscribeEvent
 	public void updatePlayerRadiation(PlayerTickEvent event) {
 		if (!NCConfig.radiation_require_counter && event.phase == Phase.START && event.side == Side.CLIENT) {
-			EntityPlayer player = event.player;
-			if (player.hasCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null)) {
-				IEntityRads entityRads = player.getCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null);
-				if (entityRads == null) return;
-				if (!entityRads.isRadiationUndetectable()) {
-					double soundChance = Math.cbrt(entityRads.getRadiationLevel()/200D);
-					for (int i = 0; i < 2; i++) if (rand.nextDouble() < soundChance) player.playSound(SoundHandler.geiger_tick, 0.6F + rand.nextFloat()*0.2F, 0.92F + rand.nextFloat()*0.16F);
-				}
-			}
+			playGeigerSound(event.player);
 		}
 		
 		if (event.phase != Phase.START || (event.player.world.getTotalWorldTime() % 5) != 0) return;
@@ -149,7 +141,7 @@ public class RadiationHandler {
 			if (biomeRadiation != null) RadiationHelper.addToChunkBuffer(chunkRadiation, biomeRadiation);
 			
 			double changeRate = (chunkRadiation.getRadiationLevel() < chunkRadiation.getRadiationBuffer() || chunkRadiation.getRadiationBuffer() < 0D) ? NCConfig.radiation_spread_rate : NCConfig.radiation_decay_rate;
-			double buffer = Math.min(0D, chunkRadiation.getRadiationBuffer());
+			double buffer = Math.max(0D, chunkRadiation.getRadiationBuffer());
 			
 			chunkRadiation.setRadiationLevel(chunkRadiation.getRadiationLevel() + (buffer - chunkRadiation.getRadiationLevel())*changeRate);
 			chunkRadiation.setRadiationBuffer(0D);
@@ -171,5 +163,16 @@ public class RadiationHandler {
 			}
 		}
 		return null;
+	}
+	
+	private void playGeigerSound(EntityPlayer player) {
+		if (player.hasCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null)) {
+			IEntityRads entityRads = player.getCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null);
+			if (entityRads == null) return;
+			if (!entityRads.isRadiationUndetectable()) {
+				double soundChance = Math.cbrt(entityRads.getRadiationLevel()/200D);
+				for (int i = 0; i < 2; i++) if (rand.nextDouble() < soundChance) player.playSound(SoundHandler.geiger_tick, 0.6F + rand.nextFloat()*0.2F, 0.92F + rand.nextFloat()*0.16F);
+			}
+		}
 	}
 }

@@ -29,7 +29,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 
-public abstract class IRecipeHandler<T extends IRecipe> {
+public abstract class AbstractRecipeHandler<T extends IRecipe> {
 	
 	public List<T> recipes = new ArrayList<T>();
 	public List<Class<?>> validItemInputs = Lists.newArrayList(IItemIngredient.class, ArrayList.class, String.class, Item.class, Block.class, ItemStack.class, ItemStack[].class);
@@ -42,7 +42,7 @@ public abstract class IRecipeHandler<T extends IRecipe> {
 	
 	public static final List<Integer> INVALID = Lists.newArrayList(-1);
 	
-	public IRecipeHandler() {}
+	public AbstractRecipeHandler() {}
 	
 	public abstract void addRecipes();
 	

@@ -278,7 +278,7 @@ tile.nuclearcraft.nitrogen_collector_dense.name=Dense Nitrogen Collector
 tile.nuclearcraft.nitrogen_collector.desc=Produces %s of nitrogen constantly.
 
 tile.nuclearcraft.radiation_scrubber.name=Radiation Scrubber
-tile.nuclearcraft.radiation_scrubber.desc=Reduces the radiation level of the chunk it is placed in. Its effectiveness is dependent on the amount of free space around it.
+tile.nuclearcraft.radiation_scrubber.desc=Reduces the radiation level of the chunk it is placed in. Its effectiveness is dependent on the amount of free space around it. Requires 50 RF/t to run.
 
 tile.nuclearcraft.glowing_mushroom.name=Glowing Mushroom
 tile.nuclearcraft.dry_earth.name=Wasteland Earth
@@ -2045,7 +2045,16 @@ gui.config.radiation.radiation_shielding_level.comment=The radiation resistance 
 gui.config.radiation.radiation_hazmat_shielding=Radiation Hazmat Shielding
 gui.config.radiation.radiation_hazmat_shielding.comment=The radiation resistance levels provided by each piece of the hazmat suit. Order: headwear, chestpiece, leggings, boots.
 gui.config.radiation.radiation_scrubber_rate=Scrubber Max Removal Rate
-gui.config.radiation.radiation_scrubber_rate.comment=The maximum rate at which scrubbers will remove radiation.
+gui.config.radiation.radiation_scrubber_rate.comment=The maximum rate at which scrubbers will remove radiation in Rads/t.
+
+gui.config.radiation.radiation_shielding_default_recipes=Radiation Shielding Default Recipes
+gui.config.radiation.radiation_shielding_default_recipes.comment=If enabled, radiation shielding attachment recipes will be added for all registered armor pieces.
+gui.config.radiation.radiation_shielding_item_blacklist=Radiation Shielding Item Blacklist
+gui.config.radiation.radiation_shielding_item_blacklist.comment=List of armor items for which shielding recipes will not be added. Note that entries here should not include metadata. Format: 'modid:armorName'.
+gui.config.radiation.radiation_shielding_custom_stacks=Radiation Shielding ItemStack List
+gui.config.radiation.radiation_shielding_custom_stacks.comment=List of armor item stacks for which shielding recipes will be added. Mostly used when the automated shielding recipes are disabled or to add recipes back for armor with specific metadata removed via the blacklist. Format: 'modid:armorName:meta'.
+gui.config.radiation.radiation_shielding_default_levels=Radiation Default Armor Shielding
+gui.config.radiation.radiation_shielding_default_levels.comment=List of armor item stacks and their default radiation shielding levels. Format: 'modid:armorName:meta_resistance'. Note: this is not the only way to add these values if you have CraftTweaker installed. Radiation resistance can also be given to armor by changing their recipe such that an NBT tag called "ncRadiationResistance" with the double value equal to the resistance level is attached to it.
 
 gui.config.radiation.radiation_hud_size=Radiation HUD Size
 gui.config.radiation.radiation_hud_size.comment=Modifier for the size of radiation info on the HUD.

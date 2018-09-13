@@ -5,7 +5,7 @@ import java.util.List;
 
 import nc.ModCheck;
 import nc.config.NCConfig;
-import nc.recipe.IRecipeHandler;
+import nc.recipe.AbstractRecipeHandler;
 import nc.recipe.NCRecipes;
 import nc.recipe.ProcessorRecipe;
 import nc.recipe.ProcessorRecipeHandler;
@@ -207,7 +207,7 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 		if (hasConsumed || recipe == null) return;
 		List<Integer> itemInputOrder = getItemInputOrder();
 		List<Integer> fluidInputOrder = getFluidInputOrder();
-		if (itemInputOrder == IRecipeHandler.INVALID || fluidInputOrder == IRecipeHandler.INVALID) return;
+		if (itemInputOrder == AbstractRecipeHandler.INVALID || fluidInputOrder == AbstractRecipeHandler.INVALID) return;
 		
 		for (int i = 0; i < itemInputSize; i++) {
 			if (!inventoryStacks.get(i + itemInputSize + itemOutputSize).isEmpty()) {
@@ -317,7 +317,7 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 					break;
 				}
 			}
-			if (position == -1) return IRecipeHandler.INVALID;
+			if (position == -1) return AbstractRecipeHandler.INVALID;
 			itemInputOrder.add(position);
 		}
 		return itemInputOrder;
@@ -335,7 +335,7 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 					break;
 				}
 			}
-			if (position == -1) return IRecipeHandler.INVALID;
+			if (position == -1) return AbstractRecipeHandler.INVALID;
 			fluidInputOrder.add(position);
 		}
 		return fluidInputOrder;

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nc.ModCheck;
-import nc.recipe.IRecipeHandler;
+import nc.recipe.AbstractRecipeHandler;
 import nc.recipe.NCRecipes;
 import nc.recipe.ProcessorRecipe;
 import nc.recipe.ProcessorRecipeHandler;
@@ -181,7 +181,7 @@ public abstract class TileFluidGenerator extends TileEnergyFluidSidedInventory i
 	public void consumeInputs() {
 		if (hasConsumed || recipe == null) return;
 		List<Integer> fluidInputOrder = getFluidInputOrder();
-		if (fluidInputOrder == IRecipeHandler.INVALID) return;
+		if (fluidInputOrder == AbstractRecipeHandler.INVALID) return;
 		
 		for (int i = 0; i < fluidInputSize; i++) {
 			if (!tanks.get(i + fluidInputSize + fluidOutputSize).isEmpty()) {
@@ -253,7 +253,7 @@ public abstract class TileFluidGenerator extends TileEnergyFluidSidedInventory i
 					break;
 				}
 			}
-			if (position == -1) return IRecipeHandler.INVALID;
+			if (position == -1) return AbstractRecipeHandler.INVALID;
 			fluidInputOrder.add(position);
 		}
 		return fluidInputOrder;

@@ -11,7 +11,7 @@ import nc.recipe.ingredient.IItemIngredient;
 import nc.util.NCUtil;
 import nc.util.RecipeHelper;
 
-public abstract class ProcessorRecipeHandler extends IRecipeHandler<ProcessorRecipe> {
+public abstract class ProcessorRecipeHandler extends AbstractRecipeHandler<ProcessorRecipe> {
 	
 	public int itemInputSize, fluidInputSize, itemOutputSize, fluidOutputSize;
 	public final boolean shapeless;

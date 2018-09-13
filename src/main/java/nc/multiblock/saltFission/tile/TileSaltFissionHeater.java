@@ -8,7 +8,7 @@ import com.google.common.collect.Lists;
 import nc.config.NCConfig;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.saltFission.SaltFissionReactor;
-import nc.recipe.IRecipeHandler;
+import nc.recipe.AbstractRecipeHandler;
 import nc.recipe.NCRecipes;
 import nc.recipe.ProcessorRecipe;
 import nc.recipe.ProcessorRecipeHandler;
@@ -433,7 +433,7 @@ public class TileSaltFissionHeater extends TileSaltFissionPartBase implements IF
 	public void produceProducts() {
 		if (recipe == null) return;
 		List<Integer> fluidInputOrder = getFluidInputOrder();
-		if (fluidInputOrder == IRecipeHandler.INVALID) return;
+		if (fluidInputOrder == AbstractRecipeHandler.INVALID) return;
 		
 		for (int i = 0; i < fluidInputSize; i++) {
 			int fluidIngredientStackSize = getFluidIngredients().get(fluidInputOrder.get(i)).getMaxStackSize();
@@ -488,7 +488,7 @@ public class TileSaltFissionHeater extends TileSaltFissionPartBase implements IF
 					break;
 				}
 			}
-			if (position == -1) return IRecipeHandler.INVALID;
+			if (position == -1) return AbstractRecipeHandler.INVALID;
 			fluidInputOrder.add(position);
 		}
 		return fluidInputOrder;

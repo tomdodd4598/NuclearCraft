@@ -7,7 +7,10 @@ import java.util.Map;
 import com.google.common.collect.Lists;
 
 import nc.config.NCConfig;
+import nc.init.NCBlocks;
 import nc.util.RegistryHelper;
+import net.minecraft.block.Block;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public class RadSources {
@@ -233,6 +236,18 @@ public class RadSources {
 		for (String ore : ores) ORE_MAP.put(ore, radiation);
 	}
 	
+	private static void put(double radiation, ItemStack... stacks) {
+		for (ItemStack stack : stacks) STACK_MAP.put(stack, radiation);
+	}
+	
+	private static void put(double radiation, Item... items) {
+		for (Item item : items) STACK_MAP.put(new ItemStack(item), radiation);
+	}
+	
+	private static void put(double radiation, Block... blocks) {
+		for (Block block : blocks) STACK_MAP.put(new ItemStack(block), radiation);
+	}
+	
 	// Fuels
 	
 	public static final double TBU = getFuelRadiation(THORIUM_232, 9, THORIUM_230, 0);
@@ -271,7 +286,7 @@ public class RadSources {
 	public static final double LECf_251 = getFuelRadiation(CALIFORNIUM_252, 8, CALIFORNIUM_251, 1);
 	public static final double HECf_251 = getFuelRadiation(CALIFORNIUM_252, 5, CALIFORNIUM_251, 4);
 	
-	// Custom Entries
+	// Custom and Stack Entries
 	
 	public static void init() {
 		for (String oreInfo : NCConfig.radiation_ores) {
@@ -291,5 +306,14 @@ public class RadSources {
 			ItemStack stack = RegistryHelper.blockStackFromRegistry(blockInfo.substring(0, scorePos));
 			if (stack != null) STACK_MAP.put(stack, Double.parseDouble(blockInfo.substring(scorePos + 1)));
 		}
+		
+		put(RadSources.URANIUM_238/4D, NCBlocks.rtg_uranium);
+		put(RadSources.PLUTONIUM_238/4D, NCBlocks.rtg_plutonium);
+		put(RadSources.AMERICIUM_241/4D, NCBlocks.rtg_americium);
+		put(RadSources.CALIFORNIUM_250/4D, NCBlocks.rtg_californium);
+		
+		put(RadSources.THORIUM_230*9D/4D, NCBlocks.helium_collector);
+		put(RadSources.THORIUM_230*8D*9D/4D, NCBlocks.helium_collector_compact);
+		put(RadSources.THORIUM_230*64D*9D/4D, NCBlocks.helium_collector_dense);
 	}
 }

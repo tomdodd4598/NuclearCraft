@@ -45,8 +45,8 @@ public class TConstructMaterials {
 		
 		TinkerRegistry.addMaterialStats(material,
 				new HeadMaterialStats((int)(NCConfig.tool_durability[2*toolNumber]*0.8D), (float)NCConfig.tool_speed[2*toolNumber], 2F + (float)NCConfig.tool_attack_damage[2*toolNumber], NCConfig.tool_mining_level[2*toolNumber]),
-				new HandleMaterialStats((float)NCConfig.tool_handle_modifier[toolNumber], (int)(NCConfig.tool_durability[2*toolNumber]*0.25D)),
-				new ExtraMaterialStats((int)(NCConfig.tool_durability[2*toolNumber]*0.0625D/NCConfig.tool_handle_modifier[toolNumber])),
+				new HandleMaterialStats((float)NCConfig.tool_handle_modifier[toolNumber], (int)(NCConfig.tool_durability[2*toolNumber]*(casted ? 0.25D : 0.1D))),
+				new ExtraMaterialStats((int)(NCConfig.tool_durability[2*toolNumber]*(casted ? 0.0375D : 0.0625D)/NCConfig.tool_handle_modifier[toolNumber])),
 				new BowMaterialStats((float)(NCConfig.tool_handle_modifier[toolNumber]/2D), (float)(NCConfig.tool_handle_modifier[toolNumber]*2D), 2F + (float)NCConfig.tool_attack_damage[2*toolNumber]));
 		
 		integrateMaterial(material, oreSuffix, casted);

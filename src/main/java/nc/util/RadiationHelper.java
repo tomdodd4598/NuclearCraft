@@ -1,5 +1,6 @@
 package nc.util;
 
+import nc.capability.radiation.IDefaultRadiationResistance;
 import nc.capability.radiation.IEntityRads;
 import nc.capability.radiation.IRadiation;
 import nc.capability.radiation.IRadiationSource;
@@ -8,10 +9,7 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
@@ -28,7 +26,7 @@ public class RadiationHelper {
 		if (chunk == null || !chunk.hasCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null)) return;
 		IRadiationSource chunkRadiation = chunk.getCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null);
 		if (chunkRadiation == null) return;
-		chunkRadiation.setRadiationBuffer(chunkRadiation.getRadiationLevel() + addedRadiation);
+		chunkRadiation.setRadiationBuffer(chunkRadiation.getRadiationBuffer() + addedRadiation);
 	}
 	
 	// ItemStack -> ChunkBuffer
@@ -94,23 +92,26 @@ public class RadiationHelper {
 	// Player Radiation Resistance
 	
 	public static double addRadsToPlayer(EntityPlayer player, IEntityRads playerRads, double rawRadiation, int updateRate) {
-		double resistance = playerRads.getRadiationResistance();
-		for (ItemStack armor : player.inventory.armorInventory) {
-			if (armor.hasTagCompound()) if (armor.getTagCompound().hasKey("ncRadiationResistance")) {
-				resistance += armor.getTagCompound().getDouble("ncRadiationResistance");
-			}
-		}
+		double resistance = playerRads.getRadiationResistance() + getArmorRadResistance(player);
+		
 		double addedRadiation = rawRadiation <= 0D ? 0D : NCMath.square(rawRadiation)/(rawRadiation + resistance);
 		playerRads.setTotalRads(playerRads.getTotalRads() + addedRadiation*updateRate);
 		return addedRadiation;
 	}
 	
-	public static ItemStack armorWithRadResistance(Item armor, double resistance) {
-		ItemStack stack = new ItemStack(armor);
-		if (!(armor instanceof ItemArmor)) return stack;
-		if (!stack.hasTagCompound()) stack.setTagCompound(new NBTTagCompound());
-		stack.getTagCompound().setDouble("ncRadiationResistance", resistance);
-		return stack;
+	public static double getArmorRadResistance(EntityPlayer player) {
+		if (player == null) return 0D;
+		double resistance = 0D;
+		for (ItemStack armor : player.inventory.armorInventory) {
+			if (armor.hasCapability(IDefaultRadiationResistance.CAPABILITY_DEFAULT_RADIATION_RESISTANCE, null)) {
+				IDefaultRadiationResistance armorResistance = armor.getCapability(IDefaultRadiationResistance.CAPABILITY_DEFAULT_RADIATION_RESISTANCE, null);
+				if (armorResistance != null) resistance += armorResistance.getRadiationResistance();
+			}
+			if (armor.hasTagCompound()) if (armor.getTagCompound().hasKey("ncRadiationResistance")) {
+				resistance += armor.getTagCompound().getDouble("ncRadiationResistance");
+			}
+		}
+		return resistance;
 	}
 	
 	// Entity Radiation Resistance
@@ -225,7 +226,7 @@ public class RadiationHelper {
 		}
 	}
 	
-	// Text Colors
+	// Text Colours
 	
 	public static TextFormatting getRadsTextColor(IEntityRads playerRads) {
 		int radsPercent = playerRads.getRadsPercentage();

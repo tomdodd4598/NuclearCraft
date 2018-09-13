@@ -5,7 +5,7 @@ import java.util.List;
 
 import nc.ModCheck;
 import nc.config.NCConfig;
-import nc.recipe.IRecipeHandler;
+import nc.recipe.AbstractRecipeHandler;
 import nc.recipe.NCRecipes;
 import nc.recipe.ProcessorRecipe;
 import nc.recipe.ProcessorRecipeHandler;
@@ -159,7 +159,7 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 	public void consumeInputs() {
 		if (hasConsumed || recipe == null) return;
 		List<Integer> itemInputOrder = getItemInputOrder();
-		if (itemInputOrder == IRecipeHandler.INVALID) return;
+		if (itemInputOrder == AbstractRecipeHandler.INVALID) return;
 		
 		for (int i = 0; i < itemInputSize; i++) {
 			if (!inventoryStacks.get(i + itemInputSize + itemOutputSize).isEmpty()) {
@@ -231,7 +231,7 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 					break;
 				}
 			}
-			if (position == -1) return IRecipeHandler.INVALID;
+			if (position == -1) return AbstractRecipeHandler.INVALID;
 			itemInputOrder.add(position);
 		}
 		return itemInputOrder;

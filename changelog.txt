@@ -1,3 +1,27 @@
+v2.11g
+
++ Added config option for disabling and blacklisting armor radiation shielding recipes
++ Added config option for adding default radiation resistance levels to armor pieces
+* Fixed bug where shielding recipes for armor pieces with metadata would return incorrect results
+
+* Fixed potential crash with TiC installed
+* Tweaked TiC material handle and binding durabilities
+
+* Updated Russian language file [thanks to kellixon!]
+
+v2.11f
+
+* Fixed glowing mushrooms producing too much radiation
+* Fixed wasteland dimension being permanently loaded
+
+* Fixed machines occasionally not starting with Galacticraft installed
+* Increased liquid helium supercooling yield
+
+v2.11e
+
+* Fixed radiation not spreading to chunks correctly
+* Fixed Hazmat Suit pieces not having radiation resistance when pulled from the creative inventory or JEI
+
 v2.11d
 
 + Added Radiation Scrubbers [thanks to Fatmice for all the help adding these!]

@@ -2,6 +2,7 @@ package nc.proxy;
 
 import nc.Global;
 import nc.ModCheck;
+import nc.capability.radiation.RadiationCapabilityHandler;
 import nc.config.NCConfig;
 import nc.handler.CapabilityHandler;
 import nc.handler.DropHandler;
@@ -26,6 +27,7 @@ import nc.multiblock.MultiblockRegistry;
 import nc.network.PacketHandler;
 import nc.radiation.RadBiomes;
 import nc.radiation.RadSources;
+import nc.radiation.RadiationArmor;
 import nc.radiation.RadiationHandler;
 import nc.radiation.environment.RadiationEnvironmentHandler;
 import nc.recipe.NCRecipes;
@@ -88,6 +90,8 @@ public class CommonProxy {
 		MinecraftForge.EVENT_BUS.register(new DropHandler());
 		MinecraftForge.EVENT_BUS.register(new DungeonLootHandler());
 		
+		if (NCConfig.radiation_enabled) RadiationArmor.init();
+		
 		NCRecipes.init();
 		CraftingRecipeHandler.registerCraftingRecipes();
 		FurnaceRecipeHandler.registerFurnaceRecipes();
@@ -106,7 +110,8 @@ public class CommonProxy {
 	public void postInit(FMLPostInitializationEvent postEvent) {
 		if (NCConfig.radiation_enabled) {
 			RadSources.init();
-			MinecraftForge.EVENT_BUS.register(new CapabilityHandler());
+			RadiationArmor.postInit();
+			MinecraftForge.EVENT_BUS.register(new RadiationCapabilityHandler());
 			MinecraftForge.EVENT_BUS.register(new RadiationHandler());
 			MinecraftForge.EVENT_BUS.register(new RadiationEnvironmentHandler());
 			RadBiomes.init();

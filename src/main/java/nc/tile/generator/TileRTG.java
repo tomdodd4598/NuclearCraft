@@ -8,28 +8,28 @@ public class TileRTG extends TilePassiveGenerator {
 	public static class Uranium extends TileRTG {
 
 		public Uranium() {
-			super(NCConfig.rtg_power[0], RadSources.URANIUM_238/64D);
+			super(NCConfig.rtg_power[0], RadSources.URANIUM_238/4D);
 		}
 	}
 	
 	public static class Plutonium extends TileRTG {
 
 		public Plutonium() {
-			super(NCConfig.rtg_power[1], RadSources.PLUTONIUM_238/64D);
+			super(NCConfig.rtg_power[1], RadSources.PLUTONIUM_238/4D);
 		}
 	}
 	
 	public static class Americium extends TileRTG {
 
 		public Americium() {
-			super(NCConfig.rtg_power[2], RadSources.AMERICIUM_241/64D);
+			super(NCConfig.rtg_power[2], RadSources.AMERICIUM_241/4D);
 		}
 	}
 	
 	public static class Californium extends TileRTG {
 
 		public Californium() {
-			super(NCConfig.rtg_power[3], RadSources.CALIFORNIUM_250/64D);
+			super(NCConfig.rtg_power[3], RadSources.CALIFORNIUM_250/4D);
 		}
 	}
 	

@@ -12,6 +12,7 @@ public class ModCheck {
 	private static boolean tinkersLoaded = false;
 	private static boolean gregtechLoaded = false;
 	private static boolean openComputersLoaded = false;
+	private static boolean galacticraftLoaded = false;
 	
 	public static void init() {
 		if (initialized) return;
@@ -22,6 +23,7 @@ public class ModCheck {
 		tinkersLoaded = (Loader.isModLoaded("tconstruct") || Loader.isModLoaded("Tinkers' Construct")) && (Loader.isModLoaded("mantle") || Loader.isModLoaded("Mantle"));
 		gregtechLoaded = Loader.isModLoaded("gregtech") || Loader.isModLoaded("GregTech Community Edition");
 		openComputersLoaded = Loader.isModLoaded("OpenComputers") || Loader.isModLoaded("opencomputers");
+		galacticraftLoaded = Loader.isModLoaded("GalacticraftCore") || Loader.isModLoaded("galacticraftcore") || Loader.isModLoaded("Galacticraft Core");
 		
 		initialized = true;
 	}
@@ -48,5 +50,9 @@ public class ModCheck {
 	
 	public static boolean openComputersLoaded() {
 		return openComputersLoaded;
+	}
+	
+	public static boolean galacticraftLoaded() {
+		return galacticraftLoaded;
 	}
 }

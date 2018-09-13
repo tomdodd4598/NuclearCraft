@@ -52,6 +52,7 @@ import nc.gui.processor.GuiPressurizer;
 import nc.gui.processor.GuiRockCrusher;
 import nc.gui.processor.GuiSaltMixer;
 import nc.gui.processor.GuiSupercooler;
+import nc.init.NCArmor;
 import nc.init.NCBlocks;
 import nc.init.NCItems;
 import nc.integration.jei.generator.DecayGeneratorCategory;
@@ -214,6 +215,18 @@ public class NCJEI implements IModPlugin {
 		blacklistAll(jeiHelpers, MetaEnums.CuriumDepletedFuelRodType.class, NCItems.depleted_fuel_rod_curium);
 		blacklistAll(jeiHelpers, MetaEnums.BerkeliumDepletedFuelRodType.class, NCItems.depleted_fuel_rod_berkelium);
 		blacklistAll(jeiHelpers, MetaEnums.CaliforniumDepletedFuelRodType.class, NCItems.depleted_fuel_rod_californium);
+		
+		if (!NCConfig.radiation_enabled) {
+			blacklist(jeiHelpers, NCItems.geiger_counter);
+			blacklist(jeiHelpers, NCItems.rad_x);
+			blacklist(jeiHelpers, NCBlocks.radiation_scrubber);
+			blacklistAll(jeiHelpers, MetaEnums.RadShieldingType.class, NCItems.rad_shielding);
+			
+			blacklist(jeiHelpers, NCArmor.helm_hazmat);
+			blacklist(jeiHelpers, NCArmor.chest_hazmat);
+			blacklist(jeiHelpers, NCArmor.legs_hazmat);
+			blacklist(jeiHelpers, NCArmor.boots_hazmat);
+		}
 		
 		NCUtil.getLogger().info("JEI integration complete");
 	}

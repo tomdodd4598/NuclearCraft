@@ -10,7 +10,7 @@ import nc.Global;
 import nc.config.NCConfig;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.saltFission.SaltFissionReactor;
-import nc.recipe.IRecipeHandler;
+import nc.recipe.AbstractRecipeHandler;
 import nc.recipe.NCRecipes;
 import nc.recipe.ProcessorRecipe;
 import nc.recipe.ProcessorRecipeHandler;
@@ -232,7 +232,7 @@ public class TileSaltFissionVessel extends TileSaltFissionPartBase implements IF
 	public void consumeInputs() {
 		if (hasConsumed || recipe == null) return;
 		List<Integer> fluidInputOrder = getFluidInputOrder();
-		if (fluidInputOrder == IRecipeHandler.INVALID) return;
+		if (fluidInputOrder == AbstractRecipeHandler.INVALID) return;
 		
 		for (int i = 0; i < fluidInputSize; i++) {
 			if (!tanks.get(i + fluidInputSize + fluidOutputSize).isEmpty()) {
@@ -304,7 +304,7 @@ public class TileSaltFissionVessel extends TileSaltFissionPartBase implements IF
 					break;
 				}
 			}
-			if (position == -1) return IRecipeHandler.INVALID;
+			if (position == -1) return AbstractRecipeHandler.INVALID;
 			fluidInputOrder.add(position);
 		}
 		return fluidInputOrder;

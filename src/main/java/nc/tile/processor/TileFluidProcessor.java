@@ -6,7 +6,7 @@ import java.util.List;
 import nc.ModCheck;
 import nc.config.NCConfig;
 import nc.init.NCItems;
-import nc.recipe.IRecipeHandler;
+import nc.recipe.AbstractRecipeHandler;
 import nc.recipe.NCRecipes;
 import nc.recipe.ProcessorRecipe;
 import nc.recipe.ProcessorRecipeHandler;
@@ -210,12 +210,17 @@ public class TileFluidProcessor extends TileEnergyFluidSidedInventory implements
 		getEnergyStorage().setMaxTransfer(MathHelper.clamp(NCConfig.machine_update_rate*getProcessPower(), 32000, Integer.MAX_VALUE));
 	}
 	
+	// Needed for Galacticraft
+	private int getMaxEnergyModified() {
+		return ModCheck.galacticraftLoaded() ? getMaxEnergyStored() - 20 : getMaxEnergyStored();
+	}
+	
 	public boolean canProcessInputs() {
 		if (recipe == null) return false;
 		setRecipeStats();
 		if (time >= baseProcessTime) return true;
 		
-		else if ((time <= 0 && (getProcessEnergy() <= getMaxEnergyStored() || getEnergyStored() < getMaxEnergyStored()) && (getProcessEnergy() > getMaxEnergyStored() || getProcessEnergy() > getEnergyStored())) || getEnergyStored() < getProcessPower()) return false;
+		else if ((time <= 0 && (getProcessEnergy() <= getMaxEnergyModified() || getEnergyStored() < getMaxEnergyModified()) && (getProcessEnergy() > getMaxEnergyModified() || getProcessEnergy() > getEnergyStored())) || getEnergyStored() < getProcessPower()) return false;
 		
 		for (int j = 0; j < fluidOutputSize; j++) {
 			IFluidIngredient fluidProduct = getFluidProducts().get(j);
@@ -252,7 +257,7 @@ public class TileFluidProcessor extends TileEnergyFluidSidedInventory implements
 	public void produceProducts() {
 		if (recipe == null) return;
 		List<Integer> fluidInputOrder = getFluidInputOrder();
-		if (fluidInputOrder == IRecipeHandler.INVALID) return;
+		if (fluidInputOrder == AbstractRecipeHandler.INVALID) return;
 		
 		for (int i = 0; i < fluidInputSize; i++) {
 			int fluidIngredientStackSize = getFluidIngredients().get(fluidInputOrder.get(i)).getMaxStackSize();
@@ -307,7 +312,7 @@ public class TileFluidProcessor extends TileEnergyFluidSidedInventory implements
 					break;
 				}
 			}
-			if (position == -1) return IRecipeHandler.INVALID;
+			if (position == -1) return AbstractRecipeHandler.INVALID;
 			fluidInputOrder.add(position);
 		}
 		return fluidInputOrder;

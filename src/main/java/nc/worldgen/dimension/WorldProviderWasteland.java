@@ -4,6 +4,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.DimensionType;
 import net.minecraft.world.WorldProvider;
 import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.gen.IChunkGenerator;
 
 public class WorldProviderWasteland extends WorldProvider {
 
@@ -21,6 +22,21 @@ public class WorldProviderWasteland extends WorldProvider {
 	@Override
 	public boolean isSurfaceWorld() {
 		return false;
+	}
+	
+	@Override
+	public boolean canRespawnHere() {
+		return false;
+	}
+	
+	@Override
+	public double getMovementFactor() {
+		return 0.125D;
+	}
+	
+	@Override
+	public IChunkGenerator createChunkGenerator() {
+		return new ChunkGeneratorWasteland(world);
 	}
 
 	/*======================================= Forge Start =========================================*/

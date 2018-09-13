@@ -4,12 +4,14 @@ import java.util.List;
 
 import nc.Global;
 import nc.NCInfo;
+import nc.capability.radiation.IDefaultRadiationResistance;
 import nc.capability.radiation.IRadiationSource;
 import nc.config.NCConfig;
 import nc.util.InfoHelper;
 import nc.util.Lang;
 import nc.util.RadiationHelper;
 import nc.util.UnitHelper;
+import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
@@ -58,8 +60,20 @@ public class TooltipHandler {
 	
 	@SideOnly(Side.CLIENT)
 	private static void addArmorRadiationTooltip(List<String> tooltip, ItemStack stack) {
-		if (stack.hasTagCompound()) if (stack.getTagCompound().hasKey("ncRadiationResistance")) {
-			tooltip.add(TextFormatting.AQUA + RADIATION_RESISTANCE + " " + stack.getTagCompound().getDouble("ncRadiationResistance"));
+		if (!(stack.getItem() instanceof ItemArmor)) return;
+		boolean capability = stack.hasCapability(IDefaultRadiationResistance.CAPABILITY_DEFAULT_RADIATION_RESISTANCE, null);
+		boolean nbt = stack.hasTagCompound() && stack.getTagCompound().hasKey("ncRadiationResistance");
+		if (!capability && !nbt) return;
+		
+		double resistance = 0D;
+		if (capability) {
+			IDefaultRadiationResistance armorResistance = stack.getCapability(IDefaultRadiationResistance.CAPABILITY_DEFAULT_RADIATION_RESISTANCE, null);
+			if (armorResistance != null) resistance += armorResistance.getRadiationResistance();
 		}
+		if (nbt) {
+			resistance += stack.getTagCompound().getDouble("ncRadiationResistance");
+		}
+		
+		if (resistance > 0D) tooltip.add(TextFormatting.AQUA + RADIATION_RESISTANCE + " " + resistance);
 	}
 }

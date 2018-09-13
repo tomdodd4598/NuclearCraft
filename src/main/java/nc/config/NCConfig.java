@@ -193,8 +193,12 @@ public class NCConfig {
 	public static double radiation_rad_x_amount;
 	public static double radiation_rad_x_lifetime;
 	public static double[] radiation_shielding_level;
-	public static double[] radiation_hazmat_shielding;
 	public static double radiation_scrubber_rate;
+	
+	public static boolean radiation_shielding_default_recipes;
+	public static String[] radiation_shielding_item_blacklist;
+	public static String[] radiation_shielding_custom_stacks;
+	public static String[] radiation_shielding_default_levels;
 	
 	public static boolean radiation_hardcore_stacks;
 	public static boolean radiation_death_persist;
@@ -486,7 +490,7 @@ public class NCConfig {
 		
 		Property propertyAcceleratorElectromagnetPower = config.get(CATEGORY_ACCELERATOR, "accelerator_electromagnet_power", 20000, Lang.localise("gui.config.accelerator.accelerator_electromagnet_power.comment"), 0, Integer.MAX_VALUE);
 		propertyAcceleratorElectromagnetPower.setLanguageKey("gui.config.accelerator.accelerator_electromagnet_power");
-		Property propertyAcceleratorSupercoolerCoolant = config.get(CATEGORY_ACCELERATOR, "accelerator_supercooler_coolant", 5, Lang.localise("gui.config.accelerator.accelerator_supercooler_coolant.comment"), 0, 32767);
+		Property propertyAcceleratorSupercoolerCoolant = config.get(CATEGORY_ACCELERATOR, "accelerator_supercooler_coolant", 4, Lang.localise("gui.config.accelerator.accelerator_supercooler_coolant.comment"), 0, 32767);
 		propertyAcceleratorSupercoolerCoolant.setLanguageKey("gui.config.accelerator.accelerator_supercooler_coolant");
 		
 		Property propertyBatteryCapacity = config.get(CATEGORY_ENERGY_STORAGE, "battery_capacity", new int[] {1600000, 64000000}, Lang.localise("gui.config.energy_storage.battery_capacity.comment"), 1, Integer.MAX_VALUE);
@@ -554,10 +558,17 @@ public class NCConfig {
 		propertyRadiationRadXLifetime.setLanguageKey("gui.config.radiation.radiation_rad_x_lifetime");
 		Property propertyRadiationShieldingLevel = config.get(CATEGORY_RADIATION, "radiation_shielding_level", new double[] {0.0001D, 0.01D, 1D}, Lang.localise("gui.config.radiation.radiation_shielding_level.comment"), 0.000000000000000001D, 1000D);
 		propertyRadiationShieldingLevel.setLanguageKey("gui.config.radiation.radiation_shielding_level");
-		Property propertyRadiationHazmatShielding = config.get(CATEGORY_RADIATION, "radiation_hazmat_shielding", new double[] {2D, 3D, 2D, 2D}, Lang.localise("gui.config.radiation.radiation_hazmat_shielding.comment"), 0.000000000000000001D, 1000D);
-		propertyRadiationHazmatShielding.setLanguageKey("gui.config.radiation.radiation_hazmat_shielding");
 		Property propertyRadiationScrubberRate = config.get(CATEGORY_RADIATION, "radiation_scrubber_rate", 0.025D, Lang.localise("gui.config.radiation.radiation_scrubber_rate.comment"), 0.001D, 100D);
 		propertyRadiationScrubberRate.setLanguageKey("gui.config.radiation.radiation_scrubber_rate");
+		
+		Property propertyRadiationShieldingDefaultRecipes = config.get(CATEGORY_RADIATION, "radiation_shielding_default_recipes", true, Lang.localise("gui.config.radiation.radiation_shielding_default_recipes.comment"));
+		propertyRadiationShieldingDefaultRecipes.setLanguageKey("gui.config.radiation.radiation_shielding_default_recipes");
+		Property propertyRadiationShieldingItemBlacklist = config.get(CATEGORY_RADIATION, "radiation_shielding_item_blacklist", new String[] {}, Lang.localise("gui.config.radiation.radiation_shielding_item_blacklist.comment"));
+		propertyRadiationShieldingItemBlacklist.setLanguageKey("gui.config.radiation.radiation_shielding_item_blacklist");
+		Property propertyRadiationShieldingCustomStacks = config.get(CATEGORY_RADIATION, "radiation_shielding_custom_stacks", new String[] {}, Lang.localise("gui.config.radiation.radiation_shielding_custom_stacks.comment"));
+		propertyRadiationShieldingCustomStacks.setLanguageKey("gui.config.radiation.radiation_shielding_custom_stacks");
+		Property propertyRadiationShieldingDefaultLevels = config.get(CATEGORY_RADIATION, "radiation_shielding_default_levels", new String[] {"nuclearcraft:helm_hazmat_2.0", "nuclearcraft:chest_hazmat_3.0", "nuclearcraft:legs_hazmat_2.0", "nuclearcraft:boots_hazmat_2.0"}, Lang.localise("gui.config.radiation.radiation_shielding_default_levels.comment"));
+		propertyRadiationShieldingDefaultLevels.setLanguageKey("gui.config.radiation.radiation_shielding_default_levels");
 		
 		Property propertyRadiationHardcoreStacks = config.get(CATEGORY_RADIATION, "radiation_hardcore_stacks", true, Lang.localise("gui.config.radiation.radiation_hardcore_stacks.comment"));
 		propertyRadiationHardcoreStacks.setLanguageKey("gui.config.radiation.radiation_hardcore_stacks");
@@ -812,8 +823,11 @@ public class NCConfig {
 		propertyOrderRadiation.add(propertyRadiationRadXAmount.getName());
 		propertyOrderRadiation.add(propertyRadiationRadXLifetime.getName());
 		propertyOrderRadiation.add(propertyRadiationShieldingLevel.getName());
-		propertyOrderRadiation.add(propertyRadiationHazmatShielding.getName());
 		propertyOrderRadiation.add(propertyRadiationScrubberRate.getName());
+		propertyOrderRadiation.add(propertyRadiationShieldingDefaultRecipes.getName());
+		propertyOrderRadiation.add(propertyRadiationShieldingItemBlacklist.getName());
+		propertyOrderRadiation.add(propertyRadiationShieldingCustomStacks.getName());
+		propertyOrderRadiation.add(propertyRadiationShieldingDefaultLevels.getName());
 		propertyOrderRadiation.add(propertyRadiationHardcoreStacks.getName());
 		propertyOrderRadiation.add(propertyRadiationDeathPersist.getName());
 		propertyOrderRadiation.add(propertyRadiationDeathPersistFraction.getName());
@@ -1006,8 +1020,12 @@ public class NCConfig {
 			radiation_rad_x_amount = propertyRadiationRadXAmount.getDouble();
 			radiation_rad_x_lifetime = propertyRadiationRadXLifetime.getDouble();
 			radiation_shielding_level = readDoubleArrayFromConfig(propertyRadiationShieldingLevel);
-			radiation_hazmat_shielding = readDoubleArrayFromConfig(propertyRadiationHazmatShielding);
 			radiation_scrubber_rate = propertyRadiationScrubberRate.getDouble();
+			
+			radiation_shielding_default_recipes = propertyRadiationShieldingDefaultRecipes.getBoolean();
+			radiation_shielding_item_blacklist = propertyRadiationShieldingItemBlacklist.getStringList();
+			radiation_shielding_custom_stacks = propertyRadiationShieldingCustomStacks.getStringList();
+			radiation_shielding_default_levels = propertyRadiationShieldingDefaultLevels.getStringList();
 			
 			radiation_hardcore_stacks = propertyRadiationHardcoreStacks.getBoolean();
 			radiation_death_persist = propertyRadiationDeathPersist.getBoolean();
@@ -1200,8 +1218,12 @@ public class NCConfig {
 		propertyRadiationRadXAmount.set(radiation_rad_x_amount);
 		propertyRadiationRadXLifetime.set(radiation_rad_x_lifetime);
 		propertyRadiationShieldingLevel.set(radiation_shielding_level);
-		propertyRadiationHazmatShielding.set(radiation_hazmat_shielding);
 		propertyRadiationScrubberRate.set(radiation_scrubber_rate);
+		
+		propertyRadiationShieldingDefaultRecipes.set(radiation_shielding_default_recipes);
+		propertyRadiationShieldingItemBlacklist.set(radiation_shielding_item_blacklist);
+		propertyRadiationShieldingCustomStacks.set(radiation_shielding_custom_stacks);
+		propertyRadiationShieldingDefaultLevels.set(radiation_shielding_default_levels);
 		
 		propertyRadiationHardcoreStacks.set(radiation_hardcore_stacks);
 		propertyRadiationDeathPersist.set(radiation_death_persist);

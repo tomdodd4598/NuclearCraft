@@ -35,7 +35,7 @@ public class NCItemMeta<T extends Enum<T> & IStringSerializable & IItemMeta> ext
 	
 	@Override
 	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
-		if (this.isInCreativeTab(tab)) for (int i = 0; i < values.length; i++) {
+		if (isInCreativeTab(tab)) for (int i = 0; i < values.length; i++) {
 			items.add(new ItemStack(this, 1, i));
 		}
 	}

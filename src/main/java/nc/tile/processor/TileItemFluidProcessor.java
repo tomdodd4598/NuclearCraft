@@ -6,7 +6,7 @@ import java.util.List;
 import nc.ModCheck;
 import nc.config.NCConfig;
 import nc.init.NCItems;
-import nc.recipe.IRecipeHandler;
+import nc.recipe.AbstractRecipeHandler;
 import nc.recipe.NCRecipes;
 import nc.recipe.ProcessorRecipe;
 import nc.recipe.ProcessorRecipeHandler;
@@ -213,12 +213,17 @@ public class TileItemFluidProcessor extends TileEnergyFluidSidedInventory implem
 		getEnergyStorage().setMaxTransfer(MathHelper.clamp(NCConfig.machine_update_rate*getProcessPower(), 32000, Integer.MAX_VALUE));
 	}
 	
+	// Needed for Galacticraft
+	private int getMaxEnergyModified() {
+		return ModCheck.galacticraftLoaded() ? getMaxEnergyStored() - 20 : getMaxEnergyStored();
+	}
+	
 	public boolean canProcessInputs() {
 		if (recipe == null) return false;
 		setRecipeStats();
 		if (time >= baseProcessTime) return true;
 		
-		else if ((time <= 0 && (getProcessEnergy() <= getMaxEnergyStored() || getEnergyStored() < getMaxEnergyStored()) && (getProcessEnergy() > getMaxEnergyStored() || getProcessEnergy() > getEnergyStored())) || getEnergyStored() < getProcessPower()) return false;
+		else if ((time <= 0 && (getProcessEnergy() <= getMaxEnergyModified() || getEnergyStored() < getMaxEnergyModified()) && (getProcessEnergy() > getMaxEnergyModified() || getProcessEnergy() > getEnergyStored())) || getEnergyStored() < getProcessPower()) return false;
 		
 		for (int j = 0; j < itemOutputSize; j++) {
 			IItemIngredient itemProduct = getItemProducts().get(j);
@@ -268,7 +273,7 @@ public class TileItemFluidProcessor extends TileEnergyFluidSidedInventory implem
 		if (recipe == null) return;
 		List<Integer> itemInputOrder = getItemInputOrder();
 		List<Integer> fluidInputOrder = getFluidInputOrder();
-		if (itemInputOrder == IRecipeHandler.INVALID || fluidInputOrder == IRecipeHandler.INVALID) return;
+		if (itemInputOrder == AbstractRecipeHandler.INVALID || fluidInputOrder == AbstractRecipeHandler.INVALID) return;
 		
 		for (int i = 0; i < itemInputSize; i++) {
 			int itemIngredientStackSize = getItemIngredients().get(itemInputOrder.get(i)).getMaxStackSize();
@@ -352,7 +357,7 @@ public class TileItemFluidProcessor extends TileEnergyFluidSidedInventory implem
 					break;
 				}
 			}
-			if (position == -1) return IRecipeHandler.INVALID;
+			if (position == -1) return AbstractRecipeHandler.INVALID;
 			itemInputOrder.add(position);
 		}
 		return itemInputOrder;
@@ -370,7 +375,7 @@ public class TileItemFluidProcessor extends TileEnergyFluidSidedInventory implem
 					break;
 				}
 			}
-			if (position == -1) return IRecipeHandler.INVALID;
+			if (position == -1) return AbstractRecipeHandler.INVALID;
 			fluidInputOrder.add(position);
 		}
 		return fluidInputOrder;
