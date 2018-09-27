@@ -136,7 +136,7 @@ public abstract class BlockMeta<T extends Enum<T> & IStringSerializable & IBlock
 	
 	@Override
 	public float getBlockHardness(IBlockState state, World world, BlockPos pos) {
-		return ((T) world.getBlockState(pos).getValue(type)).getHardness();
+		return ((T) state.getValue(type)).getHardness();
 	}
 	
 	@Override
@@ -168,7 +168,7 @@ public abstract class BlockMeta<T extends Enum<T> & IStringSerializable & IBlock
 	
 	@Override
 	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
-		return new ItemStack(Item.getItemFromBlock(this), 1, getMetaFromState(world.getBlockState(pos)));
+		return new ItemStack(Item.getItemFromBlock(this), 1, getMetaFromState(state));
 	}
 	
 	@Override
