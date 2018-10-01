@@ -1,3 +1,30 @@
+v2.12
+
++ Added new Molten Salt Reactor components
+* Molten Salt Reactor parts are now available to craft
+* Tweaked depleted fuel centrifuge recipes
+
++ Added multiblock Heat Exchangers - heat water into steam with hot coolant!
+
++ Added Mekanism gas support for fluid-handling machines
+
++ Added Borax for Radiation Scrubbers
++ Added IC2 hazmat suit pieces and Extra Planets suits to default radiation protection list
+
+* Fixed solid-fuel fission structures occasionally being read incorrectly
++ Added remaining fuel time to solid-fuel Fission Controller GUI
+
+* Fixed batteries charging at incorrect rates in IC2 energy storages
+
+* Fixed Chance FluidStacks not working correctly in recipes added via CT
+* Added extra chance output info to JEI tooltips
+
+* Fixed various metadata block-related bugs [thanks to josephcsible!]
+* Idle machines now take up much less tick time
+
+* Many under-the-hood changes
+- Removed Paulobrine and Herobrian
+
 v2.11g
 
 + Added config option for disabling and blacklisting armor radiation shielding recipes
