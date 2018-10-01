@@ -30,16 +30,12 @@ public class TileCondenserController extends TileCondenserPartBase {
 		super.update();
 		tickTile();
 		if (shouldTileCheck()) if (getBlock(pos) instanceof BlockCondenserController) {
-			((BlockCondenserController) getBlock(pos)).setActiveState(getBlockState(pos), world, pos, world.isBlockPowered(pos) && isMultiblockAssembled());
+			if (getMultiblock() != null) ((BlockCondenserController) getBlock(pos)).setActiveState(getBlockState(pos), world, pos, getMultiblock().isCondenserOn);
 		}
 	}
 	
 	@Override
 	public void tickTile() {
 		tickCount++; tickCount %= NCConfig.machine_update_rate / 4;
-	}
-	
-	public boolean isPowered() {
-		return world.isBlockPowered(pos);
 	}
 }

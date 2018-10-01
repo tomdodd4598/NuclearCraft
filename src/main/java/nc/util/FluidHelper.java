@@ -13,7 +13,7 @@ import net.minecraftforge.fluids.FluidUtil;
 
 public class FluidHelper {
 	
-	public static boolean accessTankArray(EntityPlayer player, EnumHand hand, List<Tank> tanks) {
+	public static boolean accessTanks(EntityPlayer player, EnumHand hand, List<Tank> tanks) {
 		ItemStack heldItem = player.getHeldItem(hand);
 		for (int i = 0; i < tanks.size(); i++) {
 			boolean accessedTank = accessTank(player, hand, tanks.get(i));

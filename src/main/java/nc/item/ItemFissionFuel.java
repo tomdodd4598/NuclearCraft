@@ -2,6 +2,8 @@ package nc.item;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import nc.Global;
 import nc.NCInfo;
 import nc.enumm.IFissionStats;
@@ -52,7 +54,7 @@ public class ItemFissionFuel<T extends Enum<T> & IStringSerializable & IItemMeta
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack itemStack, World world, List<String> tooltip, ITooltipFlag flag) {
+	public void addInformation(ItemStack itemStack, @Nullable World world, List<String> tooltip, ITooltipFlag flag) {
 		super.addInformation(itemStack, world, tooltip, flag);
 		if (info.length != 0) if (info[itemStack.getMetadata()].length > 0) InfoHelper.infoFull(tooltip, TextFormatting.GREEN, fixedInfo, info[itemStack.getMetadata()]);
 	}

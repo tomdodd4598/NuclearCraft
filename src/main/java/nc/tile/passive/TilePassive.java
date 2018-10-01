@@ -43,7 +43,6 @@ public class TilePassive {
 		
 		public ElectromagnetSupercooler() {
 			super("electromagnet_supercooler", -NCConfig.accelerator_electromagnet_power, FluidRegistry.getFluid("liquidhelium"), -NCConfig.accelerator_supercooler_coolant, NCConfig.machine_update_rate / 5);
-			tanks.get(0).setStrictlyInput(false);
 		}
 		
 		@Override

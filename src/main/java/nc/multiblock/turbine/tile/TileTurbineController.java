@@ -33,16 +33,12 @@ public abstract class TileTurbineController<TURBINE extends Turbine, CONTROLLER 
 		super.update();
 		tickTile();
 		if (shouldTileCheck()) if (blockControllerClass.isInstance(getBlock(pos))) {
-			((CONTROLLER) getBlock(pos)).setActiveState(getBlockState(pos), world, pos, world.isBlockPowered(pos) && isMultiblockAssembled());
+			if (getMultiblock() != null) ((CONTROLLER) getBlock(pos)).setActiveState(getBlockState(pos), world, pos, getMultiblock().isTurbineOn);
 		}
 	}
 	
 	@Override
 	public void tickTile() {
 		tickCount++; tickCount %= NCConfig.machine_update_rate / 4;
-	}
-	
-	public boolean isPowered() {
-		return world.isBlockPowered(pos);
 	}
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 import nc.Global;
+import nc.config.NCConfig;
 import nc.container.generator.ContainerFissionController;
 import nc.gui.NCGui;
 import nc.tile.energy.ITileEnergy;
@@ -15,6 +16,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextFormatting;
 
 public class GuiFissionController extends NCGui {
@@ -61,7 +63,10 @@ public class GuiFissionController extends NCGui {
 		String energy = UnitHelper.prefix(tile.getEnergyStorage().getEnergyStored(), tile.getEnergyStorage().getMaxEnergyStored(), 6, "RF");
 		String power = UnitHelper.prefix((int)this.tile.processPower, 6, "RF/t");
 		String efficiency = this.tile.efficiency + "%";
-		return Lists.newArrayList(TextFormatting.LIGHT_PURPLE + Lang.localise("gui.container.energy_stored") + TextFormatting.WHITE + " " + energy, TextFormatting.LIGHT_PURPLE + Lang.localise("gui.container.power_gen") + TextFormatting.WHITE + " " + power, TextFormatting.LIGHT_PURPLE + Lang.localise("gui.container.fission_controller.efficiency") + TextFormatting.WHITE + " " + efficiency);
+		if (this.tile.getFuelName().equals(TileFissionController.NO_FUEL) || (int) this.tile.cells == 0) return Lists.newArrayList(TextFormatting.LIGHT_PURPLE + Lang.localise("gui.container.energy_stored") + TextFormatting.WHITE + " " + energy, TextFormatting.LIGHT_PURPLE + Lang.localise("gui.container.power_gen") + TextFormatting.WHITE + " " + power, TextFormatting.LIGHT_PURPLE + Lang.localise("gui.container.fission_controller.efficiency") + TextFormatting.WHITE + " " + efficiency);
+		double fuelTimeLeft = MathHelper.clamp(((this.tile.baseProcessTime - this.tile.time)/(this.tile.cells*NCConfig.fission_fuel_use)), 0D, this.tile.baseProcessTime);
+		int fuelTimeLeftPercent = (int)(100D*MathHelper.clamp(((this.tile.baseProcessTime - this.tile.time)/this.tile.baseProcessTime), 0D, 1D));
+		return Lists.newArrayList(TextFormatting.LIGHT_PURPLE + Lang.localise("gui.container.energy_stored") + TextFormatting.WHITE + " " + energy, TextFormatting.LIGHT_PURPLE + Lang.localise("gui.container.power_gen") + TextFormatting.WHITE + " " + power, TextFormatting.LIGHT_PURPLE + Lang.localise("gui.container.fission_controller.efficiency") + TextFormatting.WHITE + " " + efficiency, TextFormatting.GREEN + Lang.localise("gui.container.fission_controller.fuel_remaining") + TextFormatting.WHITE + " " + UnitHelper.applyTimeUnitShort(fuelTimeLeft, 2) + " [" + fuelTimeLeftPercent + "%]");
 	}
 	
 	public List<String> heatInfo() {

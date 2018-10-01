@@ -1,5 +1,7 @@
 package nc.multiblock.validation;
 
+import net.minecraft.util.math.BlockPos;
+
 /*
  * A multiblock library for making irregularly-shaped multiblock machines
  *
@@ -28,5 +30,5 @@ public interface IMultiblockValidator {
      * @param messageFormatStringResourceKey a translation key for a message or a message format string
      * @param messageParameters optional parameters for a message format string
      */
-    void setLastError(String messageFormatStringResourceKey, Object... messageParameters);
+    void setLastError(String messageFormatStringResourceKey, BlockPos pos, Object... messageParameters);
 }

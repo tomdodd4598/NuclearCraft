@@ -20,13 +20,26 @@ public class RadiationHelper {
 		chunkRadiation.setRadiationBuffer(chunkRadiation.getRadiationBuffer() + addedRadiation);
 	}
 	
+	/** Only use for radiation leaks, etc. */
+	public static void addToChunkRadiation(IRadiationSource chunkRadiation, double addedRadiation) {
+		chunkRadiation.setRadiationLevel(chunkRadiation.getRadiationLevel() + addedRadiation);
+	}
+	
 	// Block -> Chunk
 	
 	public static void addToChunkBuffer(Chunk chunk, double addedRadiation) {
 		if (chunk == null || !chunk.hasCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null)) return;
 		IRadiationSource chunkRadiation = chunk.getCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null);
 		if (chunkRadiation == null) return;
-		chunkRadiation.setRadiationBuffer(chunkRadiation.getRadiationBuffer() + addedRadiation);
+		addToChunkBuffer(chunkRadiation, addedRadiation);
+	}
+	
+	/** Only use for radiation leaks, etc. */
+	public static void addToChunkRadiation(Chunk chunk, double addedRadiation) {
+		if (chunk == null || !chunk.hasCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null)) return;
+		IRadiationSource chunkRadiation = chunk.getCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null);
+		if (chunkRadiation == null) return;
+		addToChunkRadiation(chunkRadiation, addedRadiation);
 	}
 	
 	// ItemStack -> ChunkBuffer

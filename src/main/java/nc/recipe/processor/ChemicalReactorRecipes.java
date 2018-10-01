@@ -33,6 +33,8 @@ public class ChemicalReactorRecipes extends ProcessorRecipeHandler {
 		addRecipe(fluidStack("sodium_fluoride_solution", FluidStackHelper.GEM_VOLUME), fluidStack("water", FluidStackHelper.BUCKET_VOLUME), fluidStack("sodium_hydroxide_solution", FluidStackHelper.GEM_VOLUME), fluidStack("hydrofluoric_acid", FluidStackHelper.BUCKET_VOLUME), 1D, 1D);
 		addRecipe(fluidStack("potassium_fluoride_solution", FluidStackHelper.GEM_VOLUME), fluidStack("water", FluidStackHelper.BUCKET_VOLUME), fluidStack("potassium_hydroxide_solution", FluidStackHelper.GEM_VOLUME), fluidStack("hydrofluoric_acid", FluidStackHelper.BUCKET_VOLUME), 1D, 1D);
 		
+		addRecipe(fluidStack("sodium_fluoride_solution", FluidStackHelper.GEM_VOLUME), fluidStack("boric_acid", FluidStackHelper.BUCKET_VOLUME*2), fluidStack("borax_solution", FluidStackHelper.GEM_VOLUME/2), fluidStack("hydrofluoric_acid", FluidStackHelper.BUCKET_VOLUME), 1.5D, 1D);
+		
 		addRecipe(fluidStack("oxygen_difluoride", FluidStackHelper.BUCKET_VOLUME), fluidStack("water", FluidStackHelper.BUCKET_VOLUME), fluidStack("oxygen", FluidStackHelper.BUCKET_VOLUME), fluidStack("hydrofluoric_acid", FluidStackHelper.BUCKET_VOLUME*2), 1.5D, 1D);
 		addRecipe(fluidStack("oxygen_difluoride", FluidStackHelper.BUCKET_VOLUME), fluidStack("sulfur_dioxide", FluidStackHelper.BUCKET_VOLUME), fluidStack("sulfur_trioxide", FluidStackHelper.BUCKET_VOLUME), fluidStack("fluorine", FluidStackHelper.BUCKET_VOLUME), 1D, 1.5D);
 		

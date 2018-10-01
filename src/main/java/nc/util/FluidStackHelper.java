@@ -61,13 +61,14 @@ public static final int BUCKET_VOLUME = 1000;
 		}
 	}
 	
-	public static String stackName(FluidStack stack) {
+	public static String getFluidName(FluidStack stack) {
+		if (stack == null || stack.getFluid() == null) return "nullFluid";
 		return stack.getFluid().getName();
 	}
 	
 	public static String stackListNames(List<FluidStack> list) {
 		String names = "";
-		for (FluidStack stack : list) names += (", " + stackName(stack));
+		for (FluidStack stack : list) names += (", " + getFluidName(stack));
 		return names.substring(2);
 	}
 }

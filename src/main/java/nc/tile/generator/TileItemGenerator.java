@@ -3,16 +3,19 @@ package nc.tile.generator;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 import nc.ModCheck;
 import nc.config.NCConfig;
 import nc.recipe.AbstractRecipeHandler;
+import nc.recipe.IngredientSorption;
 import nc.recipe.NCRecipes;
 import nc.recipe.ProcessorRecipe;
 import nc.recipe.ProcessorRecipeHandler;
-import nc.recipe.SorptionType;
 import nc.recipe.ingredient.IItemIngredient;
 import nc.tile.IGui;
 import nc.tile.dummy.IInterfaceable;
+import nc.tile.energy.ITileEnergy;
 import nc.tile.energy.TileEnergySidedInventory;
 import nc.tile.energyFluid.IBufferable;
 import nc.tile.internal.energy.EnergyConnection;
@@ -39,8 +42,8 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 	public final NCRecipes.Type recipeType;
 	protected ProcessorRecipe recipe;
 	
-	public TileItemGenerator(String name, int itemInSize, int itemOutSize, int otherSize, int capacity, NCRecipes.Type recipeType) {
-		super(name, 2*itemInSize + itemOutSize + otherSize, capacity, energyConnectionAll(EnergyConnection.OUT));
+	public TileItemGenerator(String name, int itemInSize, int itemOutSize, int otherSize, int capacity, @Nonnull NCRecipes.Type recipeType) {
+		super(name, 2*itemInSize + itemOutSize + otherSize, capacity, ITileEnergy.energyConnectionAll(EnergyConnection.OUT));
 		itemInputSize = itemInSize;
 		itemOutputSize = itemOutSize;
 		
@@ -226,7 +229,7 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 		for (int i = 0; i < itemInputSize; i++) {
 			int position = -1;
 			for (int j = 0; j < itemIngredients.size(); j++) {
-				if (itemIngredients.get(j).matches(getItemInputs(false).get(i), SorptionType.INPUT)) {
+				if (itemIngredients.get(j).matches(getItemInputs(false).get(i), IngredientSorption.INPUT)) {
 					position = j;
 					break;
 				}

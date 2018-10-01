@@ -126,17 +126,46 @@ public class UnitHelper {
 	// Time Units
 	
 	public static final String[] TIME_UNIT = new String[] {" ticks", " seconds", " minutes", " hours", " days", " weeks", " years"};
+	public static final String[] TIME_UNIT_SHORT = new String[] {" t", " s", " min", " hr", " d", " wk", " y"};
 	public static final double[] TIME_MULT = new double[] {1D, 20D, 1200D, 72000D, 1728000D, 12096000D, 630720000D};
 	
 	public static String applyTimeUnit(long ticks, int maxLength) {
-		int i = 0;
+		return applyTimeUnit(ticks, maxLength, 0);
+	}
+	
+	public static String applyTimeUnit(double ticks, int maxLength) {
+		return applyTimeUnit(ticks, maxLength, 0);
+	}
+	
+	public static String applyTimeUnit(long ticks, int maxLength, int startUnit) {
+		int i = startUnit;
 		while ((Math.round(ticks/TIME_MULT[i]) + "").length() > maxLength) i++;
 		return Math.round(ticks/TIME_MULT[i]) + TIME_UNIT[i];
 	}
 	
-	public static String applyTimeUnit(double ticks, int maxLength) {
-		int i = 0;
+	public static String applyTimeUnit(double ticks, int maxLength, int startUnit) {
+		int i = startUnit;
 		while ((Math.round(ticks/TIME_MULT[i]) + "").length() > maxLength) i++;
 		return Math.round(ticks/TIME_MULT[i]) + TIME_UNIT[i];
+	}
+	
+	public static String applyTimeUnitShort(long ticks, int maxLength) {
+		return applyTimeUnitShort(ticks, maxLength, 0);
+	}
+	
+	public static String applyTimeUnitShort(double ticks, int maxLength) {
+		return applyTimeUnitShort(ticks, maxLength, 0);
+	}
+	
+	public static String applyTimeUnitShort(long ticks, int maxLength, int startUnit) {
+		int i = startUnit;
+		while ((Math.round(ticks/TIME_MULT[i]) + "").length() > maxLength) i++;
+		return Math.round(ticks/TIME_MULT[i]) + TIME_UNIT_SHORT[i];
+	}
+	
+	public static String applyTimeUnitShort(double ticks, int maxLength, int startUnit) {
+		int i = startUnit;
+		while ((Math.round(ticks/TIME_MULT[i]) + "").length() > maxLength) i++;
+		return Math.round(ticks/TIME_MULT[i]) + TIME_UNIT_SHORT[i];
 	}
 }

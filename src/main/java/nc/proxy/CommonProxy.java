@@ -34,6 +34,7 @@ import nc.recipe.NCRecipes;
 import nc.recipe.vanilla.CraftingRecipeHandler;
 import nc.recipe.vanilla.FurnaceFuelHandler;
 import nc.recipe.vanilla.FurnaceRecipeHandler;
+import nc.util.GasHelper;
 import nc.worldgen.biome.NCBiomes;
 import nc.worldgen.decoration.BushGenerator;
 import nc.worldgen.dimension.NCWorlds;
@@ -108,6 +109,8 @@ public class CommonProxy {
 	}
 
 	public void postInit(FMLPostInitializationEvent postEvent) {
+		if (ModCheck.mekanismLoaded()) GasHelper.init();
+		
 		if (NCConfig.radiation_enabled) {
 			RadSources.init();
 			RadiationArmor.postInit();

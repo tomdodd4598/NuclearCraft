@@ -38,7 +38,7 @@ public class BlockMachineInterface extends BlockSimpleDummy {
 				if (tileentity instanceof ITileFluid) {
 					ITileFluid tileFluid = (ITileFluid) tileentity;
 					if (tileFluid.getTanks() != null) {
-						boolean accessedTanks = FluidHelper.accessTankArray(player, hand, tileFluid.getTanks());
+						boolean accessedTanks = FluidHelper.accessTanks(player, hand, tileFluid.getTanks());
 						if (accessedTanks) return true;
 					}
 				}

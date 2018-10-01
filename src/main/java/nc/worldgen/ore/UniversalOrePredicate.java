@@ -1,15 +1,18 @@
 package nc.worldgen.ore;
 
+import javax.annotation.Nullable;
+
 import com.google.common.base.Predicate;
 
 import net.minecraft.block.BlockStone;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 
+@SuppressWarnings("null")
 public class UniversalOrePredicate implements Predicate<IBlockState> {
 	
 	@Override
-	public boolean apply(IBlockState state) {
+	public boolean apply(@Nullable IBlockState state) {
 		if (state != null) {
 			if (state.getBlock() == Blocks.STONE) {
 				BlockStone.EnumType blockstone$enumtype = (BlockStone.EnumType)state.getValue(BlockStone.VARIANT);

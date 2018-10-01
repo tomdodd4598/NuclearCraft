@@ -25,15 +25,15 @@ public abstract class TileCondenserPartBase extends TileCuboidalMultiblockPartBa
 	// NBT
 	
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-		super.writeToNBT(nbt);
+	public NBTTagCompound writeAll(NBTTagCompound nbt) {
+		super.writeAll(nbt);
 		nbt.setBoolean("isCondenserOn", isCondenserOn);
 		return nbt;
 	}
 	
 	@Override
-	public void readFromNBT(NBTTagCompound nbt) {
-		super.readFromNBT(nbt);
+	public void readAll(NBTTagCompound nbt) {
+		super.readAll(nbt);
 		isCondenserOn = nbt.getBoolean("isCondenserOn");
 	}
 }

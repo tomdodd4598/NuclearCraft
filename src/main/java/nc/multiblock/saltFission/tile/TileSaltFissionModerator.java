@@ -6,7 +6,7 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public class TileSaltFissionModerator extends TileSaltFissionPartBase {
 	
-	public boolean isInValidPosition;
+	public boolean isInValidPosition, isInModerationLine;
 	
 	public TileSaltFissionModerator() {
 		super(CuboidalPartPositionType.INTERIOR);
@@ -26,18 +26,24 @@ public class TileSaltFissionModerator extends TileSaltFissionPartBase {
 		//getWorld().setBlockState(getPos(), getWorld().getBlockState(getPos()), 2);
 	}
 	
+	public boolean contributeExtraHeat() {
+		return isInModerationLine && !isInValidPosition;
+	}
+	
 	// NBT
 	
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-		super.writeToNBT(nbt);
+	public NBTTagCompound writeAll(NBTTagCompound nbt) {
+		super.writeAll(nbt);
 		nbt.setBoolean("isInValidPosition", isInValidPosition);
+		nbt.setBoolean("isInModerationLine", isInModerationLine);
 		return nbt;
 	}
 	
 	@Override
-	public void readFromNBT(NBTTagCompound nbt) {
-		super.readFromNBT(nbt);
+	public void readAll(NBTTagCompound nbt) {
+		super.readAll(nbt);
 		isInValidPosition = nbt.getBoolean("isInValidPosition");
+		isInModerationLine = nbt.getBoolean("isInModerationLine");
 	}
 }

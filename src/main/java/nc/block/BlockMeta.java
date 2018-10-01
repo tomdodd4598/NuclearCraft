@@ -2,6 +2,8 @@ package nc.block;
 
 import java.util.Iterator;
 
+import javax.annotation.Nullable;
+
 import nc.Global;
 import nc.block.item.IMetaBlockName;
 import nc.enumm.IBlockMeta;
@@ -140,7 +142,7 @@ public abstract class BlockMeta<T extends Enum<T> & IStringSerializable & IBlock
 	}
 	
 	@Override
-	public float getExplosionResistance(World world, BlockPos pos, Entity exploder, Explosion explosion) {
+	public float getExplosionResistance(World world, BlockPos pos, @Nullable Entity exploder, Explosion explosion) {
 		return ((T) world.getBlockState(pos).getValue(type)).getResistance();
 	}
 	

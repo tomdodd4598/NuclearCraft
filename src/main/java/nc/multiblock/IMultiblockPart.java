@@ -22,7 +22,7 @@ import java.util.Set;
  * 
  * {@link nc.multiblock.MultiblockTileBase}
  */
-public interface IMultiblockPart<T extends MultiblockBase> {
+public interface IMultiblockPart<MULTIBLOCK extends MultiblockBase> {
 
 	/**
 	 * @return True if this block is connected to a multiblock. False otherwise.
@@ -32,7 +32,7 @@ public interface IMultiblockPart<T extends MultiblockBase> {
 	/**
 	 * @return The attached multiblock for this tile entity. 
 	 */
-	T getMultiblock();
+	MULTIBLOCK getMultiblock();
 	
 	/**
 	 * Returns the location of this multiblock part in the world, in BlockPos form.
@@ -48,13 +48,13 @@ public interface IMultiblockPart<T extends MultiblockBase> {
 	 * Called after this block has been attached to a new multiblock.
 	 * @param newMultiblock The new multiblock to which this tile entity is attached.
 	 */
-	void onAttached(T newMultiblock);
+	void onAttached(MULTIBLOCK newMultiblock);
 	
 	/**
 	 * Called after this block has been detached from a multiblock.
 	 * @param multiblock The multiblock that no longer controls this tile entity.
 	 */
-	void onDetached(T multiblock);
+	void onDetached(MULTIBLOCK multiblock);
 	
 	/**
 	 * Called when this block is being orphaned. Use this to copy game-data values that
@@ -65,7 +65,7 @@ public interface IMultiblockPart<T extends MultiblockBase> {
 	 * @param oldMultiblockSize The number of connected blocks in the multiblock prior to shedding orphans.
 	 * @param newMultiblockSize The number of connected blocks in the multiblock after shedding orphans.
 	 */
-	void onOrphaned(T oldMultiblock, int oldMultiblockSize, int newMultiblockSize);
+	void onOrphaned(MULTIBLOCK oldMultiblock, int oldMultiblockSize, int newMultiblockSize);
 	
 	// Multiblock fuse/split helper methods. Here there be dragons.
 	/**
@@ -74,14 +74,14 @@ public interface IMultiblockPart<T extends MultiblockBase> {
 	 * Override this in your game code!
 	 * @return A new Multiblock, derived from MultiblockBase.
 	 */
-	T createNewMultiblock();
+	MULTIBLOCK createNewMultiblock();
 
 	/**
 	 * Retrieve the type of multiblock which governs this part.
 	 * Used to ensure that incompatible multiblocks are not merged.
 	 * @return The class/type of the multiblock which governs this type of part.
 	 */
-	Class<T> getMultiblockType();
+	Class<MULTIBLOCK> getMultiblockType();
 	
 	/**
 	 * Called when this block is moved from its current multiblock into a new multiblock.
@@ -89,7 +89,7 @@ public interface IMultiblockPart<T extends MultiblockBase> {
 	 * lots of recalculation logic.
 	 * @param newMultiblock The new multiblock into which this tile entity is being merged.
 	 */
-	void onAssimilated(T newMultiblock);
+	void onAssimilated(MULTIBLOCK newMultiblock);
 
 	// Multiblock connection data access.
 	// You generally shouldn't toy with these!
@@ -136,7 +136,7 @@ public interface IMultiblockPart<T extends MultiblockBase> {
 	 * Note that no method is chunk-safe on the client, because ChunkProviderClient is stupid.
 	 * @return An array of references to neighboring IMultiblockPart tile entities.
 	 */
-	IMultiblockPart<T>[] getNeighboringParts();
+	IMultiblockPart<MULTIBLOCK>[] getNeighboringParts();
 
 	// Multiblock business-logic callbacks - implement these!
 	/**
@@ -146,7 +146,7 @@ public interface IMultiblockPart<T extends MultiblockBase> {
 	 * of the machine! They form an outer bounding box for the whole machine itself.
 	 * @param multiblockBase The multiblock to which this part is being assembled.
 	 */
-	void onMachineAssembled(T multiblock);
+	void onMachineAssembled(MULTIBLOCK multiblock);
 	
 	/**
 	 * Called when the machine is broken for game reasons, e.g. a player removed a block
@@ -174,7 +174,7 @@ public interface IMultiblockPart<T extends MultiblockBase> {
 	 * This part should inform the multiblock that it is attaching at this time.
 	 * @return A Set of multiblocks to which this object would like to attach. It should have attached to one of the multiblocks in this list. Return null if there are no compatible multiblocks nearby. 
 	 */
-	Set<T> attachToNeighbors();
+	Set<MULTIBLOCK> attachToNeighbors();
 
 	/**
 	 * Assert that this part is detached. If not, log a warning and set the part's multiblock to null.

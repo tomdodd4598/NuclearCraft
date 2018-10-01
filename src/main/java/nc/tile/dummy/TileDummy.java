@@ -2,13 +2,18 @@ package nc.tile.dummy;
 
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 import nc.tile.energy.ITileEnergy;
 import nc.tile.energyFluid.TileEnergyFluidSidedInventory;
 import nc.tile.fluid.ITileFluid;
 import nc.tile.internal.energy.EnergyConnection;
 import nc.tile.internal.energy.EnergyStorage;
 import nc.tile.internal.fluid.FluidConnection;
+import nc.tile.internal.fluid.FluidTileWrapper;
+import nc.tile.internal.fluid.GasTileWrapper;
 import nc.tile.internal.fluid.Tank;
+import nc.tile.internal.fluid.TankSorption;
 import nc.tile.inventory.ITileInventory;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -19,33 +24,28 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.FluidTankProperties;
-import net.minecraftforge.fluids.capability.IFluidTankProperties;
-import net.minecraftforge.fluids.capability.templates.EmptyFluidHandler;
 
 public abstract class TileDummy<T extends TileEntity> extends TileEnergyFluidSidedInventory {
 	
 	public BlockPos masterPosition = null;
-	public int tickCount;
 	public final int updateRate;
 	
 	protected final Class<T> tClass;
 	
 	public TileDummy(Class<T> tClass, String name, int updateRate, List<String> allowedFluids) {
-		this(tClass, name, energyConnectionAll(EnergyConnection.BOTH), FluidConnection.BOTH, updateRate, allowedFluids);
+		this(tClass, name, ITileEnergy.energyConnectionAll(EnergyConnection.BOTH), TankSorption.BOTH, updateRate, allowedFluids, ITileFluid.fluidConnectionAll(FluidConnection.BOTH));
 	}
 	
 	public TileDummy(Class<T> tClass, String name, EnergyConnection[] energyConnections, int updateRate, List<String> allowedFluids) {
-		this(tClass, name, energyConnections, FluidConnection.BOTH, updateRate, allowedFluids);
+		this(tClass, name, energyConnections, TankSorption.BOTH, updateRate, allowedFluids, ITileFluid.fluidConnectionAll(FluidConnection.BOTH));
 	}
 	
-	public TileDummy(Class<T> tClass, String name, FluidConnection fluidConnection, int updateRate, List<String> allowedFluids) {
-		this(tClass, name, energyConnectionAll(EnergyConnection.BOTH), fluidConnection, updateRate, allowedFluids);
+	public TileDummy(Class<T> tClass, String name, TankSorption fluidConnection, int updateRate, List<String> allowedFluids, @Nonnull FluidConnection[] fluidConnections) {
+		this(tClass, name, ITileEnergy.energyConnectionAll(EnergyConnection.BOTH), fluidConnection, updateRate, allowedFluids, fluidConnections);
 	}
 	
-	public TileDummy(Class<T> tClass, String name, EnergyConnection[] energyConnections, FluidConnection fluidConnection, int updateRate, List<String> allowedFluids) {
-		super(name, 1, 1, energyConnections, 1, fluidConnection, allowedFluids);
+	public TileDummy(Class<T> tClass, String name, EnergyConnection[] energyConnections, TankSorption fluidConnection, int updateRate, List<String> allowedFluids, @Nonnull FluidConnection[] fluidConnections) {
+		super(name, 1, 1, energyConnections, 1, fluidConnection, allowedFluids, fluidConnections);
 		this.updateRate = updateRate;
 		this.tClass = tClass;
 	}
@@ -109,7 +109,7 @@ public abstract class TileDummy<T extends TileEntity> extends TileEnergyFluidSid
 			return;
 		}
 		ItemStack itemstack = inventoryStacks.get(index);
-		boolean flag = !stack.isEmpty() && stack.isItemEqual(itemstack) && ItemStack.areItemStackTagsEqual(stack, itemstack);
+		boolean flag = !stack.isEmpty() && stack.isItemEqual(itemstack) && nc.util.ItemStackHelper.areItemStackTagsEqual(stack, itemstack);
 		inventoryStacks.set(index, stack);
 
 		if (stack.getCount() > getInventoryStackLimit()) {
@@ -176,7 +176,7 @@ public abstract class TileDummy<T extends TileEntity> extends TileEnergyFluidSid
 	}
 	
 	@Override
-	public EnergyConnection getEnergyConnection(EnumFacing side) {
+	public EnergyConnection getEnergyConnection(@Nonnull EnumFacing side) {
 		if (getMaster() instanceof ITileEnergy) return ((ITileEnergy) getMaster()).getEnergyConnection(side);
 		return super.getEnergyConnection(side);
 	}
@@ -231,124 +231,7 @@ public abstract class TileDummy<T extends TileEntity> extends TileEnergyFluidSid
 		return 4;
 	}
 	
-	// Fluids
-	
-	@Override
-	public List<Tank> getTanks() {
-		if (getMaster() instanceof ITileFluid) return ((ITileFluid) getMaster()).getTanks();
-		return tanks;
-	}
-	
-	@Override
-	public List<FluidConnection> getFluidConnections() {
-		if (getMaster() instanceof ITileFluid) return ((ITileFluid) getMaster()).getFluidConnections();
-		return fluidConnections;
-	}
-	
-	@Override
-	public IFluidTankProperties[] getTankProperties() {
-		if (getTanks() == null || getTanks().isEmpty()) return EmptyFluidHandler.EMPTY_TANK_PROPERTIES_ARRAY;
-		IFluidTankProperties[] properties = new IFluidTankProperties[getTanks().size()];
-		for (int i = 0; i < getTanks().size(); i++) {
-			properties[i] = new FluidTankProperties(getTanks().get(i).getFluid(), getTanks().get(i).getCapacity(), getFluidConnections().get(i).canFill(), getFluidConnections().get(i).canDrain());
-		}
-		return properties;
-	}
-
-	@Override
-	public int fill(FluidStack resource, boolean doFill) {
-		if (getMaster() instanceof ITileFluid) {
-			if (getTanks() == null || getTanks().isEmpty()) return 0;
-			for (int i = 0; i < getTanks().size(); i++) {
-				if (getFluidConnections().get(i).canFill() && getTanks().get(i).isFluidValid(resource) && canFill(resource, i) && getTanks().get(i).getFluidAmount() < getTanks().get(i).getCapacity() && (getTanks().get(i).getFluid() == null || getTanks().get(i).getFluid().isFluidEqual(resource))) {
-					return getTanks().get(i).fill(resource, doFill);
-				}
-			}
-		}
-		return 0;
-	}
-
-	@Override
-	public FluidStack drain(FluidStack resource, boolean doDrain) {
-		if (getMaster() instanceof ITileFluid) {
-			if (getTanks() == null || getTanks().isEmpty()) return null;
-			for (int i = 0; i < getTanks().size(); i++) {
-				if (getFluidConnections().get(i).canDrain() && getTanks().get(i).getFluid() != null && getTanks().get(i).getFluidAmount() > 0) {
-					if (resource.isFluidEqual(getTanks().get(i).getFluid()) && getTanks().get(i).drain(resource, false) != null) return getTanks().get(i).drain(resource, doDrain);
-				}
-			}
-		}
-		return null;
-	}
-
-	@Override
-	public FluidStack drain(int maxDrain, boolean doDrain) {
-		if (getMaster() instanceof ITileFluid) {
-			if (getTanks() == null || getTanks().isEmpty()) return null;
-			for (int i = 0; i < getTanks().size(); i++) {
-				if (getFluidConnections().get(i).canDrain() && getTanks().get(i).getFluid() != null && getTanks().get(i).getFluidAmount() > 0) {
-					if (getTanks().get(i).drain(maxDrain, false) != null) return getTanks().get(i).drain(maxDrain, doDrain);
-				}
-			}
-		}
-		return null;
-	}
-	
-	@Override
-	public boolean canFill(FluidStack resource, int tankNumber) {
-		if (getMaster() instanceof ITileFluid) return ((ITileFluid) getMaster()).canFill(resource, tankNumber);
-		return super.canFill(resource, tankNumber);
-	}
-	
-	// Mekanism Gas
-	
-	/*public int receiveGas(EnumFacing side, GasStack stack, boolean doTransfer) {
-		String gasName = stack.getGas().getName();
-		Fluid fluid = FluidRegistry.getFluid(gasName);
-		if (fluid == null) return 0;
-		FluidStack fluidStack = new FluidStack(fluid, 1000);
-		
-		if (getMaster() != null) {
-			if (getMaster() instanceof ITileFluid) {
-				if (getTanks().length == 0 || getTanks() == null) return 0;
-				for (int i = 0; i < getTanks().length; i++) {
-					if (getFluidConnections().get(i).canFill() && getTanks().get(i).isFluidValid(fluidStack) && canFill(fluidStack, i) && getTanks().get(i).getFluidAmount() < getTanks().get(i).getCapacity() && (getTanks().get(i).getFluid() == null || getTanks().get(i).getFluid().isFluidEqual(fluidStack))) {
-						return tanks.get(i).fill(fluidStack, doTransfer);
-					}
-				}
-			}
-		}
-		return 0;
-	}
-
-	public GasStack drawGas(EnumFacing side, int amount, boolean doTransfer) {
-		return null;
-	}
-
-	public boolean canReceiveGas(EnumFacing side, Gas gas) {
-		Fluid fluid = FluidRegistry.getFluid(gas.getName());
-		if (fluid == null) return false;
-
-		if (getMaster() != null) {
-			if (getMaster() instanceof ITileFluid) return ((ITileFluid) getMaster()).canReceiveGas(side, gas);
-		}
-		return super.canReceiveGas(side, gas);
-	}
-
-	public boolean canDrawGas(EnumFacing side, Gas type) {
-		return false;
-	}
-	
-	public boolean canTubeConnect(EnumFacing side) {
-		if (getMaster() != null) {
-			for (FluidConnection con : getFluidConnections()) {
-				if (con.canFill()) return true;
-			}
-		}
-		return false;
-	}*/
-	
-	// Energy Connections
+	// Energy Distribution
 	
 	@Override
 	public void pushEnergy() {
@@ -362,17 +245,41 @@ public abstract class TileDummy<T extends TileEntity> extends TileEnergyFluidSid
 		super.spreadEnergy();
 	}
 	
+	// Fluids
+	
+	// Tanks
+	
+	@Override
+	public @Nonnull List<Tank> getTanks() {
+		if (getMaster() instanceof ITileFluid) return ((ITileFluid) getMaster()).getTanks();
+		return super.getTanks();
+	}
+	
 	// Fluid Connections
 	
 	@Override
-	public void setConnection(List<FluidConnection> connections) {
-		if (tanks != null && !tanks.isEmpty()) fluidConnections = connections;
+	public @Nonnull FluidConnection[] getFluidConnections() {
+		if (getMaster() instanceof ITileFluid) return ((ITileFluid) getMaster()).getFluidConnections();
+		return super.getFluidConnections();
 	}
 	
+	// Fluid Wrappers
+	
 	@Override
-	public void setConnection(FluidConnection connections, int tankNumber) {
-		if (tanks != null && !tanks.isEmpty()) fluidConnections.set(tankNumber, connections);
+	public @Nonnull FluidTileWrapper[] getFluidSides() {
+		if (getMaster() instanceof ITileFluid) return ((ITileFluid) getMaster()).getFluidSides();
+		return super.getFluidSides();
 	}
+	
+	// Gas Wrapper
+	
+	@Override
+	public @Nonnull GasTileWrapper getGasWrapper() {
+		if (getMaster() instanceof ITileFluid) return ((ITileFluid) getMaster()).getGasWrapper();
+		return super.getGasWrapper();
+	}
+	
+	// Fluid Distribution
 	
 	@Override
 	public void pushFluid() {

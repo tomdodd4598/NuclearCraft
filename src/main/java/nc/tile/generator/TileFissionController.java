@@ -23,6 +23,7 @@ import nc.util.BlockPosHelper;
 import nc.util.EnergyHelper;
 import nc.util.Lang;
 import nc.util.NCMath;
+import nc.util.RadiationHelper;
 import nc.util.RegistryHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -75,11 +76,21 @@ public class TileFissionController extends TileItemGenerator implements SimpleCo
 	
 	private boolean newRules;
 	
-	public TileFissionController() {
-		this(false);
+	public static class New extends TileFissionController {
+		
+		public New() {
+			super(true);
+		}
+	}
+	
+	public static class Old extends TileFissionController {
+		
+		public Old() {
+			super(false);
+		}
 	}
 
-	public TileFissionController(boolean newRules) {
+	private TileFissionController(boolean newRules) {
 		super("fission_controller", 1, 1, 0, BASE_CAPACITY, NCRecipes.Type.FISSION);
 		this.newRules = newRules;
 	}
@@ -160,12 +171,15 @@ public class TileFissionController extends TileItemGenerator implements SimpleCo
 	}
 	
 	public void meltdown() {
+		BlockPos middle = finder.position((minX + maxX)/2, (minY + maxY)/2, (minZ + maxZ)/2);
+		
+		RadiationHelper.addToChunkRadiation(world.getChunkFromBlockCoords(middle), baseProcessRadiation*cells*NCConfig.fission_fuel_use);
+		
 		Block corium = RegistryHelper.getBlock(Global.MOD_ID + ":fluid_corium");
 		world.removeTileEntity(pos);
 		world.setBlockState(pos, corium.getDefaultState());
 		
 		if (NCConfig.fission_explosions) {
-			BlockPos middle = finder.position((minX + maxX)/2, (minY + maxY)/2, (minZ + maxZ)/2);
 			world.createExplosion(null, middle.getX(), middle.getY(), middle.getZ(), lengthX + lengthY + lengthZ, true);
 		}
 		
@@ -451,7 +465,7 @@ public class TileFissionController extends TileItemGenerator implements SimpleCo
 	}
 	
 	private boolean findController(BlockPos pos) {
-		return finder.find(pos, NCBlocks.fission_controller_idle, NCBlocks.fission_controller_active, NCBlocks.fission_controller_new_idle, NCBlocks.fission_controller_new_active, NCBlocks.fission_controller_new_fixed);
+		return finder.find(pos, NCBlocks.fission_controller_new_fixed, NCBlocks.fission_controller_idle, NCBlocks.fission_controller_active, NCBlocks.fission_controller_new_idle, NCBlocks.fission_controller_new_active);
 	}
 	
 	private boolean findController(int x, int y, int z) {
@@ -502,8 +516,8 @@ public class TileFissionController extends TileItemGenerator implements SimpleCo
 			int maxZ = 0, maxX = 0, maxY = 0;
 			int portCount = 0;
 			for (int z = 0; z <= maxLength; z++) {
-				if ((findCasing(0, 1, 0) || findCasing(0, -1, 0)) || ((findCasing(1, 1, 0) || findCasing(1, -1, 0)) && findCasing(1, 0, 0)) || ((findCasing(1, 1, 0) && !findCasing(1, -1, 0)) && !findCasing(1, 0, 0)) || ((!findCasing(1, 1, 0) && findCasing(1, -1, 0)) && !findCasing(1, 0, 0))) {
-					if (!findCasing(0, 1, -z) && !findCasing(0, -1, -z) && (findCasingAll(0, 0, -z + 1) || findCasingAll(0, 1, -z + 1) || findCasingAll(0, -1, -z + 1))) {
+				if ((findCasingAll(0, 1, 0) || findCasingAll(0, -1, 0)) || ((findCasingAll(1, 1, 0) || findCasingAll(1, -1, 0)) && findCasingAll(1, 0, 0)) || ((findCasingAll(1, 1, 0) && !findCasingAll(1, -1, 0)) && !findCasingAll(1, 0, 0)) || ((!findCasingAll(1, 1, 0) && findCasingAll(1, -1, 0)) && !findCasingAll(1, 0, 0))) {
+					if (!findCasingAll(0, 1, -z) && !findCasingAll(0, -1, -z) && (findCasingAll(0, 0, -z + 1) || findCasingAll(0, 1, -z + 1) || findCasingAll(0, -1, -z + 1))) {
 						maxZCheck = maxLength - z;
 						minZ = -z;
 						validStructure = true;

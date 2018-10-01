@@ -11,6 +11,7 @@ import nc.recipe.ProcessorRecipe;
 import nc.recipe.ProcessorRecipeHandler;
 import nc.recipe.ingredient.IItemIngredient;
 import nc.tile.dummy.IInterfaceable;
+import nc.tile.energy.ITileEnergy;
 import nc.tile.energy.TileEnergy;
 import nc.tile.internal.energy.EnergyConnection;
 import nc.tile.internal.fluid.Tank;
@@ -33,7 +34,7 @@ public class TileDecayGenerator extends TileEnergy implements IInterfaceable {
 	public static final int DEFAULT_POWER = (int) (5D*NCConfig.machine_update_rate/20D);
 	
 	public TileDecayGenerator() {
-		super(maxPower(), energyConnectionAll(EnergyConnection.OUT));
+		super(maxPower(), ITileEnergy.energyConnectionAll(EnergyConnection.OUT));
 		decayGenRecipeType = NCRecipes.Type.DECAY_GENERATOR;
 	}
 	

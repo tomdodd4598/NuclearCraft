@@ -1,5 +1,127 @@
 {
+	"forge_marker": 1,
+	"defaults": {
+		"textures": {
+			"particle":"nuclearcraft:blocks/salt_fission/salt_fission_heater/both",
+			"north":"nuclearcraft:blocks/salt_fission/salt_fission_heater/both",
+			"east":"nuclearcraft:blocks/salt_fission/salt_fission_heater/both",
+			"south":"nuclearcraft:blocks/salt_fission/salt_fission_heater/both",
+			"west":"nuclearcraft:blocks/salt_fission/salt_fission_heater/both",
+			"up":"nuclearcraft:blocks/salt_fission/salt_fission_heater/both",
+			"down":"nuclearcraft:blocks/salt_fission/salt_fission_heater/both"
+		},
+		"model":"cube",
+		"transform":"forge:default-block"
+	},
 	"variants": {
-		"normal": {"model": "nuclearcraft:salt_fission_heater"}
+		"bothventory": [{}],
+		"north": {
+			"both": {},
+			"out": {
+			   "textures": {
+					"north":"nuclearcraft:blocks/salt_fission/salt_fission_heater/out"
+				}
+			},
+			"in": {
+				 "textures": {
+					"north":"nuclearcraft:blocks/salt_fission/salt_fission_heater/in"
+				}
+			},
+			"non": {
+				 "textures": {
+					"north":"nuclearcraft:blocks/salt_fission/salt_fission_heater/non"
+				}
+			}
+		},
+		"east": {
+			"both": {},
+			"out": {
+			   "textures": {
+					"east":"nuclearcraft:blocks/salt_fission/salt_fission_heater/out"
+				}
+			},
+			"in": {
+				 "textures": {
+					"east":"nuclearcraft:blocks/salt_fission/salt_fission_heater/in"
+				}
+			},
+			"non": {
+				 "textures": {
+					"east":"nuclearcraft:blocks/salt_fission/salt_fission_heater/non"
+				}
+			}
+		},
+		"south": {
+			"both": {},
+			"out": {
+			   "textures": {
+					"south":"nuclearcraft:blocks/salt_fission/salt_fission_heater/out"
+				}
+			},
+			"in": {
+				 "textures": {
+					"south":"nuclearcraft:blocks/salt_fission/salt_fission_heater/in"
+				}
+			},
+			"non": {
+				 "textures": {
+					"south":"nuclearcraft:blocks/salt_fission/salt_fission_heater/non"
+				}
+			}
+		},
+		"west": {
+			"both": {},
+			"out": {
+			   "textures": {
+					"west":"nuclearcraft:blocks/salt_fission/salt_fission_heater/out"
+				}
+			},
+			"in": {
+				 "textures": {
+					"west":"nuclearcraft:blocks/salt_fission/salt_fission_heater/in"
+				}
+			},
+			"non": {
+				 "textures": {
+					"west":"nuclearcraft:blocks/salt_fission/salt_fission_heater/non"
+				}
+			}
+		},
+		"up": {
+			"both": {},
+			"out": {
+			   "textures": {
+					"up":"nuclearcraft:blocks/salt_fission/salt_fission_heater/out"
+				}
+			},
+			"in": {
+				 "textures": {
+					"up":"nuclearcraft:blocks/salt_fission/salt_fission_heater/in"
+				}
+			},
+			"non": {
+				 "textures": {
+					"up":"nuclearcraft:blocks/salt_fission/salt_fission_heater/non"
+				}
+			}
+		},
+		"down": {
+			"both": {},
+			"out": {
+			   "textures": {
+					"down":"nuclearcraft:blocks/salt_fission/salt_fission_heater/out"
+				}
+			},
+			"in": {
+				 "textures": {
+					"down":"nuclearcraft:blocks/salt_fission/salt_fission_heater/in"
+				}
+			},
+			"non": {
+				 "textures": {
+					"down":"nuclearcraft:blocks/salt_fission/salt_fission_heater/non"
+				}
+			}
+		}
 	}
 }

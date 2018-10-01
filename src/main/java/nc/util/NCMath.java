@@ -138,4 +138,14 @@ public class NCMath {
 	public static int hollowCube(int length) {
 		return cube(length) - cube(length - 2);
 	}
+	
+	public static double trapezoidalWave(double degs, double phase) {
+		double angle = degs %= 360D;
+		angle = (angle + phase) % 360D;
+		if (angle <= 60D) return 1D;
+		else if (angle <= 120D) return (120D - angle)/60D;
+		else if (angle <= 240D) return 0D;
+		else if (angle <= 300D) return (angle - 240D)/60D;
+		else return 1D;
+	}
 }

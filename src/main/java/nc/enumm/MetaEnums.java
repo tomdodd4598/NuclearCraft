@@ -549,7 +549,8 @@ public class MetaEnums {
 		SODIUM_FLUORIDE("sodium_fluoride", 3),
 		POTASSIUM_FLUORIDE("potassium_fluoride", 4),
 		SODIUM_HYDROXIDE("sodium_hydroxide", 5),
-		POTASSIUM_HYDROXIDE("potassium_hydroxide", 6);
+		POTASSIUM_HYDROXIDE("potassium_hydroxide", 6),
+		BORAX("borax", 7);
 		
 		private String name;
 		private int id;
@@ -591,7 +592,8 @@ public class MetaEnums {
 		MOTOR("motor", 8),
 		ACTUATOR("actuator", 9),
 		CHASSIS("chassis", 10),
-		EMPTY_FRAME("empty_frame", 11);
+		EMPTY_FRAME("empty_frame", 11),
+		STEEL_FRAME("steel_frame", 12);
 		
 		private String name;
 		private int id;

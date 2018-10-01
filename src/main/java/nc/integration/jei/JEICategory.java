@@ -7,7 +7,7 @@ import mezz.jei.api.recipe.IRecipeHandler;
 import mezz.jei.api.recipe.IRecipeWrapper;
 import nc.Global;
 
-public abstract class JEICategory extends BlankRecipeCategory implements IRecipeHandler<JEIRecipeWrapperAbstract> {
+public abstract class JEICategory<WRAPPER extends JEIRecipeWrapperAbstract> extends BlankRecipeCategory<WRAPPER> implements IRecipeHandler<WRAPPER> {
 
 	protected final IJEIHandler jeiHandler;
 
@@ -21,7 +21,7 @@ public abstract class JEICategory extends BlankRecipeCategory implements IRecipe
 	}
 	
 	@Override
-	public void setRecipe(IRecipeLayout recipeLayout, IRecipeWrapper recipeWrapper, IIngredients ingredients) {
+	public void setRecipe(IRecipeLayout recipeLayout, WRAPPER recipeWrapper, IIngredients ingredients) {
 		recipeWrapper.getIngredients(ingredients);
 		setRecipe(recipeLayout, recipeWrapper, ingredients);
 	}

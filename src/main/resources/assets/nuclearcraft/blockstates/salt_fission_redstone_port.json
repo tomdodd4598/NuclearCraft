@@ -1,0 +1,6 @@
+{
+	"variants": {
+		"active=false": { "model": "nuclearcraft:salt_fission_redstone_port_off" },
+		"active=true": { "model": "nuclearcraft:salt_fission_redstone_port_on" }
+	}
+}

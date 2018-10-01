@@ -8,10 +8,15 @@ import com.google.common.collect.Lists;
 
 import gregtech.api.capability.GregtechCapabilities;
 import nc.ModCheck;
+import nc.capability.radiation.IRadiationSource;
 import nc.config.NCConfig;
+import nc.tile.energy.ITileEnergy;
 import nc.tile.energyFluid.TileEnergyFluidSidedInventory;
+import nc.tile.fluid.ITileFluid;
 import nc.tile.internal.energy.EnergyConnection;
 import nc.tile.internal.fluid.FluidConnection;
+import nc.tile.internal.fluid.TankSorption;
+import nc.util.GasHelper;
 import nc.util.ItemStackHelper;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -77,7 +82,7 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 	}
 	
 	public TilePassiveAbstract(String name, ItemStack stack, int itemChange, int energyChange, Fluid fluid, int fluidChange, int changeRate, List<String> fluidTypes) {
-		super(name, 1, energyChange == 0 ? 1 : NCConfig.rf_per_eu*MathHelper.abs(energyChange)*changeRate, energyChange == 0 ? 0 : NCConfig.rf_per_eu*MathHelper.abs(energyChange), energyChange > 0 ? energyConnectionAll(EnergyConnection.OUT) : (energyChange < 0 ? energyConnectionAll(EnergyConnection.IN) : energyConnectionAll(EnergyConnection.NON)), fluidChange == 0 ? 1 : 2*MathHelper.abs(fluidChange)*changeRate, fluidChange > 0 ? FluidConnection.OUT : (fluidChange < 0 ? FluidConnection.IN : FluidConnection.NON), fluidTypes);
+		super(name, 1, energyChange == 0 ? 1 : NCConfig.rf_per_eu*MathHelper.abs(energyChange)*changeRate, energyChange == 0 ? 0 : NCConfig.rf_per_eu*MathHelper.abs(energyChange), energyChange > 0 ? ITileEnergy.energyConnectionAll(EnergyConnection.OUT) : (energyChange < 0 ? ITileEnergy.energyConnectionAll(EnergyConnection.IN) : ITileEnergy.energyConnectionAll(EnergyConnection.NON)), fluidChange == 0 ? 1 : 2*MathHelper.abs(fluidChange)*changeRate, fluidChange > 0 ? TankSorption.OUT : (fluidChange < 0 ? TankSorption.IN : TankSorption.NON), fluidTypes, fluidChange > 0 ? ITileFluid.fluidConnectionAll(FluidConnection.OUT) : (fluidChange < 0 ? ITileFluid.fluidConnectionAll(FluidConnection.IN) : ITileFluid.fluidConnectionAll(FluidConnection.NON)));
 		this.energyChange = energyChange*changeRate;
 		this.itemChange = itemChange*changeRate;
 		stackChange = ItemStackHelper.changeStackSize(stack, MathHelper.abs(itemChange)*changeRate);
@@ -85,9 +90,6 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 		fluidStackChange = new FluidStack(fluid, MathHelper.abs(fluidChange)*changeRate);
 		fluidType = fluid;
 		updateRate = changeRate*20;
-		
-		if (fluidChange < 0) tanks.get(0).setStrictlyInput(true);
-		else tanks.get(0).setStrictlyOutput(true);
 	}
 	
 	@Override
@@ -104,10 +106,7 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 			isRunning = isRunning(energyBool, stackBool, fluidBool);
 			if (flag != isRunning) {
 				flag1 = true;
-				if (ModCheck.ic2Loaded()) removeTileFromENet();
-				setState(isRunning);
-				world.notifyNeighborsOfStateChange(pos, getBlockType(), true);
-				if (ModCheck.ic2Loaded()) addTileToENet();
+				updateBlockType();
 			}
 			if (itemChange > 0) pushStacks();
 			if (energyChange > 0) pushEnergy();
@@ -132,6 +131,13 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 	@Override
 	public void tickTile() {
 		tickCount++; tickCount %= updateRate;
+	}
+	
+	public void updateBlockType() {
+		if (ModCheck.ic2Loaded()) removeTileFromENet();
+		setState(isRunning);
+		world.notifyNeighborsOfStateChange(pos, getBlockType(), true);
+		if (ModCheck.ic2Loaded()) addTileToENet();
 	}
 	
 	public boolean changeEnergy(boolean simulateChange) {
@@ -174,14 +180,14 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 	
 	public boolean changeFluid(boolean simulateChange) {
 		if (fluidChange == 0) return simulateChange;
-		if (tanks.get(0).getFluidAmount() >= tanks.get(0).getCapacity() && fluidChange > 0) return false;
-		if (tanks.get(0).getFluidAmount() < MathHelper.abs(fluidChange) && fluidChange < 0) return false;
+		if (getTanks().get(0).getFluidAmount() >= getTanks().get(0).getCapacity() && fluidChange > 0) return false;
+		if (getTanks().get(0).getFluidAmount() < MathHelper.abs(fluidChange) && fluidChange < 0) return false;
 		if (!simulateChange) {
 			if (changeEnergy(true) && changeStack(true)) {
 				if (fluidChange > 0) {
-					if (fluidStackChange != null) tanks.get(0).changeFluidStored(fluidType, fluidChange);
+					if (fluidStackChange != null) getTanks().get(0).changeFluidStored(fluidType, fluidChange);
 				}
-				else tanks.get(0).changeFluidStored(fluidChange);
+				else getTanks().get(0).changeFluidAmount(fluidChange);
 			}
 		}
 		return true;
@@ -300,36 +306,40 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 	IItemHandler itemHandler = new InvWrapper(this);
 	
 	@Override
-	public boolean hasCapability(Capability<?> capability, EnumFacing side) {
-		if (energyChange != 0) {
+	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing side) {
+		if (energyChange != 0 && hasEnergySideCapability(side)) {
+			side = nonNullSide(side);
 			if (capability == CapabilityEnergy.ENERGY) return getEnergySide(side) != null;
 			if (ModCheck.gregtechLoaded()) if (capability == GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER) return getEnergySideGT(side) != null;
 		}
-		if (fluidChange != 0) {
+		if (fluidChange != 0 && hasFluidSideCapability(side)) {
+			side = nonNullSide(side);
 			if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) return true;
-			//else if (capability == Capabilities.GAS_HANDLER_CAPABILITY) return true;
-			//else if (capability == Capabilities.TUBE_CONNECTION_CAPABILITY) return true;
+			if (ModCheck.mekanismLoaded()) if (GasHelper.isGasCapability(capability)) return getGasWrapper() != null;
 		}
 		if (itemChange != 0) {
 			if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) return true;
 		}
+		if (capability == IRadiationSource.CAPABILITY_RADIATION_SOURCE) return true;
 		return false;
 	}
 	
 	@Override
 	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing side) {
-		if (energyChange != 0) {
+		if (energyChange != 0 && hasEnergySideCapability(side)) {
+			side = nonNullSide(side);
 			if (capability == CapabilityEnergy.ENERGY) return (T) getEnergySide(side);
 			if (ModCheck.gregtechLoaded()) if (capability == GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER) return (T) getEnergySideGT(side);
 		}
-		if (fluidChange != 0) {
-			if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(this);
-			//if (capability == Capabilities.GAS_HANDLER_CAPABILITY) return Capabilities.GAS_HANDLER_CAPABILITY.cast(this);
-			//if (capability == Capabilities.TUBE_CONNECTION_CAPABILITY) return Capabilities.TUBE_CONNECTION_CAPABILITY.cast(this);
+		if (fluidChange != 0 && hasFluidSideCapability(side)) {
+			side = nonNullSide(side);
+			if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) return (T) getFluidSide(side);
+			if (ModCheck.mekanismLoaded()) if (GasHelper.isGasCapability(capability)) return (T) getGasWrapper();
 		}
 		if (itemChange != 0) {
 			if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) return (T) itemHandler;
 		}
+		if (capability == IRadiationSource.CAPABILITY_RADIATION_SOURCE) return (T) getRadiationSource();
 		return null;
 	}
 }

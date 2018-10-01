@@ -2,14 +2,15 @@ package nc.tile.fluid;
 
 import java.util.List;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import nc.tile.internal.fluid.FluidConnection;
+import nc.tile.internal.fluid.TankSorption;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
@@ -20,28 +21,20 @@ public abstract class TileFluidSidedInventory extends TileFluidInventory impleme
 	public int[] sideSlots;
 	public int[] bottomSlots;
 	
-	public TileFluidSidedInventory(String name, int size, int capacity, FluidConnection fluidConnections, List<String> allowedFluids) {
-		super(name, size, capacity, fluidConnections, allowedFluids);
+	public TileFluidSidedInventory(String name, int size, int capacity, @Nonnull TankSorption tankSorption, List<String> allowedFluidsList, @Nonnull FluidConnection[] fluidConnections) {
+		super(name, size, capacity, tankSorption, allowedFluidsList, fluidConnections);
 	}
 	
-	public TileFluidSidedInventory(String name, int size, List<Integer> capacity, List<FluidConnection> fluidConnections, List<List<String>> allowedFluids) {
-		super(name, size, capacity, fluidConnections, allowedFluids);
+	public TileFluidSidedInventory(String name, int size, @Nonnull List<Integer> capacity, @Nonnull List<TankSorption> tankSorptions, List<List<String>> allowedFluidsLists, @Nonnull FluidConnection[] fluidConnections) {
+		super(name, size, capacity, tankSorptions, allowedFluidsLists, fluidConnections);
 	}
 	
-	public TileFluidSidedInventory(String name, int size, int capacity, int maxTransfer, FluidConnection fluidConnections, List<String> allowedFluids) {
-		super(name, size, capacity, maxTransfer, fluidConnections, allowedFluids);
+	public TileFluidSidedInventory(String name, int size, int capacity, int maxTransfer, @Nonnull TankSorption tankSorption, List<String> allowedFluidsList, @Nonnull FluidConnection[] fluidConnections) {
+		super(name, size, capacity, maxTransfer, tankSorption, allowedFluidsList, fluidConnections);
 	}
 	
-	public TileFluidSidedInventory(String name, int size, List<Integer> capacity, List<Integer> maxTransfer, List<FluidConnection> fluidConnections, List<List<String>> allowedFluids) {
-		super(name, size, capacity, maxTransfer, fluidConnections, allowedFluids);
-	}
-	
-	public TileFluidSidedInventory(String name, int size, int capacity, int maxReceive, int maxExtract, FluidConnection fluidConnections, List<String> allowedFluids) {
-		super(name, size, capacity, maxReceive, maxExtract, fluidConnections, allowedFluids);
-	}
-	
-	public TileFluidSidedInventory(String name, int size, List<Integer> capacity, List<Integer> maxReceive, List<Integer> maxExtract, List<FluidConnection> fluidConnections, List<List<String>> allowedFluids) {
-		super(name, size, capacity, maxReceive, maxExtract, fluidConnections, allowedFluids);
+	public TileFluidSidedInventory(String name, int size, @Nonnull List<Integer> capacity, @Nonnull List<Integer> maxTransfer, @Nonnull List<TankSorption> tankSorptions, List<List<String>> allowedFluidsLists, @Nonnull FluidConnection[] fluidConnections) {
+		super(name, size, capacity, maxTransfer, tankSorptions, allowedFluidsLists, fluidConnections);
 	}
 	
 	// SidedInventory
@@ -63,9 +56,6 @@ public abstract class TileFluidSidedInventory extends TileFluidInventory impleme
 	
 	@Override
 	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing) {
-		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
-			return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(this);
-		}
 		if (facing != null && capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
 			if (facing == EnumFacing.DOWN) {
 				return (T) handlerBottom;

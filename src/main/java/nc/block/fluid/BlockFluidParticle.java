@@ -2,6 +2,8 @@ package nc.block.fluid;
 
 import java.util.Random;
 
+import javax.annotation.Nonnull;
+
 import nc.fluid.FluidParticle;
 import nc.util.PotionHelper;
 import net.minecraft.block.material.MapColor;
@@ -35,7 +37,7 @@ public class BlockFluidParticle extends BlockFluid {
 	}
 	
 	@Override
-	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+	public void updateTick(@Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull IBlockState state, @Nonnull Random rand) {
 		super.updateTick(worldIn, pos, state, rand);
 		if (rand.nextInt(5) < 1) worldIn.setBlockToAir(pos);
 	}

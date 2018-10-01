@@ -26,7 +26,7 @@ public class GuiInfuser extends GuiItemFluidProcessor {
 	
 	@Override
 	public void renderTooltips(int mouseX, int mouseY) {
-		drawFluidTooltip(fluid0, tile.tanks.get(0), mouseX, mouseY, 66, 35, 16, 16);
+		drawFluidTooltip(fluid0, tile.getTanks().get(0), mouseX, mouseY, 66, 35, 16, 16);
 		
 		drawEnergyTooltip(tile, mouseX, mouseY, 8, 6, 16, 74);
 	}
@@ -51,7 +51,7 @@ public class GuiInfuser extends GuiItemFluidProcessor {
 		
 		if (tick == 0) sendTankInfo();
 		
-		GuiFluidRenderer.renderGuiTank(fluid0, tile.tanks.get(0).getCapacity(), guiLeft + 66, guiTop + 35, zLevel, 16, 16);
+		GuiFluidRenderer.renderGuiTank(fluid0, tile.getTanks().get(0).getCapacity(), guiLeft + 66, guiTop + 35, zLevel, 16, 16);
 	}
 	
 	@Override

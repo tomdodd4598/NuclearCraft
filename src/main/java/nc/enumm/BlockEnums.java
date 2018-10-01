@@ -110,11 +110,11 @@ public class BlockEnums {
 			case ROCK_CRUSHER:
 				return new TileProcessor.RockCrusher();
 			case FISSION_CONTROLLER:
-				return new TileFissionController(false);
+				return new TileFissionController.Old();
 			case FISSION_CONTROLLER_NEW:
-				return new TileFissionController(true);
+				return new TileFissionController.New();
 			case FISSION_CONTROLLER_NEW_FIXED:
-				return new TileFissionController(true);
+				return new TileFissionController.New();
 			default:
 				return null;
 			}

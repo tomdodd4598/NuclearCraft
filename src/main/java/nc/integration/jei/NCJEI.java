@@ -1,6 +1,9 @@
 package nc.integration.jei;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import com.google.common.collect.Lists;
 
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.IJeiHelpers;
@@ -59,6 +62,7 @@ import nc.integration.jei.generator.DecayGeneratorCategory;
 import nc.integration.jei.generator.FissionCategory;
 import nc.integration.jei.generator.FusionCategory;
 import nc.integration.jei.multiblock.CoolantHeaterCategory;
+import nc.integration.jei.multiblock.HeatExchangerCategory;
 import nc.integration.jei.multiblock.SaltFissionCategory;
 import nc.integration.jei.processor.AlloyFurnaceCategory;
 import nc.integration.jei.processor.CentrifugeCategory;
@@ -102,7 +106,9 @@ public class NCJEI implements IModPlugin {
 			JEICategory category = handler.getCategory(guiHelper);
 			registry.addRecipeCategories(category);
 			registry.addRecipeHandlers(category);
-			if (handler.getCrafterItemStack() != null) registry.addRecipeCatalyst(handler.getCrafterItemStack(), handler.getUUID());
+			if (handler.getCrafters() != null) for (ItemStack crafter : handler.getCrafters()) {
+				if (crafter != null) registry.addRecipeCatalyst(crafter, handler.getUUID());
+			}
 		}
 		IRecipeTransferRegistry recipeTransferRegistry = registry.getRecipeTransferRegistry();
 		
@@ -218,6 +224,7 @@ public class NCJEI implements IModPlugin {
 		
 		if (!NCConfig.radiation_enabled) {
 			blacklist(jeiHelpers, NCItems.geiger_counter);
+			blacklist(jeiHelpers, NCItems.radaway);
 			blacklist(jeiHelpers, NCItems.rad_x);
 			blacklist(jeiHelpers, NCBlocks.radiation_scrubber);
 			blacklistAll(jeiHelpers, MetaEnums.RadShieldingType.class, NCItems.rad_shielding);
@@ -270,24 +277,34 @@ public class NCJEI implements IModPlugin {
 		FISSION(NCRecipes.Type.FISSION, NCBlocks.fission_controller_new_fixed, "fission_controller", JEIRecipeWrapper.Fission.class),
 		FUSION(NCRecipes.Type.FUSION, NCBlocks.fusion_core, "fusion_core", JEIRecipeWrapper.Fusion.class),
 		SALT_FISSION(NCRecipes.Type.SALT_FISSION, NCBlocks.salt_fission_vessel, "salt_fission", JEIRecipeWrapper.SaltFission.class),
-		COOLANT_HEATER(NCRecipes.Type.COOLANT_HEATER, NCBlocks.salt_fission_heater, "coolant_heater", JEIRecipeWrapper.CoolantHeater.class);
+		COOLANT_HEATER(NCRecipes.Type.COOLANT_HEATER, NCBlocks.salt_fission_heater, "coolant_heater", JEIRecipeWrapper.CoolantHeater.class),
+		HEAT_EXCHANGER(NCRecipes.Type.HEAT_EXCHANGER, Lists.newArrayList(NCBlocks.heat_exchanger_tube_copper, NCBlocks.heat_exchanger_tube_hard_carbon, NCBlocks.heat_exchanger_tube_thermoconducting), "heat_exchanger", JEIRecipeWrapper.HeatExchanger.class);
 		
 		private NCRecipes.Type recipeType;
 		private Class<? extends JEIRecipeWrapperAbstract> recipeWrapper;
 		private boolean enabled;
-		private ItemStack crafterType;
+		private List<ItemStack> crafters;
 		private String textureName;
 		
-		JEIHandler(NCRecipes.Type recipeType, Object crafter, String textureName, Class<? extends JEIRecipeWrapperAbstract> recipeClass) {
-			this(recipeType, crafter, textureName, recipeClass, 0);
+		JEIHandler(NCRecipes.Type recipeType, Block crafter, String textureName, Class<? extends JEIRecipeWrapperAbstract> recipeWrapper) {
+			this(recipeType, Lists.newArrayList(crafter), textureName, recipeWrapper);
+		}
+		
+		JEIHandler(NCRecipes.Type recipeType, List<Block> crafters, String textureName, Class<? extends JEIRecipeWrapperAbstract> recipeWrapper) {
+			this(recipeType, crafters, textureName, recipeWrapper, 0);
 			enabled = true;
 		}
 		
-		JEIHandler(NCRecipes.Type recipeType, Object crafter, String textureName, Class<? extends JEIRecipeWrapperAbstract> recipeWrapper, int enabled) {
+		JEIHandler(NCRecipes.Type recipeType, Block crafter, String textureName, Class<? extends JEIRecipeWrapperAbstract> recipeWrapper, int enabled) {
+			this(recipeType, Lists.newArrayList(crafter), textureName, recipeWrapper, enabled);
+		}
+		
+		JEIHandler(NCRecipes.Type recipeType, List<Block> crafters, String textureName, Class<? extends JEIRecipeWrapperAbstract> recipeWrapper, int enabled) {
 			this.recipeType = recipeType;
 			this.recipeWrapper = recipeWrapper;
 			this.enabled = NCConfig.register_processor[enabled];
-			crafterType = crafter != null ? ItemStackHelper.fixItemStack(crafter) : null;
+			this.crafters = new ArrayList<ItemStack>();
+			for (Block crafter : crafters) this.crafters.add(ItemStackHelper.fixItemStack(crafter));
 			this.textureName = textureName;
 		}
 		
@@ -342,6 +359,8 @@ public class NCJEI implements IModPlugin {
 				return new SaltFissionCategory(guiHelper, this);
 			case COOLANT_HEATER:
 				return new CoolantHeaterCategory(guiHelper, this);
+			case HEAT_EXCHANGER:
+				return new HeatExchangerCategory(guiHelper, this);
 			default:
 				return null;
 			}
@@ -374,8 +393,8 @@ public class NCJEI implements IModPlugin {
 		}
 		
 		@Override
-		public ItemStack getCrafterItemStack() {
-			return crafterType;
+		public List<ItemStack> getCrafters() {
+			return crafters;
 		}
 		
 		@Override

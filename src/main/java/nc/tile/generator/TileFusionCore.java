@@ -68,8 +68,8 @@ public class TileFusionCore extends TileFluidGenerator implements SimpleComponen
 	private static final int MAX_POWER = (int) (100*Collections.max(ArrayHelper.asDoubleList(NCConfig.fusion_power))*NCConfig.fusion_base_power*NCConfig.fusion_max_size);
 	
 	public TileFusionCore() {
-		super("Fusion Core", 2, 4, 0, defaultTankCapacities(32000, 2, 4), defaultFluidConnections(2, 4), RecipeHelper.validFluids(NCRecipes.Type.FUSION), 2*MAX_POWER < Integer.MAX_VALUE ? 2*MAX_POWER : Integer.MAX_VALUE, NCRecipes.Type.FUSION);
-		areTanksShared = false;
+		super("Fusion Core", 2, 4, 0, defaultTankCapacities(32000, 2, 4), defaultTankSorptions(2, 4), RecipeHelper.validFluids(NCRecipes.Type.FUSION), 2*MAX_POWER < Integer.MAX_VALUE ? 2*MAX_POWER : Integer.MAX_VALUE, NCRecipes.Type.FUSION);
+		setTanksShared(false);
 	}
 	
 	@Override
@@ -416,7 +416,7 @@ public class TileFusionCore extends TileFluidGenerator implements SimpleComponen
 			List<BlockPos> posList = new ArrayList<BlockPos>();
 			BlockPosHelper helper = new BlockPosHelper(pos);
 			for (BlockPos pos : helper.squareTubeDiagonals(ringRadius(), 1)) {
-				if (findActiveCooler(pos)) if (((TileActiveCooler) world.getTileEntity(pos)).tanks.get(0).getFluidAmount() > 0) posList.add(pos);
+				if (findActiveCooler(pos)) if (((TileActiveCooler) world.getTileEntity(pos)).getTanks().get(0).getFluidAmount() > 0) posList.add(pos);
 			}
 			if (posList.isEmpty()) {
 				cooling = 0D;

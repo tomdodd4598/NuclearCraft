@@ -8,7 +8,7 @@ import crafttweaker.IAction;
 import crafttweaker.api.item.IIngredient;
 import nc.recipe.NCRecipes;
 import nc.recipe.ProcessorRecipe;
-import nc.recipe.SorptionType;
+import nc.recipe.IngredientSorption;
 import nc.recipe.ingredient.IFluidIngredient;
 import nc.recipe.ingredient.IItemIngredient;
 import nc.util.RecipeHelper;
@@ -19,16 +19,16 @@ public class RemoveProcessorRecipe implements IAction {
 	
 	public List<IItemIngredient> itemIngredients;
 	public List<IFluidIngredient> fluidIngredients;
-	public SorptionType type;
+	public IngredientSorption type;
 	public ProcessorRecipe recipe;
 	public boolean wasNull, wrongSize;
 	public final NCRecipes.Type recipeType;
 
-	public RemoveProcessorRecipe(NCRecipes.Type recipeType, SorptionType type, List<IIngredient> ctIngredients) {
+	public RemoveProcessorRecipe(NCRecipes.Type recipeType, IngredientSorption type, List<IIngredient> ctIngredients) {
 		this.recipeType = recipeType;
 		this.type = type;
-		int itemSize = type == SorptionType.INPUT ? recipeType.getRecipeHandler().itemInputSize : recipeType.getRecipeHandler().itemOutputSize;
-		int fluidSize = type == SorptionType.INPUT ? recipeType.getRecipeHandler().fluidInputSize : recipeType.getRecipeHandler().fluidOutputSize;
+		int itemSize = type == IngredientSorption.INPUT ? recipeType.getRecipeHandler().itemInputSize : recipeType.getRecipeHandler().itemOutputSize;
+		int fluidSize = type == IngredientSorption.INPUT ? recipeType.getRecipeHandler().fluidInputSize : recipeType.getRecipeHandler().fluidOutputSize;
 		if (ctIngredients.size() != itemSize + fluidSize) {
 			CraftTweakerAPI.logError("A " + recipeType.getRecipeName() + " recipe was the wrong size");
 			wrongSize = true;
@@ -55,7 +55,7 @@ public class RemoveProcessorRecipe implements IAction {
 
 		this.itemIngredients = itemIngredients;
 		this.fluidIngredients = fluidIngredients;
-		this.recipe = type == SorptionType.INPUT ? recipeType.getRecipeHandler().getRecipeFromIngredients(itemIngredients, fluidIngredients) : recipeType.getRecipeHandler().getRecipeFromProducts(itemIngredients, fluidIngredients);
+		this.recipe = type == IngredientSorption.INPUT ? recipeType.getRecipeHandler().getRecipeFromIngredients(itemIngredients, fluidIngredients) : recipeType.getRecipeHandler().getRecipeFromProducts(itemIngredients, fluidIngredients);
 		if (recipe == null) wasNull = true;
 	}
 	
@@ -65,7 +65,7 @@ public class RemoveProcessorRecipe implements IAction {
 			boolean removed = recipeType.getRecipeHandler().removeRecipe(recipe);
 			if (removed) {
 				while (removed) {
-					recipe = type == SorptionType.INPUT ? recipeType.getRecipeHandler().getRecipeFromIngredients(itemIngredients, fluidIngredients) : recipeType.getRecipeHandler().getRecipeFromProducts(itemIngredients, fluidIngredients);
+					recipe = type == IngredientSorption.INPUT ? recipeType.getRecipeHandler().getRecipeFromIngredients(itemIngredients, fluidIngredients) : recipeType.getRecipeHandler().getRecipeFromProducts(itemIngredients, fluidIngredients);
 					removed = recipeType.getRecipeHandler().removeRecipe(recipe);
 				}
 				return;
@@ -77,9 +77,9 @@ public class RemoveProcessorRecipe implements IAction {
 	@Override
 	public String describe() {
 		if (wasNull || wrongSize) {
-			return String.format("Error: Failed to remove %s recipe with %s as the " + (type == SorptionType.INPUT ? "input" : "output"), recipeType.getRecipeName(), RecipeHelper.getAllIngredientNamesConcat(itemIngredients, fluidIngredients));
+			return String.format("Error: Failed to remove %s recipe with %s as the " + (type == IngredientSorption.INPUT ? "input" : "output"), recipeType.getRecipeName(), RecipeHelper.getAllIngredientNamesConcat(itemIngredients, fluidIngredients));
 		}
-		if (type == SorptionType.INPUT) return String.format("Removing %s recipe: %s", recipeType.getRecipeName(), RecipeHelper.getRecipeString(recipe));
+		if (type == IngredientSorption.INPUT) return String.format("Removing %s recipe: %s", recipeType.getRecipeName(), RecipeHelper.getRecipeString(recipe));
 		else return String.format("Removing %s recipes for: %s", recipeType.getRecipeName(), RecipeHelper.getAllIngredientNamesConcat(itemIngredients, fluidIngredients));
 	}
 	

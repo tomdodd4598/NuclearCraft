@@ -1,7 +1,6 @@
 package nc.multiblock.heatExchanger;
 
 import java.util.HashSet;
-import java.util.Random;
 import java.util.Set;
 
 import nc.Global;
@@ -9,23 +8,29 @@ import nc.config.NCConfig;
 import nc.multiblock.IMultiblockPart;
 import nc.multiblock.MultiblockBase;
 import nc.multiblock.TileBeefBase.SyncReason;
+import nc.multiblock.container.ContainerHeatExchangerController;
 import nc.multiblock.cuboidal.CuboidalMultiblockBase;
 import nc.multiblock.heatExchanger.tile.TileHeatExchangerController;
+import nc.multiblock.heatExchanger.tile.TileHeatExchangerTube;
+import nc.multiblock.heatExchanger.tile.TileHeatExchangerVent;
 import nc.multiblock.network.HeatExchangerUpdatePacket;
 import nc.multiblock.validation.IMultiblockValidator;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
 public class HeatExchanger extends CuboidalMultiblockBase<HeatExchangerUpdatePacket> {
 	
 	private Set<TileHeatExchangerController> controllers;
+	private Set<TileHeatExchangerVent> vents;
+	private Set<TileHeatExchangerTube> tubes;
 	
 	private TileHeatExchangerController controller;
 	
-	private Random rand = new Random();
-	
-	public int redstoneSignal = 0;
 	private int updateCount = 0;
+	
+	public double fractionOfTubesActive, efficiency;
 	
 	public boolean isHeatExchangerOn;
 	
@@ -33,6 +38,8 @@ public class HeatExchanger extends CuboidalMultiblockBase<HeatExchangerUpdatePac
 		super(world);
 		
 		controllers = new HashSet<TileHeatExchangerController>();
+		vents = new HashSet<TileHeatExchangerVent>();
+		tubes = new HashSet<TileHeatExchangerTube>();
 	}
 	
 	// Multiblock Part Getters
@@ -41,9 +48,25 @@ public class HeatExchanger extends CuboidalMultiblockBase<HeatExchangerUpdatePac
 		return controllers;
 	}
 	
+	public Set<TileHeatExchangerVent> getVents() {
+		return vents;
+	}
+	
+	public Set<TileHeatExchangerTube> getTubes() {
+		return tubes;
+	}
+	
 	// Multiblock Size Limits
 	
+	@Override
+	protected int getMinimumInteriorLength() {
+		return NCConfig.heat_exchanger_min_size;
+	}
 	
+	@Override
+	protected int getMaximumInteriorLength() {
+		return NCConfig.heat_exchanger_max_size;
+	}
 	
 	// Multiblock Methods
 	
@@ -55,24 +78,28 @@ public class HeatExchanger extends CuboidalMultiblockBase<HeatExchangerUpdatePac
 	@Override
 	protected void onBlockAdded(IMultiblockPart newPart) {
 		if (newPart instanceof TileHeatExchangerController) controllers.add((TileHeatExchangerController) newPart);
-		// TODO
+		if (newPart instanceof TileHeatExchangerVent) vents.add((TileHeatExchangerVent) newPart);
+		if (newPart instanceof TileHeatExchangerTube) tubes.add((TileHeatExchangerTube) newPart);
 	}
 	
 	@Override
 	protected void onBlockRemoved(IMultiblockPart oldPart) {
 		if (oldPart instanceof TileHeatExchangerController) controllers.remove(oldPart);
-		// TODO
+		if (oldPart instanceof TileHeatExchangerVent) vents.remove(oldPart);
+		if (oldPart instanceof TileHeatExchangerTube) tubes.remove(oldPart);
 	}
 	
 	@Override
 	protected void onMachineAssembled() {
 		for (TileHeatExchangerController contr : controllers) controller = contr;
-		calculateHeatExchangerStats();
+		for (TileHeatExchangerTube tube : tubes) tube.updateFlowDir();
+		updateHeatExchanger();
 	}
 	
 	@Override
 	protected void onMachineRestored() {
-		calculateHeatExchangerStats();
+		for (TileHeatExchangerTube tube : tubes) tube.updateFlowDir();
+		updateHeatExchanger();
 	}
 	
 	@Override
@@ -88,14 +115,19 @@ public class HeatExchanger extends CuboidalMultiblockBase<HeatExchangerUpdatePac
 	@Override
 	protected boolean isMachineWhole(IMultiblockValidator validatorCallback) {
 		if (controllers.size() == 0) {
-			validatorCallback.setLastError(Global.MOD_ID + ".multiblock_validation.no_controller");
+			validatorCallback.setLastError(Global.MOD_ID + ".multiblock_validation.no_controller", null);
 			return false;
 		}
 		if (controllers.size() > 1) {
-			validatorCallback.setLastError(Global.MOD_ID + ".multiblock_validation.too_many_controllers");
+			validatorCallback.setLastError(Global.MOD_ID + ".multiblock_validation.too_many_controllers", null);
 			return false;
 		}
 		return super.isMachineWhole(validatorCallback);
+	}
+	
+	@Override
+	protected void onAssimilate(MultiblockBase assimilated) {
+		
 	}
 	
 	@Override
@@ -108,8 +140,7 @@ public class HeatExchanger extends CuboidalMultiblockBase<HeatExchangerUpdatePac
 	@Override
 	protected boolean updateServer() {
 		setIsHeatExchangerOn();
-		if (shouldUpdate()) calculateHeatExchangerStats();
-		// TODO
+		if (shouldUpdate()) updateHeatExchanger();
 		if (shouldUpdate()) sendUpdateToListeningPlayers();
 		incrementUpdateCount();
 		return true;
@@ -117,12 +148,32 @@ public class HeatExchanger extends CuboidalMultiblockBase<HeatExchangerUpdatePac
 	
 	protected void setIsHeatExchangerOn() {
 		boolean oldIsHeatExchangerOn = isHeatExchangerOn;
-		isHeatExchangerOn = controller.isPowered() && isAssembled();
+		isHeatExchangerOn = isRedstonePowered() && isAssembled();
 		if (isHeatExchangerOn != oldIsHeatExchangerOn) sendUpdateToAllPlayers();
 	}
 	
-	protected void calculateHeatExchangerStats() {
-		// TODO
+	protected boolean isRedstonePowered() {
+		if (controller.isRedstonePowered()) return true;
+		return false;
+	}
+	
+	protected void updateHeatExchanger() {
+		if (tubes.size() < 1) {
+			fractionOfTubesActive = 0;
+			efficiency = 0;
+			return;
+		}
+		int activeCount = 0;
+		double efficiencyCount = 0;
+		
+		for (TileHeatExchangerTube tube : tubes) {
+			int eff = tube.checkPosition();
+			if (eff > 0) activeCount++;
+			efficiencyCount += eff;
+		}
+		
+		fractionOfTubesActive = (double)activeCount/tubes.size();
+		efficiency = efficiencyCount/tubes.size();
 	}
 	
 	private void incrementUpdateCount() {
@@ -130,7 +181,7 @@ public class HeatExchanger extends CuboidalMultiblockBase<HeatExchangerUpdatePac
 	}
 	
 	private int updateTime() {
-		return NCConfig.machine_update_rate / 4;
+		return NCConfig.machine_update_rate;
 	}
 	
 	private boolean shouldUpdate() {
@@ -141,26 +192,34 @@ public class HeatExchanger extends CuboidalMultiblockBase<HeatExchangerUpdatePac
 	
 	@Override
 	protected void updateClient() {
-		// TODO
+		
 	}
 	
 	// NBT
 	
 	@Override
 	protected void syncDataTo(NBTTagCompound data, SyncReason syncReason) {
-		// TODO
+		data.setBoolean("isHeatExchangerOn", isHeatExchangerOn);
 	}
 	
 	@Override
 	protected void syncDataFrom(NBTTagCompound data, SyncReason syncReason) {
-		// TODO
+		isHeatExchangerOn = data.getBoolean("isHeatExchangerOn");
 	}
 	
 	// Packets
 	
+	@Override
+	protected HeatExchangerUpdatePacket getUpdatePacket() {
+		return new HeatExchangerUpdatePacket(controller.getPos(), isHeatExchangerOn);
+	}
+	
 	public void onPacket(boolean isHeatExchangerOn) {
 		this.isHeatExchangerOn = isHeatExchangerOn;
-		// TODO
+	}
+	
+	public Container getContainer(EntityPlayer player) {
+		return new ContainerHeatExchangerController(player, controller);
 	}
 	
 	// Multiblock Validators
@@ -168,47 +227,5 @@ public class HeatExchanger extends CuboidalMultiblockBase<HeatExchangerUpdatePac
 	@Override
 	protected boolean isBlockGoodForInterior(World world, int x, int y, int z, IMultiblockValidator validatorCallback) {
 		return true;
-	}
-	
-	// TODO
-	// TODO
-	// TODO
-	// TODO
-	// TODO
-
-	@Override
-	protected int getMinimumNumberOfBlocksForAssembledMachine() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	protected int getMaximumXSize() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	protected int getMaximumZSize() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	protected int getMaximumYSize() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	protected void onAssimilate(MultiblockBase assimilated) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	protected HeatExchangerUpdatePacket getUpdatePacket() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

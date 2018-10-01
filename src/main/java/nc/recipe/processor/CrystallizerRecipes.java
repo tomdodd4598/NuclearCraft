@@ -18,5 +18,6 @@ public class CrystallizerRecipes extends ProcessorRecipeHandler {
 		addRecipe(fluidStack("potassium_fluoride_solution", FluidStackHelper.GEM_VOLUME), "dustPotassiumFluoride", 1D, 1D);
 		addRecipe(fluidStack("sodium_hydroxide_solution", FluidStackHelper.GEM_VOLUME), "dustSodiumHydroxide", 0.5D, 0.5D);
 		addRecipe(fluidStack("potassium_hydroxide_solution", FluidStackHelper.GEM_VOLUME), "dustPotassiumHydroxide", 0.5D, 0.5D);
+		addRecipe(fluidStack("borax_solution", FluidStackHelper.GEM_VOLUME), "dustBorax", 0.5D, 0.5D);
 	}
 }

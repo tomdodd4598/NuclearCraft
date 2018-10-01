@@ -3,6 +3,8 @@ package nc.item.tool;
 import java.util.List;
 import java.util.Set;
 
+import javax.annotation.Nullable;
+
 import com.google.common.collect.Sets;
 
 import nc.Global;
@@ -49,7 +51,7 @@ public class NCAxe extends ItemTool {
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack itemStack, World world, List<String> tooltip, ITooltipFlag flag) {
+	public void addInformation(ItemStack itemStack, @Nullable World world, List<String> tooltip, ITooltipFlag flag) {
         super.addInformation(itemStack, world, tooltip, flag);
         if (info.length > 0) InfoHelper.infoFull(tooltip, info);
     }

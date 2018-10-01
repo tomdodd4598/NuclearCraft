@@ -90,7 +90,7 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ISidedI
 	@Override
 	public void setInventorySlotContents(int index, ItemStack stack) {
 		ItemStack itemstack = furnaceItemStacks.get(index);
-		boolean flag = !stack.isEmpty() && stack.isItemEqual(itemstack) && ItemStack.areItemStackTagsEqual(stack, itemstack);
+		boolean flag = !stack.isEmpty() && stack.isItemEqual(itemstack) && nc.util.ItemStackHelper.areItemStackTagsEqual(stack, itemstack);
 		furnaceItemStacks.set(index, stack);
 
 		if (stack.getCount() > getInventoryStackLimit()) {

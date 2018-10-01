@@ -1,5 +1,7 @@
 package nc.render;
 
+import javax.annotation.Nullable;
+
 import nc.block.fluid.BlockFluidBase;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.color.IBlockColor;
@@ -19,7 +21,7 @@ public class ColorRenderer {
 		}
 
 		@Override
-		public int colorMultiplier(IBlockState state, IBlockAccess worldIn, BlockPos pos, int tintIndex) {
+		public int colorMultiplier(IBlockState state, @Nullable IBlockAccess worldIn, @Nullable BlockPos pos, int tintIndex) {
 			if(tintIndex == 0) {
 				return fluidBlock.fluid.getColor();
 			}

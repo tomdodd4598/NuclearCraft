@@ -1,5 +1,6 @@
 package nc.util;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class StringHelper {
@@ -38,5 +39,11 @@ public class StringHelper {
 	
 	public static String stringListConcat(List<String> firstStringList, List<String>... otherStringLists) {
 		return String.join(", ", ArrayHelper.concatenate(firstStringList, otherStringLists));
+	}
+	
+	public static String charLine(char ch, int length) {
+		char[] charArray = new char[length];
+		Arrays.fill(charArray, ch);
+		return new String(charArray);
 	}
 }

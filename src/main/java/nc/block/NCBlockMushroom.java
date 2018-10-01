@@ -5,7 +5,6 @@ import java.util.Random;
 import nc.Global;
 import nc.config.NCConfig;
 import nc.tab.NCTabs;
-import nc.util.RadiationHelper;
 import net.minecraft.block.BlockMushroom;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.ResourceLocation;
@@ -14,21 +13,16 @@ import net.minecraft.world.World;
 
 public class NCBlockMushroom extends BlockMushroom {
 	
-	private final double radiationRate;
-	
-	public NCBlockMushroom(String name, double radiationRate) {
+	public NCBlockMushroom(String name) {
 		super();
 		setUnlocalizedName(Global.MOD_ID + "." + name);
 		setRegistryName(new ResourceLocation(Global.MOD_ID, name));
 		setCreativeTab(NCTabs.BASE_BLOCK_MATERIALS);
 		setLightLevel(1F);
-		this.radiationRate = radiationRate;
 	}
 	
 	@Override
 	public void updateTick(World world, BlockPos pos, IBlockState state, Random rand) {
-		RadiationHelper.addToChunkBuffer(world.getChunkFromBlockCoords(pos), radiationRate);
-		
 		if (NCConfig.mushroom_spread_rate <= 0) return;
 		
 		int spreadTime = 400/NCConfig.mushroom_spread_rate;

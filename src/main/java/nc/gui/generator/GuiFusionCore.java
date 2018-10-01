@@ -56,12 +56,12 @@ public class GuiFusionCore extends NCGui {
 		drawTooltip(Lang.localise("gui.container.void_outputs"), mouseX, mouseY, 171, 142, 18, 18);
 		drawTooltip(Lang.localise("gui.container.comparator_mode"), mouseX, mouseY, 171, 162, 18, 18);
 		
-		drawFluidTooltip(fluid0, tile.tanks.get(0), mouseX, mouseY, 38, 6, 6, 46);
-		drawFluidTooltip(fluid1, tile.tanks.get(1), mouseX, mouseY, 38, 55, 6, 46);
-		drawFluidTooltip(fluid2, tile.tanks.get(2), mouseX, mouseY, 172, 6, 6, 46);
-		drawFluidTooltip(fluid3, tile.tanks.get(3), mouseX, mouseY, 182, 6, 6, 46);
-		drawFluidTooltip(fluid4, tile.tanks.get(4), mouseX, mouseY, 172, 55, 6, 46);
-		drawFluidTooltip(fluid5, tile.tanks.get(5), mouseX, mouseY, 182, 55, 6, 46);
+		drawFluidTooltip(fluid0, tile.getTanks().get(0), mouseX, mouseY, 38, 6, 6, 46);
+		drawFluidTooltip(fluid1, tile.getTanks().get(1), mouseX, mouseY, 38, 55, 6, 46);
+		drawFluidTooltip(fluid2, tile.getTanks().get(2), mouseX, mouseY, 172, 6, 6, 46);
+		drawFluidTooltip(fluid3, tile.getTanks().get(3), mouseX, mouseY, 182, 6, 6, 46);
+		drawFluidTooltip(fluid4, tile.getTanks().get(4), mouseX, mouseY, 172, 55, 6, 46);
+		drawFluidTooltip(fluid5, tile.getTanks().get(5), mouseX, mouseY, 182, 55, 6, 46);
 		
 		drawEnergyTooltip(tile, mouseX, mouseY, 8, 6, 6, 95);
 		drawHeatTooltip(mouseX, mouseY, 18, 6, 6, 95);
@@ -97,11 +97,11 @@ public class GuiFusionCore extends NCGui {
 	}
 	
 	public List<String> heatInfo() {
-		String heat = UnitHelper.prefix((int) tile.heat, (int) tile.getMaxHeat(), 6, "K", 1);
+		String heat = UnitHelper.prefix((int) tile.heat, tile.isHotEnough() ? (int) tile.getMaxHeat() : 8000, 6, "K", 1) + (tile.isHotEnough() ? "" : " [" + Math.round(tile.heat/80D) + "%]");
 		String heatChange = UnitHelper.prefix((int) tile.heatChange, 6, "K/t", 0);
 		String cooling = UnitHelper.prefix((int) tile.cooling, 6, "K/t", 0);
-		int coolingPercentage = (int) (0.1D*tile.cooling/(5D*NCConfig.fusion_heat_generation));
 		if ((int) tile.cooling == 0 || !NCConfig.fusion_active_cooling) return Lists.newArrayList(TextFormatting.YELLOW + Lang.localise("gui.container.fusion_core.temperature") + TextFormatting.WHITE + " " + heat, TextFormatting.YELLOW + Lang.localise("gui.container.fusion_core.temperature_change") + TextFormatting.WHITE + " " + heatChange);
+		int coolingPercentage = (int) (0.1D*tile.cooling/(5D*NCConfig.fusion_heat_generation));
 		return Lists.newArrayList(TextFormatting.YELLOW + Lang.localise("gui.container.fusion_core.temperature") + TextFormatting.WHITE + " " + heat, TextFormatting.YELLOW + Lang.localise("gui.container.fusion_core.temperature_change") + TextFormatting.WHITE + " " + heatChange, TextFormatting.BLUE + Lang.localise("gui.container.fusion_core.cooling_rate") + TextFormatting.WHITE + " " + cooling + " [" + coolingPercentage + "%]");
 	}
 	
@@ -127,7 +127,7 @@ public class GuiFusionCore extends NCGui {
 		double energy = Math.round(((double) tile.getEnergyStorage().getEnergyStored()) / ((double) tile.getEnergyStorage().getMaxEnergyStored()) * 95D);
 		drawTexturedModalRect(guiLeft + 8, guiTop + 6 + 95 - (int) energy, 196, 90 + 95 - (int) energy, 6, (int) energy);
 		
-		double h = Math.round((tile.heat / tile.getMaxHeat()) * 95D);
+		double h = Math.round((tile.heat / (tile.isHotEnough() ? tile.getMaxHeat() : 8000)) * 95D);
 		drawTexturedModalRect(guiLeft + 18, guiTop + 6 + 95 - (int) h, 202, 90 + 95 - (int) h, 6, (int) h);
 		
 		double efficiency = Math.round((tile.efficiency / 100D) * 95D);
@@ -138,12 +138,12 @@ public class GuiFusionCore extends NCGui {
 		
 		if (tick == 0) sendTankInfo();
 		
-		GuiFluidRenderer.renderGuiTank(fluid0, tile.tanks.get(0).getCapacity(), guiLeft + 38, guiTop + 6, zLevel, 6, 46);
-		GuiFluidRenderer.renderGuiTank(fluid1, tile.tanks.get(1).getCapacity(), guiLeft + 38, guiTop + 55, zLevel, 6, 46);
-		GuiFluidRenderer.renderGuiTank(fluid2, tile.tanks.get(2).getCapacity(), guiLeft + 172, guiTop + 6, zLevel, 6, 46);
-		GuiFluidRenderer.renderGuiTank(fluid3, tile.tanks.get(3).getCapacity(), guiLeft + 182, guiTop + 6, zLevel, 6, 46);
-		GuiFluidRenderer.renderGuiTank(fluid4, tile.tanks.get(4).getCapacity(), guiLeft + 172, guiTop + 55, zLevel, 6, 46);
-		GuiFluidRenderer.renderGuiTank(fluid5, tile.tanks.get(5).getCapacity(), guiLeft + 182, guiTop + 55, zLevel, 6, 46);
+		GuiFluidRenderer.renderGuiTank(fluid0, tile.getTanks().get(0).getCapacity(), guiLeft + 38, guiTop + 6, zLevel, 6, 46);
+		GuiFluidRenderer.renderGuiTank(fluid1, tile.getTanks().get(1).getCapacity(), guiLeft + 38, guiTop + 55, zLevel, 6, 46);
+		GuiFluidRenderer.renderGuiTank(fluid2, tile.getTanks().get(2).getCapacity(), guiLeft + 172, guiTop + 6, zLevel, 6, 46);
+		GuiFluidRenderer.renderGuiTank(fluid3, tile.getTanks().get(3).getCapacity(), guiLeft + 182, guiTop + 6, zLevel, 6, 46);
+		GuiFluidRenderer.renderGuiTank(fluid4, tile.getTanks().get(4).getCapacity(), guiLeft + 172, guiTop + 55, zLevel, 6, 46);
+		GuiFluidRenderer.renderGuiTank(fluid5, tile.getTanks().get(5).getCapacity(), guiLeft + 182, guiTop + 55, zLevel, 6, 46);
 	}
 	
 	@Override

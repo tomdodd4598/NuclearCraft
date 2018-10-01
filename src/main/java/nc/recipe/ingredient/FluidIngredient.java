@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import nc.recipe.SorptionType;
+import nc.recipe.IngredientSorption;
 import nc.tile.internal.fluid.Tank;
 import nc.util.FluidStackHelper;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -18,7 +18,7 @@ public class FluidIngredient implements IFluidIngredient {
 
 	public FluidIngredient(FluidStack stack) {
 		this.stack = stack;
-		fluidName = FluidStackHelper.stackName(stack);
+		fluidName = FluidStackHelper.getFluidName(stack);
 		amount = stack.amount;
 	}
 	
@@ -44,7 +44,7 @@ public class FluidIngredient implements IFluidIngredient {
 	}
 
 	@Override
-	public boolean matches(Object object, SorptionType type) {
+	public boolean matches(Object object, IngredientSorption type) {
 		if (object instanceof Tank) object = (FluidStack)((Tank)object).getFluid();
 		if (object instanceof FluidStack) {
 			FluidStack fluidstack = (FluidStack) object;

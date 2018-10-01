@@ -46,7 +46,15 @@ public abstract class Turbine<CONTROLLER extends TileTurbineController> extends 
 	
 	// Multiblock Size Limits
 	
+	@Override
+	protected int getMinimumInteriorLength() {
+		return NCConfig.turbine_min_size;
+	}
 	
+	@Override
+	protected int getMaximumInteriorLength() {
+		return NCConfig.turbine_max_size;
+	}
 	
 	// Multiblock Methods
 	
@@ -91,11 +99,11 @@ public abstract class Turbine<CONTROLLER extends TileTurbineController> extends 
 	@Override
 	protected boolean isMachineWhole(IMultiblockValidator validatorCallback) {
 		if (controllers.size() == 0) {
-			validatorCallback.setLastError(Global.MOD_ID + ".multiblock_validation.no_controller");
+			validatorCallback.setLastError(Global.MOD_ID + ".multiblock_validation.no_controller", null);
 			return false;
 		}
 		if (controllers.size() > 1) {
-			validatorCallback.setLastError(Global.MOD_ID + ".multiblock_validation.too_many_controllers");
+			validatorCallback.setLastError(Global.MOD_ID + ".multiblock_validation.too_many_controllers", null);
 			return false;
 		}
 		return super.isMachineWhole(validatorCallback);
@@ -120,7 +128,7 @@ public abstract class Turbine<CONTROLLER extends TileTurbineController> extends 
 	
 	protected void setIsTurbineOn() {
 		boolean oldIsTurbineOn = isTurbineOn;
-		isTurbineOn = controller.isPowered() && isAssembled();
+		isTurbineOn = controller.isRedstonePowered() && isAssembled();
 		if (isTurbineOn != oldIsTurbineOn) sendUpdateToAllPlayers();
 	}
 	

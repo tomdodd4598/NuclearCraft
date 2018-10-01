@@ -6,7 +6,7 @@ import javax.annotation.Nonnull;
 
 import com.google.common.collect.Lists;
 
-import nc.recipe.SorptionType;
+import nc.recipe.IngredientSorption;
 import nc.util.ItemStackHelper;
 import net.minecraft.item.ItemStack;
 
@@ -34,10 +34,10 @@ public class ItemIngredient implements IItemIngredient {
 	}
 
 	@Override
-	public boolean matches(Object object, SorptionType type) {
+	public boolean matches(Object object, IngredientSorption type) {
 		if (object instanceof ItemStack) {
 			ItemStack itemstack = (ItemStack) object;
-			if (!itemstack.isItemEqual(stack) || !ItemStack.areItemStackTagsEqual(itemstack, stack)) {
+			if (!itemstack.isItemEqual(stack) || !ItemStackHelper.areItemStackTagsEqual(itemstack, stack)) {
 				return false;
 			}
 			return type.checkStackSize(stack.getCount(), itemstack.getCount());

@@ -1,10 +1,15 @@
 package nc.tile.energyFluid;
 
+import javax.annotation.Nonnull;
+
 import nc.tile.dummy.IInterfaceable;
 import nc.tile.energy.IEnergySpread;
+import nc.tile.energy.ITileEnergy;
 import nc.tile.fluid.IFluidSpread;
+import nc.tile.fluid.ITileFluid;
 import nc.tile.internal.energy.EnergyConnection;
 import nc.tile.internal.fluid.FluidConnection;
+import nc.tile.internal.fluid.TankSorption;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -16,7 +21,7 @@ import net.minecraftforge.items.IItemHandler;
 public class TileBuffer extends TileEnergyFluidSidedInventory implements IInterfaceable, IEnergySpread, IFluidSpread {
 	
 	public TileBuffer() {
-		super("buffer", 1, 32000, energyConnectionAll(EnergyConnection.BOTH), 16000, FluidConnection.BOTH, null);
+		super("buffer", 1, 32000, ITileEnergy.energyConnectionAll(EnergyConnection.BOTH), 16000, TankSorption.BOTH, null, ITileFluid.fluidConnectionAll(FluidConnection.BOTH));
 	}
 	
 	@Override
@@ -73,21 +78,17 @@ public class TileBuffer extends TileEnergyFluidSidedInventory implements IInterf
 	}
 	
 	@Override
-	public void pushFluid() {
-		if (tanks != null && !tanks.isEmpty()) for (int i = 0; i < tanks.size(); i++) {
-			if (tanks.get(i).getFluidAmount() <= 0 || !fluidConnections.get(i).canDrain()) return;
-			for (EnumFacing side : EnumFacing.VALUES) {
-				TileEntity tile = world.getTileEntity(getPos().offset(side));
-				IFluidHandler adjStorage = tile == null ? null : tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side.getOpposite());
-				
-				if (!(tile instanceof IBufferable)) continue;
-				
-				if (tile instanceof IFluidHandler) {
-					tanks.get(i).drain(((IFluidHandler) tile).fill(tanks.get(i).drain(tanks.get(i).getCapacity(), false), true), true);
-				}
-				else if (adjStorage != null) {
-					tanks.get(i).drain(adjStorage.fill(tanks.get(i).drain(tanks.get(i).getCapacity(), false), true), true);
-				}
+	public void pushFluidToSide(@Nonnull EnumFacing side) {
+		if (!getTanks().isEmpty()) for (int i = 0; i < getTanks().size(); i++) {
+			if (getTanks().get(i).getFluidAmount() <= 0 || !getTanks().get(i).canDrain()) return;
+			
+			TileEntity tile = world.getTileEntity(getPos().offset(side));
+			IFluidHandler adjStorage = tile == null ? null : tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side.getOpposite());
+			
+			if (!(tile instanceof IBufferable)) continue;
+			
+			if (adjStorage != null) {
+				getTanks().get(i).drainInternal(adjStorage.fill(getTanks().get(i).drainInternal(getTanks().get(i).getCapacity(), false), true), true);
 			}
 		}
 	}

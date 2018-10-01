@@ -1,0 +1,10 @@
+{
+    "parent": "nuclearcraft:block/machine",
+	"textures": {
+		"top": "nuclearcraft:blocks/heat_exchanger/heat_exchanger_controller_top",
+		"bottom": "nuclearcraft:blocks/heat_exchanger/heat_exchanger_controller_bottom",
+		"front": "nuclearcraft:blocks/heat_exchanger/heat_exchanger_controller_front_on",
+		"side": "nuclearcraft:blocks/heat_exchanger/heat_exchanger_controller_side",
+		"back": "nuclearcraft:blocks/heat_exchanger/heat_exchanger_controller_back"
+	}
+}

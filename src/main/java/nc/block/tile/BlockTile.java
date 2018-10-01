@@ -1,10 +1,6 @@
 package nc.block.tile;
 
-import java.util.List;
-
 import javax.annotation.Nullable;
-
-import com.google.common.collect.Lists;
 
 import nc.NuclearCraft;
 import nc.block.NCBlock;
@@ -25,7 +21,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
@@ -56,7 +51,7 @@ public abstract class BlockTile extends NCBlock implements ITileEntityProvider {
 		TileEntity tile = world.getTileEntity(pos);
 		if (tile instanceof IUpgradable && player.getHeldItemMainhand().isItemEqual(new ItemStack(NCItems.upgrade, 1, 0))) {
 			int speedSlot = ((IUpgradable) tile).getSpeedUpgradeSlot();
-			IItemHandler inv = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, player.getHorizontalFacing().getOpposite());
+			IItemHandler inv = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, facing);
 			
 			if (inv != null && inv.isItemValid(speedSlot, player.getHeldItemMainhand())) {
 				if (player.isSneaking()) {
@@ -79,7 +74,7 @@ public abstract class BlockTile extends NCBlock implements ITileEntityProvider {
 		if (!world.isRemote && tile instanceof ITileFluid) {
 			ITileFluid tileFluid = (ITileFluid) tile;
 			if (tileFluid.getTanks() != null) {
-				boolean accessedTanks = FluidHelper.accessTankArray(player, hand, tileFluid.getTanks());
+				boolean accessedTanks = FluidHelper.accessTanks(player, hand, tileFluid.getTanks());
 				if (accessedTanks) return true;
 			}
 		}
@@ -131,26 +126,5 @@ public abstract class BlockTile extends NCBlock implements ITileEntityProvider {
 		super.eventReceived(state, worldIn, pos, id, param);
 		TileEntity tileentity = worldIn.getTileEntity(pos);
 		return tileentity == null ? false : tileentity.receiveClientEvent(id, param);
-	}
-	
-	// NBT Stuff
-	
-	@Override
-	public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest) {
-		if (this instanceof INBTDrop && willHarvest) return true;
-		return super.removedByPlayer(state, world, pos, player, willHarvest);
-	}
-	
-	@Override
-	public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
-		if (this instanceof INBTDrop) return Lists.newArrayList(((INBTDrop)this).getNBTDrop(world, pos, state));
-		return super.getDrops(world, pos, state, fortune);
-	}
-	
-	@Override
-	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase player, ItemStack stack) {
-		world.setBlockState(pos, state, 2);
-		if (this instanceof INBTDrop && stack.hasTagCompound()) ((INBTDrop)this).readStackData(world, pos, player, stack);
-		world.notifyBlockUpdate(pos, state, state, 3);
 	}
 }

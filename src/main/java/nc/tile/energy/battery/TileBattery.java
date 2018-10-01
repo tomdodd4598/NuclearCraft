@@ -2,9 +2,9 @@ package nc.tile.energy.battery;
 
 import nc.tile.dummy.IInterfaceable;
 import nc.tile.energy.IEnergySpread;
+import nc.tile.energy.ITileEnergy;
 import nc.tile.energy.TileEnergy;
 import nc.tile.internal.energy.EnergyConnection;
-import nc.tile.internal.energy.EnergyStorage;
 import nc.util.BlockFinder;
 import net.minecraft.init.Blocks;
 
@@ -28,9 +28,8 @@ public class TileBattery extends TileEnergy implements IBattery, IInterfaceable,
 	private BlockFinder finder;
 	
 	public TileBattery(BatteryType type) {
-		super(type.getCapacity(), type.getMaxTransfer(), energyConnectionAll(EnergyConnection.IN));
+		super(type.getCapacity(), type.getMaxTransfer(), ITileEnergy.energyConnectionAll(EnergyConnection.IN));
 		this.type = type;
-		configurableEnergyConnections = true;
 	}
 	
 	@Override
@@ -56,11 +55,6 @@ public class TileBattery extends TileEnergy implements IBattery, IInterfaceable,
 	public boolean findAdjacentComparator() {
 		return finder.adjacent(pos, 1, Blocks.UNPOWERED_COMPARATOR, Blocks.POWERED_COMPARATOR);
 	}
-
-	@Override
-	public EnergyStorage getBatteryStorage() {
-		return getEnergyStorage();
-	}
 	
 	@Override
 	public int getEUSourceTier() {
@@ -70,5 +64,10 @@ public class TileBattery extends TileEnergy implements IBattery, IInterfaceable,
 	@Override
 	public int getEUSinkTier() {
 		return type.getEnergyTier();
+	}
+	
+	@Override
+	public boolean hasConfigurableEnergyConnections() {
+		return true;
 	}
 }

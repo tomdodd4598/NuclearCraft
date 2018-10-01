@@ -8,13 +8,18 @@ import nc.multiblock.condenser.tile.TileCondenserWall;
 import nc.multiblock.heatExchanger.tile.TileHeatExchangerController;
 import nc.multiblock.heatExchanger.tile.TileHeatExchangerFrame;
 import nc.multiblock.heatExchanger.tile.TileHeatExchangerGlass;
+import nc.multiblock.heatExchanger.tile.TileHeatExchangerTube;
+import nc.multiblock.heatExchanger.tile.TileHeatExchangerVent;
 import nc.multiblock.heatExchanger.tile.TileHeatExchangerWall;
 import nc.multiblock.saltFission.tile.TileSaltFissionBeam;
 import nc.multiblock.saltFission.tile.TileSaltFissionController;
+import nc.multiblock.saltFission.tile.TileSaltFissionDistributor;
 import nc.multiblock.saltFission.tile.TileSaltFissionFrame;
 import nc.multiblock.saltFission.tile.TileSaltFissionGlass;
 import nc.multiblock.saltFission.tile.TileSaltFissionHeater;
 import nc.multiblock.saltFission.tile.TileSaltFissionModerator;
+import nc.multiblock.saltFission.tile.TileSaltFissionRedstonePort;
+import nc.multiblock.saltFission.tile.TileSaltFissionRetriever;
 import nc.multiblock.saltFission.tile.TileSaltFissionVent;
 import nc.multiblock.saltFission.tile.TileSaltFissionVessel;
 import nc.multiblock.saltFission.tile.TileSaltFissionWall;
@@ -70,7 +75,8 @@ public class NCTiles {
 		
 		GameRegistry.registerTileEntity(TileMachineInterface.class, Global.MOD_ID + ":machine_interface");
 		
-		GameRegistry.registerTileEntity(TileFissionController.class, Global.MOD_ID + ":fission_controller");
+		GameRegistry.registerTileEntity(TileFissionController.Old.class, Global.MOD_ID + ":fission_controller_old");
+		GameRegistry.registerTileEntity(TileFissionController.New.class, Global.MOD_ID + ":fission_controller_new");
 		GameRegistry.registerTileEntity(TileFissionPort.class, Global.MOD_ID + ":fission_port");
 		
 		GameRegistry.registerTileEntity(TileFusionCore.class, Global.MOD_ID + ":fusion_core");
@@ -86,11 +92,18 @@ public class NCTiles {
 		GameRegistry.registerTileEntity(TileSaltFissionVessel.class, Global.MOD_ID + ":salt_fission_vessel");
 		GameRegistry.registerTileEntity(TileSaltFissionHeater.class, Global.MOD_ID + ":salt_fission_heater");
 		GameRegistry.registerTileEntity(TileSaltFissionModerator.class, Global.MOD_ID + ":salt_fission_moderator");
+		GameRegistry.registerTileEntity(TileSaltFissionDistributor.class, Global.MOD_ID + ":salt_fission_distributor");
+		GameRegistry.registerTileEntity(TileSaltFissionRetriever.class, Global.MOD_ID + ":salt_fission_retriever");
+		GameRegistry.registerTileEntity(TileSaltFissionRedstonePort.class, Global.MOD_ID + ":salt_fission_redstone_port");
 		
 		GameRegistry.registerTileEntity(TileHeatExchangerController.class, Global.MOD_ID + ":heat_exchanger_controller");
 		GameRegistry.registerTileEntity(TileHeatExchangerWall.class, Global.MOD_ID + ":heat_exchanger_wall");
 		GameRegistry.registerTileEntity(TileHeatExchangerGlass.class, Global.MOD_ID + ":heat_exchanger_glass");
 		GameRegistry.registerTileEntity(TileHeatExchangerFrame.class, Global.MOD_ID + ":heat_exchanger_frame");
+		GameRegistry.registerTileEntity(TileHeatExchangerVent.class, Global.MOD_ID + ":heat_exchanger_vent");
+		GameRegistry.registerTileEntity(TileHeatExchangerTube.Copper.class, Global.MOD_ID + ":heat_exchanger_tube_copper");
+		GameRegistry.registerTileEntity(TileHeatExchangerTube.HardCarbon.class, Global.MOD_ID + ":heat_exchanger_tube_hard_carbon");
+		GameRegistry.registerTileEntity(TileHeatExchangerTube.Thermoconducting.class, Global.MOD_ID + ":heat_exchanger_tube_thermoconducting");
 		
 		GameRegistry.registerTileEntity(TileHighTurbineController.class, Global.MOD_ID + ":high_turbine_controller");
 		GameRegistry.registerTileEntity(TileHighTurbineWall.class, Global.MOD_ID + ":high_turbine_wall");

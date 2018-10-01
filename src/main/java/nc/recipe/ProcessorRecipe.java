@@ -7,6 +7,8 @@ import nc.recipe.ingredient.IFluidIngredient;
 import nc.recipe.ingredient.IItemIngredient;
 import nc.tile.generator.TileDecayGenerator;
 import nc.tile.internal.fluid.Tank;
+import nc.util.InfoHelper;
+import nc.util.Lang;
 import nc.util.RecipeHelper;
 import net.minecraft.item.ItemStack;
 
@@ -62,22 +64,22 @@ public class ProcessorRecipe implements IRecipe {
 
 	@Override
 	public boolean matchingInputs(List<ItemStack> itemInputs, List<Tank> fluidInputs) {
-		return RecipeHelper.matchingIngredients(SorptionType.INPUT, itemIngredients, fluidIngredients, itemInputs, fluidInputs, isShapeless);
+		return RecipeHelper.matchingIngredients(IngredientSorption.INPUT, itemIngredients, fluidIngredients, itemInputs, fluidInputs, isShapeless);
 	}
 
 	@Override
 	public boolean matchingOutputs(List<ItemStack> itemOutputs, List<Tank> fluidOutputs) {
-		return RecipeHelper.matchingIngredients(SorptionType.OUTPUT, itemProducts, fluidProducts, itemOutputs, fluidOutputs, isShapeless);
+		return RecipeHelper.matchingIngredients(IngredientSorption.OUTPUT, itemProducts, fluidProducts, itemOutputs, fluidOutputs, isShapeless);
 	}
 	
 	@Override
 	public boolean matchingIngredients(List<IItemIngredient> itemIngredients, List<IFluidIngredient> fluidIngredients) {
-		return RecipeHelper.matchingIngredients(SorptionType.INPUT, this.itemIngredients, this.fluidIngredients, itemIngredients, fluidIngredients, isShapeless);
+		return RecipeHelper.matchingIngredients(IngredientSorption.INPUT, this.itemIngredients, this.fluidIngredients, itemIngredients, fluidIngredients, isShapeless);
 	}
 
 	@Override
 	public boolean matchingProducts(List<IItemIngredient> itemProducts, List<IFluidIngredient> fluidProducts) {
-		return RecipeHelper.matchingIngredients(SorptionType.OUTPUT, this.itemProducts, this.fluidProducts, itemProducts, fluidProducts, isShapeless);
+		return RecipeHelper.matchingIngredients(IngredientSorption.OUTPUT, this.itemProducts, this.fluidProducts, itemProducts, fluidProducts, isShapeless);
 	}
 	
 	/* ================================== Recipe Info ===================================== */
@@ -200,5 +202,35 @@ public class ProcessorRecipe implements IRecipe {
 		if (extras.isEmpty()) return 10D;
 		else if (extras.get(0) instanceof Double) return (double) extras.get(0);
 		else return 0D;
+	}
+	
+	public String[] getCoolantHeaterJEIInfo() {
+		if (extras.size() < 2) return null;
+		else if (extras.get(1) instanceof String) return InfoHelper.formattedInfo(Lang.localise((String) extras.get(1)));
+		else return null;
+	}
+	
+	// Heat Exchanger
+	
+	public double getHeatExchangerRecipeHeat(double defaultProcessTime) {
+		if (extras.isEmpty()) return defaultProcessTime;
+		else if (extras.get(0) instanceof Double) return (double) extras.get(0);
+		else return defaultProcessTime;
+	}
+	
+	public int getHeatExchangerInputTemperature() {
+		if (extras.size() < 2) return 0;
+		else if (extras.get(1) instanceof Integer) return (int) extras.get(1);
+		else return 0;
+	}
+	
+	public int getHeatExchangerOutputTemperature() {
+		if (extras.size() < 3) return 0;
+		else if (extras.get(2) instanceof Integer) return (int) extras.get(2);
+		else return 0;
+	}
+	
+	public boolean getHeatExchangerIsHeating() {
+		return getHeatExchangerInputTemperature() - getHeatExchangerOutputTemperature() < 0;
 	}
 }

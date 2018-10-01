@@ -10,7 +10,7 @@ import com.google.common.collect.Lists;
 import nc.recipe.IRecipe;
 import nc.recipe.NCRecipes;
 import nc.recipe.ProcessorRecipeHandler;
-import nc.recipe.SorptionType;
+import nc.recipe.IngredientSorption;
 import nc.recipe.ingredient.IFluidIngredient;
 import nc.recipe.ingredient.IItemIngredient;
 import nc.recipe.ingredient.ChanceFluidIngredient;
@@ -32,7 +32,7 @@ public class RecipeHelper {
 	public static boolean containsItemIngredient(List<IItemIngredient> list, IItemIngredient ingredient) {
 		for (IItemIngredient i : list) {
 			if (i == null) continue;
-			if (i.matches(ingredient, SorptionType.NEUTRAL)) return true;
+			if (i.matches(ingredient, IngredientSorption.NEUTRAL)) return true;
 		}
 		return false;
 	}
@@ -40,7 +40,7 @@ public class RecipeHelper {
 	public static boolean containsFluidIngredient(List<IFluidIngredient> list, IFluidIngredient ingredient) {
 		for (IFluidIngredient i : list) {
 			if (i == null) continue;
-			if (i.matches(ingredient, SorptionType.NEUTRAL)) return true;
+			if (i.matches(ingredient, IngredientSorption.NEUTRAL)) return true;
 		}
 		return false;
 	}
@@ -157,7 +157,7 @@ public class RecipeHelper {
 		return null;
 	}
 
-	public static boolean matchingIngredients(SorptionType sorption, List<IItemIngredient> itemIngredients, List<IFluidIngredient> fluidIngredients, List items, List fluids, boolean shapeless) {
+	public static boolean matchingIngredients(IngredientSorption sorption, List<IItemIngredient> itemIngredients, List<IFluidIngredient> fluidIngredients, List items, List fluids, boolean shapeless) {
 		List<IItemIngredient> itemIngredientsMatch = new ArrayList<IItemIngredient>(itemIngredients);
 		List<IFluidIngredient> fluidIngredientsMatch = new ArrayList<IFluidIngredient>(fluidIngredients);
 		if (itemIngredients.size() != items.size() || fluidIngredients.size() != fluids.size()) {
@@ -170,7 +170,7 @@ public class RecipeHelper {
 			}*/
 			pos++;
 			if (shapeless) {
-				for (IItemIngredient itemIngredient : new ArrayList<IItemIngredient>(itemIngredientsMatch)) {
+				for (IItemIngredient itemIngredient : itemIngredients) {
 					if (itemIngredient.matches(item, sorption)) {
 						itemIngredientsMatch.remove(itemIngredient);
 						continue itemInputs;
@@ -190,7 +190,7 @@ public class RecipeHelper {
 			pos++;
 			if (fluid instanceof Tank) fluid = (FluidStack)((Tank)fluid).getFluid();
 			if (shapeless) {
-				for (IFluidIngredient fluidIngredient : new ArrayList<IFluidIngredient>(fluidIngredientsMatch)) {
+				for (IFluidIngredient fluidIngredient : fluidIngredients) {
 					if (fluidIngredient.matches(fluid, sorption)) {
 						fluidIngredientsMatch.remove(fluidIngredient);
 						continue fluidInputs;

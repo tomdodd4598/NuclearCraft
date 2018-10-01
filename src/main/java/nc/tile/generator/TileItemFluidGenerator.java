@@ -3,20 +3,25 @@ package nc.tile.generator;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 import nc.ModCheck;
 import nc.config.NCConfig;
 import nc.recipe.AbstractRecipeHandler;
 import nc.recipe.NCRecipes;
 import nc.recipe.ProcessorRecipe;
 import nc.recipe.ProcessorRecipeHandler;
-import nc.recipe.SorptionType;
+import nc.recipe.IngredientSorption;
 import nc.recipe.ingredient.IFluidIngredient;
 import nc.recipe.ingredient.IItemIngredient;
 import nc.tile.IGui;
 import nc.tile.dummy.IInterfaceable;
+import nc.tile.energy.ITileEnergy;
 import nc.tile.energyFluid.IBufferable;
 import nc.tile.energyFluid.TileEnergyFluidSidedInventory;
+import nc.tile.fluid.ITileFluid;
 import nc.tile.internal.energy.EnergyConnection;
+import nc.tile.internal.fluid.TankSorption;
 import nc.tile.internal.fluid.FluidConnection;
 import nc.tile.internal.fluid.Tank;
 import nc.util.ArrayHelper;
@@ -42,15 +47,15 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 	public final NCRecipes.Type recipeType;
 	protected ProcessorRecipe recipe;
 	
-	public TileItemFluidGenerator(String name, int itemInSize, int fluidInSize, int itemOutSize, int fluidOutSize, int otherSize, List<Integer> fluidCapacity, List<FluidConnection> fluidConnection, List<List<String>> allowedFluids, int capacity, NCRecipes.Type recipeType) {
-		super(name, 2*itemInSize + itemOutSize + otherSize, capacity, energyConnectionAll(EnergyConnection.OUT), fluidCapacity, fluidCapacity, fluidCapacity, fluidConnection, allowedFluids);
+	public TileItemFluidGenerator(String name, int itemInSize, int fluidInSize, int itemOutSize, int fluidOutSize, int otherSize, @Nonnull List<Integer> fluidCapacity, @Nonnull List<TankSorption> tankSorptions, List<List<String>> allowedFluids, int capacity, @Nonnull NCRecipes.Type recipeType) {
+		super(name, 2*itemInSize + itemOutSize + otherSize, capacity, ITileEnergy.energyConnectionAll(EnergyConnection.OUT), fluidCapacity, fluidCapacity, tankSorptions, allowedFluids, ITileFluid.fluidConnectionAll(FluidConnection.BOTH));
 		itemInputSize = itemInSize;
 		fluidInputSize = fluidInSize;
 		itemOutputSize = itemOutSize;
 		fluidOutputSize = fluidOutSize;
 		
 		otherSlotsSize = otherSize;
-		areTanksShared = fluidInSize > 1;
+		setTanksShared(fluidInSize > 1);
 		
 		defaultProcessTime = 1;
 		defaultProcessPower = 0;
@@ -58,15 +63,6 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 		this.recipeType = recipeType;
 		
 		slots = ArrayHelper.increasingArray(itemInSize + itemOutSize);
-		
-		for (int i = 0; i < tanks.size(); i++) {
-			if (i < fluidInputSize) tanks.get(i).setStrictlyInput(true);
-			else if (i < fluidInputSize + fluidOutputSize) tanks.get(i).setStrictlyOutput(true);
-			else {
-				tanks.get(i).setStrictlyInput(true);
-				tanks.get(i).setStrictlyOutput(true);
-			}
-		}
 	}
 	
 	public static List<Integer> defaultTankCapacities(int capacity, int inSize, int outSize) {
@@ -75,12 +71,12 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 		return tankCapacities;
 	}
 	
-	public static List<FluidConnection> defaultFluidConnections(int inSize, int outSize) {
-		List<FluidConnection> fluidConnections = new ArrayList<FluidConnection>();
-		for (int i = 0; i < inSize; i++) fluidConnections.add(FluidConnection.IN);
-		for (int i = 0; i < outSize; i++) fluidConnections.add(FluidConnection.OUT);
-		for (int i = 0; i < inSize; i++) fluidConnections.add(FluidConnection.NON);
-		return fluidConnections;
+	public static List<TankSorption> defaultTankSorptions(int inSize, int outSize) {
+		List<TankSorption> tankSorptions = new ArrayList<TankSorption>();
+		for (int i = 0; i < inSize; i++) tankSorptions.add(TankSorption.IN);
+		for (int i = 0; i < outSize; i++) tankSorptions.add(TankSorption.OUT);
+		for (int i = 0; i < inSize; i++) tankSorptions.add(TankSorption.NON);
+		return tankSorptions;
 	}
 	
 	@Override
@@ -137,7 +133,7 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 			setRecipeStats();
 			if (recipe == null) {
 				time = 0;
-				if (emptyUnusableTankInputs) for (int i = 0; i < fluidInputSize; i++) tanks.get(i).setFluid(null);
+				if (getEmptyUnusableTankInputs()) for (int i = 0; i < fluidInputSize; i++) getTanks().get(i).setFluid(null);
 			} else time = MathHelper.clamp(time - oldProcessTime, 0D, baseProcessTime);
 		}
 	}
@@ -157,7 +153,7 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 			if (!inventoryStacks.get(i + itemInputSize + itemOutputSize).isEmpty()) return true;
 		}
 		for (int i = 0; i < fluidInputSize; i++) {
-			if (!tanks.get(i + fluidInputSize + fluidOutputSize).isEmpty()) return true;
+			if (!getTanks().get(i + fluidInputSize + fluidOutputSize).isEmpty()) return true;
 		}
 		return false;
 	}
@@ -190,10 +186,10 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 			IFluidIngredient fluidProduct = getFluidProducts().get(j);
 			if (fluidProduct.getMaxStackSize() <= 0) continue;
 			if (fluidProduct.getStack() == null) return false;
-			else if (!tanks.get(j + fluidInputSize).isEmpty()) {
-				if (!tanks.get(j + fluidInputSize).getFluid().isFluidEqual(fluidProduct.getStack())) {
+			else if (!getTanks().get(j + fluidInputSize).isEmpty()) {
+				if (!getTanks().get(j + fluidInputSize).getFluid().isFluidEqual(fluidProduct.getStack())) {
 					return false;
-				} else if (!voidExcessFluidOutputs && tanks.get(j + fluidInputSize).getFluidAmount() + fluidProduct.getMaxStackSize() > tanks.get(j + fluidInputSize).getCapacity()) {
+				} else if (!getVoidExcessFluidOutputs() && getTanks().get(j + fluidInputSize).getFluidAmount() + fluidProduct.getMaxStackSize() > getTanks().get(j + fluidInputSize).getCapacity()) {
 					return false;
 				}
 			}
@@ -215,8 +211,8 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 			}
 		}
 		for (int i = 0; i < fluidInputSize; i++) {
-			if (!tanks.get(i + fluidInputSize + fluidOutputSize).isEmpty()) {
-				tanks.get(i + fluidInputSize + fluidOutputSize).setFluid(null);
+			if (!getTanks().get(i + fluidInputSize + fluidOutputSize).isEmpty()) {
+				getTanks().get(i + fluidInputSize + fluidOutputSize).setFluid(null);
 			}
 		}
 		for (int i = 0; i < itemInputSize; i++) {
@@ -230,17 +226,17 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 		for (int i = 0; i < fluidInputSize; i++) {
 			IFluidIngredient fluidIngredient = getFluidIngredients().get(fluidInputOrder.get(i));
 			if (fluidIngredient.getMaxStackSize() > 0) {
-				tanks.get(i + fluidInputSize + fluidOutputSize).setFluidStored(new FluidStack(tanks.get(i).getFluid(), fluidIngredient.getMaxStackSize()));
-				tanks.get(i).changeFluidStored(-fluidIngredient.getMaxStackSize());
+				getTanks().get(i + fluidInputSize + fluidOutputSize).setFluidStored(new FluidStack(getTanks().get(i).getFluid(), fluidIngredient.getMaxStackSize()));
+				getTanks().get(i).changeFluidAmount(-fluidIngredient.getMaxStackSize());
 			}
-			if (tanks.get(i).isEmpty()) tanks.get(i).setFluid(null);
+			if (getTanks().get(i).isEmpty()) getTanks().get(i).setFluid(null);
 		}
 		hasConsumed = true;
 	}
 		
 	public void produceProducts() {
 		for (int i = itemInputSize + itemOutputSize; i < 2*itemInputSize + itemOutputSize; i++) inventoryStacks.set(i, ItemStack.EMPTY);
-		for (int i = fluidInputSize + fluidOutputSize; i < 2*fluidInputSize + fluidOutputSize; i++) tanks.get(i).setFluid(null);
+		for (int i = fluidInputSize + fluidOutputSize; i < 2*fluidInputSize + fluidOutputSize; i++) getTanks().get(i).setFluid(null);
 		
 		if (!hasConsumed || recipe == null) return;
 		
@@ -256,10 +252,10 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 		for (int j = 0; j < fluidOutputSize; j++) {
 			IFluidIngredient fluidProduct = getFluidProducts().get(j);
 			if (fluidProduct.getNextStackSize() <= 0) continue;
-			if (tanks.get(j + fluidInputSize).isEmpty()) {
-				tanks.get(j + fluidInputSize).setFluidStored(fluidProduct.getNextStack());
-			} else if (tanks.get(j + fluidInputSize).getFluid().isFluidEqual(fluidProduct.getStack())) {
-				tanks.get(j + fluidInputSize).changeFluidStored(fluidProduct.getNextStackSize());
+			if (getTanks().get(j + fluidInputSize).isEmpty()) {
+				getTanks().get(j + fluidInputSize).setFluidStored(fluidProduct.getNextStack());
+			} else if (getTanks().get(j + fluidInputSize).getFluid().isFluidEqual(fluidProduct.getStack())) {
+				getTanks().get(j + fluidInputSize).changeFluidAmount(fluidProduct.getNextStackSize());
 			}
 		}
 		hasConsumed = false;
@@ -282,7 +278,7 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 	
 	@Override
 	public List<Tank> getFluidInputs(boolean consumed) {
-		return consumed ? tanks.subList(fluidInputSize + fluidOutputSize, 2*fluidInputSize + fluidOutputSize) : tanks.subList(0, fluidInputSize);
+		return consumed ? getTanks().subList(fluidInputSize + fluidOutputSize, 2*fluidInputSize + fluidOutputSize) : getTanks().subList(0, fluidInputSize);
 	}
 	
 	@Override
@@ -312,7 +308,7 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 		for (int i = 0; i < itemInputSize; i++) {
 			int position = -1;
 			for (int j = 0; j < itemIngredients.size(); j++) {
-				if (itemIngredients.get(j).matches(getItemInputs(false).get(i), SorptionType.INPUT)) {
+				if (itemIngredients.get(j).matches(getItemInputs(false).get(i), IngredientSorption.INPUT)) {
 					position = j;
 					break;
 				}
@@ -330,7 +326,7 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 		for (int i = 0; i < fluidInputSize; i++) {
 			int position = -1;
 			for (int j = 0; j < fluidIngredients.size(); j++) {
-				if (fluidIngredients.get(j).matches(getFluidInputs(false).get(i), SorptionType.INPUT)) {
+				if (fluidIngredients.get(j).matches(getFluidInputs(false).get(i), IngredientSorption.INPUT)) {
 					position = j;
 					break;
 				}
@@ -376,13 +372,13 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 	// Fluids
 	
 	@Override
-	public boolean canFill(FluidStack resource, int tankNumber) {
+	public boolean isNextToFill(FluidStack resource, int tankNumber) {
 		if (tankNumber >= fluidInputSize) return false;
-		if (!areTanksShared) return true;
+		if (!getTanksShared()) return true;
 		
 		for (int i = 0; i < fluidInputSize; i++) {
-			if (tankNumber != i && fluidConnections.get(i).canFill() && tanks.get(i).getFluid() != null) {
-				if (tanks.get(i).getFluid().isFluidEqual(resource)) return false;
+			if (tankNumber != i && getTanks().get(i).canFill() && getTanks().get(i).getFluid() != null) {
+				if (getTanks().get(i).getFluid().isFluidEqual(resource)) return false;
 			}
 		}
 		return true;

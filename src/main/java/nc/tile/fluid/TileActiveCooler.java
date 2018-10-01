@@ -8,11 +8,12 @@ import nc.enumm.MetaEnums.CoolerType;
 import nc.tile.dummy.IInterfaceable;
 import nc.tile.energyFluid.IBufferable;
 import nc.tile.internal.fluid.FluidConnection;
+import nc.tile.internal.fluid.TankSorption;
 
 public class TileActiveCooler extends TileFluid implements IInterfaceable, IBufferable, IFluidSpread {
 	
 	public TileActiveCooler() {
-		super(4*4*NCConfig.machine_update_rate*NCConfig.active_cooler_max_rate, FluidConnection.IN, validFluids());
+		super(4*4*NCConfig.machine_update_rate*NCConfig.active_cooler_max_rate, TankSorption.IN, validFluids(), ITileFluid.fluidConnectionAll(FluidConnection.IN));
 	}
 	
 	@Override

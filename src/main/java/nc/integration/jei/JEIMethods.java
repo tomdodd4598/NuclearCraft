@@ -12,7 +12,7 @@ import mezz.jei.api.gui.IGuiItemStackGroup;
 import mezz.jei.api.ingredients.IIngredients;
 import nc.recipe.ProcessorRecipe;
 import nc.recipe.ProcessorRecipeHandler;
-import nc.recipe.SorptionType;
+import nc.recipe.IngredientSorption;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 
@@ -34,15 +34,15 @@ public class JEIMethods {
 	
 	public static class RecipeItemMapper {
 
-		public Map<SorptionType, Map<Integer, RecipeItemMapping>> map = new HashMap();
+		public Map<IngredientSorption, Map<Integer, RecipeItemMapping>> map = new HashMap();
 
 		public RecipeItemMapper() {}
 
-		public void map(SorptionType type, int recipePos, int slotPos, int xPos, int yPos) {
+		public void map(IngredientSorption type, int recipePos, int slotPos, int xPos, int yPos) {
 			this.map(type, recipePos, new RecipeItemMapping(slotPos, xPos, yPos));
 		}
 
-		public void map(SorptionType type, int recipePos, RecipeItemMapping mapping) {
+		public void map(IngredientSorption type, int recipePos, RecipeItemMapping mapping) {
 			if (map.get(type) == null) {
 				map.put(type, new HashMap());
 			}
@@ -50,11 +50,11 @@ public class JEIMethods {
 		}
 
 		public void mapItemsTo(IGuiItemStackGroup items, IIngredients ingredients) {
-			for (Entry<SorptionType, Map<Integer, RecipeItemMapping>> entry : map.entrySet()) {
-				List objects = entry.getKey() == SorptionType.INPUT ? ingredients.getInputs(ItemStack.class) : ingredients.getOutputs(ItemStack.class);
+			for (Entry<IngredientSorption, Map<Integer, RecipeItemMapping>> entry : map.entrySet()) {
+				List objects = entry.getKey() == IngredientSorption.INPUT ? ingredients.getInputs(ItemStack.class) : ingredients.getOutputs(ItemStack.class);
 				for (Entry<Integer, RecipeItemMapping> mapping : entry.getValue().entrySet()) {
 					RecipeItemMapping recipe = mapping.getValue();
-					items.init(recipe.slotPos, entry.getKey() == SorptionType.INPUT, recipe.xPos, recipe.yPos);
+					items.init(recipe.slotPos, entry.getKey() == IngredientSorption.INPUT, recipe.xPos, recipe.yPos);
 					Object obj = objects.get(mapping.getKey());
 					if (obj instanceof List) {
 						items.set(recipe.slotPos, (List<ItemStack>) obj);
@@ -68,15 +68,15 @@ public class JEIMethods {
 	
 	public static class RecipeFluidMapper {
 
-		public Map<SorptionType, Map<Integer, RecipeFluidMapping>> map = new HashMap();
+		public Map<IngredientSorption, Map<Integer, RecipeFluidMapping>> map = new HashMap();
 
 		public RecipeFluidMapper() {}
 
-		public void map(SorptionType type, int recipePos, int slotPos, int xPos, int yPos, int xSize, int ySize) {
+		public void map(IngredientSorption type, int recipePos, int slotPos, int xPos, int yPos, int xSize, int ySize) {
 			this.map(type, recipePos, new RecipeFluidMapping(slotPos, xPos, yPos, xSize, ySize));
 		}
 
-		public void map(SorptionType type, int recipePos, RecipeFluidMapping mapping) {
+		public void map(IngredientSorption type, int recipePos, RecipeFluidMapping mapping) {
 			if (map.get(type) == null) {
 				map.put(type, new HashMap());
 			}
@@ -84,19 +84,19 @@ public class JEIMethods {
 		}
 		
 		public void mapFluidsTo(IGuiFluidStackGroup fluids, IIngredients ingredients) {
-			for (Entry<SorptionType, Map<Integer, RecipeFluidMapping>> entry : map.entrySet()) {
-				List objects = entry.getKey() == SorptionType.INPUT ? ingredients.getInputs(FluidStack.class) : ingredients.getOutputs(FluidStack.class);
+			for (Entry<IngredientSorption, Map<Integer, RecipeFluidMapping>> entry : map.entrySet()) {
+				List objects = entry.getKey() == IngredientSorption.INPUT ? ingredients.getInputs(FluidStack.class) : ingredients.getOutputs(FluidStack.class);
 				for (Entry<Integer, RecipeFluidMapping> mapping : entry.getValue().entrySet()) {
 					RecipeFluidMapping recipe = mapping.getValue();
 					Object obj = objects.get(mapping.getKey());
 					if (obj instanceof List) {
 						List<FluidStack> list = (List<FluidStack>) obj;
 						FluidStack stack = (list == null || list.isEmpty()) ? null : list.get(list.size() - 1);
-						fluids.init(recipe.slotPos, entry.getKey() == SorptionType.INPUT, recipe.xPos + 1, recipe.yPos + 1, recipe.xSize, recipe.ySize, stack == null ? 1000 : Math.max(1, stack.amount), true, null);
+						fluids.init(recipe.slotPos, entry.getKey() == IngredientSorption.INPUT, recipe.xPos + 1, recipe.yPos + 1, recipe.xSize, recipe.ySize, stack == null ? 1000 : Math.max(1, stack.amount), true, null);
 						fluids.set(recipe.slotPos, stack == null ? null : (List<FluidStack>) obj);
 					} else {
 						FluidStack stack = (FluidStack) obj;
-						fluids.init(recipe.slotPos, entry.getKey() == SorptionType.INPUT, recipe.xPos + 1, recipe.yPos + 1, recipe.xSize, recipe.ySize, stack == null ? 1000 : Math.max(1, stack.amount), true, null);
+						fluids.init(recipe.slotPos, entry.getKey() == IngredientSorption.INPUT, recipe.xPos + 1, recipe.yPos + 1, recipe.xSize, recipe.ySize, stack == null ? 1000 : Math.max(1, stack.amount), true, null);
 						fluids.set(recipe.slotPos, stack);
 					}
 				}

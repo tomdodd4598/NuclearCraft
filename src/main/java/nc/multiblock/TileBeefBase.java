@@ -111,13 +111,13 @@ public abstract class TileBeefBase extends TileEntity implements ITile, ITickabl
 	}
 	
 	@Override
-	public boolean hasCapability(Capability<?> capability, EnumFacing side) {
+	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing side) {
 		if (capability == IRadiationSource.CAPABILITY_RADIATION_SOURCE) return radiation != null;
 		return super.hasCapability(capability, side);
 	}
 	
 	@Override
-	public <T> T getCapability(Capability<T> capability, EnumFacing side) {
+	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing side) {
 		if (capability == IRadiationSource.CAPABILITY_RADIATION_SOURCE) return (T) radiation;
 		return super.getCapability(capability, side);
 	}
@@ -193,32 +193,43 @@ public abstract class TileBeefBase extends TileEntity implements ITile, ITickabl
 	public void readFromNBT(NBTTagCompound data) {
 		super.readFromNBT(data);
 		this.syncDataFrom(data, SyncReason.FullSync);
+		readAll(data);
+	}
+	
+	public void readAll(NBTTagCompound data) {
 		if (shouldSaveRadiation()) readRadiation(data);
 	}
 
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound data) {
+		super.writeToNBT(data);
 		this.syncDataTo(super.writeToNBT(data), SyncReason.FullSync);
+		writeAll(data);
+		return data;
+	}
+	
+	public NBTTagCompound writeAll(NBTTagCompound data) {
 		if (shouldSaveRadiation()) writeRadiation(data);
 		return data;
 	}
 
 	@Override
 	public void handleUpdateTag(NBTTagCompound data) {
-		super.readFromNBT(data);
+		super.handleUpdateTag(data);
 		this.syncDataFrom(data, SyncReason.NetworkUpdate);
 	}
 
 	@Override
 	public NBTTagCompound getUpdateTag() {
 		NBTTagCompound data = super.getUpdateTag();
-
+		writeAll(data);
 		this.syncDataTo(data, SyncReason.NetworkUpdate);
 		return data;
 	}
 
 	@Override
 	public final void onDataPacket(NetworkManager net, SPacketUpdateTileEntity packet) {
+		readAll(packet.getNbtCompound());
 		this.syncDataFrom(packet.getNbtCompound(), SyncReason.NetworkUpdate);
 	}
 
@@ -226,9 +237,10 @@ public abstract class TileBeefBase extends TileEntity implements ITile, ITickabl
 	@Override
 	public SPacketUpdateTileEntity getUpdatePacket() {
 		NBTTagCompound data = new NBTTagCompound();
-
+		writeAll(data);
+		int metadata = getBlockMetadata();
 		this.syncDataTo(data, SyncReason.NetworkUpdate);
-		return new SPacketUpdateTileEntity(this.getPos(), 0, data);
+		return new SPacketUpdateTileEntity(this.getPos(), metadata, data);
 	}
 
 	/**

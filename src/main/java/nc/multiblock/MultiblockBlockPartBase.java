@@ -1,6 +1,9 @@
 package nc.multiblock;
 
+import javax.annotation.Nullable;
+
 import nc.Global;
+import nc.NuclearCraft;
 import nc.block.NCBlock;
 import nc.multiblock.validation.ValidationError;
 import nc.util.Lang;
@@ -40,11 +43,6 @@ public abstract class MultiblockBlockPartBase extends NCBlock implements ITileEn
 		return getDefaultState();
 	}
 	
-	@Override
-	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
-		world.setBlockState(pos, state, 2);
-	}
-	
 	protected boolean rightClickOnPart(World world, BlockPos pos, EntityPlayer player) {
 		return rightClickOnPart(world, pos, player, false);
 	}
@@ -58,7 +56,10 @@ public abstract class MultiblockBlockPartBase extends NCBlock implements ITileEn
 					if (controller != null) {
 						ValidationError e = controller.getLastError();
 						if (e != null) {
+							e = e.updatedError(world);
+							if (e.getErrorPos() != null) 
 							player.sendMessage(e.getChatMessage());
+							NuclearCraft.instance.blockOverlayTracker.highlightBlock(e.getErrorPos(), 5000);
 							return true;
 						}
 					} else {
@@ -87,6 +88,12 @@ public abstract class MultiblockBlockPartBase extends NCBlock implements ITileEn
 	
 	public void dropItems(World world, BlockPos pos, IInventory tileentity) {
 		InventoryHelper.dropInventoryItems(world, pos, tileentity);
+	}
+	
+	@Override
+	public void harvestBlock(World world, EntityPlayer player, BlockPos pos, IBlockState state, @Nullable TileEntity tile, ItemStack stack) {
+		super.harvestBlock(world, player, pos, state, tile, stack);
+		world.setBlockToAir(pos);
 	}
 	
 	@Override

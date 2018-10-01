@@ -59,4 +59,16 @@ public class ItemStackHelper {
 		for (ItemStack stack : list) names += (", " + stackName(stack));
 		return names.substring(2);
 	}
+	
+	/** Stack tag comparison without checking capabilities such as radiation */
+	public static boolean areItemStackTagsEqual(ItemStack stackA, ItemStack stackB) {
+		if (stackA.isEmpty() && stackB.isEmpty()) return true;
+		
+		else if (!stackA.isEmpty() && !stackB.isEmpty()) {
+			if (stackA.getTagCompound() == null && stackB.getTagCompound() != null) return false;
+			return stackA.getTagCompound() == null || stackA.getTagCompound().equals(stackB.getTagCompound());
+		}
+		
+		return false;
+	}
 }

@@ -1,5 +1,6 @@
 package nc.tile.energy;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import nc.tile.internal.energy.EnergyConnection;
@@ -13,16 +14,12 @@ import net.minecraftforge.items.wrapper.SidedInvWrapper;
 
 public abstract class TileEnergySidedInventory extends TileEnergyInventory implements ISidedInventory {
 	
-	public TileEnergySidedInventory(String name, int size, int capacity, EnergyConnection[] energyConnections) {
+	public TileEnergySidedInventory(String name, int size, int capacity, @Nonnull EnergyConnection[] energyConnections) {
 		super(name, size, capacity, energyConnections);
 	}
-	
-	public TileEnergySidedInventory(String name, int size, int capacity, int maxTransfer, EnergyConnection[] energyConnections) {
-		super(name, size, capacity, maxTransfer, energyConnections);
-	}
 			
-	public TileEnergySidedInventory(String name, int size, int capacity, int maxReceive, int maxExtract, EnergyConnection[] energyConnections) {
-		super(name, size, capacity, maxReceive, maxExtract, energyConnections);
+	public TileEnergySidedInventory(String name, int size, int capacity, int maxTransfer, @Nonnull EnergyConnection[] energyConnections) {
+		super(name, size, capacity, maxTransfer, energyConnections);
 	}
 	
 	// SidedInventory

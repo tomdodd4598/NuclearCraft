@@ -2,23 +2,39 @@ package nc.recipe.multiblock;
 
 import nc.config.NCConfig;
 import nc.recipe.ProcessorRecipeHandler;
+import nc.recipe.ingredient.IFluidIngredient;
 
 public class HeatExchangerRecipes extends ProcessorRecipeHandler {
 	
 	public HeatExchangerRecipes() {
-		super("heat_exchanger", 0, 2, 0, 2);
+		super("heat_exchanger", 0, 1, 0, 1);
 	}
 	
 	@Override
 	public void addRecipes() {
+		// boolean: is cold -> hot.
+		
+		// Hot NaK -> NaK
+		
 		for (int i = 0; i < COOLANTS.length; i++) {
-			addRecipe(fluidStack(COOLANTS[i] + "nak_hot", NCConfig.salt_fission_cooling_max_rate), fluidStack("water", (int)NCConfig.salt_fission_cooling_rate[i]), fluidStack(COOLANTS[i] + "nak", NCConfig.salt_fission_cooling_max_rate), fluidStack("high_pressure_steam", (int)NCConfig.salt_fission_cooling_rate[i]), 1D);
-			addRecipe(fluidStack(COOLANTS[i] + "nak_hot", NCConfig.salt_fission_cooling_max_rate), fluidStack("preheated_water", 2*(int)NCConfig.salt_fission_cooling_rate[i]), fluidStack(COOLANTS[i] + "nak", NCConfig.salt_fission_cooling_max_rate), fluidStack("high_pressure_steam", 2*(int)NCConfig.salt_fission_cooling_rate[i]), 0.75D);
+			addHeatExchange(fluidStack(COOLANTS[i] + "nak_hot", NCConfig.salt_fission_cooling_max_rate), fluidStack(COOLANTS[i] + "nak", NCConfig.salt_fission_cooling_max_rate), NCConfig.salt_fission_cooling_rate[i]*NCConfig.heat_exchanger_coolant_mult); // 700 -> 300
 		}
 		
-		addRecipe(fluidStack("exhaust_steam", 1000), fluidStack("condensate_water", 1000), fluidStack("low_pressure_steam", 1000), fluidStack("preheated_water", 1000), 1D);
-		addRecipe(fluidStack("high_pressure_steam", 1000), fluidStack("condensate_water", 1000), fluidStack("steam", 1000), fluidStack("preheated_water", 1000), 1D);
+		// Steam <-> Water
+		
+		addHeatExchange(fluidStack("water", 200), fluidStack("high_pressure_steam", 1000), 8D*4000D); // 300 -> 1200
+		addHeatExchange(fluidStack("preheated_water", 200), fluidStack("high_pressure_steam", 1000), 4D*4000D); // 400 -> 1200
+		
+		addHeatExchange(fluidStack("exhaust_steam", 500), fluidStack("low_pressure_steam", 1000), 4D*4000D); // 400 -> 1000
+		
+		addHeatExchange(fluidStack("high_pressure_steam", 250), fluidStack("steam", 1000), 1D*4000D); // 1200 -> 800
+		
+		addHeatExchange(fluidStack("condensate_water", 1000), fluidStack("preheated_water", 1000), 8D*4000D); // 300 -> 400
 	}
 	
-	static final String[] COOLANTS = new String[] {"", "redstone_", "quartz_", "gold_", "glowstone_", "lapis_", "diamond_", "liquidhelium_", "ender_", "cryotheum_", "iron_", "emerald_", "copper_", "tin_", "magnesium_"};
+	public void addHeatExchange(IFluidIngredient fluidIn, IFluidIngredient fluidOut, double heatRequired) {
+		addRecipe(fluidIn, fluidOut, heatRequired, fluidIn.getStack().getFluid().getTemperature(), fluidOut.getStack().getFluid().getTemperature());
+	}
+	
+	private static final String[] COOLANTS = new String[] {"", "redstone_", "quartz_", "gold_", "glowstone_", "lapis_", "diamond_", "liquidhelium_", "ender_", "cryotheum_", "iron_", "emerald_", "copper_", "tin_", "magnesium_"};
 }

@@ -1,5 +1,127 @@
 {
+	"forge_marker": 1,
+	"defaults": {
+		"textures": {
+			"particle":"nuclearcraft:blocks/salt_fission/salt_fission_vessel/both",
+			"north":"nuclearcraft:blocks/salt_fission/salt_fission_vessel/both",
+			"east":"nuclearcraft:blocks/salt_fission/salt_fission_vessel/both",
+			"south":"nuclearcraft:blocks/salt_fission/salt_fission_vessel/both",
+			"west":"nuclearcraft:blocks/salt_fission/salt_fission_vessel/both",
+			"up":"nuclearcraft:blocks/salt_fission/salt_fission_vessel/both",
+			"down":"nuclearcraft:blocks/salt_fission/salt_fission_vessel/both"
+		},
+		"model":"cube",
+		"transform":"forge:default-block"
+	},
 	"variants": {
-		"normal": {"model": "nuclearcraft:salt_fission_vessel"}
+		"bothventory": [{}],
+		"north": {
+			"both": {},
+			"out": {
+			   "textures": {
+					"north":"nuclearcraft:blocks/salt_fission/salt_fission_vessel/out"
+				}
+			},
+			"in": {
+				 "textures": {
+					"north":"nuclearcraft:blocks/salt_fission/salt_fission_vessel/in"
+				}
+			},
+			"non": {
+				 "textures": {
+					"north":"nuclearcraft:blocks/salt_fission/salt_fission_vessel/non"
+				}
+			}
+		},
+		"east": {
+			"both": {},
+			"out": {
+			   "textures": {
+					"east":"nuclearcraft:blocks/salt_fission/salt_fission_vessel/out"
+				}
+			},
+			"in": {
+				 "textures": {
+					"east":"nuclearcraft:blocks/salt_fission/salt_fission_vessel/in"
+				}
+			},
+			"non": {
+				 "textures": {
+					"east":"nuclearcraft:blocks/salt_fission/salt_fission_vessel/non"
+				}
+			}
+		},
+		"south": {
+			"both": {},
+			"out": {
+			   "textures": {
+					"south":"nuclearcraft:blocks/salt_fission/salt_fission_vessel/out"
+				}
+			},
+			"in": {
+				 "textures": {
+					"south":"nuclearcraft:blocks/salt_fission/salt_fission_vessel/in"
+				}
+			},
+			"non": {
+				 "textures": {
+					"south":"nuclearcraft:blocks/salt_fission/salt_fission_vessel/non"
+				}
+			}
+		},
+		"west": {
+			"both": {},
+			"out": {
+			   "textures": {
+					"west":"nuclearcraft:blocks/salt_fission/salt_fission_vessel/out"
+				}
+			},
+			"in": {
+				 "textures": {
+					"west":"nuclearcraft:blocks/salt_fission/salt_fission_vessel/in"
+				}
+			},
+			"non": {
+				 "textures": {
+					"west":"nuclearcraft:blocks/salt_fission/salt_fission_vessel/non"
+				}
+			}
+		},
+		"up": {
+			"both": {},
+			"out": {
+			   "textures": {
+					"up":"nuclearcraft:blocks/salt_fission/salt_fission_vessel/out"
+				}
+			},
+			"in": {
+				 "textures": {
+					"up":"nuclearcraft:blocks/salt_fission/salt_fission_vessel/in"
+				}
+			},
+			"non": {
+				 "textures": {
+					"up":"nuclearcraft:blocks/salt_fission/salt_fission_vessel/non"
+				}
+			}
+		},
+		"down": {
+			"both": {},
+			"out": {
+			   "textures": {
+					"down":"nuclearcraft:blocks/salt_fission/salt_fission_vessel/out"
+				}
+			},
+			"in": {
+				 "textures": {
+					"down":"nuclearcraft:blocks/salt_fission/salt_fission_vessel/in"
+				}
+			},
+			"non": {
+				 "textures": {
+					"down":"nuclearcraft:blocks/salt_fission/salt_fission_vessel/non"
+				}
+			}
+		}
 	}
 }

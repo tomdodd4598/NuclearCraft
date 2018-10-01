@@ -2,6 +2,8 @@ package nc.item;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import nc.Global;
 import nc.util.InfoHelper;
 import nc.util.Lang;
@@ -30,7 +32,7 @@ public class NCItemRecord extends ItemRecord {
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack itemStack, World world, List<String> tooltip, ITooltipFlag flag) {
+	public void addInformation(ItemStack itemStack, @Nullable World world, List<String> tooltip, ITooltipFlag flag) {
 		//super.addInformation(itemStack, player, tooltip, advanced);
 		if (info.length > 0) InfoHelper.infoFull(tooltip, info);
 	}

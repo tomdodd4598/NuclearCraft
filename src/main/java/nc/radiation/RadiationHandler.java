@@ -62,7 +62,7 @@ public class RadiationHandler {
 			double radiationLevel = RadiationHelper.transferRadsToPlayer(player.world, player, playerRads, 5) + RadiationHelper.transferRadsToPlayer(chunk, player, playerRads, 5) + RadiationHelper.transferRadsFromInventoryToPlayer(player, playerRads, chunk, 5);
 			playerRads.setRadiationLevel(radiationLevel);
 			
-			if (playerRads.isFatal()) player.attackEntityFrom(FATAL_RADS, 1000F);
+			if (!player.isCreative() && playerRads.isFatal()) player.attackEntityFrom(FATAL_RADS, 1000F);
 			
 			double previousResistance = playerRads.getRadiationResistance();
 			if (previousResistance > 0D) {
@@ -79,7 +79,7 @@ public class RadiationHandler {
 			
 			PacketHandler.instance.sendTo(new PlayerRadsUpdatePacket(playerRads), player);
 			
-			RadiationHelper.applySymptoms(player, playerRads, 5);
+			if (!player.isCreative()) RadiationHelper.applySymptoms(player, playerRads, 5);
 		} else {
 			EntityPlayer player = event.player;
 			if (!player.hasCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null)) return;
@@ -126,7 +126,7 @@ public class RadiationHandler {
 			}
 		}
 		for (TileEntity tile : Lists.newArrayList(world.loadedTileEntityList)) {
-			Chunk chunk = world.getChunkFromChunkCoords(tile.getPos().getX() >> 4, tile.getPos().getZ() >> 4);
+			Chunk chunk = world.getChunkFromBlockCoords(tile.getPos());
 			RadiationHelper.transferRadiationFromSourceToChunkBuffer(tile, chunk);
 			if (tile instanceof IRadiationEnvironmentHandler) RadiationHelper.addToChunkBuffer(chunk, ((IRadiationEnvironmentHandler)tile).getChunkBufferContribution());
 		}

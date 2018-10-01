@@ -1,5 +1,6 @@
 package nc.tile.inventory;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import nc.Global;
@@ -19,8 +20,8 @@ import net.minecraftforge.items.wrapper.InvWrapper;
 
 public abstract class TileInventory extends NCTile implements IInventory, ITileInventory {
 	
-	public String inventoryName;
-	public NonNullList<ItemStack> inventoryStacks;
+	public @Nonnull String inventoryName;
+	public @Nonnull NonNullList<ItemStack> inventoryStacks;
 	
 	public TileInventory(String name, int size) {
 		super();
@@ -75,7 +76,7 @@ public abstract class TileInventory extends NCTile implements IInventory, ITileI
 	@Override
 	public void setInventorySlotContents(int index, ItemStack stack) {
 		ItemStack itemstack = inventoryStacks.get(index);
-		boolean flag = !stack.isEmpty() && stack.isItemEqual(itemstack) && ItemStack.areItemStackTagsEqual(stack, itemstack);
+		boolean flag = !stack.isEmpty() && stack.isItemEqual(itemstack) && nc.util.ItemStackHelper.areItemStackTagsEqual(stack, itemstack);
 		inventoryStacks.set(index, stack);
 
 		if (stack.getCount() > getInventoryStackLimit()) {

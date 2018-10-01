@@ -15,6 +15,7 @@ import nc.init.NCItems;
 import nc.init.NCTools;
 import nc.model.ModelTexturedFluid;
 import nc.radiation.RadiationOverlayHandler;
+import nc.render.BlockHighlightHandler;
 import nc.render.ColorRenderer;
 import nc.render.RenderFusionCore;
 import nc.tile.generator.TileFusionCore;
@@ -66,6 +67,8 @@ public class ClientProxy extends CommonProxy {
 		
 		ClientRegistry.bindTileEntitySpecialRenderer(TileFusionCore.class, new RenderFusionCore());
 		//ClientRegistry.bindTileEntitySpecialRenderer(TileSpin.class, new RenderSpin());
+		
+		MinecraftForge.EVENT_BUS.register(new BlockHighlightHandler());
 	}
 
 	@Override
@@ -78,6 +81,7 @@ public class ClientProxy extends CommonProxy {
 		super.postInit(postEvent);
 		
 		MinecraftForge.EVENT_BUS.register(new TooltipHandler());
+		
 		if (NCConfig.radiation_enabled) MinecraftForge.EVENT_BUS.register(new RadiationOverlayHandler(mc));
 	}
 	

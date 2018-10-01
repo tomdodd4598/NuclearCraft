@@ -1,6 +1,5 @@
 package nc.network;
 
-import java.io.IOException;
 import java.lang.reflect.Type;
 
 import com.google.gson.Gson;
@@ -20,8 +19,8 @@ public abstract class SimplePacketBase<REQ extends SimplePacketBase<REQ, REPLY>,
 	private ByteBuf read;
 	private final Gson gson = new Gson();
 	
-	abstract protected void read() throws IOException;
-	abstract protected void write() throws IOException;
+	abstract protected void read();
+	abstract protected void write();
 	abstract protected REPLY executeOnClient();
 	abstract protected REPLY executeOnServer();
 	
@@ -29,7 +28,7 @@ public abstract class SimplePacketBase<REQ extends SimplePacketBase<REQ, REPLY>,
 		write = Unpooled.buffer();
 	}
 	
-	public TileEntity readClientTileEntity() throws IOException {
+	public TileEntity readClientTileEntity() {
 		int dimensionId = readInt();
 		int x = readInt();
 		int y = readInt();
@@ -38,7 +37,7 @@ public abstract class SimplePacketBase<REQ extends SimplePacketBase<REQ, REPLY>,
 	}
 	
 	
-	public TileEntity readServerTileEntity() throws IOException {
+	public TileEntity readServerTileEntity() {
 		int dimensionId = readInt();
 		int x = readInt();
 		int y = readInt();
@@ -46,65 +45,65 @@ public abstract class SimplePacketBase<REQ extends SimplePacketBase<REQ, REPLY>,
 		return WorldHelper.getTileServer(dimensionId, x, y, z);
 	}
 	
-	public byte[] readByteArray() throws IOException {
+	public byte[] readByteArray() {
 		return readByteArrayData(read.readUnsignedShort());
 	}
 	
-	public byte[] readByteArrayData(int size) throws IOException {
+	public byte[] readByteArrayData(int size) {
 		byte[] data = new byte[size];
 		read.readBytes(data, 0, size);
 		return data;
 	}
 	
-	public Object readJSON(Type type) throws IOException {
+	public Object readJSON(Type type) {
 		return gson.fromJson(ByteBufUtils.readUTF8String(read), type);
 	}
 	
-	public <T> T readJSON(Class<T> type) throws IOException {
+	public <T> T readJSON(Class<T> type) {
 		return gson.fromJson(ByteBufUtils.readUTF8String(read), type);
 	}
 	
-	public byte readByte() throws IOException {
+	public byte readByte() {
 		return read.readByte();
 	}
 	
-	public short readShort() throws IOException {
+	public short readShort() {
 		return read.readShort();
 	}
 	
-	public int readUnsignedByte() throws IOException {
+	public int readUnsignedByte() {
 		return read.readUnsignedByte();
 	}
 	
-	public int readUnsignedShort() throws IOException {
+	public int readUnsignedShort() {
 		return read.readUnsignedShort();
 	}
 	
-	public int readInt() throws IOException {
+	public int readInt() {
 		return read.readInt();
 	}
 	
-	public long readLong() throws IOException {
+	public long readLong() {
 		return read.readLong();
 	}
 	
-	public double readDouble() throws IOException {
+	public double readDouble() {
 		return read.readDouble();
 	}
 	
-	public float readFloat() throws IOException {
+	public float readFloat() {
 		return read.readFloat();
 	}
 	
-	public String readString() throws IOException {
+	public String readString() {
 		return ByteBufUtils.readUTF8String(read);
 	}
 	
-	public boolean readBoolean() throws IOException {
+	public boolean readBoolean() {
 		return read.readBoolean();
 	}
 	
-	public SimplePacketBase<REQ, REPLY> writeTileLocation(TileEntity tile) throws IOException, RuntimeException {
+	public SimplePacketBase<REQ, REPLY> writeTileLocation(TileEntity tile) throws RuntimeException {
 		if(tile.getWorld() == null) throw new RuntimeException("World does not exist!");
 		if(tile.isInvalid()) throw new RuntimeException("TileEntity is invalid!");
 		write.writeInt(tile.getWorld().provider.getDimension());
@@ -114,54 +113,54 @@ public abstract class SimplePacketBase<REQ extends SimplePacketBase<REQ, REPLY>,
 		return this;
 	}
 	
-	public SimplePacketBase<REQ, REPLY> writeByteArray(byte[] array) throws IOException, RuntimeException {
+	public SimplePacketBase<REQ, REPLY> writeByteArray(byte[] array) throws RuntimeException {
 		if(array.length > 65535) throw new RuntimeException("Invalid array size!");
 		write.writeShort(array.length);
 		write.writeBytes(array);
 		return this;
 	}
 	
-	public SimplePacketBase<REQ, REPLY> writeByteArrayData(byte[] array) throws IOException {
+	public SimplePacketBase<REQ, REPLY> writeByteArrayData(byte[] array) {
 		write.writeBytes(array);
 		return this;
 	}
 	
-	public SimplePacketBase<REQ, REPLY> writeByte(byte b) throws IOException {
+	public SimplePacketBase<REQ, REPLY> writeByte(byte b) {
 		write.writeByte(b);
 		return this;
 	}
 	
-	public SimplePacketBase<REQ, REPLY> writeBoolean(boolean b) throws IOException {
+	public SimplePacketBase<REQ, REPLY> writeBoolean(boolean b) {
 		write.writeBoolean(b);
 		return this;
 	}
 	
-	public SimplePacketBase<REQ, REPLY> writeString(String s) throws IOException {
+	public SimplePacketBase<REQ, REPLY> writeString(String s) {
 		ByteBufUtils.writeUTF8String(write, s);
 		return this;
 	}
 	
-	public SimplePacketBase<REQ, REPLY> writeShort(short s) throws IOException {
+	public SimplePacketBase<REQ, REPLY> writeShort(short s) {
 		write.writeShort(s);
 		return this;
 	}
 	
-	public SimplePacketBase<REQ, REPLY> writeInt(int i) throws IOException {
+	public SimplePacketBase<REQ, REPLY> writeInt(int i) {
 		write.writeInt(i);
 		return this;
 	}
 	
-	public SimplePacketBase<REQ, REPLY> writeDouble(double d) throws IOException {
+	public SimplePacketBase<REQ, REPLY> writeDouble(double d) {
 		write.writeDouble(d);
 		return this;
 	}
 	
-	public SimplePacketBase<REQ, REPLY> writeFloat(float f) throws IOException {
+	public SimplePacketBase<REQ, REPLY> writeFloat(float f) {
 		write.writeFloat(f);
 		return this;
 	}
 	
-	public SimplePacketBase<REQ, REPLY> writeLong(long l) throws IOException {
+	public SimplePacketBase<REQ, REPLY> writeLong(long l) {
 		write.writeLong(l);
 		return this;
 	}
@@ -169,20 +168,12 @@ public abstract class SimplePacketBase<REQ extends SimplePacketBase<REQ, REPLY>,
 	@Override
 	public final void fromBytes(ByteBuf buf) {
 		read = buf;
-		try {
-			read();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		read();
 	}
 
 	@Override
 	public final void toBytes(ByteBuf buf) {
-		try {
-			write();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		write();
 		buf.writeBytes(write);
 	}
 

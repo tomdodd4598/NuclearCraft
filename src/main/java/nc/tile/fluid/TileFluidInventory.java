@@ -2,10 +2,14 @@ package nc.tile.fluid;
 
 import java.util.List;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.google.common.collect.Lists;
 
 import nc.Global;
 import nc.tile.internal.fluid.FluidConnection;
+import nc.tile.internal.fluid.TankSorption;
 import nc.tile.inventory.ITileInventory;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -16,38 +20,29 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 
 public abstract class TileFluidInventory extends TileFluid implements IInventory, ITileInventory {
 	
-	public String inventoryName;
-	public NonNullList<ItemStack> inventoryStacks;
+	public @Nonnull String inventoryName;
+	public @Nonnull NonNullList<ItemStack> inventoryStacks;
 	
-	public TileFluidInventory(String name, int size, int capacity, FluidConnection fluidConnections, List<String> allowedFluids) {
-		this(name, size, Lists.newArrayList(capacity), Lists.newArrayList(capacity), Lists.newArrayList(capacity), Lists.newArrayList(fluidConnections), Lists.<List<String>>newArrayList(allowedFluids));
+	public TileFluidInventory(String name, int size, int capacity, @Nonnull TankSorption tankSorption, List<String> allowedFluidsList, @Nonnull FluidConnection[] fluidConnections) {
+		this(name, size, Lists.newArrayList(capacity), Lists.newArrayList(capacity), Lists.newArrayList(tankSorption), Lists.<List<String>>newArrayList(allowedFluidsList), fluidConnections);
 	}
 	
-	public TileFluidInventory(String name, int size, List<Integer> capacity, List<FluidConnection> fluidConnections, List<List<String>> allowedFluids) {
-		this(name, size, capacity, capacity, capacity, fluidConnections, allowedFluids);
+	public TileFluidInventory(String name, int size, @Nonnull List<Integer> capacity, @Nonnull List<TankSorption> tankSorptions, List<List<String>> allowedFluidsLists, @Nonnull FluidConnection[] fluidConnections) {
+		this(name, size, capacity, capacity, tankSorptions, allowedFluidsLists, fluidConnections);
 	}
 	
-	public TileFluidInventory(String name, int size, int capacity, int maxTransfer, FluidConnection fluidConnections, List<String> allowedFluids) {
-		this(name, size, Lists.newArrayList(capacity), Lists.newArrayList(maxTransfer), Lists.newArrayList(maxTransfer), Lists.newArrayList(fluidConnections), Lists.<List<String>>newArrayList(allowedFluids));
+	public TileFluidInventory(String name, int size, int capacity, int maxTransfer, @Nonnull TankSorption tankSorption, List<String> allowedFluidsList, @Nonnull FluidConnection[] fluidConnections) {
+		this(name, size, Lists.newArrayList(capacity), Lists.newArrayList(maxTransfer), Lists.newArrayList(tankSorption), Lists.<List<String>>newArrayList(allowedFluidsList), fluidConnections);
 	}
 	
-	public TileFluidInventory(String name, int size, List<Integer> capacity, List<Integer> maxTransfer, List<FluidConnection> fluidConnections, List<List<String>> allowedFluids) {
-		this(name, size, capacity, maxTransfer, maxTransfer, fluidConnections, allowedFluids);
-	}
-	
-	public TileFluidInventory(String name, int size, int capacity, int maxReceive, int maxExtract, FluidConnection fluidConnections, List<String> allowedFluids) {
-		this(name, size, Lists.newArrayList(capacity), Lists.newArrayList(maxReceive), Lists.newArrayList(maxExtract), Lists.newArrayList(fluidConnections), Lists.<List<String>>newArrayList(allowedFluids));
-	}
-	
-	public TileFluidInventory(String name, int size, List<Integer> capacity, List<Integer> maxReceive, List<Integer> maxExtract, List<FluidConnection> fluidConnections, List<List<String>> allowedFluids) {
-		super(capacity, maxReceive, maxExtract, fluidConnections, allowedFluids);
+	public TileFluidInventory(String name, int size, @Nonnull List<Integer> capacity, @Nonnull List<Integer> maxTransfer, @Nonnull List<TankSorption> tankSorptions, List<List<String>> allowedFluidsLists, @Nonnull FluidConnection[] fluidConnections) {
+		super(capacity, maxTransfer, tankSorptions, allowedFluidsLists, fluidConnections);
 		inventoryName = Global.MOD_ID + ".container." + name;
 		inventoryStacks = NonNullList.<ItemStack>withSize(size, ItemStack.EMPTY);
 	}
@@ -99,7 +94,7 @@ public abstract class TileFluidInventory extends TileFluid implements IInventory
 	@Override
 	public void setInventorySlotContents(int index, ItemStack stack) {
 		ItemStack itemstack = inventoryStacks.get(index);
-		boolean flag = !stack.isEmpty() && stack.isItemEqual(itemstack) && ItemStack.areItemStackTagsEqual(stack, itemstack);
+		boolean flag = !stack.isEmpty() && stack.isItemEqual(itemstack) && nc.util.ItemStackHelper.areItemStackTagsEqual(stack, itemstack);
 		inventoryStacks.set(index, stack);
 
 		if (stack.getCount() > getInventoryStackLimit()) {
@@ -199,24 +194,14 @@ public abstract class TileFluidInventory extends TileFluid implements IInventory
 	IItemHandler handler = new InvWrapper(this);
 	
 	@Override
-	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
-		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
-			return true;
-		}
-		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-			return true;
-		}
+	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing) {
+		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) return true;
 		return super.hasCapability(capability, facing);
 	}
 
 	@Override
-	public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
-		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
-			return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(this);
-		}
-		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-			return (T) handler;
-		}
+	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing) {
+		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) return (T) handler;
 		return super.getCapability(capability, facing);
 	}
 }

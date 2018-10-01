@@ -20,15 +20,15 @@ public abstract class TileTurbinePartBase<TURBINE extends Turbine> extends TileC
 	// NBT
 	
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-		super.writeToNBT(nbt);
+	public NBTTagCompound writeAll(NBTTagCompound nbt) {
+		super.writeAll(nbt);
 		nbt.setBoolean("isTurbineOn", isTurbineOn);
 		return nbt;
 	}
 	
 	@Override
-	public void readFromNBT(NBTTagCompound nbt) {
-		super.readFromNBT(nbt);
+	public void readAll(NBTTagCompound nbt) {
+		super.readAll(nbt);
 		isTurbineOn = nbt.getBoolean("isTurbineOn");
 	}
 }

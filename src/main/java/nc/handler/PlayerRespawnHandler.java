@@ -15,7 +15,7 @@ public class PlayerRespawnHandler {
 		if (newPlayer == null || oldPlayer == null) return;
 		
 		if (event.isWasDeath()) {
-			if (NCConfig.radiation_death_persist) {
+			if (NCConfig.radiation_enabled && NCConfig.radiation_death_persist) {
 				if (!oldPlayer.hasCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null)) return;
 				IEntityRads oldRads = oldPlayer.getCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null);
 				if (oldRads == null) return;

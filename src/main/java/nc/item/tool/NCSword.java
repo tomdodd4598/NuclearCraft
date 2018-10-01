@@ -2,6 +2,8 @@ package nc.item.tool;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import nc.Global;
 import nc.util.InfoHelper;
 import net.minecraft.client.util.ITooltipFlag;
@@ -25,7 +27,7 @@ public class NCSword extends ItemSword {
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack itemStack, World world, List<String> tooltip, ITooltipFlag flag) {
+	public void addInformation(ItemStack itemStack, @Nullable World world, List<String> tooltip, ITooltipFlag flag) {
         super.addInformation(itemStack, world, tooltip, flag);
         if (info.length > 0) InfoHelper.infoFull(tooltip, info);
     }

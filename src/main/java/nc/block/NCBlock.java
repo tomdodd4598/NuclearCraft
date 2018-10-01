@@ -1,9 +1,17 @@
 package nc.block;
 
+import java.util.List;
+
+import com.google.common.collect.Lists;
+
 import nc.Global;
+import nc.block.tile.INBTDrop;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
@@ -40,6 +48,29 @@ public class NCBlock extends Block {
 	public boolean rotateBlock(World world, BlockPos pos, EnumFacing axis) {
 		return false;
 	}
+	
+	// NBT Stuff
+	
+	@Override
+	public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest) {
+		if (this instanceof INBTDrop && willHarvest) return true;
+		return super.removedByPlayer(state, world, pos, player, willHarvest);
+	}
+	
+	@Override
+	public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
+		if (this instanceof INBTDrop) return Lists.newArrayList(((INBTDrop)this).getNBTDrop(world, pos, state));
+		return super.getDrops(world, pos, state, fortune);
+	}
+	
+	@Override
+	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase player, ItemStack stack) {
+		world.setBlockState(pos, state, 2);
+		if (this instanceof INBTDrop && stack.hasTagCompound()) ((INBTDrop)this).readStackData(world, pos, player, stack);
+		world.notifyBlockUpdate(pos, state, state, 3);
+	}
+	
+	// Transparent Block
 	
 	public static class Transparent extends NCBlock {
 		

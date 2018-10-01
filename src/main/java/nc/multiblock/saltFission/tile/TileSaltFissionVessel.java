@@ -2,24 +2,34 @@ package nc.multiblock.saltFission.tile;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import com.google.common.collect.Lists;
 
 import nc.Global;
+import nc.ModCheck;
 import nc.config.NCConfig;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.saltFission.SaltFissionReactor;
 import nc.recipe.AbstractRecipeHandler;
+import nc.recipe.IngredientSorption;
 import nc.recipe.NCRecipes;
 import nc.recipe.ProcessorRecipe;
 import nc.recipe.ProcessorRecipeHandler;
-import nc.recipe.SorptionType;
 import nc.recipe.ingredient.IFluidIngredient;
+import nc.tile.fluid.ITileFluid;
 import nc.tile.generator.IFluidGenerator;
 import nc.tile.internal.fluid.FluidConnection;
+import nc.tile.internal.fluid.FluidTileWrapper;
+import nc.tile.internal.fluid.GasTileWrapper;
 import nc.tile.internal.fluid.Tank;
+import nc.tile.internal.fluid.TankSorption;
+import nc.tile.passive.ITilePassive;
 import nc.util.FluidStackHelper;
+import nc.util.GasHelper;
+import nc.util.RadiationHelper;
 import nc.util.RecipeHelper;
 import nc.util.RegistryHelper;
 import net.minecraft.block.Block;
@@ -29,25 +39,35 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
-import net.minecraftforge.fluids.capability.FluidTankProperties;
 import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidTankProperties;
-import net.minecraftforge.fluids.capability.templates.EmptyFluidHandler;
 
-public class TileSaltFissionVessel extends TileSaltFissionPartBase implements IFluidGenerator, IFluidHandler {
+public class TileSaltFissionVessel extends TileSaltFissionPartBase implements IFluidGenerator, ITileFluid {
 	
-	public List<FluidConnection> fluidConnections = Lists.newArrayList(FluidConnection.IN, FluidConnection.OUT,  FluidConnection.NON);
-	public final List<Tank> tanks = Lists.newArrayList(new Tank(FluidStackHelper.INGOT_VOLUME, RecipeHelper.validFluids(NCRecipes.Type.SALT_FISSION).get(0)), new Tank(FluidStackHelper.INGOT_VOLUME, new ArrayList<String>()), new Tank(FluidStackHelper.INGOT_VOLUME, new ArrayList<String>()));
+	private static final FluidConnection DEPLETED_OUT = FluidConnection.IN;
+	private static final FluidConnection FUEL_OUT = FluidConnection.OUT;
+	private static final FluidConnection DEFAULT = FluidConnection.BOTH;
+	private static final FluidConnection DISABLED = FluidConnection.NON;
 	
-	private Random rand = new Random();
+	private final @Nonnull List<Tank> tanks = Lists.newArrayList(new Tank(FluidStackHelper.INGOT_BLOCK_VOLUME, TankSorption.IN, RecipeHelper.validFluids(NCRecipes.Type.SALT_FISSION).get(0)), new Tank(FluidStackHelper.INGOT_BLOCK_VOLUME*4, TankSorption.OUT, new ArrayList<String>()), new Tank(FluidStackHelper.INGOT_BLOCK_VOLUME, TankSorption.NON, new ArrayList<String>()));
+
+	private @Nonnull FluidConnection[] fluidConnections = ITileFluid.fluidConnectionAll(FluidConnection.BOTH);
+	
+	private @Nonnull FluidTileWrapper[] fluidSides;
+	
+	private @Nonnull GasTileWrapper gasWrapper;
 	
 	public final int fluidInputSize = 1, fluidOutputSize = 1;
 	
 	public double baseProcessTime = 1, baseProcessHeat = 0, baseProcessRadiation = 0;
-	public double vesselEfficiency;
+	private int baseVesselEfficiency;
+	private double moderatorExtraEfficiency, moderatorHeatFactor;
+	
+	private int fluidToHold;
+	
+	public boolean distributedTo = false;
+	public boolean retrievedFrom = false;
 	
 	public double time;
 	public boolean isProcessing, hasConsumed, canProcessInputs;
@@ -57,6 +77,8 @@ public class TileSaltFissionVessel extends TileSaltFissionPartBase implements IF
 	
 	public TileSaltFissionVessel() {
 		super(CuboidalPartPositionType.INTERIOR);
+		fluidSides = ITileFluid.getDefaultFluidSides(this);
+		gasWrapper = new GasTileWrapper(this);
 	}
 	
 	@Override
@@ -74,36 +96,51 @@ public class TileSaltFissionVessel extends TileSaltFissionPartBase implements IF
 	}
 	
 	public void calculateEfficiency() {
-		double newEfficiency = 1D;
-		for (EnumFacing dir : EnumFacing.VALUES) {
-			if (isVessel(dir)) newEfficiency += 1D;
-		}
-		
-		double extraEfficiency = 0D;
-		for (EnumFacing dir : EnumFacing.VALUES) {
-			if (isModerator(dir)) {
-				extraEfficiency += newEfficiency*NCConfig.fission_moderator_extra_heat/6D;
+		int newEfficiency = 1;
+		dirLoop: for (EnumFacing dir : EnumFacing.VALUES) {
+			if (isVessel(dir, 1)) newEfficiency++;
+			else for (int i = 1; i <= NCConfig.fission_neutron_reach; i++) {
+				if (isModerator(dir, i, false)) {
+					if (isVessel(dir, i + 1)) {
+						newEfficiency++;
+						continue dirLoop;
+					} else continue;
+				} else continue dirLoop;
 			}
 		}
-		vesselEfficiency = newEfficiency + extraEfficiency;
+		
+		int moderatorCount = 0;
+		for (EnumFacing dir : EnumFacing.VALUES) {
+			if (isModerator(dir, 1, true)) {
+				moderatorCount++;
+			}
+		}
+		
+		baseVesselEfficiency = newEfficiency;
+		moderatorExtraEfficiency = newEfficiency*moderatorCount*NCConfig.fission_moderator_extra_power/6D;
+		moderatorHeatFactor = newEfficiency*moderatorCount*NCConfig.fission_moderator_extra_heat/6D;
 	}
 	
-	private boolean isVessel(EnumFacing dir) {
-		if (!(world.getTileEntity(pos.offset(dir)) instanceof TileSaltFissionVessel)) return false;
-		TileSaltFissionVessel vessel = (TileSaltFissionVessel) world.getTileEntity(pos.offset(dir));
+	private boolean isVessel(EnumFacing dir, int offset) {
+		TileEntity tile = world.getTileEntity(pos.offset(dir, offset));
+		if (!(tile instanceof TileSaltFissionVessel)) return false;
+		TileSaltFissionVessel vessel = (TileSaltFissionVessel) tile;
 		return vessel.canProcessInputs && vessel.isMultiblockAssembled();
 	}
 	
-	private boolean isModerator(EnumFacing dir) {
-		if (world.getTileEntity(pos.offset(dir)) instanceof TileSaltFissionModerator) {
-			TileSaltFissionModerator moderator = (TileSaltFissionModerator) world.getTileEntity(pos.offset(dir));
-			moderator.isInValidPosition = true;
-			return true;
-		}
-		return false;
+	private boolean isModerator(EnumFacing dir, int offset, boolean isInValidPosition) {
+		TileEntity tile = world.getTileEntity(pos.offset(dir, offset));
+		if (!(tile instanceof TileSaltFissionModerator)) return false;
+		TileSaltFissionModerator moderator = (TileSaltFissionModerator) tile;
+		moderator.isInModerationLine = true;
+		if (isInValidPosition) moderator.isInValidPosition = true;
+		return true;
+		
 	}
 	
 	public void doMeltdown() {
+		RadiationHelper.addToChunkRadiation(world.getChunkFromBlockCoords(pos), baseProcessRadiation*NCConfig.salt_fission_fuel_use);
+		
 		Block corium = RegistryHelper.getBlock(Global.MOD_ID + ":fluid_corium");
 		world.removeTileEntity(pos);
 		world.setBlockState(pos, corium.getDefaultState());
@@ -111,8 +148,16 @@ public class TileSaltFissionVessel extends TileSaltFissionPartBase implements IF
 	
 	// Processing
 	
+	public double getEfficiency() {
+		return baseVesselEfficiency + moderatorExtraEfficiency;
+	}
+	
+	public double getHeatMultiplier() {
+		return baseVesselEfficiency*(baseVesselEfficiency + 1D)*0.5D + moderatorHeatFactor;
+	}
+	
 	public double getProcessHeat() {
-		return vesselEfficiency*(vesselEfficiency + 1D)*0.5D*baseProcessHeat*NCConfig.salt_fission_heat_generation;
+		return getHeatMultiplier()*baseProcessHeat*NCConfig.salt_fission_heat_generation;
 	}
 	
 	@Override
@@ -152,7 +197,7 @@ public class TileSaltFissionVessel extends TileSaltFissionPartBase implements IF
 	
 	@Override
 	public void tickTile() {
-		tickCount++; tickCount %= NCConfig.machine_update_rate / 4;
+		tickCount++; tickCount %= NCConfig.machine_update_rate / 2;
 	}
 	
 	public boolean isProcessing() {
@@ -221,6 +266,8 @@ public class TileSaltFissionVessel extends TileSaltFissionPartBase implements IF
 		baseProcessTime = recipe.getSaltFissionFuelTime();
 		baseProcessHeat = recipe.getSaltFissionFuelHeat();
 		baseProcessRadiation = recipe.getSaltFissionFuelRadiation();
+		
+		fluidToHold = getFluidIngredients().get(0).getMaxStackSize();
 	}
 	
 	public void setDefaultRecipeStats() {
@@ -243,7 +290,7 @@ public class TileSaltFissionVessel extends TileSaltFissionPartBase implements IF
 			IFluidIngredient fluidIngredient = getFluidIngredients().get(fluidInputOrder.get(i));
 			if (fluidIngredient.getMaxStackSize() > 0) {
 				tanks.get(i + fluidInputSize + fluidOutputSize).setFluidStored(new FluidStack(tanks.get(i).getFluid(), fluidIngredient.getMaxStackSize()));
-				tanks.get(i).changeFluidStored(-fluidIngredient.getMaxStackSize());
+				tanks.get(i).changeFluidAmount(-fluidIngredient.getMaxStackSize());
 			}
 			if (tanks.get(i).isEmpty()) tanks.get(i).setFluid(null);
 		}
@@ -261,7 +308,7 @@ public class TileSaltFissionVessel extends TileSaltFissionPartBase implements IF
 			if (tanks.get(j + fluidInputSize).isEmpty()) {
 				tanks.get(j + fluidInputSize).setFluidStored(fluidProduct.getNextStack());
 			} else if (tanks.get(j + fluidInputSize).getFluid().isFluidEqual(fluidProduct.getStack())) {
-				tanks.get(j + fluidInputSize).changeFluidStored(fluidProduct.getNextStackSize());
+				tanks.get(j + fluidInputSize).changeFluidAmount(fluidProduct.getNextStackSize());
 			}
 		}
 		hasConsumed = false;
@@ -299,7 +346,7 @@ public class TileSaltFissionVessel extends TileSaltFissionPartBase implements IF
 		for (int i = 0; i < fluidInputSize; i++) {
 			int position = -1;
 			for (int j = 0; j < fluidIngredients.size(); j++) {
-				if (fluidIngredients.get(j).matches(getFluidInputs(false).get(i), SorptionType.INPUT)) {
+				if (fluidIngredients.get(j).matches(getFluidInputs(false).get(i), IngredientSorption.INPUT)) {
 					position = j;
 					break;
 				}
@@ -310,130 +357,167 @@ public class TileSaltFissionVessel extends TileSaltFissionPartBase implements IF
 		return fluidInputOrder;
 	}
 	
-	// Fluid
+	// Fluids
 	
 	@Override
-	public IFluidTankProperties[] getTankProperties() {
-		if (tanks == null || tanks.isEmpty()) return EmptyFluidHandler.EMPTY_TANK_PROPERTIES_ARRAY;
-		IFluidTankProperties[] properties = new IFluidTankProperties[tanks.size()];
-		for (int i = 0; i < tanks.size(); i++) {
-			properties[i] = new FluidTankProperties(tanks.get(i).getFluid(), tanks.get(i).getCapacity(), fluidConnections.get(i).canFill(), fluidConnections.get(i).canDrain());
-		}
-		return properties;
+	@Nonnull
+	public List<Tank> getTanks() {
+		return tanks;
 	}
 
 	@Override
-	public int fill(FluidStack resource, boolean doFill) {
-		if (tanks == null || tanks.isEmpty()) return 0;
-		for (int i = 0; i < tanks.size(); i++) {
-			if (fluidConnections.get(i).canFill() && tanks.get(i).isFluidValid(resource) && tanks.get(i).getFluidAmount() < tanks.get(i).getCapacity() && (tanks.get(i).getFluid() == null || tanks.get(i).getFluid().isFluidEqual(resource))) {
-				return tanks.get(i).fill(resource, doFill);
-			}
-		}
-		return 0;
+	@Nonnull
+	public FluidConnection[] getFluidConnections() {
+		return fluidConnections;
 	}
 
 	@Override
-	public FluidStack drain(FluidStack resource, boolean doDrain) {
-		if (tanks == null || tanks.isEmpty()) return null;
-		for (int i = 0; i < tanks.size(); i++) {
-			if (fluidConnections.get(i).canDrain() && tanks.get(i).getFluid() != null && tanks.get(i).getFluidAmount() > 0) {
-				if (resource.isFluidEqual(tanks.get(i).getFluid()) && tanks.get(i).drain(resource, false) != null) return tanks.get(i).drain(resource, doDrain);
+	@Nonnull
+	public FluidTileWrapper[] getFluidSides() {
+		return fluidSides;
+	}
+	
+	@Override
+	public @Nonnull GasTileWrapper getGasWrapper() {
+		return gasWrapper;
+	}
+	
+	@Override
+	public void pushFluidToSide(@Nonnull EnumFacing side) {
+		FluidConnection thisConnection = getFluidConnection(side);
+		if (thisConnection == DISABLED) return;
+		
+		TileEntity tile = getTileWorld().getTileEntity(getTilePos().offset(side));
+		
+		if (tile instanceof TileSaltFissionVessel) {
+			TileSaltFissionVessel vessel = (TileSaltFissionVessel)tile;
+			FluidConnection vesselConnection = vessel.getFluidConnection(side.getOpposite());
+			
+			if (thisConnection == FUEL_OUT) {
+				if (vesselConnection == DEFAULT) {
+					pushFuel(vessel);
+					pushDepleted(vessel);
+				} else if (vesselConnection == DEPLETED_OUT) {
+					pushFuel(vessel);
+				}
+			} else if (thisConnection == DEPLETED_OUT && (vesselConnection == DEFAULT || vesselConnection == FUEL_OUT)) {
+				pushDepleted(vessel);
 			}
 		}
-		return null;
+		
+		else if (thisConnection == DEPLETED_OUT) {
+			if (tile instanceof ITilePassive) if (!((ITilePassive) tile).canPushFluidsTo()) return;
+			IFluidHandler adjStorage = tile == null ? null : tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side.getOpposite());
+			
+			if (adjStorage == null) return;
+			
+			for (int i = 0; i < getTanks().size(); i++) {
+				if (getTanks().get(i).getFluid() == null || !getTanks().get(i).canDrain()) continue;
+				
+				getTanks().get(i).drainInternal(adjStorage.fill(getTanks().get(i).drainInternal(getTanks().get(i).getCapacity(), false), true), true);
+			}
+		}
+	}
+	
+	public void pushFuel(TileSaltFissionVessel other) {
+		if (getTanks().get(0).getFluidAmount() > other.getTanks().get(0).getFluidAmount()) {
+			getTanks().get(0).drainInternal(other.getTanks().get(0).fillInternal(getTanks().get(0).drainInternal(getTanks().get(0).getFluidAmount() - fluidToHold, false), true), true);
+		}
+	}
+	
+	public void pushDepleted(TileSaltFissionVessel other) {
+		getTanks().get(1).drainInternal(other.getTanks().get(1).fillInternal(getTanks().get(1).drainInternal(getTanks().get(1).getCapacity(), false), true), true);
 	}
 
 	@Override
-	public FluidStack drain(int maxDrain, boolean doDrain) {
-		if (tanks == null || tanks.isEmpty()) return null;
-		for (int i = 0; i < tanks.size(); i++) {
-			if (fluidConnections.get(i).canDrain() && tanks.get(i).getFluid() != null && tanks.get(i).getFluidAmount() > 0) {
-				if (tanks.get(i).drain(maxDrain, false) != null) return tanks.get(i).drain(maxDrain, doDrain);
-			}
-		}
-		return null;
+	public boolean getTanksShared() {
+		return false;
 	}
-	
-	public void pushFluid() {
-		Tank tank = tanks.get(1);
-		if (tank != null) {
-			FluidConnection fluidConnection = fluidConnections.get(1);
-			if (tank.getFluidAmount() <= 0 || !fluidConnection.canDrain()) return;
-			for (EnumFacing side : EnumFacing.VALUES) {
-				TileEntity tile = world.getTileEntity(getPos().offset(side));
-				if (!(tile instanceof TileSaltFissionVent)) continue;
-				TileSaltFissionVent vent = (TileSaltFissionVent) tile;
-				tank.drain(vent.fill(tank.drain(tank.getCapacity(), false), true), true);
-				if (tank.getFluidAmount() <= 0) return;
-			}
-		}
+
+	@Override
+	public void setTanksShared(boolean shared) {}
+
+	@Override
+	public boolean getEmptyUnusableTankInputs() {
+		return false;
 	}
+
+	@Override
+	public void setEmptyUnusableTankInputs(boolean emptyUnusableTankInputs) {}
+
+	@Override
+	public boolean getVoidExcessFluidOutputs() {
+		return false;
+	}
+
+	@Override
+	public void setVoidExcessFluidOutputs(boolean voidExcessFluidOutputs) {}
 	
-	// Mekanism Gas
-	
-	/*
-	 * 
-	 */
+	@Override
+	public boolean hasConfigurableFluidConnections() {
+		return true;
+	}
 	
 	// NBT
 	
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-		super.writeToNBT(nbt);
-		if (tanks.size() > 0 && tanks != null) for (int i = 0; i < tanks.size(); i++) {
-			nbt.setInteger("fluidAmount" + i, tanks.get(i).getFluidAmount());
-			nbt.setString("fluidName" + i, tanks.get(i).getFluidName());
-		}
+	public NBTTagCompound writeAll(NBTTagCompound nbt) {
+		super.writeAll(nbt);
+		writeTanks(nbt);
+		writeFluidConnections(nbt);
 		
 		nbt.setDouble("baseProcessTime", baseProcessTime);
 		nbt.setDouble("baseProcessHeat", baseProcessHeat);
-		nbt.setDouble("vesselEfficiency", vesselEfficiency);
+		nbt.setInteger("baseVesselEfficiency", baseVesselEfficiency);
+		nbt.setDouble("moderatorExtraEfficiency", moderatorExtraEfficiency);
+		nbt.setDouble("moderatorHeatFactor", moderatorHeatFactor);
 		
 		nbt.setDouble("time", time);
 		nbt.setBoolean("isProcessing", isProcessing);
 		nbt.setBoolean("hasConsumed", hasConsumed);
 		nbt.setBoolean("canProcessInputs", canProcessInputs);
+		nbt.setInteger("fluidToHold", fluidToHold);
 		return nbt;
 	}
 		
 	@Override
-	public void readFromNBT(NBTTagCompound nbt) {
-		super.readFromNBT(nbt);
-		if (tanks.size() > 0 && tanks != null) for (int i = 0; i < tanks.size(); i++) {
-			if (nbt.getString("fluidName" + i) == "nullFluid" || nbt.getInteger("fluidAmount" + i) == 0) tanks.get(i).setFluidStored(null);
-			else tanks.get(i).setFluidStored(FluidRegistry.getFluid(nbt.getString("fluidName" + i)), nbt.getInteger("fluidAmount" + i));
-		}
+	public void readAll(NBTTagCompound nbt) {
+		super.readAll(nbt);
+		readTanks(nbt);
+		readFluidConnections(nbt);
 		
 		baseProcessTime = nbt.getDouble("baseProcessTime");
 		baseProcessHeat = nbt.getDouble("baseProcessHeat");
-		vesselEfficiency = nbt.getDouble("vesselEfficiency");
+		baseVesselEfficiency = nbt.getInteger("baseVesselEfficiency");
+		moderatorExtraEfficiency = nbt.getDouble("moderatorExtraEfficiency");
+		moderatorHeatFactor = nbt.getDouble("moderatorHeatFactor");
 		
 		time = nbt.getDouble("time");
 		isProcessing = nbt.getBoolean("isProcessing");
 		hasConsumed = nbt.getBoolean("hasConsumed");
 		canProcessInputs = nbt.getBoolean("canProcessInputs");
+		fluidToHold = nbt.getInteger("fluidToHold");
 	}
 	
 	// Capability
 	
 	@Override
-	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
-		if (tanks.size() > 0 && tanks != null) {
-			if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) return true;
-			//else if (capability == Capabilities.GAS_HANDLER_CAPABILITY) return true;
-			//else if (capability == Capabilities.TUBE_CONNECTION_CAPABILITY) return true;
+	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing side) {
+		if (!getTanks().isEmpty() && hasFluidSideCapability(side)) {
+			side = nonNullSide(side);
+			if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) return getFluidSide(side) != null;
+			if (ModCheck.mekanismLoaded()) if (GasHelper.isGasCapability(capability)) return getGasWrapper() != null;
 		}
-		return super.hasCapability(capability, facing);
+		return super.hasCapability(capability, side);
 	}
 
 	@Override
-	public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
-		if (tanks.size() > 0 && tanks != null) {
-			if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(this);
-			//if (capability == Capabilities.GAS_HANDLER_CAPABILITY) return Capabilities.GAS_HANDLER_CAPABILITY.cast(this);
-			//if (capability == Capabilities.TUBE_CONNECTION_CAPABILITY) return Capabilities.TUBE_CONNECTION_CAPABILITY.cast(this);
+	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing side) {
+		if (!getTanks().isEmpty() && hasFluidSideCapability(side)) {
+			side = nonNullSide(side);
+			if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) return (T) getFluidSide(side);
+			if (ModCheck.mekanismLoaded()) if (GasHelper.isGasCapability(capability)) return (T) getGasWrapper();
 		}
-		return super.getCapability(capability, facing);
+		return super.getCapability(capability, side);
 	}
 }

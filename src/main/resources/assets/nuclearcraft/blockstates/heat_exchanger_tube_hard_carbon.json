@@ -1,0 +1,127 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"textures": {
+			"particle":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_hard_carbon/both",
+			"north":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_hard_carbon/both",
+			"east":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_hard_carbon/both",
+			"south":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_hard_carbon/both",
+			"west":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_hard_carbon/both",
+			"up":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_hard_carbon/both",
+			"down":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_hard_carbon/both"
+		},
+		"model":"cube",
+		"transform":"forge:default-block"
+	},
+	"variants": {
+		"bothventory": [{}],
+		"north": {
+			"both": {},
+			"out": {
+			   "textures": {
+					"north":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_hard_carbon/out"
+				}
+			},
+			"in": {
+				 "textures": {
+					"north":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_hard_carbon/in"
+				}
+			},
+			"non": {
+				 "textures": {
+					"north":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_hard_carbon/non"
+				}
+			}
+		},
+		"east": {
+			"both": {},
+			"out": {
+			   "textures": {
+					"east":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_hard_carbon/out"
+				}
+			},
+			"in": {
+				 "textures": {
+					"east":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_hard_carbon/in"
+				}
+			},
+			"non": {
+				 "textures": {
+					"east":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_hard_carbon/non"
+				}
+			}
+		},
+		"south": {
+			"both": {},
+			"out": {
+			   "textures": {
+					"south":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_hard_carbon/out"
+				}
+			},
+			"in": {
+				 "textures": {
+					"south":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_hard_carbon/in"
+				}
+			},
+			"non": {
+				 "textures": {
+					"south":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_hard_carbon/non"
+				}
+			}
+		},
+		"west": {
+			"both": {},
+			"out": {
+			   "textures": {
+					"west":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_hard_carbon/out"
+				}
+			},
+			"in": {
+				 "textures": {
+					"west":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_hard_carbon/in"
+				}
+			},
+			"non": {
+				 "textures": {
+					"west":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_hard_carbon/non"
+				}
+			}
+		},
+		"up": {
+			"both": {},
+			"out": {
+			   "textures": {
+					"up":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_hard_carbon/out"
+				}
+			},
+			"in": {
+				 "textures": {
+					"up":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_hard_carbon/in"
+				}
+			},
+			"non": {
+				 "textures": {
+					"up":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_hard_carbon/non"
+				}
+			}
+		},
+		"down": {
+			"both": {},
+			"out": {
+			   "textures": {
+					"down":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_hard_carbon/out"
+				}
+			},
+			"in": {
+				 "textures": {
+					"down":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_hard_carbon/in"
+				}
+			},
+			"non": {
+				 "textures": {
+					"down":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_hard_carbon/non"
+				}
+			}
+		}
+	}
+}

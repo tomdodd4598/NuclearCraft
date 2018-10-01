@@ -1,5 +1,6 @@
 package nc.tile.energy;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import nc.Global;
@@ -20,19 +21,15 @@ import net.minecraftforge.items.wrapper.InvWrapper;
 
 public abstract class TileEnergyInventory extends TileEnergy implements IInventory, ITileInventory {
 
-	public String inventoryName;
-	public NonNullList<ItemStack> inventoryStacks;
+	public @Nonnull String inventoryName;
+	public @Nonnull NonNullList<ItemStack> inventoryStacks;
 	
-	public TileEnergyInventory(String name, int size, int capacity, EnergyConnection[] energyConnections) {
-		this(name, size, capacity, capacity, capacity, energyConnections);
+	public TileEnergyInventory(String name, int size, int capacity, @Nonnull EnergyConnection[] energyConnections) {
+		this(name, size, capacity, capacity, energyConnections);
 	}
 	
-	public TileEnergyInventory(String name, int size, int capacity, int maxTransfer, EnergyConnection[] energyConnections) {
-		this(name, size, capacity, maxTransfer, maxTransfer, energyConnections);
-	}
-	
-	public TileEnergyInventory(String name, int size, int capacity, int maxReceive, int maxExtract, EnergyConnection[] energyConnections) {
-		super(capacity, maxReceive, maxExtract, energyConnections);
+	public TileEnergyInventory(String name, int size, int capacity, int maxTransfer, @Nonnull EnergyConnection[] energyConnections) {
+		super(capacity, maxTransfer, energyConnections);
 		inventoryName = Global.MOD_ID + ".container." + name;
 		inventoryStacks = NonNullList.<ItemStack>withSize(size, ItemStack.EMPTY);
 	}
@@ -84,7 +81,7 @@ public abstract class TileEnergyInventory extends TileEnergy implements IInvento
 	@Override
 	public void setInventorySlotContents(int index, ItemStack stack) {
 		ItemStack itemstack = inventoryStacks.get(index);
-		boolean flag = !stack.isEmpty() && stack.isItemEqual(itemstack) && ItemStack.areItemStackTagsEqual(stack, itemstack);
+		boolean flag = !stack.isEmpty() && stack.isItemEqual(itemstack) && nc.util.ItemStackHelper.areItemStackTagsEqual(stack, itemstack);
 		inventoryStacks.set(index, stack);
 
 		if (stack.getCount() > getInventoryStackLimit()) {

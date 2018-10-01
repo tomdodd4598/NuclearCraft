@@ -1,5 +1,8 @@
 package nc.item.energy;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import gregtech.api.capability.GregtechCapabilities;
 import nc.ModCheck;
 import nc.tile.internal.energy.EnergyStorage;
@@ -20,12 +23,12 @@ public class ItemEnergyCapabilityProvider implements ICapabilityProvider {
 	private final int energyTier;
 	
 	public ItemEnergyCapabilityProvider(ItemStack stack, NBTTagCompound nbt, int energyTier) {
-		this(stack, nbt.getInteger("energy"), nbt.getInteger("capacity"), nbt.getInteger("maxReceive"), nbt.getInteger("maxExtract"), energyTier);
+		this(stack, nbt.getInteger("energy"), nbt.getInteger("capacity"), nbt.getInteger("maxTransfer"), energyTier);
 	}
 	
-	public ItemEnergyCapabilityProvider(ItemStack stack, int energy, int capacity, int maxReceive, int maxExtract, int energyTier) {
+	public ItemEnergyCapabilityProvider(ItemStack stack, int energy, int capacity, int maxTransfer, int energyTier) {
 		this.stack = stack;
-		storage = new EnergyStorage(capacity, maxReceive, maxExtract, energy) {
+		storage = new EnergyStorage(capacity, maxTransfer, energy) {
 			
 			@Override
 			public int getEnergyStored() {
@@ -48,25 +51,13 @@ public class ItemEnergyCapabilityProvider implements ICapabilityProvider {
 			@Override
 			public void changeEnergyStored(int energy) {
 				if (!stack.hasTagCompound()) stack.setTagCompound(new NBTTagCompound());
-				stack.getTagCompound().setInteger("energy", MathHelper.clamp(stack.getTagCompound().getInteger("energy") + energy, 0, getMaxEnergyStored()));
+				stack.getTagCompound().setInteger("energy", MathHelper.clamp(stack.getTagCompound().getInteger("energy") + energy/stack.getCount(), 0, getMaxEnergyStored()));
 			}
 			
 			@Override
 			public void setStorageCapacity(int capacity) {
 				if (!stack.hasTagCompound()) stack.setTagCompound(new NBTTagCompound());
 				stack.getTagCompound().setInteger("capacity", capacity);
-			}
-			
-			@Override
-			public int getMaxReceive() {
-				if (stack.hasTagCompound()) return stack.getTagCompound().getInteger("maxReceive");
-				return 0;
-			}
-			
-			@Override
-			public int getMaxExtract() {
-				if (stack.hasTagCompound()) return stack.getTagCompound().getInteger("maxExtract");
-				return 0;
 			}
 			
 			@Override
@@ -82,43 +73,30 @@ public class ItemEnergyCapabilityProvider implements ICapabilityProvider {
 			}
 			
 			@Override
-			public void setMaxReceive(int maxReceive) {
-				if (!stack.hasTagCompound()) stack.setTagCompound(new NBTTagCompound());
-				stack.getTagCompound().setInteger("maxReceive", maxReceive);
-			}
-			
-			@Override
-			public void setMaxExtract(int maxExtract) {
-				if (!stack.hasTagCompound()) stack.setTagCompound(new NBTTagCompound());
-				stack.getTagCompound().setInteger("maxExtract", maxExtract);
-			}
-			
-			@Override
 			public int getMaxTransfer() {
-				if (stack.hasTagCompound()) return Math.max(stack.getTagCompound().getInteger("maxReceive"), stack.getTagCompound().getInteger("maxExtract"));
+				if (stack.hasTagCompound()) return stack.getTagCompound().getInteger("maxTransfer");
 				return 0;
 			}
 			
 			@Override
-			public void setMaxTransfer(int transfer) {
+			public void setMaxTransfer(int maxTransfer) {
 				if (!stack.hasTagCompound()) stack.setTagCompound(new NBTTagCompound());
-				stack.getTagCompound().setInteger("maxExtract", transfer);
-				stack.getTagCompound().setInteger("maxReceive", transfer);
+				stack.getTagCompound().setInteger("maxTransfer", maxTransfer);
 			}
 			
 			@Override
 			public int receiveEnergy(int maxReceive, boolean simulate) {
 				if (!canReceive()) return 0;
-				int energyReceived = Math.min(getMaxEnergyStored() - getEnergyStored(), Math.min(getMaxReceive(), maxReceive));
-				if (!simulate) stack.getTagCompound().setInteger("energy", getEnergyStored() + energyReceived);
+				int energyReceived = Math.min(getMaxEnergyStored() - getEnergyStored(), Math.min(getMaxTransfer(), maxReceive));
+				if (!simulate) stack.getTagCompound().setInteger("energy", getEnergyStored() + energyReceived/stack.getCount());
 				return energyReceived;
 			}
 			
 			@Override
 			public int extractEnergy(int maxExtract, boolean simulate) {
 				if (!canExtract()) return 0;
-				int energyExtracted = Math.min(getEnergyStored(), Math.min(getMaxExtract(), maxExtract));
-				if (!simulate) stack.getTagCompound().setInteger("energy", getEnergyStored() - energyExtracted);
+				int energyExtracted = Math.min(getEnergyStored(), Math.min(getMaxTransfer(), maxExtract));
+				if (!simulate) stack.getTagCompound().setInteger("energy", getEnergyStored() - energyExtracted/stack.getCount());
 				return energyExtracted;
 			}
 		};
@@ -126,12 +104,12 @@ public class ItemEnergyCapabilityProvider implements ICapabilityProvider {
 	}
 
 	@Override
-	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
+	public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
 		return this.getCapability(capability, facing) != null;
 	}
 
 	@Override
-	public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
+	public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
 		if (capability == CapabilityEnergy.ENERGY) {
 			if(wrapper == null) wrapper = new ItemEnergyWrapper(storage);
 			return (T) wrapper;

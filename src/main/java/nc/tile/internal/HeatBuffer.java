@@ -73,19 +73,21 @@ public class HeatBuffer implements INBTSerializable<NBTTagCompound> {
 	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
 		if (heatStored < 0) heatStored = 0;
 		nbt.setLong("Heat", heatStored);
+		nbt.setLong("Capacity", heatCapacity);
 		return nbt;
 	}
 	
 	public final NBTTagCompound writeAll(NBTTagCompound nbt) {
-		NBTTagCompound energyTag = new NBTTagCompound();
-		writeToNBT(energyTag);
-		nbt.setTag("heatStorage", energyTag);
+		NBTTagCompound heatTag = new NBTTagCompound();
+		writeToNBT(heatTag);
+		nbt.setTag("heatStorage", heatTag);
 		return nbt;
 
 	}
 	
 	public HeatBuffer readFromNBT(NBTTagCompound nbt) {
 		heatStored = nbt.getLong("Heat");
+		heatCapacity = nbt.getLong("Capacity");
 		if (heatStored > heatCapacity) heatStored = heatCapacity;
 		return this;
 	}

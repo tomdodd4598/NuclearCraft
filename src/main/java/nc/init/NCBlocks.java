@@ -33,12 +33,22 @@ import nc.enumm.MetaEnums.CoolerType;
 import nc.enumm.MetaEnums.FissionBlockType;
 import nc.enumm.MetaEnums.IngotType;
 import nc.enumm.MetaEnums.OreType;
+import nc.multiblock.heatExchanger.HeatExchangerTubeType;
+import nc.multiblock.heatExchanger.block.BlockHeatExchangerController;
+import nc.multiblock.heatExchanger.block.BlockHeatExchangerFrame;
+import nc.multiblock.heatExchanger.block.BlockHeatExchangerGlass;
+import nc.multiblock.heatExchanger.block.BlockHeatExchangerTube;
+import nc.multiblock.heatExchanger.block.BlockHeatExchangerVent;
+import nc.multiblock.heatExchanger.block.BlockHeatExchangerWall;
 import nc.multiblock.saltFission.block.BlockSaltFissionBeam;
 import nc.multiblock.saltFission.block.BlockSaltFissionController;
+import nc.multiblock.saltFission.block.BlockSaltFissionDistributor;
 import nc.multiblock.saltFission.block.BlockSaltFissionFrame;
 import nc.multiblock.saltFission.block.BlockSaltFissionGlass;
 import nc.multiblock.saltFission.block.BlockSaltFissionHeater;
 import nc.multiblock.saltFission.block.BlockSaltFissionModerator;
+import nc.multiblock.saltFission.block.BlockSaltFissionRedstonePort;
+import nc.multiblock.saltFission.block.BlockSaltFissionRetriever;
 import nc.multiblock.saltFission.block.BlockSaltFissionVent;
 import nc.multiblock.saltFission.block.BlockSaltFissionVessel;
 import nc.multiblock.saltFission.block.BlockSaltFissionWall;
@@ -168,6 +178,18 @@ public class NCBlocks {
 	public static Block salt_fission_vessel;
 	public static Block salt_fission_heater;
 	public static Block salt_fission_moderator;
+	public static Block salt_fission_distributor;
+	public static Block salt_fission_retriever;
+	public static Block salt_fission_redstone_port;
+	
+	public static Block heat_exchanger_controller;
+	public static Block heat_exchanger_wall;
+	public static Block heat_exchanger_glass;
+	public static Block heat_exchanger_frame;
+	public static Block heat_exchanger_vent;
+	public static Block heat_exchanger_tube_copper;
+	public static Block heat_exchanger_tube_hard_carbon;
+	public static Block heat_exchanger_tube_thermoconducting;
 	
 	public static Block accelerator_electromagnet_idle;
 	public static Block accelerator_electromagnet_active;
@@ -307,6 +329,18 @@ public class NCBlocks {
 		salt_fission_vessel = new BlockSaltFissionVessel();
 		salt_fission_heater = new BlockSaltFissionHeater();
 		salt_fission_moderator = new BlockSaltFissionModerator();
+		salt_fission_distributor = new BlockSaltFissionDistributor();
+		salt_fission_retriever = new BlockSaltFissionRetriever();
+		salt_fission_redstone_port = new BlockSaltFissionRedstonePort();
+		
+		heat_exchanger_controller = new BlockHeatExchangerController();
+		heat_exchanger_wall = new BlockHeatExchangerWall();
+		heat_exchanger_glass = new BlockHeatExchangerGlass();
+		heat_exchanger_frame = new BlockHeatExchangerFrame();
+		heat_exchanger_vent = new BlockHeatExchangerVent();
+		heat_exchanger_tube_copper = new BlockHeatExchangerTube(HeatExchangerTubeType.COPPER);
+		heat_exchanger_tube_hard_carbon = new BlockHeatExchangerTube(HeatExchangerTubeType.HARD_CARBON);
+		heat_exchanger_tube_thermoconducting = new BlockHeatExchangerTube(HeatExchangerTubeType.THERMOCONDUCTING);
 		
 		accelerator_electromagnet_idle = new BlockActivatable(ActivatableTileType.ACCELERATOR_ELECTROMAGNET, false);
 		accelerator_electromagnet_active = new BlockActivatable(ActivatableTileType.ACCELERATOR_ELECTROMAGNET, true);
@@ -339,7 +373,7 @@ public class NCBlocks {
 		
 		radiation_scrubber = new BlockScrubber();
 		
-		glowing_mushroom = new NCBlockMushroom("glowing_mushroom", 0.000000001D);
+		glowing_mushroom = new NCBlockMushroom("glowing_mushroom");
 		dry_earth = new NCBlock("dry_earth", Material.ROCK, true).setCreativeTab(NCTabs.BASE_BLOCK_MATERIALS);
 		
 		//spin = new BlockSpin("spin");
@@ -455,6 +489,18 @@ public class NCBlocks {
 		registerBlock(salt_fission_vessel);
 		registerBlock(salt_fission_heater);
 		registerBlock(salt_fission_moderator);
+		registerBlock(salt_fission_distributor);
+		registerBlock(salt_fission_retriever);
+		registerBlock(salt_fission_redstone_port);
+		
+		registerBlock(heat_exchanger_controller);
+		registerBlock(heat_exchanger_wall);
+		registerBlock(heat_exchanger_glass);
+		registerBlock(heat_exchanger_frame);
+		registerBlock(heat_exchanger_vent);
+		registerBlock(heat_exchanger_tube_copper);
+		registerBlock(heat_exchanger_tube_hard_carbon);
+		registerBlock(heat_exchanger_tube_thermoconducting);
 		
 		registerBlock(accelerator_electromagnet_idle, InfoHelper.formattedInfo(infoLine("accelerator_electromagnet_idle"), UnitHelper.ratePrefix(NCConfig.accelerator_electromagnet_power, 5, "RF")));
 		registerBlock(accelerator_electromagnet_active);
@@ -615,6 +661,18 @@ public class NCBlocks {
 		registerRender(salt_fission_vessel);
 		registerRender(salt_fission_heater);
 		registerRender(salt_fission_moderator);
+		registerRender(salt_fission_distributor);
+		registerRender(salt_fission_retriever);
+		registerRender(salt_fission_redstone_port, 0, "salt_fission_redstone_port_off");
+		
+		registerRender(heat_exchanger_controller, 0, "heat_exchanger_controller_off");
+		registerRender(heat_exchanger_wall);
+		registerRender(heat_exchanger_glass);
+		registerRender(heat_exchanger_frame);
+		registerRender(heat_exchanger_vent);
+		registerRender(heat_exchanger_tube_copper);
+		registerRender(heat_exchanger_tube_hard_carbon);
+		registerRender(heat_exchanger_tube_thermoconducting);
 		
 		registerRender(accelerator_electromagnet_idle);
 		registerRender(accelerator_electromagnet_active);

@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import nc.recipe.SorptionType;
+import nc.recipe.IngredientSorption;
 import net.minecraftforge.fluids.FluidStack;
 
 public class FluidArrayIngredient implements IFluidIngredient {
@@ -65,7 +65,7 @@ public class FluidArrayIngredient implements IFluidIngredient {
 	}
 
 	@Override
-	public boolean matches(Object object, SorptionType sorption) {
+	public boolean matches(Object object, IngredientSorption sorption) {
 		for (IFluidIngredient ingredient : ingredientList) {
 			if (ingredient.matches(object, sorption)) {
 				return true;

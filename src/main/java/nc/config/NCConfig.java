@@ -153,6 +153,18 @@ public class NCConfig {
 	public static double[] salt_fission_cooling_rate;
 	public static int salt_fission_cooling_max_rate;
 	public static int salt_fission_redstone_max_heat;
+	public static int salt_fission_max_distribution_rate;
+	
+	public static int heat_exchanger_min_size; // Default: 1
+	public static int heat_exchanger_max_size; // Default: 24
+	public static double[] heat_exchanger_conductivity;
+	public static double heat_exchanger_coolant_mult;
+	
+	public static int turbine_min_size; // Default: 1
+	public static int turbine_max_size; // Default: 24
+	
+	public static int condenser_min_size; // Default: 1
+	public static int condenser_max_size; // Default: 24
 	
 	public static int accelerator_electromagnet_power;
 	public static int accelerator_supercooler_coolant;
@@ -480,13 +492,34 @@ public class NCConfig {
 		Property propertySaltFissionMinSize = config.get(CATEGORY_SALT_FISSION, "salt_fission_min_size", 1, Lang.localise("gui.config.salt_fission.salt_fission_min_size.comment"), 1, 255);
 		propertySaltFissionMinSize.setLanguageKey("gui.config.salt_fission.salt_fission_min_size");
 		Property propertySaltFissionMaxSize = config.get(CATEGORY_SALT_FISSION, "salt_fission_max_size", 24, Lang.localise("gui.config.salt_fission.salt_fission_max_size.comment"), 1, 255);
-		propertyFissionMaxSize.setLanguageKey("gui.config.salt_fission.salt_fission_max_size");
-		Property propertySaltFissionCoolingRate = config.get(CATEGORY_SALT_FISSION, "salt_fission_cooling_rate", new double[] {600D, 900D, 700D, 1200D, 1300D, 1200D, 1500D, 1400D, 1200D, 1600D, 800D, 1600D, 800D, 1200D, 1100D}, Lang.localise("gui.config.salt_fission.salt_fission_cooling_rate.comment"), 1D, 16777215D);
+		propertySaltFissionMaxSize.setLanguageKey("gui.config.salt_fission.salt_fission_max_size");
+		Property propertySaltFissionCoolingRate = config.get(CATEGORY_SALT_FISSION, "salt_fission_cooling_rate", new double[] {240D, 360D, 280D, 480D, 520D, 480D, 600D, 560D, 480D, 640D, 320D, 640D, 320D, 480D, 440D}, Lang.localise("gui.config.salt_fission.salt_fission_cooling_rate.comment"), 1D, 16777215D);
 		propertySaltFissionCoolingRate.setLanguageKey("gui.config.salt_fission.salt_fission_cooling_rate");
-		Property propertySaltFissionCoolingMaxRate = config.get(CATEGORY_SALT_FISSION, "salt_fission_cooling_max_rate", 16, Lang.localise("gui.config.salt_fission.salt_fission_cooling_max_rate.comment"), 1, 16000);
+		Property propertySaltFissionCoolingMaxRate = config.get(CATEGORY_SALT_FISSION, "salt_fission_cooling_max_rate", 20, Lang.localise("gui.config.salt_fission.salt_fission_cooling_max_rate.comment"), 1, 16000);
 		propertySaltFissionCoolingMaxRate.setLanguageKey("gui.config.salt_fission.salt_fission_cooling_max_rate");
 		Property propertySaltFissionRedstoneMaxHeat = config.get(CATEGORY_SALT_FISSION, "salt_fission_redstone_max_heat", 50, Lang.localise("gui.config.salt_fission.salt_fission_redstone_max_heat.comment"), 1, 100);
 		propertySaltFissionRedstoneMaxHeat.setLanguageKey("gui.config.salt_fission.salt_fission_redstone_max_heat");
+		Property propertySaltFissionMaxDistributionRate = config.get(CATEGORY_SALT_FISSION, "salt_fission_max_distribution_rate", 4, Lang.localise("gui.config.salt_fission.salt_fission_max_distribution_rate.comment"), 1, 1000);
+		propertySaltFissionMaxDistributionRate.setLanguageKey("gui.config.salt_fission.salt_fission_max_distribution_rate");
+		
+		Property propertyHeatExchangerMinSize = config.get(CATEGORY_HEAT_EXCHANGER, "heat_exchanger_min_size", 1, Lang.localise("gui.config.heat_exchanger.heat_exchanger_min_size.comment"), 1, 255);
+		propertyHeatExchangerMinSize.setLanguageKey("gui.config.heat_exchanger.heat_exchanger_min_size");
+		Property propertyHeatExchangerMaxSize = config.get(CATEGORY_HEAT_EXCHANGER, "heat_exchanger_max_size", 24, Lang.localise("gui.config.heat_exchanger.heat_exchanger_max_size.comment"), 1, 255);
+		propertyHeatExchangerMaxSize.setLanguageKey("gui.config.heat_exchanger.heat_exchanger_max_size");
+		Property propertyHeatExchangerConductivity = config.get(CATEGORY_HEAT_EXCHANGER, "heat_exchanger_conductivity", new double[] {0.9D, 1D, 1.2D}, Lang.localise("gui.config.heat_exchanger.heat_exchanger_conductivity.comment"), 0D, 15D);
+		propertyHeatExchangerConductivity.setLanguageKey("gui.config.heat_exchanger.heat_exchanger_conductivity");
+		Property propertyHeatExchangerCoolantMult = config.get(CATEGORY_HEAT_EXCHANGER, "heat_exchanger_coolant_mult", 30D, Lang.localise("gui.config.heat_exchanger.heat_exchanger_coolant_mult.comment"), 0D, 1000D);
+		propertyHeatExchangerCoolantMult.setLanguageKey("gui.config.heat_exchanger.heat_exchanger_coolant_mult");
+		
+		Property propertyTurbineMinSize = config.get(CATEGORY_TURBINE, "turbine_min_size", 1, Lang.localise("gui.config.turbine.turbine_min_size.comment"), 1, 255);
+		propertyTurbineMinSize.setLanguageKey("gui.config.turbine.turbine_min_size");
+		Property propertyTurbineMaxSize = config.get(CATEGORY_TURBINE, "turbine_max_size", 24, Lang.localise("gui.config.turbine.turbine_max_size.comment"), 1, 255);
+		propertyTurbineMaxSize.setLanguageKey("gui.config.turbine.turbine_max_size");
+		
+		Property propertyCondenserMinSize = config.get(CATEGORY_CONDENSER, "condenser_min_size", 1, Lang.localise("gui.config.condenser.condenser_min_size.comment"), 1, 255);
+		propertyCondenserMinSize.setLanguageKey("gui.config.condenser.condenser_min_size");
+		Property propertyCondenserMaxSize = config.get(CATEGORY_CONDENSER, "condenser_max_size", 24, Lang.localise("gui.config.condenser.condenser_max_size.comment"), 1, 255);
+		propertyCondenserMaxSize.setLanguageKey("gui.config.condenser.condenser_max_size");
 		
 		Property propertyAcceleratorElectromagnetPower = config.get(CATEGORY_ACCELERATOR, "accelerator_electromagnet_power", 20000, Lang.localise("gui.config.accelerator.accelerator_electromagnet_power.comment"), 0, Integer.MAX_VALUE);
 		propertyAcceleratorElectromagnetPower.setLanguageKey("gui.config.accelerator.accelerator_electromagnet_power");
@@ -563,11 +596,11 @@ public class NCConfig {
 		
 		Property propertyRadiationShieldingDefaultRecipes = config.get(CATEGORY_RADIATION, "radiation_shielding_default_recipes", true, Lang.localise("gui.config.radiation.radiation_shielding_default_recipes.comment"));
 		propertyRadiationShieldingDefaultRecipes.setLanguageKey("gui.config.radiation.radiation_shielding_default_recipes");
-		Property propertyRadiationShieldingItemBlacklist = config.get(CATEGORY_RADIATION, "radiation_shielding_item_blacklist", new String[] {}, Lang.localise("gui.config.radiation.radiation_shielding_item_blacklist.comment"));
+		Property propertyRadiationShieldingItemBlacklist = config.get(CATEGORY_RADIATION, "radiation_shielding_item_blacklist", new String[] {"ic2:hazmat_helmet", "ic2:hazmat_chestplate", "ic2:hazmat_leggings", "extraplanets:tier1_space_suit_helmet", "extraplanets:tier1_space_suit_chest", "extraplanets:tier1_space_suit_jetpack_chest", "extraplanets:tier1_space_suit_leggings", "extraplanets:tier1_space_suit_boots", "extraplanets:tier1_space_suit_gravity_boots", "extraplanets:tier2_space_suit_helmet", "extraplanets:tier2_space_suit_chest", "extraplanets:tier2_space_suit_jetpack_chest", "extraplanets:tier2_space_suit_leggings", "extraplanets:tier2_space_suit_boots", "extraplanets:tier2_space_suit_gravity_boots", "extraplanets:tier3_space_suit_helmet", "extraplanets:tier3_space_suit_chest", "extraplanets:tier3_space_suit_jetpack_chest", "extraplanets:tier3_space_suit_leggings", "extraplanets:tier3_space_suit_boots", "extraplanets:tier3_space_suit_gravity_boots", "extraplanets:tier4_space_suit_helmet", "extraplanets:tier4_space_suit_chest", "extraplanets:tier4_space_suit_jetpack_chest", "extraplanets:tier4_space_suit_leggings", "extraplanets:tier4_space_suit_boots", "extraplanets:tier4_space_suit_gravity_boots"}, Lang.localise("gui.config.radiation.radiation_shielding_item_blacklist.comment"));
 		propertyRadiationShieldingItemBlacklist.setLanguageKey("gui.config.radiation.radiation_shielding_item_blacklist");
 		Property propertyRadiationShieldingCustomStacks = config.get(CATEGORY_RADIATION, "radiation_shielding_custom_stacks", new String[] {}, Lang.localise("gui.config.radiation.radiation_shielding_custom_stacks.comment"));
 		propertyRadiationShieldingCustomStacks.setLanguageKey("gui.config.radiation.radiation_shielding_custom_stacks");
-		Property propertyRadiationShieldingDefaultLevels = config.get(CATEGORY_RADIATION, "radiation_shielding_default_levels", new String[] {"nuclearcraft:helm_hazmat_2.0", "nuclearcraft:chest_hazmat_3.0", "nuclearcraft:legs_hazmat_2.0", "nuclearcraft:boots_hazmat_2.0"}, Lang.localise("gui.config.radiation.radiation_shielding_default_levels.comment"));
+		Property propertyRadiationShieldingDefaultLevels = config.get(CATEGORY_RADIATION, "radiation_shielding_default_levels", new String[] {"nuclearcraft:helm_hazmat_2.0", "nuclearcraft:chest_hazmat_3.0", "nuclearcraft:legs_hazmat_2.0", "nuclearcraft:boots_hazmat_2.0", "ic2:hazmat_helmet_2.0", "ic2:hazmat_chestplate_3.0", "ic2:hazmat_leggings_2.0", "extraplanets:tier1_space_suit_helmet_1.0", "extraplanets:tier1_space_suit_chest_1.5", "extraplanets:tier1_space_suit_jetpack_chest_1.5", "extraplanets:tier1_space_suit_leggings_1.0", "extraplanets:tier1_space_suit_boots_1.0", "extraplanets:tier1_space_suit_gravity_boots_1.0", "extraplanets:tier2_space_suit_helmet_1.3", "extraplanets:tier2_space_suit_chest_1.95", "extraplanets:tier2_space_suit_jetpack_chest_1.95", "extraplanets:tier2_space_suit_leggings_1.3", "extraplanets:tier2_space_suit_boots_1.3", "extraplanets:tier2_space_suit_gravity_boots_1.3", "extraplanets:tier3_space_suit_helmet_1.6", "extraplanets:tier3_space_suit_chest_2.4", "extraplanets:tier3_space_suit_jetpack_chest_2.4", "extraplanets:tier3_space_suit_leggings_1.6", "extraplanets:tier3_space_suit_boots_1.6", "extraplanets:tier3_space_suit_gravity_boots_1.6", "extraplanets:tier4_space_suit_helmet_2.0", "extraplanets:tier4_space_suit_chest_3.0", "extraplanets:tier4_space_suit_jetpack_chest_3.0", "extraplanets:tier4_space_suit_leggings_2.0", "extraplanets:tier4_space_suit_boots_2.0", "extraplanets:tier4_space_suit_gravity_boots_2.0"}, Lang.localise("gui.config.radiation.radiation_shielding_default_levels.comment"));
 		propertyRadiationShieldingDefaultLevels.setLanguageKey("gui.config.radiation.radiation_shielding_default_levels");
 		
 		Property propertyRadiationHardcoreStacks = config.get(CATEGORY_RADIATION, "radiation_hardcore_stacks", true, Lang.localise("gui.config.radiation.radiation_hardcore_stacks.comment"));
@@ -768,15 +801,24 @@ public class NCConfig {
 		propertyOrderSaltFission.add(propertySaltFissionCoolingRate.getName());
 		propertyOrderSaltFission.add(propertySaltFissionCoolingMaxRate.getName());
 		propertyOrderSaltFission.add(propertySaltFissionRedstoneMaxHeat.getName());
+		propertyOrderSaltFission.add(propertySaltFissionMaxDistributionRate.getName());
 		config.setCategoryPropertyOrder(CATEGORY_SALT_FISSION, propertyOrderSaltFission);
 		
 		List<String> propertyOrderHeatExchanger = new ArrayList<String>();
+		propertyOrderHeatExchanger.add(propertyHeatExchangerMinSize.getName());
+		propertyOrderHeatExchanger.add(propertyHeatExchangerMaxSize.getName());
+		propertyOrderHeatExchanger.add(propertyHeatExchangerConductivity.getName());
+		propertyOrderHeatExchanger.add(propertyHeatExchangerCoolantMult.getName());
 		config.setCategoryPropertyOrder(CATEGORY_HEAT_EXCHANGER, propertyOrderHeatExchanger);
 		
 		List<String> propertyOrderTurbine = new ArrayList<String>();
+		propertyOrderTurbine.add(propertyTurbineMinSize.getName());
+		propertyOrderTurbine.add(propertyTurbineMaxSize.getName());
 		config.setCategoryPropertyOrder(CATEGORY_TURBINE, propertyOrderTurbine);
 		
 		List<String> propertyOrderCondenser = new ArrayList<String>();
+		propertyOrderCondenser.add(propertyCondenserMinSize.getName());
+		propertyOrderCondenser.add(propertyCondenserMaxSize.getName());
 		config.setCategoryPropertyOrder(CATEGORY_CONDENSER, propertyOrderCondenser);
 		
 		List<String> propertyOrderAccelerator = new ArrayList<String>();
@@ -980,6 +1022,18 @@ public class NCConfig {
 			salt_fission_cooling_rate = readDoubleArrayFromConfig(propertySaltFissionCoolingRate);
 			salt_fission_cooling_max_rate = propertySaltFissionCoolingMaxRate.getInt();
 			salt_fission_redstone_max_heat = propertySaltFissionRedstoneMaxHeat.getInt();
+			salt_fission_max_distribution_rate = propertySaltFissionMaxDistributionRate.getInt();
+			
+			heat_exchanger_min_size = propertyHeatExchangerMinSize.getInt();
+			heat_exchanger_max_size = propertyHeatExchangerMaxSize.getInt();
+			heat_exchanger_conductivity = readDoubleArrayFromConfig(propertyHeatExchangerConductivity);
+			heat_exchanger_coolant_mult = propertyHeatExchangerCoolantMult.getDouble();
+			
+			turbine_min_size = propertyTurbineMinSize.getInt();
+			turbine_max_size = propertyTurbineMaxSize.getInt();
+			
+			condenser_min_size = propertyCondenserMinSize.getInt();
+			condenser_max_size = propertyCondenserMaxSize.getInt();
 			
 			accelerator_electromagnet_power = propertyAcceleratorElectromagnetPower.getInt();
 			accelerator_supercooler_coolant = propertyAcceleratorSupercoolerCoolant.getInt();
@@ -1178,6 +1232,18 @@ public class NCConfig {
 		propertySaltFissionCoolingRate.set(salt_fission_cooling_rate);
 		propertySaltFissionCoolingMaxRate.set(salt_fission_cooling_max_rate);
 		propertySaltFissionRedstoneMaxHeat.set(salt_fission_redstone_max_heat);
+		propertySaltFissionMaxDistributionRate.set(salt_fission_max_distribution_rate);
+		
+		propertyHeatExchangerMinSize.set(heat_exchanger_min_size);
+		propertyHeatExchangerMaxSize.set(heat_exchanger_max_size);
+		propertyHeatExchangerConductivity.set(heat_exchanger_conductivity);
+		propertyHeatExchangerCoolantMult.set(heat_exchanger_coolant_mult);
+		
+		propertyTurbineMinSize.set(turbine_min_size);
+		propertyTurbineMaxSize.set(turbine_max_size);
+		
+		propertyCondenserMinSize.set(condenser_min_size);
+		propertyCondenserMaxSize.set(condenser_max_size);
 		
 		propertyAcceleratorElectromagnetPower.set(accelerator_electromagnet_power);
 		propertyAcceleratorSupercoolerCoolant.set(accelerator_supercooler_coolant);

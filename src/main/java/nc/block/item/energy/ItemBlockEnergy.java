@@ -2,6 +2,8 @@ package nc.block.item.energy;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import ic2.api.item.IElectricItemManager;
 import ic2.api.item.ISpecialElectricItem;
 import nc.block.item.NCItemBlock;
@@ -24,24 +26,18 @@ import net.minecraftforge.fml.common.Optional;
 public class ItemBlockEnergy extends NCItemBlock implements ISpecialElectricItem, IChargableItem {
 	
 	private int capacity;
-	private int maxReceive;
-	private int maxExtract;
+	private int maxTransfer;
 	private final EnergyConnection energyConnection;
 	private final int energyTier;
 	
 	public ItemBlockEnergy(Block block, int capacity, int energyTier, EnergyConnection connection, String... tooltip) {
-		this(block, capacity, capacity, capacity, energyTier, connection, tooltip);
+		this(block, capacity, capacity, energyTier, connection, tooltip);
 	}
 	
 	public ItemBlockEnergy(Block block, int capacity, int maxTransfer, int energyTier, EnergyConnection connection, String... tooltip) {
-		this(block, capacity, maxTransfer, maxTransfer, energyTier, connection, tooltip);
-	}
-	
-	public ItemBlockEnergy(Block block, int capacity, int maxReceive, int maxExtract, int energyTier, EnergyConnection connection, String... tooltip) {
 		super(block, tooltip);
 		this.capacity = capacity;
-		this.maxReceive = maxReceive;
-		this.maxExtract = maxExtract;
+		this.maxTransfer = maxTransfer;
 		energyConnection = connection;
 		this.energyTier = energyTier;
 	}
@@ -53,7 +49,7 @@ public class ItemBlockEnergy extends NCItemBlock implements ISpecialElectricItem
 	}
 	
 	@Override
-	public void addInformation(ItemStack stack, World world, List<String> tooltip, ITooltipFlag flag) {
+	public void addInformation(ItemStack stack, @Nullable World world, List<String> tooltip, ITooltipFlag flag) {
 		InfoHelper.infoLine(tooltip, TextFormatting.LIGHT_PURPLE, "Energy Stored: " + UnitHelper.prefix(getEnergyStored(stack), getMaxEnergyStored(stack), 5, "RF"));
 		InfoHelper.infoLine(tooltip, TextFormatting.WHITE, "EU Power Tier: " + getEnergyTier(stack));
 		super.addInformation(stack, world, tooltip, flag);
@@ -67,7 +63,7 @@ public class ItemBlockEnergy extends NCItemBlock implements ISpecialElectricItem
 	
 	@Override
 	public double getDurabilityForDisplay(ItemStack stack) {
-		return 1 - (double)getEnergyStored(stack) / capacity;
+		return 1 - (double)getEnergyStored(stack) / (double)capacity;
 	}
 	
 	@Override
@@ -88,7 +84,7 @@ public class ItemBlockEnergy extends NCItemBlock implements ISpecialElectricItem
 
 	@Override
 	public int getMaxTransfer(ItemStack stack) {
-		return Math.max(maxReceive, maxExtract);
+		return maxTransfer;
 	}
 
 	@Override
@@ -112,10 +108,10 @@ public class ItemBlockEnergy extends NCItemBlock implements ISpecialElectricItem
 	}
 	
 	@Override
-	public ICapabilityProvider initCapabilities(ItemStack stack, NBTTagCompound nbt) {
+	public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable NBTTagCompound nbt) {
 		if (nbt != null && nbt.hasKey("energy") && nbt.hasKey("capacity") && nbt.hasKey("maxReceive") && nbt.hasKey("maxExtract")) {
 			return new ItemEnergyCapabilityProvider(stack, nbt, energyTier);
 		}
-		return new ItemEnergyCapabilityProvider(stack, getEnergyStored(stack), capacity, maxReceive, maxExtract, energyTier);
+		return new ItemEnergyCapabilityProvider(stack, getEnergyStored(stack), capacity, maxTransfer, energyTier);
 	}
 }

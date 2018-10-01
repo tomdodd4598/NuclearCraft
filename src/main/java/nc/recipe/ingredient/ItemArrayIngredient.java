@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import nc.recipe.SorptionType;
+import nc.recipe.IngredientSorption;
 import net.minecraft.item.ItemStack;
 
 public class ItemArrayIngredient implements IItemIngredient {
@@ -65,7 +65,7 @@ public class ItemArrayIngredient implements IItemIngredient {
 	}
 
 	@Override
-	public boolean matches(Object object, SorptionType sorption) {
+	public boolean matches(Object object, IngredientSorption sorption) {
 		for (IItemIngredient ingredient : ingredientList) {
 			if (ingredient.matches(object, sorption)) {
 				return true;

@@ -1,0 +1,22 @@
+package nc.render;
+
+import net.minecraft.util.math.BlockPos;
+
+public class BlockHighlightTracker {
+	
+	private BlockPos highlightPos = null;
+	private long highlightExpireTimeMillis = 0;
+	
+	public void highlightBlock(BlockPos pos, long highlightTimeMillis) {
+		highlightPos = pos;
+		this.highlightExpireTimeMillis = System.currentTimeMillis() + highlightTimeMillis;
+	}
+	
+	public BlockPos getHighlightPos() {
+		return highlightPos;
+	}
+	
+	public long getHighlightExpireTimeMillis() {
+		return highlightExpireTimeMillis;
+	}
+}

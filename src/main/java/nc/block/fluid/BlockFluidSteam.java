@@ -2,6 +2,8 @@ package nc.block.fluid;
 
 import java.util.Random;
 
+import javax.annotation.Nonnull;
+
 import nc.fluid.FluidSteam;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
@@ -36,7 +38,7 @@ public class BlockFluidSteam extends BlockFluid {
 	}
 	
 	@Override
-	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+	public void updateTick(@Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull IBlockState state, @Nonnull Random rand) {
 		super.updateTick(worldIn, pos, state, rand);
 		if (isSourceBlock(worldIn, pos)) worldIn.setBlockToAir(pos);
 	}

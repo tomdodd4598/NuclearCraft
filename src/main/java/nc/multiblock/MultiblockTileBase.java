@@ -5,7 +5,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import nc.Global;
 import nc.NuclearCraft;
+import nc.multiblock.validation.IMultiblockValidator;
+import nc.util.NCUtil;
+import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -308,6 +313,41 @@ public abstract class MultiblockTileBase<T extends MultiblockBase> extends TileB
 	protected void notifyNeighborsOfTileChange() {
 		//WORLD.func_147453_f(xCoord, yCoord, zCoord, getBlockType());
 
+	}
+	
+	// BlockState getting
+	
+	protected IBlockState getBlockState(BlockPos pos) {
+		return getWorld().getBlockState(pos);
+	}
+	
+	protected Block getBlock(BlockPos pos) {
+		return getBlockState(pos).getBlock();
+	}
+	
+	// Validator standard errors
+	
+	protected void doStandardNullControllerResponse(T controller) {
+		if (controller == null) {
+			throw nullControllerError();
+		}
+
+		if (getMultiblock() == null) {
+			nullControllerWarn();
+			onAttached(controller);
+		}
+	}
+	
+	protected void setStandardLastError(IMultiblockValidator validator) {
+		validator.setLastError(Global.MOD_ID + ".multiblock_validation.invalid_block", getPos(), getPos().getX(), getPos().getY(), getPos().getZ(), getBlock(getPos()).getLocalizedName());
+	}
+	
+	protected IllegalArgumentException nullControllerError() {
+		return new IllegalArgumentException("Attempted to attach " + getBlock(getPos()).getLocalizedName() + " to a null controller. This should never happen - please report this bug to the NuclearCraft GitHub repo!");
+	}
+	
+	protected void nullControllerWarn() {
+		NCUtil.getLogger().warn(getBlock(getPos()).getLocalizedName() + " at (%d, %d, %d) is being assembled without being attached to a controller. It is recommended that the multiblock is completely disassambled and rebuilt if these errors continue!", getPos().getX(), getPos().getY(), getPos().getZ());
 	}
 	
 	///// Private/Protected Logic Helpers

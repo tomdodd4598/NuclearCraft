@@ -3,6 +3,7 @@ package nc;
 import nc.config.NCConfig;
 import nc.handler.GuiHandler;
 import nc.proxy.CommonProxy;
+import nc.render.BlockHighlightTracker;
 import nc.util.NCUtil;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.Mod;
@@ -26,6 +27,8 @@ public class NuclearCraft {
 	
 	@SidedProxy(clientSide = Global.NC_CLIENT_PROXY, serverSide = Global.NC_COMMON_PROXY)
 	public static CommonProxy proxy;
+	
+	public BlockHighlightTracker blockOverlayTracker = new BlockHighlightTracker();
 	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent preEvent) {

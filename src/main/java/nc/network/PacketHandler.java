@@ -1,5 +1,6 @@
 package nc.network;
 
+import nc.multiblock.network.HeatExchangerUpdatePacket;
 import nc.multiblock.network.SaltFissionUpdatePacket;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
@@ -34,6 +35,7 @@ public class PacketHandler {
 		// CLIENT
 		instance.registerMessage(ReturnFluidInTankPacket.Handler.class, ReturnFluidInTankPacket.class, nextID(), Side.CLIENT);
 		instance.registerMessage(SaltFissionUpdatePacket.Handler.class, SaltFissionUpdatePacket.class, nextID(), Side.CLIENT);
+		instance.registerMessage(HeatExchangerUpdatePacket.Handler.class, HeatExchangerUpdatePacket.class, nextID(), Side.CLIENT);
 		instance.registerMessage(FusionUpdatePacket.Handler.class, FusionUpdatePacket.class, nextID(), Side.CLIENT);
 		instance.registerMessage(PlayerRadsUpdatePacket.Handler.class, PlayerRadsUpdatePacket.class, nextID(), Side.CLIENT);
 	}

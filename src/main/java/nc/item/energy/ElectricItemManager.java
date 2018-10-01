@@ -21,7 +21,7 @@ public class ElectricItemManager implements IElectricItemManager {
 		if(item.canReceive(stack)) {
 			double energyToStore = Math.min(Math.min(amount * NCConfig.rf_per_eu, Math.pow(10, 1 + item.getEnergyTier(stack)) * NCConfig.rf_per_eu), item.getMaxEnergyStored(stack) - item.getEnergyStored(stack));
 			
-			if(!simulate) item.setEnergyStored(stack, item.getEnergyStored(stack) + (int)energyToStore);
+			if(!simulate) item.setEnergyStored(stack, item.getEnergyStored(stack) + (int)(energyToStore/stack.getCount()));
 
 			return (int)Math.round(energyToStore / (double)NCConfig.rf_per_eu);
 		}
@@ -33,7 +33,7 @@ public class ElectricItemManager implements IElectricItemManager {
 		if(item.canExtract(stack)) {
 			double energyToGive = Math.min(Math.min(amount * NCConfig.rf_per_eu, Math.pow(10, 1 + item.getEnergyTier(stack)) * NCConfig.rf_per_eu), item.getEnergyStored(stack));
 			
-			if(!simulate) item.setEnergyStored(stack, item.getEnergyStored(stack) - (int)energyToGive);
+			if(!simulate) item.setEnergyStored(stack, item.getEnergyStored(stack) - (int)(energyToGive/stack.getCount()));
 			
 			return Math.round(energyToGive / (double)NCConfig.rf_per_eu);
 		}

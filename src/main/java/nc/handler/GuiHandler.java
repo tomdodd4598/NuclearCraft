@@ -44,8 +44,11 @@ import nc.gui.processor.GuiPressurizer;
 import nc.gui.processor.GuiRockCrusher;
 import nc.gui.processor.GuiSaltMixer;
 import nc.gui.processor.GuiSupercooler;
+import nc.multiblock.container.ContainerHeatExchangerController;
 import nc.multiblock.container.ContainerSaltFissionController;
+import nc.multiblock.gui.GuiHeatExchangerController;
 import nc.multiblock.gui.GuiSaltFissionController;
+import nc.multiblock.heatExchanger.tile.TileHeatExchangerController;
 import nc.multiblock.saltFission.tile.TileSaltFissionController;
 import nc.tile.generator.TileFissionController;
 import nc.tile.generator.TileFusionCore;
@@ -130,6 +133,8 @@ public class GuiHandler implements IGuiHandler {
 				if (tile instanceof TileFusionCore) return new ContainerFusionCore(player, (TileFusionCore) tile);
 			case 102:
 				if (tile instanceof TileSaltFissionController) return new ContainerSaltFissionController(player, (TileSaltFissionController) tile);
+			case 103:
+				if (tile instanceof TileHeatExchangerController) return new ContainerHeatExchangerController(player, (TileHeatExchangerController) tile);
 			}
 		}
 		
@@ -188,6 +193,8 @@ public class GuiHandler implements IGuiHandler {
 				if (tile instanceof TileFusionCore) return new GuiFusionCore(player, (TileFusionCore) tile);
 			case 102:
 				if (tile instanceof TileSaltFissionController) return new GuiSaltFissionController(((TileSaltFissionController) tile).getMultiblock(), ((TileSaltFissionController) tile).getMultiblock().getContainer(player));
+			case 103:
+				if (tile instanceof TileHeatExchangerController) return new GuiHeatExchangerController(((TileHeatExchangerController) tile).getMultiblock(), ((TileHeatExchangerController) tile).getMultiblock().getContainer(player));
 			}
 		}
 		

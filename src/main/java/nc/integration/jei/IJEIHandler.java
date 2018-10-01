@@ -1,6 +1,7 @@
 package nc.integration.jei;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import mezz.jei.api.IGuiHelper;
 import nc.recipe.ProcessorRecipeHandler;
@@ -20,7 +21,7 @@ public interface IJEIHandler {
 	
 	public boolean getEnabled();
 	
-	public ItemStack getCrafterItemStack();
+	public List<ItemStack> getCrafters();
 	
 	public String getTextureName();
 }

@@ -33,7 +33,7 @@ public class TileSaltFissionController extends TileSaltFissionPartBase {
 		super.update();
 		tickTile();
 		if (shouldTileCheck()) if (getBlock(pos) instanceof BlockSaltFissionController) {
-			((BlockSaltFissionController) getBlock(pos)).setActiveState(getBlockState(pos), world, pos, world.isBlockPowered(pos) && isMultiblockAssembled());
+			if (getMultiblock() != null) ((BlockSaltFissionController) getBlock(pos)).setActiveState(getBlockState(pos), world, pos, getMultiblock().isReactorOn);
 		}
 	}
 	
@@ -46,9 +46,5 @@ public class TileSaltFissionController extends TileSaltFissionPartBase {
 		Block corium = RegistryHelper.getBlock(Global.MOD_ID + ":fluid_corium");
 		world.removeTileEntity(pos);
 		world.setBlockState(pos, corium.getDefaultState());
-	}
-	
-	public boolean isPowered() {
-		return world.isBlockPowered(pos);
 	}
 }

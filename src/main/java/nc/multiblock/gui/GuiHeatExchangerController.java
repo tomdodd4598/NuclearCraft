@@ -1,10 +1,16 @@
 package nc.multiblock.gui;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import nc.Global;
 import nc.multiblock.heatExchanger.HeatExchanger;
 import nc.util.Lang;
+import nc.util.StringHelper;
 import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.text.TextFormatting;
 
 public class GuiHeatExchangerController extends GuiMultiblockController<HeatExchanger> {
 	
@@ -13,6 +19,8 @@ public class GuiHeatExchangerController extends GuiMultiblockController<HeatExch
 	public GuiHeatExchangerController(HeatExchanger multiblock, Container container) {
 		super(multiblock, container);
 		gui_texture = new ResourceLocation(Global.MOD_ID + ":textures/gui/container/" + "heat_exchanger_controller" + ".png");
+		xSize = 176;
+		ySize = 68;
 	}
 	
 	@Override
@@ -21,9 +29,42 @@ public class GuiHeatExchangerController extends GuiMultiblockController<HeatExch
 	}
 	
 	@Override
+	public void renderTooltips(int mouseX, int mouseY) {
+		drawEfficiencyTooltip(mouseX, mouseY, 6, 57, 164, 6);
+	}
+	
+	public List<String> efficiencyInfo() {
+		List<String> info = new ArrayList<String>();
+		info.add(TextFormatting.LIGHT_PURPLE + Lang.localise("gui.container.heat_exchanger_controller.active_percent") + " " + TextFormatting.WHITE + (int) (multiblock.fractionOfTubesActive*100D) + "%");
+		info.add(TextFormatting.AQUA + Lang.localise("gui.container.heat_exchanger_controller.efficiency") + " " + TextFormatting.WHITE + (int) (multiblock.efficiency*100D) + "%");
+		return info;
+	}
+	
+	public void drawEfficiencyTooltip(int mouseX, int mouseY, int x, int y, int width, int height) {
+		drawTooltip(efficiencyInfo(), mouseX, mouseY, x, y, width, height);
+	}
+	
+	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-		int fontColor = multiblock.isHeatExchangerOn ? -1 : 15641088;
+		int fontColor = multiblock.isHeatExchangerOn ? 4210752 : 15641088;
 		String title = multiblock.getInteriorLengthX() + "*" +  multiblock.getInteriorLengthY() + "*" +  multiblock.getInteriorLengthZ() + " " + Lang.localise("gui.container.heat_exchanger_controller.heat_exchanger");
 		fontRenderer.drawString(title, xSize / 2 - width(title) / 2, 6, fontColor);
+		
+		String underline = StringHelper.charLine('-', MathHelper.ceil((double)width(title)/width("-")));
+		fontRenderer.drawString(underline, xSize / 2 - width(underline) / 2, 12, fontColor);
+		
+		String tubes = Lang.localise("gui.container.heat_exchanger_controller.tubes") + " " + multiblock.getTubes().size();
+		fontRenderer.drawString(tubes, xSize / 2 - width(tubes) / 2, 24, fontColor);
+		
+		String efficiency = Lang.localise("gui.container.heat_exchanger_controller.efficiency") + " " + (int) (multiblock.efficiency*100D) + "%";
+		fontRenderer.drawString(efficiency, xSize / 2 - width(efficiency) / 2, 40, fontColor);
+	}
+	
+	@Override
+	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
+		super.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY);
+		
+		int f = (int)Math.round(multiblock.fractionOfTubesActive*164);
+		drawTexturedModalRect(guiLeft + 6, guiTop + 56, 3, 68, f, 6);
 	}
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
+import javax.annotation.Nullable;
 import javax.vecmath.Matrix4f;
 import javax.vecmath.Vector4f;
 
@@ -307,7 +308,7 @@ public final class ModelTexturedFluid implements IModel {
 		}
 
 		@Override
-		public List<BakedQuad> getQuads(IBlockState state, EnumFacing side, long rand) {
+		public List<BakedQuad> getQuads(@Nullable IBlockState state, @Nullable EnumFacing side, long rand) {
 			BakedFluidTextured model = this;
 			if (state instanceof IExtendedBlockState) {
 				IExtendedBlockState exState = (IExtendedBlockState)state;

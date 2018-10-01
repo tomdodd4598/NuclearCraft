@@ -25,15 +25,15 @@ public abstract class TileHeatExchangerPartBase extends TileCuboidalMultiblockPa
 	// NBT
 	
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-		super.writeToNBT(nbt);
+	public NBTTagCompound writeAll(NBTTagCompound nbt) {
+		super.writeAll(nbt);
 		nbt.setBoolean("isHeatExchangerOn", isHeatExchangerOn);
 		return nbt;
 	}
 	
 	@Override
-	public void readFromNBT(NBTTagCompound nbt) {
-		super.readFromNBT(nbt);
+	public void readAll(NBTTagCompound nbt) {
+		super.readAll(nbt);
 		isHeatExchangerOn = nbt.getBoolean("isHeatExchangerOn");
 	}
 }

@@ -1,5 +1,7 @@
 package nc.tile.dummy;
 
+import javax.annotation.Nonnull;
+
 import gregtech.api.capability.GregtechCapabilities;
 import gregtech.api.capability.IEnergyContainer;
 import ic2.api.energy.tile.IEnergySink;
@@ -29,7 +31,7 @@ public class TileFissionPort extends TileDummy<TileFissionController> implements
 	private BlockFinder finder;
 
 	public TileFissionPort() {
-		super(TileFissionController.class, "fission_port", energyConnectionAll(EnergyConnection.OUT), NCConfig.machine_update_rate, null);
+		super(TileFissionController.class, "fission_port", ITileEnergy.energyConnectionAll(EnergyConnection.OUT), NCConfig.machine_update_rate, null);
 	}
 	
 	@Override
@@ -45,6 +47,11 @@ public class TileFissionPort extends TileDummy<TileFissionController> implements
 	public void onAdded() {
 		finder = new BlockFinder(pos, world, getBlockMetadata());
 		super.onAdded();
+	}
+	
+	@Override
+	public void tickTile() {
+		tickCount++; tickCount %= 4*NCConfig.machine_update_rate;
 	}
 	
 	private int getNumberOfPorts() {
@@ -66,7 +73,7 @@ public class TileFissionPort extends TileDummy<TileFissionController> implements
 	// Energy Pushing - Account for multiple ports
 	
 	@Override
-	public void pushEnergyToSide(EnumFacing side) {
+	public void pushEnergyToSide(@Nonnull EnumFacing side) {
 		if (getEnergyStorage().getEnergyStored() <= 0 || !getEnergyConnection(side).canExtract()) return;
 		
 		TileEntity tile = world.getTileEntity(getPos().offset(side));
@@ -98,16 +105,28 @@ public class TileFissionPort extends TileDummy<TileFissionController> implements
 	
 	// Finding Blocks
 	
+	private boolean notOrigin(int x, int y, int z) {
+		return x != 0 || y != 0 || z != 0;
+	}
+	
 	private boolean findCasing(int x, int y, int z) {
 		return finder.find(x, y, z, NCBlocks.fission_block.getStateFromMeta(0), NCBlocks.reactor_casing_transparent, NCBlocks.fission_port, NCBlocks.buffer, NCBlocks.reactor_door, NCBlocks.reactor_trapdoor);
 	}
 	
+	private boolean findCasingNotOrigin(int x, int y, int z) {
+		return notOrigin(x, y, z) && findCasing(x, y, z);
+	}
+	
 	private boolean findController(int x, int y, int z) {
-		return finder.find(x, y, z, NCBlocks.fission_controller_idle, NCBlocks.fission_controller_active, NCBlocks.fission_controller_new_idle, NCBlocks.fission_controller_new_active);
+		return finder.find(x, y, z, NCBlocks.fission_controller_new_fixed, NCBlocks.fission_controller_idle, NCBlocks.fission_controller_active, NCBlocks.fission_controller_new_idle, NCBlocks.fission_controller_new_active);
 	}
 	
 	private boolean findCasingAll(int x, int y, int z) {
 		return findCasing(x, y, z) || findController(x, y, z);
+	}
+	
+	private boolean findCasingAllNotOrigin(int x, int y, int z) {
+		return notOrigin(x, y, z) && findCasingAll(x, y, z);
 	}
 	
 	// Find Master
@@ -124,14 +143,14 @@ public class TileFissionPort extends TileDummy<TileFissionController> implements
 		int x1 = 0;
 		int y1 = 0;
 		for (int z = 0; z <= l; z++) {
-			if ((findCasing(0, 1, 0) || findCasing(0, -1, 0)) || ((findCasing(1, 1, 0) || findCasing(1, -1, 0)) && findCasing(1, 0, 0)) || ((findCasing(1, 1, 0) && !findCasing(1, -1, 0)) && !findCasing(1, 0, 0)) || ((!findCasing(1, 1, 0) && findCasing(1, -1, 0)) && !findCasing(1, 0, 0))) {
-				if (!findCasing(0, 1, -z) && !findCasing(0, -1, -z) && (findCasingAll(0, 0, -z + 1) || findCasingAll(0, 1, -z + 1) || findCasingAll(0, -1, -z + 1))) {
+			if ((findCasingAll(0, 1, 0) || findCasingAll(0, -1, 0)) || ((findCasingAll(1, 1, 0) || findCasingAll(1, -1, 0)) && findCasingAll(1, 0, 0)) || ((findCasingAll(1, 1, 0) && !findCasingAll(1, -1, 0)) && !findCasingAll(1, 0, 0)) || ((!findCasingAll(1, 1, 0) && findCasingAll(1, -1, 0)) && !findCasingAll(1, 0, 0))) {
+				if ((!findCasingAll(0, 1, -z) || (!findCasingAll(1, 1, -z) && !findCasingAll(0, 1, -z + 1))) && (!findCasingAll(0, -1, -z) || (!findCasingAll(1, -1, -z) && !findCasingAll(0, -1, -z + 1))) && (findCasingAll(0, 0, -z + 1) || findCasingAll(0, 1, -z + 1) || findCasingAll(0, -1, -z + 1))) {
 					rz = l - z;
 					z0 = -z;
 					f = true;
 					break;
 				}
-			} else if (!findCasing(0, 0, -z) && !findCasing(1, 1, -z) && !findCasing(1, -1, -z) && findCasingAll(0, 0, -z + 1) && findCasing(1, 0, -z) && findCasing(1, 1, -z + 1) && findCasing(1, -1, -z + 1)) {
+			} else if (!findCasingNotOrigin(0, 0, -z) && !findCasing(1, 1, -z) && !findCasing(1, -1, -z) && findCasingAll(0, 0, -z + 1) && findCasing(1, 0, -z) && findCasing(1, 1, -z + 1) && findCasing(1, -1, -z + 1)) {
 				rz = l - z;
 				z0 = -z;
 				f = true;
@@ -144,7 +163,7 @@ public class TileFissionPort extends TileDummy<TileFissionController> implements
 		}
 		f = false;
 		for (int y = 0; y <= l; y++) {
-			if (!findCasing(x0, -y + 1, z0) && !findCasing(x0 + 1, -y, z0) && !findCasing(x0, -y, z0 + 1) && findCasingAll(x0 + 1, -y, z0 + 1) && findCasingAll(x0, -y + 1, z0 + 1) && findCasingAll(x0 + 1, -y + 1, z0)) {
+			if (!findCasingNotOrigin(x0, -y + 1, z0) && !findCasing(x0 + 1, -y, z0) && !findCasing(x0, -y, z0 + 1) && findCasingAll(x0 + 1, -y, z0 + 1) && findCasingAll(x0, -y + 1, z0 + 1) && findCasingAll(x0 + 1, -y + 1, z0)) {
 				y0 = -y;
 				f = true;
 				break;

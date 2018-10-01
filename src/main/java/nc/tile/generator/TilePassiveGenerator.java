@@ -2,6 +2,7 @@ package nc.tile.generator;
 
 import nc.tile.dummy.IInterfaceable;
 import nc.tile.energy.IEnergySpread;
+import nc.tile.energy.ITileEnergy;
 import nc.tile.energy.TileEnergy;
 import nc.tile.internal.energy.EnergyConnection;
 import nc.util.EnergyHelper;
@@ -15,7 +16,7 @@ public abstract class TilePassiveGenerator extends TileEnergy implements IInterf
 	}
 
 	public TilePassiveGenerator(int maxPowerGen, int maxTransfer) {
-		super(2*maxPowerGen, maxTransfer, energyConnectionAll(EnergyConnection.OUT));
+		super(2*maxPowerGen, maxTransfer, ITileEnergy.energyConnectionAll(EnergyConnection.OUT));
 		power = maxPowerGen;
 	}
 	

@@ -8,24 +8,19 @@ import net.minecraftforge.energy.IEnergyStorage;
 public class EnergyStorage implements IEnergyStorage, INBTSerializable<NBTTagCompound> {
 
 	private int energyStored, energyCapacity;
-	private int maxReceive, maxExtract;
+	private int maxTransfer;
 	
 	public EnergyStorage(int capacity) {
-		this(capacity, capacity, capacity);
+		this(capacity, capacity);
 	}
 
 	public EnergyStorage(int capacity, int maxTransfer) {
-		this(capacity, maxTransfer, maxTransfer);
-	}
-
-	public EnergyStorage(int capacity, int maxReceive, int maxExtract) {
 		setStorageCapacity(capacity);
-		setMaxReceive(maxReceive);
-		setMaxExtract(maxExtract);
+		setMaxTransfer(maxTransfer);
 	}
 	
-	public EnergyStorage(int capacity, int maxReceive, int maxExtract, int energy) {
-		this(capacity, maxReceive, maxExtract);
+	public EnergyStorage(int capacity, int maxTransfer, int energy) {
+		this(capacity, maxTransfer);
 		setEnergyStored(energy);
 	}
 	
@@ -41,16 +36,8 @@ public class EnergyStorage implements IEnergyStorage, INBTSerializable<NBTTagCom
 		return energyCapacity;
 	}
 	
-	public int getMaxReceive() {
-		return maxReceive;
-	}
-	
-	public int getMaxExtract() {
-		return maxExtract;
-	}
-	
 	public int getMaxTransfer() {
-		return Math.max(maxReceive, maxExtract);
+		return maxTransfer;
 	}
 
 	@Override
@@ -65,14 +52,14 @@ public class EnergyStorage implements IEnergyStorage, INBTSerializable<NBTTagCom
 
 	@Override
 	public int receiveEnergy(int receive, boolean simulated) {
-		int energyReceived = Math.min(energyCapacity - energyStored, Math.min(maxReceive, receive));
+		int energyReceived = Math.min(energyCapacity - energyStored, Math.min(maxTransfer, receive));
 		if (!simulated) changeEnergyStored(energyReceived);
 		return energyReceived;
 	}
 
 	@Override
 	public int extractEnergy(int extract, boolean simulated) {
-		int energyExtracted = Math.min(energyStored, Math.min(maxExtract, extract));
+		int energyExtracted = Math.min(energyStored, Math.min(maxTransfer, extract));
 		if (!simulated) changeEnergyStored(-energyExtracted);
 		return energyExtracted;
 	}
@@ -95,25 +82,14 @@ public class EnergyStorage implements IEnergyStorage, INBTSerializable<NBTTagCom
 		if(newCapacity < energyStored) setEnergyStored(newCapacity);
     }
 	
-	public void mergeEnergyStorages(EnergyStorage other) {
+	public void mergeEnergyStorage(EnergyStorage other) {
 		setStorageCapacity(getMaxEnergyStored() + other.getMaxEnergyStored());
 		setEnergyStored(getEnergyStored() + other.getEnergyStored());
 	}
 	
 	public void setMaxTransfer(int newMaxTransfer) {
 		if(newMaxTransfer < 0) return;
-		if(newMaxTransfer != maxReceive) maxReceive = Math.max(newMaxTransfer, NCConfig.rf_per_eu);
-		if(newMaxTransfer != maxExtract) maxExtract = Math.max(newMaxTransfer, NCConfig.rf_per_eu);
-    }
-	
-	public void setMaxReceive(int newMaxReceive) {
-		if(newMaxReceive == maxReceive || newMaxReceive < 0) return;
-		maxReceive = Math.max(newMaxReceive, NCConfig.rf_per_eu);
-    }
-	
-	public void setMaxExtract(int newMaxExtract) {
-		if(newMaxExtract == maxExtract || newMaxExtract < 0) return;
-		maxExtract = Math.max(newMaxExtract, NCConfig.rf_per_eu);
+		if(newMaxTransfer != maxTransfer) maxTransfer = Math.max(newMaxTransfer, NCConfig.rf_per_eu);
     }
 	
 	// NBT

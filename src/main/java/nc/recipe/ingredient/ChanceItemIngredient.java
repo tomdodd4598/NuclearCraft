@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nc.config.NCConfig;
-import nc.recipe.SorptionType;
+import nc.recipe.IngredientSorption;
 import nc.util.NCMath;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
@@ -14,6 +14,7 @@ public class ChanceItemIngredient implements IItemIngredient {
 	public IItemIngredient ingredient;
 	public int chancePercent;
 	public int minStackSize;
+	public double meanStackSize;
 	
 	public ChanceItemIngredient(IItemIngredient ingredient, int chancePercent) {
 		this(ingredient, chancePercent, 0);
@@ -23,6 +24,8 @@ public class ChanceItemIngredient implements IItemIngredient {
 		this.ingredient = ingredient;
 		this.chancePercent = MathHelper.clamp(chancePercent, 0, 100);
 		this.minStackSize = MathHelper.clamp(minStackSize, 0, ingredient.getMaxStackSize());
+		
+		meanStackSize = this.minStackSize + (double)(this.ingredient.getMaxStackSize() - this.minStackSize)*(double)this.chancePercent/100D;
 	}
 
 	@Override
@@ -88,7 +91,7 @@ public class ChanceItemIngredient implements IItemIngredient {
 	}
 
 	@Override
-	public boolean matches(Object object, SorptionType sorption) {
+	public boolean matches(Object object, IngredientSorption sorption) {
 		return ingredient.matches(object, sorption);
 	}
 }

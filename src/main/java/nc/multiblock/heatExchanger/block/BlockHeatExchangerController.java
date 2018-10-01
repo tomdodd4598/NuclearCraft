@@ -33,8 +33,6 @@ public class BlockHeatExchangerController extends BlockHeatExchangerPartBase {
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
 		EnumFacing enumfacing = EnumFacing.getFront(meta & 7);
-		if (enumfacing.getAxis() == EnumFacing.Axis.Y) enumfacing = EnumFacing.NORTH;
-		
 		return getDefaultState().withProperty(FACING, enumfacing).withProperty(ACTIVE, Boolean.valueOf((meta & 8) > 0));
 	}
 	
@@ -92,7 +90,7 @@ public class BlockHeatExchangerController extends BlockHeatExchangerPartBase {
 			if (world.getTileEntity(pos) instanceof TileHeatExchangerController) {
 				TileHeatExchangerController controller = (TileHeatExchangerController) world.getTileEntity(pos);
 				if (controller.getMultiblock() != null && controller.getMultiblock().isAssembled()) {
-					player.openGui(NuclearCraft.instance, 102, world, pos.getX(), pos.getY(), pos.getZ());
+					player.openGui(NuclearCraft.instance, 103, world, pos.getX(), pos.getY(), pos.getZ());
 					return true;
 				}
 			}

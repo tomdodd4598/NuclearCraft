@@ -138,7 +138,7 @@ public class CentrifugeRecipes extends ProcessorRecipeHandler {
 	}
 	
 	public void addReprocessingRecipes(String fuel, String out1, int n1, String out2, int n2, String out3, int n3, String out4, int n4) {
-		for (String type : new String[] {"", "_fluoride"/*, "_fluoride_flibe"*/}) {
+		for (String type : new String[] {""/*, "_fluoride", "_fluoride_flibe"*/}) {
 			addRecipe(fluidStack("depleted_fuel_" + fuel + type, FluidStackHelper.INGOT_BLOCK_VOLUME/4), fluidStack(out1 + type, 16*n1), fluidStack(out2 + type, 16*n2), fluidStack(out3 + type, 16*n3), fluidStack(out4 + type, 16*n4), 0.5D, 0.5D);
 		}
 	}

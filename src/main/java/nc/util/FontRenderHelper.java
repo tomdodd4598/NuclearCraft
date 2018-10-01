@@ -69,26 +69,24 @@ public class FontRenderHelper {
 		int k = 0;
 		int l = -1;
 
-		for (boolean flag = false; k < i; ++k) {
+		for (boolean flag = false; k < i; k++) {
 			char c0 = string.charAt(k);
 
 			switch (c0) {
 				case '\n':
-					--k;
+					k--;
 					break;
 				case ' ':
 					l = k;
 				default:
 					j += getCharWidth(c0);
 
-					if (flag) {
-						++j;
-					}
+					if (flag) j++;
 
 					break;
 				case '\u00a7':
 					if (k < i - 1) {
-						++k;
+						k++;
 						char c1 = string.charAt(k);
 
 						if (c1 != 'l' && c1 != 'L') {
@@ -102,7 +100,7 @@ public class FontRenderHelper {
 			}
 
 			if (c0 == '\n') {
-				++k;
+				k++;
 				l = k;
 				break;
 			}
@@ -116,7 +114,7 @@ public class FontRenderHelper {
 	}
 	
 	public static int getCharWidth(char character) {
-		if (character == 160) return 4; // forge: display nbsp as space. MC-2595
+		if (character == 160) return 4;
 		if (character == 167) {
 			return -1;
 		} else if (character == ' ') {

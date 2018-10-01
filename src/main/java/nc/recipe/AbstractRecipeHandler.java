@@ -8,19 +8,20 @@ import javax.annotation.Nullable;
 import com.google.common.collect.Lists;
 
 import nc.ModCheck;
-import nc.recipe.ingredient.IFluidIngredient;
-import nc.recipe.ingredient.IItemIngredient;
 import nc.recipe.ingredient.ChanceFluidIngredient;
 import nc.recipe.ingredient.ChanceItemIngredient;
 import nc.recipe.ingredient.EmptyFluidIngredient;
 import nc.recipe.ingredient.EmptyItemIngredient;
-import nc.recipe.ingredient.FluidIngredient;
 import nc.recipe.ingredient.FluidArrayIngredient;
-import nc.recipe.ingredient.ItemIngredient;
+import nc.recipe.ingredient.FluidIngredient;
+import nc.recipe.ingredient.IFluidIngredient;
+import nc.recipe.ingredient.IItemIngredient;
 import nc.recipe.ingredient.ItemArrayIngredient;
+import nc.recipe.ingredient.ItemIngredient;
 import nc.recipe.ingredient.OreIngredient;
 import nc.tile.internal.fluid.Tank;
 import nc.util.FluidRegHelper;
+import nc.util.ItemStackHelper;
 import nc.util.OreDictHelper;
 import nc.util.RecipeHelper;
 import net.minecraft.block.Block;
@@ -56,6 +57,8 @@ public abstract class AbstractRecipeHandler<T extends IRecipe> {
 	
 	@Nullable
 	public T getRecipeFromInputs(List<ItemStack> itemInputs, List<Tank> fluidInputs) {
+		if (isFullNull(itemInputs, fluidInputs)) return null;
+		
 		for (T recipe : recipes) {
 			if (recipe.matchingInputs(itemInputs, fluidInputs)) return recipe;
 		}
@@ -64,10 +67,22 @@ public abstract class AbstractRecipeHandler<T extends IRecipe> {
 
 	@Nullable
 	public T getRecipeFromOutputs(List<ItemStack> itemOutputs, List<Tank> fluidOutputs) {
+		if (isFullNull(itemOutputs, fluidOutputs)) return null;
+		
 		for (T recipe : recipes) {
 			if (recipe.matchingOutputs(itemOutputs, fluidOutputs)) return recipe;
 		}
 		return null;
+	}
+	
+	private boolean isFullNull(List<ItemStack> items, List<Tank> tanks) {
+		for (ItemStack item : items) {
+			if (item != null && !item.isEmpty()) return false;
+		}
+		for (Tank tank : tanks) {
+			if (tank.getFluid() != null) return false;
+		}
+		return true;
 	}
 	
 	@Nullable
@@ -262,7 +277,7 @@ public abstract class AbstractRecipeHandler<T extends IRecipe> {
 	public boolean isValidItemInput(ItemStack stack) {
 		for (T recipe : recipes) {
 			for (IItemIngredient input : recipe.itemIngredients()) {
-				if (input.matches(stack, SorptionType.NEUTRAL)) {
+				if (input.matches(stack, IngredientSorption.NEUTRAL)) {
 					return true;
 				}
 			}
@@ -273,7 +288,7 @@ public abstract class AbstractRecipeHandler<T extends IRecipe> {
 	public boolean isValidFluidInput(FluidStack stack) {
 		for (T recipe : recipes) {
 			for (IFluidIngredient input : recipe.fluidIngredients()) {
-				if (input.matches(stack, SorptionType.NEUTRAL)) {
+				if (input.matches(stack, IngredientSorption.NEUTRAL)) {
 					return true;
 				}
 			}
@@ -284,7 +299,7 @@ public abstract class AbstractRecipeHandler<T extends IRecipe> {
 	public boolean isValidItemOutput(ItemStack stack) {
 		for (T recipe : recipes) {
 			for (IItemIngredient output : recipe.itemProducts()) {
-				if (output.matches(stack, SorptionType.OUTPUT)) {
+				if (output.matches(stack, IngredientSorption.OUTPUT)) {
 					return true;
 				}
 			}
@@ -295,7 +310,7 @@ public abstract class AbstractRecipeHandler<T extends IRecipe> {
 	public boolean isValidItemOutput(FluidStack stack) {
 		for (T recipe : recipes) {
 			for (IFluidIngredient output : recipe.fluidProducts()) {
-				if (output.matches(stack, SorptionType.OUTPUT)) {
+				if (output.matches(stack, IngredientSorption.OUTPUT)) {
 					return true;
 				}
 			}
@@ -305,7 +320,7 @@ public abstract class AbstractRecipeHandler<T extends IRecipe> {
 	
 	// Smart item insertion
 	public boolean isValidItemInput(ItemStack stack, ItemStack slotStack, List<ItemStack> otherInputs) {
-		if (otherInputs.isEmpty() || (stack.isItemEqual(slotStack) && ItemStack.areItemStackTagsEqual(stack, slotStack))) {
+		if (otherInputs.isEmpty() || (stack.isItemEqual(slotStack) && ItemStackHelper.areItemStackTagsEqual(stack, slotStack))) {
 			return isValidItemInput(stack);
 		}
 		
@@ -322,7 +337,7 @@ public abstract class AbstractRecipeHandler<T extends IRecipe> {
 		recipeLoop: for (T recipe : recipes) {
 			objLoop: for (ItemStack obj : allStacks) {
 				for (IItemIngredient input : recipe.itemIngredients()) {
-					if (input.matches(obj, SorptionType.NEUTRAL)) continue objLoop;
+					if (input.matches(obj, IngredientSorption.NEUTRAL)) continue objLoop;
 				}
 				recipeList.remove(recipe);
 				continue recipeLoop;
@@ -331,9 +346,9 @@ public abstract class AbstractRecipeHandler<T extends IRecipe> {
 		
 		for (T recipe : recipeList) {
 			for (IItemIngredient input : recipe.itemIngredients()) {
-				if (input.matches(stack, SorptionType.NEUTRAL)) {
+				if (input.matches(stack, IngredientSorption.NEUTRAL)) {
 					for (ItemStack other : otherStacks) {
-						if (input.matches(other, SorptionType.NEUTRAL)) return false;
+						if (input.matches(other, IngredientSorption.NEUTRAL)) return false;
 					}
 					return true;
 				}

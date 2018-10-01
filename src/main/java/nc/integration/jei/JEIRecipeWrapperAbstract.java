@@ -18,20 +18,20 @@ import net.minecraftforge.fluids.FluidStack;
 
 public abstract class JEIRecipeWrapperAbstract<T extends JEIRecipeWrapperAbstract> implements IRecipeWrapper {
 
-	protected final ProcessorRecipeHandler recipeHandler;
-	protected final ProcessorRecipe recipe;
+	public final ProcessorRecipeHandler recipeHandler;
+	public final ProcessorRecipe recipe;
 	
-	protected final List<List<ItemStack>> itemInputs;
-	protected final List<List<FluidStack>> fluidInputs;
+	public final List<List<ItemStack>> itemInputs;
+	public final List<List<FluidStack>> fluidInputs;
 	
-	/*protected final List<ItemStack> itemOutputs;
-	protected final List<FluidStack> fluidOutputs;*/
+	/*public final List<ItemStack> itemOutputs;
+	public final List<FluidStack> fluidOutputs;*/
 	
-	protected List<List<ItemStack>> itemOutputs;
-	protected List<List<FluidStack>> fluidOutputs;
+	public List<List<ItemStack>> itemOutputs;
+	public List<List<FluidStack>> fluidOutputs;
 	
-	protected final IDrawableAnimated arrow;
-	protected final int arrowDrawPosX, arrowDrawPosY;
+	public final IDrawableAnimated arrow;
+	public final int arrowDrawPosX, arrowDrawPosY;
 	
 	public JEIRecipeWrapperAbstract(IGuiHelper guiHelper, IJEIHandler handler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe, int backX, int backY, int arrowX, int arrowY, int arrowWidth, int arrowHeight, int arrowPosX, int arrowPosY) {
 		this(guiHelper, handler, recipeHandler, recipe, "", backX, backY, arrowX, arrowY, arrowWidth, arrowHeight, arrowPosX, arrowPosY);
@@ -52,7 +52,7 @@ public abstract class JEIRecipeWrapperAbstract<T extends JEIRecipeWrapperAbstrac
 		
 		ResourceLocation location = new ResourceLocation(Global.MOD_ID + ":textures/gui/container/" + handler.getTextureName() + guiExtra + ".png");
 		IDrawableStatic arrowDrawable = guiHelper.createDrawable(location, arrowX, arrowY, arrowWidth, arrowHeight);
-		arrow = guiHelper.createAnimatedDrawable(arrowDrawable, Math.max(1, (int)(getProcessTime()/6D)), IDrawableAnimated.StartDirection.LEFT, false);
+		arrow = guiHelper.createAnimatedDrawable(arrowDrawable, Math.max(1, (int)(getProcessTime()/5D)), IDrawableAnimated.StartDirection.LEFT, false);
 		arrowDrawPosX = arrowPosX - backX;
 		arrowDrawPosY = arrowPosY - backY;
 	}

@@ -1,0 +1,10 @@
+{
+	"ctm": {
+		"ctm_version": 1,
+		"type":"ctm",
+		"layer":"SOLID",
+		"textures":[
+			"nuclearcraft:blocks/heat_exchanger/heat_exchanger_wall_ctm"
+		]
+	}
+}

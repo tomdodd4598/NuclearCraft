@@ -62,7 +62,8 @@ dependencies {
 	compile group: "slimeknights.mantle", name: "Mantle", version: "${mantle_version}"
 	compile group: "slimeknights", name: "TConstruct", version: "${tic_version}"
 	compile group: "li.cil.oc", name: "OpenComputers", version: "${oc_version}"
-	compile files('libs/gregtech-1.12.2-0.5.7.54.jar')
+	compile files('libs/gregtech-1.12.2-0.5.9.88.jar')
+	compile files('libs/Mekanism-1.12.2-9.4.13.349-api.jar')
 }
 
 processResources {

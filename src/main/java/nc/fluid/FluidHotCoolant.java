@@ -10,7 +10,7 @@ public class FluidHotCoolant extends FluidBase {
 	public FluidHotCoolant(String fluidName) {
 		super(fluidName, true);
 		setViscosity(10000);
-		setTemperature(800);
+		setTemperature(700);
 		setLuminosity(7);
 		setDensity(4000);
 		setEmptySound(SoundEvents.ITEM_BUCKET_EMPTY_LAVA);
@@ -20,7 +20,7 @@ public class FluidHotCoolant extends FluidBase {
 	public FluidHotCoolant(String fluidName, Integer colour) {
 		super(fluidName, true, "molten", colour);
 		setViscosity(10000);
-		setTemperature(800);
+		setTemperature(700);
 		setLuminosity(7);
 		setDensity(4000);
 		setEmptySound(SoundEvents.ITEM_BUCKET_EMPTY_LAVA);

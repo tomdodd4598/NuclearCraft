@@ -2,6 +2,8 @@ package nc.block.fluid;
 
 import java.util.Random;
 
+import javax.annotation.Nonnull;
+
 import nc.config.NCConfig;
 import nc.fluid.FluidPlasma;
 import nc.tile.passive.TilePassive;
@@ -42,7 +44,7 @@ public class BlockFluidPlasma extends BlockFluid {
 	}
 	
 	@Override
-	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+	public void updateTick(@Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull IBlockState state, @Nonnull Random rand) {
 		int free = 0;
 		for (EnumFacing side : EnumFacing.values()) {
 			BlockPos offPos = pos.offset(side);

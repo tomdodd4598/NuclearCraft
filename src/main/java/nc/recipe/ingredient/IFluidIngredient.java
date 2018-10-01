@@ -2,7 +2,7 @@ package nc.recipe.ingredient;
 
 import java.util.List;
 
-import nc.recipe.SorptionType;
+import nc.recipe.IngredientSorption;
 import net.minecraftforge.fluids.FluidStack;
 
 public interface IFluidIngredient {
@@ -31,5 +31,5 @@ public interface IFluidIngredient {
 	
 	public void setMaxStackSize(int stackSize);
 	
-	public boolean matches(Object object, SorptionType sorption);
+	public boolean matches(Object object, IngredientSorption sorption);
 }

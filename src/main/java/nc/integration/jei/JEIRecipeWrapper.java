@@ -303,7 +303,7 @@ public class JEIRecipeWrapper {
 		@Override
 		protected double getProcessTime() {
 			if (recipe == null) return 1D;
-			return recipe.getSaltFissionFuelTime();
+			return 3.24D*recipe.getSaltFissionFuelTime();
 		}
 	}
 	
@@ -315,7 +315,19 @@ public class JEIRecipeWrapper {
 		
 		@Override
 		protected double getProcessTime() {
-			return 50D;
+			return 100D;
+		}
+	}
+	
+	public static class HeatExchanger extends JEIRecipeWrapperAbstract<HeatExchanger> {
+
+		public HeatExchanger(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
+			super(guiHelper, jeiHandler, recipeHandler, recipe, 47, 30, 176, recipe != null && recipe.getHeatExchangerIsHeating() ? 3 : 19, 37, 16, 74, 35);
+		}
+		
+		@Override
+		protected double getProcessTime() {
+			return (recipe != null ? recipe.getHeatExchangerRecipeHeat(16000)*recipe.getHeatExchangerInputTemperature() : 1600000D)/12000D;
 		}
 	}
 }

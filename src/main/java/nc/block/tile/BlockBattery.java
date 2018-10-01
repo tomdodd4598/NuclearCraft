@@ -1,11 +1,11 @@
 package nc.block.tile;
 
-import nc.block.property.PropertySidedEnum;
+import nc.block.property.ISidedEnergy;
 import nc.enumm.BlockEnums.SimpleTileType;
 import nc.tile.energy.ITileEnergy;
 import nc.tile.energy.battery.IBattery;
-import nc.tile.internal.energy.EnergyConnection;
 import nc.tile.internal.energy.EnergyStorage;
+import nc.util.Lang;
 import nc.util.UnitHelper;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -22,18 +22,7 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockBattery extends BlockSimpleTile implements INBTDrop {
-	
-	public static final PropertySidedEnum<EnergyConnection> UP = batterySide("up", EnumFacing.UP);
-	public static final PropertySidedEnum<EnergyConnection> DOWN = batterySide("down", EnumFacing.DOWN);
-	public static final PropertySidedEnum<EnergyConnection> NORTH = batterySide("north", EnumFacing.NORTH);
-	public static final PropertySidedEnum<EnergyConnection> SOUTH = batterySide("south", EnumFacing.SOUTH);
-	public static final PropertySidedEnum<EnergyConnection> WEST = batterySide("west", EnumFacing.WEST);
-	public static final PropertySidedEnum<EnergyConnection> EAST = batterySide("east", EnumFacing.EAST);
-	
-	public static PropertySidedEnum<EnergyConnection> batterySide(String name, EnumFacing facing) {
-		return PropertySidedEnum.create(name, EnergyConnection.class, new EnergyConnection[] {EnergyConnection.IN, EnergyConnection.OUT, EnergyConnection.NON}, facing);
-	}
+public class BlockBattery extends BlockSimpleTile implements ISidedEnergy, INBTDrop {
 	
 	public BlockBattery(SimpleTileType type) {
 		super(type);
@@ -41,22 +30,17 @@ public class BlockBattery extends BlockSimpleTile implements INBTDrop {
 	
 	@Override
 	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, NORTH, EAST, SOUTH, WEST, DOWN, UP);
+		return createEnergyBlockState(this);
 	}
 	
 	@Override
 	public IBlockState getActualState(IBlockState state, IBlockAccess world, BlockPos pos) {
-		return state.withProperty(NORTH, getEnergyConnection(world, pos, EnumFacing.NORTH)).withProperty(SOUTH, getEnergyConnection(world, pos, EnumFacing.SOUTH)).withProperty(WEST, getEnergyConnection(world, pos, EnumFacing.WEST)).withProperty(EAST, getEnergyConnection(world, pos, EnumFacing.EAST)).withProperty(UP, getEnergyConnection(world, pos, EnumFacing.UP)).withProperty(DOWN, getEnergyConnection(world, pos, EnumFacing.DOWN));
+		return getActualEnergyState(state, world, pos);
 	}
 	
 	@Override
 	public int getMetaFromState(IBlockState state) {
 		return 0;
-	}
-	
-	public EnergyConnection getEnergyConnection(IBlockAccess world, BlockPos pos, EnumFacing facing) {
-		if (world.getTileEntity(pos) instanceof ITileEnergy) return ((ITileEnergy) world.getTileEntity(pos)).getEnergyConnection(facing);
-		return EnergyConnection.NON;
 	}
 	
 	@Override
@@ -68,8 +52,8 @@ public class BlockBattery extends BlockSimpleTile implements INBTDrop {
 				((ITileEnergy) world.getTileEntity(pos)).toggleEnergyConnection(facing);
 			}
 			else if (!world.isRemote && !player.isSneaking() && world.getTileEntity(pos) instanceof IBattery) {
-				EnergyStorage storage = ((IBattery) world.getTileEntity(pos)).getBatteryStorage();
-				player.sendMessage(new TextComponentString("Energy Stored: " + UnitHelper.prefix(storage.getEnergyStored(), storage.getMaxEnergyStored(), 5, "RF")));
+				EnergyStorage storage = ((IBattery) world.getTileEntity(pos)).getEnergyStorage();
+				player.sendMessage(new TextComponentString(Lang.localise("gui.container.energy_stored") + " " + UnitHelper.prefix(storage.getEnergyStored(), storage.getMaxEnergyStored(), 5, "RF")));
 			}
 		}
 		return true;
@@ -84,7 +68,7 @@ public class BlockBattery extends BlockSimpleTile implements INBTDrop {
 	public int getComparatorInputOverride(IBlockState state, World world, BlockPos pos) {
 		TileEntity tile = world.getTileEntity(pos);
 		if (tile instanceof IBattery) {
-			EnergyStorage storage = ((IBattery) tile).getBatteryStorage();
+			EnergyStorage storage = ((IBattery) tile).getEnergyStorage();
 			return (int) Math.round(15D*(double)storage.getEnergyStored()/(double)storage.getMaxEnergyStored());
 		}
 		return Container.calcRedstone(world.getTileEntity(pos));

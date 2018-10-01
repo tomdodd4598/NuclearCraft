@@ -3,17 +3,20 @@ package nc.tile.processor;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 import nc.ModCheck;
 import nc.config.NCConfig;
 import nc.init.NCItems;
 import nc.recipe.AbstractRecipeHandler;
+import nc.recipe.IngredientSorption;
 import nc.recipe.NCRecipes;
 import nc.recipe.ProcessorRecipe;
 import nc.recipe.ProcessorRecipeHandler;
-import nc.recipe.SorptionType;
 import nc.recipe.ingredient.IItemIngredient;
 import nc.tile.IGui;
 import nc.tile.dummy.IInterfaceable;
+import nc.tile.energy.ITileEnergy;
 import nc.tile.energy.TileEnergySidedInventory;
 import nc.tile.energyFluid.IBufferable;
 import nc.tile.internal.energy.EnergyConnection;
@@ -42,16 +45,16 @@ public class TileItemProcessor extends TileEnergySidedInventory implements IItem
 	public final NCRecipes.Type recipeType;
 	protected ProcessorRecipe recipe;
 	
-	public TileItemProcessor(String name, int itemInSize, int itemOutSize, int time, int power, boolean shouldLoseProgress, NCRecipes.Type recipeType) {
+	public TileItemProcessor(String name, int itemInSize, int itemOutSize, int time, int power, boolean shouldLoseProgress, @Nonnull NCRecipes.Type recipeType) {
 		this(name, itemInSize, itemOutSize, time, power, shouldLoseProgress, false, recipeType, 1);
 	}
 	
-	public TileItemProcessor(String name, int itemInSize, int itemOutSize, int time, int power, boolean shouldLoseProgress, NCRecipes.Type recipeType, int upgradeMeta) {
+	public TileItemProcessor(String name, int itemInSize, int itemOutSize, int time, int power, boolean shouldLoseProgress, @Nonnull NCRecipes.Type recipeType, int upgradeMeta) {
 		this(name, itemInSize, itemOutSize, time, power, shouldLoseProgress, true, recipeType, upgradeMeta);
 	}
 	
-	public TileItemProcessor(String name, int itemInSize, int itemOutSize, int time, int power, boolean shouldLoseProgress, boolean upgrades, NCRecipes.Type recipeType, int upgradeMeta) {
-		super(name, itemInSize + itemOutSize + (upgrades ? 2 : 0), 32000, power != 0 ? energyConnectionAll(EnergyConnection.IN) : energyConnectionAll(EnergyConnection.NON));
+	public TileItemProcessor(String name, int itemInSize, int itemOutSize, int time, int power, boolean shouldLoseProgress, boolean upgrades, @Nonnull NCRecipes.Type recipeType, int upgradeMeta) {
+		super(name, itemInSize + itemOutSize + (upgrades ? 2 : 0), 32000, power != 0 ? ITileEnergy.energyConnectionAll(EnergyConnection.IN) : ITileEnergy.energyConnectionAll(EnergyConnection.NON));
 		itemInputSize = itemInSize;
 		itemOutputSize = itemOutSize;
 		
@@ -286,7 +289,7 @@ public class TileItemProcessor extends TileEnergySidedInventory implements IItem
 		for (int i = 0; i < itemInputSize; i++) {
 			int position = -1;
 			for (int j = 0; j < itemIngredients.size(); j++) {
-				if (itemIngredients.get(j).matches(getItemInputs().get(i), SorptionType.INPUT)) {
+				if (itemIngredients.get(j).matches(getItemInputs().get(i), IngredientSorption.INPUT)) {
 					position = j;
 					break;
 				}

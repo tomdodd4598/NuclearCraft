@@ -11,7 +11,7 @@ import net.minecraftforge.fluids.Fluid;
 
 public class BlockFluidMolten extends BlockFluid {
 	
-	public static DamageSource molten_burn = new DamageSource("molten_burn");
+	protected static DamageSource molten_burn = new DamageSource("molten_burn");
 
 	public BlockFluidMolten(Fluid fluid) {
 		super(fluid, Material.LAVA);

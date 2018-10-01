@@ -2,7 +2,6 @@ package nc.multiblock.saltFission.block;
 
 import nc.NuclearCraft;
 import nc.multiblock.saltFission.tile.TileSaltFissionController;
-import net.minecraft.block.BlockDirectional;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockStateContainer;
@@ -17,7 +16,7 @@ import net.minecraft.world.World;
 
 public class BlockSaltFissionController extends BlockSaltFissionPartBase {
 	
-	private static final PropertyDirection FACING = BlockDirectional.FACING;
+	private static final PropertyDirection FACING = PropertyDirection.create("facing");
 	private static final PropertyBool ACTIVE = PropertyBool.create("active");
 	
 	public BlockSaltFissionController() {
@@ -33,8 +32,6 @@ public class BlockSaltFissionController extends BlockSaltFissionPartBase {
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
 		EnumFacing enumfacing = EnumFacing.getFront(meta & 7);
-		if (enumfacing.getAxis() == EnumFacing.Axis.Y) enumfacing = EnumFacing.NORTH;
-		
 		return getDefaultState().withProperty(FACING, enumfacing).withProperty(ACTIVE, Boolean.valueOf((meta & 8) > 0));
 	}
 	

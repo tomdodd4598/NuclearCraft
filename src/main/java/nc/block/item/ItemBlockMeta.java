@@ -2,6 +2,8 @@ package nc.block.item;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import nc.util.InfoHelper;
 import net.minecraft.block.Block;
 import net.minecraft.client.util.ITooltipFlag;
@@ -54,7 +56,7 @@ public class ItemBlockMeta extends ItemBlock {
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack itemStack, World world, List<String> tooltip, ITooltipFlag flag) {
+	public void addInformation(ItemStack itemStack, @Nullable World world, List<String> tooltip, ITooltipFlag flag) {
         super.addInformation(itemStack, world, tooltip, flag);
         int meta = itemStack.getMetadata();
         if (info.length != 0 && info.length > meta) if (info[meta].length > 0) {

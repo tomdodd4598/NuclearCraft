@@ -1,5 +1,7 @@
 package nc.tile;
 
+import javax.annotation.Nullable;
+
 import nc.block.tile.IActivatable;
 import nc.capability.radiation.IRadiationSource;
 import nc.capability.radiation.RadiationSource;
@@ -113,22 +115,6 @@ public abstract class NCTile extends TileEntity implements ITickable, ITile {
 		if (getBlockType() instanceof IActivatable) ((IActivatable)getBlockType()).setState(isActive, world, pos);
 	}
 	
-	// State Updating
-	
-	public void markAndRefresh() {
-		markAndRefresh(getPos(), world.getBlockState(getPos()));
-	}
-	
-	public void markAndRefresh(IBlockState newState) {
-		markAndRefresh(getPos(), newState);
-	}
-	
-	public void markAndRefresh(BlockPos pos, IBlockState newState) {
-		markDirty();
-		world.notifyBlockUpdate(pos, world.getBlockState(pos), newState, 3);
-		world.notifyNeighborsOfStateChange(pos, getBlockType(), true);
-	}
-	
 	// NBT
 	
 	public NBTTagCompound writeRadiation(NBTTagCompound nbt) {
@@ -204,13 +190,13 @@ public abstract class NCTile extends TileEntity implements ITickable, ITile {
 	}
 	
 	@Override
-	public boolean hasCapability(Capability<?> capability, EnumFacing side) {
+	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing side) {
 		if (capability == IRadiationSource.CAPABILITY_RADIATION_SOURCE) return radiation != null;
 		return super.hasCapability(capability, side);
 	}
 	
 	@Override
-	public <T> T getCapability(Capability<T> capability, EnumFacing side) {
+	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing side) {
 		if (capability == IRadiationSource.CAPABILITY_RADIATION_SOURCE) return (T) radiation;
 		return super.getCapability(capability, side);
 	}

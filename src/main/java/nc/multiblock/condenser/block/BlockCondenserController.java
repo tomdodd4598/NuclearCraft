@@ -33,8 +33,6 @@ public class BlockCondenserController extends BlockCondenserPartBase {
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
 		EnumFacing enumfacing = EnumFacing.getFront(meta & 7);
-		if (enumfacing.getAxis() == EnumFacing.Axis.Y) enumfacing = EnumFacing.NORTH;
-		
 		return getDefaultState().withProperty(FACING, enumfacing).withProperty(ACTIVE, Boolean.valueOf((meta & 8) > 0));
 	}
 	

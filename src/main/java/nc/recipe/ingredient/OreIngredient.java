@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import nc.recipe.SorptionType;
+import nc.recipe.IngredientSorption;
 import nc.util.OreDictHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
@@ -41,7 +41,7 @@ public class OreIngredient implements IItemIngredient {
 	}
 
 	@Override
-	public boolean matches(Object object, SorptionType type) {
+	public boolean matches(Object object, IngredientSorption type) {
 		if (object instanceof OreIngredient) {
 			OreIngredient oreStack = (OreIngredient)object;
 			if (oreStack.oreName.equals(oreName) && type.checkStackSize(stackSize, oreStack.stackSize)) {

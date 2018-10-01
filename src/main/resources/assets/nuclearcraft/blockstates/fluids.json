@@ -446,6 +446,12 @@
 				"fluid": "potassium_hydroxide_solution"
 			}
 		},
+		"fluid_borax_solution": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "borax_solution"
+			}
+		},
 		"fluid_naoh": {
 			"model": "forge:fluid",
 			"custom": {

@@ -3,7 +3,7 @@ package nc.recipe.ingredient;
 import java.util.ArrayList;
 import java.util.List;
 
-import nc.recipe.SorptionType;
+import nc.recipe.IngredientSorption;
 import nc.util.NCMath;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fluids.FluidStack;
@@ -14,6 +14,8 @@ public class ChanceFluidIngredient implements IFluidIngredient {
 	public int chancePercent;
 	public int stackDiff;
 	public int minStackSize;
+	public int sizeIncrSteps;
+	public double meanStackSize;
 	
 	public ChanceFluidIngredient(IFluidIngredient ingredient, int chancePercent, int stackDiff) {
 		this(ingredient, chancePercent, stackDiff, 0);
@@ -30,6 +32,9 @@ public class ChanceFluidIngredient implements IFluidIngredient {
 		
 		this.ingredient.setMaxStackSize(this.ingredient.getMaxStackSize() + sizeShift);
 		this.minStackSize += sizeShift;
+		this.sizeIncrSteps = sizeIncrSteps;
+		
+		meanStackSize = this.minStackSize + (double)(this.ingredient.getMaxStackSize() - this.minStackSize)*(double)this.chancePercent/100D;
 	}
 
 	@Override
@@ -59,7 +64,7 @@ public class ChanceFluidIngredient implements IFluidIngredient {
 	
 	@Override
 	public int getNextStackSize() {
-		return minStackSize + NCMath.getBinomial(getMaxStackSize() - minStackSize, chancePercent);
+		return minStackSize + stackDiff*NCMath.getBinomial(sizeIncrSteps, chancePercent);
 	}
 
 	@Override
@@ -91,7 +96,7 @@ public class ChanceFluidIngredient implements IFluidIngredient {
 	}
 
 	@Override
-	public boolean matches(Object object, SorptionType sorption) {
+	public boolean matches(Object object, IngredientSorption sorption) {
 		return ingredient.matches(object, sorption);
 	}
 }

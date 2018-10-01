@@ -3,7 +3,7 @@ package nc.recipe.ingredient;
 import java.util.ArrayList;
 import java.util.List;
 
-import nc.recipe.SorptionType;
+import nc.recipe.IngredientSorption;
 import nc.tile.internal.fluid.Tank;
 import net.minecraftforge.fluids.FluidStack;
 
@@ -47,7 +47,7 @@ public class EmptyFluidIngredient implements IFluidIngredient {
 	}
 
 	@Override
-	public boolean matches(Object object, SorptionType sorption) {
+	public boolean matches(Object object, IngredientSorption sorption) {
 		if (object == null) return true;
 		if (object instanceof Tank) {
 			return ((Tank)object).getFluid() == null;

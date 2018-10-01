@@ -108,14 +108,14 @@ public class AddProcessorRecipe implements IAction {
 					int minStackSize = (Integer) nextNextNextObject;
 					if (chancePercent <= 0) ingredient = new EmptyFluidIngredient();
 					else if (chancePercent < 100) ingredient = new ChanceFluidIngredient(ingredient, chancePercent, stackDiff, minStackSize);
-					listCount += 2;
+					listCount += 3;
 				}
 				else if (nextObject instanceof Integer && nextNextObject instanceof Integer) {
 					int chancePercent = (Integer) nextObject;
 					int stackDiff = (Integer) nextNextObject;
 					if (chancePercent <= 0) ingredient = new EmptyFluidIngredient();
 					else if (chancePercent < 100) ingredient = new ChanceFluidIngredient(ingredient, chancePercent, stackDiff);
-					listCount++;
+					listCount += 2;
 				}
 				fluidProducts.add(ingredient);
 			} else {

@@ -11,6 +11,7 @@ import nc.multiblock.validation.IMultiblockValidator;
 import nc.multiblock.validation.ValidationError;
 import nc.network.PacketHandler;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
@@ -193,7 +194,7 @@ public abstract class MultiblockBase<PACKET extends MultiblockUpdatePacket> impl
 				this.maximumCoord = new BlockPos(newX, newY, newZ);
 		}
 
-        REGISTRY.addDirtyMultiblock(WORLD, this);
+		REGISTRY.addDirtyMultiblock(WORLD, this);
 	}
 
 	/**
@@ -273,11 +274,11 @@ public abstract class MultiblockBase<PACKET extends MultiblockUpdatePacket> impl
 
 		if(connectedParts.isEmpty()) {
 			// Destroy/unregister
-            REGISTRY.addDeadMultiblock(this.WORLD, this);
+			REGISTRY.addDeadMultiblock(this.WORLD, this);
 			return;
 		}
 
-        REGISTRY.addDirtyMultiblock(this.WORLD,  this);
+		REGISTRY.addDirtyMultiblock(this.WORLD,  this);
 
 		// Find new save delegate if we need to.
 		if(referenceCoord == null) {
@@ -359,8 +360,8 @@ public abstract class MultiblockBase<PACKET extends MultiblockUpdatePacket> impl
 	 * @param messageParameters optional parameters for a message format string
 	 */
 	@Override
-	public void setLastError(String messageFormatStringResourceKey, Object... messageParameters) {
-		this.lastValidationError = new ValidationError(messageFormatStringResourceKey, messageParameters);
+	public void setLastError(String messageFormatStringResourceKey, BlockPos pos, Object... messageParameters) {
+		this.lastValidationError = new ValidationError(messageFormatStringResourceKey, pos, messageParameters);
 	}
 	
 	/**
@@ -500,7 +501,7 @@ public abstract class MultiblockBase<PACKET extends MultiblockUpdatePacket> impl
 	public final void updateMultiblockEntity() {
 		if(connectedParts.isEmpty()) {
 			// This shouldn't happen, but just in case...
-            REGISTRY.addDeadMultiblock(this.WORLD, this);
+			REGISTRY.addDeadMultiblock(this.WORLD, this);
 			return;
 		}
 
@@ -553,7 +554,7 @@ public abstract class MultiblockBase<PACKET extends MultiblockUpdatePacket> impl
 	// Validation helpers
 	
 	protected boolean standardLastError(int x, int y, int z, IMultiblockValidator validatorCallback) {
-		validatorCallback.setLastError(Global.MOD_ID + ".multiblock_validation.invalid_block", x, y, z, getBlock(x, y, z).getLocalizedName());
+		validatorCallback.setLastError(Global.MOD_ID + ".multiblock_validation.invalid_block", new BlockPos(x, y, z), x, y, z, getBlock(x, y, z).getLocalizedName());
 		return false;
 	}
 	
@@ -798,7 +799,7 @@ public abstract class MultiblockBase<PACKET extends MultiblockUpdatePacket> impl
 		}
 		
 		if(this.isEmpty()) {
-            REGISTRY.addDeadMultiblock(WORLD, this);
+			REGISTRY.addDeadMultiblock(WORLD, this);
 			return null;
 		}
 		
@@ -849,7 +850,7 @@ public abstract class MultiblockBase<PACKET extends MultiblockUpdatePacket> impl
 		if(referencePart == null || isEmpty()) {
 			// There are no valid parts remaining. The entire multiblock was unloaded during a chunk unload. Halt.
 			shouldCheckForDisconnections = false;
-            REGISTRY.addDeadMultiblock(WORLD, this);
+			REGISTRY.addDeadMultiblock(WORLD, this);
 			return null;
 		}
 		else {
@@ -1038,11 +1039,17 @@ public abstract class MultiblockBase<PACKET extends MultiblockUpdatePacket> impl
 
 	private static final IMultiblockRegistry REGISTRY;
 
-    static {
-        REGISTRY = NuclearCraft.proxy.initMultiblockRegistry();
-    }
-    
-    protected Block getBlock(int x, int y, int z) {
+	static {
+		REGISTRY = NuclearCraft.proxy.initMultiblockRegistry();
+	}
+	
+	// Block getters
+	
+	protected IBlockState getBlockState(int x, int y, int z) {
+		return WORLD.getBlockState(new BlockPos(x, y, z));
+	}
+	
+	protected Block getBlock(int x, int y, int z) {
 		return WORLD.getBlockState(new BlockPos(x, y, z)).getBlock();
 	}
 }

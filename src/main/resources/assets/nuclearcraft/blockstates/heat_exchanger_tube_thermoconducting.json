@@ -1,0 +1,127 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"textures": {
+			"particle":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_thermoconducting/both",
+			"north":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_thermoconducting/both",
+			"east":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_thermoconducting/both",
+			"south":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_thermoconducting/both",
+			"west":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_thermoconducting/both",
+			"up":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_thermoconducting/both",
+			"down":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_thermoconducting/both"
+		},
+		"model":"cube",
+		"transform":"forge:default-block"
+	},
+	"variants": {
+		"bothventory": [{}],
+		"north": {
+			"both": {},
+			"out": {
+			   "textures": {
+					"north":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_thermoconducting/out"
+				}
+			},
+			"in": {
+				 "textures": {
+					"north":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_thermoconducting/in"
+				}
+			},
+			"non": {
+				 "textures": {
+					"north":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_thermoconducting/non"
+				}
+			}
+		},
+		"east": {
+			"both": {},
+			"out": {
+			   "textures": {
+					"east":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_thermoconducting/out"
+				}
+			},
+			"in": {
+				 "textures": {
+					"east":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_thermoconducting/in"
+				}
+			},
+			"non": {
+				 "textures": {
+					"east":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_thermoconducting/non"
+				}
+			}
+		},
+		"south": {
+			"both": {},
+			"out": {
+			   "textures": {
+					"south":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_thermoconducting/out"
+				}
+			},
+			"in": {
+				 "textures": {
+					"south":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_thermoconducting/in"
+				}
+			},
+			"non": {
+				 "textures": {
+					"south":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_thermoconducting/non"
+				}
+			}
+		},
+		"west": {
+			"both": {},
+			"out": {
+			   "textures": {
+					"west":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_thermoconducting/out"
+				}
+			},
+			"in": {
+				 "textures": {
+					"west":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_thermoconducting/in"
+				}
+			},
+			"non": {
+				 "textures": {
+					"west":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_thermoconducting/non"
+				}
+			}
+		},
+		"up": {
+			"both": {},
+			"out": {
+			   "textures": {
+					"up":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_thermoconducting/out"
+				}
+			},
+			"in": {
+				 "textures": {
+					"up":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_thermoconducting/in"
+				}
+			},
+			"non": {
+				 "textures": {
+					"up":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_thermoconducting/non"
+				}
+			}
+		},
+		"down": {
+			"both": {},
+			"out": {
+			   "textures": {
+					"down":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_thermoconducting/out"
+				}
+			},
+			"in": {
+				 "textures": {
+					"down":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_thermoconducting/in"
+				}
+			},
+			"non": {
+				 "textures": {
+					"down":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_thermoconducting/non"
+				}
+			}
+		}
+	}
+}

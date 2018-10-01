@@ -6,6 +6,7 @@ import java.util.List;
 import nc.config.NCConfig;
 import nc.radiation.environment.RadiationEnvironmentHandler;
 import nc.radiation.environment.RadiationEnvironmentInfo;
+import nc.tile.energy.ITileEnergy;
 import nc.tile.energy.TileEnergy;
 import nc.tile.internal.energy.EnergyConnection;
 import nc.util.KeyPair;
@@ -28,7 +29,7 @@ public class TileScrubber extends TileEnergy implements IRadiationEnvironmentHan
 	public final List<KeyPair<BlockPos, Integer>> occlusionList = new SetList<KeyPair<BlockPos, Integer>>();
 	
 	public TileScrubber() {
-		super(32000, energyConnectionAll(EnergyConnection.IN));
+		super(32000, ITileEnergy.energyConnectionAll(EnergyConnection.IN));
 	}
 	
 	@Override

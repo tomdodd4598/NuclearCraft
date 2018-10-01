@@ -2,6 +2,8 @@ package nc.item;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import nc.Global;
 import nc.enumm.IItemMeta;
 import nc.init.NCItems;
@@ -51,7 +53,7 @@ public class NCItemMeta<T extends Enum<T> & IStringSerializable & IItemMeta> ext
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack itemStack, World world, List<String> tooltip, ITooltipFlag flag) {
+	public void addInformation(ItemStack itemStack, @Nullable World world, List<String> tooltip, ITooltipFlag flag) {
 		super.addInformation(itemStack, world, tooltip, flag);
 		int meta = itemStack.getMetadata();
 		if (info.length != 0 && info.length > meta) if (info[meta].length > 0) {
