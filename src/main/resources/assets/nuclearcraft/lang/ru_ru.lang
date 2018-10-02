@@ -234,14 +234,42 @@ tile.nuclearcraft.fusion_dummy_side.name=Ядро деления
 tile.nuclearcraft.fusion_dummy_top.name=Ядро деления
 
 tile.nuclearcraft.salt_fission_controller.name=Контроллер деления на расплавах солей
+tile.nuclearcraft.salt_fission_controller.desc=Сердце реактора - одно из необходимых в стене для его формирования.
 tile.nuclearcraft.salt_fission_wall.name=Стена реактора на расплавах солей
 tile.nuclearcraft.salt_fission_glass.name=Прозрачная стена реактора на расплавах солей
 tile.nuclearcraft.salt_fission_frame.name=Рамка реактора на расплавах солей
+tile.nuclearcraft.salt_fission_frame.desc=Включает в себя каркас реактора.
 tile.nuclearcraft.salt_fission_beam.name=Реакторный луч на расплавах солей
+tile.nuclearcraft.salt_fission_beam.desc=Используется для подключения других частей реактора к стене.
 tile.nuclearcraft.salt_fission_vent.name=Реакторный вентиль на расплавах солей
+tile.nuclearcraft.salt_fission_vent.desc=Используется для перемещения топлива и охлаждающей жидкости в реактор и из него. Будет толкать к [принимать от] принятия [толкая] сосуды и нагреватели.
 tile.nuclearcraft.salt_fission_vessel.name=Сосуд деления на расплавах солей
+tile.nuclearcraft.salt_fission_vessel.desc=Где расплавленная соль расщепляет и истощает ядерное топливо.
 tile.nuclearcraft.salt_fission_heater.name=Нагреватель охлаждающей жидкости на расплавах солей
+tile.nuclearcraft.salt_fission_heater.desc=Когда соленое охлаждение нагревается для охлаждения реактора. Охлаждающие жидкости должны соблюдать правила размещения, чтобы иметь какой-либо эффект.
 tile.nuclearcraft.salt_fission_moderator.name=Корпус модератора реактора на расплавах солей
+tile.nuclearcraft.salt_fission_moderator.desc=Увеличивает эффективность смежных активных сосудов.
+tile.nuclearcraft.salt_fission_distributor.name=Распределитель расплавленного солевого топлива
+tile.nuclearcraft.salt_fission_distributor.desc=Помещенный в стенку реактора - будет распространять топливо на все сосуды.
+tile.nuclearcraft.salt_fission_retriever.name=Извлекатель регенератора топлива из расплавленной соли
+tile.nuclearcraft.salt_fission_retriever.desc=Помещенный в стенку реактора - будет потреблять истощенное топливо со всех сосудов.
+tile.nuclearcraft.salt_fission_redstone_port.name=Редстоуна порт реактора расплавленной соли
+tile.nuclearcraft.salt_fission_redstone_port.desc=Используется для включения и выключения реактора. Уровень тепла реактора можно считать с помощью компаратора из этого блока.
+
+tile.nuclearcraft.heat_exchanger_controller.name=Контроллер теплообменника
+tile.nuclearcraft.heat_exchanger_controller.desc=Сердце обменника - одно из необходимых в стене для его формирования.
+tile.nuclearcraft.heat_exchanger_wall.name=Оболочка теплообменника
+tile.nuclearcraft.heat_exchanger_glass.name=Прозрачная оболочка теплообменника
+tile.nuclearcraft.heat_exchanger_frame.name=Рамка теплообменника
+tile.nuclearcraft.heat_exchanger_frame.desc=Включает в себя каркас обменника.
+tile.nuclearcraft.heat_exchanger_vent.name=Вентиль теплообменника
+tile.nuclearcraft.heat_exchanger_vent.desc=Используется для перемещения жидкости в реактор и из него. Будет толкать к [принимать от] принятия [толкая] трубы.
+tile.nuclearcraft.heat_exchanger_tube_copper.name=Базовая труба теплообменника
+tile.nuclearcraft.heat_exchanger_tube_copper.desc=Удерживает и транспортирует теплообменные жидкости.
+tile.nuclearcraft.heat_exchanger_tube_hard_carbon.name=Продвинутая труба теплообменника
+tile.nuclearcraft.heat_exchanger_tube_hard_carbon.desc=Удерживает и транспортирует теплообменные жидкости.
+tile.nuclearcraft.heat_exchanger_tube_thermoconducting.name=Элитная труба теплообменника
+tile.nuclearcraft.heat_exchanger_tube_thermoconducting.desc=Удерживает и транспортирует теплообменные жидкости.
 
 tile.nuclearcraft.fusion_electromagnet_idle.name=Термоядерный электромагнит
 tile.nuclearcraft.fusion_electromagnet_idle.desc=Требуется %s, чтобы оставаться активным.
@@ -501,6 +529,9 @@ fluid.sodium_hydroxide_solution=Раствор гидроксида натрия
 
 tile.nuclearcraft.fluid_potassium_hydroxide_solution.name=Раствор гидроксида калия
 fluid.potassium_hydroxide_solution=Раствор гидроксида калия
+
+tile.nuclearcraft.fluid_borax_solution.name=Раствор буры
+fluid.borax_solution=Раствор буры
 
 tile.nuclearcraft.fluid_naoh.name=Расплавленный гидроксид натрия
 fluid.naoh=Расплавленный гидроксид натрия
@@ -1177,6 +1208,7 @@ item.nuclearcraft.compound.sodium_fluoride.name=Фторид натрия
 item.nuclearcraft.compound.potassium_fluoride.name=Фторид калия
 item.nuclearcraft.compound.sodium_hydroxide.name=Гидроксид натрия
 item.nuclearcraft.compound.potassium_hydroxide.name=Гидроксид калия
+item.nuclearcraft.compound.borax.name=Бура
 
 item.nuclearcraft.part.plate_basic.name=Базовая обшивка
 item.nuclearcraft.part.plate_advanced.name=Улучшенная обшивка
@@ -1190,9 +1222,10 @@ item.nuclearcraft.part.motor.name=Электродвигатель
 item.nuclearcraft.part.actuator.name=Линейный привод
 item.nuclearcraft.part.chassis.name=Шасси машины
 item.nuclearcraft.part.empty_frame.name=Пустая рамка
+item.nuclearcraft.part.steel_frame.name=Стальная рамка
 
 item.nuclearcraft.upgrade.speed.name=Обновление "Скорость"
-item.nuclearcraft.upgrade.speed.desc=Увеличивает скорость обработки машин за счет дополнительной вычислительной мощности. Эти обновления могут быть сложены-скорость будет увеличиваться линейно с каждым дополнительным обновлением в то время как энергопотребление будет увеличиваться квадратично.
+item.nuclearcraft.upgrade.speed_desc=Увеличивает скорость обработки машин за счет дополнительной вычислительной мощности. Эти обновления могут быть сложены-скорость будет увеличиваться линейно с каждым дополнительным обновлением в то время как энергопотребление будет увеличиваться квадратично.
 
 item.nuclearcraft.fuel_rod_empty.name=Пустой топливный стержень
 item.nuclearcraft.fuel_rod_empty.fixd=Топливные стержни больше не требуются!
@@ -1652,7 +1685,7 @@ item.nuclearcraft.rad_shielding.light.name=Легкое радиационное
 item.nuclearcraft.rad_shielding.medium.name=Среднее радиационное экранирование
 item.nuclearcraft.rad_shielding.heavy.name=Тяжелое радиационное экранирование
 
-item.nuclearcraft.radaway.name=Антирадин
+item.nuclearcraft.radaway.name=Антирад
 item.nuclearcraft.radaway.desc=Удаляет %s [%s].
 item.nuclearcraft.rad_x.name=Рад-X
 item.nuclearcraft.rad_x.desc=Увеличивает сопротивление радиации на %s для %s. Эффект может складываться, но более высокие уровни сопротивления будут изнашиваться быстрее.
@@ -1693,6 +1726,31 @@ item.nuclearcraft.record_money_for_nothing.des1=8-битный кавер от '
 item.nuclearcraft.record_hyperspace.name=Музыкальный диск
 item.nuclearcraft.record_hyperspace.des0=Ur-Quan Masters - Hyperspace
 item.nuclearcraft.record_hyperspace.des1=Оригинальный от Riku Nuottajärvi
+
+jei.nuclearcraft.fluid_temp=Температура:
+jei.nuclearcraft.heat_req=Требуемый нагрев:
+jei.nuclearcraft.chance_output=Выход: %s-%s [средний: %s]
+
+jei.nuclearcraft.salt_fuel_time=Время процесса:
+jei.nuclearcraft.salt_fuel_heat=Базовый теплогенератор:
+
+jei.nuclearcraft.coolant_heater_rate=Скорость охлаждения:
+
+jei.nuclearcraft.coolant_heater.nak=Должен касаться хотя бы одного активного сосуда деления или активного замедлителя.
+jei.nuclearcraft.coolant_heater.redstone_nak=Должен касаться хотя бы одного активного сосуда деления.
+jei.nuclearcraft.coolant_heater.quartz_nak=Должен коснуться хотя бы одного активного модератора.
+jei.nuclearcraft.coolant_heater.gold_nak=Должен коснуться хотя бы одного активного подогревателя хладоагента НаК и одного активного подогревателя хладоагента НаК-Редстоун.
+jei.nuclearcraft.coolant_heater.glowstone_nak=Должен касаться как минимум двух активных блоков модератора.
+jei.nuclearcraft.coolant_heater.lapis_nak=Должен касаться по крайней мере одного активного сосуда деления и одной стенки реактора.
+jei.nuclearcraft.coolant_heater.diamond_nak=Должен коснуться хотя бы одного активного подогревателя хладоагента НаК и одного активного подогревателя хладоагента НаК-Кварц.
+jei.nuclearcraft.coolant_heater.liquidhelium_nak=Должен коснуться ровно одного активного подогревателя хладоагента НаК-Редстоун и хотя бы одна стенка реактора.
+jei.nuclearcraft.coolant_heater.ender_nak=Должны касаться ровно трех стенок реактора ровно в одной вершине.
+jei.nuclearcraft.coolant_heater.cryotheum_nak=Должен касаться как минимум двух сосудов деления.
+jei.nuclearcraft.coolant_heater.iron_nak=Должен касаться хотя бы одного активного нагревателя охлаждающей жидкости НаК-Золото.
+jei.nuclearcraft.coolant_heater.emerald_nak=Должен касаться хотя бы одного активного замедлителя и одного активного сосуда деления.
+jei.nuclearcraft.coolant_heater.copper_nak=Должен касаться хотя бы одного активного нагревателя охлаждающей жидкости Нак-Светокамень.
+jei.nuclearcraft.coolant_heater.tin_nak=Должно быть не менее двух активных охладителя НаК-Лазурит вдоль одной оси.
+jei.nuclearcraft.coolant_heater.magnesium_nak=Должен касаться хотя бы одной стенки реактора и одного активного замедлителя.
 
 itemGroup.nuclearcraft=NuclearCraft
 itemGroup.nuclearcraftBaseBlockMaterials=NuclearCraft: Базовые блоки
@@ -1788,7 +1846,7 @@ gui.config.fission.fission_heat_generation.comment=Modifies the heat generated b
 gui.config.fission.fission_cooling_rate=Cooling Rates
 gui.config.fission.fission_cooling_rate.comment=Base heat removed per tick. Order: water, redstone, quartz, gold, glowstone, lapis, diamond, liquid helium, enderium, cryotheum, iron, emerald, copper, tin, magnesium.
 gui.config.fission.fission_active_cooling_rate=Active Cooling Rates
-gui.config.fission.fission_active_cooling_rate.comment=Heat removed per tick/mB. Order: water, redstone, quartz, gold, glowstone, lapis, diamond, liquid helium, enderium, cryotheum, iron, emerald, copper, tin, magnesium.
+gui.config.fission.fission_active_cooling_rate.comment=Heat removed per tick/mB. Order: water, redstone, quartz, gold, glowstone, lapis, diamond, liquid helium, ender, cryotheum, iron, emerald, copper, tin, magnesium.
 gui.config.fission.fission_water_cooler_requirement=Water Cooler Requirement
 gui.config.fission.fission_water_cooler_requirement.comment=Do water coolers have to fulfill their position requirements to be active?
 gui.config.fission.fission_overheat=Enable Meltdowns
@@ -1908,7 +1966,7 @@ gui.config.fusion.fusion_overheat.comment=Can fusion reactors overheat?
 gui.config.fusion.fusion_active_cooling=Enable Fusion Active Cooling
 gui.config.fusion.fusion_active_cooling.comment=Can fusion reactors be actively cooled (disable if suffering from lag)?
 gui.config.fusion.fusion_active_cooling_rate=Active Cooling Rates
-gui.config.fusion.fusion_active_cooling_rate.comment=Base heat removed per tick/mB. Order: water, redstone, quartz, gold, glowstone, lapis, diamond, liquid helium, enderium, cryotheum, iron, emerald, copper, tin, magnesium.
+gui.config.fusion.fusion_active_cooling_rate.comment=Base heat removed per tick/mB. Order: water, redstone, quartz, gold, glowstone, lapis, diamond, liquid helium, ender, cryotheum, iron, emerald, copper, tin, magnesium.
 gui.config.fusion.fusion_min_size=Minimum Toroid Size
 gui.config.fusion.fusion_min_size.comment=Minimum size of fusion toroids.
 gui.config.fusion.fusion_max_size=Maximum Toroid Size
@@ -1939,25 +1997,48 @@ gui.config.salt_fission.salt_fission_fuel_use.comment=Modifies the rate of fuel 
 gui.config.salt_fission.salt_fission_heat_generation=Heat Gen Multiplier
 gui.config.salt_fission.salt_fission_heat_generation.comment=Modifies the heat generated by salt fission reactors.
 
+gui.config.salt_fission.salt_fission_overheat=Enable Meltdowns
+gui.config.salt_fission.salt_fission_overheat.comment=Can molten salt fission reactors overheat?
 gui.config.salt_fission.salt_fission_min_size=Minimum Structure Length
 gui.config.salt_fission.salt_fission_min_size.comment=Minimum side length of molten salt fission reactors.
 gui.config.salt_fission.salt_fission_max_size=Maximum Structure Length
 gui.config.salt_fission.salt_fission_max_size.comment=Maximum side length of molten salt fission reactors.
 gui.config.salt_fission.salt_fission_cooling_rate=NaK Coolant Cooling Rates
-gui.config.salt_fission.salt_fission_cooling_rate.comment=Base heat removed per tick/mB. Order: base, redstone, quartz, gold, glowstone, lapis, diamond, liquid helium, enderium, cryotheum, iron, emerald, copper, tin, magnesium.
-gui.config.salt_fission.salt_fission_cooling_max_rate=Maximum Coolant Heater Coolant Use
-gui.config.salt_fission.salt_fission_cooling_max_rate.comment=Maximum rate at which Coolant Heaters use coolant in mB/s.
+gui.config.salt_fission.salt_fission_cooling_rate.comment=Base heat removed per tick/mB. Order: base, redstone, quartz, gold, glowstone, lapis, diamond, liquid helium, ender, cryotheum, iron, emerald, copper, tin, magnesium.
+gui.config.salt_fission.salt_fission_cooling_max_rate=Coolant Heater Coolant Use
+gui.config.salt_fission.salt_fission_cooling_max_rate.comment=Base rate at which Coolant Heaters use coolant in mB/s.
 gui.config.salt_fission.salt_fission_redstone_max_heat=Max Redstone Signal Heat
 gui.config.salt_fission.salt_fission_redstone_max_heat.comment=Percentage heat level of a salt fission reactor at which Redstone Emitters will output a full-strength redstone signal.
+gui.config.salt_fission.salt_fission_max_distribution_rate=Max Fuel Distribution Rate
+gui.config.salt_fission.salt_fission_max_distribution_rate.comment=The maximum rate at which fuel distributors and retrievers can push to and pull from fuel vessels in mB/s.
 
 gui.config.category.heat_exchanger=Heat Exchanger Configs
 gui.config.category.heat_exchanger.tooltip=Configure aspects of heat exchangers.
 
+gui.config.heat_exchanger.heat_exchanger_min_size=Minimum Structure Length
+gui.config.heat_exchanger.heat_exchanger_min_size.comment=Minimum side length of heat exchangers.
+gui.config.heat_exchanger.heat_exchanger_max_size=Maximum Structure Length
+gui.config.heat_exchanger.heat_exchanger_max_size.comment=Maximum side length of heat exchangers.
+gui.config.heat_exchanger.heat_exchanger_conductivity=Tube Conductivity
+gui.config.heat_exchanger.heat_exchanger_conductivity.comment=Multiplier for heat transfer rate to and from this type of tube. Order: copper, hard carbon, thermoconducting alloy.
+gui.config.heat_exchanger.heat_exchanger_coolant_mult=Coolant Heat Multiplier
+gui.config.heat_exchanger.heat_exchanger_coolant_mult.comment=Multiplier for the heat required to cool hot coolant.
+
 gui.config.category.turbine=Steam Turbine Configs
 gui.config.category.turbine.tooltip=Configure aspects of steam turbines.
 
+gui.config.turbine.turbine_min_size=Minimum Structure Length
+gui.config.turbine.turbine_min_size.comment=Minimum side length of steam turbines.
+gui.config.turbine.turbine_max_size=Maximum Structure Length
+gui.config.turbine.turbine_max_size.comment=Maximum side length of steam turbines.
+
 gui.config.category.condenser=Condenser Configs
 gui.config.category.condenser.tooltip=Configure aspects of condensers.
+
+gui.config.condenser.condenser_min_size=Minimum Structure Length
+gui.config.condenser.condenser_min_size.comment=Minimum side length of condensers.
+gui.config.condenser.condenser_max_size=Maximum Structure Length
+gui.config.condenser.condenser_max_size.comment=Maximum side length of condensers.
 
 gui.config.category.accelerator=Accelerator Configs
 gui.config.category.accelerator.tooltip=Configure aspects of particle acceleration.
@@ -2046,6 +2127,15 @@ gui.config.radiation.radiation_hazmat_shielding=Radiation Hazmat Shielding
 gui.config.radiation.radiation_hazmat_shielding.comment=The radiation resistance levels provided by each piece of the hazmat suit. Order: headwear, chestpiece, leggings, boots.
 gui.config.radiation.radiation_scrubber_rate=Scrubber Max Removal Rate
 gui.config.radiation.radiation_scrubber_rate.comment=The maximum rate at which scrubbers will remove radiation in Rads/t.
+
+gui.config.radiation.radiation_shielding_default_recipes=Radiation Shielding Default Recipes
+gui.config.radiation.radiation_shielding_default_recipes.comment=If enabled, radiation shielding attachment recipes will be added for all registered armor pieces.
+gui.config.radiation.radiation_shielding_item_blacklist=Radiation Shielding Item Blacklist
+gui.config.radiation.radiation_shielding_item_blacklist.comment=List of armor items for which shielding recipes will not be added. Note that entries here should not include metadata. Format: 'modid:armorName'.
+gui.config.radiation.radiation_shielding_custom_stacks=Radiation Shielding ItemStack List
+gui.config.radiation.radiation_shielding_custom_stacks.comment=List of armor item stacks for which shielding recipes will be added. Mostly used when the automated shielding recipes are disabled or to add recipes back for armor with specific metadata removed via the blacklist. Format: 'modid:armorName:meta'.
+gui.config.radiation.radiation_shielding_default_levels=Radiation Default Armor Shielding
+gui.config.radiation.radiation_shielding_default_levels.comment=List of armor item stacks and their default radiation shielding levels. Format: 'modid:armorName:meta_resistance'. Note: this is not the only way to add these values if you have CraftTweaker installed. Radiation resistance can also be given to armor by changing their recipe such that an NBT tag called "ncRadiationResistance" with the double value equal to the resistance level is attached to it.
 
 gui.config.radiation.radiation_hud_size=Radiation HUD Size
 gui.config.radiation.radiation_hud_size.comment=Modifier for the size of radiation info on the HUD.
@@ -2138,7 +2228,25 @@ zerocore:api.multiblock.validation.invalid_part_for_top=Блок в %1$d, %2$d, 
 zerocore:api.multiblock.validation.invalid_part_for_sides=Блок в %1$d, %2$d, %3$d недопустим для использования на стороне машины
 zerocore:api.multiblock.validation.invalid_part_for_interior=Блок в %1$d, %2$d, %3$d недопустим для использования в интерьере машины
 
-gui.inventory.shift_for_info=Зажмите Shift для больше информации
+nc.block.fluid_toggle=Переключить сторону на
+nc.block.fluid_toggle_opposite=Переключить противоположную сторону на
+
+nc.block.salt_heater_fluid_side.in=ВЫХОД ГОРЯЧЕГО ХЛАДОАГЕНТА
+nc.block.salt_heater_fluid_side.out=РАСПРОСТРАНЕНИЕ ХЛАДОАГЕНТА
+nc.block.salt_heater_fluid_side.both=ПО УМОЛЧАНИЮ
+nc.block.salt_heater_fluid_side.non=ОТКЛЮЧЕНО
+
+nc.block.salt_vessel_fluid_side.in=ВЫХОД ОБЕДНЕННОГО
+nc.block.salt_vessel_fluid_side.out=РАСПРОСТРАНЕНИЕ ТОПЛИВА
+nc.block.salt_vessel_fluid_side.both=ПО УМОЛЧАНИЮ
+nc.block.salt_vessel_fluid_side.non=ОТКЛЮЧЕНО
+
+nc.block.exchanger_tube_fluid_side.in=ВЫХОД ПРОДУКТА
+nc.block.exchanger_tube_fluid_side.out=ВХОДНОЕ РАСПРОСТРАНЕНИЕ
+nc.block.exchanger_tube_fluid_side.both=ПО УМОЛЧАНИЮ
+nc.block.exchanger_tube_fluid_side.non=ОТКЛЮЧЕНО
+
+gui.inventory.shift_for_info=Зажмите Shift для большей информации
 
 gui.container.fission_controller.reactor=Реактор деления
 gui.container.fission_controller.casing_incomplete=Корпус неполный
@@ -2156,6 +2264,7 @@ gui.container.fission_controller.heat=Уровень тепла:
 gui.container.fission_controller.heat_gen=Теплогенерация:
 gui.container.fission_controller.cooling=Скорость охлаждения:
 gui.container.fission_controller.heat_mult=Множитель тепла:
+gui.container.fission_controller.fuel_remaining=Оставшееся топливо:
 
 gui.container.fission_controller.tbu=TBU
 gui.container.fission_controller.leu=LEU
@@ -2195,7 +2304,7 @@ gui.container.fusion_core.fuels=Текущее топливо:
 gui.container.fusion_core.empty=Пусто
 gui.container.fusion_core.reactor_not_found=Невозможно получить доступ к термоядерному реактору - структура неполная
 
-gui.container.salt_fission_controller.reactor=Расплавленный соляной реактор (WIP)
+gui.container.salt_fission_controller.reactor=Расплавленный соляной реактор
 gui.container.salt_fission_controller.pos=Позиция блока
 gui.container.salt_fission_controller.vessels=Сосуды деления:
 gui.container.salt_fission_controller.heaters=Нагреватели охлаждения:
@@ -2206,7 +2315,10 @@ gui.container.salt_fission_controller.heat=Уровень тепла:
 gui.container.salt_fission_controller.heat_gen=Теплогенерация:
 gui.container.salt_fission_controller.cooling=Скорость охлаждения:
 
-gui.container.heat_exchanger_controller.heat_exchanger=Теплообменник (WIP)
+gui.container.heat_exchanger_controller.heat_exchanger=Теплообменник
+gui.container.heat_exchanger_controller.tubes=Обменные трубы:
+gui.container.heat_exchanger_controller.efficiency=Средняя эффективность:
+gui.container.heat_exchanger_controller.active_percent=Активные трубы:
 
 gui.container.high_turbine_controller.high_turbine=Турбина высокого давления (WIP)
 
@@ -2232,6 +2344,7 @@ nuclearcraft.multiblock_validation.too_many_controllers=Для формиров�
 
 nuclearcraft.multiblock_gui.salt_fission.jei_name=Деление расплавленной соли
 nuclearcraft.multiblock_gui.coolant_heater.jei_name=Нагреватель охлаждающей жидкости для расплавленной соли
+nuclearcraft.multiblock_gui.heat_exchanger.jei_name=Теплообменник
 
 advancement.nuclearcraft.root.name=NuclearCraft
 advancement.nuclearcraft.root.desc=Ядерная физика, в стиле Minecraft
