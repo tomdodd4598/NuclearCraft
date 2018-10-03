@@ -37,7 +37,7 @@ public class CentrifugeRecipes extends ProcessorRecipeHandler {
 		addFuelIsotopeRecipes("eb", "berkelium", 247, 248);
 		addFuelIsotopeRecipes("ecf", "californium", 252, 249, 251);
 		
-		addElementFLIBERecipes("thorium", "uranium", "plutonium");
+		//addElementFLIBERecipes("thorium", "uranium", "plutonium");
 		
 		addRecipe(fluidStack("thorium", FluidStackHelper.INGOT_VOLUME), fluidStack("fuel_tbu", FluidStackHelper.INGOT_VOLUME), fluidStack("thorium_230", FluidStackHelper.NUGGET_VOLUME), emptyFluidStack(), emptyFluidStack(), 1D, 1D);
 		addRecipe(fluidStack("thorium_fluoride", FluidStackHelper.INGOT_VOLUME), fluidStack("fuel_tbu_fluoride", FluidStackHelper.INGOT_VOLUME), fluidStack("thorium_230_fluoride", FluidStackHelper.NUGGET_VOLUME), emptyFluidStack(), emptyFluidStack(), 1D, 1D);

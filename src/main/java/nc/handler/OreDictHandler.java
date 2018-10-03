@@ -110,6 +110,7 @@ public class OreDictHandler {
 		OreDictionary.registerOre("ingotLeadPlatinum", new ItemStack(NCItems.alloy, 1, 9));
 		OreDictionary.registerOre("ingotExtreme", new ItemStack(NCItems.alloy, 1, 10));
 		OreDictionary.registerOre("ingotThermoconducting", new ItemStack(NCItems.alloy, 1, 11));
+		OreDictionary.registerOre("ingotZircaloy", new ItemStack(NCItems.alloy, 1, 12));
 		
 		OreDictionary.registerOre("dustCalciumSulfate", new ItemStack(NCItems.compound, 1, 0));
 		OreDictionary.registerOre("dustCrystalBinder", new ItemStack(NCItems.compound, 1, 1));

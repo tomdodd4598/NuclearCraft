@@ -24,6 +24,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class NCBlock extends Block {
 	
 	protected final boolean canCreatureSpawn;
+	protected static boolean keepInventory;
 	
 	public NCBlock(String name, Material material) {
 		this(name, material, false);

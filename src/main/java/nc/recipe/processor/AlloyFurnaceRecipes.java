@@ -21,7 +21,7 @@ public class AlloyFurnaceRecipes extends ProcessorRecipeHandler {
 	public void addRecipes() {
 		addAlloyIngotIngotRecipes("Copper", 3, "Tin", 1, "Bronze", 4, 1D, 1D);
 		addAlloyIngotIngotRecipes("Iron", 1, "Graphite", 1, "Steel", 1, 1D, 1D);
-		addAlloyIngotGemRecipes("Iron", 1, "Coal", 2, "Steel", 1, 1D, 1D);
+		addAlloyIngotCoalRecipes("Iron", 1, 2, "Steel", 1, 1D, 1D);
 		addAlloyIngotIngotRecipes("Steel", 1, "Boron", 1, "Ferroboron", 2, 1D, 1.5D);
 		addAlloyIngotIngotRecipes("Ferroboron", 1, "Lithium", 1, "Tough", 2, 1.5D, 1.5D);
 		addAlloyIngotGemRecipes("Graphite", 2, "Diamond", 1, "HardCarbon", 2, 1D, 2D);
@@ -31,8 +31,8 @@ public class AlloyFurnaceRecipes extends ProcessorRecipeHandler {
 		addAlloyIngotIngotRecipes("Tin", 3, "Silver", 1, "TinSilver", 4, 1.5D, 0.5D);
 		addAlloyIngotIngotRecipes("Lead", 3, "Platinum", 1, "LeadPlatinum", 4, 1.5D, 0.5D);
 		addAlloyIngotIngotRecipes("Tough", 1, "HardCarbon", 1, "Extreme", 1, 2D, 2D);
-		
-		addRecipe("ingotExtreme", "gemBoronArsenide", oreStack("ingotThermoconducting", 2), 1.5D, 1.5D);
+		addAlloyIngotGemRecipes("Extreme", 1, "BoronArsenide", 1, "Thermoconducting", 2, 1.5D, 1.5D);
+		addAlloyIngotIngotRecipes("Zirconium", 7, "Tin", 1, "Zircaloy", 8, 4D, 1D);
 		
 		// Tinkers' Construct
 		addAlloyIngotIngotRecipes("Aluminum", 3, "Copper", 1, "AluminumBrass", 4, 1D, 1D);
@@ -48,7 +48,7 @@ public class AlloyFurnaceRecipes extends ProcessorRecipeHandler {
 		addRecipe(Lists.newArrayList("ingotSteel", "dustSteel"), "itemSilicon", "ingotElectricalSteel", 1.5D, 1.5D);
 		addRecipe(Lists.newArrayList("ingotGold", "dustGold"), oreStack("dustEnergetic", 2), "ingotEnergeticAlloy", 1D, 1.5D);
 		addRecipe(Lists.newArrayList("ingotEnergeticAlloy", "dustEnergeticAlloy"), Lists.newArrayList(Items.ENDER_PEARL, "dustEnder"), "ingotVibrantAlloy", 1.5D, 2D);
-		addRecipe("itemSilicon", "dustRedstone", "ingotRedstoneAlloy", 1D, 1D);
+		addRecipe(Lists.newArrayList("itemSilicon", "ingotSilicon"), "dustRedstone", "ingotRedstoneAlloy", 1D, 1D);
 		addRecipe(Lists.newArrayList("ingotIron", "dustIron"), "dustRedstone", "ingotConductiveIron", 1D, 1D);
 		addRecipe(Lists.newArrayList("ingotIron", "dustIron"), Lists.newArrayList(Items.ENDER_PEARL, "dustEnder"), "ingotPulsatingIron", 1.5D, 1D);
 		addRecipe(Lists.newArrayList("ingotSteel", "dustSteel"), "obsidian", "ingotDarkSteel", 1.5D, 2D);
@@ -88,15 +88,21 @@ public class AlloyFurnaceRecipes extends ProcessorRecipeHandler {
 		addAlloyRecipes(in1, inSize1, in2, inSize2, out, outSize, time, power, OreDictHelper.NUGGET_VOLUME_TYPES, OreDictHelper.INGOT_VOLUME_TYPES, OreDictHelper.BLOCK_VOLUME_TYPES, OreDictHelper.TINYDUST_VOLUME_TYPES, OreDictHelper.GEM_VOLUME_TYPES, OreDictHelper.BLOCK_VOLUME_TYPES);
 	}
 	
-	public ArrayList<OreIngredient> typeStackList(String type, List<String> forms, int size) {
-		ArrayList<OreIngredient> list = new ArrayList<OreIngredient>();
-		for (String form : forms) list.add(oreStack(form + type, size));
-		return list;
-	}
-	
 	public void addAlloyRecipes(String in1, int inSize1, String in2, int inSize2, String out, int outSize, double time, double power, List<String> inNuggets1, List<String> inIngots1, List<String> inBlocks1, List<String> inNuggets2, List<String> inIngots2, List<String> inBlocks2) {
 		addRecipe(typeStackList(in1, inIngots1, inSize1), typeStackList(in2, inIngots2, inSize2), oreStack("ingot" + out, outSize), time, power);
 		addRecipe(typeStackList(in1, inNuggets1, inSize1), typeStackList(in2, inNuggets2, inSize2), oreStack("nugget" + out, outSize), time/9D, power);
 		addRecipe(typeStackList(in1, inBlocks1, inSize1), typeStackList(in2, inBlocks2, inSize2), oreStack("block" + out, outSize), time*9D, power);
+	}
+	
+	public void addAlloyIngotCoalRecipes(String in1, int inSize1, int inSize2, String out, int outSize, double time, double power) {
+		addRecipe(typeStackList(in1, OreDictHelper.INGOT_VOLUME_TYPES, inSize1), typeStackList("", OreDictHelper.COAL_TYPES, inSize2), oreStack("ingot" + out, outSize), time, power);
+		addRecipe(typeStackList(in1, OreDictHelper.NUGGET_VOLUME_TYPES, inSize1), typeStackList("Coal", OreDictHelper.TINYDUST_VOLUME_TYPES, inSize2), oreStack("nugget" + out, outSize), time/9D, power);
+		addRecipe(typeStackList(in1, OreDictHelper.BLOCK_VOLUME_TYPES, inSize1), typeStackList("Coal", OreDictHelper.BLOCK_VOLUME_TYPES, inSize2), oreStack("block" + out, outSize), time*9D, power);
+	}
+	
+	private ArrayList<OreIngredient> typeStackList(String type, List<String> forms, int size) {
+		ArrayList<OreIngredient> list = new ArrayList<OreIngredient>();
+		for (String form : forms) list.add(oreStack(form + type, size));
+		return list;
 	}
 }

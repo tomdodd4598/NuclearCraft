@@ -1,5 +1,6 @@
 package nc.recipe.vanilla;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,8 +13,10 @@ import nc.init.NCBlocks;
 import nc.init.NCItems;
 import nc.init.NCTools;
 import nc.radiation.RadiationArmor;
-import nc.util.FluidHelper;
+import nc.recipe.vanilla.ingredient.BucketIngredient;
+import nc.recipe.vanilla.recipe.ShapelessArmorUpgradeOreRecipe;
 import nc.util.ItemStackHelper;
+import nc.util.NCUtil;
 import nc.util.OreDictHelper;
 import nc.util.StringHelper;
 import net.minecraft.block.Block;
@@ -22,6 +25,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.oredict.ShapedOreRecipe;
@@ -57,7 +61,7 @@ public class CraftingRecipeHandler {
 		addShapedOreRecipe(new ItemStack(NCBlocks.cooler, 1, 6), new Object[] {"BCB", 'C', new ItemStack(NCBlocks.cooler, 1, 0), 'B', "blockLapis"});
 		addShapedOreRecipe(new ItemStack(NCBlocks.cooler, 1, 6), new Object[] {"B", "C", "B", 'C', new ItemStack(NCBlocks.cooler, 1, 0), 'B', "blockLapis"});
 		addShapedOreRecipe(new ItemStack(NCBlocks.cooler, 1, 7), new Object[] {"DDD", "DCD", "DDD", 'C', new ItemStack(NCBlocks.cooler, 1, 0), 'D', "gemDiamond"});
-		addShapelessOreRecipe(new ItemStack(NCBlocks.cooler, 1, 8), new Object[] {new ItemStack(NCBlocks.cooler, 1, 0), FluidHelper.getBucket("liquidhelium")});
+		addShapelessOreRecipe(new ItemStack(NCBlocks.cooler, 1, 8), new Object[] {new ItemStack(NCBlocks.cooler, 1, 0), new BucketIngredient("liquidhelium")});
 		addShapedOreRecipe(new ItemStack(NCBlocks.cooler, 1, 9), new Object[] {"EEE", "ECE", "EEE", 'C', new ItemStack(NCBlocks.cooler, 1, 0), 'E', "ingotEnderium"});
 		addShapedOreRecipe(new ItemStack(NCBlocks.cooler, 1, 10), new Object[] {"DDD", "DCD", "DDD", 'C', new ItemStack(NCBlocks.cooler, 1, 0), 'D', "dustCryotheum"});
 		addShapedOreRecipe(new ItemStack(NCBlocks.cooler, 1, 11), new Object[] {"III", "ICI", "III", 'C', new ItemStack(NCBlocks.cooler, 1, 0), 'I', "ingotIron"});
@@ -180,20 +184,11 @@ public class CraftingRecipeHandler {
 		addShapedOreRecipe(NCBlocks.salt_fission_moderator, new Object[] {"PSP", "SGS", "PSP", 'S', "ingotSteel", 'P', "plateElite", 'G', "blockGraphite"});
 		addShapedOreRecipe(NCBlocks.salt_fission_moderator, new Object[] {"PSP", "SBS", "PSP", 'S', "ingotSteel", 'P', "plateElite", 'B', "blockBeryllium"});
 		addShapedOreRecipe(NCBlocks.salt_fission_vent, new Object[] {"STS", "VFV", "STS", 'S', "ingotSteel", 'T', "ingotTough", 'V', "servo", 'F', "steelFrame"});
-		addShapedOreRecipe(NCBlocks.salt_fission_vessel, new Object[] {"PTP", "EFE", "PSP", 'P', "plateElite", 'T', "ingotTough", 'E', "ingotExtreme", 'F', "steelFrame", 'S', "servo"});
+		addShapedOreRecipe(NCBlocks.salt_fission_vessel, new Object[] {"PTP", "ZFZ", "PSP", 'P', "plateElite", 'T', "ingotTough", 'Z', "ingotZircaloy", 'F', "steelFrame", 'S', "servo"});
 		addShapedOreRecipe(NCBlocks.salt_fission_heater, new Object[] {"PEP", "TFT", "PSP", 'P', "plateElite", 'T', "ingotThermoconducting", 'E', "ingotExtreme", 'F', "steelFrame", 'S', "servo"});
 		addShapedOreRecipe(NCBlocks.salt_fission_distributor, new Object[] {"PEP", "NVN", "PEP", 'P', "plateElite", 'E', "ingotExtreme", 'N', Items.ENDER_EYE, 'V', NCBlocks.salt_fission_vent});
 		addShapedOreRecipe(NCBlocks.salt_fission_retriever, new Object[] {"PTP", "NVN", "PTP", 'P', "plateElite", 'T', "ingotTough", 'N', Items.ENDER_EYE, 'V', NCBlocks.salt_fission_vent});
 		addShapedOreRecipe(NCBlocks.salt_fission_redstone_port, new Object[] {"SCS", "RFR", "SCS", 'S', "ingotSteel", 'C', Items.COMPARATOR, 'R', Items.REPEATER, 'F', "steelFrame"});
-		
-		/*public static Block heat_exchanger_controller;
-		public static Block heat_exchanger_wall;
-		public static Block heat_exchanger_glass;
-		public static Block heat_exchanger_frame;
-		public static Block heat_exchanger_vent;
-		public static Block heat_exchanger_tube_copper;
-		public static Block heat_exchanger_tube_hard_carbon;
-		public static Block heat_exchanger_tube_thermoconducting;*/
 		
 		addShapedOreRecipe(NCBlocks.heat_exchanger_controller, new Object[] {"PTP", "SFS", "PTP", 'P', "plateAdvanced", 'S', "ingotSteel", 'T', "ingotThermoconducting", 'F', "steelFrame"});
 		addShapedOreRecipe(new ItemStack(NCBlocks.heat_exchanger_wall, 4), new Object[] {"SNS", "NFN", "SNS", 'S', "ingotSteel", 'N', "stone", 'F', "steelFrame"});
@@ -385,40 +380,18 @@ public class CraftingRecipeHandler {
 	private static final Map<String, Integer> RECIPE_COUNT_MAP = new HashMap<String, Integer>();
 	
 	public static void addShapedOreRecipe(Object out, Object... inputs) {
-		if (out == null || Arrays.asList(inputs).contains(null)) return;
-		ItemStack outStack = ItemStackHelper.fixItemStack(out);
-		if (!outStack.isEmpty() && inputs != null) {
-			String outName = outStack.getUnlocalizedName();
-			if (RECIPE_COUNT_MAP.containsKey(outName)) {
-				int count = RECIPE_COUNT_MAP.get(outName);
-				RECIPE_COUNT_MAP.put(outName, count + 1);
-				outName = outName + "_" + count;	
-			} else RECIPE_COUNT_MAP.put(outName, 1);
-			ResourceLocation location = new ResourceLocation(Global.MOD_ID, outName);
-			ShapedOreRecipe oreRecipe = new ShapedOreRecipe(location, outStack, inputs);
-			oreRecipe.setRegistryName(location);
-			ForgeRegistries.RECIPES.register(oreRecipe);
-		}
+		registerRecipe(ShapedOreRecipe.class, out, inputs);
 	}
 	
 	public static void addShapelessOreRecipe(Object out, Object... inputs) {
-		if (out == null || Arrays.asList(inputs).contains(null)) return;
-		ItemStack outStack = ItemStackHelper.fixItemStack(out);
-		if (!outStack.isEmpty() && inputs != null) {
-			String outName = outStack.getUnlocalizedName();
-			if (RECIPE_COUNT_MAP.containsKey(outName)) {
-				int count = RECIPE_COUNT_MAP.get(outName);
-				RECIPE_COUNT_MAP.put(outName, count + 1);
-				outName = outName + "_" + count;	
-			} else RECIPE_COUNT_MAP.put(outName, 1);
-			ResourceLocation location = new ResourceLocation(Global.MOD_ID, outName);
-			ShapelessOreRecipe oreRecipe = new ShapelessOreRecipe(location, outStack, inputs);
-			oreRecipe.setRegistryName(location);
-			ForgeRegistries.RECIPES.register(oreRecipe);
-		}
+		registerRecipe(ShapelessOreRecipe.class, out, inputs);
 	}
 	
 	public static void addShapelessArmorUpgradeOreRecipe(Object out, Object... inputs) {
+		registerRecipe(ShapelessArmorUpgradeOreRecipe.class, out, inputs);
+	}
+	
+	public static void registerRecipe(Class<? extends IRecipe> clazz, Object out, Object... inputs) {
 		if (out == null || Arrays.asList(inputs).contains(null)) return;
 		ItemStack outStack = ItemStackHelper.fixItemStack(out);
 		if (!outStack.isEmpty() && inputs != null) {
@@ -429,9 +402,13 @@ public class CraftingRecipeHandler {
 				outName = outName + "_" + count;	
 			} else RECIPE_COUNT_MAP.put(outName, 1);
 			ResourceLocation location = new ResourceLocation(Global.MOD_ID, outName);
-			ShapelessArmorUpgradeOreRecipe oreRecipe = new ShapelessArmorUpgradeOreRecipe(location, outStack, inputs);
-			oreRecipe.setRegistryName(location);
-			ForgeRegistries.RECIPES.register(oreRecipe);
+			try {
+				IRecipe recipe = NCUtil.newInstance(clazz, location, outStack, inputs);
+				recipe.setRegistryName(location);
+				ForgeRegistries.RECIPES.register(recipe);
+			} catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+				
+			}
 		}
 	}
 }

@@ -21,6 +21,8 @@ public class OreDictHelper {
 	public static final List<String> GEM_VOLUME_TYPES = Lists.newArrayList("gem", "dust");
 	public static final List<String> GEM_NUGGET_VOLUME_TYPES = Lists.newArrayList("nugget", "tinyDust");
 	
+	public static final List<String> COAL_TYPES = Lists.newArrayList("coal", "dustCoal");
+	
 	public static final List<String> DUST_VOLUME_TYPES = Lists.newArrayList("dust");
 	public static final List<String> TINYDUST_VOLUME_TYPES = Lists.newArrayList("tinyDust");
 	

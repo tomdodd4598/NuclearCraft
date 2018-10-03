@@ -512,7 +512,8 @@ public class MetaEnums {
 		TIN_SILVER("tin_silver", 8),
 		LEAD_PLATINUM("lead_platinum", 9),
 		EXTREME("extreme", 10),
-		THERMOCONDUCTING("thermoconducting", 11);
+		THERMOCONDUCTING("thermoconducting", 11),
+		ZIRCALOY("zircaloy", 12);
 		
 		private String name;
 		private int id;

@@ -11,6 +11,7 @@ import nc.util.UnitHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -46,17 +47,25 @@ public class RadiationOverlayHandler extends Gui {
 		int barWidth = (int)(100D*playerRads.getTotalRads()/playerRads.getMaxRads());
 		String info = playerRads.isRadiationNegligible() ? "0 Rads/t" : UnitHelper.prefix(playerRads.getRadiationLevel(), 3, "Rads/t", 0, -8);
 		int infoWidth = mc.fontRenderer.getStringWidth(info);
-		int overlayWidth = Math.max(104, infoWidth);
-		int overlayHeight = 19;
+		int overlayWidth = (int)Math.round(Math.max(104, infoWidth)*NCConfig.radiation_hud_size);
+		int overlayHeight = (int)Math.round(19*NCConfig.radiation_hud_size);
 		
-		int xPos = NCConfig.radiation_hud_position_cartesian.length >= 2 ? (int)(NCConfig.radiation_hud_position_cartesian[0]*res.getScaledWidth()) : GuiHelper.getRenderPositionXFromAngle(res, NCConfig.radiation_hud_position, overlayWidth, 3);
-		int yPos = NCConfig.radiation_hud_position_cartesian.length >= 2 ? (int)(NCConfig.radiation_hud_position_cartesian[1]*res.getScaledHeight()) : GuiHelper.getRenderPositionYFromAngle(res, NCConfig.radiation_hud_position, overlayHeight, 3);
+		int xPos = (int)Math.round(NCConfig.radiation_hud_position_cartesian.length >= 2 ? NCConfig.radiation_hud_position_cartesian[0]*res.getScaledWidth() : GuiHelper.getRenderPositionXFromAngle(res, NCConfig.radiation_hud_position, overlayWidth, 3)/NCConfig.radiation_hud_size);
+		int yPos = (int)Math.round(NCConfig.radiation_hud_position_cartesian.length >= 2 ? NCConfig.radiation_hud_position_cartesian[1]*res.getScaledHeight() : GuiHelper.getRenderPositionYFromAngle(res, NCConfig.radiation_hud_position, overlayHeight, 3)/NCConfig.radiation_hud_size);
 		
 		mc.getTextureManager().bindTexture(RADS_BAR);
+		
+		GlStateManager.pushAttrib();
+		GlStateManager.pushMatrix();
+		
+		GlStateManager.scale(NCConfig.radiation_hud_size, NCConfig.radiation_hud_size, 1D);
 		
 		drawTexturedModalRect(xPos, yPos, 0, 0, 104, 10);
 		drawTexturedModalRect(xPos + 2 + 100 - barWidth, yPos + 2, 100 - barWidth, 10, barWidth, 6);
 		yPos += 12;
 		mc.fontRenderer.drawString(info, xPos + (104 - infoWidth)/2, yPos, TextHelper.getFormatColor(RadiationHelper.getRadiationTextColor(playerRads)));
+		
+		GlStateManager.popMatrix();
+		GlStateManager.popAttrib();
 	}
 }

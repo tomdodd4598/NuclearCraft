@@ -1,3 +1,30 @@
+v2.12c
+
+* Fixed Heat Exchanger GUI not updating
+* Fixed MSR and Exchanger Vents pushing invalid fluids to Vessels/Heaters/Tubes
+
+* Fixed Liquid Helium Cooler crafting recipe accepting incorrect fluids
+
+* Minor name changes to some alloys
+* Updated logo
+
+v2.12b
+
+* Fixed potential Heat Exchanger infinite heat loops
+
+* Fixed steel recipes in the Alloy Furnace
+* Minor recipe changes
+
+v2.12a
+
+* Quartz coolers now cool at a rate of 90 H/t by default (NaK-Quartz at 360 H/t)
+
+* The Radiation HUD resizing now works
+
+* Removed some small Centrifuge recipe conflicts
+
+* Updated Russian language file [thanks to kellixon!]
+
 v2.12
 
 + Added new Molten Salt Reactor components
@@ -27,7 +54,7 @@ v2.12
 
 v2.11g
 
-+ Added config option for disabling and blacklisting armor radiation shielding recipes
++ Added config options for disabling and blacklisting armor radiation shielding recipes
 + Added config option for adding default radiation resistance levels to armor pieces
 * Fixed bug where shielding recipes for armor pieces with metadata would return incorrect results
 

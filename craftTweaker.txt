@@ -82,7 +82,8 @@ ________________________________________________________________________________
 #==============#
 
 Note: recipe extras in curly brackets `{...}` are optional, but must be in the order specified. For example, if you want to
-set a Manufactory recipe's power multiplier, you must also first set a time multiplier.
+set a Manufactory recipe's power multiplier, you must also first set a time multiplier. Make sure to not actually include
+the curly brackets!
 
  Manufactory:
 >------------<
@@ -303,7 +304,7 @@ ________________________________________________________________________________
  Heat Exchanger:
 >---------------<
 
-mods.nuclearcraft.heat_exchanger.addRecipe([fluidInput1, fluidInput2, fluidOutput1, fluidOutput2, {timeMultiplier (double)}]);
+mods.nuclearcraft.heat_exchanger.addRecipe([fluidInput, fluidOutput, heatRequired (double), temperatureIn (int), temperatureOut (int)]);
 
 mods.nuclearcraft.heat_exchanger.removeRecipeWithInput([fluidInput]);
 mods.nuclearcraft.heat_exchanger.removeRecipeWithOutput([fluidOutput]);

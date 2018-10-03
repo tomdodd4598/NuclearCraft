@@ -173,7 +173,7 @@ public class HeatExchanger extends CuboidalMultiblockBase<HeatExchangerUpdatePac
 		}
 		
 		fractionOfTubesActive = (double)activeCount/tubes.size();
-		efficiency = efficiencyCount/tubes.size();
+		efficiency = activeCount == 0 ? 0 : efficiencyCount/(double)activeCount;
 	}
 	
 	private void incrementUpdateCount() {
@@ -200,22 +200,28 @@ public class HeatExchanger extends CuboidalMultiblockBase<HeatExchangerUpdatePac
 	@Override
 	protected void syncDataTo(NBTTagCompound data, SyncReason syncReason) {
 		data.setBoolean("isHeatExchangerOn", isHeatExchangerOn);
+		data.setDouble("fractionOfTubesActive", fractionOfTubesActive);
+		data.setDouble("efficiency", efficiency);
 	}
 	
 	@Override
 	protected void syncDataFrom(NBTTagCompound data, SyncReason syncReason) {
 		isHeatExchangerOn = data.getBoolean("isHeatExchangerOn");
+		fractionOfTubesActive = data.getDouble("fractionOfTubesActive");
+		efficiency = data.getDouble("efficiency");
 	}
 	
 	// Packets
 	
 	@Override
 	protected HeatExchangerUpdatePacket getUpdatePacket() {
-		return new HeatExchangerUpdatePacket(controller.getPos(), isHeatExchangerOn);
+		return new HeatExchangerUpdatePacket(controller.getPos(), isHeatExchangerOn, fractionOfTubesActive, efficiency);
 	}
 	
-	public void onPacket(boolean isHeatExchangerOn) {
+	public void onPacket(boolean isHeatExchangerOn, double fractionOfTubesActive, double efficiency) {
 		this.isHeatExchangerOn = isHeatExchangerOn;
+		this.fractionOfTubesActive = fractionOfTubesActive;
+		this.efficiency = efficiency;
 	}
 	
 	public Container getContainer(EntityPlayer player) {

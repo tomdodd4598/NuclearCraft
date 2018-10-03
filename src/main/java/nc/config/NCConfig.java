@@ -340,7 +340,7 @@ public class NCConfig {
 		propertyFissionFuelUse.setLanguageKey("gui.config.fission.fission_fuel_use");
 		Property propertyFissionHeatGeneration = config.get(CATEGORY_FISSION, "fission_heat_generation", 1D, Lang.localise("gui.config.fission.fission_heat_generation.comment"), 0D, 255D);
 		propertyFissionHeatGeneration.setLanguageKey("gui.config.fission.fission_heat_generation");
-		Property propertyFissionCoolingRate = config.get(CATEGORY_FISSION, "fission_cooling_rate", new double[] {60D, 90D, 70D, 120D, 130D, 120D, 150D, 140D, 120D, 160D, 80D, 160D, 80D, 120D, 110D}, Lang.localise("gui.config.fission.fission_cooling_rate.comment"), 0D, 32767D);
+		Property propertyFissionCoolingRate = config.get(CATEGORY_FISSION, "fission_cooling_rate", new double[] {60D, 90D, 90D, 120D, 130D, 120D, 150D, 140D, 120D, 160D, 80D, 160D, 80D, 120D, 110D}, Lang.localise("gui.config.fission.fission_cooling_rate.comment"), 0D, 32767D);
 		propertyFissionCoolingRate.setLanguageKey("gui.config.fission.fission_cooling_rate");
 		Property propertyFissionActiveCoolingRate = config.get(CATEGORY_FISSION, "fission_active_cooling_rate", new double[] {300D, 6400D, 6000D, 9600D, 8000D, 5600D, 14000D, 13200D, 10800D, 12800D, 4800D, 7200D, 5200D, 6000D, 7200D}, Lang.localise("gui.config.fission.fission_active_cooling_rate.comment"), 1D, 16777215D);
 		propertyFissionActiveCoolingRate.setLanguageKey("gui.config.fission.fission_active_cooling_rate");
@@ -493,7 +493,7 @@ public class NCConfig {
 		propertySaltFissionMinSize.setLanguageKey("gui.config.salt_fission.salt_fission_min_size");
 		Property propertySaltFissionMaxSize = config.get(CATEGORY_SALT_FISSION, "salt_fission_max_size", 24, Lang.localise("gui.config.salt_fission.salt_fission_max_size.comment"), 1, 255);
 		propertySaltFissionMaxSize.setLanguageKey("gui.config.salt_fission.salt_fission_max_size");
-		Property propertySaltFissionCoolingRate = config.get(CATEGORY_SALT_FISSION, "salt_fission_cooling_rate", new double[] {240D, 360D, 280D, 480D, 520D, 480D, 600D, 560D, 480D, 640D, 320D, 640D, 320D, 480D, 440D}, Lang.localise("gui.config.salt_fission.salt_fission_cooling_rate.comment"), 1D, 16777215D);
+		Property propertySaltFissionCoolingRate = config.get(CATEGORY_SALT_FISSION, "salt_fission_cooling_rate", new double[] {240D, 360D, 360D, 480D, 520D, 480D, 600D, 560D, 480D, 640D, 320D, 640D, 320D, 480D, 440D}, Lang.localise("gui.config.salt_fission.salt_fission_cooling_rate.comment"), 1D, 16777215D);
 		propertySaltFissionCoolingRate.setLanguageKey("gui.config.salt_fission.salt_fission_cooling_rate");
 		Property propertySaltFissionCoolingMaxRate = config.get(CATEGORY_SALT_FISSION, "salt_fission_cooling_max_rate", 20, Lang.localise("gui.config.salt_fission.salt_fission_cooling_max_rate.comment"), 1, 16000);
 		propertySaltFissionCoolingMaxRate.setLanguageKey("gui.config.salt_fission.salt_fission_cooling_max_rate");

@@ -100,10 +100,10 @@ public class TileSaltFissionVent extends TileSaltFissionPartBase implements ITil
 		
 		TileEntity tile = getTileWorld().getTileEntity(getTilePos().offset(side));
 		if (!(tile instanceof TileSaltFissionVessel) && !(tile instanceof TileSaltFissionHeater)) return;
-		ITileFluid tube = (ITileFluid) tile;
+		ITileFluid holder = (ITileFluid) tile;
 		
-		if (tube.getFluidConnection(side.getOpposite()) == FluidConnection.BOTH) {
-			getTanks().get(0).drainInternal(tube.getTanks().get(0).fillInternal(getTanks().get(0).drainInternal(getTanks().get(0).getCapacity(), false), true), true);
+		if (holder.getFluidConnection(side.getOpposite()) == FluidConnection.BOTH) {
+			getTanks().get(0).drainInternal(holder.getTanks().get(0).fill(getTanks().get(0).drainInternal(getTanks().get(0).getCapacity(), false), true), true);
 		}
 	}
 

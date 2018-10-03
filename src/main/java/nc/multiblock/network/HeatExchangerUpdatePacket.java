@@ -8,14 +8,18 @@ import net.minecraft.util.math.BlockPos;
 public class HeatExchangerUpdatePacket extends MultiblockUpdatePacket {
 	
 	protected boolean isHeatExchangerOn;
+	public double fractionOfTubesActive;
+	public double efficiency;
 	
 	public HeatExchangerUpdatePacket() {
 		messageValid = false;
 	}
 	
-	public HeatExchangerUpdatePacket(BlockPos pos, boolean isHeatExchangerOn) {
+	public HeatExchangerUpdatePacket(BlockPos pos, boolean isHeatExchangerOn, double fractionOfTubesActive, double efficiency) {
 		this.pos = pos;
 		this.isHeatExchangerOn = isHeatExchangerOn;
+		this.fractionOfTubesActive = fractionOfTubesActive;
+		this.efficiency = efficiency;
 		
 		messageValid = true;
 	}
@@ -24,6 +28,8 @@ public class HeatExchangerUpdatePacket extends MultiblockUpdatePacket {
 	public void readMessage(ByteBuf buf) {
 		pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
 		isHeatExchangerOn = buf.readBoolean();
+		fractionOfTubesActive = buf.readDouble();
+		efficiency = buf.readDouble();
 	}
 	
 	@Override
@@ -32,6 +38,8 @@ public class HeatExchangerUpdatePacket extends MultiblockUpdatePacket {
 		buf.writeInt(pos.getY());
 		buf.writeInt(pos.getZ());
 		buf.writeBoolean(isHeatExchangerOn);
+		buf.writeDouble(fractionOfTubesActive);
+		buf.writeDouble(efficiency);
 	}
 	
 	public static class Handler extends MultiblockUpdatePacket.Handler<HeatExchangerUpdatePacket, HeatExchanger, TileHeatExchangerController> {
@@ -42,7 +50,7 @@ public class HeatExchangerUpdatePacket extends MultiblockUpdatePacket {
 		
 		@Override
 		protected void onPacket(HeatExchangerUpdatePacket message, HeatExchanger reactor) {
-			reactor.onPacket(message.isHeatExchangerOn);
+			reactor.onPacket(message.isHeatExchangerOn, message.fractionOfTubesActive, message.efficiency);
 		}
 	}
 }

@@ -32,7 +32,7 @@ public class FluidHelper {
 	}
 	
 	public static ItemStack getBucket(Fluid fluid) {
-		return getBucket(new FluidStack(fluid, 1000));
+		return getBucket(new FluidStack(fluid, Fluid.BUCKET_VOLUME));
 	}
 	
 	public static ItemStack getBucket(String fluidName) {

@@ -102,7 +102,7 @@ public class TileHeatExchangerVent extends TileHeatExchangerPartBase implements 
 		ITileFluid tube = (ITileFluid) tile;
 		
 		if (tube.getFluidConnection(side.getOpposite()) == FluidConnection.BOTH) {
-			getTanks().get(0).drainInternal(tube.getTanks().get(0).fillInternal(getTanks().get(0).drainInternal(getTanks().get(0).getCapacity(), false), true), true);
+			getTanks().get(0).drainInternal(tube.getTanks().get(0).fill(getTanks().get(0).drainInternal(getTanks().get(0).getCapacity(), false), true), true);
 		}
 	}
 

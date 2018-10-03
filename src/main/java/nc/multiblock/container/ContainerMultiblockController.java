@@ -2,21 +2,17 @@ package nc.multiblock.container;
 
 import nc.multiblock.MultiblockBase;
 import nc.multiblock.MultiblockTileBase;
-import nc.multiblock.saltFission.SaltFissionReactor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 
-public class ContainerMultiblockController<T extends MultiblockBase, V extends MultiblockTileBase<T>> extends Container {
+public class ContainerMultiblockController<MULTIBLOCK extends MultiblockBase, CONTROLLER extends MultiblockTileBase<MULTIBLOCK>> extends Container {
 	
-	protected final V controller;
+	protected final CONTROLLER controller;
 	
-	public ContainerMultiblockController(EntityPlayer player, V controller) {
+	public ContainerMultiblockController(EntityPlayer player, CONTROLLER controller) {
 		this.controller = controller;
-		if (controller.getMultiblock() instanceof SaltFissionReactor) {
-			T reactor = controller.getMultiblock();
-			reactor.beginUpdatingPlayer(player);
-		}
+		controller.getMultiblock().beginUpdatingPlayer(player);
 	}
 	
 	@Override
