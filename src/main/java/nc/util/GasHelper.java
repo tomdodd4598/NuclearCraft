@@ -41,12 +41,10 @@ public class GasHelper {
 	}
 	
 	public static boolean isGasCapability(Capability capability) {
-		if (ModCheck.gregtechLoaded()) {
-			try {
-				capability.getDefaultInstance();
-			} catch (UnsupportedOperationException e) {
-				return false;
-			}
+		try {
+			capability.getDefaultInstance();
+		} catch (UnsupportedOperationException e) {
+			return false;
 		}
 		String name = capability.getDefaultInstance().getClass().getName();
 		return name.equals("mekanism.common.capabilities.DefaultTubeConnection") || name.equals("mekanism.common.capabilities.DefaultGasHandler");
