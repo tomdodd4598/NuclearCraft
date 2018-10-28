@@ -49,7 +49,7 @@ public class NCConfig {
 	
 	public static int[] processor_time;
 	public static int[] processor_power;
-	public static int[] speed_upgrade_power_laws;
+	public static double[] speed_upgrade_power_laws;
 	public static double[] speed_upgrade_multipliers;
 	public static int rf_per_eu;
 	public static int machine_update_rate;
@@ -306,7 +306,7 @@ public class NCConfig {
 		propertyProcessorTime.setLanguageKey("gui.config.processors.processor_time");
 		Property propertyProcessorPower = config.get(CATEGORY_PROCESSORS, "processor_power", new int[] {20, 10, 10, 20, 10, 10, 40, 20, 40, 20, 0, 40, 10, 20, 10, 10, 10, 10, 20}, Lang.localise("gui.config.processors.processor_power.comment"), 0, 16000);
 		propertyProcessorPower.setLanguageKey("gui.config.processors.processor_power");
-		Property propertySpeedUpgradePowerLaws = config.get(CATEGORY_PROCESSORS, "speed_upgrade_power_laws", new int[] {1, 2}, Lang.localise("gui.config.processors.speed_upgrade_power_laws.comment"), 1, 15);
+		Property propertySpeedUpgradePowerLaws = config.get(CATEGORY_PROCESSORS, "speed_upgrade_power_laws", new double[] {1D, 2D}, Lang.localise("gui.config.processors.speed_upgrade_power_laws.comment"), 1D, 15D);
 		propertySpeedUpgradePowerLaws.setLanguageKey("gui.config.processors.speed_upgrade_power_laws");
 		Property propertySpeedUpgradeMultipliers = config.get(CATEGORY_PROCESSORS, "speed_upgrade_multipliers", new double[] {1D, 1D}, Lang.localise("gui.config.processors.speed_upgrade_multipliers.comment"), 0D, 15D);
 		propertySpeedUpgradeMultipliers.setLanguageKey("gui.config.processors.speed_upgrade_multipliers");
@@ -917,7 +917,7 @@ public class NCConfig {
 			
 			processor_time = readIntegerArrayFromConfig(propertyProcessorTime);
 			processor_power = readIntegerArrayFromConfig(propertyProcessorPower);
-			speed_upgrade_power_laws = readIntegerArrayFromConfig(propertySpeedUpgradePowerLaws);
+			speed_upgrade_power_laws = readDoubleArrayFromConfig(propertySpeedUpgradePowerLaws);
 			speed_upgrade_multipliers = readDoubleArrayFromConfig(propertySpeedUpgradeMultipliers);
 			rf_per_eu = propertyRFPerEU.getInt();
 			machine_update_rate = propertyMachineUpdateRate.getInt();
