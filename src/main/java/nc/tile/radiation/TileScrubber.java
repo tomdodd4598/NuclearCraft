@@ -1,23 +1,23 @@
 package nc.tile.radiation;
 
 import java.util.Iterator;
-import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentHashMap;
 
 import nc.config.NCConfig;
 import nc.radiation.environment.RadiationEnvironmentHandler;
 import nc.radiation.environment.RadiationEnvironmentInfo;
-import nc.tile.energy.ITileEnergy;
-import nc.tile.energy.TileEnergy;
-import nc.tile.internal.energy.EnergyConnection;
-import nc.util.KeyPair;
+import nc.recipe.ingredient.OreIngredient;
+import nc.tile.passive.TilePassiveAbstract;
 import nc.util.MaterialHelper;
 import nc.util.NCMath;
-import nc.util.SetList;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
-public class TileScrubber extends TileEnergy implements IRadiationEnvironmentHandler {
+public class TileScrubber extends TilePassiveAbstract implements ITileRadiationEnvironment {
 	
 	private static final int RADIUS = 5;
 	private static final int POWER_USE = 50;
@@ -26,10 +26,13 @@ public class TileScrubber extends TileEnergy implements IRadiationEnvironmentHan
 	public static double maxScrubberRate = NCConfig.radiation_scrubber_rate;
 	
 	private double scrubberRate = 0D;
-	public final List<KeyPair<BlockPos, Integer>> occlusionList = new SetList<KeyPair<BlockPos, Integer>>();
+	public final Map<BlockPos, Integer> occlusionMap = new ConcurrentHashMap<BlockPos, Integer>();
+	
+	private int radCheckCount = 0;
 	
 	public TileScrubber() {
-		super(32000, ITileEnergy.energyConnectionAll(EnergyConnection.IN));
+		super("radiation_scrubber", new OreIngredient("dustBorax", 1), -NCConfig.radiation_scrubber_borax_rate, -POWER_USE*20, NCConfig.machine_update_rate / 5);
+		stackChange = new OreIngredient("dustBorax", MathHelper.abs(itemChange)*NCConfig.machine_update_rate / 5);
 	}
 	
 	@Override
@@ -37,7 +40,7 @@ public class TileScrubber extends TileEnergy implements IRadiationEnvironmentHan
 		super.onAdded();
 		if(!world.isRemote) {
 			for (int x = -RADIUS; x <= RADIUS; x++) for (int y = -RADIUS; y <= RADIUS; y++) for (int z = -RADIUS; z <= RADIUS; z++) {
-				RadiationEnvironmentHandler.addTile(this, pos.add(x, y, z));
+				RadiationEnvironmentHandler.addTile(pos.add(x, y, z), this);
 			}
 		}
 	}
@@ -46,15 +49,18 @@ public class TileScrubber extends TileEnergy implements IRadiationEnvironmentHan
 	public void update() {
 		super.update();
 		if(!world.isRemote) {
-			getEnergyStorage().changeEnergyStored(-POWER_USE);
 			tickTile();
-			if(shouldTileCheck()) checkRadiationEnvironmentInfo();
+			tickRadCount();
+			if(shouldRadCheck()) checkRadiationEnvironmentInfo();
 		}
 	}
 	
-	@Override
-	public void tickTile() {
-		tickCount++; tickCount %= NCConfig.machine_update_rate*20;
+	public void tickRadCount() {
+		radCheckCount++; radCheckCount %= NCConfig.machine_update_rate*20;
+	}
+	
+	public boolean shouldRadCheck() {
+		return radCheckCount == 0;
 	}
 	
 	@Override
@@ -69,17 +75,17 @@ public class TileScrubber extends TileEnergy implements IRadiationEnvironmentHan
 	public void checkRadiationEnvironmentInfo() {
 		double newScrubberRate = maxScrubberRate;
 		
-		Iterator<KeyPair<BlockPos, Integer>> occlusionIterator = occlusionList.iterator();
+		Iterator<Entry<BlockPos, Integer>> occlusionIterator = occlusionMap.entrySet().iterator();
 		
 		int occlusionCount = 0;
 		double tileCount = 0D;
 		while (occlusionIterator.hasNext()) {
-			KeyPair<BlockPos, Integer> occlusion = occlusionIterator.next();
+			Entry<BlockPos, Integer> occlusion = occlusionIterator.next();
 			
-			if (isOcclusive(pos, world, occlusion.getLeft())) {
-				newScrubberRate -= occlusionPenalty/pos.distanceSq(occlusion.getLeft());
+			if (isOcclusive(pos, world, occlusion.getKey())) {
+				newScrubberRate -= occlusionPenalty/pos.distanceSq(occlusion.getKey());
 				occlusionCount++;
-				tileCount += Math.max(1D, Math.sqrt(occlusion.getRight()));
+				tileCount += Math.max(1D, Math.sqrt(occlusion.getValue()));
 			}
 			else occlusionIterator.remove();
 		}
@@ -91,19 +97,13 @@ public class TileScrubber extends TileEnergy implements IRadiationEnvironmentHan
 	public void handleRadiationEnvironmentInfo(RadiationEnvironmentInfo info) {
 		BlockPos blockPos = info.pos;
 		if (!pos.equals(blockPos) && isOcclusive(pos, world, blockPos)) {
-			KeyPair newOcclusion = KeyPair.of(blockPos, Math.max(1, info.tileList.size()));
-			int index = occlusionList.indexOf(newOcclusion);
-			if (index < 0) {
-				occlusionList.add(newOcclusion);
-			} else {
-				occlusionList.set(index, newOcclusion);
-			}
+			occlusionMap.put(blockPos, Math.max(1, info.tileMap.size()));
 		}
 	}
 	
 	@Override
 	public double getChunkBufferContribution() {
-		return getEnergyStorage().getEnergyStored() >= POWER_USE ? -scrubberRate : 0D;
+		return isRunning ? -scrubberRate : 0D;
 	}
 	
 	// Helper
@@ -119,18 +119,6 @@ public class TileScrubber extends TileEnergy implements IRadiationEnvironmentHan
 		return pos.equals(((TileScrubber)obj).pos);
 	}
 	
-	// IC2
-	
-	@Override
-	public int getEUSourceTier() {
-		return 1;
-	}
-	
-	@Override
-	public int getEUSinkTier() {
-		return 4;
-	}
-	
 	// NBT
 	
 	@Override
@@ -139,9 +127,9 @@ public class TileScrubber extends TileEnergy implements IRadiationEnvironmentHan
 		nbt.setDouble("scrubberRate", scrubberRate);
 		
 		int count = 0;
-		for (KeyPair<BlockPos, Integer> occlusion : occlusionList) {
-			BlockPos pos = occlusion.getLeft();
-			nbt.setIntArray("occlusion" + count, new int[] {occlusion.getRight(), pos.getX(), pos.getY(), pos.getZ()});
+		for (Entry<BlockPos, Integer> occlusion : occlusionMap.entrySet()) {
+			BlockPos pos = occlusion.getKey();
+			nbt.setIntArray("occlusion" + count, new int[] {occlusion.getValue(), pos.getX(), pos.getY(), pos.getZ()});
 			count++;
 		}
 		return nbt;
@@ -156,7 +144,7 @@ public class TileScrubber extends TileEnergy implements IRadiationEnvironmentHan
 			if (key.startsWith("occlusion")) {
 				int[] data = nbt.getIntArray(key);
 				if (data.length < 4) continue;
-				occlusionList.add(KeyPair.of(new BlockPos(data[1], data[2], data[3]), data[0]));
+				occlusionMap.put(new BlockPos(data[1], data[2], data[3]), data[0]);
 			}
 		}
 	}

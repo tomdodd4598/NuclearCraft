@@ -46,7 +46,7 @@ public class GuiHeatExchangerController extends GuiMultiblockController<HeatExch
 	
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-		int fontColor = multiblock.isHeatExchangerOn ? 4210752 : 15641088;
+		int fontColor = multiblock.isHeatExchangerOn ? 4210752 : 15619328;
 		String title = multiblock.getInteriorLengthX() + "*" +  multiblock.getInteriorLengthY() + "*" +  multiblock.getInteriorLengthZ() + " " + Lang.localise("gui.container.heat_exchanger_controller.heat_exchanger");
 		fontRenderer.drawString(title, xSize / 2 - width(title) / 2, 6, fontColor);
 		

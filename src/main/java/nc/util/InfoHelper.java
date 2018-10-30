@@ -84,7 +84,8 @@ public class InfoHelper {
 		String[] names = getEnumNames(enumm);
 		String[][] strings = new String[names.length][];
 		for (int i = 0; i < names.length; i++) {
-			if (ArrayHelper.isEmpty(tooltips, i)) strings[i] = standardGeneralInfo(unlocNameBase + "." + names[i], unlocNameBase, desc, des);
+			if (ArrayHelper.isNull(tooltips, i)) strings[i] = EMPTY_ARRAY;
+			else if (ArrayHelper.isEmpty(tooltips, i)) strings[i] = standardGeneralInfo(unlocNameBase + "." + names[i], unlocNameBase, desc, des);
 			else strings[i] = tooltips[i];
 		}
 		return strings;

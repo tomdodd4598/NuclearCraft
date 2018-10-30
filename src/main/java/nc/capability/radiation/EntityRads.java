@@ -14,6 +14,7 @@ public class EntityRads implements IEntityRads {
 	private boolean radXWoreOff = false;
 	private double radawayBuffer = 0;
 	private boolean consumed;
+	private double cooldown;
 	
 	public EntityRads(double maxRads) {
 		this.maxRads = maxRads;
@@ -90,7 +91,7 @@ public class EntityRads implements IEntityRads {
 	
 	@Override
 	public void setRadawayBuffer(double newBuffer) {
-		radawayBuffer = Math.max(newBuffer, 0);
+		radawayBuffer = Math.max(newBuffer, 0D);
 	}
 
 	@Override
@@ -101,5 +102,20 @@ public class EntityRads implements IEntityRads {
 	@Override
 	public void setConsumedMedicine(boolean consumed) {
 		this.consumed = consumed;
+	}
+	
+	@Override
+	public double getMedicineCooldown() {
+		return cooldown;
+	}
+
+	@Override
+	public void setMedicineCooldown(double cooldown) {
+		this.cooldown = Math.max(cooldown, 0D);
+	}
+	
+	@Override
+	public boolean canConsumeMedicine() {
+		return !consumed && cooldown <= 0D;
 	}
 }

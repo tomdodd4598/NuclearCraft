@@ -30,20 +30,31 @@ public class HeatExchangerCategory extends JEICategoryAbstract<JEIRecipeWrapper.
 		
 		recipeLayout.getFluidStacks().addTooltipCallback((slotIndex, input, ingredient, tooltip) -> {
 			if (ingredient != null && ingredient.getFluid() != null) {
+				boolean heating = recipeWrapper.recipe.getHeatExchangerIsHeating();
+				int inputTemp = recipeWrapper.recipe.getHeatExchangerInputTemperature();
+				int outputTemp = recipeWrapper.recipe.getHeatExchangerOutputTemperature();
+				int rate = Math.abs(inputTemp - outputTemp);
+				int processTime = (int)recipeWrapper.recipe.getHeatExchangerProcessTime(16000);
+				
 				if (slotIndex == 0) {
-					tooltip.add((recipeWrapper.recipe.getHeatExchangerIsHeating() ? TextFormatting.AQUA : TextFormatting.RED) + TEMPERATURE + " " + ingredient.getFluid().getTemperature() + "K");
-					tooltip.add(TextFormatting.WHITE + HEAT_REQUIRED + " " + (int)recipeWrapper.recipe.getHeatExchangerRecipeHeat(16000) + "H");
+					tooltip.add((heating ? TextFormatting.AQUA : TextFormatting.RED) + TEMPERATURE + TextFormatting.WHITE + " " + inputTemp + "K");
+					tooltip.add((heating ? TextFormatting.AQUA + COOLING_PROVIDED : TextFormatting.RED + HEATING_PROVIDED) + TextFormatting.WHITE + " " + rate + "/t");
+					tooltip.add((heating ? TextFormatting.RED + HEATING_REQUIRED : TextFormatting.AQUA + COOLING_REQUIRED) + TextFormatting.WHITE + " " + processTime);
 				}
 				else if (slotIndex == 1) {
-					tooltip.add((recipeWrapper.recipe.getHeatExchangerIsHeating() ? TextFormatting.RED : TextFormatting.AQUA) + TEMPERATURE + " " + ingredient.getFluid().getTemperature() + "K");
-					tooltip.add(TextFormatting.WHITE + HEAT_REQUIRED + " " + (int)recipeWrapper.recipe.getHeatExchangerRecipeHeat(16000) + "H");
+					tooltip.add((heating ? TextFormatting.RED : TextFormatting.AQUA) + TEMPERATURE + TextFormatting.WHITE + " " + outputTemp + "K");
+					tooltip.add((heating ? TextFormatting.AQUA + COOLING_PROVIDED : TextFormatting.RED + HEATING_PROVIDED) + TextFormatting.WHITE + " " + rate + "/t");
+					tooltip.add((heating ? TextFormatting.RED + HEATING_REQUIRED : TextFormatting.AQUA + COOLING_REQUIRED) + TextFormatting.WHITE + " " + processTime);
 				}
 			}
 		});
 	}
 	
-	private static final String TEMPERATURE = Lang.localise("jei.nuclearcraft.fluid_temp");
-	private static final String HEAT_REQUIRED = Lang.localise("jei.nuclearcraft.heat_req");
+	private static final String TEMPERATURE = Lang.localise("jei.nuclearcraft.exchanger_fluid_temp");
+	private static final String HEATING_PROVIDED = Lang.localise("jei.nuclearcraft.exchanger_heating_provided");
+	private static final String COOLING_PROVIDED = Lang.localise("jei.nuclearcraft.exchanger_cooling_provided");
+	private static final String HEATING_REQUIRED = Lang.localise("jei.nuclearcraft.exchanger_heating_required");
+	private static final String COOLING_REQUIRED = Lang.localise("jei.nuclearcraft.exchanger_cooling_required");
 	
 	@Override
 	public String getTitle() {

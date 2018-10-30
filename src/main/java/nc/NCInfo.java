@@ -3,6 +3,7 @@ package nc;
 import nc.config.NCConfig;
 import nc.enumm.IFissionStats;
 import nc.enumm.IItemMeta;
+import nc.enumm.MetaEnums;
 import nc.enumm.MetaEnums.CoolerType;
 import nc.enumm.MetaEnums.IngotType;
 import nc.enumm.MetaEnums.UpgradeType;
@@ -84,5 +85,32 @@ public class NCInfo {
 		}
 		info[0] = InfoHelper.formattedInfo(Lang.localise("item.nuclearcraft.upgrade.speed_desc", POLY_POWER[NCConfig.speed_upgrade_power_laws[0] - 1], POLY_POWER[NCConfig.speed_upgrade_power_laws[1] - 1]));
 		return info;
+	}
+	
+	// Extra Ore Drops
+	
+	public static <T extends Enum<T> & IStringSerializable & IItemMeta> String[][] oreDropInfo(String type, T[] values, int[] configIds, int[] metas) {
+		String[][] info = new String[values.length][];
+		for (int i = 0; i < values.length; i++) {
+			info[i] = null;
+		}
+		for (int i = 0; i < configIds.length; i++) {
+			String unloc = "item." + Global.MOD_ID + "." + type + "." + values[metas[i]].getName() + ".desc";
+			if (Lang.canLocalise(unloc) && NCConfig.ore_drops[configIds[i]]) info[metas[i]] = InfoHelper.formattedInfo(Lang.localise(unloc));
+		}
+		
+		return info;
+	}
+	
+	public static <T extends Enum<T> & IStringSerializable & IItemMeta> String[][] dustOreDropInfo() {
+		return oreDropInfo("dust", MetaEnums.DustType.values(), new int[] {1, 2}, new int[] {9, 10});
+	}
+	
+	public static <T extends Enum<T> & IStringSerializable & IItemMeta> String[][] gemOreDropInfo() {
+		return oreDropInfo("gem", MetaEnums.GemType.values(), new int[] {0, 3, 5, 6}, new int[] {0, 2, 3, 4});
+	}
+	
+	public static <T extends Enum<T> & IStringSerializable & IItemMeta> String[][] gemDustOreDropInfo() {
+		return oreDropInfo("gem_dust", MetaEnums.GemDustType.values(), new int[] {4}, new int[] {6});
 	}
 }

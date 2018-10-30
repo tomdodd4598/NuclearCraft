@@ -1,8 +1,9 @@
 package nc.tile.radiation;
 
 import nc.radiation.environment.RadiationEnvironmentInfo;
+import nc.tile.ITile;
 
-public interface IRadiationEnvironmentHandler {
+public interface ITileRadiationEnvironment extends ITile {
 	
 	public void checkRadiationEnvironmentInfo();
 	

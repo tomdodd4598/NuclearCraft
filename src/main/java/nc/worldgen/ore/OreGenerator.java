@@ -26,15 +26,22 @@ public class OreGenerator implements IWorldGenerator {
 	private final WorldGenerator lithium;
 	private final WorldGenerator magnesium;
 	
+	private static class WorldGenOre extends WorldGenMinable {
+		
+		public WorldGenOre(int meta) {
+			super(((BlockMeta)NCBlocks.ore).getStateFromMeta(meta), NCConfig.ore_size[meta] + 2, new UniversalOrePredicate());
+		}
+	}
+	
 	public OreGenerator() {
-		copper = new WorldGenMinable(((BlockMeta)NCBlocks.ore).getStateFromMeta(0), NCConfig.ore_size[0], new UniversalOrePredicate());
-		tin = new WorldGenMinable(((BlockMeta)NCBlocks.ore).getStateFromMeta(1), NCConfig.ore_size[1], new UniversalOrePredicate());
-		lead = new WorldGenMinable(((BlockMeta)NCBlocks.ore).getStateFromMeta(2), NCConfig.ore_size[2], new UniversalOrePredicate());
-		thorium = new WorldGenMinable(((BlockMeta)NCBlocks.ore).getStateFromMeta(3), NCConfig.ore_size[3], new UniversalOrePredicate());
-		uranium = new WorldGenMinable(((BlockMeta)NCBlocks.ore).getStateFromMeta(4), NCConfig.ore_size[4], new UniversalOrePredicate());
-		boron = new WorldGenMinable(((BlockMeta)NCBlocks.ore).getStateFromMeta(5), NCConfig.ore_size[5], new UniversalOrePredicate());
-		lithium = new WorldGenMinable(((BlockMeta)NCBlocks.ore).getStateFromMeta(6), NCConfig.ore_size[6], new UniversalOrePredicate());
-		magnesium = new WorldGenMinable(((BlockMeta)NCBlocks.ore).getStateFromMeta(7), NCConfig.ore_size[7], new UniversalOrePredicate());
+		copper = new WorldGenOre(0);
+		tin = new WorldGenOre(1);
+		lead = new WorldGenOre(2);
+		thorium = new WorldGenOre(3);
+		uranium = new WorldGenOre(4);
+		boron = new WorldGenOre(5);
+		lithium = new WorldGenOre(6);
+		magnesium = new WorldGenOre(7);
 	}
 
 	@Override

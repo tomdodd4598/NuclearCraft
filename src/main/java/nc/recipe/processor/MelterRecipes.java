@@ -1,6 +1,8 @@
 package nc.recipe.processor;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import com.google.common.collect.Lists;
 
@@ -26,6 +28,8 @@ public class MelterRecipes extends ProcessorRecipeHandler {
 		addRecipe("dustPotassiumHydroxide", fluidStack("koh", FluidStackHelper.GEM_VOLUME), 1D, 1D);
 		addRecipe("dustArsenic", fluidStack("arsenic", FluidStackHelper.GEM_VOLUME), 1D, 1D);
 		
+		addRecipe(Lists.newArrayList("gemPrismarine", "dustPrismarine"), fluidStack("prismarine", FluidStackHelper.INGOT_VOLUME), 1D, 1D);
+		
 		addIngotMeltingRecipes("boron10");
 		addIngotMeltingRecipes("boron11");
 		addIngotMeltingRecipes("lithium6");
@@ -46,6 +50,8 @@ public class MelterRecipes extends ProcessorRecipeHandler {
 		
 		// Tinkers' Construct
 		addRecipe("obsidian", fluidStack("obsidian", FluidStackHelper.SEARED_BLOCK_VOLUME), 2D, 2D);
+		addRecipe(Lists.newArrayList("ingotObsidian", "dustObsidian"), fluidStack("obsidian", FluidStackHelper.SEARED_MATERIAL_VOLUME), 0.5D, 2D);
+		addRecipe(Lists.newArrayList("nuggetObsidian", "tinyDustObsidian"), fluidStack("obsidian", FluidStackHelper.SEARED_MATERIAL_VOLUME/9), 0.5D/9D, 2D);
 		addRecipe("sand", fluidStack("glass", FluidStackHelper.GLASS_VOLUME), 1.5D, 1.5D);
 		addRecipe("blockGlass", fluidStack("glass", FluidStackHelper.GLASS_VOLUME), 1.5D, 1.5D);
 		addRecipe(Blocks.CLAY, fluidStack("clay", FluidStackHelper.BRICK_BLOCK_VOLUME), 2D, 1.5D);
@@ -55,24 +61,20 @@ public class MelterRecipes extends ProcessorRecipeHandler {
 		addRecipe(Blocks.HARDENED_CLAY, fluidStack("clay", FluidStackHelper.BRICK_BLOCK_VOLUME), 2D, 1.5D);
 		addRecipe("stone", fluidStack("stone", FluidStackHelper.SEARED_MATERIAL_VOLUME), 1.5D, 1.5D);
 		addRecipe("cobblestone", fluidStack("stone", FluidStackHelper.SEARED_MATERIAL_VOLUME), 1.5D, 1.5D);
-		addRecipe("dirt", fluidStack("dirt", FluidStackHelper.INGOT_VOLUME), 1D, 1D);
-		addRecipe("grass", fluidStack("dirt", FluidStackHelper.INGOT_VOLUME), 1D, 1D);
+		addRecipe(Lists.newArrayList("dirt", "grass"), fluidStack("dirt", FluidStackHelper.INGOT_VOLUME), 1D, 1D);
 		
 		// Thermal Expansion
-		addRecipe("dustRedstone", fluidStack("redstone", FluidStackHelper.REDSTONE_DUST_VOLUME), 0.25D, 1D);
+		addRecipe(Lists.newArrayList("dustRedstone", "ingotRedstone"), fluidStack("redstone", FluidStackHelper.REDSTONE_DUST_VOLUME), 0.25D, 1D);
 		addRecipe("blockRedstone", fluidStack("redstone", FluidStackHelper.REDSTONE_BLOCK_VOLUME), 2D, 1D);
 		addRecipe("dustGlowstone", fluidStack("glowstone", FluidStackHelper.GLOWSTONE_DUST_VOLUME), 0.25D, 1D);
 		addRecipe("glowstone", fluidStack("glowstone", FluidStackHelper.GLOWSTONE_BLOCK_VOLUME), 2D, 1D);
-		addRecipe(Items.ENDER_PEARL, fluidStack("ender", FluidStackHelper.ENDER_PEARL_VOLUME), 0.5D, 1.5D);
-		addRecipe("dustEnder", fluidStack("ender", FluidStackHelper.ENDER_PEARL_VOLUME), 0.5D, 1.5D);
+		addRecipe(Lists.newArrayList(Items.ENDER_PEARL, "dustEnder"), fluidStack("ender", FluidStackHelper.ENDER_PEARL_VOLUME), 0.5D, 1.5D);
 		addRecipe("dustPyrotheum", fluidStack("pyrotheum", FluidStackHelper.EUM_DUST_VOLUME), 1D, 1D);
 		addRecipe("dustCryotheum", fluidStack("cryotheum", FluidStackHelper.EUM_DUST_VOLUME), 1D, 1D);
 		addRecipe("dustAerotheum", fluidStack("aerotheum", FluidStackHelper.EUM_DUST_VOLUME), 1D, 1D);
 		addRecipe("dustPetrotheum", fluidStack("petrotheum", FluidStackHelper.EUM_DUST_VOLUME), 1D, 1D);
-		addRecipe("coal", fluidStack("coal", FluidStackHelper.COAL_DUST_VOLUME), 0.5D, 1D);
-		addRecipe("ingotGraphite", fluidStack("coal", FluidStackHelper.COAL_DUST_VOLUME), 0.5D, 1D);
-		addRecipe("dustCoal", fluidStack("coal", FluidStackHelper.COAL_DUST_VOLUME), 0.5D, 1D);
-		addRecipe("dustGraphite", fluidStack("coal", FluidStackHelper.COAL_DUST_VOLUME), 0.5D, 1D);
+		addRecipe(Lists.newArrayList("coal", "dustCoal"), fluidStack("coal", FluidStackHelper.COAL_DUST_VOLUME), 0.5D, 1D);
+		addRecipe(Lists.newArrayList("ingotGraphite", "dustGraphite"), fluidStack("coal", FluidStackHelper.COAL_DUST_VOLUME), 0.5D, 1D);
 		addRecipe("blockCoal", fluidStack("coal", FluidStackHelper.COAL_BLOCK_VOLUME), 4.5D, 1D);
 		addRecipe("blockGraphite", fluidStack("coal", FluidStackHelper.COAL_BLOCK_VOLUME), 4.5D, 1D);
 		
@@ -150,26 +152,11 @@ public class MelterRecipes extends ProcessorRecipeHandler {
 		addIngotMeltingRecipes(name, name);
 	}
 	
-	public void addIngotOreMeltingRecipes(String name) {
-		String oreName = StringHelper.capitalize(name);
-		addRecipe("ore" + oreName, fluidStack(name, FluidStackHelper.INGOT_ORE_VOLUME), 1.25D, 1.5D);
-		addRecipe("ingot" + oreName, fluidStack(name, FluidStackHelper.INGOT_VOLUME), 1D, 1D);
-		addRecipe("nugget" + oreName, fluidStack(name, FluidStackHelper.NUGGET_VOLUME), 1D/9D, 1D);
-		addRecipe("block" + oreName, fluidStack(name, FluidStackHelper.INGOT_BLOCK_VOLUME), 9D, 1D);
-	}
-	
 	public void addGemMeltingRecipes(String name) {
 		String oreName = StringHelper.capitalize(name);
 		addRecipe("ore" + oreName, fluidStack(name, FluidStackHelper.GEM_ORE_VOLUME), 1.25D, 1.5D);
 		addRecipe(Lists.newArrayList("gem" + oreName, "dust" + oreName), fluidStack(name, FluidStackHelper.GEM_VOLUME), 1D, 1D);
 		addRecipe(Lists.newArrayList("nugget" + oreName, "tinyDust" + oreName), fluidStack(name, FluidStackHelper.GEM_NUGGET_VOLUME), 1D/9D, 1D);
-	}
-	
-	public void addGemOreMeltingRecipes(String name) {
-		String oreName = StringHelper.capitalize(name);
-		addRecipe("ore" + oreName, fluidStack(name, FluidStackHelper.GEM_ORE_VOLUME), 1.25D, 1.5D);
-		addRecipe("gem" + oreName, fluidStack(name, FluidStackHelper.GEM_VOLUME), 1D, 1D);
-		addRecipe("nugget" + oreName, fluidStack(name, FluidStackHelper.GEM_NUGGET_VOLUME), 1D/9D, 1D);
 	}
 	
 	public void addIsotopeMeltingRecipes(String element, int... types) {
@@ -193,19 +180,20 @@ public class MelterRecipes extends ProcessorRecipeHandler {
 		addFissionFuelMeltingRecipes(element, suffix, "", types);
 	}
 	
+	private static final List<String> MELTING_BLACKLIST = Arrays.asList("coal", "redstone", "glowstone", "prismarine", "obsidian");
+	
 	public void addOreMeltingRecipes() {
 		ArrayList<String> fluidList = new ArrayList(FluidRegistry.getRegisteredFluids().keySet());
 		for (String fluidName : fluidList) {
-			if (fluidName == "coal") continue;
+			if (MELTING_BLACKLIST.contains(fluidName)) continue;
 			String materialName = StringHelper.capitalize(fluidName);
 			String ore = "ore" + materialName;
 			String ingot = "ingot" + materialName;
 			String gem = "gem" + materialName;
 			String dust = "dust" + materialName;
+			
 			if (OreDictHelper.oreExists(ingot) && OreDictHelper.oreExists(dust)) addIngotMeltingRecipes(fluidName);
-			else if (OreDictHelper.oreExists(ingot) && OreDictHelper.oreExists(ore)) addIngotOreMeltingRecipes(fluidName);
 			else if (OreDictHelper.oreExists(gem) && OreDictHelper.oreExists(dust)) addGemMeltingRecipes(fluidName);
-			else if (OreDictHelper.oreExists(gem) && OreDictHelper.oreExists(ore)) addGemOreMeltingRecipes(fluidName);
 		}
 	}
 }

@@ -133,7 +133,11 @@ public class BlockFissionControllerNewFixed extends BlockProcessor {
 		TileEntity tile = world.getTileEntity(pos);
 		if (tile instanceof TileFissionController) {
 			TileFissionController controller = (TileFissionController) tile;
-			return (int) MathHelper.clamp(1500D/(double)NCConfig.fission_comparator_max_heat*(double)controller.heat/(double)controller.getMaxHeat(), 0D, 15D);
+			if (controller.heatChange > 0) {
+				return (int) MathHelper.clamp(1500D/(double)NCConfig.fission_comparator_max_heat*(double)controller.heat/(double)controller.getMaxHeat(), 0D, 15D);
+			} else {
+				return (int) MathHelper.clamp(15D*(double)controller.getEnergyStored()/(double)controller.getMaxEnergyStored(), 0D, 15D);
+			}
 		}
 		return Container.calcRedstone(world.getTileEntity(pos));
 	}

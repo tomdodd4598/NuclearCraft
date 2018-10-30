@@ -1,7 +1,6 @@
 package nc.multiblock.turbine;
 
 import java.util.HashSet;
-import java.util.Random;
 import java.util.Set;
 
 import nc.Global;
@@ -23,8 +22,6 @@ public abstract class Turbine<CONTROLLER extends TileTurbineController> extends 
 	protected Set<CONTROLLER> controllers;
 	
 	protected CONTROLLER controller;
-	
-	protected Random rand = new Random();
 	
 	public int redstoneSignal = 0;
 	protected int updateCount = 0;

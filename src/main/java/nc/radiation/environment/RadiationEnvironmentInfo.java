@@ -1,29 +1,22 @@
 package nc.radiation.environment;
 
-import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
-import nc.tile.radiation.IRadiationEnvironmentHandler;
-import nc.util.SetList;
+import nc.tile.radiation.ITileRadiationEnvironment;
 import net.minecraft.util.math.BlockPos;
 
 public class RadiationEnvironmentInfo {
 	
 	public final BlockPos pos;
-	public final List<IRadiationEnvironmentHandler> tileList = new SetList<IRadiationEnvironmentHandler>();
+	public final Map<BlockPos, ITileRadiationEnvironment> tileMap = new ConcurrentHashMap<BlockPos, ITileRadiationEnvironment>();
 	
 	public RadiationEnvironmentInfo(BlockPos pos) {
 		this.pos = pos;
 	}
 	
-	public RadiationEnvironmentInfo(BlockPos pos, IRadiationEnvironmentHandler tile) {
+	public RadiationEnvironmentInfo(BlockPos pos, ITileRadiationEnvironment tile) {
 		this.pos = pos;
-		tileList.add(tile);
-	}
-	
-	@Override
-	public boolean equals(Object obj) {
-		if (obj == this) return true;
-		if (!(obj instanceof RadiationEnvironmentInfo)) return false;
-		return pos.equals(((RadiationEnvironmentInfo)obj).pos);
+		tileMap.put(tile.getTilePos(), tile);
 	}
 }

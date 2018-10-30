@@ -112,7 +112,7 @@ public abstract class TileEnergy extends NCTile implements ITileEnergy, IEnergyT
 		return Math.min(Math.pow(2, 2*getSinkTier() + 3), (double)getEnergyStorage().receiveEnergy(getEnergyStorage().getMaxTransfer(), true) / (double)NCConfig.rf_per_eu);
 	}
 	
-	/** The normal conversion is 4 RF to 1 EU, but for RF generators, this is OP, so the ratio is instead 16:1 */
+	/* The normal conversion is 4 RF to 1 EU, but for RF generators, this is OP, so the ratio is instead 16:1 */
 	@Override
 	@Optional.Method(modid = "ic2")
 	public void drawEnergy(double amount) {

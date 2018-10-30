@@ -263,6 +263,12 @@ public abstract class TileDummy<T extends TileEntity> extends TileEnergyFluidSid
 		return super.getFluidConnections();
 	}
 	
+	@Override
+	public void setFluidConnections(@Nonnull FluidConnection[] connections) {
+		if (getMaster() instanceof ITileFluid) ((ITileFluid) getMaster()).setFluidConnections(connections);
+		super.setFluidConnections(connections);
+	}
+	
 	// Fluid Wrappers
 	
 	@Override

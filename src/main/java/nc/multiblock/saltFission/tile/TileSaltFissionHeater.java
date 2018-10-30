@@ -534,6 +534,11 @@ public class TileSaltFissionHeater extends TileSaltFissionPartBase implements IF
 	public FluidConnection[] getFluidConnections() {
 		return fluidConnections;
 	}
+	
+	@Override
+	public void setFluidConnections(@Nonnull FluidConnection[] connections) {
+		fluidConnections = connections;
+	}
 
 	@Override
 	@Nonnull

@@ -55,7 +55,6 @@ public class RadiationOverlayHandler extends Gui {
 		
 		mc.getTextureManager().bindTexture(RADS_BAR);
 		
-		GlStateManager.pushAttrib();
 		GlStateManager.pushMatrix();
 		
 		GlStateManager.scale(NCConfig.radiation_hud_size, NCConfig.radiation_hud_size, 1D);
@@ -66,6 +65,5 @@ public class RadiationOverlayHandler extends Gui {
 		mc.fontRenderer.drawString(info, xPos + (104 - infoWidth)/2, yPos, TextHelper.getFormatColor(RadiationHelper.getRadiationTextColor(playerRads)));
 		
 		GlStateManager.popMatrix();
-		GlStateManager.popAttrib();
 	}
 }

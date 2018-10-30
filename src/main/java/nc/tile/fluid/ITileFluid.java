@@ -49,6 +49,8 @@ public interface ITileFluid extends ITile {
 	
 	public @Nonnull FluidConnection[] getFluidConnections();
 	
+	public void setFluidConnections(@Nonnull FluidConnection[] connections);
+	
 	public default @Nonnull FluidConnection getFluidConnection(@Nonnull EnumFacing side) {
 		return getFluidConnections()[side.getIndex()];
 	}

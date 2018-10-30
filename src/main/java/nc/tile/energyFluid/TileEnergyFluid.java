@@ -93,6 +93,11 @@ public abstract class TileEnergyFluid extends TileEnergy implements ITileFluid {
 	public @Nonnull FluidConnection[] getFluidConnections() {
 		return fluidConnections;
 	}
+	
+	@Override
+	public void setFluidConnections(@Nonnull FluidConnection[] connections) {
+		fluidConnections = connections;
+	}
 
 	@Override
 	public @Nonnull FluidTileWrapper[] getFluidSides() {

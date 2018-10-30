@@ -1,6 +1,7 @@
 package nc.tile.passive;
 
 import nc.config.NCConfig;
+import nc.recipe.ingredient.ItemIngredient;
 import nc.tile.energy.IEnergySpread;
 import nc.tile.fluid.IFluidSpread;
 import net.minecraft.init.Blocks;
@@ -97,7 +98,7 @@ public class TilePassive {
 		final int rateMult;
 		
 		public CobblestoneGeneratorAbstract(String type, int rateMult) {
-			super("cobblestone_generator" + type, new ItemStack(Blocks.COBBLESTONE), NCConfig.processor_passive_rate[1]*rateMult, -NCConfig.cobble_gen_power*rateMult, NCConfig.machine_update_rate / 5);
+			super("cobblestone_generator" + type, new ItemIngredient(new ItemStack(Blocks.COBBLESTONE)), NCConfig.processor_passive_rate[1]*rateMult, -NCConfig.cobble_gen_power*rateMult, NCConfig.machine_update_rate / 5);
 			this.rateMult = rateMult;
 		}
 		

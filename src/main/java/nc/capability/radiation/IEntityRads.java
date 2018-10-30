@@ -47,4 +47,10 @@ public interface IEntityRads extends IRadiation, ICapability<IEntityRads> {
 	public boolean getConsumedMedicine();
 	
 	public void setConsumedMedicine(boolean consumed);
+	
+	public double getMedicineCooldown();
+	
+	public void setMedicineCooldown(double cooldown);
+	
+	public boolean canConsumeMedicine();
 }

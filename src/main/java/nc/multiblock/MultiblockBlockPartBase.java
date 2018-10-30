@@ -57,9 +57,8 @@ public abstract class MultiblockBlockPartBase extends NCBlock implements ITileEn
 						ValidationError e = controller.getLastError();
 						if (e != null) {
 							e = e.updatedError(world);
-							if (e.getErrorPos() != null) 
 							player.sendMessage(e.getChatMessage());
-							NuclearCraft.instance.blockOverlayTracker.highlightBlock(e.getErrorPos(), 5000);
+							if (e.getErrorPos() != null) NuclearCraft.instance.blockOverlayTracker.highlightBlock(e.getErrorPos(), 5000);
 							return true;
 						}
 					} else {

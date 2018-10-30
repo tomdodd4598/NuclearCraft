@@ -13,7 +13,7 @@ import nc.tile.internal.fluid.TankSorption;
 public class TileActiveCooler extends TileFluid implements IInterfaceable, IBufferable, IFluidSpread {
 	
 	public TileActiveCooler() {
-		super(4*4*NCConfig.machine_update_rate*NCConfig.active_cooler_max_rate, TankSorption.IN, validFluids(), ITileFluid.fluidConnectionAll(FluidConnection.IN));
+		super(4*4*NCConfig.machine_update_rate*NCConfig.active_cooler_max_rate, TankSorption.BOTH, validFluids(), ITileFluid.fluidConnectionAll(FluidConnection.IN));
 	}
 	
 	@Override

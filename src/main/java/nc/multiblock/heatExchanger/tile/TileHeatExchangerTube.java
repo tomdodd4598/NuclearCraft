@@ -142,7 +142,7 @@ public class TileHeatExchangerTube extends TileHeatExchangerPartBase implements 
 		if (!tube.canProcessInputs || (requiresContraflow(tube) && !isContraflow(tube))) return 0;
 		
 		if (!canConnectFluid(dir) || !tube.canConnectFluid(dir.getOpposite())) {
-			return conductivityMult()*(isHeating() != tube.isHeating() ? getAbsTempDiff(tube) : -getAbsTempDiff(tube));
+			return conductivityMult()*(isHeating() != tube.isHeating() ? tube.getAbsRecipeTempDiff() : -getAbsInputTempDiff(tube));
 		}
 		return 0;
 	}
@@ -156,12 +156,16 @@ public class TileHeatExchangerTube extends TileHeatExchangerPartBase implements 
 		return inputTemperature > tube.inputTemperature ^ outputTemperature > tube.outputTemperature;
 	}
 	
-	private double getAbsTempDiff(TileHeatExchangerTube tube) {
+	private int getAbsRecipeTempDiff() {
+		return Math.abs(inputTemperature - outputTemperature);
+	}
+	
+	private int getAbsInputTempDiff(TileHeatExchangerTube tube) {
 		return Math.abs(inputTemperature - tube.inputTemperature);
 	}
 	
 	private double conductivityMult() {
-		return isHeating() ? 1D/conductivity : conductivity;
+		return isHeating() ? conductivity : 1D/conductivity;
 	}
 	
 	// Processing
@@ -183,6 +187,7 @@ public class TileHeatExchangerTube extends TileHeatExchangerPartBase implements 
 	}
 	
 	public void updateTube() {
+		setIsHeatExchangerOn();
 		recipe = getRecipeHandler().getRecipeFromInputs(new ArrayList<ItemStack>(), getFluidInputs());
 		canProcessInputs = canProcessInputs();
 		boolean wasProcessing = isProcessing;
@@ -205,7 +210,7 @@ public class TileHeatExchangerTube extends TileHeatExchangerPartBase implements 
 	}
 	
 	public boolean isProcessing() {
-		return readyToProcess();
+		return readyToProcess() && isHeatExchangerOn;
 	}
 	
 	public boolean readyToProcess() {
@@ -251,7 +256,7 @@ public class TileHeatExchangerTube extends TileHeatExchangerPartBase implements 
 			return;
 		}
 		
-		baseProcessTime = recipe.getHeatExchangerRecipeHeat(defaultProcessTime);
+		baseProcessTime = recipe.getHeatExchangerProcessTime(defaultProcessTime);
 		
 		fluidToHold = getFluidIngredients().get(0).getMaxStackSize();
 		
@@ -346,6 +351,11 @@ public class TileHeatExchangerTube extends TileHeatExchangerPartBase implements 
 	@Nonnull
 	public FluidConnection[] getFluidConnections() {
 		return fluidConnections;
+	}
+	
+	@Override
+	public void setFluidConnections(@Nonnull FluidConnection[] connections) {
+		fluidConnections = connections;
 	}
 
 	@Override

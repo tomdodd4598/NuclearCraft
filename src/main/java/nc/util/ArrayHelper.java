@@ -68,10 +68,19 @@ public class ArrayHelper {
 		return result;
 	}
 	
+	/* NCInfo */
+	
 	public static <T> boolean isEmpty(T[][] arrays, int arrayNo) {
-		if (arrays.length == 0) return true;
+		if (arrays.length <= arrayNo) return true;
 		else return arrays[arrayNo].length == 0;
 	}
+	
+	public static <T> boolean isNull(T[][] arrays, int arrayNo) {
+		if (arrays.length <= arrayNo) return false;
+		else return arrays[arrayNo] == null;
+	}
+	
+	/* ****** */
 	
 	public static int sum(int[] numberArray) {
 		int result = 0;

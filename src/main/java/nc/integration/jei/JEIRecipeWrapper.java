@@ -327,7 +327,7 @@ public class JEIRecipeWrapper {
 		
 		@Override
 		protected double getProcessTime() {
-			return (recipe != null ? recipe.getHeatExchangerRecipeHeat(16000)*recipe.getHeatExchangerInputTemperature() : 1600000D)/12000D;
+			return (recipe != null ? recipe.getHeatExchangerProcessTime(16000)*recipe.getHeatExchangerInputTemperature() : 1600000D)/12000D;
 		}
 	}
 }

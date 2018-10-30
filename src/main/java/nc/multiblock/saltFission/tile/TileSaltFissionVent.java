@@ -82,6 +82,11 @@ public class TileSaltFissionVent extends TileSaltFissionPartBase implements ITil
 	public FluidConnection[] getFluidConnections() {
 		return fluidConnections;
 	}
+	
+	@Override
+	public void setFluidConnections(@Nonnull FluidConnection[] connections) {
+		fluidConnections = connections;
+	}
 
 	@Override
 	@Nonnull

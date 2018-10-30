@@ -426,7 +426,7 @@ public class TileFusionCore extends TileFluidGenerator implements SimpleComponen
 			double currentHeat = heat;
 			for (BlockPos pos : posList) {
 				Tank tank = ((TileActiveCooler) world.getTileEntity(pos)).getTanks().get(0);
-				int fluidAmount = Math.min(tank.getFluidAmount(), 4*NCConfig.machine_update_rate*NCConfig.active_cooler_max_rate/20);
+				int fluidAmount = Math.min(tank.getFluidAmount(), (4*NCConfig.machine_update_rate*NCConfig.active_cooler_max_rate)/20);
 				if (currentHeat > ROOM_TEMP) {
 					double cool_mult = posList.contains(getOpposite(pos)) ? NCConfig.fusion_heat_generation*4 : NCConfig.fusion_heat_generation;
 					for (int i = 1; i < CoolerType.values().length; i++) if (tank.getFluidName() == CoolerType.values()[i].getFluidName()) {
@@ -442,7 +442,7 @@ public class TileFusionCore extends TileFluidGenerator implements SimpleComponen
 	}
 	
 	public void doCooling() {
-		double coolingkK = cooling/1000;
+		double coolingkK = cooling/1000D;
 		if (heat - coolingkK < ROOM_TEMP) heat = ROOM_TEMP;
 		else heat -= coolingkK;
 	}

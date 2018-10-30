@@ -170,7 +170,7 @@ public class RecipeHelper {
 			}*/
 			pos++;
 			if (shapeless) {
-				for (IItemIngredient itemIngredient : itemIngredients) {
+				for (IItemIngredient itemIngredient : new ArrayList<IItemIngredient>(itemIngredientsMatch)) {
 					if (itemIngredient.matches(item, sorption)) {
 						itemIngredientsMatch.remove(itemIngredient);
 						continue itemInputs;
@@ -190,7 +190,7 @@ public class RecipeHelper {
 			pos++;
 			if (fluid instanceof Tank) fluid = (FluidStack)((Tank)fluid).getFluid();
 			if (shapeless) {
-				for (IFluidIngredient fluidIngredient : fluidIngredients) {
+				for (IFluidIngredient fluidIngredient : new ArrayList<IFluidIngredient>(fluidIngredientsMatch)) {
 					if (fluidIngredient.matches(fluid, sorption)) {
 						fluidIngredientsMatch.remove(fluidIngredient);
 						continue fluidInputs;

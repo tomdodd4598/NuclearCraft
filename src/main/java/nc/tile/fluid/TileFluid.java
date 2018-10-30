@@ -75,6 +75,11 @@ public abstract class TileFluid extends NCTile implements ITileFluid {
 	public @Nonnull FluidConnection[] getFluidConnections() {
 		return fluidConnections;
 	}
+	
+	@Override
+	public void setFluidConnections(@Nonnull FluidConnection[] connections) {
+		fluidConnections = connections;
+	}
 
 	@Override
 	public @Nonnull FluidTileWrapper[] getFluidSides() {

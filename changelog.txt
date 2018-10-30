@@ -1,3 +1,48 @@
+v2.12f
+
+* Sided multiblock parts' configurations can now be copied along a line by sneak-placing the next one on it
+* Fixed certain multiblock building errors not being printed to chat
+
+* Fixed some wonky Heat Exchanger maths (using wrong temperature differences, etc.)
+* Fixed other mods' steam changing the temperature differences of steam recipes
+* Modified a couple of Heat Exchanger default config values to make them more efficient
+* Modified Heat Exchanger GUI font colour slightly to make it easier to read
+
+* Fixed moterators being active even when no adjacent Salt Fission Vessels have any fuel
+* Salt Fission Vessels now use fuel at the correct rate (same as solid-fuel cells)
+
+* Fixed (hopefully) crashes and desyncs when placing and breaking Radiation Scrubbers
++ Added config option to have Radiation Scrubbers require a supply of Borax to run
+
++ Added more info to solid-fuel Fission, Fusion and Heat Exchanger JEI recipes
+* Fixed JEI recipes not showing correctly if any machines are disabled
+
+* Heat-negative solid-fuel Fission Reactors will output a comparator signal proportional to the energy stored in its buffer
+* Fixed Fission Ports outputting energy incorrectly
+
+* Fixed various asymmetries in Melter and Ingot Former recipes
+
+* Fixed extra ore drop tooltip info showing even when the config for the drop is disabled
+
+* Fixed crash when placing Integrated Dynamics cables next to fluid-handling machines
+
+* Fixed (hopefully) rendering issues caused by the Geiger Counter
++ Added config option for a RadAway and Rad-X use cooldown
++ Added config options for the buffing and debuffing of entities
++ Added config options for the player and world radiation updating tick rate
+
+* Fixed ore gen not placing enough ores in each cluster
+* Modified NC dungeon loot a bit
+
+v2.12e
+
+* Fixed some recipes with multiple inputs or outputs not behaving correctly
+* Fixed active cooling not actually draining active coolers' fluid
+
+v2.12d
+
+* Fixed crashes with various mods such as MrRiegel's
+
 v2.12c
 
 * Fixed Heat Exchanger GUI not updating

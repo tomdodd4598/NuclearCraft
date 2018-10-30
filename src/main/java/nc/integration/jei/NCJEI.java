@@ -278,7 +278,7 @@ public class NCJEI implements IModPlugin {
 		FUSION(NCRecipes.Type.FUSION, NCBlocks.fusion_core, "fusion_core", JEIRecipeWrapper.Fusion.class),
 		SALT_FISSION(NCRecipes.Type.SALT_FISSION, NCBlocks.salt_fission_vessel, "salt_fission", JEIRecipeWrapper.SaltFission.class),
 		COOLANT_HEATER(NCRecipes.Type.COOLANT_HEATER, NCBlocks.salt_fission_heater, "coolant_heater", JEIRecipeWrapper.CoolantHeater.class),
-		HEAT_EXCHANGER(NCRecipes.Type.HEAT_EXCHANGER, Lists.newArrayList(NCBlocks.heat_exchanger_tube_copper, NCBlocks.heat_exchanger_tube_hard_carbon, NCBlocks.heat_exchanger_tube_thermoconducting), "heat_exchanger", JEIRecipeWrapper.HeatExchanger.class);
+		HEAT_EXCHANGER(NCRecipes.Type.HEAT_EXCHANGER, Lists.<Block>newArrayList(NCBlocks.heat_exchanger_tube_copper, NCBlocks.heat_exchanger_tube_hard_carbon, NCBlocks.heat_exchanger_tube_thermoconducting), "heat_exchanger", JEIRecipeWrapper.HeatExchanger.class);
 		
 		private NCRecipes.Type recipeType;
 		private Class<? extends JEIRecipeWrapperAbstract> recipeWrapper;
@@ -287,7 +287,7 @@ public class NCJEI implements IModPlugin {
 		private String textureName;
 		
 		JEIHandler(NCRecipes.Type recipeType, Block crafter, String textureName, Class<? extends JEIRecipeWrapperAbstract> recipeWrapper) {
-			this(recipeType, Lists.newArrayList(crafter), textureName, recipeWrapper);
+			this(recipeType, Lists.<Block>newArrayList(crafter), textureName, recipeWrapper);
 		}
 		
 		JEIHandler(NCRecipes.Type recipeType, List<Block> crafters, String textureName, Class<? extends JEIRecipeWrapperAbstract> recipeWrapper) {
@@ -296,7 +296,7 @@ public class NCJEI implements IModPlugin {
 		}
 		
 		JEIHandler(NCRecipes.Type recipeType, Block crafter, String textureName, Class<? extends JEIRecipeWrapperAbstract> recipeWrapper, int enabled) {
-			this(recipeType, Lists.newArrayList(crafter), textureName, recipeWrapper, enabled);
+			this(recipeType, Lists.<Block>newArrayList(crafter), textureName, recipeWrapper, enabled);
 		}
 		
 		JEIHandler(NCRecipes.Type recipeType, List<Block> crafters, String textureName, Class<? extends JEIRecipeWrapperAbstract> recipeWrapper, int enabled) {
@@ -304,7 +304,7 @@ public class NCJEI implements IModPlugin {
 			this.recipeWrapper = recipeWrapper;
 			this.enabled = NCConfig.register_processor[enabled];
 			this.crafters = new ArrayList<ItemStack>();
-			for (Block crafter : crafters) this.crafters.add(ItemStackHelper.fixItemStack(crafter));
+			if (this.enabled) for (Block crafter : crafters) this.crafters.add(ItemStackHelper.fixItemStack(crafter));
 			this.textureName = textureName;
 		}
 		

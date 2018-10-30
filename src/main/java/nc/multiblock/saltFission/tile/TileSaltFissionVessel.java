@@ -133,7 +133,7 @@ public class TileSaltFissionVessel extends TileSaltFissionPartBase implements IF
 		if (!(tile instanceof TileSaltFissionModerator)) return false;
 		TileSaltFissionModerator moderator = (TileSaltFissionModerator) tile;
 		moderator.isInModerationLine = true;
-		if (isInValidPosition) moderator.isInValidPosition = true;
+		if (isInValidPosition && canProcessInputs) moderator.isInValidPosition = true;
 		return true;
 		
 	}
@@ -369,6 +369,11 @@ public class TileSaltFissionVessel extends TileSaltFissionPartBase implements IF
 	@Nonnull
 	public FluidConnection[] getFluidConnections() {
 		return fluidConnections;
+	}
+	
+	@Override
+	public void setFluidConnections(@Nonnull FluidConnection[] connections) {
+		fluidConnections = connections;
 	}
 
 	@Override

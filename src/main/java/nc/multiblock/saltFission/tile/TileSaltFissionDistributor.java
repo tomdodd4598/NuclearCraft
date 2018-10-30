@@ -68,6 +68,11 @@ public class TileSaltFissionDistributor extends TileSaltFissionPartBase implemen
 	public FluidConnection[] getFluidConnections() {
 		return fluidConnections;
 	}
+	
+	@Override
+	public void setFluidConnections(@Nonnull FluidConnection[] connections) {
+		fluidConnections = connections;
+	}
 
 	@Override
 	@Nonnull

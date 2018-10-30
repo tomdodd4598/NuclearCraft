@@ -81,6 +81,11 @@ public class TileSaltFissionRetriever extends TileSaltFissionPartBase implements
 	public FluidConnection[] getFluidConnections() {
 		return fluidConnections;
 	}
+	
+	@Override
+	public void setFluidConnections(@Nonnull FluidConnection[] connections) {
+		fluidConnections = connections;
+	}
 
 	@Override
 	@Nonnull

@@ -10,6 +10,9 @@ import gregtech.api.capability.GregtechCapabilities;
 import nc.ModCheck;
 import nc.capability.radiation.IRadiationSource;
 import nc.config.NCConfig;
+import nc.recipe.IngredientSorption;
+import nc.recipe.ingredient.IItemIngredient;
+import nc.recipe.ingredient.ItemIngredient;
 import nc.tile.energy.ITileEnergy;
 import nc.tile.energyFluid.TileEnergyFluidSidedInventory;
 import nc.tile.fluid.ITileFluid;
@@ -43,49 +46,49 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 	public boolean fluidBool;
 	
 	public final int energyChange;
-	public static ItemStack stackChange;
+	public IItemIngredient stackChange;
 	public final int itemChange;
 	public final int fluidChange;
 	public final FluidStack fluidStackChange;
 	public final Fluid fluidType;
 	
 	public TilePassiveAbstract(String name, int energyChange, int changeRate) {
-		this(name, new ItemStack(Items.BEEF), 0, energyChange, FluidRegistry.LAVA, 0, changeRate);
+		this(name, new ItemIngredient(new ItemStack(Items.BEEF)), 0, energyChange, FluidRegistry.LAVA, 0, changeRate);
 	}
 	
-	public TilePassiveAbstract(String name, ItemStack stack, int itemChange, int changeRate) {
-		this(name, stack, itemChange, 0, FluidRegistry.LAVA, 0, changeRate);
+	public TilePassiveAbstract(String name, IItemIngredient item, int itemChange, int changeRate) {
+		this(name, item, itemChange, 0, FluidRegistry.LAVA, 0, changeRate);
 	}
 	
 	public TilePassiveAbstract(String name, Fluid fluid, int fluidChange, int changeRate) {
-		this(name, new ItemStack(Items.BEEF), 0, 0, fluid, fluidChange, changeRate);
+		this(name, new ItemIngredient(new ItemStack(Items.BEEF)), 0, 0, fluid, fluidChange, changeRate);
 	}
 	
 	public TilePassiveAbstract(String name, Fluid fluid, int fluidChange, int changeRate, List<String> fluidTypes) {
-		this(name, new ItemStack(Items.BEEF), 0, 0, fluid, fluidChange, changeRate, fluidTypes);
+		this(name, new ItemIngredient(new ItemStack(Items.BEEF)), 0, 0, fluid, fluidChange, changeRate, fluidTypes);
 	}
 	
-	public TilePassiveAbstract(String name, ItemStack stack, int itemChange, int energyChange, int changeRate) {
-		this(name, stack, itemChange, energyChange, FluidRegistry.LAVA, 0, changeRate);
+	public TilePassiveAbstract(String name, IItemIngredient item, int itemChange, int energyChange, int changeRate) {
+		this(name, item, itemChange, energyChange, FluidRegistry.LAVA, 0, changeRate);
 	}
 	
 	public TilePassiveAbstract(String name, int energyChange, Fluid fluid, int fluidChange, int changeRate) {
-		this(name, new ItemStack(Items.BEEF), 0, energyChange, fluid, fluidChange, changeRate);
+		this(name, new ItemIngredient(new ItemStack(Items.BEEF)), 0, energyChange, fluid, fluidChange, changeRate);
 	}
 	
-	public TilePassiveAbstract(String name, ItemStack stack, int itemChange, Fluid fluid, int fluidChange, int changeRate) {
-		this(name, stack, itemChange, 0, fluid, fluidChange, changeRate);
+	public TilePassiveAbstract(String name, IItemIngredient item, int itemChange, Fluid fluid, int fluidChange, int changeRate) {
+		this(name, item, itemChange, 0, fluid, fluidChange, changeRate);
 	}
 	
-	public TilePassiveAbstract(String name, ItemStack stack, int itemChange, int energyChange, Fluid fluid, int fluidChange, int changeRate) {
-		this(name, stack, itemChange, energyChange, fluid, fluidChange, changeRate, Lists.newArrayList(fluid.getName()));
+	public TilePassiveAbstract(String name, IItemIngredient item, int itemChange, int energyChange, Fluid fluid, int fluidChange, int changeRate) {
+		this(name, item, itemChange, energyChange, fluid, fluidChange, changeRate, Lists.newArrayList(fluid.getName()));
 	}
 	
-	public TilePassiveAbstract(String name, ItemStack stack, int itemChange, int energyChange, Fluid fluid, int fluidChange, int changeRate, List<String> fluidTypes) {
+	public TilePassiveAbstract(String name, IItemIngredient item, int itemChange, int energyChange, Fluid fluid, int fluidChange, int changeRate, List<String> fluidTypes) {
 		super(name, 1, energyChange == 0 ? 1 : NCConfig.rf_per_eu*MathHelper.abs(energyChange)*changeRate, energyChange == 0 ? 0 : NCConfig.rf_per_eu*MathHelper.abs(energyChange), energyChange > 0 ? ITileEnergy.energyConnectionAll(EnergyConnection.OUT) : (energyChange < 0 ? ITileEnergy.energyConnectionAll(EnergyConnection.IN) : ITileEnergy.energyConnectionAll(EnergyConnection.NON)), fluidChange == 0 ? 1 : 2*MathHelper.abs(fluidChange)*changeRate, fluidChange > 0 ? TankSorption.OUT : (fluidChange < 0 ? TankSorption.IN : TankSorption.NON), fluidTypes, fluidChange > 0 ? ITileFluid.fluidConnectionAll(FluidConnection.OUT) : (fluidChange < 0 ? ITileFluid.fluidConnectionAll(FluidConnection.IN) : ITileFluid.fluidConnectionAll(FluidConnection.NON)));
 		this.energyChange = energyChange*changeRate;
 		this.itemChange = itemChange*changeRate;
-		stackChange = ItemStackHelper.changeStackSize(stack, MathHelper.abs(itemChange)*changeRate);
+		stackChange = new ItemIngredient(ItemStackHelper.changeStackSize(item.getStack(), MathHelper.abs(itemChange)*changeRate));
 		this.fluidChange = fluidChange*changeRate;
 		fluidStackChange = new FluidStack(fluid, MathHelper.abs(fluidChange)*changeRate);
 		fluidType = fluid;
@@ -124,7 +127,7 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 	@Override
 	public boolean shouldTileCheck() {
 		int currentCount = tickCount;
-		currentCount %= updateRate/20;
+		currentCount %= (updateRate/20);
 		return currentCount == 0;
 	}
 	
@@ -152,7 +155,7 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 	
 	public boolean changeStack(boolean simulateChange) {
 		if (itemChange == 0) return simulateChange;
-		if (!ItemStack.areItemsEqual(inventoryStacks.get(0), stackChange) && !inventoryStacks.get(0).isEmpty() && !simulateChange) inventoryStacks.set(0, ItemStack.EMPTY);
+		if (!stackChange.matches(inventoryStacks.get(0), IngredientSorption.NEUTRAL) && !inventoryStacks.get(0).isEmpty() && !simulateChange) inventoryStacks.set(0, ItemStack.EMPTY);
 		if (itemChange > 0) {
 			if (!inventoryStacks.get(0).isEmpty()) if (inventoryStacks.get(0).getCount() + itemChange > getInventoryStackLimit()) return false;
 			if (inventoryStacks.get(0).isEmpty() && !simulateChange) {
@@ -175,7 +178,7 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 	}
 	
 	public void setNewStack() {
-		inventoryStacks.set(0, stackChange);
+		inventoryStacks.set(0, stackChange.getStack());
 	}
 	
 	public boolean changeFluid(boolean simulateChange) {
@@ -260,7 +263,7 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 
 	@Override
 	public boolean canInsertItem(int slot, ItemStack stack, EnumFacing direction) {
-		return itemChange < 0 && ItemStack.areItemsEqual(stack, stackChange);
+		return itemChange < 0 && stackChange.matches(stack, IngredientSorption.NEUTRAL);
 	}
 
 	@Override

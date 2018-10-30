@@ -6,7 +6,6 @@ import java.util.Map;
 import mekanism.api.gas.Gas;
 import mekanism.api.gas.GasRegistry;
 import mekanism.api.gas.GasStack;
-import nc.ModCheck;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -26,7 +25,9 @@ public class GasHelper {
 	
 	public static FluidStack getFluidFromGas(GasStack gasStack) {
 		if (gasStack == null || gasStack.getGas().getFluid() == null) return null;
-		Fluid fluid = FluidRegistry.getFluid(gasStack.getGas().getFluid().getName());
+		Fluid gasFluid = gasStack.getGas().getFluid();
+		if (gasFluid == null) return null;
+		Fluid fluid = FluidRegistry.getFluid(gasFluid.getName());
 		if (fluid == null) return null;
 		return new FluidStack(fluid, gasStack.amount);
 	}
@@ -35,7 +36,9 @@ public class GasHelper {
 		if (fluidStack == null) return null;
 		String fluidName = fluidStack.getFluid().getName();
 		if (!StringHelper.beginsWith("liquid", fluidName)) fluidName = "liquid" + fluidName;
-		Gas gas = GasRegistry.getGas(GAS_MAP.get(fluidName));
+		String gasName = GAS_MAP.get(fluidName);
+		if (gasName == null) return null;
+		Gas gas = GasRegistry.getGas(gasName);
 		if (gas == null) return null;
 		return new GasStack(gas, fluidStack.amount);
 	}
@@ -43,7 +46,7 @@ public class GasHelper {
 	public static boolean isGasCapability(Capability capability) {
 		try {
 			capability.getDefaultInstance();
-		} catch (UnsupportedOperationException e) {
+		} catch (Exception e) {
 			return false;
 		}
 		String name = capability.getDefaultInstance().getClass().getName();

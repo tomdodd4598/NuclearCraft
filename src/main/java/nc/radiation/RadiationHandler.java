@@ -12,7 +12,7 @@ import nc.config.NCConfig;
 import nc.handler.SoundHandler;
 import nc.network.PacketHandler;
 import nc.network.PlayerRadsUpdatePacket;
-import nc.tile.radiation.IRadiationEnvironmentHandler;
+import nc.tile.radiation.ITileRadiationEnvironment;
 import nc.util.Lang;
 import nc.util.RadiationHelper;
 import net.minecraft.entity.Entity;
@@ -45,13 +45,16 @@ public class RadiationHandler {
 	
 	private static final String RAD_X_WORE_OFF = Lang.localise("message.nuclearcraft.rad_x_wore_off");
 	
+	private static final int WORLD_TICK_RATE = NCConfig.radiation_world_tick_rate;
+	private static final int PLAYER_TICK_RATE = NCConfig.radiation_player_tick_rate;
+			
 	@SubscribeEvent
 	public void updatePlayerRadiation(PlayerTickEvent event) {
 		if (!NCConfig.radiation_require_counter && event.phase == Phase.START && event.side == Side.CLIENT) {
 			playGeigerSound(event.player);
 		}
 		
-		if (event.phase != Phase.START || (event.player.world.getTotalWorldTime() % 5) != 0) return;
+		if (event.phase != Phase.START || (event.player.world.getTotalWorldTime() % PLAYER_TICK_RATE) != 0) return;
 		if (event.side == Side.SERVER && event.player instanceof EntityPlayerMP) {
 			EntityPlayerMP player = (EntityPlayerMP)event.player;
 			if (!player.hasCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null)) return;
@@ -59,7 +62,7 @@ public class RadiationHandler {
 			if (playerRads == null) return;
 			Chunk chunk = player.world.getChunkFromChunkCoords((int)player.posX >> 4, (int)player.posZ >> 4);
 			
-			double radiationLevel = RadiationHelper.transferRadsToPlayer(player.world, player, playerRads, 5) + RadiationHelper.transferRadsToPlayer(chunk, player, playerRads, 5) + RadiationHelper.transferRadsFromInventoryToPlayer(player, playerRads, chunk, 5);
+			double radiationLevel = RadiationHelper.transferRadsToPlayer(player.world, player, playerRads, PLAYER_TICK_RATE) + RadiationHelper.transferRadsToPlayer(chunk, player, playerRads, PLAYER_TICK_RATE) + RadiationHelper.transferRadsFromInventoryToPlayer(player, playerRads, chunk, PLAYER_TICK_RATE);
 			playerRads.setRadiationLevel(radiationLevel);
 			
 			if (!player.isCreative() && playerRads.isFatal()) player.attackEntityFrom(FATAL_RADS, 1000F);
@@ -67,19 +70,23 @@ public class RadiationHandler {
 			double previousResistance = playerRads.getRadiationResistance();
 			if (previousResistance > 0D) {
 				double radXDecayRate = Math.max(previousResistance, NCConfig.radiation_rad_x_amount)/NCConfig.radiation_rad_x_lifetime;
-				playerRads.setRadiationResistance(previousResistance - radXDecayRate*5);
+				playerRads.setRadiationResistance(previousResistance - radXDecayRate*PLAYER_TICK_RATE);
 				if (playerRads.getRadiationResistance() == 0D) playerRads.setRadXWoreOff(true);
 			}
 			else playerRads.setRadXWoreOff(false);
 			
 			if (playerRads.getRadawayBuffer() > 0D) {
-				playerRads.setTotalRads(playerRads.getTotalRads() - NCConfig.radiation_radaway_rate*5);
-				playerRads.setRadawayBuffer(playerRads.getRadawayBuffer() - NCConfig.radiation_radaway_rate*5);
+				playerRads.setTotalRads(playerRads.getTotalRads() - NCConfig.radiation_radaway_rate*PLAYER_TICK_RATE);
+				playerRads.setRadawayBuffer(playerRads.getRadawayBuffer() - NCConfig.radiation_radaway_rate*PLAYER_TICK_RATE);
+			}
+			
+			if (playerRads.getMedicineCooldown() > 0D) {
+				playerRads.setMedicineCooldown(playerRads.getMedicineCooldown() - PLAYER_TICK_RATE);
 			}
 			
 			PacketHandler.instance.sendTo(new PlayerRadsUpdatePacket(playerRads), player);
 			
-			if (!player.isCreative()) RadiationHelper.applySymptoms(player, playerRads, 5);
+			if (!player.isCreative()) RadiationHelper.applySymptoms(player, playerRads, PLAYER_TICK_RATE);
 		} else {
 			EntityPlayer player = event.player;
 			if (!player.hasCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null)) return;
@@ -94,7 +101,7 @@ public class RadiationHandler {
 	
 	@SubscribeEvent
 	public void updateChunkRadiation(WorldTickEvent event) {
-		if (event.phase != Phase.START || event.side == Side.CLIENT || (event.world.getTotalWorldTime() % 20) != 0 || !(event.world instanceof WorldServer)) return;
+		if (event.phase != Phase.START || event.side == Side.CLIENT || (event.world.getTotalWorldTime() % WORLD_TICK_RATE) != 0 || !(event.world instanceof WorldServer)) return;
 		WorldServer world = (WorldServer)event.world;
 		ChunkProviderServer chunkProvider = world.getChunkProvider();
 		List<Chunk> loadedChunks = Lists.newArrayList(chunkProvider.getLoadedChunks());
@@ -113,12 +120,14 @@ public class RadiationHandler {
 				if (entityLiving.hasCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null)) {
 					IEntityRads entityRads = entityLiving.getCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null);
 					if (entityRads != null) {
-						RadiationHelper.transferRadsFromSourceToEntity(world, entityRads, 20);
-						RadiationHelper.transferRadsFromSourceToEntity(chunk, entityRads, 20);
-						if (entity instanceof EntityMob) RadiationHelper.applyMobBuffs(entityLiving, entityRads, 20);
-						else {
-							//if (entityRads.isFatal()) entityLiving.attackEntityFrom(FATAL_RADS, 1000F);
-							RadiationHelper.applySymptoms(entityLiving, entityRads, 20);
+						RadiationHelper.transferRadsFromSourceToEntity(world, entityRads, WORLD_TICK_RATE);
+						RadiationHelper.transferRadsFromSourceToEntity(chunk, entityRads, WORLD_TICK_RATE);
+						if (entityLiving instanceof EntityMob) {
+							if (NCConfig.radiation_mob_buffs) RadiationHelper.applyMobBuffs(entityLiving, entityRads, Math.max(WORLD_TICK_RATE, 40));
+						}
+						else if (NCConfig.radiation_passive_debuffs) {
+							if (entityRads.isFatal()) entityLiving.attackEntityFrom(FATAL_RADS, 1000F);
+							RadiationHelper.applySymptoms(entityLiving, entityRads, Math.max(WORLD_TICK_RATE, 40));
 						}
 						entityRads.setRadiationLevel(entityRads.getRadiationLevel()*(1D - NCConfig.radiation_decay_rate));
 					}
@@ -128,7 +137,7 @@ public class RadiationHandler {
 		for (TileEntity tile : Lists.newArrayList(world.loadedTileEntityList)) {
 			Chunk chunk = world.getChunkFromBlockCoords(tile.getPos());
 			RadiationHelper.transferRadiationFromSourceToChunkBuffer(tile, chunk);
-			if (tile instanceof IRadiationEnvironmentHandler) RadiationHelper.addToChunkBuffer(chunk, ((IRadiationEnvironmentHandler)tile).getChunkBufferContribution());
+			if (tile instanceof ITileRadiationEnvironment) RadiationHelper.addToChunkBuffer(chunk, ((ITileRadiationEnvironment)tile).getChunkBufferContribution());
 		}
 		
 		BiomeProvider biomeProvider = world.getBiomeProvider();

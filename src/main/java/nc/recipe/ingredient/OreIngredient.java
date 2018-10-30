@@ -52,8 +52,10 @@ public class OreIngredient implements IItemIngredient {
 			return oreName.equals(object);
 		}
 		else if (object instanceof ItemStack && type.checkStackSize(stackSize, ((ItemStack) object).getCount())) {
+			ItemStack itemstack = (ItemStack)object;
+			if (itemstack.isEmpty()) return false;
 			int oreID = OreDictionary.getOreID(oreName);
-			for (int ID : OreDictionary.getOreIDs((ItemStack)object)) {
+			for (int ID : OreDictionary.getOreIDs(itemstack)) {
 				if (oreID == ID) return true;
 			}
 		}

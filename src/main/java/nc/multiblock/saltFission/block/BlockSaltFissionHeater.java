@@ -7,7 +7,9 @@ import nc.tile.internal.fluid.FluidConnection;
 import nc.util.Lang;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -19,6 +21,8 @@ import net.minecraft.world.World;
 
 public class BlockSaltFissionHeater extends BlockSaltFissionPartBase implements ISidedFluid {
 
+	private static EnumFacing placementSide = null;
+	
 	public BlockSaltFissionHeater() {
 		super("salt_fission_heater");
 	}
@@ -58,5 +62,24 @@ public class BlockSaltFissionHeater extends BlockSaltFissionPartBase implements 
 			return true;
 		}
 		return super.onBlockActivated(world, pos, state, player, hand, facing, hitX, hitY, hitZ);
+	}
+	
+	@Override
+	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
+		placementSide = null;
+		if (placer != null && placer.isSneaking()) placementSide = facing.getOpposite();
+		return super.getStateForPlacement(world, pos, facing, hitX, hitY, hitZ, meta, placer, hand);
+	}
+	
+	@Override
+	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+		if (placementSide ==  null) return;
+		BlockPos from = pos.offset(placementSide);
+		if (world.getTileEntity(pos) instanceof TileSaltFissionHeater && world.getTileEntity(from) instanceof TileSaltFissionHeater) {
+			TileSaltFissionHeater tube = (TileSaltFissionHeater) world.getTileEntity(pos);
+			TileSaltFissionHeater other = (TileSaltFissionHeater) world.getTileEntity(from);
+			tube.setFluidConnections(other.getFluidConnections());
+			tube.markAndRefresh();
+		}
 	}
 }

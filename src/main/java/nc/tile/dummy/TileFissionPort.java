@@ -70,10 +70,23 @@ public class TileFissionPort extends TileDummy<TileFissionController> implements
 		return 1;
 	}
 	
+	// IC2 Energy - Account for multiple ports
+	
+	@Override
+	@Optional.Method(modid = "ic2")
+	public double getOfferedEnergy() {
+		return Math.min(Math.pow(2, 2*getSourceTier() + 3), (double)getEnergyStorage().extractEnergy(getEnergyStorage().getMaxTransfer(), true) / (double)(getNumberOfPorts()*NCConfig.rf_per_eu));
+	}
+	
 	// Energy Pushing - Account for multiple ports
 	
 	@Override
-	public void pushEnergyToSide(@Nonnull EnumFacing side) {
+	public void pushEnergy() {
+		if (getMaster() == null || getEnergyStorage().getEnergyStored() <= 0) return;
+		for (EnumFacing side : EnumFacing.VALUES) pushPortEnergyToSide(side);
+	}
+	
+	public void pushPortEnergyToSide(@Nonnull EnumFacing side) {
 		if (getEnergyStorage().getEnergyStored() <= 0 || !getEnergyConnection(side).canExtract()) return;
 		
 		TileEntity tile = world.getTileEntity(getPos().offset(side));

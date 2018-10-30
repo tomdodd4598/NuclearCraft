@@ -1,7 +1,6 @@
 package nc.multiblock.condenser;
 
 import java.util.HashSet;
-import java.util.Random;
 import java.util.Set;
 
 import nc.Global;
@@ -21,8 +20,6 @@ public class Condenser extends CuboidalMultiblockBase<CondenserUpdatePacket> {
 	private Set<TileCondenserController> controllers;
 	
 	private TileCondenserController controller;
-	
-	private Random rand = new Random();
 	
 	public int redstoneSignal = 0;
 	private int updateCount = 0;

@@ -212,7 +212,7 @@ public class ProcessorRecipe implements IRecipe {
 	
 	// Heat Exchanger
 	
-	public double getHeatExchangerRecipeHeat(double defaultProcessTime) {
+	public double getHeatExchangerProcessTime(double defaultProcessTime) {
 		if (extras.isEmpty()) return defaultProcessTime;
 		else if (extras.get(0) instanceof Double) return (double) extras.get(0);
 		else return defaultProcessTime;

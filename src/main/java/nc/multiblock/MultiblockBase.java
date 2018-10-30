@@ -2,6 +2,7 @@ package nc.multiblock;
 
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.Random;
 import java.util.Set;
 
 import nc.Global;
@@ -39,6 +40,8 @@ public abstract class MultiblockBase<PACKET extends MultiblockUpdatePacket> impl
 	protected AssemblyState assemblyState;
 
 	protected HashSet<IMultiblockPart> connectedParts;
+	
+	protected Random rand = new Random();
 	
 	/** This is a deterministically-picked coordinate that identifies this
 	 * multiblock uniquely in its dimension.
