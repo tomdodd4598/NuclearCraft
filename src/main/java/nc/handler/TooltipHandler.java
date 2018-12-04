@@ -26,7 +26,7 @@ public class TooltipHandler {
 	@SideOnly(Side.CLIENT)
 	public void addAdditionalTooltips(ItemTooltipEvent event) {
 		final ItemStack stack = event.getItemStack();
-		if (event.getEntityPlayer() == null || event.getEntityPlayer().world == null || stack == null || stack.isEmpty()) return;
+		if (stack == null || stack.isEmpty()) return;
 		
 		if (!stack.getItem().getRegistryName().getResourceDomain().equals(Global.MOD_ID)) {
 			int[] oreIDs = OreDictionary.getOreIDs(stack);
