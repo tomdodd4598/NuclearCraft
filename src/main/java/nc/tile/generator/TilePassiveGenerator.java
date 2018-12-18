@@ -26,7 +26,7 @@ public abstract class TilePassiveGenerator extends TileEnergy implements IInterf
 		if(!world.isRemote) {
 			getEnergyStorage().changeEnergyStored(getGenerated());
 			pushEnergy();
-			spreadEnergy();
+			//spreadEnergy();
 		}
 	}
 	

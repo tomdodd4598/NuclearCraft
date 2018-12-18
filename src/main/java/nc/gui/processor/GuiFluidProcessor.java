@@ -11,6 +11,7 @@ import nc.gui.NCGuiButton.Button;
 import nc.tile.energy.ITileEnergy;
 import nc.tile.processor.TileFluidProcessor;
 import nc.util.Lang;
+import nc.util.NCMath;
 import nc.util.UnitHelper;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
@@ -52,11 +53,11 @@ public abstract class GuiFluidProcessor extends NCGui {
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
 		tick++;
-		tick %= 10;
+		tick %= 5;
 	}
 	
 	protected int getCookProgressScaled(double pixels) {
-		double i = tile.getField(0);
+		double i = tile.time;
 		double j = tile.baseProcessTime;
 		return j != 0D ? (int) Math.round(i * pixels / j) : 0;
 	}
@@ -80,8 +81,8 @@ public abstract class GuiFluidProcessor extends NCGui {
 	public List<String> energyInfo(ITileEnergy tile) {
 		String energy = UnitHelper.prefix(tile.getEnergyStorage().getEnergyStored(), tile.getEnergyStorage().getMaxEnergyStored(), 5, "RF");
 		String power = UnitHelper.prefix(this.tile.getProcessPower(), 5, "RF/t");
-		String speedMultiplier = "x" + this.tile.getSpeedMultiplier();
-		String powerMultiplier = "x" + this.tile.getPowerMultiplier();
+		String speedMultiplier = "x" + NCMath.round(this.tile.getSpeedMultiplier(), 2);
+		String powerMultiplier = "x" + NCMath.round(this.tile.getPowerMultiplier(), 2);
 		return Lists.newArrayList(TextFormatting.LIGHT_PURPLE + Lang.localise("gui.container.energy_stored") + TextFormatting.WHITE + " " + energy, TextFormatting.LIGHT_PURPLE + Lang.localise("gui.container.process_power") + TextFormatting.WHITE + " " + power, TextFormatting.AQUA + Lang.localise("gui.container.speed_multiplier") + TextFormatting.WHITE + " " + speedMultiplier, TextFormatting.AQUA + Lang.localise("gui.container.power_multiplier") + TextFormatting.WHITE + " " + powerMultiplier);
 	}
 	

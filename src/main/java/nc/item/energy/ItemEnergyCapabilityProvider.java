@@ -5,6 +5,7 @@ import javax.annotation.Nullable;
 
 import gregtech.api.capability.GregtechCapabilities;
 import nc.ModCheck;
+import nc.config.NCConfig;
 import nc.tile.internal.energy.EnergyStorage;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -114,7 +115,7 @@ public class ItemEnergyCapabilityProvider implements ICapabilityProvider {
 			if(wrapper == null) wrapper = new ItemEnergyWrapper(storage);
 			return (T) wrapper;
 		}
-		if (ModCheck.gregtechLoaded()) if (capability == GregtechCapabilities.CAPABILITY_ELECTRIC_ITEM) {
+		if (ModCheck.gregtechLoaded() && NCConfig.enable_gtce_eu) if (capability == GregtechCapabilities.CAPABILITY_ELECTRIC_ITEM) {
 			if(wrapperGT == null) wrapperGT = new ItemEnergyWrapperGT(stack, storage, energyTier);
 			return (T) wrapperGT;
 		}

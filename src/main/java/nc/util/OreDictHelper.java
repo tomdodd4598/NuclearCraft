@@ -30,6 +30,16 @@ public class OreDictHelper {
 	
 	public static final List<String> BLOCK_VOLUME_TYPES = Lists.newArrayList("block");
 	
+	public static boolean isOreMatching(ItemStack stack, ItemStack target) {
+		for (int oreID : OreDictionary.getOreIDs(target)) {
+			String oreName = OreDictionary.getOreName(oreID);
+			for (ItemStack ore : OreDictionary.getOres(oreName)) {
+				if (ItemStack.areItemsEqual(ore, stack)) return true;
+			}
+		}
+		return false;
+	}
+	
 	public static boolean isOreMember(ItemStack stack, String oreName) {
 		for (ItemStack ore : OreDictionary.getOres(oreName)) {
 			if (ItemStack.areItemsEqual(ore, stack)) return true;

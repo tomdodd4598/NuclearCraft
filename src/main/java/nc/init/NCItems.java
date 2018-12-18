@@ -148,6 +148,7 @@ public class NCItems {
 		
 		part = new NCItemMeta("part", MetaEnums.PartType.class);
 		upgrade = new NCItemMeta("upgrade", MetaEnums.UpgradeType.class, NCInfo.upgradeInfo());
+		
 		fuel_rod_empty = new NCItem("fuel_rod_empty", TextFormatting.GREEN);
 		tiny_dust_lead = new NCItem("tiny_dust_lead");
 		reactor_door = new NCItemDoor("reactor_door_item", NCBlocks.reactor_door);

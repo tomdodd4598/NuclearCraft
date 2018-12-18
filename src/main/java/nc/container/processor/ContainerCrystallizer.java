@@ -10,12 +10,12 @@ import net.minecraft.inventory.SlotFurnaceOutput;
 public class ContainerCrystallizer extends ContainerItemFluidProcessor {
 
 	public ContainerCrystallizer(EntityPlayer player, TileItemFluidProcessor tileEntity) {
-		super(tileEntity, NCRecipes.Type.CRYSTALLIZER);
+		super(player, tileEntity, NCRecipes.Type.CRYSTALLIZER);
 		
 		addSlotToContainer(new SlotFurnaceOutput(player, tileEntity, 0, 116, 35));
 		
 		addSlotToContainer(new SlotSpecificInput(tileEntity, 1, 132, 64, speedUpgrade));
-		addSlotToContainer(new SlotFurnaceOutput(player, tileEntity, 2, 152, 64));
+		addSlotToContainer(new SlotSpecificInput(tileEntity, 2, 152, 64, energyUpgrade));
 		
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 9; j++) {

@@ -39,7 +39,7 @@ public class NCInfo {
 	public static <T extends Enum<T> & IStringSerializable & IItemMeta & IFissionStats> String[][] fuelRodInfo(T[] values) {
 		String[][] info = new String[values.length][];
 		for (int i = 0; i < values.length; i++) {
-			info[i] = new String[] {Lang.localise("item." + Global.MOD_ID + ".fuel_rod.base_time.desc", NCMath.round(values[i].getBaseTime()/(1200D*NCConfig.fission_fuel_use))), Lang.localise("item." + Global.MOD_ID + ".fuel_rod.base_power.desc", values[i].getBasePower()*NCConfig.fission_power), Lang.localise("item." + Global.MOD_ID + ".fuel_rod.base_heat.desc", values[i].getBaseHeat()*NCConfig.fission_heat_generation)};
+			info[i] = new String[] {Lang.localise("item." + Global.MOD_ID + ".fuel_rod.base_time.desc", NCMath.round(values[i].getBaseTime()/(1200D*NCConfig.fission_fuel_use), 2)), Lang.localise("item." + Global.MOD_ID + ".fuel_rod.base_power.desc", values[i].getBasePower()*NCConfig.fission_power), Lang.localise("item." + Global.MOD_ID + ".fuel_rod.base_heat.desc", values[i].getBaseHeat()*NCConfig.fission_heat_generation)};
 		}
 		
 		return info;
@@ -83,8 +83,13 @@ public class NCInfo {
 		for (int i = 0; i < UpgradeType.values().length; i++) {
 			info[i] = InfoHelper.EMPTY_ARRAY;
 		}
-		info[0] = InfoHelper.formattedInfo(Lang.localise("item.nuclearcraft.upgrade.speed_desc", POLY_POWER[NCConfig.speed_upgrade_power_laws[0] - 1], POLY_POWER[NCConfig.speed_upgrade_power_laws[1] - 1]));
+		info[0] = InfoHelper.formattedInfo(Lang.localise("item.nuclearcraft.upgrade.speed_desc", powerString(NCConfig.speed_upgrade_power_laws[0]), powerString(NCConfig.speed_upgrade_power_laws[1])));
+		info[1] = InfoHelper.formattedInfo(Lang.localise("item.nuclearcraft.upgrade.energy_desc", powerString(NCConfig.energy_upgrade_power_laws[0])));
 		return info;
+	}
+	
+	private static String powerString(double power) {
+		return ((power % 1) == 0 ? "" : Lang.localise("info.nuclearcraft.approximately" + " ")) + POLY_POWER[(int)Math.round(power) - 1];
 	}
 	
 	// Extra Ore Drops

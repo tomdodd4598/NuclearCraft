@@ -156,28 +156,16 @@ public class TileHeatExchangerTube extends TileHeatExchangerPartBase implements 
 		return inputTemperature > tube.inputTemperature ^ outputTemperature > tube.outputTemperature;
 	}
 	
-	private int getAbsRecipeTempDiff() {
-		return Math.abs(inputTemperature - outputTemperature);
-	}
-	
-	private int getAbsInputTempDiff(TileHeatExchangerTube tube) {
-		return Math.abs(inputTemperature - tube.inputTemperature);
-	}
-	
-	private double conductivityMult() {
-		return isHeating() ? conductivity : 1D/conductivity;
-	}
-	
-	// Processing
-	
-	public double getSpeedMultiplier() {
-		return speedMultiplier;
-	}
+	// Ticking
 	
 	@Override
 	public void onAdded() {
 		super.onAdded();
-		if (!world.isRemote) isProcessing = isProcessing();
+		if (!world.isRemote) {
+			refreshRecipe();
+			refreshActivity();
+			isProcessing = isProcessing();
+		}
 	}
 	
 	@Override
@@ -209,6 +197,56 @@ public class TileHeatExchangerTube extends TileHeatExchangerPartBase implements 
 		tickCount++; tickCount %= NCConfig.machine_update_rate / 2;
 	}
 	
+	@Override
+	public void refreshRecipe() {
+		if (recipe == null || !recipe.matchingInputs(new ArrayList<ItemStack>(), getFluidInputs())) {
+			recipe = getRecipeHandler().getRecipeFromInputs(new ArrayList<ItemStack>(), getFluidInputs());
+		}
+	}
+	
+	@Override
+	public void refreshActivity() {
+		canProcessInputs = canProcessInputs();
+	}
+	
+	// Processor Stats
+	
+	public double getSpeedMultiplier() {
+		return speedMultiplier;
+	}
+	
+	private int getAbsRecipeTempDiff() {
+		return Math.abs(inputTemperature - outputTemperature);
+	}
+	
+	private int getAbsInputTempDiff(TileHeatExchangerTube tube) {
+		return Math.abs(inputTemperature - tube.inputTemperature);
+	}
+	
+	private double conductivityMult() {
+		return isHeating() ? conductivity : 1D/conductivity;
+	}
+	
+	private boolean isHeating() {
+		return inputTemperature < outputTemperature;
+	}
+	
+	public boolean setRecipeStats() {
+		if (recipe == null) {
+			baseProcessTime = defaultProcessTime;
+			inputTemperature = 0;
+			outputTemperature = 0;
+			return false;
+		}
+		baseProcessTime = recipe.getHeatExchangerProcessTime(defaultProcessTime);
+		fluidToHold = getFluidIngredients().get(0).getMaxStackSize();
+		inputTemperature = recipe.getHeatExchangerInputTemperature();
+		outputTemperature = recipe.getHeatExchangerOutputTemperature();
+		return true;
+	}
+	
+	// Processing
+	
 	public boolean isProcessing() {
 		return readyToProcess() && isHeatExchangerOn;
 	}
@@ -217,24 +255,13 @@ public class TileHeatExchangerTube extends TileHeatExchangerPartBase implements 
 		return canProcessInputs && isMultiblockAssembled();
 	}
 	
-	public void process() {
-		time = Math.max(0, time + getSpeedMultiplier());
-		if (time >= baseProcessTime) {
-			double oldProcessTime = baseProcessTime;
-			produceProducts();
-			recipe = getRecipeHandler().getRecipeFromInputs(new ArrayList<ItemStack>(), getFluidInputs());
-			setRecipeStats();
-			if (recipe == null) time = 0;
-			else time = MathHelper.clamp(time - oldProcessTime, 0D, baseProcessTime);
-		}
+	public boolean canProcessInputs() {
+		if (!setRecipeStats()) return false;
+		else if (time >= baseProcessTime) return true;
+		return canProduceProducts();
 	}
 	
-	public boolean canProcessInputs() {
-		setDefaultRecipeStats();
-		if (recipe == null) return false;
-		setRecipeStats();
-		if (time >= baseProcessTime) return true;
-		
+	public boolean canProduceProducts() {
 		for (int j = 0; j < fluidOutputSize; j++) {
 			IFluidIngredient fluidProduct = getFluidProducts().get(j);
 			if (fluidProduct.getMaxStackSize() <= 0) continue;
@@ -250,29 +277,18 @@ public class TileHeatExchangerTube extends TileHeatExchangerPartBase implements 
 		return true;
 	}
 	
-	public void setRecipeStats() {
-		if (recipe == null) {
-			setDefaultRecipeStats();
-			return;
-		}
-		
-		baseProcessTime = recipe.getHeatExchangerProcessTime(defaultProcessTime);
-		
-		fluidToHold = getFluidIngredients().get(0).getMaxStackSize();
-		
-		inputTemperature = recipe.getHeatExchangerInputTemperature();
-		outputTemperature = recipe.getHeatExchangerOutputTemperature();
+	public void process() {
+		time = Math.max(0, time + getSpeedMultiplier());
+		if (time >= baseProcessTime) finishProcess();
 	}
 	
-	public void setDefaultRecipeStats() {
-		baseProcessTime = defaultProcessTime;
-		
-		inputTemperature = 0;
-		outputTemperature = 0;
-	}
-	
-	private boolean isHeating() {
-		return inputTemperature < outputTemperature;
+	public void finishProcess() {
+		double oldProcessTime = baseProcessTime;
+		produceProducts();
+		refreshRecipe();
+		if (!setRecipeStats()) time = 0;
+		else time = MathHelper.clamp(time - oldProcessTime, 0D, baseProcessTime);
+		refreshActivity();
 	}
 	
 	public void produceProducts() {
@@ -295,6 +311,8 @@ public class TileHeatExchangerTube extends TileHeatExchangerPartBase implements 
 			}
 		}
 	}
+	
+	// IProcessor
 	
 	@Override
 	public ProcessorRecipeHandler getRecipeHandler() {

@@ -11,7 +11,7 @@ import net.minecraft.inventory.SlotFurnaceOutput;
 public class ContainerRockCrusher extends ContainerItemProcessor {
 
 	public ContainerRockCrusher(EntityPlayer player, TileItemProcessor tileEntity) {
-		super(tileEntity, NCRecipes.Type.ROCK_CRUSHER);
+		super(player, tileEntity, NCRecipes.Type.ROCK_CRUSHER);
 		
 		addSlotToContainer(new SlotProcessorInput(tileEntity, recipeType, 0, 38, 35));
 		
@@ -20,7 +20,7 @@ public class ContainerRockCrusher extends ContainerItemProcessor {
 		addSlotToContainer(new SlotFurnaceOutput(player, tileEntity, 3, 134, 35));
 		
 		addSlotToContainer(new SlotSpecificInput(tileEntity, 4, 132, 64, speedUpgrade));
-		addSlotToContainer(new SlotFurnaceOutput(player, tileEntity, 5, 152, 64));
+		addSlotToContainer(new SlotSpecificInput(tileEntity, 5, 152, 64, energyUpgrade));
 		
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 9; j++) {

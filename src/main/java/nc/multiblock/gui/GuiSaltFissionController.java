@@ -6,6 +6,7 @@ import java.util.List;
 import nc.Global;
 import nc.multiblock.saltFission.SaltFissionReactor;
 import nc.util.Lang;
+import nc.util.NCMath;
 import nc.util.StringHelper;
 import nc.util.UnitHelper;
 import net.minecraft.inventory.Container;
@@ -37,9 +38,9 @@ public class GuiSaltFissionController extends GuiMultiblockController<SaltFissio
 	
 	public List<String> efficiencyInfo() {
 		List<String> info = new ArrayList<String>();
-		info.add(TextFormatting.AQUA + Lang.localise("gui.container.salt_fission_controller.efficiency") + " " + TextFormatting.WHITE + (int) (multiblock.efficiency*100D) + "%");
-		info.add(TextFormatting.YELLOW + Lang.localise("gui.container.salt_fission_controller.heat_mult") + " " + TextFormatting.WHITE + (int) (multiblock.heatMult*100D) + "%");
-		info.add(TextFormatting.BLUE + Lang.localise("gui.container.salt_fission_controller.cooling_rate") + " " + TextFormatting.WHITE + (int) (multiblock.coolingRate*100D) + "%");
+		info.add(TextFormatting.AQUA + Lang.localise("gui.container.salt_fission_controller.efficiency") + " " + TextFormatting.WHITE + NCMath.round(multiblock.efficiency*100D, 1) + "%");
+		info.add(TextFormatting.YELLOW + Lang.localise("gui.container.salt_fission_controller.heat_mult") + " " + TextFormatting.WHITE + NCMath.round(multiblock.heatMult*100D, 1) + "%");
+		info.add(TextFormatting.BLUE + Lang.localise("gui.container.salt_fission_controller.cooling_rate") + " " + TextFormatting.WHITE + NCMath.round(multiblock.coolingRate*100D, 1) + "%");
 		return info;
 	}
 	

@@ -41,9 +41,8 @@ public class EnergyTileWrapperGT implements IEnergyContainer {
 	}
 
 	@Override
-	@Optional.Method(modid = "gregtech")
-	public long addEnergy(long energyToAdd) {
-		int amount = (int)Math.min(energyToAdd, Integer.MAX_VALUE);
+	public long changeEnergy(long differenceAmount) {
+		int amount = (int)Math.min(differenceAmount, Integer.MAX_VALUE);
 		int energyReceived = tile.getEnergyStorage().receiveEnergy(NCConfig.rf_per_eu*amount, true);
 		tile.receiveEnergy(energyReceived, side, false);
 		return amount - energyReceived/NCConfig.rf_per_eu;

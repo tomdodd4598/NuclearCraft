@@ -39,7 +39,6 @@ public class TileFissionPort extends TileDummy<TileFissionController> implements
 		super.update();
 		if(!world.isRemote) {
 			pushEnergy();
-			pushFluid();
 		}
 	}
 	
@@ -90,11 +89,12 @@ public class TileFissionPort extends TileDummy<TileFissionController> implements
 		if (getEnergyStorage().getEnergyStored() <= 0 || !getEnergyConnection(side).canExtract()) return;
 		
 		TileEntity tile = world.getTileEntity(getPos().offset(side));
+		if (tile == null) return;
 		
 		if (tile instanceof ITileEnergy) if (!((ITileEnergy) tile).getEnergyConnection(side.getOpposite()).canReceive()) return;
 		if (tile instanceof ITilePassive) if (!((ITilePassive) tile).canPushEnergyTo()) return;
 		
-		IEnergyStorage adjStorage = tile == null ? null : tile.getCapability(CapabilityEnergy.ENERGY, side.getOpposite());
+		IEnergyStorage adjStorage = tile.getCapability(CapabilityEnergy.ENERGY, side.getOpposite());
 		
 		if (adjStorage != null && getEnergyStorage().canExtract()) {
 			getEnergyStorage().extractEnergy(adjStorage.receiveEnergy(getEnergyStorage().extractEnergy(getCurrentEnergyStored()/getNumberOfPorts(), true), false), false);
@@ -107,7 +107,7 @@ public class TileFissionPort extends TileDummy<TileFissionController> implements
 			}
 		}
 		if (ModCheck.gregtechLoaded()) {
-			IEnergyContainer adjStorageGT = tile == null ? null : tile.getCapability(GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER, side.getOpposite());
+			IEnergyContainer adjStorageGT = tile.getCapability(GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER, side.getOpposite());
 			if (adjStorageGT != null && getEnergyStorage().canExtract()) {
 				int voltage = Math.min(EnergyHelper.getMaxEUFromTier(getEUSourceTier()), (getCurrentEnergyStored()/getNumberOfPorts())/NCConfig.rf_per_eu);
 				getEnergyStorage().extractEnergy((int)Math.min(voltage*adjStorageGT.acceptEnergyFromNetwork(side.getOpposite(), voltage, 1)*NCConfig.rf_per_eu, Integer.MAX_VALUE), false);

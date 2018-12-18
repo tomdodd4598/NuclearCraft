@@ -1,8 +1,8 @@
 package nc.tile.generator;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
@@ -15,7 +15,9 @@ import nc.block.tile.generator.BlockFissionControllerNewFixed;
 import nc.config.NCConfig;
 import nc.enumm.MetaEnums.CoolerType;
 import nc.init.NCBlocks;
+import nc.network.tile.FissionUpdatePacket;
 import nc.recipe.NCRecipes;
+import nc.tile.IGui;
 import nc.tile.fluid.TileActiveCooler;
 import nc.tile.internal.fluid.Tank;
 import nc.util.BlockFinder;
@@ -37,7 +39,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.common.Optional;
 
 @Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers")
-public class TileFissionController extends TileItemGenerator implements SimpleComponent {
+public class TileFissionController extends TileItemGenerator implements IGui<FissionUpdatePacket>, SimpleComponent {
 	
 	private Random rand = new Random();
 	
@@ -56,7 +58,9 @@ public class TileFissionController extends TileItemGenerator implements SimpleCo
 	
 	public static final int BASE_CAPACITY = 64000, BASE_MAX_HEAT = 25000;
 	
+	private boolean isActivated = false;
 	public boolean computerActivated = false;
+	private int comparatorCount = 0;
 	
 	public boolean readLayout = false;
 	public Object[] layout;
@@ -95,44 +99,43 @@ public class TileFissionController extends TileItemGenerator implements SimpleCo
 		this.newRules = newRules;
 	}
 	
-	@Override
-	public int getGuiID() {
-		return 100;
-	}
+	// Ticking
 	
 	@Override
 	public void onAdded() {
 		finder = new BlockFinder(pos, world, getBlockMetadata() & 7);
 		super.onAdded();
-		tickCount = -1;
 	}
 	
 	@Override
-	public void updateProcessor() {
+	public void updateGenerator() {
 		if (fixControllerBlock()) return;
-		recipe = getRecipeHandler().getRecipeFromInputs(getItemInputs(hasConsumed), new ArrayList<Tank>());
-		canProcessInputs = canProcessInputs();
-		boolean wasProcessing = isProcessing;
-		isProcessing = isProcessing();
-		boolean shouldUpdate = false;
-		tickTile();
-		checkStructure();
 		if(!world.isRemote) {
+			boolean wasActivated = isActivated;
+			boolean wasProcessing = isProcessing;
+			isActivated = isActivated();
+			isProcessing = isProcessing();
+			boolean shouldUpdate = false;
+			tickTile();
+			tickComparatorCheck();
+			if (wasActivated != isActivated) refreshMultiblock(true);
+			else checkStructure(false);
 			energyChange = getEnergyStored() - currentEnergyStored;
-			if (newRules) newRun(); else run();
+			if (newRules) newRun(false); else run(false);
 			if (overheat()) return;
 			if (isProcessing) process();
 			else getRadiationSource().setRadiationLevel(0D);
-			consumeInputs();
 			if (wasProcessing != isProcessing) {
 				shouldUpdate = true;
 				updateBlockType();
+				sendUpdateToAllPlayers();
 			}
 			pushEnergy();
 			currentEnergyStored = getEnergyStored();
-			if (findAdjacentComparator() && shouldTileCheck()) shouldUpdate = true;
+			if (shouldComparatorCheck() && findAdjacentComparator()) shouldUpdate = true;
+			if (shouldTileCheck()) sendUpdateToListeningPlayers();
+			if (shouldUpdate) markDirty();
 		}
-		if (shouldUpdate) markDirty();
 	}
 	
 	private boolean fixControllerBlock() {
@@ -153,9 +156,24 @@ public class TileFissionController extends TileItemGenerator implements SimpleCo
 		return false;
 	}
 	
+	public void tickComparatorCheck() {
+		comparatorCount++; comparatorCount %= 4*NCConfig.machine_update_rate;
+	}
+	
+	public boolean shouldComparatorCheck() {
+		return comparatorCount == 0;
+	}
+	
+	public void refreshMultiblock(boolean checkBlocks) {
+		checkStructure(checkBlocks);
+		if (newRules) newRun(checkBlocks); else run(checkBlocks);
+	}
+	
 	@Override
-	public void tickTile() {
-		tickCount++; tickCount %= 4*NCConfig.machine_update_rate;
+	public void refreshActivity() {
+		boolean canProcessInputsOld = canProcessInputs;
+		super.refreshActivity();
+		refreshMultiblock(canProcessInputsOld != canProcessInputs);
 	}
 	
 	public boolean findAdjacentComparator() {
@@ -193,12 +211,34 @@ public class TileFissionController extends TileItemGenerator implements SimpleCo
 	}
 	
 	@Override
-	public boolean isProcessing() {
-		return readyToProcess() && isActivated();
+	public void setState(boolean isActive) {
+		super.setState(isActive);
+		if (getBlockType() instanceof BlockFissionControllerNewFixed) ((BlockFissionControllerNewFixed)getBlockType()).setActiveState(world.getBlockState(pos), world, pos, isActive);
 	}
 	
-	private boolean isActivated() {
-		return isRedstonePowered() || computerActivated;
+	// Processor Stats
+	
+	@Override
+	public boolean setRecipeStats() {
+		if (recipe == null) {
+			baseProcessTime = defaultProcessTime;
+			baseProcessPower = defaultProcessPower;
+			baseProcessHeat = 0D;
+			baseProcessRadiation = 0D;
+			return false;
+		}
+		baseProcessTime = recipe.getFissionFuelTime();
+		baseProcessPower = recipe.getFissionFuelPower();
+		baseProcessHeat = recipe.getFissionFuelHeat();
+		baseProcessRadiation = recipe.getFissionFuelRadiation();
+		return true;
+	}
+	
+	// Processing
+	
+	@Override
+	public boolean isProcessing() {
+		return readyToProcess() && isActivated;
 	}
 	
 	@Override
@@ -206,16 +246,13 @@ public class TileFissionController extends TileItemGenerator implements SimpleCo
 		return canProcessInputs && hasConsumed && complete == 1;
 	}
 	
-	@Override
-	public void updateBlockType() {
-		super.updateBlockType();
-		tickCount = -1;
+	private boolean isActivated() {
+		return isRedstonePowered() || computerActivated;
 	}
 	
 	@Override
-	public void setState(boolean isActive) {
-		super.setState(isActive);
-		if (getBlockType() instanceof BlockFissionControllerNewFixed) ((BlockFissionControllerNewFixed)getBlockType()).setActiveState(world.getBlockState(pos), world, pos, isActive);
+	public void finishProcess() {
+		super.finishProcess();
 	}
 	
 	// IC2 Tiers
@@ -230,27 +267,7 @@ public class TileFissionController extends TileItemGenerator implements SimpleCo
 		return 4;
 	}
 	
-	// Generating
-	
-	@Override
-	public void setRecipeStats() {
-		if (recipe == null) {
-			setDefaultRecipeStats();
-			return;
-		}
-		
-		baseProcessTime = recipe.getFissionFuelTime();
-		baseProcessPower = recipe.getFissionFuelPower();
-		baseProcessHeat = recipe.getFissionFuelHeat();
-		baseProcessRadiation = recipe.getFissionFuelRadiation();
-	}
-	
-	public void setDefaultRecipeStats() {
-		baseProcessTime = defaultProcessTime;
-		baseProcessPower = defaultProcessPower;
-		baseProcessHeat = 0D;
-		baseProcessRadiation = 0D;
-	}
+	// Reactor Stats
 	
 	public String getFuelName() {
 		if (recipe == null) return NO_FUEL;
@@ -507,8 +524,8 @@ public class TileFissionController extends TileItemGenerator implements SimpleCo
 	
 	// Finding Structure
 	
-	public boolean checkStructure() {
-		if (shouldTileCheck()) {
+	public boolean checkStructure(boolean checkBlocks) {
+		if (checkBlocks) {
 			int maxLength = NCConfig.fission_max_size + 1;
 			boolean validStructure = false;
 			int maxZCheck = 0;
@@ -698,7 +715,7 @@ public class TileFissionController extends TileItemGenerator implements SimpleCo
 	
 	// Set Fuel and Power and Modify Heat
 	
-	private void run() {
+	private void run(boolean checkBlocks) {
 		double energyThisTick = 0;
 		double fuelThisTick = 0;
 		double heatThisTick = 0;
@@ -709,9 +726,9 @@ public class TileFissionController extends TileItemGenerator implements SimpleCo
 		double baseRF = baseProcessPower;
 		double baseHeat = baseProcessHeat;
 		
-		ready = readyToProcess() && !isActivated() ? 1 : 0;
+		ready = readyToProcess() && !isActivated ? 1 : 0;
 
-		if (shouldTileCheck()) {
+		if (checkBlocks) {
 			if (complete == 1) {
 				for (int z = minZ + 1; z <= maxZ - 1; z++) for (int x = minX + 1; x <= maxX - 1; x++) for (int y = minY + 1; y <= maxY - 1; y++) {
 					
@@ -819,7 +836,7 @@ public class TileFissionController extends TileItemGenerator implements SimpleCo
 		}
 	}
 	
-	private void newRun() {
+	private void newRun(boolean checkBlocks) {
 		double energyThisTick = 0D;
 		double fuelThisTick = 0D;
 		double heatThisTick = 0D;
@@ -833,9 +850,9 @@ public class TileFissionController extends TileItemGenerator implements SimpleCo
 		double moderatorPowerMultiplier = NCConfig.fission_moderator_extra_power/6D;
 		double moderatorHeatMultiplier = NCConfig.fission_moderator_extra_heat/6D;
 		
-		ready = readyToProcess() && !isActivated() ? 1 : 0;
+		ready = readyToProcess() && !isActivated ? 1 : 0;
 
-		if (shouldTileCheck()) {
+		if (checkBlocks) {
 			if (complete == 1) {
 				if (ModCheck.openComputersLoaded() && readLayout) layout = new Object[getLengthX()*getLengthY()*getLengthZ()];
 				
@@ -987,6 +1004,7 @@ public class TileFissionController extends TileItemGenerator implements SimpleCo
 		nbt.setBoolean("newRules", newRules);
 		nbt.setInteger("ports", ports);
 		nbt.setInteger("currentEnergyStored", currentEnergyStored);
+		nbt.setBoolean("isActivated", isActivated);
 		nbt.setBoolean("computerActivated", computerActivated);
 		nbt.setBoolean("readLayout", readLayout);
 		return nbt;
@@ -1024,140 +1042,58 @@ public class TileFissionController extends TileItemGenerator implements SimpleCo
 		newRules = nbt.getBoolean("newRules");
 		ports = nbt.getInteger("ports");
 		currentEnergyStored = nbt.getInteger("currentEnergyStored");
+		isActivated = nbt.getBoolean("isActivated");
 		computerActivated = nbt.getBoolean("computerActivated");
 		readLayout = nbt.getBoolean("readLayout");
 	}
 	
-	// Inventory Fields
-
+	// IGui
+	
 	@Override
-	public int getFieldCount() {
-		return 21;
+	public int getGuiID() {
+		return 100;
 	}
-
+	
 	@Override
-	public int getField(int id) {
-		switch (id) {
-		case 0:
-			return (int) time;
-		case 1:
-			return getEnergyStored();
-		case 2:
-			return (int) baseProcessTime;
-		case 3:
-			return (int) processPower;
-		case 4:
-			return (int) heat;
-		case 5:
-			return (int) cooling;
-		case 6:
-			return (int) (efficiency*10);
-		case 7:
-			return cells;
-		case 8:
-			return (int) speedMultiplier;
-		case 9:
-			return lengthX;
-		case 10:
-			return lengthY;
-		case 11:
-			return lengthZ;
-		case 12:
-			return (int) heatChange;
-		case 13:
-			return complete;
-		case 14:
-			return ready;
-		case 15:
-			return problemPosX;
-		case 16:
-			return problemPosY;
-		case 17:
-			return problemPosZ;
-		case 18:
-			return (int) (heatMult*10);
-		case 19:
-			return hasConsumed ? 1 : 0;
-		case 20:
-			return computerActivated ? 1 : 0;
-		default:
-			return 0;
-		}
+	public Set<EntityPlayer> getPlayersToUpdate() {
+		return playersToUpdate;
 	}
-
+	
 	@Override
-	public void setField(int id, int value) {
-		switch (id) {
-		case 0:
-			time = value;
-			break;
-		case 1:
-			getEnergyStorage().setEnergyStored(value);
-			break;
-		case 2:
-			baseProcessTime = value;
-			break;
-		case 3:
-			processPower = value;
-			break;
-		case 4:
-			heat = value;
-			break;
-		case 5:
-			cooling = value;
-			break;
-		case 6:
-			efficiency = value/10D;
-			break;
-		case 7:
-			cells = value;
-			break;
-		case 8:
-			speedMultiplier = value;
-			break;
-		case 9:
-			lengthX = value;
-			break;
-		case 10:
-			lengthY = value;
-			break;
-		case 11:
-			lengthZ = value;
-			break;
-		case 12:
-			heatChange = value;
-			break;
-		case 13:
-			complete = value;
-			break;
-		case 14:
-			ready = value;
-			break;
-		case 15:
-			problemPosX = value;
-			break;
-		case 16:
-			problemPosY = value;
-			break;
-		case 17:
-			problemPosZ = value;
-			break;
-		case 18:
-			heatMult = value/10D;
-			break;
-		case 19:
-			hasConsumed = value == 1;
-			break;
-		case 20:
-			computerActivated = value == 1;
-		}
+	public FissionUpdatePacket getGuiUpdatePacket() {
+		return new FissionUpdatePacket(pos, time, getEnergyStored(), baseProcessTime, baseProcessPower, heat, cooling, efficiency, cells, speedMultiplier, lengthX, lengthY, lengthZ, heatChange, complete, ready, problemPosX, problemPosY, problemPosZ, heatMult, hasConsumed, computerActivated);
+	}
+	
+	@Override
+	public void onGuiPacket(FissionUpdatePacket message) {
+		time = message.time;
+		getEnergyStorage().setEnergyStored(message.energyStored);
+		baseProcessTime = message.baseProcessTime;
+		baseProcessPower = message.baseProcessPower;
+		heat = message.heat;
+		cooling = message.cooling;
+		efficiency = message.efficiency;
+		cells = message.cells;
+		speedMultiplier = message.speedMultiplier;
+		lengthX = message.lengthX;
+		lengthY = message.lengthY;
+		lengthZ = message.lengthZ;
+		heatChange = message.heatChange;
+		complete = message.complete;
+		ready = message.ready;
+		problemPosX = message.problemPosX;
+		problemPosY = message.problemPosY;
+		problemPosZ = message.problemPosZ;
+		heatMult = message.heatMult;
+		hasConsumed = message.hasConsumed;
+		computerActivated = message.computerActivated;
 	}
 	
 	// Allow ports to open GUI
 	
 	@Override
 	public boolean isUsableByPlayer(EntityPlayer player) {
-		return world.getTileEntity(pos) != this ? false : player.getDistanceSq((double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D) <= Math.max(lengthX*lengthX + lengthY*lengthY + lengthZ*lengthZ, 64.0D);
+		return world.getTileEntity(pos) != this ? false : player.getDistanceSq(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D) <= Math.max(lengthX*lengthX + lengthY*lengthY + lengthZ*lengthZ, 64.0D);
 	}
 	
 	// OpenComputers

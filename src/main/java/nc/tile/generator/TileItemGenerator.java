@@ -1,7 +1,9 @@
 package nc.tile.generator;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.Nonnull;
 
@@ -13,20 +15,18 @@ import nc.recipe.NCRecipes;
 import nc.recipe.ProcessorRecipe;
 import nc.recipe.ProcessorRecipeHandler;
 import nc.recipe.ingredient.IItemIngredient;
-import nc.tile.IGui;
-import nc.tile.dummy.IInterfaceable;
 import nc.tile.energy.ITileEnergy;
 import nc.tile.energy.TileEnergySidedInventory;
-import nc.tile.energyFluid.IBufferable;
 import nc.tile.internal.energy.EnergyConnection;
 import nc.tile.internal.fluid.Tank;
 import nc.util.ArrayHelper;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.MathHelper;
 
-public abstract class TileItemGenerator extends TileEnergySidedInventory implements IItemGenerator, IInterfaceable, IBufferable, IGui {
+public abstract class TileItemGenerator extends TileEnergySidedInventory implements IItemGenerator {
 
 	public final int[] slots;
 	
@@ -42,6 +42,8 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 	public final NCRecipes.Type recipeType;
 	protected ProcessorRecipe recipe;
 	
+	protected Set<EntityPlayer> playersToUpdate;
+	
 	public TileItemGenerator(String name, int itemInSize, int itemOutSize, int otherSize, int capacity, @Nonnull NCRecipes.Type recipeType) {
 		super(name, 2*itemInSize + itemOutSize + otherSize, capacity, ITileEnergy.energyConnectionAll(EnergyConnection.OUT));
 		itemInputSize = itemInSize;
@@ -55,63 +57,36 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 		this.recipeType = recipeType;
 		
 		slots = ArrayHelper.increasingArray(itemInSize + itemOutSize);
+		
+		playersToUpdate = new HashSet<EntityPlayer>();
 	}
+	
+	// Ticking
 	
 	@Override
 	public void onAdded() {
 		super.onAdded();
 		if (!world.isRemote) {
-			isProcessing = isProcessing();
-			hasConsumed = hasConsumed();
+			if (!world.isRemote) {
+				refreshRecipe();
+				refreshActivity();
+				isProcessing = isProcessing();
+				hasConsumed = hasConsumed();
+			}
 		}
 	}
 	
 	@Override
 	public void update() {
 		super.update();
-		updateProcessor();
+		updateGenerator();
 	}
 	
-	public void updateProcessor() {
-		recipe = getRecipeHandler().getRecipeFromInputs(getItemInputs(hasConsumed), new ArrayList<Tank>());
-		canProcessInputs = canProcessInputs();
-		boolean wasProcessing = isProcessing;
-		isProcessing = isProcessing();
-		boolean shouldUpdate = false;
-		if(!world.isRemote) {
-			tickTile();
-			if (isProcessing) process();
-			else getRadiationSource().setRadiationLevel(0D);
-			consumeInputs();
-			if (wasProcessing != isProcessing) {
-				shouldUpdate = true;
-				updateBlockType();
-			}
-			pushEnergy();
-		}
-		if (shouldUpdate) markDirty();
-	}
+	public abstract void updateGenerator();
 	
-	public boolean isProcessing() {
-		return readyToProcess() && isRedstonePowered();
-	}
-	
-	public boolean readyToProcess() {
-		return canProcessInputs && hasConsumed;
-	}
-	
-	public void process() {
-		time += speedMultiplier;
-		getEnergyStorage().changeEnergyStored((int) processPower);
-		getRadiationSource().setRadiationLevel(baseProcessRadiation*speedMultiplier);
-		if (time >= baseProcessTime) {
-			double oldProcessTime = baseProcessTime;
-			produceProducts();
-			recipe = getRecipeHandler().getRecipeFromInputs(getItemInputs(hasConsumed), new ArrayList<Tank>());
-			setRecipeStats();
-			if (recipe == null) time = 0;
-			else time = MathHelper.clamp(time - oldProcessTime, 0D, baseProcessTime);
-		}
+	@Override
+	public void tickTile() {
+		tickCount++; tickCount %= 1;
 	}
 	
 	public void updateBlockType() {
@@ -121,7 +96,32 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 		if (ModCheck.ic2Loaded()) addTileToENet();
 	}
 	
+	@Override
+	public void refreshRecipe() {
+		if (recipe == null || !recipe.matchingInputs(getItemInputs(hasConsumed), new ArrayList<Tank>())) {
+			recipe = getRecipeHandler().getRecipeFromInputs(getItemInputs(hasConsumed), new ArrayList<Tank>());
+		}
+		consumeInputs();
+	}
+	
+	@Override
+	public void refreshActivity() {
+		canProcessInputs = canProcessInputs();
+	}
+	
+	// Processor Stats
+	
+	public abstract boolean setRecipeStats();
+	
 	// Processing
+	
+	public boolean isProcessing() {
+		return readyToProcess() && isRedstonePowered();
+	}
+	
+	public boolean readyToProcess() {
+		return canProcessInputs && hasConsumed;
+	}
 	
 	public boolean hasConsumed() {
 		if (world.isRemote) return hasConsumed;
@@ -130,18 +130,20 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 		}
 		return false;
 	}
-		
+	
 	public boolean canProcessInputs() {
-		if (recipe == null) {
+		if (!setRecipeStats()) {
 			if (hasConsumed) {
 				for (int i = 0; i < itemInputSize; i++) getItemInputs(true).set(i, ItemStack.EMPTY);
 				hasConsumed = false;
 			}
 			return false;
 		}
-		setRecipeStats();
 		if (time >= baseProcessTime) return true;
-		
+		return canProduceProducts();
+	}
+	
+	public boolean canProduceProducts() {
 		for(int j = 0; j < itemOutputSize; j++) {
 			IItemIngredient itemProduct = getItemProducts().get(j);
 			if (itemProduct.getMaxStackSize() <= 0) continue;
@@ -157,8 +159,6 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 		return true;
 	}
 	
-	public abstract void setRecipeStats();
-		
 	public void consumeInputs() {
 		if (hasConsumed || recipe == null) return;
 		List<Integer> itemInputOrder = getItemInputOrder();
@@ -180,6 +180,22 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 		hasConsumed = true;
 	}
 	
+	public void process() {
+		time += speedMultiplier;
+		getEnergyStorage().changeEnergyStored((int) processPower);
+		getRadiationSource().setRadiationLevel(baseProcessRadiation*speedMultiplier);
+		if (time >= baseProcessTime) finishProcess();
+	}
+	
+	public void finishProcess() {
+		double oldProcessTime = baseProcessTime;
+		produceProducts();
+		refreshRecipe();
+		if (!setRecipeStats()) time = 0;
+		else time = MathHelper.clamp(time - oldProcessTime, 0D, baseProcessTime);
+		refreshActivity();
+	}
+	
 	public void produceProducts() {
 		for (int i = itemInputSize + itemOutputSize; i < 2*itemInputSize + itemOutputSize; i++) inventoryStacks.set(i, ItemStack.EMPTY);
 		
@@ -196,6 +212,8 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 		}
 		hasConsumed = false;
 	}
+	
+	// IProcessor
 	
 	@Override
 	public ProcessorRecipeHandler getRecipeHandler() {
@@ -240,7 +258,43 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 		return itemInputOrder;
 	}
 	
-	// Inventory
+	// IInventory
+	
+	@Override
+	public ItemStack decrStackSize(int slot, int amount) {
+		ItemStack stack = super.decrStackSize(slot, amount);
+		if (!world.isRemote) {
+			if (slot < itemInputSize) {
+				refreshRecipe();
+				refreshActivity();
+			}
+			else if (slot < itemInputSize + itemOutputSize) {
+				refreshActivity();
+			}
+		}
+		return stack;
+	}
+
+	@Override
+	public void setInventorySlotContents(int slot, ItemStack stack) {
+		super.setInventorySlotContents(slot, stack);
+		if (!world.isRemote) {
+			if (slot < itemInputSize) {
+				refreshRecipe();
+				refreshActivity();
+			}
+			else if (slot < itemInputSize + itemOutputSize) {
+				refreshActivity();
+			}
+		}
+	}
+
+	@Override
+	public void markDirty() {
+		refreshRecipe();
+		refreshActivity();
+		super.markDirty();
+	}
 	
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {
@@ -255,7 +309,7 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 		return inputItemsExcludingSlot;
 	}
 	
-	// SidedInventory
+	// ISidedInventory
 	
 	@Override
 	public int[] getSlotsForFace(EnumFacing side) {
@@ -291,35 +345,5 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 		isProcessing = nbt.getBoolean("isProcessing");
 		hasConsumed = nbt.getBoolean("hasConsumed");
 		canProcessInputs = nbt.getBoolean("canProcessInputs");
-	}
-	
-	// Inventory Fields
-
-	@Override
-	public int getFieldCount() {
-		return 2;
-	}
-
-	@Override
-	public int getField(int id) {
-		switch (id) {
-		case 0:
-			return (int) time;
-		case 1:
-			return getEnergyStored();
-		default:
-			return 0;
-		}
-	}
-
-	@Override
-	public void setField(int id, int value) {
-		switch (id) {
-		case 0:
-			time = value;
-			break;
-		case 1:
-			getEnergyStorage().setEnergyStored(value);
-		}
 	}
 }

@@ -1,6 +1,7 @@
 package nc.tile.internal.fluid;
 
 import nc.tile.fluid.ITileFluid;
+import nc.tile.processor.IProcessor;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
@@ -23,16 +24,31 @@ public class FluidTileWrapper implements IFluidHandler {
 	
 	@Override
 	public int fill(FluidStack resource, boolean doFill) {
-		return tile.fill(resource, doFill, side);
+		int amount = tile.fill(resource, doFill, side);
+		if (doFill && amount != 0) {
+			if (tile instanceof IProcessor) {
+				((IProcessor)tile).refreshRecipe();
+				((IProcessor)tile).refreshActivity();
+			}
+		}
+		return amount;
 	}
 	
 	@Override
 	public FluidStack drain(FluidStack resource, boolean doDrain) {
-		return tile.drain(resource, doDrain, side);
+		FluidStack stack = tile.drain(resource, doDrain, side);
+		if (doDrain && (stack != null && stack.amount != 0)) {
+			if (tile instanceof IProcessor) ((IProcessor)tile).refreshActivity();
+		}
+		return stack;
 	}
 	
 	@Override
 	public FluidStack drain(int maxDrain, boolean doDrain) {
-		return tile.drain(maxDrain, doDrain, side);
+		FluidStack stack = tile.drain(maxDrain, doDrain, side);
+		if (doDrain && (stack != null && stack.amount != 0)) {
+			if (tile instanceof IProcessor) ((IProcessor)tile).refreshActivity();
+		}
+		return stack;
 	}
 }

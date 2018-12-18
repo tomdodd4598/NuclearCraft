@@ -14,7 +14,8 @@ public class EntityRads implements IEntityRads {
 	private boolean radXWoreOff = false;
 	private double radawayBuffer = 0;
 	private boolean consumed;
-	private double cooldown;
+	private double radawayCooldown;
+	private double radXCooldown;
 	
 	public EntityRads(double maxRads) {
 		this.maxRads = maxRads;
@@ -26,7 +27,8 @@ public class EntityRads implements IEntityRads {
 		nbt.setDouble("radiationLevel", getRadiationLevel());
 		nbt.setDouble("radiationResistance", getRadiationResistance());
 		nbt.setBoolean("radXWoreOff", getRadXWoreOff());
-		nbt.setDouble("radawayBuffer", getRadawayBuffer());
+		nbt.setDouble("radawayCooldown", getRadawayCooldown());
+		nbt.setDouble("radXCooldown", getRadXCooldown());
 		return nbt;
 	}
 
@@ -37,6 +39,8 @@ public class EntityRads implements IEntityRads {
 		setRadiationResistance(nbt.getDouble("radiationResistance"));
 		setRadXWoreOff(nbt.getBoolean("radXWoreOff"));
 		setRadawayBuffer(nbt.getDouble("radawayBuffer"));
+		setRadawayCooldown(nbt.getDouble("radawayCooldown"));
+		setRadXCooldown(nbt.getDouble("radXCooldown"));
 	}
 
 	@Override
@@ -105,17 +109,32 @@ public class EntityRads implements IEntityRads {
 	}
 	
 	@Override
-	public double getMedicineCooldown() {
-		return cooldown;
+	public double getRadawayCooldown() {
+		return radawayCooldown;
 	}
 
 	@Override
-	public void setMedicineCooldown(double cooldown) {
-		this.cooldown = Math.max(cooldown, 0D);
+	public void setRadawayCooldown(double cooldown) {
+		radawayCooldown = Math.max(cooldown, 0D);
 	}
 	
 	@Override
-	public boolean canConsumeMedicine() {
-		return !consumed && cooldown <= 0D;
+	public boolean canConsumeRadaway() {
+		return !consumed && radawayCooldown <= 0D;
+	}
+	
+	@Override
+	public double getRadXCooldown() {
+		return radXCooldown;
+	}
+
+	@Override
+	public void setRadXCooldown(double cooldown) {
+		radXCooldown = Math.max(cooldown, 0D);
+	}
+	
+	@Override
+	public boolean canConsumeRadX() {
+		return !consumed && radXCooldown <= 0D;
 	}
 }

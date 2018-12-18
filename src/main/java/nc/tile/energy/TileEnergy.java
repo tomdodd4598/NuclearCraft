@@ -187,7 +187,7 @@ public abstract class TileEnergy extends NCTile implements ITileEnergy, IEnergyT
 		if (hasEnergySideCapability(side)) {
 			side = nonNullSide(side);
 			if (capability == CapabilityEnergy.ENERGY) return getEnergySide(side) != null;
-			if (ModCheck.gregtechLoaded()) if (capability == GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER) return getEnergySideGT(side) != null;
+			if (ModCheck.gregtechLoaded() && NCConfig.enable_gtce_eu) if (capability == GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER) return getEnergySideGT(side) != null;
 		}
 		return super.hasCapability(capability, side);
 	}
@@ -197,7 +197,7 @@ public abstract class TileEnergy extends NCTile implements ITileEnergy, IEnergyT
 		if (hasEnergySideCapability(side)) {
 			side = nonNullSide(side);
 			if (capability == CapabilityEnergy.ENERGY) return (T) getEnergySide(side);
-			if (ModCheck.gregtechLoaded()) if (capability == GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER) return (T) getEnergySideGT(side);
+			if (ModCheck.gregtechLoaded() && NCConfig.enable_gtce_eu) if (capability == GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER) return (T) getEnergySideGT(side);
 		}
 		return super.getCapability(capability, side);
 	}

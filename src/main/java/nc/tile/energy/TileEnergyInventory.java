@@ -169,7 +169,9 @@ public abstract class TileEnergyInventory extends TileEnergy implements IInvento
 	}
 
 	@Override
-	public void setField(int id, int value) {}
+	public void setField(int id, int value) {
+		
+	}
 		
 	@Override
 	public int getFieldCount() {

@@ -267,7 +267,14 @@ public class BlockEnums {
 		SOLAR_PANEL_ELITE("solar_panel_elite", NCTabs.MACHINES),
 		
 		VOLTAIC_PILE_BASIC("voltaic_pile_basic", NCTabs.MACHINES),
+		VOLTAIC_PILE_ADVANCED("voltaic_pile_advanced", NCTabs.MACHINES),
+		VOLTAIC_PILE_DU("voltaic_pile_du", NCTabs.MACHINES),
+		VOLTAIC_PILE_ELITE("voltaic_pile_elite", NCTabs.MACHINES),
+		
 		LITHIUM_ION_BATTERY_BASIC("lithium_ion_battery_basic", NCTabs.MACHINES),
+		LITHIUM_ION_BATTERY_ADVANCED("lithium_ion_battery_advanced", NCTabs.MACHINES),
+		LITHIUM_ION_BATTERY_DU("lithium_ion_battery_du", NCTabs.MACHINES),
+		LITHIUM_ION_BATTERY_ELITE("lithium_ion_battery_elite", NCTabs.MACHINES),
 		
 		HELIUM_COLLECTOR("helium_collector", NCTabs.MACHINES),
 		HELIUM_COLLECTOR_COMPACT("helium_collector_compact", NCTabs.MACHINES),
@@ -335,8 +342,21 @@ public class BlockEnums {
 				
 			case VOLTAIC_PILE_BASIC:
 				return new TileBattery.VoltaicPileBasic();
+			case VOLTAIC_PILE_ADVANCED:
+				return new TileBattery.VoltaicPileAdvanced();
+			case VOLTAIC_PILE_DU:
+				return new TileBattery.VoltaicPileDU();
+			case VOLTAIC_PILE_ELITE:
+				return new TileBattery.VoltaicPileElite();
+				
 			case LITHIUM_ION_BATTERY_BASIC:
 				return new TileBattery.LithiumIonBatteryBasic();
+			case LITHIUM_ION_BATTERY_ADVANCED:
+				return new TileBattery.LithiumIonBatteryAdvanced();
+			case LITHIUM_ION_BATTERY_DU:
+				return new TileBattery.LithiumIonBatteryDU();
+			case LITHIUM_ION_BATTERY_ELITE:
+				return new TileBattery.LithiumIonBatteryElite();
 				
 			case HELIUM_COLLECTOR:
 				return new TilePassive.HeliumCollector();

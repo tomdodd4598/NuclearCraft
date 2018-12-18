@@ -6,6 +6,7 @@ import javax.annotation.Nullable;
 
 import nc.Global;
 import nc.util.InfoHelper;
+import nc.util.OreDictHelper;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
@@ -17,12 +18,14 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class NCSword extends ItemSword {
 	
 	String[] info;
+	private final ToolMaterial toolMat;
 
 	public NCSword(String unlocalizedName, ToolMaterial material, String... tooltip) {
 		super(material);
 		setUnlocalizedName(Global.MOD_ID + "." + unlocalizedName);
 		setRegistryName(new ResourceLocation(Global.MOD_ID, unlocalizedName));
 		info = InfoHelper.buildInfo(getUnlocalizedName(), tooltip);
+		toolMat = material;
 	}
 	
 	@Override
@@ -31,4 +34,10 @@ public class NCSword extends ItemSword {
         super.addInformation(itemStack, world, tooltip, flag);
         if (info.length > 0) InfoHelper.infoFull(tooltip, info);
     }
+	
+	@Override
+	public boolean getIsRepairable(ItemStack toRepair, ItemStack repair) {
+		ItemStack mat = toolMat.getRepairItemStack();
+		return mat != null && !mat.isEmpty() && OreDictHelper.isOreMatching(mat, repair);
+	}
 }

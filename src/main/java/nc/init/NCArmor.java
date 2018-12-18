@@ -11,16 +11,18 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.SoundEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 public class NCArmor {
 	
-	public static final ArmorMaterial BORON = EnumHelper.addArmorMaterial("boron", Global.MOD_ID + ":boron", NCConfig.armor_durability[0], new int[] {NCConfig.armor_boron[0], NCConfig.armor_boron[1], NCConfig.armor_boron[2], NCConfig.armor_boron[3]}, NCConfig.armor_enchantability[0], SoundEvents.ITEM_ARMOR_EQUIP_IRON, (float) NCConfig.armor_toughness[0]);
-	public static final ArmorMaterial TOUGH = EnumHelper.addArmorMaterial("tough", Global.MOD_ID + ":tough", NCConfig.armor_durability[1], new int[] {NCConfig.armor_tough[0], NCConfig.armor_tough[1], NCConfig.armor_tough[2], NCConfig.armor_tough[3]}, NCConfig.armor_enchantability[1], SoundEvents.ITEM_ARMOR_EQUIP_IRON, (float) NCConfig.armor_toughness[1]);
-	public static final ArmorMaterial HARD_CARBON = EnumHelper.addArmorMaterial("hard_carbon", Global.MOD_ID + ":hard_carbon", NCConfig.armor_durability[2], new int[] {NCConfig.armor_hard_carbon[0], NCConfig.armor_hard_carbon[1], NCConfig.armor_hard_carbon[2], NCConfig.armor_hard_carbon[3]}, NCConfig.armor_enchantability[2], SoundEvents.ITEM_ARMOR_EQUIP_IRON, (float) NCConfig.armor_toughness[2]);
-	public static final ArmorMaterial BORON_NITRIDE = EnumHelper.addArmorMaterial("boron_nitride", Global.MOD_ID + ":boron_nitride", NCConfig.armor_durability[3], new int[] {NCConfig.armor_boron_nitride[0], NCConfig.armor_boron_nitride[1], NCConfig.armor_boron_nitride[2], NCConfig.armor_boron_nitride[3]}, NCConfig.armor_enchantability[3], SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, (float) NCConfig.armor_toughness[3]);
+	public static final ArmorMaterial BORON = armorMaterial("boron", 0, NCConfig.armor_boron, SoundEvents.ITEM_ARMOR_EQUIP_IRON, new ItemStack(NCBlocks.ore, 1, 5));
+	public static final ArmorMaterial TOUGH = armorMaterial("tough", 1, NCConfig.armor_tough, SoundEvents.ITEM_ARMOR_EQUIP_IRON, new ItemStack(NCItems.alloy, 1, 1));
+	public static final ArmorMaterial HARD_CARBON = armorMaterial("hard_carbon", 2, NCConfig.armor_hard_carbon, SoundEvents.ITEM_ARMOR_EQUIP_IRON, new ItemStack(NCItems.alloy, 1, 2));
+	public static final ArmorMaterial BORON_NITRIDE = armorMaterial("boron_nitride", 3, NCConfig.armor_boron_nitride, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, new ItemStack(NCItems.gem, 1, 1));
 	public static final ArmorMaterial HAZMAT = EnumHelper.addArmorMaterial("hazmat", Global.MOD_ID + ":hazmat", 0, new int[] {1, 2, 3, 1}, 5, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0F);
 	
 	public static ItemArmor helm_boron;
@@ -164,5 +166,9 @@ public class NCArmor {
 		
 	public static void registerRender(Item item) {
 		ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(item.getRegistryName(), "inventory"));
+	}
+	
+	private static ArmorMaterial armorMaterial(String name, int id, int[] durability, SoundEvent equipSound, ItemStack repairStack) {
+		return EnumHelper.addArmorMaterial(name, Global.MOD_ID + ":" + name, NCConfig.armor_durability[id], new int[] {durability[0], durability[1], durability[2], durability[3]}, NCConfig.armor_enchantability[id], equipSound, (float) NCConfig.armor_toughness[id]).setRepairItem(repairStack);
 	}
 }

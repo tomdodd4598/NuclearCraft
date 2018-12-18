@@ -5,25 +5,17 @@ import com.google.common.collect.Lists;
 import crafttweaker.CraftTweakerAPI;
 import crafttweaker.annotations.ZenRegister;
 import crafttweaker.api.item.IIngredient;
-import nc.ModCheck;
 import nc.config.NCConfig;
-import nc.recipe.NCRecipes;
 import nc.recipe.IngredientSorption;
+import nc.recipe.NCRecipes;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
 public class NCCraftTweaker {
 	
-	public static class RecipeHandler {
-		static {
-			ModCheck.init();
-			NCRecipes.init();
-		}
-	}
-	
 	@ZenClass("mods.nuclearcraft.manufactory")
 	@ZenRegister
-	public static class ManufactoryHandler extends RecipeHandler {
+	public static class ManufactoryHandler {
 		
 		@ZenMethod
 		public static void addRecipe(Object[] objects) {
@@ -70,7 +62,7 @@ public class NCCraftTweaker {
 	
 	@ZenClass("mods.nuclearcraft.isotope_separator")
 	@ZenRegister
-	public static class IsotopeSeparatorHandler extends RecipeHandler {
+	public static class IsotopeSeparatorHandler {
 		
 		@ZenMethod
 		public static void addRecipe(Object[] objects) {
@@ -117,7 +109,7 @@ public class NCCraftTweaker {
 	
 	@ZenClass("mods.nuclearcraft.decay_hastener")
 	@ZenRegister
-	public static class DecayHastenerHandler extends RecipeHandler {
+	public static class DecayHastenerHandler {
 		
 		@ZenMethod
 		public static void addRecipe(Object[] objects) {
@@ -164,7 +156,7 @@ public class NCCraftTweaker {
 	
 	@ZenClass("mods.nuclearcraft.fuel_reprocessor")
 	@ZenRegister
-	public static class FuelReprocessorHandler extends RecipeHandler {
+	public static class FuelReprocessorHandler {
 		
 		@ZenMethod
 		public static void addRecipe(Object[] objects) {
@@ -211,7 +203,7 @@ public class NCCraftTweaker {
 	
 	@ZenClass("mods.nuclearcraft.alloy_furnace")
 	@ZenRegister
-	public static class AlloyFurnaceHandler extends RecipeHandler {
+	public static class AlloyFurnaceHandler {
 		
 		@ZenMethod
 		public static void addRecipe(Object[] objects) {
@@ -258,7 +250,7 @@ public class NCCraftTweaker {
 	
 	@ZenClass("mods.nuclearcraft.infuser")
 	@ZenRegister
-	public static class InfuserHandler extends RecipeHandler {
+	public static class InfuserHandler {
 		
 		@ZenMethod
 		public static void addRecipe(Object[] objects) {
@@ -305,7 +297,7 @@ public class NCCraftTweaker {
 	
 	@ZenClass("mods.nuclearcraft.melter")
 	@ZenRegister
-	public static class MelterHandler extends RecipeHandler {
+	public static class MelterHandler {
 		
 		@ZenMethod
 		public static void addRecipe(Object[] objects) {
@@ -352,7 +344,7 @@ public class NCCraftTweaker {
 	
 	@ZenClass("mods.nuclearcraft.supercooler")
 	@ZenRegister
-	public static class SupercoolerHandler extends RecipeHandler {
+	public static class SupercoolerHandler {
 		
 		@ZenMethod
 		public static void addRecipe(Object[] objects) {
@@ -399,7 +391,7 @@ public class NCCraftTweaker {
 	
 	@ZenClass("mods.nuclearcraft.electrolyser")
 	@ZenRegister
-	public static class ElectrolyserHandler extends RecipeHandler {
+	public static class ElectrolyserHandler {
 		
 		@ZenMethod
 		public static void addRecipe(Object[] objects) {
@@ -446,7 +438,7 @@ public class NCCraftTweaker {
 	
 	@ZenClass("mods.nuclearcraft.irradiator")
 	@ZenRegister
-	public static class IrradiatorHandler extends RecipeHandler {
+	public static class IrradiatorHandler {
 		
 		@ZenMethod
 		public static void addRecipe(Object[] objects) {
@@ -493,7 +485,7 @@ public class NCCraftTweaker {
 	
 	@ZenClass("mods.nuclearcraft.ingot_former")
 	@ZenRegister
-	public static class IngotFormerHandler extends RecipeHandler {
+	public static class IngotFormerHandler {
 		
 		@ZenMethod
 		public static void addRecipe(Object[] objects) {
@@ -540,7 +532,7 @@ public class NCCraftTweaker {
 	
 	@ZenClass("mods.nuclearcraft.pressurizer")
 	@ZenRegister
-	public static class PressurizerHandler extends RecipeHandler {
+	public static class PressurizerHandler {
 		
 		@ZenMethod
 		public static void addRecipe(Object[] objects) {
@@ -587,7 +579,7 @@ public class NCCraftTweaker {
 	
 	@ZenClass("mods.nuclearcraft.chemical_reactor")
 	@ZenRegister
-	public static class ChemicalReactorHandler extends RecipeHandler {
+	public static class ChemicalReactorHandler {
 		
 		@ZenMethod
 		public static void addRecipe(Object[] objects) {
@@ -634,7 +626,7 @@ public class NCCraftTweaker {
 	
 	@ZenClass("mods.nuclearcraft.salt_mixer")
 	@ZenRegister
-	public static class SaltMixerHandler extends RecipeHandler {
+	public static class SaltMixerHandler {
 		
 		@ZenMethod
 		public static void addRecipe(Object[] objects) {
@@ -681,7 +673,7 @@ public class NCCraftTweaker {
 	
 	@ZenClass("mods.nuclearcraft.crystallizer")
 	@ZenRegister
-	public static class CrystallizerHandler extends RecipeHandler {
+	public static class CrystallizerHandler {
 		
 		@ZenMethod
 		public static void addRecipe(Object[] objects) {
@@ -728,7 +720,7 @@ public class NCCraftTweaker {
 	
 	@ZenClass("mods.nuclearcraft.dissolver")
 	@ZenRegister
-	public static class DissolverHandler extends RecipeHandler {
+	public static class DissolverHandler {
 		
 		@ZenMethod
 		public static void addRecipe(Object[] objects) {
@@ -775,7 +767,7 @@ public class NCCraftTweaker {
 	
 	@ZenClass("mods.nuclearcraft.extractor")
 	@ZenRegister
-	public static class ExtractorHandler extends RecipeHandler {
+	public static class ExtractorHandler {
 		
 		@ZenMethod
 		public static void addRecipe(Object[] objects) {
@@ -822,7 +814,7 @@ public class NCCraftTweaker {
 	
 	@ZenClass("mods.nuclearcraft.centrifuge")
 	@ZenRegister
-	public static class CentrifugeHandler extends RecipeHandler {
+	public static class CentrifugeHandler {
 		
 		@ZenMethod
 		public static void addRecipe(Object[] objects) {
@@ -869,7 +861,7 @@ public class NCCraftTweaker {
 	
 	@ZenClass("mods.nuclearcraft.rock_crusher")
 	@ZenRegister
-	public static class RockCrusherHandler extends RecipeHandler {
+	public static class RockCrusherHandler {
 		
 		@ZenMethod
 		public static void addRecipe(Object[] objects) {
@@ -916,7 +908,7 @@ public class NCCraftTweaker {
 	
 	@ZenClass("mods.nuclearcraft.decay_generator")
 	@ZenRegister
-	public static class DecayGeneratorHandler extends RecipeHandler {
+	public static class DecayGeneratorHandler {
 		
 		@ZenMethod
 		public static void addRecipe(Object[] objects) {
@@ -958,7 +950,7 @@ public class NCCraftTweaker {
 	
 	@ZenClass("mods.nuclearcraft.fission")
 	@ZenRegister
-	public static class FissionHandler extends RecipeHandler {
+	public static class FissionHandler {
 		
 		@ZenMethod
 		public static void addRecipe(Object[] objects) {
@@ -1000,7 +992,7 @@ public class NCCraftTweaker {
 	
 	@ZenClass("mods.nuclearcraft.fusion")
 	@ZenRegister
-	public static class FusionHandler extends RecipeHandler {
+	public static class FusionHandler {
 		
 		@ZenMethod
 		public static void addRecipe(Object[] objects) {
@@ -1042,7 +1034,7 @@ public class NCCraftTweaker {
 	
 	@ZenClass("mods.nuclearcraft.salt_fission")
 	@ZenRegister
-	public static class SaltFissionHandler extends RecipeHandler {
+	public static class SaltFissionHandler {
 		
 		@ZenMethod
 		public static void addRecipe(Object[] objects) {
@@ -1084,7 +1076,7 @@ public class NCCraftTweaker {
 	
 	@ZenClass("mods.nuclearcraft.coolant_heater")
 	@ZenRegister
-	public static class CoolantHeaterHandler extends RecipeHandler {
+	public static class CoolantHeaterHandler {
 		
 		@ZenMethod
 		public static void addRecipe(Object[] objects) {
@@ -1126,7 +1118,7 @@ public class NCCraftTweaker {
 	
 	@ZenClass("mods.nuclearcraft.heat_exchanger")
 	@ZenRegister
-	public static class HeatExchangerHandler extends RecipeHandler {
+	public static class HeatExchangerHandler {
 		
 		@ZenMethod
 		public static void addRecipe(Object[] objects) {
@@ -1151,7 +1143,7 @@ public class NCCraftTweaker {
 	
 	@ZenClass("mods.nuclearcraft.high_turbine")
 	@ZenRegister
-	public static class HighTurbineHandler extends RecipeHandler {
+	public static class HighTurbineHandler {
 		
 		@ZenMethod
 		public static void addRecipe(Object[] objects) {
@@ -1176,7 +1168,7 @@ public class NCCraftTweaker {
 	
 	@ZenClass("mods.nuclearcraft.low_turbine")
 	@ZenRegister
-	public static class LowTurbineHandler extends RecipeHandler {
+	public static class LowTurbineHandler {
 		
 		@ZenMethod
 		public static void addRecipe(Object[] objects) {
@@ -1201,7 +1193,7 @@ public class NCCraftTweaker {
 	
 	@ZenClass("mods.nuclearcraft.condenser")
 	@ZenRegister
-	public static class CondenserHandler extends RecipeHandler {
+	public static class CondenserHandler {
 		
 		@ZenMethod
 		public static void addRecipe(Object[] objects) {

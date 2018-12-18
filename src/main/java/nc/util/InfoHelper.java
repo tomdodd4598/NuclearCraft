@@ -11,6 +11,7 @@ public class InfoHelper {
 	private static final int MINIMUM_TEXT_WIDTH = 225;
 	
 	public static final String SHIFT_STRING = Lang.localise("gui.inventory.shift_for_info");
+	public static final String CTRL_STRING = Lang.localise("gui.inventory.ctrl_for_info");
 	
 	public static final String[] EMPTY_ARRAY = {};
 	public static final String[][] EMPTY_ARRAYS = {};
@@ -24,7 +25,7 @@ public class InfoHelper {
 	}
 	
 	public static void shiftInfo(List list) {
-		list.add(TextFormatting.ITALIC + SHIFT_STRING);
+		list.add(TextFormatting.ITALIC + (NCConfig.ctrl_info ? CTRL_STRING : SHIFT_STRING));
 	}
 	
 	public static void fixedInfoList(List list, boolean infoBelow, TextFormatting fixedColor, String... fixedLines) {

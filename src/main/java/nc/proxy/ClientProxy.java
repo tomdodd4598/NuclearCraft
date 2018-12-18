@@ -14,7 +14,7 @@ import nc.init.NCFissionFluids;
 import nc.init.NCItems;
 import nc.init.NCTools;
 import nc.model.ModelTexturedFluid;
-import nc.radiation.RadiationOverlayHandler;
+import nc.radiation.RadiationHUD;
 import nc.render.BlockHighlightHandler;
 import nc.render.ColorRenderer;
 import nc.render.RenderFusionCore;
@@ -82,7 +82,7 @@ public class ClientProxy extends CommonProxy {
 		
 		MinecraftForge.EVENT_BUS.register(new TooltipHandler());
 		
-		if (NCConfig.radiation_enabled) MinecraftForge.EVENT_BUS.register(new RadiationOverlayHandler(mc));
+		MinecraftForge.EVENT_BUS.register(new RadiationHUD(mc));
 	}
 	
 	// Packets

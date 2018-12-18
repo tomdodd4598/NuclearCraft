@@ -61,10 +61,13 @@ public class TileBuffer extends TileEnergyFluidSidedInventory implements IInterf
 			if (inv == null) continue;
 			for (int i = 0; i < inventoryStacks.size(); i++) {
 				if (inventoryStacks.get(i).isEmpty()) continue;
+				
 				TileEntity tile = world.getTileEntity(getPos().offset(side));
-				IItemHandler adjInv = tile == null ? null : tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side.getOpposite());
+				if (tile == null) continue;
 				
 				if (!(tile instanceof IBufferable)) continue;
+				
+				IItemHandler adjInv = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side.getOpposite());
 				
 				if (adjInv != null) {
 					for (int j = 0; j < adjInv.getSlots(); j++) {
@@ -79,17 +82,20 @@ public class TileBuffer extends TileEnergyFluidSidedInventory implements IInterf
 	
 	@Override
 	public void pushFluidToSide(@Nonnull EnumFacing side) {
-		if (!getTanks().isEmpty()) for (int i = 0; i < getTanks().size(); i++) {
-			if (getTanks().get(i).getFluidAmount() <= 0 || !getTanks().get(i).canDrain()) return;
+		if (!getFluidConnection(side).canDrain()) return;
+		
+		TileEntity tile = world.getTileEntity(getPos().offset(side));
+		if (tile == null) return;
+		
+		if (!(tile instanceof IBufferable)) return;
+		
+		IFluidHandler adjStorage = tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side.getOpposite());
+		if (adjStorage == null) return;
+		
+		for (int i = 0; i < getTanks().size(); i++) {
+			if (getTanks().get(i).getFluid() == null || !getTanks().get(i).canDrain()) return;
 			
-			TileEntity tile = world.getTileEntity(getPos().offset(side));
-			IFluidHandler adjStorage = tile == null ? null : tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side.getOpposite());
-			
-			if (!(tile instanceof IBufferable)) continue;
-			
-			if (adjStorage != null) {
-				getTanks().get(i).drainInternal(adjStorage.fill(getTanks().get(i).drainInternal(getTanks().get(i).getCapacity(), false), true), true);
-			}
+			getTanks().get(i).drainInternal(adjStorage.fill(getTanks().get(i).drainInternal(getTanks().get(i).getCapacity(), false), true), true);
 		}
 	}
 	

@@ -46,7 +46,9 @@ public class RecipeHelper {
 	}
 	
 	public static ItemStack fixItemStack(Object object) {
-		if (object instanceof ItemStack) {
+		if (object == null) return null;
+		
+		else if (object instanceof ItemStack) {
 			ItemStack stack = ((ItemStack) object).copy();
 			if (stack.getCount() <= 0) {
 				stack.setCount(1);
@@ -63,7 +65,9 @@ public class RecipeHelper {
 	}
 	
 	public static FluidStack fixFluidStack(Object object) {
-		if (object instanceof FluidStack) {
+		if (object == null) return null;
+		
+		else if (object instanceof FluidStack) {
 			FluidStack fluidstack = ((FluidStack) object).copy();
 			if (fluidstack.amount <= 0) {
 				fluidstack.amount = 1000;

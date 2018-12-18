@@ -25,12 +25,8 @@ public class NCMath {
 	}
 	
 	public static double round(double value, int precision) {
-		double scale = Math.pow(10D, (double) precision);
-		return (double) Math.round(value * scale) / (double) Math.round(scale);
-	}
-	
-	public static double round(double value) {
-		return round(value, 2);
+		double scale = Math.pow(10D, precision);
+		return (double) Math.round(value * scale) / Math.round(scale);
 	}
 	
 	public static int kroneckerDelta(int... indices) {

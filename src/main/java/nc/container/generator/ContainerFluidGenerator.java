@@ -1,25 +1,19 @@
 package nc.container.generator;
 
 import nc.container.ContainerTile;
-import nc.recipe.ProcessorRecipeHandler;
 import nc.recipe.NCRecipes;
+import nc.recipe.ProcessorRecipeHandler;
 import nc.tile.generator.TileFluidGenerator;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IContainerListener;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ContainerFluidGenerator extends ContainerTile {
+public class ContainerFluidGenerator<GENERATOR extends TileFluidGenerator> extends ContainerTile {
 	
-	public final TileFluidGenerator tile;
+	public final GENERATOR tile;
 	public final NCRecipes.Type recipeType;
 	
-	protected int time;
-	protected int energy;
-	
-	public ContainerFluidGenerator(TileFluidGenerator tileEntity, NCRecipes.Type recipeType) {
+	public ContainerFluidGenerator(GENERATOR tileEntity, NCRecipes.Type recipeType) {
 		super(tileEntity);
 		tile = tileEntity;
 		this.recipeType = recipeType;
@@ -27,37 +21,6 @@ public class ContainerFluidGenerator extends ContainerTile {
 	
 	public ProcessorRecipeHandler getRecipeHandler() {
 		return recipeType.getRecipeHandler();
-	}
-
-	@Override
-	public void detectAndSendChanges() {
-		super.detectAndSendChanges();
-		
-		for (int i = 0; i < listeners.size(); i++) {
-			IContainerListener icontainerlistener = (IContainerListener) listeners.get(i);
-
-			icontainerlistener.sendWindowProperty(this, 0, tile.getField(0) >> 16);
-			icontainerlistener.sendWindowProperty(this, 100, tile.getField(0));
-
-			icontainerlistener.sendWindowProperty(this, 1, tile.getField(1) >> 16);
-			icontainerlistener.sendWindowProperty(this, 101, tile.getField(1));
-		}
-	}
-	
-	@Override
-	public void addListener(IContainerListener listener) {
-		super.addListener(listener);
-		listener.sendAllWindowProperties(this, tile);
-	}
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void updateProgressBar(int id, int data) {
-		if (id == 100) time = upcast(data);
-		else if (id == 101) energy = upcast(data);
-		
-		else if (id == 0) tile.setField(id, time | data << 16);
-		else if (id == 1) tile.setField(id, energy | data << 16);
 	}
 	
 	@Override

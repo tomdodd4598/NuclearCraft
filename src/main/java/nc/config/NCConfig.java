@@ -49,9 +49,12 @@ public class NCConfig {
 	
 	public static int[] processor_time;
 	public static int[] processor_power;
-	public static int[] speed_upgrade_power_laws;
+	public static double[] speed_upgrade_power_laws;
 	public static double[] speed_upgrade_multipliers;
+	public static double[] energy_upgrade_power_laws;
+	public static double[] energy_upgrade_multipliers;
 	public static int rf_per_eu;
+	public static boolean enable_gtce_eu;
 	public static int machine_update_rate;
 	public static int[] processor_passive_rate;
 	public static int cobble_gen_power;
@@ -138,6 +141,7 @@ public class NCConfig {
 	public static int fusion_comparator_max_efficiency;
 	public static int fusion_electromagnet_power;
 	public static boolean fusion_alternate_sound;
+	public static boolean fusion_enable_sound;
 	public static boolean fusion_plasma_craziness;
 	
 	public static double[] fusion_fuel_time;
@@ -205,9 +209,10 @@ public class NCConfig {
 	
 	public static double radiation_radaway_amount;
 	public static double radiation_radaway_rate;
+	public static double radiation_radaway_cooldown;
 	public static double radiation_rad_x_amount;
 	public static double radiation_rad_x_lifetime;
-	public static double radiation_medicine_cooldown;
+	public static double radiation_rad_x_cooldown;
 	public static double[] radiation_shielding_level;
 	public static double radiation_scrubber_rate;
 	public static int radiation_scrubber_borax_rate;
@@ -227,6 +232,7 @@ public class NCConfig {
 	public static double radiation_hud_size;
 	public static double radiation_hud_position;
 	public static double[] radiation_hud_position_cartesian;
+	public static boolean radiation_hud_text_outline;
 	public static boolean radiation_require_counter;
 	
 	public static boolean single_creative_tab;
@@ -314,12 +320,18 @@ public class NCConfig {
 		propertyProcessorTime.setLanguageKey("gui.config.processors.processor_time");
 		Property propertyProcessorPower = config.get(CATEGORY_PROCESSORS, "processor_power", new int[] {20, 10, 10, 20, 10, 10, 40, 20, 40, 20, 0, 40, 10, 20, 10, 10, 10, 10, 20}, Lang.localise("gui.config.processors.processor_power.comment"), 0, 16000);
 		propertyProcessorPower.setLanguageKey("gui.config.processors.processor_power");
-		Property propertySpeedUpgradePowerLaws = config.get(CATEGORY_PROCESSORS, "speed_upgrade_power_laws", new int[] {1, 2}, Lang.localise("gui.config.processors.speed_upgrade_power_laws.comment"), 1, 15);
-		propertySpeedUpgradePowerLaws.setLanguageKey("gui.config.processors.speed_upgrade_power_laws");
-		Property propertySpeedUpgradeMultipliers = config.get(CATEGORY_PROCESSORS, "speed_upgrade_multipliers", new double[] {1D, 1D}, Lang.localise("gui.config.processors.speed_upgrade_multipliers.comment"), 0D, 15D);
-		propertySpeedUpgradeMultipliers.setLanguageKey("gui.config.processors.speed_upgrade_multipliers");
+		Property propertySpeedUpgradePowerLaws = config.get(CATEGORY_PROCESSORS, "speed_upgrade_power_laws_fp", new double[] {1D, 2D}, Lang.localise("gui.config.processors.speed_upgrade_power_laws_fp.comment"), 1D, 15D);
+		propertySpeedUpgradePowerLaws.setLanguageKey("gui.config.processors.speed_upgrade_power_laws_fp");
+		Property propertySpeedUpgradeMultipliers = config.get(CATEGORY_PROCESSORS, "speed_upgrade_multipliers_fp", new double[] {1D, 1D}, Lang.localise("gui.config.processors.speed_upgrade_multipliers_fp.comment"), 0D, 15D);
+		propertySpeedUpgradeMultipliers.setLanguageKey("gui.config.processors.speed_upgrade_multipliers_fp");
+		Property propertyEnergyUpgradePowerLaws = config.get(CATEGORY_PROCESSORS, "energy_upgrade_power_laws_fp", new double[] {1D}, Lang.localise("gui.config.processors.energy_upgrade_power_laws_fp.comment"), 1D, 15D);
+		propertyEnergyUpgradePowerLaws.setLanguageKey("gui.config.processors.energy_upgrade_power_laws_fp");
+		Property propertyEnergyUpgradeMultipliers = config.get(CATEGORY_PROCESSORS, "energy_upgrade_multipliers_fp", new double[] {1D}, Lang.localise("gui.config.processors.energy_upgrade_multipliers_fp.comment"), 0D, 15D);
+		propertyEnergyUpgradeMultipliers.setLanguageKey("gui.config.processors.energy_upgrade_multipliers_fp");
 		Property propertyRFPerEU = config.get(CATEGORY_PROCESSORS, "rf_per_eu", 16, Lang.localise("gui.config.processors.rf_per_eu.comment"), 1, 2000);
 		propertyRFPerEU.setLanguageKey("gui.config.processors.rf_per_eu");
+		Property propertyEnableGTCEEU = config.get(CATEGORY_PROCESSORS, "enable_gtce_eu", true, Lang.localise("gui.config.processors.enable_gtce_eu.comment"));
+		propertyEnableGTCEEU.setLanguageKey("gui.config.processors.enable_gtce_eu");
 		Property propertyMachineUpdateRate = config.get(CATEGORY_PROCESSORS, "machine_update_rate", 20, Lang.localise("gui.config.processors.machine_update_rate.comment"), 1, 1200);
 		propertyMachineUpdateRate.setLanguageKey("gui.config.processors.machine_update_rate");
 		Property propertyProcessorPassiveRate = config.get(CATEGORY_PROCESSORS, "processor_passive_rate", new int[] {100, 2, 200, 50}, Lang.localise("gui.config.processors.processor_passive_rate.comment"), 1, 4000);
@@ -479,6 +491,8 @@ public class NCConfig {
 		propertyFusionElectromagnetPower.setLanguageKey("gui.config.fusion.fusion_electromagnet_power");
 		Property propertyFusionAlternateSound = config.get(CATEGORY_FUSION, "fusion_alternate_sound", false, Lang.localise("gui.config.fusion.fusion_alternate_sound.comment"));
 		propertyFusionAlternateSound.setLanguageKey("gui.config.fusion.fusion_alternate_sound");
+		Property propertyFusionEnableSound = config.get(CATEGORY_FUSION, "fusion_enable_sound", true, Lang.localise("gui.config.fusion.fusion_enable_sound.comment"));
+		propertyFusionEnableSound.setLanguageKey("gui.config.fusion.fusion_enable_sound");
 		Property propertyFusionPlasmaCraziness = config.get(CATEGORY_FUSION, "fusion_plasma_craziness", true, Lang.localise("gui.config.fusion.fusion_plasma_craziness.comment"));
 		propertyFusionPlasmaCraziness.setLanguageKey("gui.config.fusion.fusion_plasma_craziness");
 		
@@ -534,7 +548,7 @@ public class NCConfig {
 		Property propertyAcceleratorSupercoolerCoolant = config.get(CATEGORY_ACCELERATOR, "accelerator_supercooler_coolant", 4, Lang.localise("gui.config.accelerator.accelerator_supercooler_coolant.comment"), 0, 32767);
 		propertyAcceleratorSupercoolerCoolant.setLanguageKey("gui.config.accelerator.accelerator_supercooler_coolant");
 		
-		Property propertyBatteryCapacity = config.get(CATEGORY_ENERGY_STORAGE, "battery_capacity", new int[] {1600000, 64000000}, Lang.localise("gui.config.energy_storage.battery_capacity.comment"), 1, Integer.MAX_VALUE);
+		Property propertyBatteryCapacity = config.get(CATEGORY_ENERGY_STORAGE, "battery_capacity", new int[] {1600000, 6400000, 25600000, 102400000, 32000000, 128000000, 512000000, 2048000000}, Lang.localise("gui.config.energy_storage.battery_capacity.comment"), 1, Integer.MAX_VALUE);
 		propertyBatteryCapacity.setLanguageKey("gui.config.energy_storage.battery_capacity");
 		
 		Property propertyToolMiningLevel = config.get(CATEGORY_TOOLS, "tool_mining_level", new int[] {2, 2, 3, 3, 3, 3, 4, 4}, Lang.localise("gui.config.tools.tool_mining_level.comment"), 0, 15);
@@ -598,12 +612,14 @@ public class NCConfig {
 		propertyRadiationRadawayAmount.setLanguageKey("gui.config.radiation.radiation_radaway_amount");
 		Property propertyRadiationRadawayRate = config.get(CATEGORY_RADIATION, "radiation_radaway_rate", 7.5D, Lang.localise("gui.config.radiation.radiation_radaway_rate.comment"), 0.001D, 1000000000D);
 		propertyRadiationRadawayRate.setLanguageKey("gui.config.radiation.radiation_radaway_rate");
+		Property propertyRadiationRadawayCooldown = config.get(CATEGORY_RADIATION, "radiation_radaway_cooldown", 0D, Lang.localise("gui.config.radiation.radiation_radaway_cooldown.comment"), 0D, 100000D);
+		propertyRadiationRadawayCooldown.setLanguageKey("gui.config.radiation.radiation_radaway_cooldown");
 		Property propertyRadiationRadXAmount = config.get(CATEGORY_RADIATION, "radiation_rad_x_amount", 25D, Lang.localise("gui.config.radiation.radiation_rad_x_amount.comment"), 0.001D, 1000000000D);
 		propertyRadiationRadXAmount.setLanguageKey("gui.config.radiation.radiation_rad_x_amount");
 		Property propertyRadiationRadXLifetime = config.get(CATEGORY_RADIATION, "radiation_rad_x_lifetime", 12000D, Lang.localise("gui.config.radiation.radiation_rad_x_lifetime.comment"), 20D, 1000000000D);
 		propertyRadiationRadXLifetime.setLanguageKey("gui.config.radiation.radiation_rad_x_lifetime");
-		Property propertyRadiationMedicineCooldown = config.get(CATEGORY_RADIATION, "radiation_medicine_cooldown", 0D, Lang.localise("gui.config.radiation.radiation_medicine_cooldown.comment"), 0D, 100000D);
-		propertyRadiationMedicineCooldown.setLanguageKey("gui.config.radiation.radiation_medicine_cooldown");
+		Property propertyRadiationRadXCooldown = config.get(CATEGORY_RADIATION, "radiation_rad_x_cooldown", 0D, Lang.localise("gui.config.radiation.radiation_rad_x_cooldown.comment"), 0D, 100000D);
+		propertyRadiationRadXCooldown.setLanguageKey("gui.config.radiation.radiation_rad_x_cooldown");
 		Property propertyRadiationShieldingLevel = config.get(CATEGORY_RADIATION, "radiation_shielding_level", new double[] {0.0001D, 0.01D, 1D}, Lang.localise("gui.config.radiation.radiation_shielding_level.comment"), 0.000000000000000001D, 1000D);
 		propertyRadiationShieldingLevel.setLanguageKey("gui.config.radiation.radiation_shielding_level");
 		Property propertyRadiationScrubberRate = config.get(CATEGORY_RADIATION, "radiation_scrubber_rate", 0.025D, Lang.localise("gui.config.radiation.radiation_scrubber_rate.comment"), 0.001D, 100D);
@@ -622,9 +638,9 @@ public class NCConfig {
 		
 		Property propertyRadiationHardcoreStacks = config.get(CATEGORY_RADIATION, "radiation_hardcore_stacks", true, Lang.localise("gui.config.radiation.radiation_hardcore_stacks.comment"));
 		propertyRadiationHardcoreStacks.setLanguageKey("gui.config.radiation.radiation_hardcore_stacks");
-		Property propertyRadiationDeathPersist = config.get(CATEGORY_RADIATION, "radiation_death_persist", false, Lang.localise("gui.config.radiation.radiation_death_persist.comment"));
+		Property propertyRadiationDeathPersist = config.get(CATEGORY_RADIATION, "radiation_death_persist", true, Lang.localise("gui.config.radiation.radiation_death_persist.comment"));
 		propertyRadiationDeathPersist.setLanguageKey("gui.config.radiation.radiation_death_persist");
-		Property propertyRadiationDeathPersistFraction = config.get(CATEGORY_RADIATION, "radiation_death_persist_fraction", 1D, Lang.localise("gui.config.radiation.radiation_death_persist_fraction.comment"), 0D, 1D);
+		Property propertyRadiationDeathPersistFraction = config.get(CATEGORY_RADIATION, "radiation_death_persist_fraction", 0.5D, Lang.localise("gui.config.radiation.radiation_death_persist_fraction.comment"), 0D, 1D);
 		propertyRadiationDeathPersistFraction.setLanguageKey("gui.config.radiation.radiation_death_persist_fraction");
 		
 		Property propertyRadiationPassiveDebuffs = config.get(CATEGORY_RADIATION, "radiation_passive_debuffs", true, Lang.localise("gui.config.radiation.radiation_passive_debuffs.comment"));
@@ -638,6 +654,8 @@ public class NCConfig {
 		propertyRadiationHUDPosition.setLanguageKey("gui.config.radiation.radiation_hud_position");
 		Property propertyRadiationHUDPositionCartesian = config.get(CATEGORY_RADIATION, "radiation_hud_position_cartesian", new double[] {}, Lang.localise("gui.config.radiation.radiation_hud_position_cartesian.comment"), 0D, 1D);
 		propertyRadiationHUDPositionCartesian.setLanguageKey("gui.config.radiation.radiation_hud_position_cartesian");
+		Property propertyRadiationHUDTextOutline = config.get(CATEGORY_RADIATION, "radiation_hud_text_outline", false, Lang.localise("gui.config.radiation.radiation_hud_text_outline.comment"));
+		propertyRadiationHUDTextOutline.setLanguageKey("gui.config.radiation.radiation_hud_text_outline");
 		Property propertyRadiationRequireCounter = config.get(CATEGORY_RADIATION, "radiation_require_counter", true, Lang.localise("gui.config.radiation.radiation_require_counter.comment"));
 		propertyRadiationRequireCounter.setLanguageKey("gui.config.radiation.radiation_require_counter");
 		
@@ -711,7 +729,10 @@ public class NCConfig {
 		propertyOrderProcessors.add(propertyProcessorPower.getName());
 		propertyOrderProcessors.add(propertySpeedUpgradePowerLaws.getName());
 		propertyOrderProcessors.add(propertySpeedUpgradeMultipliers.getName());
+		propertyOrderProcessors.add(propertyEnergyUpgradePowerLaws.getName());
+		propertyOrderProcessors.add(propertyEnergyUpgradeMultipliers.getName());
 		propertyOrderProcessors.add(propertyRFPerEU.getName());
+		propertyOrderProcessors.add(propertyEnableGTCEEU.getName());
 		propertyOrderProcessors.add(propertyMachineUpdateRate.getName());
 		propertyOrderProcessors.add(propertyProcessorPassiveRate.getName());
 		propertyOrderProcessors.add(propertyCobbleGenPower.getName());
@@ -805,6 +826,7 @@ public class NCConfig {
 		propertyOrderFusion.add(propertyFusionComparatorMaxEfficiency.getName());
 		propertyOrderFusion.add(propertyFusionElectromagnetPower.getName());
 		propertyOrderFusion.add(propertyFusionAlternateSound.getName());
+		propertyOrderFusion.add(propertyFusionEnableSound.getName());
 		propertyOrderFusion.add(propertyFusionPlasmaCraziness.getName());
 		
 		propertyOrderFusion.add(propertyFusionFuelTime.getName());
@@ -885,9 +907,10 @@ public class NCConfig {
 		propertyOrderRadiation.add(propertyRadiationLowestRate.getName());
 		propertyOrderRadiation.add(propertyRadiationRadawayAmount.getName());
 		propertyOrderRadiation.add(propertyRadiationRadawayRate.getName());
+		propertyOrderRadiation.add(propertyRadiationRadawayCooldown.getName());
 		propertyOrderRadiation.add(propertyRadiationRadXAmount.getName());
 		propertyOrderRadiation.add(propertyRadiationRadXLifetime.getName());
-		propertyOrderRadiation.add(propertyRadiationMedicineCooldown.getName());
+		propertyOrderRadiation.add(propertyRadiationRadXCooldown.getName());
 		propertyOrderRadiation.add(propertyRadiationShieldingLevel.getName());
 		propertyOrderRadiation.add(propertyRadiationScrubberRate.getName());
 		propertyOrderRadiation.add(propertyRadiationScrubberBoraxRate.getName());
@@ -903,6 +926,7 @@ public class NCConfig {
 		propertyOrderRadiation.add(propertyRadiationHUDSize.getName());
 		propertyOrderRadiation.add(propertyRadiationHUDPosition.getName());
 		propertyOrderRadiation.add(propertyRadiationHUDPositionCartesian.getName());
+		propertyOrderRadiation.add(propertyRadiationHUDTextOutline.getName());
 		propertyOrderRadiation.add(propertyRadiationRequireCounter.getName());
 		config.setCategoryPropertyOrder(CATEGORY_RADIATION, propertyOrderRadiation);
 		
@@ -944,9 +968,12 @@ public class NCConfig {
 			
 			processor_time = readIntegerArrayFromConfig(propertyProcessorTime);
 			processor_power = readIntegerArrayFromConfig(propertyProcessorPower);
-			speed_upgrade_power_laws = readIntegerArrayFromConfig(propertySpeedUpgradePowerLaws);
+			speed_upgrade_power_laws = readDoubleArrayFromConfig(propertySpeedUpgradePowerLaws);
 			speed_upgrade_multipliers = readDoubleArrayFromConfig(propertySpeedUpgradeMultipliers);
+			energy_upgrade_power_laws = readDoubleArrayFromConfig(propertyEnergyUpgradePowerLaws);
+			energy_upgrade_multipliers = readDoubleArrayFromConfig(propertyEnergyUpgradeMultipliers);
 			rf_per_eu = propertyRFPerEU.getInt();
+			enable_gtce_eu = propertyEnableGTCEEU.getBoolean();
 			machine_update_rate = propertyMachineUpdateRate.getInt();
 			processor_passive_rate = readIntegerArrayFromConfig(propertyProcessorPassiveRate);
 			cobble_gen_power = propertyCobbleGenPower.getInt();
@@ -1034,6 +1061,7 @@ public class NCConfig {
 			fusion_comparator_max_efficiency = propertyFusionComparatorMaxEfficiency.getInt();
 			fusion_electromagnet_power = propertyFusionElectromagnetPower.getInt();
 			fusion_alternate_sound = propertyFusionAlternateSound.getBoolean();
+			fusion_enable_sound = propertyFusionEnableSound.getBoolean();
 			fusion_plasma_craziness = propertyFusionPlasmaCraziness.getBoolean();
 			
 			fusion_fuel_time = readDoubleArrayFromConfig(propertyFusionFuelTime);
@@ -1101,9 +1129,10 @@ public class NCConfig {
 			
 			radiation_radaway_amount = propertyRadiationRadawayAmount.getDouble();
 			radiation_radaway_rate = propertyRadiationRadawayRate.getDouble();
+			radiation_radaway_cooldown = propertyRadiationRadawayCooldown.getDouble();
 			radiation_rad_x_amount = propertyRadiationRadXAmount.getDouble();
 			radiation_rad_x_lifetime = propertyRadiationRadXLifetime.getDouble();
-			radiation_medicine_cooldown = propertyRadiationMedicineCooldown.getDouble();
+			radiation_rad_x_cooldown = propertyRadiationRadXCooldown.getDouble();
 			radiation_shielding_level = readDoubleArrayFromConfig(propertyRadiationShieldingLevel);
 			radiation_scrubber_rate = propertyRadiationScrubberRate.getDouble();
 			radiation_scrubber_borax_rate = propertyRadiationScrubberBoraxRate.getInt();
@@ -1123,6 +1152,7 @@ public class NCConfig {
 			radiation_hud_size = propertyRadiationHUDSize.getDouble();
 			radiation_hud_position = propertyRadiationHUDPosition.getDouble();
 			radiation_hud_position_cartesian = propertyRadiationHUDPositionCartesian.getDoubleList();
+			radiation_hud_text_outline = propertyRadiationHUDTextOutline.getBoolean();
 			radiation_require_counter = propertyRadiationRequireCounter.getBoolean();
 			
 			single_creative_tab = propertySingleCreativeTab.getBoolean();
@@ -1164,7 +1194,10 @@ public class NCConfig {
 		propertyProcessorPower.set(processor_power);
 		propertySpeedUpgradePowerLaws.set(speed_upgrade_power_laws);
 		propertySpeedUpgradeMultipliers.set(speed_upgrade_multipliers);
+		propertyEnergyUpgradePowerLaws.set(energy_upgrade_power_laws);
+		propertyEnergyUpgradeMultipliers.set(energy_upgrade_multipliers);
 		propertyRFPerEU.set(rf_per_eu);
+		propertyEnableGTCEEU.set(enable_gtce_eu);
 		propertyMachineUpdateRate.set(machine_update_rate);
 		propertyProcessorPassiveRate.set(processor_passive_rate);
 		propertyCobbleGenPower.set(cobble_gen_power);
@@ -1252,6 +1285,7 @@ public class NCConfig {
 		propertyFusionComparatorMaxEfficiency.set(fusion_comparator_max_efficiency);
 		propertyFusionElectromagnetPower.set(fusion_electromagnet_power);
 		propertyFusionAlternateSound.set(fusion_alternate_sound);
+		propertyFusionEnableSound.set(fusion_enable_sound);
 		propertyFusionPlasmaCraziness.set(fusion_plasma_craziness);
 		
 		propertyFusionFuelTime.set(fusion_fuel_time);
@@ -1319,9 +1353,10 @@ public class NCConfig {
 		
 		propertyRadiationRadawayAmount.set(radiation_radaway_amount);
 		propertyRadiationRadawayRate.set(radiation_radaway_rate);
+		propertyRadiationRadawayCooldown.set(radiation_radaway_cooldown);
 		propertyRadiationRadXAmount.set(radiation_rad_x_amount);
 		propertyRadiationRadXLifetime.set(radiation_rad_x_lifetime);
-		propertyRadiationMedicineCooldown.set(radiation_medicine_cooldown);
+		propertyRadiationRadXCooldown.set(radiation_rad_x_cooldown);
 		propertyRadiationShieldingLevel.set(radiation_shielding_level);
 		propertyRadiationScrubberRate.set(radiation_scrubber_rate);
 		propertyRadiationScrubberBoraxRate.set(radiation_scrubber_borax_rate);
@@ -1341,6 +1376,7 @@ public class NCConfig {
 		propertyRadiationHUDSize.set(radiation_hud_size);
 		propertyRadiationHUDPosition.set(radiation_hud_position);
 		propertyRadiationHUDPositionCartesian.set(radiation_hud_position_cartesian);
+		propertyRadiationHUDTextOutline.set(radiation_hud_text_outline);
 		propertyRadiationRequireCounter.set(radiation_require_counter);
 		
 		propertySingleCreativeTab.set(single_creative_tab);

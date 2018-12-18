@@ -1,29 +1,11 @@
 package nc.container.generator;
 
-import java.util.List;
-
-import com.google.common.collect.Lists;
-
 import nc.recipe.NCRecipes;
 import nc.tile.generator.TileFusionCore;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IContainerListener;
 import net.minecraft.inventory.Slot;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ContainerFusionCore extends ContainerFluidGenerator {
-	
-	protected int processTime;
-	protected int processPower;
-	protected int heat;
-	protected int efficiency;
-	protected int speedMultiplier;
-	protected int cooling;
-	protected int heatChange;
-	
-	protected static final List<Integer> UPCASTS = Lists.newArrayList(0, 1, 2, 3, 4, 5, 6, 9, 10);
-	protected static final List<Integer> NON_UPCASTS = Lists.newArrayList(7, 8, 11, 12);
+public class ContainerFusionCore extends ContainerFluidGenerator<TileFusionCore> {
 	
 	public ContainerFusionCore(EntityPlayer player, TileFusionCore tileEntity) {
 		super(tileEntity, NCRecipes.Type.FUSION);
@@ -37,47 +19,13 @@ public class ContainerFusionCore extends ContainerFluidGenerator {
 		for (int i = 0; i < 9; i++) {
 			addSlotToContainer(new Slot(player.inventory, i, 8 + 18*i, 163));
 		}
+		
+		tileEntity.beginUpdatingPlayer(player);
 	}
 	
 	@Override
-	public void detectAndSendChanges() {
-		super.detectAndSendChanges();
-		
-		for (int i = 0; i < listeners.size(); i++) {
-			IContainerListener icontainerlistener = (IContainerListener) listeners.get(i);
-			
-			for (int j : UPCASTS) {
-				icontainerlistener.sendWindowProperty(this, j, tile.getField(j) >> 16);
-				icontainerlistener.sendWindowProperty(this, 100 + j, tile.getField(j));
-			}
-			
-			for (int j : NON_UPCASTS) icontainerlistener.sendWindowProperty(this, j, tile.getField(j));
-		}
-	}
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void updateProgressBar(int id, int data) {
-		if (id == 100) time = upcast(data);
-		else if (id == 101) energy = upcast(data);
-		else if (id == 102) processTime = upcast(data);
-		else if (id == 103) processPower = upcast(data);
-		else if (id == 104) heat = upcast(data);
-		else if (id == 105) efficiency = upcast(data);
-		else if (id == 106) speedMultiplier = upcast(data);
-		else if (id == 109) cooling = upcast(data);
-		else if (id == 110) heatChange = upcast(data);
-		
-		else if (id == 0) tile.setField(id, time | data << 16);
-		else if (id == 1) tile.setField(id, energy | data << 16);
-		else if (id == 2) tile.setField(id, processTime | data << 16);
-		else if (id == 3) tile.setField(id, processPower | data << 16);
-		else if (id == 4) tile.setField(id, heat | data << 16);
-		else if (id == 5) tile.setField(id, efficiency | data << 16);
-		else if (id == 6) tile.setField(id, speedMultiplier | data << 16);
-		else if (id == 9) tile.setField(id, cooling | data << 16);
-		else if (id == 10) tile.setField(id, heatChange | data << 16);
-		
-		else if (NON_UPCASTS.contains(id)) tile.setField(id, data);
+	public void onContainerClosed(EntityPlayer player) {
+		super.onContainerClosed(player);
+		tile.stopUpdatingPlayer(player);
 	}
 }

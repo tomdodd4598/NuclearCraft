@@ -100,7 +100,9 @@ public abstract class MultiblockBase<PACKET extends MultiblockUpdatePacket> impl
 		debugMode = active;
 	}
 	
-	public boolean isDebugMode() { return debugMode; }
+	public boolean isDebugMode() {
+		return debugMode;
+	}
 	
 	/**
 	 * Call when a block with cached save-delegate data is added to the multiblock.

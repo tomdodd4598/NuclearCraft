@@ -15,6 +15,7 @@ import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemHoe;
 import net.minecraft.item.ItemPickaxe;
 import net.minecraft.item.ItemSpade;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.util.EnumHelper;
@@ -22,14 +23,14 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 public class NCTools {
 	
-	public static final ToolMaterial BORON = EnumHelper.addToolMaterial(Global.MOD_ID + ":boron", NCConfig.tool_mining_level[0], NCConfig.tool_durability[0], (float) NCConfig.tool_speed[0], (float) NCConfig.tool_attack_damage[0], NCConfig.tool_enchantability[0]);
-	public static final ToolMaterial SPAXELHOE_BORON = EnumHelper.addToolMaterial(Global.MOD_ID + ":spaxelhoe_boron", NCConfig.tool_mining_level[1], NCConfig.tool_durability[1], (float) NCConfig.tool_speed[1], (float) NCConfig.tool_attack_damage[1], NCConfig.tool_enchantability[1]);
-	public static final ToolMaterial TOUGH = EnumHelper.addToolMaterial(Global.MOD_ID + ":tough", NCConfig.tool_mining_level[2], NCConfig.tool_durability[2], (float) NCConfig.tool_speed[2], (float) NCConfig.tool_attack_damage[2], NCConfig.tool_enchantability[2]);
-	public static final ToolMaterial SPAXELHOE_TOUGH = EnumHelper.addToolMaterial(Global.MOD_ID + ":spaxelhoe_tough", NCConfig.tool_mining_level[3], NCConfig.tool_durability[3], (float) NCConfig.tool_speed[3], (float) NCConfig.tool_attack_damage[3], NCConfig.tool_enchantability[3]);
-	public static final ToolMaterial HARD_CARBON = EnumHelper.addToolMaterial(Global.MOD_ID + ":hard_carbon", NCConfig.tool_mining_level[4], NCConfig.tool_durability[4], (float) NCConfig.tool_speed[4], (float) NCConfig.tool_attack_damage[4], NCConfig.tool_enchantability[4]);
-	public static final ToolMaterial SPAXELHOE_HARD_CARBON = EnumHelper.addToolMaterial(Global.MOD_ID + ":spaxelhoe_hard_carbon", NCConfig.tool_mining_level[5], NCConfig.tool_durability[5], (float) NCConfig.tool_speed[5], (float) NCConfig.tool_attack_damage[5], NCConfig.tool_enchantability[5]);
-	public static final ToolMaterial BORON_NITRIDE = EnumHelper.addToolMaterial(Global.MOD_ID + ":boron_nitride", NCConfig.tool_mining_level[6], NCConfig.tool_durability[6], (float) NCConfig.tool_speed[6], (float) NCConfig.tool_attack_damage[6], NCConfig.tool_enchantability[6]);
-	public static final ToolMaterial SPAXELHOE_BORON_NITRIDE = EnumHelper.addToolMaterial(Global.MOD_ID + ":spaxelhoe_boron_nitride", NCConfig.tool_mining_level[7], NCConfig.tool_durability[7], (float) NCConfig.tool_speed[7], (float) NCConfig.tool_attack_damage[7], NCConfig.tool_enchantability[7]);
+	public static final ToolMaterial BORON = toolMaterial("boron", 0, new ItemStack(NCItems.ingot, 1, 5));
+	public static final ToolMaterial SPAXELHOE_BORON = toolMaterial("spaxelhoe_boron", 1, new ItemStack(NCItems.ingot, 1, 5));
+	public static final ToolMaterial TOUGH = toolMaterial("tough", 2, new ItemStack(NCItems.alloy, 1, 1));
+	public static final ToolMaterial SPAXELHOE_TOUGH = toolMaterial("spaxelhoe_tough", 3, new ItemStack(NCItems.alloy, 1, 1));
+	public static final ToolMaterial HARD_CARBON = toolMaterial("hard_carbon", 4, new ItemStack(NCItems.alloy, 1, 2));
+	public static final ToolMaterial SPAXELHOE_HARD_CARBON = toolMaterial("spaxelhoe_hard_carbon", 5, new ItemStack(NCItems.alloy, 1, 2));
+	public static final ToolMaterial BORON_NITRIDE = toolMaterial("boron_nitride", 6, new ItemStack(NCItems.gem, 1, 1));
+	public static final ToolMaterial SPAXELHOE_BORON_NITRIDE = toolMaterial("spaxelhoe_boron_nitride", 7, new ItemStack(NCItems.gem, 1, 1));
 	
 	public static ItemSword sword_boron;
 	public static ItemPickaxe pickaxe_boron;
@@ -180,5 +181,9 @@ public class NCTools {
 		
 	public static void registerRender(Item item) {
 		ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(item.getRegistryName(), "inventory"));
+	}
+	
+	private static ToolMaterial toolMaterial(String name, int id, ItemStack repairStack) {
+		return EnumHelper.addToolMaterial(Global.MOD_ID + ":" + name, NCConfig.tool_mining_level[id], NCConfig.tool_durability[id], (float) NCConfig.tool_speed[id], (float) NCConfig.tool_attack_damage[id], NCConfig.tool_enchantability[id]).setRepairItem(repairStack);
 	}
 }

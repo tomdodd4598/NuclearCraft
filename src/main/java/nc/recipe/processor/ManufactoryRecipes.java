@@ -69,6 +69,8 @@ public class ManufactoryRecipes extends ProcessorRecipeHandler {
 		
 		// AE2
 		addRecipe(Items.ENDER_PEARL, oreStackList(Lists.newArrayList("dustEnder", "dustEnderPearl"), 2), 0.5D, 1D);
+		addRecipe("crystalCertusQuartz", "dustCertusQuartz", 0.5D, 1D);
+		addRecipe("crystalFluix", "dustFluix", 0.5D, 1D);
 		
 		if (NCConfig.ore_processing) addMetalProcessingRecipes();
 	}

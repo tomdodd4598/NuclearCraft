@@ -11,16 +11,17 @@ import nc.gui.GuiFluidRenderer;
 import nc.gui.NCGui;
 import nc.gui.NCGuiButton;
 import nc.gui.NCGuiToggleButton;
-import nc.network.EmptyTankButtonPacket;
-import nc.network.GetFluidInTankPacket;
 import nc.network.PacketHandler;
-import nc.network.ToggleAlternateComparatorButtonPacket;
-import nc.network.ToggleTanksEmptyUnusableButtonPacket;
-import nc.network.ToggleTanksSharedButtonPacket;
-import nc.network.ToggleVoidExcessOutputsButtonPacket;
+import nc.network.gui.EmptyTankButtonPacket;
+import nc.network.gui.GetFluidInTankPacket;
+import nc.network.gui.ToggleAlternateComparatorButtonPacket;
+import nc.network.gui.ToggleTanksEmptyUnusableButtonPacket;
+import nc.network.gui.ToggleTanksSharedButtonPacket;
+import nc.network.gui.ToggleVoidExcessOutputsButtonPacket;
 import nc.tile.energy.ITileEnergy;
 import nc.tile.generator.TileFusionCore;
 import nc.util.Lang;
+import nc.util.NCMath;
 import nc.util.UnitHelper;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
@@ -110,7 +111,7 @@ public class GuiFusionCore extends NCGui {
 	}
 	
 	public List<String> efficiencyInfo() {
-		String efficiency = ((int) tile.efficiency) + "%";
+		String efficiency = NCMath.round(tile.efficiency, 1) + "%";
 		return Lists.newArrayList(TextFormatting.AQUA + Lang.localise("gui.container.fusion_core.efficiency") + TextFormatting.WHITE + " " + efficiency);
 	}
 	
@@ -134,7 +135,7 @@ public class GuiFusionCore extends NCGui {
 		drawTexturedModalRect(guiLeft + 28, guiTop + 6 + 95 - (int) efficiency, 208, 90 + 95 - (int) efficiency, 6, (int) efficiency);
 		
 		tick++;
-		tick %= 10;
+		tick %= 5;
 		
 		if (tick == 0) sendTankInfo();
 		

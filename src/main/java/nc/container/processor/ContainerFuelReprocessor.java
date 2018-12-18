@@ -11,7 +11,7 @@ import net.minecraft.inventory.SlotFurnaceOutput;
 public class ContainerFuelReprocessor extends ContainerItemProcessor {
 
 	public ContainerFuelReprocessor(EntityPlayer player, TileItemProcessor tileEntity) {
-		super(tileEntity, NCRecipes.Type.FUEL_REPROCESSOR);
+		super(player, tileEntity, NCRecipes.Type.FUEL_REPROCESSOR);
 		
 		addSlotToContainer(new SlotProcessorInput(tileEntity, recipeType, 0, 50, 41));
 		
@@ -21,7 +21,7 @@ public class ContainerFuelReprocessor extends ContainerItemProcessor {
 		addSlotToContainer(new SlotFurnaceOutput(player, tileEntity, 4, 126, 51));
 		
 		addSlotToContainer(new SlotSpecificInput(tileEntity, 5, 132, 76, speedUpgrade));
-		addSlotToContainer(new SlotFurnaceOutput(player, tileEntity, 6, 152, 76));
+		addSlotToContainer(new SlotSpecificInput(tileEntity, 6, 152, 76, energyUpgrade));
 		
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 9; j++) {

@@ -49,7 +49,10 @@ public class TileDecayGenerator extends TileEnergy implements IInterfaceable {
 			tickTile();
 			if (shouldTileCheck()) {
 				for (EnumFacing side : EnumFacing.VALUES) {
-					recipes[side.getIndex()] = getRecipeHandler().getRecipeFromInputs(Arrays.asList(ItemStackHelper.blockStateToStack(world.getBlockState(getPos().offset(side)))), new ArrayList<Tank>());
+					List<ItemStack> input = Arrays.asList(ItemStackHelper.blockStateToStack(world.getBlockState(getPos().offset(side))));
+					if (recipes[side.getIndex()] == null || !recipes[side.getIndex()].matchingInputs(input, new ArrayList<Tank>())) {
+						recipes[side.getIndex()] = getRecipeHandler().getRecipeFromInputs(input, new ArrayList<Tank>());
+					}
 				}
 				getEnergyStorage().changeEnergyStored(getGenerated());
 				getRadiationSource().setRadiationLevel(getRadiation());

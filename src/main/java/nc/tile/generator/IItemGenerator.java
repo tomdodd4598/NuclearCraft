@@ -2,16 +2,11 @@ package nc.tile.generator;
 
 import java.util.List;
 
-import nc.recipe.ProcessorRecipe;
-import nc.recipe.ProcessorRecipeHandler;
 import nc.recipe.ingredient.IItemIngredient;
+import nc.tile.processor.IProcessor;
 import net.minecraft.item.ItemStack;
 
-public interface IItemGenerator {
-	
-	public ProcessorRecipeHandler getRecipeHandler();
-	
-	public ProcessorRecipe getRecipe();
+public interface IItemGenerator extends IProcessor {
 	
 	public List<ItemStack> getItemInputs(boolean consumed);
 	

@@ -5,6 +5,7 @@ import mekanism.api.gas.GasStack;
 import mekanism.api.gas.IGasHandler;
 import mekanism.api.gas.ITubeConnection;
 import nc.tile.fluid.ITileFluid;
+import nc.tile.processor.IProcessor;
 import nc.util.GasHelper;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fluids.Fluid;
@@ -29,13 +30,24 @@ public class GasTileWrapper implements ITubeConnection, IGasHandler {
 	@Override
 	@Optional.Method(modid = "mekanism")
 	public int receiveGas(EnumFacing side, GasStack stack, boolean doTransfer) {
-		return tile.fill(GasHelper.getFluidFromGas(stack), doTransfer, side);
+		int amount = tile.fill(GasHelper.getFluidFromGas(stack), doTransfer, side);
+		if (doTransfer && amount != 0) {
+			if (tile instanceof IProcessor) {
+				((IProcessor)tile).refreshRecipe();
+				((IProcessor)tile).refreshActivity();
+			}
+		}
+		return amount;
 	}
 	
 	@Override
 	@Optional.Method(modid = "mekanism")
 	public GasStack drawGas(EnumFacing side, int amount, boolean doTransfer) {
-		return GasHelper.getGasFromFluid(tile.drain(amount, doTransfer, side));
+		GasStack stack = GasHelper.getGasFromFluid(tile.drain(amount, doTransfer, side));
+		if (doTransfer && (stack != null && stack.amount != 0)) {
+			if (tile instanceof IProcessor) ((IProcessor)tile).refreshActivity();
+		}
+		return stack;
 	}
 	
 	@Override

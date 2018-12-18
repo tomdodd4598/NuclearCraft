@@ -164,10 +164,14 @@ public class TileSaltFissionVessel extends TileSaltFissionPartBase implements IF
 	public void onAdded() {
 		super.onAdded();
 		if (!world.isRemote) {
+			refreshRecipe();
+			refreshActivity();
 			isProcessing = isProcessing();
 			hasConsumed = hasConsumed();
 		}
 	}
+	
+	// Ticking
 	
 	@Override
 	public void update() {
@@ -176,23 +180,20 @@ public class TileSaltFissionVessel extends TileSaltFissionPartBase implements IF
 	}
 	
 	public void updateVessel() {
-		setIsReactorOn();
-		recipe = getRecipeHandler().getRecipeFromInputs(new ArrayList<ItemStack>(), getFluidInputs(hasConsumed));
-		canProcessInputs = canProcessInputs();
-		boolean wasProcessing = isProcessing;
-		isProcessing = isProcessing();
-		boolean shouldUpdate = false;
 		if(!world.isRemote) {
+			setIsReactorOn();
+			boolean wasProcessing = isProcessing;
+			isProcessing = isProcessing();
+			boolean shouldUpdate = false;
 			tickTile();
-			consumeInputs();
 			if (isProcessing) process();
 			else getRadiationSource().setRadiationLevel(0D);
 			if (wasProcessing != isProcessing) {
 				shouldUpdate = true;
 			}
 			if (shouldTileCheck()) pushFluid();
+			if (shouldUpdate) markDirty();
 		}
-		if (shouldUpdate) markDirty();
 	}
 	
 	@Override
@@ -200,25 +201,43 @@ public class TileSaltFissionVessel extends TileSaltFissionPartBase implements IF
 		tickCount++; tickCount %= NCConfig.machine_update_rate / 2;
 	}
 	
+	@Override
+	public void refreshRecipe() {
+		if (recipe == null || !recipe.matchingInputs(new ArrayList<ItemStack>(), getFluidInputs(hasConsumed))) {
+			recipe = getRecipeHandler().getRecipeFromInputs(new ArrayList<ItemStack>(), getFluidInputs(hasConsumed));
+		}
+		consumeInputs();
+	}
+	
+	@Override
+	public void refreshActivity() {
+		canProcessInputs = canProcessInputs();
+	}
+	
+	// Processor Stats
+	
+	public boolean setRecipeStats() {
+		if (recipe == null) {
+			baseProcessTime = 1D;
+			baseProcessHeat = 0D;
+			baseProcessRadiation = 0D;
+			return false;
+		}
+		baseProcessTime = recipe.getSaltFissionFuelTime();
+		baseProcessHeat = recipe.getSaltFissionFuelHeat();
+		baseProcessRadiation = recipe.getSaltFissionFuelRadiation();
+		fluidToHold = getFluidIngredients().get(0).getMaxStackSize();
+		return true;
+	}
+	
+	// Processing
+	
 	public boolean isProcessing() {
 		return readyToProcess() && isReactorOn;
 	}
 	
 	public boolean readyToProcess() {
 		return canProcessInputs && hasConsumed && isMultiblockAssembled();
-	}
-	
-	public void process() {
-		time += NCConfig.salt_fission_fuel_use;
-		getRadiationSource().setRadiationLevel(baseProcessRadiation*NCConfig.salt_fission_fuel_use);
-		if (time >= baseProcessTime) {
-			double oldProcessTime = baseProcessTime;
-			produceProducts();
-			recipe = getRecipeHandler().getRecipeFromInputs(new ArrayList<ItemStack>(), getFluidInputs(hasConsumed));
-			setRecipeStats();
-			if (recipe == null) time = 0;
-			else time = MathHelper.clamp(time - oldProcessTime, 0D, baseProcessTime);
-		}
 	}
 	
 	public boolean hasConsumed() {
@@ -230,18 +249,18 @@ public class TileSaltFissionVessel extends TileSaltFissionPartBase implements IF
 	}
 		
 	public boolean canProcessInputs() {
-		baseProcessTime = 1D;
-		baseProcessHeat = 0D;
-		if (recipe == null) {
+		if (!setRecipeStats()) {
 			if (hasConsumed) {
 				for (Tank tank : getFluidInputs(true)) tank.setFluidStored(null);
 				hasConsumed = false;
 			}
 			return false;
 		}
-		setRecipeStats();
 		if (time >= baseProcessTime) return true;
-		
+		return canProduceProducts();
+	}
+	
+	public boolean canProduceProducts() {
 		for(int j = 0; j < fluidOutputSize; j++) {
 			IFluidIngredient fluidProduct = getFluidProducts().get(j);
 			if (fluidProduct.getMaxStackSize() <= 0) continue;
@@ -255,25 +274,6 @@ public class TileSaltFissionVessel extends TileSaltFissionPartBase implements IF
 			}
 		}
 		return true;
-	}
-	
-	public void setRecipeStats() {
-		if (recipe == null) {
-			setDefaultRecipeStats();
-			return;
-		}
-		
-		baseProcessTime = recipe.getSaltFissionFuelTime();
-		baseProcessHeat = recipe.getSaltFissionFuelHeat();
-		baseProcessRadiation = recipe.getSaltFissionFuelRadiation();
-		
-		fluidToHold = getFluidIngredients().get(0).getMaxStackSize();
-	}
-	
-	public void setDefaultRecipeStats() {
-		baseProcessTime = 1D;
-		baseProcessHeat = 0D;
-		baseProcessRadiation = 0D;
 	}
 		
 	public void consumeInputs() {
@@ -296,6 +296,21 @@ public class TileSaltFissionVessel extends TileSaltFissionPartBase implements IF
 		}
 		hasConsumed = true;
 	}
+	
+	public void process() {
+		time += NCConfig.salt_fission_fuel_use;
+		getRadiationSource().setRadiationLevel(baseProcessRadiation*NCConfig.salt_fission_fuel_use);
+		if (time >= baseProcessTime) finishProcess();
+	}
+	
+	public void finishProcess() {
+		double oldProcessTime = baseProcessTime;
+		produceProducts();
+		refreshRecipe();
+		if (!setRecipeStats()) time = 0;
+		else time = MathHelper.clamp(time - oldProcessTime, 0D, baseProcessTime);
+		refreshActivity();
+	}
 		
 	public void produceProducts() {
 		for (int i = fluidInputSize + fluidOutputSize; i < 2*fluidInputSize + fluidOutputSize; i++) tanks.get(i).setFluid(null);
@@ -313,6 +328,8 @@ public class TileSaltFissionVessel extends TileSaltFissionPartBase implements IF
 		}
 		hasConsumed = false;
 	}
+	
+	// IProcessor
 	
 	@Override
 	public ProcessorRecipeHandler getRecipeHandler() {

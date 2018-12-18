@@ -10,12 +10,12 @@ import net.minecraft.inventory.SlotFurnaceOutput;
 public class ContainerIngotFormer extends ContainerItemFluidProcessor {
 
 	public ContainerIngotFormer(EntityPlayer player, TileItemFluidProcessor tileEntity) {
-		super(tileEntity, NCRecipes.Type.INGOT_FORMER);
+		super(player, tileEntity, NCRecipes.Type.INGOT_FORMER);
 		
 		addSlotToContainer(new SlotFurnaceOutput(player, tileEntity, 0, 116, 35));
 		
 		addSlotToContainer(new SlotSpecificInput(tileEntity, 1, 132, 64, speedUpgrade));
-		addSlotToContainer(new SlotFurnaceOutput(player, tileEntity, 2, 152, 64));
+		addSlotToContainer(new SlotSpecificInput(tileEntity, 2, 152, 64, energyUpgrade));
 		
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 9; j++) {

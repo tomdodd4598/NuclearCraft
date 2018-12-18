@@ -5,9 +5,9 @@ import nc.gui.GuiFluidRenderer;
 import nc.gui.GuiItemRenderer;
 import nc.gui.NCGuiButton;
 import nc.init.NCItems;
-import nc.network.EmptyTankButtonPacket;
-import nc.network.GetFluidInTankPacket;
 import nc.network.PacketHandler;
+import nc.network.gui.EmptyTankButtonPacket;
+import nc.network.gui.GetFluidInTankPacket;
 import nc.tile.processor.TileFluidProcessor;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
@@ -38,8 +38,8 @@ public class GuiIrradiator extends GuiFluidProcessor {
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		super.drawGuiContainerForegroundLayer(mouseX, mouseY);
 		
-		GuiItemRenderer itemRenderer = new GuiItemRenderer(132, ySize - 102, 0.5F, NCItems.upgrade, 0);
-		itemRenderer.draw();
+		new GuiItemRenderer(132, ySize - 102, 0.5F, NCItems.upgrade, 0).draw();
+		new GuiItemRenderer(152, ySize - 102, 0.5F, NCItems.upgrade, 1).draw();
 	}
 	
 	@Override

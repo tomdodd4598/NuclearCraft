@@ -6,6 +6,7 @@ import java.util.List;
 import nc.Global;
 import nc.multiblock.heatExchanger.HeatExchanger;
 import nc.util.Lang;
+import nc.util.NCMath;
 import nc.util.StringHelper;
 import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
@@ -35,8 +36,8 @@ public class GuiHeatExchangerController extends GuiMultiblockController<HeatExch
 	
 	public List<String> efficiencyInfo() {
 		List<String> info = new ArrayList<String>();
-		info.add(TextFormatting.LIGHT_PURPLE + Lang.localise("gui.container.heat_exchanger_controller.active_percent") + " " + TextFormatting.WHITE + (int) (multiblock.fractionOfTubesActive*100D) + "%");
-		info.add(TextFormatting.AQUA + Lang.localise("gui.container.heat_exchanger_controller.efficiency") + " " + TextFormatting.WHITE + (int) (multiblock.efficiency*100D) + "%");
+		info.add(TextFormatting.LIGHT_PURPLE + Lang.localise("gui.container.heat_exchanger_controller.active_percent") + " " + TextFormatting.WHITE + NCMath.round(multiblock.fractionOfTubesActive*100D, 1) + "%");
+		info.add(TextFormatting.AQUA + Lang.localise("gui.container.heat_exchanger_controller.efficiency") + " " + TextFormatting.WHITE + NCMath.round(multiblock.efficiency*100D, 1) + "%");
 		return info;
 	}
 	

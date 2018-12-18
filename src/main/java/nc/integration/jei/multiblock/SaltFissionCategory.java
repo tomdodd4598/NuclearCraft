@@ -32,7 +32,7 @@ public class SaltFissionCategory extends JEICategoryAbstract<JEIRecipeWrapper.Sa
 		fluidMapper.mapFluidsTo(recipeLayout.getFluidStacks(), ingredients);
 		
 		recipeLayout.getFluidStacks().addTooltipCallback((slotIndex, input, ingredient, tooltip) -> {
-			tooltip.add(TextFormatting.GREEN + FUEL_TIME + " " + TextFormatting.WHITE + UnitHelper.applyTimeUnitShort(NCMath.round(recipeWrapper.recipe.getSaltFissionFuelTime()/NCConfig.salt_fission_fuel_use), 2));
+			tooltip.add(TextFormatting.GREEN + FUEL_TIME + " " + TextFormatting.WHITE + UnitHelper.applyTimeUnitShort(NCMath.round(recipeWrapper.recipe.getSaltFissionFuelTime()/NCConfig.salt_fission_fuel_use, 2), 2));
 			tooltip.add(TextFormatting.YELLOW + FUEL_HEAT + " " + TextFormatting.WHITE + UnitHelper.prefix(recipeWrapper.recipe.getSaltFissionFuelHeat()*NCConfig.salt_fission_heat_generation, 5, "H/t"));
 		});
 	}

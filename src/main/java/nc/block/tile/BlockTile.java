@@ -47,21 +47,9 @@ public abstract class BlockTile extends NCBlock implements ITileEntityProvider {
 		if (hand != EnumHand.MAIN_HAND) return false;
 		
 		TileEntity tile = world.getTileEntity(pos);
-		if (tile instanceof IUpgradable && player.getHeldItemMainhand().isItemEqual(new ItemStack(NCItems.upgrade, 1, 0))) {
-			int speedSlot = ((IUpgradable) tile).getSpeedUpgradeSlot();
-			IItemHandler inv = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, facing);
-			
-			if (inv != null && inv.isItemValid(speedSlot, player.getHeldItemMainhand())) {
-				if (player.isSneaking()) {
-					player.setHeldItem(EnumHand.MAIN_HAND, inv.insertItem(speedSlot, player.getHeldItemMainhand(), false));
-					return true;
-				} else {
-					if (inv.insertItem(speedSlot, new ItemStack(NCItems.upgrade, 1, 0), false).isEmpty()) {
-						player.getHeldItemMainhand().shrink(1);
-						return true;
-					}
-				}
-			}
+		if (tile instanceof IUpgradable) {
+			if (installUpgrade(tile, ((IUpgradable) tile).getSpeedUpgradeSlot(), player, facing, new ItemStack(NCItems.upgrade, 1, 0))) return true;
+			if (installUpgrade(tile, ((IUpgradable) tile).getEnergyUpgradeSlot(), player, facing, new ItemStack(NCItems.upgrade, 1, 1))) return true;
 		}
 		
 		if (player.isSneaking()) return false;
@@ -89,6 +77,25 @@ public abstract class BlockTile extends NCBlock implements ITileEntityProvider {
 		else return false;
 		
 		return true;
+	}
+	
+	protected boolean installUpgrade(TileEntity tile, int slot, EntityPlayer player, EnumFacing facing, ItemStack stack) {
+		if (player.getHeldItemMainhand().isItemEqual(stack)) {
+			IItemHandler inv = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, facing);
+			
+			if (inv != null && inv.isItemValid(slot, player.getHeldItemMainhand())) {
+				if (player.isSneaking()) {
+					player.setHeldItem(EnumHand.MAIN_HAND, inv.insertItem(slot, player.getHeldItemMainhand(), false));
+					return true;
+				} else {
+					if (inv.insertItem(slot, stack, false).isEmpty()) {
+						player.getHeldItemMainhand().shrink(1);
+						return true;
+					}
+				}
+			}
+		}
+		return false;
 	}
 	
 	public void onGuiOpened(World world, BlockPos pos) {

@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
+import nc.config.NCConfig;
 import nc.tile.radiation.ITileRadiationEnvironment;
 import nc.util.MapHelper;
 import net.minecraft.util.math.BlockPos;
@@ -21,6 +22,8 @@ public class RadiationEnvironmentHandler {
 	
 	@SubscribeEvent
 	public void updateRadiationEnvironment(WorldTickEvent event) {
+		if (!NCConfig.radiation_enabled) return;
+		
 		if (event.phase != Phase.END || event.side == Side.CLIENT || !(event.world instanceof WorldServer)) return;
 		
 		int count = Math.min(4, ENVIRONMENT.size());

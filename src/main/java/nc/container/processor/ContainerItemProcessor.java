@@ -2,75 +2,42 @@ package nc.container.processor;
 
 import nc.container.ContainerTile;
 import nc.init.NCItems;
-import nc.recipe.ProcessorRecipeHandler;
 import nc.recipe.NCRecipes;
+import nc.recipe.ProcessorRecipeHandler;
 import nc.tile.processor.TileItemProcessor;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IContainerListener;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ContainerItemProcessor extends ContainerTile {
 	
 	public final TileItemProcessor tile;
 	public final NCRecipes.Type recipeType;
 	
-	protected int time;
-	protected int energy;
-	protected int baseTime;
-	protected int basePower;
-	
 	protected ItemStack speedUpgrade = new ItemStack(NCItems.upgrade, 1, 0);
+	protected ItemStack energyUpgrade = new ItemStack(NCItems.upgrade, 1, 1);
 	
-	public ContainerItemProcessor(TileItemProcessor tileEntity, NCRecipes.Type recipeType) {
+	public ContainerItemProcessor(EntityPlayer player, TileItemProcessor tileEntity, NCRecipes.Type recipeType) {
 		super(tileEntity);
 		tile = tileEntity;
 		this.recipeType = recipeType;
+		
+		tileEntity.beginUpdatingPlayer(player);
 	}
 	
 	public ProcessorRecipeHandler getRecipeHandler() {
 		return recipeType.getRecipeHandler();
 	}
-
-	@Override
-	public void detectAndSendChanges() {
-		super.detectAndSendChanges();
-		
-		for (int i = 0; i < listeners.size(); i++) {
-			IContainerListener icontainerlistener = (IContainerListener) listeners.get(i);
-			
-			for (int j = 0; j <= 3; j++) {
-				icontainerlistener.sendWindowProperty(this, j, tile.getField(j) >> 16);
-				icontainerlistener.sendWindowProperty(this, 100 + j, tile.getField(j));
-			}
-		}
-	}
-	
-	@Override
-	public void addListener(IContainerListener listener) {
-		super.addListener(listener);
-		listener.sendAllWindowProperties(this, tile);
-	}
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void updateProgressBar(int id, int data) {
-		if (id == 100) time = upcast(data);
-		else if (id == 101) energy = upcast(data);
-		else if (id == 102) baseTime = upcast(data);
-		else if (id == 103) basePower = upcast(data);
-		
-		else if (id == 0) tile.setField(id, time | data << 16);
-		else if (id == 1) tile.setField(id, energy | data << 16);
-		else if (id == 2) tile.setField(id, baseTime | data << 16);
-		else if (id == 3) tile.setField(id, basePower | data << 16);
-	}
 	
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
 		return tile.isUsableByPlayer(player);
+	}
+	
+	@Override
+	public void onContainerClosed(EntityPlayer player) {
+		super.onContainerClosed(player);
+		tile.stopUpdatingPlayer(player);
 	}
 	
 	@Override

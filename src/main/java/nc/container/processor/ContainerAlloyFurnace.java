@@ -11,7 +11,7 @@ import net.minecraft.inventory.SlotFurnaceOutput;
 public class ContainerAlloyFurnace extends ContainerItemProcessor {
 
 	public ContainerAlloyFurnace(EntityPlayer player, TileItemProcessor tileEntity) {
-		super(tileEntity, NCRecipes.Type.ALLOY_FURNACE);
+		super(player, tileEntity, NCRecipes.Type.ALLOY_FURNACE);
 		
 		addSlotToContainer(new SlotProcessorInput(tileEntity, recipeType, 0, 46, 35));
 		addSlotToContainer(new SlotProcessorInput(tileEntity, recipeType, 1, 66, 35));
@@ -19,7 +19,7 @@ public class ContainerAlloyFurnace extends ContainerItemProcessor {
 		addSlotToContainer(new SlotFurnaceOutput(player, tileEntity, 2, 126, 35));
 		
 		addSlotToContainer(new SlotSpecificInput(tileEntity, 3, 132, 64, speedUpgrade));
-		addSlotToContainer(new SlotFurnaceOutput(player, tileEntity, 4, 152, 64));
+		addSlotToContainer(new SlotSpecificInput(tileEntity, 4, 152, 64, energyUpgrade));
 		
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 9; j++) {

@@ -3,6 +3,7 @@ package nc.tile.generator;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
@@ -13,9 +14,9 @@ import nc.config.NCConfig;
 import nc.enumm.MetaEnums.CoolerType;
 import nc.handler.SoundHandler;
 import nc.init.NCBlocks;
-import nc.network.FusionUpdatePacket;
-import nc.network.PacketHandler;
+import nc.network.tile.FusionUpdatePacket;
 import nc.recipe.NCRecipes;
+import nc.tile.IGui;
 import nc.tile.fluid.TileActiveCooler;
 import nc.tile.internal.energy.EnergyConnection;
 import nc.tile.internal.fluid.Tank;
@@ -27,8 +28,8 @@ import nc.util.Lang;
 import nc.util.MaterialHelper;
 import nc.util.RecipeHelper;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.SoundCategory;
@@ -39,7 +40,7 @@ import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.Optional;
 
 @Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers")
-public class TileFusionCore extends TileFluidGenerator implements SimpleComponent {
+public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpdatePacket>, SimpleComponent {
 	
 	public static final double ROOM_TEMP = 0.298D;
 	
@@ -62,6 +63,7 @@ public class TileFusionCore extends TileFluidGenerator implements SimpleComponen
 	public static final String NO_FUEL = Lang.localise("gui.container.fusion_core.empty");
 	
 	public boolean computerActivated = true;
+	private int structureCount = 0;
 	
 	private BlockFinder finder;
 	
@@ -72,10 +74,7 @@ public class TileFusionCore extends TileFluidGenerator implements SimpleComponen
 		setTanksShared(false);
 	}
 	
-	@Override
-	public int getGuiID() {
-		return 101;
-	}
+	// Ticking
 	
 	@Override
 	public void onAdded() {
@@ -84,17 +83,16 @@ public class TileFusionCore extends TileFluidGenerator implements SimpleComponen
 	}
 	
 	@Override
-	public void updateProcessor() {
-		recipe = getRecipeHandler().getRecipeFromInputs(new ArrayList<ItemStack>(), getFluidInputs(hasConsumed));
-		canProcessInputs = canProcessInputs();
-		boolean wasProcessing = isProcessing;
-		isProcessing = isProcessing();
-		boolean shouldUpdate = false;
-		tickTile();
-		setSize();
+	public void updateGenerator() {
 		if(!world.isRemote) {
+			boolean wasProcessing = isProcessing;
+			isProcessing = isProcessing();
+			boolean shouldUpdate = false;
+			tickTile();
+			tickStructureCheck();
+			setSize();
 			energyChange = getEnergyStored() - currentEnergyStored;
-			if (shouldTileCheck() && NCConfig.fusion_active_cooling) setCooling();
+			if (NCConfig.fusion_active_cooling && shouldStructureCheck()) setCooling();
 			double previousHeat = heat;
 			run();
 			if (isHotEnough()) doCooling();
@@ -103,28 +101,45 @@ public class TileFusionCore extends TileFluidGenerator implements SimpleComponen
 			if (overheat()) return;
 			if (isProcessing) process();
 			else getRadiationSource().setRadiationLevel(0D);
-			consumeInputs();
 			if (wasProcessing != isProcessing) {
 				plasma();
 				shouldUpdate = true;
 				updateBlockType();
-				PacketHandler.instance.sendToAll(getFusionUpdatePacket());
+				sendUpdateToAllPlayers();
 			}
 			if (isHotEnough()) pushEnergy();
-			if (findAdjacentComparator() && shouldTileCheck()) shouldUpdate = true;
+			if (shouldStructureCheck() && findAdjacentComparator()) shouldUpdate = true;
+			if (shouldTileCheck()) sendUpdateToListeningPlayers();
 		} else {
-			playSounds();
+			if (NCConfig.fusion_enable_sound) playSounds();
 		}
-		if (shouldUpdate) markDirty();
+	}
+	
+	public void tickStructureCheck() {
+		structureCount++; structureCount %= 4*NCConfig.machine_update_rate;
+	}
+	
+	public boolean shouldStructureCheck() {
+		return structureCount == 0;
 	}
 	
 	@Override
-	public void tickTile() {
-		tickCount++; tickCount %= 4*NCConfig.machine_update_rate;
+	public void updateBlockType() {
+		super.updateBlockType();
+		tickCount = -1;
 	}
 	
-	private FusionUpdatePacket getFusionUpdatePacket() {
-		return new FusionUpdatePacket(pos, isProcessing, efficiency, computerActivated);
+	@Override
+	public boolean isRedstonePowered() {
+		BlockPosHelper helper = new BlockPosHelper(pos);
+		for (BlockPos pos : helper.squareRing(1, 0)) if (world.isBlockPowered(pos)) return true;
+		return world.isBlockPowered(pos);
+	}
+	
+	public boolean findAdjacentComparator() {
+		BlockPosHelper helper = new BlockPosHelper(pos);
+		for (BlockPos pos : helper.cutoffRing(2, 0)) if (finder.find(pos, Blocks.UNPOWERED_COMPARATOR, Blocks.POWERED_COMPARATOR)) return true;
+		return false;
 	}
 	
 	public void onFusionPacket(boolean isProcessing, double efficiency, boolean computerActivated) {
@@ -152,34 +167,6 @@ public class TileFusionCore extends TileFluidGenerator implements SimpleComponen
 			world.removeTileEntity(pos);
 			world.setBlockToAir(pos);
 		}
-	}
-	
-	@Override
-	public boolean isProcessing() {
-		return readyToProcess() && !isDeactivated();
-	}
-	
-	// Because reactor is on by default
-	private boolean isDeactivated() {
-		return isRedstonePowered() || !computerActivated;
-	}
-	
-	@Override
-	public boolean readyToProcess() {
-		return canProcessInputs && hasConsumed && isHotEnough() && complete == 1;
-	}
-	
-	@Override
-	public boolean isRedstonePowered() {
-		BlockPosHelper helper = new BlockPosHelper(pos);
-		for (BlockPos pos : helper.squareRing(1, 0)) if (world.isBlockPowered(pos)) return true;
-		return world.isBlockPowered(pos);
-	}
-	
-	public boolean findAdjacentComparator() {
-		BlockPosHelper helper = new BlockPosHelper(pos);
-		for (BlockPos pos : helper.cutoffRing(2, 0)) if (finder.find(pos, Blocks.UNPOWERED_COMPARATOR, Blocks.POWERED_COMPARATOR)) return true;
-		return false;
 	}
 	
 	public void playSounds() {
@@ -213,6 +200,42 @@ public class TileFusionCore extends TileFluidGenerator implements SimpleComponen
 		return !NCConfig.fusion_alternate_sound ? SoundHandler.fusion_run : SoundHandler.accelerator_run;
 	}
 	
+	// Processor Stats
+	
+	@Override
+	public boolean setRecipeStats() {
+		if (recipe == null) {
+			baseProcessTime = defaultProcessTime;
+			baseProcessPower = defaultProcessPower;
+			processHeatVariable = 1000D;
+			baseProcessRadiation = 0D;
+			return false;
+		}
+		baseProcessTime = recipe.getFusionComboTime();
+		baseProcessPower = recipe.getFusionComboPower();
+		processHeatVariable = recipe.getFusionComboHeatVariable();
+		baseProcessRadiation = recipe.getFusionComboRadiation();
+		return true;
+	}
+	
+	// Processing
+	
+	@Override
+	public boolean isProcessing() {
+		return readyToProcess() && !isDeactivated();
+	}
+	
+	private boolean isDeactivated() { // Because reactor is on by default
+		return isRedstonePowered() || !computerActivated;
+	}
+	
+	@Override
+	public boolean readyToProcess() {
+		return canProcessInputs && hasConsumed && isHotEnough() && complete == 1;
+	}
+	
+	// Energy Connections
+	
 	@Override
 	public boolean canExtractEnergy(EnumFacing side) {
 		return isHotEnough();
@@ -227,12 +250,6 @@ public class TileFusionCore extends TileFluidGenerator implements SimpleComponen
 		return heat > 8000;
 	}
 	
-	@Override
-	public void updateBlockType() {
-		super.updateBlockType();
-		tickCount = -1;
-	}
-	
 	// IC2 Tiers
 
 	@Override
@@ -245,7 +262,7 @@ public class TileFusionCore extends TileFluidGenerator implements SimpleComponen
 		return 4;
 	}
 	
-	// Generating
+	// Reactor Stats
 	
 	public double getMaxHeat() {
 		return 20000000D;
@@ -253,26 +270,6 @@ public class TileFusionCore extends TileFluidGenerator implements SimpleComponen
 	
 	public int ringRadius() {
 		return size + 2;
-	}
-	
-	@Override
-	public void setRecipeStats() {
-		if (recipe == null) {
-			setDefaultRecipeStats();
-			return;
-		}
-		
-		baseProcessTime = recipe.getFusionComboTime();
-		baseProcessPower = recipe.getFusionComboPower();
-		processHeatVariable = recipe.getFusionComboHeatVariable();
-		baseProcessRadiation = recipe.getFusionComboRadiation();
-	}
-	
-	public void setDefaultRecipeStats() {
-		baseProcessTime = defaultProcessTime;
-		baseProcessPower = defaultProcessPower;
-		processHeatVariable = 1000D;
-		baseProcessRadiation = 0D;
 	}
 	
 	// Setting Blocks
@@ -322,7 +319,7 @@ public class TileFusionCore extends TileFluidGenerator implements SimpleComponen
 	// Finding Ring
 	
 	public boolean setSize() {
-		if (shouldTileCheck()) {
+		if (shouldStructureCheck()) {
 			int runningSize = 1;
 			for (int r = 0; r <= NCConfig.fusion_max_size; r++) {
 				if (finder.horizontalY(pos.offset(EnumFacing.UP), r + 2, NCBlocks.fusion_connector)) {
@@ -484,89 +481,39 @@ public class TileFusionCore extends TileFluidGenerator implements SimpleComponen
 		currentEnergyStored = nbt.getInteger("currentEnergyStored");
 	}
 	
-	// Inventory Fields
+	// IGui
 	
 	@Override
-	public int getFieldCount() {
-		return 12;
+	public int getGuiID() {
+		return 101;
 	}
-
+	
 	@Override
-	public int getField(int id) {
-		switch (id) {
-		case 0:
-			return (int) time;
-		case 1:
-			return getEnergyStored();
-		case 2:
-			return (int) baseProcessTime;
-		case 3:
-			return (int) processPower;
-		case 4:
-			return (int) heat;
-		case 5:
-			return (int) efficiency;
-		case 6:
-			return (int) speedMultiplier;
-		case 7:
-			return size;
-		case 8:
-			return complete;
-		case 9:
-			return (int) cooling;
-		case 10:
-			return (int) heatChange;
-		case 11:
-			return hasConsumed ? 1 : 0;
-		case 12:
-			return computerActivated ? 1 : 0;
-		default:
-			return 0;
-		}
+	public Set<EntityPlayer> getPlayersToUpdate() {
+		return playersToUpdate;
 	}
-
+	
 	@Override
-	public void setField(int id, int value) {
-		switch (id) {
-		case 0:
-			time = value;
-			break;
-		case 1:
-			getEnergyStorage().setEnergyStored(value);
-			break;
-		case 2:
-			baseProcessTime = value;
-			break;
-		case 3:
-			processPower = value;
-			break;
-		case 4:
-			heat = value;
-			break;
-		case 5:
-			efficiency = value;
-			break;
-		case 6:
-			speedMultiplier = value;
-			break;
-		case 7:
-			size = value;
-			break;
-		case 8:
-			complete = value;
-			break;
-		case 9:
-			cooling = value;
-			break;
-		case 10:
-			heatChange = value;
-			break;
-		case 11:
-			hasConsumed = value == 1;
-			break;
-		case 12:
-			computerActivated = value == 1;
-		}
+	public FusionUpdatePacket getGuiUpdatePacket() {
+		return new FusionUpdatePacket(pos, time, getEnergyStored(), baseProcessTime, baseProcessPower, isProcessing, heat, efficiency, speedMultiplier, size, complete, cooling, heatChange, hasConsumed, computerActivated);
+	}
+	
+	@Override
+	public void onGuiPacket(FusionUpdatePacket message) {
+		time = message.time;
+		getEnergyStorage().setEnergyStored(message.energyStored);
+		baseProcessTime = message.baseProcessTime;
+		baseProcessPower = message.baseProcessPower;
+		isProcessing = message.isProcessing;
+		heat = message.heat;
+		efficiency = message.efficiency;
+		speedMultiplier = message.speedMultiplier;
+		size = message.size;
+		complete = message.complete;
+		cooling = message.cooling;
+		heatChange = message.heatChange;
+		hasConsumed = message.hasConsumed;
+		computerActivated = message.computerActivated;
 	}
 	
 	// OpenComputers

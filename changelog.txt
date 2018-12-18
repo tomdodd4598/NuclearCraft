@@ -1,6 +1,32 @@
+v2.12g
+
++ Added Energy Upgrades
+
+* Improved machine and reactor recipe and structure updating to significantly reduce lag
+* Fixed overflow issues with the Fission Reactor GUI
+* Fixed Fusion Reactor pushing outputs into empty input tanks
+
+* Fixed CT integration occasionally failing
+
++ Added Advanced, DU and Elite Voltaic Piles and Lithium Ion Batteries
+
++ Added config for disabling GTCE EU support
++ Added config for disabling the Fusion Reactor sound effect
+
+* Fixed clients not respecting servers' radiation being enabled/disabled
+* Fixed radiation info not appearing in later versions of JEI
+* Fixed retention of rad count on death (if enabled)
+* Split radiation medicine cooldown into seperate RadAway and Rad-X cooldowns
+* Tweaked biome background radiation so as to not spread into other chunks
+
++ Added anvil repairing for tools and armour
+* Fixed Spaxelhoes not breaking all blocks quickly
+
+* Various other minor additions and fixes
+
 v2.12f
 
-* Sided multiblock parts' configurations can now be copied along a line by sneak-placing the next one on it
+* Sided multiblock parts' configurations can now be copied along a line by sneak-placing the next one on it [thanks to PolyJohn for the suggestion!]
 * Fixed certain multiblock building errors not being printed to chat
 
 * Fixed some wonky Heat Exchanger maths (using wrong temperature differences, etc.)

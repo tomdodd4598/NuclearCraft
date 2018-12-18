@@ -6,6 +6,7 @@ import javax.annotation.Nullable;
 
 import nc.Global;
 import nc.util.InfoHelper;
+import nc.util.OreDictHelper;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemSpade;
 import net.minecraft.item.ItemStack;
@@ -31,4 +32,10 @@ public class NCShovel extends ItemSpade {
         super.addInformation(itemStack, world, tooltip, flag);
         if (info.length > 0) InfoHelper.infoFull(tooltip, info);
     }
+	
+	@Override
+	public boolean getIsRepairable(ItemStack toRepair, ItemStack repair) {
+		ItemStack mat = toolMaterial.getRepairItemStack();
+		return mat != null && !mat.isEmpty() && OreDictHelper.isOreMatching(mat, repair);
+	}
 }

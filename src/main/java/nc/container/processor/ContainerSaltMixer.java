@@ -5,15 +5,14 @@ import nc.recipe.NCRecipes;
 import nc.tile.processor.TileFluidProcessor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
-import net.minecraft.inventory.SlotFurnaceOutput;
 
 public class ContainerSaltMixer extends ContainerFluidProcessor {
 
 	public ContainerSaltMixer(EntityPlayer player, TileFluidProcessor tileEntity) {
-		super(tileEntity, NCRecipes.Type.SALT_MIXER);
+		super(player, tileEntity, NCRecipes.Type.SALT_MIXER);
 		
 		addSlotToContainer(new SlotSpecificInput(tileEntity, 0, 132, 64, speedUpgrade));
-		addSlotToContainer(new SlotFurnaceOutput(player, tileEntity, 1, 152, 64));
+		addSlotToContainer(new SlotSpecificInput(tileEntity, 1, 152, 64, energyUpgrade));
 		
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 9; j++) {

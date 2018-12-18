@@ -28,14 +28,14 @@ public class ItemRadX extends NCItem {
 			if (!player.hasCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null)) return stack;
 			IEntityRads playerRads = player.getCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null);
 			if (playerRads == null) return stack;
-			if (playerRads.canConsumeMedicine()) {
+			if (playerRads.canConsumeRadX()) {
 				world.playSound((EntityPlayer)null, player.posX, player.posY, player.posZ, SoundHandler.rad_x, SoundCategory.PLAYERS, 0.5F, 1F);
 				onRadawayConsumed(stack, world, player);
 				player.addStat(StatList.getObjectUseStats(this));
 				if (player instanceof EntityPlayerMP) CriteriaTriggers.CONSUME_ITEM.trigger((EntityPlayerMP)player, stack);
 				stack.shrink(1);
 				playerRads.setConsumedMedicine(true);
-				playerRads.setMedicineCooldown(NCConfig.radiation_medicine_cooldown);
+				playerRads.setRadXCooldown(NCConfig.radiation_rad_x_cooldown);
 			}
 			else playerRads.setConsumedMedicine(false);
 		}
@@ -66,7 +66,7 @@ public class ItemRadX extends NCItem {
 		IEntityRads playerRads = player.getCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null);
 		if (playerRads == null) return actionResult(false, stack);
 		
-		if (!playerRads.canConsumeMedicine()) {
+		if (!playerRads.canConsumeRadX()) {
 			playerRads.setConsumedMedicine(false);
 			return actionResult(false, stack);
 		}

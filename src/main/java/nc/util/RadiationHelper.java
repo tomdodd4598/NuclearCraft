@@ -5,12 +5,14 @@ import nc.capability.radiation.IEntityRads;
 import nc.capability.radiation.IRadiation;
 import nc.capability.radiation.IRadiationSource;
 import nc.config.NCConfig;
+import nc.radiation.RadBiomes;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 
@@ -168,6 +170,14 @@ public class RadiationHelper {
 		return addRadsToPlayer(player, playerRads, sourceRadiation.getRadiationLevel(), updateRate);
 	}
 	
+	// Biome -> Player
+	
+	public static double transferBackgroundRadsToPlayer(Biome biome, EntityPlayer player, IEntityRads playerRads, int updateRate) {
+		Double biomeRadiation = RadBiomes.BIOME_MAP.get(biome);
+		if (biomeRadiation == null) return 0D;
+		return addRadsToPlayer(player, playerRads, biomeRadiation, updateRate);
+	}
+	
 	// Source -> Entity
 	
 	public static void transferRadsFromSourceToEntity(ICapabilityProvider provider, IEntityRads entityRads, int updateRate) {
@@ -175,6 +185,13 @@ public class RadiationHelper {
 		IRadiationSource sourceRadiation = provider.getCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null);
 		if (sourceRadiation == null) return;
 		entityRads.setRadiationLevel(addRadsToEntity(entityRads, sourceRadiation.getRadiationLevel(), updateRate));
+	}
+	
+	// Biome -> Entity
+	
+	public static void transferBackgroundRadsToEntity(Biome biome, IEntityRads entityRads, int updateRate) {
+		Double biomeRadiation = RadBiomes.BIOME_MAP.get(biome);
+		if (biomeRadiation != null) entityRads.setRadiationLevel(addRadsToEntity(entityRads, biomeRadiation, updateRate));
 	}
 	
 	// Entity Symptoms

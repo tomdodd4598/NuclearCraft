@@ -625,7 +625,8 @@ public class MetaEnums {
 	}
 	
 	public static enum UpgradeType implements IStringSerializable, IItemMeta {
-		SPEED("speed", 0);
+		SPEED("speed", 0),
+		ENERGY("energy", 1);
 		
 		private String name;
 		private int id;

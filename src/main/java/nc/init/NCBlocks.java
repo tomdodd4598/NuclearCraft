@@ -54,6 +54,7 @@ import nc.multiblock.saltFission.block.BlockSaltFissionVessel;
 import nc.multiblock.saltFission.block.BlockSaltFissionWall;
 import nc.tab.NCTabs;
 import nc.tile.energy.battery.BatteryType;
+import nc.tile.radiation.TileScrubber;
 import nc.util.InfoHelper;
 import nc.util.Lang;
 import nc.util.UnitHelper;
@@ -158,7 +159,13 @@ public class NCBlocks {
 	public static Block decay_generator;
 	
 	public static Block voltaic_pile_basic;
+	public static Block voltaic_pile_advanced;
+	public static Block voltaic_pile_du;
+	public static Block voltaic_pile_elite;
 	public static Block lithium_ion_battery_basic;
+	public static Block lithium_ion_battery_advanced;
+	public static Block lithium_ion_battery_du;
+	public static Block lithium_ion_battery_elite;
 	
 	public static Block buffer;
 	public static Block active_cooler;
@@ -309,7 +316,14 @@ public class NCBlocks {
 		decay_generator = new BlockSimpleTile(SimpleTileType.DECAY_GENERATOR);
 		
 		voltaic_pile_basic = new BlockBattery(SimpleTileType.VOLTAIC_PILE_BASIC);
+		voltaic_pile_advanced = new BlockBattery(SimpleTileType.VOLTAIC_PILE_ADVANCED);
+		voltaic_pile_du = new BlockBattery(SimpleTileType.VOLTAIC_PILE_DU);
+		voltaic_pile_elite = new BlockBattery(SimpleTileType.VOLTAIC_PILE_ELITE);
+		
 		lithium_ion_battery_basic = new BlockBattery(SimpleTileType.LITHIUM_ION_BATTERY_BASIC);
+		lithium_ion_battery_advanced = new BlockBattery(SimpleTileType.LITHIUM_ION_BATTERY_ADVANCED);
+		lithium_ion_battery_du = new BlockBattery(SimpleTileType.LITHIUM_ION_BATTERY_DU);
+		lithium_ion_battery_elite = new BlockBattery(SimpleTileType.LITHIUM_ION_BATTERY_ELITE);
 		
 		buffer = new BlockSimpleTile(SimpleTileType.BUFFER);
 		active_cooler = new BlockSimpleTile(SimpleTileType.ACTIVE_COOLER);
@@ -469,7 +483,14 @@ public class NCBlocks {
 		registerBlock(decay_generator);
 		
 		registerBlock(voltaic_pile_basic, new ItemBlockBattery(voltaic_pile_basic, BatteryType.VOLTAIC_PILE_BASIC, InfoHelper.formattedInfo(infoLine("energy_storage"))));
+		registerBlock(voltaic_pile_advanced, new ItemBlockBattery(voltaic_pile_advanced, BatteryType.VOLTAIC_PILE_ADVANCED, InfoHelper.formattedInfo(infoLine("energy_storage"))));
+		registerBlock(voltaic_pile_du, new ItemBlockBattery(voltaic_pile_du, BatteryType.VOLTAIC_PILE_DU, InfoHelper.formattedInfo(infoLine("energy_storage"))));
+		registerBlock(voltaic_pile_elite, new ItemBlockBattery(voltaic_pile_elite, BatteryType.VOLTAIC_PILE_ELITE, InfoHelper.formattedInfo(infoLine("energy_storage"))));
+		
 		registerBlock(lithium_ion_battery_basic, new ItemBlockBattery(lithium_ion_battery_basic, BatteryType.LITHIUM_ION_BATTERY_BASIC, InfoHelper.formattedInfo(infoLine("energy_storage"))));
+		registerBlock(lithium_ion_battery_advanced, new ItemBlockBattery(lithium_ion_battery_advanced, BatteryType.LITHIUM_ION_BATTERY_ADVANCED, InfoHelper.formattedInfo(infoLine("energy_storage"))));
+		registerBlock(lithium_ion_battery_du, new ItemBlockBattery(lithium_ion_battery_du, BatteryType.LITHIUM_ION_BATTERY_DU, InfoHelper.formattedInfo(infoLine("energy_storage"))));
+		registerBlock(lithium_ion_battery_elite, new ItemBlockBattery(lithium_ion_battery_elite, BatteryType.LITHIUM_ION_BATTERY_ELITE, InfoHelper.formattedInfo(infoLine("energy_storage"))));
 		
 		registerBlock(buffer);
 		registerBlock(active_cooler);
@@ -531,7 +552,7 @@ public class NCBlocks {
 			registerBlock(nitrogen_collector_dense, InfoHelper.formattedInfo(infoLine("nitrogen_collector"), UnitHelper.ratePrefix(NCConfig.processor_passive_rate[3]*64, 5, "B", -1)));
 		}
 		
-		registerBlock(radiation_scrubber);
+		registerBlock(radiation_scrubber, InfoHelper.formattedInfo(infoLine("radiation_scrubber"), UnitHelper.prefix(NCConfig.radiation_scrubber_rate, 3, "Rads/t", 0, -8), NCConfig.radiation_scrubber_borax_rate > 0 ? Lang.localise("info.nuclearcraft.radiation_scrubber_req_borax", TileScrubber.POWER_USE, NCConfig.radiation_scrubber_borax_rate) : Lang.localise("info.nuclearcraft.radiation_scrubber_no_req_borax", TileScrubber.POWER_USE)));
 		
 		registerBlock(glowing_mushroom);
 		registerBlock(dry_earth);
@@ -641,7 +662,14 @@ public class NCBlocks {
 		registerRender(decay_generator);
 		
 		registerRender(voltaic_pile_basic);
+		registerRender(voltaic_pile_advanced);
+		registerRender(voltaic_pile_du);
+		registerRender(voltaic_pile_elite);
+		
 		registerRender(lithium_ion_battery_basic);
+		registerRender(lithium_ion_battery_advanced);
+		registerRender(lithium_ion_battery_du);
+		registerRender(lithium_ion_battery_elite);
 		
 		registerRender(buffer);
 		registerRender(active_cooler);

@@ -11,6 +11,7 @@ import nc.gui.NCGui;
 import nc.tile.energy.ITileEnergy;
 import nc.tile.generator.TileFissionController;
 import nc.util.Lang;
+import nc.util.NCMath;
 import nc.util.UnitHelper;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
@@ -62,10 +63,10 @@ public class GuiFissionController extends NCGui {
 	public List<String> energyInfo(ITileEnergy tile) {
 		String energy = UnitHelper.prefix(tile.getEnergyStorage().getEnergyStored(), tile.getEnergyStorage().getMaxEnergyStored(), 6, "RF");
 		String power = UnitHelper.prefix((int)this.tile.processPower, 6, "RF/t");
-		String efficiency = this.tile.efficiency + "%";
-		if (this.tile.getFuelName().equals(TileFissionController.NO_FUEL) || (int) this.tile.cells == 0) return Lists.newArrayList(TextFormatting.LIGHT_PURPLE + Lang.localise("gui.container.energy_stored") + TextFormatting.WHITE + " " + energy, TextFormatting.LIGHT_PURPLE + Lang.localise("gui.container.power_gen") + TextFormatting.WHITE + " " + power, TextFormatting.LIGHT_PURPLE + Lang.localise("gui.container.fission_controller.efficiency") + TextFormatting.WHITE + " " + efficiency);
-		double fuelTimeLeft = MathHelper.clamp(((this.tile.baseProcessTime - this.tile.time)/(this.tile.cells*NCConfig.fission_fuel_use)), 0D, this.tile.baseProcessTime);
-		int fuelTimeLeftPercent = (int)(100D*MathHelper.clamp(((this.tile.baseProcessTime - this.tile.time)/this.tile.baseProcessTime), 0D, 1D));
+		String efficiency = NCMath.round(this.tile.efficiency, 1) + "%";
+		if (this.tile.getFuelName().equals(TileFissionController.NO_FUEL) || this.tile.cells == 0) return Lists.newArrayList(TextFormatting.LIGHT_PURPLE + Lang.localise("gui.container.energy_stored") + TextFormatting.WHITE + " " + energy, TextFormatting.LIGHT_PURPLE + Lang.localise("gui.container.power_gen") + TextFormatting.WHITE + " " + power, TextFormatting.LIGHT_PURPLE + Lang.localise("gui.container.fission_controller.efficiency") + TextFormatting.WHITE + " " + efficiency);
+		double fuelTimeLeft = MathHelper.clamp((this.tile.baseProcessTime - this.tile.time)/(this.tile.cells*NCConfig.fission_fuel_use), 0D, this.tile.baseProcessTime);
+		int fuelTimeLeftPercent = (int)(100D*MathHelper.clamp(1D - this.tile.time/this.tile.baseProcessTime, 0D, 1D));
 		return Lists.newArrayList(TextFormatting.LIGHT_PURPLE + Lang.localise("gui.container.energy_stored") + TextFormatting.WHITE + " " + energy, TextFormatting.LIGHT_PURPLE + Lang.localise("gui.container.power_gen") + TextFormatting.WHITE + " " + power, TextFormatting.LIGHT_PURPLE + Lang.localise("gui.container.fission_controller.efficiency") + TextFormatting.WHITE + " " + efficiency, TextFormatting.GREEN + Lang.localise("gui.container.fission_controller.fuel_remaining") + TextFormatting.WHITE + " " + UnitHelper.applyTimeUnitShort(fuelTimeLeft, 2) + " [" + fuelTimeLeftPercent + "%]");
 	}
 	
@@ -73,7 +74,7 @@ public class GuiFissionController extends NCGui {
 		String heat = UnitHelper.prefix((int)tile.heat, tile.getMaxHeat(), 6, "H");
 		String heatGen = UnitHelper.prefix((int)tile.heatChange, 6, "H/t");
 		String cooling = UnitHelper.prefix((int)tile.cooling, 6, "H/t");
-		String heatMult = this.tile.heatMult + "%";
+		String heatMult = NCMath.round(this.tile.heatMult, 1) + "%";
 		return Lists.newArrayList(TextFormatting.YELLOW + Lang.localise("gui.container.fission_controller.heat") + TextFormatting.WHITE + " " + heat, TextFormatting.YELLOW + Lang.localise("gui.container.fission_controller.heat_gen") + TextFormatting.WHITE + " " + heatGen, TextFormatting.BLUE + Lang.localise("gui.container.fission_controller.cooling") + TextFormatting.WHITE + " " + cooling, TextFormatting.YELLOW + Lang.localise("gui.container.fission_controller.heat_mult") + TextFormatting.WHITE + " " + heatMult);
 	}
 	
@@ -98,7 +99,7 @@ public class GuiFissionController extends NCGui {
 	}
 	
 	protected int getCookProgressScaled(double pixels) {
-		double i = tile.getField(0);
+		double i = tile.time;
 		double j = tile.baseProcessTime;
 		return j != 0D ? (int) Math.round(i * pixels / j) : 0;
 	}

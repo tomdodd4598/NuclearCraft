@@ -20,13 +20,11 @@ public class PlayerRespawnHandler {
 				IEntityRads oldRads = oldPlayer.getCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null);
 				if (oldRads == null) return;
 				
-				if (oldRads.isFatal()) return;
-				
 				if (!newPlayer.hasCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null)) return;
 				IEntityRads newRads = newPlayer.getCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null);
 				if (newRads == null) return;
 				
-				newRads.setTotalRads(oldRads.getTotalRads()*NCConfig.radiation_death_persist_fraction);
+				newRads.setTotalRads((oldRads.getTotalRads()*NCConfig.radiation_death_persist_fraction) % oldRads.getMaxRads());
 			}
 		}
 	}

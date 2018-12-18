@@ -1,5 +1,12 @@
 package nc.multiblock;
 
+import javax.annotation.Nullable;
+
+import nc.block.tile.IActivatable;
+import nc.capability.radiation.IRadiationSource;
+import nc.capability.radiation.RadiationSource;
+import nc.config.NCConfig;
+import nc.tile.ITile;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,14 +19,6 @@ import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
-
-import javax.annotation.Nullable;
-
-import nc.block.tile.IActivatable;
-import nc.capability.radiation.IRadiationSource;
-import nc.capability.radiation.RadiationSource;
-import nc.config.NCConfig;
-import nc.tile.ITile;
 
 /**
  * A base class for modded tile entities

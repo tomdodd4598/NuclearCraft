@@ -6,17 +6,16 @@ import nc.recipe.NCRecipes;
 import nc.tile.processor.TileItemFluidProcessor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
-import net.minecraft.inventory.SlotFurnaceOutput;
 
 public class ContainerMelter extends ContainerItemFluidProcessor {
 
 	public ContainerMelter(EntityPlayer player, TileItemFluidProcessor tileEntity) {
-		super(tileEntity, NCRecipes.Type.MELTER);
+		super(player, tileEntity, NCRecipes.Type.MELTER);
 		
 		addSlotToContainer(new SlotProcessorInput(tileEntity, recipeType, 0, 56, 35));
 		
 		addSlotToContainer(new SlotSpecificInput(tileEntity, 1, 132, 64, speedUpgrade));
-		addSlotToContainer(new SlotFurnaceOutput(player, tileEntity, 2, 152, 64));
+		addSlotToContainer(new SlotSpecificInput(tileEntity, 2, 152, 64, energyUpgrade));
 		
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 9; j++) {

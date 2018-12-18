@@ -31,7 +31,7 @@ public class FissionCategory extends JEICategoryAbstract<JEIRecipeWrapper.Fissio
 		itemMapper.mapItemsTo(recipeLayout.getItemStacks(), ingredients);
 		
 		recipeLayout.getItemStacks().addTooltipCallback((slotIndex, input, ingredient, tooltip) -> {
-			tooltip.add(TextFormatting.GREEN + FUEL_TIME + " " + TextFormatting.WHITE + UnitHelper.applyTimeUnitShort(NCMath.round(recipeWrapper.recipe.getFissionFuelTime()/NCConfig.fission_fuel_use), 2));
+			tooltip.add(TextFormatting.GREEN + FUEL_TIME + " " + TextFormatting.WHITE + UnitHelper.applyTimeUnitShort(NCMath.round(recipeWrapper.recipe.getFissionFuelTime()/NCConfig.fission_fuel_use, 2), 2));
 			tooltip.add(TextFormatting.LIGHT_PURPLE + FUEL_POWER + " " + TextFormatting.WHITE + UnitHelper.prefix(recipeWrapper.recipe.getFissionFuelPower()*NCConfig.fission_heat_generation, 5, "RF/t"));
 			tooltip.add(TextFormatting.YELLOW + FUEL_HEAT + " " + TextFormatting.WHITE + UnitHelper.prefix(recipeWrapper.recipe.getFissionFuelHeat()*NCConfig.fission_heat_generation, 5, "H/t"));
 		});

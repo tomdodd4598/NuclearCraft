@@ -153,9 +153,11 @@ public interface ITileFluid extends ITile {
 		if (!getFluidConnection(side).canDrain()) return;
 		
 		TileEntity tile = getTileWorld().getTileEntity(getTilePos().offset(side));
-		if (tile instanceof ITilePassive) if (!((ITilePassive) tile).canPushFluidsTo()) return;
-		IFluidHandler adjStorage = tile == null ? null : tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side.getOpposite());
+		if (tile == null) return;
 		
+		if (tile instanceof ITilePassive) if (!((ITilePassive) tile).canPushFluidsTo()) return;
+		
+		IFluidHandler adjStorage = tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side.getOpposite());
 		if (adjStorage == null) return;
 		
 		for (int i = 0; i < getTanks().size(); i++) {
@@ -169,10 +171,12 @@ public interface ITileFluid extends ITile {
 		if (!getFluidConnection(side).canConnect()) return;
 		
 		TileEntity tile = getTileWorld().getTileEntity(getTilePos().offset(side));
+		if (tile == null) return;
+		
 		if (!(tile instanceof IFluidSpread)) return;
 		if (tile instanceof ITilePassive) if (!((ITilePassive) tile).canPushFluidsTo()) return;
-		IFluidHandler adjStorage = tile == null ? null : tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side.getOpposite());
 		
+		IFluidHandler adjStorage = tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side.getOpposite());
 		if (adjStorage == null) return;
 		
 		for (int i = 0; i < getTanks().size(); i++) {

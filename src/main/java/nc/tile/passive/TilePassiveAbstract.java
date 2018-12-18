@@ -313,7 +313,7 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 		if (energyChange != 0 && hasEnergySideCapability(side)) {
 			side = nonNullSide(side);
 			if (capability == CapabilityEnergy.ENERGY) return getEnergySide(side) != null;
-			if (ModCheck.gregtechLoaded()) if (capability == GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER) return getEnergySideGT(side) != null;
+			if (ModCheck.gregtechLoaded() && NCConfig.enable_gtce_eu) if (capability == GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER) return getEnergySideGT(side) != null;
 		}
 		if (fluidChange != 0 && hasFluidSideCapability(side)) {
 			side = nonNullSide(side);
@@ -332,7 +332,7 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 		if (energyChange != 0 && hasEnergySideCapability(side)) {
 			side = nonNullSide(side);
 			if (capability == CapabilityEnergy.ENERGY) return (T) getEnergySide(side);
-			if (ModCheck.gregtechLoaded()) if (capability == GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER) return (T) getEnergySideGT(side);
+			if (ModCheck.gregtechLoaded() && NCConfig.enable_gtce_eu) if (capability == GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER) return (T) getEnergySideGT(side);
 		}
 		if (fluidChange != 0 && hasFluidSideCapability(side)) {
 			side = nonNullSide(side);

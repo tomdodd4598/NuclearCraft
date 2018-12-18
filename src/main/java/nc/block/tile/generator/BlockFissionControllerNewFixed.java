@@ -114,6 +114,7 @@ public class BlockFissionControllerNewFixed extends BlockProcessor {
 		TileEntity tile = world.getTileEntity(pos);
 		if (tile instanceof TileFissionController) {
 			TileFissionController controller = (TileFissionController) tile;
+			controller.refreshMultiblock(true);
 			controller.tickCount = -1;
 		}
 	}

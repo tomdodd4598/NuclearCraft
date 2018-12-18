@@ -2,16 +2,11 @@ package nc.tile.generator;
 
 import java.util.List;
 
-import nc.recipe.ProcessorRecipe;
-import nc.recipe.ProcessorRecipeHandler;
 import nc.recipe.ingredient.IFluidIngredient;
 import nc.tile.internal.fluid.Tank;
+import nc.tile.processor.IProcessor;
 
-public interface IFluidGenerator {
-	
-	public ProcessorRecipeHandler getRecipeHandler();
-	
-	public ProcessorRecipe getRecipe();
+public interface IFluidGenerator extends IProcessor {
 	
 	public List<Tank> getFluidInputs(boolean consumed);
 	

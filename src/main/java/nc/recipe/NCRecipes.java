@@ -28,6 +28,13 @@ import nc.recipe.processor.PressurizerRecipes;
 import nc.recipe.processor.RockCrusherRecipes;
 import nc.recipe.processor.SaltMixerRecipes;
 import nc.recipe.processor.SupercoolerRecipes;
+import nc.recipe.vanilla.CraftingRecipeHandler;
+import nc.recipe.vanilla.FurnaceFuelHandler;
+import nc.recipe.vanilla.FurnaceRecipeHandler;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class NCRecipes {
 	
@@ -62,7 +69,8 @@ public class NCRecipes {
 	private static LowTurbineRecipes low_turbine;
 	private static CondenserRecipes condenser;
 	
-	public static void init() {
+	@SubscribeEvent(priority = EventPriority.LOW)
+    public void registerRecipes(RegistryEvent.Register<net.minecraft.item.crafting.IRecipe> event) {
 		if (initialized) return;
 		
 		manufactory = new ManufactoryRecipes();
@@ -93,6 +101,10 @@ public class NCRecipes {
 		high_turbine = new HighTurbineRecipes();
 		low_turbine = new LowTurbineRecipes();
 		condenser = new CondenserRecipes();
+		
+		CraftingRecipeHandler.registerCraftingRecipes();
+		FurnaceRecipeHandler.registerFurnaceRecipes();
+		GameRegistry.registerFuelHandler(new FurnaceFuelHandler());
 		
 		initialized = true;
 	}

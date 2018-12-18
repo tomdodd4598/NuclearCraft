@@ -3,7 +3,6 @@ package nc.proxy;
 import nc.Global;
 import nc.ModCheck;
 import nc.capability.radiation.RadiationCapabilityHandler;
-import nc.config.NCConfig;
 import nc.handler.CapabilityHandler;
 import nc.handler.DropHandler;
 import nc.handler.DungeonLootHandler;
@@ -31,9 +30,6 @@ import nc.radiation.RadiationArmor;
 import nc.radiation.RadiationHandler;
 import nc.radiation.environment.RadiationEnvironmentHandler;
 import nc.recipe.NCRecipes;
-import nc.recipe.vanilla.CraftingRecipeHandler;
-import nc.recipe.vanilla.FurnaceFuelHandler;
-import nc.recipe.vanilla.FurnaceRecipeHandler;
 import nc.util.GasHelper;
 import nc.worldgen.biome.NCBiomes;
 import nc.worldgen.decoration.BushGenerator;
@@ -79,6 +75,8 @@ public class CommonProxy {
 		
 		PacketHandler.registerMessages(Global.MOD_ID);
 		
+		MinecraftForge.EVENT_BUS.register(new NCRecipes());
+		
 		TConstructIMC.sendIMCs();
 		if (ModCheck.tinkersLoaded()) TConstructMaterials.init();
 	}
@@ -91,12 +89,7 @@ public class CommonProxy {
 		MinecraftForge.EVENT_BUS.register(new DropHandler());
 		MinecraftForge.EVENT_BUS.register(new DungeonLootHandler());
 		
-		if (NCConfig.radiation_enabled) RadiationArmor.init();
-		
-		NCRecipes.init();
-		CraftingRecipeHandler.registerCraftingRecipes();
-		FurnaceRecipeHandler.registerFurnaceRecipes();
-		GameRegistry.registerFuelHandler(new FurnaceFuelHandler());
+		RadiationArmor.init();
 		
 		NCBiomes.initBiomeManagerAndDictionary();
 		NCWorlds.registerDimensions();
@@ -111,14 +104,13 @@ public class CommonProxy {
 	public void postInit(FMLPostInitializationEvent postEvent) {
 		if (ModCheck.mekanismLoaded()) GasHelper.init();
 		
-		if (NCConfig.radiation_enabled) {
-			RadSources.init();
-			RadiationArmor.postInit();
-			MinecraftForge.EVENT_BUS.register(new RadiationCapabilityHandler());
-			MinecraftForge.EVENT_BUS.register(new RadiationHandler());
-			MinecraftForge.EVENT_BUS.register(new RadiationEnvironmentHandler());
-			RadBiomes.init();
-		}
+		RadSources.init();
+		RadiationArmor.postInit();
+		MinecraftForge.EVENT_BUS.register(new RadiationCapabilityHandler());
+		MinecraftForge.EVENT_BUS.register(new RadiationHandler());
+		MinecraftForge.EVENT_BUS.register(new RadiationEnvironmentHandler());
+		RadBiomes.init();
+		
 		MinecraftForge.EVENT_BUS.register(new PlayerRespawnHandler());
 	}
 	

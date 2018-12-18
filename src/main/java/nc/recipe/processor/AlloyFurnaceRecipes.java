@@ -53,6 +53,8 @@ public class AlloyFurnaceRecipes extends ProcessorRecipeHandler {
 		addRecipe(Lists.newArrayList("ingotIron", "dustIron"), Lists.newArrayList(Items.ENDER_PEARL, "dustEnder"), "ingotPulsatingIron", 1.5D, 1D);
 		addRecipe(Lists.newArrayList("ingotSteel", "dustSteel"), "obsidian", "ingotDarkSteel", 1.5D, 2D);
 		addRecipe(Lists.newArrayList("ingotGold", "dustGold"), Blocks.SOUL_SAND, "ingotSoularium", 1.5D, 0.5D);
+		addRecipe(oreStackList(Lists.newArrayList("ingotLead", "dustLead"), 2), Lists.newArrayList("ingotIron", "dustIron"), oreStack("ingotConstructionAlloy", 3), 1D, 1D);
+		addRecipe("ingotDarkSteel", "endstone", "ingotEndSteel", 2D, 2D);
 		
 		addRecipe(Lists.newArrayList("gemDiamond", "dustDiamond"), oreStack("nuggetPulsatingIron", 8), "itemPulsatingCrystal", 1D, 1.5D);
 		addRecipe(Lists.newArrayList("gemEmerald", "dustEmerald"), oreStack("nuggetVibrantAlloy", 8), "itemVibrantCrystal", 1D, 1.5D);

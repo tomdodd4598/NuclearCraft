@@ -20,7 +20,7 @@ import net.minecraft.world.World;
 public class TileScrubber extends TilePassiveAbstract implements ITileRadiationEnvironment {
 	
 	private static final int RADIUS = 5;
-	private static final int POWER_USE = 50;
+	public static final int POWER_USE = 50;
 	
 	private static double occlusionPenalty = NCConfig.radiation_scrubber_rate/52D;
 	public static double maxScrubberRate = NCConfig.radiation_scrubber_rate;

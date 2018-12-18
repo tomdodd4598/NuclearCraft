@@ -52,7 +52,7 @@ public class RegistryHelper {
 	public static String getModID(ItemStack stack) {
 		if (stack == null) return "";
 		Item item = stack.getItem();
-		if (item == null) return "";
+		if (item == null || item.delegate == null || item.delegate.name() == null || item.delegate.name().getResourceDomain() == null) return "";
 		return item.delegate.name().getResourceDomain();
 	}
 }

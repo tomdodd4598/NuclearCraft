@@ -11,14 +11,14 @@ import net.minecraft.inventory.SlotFurnaceOutput;
 public class ContainerInfuser extends ContainerItemFluidProcessor {
 
 	public ContainerInfuser(EntityPlayer player, TileItemFluidProcessor tileEntity) {
-		super(tileEntity, NCRecipes.Type.INFUSER);
+		super(player, tileEntity, NCRecipes.Type.INFUSER);
 		
 		addSlotToContainer(new SlotProcessorInput(tileEntity, recipeType, 0, 46, 35));
 		
 		addSlotToContainer(new SlotFurnaceOutput(player, tileEntity, 1, 126, 35));
 		
 		addSlotToContainer(new SlotSpecificInput(tileEntity, 2, 132, 64, speedUpgrade));
-		addSlotToContainer(new SlotFurnaceOutput(player, tileEntity, 3, 152, 64));
+		addSlotToContainer(new SlotSpecificInput(tileEntity, 3, 152, 64, energyUpgrade));
 		
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 9; j++) {

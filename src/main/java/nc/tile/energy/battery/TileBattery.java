@@ -11,16 +11,58 @@ import net.minecraft.init.Blocks;
 public class TileBattery extends TileEnergy implements IBattery, IInterfaceable, IEnergySpread {
 	
 	public static class VoltaicPileBasic extends TileBattery {
-
+		
 		public VoltaicPileBasic() {
 			super(BatteryType.VOLTAIC_PILE_BASIC);
 		}
 	}
 	
+	public static class VoltaicPileAdvanced extends TileBattery {
+		
+		public VoltaicPileAdvanced() {
+			super(BatteryType.VOLTAIC_PILE_ADVANCED);
+		}
+	}
+	
+	public static class VoltaicPileDU extends TileBattery {
+		
+		public VoltaicPileDU() {
+			super(BatteryType.VOLTAIC_PILE_DU);
+		}
+	}
+	
+	public static class VoltaicPileElite extends TileBattery {
+		
+		public VoltaicPileElite() {
+			super(BatteryType.VOLTAIC_PILE_ELITE);
+		}
+	}
+	
 	public static class LithiumIonBatteryBasic extends TileBattery {
-
+		
 		public LithiumIonBatteryBasic() {
 			super(BatteryType.LITHIUM_ION_BATTERY_BASIC);
+		}
+	}
+	
+	public static class LithiumIonBatteryAdvanced extends TileBattery {
+		
+		public LithiumIonBatteryAdvanced() {
+			super(BatteryType.LITHIUM_ION_BATTERY_ADVANCED);
+		}
+	}
+	
+	public static class LithiumIonBatteryDU extends TileBattery {
+		
+		public LithiumIonBatteryDU() {
+			super(BatteryType.LITHIUM_ION_BATTERY_DU);
+		}
+	}
+	
+	public static class LithiumIonBatteryElite extends TileBattery {
+		
+		public LithiumIonBatteryElite() {
+			super(BatteryType.LITHIUM_ION_BATTERY_ELITE);
 		}
 	}
 	

@@ -35,9 +35,9 @@ public class FusionCategory extends JEICategoryAbstract<JEIRecipeWrapper.Fusion>
 		fluidMapper.mapFluidsTo(recipeLayout.getFluidStacks(), ingredients);
 		
 		recipeLayout.getFluidStacks().addTooltipCallback((slotIndex, input, ingredient, tooltip) -> {
-			tooltip.add(TextFormatting.GREEN + COMBO_TIME + " " + TextFormatting.WHITE + UnitHelper.applyTimeUnitShort(NCMath.round(recipeWrapper.recipe.getFusionComboTime()/NCConfig.fusion_fuel_use), 2));
+			tooltip.add(TextFormatting.GREEN + COMBO_TIME + " " + TextFormatting.WHITE + UnitHelper.applyTimeUnitShort(NCMath.round(recipeWrapper.recipe.getFusionComboTime()/NCConfig.fusion_fuel_use, 2), 2));
 			tooltip.add(TextFormatting.LIGHT_PURPLE + COMBO_POWER + " " + TextFormatting.WHITE + UnitHelper.prefix(100D*recipeWrapper.recipe.getFusionComboPower()*NCConfig.fusion_base_power, 5, "RF/t"));
-			tooltip.add(TextFormatting.YELLOW + COMBO_TEMP + " " + TextFormatting.WHITE + UnitHelper.prefix(NCMath.round(R*recipeWrapper.recipe.getFusionComboHeatVariable()), 5, "K", 1));
+			tooltip.add(TextFormatting.YELLOW + COMBO_TEMP + " " + TextFormatting.WHITE + UnitHelper.prefix(NCMath.round(R*recipeWrapper.recipe.getFusionComboHeatVariable(), 2), 5, "K", 2));
 		});
 	}
 	
