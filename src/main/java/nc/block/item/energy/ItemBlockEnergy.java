@@ -17,6 +17,7 @@ import net.minecraft.block.Block;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
@@ -63,7 +64,7 @@ public class ItemBlockEnergy extends NCItemBlock implements ISpecialElectricItem
 	
 	@Override
 	public double getDurabilityForDisplay(ItemStack stack) {
-		return 1 - (double)getEnergyStored(stack) / (double)capacity;
+		return 1D - MathHelper.clamp((double)getEnergyStored(stack)/capacity, 0D, 1D);
 	}
 	
 	@Override

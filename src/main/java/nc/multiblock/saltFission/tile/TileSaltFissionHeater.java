@@ -379,8 +379,6 @@ public class TileSaltFissionHeater extends TileSaltFissionPartBase implements IF
 	
 	public void updateHeater() {
 		if (!world.isRemote) {
-			recipe = getRecipeHandler().getRecipeFromInputs(new ArrayList<ItemStack>(), getFluidInputs());
-			canProcessInputs = canProcessInputs();
 			boolean wasProcessing = isProcessing;
 			isProcessing = isProcessing();
 			boolean shouldUpdate = false;
@@ -389,7 +387,11 @@ public class TileSaltFissionHeater extends TileSaltFissionPartBase implements IF
 			if (wasProcessing != isProcessing) {
 				shouldUpdate = true;
 			}
-			if (shouldTileCheck()) pushFluid();
+			if (shouldTileCheck()) {
+				pushFluid();
+				refreshRecipe();
+				refreshActivity();
+			}
 			if (shouldUpdate) markDirty();
 		}
 	}

@@ -175,21 +175,23 @@ public class TileHeatExchangerTube extends TileHeatExchangerPartBase implements 
 	}
 	
 	public void updateTube() {
-		setIsHeatExchangerOn();
-		recipe = getRecipeHandler().getRecipeFromInputs(new ArrayList<ItemStack>(), getFluidInputs());
-		canProcessInputs = canProcessInputs();
-		boolean wasProcessing = isProcessing;
-		isProcessing = isProcessing();
-		boolean shouldUpdate = false;
 		if (!world.isRemote) {
+			setIsHeatExchangerOn();
+			boolean wasProcessing = isProcessing;
+			isProcessing = isProcessing();
+			boolean shouldUpdate = false;
 			tickTile();
 			if (isProcessing) process();
 			if (wasProcessing != isProcessing) {
 				shouldUpdate = true;
 			}
-			if (shouldTileCheck()) pushFluid();
+			if (shouldTileCheck()) {
+				pushFluid();
+				refreshRecipe();
+				refreshActivity();
+			}
+			if (shouldUpdate) markDirty();
 		}
-		if (shouldUpdate) markDirty();
 	}
 	
 	@Override

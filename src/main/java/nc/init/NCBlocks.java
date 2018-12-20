@@ -519,9 +519,9 @@ public class NCBlocks {
 		registerBlock(heat_exchanger_glass);
 		registerBlock(heat_exchanger_frame);
 		registerBlock(heat_exchanger_vent);
-		registerBlock(heat_exchanger_tube_copper);
-		registerBlock(heat_exchanger_tube_hard_carbon);
-		registerBlock(heat_exchanger_tube_thermoconducting);
+		registerBlock(heat_exchanger_tube_copper, TextFormatting.AQUA, InfoHelper.formattedInfo(fixedLine("heat_exchanger_tube"), Math.round(100D*NCConfig.heat_exchanger_conductivity[0]) + "%"), InfoHelper.formattedInfo(infoLine("heat_exchanger_tube")));
+		registerBlock(heat_exchanger_tube_hard_carbon, TextFormatting.AQUA, InfoHelper.formattedInfo(fixedLine("heat_exchanger_tube"), Math.round(100D*NCConfig.heat_exchanger_conductivity[1]) + "%"), InfoHelper.formattedInfo(infoLine("heat_exchanger_tube")));
+		registerBlock(heat_exchanger_tube_thermoconducting, TextFormatting.AQUA, InfoHelper.formattedInfo(fixedLine("heat_exchanger_tube"), Math.round(100D*NCConfig.heat_exchanger_conductivity[2]) + "%"), InfoHelper.formattedInfo(infoLine("heat_exchanger_tube")));
 		
 		registerBlock(accelerator_electromagnet_idle, InfoHelper.formattedInfo(infoLine("accelerator_electromagnet_idle"), UnitHelper.ratePrefix(NCConfig.accelerator_electromagnet_power, 5, "RF")));
 		registerBlock(accelerator_electromagnet_active);
@@ -739,6 +739,10 @@ public class NCBlocks {
 		//registerRender(spin);
 	}
 	
+	private static String fixedLine(String name) {
+		return "tile." + Global.MOD_ID + "." + name + ".fixd";
+	}
+	
 	private static String infoLine(String name) {
 		return "tile." + Global.MOD_ID + "." + name + ".desc";
 	}
@@ -751,6 +755,11 @@ public class NCBlocks {
 	public static void registerBlock(Block block, TextFormatting fixedColor, String... info) {
 		ForgeRegistries.BLOCKS.register(block);
 		ForgeRegistries.ITEMS.register(new NCItemBlock(block, fixedColor, info).setRegistryName(block.getRegistryName()));
+	}
+	
+	public static void registerBlock(Block block, TextFormatting fixedColor, String[] fixedTooltip, String... info) {
+		ForgeRegistries.BLOCKS.register(block);
+		ForgeRegistries.ITEMS.register(new NCItemBlock(block, fixedColor, fixedTooltip, info).setRegistryName(block.getRegistryName()));
 	}
 	
 	public static void registerBlock(Block block, ItemBlock itemBlock) {

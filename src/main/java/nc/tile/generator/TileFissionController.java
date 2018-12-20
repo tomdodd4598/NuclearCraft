@@ -35,7 +35,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.common.Optional;
 
 @Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers")
@@ -769,33 +768,26 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 							break;
 						}
 					}
-				}
-				
-				for (int z = minZ + 1; z <= maxZ - 1; z++) for (int x = minX + 1; x <= maxX - 1; x++) for (int y = minY + 1; y <= maxY - 1; y++) {
 					
 					// Active Coolers
 					if (finder.find(x, y, z, NCBlocks.active_cooler)) {
 						TileEntity tile = world.getTileEntity(finder.position(x, y, z));
-						if (tile != null) if (tile instanceof TileActiveCooler) {
-							Tank tank = ((TileActiveCooler) tile).getTanks().get(0);
-							int fluidAmount = Math.min(tank.getFluidAmount(), 4*NCConfig.machine_update_rate*NCConfig.active_cooler_max_rate/20);
-							if (fluidAmount > 0) {
+						if (tile instanceof TileActiveCooler) {
+							TileActiveCooler cooler = (TileActiveCooler) tile;
+							Tank tank = cooler.getTanks().get(0);
+							if (tank.getFluidAmount() > 0) {
 								double currentHeat = heat + (isProcessing ? heatThisTick : 0) + coolerHeatThisTick;
+								boolean isInValidPosition = false;
 								for (int i = 1; i < CoolerType.values().length; i++) {
 									if (tank.getFluidName() == CoolerType.values()[i].getFluidName()) {
 										if (coolerRequirements(x, y, z, i)) {
-											coolerHeatThisTick -= (NCConfig.fission_active_cooling_rate[i - 1]*fluidAmount)/(4*NCConfig.machine_update_rate);
+											coolerHeatThisTick -= NCConfig.fission_active_cooling_rate[i - 1]*NCConfig.active_cooler_max_rate/20;
+											isInValidPosition = true;
 											break;
 										}
 									}
 								}
-								if (currentHeat > 0) {
-									double newHeat = heat + (isProcessing ? heatThisTick : 0) + coolerHeatThisTick;
-									if (newHeat >= 0) tank.drain(MathHelper.ceil(fluidAmount), true); else {
-										double heatFraction = currentHeat/(currentHeat - newHeat);
-										tank.drain(MathHelper.ceil(fluidAmount*heatFraction), true);
-									}
-								}
+								cooler.isActive = isInValidPosition && isActivated() && readyToProcess();
 							}
 						}
 					}
@@ -897,36 +889,31 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 							break;
 						}
 					}	
-				}
-				
-				for (int z = minZ + 1; z <= maxZ - 1; z++) for (int x = minX + 1; x <= maxX - 1; x++) for (int y = minY + 1; y <= maxY - 1; y++) {
 					
 					// Active Coolers
 					if (finder.find(x, y, z, NCBlocks.active_cooler)) {
 						TileEntity tile = world.getTileEntity(finder.position(x, y, z));
-						if (tile != null) if (tile instanceof TileActiveCooler) {
-							Tank tank = ((TileActiveCooler) tile).getTanks().get(0);
-							int fluidAmount = Math.min(tank.getFluidAmount(), 4*NCConfig.machine_update_rate*NCConfig.active_cooler_max_rate/20);
-							if (fluidAmount > 0) {
-								double currentHeat = heat + (isProcessing ? heatThisTick : 0D) + coolerHeatThisTick;
+						if (tile instanceof TileActiveCooler) {
+							TileActiveCooler cooler = (TileActiveCooler) tile;
+							Tank tank = cooler.getTanks().get(0);
+							if (tank.getFluidAmount() > 0) {
+								double currentHeat = heat + (isProcessing ? heatThisTick : 0) + coolerHeatThisTick;
+								boolean isInValidPosition = false;
 								for (int i = 1; i < CoolerType.values().length; i++) {
 									if (tank.getFluidName() == CoolerType.values()[i].getFluidName()) {
 										if (coolerRequirements(x, y, z, i)) {
-											coolerHeatThisTick -= (NCConfig.fission_active_cooling_rate[i - 1]*fluidAmount)/(4D*NCConfig.machine_update_rate);
+											coolerHeatThisTick -= NCConfig.fission_active_cooling_rate[i - 1]*NCConfig.active_cooler_max_rate/20;
+											isInValidPosition = true;
 											break;
 										}
 									}
 								}
-								if (currentHeat > 0) {
-									double newHeat = heat + (isProcessing ? heatThisTick : 0D) + coolerHeatThisTick;
-									if (newHeat >= 0) tank.drain(MathHelper.ceil(fluidAmount), true); else {
-										double heatFraction = currentHeat/(currentHeat - newHeat);
-										tank.drain(MathHelper.ceil(fluidAmount*heatFraction), true);
-									}
-								}
+								cooler.isActive = isInValidPosition && isActivated() && readyToProcess();
 							}
 						}
 					}
+					
+					// OpenComputers Read Layout
 					if (ModCheck.openComputersLoaded() && readLayout) {
 						int arrayX = x - minX - 1; int arrayY = y - minY - 1; int arrayZ = z - minZ - 1;
 						IBlockState layoutState = world.getBlockState(finder.position(x, y, z));

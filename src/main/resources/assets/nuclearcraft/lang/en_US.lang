@@ -272,11 +272,10 @@ tile.nuclearcraft.heat_exchanger_frame.desc=Comprises the skeleton of the exchan
 tile.nuclearcraft.heat_exchanger_vent.name=Heat Exchanger Vent
 tile.nuclearcraft.heat_exchanger_vent.desc=Used to move fluid in and out of the reactor. Will push to [accept from] accepting [pushing] tubes.
 tile.nuclearcraft.heat_exchanger_tube_copper.name=Basic Heat Exchanger Tube
-tile.nuclearcraft.heat_exchanger_tube_copper.desc=Holds and transports the heat-exchanging fluids. Place against another tube while sneaking to copy across its side configuration.
 tile.nuclearcraft.heat_exchanger_tube_hard_carbon.name=Advanced Heat Exchanger Tube
-tile.nuclearcraft.heat_exchanger_tube_hard_carbon.desc=Holds and transports the heat-exchanging fluids. Place against another tube while sneaking to copy across its side configuration.
 tile.nuclearcraft.heat_exchanger_tube_thermoconducting.name=Elite Heat Exchanger Tube
-tile.nuclearcraft.heat_exchanger_tube_thermoconducting.desc=Holds and transports the heat-exchanging fluids. Place against another tube while sneaking to copy across its side configuration.
+tile.nuclearcraft.heat_exchanger_tube.fixd=Conductivity Multiplier: %s
+tile.nuclearcraft.heat_exchanger_tube.desc=Holds and transports the heat-exchanging fluids. Place against another tube while sneaking to copy across its side configuration.
 
 tile.nuclearcraft.fusion_electromagnet_idle.name=Fusion Electromagnet
 tile.nuclearcraft.fusion_electromagnet_idle.desc=Requires %s to stay active.

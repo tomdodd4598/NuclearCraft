@@ -191,7 +191,11 @@ public class TileSaltFissionVessel extends TileSaltFissionPartBase implements IF
 			if (wasProcessing != isProcessing) {
 				shouldUpdate = true;
 			}
-			if (shouldTileCheck()) pushFluid();
+			if (shouldTileCheck()) {
+				pushFluid();
+				refreshRecipe();
+				refreshActivity();
+			}
 			if (shouldUpdate) markDirty();
 		}
 	}
