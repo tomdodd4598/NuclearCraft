@@ -27,8 +27,8 @@ getReactorProcessPower()
 getReactorProcessHeat()
 getReactorCoolingRate()
 
-trackReactorLayout(boolean)
-getReactorLayout() //trackReactorLayout must be set to true before this method will work!
+getReactorLayout()
+forceUpdate()
 
 activate()
 deactivate()
@@ -60,4 +60,17 @@ getReactorCoolingRate()
 
 activate()
 deactivate()
+___________________________________________________________________________________________________________________________
+
+ Geiger Counter - component.nc_geiger_counter:
+>---------------------------------------------<
+
+getChunkRadiationLevel()
+___________________________________________________________________________________________________________________________
+
+ Radiation Scrubber - component.nc_radiation_scrubber:
+>-----------------------------------------------------<
+
+getRadiationRemovalRate()
+getEfficiency()
 ___________________________________________________________________________________________________________________________

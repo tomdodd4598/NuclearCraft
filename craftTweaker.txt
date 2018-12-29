@@ -310,22 +310,13 @@ mods.nuclearcraft.heat_exchanger.removeRecipeWithInput([fluidInput]);
 mods.nuclearcraft.heat_exchanger.removeRecipeWithOutput([fluidOutput]);
 ___________________________________________________________________________________________________________________________
 
- High Pressure Turbine:
->----------------------<
+ Steam Turbine:
+>--------------<
 
-mods.nuclearcraft.high_turbine.addRecipe([fluidInput, fluidOutput, {timeMultiplier (double), powerMultiplier (double)}]);
+mods.nuclearcraft.turbine.addRecipe([fluidInput, fluidOutput, {timeMultiplier (double), powerMultiplier (double)}]);
 
-mods.nuclearcraft.high_turbine.removeRecipeWithInput([fluidInput]);
-mods.nuclearcraft.high_turbine.removeRecipeWithOutput([fluidOutput]);
-___________________________________________________________________________________________________________________________
-
- Low Pressure Turbine:
->---------------------<
-
-mods.nuclearcraft.low_turbine.addRecipe([fluidInput, fluidOutput, {timeMultiplier (double), powerMultiplier (double)}]);
-
-mods.nuclearcraft.low_turbine.removeRecipeWithInput([fluidInput]);
-mods.nuclearcraft.low_turbine.removeRecipeWithOutput([fluidOutput]);
+mods.nuclearcraft.turbine.removeRecipeWithInput([fluidInput]);
+mods.nuclearcraft.turbine.removeRecipeWithOutput([fluidOutput]);
 ___________________________________________________________________________________________________________________________
 
  Condenser:

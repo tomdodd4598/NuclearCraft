@@ -1,9 +1,34 @@
+v2.12i
+
++ Added Geiger Counter block with OC support
++ Added OC support for Radiation Scrubbers
+
+* Scrubbers no longer remove radiation at a fixed rate
+* Improved scrubber rad removal rate updating
+
++ Added short-lived radiation immunity on death from a fatal dose of radiation
+
+* Fission Ports and Fusion Cores now correctly refresh the multiblock on opening their GUI
+* Fission Reactors now generate much less radiation
+* Fixed Fusion Core GUI not updating correctly
+* Fixed various multiblock errors being unlocalised
+
+* Massively reduced lag from Cobblestone Generators and other item-pushing machines
+* Fixed crash when trying to pass GTCE EU from weak energy sources
+
+* Reduced lag from recipes and tooltips involving searching through Ore Dict entries
+
+* Fixed lack of correct blending of Energy Upgrade slot ghost
+
+* Added and changed many Advancements
+* Minor recipe tweaks
+
 v2.12h
 
 * Fixed Active Coolers in solid-fuel fission reactors not being drained correctly
 
 * Improved MSR and Heat Exchanger performances
-* Added Heat Exchanger Tube conductivity multipliers to the tooltips
+* Added Heat Exchanger Tube conductivity multipliers to their tooltips
 
 * Fixed weird damage bar errors with batteries after modifying their capacities
 
