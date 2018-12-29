@@ -10,6 +10,8 @@ import net.minecraft.block.Block;
 
 public class TileSaltFissionController extends TileSaltFissionPartBase {
 	
+	protected int controllerCount;
+	
 	public TileSaltFissionController() {
 		super(CuboidalPartPositionType.WALL);
 	}
@@ -31,15 +33,14 @@ public class TileSaltFissionController extends TileSaltFissionPartBase {
 	@Override
 	public void update() {
 		super.update();
-		tickTile();
-		if (shouldTileCheck()) if (getBlock(pos) instanceof BlockSaltFissionController) {
+		tickController();
+		if (controllerCount == 0) if (getBlock(pos) instanceof BlockSaltFissionController) {
 			if (getMultiblock() != null) ((BlockSaltFissionController) getBlock(pos)).setActiveState(getBlockState(pos), world, pos, getMultiblock().isReactorOn);
 		}
 	}
 	
-	@Override
-	public void tickTile() {
-		tickCount++; tickCount %= NCConfig.machine_update_rate / 4;
+	public void tickController() {
+		controllerCount++; controllerCount %= NCConfig.machine_update_rate / 4;
 	}
 	
 	public void doMeltdown() {

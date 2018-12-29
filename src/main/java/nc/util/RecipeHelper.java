@@ -8,19 +8,23 @@ import javax.annotation.Nullable;
 import com.google.common.collect.Lists;
 
 import nc.recipe.IRecipe;
+import nc.recipe.IngredientSorption;
 import nc.recipe.NCRecipes;
 import nc.recipe.ProcessorRecipeHandler;
-import nc.recipe.IngredientSorption;
-import nc.recipe.ingredient.IFluidIngredient;
-import nc.recipe.ingredient.IItemIngredient;
 import nc.recipe.ingredient.ChanceFluidIngredient;
 import nc.recipe.ingredient.ChanceItemIngredient;
 import nc.recipe.ingredient.EmptyFluidIngredient;
 import nc.recipe.ingredient.EmptyItemIngredient;
 import nc.recipe.ingredient.FluidIngredient;
+import nc.recipe.ingredient.IFluidIngredient;
+import nc.recipe.ingredient.IItemIngredient;
 import nc.recipe.ingredient.OreIngredient;
 import nc.tile.internal.fluid.Tank;
 import net.minecraft.block.Block;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
@@ -299,5 +303,31 @@ public class RecipeHelper {
 		String oreName = OreDictHelper.getOreNameFromStacks(stackList);
 		if (oreName == "Unknown") return null;
 		return new OreIngredient(oreName, stackSize);
+	}
+	
+	public static InventoryCrafting fakeCrafter(int width, int height) {
+		return new FakeCrafting(width, height);
+	}
+	
+	private static class FakeCrafting extends InventoryCrafting {
+		
+		private static final FakeCraftingContainer FAKE_CONTAINER = new FakeCraftingContainer();
+		
+		private static class FakeCraftingContainer extends Container {
+			
+			@Override
+			public void onCraftMatrixChanged(IInventory inventory) {
+				
+			}
+			
+			@Override
+			public boolean canInteractWith(EntityPlayer player) {
+				return false;
+			}
+		}
+		
+		private FakeCrafting(int width, int height) {
+			super(FAKE_CONTAINER, width, height);
+		}
 	}
 }

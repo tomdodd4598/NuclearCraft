@@ -101,7 +101,6 @@ public class TileItemProcessor extends TileEnergySidedInventory implements IItem
 			boolean wasProcessing = isProcessing;
 			isProcessing = isProcessing();
 			boolean shouldUpdate = false;
-			tickTile();
 			if (isProcessing) process();
 			else {
 				getRadiationSource().setRadiationLevel(0D);
@@ -112,14 +111,9 @@ public class TileItemProcessor extends TileEnergySidedInventory implements IItem
 				updateBlockType();
 				sendUpdateToAllPlayers();
 			}
-			if (shouldTileCheck()) sendUpdateToListeningPlayers();
+			sendUpdateToListeningPlayers();
 			if (shouldUpdate) markDirty();
 		}
-	}
-	
-	@Override
-	public void tickTile() {
-		tickCount++; tickCount %= 1;
 	}
 	
 	public void updateBlockType() {

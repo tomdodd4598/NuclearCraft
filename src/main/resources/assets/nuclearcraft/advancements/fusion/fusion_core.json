@@ -9,7 +9,7 @@
 		"description": {
 			"translate": "advancement.nuclearcraft.fusion_core.desc"
 		},
-		"frame": "challenge"
+		"frame": "goal"
 	},
 	"parent": "nuclearcraft:processors/electrolyser",
 	"criteria": {

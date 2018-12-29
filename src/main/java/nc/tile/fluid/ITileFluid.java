@@ -141,12 +141,12 @@ public interface ITileFluid extends ITile {
 	
 	public default void pushFluid() {
 		if (getTanks().isEmpty()) return;
-		for (EnumFacing side : EnumFacing.VALUES) pushFluidToSide(side);
+		pushFluidToSide(getCycledSide());
 	}
 	
 	public default void spreadFluid() {
 		if (!NCConfig.passive_permeation || getTanks().isEmpty()) return;
-		for (EnumFacing side : EnumFacing.VALUES) spreadFluidToSide(side);
+		spreadFluidToSide(getCycledSide());
 	}
 	
 	public default void pushFluidToSide(@Nonnull EnumFacing side) {

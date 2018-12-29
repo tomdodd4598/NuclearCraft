@@ -5,17 +5,16 @@ import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.turbine.Turbine;
 import nc.multiblock.turbine.block.BlockTurbineController;
 
-public abstract class TileTurbineController<TURBINE extends Turbine, CONTROLLER extends BlockTurbineController> extends TileTurbinePartBase<TURBINE> {
+public class TileTurbineController extends TileTurbinePartBase {
 	
-	protected final Class<CONTROLLER> blockControllerClass;
+	protected int controllerCount;
 	
-	public TileTurbineController(Class<TURBINE> tClass, Class<CONTROLLER> blockControllerClass) {
-		super(tClass, CuboidalPartPositionType.WALL);
-		this.blockControllerClass = blockControllerClass;
+	public TileTurbineController() {
+		super(CuboidalPartPositionType.WALL);
 	}
 	
 	@Override
-	public void onMachineAssembled(TURBINE controller) {
+	public void onMachineAssembled(Turbine controller) {
 		doStandardNullControllerResponse(controller);
 		super.onMachineAssembled(controller);
 		if (getWorld().isRemote) return;
@@ -31,14 +30,13 @@ public abstract class TileTurbineController<TURBINE extends Turbine, CONTROLLER 
 	@Override
 	public void update() {
 		super.update();
-		tickTile();
-		if (shouldTileCheck()) if (blockControllerClass.isInstance(getBlock(pos))) {
-			if (getMultiblock() != null) ((CONTROLLER) getBlock(pos)).setActiveState(getBlockState(pos), world, pos, getMultiblock().isTurbineOn);
+		tickController();
+		if (controllerCount == 0) if (getBlock(pos) instanceof BlockTurbineController) {
+			if (getMultiblock() != null) ((BlockTurbineController) getBlock(pos)).setActiveState(getBlockState(pos), world, pos, getMultiblock().isTurbineOn);
 		}
 	}
 	
-	@Override
-	public void tickTile() {
-		tickCount++; tickCount %= NCConfig.machine_update_rate / 4;
+	public void tickController() {
+		controllerCount++; controllerCount %= NCConfig.machine_update_rate / 4;
 	}
 }

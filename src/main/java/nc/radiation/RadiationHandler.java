@@ -26,6 +26,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.WorldServer;
@@ -65,7 +66,12 @@ public class RadiationHandler {
 			if (playerRads == null) return;
 			Chunk chunk = player.world.getChunkFromChunkCoords((int)player.posX >> 4, (int)player.posZ >> 4);
 			
-			double radiationLevel = RadiationHelper.transferRadsToPlayer(player.world, player, playerRads, PLAYER_TICK_RATE) + RadiationHelper.transferBackgroundRadsToPlayer(player.world.getBiome(player.getPosition()), player, playerRads, PLAYER_TICK_RATE) + RadiationHelper.transferRadsToPlayer(chunk, player, playerRads, PLAYER_TICK_RATE) + RadiationHelper.transferRadsFromInventoryToPlayer(player, playerRads, chunk, PLAYER_TICK_RATE);
+			double previousImmunityTime = playerRads.getRadiationImmunityTime();
+			if (previousImmunityTime > 0D) {
+				playerRads.setRadiationImmunityTime(previousImmunityTime - PLAYER_TICK_RATE);
+			}
+			
+			double radiationLevel = RadiationHelper.transferRadsToPlayer(player.world, player, playerRads, PLAYER_TICK_RATE) /*+ RadiationHelper.transferBackgroundRadsToPlayer(player.world.getBiome(player.getPosition()), player, playerRads, PLAYER_TICK_RATE)*/ + RadiationHelper.transferRadsToPlayer(chunk, player, playerRads, PLAYER_TICK_RATE) + RadiationHelper.transferRadsFromInventoryToPlayer(player, playerRads, chunk, PLAYER_TICK_RATE);
 			playerRads.setRadiationLevel(radiationLevel);
 			
 			if (!player.isCreative() && playerRads.isFatal()) player.attackEntityFrom(FATAL_RADS, 1000F);
@@ -79,7 +85,7 @@ public class RadiationHandler {
 			else playerRads.setRadXWoreOff(false);
 			
 			if (playerRads.getRadawayBuffer() > 0D) {
-				playerRads.setTotalRads(playerRads.getTotalRads() - NCConfig.radiation_radaway_rate*PLAYER_TICK_RATE);
+				playerRads.setTotalRads(playerRads.getTotalRads() - NCConfig.radiation_radaway_rate*PLAYER_TICK_RATE, false);
 				playerRads.setRadawayBuffer(playerRads.getRadawayBuffer() - NCConfig.radiation_radaway_rate*PLAYER_TICK_RATE);
 			}
 			
@@ -130,7 +136,7 @@ public class RadiationHandler {
 					if (entityRads != null) {
 						RadiationHelper.transferRadsFromSourceToEntity(world, entityRads, WORLD_TICK_RATE);
 						RadiationHelper.transferRadsFromSourceToEntity(chunk, entityRads, WORLD_TICK_RATE);
-						RadiationHelper.transferBackgroundRadsToEntity(entityLiving.getEntityWorld().getBiome(entityLiving.getPosition()), entityRads, WORLD_TICK_RATE);
+						//RadiationHelper.transferBackgroundRadsToEntity(entityLiving.getEntityWorld().getBiome(entityLiving.getPosition()), entityRads, WORLD_TICK_RATE);
 						if (entityLiving instanceof EntityMob) {
 							if (NCConfig.radiation_mob_buffs) RadiationHelper.applyMobBuffs(entityLiving, entityRads, Math.max(WORLD_TICK_RATE, 40));
 						}
@@ -143,10 +149,11 @@ public class RadiationHandler {
 				}
 			}
 		}
-		for (TileEntity tile : new HashSet<TileEntity>(world.loadedTileEntityList)) {
+		
+		Set<TileEntity> tileSet = new HashSet<TileEntity>(world.loadedTileEntityList);
+		for (TileEntity tile : tileSet) {
 			Chunk chunk = world.getChunkFromBlockCoords(tile.getPos());
 			RadiationHelper.transferRadiationFromSourceToChunkBuffer(tile, chunk);
-			if (tile instanceof ITileRadiationEnvironment) RadiationHelper.addToChunkBuffer(chunk, ((ITileRadiationEnvironment)tile).getChunkBufferContribution());
 		}
 		
 		BiomeProvider biomeProvider = world.getBiomeProvider();
@@ -155,8 +162,32 @@ public class RadiationHandler {
 			IRadiationSource chunkRadiation = chunk.getCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null);
 			if (chunkRadiation == null) return;
 			
-			/*Double biomeRadiation = RadBiomes.BIOME_MAP.get(chunk.getBiome(new BlockPos(8, 8, 8), biomeProvider));
-			if (biomeRadiation != null) RadiationHelper.addToChunkBuffer(chunkRadiation, biomeRadiation);*/
+			Double biomeRadiation = RadBiomes.BIOME_MAP.get(chunk.getBiome(new BlockPos(8, 8, 8), biomeProvider));
+			if (biomeRadiation != null) RadiationHelper.addToChunkBuffer(chunkRadiation, biomeRadiation);
+		}
+		
+		for (TileEntity tile : tileSet) {
+			if (tile instanceof ITileRadiationEnvironment) {
+				Chunk chunk = world.getChunkFromBlockCoords(tile.getPos());
+				if (chunk == null || !chunk.hasCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null)) return;
+				IRadiationSource chunkRadiation = chunk.getCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null);
+				if (chunkRadiation == null) return;
+				
+				((ITileRadiationEnvironment)tile).setCurrentChunkBuffer(chunkRadiation.getRadiationBuffer());
+			}
+		}
+		
+		for (TileEntity tile : tileSet) {
+			if (tile instanceof ITileRadiationEnvironment) {
+				Chunk chunk = world.getChunkFromBlockCoords(tile.getPos());
+				RadiationHelper.addFractionToChunkBuffer(chunk, (ITileRadiationEnvironment)tile);
+			}
+		}
+		
+		for (Chunk chunk : loadedChunks) {
+			if (chunk == null || !chunk.hasCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null)) return;
+			IRadiationSource chunkRadiation = chunk.getCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null);
+			if (chunkRadiation == null) return;
 			
 			double changeRate = (chunkRadiation.getRadiationLevel() < chunkRadiation.getRadiationBuffer() || chunkRadiation.getRadiationBuffer() < 0D) ? NCConfig.radiation_spread_rate : NCConfig.radiation_decay_rate;
 			double buffer = Math.max(0D, chunkRadiation.getRadiationBuffer());
@@ -164,6 +195,7 @@ public class RadiationHandler {
 			chunkRadiation.setRadiationLevel(chunkRadiation.getRadiationLevel() + (buffer - chunkRadiation.getRadiationLevel())*changeRate);
 			chunkRadiation.setRadiationBuffer(0D);
 		}
+		
 		for (Chunk chunk : loadedChunks) RadiationHelper.spreadRadiationFromChunk(chunk, getRandomAdjacentChunk(chunkProvider, chunk));
 	}
 	

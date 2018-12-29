@@ -8,7 +8,6 @@ import javax.annotation.Nullable;
 import com.google.common.collect.Lists;
 
 import nc.ModCheck;
-import nc.config.NCConfig;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.heatExchanger.HeatExchanger;
 import nc.tile.fluid.ITileFluid;
@@ -58,14 +57,8 @@ public class TileHeatExchangerVent extends TileHeatExchangerPartBase implements 
 	public void update() {
 		super.update();
 		if(!world.isRemote) {
-			tickTile();
-			if (shouldTileCheck()) pushFluid();
+			pushFluid();
 		}
-	}
-	
-	@Override
-	public void tickTile() {
-		tickCount++; tickCount %= NCConfig.machine_update_rate / 2;
 	}
 	
 	// Fluids

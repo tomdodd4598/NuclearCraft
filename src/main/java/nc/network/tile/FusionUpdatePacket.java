@@ -3,6 +3,7 @@ package nc.network.tile;
 import io.netty.buffer.ByteBuf;
 import nc.tile.generator.TileFusionCore;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.fml.common.network.ByteBufUtils;
 
 public class FusionUpdatePacket extends TileUpdatePacket {
 	
@@ -20,12 +21,13 @@ public class FusionUpdatePacket extends TileUpdatePacket {
 	public double heatChange;
 	public boolean hasConsumed;
 	public boolean computerActivated;
+	public String problem;
 	
 	public FusionUpdatePacket() {
 		messageValid = false;
 	}
 	
-	public FusionUpdatePacket(BlockPos pos, double time, int energyStored, double baseProcessTime, double baseProcessPower, boolean isProcessing, double heat, double efficiency, double speedMultiplier, int size, int complete, double cooling, double heatChange, boolean hasConsumed, boolean computerActivated) {
+	public FusionUpdatePacket(BlockPos pos, double time, int energyStored, double baseProcessTime, double baseProcessPower, boolean isProcessing, double heat, double efficiency, double speedMultiplier, int size, int complete, double cooling, double heatChange, boolean hasConsumed, boolean computerActivated, String problem) {
 		this.pos = pos;
 		this.time = time;
 		this.energyStored = energyStored;
@@ -41,6 +43,7 @@ public class FusionUpdatePacket extends TileUpdatePacket {
 		this.heatChange = heatChange;
 		this.hasConsumed = hasConsumed;
 		this.computerActivated = computerActivated;
+		this.problem = problem;
 		
 		messageValid = true;
 	}
@@ -62,6 +65,7 @@ public class FusionUpdatePacket extends TileUpdatePacket {
 		heatChange = buf.readDouble();
 		hasConsumed = buf.readBoolean();
 		computerActivated = buf.readBoolean();
+		problem = ByteBufUtils.readUTF8String(buf);
 	}
 	
 	@Override
@@ -83,6 +87,7 @@ public class FusionUpdatePacket extends TileUpdatePacket {
 		buf.writeDouble(heatChange);
 		buf.writeBoolean(hasConsumed);
 		buf.writeBoolean(computerActivated);
+		ByteBufUtils.writeUTF8String(buf, problem);
 	}
 	
 	public static class Handler extends TileUpdatePacket.Handler<FusionUpdatePacket, TileFusionCore> {

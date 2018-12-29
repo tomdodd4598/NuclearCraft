@@ -16,7 +16,7 @@ public interface IEntityRads extends IRadiation, ICapability<IEntityRads> {
 	
 	public double getTotalRads();
 	
-	public void setTotalRads(double newTotalRads);
+	public void setTotalRads(double newTotalRads, boolean useImmunity);
 	
 	public default boolean isTotalRadsNegligible() {
 		return getTotalRads() < NCConfig.radiation_lowest_rate;
@@ -59,4 +59,12 @@ public interface IEntityRads extends IRadiation, ICapability<IEntityRads> {
 	public void setRadXCooldown(double cooldown);
 	
 	public boolean canConsumeRadX();
+	
+	public double getRadiationImmunityTime();
+	
+	public void setRadiationImmunityTime(double newRadiationImmunityTime);
+	
+	public default boolean isImmune() {
+		return getRadiationImmunityTime() > 0D;
+	}
 }

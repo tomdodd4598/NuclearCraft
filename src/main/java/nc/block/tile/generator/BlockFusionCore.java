@@ -104,6 +104,15 @@ public class BlockFusionCore extends BlockTile implements IActivatable {
 	}
 	
 	@Override
+	public void onGuiOpened(World world, BlockPos pos) {
+		TileEntity tile = world.getTileEntity(pos);
+		if (tile instanceof TileFusionCore) {
+			TileFusionCore core = (TileFusionCore) tile;
+			core.refreshMultiblock();
+		}
+	}
+	
+	@Override
 	public boolean hasComparatorInputOverride(IBlockState state) {
 		return true;
 	}

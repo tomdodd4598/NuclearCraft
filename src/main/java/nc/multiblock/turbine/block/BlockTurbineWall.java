@@ -1,16 +1,23 @@
 package nc.multiblock.turbine.block;
 
+import nc.multiblock.turbine.tile.TileTurbineWall;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public abstract class BlockTurbineWall extends BlockTurbinePartBase {
+public class BlockTurbineWall extends BlockTurbinePartBase {
 
-	public BlockTurbineWall(String name) {
-		super(name);
+	public BlockTurbineWall() {
+		super("turbine_wall");
+	}
+
+	@Override
+	public TileEntity createNewTileEntity(World world, int metadata) {
+		return new TileTurbineWall();
 	}
 
 	@Override

@@ -95,11 +95,6 @@ public abstract class TileFluidGenerator extends TileEnergyFluidSidedInventory i
 	
 	public abstract void updateGenerator();
 	
-	@Override
-	public void tickTile() {
-		tickCount++; tickCount %= 1;
-	}
-	
 	public void updateBlockType() {
 		if (ModCheck.ic2Loaded()) removeTileFromENet();
 		setState(isProcessing);

@@ -24,7 +24,8 @@ public class PlayerRespawnHandler {
 				IEntityRads newRads = newPlayer.getCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null);
 				if (newRads == null) return;
 				
-				newRads.setTotalRads((oldRads.getTotalRads()*NCConfig.radiation_death_persist_fraction) % oldRads.getMaxRads());
+				newRads.setTotalRads((oldRads.getTotalRads()*NCConfig.radiation_death_persist_fraction) % oldRads.getMaxRads(), false);
+				if (oldRads.getTotalRads() >= oldRads.getMaxRads()) newRads.setRadiationImmunityTime(NCConfig.radiation_death_immunity_time*20);
 			}
 		}
 	}

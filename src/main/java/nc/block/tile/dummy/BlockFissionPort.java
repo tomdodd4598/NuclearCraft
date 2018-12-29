@@ -35,7 +35,7 @@ public class BlockFissionPort extends BlockSimpleSidedDummy {
 				TileEntity masterTile = world.getTileEntity(controllerPos);
 				if (masterTile instanceof TileFissionController) {
 					TileFissionController controller = (TileFissionController) masterTile;
-					controller.tickCount = -1;
+					controller.refreshMultiblock(true);
 					FMLNetworkHandler.openGui(player, NuclearCraft.instance, 100, world, controllerPos.getX(), controllerPos.getY(), controllerPos.getZ());
 				}
 			}

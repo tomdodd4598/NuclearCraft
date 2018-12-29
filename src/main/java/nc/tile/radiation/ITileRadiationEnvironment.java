@@ -9,5 +9,9 @@ public interface ITileRadiationEnvironment extends ITile {
 	
 	public void handleRadiationEnvironmentInfo(RadiationEnvironmentInfo info);
 	
-	public double getChunkBufferContribution();
+	public double getChunkBufferContributionFraction();
+	
+	public double getCurrentChunkBuffer();
+	
+	public void setCurrentChunkBuffer(double buffer);
 }

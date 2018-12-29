@@ -1,8 +1,8 @@
 package nc.multiblock.network;
 
 import io.netty.buffer.ByteBuf;
-import nc.multiblock.MultiblockTileBase;
 import nc.multiblock.turbine.Turbine;
+import nc.multiblock.turbine.tile.TileTurbineController;
 import net.minecraft.util.math.BlockPos;
 
 public class TurbineUpdatePacket extends MultiblockUpdatePacket {
@@ -34,10 +34,10 @@ public class TurbineUpdatePacket extends MultiblockUpdatePacket {
 		buf.writeBoolean(isTurbineOn);
 	}
 	
-	public static class Handler<TURBINE extends Turbine, CONTROLLER extends MultiblockTileBase<TURBINE>> extends MultiblockUpdatePacket.Handler<TurbineUpdatePacket, TURBINE, CONTROLLER> {
+	public static class Handler extends MultiblockUpdatePacket.Handler<TurbineUpdatePacket, Turbine, TileTurbineController> {
 
-		public Handler(Class<CONTROLLER> controllerClass) {
-			super(controllerClass);
+		public Handler() {
+			super(TileTurbineController.class);
 		}
 		
 		@Override

@@ -10,7 +10,7 @@
 			"translate": "advancement.nuclearcraft.rtg_americium.desc"
 		}
 	},
-	"parent": "nuclearcraft:fission/rtg_plutonium",
+	"parent": "nuclearcraft:fission/americium",
 	"criteria": {
 		"has_item": {
 			"trigger": "minecraft:inventory_changed",

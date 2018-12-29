@@ -90,7 +90,7 @@ public class BlockCondenserController extends BlockCondenserPartBase {
 			if (world.getTileEntity(pos) instanceof TileCondenserController) {
 				TileCondenserController controller = (TileCondenserController) world.getTileEntity(pos);
 				if (controller.getMultiblock() != null && controller.getMultiblock().isAssembled()) {
-					player.openGui(NuclearCraft.instance, 102, world, pos.getX(), pos.getY(), pos.getZ());
+					player.openGui(NuclearCraft.instance, 105, world, pos.getX(), pos.getY(), pos.getZ());
 					return true;
 				}
 			}

@@ -6,9 +6,8 @@ import nc.recipe.generator.FusionRecipes;
 import nc.recipe.multiblock.CondenserRecipes;
 import nc.recipe.multiblock.CoolantHeaterRecipes;
 import nc.recipe.multiblock.HeatExchangerRecipes;
-import nc.recipe.multiblock.HighTurbineRecipes;
-import nc.recipe.multiblock.LowTurbineRecipes;
 import nc.recipe.multiblock.SaltFissionRecipes;
+import nc.recipe.multiblock.TurbineRecipes;
 import nc.recipe.processor.AlloyFurnaceRecipes;
 import nc.recipe.processor.CentrifugeRecipes;
 import nc.recipe.processor.ChemicalReactorRecipes;
@@ -65,8 +64,7 @@ public class NCRecipes {
 	private static SaltFissionRecipes salt_fission;
 	private static CoolantHeaterRecipes coolant_heater;
 	private static HeatExchangerRecipes heat_exchanger;
-	private static HighTurbineRecipes high_turbine;
-	private static LowTurbineRecipes low_turbine;
+	private static TurbineRecipes turbine;
 	private static CondenserRecipes condenser;
 	
 	@SubscribeEvent(priority = EventPriority.LOW)
@@ -98,8 +96,7 @@ public class NCRecipes {
 		salt_fission = new SaltFissionRecipes();
 		coolant_heater = new CoolantHeaterRecipes();
 		heat_exchanger = new HeatExchangerRecipes();
-		high_turbine = new HighTurbineRecipes();
-		low_turbine = new LowTurbineRecipes();
+		turbine = new TurbineRecipes();
 		condenser = new CondenserRecipes();
 		
 		CraftingRecipeHandler.registerCraftingRecipes();
@@ -135,8 +132,7 @@ public class NCRecipes {
 		SALT_FISSION,
 		COOLANT_HEATER,
 		HEAT_EXCHANGER,
-		HIGH_TURBINE,
-		LOW_TURBINE,
+		TURBINE,
 		CONDENSER;
 		
 		public ProcessorRecipeHandler getRecipeHandler() {
@@ -191,10 +187,8 @@ public class NCRecipes {
 				return coolant_heater;
 			case HEAT_EXCHANGER:
 				return heat_exchanger;
-			case HIGH_TURBINE:
-				return high_turbine;
-			case LOW_TURBINE:
-				return low_turbine;
+			case TURBINE:
+				return turbine;
 			case CONDENSER:
 				return condenser;
 			default:

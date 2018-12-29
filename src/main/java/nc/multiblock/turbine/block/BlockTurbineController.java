@@ -9,22 +9,25 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public abstract class BlockTurbineController<CONTROLLER extends TileTurbineController> extends BlockTurbinePartBase {
-	
-	protected final Class<CONTROLLER> tileControllerClass;
+public class BlockTurbineController extends BlockTurbinePartBase {
 	
 	private static final PropertyDirection FACING = BlockDirectional.FACING;
 	private static final PropertyBool ACTIVE = PropertyBool.create("active");
 	
-	public BlockTurbineController(Class<CONTROLLER> tileControllerClass, String name) {
-		super(name);
-		this.tileControllerClass = tileControllerClass;
+	public BlockTurbineController() {
+		super("turbine_controller");
 		setDefaultState(blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(ACTIVE, Boolean.valueOf(false)));
+	}
+	
+	@Override
+	public TileEntity createNewTileEntity(World world, int metadata) {
+		return new TileTurbineController();
 	}
 	
 	@Override
@@ -84,10 +87,10 @@ public abstract class BlockTurbineController<CONTROLLER extends TileTurbineContr
 		if (hand != EnumHand.MAIN_HAND || player.isSneaking()) return false;
 		
 		if (!world.isRemote) {
-			if (tileControllerClass.isInstance(world.getTileEntity(pos))) {
-				CONTROLLER controller = (CONTROLLER) world.getTileEntity(pos);
+			if (world.getTileEntity(pos) instanceof TileTurbineController) {
+				TileTurbineController controller = (TileTurbineController) world.getTileEntity(pos);
 				if (controller.getMultiblock() != null && controller.getMultiblock().isAssembled()) {
-					player.openGui(NuclearCraft.instance, 102, world, pos.getX(), pos.getY(), pos.getZ());
+					player.openGui(NuclearCraft.instance, 104, world, pos.getX(), pos.getY(), pos.getZ());
 					return true;
 				}
 			}

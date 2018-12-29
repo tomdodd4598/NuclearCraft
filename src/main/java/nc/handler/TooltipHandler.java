@@ -9,6 +9,7 @@ import nc.capability.radiation.IRadiationSource;
 import nc.config.NCConfig;
 import nc.util.InfoHelper;
 import nc.util.Lang;
+import nc.util.OreDictHelper;
 import nc.util.RadiationHelper;
 import nc.util.UnitHelper;
 import net.minecraft.item.ItemArmor;
@@ -18,7 +19,6 @@ import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraftforge.oredict.OreDictionary;
 
 public class TooltipHandler {
 	
@@ -29,12 +29,12 @@ public class TooltipHandler {
 		if (stack == null || stack.isEmpty()) return;
 		
 		if (!stack.getItem().getRegistryName().getResourceDomain().equals(Global.MOD_ID)) {
-			int[] oreIDs = OreDictionary.getOreIDs(stack);
-			if (oreIDs.length > 0) {
-				if (OreDictionary.getOreName(oreIDs[0]).equals("blockGraphite")) {
+			List<String> oreNames = OreDictHelper.getOreNames(stack);
+			if (!oreNames.isEmpty()) {
+				if (oreNames.contains("blockGraphite")) {
 					InfoHelper.infoFull(event.getToolTip(), TextFormatting.AQUA, NCInfo.ingotBlockFixedInfo()[8], NCInfo.ingotBlockInfo()[8]);
 				}
-				else if (OreDictionary.getOreName(oreIDs[0]).equals("blockBeryllium")) {
+				else if (oreNames.contains("blockBeryllium")) {
 					InfoHelper.infoFull(event.getToolTip(), TextFormatting.AQUA, NCInfo.ingotBlockFixedInfo()[9], NCInfo.ingotBlockInfo()[9]);
 				}
 			}

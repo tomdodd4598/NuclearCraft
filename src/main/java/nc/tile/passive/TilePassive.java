@@ -20,7 +20,7 @@ public class TilePassive {
 		public void update() {
 			super.update();
 			if(!world.isRemote) {
-				if(shouldTileCheck()) spreadEnergy();
+				spreadEnergy();
 				tickTile();
 			}
 		}
@@ -50,10 +50,8 @@ public class TilePassive {
 		public void update() {
 			super.update();
 			if(!world.isRemote) {
-				if(shouldTileCheck()) {
-					spreadEnergy();
-					spreadFluid();
-				}
+				spreadEnergy();
+				spreadFluid();
 				tickTile();
 			}
 		}
@@ -109,7 +107,7 @@ public class TilePassive {
 		}
 		
 		@Override
-		public void setNewStack() {
+		protected void setNewStack() {
 			inventoryStacks.set(0, new ItemStack(Blocks.COBBLESTONE, NCConfig.processor_passive_rate[1]*NCConfig.machine_update_rate*rateMult/5));
 		}
 	}

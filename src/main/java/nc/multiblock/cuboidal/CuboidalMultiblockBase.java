@@ -48,12 +48,12 @@ public abstract class CuboidalMultiblockBase<PACKET extends MultiblockUpdatePack
 		int minYSize = this.getMinimumYSize();
 		int minZSize = this.getMinimumZSize();
 		
-		if (maxXSize > 0 && deltaX > maxXSize) { validatorCallback.setLastError("zerocore:api.multiblock.validation.machine_too_large", null, maxXSize, "X"); return false; }
-		if (maxYSize > 0 && deltaY > maxYSize) { validatorCallback.setLastError("zerocore:api.multiblock.validation.machine_too_large", null, maxYSize, "Y"); return false; }
-		if (maxZSize > 0 && deltaZ > maxZSize) { validatorCallback.setLastError("zerocore:api.multiblock.validation.machine_too_large", null, maxZSize, "Z"); return false; }
-		if (deltaX < minXSize) { validatorCallback.setLastError("zerocore:zerocore:api.multiblock.validation.machine_too_small", null, minXSize, "X"); return false; }
-		if (deltaY < minYSize) { validatorCallback.setLastError("zerocore:zerocore:api.multiblock.validation.machine_too_small", null, minYSize, "Y"); return false; }
-		if (deltaZ < minZSize) { validatorCallback.setLastError("zerocore:zerocore:api.multiblock.validation.machine_too_small", null, minZSize, "Z"); return false; }
+		if (maxXSize > 0 && deltaX > maxXSize) { validatorCallback.setLastError("zerocore.api.nc.multiblock.validation.machine_too_large", null, maxXSize, "X"); return false; }
+		if (maxYSize > 0 && deltaY > maxYSize) { validatorCallback.setLastError("zerocore.api.nc.multiblock.validation.machine_too_large", null, maxYSize, "Y"); return false; }
+		if (maxZSize > 0 && deltaZ > maxZSize) { validatorCallback.setLastError("zerocore.api.nc.multiblock.validation.machine_too_large", null, maxZSize, "Z"); return false; }
+		if (deltaX < minXSize) { validatorCallback.setLastError("zerocore.api.nc.multiblock.validation.machine_too_small", null, minXSize, "X"); return false; }
+		if (deltaY < minYSize) { validatorCallback.setLastError("zerocore.api.nc.multiblock.validation.machine_too_small", null, minYSize, "Y"); return false; }
+		if (deltaZ < minZSize) { validatorCallback.setLastError("zerocore.api.nc.multiblock.validation.machine_too_small", null, minZSize, "Z"); return false; }
 
 		// Now we run a simple check on each block within that volume.
 		// Any block deviating = NO DEAL SIR
@@ -75,7 +75,7 @@ public abstract class CuboidalMultiblockBase<PACKET extends MultiblockUpdatePack
 						// Ensure this part should actually be allowed within a cube of this multiblock's type
 						if(!myClass.equals(part.getMultiblockType())) {
 
-							validatorCallback.setLastError("zerocore:api.multiblock.validation.invalid_part", new BlockPos(x, y, z), x, y, z);
+							validatorCallback.setLastError("zerocore.api.nc.multiblock.validation.invalid_part", new BlockPos(x, y, z), x, y, z);
 							return false;
 						}
 					}
@@ -102,7 +102,7 @@ public abstract class CuboidalMultiblockBase<PACKET extends MultiblockUpdatePack
 						if (!isPartValid) {
 
 							if (null == validatorCallback.getLastError())
-								validatorCallback.setLastError("zerocore:api.multiblock.validation.invalid_part_for_frame", new BlockPos(x, y, z), x, y, z);
+								validatorCallback.setLastError("zerocore.api.nc.multiblock.validation.invalid_part_for_frame", new BlockPos(x, y, z), x, y, z);
 
 							return false;
 						}
@@ -115,7 +115,7 @@ public abstract class CuboidalMultiblockBase<PACKET extends MultiblockUpdatePack
 							if (!isPartValid) {
 
 								if (null == validatorCallback.getLastError())
-									validatorCallback.setLastError("zerocore:api.multiblock.validation.invalid_part_for_top", new BlockPos(x, y, z), x, y, z);
+									validatorCallback.setLastError("zerocore.api.nc.multiblock.validation.invalid_part_for_top", new BlockPos(x, y, z), x, y, z);
 
 								return false;
 							}
@@ -127,7 +127,7 @@ public abstract class CuboidalMultiblockBase<PACKET extends MultiblockUpdatePack
 							if (!isPartValid) {
 
 								if (null == validatorCallback.getLastError())
-									validatorCallback.setLastError("zerocore:api.multiblock.validation.invalid_part_for_bottom", new BlockPos(x, y, z), x, y, z);
+									validatorCallback.setLastError("zerocore.api.nc.multiblock.validation.invalid_part_for_bottom", new BlockPos(x, y, z), x, y, z);
 
 								return false;
 							}
@@ -139,7 +139,7 @@ public abstract class CuboidalMultiblockBase<PACKET extends MultiblockUpdatePack
 							if (!isPartValid) {
 
 								if (null == validatorCallback.getLastError())
-									validatorCallback.setLastError("zerocore:api.multiblock.validation.invalid_part_for_sides", new BlockPos(x, y, z), x, y, z);
+									validatorCallback.setLastError("zerocore.api.nc.multiblock.validation.invalid_part_for_sides", new BlockPos(x, y, z), x, y, z);
 
 								return false;
 							}
@@ -152,7 +152,7 @@ public abstract class CuboidalMultiblockBase<PACKET extends MultiblockUpdatePack
 						if (!isPartValid) {
 
 							if (null == validatorCallback.getLastError())
-								validatorCallback.setLastError("zerocore:api.multiblock.validation.reactor.invalid_part_for_interior", new BlockPos(x, y, z), x, y, z);
+								validatorCallback.setLastError("zerocore.api.nc.multiblock.validation.reactor.invalid_part_for_interior", new BlockPos(x, y, z), x, y, z);
 
 							return false;
 						}

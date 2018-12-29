@@ -22,6 +22,6 @@ public class DissolverRecipes extends ProcessorRecipeHandler {
 		addRecipe("dustPotassiumHydroxide", fluidStack("water", FluidStackHelper.BUCKET_VOLUME), fluidStack("potassium_hydroxide_solution", FluidStackHelper.GEM_VOLUME), 0.5D, 0.5D);
 		addRecipe("dustBorax", fluidStack("water", FluidStackHelper.BUCKET_VOLUME), fluidStack("borax_solution", FluidStackHelper.GEM_VOLUME), 0.5D, 0.5D);
 		
-		addRecipe(new ItemStack(NCBlocks.glowing_mushroom, 3), fluidStack("ethanol", FluidStackHelper.BUCKET_VOLUME/2), fluidStack("radaway", FluidStackHelper.BUCKET_VOLUME/2), 1.5D, 0.5D);
+		addRecipe(new ItemStack(NCBlocks.glowing_mushroom, 3), fluidStack("ethanol", FluidStackHelper.BUCKET_VOLUME/4), fluidStack("radaway", FluidStackHelper.BUCKET_VOLUME/4), 1D, 0.5D);
 	}
 }

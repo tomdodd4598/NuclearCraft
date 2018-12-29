@@ -10,7 +10,7 @@
 			"translate": "advancement.nuclearcraft.dissolver.desc"
 		}
 	},
-	"parent": "nuclearcraft:processors/alloy_furnace",
+	"parent": "nuclearcraft:processors/chemical_reactor",
 	"criteria": {
 		"has_item": {
 			"trigger": "minecraft:inventory_changed",

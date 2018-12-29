@@ -61,8 +61,7 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 	public boolean computerActivated = false;
 	private int comparatorCount = 0;
 	
-	public boolean readLayout = false;
-	public Object[] layout;
+	private Object[] oc_layout;
 	
 	public static final String NO_FUEL = Lang.localise("gui.container.fission_controller.no_fuel");
 	public static final String GENERIC_FUEL = Lang.localise("gui.container.fission_controller.generic_fuel");
@@ -115,7 +114,6 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 			isActivated = isActivated();
 			isProcessing = isProcessing();
 			boolean shouldUpdate = false;
-			tickTile();
 			tickComparatorCheck();
 			if (wasActivated != isActivated) refreshMultiblock(true);
 			else checkStructure(false);
@@ -131,8 +129,8 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 			}
 			pushEnergy();
 			currentEnergyStored = getEnergyStored();
-			if (shouldComparatorCheck() && findAdjacentComparator()) shouldUpdate = true;
-			if (shouldTileCheck()) sendUpdateToListeningPlayers();
+			if (comparatorCount == 0 && findAdjacentComparator()) shouldUpdate = true;
+			sendUpdateToListeningPlayers();
 			if (shouldUpdate) markDirty();
 		}
 	}
@@ -157,10 +155,6 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 	
 	public void tickComparatorCheck() {
 		comparatorCount++; comparatorCount %= 4*NCConfig.machine_update_rate;
-	}
-	
-	public boolean shouldComparatorCheck() {
-		return comparatorCount == 0;
 	}
 	
 	public void refreshMultiblock(boolean checkBlocks) {
@@ -197,7 +191,7 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 		world.setBlockState(pos, corium.getDefaultState());
 		
 		if (NCConfig.fission_explosions) {
-			world.createExplosion(null, middle.getX(), middle.getY(), middle.getZ(), lengthX + lengthY + lengthZ, true);
+			world.createExplosion(null, middle.getX(), middle.getY(), middle.getZ(), lengthX*lengthX + lengthY*lengthY + lengthZ*lengthZ, true);
 		}
 		
 		for (int i = minX; i <= maxX; i++) {
@@ -846,8 +840,6 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 
 		if (checkBlocks) {
 			if (complete == 1) {
-				if (ModCheck.openComputersLoaded() && readLayout) layout = new Object[getLengthX()*getLengthY()*getLengthZ()];
-				
 				for (int z = minZ + 1; z <= maxZ - 1; z++) for (int x = minX + 1; x <= maxX - 1; x++) for (int y = minY + 1; y <= maxY - 1; y++) {
 					
 					// Cells
@@ -912,15 +904,6 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 							}
 						}
 					}
-					
-					// OpenComputers Read Layout
-					if (ModCheck.openComputersLoaded() && readLayout) {
-						int arrayX = x - minX - 1; int arrayY = y - minY - 1; int arrayZ = z - minZ - 1;
-						IBlockState layoutState = world.getBlockState(finder.position(x, y, z));
-						String mainName = layoutState.getBlock().getRegistryName().toString();
-						int meta = layoutState.getBlock().getMetaFromState(layoutState);
-						layout[arrayX + getLengthX()*arrayY + getLengthX()*getLengthY()*arrayZ] = new Object[] {new Object[] {x, y, z}, new Object[] {mainName, meta}};
-					}
 				}
 			}
 			
@@ -958,6 +941,22 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 		}
 	}
 	
+	public Object[] getOCReactorLayout() {
+		if (ModCheck.openComputersLoaded() && complete == 1) {
+			oc_layout = new Object[getLengthX()*getLengthY()*getLengthZ()];
+			for (int z = minZ + 1; z <= maxZ - 1; z++) for (int x = minX + 1; x <= maxX - 1; x++) for (int y = minY + 1; y <= maxY - 1; y++) {
+				int arrayX = x - minX - 1; int arrayY = y - minY - 1; int arrayZ = z - minZ - 1;
+				IBlockState layoutState = world.getBlockState(finder.position(x, y, z));
+				String mainName = layoutState.getBlock().getRegistryName().toString();
+				int meta = layoutState.getBlock().getMetaFromState(layoutState);
+				oc_layout[arrayX + getLengthX()*arrayY + getLengthX()*getLengthY()*arrayZ] = new Object[] {new Object[] {x, y, z}, new Object[] {mainName, meta}};
+			}
+		}
+		else oc_layout = new Object[] {};
+		
+		return oc_layout;
+	}
+	
 	// NBT
 	
 	@Override
@@ -993,7 +992,6 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 		nbt.setInteger("currentEnergyStored", currentEnergyStored);
 		nbt.setBoolean("isActivated", isActivated);
 		nbt.setBoolean("computerActivated", computerActivated);
-		nbt.setBoolean("readLayout", readLayout);
 		return nbt;
 	}
 			
@@ -1031,7 +1029,6 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 		currentEnergyStored = nbt.getInteger("currentEnergyStored");
 		isActivated = nbt.getBoolean("isActivated");
 		computerActivated = nbt.getBoolean("computerActivated");
-		readLayout = nbt.getBoolean("readLayout");
 	}
 	
 	// IGui
@@ -1225,15 +1222,8 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 	
 	@Callback
 	@Optional.Method(modid = "opencomputers")
-	public Object[] trackReactorLayout(Context context, Arguments args) {
-		if (args.isBoolean(0)) readLayout = args.checkBoolean(0);
-		return new Object[] {};
-	}
-	
-	@Callback
-	@Optional.Method(modid = "opencomputers")
 	public Object[] getReactorLayout(Context context, Arguments args) {
-		return complete == 1 && readLayout ? layout : new Object[] {};
+		return getOCReactorLayout();
 	}
 	
 	@Callback
@@ -1247,6 +1237,13 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 	@Optional.Method(modid = "opencomputers")
 	public Object[] deactivate(Context context, Arguments args) {
 		computerActivated = false;
+		return new Object[] {};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] forceUpdate(Context context, Arguments args) {
+		refreshMultiblock(true);
 		return new Object[] {};
 	}
 }

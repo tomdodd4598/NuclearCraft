@@ -33,7 +33,6 @@ public class BlockFissionController extends BlockProcessor {
 		if (tile instanceof TileFissionController) {
 			TileFissionController controller = (TileFissionController) tile;
 			controller.refreshMultiblock(true);
-			controller.tickCount = -1;
 		}
 	}
 	

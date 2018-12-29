@@ -28,20 +28,22 @@ import net.minecraft.util.math.BlockPos;
 public abstract class TileDummy<T extends TileEntity> extends TileEnergyFluidSidedInventory {
 	
 	public BlockPos masterPosition = null;
-	public final int updateRate;
+	protected final int updateRate;
+	
+	protected int checkCount;
 	
 	protected final Class<T> tClass;
 	
 	public TileDummy(Class<T> tClass, String name, int updateRate, List<String> allowedFluids) {
-		this(tClass, name, ITileEnergy.energyConnectionAll(EnergyConnection.BOTH), TankSorption.BOTH, updateRate, allowedFluids, ITileFluid.fluidConnectionAll(FluidConnection.BOTH));
+		this(tClass, name, ITileEnergy.energyConnectionAll(EnergyConnection.NON), TankSorption.NON, updateRate, allowedFluids, ITileFluid.fluidConnectionAll(FluidConnection.NON));
 	}
 	
 	public TileDummy(Class<T> tClass, String name, EnergyConnection[] energyConnections, int updateRate, List<String> allowedFluids) {
-		this(tClass, name, energyConnections, TankSorption.BOTH, updateRate, allowedFluids, ITileFluid.fluidConnectionAll(FluidConnection.BOTH));
+		this(tClass, name, energyConnections, TankSorption.NON, updateRate, allowedFluids, ITileFluid.fluidConnectionAll(FluidConnection.NON));
 	}
 	
 	public TileDummy(Class<T> tClass, String name, TankSorption fluidConnection, int updateRate, List<String> allowedFluids, @Nonnull FluidConnection[] fluidConnections) {
-		this(tClass, name, ITileEnergy.energyConnectionAll(EnergyConnection.BOTH), fluidConnection, updateRate, allowedFluids, fluidConnections);
+		this(tClass, name, ITileEnergy.energyConnectionAll(EnergyConnection.NON), fluidConnection, updateRate, allowedFluids, fluidConnections);
 	}
 	
 	public TileDummy(Class<T> tClass, String name, EnergyConnection[] energyConnections, TankSorption fluidConnection, int updateRate, List<String> allowedFluids, @Nonnull FluidConnection[] fluidConnections) {
@@ -51,18 +53,22 @@ public abstract class TileDummy<T extends TileEntity> extends TileEnergyFluidSid
 	}
 	
 	@Override
-	public void update() {
-		super.update();
-		if(!world.isRemote) {
-			if (shouldTileCheck()) findMaster();
-			tickTile();
-		}
-	}
-	
-	@Override
 	public void onAdded() {
 		super.onAdded();
 		if (!world.isRemote) findMaster();
+	}
+	
+	@Override
+	public void update() {
+		super.update();
+		if(!world.isRemote) {
+			if (checkCount == 0) findMaster();
+			tickDummy();
+		}
+	}
+	
+	public void tickDummy() {
+		checkCount++; checkCount %= updateRate;
 	}
 	
 	// Inventory

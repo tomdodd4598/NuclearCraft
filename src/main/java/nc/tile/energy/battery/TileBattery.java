@@ -1,5 +1,6 @@
 package nc.tile.energy.battery;
 
+import nc.config.NCConfig;
 import nc.tile.dummy.IInterfaceable;
 import nc.tile.energy.IEnergySpread;
 import nc.tile.energy.ITileEnergy;
@@ -69,6 +70,8 @@ public class TileBattery extends TileEnergy implements IBattery, IInterfaceable,
 	private final BatteryType type;
 	private BlockFinder finder;
 	
+	protected int batteryCount;
+	
 	public TileBattery(BatteryType type) {
 		super(type.getCapacity(), type.getMaxTransfer(), ITileEnergy.energyConnectionAll(EnergyConnection.IN));
 		this.type = type;
@@ -78,24 +81,30 @@ public class TileBattery extends TileEnergy implements IBattery, IInterfaceable,
 	public void onAdded() {
 		finder = new BlockFinder(pos, world, getBlockMetadata());
 		super.onAdded();
-		tickCount = -1;
+		batteryCount = -1;
 	}
 	
 	@Override
 	public void update() {
 		super.update();
-		pushEnergy();
-		boolean shouldUpdate = false;
 		if(!world.isRemote) {
-			if(shouldTileCheck()) spreadEnergy();
-			if (findAdjacentComparator() && shouldTileCheck()) shouldUpdate = true;
-			tickTile();
+			boolean shouldUpdate = false;
+			pushEnergy();
+			spreadEnergy();
+			if(batteryCount == 0 && findAdjacentComparator()) {
+				shouldUpdate = true;
+			}
+			tickBattery();
+			if (shouldUpdate) markDirty();
 		}
-		if (shouldUpdate) markDirty();
 	}
 	
 	public boolean findAdjacentComparator() {
 		return finder.adjacent(pos, 1, Blocks.UNPOWERED_COMPARATOR, Blocks.POWERED_COMPARATOR);
+	}
+	
+	public void tickBattery() {
+		batteryCount++; batteryCount %= NCConfig.machine_update_rate;
 	}
 	
 	@Override

@@ -22,6 +22,7 @@ import nc.block.tile.generator.BlockFissionControllerNewFixed;
 import nc.block.tile.generator.BlockFusionCore;
 import nc.block.tile.processor.BlockNuclearFurnace;
 import nc.block.tile.processor.BlockProcessor;
+import nc.block.tile.radiation.BlockGeigerCounter;
 import nc.block.tile.radiation.BlockScrubber;
 import nc.config.NCConfig;
 import nc.enumm.BlockEnums.ActivatableTileType;
@@ -52,11 +53,15 @@ import nc.multiblock.saltFission.block.BlockSaltFissionRetriever;
 import nc.multiblock.saltFission.block.BlockSaltFissionVent;
 import nc.multiblock.saltFission.block.BlockSaltFissionVessel;
 import nc.multiblock.saltFission.block.BlockSaltFissionWall;
+import nc.multiblock.turbine.block.BlockTurbineController;
+import nc.multiblock.turbine.block.BlockTurbineFrame;
+import nc.multiblock.turbine.block.BlockTurbineGlass;
+import nc.multiblock.turbine.block.BlockTurbineWall;
 import nc.tab.NCTabs;
 import nc.tile.energy.battery.BatteryType;
-import nc.tile.radiation.TileScrubber;
 import nc.util.InfoHelper;
 import nc.util.Lang;
+import nc.util.NCMath;
 import nc.util.UnitHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -198,6 +203,11 @@ public class NCBlocks {
 	public static Block heat_exchanger_tube_hard_carbon;
 	public static Block heat_exchanger_tube_thermoconducting;
 	
+	public static Block turbine_controller;
+	public static Block turbine_wall;
+	public static Block turbine_glass;
+	public static Block turbine_frame;
+	
 	public static Block accelerator_electromagnet_idle;
 	public static Block accelerator_electromagnet_active;
 	public static Block electromagnet_supercooler_idle;
@@ -220,6 +230,8 @@ public class NCBlocks {
 	public static Block nitrogen_collector_dense;
 	
 	public static Block radiation_scrubber;
+	
+	public static Block geiger_block;
 	
 	public static Block glowing_mushroom;
 	public static Block dry_earth;
@@ -356,6 +368,11 @@ public class NCBlocks {
 		heat_exchanger_tube_hard_carbon = new BlockHeatExchangerTube(HeatExchangerTubeType.HARD_CARBON);
 		heat_exchanger_tube_thermoconducting = new BlockHeatExchangerTube(HeatExchangerTubeType.THERMOCONDUCTING);
 		
+		turbine_controller = new BlockTurbineController();
+		turbine_wall = new BlockTurbineWall();
+		turbine_glass = new BlockTurbineGlass();
+		turbine_frame = new BlockTurbineFrame();
+		
 		accelerator_electromagnet_idle = new BlockActivatable(ActivatableTileType.ACCELERATOR_ELECTROMAGNET, false);
 		accelerator_electromagnet_active = new BlockActivatable(ActivatableTileType.ACCELERATOR_ELECTROMAGNET, true);
 		electromagnet_supercooler_idle = new BlockActivatable(ActivatableTileType.ELECTROMAGNET_SUPERCOOLER, false);
@@ -386,6 +403,8 @@ public class NCBlocks {
 		}
 		
 		radiation_scrubber = new BlockScrubber();
+		
+		geiger_block = new BlockGeigerCounter();
 		
 		glowing_mushroom = new NCBlockMushroom("glowing_mushroom");
 		dry_earth = new NCBlock("dry_earth", Material.ROCK, true).setCreativeTab(NCTabs.BASE_BLOCK_MATERIALS);
@@ -523,6 +542,11 @@ public class NCBlocks {
 		registerBlock(heat_exchanger_tube_hard_carbon, TextFormatting.AQUA, InfoHelper.formattedInfo(fixedLine("heat_exchanger_tube"), Math.round(100D*NCConfig.heat_exchanger_conductivity[1]) + "%"), InfoHelper.formattedInfo(infoLine("heat_exchanger_tube")));
 		registerBlock(heat_exchanger_tube_thermoconducting, TextFormatting.AQUA, InfoHelper.formattedInfo(fixedLine("heat_exchanger_tube"), Math.round(100D*NCConfig.heat_exchanger_conductivity[2]) + "%"), InfoHelper.formattedInfo(infoLine("heat_exchanger_tube")));
 		
+		registerBlock(turbine_controller);
+		registerBlock(turbine_wall);
+		registerBlock(turbine_glass);
+		registerBlock(turbine_frame);
+		
 		registerBlock(accelerator_electromagnet_idle, InfoHelper.formattedInfo(infoLine("accelerator_electromagnet_idle"), UnitHelper.ratePrefix(NCConfig.accelerator_electromagnet_power, 5, "RF")));
 		registerBlock(accelerator_electromagnet_active);
 		registerBlock(electromagnet_supercooler_idle, InfoHelper.formattedInfo(infoLine("electromagnet_supercooler_idle"), UnitHelper.ratePrefix(NCConfig.accelerator_electromagnet_power, 5, "RF"), UnitHelper.ratePrefix(NCConfig.accelerator_supercooler_coolant, 5, "B", -1)));
@@ -552,7 +576,9 @@ public class NCBlocks {
 			registerBlock(nitrogen_collector_dense, InfoHelper.formattedInfo(infoLine("nitrogen_collector"), UnitHelper.ratePrefix(NCConfig.processor_passive_rate[3]*64, 5, "B", -1)));
 		}
 		
-		registerBlock(radiation_scrubber, InfoHelper.formattedInfo(infoLine("radiation_scrubber"), UnitHelper.prefix(NCConfig.radiation_scrubber_rate, 3, "Rads/t", 0, -8), NCConfig.radiation_scrubber_borax_rate > 0 ? Lang.localise("info.nuclearcraft.radiation_scrubber_req_borax", TileScrubber.POWER_USE, NCConfig.radiation_scrubber_borax_rate) : Lang.localise("info.nuclearcraft.radiation_scrubber_no_req_borax", TileScrubber.POWER_USE)));
+		registerBlock(radiation_scrubber, InfoHelper.formattedInfo(infoLine("radiation_scrubber"), NCMath.round(100D*NCConfig.radiation_scrubber_fraction, 1) + "%", NCConfig.radiation_scrubber_borax_rate > 0 ? Lang.localise("info.nuclearcraft.radiation_scrubber_req_borax", NCConfig.radiation_scrubber_power/20, NCConfig.radiation_scrubber_borax_rate) : Lang.localise("info.nuclearcraft.radiation_scrubber_no_req_borax", NCConfig.radiation_scrubber_power/20)));
+		
+		registerBlock(geiger_block);
 		
 		registerBlock(glowing_mushroom);
 		registerBlock(dry_earth);
@@ -702,6 +728,11 @@ public class NCBlocks {
 		registerRender(heat_exchanger_tube_hard_carbon);
 		registerRender(heat_exchanger_tube_thermoconducting);
 		
+		registerRender(turbine_controller, 0, "turbine_controller_off");
+		registerRender(turbine_wall);
+		registerRender(turbine_glass);
+		registerRender(turbine_frame);
+		
 		registerRender(accelerator_electromagnet_idle);
 		registerRender(accelerator_electromagnet_active);
 		registerRender(electromagnet_supercooler_idle);
@@ -732,6 +763,8 @@ public class NCBlocks {
 		}
 		
 		registerRender(radiation_scrubber);
+		
+		registerRender(geiger_block);
 		
 		registerRender(glowing_mushroom);
 		registerRender(dry_earth);

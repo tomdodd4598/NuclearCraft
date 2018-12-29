@@ -9,7 +9,7 @@
 		"description": {
 			"translate": "advancement.nuclearcraft.fission_controller.desc"
 		},
-		"frame": "challenge"
+		"frame": "goal"
 	},
 	"parent": "nuclearcraft:processors/isotope_separator",
 	"criteria": {

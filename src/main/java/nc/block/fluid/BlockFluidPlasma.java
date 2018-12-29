@@ -61,7 +61,7 @@ public class BlockFluidPlasma extends BlockFluid {
 			if (!(tile instanceof TilePassive.FusionElectromagnet)) free++;
 			else if (rand.nextInt(100) < 1) {
 				TilePassive.FusionElectromagnet magnet = (TilePassive.FusionElectromagnet) tile;
-				if (!magnet.isRunning) {
+				if (!magnet.isActive) {
 					worldIn.createExplosion(null, offPos.getX(), offPos.getY(), offPos.getZ(), 4F, true);
 					return;
 				}

@@ -5,12 +5,17 @@ import nc.multiblock.cuboidal.TileCuboidalMultiblockPartBase;
 import nc.multiblock.turbine.Turbine;
 import net.minecraft.nbt.NBTTagCompound;
 
-public abstract class TileTurbinePartBase<TURBINE extends Turbine> extends TileCuboidalMultiblockPartBase<TURBINE> {
+public abstract class TileTurbinePartBase extends TileCuboidalMultiblockPartBase<Turbine> {
 	
 	public boolean isTurbineOn;
 	
-	public TileTurbinePartBase(Class<TURBINE> tClass, CuboidalPartPositionType positionType) {
-		super(tClass, positionType);
+	public TileTurbinePartBase(CuboidalPartPositionType positionType) {
+		super(Turbine.class, positionType);
+	}
+	
+	@Override
+	public Turbine createNewMultiblock() {
+		return new Turbine(getWorld());
 	}
 	
 	public void setIsTurbineOn() {

@@ -75,6 +75,8 @@ public class TileSaltFissionVessel extends TileSaltFissionPartBase implements IF
 	public final NCRecipes.Type recipeType = NCRecipes.Type.SALT_FISSION;
 	protected ProcessorRecipe recipe;
 	
+	protected int vesselCount;
+	
 	public TileSaltFissionVessel() {
 		super(CuboidalPartPositionType.INTERIOR);
 		fluidSides = ITileFluid.getDefaultFluidSides(this);
@@ -185,14 +187,14 @@ public class TileSaltFissionVessel extends TileSaltFissionPartBase implements IF
 			boolean wasProcessing = isProcessing;
 			isProcessing = isProcessing();
 			boolean shouldUpdate = false;
-			tickTile();
+			tickVessel();
 			if (isProcessing) process();
 			else getRadiationSource().setRadiationLevel(0D);
 			if (wasProcessing != isProcessing) {
 				shouldUpdate = true;
 			}
-			if (shouldTileCheck()) {
-				pushFluid();
+			pushFluid();
+			if (vesselCount == 0) {
 				refreshRecipe();
 				refreshActivity();
 			}
@@ -200,9 +202,8 @@ public class TileSaltFissionVessel extends TileSaltFissionPartBase implements IF
 		}
 	}
 	
-	@Override
-	public void tickTile() {
-		tickCount++; tickCount %= NCConfig.machine_update_rate / 2;
+	public void tickVessel() {
+		vesselCount++; vesselCount %= NCConfig.machine_update_rate / 2;
 	}
 	
 	@Override

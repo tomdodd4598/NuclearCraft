@@ -11,7 +11,7 @@
 		},
 		"frame": "challenge"
 	},
-	"parent": "nuclearcraft:fission/rtg_americium",
+	"parent": "nuclearcraft:fission/californium",
 	"criteria": {
 		"has_item": {
 			"trigger": "minecraft:inventory_changed",

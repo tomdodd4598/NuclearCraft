@@ -8,8 +8,7 @@
 		},
 		"description": {
 			"translate": "advancement.nuclearcraft.alloy_furnace.desc"
-		},
-		"frame": "goal"
+		}
 	},
 	"parent": "nuclearcraft:processors/manufactory",
 	"criteria": {

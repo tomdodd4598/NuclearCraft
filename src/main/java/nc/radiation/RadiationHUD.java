@@ -5,6 +5,7 @@ import nc.capability.radiation.IEntityRads;
 import nc.config.NCConfig;
 import nc.init.NCItems;
 import nc.util.GuiHelper;
+import nc.util.Lang;
 import nc.util.RadiationHelper;
 import nc.util.TextHelper;
 import nc.util.UnitHelper;
@@ -30,6 +31,10 @@ public class RadiationHUD extends Gui {
 	
 	private static final ResourceLocation RADS_BAR = new ResourceLocation(Global.MOD_ID + ":textures/hud/" + "rads_bar" + ".png");
 	
+	private static final String IMMUNE_FOR = Lang.localise("hud.nuclearcraft.rad_immune");
+	
+	private static final ItemStack GEIGER_COUNTER = new ItemStack(NCItems.geiger_counter);
+	
 	public RadiationHUD(Minecraft mc) {
 		this.mc = mc;
 	}
@@ -41,13 +46,13 @@ public class RadiationHUD extends Gui {
 		
 		if(event.getType() != ElementType.HOTBAR) return;
 		final EntityPlayer player = mc.player;
-		if ((NCConfig.radiation_require_counter && !player.inventory.hasItemStack(new ItemStack(NCItems.geiger_counter))) || !player.hasCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null)) return;
+		if ((NCConfig.radiation_require_counter && !player.inventory.hasItemStack(GEIGER_COUNTER)) || !player.hasCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null)) return;
 		IEntityRads playerRads = player.getCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null);
 		if (playerRads == null) return;
 		
 		ScaledResolution res = new ScaledResolution(mc);
 		int barWidth = (int)(100D*playerRads.getTotalRads()/playerRads.getMaxRads());
-		String info = playerRads.isRadiationNegligible() ? "0 Rads/t" : UnitHelper.prefix(playerRads.getRadiationLevel(), 3, "Rads/t", 0, -8);
+		String info = playerRads.isImmune() ? IMMUNE_FOR + " " + UnitHelper.applyTimeUnitShort(playerRads.getRadiationImmunityTime(), 2, 1) : (playerRads.isRadiationNegligible() ? "0 Rads/t" : UnitHelper.prefix(playerRads.getRadiationLevel(), 3, "Rads/t", 0, -8));
 		int infoWidth = mc.fontRenderer.getStringWidth(info);
 		int overlayWidth = (int)Math.round(Math.max(104, infoWidth)*NCConfig.radiation_hud_size);
 		int overlayHeight = (int)Math.round(19*NCConfig.radiation_hud_size);
@@ -70,7 +75,7 @@ public class RadiationHUD extends Gui {
 			mc.fontRenderer.drawString(info, xPos + (104 - infoWidth)/2, yPos + 1, 0);
 			mc.fontRenderer.drawString(info, xPos + (104 - infoWidth)/2, yPos - 1, 0);
 		}
-		mc.fontRenderer.drawString(info, xPos + (104 - infoWidth)/2, yPos, TextHelper.getFormatColor(RadiationHelper.getRadiationTextColor(playerRads)));
+		mc.fontRenderer.drawString(info, xPos + (104 - infoWidth)/2, yPos, playerRads.isImmune() ? 0x55FF55 : TextHelper.getFormatColor(RadiationHelper.getRadiationTextColor(playerRads)));
 		
 		GlStateManager.popMatrix();
 	}

@@ -5,7 +5,6 @@ import javax.annotation.Nullable;
 import nc.block.tile.IActivatable;
 import nc.capability.radiation.IRadiationSource;
 import nc.capability.radiation.RadiationSource;
-import nc.config.NCConfig;
 import nc.tile.ITile;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -30,7 +29,6 @@ public abstract class TileBeefBase extends TileEntity implements ITile, ITickabl
 	
 	public boolean isAdded;
 	public boolean isMarkedDirty;
-	public int tickCount;
 	
 	private IRadiationSource radiation;
 	
@@ -57,16 +55,6 @@ public abstract class TileBeefBase extends TileEntity implements ITile, ITickabl
 			getWorld().getChunkFromBlockCoords(getPos()).markDirty();
 		}
 		markDirty();
-	}
-	
-	@Override
-	public void tickTile() {
-		tickCount++; tickCount %= NCConfig.machine_update_rate;
-	}
-	
-	@Override
-	public boolean shouldTileCheck() {
-		return tickCount == 0;
 	}
 	
 	@Override

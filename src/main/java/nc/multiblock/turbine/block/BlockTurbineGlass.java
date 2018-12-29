@@ -1,16 +1,23 @@
 package nc.multiblock.turbine.block;
 
+import nc.multiblock.turbine.tile.TileTurbineGlass;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public abstract class BlockTurbineGlass extends BlockTurbinePartBase.Transparent {
+public class BlockTurbineGlass extends BlockTurbinePartBase.Transparent {
 
-	public BlockTurbineGlass(String name) {
-		super(name, true);
+	public BlockTurbineGlass() {
+		super("turbine_glass", true);
+	}
+
+	@Override
+	public TileEntity createNewTileEntity(World world, int metadata) {
+		return new TileTurbineGlass();
 	}
 	
 	@Override

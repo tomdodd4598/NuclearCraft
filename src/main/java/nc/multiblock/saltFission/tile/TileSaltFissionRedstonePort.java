@@ -10,6 +10,8 @@ public class TileSaltFissionRedstonePort extends TileSaltFissionPartBase {
 	
 	public int comparatorSignal = 0;
 	
+	protected int updateCount;
+	
 	public TileSaltFissionRedstonePort() {
 		super(CuboidalPartPositionType.WALL);
 	}
@@ -32,12 +34,11 @@ public class TileSaltFissionRedstonePort extends TileSaltFissionPartBase {
 	public void update() {
 		super.update();
 		tickTile();
-		if (shouldTileCheck()) updateBlock();
+		if (updateCount == 0) updateBlock();
 	}
 	
-	@Override
 	public void tickTile() {
-		tickCount++; tickCount %= NCConfig.machine_update_rate / 4;
+		updateCount++; updateCount %= NCConfig.machine_update_rate / 4;
 	}
 	
 	public void updateBlock() {

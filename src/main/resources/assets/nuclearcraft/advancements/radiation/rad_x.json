@@ -1,0 +1,26 @@
+{
+	"display": {
+		"icon": {
+			"item": "nuclearcraft:rad_x"
+		},
+		"title": {
+			"translate": "advancement.nuclearcraft.rad_x.name"
+		},
+		"description": {
+			"translate": "advancement.nuclearcraft.rad_x.desc"
+		}
+	},
+	"parent": "nuclearcraft:radiation/radaway",
+	"criteria": {
+		"has_item": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"item": "nuclearcraft:rad_x"
+					}
+				]
+			}
+		}
+	}
+}

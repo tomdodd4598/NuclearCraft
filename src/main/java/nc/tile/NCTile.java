@@ -5,7 +5,6 @@ import javax.annotation.Nullable;
 import nc.block.tile.IActivatable;
 import nc.capability.radiation.IRadiationSource;
 import nc.capability.radiation.RadiationSource;
-import nc.config.NCConfig;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
@@ -24,8 +23,6 @@ public abstract class NCTile extends TileEntity implements ITickable, ITile {
 	
 	public boolean isAdded;
 	public boolean isMarkedDirty;
-	
-	public int tickCount;
 	
 	public boolean alternateComparator;
 	
@@ -54,16 +51,6 @@ public abstract class NCTile extends TileEntity implements ITickable, ITile {
 			getWorld().getChunkFromBlockCoords(getPos()).markDirty();
 		}
 		markDirty();
-	}
-	
-	@Override
-	public void tickTile() {
-		tickCount++; tickCount %= NCConfig.machine_update_rate;
-	}
-	
-	@Override
-	public boolean shouldTileCheck() {
-		return tickCount == 0;
 	}
 	
 	@Override
@@ -198,6 +185,16 @@ public abstract class NCTile extends TileEntity implements ITickable, ITile {
 	@Override
 	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing side) {
 		if (capability == IRadiationSource.CAPABILITY_RADIATION_SOURCE) return (T) radiation;
+		return super.getCapability(capability, side);
+	}
+	
+	// For when the raw TE capabilities need to be reached:
+	
+	protected boolean hasCapabilityDefault(Capability<?> capability, @Nullable EnumFacing side) {
+		return super.hasCapability(capability, side);
+	}
+	
+	protected <T> T getCapabilityDefault(Capability<T> capability, @Nullable EnumFacing side) {
 		return super.getCapability(capability, side);
 	}
 }

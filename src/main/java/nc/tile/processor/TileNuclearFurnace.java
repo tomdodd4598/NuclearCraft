@@ -11,6 +11,7 @@ import nc.tile.dummy.IInterfaceable;
 import nc.tile.energyFluid.IBufferable;
 import nc.tile.inventory.ITileInventory;
 import nc.util.OreDictHelper;
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -28,9 +29,11 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.datafix.DataFixer;
 import net.minecraft.util.datafix.FixTypes;
 import net.minecraft.util.datafix.walkers.ItemStackDataLists;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -110,6 +113,7 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ISidedI
 		return furnaceItemStacks;
 	}
 	
+	@Override
 	public IRadiationSource getRadiationSource() {
 		return radiation;
 	}
@@ -417,5 +421,32 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ISidedI
 			}
 		}
 		return super.getCapability(capability, facing);
+	}
+	
+	//ITile
+	
+	@Override
+	public World getTileWorld() {
+		return world;
+	}
+	
+	@Override
+	public BlockPos getTilePos() {
+		return pos;
+	}
+	
+	@Override
+	public void markTileDirty() {
+		markDirty();
+	}
+	
+	@Override
+	public Block getTileBlockType() {
+		return getBlockType();
+	}
+	
+	@Override
+	public void setState(boolean isActive) {
+		
 	}
 }

@@ -1,16 +1,20 @@
 package nc.tile.dummy;
 
+import nc.config.NCConfig;
+import nc.tile.energy.ITileEnergy;
 import nc.tile.energyFluid.IBufferable;
+import nc.tile.fluid.ITileFluid;
+import nc.tile.internal.energy.EnergyConnection;
+import nc.tile.internal.fluid.FluidConnection;
+import nc.tile.internal.fluid.TankSorption;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 
 public class TileMachineInterface extends TileDummy<TileEntity> implements IBufferable {
 	
-	public int tickCount;
-
 	public TileMachineInterface() {
-		super(TileEntity.class, "machine_interface", 20, null);
+		super(TileEntity.class, "machine_interface", ITileEnergy.energyConnectionAll(EnergyConnection.BOTH), TankSorption.BOTH, NCConfig.machine_update_rate, null, ITileFluid.fluidConnectionAll(FluidConnection.BOTH));
 	}
 	
 	@Override

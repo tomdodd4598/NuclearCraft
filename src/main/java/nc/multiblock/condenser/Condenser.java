@@ -9,9 +9,12 @@ import nc.multiblock.IMultiblockPart;
 import nc.multiblock.MultiblockBase;
 import nc.multiblock.TileBeefBase.SyncReason;
 import nc.multiblock.condenser.tile.TileCondenserController;
+import nc.multiblock.container.ContainerCondenserController;
 import nc.multiblock.cuboidal.CuboidalMultiblockBase;
 import nc.multiblock.network.CondenserUpdatePacket;
 import nc.multiblock.validation.IMultiblockValidator;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
@@ -168,6 +171,10 @@ public class Condenser extends CuboidalMultiblockBase<CondenserUpdatePacket> {
 		// TODO
 	}
 	
+	public Container getContainer(EntityPlayer player) {
+		return new ContainerCondenserController(player, controller);
+	}
+	
 	// Multiblock Validators
 	
 	@Override
@@ -213,7 +220,6 @@ public class Condenser extends CuboidalMultiblockBase<CondenserUpdatePacket> {
 
 	@Override
 	protected CondenserUpdatePacket getUpdatePacket() {
-		// TODO Auto-generated method stub
-		return null;
+		return new CondenserUpdatePacket(controller.getPos(), isCondenserOn);
 	}
 }

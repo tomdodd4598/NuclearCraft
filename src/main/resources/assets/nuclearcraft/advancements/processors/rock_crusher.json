@@ -1,0 +1,26 @@
+{
+	"display": {
+		"icon": {
+			"item": "nuclearcraft:rock_crusher_active"
+		},
+		"title": {
+			"translate": "advancement.nuclearcraft.rock_crusher.name"
+		},
+		"description": {
+			"translate": "advancement.nuclearcraft.rock_crusher.desc"
+		}
+	},
+	"parent": "nuclearcraft:root",
+	"criteria": {
+		"has_item": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"item": "nuclearcraft:rock_crusher_idle"
+					}
+				]
+			}
+		}
+	}
+}

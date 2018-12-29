@@ -12,10 +12,11 @@ public class EntityRads implements IEntityRads {
 	private double radiationLevel = 0D;
 	private double radiationResistance = 0D;
 	private boolean radXWoreOff = false;
-	private double radawayBuffer = 0;
-	private boolean consumed;
-	private double radawayCooldown;
-	private double radXCooldown;
+	private double radawayBuffer = 0D;
+	private boolean consumed = false;
+	private double radawayCooldown = 0D;
+	private double radXCooldown = 0D;
+	private double radiationImmunityTime = 0D;
 	
 	public EntityRads(double maxRads) {
 		this.maxRads = maxRads;
@@ -29,18 +30,20 @@ public class EntityRads implements IEntityRads {
 		nbt.setBoolean("radXWoreOff", getRadXWoreOff());
 		nbt.setDouble("radawayCooldown", getRadawayCooldown());
 		nbt.setDouble("radXCooldown", getRadXCooldown());
+		nbt.setDouble("radiationImmunityTime", getRadiationImmunityTime());
 		return nbt;
 	}
 
 	@Override
 	public void readNBT(IEntityRads instance, EnumFacing side, NBTTagCompound nbt) {
-		setTotalRads(nbt.getDouble("totalRads"));
+		setTotalRads(nbt.getDouble("totalRads"), false);
 		setRadiationLevel(nbt.getDouble("radiationLevel"));
 		setRadiationResistance(nbt.getDouble("radiationResistance"));
 		setRadXWoreOff(nbt.getBoolean("radXWoreOff"));
 		setRadawayBuffer(nbt.getDouble("radawayBuffer"));
 		setRadawayCooldown(nbt.getDouble("radawayCooldown"));
 		setRadXCooldown(nbt.getDouble("radXCooldown"));
+		setRadiationImmunityTime(nbt.getDouble("radiationImmunityTime"));
 	}
 
 	@Override
@@ -49,8 +52,8 @@ public class EntityRads implements IEntityRads {
 	}
 
 	@Override
-	public void setTotalRads(double newTotalRads) {
-		totalRads = MathHelper.clamp(newTotalRads, 0D, maxRads);
+	public void setTotalRads(double newTotalRads, boolean useImmunity) {
+		if (!useImmunity || getRadiationImmunityTime() <= 0D) totalRads = MathHelper.clamp(newTotalRads, 0D, maxRads);
 	}
 	
 	@Override
@@ -136,5 +139,15 @@ public class EntityRads implements IEntityRads {
 	@Override
 	public boolean canConsumeRadX() {
 		return !consumed && radXCooldown <= 0D;
+	}
+	
+	@Override
+	public double getRadiationImmunityTime() {
+		return radiationImmunityTime;
+	}
+
+	@Override
+	public void setRadiationImmunityTime(double newRadiationImmunityTime) {
+		radiationImmunityTime = Math.max(newRadiationImmunityTime, 0D);
 	}
 }

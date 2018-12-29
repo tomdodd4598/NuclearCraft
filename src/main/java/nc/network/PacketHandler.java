@@ -1,7 +1,9 @@
 package nc.network;
 
+import nc.multiblock.network.CondenserUpdatePacket;
 import nc.multiblock.network.HeatExchangerUpdatePacket;
 import nc.multiblock.network.SaltFissionUpdatePacket;
+import nc.multiblock.network.TurbineUpdatePacket;
 import nc.network.gui.EmptyTankButtonPacket;
 import nc.network.gui.GetFluidInTankPacket;
 import nc.network.gui.ReturnFluidInTankPacket;
@@ -50,6 +52,8 @@ public class PacketHandler {
 		instance.registerMessage(FusionUpdatePacket.Handler.class, FusionUpdatePacket.class, nextID(), Side.CLIENT);
 		instance.registerMessage(SaltFissionUpdatePacket.Handler.class, SaltFissionUpdatePacket.class, nextID(), Side.CLIENT);
 		instance.registerMessage(HeatExchangerUpdatePacket.Handler.class, HeatExchangerUpdatePacket.class, nextID(), Side.CLIENT);
+		instance.registerMessage(TurbineUpdatePacket.Handler.class, TurbineUpdatePacket.class, nextID(), Side.CLIENT);
+		instance.registerMessage(CondenserUpdatePacket.Handler.class, CondenserUpdatePacket.class, nextID(), Side.CLIENT);
 		instance.registerMessage(PlayerRadsUpdatePacket.Handler.class, PlayerRadsUpdatePacket.class, nextID(), Side.CLIENT);
 	}
 }

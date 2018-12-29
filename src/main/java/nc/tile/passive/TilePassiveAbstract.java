@@ -36,11 +36,12 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 
-public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory implements /*IInterfaceable,*/ ITilePassive {
+public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory implements ITilePassive {
 	
-	public int tickCount;
+	protected int tickCount;
+	
 	public final int updateRate;
-	public boolean isRunning;
+	public boolean isActive;
 	public boolean energyBool;
 	public boolean stackBool;
 	public boolean fluidBool;
@@ -85,7 +86,7 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 	}
 	
 	public TilePassiveAbstract(String name, IItemIngredient item, int itemChange, int energyChange, Fluid fluid, int fluidChange, int changeRate, List<String> fluidTypes) {
-		super(name, 1, energyChange == 0 ? 1 : NCConfig.rf_per_eu*MathHelper.abs(energyChange)*changeRate, energyChange == 0 ? 0 : NCConfig.rf_per_eu*MathHelper.abs(energyChange), energyChange > 0 ? ITileEnergy.energyConnectionAll(EnergyConnection.OUT) : (energyChange < 0 ? ITileEnergy.energyConnectionAll(EnergyConnection.IN) : ITileEnergy.energyConnectionAll(EnergyConnection.NON)), fluidChange == 0 ? 1 : 2*MathHelper.abs(fluidChange)*changeRate, fluidChange > 0 ? TankSorption.OUT : (fluidChange < 0 ? TankSorption.IN : TankSorption.NON), fluidTypes, fluidChange > 0 ? ITileFluid.fluidConnectionAll(FluidConnection.OUT) : (fluidChange < 0 ? ITileFluid.fluidConnectionAll(FluidConnection.IN) : ITileFluid.fluidConnectionAll(FluidConnection.NON)));
+		super(name, 1, energyChange == 0 ? 1 : NCConfig.rf_per_eu*MathHelper.abs(energyChange)*changeRate, energyChange == 0 ? 0 : NCConfig.rf_per_eu*MathHelper.abs(energyChange), energyChange > 0 ? ITileEnergy.energyConnectionAll(EnergyConnection.OUT) : (energyChange < 0 ? ITileEnergy.energyConnectionAll(EnergyConnection.IN) : ITileEnergy.energyConnectionAll(EnergyConnection.NON)), fluidChange == 0 ? 1 : 6*MathHelper.abs(fluidChange)*changeRate, fluidChange > 0 ? TankSorption.OUT : (fluidChange < 0 ? TankSorption.IN : TankSorption.NON), fluidTypes, fluidChange > 0 ? ITileFluid.fluidConnectionAll(FluidConnection.OUT) : (fluidChange < 0 ? ITileFluid.fluidConnectionAll(FluidConnection.IN) : ITileFluid.fluidConnectionAll(FluidConnection.NON)));
 		this.energyChange = energyChange*changeRate;
 		this.itemChange = itemChange*changeRate;
 		stackChange = new ItemIngredient(ItemStackHelper.changeStackSize(item.getStack(), MathHelper.abs(itemChange)*changeRate));
@@ -97,8 +98,8 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 	
 	@Override
 	public void update() {
-		boolean flag = isRunning;
-		boolean flag1 = false;
+		boolean wasActive = isActive;
+		boolean shouldUpdate = false;
 		super.update();
 		if(!world.isRemote) {
 			if (shouldUpdate()) {
@@ -106,17 +107,16 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 				stackBool = changeStack(false);
 				fluidBool = changeFluid(false);
 			}
-			isRunning = isRunning(energyBool, stackBool, fluidBool);
-			if (flag != isRunning) {
-				flag1 = true;
+			isActive = isRunning(energyBool, stackBool, fluidBool);
+			if (wasActive != isActive) {
+				shouldUpdate = true;
 				updateBlockType();
 			}
-			if (itemChange > 0) pushStacks();
+			if (itemChange > 0) pushStacks(this);
 			if (energyChange > 0) pushEnergy();
 			if (fluidChange > 0) pushFluid();
-		}
-		if (flag1) {
-			markDirty();
+			
+			if (shouldUpdate) markDirty();
 		}
 	}
 	
@@ -124,26 +124,18 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 		return tickCount == 0;
 	}
 	
-	@Override
-	public boolean shouldTileCheck() {
-		int currentCount = tickCount;
-		currentCount %= (updateRate/20);
-		return currentCount == 0;
-	}
-	
-	@Override
 	public void tickTile() {
 		tickCount++; tickCount %= updateRate;
 	}
 	
 	public void updateBlockType() {
 		if (ModCheck.ic2Loaded()) removeTileFromENet();
-		setState(isRunning);
+		setState(isActive);
 		world.notifyNeighborsOfStateChange(pos, getBlockType(), true);
 		if (ModCheck.ic2Loaded()) addTileToENet();
 	}
 	
-	public boolean changeEnergy(boolean simulateChange) {
+	protected boolean changeEnergy(boolean simulateChange) {
 		if (energyChange == 0) return simulateChange;
 		if (getEnergyStorage().getEnergyStored() >= getEnergyStorage().getMaxEnergyStored() && energyChange > 0) return false;
 		if (getEnergyStorage().getEnergyStored() < MathHelper.abs(energyChange) && energyChange < 0) return false;
@@ -153,7 +145,7 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 		return true;
 	}
 	
-	public boolean changeStack(boolean simulateChange) {
+	protected boolean changeStack(boolean simulateChange) {
 		if (itemChange == 0) return simulateChange;
 		if (!stackChange.matches(inventoryStacks.get(0), IngredientSorption.NEUTRAL) && !inventoryStacks.get(0).isEmpty() && !simulateChange) inventoryStacks.set(0, ItemStack.EMPTY);
 		if (itemChange > 0) {
@@ -177,11 +169,11 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 		}
 	}
 	
-	public void setNewStack() {
+	protected void setNewStack() {
 		inventoryStacks.set(0, stackChange.getStack());
 	}
 	
-	public boolean changeFluid(boolean simulateChange) {
+	protected boolean changeFluid(boolean simulateChange) {
 		if (fluidChange == 0) return simulateChange;
 		if (getTanks().get(0).getFluidAmount() >= getTanks().get(0).getCapacity() && fluidChange > 0) return false;
 		if (getTanks().get(0).getFluidAmount() < MathHelper.abs(fluidChange) && fluidChange < 0) return false;
@@ -196,7 +188,7 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 		return true;
 	}
 	
-	public boolean isRunning(boolean energy, boolean stack, boolean fluid) {
+	protected boolean isRunning(boolean energy, boolean stack, boolean fluid) {
 		if (energyChange == 0 && itemChange == 0 && fluidChange == 0) return true;
 		if (energyChange >= 0) {
 			if (itemChange >= 0) {
@@ -251,7 +243,7 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 	
 	@Override
 	public int getInventoryStackLimit() {
-		return itemChange == 0 ? 1 : 2*MathHelper.abs(itemChange);
+		return itemChange == 0 ? 1 : 6*MathHelper.abs(itemChange);
 	}
 	
 	// Sided Inventory
@@ -288,7 +280,7 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 	@Override
 	public NBTTagCompound writeAll(NBTTagCompound nbt) {
 		super.writeAll(nbt);
-		nbt.setBoolean("isRunning", isRunning);
+		nbt.setBoolean("isRunning", isActive);
 		nbt.setBoolean("energyBool", energyBool);
 		nbt.setBoolean("stackBool", stackBool);
 		nbt.setBoolean("fluidBool", fluidBool);
@@ -298,7 +290,7 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 	@Override
 	public void readAll(NBTTagCompound nbt) {
 		super.readAll(nbt);
-		isRunning = nbt.getBoolean("isRunning");
+		isActive = nbt.getBoolean("isRunning");
 		energyBool = nbt.getBoolean("energyBool");
 		stackBool = nbt.getBoolean("stackBool");
 		fluidBool = nbt.getBoolean("fluidBool");
@@ -324,7 +316,8 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 			if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) return true;
 		}
 		if (capability == IRadiationSource.CAPABILITY_RADIATION_SOURCE) return true;
-		return false;
+		
+		return hasCapabilityDefault(capability, side);
 	}
 	
 	@Override
@@ -343,6 +336,7 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 			if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) return (T) itemHandler;
 		}
 		if (capability == IRadiationSource.CAPABILITY_RADIATION_SOURCE) return (T) getRadiationSource();
-		return null;
+		
+		return getCapabilityDefault(capability, side);
 	}
 }

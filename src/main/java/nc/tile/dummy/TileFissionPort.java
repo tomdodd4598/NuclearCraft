@@ -21,6 +21,7 @@ import nc.util.BlockFinder;
 import nc.util.EnergyHelper;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.fml.common.Optional;
@@ -46,11 +47,6 @@ public class TileFissionPort extends TileDummy<TileFissionController> implements
 	public void onAdded() {
 		finder = new BlockFinder(pos, world, getBlockMetadata());
 		super.onAdded();
-	}
-	
-	@Override
-	public void tickTile() {
-		tickCount++; tickCount %= 4*NCConfig.machine_update_rate;
 	}
 	
 	private int getNumberOfPorts() {
@@ -100,6 +96,9 @@ public class TileFissionPort extends TileDummy<TileFissionController> implements
 			getEnergyStorage().extractEnergy(adjStorage.receiveEnergy(getEnergyStorage().extractEnergy(getCurrentEnergyStored()/getNumberOfPorts(), true), false), false);
 			return;
 		}
+		
+		if (getEnergyStorage().getEnergyStored() < NCConfig.rf_per_eu) return;
+		
 		if (ModCheck.ic2Loaded()) {
 			if (tile instanceof IEnergySink) {
 				getEnergyStorage().extractEnergy((int) Math.round(((IEnergySink) tile).injectEnergy(side.getOpposite(), getEnergyStorage().extractEnergy(getCurrentEnergyStored()/getNumberOfPorts(), true)/NCConfig.rf_per_eu, getSourceTier())*NCConfig.rf_per_eu), false);
@@ -109,7 +108,7 @@ public class TileFissionPort extends TileDummy<TileFissionController> implements
 		if (ModCheck.gregtechLoaded()) {
 			IEnergyContainer adjStorageGT = tile.getCapability(GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER, side.getOpposite());
 			if (adjStorageGT != null && getEnergyStorage().canExtract()) {
-				int voltage = Math.min(EnergyHelper.getMaxEUFromTier(getEUSourceTier()), (getCurrentEnergyStored()/getNumberOfPorts())/NCConfig.rf_per_eu);
+				int voltage = MathHelper.clamp((getCurrentEnergyStored()/getNumberOfPorts())/NCConfig.rf_per_eu, 1, EnergyHelper.getMaxEUFromTier(getEUSourceTier()));
 				getEnergyStorage().extractEnergy((int)Math.min(voltage*adjStorageGT.acceptEnergyFromNetwork(side.getOpposite(), voltage, 1)*NCConfig.rf_per_eu, Integer.MAX_VALUE), false);
 				return;
 			}
@@ -394,15 +393,8 @@ public class TileFissionPort extends TileDummy<TileFissionController> implements
 	
 	@Callback
 	@Optional.Method(modid = "opencomputers")
-	public Object[] trackReactorLayout(Context context, Arguments args) {
-		if (hasMaster() && args.isBoolean(0)) getMaster().readLayout = args.checkBoolean(0);
-		return new Object[] {};
-	}
-	
-	@Callback
-	@Optional.Method(modid = "opencomputers")
 	public Object[] getReactorLayout(Context context, Arguments args) {
-		return hasMaster() ? (getMaster().complete == 1 && getMaster().readLayout ? getMaster().layout : new Object[] {}) : new Object[] {};
+		return hasMaster() ? getMaster().getOCReactorLayout() : new Object[] {};
 	}
 	
 	@Callback
@@ -416,6 +408,13 @@ public class TileFissionPort extends TileDummy<TileFissionController> implements
 	@Optional.Method(modid = "opencomputers")
 	public Object[] deactivate(Context context, Arguments args) {
 		if (hasMaster()) getMaster().computerActivated = false;
+		return new Object[] {};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] forceUpdate(Context context, Arguments args) {
+		if (hasMaster()) getMaster().refreshMultiblock(true);
 		return new Object[] {};
 	}
 }

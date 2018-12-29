@@ -10,7 +10,10 @@ import nc.config.NCConfig;
 import nc.init.NCBlocks;
 import nc.recipe.NCRecipes;
 import nc.tile.energyFluid.IBufferable;
+import nc.tile.fluid.ITileFluid;
 import nc.tile.generator.TileFusionCore;
+import nc.tile.internal.fluid.FluidConnection;
+import nc.tile.internal.fluid.TankSorption;
 import nc.util.BlockFinder;
 import nc.util.BlockPosHelper;
 import nc.util.RecipeHelper;
@@ -23,7 +26,7 @@ import net.minecraftforge.fml.common.Optional;
 public abstract class TileFusionDummy extends TileDummy<TileFusionCore> implements IBufferable, Environment {
 	
 	// Type can't be specified here as OC may not be loaded
-	Object node;
+	Object oc_node;
 	
 	public static class Side extends TileFusionDummy {
 		public Side() {
@@ -60,7 +63,7 @@ public abstract class TileFusionDummy extends TileDummy<TileFusionCore> implemen
 	private BlockFinder finder;
 	
 	public TileFusionDummy(String name) {
-		super(TileFusionCore.class, name, NCConfig.machine_update_rate, RecipeHelper.validFluids(NCRecipes.Type.FUSION).get(0));
+		super(TileFusionCore.class, name, TankSorption.BOTH, NCConfig.machine_update_rate, RecipeHelper.validFluids(NCRecipes.Type.FUSION).get(0), ITileFluid.fluidConnectionAll(FluidConnection.BOTH));
 	}
 	
 	@Override
@@ -72,11 +75,11 @@ public abstract class TileFusionDummy extends TileDummy<TileFusionCore> implemen
 	@Override
 	public void update() {
 		super.update();
-		if (ModCheck.openComputersLoaded()) refreshNode();
 		if(!world.isRemote) {
+			if (ModCheck.openComputersLoaded()) refreshNode();
 			pushEnergy();
+			if (checkCount == 0 && findAdjacentComparator()) markDirty();
 		}
-		if (findAdjacentComparator() && shouldTileCheck()) markDirty();
 	}
 	
 	@Override
@@ -119,25 +122,19 @@ public abstract class TileFusionDummy extends TileDummy<TileFusionCore> implemen
 	
 	@Optional.Method(modid = "opencomputers")
 	public void removeNode() {
-		if (node instanceof Node) ((Node)node).remove();
+		if (oc_node instanceof Node) ((Node)oc_node).remove();
 	}
 	
 	@Optional.Method(modid = "opencomputers")
 	public void refreshNode() {
-		if (node() == null) node = Network.newNode(this, Visibility.None).create();
+		if (node() == null) oc_node = Network.newNode(this, Visibility.None).create();
 		if (node() != null && node().network() == null) Network.joinOrCreateNetwork(this);
 	}
-	
-	/*@Override
-	@Optional.Method(modid = "opencomputers")
-	public String getComponentName() {
-		return Global.MOD_SHORT_ID + "_fusion_reactor_dummy";
-	}*/
 	
 	@Override
 	@Optional.Method(modid = "opencomputers")
 	public Node node() {
-		return (Node)node;
+		return (Node)oc_node;
 	}
 
 	@Override

@@ -72,6 +72,8 @@ public class TileHeatExchangerTube extends TileHeatExchangerPartBase implements 
 	
 	private final double conductivity;
 	
+	protected int tubeCount;
+	
 	public static class Copper extends TileHeatExchangerTube {
 		
 		public Copper() {
@@ -180,13 +182,13 @@ public class TileHeatExchangerTube extends TileHeatExchangerPartBase implements 
 			boolean wasProcessing = isProcessing;
 			isProcessing = isProcessing();
 			boolean shouldUpdate = false;
-			tickTile();
+			tickTube();
 			if (isProcessing) process();
 			if (wasProcessing != isProcessing) {
 				shouldUpdate = true;
 			}
-			if (shouldTileCheck()) {
-				pushFluid();
+			pushFluid();
+			if (tubeCount == 0) {
 				refreshRecipe();
 				refreshActivity();
 			}
@@ -194,9 +196,8 @@ public class TileHeatExchangerTube extends TileHeatExchangerPartBase implements 
 		}
 	}
 	
-	@Override
-	public void tickTile() {
-		tickCount++; tickCount %= NCConfig.machine_update_rate / 2;
+	public void tickTube() {
+		tubeCount++; tubeCount %= NCConfig.machine_update_rate / 2;
 	}
 	
 	@Override

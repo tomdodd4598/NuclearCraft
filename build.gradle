@@ -49,7 +49,7 @@ minecraft {
 	runDir = "run"
 	replace "@VERSION@", "${mod_version}"
 	mappings = "snapshot_20171003"
-	makeObfSourceJar = false
+	makeObfSourceJar = true
 }
 
 dependencies {

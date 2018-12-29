@@ -7,6 +7,7 @@ import nc.block.NCBlock;
 import nc.init.NCItems;
 import nc.tile.IGui;
 import nc.tile.fluid.ITileFluid;
+import nc.tile.processor.IProcessor;
 import nc.tile.processor.IUpgradable;
 import nc.util.FluidHelper;
 import net.minecraft.block.ITileEntityProvider;
@@ -61,7 +62,13 @@ public abstract class BlockTile extends NCBlock implements ITileEntityProvider {
 			ITileFluid tileFluid = (ITileFluid) tile;
 			if (tileFluid.getTanks() != null) {
 				boolean accessedTanks = FluidHelper.accessTanks(player, hand, tileFluid.getTanks());
-				if (accessedTanks) return true;
+				if (accessedTanks) {
+					if (tile instanceof IProcessor) {
+						((IProcessor) tile).refreshRecipe();
+						((IProcessor) tile).refreshActivity();
+					}
+					return true;
+				}
 			}
 		}
 		if (tile instanceof IGui) {
@@ -70,8 +77,11 @@ public abstract class BlockTile extends NCBlock implements ITileEntityProvider {
 				return true;
 			} else {
 				onGuiOpened(world, pos);
-				IGui tileGui = (IGui) tile;
-				FMLNetworkHandler.openGui(player, NuclearCraft.instance, tileGui.getGuiID(), world, pos.getX(), pos.getY(), pos.getZ());
+				if (tile instanceof IProcessor) {
+					((IProcessor) tile).refreshRecipe();
+					((IProcessor) tile).refreshActivity();
+				}
+				FMLNetworkHandler.openGui(player, NuclearCraft.instance, ((IGui) tile).getGuiID(), world, pos.getX(), pos.getY(), pos.getZ());
 			}
 		}
 		else return false;

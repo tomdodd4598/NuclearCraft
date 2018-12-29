@@ -214,7 +214,8 @@ public class NCConfig {
 	public static double radiation_rad_x_lifetime;
 	public static double radiation_rad_x_cooldown;
 	public static double[] radiation_shielding_level;
-	public static double radiation_scrubber_rate;
+	public static double radiation_scrubber_fraction;
+	public static int radiation_scrubber_power;
 	public static int radiation_scrubber_borax_rate;
 	
 	public static boolean radiation_shielding_default_recipes;
@@ -225,6 +226,7 @@ public class NCConfig {
 	public static boolean radiation_hardcore_stacks;
 	public static boolean radiation_death_persist;
 	public static double radiation_death_persist_fraction;
+	public static double radiation_death_immunity_time;
 	
 	public static boolean radiation_passive_debuffs;
 	public static boolean radiation_mob_buffs;
@@ -592,7 +594,7 @@ public class NCConfig {
 		Property propertyRadiationBiomes = config.get(CATEGORY_RADIATION, "radiation_biomes", new String[] {"nuclearcraft:nuclear_wasteland_0.25"}, Lang.localise("gui.config.radiation.radiation_biomes.comment"));
 		propertyRadiationBiomes.setLanguageKey("gui.config.radiation.radiation_biomes");
 		
-		Property propertyRadiationOres = config.get(CATEGORY_RADIATION, "radiation_ores", new String[] {}, Lang.localise("gui.config.radiation.radiation_ores.comment"));
+		Property propertyRadiationOres = config.get(CATEGORY_RADIATION, "radiation_ores", new String[] {"depletedFuelIC2U_" + (RadSources.URANIUM_238*4D + RadSources.PLUTONIUM_239/9D), "depletedFuelIC2MOX_" + (RadSources.PLUTONIUM_239*28D/9D)}, Lang.localise("gui.config.radiation.radiation_ores.comment"));
 		propertyRadiationOres.setLanguageKey("gui.config.radiation.radiation_ores");
 		Property propertyRadiationItems = config.get(CATEGORY_RADIATION, "radiation_items", new String[] {"ic2:nuclear:0_0.000000000048108553", "ic2:nuclear:1_" + RadSources.URANIUM_235, "ic2:nuclear:2_" + RadSources.URANIUM_238, "ic2:nuclear:3_" + RadSources.PLUTONIUM_239, "ic2:nuclear:4_0.000000833741517857143", "ic2:nuclear:5_" + (RadSources.URANIUM_235/9D), "ic2:nuclear:6_" + (RadSources.URANIUM_238/9D), "ic2:nuclear:7_" + (RadSources.PLUTONIUM_239/9D), "ic2:nuclear:8_0.000000000048108553", "ic2:nuclear:9_0.000000833741517857143", "ic2:nuclear:10_" + (RadSources.PLUTONIUM_238*3D), "ic2:nuclear:11_" + (RadSources.URANIUM_238*4D + RadSources.PLUTONIUM_239/9D), "ic2:nuclear:12_" + ((RadSources.URANIUM_238*4D + RadSources.PLUTONIUM_239/9D)*2D), "ic2:nuclear:13_" + ((RadSources.URANIUM_238*4D + RadSources.PLUTONIUM_239/9D)*4D), "ic2:nuclear:14_" + (RadSources.PLUTONIUM_239*28D/9D), "ic2:nuclear:15_" + (RadSources.PLUTONIUM_239*2D*28D/9D), "ic2:nuclear:16_" + (RadSources.PLUTONIUM_239*4D*28D/9D)}, Lang.localise("gui.config.radiation.radiation_items.comment"));
 		propertyRadiationItems.setLanguageKey("gui.config.radiation.radiation_items");
@@ -622,8 +624,10 @@ public class NCConfig {
 		propertyRadiationRadXCooldown.setLanguageKey("gui.config.radiation.radiation_rad_x_cooldown");
 		Property propertyRadiationShieldingLevel = config.get(CATEGORY_RADIATION, "radiation_shielding_level", new double[] {0.0001D, 0.01D, 1D}, Lang.localise("gui.config.radiation.radiation_shielding_level.comment"), 0.000000000000000001D, 1000D);
 		propertyRadiationShieldingLevel.setLanguageKey("gui.config.radiation.radiation_shielding_level");
-		Property propertyRadiationScrubberRate = config.get(CATEGORY_RADIATION, "radiation_scrubber_rate", 0.025D, Lang.localise("gui.config.radiation.radiation_scrubber_rate.comment"), 0.001D, 100D);
-		propertyRadiationScrubberRate.setLanguageKey("gui.config.radiation.radiation_scrubber_rate");
+		Property propertyRadiationScrubberRate = config.get(CATEGORY_RADIATION, "radiation_scrubber_fraction", 0.1D, Lang.localise("gui.config.radiation.radiation_scrubber_fraction.comment"), 0D, 1D);
+		propertyRadiationScrubberRate.setLanguageKey("gui.config.radiation.radiation_scrubber_fraction");
+		Property propertyRadiationScrubberPower = config.get(CATEGORY_RADIATION, "radiation_scrubber_power", 500, Lang.localise("gui.config.radiation.radiation_scrubber_power.comment"), 0, Integer.MAX_VALUE);
+		propertyRadiationScrubberPower.setLanguageKey("gui.config.radiation.radiation_scrubber_power");
 		Property propertyRadiationScrubberBoraxRate = config.get(CATEGORY_RADIATION, "radiation_scrubber_borax_rate", 0, Lang.localise("gui.config.radiation.radiation_scrubber_borax_rate.comment"), 0, 100);
 		propertyRadiationScrubberBoraxRate.setLanguageKey("gui.config.radiation.radiation_scrubber_borax_rate");
 		
@@ -642,6 +646,8 @@ public class NCConfig {
 		propertyRadiationDeathPersist.setLanguageKey("gui.config.radiation.radiation_death_persist");
 		Property propertyRadiationDeathPersistFraction = config.get(CATEGORY_RADIATION, "radiation_death_persist_fraction", 0.5D, Lang.localise("gui.config.radiation.radiation_death_persist_fraction.comment"), 0D, 1D);
 		propertyRadiationDeathPersistFraction.setLanguageKey("gui.config.radiation.radiation_death_persist_fraction");
+		Property propertyRadiationDeathImmunityTime = config.get(CATEGORY_RADIATION, "radiation_death_immunity_time", 60D, Lang.localise("gui.config.radiation.radiation_death_immunity_time.comment"), 0D, 3600D);
+		propertyRadiationDeathImmunityTime.setLanguageKey("gui.config.radiation.radiation_death_immunity_time");
 		
 		Property propertyRadiationPassiveDebuffs = config.get(CATEGORY_RADIATION, "radiation_passive_debuffs", true, Lang.localise("gui.config.radiation.radiation_passive_debuffs.comment"));
 		propertyRadiationPassiveDebuffs.setLanguageKey("gui.config.radiation.radiation_passive_debuffs");
@@ -913,6 +919,7 @@ public class NCConfig {
 		propertyOrderRadiation.add(propertyRadiationRadXCooldown.getName());
 		propertyOrderRadiation.add(propertyRadiationShieldingLevel.getName());
 		propertyOrderRadiation.add(propertyRadiationScrubberRate.getName());
+		propertyOrderRadiation.add(propertyRadiationScrubberPower.getName());
 		propertyOrderRadiation.add(propertyRadiationScrubberBoraxRate.getName());
 		propertyOrderRadiation.add(propertyRadiationShieldingDefaultRecipes.getName());
 		propertyOrderRadiation.add(propertyRadiationShieldingItemBlacklist.getName());
@@ -921,6 +928,7 @@ public class NCConfig {
 		propertyOrderRadiation.add(propertyRadiationHardcoreStacks.getName());
 		propertyOrderRadiation.add(propertyRadiationDeathPersist.getName());
 		propertyOrderRadiation.add(propertyRadiationDeathPersistFraction.getName());
+		propertyOrderRadiation.add(propertyRadiationDeathImmunityTime.getName());
 		propertyOrderRadiation.add(propertyRadiationPassiveDebuffs.getName());
 		propertyOrderRadiation.add(propertyRadiationMobBuffs.getName());
 		propertyOrderRadiation.add(propertyRadiationHUDSize.getName());
@@ -1134,7 +1142,8 @@ public class NCConfig {
 			radiation_rad_x_lifetime = propertyRadiationRadXLifetime.getDouble();
 			radiation_rad_x_cooldown = propertyRadiationRadXCooldown.getDouble();
 			radiation_shielding_level = readDoubleArrayFromConfig(propertyRadiationShieldingLevel);
-			radiation_scrubber_rate = propertyRadiationScrubberRate.getDouble();
+			radiation_scrubber_fraction = propertyRadiationScrubberRate.getDouble();
+			radiation_scrubber_power = propertyRadiationScrubberPower.getInt();
 			radiation_scrubber_borax_rate = propertyRadiationScrubberBoraxRate.getInt();
 			
 			radiation_shielding_default_recipes = propertyRadiationShieldingDefaultRecipes.getBoolean();
@@ -1145,6 +1154,7 @@ public class NCConfig {
 			radiation_hardcore_stacks = propertyRadiationHardcoreStacks.getBoolean();
 			radiation_death_persist = propertyRadiationDeathPersist.getBoolean();
 			radiation_death_persist_fraction = propertyRadiationDeathPersistFraction.getDouble();
+			radiation_death_immunity_time = propertyRadiationDeathImmunityTime.getDouble();
 			
 			radiation_passive_debuffs = propertyRadiationPassiveDebuffs.getBoolean();
 			radiation_mob_buffs = propertyRadiationMobBuffs.getBoolean();
@@ -1358,7 +1368,8 @@ public class NCConfig {
 		propertyRadiationRadXLifetime.set(radiation_rad_x_lifetime);
 		propertyRadiationRadXCooldown.set(radiation_rad_x_cooldown);
 		propertyRadiationShieldingLevel.set(radiation_shielding_level);
-		propertyRadiationScrubberRate.set(radiation_scrubber_rate);
+		propertyRadiationScrubberRate.set(radiation_scrubber_fraction);
+		propertyRadiationScrubberPower.set(radiation_scrubber_power);
 		propertyRadiationScrubberBoraxRate.set(radiation_scrubber_borax_rate);
 		
 		propertyRadiationShieldingDefaultRecipes.set(radiation_shielding_default_recipes);
@@ -1369,6 +1380,7 @@ public class NCConfig {
 		propertyRadiationHardcoreStacks.set(radiation_hardcore_stacks);
 		propertyRadiationDeathPersist.set(radiation_death_persist);
 		propertyRadiationDeathPersistFraction.set(radiation_death_persist_fraction);
+		propertyRadiationDeathImmunityTime.set(radiation_death_immunity_time);
 		
 		propertyRadiationPassiveDebuffs.set(radiation_passive_debuffs);
 		propertyRadiationMobBuffs.set(radiation_mob_buffs);

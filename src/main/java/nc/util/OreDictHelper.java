@@ -1,7 +1,10 @@
 package nc.util;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 import com.google.common.collect.Lists;
 
@@ -31,8 +34,7 @@ public class OreDictHelper {
 	public static final List<String> BLOCK_VOLUME_TYPES = Lists.newArrayList("block");
 	
 	public static boolean isOreMatching(ItemStack stack, ItemStack target) {
-		for (int oreID : OreDictionary.getOreIDs(target)) {
-			String oreName = OreDictionary.getOreName(oreID);
+		for (String oreName : getOreNames(target)) {
 			for (ItemStack ore : OreDictionary.getOres(oreName)) {
 				if (ItemStack.areItemsEqual(ore, stack)) return true;
 			}
@@ -59,16 +61,16 @@ public class OreDictHelper {
 	}
 	
 	public static String getOreNameFromStacks(List<ItemStack> stackList) {
-		List<Integer> idList = new ArrayList<Integer>();
+		List<String> oreNameList = new ArrayList<String>();
 		if (stackList.isEmpty() || stackList == null) return "Unknown";
-		idList.addAll(ArrayHelper.asIntegerList(OreDictionary.getOreIDs(stackList.get(0))));
+		oreNameList.addAll(getOreNames(stackList.get(0)));
 		
 		for (ItemStack stack : stackList) {
 			if (stack.isEmpty() || stack == null) return "Unknown";
-			idList = ArrayHelper.intersect(idList, ArrayHelper.asIntegerList(OreDictionary.getOreIDs(stack)));
-			if (idList.isEmpty()) return "Unknown";
+			oreNameList = ArrayHelper.intersect(oreNameList, getOreNames(stack));
+			if (oreNameList.isEmpty()) return "Unknown";
 		}
-		return OreDictionary.getOreName(idList.get(0));
+		return oreNameList.get(0);
 	}
 	
 	public static boolean getBlockMatchesOre(World world, BlockPos pos, String... names) {
@@ -119,5 +121,42 @@ public class OreDictHelper {
 	
 	public static ItemStack getPrioritisedCraftingStack(Block backup, String ore) {
 		return getPrioritisedCraftingStack(backup == null ? ItemStack.EMPTY : new ItemStack(backup), ore);
+	}
+	
+	private static final Map<StackEntry, List<String>> ORE_DICT_CACHE = new HashMap <StackEntry, List<String>>();
+	
+	public static List<String> getOreNames(ItemStack stack) {
+		List<String> names = new ArrayList<String>();
+		if (stack == null || stack.isEmpty()) return names;
+		StackEntry key = new StackEntry(stack);
+		if (!ORE_DICT_CACHE.containsKey(key)) {
+			for (int oreID : OreDictionary.getOreIDs(stack)) names.add(OreDictionary.getOreName(oreID));
+			ORE_DICT_CACHE.put(key, names);
+			return names;
+		}
+		return ORE_DICT_CACHE.get(key);
+	}
+	
+	private static class StackEntry {
+		
+		final Item item;
+		final int meta;
+		
+		private StackEntry(ItemStack stack) {
+			item = stack.getItem();
+			meta = stack.getMetadata();
+		}
+		
+		@Override
+		public boolean equals(Object other) {
+			if (other instanceof StackEntry) return item == ((StackEntry)other).item && meta == ((StackEntry)other).meta;
+			else if (other instanceof ItemStack) return item == ((ItemStack)other).getItem() && meta == ((ItemStack)other).getMetadata();
+			else return false;
+		}
+		
+		@Override
+		public int hashCode() {
+			return Objects.hash(item, meta);
+		}
 	}
 }

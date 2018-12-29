@@ -3,14 +3,14 @@ package nc.multiblock.turbine.tile;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.turbine.Turbine;
 
-public abstract class TileTurbineWall<TURBINE extends Turbine> extends TileTurbinePartBase<TURBINE> {
+public class TileTurbineWall extends TileTurbinePartBase {
 	
-	public TileTurbineWall(Class<TURBINE> tClass) {
-		super(tClass, CuboidalPartPositionType.WALL);
+	public TileTurbineWall() {
+		super(CuboidalPartPositionType.WALL);
 	}
 	
 	@Override
-	public void onMachineAssembled(TURBINE controller) {
+	public void onMachineAssembled(Turbine controller) {
 		doStandardNullControllerResponse(controller);
 		super.onMachineAssembled(controller);
 		if (getWorld().isRemote) return;

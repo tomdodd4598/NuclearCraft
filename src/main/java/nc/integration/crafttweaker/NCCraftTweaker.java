@@ -1141,53 +1141,28 @@ public class NCCraftTweaker {
 		}
 	}
 	
-	@ZenClass("mods.nuclearcraft.high_turbine")
+	@ZenClass("mods.nuclearcraft.turbine")
 	@ZenRegister
-	public static class HighTurbineHandler {
+	public static class TurbineHandler {
 		
 		@ZenMethod
 		public static void addRecipe(Object[] objects) {
-			CraftTweakerAPI.apply(new AddProcessorRecipe(NCRecipes.Type.HIGH_TURBINE, Lists.newArrayList(objects)));
+			CraftTweakerAPI.apply(new AddProcessorRecipe(NCRecipes.Type.TURBINE, Lists.newArrayList(objects)));
 		}
 
 		@ZenMethod
 		public static void removeRecipeWithInput(IIngredient[] inputs) {
-			CraftTweakerAPI.apply(new RemoveProcessorRecipe(NCRecipes.Type.HIGH_TURBINE, IngredientSorption.INPUT, Lists.newArrayList(inputs)));
+			CraftTweakerAPI.apply(new RemoveProcessorRecipe(NCRecipes.Type.TURBINE, IngredientSorption.INPUT, Lists.newArrayList(inputs)));
 		}
 		
 		@ZenMethod
 		public static void removeRecipeWithOutput(IIngredient[] outputs) {
-			CraftTweakerAPI.apply(new RemoveProcessorRecipe(NCRecipes.Type.HIGH_TURBINE, IngredientSorption.OUTPUT, Lists.newArrayList(outputs)));
+			CraftTweakerAPI.apply(new RemoveProcessorRecipe(NCRecipes.Type.TURBINE, IngredientSorption.OUTPUT, Lists.newArrayList(outputs)));
 		}
 		
 		@ZenMethod
 		public static void removeAllRecipes() {
-			CraftTweakerAPI.apply(new RemoveAllProcessorRecipes(NCRecipes.Type.HIGH_TURBINE));
-		}
-	}
-	
-	@ZenClass("mods.nuclearcraft.low_turbine")
-	@ZenRegister
-	public static class LowTurbineHandler {
-		
-		@ZenMethod
-		public static void addRecipe(Object[] objects) {
-			CraftTweakerAPI.apply(new AddProcessorRecipe(NCRecipes.Type.LOW_TURBINE, Lists.newArrayList(objects)));
-		}
-
-		@ZenMethod
-		public static void removeRecipeWithInput(IIngredient[] inputs) {
-			CraftTweakerAPI.apply(new RemoveProcessorRecipe(NCRecipes.Type.LOW_TURBINE, IngredientSorption.INPUT, Lists.newArrayList(inputs)));
-		}
-		
-		@ZenMethod
-		public static void removeRecipeWithOutput(IIngredient[] outputs) {
-			CraftTweakerAPI.apply(new RemoveProcessorRecipe(NCRecipes.Type.LOW_TURBINE, IngredientSorption.OUTPUT, Lists.newArrayList(outputs)));
-		}
-		
-		@ZenMethod
-		public static void removeAllRecipes() {
-			CraftTweakerAPI.apply(new RemoveAllProcessorRecipes(NCRecipes.Type.LOW_TURBINE));
+			CraftTweakerAPI.apply(new RemoveAllProcessorRecipes(NCRecipes.Type.TURBINE));
 		}
 	}
 	

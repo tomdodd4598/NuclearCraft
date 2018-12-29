@@ -1,0 +1,7 @@
+{
+	"parent": "block/cube_column",
+	"textures": {
+		"end": "nuclearcraft:blocks/geiger_block_top",
+		"side": "nuclearcraft:blocks/geiger_block_side"
+	}
+}

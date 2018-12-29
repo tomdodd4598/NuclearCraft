@@ -69,6 +69,8 @@ public class TileSaltFissionHeater extends TileSaltFissionPartBase implements IF
 	public final NCRecipes.Type recipeType = NCRecipes.Type.COOLANT_HEATER;
 	protected ProcessorRecipe recipe;
 	
+	protected int heaterCount;
+	
 	public TileSaltFissionHeater() {
 		super(CuboidalPartPositionType.INTERIOR);
 		fluidSides = ITileFluid.getDefaultFluidSides(this);
@@ -382,13 +384,13 @@ public class TileSaltFissionHeater extends TileSaltFissionPartBase implements IF
 			boolean wasProcessing = isProcessing;
 			isProcessing = isProcessing();
 			boolean shouldUpdate = false;
-			tickTile();
+			tickHeater();
 			if (isProcessing) process();
 			if (wasProcessing != isProcessing) {
 				shouldUpdate = true;
 			}
-			if (shouldTileCheck()) {
-				pushFluid();
+			pushFluid();
+			if (heaterCount == 0) {
 				refreshRecipe();
 				refreshActivity();
 			}
@@ -396,9 +398,8 @@ public class TileSaltFissionHeater extends TileSaltFissionPartBase implements IF
 		}
 	}
 	
-	@Override
-	public void tickTile() {
-		tickCount++; tickCount %= NCConfig.machine_update_rate / 2;
+	public void tickHeater() {
+		heaterCount++; heaterCount %= NCConfig.machine_update_rate / 2;
 	}
 	
 	@Override

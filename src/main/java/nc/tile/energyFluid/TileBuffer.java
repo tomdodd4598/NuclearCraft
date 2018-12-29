@@ -10,6 +10,8 @@ import nc.tile.fluid.ITileFluid;
 import nc.tile.internal.energy.EnergyConnection;
 import nc.tile.internal.fluid.FluidConnection;
 import nc.tile.internal.fluid.TankSorption;
+import nc.util.NCInventoryHelper;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -21,14 +23,14 @@ import net.minecraftforge.items.IItemHandler;
 public class TileBuffer extends TileEnergyFluidSidedInventory implements IInterfaceable, IEnergySpread, IFluidSpread {
 	
 	public TileBuffer() {
-		super("buffer", 1, 32000, ITileEnergy.energyConnectionAll(EnergyConnection.BOTH), 16000, TankSorption.BOTH, null, ITileFluid.fluidConnectionAll(FluidConnection.BOTH));
+		super("buffer", 1, 64000, ITileEnergy.energyConnectionAll(EnergyConnection.BOTH), 32000, TankSorption.BOTH, null, ITileFluid.fluidConnectionAll(FluidConnection.BOTH));
 	}
 	
 	@Override
 	public void update() {
 		super.update();
 		if(!world.isRemote) {
-			pushStacks();
+			pushStacks(this);
 			pushEnergy();
 			pushFluid();
 		}
@@ -54,29 +56,29 @@ public class TileBuffer extends TileEnergyFluidSidedInventory implements IInterf
 	// Item and Fluid Pushing
 	
 	@Override
-	public void pushStacks() {
-		if (isEmpty()) return;
-		for (EnumFacing side : EnumFacing.VALUES) {
-			IItemHandler inv = getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side);
-			if (inv == null) continue;
-			for (int i = 0; i < inventoryStacks.size(); i++) {
-				if (inventoryStacks.get(i).isEmpty()) continue;
-				
-				TileEntity tile = world.getTileEntity(getPos().offset(side));
-				if (tile == null) continue;
-				
-				if (!(tile instanceof IBufferable)) continue;
-				
-				IItemHandler adjInv = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side.getOpposite());
-				
-				if (adjInv != null) {
-					for (int j = 0; j < adjInv.getSlots(); j++) {
-						if (!inv.extractItem(i, inventoryStacks.get(i).getCount() - adjInv.insertItem(j, inv.extractItem(i, getInventoryStackLimit(), true), false).getCount(), false).isEmpty()) {
-							return;
-						}
-					}
-				}
-			}
+	public <TILE extends TileEntity & IInventory> void pushStacks(TILE thisTile) {
+		if (thisTile.isEmpty()) return;
+		
+		EnumFacing side = getCycledSide();
+		
+		IItemHandler inv = thisTile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side);
+		if (inv == null) return;
+		
+		TileEntity tile = getTileWorld().getTileEntity(getTilePos().offset(side));
+		if (!(tile instanceof IBufferable)) return;
+		IItemHandler adjInv = tile == null ? null : tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side.getOpposite());
+		if (adjInv == null || adjInv.getSlots() < 1) return;
+		
+		for (int i = 0; i < getInventoryStacks().size(); i++) {
+			if (getInventoryStacks().get(i).isEmpty()) continue;
+			
+			ItemStack initialStack = getInventoryStacks().get(i).copy();
+			ItemStack inserted = NCInventoryHelper.addStackToInventory(adjInv, initialStack);
+			
+			if (inserted.getCount() >= initialStack.getCount()) continue;
+			
+			getInventoryStacks().get(i).shrink(initialStack.getCount() - inserted.getCount());
+			if (getInventoryStacks().get(i).getCount() <= 0) getInventoryStacks().set(i, ItemStack.EMPTY);
 		}
 	}
 	

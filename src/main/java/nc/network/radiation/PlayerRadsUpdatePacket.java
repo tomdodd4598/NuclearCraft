@@ -22,6 +22,7 @@ public class PlayerRadsUpdatePacket implements IMessage {
 	protected boolean consumed;
 	protected double radawayCooldown;
 	protected double radXCooldown;
+	protected double radiationImmunityTime;
 	
 	public PlayerRadsUpdatePacket() {
 		messageValid = false;
@@ -36,6 +37,7 @@ public class PlayerRadsUpdatePacket implements IMessage {
 		consumed = playerRads.getConsumedMedicine();
 		radawayCooldown = playerRads.getRadawayCooldown();
 		radXCooldown = playerRads.getRadXCooldown();
+		radiationImmunityTime = playerRads.getRadiationImmunityTime();
 		
 		messageValid = true;
 	}
@@ -51,6 +53,7 @@ public class PlayerRadsUpdatePacket implements IMessage {
 			consumed = buf.readBoolean();
 			radawayCooldown = buf.readDouble();
 			radXCooldown = buf.readDouble();
+			radiationImmunityTime = buf.readDouble();
 		} catch (IndexOutOfBoundsException ioe) {
 			NCUtil.getLogger().catching(ioe);
 			return;
@@ -70,6 +73,7 @@ public class PlayerRadsUpdatePacket implements IMessage {
 		buf.writeBoolean(consumed);
 		buf.writeDouble(radawayCooldown);
 		buf.writeDouble(radXCooldown);
+		buf.writeDouble(radiationImmunityTime);
 	}
 	
 	public static class Handler implements IMessageHandler<PlayerRadsUpdatePacket, IMessage> {
@@ -86,7 +90,7 @@ public class PlayerRadsUpdatePacket implements IMessage {
 			if (!player.hasCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null)) return;
 			IEntityRads playerRads = player.getCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null);
 			if (playerRads == null) return;
-			playerRads.setTotalRads(message.totalRads);
+			playerRads.setTotalRads(message.totalRads, false);
 			playerRads.setRadiationLevel(message.radiationLevel);
 			playerRads.setRadiationResistance(message.radiationResistance);
 			playerRads.setRadXWoreOff(message.radXWoreOff);
@@ -94,6 +98,7 @@ public class PlayerRadsUpdatePacket implements IMessage {
 			playerRads.setConsumedMedicine(message.consumed);
 			playerRads.setRadawayCooldown(message.radawayCooldown);
 			playerRads.setRadXCooldown(message.radXCooldown);
+			playerRads.setRadiationImmunityTime(message.radiationImmunityTime);
 		}
 	}
 }

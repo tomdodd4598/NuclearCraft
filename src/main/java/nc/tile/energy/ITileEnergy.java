@@ -18,6 +18,7 @@ import nc.util.EnergyHelper;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.fml.common.Optional;
@@ -125,12 +126,12 @@ public interface ITileEnergy extends ITile {
 	
 	public default void pushEnergy() {
 		if (getEnergyStorage().getEnergyStored() <= 0) return;
-		for (EnumFacing side : EnumFacing.VALUES) pushEnergyToSide(side);
+		pushEnergyToSide(getCycledSide());
 	}
 	
 	public default void spreadEnergy() {
 		if (!NCConfig.passive_permeation || getEnergyStorage().getEnergyStored() <= 0) return;
-		for (EnumFacing side : EnumFacing.VALUES) spreadEnergyToSide(side);
+		spreadEnergyToSide(getCycledSide());
 	}
 	
 	public default void pushEnergyToSide(@Nonnull EnumFacing side) {
@@ -148,6 +149,9 @@ public interface ITileEnergy extends ITile {
 			getEnergyStorage().extractEnergy(adjStorage.receiveEnergy(getEnergyStorage().extractEnergy(getEnergyStorage().getMaxEnergyStored(), true), false), false);
 			return;
 		}
+		
+		if (getEnergyStorage().getEnergyStored() < NCConfig.rf_per_eu) return;
+		
 		if (ModCheck.ic2Loaded()) {
 			if (tile instanceof IEnergySink) {
 				getEnergyStorage().extractEnergy((int) Math.round(((IEnergySink) tile).injectEnergy(side.getOpposite(), getEnergyStorage().extractEnergy(getEnergyStorage().getMaxEnergyStored(), true)/NCConfig.rf_per_eu, getEUSourceTier())*NCConfig.rf_per_eu), false);
@@ -157,7 +161,7 @@ public interface ITileEnergy extends ITile {
 		if (ModCheck.gregtechLoaded()) {
 			IEnergyContainer adjStorageGT = tile.getCapability(GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER, side.getOpposite());
 			if (adjStorageGT != null && getEnergyStorage().canExtract()) {
-				int voltage = Math.min(EnergyHelper.getMaxEUFromTier(getEUSourceTier()), getEnergyStorage().getEnergyStored()/NCConfig.rf_per_eu);
+				int voltage = MathHelper.clamp(getEnergyStorage().getEnergyStored()/NCConfig.rf_per_eu, 1, EnergyHelper.getMaxEUFromTier(getEUSourceTier()));
 				getEnergyStorage().extractEnergy((int)Math.min(voltage*adjStorageGT.acceptEnergyFromNetwork(side.getOpposite(), voltage, 1)*NCConfig.rf_per_eu, Integer.MAX_VALUE), false);
 				return;
 			}

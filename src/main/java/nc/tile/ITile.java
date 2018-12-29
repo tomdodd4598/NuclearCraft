@@ -12,10 +12,6 @@ import net.minecraft.world.World;
 
 public interface ITile {
 	
-	public void tickTile();
-	
-	public boolean shouldTileCheck();
-	
 	public World getTileWorld();
 	
 	public BlockPos getTilePos();
@@ -57,5 +53,11 @@ public interface ITile {
 	/** Use when the capability provider side argument must be non-null */
 	public default @Nonnull EnumFacing nonNullSide(@Nullable EnumFacing side) {
 		return side == null ? EnumFacing.UP : side;
+	}
+	
+	// Side Cycle
+	
+	public default EnumFacing getCycledSide() {
+		return EnumFacing.VALUES[(int)getTileWorld().getTotalWorldTime() % 6];
 	}
 }

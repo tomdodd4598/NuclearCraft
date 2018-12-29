@@ -8,8 +8,7 @@
 		},
 		"description": {
 			"translate": "advancement.nuclearcraft.isotope_separator.desc"
-		},
-		"frame": "goal"
+		}
 	},
 	"parent": "nuclearcraft:root",
 	"criteria": {

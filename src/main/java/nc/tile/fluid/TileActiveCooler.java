@@ -13,7 +13,7 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public class TileActiveCooler extends TileFluid implements IInterfaceable, IBufferable, IFluidSpread {
 	
-	private int drainCount = 0;
+	protected int drainCount;
 	
 	public boolean isActive = false;
 	
@@ -33,24 +33,14 @@ public class TileActiveCooler extends TileFluid implements IInterfaceable, IBuff
 	public void update() {
 		super.update();
 		if (!world.isRemote) {
-			if (shouldTileCheck()) spreadFluid();
-			if (isActive && shouldDrain()) getTanks().get(0).drain(DRAIN_MULT, true);
-			tickTile();
+			spreadFluid();
+			if (isActive && drainCount == 0) getTanks().get(0).drain(DRAIN_MULT, true);
 			tickDrain();
 		}
 	}
 	
-	@Override
-	public void tickTile() {
-		tickCount++; tickCount %= NCConfig.machine_update_rate / 4;
-	}
-	
 	public void tickDrain() {
 		drainCount++; drainCount %= NCConfig.machine_update_rate;
-	}
-	
-	public boolean shouldDrain() {
-		return drainCount == 0;
 	}
 	
 	@Override

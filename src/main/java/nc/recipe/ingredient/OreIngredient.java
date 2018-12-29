@@ -8,7 +8,6 @@ import com.google.common.collect.Lists;
 import nc.recipe.IngredientSorption;
 import nc.util.OreDictHelper;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.oredict.OreDictionary;
 
 public class OreIngredient implements IItemIngredient {
 	
@@ -54,10 +53,7 @@ public class OreIngredient implements IItemIngredient {
 		else if (object instanceof ItemStack && type.checkStackSize(stackSize, ((ItemStack) object).getCount())) {
 			ItemStack itemstack = (ItemStack)object;
 			if (itemstack.isEmpty()) return false;
-			int oreID = OreDictionary.getOreID(oreName);
-			for (int ID : OreDictionary.getOreIDs(itemstack)) {
-				if (oreID == ID) return true;
-			}
+			if (OreDictHelper.getOreNames(itemstack).contains(oreName)) return true;
 		}
 		else if (object instanceof ItemIngredient) {
 			if (matches(((ItemIngredient) object).stack, type)) return true;

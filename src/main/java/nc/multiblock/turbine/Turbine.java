@@ -8,36 +8,36 @@ import nc.config.NCConfig;
 import nc.multiblock.IMultiblockPart;
 import nc.multiblock.MultiblockBase;
 import nc.multiblock.TileBeefBase.SyncReason;
+import nc.multiblock.container.ContainerTurbineController;
 import nc.multiblock.cuboidal.CuboidalMultiblockBase;
 import nc.multiblock.network.TurbineUpdatePacket;
 import nc.multiblock.turbine.tile.TileTurbineController;
 import nc.multiblock.validation.IMultiblockValidator;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
-public abstract class Turbine<CONTROLLER extends TileTurbineController> extends CuboidalMultiblockBase<TurbineUpdatePacket> {
+public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> {
 	
-	protected final Class<CONTROLLER> tileControllerClass;
+	protected Set<TileTurbineController> controllers;
 	
-	protected Set<CONTROLLER> controllers;
-	
-	protected CONTROLLER controller;
+	protected TileTurbineController controller;
 	
 	public int redstoneSignal = 0;
 	protected int updateCount = 0;
 	
 	public boolean isTurbineOn;
 	
-	public Turbine(World world, Class<CONTROLLER> tileControllerClass) {
+	public Turbine(World world) {
 		super(world);
-		this.tileControllerClass = tileControllerClass;
 		
-		controllers = new HashSet<CONTROLLER>();
+		controllers = new HashSet<TileTurbineController>();
 	}
 	
 	// Multiblock Part Getters
 	
-	public Set<CONTROLLER> getControllers() {
+	public Set<TileTurbineController> getControllers() {
 		return controllers;
 	}
 	
@@ -62,19 +62,19 @@ public abstract class Turbine<CONTROLLER extends TileTurbineController> extends 
 	
 	@Override
 	protected void onBlockAdded(IMultiblockPart newPart) {
-		if (tileControllerClass.isInstance(newPart)) controllers.add((CONTROLLER) newPart);
+		if (newPart instanceof TileTurbineController) controllers.add((TileTurbineController) newPart);
 		// TODO
 	}
 	
 	@Override
 	protected void onBlockRemoved(IMultiblockPart oldPart) {
-		if (tileControllerClass.isInstance(oldPart)) controllers.remove(oldPart);
+		if (oldPart instanceof TileTurbineController) controllers.remove(oldPart);
 		// TODO
 	}
 	
 	@Override
 	protected void onMachineAssembled() {
-		for (CONTROLLER contr : controllers) controller = contr;
+		for (TileTurbineController contr : controllers) controller = contr;
 		calculateTurbineStats();
 	}
 	
@@ -171,6 +171,10 @@ public abstract class Turbine<CONTROLLER extends TileTurbineController> extends 
 		// TODO
 	}
 	
+	public Container getContainer(EntityPlayer player) {
+		return new ContainerTurbineController(player, controller);
+	}
+	
 	// Multiblock Validators
 	
 	@Override
@@ -216,7 +220,6 @@ public abstract class Turbine<CONTROLLER extends TileTurbineController> extends 
 
 	@Override
 	protected TurbineUpdatePacket getUpdatePacket() {
-		// TODO Auto-generated method stub
-		return null;
+		return new TurbineUpdatePacket(controller.getPos(), isTurbineOn);
 	}
 }

@@ -63,14 +63,14 @@ public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpd
 	public static final String NO_FUEL = Lang.localise("gui.container.fusion_core.empty");
 	
 	public boolean computerActivated = true;
-	private int structureCount = 0;
+	public int structureCount = 0;
 	
 	private BlockFinder finder;
 	
-	private static final int MAX_POWER = (int) (100*Collections.max(ArrayHelper.asDoubleList(NCConfig.fusion_power))*NCConfig.fusion_base_power*NCConfig.fusion_max_size);
+	private static final int MAX_POWER = (int) Math.min(6*100*Collections.max(ArrayHelper.asDoubleList(NCConfig.fusion_power))*NCConfig.fusion_base_power*NCConfig.fusion_max_size, Integer.MAX_VALUE);
 	
 	public TileFusionCore() {
-		super("Fusion Core", 2, 4, 0, defaultTankCapacities(32000, 2, 4), defaultTankSorptions(2, 4), RecipeHelper.validFluids(NCRecipes.Type.FUSION), 2*MAX_POWER < Integer.MAX_VALUE ? 2*MAX_POWER : Integer.MAX_VALUE, NCRecipes.Type.FUSION);
+		super("Fusion Core", 2, 4, 0, defaultTankCapacities(32000, 2, 4), defaultTankSorptions(2, 4), RecipeHelper.validFluids(NCRecipes.Type.FUSION), MAX_POWER, NCRecipes.Type.FUSION);
 		setTanksShared(false);
 	}
 	
@@ -87,12 +87,9 @@ public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpd
 		if(!world.isRemote) {
 			boolean wasProcessing = isProcessing;
 			isProcessing = isProcessing();
-			boolean shouldUpdate = false;
-			tickTile();
+			if (structureCount == 0) refreshMultiblock();
 			tickStructureCheck();
-			setSize();
 			energyChange = getEnergyStored() - currentEnergyStored;
-			if (NCConfig.fusion_active_cooling && shouldStructureCheck()) setCooling();
 			double previousHeat = heat;
 			run();
 			if (isHotEnough()) doCooling();
@@ -103,13 +100,11 @@ public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpd
 			else getRadiationSource().setRadiationLevel(0D);
 			if (wasProcessing != isProcessing) {
 				plasma();
-				shouldUpdate = true;
 				updateBlockType();
 				sendUpdateToAllPlayers();
 			}
 			if (isHotEnough()) pushEnergy();
-			if (shouldStructureCheck() && findAdjacentComparator()) shouldUpdate = true;
-			if (shouldTileCheck()) sendUpdateToListeningPlayers();
+			sendUpdateToListeningPlayers();
 		} else {
 			if (NCConfig.fusion_enable_sound) playSounds();
 		}
@@ -119,14 +114,15 @@ public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpd
 		structureCount++; structureCount %= 4*NCConfig.machine_update_rate;
 	}
 	
-	public boolean shouldStructureCheck() {
-		return structureCount == 0;
+	public void refreshMultiblock() {
+		setSize();
+		if (NCConfig.fusion_active_cooling) setCooling();
 	}
 	
 	@Override
 	public void updateBlockType() {
 		super.updateBlockType();
-		tickCount = -1;
+		refreshMultiblock();
 	}
 	
 	@Override
@@ -318,43 +314,38 @@ public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpd
 	
 	// Finding Ring
 	
-	public boolean setSize() {
-		if (shouldStructureCheck()) {
-			int runningSize = 1;
-			for (int r = 0; r <= NCConfig.fusion_max_size; r++) {
-				if (finder.horizontalY(pos.offset(EnumFacing.UP), r + 2, NCBlocks.fusion_connector)) {
-					runningSize ++;
-				} else break;
-			}
-			size = runningSize;
-			BlockPosHelper helper = new BlockPosHelper(pos);
-			for (BlockPos pos : helper.squareTube(ringRadius(), 1)) {
-				if (!(findElectromagnet(pos))) {
-					complete = 0;
-					problem = RING_INCOMPLETE;
-					return false;
-				}
-			}
-			for (BlockPos pos : helper.squareRing(ringRadius(), 1)) {
-				if (!(findAir(pos))) {
-					complete = 0;
-					problem = RING_BLOCKED;
-					return false;
-				}
-			}
-			for (BlockPos pos : helper.squareTube(ringRadius(), 1)) {
-				if (!(findActiveElectromagnet(pos))) {
-					complete = 0;
-					problem = POWER_ISSUE;
-					return false;
-				}
-			}
-			complete = 1;
-			problem = NO_PROBLEM;
-			return true;
-		} else {
-			return complete == 1;
+	public void setSize() {
+		int runningSize = 1;
+		for (int r = 0; r <= NCConfig.fusion_max_size; r++) {
+			if (finder.horizontalY(pos.offset(EnumFacing.UP), r + 2, NCBlocks.fusion_connector)) {
+				runningSize ++;
+			} else break;
 		}
+		size = runningSize;
+		BlockPosHelper helper = new BlockPosHelper(pos);
+		for (BlockPos pos : helper.squareTube(ringRadius(), 1)) {
+			if (!(findElectromagnet(pos))) {
+				complete = 0;
+				problem = RING_INCOMPLETE;
+				return;
+			}
+		}
+		for (BlockPos pos : helper.squareRing(ringRadius(), 1)) {
+			if (!(findAir(pos))) {
+				complete = 0;
+				problem = RING_BLOCKED;
+				return;
+			}
+		}
+		for (BlockPos pos : helper.squareTube(ringRadius(), 1)) {
+			if (!(findActiveElectromagnet(pos))) {
+				complete = 0;
+				problem = POWER_ISSUE;
+				return;
+			}
+		}
+		complete = 1;
+		problem = NO_PROBLEM;
 	}
 	
 	// Set Fuel and Power and Modify Heat
@@ -495,7 +486,7 @@ public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpd
 	
 	@Override
 	public FusionUpdatePacket getGuiUpdatePacket() {
-		return new FusionUpdatePacket(pos, time, getEnergyStored(), baseProcessTime, baseProcessPower, isProcessing, heat, efficiency, speedMultiplier, size, complete, cooling, heatChange, hasConsumed, computerActivated);
+		return new FusionUpdatePacket(pos, time, getEnergyStored(), baseProcessTime, baseProcessPower, isProcessing, heat, efficiency, speedMultiplier, size, complete, cooling, heatChange, hasConsumed, computerActivated, problem);
 	}
 	
 	@Override
@@ -514,6 +505,7 @@ public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpd
 		heatChange = message.heatChange;
 		hasConsumed = message.hasConsumed;
 		computerActivated = message.computerActivated;
+		problem = message.problem;
 	}
 	
 	// OpenComputers

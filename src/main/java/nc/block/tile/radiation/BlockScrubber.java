@@ -3,7 +3,8 @@ package nc.block.tile.radiation;
 import nc.block.tile.BlockSimpleTile;
 import nc.config.NCConfig;
 import nc.enumm.BlockEnums.SimpleTileType;
-import nc.tile.radiation.TileScrubber;
+import nc.tile.radiation.TileRadiationScrubber;
+import nc.util.Lang;
 import nc.util.UnitHelper;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -24,10 +25,12 @@ public class BlockScrubber extends BlockSimpleTile {
 		if (hand != EnumHand.MAIN_HAND) return false;
 		
 		if (player != null) {
-			if (player.getHeldItemMainhand().isEmpty() && world.getTileEntity(pos) instanceof TileScrubber) {
+			if (player.getHeldItemMainhand().isEmpty() && world.getTileEntity(pos) instanceof TileRadiationScrubber) {
 				if (!world.isRemote) {
-					double radRemoval = ((TileScrubber) world.getTileEntity(pos)).getChunkBufferContribution();
-					player.sendMessage(new TextComponentString((Math.abs(radRemoval) < NCConfig.radiation_lowest_rate ? "0 Rads/t" : UnitHelper.prefix(radRemoval, 3, "Rads/t", 0, -8)) + " [" + Math.round(-100D*radRemoval/TileScrubber.maxScrubberRate) + "%]"));
+					TileRadiationScrubber scrubber = (TileRadiationScrubber) world.getTileEntity(pos);
+					scrubber.checkSurroundings();
+					double radRemoval = scrubber.rawScrubberRate;
+					player.sendMessage(new TextComponentString(Lang.localise("message.nuclearcraft.scrubber_removal_rate") + " " + (Math.abs(radRemoval) < NCConfig.radiation_lowest_rate ? "0 Rads/t" : UnitHelper.prefix(radRemoval, 3, "Rads/t", 0, -8)) + " [" + Math.abs(Math.round(100D*scrubber.getChunkBufferContributionFraction()/TileRadiationScrubber.MAX_SCRUBBER_RATE_FRACTION)) + "%]"));
 				}
 				return true;
 			}

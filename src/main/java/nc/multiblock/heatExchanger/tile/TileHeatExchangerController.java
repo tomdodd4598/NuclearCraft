@@ -7,6 +7,8 @@ import nc.multiblock.heatExchanger.block.BlockHeatExchangerController;
 
 public class TileHeatExchangerController extends TileHeatExchangerPartBase {
 	
+	protected int controllerCount;
+	
 	public TileHeatExchangerController() {
 		super(CuboidalPartPositionType.WALL);
 	}
@@ -28,14 +30,13 @@ public class TileHeatExchangerController extends TileHeatExchangerPartBase {
 	@Override
 	public void update() {
 		super.update();
-		tickTile();
-		if (shouldTileCheck()) if (getBlock(pos) instanceof BlockHeatExchangerController) {
+		tickController();
+		if (controllerCount == 0) if (getBlock(pos) instanceof BlockHeatExchangerController) {
 			if (getMultiblock() != null) ((BlockHeatExchangerController) getBlock(pos)).setActiveState(getBlockState(pos), world, pos, getMultiblock().isHeatExchangerOn);
 		}
 	}
 	
-	@Override
-	public void tickTile() {
-		tickCount++; tickCount %= NCConfig.machine_update_rate / 4;
+	public void tickController() {
+		controllerCount++; controllerCount %= NCConfig.machine_update_rate / 4;
 	}
 }

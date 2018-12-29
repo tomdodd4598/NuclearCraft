@@ -84,11 +84,6 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 	
 	public abstract void updateGenerator();
 	
-	@Override
-	public void tickTile() {
-		tickCount++; tickCount %= 1;
-	}
-	
 	public void updateBlockType() {
 		if (ModCheck.ic2Loaded()) removeTileFromENet();
 		setState(isProcessing);

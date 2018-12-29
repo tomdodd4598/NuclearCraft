@@ -8,8 +8,7 @@
 		},
 		"description": {
 			"translate": "advancement.nuclearcraft.electrolyser.desc"
-		},
-		"frame": "goal"
+		}
 	},
 	"parent": "nuclearcraft:root",
 	"criteria": {

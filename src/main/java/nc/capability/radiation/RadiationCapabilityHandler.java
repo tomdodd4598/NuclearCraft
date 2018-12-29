@@ -6,6 +6,7 @@ import nc.config.NCConfig;
 import nc.radiation.RadSources;
 import nc.radiation.RadWorlds;
 import nc.radiation.RadiationArmor;
+import nc.util.OreDictHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -15,7 +16,6 @@ import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.oredict.OreDictionary;
 
 public class RadiationCapabilityHandler {
 	
@@ -53,8 +53,7 @@ public class RadiationCapabilityHandler {
 				return;
 			}
 		}
-		for (int oreID : OreDictionary.getOreIDs(stack)) {
-			String oreName = OreDictionary.getOreName(oreID);
+		for (String oreName : OreDictHelper.getOreNames(stack)) {
 			if (RadSources.ORE_MAP.containsKey(oreName)) {
 				event.addCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE_NAME, new RadiationSourceProvider(RadSources.ORE_MAP.get(oreName)));
 				return;

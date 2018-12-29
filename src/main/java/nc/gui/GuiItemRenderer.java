@@ -114,6 +114,7 @@ public class GuiItemRenderer extends Gui {
 		drawTexturedModalRect(xPosition, yPosition, icon, width, height);
 		
 		GlStateManager.popAttrib();
+		GlStateManager.disableBlend();
 		
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 	}

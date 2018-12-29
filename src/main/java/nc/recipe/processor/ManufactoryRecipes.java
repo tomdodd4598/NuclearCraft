@@ -6,9 +6,14 @@ import nc.config.NCConfig;
 import nc.init.NCItems;
 import nc.recipe.ProcessorRecipeHandler;
 import nc.util.OreDictHelper;
+import nc.util.RecipeHelper;
+import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.CraftingManager;
+import net.minecraft.util.NonNullList;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class ManufactoryRecipes extends ProcessorRecipeHandler {
@@ -36,10 +41,10 @@ public class ManufactoryRecipes extends ProcessorRecipeHandler {
 		addRecipe("dustCarobbiite", "dustPotassiumFluoride", 1D, 1D);
 		
 		if (OreDictHelper.oreExists("ingotSilicon")) {
-			addRecipe(oreStack("sand", 4), "ingotSilicon", 1D, 0.5D);
-			addRecipe("ingotSilicon", "itemSilicon", 1D, 0.5D);
+			addRecipe("sand", "ingotSilicon", 1D, 1D);
+			addRecipe("ingotSilicon", "itemSilicon", 0.5D, 0.5D);
 		}
-		else addRecipe(oreStack("sand", 4), "itemSilicon", 1D, 0.5D);
+		else addRecipe("sand", "itemSilicon", 1D, 1D);
 		
 		addRecipe("obsidian", oreStack("dustObsidian", 4), 2D, 1.5D);
 		addRecipe("cobblestone", Blocks.SAND, 1D, 1D);
@@ -73,6 +78,9 @@ public class ManufactoryRecipes extends ProcessorRecipeHandler {
 		addRecipe("crystalFluix", "dustFluix", 0.5D, 1D);
 		
 		if (NCConfig.ore_processing) addMetalProcessingRecipes();
+		
+		addRecipe("plankWood", new ItemStack(Items.STICK, 4), 0.25D, 0.5D);
+		addLogRecipes();
 	}
 	
 	public void addMetalProcessingRecipes() {
@@ -83,6 +91,37 @@ public class ManufactoryRecipes extends ProcessorRecipeHandler {
 				if (OreDictHelper.oreExists(dust)) {
 					addRecipe(ore, oreStack(dust, 2), 1.25D, 1D);
 					addRecipe(ingot, dust, 1D, 1D);
+				}
+			}
+		}
+	}
+	
+	/* Originally from KingLemming's Thermal Expansion: cofh.thermalexpansion.util.managers.machine.SawmillManager */
+	public void addLogRecipes() {
+		InventoryCrafting fakeCrafter = RecipeHelper.fakeCrafter(3, 3);
+		for (ItemStack logWood : OreDictionary.getOres("logWood", false)) {
+			Block logBlock = Block.getBlockFromItem(logWood.getItem());
+			
+			if (logWood.getMetadata() == OreDictionary.WILDCARD_VALUE) {
+				NonNullList<ItemStack> logVariants = NonNullList.create();
+				logBlock.getSubBlocks(logBlock.getCreativeTabToDisplayOn(), logVariants);
+				
+				for (ItemStack log : logVariants) {
+					fakeCrafter.setInventorySlotContents(0, log);
+					ItemStack plankWood = CraftingManager.findMatchingResult(fakeCrafter, null);
+					
+					if (!plankWood.isEmpty()) {
+						plankWood.setCount(6);
+						addRecipe(log, plankWood, 0.5D, 0.5D);
+					}
+				}
+			} else {
+				fakeCrafter.setInventorySlotContents(0, logWood);
+				ItemStack plankWood = CraftingManager.findMatchingResult(fakeCrafter, null);
+				
+				if (!plankWood.isEmpty()) {
+					plankWood.setCount(6);
+					addRecipe(logWood, plankWood, 0.5D, 0.5D);
 				}
 			}
 		}

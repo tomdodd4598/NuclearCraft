@@ -19,10 +19,9 @@ import net.minecraft.world.World;
 
 public class ValidationError {
 
-    public static final ValidationError VALIDATION_ERROR_TOO_FEW_PARTS = new ValidationError("zerocore:api.multiblock.validation.too_few_parts", null);
+    public static final ValidationError VALIDATION_ERROR_TOO_FEW_PARTS = new ValidationError("zerocore.api.nc.multiblock.validation.too_few_parts", null);
 
     public ValidationError(String messageFormatStringResourceKey, BlockPos pos, Object... messageParameters) {
-
         this._resourceKey = messageFormatStringResourceKey;
         this._parameters = messageParameters;
         this.pos = pos;
@@ -36,8 +35,7 @@ public class ValidationError {
     }
 
     public ITextComponent getChatMessage() {
-
-        return new TextComponentTranslation(this._resourceKey, _parameters);
+        return new TextComponentTranslation(_resourceKey, _parameters);
     }
     
     public ValidationError updatedError(World world) {

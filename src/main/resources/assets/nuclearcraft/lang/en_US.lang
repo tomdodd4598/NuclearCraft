@@ -84,7 +84,7 @@ tile.nuclearcraft.cooler.copper.name=Copper Cooler
 tile.nuclearcraft.cooler.copper.desc=Must touch at least one active Glowstone Cooler.
 
 tile.nuclearcraft.cooler.tin.name=Tin Cooler
-tile.nuclearcraft.cooler.tin.desc=Must be at least between two active Lapis Coolers along the same axis.
+tile.nuclearcraft.cooler.tin.desc=Must touch at least two active Lapis Coolers along a common axis.
 
 tile.nuclearcraft.cooler.magnesium.name=Magnesium Cooler
 tile.nuclearcraft.cooler.magnesium.desc=Must touch at least one Reactor Casing and one active moderator block.
@@ -277,6 +277,13 @@ tile.nuclearcraft.heat_exchanger_tube_thermoconducting.name=Elite Heat Exchanger
 tile.nuclearcraft.heat_exchanger_tube.fixd=Conductivity Multiplier: %s
 tile.nuclearcraft.heat_exchanger_tube.desc=Holds and transports the heat-exchanging fluids. Place against another tube while sneaking to copy across its side configuration.
 
+tile.nuclearcraft.turbine_controller.name=Steam Turbine Controller
+tile.nuclearcraft.turbine_controller.desc=The heart of the turbine - one is needed in the wall for it to form.
+tile.nuclearcraft.turbine_wall.name=Steam Turbine Wall
+tile.nuclearcraft.turbine_glass.name=Transparent Steam Turbine Wall
+tile.nuclearcraft.turbine_frame.name=Steam Turbine Frame
+tile.nuclearcraft.turbine_frame.desc=Comprises the skeleton of the turbine.
+
 tile.nuclearcraft.fusion_electromagnet_idle.name=Fusion Electromagnet
 tile.nuclearcraft.fusion_electromagnet_idle.desc=Requires %s to stay active.
 tile.nuclearcraft.fusion_electromagnet_active.name=Fusion Electromagnet
@@ -312,9 +319,12 @@ tile.nuclearcraft.nitrogen_collector_dense.name=Dense Nitrogen Collector
 tile.nuclearcraft.nitrogen_collector.desc=Produces %s of nitrogen constantly.
 
 tile.nuclearcraft.radiation_scrubber.name=Radiation Scrubber
-tile.nuclearcraft.radiation_scrubber.desc=Reduces the radiation level of the chunk it is placed in. Its effectiveness is dependent on the amount of free space around it, removing a maximum of %s. %s
+tile.nuclearcraft.radiation_scrubber.desc=Reduces the radiation level of the chunk it is placed in. Its effectiveness is dependent on the amount of free space around it, removing a maximum of %s of the radiation in its chunk. %s
 info.nuclearcraft.radiation_scrubber_req_borax=Requires %s RF/t and %s Borax/s to run.
 info.nuclearcraft.radiation_scrubber_no_req_borax=Requires %s RF/t to run.
+
+tile.nuclearcraft.geiger_block.name=Geiger Counter Block
+tile.nuclearcraft.geiger_block.desc=Reads the radiation level of the chunk it is placed in.
 
 tile.nuclearcraft.glowing_mushroom.name=Glowing Mushroom
 tile.nuclearcraft.dry_earth.name=Wasteland Earth
@@ -1774,7 +1784,7 @@ jei.nuclearcraft.coolant_heater.cryotheum_nak=Must touch at least two Fission Ve
 jei.nuclearcraft.coolant_heater.iron_nak=Must touch at least one active NaK-Gold Coolant Heater.
 jei.nuclearcraft.coolant_heater.emerald_nak=Must touch at least one active moderator and one active Fission Vessel.
 jei.nuclearcraft.coolant_heater.copper_nak=Must touch at least one active NaK-Glowstone Coolant Heater.
-jei.nuclearcraft.coolant_heater.tin_nak=Must be at least between two active NaK-Lapis Coolers along the same axis.
+jei.nuclearcraft.coolant_heater.tin_nak=Must touch at least two active NaK-Lapis Coolant Heaters along a common axis.
 jei.nuclearcraft.coolant_heater.magnesium_nak=Must touch at least one Reactor Wall and one active moderator.
 
 itemGroup.nuclearcraft=NuclearCraft
@@ -2167,8 +2177,10 @@ gui.config.radiation.radiation_shielding_level=Radiation Shielding Levels
 gui.config.radiation.radiation_shielding_level.comment=The radiation resistance levels provided by the three levels of shielding. Order: light, medium, heavy.
 gui.config.radiation.radiation_hazmat_shielding=Radiation Hazmat Shielding
 gui.config.radiation.radiation_hazmat_shielding.comment=The radiation resistance levels provided by each piece of the hazmat suit. Order: headwear, chestpiece, leggings, boots.
-gui.config.radiation.radiation_scrubber_rate=Scrubber Max Base Removal Rate
-gui.config.radiation.radiation_scrubber_rate.comment=The maximum rate at which scrubbers will remove radiation in Rads/t if not supplied with Borax.
+gui.config.radiation.radiation_scrubber_fraction=Scrubber Max Removal Rate
+gui.config.radiation.radiation_scrubber_fraction.comment=The maximum rate at which scrubbers will remove radiation as a fraction of the radiation level of the chunk it is in.
+gui.config.radiation.radiation_scrubber_power=Scrubber Power Use
+gui.config.radiation.radiation_scrubber_power.comment=The power in RF/s scrubbers need to be supplied to run.
 gui.config.radiation.radiation_scrubber_borax_rate=Scrubber Borax Use Rate
 gui.config.radiation.radiation_scrubber_borax_rate.comment=The amount of borax scrubbers need to be supplied per second.
 
@@ -2199,6 +2211,8 @@ gui.config.radiation.radiation_death_persist=Radiation Death Persistence
 gui.config.radiation.radiation_death_persist.comment=If enabled, players' rad levels will persist on death.
 gui.config.radiation.radiation_death_persist_fraction=Death Persistence Fraction
 gui.config.radiation.radiation_death_persist_fraction.comment=Specifies the fraction of the player's rad level that persists if Radiation Death Persistence is enabled.
+gui.config.radiation.radiation_death_immunity_time=Post-Death Immunity Time
+gui.config.radiation.radiation_death_immunity_time.comment=Number of seconds players will have radiation immunity after death due to radiation.
 
 gui.config.radiation.radiation_passive_debuffs=Passive Entity Debuffs
 gui.config.radiation.radiation_passive_debuffs.comment=If enabled, passive entities will be debuffed and hurt if irradiated.
@@ -2268,16 +2282,16 @@ gui.computer.integer_too_small_error=Number argument %s too small, expected at l
 gui.computer.integer_too_large_error=Number argument %s too large, expected %s at most
 
 # Localisation for ZeroCore multiblock API
-zerocore:api.multiblock.validation.success=Multiblock validation was successful
-zerocore:api.multiblock.validation.too_few_parts=Multiblock is too small
-zerocore:api.multiblock.validation.machine_too_large=Multiblock is too large, it may be at most %1$d blocks in the %2$s dimension
-zerocore:api.multiblock.validation.machine_too_small=Multiblock is too small, it must be at least %1$d blocks in the %2$s dimension
-zerocore:api.multiblock.validation.invalid_part=Part at %1$d, %2$d, %3$d is incompatible with this machine
-zerocore:api.multiblock.validation.invalid_part_for_frame=Block at %1$d, %2$d, %3$d is not valid for use in the machine's frame
-zerocore:api.multiblock.validation.invalid_part_for_bottom=Block at %1$d, %2$d, %3$d is not valid for use in the machine's bottom layer
-zerocore:api.multiblock.validation.invalid_part_for_top=Block at %1$d, %2$d, %3$d is not valid for use in the machine's top layer
-zerocore:api.multiblock.validation.invalid_part_for_sides=Block at %1$d, %2$d, %3$d is not valid for use in the machine's sides
-zerocore:api.multiblock.validation.invalid_part_for_interior=Block at %1$d, %2$d, %3$d is not valid for use in the machine's interior
+zerocore.api.nc.multiblock.validation.success=Multiblock validation was successful
+zerocore.api.nc.multiblock.validation.too_few_parts=Multiblock is too small
+zerocore.api.nc.multiblock.validation.machine_too_large=Multiblock is too large, it may be at most %1$d blocks in the %2$s dimension
+zerocore.api.nc.multiblock.validation.machine_too_small=Multiblock is too small, it must be at least %1$d blocks in the %2$s dimension
+zerocore.api.nc.multiblock.validation.invalid_part=Part at %1$d, %2$d, %3$d is incompatible with this machine
+zerocore.api.nc.multiblock.validation.invalid_part_for_frame=Block at %1$d, %2$d, %3$d is not valid for use in the machine's frame
+zerocore.api.nc.multiblock.validation.invalid_part_for_bottom=Block at %1$d, %2$d, %3$d is not valid for use in the machine's bottom layer
+zerocore.api.nc.multiblock.validation.invalid_part_for_top=Block at %1$d, %2$d, %3$d is not valid for use in the machine's top layer
+zerocore.api.nc.multiblock.validation.invalid_part_for_sides=Block at %1$d, %2$d, %3$d is not valid for use in the machine's sides
+zerocore.api.nc.multiblock.validation.invalid_part_for_interior=Block at %1$d, %2$d, %3$d is not valid for use in the machine's interior
 
 nc.block.fluid_toggle=Toggled side to
 nc.block.fluid_toggle_opposite=Toggled opposite side to
@@ -2372,9 +2386,7 @@ gui.container.heat_exchanger_controller.tubes=Exchanger Tubes:
 gui.container.heat_exchanger_controller.efficiency=Average Efficiency:
 gui.container.heat_exchanger_controller.active_percent=Tubes Active:
 
-gui.container.high_turbine_controller.high_turbine=High Pressure Turbine (WIP)
-
-gui.container.low_turbine_controller.low_turbine=Low Pressure Turbine (WIP)
+gui.container.turbine_controller.turbine=Steam Turbine (WIP)
 
 gui.container.condenser_controller.condenser=Condenser (WIP)
 
@@ -2425,6 +2437,9 @@ advancement.nuclearcraft.portable_ender_chest.desc=Craft a Portable Ender Chest
 advancement.nuclearcraft.speed_upgrade.name=Overclocking
 advancement.nuclearcraft.speed_upgrade.desc=Craft a Speed Upgrade
 
+advancement.nuclearcraft.energy_upgrade.name=Polynomial Quenching
+advancement.nuclearcraft.energy_upgrade.desc=Craft an Energy Upgrade
+
 advancement.nuclearcraft.machine_interface.name=Cubic Extension
 advancement.nuclearcraft.machine_interface.desc=Craft a Machine Interface
 
@@ -2445,6 +2460,9 @@ advancement.nuclearcraft.lithium_ion_battery_basic.desc=Craft a Basic Lithium Io
 
 advancement.nuclearcraft.fusion_core.name=Star in a Box
 advancement.nuclearcraft.fusion_core.desc=Craft a Fusion Core
+
+advancement.nuclearcraft.active_cooler.name=Temperature Control
+advancement.nuclearcraft.active_cooler.desc=Craft an Active Cooler
 
 advancement.nuclearcraft.irradiator.name=Neutron Bombardment
 advancement.nuclearcraft.irradiator.desc=Craft a Neutron Irradiator
@@ -2491,6 +2509,12 @@ advancement.nuclearcraft.salt_mixer.desc=Craft a Salt Mixer
 advancement.nuclearcraft.crystallizer.name=Breaking Bad
 advancement.nuclearcraft.crystallizer.desc=Craft a Crystallizer
 
+advancement.nuclearcraft.centrifuge.name=James Bond
+advancement.nuclearcraft.centrifuge.desc=Craft a Centrifuge
+
+advancement.nuclearcraft.rock_crusher.name=Rolling Stones
+advancement.nuclearcraft.rock_crusher.desc=Craft a Rock Crusher
+
 advancement.nuclearcraft.plutonium.name=Criticality
 advancement.nuclearcraft.plutonium.desc=Obtain some Plutonium
 
@@ -2515,6 +2539,39 @@ advancement.nuclearcraft.berkelium.desc=Obtain some Berkelium
 advancement.nuclearcraft.californium.name=California Dreamin'
 advancement.nuclearcraft.californium.desc=Obtain some Californium
 
+advancement.nuclearcraft.salt_fission_controller.name=Next Gen Nuclear
+advancement.nuclearcraft.salt_fission_controller.desc=Craft a Molten Salt Fission Controller
+
+advancement.nuclearcraft.heat_exchanger_controller.name=Thermal Contact
+advancement.nuclearcraft.heat_exchanger_controller.desc=Craft a Heat Exchanger Controller
+
+advancement.nuclearcraft.turbine_controller.name=Respecting Rankine
+advancement.nuclearcraft.turbine_controller.desc=Craft a Steam Turbine Controller
+
+advancement.nuclearcraft.geiger_counter.name=Pripyat Preparations
+advancement.nuclearcraft.geiger_counter.desc=Craft a Geiger Counter
+
+advancement.nuclearcraft.radaway.name=Ridding the Rads
+advancement.nuclearcraft.radaway.desc=Make some RadAway
+
+advancement.nuclearcraft.rad_x.name=Imitative Immunity
+advancement.nuclearcraft.rad_x.desc=Make some Rad-X
+
+advancement.nuclearcraft.rad_shielding.name=Brave Sir Robin
+advancement.nuclearcraft.rad_shielding.desc=Craft some Heavy Radiation Shielding
+
+advancement.nuclearcraft.radiation_scrubber.name=Pollution Control
+advancement.nuclearcraft.radiation_scrubber.desc=Craft a Radiation Scrubber
+
+advancement.nuclearcraft.marshmallow.name=The Lansdell Manoeuvre
+advancement.nuclearcraft.marshmallow.desc=Make a Marshmallow
+
+advancement.nuclearcraft.smore.name=Gather Round the Campfire
+advancement.nuclearcraft.smore.desc=Make a S'more S'mingot
+
+advancement.nuclearcraft.moresmore.name=S'more of the Same
+advancement.nuclearcraft.moresmore.desc=Make a MoreS'more DoubleS'mingot
+
 block.fusion_run=Fusion Reactor Running
 block.accelerator_run=Accelerator Running
 player.geiger_tick=Geiger Tick
@@ -2528,6 +2585,9 @@ material.hard_carbon.name=Hard Carbon
 material.boron_nitride.name=Boron Nitride
 
 message.nuclearcraft.rad_x_wore_off=Your Rad-X wore off...
+message.nuclearcraft.scrubber_removal_rate=Radiation removal rate:
+
+hud.nuclearcraft.rad_immune=Immune for:
 
 death.attack.superfluid_freeze=%1$s was Bose-Einstein condensated
 death.attack.plasma_burn=%1$s was incinerated by plasma
