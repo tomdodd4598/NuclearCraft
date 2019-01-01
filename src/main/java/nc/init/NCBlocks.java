@@ -559,9 +559,9 @@ public class NCBlocks {
 		}
 		
 		if (NCConfig.register_passive[1]) {
-			registerBlock(cobblestone_generator, InfoHelper.formattedInfo(infoLine("cobblestone_generator"), UnitHelper.ratePrefix(NCConfig.processor_passive_rate[1], 5, "Cobblestone")));
-			registerBlock(cobblestone_generator_compact, InfoHelper.formattedInfo(infoLine("cobblestone_generator"), UnitHelper.ratePrefix(NCConfig.processor_passive_rate[1]*8, 5, "Cobblestone")));
-			registerBlock(cobblestone_generator_dense, InfoHelper.formattedInfo(infoLine("cobblestone_generator"), UnitHelper.ratePrefix(NCConfig.processor_passive_rate[1]*64, 5, "Cobblestone")));
+			registerBlock(cobblestone_generator, NCConfig.cobble_gen_power > 0 ? InfoHelper.formattedInfo("tile.nuclearcraft.cobblestone_generator_req_power", UnitHelper.ratePrefix(NCConfig.processor_passive_rate[1], 5, Lang.localise("nuclearcraft.cobblestone")), UnitHelper.ratePrefix(NCConfig.cobble_gen_power, 5, "RF")) : InfoHelper.formattedInfo("tile.nuclearcraft.cobblestone_generator_no_req_power", UnitHelper.ratePrefix(NCConfig.processor_passive_rate[1], 5, Lang.localise("nuclearcraft.cobblestone"))));
+			registerBlock(cobblestone_generator_compact, NCConfig.cobble_gen_power > 0 ? InfoHelper.formattedInfo("tile.nuclearcraft.cobblestone_generator_req_power", UnitHelper.ratePrefix(NCConfig.processor_passive_rate[1]*8, 5, Lang.localise("nuclearcraft.cobblestone")), UnitHelper.ratePrefix(NCConfig.cobble_gen_power*8, 5, "RF")) : InfoHelper.formattedInfo("tile.nuclearcraft.cobblestone_generator_no_req_power", UnitHelper.ratePrefix(NCConfig.processor_passive_rate[1]*8, 5, Lang.localise("nuclearcraft.cobblestone"))));
+			registerBlock(cobblestone_generator_dense, NCConfig.cobble_gen_power > 0 ? InfoHelper.formattedInfo("tile.nuclearcraft.cobblestone_generator_req_power", UnitHelper.ratePrefix(NCConfig.processor_passive_rate[1]*64, 5, Lang.localise("nuclearcraft.cobblestone")), UnitHelper.ratePrefix(NCConfig.cobble_gen_power*64, 5, "RF")) : InfoHelper.formattedInfo("tile.nuclearcraft.cobblestone_generator_no_req_power", UnitHelper.ratePrefix(NCConfig.processor_passive_rate[1]*64, 5, Lang.localise("nuclearcraft.cobblestone"))));
 		}
 		
 		if (NCConfig.register_passive[2]) {

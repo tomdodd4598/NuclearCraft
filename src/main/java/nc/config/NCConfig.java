@@ -5,9 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nc.Global;
+import nc.network.PacketHandler;
+import nc.network.config.ConfigUpdatePacket;
 import nc.radiation.RadSources;
 import nc.util.Lang;
 import nc.util.NCMath;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
@@ -15,6 +18,7 @@ import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 
 public class NCConfig {
 
@@ -190,7 +194,8 @@ public class NCConfig {
 	public static int[] armor_enchantability;
 	public static double[] armor_toughness;
 	
-	public static boolean radiation_enabled;
+	private static boolean radiation_enabled;
+	public static boolean radiation_enabled_public;
 	
 	public static int radiation_world_tick_rate;
 	public static int radiation_player_tick_rate;
@@ -272,6 +277,8 @@ public class NCConfig {
 		File configFile = new File(Loader.instance().getConfigDir(), "nuclearcraft.cfg");
 		config = new Configuration(configFile);
 		syncFromFiles();
+		
+		MinecraftForge.EVENT_BUS.register(new ServerConfigEventHandler());
 	}
 	
 	public static Configuration getConfig() {
@@ -279,7 +286,7 @@ public class NCConfig {
 	}
 	
 	public static void clientPreInit() {
-		MinecraftForge.EVENT_BUS.register(new ConfigEventHandler());
+		MinecraftForge.EVENT_BUS.register(new ClientConfigEventHandler());
 	}
 	
 	public static void syncFromFiles() {
@@ -294,8 +301,8 @@ public class NCConfig {
 		syncConfig(false, false);
 	}
 	
-	private static void syncConfig(boolean loadFromConfigFile, boolean readFieldFromConfig) {
-		if (loadFromConfigFile) config.load();
+	private static void syncConfig(boolean loadFromFile, boolean setFromConfig) {
+		if (loadFromFile) config.load();
 		
 		Property propertyOreDims = config.get(CATEGORY_ORES, "ore_dims", new int[] {0, 2, -6, -100, 4598, -9999, -11325}, Lang.localise("gui.config.ores.ore_dims.comment"), Integer.MIN_VALUE, Integer.MAX_VALUE);
 		propertyOreDims.setLanguageKey("gui.config.ores.ore_dims");
@@ -622,7 +629,7 @@ public class NCConfig {
 		propertyRadiationRadXLifetime.setLanguageKey("gui.config.radiation.radiation_rad_x_lifetime");
 		Property propertyRadiationRadXCooldown = config.get(CATEGORY_RADIATION, "radiation_rad_x_cooldown", 0D, Lang.localise("gui.config.radiation.radiation_rad_x_cooldown.comment"), 0D, 100000D);
 		propertyRadiationRadXCooldown.setLanguageKey("gui.config.radiation.radiation_rad_x_cooldown");
-		Property propertyRadiationShieldingLevel = config.get(CATEGORY_RADIATION, "radiation_shielding_level", new double[] {0.0001D, 0.01D, 1D}, Lang.localise("gui.config.radiation.radiation_shielding_level.comment"), 0.000000000000000001D, 1000D);
+		Property propertyRadiationShieldingLevel = config.get(CATEGORY_RADIATION, "radiation_shielding_level", new double[] {0.01D, 0.1D, 1D}, Lang.localise("gui.config.radiation.radiation_shielding_level.comment"), 0.000000000000000001D, 1000D);
 		propertyRadiationShieldingLevel.setLanguageKey("gui.config.radiation.radiation_shielding_level");
 		Property propertyRadiationScrubberRate = config.get(CATEGORY_RADIATION, "radiation_scrubber_fraction", 0.1D, Lang.localise("gui.config.radiation.radiation_scrubber_fraction.comment"), 0D, 1D);
 		propertyRadiationScrubberRate.setLanguageKey("gui.config.radiation.radiation_scrubber_fraction");
@@ -962,7 +969,7 @@ public class NCConfig {
 		propertyOrderOther.add(propertyOreDictPriority.getName());
 		config.setCategoryPropertyOrder(CATEGORY_OTHER, propertyOrderOther);
 		
-		if(readFieldFromConfig) {
+		if (setFromConfig) {
 			ore_dims = propertyOreDims.getIntList();
 			ore_dims_list_type = propertyOreDimsListType.getBoolean();
 			ore_gen = readBooleanArrayFromConfig(propertyOreGen);
@@ -986,7 +993,6 @@ public class NCConfig {
 			processor_passive_rate = readIntegerArrayFromConfig(propertyProcessorPassiveRate);
 			cobble_gen_power = propertyCobbleGenPower.getInt();
 			ore_processing = propertyOreProcessing.getBoolean();
-			//update_block_type = propertyUpdateBlockType.getBoolean();
 			smart_processor_input = propertySmartProcessorInput.getBoolean();
 			passive_permeation = propertyPermeation.getBoolean();
 			processor_particles = propertyProcessorParticles.getBoolean();
@@ -1186,7 +1192,6 @@ public class NCConfig {
 			register_cofh_fluids = propertyRegisterCoFHFluids.getBoolean();
 			ore_dict_priority_bool = propertyOreDictPriorityBool.getBoolean();
 			ore_dict_priority = propertyOreDictPriority.getStringList();
-			
 		}
 		
 		propertyOreDims.set(ore_dims);
@@ -1412,6 +1417,10 @@ public class NCConfig {
 		propertyOreDictPriorityBool.set(ore_dict_priority_bool);
 		propertyOreDictPriority.set(ore_dict_priority);
 		
+		if (setFromConfig) {
+			radiation_enabled_public = radiation_enabled;
+		}
+		
 		if (config.hasChanged()) config.save();
 	}
 	
@@ -1481,11 +1490,27 @@ public class NCConfig {
 		return newArray;
 	}
 	
-	public static class ConfigEventHandler {
+	private static class ServerConfigEventHandler {
+		
+		@SubscribeEvent
+		public void configOnWorldLoad(PlayerLoggedInEvent event) {
+			if (event.player instanceof EntityPlayerMP) PacketHandler.instance.sendTo(getConfigUpdatePacket(), (EntityPlayerMP)event.player);
+		}
+	}
+	
+	private static class ClientConfigEventHandler {
 		
 		@SubscribeEvent(priority = EventPriority.LOWEST)
 		public void onEvent(ConfigChangedEvent.OnConfigChangedEvent event) {
 			if (event.getModID().equals(Global.MOD_ID)) syncFromGui();
 		}
+	}
+	
+	public static ConfigUpdatePacket getConfigUpdatePacket() {
+		return new ConfigUpdatePacket(radiation_enabled);
+	}
+	
+	public static void onConfigPacket(ConfigUpdatePacket message) {
+		radiation_enabled_public = message.radiation_enabled;
 	}
 }

@@ -429,7 +429,8 @@ public class MetaEnums {
 		FLUORITE("fluorite", 2),
 		VILLIAUMITE("villiaumite", 3),
 		CAROBBIITE("carobbiite", 4),
-		BORON_ARSENIDE("boron_arsenide", 5);
+		BORON_ARSENIDE("boron_arsenide", 5),
+		SILICON("silicon", 6);
 		
 		private String name;
 		private int id;
@@ -470,7 +471,8 @@ public class MetaEnums {
 		COAL("coal", 7),
 		VILLIAUMITE("villiaumite", 8),
 		CAROBBIITE("carobbiite", 9),
-		ARSENIC("arsenic", 10);
+		ARSENIC("arsenic", 10),
+		END_STONE("end_stone", 11);
 		
 		private String name;
 		private int id;
@@ -513,7 +515,9 @@ public class MetaEnums {
 		LEAD_PLATINUM("lead_platinum", 9),
 		EXTREME("extreme", 10),
 		THERMOCONDUCTING("thermoconducting", 11),
-		ZIRCALOY("zircaloy", 12);
+		ZIRCALOY("zircaloy", 12),
+		SILICON_CARBIDE("silicon_carbide", 13),
+		SIC_SIC_CMC("sic_sic_cmc", 14);
 		
 		private String name;
 		private int id;
@@ -551,7 +555,8 @@ public class MetaEnums {
 		POTASSIUM_FLUORIDE("potassium_fluoride", 4),
 		SODIUM_HYDROXIDE("sodium_hydroxide", 5),
 		POTASSIUM_HYDROXIDE("potassium_hydroxide", 6),
-		BORAX("borax", 7);
+		BORAX("borax", 7),
+		DIMENSIONAL_BLEND("dimensional_blend", 8);
 		
 		private String name;
 		private int id;
@@ -594,7 +599,8 @@ public class MetaEnums {
 		ACTUATOR("actuator", 9),
 		CHASSIS("chassis", 10),
 		EMPTY_FRAME("empty_frame", 11),
-		STEEL_FRAME("steel_frame", 12);
+		STEEL_FRAME("steel_frame", 12),
+		SIC_FIBER("sic_fiber", 13);
 		
 		private String name;
 		private int id;

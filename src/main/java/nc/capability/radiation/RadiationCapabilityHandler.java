@@ -6,11 +6,11 @@ import nc.config.NCConfig;
 import nc.radiation.RadSources;
 import nc.radiation.RadWorlds;
 import nc.radiation.RadiationArmor;
+import nc.util.ArmorHelper;
 import nc.util.OreDictHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
@@ -64,7 +64,7 @@ public class RadiationCapabilityHandler {
 	@SubscribeEvent
 	public void attachArmorDefaultRadiationResistanceCapability(AttachCapabilitiesEvent<ItemStack> event) {
 		ItemStack stack = event.getObject();
-		if (stack.isEmpty() || !(stack.getItem() instanceof ItemArmor)) return;
+		if (stack.isEmpty() || !ArmorHelper.isArmor(stack.getItem(), true)) return;
 		for (Entry<ItemStack, Double> entry : RadiationArmor.ARMOR_STACK_RESISTANCE_MAP.entrySet()) {
 			if (stack.isItemEqual(entry.getKey())) {
 				event.addCapability(IDefaultRadiationResistance.CAPABILITY_DEFAULT_RADIATION_RESISTANCE_NAME, new DefaultRadiationResistanceProvider(entry.getValue()));

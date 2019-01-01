@@ -31,6 +31,9 @@ public class IngotFormerRecipes extends ProcessorRecipeHandler {
 		addRecipe(fluidStack("coal", FluidStackHelper.COAL_DUST_VOLUME), "ingotGraphite", 0.5D, 1D);
 		addRecipe(fluidStack("prismarine", FluidStackHelper.INGOT_VOLUME), "gemPrismarine", 1D, 1D);
 		
+		if (OreDictHelper.oreExists("ingotSilicon")) addRecipe(fluidStack("silicon", FluidStackHelper.INGOT_VOLUME), "ingotSilicon", 1D, 1D);
+		else addRecipe(fluidStack("silicon", FluidStackHelper.INGOT_VOLUME), "itemSilicon", 1D, 1D);
+		
 		// Tinkers' Construct		
 		addIngotFormingRecipe("Manyullyn");
 		addIngotFormingRecipe("Alubrass");
@@ -96,7 +99,7 @@ public class IngotFormerRecipes extends ProcessorRecipeHandler {
 		addFissionFuelFormingRecipes(element, suffix, "", types);
 	}
 	
-	private static final List<String> CASTING_BLACKLIST = Arrays.asList("glass", "coal", "redstone", "glowstone", "prismarine", "obsidian");
+	private static final List<String> CASTING_BLACKLIST = Arrays.asList("glass", "coal", "redstone", "glowstone", "prismarine", "obsidian", "silicon");
 	
 	public void addIngotFormingRecipes() {
 		ArrayList<String> fluidList = new ArrayList(FluidRegistry.getRegisteredFluids().keySet());

@@ -8,6 +8,7 @@ import nc.block.fluid.BlockFluidFission;
 import nc.block.fluid.BlockFluidFlammable;
 import nc.block.fluid.BlockFluidGas;
 import nc.block.fluid.BlockFluidHotCoolant;
+import nc.block.fluid.BlockFluidHotGas;
 import nc.block.fluid.BlockFluidLiquid;
 import nc.block.fluid.BlockFluidMolten;
 import nc.block.fluid.BlockFluidParticle;
@@ -23,6 +24,7 @@ import nc.fluid.FluidFission;
 import nc.fluid.FluidFlammable;
 import nc.fluid.FluidGas;
 import nc.fluid.FluidHotCoolant;
+import nc.fluid.FluidHotGas;
 import nc.fluid.FluidLiquid;
 import nc.fluid.FluidMolten;
 import nc.fluid.FluidParticle;
@@ -36,6 +38,7 @@ import net.minecraftforge.fluids.Fluid;
 public enum FluidType {
 	LIQUID(FluidLiquid.class, BlockFluidLiquid.class),
 	GAS(FluidGas.class, BlockFluidGas.class),
+	HOT_GAS(FluidHotGas.class, BlockFluidHotGas.class),
 	STEAM(FluidSteam.class, BlockFluidSteam.class),
 	MOLTEN(FluidMolten.class, BlockFluidMolten.class),
 	SUPERFLUID(SuperFluid.class, BlockSuperFluid.class),

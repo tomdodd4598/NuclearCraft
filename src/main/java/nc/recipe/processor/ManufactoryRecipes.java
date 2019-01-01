@@ -46,9 +46,10 @@ public class ManufactoryRecipes extends ProcessorRecipeHandler {
 		}
 		else addRecipe("sand", "itemSilicon", 1D, 1D);
 		
-		addRecipe("obsidian", oreStack("dustObsidian", 4), 2D, 1.5D);
+		addRecipe("obsidian", oreStack("dustObsidian", 4), 2D, 1D);
 		addRecipe("cobblestone", Blocks.SAND, 1D, 1D);
 		addRecipe("gravel", Items.FLINT, 1D, 1D);
+		addRecipe("endstone", "dustEndstone", 1D, 1D);
 		addRecipe(Items.BLAZE_ROD, new ItemStack(Items.BLAZE_POWDER, 4), 1D, 1D);
 		addRecipe(new ItemStack(Items.ROTTEN_FLESH, 4), Items.LEATHER, 0.5D, 1D);
 		addRecipe(new ItemStack(Items.REEDS, 2), "bioplastic", 1D, 0.5D);
@@ -57,6 +58,13 @@ public class ManufactoryRecipes extends ProcessorRecipeHandler {
 		addRecipe("bone", new ItemStack(Items.DYE, 6, 15), 0.5D, 1D);
 		addRecipe(NCItems.roasted_cocoa_beans, NCItems.ground_cocoa_nibs, 0.5D, 0.5D);
 		addRecipe(Lists.newArrayList(Items.PORKCHOP, Items.FISH, new ItemStack(Items.FISH, 1, 1), new ItemStack(Items.FISH, 1, 2), new ItemStack(Items.FISH, 1, 3)), NCItems.gelatin, 0.5D, 0.5D);
+		
+		// EnderIO
+		addRecipe("itemPrecientCrystal", "itemPrecientPowder", 1D, 1D);
+		addRecipe("itemVibrantCrystal", "itemVibrantPowder", 1D, 1D);
+		addRecipe("itemPulsatingCrystal", "itemPulsatingPowder", 1D, 1D);
+		addRecipe("itemPulsatingCrystal", "itemPulsatingPowder", 1D, 1D);
+		addRecipe("itemEnderCrystal", "itemEnderCrystalPowder", 1D, 1D);
 		
 		// Immersive Engineering
 		addRecipe(oreStack("dustCoke", 8), "dustHOPGraphite", 2D, 2D);

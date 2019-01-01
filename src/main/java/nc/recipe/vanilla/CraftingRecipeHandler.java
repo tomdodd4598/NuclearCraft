@@ -15,6 +15,7 @@ import nc.init.NCTools;
 import nc.radiation.RadiationArmor;
 import nc.recipe.vanilla.ingredient.BucketIngredient;
 import nc.recipe.vanilla.recipe.ShapelessArmorUpgradeOreRecipe;
+import nc.util.ArmorHelper;
 import nc.util.ItemStackHelper;
 import nc.util.NCUtil;
 import nc.util.OreDictHelper;
@@ -23,7 +24,6 @@ import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.ResourceLocation;
@@ -266,8 +266,10 @@ public class CraftingRecipeHandler {
 		
 		tinyClumpRecipes("Boron", NCItems.boron, 10, 11);
 		tinyClumpRecipes("Lithium", NCItems.lithium, 6, 7);
+		
 		addShapelessOreRecipe(new ItemStack(NCItems.compound, 2, 1), new Object[] {"dustRhodochrosite", "dustCalciumSulfate", "dustObsidian", "dustMagnesium"});
 		addShapelessOreRecipe(new ItemStack(NCItems.compound, 2, 2), new Object[] {"dustRedstone", "dustGlowstone"});
+		addShapelessOreRecipe(new ItemStack(NCItems.compound, 2, 8), new Object[] {"dustObsidian", "dustObsidian", "dustObsidian", "dustObsidian", "dustEndstone"});
 		
 		addShapedOreRecipe(NCItems.portable_ender_chest, new Object[] {" S ", "WCW", "LWL", 'C', "chestEnder", 'W', new ItemStack(Blocks.WOOL, 1, 10), 'S', "string", 'L', "ingotTough"});
 		addShapedOreRecipe(NCItems.portable_ender_chest, new Object[] {" S ", "WCW", "LWL", 'C', "chestEnder", 'W', new ItemStack(Blocks.WOOL, 1, 15), 'S', "string", 'L', "ingotTough"});
@@ -298,7 +300,7 @@ public class CraftingRecipeHandler {
 		addShapelessOreRecipe(NCItems.record_hyperspace, new Object[] {"record", "ingotZirconium"});
 		
 		if (NCConfig.radiation_shielding_default_recipes) for (Item item : ForgeRegistries.ITEMS.getValuesCollection()) {
-			if (item instanceof ItemArmor && !RadiationArmor.ARMOR_ITEM_SHIELDING_BLACKLIST.contains(item)) {
+			if (ArmorHelper.isArmor(item, true) && !RadiationArmor.ARMOR_ITEM_SHIELDING_BLACKLIST.contains(item)) {
 				RadiationArmor.addArmorShieldingRecipes(item);
 			}
 		}

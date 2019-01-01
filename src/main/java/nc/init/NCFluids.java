@@ -117,6 +117,8 @@ public class NCFluids {
 			
 			fluidPairList.add(fluidPair(FluidType.MOLTEN, "bas", 0x9B9B89));
 			
+			fluidPairList.add(fluidPair(FluidType.HOT_GAS, "sic_vapor", 0x78746A));
+			
 		} catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 			e.printStackTrace();
 		}

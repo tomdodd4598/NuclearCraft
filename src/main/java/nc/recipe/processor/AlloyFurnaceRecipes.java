@@ -33,6 +33,7 @@ public class AlloyFurnaceRecipes extends ProcessorRecipeHandler {
 		addAlloyIngotIngotRecipes("Tough", 1, "HardCarbon", 1, "Extreme", 1, 2D, 2D);
 		addAlloyIngotGemRecipes("Extreme", 1, "BoronArsenide", 1, "Thermoconducting", 2, 1.5D, 1.5D);
 		addAlloyIngotIngotRecipes("Zirconium", 7, "Tin", 1, "Zircaloy", 8, 4D, 1D);
+		addRecipe(Lists.newArrayList("itemSilicon", "ingotSilicon"), Lists.newArrayList("ingotGraphite", "dustGraphite"), oreStack("ingotSiliconCarbide", 2), 2D, 2D);
 		
 		// Tinkers' Construct
 		addAlloyIngotIngotRecipes("Aluminum", 3, "Copper", 1, "AluminumBrass", 4, 1D, 1D);
@@ -45,7 +46,7 @@ public class AlloyFurnaceRecipes extends ProcessorRecipeHandler {
 		addAlloyIngotIngotRecipes("Copper", 1, "Nickel", 1, "Constantan", 2, 1D, 1D);
 		
 		// EnderIO
-		addRecipe(Lists.newArrayList("ingotSteel", "dustSteel"), "itemSilicon", "ingotElectricalSteel", 1.5D, 1.5D);
+		addRecipe(Lists.newArrayList("ingotSteel", "dustSteel"), Lists.newArrayList("itemSilicon", "ingotSilicon"), "ingotElectricalSteel", 1.5D, 1.5D);
 		addRecipe(Lists.newArrayList("ingotGold", "dustGold"), oreStack("dustEnergetic", 2), "ingotEnergeticAlloy", 1D, 1.5D);
 		addRecipe(Lists.newArrayList("ingotEnergeticAlloy", "dustEnergeticAlloy"), Lists.newArrayList(Items.ENDER_PEARL, "dustEnder"), "ingotVibrantAlloy", 1.5D, 2D);
 		addRecipe(Lists.newArrayList("itemSilicon", "ingotSilicon"), "dustRedstone", "ingotRedstoneAlloy", 1D, 1D);
@@ -54,7 +55,7 @@ public class AlloyFurnaceRecipes extends ProcessorRecipeHandler {
 		addRecipe(Lists.newArrayList("ingotSteel", "dustSteel"), "obsidian", "ingotDarkSteel", 1.5D, 2D);
 		addRecipe(Lists.newArrayList("ingotGold", "dustGold"), Blocks.SOUL_SAND, "ingotSoularium", 1.5D, 0.5D);
 		addRecipe(oreStackList(Lists.newArrayList("ingotLead", "dustLead"), 2), Lists.newArrayList("ingotIron", "dustIron"), oreStack("ingotConstructionAlloy", 3), 1D, 1D);
-		addRecipe("ingotDarkSteel", "endstone", "ingotEndSteel", 2D, 2D);
+		addRecipe("ingotDarkSteel", oreStack("dustDimensional", 2), "ingotEndSteel", 2D, 2D);
 		
 		addRecipe(Lists.newArrayList("gemDiamond", "dustDiamond"), oreStack("nuggetPulsatingIron", 8), "itemPulsatingCrystal", 1D, 1.5D);
 		addRecipe(Lists.newArrayList("gemEmerald", "dustEmerald"), oreStack("nuggetVibrantAlloy", 8), "itemVibrantCrystal", 1D, 1.5D);
@@ -69,9 +70,9 @@ public class AlloyFurnaceRecipes extends ProcessorRecipeHandler {
 		addAlloyIngotFuelRecipes("Iron", 2, "Coke", 1, "Steel", 2, 1D, 1D);
 		
 		// Advanced Rocketry
-		addAlloyIngotFuelRecipes("Aluminum", 7, "Titanium", 3, "TitaniumAluminide", 3, 3D, 1D);
-		addAlloyIngotFuelRecipes("Aluminium", 7, "Titanium", 3, "TitaniumAluminide", 3, 3D, 1D);
-		addAlloyIngotFuelRecipes("Titanium", 1, "Iridium", 1, "TitaniumIridium", 2, 1.5D, 2D);
+		addAlloyIngotIngotRecipes("Aluminum", 7, "Titanium", 3, "TitaniumAluminide", 3, 3D, 1D);
+		addAlloyIngotIngotRecipes("Aluminium", 7, "Titanium", 3, "TitaniumAluminide", 3, 3D, 1D);
+		addAlloyIngotIngotRecipes("Titanium", 1, "Iridium", 1, "TitaniumIridium", 2, 1.5D, 2D);
 	}
 	
 	public void addAlloyIngotIngotRecipes(String in1, int inSize1, String in2, int inSize2, String out, int outSize, double time, double power) {

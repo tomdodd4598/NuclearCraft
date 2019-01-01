@@ -22,7 +22,7 @@ public class RadiationEnvironmentHandler {
 	
 	@SubscribeEvent
 	public void updateRadiationEnvironment(WorldTickEvent event) {
-		if (!NCConfig.radiation_enabled) return;
+		if (!NCConfig.radiation_enabled_public) return;
 		
 		if (event.phase != Phase.END || event.side == Side.CLIENT || !(event.world instanceof WorldServer)) return;
 		

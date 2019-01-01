@@ -3,9 +3,9 @@ package nc.multiblock;
 import javax.annotation.Nullable;
 
 import nc.Global;
-import nc.NuclearCraft;
 import nc.block.NCBlock;
 import nc.multiblock.validation.ValidationError;
+import nc.render.BlockHighlightTracker;
 import nc.util.Lang;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
@@ -14,6 +14,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
@@ -58,7 +59,7 @@ public abstract class MultiblockBlockPartBase extends NCBlock implements ITileEn
 						if (e != null) {
 							e = e.updatedError(world);
 							player.sendMessage(e.getChatMessage());
-							if (e.getErrorPos() != null) NuclearCraft.instance.blockOverlayTracker.highlightBlock(e.getErrorPos(), 5000);
+							if (e.getErrorPos() != null) BlockHighlightTracker.sendPacket((EntityPlayerMP) player, e.getErrorPos(), 5000);
 							return true;
 						}
 					} else {

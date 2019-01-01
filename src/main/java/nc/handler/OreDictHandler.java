@@ -84,6 +84,7 @@ public class OreDictHandler {
 		OreDictionary.registerOre("gemVilliaumite", new ItemStack(NCItems.gem, 1, 3));
 		OreDictionary.registerOre("gemCarobbiite", new ItemStack(NCItems.gem, 1, 4));
 		OreDictionary.registerOre("gemBoronArsenide", new ItemStack(NCItems.gem, 1, 5));
+		OreDictionary.registerOre("itemSilicon", new ItemStack(NCItems.gem, 1, 6));
 		
 		OreDictionary.registerOre("dustDiamond", new ItemStack(NCItems.gem_dust, 1, 0));
 		OreDictionary.registerOre("dustRhodochrosite", new ItemStack(NCItems.gem_dust, 1, 1));
@@ -97,6 +98,7 @@ public class OreDictHandler {
 		OreDictionary.registerOre("dustVilliaumite", new ItemStack(NCItems.gem_dust, 1, 8));
 		OreDictionary.registerOre("dustCarobbiite", new ItemStack(NCItems.gem_dust, 1, 9));
 		OreDictionary.registerOre("dustArsenic", new ItemStack(NCItems.gem_dust, 1, 10));
+		OreDictionary.registerOre("dustEndstone", new ItemStack(NCItems.gem_dust, 1, 11));
 		
 		OreDictionary.registerOre("ingotBronze", new ItemStack(NCItems.alloy, 1, 0));
 		OreDictionary.registerOre("ingotTough", new ItemStack(NCItems.alloy, 1, 1));
@@ -111,6 +113,8 @@ public class OreDictHandler {
 		OreDictionary.registerOre("ingotExtreme", new ItemStack(NCItems.alloy, 1, 10));
 		OreDictionary.registerOre("ingotThermoconducting", new ItemStack(NCItems.alloy, 1, 11));
 		OreDictionary.registerOre("ingotZircaloy", new ItemStack(NCItems.alloy, 1, 12));
+		OreDictionary.registerOre("ingotSiliconCarbide", new ItemStack(NCItems.alloy, 1, 13));
+		OreDictionary.registerOre("ingotSiCSiCCMC", new ItemStack(NCItems.alloy, 1, 14));
 		
 		OreDictionary.registerOre("dustCalciumSulfate", new ItemStack(NCItems.compound, 1, 0));
 		OreDictionary.registerOre("dustCrystalBinder", new ItemStack(NCItems.compound, 1, 1));
@@ -120,6 +124,7 @@ public class OreDictHandler {
 		OreDictionary.registerOre("dustSodiumHydroxide", new ItemStack(NCItems.compound, 1, 5));
 		OreDictionary.registerOre("dustPotassiumHydroxide", new ItemStack(NCItems.compound, 1, 6));
 		OreDictionary.registerOre("dustBorax", new ItemStack(NCItems.compound, 1, 7));
+		OreDictionary.registerOre("dustDimensional", new ItemStack(NCItems.compound, 1, 8));
 		
 		OreDictionary.registerOre("plateBasic", new ItemStack(NCItems.part, 1, 0));
 		OreDictionary.registerOre("plateAdvanced", new ItemStack(NCItems.part, 1, 1));
@@ -134,6 +139,7 @@ public class OreDictHandler {
 		OreDictionary.registerOre("chassis", new ItemStack(NCItems.part, 1, 10));
 		OreDictionary.registerOre("emptyFrame", new ItemStack(NCItems.part, 1, 11));
 		OreDictionary.registerOre("steelFrame", new ItemStack(NCItems.part, 1, 12));
+		OreDictionary.registerOre("fiberSiliconCarbide", new ItemStack(NCItems.part, 1, 13));
 		
 		OreDictionary.registerOre("tinyDustLead", NCItems.tiny_dust_lead);
 		
@@ -540,6 +546,7 @@ public class OreDictHandler {
 		OreDictionary.registerOre("dustWheat", NCItems.flour);
 		OreDictionary.registerOre("dyeBrown", NCItems.cocoa_solids);
 		OreDictionary.registerOre("dustCocoa", NCItems.cocoa_solids);
+		OreDictionary.registerOre("ingotChocolate", NCItems.milk_chocolate);
 		
 		OreDictionary.registerOre("record", NCItems.record_wanderer);
 		OreDictionary.registerOre("record", NCItems.record_end_of_the_world);

@@ -9,7 +9,7 @@ public class NCTabs {
 	
 	public static final CreativeTabs BASE_BLOCK_MATERIALS = NCConfig.single_creative_tab ? NUCLEARCRAFT : new TabBaseBlockMaterials();
 	public static final CreativeTabs BASE_ITEM_MATERIALS = NCConfig.single_creative_tab ? NUCLEARCRAFT : new TabBaseItemMaterials();
-	public static final CreativeTabs RADIATION = (NCConfig.single_creative_tab || !NCConfig.radiation_enabled) ? NUCLEARCRAFT : new TabRadiation();
+	public static final CreativeTabs RADIATION = (NCConfig.single_creative_tab || !NCConfig.radiation_enabled_public) ? NUCLEARCRAFT : new TabRadiation();
 	public static final CreativeTabs MACHINES = NCConfig.single_creative_tab ? NUCLEARCRAFT : new TabMachines();
 	public static final CreativeTabs FISSION_BLOCKS = NCConfig.single_creative_tab ? NUCLEARCRAFT : new TabFissionBlocks();
 	public static final CreativeTabs FISSION_MATERIALS = NCConfig.single_creative_tab ? NUCLEARCRAFT : new TabFissionMaterials();

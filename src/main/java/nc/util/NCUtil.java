@@ -18,12 +18,12 @@ public class NCUtil {
 	}
 	
 	public static boolean isSubclassOf(Class<?> clazz, Class<?> superClass) {
-	    if (superClass.equals(Object.class)) return true;
-	    if (clazz.equals(superClass)) return true; else {
-	        clazz = clazz.getSuperclass();
-	        if (clazz.equals(Object.class)) return false;
-	        return isSubclassOf(clazz, superClass);
-	    }
+		if (superClass.equals(Object.class)) return true;
+		if (clazz.equals(superClass)) return true; else {
+			clazz = clazz.getSuperclass();
+			if (clazz.equals(Object.class)) return false;
+			return isSubclassOf(clazz, superClass);
+		}
 	}
 	
 	/** NOTE: The constructor parameter types must match the argument types EXACTLY - they can NOT be superclasses */
@@ -36,5 +36,23 @@ public class NCUtil {
 		Class<?>[] classes = new Class<?>[objects.length];
 		for (int i = 0; i < objects.length; i++) classes[i] = objects[i].getClass();
 		return classes;
+	}
+	
+	public static boolean classExists(String className) {
+		try  {
+			Class.forName(className);
+			return true;
+		}  catch (ClassNotFoundException e) {
+			return false;
+		}
+	}
+	
+	public static boolean isInstance(Object object, String className) {
+		try  {
+			Class clazz = Class.forName(className);
+			return clazz.isInstance(object);
+		}  catch (ClassNotFoundException e) {
+			return false;
+		}
 	}
 }

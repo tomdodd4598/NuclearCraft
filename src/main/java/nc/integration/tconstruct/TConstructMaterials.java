@@ -2,6 +2,7 @@ package nc.integration.tconstruct;
 
 import nc.NuclearCraft;
 import nc.config.NCConfig;
+import nc.integration.tconstruct.trait.NCTraits;
 import nc.util.FluidStackHelper;
 import net.minecraftforge.fluids.FluidRegistry;
 import slimeknights.tconstruct.library.MaterialIntegration;
@@ -18,13 +19,18 @@ import slimeknights.tconstruct.tools.TinkerTraits;
 public class TConstructMaterials {
 	
 	public static void init() {
-		registerMaterial("boron", "Boron", "ingotBoron", "boron", true, TinkerTraits.dense, TinkerTraits.stiff, 0x6C6C6C, 0x7D7D7D, 0x959595, false, 0);
-		registerMaterial("tough", "Tough", "ingotTough", "tough", true, TinkerTraits.momentum, TinkerTraits.dense, 0x140E1F, 0x150F21, 0x171221, false, 1);
-		registerMaterial("hard_carbon", "HardCarbon", "ingotHardCarbon", "hard_carbon", true, TinkerTraits.sharp, TinkerTraits.lightweight, 0x0C284F, 0x195970, 0x227871, false, 2);
-		registerMaterial("boron_nitride", "BoronNitride", "gemBoronNitride", null, false, TinkerTraits.jagged, TinkerTraits.splintering, 0xCE75B269, 0xCE75B269, 0xCE75B269, true, 3);
+		registerMaterial("boron", "Boron", "ingotBoron", "boron", true, new ITrait[] {TinkerTraits.dense, TinkerTraits.stiff}, new ITrait[] {TinkerTraits.stiff}, 0x6C6C6C, 0x7D7D7D, 0x959595, false, 0);
+		registerMaterial("tough", "Tough", "ingotTough", "tough", true, new ITrait[] {TinkerTraits.dense, TinkerTraits.momentum}, new ITrait[] {TinkerTraits.dense}, 0x140E1F, 0x150F21, 0x171221, false, 1);
+		registerMaterial("hard_carbon", "HardCarbon", "ingotHardCarbon", "hard_carbon", true, new ITrait[] {TinkerTraits.lightweight, TinkerTraits.sharp}, new ITrait[] {TinkerTraits.lightweight}, 0x0C284F, 0x195970, 0x227871, false, 2);
+		registerMaterial("boron_nitride", "BoronNitride", "gemBoronNitride", null, false, new ITrait[] {TinkerTraits.jagged, TinkerTraits.splintering}, new ITrait[] {TinkerTraits.splintering}, 0xCE75B269, 0xCE75B269, 0xCE75B269, true, 3);
+		
+		registerMaterial("thorium", "Thorium", "ingotThorium", "thorium", true, new ITrait[] {NCTraits.WITHERING}, new ITrait[] {TinkerTraits.poisonous, NCTraits.WITHERING}, 0x222222, 0x292929, 0x2E2E2E, false, 225, 9D, 2.5D, 2, 0.75D);
+		registerMaterial("uranium", "Uranium", "ingotUranium", "uranium", true, new ITrait[] {TinkerTraits.poisonous}, new ITrait[] {TinkerTraits.poisonous, NCTraits.WITHERING}, 0x344F33, 0x406340, 0x4C6B4C, false, 242, 7.5D, 2D, 2, 0.8D);
+		registerMaterial("magnesium", "Magnesium", "ingotMagnesium", "magnesium", true, new ITrait[] {TinkerTraits.holy, TinkerTraits.lightweight}, new ITrait[] {TinkerTraits.lightweight}, 0xB898B5, 0xE3BDDF, 0xF7DFF9, false, 197, 11D, 1.5D, 1, 1D);
+		registerMaterial("chocolate", "Chocolate", "ingotChocolate", "milk_chocolate", true, new ITrait[] {NCTraits.MOLDABLE_II, TinkerTraits.tasty}, new ITrait[] {NCTraits.MOLDABLE_I, NCTraits.UPLIFTING}, 0x4D180A, 0x581E0C, 0x62230E, false, 32, 2D, 0D, 0, 0.15D);
 	}
 	
-	private static void registerMaterial(String materialName, String oreSuffix, String repairItem, String fluidName, boolean casted, ITrait headTrait, ITrait extraTrait, int colorLow, int colorMed, int colorHigh, boolean transparent, int toolNumber) {
+	private static void registerMaterial(String materialName, String oreSuffix, String repairItem, String fluidName, boolean casted, ITrait[] headTraits, ITrait[] extraTraits, int colorLow, int colorMed, int colorHigh, boolean transparent, int durability, double miningSpeed, double attackDamage, int miningLevel, double handleModifier) {
 		for (MaterialIntegration matInteg : TinkerRegistry.getMaterialIntegrations()) {
 			if (matInteg != null && matInteg.material != null) {
 				if (matInteg.material.getIdentifier() == materialName) return;
@@ -33,9 +39,11 @@ public class TConstructMaterials {
 		if (TinkerRegistry.getMaterial(materialName) != Material.UNKNOWN) return;
 		
 		Material material = new Material(materialName, colorMed);
-		material.addTrait(headTrait);
-		material.addTrait(extraTrait, MaterialTypes.HANDLE);
-		material.addTrait(extraTrait, MaterialTypes.EXTRA);
+		for (ITrait headTrait : headTraits) material.addTrait(headTrait);
+		for (ITrait extraTrait : extraTraits) {
+			material.addTrait(extraTrait, MaterialTypes.HANDLE);
+			material.addTrait(extraTrait, MaterialTypes.EXTRA);
+		}
 		material.addItem(repairItem, 1, FluidStackHelper.INGOT_VOLUME);
 		material.setCraftable(!casted).setCastable(casted);
 		if (transparent) NuclearCraft.proxy.setRenderInfo(material, colorMed);
@@ -44,13 +52,17 @@ public class TConstructMaterials {
 		material.setFluid(fluidName == null ? null : FluidRegistry.getFluid(fluidName));
 		
 		TinkerRegistry.addMaterialStats(material,
-				new HeadMaterialStats((int)(NCConfig.tool_durability[2*toolNumber]*0.8D), (float)NCConfig.tool_speed[2*toolNumber], 2F + (float)NCConfig.tool_attack_damage[2*toolNumber], NCConfig.tool_mining_level[2*toolNumber]),
-				new HandleMaterialStats((float)NCConfig.tool_handle_modifier[toolNumber], (int)(NCConfig.tool_durability[2*toolNumber]*(casted ? 0.25D : 0.1D))),
-				new ExtraMaterialStats((int)(NCConfig.tool_durability[2*toolNumber]*(casted ? 0.0375D : 0.0625D)/NCConfig.tool_handle_modifier[toolNumber])),
-				new BowMaterialStats((float)(NCConfig.tool_handle_modifier[toolNumber]/2D), (float)(NCConfig.tool_handle_modifier[toolNumber]*2D), 2F + (float)NCConfig.tool_attack_damage[2*toolNumber]));
+				new HeadMaterialStats((int)(durability*0.8D), (float)miningSpeed, 2F + (float)attackDamage, miningLevel),
+				new HandleMaterialStats((float)handleModifier, (int)(durability*(casted ? 0.25D : 0.1D))),
+				new ExtraMaterialStats((int)(durability*(casted ? 0.0375D : 0.0625D)/handleModifier)),
+				new BowMaterialStats((float)(handleModifier/2D), (float)(handleModifier*2D), 2F + (float)attackDamage));
 		
 		integrateMaterial(material, oreSuffix, casted);
 		material.setRepresentativeItem(repairItem);
+	}
+	
+	private static void registerMaterial(String materialName, String oreSuffix, String repairItem, String fluidName, boolean casted, ITrait[] headTraits, ITrait[] extraTraits, int colorLow, int colorMed, int colorHigh, boolean transparent, int toolNumber) {
+		registerMaterial(materialName, oreSuffix, repairItem, fluidName, casted, headTraits, extraTraits, colorLow, colorMed, colorHigh, transparent, NCConfig.tool_durability[2*toolNumber], NCConfig.tool_speed[2*toolNumber], NCConfig.tool_attack_damage[2*toolNumber], NCConfig.tool_mining_level[2*toolNumber], NCConfig.tool_handle_modifier[toolNumber]);
 	}
 	
 	private static void integrateMaterial(Material material, String oreSuffix, boolean toolForge) {

@@ -20,6 +20,7 @@ import nc.init.NCTools;
 import nc.integration.tconstruct.TConstructExtras;
 import nc.integration.tconstruct.TConstructIMC;
 import nc.integration.tconstruct.TConstructMaterials;
+import nc.integration.tconstruct.conarm.ConArmMaterials;
 import nc.multiblock.IMultiblockRegistry;
 import nc.multiblock.MultiblockEventHandler;
 import nc.multiblock.MultiblockRegistry;
@@ -79,6 +80,7 @@ public class CommonProxy {
 		
 		TConstructIMC.sendIMCs();
 		if (ModCheck.tinkersLoaded()) TConstructMaterials.init();
+		if (ModCheck.constructsArmoryLoaded()) ConArmMaterials.preInit();
 	}
 
 	public void init(FMLInitializationEvent event) {
@@ -99,6 +101,7 @@ public class CommonProxy {
 		//GameRegistry.registerWorldGenerator(new WastelandPortalGenerator(), 10);
 		
 		if (ModCheck.tinkersLoaded()) TConstructExtras.init();
+		if (ModCheck.constructsArmoryLoaded()) ConArmMaterials.init();
 	}
 
 	public void postInit(FMLPostInitializationEvent postEvent) {
@@ -127,8 +130,6 @@ public class CommonProxy {
 	public EntityPlayer getPlayerEntity(MessageContext ctx) {
 		return ctx.getServerHandler().player;
 	}
-	
-	
 	
 	// Fluid Colours
 	

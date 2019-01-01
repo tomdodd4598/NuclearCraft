@@ -39,6 +39,8 @@ public class MelterRecipes extends ProcessorRecipeHandler {
 		addIngotMeltingRecipes("tough");
 		addIngotMeltingRecipes("hardCarbon", "hard_carbon");
 		
+		addRecipe(Lists.newArrayList("ingotSilicon", "itemSilicon"), fluidStack("silicon", FluidStackHelper.INGOT_VOLUME), 1D, 1D);
+		
 		addRecipe(NCItems.ground_cocoa_nibs, fluidStack("chocolate_liquor", FluidStackHelper.INGOT_VOLUME), 0.25D, 0.5D);
 		addRecipe(NCItems.cocoa_butter, fluidStack("cocoa_butter", FluidStackHelper.INGOT_VOLUME), 0.25D, 0.5D);
 		addRecipe(NCItems.unsweetened_chocolate, fluidStack("unsweetened_chocolate", FluidStackHelper.INGOT_VOLUME), 0.25D, 0.5D);
@@ -180,7 +182,7 @@ public class MelterRecipes extends ProcessorRecipeHandler {
 		addFissionFuelMeltingRecipes(element, suffix, "", types);
 	}
 	
-	private static final List<String> MELTING_BLACKLIST = Arrays.asList("coal", "redstone", "glowstone", "prismarine", "obsidian");
+	private static final List<String> MELTING_BLACKLIST = Arrays.asList("coal", "redstone", "glowstone", "prismarine", "obsidian", "silicon");
 	
 	public void addOreMeltingRecipes() {
 		ArrayList<String> fluidList = new ArrayList(FluidRegistry.getRegisteredFluids().keySet());

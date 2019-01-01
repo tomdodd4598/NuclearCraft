@@ -42,7 +42,7 @@ public class RadiationHUD extends Gui {
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	@SideOnly(Side.CLIENT)
 	public void addRadiationInfo(RenderGameOverlayEvent.Post event) {
-		if (!NCConfig.radiation_enabled) return;
+		if (!NCConfig.radiation_enabled_public) return;
 		
 		if(event.getType() != ElementType.HOTBAR) return;
 		final EntityPlayer player = mc.player;

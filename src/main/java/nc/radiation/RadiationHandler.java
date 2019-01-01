@@ -52,7 +52,7 @@ public class RadiationHandler {
 			
 	@SubscribeEvent
 	public void updatePlayerRadiation(PlayerTickEvent event) {
-		if (!NCConfig.radiation_enabled) return;
+		if (!NCConfig.radiation_enabled_public) return;
 		
 		if (!NCConfig.radiation_require_counter && event.phase == Phase.START && event.side == Side.CLIENT) {
 			playGeigerSound(event.player);
@@ -74,7 +74,7 @@ public class RadiationHandler {
 			double radiationLevel = RadiationHelper.transferRadsToPlayer(player.world, player, playerRads, PLAYER_TICK_RATE) /*+ RadiationHelper.transferBackgroundRadsToPlayer(player.world.getBiome(player.getPosition()), player, playerRads, PLAYER_TICK_RATE)*/ + RadiationHelper.transferRadsToPlayer(chunk, player, playerRads, PLAYER_TICK_RATE) + RadiationHelper.transferRadsFromInventoryToPlayer(player, playerRads, chunk, PLAYER_TICK_RATE);
 			playerRads.setRadiationLevel(radiationLevel);
 			
-			if (!player.isCreative() && playerRads.isFatal()) player.attackEntityFrom(FATAL_RADS, 1000F);
+			if (!player.isCreative() && playerRads.isFatal()) player.attackEntityFrom(FATAL_RADS, Float.MAX_VALUE);
 			
 			double previousResistance = playerRads.getRadiationResistance();
 			if (previousResistance > 0D) {
@@ -113,7 +113,7 @@ public class RadiationHandler {
 	
 	@SubscribeEvent
 	public void updateChunkRadiation(WorldTickEvent event) {
-		if (!NCConfig.radiation_enabled) return;
+		if (!NCConfig.radiation_enabled_public) return;
 		
 		if (event.phase != Phase.START || event.side == Side.CLIENT || (event.world.getTotalWorldTime() % WORLD_TICK_RATE) != 0 || !(event.world instanceof WorldServer)) return;
 		WorldServer world = (WorldServer)event.world;
@@ -134,8 +134,8 @@ public class RadiationHandler {
 				if (entityLiving.hasCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null)) {
 					IEntityRads entityRads = entityLiving.getCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null);
 					if (entityRads != null) {
-						RadiationHelper.transferRadsFromSourceToEntity(world, entityRads, WORLD_TICK_RATE);
-						RadiationHelper.transferRadsFromSourceToEntity(chunk, entityRads, WORLD_TICK_RATE);
+						RadiationHelper.transferRadsFromSourceToEntity(world, entityLiving, entityRads, WORLD_TICK_RATE);
+						RadiationHelper.transferRadsFromSourceToEntity(chunk, entityLiving, entityRads, WORLD_TICK_RATE);
 						//RadiationHelper.transferBackgroundRadsToEntity(entityLiving.getEntityWorld().getBiome(entityLiving.getPosition()), entityRads, WORLD_TICK_RATE);
 						if (entityLiving instanceof EntityMob) {
 							if (NCConfig.radiation_mob_buffs) RadiationHelper.applyMobBuffs(entityLiving, entityRads, Math.max(WORLD_TICK_RATE, 40));

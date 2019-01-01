@@ -469,6 +469,12 @@
 			"custom": {
 				"fluid": "bas"
 			}
+		},
+		"fluid_sic_vapor": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "sic_vapor"
+			}
 		}
 	}
 }

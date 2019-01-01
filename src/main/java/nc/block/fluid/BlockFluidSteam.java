@@ -19,7 +19,7 @@ public class BlockFluidSteam extends BlockFluid {
 	
 	private static final Material GAS = new MaterialLiquid(MapColor.AIR);
 	
-	public static DamageSource steam_burn = (new DamageSource("steam_burn")).setDamageBypassesArmor();
+	public static DamageSource steam_burn = new DamageSource("steam_burn").setDamageBypassesArmor();
 
 	public BlockFluidSteam(Fluid fluid) {
 		super(fluid, GAS);

@@ -7,12 +7,12 @@ import nc.NCInfo;
 import nc.capability.radiation.IDefaultRadiationResistance;
 import nc.capability.radiation.IRadiationSource;
 import nc.config.NCConfig;
+import nc.util.ArmorHelper;
 import nc.util.InfoHelper;
 import nc.util.Lang;
 import nc.util.OreDictHelper;
 import nc.util.RadiationHelper;
 import nc.util.UnitHelper;
-import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
@@ -40,7 +40,7 @@ public class TooltipHandler {
 			}
 		}
 		
-		if (NCConfig.radiation_enabled) {
+		if (NCConfig.radiation_enabled_public) {
 			addArmorRadiationTooltip(event.getToolTip(), stack);
 			addRadiationTooltip(event.getToolTip(), stack);
 		}
@@ -60,7 +60,7 @@ public class TooltipHandler {
 	
 	@SideOnly(Side.CLIENT)
 	private static void addArmorRadiationTooltip(List<String> tooltip, ItemStack stack) {
-		if (!(stack.getItem() instanceof ItemArmor)) return;
+		if (!ArmorHelper.isArmor(stack.getItem(), true)) return;
 		boolean capability = stack.hasCapability(IDefaultRadiationResistance.CAPABILITY_DEFAULT_RADIATION_RESISTANCE, null);
 		boolean nbt = stack.hasTagCompound() && stack.getTagCompound().hasKey("ncRadiationResistance");
 		if (!capability && !nbt) return;

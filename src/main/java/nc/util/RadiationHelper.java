@@ -7,11 +7,14 @@ import nc.capability.radiation.IRadiationSource;
 import nc.config.NCConfig;
 import nc.radiation.RadBiomes;
 import nc.tile.radiation.ITileRadiationEnvironment;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.Chunk;
@@ -117,17 +120,23 @@ public class RadiationHelper {
 	// Player Radiation Resistance
 	
 	public static double addRadsToPlayer(EntityPlayer player, IEntityRads playerRads, double rawRadiation, int updateRate) {
-		double resistance = playerRads.getRadiationResistance() + getArmorRadResistance(player);
+		double resistance = playerRads.getRadiationResistance() + getPlayerArmorRadResistance(player);
 		
 		double addedRadiation = rawRadiation <= 0D ? 0D : NCMath.square(rawRadiation)/(rawRadiation + resistance);
 		playerRads.setTotalRads(playerRads.getTotalRads() + addedRadiation*updateRate, true);
 		return addedRadiation;
 	}
 	
-	public static double getArmorRadResistance(EntityPlayer player) {
-		if (player == null) return 0D;
+	public static double getPlayerArmorRadResistance(EntityPlayer player) {
 		double resistance = 0D;
-		for (ItemStack armor : player.inventory.armorInventory) {
+		resistance += getArmorInventoryRadResistance(player);
+		return resistance;
+	}
+	
+	private static double getArmorInventoryRadResistance(Entity entity) {
+		if (entity == null) return 0D;
+		double resistance = 0D;
+		for (ItemStack armor : entity.getArmorInventoryList()) {
 			if (armor.hasCapability(IDefaultRadiationResistance.CAPABILITY_DEFAULT_RADIATION_RESISTANCE, null)) {
 				IDefaultRadiationResistance armorResistance = armor.getCapability(IDefaultRadiationResistance.CAPABILITY_DEFAULT_RADIATION_RESISTANCE, null);
 				if (armorResistance != null) resistance += armorResistance.getRadiationResistance();
@@ -141,10 +150,38 @@ public class RadiationHelper {
 	
 	// Entity Radiation Resistance
 	
-	public static double addRadsToEntity(IEntityRads entityRads, double rawRadiation, int updateRate) {
-		double addedRadiation = rawRadiation <= 0D ? 0D : NCMath.square(rawRadiation)/(rawRadiation + entityRads.getRadiationResistance());
+	public static double addRadsToEntity(EntityLiving entityLiving, IEntityRads entityRads, double rawRadiation, int updateRate) {
+		double resistance = entityRads.getRadiationResistance() + getEntityArmorRadResistance(entityLiving);
+		
+		double addedRadiation = rawRadiation <= 0D ? 0D : NCMath.square(rawRadiation)/(rawRadiation + resistance);
 		entityRads.setTotalRads(entityRads.getTotalRads() + addedRadiation*updateRate, true);
 		return addedRadiation;
+	}
+	
+	public static double getEntityArmorRadResistance(EntityLiving entityLiving) {
+		double resistance = 0D;
+		resistance += getArmorInventoryRadResistance(entityLiving);
+		if (entityLiving instanceof EntityHorse) resistance += getHorseArmorRadResistance((EntityHorse)entityLiving);
+		return resistance;
+	}
+	
+	private static double getHorseArmorRadResistance(EntityHorse horse) {
+		if (horse == null) return 0D;
+		double resistance = 0D;
+		
+		NBTTagCompound compound = new NBTTagCompound();
+		horse.writeEntityToNBT(compound);
+		ItemStack armor = new ItemStack(compound.getCompoundTag("ArmorItem"));
+		if (armor != null && ArmorHelper.isHorseArmor(armor.getItem())) {
+			if (armor.hasCapability(IDefaultRadiationResistance.CAPABILITY_DEFAULT_RADIATION_RESISTANCE, null)) {
+				IDefaultRadiationResistance armorResistance = armor.getCapability(IDefaultRadiationResistance.CAPABILITY_DEFAULT_RADIATION_RESISTANCE, null);
+				if (armorResistance != null) resistance += armorResistance.getRadiationResistance();
+			}
+			if (armor.hasTagCompound()) if (armor.getTagCompound().hasKey("ncRadiationResistance")) {
+				resistance += armor.getTagCompound().getDouble("ncRadiationResistance");
+			}
+		}
+		return resistance;
 	}
 	
 	// Inventory -> Player
@@ -190,18 +227,18 @@ public class RadiationHelper {
 	
 	// Source -> Entity
 	
-	public static void transferRadsFromSourceToEntity(ICapabilityProvider provider, IEntityRads entityRads, int updateRate) {
+	public static void transferRadsFromSourceToEntity(ICapabilityProvider provider, EntityLiving entityLiving, IEntityRads entityRads, int updateRate) {
 		if (provider == null || !provider.hasCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null)) return;
 		IRadiationSource sourceRadiation = provider.getCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null);
 		if (sourceRadiation == null) return;
-		entityRads.setRadiationLevel(addRadsToEntity(entityRads, sourceRadiation.getRadiationLevel(), updateRate));
+		entityRads.setRadiationLevel(addRadsToEntity(entityLiving, entityRads, sourceRadiation.getRadiationLevel(), updateRate));
 	}
 	
 	// Biome -> Entity
 	
-	public static void transferBackgroundRadsToEntity(Biome biome, IEntityRads entityRads, int updateRate) {
+	public static void transferBackgroundRadsToEntity(Biome biome, EntityLiving entityLiving, IEntityRads entityRads, int updateRate) {
 		Double biomeRadiation = RadBiomes.BIOME_MAP.get(biome);
-		if (biomeRadiation != null) entityRads.setRadiationLevel(addRadsToEntity(entityRads, biomeRadiation, updateRate));
+		if (biomeRadiation != null) entityRads.setRadiationLevel(addRadsToEntity(entityLiving, entityRads, biomeRadiation, updateRate));
 	}
 	
 	// Entity Symptoms
