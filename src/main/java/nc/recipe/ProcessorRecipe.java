@@ -113,9 +113,9 @@ public class ProcessorRecipe implements IRecipe {
 	}
 	
 	public int getDecayPower() {
-		if (extras.size() < 2) return TileDecayGenerator.DEFAULT_POWER;
+		if (extras.size() < 2) return 0;
 		if (extras.get(1) instanceof Double) return (int) (((double) extras.get(1))*NCConfig.machine_update_rate/20D);
-		return TileDecayGenerator.DEFAULT_POWER;
+		return 0;
 	}
 	
 	public double getDecayRadiation() {

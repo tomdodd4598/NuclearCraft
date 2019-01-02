@@ -31,7 +31,6 @@ public class TileDecayGenerator extends TileEnergy implements IInterfaceable {
 	protected ProcessorRecipe[] recipes = new ProcessorRecipe[6];
 	
 	public static final double DEFAULT_LIFETIME = 1200D/(double)NCConfig.machine_update_rate;
-	public static final int DEFAULT_POWER = (int) (5D*NCConfig.machine_update_rate/20D);
 	
 	protected int generatorCount;
 	
@@ -71,12 +70,10 @@ public class TileDecayGenerator extends TileEnergy implements IInterfaceable {
 		int max = 0;
 		List<ProcessorRecipe> recipes = NCRecipes.Type.DECAY_GENERATOR.getRecipeHandler().getRecipes();
 		for (ProcessorRecipe recipe : recipes) {
-			if (recipe == null || recipe.extras().size() < 2) continue;
-			if (recipe.extras().get(1) instanceof Double) {
-				max = (int) Math.max(max, (double) recipe.extras().get(1));
-			}
+			if (recipe == null) continue;
+			max = Math.max(max, recipe.getDecayPower());
 		}
-		return max*NCConfig.machine_update_rate;
+		return 20*max;
 	}
 	
 	public int getGenerated() {
@@ -131,7 +128,7 @@ public class TileDecayGenerator extends TileEnergy implements IInterfaceable {
 	}
 	
 	public int getRecipePower(EnumFacing side) {
-		if (getDecayRecipe(side) == null) return DEFAULT_POWER;
+		if (getDecayRecipe(side) == null) return 0;
 		return getDecayRecipe(side).getDecayPower();
 	}
 	

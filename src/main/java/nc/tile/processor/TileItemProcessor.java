@@ -57,7 +57,7 @@ public class TileItemProcessor extends TileEnergySidedInventory implements IItem
 	}
 	
 	public TileItemProcessor(String name, int itemInSize, int itemOutSize, int time, int power, boolean shouldLoseProgress, boolean upgrades, @Nonnull NCRecipes.Type recipeType, int guiID) {
-		super(name, itemInSize + itemOutSize + (upgrades ? 2 : 0), 32000, power != 0 ? ITileEnergy.energyConnectionAll(EnergyConnection.IN) : ITileEnergy.energyConnectionAll(EnergyConnection.NON));
+		super(name, itemInSize + itemOutSize + (upgrades ? 2 : 0), IProcessor.getBaseCapacity(recipeType), power != 0 ? ITileEnergy.energyConnectionAll(EnergyConnection.IN) : ITileEnergy.energyConnectionAll(EnergyConnection.NON));
 		itemInputSize = itemInSize;
 		itemOutputSize = itemOutSize;
 		
@@ -142,7 +142,7 @@ public class TileItemProcessor extends TileEnergySidedInventory implements IItem
 	}
 	
 	public int getProcessPower() {
-		return Math.min(Integer.MAX_VALUE, (int) ((double)baseProcessPower*getPowerMultiplier()));
+		return Math.min(Integer.MAX_VALUE, (int) (baseProcessPower*getPowerMultiplier()));
 	}
 	
 	public double getProcessEnergy() {
@@ -163,8 +163,8 @@ public class TileItemProcessor extends TileEnergySidedInventory implements IItem
 	}
 	
 	public void setCapacityFromSpeed() {
-		getEnergyStorage().setStorageCapacity(MathHelper.clamp(NCConfig.machine_update_rate*getProcessPower(), 32000, Integer.MAX_VALUE));
-		getEnergyStorage().setMaxTransfer(MathHelper.clamp(NCConfig.machine_update_rate*getProcessPower(), 32000, Integer.MAX_VALUE));
+		getEnergyStorage().setStorageCapacity((int)MathHelper.clamp(NCConfig.machine_update_rate*defaultProcessPower*getPowerMultiplier(), IProcessor.getBaseCapacity(recipeType), Integer.MAX_VALUE));
+		getEnergyStorage().setMaxTransfer((int)MathHelper.clamp(NCConfig.machine_update_rate*defaultProcessPower*getPowerMultiplier(), IProcessor.getBaseCapacity(recipeType), Integer.MAX_VALUE));
 	}
 	
 	private int getMaxEnergyModified() { // Needed for Galacticraft

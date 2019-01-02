@@ -722,6 +722,7 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 		ready = readyToProcess() && !isActivated ? 1 : 0;
 
 		if (checkBlocks) {
+			boolean isProcessing = isProcessing();
 			if (complete == 1) {
 				for (int z = minZ + 1; z <= maxZ - 1; z++) for (int x = minX + 1; x <= maxX - 1; x++) for (int y = minY + 1; y <= maxY - 1; y++) {
 					
@@ -839,6 +840,7 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 		ready = readyToProcess() && !isActivated ? 1 : 0;
 
 		if (checkBlocks) {
+			boolean isProcessing = isProcessing();
 			if (complete == 1) {
 				for (int z = minZ + 1; z <= maxZ - 1; z++) for (int x = minX + 1; x <= maxX - 1; x++) for (int y = minY + 1; y <= maxY - 1; y++) {
 					

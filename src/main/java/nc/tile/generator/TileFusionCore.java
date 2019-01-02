@@ -1,7 +1,6 @@
 package nc.tile.generator;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -16,11 +15,11 @@ import nc.handler.SoundHandler;
 import nc.init.NCBlocks;
 import nc.network.tile.FusionUpdatePacket;
 import nc.recipe.NCRecipes;
+import nc.recipe.ProcessorRecipe;
 import nc.tile.IGui;
 import nc.tile.fluid.TileActiveCooler;
 import nc.tile.internal.energy.EnergyConnection;
 import nc.tile.internal.fluid.Tank;
-import nc.util.ArrayHelper;
 import nc.util.BlockFinder;
 import nc.util.BlockPosHelper;
 import nc.util.EnergyHelper;
@@ -67,11 +66,19 @@ public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpd
 	
 	private BlockFinder finder;
 	
-	private static final int MAX_POWER = (int) Math.min(6*100*Collections.max(ArrayHelper.asDoubleList(NCConfig.fusion_power))*NCConfig.fusion_base_power*NCConfig.fusion_max_size, Integer.MAX_VALUE);
-	
 	public TileFusionCore() {
-		super("Fusion Core", 2, 4, 0, defaultTankCapacities(32000, 2, 4), defaultTankSorptions(2, 4), RecipeHelper.validFluids(NCRecipes.Type.FUSION), MAX_POWER, NCRecipes.Type.FUSION);
+		super("Fusion Core", 2, 4, 0, defaultTankCapacities(32000, 2, 4), defaultTankSorptions(2, 4), RecipeHelper.validFluids(NCRecipes.Type.FUSION), maxPower(), NCRecipes.Type.FUSION);
 		setTanksShared(false);
+	}
+	
+	private static int maxPower() {
+		double max = 0D;
+		List<ProcessorRecipe> recipes = NCRecipes.Type.FUSION.getRecipeHandler().getRecipes();
+		for (ProcessorRecipe recipe : recipes) {
+			if (recipe == null) continue;
+			max = Math.max(max, recipe.getFusionComboPower());
+		}
+		return (int) Math.min(6*100*max*NCConfig.fusion_base_power*NCConfig.fusion_max_size, Integer.MAX_VALUE);
 	}
 	
 	// Ticking

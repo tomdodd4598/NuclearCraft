@@ -1,3 +1,10 @@
+v2.12k
+
+* Fixed Fission Reactor process time not updating correctly
+* Fixed certain recipes not starting until re-opening the GUI
+
+* Fixed crash with the ME Capability Adapter
+
 v2.12j
 
 + Added thorium, uranium, magnesium and chocolate as TiC materials

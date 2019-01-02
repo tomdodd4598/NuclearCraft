@@ -61,7 +61,7 @@ public class TileFluidProcessor extends TileEnergyFluidSidedInventory implements
 	}
 	
 	public TileFluidProcessor(String name, int fluidInSize, int fluidOutSize, @Nonnull List<Integer> fluidCapacity, @Nonnull List<TankSorption> tankSorptions, List<List<String>> allowedFluids, int time, int power, boolean shouldLoseProgress, boolean upgrades, @Nonnull NCRecipes.Type recipeType, int guiID) {
-		super(name, upgrades ? 2 : 0, 32000, power != 0 ? ITileEnergy.energyConnectionAll(EnergyConnection.IN) : ITileEnergy.energyConnectionAll(EnergyConnection.NON), fluidCapacity, fluidCapacity, tankSorptions, allowedFluids, ITileFluid.fluidConnectionAll(FluidConnection.BOTH));
+		super(name, upgrades ? 2 : 0, IProcessor.getBaseCapacity(recipeType), power != 0 ? ITileEnergy.energyConnectionAll(EnergyConnection.IN) : ITileEnergy.energyConnectionAll(EnergyConnection.NON), fluidCapacity, fluidCapacity, tankSorptions, allowedFluids, ITileFluid.fluidConnectionAll(FluidConnection.BOTH));
 		fluidInputSize = fluidInSize;
 		fluidOutputSize = fluidOutSize;
 		
@@ -160,7 +160,7 @@ public class TileFluidProcessor extends TileEnergyFluidSidedInventory implements
 	}
 	
 	public int getProcessPower() {
-		return Math.min(Integer.MAX_VALUE, (int) ((double)baseProcessPower*getPowerMultiplier()));
+		return Math.min(Integer.MAX_VALUE, (int) (baseProcessPower*getPowerMultiplier()));
 	}
 	
 	public double getProcessEnergy() {
@@ -181,8 +181,8 @@ public class TileFluidProcessor extends TileEnergyFluidSidedInventory implements
 	}
 	
 	public void setCapacityFromSpeed() {
-		getEnergyStorage().setStorageCapacity(MathHelper.clamp(NCConfig.machine_update_rate*getProcessPower(), 32000, Integer.MAX_VALUE));
-		getEnergyStorage().setMaxTransfer(MathHelper.clamp(NCConfig.machine_update_rate*getProcessPower(), 32000, Integer.MAX_VALUE));
+		getEnergyStorage().setStorageCapacity((int)MathHelper.clamp(NCConfig.machine_update_rate*defaultProcessPower*getPowerMultiplier(), IProcessor.getBaseCapacity(recipeType), Integer.MAX_VALUE));
+		getEnergyStorage().setMaxTransfer((int)MathHelper.clamp(NCConfig.machine_update_rate*defaultProcessPower*getPowerMultiplier(), IProcessor.getBaseCapacity(recipeType), Integer.MAX_VALUE));
 	}
 	
 	private int getMaxEnergyModified() { // Needed for Galacticraft
