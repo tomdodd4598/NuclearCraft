@@ -7,7 +7,7 @@ import net.minecraft.util.math.BlockPos;
 
 public class HeatExchangerUpdatePacket extends MultiblockUpdatePacket {
 	
-	protected boolean isHeatExchangerOn;
+	public boolean isHeatExchangerOn;
 	public double fractionOfTubesActive;
 	public double efficiency;
 	
@@ -46,11 +46,6 @@ public class HeatExchangerUpdatePacket extends MultiblockUpdatePacket {
 
 		public Handler() {
 			super(TileHeatExchangerController.class);
-		}
-		
-		@Override
-		protected void onPacket(HeatExchangerUpdatePacket message, HeatExchanger reactor) {
-			reactor.onPacket(message.isHeatExchangerOn, message.fractionOfTubesActive, message.efficiency);
 		}
 	}
 }

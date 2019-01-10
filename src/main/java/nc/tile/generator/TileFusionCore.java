@@ -78,7 +78,7 @@ public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpd
 			if (recipe == null) continue;
 			max = Math.max(max, recipe.getFusionComboPower());
 		}
-		return (int) Math.min(6*100*max*NCConfig.fusion_base_power*NCConfig.fusion_max_size, Integer.MAX_VALUE);
+		return (int) Math.min(100*max*NCConfig.fusion_base_power*NCConfig.fusion_max_size, Integer.MAX_VALUE);
 	}
 	
 	// Ticking

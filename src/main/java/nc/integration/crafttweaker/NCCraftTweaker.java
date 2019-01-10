@@ -1074,48 +1074,6 @@ public class NCCraftTweaker {
 		}
 	}
 	
-	@ZenClass("mods.nuclearcraft.coolant_heater")
-	@ZenRegister
-	public static class CoolantHeaterHandler {
-		
-		@ZenMethod
-		public static void addRecipe(Object[] objects) {
-			CraftTweakerAPI.apply(new AddProcessorRecipe(NCRecipes.Type.COOLANT_HEATER, Lists.newArrayList(objects)));
-		}
-
-		@ZenMethod
-		public static void removeRecipeWithInput(IIngredient[] inputs) {
-			CraftTweakerAPI.apply(new RemoveProcessorRecipe(NCRecipes.Type.COOLANT_HEATER, IngredientSorption.INPUT, Lists.newArrayList(inputs)));
-		}
-		
-		@ZenMethod
-		public static void removeRecipeWithOutput(IIngredient[] outputs) {
-			CraftTweakerAPI.apply(new RemoveProcessorRecipe(NCRecipes.Type.COOLANT_HEATER, IngredientSorption.OUTPUT, Lists.newArrayList(outputs)));
-		}
-		
-		@ZenMethod
-		public static void removeAllRecipes() {
-			CraftTweakerAPI.apply(new RemoveAllProcessorRecipes(NCRecipes.Type.COOLANT_HEATER));
-		}
-		
-		// OLD METHODS
-		
-		@ZenMethod
-		public static void addRecipe(IIngredient input1, IIngredient output1, double coolingRate) {
-			CraftTweakerAPI.apply(new AddProcessorRecipe(NCRecipes.Type.COOLANT_HEATER, Lists.newArrayList(input1, output1, coolingRate)));
-		}
-
-		@ZenMethod
-		public static void removeRecipeWithInput(IIngredient input1) {
-			CraftTweakerAPI.apply(new RemoveProcessorRecipe(NCRecipes.Type.COOLANT_HEATER, IngredientSorption.INPUT, Lists.newArrayList(input1)));
-		}
-		
-		@ZenMethod
-		public static void removeRecipeWithOutput(IIngredient output1) {
-			CraftTweakerAPI.apply(new RemoveProcessorRecipe(NCRecipes.Type.COOLANT_HEATER, IngredientSorption.OUTPUT, Lists.newArrayList(output1)));
-		}
-	}
-	
 	@ZenClass("mods.nuclearcraft.heat_exchanger")
 	@ZenRegister
 	public static class HeatExchangerHandler {

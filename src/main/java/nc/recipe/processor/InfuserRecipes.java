@@ -3,10 +3,12 @@ package nc.recipe.processor;
 import com.google.common.collect.Lists;
 
 import nc.init.NCBlocks;
+import nc.init.NCItems;
 import nc.recipe.ProcessorRecipeHandler;
 import nc.util.FluidStackHelper;
 import nc.util.RegistryHelper;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
 public class InfuserRecipes extends ProcessorRecipeHandler {
@@ -32,6 +34,8 @@ public class InfuserRecipes extends ProcessorRecipeHandler {
 		addRecipe(new ItemStack(NCBlocks.cooler, 1, 0), fluidStack("liquidhelium", FluidStackHelper.BUCKET_VOLUME), new ItemStack(NCBlocks.cooler, 1, 8), 1D, 1D);
 		addRecipe(new ItemStack(NCBlocks.cooler, 1, 0), fluidStack("cryotheum", FluidStackHelper.BUCKET_VOLUME*2), new ItemStack(NCBlocks.cooler, 1, 10), 1D, 1D);
 		
+		addRecipe(oreStack("bioplastic", 2), fluidStack("radaway", FluidStackHelper.BUCKET_VOLUME), NCItems.radaway, 1D, 0.5D);
+		
 		addRecipe("emptyFrame", fluidStack("water", FluidStackHelper.BUCKET_VOLUME*2), NCBlocks.water_source, 1D, 1D);
 		addRecipe(NCBlocks.water_source, fluidStack("lava", FluidStackHelper.BUCKET_VOLUME), NCBlocks.cobblestone_generator, 1D, 1D);
 		
@@ -54,6 +58,12 @@ public class InfuserRecipes extends ProcessorRecipeHandler {
 		addIngotInfusionRecipes("TinSilver", "glowstone", FluidStackHelper.EUM_DUST_VOLUME, "Lumium", 1D, 1D);
 		addIngotInfusionRecipes("LeadPlatinum", "ender", FluidStackHelper.EUM_DUST_VOLUME, "Enderium", 1D, 1D);
 		
+		// Mekanism
+		addRecipe(Lists.newArrayList("dirt", "grass"), fluidStack("water", FluidStackHelper.BUCKET_VOLUME*2), Blocks.CLAY, 1D, 1D);
+		addRecipe("ingotBrick", fluidStack("water", FluidStackHelper.BUCKET_VOLUME*2), Items.CLAY_BALL, 1D, 1D);
+		addRecipe(Blocks.HARDENED_CLAY, fluidStack("water", FluidStackHelper.BUCKET_VOLUME*4), Blocks.CLAY, 4D, 1D);
+		
+		// Fission Materials
 		addFertileOxidizingRecipes("Thorium230");
 		addFissileOxidizingRecipes("Thorium232");
 		

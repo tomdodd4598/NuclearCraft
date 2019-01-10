@@ -25,8 +25,8 @@ public class ItemBlockMeta extends ItemBlock {
 		if (!(block instanceof IMetaBlockName)) {
 			throw new IllegalArgumentException(String.format("The given block %s is not an instance of IMetaBlockName!", block.getUnlocalizedName()));
 		}
-		setHasSubtypes(true);
 		setMaxDamage(0);
+		setHasSubtypes(true);
 		this.fixedColor = fixedColor;
 		fixedInfo = InfoHelper.buildFixedInfo(block.getUnlocalizedName(), enumm, fixedTooltips);
 		info = InfoHelper.buildInfo(block.getUnlocalizedName(), enumm, tooltips);

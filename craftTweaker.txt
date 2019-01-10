@@ -292,15 +292,6 @@ mods.nuclearcraft.salt_fission.removeRecipeWithInput([fluidInput]);
 mods.nuclearcraft.salt_fission.removeRecipeWithOutput([fluidOutput]);
 ___________________________________________________________________________________________________________________________
 
- Coolant Heater:
->---------------<
-
-mods.nuclearcraft.coolant_heater.addRecipe([fluidInput, fluidOutput, coolingRate (double)]);
-
-mods.nuclearcraft.coolant_heater.removeRecipeWithInput([fluidInput]);
-mods.nuclearcraft.coolant_heater.removeRecipeWithOutput([fluidOutput]);
-___________________________________________________________________________________________________________________________
-
  Heat Exchanger:
 >---------------<
 
@@ -313,7 +304,7 @@ ________________________________________________________________________________
  Steam Turbine:
 >--------------<
 
-mods.nuclearcraft.turbine.addRecipe([fluidInput, fluidOutput, {timeMultiplier (double), powerMultiplier (double)}]);
+mods.nuclearcraft.turbine.addRecipe([fluidInput, fluidOutput, powerPerMB (double)]);
 
 mods.nuclearcraft.turbine.removeRecipeWithInput([fluidInput]);
 mods.nuclearcraft.turbine.removeRecipeWithOutput([fluidOutput]);

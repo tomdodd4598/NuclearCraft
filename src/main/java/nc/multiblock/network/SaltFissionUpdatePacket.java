@@ -7,9 +7,9 @@ import net.minecraft.util.math.BlockPos;
 
 public class SaltFissionUpdatePacket extends MultiblockUpdatePacket {
 	
-	protected boolean isReactorOn;
-	protected double cooling, heating, efficiency, heatMult, coolingRate;
-	protected long capacity, heat;
+	public boolean isReactorOn;
+	public double cooling, heating, efficiency, heatMult, coolingRate;
+	public long capacity, heat;
 	
 	public SaltFissionUpdatePacket() {
 		messageValid = false;
@@ -61,11 +61,6 @@ public class SaltFissionUpdatePacket extends MultiblockUpdatePacket {
 
 		public Handler() {
 			super(TileSaltFissionController.class);
-		}
-		
-		@Override
-		protected void onPacket(SaltFissionUpdatePacket message, SaltFissionReactor reactor) {
-			reactor.onPacket(message.isReactorOn, message.cooling, message.heating, message.efficiency, message.heatMult, message.coolingRate, message.capacity, message.heat);
 		}
 	}
 }

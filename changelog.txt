@@ -1,3 +1,32 @@
+v2.13
+
++ Added Turbines [entirely functional, but the rotor rendering and GUI is still a bit WIP!]
+
+* Fixed MSR Heaters' placement rules occasionally not being checked correctly
+* Fixed Vessels/Heaters/Tubes having their sidedness modified simultaneously if it had originally been copied along the line
+* Modified Vessel/Heater/Tube tank capacities to allow for larger fluid throughputs
+
+* Slowed down energy and fluid pushing rates to the pre-2.12k rate
+* Fixed energy generators not pushing energy at the correct rate
+
+* Fixed integration with various Mek gases
+* Fixed invalid recipes sometimes appearing in JEI
+
++ Added RadAway and Rad-X cooldown messages
+* Increased Hazmat Suit protection level
+* Fixed player rads resetting on leaving the End
+* Fixed RadAway recipe being unavailable
+* Allowed for the removal of radiation levels from otherwise defaultly radioactive materials
+
+- Totally removed fuel rods
+
+* Improved TiC alloying ratios
+
+* Updated Russian language file [thanks to Lokuster!]
+
+* Many other minor additions and changes
+- Removed Paulobrine and Herobrian
+
 v2.12k
 
 * Fixed Fission Reactor process time not updating correctly

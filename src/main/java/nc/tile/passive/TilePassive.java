@@ -19,9 +19,8 @@ public class TilePassive {
 		@Override
 		public void update() {
 			super.update();
-			if(!world.isRemote) {
+			if(!world.isRemote && pushCount == 0) {
 				spreadEnergy();
-				tickTile();
 			}
 		}
 	}
@@ -49,10 +48,9 @@ public class TilePassive {
 		@Override
 		public void update() {
 			super.update();
-			if(!world.isRemote) {
+			if(!world.isRemote && pushCount == 0) {
 				spreadEnergy();
 				spreadFluid();
-				tickTile();
 			}
 		}
 	}
@@ -61,12 +59,6 @@ public class TilePassive {
 		
 		public HeliumCollectorAbstract(String type, int rateMult) {
 			super("helium_collector" + type, FluidRegistry.getFluid("helium"), NCConfig.processor_passive_rate[0]*rateMult, NCConfig.machine_update_rate / 5);
-		}
-		
-		@Override
-		public void update() {
-			super.update();
-			if(!world.isRemote) tickTile();
 		}
 	}
 	
@@ -101,12 +93,6 @@ public class TilePassive {
 		}
 		
 		@Override
-		public void update() {
-			super.update();
-			if(!world.isRemote) tickTile();
-		}
-		
-		@Override
 		protected void setNewStack() {
 			inventoryStacks.set(0, new ItemStack(Blocks.COBBLESTONE, NCConfig.processor_passive_rate[1]*NCConfig.machine_update_rate*rateMult/5));
 		}
@@ -138,12 +124,6 @@ public class TilePassive {
 		public WaterSourceAbstract(String type, int rateMult) {
 			super("water_source" + type, FluidRegistry.WATER, NCConfig.processor_passive_rate[2]*rateMult, NCConfig.machine_update_rate / 5);
 		}
-		
-		@Override
-		public void update() {
-			super.update();
-			if(!world.isRemote) tickTile();
-		}
 	}
 	
 	public static class WaterSource extends WaterSourceAbstract {
@@ -171,12 +151,6 @@ public class TilePassive {
 		
 		public NitrogenCollectorAbstract(String type, int rateMult) {
 			super("nitrogen_collector" + type, FluidRegistry.getFluid("nitrogen"), NCConfig.processor_passive_rate[3]*rateMult, NCConfig.machine_update_rate / 5);
-		}
-		
-		@Override
-		public void update() {
-			super.update();
-			if(!world.isRemote) tickTile();
 		}
 	}
 	

@@ -1,0 +1,8 @@
+{
+	"variants": {
+		"dir=invisible": {"model": "nuclearcraft:block_invisible"},
+		"dir=x": {"model": "nuclearcraft:turbine_rotor_stator", "x": 90, "y": 90},
+		"dir=y": {"model": "nuclearcraft:turbine_rotor_stator"},
+		"dir=z": {"model": "nuclearcraft:turbine_rotor_stator", "x": 90}
+	}
+}

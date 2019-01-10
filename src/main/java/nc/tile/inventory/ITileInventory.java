@@ -1,5 +1,7 @@
 package nc.tile.inventory;
 
+import javax.annotation.Nonnull;
+
 import nc.tile.ITile;
 import nc.util.NCInventoryHelper;
 import net.minecraft.inventory.IInventory;
@@ -12,13 +14,20 @@ import net.minecraftforge.items.IItemHandler;
 
 public interface ITileInventory extends ITile {
 	
+	// Inventory
+	
 	public NonNullList<ItemStack> getInventoryStacks();
 	
+	// Item Distribution
+	
 	public default <TILE extends TileEntity & IInventory> void pushStacks(TILE thisTile) {
-		if (thisTile.isEmpty()) return;
-		
-		EnumFacing side = getCycledSide();
-		
+		for (EnumFacing side : EnumFacing.VALUES) {
+			if (thisTile.isEmpty()) return;
+			pushStacksToSide(side, thisTile);
+		}
+	}
+	
+	public default <TILE extends TileEntity & IInventory> void pushStacksToSide(@Nonnull EnumFacing side, TILE thisTile) {
 		IItemHandler inv = thisTile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side);
 		if (inv == null) return;
 		

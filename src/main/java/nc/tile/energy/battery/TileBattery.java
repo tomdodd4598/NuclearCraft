@@ -90,9 +90,9 @@ public class TileBattery extends TileEnergy implements IBattery, IInterfaceable,
 		if(!world.isRemote) {
 			boolean shouldUpdate = false;
 			pushEnergy();
-			spreadEnergy();
-			if(batteryCount == 0 && findAdjacentComparator()) {
-				shouldUpdate = true;
+			if (batteryCount == 0) {
+				spreadEnergy();
+				if(findAdjacentComparator()) shouldUpdate = true;
 			}
 			tickBattery();
 			if (shouldUpdate) markDirty();

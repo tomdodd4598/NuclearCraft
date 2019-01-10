@@ -8,6 +8,7 @@ import javax.annotation.Nullable;
 import com.google.common.collect.Lists;
 
 import nc.ModCheck;
+import nc.config.NCConfig;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.saltFission.SaltFissionReactor;
 import nc.tile.fluid.ITileFluid;
@@ -33,6 +34,8 @@ public class TileSaltFissionRetriever extends TileSaltFissionPartBase implements
 	
 	private @Nonnull GasTileWrapper gasWrapper;
 	
+	protected int retrieverCount;
+	
 	public TileSaltFissionRetriever() {
 		super(CuboidalPartPositionType.WALL);
 		fluidSides = ITileFluid.getDefaultFluidSides(this);
@@ -57,8 +60,13 @@ public class TileSaltFissionRetriever extends TileSaltFissionPartBase implements
 	public void update() {
 		super.update();
 		if(!world.isRemote) {
-			pushFluid();
+			if (retrieverCount == 0) pushFluid();
+			tickRetriever();
 		}
+	}
+	
+	public void tickRetriever() {
+		retrieverCount++; retrieverCount %= NCConfig.machine_update_rate / 2;
 	}
 	
 	// Fluids

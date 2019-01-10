@@ -27,7 +27,6 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
@@ -44,8 +43,8 @@ public class NCItems {
 	
 	public static Item part;
 	public static Item upgrade;
-	public static Item fuel_rod_empty;
 	public static Item tiny_dust_lead;
+	public static Item fuel_rod;
 	public static Item reactor_door;
 	
 	public static Item thorium;
@@ -67,16 +66,6 @@ public class NCItems {
 	public static Item fuel_berkelium;
 	public static Item fuel_californium;
 	
-	public static Item fuel_rod_thorium;
-	public static Item fuel_rod_uranium;
-	public static Item fuel_rod_neptunium;
-	public static Item fuel_rod_plutonium;
-	public static Item fuel_rod_mixed_oxide;
-	public static Item fuel_rod_americium;
-	public static Item fuel_rod_curium;
-	public static Item fuel_rod_berkelium;
-	public static Item fuel_rod_californium;
-	
 	public static Item depleted_fuel_thorium;
 	public static Item depleted_fuel_uranium;
 	public static Item depleted_fuel_neptunium;
@@ -88,16 +77,6 @@ public class NCItems {
 	public static Item depleted_fuel_californium;
 	
 	public static Item depleted_fuel_ic2;
-	
-	public static Item depleted_fuel_rod_thorium;
-	public static Item depleted_fuel_rod_uranium;
-	public static Item depleted_fuel_rod_neptunium;
-	public static Item depleted_fuel_rod_plutonium;
-	public static Item depleted_fuel_rod_mixed_oxide;
-	public static Item depleted_fuel_rod_americium;
-	public static Item depleted_fuel_rod_curium;
-	public static Item depleted_fuel_rod_berkelium;
-	public static Item depleted_fuel_rod_californium;
 	
 	public static Item boron;
 	public static Item lithium;
@@ -149,8 +128,8 @@ public class NCItems {
 		part = new NCItemMeta("part", MetaEnums.PartType.class);
 		upgrade = new NCItemMeta("upgrade", MetaEnums.UpgradeType.class, NCInfo.upgradeInfo());
 		
-		fuel_rod_empty = new NCItem("fuel_rod_empty", TextFormatting.GREEN);
 		tiny_dust_lead = new NCItem("tiny_dust_lead");
+		fuel_rod = new NCItem("fuel_rod");
 		reactor_door = new NCItemDoor("reactor_door_item", NCBlocks.reactor_door);
 		
 		thorium = new NCItemMeta("thorium", MetaEnums.ThoriumType.class);
@@ -172,16 +151,6 @@ public class NCItems {
 		fuel_berkelium = new ItemFissionFuel("fuel_berkelium", MetaEnums.BerkeliumFuelType.class);
 		fuel_californium = new ItemFissionFuel("fuel_californium", MetaEnums.CaliforniumFuelType.class);
 		
-		fuel_rod_thorium = new ItemFissionFuel("fuel_rod_thorium", MetaEnums.ThoriumFuelRodType.class);
-		fuel_rod_uranium = new ItemFissionFuel("fuel_rod_uranium", MetaEnums.UraniumFuelRodType.class);
-		fuel_rod_neptunium = new ItemFissionFuel("fuel_rod_neptunium", MetaEnums.NeptuniumFuelRodType.class);
-		fuel_rod_plutonium = new ItemFissionFuel("fuel_rod_plutonium", MetaEnums.PlutoniumFuelRodType.class);
-		fuel_rod_mixed_oxide = new ItemFissionFuel("fuel_rod_mixed_oxide", MetaEnums.MixedOxideFuelRodType.class);
-		fuel_rod_americium = new ItemFissionFuel("fuel_rod_americium", MetaEnums.AmericiumFuelRodType.class);
-		fuel_rod_curium = new ItemFissionFuel("fuel_rod_curium", MetaEnums.CuriumFuelRodType.class);
-		fuel_rod_berkelium = new ItemFissionFuel("fuel_rod_berkelium", MetaEnums.BerkeliumFuelRodType.class);
-		fuel_rod_californium = new ItemFissionFuel("fuel_rod_californium", MetaEnums.CaliforniumFuelRodType.class);
-		
 		depleted_fuel_thorium = new ItemDepletedFissionFuel("depleted_fuel_thorium", MetaEnums.ThoriumDepletedFuelType.class);
 		depleted_fuel_uranium = new ItemDepletedFissionFuel("depleted_fuel_uranium", MetaEnums.UraniumDepletedFuelType.class);
 		depleted_fuel_neptunium = new ItemDepletedFissionFuel("depleted_fuel_neptunium", MetaEnums.NeptuniumDepletedFuelType.class);
@@ -193,16 +162,6 @@ public class NCItems {
 		depleted_fuel_californium = new ItemDepletedFissionFuel("depleted_fuel_californium", MetaEnums.CaliforniumDepletedFuelType.class);
 		
 		depleted_fuel_ic2 = new ItemDepletedFissionFuel("depleted_fuel_ic2", MetaEnums.IC2DepletedFuelType.class);
-		
-		depleted_fuel_rod_thorium = new ItemDepletedFissionFuel("depleted_fuel_rod_thorium", MetaEnums.ThoriumDepletedFuelRodType.class);
-		depleted_fuel_rod_uranium = new ItemDepletedFissionFuel("depleted_fuel_rod_uranium", MetaEnums.UraniumDepletedFuelRodType.class);
-		depleted_fuel_rod_neptunium = new ItemDepletedFissionFuel("depleted_fuel_rod_neptunium", MetaEnums.NeptuniumDepletedFuelRodType.class);
-		depleted_fuel_rod_plutonium = new ItemDepletedFissionFuel("depleted_fuel_rod_plutonium", MetaEnums.PlutoniumDepletedFuelRodType.class);
-		depleted_fuel_rod_mixed_oxide = new ItemDepletedFissionFuel("depleted_fuel_rod_mixed_oxide", MetaEnums.MixedOxideDepletedFuelRodType.class);
-		depleted_fuel_rod_americium = new ItemDepletedFissionFuel("depleted_fuel_rod_americium", MetaEnums.AmericiumDepletedFuelRodType.class);
-		depleted_fuel_rod_curium = new ItemDepletedFissionFuel("depleted_fuel_rod_curium", MetaEnums.CuriumDepletedFuelRodType.class);
-		depleted_fuel_rod_berkelium = new ItemDepletedFissionFuel("depleted_fuel_rod_berkelium", MetaEnums.BerkeliumDepletedFuelRodType.class);
-		depleted_fuel_rod_californium = new ItemDepletedFissionFuel("depleted_fuel_rod_californium", MetaEnums.CaliforniumDepletedFuelRodType.class);
 		
 		boron = new NCItemMeta("boron", MetaEnums.BoronType.class);
 		lithium = new NCItemMeta("lithium", MetaEnums.LithiumType.class);
@@ -254,8 +213,8 @@ public class NCItems {
 		
 		registerItem(part, NCTabs.BASE_ITEM_MATERIALS);
 		registerItem(upgrade, NCTabs.MACHINES);
-		registerItem(fuel_rod_empty, null);
 		registerItem(tiny_dust_lead, NCTabs.BASE_ITEM_MATERIALS);
+		registerItem(fuel_rod, null);
 		registerItem(reactor_door, NCTabs.FISSION_BLOCKS);
 		
 		registerItem(thorium, NCTabs.FISSION_MATERIALS);
@@ -277,16 +236,6 @@ public class NCItems {
 		registerItem(fuel_berkelium, NCTabs.FISSION_FUELS);
 		registerItem(fuel_californium, NCTabs.FISSION_FUELS);
 		
-		registerItem(fuel_rod_thorium, null);
-		registerItem(fuel_rod_uranium, null);
-		registerItem(fuel_rod_neptunium, null);
-		registerItem(fuel_rod_plutonium, null);
-		registerItem(fuel_rod_mixed_oxide, null);
-		registerItem(fuel_rod_americium, null);
-		registerItem(fuel_rod_curium, null);
-		registerItem(fuel_rod_berkelium, null);
-		registerItem(fuel_rod_californium, null);
-		
 		registerItem(depleted_fuel_thorium, NCTabs.FISSION_MATERIALS);
 		registerItem(depleted_fuel_uranium, NCTabs.FISSION_MATERIALS);
 		registerItem(depleted_fuel_neptunium, NCTabs.FISSION_MATERIALS);
@@ -298,16 +247,6 @@ public class NCItems {
 		registerItem(depleted_fuel_californium, NCTabs.FISSION_MATERIALS);
 		
 		registerItem(depleted_fuel_ic2, NCTabs.FISSION_MATERIALS);
-		
-		registerItem(depleted_fuel_rod_thorium, null);
-		registerItem(depleted_fuel_rod_uranium, null);
-		registerItem(depleted_fuel_rod_neptunium, null);
-		registerItem(depleted_fuel_rod_plutonium, null);
-		registerItem(depleted_fuel_rod_mixed_oxide, null);
-		registerItem(depleted_fuel_rod_americium, null);
-		registerItem(depleted_fuel_rod_curium, null);
-		registerItem(depleted_fuel_rod_berkelium, null);
-		registerItem(depleted_fuel_rod_californium, null);
 		
 		registerItem(boron, NCTabs.BASE_ITEM_MATERIALS);
 		registerItem(lithium, NCTabs.BASE_ITEM_MATERIALS);
@@ -387,8 +326,8 @@ public class NCItems {
 			registerRender(upgrade, i, "upgrade_" + MetaEnums.UpgradeType.values()[i].getName());
 		}
 		
-		registerRender(fuel_rod_empty);
 		registerRender(tiny_dust_lead);
+		registerRender(fuel_rod);
 		registerRender(reactor_door);
 		
 		for(int i = 0; i < MetaEnums.ThoriumType.values().length; i++) {
@@ -459,42 +398,6 @@ public class NCItems {
 			registerRender(fuel_californium, i, "fuel_californium_" + MetaEnums.CaliforniumFuelType.values()[i].getName());
 		}
 		
-		for(int i = 0; i < MetaEnums.ThoriumFuelRodType.values().length; i++) {
-			registerRender(fuel_rod_thorium, i, "fuel_rod_thorium_" + MetaEnums.ThoriumFuelRodType.values()[i].getName());
-		}
-		
-		for(int i = 0; i < MetaEnums.UraniumFuelRodType.values().length; i++) {
-			registerRender(fuel_rod_uranium, i, "fuel_rod_uranium_" + MetaEnums.UraniumFuelRodType.values()[i].getName());
-		}
-		
-		for(int i = 0; i < MetaEnums.NeptuniumFuelRodType.values().length; i++) {
-			registerRender(fuel_rod_neptunium, i, "fuel_rod_neptunium_" + MetaEnums.NeptuniumFuelRodType.values()[i].getName());
-		}
-		
-		for(int i = 0; i < MetaEnums.PlutoniumFuelRodType.values().length; i++) {
-			registerRender(fuel_rod_plutonium, i, "fuel_rod_plutonium_" + MetaEnums.PlutoniumFuelRodType.values()[i].getName());
-		}
-		
-		for(int i = 0; i < MetaEnums.MixedOxideFuelRodType.values().length; i++) {
-			registerRender(fuel_rod_mixed_oxide, i, "fuel_rod_mixed_oxide_" + MetaEnums.MixedOxideFuelRodType.values()[i].getName());
-		}
-		
-		for(int i = 0; i < MetaEnums.AmericiumFuelRodType.values().length; i++) {
-			registerRender(fuel_rod_americium, i, "fuel_rod_americium_" + MetaEnums.AmericiumFuelRodType.values()[i].getName());
-		}
-		
-		for(int i = 0; i < MetaEnums.CuriumFuelRodType.values().length; i++) {
-			registerRender(fuel_rod_curium, i, "fuel_rod_curium_" + MetaEnums.CuriumFuelRodType.values()[i].getName());
-		}
-		
-		for(int i = 0; i < MetaEnums.BerkeliumFuelRodType.values().length; i++) {
-			registerRender(fuel_rod_berkelium, i, "fuel_rod_berkelium_" + MetaEnums.BerkeliumFuelRodType.values()[i].getName());
-		}
-		
-		for(int i = 0; i < MetaEnums.CaliforniumFuelRodType.values().length; i++) {
-			registerRender(fuel_rod_californium, i, "fuel_rod_californium_" + MetaEnums.CaliforniumFuelRodType.values()[i].getName());
-		}
-		
 		for(int i = 0; i < MetaEnums.ThoriumDepletedFuelType.values().length; i++) {
 			registerRender(depleted_fuel_thorium, i, "depleted_fuel_thorium_" + MetaEnums.ThoriumDepletedFuelType.values()[i].getName());
 		}
@@ -535,42 +438,6 @@ public class NCItems {
 			registerRender(depleted_fuel_ic2, i, "depleted_fuel_ic2_" + MetaEnums.IC2DepletedFuelType.values()[i].getName());
 		}
 		
-		for(int i = 0; i < MetaEnums.ThoriumDepletedFuelRodType.values().length; i++) {
-			registerRender(depleted_fuel_rod_thorium, i, "depleted_fuel_rod_thorium_" + MetaEnums.ThoriumDepletedFuelRodType.values()[i].getName());
-		}
-		
-		for(int i = 0; i < MetaEnums.UraniumDepletedFuelRodType.values().length; i++) {
-			registerRender(depleted_fuel_rod_uranium, i, "depleted_fuel_rod_uranium_" + MetaEnums.UraniumDepletedFuelRodType.values()[i].getName());
-		}
-		
-		for(int i = 0; i < MetaEnums.NeptuniumDepletedFuelRodType.values().length; i++) {
-			registerRender(depleted_fuel_rod_neptunium, i, "depleted_fuel_rod_neptunium_" + MetaEnums.NeptuniumDepletedFuelRodType.values()[i].getName());
-		}
-		
-		for(int i = 0; i < MetaEnums.PlutoniumDepletedFuelRodType.values().length; i++) {
-			registerRender(depleted_fuel_rod_plutonium, i, "depleted_fuel_rod_plutonium_" + MetaEnums.PlutoniumDepletedFuelRodType.values()[i].getName());
-		}
-		
-		for(int i = 0; i < MetaEnums.MixedOxideDepletedFuelRodType.values().length; i++) {
-			registerRender(depleted_fuel_rod_mixed_oxide, i, "depleted_fuel_rod_mixed_oxide_" + MetaEnums.MixedOxideDepletedFuelRodType.values()[i].getName());
-		}
-		
-		for(int i = 0; i < MetaEnums.AmericiumDepletedFuelRodType.values().length; i++) {
-			registerRender(depleted_fuel_rod_americium, i, "depleted_fuel_rod_americium_" + MetaEnums.AmericiumDepletedFuelRodType.values()[i].getName());
-		}
-		
-		for(int i = 0; i < MetaEnums.CuriumDepletedFuelRodType.values().length; i++) {
-			registerRender(depleted_fuel_rod_curium, i, "depleted_fuel_rod_curium_" + MetaEnums.CuriumDepletedFuelRodType.values()[i].getName());
-		}
-		
-		for(int i = 0; i < MetaEnums.BerkeliumDepletedFuelRodType.values().length; i++) {
-			registerRender(depleted_fuel_rod_berkelium, i, "depleted_fuel_rod_berkelium_" + MetaEnums.BerkeliumDepletedFuelRodType.values()[i].getName());
-		}
-		
-		for(int i = 0; i < MetaEnums.CaliforniumDepletedFuelRodType.values().length; i++) {
-			registerRender(depleted_fuel_rod_californium, i, "depleted_fuel_rod_californium_" + MetaEnums.CaliforniumDepletedFuelRodType.values()[i].getName());
-		}
-		
 		for(int i = 0; i < MetaEnums.BoronType.values().length; i++) {
 			registerRender(boron, i, "boron" + MetaEnums.BoronType.values()[i].getName());
 		}
@@ -582,6 +449,7 @@ public class NCItems {
 		registerRender(lithium_ion_cell);
 		
 		registerRender(geiger_counter);
+		
 		for(int i = 0; i < MetaEnums.RadShieldingType.values().length; i++) {
 			registerRender(rad_shielding, i, "rad_shielding_" + MetaEnums.RadShieldingType.values()[i].getName());
 		}

@@ -78,7 +78,7 @@ public class BlockSaltFissionHeater extends BlockSaltFissionPartBase implements 
 		if (world.getTileEntity(pos) instanceof TileSaltFissionHeater && world.getTileEntity(from) instanceof TileSaltFissionHeater) {
 			TileSaltFissionHeater tube = (TileSaltFissionHeater) world.getTileEntity(pos);
 			TileSaltFissionHeater other = (TileSaltFissionHeater) world.getTileEntity(from);
-			tube.setFluidConnections(other.getFluidConnections());
+			tube.setFluidConnections(other.getFluidConnections().clone());
 			tube.markAndRefresh();
 		}
 	}

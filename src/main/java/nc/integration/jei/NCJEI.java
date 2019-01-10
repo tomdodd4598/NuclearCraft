@@ -33,7 +33,6 @@ import nc.container.processor.ContainerPressurizer;
 import nc.container.processor.ContainerRockCrusher;
 import nc.container.processor.ContainerSaltMixer;
 import nc.container.processor.ContainerSupercooler;
-import nc.enumm.MetaEnums;
 import nc.gui.generator.GuiFissionController;
 import nc.gui.generator.GuiFusionCore;
 import nc.gui.processor.GuiAlloyFurnace;
@@ -63,6 +62,7 @@ import nc.integration.jei.generator.FusionCategory;
 import nc.integration.jei.multiblock.CoolantHeaterCategory;
 import nc.integration.jei.multiblock.HeatExchangerCategory;
 import nc.integration.jei.multiblock.SaltFissionCategory;
+import nc.integration.jei.multiblock.TurbineCategory;
 import nc.integration.jei.processor.AlloyFurnaceCategory;
 import nc.integration.jei.processor.CentrifugeCategory;
 import nc.integration.jei.processor.ChemicalReactorCategory;
@@ -164,6 +164,8 @@ public class NCJEI implements IModPlugin {
 			}
 		}
 		
+		blacklist(jeiHelpers, NCItems.fuel_rod);
+		
 		blacklist(jeiHelpers, NCBlocks.reactor_door);
 		
 		blacklist(jeiHelpers, NCBlocks.nuclear_furnace_active);
@@ -198,28 +200,6 @@ public class NCJEI implements IModPlugin {
 		blacklist(jeiHelpers, NCBlocks.fusion_electromagnet_transparent_active);
 		blacklist(jeiHelpers, NCBlocks.accelerator_electromagnet_active);
 		blacklist(jeiHelpers, NCBlocks.electromagnet_supercooler_active);
-		
-		blacklist(jeiHelpers, NCItems.fuel_rod_empty);
-		
-		blacklistAll(jeiHelpers, MetaEnums.ThoriumFuelRodType.class, NCItems.fuel_rod_thorium);
-		blacklistAll(jeiHelpers, MetaEnums.UraniumFuelRodType.class, NCItems.fuel_rod_uranium);
-		blacklistAll(jeiHelpers, MetaEnums.NeptuniumFuelRodType.class, NCItems.fuel_rod_neptunium);
-		blacklistAll(jeiHelpers, MetaEnums.PlutoniumFuelRodType.class, NCItems.fuel_rod_plutonium);
-		blacklistAll(jeiHelpers, MetaEnums.MixedOxideFuelRodType.class, NCItems.fuel_rod_mixed_oxide);
-		blacklistAll(jeiHelpers, MetaEnums.AmericiumFuelRodType.class, NCItems.fuel_rod_americium);
-		blacklistAll(jeiHelpers, MetaEnums.CuriumFuelRodType.class, NCItems.fuel_rod_curium);
-		blacklistAll(jeiHelpers, MetaEnums.BerkeliumFuelRodType.class, NCItems.fuel_rod_berkelium);
-		blacklistAll(jeiHelpers, MetaEnums.CaliforniumFuelRodType.class, NCItems.fuel_rod_californium);
-		
-		blacklistAll(jeiHelpers, MetaEnums.ThoriumDepletedFuelRodType.class, NCItems.depleted_fuel_rod_thorium);
-		blacklistAll(jeiHelpers, MetaEnums.UraniumDepletedFuelRodType.class, NCItems.depleted_fuel_rod_uranium);
-		blacklistAll(jeiHelpers, MetaEnums.NeptuniumDepletedFuelRodType.class, NCItems.depleted_fuel_rod_neptunium);
-		blacklistAll(jeiHelpers, MetaEnums.PlutoniumDepletedFuelRodType.class, NCItems.depleted_fuel_rod_plutonium);
-		blacklistAll(jeiHelpers, MetaEnums.MixedOxideDepletedFuelRodType.class, NCItems.depleted_fuel_rod_mixed_oxide);
-		blacklistAll(jeiHelpers, MetaEnums.AmericiumDepletedFuelRodType.class, NCItems.depleted_fuel_rod_americium);
-		blacklistAll(jeiHelpers, MetaEnums.CuriumDepletedFuelRodType.class, NCItems.depleted_fuel_rod_curium);
-		blacklistAll(jeiHelpers, MetaEnums.BerkeliumDepletedFuelRodType.class, NCItems.depleted_fuel_rod_berkelium);
-		blacklistAll(jeiHelpers, MetaEnums.CaliforniumDepletedFuelRodType.class, NCItems.depleted_fuel_rod_californium);
 		
 		NCUtil.getLogger().info("JEI integration complete");
 	}
@@ -264,7 +244,8 @@ public class NCJEI implements IModPlugin {
 		FUSION(NCRecipes.Type.FUSION, NCBlocks.fusion_core, "fusion_core", JEIRecipeWrapper.Fusion.class),
 		SALT_FISSION(NCRecipes.Type.SALT_FISSION, NCBlocks.salt_fission_vessel, "salt_fission", JEIRecipeWrapper.SaltFission.class),
 		COOLANT_HEATER(NCRecipes.Type.COOLANT_HEATER, NCBlocks.salt_fission_heater, "coolant_heater", JEIRecipeWrapper.CoolantHeater.class),
-		HEAT_EXCHANGER(NCRecipes.Type.HEAT_EXCHANGER, Lists.<Block>newArrayList(NCBlocks.heat_exchanger_tube_copper, NCBlocks.heat_exchanger_tube_hard_carbon, NCBlocks.heat_exchanger_tube_thermoconducting), "heat_exchanger", JEIRecipeWrapper.HeatExchanger.class);
+		HEAT_EXCHANGER(NCRecipes.Type.HEAT_EXCHANGER, Lists.<Block>newArrayList(NCBlocks.heat_exchanger_tube_copper, NCBlocks.heat_exchanger_tube_hard_carbon, NCBlocks.heat_exchanger_tube_thermoconducting), "heat_exchanger", JEIRecipeWrapper.HeatExchanger.class),
+		TURBINE(NCRecipes.Type.TURBINE, NCBlocks.turbine_controller, "turbine", JEIRecipeWrapper.Turbine.class);
 		
 		private NCRecipes.Type recipeType;
 		private Class<? extends JEIRecipeWrapperAbstract> recipeWrapper;
@@ -347,6 +328,8 @@ public class NCJEI implements IModPlugin {
 				return new CoolantHeaterCategory(guiHelper, this);
 			case HEAT_EXCHANGER:
 				return new HeatExchangerCategory(guiHelper, this);
+			case TURBINE:
+				return new TurbineCategory(guiHelper, this);
 			default:
 				return null;
 			}

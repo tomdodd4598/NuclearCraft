@@ -92,7 +92,7 @@ public class BlockHeatExchangerTube extends BlockHeatExchangerPartBase implement
 		if (world.getTileEntity(pos) instanceof TileHeatExchangerTube && world.getTileEntity(from) instanceof TileHeatExchangerTube) {
 			TileHeatExchangerTube tube = (TileHeatExchangerTube) world.getTileEntity(pos);
 			TileHeatExchangerTube other = (TileHeatExchangerTube) world.getTileEntity(from);
-			tube.setFluidConnections(other.getFluidConnections());
+			tube.setFluidConnections(other.getFluidConnections().clone());
 			tube.markAndRefresh();
 		}
 	}

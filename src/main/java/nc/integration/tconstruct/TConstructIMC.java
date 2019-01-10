@@ -17,10 +17,15 @@ public class TConstructIMC {
 		sendTiCSmelteryInfo("magnesium", true);
 		sendTiCSmelteryInfo("beryllium", true);
 		sendTiCSmelteryInfo("zirconium", true);
+		sendTiCSmelteryInfo("manganese", true);
+		sendTiCSmelteryInfo("aluminum", true);
+		sendTiCSmelteryInfo("silver", true);
 		
 		sendTiCSmelteryInfo("sodium", false);
 		sendTiCSmelteryInfo("potassium", false);
 		sendTiCSmelteryInfo("plutonium", false);
+		
+		sendTiCSmelteryInfo("manganese_dioxide", "manganeseDioxide", true);
 		
 		sendTiCSmelteryInfo("ferroboron", true);
 		sendTiCSmelteryInfo("tough", true);
@@ -33,7 +38,7 @@ public class TConstructIMC {
 		sendTiCAlloyInfo("magnesium_diboride", 3, fluid("magnesium", 1), fluid("boron", 2));
 		sendTiCAlloyInfo("lithium_manganese_dioxide", 2, fluid("lithium", 1), fluid("manganese_dioxide", 1));
 		sendTiCAlloyInfo("extreme", 1, fluid("tough", 1), fluid("hard_carbon", 1));
-		sendTiCAlloyInfo("thermoconducting", 72, fluid("extreme", 72), fluid("boron_arsenide", 333));
+		sendTiCAlloyInfo("thermoconducting", 16, fluid("extreme", 8), fluid("boron_arsenide", 37));
 	}
 	
 	public static void sendTiCSmelteryInfo(String fluidName, String oreName, boolean toolForge) {

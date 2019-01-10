@@ -3,6 +3,8 @@ package nc.item;
 import nc.capability.radiation.IEntityRads;
 import nc.config.NCConfig;
 import nc.handler.SoundHandler;
+import nc.util.Lang;
+import nc.util.UnitHelper;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -13,9 +15,13 @@ import net.minecraft.stats.StatList;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
 public class ItemRadaway extends NCItem {
+	
+	private static final String RADAWAY_COOLDOWN = Lang.localise("message.nuclearcraft.radaway_cooling_down");
 	
 	public ItemRadaway(String nameIn, String... tooltip) {
 		super(nameIn, tooltip);
@@ -36,10 +42,20 @@ public class ItemRadaway extends NCItem {
 				stack.shrink(1);
 				playerRads.setConsumedMedicine(true);
 				playerRads.setRadawayCooldown(NCConfig.radiation_radaway_cooldown);
+				if (NCConfig.radiation_radaway_cooldown >= 10D) sendCooldownMessage(world, player, playerRads, false);
 			}
-			else playerRads.setConsumedMedicine(false);
+			else {
+				playerRads.setConsumedMedicine(false);
+			}
 		}
 		return stack;
+	}
+	
+	private void sendCooldownMessage(World world, EntityPlayer player, IEntityRads playerRads, boolean playSound) {
+		if (playerRads.getRadawayCooldown() > 0D) {
+			if (playSound && world.isRemote) player.playSound(SoundHandler.chems_wear_off, 0.5F, 1F);
+			player.sendMessage(new TextComponentString(TextFormatting.ITALIC + RADAWAY_COOLDOWN + " " + UnitHelper.applyTimeUnitShort(Math.ceil(playerRads.getRadawayCooldown()), 2, 1)));
+		}
 	}
 	
 	private void onRadawayConsumed(ItemStack stack, World world, EntityPlayer player) {
@@ -68,6 +84,7 @@ public class ItemRadaway extends NCItem {
 		
 		if (!playerRads.canConsumeRadaway()) {
 			playerRads.setConsumedMedicine(false);
+			sendCooldownMessage(world, player, playerRads, true);
 			return actionResult(false, stack);
 		}
 		if (!playerRads.isTotalRadsNegligible()) {

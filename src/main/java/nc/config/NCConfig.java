@@ -170,6 +170,12 @@ public class NCConfig {
 	
 	public static int turbine_min_size; // Default: 1
 	public static int turbine_max_size; // Default: 24
+	public static double[] turbine_blade_efficiency;
+	public static double[] turbine_blade_expansion;
+	public static double turbine_stator_expansion;
+	public static double[] turbine_coil_conductivity;
+	public static double[] turbine_power_per_mb;
+	public static int turbine_mb_per_blade;
 	
 	public static int condenser_min_size; // Default: 1
 	public static int condenser_max_size; // Default: 24
@@ -206,6 +212,9 @@ public class NCConfig {
 	public static String[] radiation_ores;
 	public static String[] radiation_items;
 	public static String[] radiation_blocks;
+	public static String[] radiation_ores_blacklist;
+	public static String[] radiation_items_blacklist;
+	public static String[] radiation_blocks_blacklist;
 	
 	public static double max_player_rads;
 	public static double radiation_spread_rate;
@@ -546,6 +555,18 @@ public class NCConfig {
 		propertyTurbineMinSize.setLanguageKey("gui.config.turbine.turbine_min_size");
 		Property propertyTurbineMaxSize = config.get(CATEGORY_TURBINE, "turbine_max_size", 24, Lang.localise("gui.config.turbine.turbine_max_size.comment"), 1, 255);
 		propertyTurbineMaxSize.setLanguageKey("gui.config.turbine.turbine_max_size");
+		Property propertyTurbineBladeEfficiency = config.get(CATEGORY_TURBINE, "turbine_blade_efficiency", new double[] {1D, 1.1D, 1.25D}, Lang.localise("gui.config.turbine.turbine_blade_efficiency.comment"), 0.01D, 15D);
+		propertyTurbineBladeEfficiency.setLanguageKey("gui.config.turbine.turbine_blade_efficiency");
+		Property propertyTurbineBladeExpansion = config.get(CATEGORY_TURBINE, "turbine_blade_expansion", new double[] {1.4D, 1.6D, 1.8D}, Lang.localise("gui.config.turbine.turbine_blade_expansion.comment"), 1D, 15D);
+		propertyTurbineBladeExpansion.setLanguageKey("gui.config.turbine.turbine_blade_expansion");
+		Property propertyTurbineStatorExpansion = config.get(CATEGORY_TURBINE, "turbine_stator_expansion", 0.75D, Lang.localise("gui.config.turbine.turbine_stator_expansion.comment"), 0.01D, 1D);
+		propertyTurbineStatorExpansion.setLanguageKey("gui.config.turbine.turbine_stator_expansion");
+		Property propertyTurbineCoilConductivity = config.get(CATEGORY_TURBINE, "turbine_coil_conductivity", new double[] {0.86D, 0.9D, 0.98D, 1.04D, 1.1D, 1.12D}, Lang.localise("gui.config.turbine.turbine_coil_conductivity.comment"), 0.01D, 15D);
+		propertyTurbineCoilConductivity.setLanguageKey("gui.config.turbine.turbine_coil_conductivity");
+		Property propertyTurbinePowerPerMB = config.get(CATEGORY_TURBINE, "turbine_power_per_mb", new double[] {16D, 4D, 4D}, Lang.localise("gui.config.turbine.turbine_power_per_mb.comment"), 0D, 255D);
+		propertyTurbinePowerPerMB.setLanguageKey("gui.config.turbine.turbine_power_per_mb");
+		Property propertyTurbineMBPerBlade = config.get(CATEGORY_TURBINE, "turbine_mb_per_blade", 100, Lang.localise("gui.config.turbine.turbine_mb_per_blade.comment"), 1, 32767);
+		propertyTurbineMBPerBlade.setLanguageKey("gui.config.turbine.turbine_mb_per_blade");
 		
 		Property propertyCondenserMinSize = config.get(CATEGORY_CONDENSER, "condenser_min_size", 1, Lang.localise("gui.config.condenser.condenser_min_size.comment"), 1, 255);
 		propertyCondenserMinSize.setLanguageKey("gui.config.condenser.condenser_min_size");
@@ -607,6 +628,12 @@ public class NCConfig {
 		propertyRadiationItems.setLanguageKey("gui.config.radiation.radiation_items");
 		Property propertyRadiationBlocks = config.get(CATEGORY_RADIATION, "radiation_blocks", new String[] {}, Lang.localise("gui.config.radiation.radiation_blocks.comment"));
 		propertyRadiationBlocks.setLanguageKey("gui.config.radiation.radiation_blocks");
+		Property propertyRadiationOresBlacklist = config.get(CATEGORY_RADIATION, "radiation_ores_blacklist", new String[] {}, Lang.localise("gui.config.radiation.radiation_ores_blacklist.comment"));
+		propertyRadiationOresBlacklist.setLanguageKey("gui.config.radiation.radiation_ores_blacklist");
+		Property propertyRadiationItemsBlacklist = config.get(CATEGORY_RADIATION, "radiation_items_blacklist", new String[] {}, Lang.localise("gui.config.radiation.radiation_items_blacklist.comment"));
+		propertyRadiationItemsBlacklist.setLanguageKey("gui.config.radiation.radiation_items_blacklist");
+		Property propertyRadiationBlocksBlacklist = config.get(CATEGORY_RADIATION, "radiation_blocks_blacklist", new String[] {}, Lang.localise("gui.config.radiation.radiation_blocks_blacklist.comment"));
+		propertyRadiationBlocksBlacklist.setLanguageKey("gui.config.radiation.radiation_blocks_blacklist");
 		
 		Property propertyRadiationMaxPlayerRads = config.get(CATEGORY_RADIATION, "max_player_rads", 1000D, Lang.localise("gui.config.radiation.max_player_rads.comment"), 1D, 1000000000D);
 		propertyRadiationMaxPlayerRads.setLanguageKey("gui.config.radiation.max_player_rads");
@@ -870,6 +897,12 @@ public class NCConfig {
 		List<String> propertyOrderTurbine = new ArrayList<String>();
 		propertyOrderTurbine.add(propertyTurbineMinSize.getName());
 		propertyOrderTurbine.add(propertyTurbineMaxSize.getName());
+		propertyOrderTurbine.add(propertyTurbineBladeEfficiency.getName());
+		propertyOrderTurbine.add(propertyTurbineBladeExpansion.getName());
+		propertyOrderTurbine.add(propertyTurbineStatorExpansion.getName());
+		propertyOrderTurbine.add(propertyTurbineCoilConductivity.getName());
+		propertyOrderTurbine.add(propertyTurbinePowerPerMB.getName());
+		propertyOrderTurbine.add(propertyTurbineMBPerBlade.getName());
 		config.setCategoryPropertyOrder(CATEGORY_TURBINE, propertyOrderTurbine);
 		
 		List<String> propertyOrderCondenser = new ArrayList<String>();
@@ -914,6 +947,9 @@ public class NCConfig {
 		propertyOrderRadiation.add(propertyRadiationOres.getName());
 		propertyOrderRadiation.add(propertyRadiationItems.getName());
 		propertyOrderRadiation.add(propertyRadiationBlocks.getName());
+		propertyOrderRadiation.add(propertyRadiationOresBlacklist.getName());
+		propertyOrderRadiation.add(propertyRadiationItemsBlacklist.getName());
+		propertyOrderRadiation.add(propertyRadiationBlocksBlacklist.getName());
 		propertyOrderRadiation.add(propertyRadiationMaxPlayerRads.getName());
 		propertyOrderRadiation.add(propertyRadiationSpreadRate.getName());
 		propertyOrderRadiation.add(propertyRadiationDecayRate.getName());
@@ -1100,6 +1136,12 @@ public class NCConfig {
 			
 			turbine_min_size = propertyTurbineMinSize.getInt();
 			turbine_max_size = propertyTurbineMaxSize.getInt();
+			turbine_blade_efficiency = readDoubleArrayFromConfig(propertyTurbineBladeEfficiency);
+			turbine_blade_expansion = readDoubleArrayFromConfig(propertyTurbineBladeExpansion);
+			turbine_stator_expansion = propertyTurbineStatorExpansion.getDouble();
+			turbine_coil_conductivity = readDoubleArrayFromConfig(propertyTurbineCoilConductivity);
+			turbine_power_per_mb = readDoubleArrayFromConfig(propertyTurbinePowerPerMB);
+			turbine_mb_per_blade = propertyTurbineMBPerBlade.getInt();
 			
 			condenser_min_size = propertyCondenserMinSize.getInt();
 			condenser_max_size = propertyCondenserMaxSize.getInt();
@@ -1135,6 +1177,9 @@ public class NCConfig {
 			radiation_ores = propertyRadiationOres.getStringList();
 			radiation_items = propertyRadiationItems.getStringList();
 			radiation_blocks = propertyRadiationBlocks.getStringList();
+			radiation_ores_blacklist = propertyRadiationOresBlacklist.getStringList();
+			radiation_items_blacklist = propertyRadiationItemsBlacklist.getStringList();
+			radiation_blocks_blacklist = propertyRadiationBlocksBlacklist.getStringList();
 			
 			max_player_rads = propertyRadiationMaxPlayerRads.getDouble();
 			radiation_spread_rate = propertyRadiationSpreadRate.getDouble();
@@ -1325,6 +1370,12 @@ public class NCConfig {
 		
 		propertyTurbineMinSize.set(turbine_min_size);
 		propertyTurbineMaxSize.set(turbine_max_size);
+		propertyTurbineBladeEfficiency.set(turbine_blade_efficiency);
+		propertyTurbineBladeExpansion.set(turbine_blade_expansion);
+		propertyTurbineStatorExpansion.set(turbine_stator_expansion);
+		propertyTurbineCoilConductivity.set(turbine_coil_conductivity);
+		propertyTurbinePowerPerMB.set(turbine_power_per_mb);
+		propertyTurbineMBPerBlade.set(turbine_mb_per_blade);
 		
 		propertyCondenserMinSize.set(condenser_min_size);
 		propertyCondenserMaxSize.set(condenser_max_size);
@@ -1360,6 +1411,9 @@ public class NCConfig {
 		propertyRadiationOres.set(radiation_ores);
 		propertyRadiationItems.set(radiation_items);
 		propertyRadiationBlocks.set(radiation_blocks);
+		propertyRadiationOresBlacklist.set(radiation_ores_blacklist);
+		propertyRadiationItemsBlacklist.set(radiation_items_blacklist);
+		propertyRadiationBlocksBlacklist.set(radiation_blocks_blacklist);
 		
 		propertyRadiationMaxPlayerRads.set(max_player_rads);
 		propertyRadiationSpreadRate.set(radiation_spread_rate);

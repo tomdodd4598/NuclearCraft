@@ -39,8 +39,10 @@ import net.minecraftforge.items.wrapper.InvWrapper;
 public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory implements ITilePassive {
 	
 	protected int tickCount;
+	protected int pushCount;
 	
 	public final int updateRate;
+	public final int pushRate;
 	public boolean isActive;
 	public boolean energyBool;
 	public boolean stackBool;
@@ -94,6 +96,7 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 		fluidStackChange = new FluidStack(fluid, MathHelper.abs(fluidChange)*changeRate);
 		fluidType = fluid;
 		updateRate = changeRate*20;
+		pushRate = Math.min(changeRate*20, NCConfig.machine_update_rate);
 	}
 	
 	@Override
@@ -102,7 +105,7 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 		boolean shouldUpdate = false;
 		super.update();
 		if(!world.isRemote) {
-			if (shouldUpdate()) {
+			if (tickCount == 0) {
 				energyBool = changeEnergy(false);
 				stackBool = changeStack(false);
 				fluidBool = changeFluid(false);
@@ -112,20 +115,25 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 				shouldUpdate = true;
 				updateBlockType();
 			}
-			if (itemChange > 0) pushStacks(this);
-			if (energyChange > 0) pushEnergy();
-			if (fluidChange > 0) pushFluid();
+			if (pushCount == 0) {
+				if (itemChange > 0) pushStacks(this);
+				if (energyChange > 0) pushEnergy();
+				if (fluidChange > 0) pushFluid();
+			}
+			
+			tickCount();
+			tickPush();
 			
 			if (shouldUpdate) markDirty();
 		}
 	}
 	
-	public boolean shouldUpdate() {
-		return tickCount == 0;
+	public void tickCount() {
+		tickCount++; tickCount %= updateRate;
 	}
 	
-	public void tickTile() {
-		tickCount++; tickCount %= updateRate;
+	public void tickPush() {
+		pushCount++; pushCount %= pushRate;
 	}
 	
 	public void updateBlockType() {

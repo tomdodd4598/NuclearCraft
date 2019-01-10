@@ -31,6 +31,7 @@ import nc.radiation.RadiationArmor;
 import nc.radiation.RadiationHandler;
 import nc.radiation.environment.RadiationEnvironmentHandler;
 import nc.recipe.NCRecipes;
+import nc.recipe.vanilla.CraftingRecipeHandler;
 import nc.util.GasHelper;
 import nc.worldgen.biome.NCBiomes;
 import nc.worldgen.decoration.BushGenerator;
@@ -76,6 +77,7 @@ public class CommonProxy {
 		
 		PacketHandler.registerMessages(Global.MOD_ID);
 		
+		if (ModCheck.mekanismLoaded()) GasHelper.preInit();
 		MinecraftForge.EVENT_BUS.register(new NCRecipes());
 		
 		TConstructIMC.sendIMCs();
@@ -91,6 +93,8 @@ public class CommonProxy {
 		MinecraftForge.EVENT_BUS.register(new DropHandler());
 		MinecraftForge.EVENT_BUS.register(new DungeonLootHandler());
 		
+		RadSources.init();
+		RadSources.init2();
 		RadiationArmor.init();
 		
 		NCBiomes.initBiomeManagerAndDictionary();
@@ -107,7 +111,9 @@ public class CommonProxy {
 	public void postInit(FMLPostInitializationEvent postEvent) {
 		if (ModCheck.mekanismLoaded()) GasHelper.init();
 		
-		RadSources.init();
+		CraftingRecipeHandler.registerRadShieldingCraftingRecipes();
+		
+		RadSources.postInit();
 		RadiationArmor.postInit();
 		MinecraftForge.EVENT_BUS.register(new RadiationCapabilityHandler());
 		MinecraftForge.EVENT_BUS.register(new RadiationHandler());

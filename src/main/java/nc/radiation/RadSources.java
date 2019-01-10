@@ -1,5 +1,6 @@
 package nc.radiation;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,8 +16,23 @@ import net.minecraft.item.ItemStack;
 
 public class RadSources {
 	
+	public static final List<String> ORE_BLACKLIST = new ArrayList<String>();
+	public static final List<ItemStack> STACK_BLACKLIST = new ArrayList<ItemStack>();
+	
 	public static final Map<String, Double> ORE_MAP = new HashMap<String, Double>();
 	public static final Map<ItemStack, Double> STACK_MAP = new HashMap<ItemStack, Double>();
+	
+	private static void addToOreMap(String ore, Double radiation) {
+		if (ORE_BLACKLIST.contains(ore)) return;
+		ORE_MAP.put(ore, radiation);
+	}
+	
+	private static void addToStackMap(ItemStack stack, Double radiation) {
+		for (ItemStack blacklisted : STACK_BLACKLIST) {
+			if (stack.isItemEqual(blacklisted)) return;
+		}
+		STACK_MAP.put(stack, radiation);
+	}
 	
 	private static final double INGOT = 1D;
 	private static final double NUGGET = 1D/9D;
@@ -76,7 +92,21 @@ public class RadSources {
 	public static final double CALIFORNIUM_251 = 0.00115D;
 	public static final double CALIFORNIUM_252 = 0.38D;
 	
-	static {
+	public static void init() {
+		for (String oreInfo : NCConfig.radiation_ores_blacklist) {
+			ORE_BLACKLIST.add(oreInfo);
+		}
+		for (String itemInfo : NCConfig.radiation_items_blacklist) {
+			ItemStack stack = RegistryHelper.itemStackFromRegistry(itemInfo);
+			if (stack != null) STACK_BLACKLIST.add(stack);
+		}
+		for (String blockInfo : NCConfig.radiation_blocks_blacklist) {
+			ItemStack stack = RegistryHelper.blockStackFromRegistry(blockInfo);
+			if (stack != null) STACK_BLACKLIST.add(stack);
+		}
+	}
+	
+	public static void init2() {
 		putMaterial(THORIUM, "Thorium");
 		putMaterial(URANIUM, "Uranium", "Yellorium");
 		putMaterial(PLUTONIUM, "Plutonium", "Blutonium");
@@ -180,26 +210,35 @@ public class RadSources {
 		putDepletedFuel(CALIFORNIUM_251, 16, CALIFORNIUM_252, 16, CALIFORNIUM_252, 16, CALIFORNIUM_252, 16, "HECf251");
 		
 		put(URANIUM_238*4, "plateDU");
+		
+		put(RadSources.URANIUM_238/4D, NCBlocks.rtg_uranium);
+		put(RadSources.PLUTONIUM_238/4D, NCBlocks.rtg_plutonium);
+		put(RadSources.AMERICIUM_241/4D, NCBlocks.rtg_americium);
+		put(RadSources.CALIFORNIUM_250/4D, NCBlocks.rtg_californium);
+		
+		put(RadSources.THORIUM_230*9D/4D, NCBlocks.helium_collector);
+		put(RadSources.THORIUM_230*8D*9D/4D, NCBlocks.helium_collector_compact);
+		put(RadSources.THORIUM_230*64D*9D/4D, NCBlocks.helium_collector_dense);
 	}
 	
 	private static void putMaterial(double radiation, String... ores) {
 		for (String ore : ores) for (String suffix : new String[] {"", "Oxide"}) {
-			for (String prefix : MATERIAL_INGOT_NAME_LIST) ORE_MAP.put(prefix + ore + suffix, radiation*INGOT);
-			for (String prefix : MATERIAL_NUGGET_NAME_LIST) ORE_MAP.put(prefix + ore + suffix, radiation*NUGGET);
-			for (String prefix : MATERIAL_HALF_NAME_LIST) ORE_MAP.put(prefix + ore + suffix, radiation*HALF);
-			for (String prefix : MATERIAL_THIRD_NAME_LIST) ORE_MAP.put(prefix + ore + suffix, radiation*THIRD);
-			for (String prefix : MATERIAL_SMALL_NAME_LIST) ORE_MAP.put(prefix + ore + suffix, radiation*SMALL);
-			for (String prefix : MATERIAL_GEAR_NAME_LIST) ORE_MAP.put(prefix + ore + suffix, radiation*GEAR);
-			for (String prefix : MATERIAL_BLOCK_NAME_LIST) ORE_MAP.put(prefix + ore + suffix, radiation*BLOCK);
-			for (String prefix : MATERIAL_SLAB_NAME_LIST) ORE_MAP.put(prefix + ore + suffix, radiation*SLAB);
+			for (String prefix : MATERIAL_INGOT_NAME_LIST) addToOreMap(prefix + ore + suffix, radiation*INGOT);
+			for (String prefix : MATERIAL_NUGGET_NAME_LIST) addToOreMap(prefix + ore + suffix, radiation*NUGGET);
+			for (String prefix : MATERIAL_HALF_NAME_LIST) addToOreMap(prefix + ore + suffix, radiation*HALF);
+			for (String prefix : MATERIAL_THIRD_NAME_LIST) addToOreMap(prefix + ore + suffix, radiation*THIRD);
+			for (String prefix : MATERIAL_SMALL_NAME_LIST) addToOreMap(prefix + ore + suffix, radiation*SMALL);
+			for (String prefix : MATERIAL_GEAR_NAME_LIST) addToOreMap(prefix + ore + suffix, radiation*GEAR);
+			for (String prefix : MATERIAL_BLOCK_NAME_LIST) addToOreMap(prefix + ore + suffix, radiation*BLOCK);
+			for (String prefix : MATERIAL_SLAB_NAME_LIST) addToOreMap(prefix + ore + suffix, radiation*SLAB);
 		}
 	}
 	
 	private static void putIsotope(double radiation, String... ores) {
 		for (String ore : ores) for (String suffix : new String[] {"", "Base", "Oxide"}) {
-			for (String prefix : ISOTOPE_INGOT_NAME_LIST) ORE_MAP.put(prefix + ore + suffix, radiation*INGOT);
-			for (String prefix : ISOTOPE_NUGGET_NAME_LIST) ORE_MAP.put(prefix + ore + suffix, radiation*NUGGET);
-			for (String prefix : ISOTOPE_BLOCK_NAME_LIST) ORE_MAP.put(prefix + ore + suffix, radiation*BLOCK);
+			for (String prefix : ISOTOPE_INGOT_NAME_LIST) addToOreMap(prefix + ore + suffix, radiation*INGOT);
+			for (String prefix : ISOTOPE_NUGGET_NAME_LIST) addToOreMap(prefix + ore + suffix, radiation*NUGGET);
+			for (String prefix : ISOTOPE_BLOCK_NAME_LIST) addToOreMap(prefix + ore + suffix, radiation*BLOCK);
 		}
 	}
 	
@@ -209,10 +248,10 @@ public class RadSources {
 	
 	private static void putFuel(double rad1, int amount1, double rad2, int amount2, String ore) {
 		double radiation = getFuelRadiation(rad1, amount1, rad2, amount2);
-		ORE_MAP.put("fuel" + ore, radiation);
-		ORE_MAP.put("fuel" + ore + "Oxide", radiation);
-		ORE_MAP.put("fuelRod" + ore, radiation);
-		ORE_MAP.put("fuelRod" + ore + "Oxide", radiation);
+		addToOreMap("fuel" + ore, radiation);
+		addToOreMap("fuel" + ore + "Oxide", radiation);
+		addToOreMap("fuelRod" + ore, radiation);
+		addToOreMap("fuelRod" + ore + "Oxide", radiation);
 	}
 	
 	private static void putFuel(double fertile, double fissile, String ore) {
@@ -226,26 +265,26 @@ public class RadSources {
 	
 	private static void putDepletedFuel(double rad1, int amount1, double rad2, int amount2, double rad3, int amount3, double rad4, int amount4, String ore) {
 		double radiation = getDepletedFuelRadiation(rad1, amount1, rad2, amount2, rad3, amount3, rad4, amount4);
-		ORE_MAP.put("depletedFuel" + ore, radiation);
-		ORE_MAP.put("depletedFuel" + ore + "Oxide", radiation);
-		ORE_MAP.put("depletedFuelRod" + ore, radiation);
-		ORE_MAP.put("depletedFuelRod" + ore + "Oxide", radiation);
+		addToOreMap("depletedFuel" + ore, radiation);
+		addToOreMap("depletedFuel" + ore + "Oxide", radiation);
+		addToOreMap("depletedFuelRod" + ore, radiation);
+		addToOreMap("depletedFuelRod" + ore + "Oxide", radiation);
 	}
 	
 	private static void put(double radiation, String... ores) {
-		for (String ore : ores) ORE_MAP.put(ore, radiation);
+		for (String ore : ores) addToOreMap(ore, radiation);
 	}
 	
 	private static void put(double radiation, ItemStack... stacks) {
-		for (ItemStack stack : stacks) STACK_MAP.put(stack, radiation);
+		for (ItemStack stack : stacks) addToStackMap(stack, radiation);
 	}
 	
 	private static void put(double radiation, Item... items) {
-		for (Item item : items) STACK_MAP.put(new ItemStack(item), radiation);
+		for (Item item : items) addToStackMap(new ItemStack(item), radiation);
 	}
 	
 	private static void put(double radiation, Block... blocks) {
-		for (Block block : blocks) STACK_MAP.put(new ItemStack(block), radiation);
+		for (Block block : blocks) addToStackMap(new ItemStack(block), radiation);
 	}
 	
 	// Fuels
@@ -288,32 +327,23 @@ public class RadSources {
 	
 	// Custom and Stack Entries
 	
-	public static void init() {
+	public static void postInit() {
 		for (String oreInfo : NCConfig.radiation_ores) {
 			int scorePos = oreInfo.lastIndexOf('_');
 			if (scorePos == -1) continue;
-			ORE_MAP.put(oreInfo.substring(0, scorePos), Double.parseDouble(oreInfo.substring(scorePos + 1)));
+			addToOreMap(oreInfo.substring(0, scorePos), Double.parseDouble(oreInfo.substring(scorePos + 1)));
 		}
 		for (String itemInfo : NCConfig.radiation_items) {
 			int scorePos = itemInfo.lastIndexOf('_');
 			if (scorePos == -1) continue;
 			ItemStack stack = RegistryHelper.itemStackFromRegistry(itemInfo.substring(0, scorePos));
-			if (stack != null) STACK_MAP.put(stack, Double.parseDouble(itemInfo.substring(scorePos + 1)));
+			if (stack != null) addToStackMap(stack, Double.parseDouble(itemInfo.substring(scorePos + 1)));
 		}
 		for (String blockInfo : NCConfig.radiation_blocks) {
 			int scorePos = blockInfo.lastIndexOf('_');
 			if (scorePos == -1) continue;
 			ItemStack stack = RegistryHelper.blockStackFromRegistry(blockInfo.substring(0, scorePos));
-			if (stack != null) STACK_MAP.put(stack, Double.parseDouble(blockInfo.substring(scorePos + 1)));
+			if (stack != null) addToStackMap(stack, Double.parseDouble(blockInfo.substring(scorePos + 1)));
 		}
-		
-		put(RadSources.URANIUM_238/4D, NCBlocks.rtg_uranium);
-		put(RadSources.PLUTONIUM_238/4D, NCBlocks.rtg_plutonium);
-		put(RadSources.AMERICIUM_241/4D, NCBlocks.rtg_americium);
-		put(RadSources.CALIFORNIUM_250/4D, NCBlocks.rtg_californium);
-		
-		put(RadSources.THORIUM_230*9D/4D, NCBlocks.helium_collector);
-		put(RadSources.THORIUM_230*8D*9D/4D, NCBlocks.helium_collector_compact);
-		put(RadSources.THORIUM_230*64D*9D/4D, NCBlocks.helium_collector_dense);
 	}
 }

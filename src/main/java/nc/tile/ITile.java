@@ -54,10 +54,4 @@ public interface ITile {
 	public default @Nonnull EnumFacing nonNullSide(@Nullable EnumFacing side) {
 		return side == null ? EnumFacing.UP : side;
 	}
-	
-	// Side Cycle
-	
-	public default EnumFacing getCycledSide() {
-		return EnumFacing.VALUES[(int)getTileWorld().getTotalWorldTime() % 6];
-	}
 }

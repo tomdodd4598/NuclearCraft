@@ -65,6 +65,8 @@ public abstract class MultiblockUpdatePacket implements IMessage {
 			}
 		}
 		
-		protected abstract void onPacket(MESSAGE message, MULTIBLOCK multiblock);
+		protected void onPacket(MESSAGE message, MULTIBLOCK multiblock) {
+			multiblock.onPacket(message);
+		}
 	}
 }

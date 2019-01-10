@@ -42,6 +42,8 @@ public class NCFluids {
 			
 			fluidPairList.add(fluidPair(FluidType.MOLTEN, "coal", 0x202020));
 			fluidPairList.add(fluidPair(FluidType.MOLTEN, "beryllium", 0xD4DBC2));
+			fluidPairList.add(fluidPair(FluidType.MOLTEN, "manganese", 0x7284CC));
+			fluidPairList.add(fluidPair(FluidType.MOLTEN, "manganese_dioxide", 0x28211E));
 			fluidPairList.add(fluidPair(FluidType.MOLTEN, "sulfur", 0xDEDE7A));
 			fluidPairList.add(fluidPair(FluidType.MOLTEN, "arsenic", 0x818475));
 			
@@ -118,6 +120,11 @@ public class NCFluids {
 			fluidPairList.add(fluidPair(FluidType.MOLTEN, "bas", 0x9B9B89));
 			
 			fluidPairList.add(fluidPair(FluidType.HOT_GAS, "sic_vapor", 0x78746A));
+			
+			fluidPairList.add(fluidPair(FluidType.MOLTEN, "alugentum", 0xB5C9CB));
+			fluidPairList.add(fluidPair(FluidType.MOLTEN, "alumina", 0x919880));
+			fluidPairList.add(fluidPair(FluidType.MOLTEN, "aluminum", 0xB5ECD5));
+			fluidPairList.add(fluidPair(FluidType.MOLTEN, "silver", 0xE2DAF6));
 			
 		} catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 			e.printStackTrace();

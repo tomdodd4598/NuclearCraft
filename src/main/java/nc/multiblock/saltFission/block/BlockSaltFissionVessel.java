@@ -78,7 +78,7 @@ public class BlockSaltFissionVessel extends BlockSaltFissionPartBase implements 
 		if (world.getTileEntity(pos) instanceof TileSaltFissionVessel && world.getTileEntity(from) instanceof TileSaltFissionVessel) {
 			TileSaltFissionVessel tube = (TileSaltFissionVessel) world.getTileEntity(pos);
 			TileSaltFissionVessel other = (TileSaltFissionVessel) world.getTileEntity(from);
-			tube.setFluidConnections(other.getFluidConnections());
+			tube.setFluidConnections(other.getFluidConnections().clone());
 			tube.markAndRefresh();
 		}
 	}

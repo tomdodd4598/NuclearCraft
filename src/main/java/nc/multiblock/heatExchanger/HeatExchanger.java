@@ -30,9 +30,8 @@ public class HeatExchanger extends CuboidalMultiblockBase<HeatExchangerUpdatePac
 	
 	private int updateCount = 0;
 	
-	public double fractionOfTubesActive, efficiency;
-	
 	public boolean isHeatExchangerOn;
+	public double fractionOfTubesActive, efficiency;
 	
 	public HeatExchanger(World world) {
 		super(world);
@@ -93,13 +92,13 @@ public class HeatExchanger extends CuboidalMultiblockBase<HeatExchangerUpdatePac
 	protected void onMachineAssembled() {
 		for (TileHeatExchangerController contr : controllers) controller = contr;
 		for (TileHeatExchangerTube tube : tubes) tube.updateFlowDir();
-		updateHeatExchanger();
+		updateHeatExchangerStats();
 	}
 	
 	@Override
 	protected void onMachineRestored() {
 		for (TileHeatExchangerTube tube : tubes) tube.updateFlowDir();
-		updateHeatExchanger();
+		updateHeatExchangerStats();
 	}
 	
 	@Override
@@ -110,10 +109,14 @@ public class HeatExchanger extends CuboidalMultiblockBase<HeatExchangerUpdatePac
 	@Override
 	protected void onMachineDisassembled() {
 		isHeatExchangerOn = false;
+		fractionOfTubesActive = efficiency = 0D;
 	}
 	
 	@Override
 	protected boolean isMachineWhole(IMultiblockValidator validatorCallback) {
+		
+		// Only one controller
+		
 		if (controllers.size() == 0) {
 			validatorCallback.setLastError(Global.MOD_ID + ".multiblock_validation.no_controller", null);
 			return false;
@@ -122,6 +125,7 @@ public class HeatExchanger extends CuboidalMultiblockBase<HeatExchangerUpdatePac
 			validatorCallback.setLastError(Global.MOD_ID + ".multiblock_validation.too_many_controllers", null);
 			return false;
 		}
+		
 		return super.isMachineWhole(validatorCallback);
 	}
 	
@@ -140,7 +144,7 @@ public class HeatExchanger extends CuboidalMultiblockBase<HeatExchangerUpdatePac
 	@Override
 	protected boolean updateServer() {
 		setIsHeatExchangerOn();
-		if (shouldUpdate()) updateHeatExchanger();
+		if (shouldUpdate()) updateHeatExchangerStats();
 		if (shouldUpdate()) sendUpdateToListeningPlayers();
 		incrementUpdateCount();
 		return true;
@@ -157,7 +161,7 @@ public class HeatExchanger extends CuboidalMultiblockBase<HeatExchangerUpdatePac
 		return false;
 	}
 	
-	protected void updateHeatExchanger() {
+	protected void updateHeatExchangerStats() {
 		if (tubes.size() < 1) {
 			fractionOfTubesActive = 0;
 			efficiency = 0;
@@ -218,10 +222,11 @@ public class HeatExchanger extends CuboidalMultiblockBase<HeatExchangerUpdatePac
 		return new HeatExchangerUpdatePacket(controller.getPos(), isHeatExchangerOn, fractionOfTubesActive, efficiency);
 	}
 	
-	public void onPacket(boolean isHeatExchangerOn, double fractionOfTubesActive, double efficiency) {
-		this.isHeatExchangerOn = isHeatExchangerOn;
-		this.fractionOfTubesActive = fractionOfTubesActive;
-		this.efficiency = efficiency;
+	@Override
+	public void onPacket(HeatExchangerUpdatePacket message) {
+		isHeatExchangerOn = message.isHeatExchangerOn;
+		fractionOfTubesActive = message.fractionOfTubesActive;
+		efficiency = message.efficiency;
 	}
 	
 	public Container getContainer(EntityPlayer player) {

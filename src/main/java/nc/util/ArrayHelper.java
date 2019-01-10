@@ -88,9 +88,21 @@ public class ArrayHelper {
 		return result;
 	}
 	
+	public static int sumIntList(List<Integer> numberList) {
+		int result = 0;
+		for (Integer i : numberList) result += i;
+		return result;
+	}
+	
 	public static double sum(double[] numberArray) {
 		double result = 0D;
 		for (int i = 0; i < numberArray.length; i++) result += numberArray[i];
+		return result;
+	}
+	
+	public static double sumDoubleList(List<Double> numberList) {
+		double result = 0D;
+		for (Double i : numberList) result += i;
 		return result;
 	}
 	

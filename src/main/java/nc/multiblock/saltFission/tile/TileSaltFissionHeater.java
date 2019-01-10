@@ -45,9 +45,9 @@ public class TileSaltFissionHeater extends TileSaltFissionPartBase implements IF
 	private static final FluidConnection COOLANT_OUT = FluidConnection.OUT;
 	private static final FluidConnection DEFAULT = FluidConnection.BOTH;
 	private static final FluidConnection DISABLED = FluidConnection.NON;
-			
-	private final @Nonnull List<Tank> tanks = Lists.newArrayList(new Tank(FluidStackHelper.INGOT_BLOCK_VOLUME, TankSorption.IN, RecipeHelper.validFluids(NCRecipes.Type.COOLANT_HEATER).get(0)), new Tank(FluidStackHelper.INGOT_BLOCK_VOLUME*4, TankSorption.OUT, new ArrayList<String>()));
-
+	
+	private final @Nonnull List<Tank> tanks = Lists.newArrayList(new Tank(FluidStackHelper.INGOT_BLOCK_VOLUME*2, TankSorption.IN, RecipeHelper.validFluids(NCRecipes.Type.COOLANT_HEATER).get(0)), new Tank(FluidStackHelper.INGOT_BLOCK_VOLUME*4, TankSorption.OUT, new ArrayList<String>()));
+	
 	private @Nonnull FluidConnection[] fluidConnections = ITileFluid.fluidConnectionAll(FluidConnection.BOTH);
 	
 	private @Nonnull FluidTileWrapper[] fluidSides;
@@ -59,12 +59,12 @@ public class TileSaltFissionHeater extends TileSaltFissionPartBase implements IF
 	private double baseProcessCooling;
 	public final int baseProcessTime = 20;
 	public double reactorCoolingRate; // Based on the reactor efficiency, but with heat/cooling taken into account
-	public boolean checked = false;
+	public boolean checked = false, isInValidPosition;
 	
 	private int fluidToHold;
 	
 	public double time;
-	public boolean isProcessing, canProcessInputs, isInValidPosition;
+	public boolean isProcessing, canProcessInputs;
 	
 	public final NCRecipes.Type recipeType = NCRecipes.Type.COOLANT_HEATER;
 	protected ProcessorRecipe recipe;
@@ -91,7 +91,7 @@ public class TileSaltFissionHeater extends TileSaltFissionPartBase implements IF
 		//getWorld().setBlockState(getPos(), getWorld().getBlockState(getPos()), 2);
 	}
 	
-	public void checkIsInValidPosition() {
+	public void checkIsInValidPosition(short heaterCheckCount) {
 		String coolantName = getCoolantName();
 				
 		if (coolantName == "nullFluid") {
@@ -100,7 +100,7 @@ public class TileSaltFissionHeater extends TileSaltFissionPartBase implements IF
 			return;
 		}
 		
-		else if (coolantName == "nak") {
+		else if (coolantName == "nak" && heaterCheckCount == 0) {
 			for (EnumFacing dir : EnumFacing.VALUES) {
 				if (isVessel(dir) || isModerator(dir)) {
 					isInValidPosition = true;
@@ -113,7 +113,7 @@ public class TileSaltFissionHeater extends TileSaltFissionPartBase implements IF
 			return;
 		}
 		
-		else if (coolantName == "redstone_nak") {
+		else if (coolantName == "redstone_nak" && heaterCheckCount == 0) {
 			for (EnumFacing dir : EnumFacing.VALUES) {
 				if (isVessel(dir)) {
 					isInValidPosition = true;
@@ -126,7 +126,7 @@ public class TileSaltFissionHeater extends TileSaltFissionPartBase implements IF
 			return;
 		}
 
-		else if (coolantName == "quartz_nak") {
+		else if (coolantName == "quartz_nak" && heaterCheckCount == 0) {
 			for (EnumFacing dir : EnumFacing.VALUES) {
 				if (isModerator(dir)) {
 					isInValidPosition = true;
@@ -139,7 +139,7 @@ public class TileSaltFissionHeater extends TileSaltFissionPartBase implements IF
 			return;
 		}
 		
-		else if (coolantName == "gold_nak") {
+		else if (coolantName == "gold_nak" && heaterCheckCount == 1) {
 			boolean nak = false;
 			boolean redstone = false;
 			for (EnumFacing dir : EnumFacing.VALUES) {
@@ -156,7 +156,7 @@ public class TileSaltFissionHeater extends TileSaltFissionPartBase implements IF
 			return;
 		}
 		
-		else if (coolantName == "glowstone_nak") {
+		else if (coolantName == "glowstone_nak" && heaterCheckCount == 0) {
 			short moderator = 0;
 			for (EnumFacing dir : EnumFacing.VALUES) {
 				if (isModerator(dir)) moderator++;
@@ -171,7 +171,7 @@ public class TileSaltFissionHeater extends TileSaltFissionPartBase implements IF
 			return;
 		}
 		
-		else if (coolantName == "lapis_nak") {
+		else if (coolantName == "lapis_nak" && heaterCheckCount == 0) {
 			boolean vessel = false;
 			boolean wall = false;
 			for (EnumFacing dir : EnumFacing.VALUES) {
@@ -188,7 +188,7 @@ public class TileSaltFissionHeater extends TileSaltFissionPartBase implements IF
 			return;
 		}
 		
-		else if (coolantName == "diamond_nak") {
+		else if (coolantName == "diamond_nak" && heaterCheckCount == 1) {
 			boolean nak = false;
 			boolean quartz = false;
 			for (EnumFacing dir : EnumFacing.VALUES) {
@@ -205,7 +205,7 @@ public class TileSaltFissionHeater extends TileSaltFissionPartBase implements IF
 			return;
 		}
 		
-		else if (coolantName == "liquidhelium_nak") {
+		else if (coolantName == "liquidhelium_nak" && heaterCheckCount == 1) {
 			boolean wall = false;
 			short redstone = 0;
 			for (EnumFacing dir : EnumFacing.VALUES) {
@@ -222,7 +222,7 @@ public class TileSaltFissionHeater extends TileSaltFissionPartBase implements IF
 			return;
 		}
 		
-		else if (coolantName == "ender_nak") {
+		else if (coolantName == "ender_nak" && heaterCheckCount == 0) {
 			short vertices = 0;
 			posList: for (EnumFacing[] vertexDirList : BlockPosHelper.vertexDirList()) {
 				for (EnumFacing dir : vertexDirList) if (!isWall(dir)) continue posList;
@@ -238,7 +238,7 @@ public class TileSaltFissionHeater extends TileSaltFissionPartBase implements IF
 			return;
 		}
 		
-		else if (coolantName == "cryotheum_nak") {
+		else if (coolantName == "cryotheum_nak" && heaterCheckCount == 0) {
 			short vessel = 0;
 			for (EnumFacing dir : EnumFacing.VALUES) {
 				if (isVessel(dir)) vessel++;
@@ -253,7 +253,7 @@ public class TileSaltFissionHeater extends TileSaltFissionPartBase implements IF
 			return;
 		}
 		
-		else if (coolantName == "iron_nak") {
+		else if (coolantName == "iron_nak" && heaterCheckCount == 2) {
 			for (EnumFacing dir : EnumFacing.VALUES) {
 				if (isHeaterWithCoolant(dir, "gold_nak")) {
 					isInValidPosition = true;
@@ -266,7 +266,7 @@ public class TileSaltFissionHeater extends TileSaltFissionPartBase implements IF
 			return;
 		}
 		
-		else if (coolantName == "emerald_nak") {
+		else if (coolantName == "emerald_nak" && heaterCheckCount == 0) {
 			boolean vessel = false;
 			boolean moderator = false;
 			for (EnumFacing dir : EnumFacing.VALUES) {
@@ -283,7 +283,7 @@ public class TileSaltFissionHeater extends TileSaltFissionPartBase implements IF
 			return;
 		}
 		
-		else if (coolantName == "copper_nak") {
+		else if (coolantName == "copper_nak" && heaterCheckCount == 1) {
 			for (EnumFacing dir : EnumFacing.VALUES) {
 				if (isHeaterWithCoolant(dir, "glowstone_nak")) {
 					isInValidPosition = true;
@@ -296,7 +296,7 @@ public class TileSaltFissionHeater extends TileSaltFissionPartBase implements IF
 			return;
 		}
 		
-		else if (coolantName == "tin_nak") {
+		else if (coolantName == "tin_nak" && heaterCheckCount == 1) {
 			posList: for (EnumFacing[] axialsDirList : BlockPosHelper.axialsDirList()) {
 				for (EnumFacing dir : axialsDirList) if (!isHeaterWithCoolant(dir, "lapis_nak")) continue posList;
 				isInValidPosition = true;
@@ -308,7 +308,7 @@ public class TileSaltFissionHeater extends TileSaltFissionPartBase implements IF
 			return;
 		}
 		
-		else if (coolantName == "magnesium_nak") {
+		else if (coolantName == "magnesium_nak" && heaterCheckCount == 0) {
 			boolean moderator = false;
 			boolean wall = false;
 			for (EnumFacing dir : EnumFacing.VALUES) {
@@ -325,7 +325,7 @@ public class TileSaltFissionHeater extends TileSaltFissionPartBase implements IF
 			return;
 		}
 		
-		isInValidPosition = true;
+		isInValidPosition = false;
 	}
 	
 	public String getCoolantName() {
@@ -389,8 +389,8 @@ public class TileSaltFissionHeater extends TileSaltFissionPartBase implements IF
 			if (wasProcessing != isProcessing) {
 				shouldUpdate = true;
 			}
-			pushFluid();
 			if (heaterCount == 0) {
+				pushFluid();
 				refreshRecipe();
 				refreshActivity();
 			}
@@ -430,8 +430,12 @@ public class TileSaltFissionHeater extends TileSaltFissionPartBase implements IF
 			return false;
 		}
 		baseProcessCooling = recipe.getCoolantHeaterCoolingRate();
-		fluidToHold = getFluidIngredients().get(0).getMaxStackSize();
+		fluidToHold = getFluidToHold();
 		return true;
+	}
+	
+	private int getFluidToHold() {
+		return Math.min(FluidStackHelper.INGOT_BLOCK_VOLUME/2, getFluidIngredients().get(0).getMaxStackSize()*NCConfig.machine_update_rate / 2);
 	}
 	
 	// Processing

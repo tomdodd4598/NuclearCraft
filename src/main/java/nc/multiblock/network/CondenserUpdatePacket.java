@@ -7,7 +7,7 @@ import net.minecraft.util.math.BlockPos;
 
 public class CondenserUpdatePacket extends MultiblockUpdatePacket {
 	
-	protected boolean isCondenserOn;
+	public boolean isCondenserOn;
 	
 	public CondenserUpdatePacket() {
 		messageValid = false;
@@ -38,11 +38,6 @@ public class CondenserUpdatePacket extends MultiblockUpdatePacket {
 
 		public Handler() {
 			super(TileCondenserController.class);
-		}
-		
-		@Override
-		protected void onPacket(CondenserUpdatePacket message, Condenser reactor) {
-			reactor.onPacket(message.isCondenserOn);
 		}
 	}
 }

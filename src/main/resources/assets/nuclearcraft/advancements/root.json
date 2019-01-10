@@ -1,7 +1,7 @@
 {
 	"display": {
 		"icon": {
-			"item": "nuclearcraft:fuel_rod_uranium"
+			"item": "nuclearcraft:fuel_rod"
 		},
 		"title": {
 			"translate": "advancement.nuclearcraft.root.name"

@@ -56,6 +56,9 @@ public class ItemFissionFuel<T extends Enum<T> & IStringSerializable & IItemMeta
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack itemStack, @Nullable World world, List<String> tooltip, ITooltipFlag flag) {
 		super.addInformation(itemStack, world, tooltip, flag);
-		if (info.length != 0) if (info[itemStack.getMetadata()].length > 0) InfoHelper.infoFull(tooltip, TextFormatting.GREEN, fixedInfo, info[itemStack.getMetadata()]);
+		int meta = itemStack.getMetadata();
+		if (info.length != 0 && info.length > meta && info[meta].length > 0) {
+			InfoHelper.infoFull(tooltip, TextFormatting.GREEN, fixedInfo, info[meta]);
+		}
 	}
 }

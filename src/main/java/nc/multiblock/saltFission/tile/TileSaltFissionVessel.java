@@ -50,8 +50,8 @@ public class TileSaltFissionVessel extends TileSaltFissionPartBase implements IF
 	private static final FluidConnection DEFAULT = FluidConnection.BOTH;
 	private static final FluidConnection DISABLED = FluidConnection.NON;
 	
-	private final @Nonnull List<Tank> tanks = Lists.newArrayList(new Tank(FluidStackHelper.INGOT_BLOCK_VOLUME, TankSorption.IN, RecipeHelper.validFluids(NCRecipes.Type.SALT_FISSION).get(0)), new Tank(FluidStackHelper.INGOT_BLOCK_VOLUME*4, TankSorption.OUT, new ArrayList<String>()), new Tank(FluidStackHelper.INGOT_BLOCK_VOLUME, TankSorption.NON, new ArrayList<String>()));
-
+	private final @Nonnull List<Tank> tanks = Lists.newArrayList(new Tank(FluidStackHelper.INGOT_BLOCK_VOLUME*2, TankSorption.IN, RecipeHelper.validFluids(NCRecipes.Type.SALT_FISSION).get(0)), new Tank(FluidStackHelper.INGOT_BLOCK_VOLUME*4, TankSorption.OUT, new ArrayList<String>()), new Tank(FluidStackHelper.INGOT_BLOCK_VOLUME*2, TankSorption.NON, new ArrayList<String>()));
+	
 	private @Nonnull FluidConnection[] fluidConnections = ITileFluid.fluidConnectionAll(FluidConnection.BOTH);
 	
 	private @Nonnull FluidTileWrapper[] fluidSides;
@@ -193,8 +193,8 @@ public class TileSaltFissionVessel extends TileSaltFissionPartBase implements IF
 			if (wasProcessing != isProcessing) {
 				shouldUpdate = true;
 			}
-			pushFluid();
 			if (vesselCount == 0) {
+				pushFluid();
 				refreshRecipe();
 				refreshActivity();
 			}
@@ -231,8 +231,12 @@ public class TileSaltFissionVessel extends TileSaltFissionPartBase implements IF
 		baseProcessTime = recipe.getSaltFissionFuelTime();
 		baseProcessHeat = recipe.getSaltFissionFuelHeat();
 		baseProcessRadiation = recipe.getSaltFissionFuelRadiation();
-		fluidToHold = getFluidIngredients().get(0).getMaxStackSize();
+		fluidToHold = getFluidToHold();
 		return true;
+	}
+	
+	private int getFluidToHold() {
+		return Math.min(FluidStackHelper.INGOT_BLOCK_VOLUME/2, getFluidIngredients().get(0).getMaxStackSize()*NCConfig.machine_update_rate / 2);
 	}
 	
 	// Processing

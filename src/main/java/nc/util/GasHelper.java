@@ -13,8 +13,18 @@ import net.minecraftforge.fluids.FluidStack;
 
 public class GasHelper {
 	
-	// Fluid -> Gas
+	// NC Fluid <-> Mek Fluid
+	public static final Map<String, String> TRANSLATION_MAP = new HashMap<String, String>();
+	
+	// Mek Fluid -> Mek Gas
 	public static final Map<String, String> GAS_MAP = new HashMap<String, String>();
+	
+	public static void preInit() {
+		TRANSLATION_MAP.put("sulfur_dioxide", "liquidsulfurdioxide");
+		TRANSLATION_MAP.put("sulfur_trioxide", "liquidsulfurtrioxide");
+		TRANSLATION_MAP.put("hydrogen_chloride", "liquidhydrogenchloride");
+		TRANSLATION_MAP.put("sulfuric_acid", "sulfuricacid");
+	}
 	
 	public static void init() {
 		for (Gas gas : GasRegistry.getRegisteredGasses()) {
@@ -35,7 +45,12 @@ public class GasHelper {
 	public static GasStack getGasFromFluid(FluidStack fluidStack) {
 		if (fluidStack == null) return null;
 		String fluidName = fluidStack.getFluid().getName();
-		if (!StringHelper.beginsWith("liquid", fluidName)) fluidName = "liquid" + fluidName;
+		if (!StringHelper.beginsWith("liquid", fluidName)) {
+			if (TRANSLATION_MAP.containsKey(fluidName)) {
+				fluidName = TRANSLATION_MAP.get(fluidName);
+			}
+			else fluidName = "liquid" + fluidName;
+		}
 		String gasName = GAS_MAP.get(fluidName);
 		if (gasName == null) return null;
 		Gas gas = GasRegistry.getGas(gasName);

@@ -21,6 +21,7 @@ import nc.recipe.ingredient.ItemIngredient;
 import nc.recipe.ingredient.OreIngredient;
 import nc.tile.internal.fluid.Tank;
 import nc.util.FluidRegHelper;
+import nc.util.GasHelper;
 import nc.util.ItemStackHelper;
 import nc.util.OreDictHelper;
 import nc.util.RecipeHelper;
@@ -142,14 +143,12 @@ public abstract class AbstractRecipeHandler<T extends IRecipe> {
 	public void addValidFluidOutput(Class fluidOutputType) {
 		validFluidOutputs.add(fluidOutputType);
 	}
-
+	
 	protected boolean isValidItemInputType(Object itemInput) {
 		for (Class<?> itemInputType : validItemInputs) {
 			if (itemInput instanceof ArrayList && itemInputType == ArrayList.class) {
 				ArrayList list = (ArrayList) itemInput;
-				if (!list.isEmpty() && isValidItemInputType(list.get(0))) {
-					return true;
-				}
+				for (Object obj : list) if (isValidItemInputType(obj)) return true;
 			} else if (itemInputType.isInstance(itemInput)) {
 				return true;
 			}
@@ -161,16 +160,14 @@ public abstract class AbstractRecipeHandler<T extends IRecipe> {
 		for (Class<?> fluidInputType : validFluidInputs) {
 			if (fluidInput instanceof ArrayList && fluidInputType == ArrayList.class) {
 				ArrayList list = (ArrayList) fluidInput;
-				if (!list.isEmpty() && isValidFluidInputType(list.get(0))) {
-					return true;
-				}
+				for (Object obj : list) if (isValidFluidInputType(obj)) return true;
 			} else if (fluidInputType.isInstance(fluidInput)) {
 				return true;
 			}
 		}
 		return false;
 	}
-
+	
 	protected boolean isValidItemOutputType(Object itemOutput) {
 		for (Class<?> itemOutputType : validItemOutputs) {
 			if (itemOutputType.isInstance(itemOutput)) {
@@ -220,7 +217,9 @@ public abstract class AbstractRecipeHandler<T extends IRecipe> {
 					}
 					else if (listObject != null) {
 						IItemIngredient recipeObject = buildItemIngredient(listObject);
-						if (recipeObject != null) buildList.add(recipeObject);
+						if (recipeObject != null) {
+							buildList.add(recipeObject);
+						}
 					}
 				}
 				if (buildList.isEmpty()) return null;
@@ -445,6 +444,19 @@ public abstract class AbstractRecipeHandler<T extends IRecipe> {
 	}
 	
 	public List<FluidIngredient> mekanismFluidStackList(FluidIngredient stack) {
-		return stack.fluidName.equals("helium") ? Lists.newArrayList(stack) : fluidStackList(Lists.newArrayList(stack.fluidName, "liquid" + stack.fluidName), stack.amount);
+		List<FluidIngredient> fluidStackList = Lists.newArrayList(stack);
+		
+		if (stack.fluidName.equals("helium")) {
+			return fluidStackList;
+		}
+		else if (GasHelper.TRANSLATION_MAP.containsKey(stack.fluidName)) {
+			fluidStackList.add(fluidStack(GasHelper.TRANSLATION_MAP.get(stack.fluidName), stack.amount));
+		}
+		else {
+			fluidStackList.add(fluidStack("liquid" + stack.fluidName, stack.amount));
+		}
+		return fluidStackList;
 	}
+	
+	
 }

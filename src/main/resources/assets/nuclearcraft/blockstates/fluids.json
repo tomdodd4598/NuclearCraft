@@ -475,6 +475,42 @@
 			"custom": {
 				"fluid": "sic_vapor"
 			}
+		},
+		"fluid_manganese": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "manganese"
+			}
+		},
+		"fluid_manganese_dioxide": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "manganese_dioxide"
+			}
+		},
+		"fluid_alugentum": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "alugentum"
+			}
+		},
+		"fluid_alumina": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "alumina"
+			}
+		},
+		"fluid_aluminum": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "aluminum"
+			}
+		},
+		"fluid_silver": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "silver"
+			}
 		}
 	}
 }

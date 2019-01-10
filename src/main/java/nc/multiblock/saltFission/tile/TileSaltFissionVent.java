@@ -8,6 +8,7 @@ import javax.annotation.Nullable;
 import com.google.common.collect.Lists;
 
 import nc.ModCheck;
+import nc.config.NCConfig;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.saltFission.SaltFissionReactor;
 import nc.tile.fluid.ITileFluid;
@@ -26,13 +27,15 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 
 public class TileSaltFissionVent extends TileSaltFissionPartBase implements ITileFluid {
 	
-	private final @Nonnull List<Tank> tanks = Lists.newArrayList(new Tank(FluidStackHelper.INGOT_BLOCK_VOLUME*4, TankSorption.BOTH, null));
-
+	private final @Nonnull List<Tank> tanks = Lists.newArrayList(new Tank(FluidStackHelper.INGOT_BLOCK_VOLUME*8, TankSorption.BOTH, null));
+	
 	private @Nonnull FluidConnection[] fluidConnections = ITileFluid.fluidConnectionAll(FluidConnection.BOTH);
 	
 	private @Nonnull FluidTileWrapper[] fluidSides;
 	
 	private @Nonnull GasTileWrapper gasWrapper;
+	
+	protected int ventCount;
 	
 	public TileSaltFissionVent() {
 		super(CuboidalPartPositionType.WALL);
@@ -58,8 +61,13 @@ public class TileSaltFissionVent extends TileSaltFissionPartBase implements ITil
 	public void update() {
 		super.update();
 		if(!world.isRemote) {
-			pushFluid();
+			if (ventCount == 0) pushFluid();
+			tickVent();
 		}
+	}
+	
+	public void tickVent() {
+		ventCount++; ventCount %= NCConfig.machine_update_rate / 2;
 	}
 	
 	// Fluids

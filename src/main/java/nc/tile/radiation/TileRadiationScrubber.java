@@ -58,7 +58,6 @@ public class TileRadiationScrubber extends TilePassiveAbstract implements ITileR
 	public void update() {
 		super.update();
 		if(!world.isRemote) {
-			tickTile();
 			tickRadCount();
 			if(shouldRadCheck()) checkSurroundings();
 		}

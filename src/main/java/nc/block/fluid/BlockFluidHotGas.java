@@ -4,7 +4,7 @@ import java.util.Random;
 
 import javax.annotation.Nonnull;
 
-import nc.fluid.FluidSteam;
+import nc.fluid.FluidHotGas;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialLiquid;
@@ -26,7 +26,7 @@ public class BlockFluidHotGas extends BlockFluid {
 		setQuantaPerBlock(16);
 	}
 	
-	public BlockFluidHotGas(FluidSteam fluid) {
+	public BlockFluidHotGas(FluidHotGas fluid) {
 		super(fluid, GAS);
 		setQuantaPerBlock(16);
 	}

@@ -45,8 +45,8 @@ public class TileHeatExchangerTube extends TileHeatExchangerPartBase implements 
 	private static final FluidConnection DEFAULT = FluidConnection.BOTH;
 	private static final FluidConnection DISABLED = FluidConnection.NON;
 	
-	private final @Nonnull List<Tank> tanks = Lists.newArrayList(new Tank(8000, TankSorption.IN, RecipeHelper.validFluids(NCRecipes.Type.HEAT_EXCHANGER).get(0)), new Tank(32000, TankSorption.OUT, new ArrayList<String>()));
-
+	private final @Nonnull List<Tank> tanks = Lists.newArrayList(new Tank(32000, TankSorption.IN, RecipeHelper.validFluids(NCRecipes.Type.HEAT_EXCHANGER).get(0)), new Tank(64000, TankSorption.OUT, new ArrayList<String>()));
+	
 	private @Nonnull FluidConnection[] fluidConnections = ITileFluid.fluidConnectionAll(FluidConnection.NON);
 	
 	private @Nonnull FluidTileWrapper[] fluidSides;
@@ -95,7 +95,7 @@ public class TileHeatExchangerTube extends TileHeatExchangerPartBase implements 
 		}
 	}
 	
-	public TileHeatExchangerTube(HeatExchangerTubeType tubeType) {
+	private TileHeatExchangerTube(HeatExchangerTubeType tubeType) {
 		super(CuboidalPartPositionType.INTERIOR);
 		fluidSides = ITileFluid.getDefaultFluidSides(this);
 		gasWrapper = new GasTileWrapper(this);
@@ -187,8 +187,8 @@ public class TileHeatExchangerTube extends TileHeatExchangerPartBase implements 
 			if (wasProcessing != isProcessing) {
 				shouldUpdate = true;
 			}
-			pushFluid();
 			if (tubeCount == 0) {
+				pushFluid();
 				refreshRecipe();
 				refreshActivity();
 			}
@@ -197,7 +197,7 @@ public class TileHeatExchangerTube extends TileHeatExchangerPartBase implements 
 	}
 	
 	public void tickTube() {
-		tubeCount++; tubeCount %= NCConfig.machine_update_rate / 2;
+		tubeCount++; tubeCount %= NCConfig.machine_update_rate / 4;
 	}
 	
 	@Override
@@ -242,10 +242,14 @@ public class TileHeatExchangerTube extends TileHeatExchangerPartBase implements 
 			return false;
 		}
 		baseProcessTime = recipe.getHeatExchangerProcessTime(defaultProcessTime);
-		fluidToHold = getFluidIngredients().get(0).getMaxStackSize();
+		fluidToHold = getFluidToHold();
 		inputTemperature = recipe.getHeatExchangerInputTemperature();
 		outputTemperature = recipe.getHeatExchangerOutputTemperature();
 		return true;
+	}
+	
+	private int getFluidToHold() {
+		return Math.min(8000, getFluidIngredients().get(0).getMaxStackSize()*NCConfig.machine_update_rate / 4);
 	}
 	
 	// Processing

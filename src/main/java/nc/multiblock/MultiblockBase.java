@@ -686,7 +686,7 @@ public abstract class MultiblockBase<PACKET extends MultiblockUpdatePacket> impl
 	 * @return The minimum bounding-box coordinate containing this machine's blocks.
 	 */
 	public BlockPos getMinimumCoord() {
-		if(minimumCoord == null) { recalculateMinMaxCoords(); }
+		if (minimumCoord == null) recalculateMinMaxCoords();
 		return minimumCoord;
 	}
 
@@ -694,8 +694,48 @@ public abstract class MultiblockBase<PACKET extends MultiblockUpdatePacket> impl
 	 * @return The maximum bounding-box coordinate containing this machine's blocks.
 	 */
 	public BlockPos getMaximumCoord() {
-		if(maximumCoord == null) { recalculateMinMaxCoords(); }
+		if (maximumCoord == null) recalculateMinMaxCoords();
 		return maximumCoord;
+	}
+	
+	public int getMinX() {
+		return getMinimumCoord().getX();
+	}
+
+	public int getMinY() {
+		return getMinimumCoord().getY();
+	}
+
+	public int getMinZ() {
+		return getMinimumCoord().getZ();
+	}
+
+	public int getMaxX() {
+		return getMaximumCoord().getX();
+	}
+
+	public int getMaxY() {
+		return getMaximumCoord().getY();
+	}
+
+	public int getMaxZ() {
+		return getMaximumCoord().getZ();
+	}
+	
+	public BlockPos getExtremeCoord(boolean maxX, boolean maxY, boolean maxZ) {
+		return new BlockPos(maxX ? getMaxX() : getMinX(), maxY ? getMaxY() : getMinY(), maxZ ? getMaxZ() : getMinZ());
+	}
+	
+	public int getMiddleX() {
+		return (int)(((long)getMinX() + (long)getMaxX())/2);
+	}
+	
+	public int getMiddleY() {
+		return (int)(((long)getMinY() + (long)getMaxY())/2);
+	}
+	
+	public int getMiddleZ() {
+		return (int)(((long)getMinZ() + (long)getMaxZ())/2);
 	}
 
 	/**
@@ -1017,6 +1057,8 @@ public abstract class MultiblockBase<PACKET extends MultiblockUpdatePacket> impl
 	// Packets
 	
 	protected abstract PACKET getUpdatePacket();
+	
+	public abstract void onPacket(PACKET message);
 	
 	public void beginUpdatingPlayer(EntityPlayer playerToUpdate) {
 		playersToUpdate.add(playerToUpdate);

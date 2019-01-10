@@ -107,6 +107,11 @@ public class Condenser extends CuboidalMultiblockBase<CondenserUpdatePacket> {
 	}
 	
 	@Override
+	protected void onAssimilate(MultiblockBase assimilated) {
+		
+	}
+	
+	@Override
 	protected void onAssimilated(MultiblockBase assimilator) {
 		
 	}
@@ -166,8 +171,14 @@ public class Condenser extends CuboidalMultiblockBase<CondenserUpdatePacket> {
 	
 	// Packets
 	
-	public void onPacket(boolean isCondenserOn) {
-		this.isCondenserOn = isCondenserOn;
+	@Override
+	protected CondenserUpdatePacket getUpdatePacket() {
+		return new CondenserUpdatePacket(controller.getPos(), isCondenserOn);
+	}
+	
+	@Override
+	public void onPacket(CondenserUpdatePacket message) {
+		isCondenserOn = message.isCondenserOn;
 		// TODO
 	}
 	
@@ -180,46 +191,5 @@ public class Condenser extends CuboidalMultiblockBase<CondenserUpdatePacket> {
 	@Override
 	protected boolean isBlockGoodForInterior(World world, int x, int y, int z, IMultiblockValidator validatorCallback) {
 		return true;
-	}
-	
-	// TODO
-	// TODO
-	// TODO
-	// TODO
-	// TODO
-
-	@Override
-	protected int getMinimumNumberOfBlocksForAssembledMachine() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	protected int getMaximumXSize() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	protected int getMaximumZSize() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	protected int getMaximumYSize() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	protected void onAssimilate(MultiblockBase assimilated) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	protected CondenserUpdatePacket getUpdatePacket() {
-		return new CondenserUpdatePacket(controller.getPos(), isCondenserOn);
 	}
 }

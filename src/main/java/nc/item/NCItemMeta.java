@@ -56,7 +56,7 @@ public class NCItemMeta<T extends Enum<T> & IStringSerializable & IItemMeta> ext
 	public void addInformation(ItemStack itemStack, @Nullable World world, List<String> tooltip, ITooltipFlag flag) {
 		super.addInformation(itemStack, world, tooltip, flag);
 		int meta = itemStack.getMetadata();
-		if (info.length != 0 && info.length > meta) if (info[meta].length > 0) {
+		if (info.length != 0 && info.length > meta && info[meta].length > 0) {
 			InfoHelper.infoFull(tooltip, info[meta]);
 		}
 	}

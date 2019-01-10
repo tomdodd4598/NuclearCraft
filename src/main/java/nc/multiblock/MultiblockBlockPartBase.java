@@ -6,6 +6,8 @@ import nc.Global;
 import nc.block.NCBlock;
 import nc.multiblock.validation.ValidationError;
 import nc.render.BlockHighlightTracker;
+import nc.tile.fluid.ITileFluid;
+import nc.util.FluidHelper;
 import nc.util.Lang;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
@@ -21,10 +23,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -44,28 +48,30 @@ public abstract class MultiblockBlockPartBase extends NCBlock implements ITileEn
 		return getDefaultState();
 	}
 	
-	protected boolean rightClickOnPart(World world, BlockPos pos, EntityPlayer player) {
-		return rightClickOnPart(world, pos, player, false);
+	protected boolean rightClickOnPart(World world, BlockPos pos, EntityPlayer player, EnumHand hand) {
+		return rightClickOnPart(world, pos, player, hand, false);
 	}
 	
-	protected boolean rightClickOnPart(World world, BlockPos pos, EntityPlayer player, boolean prioritiseGui) {
-		if (!world.isRemote) {
-			if (player.getHeldItemMainhand().isEmpty()) {
-				TileEntity tile = world.getTileEntity(pos);
-				if (tile instanceof IMultiblockPart) {
-					MultiblockBase controller = ((IMultiblockPart) tile).getMultiblock();
-					if (controller != null) {
-						ValidationError e = controller.getLastError();
-						if (e != null) {
-							e = e.updatedError(world);
-							player.sendMessage(e.getChatMessage());
-							if (e.getErrorPos() != null) BlockHighlightTracker.sendPacket((EntityPlayerMP) player, e.getErrorPos(), 5000);
-							return true;
-						}
-					} else {
-						player.sendMessage(new TextComponentString(Lang.localise(Global.MOD_ID + ".multiblock_validation.no_controller")));
+	protected boolean rightClickOnPart(World world, BlockPos pos, EntityPlayer player, EnumHand hand, boolean prioritiseGui) {
+		TileEntity tile = world.getTileEntity(pos);
+		if (tile instanceof ITileFluid && FluidUtil.getFluidHandler(player.getHeldItem(hand)) != null) {
+			ITileFluid tileFluid = (ITileFluid) tile;
+			if (tileFluid.getTanks() != null && FluidHelper.accessTanks(player, hand, tileFluid.getTanks())) return true;
+		}
+		if (!world.isRemote && player.getHeldItemMainhand().isEmpty()) {
+			if (tile instanceof IMultiblockPart) {
+				MultiblockBase controller = ((IMultiblockPart) tile).getMultiblock();
+				if (controller != null) {
+					ValidationError e = controller.getLastError();
+					if (e != null) {
+						e = e.updatedError(world);
+						player.sendMessage(e.getChatMessage());
+						if (e.getErrorPos() != null) BlockHighlightTracker.sendPacket((EntityPlayerMP) player, e.getErrorPos(), 5000);
 						return true;
 					}
+				} else {
+					player.sendMessage(new TextComponentString(Lang.localise(Global.MOD_ID + ".multiblock_validation.no_controller")));
+					return true;
 				}
 			}
 		}

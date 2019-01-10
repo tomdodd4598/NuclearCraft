@@ -330,4 +330,16 @@ public class JEIRecipeWrapper {
 			return (recipe != null ? recipe.getHeatExchangerProcessTime(16000)*recipe.getHeatExchangerInputTemperature() : 1600000D)/12000D;
 		}
 	}
+	
+	public static class Turbine extends JEIRecipeWrapperAbstract<Turbine> {
+
+		public Turbine(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
+			super(guiHelper, jeiHandler, recipeHandler, recipe, 47, 30, 176, 3, 37, 16, 74, 35);
+		}
+		
+		@Override
+		protected double getProcessTime() {
+			return 100D;
+		}
+	}
 }

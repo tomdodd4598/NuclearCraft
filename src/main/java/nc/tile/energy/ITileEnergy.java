@@ -125,17 +125,22 @@ public interface ITileEnergy extends ITile {
 	// Energy Distribution
 	
 	public default void pushEnergy() {
-		if (getEnergyStorage().getEnergyStored() <= 0) return;
-		pushEnergyToSide(getCycledSide());
+		for (EnumFacing side : EnumFacing.VALUES) {
+			if (getEnergyStorage().getEnergyStored() <= 0) return;
+			pushEnergyToSide(side);
+		}
 	}
 	
 	public default void spreadEnergy() {
-		if (!NCConfig.passive_permeation || getEnergyStorage().getEnergyStored() <= 0) return;
-		spreadEnergyToSide(getCycledSide());
+		if (!NCConfig.passive_permeation) return;
+		for (EnumFacing side : EnumFacing.VALUES) {
+			if (getEnergyStorage().getEnergyStored() <= 0) return;
+			spreadEnergyToSide(side);
+		}
 	}
 	
 	public default void pushEnergyToSide(@Nonnull EnumFacing side) {
-		if (getEnergyStorage().getEnergyStored() <= 0 || !getEnergyConnection(side).canExtract()) return;
+		if (!getEnergyConnection(side).canExtract()) return;
 		
 		TileEntity tile = getTileWorld().getTileEntity(getTilePos().offset(side));
 		if (tile == null) return;
@@ -169,7 +174,7 @@ public interface ITileEnergy extends ITile {
 	}
 	
 	public default void spreadEnergyToSide(@Nonnull EnumFacing side) {
-		if (getEnergyStorage().getEnergyStored() <= 0 || !getEnergyConnection(side).canConnect()) return;
+		if (!getEnergyConnection(side).canConnect()) return;
 		
 		TileEntity tile = getTileWorld().getTileEntity(getTilePos().offset(side));
 		if (tile == null) return;

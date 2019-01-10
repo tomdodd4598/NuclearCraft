@@ -80,6 +80,25 @@ public class BlockPosHelper {
 		return horizontalsList(1);
 	}
 	
+	public static EnumFacing[] getHorizontals(EnumFacing dir) {
+		switch (dir) {
+		case DOWN:
+			return HORIZONTALS_Y;
+		case UP:
+			return HORIZONTALS_Y;
+		case NORTH:
+			return HORIZONTALS_Z;
+		case SOUTH:
+			return HORIZONTALS_Z;
+		case WEST:
+			return HORIZONTALS_X;
+		case EAST:
+			return HORIZONTALS_X;
+		default:
+			return HORIZONTALS_Y;
+		}
+	}
+	
 	// Axials
 	
 	private static final EnumFacing[] AXIALS_X = new EnumFacing[] {EnumFacing.WEST, EnumFacing.EAST};
@@ -120,6 +139,25 @@ public class BlockPosHelper {
 	
 	public static List<EnumFacing[]> axialsDirList() {
 		return Lists.newArrayList(AXIALS_X, AXIALS_Y, AXIALS_Z);
+	}
+	
+	public static EnumFacing[] getAxials(EnumFacing dir) {
+		switch (dir) {
+		case DOWN:
+			return AXIALS_Y;
+		case UP:
+			return AXIALS_Y;
+		case NORTH:
+			return AXIALS_Z;
+		case SOUTH:
+			return AXIALS_Z;
+		case WEST:
+			return AXIALS_X;
+		case EAST:
+			return AXIALS_X;
+		default:
+			return AXIALS_Y;
+		}
 	}
 	
 	// Vertices
@@ -219,5 +257,18 @@ public class BlockPosHelper {
 	
 	public static String stringPos(BlockPos pos) {
 		return "[" + pos.getX() + ", " + pos.getY() + ", " + pos.getZ() + "]";
+	}
+	
+	public static BlockPos[] getOtherPlaneCorners(BlockPos pos1, BlockPos pos2) {
+		if (pos1.getX() == pos2.getX()) {
+			return new BlockPos[] {new BlockPos(pos1.getX(), pos2.getY(), pos1.getZ()), new BlockPos(pos1.getX(), pos1.getY(), pos2.getZ())};
+		}
+		else if (pos1.getY() == pos2.getY()) {
+			return new BlockPos[] {new BlockPos(pos1.getX(), pos1.getY(), pos2.getZ()), new BlockPos(pos2.getX(), pos1.getY(), pos1.getZ())};
+		}
+		else if (pos1.getZ() == pos2.getZ()) {
+			return new BlockPos[] {new BlockPos(pos2.getX(), pos1.getY(), pos1.getZ()), new BlockPos(pos1.getX(), pos2.getY(), pos1.getZ())};
+		}
+		else return new BlockPos[] {pos1, pos2};
 	}
 }

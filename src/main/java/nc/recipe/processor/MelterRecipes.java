@@ -20,7 +20,7 @@ public class MelterRecipes extends ProcessorRecipeHandler {
 	public MelterRecipes() {
 		super("melter", 1, 0, 0, 1);
 	}
-
+	
 	@Override
 	public void addRecipes() {
 		addRecipe("dustSulfur", fluidStack("sulfur", FluidStackHelper.GEM_VOLUME), 1D, 1D);
@@ -34,6 +34,9 @@ public class MelterRecipes extends ProcessorRecipeHandler {
 		addIngotMeltingRecipes("boron11");
 		addIngotMeltingRecipes("lithium6");
 		addIngotMeltingRecipes("lithium7");
+		
+		addIngotMeltingRecipes("manganeseDioxide", "manganese_dioxide");
+		addIngotMeltingRecipes("alugentum");
 		
 		addIngotMeltingRecipes("ferroboron");
 		addIngotMeltingRecipes("tough");
@@ -79,6 +82,9 @@ public class MelterRecipes extends ProcessorRecipeHandler {
 		addRecipe(Lists.newArrayList("ingotGraphite", "dustGraphite"), fluidStack("coal", FluidStackHelper.COAL_DUST_VOLUME), 0.5D, 1D);
 		addRecipe("blockCoal", fluidStack("coal", FluidStackHelper.COAL_BLOCK_VOLUME), 4.5D, 1D);
 		addRecipe("blockGraphite", fluidStack("coal", FluidStackHelper.COAL_BLOCK_VOLUME), 4.5D, 1D);
+		
+		// Mekanism
+		addRecipe(Lists.newArrayList("itemSalt", "dustSalt"), fluidStack("brine", 15), 0.25D, 0.5D);
 		
 		// Advanced Rocketry
 		addIngotMeltingRecipes("dilithium");

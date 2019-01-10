@@ -40,6 +40,8 @@ public class ChemicalReactorRecipes extends ProcessorRecipeHandler {
 		
 		addRecipe(fluidStack("oxygen", FluidStackHelper.BUCKET_VOLUME), fluidStack("fluorine", FluidStackHelper.BUCKET_VOLUME*2), fluidStack("oxygen_difluoride", FluidStackHelper.BUCKET_VOLUME*2), emptyFluidStack(), 1D, 1.5D);
 		
+		addRecipe(fluidStack("manganese_dioxide", FluidStackHelper.INGOT_VOLUME), fluidStack("carbon", FluidStackHelper.COAL_DUST_VOLUME*2), fluidStack("manganese", FluidStackHelper.INGOT_VOLUME), fluidStack("carbon_monoxide", FluidStackHelper.BUCKET_VOLUME), 1.5D, 1D);
+		
 		addRecipe(fluidStack("sugar", FluidStackHelper.INGOT_VOLUME), fluidStack("water", FluidStackHelper.BUCKET_VOLUME), fluidStack("ethanol", FluidStackHelper.BUCKET_VOLUME*4), fluidStack("carbon_dioxide", FluidStackHelper.BUCKET_VOLUME*4), 1.5D, 0.5D);
 		addRecipe(fluidStack("carbon_dioxide", FluidStackHelper.BUCKET_VOLUME), fluidStack("hydrogen", FluidStackHelper.BUCKET_VOLUME), fluidStack("carbon_monoxide", FluidStackHelper.BUCKET_VOLUME), fluidStack("water", FluidStackHelper.BUCKET_VOLUME), 2D, 0.5D);
 		addRecipe(fluidStack("carbon_monoxide", FluidStackHelper.BUCKET_VOLUME), fluidStack("hydrogen", FluidStackHelper.BUCKET_VOLUME*2), fluidStack("methanol", FluidStackHelper.BUCKET_VOLUME), emptyFluidStack(), 1D, 1D);
@@ -51,6 +53,10 @@ public class ChemicalReactorRecipes extends ProcessorRecipeHandler {
 		addRecipe(fluidStack("ethene", FluidStackHelper.BUCKET_VOLUME), fluidStack("sulfuric_acid", FluidStackHelper.BUCKET_VOLUME), fluidStack("ethanol", FluidStackHelper.BUCKET_VOLUME), fluidStack("sulfur_trioxide", FluidStackHelper.BUCKET_VOLUME), 1D, 1D);
 		
 		addRecipe(fluidStackList(Lists.newArrayList("boron", "boron10", "boron11"), FluidStackHelper.INGOT_VOLUME), fluidStack("arsenic", FluidStackHelper.GEM_VOLUME), fluidStack("bas", FluidStackHelper.GEM_VOLUME), emptyFluidStack(), 1.5D, 1.5D);
+		
+		addRecipe(fluidStack("alugentum", FluidStackHelper.INGOT_VOLUME/2), fluidStack("oxygen", 3*FluidStackHelper.BUCKET_VOLUME), fluidStack("alumina", FluidStackHelper.INGOT_VOLUME), fluidStack("silver", FluidStackHelper.INGOT_VOLUME/2), 2D, 1D);
+		
+		addRecipe(fluidStack("hydrogen", FluidStackHelper.BUCKET_VOLUME), fluidStack("chlorine", FluidStackHelper.BUCKET_VOLUME), fluidStack("hydrogen_chloride", FluidStackHelper.BUCKET_VOLUME), emptyFluidStack(), 1D, 1D);
 		
 		addElementFluorideRecipes("thorium", "uranium", "plutonium");
 		

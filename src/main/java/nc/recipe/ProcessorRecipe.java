@@ -233,4 +233,12 @@ public class ProcessorRecipe implements IRecipe {
 	public boolean getHeatExchangerIsHeating() {
 		return getHeatExchangerInputTemperature() - getHeatExchangerOutputTemperature() < 0;
 	}
+	
+	// Turbine
+	
+	public double getTurbinePowerPerMB() {
+		if (extras.isEmpty()) return 0D;
+		else if (extras.get(0) instanceof Double) return (double) extras.get(0);
+		else return 0D;
+	}
 }

@@ -10,7 +10,7 @@
 			"translate": "advancement.nuclearcraft.turbine_controller.desc"
 		}
 	},
-	"parent": "nuclearcraft:multiblock/heat_exchanger",
+	"parent": "nuclearcraft:multiblock/heat_exchanger_controller",
 	"criteria": {
 		"has_item": {
 			"trigger": "minecraft:inventory_changed",

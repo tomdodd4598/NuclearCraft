@@ -43,9 +43,7 @@ public abstract class BlockTile extends NCBlock implements ITileEntityProvider {
 	
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		if (player == null) return false;
-		
-		if (hand != EnumHand.MAIN_HAND) return false;
+		if (player == null || hand != EnumHand.MAIN_HAND) return false;
 		
 		TileEntity tile = world.getTileEntity(pos);
 		if (tile instanceof IUpgradable) {

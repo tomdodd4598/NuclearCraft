@@ -1,0 +1,10 @@
+{
+	"variants": {
+		"type=magnesium": {"model": "nuclearcraft:turbine_dynamo_coil_magnesium"},
+		"type=beryllium": {"model": "nuclearcraft:turbine_dynamo_coil_beryllium"},
+		"type=aluminum": {"model": "nuclearcraft:turbine_dynamo_coil_aluminum"},
+		"type=gold": {"model": "nuclearcraft:turbine_dynamo_coil_gold"},
+		"type=copper": {"model": "nuclearcraft:turbine_dynamo_coil_copper"},
+		"type=silver": {"model": "nuclearcraft:turbine_dynamo_coil_silver"}
+	}
+}

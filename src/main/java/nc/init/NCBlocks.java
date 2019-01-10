@@ -53,9 +53,18 @@ import nc.multiblock.saltFission.block.BlockSaltFissionRetriever;
 import nc.multiblock.saltFission.block.BlockSaltFissionVent;
 import nc.multiblock.saltFission.block.BlockSaltFissionVessel;
 import nc.multiblock.saltFission.block.BlockSaltFissionWall;
+import nc.multiblock.turbine.TurbineRotorBladeType;
 import nc.multiblock.turbine.block.BlockTurbineController;
+import nc.multiblock.turbine.block.BlockTurbineDynamoCoil;
+import nc.multiblock.turbine.block.BlockTurbineDynamoCoil.DynamoCoilType;
 import nc.multiblock.turbine.block.BlockTurbineFrame;
 import nc.multiblock.turbine.block.BlockTurbineGlass;
+import nc.multiblock.turbine.block.BlockTurbineInlet;
+import nc.multiblock.turbine.block.BlockTurbineOutlet;
+import nc.multiblock.turbine.block.BlockTurbineRotorBearing;
+import nc.multiblock.turbine.block.BlockTurbineRotorBlade;
+import nc.multiblock.turbine.block.BlockTurbineRotorShaft;
+import nc.multiblock.turbine.block.BlockTurbineRotorStator;
 import nc.multiblock.turbine.block.BlockTurbineWall;
 import nc.tab.NCTabs;
 import nc.tile.energy.battery.BatteryType;
@@ -207,6 +216,15 @@ public class NCBlocks {
 	public static Block turbine_wall;
 	public static Block turbine_glass;
 	public static Block turbine_frame;
+	public static Block turbine_rotor_shaft;
+	public static Block turbine_rotor_blade_steel;
+	public static Block turbine_rotor_blade_extreme;
+	public static Block turbine_rotor_blade_sic_sic_cmc;
+	public static Block turbine_rotor_stator;
+	public static Block turbine_rotor_bearing;
+	public static Block turbine_dynamo_coil;
+	public static Block turbine_inlet;
+	public static Block turbine_outlet;
 	
 	public static Block accelerator_electromagnet_idle;
 	public static Block accelerator_electromagnet_active;
@@ -372,6 +390,15 @@ public class NCBlocks {
 		turbine_wall = new BlockTurbineWall();
 		turbine_glass = new BlockTurbineGlass();
 		turbine_frame = new BlockTurbineFrame();
+		turbine_rotor_shaft = new BlockTurbineRotorShaft();
+		turbine_rotor_blade_steel = new BlockTurbineRotorBlade(TurbineRotorBladeType.STEEL);
+		turbine_rotor_blade_extreme = new BlockTurbineRotorBlade(TurbineRotorBladeType.EXTREME);
+		turbine_rotor_blade_sic_sic_cmc = new BlockTurbineRotorBlade(TurbineRotorBladeType.SIC_SIC_CMC);
+		turbine_rotor_stator = new BlockTurbineRotorStator();
+		turbine_rotor_bearing = new BlockTurbineRotorBearing();
+		turbine_dynamo_coil = new BlockTurbineDynamoCoil();
+		turbine_inlet = new BlockTurbineInlet();
+		turbine_outlet = new BlockTurbineOutlet();
 		
 		accelerator_electromagnet_idle = new BlockActivatable(ActivatableTileType.ACCELERATOR_ELECTROMAGNET, false);
 		accelerator_electromagnet_active = new BlockActivatable(ActivatableTileType.ACCELERATOR_ELECTROMAGNET, true);
@@ -546,6 +573,15 @@ public class NCBlocks {
 		registerBlock(turbine_wall);
 		registerBlock(turbine_glass);
 		registerBlock(turbine_frame);
+		registerBlock(turbine_rotor_shaft);
+		registerBlock(turbine_rotor_blade_steel, TextFormatting.AQUA, new String[] {Lang.localise(fixedLine("turbine_rotor_blade_efficiency"), Math.round(100D*NCConfig.turbine_blade_efficiency[0]) + "%"), Lang.localise(fixedLine("turbine_rotor_blade_expansion"), Math.round(100D*NCConfig.turbine_blade_expansion[0]) + "%")}, InfoHelper.formattedInfo(infoLine("turbine_rotor_blade")));
+		registerBlock(turbine_rotor_blade_extreme, TextFormatting.AQUA, new String[] {Lang.localise(fixedLine("turbine_rotor_blade_efficiency"), Math.round(100D*NCConfig.turbine_blade_efficiency[1]) + "%"), Lang.localise(fixedLine("turbine_rotor_blade_expansion"), Math.round(100D*NCConfig.turbine_blade_expansion[1]) + "%")}, InfoHelper.formattedInfo(infoLine("turbine_rotor_blade")));
+		registerBlock(turbine_rotor_blade_sic_sic_cmc, TextFormatting.AQUA, new String[] {Lang.localise(fixedLine("turbine_rotor_blade_efficiency"), Math.round(100D*NCConfig.turbine_blade_efficiency[2]) + "%"), Lang.localise(fixedLine("turbine_rotor_blade_expansion"), Math.round(100D*NCConfig.turbine_blade_expansion[2]) + "%")}, InfoHelper.formattedInfo(infoLine("turbine_rotor_blade")));
+		registerBlock(turbine_rotor_stator, TextFormatting.AQUA, new String[] {Lang.localise(fixedLine("turbine_rotor_stator_expansion"), Math.round(100D*NCConfig.turbine_stator_expansion) + "%")}, InfoHelper.formattedInfo(infoLine("turbine_rotor_stator")));
+		registerBlock(turbine_rotor_bearing);
+		registerBlock(turbine_dynamo_coil, new ItemBlockMeta(turbine_dynamo_coil, DynamoCoilType.class, NCInfo.dynamoCoilInfo()));
+		registerBlock(turbine_inlet);
+		registerBlock(turbine_outlet);
 		
 		registerBlock(accelerator_electromagnet_idle, InfoHelper.formattedInfo(infoLine("accelerator_electromagnet_idle"), UnitHelper.ratePrefix(NCConfig.accelerator_electromagnet_power, 5, "RF")));
 		registerBlock(accelerator_electromagnet_active);
@@ -732,6 +768,17 @@ public class NCBlocks {
 		registerRender(turbine_wall);
 		registerRender(turbine_glass);
 		registerRender(turbine_frame);
+		registerRender(turbine_rotor_shaft);
+		registerRender(turbine_rotor_blade_steel);
+		registerRender(turbine_rotor_blade_extreme);
+		registerRender(turbine_rotor_blade_sic_sic_cmc);
+		registerRender(turbine_rotor_stator);
+		registerRender(turbine_rotor_bearing);
+		for (int i = 0; i < DynamoCoilType.values().length; i++) {
+			registerRender(turbine_dynamo_coil, i, "turbine_dynamo_coil_" + DynamoCoilType.values()[i].getName());
+		}
+		registerRender(turbine_inlet);
+		registerRender(turbine_outlet);
 		
 		registerRender(accelerator_electromagnet_idle);
 		registerRender(accelerator_electromagnet_active);

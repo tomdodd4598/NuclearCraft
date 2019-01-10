@@ -2,6 +2,7 @@ package nc.tile.energyFluid;
 
 import javax.annotation.Nonnull;
 
+import nc.config.NCConfig;
 import nc.tile.dummy.IInterfaceable;
 import nc.tile.energy.IEnergySpread;
 import nc.tile.energy.ITileEnergy;
@@ -22,6 +23,8 @@ import net.minecraftforge.items.IItemHandler;
 
 public class TileBuffer extends TileEnergyFluidSidedInventory implements IInterfaceable, IEnergySpread, IFluidSpread {
 	
+	protected int pushCount;
+	
 	public TileBuffer() {
 		super("buffer", 1, 64000, ITileEnergy.energyConnectionAll(EnergyConnection.BOTH), 32000, TankSorption.BOTH, null, ITileFluid.fluidConnectionAll(FluidConnection.BOTH));
 	}
@@ -29,11 +32,18 @@ public class TileBuffer extends TileEnergyFluidSidedInventory implements IInterf
 	@Override
 	public void update() {
 		super.update();
-		if(!world.isRemote) {
-			pushStacks(this);
-			pushEnergy();
-			pushFluid();
+		if (!world.isRemote) {
+			if (pushCount == 0) {
+				pushStacks(this);
+				pushEnergy();
+				pushFluid();
+			}
+			tickPush();
 		}
+	}
+	
+	public void tickPush() {
+		pushCount++; pushCount %= NCConfig.machine_update_rate;
 	}
 	
 	// Sided Inventory
@@ -56,11 +66,7 @@ public class TileBuffer extends TileEnergyFluidSidedInventory implements IInterf
 	// Item and Fluid Pushing
 	
 	@Override
-	public <TILE extends TileEntity & IInventory> void pushStacks(TILE thisTile) {
-		if (thisTile.isEmpty()) return;
-		
-		EnumFacing side = getCycledSide();
-		
+	public <TILE extends TileEntity & IInventory> void pushStacksToSide(@Nonnull EnumFacing side, TILE thisTile) {
 		IItemHandler inv = thisTile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side);
 		if (inv == null) return;
 		

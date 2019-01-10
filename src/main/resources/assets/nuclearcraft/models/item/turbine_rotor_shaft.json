@@ -1,0 +1,4 @@
+{
+	"parent": "nuclearcraft:block/turbine_rotor_shaft",
+	"ambientocclusion": false
+}

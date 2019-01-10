@@ -225,7 +225,13 @@ tile.nuclearcraft.decay_generator.name=Генератор распада
 tile.nuclearcraft.decay_generator.desc=Производит энергию от тепла, выработанного распадом смежных блоков тория и урана. Через какое-то время блоки разложат и произведут меньше энергии.
 
 tile.nuclearcraft.voltaic_pile_basic.name=Базовая вольтаическая куча
+tile.nuclearcraft.voltaic_pile_advanced.name=Расширенная вольтаическая куча
+tile.nuclearcraft.voltaic_pile_du.name=ДУ вольтаическая куча
+tile.nuclearcraft.voltaic_pile_elite.name=Элитная вольтаическая куча
 tile.nuclearcraft.lithium_ion_battery_basic.name=Базовая литий-ионная батарея
+tile.nuclearcraft.lithium_ion_battery_advanced.name=Расширенная литий-ионная батарея
+tile.nuclearcraft.lithium_ion_battery_du.name=ДУ литий-ионная батарея
+tile.nuclearcraft.lithium_ion_battery_elite.name=Элитная литий-ионная батарея
 tile.nuclearcraft.energy_storage.desc=ПКМ на стороне, чтобы прочитать уровень энергии и Shift-ПКМ, чтобы переключить энергетическое соединение стороны. Присядание при размещении будет поддерживать конфигурацию подключения энергии.
 
 tile.nuclearcraft.fusion_core.name=Ядро деления
@@ -269,6 +275,7 @@ tile.nuclearcraft.heat_exchanger_tube_copper.desc=Удерживает и тра
 tile.nuclearcraft.heat_exchanger_tube_hard_carbon.name=Продвинутая труба теплообменника
 tile.nuclearcraft.heat_exchanger_tube_hard_carbon.desc=Удерживает и транспортирует теплообменные жидкости.
 tile.nuclearcraft.heat_exchanger_tube_thermoconducting.name=Элитная труба теплообменника
+tile.nuclearcraft.heat_exchanger_tube.fixd=Множитель проводимости: %s
 tile.nuclearcraft.heat_exchanger_tube_thermoconducting.desc=Удерживает и транспортирует теплообменные жидкости.
 
 tile.nuclearcraft.fusion_electromagnet_idle.name=Термоядерный электромагнит
@@ -293,7 +300,9 @@ tile.nuclearcraft.helium_collector.desc=Производит %s гелия по�
 tile.nuclearcraft.cobblestone_generator.name=Генератор булыжника
 tile.nuclearcraft.cobblestone_generator_compact.name=Компактный генератор булыжника
 tile.nuclearcraft.cobblestone_generator_dense.name=Плотный генератор булыжника
-tile.nuclearcraft.cobblestone_generator.desc=Производит %s постоянно.
+tile.nuclearcraft.cobblestone_generator_req_power=Производит %s постоянно если имеется %s.
+tile.nuclearcraft.cobblestone_generator_no_req_power=Производит %s постоянно.
+nuclearcraft.cobblestone=Булыжник
 
 tile.nuclearcraft.water_source.name=Бесконечный источник воды
 tile.nuclearcraft.water_source_compact.name=Компактный бесконечный источник воды
@@ -1226,6 +1235,8 @@ item.nuclearcraft.part.steel_frame.name=Стальная рамка
 
 item.nuclearcraft.upgrade.speed.name=Обновление "Скорость"
 item.nuclearcraft.upgrade.speed_desc=Увеличивает скорость обработки машин за счет дополнительной вычислительной мощности. Эти обновления могут быть сложены-скорость будет увеличиваться линейно с каждым дополнительным обновлением в то время как энергопотребление будет увеличиваться квадратично.
+item.nuclearcraft.upgrade.energy.name=Обновление "Энергия"
+item.nuclearcraft.upgrade.energy_desc=Уменьшает мощность процесса машин. Эти обновления могут быть сложены, но максимальное число, которое будет иметь эффект, равно числу установленных обновлений скорости. Расход энергии будет уменьшаться %s с каждым дополнительным обновлением.
 
 item.nuclearcraft.fuel_rod_empty.name=Пустой топливный стержень
 item.nuclearcraft.fuel_rod_empty.fixd=Топливные стержни больше не требуются!
@@ -1711,8 +1722,8 @@ item.nuclearcraft.gelatin.name=Желатин
 item.nuclearcraft.marshmallow.name=Зефир
 item.nuclearcraft.marshmallow.desc=Многие цивилизации не упали бы с ними на их стороне.
 
-item.nuclearcraft.smore.name=S'больше S'минго
-item.nuclearcraft.moresmore.name=БольшойS'больше ДвойнойS'минго
+item.nuclearcraft.smore.name=Большой грэм крекер
+item.nuclearcraft.moresmore.name=Двойной большой грэм крекер
 
 item.nuclearcraft.record_wanderer.name=Музыкальный диск
 item.nuclearcraft.record_wanderer.des0=Dion - The Wanderer
@@ -2463,6 +2474,39 @@ advancement.nuclearcraft.berkelium.desc=Получите немного берк
 advancement.nuclearcraft.californium.name=Калифорния сон
 advancement.nuclearcraft.californium.desc=Получите немного беркелия калифорния
 
+advancement.nuclearcraft.salt_fission_controller.name=Ядерное Оружие Следующего Поколения
+advancement.nuclearcraft.salt_fission_controller.desc=Создание Контроллера Деления Расплавленной Соли
+
+advancement.nuclearcraft.heat_exchanger_controller.name=Тепловой Контакт
+advancement.nuclearcraft.heat_exchanger_controller.desc=Создание Контроллера Теплообменника
+
+advancement.nuclearcraft.turbine_controller.name=Уважая Ренкина
+advancement.nuclearcraft.turbine_controller.desc=Создание Регулятора Паровой Турбины
+
+advancement.nuclearcraft.geiger_counter.name=Припять Препараты
+advancement.nuclearcraft.geiger_counter.desc=Создание Счетчика Гейгера
+
+advancement.nuclearcraft.radaway.name=Избавление от Радов
+advancement.nuclearcraft.radaway.desc=Создание некоторого RadAway
+
+advancement.nuclearcraft.rad_x.name=Имитационный Иммунитет
+advancement.nuclearcraft.rad_x.desc=Сделать Rad-X
+
+advancement.nuclearcraft.rad_shielding.name=Храбрый Сэр Робин
+advancement.nuclearcraft.rad_shielding.desc=Создайте некоторую Тяжелую Радиационную Защиту
+
+advancement.nuclearcraft.radiation_scrubber.name=Контроль Загрязнения
+advancement.nuclearcraft.radiation_scrubber.desc=Создание Радиационного Скруббера
+
+advancement.nuclearcraft.marshmallow.name=Маневер Lansdell'а
+advancement.nuclearcraft.marshmallow.desc=Создание Зефира
+
+advancement.nuclearcraft.smore.name=Собраться у Костра
+advancement.nuclearcraft.smore.desc=Создание Большого грэм крекера
+
+advancement.nuclearcraft.moresmore.name=Вкусняшка же
+advancement.nuclearcraft.moresmore.desc=Создание Двойного большого грэм крекера
+
 block.fusion_run=Запуск термоядерного реактора
 block.accelerator_run=Запуск ускорителя
 player.geiger_tick=Гейгер тик
@@ -2474,8 +2518,13 @@ material.boron.name=Бор
 material.tough.name=Прочный сплав
 material.hard_carbon.name=Твердый углерод
 material.boron_nitride.name=Нитрид бора
+material.thorium.name=Торий
+material.uranium.name=Уран
+material.magnesium.name=Магний
+material.chocolate.name=Шоколад
 
 message.nuclearcraft.rad_x_wore_off=Ваш Рад-X выветрился...
+message.nuclearcraft.scrubber_removal_rate=Скорость удаления радиации:
 
 death.attack.superfluid_freeze=%1$s был конденсирован Бозе-Эйнштейном
 death.attack.plasma_burn=%1$s был испепелен плазмой
@@ -2485,3 +2534,34 @@ death.attack.hot_coolant_burn=%1$s охладился в неправильно�
 death.attack.acid_burn=%1$s оказался слишком щелочным
 death.attack.hypothermia=%1$s умер в результате экстремальной гипотермии
 death.attack.fatal_rads=%1$s умер из-за фатального радиационного отравления
+
+tile.nuclearcraft.turbine_controller.name=Контроллер паровой турбины
+tile.nuclearcraft.turbine_controller.desc=Сердце паровой турбины - одно из необходимых в стене для его формирования.
+tile.nuclearcraft.turbine_wall.name=Оболочка паровой турбины
+tile.nuclearcraft.turbine_glass.name=Прозрачная оболочка паровой турбины
+tile.nuclearcraft.turbine_frame.name=Рамка паровой турбины
+tile.nuclearcraft.turbine_frame.desc=Включает в себя каркас паровой турбины
+
+tile.nuclearcraft.geiger_block.name=Блок счетчика Гейгера
+tile.nuclearcraft.geiger_block.desc=Считывает уровень радиации чанка, в который он помещен.
+
+item.nuclearcraft.compound.dimensional_blend.name=Пространственная смесь
+
+item.nuclearcraft.gem.silicon.name=Кремний
+
+item.nuclearcraft.gem_dust.end_stone.name=Эндерняковая пыль
+
+item.nuclearcraft.alloy.zircaloy.name=Цирконий
+item.nuclearcraft.alloy.silicon_carbide.name=Слиток карбида кремния
+item.nuclearcraft.alloy.sic_sic_cmc.name=SiC-SiC Керамическая смесь матрицы
+
+item.nuclearcraft.part.sic_fiber.name=Волокно карбида кремния
+
+advancement.nuclearcraft.energy_upgrade.name=Полиномиальная закалка
+advancement.nuclearcraft.energy_upgrade.desc=Создайте обнволение "Скорость"
+
+advancement.nuclearcraft.centrifuge.name=Джеймс Бонд
+advancement.nuclearcraft.centrifuge.desc=Создайте центрифугу
+
+advancement.nuclearcraft.active_cooler.name=Контроль температуры
+advancement.nuclearcraft.active_cooler.desc=Создайте активный охладитель

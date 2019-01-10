@@ -12,6 +12,6 @@ public class TabTurbineBlocks extends CreativeTabs {
 
 	@Override
 	public ItemStack getTabIconItem() {
-		return new ItemStack(NCBlocks.salt_fission_controller, 1);
+		return new ItemStack(NCBlocks.turbine_controller, 1);
 	}
 }

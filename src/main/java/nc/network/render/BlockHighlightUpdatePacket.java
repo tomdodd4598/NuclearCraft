@@ -14,7 +14,6 @@ public class BlockHighlightUpdatePacket implements IMessage {
 	
 	protected boolean messageValid;
 	
-	
 	protected BlockPos pos;
 	protected long highlightTimeMillis;
 	

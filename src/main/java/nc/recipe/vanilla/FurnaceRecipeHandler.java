@@ -22,7 +22,11 @@ public class FurnaceRecipeHandler {
 			GameRegistry.addSmelting(new ItemStack(NCItems.dust, 1, i), OreDictHelper.getPrioritisedCraftingStack(new ItemStack(NCItems.ingot, 1, i), "ingot" + StringHelper.capitalize(IngotType.values()[i].getName())), 0.0F);
 		}
 		for (int i = 0; i < IngotOxideType.values().length; i++) {
-			GameRegistry.addSmelting(new ItemStack(NCItems.dust_oxide, 1, i), OreDictHelper.getPrioritisedCraftingStack(new ItemStack(NCItems.ingot_oxide, 1, i), "ingot" + StringHelper.capitalize(IngotOxideType.values()[i].getName())), 0.0F);
+			GameRegistry.addSmelting(new ItemStack(NCItems.dust_oxide, 1, i), OreDictHelper.getPrioritisedCraftingStack(new ItemStack(NCItems.ingot_oxide, 1, i), "ingot" + StringHelper.capitalize(IngotOxideType.values()[i].getName()) + "Oxide"), 0.0F);
+		}
+		/*MnO2 -> MnO*/ GameRegistry.addSmelting(new ItemStack(NCItems.ingot_oxide, 1, 3), OreDictHelper.getPrioritisedCraftingStack(new ItemStack(NCItems.ingot_oxide, 1, 2), "ingotManganeseOxide"), 0.0F);
+		for (int i = 0; i < IngotOxideType.values().length; i++) {
+			GameRegistry.addSmelting(new ItemStack(NCItems.ingot_oxide, 1, i), OreDictHelper.getPrioritisedCraftingStack(new ItemStack(NCItems.ingot_oxide, 1, i), "ingot" + StringHelper.capitalize(IngotOxideType.values()[i].getName())), 0.0F);
 		}
 		
 		GameRegistry.addSmelting(new ItemStack(NCItems.gem_dust, 1, 1), OreDictHelper.getPrioritisedCraftingStack(new ItemStack(NCItems.dust_oxide, 1, 2), "dustManganeseOxide"), 0.0F);
@@ -36,24 +40,22 @@ public class FurnaceRecipeHandler {
 		oxideMaterialRecipes(NCItems.berkelium, 2);
 		oxideMaterialRecipes(NCItems.californium, 4);
 		
-		oxideFuelRecipes(NCItems.fuel_thorium, NCItems.fuel_rod_thorium, NCItems.depleted_fuel_thorium, NCItems.depleted_fuel_rod_thorium, 1);
-		oxideFuelRecipes(NCItems.fuel_uranium, NCItems.fuel_rod_uranium, NCItems.depleted_fuel_uranium, NCItems.depleted_fuel_rod_uranium, 4);
-		oxideFuelRecipes(NCItems.fuel_neptunium, NCItems.fuel_rod_neptunium, NCItems.depleted_fuel_neptunium, NCItems.depleted_fuel_rod_neptunium, 2);
-		oxideFuelRecipes(NCItems.fuel_plutonium, NCItems.fuel_rod_plutonium, NCItems.depleted_fuel_plutonium, NCItems.depleted_fuel_rod_plutonium, 4);
-		oxideFuelRecipes(NCItems.fuel_americium, NCItems.fuel_rod_americium, NCItems.depleted_fuel_americium, NCItems.depleted_fuel_rod_americium, 2);
-		oxideFuelRecipes(NCItems.fuel_curium, NCItems.fuel_rod_curium, NCItems.depleted_fuel_curium, NCItems.depleted_fuel_rod_curium, 6);
-		oxideFuelRecipes(NCItems.fuel_berkelium, NCItems.fuel_rod_berkelium, NCItems.depleted_fuel_berkelium, NCItems.depleted_fuel_rod_berkelium, 2);
-		oxideFuelRecipes(NCItems.fuel_californium, NCItems.fuel_rod_californium, NCItems.depleted_fuel_californium, NCItems.depleted_fuel_rod_californium, 4);
+		oxideFuelRecipes(NCItems.fuel_thorium, NCItems.depleted_fuel_thorium, 1);
+		oxideFuelRecipes(NCItems.fuel_uranium, NCItems.depleted_fuel_uranium, 4);
+		oxideFuelRecipes(NCItems.fuel_neptunium, NCItems.depleted_fuel_neptunium, 2);
+		oxideFuelRecipes(NCItems.fuel_plutonium, NCItems.depleted_fuel_plutonium, 4);
+		oxideFuelRecipes(NCItems.fuel_americium, NCItems.depleted_fuel_americium, 2);
+		oxideFuelRecipes(NCItems.fuel_curium, NCItems.depleted_fuel_curium, 6);
+		oxideFuelRecipes(NCItems.fuel_berkelium, NCItems.depleted_fuel_berkelium, 2);
+		oxideFuelRecipes(NCItems.fuel_californium, NCItems.depleted_fuel_californium, 4);
 		
 		GameRegistry.addSmelting(new ItemStack(Items.DYE, 1, 3), new ItemStack(NCItems.roasted_cocoa_beans, 1), 0.0F);
 	}
 	
-	public static void oxideFuelRecipes(Item fuelType, Item rodType, Item depletedFuelType, Item depletedRodType, int noFuelTypes) {
+	public static void oxideFuelRecipes(Item fuelType, Item depletedFuelType, int noFuelTypes) {
 		for (int i = 0; i < noFuelTypes; i++) {
 			GameRegistry.addSmelting(new ItemStack(fuelType, 1, 1 + 2*i), new ItemStack(fuelType, 1, 2*i), 0.0F);
-			GameRegistry.addSmelting(new ItemStack(rodType, 1, 1 + 2*i), new ItemStack(rodType, 1, 2*i), 0.0F);
 			GameRegistry.addSmelting(new ItemStack(depletedFuelType, 1, 1 + 2*i), new ItemStack(depletedFuelType, 1, 2*i), 0.0F);
-			GameRegistry.addSmelting(new ItemStack(depletedRodType, 1, 1 + 2*i), new ItemStack(depletedRodType, 1, 2*i), 0.0F);
 		}
 	}
 	

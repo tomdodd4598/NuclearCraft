@@ -33,8 +33,10 @@ public class TileActiveCooler extends TileFluid implements IInterfaceable, IBuff
 	public void update() {
 		super.update();
 		if (!world.isRemote) {
-			spreadFluid();
-			if (isActive && drainCount == 0) getTanks().get(0).drain(DRAIN_MULT, true);
+			if (drainCount == 0) {
+				spreadFluid();
+				if (isActive) getTanks().get(0).drain(DRAIN_MULT, true);
+			}
 			tickDrain();
 		}
 	}

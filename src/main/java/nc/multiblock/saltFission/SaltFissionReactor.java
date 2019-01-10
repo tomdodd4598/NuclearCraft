@@ -53,15 +53,16 @@ public class SaltFissionReactor extends CuboidalMultiblockBase<SaltFissionUpdate
 	
 	private Random rand = new Random();
 	
+	public final HeatBuffer heatBuffer;
+	private static final int BASE_MAX_HEAT = 25000;
+	
 	public int comparatorSignal = 0;
-	public boolean redstoneSignal;
-	private int updateCount = 0;
-	private int distributeCount = 0;
+	private int updateCount = 0, distributeCount = 0;
 	
 	public boolean isReactorOn;
 	public double cooling, heating, efficiency, heatMult, coolingRate;
-	public final HeatBuffer heatBuffer;
-	private static final int BASE_MAX_HEAT = 25000;
+	
+	private short heaterCheckCount = 0;
 
 	public SaltFissionReactor(World world) {
 		super(world);
@@ -158,12 +159,18 @@ public class SaltFissionReactor extends CuboidalMultiblockBase<SaltFissionUpdate
 	@Override
 	protected void onMachineAssembled() {
 		for (TileSaltFissionController contr : controllers) controller = contr;
-		calculateReactorStats();
+		onReactorFormed();
 	}
 	
 	@Override
 	protected void onMachineRestored() {
-		calculateReactorStats();
+		onReactorFormed();
+	}
+	
+	protected void onReactorFormed() {
+		updateReactorStats();
+		
+		heatBuffer.setHeatCapacity(BASE_MAX_HEAT*getNumConnectedBlocks());
 	}
 	
 	@Override
@@ -174,10 +181,14 @@ public class SaltFissionReactor extends CuboidalMultiblockBase<SaltFissionUpdate
 	@Override
 	protected void onMachineDisassembled() {
 		isReactorOn = false;
+		cooling = heating = efficiency = heatMult = coolingRate = 0D;
 	}
 	
 	@Override
 	protected boolean isMachineWhole(IMultiblockValidator validatorCallback) {
+		
+		// Only one controller
+		
 		if (controllers.size() == 0) {
 			validatorCallback.setLastError(Global.MOD_ID + ".multiblock_validation.no_controller", null);
 			return false;
@@ -186,6 +197,7 @@ public class SaltFissionReactor extends CuboidalMultiblockBase<SaltFissionUpdate
 			validatorCallback.setLastError(Global.MOD_ID + ".multiblock_validation.too_many_controllers", null);
 			return false;
 		}
+		
 		return super.isMachineWhole(validatorCallback);
 	}
 	
@@ -209,7 +221,7 @@ public class SaltFissionReactor extends CuboidalMultiblockBase<SaltFissionUpdate
 			distributeFuel();
 		}
 		if (shouldUpdate()) {
-			calculateReactorStats();
+			updateReactorStats();
 			updateRedstonePorts();
 		}
 		if (heatBuffer.isFull() && NCConfig.salt_fission_overheat) {
@@ -277,8 +289,7 @@ public class SaltFissionReactor extends CuboidalMultiblockBase<SaltFissionUpdate
 		}
 	}
 	
-	protected void calculateReactorStats() {
-		heatBuffer.setHeatCapacity(BASE_MAX_HEAT*getNumConnectedBlocks());
+	protected void updateReactorStats() {
 		setVesselStats();
 		doHeaterPlacementChecks();
 		setCooling();
@@ -333,8 +344,9 @@ public class SaltFissionReactor extends CuboidalMultiblockBase<SaltFissionUpdate
 	protected void doHeaterPlacementChecks() {
 		for (TileSaltFissionHeater heater : heaters) heater.checked = false;
 		
-		for (int i = 0; i <= 2; i++) for (TileSaltFissionHeater heater : heaters) {
-			if (!heater.checked) heater.checkIsInValidPosition();
+		for (short i = 0; i <= 2; i++) for (TileSaltFissionHeater heater : heaters) {
+			heaterCheckCount = i;
+			if (!heater.checked) heater.checkIsInValidPosition(heaterCheckCount);
 		}
 	}
 	
@@ -352,7 +364,8 @@ public class SaltFissionReactor extends CuboidalMultiblockBase<SaltFissionUpdate
 		if (vessels.size() <= 0 || cooling <= 0) coolingRate = 0;
 		else {
 			coolingRate = getHeatChange(false) >= 0 ? efficiency : efficiency*heating/cooling;
-			for (TileSaltFissionHeater heater : heaters) heater.reactorCoolingRate = !isReactorOn && coolingRate*heatBuffer.heatStored < cooling ? coolingRate*heatBuffer.heatStored/cooling : coolingRate;
+			double heaterRate = !isReactorOn && coolingRate*heatBuffer.heatStored < cooling ? coolingRate*heatBuffer.heatStored/cooling : coolingRate;
+			for (TileSaltFissionHeater heater : heaters) heater.reactorCoolingRate = heaterRate;
 		}
 	}
 	
@@ -423,7 +436,6 @@ public class SaltFissionReactor extends CuboidalMultiblockBase<SaltFissionUpdate
 	protected void syncDataTo(NBTTagCompound data, SyncReason syncReason) {
 		heatBuffer.writeToNBT(data);
 		data.setInteger("comparatorSignal", comparatorSignal);
-		data.setBoolean("redstoneSignal", redstoneSignal);
 		data.setBoolean("isReactorOn", isReactorOn);
 		data.setDouble("cooling", cooling);
 		data.setDouble("heating", heating);
@@ -436,7 +448,6 @@ public class SaltFissionReactor extends CuboidalMultiblockBase<SaltFissionUpdate
 	protected void syncDataFrom(NBTTagCompound data, SyncReason syncReason) {
 		heatBuffer.readFromNBT(data);
 		comparatorSignal = data.getInteger("comparatorSignal");
-		redstoneSignal = data.getBoolean("redstoneSignal");
 		isReactorOn = data.getBoolean("isReactorOn");
 		cooling = data.getDouble("cooling");
 		heating = data.getDouble("heating");
@@ -452,15 +463,16 @@ public class SaltFissionReactor extends CuboidalMultiblockBase<SaltFissionUpdate
 		return new SaltFissionUpdatePacket(controller.getPos(), isReactorOn, cooling, heating, efficiency, heatMult, coolingRate, heatBuffer.getHeatCapacity(), heatBuffer.getHeatStored());
 	}
 	
-	public void onPacket(boolean isReactorOn, double cooling, double heating, double efficiency, double heatMult, double coolingRate, long capacity, long heat) {
-		this.isReactorOn = isReactorOn;
-		this.cooling = cooling;
-		this.heating = heating;
-		this.efficiency = efficiency;
-		this.heatMult = heatMult;
-		this.coolingRate = coolingRate;
-		heatBuffer.setHeatCapacity(capacity);
-		heatBuffer.setHeatStored(heat);
+	@Override
+	public void onPacket(SaltFissionUpdatePacket message) {
+		isReactorOn = message.isReactorOn;
+		cooling = message.cooling;
+		heating = message.heating;
+		efficiency = message.efficiency;
+		heatMult = message.heatMult;
+		coolingRate = message.coolingRate;
+		heatBuffer.setHeatCapacity(message.capacity);
+		heatBuffer.setHeatStored(message.heat);
 	}
 	
 	public Container getContainer(EntityPlayer player) {

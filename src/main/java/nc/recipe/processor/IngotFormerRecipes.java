@@ -22,6 +22,7 @@ public class IngotFormerRecipes extends ProcessorRecipeHandler {
 	public void addRecipes() {
 		addIngotFormingRecipes();
 		
+		addIngotFormingRecipe("manganese_dioxide", "ManganeseDioxide");
 		addRecipe(fluidStack("bas", FluidStackHelper.GEM_VOLUME), "gemBoronArsenide", 2D, 2D);
 		
 		if (OreDictHelper.oreExists("ingotObsidian")) addRecipe(fluidStack("obsidian", FluidStackHelper.SEARED_MATERIAL_VOLUME), "ingotObsidian", 0.5D, 2D);
@@ -34,7 +35,7 @@ public class IngotFormerRecipes extends ProcessorRecipeHandler {
 		if (OreDictHelper.oreExists("ingotSilicon")) addRecipe(fluidStack("silicon", FluidStackHelper.INGOT_VOLUME), "ingotSilicon", 1D, 1D);
 		else addRecipe(fluidStack("silicon", FluidStackHelper.INGOT_VOLUME), "itemSilicon", 1D, 1D);
 		
-		// Tinkers' Construct		
+		// Tinkers' Construct
 		addIngotFormingRecipe("Manyullyn");
 		addIngotFormingRecipe("Alubrass");
 		addIngotFormingRecipe("Pigiron");
@@ -43,6 +44,10 @@ public class IngotFormerRecipes extends ProcessorRecipeHandler {
 		addIngotFormingRecipe("Electrum");
 		addIngotFormingRecipe("Steel");
 		
+		// Mekanism
+		addRecipe(fluidStack("brine", 15), "dustSalt", 0.25D, 0.5D);
+		
+		// Sweets
 		addRecipe(fluidStack("cocoa_butter", FluidStackHelper.INGOT_VOLUME), NCItems.cocoa_butter, 0.5D, 0.5D);
 		addRecipe(fluidStack("unsweetened_chocolate", FluidStackHelper.INGOT_VOLUME), NCItems.unsweetened_chocolate, 0.5D, 0.5D);
 		addRecipe(fluidStack("dark_chocolate", FluidStackHelper.INGOT_VOLUME), NCItems.dark_chocolate, 0.5D, 0.5D);

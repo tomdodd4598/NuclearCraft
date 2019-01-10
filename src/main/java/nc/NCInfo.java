@@ -7,6 +7,7 @@ import nc.enumm.MetaEnums;
 import nc.enumm.MetaEnums.CoolerType;
 import nc.enumm.MetaEnums.IngotType;
 import nc.enumm.MetaEnums.UpgradeType;
+import nc.multiblock.turbine.block.BlockTurbineDynamoCoil.DynamoCoilType;
 import nc.util.ArrayHelper;
 import nc.util.InfoHelper;
 import nc.util.Lang;
@@ -39,9 +40,8 @@ public class NCInfo {
 	public static <T extends Enum<T> & IStringSerializable & IItemMeta & IFissionStats> String[][] fuelRodInfo(T[] values) {
 		String[][] info = new String[values.length][];
 		for (int i = 0; i < values.length; i++) {
-			info[i] = new String[] {Lang.localise("item." + Global.MOD_ID + ".fuel_rod.base_time.desc", NCMath.round(values[i].getBaseTime()/(1200D*NCConfig.fission_fuel_use), 2)), Lang.localise("item." + Global.MOD_ID + ".fuel_rod.base_power.desc", values[i].getBasePower()*NCConfig.fission_power), Lang.localise("item." + Global.MOD_ID + ".fuel_rod.base_heat.desc", values[i].getBaseHeat()*NCConfig.fission_heat_generation)};
+			info[i] = new String[] {Lang.localise("item." + Global.MOD_ID + ".fission_fuel.base_time.desc", NCMath.round(values[i].getBaseTime()/(1200D*NCConfig.fission_fuel_use), 2)), Lang.localise("item." + Global.MOD_ID + ".fission_fuel.base_power.desc", values[i].getBasePower()*NCConfig.fission_power), Lang.localise("item." + Global.MOD_ID + ".fission_fuel.base_heat.desc", values[i].getBaseHeat()*NCConfig.fission_heat_generation)};
 		}
-		
 		return info;
 	}
 	
@@ -72,6 +72,25 @@ public class NCInfo {
 		info[8] = new String[] {Lang.localise("info.moderator.desc")};
 		info[9] = new String[] {Lang.localise("info.moderator.desc")};
 		return info;
+	}
+	
+	// Dynamo Coils
+	
+	public static String[][] dynamoCoilInfo() {
+		String[][] info = new String[DynamoCoilType.values().length][];
+		info[0] = new String[] {};
+		for (int i = 0; i < DynamoCoilType.values().length; i++) {
+			info[i] = ArrayHelper.concatenate(new String[] {coilConductivityString(i)}, InfoHelper.formattedInfo(coiInfoString(i)));
+		}
+		return info;
+	}
+	
+	private static String coilConductivityString(int meta) {
+		return Lang.localise("tile." + Global.MOD_ID + ".turbine_dynamo_coil.conductivity") + " " + Math.round(100D*DynamoCoilType.values()[meta].getConductivity()) + "%";
+	}
+	
+	private static String coiInfoString(int meta) {
+		return Lang.localise("tile." + Global.MOD_ID + ".turbine_dynamo_coil." + DynamoCoilType.values()[meta].name().toLowerCase() + ".desc");
 	}
 	
 	// Speed Upgrade

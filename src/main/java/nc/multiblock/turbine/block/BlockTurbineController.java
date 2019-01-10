@@ -95,7 +95,7 @@ public class BlockTurbineController extends BlockTurbinePartBase {
 				}
 			}
 		}
-		return rightClickOnPart(world, pos, player, true);
+		return rightClickOnPart(world, pos, player, hand, true);
 	}
 	
 	public void setActiveState(IBlockState state, World world, BlockPos pos, boolean active) {

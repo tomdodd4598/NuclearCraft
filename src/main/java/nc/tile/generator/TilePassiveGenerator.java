@@ -12,7 +12,7 @@ public abstract class TilePassiveGenerator extends TileEnergy implements IInterf
 	public final int power;
 	
 	public TilePassiveGenerator(int maxPowerGen) {
-		super(2*6*maxPowerGen, 2*6*maxPowerGen, ITileEnergy.energyConnectionAll(EnergyConnection.OUT));
+		super(4*maxPowerGen, 4*maxPowerGen, ITileEnergy.energyConnectionAll(EnergyConnection.OUT));
 		power = maxPowerGen;
 	}
 	
