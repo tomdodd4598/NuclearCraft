@@ -416,76 +416,66 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> {
 			
 			// Blades/stators
 
-			Class currentBladeType = null;
+			Blade currentBlade = null;
 			
 			for (BlockPos pos : getInteriorPlane(flowDir.getOpposite(), depth, bladeLength, 0, bladeLength, shaftWidth + bladeLength)) {
-				Class thisBlade = GetBladeType(pos);
+				Blade thisBlade = GetBladeType(pos);
 				if (thisBlade == null) {
 					validatorCallback.setLastError(Global.MOD_ID + ".multiblock_validation.turbine.missing_blades", pos);
 					return false;
-				} else if (currentBladeType == null) {
-					currentBladeType = thisBlade;
-				} else if (currentBladeType != thisBlade) {
+				} else if (currentBlade == null) {
+					currentBlade = thisBlade;
+				} else if (currentBlade != thisBlade) {
 					validatorCallback.setLastError(Global.MOD_ID + ".multiblock_validation.turbine.different_type_blades", pos);
 					return false;
 				}
 			}
 			
 			for (BlockPos pos : getInteriorPlane(flowDir.getOpposite(), depth, 0, bladeLength, shaftWidth + bladeLength, bladeLength)) {
-				Class thisBlade = GetBladeType(pos);
+				Blade thisBlade = GetBladeType(pos);
 				if (thisBlade == null) {
 					validatorCallback.setLastError(Global.MOD_ID + ".multiblock_validation.turbine.missing_blades", pos);
 					return false;
-				} else if (currentBladeType != thisBlade) {
+				} else if (currentBlade != thisBlade) {
 					validatorCallback.setLastError(Global.MOD_ID + ".multiblock_validation.turbine.different_type_blades", pos);
 					return false;
 				}
 			}
 			
 			for (BlockPos pos : getInteriorPlane(flowDir.getOpposite(), depth, shaftWidth + bladeLength, bladeLength, 0, bladeLength)) {
-				Class thisBlade = GetBladeType(pos);
+				Blade thisBlade = GetBladeType(pos);
 				if (thisBlade == null) {
 					validatorCallback.setLastError(Global.MOD_ID + ".multiblock_validation.turbine.missing_blades", pos);
 					return false;
-				} else if (currentBladeType != thisBlade) {
+				} else if (currentBlade != thisBlade) {
 					validatorCallback.setLastError(Global.MOD_ID + ".multiblock_validation.turbine.different_type_blades", pos);
 					return false;
 				}
 			}
 			
 			for (BlockPos pos : getInteriorPlane(flowDir.getOpposite(), depth, bladeLength, shaftWidth + bladeLength, bladeLength, 0)) {
-				Class thisBlade = GetBladeType(pos);
+				Blade thisBlade = GetBladeType(pos);
 				if (thisBlade == null) {
 					validatorCallback.setLastError(Global.MOD_ID + ".multiblock_validation.turbine.missing_blades", pos);
 					return false;
-				} else if (currentBladeType != thisBlade) {
+				} else if (currentBlade != thisBlade) {
 					validatorCallback.setLastError(Global.MOD_ID + ".multiblock_validation.turbine.different_type_blades", pos);
 					return false;
 				}
 			}
-			
-			if (currentBladeType == TileTurbineRotorBlade.Steel.class) {
-				totalExpansionLevel *= TurbineRotorBladeType.STEEL.getExpansionCoefficient();
-				expansionLevels.add(totalExpansionLevel);
-				rawBladeEfficiencies.add(TurbineRotorBladeType.STEEL.getEfficiency());
-				noBladeSets++;
+
+			if (currentBlade == null) {
+				validatorCallback.setLastError(Global.MOD_ID + ".multiblock_validation.turbine.missing_blades", null);
+				return false;
 			}
-			else if (currentBladeType == TileTurbineRotorBlade.Extreme.class) {
-				totalExpansionLevel *= TurbineRotorBladeType.EXTREME.getExpansionCoefficient();
-				expansionLevels.add(totalExpansionLevel);
-				rawBladeEfficiencies.add(TurbineRotorBladeType.EXTREME.getEfficiency());
-				noBladeSets++;
-			}
-			else if (currentBladeType == TileTurbineRotorBlade.SicSicCMC.class) {
-				totalExpansionLevel *= TurbineRotorBladeType.SIC_SIC_CMC.getExpansionCoefficient();
-				expansionLevels.add(totalExpansionLevel);
-				rawBladeEfficiencies.add(TurbineRotorBladeType.SIC_SIC_CMC.getEfficiency());
-				noBladeSets++;
-			}
-			else if (currentBladeType == TileTurbineRotorStator.class) {
-				totalExpansionLevel *= NCConfig.turbine_stator_expansion;
-				expansionLevels.add(totalExpansionLevel);
+
+			totalExpansionLevel *= currentBlade.bladeType.getExpansionCoefficient();
+			expansionLevels.add(totalExpansionLevel);
+			if (currentBlade.isStator) {
 				rawBladeEfficiencies.add(0D);
+			} else {
+				rawBladeEfficiencies.add(currentBlade.bladeType.getEfficiency());
+				noBladeSets++;
 			}
 		}
 		
@@ -497,17 +487,30 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> {
 		return true;
 	}
 
-	protected static HashSet<Class> blades = Sets.newHashSet(
-			TileTurbineRotorBlade.Steel.class,
-			TileTurbineRotorBlade.Extreme.class,
-			TileTurbineRotorBlade.SicSicCMC.class,
-			TileTurbineRotorStator.class
+	protected static class Blade {
+
+		Class bladeClass;
+		TurbineRotorBladeType bladeType;
+		boolean isStator;
+
+		public Blade(Class c, TurbineRotorBladeType b, boolean s) {
+			bladeClass = c;
+			bladeType = b;
+			isStator = s;
+		}
+	}
+
+	protected static HashSet<Blade> blades = Sets.newHashSet(
+			new Blade(TileTurbineRotorBlade.Steel.class, TurbineRotorBladeType.STEEL, false),
+			new Blade(TileTurbineRotorBlade.Extreme.class, TurbineRotorBladeType.EXTREME, false),
+			new Blade(TileTurbineRotorBlade.SicSicCMC.class, TurbineRotorBladeType.SIC_SIC_CMC, false),
+			new Blade(TileTurbineRotorStator.class, null, true)
 	);
 
-	protected Class GetBladeType(BlockPos pos) {
+	protected Blade GetBladeType(BlockPos pos) {
 		TileEntity tile = WORLD.getTileEntity(pos);
-		for (Class blade : blades) {
-			if (!blade.isInstance(tile)) continue;
+		for (Blade blade : blades) {
+			if (!blade.bladeClass.isInstance(tile)) continue;
 			return blade;
 		}
 		return null;
