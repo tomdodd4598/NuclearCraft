@@ -469,11 +469,15 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> {
 				return false;
 			}
 
-			totalExpansionLevel *= currentBlade.bladeType.getExpansionCoefficient();
-			expansionLevels.add(totalExpansionLevel);
+
+
 			if (currentBlade.isStator) {
+				totalExpansionLevel *= NCConfig.turbine_stator_expansion;
+				expansionLevels.add(totalExpansionLevel);
 				rawBladeEfficiencies.add(0D);
 			} else {
+				totalExpansionLevel *= currentBlade.bladeType.getExpansionCoefficient();
+				expansionLevels.add(totalExpansionLevel);
 				rawBladeEfficiencies.add(currentBlade.bladeType.getEfficiency());
 				noBladeSets++;
 			}
