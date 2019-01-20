@@ -123,40 +123,17 @@ public class OreDictHelper {
 		return getPrioritisedCraftingStack(backup == null ? ItemStack.EMPTY : new ItemStack(backup), ore);
 	}
 	
-	private static final Map<StackEntry, List<String>> ORE_DICT_CACHE = new HashMap <StackEntry, List<String>>();
+	private static final Map<ItemInfo, List<String>> ORE_DICT_CACHE = new HashMap<ItemInfo, List<String>>();
 	
 	public static List<String> getOreNames(ItemStack stack) {
 		List<String> names = new ArrayList<String>();
 		if (stack == null || stack.isEmpty()) return names;
-		StackEntry key = new StackEntry(stack);
+		ItemInfo key = new ItemInfo(stack);
 		if (!ORE_DICT_CACHE.containsKey(key)) {
 			for (int oreID : OreDictionary.getOreIDs(stack)) names.add(OreDictionary.getOreName(oreID));
 			ORE_DICT_CACHE.put(key, names);
 			return names;
 		}
 		return ORE_DICT_CACHE.get(key);
-	}
-	
-	private static class StackEntry {
-		
-		final Item item;
-		final int meta;
-		
-		private StackEntry(ItemStack stack) {
-			item = stack.getItem();
-			meta = stack.getMetadata();
-		}
-		
-		@Override
-		public boolean equals(Object other) {
-			if (other instanceof StackEntry) return item == ((StackEntry)other).item && meta == ((StackEntry)other).meta;
-			else if (other instanceof ItemStack) return item == ((ItemStack)other).getItem() && meta == ((ItemStack)other).getMetadata();
-			else return false;
-		}
-		
-		@Override
-		public int hashCode() {
-			return Objects.hash(item, meta);
-		}
 	}
 }

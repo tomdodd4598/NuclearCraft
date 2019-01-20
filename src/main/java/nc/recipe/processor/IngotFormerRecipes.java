@@ -22,7 +22,12 @@ public class IngotFormerRecipes extends ProcessorRecipeHandler {
 	public void addRecipes() {
 		addIngotFormingRecipes();
 		
+		addIngotFormingRecipe("thorium", "ThoriumOxide");
+		addIngotFormingRecipe("uranium", "UraniumOxide");
+		
+		addIngotFormingRecipe("hard_carbon", "HardCarbon");
 		addIngotFormingRecipe("manganese_dioxide", "ManganeseDioxide");
+		
 		addRecipe(fluidStack("bas", FluidStackHelper.GEM_VOLUME), "gemBoronArsenide", 2D, 2D);
 		
 		if (OreDictHelper.oreExists("ingotObsidian")) addRecipe(fluidStack("obsidian", FluidStackHelper.SEARED_MATERIAL_VOLUME), "ingotObsidian", 0.5D, 2D);

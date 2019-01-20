@@ -161,7 +161,7 @@ public class RadiationHelper {
 	public static double getEntityArmorRadResistance(EntityLiving entityLiving) {
 		double resistance = 0D;
 		resistance += getArmorInventoryRadResistance(entityLiving);
-		if (entityLiving instanceof EntityHorse) resistance += getHorseArmorRadResistance((EntityHorse)entityLiving);
+		if (NCConfig.radiation_horse_armor_public && entityLiving instanceof EntityHorse) resistance += getHorseArmorRadResistance((EntityHorse)entityLiving);
 		return resistance;
 	}
 	

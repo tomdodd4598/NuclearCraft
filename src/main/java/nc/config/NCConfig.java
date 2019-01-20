@@ -167,6 +167,7 @@ public class NCConfig {
 	public static int heat_exchanger_max_size; // Default: 24
 	public static double[] heat_exchanger_conductivity;
 	public static double heat_exchanger_coolant_mult;
+	public static boolean heat_exchanger_alternate_exhaust_recipe;
 	
 	public static int turbine_min_size; // Default: 1
 	public static int turbine_max_size; // Default: 24
@@ -244,6 +245,9 @@ public class NCConfig {
 	
 	public static boolean radiation_passive_debuffs;
 	public static boolean radiation_mob_buffs;
+	
+	private static boolean radiation_horse_armor;
+	public static boolean radiation_horse_armor_public;
 	
 	public static double radiation_hud_size;
 	public static double radiation_hud_position;
@@ -550,6 +554,8 @@ public class NCConfig {
 		propertyHeatExchangerConductivity.setLanguageKey("gui.config.heat_exchanger.heat_exchanger_conductivity");
 		Property propertyHeatExchangerCoolantMult = config.get(CATEGORY_HEAT_EXCHANGER, "heat_exchanger_coolant_mult", 125D, Lang.localise("gui.config.heat_exchanger.heat_exchanger_coolant_mult.comment"), 1D, 10000D);
 		propertyHeatExchangerCoolantMult.setLanguageKey("gui.config.heat_exchanger.heat_exchanger_coolant_mult");
+		Property propertyHeatExchangerAlternateExhaustRecipe = config.get(CATEGORY_HEAT_EXCHANGER, "heat_exchanger_alternate_exhaust_recipe", false, Lang.localise("gui.config.heat_exchanger.heat_exchanger_alternate_exhaust_recipe.comment"));
+		propertyHeatExchangerAlternateExhaustRecipe.setLanguageKey("gui.config.heat_exchanger.heat_exchanger_alternate_exhaust_recipe");
 		
 		Property propertyTurbineMinSize = config.get(CATEGORY_TURBINE, "turbine_min_size", 1, Lang.localise("gui.config.turbine.turbine_min_size.comment"), 1, 255);
 		propertyTurbineMinSize.setLanguageKey("gui.config.turbine.turbine_min_size");
@@ -687,6 +693,9 @@ public class NCConfig {
 		propertyRadiationPassiveDebuffs.setLanguageKey("gui.config.radiation.radiation_passive_debuffs");
 		Property propertyRadiationMobBuffs = config.get(CATEGORY_RADIATION, "radiation_mob_buffs", true, Lang.localise("gui.config.radiation.radiation_mob_buffs.comment"));
 		propertyRadiationMobBuffs.setLanguageKey("gui.config.radiation.radiation_mob_buffs");
+		
+		Property propertyRadiationHorseArmor = config.get(CATEGORY_RADIATION, "radiation_horse_armor", false, Lang.localise("gui.config.radiation.radiation_horse_armor.comment"));
+		propertyRadiationHorseArmor.setLanguageKey("gui.config.radiation.radiation_horse_armor");
 		
 		Property propertyRadiationHUDSize = config.get(CATEGORY_RADIATION, "radiation_hud_size", 1D, Lang.localise("gui.config.radiation.radiation_hud_size.comment"), 0.1D, 10D);
 		propertyRadiationHUDSize.setLanguageKey("gui.config.radiation.radiation_hud_size");
@@ -892,6 +901,7 @@ public class NCConfig {
 		propertyOrderHeatExchanger.add(propertyHeatExchangerMaxSize.getName());
 		propertyOrderHeatExchanger.add(propertyHeatExchangerConductivity.getName());
 		propertyOrderHeatExchanger.add(propertyHeatExchangerCoolantMult.getName());
+		propertyOrderHeatExchanger.add(propertyHeatExchangerAlternateExhaustRecipe.getName());
 		config.setCategoryPropertyOrder(CATEGORY_HEAT_EXCHANGER, propertyOrderHeatExchanger);
 		
 		List<String> propertyOrderTurbine = new ArrayList<String>();
@@ -974,6 +984,7 @@ public class NCConfig {
 		propertyOrderRadiation.add(propertyRadiationDeathImmunityTime.getName());
 		propertyOrderRadiation.add(propertyRadiationPassiveDebuffs.getName());
 		propertyOrderRadiation.add(propertyRadiationMobBuffs.getName());
+		propertyOrderRadiation.add(propertyRadiationHorseArmor.getName());
 		propertyOrderRadiation.add(propertyRadiationHUDSize.getName());
 		propertyOrderRadiation.add(propertyRadiationHUDPosition.getName());
 		propertyOrderRadiation.add(propertyRadiationHUDPositionCartesian.getName());
@@ -1133,6 +1144,7 @@ public class NCConfig {
 			heat_exchanger_max_size = propertyHeatExchangerMaxSize.getInt();
 			heat_exchanger_conductivity = readDoubleArrayFromConfig(propertyHeatExchangerConductivity);
 			heat_exchanger_coolant_mult = propertyHeatExchangerCoolantMult.getDouble();
+			heat_exchanger_alternate_exhaust_recipe = propertyHeatExchangerAlternateExhaustRecipe.getBoolean();
 			
 			turbine_min_size = propertyTurbineMinSize.getInt();
 			turbine_max_size = propertyTurbineMaxSize.getInt();
@@ -1209,6 +1221,8 @@ public class NCConfig {
 			
 			radiation_passive_debuffs = propertyRadiationPassiveDebuffs.getBoolean();
 			radiation_mob_buffs = propertyRadiationMobBuffs.getBoolean();
+			
+			radiation_horse_armor = propertyRadiationHorseArmor.getBoolean();
 			
 			radiation_hud_size = propertyRadiationHUDSize.getDouble();
 			radiation_hud_position = propertyRadiationHUDPosition.getDouble();
@@ -1367,6 +1381,7 @@ public class NCConfig {
 		propertyHeatExchangerMaxSize.set(heat_exchanger_max_size);
 		propertyHeatExchangerConductivity.set(heat_exchanger_conductivity);
 		propertyHeatExchangerCoolantMult.set(heat_exchanger_coolant_mult);
+		propertyHeatExchangerAlternateExhaustRecipe.set(heat_exchanger_alternate_exhaust_recipe);
 		
 		propertyTurbineMinSize.set(turbine_min_size);
 		propertyTurbineMaxSize.set(turbine_max_size);
@@ -1444,6 +1459,8 @@ public class NCConfig {
 		propertyRadiationPassiveDebuffs.set(radiation_passive_debuffs);
 		propertyRadiationMobBuffs.set(radiation_mob_buffs);
 		
+		propertyRadiationHorseArmor.set(radiation_horse_armor);
+		
 		propertyRadiationHUDSize.set(radiation_hud_size);
 		propertyRadiationHUDPosition.set(radiation_hud_position);
 		propertyRadiationHUDPositionCartesian.set(radiation_hud_position_cartesian);
@@ -1473,6 +1490,7 @@ public class NCConfig {
 		
 		if (setFromConfig) {
 			radiation_enabled_public = radiation_enabled;
+			radiation_horse_armor_public = radiation_horse_armor;
 		}
 		
 		if (config.hasChanged()) config.save();
@@ -1561,10 +1579,11 @@ public class NCConfig {
 	}
 	
 	public static ConfigUpdatePacket getConfigUpdatePacket() {
-		return new ConfigUpdatePacket(radiation_enabled);
+		return new ConfigUpdatePacket(radiation_enabled, radiation_horse_armor);
 	}
 	
 	public static void onConfigPacket(ConfigUpdatePacket message) {
 		radiation_enabled_public = message.radiation_enabled;
+		radiation_horse_armor_public = message.radiation_horse_armor;
 	}
 }

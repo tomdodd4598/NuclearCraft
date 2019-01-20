@@ -1,3 +1,24 @@
+v2.13a
+
+* Fixed Turbines not forming in various circumstances [thanks to Kurtchekov!]
+
+* Fixed undercooled MSRs producing more useful heat than they should have been
+
+* Fixed machines getting stuck after temporarily running low on energy
+
+* Fixed lag on game startup and world load in a few packs
+
+* Fixed power production not updating in the Fusion Core GUI
+
+* Added config option for horse armour radiation shielding
+* Geiger Counter now gets louder in dire situations
+
++ Added config option for alternative exhaust steam heat exchanger recipe
+
+* Various fluids now have light levels
+
+* Now using CurseForge maven for various dependencies
+
 v2.13
 
 + Added Turbines [entirely functional, but the rotor rendering and GUI is still a bit WIP!]

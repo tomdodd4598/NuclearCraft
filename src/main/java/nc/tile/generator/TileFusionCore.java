@@ -493,7 +493,7 @@ public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpd
 	
 	@Override
 	public FusionUpdatePacket getGuiUpdatePacket() {
-		return new FusionUpdatePacket(pos, time, getEnergyStored(), baseProcessTime, baseProcessPower, isProcessing, heat, efficiency, speedMultiplier, size, complete, cooling, heatChange, hasConsumed, computerActivated, problem);
+		return new FusionUpdatePacket(pos, time, getEnergyStored(), baseProcessTime, baseProcessPower, processPower, isProcessing, heat, efficiency, speedMultiplier, size, complete, cooling, heatChange, hasConsumed, computerActivated, problem);
 	}
 	
 	@Override
@@ -502,6 +502,7 @@ public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpd
 		getEnergyStorage().setEnergyStored(message.energyStored);
 		baseProcessTime = message.baseProcessTime;
 		baseProcessPower = message.baseProcessPower;
+		processPower = message.processPower;
 		isProcessing = message.isProcessing;
 		heat = message.heat;
 		efficiency = message.efficiency;

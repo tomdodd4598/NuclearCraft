@@ -250,9 +250,9 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> {
 			else if (pos.getY() == maxY) dirMaxY = true;
 			else if (pos.getZ() == minZ) dirMinZ = true;
 			else if (pos.getZ() == maxZ) dirMaxZ = true;
-			else notInAWall = true; //If the bearing is not at any of those positions, that means our bearing isn't part of the wall at all
+			else notInAWall = true; // If the bearing is not at any of those positions, that means our bearing isn't part of the wall at all
 		}
-
+		
 		if (dirMinX && dirMaxX) {
 			axis = EnumFacing.Axis.X;
 		}
@@ -277,46 +277,47 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> {
 			validatorCallback.setLastError(Global.MOD_ID + ".multiblock_validation.turbine.bearings_side_square", null);
 			return false;
 		}
-
-		//at this point, all bearings are guaranteed to be part of walls in the same axis
-		//also, it can only ever succeed up to this point if we already have at least 2 bearings, so no need to check for that
-
+		
+		// At this point, all bearings are guaranteed to be part of walls in the same axis
+		// Also, it can only ever succeed up to this point if we already have at least two bearings, so no need to check for that
+		
 		int internalDiameter;
 		if (axis == EnumFacing.Axis.X) internalDiameter = getInteriorLengthY();
 		else if (axis == EnumFacing.Axis.Y) internalDiameter = getInteriorLengthZ();
 		else internalDiameter = getInteriorLengthX();
 		boolean isEvenDiameter = internalDiameter % 2 == 0;
 		boolean validAmountOfBearings = false;
-
+		
 		for (shaftWidth = isEvenDiameter? 2 : 1; shaftWidth <= internalDiameter - 2; shaftWidth += 2) {
-			if (rotorBearings.size() == 2 * shaftWidth * shaftWidth) {
+			if (rotorBearings.size() == 2*shaftWidth*shaftWidth) {
 				validAmountOfBearings = true;
 				break;
 			}
 		}
-
+		
 		if (!validAmountOfBearings) {
 			validatorCallback.setLastError(Global.MOD_ID + ".multiblock_validation.turbine.bearings_centre_and_square", null);
 			return false;
 		}
-
-		//last thing that needs to be checked concerning bearings is whether they are grouped correctly at the center of their respective walls
+		
+		// Last thing that needs to be checked concerning bearings is whether they are grouped correctly at the centre of their respective walls
+		
 		bladeLength = (internalDiameter - shaftWidth)/2;
-
+		
 		for (BlockPos pos : getInteriorPlane(EnumFacing.getFacingFromAxis(EnumFacing.AxisDirection.NEGATIVE, axis), -1, bladeLength, bladeLength, bladeLength, bladeLength)) {
 			if (WORLD.getTileEntity(pos) instanceof TileTurbineRotorBearing) continue;
 			validatorCallback.setLastError(Global.MOD_ID + ".multiblock_validation.turbine.bearings_centre_and_square", pos);
 			return false;
 		}
-
+		
 		for (BlockPos pos : getInteriorPlane(EnumFacing.getFacingFromAxis(EnumFacing.AxisDirection.POSITIVE, axis), -1, bladeLength, bladeLength, bladeLength, bladeLength)) {
 			if (WORLD.getTileEntity(pos) instanceof TileTurbineRotorBearing) continue;
 			validatorCallback.setLastError(Global.MOD_ID + ".multiblock_validation.turbine.bearings_centre_and_square", pos);
 			return false;
 		}
-
-		//all bearings should be valid by now \o/
-
+		
+		// All bearings should be valid by now!
+		
 		// Inlets/outlets -> flowDir
 		
 		if (inlets.size() == 0 || outlets.size() == 0) {
@@ -361,9 +362,9 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> {
 		}
 		
 		// Shaft
-
+		
 		int flowLength = getFlowLength();
-
+		
 		for (int slice = 0; slice < flowLength; slice++) {
 			for (BlockPos pos : getInteriorPlane(EnumFacing.getFacingFromAxis(EnumFacing.AxisDirection.POSITIVE, axis), slice, bladeLength, bladeLength, bladeLength, bladeLength)) {
 				if (WORLD.getTileEntity(pos) instanceof TileTurbineRotorShaft) continue;
@@ -374,8 +375,7 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> {
 		
 		// Interior
 		
-
-		shaftVolume = shaftWidth * shaftWidth * flowLength;
+		shaftVolume = shaftWidth*shaftWidth*flowLength;
 		noBladeSets = 0;
 		
 		totalExpansionLevel = 1D;
@@ -415,11 +415,11 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> {
 			}
 			
 			// Blades/stators
-
+			
 			Blade currentBlade = null;
 			
 			for (BlockPos pos : getInteriorPlane(flowDir.getOpposite(), depth, bladeLength, 0, bladeLength, shaftWidth + bladeLength)) {
-				Blade thisBlade = GetBladeType(pos);
+				Blade thisBlade = getBladeType(pos);
 				if (thisBlade == null) {
 					validatorCallback.setLastError(Global.MOD_ID + ".multiblock_validation.turbine.missing_blades", pos);
 					return false;
@@ -432,7 +432,7 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> {
 			}
 			
 			for (BlockPos pos : getInteriorPlane(flowDir.getOpposite(), depth, 0, bladeLength, shaftWidth + bladeLength, bladeLength)) {
-				Blade thisBlade = GetBladeType(pos);
+				Blade thisBlade = getBladeType(pos);
 				if (thisBlade == null) {
 					validatorCallback.setLastError(Global.MOD_ID + ".multiblock_validation.turbine.missing_blades", pos);
 					return false;
@@ -443,7 +443,7 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> {
 			}
 			
 			for (BlockPos pos : getInteriorPlane(flowDir.getOpposite(), depth, shaftWidth + bladeLength, bladeLength, 0, bladeLength)) {
-				Blade thisBlade = GetBladeType(pos);
+				Blade thisBlade = getBladeType(pos);
 				if (thisBlade == null) {
 					validatorCallback.setLastError(Global.MOD_ID + ".multiblock_validation.turbine.missing_blades", pos);
 					return false;
@@ -454,7 +454,7 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> {
 			}
 			
 			for (BlockPos pos : getInteriorPlane(flowDir.getOpposite(), depth, bladeLength, shaftWidth + bladeLength, bladeLength, 0)) {
-				Blade thisBlade = GetBladeType(pos);
+				Blade thisBlade = getBladeType(pos);
 				if (thisBlade == null) {
 					validatorCallback.setLastError(Global.MOD_ID + ".multiblock_validation.turbine.missing_blades", pos);
 					return false;
@@ -463,21 +463,20 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> {
 					return false;
 				}
 			}
-
+			
 			if (currentBlade == null) {
 				validatorCallback.setLastError(Global.MOD_ID + ".multiblock_validation.turbine.missing_blades", null);
 				return false;
 			}
-
-
-
+			
+			double prevExpansionLevel = totalExpansionLevel;
 			if (currentBlade.isStator) {
 				totalExpansionLevel *= NCConfig.turbine_stator_expansion;
-				expansionLevels.add(totalExpansionLevel);
+				expansionLevels.add((prevExpansionLevel + totalExpansionLevel)/2D);
 				rawBladeEfficiencies.add(0D);
 			} else {
 				totalExpansionLevel *= currentBlade.bladeType.getExpansionCoefficient();
-				expansionLevels.add(totalExpansionLevel);
+				expansionLevels.add((prevExpansionLevel + totalExpansionLevel)/2D);
 				rawBladeEfficiencies.add(currentBlade.bladeType.getEfficiency());
 				noBladeSets++;
 			}
@@ -490,35 +489,39 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> {
 		
 		return true;
 	}
-
+	
+	// Kurtchekov stuff!
+	
 	protected static class Blade {
-
-		Class bladeClass;
+		
+		Class<? extends TileTurbinePartBase> bladeClass;
 		TurbineRotorBladeType bladeType;
 		boolean isStator;
-
-		public Blade(Class c, TurbineRotorBladeType b, boolean s) {
-			bladeClass = c;
-			bladeType = b;
-			isStator = s;
+		
+		public Blade(Class<? extends TileTurbinePartBase> clazz, TurbineRotorBladeType type, boolean stator) {
+			bladeClass = clazz;
+			bladeType = type;
+			isStator = stator;
 		}
 	}
-
-	protected static HashSet<Blade> blades = Sets.newHashSet(
+	
+	protected static final HashSet<Blade> BLADES = Sets.newHashSet(
 			new Blade(TileTurbineRotorBlade.Steel.class, TurbineRotorBladeType.STEEL, false),
 			new Blade(TileTurbineRotorBlade.Extreme.class, TurbineRotorBladeType.EXTREME, false),
 			new Blade(TileTurbineRotorBlade.SicSicCMC.class, TurbineRotorBladeType.SIC_SIC_CMC, false),
 			new Blade(TileTurbineRotorStator.class, null, true)
 	);
-
-	protected Blade GetBladeType(BlockPos pos) {
+	
+	protected Blade getBladeType(BlockPos pos) {
 		TileEntity tile = WORLD.getTileEntity(pos);
-		for (Blade blade : blades) {
+		for (Blade blade : BLADES) {
 			if (!blade.bladeClass.isInstance(tile)) continue;
 			return blade;
 		}
 		return null;
 	}
+	
+	// End of Kurtchekov stuff!
 	
 	protected int getFlowLength() {
 		return getInteriorLength(flowDir);

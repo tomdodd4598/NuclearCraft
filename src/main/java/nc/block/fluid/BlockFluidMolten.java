@@ -16,11 +16,13 @@ public class BlockFluidMolten extends BlockFluid {
 	public BlockFluidMolten(Fluid fluid) {
 		super(fluid, Material.LAVA);
 		setQuantaPerBlock(4);
+		setLightLevel(0.625F);
 	}
 	
 	public BlockFluidMolten(FluidMolten fluid) {
 		super(fluid, Material.LAVA);
 		setQuantaPerBlock(4);
+		setLightLevel(0.625F);
 	}
 	
 	@Override

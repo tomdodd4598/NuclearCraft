@@ -322,7 +322,7 @@ public class CraftingRecipeHandler {
 	
 	public static void registerRadShieldingCraftingRecipes() {
 		if (NCConfig.radiation_shielding_default_recipes) for (Item item : ForgeRegistries.ITEMS.getValuesCollection()) {
-			if (ArmorHelper.isArmor(item, true) && !RadiationArmor.ARMOR_ITEM_SHIELDING_BLACKLIST.contains(item)) {
+			if (ArmorHelper.isArmor(item, NCConfig.radiation_horse_armor_public) && !RadiationArmor.ARMOR_ITEM_SHIELDING_BLACKLIST.contains(item)) {
 				RadiationArmor.addArmorShieldingRecipes(item);
 			}
 		}

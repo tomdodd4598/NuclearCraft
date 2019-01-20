@@ -60,7 +60,7 @@ public class TooltipHandler {
 	
 	@SideOnly(Side.CLIENT)
 	private static void addArmorRadiationTooltip(List<String> tooltip, ItemStack stack) {
-		if (!ArmorHelper.isArmor(stack.getItem(), true)) return;
+		if (!ArmorHelper.isArmor(stack.getItem(), NCConfig.radiation_horse_armor_public)) return;
 		boolean capability = stack.hasCapability(IDefaultRadiationResistance.CAPABILITY_DEFAULT_RADIATION_RESISTANCE, null);
 		boolean nbt = stack.hasTagCompound() && stack.getTagCompound().hasKey("ncRadiationResistance");
 		if (!capability && !nbt) return;

@@ -30,11 +30,13 @@ public class BlockFluidPlasma extends BlockFluid {
 	public BlockFluidPlasma(Fluid fluid) {
 		super(fluid, GAS);
 		setQuantaPerBlock(16);
+		setLightLevel(1F);
 	}
 	
 	public BlockFluidPlasma(FluidPlasma fluid) {
 		super(fluid, GAS);
 		setQuantaPerBlock(16);
+		setLightLevel(1F);
 	}
 	
 	@Override

@@ -12,8 +12,6 @@ public class HeatExchangerRecipes extends ProcessorRecipeHandler {
 	
 	@Override
 	public void addRecipes() {
-		// boolean: is cold -> hot.
-		
 		// Hot NaK -> NaK
 		
 		for (int i = 0; i < COOLANTS.length; i++) {
@@ -25,9 +23,9 @@ public class HeatExchangerRecipes extends ProcessorRecipeHandler {
 		addHeatExchange(fluidStack("water", 200), fluidStack("high_pressure_steam", 1000), 8D*4000D); // 300 -> 1200
 		addHeatExchange(fluidStack("preheated_water", 200), fluidStack("high_pressure_steam", 1000), 4D*4000D); // 400 -> 1200
 		
-		addHeatExchange(fluidStack("exhaust_steam", 1000), fluidStack("low_pressure_steam", 1000), 4D*4000D); // 400 -> 1000
+		if (!NCConfig.heat_exchanger_alternate_exhaust_recipe) addHeatExchange(fluidStack("exhaust_steam", 1000), fluidStack("low_pressure_steam", 1000), 4D*4000D); // 400 -> 1000
+		else addRecipe(fluidStack("exhaust_steam", 1000), fluidStack("steam", 1000), 4D*4000D, 400, 800);
 		
-		//addHeatExchange(fluidStack("high_pressure_steam", 250), fluidStack("steam", 1000), 1D*4000D); // 1200 -> 800
 		addRecipe(fluidStack("high_pressure_steam", 250), fluidStack("steam", 1000), 1D*4000D, 1200, 800);
 		
 		addHeatExchange(fluidStack("condensate_water", 1000), fluidStack("preheated_water", 1000), 8D*4000D); // 300 -> 400

@@ -9,6 +9,7 @@ import com.google.common.collect.Lists;
 
 import nc.config.NCConfig;
 import nc.init.NCBlocks;
+import nc.util.ItemInfo;
 import nc.util.RegistryHelper;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
@@ -20,7 +21,7 @@ public class RadSources {
 	public static final List<ItemStack> STACK_BLACKLIST = new ArrayList<ItemStack>();
 	
 	public static final Map<String, Double> ORE_MAP = new HashMap<String, Double>();
-	public static final Map<ItemStack, Double> STACK_MAP = new HashMap<ItemStack, Double>();
+	public static final Map<ItemInfo, Double> STACK_MAP = new HashMap<ItemInfo, Double>();
 	
 	private static void addToOreMap(String ore, Double radiation) {
 		if (ORE_BLACKLIST.contains(ore)) return;
@@ -31,7 +32,7 @@ public class RadSources {
 		for (ItemStack blacklisted : STACK_BLACKLIST) {
 			if (stack.isItemEqual(blacklisted)) return;
 		}
-		STACK_MAP.put(stack, radiation);
+		STACK_MAP.put(new ItemInfo(stack), radiation);
 	}
 	
 	private static final double INGOT = 1D;

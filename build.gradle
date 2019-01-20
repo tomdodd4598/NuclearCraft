@@ -15,7 +15,11 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 
 repositories {
 	maven {
-		// progwml6
+        name = "CurseForge"
+        url = "https://minecraft.curseforge.com/api/maven/"
+    }
+	maven {
+		// JEI & TiC
 		name = "progwml6"
 		url = 'http://dvs1.progwml6.com/files/maven/'
 	}
@@ -57,14 +61,15 @@ dependencies {
 	deobfProvided "mezz.jei:jei_${mc_version}:${jei_version}:api"
 	// at runtime, use the full JEI jar
 	runtime "mezz.jei:jei_${mc_version}:${jei_version}"
-	compile files('libs/Baubles-1.12-1.5.2.jar')
+	compileOnly "baubles:Baubles:${baubles_version}"
 	compile group: "net.industrial-craft", name: "industrialcraft-2", version: "${ic2_version}", classifier: "api"
 	compile group: "CraftTweaker2", name: "CraftTweaker2-API", version: "${crafttweaker_version}"
 	compile group: "slimeknights.mantle", name: "Mantle", version: "${mantle_version}"
 	compile group: "slimeknights", name: "TConstruct", version: "${tic_version}"
+	compileOnly "constructs-armory:conarm:${conarm_version}"
 	compile group: "li.cil.oc", name: "OpenComputers", version: "${oc_version}"
-	compile files('libs/gregtech-1.12.2-0.5.9.88.jar')
-	compile files('libs/Mekanism-1.12.2-9.4.13.349-api.jar')
+	compileOnly "gregtechce:gregtech:${gregtech_version}"
+	compileOnly "mekanism:Mekanism:${mekanism_version}"
 }
 
 processResources {

@@ -14,6 +14,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
@@ -47,7 +48,8 @@ public class ItemGeigerCounter extends NCItem {
 			if (entityRads == null) return;
 			if (entityRads.isRadiationUndetectable()) return;
 			double soundChance = Math.cbrt(entityRads.getRadiationLevel()/200D);
-			for (int i = 0; i < 2; i++) if (rand.nextDouble() < soundChance) player.playSound(SoundHandler.geiger_tick, 0.6F + rand.nextFloat()*0.2F, 0.92F + rand.nextFloat()*0.16F);
+			float soundVolume = MathHelper.clamp((float)(8F*soundChance), 0.55F, 1.1F);
+			for (int i = 0; i < 2; i++) if (rand.nextDouble() < soundChance) player.playSound(SoundHandler.geiger_tick, soundVolume + rand.nextFloat()*0.12F, 0.92F + rand.nextFloat()*0.16F);
 		}
 	}
 }

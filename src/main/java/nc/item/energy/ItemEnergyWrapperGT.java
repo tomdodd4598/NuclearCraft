@@ -62,6 +62,7 @@ public class ItemEnergyWrapperGT implements IElectricItem {
 		return 0;
 	}
 	
+	@Override
 	public long getCharge() {
 		return storage.getEnergyStored()/NCConfig.rf_per_eu;
 	}
