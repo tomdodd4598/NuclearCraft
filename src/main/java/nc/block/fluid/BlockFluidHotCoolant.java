@@ -18,11 +18,13 @@ public class BlockFluidHotCoolant extends BlockFluid {
 	public BlockFluidHotCoolant(Fluid fluid) {
 		super(fluid, Material.LAVA);
 		setQuantaPerBlock(4);
+		setLightLevel(0.625F);
 	}
 	
 	public BlockFluidHotCoolant(FluidHotCoolant fluid) {
 		super(fluid, Material.LAVA);
 		setQuantaPerBlock(4);
+		setLightLevel(0.625F);
 	}
 	
 	@Override

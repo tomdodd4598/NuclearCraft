@@ -29,12 +29,10 @@ public class NCSpaxelhoe extends ItemTool {
 	String[] info;
 	
 	public NCSpaxelhoe(String unlocalizedName, ToolMaterial material, String... tooltip) {
-		super(3.0F + material.getAttackDamage(), -2.4F, material, new HashSet<Block>());
+		super(3.0F, -2.4F, material, new HashSet<Block>());
 		setUnlocalizedName(Global.MOD_ID + "." + unlocalizedName);
 		setRegistryName(new ResourceLocation(Global.MOD_ID, unlocalizedName));
 		info = InfoHelper.buildInfo(getUnlocalizedName(), tooltip);
-		attackSpeed = -2.4F;
-		attackDamage = 3.0F + material.getAttackDamage();
 	}
 	
 	@Override

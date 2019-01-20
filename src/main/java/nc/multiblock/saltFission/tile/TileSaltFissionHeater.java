@@ -441,7 +441,7 @@ public class TileSaltFissionHeater extends TileSaltFissionPartBase implements IF
 	// Processing
 	
 	public boolean isProcessing() {
-		return readyToProcess();
+		return readyToProcess() && isReactorOn;
 	}
 	
 	public boolean readyToProcess() {

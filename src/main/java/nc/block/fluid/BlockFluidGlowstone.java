@@ -15,10 +15,12 @@ public class BlockFluidGlowstone extends BlockFluid {
 
 	public BlockFluidGlowstone(Fluid fluid) {
 		super(fluid, Material.LAVA);
+		setLightLevel(1F);
 	}
 	
 	public BlockFluidGlowstone(FluidGlowstone fluid) {
 		super(fluid, Material.LAVA);
+		setLightLevel(1F);
 	}
 	
 	@Override

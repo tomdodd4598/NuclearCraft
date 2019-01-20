@@ -1,12 +1,11 @@
 package nc.capability.radiation;
 
-import java.util.Map.Entry;
-
 import nc.config.NCConfig;
 import nc.radiation.RadSources;
 import nc.radiation.RadWorlds;
 import nc.radiation.RadiationArmor;
 import nc.util.ArmorHelper;
+import nc.util.ItemInfo;
 import nc.util.OreDictHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -47,11 +46,10 @@ public class RadiationCapabilityHandler {
 	public void attachStackRadiationCapability(AttachCapabilitiesEvent<ItemStack> event) {
 		ItemStack stack = event.getObject();
 		if (stack.isEmpty()) return;
-		for (Entry<ItemStack, Double> entry : RadSources.STACK_MAP.entrySet()) {
-			if (stack.isItemEqual(entry.getKey())) {
-				event.addCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE_NAME, new RadiationSourceProvider(entry.getValue()));
-				return;
-			}
+		ItemInfo itemInfo = new ItemInfo(stack);
+		if (RadSources.STACK_MAP.containsKey(itemInfo)) {
+			event.addCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE_NAME, new RadiationSourceProvider(RadSources.STACK_MAP.get(itemInfo)));
+			return;
 		}
 		for (String oreName : OreDictHelper.getOreNames(stack)) {
 			if (RadSources.ORE_MAP.containsKey(oreName)) {
@@ -64,12 +62,11 @@ public class RadiationCapabilityHandler {
 	@SubscribeEvent
 	public void attachArmorDefaultRadiationResistanceCapability(AttachCapabilitiesEvent<ItemStack> event) {
 		ItemStack stack = event.getObject();
-		if (stack.isEmpty() || !ArmorHelper.isArmor(stack.getItem(), true)) return;
-		for (Entry<ItemStack, Double> entry : RadiationArmor.ARMOR_STACK_RESISTANCE_MAP.entrySet()) {
-			if (stack.isItemEqual(entry.getKey())) {
-				event.addCapability(IDefaultRadiationResistance.CAPABILITY_DEFAULT_RADIATION_RESISTANCE_NAME, new DefaultRadiationResistanceProvider(entry.getValue()));
-				return;
-			}
+		if (stack.isEmpty()) return;
+		ItemInfo itemInfo = new ItemInfo(stack);
+		if (RadiationArmor.ARMOR_STACK_RESISTANCE_MAP.containsKey(itemInfo)) {
+			event.addCapability(IDefaultRadiationResistance.CAPABILITY_DEFAULT_RADIATION_RESISTANCE_NAME, new DefaultRadiationResistanceProvider(RadiationArmor.ARMOR_STACK_RESISTANCE_MAP.get(itemInfo)));
+			return;
 		}
 	}
 }

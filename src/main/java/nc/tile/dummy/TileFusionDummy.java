@@ -18,6 +18,7 @@ import nc.util.BlockFinder;
 import nc.util.BlockPosHelper;
 import nc.util.RecipeHelper;
 import net.minecraft.init.Blocks;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.Optional;
@@ -116,6 +117,18 @@ public abstract class TileFusionDummy extends TileDummy<TileFusionCore> implemen
 	
 	public boolean findAdjacentComparator() {
 		return finder.horizontalYCount(pos, 1, Blocks.UNPOWERED_COMPARATOR, Blocks.POWERED_COMPARATOR) > 0;
+	}
+	
+	// NBT
+	
+	@Override
+	public NBTTagCompound writeAll(NBTTagCompound nbt) {
+		super.writeAll(nbt);
+		if (hasMaster()) {
+			nbt.setDouble("processPower", getMaster().processPower);
+			nbt.setInteger("size", getMaster().size);
+		}
+		return nbt;
 	}
 	
 	// OpenComputers

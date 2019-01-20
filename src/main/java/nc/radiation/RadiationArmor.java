@@ -10,6 +10,7 @@ import nc.init.NCArmor;
 import nc.init.NCItems;
 import nc.recipe.vanilla.CraftingRecipeHandler;
 import nc.util.ArmorHelper;
+import nc.util.ItemInfo;
 import nc.util.RegistryHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -20,7 +21,7 @@ public class RadiationArmor {
 	public static final List<Item> ARMOR_ITEM_SHIELDING_BLACKLIST = new ArrayList<Item>();
 	public static final List<ItemStack> ARMOR_STACK_SHIELDING_LIST = new ArrayList<ItemStack>();
 	
-	public static final Map<ItemStack, Double> ARMOR_STACK_RESISTANCE_MAP = new HashMap<ItemStack, Double>();
+	public static final Map<ItemInfo, Double> ARMOR_STACK_RESISTANCE_MAP = new HashMap<ItemInfo, Double>();
 	
 	public static void init() {
 		ARMOR_ITEM_SHIELDING_BLACKLIST.add(NCArmor.helm_hazmat);
@@ -44,7 +45,8 @@ public class RadiationArmor {
 			int scorePos = stackInfo.lastIndexOf('_');
 			if (scorePos == -1) continue;
 			ItemStack stack = RegistryHelper.itemStackFromRegistry(stackInfo.substring(0, scorePos));
-			if (stack != null) ARMOR_STACK_RESISTANCE_MAP.put(stack, Double.parseDouble(stackInfo.substring(scorePos + 1)));
+			if (stack == null || stack.isEmpty() || !ArmorHelper.isArmor(stack.getItem(), NCConfig.radiation_horse_armor_public)) return;
+			ARMOR_STACK_RESISTANCE_MAP.put(new ItemInfo(stack), Double.parseDouble(stackInfo.substring(scorePos + 1)));
 		}
 	}
 	

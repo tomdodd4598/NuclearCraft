@@ -196,13 +196,12 @@ public class TileFluidProcessor extends TileEnergyFluidSidedInventory implements
 	}
 	
 	public boolean readyToProcess() {
-		return canProcessInputs;
+		return canProcessInputs && hasSufficientEnergy();
 	}
 	
 	public boolean canProcessInputs() {
 		if (!setRecipeStats()) return false;
 		else if (time >= baseProcessTime) return true;
-		else if (!hasSufficientEnergy()) return false;
 		return canProduceProducts();
 	}
 	

@@ -12,10 +12,12 @@ public class BlockFluidCryotheum extends BlockFluid {
 	
 	public BlockFluidCryotheum(Fluid fluid) {
 		super(fluid, Material.LAVA);
+		setLightLevel(0.5F);
 	}
 	
 	public BlockFluidCryotheum(FluidCryotheum fluid) {
 		super(fluid, Material.LAVA);
+		setLightLevel(0.5F);
 	}
 	
 	@Override

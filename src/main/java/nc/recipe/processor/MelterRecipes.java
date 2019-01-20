@@ -27,22 +27,19 @@ public class MelterRecipes extends ProcessorRecipeHandler {
 		addRecipe("dustSodiumHydroxide", fluidStack("naoh", FluidStackHelper.GEM_VOLUME), 1D, 1D);
 		addRecipe("dustPotassiumHydroxide", fluidStack("koh", FluidStackHelper.GEM_VOLUME), 1D, 1D);
 		addRecipe("dustArsenic", fluidStack("arsenic", FluidStackHelper.GEM_VOLUME), 1D, 1D);
+		addRecipe("gemBoronArsenide", fluidStack("bas", FluidStackHelper.GEM_VOLUME), 1D, 1D);
 		
 		addRecipe(Lists.newArrayList("gemPrismarine", "dustPrismarine"), fluidStack("prismarine", FluidStackHelper.INGOT_VOLUME), 1D, 1D);
+		
+		addRecipe(Lists.newArrayList("ingotSilicon", "itemSilicon"), fluidStack("silicon", FluidStackHelper.INGOT_VOLUME), 1D, 1D);
 		
 		addIngotMeltingRecipes("boron10");
 		addIngotMeltingRecipes("boron11");
 		addIngotMeltingRecipes("lithium6");
 		addIngotMeltingRecipes("lithium7");
 		
-		addIngotMeltingRecipes("manganeseDioxide", "manganese_dioxide");
-		addIngotMeltingRecipes("alugentum");
-		
-		addIngotMeltingRecipes("ferroboron");
-		addIngotMeltingRecipes("tough");
 		addIngotMeltingRecipes("hardCarbon", "hard_carbon");
-		
-		addRecipe(Lists.newArrayList("ingotSilicon", "itemSilicon"), fluidStack("silicon", FluidStackHelper.INGOT_VOLUME), 1D, 1D);
+		addIngotMeltingRecipes("manganeseDioxide", "manganese_dioxide");
 		
 		addRecipe(NCItems.ground_cocoa_nibs, fluidStack("chocolate_liquor", FluidStackHelper.INGOT_VOLUME), 0.25D, 0.5D);
 		addRecipe(NCItems.cocoa_butter, fluidStack("cocoa_butter", FluidStackHelper.INGOT_VOLUME), 0.25D, 0.5D);
@@ -141,6 +138,9 @@ public class MelterRecipes extends ProcessorRecipeHandler {
 		addRecipe(Blocks.PACKED_ICE, fluidStack("water", FluidStackHelper.BUCKET_VOLUME), 0.5D, 0.5D);
 		
 		addOreMeltingRecipes();
+		
+		addIngotMeltingRecipes("thoriumOxide", "thorium");
+		addIngotMeltingRecipes("uraniumOxide", "uranium");
 		
 		addRecipe("blockQuartz", fluidStack("quartz", FluidStackHelper.GEM_VOLUME*4), 4D, 1D);
 		addRecipe("blockLapis", fluidStack("lapis", FluidStackHelper.GEM_BLOCK_VOLUME), 9D, 1D);
