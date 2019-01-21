@@ -14,16 +14,16 @@ public class OreIngredient implements IItemIngredient {
 	public String oreName;
 	public final List<ItemStack> cachedStackList;
 	public int stackSize;
-
+	
 	public OreIngredient(String oreName, int stackSize) {
 		this.oreName = oreName;
 		cachedStackList = OreDictHelper.getPrioritisedStackList(oreName);
 		this.stackSize = stackSize;
 	}
-
+	
 	@Override
 	public ItemStack getStack() {
-		if (cachedStackList == null || cachedStackList.isEmpty()) return null;
+		if (cachedStackList == null || cachedStackList.isEmpty() || cachedStackList.get(0) == null) return null;
 		ItemStack item = cachedStackList.get(0).copy();
 		item.setCount(stackSize);
 		return item;
@@ -38,7 +38,7 @@ public class OreIngredient implements IItemIngredient {
 	public String getIngredientNamesConcat() {
 		return getIngredientName();
 	}
-
+	
 	@Override
 	public boolean matches(Object object, IngredientSorption type) {
 		if (object instanceof OreIngredient) {
@@ -64,7 +64,7 @@ public class OreIngredient implements IItemIngredient {
 		}
 		return false;
 	}
-
+	
 	@Override
 	public int getMaxStackSize() {
 		return stackSize;
@@ -75,7 +75,7 @@ public class OreIngredient implements IItemIngredient {
 		this.stackSize = stackSize;
 		for (ItemStack stack : cachedStackList) stack.setCount(stackSize);
 	}
-
+	
 	@Override
 	public List<ItemStack> getInputStackList() {
 		List<ItemStack> stackList = new ArrayList<ItemStack>();
@@ -91,5 +91,10 @@ public class OreIngredient implements IItemIngredient {
 	public List<ItemStack> getOutputStackList() {
 		if (cachedStackList == null || cachedStackList.isEmpty()) return new ArrayList<ItemStack>();
 		return Lists.newArrayList(getStack());
+	}
+	
+	@Override
+	public boolean isValid() {
+		return cachedStackList != null && !cachedStackList.isEmpty() && cachedStackList.get(0) != null;
 	}
 }

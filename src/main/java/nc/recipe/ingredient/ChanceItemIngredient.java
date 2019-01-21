@@ -94,4 +94,9 @@ public class ChanceItemIngredient implements IItemIngredient {
 	public boolean matches(Object object, IngredientSorption sorption) {
 		return ingredient.matches(object, sorption);
 	}
+	
+	@Override
+	public boolean isValid() {
+		return ingredient.isValid();
+	}
 }

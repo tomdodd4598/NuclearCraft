@@ -10,7 +10,7 @@ public interface IItemIngredient {
 	public ItemStack getStack();
 	
 	public default ItemStack getNextStack() {
-		ItemStack nextStack = getStack().copy();
+		ItemStack nextStack = getStack();
 		nextStack.setCount(getNextStackSize());
 		return nextStack;
 	}
@@ -32,4 +32,6 @@ public interface IItemIngredient {
 	public void setMaxStackSize(int stackSize);
 	
 	public boolean matches(Object object, IngredientSorption sorption);
+	
+	public boolean isValid();
 }

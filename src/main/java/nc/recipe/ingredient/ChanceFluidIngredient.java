@@ -99,4 +99,9 @@ public class ChanceFluidIngredient implements IFluidIngredient {
 	public boolean matches(Object object, IngredientSorption sorption) {
 		return ingredient.matches(object, sorption);
 	}
+	
+	@Override
+	public boolean isValid() {
+		return ingredient.isValid();
+	}
 }

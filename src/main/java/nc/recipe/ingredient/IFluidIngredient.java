@@ -10,7 +10,7 @@ public interface IFluidIngredient {
 	public FluidStack getStack();
 	
 	public default FluidStack getNextStack() {
-		FluidStack nextStack = getStack().copy();
+		FluidStack nextStack = getStack();
 		nextStack.amount = getNextStackSize();
 		return nextStack;
 	}
@@ -32,4 +32,6 @@ public interface IFluidIngredient {
 	public void setMaxStackSize(int stackSize);
 	
 	public boolean matches(Object object, IngredientSorption sorption);
+	
+	public boolean isValid();
 }

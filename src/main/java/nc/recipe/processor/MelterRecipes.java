@@ -40,6 +40,7 @@ public class MelterRecipes extends ProcessorRecipeHandler {
 		
 		addIngotMeltingRecipes("hardCarbon", "hard_carbon");
 		addIngotMeltingRecipes("manganeseDioxide", "manganese_dioxide");
+		addIngotMeltingRecipes("alugentum");
 		
 		addRecipe(NCItems.ground_cocoa_nibs, fluidStack("chocolate_liquor", FluidStackHelper.INGOT_VOLUME), 0.25D, 0.5D);
 		addRecipe(NCItems.cocoa_butter, fluidStack("cocoa_butter", FluidStackHelper.INGOT_VOLUME), 0.25D, 0.5D);
@@ -87,16 +88,16 @@ public class MelterRecipes extends ProcessorRecipeHandler {
 		addIngotMeltingRecipes("dilithium");
 		addIngotMeltingRecipes("titanium");
 		
-		// PlusTIC - Botania
+		// PlusTiC - Botania
 		addIngotMeltingRecipes("manasteel");
 		addIngotMeltingRecipes("terrasteel");
 		addIngotMeltingRecipes("elementium");
 		
-		// PlusTIC - Mekanism
-		addIngotMeltingRecipes("refinedObsidian");
-		addIngotMeltingRecipes("refinedGlowstone");
+		// PlusTiC - Mekanism
+		addIngotMeltingRecipes("refinedObsidian", "refinedobsidian");
+		addIngotMeltingRecipes("refinedGlowstone", "refinedglowstone");
 		
-		// PlusTIC - Psi
+		// PlusTiC - Psi
 		addIngotMeltingRecipes("psi");
 		
 		// JAOPCA - AstralSorcery

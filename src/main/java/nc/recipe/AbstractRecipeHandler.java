@@ -206,7 +206,7 @@ public abstract class AbstractRecipeHandler<T extends IRecipe> {
 			object = RecipeHelper.fixItemStack(object);
 		}
 		if (object instanceof IItemIngredient) {
-			return (IItemIngredient) object;
+			return checkedItemIngredient((IItemIngredient) object);
 		} else if (object instanceof ArrayList) {
 			ArrayList list = (ArrayList) object;
 			List<IItemIngredient> buildList = new ArrayList<IItemIngredient>();
@@ -216,24 +216,29 @@ public abstract class AbstractRecipeHandler<T extends IRecipe> {
 						buildList.add((IItemIngredient)listObject);
 					}
 					else if (listObject != null) {
-						IItemIngredient recipeObject = buildItemIngredient(listObject);
+						IItemIngredient recipeObject = checkedItemIngredient(buildItemIngredient(listObject));
 						if (recipeObject != null) {
 							buildList.add(recipeObject);
 						}
 					}
 				}
 				if (buildList.isEmpty()) return null;
-				return new ItemArrayIngredient(buildList);
+				return checkedItemIngredient(new ItemArrayIngredient(buildList));
 			} else {
 				return null;
 			}
 		} else if (object instanceof String) {
-			return RecipeHelper.oreStackFromString((String) object);
+			return checkedItemIngredient(RecipeHelper.oreStackFromString((String) object));
 		}
 		if (object instanceof ItemStack) {
-			return new ItemIngredient((ItemStack) object);
+			return checkedItemIngredient(new ItemIngredient((ItemStack) object));
 		}
 		return null;
+	}
+	
+	@Nullable
+	public IItemIngredient checkedItemIngredient(IItemIngredient ingredient) {
+		return ingredient == null || !ingredient.isValid() ? null : ingredient;
 	}
 	
 	@Nullable
@@ -242,10 +247,10 @@ public abstract class AbstractRecipeHandler<T extends IRecipe> {
 			object = RecipeHelper.fixFluidStack(object);
 		}
 		if (ModCheck.mekanismLoaded() && object instanceof FluidIngredient) {
-			return buildFluidIngredient(mekanismFluidStackList((FluidIngredient)object));
+			return checkedFluidIngredient(buildFluidIngredient(mekanismFluidStackList((FluidIngredient)object)));
 		}
 		if (object instanceof IFluidIngredient) {
-			return (IFluidIngredient) object;
+			return checkedFluidIngredient((IFluidIngredient) object);
 		} else if (object instanceof ArrayList) {
 			ArrayList list = (ArrayList) object;
 			List<IFluidIngredient> buildList = new ArrayList<IFluidIngredient>();
@@ -255,22 +260,27 @@ public abstract class AbstractRecipeHandler<T extends IRecipe> {
 						buildList.add((IFluidIngredient)listObject);
 					}
 					else if (listObject != null) {
-						IFluidIngredient recipeObject = buildFluidIngredient(listObject);
+						IFluidIngredient recipeObject = checkedFluidIngredient(buildFluidIngredient(listObject));
 						if (recipeObject != null) buildList.add(recipeObject);
 					}
 				}
 				if (buildList.isEmpty()) return null;
-				return new FluidArrayIngredient(buildList);
+				return checkedFluidIngredient(new FluidArrayIngredient(buildList));
 			} else {
 				return null;
 			}
 		} else if (object instanceof String) {
-			return RecipeHelper.fluidStackFromString((String) object);
+			return checkedFluidIngredient(RecipeHelper.fluidStackFromString((String) object));
 		}
 		if (object instanceof FluidStack) {
-			return new FluidIngredient((FluidStack) object);
+			return checkedFluidIngredient(new FluidIngredient((FluidStack) object));
 		}
 		return null;
+	}
+	
+	@Nullable
+	public IFluidIngredient checkedFluidIngredient(IFluidIngredient ingredient) {
+		return ingredient == null || !ingredient.isValid() ? null : ingredient;
 	}
 	
 	public boolean isValidItemInput(ItemStack stack) {

@@ -16,16 +16,16 @@ public class ItemArrayIngredient implements IItemIngredient {
 	public ItemArrayIngredient(IItemIngredient... ingredients) {
 		this(Lists.newArrayList(ingredients));
 	}
-
+	
 	public ItemArrayIngredient(List<IItemIngredient> ingredientList) {
 		this.ingredientList = ingredientList;
 		ingredientList.forEach(input -> cachedStackList.add(input.getStack()));
 	}
-
+	
 	@Override
 	public ItemStack getStack() {
-		if (cachedStackList == null || cachedStackList.isEmpty()) return null;
-		return cachedStackList.get(0);
+		if (cachedStackList == null || cachedStackList.isEmpty() || cachedStackList.get(0) == null) return null;
+		return cachedStackList.get(0).copy();
 	}
 	
 	@Override
@@ -39,7 +39,7 @@ public class ItemArrayIngredient implements IItemIngredient {
 		for (IItemIngredient ingredient : ingredientList) names += (", " + ingredient.getIngredientName());
 		return names.substring(2);
 	}
-
+	
 	@Override
 	public int getMaxStackSize() {
 		return ingredientList.get(0).getMaxStackSize();
@@ -50,7 +50,7 @@ public class ItemArrayIngredient implements IItemIngredient {
 		for (IItemIngredient ingredient : ingredientList) ingredient.setMaxStackSize(stackSize);
 		for (ItemStack stack : cachedStackList) stack.setCount(stackSize);
 	}
-
+	
 	@Override
 	public List<ItemStack> getInputStackList() {
 		List<ItemStack> stacks = new ArrayList<ItemStack>();
@@ -63,7 +63,7 @@ public class ItemArrayIngredient implements IItemIngredient {
 		if (cachedStackList == null || cachedStackList.isEmpty()) return new ArrayList<ItemStack>();
 		return Lists.newArrayList(getStack());
 	}
-
+	
 	@Override
 	public boolean matches(Object object, IngredientSorption sorption) {
 		for (IItemIngredient ingredient : ingredientList) {
@@ -72,5 +72,10 @@ public class ItemArrayIngredient implements IItemIngredient {
 			}
 		}
 		return false;
+	}
+	
+	@Override
+	public boolean isValid() {
+		return cachedStackList != null && !cachedStackList.isEmpty() && cachedStackList.get(0) != null;
 	}
 }

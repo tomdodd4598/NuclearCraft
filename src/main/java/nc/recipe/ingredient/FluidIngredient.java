@@ -15,7 +15,7 @@ public class FluidIngredient implements IFluidIngredient {
 	public FluidStack stack;
 	public String fluidName;
 	public int amount;
-
+	
 	public FluidIngredient(FluidStack stack) {
 		this.stack = stack;
 		fluidName = FluidStackHelper.getFluidName(stack);
@@ -30,7 +30,7 @@ public class FluidIngredient implements IFluidIngredient {
 	
 	@Override
 	public FluidStack getStack() {
-		return stack.copy();
+		return stack == null ? null : stack.copy();
 	}
 	
 	@Override
@@ -42,7 +42,7 @@ public class FluidIngredient implements IFluidIngredient {
 	public String getIngredientNamesConcat() {
 		return fluidName;
 	}
-
+	
 	@Override
 	public boolean matches(Object object, IngredientSorption type) {
 		if (object instanceof Tank) object = (FluidStack)((Tank)object).getFluid();
@@ -58,7 +58,7 @@ public class FluidIngredient implements IFluidIngredient {
 		}
 		return false;
 	}
-
+	
 	@Override
 	public List<FluidStack> getInputStackList() {
 		return Lists.newArrayList(stack);
@@ -68,7 +68,7 @@ public class FluidIngredient implements IFluidIngredient {
 	public List<FluidStack> getOutputStackList() {
 		return Lists.newArrayList(stack);
 	}
-
+	
 	@Override
 	public int getMaxStackSize() {
 		return amount;
@@ -78,5 +78,10 @@ public class FluidIngredient implements IFluidIngredient {
 	public void setMaxStackSize(int stackSize) {
 		amount = stackSize;
 		stack.amount = stackSize;
+	}
+	
+	@Override
+	public boolean isValid() {
+		return stack != null;
 	}
 }

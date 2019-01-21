@@ -53,4 +53,9 @@ public class EmptyItemIngredient implements IItemIngredient {
 		}
 		return object instanceof EmptyItemIngredient;
 	}
+	
+	@Override
+	public boolean isValid() {
+		return true;
+	}
 }

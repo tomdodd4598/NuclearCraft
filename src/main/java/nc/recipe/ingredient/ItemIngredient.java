@@ -20,7 +20,7 @@ public class ItemIngredient implements IItemIngredient {
 	
 	@Override
 	public ItemStack getStack() {
-		return stack.copy();
+		return stack == null ? null : stack.copy();
 	}
 	
 	@Override
@@ -32,7 +32,7 @@ public class ItemIngredient implements IItemIngredient {
 	public String getIngredientNamesConcat() {
 		return ItemStackHelper.stackName(stack);
 	}
-
+	
 	@Override
 	public boolean matches(Object object, IngredientSorption type) {
 		if (object instanceof ItemStack) {
@@ -55,7 +55,7 @@ public class ItemIngredient implements IItemIngredient {
 		}
 		return false;
 	}
-
+	
 	@Override
 	public List<ItemStack> getInputStackList() {
 		return Lists.newArrayList(stack);
@@ -65,7 +65,7 @@ public class ItemIngredient implements IItemIngredient {
 	public List<ItemStack> getOutputStackList() {
 		return Lists.newArrayList(stack);
 	}
-
+	
 	@Override
 	public int getMaxStackSize() {
 		return stack.getCount();
@@ -74,5 +74,10 @@ public class ItemIngredient implements IItemIngredient {
 	@Override
 	public void setMaxStackSize(int stackSize) {
 		stack.setCount(stackSize);
+	}
+	
+	@Override
+	public boolean isValid() {
+		return stack != null;
 	}
 }

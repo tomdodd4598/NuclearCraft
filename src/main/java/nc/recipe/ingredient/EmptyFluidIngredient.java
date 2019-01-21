@@ -54,4 +54,9 @@ public class EmptyFluidIngredient implements IFluidIngredient {
 		}
 		return object instanceof EmptyFluidIngredient;
 	}
+	
+	@Override
+	public boolean isValid() {
+		return true;
+	}
 }

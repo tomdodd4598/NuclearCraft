@@ -1,3 +1,11 @@
+v2.13d
+
+* Reinstated missing alugentum melting recipe
+
+v2.13c
+
+* Fixed various recipes null-pointering with certain mods installed
+
 v2.13b
 
 * Fixed very fast machines not respecting the stack size limit

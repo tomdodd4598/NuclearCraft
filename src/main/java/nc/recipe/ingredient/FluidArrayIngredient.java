@@ -16,16 +16,16 @@ public class FluidArrayIngredient implements IFluidIngredient {
 	public FluidArrayIngredient(IFluidIngredient... ingredients) {
 		this(Lists.newArrayList(ingredients));
 	}
-
+	
 	public FluidArrayIngredient(List<IFluidIngredient> ingredientList) {
 		this.ingredientList = ingredientList;
 		ingredientList.forEach(input -> cachedStackList.add(input.getStack()));
 	}
-
+	
 	@Override
 	public FluidStack getStack() {
-		if (cachedStackList == null || cachedStackList.isEmpty()) return null;
-		return cachedStackList.get(0);
+		if (cachedStackList == null || cachedStackList.isEmpty() || cachedStackList.get(0) == null) return null;
+		return cachedStackList.get(0).copy();
 	}
 	
 	@Override
@@ -39,7 +39,7 @@ public class FluidArrayIngredient implements IFluidIngredient {
 		for (IFluidIngredient ingredient : ingredientList) names += (", " + ingredient.getIngredientName());
 		return names.substring(2);
 	}
-
+	
 	@Override
 	public int getMaxStackSize() {
 		return ingredientList.get(0).getMaxStackSize();
@@ -50,7 +50,7 @@ public class FluidArrayIngredient implements IFluidIngredient {
 		for (IFluidIngredient ingredient : ingredientList) ingredient.setMaxStackSize(stackSize);
 		for (FluidStack stack : cachedStackList) stack.amount = stackSize;
 	}
-
+	
 	@Override
 	public List<FluidStack> getInputStackList() {
 		List<FluidStack> stacks = new ArrayList<FluidStack>();
@@ -63,7 +63,7 @@ public class FluidArrayIngredient implements IFluidIngredient {
 		if (cachedStackList == null || cachedStackList.isEmpty()) return new ArrayList<FluidStack>();
 		return Lists.newArrayList(getStack());
 	}
-
+	
 	@Override
 	public boolean matches(Object object, IngredientSorption sorption) {
 		for (IFluidIngredient ingredient : ingredientList) {
@@ -72,5 +72,10 @@ public class FluidArrayIngredient implements IFluidIngredient {
 			}
 		}
 		return false;
+	}
+	
+	@Override
+	public boolean isValid() {
+		return cachedStackList != null && !cachedStackList.isEmpty();
 	}
 }
