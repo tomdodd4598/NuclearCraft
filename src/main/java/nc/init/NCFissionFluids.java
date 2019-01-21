@@ -17,7 +17,7 @@ public class NCFissionFluids {
 	
 	public static List<FluidFission> fluidList = new ArrayList<FluidFission>();
 	
-	static {
+	public static void init() {
 		fluidList.addAll(fissionFluids("thorium", 0x242424));
 		fluidList.addAll(fissionFluids("uranium", 0x375437));
 		fluidList.addAll(fissionFluids("plutonium", 0xDBDBDB));

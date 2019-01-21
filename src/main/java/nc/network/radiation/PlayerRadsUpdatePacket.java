@@ -87,7 +87,7 @@ public class PlayerRadsUpdatePacket implements IMessage {
 		
 		void processMessage(PlayerRadsUpdatePacket message) {
 			EntityPlayerSP player = Minecraft.getMinecraft().player;
-			if (!player.hasCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null)) return;
+			if (player == null || !player.hasCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null)) return;
 			IEntityRads playerRads = player.getCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null);
 			if (playerRads == null) return;
 			playerRads.setTotalRads(message.totalRads, false);

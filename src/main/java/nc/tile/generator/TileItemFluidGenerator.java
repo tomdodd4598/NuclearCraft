@@ -121,7 +121,12 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 	
 	@Override
 	public void refreshActivity() {
-		canProcessInputs = canProcessInputs();
+		canProcessInputs = canProcessInputs(false);
+	}
+	
+	@Override
+	public void refreshActivityOnProduction() {
+		canProcessInputs = canProcessInputs(true);
 	}
 	
 	// Processor Stats
@@ -149,7 +154,7 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 		return false;
 	}
 	
-	public boolean canProcessInputs() {
+	public boolean canProcessInputs(boolean justProduced) {
 		if (!setRecipeStats()) {
 			if (hasConsumed) {
 				for (int i = 0; i < itemInputSize; i++) getItemInputs(true).set(i, ItemStack.EMPTY);
@@ -158,7 +163,7 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 			}
 			return false;
 		}
-		if (time >= baseProcessTime) return true;
+		if (!justProduced && time >= baseProcessTime) return true;
 		return canProduceProducts();
 	}
 	
@@ -241,7 +246,7 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 			if (getEmptyUnusableTankInputs()) for (int i = 0; i < fluidInputSize; i++) getTanks().get(i).setFluid(null);
 		}
 		else time = MathHelper.clamp(time - oldProcessTime, 0D, baseProcessTime);
-		refreshActivity();
+		refreshActivityOnProduction();
 	}
 		
 	public void produceProducts() {

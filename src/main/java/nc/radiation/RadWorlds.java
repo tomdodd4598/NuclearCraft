@@ -9,11 +9,7 @@ public class RadWorlds {
 	
 	public static final Map<Integer, Double> BACKGROUND_MAP = new HashMap<Integer, Double>();
 	
-	static {
-		addWorldsFromConfig();
-	}
-	
-	private static void addWorldsFromConfig() {
+	public static void init() {
 		for (String world : NCConfig.radiation_worlds) {
 			int scorePos = world.indexOf('_');
 			if (scorePos == -1) continue;

@@ -111,7 +111,6 @@ public enum PropertyBlockFacings implements IStringSerializable {
     private final String _name;
 
     static {
-
         ALL_AND_NONE = EnumSet.of(All, None);
         FACES = EnumSet.of(Face_D, Face_E, Face_N, Face_S, Face_U, Face_W);
         ANGLES = EnumSet.of(Angle_DE, Angle_DN, Angle_DS, Angle_DW, Angle_EN, Angle_ES, Angle_EU, Angle_NU, Angle_NW, Angle_SU, Angle_SW, Angle_UW);

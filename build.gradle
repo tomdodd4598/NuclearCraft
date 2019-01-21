@@ -38,6 +38,10 @@ repositories {
 		name = "cil"
 		url = 'http://maven.cil.li/'
 	}
+	maven {
+        name = "CoFH Maven"
+        url = "http://maven.covers1624.net"
+    }
 }
 
 version = "${mod_version}--${mc_version}"
@@ -62,6 +66,7 @@ dependencies {
 	// at runtime, use the full JEI jar
 	runtime "mezz.jei:jei_${mc_version}:${jei_version}"
 	compileOnly "baubles:Baubles:${baubles_version}"
+	compile group: "cofh", name: "CoFHCore", version: "${cofh_core_version}", classifier: "universal"
 	compile group: "net.industrial-craft", name: "industrialcraft-2", version: "${ic2_version}", classifier: "api"
 	compile group: "CraftTweaker2", name: "CraftTweaker2-API", version: "${crafttweaker_version}"
 	compile group: "slimeknights.mantle", name: "Mantle", version: "${mantle_version}"

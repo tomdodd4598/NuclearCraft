@@ -20,7 +20,7 @@ public class NCFluids {
 	
 	public static List<Pair<Fluid, BlockFluidBase>> fluidPairList = new ArrayList<Pair<Fluid, BlockFluidBase>>();
 	
-	static {
+	public static void init() {
 		try {
 			fluidPairList.add(fluidPair(FluidType.GAS, "oxygen", 0x7E8CC8));
 			fluidPairList.add(fluidPair(FluidType.GAS, "hydrogen", 0xB37AC4));
@@ -126,7 +126,7 @@ public class NCFluids {
 			fluidPairList.add(fluidPair(FluidType.MOLTEN, "aluminum", 0xB5ECD5));
 			fluidPairList.add(fluidPair(FluidType.MOLTEN, "silver", 0xE2DAF6));
 			
-		} catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -149,7 +149,7 @@ public class NCFluids {
 		NuclearCraft.proxy.registerFluidBlockRendering(block, block.getName());
 	}
 	
-	public static <T extends Fluid, V extends BlockFluidBase> Pair<Fluid, BlockFluidBase> fluidPair(FluidType fluidType, Object... fluidArgs) throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	public static <T extends Fluid, V extends BlockFluidBase> Pair<Fluid, BlockFluidBase> fluidPair(FluidType fluidType, Object... fluidArgs) throws Exception {
 		T fluid = NCUtil.newInstance(fluidType.getFluidClass(), fluidArgs);
 		V block = NCUtil.newInstance(fluidType.getBlockClass(), fluid);
 		return Pair.of(fluid, block);

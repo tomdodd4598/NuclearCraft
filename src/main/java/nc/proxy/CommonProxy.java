@@ -27,6 +27,7 @@ import nc.multiblock.MultiblockRegistry;
 import nc.network.PacketHandler;
 import nc.radiation.RadBiomes;
 import nc.radiation.RadSources;
+import nc.radiation.RadWorlds;
 import nc.radiation.RadiationArmor;
 import nc.radiation.RadiationHandler;
 import nc.radiation.environment.RadiationEnvironmentHandler;
@@ -61,6 +62,10 @@ public class CommonProxy {
 		NCItems.init();
 		NCTools.init();
 		NCArmor.init();
+		
+		NCFluids.init();
+		NCFissionFluids.init();
+		NCCoolantFluids.init();
 		
 		NCBlocks.register();
 		NCItems.register();
@@ -115,6 +120,8 @@ public class CommonProxy {
 		
 		RadSources.postInit();
 		RadiationArmor.postInit();
+		RadWorlds.init();
+		
 		MinecraftForge.EVENT_BUS.register(new RadiationCapabilityHandler());
 		MinecraftForge.EVENT_BUS.register(new RadiationHandler());
 		MinecraftForge.EVENT_BUS.register(new RadiationEnvironmentHandler());

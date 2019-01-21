@@ -1,3 +1,13 @@
+v2.13b
+
+* Fixed very fast machines not respecting the stack size limit
+* Fixed some alloy melting and ingot forming recipes not being added correctly
+
+* Refactored fluid initialising to be a little more robust to errors
+* Improved various class-checking methods to be less laggy [thanks to Funwayguy!]
+
+* Fixed potential crash on player radiation updating being interrupted
+
 v2.13a
 
 * Fixed Turbines not forming in various circumstances [thanks to Kurtchekov!]

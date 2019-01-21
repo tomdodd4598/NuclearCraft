@@ -279,7 +279,6 @@ public final class BlockFacings {
     private static HashMap<Byte, BlockFacings> s_cache;
 
     static {
-
         Byte hash;
 
         s_cache = new HashMap<Byte, BlockFacings>(8);

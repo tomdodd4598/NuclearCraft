@@ -157,7 +157,7 @@ public class ClientProxy extends CommonProxy {
 			BlockColors blockcolors = mc.getBlockColors();
 			ItemColors itemcolors = mc.getItemColors();
 			for(T fluid : fluidList) {
-				if (fluid.getBlock() != null) if (NCUtil.isSubclassOf(fluid.getBlock().getClass(), BlockFluidBase.class)) {
+				if (fluid.getBlock() != null) if (BlockFluidBase.class.isAssignableFrom(fluid.getBlock().getClass())) {
 					BlockFluidBase block = (BlockFluidBase) fluid.getBlock();
 					blockcolors.registerBlockColorHandler(new ColorRenderer.FluidBlockColor(block), block);
 					itemcolors.registerItemColorHandler(new ColorRenderer.FluidItemBlockColor(block), block);

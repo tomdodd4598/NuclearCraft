@@ -28,7 +28,7 @@ public class NCCoolantFluids {
 	public static List<Pair<Fluid, BlockFluidBase>> fluidPairList = new ArrayList<Pair<Fluid, BlockFluidBase>>();
 	public static List<Fluid> fluidList = new ArrayList<Fluid>();
 	
-	static {
+	public static void init() {
 		if (NCConfig.register_cofh_fluids) {
 			FluidMolten redstone = new FluidMolten("redstone", 0xAB1C09);
 			fluidPairList.add(Pair.of(redstone, !NCConfig.register_fission_fluid_blocks ? null : new BlockFluidMolten(redstone)));

@@ -425,7 +425,7 @@ public class CraftingRecipeHandler {
 				IRecipe recipe = NCUtil.newInstance(clazz, location, outStack, inputs);
 				recipe.setRegistryName(location);
 				ForgeRegistries.RECIPES.register(recipe);
-			} catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+			} catch (Exception e) {
 				
 			}
 		}

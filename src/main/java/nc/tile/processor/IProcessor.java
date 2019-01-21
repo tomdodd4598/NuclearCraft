@@ -18,6 +18,8 @@ public interface IProcessor extends IInterfaceable, IBufferable {
 	
 	public void refreshActivity();
 	
+	public void refreshActivityOnProduction();
+	
 	public static double maxPowerMultiplier(NCRecipes.Type recipeType) {
 		double max = 1D;
 		List<ProcessorRecipe> recipes = recipeType.getRecipeHandler().getRecipes();

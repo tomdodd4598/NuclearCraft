@@ -39,7 +39,7 @@ public class ItemStackHelper {
 		if (stack.isEmpty() || stack == null) return null;
 		int meta = stack.getMetadata();
 		Item item = stack.getItem();
-		if (!NCUtil.isSubclassOf(item.getClass(), ItemBlock.class)) return null;
+		if (!ItemBlock.class.isAssignableFrom(item.getClass())) return null;
 		ItemBlock itemBlock = (ItemBlock) item;
 		return itemBlock.getBlock();
 	}

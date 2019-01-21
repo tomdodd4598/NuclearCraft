@@ -3,6 +3,7 @@ package nc.util;
 import java.util.HashMap;
 import java.util.Map;
 
+import cofh.core.item.tool.ItemHorseArmorCore;
 import nc.ModCheck;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -28,7 +29,7 @@ public class ArmorHelper {
 	
 	private static boolean isModHorseArmor(Item item) {
 		if (ModCheck.cofhCoreLoaded()) {
-			if (NCUtil.isInstance(item, "cofh.core.item.tool.ItemHorseArmorCore")) return true;
+			if (item instanceof ItemHorseArmorCore) return true;
 		}
 		return false;
 	}

@@ -45,10 +45,11 @@ public class BlockFinder {
 	
 	public boolean find(BlockPos pos, Object... blocks) {
 		for (int i = 0; i < blocks.length; i++) {
+			if (blocks[i] == null) continue;
 			if (blocks[i] instanceof IBlockState) if (getBlockState(pos) == (IBlockState)blocks[i]) return true;
-			boolean isSubClass = NCUtil.isSubclassOf(blocks[i].getClass(), String.class);
+			boolean isSubClass = String.class.isAssignableFrom(blocks[i].getClass());
 			if (blocks[i] instanceof String) if (findOre(pos, (String)blocks[i])) return true;
-			isSubClass = NCUtil.isSubclassOf(blocks[i].getClass(), Block.class);
+			isSubClass = Block.class.isAssignableFrom(blocks[i].getClass());
 			if (isSubClass) if (getBlockState(pos).getBlock() == (Block)blocks[i]) return true;
 		}
 		return false;

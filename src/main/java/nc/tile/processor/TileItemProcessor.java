@@ -132,7 +132,12 @@ public class TileItemProcessor extends TileEnergySidedInventory implements IItem
 	
 	@Override
 	public void refreshActivity() {
-		canProcessInputs = canProcessInputs();
+		canProcessInputs = canProcessInputs(false);
+	}
+	
+	@Override
+	public void refreshActivityOnProduction() {
+		canProcessInputs = canProcessInputs(true);
 	}
 	
 	// Processor Stats
@@ -181,9 +186,9 @@ public class TileItemProcessor extends TileEnergySidedInventory implements IItem
 		return canProcessInputs && hasSufficientEnergy();
 	}
 	
-	public boolean canProcessInputs() {
+	public boolean canProcessInputs(boolean justProduced) {
 		if (!setRecipeStats()) return false;
-		else if (time >= baseProcessTime) return true;
+		else if (!justProduced && time >= baseProcessTime) return true;
 		return canProduceProducts();
 	}
 	
@@ -220,7 +225,7 @@ public class TileItemProcessor extends TileEnergySidedInventory implements IItem
 		refreshRecipe();
 		if (!setRecipeStats()) time = 0;
 		else time = MathHelper.clamp(time - oldProcessTime, 0D, baseProcessTime);
-		refreshActivity();
+		refreshActivityOnProduction();
 	}
 	
 	public void produceProducts() {

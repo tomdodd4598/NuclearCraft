@@ -101,7 +101,12 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 	
 	@Override
 	public void refreshActivity() {
-		canProcessInputs = canProcessInputs();
+		canProcessInputs = canProcessInputs(false);
+	}
+	
+	@Override
+	public void refreshActivityOnProduction() {
+		canProcessInputs = canProcessInputs(true);
 	}
 	
 	// Processor Stats
@@ -126,7 +131,7 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 		return false;
 	}
 	
-	public boolean canProcessInputs() {
+	public boolean canProcessInputs(boolean justProduced) {
 		if (!setRecipeStats()) {
 			if (hasConsumed) {
 				for (int i = 0; i < itemInputSize; i++) getItemInputs(true).set(i, ItemStack.EMPTY);
@@ -134,7 +139,7 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 			}
 			return false;
 		}
-		if (time >= baseProcessTime) return true;
+		if (!justProduced && time >= baseProcessTime) return true;
 		return canProduceProducts();
 	}
 	
@@ -188,7 +193,7 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 		refreshRecipe();
 		if (!setRecipeStats()) time = 0;
 		else time = MathHelper.clamp(time - oldProcessTime, 0D, baseProcessTime);
-		refreshActivity();
+		refreshActivityOnProduction();
 	}
 	
 	public void produceProducts() {
