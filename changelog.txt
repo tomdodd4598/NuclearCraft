@@ -1,3 +1,16 @@
+v2.13e
+
+* Further improved machine updating tick time
+* Improved multiblock responsiveness to redstone signal updates
+
+* Fixed some machines trying to start running without power, leading to laggy flickering
+* Fixed machines occasionally not respecting the stack size limit after being refreshed
+
+* Fission ports can now accept a redstone signal to activate the reactor
+* Somewhat reduced the lag caused by meltdowns
+
+* Fixed input/output of fluid into a fusion core by hand not updating the processing state
+
 v2.13d
 
 * Reinstated missing alugentum melting recipe
