@@ -116,7 +116,7 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 	// Processing
 	
 	public boolean isProcessing() {
-		return readyToProcess() && isRedstonePowered();
+		return readyToProcess() && getIsRedstonePowered();
 	}
 	
 	public boolean readyToProcess() {
@@ -194,6 +194,7 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 		if (!setRecipeStats()) time = 0;
 		else time = MathHelper.clamp(time - oldProcessTime, 0D, baseProcessTime);
 		refreshActivityOnProduction();
+		if (!canProcessInputs) time = 0;
 	}
 	
 	public void produceProducts() {

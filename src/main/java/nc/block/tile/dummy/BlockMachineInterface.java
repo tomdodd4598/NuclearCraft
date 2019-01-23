@@ -5,6 +5,7 @@ import nc.enumm.BlockEnums.SimpleTileType;
 import nc.tile.IGui;
 import nc.tile.dummy.TileMachineInterface;
 import nc.tile.fluid.ITileFluid;
+import nc.tile.processor.IProcessor;
 import nc.util.FluidHelper;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -39,7 +40,13 @@ public class BlockMachineInterface extends BlockSimpleDummy {
 					ITileFluid tileFluid = (ITileFluid) tileentity;
 					if (tileFluid.getTanks() != null) {
 						boolean accessedTanks = FluidHelper.accessTanks(player, hand, tileFluid.getTanks());
-						if (accessedTanks) return true;
+						if (accessedTanks) {
+							if (tileentity instanceof IProcessor) {
+								((IProcessor) tileentity).refreshRecipe();
+								((IProcessor) tileentity).refreshActivity();
+							}
+							return true;
+						}
 					}
 				}
 				if (tileentity instanceof IGui) {

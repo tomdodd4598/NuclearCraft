@@ -29,7 +29,7 @@ import nc.multiblock.validation.IMultiblockValidator;
 import nc.tile.internal.fluid.Tank;
 import nc.tile.internal.heat.HeatBuffer;
 import nc.util.RegistryHelper;
-import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
@@ -168,9 +168,11 @@ public class SaltFissionReactor extends CuboidalMultiblockBase<SaltFissionUpdate
 	}
 	
 	protected void onReactorFormed() {
-		updateReactorStats();
+		setIsReactorOn();
 		
 		heatBuffer.setHeatCapacity(BASE_MAX_HEAT*getNumConnectedBlocks());
+		
+		updateReactorStats();
 	}
 	
 	@Override
@@ -181,6 +183,7 @@ public class SaltFissionReactor extends CuboidalMultiblockBase<SaltFissionUpdate
 	@Override
 	protected void onMachineDisassembled() {
 		isReactorOn = false;
+		if (controller != null) controller.updateBlock(false);
 		cooling = heating = efficiency = heatMult = coolingRate = 0D;
 	}
 	
@@ -216,7 +219,7 @@ public class SaltFissionReactor extends CuboidalMultiblockBase<SaltFissionUpdate
 	
 	@Override
 	protected boolean updateServer() {
-		setIsReactorOn();
+		//setIsReactorOn();
 		if (shouldDistribute()) {
 			distributeFuel();
 		}
@@ -234,16 +237,19 @@ public class SaltFissionReactor extends CuboidalMultiblockBase<SaltFissionUpdate
 		return true;
 	}
 	
-	protected void setIsReactorOn() {
+	public void setIsReactorOn() {
 		boolean oldIsReactorOn = isReactorOn;
 		isReactorOn = isRedstonePowered() && isAssembled();
-		if (isReactorOn != oldIsReactorOn) sendUpdateToAllPlayers();
+		if (isReactorOn != oldIsReactorOn) {
+			if (controller != null) controller.updateBlock(isReactorOn);
+			sendUpdateToAllPlayers();
+		}
 	}
 	
 	protected boolean isRedstonePowered() {
-		if (controller.isRedstonePowered()) return true;
+		if (controller != null && controller.checkIsRedstonePowered(WORLD, controller.getPos())) return true;
 		for (TileSaltFissionRedstonePort redstonePort : redstonePorts) {
-			if (redstonePort.isRedstonePowered()) return true;
+			if (redstonePort.checkIsRedstonePowered(WORLD, redstonePort.getPos())) return true;
 		}
 		return false;
 	}
@@ -376,19 +382,22 @@ public class SaltFissionReactor extends CuboidalMultiblockBase<SaltFissionUpdate
 			vesselIterator.remove();
 			vessel.doMeltdown();
 		}
+		
 		Iterator<TileSaltFissionController> controllerIterator = controllers.iterator();
 		while (controllerIterator.hasNext()) {
 			TileSaltFissionController controller = controllerIterator.next();
 			controllerIterator.remove();
 			controller.doMeltdown();
 		}
+		
+		IBlockState corium = RegistryHelper.getBlock(Global.MOD_ID + ":fluid_corium").getDefaultState();
 		for (BlockPos blockPos : BlockPos.getAllInBoxMutable(getMinimumCoord(), getMaximumCoord())) {
 			if (rand.nextDouble() < 0.18D) {
 				if (WORLD.getTileEntity(blockPos) != null) WORLD.removeTileEntity(blockPos);
-				Block corium = RegistryHelper.getBlock(Global.MOD_ID + ":fluid_corium");
-				if (corium != null) WORLD.setBlockState(blockPos, corium.getDefaultState());
+				WORLD.setBlockState(blockPos, corium);
 			}
 		}
+		
 		checkIfMachineIsWhole();
 	}
 	

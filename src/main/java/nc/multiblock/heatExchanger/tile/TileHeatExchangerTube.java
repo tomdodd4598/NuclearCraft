@@ -301,6 +301,7 @@ public class TileHeatExchangerTube extends TileHeatExchangerPartBase implements 
 		if (!setRecipeStats()) time = 0;
 		else time = MathHelper.clamp(time - oldProcessTime, 0D, baseProcessTime);
 		refreshActivityOnProduction();
+		if (!canProcessInputs) time = 0;
 	}
 	
 	public void produceProducts() {

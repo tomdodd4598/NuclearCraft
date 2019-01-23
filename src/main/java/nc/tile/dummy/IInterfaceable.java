@@ -1,5 +1,5 @@
 package nc.tile.dummy;
 
-public interface IInterfaceable {
+public interface IInterfaceable extends IDummyMaster {
 
 }

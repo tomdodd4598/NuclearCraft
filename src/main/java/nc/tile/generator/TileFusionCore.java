@@ -35,6 +35,7 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.Optional;
 
@@ -132,16 +133,16 @@ public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpd
 		refreshMultiblock();
 	}
 	
+	// Dummies can't be checked directly as they are transparent
 	@Override
-	public boolean isRedstonePowered() {
-		BlockPosHelper helper = new BlockPosHelper(pos);
-		for (BlockPos pos : helper.squareRing(1, 0)) if (world.isBlockPowered(pos)) return true;
-		return world.isBlockPowered(pos);
+	public boolean checkIsRedstonePowered(World world, BlockPos dummyPos) {
+		if (world.isBlockPowered(pos)) return true;
+		for (BlockPos ringPos : new BlockPosHelper(pos).squareRing(1, 0)) if (world.isBlockPowered(ringPos)) return true;
+		return false;
 	}
 	
 	public boolean findAdjacentComparator() {
-		BlockPosHelper helper = new BlockPosHelper(pos);
-		for (BlockPos pos : helper.cutoffRing(2, 0)) if (finder.find(pos, Blocks.UNPOWERED_COMPARATOR, Blocks.POWERED_COMPARATOR)) return true;
+		for (BlockPos ringPos : new BlockPosHelper(pos).cutoffRing(2, 0)) if (finder.find(ringPos, Blocks.UNPOWERED_COMPARATOR, Blocks.POWERED_COMPARATOR)) return true;
 		return false;
 	}
 	
@@ -229,7 +230,7 @@ public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpd
 	}
 	
 	private boolean isDeactivated() { // Because reactor is on by default
-		return isRedstonePowered() || !computerActivated;
+		return getIsRedstonePowered() || !computerActivated;
 	}
 	
 	@Override

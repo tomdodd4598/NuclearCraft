@@ -10,7 +10,7 @@ public class CondenserRecipes extends ProcessorRecipeHandler {
 	
 	@Override
 	public void addRecipes() {
+		addRecipe(fluidStack("exhaust_steam", 1000), fluidStack("condensate_water", 50), 1D);
 		addRecipe(fluidStack("low_quality_steam", 1000), fluidStack("condensate_water", 25), 1D);
-		addRecipe(fluidStack("high_pressure_steam", 1000), fluidStack("condensate_water", 200), 1D);
 	}
 }

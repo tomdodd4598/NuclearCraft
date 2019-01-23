@@ -4,7 +4,6 @@ import nc.config.NCConfig;
 import nc.radiation.RadSources;
 import nc.radiation.RadWorlds;
 import nc.radiation.RadiationArmor;
-import nc.util.ArmorHelper;
 import nc.util.ItemInfo;
 import nc.util.OreDictHelper;
 import net.minecraft.entity.Entity;

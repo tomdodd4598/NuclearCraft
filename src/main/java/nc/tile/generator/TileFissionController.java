@@ -27,7 +27,6 @@ import nc.util.Lang;
 import nc.util.NCMath;
 import nc.util.RadiationHelper;
 import nc.util.RegistryHelper;
-import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -184,11 +183,11 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 	public void meltdown() {
 		BlockPos middle = finder.position((minX + maxX)/2, (minY + maxY)/2, (minZ + maxZ)/2);
 		
-		RadiationHelper.addToChunkRadiation(world.getChunkFromBlockCoords(middle), baseProcessRadiation*cells*NCConfig.fission_fuel_use);
+		RadiationHelper.addToChunkRadiation(world.getChunkFromBlockCoords(middle), 8D*baseProcessRadiation*cells*NCConfig.fission_fuel_use);
 		
-		Block corium = RegistryHelper.getBlock(Global.MOD_ID + ":fluid_corium");
+		IBlockState corium = RegistryHelper.getBlock(Global.MOD_ID + ":fluid_corium").getDefaultState();
 		world.removeTileEntity(pos);
-		world.setBlockState(pos, corium.getDefaultState());
+		world.setBlockState(pos, corium);
 		
 		if (NCConfig.fission_explosions) {
 			world.createExplosion(null, middle.getX(), middle.getY(), middle.getZ(), lengthX*lengthX + lengthY*lengthY + lengthZ*lengthZ, true);
@@ -197,7 +196,11 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 		for (int i = minX; i <= maxX; i++) {
 			for (int j = minY; j <= maxY; j++) {
 				for (int k = minZ; k <= maxZ; k++) {
-					if (rand.nextDouble() < 0.18D) world.setBlockState(finder.position(i, j, k), corium.getDefaultState());
+					if (rand.nextDouble() < 0.18D) {
+						BlockPos position = finder.position(i, j, k);
+						if (world.getTileEntity(position) != null) world.removeTileEntity(position);
+						world.setBlockState(position, corium);
+					}
 				}
 			}
 		}
@@ -206,7 +209,9 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 	@Override
 	public void setState(boolean isActive) {
 		super.setState(isActive);
-		if (getBlockType() instanceof BlockFissionControllerNewFixed) ((BlockFissionControllerNewFixed)getBlockType()).setActiveState(world.getBlockState(pos), world, pos, isActive);
+		if (getBlockType() instanceof BlockFissionControllerNewFixed) {
+			((BlockFissionControllerNewFixed)getBlockType()).setActiveState(world.getBlockState(pos), world, pos, isActive);
+		}
 	}
 	
 	// Processor Stats
@@ -240,7 +245,7 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 	}
 	
 	private boolean isActivated() {
-		return isRedstonePowered() || computerActivated;
+		return getIsRedstonePowered() || computerActivated;
 	}
 	
 	@Override

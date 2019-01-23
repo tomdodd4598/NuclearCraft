@@ -1,16 +1,16 @@
 package nc.multiblock.saltFission.tile;
 
 import nc.Global;
-import nc.config.NCConfig;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.saltFission.SaltFissionReactor;
 import nc.multiblock.saltFission.block.BlockSaltFissionController;
 import nc.util.RegistryHelper;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 public class TileSaltFissionController extends TileSaltFissionPartBase {
-	
-	protected int controllerCount;
 	
 	public TileSaltFissionController() {
 		super(CuboidalPartPositionType.WALL);
@@ -31,16 +31,16 @@ public class TileSaltFissionController extends TileSaltFissionPartBase {
 	}
 	
 	@Override
-	public void update() {
-		super.update();
-		tickController();
-		if (controllerCount == 0) if (getBlock(pos) instanceof BlockSaltFissionController) {
-			if (getMultiblock() != null) ((BlockSaltFissionController) getBlock(pos)).setActiveState(getBlockState(pos), world, pos, getMultiblock().isReactorOn);
-		}
+	public void onBlockNeighborChanged(IBlockState state, World world, BlockPos pos, BlockPos fromPos) {
+		super.onBlockNeighborChanged(state, world, pos, fromPos);
+		if (getMultiblock() != null) getMultiblock().setIsReactorOn();
 	}
 	
-	public void tickController() {
-		controllerCount++; controllerCount %= NCConfig.machine_update_rate / 4;
+	public void updateBlock(boolean active) {
+		if (getBlockType() instanceof BlockSaltFissionController) {
+			((BlockSaltFissionController)getBlockType()).setActiveState(getBlockState(pos), world, pos, active);
+			world.notifyNeighborsOfStateChange(pos, getBlockType(), true);
+		}
 	}
 	
 	public void doMeltdown() {

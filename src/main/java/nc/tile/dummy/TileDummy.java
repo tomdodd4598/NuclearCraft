@@ -15,17 +15,18 @@ import nc.tile.internal.fluid.GasTileWrapper;
 import nc.tile.internal.fluid.Tank;
 import nc.tile.internal.fluid.TankSorption;
 import nc.tile.inventory.ITileInventory;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
-public abstract class TileDummy<T extends TileEntity> extends TileEnergyFluidSidedInventory {
+public abstract class TileDummy<T extends IDummyMaster> extends TileEnergyFluidSidedInventory {
 	
 	public BlockPos masterPosition = null;
 	protected final int updateRate;
@@ -69,6 +70,12 @@ public abstract class TileDummy<T extends TileEntity> extends TileEnergyFluidSid
 	
 	public void tickDummy() {
 		checkCount++; checkCount %= updateRate;
+	}
+	
+	@Override
+	public void onBlockNeighborChanged(IBlockState state, World world, BlockPos pos, BlockPos fromPos) {
+		super.onBlockNeighborChanged(state, world, pos, fromPos);
+		if (hasMaster()) getMaster().onDummyNeighborChanged(state, world, pos, fromPos);
 	}
 	
 	// Inventory

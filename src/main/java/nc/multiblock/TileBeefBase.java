@@ -30,6 +30,9 @@ public abstract class TileBeefBase extends TileEntity implements ITile, ITickabl
 	public boolean isAdded;
 	public boolean isMarkedDirty;
 	
+	private boolean isRedstonePowered = false;
+	private boolean alternateComparator = false;
+	
 	private IRadiationSource radiation;
 	
 	public TileBeefBase() {
@@ -53,8 +56,9 @@ public abstract class TileBeefBase extends TileEntity implements ITile, ITickabl
 		if (world.isRemote) {
 			getWorld().markBlockRangeForRenderUpdate(pos, pos);
 			getWorld().getChunkFromBlockCoords(getPos()).markDirty();
+			refreshIsRedstonePowered(world, pos);
+			markDirty();
 		}
-		markDirty();
 	}
 	
 	@Override
@@ -96,6 +100,30 @@ public abstract class TileBeefBase extends TileEntity implements ITile, ITickabl
 	public void setState(boolean isActive) {
 		if (getBlockType() instanceof IActivatable) ((IActivatable)getBlockType()).setState(isActive, world, pos);
 	}
+	
+	// Redstone
+	
+	@Override
+	public boolean getIsRedstonePowered() {
+		return isRedstonePowered;
+	}
+	
+	@Override
+	public void setIsRedstonePowered(boolean isRedstonePowered) {
+		this.isRedstonePowered = isRedstonePowered;
+	}
+	
+	@Override
+	public boolean getAlternateComparator() {
+		return alternateComparator;
+	}
+	
+	@Override
+	public void setAlternateComparator(boolean alternate) {
+		alternateComparator = alternate;
+	}
+	
+	// Capabilities
 	
 	@Override
 	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing side) {
@@ -184,6 +212,8 @@ public abstract class TileBeefBase extends TileEntity implements ITile, ITickabl
 	}
 	
 	public void readAll(NBTTagCompound data) {
+		data.setBoolean("isRedstonePowered", getIsRedstonePowered());
+		data.setBoolean("alternateComparator", getAlternateComparator());
 		if (shouldSaveRadiation()) readRadiation(data);
 	}
 
@@ -196,6 +226,8 @@ public abstract class TileBeefBase extends TileEntity implements ITile, ITickabl
 	}
 	
 	public NBTTagCompound writeAll(NBTTagCompound data) {
+		setIsRedstonePowered(data.getBoolean("isRedstonePowered"));
+		setAlternateComparator(data.getBoolean("alternateComparator"));
 		if (shouldSaveRadiation()) writeRadiation(data);
 		return data;
 	}

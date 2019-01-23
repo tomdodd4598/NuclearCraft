@@ -1,16 +1,16 @@
 package nc.multiblock.saltFission.tile;
 
-import nc.config.NCConfig;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.saltFission.SaltFissionReactor;
 import nc.multiblock.saltFission.block.BlockSaltFissionRedstonePort;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 public class TileSaltFissionRedstonePort extends TileSaltFissionPartBase {
 	
 	public int comparatorSignal = 0;
-	
-	protected int updateCount;
 	
 	public TileSaltFissionRedstonePort() {
 		super(CuboidalPartPositionType.WALL);
@@ -31,21 +31,16 @@ public class TileSaltFissionRedstonePort extends TileSaltFissionPartBase {
 	}
 	
 	@Override
-	public void update() {
-		super.update();
-		tickTile();
-		if (updateCount == 0) updateBlock();
-	}
-	
-	public void tickTile() {
-		updateCount++; updateCount %= NCConfig.machine_update_rate / 4;
+	public void onBlockNeighborChanged(IBlockState state, World world, BlockPos pos, BlockPos fromPos) {
+		super.onBlockNeighborChanged(state, world, pos, fromPos);
+		updateBlock();
+		if (getMultiblock() != null) getMultiblock().setIsReactorOn();
 	}
 	
 	public void updateBlock() {
 		if (getBlockType() instanceof BlockSaltFissionRedstonePort) {
-			if (((BlockSaltFissionRedstonePort)getBlockType()).setActiveState(getBlockState(pos), world, pos, isRedstonePowered())) {
-				world.notifyNeighborsOfStateChange(pos, getBlockType(), true);
-			}
+			((BlockSaltFissionRedstonePort)getBlockType()).setActiveState(getBlockState(pos), world, pos, getIsRedstonePowered());
+			world.notifyNeighborsOfStateChange(pos, getBlockType(), true);
 		}
 	}
 	

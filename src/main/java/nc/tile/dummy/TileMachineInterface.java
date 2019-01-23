@@ -9,12 +9,11 @@ import nc.tile.internal.fluid.FluidConnection;
 import nc.tile.internal.fluid.TankSorption;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.BlockPos;
 
-public class TileMachineInterface extends TileDummy<TileEntity> implements IBufferable {
+public class TileMachineInterface extends TileDummy<IInterfaceable> implements IBufferable {
 	
 	public TileMachineInterface() {
-		super(TileEntity.class, "machine_interface", ITileEnergy.energyConnectionAll(EnergyConnection.BOTH), TankSorption.BOTH, NCConfig.machine_update_rate, null, ITileFluid.fluidConnectionAll(FluidConnection.BOTH));
+		super(IInterfaceable.class, "machine_interface", ITileEnergy.energyConnectionAll(EnergyConnection.BOTH), TankSorption.BOTH, NCConfig.machine_update_rate, null, ITileFluid.fluidConnectionAll(FluidConnection.BOTH));
 	}
 	
 	@Override
@@ -40,11 +39,5 @@ public class TileMachineInterface extends TileDummy<TileEntity> implements IBuff
 			}
 		}
 		masterPosition = null;
-	}
-	
-	// Special case for interface type
-	@Override
-	public boolean isMaster(BlockPos pos) {
-		return world.getTileEntity(pos) instanceof IInterfaceable;
 	}
 }

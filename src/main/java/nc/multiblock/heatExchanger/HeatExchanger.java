@@ -91,12 +91,16 @@ public class HeatExchanger extends CuboidalMultiblockBase<HeatExchangerUpdatePac
 	@Override
 	protected void onMachineAssembled() {
 		for (TileHeatExchangerController contr : controllers) controller = contr;
-		for (TileHeatExchangerTube tube : tubes) tube.updateFlowDir();
-		updateHeatExchangerStats();
+		onHeatExchangerFormed();
 	}
 	
 	@Override
 	protected void onMachineRestored() {
+		onHeatExchangerFormed();
+	}
+	
+	protected void onHeatExchangerFormed() {
+		setIsHeatExchangerOn();
 		for (TileHeatExchangerTube tube : tubes) tube.updateFlowDir();
 		updateHeatExchangerStats();
 	}
@@ -109,6 +113,7 @@ public class HeatExchanger extends CuboidalMultiblockBase<HeatExchangerUpdatePac
 	@Override
 	protected void onMachineDisassembled() {
 		isHeatExchangerOn = false;
+		if (controller != null) controller.updateBlock(false);
 		fractionOfTubesActive = efficiency = 0D;
 	}
 	
@@ -143,21 +148,24 @@ public class HeatExchanger extends CuboidalMultiblockBase<HeatExchangerUpdatePac
 	
 	@Override
 	protected boolean updateServer() {
-		setIsHeatExchangerOn();
+		//setIsHeatExchangerOn();
 		if (shouldUpdate()) updateHeatExchangerStats();
 		if (shouldUpdate()) sendUpdateToListeningPlayers();
 		incrementUpdateCount();
 		return true;
 	}
 	
-	protected void setIsHeatExchangerOn() {
+	public void setIsHeatExchangerOn() {
 		boolean oldIsHeatExchangerOn = isHeatExchangerOn;
 		isHeatExchangerOn = isRedstonePowered() && isAssembled();
-		if (isHeatExchangerOn != oldIsHeatExchangerOn) sendUpdateToAllPlayers();
+		if (isHeatExchangerOn != oldIsHeatExchangerOn) {
+			if (controller != null) controller.updateBlock(isHeatExchangerOn);
+			sendUpdateToAllPlayers();
+		}
 	}
 	
 	protected boolean isRedstonePowered() {
-		if (controller.isRedstonePowered()) return true;
+		if (controller != null && controller.checkIsRedstonePowered(WORLD, controller.getPos())) return true;
 		return false;
 	}
 	

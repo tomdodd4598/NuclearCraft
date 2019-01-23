@@ -6,7 +6,9 @@ import com.google.common.collect.Lists;
 
 import nc.Global;
 import nc.block.tile.INBTDrop;
+import nc.tile.ITile;
 import net.minecraft.block.Block;
+import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
@@ -48,6 +50,13 @@ public class NCBlock extends Block {
 	@Override
 	public boolean rotateBlock(World world, BlockPos pos, EnumFacing axis) {
 		return false;
+	}
+	
+	@Override
+	public void neighborChanged(IBlockState state, World world, BlockPos pos, Block blockIn, BlockPos fromPos) {
+		if (this instanceof ITileEntityProvider) {
+			if (world.getTileEntity(pos) instanceof ITile) ((ITile)world.getTileEntity(pos)).onBlockNeighborChanged(state, world, pos, fromPos);
+		}
 	}
 	
 	// NBT Stuff

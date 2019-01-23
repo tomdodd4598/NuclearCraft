@@ -12,6 +12,7 @@ import nc.tile.energyFluid.IBufferable;
 import nc.tile.inventory.ITileInventory;
 import nc.util.OreDictHelper;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -447,6 +448,31 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ISidedI
 	
 	@Override
 	public void setState(boolean isActive) {
+		
+	}
+	
+	@Override
+	public void onBlockNeighborChanged(IBlockState state, World world, BlockPos pos, BlockPos fromPos) {
+		
+	}
+
+	@Override
+	public boolean getIsRedstonePowered() {
+		return false;
+	}
+
+	@Override
+	public void setIsRedstonePowered(boolean isRedstonePowered) {
+		
+	}
+
+	@Override
+	public boolean getAlternateComparator() {
+		return false;
+	}
+
+	@Override
+	public void setAlternateComparator(boolean alternate) {
 		
 	}
 }

@@ -122,7 +122,7 @@ public class TileFluidProcessor extends TileEnergyFluidSidedInventory implements
 			if (isProcessing) process();
 			else {
 				getRadiationSource().setRadiationLevel(0D);
-				if (time > 0 && !isRedstonePowered()) loseProgress();
+				if (time > 0 && !getIsRedstonePowered()) loseProgress();
 			}
 			if (wasProcessing != isProcessing) {
 				shouldUpdate = true;
@@ -197,7 +197,7 @@ public class TileFluidProcessor extends TileEnergyFluidSidedInventory implements
 	// Processing
 	
 	public boolean isProcessing() {
-		return readyToProcess() && !isRedstonePowered();
+		return readyToProcess() && !getIsRedstonePowered();
 	}
 	
 	public boolean readyToProcess() {
@@ -211,7 +211,7 @@ public class TileFluidProcessor extends TileEnergyFluidSidedInventory implements
 	}
 	
 	public boolean hasSufficientEnergy() {
-		return (time <= 0 && (getProcessEnergy() >= getMaxEnergyModified() || getProcessEnergy() <= getEnergyStored())) || (time > 0 && getEnergyStored() >= getProcessPower());
+		return (time <= 0 && ((getProcessEnergy() >= getMaxEnergyModified() && getEnergyStored() >= getMaxEnergyModified()) || getProcessEnergy() <= getEnergyStored())) || (time > 0 && getEnergyStored() >= getProcessPower());
 	}
 	
 	public boolean canProduceProducts() {
@@ -247,6 +247,7 @@ public class TileFluidProcessor extends TileEnergyFluidSidedInventory implements
 		}
 		else time = MathHelper.clamp(time - oldProcessTime, 0D, baseProcessTime);
 		refreshActivityOnProduction();
+		if (!canProcessInputs) time = 0;
 	}
 	
 	public void produceProducts() {

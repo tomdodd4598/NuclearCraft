@@ -21,10 +21,11 @@ import net.minecraftforge.common.capabilities.Capability;
 
 public abstract class NCTile extends TileEntity implements ITickable, ITile {
 	
-	public boolean isAdded;
-	public boolean isMarkedDirty;
+	public boolean isAdded = false;
+	public boolean isMarkedDirty = false;
 	
-	public boolean alternateComparator;
+	private boolean isRedstonePowered = false;
+	private boolean alternateComparator = false;
 	
 	private IRadiationSource radiation;
 	
@@ -40,7 +41,7 @@ public abstract class NCTile extends TileEntity implements ITickable, ITile {
 			isAdded = true;
 		}
 		if (isMarkedDirty) {
-			markDirty();
+			markTileDirty();
 			isMarkedDirty = false;
 		}
 	}
@@ -49,8 +50,9 @@ public abstract class NCTile extends TileEntity implements ITickable, ITile {
 		if (world.isRemote) {
 			getWorld().markBlockRangeForRenderUpdate(pos, pos);
 			getWorld().getChunkFromBlockCoords(getPos()).markDirty();
+			refreshIsRedstonePowered(world, pos);
+			markTileDirty();
 		}
-		markDirty();
 	}
 	
 	@Override
@@ -102,6 +104,28 @@ public abstract class NCTile extends TileEntity implements ITickable, ITile {
 		if (getBlockType() instanceof IActivatable) ((IActivatable)getBlockType()).setState(isActive, world, pos);
 	}
 	
+	// Redstone
+	
+	@Override
+	public boolean getIsRedstonePowered() {
+		return isRedstonePowered;
+	}
+	
+	@Override
+	public void setIsRedstonePowered(boolean isRedstonePowered) {
+		this.isRedstonePowered = isRedstonePowered;
+	}
+	
+	@Override
+	public boolean getAlternateComparator() {
+		return alternateComparator;
+	}
+	
+	@Override
+	public void setAlternateComparator(boolean alternate) {
+		alternateComparator = alternate;
+	}
+	
 	// NBT
 	
 	public NBTTagCompound writeRadiation(NBTTagCompound nbt) {
@@ -121,7 +145,8 @@ public abstract class NCTile extends TileEntity implements ITickable, ITile {
 	}
 	
 	public NBTTagCompound writeAll(NBTTagCompound nbt) {
-		nbt.setBoolean("alternateComparator", alternateComparator);
+		nbt.setBoolean("isRedstonePowered", getIsRedstonePowered());
+		nbt.setBoolean("alternateComparator", getAlternateComparator());
 		if (shouldSaveRadiation()) writeRadiation(nbt);
 		return nbt;
 	}
@@ -133,6 +158,7 @@ public abstract class NCTile extends TileEntity implements ITickable, ITile {
 	}
 	
 	public void readAll(NBTTagCompound nbt) {
+		setIsRedstonePowered(nbt.getBoolean("isRedstonePowered"));
 		setAlternateComparator(nbt.getBoolean("alternateComparator"));
 		if (shouldSaveRadiation()) readRadiation(nbt);
 	}
@@ -166,14 +192,6 @@ public abstract class NCTile extends TileEntity implements ITickable, ITile {
 	@Override
 	public void handleUpdateTag(NBTTagCompound tag) {
 		super.handleUpdateTag(tag);
-	}
-	
-	public boolean getAlternateComparator() {
-		return alternateComparator;
-	}
-	
-	public void setAlternateComparator(boolean alternate) {
-		alternateComparator = alternate;
 	}
 	
 	@Override

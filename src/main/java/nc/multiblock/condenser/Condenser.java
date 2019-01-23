@@ -75,11 +75,16 @@ public class Condenser extends CuboidalMultiblockBase<CondenserUpdatePacket> {
 	@Override
 	protected void onMachineAssembled() {
 		for (TileCondenserController contr : controllers) controller = contr;
-		calculateCondenserStats();
+		onCondenserFormed();
 	}
 	
 	@Override
 	protected void onMachineRestored() {
+		onCondenserFormed();
+	}
+	
+	protected void onCondenserFormed() {
+		setIsCondenserOn();
 		calculateCondenserStats();
 	}
 	
@@ -91,6 +96,7 @@ public class Condenser extends CuboidalMultiblockBase<CondenserUpdatePacket> {
 	@Override
 	protected void onMachineDisassembled() {
 		isCondenserOn = false;
+		if (controller != null) controller.updateBlock(false);
 	}
 	
 	@Override
@@ -120,7 +126,7 @@ public class Condenser extends CuboidalMultiblockBase<CondenserUpdatePacket> {
 	
 	@Override
 	protected boolean updateServer() {
-		setIsCondenserOn();
+		//setIsCondenserOn();
 		if (shouldUpdate()) calculateCondenserStats();
 		// TODO
 		if (shouldUpdate()) sendUpdateToListeningPlayers();
@@ -128,10 +134,18 @@ public class Condenser extends CuboidalMultiblockBase<CondenserUpdatePacket> {
 		return true;
 	}
 	
-	protected void setIsCondenserOn() {
+	public void setIsCondenserOn() {
 		boolean oldIsCondenserOn = isCondenserOn;
-		isCondenserOn = controller.isRedstonePowered() && isAssembled();
-		if (isCondenserOn != oldIsCondenserOn) sendUpdateToAllPlayers();
+		isCondenserOn = isRedstonePowered() && isAssembled();
+		if (isCondenserOn != oldIsCondenserOn) {
+			if (controller != null) controller.updateBlock(isCondenserOn);
+			sendUpdateToAllPlayers();
+		}
+	}
+	
+	protected boolean isRedstonePowered() {
+		if (controller != null && controller.checkIsRedstonePowered(WORLD, controller.getPos())) return true;
+		return false;
 	}
 	
 	protected void calculateCondenserStats() {

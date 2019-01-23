@@ -16,10 +16,6 @@ public interface ITile {
 	
 	public BlockPos getTilePos();
 	
-	public default boolean isRedstonePowered() {
-		return getTileWorld().isBlockPowered(getTilePos());
-	}
-	
 	public void markTileDirty();
 	
 	public Block getTileBlockType();
@@ -31,6 +27,28 @@ public interface ITile {
 	}
 	
 	public void setState(boolean isActive);
+	
+	public default void onBlockNeighborChanged(IBlockState state, World world, BlockPos pos, BlockPos fromPos) {
+		refreshIsRedstonePowered(world, pos);
+	}
+	
+	// Redstone
+	
+	public default boolean checkIsRedstonePowered(World world, BlockPos pos) {
+		return world.isBlockPowered(pos);
+	}
+	
+	public default void refreshIsRedstonePowered(World world, BlockPos pos) {
+		setIsRedstonePowered(checkIsRedstonePowered(world, pos));
+	}
+	
+	public boolean getIsRedstonePowered();
+	
+	public void setIsRedstonePowered(boolean isRedstonePowered);
+	
+	public boolean getAlternateComparator();
+	
+	public void setAlternateComparator(boolean alternate);
 	
 	// State Updating
 	

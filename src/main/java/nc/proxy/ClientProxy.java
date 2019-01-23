@@ -19,7 +19,6 @@ import nc.render.BlockHighlightHandler;
 import nc.render.ColorRenderer;
 import nc.render.RenderFusionCore;
 import nc.tile.generator.TileFusionCore;
-import nc.util.NCUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;

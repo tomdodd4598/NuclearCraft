@@ -1,13 +1,13 @@
 package nc.multiblock.heatExchanger.tile;
 
-import nc.config.NCConfig;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.heatExchanger.HeatExchanger;
 import nc.multiblock.heatExchanger.block.BlockHeatExchangerController;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 public class TileHeatExchangerController extends TileHeatExchangerPartBase {
-	
-	protected int controllerCount;
 	
 	public TileHeatExchangerController() {
 		super(CuboidalPartPositionType.WALL);
@@ -28,15 +28,15 @@ public class TileHeatExchangerController extends TileHeatExchangerPartBase {
 	}
 	
 	@Override
-	public void update() {
-		super.update();
-		tickController();
-		if (controllerCount == 0) if (getBlock(pos) instanceof BlockHeatExchangerController) {
-			if (getMultiblock() != null) ((BlockHeatExchangerController) getBlock(pos)).setActiveState(getBlockState(pos), world, pos, getMultiblock().isHeatExchangerOn);
-		}
+	public void onBlockNeighborChanged(IBlockState state, World world, BlockPos pos, BlockPos fromPos) {
+		super.onBlockNeighborChanged(state, world, pos, fromPos);
+		if (getMultiblock() != null) getMultiblock().setIsHeatExchangerOn();
 	}
 	
-	public void tickController() {
-		controllerCount++; controllerCount %= NCConfig.machine_update_rate / 4;
+	public void updateBlock(boolean active) {
+		if (getBlockType() instanceof BlockHeatExchangerController) {
+			((BlockHeatExchangerController)getBlockType()).setActiveState(getBlockState(pos), world, pos, active);
+			world.notifyNeighborsOfStateChange(pos, getBlockType(), true);
+		}
 	}
 }

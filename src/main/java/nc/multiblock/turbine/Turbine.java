@@ -165,6 +165,8 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> {
 	}
 	
 	protected void onTurbineFormed() {
+		setIsTurbineOn();
+		
 		energyStorage.setStorageCapacity(BASE_MAX_ENERGY*getNumConnectedBlocks());
 		tanks.get(0).setCapacity(BASE_MAX_INPUT*getNumConnectedBlocks());
 		tanks.get(1).setCapacity(BASE_MAX_OUTPUT*getNumConnectedBlocks());
@@ -206,6 +208,7 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> {
 	@Override
 	protected void onMachineDisassembled() {
 		isTurbineOn = false;
+		if (controller != null) controller.updateBlock(false);
 		power = rawConductivity = 0D;
 		flowDir = null;
 		shaftWidth = shaftVolume = bladeLength = noBladeSets = recipeRate = 0;
@@ -545,17 +548,25 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> {
 	
 	@Override
 	protected boolean updateServer() {
-		setIsTurbineOn();
+		//setIsTurbineOn();
 		updateTurbine();
 		if (shouldUpdate()) sendUpdateToListeningPlayers();
 		incrementUpdateCount();
 		return true;
 	}
 	
-	protected void setIsTurbineOn() {
+	public void setIsTurbineOn() {
 		boolean oldIsTurbineOn = isTurbineOn;
-		isTurbineOn = controller.isRedstonePowered() && isAssembled();
-		if (isTurbineOn != oldIsTurbineOn) sendUpdateToAllPlayers();
+		isTurbineOn = isRedstonePowered() && isAssembled();
+		if (isTurbineOn != oldIsTurbineOn) {
+			if (controller != null) controller.updateBlock(isTurbineOn);
+			sendUpdateToAllPlayers();
+		}
+	}
+	
+	protected boolean isRedstonePowered() {
+		if (controller != null && controller.checkIsRedstonePowered(WORLD, controller.getPos())) return true;
+		return false;
 	}
 	
 	protected void updateTurbine() {

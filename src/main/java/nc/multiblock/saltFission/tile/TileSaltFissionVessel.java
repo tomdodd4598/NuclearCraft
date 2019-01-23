@@ -141,7 +141,7 @@ public class TileSaltFissionVessel extends TileSaltFissionPartBase implements IF
 	}
 	
 	public void doMeltdown() {
-		RadiationHelper.addToChunkRadiation(world.getChunkFromBlockCoords(pos), baseProcessRadiation*NCConfig.salt_fission_fuel_use);
+		RadiationHelper.addToChunkRadiation(world.getChunkFromBlockCoords(pos), 8D*baseProcessRadiation*NCConfig.salt_fission_fuel_use);
 		
 		Block corium = RegistryHelper.getBlock(Global.MOD_ID + ":fluid_corium");
 		world.removeTileEntity(pos);
@@ -324,6 +324,7 @@ public class TileSaltFissionVessel extends TileSaltFissionPartBase implements IF
 		if (!setRecipeStats()) time = 0;
 		else time = MathHelper.clamp(time - oldProcessTime, 0D, baseProcessTime);
 		refreshActivityOnProduction();
+		if (!canProcessInputs) time = 0;
 	}
 		
 	public void produceProducts() {

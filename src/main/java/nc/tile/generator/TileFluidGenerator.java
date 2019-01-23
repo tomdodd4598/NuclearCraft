@@ -127,7 +127,7 @@ public abstract class TileFluidGenerator extends TileEnergyFluidSidedInventory i
 	// Processing
 	
 	public boolean isProcessing() {
-		return readyToProcess() && isRedstonePowered();
+		return readyToProcess() && getIsRedstonePowered();
 	}
 	
 	public boolean readyToProcess() {
@@ -208,6 +208,7 @@ public abstract class TileFluidGenerator extends TileEnergyFluidSidedInventory i
 		}
 		else time = MathHelper.clamp(time - oldProcessTime, 0D, baseProcessTime);
 		refreshActivityOnProduction();
+		if (!canProcessInputs) time = 0;
 	}
 		
 	public void produceProducts() {

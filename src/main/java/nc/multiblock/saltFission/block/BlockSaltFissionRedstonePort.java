@@ -61,13 +61,11 @@ public class BlockSaltFissionRedstonePort extends BlockSaltFissionPartBase {
 		return 0;
 	}
 	
-	public boolean setActiveState(IBlockState state, World world, BlockPos pos, boolean active) {
+	public void setActiveState(IBlockState state, World world, BlockPos pos, boolean active) {
 		if (!world.isRemote) {
 			if (active != state.getValue(ACTIVE)) {
 				world.setBlockState(pos, state.withProperty(ACTIVE, active), 2);
-				return true;
 			}
 		}
-		return false;
 	}
 }

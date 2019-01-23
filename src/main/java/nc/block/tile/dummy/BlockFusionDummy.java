@@ -82,7 +82,11 @@ public class BlockFusionDummy extends BlockTile {
 				TileFusionCore core = (TileFusionCore) world.getTileEntity(corePos);
 				if (core.getTanks() != null) {
 					boolean accessedTanks = FluidHelper.accessTanks(player, hand, core.getTanks());
-					if (accessedTanks) return true;
+					if (accessedTanks) {
+						core.refreshRecipe();
+						core.refreshActivity();
+						return true;
+					}
 				}
 				core.refreshMultiblock();
 				FMLNetworkHandler.openGui(player, NuclearCraft.instance, 101, world, corePos.getX(), corePos.getY(), corePos.getZ());

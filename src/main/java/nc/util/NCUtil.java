@@ -1,7 +1,6 @@
 package nc.util;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
