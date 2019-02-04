@@ -218,6 +218,7 @@ public class NCConfig {
 	public static String[] radiation_blocks_blacklist;
 	
 	public static double max_player_rads;
+	public static double radiation_player_decay_rate;
 	public static double radiation_spread_rate;
 	public static double radiation_decay_rate;
 	public static double radiation_lowest_rate;
@@ -643,6 +644,8 @@ public class NCConfig {
 		
 		Property propertyRadiationMaxPlayerRads = config.get(CATEGORY_RADIATION, "max_player_rads", 1000D, Lang.localise("gui.config.radiation.max_player_rads.comment"), 1D, 1000000000D);
 		propertyRadiationMaxPlayerRads.setLanguageKey("gui.config.radiation.max_player_rads");
+		Property propertyRadiationPlayerDecayRate = config.get(CATEGORY_RADIATION, "radiation_player_decay_rate", 0.05D, Lang.localise("gui.config.radiation.radiation_player_decay_rate.comment"), 0D, 1D);
+		propertyRadiationPlayerDecayRate.setLanguageKey("gui.config.radiation.radiation_player_decay_rate");
 		Property propertyRadiationSpreadRate = config.get(CATEGORY_RADIATION, "radiation_spread_rate", 0.1D, Lang.localise("gui.config.radiation.radiation_spread_rate.comment"), 0D, 1D);
 		propertyRadiationSpreadRate.setLanguageKey("gui.config.radiation.radiation_spread_rate");
 		Property propertyRadiationDecayRate = config.get(CATEGORY_RADIATION, "radiation_decay_rate", 0.001D, Lang.localise("gui.config.radiation.radiation_decay_rate.comment"), 0D, 1D);
@@ -961,6 +964,7 @@ public class NCConfig {
 		propertyOrderRadiation.add(propertyRadiationItemsBlacklist.getName());
 		propertyOrderRadiation.add(propertyRadiationBlocksBlacklist.getName());
 		propertyOrderRadiation.add(propertyRadiationMaxPlayerRads.getName());
+		propertyOrderRadiation.add(propertyRadiationPlayerDecayRate.getName());
 		propertyOrderRadiation.add(propertyRadiationSpreadRate.getName());
 		propertyOrderRadiation.add(propertyRadiationDecayRate.getName());
 		propertyOrderRadiation.add(propertyRadiationLowestRate.getName());
@@ -1194,6 +1198,7 @@ public class NCConfig {
 			radiation_blocks_blacklist = propertyRadiationBlocksBlacklist.getStringList();
 			
 			max_player_rads = propertyRadiationMaxPlayerRads.getDouble();
+			radiation_player_decay_rate = propertyRadiationPlayerDecayRate.getDouble();
 			radiation_spread_rate = propertyRadiationSpreadRate.getDouble();
 			radiation_decay_rate = propertyRadiationDecayRate.getDouble();
 			radiation_lowest_rate = propertyRadiationLowestRate.getDouble();
@@ -1431,6 +1436,7 @@ public class NCConfig {
 		propertyRadiationBlocksBlacklist.set(radiation_blocks_blacklist);
 		
 		propertyRadiationMaxPlayerRads.set(max_player_rads);
+		propertyRadiationPlayerDecayRate.set(radiation_player_decay_rate);
 		propertyRadiationSpreadRate.set(radiation_spread_rate);
 		propertyRadiationDecayRate.set(radiation_decay_rate);
 		propertyRadiationLowestRate.set(radiation_lowest_rate);

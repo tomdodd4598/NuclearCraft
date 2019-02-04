@@ -83,6 +83,8 @@ public class RadiationHandler {
 				if (playerRads.getRadiationResistance() == 0D) playerRads.setRadXWoreOff(true);
 			}
 			else playerRads.setRadXWoreOff(false);
+
+			playerRads.setTotalRads(playerRads.getTotalRads() - NCConfig.radiation_player_decay_rate*PLAYER_TICK_RATE, false);
 			
 			if (playerRads.getRadawayBuffer() > 0D) {
 				playerRads.setTotalRads(playerRads.getTotalRads() - NCConfig.radiation_radaway_rate*PLAYER_TICK_RATE, false);
