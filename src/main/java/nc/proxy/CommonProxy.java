@@ -47,6 +47,7 @@ import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import slimeknights.tconstruct.library.materials.Material;
@@ -125,11 +126,14 @@ public class CommonProxy {
 		MinecraftForge.EVENT_BUS.register(new RadiationCapabilityHandler());
 		MinecraftForge.EVENT_BUS.register(new RadiationHandler());
 		MinecraftForge.EVENT_BUS.register(new RadiationEnvironmentHandler());
-		RadBiomes.init();
-		
+
 		MinecraftForge.EVENT_BUS.register(new PlayerRespawnHandler());
 	}
-	
+
+	public void serverLoad(FMLServerStartingEvent event) {
+		RadBiomes.init();
+	}
+
 	// Packets
 	
 	public World getWorld(int dimensionId) {
