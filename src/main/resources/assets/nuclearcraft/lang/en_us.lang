@@ -2235,6 +2235,8 @@ gui.config.other.ore_dict_priority_bool=Enable Ore Dict Mod Priority
 gui.config.other.ore_dict_priority_bool.comment=Will Ore Dictionary outputs be prioritised according to the mod list below? If false, the default Ore Dict entry will be used when deciding machine outputs.
 gui.config.other.ore_dict_priority=Ore Dict Mod Priority
 gui.config.other.ore_dict_priority.comment=Determines the priority of each mod's ore dictionary entries - earlier mods' IDs in this list have a higher priority. This is used to determine which mod's corresponding item is produced in machine recipes. If no matching mod is found, the default entry is used.
+gui.config.other.render_chunk_boundaries=Chunk boundaries visible
+gui.config.other.render_chunk_boundaries.comment=Show the chunk boundaries if you're holding/looking at a radiation scrubber or geiger counter block
 
 gui.computer.method_not_found=This method doesn't show in the archive maps - lost a method, you have... how embarassing... how embarassing! Gather round the GitHub repository, clear your mind, and find your missing method we will.
 gui.computer.invalid_method_number=Invalid method number

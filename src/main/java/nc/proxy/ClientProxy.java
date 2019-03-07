@@ -5,6 +5,7 @@ import java.util.List;
 
 import nc.Global;
 import nc.block.fluid.BlockFluidBase;
+import nc.client.ClientEventHandler;
 import nc.config.NCConfig;
 import nc.handler.TooltipHandler;
 import nc.init.NCArmor;
@@ -72,7 +73,10 @@ public class ClientProxy extends CommonProxy {
 
 	@Override
 	public void init(FMLInitializationEvent event) {
+
 		super.init(event);
+
+		MinecraftForge.EVENT_BUS.register(new ClientEventHandler());
 	}
 
 	@Override
