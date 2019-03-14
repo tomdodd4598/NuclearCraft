@@ -2096,6 +2096,8 @@ gui.config.radiation.radiation_worlds=World Background Radiation
 gui.config.radiation.radiation_worlds.comment=List of dimensions and their background radiation levels. Format: 'modid:dimID_radiationLevel'.
 gui.config.radiation.radiation_biomes=Biome Background Radiation
 gui.config.radiation.radiation_biomes.comment=List of biomes and their background radiation levels. These values stack with the underlying world's background radiation. Format: 'modid:biomeName_radiationLevel'.
+gui.config.radiation.radiation_biome_exempt_worlds=Worlds Without Biome Background Radiation
+gui.config.radiation.radiation_biome_exempt_worlds.comment=List of dimensions that should ignore biome background radiation settings.
 
 gui.config.radiation.radiation_ores=Ore Stack Radiation
 gui.config.radiation.radiation_ores.comment=List of ore dict entries and their stack radiation levels. Can be used to overwrite default values. Format: 'oreName_radiationLevel'.

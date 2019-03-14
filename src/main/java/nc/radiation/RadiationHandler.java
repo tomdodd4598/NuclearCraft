@@ -71,7 +71,14 @@ public class RadiationHandler {
 				playerRads.setRadiationImmunityTime(previousImmunityTime - PLAYER_TICK_RATE);
 			}
 			
-			double radiationLevel = RadiationHelper.transferRadsToPlayer(player.world, player, playerRads, PLAYER_TICK_RATE) /*+ RadiationHelper.transferBackgroundRadsToPlayer(player.world.getBiome(player.getPosition()), player, playerRads, PLAYER_TICK_RATE)*/ + RadiationHelper.transferRadsToPlayer(chunk, player, playerRads, PLAYER_TICK_RATE) + RadiationHelper.transferRadsFromInventoryToPlayer(player, playerRads, chunk, PLAYER_TICK_RATE);
+			double radiationLevel = RadiationHelper.transferRadsToPlayer(player.world, player, playerRads, PLAYER_TICK_RATE) +
+									RadiationHelper.transferRadsToPlayer(chunk, player, playerRads, PLAYER_TICK_RATE) +
+									RadiationHelper.transferRadsFromInventoryToPlayer(player, playerRads, chunk, PLAYER_TICK_RATE);
+
+			if (!RadWorlds.BIOME_BACKGROUND_EXEMPT_SET.contains(player.world.provider.getDimension())) {
+				radiationLevel += RadiationHelper.transferRadsToPlayer(chunk, player, playerRads, PLAYER_TICK_RATE);
+			}
+
 			playerRads.setRadiationLevel(radiationLevel);
 			
 			if (!player.isCreative() && playerRads.isFatal()) player.attackEntityFrom(FATAL_RADS, Float.MAX_VALUE);
@@ -161,9 +168,11 @@ public class RadiationHandler {
 			if (chunk == null || !chunk.hasCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null)) return;
 			IRadiationSource chunkRadiation = chunk.getCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null);
 			if (chunkRadiation == null) return;
-			
-			Double biomeRadiation = RadBiomes.BIOME_MAP.get(chunk.getBiome(new BlockPos(8, 8, 8), biomeProvider));
-			if (biomeRadiation != null) RadiationHelper.addToChunkBuffer(chunkRadiation, biomeRadiation);
+
+			if (!RadWorlds.BIOME_BACKGROUND_EXEMPT_SET.contains(chunk.getWorld().provider.getDimension())) {
+				Double biomeRadiation = RadBiomes.BIOME_MAP.get(chunk.getBiome(new BlockPos(8, 8, 8), biomeProvider));
+				if (biomeRadiation != null) RadiationHelper.addToChunkBuffer(chunkRadiation, biomeRadiation);
+			}
 		}
 		
 		for (TileEntity tile : tileSet) {

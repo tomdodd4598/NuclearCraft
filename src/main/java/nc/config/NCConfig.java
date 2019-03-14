@@ -209,6 +209,7 @@ public class NCConfig {
 	
 	public static String[] radiation_worlds;
 	public static String[] radiation_biomes;
+	public static String[] radiation_biome_exempt_worlds;
 	
 	public static String[] radiation_ores;
 	public static String[] radiation_items;
@@ -627,6 +628,8 @@ public class NCConfig {
 		propertyRadiationWorlds.setLanguageKey("gui.config.radiation.radiation_worlds");
 		Property propertyRadiationBiomes = config.get(CATEGORY_RADIATION, "radiation_biomes", new String[] {"nuclearcraft:nuclear_wasteland_0.25"}, Lang.localise("gui.config.radiation.radiation_biomes.comment"));
 		propertyRadiationBiomes.setLanguageKey("gui.config.radiation.radiation_biomes");
+		Property propertyRadiationBiomeExemptWorlds = config.get(CATEGORY_RADIATION, "radiation_biome_exempt_worlds", new String[] {"144"}, Lang.localise("gui.config.radiation.radiation_biome_exempt_worlds.comment"));
+		propertyRadiationBiomeExemptWorlds.setLanguageKey("gui.config.radiation.radiation_biome_exempt_worlds");
 		
 		Property propertyRadiationOres = config.get(CATEGORY_RADIATION, "radiation_ores", new String[] {"depletedFuelIC2U_" + (RadSources.URANIUM_238*4D + RadSources.PLUTONIUM_239/9D), "depletedFuelIC2MOX_" + (RadSources.PLUTONIUM_239*28D/9D)}, Lang.localise("gui.config.radiation.radiation_ores.comment"));
 		propertyRadiationOres.setLanguageKey("gui.config.radiation.radiation_ores");
@@ -954,6 +957,7 @@ public class NCConfig {
 		propertyOrderRadiation.add(propertyRadiationPlayerTickRate.getName());
 		propertyOrderRadiation.add(propertyRadiationWorlds.getName());
 		propertyOrderRadiation.add(propertyRadiationBiomes.getName());
+		propertyOrderRadiation.add(propertyRadiationBiomeExemptWorlds.getName());
 		propertyOrderRadiation.add(propertyRadiationOres.getName());
 		propertyOrderRadiation.add(propertyRadiationItems.getName());
 		propertyOrderRadiation.add(propertyRadiationBlocks.getName());
@@ -1185,6 +1189,7 @@ public class NCConfig {
 			
 			radiation_worlds = propertyRadiationWorlds.getStringList();
 			radiation_biomes = propertyRadiationBiomes.getStringList();
+			radiation_biome_exempt_worlds = propertyRadiationBiomeExemptWorlds.getStringList();
 			
 			radiation_ores = propertyRadiationOres.getStringList();
 			radiation_items = propertyRadiationItems.getStringList();
@@ -1422,6 +1427,7 @@ public class NCConfig {
 		
 		propertyRadiationWorlds.set(radiation_worlds);
 		propertyRadiationBiomes.set(radiation_biomes);
+		propertyRadiationBiomeExemptWorlds.set(radiation_biome_exempt_worlds);
 		
 		propertyRadiationOres.set(radiation_ores);
 		propertyRadiationItems.set(radiation_items);
