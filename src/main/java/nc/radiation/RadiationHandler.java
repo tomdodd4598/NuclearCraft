@@ -75,10 +75,6 @@ public class RadiationHandler {
 									RadiationHelper.transferRadsToPlayer(chunk, player, playerRads, PLAYER_TICK_RATE) +
 									RadiationHelper.transferRadsFromInventoryToPlayer(player, playerRads, chunk, PLAYER_TICK_RATE);
 
-			if (!RadWorlds.BIOME_BACKGROUND_EXEMPT_SET.contains(player.world.provider.getDimension())) {
-				radiationLevel += RadiationHelper.transferRadsToPlayer(chunk, player, playerRads, PLAYER_TICK_RATE);
-			}
-
 			playerRads.setRadiationLevel(radiationLevel);
 			
 			if (!player.isCreative() && playerRads.isFatal()) player.attackEntityFrom(FATAL_RADS, Float.MAX_VALUE);
