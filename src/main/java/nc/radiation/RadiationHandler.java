@@ -70,11 +70,8 @@ public class RadiationHandler {
 			if (previousImmunityTime > 0D) {
 				playerRads.setRadiationImmunityTime(previousImmunityTime - PLAYER_TICK_RATE);
 			}
-			
-			double radiationLevel = RadiationHelper.transferRadsToPlayer(player.world, player, playerRads, PLAYER_TICK_RATE) +
-									RadiationHelper.transferRadsToPlayer(chunk, player, playerRads, PLAYER_TICK_RATE) +
-									RadiationHelper.transferRadsFromInventoryToPlayer(player, playerRads, chunk, PLAYER_TICK_RATE);
 
+			double radiationLevel = RadiationHelper.transferRadsToPlayer(player.world, player, playerRads, PLAYER_TICK_RATE) /*+ RadiationHelper.transferBackgroundRadsToPlayer(player.world.getBiome(player.getPosition()), player, playerRads, PLAYER_TICK_RATE)*/ + RadiationHelper.transferRadsToPlayer(chunk, player, playerRads, PLAYER_TICK_RATE) + RadiationHelper.transferRadsFromInventoryToPlayer(player, playerRads, chunk, PLAYER_TICK_RATE);
 			playerRads.setRadiationLevel(radiationLevel);
 			
 			if (!player.isCreative() && playerRads.isFatal()) player.attackEntityFrom(FATAL_RADS, Float.MAX_VALUE);
