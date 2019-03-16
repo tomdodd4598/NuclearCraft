@@ -2113,6 +2113,8 @@ gui.config.radiation.radiation_blocks_blacklist.comment=List of blocks that will
 
 gui.config.radiation.max_player_rads=Max Player Rads
 gui.config.radiation.max_player_rads.comment=The maximum number of rads a player can have before the radiation is fatal.
+gui.config.radiation.radiation_player_decay_rate=Player Radiation Decay Rate
+gui.config.radiation.radiation_player_decay_rate.comment=The rate at which radiation decreases in the player over time.
 gui.config.radiation.radiation_spread_rate=Radiation Spread Rate
 gui.config.radiation.radiation_spread_rate.comment=Controls the rate at which radiation will spread from chunk to chunk.
 gui.config.radiation.radiation_decay_rate=Radiation Decay Rate
