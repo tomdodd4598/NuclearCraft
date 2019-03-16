@@ -286,6 +286,8 @@ public class NCConfig {
 	
 	public static boolean ore_dict_priority_bool;
 	public static String[] ore_dict_priority;
+
+	public static boolean render_chunk_boundaries;
 	
 	public static void preInit() {
 		File configFile = new File(Loader.instance().getConfigDir(), "nuclearcraft.cfg");
@@ -762,6 +764,9 @@ public class NCConfig {
 		propertyOreDictPriorityBool.setLanguageKey("gui.config.other.ore_dict_priority_bool");
 		Property propertyOreDictPriority = config.get(CATEGORY_OTHER, "ore_dict_priority", new String[] {"minecraft", "thermalfoundation", "techreborn", "nuclearcraft", "immersiveengineering", "mekanism", "ic2", "appliedenergistics2", "refinedstorage", "actuallyadditions", "advancedRocketry", "thaumcraft", "biomesoplenty"}, Lang.localise("gui.config.other.ore_dict_priority.comment"));
 		propertyOreDictPriority.setLanguageKey("gui.config.other.ore_dict_priority");
+
+		Property propertyRenderChunkBoundariesBool = config.get(CATEGORY_OTHER, "render_chunk_boundaries", true, Lang.localise("gui.config.other.render_chunk_boundaries.comment"));
+		propertyRenderChunkBoundariesBool.setLanguageKey("gui.config.other.render_chunk_boundaries");
 		
 		List<String> propertyOrderOres = new ArrayList<String>();
 		propertyOrderOres.add(propertyOreDims.getName());
@@ -1018,6 +1023,7 @@ public class NCConfig {
 		propertyOrderOther.add(propertyRegisterCoFHFluids.getName());
 		propertyOrderOther.add(propertyOreDictPriorityBool.getName());
 		propertyOrderOther.add(propertyOreDictPriority.getName());
+		propertyOrderOther.add(propertyRenderChunkBoundariesBool.getName());
 		config.setCategoryPropertyOrder(CATEGORY_OTHER, propertyOrderOther);
 		
 		if (setFromConfig) {
@@ -1256,6 +1262,7 @@ public class NCConfig {
 			register_cofh_fluids = propertyRegisterCoFHFluids.getBoolean();
 			ore_dict_priority_bool = propertyOreDictPriorityBool.getBoolean();
 			ore_dict_priority = propertyOreDictPriority.getStringList();
+			render_chunk_boundaries = propertyRenderChunkBoundariesBool.getBoolean();
 		}
 		
 		propertyOreDims.set(ore_dims);
@@ -1493,6 +1500,7 @@ public class NCConfig {
 		propertyRegisterCoFHFluids.set(register_cofh_fluids);
 		propertyOreDictPriorityBool.set(ore_dict_priority_bool);
 		propertyOreDictPriority.set(ore_dict_priority);
+		propertyRenderChunkBoundariesBool.set(render_chunk_boundaries);
 		
 		if (setFromConfig) {
 			radiation_enabled_public = radiation_enabled;
