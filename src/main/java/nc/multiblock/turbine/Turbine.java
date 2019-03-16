@@ -328,6 +328,7 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> {
 			return false;
 		}
 		
+		flowDir = null;
 		for (TileTurbineInlet inlet : inlets) {
 			BlockPos pos = inlet.getPos();
 			
