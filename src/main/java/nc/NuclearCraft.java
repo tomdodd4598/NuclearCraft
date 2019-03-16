@@ -13,6 +13,7 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 
 @Mod(modid = Global.MOD_ID, name = Global.MOD_NAME, version = Global.VERSION, dependencies = Global.DEPENDENCIES, guiFactory = Global.GUI_FACTORY)
@@ -48,5 +49,11 @@ public class NuclearCraft {
 	public void postInit(FMLPostInitializationEvent postEvent) {
 		NCUtil.getLogger().info("Post Initializing...");
 		proxy.postInit(postEvent);
+	}
+
+	@EventHandler
+	public void serverLoad(FMLServerStartingEvent event) {
+		NCUtil.getLogger().info("Server loading...");
+		proxy.serverLoad(event);
 	}
 }
