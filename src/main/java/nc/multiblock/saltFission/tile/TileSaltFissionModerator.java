@@ -26,9 +26,9 @@ public class TileSaltFissionModerator extends TileSaltFissionPartBase {
 		//getWorld().setBlockState(getPos(), getWorld().getBlockState(getPos()), 2);
 	}
 	
-	public boolean contributeExtraHeat() {
+	/*public boolean contributeExtraHeat() {
 		return isInModerationLine && !isInValidPosition;
-	}
+	}*/
 	
 	// NBT
 	

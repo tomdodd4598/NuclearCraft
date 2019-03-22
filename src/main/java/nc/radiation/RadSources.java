@@ -23,39 +23,39 @@ public class RadSources {
 	public static final Map<String, Double> ORE_MAP = new HashMap<String, Double>();
 	public static final Map<ItemInfo, Double> STACK_MAP = new HashMap<ItemInfo, Double>();
 	
-	private static void addToOreMap(String ore, Double radiation) {
+	public static void addToOreMap(String ore, Double radiation) {
 		if (ORE_BLACKLIST.contains(ore)) return;
 		ORE_MAP.put(ore, radiation);
 	}
 	
-	private static void addToStackMap(ItemStack stack, Double radiation) {
+	public static void addToStackMap(ItemStack stack, Double radiation) {
 		for (ItemStack blacklisted : STACK_BLACKLIST) {
 			if (stack.isItemEqual(blacklisted)) return;
 		}
 		STACK_MAP.put(new ItemInfo(stack), radiation);
 	}
 	
-	private static final double INGOT = 1D;
-	private static final double NUGGET = 1D/9D;
-	private static final double HALF = 1D/2D;
-	private static final double THIRD = 1D/2D;
-	private static final double SMALL = 1D/4D;
-	private static final double GEAR = 4D;
-	private static final double BLOCK = 9D;
-	private static final double SLAB = 9D/2D;
+	public static final double INGOT = 1D;
+	public static final double NUGGET = 1D/9D;
+	public static final double HALF = 1D/2D;
+	public static final double THIRD = 1D/2D;
+	public static final double SMALL = 1D/4D;
+	public static final double GEAR = 4D;
+	public static final double BLOCK = 9D;
+	public static final double SLAB = 9D/2D;
 	
-	private static final List<String> MATERIAL_INGOT_NAME_LIST = Lists.newArrayList("ingot", "dust", "dustDirty", "clump", "shard", "crystal", "crushed", "crushedPurified", "plate", "blockSheetmetal");
-	private static final List<String> MATERIAL_NUGGET_NAME_LIST = Lists.newArrayList("tinyDust", "dustTiny", "nugget");
-	private static final List<String> MATERIAL_HALF_NAME_LIST = Lists.newArrayList("rod, slabSheetmetal");
-	private static final List<String> MATERIAL_THIRD_NAME_LIST = Lists.newArrayList("coin");
-	private static final List<String> MATERIAL_SMALL_NAME_LIST = Lists.newArrayList("smallDust", "dustSmall", "ore");
-	private static final List<String> MATERIAL_GEAR_NAME_LIST = Lists.newArrayList("gear");
-	private static final List<String> MATERIAL_BLOCK_NAME_LIST = Lists.newArrayList("block", "plateDense");
-	private static final List<String> MATERIAL_SLAB_NAME_LIST = Lists.newArrayList("slab");
+	public static final List<String> MATERIAL_INGOT_NAME_LIST = Lists.newArrayList("ingot", "dust", "dustDirty", "clump", "shard", "crystal", "crushed", "crushedPurified", "crushedCentrifuged", "dustImpure", "dustPure", "plate", "blockSheetmetal");
+	public static final List<String> MATERIAL_NUGGET_NAME_LIST = Lists.newArrayList("tinyDust", "dustTiny", "nugget");
+	public static final List<String> MATERIAL_HALF_NAME_LIST = Lists.newArrayList("rod", "stick", "slabSheetmetal");
+	public static final List<String> MATERIAL_THIRD_NAME_LIST = Lists.newArrayList("coin");
+	public static final List<String> MATERIAL_SMALL_NAME_LIST = Lists.newArrayList("smallDust", "dustSmall", "ore", "oreGravel", "oreNetherrack", "oreEndstone", "oreSand", "oreNetherrack", "oreBlackgranite", "oreRedgranite", "oreMarble", "oreBasalt");
+	public static final List<String> MATERIAL_GEAR_NAME_LIST = Lists.newArrayList("gear");
+	public static final List<String> MATERIAL_BLOCK_NAME_LIST = Lists.newArrayList("block", "plateDense");
+	public static final List<String> MATERIAL_SLAB_NAME_LIST = Lists.newArrayList("slab");
 	
-	private static final List<String> ISOTOPE_INGOT_NAME_LIST = Lists.newArrayList("ingot");
-	private static final List<String> ISOTOPE_NUGGET_NAME_LIST = Lists.newArrayList("nugget");
-	private static final List<String> ISOTOPE_BLOCK_NAME_LIST = Lists.newArrayList("block");
+	public static final List<String> ISOTOPE_INGOT_NAME_LIST = Lists.newArrayList("ingot");
+	public static final List<String> ISOTOPE_NUGGET_NAME_LIST = Lists.newArrayList("nugget");
+	public static final List<String> ISOTOPE_BLOCK_NAME_LIST = Lists.newArrayList("block");
 	
 	public static final double THORIUM = 0.0000015D;
 	public static final double URANIUM = 0.000000000385D;
@@ -222,7 +222,7 @@ public class RadSources {
 		put(RadSources.THORIUM_230*64D*9D/4D, NCBlocks.helium_collector_dense);
 	}
 	
-	private static void putMaterial(double radiation, String... ores) {
+	public static void putMaterial(double radiation, String... ores) {
 		for (String ore : ores) for (String suffix : new String[] {"", "Oxide"}) {
 			for (String prefix : MATERIAL_INGOT_NAME_LIST) addToOreMap(prefix + ore + suffix, radiation*INGOT);
 			for (String prefix : MATERIAL_NUGGET_NAME_LIST) addToOreMap(prefix + ore + suffix, radiation*NUGGET);
@@ -235,7 +235,7 @@ public class RadSources {
 		}
 	}
 	
-	private static void putIsotope(double radiation, String... ores) {
+	public static void putIsotope(double radiation, String... ores) {
 		for (String ore : ores) for (String suffix : new String[] {"", "Base", "Oxide"}) {
 			for (String prefix : ISOTOPE_INGOT_NAME_LIST) addToOreMap(prefix + ore + suffix, radiation*INGOT);
 			for (String prefix : ISOTOPE_NUGGET_NAME_LIST) addToOreMap(prefix + ore + suffix, radiation*NUGGET);
@@ -247,7 +247,7 @@ public class RadSources {
 		return (rad1*amount1 + rad2*amount2)*INGOT;
 	}
 	
-	private static void putFuel(double rad1, int amount1, double rad2, int amount2, String ore) {
+	public static void putFuel(double rad1, int amount1, double rad2, int amount2, String ore) {
 		double radiation = getFuelRadiation(rad1, amount1, rad2, amount2);
 		addToOreMap("fuel" + ore, radiation);
 		addToOreMap("fuel" + ore + "Oxide", radiation);
@@ -255,7 +255,7 @@ public class RadSources {
 		addToOreMap("fuelRod" + ore + "Oxide", radiation);
 	}
 	
-	private static void putFuel(double fertile, double fissile, String ore) {
+	public static void putFuel(double fertile, double fissile, String ore) {
 		putFuel(fertile, 8, fissile, 1, "LE" + ore);
 		putFuel(fertile, 5, fissile, 4, "HE" + ore);
 	}
@@ -264,7 +264,7 @@ public class RadSources {
 		return (rad1*amount1 + rad2*amount2 + rad3*amount3 + rad4*amount4)*NUGGET;
 	}
 	
-	private static void putDepletedFuel(double rad1, int amount1, double rad2, int amount2, double rad3, int amount3, double rad4, int amount4, String ore) {
+	public static void putDepletedFuel(double rad1, int amount1, double rad2, int amount2, double rad3, int amount3, double rad4, int amount4, String ore) {
 		double radiation = getDepletedFuelRadiation(rad1, amount1, rad2, amount2, rad3, amount3, rad4, amount4);
 		addToOreMap("depletedFuel" + ore, radiation);
 		addToOreMap("depletedFuel" + ore + "Oxide", radiation);

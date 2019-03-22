@@ -4,15 +4,14 @@ import java.util.List;
 
 import nc.Global;
 import nc.NCInfo;
-import nc.capability.radiation.IDefaultRadiationResistance;
-import nc.capability.radiation.IRadiationSource;
+import nc.capability.radiation.resistance.IRadiationResistance;
+import nc.capability.radiation.source.IRadiationSource;
 import nc.config.NCConfig;
 import nc.util.ArmorHelper;
 import nc.util.InfoHelper;
 import nc.util.Lang;
 import nc.util.OreDictHelper;
 import nc.util.RadiationHelper;
-import nc.util.UnitHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
@@ -53,21 +52,21 @@ public class TooltipHandler {
 	private static void addRadiationTooltip(List<String> tooltip, ItemStack stack) {
 		if (!stack.hasCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null)) return;
 		IRadiationSource stackRadiation = stack.getCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null);
-		if (stackRadiation == null) return;
-		tooltip.add(RadiationHelper.getRadiationTextColor(stackRadiation) + RADIATION + " " + UnitHelper.prefix(stackRadiation.getRadiationLevel()*stack.getCount(), 3, "Rads/t", 0, -8));
+		if (stackRadiation == null || stackRadiation.getRadiationLevel() <= 0D) return;
+		tooltip.add(RadiationHelper.getRadiationTextColor(stackRadiation.getRadiationLevel()*stack.getCount()) + RADIATION + " " + RadiationHelper.radsPrefix(stackRadiation.getRadiationLevel()*stack.getCount(), true));
 		return;
 	}
 	
 	@SideOnly(Side.CLIENT)
 	private static void addArmorRadiationTooltip(List<String> tooltip, ItemStack stack) {
 		if (!ArmorHelper.isArmor(stack.getItem(), NCConfig.radiation_horse_armor_public)) return;
-		boolean capability = stack.hasCapability(IDefaultRadiationResistance.CAPABILITY_DEFAULT_RADIATION_RESISTANCE, null);
+		boolean capability = stack.hasCapability(IRadiationResistance.CAPABILITY_RADIATION_RESISTANCE, null);
 		boolean nbt = stack.hasTagCompound() && stack.getTagCompound().hasKey("ncRadiationResistance");
 		if (!capability && !nbt) return;
 		
 		double resistance = 0D;
 		if (capability) {
-			IDefaultRadiationResistance armorResistance = stack.getCapability(IDefaultRadiationResistance.CAPABILITY_DEFAULT_RADIATION_RESISTANCE, null);
+			IRadiationResistance armorResistance = stack.getCapability(IRadiationResistance.CAPABILITY_RADIATION_RESISTANCE, null);
 			if (armorResistance != null) resistance += armorResistance.getRadiationResistance();
 		}
 		if (nbt) {

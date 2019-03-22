@@ -8,7 +8,7 @@ import nc.tile.generator.TileDecayGenerator;
 
 public class JEIRecipeWrapper {
 	
-	public static class Manufactory extends JEIRecipeWrapperAbstract<Manufactory> {
+	public static class Manufactory extends JEIProcessorRecipeWrapper<Manufactory> {
 
 		public Manufactory(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
 			super(guiHelper, jeiHandler, recipeHandler, recipe, 47, 30, 176, 3, 37, 16, 74, 35);
@@ -21,7 +21,7 @@ public class JEIRecipeWrapper {
 		}
 	}
 	
-	public static class IsotopeSeparator extends JEIRecipeWrapperAbstract<IsotopeSeparator> {
+	public static class IsotopeSeparator extends JEIProcessorRecipeWrapper<IsotopeSeparator> {
 
 		public IsotopeSeparator(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
 			super(guiHelper, jeiHandler, recipeHandler, recipe, 33, 30, 176, 3, 37, 18, 60, 34);
@@ -34,7 +34,7 @@ public class JEIRecipeWrapper {
 		}
 	}
 	
-	public static class DecayHastener extends JEIRecipeWrapperAbstract<DecayHastener> {
+	public static class DecayHastener extends JEIProcessorRecipeWrapper<DecayHastener> {
 
 		public DecayHastener(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
 			super(guiHelper, jeiHandler, recipeHandler, recipe, 47, 30, 176, 3, 37, 16, 74, 35);
@@ -47,7 +47,7 @@ public class JEIRecipeWrapper {
 		}
 	}
 	
-	public static class FuelReprocessor extends JEIRecipeWrapperAbstract<FuelReprocessor> {
+	public static class FuelReprocessor extends JEIProcessorRecipeWrapper<FuelReprocessor> {
 
 		public FuelReprocessor(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
 			super(guiHelper, jeiHandler, recipeHandler, recipe, 49, 30, 176, 3, 37, 38, 68, 30);
@@ -60,7 +60,7 @@ public class JEIRecipeWrapper {
 		}
 	}
 	
-	public static class AlloyFurnace extends JEIRecipeWrapperAbstract<AlloyFurnace> {
+	public static class AlloyFurnace extends JEIProcessorRecipeWrapper<AlloyFurnace> {
 
 		public AlloyFurnace(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
 			super(guiHelper, jeiHandler, recipeHandler, recipe, 45, 30, 176, 3, 37, 16, 84, 35);
@@ -73,7 +73,7 @@ public class JEIRecipeWrapper {
 		}
 	}
 	
-	public static class Infuser extends JEIRecipeWrapperAbstract<Infuser> {
+	public static class Infuser extends JEIProcessorRecipeWrapper<Infuser> {
 
 		public Infuser(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
 			super(guiHelper, jeiHandler, recipeHandler, recipe, 45, 30, 176, 3, 37, 16, 84, 35);
@@ -86,7 +86,7 @@ public class JEIRecipeWrapper {
 		}
 	}
 	
-	public static class Melter extends JEIRecipeWrapperAbstract<Melter> {
+	public static class Melter extends JEIProcessorRecipeWrapper<Melter> {
 
 		public Melter(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
 			super(guiHelper, jeiHandler, recipeHandler, recipe, 47, 30, 176, 3, 37, 16, 74, 35);
@@ -99,7 +99,7 @@ public class JEIRecipeWrapper {
 		}
 	}
 	
-	public static class Supercooler extends JEIRecipeWrapperAbstract<Supercooler> {
+	public static class Supercooler extends JEIProcessorRecipeWrapper<Supercooler> {
 
 		public Supercooler(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
 			super(guiHelper, jeiHandler, recipeHandler, recipe, 47, 30, 176, 3, 37, 16, 74, 35);
@@ -112,7 +112,7 @@ public class JEIRecipeWrapper {
 		}
 	}
 	
-	public static class Electrolyser extends JEIRecipeWrapperAbstract<Electrolyser> {
+	public static class Electrolyser extends JEIProcessorRecipeWrapper<Electrolyser> {
 
 		public Electrolyser(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
 			super(guiHelper, jeiHandler, recipeHandler, recipe, 49, 30, 176, 3, 37, 38, 68, 30);
@@ -125,7 +125,7 @@ public class JEIRecipeWrapper {
 		}
 	}
 	
-	public static class Irradiator extends JEIRecipeWrapperAbstract<Irradiator> {
+	public static class Irradiator extends JEIProcessorRecipeWrapper<Irradiator> {
 
 		public Irradiator(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
 			super(guiHelper, jeiHandler, recipeHandler, recipe, 31, 30, 176, 3, 37, 16, 70, 35);
@@ -138,7 +138,7 @@ public class JEIRecipeWrapper {
 		}
 	}
 	
-	public static class IngotFormer extends JEIRecipeWrapperAbstract<IngotFormer> {
+	public static class IngotFormer extends JEIProcessorRecipeWrapper<IngotFormer> {
 
 		public IngotFormer(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
 			super(guiHelper, jeiHandler, recipeHandler, recipe, 47, 30, 176, 3, 37, 16, 74, 35);
@@ -151,7 +151,7 @@ public class JEIRecipeWrapper {
 		}
 	}
 	
-	public static class Pressurizer extends JEIRecipeWrapperAbstract<Pressurizer> {
+	public static class Pressurizer extends JEIProcessorRecipeWrapper<Pressurizer> {
 
 		public Pressurizer(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
 			super(guiHelper, jeiHandler, recipeHandler, recipe, 47, 30, 176, 3, 37, 16, 74, 35);
@@ -164,7 +164,7 @@ public class JEIRecipeWrapper {
 		}
 	}
 	
-	public static class ChemicalReactor extends JEIRecipeWrapperAbstract<ChemicalReactor> {
+	public static class ChemicalReactor extends JEIProcessorRecipeWrapper<ChemicalReactor> {
 
 		public ChemicalReactor(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
 			super(guiHelper, jeiHandler, recipeHandler, recipe, 31, 30, 176, 3, 37, 18, 70, 34);
@@ -177,7 +177,7 @@ public class JEIRecipeWrapper {
 		}
 	}
 	
-	public static class SaltMixer extends JEIRecipeWrapperAbstract<SaltMixer> {
+	public static class SaltMixer extends JEIProcessorRecipeWrapper<SaltMixer> {
 
 		public SaltMixer(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
 			super(guiHelper, jeiHandler, recipeHandler, recipe, 45, 30, 176, 3, 37, 18, 84, 34);
@@ -190,7 +190,7 @@ public class JEIRecipeWrapper {
 		}
 	}
 	
-	public static class Crystallizer extends JEIRecipeWrapperAbstract<Crystallizer> {
+	public static class Crystallizer extends JEIProcessorRecipeWrapper<Crystallizer> {
 
 		public Crystallizer(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
 			super(guiHelper, jeiHandler, recipeHandler, recipe, 47, 30, 176, 3, 37, 16, 74, 35);
@@ -203,7 +203,7 @@ public class JEIRecipeWrapper {
 		}
 	}
 	
-	public static class Dissolver extends JEIRecipeWrapperAbstract<Dissolver> {
+	public static class Dissolver extends JEIProcessorRecipeWrapper<Dissolver> {
 
 		public Dissolver(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
 			super(guiHelper, jeiHandler, recipeHandler, recipe, 45, 30, 176, 3, 37, 16, 84, 35);
@@ -216,7 +216,7 @@ public class JEIRecipeWrapper {
 		}
 	}
 	
-	public static class Extractor extends JEIRecipeWrapperAbstract<Extractor> {
+	public static class Extractor extends JEIProcessorRecipeWrapper<Extractor> {
 
 		public Extractor(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
 			super(guiHelper, jeiHandler, recipeHandler, recipe, 33, 30, 176, 3, 37, 18, 60, 34);
@@ -229,7 +229,7 @@ public class JEIRecipeWrapper {
 		}
 	}
 	
-	public static class Centrifuge extends JEIRecipeWrapperAbstract<Centrifuge> {
+	public static class Centrifuge extends JEIProcessorRecipeWrapper<Centrifuge> {
 
 		public Centrifuge(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
 			super(guiHelper, jeiHandler, recipeHandler, recipe, 49, 30, 176, 3, 37, 38, 68, 30);
@@ -242,7 +242,7 @@ public class JEIRecipeWrapper {
 		}
 	}
 	
-	public static class RockCrusher extends JEIRecipeWrapperAbstract<RockCrusher> {
+	public static class RockCrusher extends JEIProcessorRecipeWrapper<RockCrusher> {
 
 		public RockCrusher(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
 			super(guiHelper, jeiHandler, recipeHandler, recipe, 29, 30, 176, 3, 37, 16, 56, 35);
@@ -255,7 +255,31 @@ public class JEIRecipeWrapper {
 		}
 	}
 	
-	public static class DecayGenerator extends JEIRecipeWrapperAbstract<DecayGenerator> {
+	public static class Collector extends JEIProcessorRecipeWrapper<Collector> {
+
+		public Collector(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
+			super(guiHelper, jeiHandler, recipeHandler, recipe, 33, 30, 176, 3, 37, 18, 60, 34);
+		}
+		
+		@Override
+		protected double getProcessTime() {
+			return 5D*NCConfig.machine_update_rate;
+		}
+	}
+	
+	public static class ActiveCooler extends JEIProcessorRecipeWrapper<ActiveCooler> {
+
+		public ActiveCooler(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
+			super(guiHelper, jeiHandler, recipeHandler, recipe, 47, 30, 176, 3, -1, -1, 74, 35);
+		}
+		
+		@Override
+		protected double getProcessTime() {
+			return 1D;
+		}
+	}
+	
+	public static class DecayGenerator extends JEIProcessorRecipeWrapper<DecayGenerator> {
 
 		public DecayGenerator(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
 			super(guiHelper, jeiHandler, recipeHandler, recipe, 47, 30, 176, 3, 37, 16, 74, 35);
@@ -268,7 +292,7 @@ public class JEIRecipeWrapper {
 		}
 	}
 	
-	public static class Fission extends JEIRecipeWrapperAbstract<Fission> {
+	public static class Fission extends JEIProcessorRecipeWrapper<Fission> {
 
 		public Fission(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
 			super(guiHelper, jeiHandler, recipeHandler, recipe, "_jei", 47, 30, 176, 3, 37, 16, 74, 35);
@@ -281,7 +305,7 @@ public class JEIRecipeWrapper {
 		}
 	}
 	
-	public static class Fusion extends JEIRecipeWrapperAbstract<Fusion> {
+	public static class Fusion extends JEIProcessorRecipeWrapper<Fusion> {
 
 		public Fusion(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
 			super(guiHelper, jeiHandler, recipeHandler, recipe, "_jei", 55, 30, 176, 3, 37, 16, 74, 35);
@@ -294,7 +318,7 @@ public class JEIRecipeWrapper {
 		}
 	}
 	
-	public static class SaltFission extends JEIRecipeWrapperAbstract<SaltFission> {
+	public static class SaltFission extends JEIProcessorRecipeWrapper<SaltFission> {
 
 		public SaltFission(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
 			super(guiHelper, jeiHandler, recipeHandler, recipe, 47, 30, 176, 3, 37, 16, 74, 35);
@@ -307,7 +331,7 @@ public class JEIRecipeWrapper {
 		}
 	}
 	
-	public static class CoolantHeater extends JEIRecipeWrapperAbstract<CoolantHeater> {
+	public static class CoolantHeater extends JEIProcessorRecipeWrapper<CoolantHeater> {
 
 		public CoolantHeater(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
 			super(guiHelper, jeiHandler, recipeHandler, recipe, 47, 30, 176, 3, 37, 16, 74, 35);
@@ -319,7 +343,7 @@ public class JEIRecipeWrapper {
 		}
 	}
 	
-	public static class HeatExchanger extends JEIRecipeWrapperAbstract<HeatExchanger> {
+	public static class HeatExchanger extends JEIProcessorRecipeWrapper<HeatExchanger> {
 
 		public HeatExchanger(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
 			super(guiHelper, jeiHandler, recipeHandler, recipe, 47, 30, 176, recipe != null && recipe.getHeatExchangerIsHeating() ? 3 : 19, 37, 16, 74, 35);
@@ -331,7 +355,7 @@ public class JEIRecipeWrapper {
 		}
 	}
 	
-	public static class Turbine extends JEIRecipeWrapperAbstract<Turbine> {
+	public static class Turbine extends JEIProcessorRecipeWrapper<Turbine> {
 
 		public Turbine(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
 			super(guiHelper, jeiHandler, recipeHandler, recipe, 47, 30, 176, 3, 37, 16, 74, 35);

@@ -7,8 +7,8 @@ import nc.enumm.MetaEnums;
 import nc.handler.SoundHandler;
 import nc.item.ItemDepletedFissionFuel;
 import nc.item.ItemFissionFuel;
-import nc.item.ItemGeigerCounter;
 import nc.item.ItemPortableEnderChest;
+import nc.item.ItemRadShielding;
 import nc.item.ItemRadX;
 import nc.item.ItemRadaway;
 import nc.item.NCItem;
@@ -16,6 +16,8 @@ import nc.item.NCItemDoor;
 import nc.item.NCItemFood;
 import nc.item.NCItemMeta;
 import nc.item.NCItemRecord;
+import nc.item.bauble.ItemGeigerCounter;
+import nc.item.bauble.ItemRadiationBadge;
 import nc.item.energy.ItemBattery;
 import nc.tab.NCTabs;
 import nc.tile.energy.battery.BatteryType;
@@ -85,6 +87,7 @@ public class NCItems {
 	
 	public static Item geiger_counter;
 	public static Item rad_shielding;
+	public static Item radiation_badge;
 	
 	public static Item radaway;
 	public static Item rad_x;
@@ -109,6 +112,7 @@ public class NCItems {
 	
 	public static Item smore;
 	public static Item moresmore;
+	public static Item foursmore;
 	
 	public static Item record_wanderer;
 	public static Item record_end_of_the_world;
@@ -169,7 +173,8 @@ public class NCItems {
 		lithium_ion_cell = new ItemBattery("lithium_ion_cell", BatteryType.LITHIUM_ION_BATTERY_BASIC);
 		
 		geiger_counter = new ItemGeigerCounter("geiger_counter");
-		rad_shielding = new NCItemMeta("rad_shielding", MetaEnums.RadShieldingType.class);
+		rad_shielding = new ItemRadShielding("rad_shielding", NCInfo.radShieldingInfo());
+		radiation_badge = new ItemRadiationBadge("radiation_badge", InfoHelper.formattedInfo(infoLine("radiation_badge"), UnitHelper.prefix(NCConfig.radiation_badge_durability*NCConfig.radiation_badge_info_rate, 3, "Rads"), UnitHelper.prefix(NCConfig.radiation_badge_durability, 3, "Rads")));
 		
 		radaway = new ItemRadaway("radaway", InfoHelper.formattedInfo(infoLine("radaway"), UnitHelper.prefix(NCConfig.radiation_radaway_amount, 3, "Rads"), Math.round(100D*NCConfig.radiation_radaway_amount/NCConfig.max_player_rads) + "%"));
 		rad_x = new ItemRadX("rad_x", InfoHelper.formattedInfo(infoLine("rad_x"), (int)NCConfig.radiation_rad_x_amount, UnitHelper.applyTimeUnit(NCConfig.radiation_rad_x_lifetime, 2)));
@@ -194,6 +199,7 @@ public class NCItems {
 		
 		smore = new NCItemFood("smore", 8, 1.2F, new PotionEffect[] {PotionHelper.newEffect(3, 2, 300), PotionHelper.newEffect(1, 2, 300), PotionHelper.newEffect(22, 2, 300)});
 		moresmore = new NCItemFood("moresmore", 20, 2.4F, new PotionEffect[] {PotionHelper.newEffect(3, 2, 600), PotionHelper.newEffect(1, 2, 600), PotionHelper.newEffect(22, 2, 600)});
+		foursmore = new NCItemFood("foursmore", 48, 4.8F, new PotionEffect[] {PotionHelper.newEffect(3, 2, 1200), PotionHelper.newEffect(1, 2, 1200), PotionHelper.newEffect(22, 2, 1200)});
 		
 		record_wanderer = new NCItemRecord("wanderer", SoundHandler.wanderer);
 		record_end_of_the_world = new NCItemRecord("end_of_the_world", SoundHandler.end_of_the_world);
@@ -255,6 +261,7 @@ public class NCItems {
 		
 		registerItem(geiger_counter, NCTabs.RADIATION);
 		registerItem(rad_shielding, NCTabs.RADIATION);
+		registerItem(radiation_badge, NCTabs.RADIATION);
 		
 		registerItem(radaway, NCTabs.RADIATION);
 		registerItem(rad_x, NCTabs.RADIATION);
@@ -279,6 +286,7 @@ public class NCItems {
 		
 		registerItem(smore, NCTabs.MISC);
 		registerItem(moresmore, NCTabs.MISC);
+		registerItem(foursmore, NCTabs.MISC);
 		
 		registerItem(record_wanderer, NCTabs.MISC);
 		registerItem(record_end_of_the_world, NCTabs.MISC);
@@ -449,10 +457,10 @@ public class NCItems {
 		registerRender(lithium_ion_cell);
 		
 		registerRender(geiger_counter);
-		
 		for(int i = 0; i < MetaEnums.RadShieldingType.values().length; i++) {
 			registerRender(rad_shielding, i, "rad_shielding_" + MetaEnums.RadShieldingType.values()[i].getName());
 		}
+		registerRender(radiation_badge);
 		
 		registerRender(radaway);
 		registerRender(rad_x);
@@ -477,6 +485,7 @@ public class NCItems {
 		
 		registerRender(smore);
 		registerRender(moresmore);
+		registerRender(foursmore);
 		
 		registerRender(record_wanderer);
 		registerRender(record_end_of_the_world);

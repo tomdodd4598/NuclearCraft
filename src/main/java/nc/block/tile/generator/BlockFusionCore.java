@@ -21,7 +21,7 @@ import net.minecraft.world.World;
 public class BlockFusionCore extends BlockTile implements IActivatable {
 	
 	public BlockFusionCore() {
-		super("fusion_core", Material.IRON);
+		super("fusion_core", Material.ANVIL);
 		setCreativeTab(NCTabs.FUSION);
 	}
 	

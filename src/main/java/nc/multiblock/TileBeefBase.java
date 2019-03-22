@@ -3,8 +3,8 @@ package nc.multiblock;
 import javax.annotation.Nullable;
 
 import nc.block.tile.IActivatable;
-import nc.capability.radiation.IRadiationSource;
-import nc.capability.radiation.RadiationSource;
+import nc.capability.radiation.source.IRadiationSource;
+import nc.capability.radiation.source.RadiationSource;
 import nc.tile.ITile;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -37,7 +37,7 @@ public abstract class TileBeefBase extends TileEntity implements ITile, ITickabl
 	
 	public TileBeefBase() {
 		super();
-		radiation = new RadiationSource();
+		radiation = new RadiationSource(0D);
 	}
 	
 	@Override

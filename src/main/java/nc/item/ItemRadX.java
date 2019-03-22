@@ -1,6 +1,6 @@
 package nc.item;
 
-import nc.capability.radiation.IEntityRads;
+import nc.capability.radiation.entity.IEntityRads;
 import nc.config.NCConfig;
 import nc.handler.SoundHandler;
 import nc.util.Lang;

@@ -3,6 +3,7 @@ package nc.proxy;
 import nc.Global;
 import nc.ModCheck;
 import nc.capability.radiation.RadiationCapabilityHandler;
+import nc.command.CommandSetChunkRadiation;
 import nc.handler.CapabilityHandler;
 import nc.handler.DropHandler;
 import nc.handler.DungeonLootHandler;
@@ -96,6 +97,8 @@ public class CommonProxy {
 		
 		CapabilityHandler.init();
 		
+		NCRecipes.init();
+		
 		MinecraftForge.EVENT_BUS.register(new DropHandler());
 		MinecraftForge.EVENT_BUS.register(new DungeonLootHandler());
 		
@@ -126,14 +129,17 @@ public class CommonProxy {
 		MinecraftForge.EVENT_BUS.register(new RadiationCapabilityHandler());
 		MinecraftForge.EVENT_BUS.register(new RadiationHandler());
 		MinecraftForge.EVENT_BUS.register(new RadiationEnvironmentHandler());
-
+		//RadBiomes.init();
+		
 		MinecraftForge.EVENT_BUS.register(new PlayerRespawnHandler());
 	}
-
-	public void serverLoad(FMLServerStartingEvent event) {
+	
+	public void serverStart(FMLServerStartingEvent serverStartEvent) {
 		RadBiomes.init();
+		
+		serverStartEvent.registerServerCommand(new CommandSetChunkRadiation());
 	}
-
+	
 	// Packets
 	
 	public World getWorld(int dimensionId) {

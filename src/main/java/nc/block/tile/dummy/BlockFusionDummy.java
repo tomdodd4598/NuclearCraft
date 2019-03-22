@@ -34,7 +34,7 @@ public class BlockFusionDummy extends BlockTile {
 	private final FusionDummyTileType type;
 	
 	public BlockFusionDummy(FusionDummyTileType type) {
-		super(type.getName(), Material.IRON);
+		super(type.getName(), Material.ANVIL);
 		this.type = type;
 	}
 	

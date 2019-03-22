@@ -1,6 +1,7 @@
 package nc.multiblock.saltFission.block;
 
 import nc.NuclearCraft;
+import nc.init.NCBlocks;
 import nc.multiblock.saltFission.tile.TileSaltFissionController;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyDirection;
@@ -98,7 +99,7 @@ public class BlockSaltFissionController extends BlockSaltFissionPartBase {
 	}
 	
 	public void setActiveState(IBlockState state, World world, BlockPos pos, boolean active) {
-		if (!world.isRemote) {
+		if (!world.isRemote && state.getBlock() == NCBlocks.salt_fission_controller) {
 			if (active != state.getValue(ACTIVE)) {
 				world.setBlockState(pos, state.withProperty(ACTIVE, active), 2);
 			}

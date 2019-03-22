@@ -21,7 +21,7 @@ public class RadiationArmor {
 	public static final List<Item> ARMOR_ITEM_SHIELDING_BLACKLIST = new ArrayList<Item>();
 	public static final List<ItemStack> ARMOR_STACK_SHIELDING_LIST = new ArrayList<ItemStack>();
 	
-	public static final Map<ItemInfo, Double> ARMOR_STACK_RESISTANCE_MAP = new HashMap<ItemInfo, Double>();
+	public static final Map<ItemInfo, Double> ARMOR_RAD_RESISTANCE_MAP = new HashMap<ItemInfo, Double>();
 	
 	public static void init() {
 		ARMOR_ITEM_SHIELDING_BLACKLIST.add(NCArmor.helm_hazmat);
@@ -46,7 +46,7 @@ public class RadiationArmor {
 			if (scorePos == -1) continue;
 			ItemStack stack = RegistryHelper.itemStackFromRegistry(stackInfo.substring(0, scorePos));
 			if (stack == null || stack.isEmpty() || !ArmorHelper.isArmor(stack.getItem(), NCConfig.radiation_horse_armor_public)) return;
-			ARMOR_STACK_RESISTANCE_MAP.put(new ItemInfo(stack), Double.parseDouble(stackInfo.substring(scorePos + 1)));
+			ARMOR_RAD_RESISTANCE_MAP.put(new ItemInfo(stack), Double.parseDouble(stackInfo.substring(scorePos + 1)));
 		}
 	}
 	
@@ -63,14 +63,14 @@ public class RadiationArmor {
 	}
 	
 	public static void addArmorShieldingRecipes(Item item) {
-		CraftingRecipeHandler.addShapelessArmorUpgradeOreRecipe(armorWithRadResistance(item, NCConfig.radiation_shielding_level[0]), new Object[] {item, new ItemStack(NCItems.rad_shielding, 1, 0)});
-		CraftingRecipeHandler.addShapelessArmorUpgradeOreRecipe(armorWithRadResistance(item, NCConfig.radiation_shielding_level[1]), new Object[] {item, new ItemStack(NCItems.rad_shielding, 1, 1)});
-		CraftingRecipeHandler.addShapelessArmorUpgradeOreRecipe(armorWithRadResistance(item, NCConfig.radiation_shielding_level[2]), new Object[] {item, new ItemStack(NCItems.rad_shielding, 1, 2)});
+		CraftingRecipeHandler.addShapelessArmorUpgradeRecipe(armorWithRadResistance(item, NCConfig.radiation_shielding_level[0]), new Object[] {item, new ItemStack(NCItems.rad_shielding, 1, 0)});
+		CraftingRecipeHandler.addShapelessArmorUpgradeRecipe(armorWithRadResistance(item, NCConfig.radiation_shielding_level[1]), new Object[] {item, new ItemStack(NCItems.rad_shielding, 1, 1)});
+		CraftingRecipeHandler.addShapelessArmorUpgradeRecipe(armorWithRadResistance(item, NCConfig.radiation_shielding_level[2]), new Object[] {item, new ItemStack(NCItems.rad_shielding, 1, 2)});
 	}
 	
 	public static void addArmorShieldingRecipes(ItemStack stack) {
-		CraftingRecipeHandler.addShapelessArmorUpgradeOreRecipe(armorWithRadResistance(stack, NCConfig.radiation_shielding_level[0]), new Object[] {stack, new ItemStack(NCItems.rad_shielding, 1, 0)});
-		CraftingRecipeHandler.addShapelessArmorUpgradeOreRecipe(armorWithRadResistance(stack, NCConfig.radiation_shielding_level[1]), new Object[] {stack, new ItemStack(NCItems.rad_shielding, 1, 1)});
-		CraftingRecipeHandler.addShapelessArmorUpgradeOreRecipe(armorWithRadResistance(stack, NCConfig.radiation_shielding_level[2]), new Object[] {stack, new ItemStack(NCItems.rad_shielding, 1, 2)});
+		CraftingRecipeHandler.addShapelessArmorUpgradeRecipe(armorWithRadResistance(stack, NCConfig.radiation_shielding_level[0]), new Object[] {stack, new ItemStack(NCItems.rad_shielding, 1, 0)});
+		CraftingRecipeHandler.addShapelessArmorUpgradeRecipe(armorWithRadResistance(stack, NCConfig.radiation_shielding_level[1]), new Object[] {stack, new ItemStack(NCItems.rad_shielding, 1, 1)});
+		CraftingRecipeHandler.addShapelessArmorUpgradeRecipe(armorWithRadResistance(stack, NCConfig.radiation_shielding_level[2]), new Object[] {stack, new ItemStack(NCItems.rad_shielding, 1, 2)});
 	}
 }

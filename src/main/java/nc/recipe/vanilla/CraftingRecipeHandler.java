@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import nc.Global;
+import nc.ModCheck;
 import nc.config.NCConfig;
 import nc.enumm.MetaEnums.IngotType;
 import nc.init.NCArmor;
@@ -13,11 +14,13 @@ import nc.init.NCItems;
 import nc.init.NCTools;
 import nc.radiation.RadiationArmor;
 import nc.recipe.vanilla.ingredient.BucketIngredient;
-import nc.recipe.vanilla.recipe.ShapelessArmorUpgradeOreRecipe;
+import nc.recipe.vanilla.recipe.ShapelessArmorUpgradeRecipe;
+import nc.recipe.vanilla.recipe.ShapelessFluidRecipe;
 import nc.util.ArmorHelper;
 import nc.util.ItemStackHelper;
 import nc.util.NCUtil;
 import nc.util.OreDictHelper;
+import nc.util.RegistryHelper;
 import nc.util.StringHelper;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
@@ -47,7 +50,7 @@ public class CraftingRecipeHandler {
 		addShapedOreRecipe(NCBlocks.cell_block, new Object[] {"TGT", "G G", "TGT", 'T', "ingotTough", 'G', "blockGlass"});
 		
 		addShapedOreRecipe(new ItemStack(NCBlocks.cooler, 2, 0), new Object[] {"TIT", "I I", "TIT", 'T', "ingotTough", 'I', "ingotSteel"});
-		addShapelessOreRecipe(new ItemStack(NCBlocks.cooler, 1, 1), new Object[] {new ItemStack(NCBlocks.cooler, 1, 0), Items.WATER_BUCKET});
+		addShapelessFluidRecipe(new ItemStack(NCBlocks.cooler, 1, 1), new Object[] {new ItemStack(NCBlocks.cooler, 1, 0), new BucketIngredient("water")});
 		addShapedOreRecipe(new ItemStack(NCBlocks.cooler, 1, 2), new Object[] {" B ", "RCR", " B ", 'C', new ItemStack(NCBlocks.cooler, 1, 0), 'R', "dustRedstone", 'B', "blockRedstone"});
 		addShapedOreRecipe(new ItemStack(NCBlocks.cooler, 1, 2), new Object[] {" R ", "BCB", " R ", 'C', new ItemStack(NCBlocks.cooler, 1, 0), 'R', "dustRedstone", 'B', "blockRedstone"});
 		addShapedOreRecipe(new ItemStack(NCBlocks.cooler, 1, 3), new Object[] {"DQD", "DCD", "DQD", 'C', new ItemStack(NCBlocks.cooler, 1, 0), 'Q', "blockQuartz", 'D', "dustQuartz"});
@@ -60,7 +63,7 @@ public class CraftingRecipeHandler {
 		addShapedOreRecipe(new ItemStack(NCBlocks.cooler, 1, 6), new Object[] {"BCB", 'C', new ItemStack(NCBlocks.cooler, 1, 0), 'B', "blockLapis"});
 		addShapedOreRecipe(new ItemStack(NCBlocks.cooler, 1, 6), new Object[] {"B", "C", "B", 'C', new ItemStack(NCBlocks.cooler, 1, 0), 'B', "blockLapis"});
 		addShapedOreRecipe(new ItemStack(NCBlocks.cooler, 1, 7), new Object[] {"DDD", "DCD", "DDD", 'C', new ItemStack(NCBlocks.cooler, 1, 0), 'D', "gemDiamond"});
-		addShapelessOreRecipe(new ItemStack(NCBlocks.cooler, 1, 8), new Object[] {new ItemStack(NCBlocks.cooler, 1, 0), new BucketIngredient("liquidhelium")});
+		addShapelessFluidRecipe(new ItemStack(NCBlocks.cooler, 1, 8), new Object[] {new ItemStack(NCBlocks.cooler, 1, 0), new BucketIngredient("liquidhelium")});
 		addShapedOreRecipe(new ItemStack(NCBlocks.cooler, 1, 9), new Object[] {"EEE", "ECE", "EEE", 'C', new ItemStack(NCBlocks.cooler, 1, 0), 'E', "ingotEnderium"});
 		addShapedOreRecipe(new ItemStack(NCBlocks.cooler, 1, 10), new Object[] {"DDD", "DCD", "DDD", 'C', new ItemStack(NCBlocks.cooler, 1, 0), 'D', "dustCryotheum"});
 		addShapedOreRecipe(new ItemStack(NCBlocks.cooler, 1, 11), new Object[] {"III", "ICI", "III", 'C', new ItemStack(NCBlocks.cooler, 1, 0), 'I', "ingotIron"});
@@ -192,6 +195,9 @@ public class CraftingRecipeHandler {
 		addShapedOreRecipe(NCBlocks.salt_fission_distributor, new Object[] {"PEP", "NVN", "PEP", 'P', "plateElite", 'E', "ingotExtreme", 'N', Items.ENDER_EYE, 'V', NCBlocks.salt_fission_vent});
 		addShapedOreRecipe(NCBlocks.salt_fission_retriever, new Object[] {"PTP", "NVN", "PTP", 'P', "plateElite", 'T', "ingotTough", 'N', Items.ENDER_EYE, 'V', NCBlocks.salt_fission_vent});
 		addShapedOreRecipe(NCBlocks.salt_fission_redstone_port, new Object[] {"SCS", "RFR", "SCS", 'S', "ingotSteel", 'C', Items.COMPARATOR, 'R', Items.REPEATER, 'F', "steelFrame"});
+		if (ModCheck.openComputersLoaded()) {
+			addShapedOreRecipe(NCBlocks.salt_fission_computer_port, new Object[] {" M ", "CWC", " P ", 'M', RegistryHelper.itemStackFromRegistry("opencomputers:material:7"), 'C', RegistryHelper.blockStackFromRegistry("opencomputers:cable:0"), 'P', RegistryHelper.itemStackFromRegistry("opencomputers:material:4"), 'W', NCBlocks.salt_fission_wall});
+		}
 		
 		addShapedOreRecipe(NCBlocks.heat_exchanger_controller, new Object[] {"PTP", "SFS", "PTP", 'P', "plateAdvanced", 'S', "ingotSteel", 'T', "ingotThermoconducting", 'F', "steelFrame"});
 		addShapedOreRecipe(new ItemStack(NCBlocks.heat_exchanger_wall, 4), new Object[] {"SNS", "NFN", "SNS", 'S', "ingotSteel", 'N', "stone", 'F', "steelFrame"});
@@ -202,6 +208,9 @@ public class CraftingRecipeHandler {
 		addShapedOreRecipe(NCBlocks.heat_exchanger_tube_copper, new Object[] {"PCP", "CFC", "PSP", 'P', "plateBasic", 'C', "ingotCopper", 'F', "steelFrame", 'S', "servo"});
 		addShapedOreRecipe(NCBlocks.heat_exchanger_tube_hard_carbon, new Object[] {"PHP", "HFH", "PSP", 'P', "plateAdvanced", 'H', "ingotHardCarbon", 'F', "steelFrame", 'S', "servo"});
 		addShapedOreRecipe(NCBlocks.heat_exchanger_tube_thermoconducting, new Object[] {"PTP", "TFT", "PSP", 'P', "plateElite", 'T', "ingotThermoconducting", 'F', "steelFrame", 'S', "servo"});
+		if (ModCheck.openComputersLoaded()) {
+			addShapedOreRecipe(NCBlocks.heat_exchanger_computer_port, new Object[] {" M ", "CWC", " P ", 'M', RegistryHelper.itemStackFromRegistry("opencomputers:material:7"), 'C', RegistryHelper.blockStackFromRegistry("opencomputers:cable:0"), 'P', RegistryHelper.itemStackFromRegistry("opencomputers:material:4"), 'W', NCBlocks.heat_exchanger_wall});
+		}
 		
 		addShapedOreRecipe(NCBlocks.turbine_controller, new Object[] {"PSP", "SFS", "PSP", 'P', "plateAdvanced", 'S', "ingotHSLASteel", 'F', "steelFrame"});
 		addShapedOreRecipe(new ItemStack(NCBlocks.turbine_wall, 4), new Object[] {"SSS", "SFS", "SSS", 'S', "ingotHSLASteel", 'F', "steelFrame"});
@@ -222,6 +231,9 @@ public class CraftingRecipeHandler {
 		addShapedOreRecipe(new ItemStack(NCBlocks.turbine_dynamo_coil, 1, 5), new Object[] {"SSS", "HTH", "SSS", 'S', "ingotSilver", 'T', "ingotTough", 'H', "ingotHSLASteel"});
 		addShapedOreRecipe(new ItemStack(NCBlocks.turbine_inlet, 2), new Object[] {"SSS", "TFT", "SVS", 'S', "ingotHSLASteel", 'T', "ingotTough", 'V', "servo", 'F', "steelFrame"});
 		addShapedOreRecipe(new ItemStack(NCBlocks.turbine_outlet, 2), new Object[] {"SSS", "VFV", "SSS", 'S', "ingotHSLASteel", 'V', "servo", 'F', "steelFrame"});
+		if (ModCheck.openComputersLoaded()) {
+			addShapedOreRecipe(NCBlocks.turbine_computer_port, new Object[] {" M ", "CWC", " P ", 'M', RegistryHelper.itemStackFromRegistry("opencomputers:material:7"), 'C', RegistryHelper.blockStackFromRegistry("opencomputers:cable:0"), 'P', RegistryHelper.itemStackFromRegistry("opencomputers:material:4"), 'W', NCBlocks.turbine_wall});
+		}
 		
 		addShapedOreRecipe(new ItemStack(NCItems.part, 2, 0), new Object[] {"LG", "GL", 'L', "ingotLead", 'G', "dustGraphite"});
 		addShapedOreRecipe(new ItemStack(NCItems.part, 2, 0), new Object[] {"GL", "LG", 'L', "ingotLead", 'G', "dustGraphite"});
@@ -295,8 +307,10 @@ public class CraftingRecipeHandler {
 		addShapedOreRecipe(new ItemStack(Items.COOKIE, 12), new Object[] {"FCF", 'F', "dustWheat", 'C', "dustCocoa"});
 		addShapelessOreRecipe(NCItems.smore, new Object[] {NCItems.graham_cracker, NCItems.milk_chocolate, NCItems.marshmallow, NCItems.graham_cracker});
 		addShapelessOreRecipe(NCItems.moresmore, new Object[] {NCItems.smore, NCItems.milk_chocolate, NCItems.marshmallow, NCItems.smore});
+		addShapelessOreRecipe(NCItems.foursmore, new Object[] {NCItems.moresmore, NCItems.milk_chocolate, NCItems.marshmallow, NCItems.moresmore});
 		
 		addShapedOreRecipe(NCItems.geiger_counter, new Object[] {"SFF", "CRR", "BFF", 'S', "ingotSteel", 'F', "ingotFerroboron", 'C', "ingotCopper", 'R', "dustRedstone", 'B', "bioplastic"});
+		addShapedOreRecipe(NCItems.radiation_badge, new Object[] {" C ", "SRS", " L ", 'C', "ingotCopper", 'S', "string", 'R', "dustRedstone", 'L', "ingotLead"});
 		
 		addShapedOreRecipe(NCItems.rad_x, new Object[] {"EPE", "PRP", "PBP", 'E', "dustEnergetic", 'P', "bioplastic", 'R', NCItems.radaway, 'B', Items.BLAZE_POWDER});
 		
@@ -405,8 +419,12 @@ public class CraftingRecipeHandler {
 		registerRecipe(ShapelessOreRecipe.class, out, inputs);
 	}
 	
-	public static void addShapelessArmorUpgradeOreRecipe(Object out, Object... inputs) {
-		registerRecipe(ShapelessArmorUpgradeOreRecipe.class, out, inputs);
+	public static void addShapelessFluidRecipe(Object out, Object... inputs) {
+		registerRecipe(ShapelessFluidRecipe.class, out, inputs);
+	}
+	
+	public static void addShapelessArmorUpgradeRecipe(Object out, Object... inputs) {
+		registerRecipe(ShapelessArmorUpgradeRecipe.class, out, inputs);
 	}
 	
 	public static void registerRecipe(Class<? extends IRecipe> clazz, Object out, Object... inputs) {

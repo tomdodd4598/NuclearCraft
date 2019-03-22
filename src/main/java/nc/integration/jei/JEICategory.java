@@ -7,7 +7,7 @@ import mezz.jei.api.recipe.IRecipeHandler;
 import mezz.jei.api.recipe.IRecipeWrapper;
 import nc.Global;
 
-public abstract class JEICategory<WRAPPER extends JEIRecipeWrapperAbstract> extends BlankRecipeCategory<WRAPPER> implements IRecipeHandler<WRAPPER> {
+public abstract class JEICategory<WRAPPER extends JEIProcessorRecipeWrapper> extends BlankRecipeCategory<WRAPPER> implements IRecipeHandler<WRAPPER> {
 
 	protected final IJEIHandler jeiHandler;
 
@@ -37,17 +37,17 @@ public abstract class JEICategory<WRAPPER extends JEIRecipeWrapperAbstract> exte
 	}
 
 	@Override
-	public IRecipeWrapper getRecipeWrapper(JEIRecipeWrapperAbstract recipeWrapper) {
+	public IRecipeWrapper getRecipeWrapper(JEIProcessorRecipeWrapper recipeWrapper) {
 		return recipeWrapper;
 	}
 
 	@Override
-	public boolean isRecipeValid(JEIRecipeWrapperAbstract recipeWrapper) {
+	public boolean isRecipeValid(JEIProcessorRecipeWrapper recipeWrapper) {
 		return recipeWrapper.recipeHandler.getRecipeName().equals(getUid());
 	}
 	
 	@Override
-	public String getRecipeCategoryUid(JEIRecipeWrapperAbstract recipeWrapper) {
+	public String getRecipeCategoryUid(JEIProcessorRecipeWrapper recipeWrapper) {
 		return getUid();
 	}
 }

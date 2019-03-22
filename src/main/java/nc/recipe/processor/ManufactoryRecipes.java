@@ -29,6 +29,7 @@ public class ManufactoryRecipes extends ProcessorRecipeHandler {
 		addRecipe("charcoal", "dustCharcoal", 0.5D, 0.5D);
 		
 		addRecipe("gemDiamond", "dustDiamond", 1.5D, 1.5D);
+		addRecipe("gemLapis", "dustLapis", 1D, 1D);
 		addRecipe("gemRhodochrosite", "dustRhodochrosite", 1.5D, 1.5D);
 		addRecipe("gemQuartz", "dustQuartz", 1D, 1D);
 		addRecipe("gemPrismarine", "dustPrismarine", 1D, 1D);

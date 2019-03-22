@@ -16,7 +16,6 @@ import nc.tile.internal.fluid.FluidConnection;
 import nc.tile.internal.fluid.TankSorption;
 import nc.util.BlockFinder;
 import nc.util.BlockPosHelper;
-import nc.util.RecipeHelper;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
@@ -64,7 +63,7 @@ public abstract class TileFusionDummy extends TileDummy<TileFusionCore> implemen
 	private BlockFinder finder;
 	
 	public TileFusionDummy(String name) {
-		super(TileFusionCore.class, name, TankSorption.BOTH, NCConfig.machine_update_rate, RecipeHelper.validFluids(NCRecipes.Type.FUSION).get(0), ITileFluid.fluidConnectionAll(FluidConnection.BOTH));
+		super(TileFusionCore.class, name, TankSorption.BOTH, NCConfig.machine_update_rate, NCRecipes.fusion_valid_fluids.get(0), ITileFluid.fluidConnectionAll(FluidConnection.BOTH));
 	}
 	
 	@Override

@@ -9,7 +9,7 @@ import nc.block.item.IMetaBlockName;
 import nc.enumm.IBlockMeta;
 import nc.enumm.MetaEnums;
 import nc.tab.NCTabs;
-import nc.util.ArrayHelper;
+import nc.util.CollectionHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -124,7 +124,7 @@ public abstract class BlockMeta<T extends Enum<T> & IStringSerializable & IBlock
 	}
 	
 	public void setMetaHarvestLevels() {
-		Iterator<T> itr = ArrayHelper.asList(values).iterator();
+		Iterator<T> itr = CollectionHelper.asList(values).iterator();
 		while (itr.hasNext()) {
 			T nextState = itr.next();
 			setHarvestLevel(nextState.getHarvestTool(), nextState.getHarvestLevel(), getStateFromMeta(nextState.getID()));

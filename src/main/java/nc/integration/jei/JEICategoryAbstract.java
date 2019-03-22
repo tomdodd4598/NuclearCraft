@@ -12,7 +12,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 
-public abstract class JEICategoryAbstract<WRAPPER extends JEIRecipeWrapperAbstract> extends JEICategory<WRAPPER> {
+public abstract class JEICategoryAbstract<WRAPPER extends JEIProcessorRecipeWrapper> extends JEICategory<WRAPPER> {
 	
 	private final IDrawable background;
 	protected String recipeTitle;

@@ -44,7 +44,7 @@ repositories {
     }
 }
 
-version = "${mod_version}--${mc_version}"
+version = "${mod_version}-${mc_version}"
 group = "nc"
 archivesBaseName = "NuclearCraft"
 sourceCompatibility = targetCompatibility = '1.8'
@@ -53,7 +53,7 @@ compileJava {
 }
 
 minecraft {
-	version = "${forge_version}"
+	version = "${mc_version}-${forge_version}"
 	runDir = "run"
 	replace "@VERSION@", "${mod_version}"
 	mappings = "snapshot_20171003"
@@ -91,4 +91,13 @@ processResources {
 	from(sourceSets.main.resources.srcDirs) {
 		exclude 'mcmod.info'
 	}
+}
+
+task deobfJar(type: Jar) {
+	from sourceSets.main.output
+	classifier = 'deobf'
+}
+
+artifacts {
+    archives deobfJar
 }

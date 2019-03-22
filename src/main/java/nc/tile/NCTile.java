@@ -3,8 +3,8 @@ package nc.tile;
 import javax.annotation.Nullable;
 
 import nc.block.tile.IActivatable;
-import nc.capability.radiation.IRadiationSource;
-import nc.capability.radiation.RadiationSource;
+import nc.capability.radiation.source.IRadiationSource;
+import nc.capability.radiation.source.RadiationSource;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
@@ -31,7 +31,7 @@ public abstract class NCTile extends TileEntity implements ITickable, ITile {
 	
 	public NCTile() {
 		super();
-		radiation = new RadiationSource();
+		radiation = new RadiationSource(0D);
 	}
 	
 	@Override

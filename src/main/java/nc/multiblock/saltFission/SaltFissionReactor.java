@@ -337,9 +337,9 @@ public class SaltFissionReactor extends CuboidalMultiblockBase<SaltFissionUpdate
 			heatMult = newHeatMult/vessels.size();
 			heating = newHeating;
 			
-			for (TileSaltFissionModerator moderator : moderators) {
+			/*for (TileSaltFissionModerator moderator : moderators) {
 				if (moderator.contributeExtraHeat()) heating += newHeating/vessels.size();
-			}
+			}*/
 		}
 	}
 	

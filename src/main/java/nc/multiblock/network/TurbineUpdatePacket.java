@@ -7,7 +7,7 @@ import net.minecraft.util.math.BlockPos;
 
 public class TurbineUpdatePacket extends MultiblockUpdatePacket {
 	
-	public boolean isTurbineOn;
+	public boolean isTurbineOn, isProcessing;
 	public double power, rawConductivity, totalExpansionLevel, idealTotalExpansionLevel;
 	public int recipeRate, shaftWidth, bladeLength, noBladeSets, capacity, energy;
 	
@@ -15,7 +15,7 @@ public class TurbineUpdatePacket extends MultiblockUpdatePacket {
 		messageValid = false;
 	}
 	
-	public TurbineUpdatePacket(BlockPos pos, boolean isTurbineOn, double power, double rawConductivity, double totalExpansionLevel, double idealTotalExpansionLevel, int recipeRate, int shaftWidth, int bladeLength, int noBladeSets, int capacity, int energy) {
+	public TurbineUpdatePacket(BlockPos pos, boolean isTurbineOn, double power, double rawConductivity, double totalExpansionLevel, double idealTotalExpansionLevel, int recipeRate, int shaftWidth, int bladeLength, int noBladeSets, boolean isProcessing, int capacity, int energy) {
 		this.pos = pos;
 		this.isTurbineOn = isTurbineOn;
 		this.power = power;
@@ -26,6 +26,7 @@ public class TurbineUpdatePacket extends MultiblockUpdatePacket {
 		this.shaftWidth = shaftWidth;
 		this.bladeLength = bladeLength;
 		this.noBladeSets = noBladeSets;
+		this.isProcessing = isProcessing;
 		this.capacity = capacity;
 		this.energy = energy;
 		
@@ -44,6 +45,7 @@ public class TurbineUpdatePacket extends MultiblockUpdatePacket {
 		shaftWidth = buf.readInt();
 		bladeLength = buf.readInt();
 		noBladeSets = buf.readInt();
+		isProcessing = buf.readBoolean();
 		capacity = buf.readInt();
 		energy = buf.readInt();
 	}
@@ -62,6 +64,7 @@ public class TurbineUpdatePacket extends MultiblockUpdatePacket {
 		buf.writeInt(shaftWidth);
 		buf.writeInt(bladeLength);
 		buf.writeInt(noBladeSets);
+		buf.writeBoolean(isProcessing);
 		buf.writeInt(capacity);
 		buf.writeInt(energy);
 	}

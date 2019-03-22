@@ -5,7 +5,6 @@ import java.util.List;
 
 import nc.Global;
 import nc.block.fluid.BlockFluidBase;
-import nc.client.ClientEventHandler;
 import nc.config.NCConfig;
 import nc.handler.TooltipHandler;
 import nc.init.NCArmor;
@@ -15,7 +14,7 @@ import nc.init.NCFissionFluids;
 import nc.init.NCItems;
 import nc.init.NCTools;
 import nc.model.ModelTexturedFluid;
-import nc.radiation.RadiationHUD;
+import nc.radiation.RadiationRenders;
 import nc.render.BlockHighlightHandler;
 import nc.render.ColorRenderer;
 import nc.render.RenderFusionCore;
@@ -73,10 +72,7 @@ public class ClientProxy extends CommonProxy {
 
 	@Override
 	public void init(FMLInitializationEvent event) {
-
 		super.init(event);
-
-		MinecraftForge.EVENT_BUS.register(new ClientEventHandler());
 	}
 
 	@Override
@@ -85,7 +81,7 @@ public class ClientProxy extends CommonProxy {
 		
 		MinecraftForge.EVENT_BUS.register(new TooltipHandler());
 		
-		MinecraftForge.EVENT_BUS.register(new RadiationHUD(mc));
+		MinecraftForge.EVENT_BUS.register(new RadiationRenders(mc));
 	}
 	
 	// Packets

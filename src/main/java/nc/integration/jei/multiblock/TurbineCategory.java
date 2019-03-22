@@ -42,9 +42,4 @@ public class TurbineCategory extends JEICategoryAbstract<JEIRecipeWrapper.Turbin
 	
 	private static final String ENERGY_DENSITY = Lang.localise("jei.nuclearcraft.turbine_energy_density");
 	private static final String EXPANSION = Lang.localise("jei.nuclearcraft.turbine_expansion");
-	
-	@Override
-	public String getTitle() {
-		return recipeTitle;
-	}
 }

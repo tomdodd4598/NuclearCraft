@@ -1,12 +1,14 @@
 package nc.handler;
 
 import nc.capability.ICapability;
-import nc.capability.radiation.DefaultRadiationResistance;
-import nc.capability.radiation.EntityRads;
-import nc.capability.radiation.IDefaultRadiationResistance;
-import nc.capability.radiation.IEntityRads;
-import nc.capability.radiation.IRadiationSource;
-import nc.capability.radiation.RadiationSource;
+import nc.capability.radiation.entity.EntityRads;
+import nc.capability.radiation.entity.IEntityRads;
+import nc.capability.radiation.resistance.IRadiationResistance;
+import nc.capability.radiation.resistance.RadiationResistance;
+import nc.capability.radiation.sink.IRadiationSink;
+import nc.capability.radiation.sink.RadiationSink;
+import nc.capability.radiation.source.IRadiationSource;
+import nc.capability.radiation.source.RadiationSource;
 import nc.config.NCConfig;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
@@ -19,8 +21,9 @@ public class CapabilityHandler {
 	
 	public static void init() {
 		registerCapability(IEntityRads.class, new EntityRads(NCConfig.max_player_rads));
-		registerCapability(IRadiationSource.class, new RadiationSource());
-		registerCapability(IDefaultRadiationResistance.class, new DefaultRadiationResistance(0D));
+		registerCapability(IRadiationSource.class, new RadiationSource(0D));
+		registerCapability(IRadiationResistance.class, new RadiationResistance(0D));
+		registerCapability(IRadiationSink.class, new RadiationSink(0D));
 	}
 	
 	public static <T extends ICapability> void registerCapability(Class<T> clazz, T defaultImpl) {

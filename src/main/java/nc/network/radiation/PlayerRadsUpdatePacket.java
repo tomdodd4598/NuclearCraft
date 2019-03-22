@@ -1,7 +1,7 @@
 package nc.network.radiation;
 
 import io.netty.buffer.ByteBuf;
-import nc.capability.radiation.IEntityRads;
+import nc.capability.radiation.entity.IEntityRads;
 import nc.util.NCUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;

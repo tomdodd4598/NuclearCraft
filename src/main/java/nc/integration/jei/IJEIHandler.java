@@ -13,9 +13,9 @@ public interface IJEIHandler {
 	
 	public ProcessorRecipeHandler getRecipeHandler();
 	
-	public Class<? extends JEIRecipeWrapperAbstract> getJEIRecipeWrapper();
+	public Class<? extends JEIProcessorRecipeWrapper> getJEIRecipeWrapper();
 	
-	public ArrayList<JEIRecipeWrapperAbstract> getJEIRecipes(IGuiHelper guiHelper);
+	public ArrayList<JEIProcessorRecipeWrapper> getJEIRecipes(IGuiHelper guiHelper);
 	
 	public String getUUID();
 	

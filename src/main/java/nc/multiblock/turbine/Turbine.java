@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Set;
 
 import com.google.common.collect.Lists;
-
 import com.google.common.collect.Sets;
+
 import nc.Global;
 import nc.config.NCConfig;
 import nc.multiblock.IMultiblockPart;
@@ -34,14 +34,16 @@ import nc.tile.internal.fluid.Tank;
 import nc.tile.internal.fluid.TankSorption;
 import nc.util.MaterialHelper;
 import nc.util.NCUtil;
-import nc.util.RecipeHelper;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockPos.MutableBlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidRegistry;
 
@@ -65,12 +67,14 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> {
 	
 	private int updateCount = 0;
 	
-	public boolean isTurbineOn;
+	public boolean isTurbineOn, isProcessing;
 	public double power = 0D, rawConductivity = 0D;
 	public EnumFacing flowDir = null;
 	public int shaftWidth = 0, shaftVolume = 0, bladeLength = 0, noBladeSets = 0, recipeRate = 0;
 	public double totalExpansionLevel = 1D, idealTotalExpansionLevel = 1D, basePowerPerMB = 0D;
 	public List<Double> expansionLevels = new ArrayList<Double>(), rawBladeEfficiencies = new ArrayList<Double>();
+	
+	protected Iterable<MutableBlockPos> inputPlane = null;
 	
 	private short dynamoCoilCheckCount = 0;
 	
@@ -85,7 +89,7 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> {
 		outlets = new HashSet<TileTurbineOutlet>();
 		
 		energyStorage = new EnergyStorage(BASE_MAX_ENERGY);
-		tanks = Lists.newArrayList(new Tank(BASE_MAX_INPUT, TankSorption.BOTH, RecipeHelper.validFluids(NCRecipes.Type.TURBINE).get(0)), new Tank(BASE_MAX_OUTPUT, TankSorption.BOTH, null));
+		tanks = Lists.newArrayList(new Tank(BASE_MAX_INPUT, TankSorption.BOTH, NCRecipes.turbine_valid_fluids.get(0)), new Tank(BASE_MAX_OUTPUT, TankSorption.BOTH, null));
 	}
 	
 	// Multiblock Part Getters
@@ -168,8 +172,11 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> {
 		setIsTurbineOn();
 		
 		energyStorage.setStorageCapacity(BASE_MAX_ENERGY*getNumConnectedBlocks());
+		energyStorage.setMaxTransfer(BASE_MAX_ENERGY*getNumConnectedBlocks());
 		tanks.get(0).setCapacity(BASE_MAX_INPUT*getNumConnectedBlocks());
 		tanks.get(1).setCapacity(BASE_MAX_OUTPUT*getNumConnectedBlocks());
+		
+		inputPlane = getInteriorPlane(flowDir.getOpposite(), 0, 0, 0, 0, 0);
 		
 		doDynamoCoilPlacementChecks();
 	}
@@ -216,6 +223,7 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> {
 		basePowerPerMB = 0D;
 		expansionLevels = new ArrayList<Double>();
 		rawBladeEfficiencies = new ArrayList<Double>();
+		inputPlane = null;
 	}
 	
 	@Override
@@ -323,12 +331,13 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> {
 		
 		// Inlets/outlets -> flowDir
 		
+		flowDir = null;
+		
 		if (inlets.size() == 0 || outlets.size() == 0) {
 			validatorCallback.setLastError(Global.MOD_ID + ".multiblock_validation.turbine.valve_wrong_wall", null);
 			return false;
 		}
 		
-		flowDir = null;
 		for (TileTurbineInlet inlet : inlets) {
 			BlockPos pos = inlet.getPos();
 			
@@ -572,15 +581,19 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> {
 	
 	protected void updateTurbine() {
 		if (shouldUpdate()) {
+			boolean wasProcessing = isProcessing;
 			refreshRecipe();
 			double previousPower = power;
 			if (canProcessInputs()) {
+				isProcessing = true;
 				produceProducts();
 				power = getNewProcessPower(previousPower, true);
 			}
 			else {
+				isProcessing = false;
 				power = getNewProcessPower(previousPower, false);
 			}
+			if (wasProcessing != isProcessing) sendUpdateToAllPlayers();
 		}
 		energyStorage.changeEnergyStored((int)power);
 	}
@@ -699,6 +712,46 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> {
 	@Override
 	protected void updateClient() {
 		// TODO
+		if (isProcessing && !Minecraft.getMinecraft().isGamePaused()) {
+			double flowSpeed = getFlowLength()/23.2D;
+			double offsetX = particleSpeedOffest(), offsetY = particleSpeedOffest(), offsetZ = particleSpeedOffest();
+			
+			double speedX = flowDir == EnumFacing.WEST ? -flowSpeed : (flowDir == EnumFacing.EAST ? flowSpeed : offsetX);
+			double speedY = flowDir == EnumFacing.DOWN ? -flowSpeed : (flowDir == EnumFacing.UP ? flowSpeed : offsetY);
+			double speedZ = flowDir == EnumFacing.NORTH ? -flowSpeed : (flowDir == EnumFacing.SOUTH ? flowSpeed : offsetZ);
+			
+			for (BlockPos pos : inputPlane) {
+				if (rand.nextDouble() < 0.05D) {
+					double[] spawnPos = particleSpawnPos(pos);
+					if (spawnPos != null) WORLD.spawnParticle(EnumParticleTypes.CLOUD, false, spawnPos[0], spawnPos[1], spawnPos[2], speedX, speedY, speedZ);
+				}
+			}
+		}
+	}
+	
+	protected double particleSpeedOffest() {
+		return (rand.nextDouble() - 0.5D)/getFlowLength();
+	}
+	
+	protected double[] particleSpawnPos(BlockPos pos) {
+		double offsetU = 0.5D + (rand.nextDouble() - 0.5D)/2D;
+		double offsetV = 0.5D + (rand.nextDouble() - 0.5D)/2D;
+		switch (flowDir) {
+		case DOWN:
+			return new double[] {pos.getX() + offsetV, pos.getY() + 1D, pos.getZ() + offsetU};
+		case UP:
+			return new double[] {pos.getX() + offsetV, pos.getY(), pos.getZ() + offsetU};
+		case NORTH:
+			return new double[] {pos.getX() + offsetU, pos.getY() + offsetV, pos.getZ() + 1D};
+		case SOUTH:
+			return new double[] {pos.getX() + offsetU, pos.getY() + offsetV, pos.getZ()};
+		case WEST:
+			return new double[] {pos.getX() + 1D, pos.getY() + offsetU, pos.getZ() + offsetV};
+		case EAST:
+			return new double[] {pos.getX(), pos.getY() + offsetU, pos.getZ() + offsetV};
+		default:
+			return new double[] {pos.getX(), pos.getY(), pos.getZ()};
+		}
 	}
 	
 	// NBT
@@ -723,6 +776,7 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> {
 		for (int i = 0; i < expansionLevels.size(); i++) data.setDouble("expansionLevels" + i, expansionLevels.get(i));
 		data.setInteger("rawBladeEfficienciesSize", rawBladeEfficiencies.size());
 		for (int i = 0; i < rawBladeEfficiencies.size(); i++) data.setDouble("rawBladeEfficiencies" + i, rawBladeEfficiencies.get(i));
+		data.setBoolean("isProcessing", isProcessing);
 	}
 	
 	@Override
@@ -749,6 +803,7 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> {
 		if (data.hasKey("rawBladeEfficienciesSize")) for (int i = 0; i < data.getInteger("rawBladeEfficienciesSize"); i++) {
 			rawBladeEfficiencies.add(data.getDouble("rawBladeEfficiencies" + i));
 		}
+		isProcessing = data.getBoolean("isProcessing");
 	}
 	
 	private NBTTagCompound writeTanks(NBTTagCompound nbt) {
@@ -770,7 +825,7 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> {
 	
 	@Override
 	protected TurbineUpdatePacket getUpdatePacket() {
-		return new TurbineUpdatePacket(controller.getPos(), isTurbineOn, power, rawConductivity, totalExpansionLevel, idealTotalExpansionLevel, recipeRate, shaftWidth, bladeLength, noBladeSets, energyStorage.getMaxEnergyStored(), energyStorage.getEnergyStored());
+		return new TurbineUpdatePacket(controller.getPos(), isTurbineOn, power, rawConductivity, totalExpansionLevel, idealTotalExpansionLevel, recipeRate, shaftWidth, bladeLength, noBladeSets, isProcessing, energyStorage.getMaxEnergyStored(), energyStorage.getEnergyStored());
 	}
 	
 	@Override
@@ -784,7 +839,9 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> {
 		shaftWidth = message.shaftWidth;
 		bladeLength = message.bladeLength;
 		noBladeSets = message.noBladeSets;
+		isProcessing = message.isProcessing;
 		energyStorage.setStorageCapacity(message.capacity);
+		energyStorage.setMaxTransfer(message.capacity);
 		energyStorage.setEnergyStored(message.energy);
 	}
 	

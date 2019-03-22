@@ -236,15 +236,15 @@ public class BlockPosHelper {
 	}
 	
 	public List<BlockPos> squareTube(int radius, int height) {
-		return ArrayHelper.concatenate(squareRing(radius - 1, height), squareRing(radius, height - 1), squareRing(radius, height + 1), squareRing(radius + 1, height));
+		return CollectionHelper.concatenate(squareRing(radius - 1, height), squareRing(radius, height - 1), squareRing(radius, height + 1), squareRing(radius + 1, height));
 	}
 	
 	public List<BlockPos> squareTubeDiagonals(int radius, int height) {
-		return ArrayHelper.concatenate(squareRing(radius - 1, height - 1), squareRing(radius - 1, height + 1), squareRing(radius + 1, height - 1), squareRing(radius + 1, height + 1));
+		return CollectionHelper.concatenate(squareRing(radius - 1, height - 1), squareRing(radius - 1, height + 1), squareRing(radius + 1, height - 1), squareRing(radius + 1, height + 1));
 	}
 	
 	public List<BlockPos> squareTubeNotHidden(int radius, int height) {
-		return ArrayHelper.concatenate(cutoffRing(radius - 1, height), squareRing(radius, height - 1), squareRing(radius, height + 1), squareRing(radius + 1, height));
+		return CollectionHelper.concatenate(cutoffRing(radius - 1, height), squareRing(radius, height - 1), squareRing(radius, height + 1), squareRing(radius + 1, height));
 	}
 	
 	// Other

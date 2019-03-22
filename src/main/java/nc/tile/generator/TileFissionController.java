@@ -159,12 +159,20 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 	public void refreshMultiblock(boolean checkBlocks) {
 		checkStructure(checkBlocks);
 		if (newRules) newRun(checkBlocks); else run(checkBlocks);
+		if (checkBlocks && (!isActivated() || !readyToProcess())) stopActiveCooling();
 	}
 	
 	@Override
 	public void refreshActivity() {
 		boolean canProcessInputsOld = canProcessInputs;
 		super.refreshActivity();
+		refreshMultiblock(canProcessInputsOld != canProcessInputs);
+	}
+	
+	@Override
+	public void refreshActivityOnProduction() {
+		boolean canProcessInputsOld = canProcessInputs;
+		super.refreshActivityOnProduction();
 		refreshMultiblock(canProcessInputsOld != canProcessInputs);
 	}
 	
@@ -246,11 +254,6 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 	
 	private boolean isActivated() {
 		return getIsRedstonePowered() || computerActivated;
-	}
-	
-	@Override
-	public void finishProcess() {
-		super.finishProcess();
 	}
 	
 	// IC2 Tiers
@@ -877,9 +880,9 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 					}
 					
 					// Extra Moderators
-					if (readyToProcess()) if (findModerator(x, y, z)) {
+					/*if (readyToProcess()) if (findModerator(x, y, z)) {
 						if (!cellAdjacent(x, y, z)) heatThisTick += baseHeat;
-					}
+					}*/
 					
 					// Passive Coolers
 					for (int i = 1; i < CoolerType.values().length; i++) {
@@ -944,6 +947,17 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 				heat += cooling;
 			} else {
 				heat = 0D;
+			}
+		}
+	}
+	
+	public void stopActiveCooling() {
+		for (int z = minZ + 1; z <= maxZ - 1; z++) for (int x = minX + 1; x <= maxX - 1; x++) for (int y = minY + 1; y <= maxY - 1; y++) {
+			if (finder.find(x, y, z, NCBlocks.active_cooler)) {
+				TileEntity tile = world.getTileEntity(finder.position(x, y, z));
+				if (tile instanceof TileActiveCooler) {
+					((TileActiveCooler) tile).isActive = false;
+				}
 			}
 		}
 	}

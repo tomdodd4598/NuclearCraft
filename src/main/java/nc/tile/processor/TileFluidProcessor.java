@@ -25,7 +25,7 @@ import nc.tile.internal.energy.EnergyConnection;
 import nc.tile.internal.fluid.FluidConnection;
 import nc.tile.internal.fluid.Tank;
 import nc.tile.internal.fluid.TankSorption;
-import nc.util.ArrayHelper;
+import nc.util.CollectionHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -77,7 +77,7 @@ public class TileFluidProcessor extends TileEnergyFluidSidedInventory implements
 		
 		this.recipeType = recipeType;
 		
-		slots = ArrayHelper.increasingArray(hasUpgrades ? 2 : 0);
+		slots = CollectionHelper.increasingArray(hasUpgrades ? 2 : 0);
 		
 		playersToUpdate = new HashSet<EntityPlayer>();
 	}

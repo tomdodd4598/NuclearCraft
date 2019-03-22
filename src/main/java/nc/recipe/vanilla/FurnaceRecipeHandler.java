@@ -7,6 +7,7 @@ import nc.init.NCBlocks;
 import nc.init.NCItems;
 import nc.util.OreDictHelper;
 import nc.util.StringHelper;
+import nc.worldgen.ore.OreGenerator;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -16,7 +17,7 @@ public class FurnaceRecipeHandler {
 	
 	public static void registerFurnaceRecipes() {
 		for (int i = 0; i < OreType.values().length; i++) {
-			GameRegistry.addSmelting(new ItemStack(NCBlocks.ore, 1, i), OreDictHelper.getPrioritisedCraftingStack(new ItemStack(NCItems.ingot, 1, i), "ingot" + StringHelper.capitalize(OreType.values()[i].getName())), 0.5F);
+			if (OreGenerator.showOre(i)) GameRegistry.addSmelting(new ItemStack(NCBlocks.ore, 1, i), OreDictHelper.getPrioritisedCraftingStack(new ItemStack(NCItems.ingot, 1, i), "ingot" + StringHelper.capitalize(OreType.values()[i].getName())), 0.5F);
 		}
 		for (int i = 0; i < IngotType.values().length; i++) {
 			GameRegistry.addSmelting(new ItemStack(NCItems.dust, 1, i), OreDictHelper.getPrioritisedCraftingStack(new ItemStack(NCItems.ingot, 1, i), "ingot" + StringHelper.capitalize(IngotType.values()[i].getName())), 0.0F);

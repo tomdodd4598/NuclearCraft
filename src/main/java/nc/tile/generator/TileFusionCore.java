@@ -25,11 +25,11 @@ import nc.util.BlockPosHelper;
 import nc.util.EnergyHelper;
 import nc.util.Lang;
 import nc.util.MaterialHelper;
-import nc.util.RecipeHelper;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
@@ -68,7 +68,7 @@ public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpd
 	private BlockFinder finder;
 	
 	public TileFusionCore() {
-		super("Fusion Core", 2, 4, 0, defaultTankCapacities(32000, 2, 4), defaultTankSorptions(2, 4), RecipeHelper.validFluids(NCRecipes.Type.FUSION), maxPower(), NCRecipes.Type.FUSION);
+		super("Fusion Core", 2, 4, 0, defaultTankCapacities(32000, 2, 4), defaultTankSorptions(2, 4), NCRecipes.fusion_valid_fluids, maxPower(), NCRecipes.Type.FUSION);
 		setTanksShared(false);
 	}
 	
@@ -315,9 +315,10 @@ public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpd
 		return finder.find(pos, FluidRegistry.getFluid("plasma").getBlock().getDefaultState());
 	}
 	
-	private boolean findActiveCooler(BlockPos pos) {
-		if (world.getTileEntity(pos) == null) return false;
-		return world.getTileEntity(pos) instanceof TileActiveCooler;
+	private TileActiveCooler findActiveCooler(BlockPos pos) {
+		TileEntity tile = world.getTileEntity(pos);
+		if (tile instanceof TileActiveCooler) return (TileActiveCooler) tile;
+		return null;
 	}
 	
 	// Finding Ring
@@ -412,7 +413,8 @@ public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpd
 			List<BlockPos> posList = new ArrayList<BlockPos>();
 			BlockPosHelper helper = new BlockPosHelper(pos);
 			for (BlockPos pos : helper.squareTubeDiagonals(ringRadius(), 1)) {
-				if (findActiveCooler(pos)) if (((TileActiveCooler) world.getTileEntity(pos)).getTanks().get(0).getFluidAmount() > 0) posList.add(pos);
+				TileActiveCooler cooler = findActiveCooler(pos);
+				if (cooler != null) if (cooler.getTanks().get(0).getFluidAmount() > 0) posList.add(pos);
 			}
 			if (posList.isEmpty()) {
 				cooling = 0D;
@@ -421,7 +423,9 @@ public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpd
 			double cooled = 0; // in kK
 			double currentHeat = heat;
 			for (BlockPos pos : posList) {
-				Tank tank = ((TileActiveCooler) world.getTileEntity(pos)).getTanks().get(0);
+				TileActiveCooler cooler = findActiveCooler(pos);
+				if (cooler == null) continue;
+				Tank tank = cooler.getTanks().get(0);
 				int fluidAmount = Math.min(tank.getFluidAmount(), (4*NCConfig.machine_update_rate*NCConfig.active_cooler_max_rate)/20);
 				if (currentHeat > ROOM_TEMP) {
 					double cool_mult = posList.contains(getOpposite(pos)) ? NCConfig.fusion_heat_generation*4 : NCConfig.fusion_heat_generation;
@@ -433,7 +437,7 @@ public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpd
 					if (currentHeat > ROOM_TEMP) tank.drain(fluidAmount, true);
 				}
 			}
-			cooling = 1000D*cooled/(4*NCConfig.machine_update_rate);
+			cooling = Math.round(1000D*cooled/(4*NCConfig.machine_update_rate));
 		}
 	}
 	

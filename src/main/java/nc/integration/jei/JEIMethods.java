@@ -18,8 +18,8 @@ import net.minecraftforge.fluids.FluidStack;
 
 public class JEIMethods {
 	
-	public static ArrayList<JEIRecipeWrapperAbstract> getJEIRecipes(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, Class<? extends JEIRecipeWrapperAbstract> recipeWrapper) {
-		ArrayList<JEIRecipeWrapperAbstract> recipes = new ArrayList();
+	public static ArrayList<JEIProcessorRecipeWrapper> getJEIRecipes(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, Class<? extends JEIProcessorRecipeWrapper> recipeWrapper) {
+		ArrayList<JEIProcessorRecipeWrapper> recipes = new ArrayList();
 		if (recipeHandler != null) {
 			for (ProcessorRecipe recipe : recipeHandler.getRecipes()) {
 				try {

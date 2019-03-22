@@ -7,8 +7,9 @@ import c4.conarm.lib.materials.CoreMaterialStats;
 import c4.conarm.lib.materials.PlatesMaterialStats;
 import c4.conarm.lib.materials.TrimMaterialStats;
 import nc.config.NCConfig;
+import nc.integration.tconstruct.TConstructHelper;
 import nc.integration.tconstruct.conarm.trait.NCArmorTraits;
-import nc.util.ArrayHelper;
+import nc.util.CollectionHelper;
 import nc.util.NCMath;
 import slimeknights.tconstruct.library.TinkerRegistry;
 import slimeknights.tconstruct.library.materials.Material;
@@ -32,14 +33,14 @@ public class ConArmMaterials extends ArmorMaterials {
 		Material material = TinkerRegistry.getMaterial(materialName);
 		if (material == Material.UNKNOWN) return;
 		
-		TinkerRegistry.addMaterialStats(material,
+		TConstructHelper.addMaterialStats(material,
 				new CoreMaterialStats((float)NCMath.round(0.5D*durability, 1), (float)fullSetProtection),
 				new PlatesMaterialStats((float)modifier, (float)NCMath.round(0.25D*modifier*durability, 1), (float)Math.min(5D, NCMath.round(toughness/modifier, 1))),
 				new TrimMaterialStats((float)NCMath.round(0.4D*modifier*fullSetProtection, 1)));
 	}
 	
 	private static void addArmorMaterial(String materialName, int armorNumber, int[] protectionArray) {
-		addArmorMaterial(materialName, NCConfig.armor_durability[armorNumber], ArrayHelper.sum(protectionArray), NCConfig.armor_toughness[armorNumber], NCConfig.tool_handle_modifier[armorNumber]);
+		addArmorMaterial(materialName, NCConfig.armor_durability[armorNumber], CollectionHelper.sum(protectionArray), NCConfig.armor_toughness[armorNumber], NCConfig.tool_handle_modifier[armorNumber]);
 	}
 	
 	public static void init() {

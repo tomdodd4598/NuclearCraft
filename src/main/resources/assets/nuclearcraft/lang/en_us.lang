@@ -192,7 +192,7 @@ tile.nuclearcraft.buffer.name=Buffer
 tile.nuclearcraft.buffer.desc=Can store up to a stack of items, 32000 RF of energy and 16000 mB of fluid. Can be placed in the shell of fission structures for transportation into and out of the reactor.
 
 tile.nuclearcraft.active_cooler.name=Active Fluid Cooler
-tile.nuclearcraft.active_cooler.desc=Pump coolant into this block to cool down fission and fusion reactors. Must be placed in a fission structure or on the diagonal of a fusion ring. If used to cool a fission reactor, the requirements for each fluid type are the same as the passive counterpart. If used to cool a fusion reactor, it is much more efficient for a cooler to have a partner on the exact opposite side of the entire fusion ring.
+tile.nuclearcraft.active_cooler.desc=Pump coolant into this block to cool down fission and fusion reactors. Must be placed in a fission structure or on the diagonal of a fusion ring. If used to cool a fission reactor, the requirements for each fluid type are the same as the passive counterpart, but active coolers can not be used to support other coolers' placement rules. If used to cool a fusion reactor, it is much more efficient for a cooler to have a partner on the exact opposite side of the entire fusion ring.
 
 tile.nuclearcraft.bin.name=Universal Bin
 tile.nuclearcraft.bin.desc=Destroys items, fluids and energy.
@@ -265,6 +265,8 @@ tile.nuclearcraft.salt_fission_retriever.name=Molten Salt Depleted Fuel Retrieve
 tile.nuclearcraft.salt_fission_retriever.desc=Placed in the wall of the reactor - will take depleted fuel from all vessels at a limited rate.
 tile.nuclearcraft.salt_fission_redstone_port.name=Molten Salt Reactor Redstone Port
 tile.nuclearcraft.salt_fission_redstone_port.desc=Used to turn the reactor on and off. The heat level of the reactor can be read with a comparator from this block.
+tile.nuclearcraft.salt_fission_computer_port.name=Molten Salt Reactor Computer Port
+tile.nuclearcraft.salt_fission_computer_port.desc=Used to access the reactor via OpenComputers.
 
 tile.nuclearcraft.heat_exchanger_controller.name=Heat Exchanger Controller
 tile.nuclearcraft.heat_exchanger_controller.desc=The heart of the exchanger - one is needed in the wall for it to form.
@@ -273,12 +275,14 @@ tile.nuclearcraft.heat_exchanger_glass.name=Transparent Heat Exchanger Shell
 tile.nuclearcraft.heat_exchanger_frame.name=Heat Exchanger Frame
 tile.nuclearcraft.heat_exchanger_frame.desc=Comprises the skeleton of the exchanger.
 tile.nuclearcraft.heat_exchanger_vent.name=Heat Exchanger Vent
-tile.nuclearcraft.heat_exchanger_vent.desc=Used to move fluid in and out of the reactor. Will push to [accept from] accepting [pushing] tubes.
+tile.nuclearcraft.heat_exchanger_vent.desc=Used to move fluid in and out of the exchanger. Will push to [accept from] accepting [pushing] tubes.
 tile.nuclearcraft.heat_exchanger_tube_copper.name=Copper Heat Exchanger Tube
 tile.nuclearcraft.heat_exchanger_tube_hard_carbon.name=Hard Carbon Heat Exchanger Tube
 tile.nuclearcraft.heat_exchanger_tube_thermoconducting.name=Thermoconducting Alloy Heat Exchanger Tube
 tile.nuclearcraft.heat_exchanger_tube.fixd=Conductivity Multiplier: %s
 tile.nuclearcraft.heat_exchanger_tube.desc=Holds and transports the heat-exchanging fluids. Place against another tube while sneaking to copy across its side configuration.
+tile.nuclearcraft.heat_exchanger_computer_port.name=Heat Exchanger Computer Port
+tile.nuclearcraft.heat_exchanger_computer_port.desc=Used to access the exchanger via OpenComputers.
 
 tile.nuclearcraft.turbine_controller.name=Turbine Controller
 tile.nuclearcraft.turbine_controller.desc=The heart of the turbine - one is needed in the wall for it to form.
@@ -312,6 +316,8 @@ tile.nuclearcraft.turbine_dynamo_coil.silver.desc=Must touch at least one active
 tile.nuclearcraft.turbine_dynamo_coil.conductivity=Conductivity Multiplier:
 tile.nuclearcraft.turbine_inlet.name=Turbine Fluid Inlet
 tile.nuclearcraft.turbine_outlet.name=Turbine Fluid Outlet
+tile.nuclearcraft.turbine_computer_port.name=Turbine Computer Port
+tile.nuclearcraft.turbine_computer_port.desc=Used to access the turbine via OpenComputers.
 
 tile.nuclearcraft.fusion_electromagnet_idle.name=Fusion Electromagnet
 tile.nuclearcraft.fusion_electromagnet_idle.desc=Requires %s to stay active.
@@ -348,6 +354,8 @@ tile.nuclearcraft.nitrogen_collector.name=Nitrogen Collector
 tile.nuclearcraft.nitrogen_collector_compact.name=Compact Nitrogen Collector
 tile.nuclearcraft.nitrogen_collector_dense.name=Dense Nitrogen Collector
 tile.nuclearcraft.nitrogen_collector.desc=Produces %s of nitrogen constantly.
+
+nuclearcraft.collector.jei_name=Collector
 
 tile.nuclearcraft.radiation_scrubber.name=Radiation Scrubber
 tile.nuclearcraft.radiation_scrubber.desc=Reduces the radiation level of the chunk it is placed in. Its effectiveness is dependent on the amount of free space around it, removing a maximum of %s of the radiation in its chunk. %s
@@ -1640,6 +1648,16 @@ item.nuclearcraft.geiger_counter.rads=Radiation:
 item.nuclearcraft.rad_shielding.light.name=Light Radiation Shielding
 item.nuclearcraft.rad_shielding.medium.name=Medium Radiation Shielding
 item.nuclearcraft.rad_shielding.heavy.name=Heavy Radiation Shielding
+item.nuclearcraft.rad_shielding.desc=Can be applied to armor to give the player radiation resistance while worn.
+item.nuclearcraft.rad_shielding.desc_hardcore=Can be applied to armor to give the player radiation resistance while worn. Can also be applied to containers to shield against irradiation from its contents.
+item.nuclearcraft.rad_shielding.not_hardcore=Failed to install shielding. Hardcore containers is disabled in the configs!
+item.nuclearcraft.rad_shielding.install_fail=Failed to install shielding. The container already has a resistance level of
+item.nuclearcraft.rad_shielding.install_success=Successfully installed shielding! The container now has a resistance level of
+
+item.nuclearcraft.radiation_badge.name=Radiation Badge
+item.nuclearcraft.radiation_badge.desc=Informs the player of how irradiated they have been while being worn on every %s of radiation detected, up to a maximum of %s.
+item.nuclearcraft.radiation_badge.exposure=Your Radiation Badge has been exposed to
+item.nuclearcraft.radiation_badge.broken=Your Radiation Badge disintegrated...
 
 item.nuclearcraft.radaway.name=RadAway
 item.nuclearcraft.radaway.desc=Removes %s [%s].
@@ -1669,6 +1687,7 @@ item.nuclearcraft.marshmallow.desc=Many civilizations would not have fallen with
 
 item.nuclearcraft.smore.name=S'more S'mingot
 item.nuclearcraft.moresmore.name=MoreS'more DoubleS'mingot
+item.nuclearcraft.foursmore.name=FourS'more QuadS'mingot
 
 item.nuclearcraft.record_wanderer.name=Music Disc
 item.nuclearcraft.record_wanderer.des0=Dion - The Wanderer
@@ -1684,6 +1703,9 @@ item.nuclearcraft.record_hyperspace.des0=Ur-Quan Masters - Hyperspace
 item.nuclearcraft.record_hyperspace.des1=Originally by Riku Nuottajärvi
 
 jei.nuclearcraft.chance_output=Output: %s-%s [Average: %s]
+
+jei.nuclearcraft.active_fission_cooling=Fission Cooling Rate:
+jei.nuclearcraft.active_fusion_cooling=Base Fusion Cooling Rate:
 
 jei.nuclearcraft.solid_fuel_time=Base depletion time:
 jei.nuclearcraft.solid_fuel_power=Base power gen:
@@ -1805,7 +1827,7 @@ gui.config.category.generators.tooltip=Configure generators.
 gui.config.generators.rtg_power=RTG Power Gen
 gui.config.generators.rtg_power.comment=RF/t generated. Order: Uranium, Plutonium, Americium, Californium.
 gui.config.generators.solar_power=Solar Panel Power Gen
-gui.config.generators.solar_power.comment=RF/t generated. Order: Basic.
+gui.config.generators.solar_power.comment=RF/t generated. Order: Basic, Advanced, DU, Elite.
 gui.config.generators.decay_power=Decay Generator Power Gen
 gui.config.generators.decay_power.comment=RF/s generated by adjacent radioactive blocks. Order: Thorium, Uranium, Depleted Thorium, Depleted Uranium, Depleted Neptunium, Depleted Plutonium, Depleted Americium, Depleted Curium, Depleted Berkelium, Depleted Californium.
 gui.config.generators.generator_rf_per_eu=RF Use per EU Emitted
@@ -2045,7 +2067,7 @@ gui.config.category.energy_storage=Energy Storage Configs
 gui.config.category.energy_storage.tooltip=Configure energy storages.
 
 gui.config.energy_storage.battery_capacity=Battery Capacities
-gui.config.energy_storage.battery_capacity.comment=Maximum RF storable. Order: Voltaic Pile, Lithium Ion Battery.
+gui.config.energy_storage.battery_capacity.comment=Maximum RF storable. Order: Voltaic Pile [Basic, Advanced, DU, Elite], Lithium Ion Battery [Basic, Advanced, DU, Elite].
 
 gui.config.category.tools=Tool Configs
 gui.config.category.tools.tooltip=Configure tools.
@@ -2093,9 +2115,15 @@ gui.config.radiation.radiation_player_tick_rate=Radiation Player Tick Rate
 gui.config.radiation.radiation_player_tick_rate.comment=The rate at which player radiation data updates.
 
 gui.config.radiation.radiation_worlds=World Background Radiation
-gui.config.radiation.radiation_worlds.comment=List of dimensions and their background radiation levels. Format: 'modid:dimID_radiationLevel'.
+gui.config.radiation.radiation_worlds.comment=List of dimensions and their background radiation levels. Format: 'dimID_radiationLevel'.
 gui.config.radiation.radiation_biomes=Biome Background Radiation
 gui.config.radiation.radiation_biomes.comment=List of biomes and their background radiation levels. These values stack with the underlying world's background radiation. Format: 'modid:biomeName_radiationLevel'.
+gui.config.radiation.radiation_world_limits=World Radiation Limit
+gui.config.radiation.radiation_world_limits.comment=List of dimensions and their radiation level limits. Format: 'dimID_radiationLimit'.
+gui.config.radiation.radiation_biome_limits=Biome Radiation Limit
+gui.config.radiation.radiation_biome_limits.comment=List of biomes and their radiation level limits. These values stack with the underlying world's background radiation. Format: 'modid:biomeName_radiationLimit'.
+gui.config.radiation.radiation_from_biomes_dims_blacklist=Biome Radiation Dimension Blacklist
+gui.config.radiation.radiation_from_biomes_dims_blacklist.comment=List of IDs of dimensions to blacklist for biome background radiation.
 
 gui.config.radiation.radiation_ores=Ore Stack Radiation
 gui.config.radiation.radiation_ores.comment=List of ore dict entries and their stack radiation levels. Can be used to overwrite default values. Format: 'oreName_radiationLevel'.
@@ -2114,13 +2142,19 @@ gui.config.radiation.radiation_blocks_blacklist.comment=List of blocks that will
 gui.config.radiation.max_player_rads=Max Player Rads
 gui.config.radiation.max_player_rads.comment=The maximum number of rads a player can have before the radiation is fatal.
 gui.config.radiation.radiation_player_decay_rate=Player Radiation Decay Rate
-gui.config.radiation.radiation_player_decay_rate.comment=The rate at which radiation decreases in the player over time.
-gui.config.radiation.radiation_spread_rate=Radiation Spread Rate
+gui.config.radiation.radiation_player_decay_rate.comment=The rate at which player radiation decreases over time, as a fraction of the player's current radiation level per tick.
+gui.config.radiation.radiation_entity_decay_rate=Entity Radiation Decay Rate
+gui.config.radiation.radiation_entity_decay_rate.comment=The rate at which entity radiation decreases over time, as a fraction of the entity's current radiation level per tick.
+gui.config.radiation.radiation_spread_rate=Chunk Radiation Spread Rate
 gui.config.radiation.radiation_spread_rate.comment=Controls the rate at which radiation will spread from chunk to chunk.
-gui.config.radiation.radiation_decay_rate=Radiation Decay Rate
+gui.config.radiation.radiation_spread_gradient=Chunk Radiation Spread Gradient
+gui.config.radiation.radiation_spread_gradient.comment=Controls how high the ratio of radiation levels between chunks must be for radiation to spread between them.
+gui.config.radiation.radiation_decay_rate=Chunk Radiation Decay Rate
 gui.config.radiation.radiation_decay_rate.comment=Controls the rate at which radiation decreases in a chunk over time.
 gui.config.radiation.radiation_lowest_rate=Lowest Radiation Rate
 gui.config.radiation.radiation_lowest_rate.comment=The lowest rate of player and chunk irradiation possible in Rads/t - amounts below this are ignored.
+gui.config.radiation.radiation_chunk_limit=Chunk Radiation Limit
+gui.config.radiation.radiation_chunk_limit.comment=The maximum chunk radiation level possible in Rads/t. A negative value means there is no limit.
 
 gui.config.radiation.radiation_radaway_amount=RadAway Rads Removed
 gui.config.radiation.radiation_radaway_amount.comment=The total number of rads removed when using RadAway.
@@ -2136,6 +2170,8 @@ gui.config.radiation.radiation_rad_x_cooldown=Rad-X Cooldown Time
 gui.config.radiation.radiation_rad_x_cooldown.comment=The time that must be waited between doses of Rad-X in ticks.
 gui.config.radiation.radiation_shielding_level=Radiation Shielding Levels
 gui.config.radiation.radiation_shielding_level.comment=The radiation resistance levels provided by the three levels of shielding. Order: light, medium, heavy.
+gui.config.radiation.radiation_tile_shielding=Radiation Container Shielding
+gui.config.radiation.radiation_tile_shielding.comment=If enabled along with hardcore containers, radiation shielding can be applied to tile entities.
 gui.config.radiation.radiation_hazmat_shielding=Radiation Hazmat Shielding
 gui.config.radiation.radiation_hazmat_shielding.comment=The radiation resistance levels provided by each piece of the hazmat suit. Order: headwear, chestpiece, leggings, boots.
 gui.config.radiation.radiation_scrubber_fraction=Scrubber Max Removal Rate
@@ -2165,9 +2201,22 @@ gui.config.radiation.radiation_hud_text_outline.comment=If enabled, a black outl
 
 gui.config.radiation.radiation_require_counter=Counter Required For Info
 gui.config.radiation.radiation_require_counter.comment=If disabled, the rads overlay will show and the ticking will be heard even when a Geiger Counter is not being held.
+gui.config.radiation.radiation_chunk_boundaries=Counter/Scrubber Chunk Boundaries
+gui.config.radiation.radiation_chunk_boundaries.comment=If enabled, chunk boundaries will be shown while holding or looking at a geiger counter block or radiation scrubber.
+gui.config.radiation.radiation_unit_prefixes=Radiation Unit Prefixes
+gui.config.radiation.radiation_unit_prefixes.comment=If set to a positive integer, radiation levels will be shown without unit prefixes to this number of significant figures.
+
+gui.config.radiation.radiation_badge_durability=Radiation Badge Durability
+gui.config.radiation.radiation_badge_durability.comment=Determines the total radiation that a Radiation Badge can be exposed to before disintegrating.
+gui.config.radiation.radiation_badge_info_rate=Radiation Badge Info Rate
+gui.config.radiation.radiation_badge_info_rate.comment=Determines the amount of exposed radiation after which the Radiation Badge will inform the player of its total exposure level as a fraction of the durability.
 
 gui.config.radiation.radiation_hardcore_stacks=Hardcore Stacks
-gui.config.radiation.radiation_hardcore_stacks.comment=If enabled, the radioactive stacks in a player's inventory irradiate the chunk the player is in as well as the player directly.
+gui.config.radiation.radiation_hardcore_stacks.comment=If enabled, the radioactive stacks in a player's inventory will irradiate the chunk the player is in as well as the player directly.
+gui.config.radiation.radiation_hardcore_containers=Hardcore Containers
+gui.config.radiation.radiation_hardcore_containers.comment=The radioactive stacks in container blocks will irradiate the chunk the tile entity is in at a rate of this fraction of their base radiation level.
+gui.config.radiation.radiation_dropped_items=Radiation From Dropped Items
+gui.config.radiation.radiation_dropped_items.comment=Radioactive items dropped on the ground will irradiate the chunk they are in.
 gui.config.radiation.radiation_death_persist=Radiation Death Persistence
 gui.config.radiation.radiation_death_persist.comment=If enabled, players' rad levels will persist on death.
 gui.config.radiation.radiation_death_persist_fraction=Death Persistence Fraction
@@ -2237,8 +2286,6 @@ gui.config.other.ore_dict_priority_bool=Enable Ore Dict Mod Priority
 gui.config.other.ore_dict_priority_bool.comment=Will Ore Dictionary outputs be prioritised according to the mod list below? If false, the default Ore Dict entry will be used when deciding machine outputs.
 gui.config.other.ore_dict_priority=Ore Dict Mod Priority
 gui.config.other.ore_dict_priority.comment=Determines the priority of each mod's ore dictionary entries - earlier mods' IDs in this list have a higher priority. This is used to determine which mod's corresponding item is produced in machine recipes. If no matching mod is found, the default entry is used.
-gui.config.other.render_chunk_boundaries=Chunk boundaries visible
-gui.config.other.render_chunk_boundaries.comment=Show the chunk boundaries if you're holding/looking at a radiation scrubber or geiger counter block
 
 gui.computer.method_not_found=This method doesn't show in the archive maps - lost a method, you have... how embarassing... how embarassing! Gather round the GitHub repository, clear your mind, and find your missing method we will.
 gui.computer.invalid_method_number=Invalid method number
@@ -2553,6 +2600,9 @@ advancement.nuclearcraft.smore.desc=Make a S'more S'mingot
 advancement.nuclearcraft.moresmore.name=S'more of the Same
 advancement.nuclearcraft.moresmore.desc=Make a MoreS'more DoubleS'mingot
 
+advancement.nuclearcraft.foursmore.name=Even S'more Where That Came From
+advancement.nuclearcraft.foursmore.desc=Make a FourS'more QuadS'mingot
+
 block.fusion_run=Fusion Reactor Running
 block.accelerator_run=Accelerator Running
 player.geiger_tick=Geiger Tick
@@ -2591,6 +2641,8 @@ message.nuclearcraft.rad_x_cooling_down=Your Rad-X cooldown is at
 message.nuclearcraft.scrubber_removal_rate=Radiation removal rate:
 
 hud.nuclearcraft.rad_immune=Immune for:
+
+commands.nuclearcraft.set_chunk_radiation.usage=/nc_set_chunk_radiation <radiation_level> [coord_x] [coord_z]
 
 death.attack.superfluid_freeze=%1$s was Bose-Einstein condensated
 death.attack.plasma_burn=%1$s was incinerated by plasma

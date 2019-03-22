@@ -1,15 +1,21 @@
 package nc.capability.radiation;
 
+import nc.capability.radiation.entity.EntityRadsProvider;
+import nc.capability.radiation.entity.IEntityRads;
+import nc.capability.radiation.resistance.IRadiationResistance;
+import nc.capability.radiation.resistance.RadiationResistanceProvider;
+import nc.capability.radiation.sink.IRadiationSink;
+import nc.capability.radiation.sink.RadiationSinkProvider;
+import nc.capability.radiation.source.IRadiationSource;
+import nc.capability.radiation.source.RadiationSourceProvider;
 import nc.config.NCConfig;
-import nc.radiation.RadSources;
+import nc.init.NCItems;
 import nc.radiation.RadWorlds;
-import nc.radiation.RadiationArmor;
-import nc.util.ItemInfo;
-import nc.util.OreDictHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
@@ -29,23 +35,28 @@ public class RadiationCapabilityHandler {
 	
 	@SubscribeEvent
 	public void attachChunkRadiationCapability(AttachCapabilitiesEvent<Chunk> event) {
-		event.addCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE_NAME, new RadiationSourceProvider());
+		event.addCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE_NAME, new RadiationSourceProvider(0D));
 	}
 	
 	@SubscribeEvent
 	public void attachWorldRadiationCapability(AttachCapabilitiesEvent<World> event) {
 		int dim = event.getObject().provider.getDimension();
-		if (RadWorlds.BACKGROUND_MAP.containsKey(dim)) {
-			event.addCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE_NAME, new RadiationSourceProvider(RadWorlds.BACKGROUND_MAP.get(dim)));
+		if (RadWorlds.RAD_MAP.containsKey(dim)) {
+			event.addCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE_NAME, new RadiationSourceProvider(RadWorlds.RAD_MAP.get(dim)));
 			return;
 		}
+	}
+	
+	@SubscribeEvent
+	public void attachTileRadiationResistanceCapability(AttachCapabilitiesEvent<TileEntity> event) {
+		event.addCapability(IRadiationResistance.CAPABILITY_RADIATION_RESISTANCE_NAME, new RadiationResistanceProvider(event.getObject()));
 	}
 	
 	@SubscribeEvent
 	public void attachStackRadiationCapability(AttachCapabilitiesEvent<ItemStack> event) {
 		ItemStack stack = event.getObject();
 		if (stack.isEmpty()) return;
-		ItemInfo itemInfo = new ItemInfo(stack);
+		/*ItemInfo itemInfo = new ItemInfo(stack);
 		if (RadSources.STACK_MAP.containsKey(itemInfo)) {
 			event.addCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE_NAME, new RadiationSourceProvider(RadSources.STACK_MAP.get(itemInfo)));
 			return;
@@ -55,17 +66,21 @@ public class RadiationCapabilityHandler {
 				event.addCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE_NAME, new RadiationSourceProvider(RadSources.ORE_MAP.get(oreName)));
 				return;
 			}
-		}
+		}*/
+		event.addCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE_NAME, new RadiationSourceProvider(stack));
+		
+		if (stack.getItem() == NCItems.radiation_badge) event.addCapability(IRadiationSink.CAPABILITY_RADIATION_SINK_NAME, new RadiationSinkProvider(0D));
 	}
 	
 	@SubscribeEvent
-	public void attachArmorDefaultRadiationResistanceCapability(AttachCapabilitiesEvent<ItemStack> event) {
+	public void attachArmorRadiationResistanceCapability(AttachCapabilitiesEvent<ItemStack> event) {
 		ItemStack stack = event.getObject();
 		if (stack.isEmpty()) return;
-		ItemInfo itemInfo = new ItemInfo(stack);
-		if (RadiationArmor.ARMOR_STACK_RESISTANCE_MAP.containsKey(itemInfo)) {
-			event.addCapability(IDefaultRadiationResistance.CAPABILITY_DEFAULT_RADIATION_RESISTANCE_NAME, new DefaultRadiationResistanceProvider(RadiationArmor.ARMOR_STACK_RESISTANCE_MAP.get(itemInfo)));
+		/*ItemInfo itemInfo = new ItemInfo(stack);
+		if (RadiationArmor.ARMOR_RAD_RESISTANCE_MAP.containsKey(itemInfo)) {
+			event.addCapability(IRadiationResistance.CAPABILITY_RADIATION_RESISTANCE_NAME, new RadiationResistanceProvider(RadiationArmor.ARMOR_RAD_RESISTANCE_MAP.get(itemInfo)));
 			return;
-		}
+		}*/
+		event.addCapability(IRadiationResistance.CAPABILITY_RADIATION_RESISTANCE_NAME, new RadiationResistanceProvider(stack));
 	}
 }

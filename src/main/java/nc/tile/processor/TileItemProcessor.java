@@ -22,7 +22,7 @@ import nc.tile.energy.ITileEnergy;
 import nc.tile.energy.TileEnergySidedInventory;
 import nc.tile.internal.energy.EnergyConnection;
 import nc.tile.internal.fluid.Tank;
-import nc.util.ArrayHelper;
+import nc.util.CollectionHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -72,7 +72,7 @@ public class TileItemProcessor extends TileEnergySidedInventory implements IItem
 		
 		this.recipeType = recipeType;
 		
-		slots = ArrayHelper.increasingArray(itemInSize + itemOutSize + (hasUpgrades ? 2 : 0));
+		slots = CollectionHelper.increasingArray(itemInSize + itemOutSize + (hasUpgrades ? 2 : 0));
 		
 		playersToUpdate = new HashSet<EntityPlayer>();
 	}

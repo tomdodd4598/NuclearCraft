@@ -6,7 +6,6 @@ import nc.enumm.BlockEnums.SimpleTileType;
 import nc.tile.radiation.TileGeigerCounter;
 import nc.util.Lang;
 import nc.util.RadiationHelper;
-import nc.util.UnitHelper;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumFacing;
@@ -32,7 +31,7 @@ public class BlockGeigerCounter extends BlockSimpleTile {
 				if (!world.isRemote) {
 					TileGeigerCounter geiger = (TileGeigerCounter) world.getTileEntity(pos);
 					double radiation = geiger.getChunkRadiationLevel();
-					player.sendMessage(new TextComponentString(RADIATION + " " + RadiationHelper.getRadiationTextColor(radiation) + (radiation < NCConfig.radiation_lowest_rate ? "0 Rads/t" : UnitHelper.prefix(radiation, 3, "Rads/t", 0, -8))));
+					player.sendMessage(new TextComponentString(RADIATION + " " + RadiationHelper.getRadiationTextColor(radiation) + (radiation < NCConfig.radiation_lowest_rate ? "0 Rads/t" : RadiationHelper.radsPrefix(radiation, true))));
 				}
 				return true;
 			}

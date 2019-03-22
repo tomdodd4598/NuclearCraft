@@ -5,7 +5,7 @@ import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
 import li.cil.oc.api.network.SimpleComponent;
 import nc.Global;
-import nc.capability.radiation.IRadiationSource;
+import nc.capability.radiation.source.IRadiationSource;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.fml.common.Optional;

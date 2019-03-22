@@ -81,6 +81,28 @@ public class MelterRecipes extends ProcessorRecipeHandler {
 		addRecipe("blockCoal", fluidStack("coal", FluidStackHelper.COAL_BLOCK_VOLUME), 4.5D, 1D);
 		addRecipe("blockGraphite", fluidStack("coal", FluidStackHelper.COAL_BLOCK_VOLUME), 4.5D, 1D);
 		
+		// EnderIO
+		addIngotMeltingRecipes("electricalSteel", "electrical_steel");
+		addIngotMeltingRecipes("energeticAlloy", "energetic_alloy");
+		addIngotMeltingRecipes("vibrantAlloy", "vibrant_alloy");
+		addIngotMeltingRecipes("redstoneAlloy", "redstone_alloy");
+		addIngotMeltingRecipes("conductiveIron", "conductive_iron");
+		addIngotMeltingRecipes("pulsatingIron", "pulsating_iron");
+		addIngotMeltingRecipes("darkSteel", "dark_steel");
+		addIngotMeltingRecipes("soularium", "soularium");
+		addIngotMeltingRecipes("endSteel", "end_steel");
+		addIngotMeltingRecipes("constructionAlloy", "construction_alloy");
+		
+		// Endergy
+		addIngotMeltingRecipes("crudeSteel", "crude_steel");
+		addIngotMeltingRecipes("crystallineAlloy", "crystalline_alloy");
+		addIngotMeltingRecipes("melodicAlloy", "melodic_alloy");
+		addIngotMeltingRecipes("stellarAlloy", "stellar_alloy");
+		addIngotMeltingRecipes("crystallinePinkSlime", "crystalline_pink_slime");
+		addIngotMeltingRecipes("energeticSilver", "energetic_silver");
+		addIngotMeltingRecipes("vividAlloy", "vivid_alloy");
+		
+		
 		// Mekanism
 		addRecipe(Lists.newArrayList("itemSalt", "dustSalt"), fluidStack("brine", 15), 0.25D, 0.5D);
 		

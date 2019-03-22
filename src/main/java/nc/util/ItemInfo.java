@@ -31,6 +31,12 @@ public class ItemInfo {
 	}
 	
 	@Override
+	public String toString() {
+		return isEmpty ? "empty" : item.getRegistryName().toString() + ":" + meta;
+		
+	}
+	
+	@Override
 	public int hashCode() {
 		return Objects.hash(isEmpty, item, meta);
 	}

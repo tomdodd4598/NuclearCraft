@@ -4,8 +4,8 @@ import javax.annotation.Nullable;
 
 import nc.Global;
 import nc.block.tile.processor.BlockNuclearFurnace;
-import nc.capability.radiation.IRadiationSource;
-import nc.capability.radiation.RadiationSource;
+import nc.capability.radiation.source.IRadiationSource;
+import nc.capability.radiation.source.RadiationSource;
 import nc.radiation.RadSources;
 import nc.tile.dummy.IInterfaceable;
 import nc.tile.energyFluid.IBufferable;
@@ -58,7 +58,7 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ISidedI
 	
 	public TileNuclearFurnace() {
 		super();
-		radiation = new RadiationSource();
+		radiation = new RadiationSource(0D);
 	}
 
 	@Override

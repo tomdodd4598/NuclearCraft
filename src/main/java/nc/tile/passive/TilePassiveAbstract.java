@@ -8,7 +8,7 @@ import com.google.common.collect.Lists;
 
 import gregtech.api.capability.GregtechCapabilities;
 import nc.ModCheck;
-import nc.capability.radiation.IRadiationSource;
+import nc.capability.radiation.source.IRadiationSource;
 import nc.config.NCConfig;
 import nc.recipe.IngredientSorption;
 import nc.recipe.ingredient.IItemIngredient;

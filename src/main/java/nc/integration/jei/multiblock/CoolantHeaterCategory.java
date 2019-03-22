@@ -38,9 +38,4 @@ public class CoolantHeaterCategory extends JEICategoryAbstract<JEIRecipeWrapper.
 	}
 	
 	private static final String COOLING = Lang.localise("jei.nuclearcraft.coolant_heater_rate");
-	
-	@Override
-	public String getTitle() {
-		return recipeTitle;
-	}
 }

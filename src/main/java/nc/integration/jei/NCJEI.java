@@ -11,6 +11,7 @@ import mezz.jei.api.IModPlugin;
 import mezz.jei.api.IModRegistry;
 import mezz.jei.api.JEIPlugin;
 import mezz.jei.api.recipe.transfer.IRecipeTransferRegistry;
+import nc.ModCheck;
 import nc.config.NCConfig;
 import nc.container.generator.ContainerFissionController;
 import nc.container.generator.ContainerFusionCore;
@@ -63,6 +64,8 @@ import nc.integration.jei.multiblock.CoolantHeaterCategory;
 import nc.integration.jei.multiblock.HeatExchangerCategory;
 import nc.integration.jei.multiblock.SaltFissionCategory;
 import nc.integration.jei.multiblock.TurbineCategory;
+import nc.integration.jei.other.ActiveCoolerCategory;
+import nc.integration.jei.other.CollectorCategory;
 import nc.integration.jei.processor.AlloyFurnaceCategory;
 import nc.integration.jei.processor.CentrifugeCategory;
 import nc.integration.jei.processor.ChemicalReactorCategory;
@@ -201,6 +204,15 @@ public class NCJEI implements IModPlugin {
 		blacklist(jeiHelpers, NCBlocks.accelerator_electromagnet_active);
 		blacklist(jeiHelpers, NCBlocks.electromagnet_supercooler_active);
 		
+		if (!ModCheck.openComputersLoaded()) {
+			blacklist(jeiHelpers, NCBlocks.salt_fission_computer_port);
+			blacklist(jeiHelpers, NCBlocks.heat_exchanger_computer_port);
+			blacklist(jeiHelpers, NCBlocks.turbine_computer_port);
+			blacklist(jeiHelpers, NCBlocks.condenser_computer_port);
+		}
+		
+		blacklist(jeiHelpers, NCItems.foursmore);
+		
 		NCUtil.getLogger().info("JEI integration complete");
 	}
 	
@@ -239,6 +251,8 @@ public class NCJEI implements IModPlugin {
 		EXTRACTOR(NCRecipes.Type.EXTRACTOR, NCBlocks.extractor_idle, "extractor", JEIRecipeWrapper.Extractor.class, 17),
 		CENTRIFUGE(NCRecipes.Type.CENTRIFUGE, NCBlocks.centrifuge_idle, "centrifuge", JEIRecipeWrapper.Centrifuge.class, 18),
 		ROCK_CRUSHER(NCRecipes.Type.ROCK_CRUSHER, NCBlocks.rock_crusher_idle, "rock_crusher", JEIRecipeWrapper.RockCrusher.class, 19),
+		COLLECTOR(NCRecipes.Type.COLLECTOR, registeredCollectors(), "collector", JEIRecipeWrapper.Collector.class),
+		ACTIVE_COOLER(NCRecipes.Type.ACTIVE_COOLER, NCBlocks.active_cooler, "active_cooler", JEIRecipeWrapper.ActiveCooler.class),
 		DECAY_GENERATOR(NCRecipes.Type.DECAY_GENERATOR, NCBlocks.decay_generator, "decay_generator", JEIRecipeWrapper.DecayGenerator.class),
 		FISSION(NCRecipes.Type.FISSION, NCBlocks.fission_controller_new_fixed, "fission_controller", JEIRecipeWrapper.Fission.class),
 		FUSION(NCRecipes.Type.FUSION, NCBlocks.fusion_core, "fusion_core", JEIRecipeWrapper.Fusion.class),
@@ -248,28 +262,27 @@ public class NCJEI implements IModPlugin {
 		TURBINE(NCRecipes.Type.TURBINE, NCBlocks.turbine_controller, "turbine", JEIRecipeWrapper.Turbine.class);
 		
 		private NCRecipes.Type recipeType;
-		private Class<? extends JEIRecipeWrapperAbstract> recipeWrapper;
+		private Class<? extends JEIProcessorRecipeWrapper> recipeWrapper;
 		private boolean enabled;
 		private List<ItemStack> crafters;
 		private String textureName;
 		
-		JEIHandler(NCRecipes.Type recipeType, Block crafter, String textureName, Class<? extends JEIRecipeWrapperAbstract> recipeWrapper) {
+		JEIHandler(NCRecipes.Type recipeType, Block crafter, String textureName, Class<? extends JEIProcessorRecipeWrapper> recipeWrapper) {
 			this(recipeType, Lists.<Block>newArrayList(crafter), textureName, recipeWrapper);
 		}
 		
-		JEIHandler(NCRecipes.Type recipeType, List<Block> crafters, String textureName, Class<? extends JEIRecipeWrapperAbstract> recipeWrapper) {
-			this(recipeType, crafters, textureName, recipeWrapper, 0);
-			enabled = true;
+		JEIHandler(NCRecipes.Type recipeType, List<Block> crafters, String textureName, Class<? extends JEIProcessorRecipeWrapper> recipeWrapper) {
+			this(recipeType, crafters, textureName, recipeWrapper, -1);
 		}
 		
-		JEIHandler(NCRecipes.Type recipeType, Block crafter, String textureName, Class<? extends JEIRecipeWrapperAbstract> recipeWrapper, int enabled) {
+		JEIHandler(NCRecipes.Type recipeType, Block crafter, String textureName, Class<? extends JEIProcessorRecipeWrapper> recipeWrapper, int enabled) {
 			this(recipeType, Lists.<Block>newArrayList(crafter), textureName, recipeWrapper, enabled);
 		}
 		
-		JEIHandler(NCRecipes.Type recipeType, List<Block> crafters, String textureName, Class<? extends JEIRecipeWrapperAbstract> recipeWrapper, int enabled) {
+		JEIHandler(NCRecipes.Type recipeType, List<Block> crafters, String textureName, Class<? extends JEIProcessorRecipeWrapper> recipeWrapper, int enabled) {
 			this.recipeType = recipeType;
 			this.recipeWrapper = recipeWrapper;
-			this.enabled = NCConfig.register_processor[enabled];
+			this.enabled = enabled < 0 ? true : NCConfig.register_processor[enabled];
 			this.crafters = new ArrayList<ItemStack>();
 			if (this.enabled) for (Block crafter : crafters) this.crafters.add(ItemStackHelper.fixItemStack(crafter));
 			this.textureName = textureName;
@@ -316,6 +329,10 @@ public class NCJEI implements IModPlugin {
 				return new CentrifugeCategory(guiHelper, this);
 			case ROCK_CRUSHER:
 				return new RockCrusherCategory(guiHelper, this);
+			case COLLECTOR:
+				return new CollectorCategory(guiHelper, this);
+			case ACTIVE_COOLER:
+				return new ActiveCoolerCategory(guiHelper, this);
 			case DECAY_GENERATOR:
 				return new DecayGeneratorCategory(guiHelper, this);
 			case FISSION:
@@ -341,12 +358,12 @@ public class NCJEI implements IModPlugin {
 		}
 		
 		@Override
-		public Class<? extends JEIRecipeWrapperAbstract> getJEIRecipeWrapper() {
+		public Class<? extends JEIProcessorRecipeWrapper> getJEIRecipeWrapper() {
 			return recipeWrapper;
 		}
 		
 		@Override
-		public ArrayList<JEIRecipeWrapperAbstract> getJEIRecipes(IGuiHelper guiHelper) {
+		public ArrayList<JEIProcessorRecipeWrapper> getJEIRecipes(IGuiHelper guiHelper) {
 			return JEIMethods.getJEIRecipes(guiHelper, this, getRecipeHandler(), getJEIRecipeWrapper());
 		}
 
@@ -370,5 +387,30 @@ public class NCJEI implements IModPlugin {
 		public String getTextureName() {
 			return textureName;
 		}
+	}
+	
+	private static List<Block> registeredCollectors() {
+		List<Block> list = new ArrayList<Block>();
+		if (NCConfig.register_passive[0]) {
+			list.add(NCBlocks.helium_collector);
+			list.add(NCBlocks.helium_collector_compact);
+			list.add(NCBlocks.helium_collector_dense);
+		}
+		if (NCConfig.register_passive[1]) {
+			list.add(NCBlocks.cobblestone_generator);
+			list.add(NCBlocks.cobblestone_generator_compact);
+			list.add(NCBlocks.cobblestone_generator_dense);
+		}
+		if (NCConfig.register_passive[2]) {
+			list.add(NCBlocks.water_source);
+			list.add(NCBlocks.water_source_compact);
+			list.add(NCBlocks.water_source_dense);
+		}
+		if (NCConfig.register_passive[3]) {
+			list.add(NCBlocks.nitrogen_collector);
+			list.add(NCBlocks.nitrogen_collector_compact);
+			list.add(NCBlocks.nitrogen_collector_dense);
+		}
+		return list;
 	}
 }

@@ -19,7 +19,6 @@ import nc.tile.internal.fluid.Tank;
 import nc.tile.internal.fluid.TankSorption;
 import nc.util.FluidStackHelper;
 import nc.util.GasHelper;
-import nc.util.RecipeHelper;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
@@ -27,7 +26,7 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 
 public class TileSaltFissionDistributor extends TileSaltFissionPartBase implements ITileFluid {
 	
-	private final @Nonnull List<Tank> tanks = Lists.newArrayList(new Tank(FluidStackHelper.INGOT_BLOCK_VOLUME, TankSorption.IN, RecipeHelper.validFluids(NCRecipes.Type.SALT_FISSION).get(0)));
+	private final @Nonnull List<Tank> tanks = Lists.newArrayList(new Tank(FluidStackHelper.INGOT_BLOCK_VOLUME, TankSorption.IN, NCRecipes.salt_fission_valid_fluids.get(0)));
 
 	private @Nonnull FluidConnection[] fluidConnections = ITileFluid.fluidConnectionAll(FluidConnection.IN);
 	

@@ -1,6 +1,7 @@
 package nc.multiblock.heatExchanger.block;
 
 import nc.NuclearCraft;
+import nc.init.NCBlocks;
 import nc.multiblock.heatExchanger.tile.TileHeatExchangerController;
 import net.minecraft.block.BlockDirectional;
 import net.minecraft.block.properties.PropertyBool;
@@ -99,7 +100,7 @@ public class BlockHeatExchangerController extends BlockHeatExchangerPartBase {
 	}
 	
 	public void setActiveState(IBlockState state, World world, BlockPos pos, boolean active) {
-		if (!world.isRemote) {
+		if (!world.isRemote && state.getBlock() == NCBlocks.heat_exchanger_controller) {
 			if (active != state.getValue(ACTIVE)) {
 				world.setBlockState(pos, state.withProperty(ACTIVE, active), 2);
 			}

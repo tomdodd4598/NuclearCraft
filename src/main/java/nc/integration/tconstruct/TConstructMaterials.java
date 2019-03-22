@@ -51,7 +51,7 @@ public class TConstructMaterials {
 		
 		material.setFluid(fluidName == null ? null : FluidRegistry.getFluid(fluidName));
 		
-		TinkerRegistry.addMaterialStats(material,
+		TConstructHelper.addMaterialStats(material,
 				new HeadMaterialStats((int)(durability*0.8D), (float)miningSpeed, 2F + (float)attackDamage, miningLevel),
 				new HandleMaterialStats((float)handleModifier, (int)(durability*(casted ? 0.25D : 0.1D))),
 				new ExtraMaterialStats((int)(durability*(casted ? 0.0375D : 0.0625D)/handleModifier)),

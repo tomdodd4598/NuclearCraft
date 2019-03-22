@@ -209,6 +209,9 @@ public class NCConfig {
 	
 	public static String[] radiation_worlds;
 	public static String[] radiation_biomes;
+	public static String[] radiation_world_limits;
+	public static String[] radiation_biome_limits;
+	public static int[] radiation_from_biomes_dims_blacklist;
 	
 	public static String[] radiation_ores;
 	public static String[] radiation_items;
@@ -219,9 +222,12 @@ public class NCConfig {
 	
 	public static double max_player_rads;
 	public static double radiation_player_decay_rate;
+	public static double radiation_entity_decay_rate;
 	public static double radiation_spread_rate;
+	public static double radiation_spread_gradient;
 	public static double radiation_decay_rate;
 	public static double radiation_lowest_rate;
+	public static double radiation_chunk_limit;
 	
 	public static double radiation_radaway_amount;
 	public static double radiation_radaway_rate;
@@ -230,6 +236,7 @@ public class NCConfig {
 	public static double radiation_rad_x_lifetime;
 	public static double radiation_rad_x_cooldown;
 	public static double[] radiation_shielding_level;
+	public static boolean radiation_tile_shielding;
 	public static double radiation_scrubber_fraction;
 	public static int radiation_scrubber_power;
 	public static int radiation_scrubber_borax_rate;
@@ -240,6 +247,8 @@ public class NCConfig {
 	public static String[] radiation_shielding_default_levels;
 	
 	public static boolean radiation_hardcore_stacks;
+	public static double radiation_hardcore_containers;
+	public static boolean radiation_dropped_items;
 	public static boolean radiation_death_persist;
 	public static double radiation_death_persist_fraction;
 	public static double radiation_death_immunity_time;
@@ -255,6 +264,11 @@ public class NCConfig {
 	public static double[] radiation_hud_position_cartesian;
 	public static boolean radiation_hud_text_outline;
 	public static boolean radiation_require_counter;
+	public static boolean radiation_chunk_boundaries;
+	public static int radiation_unit_prefixes;
+	
+	public static double radiation_badge_durability;
+	public static double radiation_badge_info_rate;
 	
 	public static boolean single_creative_tab;
 	
@@ -286,8 +300,6 @@ public class NCConfig {
 	
 	public static boolean ore_dict_priority_bool;
 	public static String[] ore_dict_priority;
-
-	public static boolean render_chunk_boundaries;
 	
 	public static void preInit() {
 		File configFile = new File(Loader.instance().getConfigDir(), "nuclearcraft.cfg");
@@ -630,6 +642,12 @@ public class NCConfig {
 		propertyRadiationWorlds.setLanguageKey("gui.config.radiation.radiation_worlds");
 		Property propertyRadiationBiomes = config.get(CATEGORY_RADIATION, "radiation_biomes", new String[] {"nuclearcraft:nuclear_wasteland_0.25"}, Lang.localise("gui.config.radiation.radiation_biomes.comment"));
 		propertyRadiationBiomes.setLanguageKey("gui.config.radiation.radiation_biomes");
+		Property propertyRadiationWorldLimit = config.get(CATEGORY_RADIATION, "radiation_world_limits", new String[] {}, Lang.localise("gui.config.radiation.radiation_world_limits.comment"));
+		propertyRadiationWorldLimit.setLanguageKey("gui.config.radiation.radiation_world_limits");
+		Property propertyRadiationBiomeLimit = config.get(CATEGORY_RADIATION, "radiation_biome_limits", new String[] {}, Lang.localise("gui.config.radiation.radiation_biome_limits.comment"));
+		propertyRadiationBiomeLimit.setLanguageKey("gui.config.radiation.radiation_biome_limits");
+		Property propertyRadiationFromBiomesDimsBlacklist = config.get(CATEGORY_RADIATION, "radiation_from_biomes_dims_blacklist", new int[] {144}, Lang.localise("gui.config.radiation.radiation_from_biomes_dims_blacklist.comment"));
+		propertyRadiationFromBiomesDimsBlacklist.setLanguageKey("gui.config.radiation.radiation_from_biomes_dims_blacklist");
 		
 		Property propertyRadiationOres = config.get(CATEGORY_RADIATION, "radiation_ores", new String[] {"depletedFuelIC2U_" + (RadSources.URANIUM_238*4D + RadSources.PLUTONIUM_239/9D), "depletedFuelIC2MOX_" + (RadSources.PLUTONIUM_239*28D/9D)}, Lang.localise("gui.config.radiation.radiation_ores.comment"));
 		propertyRadiationOres.setLanguageKey("gui.config.radiation.radiation_ores");
@@ -646,14 +664,20 @@ public class NCConfig {
 		
 		Property propertyRadiationMaxPlayerRads = config.get(CATEGORY_RADIATION, "max_player_rads", 1000D, Lang.localise("gui.config.radiation.max_player_rads.comment"), 1D, 1000000000D);
 		propertyRadiationMaxPlayerRads.setLanguageKey("gui.config.radiation.max_player_rads");
-		Property propertyRadiationPlayerDecayRate = config.get(CATEGORY_RADIATION, "radiation_player_decay_rate", 0.05D, Lang.localise("gui.config.radiation.radiation_player_decay_rate.comment"), 0D, 1D);
+		Property propertyRadiationPlayerDecayRate = config.get(CATEGORY_RADIATION, "radiation_player_decay_rate", 0D, Lang.localise("gui.config.radiation.radiation_player_decay_rate.comment"), 0D, 1D);
 		propertyRadiationPlayerDecayRate.setLanguageKey("gui.config.radiation.radiation_player_decay_rate");
+		Property propertyRadiationEntityDecayRate = config.get(CATEGORY_RADIATION, "radiation_entity_decay_rate", 0.00004D, Lang.localise("gui.config.radiation.radiation_entity_decay_rate.comment"), 0D, 1D);
+		propertyRadiationEntityDecayRate.setLanguageKey("gui.config.radiation.radiation_entity_decay_rate");
 		Property propertyRadiationSpreadRate = config.get(CATEGORY_RADIATION, "radiation_spread_rate", 0.1D, Lang.localise("gui.config.radiation.radiation_spread_rate.comment"), 0D, 1D);
 		propertyRadiationSpreadRate.setLanguageKey("gui.config.radiation.radiation_spread_rate");
+		Property propertyRadiationSpreadGradient = config.get(CATEGORY_RADIATION, "radiation_spread_gradient", 0.5D, Lang.localise("gui.config.radiation.radiation_spread_gradient.comment"), 0D, 1000000000D);
+		propertyRadiationSpreadGradient.setLanguageKey("gui.config.radiation.radiation_spread_gradient");
 		Property propertyRadiationDecayRate = config.get(CATEGORY_RADIATION, "radiation_decay_rate", 0.001D, Lang.localise("gui.config.radiation.radiation_decay_rate.comment"), 0D, 1D);
 		propertyRadiationDecayRate.setLanguageKey("gui.config.radiation.radiation_decay_rate");
 		Property propertyRadiationLowestRate = config.get(CATEGORY_RADIATION, "radiation_lowest_rate", 0.000000000000001D, Lang.localise("gui.config.radiation.radiation_lowest_rate.comment"), 0.000000000000000001D, 1D);
 		propertyRadiationLowestRate.setLanguageKey("gui.config.radiation.radiation_lowest_rate");
+		Property propertyRadiationChunkLimit = config.get(CATEGORY_RADIATION, "radiation_chunk_limit", -1D, Lang.localise("gui.config.radiation.radiation_chunk_limit.comment"), -1D, Double.MAX_VALUE);
+		propertyRadiationChunkLimit.setLanguageKey("gui.config.radiation.radiation_chunk_limit");
 		
 		Property propertyRadiationRadawayAmount = config.get(CATEGORY_RADIATION, "radiation_radaway_amount", 300D, Lang.localise("gui.config.radiation.radiation_radaway_amount.comment"), 0.001D, 1000000000D);
 		propertyRadiationRadawayAmount.setLanguageKey("gui.config.radiation.radiation_radaway_amount");
@@ -669,6 +693,8 @@ public class NCConfig {
 		propertyRadiationRadXCooldown.setLanguageKey("gui.config.radiation.radiation_rad_x_cooldown");
 		Property propertyRadiationShieldingLevel = config.get(CATEGORY_RADIATION, "radiation_shielding_level", new double[] {0.01D, 0.1D, 1D}, Lang.localise("gui.config.radiation.radiation_shielding_level.comment"), 0.000000000000000001D, 1000D);
 		propertyRadiationShieldingLevel.setLanguageKey("gui.config.radiation.radiation_shielding_level");
+		Property propertyRadiationTileShielding = config.get(CATEGORY_RADIATION, "radiation_tile_shielding", true, Lang.localise("gui.config.radiation.radiation_tile_shielding.comment"));
+		propertyRadiationTileShielding.setLanguageKey("gui.config.radiation.radiation_tile_shielding");
 		Property propertyRadiationScrubberRate = config.get(CATEGORY_RADIATION, "radiation_scrubber_fraction", 0.1D, Lang.localise("gui.config.radiation.radiation_scrubber_fraction.comment"), 0D, 1D);
 		propertyRadiationScrubberRate.setLanguageKey("gui.config.radiation.radiation_scrubber_fraction");
 		Property propertyRadiationScrubberPower = config.get(CATEGORY_RADIATION, "radiation_scrubber_power", 500, Lang.localise("gui.config.radiation.radiation_scrubber_power.comment"), 0, Integer.MAX_VALUE);
@@ -687,6 +713,10 @@ public class NCConfig {
 		
 		Property propertyRadiationHardcoreStacks = config.get(CATEGORY_RADIATION, "radiation_hardcore_stacks", true, Lang.localise("gui.config.radiation.radiation_hardcore_stacks.comment"));
 		propertyRadiationHardcoreStacks.setLanguageKey("gui.config.radiation.radiation_hardcore_stacks");
+		Property propertyRadiationHardcoreContainers = config.get(CATEGORY_RADIATION, "radiation_hardcore_containers", 0D, Lang.localise("gui.config.radiation.radiation_hardcore_containers.comment"), 0D, 1D);
+		propertyRadiationHardcoreContainers.setLanguageKey("gui.config.radiation.radiation_hardcore_containers");
+		Property propertyRadiationDroppedItems = config.get(CATEGORY_RADIATION, "radiation_dropped_items", true, Lang.localise("gui.config.radiation.radiation_dropped_items.comment"));
+		propertyRadiationDroppedItems.setLanguageKey("gui.config.radiation.radiation_dropped_items");
 		Property propertyRadiationDeathPersist = config.get(CATEGORY_RADIATION, "radiation_death_persist", true, Lang.localise("gui.config.radiation.radiation_death_persist.comment"));
 		propertyRadiationDeathPersist.setLanguageKey("gui.config.radiation.radiation_death_persist");
 		Property propertyRadiationDeathPersistFraction = config.get(CATEGORY_RADIATION, "radiation_death_persist_fraction", 0.5D, Lang.localise("gui.config.radiation.radiation_death_persist_fraction.comment"), 0D, 1D);
@@ -712,6 +742,15 @@ public class NCConfig {
 		propertyRadiationHUDTextOutline.setLanguageKey("gui.config.radiation.radiation_hud_text_outline");
 		Property propertyRadiationRequireCounter = config.get(CATEGORY_RADIATION, "radiation_require_counter", true, Lang.localise("gui.config.radiation.radiation_require_counter.comment"));
 		propertyRadiationRequireCounter.setLanguageKey("gui.config.radiation.radiation_require_counter");
+		Property propertyRadiationChunkBoundaries = config.get(CATEGORY_RADIATION, "radiation_chunk_boundaries", true, Lang.localise("gui.config.radiation.radiation_chunk_boundaries.comment"));
+		propertyRadiationChunkBoundaries.setLanguageKey("gui.config.radiation.radiation_chunk_boundaries");
+		Property propertyRadiationUnitPrefixes = config.get(CATEGORY_RADIATION, "radiation_unit_prefixes", 0, Lang.localise("gui.config.radiation.radiation_unit_prefixes.comment"), 0, 15);
+		propertyRadiationUnitPrefixes.setLanguageKey("gui.config.radiation.radiation_unit_prefixes");
+		
+		Property propertyRadiationBadgeDurability = config.get(CATEGORY_RADIATION, "radiation_badge_durability", 250D, Lang.localise("gui.config.radiation.radiation_badge_durability.comment"), 0.000000000000000001D, 1000D);
+		propertyRadiationBadgeDurability.setLanguageKey("gui.config.radiation.radiation_badge_durability");
+		Property propertyRadiationBadgeInfoRate = config.get(CATEGORY_RADIATION, "radiation_badge_info_rate", 0.1D, Lang.localise("gui.config.radiation.radiation_badge_info_rate.comment"), 0.000000000000000001D, 1D);
+		propertyRadiationBadgeInfoRate.setLanguageKey("gui.config.radiation.radiation_badge_info_rate");
 		
 		Property propertySingleCreativeTab = config.get(CATEGORY_OTHER, "single_creative_tab", false, Lang.localise("gui.config.other.single_creative_tab.comment"));
 		propertySingleCreativeTab.setLanguageKey("gui.config.other.single_creative_tab");
@@ -764,9 +803,6 @@ public class NCConfig {
 		propertyOreDictPriorityBool.setLanguageKey("gui.config.other.ore_dict_priority_bool");
 		Property propertyOreDictPriority = config.get(CATEGORY_OTHER, "ore_dict_priority", new String[] {"minecraft", "thermalfoundation", "techreborn", "nuclearcraft", "immersiveengineering", "mekanism", "ic2", "appliedenergistics2", "refinedstorage", "actuallyadditions", "advancedRocketry", "thaumcraft", "biomesoplenty"}, Lang.localise("gui.config.other.ore_dict_priority.comment"));
 		propertyOreDictPriority.setLanguageKey("gui.config.other.ore_dict_priority");
-
-		Property propertyRenderChunkBoundariesBool = config.get(CATEGORY_OTHER, "render_chunk_boundaries", true, Lang.localise("gui.config.other.render_chunk_boundaries.comment"));
-		propertyRenderChunkBoundariesBool.setLanguageKey("gui.config.other.render_chunk_boundaries");
 		
 		List<String> propertyOrderOres = new ArrayList<String>();
 		propertyOrderOres.add(propertyOreDims.getName());
@@ -962,6 +998,9 @@ public class NCConfig {
 		propertyOrderRadiation.add(propertyRadiationPlayerTickRate.getName());
 		propertyOrderRadiation.add(propertyRadiationWorlds.getName());
 		propertyOrderRadiation.add(propertyRadiationBiomes.getName());
+		propertyOrderRadiation.add(propertyRadiationWorldLimit.getName());
+		propertyOrderRadiation.add(propertyRadiationBiomeLimit.getName());
+		propertyOrderRadiation.add(propertyRadiationFromBiomesDimsBlacklist.getName());
 		propertyOrderRadiation.add(propertyRadiationOres.getName());
 		propertyOrderRadiation.add(propertyRadiationItems.getName());
 		propertyOrderRadiation.add(propertyRadiationBlocks.getName());
@@ -970,9 +1009,12 @@ public class NCConfig {
 		propertyOrderRadiation.add(propertyRadiationBlocksBlacklist.getName());
 		propertyOrderRadiation.add(propertyRadiationMaxPlayerRads.getName());
 		propertyOrderRadiation.add(propertyRadiationPlayerDecayRate.getName());
+		propertyOrderRadiation.add(propertyRadiationEntityDecayRate.getName());
 		propertyOrderRadiation.add(propertyRadiationSpreadRate.getName());
+		propertyOrderRadiation.add(propertyRadiationSpreadGradient.getName());
 		propertyOrderRadiation.add(propertyRadiationDecayRate.getName());
 		propertyOrderRadiation.add(propertyRadiationLowestRate.getName());
+		propertyOrderRadiation.add(propertyRadiationChunkLimit.getName());
 		propertyOrderRadiation.add(propertyRadiationRadawayAmount.getName());
 		propertyOrderRadiation.add(propertyRadiationRadawayRate.getName());
 		propertyOrderRadiation.add(propertyRadiationRadawayCooldown.getName());
@@ -980,6 +1022,7 @@ public class NCConfig {
 		propertyOrderRadiation.add(propertyRadiationRadXLifetime.getName());
 		propertyOrderRadiation.add(propertyRadiationRadXCooldown.getName());
 		propertyOrderRadiation.add(propertyRadiationShieldingLevel.getName());
+		propertyOrderRadiation.add(propertyRadiationTileShielding.getName());
 		propertyOrderRadiation.add(propertyRadiationScrubberRate.getName());
 		propertyOrderRadiation.add(propertyRadiationScrubberPower.getName());
 		propertyOrderRadiation.add(propertyRadiationScrubberBoraxRate.getName());
@@ -988,6 +1031,8 @@ public class NCConfig {
 		propertyOrderRadiation.add(propertyRadiationShieldingCustomStacks.getName());
 		propertyOrderRadiation.add(propertyRadiationShieldingDefaultLevels.getName());
 		propertyOrderRadiation.add(propertyRadiationHardcoreStacks.getName());
+		propertyOrderRadiation.add(propertyRadiationHardcoreContainers.getName());
+		propertyOrderRadiation.add(propertyRadiationDroppedItems.getName());
 		propertyOrderRadiation.add(propertyRadiationDeathPersist.getName());
 		propertyOrderRadiation.add(propertyRadiationDeathPersistFraction.getName());
 		propertyOrderRadiation.add(propertyRadiationDeathImmunityTime.getName());
@@ -999,6 +1044,10 @@ public class NCConfig {
 		propertyOrderRadiation.add(propertyRadiationHUDPositionCartesian.getName());
 		propertyOrderRadiation.add(propertyRadiationHUDTextOutline.getName());
 		propertyOrderRadiation.add(propertyRadiationRequireCounter.getName());
+		propertyOrderRadiation.add(propertyRadiationChunkBoundaries.getName());
+		propertyOrderRadiation.add(propertyRadiationUnitPrefixes.getName());
+		propertyOrderRadiation.add(propertyRadiationBadgeDurability.getName());
+		propertyOrderRadiation.add(propertyRadiationBadgeInfoRate.getName());
 		config.setCategoryPropertyOrder(CATEGORY_RADIATION, propertyOrderRadiation);
 		
 		List<String> propertyOrderOther = new ArrayList<String>();
@@ -1023,7 +1072,6 @@ public class NCConfig {
 		propertyOrderOther.add(propertyRegisterCoFHFluids.getName());
 		propertyOrderOther.add(propertyOreDictPriorityBool.getName());
 		propertyOrderOther.add(propertyOreDictPriority.getName());
-		propertyOrderOther.add(propertyRenderChunkBoundariesBool.getName());
 		config.setCategoryPropertyOrder(CATEGORY_OTHER, propertyOrderOther);
 		
 		if (setFromConfig) {
@@ -1195,6 +1243,9 @@ public class NCConfig {
 			
 			radiation_worlds = propertyRadiationWorlds.getStringList();
 			radiation_biomes = propertyRadiationBiomes.getStringList();
+			radiation_world_limits = propertyRadiationWorldLimit.getStringList();
+			radiation_biome_limits = propertyRadiationBiomeLimit.getStringList();
+			radiation_from_biomes_dims_blacklist = readIntegerArrayFromConfig(propertyRadiationFromBiomesDimsBlacklist);
 			
 			radiation_ores = propertyRadiationOres.getStringList();
 			radiation_items = propertyRadiationItems.getStringList();
@@ -1205,9 +1256,12 @@ public class NCConfig {
 			
 			max_player_rads = propertyRadiationMaxPlayerRads.getDouble();
 			radiation_player_decay_rate = propertyRadiationPlayerDecayRate.getDouble();
+			radiation_entity_decay_rate = propertyRadiationEntityDecayRate.getDouble();
 			radiation_spread_rate = propertyRadiationSpreadRate.getDouble();
+			radiation_spread_gradient = propertyRadiationSpreadGradient.getDouble();
 			radiation_decay_rate = propertyRadiationDecayRate.getDouble();
 			radiation_lowest_rate = propertyRadiationLowestRate.getDouble();
+			radiation_chunk_limit = propertyRadiationChunkLimit.getDouble();
 			
 			radiation_radaway_amount = propertyRadiationRadawayAmount.getDouble();
 			radiation_radaway_rate = propertyRadiationRadawayRate.getDouble();
@@ -1216,6 +1270,7 @@ public class NCConfig {
 			radiation_rad_x_lifetime = propertyRadiationRadXLifetime.getDouble();
 			radiation_rad_x_cooldown = propertyRadiationRadXCooldown.getDouble();
 			radiation_shielding_level = readDoubleArrayFromConfig(propertyRadiationShieldingLevel);
+			radiation_tile_shielding = propertyRadiationTileShielding.getBoolean();
 			radiation_scrubber_fraction = propertyRadiationScrubberRate.getDouble();
 			radiation_scrubber_power = propertyRadiationScrubberPower.getInt();
 			radiation_scrubber_borax_rate = propertyRadiationScrubberBoraxRate.getInt();
@@ -1226,6 +1281,8 @@ public class NCConfig {
 			radiation_shielding_default_levels = propertyRadiationShieldingDefaultLevels.getStringList();
 			
 			radiation_hardcore_stacks = propertyRadiationHardcoreStacks.getBoolean();
+			radiation_hardcore_containers = propertyRadiationHardcoreContainers.getDouble();
+			radiation_dropped_items = propertyRadiationDroppedItems.getBoolean();
 			radiation_death_persist = propertyRadiationDeathPersist.getBoolean();
 			radiation_death_persist_fraction = propertyRadiationDeathPersistFraction.getDouble();
 			radiation_death_immunity_time = propertyRadiationDeathImmunityTime.getDouble();
@@ -1240,6 +1297,11 @@ public class NCConfig {
 			radiation_hud_position_cartesian = propertyRadiationHUDPositionCartesian.getDoubleList();
 			radiation_hud_text_outline = propertyRadiationHUDTextOutline.getBoolean();
 			radiation_require_counter = propertyRadiationRequireCounter.getBoolean();
+			radiation_chunk_boundaries = propertyRadiationChunkBoundaries.getBoolean();
+			radiation_unit_prefixes = propertyRadiationUnitPrefixes.getInt();
+			
+			radiation_badge_durability = propertyRadiationBadgeDurability.getDouble();
+			radiation_badge_info_rate = propertyRadiationBadgeInfoRate.getDouble();
 			
 			single_creative_tab = propertySingleCreativeTab.getBoolean();
 			register_processor = readBooleanArrayFromConfig(propertyRegisterProcessor);
@@ -1262,7 +1324,6 @@ public class NCConfig {
 			register_cofh_fluids = propertyRegisterCoFHFluids.getBoolean();
 			ore_dict_priority_bool = propertyOreDictPriorityBool.getBoolean();
 			ore_dict_priority = propertyOreDictPriority.getStringList();
-			render_chunk_boundaries = propertyRenderChunkBoundariesBool.getBoolean();
 		}
 		
 		propertyOreDims.set(ore_dims);
@@ -1434,6 +1495,9 @@ public class NCConfig {
 		
 		propertyRadiationWorlds.set(radiation_worlds);
 		propertyRadiationBiomes.set(radiation_biomes);
+		propertyRadiationWorldLimit.set(radiation_world_limits);
+		propertyRadiationBiomeLimit.set(radiation_biome_limits);
+		propertyRadiationFromBiomesDimsBlacklist.set(radiation_from_biomes_dims_blacklist);
 		
 		propertyRadiationOres.set(radiation_ores);
 		propertyRadiationItems.set(radiation_items);
@@ -1444,9 +1508,12 @@ public class NCConfig {
 		
 		propertyRadiationMaxPlayerRads.set(max_player_rads);
 		propertyRadiationPlayerDecayRate.set(radiation_player_decay_rate);
+		propertyRadiationEntityDecayRate.set(radiation_entity_decay_rate);
 		propertyRadiationSpreadRate.set(radiation_spread_rate);
+		propertyRadiationSpreadGradient.set(radiation_spread_gradient);
 		propertyRadiationDecayRate.set(radiation_decay_rate);
 		propertyRadiationLowestRate.set(radiation_lowest_rate);
+		propertyRadiationChunkLimit.set(radiation_chunk_limit);
 		
 		propertyRadiationRadawayAmount.set(radiation_radaway_amount);
 		propertyRadiationRadawayRate.set(radiation_radaway_rate);
@@ -1455,6 +1522,7 @@ public class NCConfig {
 		propertyRadiationRadXLifetime.set(radiation_rad_x_lifetime);
 		propertyRadiationRadXCooldown.set(radiation_rad_x_cooldown);
 		propertyRadiationShieldingLevel.set(radiation_shielding_level);
+		propertyRadiationTileShielding.set(radiation_tile_shielding);
 		propertyRadiationScrubberRate.set(radiation_scrubber_fraction);
 		propertyRadiationScrubberPower.set(radiation_scrubber_power);
 		propertyRadiationScrubberBoraxRate.set(radiation_scrubber_borax_rate);
@@ -1465,6 +1533,8 @@ public class NCConfig {
 		propertyRadiationShieldingDefaultLevels.set(radiation_shielding_default_levels);
 		
 		propertyRadiationHardcoreStacks.set(radiation_hardcore_stacks);
+		propertyRadiationHardcoreContainers.set(radiation_hardcore_containers);
+		propertyRadiationDroppedItems.set(radiation_dropped_items);
 		propertyRadiationDeathPersist.set(radiation_death_persist);
 		propertyRadiationDeathPersistFraction.set(radiation_death_persist_fraction);
 		propertyRadiationDeathImmunityTime.set(radiation_death_immunity_time);
@@ -1479,6 +1549,11 @@ public class NCConfig {
 		propertyRadiationHUDPositionCartesian.set(radiation_hud_position_cartesian);
 		propertyRadiationHUDTextOutline.set(radiation_hud_text_outline);
 		propertyRadiationRequireCounter.set(radiation_require_counter);
+		propertyRadiationChunkBoundaries.set(radiation_chunk_boundaries);
+		propertyRadiationUnitPrefixes.set(radiation_unit_prefixes);
+		
+		propertyRadiationBadgeDurability.set(radiation_badge_durability);
+		propertyRadiationBadgeInfoRate.set(radiation_badge_info_rate);
 		
 		propertySingleCreativeTab.set(single_creative_tab);
 		propertyRegisterProcessor.set(register_processor);
@@ -1500,7 +1575,6 @@ public class NCConfig {
 		propertyRegisterCoFHFluids.set(register_cofh_fluids);
 		propertyOreDictPriorityBool.set(ore_dict_priority_bool);
 		propertyOreDictPriority.set(ore_dict_priority);
-		propertyRenderChunkBoundariesBool.set(render_chunk_boundaries);
 		
 		if (setFromConfig) {
 			radiation_enabled_public = radiation_enabled;

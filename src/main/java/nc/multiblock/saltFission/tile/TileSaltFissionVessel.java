@@ -30,7 +30,6 @@ import nc.tile.passive.ITilePassive;
 import nc.util.FluidStackHelper;
 import nc.util.GasHelper;
 import nc.util.RadiationHelper;
-import nc.util.RecipeHelper;
 import nc.util.RegistryHelper;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
@@ -50,7 +49,7 @@ public class TileSaltFissionVessel extends TileSaltFissionPartBase implements IF
 	private static final FluidConnection DEFAULT = FluidConnection.BOTH;
 	private static final FluidConnection DISABLED = FluidConnection.NON;
 	
-	private final @Nonnull List<Tank> tanks = Lists.newArrayList(new Tank(FluidStackHelper.INGOT_BLOCK_VOLUME*2, TankSorption.IN, RecipeHelper.validFluids(NCRecipes.Type.SALT_FISSION).get(0)), new Tank(FluidStackHelper.INGOT_BLOCK_VOLUME*4, TankSorption.OUT, new ArrayList<String>()), new Tank(FluidStackHelper.INGOT_BLOCK_VOLUME*2, TankSorption.NON, new ArrayList<String>()));
+	private final @Nonnull List<Tank> tanks = Lists.newArrayList(new Tank(FluidStackHelper.INGOT_BLOCK_VOLUME*2, TankSorption.IN, NCRecipes.salt_fission_valid_fluids.get(0)), new Tank(FluidStackHelper.INGOT_BLOCK_VOLUME*4, TankSorption.OUT, new ArrayList<String>()), new Tank(FluidStackHelper.INGOT_BLOCK_VOLUME*2, TankSorption.NON, new ArrayList<String>()));
 	
 	private @Nonnull FluidConnection[] fluidConnections = ITileFluid.fluidConnectionAll(FluidConnection.BOTH);
 	

@@ -38,7 +38,7 @@ public class StringHelper {
 	}
 	
 	public static String stringListConcat(List<String> firstStringList, List<String>... otherStringLists) {
-		return String.join(", ", ArrayHelper.concatenate(firstStringList, otherStringLists));
+		return String.join(", ", CollectionHelper.concatenate(firstStringList, otherStringLists));
 	}
 	
 	public static String charLine(char ch, int length) {

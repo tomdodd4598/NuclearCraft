@@ -246,8 +246,8 @@ public abstract class AbstractRecipeHandler<T extends IRecipe> {
 		if (requiresFluidFixing(object)) {
 			object = RecipeHelper.fixFluidStack(object);
 		}
-		if (ModCheck.mekanismLoaded() && object instanceof FluidIngredient) {
-			return checkedFluidIngredient(buildFluidIngredient(mekanismFluidStackList((FluidIngredient)object)));
+		if (needsExpanding() && object instanceof FluidIngredient) {
+			return checkedFluidIngredient(buildFluidIngredient(expandedFluidStackList((FluidIngredient)object)));
 		}
 		if (object instanceof IFluidIngredient) {
 			return checkedFluidIngredient((IFluidIngredient) object);
@@ -283,6 +283,10 @@ public abstract class AbstractRecipeHandler<T extends IRecipe> {
 		return ingredient == null || !ingredient.isValid() ? null : ingredient;
 	}
 	
+	public boolean needsExpanding() {
+		return ModCheck.mekanismLoaded() || ModCheck.techRebornLoaded();
+	}
+	
 	public boolean isValidItemInput(ItemStack stack) {
 		for (T recipe : recipes) {
 			for (IItemIngredient input : recipe.itemIngredients()) {
@@ -316,7 +320,7 @@ public abstract class AbstractRecipeHandler<T extends IRecipe> {
 		return false;
 	}
 	
-	public boolean isValidItemOutput(FluidStack stack) {
+	public boolean isValidFluidOutput(FluidStack stack) {
 		for (T recipe : recipes) {
 			for (IFluidIngredient output : recipe.fluidProducts()) {
 				if (output.matches(stack, IngredientSorption.OUTPUT)) {
@@ -453,18 +457,23 @@ public abstract class AbstractRecipeHandler<T extends IRecipe> {
 		return fluidStackList;
 	}
 	
-	public List<FluidIngredient> mekanismFluidStackList(FluidIngredient stack) {
+	/** For Mekanism and Tech Reborn fluids */
+	public List<FluidIngredient> expandedFluidStackList(FluidIngredient stack) {
 		List<FluidIngredient> fluidStackList = Lists.newArrayList(stack);
 		
-		if (stack.fluidName.equals("helium")) {
-			return fluidStackList;
+		if (ModCheck.mekanismLoaded() && !stack.fluidName.equals("helium")) {
+			if (GasHelper.TRANSLATION_MAP.containsKey(stack.fluidName)) {
+				fluidStackList.add(fluidStack(GasHelper.TRANSLATION_MAP.get(stack.fluidName), stack.amount));
+			}
+			else {
+				fluidStackList.add(fluidStack("liquid" + stack.fluidName, stack.amount));
+			}
 		}
-		else if (GasHelper.TRANSLATION_MAP.containsKey(stack.fluidName)) {
-			fluidStackList.add(fluidStack(GasHelper.TRANSLATION_MAP.get(stack.fluidName), stack.amount));
+		
+		if (ModCheck.techRebornLoaded()) {
+			fluidStackList.add(fluidStack("fluid" + stack.fluidName, stack.amount));
 		}
-		else {
-			fluidStackList.add(fluidStack("liquid" + stack.fluidName, stack.amount));
-		}
+		
 		return fluidStackList;
 	}
 	

@@ -1,7 +1,6 @@
 package nc.tile.processor;
 
 import nc.config.NCConfig;
-import nc.util.NCMath;
 
 public interface IUpgradable {
 	
@@ -24,7 +23,7 @@ public interface IUpgradable {
 	}
 	
 	public default double powerLawFactor(int upgradeCount, double power) {
-		return (power % 1) == 0 ? NCMath.simplexNumber(upgradeCount, (int)power) - 1D : Math.pow(upgradeCount, power) - 1D;
+		return Math.pow(upgradeCount, power) - 1D;
 	}
 	
 	public void refreshUpgrades();

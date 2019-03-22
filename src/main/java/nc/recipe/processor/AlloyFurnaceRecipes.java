@@ -16,7 +16,7 @@ public class AlloyFurnaceRecipes extends ProcessorRecipeHandler {
 	public AlloyFurnaceRecipes() {
 		super("alloy_furnace", 2, 0, 1, 0);
 	}
-
+	
 	@Override
 	public void addRecipes() {
 		addAlloyIngotIngotRecipes("Copper", 3, "Tin", 1, "Bronze", 4, 1D, 1D);
@@ -33,7 +33,7 @@ public class AlloyFurnaceRecipes extends ProcessorRecipeHandler {
 		addAlloyIngotIngotRecipes("Tough", 1, "HardCarbon", 1, "Extreme", 1, 2D, 2D);
 		addAlloyIngotGemRecipes("Extreme", 1, "BoronArsenide", 1, "Thermoconducting", 2, 1.5D, 1.5D);
 		addAlloyIngotIngotRecipes("Zirconium", 7, "Tin", 1, "Zircaloy", 8, 4D, 1D);
-		addRecipe(Lists.newArrayList("itemSilicon", "ingotSilicon"), Lists.newArrayList("ingotGraphite", "dustGraphite"), oreStack("ingotSiliconCarbide", 2), 2D, 2D);
+		addRecipe(SILICON, metalList("Graphite"), oreStack("ingotSiliconCarbide", 2), 2D, 2D);
 		addAlloyIngotIngotRecipes("Iron", 15, "CarbonManganese", 1, "HSLASteel", 16, 8D, 2D);
 		
 		// Tinkers' Construct
@@ -47,19 +47,27 @@ public class AlloyFurnaceRecipes extends ProcessorRecipeHandler {
 		addAlloyIngotIngotRecipes("Copper", 1, "Nickel", 1, "Constantan", 2, 1D, 1D);
 		
 		// EnderIO
-		addRecipe(Lists.newArrayList("ingotSteel", "dustSteel"), Lists.newArrayList("itemSilicon", "ingotSilicon"), "ingotElectricalSteel", 1.5D, 1.5D);
-		addRecipe(Lists.newArrayList("ingotGold", "dustGold"), oreStack("dustEnergetic", 2), "ingotEnergeticAlloy", 1D, 1.5D);
-		addRecipe(Lists.newArrayList("ingotEnergeticAlloy", "dustEnergeticAlloy"), Lists.newArrayList(Items.ENDER_PEARL, "dustEnder"), "ingotVibrantAlloy", 1.5D, 2D);
-		addRecipe(Lists.newArrayList("itemSilicon", "ingotSilicon"), "dustRedstone", "ingotRedstoneAlloy", 1D, 1D);
-		addRecipe(Lists.newArrayList("ingotIron", "dustIron"), "dustRedstone", "ingotConductiveIron", 1D, 1D);
-		addRecipe(Lists.newArrayList("ingotIron", "dustIron"), Lists.newArrayList(Items.ENDER_PEARL, "dustEnder"), "ingotPulsatingIron", 1.5D, 1D);
-		addRecipe(Lists.newArrayList("ingotSteel", "dustSteel"), "obsidian", "ingotDarkSteel", 1.5D, 2D);
-		addRecipe(Lists.newArrayList("ingotGold", "dustGold"), Blocks.SOUL_SAND, "ingotSoularium", 1.5D, 0.5D);
-		addRecipe(oreStackList(Lists.newArrayList("ingotLead", "dustLead"), 2), Lists.newArrayList("ingotIron", "dustIron"), oreStack("ingotConstructionAlloy", 3), 1D, 1D);
+		addRecipe(metalList("Steel"), SILICON, "ingotElectricalSteel", 1.5D, 1.5D);
+		addRecipe(metalList("Gold"), oreStack("dustEnergetic", 2), "ingotEnergeticAlloy", 1D, 1.5D);
+		addRecipe(metalList("EnergeticAlloy"), ENDER_PEARL, "ingotVibrantAlloy", 1.5D, 2D);
+		addRecipe(SILICON, "dustRedstone", "ingotRedstoneAlloy", 1D, 1D);
+		addRecipe(metalList("Iron"), "dustRedstone", "ingotConductiveIron", 1D, 1D);
+		addRecipe(metalList("Iron"), ENDER_PEARL, "ingotPulsatingIron", 1.5D, 1D);
+		addRecipe(metalList("Steel"), "obsidian", "ingotDarkSteel", 1.5D, 2D);
+		addRecipe(metalList("Gold"), Blocks.SOUL_SAND, "ingotSoularium", 1.5D, 0.5D);
 		addRecipe("ingotDarkSteel", oreStack("dustDimensional", 2), "ingotEndSteel", 2D, 2D);
+		addRecipe(oreStackList(metalList("Lead"), 2), metalList("Iron"), oreStack("ingotConstructionAlloy", 3), 1D, 1D);
 		
-		addRecipe(Lists.newArrayList("gemDiamond", "dustDiamond"), oreStack("nuggetPulsatingIron", 8), "itemPulsatingCrystal", 1D, 1.5D);
-		addRecipe(Lists.newArrayList("gemEmerald", "dustEmerald"), oreStack("nuggetVibrantAlloy", 8), "itemVibrantCrystal", 1D, 1.5D);
+		addRecipe(gemList("Diamond"), oreStack("nuggetPulsatingIron", 8), "itemPulsatingCrystal", 1D, 1.5D);
+		addRecipe(gemList("Emerald"), oreStack("nuggetVibrantAlloy", 8), "itemVibrantCrystal", 1D, 1.5D);
+		
+		// Endergy
+		addRecipe("itemClay", "gravel", "ingotCrudeSteel", 0.5D, 1D);
+		addRecipe("ingotGold", "itemPulsatingPowder", "ingotCrystallineAlloy", 1D, 1D);
+		addRecipe("ingotEndSteel", Items.CHORUS_FRUIT_POPPED, "ingotMelodicAlloy", 2D, 1.5D);
+		addRecipe("ingotMelodicAlloy", "netherStar", oreStack("ingotStellarAlloy", 2), 2D, 2D);
+		addRecipe(metalList("Silver"), oreStack("dustEnergetic", 2), "ingotEnergeticSilver", 1D, 1.5D);
+		addRecipe(metalList("EnergeticSilver"), ENDER_PEARL, "ingotVividAlloy", 1.5D, 2D);
 		
 		// Flaxbeard's Steam Power Mod
 		addAlloyIngotIngotRecipes("Copper", 3, "Zinc", 1, "Brass", 4, 1D, 1D);
@@ -108,5 +116,16 @@ public class AlloyFurnaceRecipes extends ProcessorRecipeHandler {
 		ArrayList<OreIngredient> list = new ArrayList<OreIngredient>();
 		for (String form : forms) list.add(oreStack(form + type, size));
 		return list;
+	}
+	
+	private static final List<String> SILICON = Lists.newArrayList("itemSilicon", "ingotSilicon");
+	private static final List<Object> ENDER_PEARL = Lists.newArrayList(Items.ENDER_PEARL, "dustEnder");
+	
+	private List<String> metalList(String name) {
+		return Lists.newArrayList("ingot" + name, "dust" + name);
+	}
+	
+	private List<String> gemList(String name) {
+		return Lists.newArrayList("gem" + name, "dust" + name);
 	}
 }

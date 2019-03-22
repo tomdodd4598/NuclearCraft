@@ -29,7 +29,6 @@ import nc.tile.processor.IFluidProcessor;
 import nc.util.BlockPosHelper;
 import nc.util.FluidStackHelper;
 import nc.util.GasHelper;
-import nc.util.RecipeHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -46,7 +45,7 @@ public class TileSaltFissionHeater extends TileSaltFissionPartBase implements IF
 	private static final FluidConnection DEFAULT = FluidConnection.BOTH;
 	private static final FluidConnection DISABLED = FluidConnection.NON;
 	
-	private final @Nonnull List<Tank> tanks = Lists.newArrayList(new Tank(FluidStackHelper.INGOT_BLOCK_VOLUME*2, TankSorption.IN, RecipeHelper.validFluids(NCRecipes.Type.COOLANT_HEATER).get(0)), new Tank(FluidStackHelper.INGOT_BLOCK_VOLUME*4, TankSorption.OUT, new ArrayList<String>()));
+	private final @Nonnull List<Tank> tanks = Lists.newArrayList(new Tank(FluidStackHelper.INGOT_BLOCK_VOLUME*2, TankSorption.IN, NCRecipes.coolant_heater_valid_fluids.get(0)), new Tank(FluidStackHelper.INGOT_BLOCK_VOLUME*4, TankSorption.OUT, new ArrayList<String>()));
 	
 	private @Nonnull FluidConnection[] fluidConnections = ITileFluid.fluidConnectionAll(FluidConnection.BOTH);
 	

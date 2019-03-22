@@ -39,9 +39,4 @@ public class SaltFissionCategory extends JEICategoryAbstract<JEIRecipeWrapper.Sa
 	
 	private static final String FUEL_TIME = Lang.localise("jei.nuclearcraft.salt_fuel_time");
 	private static final String FUEL_HEAT = Lang.localise("jei.nuclearcraft.salt_fuel_heat");
-	
-	@Override
-	public String getTitle() {
-		return recipeTitle;
-	}
 }

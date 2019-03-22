@@ -55,9 +55,4 @@ public class HeatExchangerCategory extends JEICategoryAbstract<JEIRecipeWrapper.
 	private static final String COOLING_PROVIDED = Lang.localise("jei.nuclearcraft.exchanger_cooling_provided");
 	private static final String HEATING_REQUIRED = Lang.localise("jei.nuclearcraft.exchanger_heating_required");
 	private static final String COOLING_REQUIRED = Lang.localise("jei.nuclearcraft.exchanger_cooling_required");
-	
-	@Override
-	public String getTitle() {
-		return recipeTitle;
-	}
 }

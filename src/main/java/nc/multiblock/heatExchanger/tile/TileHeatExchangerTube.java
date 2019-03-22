@@ -28,7 +28,6 @@ import nc.tile.internal.fluid.TankSorption;
 import nc.tile.passive.ITilePassive;
 import nc.tile.processor.IFluidProcessor;
 import nc.util.GasHelper;
-import nc.util.RecipeHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -45,7 +44,7 @@ public class TileHeatExchangerTube extends TileHeatExchangerPartBase implements 
 	private static final FluidConnection DEFAULT = FluidConnection.BOTH;
 	private static final FluidConnection DISABLED = FluidConnection.NON;
 	
-	private final @Nonnull List<Tank> tanks = Lists.newArrayList(new Tank(32000, TankSorption.IN, RecipeHelper.validFluids(NCRecipes.Type.HEAT_EXCHANGER).get(0)), new Tank(64000, TankSorption.OUT, new ArrayList<String>()));
+	private final @Nonnull List<Tank> tanks = Lists.newArrayList(new Tank(32000, TankSorption.IN, NCRecipes.coolant_heater_valid_fluids.get(0)), new Tank(64000, TankSorption.OUT, new ArrayList<String>()));
 	
 	private @Nonnull FluidConnection[] fluidConnections = ITileFluid.fluidConnectionAll(FluidConnection.NON);
 	
@@ -144,9 +143,13 @@ public class TileHeatExchangerTube extends TileHeatExchangerPartBase implements 
 		if (!tube.canProcessInputs || (requiresContraflow(tube) && !isContraflow(tube))) return 0;
 		
 		if (!canConnectFluid(dir) || !tube.canConnectFluid(dir.getOpposite())) {
-			return conductivityMult()*(isHeating() != tube.isHeating() ? tube.getAbsRecipeTempDiff() : -getAbsInputTempDiff(tube));
+			return conductivityMult()*getRawTubeSpeedMultiplier(tube);
 		}
 		return 0;
+	}
+	
+	private double getRawTubeSpeedMultiplier(TileHeatExchangerTube tube) {
+		return isHeating() != tube.isHeating() ? tube.getAbsRecipeTempDiff() : (isHeating() ? -getAbsInputTempDiff(tube) : 0);
 	}
 	
 	private boolean isContraflow(TileHeatExchangerTube tube) {

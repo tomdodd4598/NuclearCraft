@@ -104,6 +104,20 @@ public class ProcessorRecipe implements IRecipe {
 		else return 0D;
 	}
 	
+	// Active Cooler
+	
+	public long getActiveFissionCoolingRate() {
+		if (extras.isEmpty()) return 0;
+		else if (extras.get(0) instanceof Long) return (long) extras.get(0);
+		else return 0;
+	}
+	
+	public long getActiveFusionCoolingRate() {
+		if (extras.size() < 2) return 0;
+		else if (extras.get(1) instanceof Long) return (long) extras.get(1);
+		else return 0;
+	}
+	
 	// Decay Generator
 	
 	public double getDecayLifetime() {

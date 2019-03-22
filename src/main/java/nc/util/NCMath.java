@@ -1,5 +1,7 @@
 package nc.util;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.Random;
 
 import net.minecraft.util.math.MathHelper;
@@ -143,5 +145,11 @@ public class NCMath {
 		else if (angle <= 240D) return 0D;
 		else if (angle <= 300D) return (angle - 240D)/60D;
 		else return 1D;
+	}
+	
+	public static double sigFigs(double number, int sigFigs) {
+		BigDecimal bd = new BigDecimal(number);
+		bd = bd.round(new MathContext(sigFigs));
+		return bd.doubleValue();
 	}
 }

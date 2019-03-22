@@ -32,7 +32,6 @@ public class TileRadiationScrubber extends TilePassiveAbstract implements ITileR
 	public static final double MAX_SCRUBBER_RATE_FRACTION = NCConfig.radiation_scrubber_fraction;
 	
 	private double scrubberRateFraction = 0D;
-	public double rawScrubberRate = 0D;
 	private double currentChunkBuffer = 0D;
 	
 	public final Map<BlockPos, Integer> occlusionMap = new ConcurrentHashMap<BlockPos, Integer>();
@@ -59,16 +58,12 @@ public class TileRadiationScrubber extends TilePassiveAbstract implements ITileR
 		super.update();
 		if(!world.isRemote) {
 			tickRadCount();
-			if(shouldRadCheck()) checkSurroundings();
+			if(shouldRadCheck()) checkRadiationEnvironmentInfo();
 		}
 	}
 	
-	public void checkSurroundings() {
-		checkRadiationEnvironmentInfo();
-		if (!isActive) rawScrubberRate = 0D;
-		else {
-			rawScrubberRate = -currentChunkBuffer*scrubberRateFraction;
-		}
+	public double getRawScrubberRate() {
+		return isActive ? -currentChunkBuffer*scrubberRateFraction : 0D;
 	}
 	
 	public void tickRadCount() {
@@ -151,7 +146,6 @@ public class TileRadiationScrubber extends TilePassiveAbstract implements ITileR
 	public NBTTagCompound writeAll(NBTTagCompound nbt) {
 		super.writeAll(nbt);
 		nbt.setDouble("scrubberRate", scrubberRateFraction);
-		nbt.setDouble("rawScrubberRate", rawScrubberRate);
 		nbt.setDouble("currentChunkBuffer", currentChunkBuffer);
 		
 		int count = 0;
@@ -167,7 +161,6 @@ public class TileRadiationScrubber extends TilePassiveAbstract implements ITileR
 	public void readAll(NBTTagCompound nbt) {
 		super.readAll(nbt);
 		scrubberRateFraction = nbt.getDouble("scrubberRate");
-		rawScrubberRate = nbt.getDouble("rawScrubberRate");
 		currentChunkBuffer = nbt.getDouble("currentChunkBuffer");
 		
 		for (String key : nbt.getKeySet()) {
@@ -190,7 +183,7 @@ public class TileRadiationScrubber extends TilePassiveAbstract implements ITileR
 	@Callback
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getRadiationRemovalRate(Context context, Arguments args) {
-		return new Object[] {rawScrubberRate};
+		return new Object[] {getRawScrubberRate()};
 	}
 	
 	@Callback

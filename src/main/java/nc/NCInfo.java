@@ -6,9 +6,10 @@ import nc.enumm.IItemMeta;
 import nc.enumm.MetaEnums;
 import nc.enumm.MetaEnums.CoolerType;
 import nc.enumm.MetaEnums.IngotType;
+import nc.enumm.MetaEnums.RadShieldingType;
 import nc.enumm.MetaEnums.UpgradeType;
 import nc.multiblock.turbine.block.BlockTurbineDynamoCoil.DynamoCoilType;
-import nc.util.ArrayHelper;
+import nc.util.CollectionHelper;
 import nc.util.InfoHelper;
 import nc.util.Lang;
 import nc.util.NCMath;
@@ -22,7 +23,7 @@ public class NCInfo {
 		String[][] info = new String[CoolerType.values().length][];
 		info[0] = new String[] {};
 		for (int i = 1; i < CoolerType.values().length; i++) {
-			info[i] = ArrayHelper.concatenate(new String[] {coolingRateString(i)}, InfoHelper.formattedInfo(coolerInfoString(i)));
+			info[i] = CollectionHelper.concatenate(new String[] {coolingRateString(i)}, InfoHelper.formattedInfo(coolerInfoString(i)));
 		}
 		return info;
 	}
@@ -80,7 +81,7 @@ public class NCInfo {
 		String[][] info = new String[DynamoCoilType.values().length][];
 		info[0] = new String[] {};
 		for (int i = 0; i < DynamoCoilType.values().length; i++) {
-			info[i] = ArrayHelper.concatenate(new String[] {coilConductivityString(i)}, InfoHelper.formattedInfo(coiInfoString(i)));
+			info[i] = CollectionHelper.concatenate(new String[] {coilConductivityString(i)}, InfoHelper.formattedInfo(coiInfoString(i)));
 		}
 		return info;
 	}
@@ -136,5 +137,15 @@ public class NCInfo {
 	
 	public static <T extends Enum<T> & IStringSerializable & IItemMeta> String[][] gemDustOreDropInfo() {
 		return oreDropInfo("gem_dust", MetaEnums.GemDustType.values(), new int[] {4}, new int[] {6});
+	}
+	
+	// Rad Shielding
+	
+	public static String[][] radShieldingInfo() {
+		String[][] info = new String[RadShieldingType.values().length][];
+		for (int i = 0; i < RadShieldingType.values().length; i++) {
+			info[i] = InfoHelper.formattedInfo(Lang.localise("item.nuclearcraft.rad_shielding.desc" + (NCConfig.radiation_hardcore_containers > 0D ? "_hardcore" : "")));
+		}
+		return info;
 	}
 }

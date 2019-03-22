@@ -66,7 +66,7 @@ public class OreDictHelper {
 		
 		for (ItemStack stack : stackList) {
 			if (stack.isEmpty() || stack == null) return "Unknown";
-			oreNameList = ArrayHelper.intersect(oreNameList, getOreNames(stack));
+			oreNameList = CollectionHelper.intersect(oreNameList, getOreNames(stack));
 			if (oreNameList.isEmpty()) return "Unknown";
 		}
 		return oreNameList.get(0);

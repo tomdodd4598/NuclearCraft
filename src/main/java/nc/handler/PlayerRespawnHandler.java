@@ -1,6 +1,6 @@
 package nc.handler;
 
-import nc.capability.radiation.IEntityRads;
+import nc.capability.radiation.entity.IEntityRads;
 import nc.config.NCConfig;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.event.entity.player.PlayerEvent;

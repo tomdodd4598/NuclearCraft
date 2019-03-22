@@ -1,0 +1,7 @@
+{
+	"parent": "nuclearcraft:block/turbine_rotor_shaft_base",
+	"textures": {
+		"texture": "nuclearcraft:blocks/turbine/turbine_rotor_shaft",
+		"texture2": "nuclearcraft:blocks/turbine/turbine_rotor_stator"
+	}
+}

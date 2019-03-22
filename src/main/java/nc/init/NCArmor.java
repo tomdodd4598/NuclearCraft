@@ -2,7 +2,8 @@ package nc.init;
 
 import nc.Global;
 import nc.config.NCConfig;
-import nc.item.NCItemArmor;
+import nc.item.armor.ItemHazmatSuit;
+import nc.item.armor.NCItemArmor;
 import nc.tab.NCTabs;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
@@ -79,10 +80,10 @@ public class NCArmor {
 			boots_boron_nitride = new NCItemArmor("boots_boron_nitride", BORON_NITRIDE, 1, EntityEquipmentSlot.FEET);
 		}
 		
-		helm_hazmat = new NCItemArmor("helm_hazmat", HAZMAT, 1, EntityEquipmentSlot.HEAD);
-		chest_hazmat = new NCItemArmor("chest_hazmat", HAZMAT, 1, EntityEquipmentSlot.CHEST);
-		legs_hazmat = new NCItemArmor("legs_hazmat", HAZMAT, 2, EntityEquipmentSlot.LEGS);
-		boots_hazmat = new NCItemArmor("boots_hazmat", HAZMAT, 1, EntityEquipmentSlot.FEET);
+		helm_hazmat = new ItemHazmatSuit("helm_hazmat", HAZMAT, 1, EntityEquipmentSlot.HEAD, 0.2D);
+		chest_hazmat = new ItemHazmatSuit("chest_hazmat", HAZMAT, 1, EntityEquipmentSlot.CHEST, 0.4D);
+		legs_hazmat = new ItemHazmatSuit("legs_hazmat", HAZMAT, 2, EntityEquipmentSlot.LEGS, 0.2D);
+		boots_hazmat = new ItemHazmatSuit("boots_hazmat", HAZMAT, 1, EntityEquipmentSlot.FEET, 0.2D);
 	}
 		
 	public static void register() {

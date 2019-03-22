@@ -50,10 +50,10 @@ public class NuclearCraft {
 		NCUtil.getLogger().info("Post Initializing...");
 		proxy.postInit(postEvent);
 	}
-
+	
 	@EventHandler
-	public void serverLoad(FMLServerStartingEvent event) {
-		NCUtil.getLogger().info("Server loading...");
-		proxy.serverLoad(event);
+	public void serverStart(FMLServerStartingEvent serverStartEvent) {
+		NCUtil.getLogger().info("Server Loading...");
+		proxy.serverStart(serverStartEvent);
 	}
 }

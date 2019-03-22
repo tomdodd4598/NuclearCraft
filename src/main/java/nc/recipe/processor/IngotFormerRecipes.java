@@ -49,6 +49,27 @@ public class IngotFormerRecipes extends ProcessorRecipeHandler {
 		addIngotFormingRecipe("Electrum");
 		addIngotFormingRecipe("Steel");
 		
+		// EnderIO
+		addIngotFormingRecipe("electrical_steel", "ElectricalSteel");
+		addIngotFormingRecipe("energetic_alloy", "EnergeticAlloy");
+		addIngotFormingRecipe("vibrant_alloy", "VibrantAlloy");
+		addIngotFormingRecipe("redstone_alloy", "RedstoneAlloy");
+		addIngotFormingRecipe("conductive_iron", "ConductiveIron");
+		addIngotFormingRecipe("pulsating_iron", "PulsatingIron");
+		addIngotFormingRecipe("dark_steel", "DarkSteel");
+		addIngotFormingRecipe("soularium", "Soularium");
+		addIngotFormingRecipe("end_steel", "EndSteel");
+		addIngotFormingRecipe("construction_alloy", "ConstructionAlloy");
+		
+		// Endergy
+		addIngotFormingRecipe("crude_steel", "CrudeSteel");
+		addIngotFormingRecipe("crystalline_alloy", "CrystallineAlloy");
+		addIngotFormingRecipe("melodic_alloy", "MelodicAlloy");
+		addIngotFormingRecipe("stellar_alloy", "StellarAlloy");
+		addIngotFormingRecipe("crystalline_pink_slime", "CrystallinePinkSlime");
+		addIngotFormingRecipe("energetic_silver", "EnergeticSilver");
+		addIngotFormingRecipe("vivid_alloy", "VividAlloy");
+		
 		// Mekanism
 		addRecipe(fluidStack("brine", 15), "dustSalt", 0.25D, 0.5D);
 		

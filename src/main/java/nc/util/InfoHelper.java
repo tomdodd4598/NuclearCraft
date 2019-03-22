@@ -85,8 +85,8 @@ public class InfoHelper {
 		String[] names = getEnumNames(enumm);
 		String[][] strings = new String[names.length][];
 		for (int i = 0; i < names.length; i++) {
-			if (ArrayHelper.isNull(tooltips, i)) strings[i] = EMPTY_ARRAY;
-			else if (ArrayHelper.isEmpty(tooltips, i)) strings[i] = standardGeneralInfo(unlocNameBase + "." + names[i], unlocNameBase, desc, des);
+			if (CollectionHelper.isNull(tooltips, i)) strings[i] = EMPTY_ARRAY;
+			else if (CollectionHelper.isEmpty(tooltips, i)) strings[i] = standardGeneralInfo(unlocNameBase + "." + names[i], unlocNameBase, desc, des);
 			else strings[i] = tooltips[i];
 		}
 		return strings;
@@ -115,7 +115,7 @@ public class InfoHelper {
 		String[] info = new String[] {Lang.localise(firstLine)};
 		int line = 1;
 		while (Lang.canLocalise(base + line)) {
-			info = ArrayHelper.concatenate(info, Lang.localise(base + line));
+			info = CollectionHelper.concatenate(info, Lang.localise(base + line));
 			line++;
 		}
 		return info;

@@ -3,7 +3,7 @@ package nc.tile;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import nc.capability.radiation.IRadiationSource;
+import nc.capability.radiation.source.IRadiationSource;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.EnumFacing;
