@@ -1,3 +1,19 @@
+v2.14b
+
++ Added config to customise radiation-induced potion effects
+
+* Fixed various crashes on world load
+* Fixed compatibility issue with Prefab
+
++ Added radiation to more GTCE items
+
+v2.14a
+
+* Fixed Geiger Counter and Radiation Scrubber chunk rendering crash
+* Fixed possible crashing loop in radiation capability logic on loading the world
+
+* Updated Russian language file [thanks to Lokuster!]
+
 v2.14
 
 * Speed and Energy Upgrade multipliers now follow a simple power law rather than simplex functions
