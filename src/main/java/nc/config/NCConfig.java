@@ -253,8 +253,8 @@ public class NCConfig {
 	public static double radiation_death_persist_fraction;
 	public static double radiation_death_immunity_time;
 	
-	public static boolean radiation_passive_debuffs;
-	public static boolean radiation_mob_buffs;
+	public static String[] radiation_passive_debuff_lists;
+	public static String[] radiation_mob_buff_lists;
 	
 	private static boolean radiation_horse_armor;
 	public static boolean radiation_horse_armor_public;
@@ -724,10 +724,10 @@ public class NCConfig {
 		Property propertyRadiationDeathImmunityTime = config.get(CATEGORY_RADIATION, "radiation_death_immunity_time", 60D, Lang.localise("gui.config.radiation.radiation_death_immunity_time.comment"), 0D, 3600D);
 		propertyRadiationDeathImmunityTime.setLanguageKey("gui.config.radiation.radiation_death_immunity_time");
 		
-		Property propertyRadiationPassiveDebuffs = config.get(CATEGORY_RADIATION, "radiation_passive_debuffs", true, Lang.localise("gui.config.radiation.radiation_passive_debuffs.comment"));
-		propertyRadiationPassiveDebuffs.setLanguageKey("gui.config.radiation.radiation_passive_debuffs");
-		Property propertyRadiationMobBuffs = config.get(CATEGORY_RADIATION, "radiation_mob_buffs", true, Lang.localise("gui.config.radiation.radiation_mob_buffs.comment"));
-		propertyRadiationMobBuffs.setLanguageKey("gui.config.radiation.radiation_mob_buffs");
+		Property propertyRadiationPassiveDebuffLists = config.get(CATEGORY_RADIATION, "radiation_passive_debuff_lists", new String[] {"40.0_minecraft:weakness@1", "55.0_minecraft:weakness@1,minecraft:mining_fatigue@1", "70.0_minecraft:weakness@2,minecraft:mining_fatigue@1,minecraft:hunger@1", "80.0_minecraft:weakness@2,minecraft:mining_fatigue@2,minecraft:hunger@1,minecraft:poison@1", "90.0_minecraft:weakness@3,minecraft:mining_fatigue@3,minecraft:hunger@2,minecraft:poison@1,minecraft:wither@1"}, Lang.localise("gui.config.radiation.radiation_passive_debuff_lists.comment"));
+		propertyRadiationPassiveDebuffLists.setLanguageKey("gui.config.radiation.radiation_passive_debuff_lists");
+		Property propertyRadiationMobBuffLists = config.get(CATEGORY_RADIATION, "radiation_mob_buff_lists", new String[] {"40.0_minecraft:speed@1", "55.0_minecraft:speed@1,minecraft:jump_boost@1", "70.0_minecraft:speed@2,minecraft:jump_boost@1,minecraft:resistance@1", "80.0_minecraft:speed@2,minecraft:jump_boost@2,minecraft:resistance@1,minecraft:absorption@1", "90.0_minecraft:speed@3,minecraft:jump_boost@3,minecraft:resistance@2,minecraft:absorption@1,minecraft:regeneration@1"}, Lang.localise("gui.config.radiation.radiation_mob_buff_lists.comment"));
+		propertyRadiationMobBuffLists.setLanguageKey("gui.config.radiation.radiation_mob_buff_lists");
 		
 		Property propertyRadiationHorseArmor = config.get(CATEGORY_RADIATION, "radiation_horse_armor", false, Lang.localise("gui.config.radiation.radiation_horse_armor.comment"));
 		propertyRadiationHorseArmor.setLanguageKey("gui.config.radiation.radiation_horse_armor");
@@ -1036,8 +1036,8 @@ public class NCConfig {
 		propertyOrderRadiation.add(propertyRadiationDeathPersist.getName());
 		propertyOrderRadiation.add(propertyRadiationDeathPersistFraction.getName());
 		propertyOrderRadiation.add(propertyRadiationDeathImmunityTime.getName());
-		propertyOrderRadiation.add(propertyRadiationPassiveDebuffs.getName());
-		propertyOrderRadiation.add(propertyRadiationMobBuffs.getName());
+		propertyOrderRadiation.add(propertyRadiationPassiveDebuffLists.getName());
+		propertyOrderRadiation.add(propertyRadiationMobBuffLists.getName());
 		propertyOrderRadiation.add(propertyRadiationHorseArmor.getName());
 		propertyOrderRadiation.add(propertyRadiationHUDSize.getName());
 		propertyOrderRadiation.add(propertyRadiationHUDPosition.getName());
@@ -1287,8 +1287,8 @@ public class NCConfig {
 			radiation_death_persist_fraction = propertyRadiationDeathPersistFraction.getDouble();
 			radiation_death_immunity_time = propertyRadiationDeathImmunityTime.getDouble();
 			
-			radiation_passive_debuffs = propertyRadiationPassiveDebuffs.getBoolean();
-			radiation_mob_buffs = propertyRadiationMobBuffs.getBoolean();
+			radiation_passive_debuff_lists = propertyRadiationPassiveDebuffLists.getStringList();
+			radiation_mob_buff_lists = propertyRadiationMobBuffLists.getStringList();
 			
 			radiation_horse_armor = propertyRadiationHorseArmor.getBoolean();
 			
@@ -1539,8 +1539,8 @@ public class NCConfig {
 		propertyRadiationDeathPersistFraction.set(radiation_death_persist_fraction);
 		propertyRadiationDeathImmunityTime.set(radiation_death_immunity_time);
 		
-		propertyRadiationPassiveDebuffs.set(radiation_passive_debuffs);
-		propertyRadiationMobBuffs.set(radiation_mob_buffs);
+		propertyRadiationPassiveDebuffLists.set(radiation_passive_debuff_lists);
+		propertyRadiationMobBuffLists.set(radiation_mob_buff_lists);
 		
 		propertyRadiationHorseArmor.set(radiation_horse_armor);
 		

@@ -7,6 +7,7 @@ import java.util.Map;
 
 import com.google.common.collect.Lists;
 
+import nc.ModCheck;
 import nc.config.NCConfig;
 import nc.init.NCBlocks;
 import nc.util.ItemInfo;
@@ -38,18 +39,26 @@ public class RadSources {
 	public static final double INGOT = 1D;
 	public static final double NUGGET = 1D/9D;
 	public static final double HALF = 1D/2D;
-	public static final double THIRD = 1D/2D;
+	public static final double THIRD = 1D/3D;
 	public static final double SMALL = 1D/4D;
-	public static final double GEAR = 4D;
+	public static final double DOUBLE = 2D;
+	public static final double TRIPLE = 3D;
+	public static final double QUAD = 4D;
+	public static final double FIVE = 5D;
+	public static final double SIX = 6D;
 	public static final double BLOCK = 9D;
 	public static final double SLAB = 9D/2D;
 	
-	public static final List<String> MATERIAL_INGOT_NAME_LIST = Lists.newArrayList("ingot", "dust", "dustDirty", "clump", "shard", "crystal", "crushed", "crushedPurified", "crushedCentrifuged", "dustImpure", "dustPure", "plate", "blockSheetmetal");
+	public static final List<String> MATERIAL_INGOT_NAME_LIST = Lists.newArrayList("ingot", "dust", "dustDirty", "clump", "shard", "crystal", "crushed", "dustImpure", "dustPure", "plate", "blockSheetmetal");
 	public static final List<String> MATERIAL_NUGGET_NAME_LIST = Lists.newArrayList("tinyDust", "dustTiny", "nugget");
 	public static final List<String> MATERIAL_HALF_NAME_LIST = Lists.newArrayList("rod", "stick", "slabSheetmetal");
 	public static final List<String> MATERIAL_THIRD_NAME_LIST = Lists.newArrayList("coin");
-	public static final List<String> MATERIAL_SMALL_NAME_LIST = Lists.newArrayList("smallDust", "dustSmall", "ore", "oreGravel", "oreNetherrack", "oreEndstone", "oreSand", "oreNetherrack", "oreBlackgranite", "oreRedgranite", "oreMarble", "oreBasalt");
-	public static final List<String> MATERIAL_GEAR_NAME_LIST = Lists.newArrayList("gear");
+	public static final List<String> MATERIAL_SMALL_NAME_LIST = Lists.newArrayList("smallDust", "dustSmall", "ore", "oreGravel");
+	public static final List<String> MATERIAL_DOUBLE_NAME_LIST = Lists.newArrayList();
+	public static final List<String> MATERIAL_TRIPLE_NAME_LIST = Lists.newArrayList();
+	public static final List<String> MATERIAL_QUAD_NAME_LIST = Lists.newArrayList("gear");
+	public static final List<String> MATERIAL_FIVE_NAME_LIST = Lists.newArrayList();
+	public static final List<String> MATERIAL_SIX_NAME_LIST = Lists.newArrayList();
 	public static final List<String> MATERIAL_BLOCK_NAME_LIST = Lists.newArrayList("block", "plateDense");
 	public static final List<String> MATERIAL_SLAB_NAME_LIST = Lists.newArrayList("slab");
 	
@@ -105,6 +114,16 @@ public class RadSources {
 			ItemStack stack = RegistryHelper.blockStackFromRegistry(blockInfo);
 			if (stack != null) STACK_BLACKLIST.add(stack);
 		}
+		
+		if (ModCheck.gregtechLoaded()) {
+			MATERIAL_INGOT_NAME_LIST.addAll(Lists.newArrayList("crushedPurified", "crushedCentrifuged", "toolHeadShovel"));
+			MATERIAL_SMALL_NAME_LIST.addAll(Lists.newArrayList("bolt", "screw", "oreNetherrack", "oreEndstone", "oreSand", "oreNetherrack", "oreBlackgranite", "oreRedgranite", "oreMarble", "oreBasalt"));
+			MATERIAL_DOUBLE_NAME_LIST.addAll(Lists.newArrayList("toolHeadSword", "toolHeadHoe", "toolHeadFile", "toolHeadSaw", "toolHeadChainsaw"));
+			MATERIAL_TRIPLE_NAME_LIST.addAll(Lists.newArrayList("toolHeadPickaxe", "toolHeadAxe", "toolHeadSense"));
+			MATERIAL_QUAD_NAME_LIST.addAll(Lists.newArrayList("toolHeadDrill", "toolHeadWrench", "toolHeadPlow", "toolHeadBuzzSaw"));
+			MATERIAL_FIVE_NAME_LIST.add("turbineBlade");
+			MATERIAL_SIX_NAME_LIST.addAll(Lists.newArrayList("toolHeadHammer", "toolHeadUniversalSpade"));
+		}
 	}
 	
 	public static void init2() {
@@ -123,8 +142,8 @@ public class RadSources {
 		putIsotope(NEPTUNIUM_237, "Neptunium237");
 		
 		putIsotope(PLUTONIUM_238, "Plutonium238");
-		putIsotope(PLUTONIUM_239, "Plutonium239");
-		putIsotope(PLUTONIUM_241, "Plutonium241");
+		putMaterial(PLUTONIUM_239, "Plutonium239");
+		putMaterial(PLUTONIUM_241, "Plutonium241");
 		putIsotope(PLUTONIUM_242, "Plutonium242");
 		
 		putIsotope(AMERICIUM_241, "Americium241");
@@ -229,7 +248,11 @@ public class RadSources {
 			for (String prefix : MATERIAL_HALF_NAME_LIST) addToOreMap(prefix + ore + suffix, radiation*HALF);
 			for (String prefix : MATERIAL_THIRD_NAME_LIST) addToOreMap(prefix + ore + suffix, radiation*THIRD);
 			for (String prefix : MATERIAL_SMALL_NAME_LIST) addToOreMap(prefix + ore + suffix, radiation*SMALL);
-			for (String prefix : MATERIAL_GEAR_NAME_LIST) addToOreMap(prefix + ore + suffix, radiation*GEAR);
+			for (String prefix : MATERIAL_DOUBLE_NAME_LIST) addToOreMap(prefix + ore + suffix, radiation*DOUBLE);
+			for (String prefix : MATERIAL_TRIPLE_NAME_LIST) addToOreMap(prefix + ore + suffix, radiation*TRIPLE);
+			for (String prefix : MATERIAL_QUAD_NAME_LIST) addToOreMap(prefix + ore + suffix, radiation*QUAD);
+			for (String prefix : MATERIAL_FIVE_NAME_LIST) addToOreMap(prefix + ore + suffix, radiation*FIVE);
+			for (String prefix : MATERIAL_SIX_NAME_LIST) addToOreMap(prefix + ore + suffix, radiation*SIX);
 			for (String prefix : MATERIAL_BLOCK_NAME_LIST) addToOreMap(prefix + ore + suffix, radiation*BLOCK);
 			for (String prefix : MATERIAL_SLAB_NAME_LIST) addToOreMap(prefix + ore + suffix, radiation*SLAB);
 		}

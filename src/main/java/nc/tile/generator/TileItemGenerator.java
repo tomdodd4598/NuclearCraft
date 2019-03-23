@@ -172,7 +172,7 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 		for (int i = 0; i < itemInputSize; i++) {
 			IItemIngredient itemIngredient = getItemIngredients().get(itemInputOrder.get(i));
 			if (itemIngredient.getMaxStackSize() > 0) {
-				inventoryStacks.set(i + itemInputSize + itemOutputSize, new ItemStack(inventoryStacks.get(i).getItem(), itemIngredient.getMaxStackSize(), inventoryStacks.get(i).getMetadata()));
+				inventoryStacks.set(i + itemInputSize + itemOutputSize, new ItemStack(inventoryStacks.get(i).getItem(), itemIngredient.getMaxStackSize(), inventoryStacks.get(i).getItemDamage()));
 				inventoryStacks.get(i).shrink(itemIngredient.getMaxStackSize());
 			}
 			if (inventoryStacks.get(i).getCount() <= 0) inventoryStacks.set(i, ItemStack.EMPTY);

@@ -278,7 +278,7 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ISidedI
 				itemstack2.grow(itemstack1.getCount());
 			}
 
-			if (itemstack.getItem() == Item.getItemFromBlock(Blocks.SPONGE) && itemstack.getMetadata() == 1 && !(furnaceItemStacks.get(1)).isEmpty() && (furnaceItemStacks.get(1)).getItem() == Items.BUCKET) {
+			if (itemstack.getItem() == Item.getItemFromBlock(Blocks.SPONGE) && itemstack.getItemDamage() == 1 && !(furnaceItemStacks.get(1)).isEmpty() && (furnaceItemStacks.get(1)).getItem() == Items.BUCKET) {
 				furnaceItemStacks.set(1, new ItemStack(Items.WATER_BUCKET));
 			}
 

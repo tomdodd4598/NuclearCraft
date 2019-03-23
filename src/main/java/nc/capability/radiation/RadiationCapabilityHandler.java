@@ -49,7 +49,7 @@ public class RadiationCapabilityHandler {
 	
 	@SubscribeEvent
 	public void attachTileRadiationResistanceCapability(AttachCapabilitiesEvent<TileEntity> event) {
-		event.addCapability(IRadiationResistance.CAPABILITY_RADIATION_RESISTANCE_NAME, new RadiationResistanceProvider(event.getObject()));
+		event.addCapability(IRadiationResistance.CAPABILITY_RADIATION_RESISTANCE_NAME, new RadiationResistanceProvider(0D));
 	}
 	
 	@SubscribeEvent

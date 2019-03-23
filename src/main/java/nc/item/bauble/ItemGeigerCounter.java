@@ -38,7 +38,7 @@ public class ItemGeigerCounter extends NCItem implements IBauble {
 		if (worldIn.isRemote && playerIn.hasCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null)) {
 			IEntityRads playerRads = playerIn.getCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null);
 			if (playerRads != null) {
-				playerIn.sendMessage(new TextComponentString(RadiationHelper.getRadsTextColor(playerRads) + RADIATION + " " + (playerRads.isTotalRadsNegligible() ? "0 Rads" : RadiationHelper.radsPrefix(playerRads.getTotalRads(), false)) + " [" + playerRads.getRadsPercentage() + "%], " + RadiationHelper.getRadiationTextColor(playerRads) + (playerRads.isRadiationNegligible() ? "0 Rads/t" : RadiationHelper.radsPrefix(playerRads.getRadiationLevel(), true))));
+				playerIn.sendMessage(new TextComponentString(RadiationHelper.getRadsTextColor(playerRads) + RADIATION + " " + (playerRads.isTotalRadsNegligible() ? "0 Rads" : RadiationHelper.radsPrefix(playerRads.getTotalRads(), false)) + " [" + Math.round(playerRads.getRadsPercentage()) + "%], " + RadiationHelper.getRadiationTextColor(playerRads) + (playerRads.isRadiationNegligible() ? "0 Rads/t" : RadiationHelper.radsPrefix(playerRads.getRadiationLevel(), true))));
 			}
 		}
 		return new ActionResult<ItemStack>(EnumActionResult.PASS, playerIn.getHeldItem(handIn));

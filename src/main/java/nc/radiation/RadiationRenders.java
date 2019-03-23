@@ -149,11 +149,11 @@ public class RadiationRenders {
 			}
 		}
 		
-		if (mc.world == null || mc.objectMouseOver == null) return;
-		
-		TileEntity te = mc.world.getTileEntity(mc.objectMouseOver.getBlockPos());
-		if (!chunkBorders && mc.objectMouseOver != null && mc.objectMouseOver.typeOfHit == RayTraceResult.Type.BLOCK && (te instanceof TileGeigerCounter || (te instanceof TileRadiationScrubber))) {
-			chunkBorders = true;
+		if (!chunkBorders && mc.objectMouseOver != null && mc.objectMouseOver.typeOfHit == RayTraceResult.Type.BLOCK) {
+			TileEntity te = mc.world.getTileEntity(mc.objectMouseOver.getBlockPos());
+			if (!chunkBorders && (te instanceof TileGeigerCounter || te instanceof TileRadiationScrubber)) {
+				chunkBorders = true;
+			}
 		}
 		
 		// Logic/rendering below taken with minor changes from BluSunrize's Immersive Engineering mod

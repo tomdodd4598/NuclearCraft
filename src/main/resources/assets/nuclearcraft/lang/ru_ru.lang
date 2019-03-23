@@ -7,7 +7,7 @@ tile.nuclearcraft.ore.boron.name=Борная руда
 tile.nuclearcraft.ore.lithium.name=Литиевая руда
 tile.nuclearcraft.ore.magnesium.name=Магниевая руда
 
-tile.nuclearcraft.ingot_block.copper.name=Медная блок
+tile.nuclearcraft.ingot_block.copper.name=Медный блок
 tile.nuclearcraft.ingot_block.tin.name=Оловянный блок
 tile.nuclearcraft.ingot_block.lead.name=Свинцовый блок
 tile.nuclearcraft.ingot_block.thorium.name=Ториевый блок
@@ -2553,7 +2553,7 @@ item.nuclearcraft.gem_dust.end_stone.name=Эндерняковая пыль
 
 item.nuclearcraft.alloy.zircaloy.name=Цирконий
 item.nuclearcraft.alloy.silicon_carbide.name=Слиток карбида кремния
-item.nuclearcraft.alloy.sic_sic_cmc.name=Кремниево-Кремниевый Матричный Момпозит
+item.nuclearcraft.alloy.sic_sic_cmc.name=Кремниево-кремниевый матричный композит
 
 item.nuclearcraft.part.sic_fiber.name=Волокно карбида кремния
 
@@ -2566,45 +2566,45 @@ advancement.nuclearcraft.centrifuge.desc=Создайте центрифугу
 advancement.nuclearcraft.active_cooler.name=Контроль температуры
 advancement.nuclearcraft.active_cooler.desc=Создайте активный охладитель
 
-tile.nuclearcraft.ingot_block.manganese.name=Марганцевый Блок
-tile.nuclearcraft.ingot_block.aluminum.name=Алюминиевый Блок
-tile.nuclearcraft.ingot_block.silver.name=Серебряный Блок
+tile.nuclearcraft.ingot_block.manganese.name=Марганцевый блок
+tile.nuclearcraft.ingot_block.aluminum.name=Алюминиевый блок
+tile.nuclearcraft.ingot_block.silver.name=Серебряный блок
 
 item.nuclearcraft.ingot.manganese.name=Марганцевый Слиток
 item.nuclearcraft.ingot.aluminum.name=Алюминиевый Слиток
 item.nuclearcraft.ingot.silver.name=Серебряный Слиток
-item.nuclearcraft.alloy.hsla_steel.name=HSLA Стальной Слиток
+item.nuclearcraft.alloy.hsla_steel.name=HSLA стальной Слиток
 
 item.nuclearcraft.dust.manganese.name=Марганцевая Пыль
 item.nuclearcraft.dust.aluminum.name=Алюминиевая Пыль
 item.nuclearcraft.dust.silver.name=Серебряная Пыль
 
 item.nuclearcraft.compound.c_mn_blend.name=Смесь Углерода и Марганца
-item.nuclearcraft.compound.alugentum.name=Пыль Алюгентума #I'm not sure about the correctness of the translation as the first time I see this and Google showed me nothing about it
+item.nuclearcraft.compound.alugentum.name=Пыль Алюгентума
 
-tile.nuclearcraft.turbine_rotor_shaft.name=Вал Ротора Турбины
-tile.nuclearcraft.turbine_rotor_blade_steel.name=Стальное Лезвие Ротора Турбины
-tile.nuclearcraft.turbine_rotor_blade_extreme.name=Лезвие Ротора Турбины из Экстремального Сплава
-tile.nuclearcraft.turbine_rotor_blade_sic_sic_cmc.name=Лезвие ротора турбины из Кремниево-Кремниевого Матричного Момпозита
-tile.nuclearcraft.turbine_rotor_blade_efficiency.fixd=Множитель Эффективности: %s
-tile.nuclearcraft.turbine_rotor_blade_expansion.fixd=Коэффицент Расширения: %s
+tile.nuclearcraft.turbine_rotor_shaft.name=Вал ротора турбины
+tile.nuclearcraft.turbine_rotor_blade_steel.name=Стальное лезвие ротора турбины
+tile.nuclearcraft.turbine_rotor_blade_extreme.name=Лезвие ротора турбины из экстремального сплава
+tile.nuclearcraft.turbine_rotor_blade_sic_sic_cmc.name=Лезвие ротора турбины из кремниево-кремниевого матричного композита
+tile.nuclearcraft.turbine_rotor_blade_efficiency.fixd=Множитель эффективности: %s
+tile.nuclearcraft.turbine_rotor_blade_expansion.fixd=Коэффицент расширения: %s
 tile.nuclearcraft.turbine_rotor_blade.desc=Используется для преобразования энергии потока жидкости в энергию вращения вала турбины. Коэффициент расширения больше единицы, поэтому объем потока жидкости будет увеличиваться каждый раз, когда он проходит через него.
-tile.nuclearcraft.turbine_rotor_stator.name=Статор Ротора Турбины
-tile.nuclearcraft.turbine_rotor_stator_expansion.fixd=Коэффицент Расширения: %s
+tile.nuclearcraft.turbine_rotor_stator.name=Статор ротора турбины
+tile.nuclearcraft.turbine_rotor_stator_expansion.fixd=Коэффицент расширения: %s
 tile.nuclearcraft.turbine_rotor_stator.desc=Используется для увеличения плотности потока жидкости, что позволяет повысить эффективность работы турбины за счет противодействия перерасходу, генерируемый лопастями ротора.
-tile.nuclearcraft.turbine_rotor_bearing.name=Подшипник Ротора Турбины
-tile.nuclearcraft.turbine_dynamo_coil.magnesium.name=Магниевая Катушка Турбины Динамо-Машины
+tile.nuclearcraft.turbine_rotor_bearing.name=Подшипник ротора турбины
+tile.nuclearcraft.turbine_dynamo_coil.magnesium.name=Магниевая катушка турбины
 tile.nuclearcraft.turbine_dynamo_coil.magnesium.desc=Должна касаться по крайней мере одного блока подшипников ротора.
-tile.nuclearcraft.turbine_dynamo_coil.beryllium.name=Бериллиевая Катушка Турбины Динамо-Машины
-tile.nuclearcraft.turbine_dynamo_coil.beryllium.desc=Должна касаться хотя бы одной активной Магниевой Катушки Турбины Динамо-Машины.
-tile.nuclearcraft.turbine_dynamo_coil.aluminum.name=Алюминиевая Катушка Турбины Динамо-Машины
-tile.nuclearcraft.turbine_dynamo_coil.aluminum.desc=Должна касаться хотя бы одной активной Катушки Турбины Динамо-Машины любого типа, кроме алюминиевой.
-tile.nuclearcraft.turbine_dynamo_coil.gold.name=Золотая Катушка Турбины Динамо-Машины
-tile.nuclearcraft.turbine_dynamo_coil.gold.desc=Должна касаться хотя бы одной активной Бериллиевой Катушки Турбины Динамо-Машины.
-tile.nuclearcraft.turbine_dynamo_coil.copper.name=Медная Катушка Турбины Динамо-Машины
-tile.nuclearcraft.turbine_dynamo_coil.copper.desc=Должна касаться хотя бы одной активной Золотой Катушки Турбины Динамо-Машины.
-tile.nuclearcraft.turbine_dynamo_coil.silver.name=Серебряная Катушка Турбины Динамо-Машины
-tile.nuclearcraft.turbine_dynamo_coil.silver.desc=Должна касаться по крайней мере одной активной Магниевой Катушки Турбины Динамо-Машины и одной активной Золотой Катушки Турбины Динамо-Машины.
-tile.nuclearcraft.turbine_dynamo_coil.conductivity=Множитель Проводимости:
-tile.nuclearcraft.turbine_inlet.name=Вход Жидкости Турбины
-tile.nuclearcraft.turbine_outlet.name=Выход Жидкости Турбины
+tile.nuclearcraft.turbine_dynamo_coil.beryllium.name=Бериллиевая катушка турбины
+tile.nuclearcraft.turbine_dynamo_coil.beryllium.desc=Должна касаться хотя бы одной активной Магниевой Катушки Турбины.
+tile.nuclearcraft.turbine_dynamo_coil.aluminum.name=Алюминиевая катушка турбины
+tile.nuclearcraft.turbine_dynamo_coil.aluminum.desc=Должна касаться хотя бы одной активной катушки турбины любого типа, кроме алюминиевой.
+tile.nuclearcraft.turbine_dynamo_coil.gold.name=Золотая катушка турбины 
+tile.nuclearcraft.turbine_dynamo_coil.gold.desc=Должна касаться хотя бы одной активной бериллиевой катушки турбины.
+tile.nuclearcraft.turbine_dynamo_coil.copper.name=Медная катушка турбины
+tile.nuclearcraft.turbine_dynamo_coil.copper.desc=Должна касаться хотя бы одной активной золотой катушки турбины.
+tile.nuclearcraft.turbine_dynamo_coil.silver.name=Серебряная катушка турбины
+tile.nuclearcraft.turbine_dynamo_coil.silver.desc=Должна касаться по крайней мере одной активной магниевой и холотой катушки турбины.
+tile.nuclearcraft.turbine_dynamo_coil.conductivity=Множитель проводимости:
+tile.nuclearcraft.turbine_inlet.name=Вход жидкости турбины
+tile.nuclearcraft.turbine_outlet.name=Выход жидкости турбины

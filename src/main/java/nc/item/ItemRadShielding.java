@@ -55,8 +55,10 @@ public class ItemRadShielding extends NCItemMeta<MetaEnums.RadShieldingType> {
 			}
 			return actionResult(false, stack);
 		}
+		
 		tile.setRadiationResistance(newResistance);
 		stack.shrink(1);
+		te.markDirty();
 		if (!world.isRemote) {
 			player.sendMessage(new TextComponentString(INSTALL_SUCCESS + " " + tile.getRadiationResistance()));
 		}

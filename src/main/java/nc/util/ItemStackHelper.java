@@ -37,7 +37,7 @@ public class ItemStackHelper {
 	
 	public static Block getBlockFromStack(ItemStack stack) {
 		if (stack.isEmpty() || stack == null) return null;
-		int meta = stack.getMetadata();
+		int meta = stack.getItemDamage();
 		Item item = stack.getItem();
 		if (!ItemBlock.class.isAssignableFrom(item.getClass())) return null;
 		ItemBlock itemBlock = (ItemBlock) item;
@@ -51,7 +51,7 @@ public class ItemStackHelper {
 	}
 	
 	public static String stackName(ItemStack stack) {
-		return stack.getItem().getUnlocalizedName() + ":" + stack.getMetadata();
+		return stack.getItem().getUnlocalizedName() + ":" + stack.getItemDamage();
 	}
 	
 	public static String stackListNames(List<ItemStack> list) {

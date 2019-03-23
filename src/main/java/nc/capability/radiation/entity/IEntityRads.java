@@ -25,8 +25,8 @@ public interface IEntityRads extends IRadiation, ICapability<IEntityRads> {
 	
 	public double getMaxRads();
 	
-	public default int getRadsPercentage() {
-		return Math.min(100, (int)(100D*getTotalRads()/getMaxRads()));
+	public default double getRadsPercentage() {
+		return Math.min(100D, 100D*getTotalRads()/getMaxRads());
 	}
 	
 	public double getRadiationResistance();

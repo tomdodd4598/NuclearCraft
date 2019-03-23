@@ -100,7 +100,7 @@ public class RadiationHandler {
 			
 			PacketHandler.instance.sendTo(new PlayerRadsUpdatePacket(playerRads), player);
 			
-			if (!player.isCreative()) RadiationHelper.applySymptoms(player, playerRads, Math.max(PLAYER_TICK_RATE, 18));
+			if (!player.isCreative()) RadiationHelper.applyPotionEffects(player, playerRads, RadEffects.PLAYER_RAD_LEVEL_LIST, RadEffects.PLAYER_DEBUFF_LIST);
 		} else {
 			EntityPlayer player = event.player;
 			if (!player.hasCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null)) return;
@@ -145,11 +145,15 @@ public class RadiationHandler {
 						}
 						
 						if (entityLiving instanceof IMob) {
-							if (NCConfig.radiation_mob_buffs) RadiationHelper.applyMobBuffs(entityLiving, entityRads, Math.max(WORLD_TICK_RATE, 40));
+							RadiationHelper.applyPotionEffects(entityLiving, entityRads, RadEffects.MOB_RAD_LEVEL_LIST, RadEffects.MOB_EFFECTS_LIST);
 						}
-						else if (NCConfig.radiation_passive_debuffs) {
-							if (entityRads.isFatal()) entityLiving.attackEntityFrom(FATAL_RADS, 1000000F);
-							RadiationHelper.applySymptoms(entityLiving, entityRads, Math.max(WORLD_TICK_RATE, 40));
+						else {
+							if (entityRads.isFatal()) {
+								entityLiving.attackEntityFrom(FATAL_RADS, 1000000F);
+							}
+							else {
+								RadiationHelper.applyPotionEffects(entityLiving, entityRads, RadEffects.ENTITY_RAD_LEVEL_LIST, RadEffects.ENTITY_DEBUFF_LIST);
+							}
 						}
 						entityRads.setRadiationLevel(entityRads.getRadiationLevel()*(1D - NCConfig.radiation_decay_rate));
 					}
@@ -223,14 +227,14 @@ public class RadiationHandler {
 		}
 	}
 	
-	private static final List<int[]> ADJACENT_COORDS = Lists.newArrayList(new int[] {1, 0}, new int[] {0, 1}, new int[] {-1, 0}, new int[] {0, -1});
+	private static final List<byte[]> ADJACENT_COORDS = Lists.newArrayList(new byte[] {1, 0}, new byte[] {0, 1}, new byte[] {-1, 0}, new byte[] {0, -1});
 	
 	private Chunk getRandomAdjacentChunk(ChunkProviderServer chunkProvider, Chunk chunk) {
 		if (chunkProvider == null || chunk == null || !chunk.isLoaded()) return null;
 		int x = chunk.getPos().x;
 		int z = chunk.getPos().z;
 		Collections.shuffle(ADJACENT_COORDS);
-		for (int[] pos : ADJACENT_COORDS) {
+		for (byte[] pos : ADJACENT_COORDS) {
 			if (chunkProvider.chunkExists(x + pos[0], z + pos[1])) {
 				Chunk adjChunk = chunkProvider.getLoadedChunk(x + pos[0], z + pos[1]);
 				if (adjChunk != null) return adjChunk;

@@ -99,7 +99,7 @@ public class TileDecayGenerator extends TileEnergy implements IInterfaceable {
 		if (stack.isEmpty() || stack == null) return 0;
 		Block block = ItemStackHelper.getBlockFromStack(stack);
 		if (block == null) return 0;
-		int meta = stack.getMetadata();
+		int meta = stack.getItemDamage();
 		if (rand.nextDouble()*getRecipeLifetime(side) < 1D) getWorld().setBlockState(getPos().offset(side), block.getStateFromMeta(meta));
 		return getRecipePower(side);
 	}

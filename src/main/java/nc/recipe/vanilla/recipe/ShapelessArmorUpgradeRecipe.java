@@ -28,7 +28,7 @@ public class ShapelessArmorUpgradeRecipe extends ShapelessOreRecipe {
 		for (int i = 0; i < inv.getSizeInventory(); i++) {
 			ItemStack stack = inv.getStackInSlot(i);
 			if (!stack.isEmpty() && stack.getItem() instanceof ItemArmor) {
-				meta = stack.getMetadata();
+				meta = stack.getItemDamage();
 				if (!output.hasTagCompound()) output.setTagCompound(new NBTTagCompound());
 				NBTTagCompound tag = output.getTagCompound().copy();
 				if (stack.hasTagCompound()) output.getTagCompound().merge(stack.getTagCompound());

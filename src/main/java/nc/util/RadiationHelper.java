@@ -1,6 +1,9 @@
 package nc.util;
 
+import java.util.List;
+
 import ic2.api.reactor.IReactor;
+import nc.ModCheck;
 import nc.capability.radiation.IRadiation;
 import nc.capability.radiation.entity.IEntityRads;
 import nc.capability.radiation.resistance.IRadiationResistance;
@@ -16,6 +19,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.biome.Biome;
@@ -90,7 +94,9 @@ public class RadiationHelper {
 		
 		double rawRadiation = 0D;
 		
-		if (provider instanceof IReactor) rawRadiation += ((IReactor)provider).getReactorEUEnergyOutput()*0.00001D;
+		if (ModCheck.ic2Loaded()) {
+			if (provider instanceof IReactor) rawRadiation += ((IReactor)provider).getReactorEUEnergyOutput()*0.00001D;
+		}
 		
 		if (NCConfig.radiation_hardcore_containers > 0D && provider instanceof TileEntity && provider.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null)) {
 			IItemHandler inventory = provider.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
@@ -138,7 +144,7 @@ public class RadiationHelper {
 		
 		if (targetChunk != null &&  targetChunk.isLoaded() && targetChunk.hasCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null)) {
 			IRadiationSource targetChunkRadiation = targetChunk.getCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null);
-			if (targetChunkRadiation != null && targetChunkRadiation.getRadiationBuffer() > 0D) {
+			if (targetChunkRadiation != null && targetChunkRadiation.getRadiationBuffer() >= 0D) {
 				if (!sourceChunkRadiation.isRadiationNegligible()) {
 					if (targetChunkRadiation.getRadiationLevel() == 0D || sourceChunkRadiation.getRadiationLevel()/targetChunkRadiation.getRadiationLevel() > 1D + NCConfig.radiation_spread_gradient) {
 						double radiationSpread = (sourceChunkRadiation.getRadiationLevel() - targetChunkRadiation.getRadiationLevel())*NCConfig.radiation_spread_rate;
@@ -276,70 +282,23 @@ public class RadiationHelper {
 	
 	// Entity Symptoms
 	
-	public static void applySymptoms(EntityLivingBase entity, IEntityRads entityRads, int updateRate) {
-		int radPercentage = entityRads.getRadsPercentage();
-		if (radPercentage < 40) return;
-		else if (radPercentage < 55) {
-			entity.addPotionEffect(PotionHelper.newEffect(18, 1, updateRate + 1));
-		}
-		else if (radPercentage < 70) {
-			entity.addPotionEffect(PotionHelper.newEffect(18, 1, updateRate + 1));
-			entity.addPotionEffect(PotionHelper.newEffect(4, 1, updateRate + 1));
-		}
-		else if (radPercentage < 80) {
-			entity.addPotionEffect(PotionHelper.newEffect(18, 2, updateRate + 1));
-			entity.addPotionEffect(PotionHelper.newEffect(4, 1, updateRate + 1));
-			entity.addPotionEffect(PotionHelper.newEffect(17, 1, updateRate + 1));
-		}
-		else if (radPercentage < 90) {
-			entity.addPotionEffect(PotionHelper.newEffect(18, 2, updateRate + 1));
-			entity.addPotionEffect(PotionHelper.newEffect(4, 2, updateRate + 1));
-			entity.addPotionEffect(PotionHelper.newEffect(17, 1, updateRate + 1));
-			entity.addPotionEffect(PotionHelper.newEffect(19, 1, updateRate + 1));
-		}
-		else {
-			entity.addPotionEffect(PotionHelper.newEffect(18, 3, updateRate + 1));
-			entity.addPotionEffect(PotionHelper.newEffect(4, 3, updateRate + 1));
-			entity.addPotionEffect(PotionHelper.newEffect(17, 2, updateRate + 1));
-			entity.addPotionEffect(PotionHelper.newEffect(19, 1, updateRate + 1));
-			entity.addPotionEffect(PotionHelper.newEffect(20, 1, updateRate + 1));
-		}
-	}
-	
-	public static void applyMobBuffs(EntityLiving entity, IEntityRads entityRads, int updateRate) {
-		int radPercentage = entityRads.getRadsPercentage();
-		if (radPercentage < 40) return;
-		else if (radPercentage < 55) {
-			entity.addPotionEffect(PotionHelper.newEffect(1, 1, updateRate + 1));
-		}
-		else if (radPercentage < 70) {
-			entity.addPotionEffect(PotionHelper.newEffect(1, 1, updateRate + 1));
-			entity.addPotionEffect(PotionHelper.newEffect(8, 1, updateRate + 1));
-		}
-		else if (radPercentage < 80) {
-			entity.addPotionEffect(PotionHelper.newEffect(1, 2, updateRate + 1));
-			entity.addPotionEffect(PotionHelper.newEffect(8, 1, updateRate + 1));
-			entity.addPotionEffect(PotionHelper.newEffect(11, 1, updateRate + 1));
-		}
-		else if (radPercentage < 90) {
-			entity.addPotionEffect(PotionHelper.newEffect(1, 2, updateRate + 1));
-			entity.addPotionEffect(PotionHelper.newEffect(8, 2, updateRate + 1));
-			entity.addPotionEffect(PotionHelper.newEffect(11, 1, updateRate + 1));
-			entity.addPotionEffect(PotionHelper.newEffect(22, 1, updateRate + 1));
-		}
-		else {
-			entity.addPotionEffect(PotionHelper.newEffect(1, 3, updateRate + 1));
-			entity.addPotionEffect(PotionHelper.newEffect(8, 3, updateRate + 1));
-			entity.addPotionEffect(PotionHelper.newEffect(11, 2, updateRate + 1));
-			entity.addPotionEffect(PotionHelper.newEffect(22, 1, updateRate + 1));
-			entity.addPotionEffect(PotionHelper.newEffect(10, 1, updateRate + 1));
+	public static void applyPotionEffects(EntityLivingBase entity, IEntityRads entityRads, List<Double> radLevelList, List<List<PotionEffect>> potionList) {
+		if (radLevelList.isEmpty() || radLevelList.size() != potionList.size()) return;
+		double radPercentage = entityRads.getRadsPercentage();
+		
+		for (int i = 0; i < radLevelList.size(); i++) {
+			if (radPercentage >= radLevelList.get(i)) {
+				for (PotionEffect potionEffect : potionList.get(i)) {
+					entity.addPotionEffect(new PotionEffect(potionEffect));
+				}
+			}
 		}
 	}
 	
 	// Text Colours
 	
 	public static TextFormatting getRadsTextColor(IEntityRads playerRads) {
-		int radsPercent = playerRads.getRadsPercentage();
+		double radsPercent = playerRads.getRadsPercentage();
 		return radsPercent < 30 ? TextFormatting.WHITE : (radsPercent < 50 ? TextFormatting.YELLOW : (radsPercent < 70 ? TextFormatting.GOLD : (radsPercent < 90 ? TextFormatting.RED : TextFormatting.DARK_RED)));
 	}
 	

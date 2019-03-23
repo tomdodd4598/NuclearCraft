@@ -7,7 +7,6 @@ import nc.radiation.RadiationArmor;
 import nc.util.ItemInfo;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
@@ -16,11 +15,9 @@ public class RadiationResistanceProvider implements ICapabilitySerializable {
 	
 	private IRadiationResistance radiationResistance;
 	private ItemStack stack = null;
-	private TileEntity tile = null;
 	
-	public RadiationResistanceProvider(TileEntity tile) {
-		radiationResistance = new RadiationResistance(0D);
-		this.tile = tile;
+	public RadiationResistanceProvider(double resistance) {
+		radiationResistance = new RadiationResistance(resistance);
 	}
 	
 	public RadiationResistanceProvider(ItemStack stack) {
@@ -40,13 +37,11 @@ public class RadiationResistanceProvider implements ICapabilitySerializable {
 	
 	@Override
 	public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
-		if (tile != null) tile.markDirty();
 		return capability == IRadiationResistance.CAPABILITY_RADIATION_RESISTANCE;
 	}
 	
 	@Override
 	public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
-		if (tile != null) tile.markDirty();
 		if (capability == IRadiationResistance.CAPABILITY_RADIATION_RESISTANCE) return IRadiationResistance.CAPABILITY_RADIATION_RESISTANCE.cast(getRadiationResistance());
 		return null;
 	}

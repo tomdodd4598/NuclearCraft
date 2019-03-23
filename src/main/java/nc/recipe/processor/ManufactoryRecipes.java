@@ -111,7 +111,7 @@ public class ManufactoryRecipes extends ProcessorRecipeHandler {
 		for (ItemStack logWood : OreDictionary.getOres("logWood", false)) {
 			Block logBlock = Block.getBlockFromItem(logWood.getItem());
 			
-			if (logWood.getMetadata() == OreDictionary.WILDCARD_VALUE) {
+			if (logWood.getItemDamage() == OreDictionary.WILDCARD_VALUE) {
 				NonNullList<ItemStack> logVariants = NonNullList.create();
 				logBlock.getSubBlocks(logBlock.getCreativeTabToDisplayOn(), logVariants);
 				

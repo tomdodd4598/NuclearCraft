@@ -14,14 +14,14 @@ public class ItemInfo {
 	public ItemInfo(ItemStack stack) {
 		isEmpty = stack.isEmpty();
 		item = stack.getItem();
-		meta = stack.getMetadata();
+		meta = stack.getItemDamage();
 	}
 	
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof ItemStack) {
 			ItemStack stack = (ItemStack)obj;
-			return !stack.isEmpty() && stack.getItem() == item && stack.getMetadata() == meta;
+			return !stack.isEmpty() && stack.getItem() == item && stack.getItemDamage() == meta;
 		}
 		else if (obj instanceof ItemInfo) {
 			ItemInfo other = (ItemInfo)obj;
@@ -33,7 +33,6 @@ public class ItemInfo {
 	@Override
 	public String toString() {
 		return isEmpty ? "empty" : item.getRegistryName().toString() + ":" + meta;
-		
 	}
 	
 	@Override
