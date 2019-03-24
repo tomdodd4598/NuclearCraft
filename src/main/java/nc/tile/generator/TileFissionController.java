@@ -34,6 +34,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.common.Optional;
 
 @Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers")
@@ -47,7 +48,7 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 	public int minX, minY, minZ;
 	public int maxX, maxY, maxZ;
 	public int lengthX, lengthY, lengthZ = 3;
-	public int complete, ready;
+	public int complete, ready, comparatorStrength;
 	public int ports = 1, currentEnergyStored = 0, energyChange = 0;
 	
 	public String problem = CASING_INCOMPLETE;
@@ -58,7 +59,6 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 	
 	private boolean isActivated = false;
 	public boolean computerActivated = false;
-	private int comparatorCount = 0;
 	
 	private Object[] oc_layout;
 	
@@ -108,12 +108,9 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 	public void updateGenerator() {
 		if (fixControllerBlock()) return;
 		if(!world.isRemote) {
-			boolean wasActivated = isActivated;
-			boolean wasProcessing = isProcessing;
+			boolean wasActivated = isActivated, wasProcessing = isProcessing;
 			isActivated = isActivated();
 			isProcessing = isProcessing();
-			boolean shouldUpdate = false;
-			tickComparatorCheck();
 			if (wasActivated != isActivated) refreshMultiblock(true);
 			else checkStructure(false);
 			energyChange = getEnergyStored() - currentEnergyStored;
@@ -121,6 +118,7 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 			if (overheat()) return;
 			if (isProcessing) process();
 			else getRadiationSource().setRadiationLevel(0D);
+			boolean shouldUpdate = false;
 			if (wasProcessing != isProcessing) {
 				shouldUpdate = true;
 				updateBlockType();
@@ -128,7 +126,10 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 			}
 			pushEnergy();
 			currentEnergyStored = getEnergyStored();
-			if (comparatorCount == 0 && findAdjacentComparator()) shouldUpdate = true;
+			if (comparatorStrength != getComparatorStrength()) {
+				if (findAdjacentComparator()) shouldUpdate = true;
+			}
+			comparatorStrength = getComparatorStrength();
 			sendUpdateToListeningPlayers();
 			if (shouldUpdate) markDirty();
 		}
@@ -152,8 +153,12 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 		return false;
 	}
 	
-	public void tickComparatorCheck() {
-		comparatorCount++; comparatorCount %= 4*NCConfig.machine_update_rate;
+	public int getComparatorStrength() {
+		if (heatChange > 0) {
+			return (int) MathHelper.clamp(1500D/(double)NCConfig.fission_comparator_max_heat*(double)heat/(double)getMaxHeat(), 0D, 15D);
+		} else {
+			return (int) MathHelper.clamp(15D*(double)getEnergyStored()/(double)getMaxEnergyStored(), 0D, 15D);
+		}
 	}
 	
 	public void refreshMultiblock(boolean checkBlocks) {
@@ -1013,6 +1018,7 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 		nbt.setInteger("currentEnergyStored", currentEnergyStored);
 		nbt.setBoolean("isActivated", isActivated);
 		nbt.setBoolean("computerActivated", computerActivated);
+		nbt.setInteger("comparatorStrength", comparatorStrength);
 		return nbt;
 	}
 			
@@ -1050,6 +1056,7 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 		currentEnergyStored = nbt.getInteger("currentEnergyStored");
 		isActivated = nbt.getBoolean("isActivated");
 		computerActivated = nbt.getBoolean("computerActivated");
+		comparatorStrength = nbt.getInteger("comparatorStrength");
 	}
 	
 	// IGui

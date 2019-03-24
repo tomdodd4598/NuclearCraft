@@ -4,4 +4,5 @@ import nc.tile.energy.ITileEnergy;
 
 public interface IBattery extends ITileEnergy {
 	
+	public int getComparatorStrength();
 }

@@ -14,6 +14,7 @@ import nc.init.NCItems;
 import nc.init.NCTools;
 import nc.radiation.RadiationArmor;
 import nc.recipe.vanilla.ingredient.BucketIngredient;
+import nc.recipe.vanilla.recipe.ShapedFluidRecipe;
 import nc.recipe.vanilla.recipe.ShapelessArmorUpgradeRecipe;
 import nc.recipe.vanilla.recipe.ShapelessFluidRecipe;
 import nc.util.ArmorHelper;
@@ -167,12 +168,12 @@ public class CraftingRecipeHandler {
 		addShapedOreRecipe(NCBlocks.helium_collector_compact, new Object[] {"CCC", "CIC", "CCC", 'C', NCBlocks.helium_collector, 'I', "ingotBronze"});
 		addShapedOreRecipe(NCBlocks.helium_collector_dense, new Object[] {"CCC", "CIC", "CCC", 'C', NCBlocks.helium_collector_compact, 'I', "ingotGold"});
 		
-		addShapedOreRecipe(NCBlocks.cobblestone_generator, new Object[] {"PIP", "L W", "PIP", 'I', "ingotTin", 'P', "plateBasic", 'L', Items.LAVA_BUCKET, 'W', Items.WATER_BUCKET});
-		addShapedOreRecipe(NCBlocks.cobblestone_generator, new Object[] {"PIP", "W L", "PIP", 'I', "ingotTin", 'P', "plateBasic", 'L', Items.LAVA_BUCKET, 'W', Items.WATER_BUCKET});
+		addShapedFluidRecipe(NCBlocks.cobblestone_generator, new Object[] {"PIP", "L W", "PIP", 'I', "ingotTin", 'P', "plateBasic", 'L', new BucketIngredient("lava"), 'W', new BucketIngredient("water")});
+		addShapedFluidRecipe(NCBlocks.cobblestone_generator, new Object[] {"PIP", "W L", "PIP", 'I', "ingotTin", 'P', "plateBasic", 'L', new BucketIngredient("lava"), 'W', new BucketIngredient("water")});
 		addShapedOreRecipe(NCBlocks.cobblestone_generator_compact, new Object[] {"CCC", "CIC", "CCC", 'C', NCBlocks.cobblestone_generator, 'I', "ingotBronze"});
 		addShapedOreRecipe(NCBlocks.cobblestone_generator_dense, new Object[] {"CCC", "CIC", "CCC", 'C', NCBlocks.cobblestone_generator_compact, 'I', "ingotGold"});
 		
-		addShapedOreRecipe(NCBlocks.water_source, new Object[] {"PIP", "W W", "PIP", 'I', "ingotTin", 'P', "plateBasic", 'W', Items.WATER_BUCKET});
+		addShapedFluidRecipe(NCBlocks.water_source, new Object[] {"PIP", "W W", "PIP", 'I', "ingotTin", 'P', "plateBasic", 'W', new BucketIngredient("water")});
 		addShapedOreRecipe(NCBlocks.water_source_compact, new Object[] {"CCC", "CIC", "CCC", 'C', NCBlocks.water_source, 'I', "ingotBronze"});
 		addShapedOreRecipe(NCBlocks.water_source_dense, new Object[] {"CCC", "CIC", "CCC", 'C', NCBlocks.water_source_compact, 'I', "ingotGold"});
 		
@@ -413,6 +414,10 @@ public class CraftingRecipeHandler {
 	
 	public static void addShapedOreRecipe(Object out, Object... inputs) {
 		registerRecipe(ShapedOreRecipe.class, out, inputs);
+	}
+	
+	public static void addShapedFluidRecipe(Object out, Object... inputs) {
+		registerRecipe(ShapedFluidRecipe.class, out, inputs);
 	}
 	
 	public static void addShapelessOreRecipe(Object out, Object... inputs) {

@@ -3,7 +3,7 @@ package nc.proxy;
 import nc.Global;
 import nc.ModCheck;
 import nc.capability.radiation.RadiationCapabilityHandler;
-import nc.command.CommandSetChunkRadiation;
+import nc.command.CommandHandler;
 import nc.handler.CapabilityHandler;
 import nc.handler.DropHandler;
 import nc.handler.DungeonLootHandler;
@@ -139,7 +139,7 @@ public class CommonProxy {
 	public void serverStart(FMLServerStartingEvent serverStartEvent) {
 		RadBiomes.init();
 		
-		serverStartEvent.registerServerCommand(new CommandSetChunkRadiation());
+		CommandHandler.registerCommands(serverStartEvent);
 	}
 	
 	// Packets

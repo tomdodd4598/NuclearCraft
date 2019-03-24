@@ -8,9 +8,12 @@ import nc.capability.radiation.sink.IRadiationSink;
 import nc.capability.radiation.sink.RadiationSinkProvider;
 import nc.capability.radiation.source.IRadiationSource;
 import nc.capability.radiation.source.RadiationSourceProvider;
+import nc.capability.radiation.source.RadiationStackProvider;
 import nc.config.NCConfig;
 import nc.init.NCItems;
 import nc.radiation.RadWorlds;
+import nc.radiation.RadiationArmor;
+import nc.util.ItemInfo;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -67,20 +70,19 @@ public class RadiationCapabilityHandler {
 				return;
 			}
 		}*/
-		event.addCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE_NAME, new RadiationSourceProvider(stack));
+		event.addCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE_NAME, new RadiationStackProvider(stack));
 		
 		if (stack.getItem() == NCItems.radiation_badge) event.addCapability(IRadiationSink.CAPABILITY_RADIATION_SINK_NAME, new RadiationSinkProvider(0D));
-	}
-	
-	@SubscribeEvent
-	public void attachArmorRadiationResistanceCapability(AttachCapabilitiesEvent<ItemStack> event) {
-		ItemStack stack = event.getObject();
-		if (stack.isEmpty()) return;
-		/*ItemInfo itemInfo = new ItemInfo(stack);
+		
+		ItemInfo itemInfo = new ItemInfo(stack);
 		if (RadiationArmor.ARMOR_RAD_RESISTANCE_MAP.containsKey(itemInfo)) {
 			event.addCapability(IRadiationResistance.CAPABILITY_RADIATION_RESISTANCE_NAME, new RadiationResistanceProvider(RadiationArmor.ARMOR_RAD_RESISTANCE_MAP.get(itemInfo)));
 			return;
-		}*/
-		event.addCapability(IRadiationResistance.CAPABILITY_RADIATION_RESISTANCE_NAME, new RadiationResistanceProvider(stack));
+		}
 	}
+	
+	/*@SubscribeEvent
+	public void attachArmorRadiationResistanceCapability(AttachCapabilitiesEvent<ItemStack> event) {
+		event.addCapability(IRadiationResistance.CAPABILITY_RADIATION_RESISTANCE_NAME, new RadiationResistanceProvider(stack));
+	}*/
 }

@@ -8,6 +8,7 @@ import nc.tile.energy.TileEnergy;
 import nc.tile.internal.energy.EnergyConnection;
 import nc.util.BlockFinder;
 import net.minecraft.init.Blocks;
+import net.minecraft.nbt.NBTTagCompound;
 
 public class TileBattery extends TileEnergy implements IBattery, IInterfaceable, IEnergySpread {
 	
@@ -70,7 +71,7 @@ public class TileBattery extends TileEnergy implements IBattery, IInterfaceable,
 	private final BatteryType type;
 	private BlockFinder finder;
 	
-	protected int batteryCount;
+	protected int batteryCount = 0, comparatorStrength = 0;
 	
 	public TileBattery(BatteryType type) {
 		super(type.getCapacity(), type.getMaxTransfer(), ITileEnergy.energyConnectionAll(EnergyConnection.IN));
@@ -88,15 +89,21 @@ public class TileBattery extends TileEnergy implements IBattery, IInterfaceable,
 	public void update() {
 		super.update();
 		if(!world.isRemote) {
-			boolean shouldUpdate = false;
 			pushEnergy();
-			if (batteryCount == 0) {
-				spreadEnergy();
-				if(findAdjacentComparator()) shouldUpdate = true;
-			}
+			if (batteryCount == 0) spreadEnergy();
 			tickBattery();
+			boolean shouldUpdate = false;
+			if (comparatorStrength != getComparatorStrength()) {
+				if (findAdjacentComparator()) shouldUpdate = true;
+			}
+			comparatorStrength = getComparatorStrength();
 			if (shouldUpdate) markDirty();
 		}
+	}
+	
+	@Override
+	public int getComparatorStrength() {
+		return (int) Math.round(15D*(double)getEnergyStored()/(double)getMaxEnergyStored());
 	}
 	
 	public boolean findAdjacentComparator() {
@@ -120,5 +127,20 @@ public class TileBattery extends TileEnergy implements IBattery, IInterfaceable,
 	@Override
 	public boolean hasConfigurableEnergyConnections() {
 		return true;
+	}
+	
+	// NBT
+	
+	@Override
+	public NBTTagCompound writeAll(NBTTagCompound nbt) {
+		super.writeAll(nbt);
+		nbt.setInteger("comparatorStrength", comparatorStrength);
+		return nbt;
+	}
+	
+	@Override
+	public void readAll(NBTTagCompound nbt) {
+		super.readAll(nbt);
+		comparatorStrength = nbt.getInteger("comparatorStrength");
 	}
 }

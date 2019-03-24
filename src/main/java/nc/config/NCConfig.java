@@ -192,6 +192,7 @@ public class NCConfig {
 	public static double[] tool_attack_damage;
 	public static int[] tool_enchantability;
 	public static double[] tool_handle_modifier;
+	public static boolean[] tool_tic_register;
 	
 	public static int[] armor_durability;
 	public static int[] armor_boron;
@@ -200,6 +201,7 @@ public class NCConfig {
 	public static int[] armor_boron_nitride;
 	public static int[] armor_enchantability;
 	public static double[] armor_toughness;
+	public static boolean[] armor_conarm_register;
 	
 	private static boolean radiation_enabled;
 	public static boolean radiation_enabled_public;
@@ -614,6 +616,8 @@ public class NCConfig {
 		propertyToolEnchantability.setLanguageKey("gui.config.tools.tool_enchantability");
 		Property propertyToolHandleModifier = config.get(CATEGORY_TOOLS, "tool_handle_modifier", new double[] {0.85D, 1.1D, 1D, 0.75D}, Lang.localise("gui.config.tools.tool_handle_modifier.comment"), 0.01D, 10D);
 		propertyToolHandleModifier.setLanguageKey("gui.config.tools.tool_handle_modifier");
+		Property propertyToolTiCRegister = config.get(CATEGORY_TOOLS, "tool_tic_register", new boolean[] {true, true, true, true, true, true, true, true}, Lang.localise("gui.config.tools.tool_tic_register.comment"));
+		propertyToolTiCRegister.setLanguageKey("gui.config.tools.tool_tic_register");
 		
 		Property propertyArmorDurability = config.get(CATEGORY_ARMOR, "armor_durability", new int[] {22, 30, 34, 42}, Lang.localise("gui.config.armor.armor_durability.comment"), 1, 127);
 		propertyArmorDurability.setLanguageKey("gui.config.armor.armor_durability");
@@ -627,8 +631,10 @@ public class NCConfig {
 		propertyArmorBoronNitride.setLanguageKey("gui.config.armor.armor_boron_nitride");
 		Property propertyArmorEnchantability = config.get(CATEGORY_ARMOR, "armor_enchantability", new int[] {6, 15, 12, 20}, Lang.localise("gui.config.armor.armor_enchantability.comment"), 1, 255);
 		propertyArmorEnchantability.setLanguageKey("gui.config.armor.armor_enchantability");
-		Property propertyArmorToughness = config.get(CATEGORY_ARMOR, "armor_toughness", new double[] {1D, 2D, 1D, 2D}, Lang.localise("gui.config.armor.armor_toughness.comment"), 1, 8);
+		Property propertyArmorToughness = config.get(CATEGORY_ARMOR, "armor_toughness", new double[] {1D, 2D, 1D, 2D}, Lang.localise("gui.config.armor.armor_toughness.comment"), 1D, 8D);
 		propertyArmorToughness.setLanguageKey("gui.config.armor.armor_toughness");
+		Property propertyArmorConarmRegister = config.get(CATEGORY_ARMOR, "armor_conarm_register", new boolean[] {true, true, true, true, true, true, true, true}, Lang.localise("gui.config.armor.armor_conarm_register.comment"));
+		propertyArmorConarmRegister.setLanguageKey("gui.config.armor.armor_conarm_register");
 		
 		Property propertyRadiationEnabled = config.get(CATEGORY_RADIATION, "radiation_enabled", false, Lang.localise("gui.config.radiation.radiation_enabled.comment"));
 		propertyRadiationEnabled.setLanguageKey("gui.config.radiation.radiation_enabled");
@@ -980,6 +986,7 @@ public class NCConfig {
 		propertyOrderTools.add(propertyToolAttackDamage.getName());
 		propertyOrderTools.add(propertyToolEnchantability.getName());
 		propertyOrderTools.add(propertyToolHandleModifier.getName());
+		propertyOrderTools.add(propertyToolTiCRegister.getName());
 		config.setCategoryPropertyOrder(CATEGORY_TOOLS, propertyOrderTools);
 		
 		List<String> propertyOrderArmor = new ArrayList<String>();
@@ -990,6 +997,7 @@ public class NCConfig {
 		propertyOrderArmor.add(propertyArmorHardCarbon.getName());
 		propertyOrderArmor.add(propertyArmorBoronNitride.getName());
 		propertyOrderArmor.add(propertyArmorToughness.getName());
+		propertyOrderArmor.add(propertyArmorConarmRegister.getName());
 		config.setCategoryPropertyOrder(CATEGORY_ARMOR, propertyOrderArmor);
 		
 		List<String> propertyOrderRadiation = new ArrayList<String>();
@@ -1227,6 +1235,7 @@ public class NCConfig {
 			tool_attack_damage = readDoubleArrayFromConfig(propertyToolAttackDamage);
 			tool_enchantability = readIntegerArrayFromConfig(propertyToolEnchantability);
 			tool_handle_modifier = readDoubleArrayFromConfig(propertyToolHandleModifier);
+			tool_tic_register = readBooleanArrayFromConfig(propertyToolTiCRegister);
 			
 			armor_durability = readIntegerArrayFromConfig(propertyArmorDurability);
 			armor_enchantability = readIntegerArrayFromConfig(propertyArmorEnchantability);
@@ -1235,6 +1244,7 @@ public class NCConfig {
 			armor_hard_carbon = readIntegerArrayFromConfig(propertyArmorHardCarbon);
 			armor_boron_nitride = readIntegerArrayFromConfig(propertyArmorBoronNitride);
 			armor_toughness = readDoubleArrayFromConfig(propertyArmorToughness);
+			armor_conarm_register = readBooleanArrayFromConfig(propertyArmorConarmRegister);
 			
 			radiation_enabled = propertyRadiationEnabled.getBoolean();
 			
@@ -1479,6 +1489,7 @@ public class NCConfig {
 		propertyToolAttackDamage.set(tool_attack_damage);
 		propertyToolEnchantability.set(tool_enchantability);
 		propertyToolHandleModifier.set(tool_handle_modifier);
+		propertyToolTiCRegister.set(tool_tic_register);
 		
 		propertyArmorDurability.set(armor_durability);
 		propertyArmorEnchantability.set(armor_enchantability);
@@ -1487,6 +1498,7 @@ public class NCConfig {
 		propertyArmorHardCarbon.set(armor_hard_carbon);
 		propertyArmorBoronNitride.set(armor_boron_nitride);
 		propertyArmorToughness.set(armor_toughness);
+		propertyArmorConarmRegister.set(armor_conarm_register);
 		
 		propertyRadiationEnabled.set(radiation_enabled);
 		

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.tuple.Pair;
 
+import nc.ModCheck;
 import nc.NuclearCraft;
 import nc.block.fluid.BlockFluidBase;
 import nc.block.fluid.BlockFluidCoolant;
@@ -29,7 +30,7 @@ public class NCCoolantFluids {
 	public static List<Fluid> fluidList = new ArrayList<Fluid>();
 	
 	public static void init() {
-		if (NCConfig.register_cofh_fluids) {
+		if (registerCoFHAlt()) {
 			FluidMolten redstone = new FluidMolten("redstone", 0xAB1C09);
 			fluidPairList.add(Pair.of(redstone, !NCConfig.register_fission_fluid_blocks ? null : new BlockFluidMolten(redstone)));
 		}
@@ -55,7 +56,7 @@ public class NCCoolantFluids {
 		fluidPairList.add(Pair.of(gold_nak, !NCConfig.register_fission_fluid_blocks ? null : new BlockFluidCoolant(gold_nak)));
 		fluidPairList.add(Pair.of(gold_nak_hot, !NCConfig.register_fission_fluid_blocks ? null : new BlockFluidHotCoolant(gold_nak_hot)));
 		
-		if (NCConfig.register_cofh_fluids) {
+		if (registerCoFHAlt()) {
 			FluidGlowstone glowstone = new FluidGlowstone("glowstone", 0xA38037);
 			fluidPairList.add(Pair.of(glowstone, !NCConfig.register_fission_fluid_blocks ? null : new BlockFluidGlowstone(glowstone)));
 		}
@@ -86,7 +87,7 @@ public class NCCoolantFluids {
 		fluidPairList.add(Pair.of(liquidhelium_nak, !NCConfig.register_fission_fluid_blocks ? null : new BlockFluidCoolant(liquidhelium_nak)));
 		fluidPairList.add(Pair.of(liquidhelium_nak_hot, !NCConfig.register_fission_fluid_blocks ? null : new BlockFluidHotCoolant(liquidhelium_nak_hot)));
 		
-		if (NCConfig.register_cofh_fluids) {
+		if (registerCoFHAlt()) {
 			FluidMolten ender = new FluidMolten("ender", 0x14584D);
 			fluidPairList.add(Pair.of(ender, !NCConfig.register_fission_fluid_blocks ? null : new BlockFluidMolten(ender)));
 		}
@@ -96,7 +97,7 @@ public class NCCoolantFluids {
 		fluidPairList.add(Pair.of(ender_nak, !NCConfig.register_fission_fluid_blocks ? null : new BlockFluidCoolant(ender_nak)));
 		fluidPairList.add(Pair.of(ender_nak_hot, !NCConfig.register_fission_fluid_blocks ? null : new BlockFluidHotCoolant(ender_nak_hot)));
 		
-		if (NCConfig.register_cofh_fluids) {
+		if (registerCoFHAlt()) {
 			FluidCryotheum cryotheum = new FluidCryotheum("cryotheum", 0x0099C1);
 			fluidPairList.add(Pair.of(cryotheum, !NCConfig.register_fission_fluid_blocks ? null : new BlockFluidCryotheum(cryotheum)));
 		}
@@ -165,5 +166,9 @@ public class NCCoolantFluids {
 		ForgeRegistries.BLOCKS.register(block);
 		ForgeRegistries.ITEMS.register(new ItemBlock(block).setRegistryName(block.getRegistryName()));
 		NuclearCraft.proxy.registerFluidBlockRendering(block, "fluid_molten_colored");
+	}
+	
+	private static boolean registerCoFHAlt() {
+		return NCConfig.register_cofh_fluids || !ModCheck.thermalFoundationLoaded();
 	}
 }

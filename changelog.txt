@@ -1,9 +1,26 @@
+v2.14c
+
+* Fixed radiation breaking various recipe systems from other mods
+* Scrubbers will now work effectively in chunks with no active radiation sources
+
+* Improved performance of comparator updating for reactors and batteries
+* Changed various cooler placement rule descriptions to be a little bit clearer
+
+* All recipes involving buckets of fluid can now use fluid from any container as an ingredient
+
++ Added config options to disable registering of TiC tool and ConArm armour materials
+* Increased the number of fluids considered by the CoFH alternative fluid config
+
+* Fixed a few localisation issues
+
 v2.14b
 
 + Added config to customise radiation-induced potion effects
 
 * Fixed various crashes on world load
 * Fixed compatibility issue with Prefab
+
+* Fixed Heat Exchanger Tubes not accepting the correct fluids
 
 + Added radiation to more GTCE items
 

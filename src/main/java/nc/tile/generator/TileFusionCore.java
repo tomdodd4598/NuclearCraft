@@ -118,6 +118,11 @@ public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpd
 		}
 	}
 	
+	public int getComparatorStrength() {
+		double strength = getAlternateComparator() ? (double)heat/getMaxHeat() : (double)efficiency/(double)NCConfig.fusion_comparator_max_efficiency;
+		return (int) MathHelper.clamp(15D*strength, 0, 15);
+	}
+	
 	public void tickStructureCheck() {
 		structureCount++; structureCount %= 4*NCConfig.machine_update_rate;
 	}
@@ -138,11 +143,6 @@ public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpd
 	public boolean checkIsRedstonePowered(World world, BlockPos dummyPos) {
 		if (world.isBlockPowered(pos)) return true;
 		for (BlockPos ringPos : new BlockPosHelper(pos).squareRing(1, 0)) if (world.isBlockPowered(ringPos)) return true;
-		return false;
-	}
-	
-	public boolean findAdjacentComparator() {
-		for (BlockPos ringPos : new BlockPosHelper(pos).cutoffRing(2, 0)) if (finder.find(ringPos, Blocks.UNPOWERED_COMPARATOR, Blocks.POWERED_COMPARATOR)) return true;
 		return false;
 	}
 	

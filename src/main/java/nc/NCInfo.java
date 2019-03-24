@@ -144,7 +144,7 @@ public class NCInfo {
 	public static String[][] radShieldingInfo() {
 		String[][] info = new String[RadShieldingType.values().length][];
 		for (int i = 0; i < RadShieldingType.values().length; i++) {
-			info[i] = InfoHelper.formattedInfo(Lang.localise("item.nuclearcraft.rad_shielding.desc" + (NCConfig.radiation_hardcore_containers > 0D ? "_hardcore" : "")));
+			info[i] = InfoHelper.formattedInfo(Lang.localise("item.nuclearcraft.rad_shielding.desc" + (NCConfig.radiation_hardcore_containers > 0D ? "_hardcore" : ""), NCConfig.radiation_shielding_level[i]));
 		}
 		return info;
 	}

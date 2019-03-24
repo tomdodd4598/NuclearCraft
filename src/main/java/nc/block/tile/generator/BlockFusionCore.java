@@ -2,7 +2,6 @@ package nc.block.tile.generator;
 
 import nc.block.tile.BlockTile;
 import nc.block.tile.IActivatable;
-import nc.config.NCConfig;
 import nc.init.NCBlocks;
 import nc.tab.NCTabs;
 import nc.tile.generator.TileFusionCore;
@@ -14,7 +13,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
@@ -107,8 +105,7 @@ public class BlockFusionCore extends BlockTile implements IActivatable {
 	public void onGuiOpened(World world, BlockPos pos) {
 		TileEntity tile = world.getTileEntity(pos);
 		if (tile instanceof TileFusionCore) {
-			TileFusionCore core = (TileFusionCore) tile;
-			core.refreshMultiblock();
+			((TileFusionCore) tile).refreshMultiblock();
 		}
 	}
 	
@@ -121,9 +118,7 @@ public class BlockFusionCore extends BlockTile implements IActivatable {
 	public int getComparatorInputOverride(IBlockState state, World world, BlockPos pos) {
 		TileEntity tile = world.getTileEntity(pos);
 		if (tile instanceof TileFusionCore) {
-			TileFusionCore core = (TileFusionCore) tile;
-			double strength = core.getAlternateComparator() ? (double)core.heat/core.getMaxHeat() : (double)core.efficiency/(double)NCConfig.fusion_comparator_max_efficiency;
-			return (int) MathHelper.clamp(15D*strength, 0, 15);
+			return ((TileFusionCore) tile).getComparatorStrength();
 		}
 		return Container.calcRedstone(world.getTileEntity(pos));
 	}

@@ -149,7 +149,7 @@ public class RadiationHandler {
 						}
 						else {
 							if (entityRads.isFatal()) {
-								entityLiving.attackEntityFrom(FATAL_RADS, 1000000F);
+								entityLiving.attackEntityFrom(FATAL_RADS, Float.MAX_VALUE);
 							}
 							else {
 								RadiationHelper.applyPotionEffects(entityLiving, entityRads, RadEffects.ENTITY_RAD_LEVEL_LIST, RadEffects.ENTITY_DEBUFF_LIST);
@@ -187,7 +187,7 @@ public class RadiationHandler {
 				IRadiationSource chunkRadiation = chunk.getCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null);
 				if (chunkRadiation == null) return;
 				
-				((ITileRadiationEnvironment)tile).setCurrentChunkBuffer(chunkRadiation.getRadiationBuffer());
+				((ITileRadiationEnvironment)tile).setCurrentChunkBuffer(Math.max(NCConfig.radiation_lowest_rate, Math.max(chunkRadiation.getRadiationBuffer(), chunkRadiation.getRadiationLevel())));
 			}
 		}
 		

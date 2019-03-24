@@ -5,8 +5,10 @@ import java.util.List;
 
 import org.apache.commons.lang3.tuple.Pair;
 
+import nc.ModCheck;
 import nc.NuclearCraft;
 import nc.block.fluid.BlockFluidBase;
+import nc.config.NCConfig;
 import nc.enumm.FluidType;
 import nc.util.ColorHelper;
 import nc.util.NCUtil;
@@ -39,7 +41,7 @@ public class NCFluids {
 			fluidPairList.add(fluidPair(FluidType.MOLTEN, "tough", 0x150F21));
 			fluidPairList.add(fluidPair(FluidType.MOLTEN, "hard_carbon", 0x195970));
 			
-			fluidPairList.add(fluidPair(FluidType.MOLTEN, "coal", 0x202020));
+			if (registerCoFHAlt()) fluidPairList.add(fluidPair(FluidType.MOLTEN, "coal", 0x202020));
 			fluidPairList.add(fluidPair(FluidType.MOLTEN, "beryllium", 0xD4DBC2));
 			fluidPairList.add(fluidPair(FluidType.MOLTEN, "manganese", 0x7284CC));
 			fluidPairList.add(fluidPair(FluidType.MOLTEN, "manganese_dioxide", 0x28211E));
@@ -101,7 +103,7 @@ public class NCFluids {
 			fluidPairList.add(fluidPair(FluidType.MOLTEN, "naoh", 0xC2B7BB));
 			fluidPairList.add(fluidPair(FluidType.MOLTEN, "koh", 0xB8C6B0));
 			
-			fluidPairList.add(fluidPair(FluidType.STEAM, "steam", 0x929292, 800));
+			if (registerCoFHAlt()) fluidPairList.add(fluidPair(FluidType.STEAM, "steam", 0x929292, 800));
 			fluidPairList.add(fluidPair(FluidType.STEAM, "high_pressure_steam", 0xBDBDBD, 1200));
 			fluidPairList.add(fluidPair(FluidType.STEAM, "exhaust_steam", 0x7E7E7E, 400));
 			fluidPairList.add(fluidPair(FluidType.STEAM, "low_pressure_steam", 0xA8A8A8, 1000));
@@ -160,5 +162,9 @@ public class NCFluids {
 	
 	private static int waterBlend(int soluteColor) {
 		return waterBlend(soluteColor, 0.5F);
+	}
+	
+	private static boolean registerCoFHAlt() {
+		return NCConfig.register_cofh_fluids || !ModCheck.thermalFoundationLoaded();
 	}
 }

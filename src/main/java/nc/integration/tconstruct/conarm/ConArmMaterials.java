@@ -18,15 +18,15 @@ import slimeknights.tconstruct.library.traits.ITrait;
 public class ConArmMaterials extends ArmorMaterials {
 	
 	public static void preInit() {
-		addArmorMaterial("boron", 0, NCConfig.armor_boron);
-		addArmorMaterial("tough", 1, NCConfig.armor_tough);
-		addArmorMaterial("hard_carbon", 2, NCConfig.armor_hard_carbon);
-		addArmorMaterial("boron_nitride", 3, NCConfig.armor_boron_nitride);
+		if (NCConfig.armor_conarm_register[0]) addArmorMaterial("boron", 0, NCConfig.armor_boron);
+		if (NCConfig.armor_conarm_register[1]) addArmorMaterial("tough", 1, NCConfig.armor_tough);
+		if (NCConfig.armor_conarm_register[2]) addArmorMaterial("hard_carbon", 2, NCConfig.armor_hard_carbon);
+		if (NCConfig.armor_conarm_register[3]) addArmorMaterial("boron_nitride", 3, NCConfig.armor_boron_nitride);
 		
-		addArmorMaterial("thorium", 19D, 15.5D, 0.8D, 0.75D);
-		addArmorMaterial("uranium", 20D, 14.5D, 0.6D, 0.8D);
-		addArmorMaterial("magnesium", 17.5D, 12.5D, 0.2D, 1D);
-		addArmorMaterial("chocolate", 1.4D, 1.2D, 0D, 0.15D);
+		if (NCConfig.armor_conarm_register[4]) addArmorMaterial("thorium", 19D, 15.5D, 0.8D, 0.75D);
+		if (NCConfig.armor_conarm_register[5]) addArmorMaterial("uranium", 20D, 14.5D, 0.6D, 0.8D);
+		if (NCConfig.armor_conarm_register[6]) addArmorMaterial("magnesium", 17.5D, 12.5D, 0.2D, 1D);
+		if (NCConfig.armor_conarm_register[7]) addArmorMaterial("chocolate", 1.4D, 1.2D, 0D, 0.15D);
 	}
 	
 	private static void addArmorMaterial(String materialName, double durability, double fullSetProtection, double toughness, double modifier) {

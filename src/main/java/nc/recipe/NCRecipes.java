@@ -231,6 +231,7 @@ public class NCRecipes {
 	public static List<List<String>> fusion_valid_fluids;
 	public static List<List<String>> salt_fission_valid_fluids;
 	public static List<List<String>> coolant_heater_valid_fluids;
+	public static List<List<String>> heat_exchanger_valid_fluids;
 	public static List<List<String>> turbine_valid_fluids;
 	
 	public static void init() {
@@ -249,6 +250,7 @@ public class NCRecipes {
 		fusion_valid_fluids = RecipeHelper.validFluids(NCRecipes.Type.FUSION);
 		salt_fission_valid_fluids = RecipeHelper.validFluids(NCRecipes.Type.SALT_FISSION);
 		coolant_heater_valid_fluids = RecipeHelper.validFluids(NCRecipes.Type.COOLANT_HEATER);
+		heat_exchanger_valid_fluids = RecipeHelper.validFluids(NCRecipes.Type.HEAT_EXCHANGER);
 		turbine_valid_fluids = RecipeHelper.validFluids(NCRecipes.Type.TURBINE);
 	}
 }

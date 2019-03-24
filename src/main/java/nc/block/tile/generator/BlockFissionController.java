@@ -50,8 +50,7 @@ public class BlockFissionController extends BlockProcessor {
 	public int getComparatorInputOverride(IBlockState state, World world, BlockPos pos) {
 		TileEntity tile = world.getTileEntity(pos);
 		if (tile instanceof TileFissionController) {
-			TileFissionController controller = (TileFissionController) tile;
-			return (int) MathHelper.clamp(1500D/(double)NCConfig.fission_comparator_max_heat*(double)controller.heat/(double)controller.getMaxHeat(), 0, 15);
+			return ((TileFissionController) tile).getComparatorStrength();
 		}
 		return Container.calcRedstone(world.getTileEntity(pos));
 	}

@@ -11,25 +11,25 @@ public class RadiationSink implements IRadiationSink {
 	public RadiationSink(double startRadiation) {
 		this.radiationLevel = startRadiation;
 	}
-
+	
 	@Override
 	public NBTTagCompound writeNBT(IRadiationSink instance, EnumFacing side, NBTTagCompound nbt) {
 		nbt.setDouble("radiationLevel", getRadiationLevel());
 		nbt.setDouble("radiationBuffer", getRadiationBuffer());
 		return nbt;
 	}
-
+	
 	@Override
 	public void readNBT(IRadiationSink instance, EnumFacing side, NBTTagCompound nbt) {
 		setRadiationLevel(nbt.getDouble("radiationLevel"));
 		setRadiationBuffer(nbt.getDouble("radiationBuffer"));
 	}
-
+	
 	@Override
 	public double getRadiationLevel() {
 		return radiationLevel;
 	}
-
+	
 	@Override
 	public void setRadiationLevel(double newRads) {
 		radiationLevel = Math.max(newRads, 0D);

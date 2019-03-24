@@ -68,8 +68,7 @@ public class BlockBattery extends BlockSimpleTile implements ISidedEnergy, INBTD
 	public int getComparatorInputOverride(IBlockState state, World world, BlockPos pos) {
 		TileEntity tile = world.getTileEntity(pos);
 		if (tile instanceof IBattery) {
-			EnergyStorage storage = ((IBattery) tile).getEnergyStorage();
-			return (int) Math.round(15D*(double)storage.getEnergyStored()/(double)storage.getMaxEnergyStored());
+			return ((IBattery) tile).getComparatorStrength();
 		}
 		return Container.calcRedstone(world.getTileEntity(pos));
 	}

@@ -45,7 +45,7 @@ public class EntityRads implements IEntityRads {
 		setRadXCooldown(nbt.getDouble("radXCooldown"));
 		setRadiationImmunityTime(nbt.getDouble("radiationImmunityTime"));
 	}
-
+	
 	@Override
 	public double getTotalRads() {
 		return totalRads;

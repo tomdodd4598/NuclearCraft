@@ -44,7 +44,7 @@ public class TileHeatExchangerTube extends TileHeatExchangerPartBase implements 
 	private static final FluidConnection DEFAULT = FluidConnection.BOTH;
 	private static final FluidConnection DISABLED = FluidConnection.NON;
 	
-	private final @Nonnull List<Tank> tanks = Lists.newArrayList(new Tank(32000, TankSorption.IN, NCRecipes.coolant_heater_valid_fluids.get(0)), new Tank(64000, TankSorption.OUT, new ArrayList<String>()));
+	private final @Nonnull List<Tank> tanks = Lists.newArrayList(new Tank(32000, TankSorption.IN, NCRecipes.heat_exchanger_valid_fluids.get(0)), new Tank(64000, TankSorption.OUT, new ArrayList<String>()));
 	
 	private @Nonnull FluidConnection[] fluidConnections = ITileFluid.fluidConnectionAll(FluidConnection.NON);
 	

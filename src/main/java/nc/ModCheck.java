@@ -18,6 +18,7 @@ public class ModCheck {
 	private static boolean galacticraftLoaded = false;
 	private static boolean techRebornLoaded = false;
 	private static boolean baublesLoaded = false;
+	private static boolean thermalFoundationLoaded = false;
 	
 	public static void init() {
 		if (initialized) return;
@@ -34,6 +35,7 @@ public class ModCheck {
 		galacticraftLoaded = Loader.isModLoaded("GalacticraftCore") || Loader.isModLoaded("galacticraftcore") || Loader.isModLoaded("Galacticraft Core");
 		techRebornLoaded = Loader.isModLoaded("techreborn") || Loader.isModLoaded("Tech Reborn");
 		baublesLoaded = Loader.isModLoaded("baubles") || Loader.isModLoaded("Baubles");
+		thermalFoundationLoaded = Loader.isModLoaded("thermalfoundation") || Loader.isModLoaded("Thermal Foundation");
 		
 		initialized = true;
 	}
@@ -84,5 +86,9 @@ public class ModCheck {
 	
 	public static boolean baublesLoaded() {
 		return baublesLoaded;
+	}
+	
+	public static boolean thermalFoundationLoaded() {
+		return thermalFoundationLoaded;
 	}
 }

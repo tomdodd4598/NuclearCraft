@@ -5,7 +5,6 @@ import javax.annotation.Nullable;
 import nc.NuclearCraft;
 import nc.block.tile.BlockTile;
 import nc.block.tile.generator.BlockFusionCore;
-import nc.config.NCConfig;
 import nc.enumm.BlockEnums.FusionDummyTileType;
 import nc.init.NCBlocks;
 import nc.tile.generator.TileFusionCore;
@@ -23,7 +22,6 @@ import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraftforge.fml.relauncher.Side;
@@ -116,9 +114,7 @@ public class BlockFusionDummy extends BlockTile {
 		if (position == null) return 0;
 		TileEntity tile = world.getTileEntity(position);
 		if (tile instanceof TileFusionCore) {
-			TileFusionCore core = (TileFusionCore) tile;
-			double strength = core.getAlternateComparator() ? (double)core.heat/core.getMaxHeat() : (double)core.efficiency/(double)NCConfig.fusion_comparator_max_efficiency;
-			return (int) MathHelper.clamp(15D*strength, 0, 15);
+			return ((TileFusionCore) tile).getComparatorStrength();
 		}
 		return Container.calcRedstone(world.getTileEntity(position));
 	}
