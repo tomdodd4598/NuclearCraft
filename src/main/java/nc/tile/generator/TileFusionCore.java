@@ -429,7 +429,7 @@ public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpd
 				int fluidAmount = Math.min(tank.getFluidAmount(), (4*NCConfig.machine_update_rate*NCConfig.active_cooler_max_rate)/20);
 				if (currentHeat > ROOM_TEMP) {
 					double cool_mult = posList.contains(getOpposite(pos)) ? NCConfig.fusion_heat_generation*4 : NCConfig.fusion_heat_generation;
-					for (int i = 1; i < CoolerType.values().length; i++) if (tank.getFluidName() == CoolerType.values()[i].getFluidName()) {
+					for (int i = 1; i < CoolerType.values().length; i++) if (tank.getFluidName().equals(CoolerType.values()[i].getFluidName())) {
 						cooled += (NCConfig.fusion_active_cooling_rate[i - 1]*fluidAmount*cool_mult)/(size*1000D);
 						break;
 					}
