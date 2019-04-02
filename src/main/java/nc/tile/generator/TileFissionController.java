@@ -787,7 +787,7 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 								double currentHeat = heat + (isProcessing ? heatThisTick : 0) + coolerHeatThisTick;
 								boolean isInValidPosition = false;
 								for (int i = 1; i < CoolerType.values().length; i++) {
-									if (tank.getFluidName() == CoolerType.values()[i].getFluidName()) {
+									if (tank.getFluidName().equals(CoolerType.values()[i].getFluidName())) {
 										if (coolerRequirements(x, y, z, i)) {
 											coolerHeatThisTick -= NCConfig.fission_active_cooling_rate[i - 1]*NCConfig.active_cooler_max_rate/20;
 											isInValidPosition = true;
@@ -907,7 +907,7 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 								double currentHeat = heat + (isProcessing ? heatThisTick : 0) + coolerHeatThisTick;
 								boolean isInValidPosition = false;
 								for (int i = 1; i < CoolerType.values().length; i++) {
-									if (tank.getFluidName() == CoolerType.values()[i].getFluidName()) {
+									if (tank.getFluidName().equals(CoolerType.values()[i].getFluidName())) {
 										if (coolerRequirements(x, y, z, i)) {
 											coolerHeatThisTick -= NCConfig.fission_active_cooling_rate[i - 1]*NCConfig.active_cooler_max_rate/20;
 											isInValidPosition = true;
