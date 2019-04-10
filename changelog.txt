@@ -1,3 +1,34 @@
+v2.15
+
++ Added radiation to fusion reactor recipes
+* Improved radiation spreading and Radiation Scrubber logic
+* Slightly improved radiation capability attachment by combining into a single method
+* Fixed chunk radiation command being unavailable to command blocks
+* Radiation-related items/blocks are now hidden in JEI while radiation is disabled
+
++ Added support for 'ORed' CT ingredients as recipe inputs
+
++ Added redstone control buttons to machines
++ Added 'clear all fluid' buttions to MSRs, Heat Exchangers and Turbines
+
++ Added config to modify Manufactory planks and stick production rates
++ Added recipe caching to improve performance of stop-start machines
+
+* Fixed strange flickering of fluids in GUIs when looking between two machines of the same type
+
+* Removed machine parts from NC dungeon loot
+* Replaced 3DO Hyperspace theme with (much better) remix of original PC version
+
+* Fixed various misuses of String logic causing bugs in stricter JVMs [thanks to  domi1819!]
+
+- Removed many unnecessary large textures
+
+* Huge refactors to fluid-using TEs in preparation for machine side configuration
+
+* Many other minor additions and changes
+* Possible other things that I have forgotten
+- Removed Paulobrine and Herobrian
+
 v2.14c
 
 * Fixed radiation breaking various recipe systems from other mods

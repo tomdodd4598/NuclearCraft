@@ -81,9 +81,11 @@ ________________________________________________________________________________
  Recipe Methods
 #==============#
 
-Note: recipe extras in curly brackets `{...}` are optional, but must be in the order specified. For example, if you want to
+Note A: recipe extras in curly brackets `{...}` are optional, but must be in the order specified. For example, if you want to
 set a Manufactory recipe's power multiplier, you must also first set a time multiplier. Make sure to not actually include
 the curly brackets!
+
+Note B: input ingredients can be ORed together using CT's `<...>*x | <...>*y | ...` syntax!
 
  Manufactory:
 >------------<
