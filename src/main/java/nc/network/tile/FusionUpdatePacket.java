@@ -1,7 +1,11 @@
 package nc.network.tile;
 
+import java.util.List;
+
 import io.netty.buffer.ByteBuf;
 import nc.tile.generator.TileFusionCore;
+import nc.tile.internal.fluid.Tank;
+import nc.tile.internal.fluid.Tank.TankInfo;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 
@@ -23,12 +27,14 @@ public class FusionUpdatePacket extends TileUpdatePacket {
 	public boolean hasConsumed;
 	public boolean computerActivated;
 	public String problem;
+	public byte numberOfTanks;
+	public List<TankInfo> tanksInfo;
 	
 	public FusionUpdatePacket() {
 		messageValid = false;
 	}
 	
-	public FusionUpdatePacket(BlockPos pos, double time, int energyStored, double baseProcessTime, double baseProcessPower, double processPower, boolean isProcessing, double heat, double efficiency, double speedMultiplier, int size, int complete, double cooling, double heatChange, boolean hasConsumed, boolean computerActivated, String problem) {
+	public FusionUpdatePacket(BlockPos pos, double time, int energyStored, double baseProcessTime, double baseProcessPower, double processPower, boolean isProcessing, double heat, double efficiency, double speedMultiplier, int size, int complete, double cooling, double heatChange, boolean hasConsumed, boolean computerActivated, String problem, List<Tank> tanks) {
 		this.pos = pos;
 		this.time = time;
 		this.energyStored = energyStored;
@@ -46,6 +52,8 @@ public class FusionUpdatePacket extends TileUpdatePacket {
 		this.hasConsumed = hasConsumed;
 		this.computerActivated = computerActivated;
 		this.problem = problem;
+		numberOfTanks = (byte) tanks.size();
+		tanksInfo = TankInfo.infoList(tanks);
 		
 		messageValid = true;
 	}
@@ -69,6 +77,8 @@ public class FusionUpdatePacket extends TileUpdatePacket {
 		hasConsumed = buf.readBoolean();
 		computerActivated = buf.readBoolean();
 		problem = ByteBufUtils.readUTF8String(buf);
+		numberOfTanks = buf.readByte();
+		tanksInfo = TankInfo.readBuf(buf, numberOfTanks);
 	}
 	
 	@Override
@@ -92,6 +102,8 @@ public class FusionUpdatePacket extends TileUpdatePacket {
 		buf.writeBoolean(hasConsumed);
 		buf.writeBoolean(computerActivated);
 		ByteBufUtils.writeUTF8String(buf, problem);
+		buf.writeByte(numberOfTanks);
+		for (TankInfo info : tanksInfo) info.writeBuf(buf);
 	}
 	
 	public static class Handler extends TileUpdatePacket.Handler<FusionUpdatePacket, TileFusionCore> {

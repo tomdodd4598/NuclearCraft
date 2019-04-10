@@ -11,6 +11,7 @@ import nc.ModCheck;
 import nc.config.NCConfig;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.heatExchanger.HeatExchanger;
+import nc.multiblock.heatExchanger.HeatExchangerTubeSetting;
 import nc.tile.fluid.ITileFluid;
 import nc.tile.internal.fluid.FluidConnection;
 import nc.tile.internal.fluid.FluidTileWrapper;
@@ -26,9 +27,9 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 
 public class TileHeatExchangerVent extends TileHeatExchangerPartBase implements ITileFluid {
 	
-	private final @Nonnull List<Tank> tanks = Lists.newArrayList(new Tank(128000, TankSorption.BOTH, null));
+	private final @Nonnull List<Tank> tanks = Lists.newArrayList(new Tank(128000, null));
 	
-	private @Nonnull FluidConnection[] fluidConnections = ITileFluid.fluidConnectionAll(FluidConnection.BOTH);
+	private @Nonnull FluidConnection[] fluidConnections = ITileFluid.fluidConnectionAll(TankSorption.BOTH);
 	
 	private @Nonnull FluidTileWrapper[] fluidSides;
 	
@@ -101,40 +102,41 @@ public class TileHeatExchangerVent extends TileHeatExchangerPartBase implements 
 	
 	@Override
 	public void pushFluidToSide(@Nonnull EnumFacing side) {
-		if (!getFluidConnection(side).canDrain()) return;
+		if (!getTankSorption(side, 0).canDrain()) return;
 		
 		TileEntity tile = getTileWorld().getTileEntity(getTilePos().offset(side));
-		if (!(tile instanceof TileHeatExchangerTube)) return;
-		ITileFluid tube = (ITileFluid) tile;
-		
-		if (tube.getFluidConnection(side.getOpposite()) == FluidConnection.BOTH) {
-			getTanks().get(0).drainInternal(tube.getTanks().get(0).fill(getTanks().get(0).drainInternal(getTanks().get(0).getCapacity(), false), true), true);
+		if (tile instanceof TileHeatExchangerTube) {
+			TileHeatExchangerTube tube = (TileHeatExchangerTube) tile;
+			
+			if (tube.getTubeSetting(side.getOpposite()) == HeatExchangerTubeSetting.DEFAULT) {
+				getTanks().get(0).drainInternal(tube.getTanks().get(0).fill(getTanks().get(0).drainInternal(getTanks().get(0).getCapacity(), false), true), true);
+			}
 		}
 	}
 
 	@Override
-	public boolean getTanksShared() {
+	public boolean getInputTanksSeparated() {
 		return false;
 	}
 
 	@Override
-	public void setTanksShared(boolean shared) {}
+	public void setInputTanksSeparated(boolean separated) {}
 
 	@Override
-	public boolean getEmptyUnusableTankInputs() {
+	public boolean getVoidUnusableFluidInput(int tankNumber) {
 		return false;
 	}
 
 	@Override
-	public void setEmptyUnusableTankInputs(boolean emptyUnusableTankInputs) {}
+	public void setVoidUnusableFluidInput(int tankNumber, boolean voidUnusableFluidInput) {}
 
 	@Override
-	public boolean getVoidExcessFluidOutputs() {
+	public boolean getVoidExcessFluidOutput(int tankNumber) {
 		return false;
 	}
 
 	@Override
-	public void setVoidExcessFluidOutputs(boolean voidExcessFluidOutputs) {}
+	public void setVoidExcessFluidOutput(int tankNumber, boolean voidExcessFluidOutput) {}
 	
 	// NBT
 	

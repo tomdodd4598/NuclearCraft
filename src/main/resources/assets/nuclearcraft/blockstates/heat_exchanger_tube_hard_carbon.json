@@ -2,124 +2,123 @@
 	"forge_marker": 1,
 	"defaults": {
 		"textures": {
-			"particle":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_hard_carbon/both",
-			"north":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_hard_carbon/both",
-			"east":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_hard_carbon/both",
-			"south":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_hard_carbon/both",
-			"west":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_hard_carbon/both",
-			"up":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_hard_carbon/both",
-			"down":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_hard_carbon/both"
+			"particle":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_hard_carbon/default",
+			"north":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_hard_carbon/default",
+			"east":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_hard_carbon/default",
+			"south":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_hard_carbon/default",
+			"west":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_hard_carbon/default",
+			"up":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_hard_carbon/default",
+			"down":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_hard_carbon/default"
 		},
 		"model":"cube",
 		"transform":"forge:default-block"
 	},
 	"variants": {
-		"bothventory": [{}],
 		"north": {
-			"both": {},
-			"out": {
+			"default": {},
+			"input_spread": {
 			   "textures": {
-					"north":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_hard_carbon/out"
+					"north":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_hard_carbon/input_spread"
 				}
 			},
-			"in": {
+			"product_out": {
 				 "textures": {
-					"north":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_hard_carbon/in"
+					"north":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_hard_carbon/product_out"
 				}
 			},
-			"non": {
+			"disabled": {
 				 "textures": {
-					"north":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_hard_carbon/non"
+					"north":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_hard_carbon/disabled"
 				}
 			}
 		},
 		"east": {
-			"both": {},
-			"out": {
+			"default": {},
+			"input_spread": {
 			   "textures": {
-					"east":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_hard_carbon/out"
+					"east":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_hard_carbon/input_spread"
 				}
 			},
-			"in": {
+			"product_out": {
 				 "textures": {
-					"east":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_hard_carbon/in"
+					"east":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_hard_carbon/product_out"
 				}
 			},
-			"non": {
+			"disabled": {
 				 "textures": {
-					"east":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_hard_carbon/non"
+					"east":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_hard_carbon/disabled"
 				}
 			}
 		},
 		"south": {
-			"both": {},
-			"out": {
+			"default": {},
+			"input_spread": {
 			   "textures": {
-					"south":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_hard_carbon/out"
+					"south":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_hard_carbon/input_spread"
 				}
 			},
-			"in": {
+			"product_out": {
 				 "textures": {
-					"south":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_hard_carbon/in"
+					"south":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_hard_carbon/product_out"
 				}
 			},
-			"non": {
+			"disabled": {
 				 "textures": {
-					"south":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_hard_carbon/non"
+					"south":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_hard_carbon/disabled"
 				}
 			}
 		},
 		"west": {
-			"both": {},
-			"out": {
+			"default": {},
+			"input_spread": {
 			   "textures": {
-					"west":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_hard_carbon/out"
+					"west":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_hard_carbon/input_spread"
 				}
 			},
-			"in": {
+			"product_out": {
 				 "textures": {
-					"west":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_hard_carbon/in"
+					"west":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_hard_carbon/product_out"
 				}
 			},
-			"non": {
+			"disabled": {
 				 "textures": {
-					"west":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_hard_carbon/non"
+					"west":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_hard_carbon/disabled"
 				}
 			}
 		},
 		"up": {
-			"both": {},
-			"out": {
+			"default": {},
+			"input_spread": {
 			   "textures": {
-					"up":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_hard_carbon/out"
+					"up":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_hard_carbon/input_spread"
 				}
 			},
-			"in": {
+			"product_out": {
 				 "textures": {
-					"up":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_hard_carbon/in"
+					"up":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_hard_carbon/product_out"
 				}
 			},
-			"non": {
+			"disabled": {
 				 "textures": {
-					"up":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_hard_carbon/non"
+					"up":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_hard_carbon/disabled"
 				}
 			}
 		},
 		"down": {
-			"both": {},
-			"out": {
+			"default": {},
+			"input_spread": {
 			   "textures": {
-					"down":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_hard_carbon/out"
+					"down":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_hard_carbon/input_spread"
 				}
 			},
-			"in": {
+			"product_out": {
 				 "textures": {
-					"down":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_hard_carbon/in"
+					"down":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_hard_carbon/product_out"
 				}
 			},
-			"non": {
+			"disabled": {
 				 "textures": {
-					"down":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_hard_carbon/non"
+					"down":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_hard_carbon/disabled"
 				}
 			}
 		}

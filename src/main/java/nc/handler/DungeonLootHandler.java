@@ -86,7 +86,7 @@ public class DungeonLootHandler {
 				}
 			}
 			
-			if (addPlating) {
+			/*if (addPlating) {
 				pool.addEntry(new LootEntryItem(NCItems.part, 15, 0, lootFunctions(0, 3, 3, 6), noCondition, Global.MOD_ID + ":plating"));
 			}
 			
@@ -96,17 +96,17 @@ public class DungeonLootHandler {
 			
 			if (addMachinery) {
 				pool.addEntry(new LootEntryItem(NCItems.part, 20, 0, lootFunctions(7, 9, 2, 4), noCondition, Global.MOD_ID + ":machinery"));
-			}
+			}*/
 			
 			if (addOther) {
-				pool.addEntry(new LootEntryItem(NCItems.dominos, 5, 0, lootFunctions(0, 0, 2, 4), noCondition, Global.MOD_ID + ":dominos"));
-				pool.addEntry(new LootEntryItem(NCItems.milk_chocolate, 5, 0, lootFunctions(0, 0, 2, 4), noCondition, Global.MOD_ID + ":milk_chocolate"));
-				pool.addEntry(new LootEntryItem(NCItems.marshmallow, 5, 0, lootFunctions(0, 0, 2, 4), noCondition, Global.MOD_ID + ":marshmallow"));
-				pool.addEntry(new LootEntryItem(NCItems.smore, 5, 0, lootFunctions(0, 0, 2, 4), noCondition, Global.MOD_ID + ":smore"));
-				pool.addEntry(new LootEntryItem(NCItems.record_end_of_the_world, 5, 0, lootFunctions(0, 0, 1, 1), noCondition, Global.MOD_ID + ":record_end_of_the_world"));
-				pool.addEntry(new LootEntryItem(NCItems.record_money_for_nothing, 5, 0, lootFunctions(0, 0, 1, 1), noCondition, Global.MOD_ID + ":record_money_for_nothing"));
-				pool.addEntry(new LootEntryItem(NCItems.record_wanderer, 5, 0, lootFunctions(0, 0, 1, 1), noCondition, Global.MOD_ID + ":record_wanderer"));
-				pool.addEntry(new LootEntryItem(NCItems.record_hyperspace, 5, 0, lootFunctions(0, 0, 1, 1), noCondition, Global.MOD_ID + ":record_hyperspace"));
+				pool.addEntry(new LootEntryItem(NCItems.dominos, 3, 0, lootFunctions(0, 0, 2, 4), noCondition, Global.MOD_ID + ":dominos"));
+				pool.addEntry(new LootEntryItem(NCItems.milk_chocolate, 4, 0, lootFunctions(0, 0, 2, 4), noCondition, Global.MOD_ID + ":milk_chocolate"));
+				pool.addEntry(new LootEntryItem(NCItems.marshmallow, 4, 0, lootFunctions(0, 0, 2, 4), noCondition, Global.MOD_ID + ":marshmallow"));
+				pool.addEntry(new LootEntryItem(NCItems.smore, 3, 0, lootFunctions(0, 0, 2, 4), noCondition, Global.MOD_ID + ":smore"));
+				pool.addEntry(new LootEntryItem(NCItems.record_end_of_the_world, 3, 0, lootFunctions(0, 0, 1, 1), noCondition, Global.MOD_ID + ":record_end_of_the_world"));
+				pool.addEntry(new LootEntryItem(NCItems.record_money_for_nothing, 3, 0, lootFunctions(0, 0, 1, 1), noCondition, Global.MOD_ID + ":record_money_for_nothing"));
+				pool.addEntry(new LootEntryItem(NCItems.record_wanderer, 3, 0, lootFunctions(0, 0, 1, 1), noCondition, Global.MOD_ID + ":record_wanderer"));
+				pool.addEntry(new LootEntryItem(NCItems.record_hyperspace, 3, 0, lootFunctions(0, 0, 1, 1), noCondition, Global.MOD_ID + ":record_hyperspace"));
 			}
 		}
 	}

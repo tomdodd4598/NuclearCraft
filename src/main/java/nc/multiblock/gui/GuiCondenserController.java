@@ -6,14 +6,15 @@ import nc.util.Lang;
 import nc.util.StringHelper;
 import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 
 public class GuiCondenserController extends GuiMultiblockController<Condenser> {
 	
 	protected final ResourceLocation gui_texture;
 	
-	public GuiCondenserController(Condenser multiblock, Container container) {
-		super(multiblock, container);
+	public GuiCondenserController(Condenser multiblock, BlockPos controllerPos, Container container) {
+		super(multiblock, controllerPos, container);
 		gui_texture = new ResourceLocation(Global.MOD_ID + ":textures/gui/container/" + "condenser_controller" + ".png");
 	}
 	

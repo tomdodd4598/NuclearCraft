@@ -23,14 +23,14 @@ public class SaltFissionRecipes extends ProcessorRecipeHandler {
 	}
 	
 	public void addFuelDepleteRecipe(String fuel, double time, double heat, double radiationLevel) {
-		addRecipe(fluidStack("fuel_" + fuel + "_fluoride_flibe", 4), fluidStack("depleted_fuel_" + fuel + "_fluoride_flibe", 4), time/324D, heat, radiationLevel/8D);
+		addRecipe(fluidStack("fuel_" + fuel + "_fluoride_flibe", 4), fluidStack("depleted_fuel_" + fuel + "_fluoride_flibe", 4), time/324D, heat, radiationLevel);
 	}
 	
 	public void addFuelDepleteRecipes(String fuel, double[] times, double[] heats, double[] radiationLevels, int... types) {
 		int count = 0;
 		for (int type : types) {
-			addFuelDepleteRecipe("le" + fuel + "_" + type, times[count], heats[count], radiationLevels[count]/8D);
-			addFuelDepleteRecipe("he" + fuel + "_" + type, times[count + 2], heats[count + 2], radiationLevels[count + 2]/8D);
+			addFuelDepleteRecipe("le" + fuel + "_" + type, times[count], heats[count], radiationLevels[count]);
+			addFuelDepleteRecipe("he" + fuel + "_" + type, times[count + 2], heats[count + 2], radiationLevels[count + 2]);
 			count += 4;
 		}
 	}

@@ -1,21 +1,20 @@
 package nc.gui.processor;
 
 import nc.container.processor.ContainerExtractor;
-import nc.gui.GuiFluidRenderer;
-import nc.gui.GuiItemRenderer;
-import nc.gui.NCGuiButton;
+import nc.gui.element.GuiFluidRenderer;
+import nc.gui.element.GuiItemRenderer;
+import nc.gui.element.NCGuiButton;
+import nc.gui.element.NCGuiToggleButton;
 import nc.init.NCItems;
 import nc.network.PacketHandler;
-import nc.network.gui.EmptyTankButtonPacket;
-import nc.network.gui.GetFluidInTankPacket;
+import nc.network.gui.EmptyTankPacket;
+import nc.network.gui.ToggleRedstoneControlPacket;
 import nc.tile.processor.TileItemFluidProcessor;
+import nc.util.Lang;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraftforge.fluids.FluidStack;
 
 public class GuiExtractor extends GuiItemFluidProcessor {
-	
-	public static FluidStack fluid0 = null;
 	
 	public GuiExtractor(EntityPlayer player, TileItemFluidProcessor tile) {
 		super("extractor", player, new ContainerExtractor(player, tile));
@@ -26,7 +25,9 @@ public class GuiExtractor extends GuiItemFluidProcessor {
 	
 	@Override
 	public void renderTooltips(int mouseX, int mouseY) {
-		drawFluidTooltip(fluid0, tile.getTanks().get(0), mouseX, mouseY, 126, 31, 24, 24);
+		drawFluidTooltip(tile.getTanks().get(0), mouseX, mouseY, 126, 31, 24, 24);
+		
+		drawTooltip(Lang.localise("gui.container.redstone_control"), mouseX, mouseY, 27, 63, 18, 18);
 		
 		drawEnergyTooltip(tile, mouseX, mouseY, 8, 6, 16, 74);
 	}
@@ -49,28 +50,27 @@ public class GuiExtractor extends GuiItemFluidProcessor {
 		int k = getCookProgressScaled(37);
 		drawTexturedModalRect(guiLeft + 60, guiTop + 34, 176, 3, k, 18);
 		
-		if (tick == 0) sendTankInfo();
-		
-		GuiFluidRenderer.renderGuiTank(fluid0, tile.getTanks().get(0).getCapacity(), guiLeft + 126, guiTop + 31, zLevel, 24, 24);
+		GuiFluidRenderer.renderGuiTank(tile.getTanks().get(0), guiLeft + 126, guiTop + 31, zLevel, 24, 24);
 	}
 	
 	@Override
 	public void initGui() {
 		super.initGui();
 		buttonList.add(new NCGuiButton.EmptyTankButton(0, guiLeft + 126, guiTop + 31, 24, 24));
+		
+		buttonList.add(new NCGuiToggleButton.ToggleRedstoneControlButton(1, guiLeft + 27, guiTop + 63, tile));
 	}
 	
 	@Override
 	protected void actionPerformed(GuiButton guiButton) {
 		if (tile.getWorld().isRemote) {
 			for (int i = 0; i < 1; i++) if (guiButton.id == i && isShiftKeyDown()) {
-				PacketHandler.instance.sendToServer(new EmptyTankButtonPacket(tile, i));
+				PacketHandler.instance.sendToServer(new EmptyTankPacket(tile, i));
+			}
+			if (guiButton.id == 1) {
+				tile.setRedstoneControl(!tile.getRedstoneControl());
+				PacketHandler.instance.sendToServer(new ToggleRedstoneControlPacket(tile));
 			}
 		}
-	}
-	
-	@Override
-	protected void sendTankInfo() {
-		PacketHandler.instance.sendToServer(new GetFluidInTankPacket(tile.getPos(), 0, "nc.gui.processor.GuiExtractor", "fluid0"));
 	}
 }

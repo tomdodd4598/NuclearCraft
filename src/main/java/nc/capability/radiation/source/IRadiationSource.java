@@ -17,4 +17,8 @@ public interface IRadiationSource extends IRadiation, ICapability<IRadiationSour
 	public double getRadiationBuffer();
 	
 	public void setRadiationBuffer(double newBuffer);
+	
+	public boolean getScrubbing();
+	
+	public void setScrubbing(boolean scrubbing);
 }

@@ -27,6 +27,7 @@ public class AddProcessorRecipe implements IAction {
 	public List<IFluidIngredient> fluidProducts;
 	public List extras;
 	public ProcessorRecipe recipe;
+	public boolean inputsAllNull = true, outputsAllNull = true;
 	public boolean wasNull, wrongSize;
 	public final NCRecipes.Type recipeType;
 
@@ -47,9 +48,12 @@ public class AddProcessorRecipe implements IAction {
 			Object nextNextObject = listCount + 2 < objects.size() ? objects.get(listCount + 2) : null;
 			Object nextNextNextObject = listCount + 3 < objects.size() ? objects.get(listCount + 3) : null;
 			if (ingredientCount < recipeHandler.itemInputSize) {
-				if (object != null && !(object instanceof IIngredient)) {
-					wasNull = true;
-					return;
+				if (object != null) {
+					if (!(object instanceof IIngredient)) {
+						wasNull = true;
+						return;
+					}
+					inputsAllNull = false;
 				}
 				IItemIngredient ingredient = CTMethods.buildAdditionItemIngredient(object, recipeType);
 				if (ingredient == null) {
@@ -58,9 +62,12 @@ public class AddProcessorRecipe implements IAction {
 				}
 				itemIngredients.add(ingredient);
 			} else if (ingredientCount < recipeHandler.itemInputSize + recipeHandler.fluidInputSize) {
-				if (object != null && !(object instanceof IIngredient)) {
-					wasNull = true;
-					return;
+				if (object != null) {
+					if (!(object instanceof IIngredient)) {
+						wasNull = true;
+						return;
+					}
+					inputsAllNull = false;
 				}
 				IFluidIngredient ingredient = CTMethods.buildAdditionFluidIngredient(object, recipeType);
 				if (ingredient == null) {
@@ -69,9 +76,12 @@ public class AddProcessorRecipe implements IAction {
 				}
 				fluidIngredients.add(ingredient);
 			} else if (ingredientCount < recipeHandler.itemInputSize + recipeHandler.fluidInputSize + recipeHandler.itemOutputSize) {
-				if (object != null && !(object instanceof IIngredient)) {
-					wasNull = true;
-					return;
+				if (object != null) {
+					if (!(object instanceof IIngredient)) {
+						wasNull = true;
+						return;
+					}
+					outputsAllNull = false;
 				}
 				IItemIngredient ingredient = CTMethods.buildAdditionItemIngredient(object, recipeType);
 				if (ingredient == null) {
@@ -93,9 +103,12 @@ public class AddProcessorRecipe implements IAction {
 				}
 				itemProducts.add(ingredient);
 			} else if (ingredientCount < recipeHandler.itemInputSize + recipeHandler.fluidInputSize + recipeHandler.itemOutputSize + recipeHandler.fluidOutputSize) {
-				if (object != null && !(object instanceof IIngredient)) {
-					wasNull = true;
-					return;
+				if (object != null) {
+					if (!(object instanceof IIngredient)) {
+						wasNull = true;
+						return;
+					}
+					outputsAllNull = false;
 				}
 				IFluidIngredient ingredient = CTMethods.buildAdditionFluidIngredient(object, recipeType);
 				if (ingredient == null) {
@@ -143,7 +156,7 @@ public class AddProcessorRecipe implements IAction {
 	
 	@Override
 	public void apply() {
-		if (!wasNull && !wrongSize) {
+		if (validRecipe()) {
 			boolean added = recipeType.getRecipeHandler().addRecipe(recipe);
 			if (added) return;
 		}
@@ -152,7 +165,7 @@ public class AddProcessorRecipe implements IAction {
 	
 	@Override
 	public String describe() {
-		if (wasNull || wrongSize) {
+		if (!validRecipe()) {
 			return String.format("Error: Failed to add %s recipe: %s", recipeType.getRecipeName(), RecipeHelper.getRecipeString(itemIngredients, fluidIngredients, itemProducts, fluidProducts));
 		}
 		return String.format("Adding %s recipe: %s", recipeType.getRecipeName(), RecipeHelper.getRecipeString(itemIngredients, fluidIngredients, itemProducts, fluidProducts));
@@ -161,5 +174,9 @@ public class AddProcessorRecipe implements IAction {
 	public static void callError() {
 		if (!hasErrored) CraftTweakerAPI.logError("At least one NuclearCraft CraftTweaker recipe addition method has errored - check the CraftTweaker log for more details");
 		hasErrored = true;
+	}
+	
+	private boolean validRecipe() {
+		return !wasNull && !wrongSize && !inputsAllNull && !outputsAllNull;
 	}
 }

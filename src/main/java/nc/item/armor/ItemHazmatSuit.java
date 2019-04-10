@@ -21,7 +21,7 @@ public class ItemHazmatSuit extends NCItemArmor implements ISpecialArmor {
 	}
 
 	@Override
-	public ArmorProperties getProperties(EntityLivingBase player, ItemStack armor, DamageSource source, double damage, int slot) {
+	public ArmorProperties getProperties(EntityLivingBase player, @Nonnull ItemStack armor, DamageSource source, double damage, int slot) {
 		if (source.damageType.equals("radiation") || source.damageType.equals("sulphuric_acid") || source.damageType.equals("acid_burn") || source.damageType.equals("corium_burn") || source.damageType.equals("hot_coolant_burn")) {
 			return new ArmorProperties(0, radiationProtection, Integer.MAX_VALUE);
 		}
@@ -29,12 +29,12 @@ public class ItemHazmatSuit extends NCItemArmor implements ISpecialArmor {
 	}
 
 	@Override
-	public int getArmorDisplay(EntityPlayer player, ItemStack armor, int slot) {
+	public int getArmorDisplay(EntityPlayer player, @Nonnull ItemStack armor, int slot) {
 		return 0;
 	}
 
 	@Override
-	public void damageArmor(EntityLivingBase entity, ItemStack stack, DamageSource source, int damage, int slot) {
+	public void damageArmor(EntityLivingBase entity, @Nonnull ItemStack stack, DamageSource source, int damage, int slot) {
 		if (ModCheck.ic2Loaded()) {
 			Potion radiation = Potion.getPotionFromResourceLocation("ic2:radiation");
 			if (radiation != null && entity.isPotionActive(radiation)) entity.removePotionEffect(radiation);

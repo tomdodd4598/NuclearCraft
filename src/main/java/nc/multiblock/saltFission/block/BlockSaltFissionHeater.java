@@ -1,9 +1,9 @@
 package nc.multiblock.saltFission.block;
 
-import nc.block.property.ISidedFluid;
+import nc.block.property.ISidedProperty;
+import nc.block.property.PropertySidedEnum;
+import nc.multiblock.saltFission.SaltFissionHeaterSetting;
 import nc.multiblock.saltFission.tile.TileSaltFissionHeater;
-import nc.tile.fluid.ITileFluid;
-import nc.tile.internal.fluid.FluidConnection;
 import nc.util.Lang;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -19,7 +19,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockSaltFissionHeater extends BlockSaltFissionPartBase implements ISidedFluid {
+public class BlockSaltFissionHeater extends BlockSaltFissionPartBase implements ISidedProperty<SaltFissionHeaterSetting> {
 
 	private static EnumFacing placementSide = null;
 	
@@ -32,14 +32,29 @@ public class BlockSaltFissionHeater extends BlockSaltFissionPartBase implements 
 		return new TileSaltFissionHeater();
 	}
 	
+	private static final PropertySidedEnum<SaltFissionHeaterSetting> DOWN = PropertySidedEnum.create("down", SaltFissionHeaterSetting.class, EnumFacing.DOWN);
+	private static final PropertySidedEnum<SaltFissionHeaterSetting> UP = PropertySidedEnum.create("up", SaltFissionHeaterSetting.class, EnumFacing.UP);
+	private static final PropertySidedEnum<SaltFissionHeaterSetting> NORTH = PropertySidedEnum.create("north", SaltFissionHeaterSetting.class, EnumFacing.NORTH);
+	private static final PropertySidedEnum<SaltFissionHeaterSetting> SOUTH = PropertySidedEnum.create("south", SaltFissionHeaterSetting.class, EnumFacing.SOUTH);
+	private static final PropertySidedEnum<SaltFissionHeaterSetting> WEST = PropertySidedEnum.create("west", SaltFissionHeaterSetting.class, EnumFacing.WEST);
+	private static final PropertySidedEnum<SaltFissionHeaterSetting> EAST = PropertySidedEnum.create("east", SaltFissionHeaterSetting.class, EnumFacing.EAST);
+	
+	@Override
+	public SaltFissionHeaterSetting getProperty(IBlockAccess world, BlockPos pos, EnumFacing facing) {
+		if (world.getTileEntity(pos) instanceof TileSaltFissionHeater) {
+			return ((TileSaltFissionHeater) world.getTileEntity(pos)).getHeaterSetting(facing);
+		}
+		return SaltFissionHeaterSetting.DEFAULT;
+	}
+	
 	@Override
 	protected BlockStateContainer createBlockState() {
-		return createFluidBlockState(this);
+		return new BlockStateContainer(this, DOWN, UP, NORTH, SOUTH, WEST, EAST);
 	}
 	
 	@Override
 	public IBlockState getActualState(IBlockState state, IBlockAccess world, BlockPos pos) {
-		return getActualFluidState(state, world, pos);
+		return state.withProperty(DOWN, getProperty(world, pos, EnumFacing.DOWN)).withProperty(UP, getProperty(world, pos, EnumFacing.UP)).withProperty(NORTH, getProperty(world, pos, EnumFacing.NORTH)).withProperty(SOUTH, getProperty(world, pos, EnumFacing.SOUTH)).withProperty(WEST, getProperty(world, pos, EnumFacing.WEST)).withProperty(EAST, getProperty(world, pos, EnumFacing.EAST));
 	}
 	
 	@Override
@@ -51,17 +66,21 @@ public class BlockSaltFissionHeater extends BlockSaltFissionPartBase implements 
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if (hand != EnumHand.MAIN_HAND || player == null) return false;
 		
-		if (player.getHeldItemMainhand().isEmpty() && world.getTileEntity(pos) instanceof ITileFluid) {
-			ITileFluid heater = (ITileFluid) world.getTileEntity(pos);
+		if (player.getHeldItemMainhand().isEmpty() && world.getTileEntity(pos) instanceof TileSaltFissionHeater) {
+			TileSaltFissionHeater heater = (TileSaltFissionHeater) world.getTileEntity(pos);
 			EnumFacing side = player.isSneaking() ? facing.getOpposite() : facing;
-			heater.toggleFluidConnection(side);
-			FluidConnection connection = heater.getFluidConnection(side);
-			String message = player.isSneaking() ? "nc.block.fluid_toggle_opposite" : "nc.block.fluid_toggle";
-			TextFormatting color = connection == FluidConnection.IN ? TextFormatting.RED : (connection == FluidConnection.OUT ? TextFormatting.AQUA : (connection == FluidConnection.BOTH ? TextFormatting.WHITE : TextFormatting.GRAY));
-			if (!world.isRemote) player.sendMessage(new TextComponentString(Lang.localise(message) + " " + color + Lang.localise("nc.block.salt_heater_fluid_side." + connection.getName())));
+			heater.toggleHeaterSetting(side);
+			if (!world.isRemote) player.sendMessage(getToggleMessage(player, heater, side));
 			return true;
 		}
 		return super.onBlockActivated(world, pos, state, player, hand, facing, hitX, hitY, hitZ);
+	}
+	
+	private TextComponentString getToggleMessage(EntityPlayer player, TileSaltFissionHeater heater, EnumFacing side) {
+		SaltFissionHeaterSetting setting = heater.getHeaterSetting(side);
+		String message = player.isSneaking() ? "nc.block.fluid_toggle_opposite" : "nc.block.fluid_toggle";
+		TextFormatting color = setting == SaltFissionHeaterSetting.HOT_COOLANT_OUT ? TextFormatting.RED : (setting == SaltFissionHeaterSetting.COOLANT_SPREAD ? TextFormatting.AQUA : (setting == SaltFissionHeaterSetting.DEFAULT ? TextFormatting.WHITE : TextFormatting.GRAY));
+		return new TextComponentString(Lang.localise(message) + " " + color + Lang.localise("nc.block.salt_heater_fluid_side." + setting.getName()));
 	}
 	
 	@Override
@@ -76,10 +95,11 @@ public class BlockSaltFissionHeater extends BlockSaltFissionPartBase implements 
 		if (placementSide ==  null) return;
 		BlockPos from = pos.offset(placementSide);
 		if (world.getTileEntity(pos) instanceof TileSaltFissionHeater && world.getTileEntity(from) instanceof TileSaltFissionHeater) {
-			TileSaltFissionHeater tube = (TileSaltFissionHeater) world.getTileEntity(pos);
+			TileSaltFissionHeater heater = (TileSaltFissionHeater) world.getTileEntity(pos);
 			TileSaltFissionHeater other = (TileSaltFissionHeater) world.getTileEntity(from);
-			tube.setFluidConnections(other.getFluidConnections().clone());
-			tube.markAndRefresh();
+			heater.setFluidConnections(other.getFluidConnections().clone());
+			heater.setHeaterSettings(other.getHeaterSettings().clone());
+			heater.markAndRefresh();
 		}
 	}
 }

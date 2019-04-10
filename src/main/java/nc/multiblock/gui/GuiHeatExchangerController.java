@@ -4,12 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nc.Global;
+import nc.multiblock.gui.element.MultiblockButton;
 import nc.multiblock.heatExchanger.HeatExchanger;
+import nc.multiblock.network.ClearAllFluidsPacket;
+import nc.network.PacketHandler;
 import nc.util.Lang;
 import nc.util.NCMath;
 import nc.util.StringHelper;
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextFormatting;
 
@@ -17,8 +22,8 @@ public class GuiHeatExchangerController extends GuiMultiblockController<HeatExch
 	
 	protected final ResourceLocation gui_texture;
 	
-	public GuiHeatExchangerController(HeatExchanger multiblock, Container container) {
-		super(multiblock, container);
+	public GuiHeatExchangerController(HeatExchanger multiblock, BlockPos controllerPos, Container container) {
+		super(multiblock, controllerPos, container);
 		gui_texture = new ResourceLocation(Global.MOD_ID + ":textures/gui/container/" + "heat_exchanger_controller" + ".png");
 		xSize = 176;
 		ySize = 68;
@@ -31,6 +36,8 @@ public class GuiHeatExchangerController extends GuiMultiblockController<HeatExch
 	
 	@Override
 	public void renderTooltips(int mouseX, int mouseY) {
+		drawTooltip(clearAllFluidsInfo(), mouseX, mouseY, 162, 45, 9, 9);
+		
 		drawEfficiencyTooltip(mouseX, mouseY, 6, 57, 164, 6);
 	}
 	
@@ -67,5 +74,20 @@ public class GuiHeatExchangerController extends GuiMultiblockController<HeatExch
 		
 		int f = (int)Math.round(multiblock.fractionOfTubesActive*164);
 		drawTexturedModalRect(guiLeft + 6, guiTop + 56, 3, 68, f, 6);
+	}
+	
+	@Override
+	public void initGui() {
+		super.initGui();
+		buttonList.add(new MultiblockButton.ButtonClearAllFluids(0, guiLeft + 162, guiTop + 45));
+	}
+	
+	@Override
+	protected void actionPerformed(GuiButton guiButton) {
+		if (multiblock.WORLD.isRemote) {
+			if (guiButton.id == 0 && isShiftKeyDown()) {
+				PacketHandler.instance.sendToServer(new ClearAllFluidsPacket(controllerPos));
+			}
+		}
 	}
 }

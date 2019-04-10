@@ -1,65 +1,66 @@
 package nc.tile.internal.fluid;
 
-import net.minecraft.util.IStringSerializable;
+import java.util.ArrayList;
+import java.util.List;
 
-public enum FluidConnection implements IStringSerializable {
-	IN, OUT, BOTH, NON;
+import javax.annotation.Nonnull;
+
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumFacing;
+
+public class FluidConnection {
 	
-	public boolean canFill() {
-		return this == IN || this == BOTH;
+	private @Nonnull List<TankSorption> sorptionList;
+	
+	public FluidConnection(@Nonnull List<TankSorption> sorptionList) {
+		this.sorptionList = new ArrayList<TankSorption>(sorptionList);
 	}
 	
-	public boolean canDrain() {
-		return this == OUT || this == BOTH;
+	public FluidConnection copy() {
+		return new FluidConnection(sorptionList);
+	}
+	
+	public TankSorption getTankSorption(int tankNumber) {
+		return sorptionList.get(tankNumber);
+	}
+	
+	public void setTankSorption(int tankNumber, TankSorption sorption) {
+		sorptionList.set(tankNumber, sorption);
 	}
 	
 	public boolean canConnect() {
-		return this != NON;
+		for (TankSorption sorption : sorptionList) {
+			if (sorption.canConnect()) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
-	public FluidConnection next() {
-		switch (this) {
-		case IN:
-			return OUT;
-		case OUT:
-			return BOTH;
-		case BOTH:
-			return NON;
-		case NON:
-			return IN;
-		default:
-			return NON;
-		}
+	public void toggleTankSorption(int tankNumber) {
+		setTankSorption(tankNumber, getTankSorption(tankNumber).next());
 	}
 	
-	public FluidConnection nextAlt() {
-		switch (this) {
-		case IN:
-			return OUT;
-		case OUT:
-			return NON;
-		case BOTH:
-			return IN;
-		case NON:
-			return BOTH;
-		default:
-			return NON;
+	public final NBTTagCompound writeToNBT(NBTTagCompound nbt, @Nonnull EnumFacing side) {
+		NBTTagCompound connectionTag = new NBTTagCompound();
+		for (int i = 0; i < sorptionList.size(); i++) {
+			connectionTag.setInteger("sorption" + i, getTankSorption(i).ordinal());
 		}
-	}
+		nbt.setTag("fluidConnection" + side.getIndex(), connectionTag);
+		return nbt;
 
-	@Override
-	public String getName() {
-		switch (this) {
-		case IN:
-			return "in";
-		case OUT:
-			return "out";
-		case BOTH:
-			return "both";
-		case NON:
-			return "non";
-		default:
-			return "non";
+	}
+	
+	public final FluidConnection readFromNBT(NBTTagCompound nbt, @Nonnull EnumFacing side) {
+		if (nbt.hasKey("fluidConnection" + side.getIndex())) {
+			NBTTagCompound connectionTag = nbt.getCompoundTag("fluidConnection" + side.getIndex());
+			for (int i = 0; i < sorptionList.size(); i++) {
+				if (connectionTag.hasKey("sorption" + i)) {
+					setTankSorption(i, TankSorption.values()[connectionTag.getInteger("sorption" + i)]);
+				}
+			}
+			
 		}
+		return this;
 	}
 }

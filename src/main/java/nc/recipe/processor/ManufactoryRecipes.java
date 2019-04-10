@@ -88,7 +88,7 @@ public class ManufactoryRecipes extends ProcessorRecipeHandler {
 		
 		if (NCConfig.ore_processing) addMetalProcessingRecipes();
 		
-		addRecipe("plankWood", new ItemStack(Items.STICK, 4), 0.25D, 0.5D);
+		addRecipe("plankWood", new ItemStack(Items.STICK, NCConfig.manufactory_wood[1]), 0.25D, 0.5D);
 		addLogRecipes();
 	}
 	
@@ -120,7 +120,7 @@ public class ManufactoryRecipes extends ProcessorRecipeHandler {
 					ItemStack plankWood = CraftingManager.findMatchingResult(fakeCrafter, null);
 					
 					if (!plankWood.isEmpty()) {
-						plankWood.setCount(6);
+						plankWood.setCount(NCConfig.manufactory_wood[0]);
 						addRecipe(log, plankWood, 0.5D, 0.5D);
 					}
 				}
@@ -129,7 +129,7 @@ public class ManufactoryRecipes extends ProcessorRecipeHandler {
 				ItemStack plankWood = CraftingManager.findMatchingResult(fakeCrafter, null);
 				
 				if (!plankWood.isEmpty()) {
-					plankWood.setCount(6);
+					plankWood.setCount(NCConfig.manufactory_wood[0]);
 					addRecipe(logWood, plankWood, 0.5D, 0.5D);
 				}
 			}

@@ -66,6 +66,14 @@ public class RadSources {
 	public static final List<String> ISOTOPE_NUGGET_NAME_LIST = Lists.newArrayList("nugget");
 	public static final List<String> ISOTOPE_BLOCK_NAME_LIST = Lists.newArrayList("block");
 	
+	public static final double FUSION = 0.000000315D;
+	
+	public static final double NEUTRON = 0.036D;
+	
+	public static final double TRITIUM = 0.081D;
+	
+	public static final double CAESIUM_137 = 0.033D;
+	
 	public static final double THORIUM = 0.0000015D;
 	public static final double URANIUM = 0.000000000385D;
 	public static final double PLUTONIUM = 0.000042D;
@@ -295,19 +303,19 @@ public class RadSources {
 		addToOreMap("depletedFuelRod" + ore + "Oxide", radiation);
 	}
 	
-	private static void put(double radiation, String... ores) {
+	public static void put(double radiation, String... ores) {
 		for (String ore : ores) addToOreMap(ore, radiation);
 	}
 	
-	private static void put(double radiation, ItemStack... stacks) {
+	public static void put(double radiation, ItemStack... stacks) {
 		for (ItemStack stack : stacks) addToStackMap(stack, radiation);
 	}
 	
-	private static void put(double radiation, Item... items) {
+	public static void put(double radiation, Item... items) {
 		for (Item item : items) addToStackMap(new ItemStack(item), radiation);
 	}
 	
-	private static void put(double radiation, Block... blocks) {
+	public static void put(double radiation, Block... blocks) {
 		for (Block block : blocks) addToStackMap(new ItemStack(block), radiation);
 	}
 	

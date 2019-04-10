@@ -27,11 +27,8 @@ import net.minecraftforge.common.capabilities.Capability;
  */
 public abstract class TileBeefBase extends TileEntity implements ITile, ITickable {
 	
-	public boolean isAdded;
-	public boolean isMarkedDirty;
-	
-	private boolean isRedstonePowered = false;
-	private boolean alternateComparator = false;
+	public boolean isAdded = false, isMarkedDirty = false;
+	private boolean isRedstonePowered = false, alternateComparator = false, redstoneControl = false;
 	
 	private IRadiationSource radiation;
 	
@@ -87,7 +84,7 @@ public abstract class TileBeefBase extends TileEntity implements ITile, ITickabl
 	}
 
 	public boolean isUseableByPlayer(EntityPlayer entityplayer) {
-		BlockPos position = this.getPos();
+		BlockPos position = getPos();
 
 		if (getWorld().getTileEntity(position) != this)
 			return false;
@@ -121,6 +118,16 @@ public abstract class TileBeefBase extends TileEntity implements ITile, ITickabl
 	@Override
 	public void setAlternateComparator(boolean alternate) {
 		alternateComparator = alternate;
+	}
+	
+	@Override
+	public boolean getRedstoneControl() {
+		return redstoneControl;
+	}
+	
+	@Override
+	public void setRedstoneControl(boolean redstoneControl) {
+		this.redstoneControl = redstoneControl;
 	}
 	
 	// Capabilities
@@ -158,7 +165,7 @@ public abstract class TileBeefBase extends TileEntity implements ITile, ITickabl
 	 */
 	public boolean openGui(Object mod, EntityPlayer player, int guiId) {
 
-		player.openGui(mod, guiId, this.getWorld(), this.pos.getX(), this.pos.getY(), this.pos.getZ());
+		player.openGui(mod, guiId, getWorld(), pos.getX(), pos.getY(), pos.getZ());
 		return true;
 	}
 
@@ -203,53 +210,55 @@ public abstract class TileBeefBase extends TileEntity implements ITile, ITickabl
 		data.setDouble("radiationLevel", getRadiationSource().getRadiationLevel());
 		return data;
 	}
-
-	@Override
-	public void readFromNBT(NBTTagCompound data) {
-		super.readFromNBT(data);
-		this.syncDataFrom(data, SyncReason.FullSync);
-		readAll(data);
-	}
 	
-	public void readAll(NBTTagCompound data) {
-		data.setBoolean("isRedstonePowered", getIsRedstonePowered());
-		data.setBoolean("alternateComparator", getAlternateComparator());
-		if (shouldSaveRadiation()) readRadiation(data);
-	}
-
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound data) {
 		super.writeToNBT(data);
-		this.syncDataTo(super.writeToNBT(data), SyncReason.FullSync);
+		syncDataTo(super.writeToNBT(data), SyncReason.FullSync);
 		writeAll(data);
 		return data;
 	}
 	
 	public NBTTagCompound writeAll(NBTTagCompound data) {
-		setIsRedstonePowered(data.getBoolean("isRedstonePowered"));
-		setAlternateComparator(data.getBoolean("alternateComparator"));
+		data.setBoolean("isRedstonePowered", isRedstonePowered);
+		data.setBoolean("alternateComparator", alternateComparator);
+		data.setBoolean("redstoneControl", redstoneControl);
 		if (shouldSaveRadiation()) writeRadiation(data);
 		return data;
 	}
 
 	@Override
+	public void readFromNBT(NBTTagCompound data) {
+		super.readFromNBT(data);
+		syncDataFrom(data, SyncReason.FullSync);
+		readAll(data);
+	}
+	
+	public void readAll(NBTTagCompound data) {
+		isRedstonePowered = data.getBoolean("isRedstonePowered");
+		alternateComparator = data.getBoolean("alternateComparator");
+		redstoneControl = data.getBoolean("redstoneControl");
+		if (shouldSaveRadiation()) readRadiation(data);
+	}
+
+	@Override
 	public void handleUpdateTag(NBTTagCompound data) {
 		super.handleUpdateTag(data);
-		this.syncDataFrom(data, SyncReason.NetworkUpdate);
+		syncDataFrom(data, SyncReason.NetworkUpdate);
 	}
 
 	@Override
 	public NBTTagCompound getUpdateTag() {
 		NBTTagCompound data = super.getUpdateTag();
 		writeAll(data);
-		this.syncDataTo(data, SyncReason.NetworkUpdate);
+		syncDataTo(data, SyncReason.NetworkUpdate);
 		return data;
 	}
 
 	@Override
 	public final void onDataPacket(NetworkManager net, SPacketUpdateTileEntity packet) {
 		readAll(packet.getNbtCompound());
-		this.syncDataFrom(packet.getNbtCompound(), SyncReason.NetworkUpdate);
+		syncDataFrom(packet.getNbtCompound(), SyncReason.NetworkUpdate);
 	}
 
 	@Nullable
@@ -258,8 +267,8 @@ public abstract class TileBeefBase extends TileEntity implements ITile, ITickabl
 		NBTTagCompound data = new NBTTagCompound();
 		writeAll(data);
 		int metadata = getBlockMetadata();
-		this.syncDataTo(data, SyncReason.NetworkUpdate);
-		return new SPacketUpdateTileEntity(this.getPos(), metadata, data);
+		syncDataTo(data, SyncReason.NetworkUpdate);
+		return new SPacketUpdateTileEntity(getPos(), metadata, data);
 	}
 
 	/**
@@ -283,35 +292,35 @@ public abstract class TileBeefBase extends TileEntity implements ITile, ITickabl
 	@Override
 	public void onChunkUnload() {
 		if (!tileEntityInvalid) {
-			this.invalidate();
+			invalidate();
 		}
 	}
 
 	public void markChunkDirty() {
 
-		this.getWorld().markChunkDirty(this.getPos(), this);
+		getWorld().markChunkDirty(getPos(), this);
 	}
 
 	public void callNeighborBlockChange() {
 
-		this.getWorld().notifyNeighborsOfStateChange(this.getPos(), this.getBlockType(), true);
+		getWorld().notifyNeighborsOfStateChange(getPos(), getBlockType(), true);
 	}
 
 	@Deprecated // not implemented
 	public void callNeighborTileChange() {
-		//this.WORLD.func_147453_f(this.xCoord, this.yCoord, this.zCoord, this.getBlockType());
+		//WORLD.func_147453_f(xCoord, yCoord, zCoord, getBlockType());
 	}
 
 	public void notifyBlockUpdate() {
-		WorldHelper.notifyBlockUpdate(this.getWorld(), this.getPos(), null, null);
+		WorldHelper.notifyBlockUpdate(getWorld(), getPos(), null, null);
 	}
 
 	public void notifyBlockUpdate(IBlockState oldState, IBlockState newState) {
-		WorldHelper.notifyBlockUpdate(this.getWorld(), this.getPos(), oldState, newState);
+		WorldHelper.notifyBlockUpdate(getWorld(), getPos(), oldState, newState);
 	}
 
 	public void nofityTileEntityUpdate() {
-		this.markDirty();
-		WorldHelper.notifyBlockUpdate(this.getWorld(), this.getPos(), null, null);
+		markDirty();
+		WorldHelper.notifyBlockUpdate(getWorld(), getPos(), null, null);
 	}
 }

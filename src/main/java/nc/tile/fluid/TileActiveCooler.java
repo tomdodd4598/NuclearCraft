@@ -3,13 +3,19 @@ package nc.tile.fluid;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 import nc.config.NCConfig;
 import nc.enumm.MetaEnums.CoolerType;
 import nc.tile.dummy.IInterfaceable;
 import nc.tile.energyFluid.IBufferable;
-import nc.tile.internal.fluid.FluidConnection;
 import nc.tile.internal.fluid.TankSorption;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 
 public class TileActiveCooler extends TileFluid implements IInterfaceable, IBufferable, IFluidSpread {
 	
@@ -26,7 +32,7 @@ public class TileActiveCooler extends TileFluid implements IInterfaceable, IBuff
 	private static final int DRAIN_MULT = Math.max(1, NCConfig.machine_update_rate*NCConfig.active_cooler_max_rate/20);
 	
 	public TileActiveCooler() {
-		super(80*DRAIN_MULT, TankSorption.BOTH, validFluids(), ITileFluid.fluidConnectionAll(FluidConnection.IN));
+		super(80*DRAIN_MULT, validFluids(), ITileFluid.fluidConnectionAll(TankSorption.IN));
 	}
 	
 	@Override
@@ -43,6 +49,34 @@ public class TileActiveCooler extends TileFluid implements IInterfaceable, IBuff
 	
 	public void tickDrain() {
 		drainCount++; drainCount %= NCConfig.machine_update_rate;
+	}
+	
+	@Override
+	public void spreadFluidToSide(@Nonnull EnumFacing side) {
+		if (!getFluidConnection(side).canConnect()) {
+			return;
+		}
+		TileEntity tile = getTileWorld().getTileEntity(getTilePos().offset(side));
+		if (!(tile instanceof TileActiveCooler)) {
+			return;
+		}
+		IFluidHandler adjStorage = tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side.getOpposite());
+		if (adjStorage == null) {
+			return;
+		}
+		for (int i = 0; i < getTanks().size(); i++) {
+			if (!getFluidConnection(side).getTankSorption(i).canConnect() || getTanks().get(i).getFluid() == null) {
+				continue;
+			}
+			int maxDrain = getTanks().get(i).getFluidAmount()/2;
+			FluidStack stack = adjStorage.getTankProperties()[0].getContents();
+			if (stack != null) {
+				maxDrain -= stack.amount/2;
+			}
+			if (maxDrain > 0) {
+				getTanks().get(i).drainInternal(adjStorage.fill(getTanks().get(i).drainInternal(maxDrain, false), true), true);
+			}
+		}
 	}
 	
 	@Override

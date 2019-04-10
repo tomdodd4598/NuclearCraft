@@ -44,7 +44,7 @@ public class IsotopeSeparatorRecipes extends ProcessorRecipeHandler {
 	
 	public void addFuelSeparationRecipes(String fuel, String element, int fertile, int... fissiles) {
 		for (String form : new String[] {"fuel", "fuelRod"}) for (int fissile : fissiles) for (String type : new String[] {"LE", "HE"}) for (String oxide : new String[] {"", "Oxide"}) {
-			addRecipe(form + type + fuel + fissile + oxide, oreStack("ingot" + element + fertile + (oxide == "" ? "Base" : ""), type == "LE" ? 8 : 5), oreStack("ingot" + element + fissile + oxide, type == "LE" ? 1 : 4), 1D, 1D);
+			addRecipe(form + type + fuel + fissile + oxide, oreStack("ingot" + element + fertile + (oxide.equals("") ? "Base" : ""), type.equals("LE") ? 8 : 5), oreStack("ingot" + element + fissile + oxide, type.equals("LE") ? 1 : 4), 1D, 1D);
 		}
 	}
 }

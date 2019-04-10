@@ -30,7 +30,7 @@ public class GasTileWrapper implements ITubeConnection, IGasHandler {
 	@Override
 	@Optional.Method(modid = "mekanism")
 	public int receiveGas(EnumFacing side, GasStack stack, boolean doTransfer) {
-		int amount = tile.fill(GasHelper.getFluidFromGas(stack), doTransfer, side);
+		int amount = tile.fill(side, GasHelper.getFluidFromGas(stack), doTransfer);
 		if (doTransfer && amount != 0) {
 			if (tile instanceof IProcessor) {
 				((IProcessor)tile).refreshRecipe();
@@ -43,7 +43,7 @@ public class GasTileWrapper implements ITubeConnection, IGasHandler {
 	@Override
 	@Optional.Method(modid = "mekanism")
 	public GasStack drawGas(EnumFacing side, int amount, boolean doTransfer) {
-		GasStack stack = GasHelper.getGasFromFluid(tile.drain(amount, doTransfer, side));
+		GasStack stack = GasHelper.getGasFromFluid(tile.drain(side, amount, doTransfer));
 		if (doTransfer && (stack != null && stack.amount != 0)) {
 			if (tile instanceof IProcessor) ((IProcessor)tile).refreshActivity();
 		}

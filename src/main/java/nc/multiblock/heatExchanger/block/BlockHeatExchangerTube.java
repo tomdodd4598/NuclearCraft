@@ -1,10 +1,10 @@
 package nc.multiblock.heatExchanger.block;
 
-import nc.block.property.ISidedFluid;
+import nc.block.property.ISidedProperty;
+import nc.block.property.PropertySidedEnum;
+import nc.multiblock.heatExchanger.HeatExchangerTubeSetting;
 import nc.multiblock.heatExchanger.HeatExchangerTubeType;
 import nc.multiblock.heatExchanger.tile.TileHeatExchangerTube;
-import nc.tile.fluid.ITileFluid;
-import nc.tile.internal.fluid.FluidConnection;
 import nc.util.Lang;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -20,7 +20,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockHeatExchangerTube extends BlockHeatExchangerPartBase implements ISidedFluid {
+public class BlockHeatExchangerTube extends BlockHeatExchangerPartBase implements ISidedProperty<HeatExchangerTubeSetting> {
 	
 	private static EnumFacing placementSide = null;
 	
@@ -46,14 +46,29 @@ public class BlockHeatExchangerTube extends BlockHeatExchangerPartBase implement
 		}
 	}
 	
+	private static final PropertySidedEnum<HeatExchangerTubeSetting> DOWN = PropertySidedEnum.create("down", HeatExchangerTubeSetting.class, EnumFacing.DOWN);
+	private static final PropertySidedEnum<HeatExchangerTubeSetting> UP = PropertySidedEnum.create("up", HeatExchangerTubeSetting.class, EnumFacing.UP);
+	private static final PropertySidedEnum<HeatExchangerTubeSetting> NORTH = PropertySidedEnum.create("north", HeatExchangerTubeSetting.class, EnumFacing.NORTH);
+	private static final PropertySidedEnum<HeatExchangerTubeSetting> SOUTH = PropertySidedEnum.create("south", HeatExchangerTubeSetting.class, EnumFacing.SOUTH);
+	private static final PropertySidedEnum<HeatExchangerTubeSetting> WEST = PropertySidedEnum.create("west", HeatExchangerTubeSetting.class, EnumFacing.WEST);
+	private static final PropertySidedEnum<HeatExchangerTubeSetting> EAST = PropertySidedEnum.create("east", HeatExchangerTubeSetting.class, EnumFacing.EAST);
+	
+	@Override
+	public HeatExchangerTubeSetting getProperty(IBlockAccess world, BlockPos pos, EnumFacing facing) {
+		if (world.getTileEntity(pos) instanceof TileHeatExchangerTube) {
+			return ((TileHeatExchangerTube) world.getTileEntity(pos)).getTubeSetting(facing);
+		}
+		return HeatExchangerTubeSetting.DISABLED;
+	}
+	
 	@Override
 	protected BlockStateContainer createBlockState() {
-		return createFluidBlockState(this);
+		return new BlockStateContainer(this, DOWN, UP, NORTH, SOUTH, WEST, EAST);
 	}
 	
 	@Override
 	public IBlockState getActualState(IBlockState state, IBlockAccess world, BlockPos pos) {
-		return getActualFluidState(state, world, pos);
+		return state.withProperty(DOWN, getProperty(world, pos, EnumFacing.DOWN)).withProperty(UP, getProperty(world, pos, EnumFacing.UP)).withProperty(NORTH, getProperty(world, pos, EnumFacing.NORTH)).withProperty(SOUTH, getProperty(world, pos, EnumFacing.SOUTH)).withProperty(WEST, getProperty(world, pos, EnumFacing.WEST)).withProperty(EAST, getProperty(world, pos, EnumFacing.EAST));
 	}
 	
 	@Override
@@ -65,17 +80,21 @@ public class BlockHeatExchangerTube extends BlockHeatExchangerPartBase implement
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if (hand != EnumHand.MAIN_HAND || player == null) return false;
 		
-		if (player.getHeldItemMainhand().isEmpty() && world.getTileEntity(pos) instanceof ITileFluid) {
-			ITileFluid tube = (ITileFluid) world.getTileEntity(pos);
+		if (player.getHeldItemMainhand().isEmpty() && world.getTileEntity(pos) instanceof TileHeatExchangerTube) {
+			TileHeatExchangerTube tube = (TileHeatExchangerTube) world.getTileEntity(pos);
 			EnumFacing side = player.isSneaking() ? facing.getOpposite() : facing;
-			tube.toggleFluidConnection(side);
-			FluidConnection connection = tube.getFluidConnection(side);
-			String message = player.isSneaking() ? "nc.block.fluid_toggle_opposite" : "nc.block.fluid_toggle";
-			TextFormatting color = connection == FluidConnection.IN ? TextFormatting.DARK_PURPLE : (connection == FluidConnection.OUT ? TextFormatting.DARK_GREEN : (connection == FluidConnection.BOTH ? TextFormatting.WHITE : TextFormatting.GRAY));
-			if (!world.isRemote) player.sendMessage(new TextComponentString(Lang.localise(message) + " " + color + Lang.localise("nc.block.exchanger_tube_fluid_side." + connection.getName())));
+			tube.toggleTubeSetting(side);
+			if (!world.isRemote) player.sendMessage(getToggleMessage(player, tube, side));
 			return true;
 		}
 		return super.onBlockActivated(world, pos, state, player, hand, facing, hitX, hitY, hitZ);
+	}
+	
+	private TextComponentString getToggleMessage(EntityPlayer player, TileHeatExchangerTube tube, EnumFacing side) {
+		HeatExchangerTubeSetting setting = tube.getTubeSetting(side);
+		String message = player.isSneaking() ? "nc.block.fluid_toggle_opposite" : "nc.block.fluid_toggle";
+		TextFormatting color = setting == HeatExchangerTubeSetting.PRODUCT_OUT ? TextFormatting.LIGHT_PURPLE : (setting == HeatExchangerTubeSetting.INPUT_SPREAD ? TextFormatting.GREEN : (setting == HeatExchangerTubeSetting.DEFAULT ? TextFormatting.WHITE : TextFormatting.GRAY));
+		return new TextComponentString(Lang.localise(message) + " " + color + Lang.localise("nc.block.exchanger_tube_fluid_side." + setting.getName()));
 	}
 	
 	@Override
@@ -93,6 +112,7 @@ public class BlockHeatExchangerTube extends BlockHeatExchangerPartBase implement
 			TileHeatExchangerTube tube = (TileHeatExchangerTube) world.getTileEntity(pos);
 			TileHeatExchangerTube other = (TileHeatExchangerTube) world.getTileEntity(from);
 			tube.setFluidConnections(other.getFluidConnections().clone());
+			tube.setTubeSettings(other.getTubeSettings().clone());
 			tube.markAndRefresh();
 		}
 	}

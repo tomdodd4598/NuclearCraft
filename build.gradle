@@ -15,9 +15,9 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 
 repositories {
 	maven {
-        name = "CurseForge"
-        url = "https://minecraft.curseforge.com/api/maven/"
-    }
+		name = "CurseForge"
+		url = "https://minecraft.curseforge.com/api/maven/"
+	}
 	maven {
 		// JEI & TiC
 		name = "progwml6"
@@ -39,9 +39,9 @@ repositories {
 		url = 'http://maven.cil.li/'
 	}
 	maven {
-        name = "CoFH Maven"
-        url = "http://maven.covers1624.net"
-    }
+		name = "CoFH Maven"
+		url = "http://maven.covers1624.net"
+	}
 }
 
 version = "${mod_version}-${mc_version}"
@@ -99,5 +99,5 @@ task deobfJar(type: Jar) {
 }
 
 artifacts {
-    archives deobfJar
+	archives deobfJar
 }

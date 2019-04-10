@@ -2,13 +2,11 @@ package nc.tile.internal.energy;
 
 import nc.config.NCConfig;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.energy.IEnergyStorage;
 
-public class EnergyStorage implements IEnergyStorage, INBTSerializable<NBTTagCompound> {
+public class EnergyStorage implements IEnergyStorage {
 
-	private int energyStored, energyCapacity;
-	private int maxTransfer;
+	private int energyStored, energyCapacity, maxTransfer;
 	
 	public EnergyStorage(int capacity) {
 		this(capacity, capacity);
@@ -94,37 +92,25 @@ public class EnergyStorage implements IEnergyStorage, INBTSerializable<NBTTagCom
 	
 	// NBT
 	
-	@Override
-	public NBTTagCompound serializeNBT() {
-		return writeToNBT(new NBTTagCompound());
-	}
-
-	@Override
-	public void deserializeNBT(NBTTagCompound nbt) {
-		readAll(nbt);
-	}
-	
-	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-		if (energyStored < 0) energyStored = 0;
-		nbt.setInteger("energy", energyStored);
-		return nbt;
-	}
-	
-	public final NBTTagCompound writeAll(NBTTagCompound nbt) {
-		NBTTagCompound energyTag = new NBTTagCompound();
-		writeToNBT(energyTag);
-		nbt.setTag("energyStorage", energyTag);
+	public final NBTTagCompound writeToNBT(NBTTagCompound nbt) {
+		NBTTagCompound storageTag = new NBTTagCompound();
+		if (energyStored < 0) {
+			energyStored = 0;
+		}
+		storageTag.setInteger("energy", energyStored);
+		nbt.setTag("energyStorage", storageTag);
 		return nbt;
 
 	}
 	
-	public EnergyStorage readFromNBT(NBTTagCompound nbt) {
-		energyStored = nbt.getInteger("energy");
-		if (energyStored > energyCapacity) energyStored = energyCapacity;
+	public final EnergyStorage readFromNBT(NBTTagCompound nbt) {
+		if (nbt.hasKey("energyStorage")) {
+			NBTTagCompound storageTag = nbt.getCompoundTag("energyStorage");
+			energyStored = storageTag.getInteger("energy");
+			if (energyStored > energyCapacity) {
+				energyStored = energyCapacity;
+			}
+		}
 		return this;
-	}
-	
-	public final void readAll(NBTTagCompound nbt) {
-		if (nbt.hasKey("energyStorage")) readFromNBT(nbt.getCompoundTag("energyStorage"));
 	}
 }

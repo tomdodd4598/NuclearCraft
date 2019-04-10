@@ -30,133 +30,165 @@ import net.minecraftforge.items.IItemHandler;
 
 public class RadiationHelper {
 	
-	public static void addToChunkBuffer(IRadiationSource chunkRadiation, double addedRadiation) {
-		chunkRadiation.setRadiationBuffer(chunkRadiation.getRadiationBuffer() + addedRadiation);
+	// Capability Getters
+	
+	public static IEntityRads getEntityRadiation(EntityLivingBase entity) {
+		if (entity == null || !entity.hasCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null)) {
+			return null;
+		}
+		return entity.getCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null);
+	}
+	
+	public static IRadiationSource getRadiationSource(ICapabilityProvider provider) {
+		if (provider == null || !provider.hasCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null)) {
+			return null;
+		}
+		return provider.getCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null);
+	}
+	
+	public static IRadiationResistance getRadiationResistance(ICapabilityProvider provider) {
+		if (provider == null || !provider.hasCapability(IRadiationResistance.CAPABILITY_RADIATION_RESISTANCE, null)) {
+			return null;
+		}
+		return provider.getCapability(IRadiationResistance.CAPABILITY_RADIATION_RESISTANCE, null);
+	}
+	
+	public static IItemHandler getTileInventory(ICapabilityProvider provider) {
+		if (!(provider instanceof TileEntity) || !provider.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null)) {
+			return null;
+		}
+		return provider.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
+	}
+	
+	// Radiation Level Modification
+	
+	public static void addToSourceBuffer(IRadiationSource source, double addedRadiation) {
+		source.setRadiationBuffer(source.getRadiationBuffer() + addedRadiation);
 	}
 	
 	/** Only use for radiation leaks, etc. */
-	public static void addToChunkRadiation(IRadiationSource chunkRadiation, double addedRadiation) {
-		chunkRadiation.setRadiationLevel(chunkRadiation.getRadiationLevel() + addedRadiation);
-	}
-	
-	// Block -> ChunkBuffer
-	
-	public static void addToChunkBuffer(Chunk chunk, double addedRadiation) {
-		if (chunk == null || !chunk.hasCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null)) return;
-		IRadiationSource chunkRadiation = chunk.getCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null);
-		if (chunkRadiation == null) return;
-		addToChunkBuffer(chunkRadiation, addedRadiation);
-	}
-	
-	/** Only use for radiation leaks, etc. */
-	public static void addToChunkRadiation(Chunk chunk, double addedRadiation) {
-		if (chunk == null || !chunk.hasCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null)) return;
-		IRadiationSource chunkRadiation = chunk.getCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null);
-		if (chunkRadiation == null) return;
-		addToChunkRadiation(chunkRadiation, addedRadiation);
+	public static void addToSourceRadiation(IRadiationSource source, double addedRadiation) {
+		source.setRadiationLevel(source.getRadiationLevel() + addedRadiation);
 	}
 	
 	// ITileRadiationEnvironment -> ChunkBuffer
 	
-	public static void addFractionToChunkBuffer(Chunk chunk, ITileRadiationEnvironment tile) {
-		if (chunk == null || !chunk.hasCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null)) return;
-		IRadiationSource chunkRadiation = chunk.getCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null);
-		if (chunkRadiation == null) return;
-		addToChunkBuffer(chunkRadiation, tile.getChunkBufferContributionFraction()*tile.getCurrentChunkBuffer());
+	public static void addFractionToChunkBuffer(IRadiationSource chunkSource, ITileRadiationEnvironment tile) {
+		if (chunkSource == null) {
+			return;
+		}
+		double bufferAddition = tile.getChunkBufferContributionFraction()*tile.getCurrentChunkBuffer();
+		addToSourceBuffer(chunkSource, bufferAddition);
+		
+		if (bufferAddition < 0D) {
+			chunkSource.setScrubbing(true);
+		}
 	}
 	
 	// ItemStack -> ChunkBuffer
 	
-	public static void transferRadiationFromStackToChunkBuffer(ItemStack stack, double multiplier, Chunk chunk) {
-		if (stack.isEmpty() || chunk == null || !stack.hasCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null) || !chunk.hasCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null)) return;
-		IRadiationSource stackRadiation = stack.getCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null);
-		if (stackRadiation == null) return;
-		IRadiationSource chunkRadiation = chunk.getCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null);
-		if (chunkRadiation == null) return;
-		addToChunkBuffer(chunkRadiation, stackRadiation.getRadiationLevel()*stack.getCount()*multiplier);
+	public static void transferRadiationFromStackToChunkBuffer(ItemStack stack, IRadiationSource chunkSource, double multiplier) {
+		if (chunkSource == null) {
+			return;
+		}
+		addToSourceBuffer(chunkSource, getRadiationFromStack(stack, multiplier));
 	}
 	
-	public static double getRadiationFromStack(ItemStack stack, double multiplier, Chunk chunk) {
-		if (stack.isEmpty() || chunk == null || !stack.hasCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null) || !chunk.hasCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null)) return 0D;
-		IRadiationSource stackRadiation = stack.getCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null);
-		if (stackRadiation == null) return 0D;
-		IRadiationSource chunkRadiation = chunk.getCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null);
-		if (chunkRadiation == null) return 0D;
-		return stackRadiation.getRadiationLevel()*stack.getCount()*multiplier;
+	public static double getRadiationFromStack(ItemStack stack, double multiplier) {
+		if (stack.isEmpty()) {
+			return 0D;
+		}
+		IRadiationSource stackSource = getRadiationSource(stack);
+		if (stackSource == null) {
+			return 0D;
+		}
+		return stackSource.getRadiationLevel()*stack.getCount()*multiplier;
 	}
 	
 	// Source -> ChunkBuffer
 	
-	public static void transferRadiationFromSourceToChunkBuffer(ICapabilityProvider provider, Chunk chunk) {
-		if (chunk == null || !chunk.hasCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null)) return;
-		IRadiationSource chunkRadiation = chunk.getCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null);
-		if (chunkRadiation == null) return;
-		
-		double rawRadiation = 0D;
-		
-		if (ModCheck.ic2Loaded()) {
-			if (provider instanceof IReactor) rawRadiation += ((IReactor)provider).getReactorEUEnergyOutput()*0.00001D;
+	public static void transferRadiationFromProviderToChunkBuffer(ICapabilityProvider provider, IRadiationSource chunkSource) {
+		if (chunkSource == null) {
+			return;
 		}
 		
-		if (NCConfig.radiation_hardcore_containers > 0D && provider instanceof TileEntity && provider.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null)) {
-			IItemHandler inventory = provider.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
-			if (inventory != null) for (int i = 0; i < inventory.getSlots(); i++) {
-				rawRadiation += getRadiationFromStack(inventory.getStackInSlot(i), NCConfig.radiation_hardcore_containers, chunk);
+		double rawRadiation = 0D;
+		if (ModCheck.ic2Loaded()) {
+			if (provider instanceof IReactor) {
+				rawRadiation += ((IReactor)provider).getReactorEUEnergyOutput()*0.00001D;
 			}
 		}
 		
-		if (provider.hasCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null)) {
-			IRadiationSource sourceRadiation = provider.getCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null);
-			if (sourceRadiation != null) rawRadiation += sourceRadiation.getRadiationLevel();
+		IItemHandler inventory = getTileInventory(provider);
+		if (NCConfig.radiation_hardcore_containers > 0D && inventory != null) {
+			for (int i = 0; i < inventory.getSlots(); i++) {
+				ItemStack stack = inventory.getStackInSlot(i);
+				rawRadiation += getRadiationFromStack(stack, NCConfig.radiation_hardcore_containers);
+			}
+		}
+		
+		IRadiationSource radiationSource = getRadiationSource(provider);
+		if (radiationSource != null) {
+			rawRadiation += radiationSource.getRadiationLevel();
 		}
 		
 		double resistance = 0D;
-		if (provider.hasCapability(IRadiationResistance.CAPABILITY_RADIATION_RESISTANCE, null)) {
-			IRadiationResistance sourceResistance = provider.getCapability(IRadiationResistance.CAPABILITY_RADIATION_RESISTANCE, null);
-			if (sourceResistance != null) resistance = sourceResistance.getRadiationResistance();
+		IRadiationResistance providerResistance = getRadiationResistance(provider);
+		if (providerResistance != null) {
+			resistance = providerResistance.getRadiationResistance();
 		}
 		
 		double radiation = rawRadiation <= 0D ? 0D : NCMath.square(rawRadiation)/(rawRadiation + resistance);
-		addToChunkBuffer(chunkRadiation, radiation);
+		addToSourceBuffer(chunkSource, radiation);
 	}
 	
 	// Inventory -> ChunkBuffer
 	
-	public static void transferRadsFromInventoryToChunkBuffer(InventoryPlayer inventory, Chunk chunk) {
-		if (!NCConfig.radiation_hardcore_stacks) return;
+	public static void transferRadsFromInventoryToChunkBuffer(InventoryPlayer inventory, IRadiationSource chunkSource) {
+		if (!NCConfig.radiation_hardcore_stacks) {
+			return;
+		}
 		for (ItemStack stack : inventory.mainInventory) {
-			if (!stack.isEmpty()) transferRadiationFromSourceToChunkBuffer(stack, chunk);
+			if (!stack.isEmpty()) {
+				transferRadiationFromProviderToChunkBuffer(stack, chunkSource);
+			}
 		}
 		for (ItemStack stack : inventory.armorInventory) {
-			if (!stack.isEmpty()) transferRadiationFromSourceToChunkBuffer(stack, chunk);
+			if (!stack.isEmpty()) {
+				transferRadiationFromProviderToChunkBuffer(stack, chunkSource);
+			}
 		}
 		for (ItemStack stack : inventory.offHandInventory) {
-			if (!stack.isEmpty()) transferRadiationFromSourceToChunkBuffer(stack, chunk);
+			if (!stack.isEmpty()) {
+				transferRadiationFromProviderToChunkBuffer(stack, chunkSource);
+			}
 		}
 	}
 	
 	// Chunk Set Previous Radiation and Spread
 	
-	public static void spreadRadiationFromChunk(Chunk sourceChunk, Chunk targetChunk) {
-		if (sourceChunk == null || !sourceChunk.isLoaded() || !sourceChunk.hasCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null)) return;
-		IRadiationSource sourceChunkRadiation = sourceChunk.getCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null);
-		if (sourceChunkRadiation == null) return;
+	public static void spreadRadiationFromChunk(Chunk chunk, Chunk targetChunk) {
+		if (chunk == null || !chunk.isLoaded()) {
+			return;
+		}
+		IRadiationSource chunkSource = getRadiationSource(chunk);
 		
-		if (targetChunk != null &&  targetChunk.isLoaded() && targetChunk.hasCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null)) {
-			IRadiationSource targetChunkRadiation = targetChunk.getCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null);
-			if (targetChunkRadiation != null && targetChunkRadiation.getRadiationBuffer() >= 0D) {
-				if (!sourceChunkRadiation.isRadiationNegligible()) {
-					if (targetChunkRadiation.getRadiationLevel() == 0D || sourceChunkRadiation.getRadiationLevel()/targetChunkRadiation.getRadiationLevel() > 1D + NCConfig.radiation_spread_gradient) {
-						double radiationSpread = (sourceChunkRadiation.getRadiationLevel() - targetChunkRadiation.getRadiationLevel())*NCConfig.radiation_spread_rate;
-						sourceChunkRadiation.setRadiationLevel(sourceChunkRadiation.getRadiationLevel() - radiationSpread);
-						targetChunkRadiation.setRadiationLevel(targetChunkRadiation.getRadiationLevel() + radiationSpread);
-					}
-				}
+		if (chunkSource == null || targetChunk == null || !targetChunk.isLoaded()) {
+			return;
+		}
+		IRadiationSource targetChunkSource = getRadiationSource(targetChunk);
+		if (targetChunkSource != null && !chunkSource.isRadiationNegligible() && targetChunkSource.getRadiationBuffer() >= 0D) {
+			if (targetChunkSource.getRadiationLevel() == 0D || chunkSource.getRadiationLevel()/targetChunkSource.getRadiationLevel() > 1D + NCConfig.radiation_spread_gradient) {
+				double radiationSpread = (chunkSource.getRadiationLevel() - targetChunkSource.getRadiationLevel())*NCConfig.radiation_spread_rate;
+				chunkSource.setRadiationLevel(chunkSource.getRadiationLevel() - radiationSpread);
+				targetChunkSource.setRadiationLevel(targetChunkSource.getRadiationLevel() + radiationSpread);
 			}
 		}
 		
-		sourceChunkRadiation.setRadiationBuffer(0D);
-		if (sourceChunkRadiation.isRadiationNegligible()) sourceChunkRadiation.setRadiationLevel(0D);
+		chunkSource.setRadiationBuffer(0D);
+		if (chunkSource.isRadiationNegligible()) {
+			chunkSource.setRadiationLevel(0D);
+		}
 	}
 	
 	// Player Radiation Resistance
@@ -174,23 +206,34 @@ public class RadiationHelper {
 	}
 	
 	private static double getArmorInventoryRadResistance(Entity entity) {
-		if (entity == null) return 0D;
+		if (entity == null) {
+			return 0D;
+		}
 		double resistance = 0D;
 		for (ItemStack armor : entity.getArmorInventoryList()) {
-			if (armor.hasCapability(IRadiationResistance.CAPABILITY_RADIATION_RESISTANCE, null)) {
-				IRadiationResistance armorResistance = armor.getCapability(IRadiationResistance.CAPABILITY_RADIATION_RESISTANCE, null);
-				if (armorResistance != null) resistance += armorResistance.getRadiationResistance();
-			}
-			if (armor.hasTagCompound()) if (armor.getTagCompound().hasKey("ncRadiationResistance")) {
-				resistance += armor.getTagCompound().getDouble("ncRadiationResistance");
-			}
+			resistance += getArmorRadResistance(armor);
+		}
+		return resistance;
+	}
+	
+	private static double getArmorRadResistance(ItemStack armor) {
+		if (armor.isEmpty()) {
+			return 0D;
+		}
+		double resistance = 0D;
+		IRadiationResistance armorResistance = getRadiationResistance(armor);
+		if (armorResistance != null) {
+			resistance += armorResistance.getRadiationResistance();
+		}
+		if (armor.hasTagCompound() && armor.getTagCompound().hasKey("ncRadiationResistance")) {
+			resistance += armor.getTagCompound().getDouble("ncRadiationResistance");
 		}
 		return resistance;
 	}
 	
 	// Entity Radiation Resistance
 	
-	public static double addRadsToEntity(EntityLiving entityLiving, IEntityRads entityRads, double rawRadiation, int updateRate) {
+	public static double addRadsToEntity(IEntityRads entityRads, EntityLiving entityLiving, double rawRadiation, int updateRate) {
 		double resistance = entityRads.getRadiationResistance() + getEntityArmorRadResistance(entityLiving);
 		
 		double addedRadiation = rawRadiation <= 0D ? 0D : NCMath.square(rawRadiation)/(rawRadiation + resistance);
@@ -200,90 +243,98 @@ public class RadiationHelper {
 	
 	public static double getEntityArmorRadResistance(EntityLiving entityLiving) {
 		double resistance = getArmorInventoryRadResistance(entityLiving);
-		if (NCConfig.radiation_horse_armor_public && entityLiving instanceof EntityHorse) resistance += getHorseArmorRadResistance((EntityHorse)entityLiving);
+		if (NCConfig.radiation_horse_armor_public && entityLiving instanceof EntityHorse) {
+			resistance += getHorseArmorRadResistance((EntityHorse)entityLiving);
+		}
 		return resistance;
 	}
 	
 	private static double getHorseArmorRadResistance(EntityHorse horse) {
-		if (horse == null) return 0D;
 		double resistance = 0D;
-		
 		NBTTagCompound compound = new NBTTagCompound();
 		horse.writeEntityToNBT(compound);
+		
 		ItemStack armor = new ItemStack(compound.getCompoundTag("ArmorItem"));
 		if (armor != null && ArmorHelper.isHorseArmor(armor.getItem())) {
-			if (armor.hasCapability(IRadiationResistance.CAPABILITY_RADIATION_RESISTANCE, null)) {
-				IRadiationResistance armorResistance = armor.getCapability(IRadiationResistance.CAPABILITY_RADIATION_RESISTANCE, null);
-				if (armorResistance != null) resistance += armorResistance.getRadiationResistance();
-			}
-			if (armor.hasTagCompound()) if (armor.getTagCompound().hasKey("ncRadiationResistance")) {
-				resistance += armor.getTagCompound().getDouble("ncRadiationResistance");
-			}
+			resistance += getArmorRadResistance(armor);
 		}
 		return resistance;
 	}
 	
 	// Inventory -> Player
 	
-	public static double transferRadsFromInventoryToPlayer(EntityPlayer player, IEntityRads playerRads, Chunk chunk, int updateRate) {
+	public static double transferRadsFromInventoryToPlayer(IEntityRads playerRads, EntityPlayer player, int updateRate) {
 		double radiationLevel = 0D;
 		InventoryPlayer inventory = player.inventory;
 		for (ItemStack stack : inventory.mainInventory) {
-			radiationLevel += transferRadsFromStackToPlayer(stack, player, playerRads, updateRate);
+			if (!stack.isEmpty()) {
+				radiationLevel += transferRadsFromStackToPlayer(stack, playerRads, player, updateRate);
+			}
 		}
 		for (ItemStack stack : inventory.armorInventory) {
-			radiationLevel += transferRadsFromStackToPlayer(stack, player, playerRads, updateRate);
+			if (!stack.isEmpty()) {
+				radiationLevel += transferRadsFromStackToPlayer(stack, playerRads, player, updateRate);
+			}
 		}
 		for (ItemStack stack : inventory.offHandInventory) {
-			radiationLevel += transferRadsFromStackToPlayer(stack, player, playerRads, updateRate);
+			if (!stack.isEmpty()) {
+				radiationLevel += transferRadsFromStackToPlayer(stack, playerRads, player, updateRate);
+			}
 		}
 		return radiationLevel;
 	}
 	
-	private static double transferRadsFromStackToPlayer(ItemStack stack, EntityPlayer player, IEntityRads playerRads, int updateRate) {
-		if (stack.isEmpty() || !stack.hasCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null)) return 0D;
-		IRadiationSource stackRadiation = stack.getCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null);
-		if (stackRadiation == null) return 0D;
-		return addRadsToPlayer(player, playerRads, stackRadiation.getRadiationLevel()*stack.getCount(), updateRate);
+	private static double transferRadsFromStackToPlayer(ItemStack stack, IEntityRads playerRads, EntityPlayer player, int updateRate) {
+		IRadiationSource stackSource = getRadiationSource(stack);
+		if (stackSource == null) {
+			return 0D;
+		}
+		return addRadsToPlayer(player, playerRads, stackSource.getRadiationLevel()*stack.getCount(), updateRate);
 	}
 	
 	// Source -> Player
 	
-	public static double transferRadsToPlayer(ICapabilityProvider provider, EntityPlayer player, IEntityRads playerRads, int updateRate) {
-		if (provider == null || !provider.hasCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null)) return 0D;
-		IRadiationSource sourceRadiation = provider.getCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null);
-		if (sourceRadiation == null) return 0D;
-		return addRadsToPlayer(player, playerRads, sourceRadiation.getRadiationLevel(), updateRate);
+	public static double transferRadsToPlayer(IRadiationSource source, IEntityRads playerRads, EntityPlayer player, int updateRate) {
+		if (source == null) {
+			return 0D;
+		}
+		return addRadsToPlayer(player, playerRads, source.getRadiationLevel(), updateRate);
 	}
 	
 	// Biome -> Player
 	
-	public static double transferBackgroundRadsToPlayer(Biome biome, EntityPlayer player, IEntityRads playerRads, int updateRate) {
+	public static double transferBackgroundRadsToPlayer(Biome biome, IEntityRads playerRads, EntityPlayer player, int updateRate) {
 		Double biomeRadiation = RadBiomes.RAD_MAP.get(biome);
-		if (biomeRadiation == null) return 0D;
+		if (biomeRadiation == null) {
+			return 0D;
+		}
 		return addRadsToPlayer(player, playerRads, biomeRadiation, updateRate);
 	}
 	
 	// Source -> Entity
 	
-	public static void transferRadsFromSourceToEntity(ICapabilityProvider provider, EntityLiving entityLiving, IEntityRads entityRads, int updateRate) {
-		if (provider == null || !provider.hasCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null)) return;
-		IRadiationSource sourceRadiation = provider.getCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null);
-		if (sourceRadiation == null) return;
-		entityRads.setRadiationLevel(addRadsToEntity(entityLiving, entityRads, sourceRadiation.getRadiationLevel(), updateRate));
+	public static void transferRadsFromSourceToEntity(IRadiationSource source, IEntityRads entityRads, EntityLiving entityLiving, int updateRate) {
+		if (source == null) {
+			return;
+		}
+		entityRads.setRadiationLevel(addRadsToEntity(entityRads, entityLiving, source.getRadiationLevel(), updateRate));
 	}
 	
 	// Biome -> Entity
 	
-	public static void transferBackgroundRadsToEntity(Biome biome, EntityLiving entityLiving, IEntityRads entityRads, int updateRate) {
+	public static void transferBackgroundRadsToEntity(Biome biome, IEntityRads entityRads, EntityLiving entityLiving, int updateRate) {
 		Double biomeRadiation = RadBiomes.RAD_MAP.get(biome);
-		if (biomeRadiation != null) entityRads.setRadiationLevel(addRadsToEntity(entityLiving, entityRads, biomeRadiation, updateRate));
+		if (biomeRadiation != null) {
+			entityRads.setRadiationLevel(addRadsToEntity(entityRads, entityLiving, biomeRadiation, updateRate));
+		}
 	}
 	
 	// Entity Symptoms
 	
 	public static void applyPotionEffects(EntityLivingBase entity, IEntityRads entityRads, List<Double> radLevelList, List<List<PotionEffect>> potionList) {
-		if (radLevelList.isEmpty() || radLevelList.size() != potionList.size()) return;
+		if (radLevelList.isEmpty() || radLevelList.size() != potionList.size()) {
+			return;
+		}
 		double radPercentage = entityRads.getRadsPercentage();
 		
 		for (int i = 0; i < radLevelList.size(); i++) {
@@ -291,6 +342,7 @@ public class RadiationHelper {
 				for (PotionEffect potionEffect : potionList.get(i)) {
 					entity.addPotionEffect(new PotionEffect(potionEffect));
 				}
+				break;
 			}
 		}
 	}
@@ -303,7 +355,9 @@ public class RadiationHelper {
 	}
 	
 	public static TextFormatting getRadiationTextColor(double radiation) {
-		if (radiation < 0.000000001D) return TextFormatting.WHITE;
+		if (radiation < 0.000000001D) {
+			return TextFormatting.WHITE;
+		}
 		return radiation < 0.001D ? TextFormatting.YELLOW : (radiation < 0.1D ? TextFormatting.GOLD : (radiation < 1D ? TextFormatting.RED : TextFormatting.DARK_RED));
 	}
 	

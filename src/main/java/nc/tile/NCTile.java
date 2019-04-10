@@ -21,11 +21,8 @@ import net.minecraftforge.common.capabilities.Capability;
 
 public abstract class NCTile extends TileEntity implements ITickable, ITile {
 	
-	public boolean isAdded = false;
-	public boolean isMarkedDirty = false;
-	
-	private boolean isRedstonePowered = false;
-	private boolean alternateComparator = false;
+	public boolean isAdded = false, isMarkedDirty = false;
+	private boolean isRedstonePowered = false, alternateComparator = false, redstoneControl = false;
 	
 	private IRadiationSource radiation;
 	
@@ -126,6 +123,16 @@ public abstract class NCTile extends TileEntity implements ITickable, ITile {
 		alternateComparator = alternate;
 	}
 	
+	@Override
+	public boolean getRedstoneControl() {
+		return redstoneControl;
+	}
+	
+	@Override
+	public void setRedstoneControl(boolean redstoneControl) {
+		this.redstoneControl = redstoneControl;
+	}
+	
 	// NBT
 	
 	public NBTTagCompound writeRadiation(NBTTagCompound nbt) {
@@ -145,8 +152,9 @@ public abstract class NCTile extends TileEntity implements ITickable, ITile {
 	}
 	
 	public NBTTagCompound writeAll(NBTTagCompound nbt) {
-		nbt.setBoolean("isRedstonePowered", getIsRedstonePowered());
-		nbt.setBoolean("alternateComparator", getAlternateComparator());
+		nbt.setBoolean("isRedstonePowered", isRedstonePowered);
+		nbt.setBoolean("alternateComparator", alternateComparator);
+		nbt.setBoolean("redstoneControl", redstoneControl);
 		if (shouldSaveRadiation()) writeRadiation(nbt);
 		return nbt;
 	}
@@ -158,8 +166,9 @@ public abstract class NCTile extends TileEntity implements ITickable, ITile {
 	}
 	
 	public void readAll(NBTTagCompound nbt) {
-		setIsRedstonePowered(nbt.getBoolean("isRedstonePowered"));
-		setAlternateComparator(nbt.getBoolean("alternateComparator"));
+		isRedstonePowered = nbt.getBoolean("isRedstonePowered");
+		alternateComparator = nbt.getBoolean("alternateComparator");
+		redstoneControl = nbt.getBoolean("redstoneControl");
 		if (shouldSaveRadiation()) readRadiation(nbt);
 	}
 	

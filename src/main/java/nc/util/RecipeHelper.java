@@ -15,9 +15,11 @@ import nc.recipe.ingredient.ChanceFluidIngredient;
 import nc.recipe.ingredient.ChanceItemIngredient;
 import nc.recipe.ingredient.EmptyFluidIngredient;
 import nc.recipe.ingredient.EmptyItemIngredient;
+import nc.recipe.ingredient.FluidArrayIngredient;
 import nc.recipe.ingredient.FluidIngredient;
 import nc.recipe.ingredient.IFluidIngredient;
 import nc.recipe.ingredient.IItemIngredient;
+import nc.recipe.ingredient.ItemArrayIngredient;
 import nc.recipe.ingredient.OreIngredient;
 import nc.tile.internal.fluid.Tank;
 import net.minecraft.block.Block;
@@ -217,6 +219,7 @@ public class RecipeHelper {
 		List<String> ingredientNames = new ArrayList<String>();
 		for (IItemIngredient ingredient : ingredientList) {
 			if (ingredient == null || ingredient instanceof EmptyItemIngredient) ingredientNames.add("null");
+			else if (ingredient instanceof ItemArrayIngredient) ingredientNames.add(((ItemArrayIngredient)ingredient).getIngredientRecipeString());
 			else ingredientNames.add(ingredient.getMaxStackSize() + " x " + ingredient.getIngredientName());
 		}
 		return ingredientNames;
@@ -226,6 +229,7 @@ public class RecipeHelper {
 		List<String> ingredientNames = new ArrayList<String>();
 		for (IFluidIngredient ingredient : ingredientList) {
 			if (ingredient == null || ingredient instanceof EmptyFluidIngredient) ingredientNames.add("null");
+			else if (ingredient instanceof FluidArrayIngredient) ingredientNames.add(((FluidArrayIngredient)ingredient).getIngredientRecipeString());
 			else ingredientNames.add(ingredient.getMaxStackSize() + " x " + ingredient.getIngredientName());
 		}
 		return ingredientNames;
@@ -251,7 +255,8 @@ public class RecipeHelper {
 			else {
 				if (!(obj instanceof IItemIngredient)) obj = recipeType.getRecipeHandler().buildItemIngredient(obj);
 				IItemIngredient ingredient = (IItemIngredient) obj;
-				ingredientNames.add(ingredient.getMaxStackSize() + " x " + ingredient.getIngredientName());
+				if (ingredient instanceof ItemArrayIngredient) ingredientNames.add(((ItemArrayIngredient)ingredient).getIngredientRecipeString());
+				else ingredientNames.add(ingredient.getMaxStackSize() + " x " + ingredient.getIngredientName());
 			}
 		}
 		return ingredientNames;
@@ -264,7 +269,8 @@ public class RecipeHelper {
 			else {
 				if (!(obj instanceof IFluidIngredient)) obj = recipeType.getRecipeHandler().buildFluidIngredient(obj);
 				IFluidIngredient ingredient = (IFluidIngredient) obj;
-				ingredientNames.add(ingredient.getMaxStackSize() + " x " + ingredient.getIngredientName());
+				if (ingredient instanceof FluidArrayIngredient) ingredientNames.add(((FluidArrayIngredient)ingredient).getIngredientRecipeString());
+				else ingredientNames.add(ingredient.getMaxStackSize() + " x " + ingredient.getIngredientName());
 			}
 		}
 		return ingredientNames;
@@ -301,7 +307,7 @@ public class RecipeHelper {
 	public static OreIngredient getOreStackFromItems(List<ItemStack> stackList, int stackSize) {
 		if (stackList.isEmpty() || stackList == null) return null;
 		String oreName = OreDictHelper.getOreNameFromStacks(stackList);
-		if (oreName == "Unknown") return null;
+		if (oreName.equals("Unknown")) return null;
 		return new OreIngredient(oreName, stackSize);
 	}
 	

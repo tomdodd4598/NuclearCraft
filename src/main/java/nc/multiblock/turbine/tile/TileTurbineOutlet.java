@@ -29,9 +29,9 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 
 public class TileTurbineOutlet extends TileTurbinePartBase implements ITileFluid {
 	
-	private final @Nonnull List<Tank> backupTanks = Lists.newArrayList(new Tank(1, TankSorption.NON, new ArrayList<String>()));
+	private final @Nonnull List<Tank> backupTanks = Lists.newArrayList(new Tank(1, new ArrayList<String>()));
 	
-	private @Nonnull FluidConnection[] fluidConnections = ITileFluid.fluidConnectionAll(FluidConnection.OUT);
+	private @Nonnull FluidConnection[] fluidConnections = ITileFluid.fluidConnectionAll(TankSorption.OUT);
 	
 	private @Nonnull FluidTileWrapper[] fluidSides;
 	
@@ -114,35 +114,35 @@ public class TileTurbineOutlet extends TileTurbinePartBase implements ITileFluid
 		if (adjStorage == null) return;
 		
 		for (int i = 0; i < getTanks().size(); i++) {
-			if (getTanks().get(i).getFluid() == null || !getTanks().get(i).canDrain()) continue;
+			if (getTanks().get(i).getFluid() == null || !getTankSorption(side, i).canDrain()) continue;
 			
 			getTanks().get(i).drain(adjStorage.fill(getTanks().get(i).drain(getTanks().get(i).getCapacity(), false), true), true);
 		}
 	}
 
 	@Override
-	public boolean getTanksShared() {
+	public boolean getInputTanksSeparated() {
 		return false;
 	}
 
 	@Override
-	public void setTanksShared(boolean shared) {}
+	public void setInputTanksSeparated(boolean separated) {}
 
 	@Override
-	public boolean getEmptyUnusableTankInputs() {
+	public boolean getVoidUnusableFluidInput(int tankNumber) {
 		return false;
 	}
 
 	@Override
-	public void setEmptyUnusableTankInputs(boolean emptyUnusableTankInputs) {}
+	public void setVoidUnusableFluidInput(int tankNumber, boolean voidUnusableFluidInput) {}
 
 	@Override
-	public boolean getVoidExcessFluidOutputs() {
+	public boolean getVoidExcessFluidOutput(int tankNumber) {
 		return false;
 	}
 
 	@Override
-	public void setVoidExcessFluidOutputs(boolean voidExcessFluidOutputs) {}
+	public void setVoidExcessFluidOutput(int tankNumber, boolean voidExcessFluidOutput) {}
 	
 	// NBT
 	

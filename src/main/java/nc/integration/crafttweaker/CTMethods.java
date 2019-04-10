@@ -6,18 +6,18 @@ import java.util.List;
 import crafttweaker.CraftTweakerAPI;
 import crafttweaker.api.item.IIngredient;
 import crafttweaker.api.item.IItemStack;
+import crafttweaker.api.item.IngredientOr;
 import crafttweaker.api.item.IngredientStack;
 import crafttweaker.api.liquid.ILiquidStack;
 import crafttweaker.api.oredict.IOreDictEntry;
 import nc.recipe.NCRecipes;
-import nc.recipe.ingredient.IFluidIngredient;
-import nc.recipe.ingredient.IItemIngredient;
 import nc.recipe.ingredient.EmptyFluidIngredient;
 import nc.recipe.ingredient.EmptyItemIngredient;
 import nc.recipe.ingredient.FluidIngredient;
+import nc.recipe.ingredient.IFluidIngredient;
+import nc.recipe.ingredient.IItemIngredient;
 import nc.recipe.ingredient.OreIngredient;
 import nc.util.ItemStackHelper;
-import nc.util.NCUtil;
 import nc.util.RecipeHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
@@ -28,23 +28,13 @@ public class CTMethods {
 		if(item == null) return ItemStack.EMPTY;
 		
 		Object internal = item.getInternal();
-		if(internal == null || !(internal instanceof ItemStack)) {
+		if (!(internal instanceof ItemStack)) {
 			CraftTweakerAPI.logError("Not a valid item stack: " + item);
 		}
 		return ((ItemStack) internal).copy();
 	}
 	
-	public static ItemStack getItemStack(IIngredient ingredient) {
-		if(ingredient == null) return ItemStack.EMPTY;
-		
-		List<IItemStack> items = ingredient.getItems();
-		if(items.size() != 1) {
-			NCUtil.getLogger().error("Not an ingredient with a single item: " + ingredient);
-		}
-		return getItemStack(items.get(0));
-	}
-	
-	public static FluidStack getLiquidStack(ILiquidStack stack) {
+	public static FluidStack getFluidStack(ILiquidStack stack) {
 		if(stack == null) return null;
 		return (FluidStack) stack.getInternal();
 	}
@@ -57,7 +47,9 @@ public class CTMethods {
 		} else if (ingredient instanceof IOreDictEntry) {
 			return new OreIngredient(((IOreDictEntry) ingredient).getName(), ((IOreDictEntry) ingredient).getAmount());
 		} else if (ingredient instanceof IngredientStack) {
-			return buildAdditionItemIngredientArray((IngredientStack) ingredient, recipeType);
+			return buildOreIngredientArray((IngredientStack) ingredient, recipeType);
+		} else if (ingredient instanceof IngredientOr) {
+			return buildItemIngredientArray((IngredientOr) ingredient, recipeType);
 		} else {
 			CraftTweakerAPI.logError(String.format("%s: Invalid ingredient: %s, %s", recipeType.getRecipeName(), ingredient.getClass().getName(), ingredient));
 			return null;
@@ -68,19 +60,13 @@ public class CTMethods {
 		if (ingredient == null) {
 			return new EmptyFluidIngredient();
 		} else if (ingredient instanceof ILiquidStack) {
-			return recipeType.getRecipeHandler().buildFluidIngredient(getLiquidStack((ILiquidStack) ingredient));
+			return recipeType.getRecipeHandler().buildFluidIngredient(getFluidStack((ILiquidStack) ingredient));
+		} else if (ingredient instanceof IngredientOr) {
+			return buildFluidIngredientArray((IngredientOr) ingredient, recipeType);
 		} else {
 			CraftTweakerAPI.logError(String.format("%s: Invalid ingredient: %s, %s", recipeType.getRecipeName(), ingredient.getClass().getName(), ingredient));
 			return null;
 		}
-	}
-	
-	public static IItemIngredient buildAdditionItemIngredientArray(IngredientStack stack, NCRecipes.Type recipeType) {
-		List<ItemStack> stackList = new ArrayList<ItemStack>();
-		stack.getItems().forEach(item -> stackList.add(ItemStackHelper.changeStackSize(getItemStack(item), stack.getAmount())));
-		OreIngredient oreStack = RecipeHelper.getOreStackFromItems(stackList, stack.getAmount());
-		if (oreStack != null) return oreStack;
-		return recipeType.getRecipeHandler().buildItemIngredient(stackList);
 	}
 	
 	public static IItemIngredient buildRemovalItemIngredient(IIngredient ingredient, NCRecipes.Type recipeType) {
@@ -91,7 +77,9 @@ public class CTMethods {
 		} else if (ingredient instanceof IOreDictEntry) {
 			return new OreIngredient(((IOreDictEntry) ingredient).getName(), ((IOreDictEntry) ingredient).getAmount());
 		} else if (ingredient instanceof IngredientStack) {
-			return buildRemovalItemIngredientArray((IngredientStack) ingredient, recipeType);
+			return buildItemIngredientArray((IngredientStack) ingredient, recipeType);
+		} else if (ingredient instanceof IngredientOr) {
+			return buildItemIngredientArray((IngredientOr) ingredient, recipeType);
 		} else {
 			CraftTweakerAPI.logError(String.format("%s: Invalid ingredient: %s, %s", recipeType.getRecipeName(), ingredient.getClass().getName(), ingredient));
 			return null;
@@ -103,15 +91,33 @@ public class CTMethods {
 			return new EmptyFluidIngredient();
 		} else if (ingredient instanceof ILiquidStack) {
 			return new FluidIngredient(((ILiquidStack) ingredient).getName(), ((ILiquidStack) ingredient).getAmount());
+		} else if (ingredient instanceof IngredientOr) {
+			return buildFluidIngredientArray((IngredientOr) ingredient, recipeType);
 		} else {
 			CraftTweakerAPI.logError(String.format("%s: Invalid ingredient: %s, %s", recipeType.getRecipeName(), ingredient.getClass().getName(), ingredient));
 			return null;
 		}
 	}
 	
-	public static IItemIngredient buildRemovalItemIngredientArray(IngredientStack stack, NCRecipes.Type recipeType) {
+	// Array Ingredients
+	
+	public static IItemIngredient buildItemIngredientArray(IIngredient ingredient, NCRecipes.Type recipeType) {
 		List<ItemStack> stackList = new ArrayList<ItemStack>();
-		stack.getItems().forEach(ingredient -> stackList.add(ItemStackHelper.changeStackSize(CTMethods.getItemStack(ingredient), stack.getAmount())));
+		ingredient.getItems().forEach(item -> stackList.add(getItemStack(item)));
 		return recipeType.getRecipeHandler().buildItemIngredient(stackList);
+	}
+	
+	public static IItemIngredient buildOreIngredientArray(IngredientStack stack, NCRecipes.Type recipeType) {
+		List<ItemStack> stackList = new ArrayList<ItemStack>();
+		stack.getItems().forEach(item -> stackList.add(ItemStackHelper.changeStackSize(getItemStack(item), stack.getAmount())));
+		OreIngredient oreStack = RecipeHelper.getOreStackFromItems(stackList, stack.getAmount());
+		if (oreStack != null) return oreStack;
+		else return recipeType.getRecipeHandler().buildItemIngredient(stackList);
+	}
+	
+	public static IFluidIngredient buildFluidIngredientArray(IngredientOr ingredient, NCRecipes.Type recipeType) {
+		List<FluidStack> stackList = new ArrayList<FluidStack>();
+		ingredient.getLiquids().forEach(fluid -> stackList.add(getFluidStack(fluid)));
+		return recipeType.getRecipeHandler().buildFluidIngredient(stackList);
 	}
 }

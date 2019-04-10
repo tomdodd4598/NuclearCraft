@@ -7,7 +7,7 @@ import com.google.common.collect.Lists;
 import nc.Global;
 import nc.container.processor.ContainerFluidProcessor;
 import nc.gui.NCGui;
-import nc.gui.NCGuiButton.Button;
+import nc.gui.element.NCGuiButton.Button;
 import nc.tile.energy.ITileEnergy;
 import nc.tile.processor.TileFluidProcessor;
 import nc.util.Lang;
@@ -22,8 +22,6 @@ import net.minecraft.util.text.TextFormatting;
 
 public abstract class GuiFluidProcessor extends NCGui {
 	
-	public static int tick;
-	
 	private final InventoryPlayer playerInventory;
 	protected TileFluidProcessor tile;
 	protected final ResourceLocation gui_textures;
@@ -32,12 +30,6 @@ public abstract class GuiFluidProcessor extends NCGui {
 		super(inv);
 		playerInventory = player.inventory;
 		gui_textures = new ResourceLocation(Global.MOD_ID + ":textures/gui/container/" + name + ".png");
-	}
-	
-	@Override
-	public void initGui() {
-		sendTankInfo();
-		super.initGui();
 	}
 
 	@Override
@@ -51,9 +43,6 @@ public abstract class GuiFluidProcessor extends NCGui {
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		mc.getTextureManager().bindTexture(gui_textures);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
-		
-		tick++;
-		tick %= 5;
 	}
 	
 	protected int getCookProgressScaled(double pixels) {
@@ -81,10 +70,13 @@ public abstract class GuiFluidProcessor extends NCGui {
 	public List<String> energyInfo(ITileEnergy tile) {
 		String energy = UnitHelper.prefix(tile.getEnergyStorage().getEnergyStored(), tile.getEnergyStorage().getMaxEnergyStored(), 5, "RF");
 		String power = UnitHelper.prefix(this.tile.getProcessPower(), 5, "RF/t");
-		String speedMultiplier = "x" + NCMath.round(this.tile.getSpeedMultiplier(), 2);
-		String powerMultiplier = "x" + NCMath.round(this.tile.getPowerMultiplier(), 2);
+		
+		String speedMult = this.tile.getSpeedMultiplier() == (int)this.tile.getSpeedMultiplier() ? new Integer((int)this.tile.getSpeedMultiplier()).toString() : new Double (NCMath.round(this.tile.getSpeedMultiplier(), 2)).toString();
+		String powerMult = this.tile.getPowerMultiplier() == (int)this.tile.getPowerMultiplier() ? new Integer((int)this.tile.getPowerMultiplier()).toString() : new Double (NCMath.round(this.tile.getPowerMultiplier(), 2)).toString();
+		
+		String speedMultiplier = "x" + speedMult;
+		String powerMultiplier = "x" + powerMult;
+		
 		return Lists.newArrayList(TextFormatting.LIGHT_PURPLE + Lang.localise("gui.container.energy_stored") + TextFormatting.WHITE + " " + energy, TextFormatting.LIGHT_PURPLE + Lang.localise("gui.container.process_power") + TextFormatting.WHITE + " " + power, TextFormatting.AQUA + Lang.localise("gui.container.speed_multiplier") + TextFormatting.WHITE + " " + speedMultiplier, TextFormatting.AQUA + Lang.localise("gui.container.power_multiplier") + TextFormatting.WHITE + " " + powerMultiplier);
 	}
-	
-	protected abstract void sendTankInfo();
 }

@@ -44,7 +44,7 @@ public class TileItemProcessor extends TileEnergySidedInventory implements IItem
 	public final int guiID;
 	
 	public final NCRecipes.Type recipeType;
-	protected ProcessorRecipe recipe;
+	protected ProcessorRecipe recipe, cachedRecipe;
 	
 	protected Set<EntityPlayer> playersToUpdate;
 	
@@ -104,7 +104,7 @@ public class TileItemProcessor extends TileEnergySidedInventory implements IItem
 			if (isProcessing) process();
 			else {
 				getRadiationSource().setRadiationLevel(0D);
-				if (time > 0 && !getIsRedstonePowered()) loseProgress();
+				if (time > 0 && !isHaltedByRedstone()) loseProgress();
 			}
 			if (wasProcessing != isProcessing) {
 				shouldUpdate = true;
@@ -126,7 +126,16 @@ public class TileItemProcessor extends TileEnergySidedInventory implements IItem
 	@Override
 	public void refreshRecipe() {
 		if (recipe == null || !recipe.matchingInputs(getItemInputs(), new ArrayList<Tank>())) {
-			recipe = getRecipeHandler().getRecipeFromInputs(getItemInputs(), new ArrayList<Tank>());
+			/** Temporary caching while looking for recipe map solution */
+			if (cachedRecipe != null && cachedRecipe.matchingInputs(getItemInputs(), new ArrayList<Tank>())) {
+				recipe = cachedRecipe;
+			}
+			else {
+				recipe = getRecipeHandler().getRecipeFromInputs(getItemInputs(), new ArrayList<Tank>());
+			}
+			if (recipe != null) {
+				cachedRecipe = recipe;
+			}
 		}
 	}
 	
@@ -179,7 +188,11 @@ public class TileItemProcessor extends TileEnergySidedInventory implements IItem
 	// Processing
 	
 	public boolean isProcessing() {
-		return readyToProcess() && !getIsRedstonePowered();
+		return readyToProcess() && !isHaltedByRedstone();
+	}
+	
+	public boolean isHaltedByRedstone() {
+		return getRedstoneControl() && getIsRedstonePowered();
 	}
 	
 	public boolean readyToProcess() {
@@ -441,6 +454,9 @@ public class TileItemProcessor extends TileEnergySidedInventory implements IItem
 		time = nbt.getDouble("time");
 		isProcessing = nbt.getBoolean("isProcessing");
 		canProcessInputs = nbt.getBoolean("canProcessInputs");
+		if (nbt.hasKey("redstoneControl")) {
+			setRedstoneControl(nbt.getBoolean("redstoneControl"));
+		} else setRedstoneControl(true);
 	}
 	
 	// IGui
@@ -457,7 +473,7 @@ public class TileItemProcessor extends TileEnergySidedInventory implements IItem
 	
 	@Override
 	public ProcessorUpdatePacket getGuiUpdatePacket() {
-		return new ProcessorUpdatePacket(pos, time, getEnergyStored(), baseProcessTime, baseProcessPower);
+		return new ProcessorUpdatePacket(pos, time, getEnergyStored(), baseProcessTime, baseProcessPower, new ArrayList<Tank>());
 	}
 	
 	@Override

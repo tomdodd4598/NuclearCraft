@@ -11,6 +11,7 @@ import com.google.common.collect.Lists;
 import nc.Global;
 import nc.config.NCConfig;
 import nc.handler.SoundHandler;
+import nc.multiblock.IMultiblockFluid;
 import nc.multiblock.IMultiblockPart;
 import nc.multiblock.MultiblockBase;
 import nc.multiblock.TileBeefBase.SyncReason;
@@ -38,7 +39,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
-public class SaltFissionReactor extends CuboidalMultiblockBase<SaltFissionUpdatePacket> {
+public class SaltFissionReactor extends CuboidalMultiblockBase<SaltFissionUpdatePacket> implements IMultiblockFluid {
 	
 	private Set<TileSaltFissionController> controllers;
 	private Set<TileSaltFissionVent> vents;
@@ -486,6 +487,15 @@ public class SaltFissionReactor extends CuboidalMultiblockBase<SaltFissionUpdate
 	
 	public Container getContainer(EntityPlayer player) {
 		return new ContainerSaltFissionController(player, controller);
+	}
+	
+	@Override
+	public void clearAllFluids() {
+		for (TileSaltFissionVent vent : vents) vent.clearAllTanks();
+		for (TileSaltFissionVessel vessel : vessels) vessel.clearAllTanks();
+		for (TileSaltFissionHeater heater : heaters) heater.clearAllTanks();
+		for (TileSaltFissionDistributor distributor : distributors) distributor.clearAllTanks();
+		for (TileSaltFissionRetriever retriever : retrievers) retriever.clearAllTanks();
 	}
 	
 	// Multiblock Validators

@@ -3,27 +3,37 @@ package nc.multiblock.gui;
 import com.google.common.math.DoubleMath;
 
 import nc.Global;
+import nc.multiblock.gui.element.MultiblockButton;
+import nc.multiblock.network.ClearAllFluidsPacket;
 import nc.multiblock.turbine.Turbine;
+import nc.network.PacketHandler;
 import nc.util.Lang;
 import nc.util.NCMath;
 import nc.util.StringHelper;
 import nc.util.UnitHelper;
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 
 public class GuiTurbineController extends GuiMultiblockController<Turbine> {
 	
 	protected final ResourceLocation gui_texture;
 	
-	public GuiTurbineController(Turbine multiblock, Container container) {
-		super(multiblock, container);
+	public GuiTurbineController(Turbine multiblock, BlockPos controllerPos, Container container) {
+		super(multiblock, controllerPos, container);
 		gui_texture = new ResourceLocation(Global.MOD_ID + ":textures/gui/container/" + "turbine_controller" + ".png");
 	}
 	
 	@Override
 	protected ResourceLocation getGuiTexture() {
 		return gui_texture;
+	}
+	
+	@Override
+	public void renderTooltips(int mouseX, int mouseY) {
+		drawTooltip(clearAllFluidsInfo(), mouseX, mouseY, 162, 152, 9, 9);
 	}
 	
 	@Override
@@ -46,5 +56,20 @@ public class GuiTurbineController extends GuiMultiblockController<Turbine> {
 		
 		String fluid_rate = Lang.localise("gui.container.turbine_controller.fluid_rate") + " " + UnitHelper.prefix(Math.round(multiblock.getActualInputRate()), 6, "B/t", -1) + " [" + Math.round(100D*(double)multiblock.getActualInputRate()/(double)multiblock.getMaxRecipeRateMultiplier()) + "%]";
 		fontRenderer.drawString(fluid_rate, xSize / 2 - width(fluid_rate) / 2, 60, fontColor);
+	}
+	
+	@Override
+	public void initGui() {
+		super.initGui();
+		buttonList.add(new MultiblockButton.ButtonClearAllFluids(0, guiLeft + 162, guiTop + 152));
+	}
+	
+	@Override
+	protected void actionPerformed(GuiButton guiButton) {
+		if (multiblock.WORLD.isRemote) {
+			if (guiButton.id == 0 && isShiftKeyDown()) {
+				PacketHandler.instance.sendToServer(new ClearAllFluidsPacket(controllerPos));
+			}
+		}
 	}
 }

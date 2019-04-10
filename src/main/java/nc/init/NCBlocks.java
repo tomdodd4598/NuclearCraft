@@ -55,11 +55,11 @@ import nc.multiblock.saltFission.block.BlockSaltFissionRetriever;
 import nc.multiblock.saltFission.block.BlockSaltFissionVent;
 import nc.multiblock.saltFission.block.BlockSaltFissionVessel;
 import nc.multiblock.saltFission.block.BlockSaltFissionWall;
+import nc.multiblock.turbine.TurbineDynamoCoilType;
 import nc.multiblock.turbine.TurbineRotorBladeType;
 import nc.multiblock.turbine.block.BlockTurbineComputerPort;
 import nc.multiblock.turbine.block.BlockTurbineController;
 import nc.multiblock.turbine.block.BlockTurbineDynamoCoil;
-import nc.multiblock.turbine.block.BlockTurbineDynamoCoil.DynamoCoilType;
 import nc.multiblock.turbine.block.BlockTurbineFrame;
 import nc.multiblock.turbine.block.BlockTurbineGlass;
 import nc.multiblock.turbine.block.BlockTurbineInlet;
@@ -596,7 +596,7 @@ public class NCBlocks {
 		registerBlock(turbine_rotor_blade_sic_sic_cmc, TextFormatting.AQUA, new String[] {Lang.localise(fixedLine("turbine_rotor_blade_efficiency"), Math.round(100D*NCConfig.turbine_blade_efficiency[2]) + "%"), Lang.localise(fixedLine("turbine_rotor_blade_expansion"), Math.round(100D*NCConfig.turbine_blade_expansion[2]) + "%")}, InfoHelper.formattedInfo(infoLine("turbine_rotor_blade")));
 		registerBlock(turbine_rotor_stator, TextFormatting.AQUA, new String[] {Lang.localise(fixedLine("turbine_rotor_stator_expansion"), Math.round(100D*NCConfig.turbine_stator_expansion) + "%")}, InfoHelper.formattedInfo(infoLine("turbine_rotor_stator")));
 		registerBlock(turbine_rotor_bearing);
-		registerBlock(turbine_dynamo_coil, new ItemBlockMeta(turbine_dynamo_coil, DynamoCoilType.class, NCInfo.dynamoCoilInfo()));
+		registerBlock(turbine_dynamo_coil, new ItemBlockMeta(turbine_dynamo_coil, TurbineDynamoCoilType.class, NCInfo.dynamoCoilInfo()));
 		registerBlock(turbine_inlet);
 		registerBlock(turbine_outlet);
 		registerBlock(turbine_computer_port);
@@ -794,8 +794,8 @@ public class NCBlocks {
 		registerRender(turbine_rotor_blade_sic_sic_cmc);
 		registerRender(turbine_rotor_stator);
 		registerRender(turbine_rotor_bearing);
-		for (int i = 0; i < DynamoCoilType.values().length; i++) {
-			registerRender(turbine_dynamo_coil, i, "turbine_dynamo_coil_" + DynamoCoilType.values()[i].getName());
+		for (int i = 0; i < TurbineDynamoCoilType.values().length; i++) {
+			registerRender(turbine_dynamo_coil, i, "turbine_dynamo_coil_" + TurbineDynamoCoilType.values()[i].getName());
 		}
 		registerRender(turbine_inlet);
 		registerRender(turbine_outlet);

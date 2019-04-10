@@ -1,21 +1,20 @@
 package nc.gui.processor;
 
 import nc.container.processor.ContainerSaltMixer;
-import nc.gui.GuiFluidRenderer;
-import nc.gui.GuiItemRenderer;
-import nc.gui.NCGuiButton;
+import nc.gui.element.GuiFluidRenderer;
+import nc.gui.element.GuiItemRenderer;
+import nc.gui.element.NCGuiButton;
+import nc.gui.element.NCGuiToggleButton;
 import nc.init.NCItems;
 import nc.network.PacketHandler;
-import nc.network.gui.EmptyTankButtonPacket;
-import nc.network.gui.GetFluidInTankPacket;
+import nc.network.gui.EmptyTankPacket;
+import nc.network.gui.ToggleRedstoneControlPacket;
 import nc.tile.processor.TileFluidProcessor;
+import nc.util.Lang;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraftforge.fluids.FluidStack;
 
 public class GuiSaltMixer extends GuiFluidProcessor {
-	
-	public static FluidStack fluid0, fluid1, fluid2 = null;
 	
 	public GuiSaltMixer(EntityPlayer player, TileFluidProcessor tile) {
 		super("salt_mixer", player, new ContainerSaltMixer(player, tile));
@@ -26,9 +25,11 @@ public class GuiSaltMixer extends GuiFluidProcessor {
 	
 	@Override
 	public void renderTooltips(int mouseX, int mouseY) {
-		drawFluidTooltip(fluid0, tile.getTanks().get(0), mouseX, mouseY, 46, 35, 16, 16);
-		drawFluidTooltip(fluid1, tile.getTanks().get(1), mouseX, mouseY, 66, 35, 16, 16);
-		drawFluidTooltip(fluid2, tile.getTanks().get(2), mouseX, mouseY, 122, 31, 24, 24);
+		drawFluidTooltip(tile.getTanks().get(0), mouseX, mouseY, 46, 35, 16, 16);
+		drawFluidTooltip(tile.getTanks().get(1), mouseX, mouseY, 66, 35, 16, 16);
+		drawFluidTooltip(tile.getTanks().get(2), mouseX, mouseY, 122, 31, 24, 24);
+		
+		drawTooltip(Lang.localise("gui.container.redstone_control"), mouseX, mouseY, 27, 63, 18, 18);
 		
 		drawEnergyTooltip(tile, mouseX, mouseY, 8, 6, 16, 74);
 	}
@@ -51,11 +52,9 @@ public class GuiSaltMixer extends GuiFluidProcessor {
 		int k = getCookProgressScaled(37);
 		drawTexturedModalRect(guiLeft + 84, guiTop + 34, 176, 3, k, 18);
 		
-		if (tick == 0) sendTankInfo();
-		
-		GuiFluidRenderer.renderGuiTank(fluid0, tile.getTanks().get(0).getCapacity(), guiLeft + 46, guiTop + 35, zLevel, 16, 16);
-		GuiFluidRenderer.renderGuiTank(fluid1, tile.getTanks().get(1).getCapacity(), guiLeft + 66, guiTop + 35, zLevel, 16, 16);
-		GuiFluidRenderer.renderGuiTank(fluid2, tile.getTanks().get(2).getCapacity(), guiLeft + 122, guiTop + 31, zLevel, 24, 24);
+		GuiFluidRenderer.renderGuiTank(tile.getTanks().get(0), guiLeft + 46, guiTop + 35, zLevel, 16, 16);
+		GuiFluidRenderer.renderGuiTank(tile.getTanks().get(1), guiLeft + 66, guiTop + 35, zLevel, 16, 16);
+		GuiFluidRenderer.renderGuiTank(tile.getTanks().get(2), guiLeft + 122, guiTop + 31, zLevel, 24, 24);
 	}
 	
 	@Override
@@ -64,21 +63,20 @@ public class GuiSaltMixer extends GuiFluidProcessor {
 		buttonList.add(new NCGuiButton.EmptyTankButton(0, guiLeft + 46, guiTop + 35, 16, 16));
 		buttonList.add(new NCGuiButton.EmptyTankButton(1, guiLeft + 66, guiTop + 35, 16, 16));
 		buttonList.add(new NCGuiButton.EmptyTankButton(2, guiLeft + 122, guiTop + 31, 24, 24));
+		
+		buttonList.add(new NCGuiToggleButton.ToggleRedstoneControlButton(3, guiLeft + 27, guiTop + 63, tile));
 	}
 	
 	@Override
 	protected void actionPerformed(GuiButton guiButton) {
 		if (tile.getWorld().isRemote) {
 			for (int i = 0; i < 3; i++) if (guiButton.id == i && isShiftKeyDown()) {
-				PacketHandler.instance.sendToServer(new EmptyTankButtonPacket(tile, i));
+				PacketHandler.instance.sendToServer(new EmptyTankPacket(tile, i));
+			}
+			if (guiButton.id == 3) {
+				tile.setRedstoneControl(!tile.getRedstoneControl());
+				PacketHandler.instance.sendToServer(new ToggleRedstoneControlPacket(tile));
 			}
 		}
-	}
-	
-	@Override
-	protected void sendTankInfo() {
-		PacketHandler.instance.sendToServer(new GetFluidInTankPacket(tile.getPos(), 0, "nc.gui.processor.GuiSaltMixer", "fluid0"));
-		PacketHandler.instance.sendToServer(new GetFluidInTankPacket(tile.getPos(), 1, "nc.gui.processor.GuiSaltMixer", "fluid1"));
-		PacketHandler.instance.sendToServer(new GetFluidInTankPacket(tile.getPos(), 2, "nc.gui.processor.GuiSaltMixer", "fluid2"));
 	}
 }

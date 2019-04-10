@@ -7,17 +7,16 @@ import com.google.common.collect.Lists;
 import nc.Global;
 import nc.config.NCConfig;
 import nc.container.generator.ContainerFusionCore;
-import nc.gui.GuiFluidRenderer;
 import nc.gui.NCGui;
-import nc.gui.NCGuiButton;
-import nc.gui.NCGuiToggleButton;
+import nc.gui.element.GuiFluidRenderer;
+import nc.gui.element.NCGuiButton;
+import nc.gui.element.NCGuiToggleButton;
 import nc.network.PacketHandler;
-import nc.network.gui.EmptyTankButtonPacket;
-import nc.network.gui.GetFluidInTankPacket;
-import nc.network.gui.ToggleAlternateComparatorButtonPacket;
-import nc.network.gui.ToggleTanksEmptyUnusableButtonPacket;
-import nc.network.gui.ToggleTanksSharedButtonPacket;
-import nc.network.gui.ToggleVoidExcessOutputsButtonPacket;
+import nc.network.gui.EmptyTankPacket;
+import nc.network.gui.ToggleAlternateComparatorPacket;
+import nc.network.gui.ToggleInputTanksSeparatedPacket;
+import nc.network.gui.ToggleVoidExcessFluidOutputPacket;
+import nc.network.gui.ToggleVoidUnusableFluidInputPacket;
 import nc.tile.energy.ITileEnergy;
 import nc.tile.generator.TileFusionCore;
 import nc.util.Lang;
@@ -29,13 +28,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraftforge.fluids.FluidStack;
 
 public class GuiFusionCore extends NCGui {
-	
-	public static int tick;
-	
-	public static FluidStack fluid0, fluid1, fluid2, fluid3, fluid4, fluid5, fluid6, fluid7 = null;
 	
 	private final InventoryPlayer playerInventory;
 	protected TileFusionCore tile;
@@ -57,12 +51,12 @@ public class GuiFusionCore extends NCGui {
 		drawTooltip(Lang.localise("gui.container.void_outputs"), mouseX, mouseY, 171, 142, 18, 18);
 		drawTooltip(Lang.localise("gui.container.comparator_mode"), mouseX, mouseY, 171, 162, 18, 18);
 		
-		drawFluidTooltip(fluid0, tile.getTanks().get(0), mouseX, mouseY, 38, 6, 6, 46);
-		drawFluidTooltip(fluid1, tile.getTanks().get(1), mouseX, mouseY, 38, 55, 6, 46);
-		drawFluidTooltip(fluid2, tile.getTanks().get(2), mouseX, mouseY, 172, 6, 6, 46);
-		drawFluidTooltip(fluid3, tile.getTanks().get(3), mouseX, mouseY, 182, 6, 6, 46);
-		drawFluidTooltip(fluid4, tile.getTanks().get(4), mouseX, mouseY, 172, 55, 6, 46);
-		drawFluidTooltip(fluid5, tile.getTanks().get(5), mouseX, mouseY, 182, 55, 6, 46);
+		drawFluidTooltip(tile.getTanks().get(0), mouseX, mouseY, 38, 6, 6, 46);
+		drawFluidTooltip(tile.getTanks().get(1), mouseX, mouseY, 38, 55, 6, 46);
+		drawFluidTooltip(tile.getTanks().get(2), mouseX, mouseY, 172, 6, 6, 46);
+		drawFluidTooltip(tile.getTanks().get(3), mouseX, mouseY, 182, 6, 6, 46);
+		drawFluidTooltip(tile.getTanks().get(4), mouseX, mouseY, 172, 55, 6, 46);
+		drawFluidTooltip(tile.getTanks().get(5), mouseX, mouseY, 182, 55, 6, 46);
 		
 		drawEnergyTooltip(tile, mouseX, mouseY, 8, 6, 6, 95);
 		drawHeatTooltip(mouseX, mouseY, 18, 6, 6, 95);
@@ -84,8 +78,8 @@ public class GuiFusionCore extends NCGui {
 		fontRenderer.drawString(heat, 108 - widthHalf(heat), 54, fontColor);
 		String efficiency = Lang.localise("gui.container.fusion_core.efficiency") + " " + ((int) tile.efficiency) + "%";
 		fontRenderer.drawString(efficiency, 108 - widthHalf(efficiency), 65, fontColor);
-		String input1 = fluid0 != null ? fluid0.getLocalizedName() : (fluid6 != null ? fluid6.getLocalizedName() : TileFusionCore.NO_FUEL);
-		String input2 = fluid1 != null ? fluid1.getLocalizedName() : (fluid7 != null ? fluid7.getLocalizedName() : TileFusionCore.NO_FUEL);
+		String input1 = tile.getTanks().get(0) != null ? tile.getTanks().get(0).getFluidLocalizedName() : (tile.getTanks().get(6) != null ? tile.getTanks().get(6).getFluidLocalizedName() : TileFusionCore.NO_FUEL);
+		String input2 = tile.getTanks().get(1) != null ? tile.getTanks().get(1).getFluidLocalizedName() : (tile.getTanks().get(7) != null ? tile.getTanks().get(7).getFluidLocalizedName() : TileFusionCore.NO_FUEL);
 		fontRenderer.drawString(input1, 108 - widthHalf(input1), 76, fontColor);
 		fontRenderer.drawString(input2, 108 - widthHalf(input2), 87, fontColor);
 	}
@@ -134,22 +128,16 @@ public class GuiFusionCore extends NCGui {
 		double efficiency = Math.round((tile.efficiency / 100D) * 95D);
 		drawTexturedModalRect(guiLeft + 28, guiTop + 6 + 95 - (int) efficiency, 208, 90 + 95 - (int) efficiency, 6, (int) efficiency);
 		
-		tick++;
-		tick %= 5;
-		
-		if (tick == 0) sendTankInfo();
-		
-		GuiFluidRenderer.renderGuiTank(fluid0, tile.getTanks().get(0).getCapacity(), guiLeft + 38, guiTop + 6, zLevel, 6, 46);
-		GuiFluidRenderer.renderGuiTank(fluid1, tile.getTanks().get(1).getCapacity(), guiLeft + 38, guiTop + 55, zLevel, 6, 46);
-		GuiFluidRenderer.renderGuiTank(fluid2, tile.getTanks().get(2).getCapacity(), guiLeft + 172, guiTop + 6, zLevel, 6, 46);
-		GuiFluidRenderer.renderGuiTank(fluid3, tile.getTanks().get(3).getCapacity(), guiLeft + 182, guiTop + 6, zLevel, 6, 46);
-		GuiFluidRenderer.renderGuiTank(fluid4, tile.getTanks().get(4).getCapacity(), guiLeft + 172, guiTop + 55, zLevel, 6, 46);
-		GuiFluidRenderer.renderGuiTank(fluid5, tile.getTanks().get(5).getCapacity(), guiLeft + 182, guiTop + 55, zLevel, 6, 46);
+		GuiFluidRenderer.renderGuiTank(tile.getTanks().get(0), guiLeft + 38, guiTop + 6, zLevel, 6, 46);
+		GuiFluidRenderer.renderGuiTank(tile.getTanks().get(1), guiLeft + 38, guiTop + 55, zLevel, 6, 46);
+		GuiFluidRenderer.renderGuiTank(tile.getTanks().get(2), guiLeft + 172, guiTop + 6, zLevel, 6, 46);
+		GuiFluidRenderer.renderGuiTank(tile.getTanks().get(3), guiLeft + 182, guiTop + 6, zLevel, 6, 46);
+		GuiFluidRenderer.renderGuiTank(tile.getTanks().get(4), guiLeft + 172, guiTop + 55, zLevel, 6, 46);
+		GuiFluidRenderer.renderGuiTank(tile.getTanks().get(5), guiLeft + 182, guiTop + 55, zLevel, 6, 46);
 	}
 	
 	@Override
 	public void initGui() {
-		sendTankInfo();
 		super.initGui();
 		buttonList.add(new NCGuiButton.EmptyTankButton(0, guiLeft + 38, guiTop + 6, 6, 46));
 		buttonList.add(new NCGuiButton.EmptyTankButton(1, guiLeft + 38, guiTop + 55, 6, 46));
@@ -157,9 +145,9 @@ public class GuiFusionCore extends NCGui {
 		buttonList.add(new NCGuiButton.EmptyTankButton(3, guiLeft + 182, guiTop + 6, 6, 46));
 		buttonList.add(new NCGuiButton.EmptyTankButton(4, guiLeft + 172, guiTop + 55, 6, 46));
 		buttonList.add(new NCGuiButton.EmptyTankButton(5, guiLeft + 182, guiTop + 55, 6, 46));
-		buttonList.add(new NCGuiToggleButton.ToggleTanksSharedButton(6, guiLeft + 171, guiTop + 104, tile));
-		buttonList.add(new NCGuiToggleButton.ToggleTanksEmptyUnusableButton(7, guiLeft + 171, guiTop + 123, tile));
-		buttonList.add(new NCGuiToggleButton.ToggleVoidExcessOutputsButton(8, guiLeft + 171, guiTop + 142, tile));
+		buttonList.add(new NCGuiToggleButton.ToggleInputTanksSeparatedButton(6, guiLeft + 171, guiTop + 104, tile));
+		buttonList.add(new NCGuiToggleButton.ToggleVoidUnusableFluidInputButton(7, guiLeft + 171, guiTop + 123, tile, 2));
+		buttonList.add(new NCGuiToggleButton.ToggleVoidExcessFluidOutputButton(8, guiLeft + 171, guiTop + 142, tile, 2));
 		buttonList.add(new NCGuiToggleButton.ToggleAlternateComparatorButton(9, guiLeft + 171, guiTop + 162, tile));
 	}
 	
@@ -167,35 +155,28 @@ public class GuiFusionCore extends NCGui {
 	protected void actionPerformed(GuiButton guiButton) {
 		if (tile.getWorld().isRemote) {
 			for (int i = 0; i < 6; i++) if (guiButton.id == i && isShiftKeyDown()) {
-				PacketHandler.instance.sendToServer(new EmptyTankButtonPacket(tile, i));
+				PacketHandler.instance.sendToServer(new EmptyTankPacket(tile, i));
 			}
 			if (guiButton.id == 6) {
-				tile.setTanksShared(!tile.getTanksShared());
-				PacketHandler.instance.sendToServer(new ToggleTanksSharedButtonPacket(tile));
+				tile.setInputTanksSeparated(!tile.getInputTanksSeparated());
+				PacketHandler.instance.sendToServer(new ToggleInputTanksSeparatedPacket(tile));
 			}
 			if (guiButton.id == 7) {
-				tile.setEmptyUnusableTankInputs(!tile.getEmptyUnusableTankInputs());
-				PacketHandler.instance.sendToServer(new ToggleTanksEmptyUnusableButtonPacket(tile));
+				for (int i = 0; i < tile.getTanks().size(); i++) {
+					tile.setVoidUnusableFluidInput(i, !tile.getVoidUnusableFluidInput(i));
+					PacketHandler.instance.sendToServer(new ToggleVoidUnusableFluidInputPacket(tile, i));
+				}
 			}
 			if (guiButton.id == 8) {
-				tile.setVoidExcessFluidOutputs(!tile.getVoidExcessFluidOutputs());
-				PacketHandler.instance.sendToServer(new ToggleVoidExcessOutputsButtonPacket(tile));
+				for (int i = 0; i < tile.getTanks().size(); i++) {
+					tile.setVoidExcessFluidOutput(i, !tile.getVoidExcessFluidOutput(i));
+					PacketHandler.instance.sendToServer(new ToggleVoidExcessFluidOutputPacket(tile, i));
+				}
 			}
 			if (guiButton.id == 9) {
 				tile.setAlternateComparator(!tile.getAlternateComparator());
-				PacketHandler.instance.sendToServer(new ToggleAlternateComparatorButtonPacket(tile));
+				PacketHandler.instance.sendToServer(new ToggleAlternateComparatorPacket(tile));
 			}
 		}
-	}
-	
-	protected void sendTankInfo() {
-		PacketHandler.instance.sendToServer(new GetFluidInTankPacket(tile.getPos(), 0, "nc.gui.generator.GuiFusionCore", "fluid0"));
-		PacketHandler.instance.sendToServer(new GetFluidInTankPacket(tile.getPos(), 1, "nc.gui.generator.GuiFusionCore", "fluid1"));
-		PacketHandler.instance.sendToServer(new GetFluidInTankPacket(tile.getPos(), 2, "nc.gui.generator.GuiFusionCore", "fluid2"));
-		PacketHandler.instance.sendToServer(new GetFluidInTankPacket(tile.getPos(), 3, "nc.gui.generator.GuiFusionCore", "fluid3"));
-		PacketHandler.instance.sendToServer(new GetFluidInTankPacket(tile.getPos(), 4, "nc.gui.generator.GuiFusionCore", "fluid4"));
-		PacketHandler.instance.sendToServer(new GetFluidInTankPacket(tile.getPos(), 5, "nc.gui.generator.GuiFusionCore", "fluid5"));
-		PacketHandler.instance.sendToServer(new GetFluidInTankPacket(tile.getPos(), 6, "nc.gui.generator.GuiFusionCore", "fluid6"));
-		PacketHandler.instance.sendToServer(new GetFluidInTankPacket(tile.getPos(), 7, "nc.gui.generator.GuiFusionCore", "fluid7"));
 	}
 }

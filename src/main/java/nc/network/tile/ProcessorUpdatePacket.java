@@ -1,7 +1,11 @@
 package nc.network.tile;
 
+import java.util.List;
+
 import io.netty.buffer.ByteBuf;
 import nc.tile.IGui;
+import nc.tile.internal.fluid.Tank;
+import nc.tile.internal.fluid.Tank.TankInfo;
 import net.minecraft.util.math.BlockPos;
 
 public class ProcessorUpdatePacket extends TileUpdatePacket {
@@ -10,17 +14,21 @@ public class ProcessorUpdatePacket extends TileUpdatePacket {
 	public int energyStored;
 	public double baseProcessTime;
 	public double baseProcessPower;
+	public byte numberOfTanks;
+	public List<TankInfo> tanksInfo;
 	
 	public ProcessorUpdatePacket() {
 		messageValid = false;
 	}
 	
-	public ProcessorUpdatePacket(BlockPos pos, double time, int energyStored, double baseProcessTime, double baseProcessPower) {
+	public ProcessorUpdatePacket(BlockPos pos, double time, int energyStored, double baseProcessTime, double baseProcessPower, List<Tank> tanks) {
 		this.pos = pos;
 		this.time = time;
 		this.energyStored = energyStored;
 		this.baseProcessTime = baseProcessTime;
 		this.baseProcessPower = baseProcessPower;
+		numberOfTanks = (byte) tanks.size();
+		tanksInfo = TankInfo.infoList(tanks);
 		
 		messageValid = true;
 	}
@@ -32,6 +40,8 @@ public class ProcessorUpdatePacket extends TileUpdatePacket {
 		energyStored = buf.readInt();
 		baseProcessTime = buf.readDouble();
 		baseProcessPower = buf.readDouble();
+		numberOfTanks = buf.readByte();
+		tanksInfo = TankInfo.readBuf(buf, numberOfTanks);
 	}
 	
 	@Override
@@ -43,6 +53,8 @@ public class ProcessorUpdatePacket extends TileUpdatePacket {
 		buf.writeInt(energyStored);
 		buf.writeDouble(baseProcessTime);
 		buf.writeDouble(baseProcessPower);
+		buf.writeByte(numberOfTanks);
+		for (TankInfo info : tanksInfo) info.writeBuf(buf);
 	}
 	
 	public static class Handler extends TileUpdatePacket.Handler<ProcessorUpdatePacket, IGui> {

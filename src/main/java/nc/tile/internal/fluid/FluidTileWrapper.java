@@ -24,7 +24,7 @@ public class FluidTileWrapper implements IFluidHandler {
 	
 	@Override
 	public int fill(FluidStack resource, boolean doFill) {
-		int amount = tile.fill(resource, doFill, side);
+		int amount = tile.fill(side, resource, doFill);
 		if (doFill && amount != 0) {
 			if (tile instanceof IProcessor) {
 				((IProcessor)tile).refreshRecipe();
@@ -36,7 +36,7 @@ public class FluidTileWrapper implements IFluidHandler {
 	
 	@Override
 	public FluidStack drain(FluidStack resource, boolean doDrain) {
-		FluidStack stack = tile.drain(resource, doDrain, side);
+		FluidStack stack = tile.drain(side, resource, doDrain);
 		if (doDrain && (stack != null && stack.amount != 0)) {
 			if (tile instanceof IProcessor) ((IProcessor)tile).refreshActivity();
 		}
@@ -45,7 +45,7 @@ public class FluidTileWrapper implements IFluidHandler {
 	
 	@Override
 	public FluidStack drain(int maxDrain, boolean doDrain) {
-		FluidStack stack = tile.drain(maxDrain, doDrain, side);
+		FluidStack stack = tile.drain(side, maxDrain, doDrain);
 		if (doDrain && (stack != null && stack.amount != 0)) {
 			if (tile instanceof IProcessor) ((IProcessor)tile).refreshActivity();
 		}

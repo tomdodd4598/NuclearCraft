@@ -14,7 +14,7 @@ import net.minecraft.world.World;
 public class BlockHelper {
 	
 	public static void spawnParticleOnProcessor(IBlockState state, World world, BlockPos pos, Random rand, EnumFacing side, String particleName) {
-		if (particleName == "" || !NCConfig.processor_particles) return;
+		if (particleName.equals("") || !NCConfig.processor_particles) return;
 		
 		double d0 = (double)pos.getX() + 0.5D;
 		double d1 = (double)pos.getY() + 0.125D + rand.nextDouble() * 0.75D;

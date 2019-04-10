@@ -1,18 +1,27 @@
 package nc.multiblock.gui;
 
+import java.util.List;
+
+import com.google.common.collect.Lists;
+
 import nc.gui.NCGui;
 import nc.multiblock.MultiblockBase;
+import nc.util.Lang;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextFormatting;
 
 public abstract class GuiMultiblockController<MULTIBLOCK extends MultiblockBase> extends NCGui {
 	
 	protected MULTIBLOCK multiblock;
+	protected BlockPos controllerPos;
 	
-	public GuiMultiblockController(MULTIBLOCK multiblock, Container container) {
+	public GuiMultiblockController(MULTIBLOCK multiblock, BlockPos controllerPos, Container container) {
 		super(container);
 		this.multiblock = multiblock;
+		this.controllerPos = controllerPos;
 	}
 	
 	@Override
@@ -23,4 +32,8 @@ public abstract class GuiMultiblockController<MULTIBLOCK extends MultiblockBase>
 	}
 	
 	protected abstract ResourceLocation getGuiTexture();
+	
+	public List<String> clearAllFluidsInfo() {
+		return Lists.newArrayList(TextFormatting.ITALIC + Lang.localise("gui.container.shift_clear_multiblock"));
+	}
 }

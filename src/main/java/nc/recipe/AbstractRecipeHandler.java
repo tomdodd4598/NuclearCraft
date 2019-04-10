@@ -331,7 +331,7 @@ public abstract class AbstractRecipeHandler<T extends IRecipe> {
 		return false;
 	}
 	
-	// Smart item insertion
+	/** Smart item insertion */
 	public boolean isValidItemInput(ItemStack stack, ItemStack slotStack, List<ItemStack> otherInputs) {
 		if (otherInputs.isEmpty() || (stack.isItemEqual(slotStack) && ItemStackHelper.areItemStackTagsEqual(stack, slotStack))) {
 			return isValidItemInput(stack);

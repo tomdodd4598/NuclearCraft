@@ -5,6 +5,7 @@ import java.util.Set;
 
 import nc.Global;
 import nc.config.NCConfig;
+import nc.multiblock.IMultiblockFluid;
 import nc.multiblock.IMultiblockPart;
 import nc.multiblock.MultiblockBase;
 import nc.multiblock.TileBeefBase.SyncReason;
@@ -20,7 +21,7 @@ import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
-public class HeatExchanger extends CuboidalMultiblockBase<HeatExchangerUpdatePacket> {
+public class HeatExchanger extends CuboidalMultiblockBase<HeatExchangerUpdatePacket> implements IMultiblockFluid {
 	
 	private Set<TileHeatExchangerController> controllers;
 	private Set<TileHeatExchangerVent> vents;
@@ -239,6 +240,12 @@ public class HeatExchanger extends CuboidalMultiblockBase<HeatExchangerUpdatePac
 	
 	public Container getContainer(EntityPlayer player) {
 		return new ContainerHeatExchangerController(player, controller);
+	}
+	
+	@Override
+	public void clearAllFluids() {
+		for (TileHeatExchangerVent vent : vents) vent.clearAllTanks();
+		for (TileHeatExchangerTube tube : tubes) tube.clearAllTanks();
 	}
 	
 	// Multiblock Validators

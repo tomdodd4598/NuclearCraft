@@ -50,6 +50,10 @@ public interface ITile {
 	
 	public void setAlternateComparator(boolean alternate);
 	
+	public boolean getRedstoneControl();
+	
+	public void setRedstoneControl(boolean redstoneControl);
+	
 	// State Updating
 	
 	public default void markAndRefresh() {

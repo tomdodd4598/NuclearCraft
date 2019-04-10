@@ -12,8 +12,8 @@ import ic2.api.energy.tile.IEnergySource;
 import nc.ModCheck;
 import nc.config.NCConfig;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
+import nc.multiblock.turbine.TurbineDynamoCoilType;
 import nc.multiblock.turbine.Turbine;
-import nc.multiblock.turbine.block.BlockTurbineDynamoCoil.DynamoCoilType;
 import nc.tile.energy.ITileEnergy;
 import nc.tile.internal.energy.EnergyConnection;
 import nc.tile.internal.energy.EnergyStorage;
@@ -44,52 +44,52 @@ public class TileTurbineDynamoCoil extends TileTurbinePartBase implements ITileE
 	private boolean isEnergyTileSet = true;
 	private boolean ic2reg = false;
 	
-	private final DynamoCoilType coilType;
+	private final TurbineDynamoCoilType coilType;
 	public boolean checked = false, isInValidPosition;
 	
 	public static class Magnesium extends TileTurbineDynamoCoil {
 		
 		public Magnesium() {
-			super(DynamoCoilType.MAGNESIUM);
+			super(TurbineDynamoCoilType.MAGNESIUM);
 		}
 	}
 	
 	public static class Beryllium extends TileTurbineDynamoCoil {
 		
 		public Beryllium() {
-			super(DynamoCoilType.BERYLLIUM);
+			super(TurbineDynamoCoilType.BERYLLIUM);
 		}
 	}
 	
 	public static class Aluminum extends TileTurbineDynamoCoil {
 		
 		public Aluminum() {
-			super(DynamoCoilType.ALUMINUM);
+			super(TurbineDynamoCoilType.ALUMINUM);
 		}
 	}
 	
 	public static class Gold extends TileTurbineDynamoCoil {
 		
 		public Gold() {
-			super(DynamoCoilType.GOLD);
+			super(TurbineDynamoCoilType.GOLD);
 		}
 	}
 	
 	public static class Copper extends TileTurbineDynamoCoil {
 		
 		public Copper() {
-			super(DynamoCoilType.COPPER);
+			super(TurbineDynamoCoilType.COPPER);
 		}
 	}
 	
 	public static class Silver extends TileTurbineDynamoCoil {
 		
 		public Silver() {
-			super(DynamoCoilType.SILVER);
+			super(TurbineDynamoCoilType.SILVER);
 		}
 	}
 	
-	private TileTurbineDynamoCoil(DynamoCoilType coilType) {
+	private TileTurbineDynamoCoil(TurbineDynamoCoilType coilType) {
 		super(CuboidalPartPositionType.WALL);
 		
 		this.coilType = coilType;
@@ -136,7 +136,7 @@ public class TileTurbineDynamoCoil extends TileTurbinePartBase implements ITileE
 		case BERYLLIUM: {
 			if (dynamoCoilCheckCount != 1) return 0D;
 			for (EnumFacing dir : BlockPosHelper.getHorizontals(flowDir)) {
-				if (isDynamoCoil(dir, DynamoCoilType.MAGNESIUM)) {
+				if (isDynamoCoil(dir, TurbineDynamoCoilType.MAGNESIUM)) {
 					isInValidPosition = true;
 					checked = true;
 					return coilType.getConductivity();
@@ -150,7 +150,7 @@ public class TileTurbineDynamoCoil extends TileTurbinePartBase implements ITileE
 		case ALUMINUM: {
 			if (dynamoCoilCheckCount != 4) return 0D;
 			for (EnumFacing dir : BlockPosHelper.getHorizontals(flowDir)) {
-				if (isDynamoCoilExcluding(dir, DynamoCoilType.ALUMINUM)) {
+				if (isDynamoCoilExcluding(dir, TurbineDynamoCoilType.ALUMINUM)) {
 					isInValidPosition = true;
 					checked = true;
 					return coilType.getConductivity();
@@ -164,7 +164,7 @@ public class TileTurbineDynamoCoil extends TileTurbinePartBase implements ITileE
 		case GOLD: {
 			if (dynamoCoilCheckCount != 2) return 0D;
 			for (EnumFacing dir : BlockPosHelper.getHorizontals(flowDir)) {
-				if (isDynamoCoil(dir, DynamoCoilType.BERYLLIUM)) {
+				if (isDynamoCoil(dir, TurbineDynamoCoilType.BERYLLIUM)) {
 					isInValidPosition = true;
 					checked = true;
 					return coilType.getConductivity();
@@ -178,7 +178,7 @@ public class TileTurbineDynamoCoil extends TileTurbinePartBase implements ITileE
 		case COPPER: {
 			if (dynamoCoilCheckCount != 3) return 0D;
 			for (EnumFacing dir : BlockPosHelper.getHorizontals(flowDir)) {
-				if (isDynamoCoil(dir, DynamoCoilType.GOLD)) {
+				if (isDynamoCoil(dir, TurbineDynamoCoilType.GOLD)) {
 					isInValidPosition = true;
 					checked = true;
 					return coilType.getConductivity();
@@ -194,8 +194,8 @@ public class TileTurbineDynamoCoil extends TileTurbinePartBase implements ITileE
 			boolean magnesium = false;
 			boolean gold = false;
 			for (EnumFacing dir : BlockPosHelper.getHorizontals(flowDir)) {
-				if (!magnesium) if (isDynamoCoil(dir, DynamoCoilType.MAGNESIUM)) magnesium = true;
-				if (!gold) if (isDynamoCoil(dir, DynamoCoilType.GOLD)) gold = true;
+				if (!magnesium) if (isDynamoCoil(dir, TurbineDynamoCoilType.MAGNESIUM)) magnesium = true;
+				if (!gold) if (isDynamoCoil(dir, TurbineDynamoCoilType.GOLD)) gold = true;
 				if (magnesium && gold) {
 					isInValidPosition = true;
 					checked = true;
@@ -218,14 +218,14 @@ public class TileTurbineDynamoCoil extends TileTurbinePartBase implements ITileE
 		return world.getTileEntity(pos.offset(dir)) instanceof TileTurbineRotorBearing;
 	}
 	
-	private boolean isDynamoCoil(EnumFacing dir, DynamoCoilType coilType) {
+	private boolean isDynamoCoil(EnumFacing dir, TurbineDynamoCoilType coilType) {
 		TileEntity tile = world.getTileEntity(pos.offset(dir));
 		if (!(tile instanceof TileTurbineDynamoCoil)) return false;
 		TileTurbineDynamoCoil dynamoCoil = (TileTurbineDynamoCoil) tile;
 		return dynamoCoil.isInValidPosition && dynamoCoil.coilType == coilType;
 	}
 	
-	private boolean isDynamoCoilExcluding(EnumFacing dir, DynamoCoilType coilType) {
+	private boolean isDynamoCoilExcluding(EnumFacing dir, TurbineDynamoCoilType coilType) {
 		TileEntity tile = world.getTileEntity(pos.offset(dir));
 		if (!(tile instanceof TileTurbineDynamoCoil)) return false;
 		TileTurbineDynamoCoil dynamoCoil = (TileTurbineDynamoCoil) tile;
@@ -282,12 +282,12 @@ public class TileTurbineDynamoCoil extends TileTurbinePartBase implements ITileE
 	}
 
 	@Override
-	public EnergyTileWrapper[] getEnergySides() {
+	public @Nonnull EnergyTileWrapper[] getEnergySides() {
 		return energySides;
 	}
 
 	@Override
-	public EnergyTileWrapperGT[] getEnergySidesGT() {
+	public @Nonnull EnergyTileWrapperGT[] getEnergySidesGT() {
 		return energySidesGT;
 	}
 	

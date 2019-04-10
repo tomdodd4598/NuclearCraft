@@ -34,6 +34,7 @@ import nc.container.processor.ContainerPressurizer;
 import nc.container.processor.ContainerRockCrusher;
 import nc.container.processor.ContainerSaltMixer;
 import nc.container.processor.ContainerSupercooler;
+import nc.enumm.MetaEnums;
 import nc.gui.generator.GuiFissionController;
 import nc.gui.generator.GuiFusionCore;
 import nc.gui.processor.GuiAlloyFurnace;
@@ -209,6 +210,16 @@ public class NCJEI implements IModPlugin {
 			blacklist(jeiHelpers, NCBlocks.heat_exchanger_computer_port);
 			blacklist(jeiHelpers, NCBlocks.turbine_computer_port);
 			blacklist(jeiHelpers, NCBlocks.condenser_computer_port);
+		}
+		
+		if (!NCConfig.radiation_enabled_public) {
+			blacklist(jeiHelpers, NCBlocks.radiation_scrubber);
+			blacklist(jeiHelpers, NCBlocks.geiger_block);
+			blacklist(jeiHelpers, NCItems.geiger_counter);
+			blacklistAll(jeiHelpers, MetaEnums.RadShieldingType.class, NCItems.rad_shielding);
+			blacklist(jeiHelpers, NCItems.radiation_badge);
+			blacklist(jeiHelpers, NCItems.radaway);
+			blacklist(jeiHelpers, NCItems.rad_x);
 		}
 		
 		blacklist(jeiHelpers, NCItems.foursmore);

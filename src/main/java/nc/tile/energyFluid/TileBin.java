@@ -6,7 +6,6 @@ import nc.tile.dummy.IInterfaceable;
 import nc.tile.energy.ITileEnergy;
 import nc.tile.fluid.ITileFluid;
 import nc.tile.internal.energy.EnergyConnection;
-import nc.tile.internal.fluid.FluidConnection;
 import nc.tile.internal.fluid.Tank;
 import nc.tile.internal.fluid.TankSorption;
 import net.minecraft.item.ItemStack;
@@ -15,7 +14,7 @@ import net.minecraft.util.EnumFacing;
 public class TileBin extends TileEnergyFluidSidedInventory implements IInterfaceable {
 	
 	public TileBin() {
-		super("bin", 4, 16777216, ITileEnergy.energyConnectionAll(EnergyConnection.IN), Arrays.asList(256000, 256000, 256000, 256000), Arrays.asList(TankSorption.IN, TankSorption.IN, TankSorption.IN, TankSorption.IN), null, ITileFluid.fluidConnectionAll(FluidConnection.IN));
+		super("bin", 4, 16777216, ITileEnergy.energyConnectionAll(EnergyConnection.IN), Arrays.asList(256000, 256000, 256000, 256000), null, ITileFluid.fluidConnectionAll(Arrays.asList(TankSorption.IN, TankSorption.IN, TankSorption.IN, TankSorption.IN)));
 	}
 	
 	@Override
@@ -56,6 +55,6 @@ public class TileBin extends TileEnergyFluidSidedInventory implements IInterface
 
 	@Override
 	public int getEUSinkTier() {
-		return 4;
+		return 10;
 	}
 }

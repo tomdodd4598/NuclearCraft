@@ -1,5 +1,7 @@
 package nc.recipe;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import nc.recipe.generator.DecayGeneratorRecipes;
@@ -239,7 +241,7 @@ public class NCRecipes {
 		melter_valid_fluids = RecipeHelper.validFluids(NCRecipes.Type.MELTER);
 		supercooler_valid_fluids = RecipeHelper.validFluids(NCRecipes.Type.SUPERCOOLER);
 		electrolyser_valid_fluids = RecipeHelper.validFluids(NCRecipes.Type.ELECTROLYSER);
-		irradiator_valid_fluids = RecipeHelper.validFluids(NCRecipes.Type.IRRADIATOR);
+		irradiator_valid_fluids = Arrays.asList(RecipeHelper.validFluids(NCRecipes.Type.IRRADIATOR, Arrays.asList("neutron")).get(0), Arrays.asList("neutron"), new ArrayList<String>(), new ArrayList<String>());
 		ingot_former_valid_fluids = RecipeHelper.validFluids(NCRecipes.Type.INGOT_FORMER);
 		chemical_reactor_valid_fluids = RecipeHelper.validFluids(NCRecipes.Type.CHEMICAL_REACTOR);
 		salt_mixer_valid_fluids = RecipeHelper.validFluids(NCRecipes.Type.SALT_MIXER);

@@ -69,7 +69,7 @@ public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpd
 	
 	public TileFusionCore() {
 		super("Fusion Core", 2, 4, 0, defaultTankCapacities(32000, 2, 4), defaultTankSorptions(2, 4), NCRecipes.fusion_valid_fluids, maxPower(), NCRecipes.Type.FUSION);
-		setTanksShared(false);
+		setInputTanksSeparated(false);
 	}
 	
 	private static int maxPower() {
@@ -498,7 +498,7 @@ public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpd
 	
 	@Override
 	public FusionUpdatePacket getGuiUpdatePacket() {
-		return new FusionUpdatePacket(pos, time, getEnergyStored(), baseProcessTime, baseProcessPower, processPower, isProcessing, heat, efficiency, speedMultiplier, size, complete, cooling, heatChange, hasConsumed, computerActivated, problem);
+		return new FusionUpdatePacket(pos, time, getEnergyStored(), baseProcessTime, baseProcessPower, processPower, isProcessing, heat, efficiency, speedMultiplier, size, complete, cooling, heatChange, hasConsumed, computerActivated, problem, getTanks());
 	}
 	
 	@Override
@@ -519,6 +519,7 @@ public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpd
 		hasConsumed = message.hasConsumed;
 		computerActivated = message.computerActivated;
 		problem = message.problem;
+		for (int i = 0; i < getTanks().size(); i++) getTanks().get(i).readInfo(message.tanksInfo.get(i));
 	}
 	
 	// OpenComputers

@@ -10,9 +10,11 @@ import com.google.common.collect.Lists;
 
 import nc.Global;
 import nc.ModCheck;
+import nc.capability.radiation.source.IRadiationSource;
 import nc.config.NCConfig;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.saltFission.SaltFissionReactor;
+import nc.multiblock.saltFission.SaltFissionVesselSetting;
 import nc.recipe.AbstractRecipeHandler;
 import nc.recipe.IngredientSorption;
 import nc.recipe.NCRecipes;
@@ -44,18 +46,15 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 
 public class TileSaltFissionVessel extends TileSaltFissionPartBase implements IFluidGenerator, ITileFluid {
 	
-	private static final FluidConnection DEPLETED_OUT = FluidConnection.IN;
-	private static final FluidConnection FUEL_OUT = FluidConnection.OUT;
-	private static final FluidConnection DEFAULT = FluidConnection.BOTH;
-	private static final FluidConnection DISABLED = FluidConnection.NON;
+	private final @Nonnull List<Tank> tanks = Lists.newArrayList(new Tank(FluidStackHelper.INGOT_BLOCK_VOLUME*2, NCRecipes.salt_fission_valid_fluids.get(0)), new Tank(FluidStackHelper.INGOT_BLOCK_VOLUME*4, new ArrayList<String>()), new Tank(FluidStackHelper.INGOT_BLOCK_VOLUME*2, new ArrayList<String>()));
 	
-	private final @Nonnull List<Tank> tanks = Lists.newArrayList(new Tank(FluidStackHelper.INGOT_BLOCK_VOLUME*2, TankSorption.IN, NCRecipes.salt_fission_valid_fluids.get(0)), new Tank(FluidStackHelper.INGOT_BLOCK_VOLUME*4, TankSorption.OUT, new ArrayList<String>()), new Tank(FluidStackHelper.INGOT_BLOCK_VOLUME*2, TankSorption.NON, new ArrayList<String>()));
-	
-	private @Nonnull FluidConnection[] fluidConnections = ITileFluid.fluidConnectionAll(FluidConnection.BOTH);
+	private @Nonnull FluidConnection[] fluidConnections = ITileFluid.fluidConnectionAll(Lists.newArrayList(TankSorption.IN, TankSorption.NON, TankSorption.NON));
 	
 	private @Nonnull FluidTileWrapper[] fluidSides;
 	
 	private @Nonnull GasTileWrapper gasWrapper;
+	
+	private @Nonnull SaltFissionVesselSetting[] vesselSettings = new SaltFissionVesselSetting[] {SaltFissionVesselSetting.DEFAULT, SaltFissionVesselSetting.DEFAULT, SaltFissionVesselSetting.DEFAULT, SaltFissionVesselSetting.DEFAULT, SaltFissionVesselSetting.DEFAULT, SaltFissionVesselSetting.DEFAULT};
 	
 	public final int fluidInputSize = 1, fluidOutputSize = 1;
 	
@@ -65,14 +64,13 @@ public class TileSaltFissionVessel extends TileSaltFissionPartBase implements IF
 	
 	private int fluidToHold;
 	
-	public boolean distributedTo = false;
-	public boolean retrievedFrom = false;
+	public boolean distributedTo = false, retrievedFrom = false;
 	
 	public double time;
 	public boolean isProcessing, hasConsumed, canProcessInputs;
 	
 	public final NCRecipes.Type recipeType = NCRecipes.Type.SALT_FISSION;
-	protected ProcessorRecipe recipe;
+	protected ProcessorRecipe recipe, cachedRecipe;
 	
 	protected int vesselCount;
 	
@@ -140,7 +138,10 @@ public class TileSaltFissionVessel extends TileSaltFissionPartBase implements IF
 	}
 	
 	public void doMeltdown() {
-		RadiationHelper.addToChunkRadiation(world.getChunkFromBlockCoords(pos), 8D*baseProcessRadiation*NCConfig.salt_fission_fuel_use);
+		IRadiationSource chunkSource = RadiationHelper.getRadiationSource(world.getChunkFromBlockCoords(pos));
+		if (chunkSource != null) {
+			RadiationHelper.addToSourceRadiation(chunkSource, 8D*baseProcessRadiation*NCConfig.salt_fission_fuel_use);
+		}
 		
 		Block corium = RegistryHelper.getBlock(Global.MOD_ID + ":fluid_corium");
 		world.removeTileEntity(pos);
@@ -208,7 +209,16 @@ public class TileSaltFissionVessel extends TileSaltFissionPartBase implements IF
 	@Override
 	public void refreshRecipe() {
 		if (recipe == null || !recipe.matchingInputs(new ArrayList<ItemStack>(), getFluidInputs(hasConsumed))) {
-			recipe = getRecipeHandler().getRecipeFromInputs(new ArrayList<ItemStack>(), getFluidInputs(hasConsumed));
+			/** Temporary caching while looking for recipe map solution */
+			if (cachedRecipe != null && cachedRecipe.matchingInputs(new ArrayList<ItemStack>(), getFluidInputs(hasConsumed))) {
+				recipe = cachedRecipe;
+			}
+			else {
+				recipe = getRecipeHandler().getRecipeFromInputs(new ArrayList<ItemStack>(), getFluidInputs(hasConsumed));
+			}
+			if (recipe != null) {
+				cachedRecipe = recipe;
+			}
 		}
 		consumeInputs();
 	}
@@ -418,37 +428,80 @@ public class TileSaltFissionVessel extends TileSaltFissionPartBase implements IF
 		return gasWrapper;
 	}
 	
+	public @Nonnull SaltFissionVesselSetting[] getVesselSettings() {
+		return vesselSettings;
+	}
+	
+	public void setVesselSettings(@Nonnull SaltFissionVesselSetting[] settings) {
+		vesselSettings = settings;
+	}
+	
+	public SaltFissionVesselSetting getVesselSetting(@Nonnull EnumFacing side) {
+		return vesselSettings[side.getIndex()];
+	}
+	
+	public void setVesselSetting(@Nonnull EnumFacing side, @Nonnull SaltFissionVesselSetting setting) {
+		vesselSettings[side.getIndex()] = setting;
+	}
+	
+	public void toggleVesselSetting(@Nonnull EnumFacing side) {
+		setVesselSetting(side, getVesselSetting(side).next());
+		switch (getVesselSetting(side)) {
+		case DEFAULT:
+			setTankSorption(side, 0, TankSorption.IN);
+			setTankSorption(side, 1, TankSorption.NON);
+			break;
+		case DISABLED:
+			setTankSorption(side, 0, TankSorption.NON);
+			setTankSorption(side, 1, TankSorption.NON);
+			break;
+		case DEPLETED_OUT:
+			setTankSorption(side, 0, TankSorption.NON);
+			setTankSorption(side, 1, TankSorption.OUT);
+			break;
+		case FUEL_SPREAD:
+			setTankSorption(side, 0, TankSorption.OUT);
+			setTankSorption(side, 1, TankSorption.NON);
+			break;
+		default:
+			setTankSorption(side, 0, TankSorption.IN);
+			setTankSorption(side, 1, TankSorption.NON);
+			break;
+		}
+		markAndRefresh();
+	}
+	
 	@Override
 	public void pushFluidToSide(@Nonnull EnumFacing side) {
-		FluidConnection thisConnection = getFluidConnection(side);
-		if (thisConnection == DISABLED) return;
+		SaltFissionVesselSetting thisSetting = getVesselSetting(side);
+		if (thisSetting == SaltFissionVesselSetting.DISABLED) return;
 		
 		TileEntity tile = getTileWorld().getTileEntity(getTilePos().offset(side));
 		
 		if (tile instanceof TileSaltFissionVessel) {
 			TileSaltFissionVessel vessel = (TileSaltFissionVessel)tile;
-			FluidConnection vesselConnection = vessel.getFluidConnection(side.getOpposite());
+			SaltFissionVesselSetting vesselSetting = vessel.getVesselSetting(side.getOpposite());
 			
-			if (thisConnection == FUEL_OUT) {
-				if (vesselConnection == DEFAULT) {
+			if (thisSetting == SaltFissionVesselSetting.FUEL_SPREAD) {
+				if (vesselSetting == SaltFissionVesselSetting.DEFAULT) {
 					pushFuel(vessel);
 					pushDepleted(vessel);
-				} else if (vesselConnection == DEPLETED_OUT) {
+				} else if (vesselSetting == SaltFissionVesselSetting.DEPLETED_OUT) {
 					pushFuel(vessel);
 				}
-			} else if (thisConnection == DEPLETED_OUT && (vesselConnection == DEFAULT || vesselConnection == FUEL_OUT)) {
+			} else if (thisSetting == SaltFissionVesselSetting.DEPLETED_OUT && (vesselSetting == SaltFissionVesselSetting.DEFAULT || vesselSetting == SaltFissionVesselSetting.FUEL_SPREAD)) {
 				pushDepleted(vessel);
 			}
 		}
 		
-		else if (thisConnection == DEPLETED_OUT) {
+		else if (thisSetting == SaltFissionVesselSetting.DEPLETED_OUT) {
 			if (tile instanceof ITilePassive) if (!((ITilePassive) tile).canPushFluidsTo()) return;
 			IFluidHandler adjStorage = tile == null ? null : tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side.getOpposite());
 			
 			if (adjStorage == null) return;
 			
 			for (int i = 0; i < getTanks().size(); i++) {
-				if (getTanks().get(i).getFluid() == null || !getTanks().get(i).canDrain()) continue;
+				if (getTanks().get(i).getFluid() == null || !getTankSorption(side, i).canDrain()) continue;
 				
 				getTanks().get(i).drainInternal(adjStorage.fill(getTanks().get(i).drainInternal(getTanks().get(i).getCapacity(), false), true), true);
 			}
@@ -466,28 +519,28 @@ public class TileSaltFissionVessel extends TileSaltFissionPartBase implements IF
 	}
 
 	@Override
-	public boolean getTanksShared() {
+	public boolean getInputTanksSeparated() {
 		return false;
 	}
 
 	@Override
-	public void setTanksShared(boolean shared) {}
+	public void setInputTanksSeparated(boolean separated) {}
 
 	@Override
-	public boolean getEmptyUnusableTankInputs() {
+	public boolean getVoidUnusableFluidInput(int tankNumber) {
 		return false;
 	}
 
 	@Override
-	public void setEmptyUnusableTankInputs(boolean emptyUnusableTankInputs) {}
+	public void setVoidUnusableFluidInput(int tankNumber, boolean voidUnusableFluidInput) {}
 
 	@Override
-	public boolean getVoidExcessFluidOutputs() {
+	public boolean getVoidExcessFluidOutput(int tankNumber) {
 		return false;
 	}
 
 	@Override
-	public void setVoidExcessFluidOutputs(boolean voidExcessFluidOutputs) {}
+	public void setVoidExcessFluidOutput(int tankNumber, boolean voidExcessFluidOutput) {}
 	
 	@Override
 	public boolean hasConfigurableFluidConnections() {
@@ -496,11 +549,62 @@ public class TileSaltFissionVessel extends TileSaltFissionPartBase implements IF
 	
 	// NBT
 	
+	public NBTTagCompound writeVesselSettings(NBTTagCompound nbt) {
+		NBTTagCompound settingsTag = new NBTTagCompound();
+		for (EnumFacing side : EnumFacing.VALUES) {
+			settingsTag.setInteger("setting" + side.getIndex(), getVesselSetting(side).ordinal());
+		}
+		nbt.setTag("vesselSettings", settingsTag);
+		return nbt;
+	}
+	
+	public void readVesselSettings(NBTTagCompound nbt) {
+		if (nbt.hasKey("fluidConnections0")) {
+			for (EnumFacing side : EnumFacing.VALUES) {
+				TankSorption sorption = TankSorption.values()[nbt.getInteger("fluidConnections" + side.getIndex())];
+				switch (sorption) {
+				case BOTH:
+					setTankSorption(side, 0, TankSorption.IN);
+					setTankSorption(side, 1, TankSorption.NON);
+					setVesselSetting(side, SaltFissionVesselSetting.DEFAULT);
+					break;
+				case NON:
+					setTankSorption(side, 0, TankSorption.NON);
+					setTankSorption(side, 1, TankSorption.NON);
+					setVesselSetting(side, SaltFissionVesselSetting.DISABLED);
+					break;
+				case IN:
+					setTankSorption(side, 0, TankSorption.NON);
+					setTankSorption(side, 1, TankSorption.OUT);
+					setVesselSetting(side, SaltFissionVesselSetting.DEPLETED_OUT);
+					break;
+				case OUT:
+					setTankSorption(side, 0, TankSorption.OUT);
+					setTankSorption(side, 1, TankSorption.NON);
+					setVesselSetting(side, SaltFissionVesselSetting.FUEL_SPREAD);
+					break;
+				default:
+					setTankSorption(side, 0, TankSorption.IN);
+					setTankSorption(side, 1, TankSorption.NON);
+					setVesselSetting(side, SaltFissionVesselSetting.DEFAULT);
+					break;
+				}
+			}
+		}
+		else {
+			NBTTagCompound settingsTag = nbt.getCompoundTag("vesselSettings");
+			for (EnumFacing side : EnumFacing.VALUES) {
+				setVesselSetting(side, SaltFissionVesselSetting.values()[settingsTag.getInteger("setting" + side.getIndex())]);
+			}
+		}
+	}
+	
 	@Override
 	public NBTTagCompound writeAll(NBTTagCompound nbt) {
 		super.writeAll(nbt);
 		writeTanks(nbt);
 		writeFluidConnections(nbt);
+		writeVesselSettings(nbt);
 		
 		nbt.setDouble("baseProcessTime", baseProcessTime);
 		nbt.setDouble("baseProcessHeat", baseProcessHeat);
@@ -515,12 +619,13 @@ public class TileSaltFissionVessel extends TileSaltFissionPartBase implements IF
 		nbt.setInteger("fluidToHold", fluidToHold);
 		return nbt;
 	}
-		
+	
 	@Override
 	public void readAll(NBTTagCompound nbt) {
 		super.readAll(nbt);
 		readTanks(nbt);
 		readFluidConnections(nbt);
+		readVesselSettings(nbt);
 		
 		baseProcessTime = nbt.getDouble("baseProcessTime");
 		baseProcessHeat = nbt.getDouble("baseProcessHeat");

@@ -1,47 +1,42 @@
 package nc.tile.internal.fluid;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Nonnull;
-
+import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fluids.capability.FluidTankPropertiesWrapper;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
+import net.minecraftforge.fml.common.network.ByteBufUtils;
 
-public class Tank extends FluidTank implements INBTSerializable<NBTTagCompound> {
+public class Tank extends FluidTank {
 	
 	private int maxTransfer;
 	private List<String> allowedFluids;
 	
-	public Tank(int capacity, @Nonnull TankSorption sorption, List<String> allowedFluids) {
-		this(capacity, capacity, sorption, allowedFluids);
+	public Tank(int capacity, List<String> allowedFluids) {
+		this(capacity, capacity, allowedFluids);
 	}
-
-	public Tank(int capacity, int maxTransfer, @Nonnull TankSorption sorption, List<String> allowedFluids) {
+	
+	public Tank(int capacity, int maxTransfer, List<String> allowedFluids) {
 		super(capacity);
 		this.maxTransfer = maxTransfer;
 		this.allowedFluids = allowedFluids;
-		
-		canFill = sorption.canFill();
-		canDrain = sorption.canDrain();
 	}
 	
 	// FluidTank
 	
 	@Override
 	public boolean canFillFluidType(FluidStack fluid) {
-		if (fluid != null && allowedFluids != null && !allowedFluids.contains(fluid.getFluid().getName())) return false;
-		return canFill();
+		return fluid != null && canFillFluidType(fluid.getFluid());
 	}
 	
 	public boolean canFillFluidType(Fluid fluid) {
-		if (fluid != null && allowedFluids != null && !allowedFluids.contains(fluid.getName())) return false;
-		return canFill();
+		return fluid != null && (allowedFluids == null || allowedFluids.contains(fluid.getName()));
 	}
 	
 	// Tank Methods
@@ -59,11 +54,11 @@ public class Tank extends FluidTank implements INBTSerializable<NBTTagCompound> 
 	public void changeFluidAmount(int amount) {
 		int newAmount = getFluidAmount() + amount;
 		if (fluid == null || newAmount <= 0) {
-			this.fluid = null;
+			fluid = null;
 			return;
 		}
 		if (newAmount > capacity) newAmount = capacity;
-		this.fluid = new FluidStack(fluid, newAmount);
+		fluid = new FluidStack(fluid, newAmount);
 	}
 	
 	public void setFluidStored(Fluid fluid, int amount) {
@@ -126,10 +121,6 @@ public class Tank extends FluidTank implements INBTSerializable<NBTTagCompound> 
 		return getFluidAmount() >= capacity;
 	}
 	
-	public boolean canDistribute() {
-		return canFill || canDrain;
-	}
-	
 	public IFluidTankProperties getFluidTankProperties() {
 		return new FluidTankPropertiesWrapper(this);
 	}
@@ -143,36 +134,86 @@ public class Tank extends FluidTank implements INBTSerializable<NBTTagCompound> 
 		if (fluid == null || fluid.getFluid() == null) return "";	
 		return fluid.getLocalizedName();
 	}
-
+	
 	// NBT
 	
-	@Override
-	public NBTTagCompound serializeNBT() {
-		NBTTagCompound fluidTag = new NBTTagCompound();
-		writeToNBT(fluidTag);
+	public final NBTTagCompound writeToNBT(NBTTagCompound nbt, int tankNumber) {
 		NBTTagCompound tankTag = new NBTTagCompound();
-		tankTag.setTag("fluidStorage", fluidTag);
-		return tankTag;
-	}
-
-	@Override
-	public void deserializeNBT(NBTTagCompound nbt) {
-		if (nbt.hasKey("fluidStorage")) readFromNBT(nbt.getCompoundTag("fluidStorage"));
-	}
-		
-	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-		if (getFluidAmount() < 0) fluid = null;
-		nbt.setInteger("FluidAmount", getFluidAmount());
-		nbt.setString("FluidName", getFluidName());
+		if (getFluidAmount() < 0) {
+			fluid = null;
+		}
+		tankTag.setInteger("fluidAmount", getFluidAmount());
+		tankTag.setString("fluidName", getFluidName());
+		nbt.setTag("tank" + tankNumber, tankTag);
 		return nbt;
 	}
-		
-	@Override
-	public Tank readFromNBT(NBTTagCompound nbt) {
-		if (nbt.getString("FluidName") == "nullFluid" || nbt.getInteger("FluidAmount") == 0) fluid = null;
-		else fluid = new FluidStack (FluidRegistry.getFluid(nbt.getString("FluidName")), nbt.getInteger("FluidAmount"));
-		if (getFluidAmount() > capacity) fluid.amount = capacity;
+	
+	public final Tank readFromNBT(NBTTagCompound nbt, int tankNumber) {
+		if (nbt.hasKey("tank" + tankNumber)) {
+			NBTTagCompound tankTag = nbt.getCompoundTag("tank" + tankNumber);
+			if (tankTag.getString("fluidName").equals("nullFluid") || tankTag.getInteger("fluidAmount") == 0) {
+				fluid = null;
+			}
+			else {
+				fluid = new FluidStack(FluidRegistry.getFluid(tankTag.getString("fluidName")), tankTag.getInteger("fluidAmount"));
+			}
+			if (getFluidAmount() > capacity) {
+				fluid.amount = capacity;
+			}
+		}
 		return this;
+	}
+	
+	// Packets
+	
+	public void readInfo(TankInfo info) {
+		if (info.name().equals("nullFluid")) {
+			setFluid(null);
+		}
+		else {
+			setFluid(new FluidStack(FluidRegistry.getFluid(info.name()), info.amount()));
+		}
+	}
+	
+	public static class TankInfo {
+		
+		private String name;
+		private int amount;
+		
+		public TankInfo(Tank tank) {
+			name = tank.getFluidName();
+			amount = tank.getFluidAmount();
+		}
+		
+		private TankInfo(String name, int amount) {
+			this.name = name;
+			this.amount = amount;
+		}
+		
+		public String name() {
+			return name;
+		}
+		
+		public int amount() {
+			return amount;
+		}
+		
+		public static List<TankInfo> infoList(List<Tank> tanks) {
+			List<TankInfo> infoList = new ArrayList<TankInfo>();
+			if (tanks == null || tanks.isEmpty()) return infoList;
+			for (Tank tank : tanks) infoList.add(new TankInfo(tank));
+			return infoList;
+		}
+		
+		public static List<TankInfo> readBuf(ByteBuf buf, byte numberOfTanks) {
+			List<TankInfo> infoList = new ArrayList<TankInfo>();
+			for (byte i = 0; i < numberOfTanks; i++) infoList.add(new TankInfo(ByteBufUtils.readUTF8String(buf), buf.readInt()));
+			return infoList;
+		}
+		
+		public void writeBuf(ByteBuf buf) {
+			ByteBufUtils.writeUTF8String(buf, name);
+			buf.writeInt(amount);
+		}
 	}
 }

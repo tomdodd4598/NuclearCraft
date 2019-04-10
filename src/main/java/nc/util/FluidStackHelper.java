@@ -71,4 +71,10 @@ public static final int BUCKET_VOLUME = 1000;
 		for (FluidStack stack : list) names += (", " + getFluidName(stack));
 		return names.substring(2);
 	}
+	
+	public static FluidStack changeStackSize(FluidStack stack, int size) {
+		FluidStack newStack = stack.copy();
+		newStack.amount = size;
+		return newStack.copy();
+	}
 }

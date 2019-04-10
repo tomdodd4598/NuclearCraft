@@ -20,7 +20,6 @@ import nc.tile.energy.ITileEnergy;
 import nc.tile.energyFluid.TileEnergyFluidSidedInventory;
 import nc.tile.fluid.ITileFluid;
 import nc.tile.internal.energy.EnergyConnection;
-import nc.tile.internal.fluid.FluidConnection;
 import nc.tile.internal.fluid.Tank;
 import nc.tile.internal.fluid.TankSorption;
 import nc.util.CollectionHelper;
@@ -45,19 +44,19 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 	public boolean isProcessing, hasConsumed, canProcessInputs;
 	
 	public final NCRecipes.Type recipeType;
-	protected ProcessorRecipe recipe;
+	protected ProcessorRecipe recipe, cachedRecipe;
 	
 	protected Set<EntityPlayer> playersToUpdate;
 	
 	public TileItemFluidGenerator(String name, int itemInSize, int fluidInSize, int itemOutSize, int fluidOutSize, int otherSize, @Nonnull List<Integer> fluidCapacity, @Nonnull List<TankSorption> tankSorptions, List<List<String>> allowedFluids, int capacity, @Nonnull NCRecipes.Type recipeType) {
-		super(name, 2*itemInSize + itemOutSize + otherSize, capacity, ITileEnergy.energyConnectionAll(EnergyConnection.OUT), fluidCapacity, fluidCapacity, tankSorptions, allowedFluids, ITileFluid.fluidConnectionAll(FluidConnection.BOTH));
+		super(name, 2*itemInSize + itemOutSize + otherSize, capacity, ITileEnergy.energyConnectionAll(EnergyConnection.OUT), fluidCapacity, fluidCapacity, allowedFluids, ITileFluid.fluidConnectionAll(tankSorptions));
 		itemInputSize = itemInSize;
 		fluidInputSize = fluidInSize;
 		itemOutputSize = itemOutSize;
 		fluidOutputSize = fluidOutSize;
 		
 		otherSlotsSize = otherSize;
-		setTanksShared(fluidInSize > 1);
+		setInputTanksSeparated(fluidInSize > 1);
 		
 		defaultProcessTime = 1;
 		defaultProcessPower = 0;
@@ -114,7 +113,16 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 	@Override
 	public void refreshRecipe() {
 		if (recipe == null || !recipe.matchingInputs(getItemInputs(hasConsumed), getFluidInputs(hasConsumed))) {
-			recipe = getRecipeHandler().getRecipeFromInputs(getItemInputs(hasConsumed), getFluidInputs(hasConsumed));
+			/** Temporary caching while looking for recipe map solution */
+			if (cachedRecipe != null && cachedRecipe.matchingInputs(getItemInputs(hasConsumed), getFluidInputs(hasConsumed))) {
+				recipe = cachedRecipe;
+			}
+			else {
+				recipe = getRecipeHandler().getRecipeFromInputs(getItemInputs(hasConsumed), getFluidInputs(hasConsumed));
+			}
+			if (recipe != null) {
+				cachedRecipe = recipe;
+			}
 		}
 		consumeInputs();
 	}
@@ -187,7 +195,7 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 			else if (!getTanks().get(j + fluidInputSize).isEmpty()) {
 				if (!getTanks().get(j + fluidInputSize).getFluid().isFluidEqual(fluidProduct.getStack())) {
 					return false;
-				} else if (!getVoidExcessFluidOutputs() && getTanks().get(j + fluidInputSize).getFluidAmount() + fluidProduct.getMaxStackSize() > getTanks().get(j + fluidInputSize).getCapacity()) {
+				} else if (!getVoidExcessFluidOutput(j) && getTanks().get(j + fluidInputSize).getFluidAmount() + fluidProduct.getMaxStackSize() > getTanks().get(j + fluidInputSize).getCapacity()) {
 					return false;
 				}
 			}
@@ -243,7 +251,9 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 		refreshRecipe();
 		if (!setRecipeStats()) {
 			time = 0;
-			if (getEmptyUnusableTankInputs()) for (int i = 0; i < fluidInputSize; i++) getTanks().get(i).setFluid(null);
+			for (int i = 0; i < fluidInputSize; i++) {
+				if (getVoidUnusableFluidInput(i)) getTanks().get(i).setFluid(null);
+			}
 		}
 		else time = MathHelper.clamp(time - oldProcessTime, 0D, baseProcessTime);
 		refreshActivityOnProduction();
@@ -426,9 +436,9 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 	// Fluids
 	
 	@Override
-	public boolean isNextToFill(FluidStack resource, int tankNumber) {
+	public boolean isNextToFill(int tankNumber, FluidStack resource) {
 		if (tankNumber >= fluidInputSize) return false;
-		if (!getTanksShared()) return true;
+		if (!getInputTanksSeparated()) return true;
 		
 		for (int i = 0; i < fluidInputSize; i++) {
 			if (tankNumber != i && getTanks().get(i).canFill() && getTanks().get(i).getFluid() != null) {

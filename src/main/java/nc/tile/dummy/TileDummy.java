@@ -36,19 +36,19 @@ public abstract class TileDummy<T extends IDummyMaster> extends TileEnergyFluidS
 	protected final Class<T> tClass;
 	
 	public TileDummy(Class<T> tClass, String name, int updateRate, List<String> allowedFluids) {
-		this(tClass, name, ITileEnergy.energyConnectionAll(EnergyConnection.NON), TankSorption.NON, updateRate, allowedFluids, ITileFluid.fluidConnectionAll(FluidConnection.NON));
+		this(tClass, name, ITileEnergy.energyConnectionAll(EnergyConnection.NON), updateRate, allowedFluids, ITileFluid.fluidConnectionAll(TankSorption.NON));
 	}
 	
 	public TileDummy(Class<T> tClass, String name, EnergyConnection[] energyConnections, int updateRate, List<String> allowedFluids) {
-		this(tClass, name, energyConnections, TankSorption.NON, updateRate, allowedFluids, ITileFluid.fluidConnectionAll(FluidConnection.NON));
+		this(tClass, name, energyConnections, updateRate, allowedFluids, ITileFluid.fluidConnectionAll(TankSorption.NON));
 	}
 	
-	public TileDummy(Class<T> tClass, String name, TankSorption fluidConnection, int updateRate, List<String> allowedFluids, @Nonnull FluidConnection[] fluidConnections) {
-		this(tClass, name, ITileEnergy.energyConnectionAll(EnergyConnection.NON), fluidConnection, updateRate, allowedFluids, fluidConnections);
+	public TileDummy(Class<T> tClass, String name, int updateRate, List<String> allowedFluids, @Nonnull FluidConnection[] fluidConnections) {
+		this(tClass, name, ITileEnergy.energyConnectionAll(EnergyConnection.NON), updateRate, allowedFluids, fluidConnections);
 	}
 	
-	public TileDummy(Class<T> tClass, String name, EnergyConnection[] energyConnections, TankSorption fluidConnection, int updateRate, List<String> allowedFluids, @Nonnull FluidConnection[] fluidConnections) {
-		super(name, 1, 1, energyConnections, 1, fluidConnection, allowedFluids, fluidConnections);
+	public TileDummy(Class<T> tClass, String name, EnergyConnection[] energyConnections, int updateRate, List<String> allowedFluids, @Nonnull FluidConnection[] fluidConnections) {
+		super(name, 1, 1, energyConnections, 1, allowedFluids, fluidConnections);
 		this.updateRate = updateRate;
 		this.tClass = tClass;
 	}
@@ -90,7 +90,7 @@ public abstract class TileDummy<T extends IDummyMaster> extends TileEnergyFluidS
 	public int getSizeInventory() {
 		return getInventoryStacks().size();
 	}
-
+	
 	@Override
 	public boolean isEmpty() {
 		if (getMaster() instanceof IInventory) ((IInventory) getMaster()).isEmpty();
@@ -99,22 +99,22 @@ public abstract class TileDummy<T extends IDummyMaster> extends TileEnergyFluidS
 		}
 		return true;
 	}
-
+	
 	@Override
 	public ItemStack getStackInSlot(int slot) {
 		return getInventoryStacks().get(slot);
 	}
-
+	
 	@Override
 	public ItemStack decrStackSize(int index, int count) {
 		return ItemStackHelper.getAndSplit(getInventoryStacks(), index, count);
 	}
-
+	
 	@Override
 	public ItemStack removeStackFromSlot(int index) {
 		return ItemStackHelper.getAndRemove(getInventoryStacks(), index);
 	}
-
+	
 	@Override
 	public void setInventorySlotContents(int index, ItemStack stack) {
 		if (getMaster() instanceof IInventory) {
@@ -133,47 +133,47 @@ public abstract class TileDummy<T extends IDummyMaster> extends TileEnergyFluidS
 			markDirty();
 		}
 	}
-		
+	
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {
 		if (getMaster() instanceof IInventory) return ((IInventory) getMaster()).isItemValidForSlot(slot, stack);
 		return false;
 	}
-
+	
 	@Override
 	public int getInventoryStackLimit() {
 		if (getMaster() instanceof IInventory) return ((IInventory) getMaster()).getInventoryStackLimit();
 		return 1;
 	}
-		
+	
 	@Override
 	public void clear() {
 		getInventoryStacks().clear();
 	}
-
+	
 	@Override
 	public boolean isUsableByPlayer(EntityPlayer player) {
 		return false;
 	}
-
+	
 	@Override
 	public void openInventory(EntityPlayer player) {}
-
+	
 	@Override
 	public void closeInventory(EntityPlayer player) {}
-
+	
 	@Override
 	public int[] getSlotsForFace(EnumFacing side) {
 		if (getMaster() instanceof ISidedInventory) return ((ISidedInventory) getMaster()).getSlotsForFace(side);
 		return new int[] {0};
 	}
-
+	
 	@Override
 	public boolean canInsertItem(int slot, ItemStack stack, EnumFacing direction) {
 		if (getMaster() instanceof ISidedInventory) return ((ISidedInventory) getMaster()).canInsertItem(slot, stack, direction);
 		return false;
 	}
-
+	
 	@Override
 	public boolean canExtractItem(int slot, ItemStack stack, EnumFacing direction) {
 		if (getMaster() instanceof ISidedInventory) return ((ISidedInventory) getMaster()).canExtractItem(slot, stack, direction);
@@ -199,13 +199,13 @@ public abstract class TileDummy<T extends IDummyMaster> extends TileEnergyFluidS
 		if (getMaster() instanceof ITileEnergy) return ((ITileEnergy) getMaster()).getEnergyStored();
 		return super.getEnergyStored();
 	}
-
+	
 	@Override
 	public int getMaxEnergyStored() {
 		if (getMaster() instanceof ITileEnergy) return ((ITileEnergy) getMaster()).getMaxEnergyStored();
 		return super.getMaxEnergyStored();
 	}
-
+	
 	@Override
 	public boolean canReceiveEnergy(EnumFacing side) {
 		if (getMaster() instanceof ITileEnergy) return ((ITileEnergy) getMaster()).canReceiveEnergy(side);
@@ -237,7 +237,7 @@ public abstract class TileDummy<T extends IDummyMaster> extends TileEnergyFluidS
 		if (getMaster() instanceof ITileEnergy) return ((ITileEnergy) getMaster()).getEUSourceTier();
 		return 1;
 	}
-
+	
 	@Override
 	public int getEUSinkTier() {
 		if (getMaster() instanceof ITileEnergy) return ((ITileEnergy) getMaster()).getEUSinkTier();
@@ -282,20 +282,52 @@ public abstract class TileDummy<T extends IDummyMaster> extends TileEnergyFluidS
 		super.setFluidConnections(connections);
 	}
 	
-	// Fluid Wrappers
-	
 	@Override
 	public @Nonnull FluidTileWrapper[] getFluidSides() {
 		if (getMaster() instanceof ITileFluid) return ((ITileFluid) getMaster()).getFluidSides();
 		return super.getFluidSides();
 	}
 	
-	// Gas Wrapper
-	
 	@Override
 	public @Nonnull GasTileWrapper getGasWrapper() {
 		if (getMaster() instanceof ITileFluid) return ((ITileFluid) getMaster()).getGasWrapper();
 		return super.getGasWrapper();
+	}
+	
+	@Override
+	public boolean getInputTanksSeparated() {
+		if (getMaster() instanceof ITileFluid) return ((ITileFluid) getMaster()).getInputTanksSeparated();
+		return super.getInputTanksSeparated();
+	}
+	
+	@Override
+	public void setInputTanksSeparated(boolean shared) {
+		if (getMaster() instanceof ITileFluid) ((ITileFluid) getMaster()).setInputTanksSeparated(shared);
+		else super.setInputTanksSeparated(shared);
+	}
+	
+	@Override
+	public boolean getVoidUnusableFluidInput(int tankNumber) {
+		if (getMaster() instanceof ITileFluid) return ((ITileFluid) getMaster()).getVoidUnusableFluidInput(tankNumber);
+		return super.getVoidUnusableFluidInput(tankNumber);
+	}
+	
+	@Override
+	public void setVoidUnusableFluidInput(int tankNumber, boolean voidUnusableFluidInput) {
+		if (getMaster() instanceof ITileFluid) ((ITileFluid) getMaster()).setVoidUnusableFluidInput(tankNumber, voidUnusableFluidInput);
+		else super.setVoidUnusableFluidInput(tankNumber, voidUnusableFluidInput);
+	}
+	
+	@Override
+	public boolean getVoidExcessFluidOutput(int tankNumber) {
+		if (getMaster() instanceof ITileFluid) return ((ITileFluid) getMaster()).getVoidExcessFluidOutput(tankNumber);
+		return super.getVoidExcessFluidOutput(tankNumber);
+	}
+	
+	@Override
+	public void setVoidExcessFluidOutput(int tankNumber, boolean voidExcessFluidOutput) {
+		if (getMaster() instanceof ITileFluid) ((ITileFluid) getMaster()).setVoidExcessFluidOutput(tankNumber, voidExcessFluidOutput);
+		else super.setVoidExcessFluidOutput(tankNumber, voidExcessFluidOutput);
 	}
 	
 	// Fluid Distribution

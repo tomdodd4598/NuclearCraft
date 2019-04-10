@@ -59,8 +59,13 @@ public abstract class GuiItemProcessor extends NCGui {
 	public List<String> energyInfo(ITileEnergy tile) {
 		String energy = UnitHelper.prefix(tile.getEnergyStorage().getEnergyStored(), tile.getEnergyStorage().getMaxEnergyStored(), 5, "RF");
 		String power = UnitHelper.prefix(this.tile.getProcessPower(), 5, "RF/t");
-		String speedMultiplier = "x" + NCMath.round(this.tile.getSpeedMultiplier(), 2);
-		String powerMultiplier = "x" + NCMath.round(this.tile.getPowerMultiplier(), 2);
+		
+		String speedMult = this.tile.getSpeedMultiplier() == (int)this.tile.getSpeedMultiplier() ? new Integer((int)this.tile.getSpeedMultiplier()).toString() : new Double (NCMath.round(this.tile.getSpeedMultiplier(), 2)).toString();
+		String powerMult = this.tile.getPowerMultiplier() == (int)this.tile.getPowerMultiplier() ? new Integer((int)this.tile.getPowerMultiplier()).toString() : new Double (NCMath.round(this.tile.getPowerMultiplier(), 2)).toString();
+		
+		String speedMultiplier = "x" + speedMult;
+		String powerMultiplier = "x" + powerMult;
+		
 		return Lists.newArrayList(TextFormatting.LIGHT_PURPLE + Lang.localise("gui.container.energy_stored") + TextFormatting.WHITE + " " + energy, TextFormatting.LIGHT_PURPLE + Lang.localise("gui.container.process_power") + TextFormatting.WHITE + " " + power, TextFormatting.AQUA + Lang.localise("gui.container.speed_multiplier") + TextFormatting.WHITE + " " + speedMultiplier, TextFormatting.AQUA + Lang.localise("gui.container.power_multiplier") + TextFormatting.WHITE + " " + powerMultiplier);
 	}
 }

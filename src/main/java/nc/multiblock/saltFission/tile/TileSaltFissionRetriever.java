@@ -26,9 +26,9 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 
 public class TileSaltFissionRetriever extends TileSaltFissionPartBase implements ITileFluid {
 	
-	private final @Nonnull List<Tank> tanks = Lists.newArrayList(new Tank(FluidStackHelper.INGOT_BLOCK_VOLUME, TankSorption.OUT, null));
+	private final @Nonnull List<Tank> tanks = Lists.newArrayList(new Tank(FluidStackHelper.INGOT_BLOCK_VOLUME, null));
 
-	private @Nonnull FluidConnection[] fluidConnections = ITileFluid.fluidConnectionAll(FluidConnection.OUT);
+	private @Nonnull FluidConnection[] fluidConnections = ITileFluid.fluidConnectionAll(TankSorption.OUT);
 	
 	private @Nonnull FluidTileWrapper[] fluidSides;
 	
@@ -100,28 +100,28 @@ public class TileSaltFissionRetriever extends TileSaltFissionPartBase implements
 	}
 
 	@Override
-	public boolean getTanksShared() {
+	public boolean getInputTanksSeparated() {
 		return false;
 	}
 
 	@Override
-	public void setTanksShared(boolean shared) {}
+	public void setInputTanksSeparated(boolean separated) {}
 
 	@Override
-	public boolean getEmptyUnusableTankInputs() {
+	public boolean getVoidUnusableFluidInput(int tankNumber) {
 		return false;
 	}
 
 	@Override
-	public void setEmptyUnusableTankInputs(boolean emptyUnusableTankInputs) {}
+	public void setVoidUnusableFluidInput(int tankNumber, boolean voidUnusableFluidInput) {}
 
 	@Override
-	public boolean getVoidExcessFluidOutputs() {
+	public boolean getVoidExcessFluidOutput(int tankNumber) {
 		return false;
 	}
 
 	@Override
-	public void setVoidExcessFluidOutputs(boolean voidExcessFluidOutputs) {}
+	public void setVoidExcessFluidOutput(int tankNumber, boolean voidExcessFluidOutput) {}
 	
 	// NBT
 	

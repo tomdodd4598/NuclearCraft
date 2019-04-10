@@ -202,13 +202,13 @@ public class GuiHandler implements IGuiHandler {
 			case 101:
 				if (tile instanceof TileFusionCore) return new GuiFusionCore(player, (TileFusionCore) tile);
 			case 102:
-				if (tile instanceof TileSaltFissionController) return new GuiSaltFissionController(((TileSaltFissionController) tile).getMultiblock(), ((TileSaltFissionController) tile).getMultiblock().getContainer(player));
+				if (tile instanceof TileSaltFissionController) return new GuiSaltFissionController(((TileSaltFissionController) tile).getMultiblock(), tile.getPos(), ((TileSaltFissionController) tile).getMultiblock().getContainer(player));
 			case 103:
-				if (tile instanceof TileHeatExchangerController) return new GuiHeatExchangerController(((TileHeatExchangerController) tile).getMultiblock(), ((TileHeatExchangerController) tile).getMultiblock().getContainer(player));
+				if (tile instanceof TileHeatExchangerController) return new GuiHeatExchangerController(((TileHeatExchangerController) tile).getMultiblock(), tile.getPos(), ((TileHeatExchangerController) tile).getMultiblock().getContainer(player));
 			case 104:
-				if (tile instanceof TileTurbineController) return new GuiTurbineController(((TileTurbineController) tile).getMultiblock(), ((TileTurbineController) tile).getMultiblock().getContainer(player));
+				if (tile instanceof TileTurbineController) return new GuiTurbineController(((TileTurbineController) tile).getMultiblock(), tile.getPos(), ((TileTurbineController) tile).getMultiblock().getContainer(player));
 			case 105:
-				if (tile instanceof TileCondenserController) return new GuiCondenserController(((TileCondenserController) tile).getMultiblock(), ((TileCondenserController) tile).getMultiblock().getContainer(player));
+				if (tile instanceof TileCondenserController) return new GuiCondenserController(((TileCondenserController) tile).getMultiblock(), tile.getPos(), ((TileCondenserController) tile).getMultiblock().getContainer(player));
 			}
 		}
 		

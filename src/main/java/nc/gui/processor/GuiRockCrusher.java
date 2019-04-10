@@ -1,9 +1,14 @@
 package nc.gui.processor;
 
 import nc.container.processor.ContainerRockCrusher;
-import nc.gui.GuiItemRenderer;
+import nc.gui.element.GuiItemRenderer;
+import nc.gui.element.NCGuiToggleButton;
 import nc.init.NCItems;
+import nc.network.PacketHandler;
+import nc.network.gui.ToggleRedstoneControlPacket;
 import nc.tile.processor.TileItemProcessor;
+import nc.util.Lang;
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
 
 public class GuiRockCrusher extends GuiItemProcessor {
@@ -17,6 +22,8 @@ public class GuiRockCrusher extends GuiItemProcessor {
 	
 	@Override
 	public void renderTooltips(int mouseX, int mouseY) {
+		drawTooltip(Lang.localise("gui.container.redstone_control"), mouseX, mouseY, 27, 63, 18, 18);
+		
 		drawEnergyTooltip(tile, mouseX, mouseY, 8, 6, 16, 74);
 	}
 	
@@ -37,5 +44,21 @@ public class GuiRockCrusher extends GuiItemProcessor {
 		
 		int k = getCookProgressScaled(37);
 		drawTexturedModalRect(guiLeft + 56, guiTop + 35, 176, 3, k, 18);
+	}
+	
+	@Override
+	public void initGui() {
+		super.initGui();
+		buttonList.add(new NCGuiToggleButton.ToggleRedstoneControlButton(0, guiLeft + 27, guiTop + 63, tile));
+	}
+	
+	@Override
+	protected void actionPerformed(GuiButton guiButton) {
+		if (tile.getWorld().isRemote) {
+			if (guiButton.id == 0) {
+				tile.setRedstoneControl(!tile.getRedstoneControl());
+				PacketHandler.instance.sendToServer(new ToggleRedstoneControlPacket(tile));
+			}
+		}
 	}
 }

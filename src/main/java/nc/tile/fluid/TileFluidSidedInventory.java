@@ -6,7 +6,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import nc.tile.internal.fluid.FluidConnection;
-import nc.tile.internal.fluid.TankSorption;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
@@ -21,20 +20,20 @@ public abstract class TileFluidSidedInventory extends TileFluidInventory impleme
 	public int[] sideSlots;
 	public int[] bottomSlots;
 	
-	public TileFluidSidedInventory(String name, int size, int capacity, @Nonnull TankSorption tankSorption, List<String> allowedFluidsList, @Nonnull FluidConnection[] fluidConnections) {
-		super(name, size, capacity, tankSorption, allowedFluidsList, fluidConnections);
+	public TileFluidSidedInventory(String name, int size, int capacity, List<String> allowedFluidsList, @Nonnull FluidConnection[] fluidConnections) {
+		super(name, size, capacity, allowedFluidsList, fluidConnections);
 	}
 	
-	public TileFluidSidedInventory(String name, int size, @Nonnull List<Integer> capacity, @Nonnull List<TankSorption> tankSorptions, List<List<String>> allowedFluidsLists, @Nonnull FluidConnection[] fluidConnections) {
-		super(name, size, capacity, tankSorptions, allowedFluidsLists, fluidConnections);
+	public TileFluidSidedInventory(String name, int size, @Nonnull List<Integer> capacity, List<List<String>> allowedFluidsLists, @Nonnull FluidConnection[] fluidConnections) {
+		super(name, size, capacity, allowedFluidsLists, fluidConnections);
 	}
 	
-	public TileFluidSidedInventory(String name, int size, int capacity, int maxTransfer, @Nonnull TankSorption tankSorption, List<String> allowedFluidsList, @Nonnull FluidConnection[] fluidConnections) {
-		super(name, size, capacity, maxTransfer, tankSorption, allowedFluidsList, fluidConnections);
+	public TileFluidSidedInventory(String name, int size, int capacity, int maxTransfer, List<String> allowedFluidsList, @Nonnull FluidConnection[] fluidConnections) {
+		super(name, size, capacity, maxTransfer, allowedFluidsList, fluidConnections);
 	}
 	
-	public TileFluidSidedInventory(String name, int size, @Nonnull List<Integer> capacity, @Nonnull List<Integer> maxTransfer, @Nonnull List<TankSorption> tankSorptions, List<List<String>> allowedFluidsLists, @Nonnull FluidConnection[] fluidConnections) {
-		super(name, size, capacity, maxTransfer, tankSorptions, allowedFluidsLists, fluidConnections);
+	public TileFluidSidedInventory(String name, int size, @Nonnull List<Integer> capacity, @Nonnull List<Integer> maxTransfer, List<List<String>> allowedFluidsLists, @Nonnull FluidConnection[] fluidConnections) {
+		super(name, size, capacity, maxTransfer, allowedFluidsLists, fluidConnections);
 	}
 	
 	// SidedInventory

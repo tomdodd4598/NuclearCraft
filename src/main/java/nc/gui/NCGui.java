@@ -11,7 +11,6 @@ import nc.util.UnitHelper;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.Container;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraftforge.fluids.FluidStack;
 
 public abstract class NCGui extends GuiContainer {
 
@@ -47,16 +46,15 @@ public abstract class NCGui extends GuiContainer {
 		drawTooltip(stringList, mouseX, mouseY, x, y, width, height);
 	}
 	
-	public List<String> fluidInfo(FluidStack fluid, Tank tank) {
-		String fluidName = fluid.getLocalizedName();
-		String fluidAmount = UnitHelper.prefix(fluid.amount, tank.getCapacity(), 5, "B", -1);
+	public List<String> fluidInfo(Tank tank) {
+		String fluidName = tank.getFluidLocalizedName();
+		String fluidAmount = UnitHelper.prefix(tank.getFluidAmount(), tank.getCapacity(), 5, "B", -1);
 		return Lists.newArrayList(TextFormatting.GREEN + fluidName + TextFormatting.WHITE + " [" + fluidAmount + "]", TextFormatting.ITALIC + Lang.localise("gui.container.shift_clear_tank"));
 	}
 	
-	public void drawFluidTooltip(FluidStack fluid, Tank tank, int mouseX, int mouseY, int x, int y, int width, int height) {
-		if (fluid == null) return;
-		if (fluid.amount <= 0) return;
-		drawTooltip(fluidInfo(fluid, tank), mouseX, mouseY, x, y, width, height + 1);
+	public void drawFluidTooltip(Tank tank, int mouseX, int mouseY, int x, int y, int width, int height) {
+		if (tank.getFluidAmount() <= 0) return;
+		drawTooltip(fluidInfo(tank), mouseX, mouseY, x, y, width, height + 1);
 	}
 	
 	public List<String> energyInfo(ITileEnergy tile) {

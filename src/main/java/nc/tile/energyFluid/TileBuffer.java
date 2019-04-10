@@ -9,7 +9,6 @@ import nc.tile.energy.ITileEnergy;
 import nc.tile.fluid.IFluidSpread;
 import nc.tile.fluid.ITileFluid;
 import nc.tile.internal.energy.EnergyConnection;
-import nc.tile.internal.fluid.FluidConnection;
 import nc.tile.internal.fluid.TankSorption;
 import nc.util.NCInventoryHelper;
 import net.minecraft.inventory.IInventory;
@@ -26,7 +25,7 @@ public class TileBuffer extends TileEnergyFluidSidedInventory implements IInterf
 	protected int pushCount;
 	
 	public TileBuffer() {
-		super("buffer", 1, 64000, ITileEnergy.energyConnectionAll(EnergyConnection.BOTH), 32000, TankSorption.BOTH, null, ITileFluid.fluidConnectionAll(FluidConnection.BOTH));
+		super("buffer", 1, 64000, ITileEnergy.energyConnectionAll(EnergyConnection.BOTH), 32000, null, ITileFluid.fluidConnectionAll(TankSorption.BOTH));
 	}
 	
 	@Override
@@ -90,7 +89,7 @@ public class TileBuffer extends TileEnergyFluidSidedInventory implements IInterf
 	
 	@Override
 	public void pushFluidToSide(@Nonnull EnumFacing side) {
-		if (!getFluidConnection(side).canDrain()) return;
+		if (!getFluidConnection(side).getTankSorption(0).canDrain()) return;
 		
 		TileEntity tile = world.getTileEntity(getPos().offset(side));
 		if (tile == null) return;
@@ -101,7 +100,7 @@ public class TileBuffer extends TileEnergyFluidSidedInventory implements IInterf
 		if (adjStorage == null) return;
 		
 		for (int i = 0; i < getTanks().size(); i++) {
-			if (getTanks().get(i).getFluid() == null || !getTanks().get(i).canDrain()) return;
+			if (getTanks().get(i).getFluid() == null || !getTankSorption(side, i).canDrain()) return;
 			
 			getTanks().get(i).drainInternal(adjStorage.fill(getTanks().get(i).drainInternal(getTanks().get(i).getCapacity(), false), true), true);
 		}

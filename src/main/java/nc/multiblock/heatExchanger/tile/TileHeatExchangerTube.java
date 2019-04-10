@@ -12,6 +12,7 @@ import nc.ModCheck;
 import nc.config.NCConfig;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.heatExchanger.HeatExchanger;
+import nc.multiblock.heatExchanger.HeatExchangerTubeSetting;
 import nc.multiblock.heatExchanger.HeatExchangerTubeType;
 import nc.recipe.AbstractRecipeHandler;
 import nc.recipe.IngredientSorption;
@@ -39,18 +40,15 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 
 public class TileHeatExchangerTube extends TileHeatExchangerPartBase implements IFluidProcessor, ITileFluid {
 	
-	private static final FluidConnection PRODUCT_OUT = FluidConnection.IN;
-	private static final FluidConnection FLUID_OUT = FluidConnection.OUT;
-	private static final FluidConnection DEFAULT = FluidConnection.BOTH;
-	private static final FluidConnection DISABLED = FluidConnection.NON;
+	private final @Nonnull List<Tank> tanks = Lists.newArrayList(new Tank(32000, NCRecipes.heat_exchanger_valid_fluids.get(0)), new Tank(64000, new ArrayList<String>()));
 	
-	private final @Nonnull List<Tank> tanks = Lists.newArrayList(new Tank(32000, TankSorption.IN, NCRecipes.heat_exchanger_valid_fluids.get(0)), new Tank(64000, TankSorption.OUT, new ArrayList<String>()));
-	
-	private @Nonnull FluidConnection[] fluidConnections = ITileFluid.fluidConnectionAll(FluidConnection.NON);
+	private @Nonnull FluidConnection[] fluidConnections = ITileFluid.fluidConnectionAll(Lists.newArrayList(TankSorption.NON, TankSorption.NON));
 	
 	private @Nonnull FluidTileWrapper[] fluidSides;
 	
 	private @Nonnull GasTileWrapper gasWrapper;
+	
+	private @Nonnull HeatExchangerTubeSetting[] tubeSettings = new HeatExchangerTubeSetting[] {HeatExchangerTubeSetting.DISABLED, HeatExchangerTubeSetting.DISABLED, HeatExchangerTubeSetting.DISABLED, HeatExchangerTubeSetting.DISABLED, HeatExchangerTubeSetting.DISABLED, HeatExchangerTubeSetting.DISABLED};
 	
 	public final int fluidInputSize = 1, fluidOutputSize = 1;
 	
@@ -67,7 +65,7 @@ public class TileHeatExchangerTube extends TileHeatExchangerPartBase implements 
 	private EnumFacing flowDir = null;
 	
 	public final NCRecipes.Type recipeType = NCRecipes.Type.HEAT_EXCHANGER;
-	protected ProcessorRecipe recipe;
+	protected ProcessorRecipe recipe, cachedRecipe;
 	
 	private final double conductivity;
 	
@@ -206,7 +204,16 @@ public class TileHeatExchangerTube extends TileHeatExchangerPartBase implements 
 	@Override
 	public void refreshRecipe() {
 		if (recipe == null || !recipe.matchingInputs(new ArrayList<ItemStack>(), getFluidInputs())) {
-			recipe = getRecipeHandler().getRecipeFromInputs(new ArrayList<ItemStack>(), getFluidInputs());
+			/** Temporary caching while looking for recipe map solution */
+			if (cachedRecipe != null && cachedRecipe.matchingInputs(new ArrayList<ItemStack>(), getFluidInputs())) {
+				recipe = cachedRecipe;
+			}
+			else {
+				recipe = getRecipeHandler().getRecipeFromInputs(new ArrayList<ItemStack>(), getFluidInputs());
+			}
+			if (recipe != null) {
+				cachedRecipe = recipe;
+			}
 		}
 	}
 	
@@ -403,39 +410,72 @@ public class TileHeatExchangerTube extends TileHeatExchangerPartBase implements 
 		return gasWrapper;
 	}
 	
-	@Override
-	public boolean alternativeFluidToggle() {
-		return true;
+	public @Nonnull HeatExchangerTubeSetting[] getTubeSettings() {
+		return tubeSettings;
 	}
 	
-	@Override
-	public void toggleFluidConnection(@Nonnull EnumFacing side) {
-		ITileFluid.super.toggleFluidConnection(side);
+	public void setTubeSettings(@Nonnull HeatExchangerTubeSetting[] settings) {
+		tubeSettings = settings;
+	}
+	
+	public HeatExchangerTubeSetting getTubeSetting(@Nonnull EnumFacing side) {
+		return tubeSettings[side.getIndex()];
+	}
+	
+	public void setTubeSetting(@Nonnull EnumFacing side, @Nonnull HeatExchangerTubeSetting setting) {
+		tubeSettings[side.getIndex()] = setting;
+	}
+	
+	public void toggleTubeSetting(@Nonnull EnumFacing side) {
+		setTubeSetting(side, getTubeSetting(side).next());
+		switch (getTubeSetting(side)) {
+		case DISABLED:
+			setTankSorption(side, 0, TankSorption.NON);
+			setTankSorption(side, 1, TankSorption.NON);
+			break;
+		case DEFAULT:
+			setTankSorption(side, 0, TankSorption.IN);
+			setTankSorption(side, 1, TankSorption.NON);
+			break;
+		case PRODUCT_OUT:
+			setTankSorption(side, 0, TankSorption.NON);
+			setTankSorption(side, 1, TankSorption.OUT);
+			break;
+		case INPUT_SPREAD:
+			setTankSorption(side, 0, TankSorption.OUT);
+			setTankSorption(side, 1, TankSorption.NON);
+			break;
+		default:
+			setTankSorption(side, 0, TankSorption.NON);
+			setTankSorption(side, 1, TankSorption.NON);
+			break;
+		}
 		updateFlowDir();
+		markAndRefresh();
 	}
 	
 	public void updateFlowDir() {
 		for (EnumFacing side : EnumFacing.VALUES) {
-			FluidConnection thisConnection = getFluidConnection(side);
-			if (thisConnection == DISABLED) continue;
+			HeatExchangerTubeSetting thisSetting = getTubeSetting(side);
+			if (thisSetting == HeatExchangerTubeSetting.DISABLED) continue;
 			
 			TileEntity tile = getTileWorld().getTileEntity(getTilePos().offset(side));
 			
 			if (tile instanceof TileHeatExchangerVent) {
-				if (thisConnection == DEFAULT) {
+				if (thisSetting == HeatExchangerTubeSetting.DEFAULT) {
 					flowDir = side.getOpposite();
 					return;
 				}
-				else if (thisConnection == PRODUCT_OUT) {
+				else if (thisSetting == HeatExchangerTubeSetting.PRODUCT_OUT) {
 					flowDir = side;
 					return;
 				}
 			}
 			else if (tile instanceof TileHeatExchangerTube) {
 				TileHeatExchangerTube tube = (TileHeatExchangerTube)tile;
-				FluidConnection tubeConnection = tube.getFluidConnection(side.getOpposite());
+				HeatExchangerTubeSetting tubeSetting = tube.getTubeSetting(side.getOpposite());
 				
-				if ((thisConnection == FLUID_OUT && tubeConnection == DEFAULT) || (thisConnection == PRODUCT_OUT && (tubeConnection == DEFAULT || tubeConnection == FLUID_OUT))) {
+				if ((thisSetting == HeatExchangerTubeSetting.INPUT_SPREAD && tubeSetting == HeatExchangerTubeSetting.DEFAULT) || (thisSetting == HeatExchangerTubeSetting.PRODUCT_OUT && (tubeSetting == HeatExchangerTubeSetting.DEFAULT || tubeSetting == HeatExchangerTubeSetting.INPUT_SPREAD))) {
 					flowDir = side;
 					return;
 				}
@@ -447,35 +487,35 @@ public class TileHeatExchangerTube extends TileHeatExchangerPartBase implements 
 	
 	@Override
 	public void pushFluidToSide(@Nonnull EnumFacing side) {
-		FluidConnection thisConnection = getFluidConnection(side);
-		if (thisConnection == DISABLED) return;
+		HeatExchangerTubeSetting thisSetting = getTubeSetting(side);
+		if (thisSetting == HeatExchangerTubeSetting.DISABLED) return;
 		
 		TileEntity tile = getTileWorld().getTileEntity(getTilePos().offset(side));
 		
 		if (tile instanceof TileHeatExchangerTube) {
 			TileHeatExchangerTube tube = (TileHeatExchangerTube)tile;
-			FluidConnection tubeConnection = tube.getFluidConnection(side.getOpposite());
+			HeatExchangerTubeSetting tubeSetting = tube.getTubeSetting(side.getOpposite());
 			
-			if (thisConnection == FLUID_OUT) {
-				if (tubeConnection == DEFAULT) {
+			if (thisSetting == HeatExchangerTubeSetting.INPUT_SPREAD) {
+				if (tubeSetting == HeatExchangerTubeSetting.DEFAULT) {
 					pushInputFluid(tube);
 					pushProduct(tube);
-				} else if (tubeConnection == PRODUCT_OUT) {
+				} else if (tubeSetting == HeatExchangerTubeSetting.PRODUCT_OUT) {
 					pushInputFluid(tube);
 				}
-			} else if (thisConnection == PRODUCT_OUT && (tubeConnection == DEFAULT || tubeConnection == FLUID_OUT)) {
+			} else if (thisSetting == HeatExchangerTubeSetting.PRODUCT_OUT && (tubeSetting == HeatExchangerTubeSetting.DEFAULT || tubeSetting == HeatExchangerTubeSetting.INPUT_SPREAD)) {
 				pushProduct(tube);
 			}
 		}
 		
-		else if (thisConnection == PRODUCT_OUT) {
+		else if (thisSetting == HeatExchangerTubeSetting.PRODUCT_OUT) {
 			if (tile instanceof ITilePassive) if (!((ITilePassive) tile).canPushFluidsTo()) return;
 			IFluidHandler adjStorage = tile == null ? null : tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side.getOpposite());
 			
 			if (adjStorage == null) return;
 			
 			for (int i = 0; i < getTanks().size(); i++) {
-				if (getTanks().get(i).getFluid() == null || !getTanks().get(i).canDrain()) continue;
+				if (getTanks().get(i).getFluid() == null || !getTankSorption(side, i).canDrain()) continue;
 				
 				getTanks().get(i).drainInternal(adjStorage.fill(getTanks().get(i).drainInternal(getTanks().get(i).getCapacity(), false), true), true);
 			}
@@ -493,28 +533,28 @@ public class TileHeatExchangerTube extends TileHeatExchangerPartBase implements 
 	}
 
 	@Override
-	public boolean getTanksShared() {
+	public boolean getInputTanksSeparated() {
 		return false;
 	}
 
 	@Override
-	public void setTanksShared(boolean shared) {}
+	public void setInputTanksSeparated(boolean separated) {}
 
 	@Override
-	public boolean getEmptyUnusableTankInputs() {
+	public boolean getVoidUnusableFluidInput(int tankNumber) {
 		return false;
 	}
 
 	@Override
-	public void setEmptyUnusableTankInputs(boolean emptyUnusableTankInputs) {}
+	public void setVoidUnusableFluidInput(int tankNumber, boolean voidUnusableFluidInput) {}
 
 	@Override
-	public boolean getVoidExcessFluidOutputs() {
+	public boolean getVoidExcessFluidOutput(int tankNumber) {
 		return false;
 	}
 
 	@Override
-	public void setVoidExcessFluidOutputs(boolean voidExcessFluidOutputs) {}
+	public void setVoidExcessFluidOutput(int tankNumber, boolean voidExcessFluidOutput) {}
 	
 	@Override
 	public boolean hasConfigurableFluidConnections() {
@@ -523,11 +563,62 @@ public class TileHeatExchangerTube extends TileHeatExchangerPartBase implements 
 	
 	// NBT
 	
+	public NBTTagCompound writeTubeSettings(NBTTagCompound nbt) {
+		NBTTagCompound settingsTag = new NBTTagCompound();
+		for (EnumFacing side : EnumFacing.VALUES) {
+			settingsTag.setInteger("setting" + side.getIndex(), getTubeSetting(side).ordinal());
+		}
+		nbt.setTag("tubeSettings", settingsTag);
+		return nbt;
+	}
+	
+	public void readTubeSettings(NBTTagCompound nbt) {
+		if (nbt.hasKey("fluidConnections0")) {
+			for (EnumFacing side : EnumFacing.VALUES) {
+				TankSorption sorption = TankSorption.values()[nbt.getInteger("fluidConnections" + side.getIndex())];
+				switch (sorption) {
+				case NON:
+					setTankSorption(side, 0, TankSorption.NON);
+					setTankSorption(side, 1, TankSorption.NON);
+					setTubeSetting(side, HeatExchangerTubeSetting.DISABLED);
+					break;
+				case BOTH:
+					setTankSorption(side, 0, TankSorption.IN);
+					setTankSorption(side, 1, TankSorption.NON);
+					setTubeSetting(side, HeatExchangerTubeSetting.DEFAULT);
+					break;
+				case IN:
+					setTankSorption(side, 0, TankSorption.NON);
+					setTankSorption(side, 1, TankSorption.OUT);
+					setTubeSetting(side, HeatExchangerTubeSetting.PRODUCT_OUT);
+					break;
+				case OUT:
+					setTankSorption(side, 0, TankSorption.OUT);
+					setTankSorption(side, 1, TankSorption.NON);
+					setTubeSetting(side, HeatExchangerTubeSetting.INPUT_SPREAD);
+					break;
+				default:
+					setTankSorption(side, 0, TankSorption.NON);
+					setTankSorption(side, 1, TankSorption.NON);
+					setTubeSetting(side, HeatExchangerTubeSetting.DISABLED);
+					break;
+				}
+			}
+		}
+		else {
+			NBTTagCompound settingsTag = nbt.getCompoundTag("tubeSettings");
+			for (EnumFacing side : EnumFacing.VALUES) {
+				setTubeSetting(side, HeatExchangerTubeSetting.values()[settingsTag.getInteger("setting" + side.getIndex())]);
+			}
+		}
+	}
+	
 	@Override
 	public NBTTagCompound writeAll(NBTTagCompound nbt) {
 		super.writeAll(nbt);
 		writeTanks(nbt);
 		writeFluidConnections(nbt);
+		writeTubeSettings(nbt);
 		
 		nbt.setDouble("baseProcessTime", baseProcessTime);
 		
@@ -544,12 +635,13 @@ public class TileHeatExchangerTube extends TileHeatExchangerPartBase implements 
 		nbt.setInteger("flowDir", flowDir == null ? -1 : flowDir.getIndex());
 		return nbt;
 	}
-		
+	
 	@Override
 	public void readAll(NBTTagCompound nbt) {
 		super.readAll(nbt);
 		readTanks(nbt);
 		readFluidConnections(nbt);
+		readTubeSettings(nbt);
 		
 		baseProcessTime = nbt.getDouble("baseProcessTime");
 		

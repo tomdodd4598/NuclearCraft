@@ -40,7 +40,7 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 	public boolean isProcessing, hasConsumed, canProcessInputs;
 	
 	public final NCRecipes.Type recipeType;
-	protected ProcessorRecipe recipe;
+	protected ProcessorRecipe recipe, cachedRecipe;
 	
 	protected Set<EntityPlayer> playersToUpdate;
 	
@@ -94,7 +94,16 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 	@Override
 	public void refreshRecipe() {
 		if (recipe == null || !recipe.matchingInputs(getItemInputs(hasConsumed), new ArrayList<Tank>())) {
-			recipe = getRecipeHandler().getRecipeFromInputs(getItemInputs(hasConsumed), new ArrayList<Tank>());
+			/** Temporary caching while looking for recipe map solution */
+			if (cachedRecipe != null && cachedRecipe.matchingInputs(getItemInputs(hasConsumed), new ArrayList<Tank>())) {
+				recipe = cachedRecipe;
+			}
+			else {
+				recipe = getRecipeHandler().getRecipeFromInputs(getItemInputs(hasConsumed), new ArrayList<Tank>());
+			}
+			if (recipe != null) {
+				cachedRecipe = recipe;
+			}
 		}
 		consumeInputs();
 	}

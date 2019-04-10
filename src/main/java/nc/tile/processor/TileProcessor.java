@@ -1,8 +1,5 @@
 package nc.tile.processor;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import nc.config.NCConfig;
 import nc.recipe.NCRecipes;
 
@@ -74,7 +71,7 @@ public class TileProcessor {
 	public static class Irradiator extends TileFluidProcessor {
 
 		public Irradiator() {
-			super("irradiator", 2, 2, defaultTankCapacities(16000, 2, 2), defaultTankSorptions(2, 2), Arrays.asList(NCRecipes.irradiator_valid_fluids.get(0), Arrays.asList("neutron"), new ArrayList<String>(), new ArrayList<String>()), NCConfig.processor_time[9], NCConfig.processor_power[9], false, NCRecipes.Type.IRRADIATOR, 10);
+			super("irradiator", 2, 2, defaultTankCapacities(16000, 2, 2), defaultTankSorptions(2, 2), NCRecipes.irradiator_valid_fluids, NCConfig.processor_time[9], NCConfig.processor_power[9], false, NCRecipes.Type.IRRADIATOR, 10);
 		}
 	}
 	

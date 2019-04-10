@@ -12,7 +12,6 @@ import nc.recipe.NCRecipes;
 import nc.tile.energyFluid.IBufferable;
 import nc.tile.fluid.ITileFluid;
 import nc.tile.generator.TileFusionCore;
-import nc.tile.internal.fluid.FluidConnection;
 import nc.tile.internal.fluid.TankSorption;
 import nc.util.BlockFinder;
 import nc.util.BlockPosHelper;
@@ -63,7 +62,7 @@ public abstract class TileFusionDummy extends TileDummy<TileFusionCore> implemen
 	private BlockFinder finder;
 	
 	public TileFusionDummy(String name) {
-		super(TileFusionCore.class, name, TankSorption.BOTH, NCConfig.machine_update_rate, NCRecipes.fusion_valid_fluids.get(0), ITileFluid.fluidConnectionAll(FluidConnection.BOTH));
+		super(TileFusionCore.class, name, NCConfig.machine_update_rate, NCRecipes.fusion_valid_fluids.get(0), ITileFluid.fluidConnectionAll(TankSorption.BOTH));
 	}
 	
 	@Override
@@ -148,19 +147,19 @@ public abstract class TileFusionDummy extends TileDummy<TileFusionCore> implemen
 	public Node node() {
 		return (Node)oc_node;
 	}
-
+	
 	@Override
 	@Optional.Method(modid = "opencomputers")
 	public void onConnect(Node node) {
 		
 	}
-
+	
 	@Override
 	@Optional.Method(modid = "opencomputers")
 	public void onDisconnect(Node node) {
 		
 	}
-
+	
 	@Override
 	@Optional.Method(modid = "opencomputers")
 	public void onMessage(Message message) {

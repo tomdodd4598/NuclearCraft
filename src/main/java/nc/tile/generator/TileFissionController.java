@@ -12,6 +12,7 @@ import nc.Global;
 import nc.ModCheck;
 import nc.block.tile.generator.BlockFissionController;
 import nc.block.tile.generator.BlockFissionControllerNewFixed;
+import nc.capability.radiation.source.IRadiationSource;
 import nc.config.NCConfig;
 import nc.enumm.MetaEnums.CoolerType;
 import nc.init.NCBlocks;
@@ -196,7 +197,10 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 	public void meltdown() {
 		BlockPos middle = finder.position((minX + maxX)/2, (minY + maxY)/2, (minZ + maxZ)/2);
 		
-		RadiationHelper.addToChunkRadiation(world.getChunkFromBlockCoords(middle), 8D*baseProcessRadiation*cells*NCConfig.fission_fuel_use);
+		IRadiationSource chunkSource = RadiationHelper.getRadiationSource(world.getChunkFromBlockCoords(middle));
+		if (chunkSource != null) {
+			RadiationHelper.addToSourceRadiation(chunkSource, 8D*baseProcessRadiation*cells*NCConfig.fission_fuel_use);
+		}
 		
 		IBlockState corium = RegistryHelper.getBlock(Global.MOD_ID + ":fluid_corium").getDefaultState();
 		world.removeTileEntity(pos);

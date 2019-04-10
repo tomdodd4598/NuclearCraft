@@ -30,14 +30,21 @@ public class FluidArrayIngredient implements IFluidIngredient {
 	
 	@Override
 	public String getIngredientName() {
-		return ingredientList.get(0).getIngredientName();
+		//return ingredientList.get(0).getIngredientName();
+		return getIngredientNamesConcat();
 	}
 	
 	@Override
 	public String getIngredientNamesConcat() {
 		String names = "";
 		for (IFluidIngredient ingredient : ingredientList) names += (", " + ingredient.getIngredientName());
-		return names.substring(2);
+		return "{ " + names.substring(2) + " }";
+	}
+	
+	public String getIngredientRecipeString() {
+		String names = "";
+		for (IFluidIngredient ingredient : ingredientList) names += (", " + ingredient.getMaxStackSize() + " x " + ingredient.getIngredientName());
+		return "{ " + names.substring(2) + " }";
 	}
 	
 	@Override

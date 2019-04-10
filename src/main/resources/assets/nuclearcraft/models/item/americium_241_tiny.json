@@ -1,6 +1,6 @@
 {
-	"parent": "item/generated",
+	"parent": "nuclearcraft:item/item_small",
 	"textures": {
-		"layer0": "nuclearcraft:items/americium_241_tiny"
+		"layer0": "nuclearcraft:items/americium_241"
 	}
 }

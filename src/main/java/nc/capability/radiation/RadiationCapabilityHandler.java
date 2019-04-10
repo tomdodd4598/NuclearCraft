@@ -4,16 +4,15 @@ import nc.capability.radiation.entity.EntityRadsProvider;
 import nc.capability.radiation.entity.IEntityRads;
 import nc.capability.radiation.resistance.IRadiationResistance;
 import nc.capability.radiation.resistance.RadiationResistanceProvider;
+import nc.capability.radiation.resistance.RadiationResistanceStackProvider;
 import nc.capability.radiation.sink.IRadiationSink;
 import nc.capability.radiation.sink.RadiationSinkProvider;
 import nc.capability.radiation.source.IRadiationSource;
 import nc.capability.radiation.source.RadiationSourceProvider;
-import nc.capability.radiation.source.RadiationStackProvider;
+import nc.capability.radiation.source.RadiationSourceStackProvider;
 import nc.config.NCConfig;
 import nc.init.NCItems;
 import nc.radiation.RadWorlds;
-import nc.radiation.RadiationArmor;
-import nc.util.ItemInfo;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -27,7 +26,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 public class RadiationCapabilityHandler {
 	
 	@SubscribeEvent
-	public void attachEntityRadiationCapabilities(AttachCapabilitiesEvent<Entity> event) {
+	public void attachEntityRadiationCapability(AttachCapabilitiesEvent<Entity> event) {
 		if (event.getObject() instanceof EntityPlayer) {
 			event.addCapability(IEntityRads.CAPABILITY_ENTITY_RADS_NAME, new EntityRadsProvider(NCConfig.max_player_rads));
 		}
@@ -51,7 +50,7 @@ public class RadiationCapabilityHandler {
 	}
 	
 	@SubscribeEvent
-	public void attachTileRadiationResistanceCapability(AttachCapabilitiesEvent<TileEntity> event) {
+	public void attachTileRadiationCapability(AttachCapabilitiesEvent<TileEntity> event) {
 		event.addCapability(IRadiationResistance.CAPABILITY_RADIATION_RESISTANCE_NAME, new RadiationResistanceProvider(0D));
 	}
 	
@@ -70,19 +69,15 @@ public class RadiationCapabilityHandler {
 				return;
 			}
 		}*/
-		event.addCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE_NAME, new RadiationStackProvider(stack));
+		event.addCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE_NAME, new RadiationSourceStackProvider(stack));
 		
 		if (stack.getItem() == NCItems.radiation_badge) event.addCapability(IRadiationSink.CAPABILITY_RADIATION_SINK_NAME, new RadiationSinkProvider(0D));
 		
-		ItemInfo itemInfo = new ItemInfo(stack);
+		/*ItemInfo itemInfo = new ItemInfo(stack);
 		if (RadiationArmor.ARMOR_RAD_RESISTANCE_MAP.containsKey(itemInfo)) {
 			event.addCapability(IRadiationResistance.CAPABILITY_RADIATION_RESISTANCE_NAME, new RadiationResistanceProvider(RadiationArmor.ARMOR_RAD_RESISTANCE_MAP.get(itemInfo)));
 			return;
-		}
+		}*/
+		event.addCapability(IRadiationResistance.CAPABILITY_RADIATION_RESISTANCE_NAME, new RadiationResistanceStackProvider(stack));
 	}
-	
-	/*@SubscribeEvent
-	public void attachArmorRadiationResistanceCapability(AttachCapabilitiesEvent<ItemStack> event) {
-		event.addCapability(IRadiationResistance.CAPABILITY_RADIATION_RESISTANCE_NAME, new RadiationResistanceProvider(stack));
-	}*/
 }

@@ -475,4 +475,14 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ISidedI
 	public void setAlternateComparator(boolean alternate) {
 		
 	}
+	
+	@Override
+	public boolean getRedstoneControl() {
+		return false;
+	}
+	
+	@Override
+	public void setRedstoneControl(boolean redstoneControl) {
+		
+	}
 }

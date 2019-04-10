@@ -10,7 +10,7 @@ import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 
 public class RadiationSourceProvider implements ICapabilitySerializable {
 	
-	private IRadiationSource radiation = null;
+	private final IRadiationSource radiation;
 	
 	public RadiationSourceProvider(double startRadiation) {
 		radiation = new RadiationSource(startRadiation);

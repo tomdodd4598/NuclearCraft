@@ -8,7 +8,7 @@ import nc.enumm.MetaEnums.CoolerType;
 import nc.enumm.MetaEnums.IngotType;
 import nc.enumm.MetaEnums.RadShieldingType;
 import nc.enumm.MetaEnums.UpgradeType;
-import nc.multiblock.turbine.block.BlockTurbineDynamoCoil.DynamoCoilType;
+import nc.multiblock.turbine.TurbineDynamoCoilType;
 import nc.util.CollectionHelper;
 import nc.util.InfoHelper;
 import nc.util.Lang;
@@ -78,20 +78,20 @@ public class NCInfo {
 	// Dynamo Coils
 	
 	public static String[][] dynamoCoilInfo() {
-		String[][] info = new String[DynamoCoilType.values().length][];
+		String[][] info = new String[TurbineDynamoCoilType.values().length][];
 		info[0] = new String[] {};
-		for (int i = 0; i < DynamoCoilType.values().length; i++) {
+		for (int i = 0; i < TurbineDynamoCoilType.values().length; i++) {
 			info[i] = CollectionHelper.concatenate(new String[] {coilConductivityString(i)}, InfoHelper.formattedInfo(coiInfoString(i)));
 		}
 		return info;
 	}
 	
 	private static String coilConductivityString(int meta) {
-		return Lang.localise("tile." + Global.MOD_ID + ".turbine_dynamo_coil.conductivity") + " " + Math.round(100D*DynamoCoilType.values()[meta].getConductivity()) + "%";
+		return Lang.localise("tile." + Global.MOD_ID + ".turbine_dynamo_coil.conductivity") + " " + Math.round(100D*TurbineDynamoCoilType.values()[meta].getConductivity()) + "%";
 	}
 	
 	private static String coiInfoString(int meta) {
-		return Lang.localise("tile." + Global.MOD_ID + ".turbine_dynamo_coil." + DynamoCoilType.values()[meta].name().toLowerCase() + ".desc");
+		return Lang.localise("tile." + Global.MOD_ID + ".turbine_dynamo_coil." + TurbineDynamoCoilType.values()[meta].name().toLowerCase() + ".desc");
 	}
 	
 	// Speed Upgrade

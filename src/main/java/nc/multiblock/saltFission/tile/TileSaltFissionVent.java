@@ -10,7 +10,9 @@ import com.google.common.collect.Lists;
 import nc.ModCheck;
 import nc.config.NCConfig;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
+import nc.multiblock.saltFission.SaltFissionHeaterSetting;
 import nc.multiblock.saltFission.SaltFissionReactor;
+import nc.multiblock.saltFission.SaltFissionVesselSetting;
 import nc.tile.fluid.ITileFluid;
 import nc.tile.internal.fluid.FluidConnection;
 import nc.tile.internal.fluid.FluidTileWrapper;
@@ -27,9 +29,9 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 
 public class TileSaltFissionVent extends TileSaltFissionPartBase implements ITileFluid {
 	
-	private final @Nonnull List<Tank> tanks = Lists.newArrayList(new Tank(FluidStackHelper.INGOT_BLOCK_VOLUME*8, TankSorption.BOTH, null));
+	private final @Nonnull List<Tank> tanks = Lists.newArrayList(new Tank(FluidStackHelper.INGOT_BLOCK_VOLUME*8, null));
 	
-	private @Nonnull FluidConnection[] fluidConnections = ITileFluid.fluidConnectionAll(FluidConnection.BOTH);
+	private @Nonnull FluidConnection[] fluidConnections = ITileFluid.fluidConnectionAll(TankSorption.BOTH);
 	
 	private @Nonnull FluidTileWrapper[] fluidSides;
 	
@@ -102,40 +104,48 @@ public class TileSaltFissionVent extends TileSaltFissionPartBase implements ITil
 	
 	@Override
 	public void pushFluidToSide(@Nonnull EnumFacing side) {
-		if (!getFluidConnection(side).canDrain()) return;
+		if (!getTankSorption(side, 0).canDrain()) return;
 		
 		TileEntity tile = getTileWorld().getTileEntity(getTilePos().offset(side));
-		if (!(tile instanceof TileSaltFissionVessel) && !(tile instanceof TileSaltFissionHeater)) return;
-		ITileFluid holder = (ITileFluid) tile;
-		
-		if (holder.getFluidConnection(side.getOpposite()) == FluidConnection.BOTH) {
-			getTanks().get(0).drainInternal(holder.getTanks().get(0).fill(getTanks().get(0).drainInternal(getTanks().get(0).getCapacity(), false), true), true);
+		if (tile instanceof TileSaltFissionVessel) {
+			TileSaltFissionVessel vessel = (TileSaltFissionVessel) tile;
+			
+			if (vessel.getVesselSetting(side.getOpposite()) == SaltFissionVesselSetting.DEFAULT) {
+				getTanks().get(0).drainInternal(vessel.getTanks().get(0).fill(getTanks().get(0).drainInternal(getTanks().get(0).getCapacity(), false), true), true);
+			}
+		}
+		else if (tile instanceof TileSaltFissionHeater) {
+			TileSaltFissionHeater heater = (TileSaltFissionHeater) tile;
+			
+			if (heater.getHeaterSetting(side.getOpposite()) == SaltFissionHeaterSetting.DEFAULT) {
+				getTanks().get(0).drainInternal(heater.getTanks().get(0).fill(getTanks().get(0).drainInternal(getTanks().get(0).getCapacity(), false), true), true);
+			}
 		}
 	}
 
 	@Override
-	public boolean getTanksShared() {
+	public boolean getInputTanksSeparated() {
 		return false;
 	}
 
 	@Override
-	public void setTanksShared(boolean shared) {}
+	public void setInputTanksSeparated(boolean separated) {}
 
 	@Override
-	public boolean getEmptyUnusableTankInputs() {
+	public boolean getVoidUnusableFluidInput(int tankNumber) {
 		return false;
 	}
 
 	@Override
-	public void setEmptyUnusableTankInputs(boolean emptyUnusableTankInputs) {}
+	public void setVoidUnusableFluidInput(int tankNumber, boolean voidUnusableFluidInput) {}
 
 	@Override
-	public boolean getVoidExcessFluidOutputs() {
+	public boolean getVoidExcessFluidOutput(int tankNumber) {
 		return false;
 	}
 
 	@Override
-	public void setVoidExcessFluidOutputs(boolean voidExcessFluidOutputs) {}
+	public void setVoidExcessFluidOutput(int tankNumber, boolean voidExcessFluidOutput) {}
 	
 	// NBT
 	

@@ -21,6 +21,11 @@ public class CommandSetChunkRadiation extends CommandBase {
 	}
 	
 	@Override
+	public int getRequiredPermissionLevel() {
+		return 2;
+	}
+	
+	@Override
 	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
 		if (args.length == 1) {
 			double newRadiation = 0D;

@@ -10,6 +10,7 @@ import com.google.common.collect.Sets;
 
 import nc.Global;
 import nc.config.NCConfig;
+import nc.multiblock.IMultiblockFluid;
 import nc.multiblock.IMultiblockPart;
 import nc.multiblock.MultiblockBase;
 import nc.multiblock.TileBeefBase.SyncReason;
@@ -31,7 +32,6 @@ import nc.recipe.ProcessorRecipe;
 import nc.recipe.ingredient.IFluidIngredient;
 import nc.tile.internal.energy.EnergyStorage;
 import nc.tile.internal.fluid.Tank;
-import nc.tile.internal.fluid.TankSorption;
 import nc.util.MaterialHelper;
 import nc.util.NCUtil;
 import net.minecraft.client.Minecraft;
@@ -47,7 +47,7 @@ import net.minecraft.util.math.BlockPos.MutableBlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidRegistry;
 
-public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> {
+public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> implements IMultiblockFluid {
 	
 	private Set<TileTurbineController> controllers;
 	private Set<TileTurbineRotorShaft> rotorShafts;
@@ -63,7 +63,7 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> {
 	private static final int BASE_MAX_ENERGY = 64000, BASE_MAX_INPUT = 4000, BASE_MAX_OUTPUT = 16000;
 	
 	public final NCRecipes.Type recipeType = NCRecipes.Type.TURBINE;
-	protected ProcessorRecipe recipe;
+	protected ProcessorRecipe recipe, cachedRecipe;
 	
 	private int updateCount = 0;
 	
@@ -89,7 +89,7 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> {
 		outlets = new HashSet<TileTurbineOutlet>();
 		
 		energyStorage = new EnergyStorage(BASE_MAX_ENERGY);
-		tanks = Lists.newArrayList(new Tank(BASE_MAX_INPUT, TankSorption.BOTH, NCRecipes.turbine_valid_fluids.get(0)), new Tank(BASE_MAX_OUTPUT, TankSorption.BOTH, null));
+		tanks = Lists.newArrayList(new Tank(BASE_MAX_INPUT, NCRecipes.turbine_valid_fluids.get(0)), new Tank(BASE_MAX_OUTPUT, null));
 	}
 	
 	// Multiblock Part Getters
@@ -600,7 +600,16 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> {
 	
 	protected void refreshRecipe() {
 		if (recipe == null || !recipe.matchingInputs(new ArrayList<ItemStack>(), tanks.subList(0, 1))) {
-			recipe = recipeType.getRecipeHandler().getRecipeFromInputs(new ArrayList<ItemStack>(), tanks.subList(0, 1));
+			/** Temporary caching while looking for recipe map solution */
+			if (cachedRecipe != null && cachedRecipe.matchingInputs(new ArrayList<ItemStack>(), tanks.subList(0, 1))) {
+				recipe = cachedRecipe;
+			}
+			else {
+				recipe = recipeType.getRecipeHandler().getRecipeFromInputs(new ArrayList<ItemStack>(), tanks.subList(0, 1));
+			}
+			if (recipe != null) {
+				cachedRecipe = recipe;
+			}
 		}
 	}
 	
@@ -721,7 +730,7 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> {
 			double speedZ = flowDir == EnumFacing.NORTH ? -flowSpeed : (flowDir == EnumFacing.SOUTH ? flowSpeed : offsetZ);
 			
 			for (BlockPos pos : inputPlane) {
-				if (rand.nextDouble() < 0.05D) {
+				if (rand.nextDouble() < 0.05D*recipeRate/(getMaxRecipeRateMultiplier()*updateTime())) {
 					double[] spawnPos = particleSpawnPos(pos);
 					if (spawnPos != null) WORLD.spawnParticle(EnumParticleTypes.CLOUD, false, spawnPos[0], spawnPos[1], spawnPos[2], speedX, speedY, speedZ);
 				}
@@ -816,7 +825,7 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> {
 	
 	private void readTanks(NBTTagCompound nbt) {
 		if (!tanks.isEmpty()) for (int i = 0; i < tanks.size(); i++) {
-			if (nbt.getString("fluidName" + i) == "nullFluid" || nbt.getInteger("fluidAmount" + i) == 0) tanks.get(i).setFluidStored(null);
+			if (nbt.getString("fluidName" + i).equals("nullFluid") || nbt.getInteger("fluidAmount" + i) == 0) tanks.get(i).setFluidStored(null);
 			else tanks.get(i).setFluidStored(FluidRegistry.getFluid(nbt.getString("fluidName" + i)), nbt.getInteger("fluidAmount" + i));
 		}
 	}
@@ -847,6 +856,11 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> {
 	
 	public Container getContainer(EntityPlayer player) {
 		return new ContainerTurbineController(player, controller);
+	}
+	
+	@Override
+	public void clearAllFluids() {
+		for (Tank tank : tanks) tank.setFluidStored(null);
 	}
 	
 	// Multiblock Validators

@@ -6,6 +6,7 @@ import net.minecraft.util.EnumFacing;
 public class RadiationSource implements IRadiationSource {
 	
 	private double radiationLevel = 0D, radiationBuffer = 0D;
+	private boolean scrubbing = false;
 	
 	public RadiationSource(double startRadiation) {
 		this.radiationLevel = startRadiation;
@@ -42,5 +43,15 @@ public class RadiationSource implements IRadiationSource {
 	@Override
 	public void setRadiationBuffer(double newBuffer) {
 		radiationBuffer = newBuffer;
+	}
+	
+	@Override
+	public boolean getScrubbing() {
+		return scrubbing;
+	}
+	
+	@Override
+	public void setScrubbing(boolean scrubbing) {
+		this.scrubbing = scrubbing;
 	}
 }

@@ -1,7 +1,7 @@
 package nc.multiblock.turbine.block;
 
 import nc.block.item.IMetaBlockName;
-import nc.config.NCConfig;
+import nc.multiblock.turbine.TurbineDynamoCoilType;
 import nc.multiblock.turbine.tile.TileTurbineDynamoCoil;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
@@ -15,7 +15,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
@@ -24,11 +23,11 @@ import net.minecraft.world.World;
 
 public class BlockTurbineDynamoCoil extends BlockTurbinePartBase implements IMetaBlockName {
 	
-	private final static PropertyEnum TYPE = PropertyEnum.create("type", DynamoCoilType.class);
+	private final static PropertyEnum TYPE = PropertyEnum.create("type", TurbineDynamoCoilType.class);
 
 	public BlockTurbineDynamoCoil() {
 		super("turbine_dynamo_coil");
-		setDefaultState(blockState.getBaseState().withProperty(TYPE, DynamoCoilType.MAGNESIUM));
+		setDefaultState(blockState.getBaseState().withProperty(TYPE, TurbineDynamoCoilType.MAGNESIUM));
 	}
 	
 	@Override
@@ -63,17 +62,17 @@ public class BlockTurbineDynamoCoil extends BlockTurbinePartBase implements IMet
 	
 	@Override
 	public int getMetaFromState(IBlockState state) {
-		return ((DynamoCoilType) state.getValue(TYPE)).getID();
+		return ((TurbineDynamoCoilType) state.getValue(TYPE)).getID();
 	}
 	
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
-		return getDefaultState().withProperty(TYPE, DynamoCoilType.values()[meta]);
+		return getDefaultState().withProperty(TYPE, TurbineDynamoCoilType.values()[meta]);
 	}
 	
 	@Override
 	public void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> list) {
-		for (int i = 0; i < DynamoCoilType.values().length; i++) {
+		for (int i = 0; i < TurbineDynamoCoilType.values().length; i++) {
 			list.add(new ItemStack(this, 1, i));
 		}
 	}
@@ -95,43 +94,6 @@ public class BlockTurbineDynamoCoil extends BlockTurbinePartBase implements IMet
 	
 	@Override
 	public String getSpecialName(ItemStack stack) {
-		return DynamoCoilType.values()[stack.getItemDamage()].getName();
-	}
-	
-	public static enum DynamoCoilType implements IStringSerializable {
-		MAGNESIUM("magnesium", 0, NCConfig.turbine_coil_conductivity[0]),
-		BERYLLIUM("beryllium", 1, NCConfig.turbine_coil_conductivity[1]),
-		ALUMINUM("aluminum", 2, NCConfig.turbine_coil_conductivity[2]),
-		GOLD("gold", 3, NCConfig.turbine_coil_conductivity[3]),
-		COPPER("copper", 4, NCConfig.turbine_coil_conductivity[4]),
-		SILVER("silver", 5, NCConfig.turbine_coil_conductivity[5]);
-		
-		private String name;
-		private int id;
-		private double conductivity;
-		
-		private DynamoCoilType(String name, int id, double conductivity) {
-			this.name = name;
-			this.id = id;
-			this.conductivity = conductivity;
-		}
-		
-		@Override
-		public String getName() {
-			return name;
-		}
-		
-		@Override
-		public String toString() {
-			return getName();
-		}
-		
-		public int getID() {
-			return id;
-		}
-		
-		public double getConductivity() {
-			return conductivity;
-		}
+		return TurbineDynamoCoilType.values()[stack.getItemDamage()].getName();
 	}
 }

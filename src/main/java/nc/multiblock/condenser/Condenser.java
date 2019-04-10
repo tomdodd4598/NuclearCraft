@@ -5,6 +5,7 @@ import java.util.Set;
 
 import nc.Global;
 import nc.config.NCConfig;
+import nc.multiblock.IMultiblockFluid;
 import nc.multiblock.IMultiblockPart;
 import nc.multiblock.MultiblockBase;
 import nc.multiblock.TileBeefBase.SyncReason;
@@ -18,7 +19,7 @@ import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
-public class Condenser extends CuboidalMultiblockBase<CondenserUpdatePacket> {
+public class Condenser extends CuboidalMultiblockBase<CondenserUpdatePacket> implements IMultiblockFluid {
 	
 	private Set<TileCondenserController> controllers;
 	
@@ -198,6 +199,12 @@ public class Condenser extends CuboidalMultiblockBase<CondenserUpdatePacket> {
 	
 	public Container getContainer(EntityPlayer player) {
 		return new ContainerCondenserController(player, controller);
+	}
+	
+	@Override
+	public void clearAllFluids() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	// Multiblock Validators

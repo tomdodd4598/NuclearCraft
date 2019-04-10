@@ -1,17 +1,17 @@
 package nc.network;
 
+import nc.multiblock.network.ClearAllFluidsPacket;
 import nc.multiblock.network.CondenserUpdatePacket;
 import nc.multiblock.network.HeatExchangerUpdatePacket;
 import nc.multiblock.network.SaltFissionUpdatePacket;
 import nc.multiblock.network.TurbineUpdatePacket;
 import nc.network.config.ConfigUpdatePacket;
-import nc.network.gui.EmptyTankButtonPacket;
-import nc.network.gui.GetFluidInTankPacket;
-import nc.network.gui.ReturnFluidInTankPacket;
-import nc.network.gui.ToggleAlternateComparatorButtonPacket;
-import nc.network.gui.ToggleTanksEmptyUnusableButtonPacket;
-import nc.network.gui.ToggleTanksSharedButtonPacket;
-import nc.network.gui.ToggleVoidExcessOutputsButtonPacket;
+import nc.network.gui.EmptyTankPacket;
+import nc.network.gui.ToggleAlternateComparatorPacket;
+import nc.network.gui.ToggleInputTanksSeparatedPacket;
+import nc.network.gui.ToggleRedstoneControlPacket;
+import nc.network.gui.ToggleVoidExcessFluidOutputPacket;
+import nc.network.gui.ToggleVoidUnusableFluidInputPacket;
 import nc.network.radiation.PlayerRadsUpdatePacket;
 import nc.network.render.BlockHighlightUpdatePacket;
 import nc.network.tile.FissionUpdatePacket;
@@ -40,20 +40,20 @@ public class PacketHandler {
 
 	public static void registerMessages() {
 		// SERVER
-		instance.registerMessage(GetFluidInTankPacket.Handler.class, GetFluidInTankPacket.class, nextID(), Side.SERVER);
-		instance.registerMessage(EmptyTankButtonPacket.Handler.class, EmptyTankButtonPacket.class, nextID(), Side.SERVER);
+		instance.registerMessage(EmptyTankPacket.Handler.class, EmptyTankPacket.class, nextID(), Side.SERVER);
 		
-		instance.registerMessage(ToggleTanksSharedButtonPacket.Handler.class, ToggleTanksSharedButtonPacket.class, nextID(), Side.SERVER);
-		instance.registerMessage(ToggleTanksEmptyUnusableButtonPacket.Handler.class, ToggleTanksEmptyUnusableButtonPacket.class, nextID(), Side.SERVER);
-		instance.registerMessage(ToggleVoidExcessOutputsButtonPacket.Handler.class, ToggleVoidExcessOutputsButtonPacket.class, nextID(), Side.SERVER);
-		instance.registerMessage(ToggleAlternateComparatorButtonPacket.Handler.class, ToggleAlternateComparatorButtonPacket.class, nextID(), Side.SERVER);
+		instance.registerMessage(ToggleInputTanksSeparatedPacket.Handler.class, ToggleInputTanksSeparatedPacket.class, nextID(), Side.SERVER);
+		instance.registerMessage(ToggleVoidUnusableFluidInputPacket.Handler.class, ToggleVoidUnusableFluidInputPacket.class, nextID(), Side.SERVER);
+		instance.registerMessage(ToggleVoidExcessFluidOutputPacket.Handler.class, ToggleVoidExcessFluidOutputPacket.class, nextID(), Side.SERVER);
+		instance.registerMessage(ToggleAlternateComparatorPacket.Handler.class, ToggleAlternateComparatorPacket.class, nextID(), Side.SERVER);
+		instance.registerMessage(ToggleRedstoneControlPacket.Handler.class, ToggleRedstoneControlPacket.class, nextID(), Side.SERVER);
+		
+		instance.registerMessage(ClearAllFluidsPacket.Handler.class, ClearAllFluidsPacket.class, nextID(), Side.SERVER);
 		
 		// CLIENT
 		instance.registerMessage(ConfigUpdatePacket.Handler.class, ConfigUpdatePacket.class, nextID(), Side.CLIENT);
 		
 		instance.registerMessage(BlockHighlightUpdatePacket.Handler.class, BlockHighlightUpdatePacket.class, nextID(), Side.CLIENT);
-		
-		instance.registerMessage(ReturnFluidInTankPacket.Handler.class, ReturnFluidInTankPacket.class, nextID(), Side.CLIENT);
 		
 		instance.registerMessage(ProcessorUpdatePacket.Handler.class, ProcessorUpdatePacket.class, nextID(), Side.CLIENT);
 		instance.registerMessage(FissionUpdatePacket.Handler.class, FissionUpdatePacket.class, nextID(), Side.CLIENT);
