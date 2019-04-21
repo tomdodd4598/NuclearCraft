@@ -19,11 +19,11 @@ public interface IRecipe {
 	
 	public List extras();
 
-	public boolean matchingInputs(List<ItemStack> itemInputs, List<Tank> fluidInputs);
+	public RecipeMatchResult matchInputs(List<ItemStack> itemInputs, List<Tank> fluidInputs);
 	
-	public boolean matchingOutputs(List<ItemStack> itemOutputs, List<Tank> fluidOutputs);
+	public RecipeMatchResult matchOutputs(List<ItemStack> itemOutputs, List<Tank> fluidOutputs);
 	
-	public boolean matchingIngredients(List<IItemIngredient> itemIngredients, List<IFluidIngredient> fluidIngredients);
+	public RecipeMatchResult matchIngredients(List<IItemIngredient> itemIngredients, List<IFluidIngredient> fluidIngredients);
 	
-	public boolean matchingProducts(List<IItemIngredient> itemProducts, List<IFluidIngredient> fluidProducts);
+	public RecipeMatchResult matchProducts(List<IItemIngredient> itemProducts, List<IFluidIngredient> fluidProducts);
 }

@@ -10,7 +10,7 @@ import mezz.jei.api.recipe.IRecipeWrapper;
 import nc.Global;
 import nc.recipe.ProcessorRecipe;
 import nc.recipe.ProcessorRecipeHandler;
-import nc.util.RecipeHelper;
+import nc.recipe.RecipeHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;

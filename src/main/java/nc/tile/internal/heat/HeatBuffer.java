@@ -51,7 +51,7 @@ public class HeatBuffer implements INBTSerializable<NBTTagCompound> {
 		if(newCapacity == heatCapacity || newCapacity <= 0) return;
 		heatCapacity = newCapacity;
 		if(newCapacity < heatStored) setHeatStored(newCapacity);
-    }
+	}
 	
 	public void mergeHeatBuffers(HeatBuffer other) {
 		setHeatStored(heatStored + other.heatStored);

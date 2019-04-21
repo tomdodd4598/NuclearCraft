@@ -8,7 +8,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.Fluid;
 
-public class BlockFluidCryotheum extends BlockFluid {
+public class BlockFluidCryotheum extends NCBlockFluid {
 	
 	public BlockFluidCryotheum(Fluid fluid) {
 		super(fluid, Material.LAVA);

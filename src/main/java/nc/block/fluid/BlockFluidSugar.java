@@ -10,7 +10,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.Fluid;
 
-public class BlockFluidSugar extends BlockFluid {
+public class BlockFluidSugar extends NCBlockFluid {
 
 	public BlockFluidSugar(Fluid fluid) {
 		super(fluid, Material.WATER);

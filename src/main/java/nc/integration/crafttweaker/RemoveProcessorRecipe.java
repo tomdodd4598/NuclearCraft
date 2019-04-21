@@ -8,10 +8,10 @@ import crafttweaker.IAction;
 import crafttweaker.api.item.IIngredient;
 import nc.recipe.NCRecipes;
 import nc.recipe.ProcessorRecipe;
+import nc.recipe.RecipeHelper;
 import nc.recipe.IngredientSorption;
 import nc.recipe.ingredient.IFluidIngredient;
 import nc.recipe.ingredient.IItemIngredient;
-import nc.util.RecipeHelper;
 
 public class RemoveProcessorRecipe implements IAction {
 	
@@ -37,7 +37,7 @@ public class RemoveProcessorRecipe implements IAction {
 		List<IItemIngredient> itemIngredients = new ArrayList<IItemIngredient>();
 		List<IFluidIngredient> fluidIngredients = new ArrayList<IFluidIngredient>();
 		for (int i = 0; i < itemSize; i++) {
-			IItemIngredient ingredient = CTMethods.buildRemovalItemIngredient(ctIngredients.get(i), recipeType);
+			IItemIngredient ingredient = CTHelper.buildRemovalItemIngredient(ctIngredients.get(i), recipeType);
 			if (ingredient == null) {
 				wasNull = true;
 				return;
@@ -45,7 +45,7 @@ public class RemoveProcessorRecipe implements IAction {
 			itemIngredients.add(ingredient);
 		}
 		for (int i = itemSize; i < fluidSize; i++) {
-			IFluidIngredient ingredient = CTMethods.buildRemovalFluidIngredient(ctIngredients.get(i), recipeType);
+			IFluidIngredient ingredient = CTHelper.buildRemovalFluidIngredient(ctIngredients.get(i), recipeType);
 			if (ingredient == null) {
 				wasNull = true;
 				return;

@@ -94,7 +94,7 @@ public class TilePassive {
 		
 		@Override
 		protected void setNewStack() {
-			inventoryStacks.set(0, new ItemStack(Blocks.COBBLESTONE, NCConfig.processor_passive_rate[1]*NCConfig.machine_update_rate*rateMult/5));
+			getInventoryStacks().set(0, new ItemStack(Blocks.COBBLESTONE, NCConfig.processor_passive_rate[1]*NCConfig.machine_update_rate*rateMult/5));
 		}
 	}
 	

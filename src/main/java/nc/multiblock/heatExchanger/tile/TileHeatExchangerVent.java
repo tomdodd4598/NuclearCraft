@@ -160,9 +160,12 @@ public class TileHeatExchangerVent extends TileHeatExchangerPartBase implements 
 	@Override
 	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing side) {
 		if (!getTanks().isEmpty() && hasFluidSideCapability(side)) {
-			side = nonNullSide(side);
-			if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) return getFluidSide(side) != null;
-			if (ModCheck.mekanismLoaded()) if (GasHelper.isGasCapability(capability)) return getGasWrapper() != null;
+			if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
+				return true;
+			}
+			if (ModCheck.mekanismLoaded() && GasHelper.isGasCapability(capability)) {
+				return true;
+			}
 		}
 		return super.hasCapability(capability, side);
 	}
@@ -170,9 +173,12 @@ public class TileHeatExchangerVent extends TileHeatExchangerPartBase implements 
 	@Override
 	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing side) {
 		if (!getTanks().isEmpty() && hasFluidSideCapability(side)) {
-			side = nonNullSide(side);
-			if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) return (T) getFluidSide(side);
-			if (ModCheck.mekanismLoaded()) if (GasHelper.isGasCapability(capability)) return (T) getGasWrapper();
+			if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
+				return (T) getFluidSide(nonNullSide(side));
+			}
+			if (ModCheck.mekanismLoaded() && GasHelper.isGasCapability(capability)) {
+				return (T) getGasWrapper();
+			}
 		}
 		return super.getCapability(capability, side);
 	}

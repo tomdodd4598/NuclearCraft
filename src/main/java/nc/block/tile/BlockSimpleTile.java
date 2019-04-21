@@ -66,6 +66,6 @@ public class BlockSimpleTile extends BlockTile {
 			if (blockState != otherState) return true;
 			
 			return block == this ? false : super.shouldSideBeRendered(blockState, world, pos, side);
-	    }
+		}
 	}
 }

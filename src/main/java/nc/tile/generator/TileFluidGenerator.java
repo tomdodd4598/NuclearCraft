@@ -9,10 +9,11 @@ import javax.annotation.Nonnull;
 
 import nc.ModCheck;
 import nc.recipe.AbstractRecipeHandler;
-import nc.recipe.IngredientSorption;
 import nc.recipe.NCRecipes;
 import nc.recipe.ProcessorRecipe;
 import nc.recipe.ProcessorRecipeHandler;
+import nc.recipe.RecipeInfo;
+import nc.recipe.RecipeMatchResult;
 import nc.recipe.ingredient.IFluidIngredient;
 import nc.tile.energy.ITileEnergy;
 import nc.tile.energyFluid.TileEnergyFluidSidedInventory;
@@ -20,6 +21,8 @@ import nc.tile.fluid.ITileFluid;
 import nc.tile.internal.energy.EnergyConnection;
 import nc.tile.internal.fluid.Tank;
 import nc.tile.internal.fluid.TankSorption;
+import nc.tile.internal.inventory.ItemSorption;
+import nc.tile.inventory.ITileInventory;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -39,12 +42,12 @@ public abstract class TileFluidGenerator extends TileEnergyFluidSidedInventory i
 	public boolean isProcessing, hasConsumed, canProcessInputs;
 	
 	public final NCRecipes.Type recipeType;
-	protected ProcessorRecipe recipe, cachedRecipe;
+	protected RecipeInfo<ProcessorRecipe> recipeInfo, cachedRecipeInfo;
 	
 	protected Set<EntityPlayer> playersToUpdate;
 	
-	public TileFluidGenerator(String name, int fluidInSize, int fluidOutSize, int otherSize, @Nonnull List<Integer> fluidCapacity, @Nonnull List<TankSorption> tankSorptions, List<List<String>> allowedFluids, int capacity, @Nonnull NCRecipes.Type recipeType) {
-		super(name, otherSize, capacity, ITileEnergy.energyConnectionAll(EnergyConnection.OUT), fluidCapacity, fluidCapacity, allowedFluids, ITileFluid.fluidConnectionAll(tankSorptions));
+	public TileFluidGenerator(String name, int fluidInSize, int fluidOutSize, int otherSize, @Nonnull List<ItemSorption> itemSorptions, @Nonnull List<Integer> fluidCapacity, @Nonnull List<TankSorption> tankSorptions, List<List<String>> allowedFluids, int capacity, @Nonnull NCRecipes.Type recipeType) {
+		super(name, otherSize, ITileInventory.inventoryConnectionAll(itemSorptions), capacity, ITileEnergy.energyConnectionAll(EnergyConnection.OUT), fluidCapacity, fluidCapacity, allowedFluids, ITileFluid.fluidConnectionAll(tankSorptions));
 		fluidInputSize = fluidInSize;
 		fluidOutputSize = fluidOutSize;
 		
@@ -57,6 +60,12 @@ public abstract class TileFluidGenerator extends TileEnergyFluidSidedInventory i
 		this.recipeType = recipeType;
 		
 		playersToUpdate = new HashSet<EntityPlayer>();
+	}
+	
+	public static List<ItemSorption> defaultItemSorptions(ItemSorption... others) {
+		List<ItemSorption> itemSorptions = new ArrayList<ItemSorption>();
+		for (ItemSorption other : others) itemSorptions.add(other);
+		return itemSorptions;
 	}
 	
 	public static List<Integer> defaultTankCapacities(int capacity, int inSize, int outSize) {
@@ -103,18 +112,21 @@ public abstract class TileFluidGenerator extends TileEnergyFluidSidedInventory i
 	
 	@Override
 	public void refreshRecipe() {
-		if (recipe == null || !recipe.matchingInputs(new ArrayList<ItemStack>(), getFluidInputs(hasConsumed))) {
+		RecipeMatchResult matchResult = recipeInfo == null ? RecipeMatchResult.FAIL : recipeInfo.getRecipe().matchInputs(new ArrayList<ItemStack>(), getFluidInputs(hasConsumed));
+		if (!matchResult.matches()) {
 			/** Temporary caching while looking for recipe map solution */
-			if (cachedRecipe != null && cachedRecipe.matchingInputs(new ArrayList<ItemStack>(), getFluidInputs(hasConsumed))) {
-				recipe = cachedRecipe;
+			matchResult = cachedRecipeInfo == null ? RecipeMatchResult.FAIL : cachedRecipeInfo.getRecipe().matchInputs(new ArrayList<ItemStack>(), getFluidInputs(hasConsumed));
+			if (matchResult.matches()) {
+				recipeInfo = new RecipeInfo(cachedRecipeInfo.getRecipe(), matchResult);
 			}
 			else {
-				recipe = getRecipeHandler().getRecipeFromInputs(new ArrayList<ItemStack>(), getFluidInputs(hasConsumed));
+				recipeInfo = getRecipeHandler().getRecipeInfoFromInputs(new ArrayList<ItemStack>(), getFluidInputs(hasConsumed));
 			}
-			if (recipe != null) {
-				cachedRecipe = recipe;
+			if (recipeInfo != null) {
+				cachedRecipeInfo = recipeInfo;
 			}
 		}
+		else recipeInfo = new RecipeInfo(recipeInfo.getRecipe(), matchResult);
 		consumeInputs();
 	}
 	
@@ -165,12 +177,12 @@ public abstract class TileFluidGenerator extends TileEnergyFluidSidedInventory i
 	public boolean canProduceProducts() {
 		for(int j = 0; j < fluidOutputSize; j++) {
 			IFluidIngredient fluidProduct = getFluidProducts().get(j);
-			if (fluidProduct.getMaxStackSize() <= 0) continue;
+			if (fluidProduct.getMaxStackSize(0) <= 0) continue;
 			if (fluidProduct.getStack() == null) return false;
 			else if (!getTanks().get(j + fluidInputSize).isEmpty()) {
 				if (!getTanks().get(j + fluidInputSize).getFluid().isFluidEqual(fluidProduct.getStack())) {
 					return false;
-				} else if (!getVoidExcessFluidOutput(j) && getTanks().get(j + fluidInputSize).getFluidAmount() + fluidProduct.getMaxStackSize() > getTanks().get(j + fluidInputSize).getCapacity()) {
+				} else if (!getVoidExcessFluidOutput(j) && getTanks().get(j + fluidInputSize).getFluidAmount() + fluidProduct.getMaxStackSize(0) > getTanks().get(j + fluidInputSize).getCapacity()) {
 					return false;
 				}
 			}
@@ -179,8 +191,8 @@ public abstract class TileFluidGenerator extends TileEnergyFluidSidedInventory i
 	}
 	
 	public void consumeInputs() {
-		if (hasConsumed || recipe == null) return;
-		List<Integer> fluidInputOrder = getFluidInputOrder();
+		if (hasConsumed || recipeInfo == null) return;
+		List<Integer> fluidInputOrder = recipeInfo.getFluidInputOrder();
 		if (fluidInputOrder == AbstractRecipeHandler.INVALID) return;
 		
 		for (int i = 0; i < fluidInputSize; i++) {
@@ -189,10 +201,10 @@ public abstract class TileFluidGenerator extends TileEnergyFluidSidedInventory i
 			}
 		}
 		for (int i = 0; i < fluidInputSize; i++) {
-			IFluidIngredient fluidIngredient = getFluidIngredients().get(fluidInputOrder.get(i));
-			if (fluidIngredient.getMaxStackSize() > 0) {
-				getTanks().get(i + fluidInputSize + fluidOutputSize).setFluidStored(new FluidStack(getTanks().get(i).getFluid(), fluidIngredient.getMaxStackSize()));
-				getTanks().get(i).changeFluidAmount(-fluidIngredient.getMaxStackSize());
+			int maxStackSize = getFluidIngredients().get(fluidInputOrder.get(i)).getMaxStackSize(recipeInfo.getFluidIngredientNumbers().get(i));
+			if (maxStackSize > 0) {
+				getTanks().get(i + fluidInputSize + fluidOutputSize).setFluidStored(new FluidStack(getTanks().get(i).getFluid(), maxStackSize));
+				getTanks().get(i).changeFluidAmount(-maxStackSize);
 			}
 			if (getTanks().get(i).isEmpty()) getTanks().get(i).setFluid(null);
 		}
@@ -224,15 +236,15 @@ public abstract class TileFluidGenerator extends TileEnergyFluidSidedInventory i
 	public void produceProducts() {
 		for (int i = fluidInputSize + fluidOutputSize; i < 2*fluidInputSize + fluidOutputSize; i++) getTanks().get(i).setFluid(null);
 		
-		if (!hasConsumed || recipe == null) return;
+		if (!hasConsumed || recipeInfo == null) return;
 		
 		for (int j = 0; j < fluidOutputSize; j++) {
 			IFluidIngredient fluidProduct = getFluidProducts().get(j);
-			if (fluidProduct.getNextStackSize() <= 0) continue;
+			if (fluidProduct.getNextStackSize(0) <= 0) continue;
 			if (getTanks().get(j + fluidInputSize).isEmpty()) {
-				getTanks().get(j + fluidInputSize).setFluidStored(fluidProduct.getNextStack());
+				getTanks().get(j + fluidInputSize).setFluidStored(fluidProduct.getNextStack(0));
 			} else if (getTanks().get(j + fluidInputSize).getFluid().isFluidEqual(fluidProduct.getStack())) {
-				getTanks().get(j + fluidInputSize).changeFluidAmount(fluidProduct.getNextStackSize());
+				getTanks().get(j + fluidInputSize).changeFluidAmount(fluidProduct.getNextStackSize(0));
 			}
 		}
 		hasConsumed = false;
@@ -244,11 +256,6 @@ public abstract class TileFluidGenerator extends TileEnergyFluidSidedInventory i
 	public ProcessorRecipeHandler getRecipeHandler() {
 		return recipeType.getRecipeHandler();
 	}
-		
-	@Override
-	public ProcessorRecipe getRecipe() {
-		return recipe;
-	}
 	
 	@Override
 	public List<Tank> getFluidInputs(boolean consumed) {
@@ -257,34 +264,16 @@ public abstract class TileFluidGenerator extends TileEnergyFluidSidedInventory i
 	
 	@Override
 	public List<IFluidIngredient> getFluidIngredients() {
-		return recipe.fluidIngredients();
+		return recipeInfo.getRecipe().fluidIngredients();
 	}
 	
 	@Override
 	public List<IFluidIngredient> getFluidProducts() {
-		return recipe.fluidProducts();
+		return recipeInfo.getRecipe().fluidProducts();
 	}
 	
-	@Override
-	public List<Integer> getFluidInputOrder() {
-		List<Integer> fluidInputOrder = new ArrayList<Integer>();
-		List<IFluidIngredient> fluidIngredients = recipe.fluidIngredients();
-		for (int i = 0; i < fluidInputSize; i++) {
-			int position = -1;
-			for (int j = 0; j < fluidIngredients.size(); j++) {
-				if (fluidIngredients.get(j).matches(getFluidInputs(false).get(i), IngredientSorption.INPUT)) {
-					position = j;
-					break;
-				}
-			}
-			if (position == -1) return AbstractRecipeHandler.INVALID;
-			fluidInputOrder.add(position);
-		}
-		return fluidInputOrder;
-	}
+	// ITileInventory
 	
-	// IInventory
-
 	@Override
 	public void markDirty() {
 		refreshRecipe();
@@ -297,36 +286,14 @@ public abstract class TileFluidGenerator extends TileEnergyFluidSidedInventory i
 		return false;
 	}
 	
-	// ISidedInventory
-	
 	@Override
-	public int[] getSlotsForFace(EnumFacing side) {
-		return new int[] {};
-	}
-
-	@Override
-	public boolean canInsertItem(int slot, ItemStack stack, EnumFacing direction) {
-		return false;
-	}
-
-	@Override
-	public boolean canExtractItem(int slot, ItemStack stack, EnumFacing direction) {
-		return false;
+	public boolean canInsertItem(int slot, ItemStack stack, EnumFacing side) {
+		return super.canInsertItem(slot, stack, side);
 	}
 	
-	// Fluids
-	
 	@Override
-	public boolean isNextToFill(int tankNumber, FluidStack resource) {
-		if (tankNumber >= fluidInputSize) return false;
-		if (!getInputTanksSeparated()) return true;
-		
-		for (int i = 0; i < fluidInputSize; i++) {
-			if (tankNumber != i && getTanks().get(i).canFill() && getTanks().get(i).getFluid() != null) {
-				if (getTanks().get(i).getFluid().isFluidEqual(resource)) return false;
-			}
-		}
-		return true;
+	public boolean canExtractItem(int slot, ItemStack stack, EnumFacing side) {
+		return super.canExtractItem(slot, stack, side);
 	}
 	
 	// NBT

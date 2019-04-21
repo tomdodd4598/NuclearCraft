@@ -25,7 +25,7 @@ public class DecayHastenerRecipes extends ProcessorRecipeHandler {
 		addDecayRecipes("Plutonium239", "Uranium235");
 		addDecayRecipes("Plutonium241", "Neptunium237Base");
 		addDecayRecipes("Plutonium242Base", "Uranium238Base");
-    	
+		
 		addDecayRecipes("Americium241Base", "Neptunium237Base");
 		addDecayRecipes("Americium242", "Thorium230Base");
 		addDecayRecipes("Americium243Base", "Plutonium239");

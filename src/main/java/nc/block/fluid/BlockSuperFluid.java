@@ -9,7 +9,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.Fluid;
 
-public class BlockSuperFluid extends BlockFluid {
+public class BlockSuperFluid extends NCBlockFluid {
 	
 	public static DamageSource superfluid_freeze = (new DamageSource("superfluid_freeze")).setDamageBypassesArmor();
 

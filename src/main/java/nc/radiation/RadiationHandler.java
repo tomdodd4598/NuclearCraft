@@ -61,15 +61,14 @@ public class RadiationHandler {
 			IEntityRads playerRads = RadiationHelper.getEntityRadiation(player);
 			if (playerRads == null) return;
 			
-			IRadiationSource worldSource = RadiationHelper.getRadiationSource(player.world);
-			IRadiationSource chunkSource = RadiationHelper.getRadiationSource(player.world.getChunkFromChunkCoords((int)player.posX >> 4, (int)player.posZ >> 4));
+			IRadiationSource chunkSource = RadiationHelper.getRadiationSource(player.world.getChunkFromChunkCoords((int) Math.floor(player.posX) >> 4, (int) Math.floor(player.posZ) >> 4));
 			
 			double previousImmunityTime = playerRads.getRadiationImmunityTime();
 			if (previousImmunityTime > 0D) {
 				playerRads.setRadiationImmunityTime(previousImmunityTime - PLAYER_TICK_RATE);
 			}
 			
-			double radiationLevel = RadiationHelper.transferRadsToPlayer(worldSource, playerRads, player, PLAYER_TICK_RATE) + RadiationHelper.transferRadsToPlayer(chunkSource, playerRads, player, PLAYER_TICK_RATE) + RadiationHelper.transferRadsFromInventoryToPlayer(playerRads, player, PLAYER_TICK_RATE);
+			double radiationLevel = RadiationHelper.transferRadsToPlayer(chunkSource, playerRads, player, PLAYER_TICK_RATE) + RadiationHelper.transferRadsFromInventoryToPlayer(playerRads, player, PLAYER_TICK_RATE);
 			playerRads.setRadiationLevel(radiationLevel);
 			
 			if (!player.isCreative() && playerRads.isFatal()) player.attackEntityFrom(FATAL_RADS, Float.MAX_VALUE);
@@ -119,14 +118,12 @@ public class RadiationHandler {
 		if (event.phase != Phase.START || event.side == Side.CLIENT || (event.world.getTotalWorldTime() % WORLD_TICK_RATE) != 0 || !(event.world instanceof WorldServer)) return;
 		
 		WorldServer world = (WorldServer)event.world;
-		IRadiationSource worldSource = RadiationHelper.getRadiationSource(world);
-		
 		ChunkProviderServer chunkProvider = world.getChunkProvider();
 		Chunk[] chunkArray = chunkProvider.getLoadedChunks().toArray(new Chunk[chunkProvider.getLoadedChunks().size()]);
 		
 		Entity[] entityArray = world.loadedEntityList.toArray(new Entity[world.loadedEntityList.size()]);
 		for (Entity entity : entityArray) {
-			IRadiationSource chunkSource = RadiationHelper.getRadiationSource(world.getChunkFromChunkCoords((int)entity.posX >> 4, (int)entity.posZ >> 4));
+			IRadiationSource chunkSource = RadiationHelper.getRadiationSource(world.getChunkFromChunkCoords((int) Math.floor(entity.posX) >> 4, (int) Math.floor(entity.posZ) >> 4));
 			if (entity instanceof EntityPlayer) {
 				RadiationHelper.transferRadsFromInventoryToChunkBuffer(((EntityPlayer)entity).inventory, chunkSource);
 			}
@@ -138,7 +135,6 @@ public class RadiationHandler {
 				IEntityRads entityRads = RadiationHelper.getEntityRadiation(entityLiving);
 				if (entityRads == null) return;
 				
-				RadiationHelper.transferRadsFromSourceToEntity(worldSource, entityRads, entityLiving, WORLD_TICK_RATE);
 				RadiationHelper.transferRadsFromSourceToEntity(chunkSource, entityRads, entityLiving, WORLD_TICK_RATE);
 				
 				if (NCConfig.radiation_entity_decay_rate > 0D) {
@@ -173,6 +169,12 @@ public class RadiationHandler {
 			IRadiationSource chunkSource = RadiationHelper.getRadiationSource(chunk);
 			if (chunkSource == null) return;
 			
+			chunkSource.resetScrubbingFraction();
+			
+			if (RadWorlds.RAD_MAP.containsKey(dimension)) {
+				RadiationHelper.addToSourceBuffer(chunkSource, RadWorlds.RAD_MAP.get(dimension));
+			}
+			
 			if (!RadBiomes.DIM_BLACKLIST.contains(dimension)) {
 				Double biomeRadiation = RadBiomes.RAD_MAP.get(chunk.getBiome(new BlockPos(8, 8, 8), biomeProvider));
 				if (biomeRadiation != null) RadiationHelper.addToSourceBuffer(chunkSource, biomeRadiation);
@@ -201,7 +203,7 @@ public class RadiationHandler {
 			IRadiationSource chunkSource = RadiationHelper.getRadiationSource(chunk);
 			if (chunkSource == null) return;
 			
-			double changeRate = (chunkSource.getRadiationLevel() < chunkSource.getRadiationBuffer() || chunkSource.getScrubbing()) ? NCConfig.radiation_spread_rate : NCConfig.radiation_decay_rate;
+			double changeRate = (chunkSource.getRadiationLevel() < chunkSource.getRadiationBuffer()) ? NCConfig.radiation_spread_rate : NCConfig.radiation_decay_rate*(1D - chunkSource.getScrubbingFraction()) + NCConfig.radiation_spread_rate*chunkSource.getScrubbingFraction();
 			
 			double newLevel = Math.max(0D, chunkSource.getRadiationLevel() + (chunkSource.getRadiationBuffer() - chunkSource.getRadiationLevel())*changeRate);
 			if (NCConfig.radiation_chunk_limit >= 0D) {

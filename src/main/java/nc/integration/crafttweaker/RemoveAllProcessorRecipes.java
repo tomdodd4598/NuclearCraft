@@ -7,7 +7,7 @@ public class RemoveAllProcessorRecipes implements IAction {
 	
 	public static boolean hasErrored = false;
 	public final NCRecipes.Type recipeType;
-
+	
 	public RemoveAllProcessorRecipes(NCRecipes.Type recipeType) {
 		this.recipeType = recipeType;
 	}

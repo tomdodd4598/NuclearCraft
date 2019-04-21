@@ -7,7 +7,7 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import nc.ModCheck;
 import nc.NuclearCraft;
-import nc.block.fluid.BlockFluidBase;
+import nc.block.fluid.NCBlockFluid;
 import nc.config.NCConfig;
 import nc.enumm.FluidType;
 import nc.util.ColorHelper;
@@ -19,7 +19,7 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 public class NCFluids {
 	
-	public static List<Pair<Fluid, BlockFluidBase>> fluidPairList = new ArrayList<Pair<Fluid, BlockFluidBase>>();
+	public static List<Pair<Fluid, NCBlockFluid>> fluidPairList = new ArrayList<Pair<Fluid, NCBlockFluid>>();
 	
 	public static void init() {
 		try {
@@ -84,7 +84,7 @@ public class NCFluids {
 			fluidPairList.add(fluidPair(FluidType.SALT_SOLUTION, "potassium_hydroxide_solution", waterBlend(0xB8C6B0)));
 			fluidPairList.add(fluidPair(FluidType.SALT_SOLUTION, "borax_solution", waterBlend(0xEEEEEE)));
 			
-			fluidPairList.add(fluidPair(FluidType.FISSION, "corium", 0x7F8178));
+			fluidPairList.add(fluidPair(FluidType.CORIUM, "corium", 0x7F8178));
 			
 			fluidPairList.add(fluidPair(FluidType.CHOCOLATE, "chocolate_liquor", 0x41241C));
 			fluidPairList.add(fluidPair(FluidType.CHOCOLATE, "cocoa_butter", 0xF6EEBF));
@@ -133,7 +133,7 @@ public class NCFluids {
 	}
 	
 	public static void register() {
-		for (Pair<Fluid, BlockFluidBase> fluidPair : fluidPairList) {
+		for (Pair<Fluid, NCBlockFluid> fluidPair : fluidPairList) {
 			Fluid fluid = fluidPair.getLeft();
 			
 			boolean defaultFluid = FluidRegistry.registerFluid(fluid);
@@ -144,13 +144,13 @@ public class NCFluids {
 		}
 	}
 	
-	public static void registerBlock(BlockFluidBase block) {
+	public static void registerBlock(NCBlockFluid block) {
 		ForgeRegistries.BLOCKS.register(block);
 		ForgeRegistries.ITEMS.register(new ItemBlock(block).setRegistryName(block.getRegistryName()));
 		NuclearCraft.proxy.registerFluidBlockRendering(block, block.getName());
 	}
 	
-	public static <T extends Fluid, V extends BlockFluidBase> Pair<Fluid, BlockFluidBase> fluidPair(FluidType fluidType, Object... fluidArgs) throws Exception {
+	public static <T extends Fluid, V extends NCBlockFluid> Pair<Fluid, NCBlockFluid> fluidPair(FluidType fluidType, Object... fluidArgs) throws Exception {
 		T fluid = NCUtil.newInstance(fluidType.getFluidClass(), fluidArgs);
 		V block = NCUtil.newInstance(fluidType.getBlockClass(), fluid);
 		return Pair.of(fluid, block);

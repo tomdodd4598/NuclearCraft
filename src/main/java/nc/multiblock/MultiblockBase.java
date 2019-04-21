@@ -407,7 +407,7 @@ public abstract class MultiblockBase<PACKET extends MultiblockUpdatePacket> impl
 		}
 		
 		this.assemblyState = AssemblyState.Assembled;
-		if(oldState == assemblyState.Paused) {
+		if(oldState == AssemblyState.Paused) {
 			onMachineRestored();
 		}
 		else {

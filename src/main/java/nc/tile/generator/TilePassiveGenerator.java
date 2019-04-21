@@ -35,6 +35,6 @@ public abstract class TilePassiveGenerator extends TileEnergy implements IInterf
 	
 	@Override
 	public int getEUSinkTier() {
-		return 4;
+		return 10;
 	}
 }

@@ -7,7 +7,7 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import nc.ModCheck;
 import nc.NuclearCraft;
-import nc.block.fluid.BlockFluidBase;
+import nc.block.fluid.NCBlockFluid;
 import nc.block.fluid.BlockFluidCoolant;
 import nc.block.fluid.BlockFluidCryotheum;
 import nc.block.fluid.BlockFluidGlowstone;
@@ -26,7 +26,7 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 public class NCCoolantFluids {
 	
-	public static List<Pair<Fluid, BlockFluidBase>> fluidPairList = new ArrayList<Pair<Fluid, BlockFluidBase>>();
+	public static List<Pair<Fluid, NCBlockFluid>> fluidPairList = new ArrayList<Pair<Fluid, NCBlockFluid>>();
 	public static List<Fluid> fluidList = new ArrayList<Fluid>();
 	
 	public static void init() {
@@ -149,7 +149,7 @@ public class NCCoolantFluids {
 	}
 	
 	public static void register() {
-		for (Pair<Fluid, BlockFluidBase> fluidPair : fluidPairList) {
+		for (Pair<Fluid, NCBlockFluid> fluidPair : fluidPairList) {
 			Fluid fluid = fluidPair.getLeft();
 			
 			boolean defaultFluid = FluidRegistry.registerFluid(fluid);
@@ -157,12 +157,12 @@ public class NCCoolantFluids {
 			FluidRegistry.addBucketForFluid(fluid);
 			fluidList.add(fluid);
 			
-			BlockFluidBase fluidBlock = fluidPair.getRight();
+			NCBlockFluid fluidBlock = fluidPair.getRight();
 			if (NCConfig.register_fission_fluid_blocks && fluidBlock != null) registerBlock(fluidBlock);
 		}
 	}
 	
-	public static void registerBlock(BlockFluidBase block) {
+	public static void registerBlock(NCBlockFluid block) {
 		ForgeRegistries.BLOCKS.register(block);
 		ForgeRegistries.ITEMS.register(new ItemBlock(block).setRegistryName(block.getRegistryName()));
 		NuclearCraft.proxy.registerFluidBlockRendering(block, "fluid_molten_colored");

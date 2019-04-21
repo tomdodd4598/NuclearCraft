@@ -77,11 +77,10 @@ public class RadiationHelper {
 		if (chunkSource == null) {
 			return;
 		}
-		double bufferAddition = tile.getChunkBufferContributionFraction()*tile.getCurrentChunkBuffer();
-		addToSourceBuffer(chunkSource, bufferAddition);
+		addToSourceBuffer(chunkSource, tile.getContributionFraction()*tile.getCurrentChunkBuffer());
 		
-		if (bufferAddition < 0D) {
-			chunkSource.setScrubbing(true);
+		if (tile.getContributionFraction() < 0D) {
+			chunkSource.addScrubbingFraction(-tile.getContributionFraction());
 		}
 	}
 	
@@ -177,9 +176,10 @@ public class RadiationHelper {
 			return;
 		}
 		IRadiationSource targetChunkSource = getRadiationSource(targetChunk);
-		if (targetChunkSource != null && !chunkSource.isRadiationNegligible() && targetChunkSource.getRadiationBuffer() >= 0D) {
-			if (targetChunkSource.getRadiationLevel() == 0D || chunkSource.getRadiationLevel()/targetChunkSource.getRadiationLevel() > 1D + NCConfig.radiation_spread_gradient) {
-				double radiationSpread = (chunkSource.getRadiationLevel() - targetChunkSource.getRadiationLevel())*NCConfig.radiation_spread_rate;
+		if (targetChunkSource != null && !chunkSource.isRadiationNegligible() && targetChunkSource.getScrubbingFraction() < 1D) {
+			double spreadMult = 1D - targetChunkSource.getScrubbingFraction();
+			if (targetChunkSource.getRadiationLevel() == 0D || spreadMult == 0D || chunkSource.getRadiationLevel()/targetChunkSource.getRadiationLevel() > (1D + NCConfig.radiation_spread_gradient)/spreadMult) {
+				double radiationSpread = (chunkSource.getRadiationLevel() - targetChunkSource.getRadiationLevel())*NCConfig.radiation_spread_rate*spreadMult;
 				chunkSource.setRadiationLevel(chunkSource.getRadiationLevel() - radiationSpread);
 				targetChunkSource.setRadiationLevel(targetChunkSource.getRadiationLevel() + radiationSpread);
 			}

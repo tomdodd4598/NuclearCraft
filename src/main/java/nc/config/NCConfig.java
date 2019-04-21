@@ -178,6 +178,7 @@ public class NCConfig {
 	public static double turbine_stator_expansion;
 	public static double[] turbine_coil_conductivity;
 	public static double[] turbine_power_per_mb;
+	public static double[] turbine_expansion_level;
 	public static int turbine_mb_per_blade;
 	
 	public static int condenser_min_size; // Default: 1
@@ -594,6 +595,8 @@ public class NCConfig {
 		propertyTurbineCoilConductivity.setLanguageKey("gui.config.turbine.turbine_coil_conductivity");
 		Property propertyTurbinePowerPerMB = config.get(CATEGORY_TURBINE, "turbine_power_per_mb", new double[] {16D, 4D, 4D}, Lang.localise("gui.config.turbine.turbine_power_per_mb.comment"), 0D, 255D);
 		propertyTurbinePowerPerMB.setLanguageKey("gui.config.turbine.turbine_power_per_mb");
+		Property propertyTurbineExpansionLevel = config.get(CATEGORY_TURBINE, "turbine_expansion_level", new double[] {4D, 2D, 2D}, Lang.localise("gui.config.turbine.turbine_expansion_level.comment"), 1D, 255D);
+		propertyTurbineExpansionLevel.setLanguageKey("gui.config.turbine.turbine_expansion_level");
 		Property propertyTurbineMBPerBlade = config.get(CATEGORY_TURBINE, "turbine_mb_per_blade", 100, Lang.localise("gui.config.turbine.turbine_mb_per_blade.comment"), 1, 32767);
 		propertyTurbineMBPerBlade.setLanguageKey("gui.config.turbine.turbine_mb_per_blade");
 		
@@ -969,6 +972,7 @@ public class NCConfig {
 		propertyOrderTurbine.add(propertyTurbineStatorExpansion.getName());
 		propertyOrderTurbine.add(propertyTurbineCoilConductivity.getName());
 		propertyOrderTurbine.add(propertyTurbinePowerPerMB.getName());
+		propertyOrderTurbine.add(propertyTurbineExpansionLevel.getName());
 		propertyOrderTurbine.add(propertyTurbineMBPerBlade.getName());
 		config.setCategoryPropertyOrder(CATEGORY_TURBINE, propertyOrderTurbine);
 		
@@ -1228,6 +1232,7 @@ public class NCConfig {
 			turbine_stator_expansion = propertyTurbineStatorExpansion.getDouble();
 			turbine_coil_conductivity = readDoubleArrayFromConfig(propertyTurbineCoilConductivity);
 			turbine_power_per_mb = readDoubleArrayFromConfig(propertyTurbinePowerPerMB);
+			turbine_expansion_level = readDoubleArrayFromConfig(propertyTurbineExpansionLevel);
 			turbine_mb_per_blade = propertyTurbineMBPerBlade.getInt();
 			
 			condenser_min_size = propertyCondenserMinSize.getInt();
@@ -1483,6 +1488,7 @@ public class NCConfig {
 		propertyTurbineStatorExpansion.set(turbine_stator_expansion);
 		propertyTurbineCoilConductivity.set(turbine_coil_conductivity);
 		propertyTurbinePowerPerMB.set(turbine_power_per_mb);
+		propertyTurbineExpansionLevel.set(turbine_expansion_level);
 		propertyTurbineMBPerBlade.set(turbine_mb_per_blade);
 		
 		propertyCondenserMinSize.set(condenser_min_size);

@@ -74,6 +74,6 @@ public interface ITile {
 	
 	/** Use when the capability provider side argument must be non-null */
 	public default @Nonnull EnumFacing nonNullSide(@Nullable EnumFacing side) {
-		return side == null ? EnumFacing.UP : side;
+		return side == null ? EnumFacing.DOWN : side;
 	}
 }

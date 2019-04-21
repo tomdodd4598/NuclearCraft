@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
+import nc.recipe.IngredientMatchResult;
 import nc.recipe.IngredientSorption;
 import nc.tile.internal.fluid.Tank;
 import nc.util.FluidStackHelper;
@@ -44,19 +45,19 @@ public class FluidIngredient implements IFluidIngredient {
 	}
 	
 	@Override
-	public boolean matches(Object object, IngredientSorption type) {
+	public IngredientMatchResult match(Object object, IngredientSorption type) {
 		if (object instanceof Tank) object = (FluidStack)((Tank)object).getFluid();
 		if (object instanceof FluidStack) {
 			FluidStack fluidstack = (FluidStack) object;
 			if (!fluidstack.isFluidEqual(stack) || !FluidStack.areFluidStackTagsEqual(fluidstack, stack)) {
-				return false;
+				return IngredientMatchResult.FAIL;
 			}
-			return type.checkStackSize(stack.amount, fluidstack.amount);
+			return new IngredientMatchResult(type.checkStackSize(stack.amount, fluidstack.amount), 0);
 		}
-		else if (object instanceof FluidIngredient) {
-			if (matches(((FluidIngredient) object).stack, type)) return type.checkStackSize(getMaxStackSize(), ((FluidIngredient) object).getMaxStackSize());
+		else if (object instanceof FluidIngredient && match(((FluidIngredient) object).stack, type).matches()) {
+			return new IngredientMatchResult(type.checkStackSize(getMaxStackSize(0), ((FluidIngredient) object).getMaxStackSize(0)), 0);
 		}
-		return false;
+		return IngredientMatchResult.FAIL;
 	}
 	
 	@Override
@@ -70,7 +71,7 @@ public class FluidIngredient implements IFluidIngredient {
 	}
 	
 	@Override
-	public int getMaxStackSize() {
+	public int getMaxStackSize(int ingredientNumber) {
 		return amount;
 	}
 	

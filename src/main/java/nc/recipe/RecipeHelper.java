@@ -1,16 +1,14 @@
-package nc.util;
+package nc.recipe;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Nullable;
 
 import com.google.common.collect.Lists;
 
-import nc.recipe.IRecipe;
-import nc.recipe.IngredientSorption;
-import nc.recipe.NCRecipes;
-import nc.recipe.ProcessorRecipeHandler;
+import nc.ModCheck;
 import nc.recipe.ingredient.ChanceFluidIngredient;
 import nc.recipe.ingredient.ChanceItemIngredient;
 import nc.recipe.ingredient.EmptyFluidIngredient;
@@ -20,8 +18,14 @@ import nc.recipe.ingredient.FluidIngredient;
 import nc.recipe.ingredient.IFluidIngredient;
 import nc.recipe.ingredient.IItemIngredient;
 import nc.recipe.ingredient.ItemArrayIngredient;
+import nc.recipe.ingredient.ItemIngredient;
 import nc.recipe.ingredient.OreIngredient;
 import nc.tile.internal.fluid.Tank;
+import nc.util.CollectionHelper;
+import nc.util.FluidRegHelper;
+import nc.util.GasHelper;
+import nc.util.OreDictHelper;
+import nc.util.StringHelper;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -38,7 +42,7 @@ public class RecipeHelper {
 	public static boolean containsItemIngredient(List<IItemIngredient> list, IItemIngredient ingredient) {
 		for (IItemIngredient i : list) {
 			if (i == null) continue;
-			if (i.matches(ingredient, IngredientSorption.NEUTRAL)) return true;
+			if (i.match(ingredient, IngredientSorption.NEUTRAL).matches()) return true;
 		}
 		return false;
 	}
@@ -46,7 +50,7 @@ public class RecipeHelper {
 	public static boolean containsFluidIngredient(List<IFluidIngredient> list, IFluidIngredient ingredient) {
 		for (IFluidIngredient i : list) {
 			if (i == null) continue;
-			if (i.matches(ingredient, IngredientSorption.NEUTRAL)) return true;
+			if (i.match(ingredient, IngredientSorption.NEUTRAL).matches()) return true;
 		}
 		return false;
 	}
@@ -166,53 +170,210 @@ public class RecipeHelper {
 		}
 		return null;
 	}
-
-	public static boolean matchingIngredients(IngredientSorption sorption, List<IItemIngredient> itemIngredients, List<IFluidIngredient> fluidIngredients, List items, List fluids, boolean shapeless) {
-		List<IItemIngredient> itemIngredientsMatch = new ArrayList<IItemIngredient>(itemIngredients);
-		List<IFluidIngredient> fluidIngredientsMatch = new ArrayList<IFluidIngredient>(fluidIngredients);
-		if (itemIngredients.size() != items.size() || fluidIngredients.size() != fluids.size()) {
-			return false;
+	
+	@Nullable
+	public static IItemIngredient buildItemIngredient(Object object) {
+		if (AbstractRecipeHandler.requiresItemFixing(object)) {
+			object = RecipeHelper.fixItemStack(object);
 		}
+		if (object instanceof IItemIngredient) {
+			return checkedItemIngredient((IItemIngredient) object);
+		} else if (object instanceof ArrayList) {
+			ArrayList list = (ArrayList) object;
+			List<IItemIngredient> buildList = new ArrayList<IItemIngredient>();
+			if (!list.isEmpty()) {
+				for (Object listObject : list) {
+					if (listObject instanceof IItemIngredient) {
+						buildList.add((IItemIngredient)listObject);
+					}
+					else if (listObject != null) {
+						IItemIngredient recipeObject = checkedItemIngredient(buildItemIngredient(listObject));
+						if (recipeObject != null) {
+							buildList.add(recipeObject);
+						}
+					}
+				}
+				if (buildList.isEmpty()) return null;
+				return checkedItemIngredient(new ItemArrayIngredient(buildList));
+			} else {
+				return null;
+			}
+		} else if (object instanceof String) {
+			return checkedItemIngredient(RecipeHelper.oreStackFromString((String) object));
+		}
+		if (object instanceof ItemStack) {
+			return checkedItemIngredient(new ItemIngredient((ItemStack) object));
+		}
+		return null;
+	}
+	
+	@Nullable
+	public static IItemIngredient checkedItemIngredient(IItemIngredient ingredient) {
+		return ingredient == null || !ingredient.isValid() ? null : ingredient;
+	}
+	
+	@Nullable
+	public static IFluidIngredient buildFluidIngredient(Object object) {
+		if (AbstractRecipeHandler.requiresFluidFixing(object)) {
+			object = RecipeHelper.fixFluidStack(object);
+		}
+		if (needsExpanding() && object instanceof FluidIngredient) {
+			return checkedFluidIngredient(buildFluidIngredient(expandedFluidStackList((FluidIngredient)object)));
+		}
+		if (object instanceof IFluidIngredient) {
+			return checkedFluidIngredient((IFluidIngredient) object);
+		} else if (object instanceof ArrayList) {
+			ArrayList list = (ArrayList) object;
+			List<IFluidIngredient> buildList = new ArrayList<IFluidIngredient>();
+			if (!list.isEmpty()) {
+				for (Object listObject : list) {
+					if (listObject instanceof IFluidIngredient) {
+						buildList.add((IFluidIngredient)listObject);
+					}
+					else if (listObject != null) {
+						IFluidIngredient recipeObject = checkedFluidIngredient(buildFluidIngredient(listObject));
+						if (recipeObject != null) buildList.add(recipeObject);
+					}
+				}
+				if (buildList.isEmpty()) return null;
+				return checkedFluidIngredient(new FluidArrayIngredient(buildList));
+			} else {
+				return null;
+			}
+		} else if (object instanceof String) {
+			return checkedFluidIngredient(RecipeHelper.fluidStackFromString((String) object));
+		}
+		if (object instanceof FluidStack) {
+			return checkedFluidIngredient(new FluidIngredient((FluidStack) object));
+		}
+		return null;
+	}
+	
+	@Nullable
+	public static IFluidIngredient checkedFluidIngredient(IFluidIngredient ingredient) {
+		return ingredient == null || !ingredient.isValid() ? null : ingredient;
+	}
+	
+	public static boolean needsExpanding() {
+		return ModCheck.mekanismLoaded() || ModCheck.techRebornLoaded();
+	}
+	
+	/** For Mekanism and Tech Reborn fluids */
+	public static List<FluidIngredient> expandedFluidStackList(FluidIngredient stack) {
+		List<FluidIngredient> fluidStackList = Lists.newArrayList(stack);
+		
+		if (ModCheck.mekanismLoaded() && !stack.fluidName.equals("helium")) {
+			if (GasHelper.TRANSLATION_MAP.containsKey(stack.fluidName)) {
+				fluidStackList.add(AbstractRecipeHandler.fluidStack(GasHelper.TRANSLATION_MAP.get(stack.fluidName), stack.amount));
+			}
+			else {
+				fluidStackList.add(AbstractRecipeHandler.fluidStack("liquid" + stack.fluidName, stack.amount));
+			}
+		}
+		
+		if (ModCheck.techRebornLoaded()) {
+			fluidStackList.add(AbstractRecipeHandler.fluidStack("fluid" + stack.fluidName, stack.amount));
+		}
+		
+		return fluidStackList;
+	}
+	
+	public static RecipeMatchResult matchIngredients(IngredientSorption sorption, List<IItemIngredient> itemIngredients, List<IFluidIngredient> fluidIngredients, List items, List fluids, boolean shapeless) {
+		if (itemIngredients.size() != items.size() || fluidIngredients.size() != fluids.size()) return RecipeMatchResult.FAIL;
+		
+		List<IItemIngredient> itemIngredientsRemaining = new ArrayList<IItemIngredient>(itemIngredients);
+		List<IFluidIngredient> fluidIngredientsRemaining = new ArrayList<IFluidIngredient>(fluidIngredients);
+		
+		List<Integer> itemIngredientNumbers = new ArrayList<Integer>(Collections.nCopies(itemIngredients.size(), 0)), fluidIngredientNumbers = new ArrayList<Integer>(Collections.nCopies(fluidIngredients.size(), 0));
+		
 		int pos = -1;
-		if (!items.isEmpty()) itemInputs: for (Object item : items) {
-			/*if (stack.isEmpty()) {
-				return false;
-			}*/
+		itemInputs: for (Object item : items) {
 			pos++;
 			if (shapeless) {
-				for (IItemIngredient itemIngredient : new ArrayList<IItemIngredient>(itemIngredientsMatch)) {
-					if (itemIngredient.matches(item, sorption)) {
-						itemIngredientsMatch.remove(itemIngredient);
+				for (int i = 0; i < itemIngredients.size(); i++) {
+					IItemIngredient itemIngredient = itemIngredientsRemaining.get(i);
+					if (itemIngredient == null) continue;
+					IngredientMatchResult matchResult = itemIngredient.match(item, sorption);
+					if (matchResult.matches()) {
+						itemIngredientsRemaining.set(i, null);
+						itemIngredientNumbers.set(i, matchResult.getIngredientNumber());
 						continue itemInputs;
 					}
 				}
-			} else if (itemIngredients.get(pos).matches(item, sorption)) {
-				itemIngredientsMatch.remove(itemIngredients.get(pos));
-				continue itemInputs;
+			} else {
+				IngredientMatchResult matchResult = itemIngredients.get(pos).match(item, sorption);
+				if (matchResult.matches()) {
+					itemIngredientNumbers.set(pos, matchResult.getIngredientNumber());
+					continue itemInputs;
+				}
 			}
-			return false;
+			return RecipeMatchResult.FAIL;
 		}
 		pos = -1;
-		if (!fluids.isEmpty()) fluidInputs: for (Object fluid : fluids) {
-			/*if (tank.isEmpty()) {
-				return false;
-			}*/
+		fluidInputs: for (Object fluid : fluids) {
 			pos++;
-			if (fluid instanceof Tank) fluid = (FluidStack)((Tank)fluid).getFluid();
+			if (fluid instanceof Tank) fluid = ((Tank)fluid).getFluid();
 			if (shapeless) {
-				for (IFluidIngredient fluidIngredient : new ArrayList<IFluidIngredient>(fluidIngredientsMatch)) {
-					if (fluidIngredient.matches(fluid, sorption)) {
-						fluidIngredientsMatch.remove(fluidIngredient);
+				for (int i = 0; i < fluidIngredients.size(); i++) {
+					IFluidIngredient fluidIngredient = fluidIngredientsRemaining.get(i);
+					if (fluidIngredient == null) continue;
+					IngredientMatchResult matchResult = fluidIngredient.match(fluid, sorption);
+					if (matchResult.matches()) {
+						fluidIngredientsRemaining.set(i, null);
+						fluidIngredientNumbers.set(i, matchResult.getIngredientNumber());
 						continue fluidInputs;
 					}
 				}
-			} else if (fluidIngredients.get(pos).matches(fluid, sorption)) {
-				fluidIngredientsMatch.remove(fluidIngredients.get(pos));
-				continue fluidInputs;
+			} else {
+				IngredientMatchResult matchResult = fluidIngredients.get(pos).match(fluid, sorption);
+				if (matchResult.matches()) {
+					fluidIngredientNumbers.set(pos, matchResult.getIngredientNumber());
+					continue fluidInputs;
+				}
 			}
-			return false;
+			return RecipeMatchResult.FAIL;
 		}
-		return true;
+		return new RecipeMatchResult(true, itemIngredientNumbers, fluidIngredientNumbers, getItemInputOrder(itemIngredients, items, shapeless), getFluidInputOrder(fluidIngredients, fluids, shapeless));
+	}
+	
+	public static List<Integer> getItemInputOrder(List<IItemIngredient> itemIngredients, List items, boolean shapeless) {
+		int size = itemIngredients.size();
+		if (size != items.size()) return AbstractRecipeHandler.INVALID;
+		if (!shapeless) return CollectionHelper.increasingList(size);
+		List<Integer> itemInputOrder = new ArrayList<Integer>();
+		
+		for (int i = 0; i < size; i++) {
+			int position = -1;
+			for (int j = 0; j < size; j++) {
+				if (itemIngredients.get(j).match(items.get(i), IngredientSorption.INPUT).matches()) {
+					position = j;
+					break;
+				}
+			}
+			if (position == -1) return AbstractRecipeHandler.INVALID;
+			itemInputOrder.add(position);
+		}
+		return itemInputOrder;
+	}
+	
+	public static List<Integer> getFluidInputOrder(List<IFluidIngredient> fluidIngredients, List fluids, boolean shapeless) {
+		int size = fluidIngredients.size();
+		if (size != fluids.size()) return AbstractRecipeHandler.INVALID;
+		if (!shapeless) return CollectionHelper.increasingList(size);
+		List<Integer> fluidInputOrder = new ArrayList<Integer>();
+		
+		for (int i = 0; i < size; i++) {
+			int position = -1;
+			for (int j = 0; j < size; j++) {
+				if (fluidIngredients.get(j).match(fluids.get(i), IngredientSorption.INPUT).matches()) {
+					position = j;
+					break;
+				}
+			}
+			if (position == -1) return AbstractRecipeHandler.INVALID;
+			fluidInputOrder.add(position);
+		}
+		return fluidInputOrder;
 	}
 	
 	public static List<String> getItemIngredientNames(List<IItemIngredient> ingredientList) {
@@ -220,7 +381,7 @@ public class RecipeHelper {
 		for (IItemIngredient ingredient : ingredientList) {
 			if (ingredient == null || ingredient instanceof EmptyItemIngredient) ingredientNames.add("null");
 			else if (ingredient instanceof ItemArrayIngredient) ingredientNames.add(((ItemArrayIngredient)ingredient).getIngredientRecipeString());
-			else ingredientNames.add(ingredient.getMaxStackSize() + " x " + ingredient.getIngredientName());
+			else ingredientNames.add(ingredient.getMaxStackSize(0) + " x " + ingredient.getIngredientName());
 		}
 		return ingredientNames;
 	}
@@ -230,7 +391,7 @@ public class RecipeHelper {
 		for (IFluidIngredient ingredient : ingredientList) {
 			if (ingredient == null || ingredient instanceof EmptyFluidIngredient) ingredientNames.add("null");
 			else if (ingredient instanceof FluidArrayIngredient) ingredientNames.add(((FluidArrayIngredient)ingredient).getIngredientRecipeString());
-			else ingredientNames.add(ingredient.getMaxStackSize() + " x " + ingredient.getIngredientName());
+			else ingredientNames.add(ingredient.getMaxStackSize(0) + " x " + ingredient.getIngredientName());
 		}
 		return ingredientNames;
 	}
@@ -253,10 +414,10 @@ public class RecipeHelper {
 		for (Object obj : ingredientList) {
 			if (obj == null) ingredientNames.add("null");
 			else {
-				if (!(obj instanceof IItemIngredient)) obj = recipeType.getRecipeHandler().buildItemIngredient(obj);
+				if (!(obj instanceof IItemIngredient)) obj = buildItemIngredient(obj);
 				IItemIngredient ingredient = (IItemIngredient) obj;
 				if (ingredient instanceof ItemArrayIngredient) ingredientNames.add(((ItemArrayIngredient)ingredient).getIngredientRecipeString());
-				else ingredientNames.add(ingredient.getMaxStackSize() + " x " + ingredient.getIngredientName());
+				else ingredientNames.add(ingredient.getMaxStackSize(0) + " x " + ingredient.getIngredientName());
 			}
 		}
 		return ingredientNames;
@@ -267,10 +428,10 @@ public class RecipeHelper {
 		for (Object obj : ingredientList) {
 			if (obj == null) ingredientNames.add("null");
 			else {
-				if (!(obj instanceof IFluidIngredient)) obj = recipeType.getRecipeHandler().buildFluidIngredient(obj);
+				if (!(obj instanceof IFluidIngredient)) obj = buildFluidIngredient(obj);
 				IFluidIngredient ingredient = (IFluidIngredient) obj;
 				if (ingredient instanceof FluidArrayIngredient) ingredientNames.add(((FluidArrayIngredient)ingredient).getIngredientRecipeString());
-				else ingredientNames.add(ingredient.getMaxStackSize() + " x " + ingredient.getIngredientName());
+				else ingredientNames.add(ingredient.getMaxStackSize(0) + " x " + ingredient.getIngredientName());
 			}
 		}
 		return ingredientNames;

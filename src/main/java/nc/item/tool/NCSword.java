@@ -31,9 +31,9 @@ public class NCSword extends ItemSword {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack itemStack, @Nullable World world, List<String> tooltip, ITooltipFlag flag) {
-        super.addInformation(itemStack, world, tooltip, flag);
-        if (info.length > 0) InfoHelper.infoFull(tooltip, info);
-    }
+		super.addInformation(itemStack, world, tooltip, flag);
+		if (info.length > 0) InfoHelper.infoFull(tooltip, info);
+	}
 	
 	@Override
 	public boolean getIsRepairable(ItemStack toRepair, ItemStack repair) {

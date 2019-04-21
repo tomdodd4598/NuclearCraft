@@ -31,7 +31,7 @@ public class HeatExchanger extends CuboidalMultiblockBase<HeatExchangerUpdatePac
 	
 	private int updateCount = 0;
 	
-	public boolean isHeatExchangerOn;
+	public boolean isHeatExchangerOn, computerActivated;
 	public double fractionOfTubesActive, efficiency;
 	
 	public HeatExchanger(World world) {
@@ -158,7 +158,7 @@ public class HeatExchanger extends CuboidalMultiblockBase<HeatExchangerUpdatePac
 	
 	public void setIsHeatExchangerOn() {
 		boolean oldIsHeatExchangerOn = isHeatExchangerOn;
-		isHeatExchangerOn = isRedstonePowered() && isAssembled();
+		isHeatExchangerOn = (isRedstonePowered() || computerActivated) && isAssembled();
 		if (isHeatExchangerOn != oldIsHeatExchangerOn) {
 			if (controller != null) controller.updateBlock(isHeatExchangerOn);
 			sendUpdateToAllPlayers();
@@ -213,6 +213,7 @@ public class HeatExchanger extends CuboidalMultiblockBase<HeatExchangerUpdatePac
 	@Override
 	protected void syncDataTo(NBTTagCompound data, SyncReason syncReason) {
 		data.setBoolean("isHeatExchangerOn", isHeatExchangerOn);
+		data.setBoolean("computerActivated", computerActivated);
 		data.setDouble("fractionOfTubesActive", fractionOfTubesActive);
 		data.setDouble("efficiency", efficiency);
 	}
@@ -220,6 +221,7 @@ public class HeatExchanger extends CuboidalMultiblockBase<HeatExchangerUpdatePac
 	@Override
 	protected void syncDataFrom(NBTTagCompound data, SyncReason syncReason) {
 		isHeatExchangerOn = data.getBoolean("isHeatExchangerOn");
+		computerActivated = data.getBoolean("computerActivated");
 		fractionOfTubesActive = data.getDouble("fractionOfTubesActive");
 		efficiency = data.getDouble("efficiency");
 	}

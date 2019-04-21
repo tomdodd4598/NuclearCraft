@@ -100,6 +100,6 @@ public class BlockActivatable extends BlockTile implements IActivatable {
 			if (blockState != otherState) return true;
 			
 			return block == this ? false : super.shouldSideBeRendered(blockState, world, pos, side);
-	    }
+		}
 	}
 }

@@ -9,7 +9,8 @@ import nc.config.NCConfig;
 import nc.recipe.NCRecipes;
 import nc.recipe.ProcessorRecipe;
 import nc.recipe.ProcessorRecipeHandler;
-import nc.recipe.ingredient.IItemIngredient;
+import nc.recipe.RecipeHelper;
+import nc.recipe.RecipeInfo;
 import nc.tile.dummy.IInterfaceable;
 import nc.tile.energy.ITileEnergy;
 import nc.tile.energy.TileEnergy;
@@ -17,7 +18,6 @@ import nc.tile.internal.energy.EnergyConnection;
 import nc.tile.internal.fluid.Tank;
 import nc.util.EnergyHelper;
 import nc.util.ItemStackHelper;
-import nc.util.RecipeHelper;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
@@ -28,7 +28,7 @@ public class TileDecayGenerator extends TileEnergy implements IInterfaceable {
 	public int tickCount;
 	
 	public final NCRecipes.Type decayGenRecipeType;
-	protected ProcessorRecipe[] recipes = new ProcessorRecipe[6];
+	protected RecipeInfo<ProcessorRecipe>[] recipes = (RecipeInfo<ProcessorRecipe>[]) new RecipeInfo[6];
 	
 	public static final double DEFAULT_LIFETIME = 1200D/(double)NCConfig.machine_update_rate;
 	
@@ -51,8 +51,8 @@ public class TileDecayGenerator extends TileEnergy implements IInterfaceable {
 			if (generatorCount == 0) {
 				for (EnumFacing side : EnumFacing.VALUES) {
 					List<ItemStack> input = Arrays.asList(ItemStackHelper.blockStateToStack(world.getBlockState(getPos().offset(side))));
-					if (recipes[side.getIndex()] == null || !recipes[side.getIndex()].matchingInputs(input, new ArrayList<Tank>())) {
-						recipes[side.getIndex()] = getRecipeHandler().getRecipeFromInputs(input, new ArrayList<Tank>());
+					if (recipes[side.getIndex()] == null || !recipes[side.getIndex()].getRecipe().matchInputs(input, new ArrayList<Tank>()).matches()) {
+						recipes[side.getIndex()] = getRecipeHandler().getRecipeInfoFromInputs(input, new ArrayList<Tank>());
 					}
 				}
 				getEnergyStorage().changeEnergyStored(getGenerated());
@@ -87,14 +87,13 @@ public class TileDecayGenerator extends TileEnergy implements IInterfaceable {
 	public double getRadiation() {
 		double radiation = 0D;
 		for (EnumFacing side : EnumFacing.VALUES) {
-			if (getDecayRecipe(side) != null) radiation += getDecayRecipe(side).getDecayRadiation();
+			if (getDecayRecipeInfo(side) != null) radiation += getDecayRecipeInfo(side).getRecipe().getDecayRadiation();
 		}
 		return radiation;
 	}
 	
 	public int decayGen(EnumFacing side) {
-		ProcessorRecipe recipe = getDecayRecipe(side);
-		if (recipe == null) return 0;
+		if (getDecayRecipeInfo(side) == null) return 0;
 		ItemStack stack = getOutput(side);
 		if (stack.isEmpty() || stack == null) return 0;
 		Block block = ItemStackHelper.getBlockFromStack(stack);
@@ -113,30 +112,28 @@ public class TileDecayGenerator extends TileEnergy implements IInterfaceable {
 	
 	@Override
 	public int getEUSinkTier() {
-		return 4;
+		return 10;
 	}
 	
 	// Recipe from BlockPos
 	
-	public ProcessorRecipe getDecayRecipe(EnumFacing side) {
+	public RecipeInfo<ProcessorRecipe> getDecayRecipeInfo(EnumFacing side) {
 		return recipes[side.getIndex()];
 	}
 	
 	public double getRecipeLifetime(EnumFacing side) {
-		if (getDecayRecipe(side) == null) return DEFAULT_LIFETIME;
-		return getDecayRecipe(side).getDecayLifetime();
+		if (getDecayRecipeInfo(side) == null) return DEFAULT_LIFETIME;
+		return getDecayRecipeInfo(side).getRecipe().getDecayLifetime();
 	}
 	
 	public int getRecipePower(EnumFacing side) {
-		if (getDecayRecipe(side) == null) return 0;
-		return getDecayRecipe(side).getDecayPower();
+		if (getDecayRecipeInfo(side) == null) return 0;
+		return getDecayRecipeInfo(side).getRecipe().getDecayPower();
 	}
 	
 	public ItemStack getOutput(EnumFacing side) {
-		ProcessorRecipe recipe = getDecayRecipe(side);
-		if (recipe == null) return ItemStack.EMPTY;
-		List<IItemIngredient> outputs = recipe.itemProducts();
-		ItemStack output = RecipeHelper.getItemStackFromIngredientList(outputs, 0);
+		if (getDecayRecipeInfo(side) == null) return ItemStack.EMPTY;
+		ItemStack output = RecipeHelper.getItemStackFromIngredientList(getDecayRecipeInfo(side).getRecipe().itemProducts(), 0);
 		if (output != null) return output;
 		return ItemStack.EMPTY;
 	}

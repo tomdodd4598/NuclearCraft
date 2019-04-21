@@ -15,10 +15,11 @@ import nc.multiblock.heatExchanger.HeatExchanger;
 import nc.multiblock.heatExchanger.HeatExchangerTubeSetting;
 import nc.multiblock.heatExchanger.HeatExchangerTubeType;
 import nc.recipe.AbstractRecipeHandler;
-import nc.recipe.IngredientSorption;
 import nc.recipe.NCRecipes;
 import nc.recipe.ProcessorRecipe;
 import nc.recipe.ProcessorRecipeHandler;
+import nc.recipe.RecipeInfo;
+import nc.recipe.RecipeMatchResult;
 import nc.recipe.ingredient.IFluidIngredient;
 import nc.tile.fluid.ITileFluid;
 import nc.tile.internal.fluid.FluidConnection;
@@ -61,13 +62,13 @@ public class TileHeatExchangerTube extends TileHeatExchangerPartBase implements 
 	public boolean isProcessing, canProcessInputs;
 	public double speedMultiplier = 0;
 	
-	private int inputTemperature = 0, outputTemperature = 0;
-	private EnumFacing flowDir = null;
+	public int inputTemperature = 0, outputTemperature = 0;
+	public EnumFacing flowDir = null;
 	
 	public final NCRecipes.Type recipeType = NCRecipes.Type.HEAT_EXCHANGER;
-	protected ProcessorRecipe recipe, cachedRecipe;
+	protected RecipeInfo<ProcessorRecipe> recipeInfo, cachedRecipeInfo;
 	
-	private final double conductivity;
+	public final double conductivity;
 	
 	protected int tubeCount;
 	
@@ -97,7 +98,7 @@ public class TileHeatExchangerTube extends TileHeatExchangerPartBase implements 
 		fluidSides = ITileFluid.getDefaultFluidSides(this);
 		gasWrapper = new GasTileWrapper(this);
 		
-		this.conductivity = tubeType.getConductivity();
+		conductivity = tubeType.getConductivity();
 	}
 	
 	@Override
@@ -203,18 +204,21 @@ public class TileHeatExchangerTube extends TileHeatExchangerPartBase implements 
 	
 	@Override
 	public void refreshRecipe() {
-		if (recipe == null || !recipe.matchingInputs(new ArrayList<ItemStack>(), getFluidInputs())) {
+		RecipeMatchResult matchResult = recipeInfo == null ? RecipeMatchResult.FAIL : recipeInfo.getRecipe().matchInputs(new ArrayList<ItemStack>(), getFluidInputs());
+		if (!matchResult.matches()) {
 			/** Temporary caching while looking for recipe map solution */
-			if (cachedRecipe != null && cachedRecipe.matchingInputs(new ArrayList<ItemStack>(), getFluidInputs())) {
-				recipe = cachedRecipe;
+			matchResult = cachedRecipeInfo == null ? RecipeMatchResult.FAIL : cachedRecipeInfo.getRecipe().matchInputs(new ArrayList<ItemStack>(), getFluidInputs());
+			if (matchResult.matches()) {
+				recipeInfo = new RecipeInfo(cachedRecipeInfo.getRecipe(), matchResult);
 			}
 			else {
-				recipe = getRecipeHandler().getRecipeFromInputs(new ArrayList<ItemStack>(), getFluidInputs());
+				recipeInfo = getRecipeHandler().getRecipeInfoFromInputs(new ArrayList<ItemStack>(), getFluidInputs());
 			}
-			if (recipe != null) {
-				cachedRecipe = recipe;
+			if (recipeInfo != null) {
+				cachedRecipeInfo = recipeInfo;
 			}
 		}
+		else recipeInfo = new RecipeInfo(recipeInfo.getRecipe(), matchResult);
 	}
 	
 	@Override
@@ -250,21 +254,21 @@ public class TileHeatExchangerTube extends TileHeatExchangerPartBase implements 
 	}
 	
 	public boolean setRecipeStats() {
-		if (recipe == null) {
+		if (recipeInfo == null) {
 			baseProcessTime = defaultProcessTime;
 			inputTemperature = 0;
 			outputTemperature = 0;
 			return false;
 		}
-		baseProcessTime = recipe.getHeatExchangerProcessTime(defaultProcessTime);
+		baseProcessTime = recipeInfo.getRecipe().getHeatExchangerProcessTime(defaultProcessTime);
 		fluidToHold = getFluidToHold();
-		inputTemperature = recipe.getHeatExchangerInputTemperature();
-		outputTemperature = recipe.getHeatExchangerOutputTemperature();
+		inputTemperature = recipeInfo.getRecipe().getHeatExchangerInputTemperature();
+		outputTemperature = recipeInfo.getRecipe().getHeatExchangerOutputTemperature();
 		return true;
 	}
 	
 	private int getFluidToHold() {
-		return Math.min(8000, getFluidIngredients().get(0).getMaxStackSize()*NCConfig.machine_update_rate / 4);
+		return Math.min(8000, getFluidIngredients().get(0).getMaxStackSize(recipeInfo.getFluidIngredientNumbers().get(0))*NCConfig.machine_update_rate / 4);
 	}
 	
 	// Processing
@@ -286,12 +290,12 @@ public class TileHeatExchangerTube extends TileHeatExchangerPartBase implements 
 	public boolean canProduceProducts() {
 		for (int j = 0; j < fluidOutputSize; j++) {
 			IFluidIngredient fluidProduct = getFluidProducts().get(j);
-			if (fluidProduct.getMaxStackSize() <= 0) continue;
+			if (fluidProduct.getMaxStackSize(0) <= 0) continue;
 			if (fluidProduct.getStack() == null) return false;
 			else if (!tanks.get(j + fluidInputSize).isEmpty()) {
 				if (!tanks.get(j + fluidInputSize).getFluid().isFluidEqual(fluidProduct.getStack())) {
 					return false;
-				} else if (tanks.get(j + fluidInputSize).getFluidAmount() + fluidProduct.getMaxStackSize() > tanks.get(j + fluidInputSize).getCapacity()) {
+				} else if (tanks.get(j + fluidInputSize).getFluidAmount() + fluidProduct.getMaxStackSize(0) > tanks.get(j + fluidInputSize).getCapacity()) {
 					return false;
 				}
 			}
@@ -315,22 +319,22 @@ public class TileHeatExchangerTube extends TileHeatExchangerPartBase implements 
 	}
 	
 	public void produceProducts() {
-		if (recipe == null) return;
-		List<Integer> fluidInputOrder = getFluidInputOrder();
+		if (recipeInfo == null) return;
+		List<Integer> fluidInputOrder = recipeInfo.getFluidInputOrder();
 		if (fluidInputOrder == AbstractRecipeHandler.INVALID) return;
 		
 		for (int i = 0; i < fluidInputSize; i++) {
-			int fluidIngredientStackSize = getFluidIngredients().get(fluidInputOrder.get(i)).getMaxStackSize();
+			int fluidIngredientStackSize = getFluidIngredients().get(fluidInputOrder.get(i)).getMaxStackSize(recipeInfo.getFluidIngredientNumbers().get(i));
 			if (fluidIngredientStackSize > 0) tanks.get(i).changeFluidAmount(-fluidIngredientStackSize);
 			if (tanks.get(i).getFluidAmount() <= 0) tanks.get(i).setFluidStored(null);
 		}
 		for (int j = 0; j < fluidOutputSize; j++) {
 			IFluidIngredient fluidProduct = getFluidProducts().get(j);
-			if (fluidProduct.getMaxStackSize() <= 0) continue;
+			if (fluidProduct.getMaxStackSize(0) <= 0) continue;
 			if (tanks.get(j + fluidInputSize).isEmpty()) {
-				tanks.get(j + fluidInputSize).setFluidStored(fluidProduct.getNextStack());
+				tanks.get(j + fluidInputSize).setFluidStored(fluidProduct.getNextStack(0));
 			} else if (tanks.get(j + fluidInputSize).getFluid().isFluidEqual(fluidProduct.getStack())) {
-				tanks.get(j + fluidInputSize).changeFluidAmount(fluidProduct.getNextStackSize());
+				tanks.get(j + fluidInputSize).changeFluidAmount(fluidProduct.getNextStackSize(0));
 			}
 		}
 	}
@@ -343,41 +347,18 @@ public class TileHeatExchangerTube extends TileHeatExchangerPartBase implements 
 	}
 	
 	@Override
-	public ProcessorRecipe getRecipe() {
-		return recipe;
-	}
-	
-	@Override
 	public List<Tank> getFluidInputs() {
 		return tanks.subList(0, fluidInputSize);
 	}
 	
 	@Override
 	public List<IFluidIngredient> getFluidIngredients() {
-		return recipe.fluidIngredients();
+		return recipeInfo.getRecipe().fluidIngredients();
 	}
 	
 	@Override
 	public List<IFluidIngredient> getFluidProducts() {
-		return recipe.fluidProducts();
-	}
-	
-	@Override
-	public List<Integer> getFluidInputOrder() {
-		List<Integer> fluidInputOrder = new ArrayList<Integer>();
-		List<IFluidIngredient> fluidIngredients = recipe.fluidIngredients();
-		for (int i = 0; i < fluidInputSize; i++) {
-			int position = -1;
-			for (int j = 0; j < fluidIngredients.size(); j++) {
-				if (fluidIngredients.get(j).matches(getFluidInputs().get(i), IngredientSorption.INPUT)) {
-					position = j;
-					break;
-				}
-			}
-			if (position == -1) return AbstractRecipeHandler.INVALID;
-			fluidInputOrder.add(position);
-		}
-		return fluidInputOrder;
+		return recipeInfo.getRecipe().fluidProducts();
 	}
 	
 	// Fluids
@@ -663,9 +644,12 @@ public class TileHeatExchangerTube extends TileHeatExchangerPartBase implements 
 	@Override
 	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing side) {
 		if (!getTanks().isEmpty() && hasFluidSideCapability(side)) {
-			side = nonNullSide(side);
-			if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) return getFluidSide(side) != null;
-			if (ModCheck.mekanismLoaded()) if (GasHelper.isGasCapability(capability)) return getGasWrapper() != null;
+			if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
+				return true;
+			}
+			if (ModCheck.mekanismLoaded() && GasHelper.isGasCapability(capability)) {
+				return true;
+			}
 		}
 		return super.hasCapability(capability, side);
 	}
@@ -673,9 +657,12 @@ public class TileHeatExchangerTube extends TileHeatExchangerPartBase implements 
 	@Override
 	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing side) {
 		if (!getTanks().isEmpty() && hasFluidSideCapability(side)) {
-			side = nonNullSide(side);
-			if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) return (T) getFluidSide(side);
-			if (ModCheck.mekanismLoaded()) if (GasHelper.isGasCapability(capability)) return (T) getGasWrapper();
+			if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
+				return (T) getFluidSide(nonNullSide(side));
+			}
+			if (ModCheck.mekanismLoaded() && GasHelper.isGasCapability(capability)) {
+				return (T) getGasWrapper();
+			}
 		}
 		return super.getCapability(capability, side);
 	}

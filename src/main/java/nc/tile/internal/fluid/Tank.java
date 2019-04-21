@@ -88,13 +88,13 @@ public class Tank extends FluidTank {
 		}
 		if(amount > capacity) amount = capacity;
 		fluid.amount = amount;
-    }
+	}
 	
 	public void setTankCapacity(int newCapacity) {
 		if(newCapacity == capacity || newCapacity <= 0) return;
 		capacity = newCapacity;
 		if(newCapacity < getFluidAmount()) setFluidAmount(newCapacity);
-    }
+	}
 	
 	public void mergeTank(Tank other) {
 		if (fluid == null) {
@@ -111,7 +111,7 @@ public class Tank extends FluidTank {
 	public void setMaxTransfer(int newMaxTransfer) {
 		if(newMaxTransfer < 0) return;
 		if(newMaxTransfer != maxTransfer) maxTransfer = newMaxTransfer;
-    }
+	}
 	
 	public boolean isEmpty() {
 		return getFluidAmount() == 0;

@@ -1,5 +1,8 @@
 package nc.multiblock.heatExchanger.tile;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
@@ -42,5 +45,99 @@ public class TileHeatExchangerComputerPort extends TileHeatExchangerPartBase imp
 	@Optional.Method(modid = "opencomputers")
 	public Object[] isComplete(Context context, Arguments args) {
 		return new Object[] {isMultiblockAssembled()};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] isHeatExchangerOn(Context context, Arguments args) {
+		return new Object[] {isMultiblockAssembled() ? getMultiblock().isHeatExchangerOn : false};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getLengthX(Context context, Arguments args) {
+		return new Object[] {isMultiblockAssembled() ? getMultiblock().getInteriorLengthX() : 0};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getLengthY(Context context, Arguments args) {
+		return new Object[] {isMultiblockAssembled() ? getMultiblock().getInteriorLengthY() : 0};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getLengthZ(Context context, Arguments args) {
+		return new Object[] {isMultiblockAssembled() ? getMultiblock().getInteriorLengthZ() : 0};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getFractionOfTubesActive(Context context, Arguments args) {
+		return new Object[] {isMultiblockAssembled() ? getMultiblock().fractionOfTubesActive : 0D};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getMeanEfficiency(Context context, Arguments args) {
+		return new Object[] {isMultiblockAssembled() ? getMultiblock().efficiency : 0D};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getNumberOfTubes(Context context, Arguments args) {
+		return new Object[] {isMultiblockAssembled() ? getMultiblock().getTubes().size() : 0};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getTubeStats(Context context, Arguments args) {
+		if (isMultiblockAssembled()) {
+			List<Object[]> stats = new ArrayList<Object[]>();
+			for (TileHeatExchangerTube tube : getMultiblock().getTubes()) {
+				stats.add(new Object[] {
+						new Object[] {tube.getPos().getX(), tube.getPos().getY(), tube.getPos().getZ()},
+						tube.conductivity,
+						tube.isProcessing,
+						tube.time,
+						tube.recipeInfo != null ? tube.baseProcessTime/tube.getSpeedMultiplier() : 0D,
+						tube.getSpeedMultiplier(),
+						tube.inputTemperature,
+						tube.outputTemperature,
+						tube.flowDir == null ? "null" : tube.flowDir.getName()
+						});
+			}
+			return stats.toArray();
+		}
+		else return new Object[] {};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] activate(Context context, Arguments args) {
+		if (isMultiblockAssembled()) {
+			getMultiblock().computerActivated = true;
+			getMultiblock().setIsHeatExchangerOn();
+		}
+		return new Object[] {};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] deactivate(Context context, Arguments args) {
+		if (isMultiblockAssembled()) {
+			getMultiblock().computerActivated = false;
+			getMultiblock().setIsHeatExchangerOn();
+		}
+		return new Object[] {};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] clearAllFluids(Context context, Arguments args) {
+		if (isMultiblockAssembled()) {
+			getMultiblock().clearAllFluids();
+		}
+		return new Object[] {};
 	}
 }

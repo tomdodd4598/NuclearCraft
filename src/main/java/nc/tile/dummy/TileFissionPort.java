@@ -316,13 +316,13 @@ public class TileFissionPort extends TileDummy<TileFissionController> implements
 	@Callback
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getCurrentProcessTime(Context context, Arguments args) {
-		return new Object[] {hasMaster() ? getMaster().time : 0};
+		return new Object[] {hasMaster() ? getMaster().time : 0D};
 	}
 	
 	@Callback
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getHeatLevel(Context context, Arguments args) {
-		return new Object[] {hasMaster() ? getMaster().heat : 0};
+		return new Object[] {hasMaster() ? getMaster().heat : 0D};
 	}
 	
 	@Callback
@@ -334,31 +334,31 @@ public class TileFissionPort extends TileDummy<TileFissionController> implements
 	@Callback
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getEfficiency(Context context, Arguments args) {
-		return new Object[] {hasMaster() ? getMaster().efficiency : 0};
+		return new Object[] {hasMaster() ? getMaster().efficiency : 0D};
 	}
 	
 	@Callback
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getHeatMultiplier(Context context, Arguments args) {
-		return new Object[] {hasMaster() ? getMaster().heatMult : 0};
+		return new Object[] {hasMaster() ? getMaster().heatMult : 0D};
 	}
 	
 	@Callback
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getFissionFuelTime(Context context, Arguments args) {
-		return new Object[] {hasMaster() ? (getMaster() != null ? getMaster().baseProcessTime : 0) : 0};
+		return new Object[] {hasMaster() ? (getMaster() != null ? getMaster().baseProcessTime : 0D) : 0D};
 	}
 	
 	@Callback
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getFissionFuelPower(Context context, Arguments args) {
-		return new Object[] {hasMaster() ? getMaster().baseProcessPower : 0};
+		return new Object[] {hasMaster() ? getMaster().baseProcessPower : 0D};
 	}
 	
 	@Callback
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getFissionFuelHeat(Context context, Arguments args) {
-		return new Object[] {hasMaster() ? getMaster().baseProcessHeat : 0};
+		return new Object[] {hasMaster() ? getMaster().baseProcessHeat : 0D};
 	}
 	
 	@Callback
@@ -370,25 +370,31 @@ public class TileFissionPort extends TileDummy<TileFissionController> implements
 	@Callback
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getReactorProcessTime(Context context, Arguments args) {
-		return new Object[] {hasMaster() ? (getMaster() != null ? (getMaster().cells == 0 ? getMaster().baseProcessTime : getMaster().baseProcessTime/getMaster().cells) : 0) : 0};
+		return new Object[] {hasMaster() ? (getMaster() != null ? (getMaster().cells == 0 ? getMaster().baseProcessTime : getMaster().baseProcessTime/getMaster().cells) : 0D) : 0D};
 	}
 	
 	@Callback
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getReactorProcessPower(Context context, Arguments args) {
-		return new Object[] {hasMaster() ? getMaster().processPower : 0};
+		return new Object[] {hasMaster() ? getMaster().processPower : 0D};
 	}
 	
 	@Callback
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getReactorProcessHeat(Context context, Arguments args) {
-		return new Object[] {hasMaster() ? getMaster().heatChange : 0};
+		return new Object[] {hasMaster() ? getMaster().heatChange : 0D};
 	}
 	
 	@Callback
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getReactorCoolingRate(Context context, Arguments args) {
-		return new Object[] {hasMaster() ? getMaster().cooling : 0};
+		return new Object[] {hasMaster() ? getMaster().cooling : 0D};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getNumberOfCells(Context context, Arguments args) {
+		return new Object[] {hasMaster() ? getMaster().cells : 0};
 	}
 	
 	@Callback

@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
+import nc.recipe.IngredientMatchResult;
 import nc.recipe.IngredientSorption;
 import net.minecraftforge.fluids.FluidStack;
 
@@ -43,13 +44,13 @@ public class FluidArrayIngredient implements IFluidIngredient {
 	
 	public String getIngredientRecipeString() {
 		String names = "";
-		for (IFluidIngredient ingredient : ingredientList) names += (", " + ingredient.getMaxStackSize() + " x " + ingredient.getIngredientName());
+		for (IFluidIngredient ingredient : ingredientList) names += (", " + ingredient.getMaxStackSize(0) + " x " + ingredient.getIngredientName());
 		return "{ " + names.substring(2) + " }";
 	}
 	
 	@Override
-	public int getMaxStackSize() {
-		return ingredientList.get(0).getMaxStackSize();
+	public int getMaxStackSize(int ingredientNumber) {
+		return ingredientList.get(ingredientNumber).getMaxStackSize(0);
 	}
 	
 	@Override
@@ -72,13 +73,11 @@ public class FluidArrayIngredient implements IFluidIngredient {
 	}
 	
 	@Override
-	public boolean matches(Object object, IngredientSorption sorption) {
-		for (IFluidIngredient ingredient : ingredientList) {
-			if (ingredient.matches(object, sorption)) {
-				return true;
-			}
+	public IngredientMatchResult match(Object object, IngredientSorption sorption) {
+		for (int i = 0; i < ingredientList.size(); i++) {
+			if (ingredientList.get(i).match(object, sorption).matches()) return new IngredientMatchResult(true, i);
 		}
-		return false;
+		return IngredientMatchResult.FAIL;
 	}
 	
 	@Override

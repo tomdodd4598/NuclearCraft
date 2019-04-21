@@ -11,7 +11,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.Fluid;
 
-public class BlockFluidAcid extends BlockFluid {
+public class BlockFluidAcid extends NCBlockFluid {
 	
 	public static DamageSource acid_burn = new DamageSource("acid_burn");
 

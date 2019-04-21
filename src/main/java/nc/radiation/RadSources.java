@@ -74,6 +74,8 @@ public class RadSources {
 	
 	public static final double CAESIUM_137 = 0.033D;
 	
+	public static final double CORIUM = 0.0000165D;
+	
 	public static final double THORIUM = 0.0000015D;
 	public static final double URANIUM = 0.000000000385D;
 	public static final double PLUTONIUM = 0.000042D;
@@ -132,9 +134,7 @@ public class RadSources {
 			MATERIAL_FIVE_NAME_LIST.add("turbineBlade");
 			MATERIAL_SIX_NAME_LIST.addAll(Lists.newArrayList("toolHeadHammer", "toolHeadUniversalSpade"));
 		}
-	}
-	
-	public static void init2() {
+		
 		putMaterial(THORIUM, "Thorium");
 		putMaterial(URANIUM, "Uranium", "Yellorium");
 		putMaterial(PLUTONIUM, "Plutonium", "Blutonium");
@@ -247,6 +247,26 @@ public class RadSources {
 		put(RadSources.THORIUM_230*9D/4D, NCBlocks.helium_collector);
 		put(RadSources.THORIUM_230*8D*9D/4D, NCBlocks.helium_collector_compact);
 		put(RadSources.THORIUM_230*64D*9D/4D, NCBlocks.helium_collector_dense);
+		
+		// Custom and Stack Entries
+		
+		for (String oreInfo : NCConfig.radiation_ores) {
+			int scorePos = oreInfo.lastIndexOf('_');
+			if (scorePos == -1) continue;
+			addToOreMap(oreInfo.substring(0, scorePos), Double.parseDouble(oreInfo.substring(scorePos + 1)));
+		}
+		for (String itemInfo : NCConfig.radiation_items) {
+			int scorePos = itemInfo.lastIndexOf('_');
+			if (scorePos == -1) continue;
+			ItemStack stack = RegistryHelper.itemStackFromRegistry(itemInfo.substring(0, scorePos));
+			if (stack != null) addToStackMap(stack, Double.parseDouble(itemInfo.substring(scorePos + 1)));
+		}
+		for (String blockInfo : NCConfig.radiation_blocks) {
+			int scorePos = blockInfo.lastIndexOf('_');
+			if (scorePos == -1) continue;
+			ItemStack stack = RegistryHelper.blockStackFromRegistry(blockInfo.substring(0, scorePos));
+			if (stack != null) addToStackMap(stack, Double.parseDouble(blockInfo.substring(scorePos + 1)));
+		}
 	}
 	
 	public static void putMaterial(double radiation, String... ores) {
@@ -356,26 +376,4 @@ public class RadSources {
 	public static final double HECf_249 = getFuelRadiation(CALIFORNIUM_252, 5, CALIFORNIUM_249, 4);
 	public static final double LECf_251 = getFuelRadiation(CALIFORNIUM_252, 8, CALIFORNIUM_251, 1);
 	public static final double HECf_251 = getFuelRadiation(CALIFORNIUM_252, 5, CALIFORNIUM_251, 4);
-	
-	// Custom and Stack Entries
-	
-	public static void postInit() {
-		for (String oreInfo : NCConfig.radiation_ores) {
-			int scorePos = oreInfo.lastIndexOf('_');
-			if (scorePos == -1) continue;
-			addToOreMap(oreInfo.substring(0, scorePos), Double.parseDouble(oreInfo.substring(scorePos + 1)));
-		}
-		for (String itemInfo : NCConfig.radiation_items) {
-			int scorePos = itemInfo.lastIndexOf('_');
-			if (scorePos == -1) continue;
-			ItemStack stack = RegistryHelper.itemStackFromRegistry(itemInfo.substring(0, scorePos));
-			if (stack != null) addToStackMap(stack, Double.parseDouble(itemInfo.substring(scorePos + 1)));
-		}
-		for (String blockInfo : NCConfig.radiation_blocks) {
-			int scorePos = blockInfo.lastIndexOf('_');
-			if (scorePos == -1) continue;
-			ItemStack stack = RegistryHelper.blockStackFromRegistry(blockInfo.substring(0, scorePos));
-			if (stack != null) addToStackMap(stack, Double.parseDouble(blockInfo.substring(scorePos + 1)));
-		}
-	}
 }

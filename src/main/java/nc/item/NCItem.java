@@ -47,9 +47,9 @@ public class NCItem extends Item {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack itemStack, @Nullable World world, List<String> tooltip, ITooltipFlag flag) {
-        super.addInformation(itemStack, world, tooltip, flag);
-        if (info.length + fixedInfo.length > 0) InfoHelper.infoFull(tooltip, fixedColor, fixedInfo, info);
-    }
+		super.addInformation(itemStack, world, tooltip, flag);
+		if (info.length + fixedInfo.length > 0) InfoHelper.infoFull(tooltip, fixedColor, fixedInfo, info);
+	}
 	
 	protected ActionResult<ItemStack> actionResult(boolean success, ItemStack stack) {
 		return new ActionResult<ItemStack>(success ? EnumActionResult.SUCCESS : EnumActionResult.FAIL, stack);

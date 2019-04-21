@@ -9,7 +9,6 @@ import nc.integration.jei.JEICategoryAbstract;
 import nc.integration.jei.JEIMethods.RecipeFluidMapper;
 import nc.integration.jei.JEIRecipeWrapper;
 import nc.recipe.IngredientSorption;
-import nc.recipe.ProcessorRecipe;
 import nc.util.Lang;
 import nc.util.UnitHelper;
 import net.minecraft.util.text.TextFormatting;
@@ -32,12 +31,8 @@ public class TurbineCategory extends JEICategoryAbstract<JEIRecipeWrapper.Turbin
 		
 		recipeLayout.getFluidStacks().addTooltipCallback((slotIndex, input, ingredient, tooltip) -> {
 			tooltip.add(TextFormatting.LIGHT_PURPLE + ENERGY_DENSITY + " " + TextFormatting.WHITE + UnitHelper.prefix(recipeWrapper.recipe.getTurbinePowerPerMB(), 3, "RF/mB"));
-			tooltip.add(TextFormatting.GRAY + EXPANSION + " " + TextFormatting.WHITE + Math.round(100D*expansion(recipeWrapper.recipe)) + "%");
+			tooltip.add(TextFormatting.GRAY + EXPANSION + " " + TextFormatting.WHITE + Math.round(100D*recipeWrapper.recipe.getTurbineExpansionLevel()) + "%");
 		});
-	}
-	
-	private double expansion(ProcessorRecipe recipe) {
-		return (double)recipe.fluidProducts().get(0).getMaxStackSize()/(double)recipe.fluidIngredients().get(0).getMaxStackSize();
 	}
 	
 	private static final String ENERGY_DENSITY = Lang.localise("jei.nuclearcraft.turbine_energy_density");

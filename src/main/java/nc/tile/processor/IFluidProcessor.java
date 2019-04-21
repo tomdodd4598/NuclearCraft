@@ -15,8 +15,6 @@ public interface IFluidProcessor extends IProcessor {
 	
 	public List<IFluidIngredient> getFluidProducts();
 	
-	public List<Integer> getFluidInputOrder();
-	
 	public static List<Integer> defaultTankCapacities(int capacity, int inSize, int outSize) {
 		List<Integer> tankCapacities = new ArrayList<Integer>();
 		for (int i = 0; i < inSize + outSize; i++) tankCapacities.add(capacity);

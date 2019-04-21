@@ -12,8 +12,6 @@ public interface IProcessor extends IInterfaceable, IBufferable {
 	
 	public ProcessorRecipeHandler getRecipeHandler();
 	
-	public ProcessorRecipe getRecipe();
-	
 	public void refreshRecipe();
 	
 	public void refreshActivity();

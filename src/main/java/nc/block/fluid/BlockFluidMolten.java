@@ -9,7 +9,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.Fluid;
 
-public class BlockFluidMolten extends BlockFluid {
+public class BlockFluidMolten extends NCBlockFluid {
 	
 	protected static DamageSource molten_burn = new DamageSource("molten_burn");
 

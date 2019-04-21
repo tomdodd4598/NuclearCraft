@@ -13,6 +13,4 @@ public interface IItemGenerator extends IProcessor {
 	public List<IItemIngredient> getItemIngredients();
 	
 	public List<IItemIngredient> getItemProducts();
-	
-	public List<Integer> getItemInputOrder();
 }

@@ -31,8 +31,7 @@ public class TileRadiationScrubber extends TilePassiveAbstract implements ITileR
 	private static final double OCCLUSION_PENALTY_FRACTION = NCConfig.radiation_scrubber_fraction/52D;
 	public static final double MAX_SCRUBBER_RATE_FRACTION = NCConfig.radiation_scrubber_fraction;
 	
-	private double scrubberRateFraction = 0D;
-	private double currentChunkBuffer = 0D;
+	private double scrubberRateFraction = 0D, currentChunkBuffer = 0D;
 	
 	public final Map<BlockPos, Integer> occlusionMap = new ConcurrentHashMap<BlockPos, Integer>();
 	
@@ -113,7 +112,7 @@ public class TileRadiationScrubber extends TilePassiveAbstract implements ITileR
 	}
 	
 	@Override
-	public double getChunkBufferContributionFraction() {
+	public double getContributionFraction() {
 		return isActive ? -scrubberRateFraction : 0D;
 	}
 	
@@ -189,6 +188,6 @@ public class TileRadiationScrubber extends TilePassiveAbstract implements ITileR
 	@Callback
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getEfficiency(Context context, Arguments args) {
-		return new Object[] {Math.abs(100D*getChunkBufferContributionFraction()/MAX_SCRUBBER_RATE_FRACTION)};
+		return new Object[] {Math.abs(100D*getContributionFraction()/MAX_SCRUBBER_RATE_FRACTION)};
 	}
 }

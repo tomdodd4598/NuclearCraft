@@ -9,7 +9,6 @@ import nc.tile.generator.TileDecayGenerator;
 import nc.tile.internal.fluid.Tank;
 import nc.util.InfoHelper;
 import nc.util.Lang;
-import nc.util.RecipeHelper;
 import net.minecraft.item.ItemStack;
 
 public class ProcessorRecipe implements IRecipe {
@@ -63,26 +62,26 @@ public class ProcessorRecipe implements IRecipe {
 	}
 
 	@Override
-	public boolean matchingInputs(List<ItemStack> itemInputs, List<Tank> fluidInputs) {
-		return RecipeHelper.matchingIngredients(IngredientSorption.INPUT, itemIngredients, fluidIngredients, itemInputs, fluidInputs, isShapeless);
+	public RecipeMatchResult matchInputs(List<ItemStack> itemInputs, List<Tank> fluidInputs) {
+		return RecipeHelper.matchIngredients(IngredientSorption.INPUT, itemIngredients, fluidIngredients, itemInputs, fluidInputs, isShapeless);
 	}
 
 	@Override
-	public boolean matchingOutputs(List<ItemStack> itemOutputs, List<Tank> fluidOutputs) {
-		return RecipeHelper.matchingIngredients(IngredientSorption.OUTPUT, itemProducts, fluidProducts, itemOutputs, fluidOutputs, isShapeless);
+	public RecipeMatchResult matchOutputs(List<ItemStack> itemOutputs, List<Tank> fluidOutputs) {
+		return RecipeHelper.matchIngredients(IngredientSorption.OUTPUT, itemProducts, fluidProducts, itemOutputs, fluidOutputs, isShapeless);
 	}
 	
 	@Override
-	public boolean matchingIngredients(List<IItemIngredient> itemIngredients, List<IFluidIngredient> fluidIngredients) {
-		return RecipeHelper.matchingIngredients(IngredientSorption.INPUT, this.itemIngredients, this.fluidIngredients, itemIngredients, fluidIngredients, isShapeless);
+	public RecipeMatchResult matchIngredients(List<IItemIngredient> itemIngredients, List<IFluidIngredient> fluidIngredients) {
+		return RecipeHelper.matchIngredients(IngredientSorption.INPUT, this.itemIngredients, this.fluidIngredients, itemIngredients, fluidIngredients, isShapeless);
 	}
 
 	@Override
-	public boolean matchingProducts(List<IItemIngredient> itemProducts, List<IFluidIngredient> fluidProducts) {
-		return RecipeHelper.matchingIngredients(IngredientSorption.OUTPUT, this.itemProducts, this.fluidProducts, itemProducts, fluidProducts, isShapeless);
+	public RecipeMatchResult matchProducts(List<IItemIngredient> itemProducts, List<IFluidIngredient> fluidProducts) {
+		return RecipeHelper.matchIngredients(IngredientSorption.OUTPUT, this.itemProducts, this.fluidProducts, itemProducts, fluidProducts, isShapeless);
 	}
 	
-	/* ================================== Recipe Info ===================================== */
+	/* ================================== Recipe Extras ===================================== */
 	
 	// Processors
 	
@@ -134,7 +133,7 @@ public class ProcessorRecipe implements IRecipe {
 	
 	public double getDecayRadiation() {
 		if (extras.size() < 3) return 0D;
-		else if (extras.get(2) instanceof Double) return ((double) extras.get(2))/20D;
+		else if (extras.get(2) instanceof Double) return ((double) extras.get(2))*NCConfig.machine_update_rate/20D;
 		else return 0D;
 	}
 	
@@ -254,5 +253,11 @@ public class ProcessorRecipe implements IRecipe {
 		if (extras.isEmpty()) return 0D;
 		else if (extras.get(0) instanceof Double) return (double) extras.get(0);
 		else return 0D;
+	}
+	
+	public double getTurbineExpansionLevel() {
+		if (extras.size() < 2) return 1D;
+		else if (extras.get(1) instanceof Double) return (double) extras.get(1);
+		else return 1D;
 	}
 }

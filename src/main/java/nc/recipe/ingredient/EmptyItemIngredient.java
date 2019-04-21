@@ -3,6 +3,7 @@ package nc.recipe.ingredient;
 import java.util.ArrayList;
 import java.util.List;
 
+import nc.recipe.IngredientMatchResult;
 import nc.recipe.IngredientSorption;
 import net.minecraft.item.ItemStack;
 
@@ -26,7 +27,7 @@ public class EmptyItemIngredient implements IItemIngredient {
 	}
 
 	@Override
-	public int getMaxStackSize() {
+	public int getMaxStackSize(int ingredientNumber) {
 		return 0;
 	}
 	
@@ -46,12 +47,12 @@ public class EmptyItemIngredient implements IItemIngredient {
 	}
 
 	@Override
-	public boolean matches(Object object, IngredientSorption sorption) {
-		if (object == null) return true;
+	public IngredientMatchResult match(Object object, IngredientSorption sorption) {
+		if (object == null) return IngredientMatchResult.PASS_0;
 		if (object instanceof ItemStack) {
-			return ((ItemStack) object).isEmpty();
+			return new IngredientMatchResult(((ItemStack) object).isEmpty(), 0);
 		}
-		return object instanceof EmptyItemIngredient;
+		return new IngredientMatchResult(object instanceof EmptyItemIngredient, 0);
 	}
 	
 	@Override

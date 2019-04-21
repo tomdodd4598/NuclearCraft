@@ -11,6 +11,7 @@ import crafttweaker.api.item.IngredientStack;
 import crafttweaker.api.liquid.ILiquidStack;
 import crafttweaker.api.oredict.IOreDictEntry;
 import nc.recipe.NCRecipes;
+import nc.recipe.RecipeHelper;
 import nc.recipe.ingredient.EmptyFluidIngredient;
 import nc.recipe.ingredient.EmptyItemIngredient;
 import nc.recipe.ingredient.FluidIngredient;
@@ -18,11 +19,10 @@ import nc.recipe.ingredient.IFluidIngredient;
 import nc.recipe.ingredient.IItemIngredient;
 import nc.recipe.ingredient.OreIngredient;
 import nc.util.ItemStackHelper;
-import nc.util.RecipeHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 
-public class CTMethods {
+public class CTHelper {
 	
 	public static ItemStack getItemStack(IItemStack item) {
 		if(item == null) return ItemStack.EMPTY;
@@ -43,13 +43,13 @@ public class CTMethods {
 		if (ingredient == null) {
 			return new EmptyItemIngredient();
 		} else if (ingredient instanceof IItemStack) {
-			return recipeType.getRecipeHandler().buildItemIngredient(getItemStack((IItemStack) ingredient));
+			return RecipeHelper.buildItemIngredient(getItemStack((IItemStack) ingredient));
 		} else if (ingredient instanceof IOreDictEntry) {
 			return new OreIngredient(((IOreDictEntry) ingredient).getName(), ((IOreDictEntry) ingredient).getAmount());
 		} else if (ingredient instanceof IngredientStack) {
-			return buildOreIngredientArray((IngredientStack) ingredient, recipeType);
+			return buildOreIngredientArray((IngredientStack) ingredient, true);
 		} else if (ingredient instanceof IngredientOr) {
-			return buildItemIngredientArray((IngredientOr) ingredient, recipeType);
+			return buildItemIngredientArray((IngredientOr) ingredient);
 		} else {
 			CraftTweakerAPI.logError(String.format("%s: Invalid ingredient: %s, %s", recipeType.getRecipeName(), ingredient.getClass().getName(), ingredient));
 			return null;
@@ -60,9 +60,9 @@ public class CTMethods {
 		if (ingredient == null) {
 			return new EmptyFluidIngredient();
 		} else if (ingredient instanceof ILiquidStack) {
-			return recipeType.getRecipeHandler().buildFluidIngredient(getFluidStack((ILiquidStack) ingredient));
+			return RecipeHelper.buildFluidIngredient(getFluidStack((ILiquidStack) ingredient));
 		} else if (ingredient instanceof IngredientOr) {
-			return buildFluidIngredientArray((IngredientOr) ingredient, recipeType);
+			return buildFluidIngredientArray((IngredientOr) ingredient);
 		} else {
 			CraftTweakerAPI.logError(String.format("%s: Invalid ingredient: %s, %s", recipeType.getRecipeName(), ingredient.getClass().getName(), ingredient));
 			return null;
@@ -73,13 +73,13 @@ public class CTMethods {
 		if (ingredient == null) {
 			return new EmptyItemIngredient();
 		} else if (ingredient instanceof IItemStack) {
-			return recipeType.getRecipeHandler().buildItemIngredient(CTMethods.getItemStack((IItemStack) ingredient));
+			return RecipeHelper.buildItemIngredient(CTHelper.getItemStack((IItemStack) ingredient));
 		} else if (ingredient instanceof IOreDictEntry) {
 			return new OreIngredient(((IOreDictEntry) ingredient).getName(), ((IOreDictEntry) ingredient).getAmount());
 		} else if (ingredient instanceof IngredientStack) {
-			return buildItemIngredientArray((IngredientStack) ingredient, recipeType);
+			return buildOreIngredientArray((IngredientStack) ingredient, false);
 		} else if (ingredient instanceof IngredientOr) {
-			return buildItemIngredientArray((IngredientOr) ingredient, recipeType);
+			return buildItemIngredientArray((IngredientOr) ingredient);
 		} else {
 			CraftTweakerAPI.logError(String.format("%s: Invalid ingredient: %s, %s", recipeType.getRecipeName(), ingredient.getClass().getName(), ingredient));
 			return null;
@@ -92,7 +92,7 @@ public class CTMethods {
 		} else if (ingredient instanceof ILiquidStack) {
 			return new FluidIngredient(((ILiquidStack) ingredient).getName(), ((ILiquidStack) ingredient).getAmount());
 		} else if (ingredient instanceof IngredientOr) {
-			return buildFluidIngredientArray((IngredientOr) ingredient, recipeType);
+			return buildFluidIngredientArray((IngredientOr) ingredient);
 		} else {
 			CraftTweakerAPI.logError(String.format("%s: Invalid ingredient: %s, %s", recipeType.getRecipeName(), ingredient.getClass().getName(), ingredient));
 			return null;
@@ -101,23 +101,25 @@ public class CTMethods {
 	
 	// Array Ingredients
 	
-	public static IItemIngredient buildItemIngredientArray(IIngredient ingredient, NCRecipes.Type recipeType) {
+	public static IItemIngredient buildItemIngredientArray(IIngredient ingredient) {
 		List<ItemStack> stackList = new ArrayList<ItemStack>();
 		ingredient.getItems().forEach(item -> stackList.add(getItemStack(item)));
-		return recipeType.getRecipeHandler().buildItemIngredient(stackList);
+		return RecipeHelper.buildItemIngredient(stackList);
 	}
 	
-	public static IItemIngredient buildOreIngredientArray(IngredientStack stack, NCRecipes.Type recipeType) {
+	public static IItemIngredient buildOreIngredientArray(IngredientStack stack, boolean addition) {
 		List<ItemStack> stackList = new ArrayList<ItemStack>();
 		stack.getItems().forEach(item -> stackList.add(ItemStackHelper.changeStackSize(getItemStack(item), stack.getAmount())));
-		OreIngredient oreStack = RecipeHelper.getOreStackFromItems(stackList, stack.getAmount());
-		if (oreStack != null) return oreStack;
-		else return recipeType.getRecipeHandler().buildItemIngredient(stackList);
+		if (addition) {
+			OreIngredient oreStack = RecipeHelper.getOreStackFromItems(stackList, stack.getAmount());
+			if (oreStack != null) return oreStack;
+		}
+		return RecipeHelper.buildItemIngredient(stackList);
 	}
 	
-	public static IFluidIngredient buildFluidIngredientArray(IngredientOr ingredient, NCRecipes.Type recipeType) {
+	public static IFluidIngredient buildFluidIngredientArray(IngredientOr ingredient) {
 		List<FluidStack> stackList = new ArrayList<FluidStack>();
 		ingredient.getLiquids().forEach(fluid -> stackList.add(getFluidStack(fluid)));
-		return recipeType.getRecipeHandler().buildFluidIngredient(stackList);
+		return RecipeHelper.buildFluidIngredient(stackList);
 	}
 }

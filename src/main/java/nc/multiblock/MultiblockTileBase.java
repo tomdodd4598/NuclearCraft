@@ -182,7 +182,7 @@ public abstract class MultiblockTileBase<T extends MultiblockBase> extends TileB
 	@Override
 	public void validate() {
 		super.validate();
-        REGISTRY.onPartAdded(this.getWorld(), this);
+		REGISTRY.onPartAdded(this.getWorld(), this);
 	}
 
 	@Override
@@ -364,7 +364,7 @@ public abstract class MultiblockTileBase<T extends MultiblockBase> extends TileB
 		}
 
 		// Clean part out of lists in the registry
-        REGISTRY.onPartRemovedFromWorld(getWorld(), this);
+		REGISTRY.onPartRemovedFromWorld(getWorld(), this);
 	}
 
 	/**
@@ -381,9 +381,9 @@ public abstract class MultiblockTileBase<T extends MultiblockBase> extends TileB
 	
 	// Registry
 
-    private static final IMultiblockRegistry REGISTRY;
+	private static final IMultiblockRegistry REGISTRY;
 
-    static {
-        REGISTRY = NuclearCraft.proxy.initMultiblockRegistry();
-    }
+	static {
+		REGISTRY = NuclearCraft.proxy.initMultiblockRegistry();
+	}
 }

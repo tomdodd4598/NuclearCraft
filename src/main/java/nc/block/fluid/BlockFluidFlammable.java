@@ -7,7 +7,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fluids.Fluid;
 
-public class BlockFluidFlammable extends BlockFluid {
+public class BlockFluidFlammable extends NCBlockFluid {
 
 	public BlockFluidFlammable(Fluid fluid) {
 		super(fluid, Material.WATER);

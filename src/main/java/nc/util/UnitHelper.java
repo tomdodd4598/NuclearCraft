@@ -20,8 +20,8 @@ public class UnitHelper {
 		while (prefixNumber > minPrefixNumber) {
 			newDouble = NCMath.magnitudeMult(newDouble, 3);
 			newMaxDouble = NCMath.magnitudeMult(newMaxDouble, 3);
-            prefixNumber--;
-            if (NCMath.atLongLimit((long) newDouble, 1000) || NCMath.atLongLimit((long) newMaxDouble, 1000) || prefixNumber == minPrefixNumber) break;
+			prefixNumber--;
+			if (NCMath.atLongLimit((long) newDouble, 1000) || NCMath.atLongLimit((long) newMaxDouble, 1000) || prefixNumber == minPrefixNumber) break;
 		}
 		int maxLengthFixed = Math.max(maxLength, 3);
 		long newValue = (long) newDouble;
@@ -35,8 +35,8 @@ public class UnitHelper {
 			}
 			newValue = NCMath.magnitudeMult(newValue, -3);
 			newMaxValue = NCMath.magnitudeMult(newMaxValue, -3);
-            prefixNumber++;
-        }
+			prefixNumber++;
+		}
 		maxVal = maxValue == -1 ? "" : " / " + NCMath.magnitudeMult(newMaxValue, -3);
 		return sign + NCMath.magnitudeMult(newValue, -3) + maxVal + SI_PREFIX[SI_PREFIX.length - 1] + unit;
 	}
@@ -84,8 +84,8 @@ public class UnitHelper {
 		while (prefixNumber > minPrefixNumber) {
 			value = NCMath.magnitudeMult(value, 3);
 			newMax = NCMath.magnitudeMult(newMax, 3);
-            prefixNumber--;
-            if (NCMath.atDoubleLimit(value, 1000) || NCMath.atDoubleLimit(newMax, 1000) || prefixNumber == minPrefixNumber) break;
+			prefixNumber--;
+			if (NCMath.atDoubleLimit(value, 1000) || NCMath.atDoubleLimit(newMax, 1000) || prefixNumber == minPrefixNumber) break;
 		}
 		int maxLengthFixed = Math.max(maxLength, 3);
 		int length = NCMath.numberLength((long)value);
@@ -97,8 +97,8 @@ public class UnitHelper {
 			}
 			value = NCMath.magnitudeMult(value, -3);
 			newMax = NCMath.magnitudeMult(newMax, -3);
-            prefixNumber++;
-        }
+			prefixNumber++;
+		}
 		maxVal = maxValue == -1D ? "" : " / " + (long)NCMath.magnitudeMult(newMax, -3);
 		return sign + (long)NCMath.magnitudeMult(value, -3) + maxVal + SI_PREFIX[SI_PREFIX.length - 1] + unit;
 	}

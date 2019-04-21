@@ -36,7 +36,7 @@ public class CommandSetChunkRadiation extends CommandBase {
 				throw new WrongUsageException(getUsage(sender), new Object[0]);
 			}
 			
-			Chunk chunk = sender.getEntityWorld().getChunkFromChunkCoords((int)sender.getPosition().getX() >> 4, (int)sender.getPosition().getZ() >> 4);
+			Chunk chunk = sender.getEntityWorld().getChunkFromChunkCoords(sender.getPosition().getX() >> 4, sender.getPosition().getZ() >> 4);
 			
 			if (chunk != null && chunk.isLoaded() && chunk.hasCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null)) {
 				IRadiationSource chunkRadiation = chunk.getCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null);

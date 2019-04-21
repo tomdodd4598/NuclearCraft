@@ -79,7 +79,7 @@ public class BlockFusionDummy extends BlockTile {
 			if (world.getTileEntity(corePos) instanceof TileFusionCore) {
 				TileFusionCore core = (TileFusionCore) world.getTileEntity(corePos);
 				if (core.getTanks() != null) {
-					boolean accessedTanks = FluidHelper.accessTanks(player, hand, core.getTanks());
+					boolean accessedTanks = FluidHelper.accessTanks(player, hand, facing, core);
 					if (accessedTanks) {
 						core.refreshRecipe();
 						core.refreshActivity();
@@ -128,5 +128,5 @@ public class BlockFusionDummy extends BlockTile {
 	public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state, @Nullable TileEntity te, ItemStack stack) {
 		player.addStat(StatList.getBlockStats(NCBlocks.fusion_core));
 		player.addExhaustion(0.005F);
-    }
+	}
 }

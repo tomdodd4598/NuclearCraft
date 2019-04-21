@@ -10,7 +10,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.Fluid;
 
-public class BlockFluidCoolant extends BlockFluid {
+public class BlockFluidCoolant extends NCBlockFluid {
 
 	public BlockFluidCoolant(Fluid fluid) {
 		super(fluid, Material.WATER);

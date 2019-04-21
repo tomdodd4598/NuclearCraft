@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nc.NuclearCraft;
-import nc.block.fluid.BlockFluidBase;
+import nc.block.fluid.NCBlockFluid;
 import nc.block.fluid.BlockFluidFission;
 import nc.config.NCConfig;
 import nc.fluid.FluidFission;
@@ -137,7 +137,7 @@ public class NCFissionFluids {
 		}
 	}
 	
-	public static void registerBlock(BlockFluidBase block) {
+	public static void registerBlock(NCBlockFluid block) {
 		ForgeRegistries.BLOCKS.register(block);
 		ForgeRegistries.ITEMS.register(new ItemBlock(block).setRegistryName(block.getRegistryName()));
 		NuclearCraft.proxy.registerFluidBlockRendering(block, "fluid_molten_colored");

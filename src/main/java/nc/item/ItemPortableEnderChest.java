@@ -21,8 +21,8 @@ public class ItemPortableEnderChest extends NCItem {
 		
 		if (inventoryenderchest != null) {
 			if (!worldIn.isRemote) {
-            	playerIn.displayGUIChest(inventoryenderchest);
-            	playerIn.addStat(StatList.ENDERCHEST_OPENED);
+				playerIn.displayGUIChest(inventoryenderchest);
+				playerIn.addStat(StatList.ENDERCHEST_OPENED);
 			}
 		}
 		return new ActionResult<ItemStack>(EnumActionResult.PASS, playerIn.getHeldItem(handIn));

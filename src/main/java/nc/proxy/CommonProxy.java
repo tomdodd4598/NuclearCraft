@@ -28,7 +28,6 @@ import nc.multiblock.MultiblockRegistry;
 import nc.network.PacketHandler;
 import nc.radiation.RadBiomes;
 import nc.radiation.RadEffects;
-import nc.radiation.RadSources;
 import nc.radiation.RadWorlds;
 import nc.radiation.RadiationArmor;
 import nc.radiation.RadiationHandler;
@@ -103,8 +102,6 @@ public class CommonProxy {
 		MinecraftForge.EVENT_BUS.register(new DropHandler());
 		MinecraftForge.EVENT_BUS.register(new DungeonLootHandler());
 		
-		RadSources.init();
-		RadSources.init2();
 		RadiationArmor.init();
 		
 		NCBiomes.initBiomeManagerAndDictionary();
@@ -123,7 +120,6 @@ public class CommonProxy {
 		
 		CraftingRecipeHandler.registerRadShieldingCraftingRecipes();
 		
-		RadSources.postInit();
 		RadiationArmor.postInit();
 		RadWorlds.init();
 		RadEffects.init();
@@ -182,11 +178,12 @@ public class CommonProxy {
 	
 	public IMultiblockRegistry initMultiblockRegistry() {
 
-        if (multiblockEventHandler == null)
-            MinecraftForge.EVENT_BUS.register(multiblockEventHandler = new MultiblockEventHandler());
-
-        return MultiblockRegistry.INSTANCE;
-    }
-
-    private static MultiblockEventHandler multiblockEventHandler = null;
+		if (multiblockEventHandler == null) {
+			MinecraftForge.EVENT_BUS.register(multiblockEventHandler = new MultiblockEventHandler());
+		}
+		
+		return MultiblockRegistry.INSTANCE;
+	}
+	
+	private static MultiblockEventHandler multiblockEventHandler = null;
 }

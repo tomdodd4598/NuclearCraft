@@ -8,21 +8,21 @@ import net.minecraft.util.math.BlockPos;
 public class SaltFissionUpdatePacket extends MultiblockUpdatePacket {
 	
 	public boolean isReactorOn;
-	public double cooling, heating, efficiency, heatMult, coolingRate;
+	public double cooling, heating, rawEfficiency, heatMult, coolingEfficiency;
 	public long capacity, heat;
 	
 	public SaltFissionUpdatePacket() {
 		messageValid = false;
 	}
 	
-	public SaltFissionUpdatePacket(BlockPos pos, boolean isReactorOn, double cooling, double heating, double efficiency, double heatMult, double coolingRate, long capacity, long heat) {
+	public SaltFissionUpdatePacket(BlockPos pos, boolean isReactorOn, double cooling, double heating, double rawEfficiency, double heatMult, double coolingEfficiency, long capacity, long heat) {
 		this.pos = pos;
 		this.isReactorOn = isReactorOn;
 		this.cooling = cooling;
 		this.heating = heating;
-		this.efficiency = efficiency;
+		this.rawEfficiency = rawEfficiency;
 		this.heatMult = heatMult;
-		this.coolingRate = coolingRate;
+		this.coolingEfficiency = coolingEfficiency;
 		this.capacity = capacity;
 		this.heat = heat;
 		
@@ -35,9 +35,9 @@ public class SaltFissionUpdatePacket extends MultiblockUpdatePacket {
 		isReactorOn = buf.readBoolean();
 		cooling = buf.readDouble();
 		heating = buf.readDouble();
-		efficiency = buf.readDouble();
+		rawEfficiency = buf.readDouble();
 		heatMult = buf.readDouble();
-		coolingRate = buf.readDouble();
+		coolingEfficiency = buf.readDouble();
 		capacity = buf.readLong();
 		heat = buf.readLong();
 	}
@@ -50,9 +50,9 @@ public class SaltFissionUpdatePacket extends MultiblockUpdatePacket {
 		buf.writeBoolean(isReactorOn);
 		buf.writeDouble(cooling);
 		buf.writeDouble(heating);
-		buf.writeDouble(efficiency);
+		buf.writeDouble(rawEfficiency);
 		buf.writeDouble(heatMult);
-		buf.writeDouble(coolingRate);
+		buf.writeDouble(coolingEfficiency);
 		buf.writeLong(capacity);
 		buf.writeLong(heat);
 	}

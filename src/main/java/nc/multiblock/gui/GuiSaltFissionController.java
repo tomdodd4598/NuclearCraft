@@ -45,9 +45,9 @@ public class GuiSaltFissionController extends GuiMultiblockController<SaltFissio
 	
 	public List<String> efficiencyInfo() {
 		List<String> info = new ArrayList<String>();
-		info.add(TextFormatting.AQUA + Lang.localise("gui.container.salt_fission_controller.efficiency") + " " + TextFormatting.WHITE + NCMath.round(multiblock.efficiency*100D, 1) + "%");
+		info.add(TextFormatting.AQUA + Lang.localise("gui.container.salt_fission_controller.raw_efficiency") + " " + TextFormatting.WHITE + NCMath.round(multiblock.rawEfficiency*100D, 1) + "%");
 		info.add(TextFormatting.YELLOW + Lang.localise("gui.container.salt_fission_controller.heat_mult") + " " + TextFormatting.WHITE + NCMath.round(multiblock.heatMult*100D, 1) + "%");
-		info.add(TextFormatting.BLUE + Lang.localise("gui.container.salt_fission_controller.cooling_rate") + " " + TextFormatting.WHITE + NCMath.round(multiblock.coolingRate*100D, 1) + "%");
+		info.add(TextFormatting.BLUE + Lang.localise("gui.container.salt_fission_controller.cooling_efficiency") + " " + TextFormatting.WHITE + NCMath.round(multiblock.coolingEfficiency*100D, 1) + "%");
 		return info;
 	}
 	
@@ -57,9 +57,9 @@ public class GuiSaltFissionController extends GuiMultiblockController<SaltFissio
 	
 	public List<String> heatInfo() {
 		List<String> info = new ArrayList<String>();
-		info.add(TextFormatting.YELLOW + Lang.localise("gui.container.salt_fission_controller.heat") + " " + TextFormatting.WHITE + UnitHelper.prefix((int) multiblock.heatBuffer.heatStored, (int) multiblock.heatBuffer.heatCapacity, 6, "H"));
-		info.add(TextFormatting.YELLOW + Lang.localise("gui.container.salt_fission_controller.heat_gen") + " " + TextFormatting.WHITE + UnitHelper.prefix((int) multiblock.getHeatChange(false), 6, "H/t"));
-		info.add(TextFormatting.BLUE + Lang.localise("gui.container.salt_fission_controller.cooling") + " " + TextFormatting.WHITE + UnitHelper.prefix((int) -multiblock.cooling, 6, "H/t"));
+		info.add(TextFormatting.YELLOW + Lang.localise("gui.container.salt_fission_controller.heat_stored") + " " + TextFormatting.WHITE + UnitHelper.prefix((int) multiblock.heatBuffer.heatStored, (int) multiblock.heatBuffer.heatCapacity, 6, "H"));
+		info.add(TextFormatting.YELLOW + Lang.localise("gui.container.salt_fission_controller.net_heat_gen") + " " + TextFormatting.WHITE + UnitHelper.prefix((int) multiblock.getNetHeatingRate(false), 6, "H/t"));
+		info.add(TextFormatting.BLUE + Lang.localise("gui.container.salt_fission_controller.cooling_rate") + " " + TextFormatting.WHITE + UnitHelper.prefix((int) -multiblock.cooling, 6, "H/t"));
 		return info;
 		
 	}
@@ -83,13 +83,13 @@ public class GuiSaltFissionController extends GuiMultiblockController<SaltFissio
 		String heaters = Lang.localise("gui.container.salt_fission_controller.heaters") + " " + multiblock.getHeaters().size();
 		fontRenderer.drawString(heaters, xSize / 2 - width(heaters) / 2, 36, fontColor);
 		
-		String coolingRate = Lang.localise("gui.container.salt_fission_controller.cooling_rate") + " " + (int) (multiblock.coolingRate*100D) + "%";
+		String coolingRate = Lang.localise("gui.container.salt_fission_controller.cooling_efficiency") + " " + (int) (multiblock.coolingEfficiency*100D) + "%";
 		fontRenderer.drawString(coolingRate, xSize / 2 - width(coolingRate) / 2, 52, fontColor);
 		
-		String heat_gen = Lang.localise("gui.container.salt_fission_controller.heat_gen") + " " + UnitHelper.prefix((int) multiblock.getHeatChange(false), 6, "H/t");
+		String heat_gen = Lang.localise("gui.container.salt_fission_controller.net_heat_gen") + " " + UnitHelper.prefix((int) multiblock.getNetHeatingRate(false), 6, "H/t");
 		fontRenderer.drawString(heat_gen, xSize / 2 - width(heat_gen) / 2, 64, fontColor);
 		
-		String cooling = Lang.localise("gui.container.salt_fission_controller.cooling") + " " + UnitHelper.prefix((int) -multiblock.cooling, 6, "H/t");
+		String cooling = Lang.localise("gui.container.salt_fission_controller.cooling_rate") + " " + UnitHelper.prefix((int) -multiblock.cooling, 6, "H/t");
 		fontRenderer.drawString(cooling, xSize / 2 - width(cooling) / 2, 76, fontColor);
 	}
 	
@@ -97,7 +97,7 @@ public class GuiSaltFissionController extends GuiMultiblockController<SaltFissio
 	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
 		super.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY);
 		
-		int e = (int)Math.round(multiblock.coolingRate/multiblock.efficiency*164);
+		int e = (int)Math.round(multiblock.coolingEfficiency/multiblock.rawEfficiency*164);
 		drawTexturedModalRect(guiLeft + 6, guiTop + 92, 3, 114, e, 6);
 		
 		int h = (int)Math.round((double)multiblock.heatBuffer.heatStored/(double)multiblock.heatBuffer.heatCapacity*164);

@@ -54,9 +54,9 @@ public class BlockSpin extends NCBlock implements ITileEntityProvider {
 		}
 	}
 	
-    @Override
+	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-    	TileEntity tile = world.getTileEntity(pos);
+		TileEntity tile = world.getTileEntity(pos);
 		if (player != null) if (tile instanceof TileSpin && !player.isSneaking()) {
 			TileSpin qubit = (TileSpin) tile;
 			double phi = (double) (player.rotationYaw + 360D) % 360D;
@@ -76,7 +76,7 @@ public class BlockSpin extends NCBlock implements ITileEntityProvider {
 			return true;
 		}
 		return false;
-    }
+	}
 	
 	@Override
 	public boolean isOpaqueCube(IBlockState state) {

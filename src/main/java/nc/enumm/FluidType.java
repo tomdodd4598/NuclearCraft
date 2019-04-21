@@ -1,9 +1,9 @@
 package nc.enumm;
 
 import nc.block.fluid.BlockFluidAcid;
-import nc.block.fluid.BlockFluidBase;
 import nc.block.fluid.BlockFluidChocolate;
 import nc.block.fluid.BlockFluidCoolant;
+import nc.block.fluid.BlockFluidCorium;
 import nc.block.fluid.BlockFluidFission;
 import nc.block.fluid.BlockFluidFlammable;
 import nc.block.fluid.BlockFluidGas;
@@ -17,9 +17,11 @@ import nc.block.fluid.BlockFluidSaltSolution;
 import nc.block.fluid.BlockFluidSteam;
 import nc.block.fluid.BlockFluidSugar;
 import nc.block.fluid.BlockSuperFluid;
+import nc.block.fluid.NCBlockFluid;
 import nc.fluid.FluidAcid;
 import nc.fluid.FluidChocolate;
 import nc.fluid.FluidCoolant;
+import nc.fluid.FluidCorium;
 import nc.fluid.FluidFission;
 import nc.fluid.FluidFlammable;
 import nc.fluid.FluidGas;
@@ -48,15 +50,16 @@ public enum FluidType {
 	ACID(FluidAcid.class, BlockFluidAcid.class),
 	SALT_SOLUTION(FluidSaltSolution.class, BlockFluidSaltSolution.class),
 	FISSION(FluidFission.class, BlockFluidFission.class),
+	CORIUM(FluidCorium.class, BlockFluidCorium.class),
 	CHOCOLATE(FluidChocolate.class, BlockFluidChocolate.class),
 	SUGAR(FluidSugar.class, BlockFluidSugar.class),
 	COOLANT(FluidCoolant.class, BlockFluidCoolant.class),
 	HOT_COOLANT(FluidHotCoolant.class, BlockFluidHotCoolant.class);
 	
 	private Class<? extends Fluid> fluidClass;
-	private Class<? extends BlockFluidBase> blockClass;
+	private Class<? extends NCBlockFluid> blockClass;
 	
-	private <T extends Fluid, V extends BlockFluidBase> FluidType(Class<T> fluidClass, Class<V> blockClass) {
+	private <T extends Fluid, V extends NCBlockFluid> FluidType(Class<T> fluidClass, Class<V> blockClass) {
 		this.fluidClass = fluidClass;
 		this.blockClass = blockClass;
 	}
@@ -65,7 +68,7 @@ public enum FluidType {
 		return (Class<T>) fluidClass;
 	}
 	
-	public <T extends BlockFluidBase> Class<T> getBlockClass() {
+	public <T extends NCBlockFluid> Class<T> getBlockClass() {
 		return (Class<T>) blockClass;
 	}
 }

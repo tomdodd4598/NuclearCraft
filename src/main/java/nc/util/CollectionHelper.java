@@ -193,4 +193,14 @@ public class CollectionHelper {
 	public static int[] increasingArray(int length) {
 		return increasingArray(0, length);
 	}
+	
+	public static List<Integer> increasingList(int start, int length) {
+		List<Integer> list = new ArrayList<Integer>();
+		for (int i = 0; i < length; i++) list.add(start + i);
+		return list;
+	}
+	
+	public static List<Integer> increasingList(int length) {
+		return increasingList(0, length);
+	}
 }

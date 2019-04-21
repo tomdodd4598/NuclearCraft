@@ -34,12 +34,12 @@ public interface ITileFluid extends ITile {
 	// Tank Logic
 	
 	/** Only concerns ordering, not whether fluid is actually valid for the tank due to filters or sorption */
-	public default boolean isNextToFill(int tankNumber, FluidStack resource) {
+	public default boolean isNextToFill(@Nonnull EnumFacing side, int tankNumber, FluidStack resource) {
 		if (!getInputTanksSeparated()) {
 			return true;
 		}
 		for (int i = 0; i < getTanks().size(); i++) {
-			if (i != tankNumber && getTanks().get(i).getFluid() != null && getTanks().get(i).getFluid().isFluidEqual(resource)) {
+			if (i != tankNumber && getTankSorption(side, i).canFill() && getTanks().get(i).getFluid() != null && getTanks().get(i).getFluid().isFluidEqual(resource)) {
 				return false;
 			}
 		}
@@ -104,7 +104,7 @@ public interface ITileFluid extends ITile {
 		return false;
 	}
 	
-	// Fluid Connection Wrapper Methods
+	// Fluid Wrapper Methods
 	
 	public default @Nonnull IFluidTankProperties[] getTankProperties(@Nonnull EnumFacing side) {
 		if (getTanks().isEmpty()) {
@@ -119,7 +119,7 @@ public interface ITileFluid extends ITile {
 	
 	public default int fill(@Nonnull EnumFacing side, FluidStack resource, boolean doFill) {
 		for (int i = 0; i < getTanks().size(); i++) {
-			if (getTankSorption(side, i).canFill() && getTanks().get(i).canFillFluidType(resource) && isNextToFill(i, resource) && getTanks().get(i).getFluidAmount() < getTanks().get(i).getCapacity() && (getTanks().get(i).getFluid() == null || getTanks().get(i).getFluid().isFluidEqual(resource))) {
+			if (getTankSorption(side, i).canFill() && getTanks().get(i).canFillFluidType(resource) && isNextToFill(side, i, resource) && getTanks().get(i).getFluidAmount() < getTanks().get(i).getCapacity() && (getTanks().get(i).getFluid() == null || getTanks().get(i).getFluid().isFluidEqual(resource))) {
 				return getTanks().get(i).fill(resource, doFill);
 			}
 		}
@@ -128,7 +128,7 @@ public interface ITileFluid extends ITile {
 	
 	public default FluidStack drain(@Nonnull EnumFacing side, FluidStack resource, boolean doDrain) {
 		for (int i = 0; i < getTanks().size(); i++) {
-			if (getTankSorption(side, i).canDrain() /*&& getTanks().get(i).canDrain()*/ && getTanks().get(i).getFluidAmount() > 0 && resource.isFluidEqual(getTanks().get(i).getFluid()) && getTanks().get(i).drain(resource, false) != null) {
+			if (getTankSorption(side, i).canDrain() && getTanks().get(i).getFluidAmount() > 0 && resource.isFluidEqual(getTanks().get(i).getFluid()) && getTanks().get(i).drain(resource, false) != null) {
 				if (getTanks().get(i).drain(resource, false) != null) {
 					return getTanks().get(i).drain(resource, doDrain);
 				}
@@ -139,7 +139,7 @@ public interface ITileFluid extends ITile {
 	
 	public default FluidStack drain(@Nonnull EnumFacing side, int maxDrain, boolean doDrain) {
 		for (int i = 0; i < getTanks().size(); i++) {
-			if (getTankSorption(side, i).canDrain() /*&& getTanks().get(i).canDrain()*/ && getTanks().get(i).getFluidAmount() > 0 && getTanks().get(i).drain(maxDrain, false) != null) {
+			if (getTankSorption(side, i).canDrain() && getTanks().get(i).getFluidAmount() > 0 && getTanks().get(i).drain(maxDrain, false) != null) {
 				if (getTanks().get(i).drain(maxDrain, false) != null) {
 					return getTanks().get(i).drain(maxDrain, doDrain);
 				}
@@ -160,7 +160,7 @@ public interface ITileFluid extends ITile {
 		return new FluidTileWrapper[] {new FluidTileWrapper(tile, EnumFacing.DOWN), new FluidTileWrapper(tile, EnumFacing.UP), new FluidTileWrapper(tile, EnumFacing.NORTH), new FluidTileWrapper(tile, EnumFacing.SOUTH), new FluidTileWrapper(tile, EnumFacing.WEST), new FluidTileWrapper(tile, EnumFacing.EAST)};
 	}
 	
-	// Mekanism Gas
+	// Mekanism Gas Wrapper
 	
 	public @Nonnull GasTileWrapper getGasWrapper();
 	

@@ -6,6 +6,7 @@ import javax.annotation.Nonnull;
 
 import com.google.common.collect.Lists;
 
+import nc.recipe.IngredientMatchResult;
 import nc.recipe.IngredientSorption;
 import nc.util.ItemStackHelper;
 import net.minecraft.item.ItemStack;
@@ -34,26 +35,26 @@ public class ItemIngredient implements IItemIngredient {
 	}
 	
 	@Override
-	public boolean matches(Object object, IngredientSorption type) {
+	public IngredientMatchResult match(Object object, IngredientSorption type) {
 		if (object instanceof ItemStack) {
 			ItemStack itemstack = (ItemStack) object;
 			if (!itemstack.isItemEqual(stack) || !ItemStackHelper.areItemStackTagsEqual(itemstack, stack)) {
-				return false;
+				return IngredientMatchResult.FAIL;
 			}
-			return type.checkStackSize(stack.getCount(), itemstack.getCount());
+			return new IngredientMatchResult(type.checkStackSize(stack.getCount(), itemstack.getCount()), 0);
 		}
 		else if (object instanceof OreIngredient) {
 			OreIngredient oreStack = (OreIngredient) object;
 			//return (oreStack.matches(this, type));
 			
 			for (ItemStack itemStack : oreStack.cachedStackList) {
-				if (matches(itemStack, type)) return type.checkStackSize(stack.getCount(), oreStack.stackSize);
+				if (match(itemStack, type).matches()) return new IngredientMatchResult(type.checkStackSize(stack.getCount(), oreStack.stackSize), 0);
 			}
 		}
-		else if (object instanceof ItemIngredient) {
-			if (matches(((ItemIngredient) object).stack, type)) return type.checkStackSize(getMaxStackSize(), ((ItemIngredient) object).getMaxStackSize());
+		else if (object instanceof ItemIngredient && match(((ItemIngredient) object).stack, type).matches()) {
+			return new IngredientMatchResult(type.checkStackSize(getMaxStackSize(0), ((ItemIngredient) object).getMaxStackSize(0)), 0);
 		}
-		return false;
+		return IngredientMatchResult.FAIL;
 	}
 	
 	@Override
@@ -67,7 +68,7 @@ public class ItemIngredient implements IItemIngredient {
 	}
 	
 	@Override
-	public int getMaxStackSize() {
+	public int getMaxStackSize(int ingredientNumber) {
 		return stack.getCount();
 	}
 	

@@ -185,9 +185,12 @@ public abstract class TileEnergy extends NCTile implements ITileEnergy, IEnergyT
 	@Override
 	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing side) {
 		if (hasEnergySideCapability(side)) {
-			side = nonNullSide(side);
-			if (capability == CapabilityEnergy.ENERGY) return getEnergySide(side) != null;
-			if (ModCheck.gregtechLoaded() && NCConfig.enable_gtce_eu) if (capability == GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER) return getEnergySideGT(side) != null;
+			if (capability == CapabilityEnergy.ENERGY) {
+				return true;
+			}
+			if (ModCheck.gregtechLoaded() && NCConfig.enable_gtce_eu && capability == GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER) {
+				return true;
+			}
 		}
 		return super.hasCapability(capability, side);
 	}
@@ -195,9 +198,12 @@ public abstract class TileEnergy extends NCTile implements ITileEnergy, IEnergyT
 	@Override
 	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing side) {
 		if (hasEnergySideCapability(side)) {
-			side = nonNullSide(side);
-			if (capability == CapabilityEnergy.ENERGY) return (T) getEnergySide(side);
-			if (ModCheck.gregtechLoaded() && NCConfig.enable_gtce_eu) if (capability == GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER) return (T) getEnergySideGT(side);
+			if (capability == CapabilityEnergy.ENERGY) {
+				return (T) getEnergySide(nonNullSide(side));
+			}
+			if (ModCheck.gregtechLoaded() && NCConfig.enable_gtce_eu && capability == GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER) {
+				return (T) getEnergySideGT(nonNullSide(side));
+			}
 		}
 		return super.getCapability(capability, side);
 	}

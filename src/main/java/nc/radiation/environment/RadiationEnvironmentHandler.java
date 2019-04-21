@@ -32,6 +32,7 @@ public class RadiationEnvironmentHandler {
 			count--;
 			
 			Entry<BlockPos, RadiationEnvironmentInfo> environmentEntry = MapHelper.getNextEntry(ENVIRONMENT);
+			if (environmentEntry == null) break;
 			
 			RadiationEnvironmentInfo info = environmentEntry.getValue();
 			for (Entry<BlockPos, ITileRadiationEnvironment> infoEntry : info.tileMap.entrySet()) infoEntry.getValue().handleRadiationEnvironmentInfo(info);

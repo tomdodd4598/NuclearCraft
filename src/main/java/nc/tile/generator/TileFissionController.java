@@ -93,7 +93,7 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 	}
 
 	private TileFissionController(boolean newRules) {
-		super("fission_controller", 1, 1, 0, BASE_CAPACITY, NCRecipes.Type.FISSION);
+		super("fission_controller", 1, 1, 0, defaultItemSorptions(1, 1), BASE_CAPACITY, NCRecipes.Type.FISSION);
 		this.newRules = newRules;
 	}
 	
@@ -235,17 +235,17 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 	
 	@Override
 	public boolean setRecipeStats() {
-		if (recipe == null) {
+		if (recipeInfo == null) {
 			baseProcessTime = defaultProcessTime;
 			baseProcessPower = defaultProcessPower;
 			baseProcessHeat = 0D;
 			baseProcessRadiation = 0D;
 			return false;
 		}
-		baseProcessTime = recipe.getFissionFuelTime();
-		baseProcessPower = recipe.getFissionFuelPower();
-		baseProcessHeat = recipe.getFissionFuelHeat();
-		baseProcessRadiation = recipe.getFissionFuelRadiation();
+		baseProcessTime = recipeInfo.getRecipe().getFissionFuelTime();
+		baseProcessPower = recipeInfo.getRecipe().getFissionFuelPower();
+		baseProcessHeat = recipeInfo.getRecipe().getFissionFuelHeat();
+		baseProcessRadiation = recipeInfo.getRecipe().getFissionFuelRadiation();
 		return true;
 	}
 	
@@ -274,15 +274,15 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 	
 	@Override
 	public int getEUSinkTier() {
-		return 4;
+		return 10;
 	}
 	
 	// Reactor Stats
 	
 	public String getFuelName() {
-		if (recipe == null) return NO_FUEL;
-		if (recipe.extras().size() < 4) return GENERIC_FUEL;
-		Object fuelNameInfo = recipe.extras().get(3);
+		if (recipeInfo == null) return NO_FUEL;
+		if (recipeInfo.getRecipe().extras().size() < 4) return GENERIC_FUEL;
+		Object fuelNameInfo = recipeInfo.getRecipe().extras().get(3);
 		if (fuelNameInfo instanceof String) return ((String) fuelNameInfo).replace('_', '-');
 		else return GENERIC_FUEL;
 	}
@@ -1207,7 +1207,7 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 	@Callback
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getFissionFuelTime(Context context, Arguments args) {
-		return new Object[] {recipe != null ? baseProcessTime : 0};
+		return new Object[] {recipeInfo.getRecipe() != null ? baseProcessTime : 0D};
 	}
 	
 	@Callback
@@ -1231,7 +1231,7 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 	@Callback
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getReactorProcessTime(Context context, Arguments args) {
-		return new Object[] {recipe != null ? (cells == 0 ? baseProcessTime : baseProcessTime/cells) : 0};
+		return new Object[] {recipeInfo.getRecipe() != null ? (cells == 0 ? baseProcessTime : baseProcessTime/cells) : 0D};
 	}
 	
 	@Callback
@@ -1250,6 +1250,12 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getReactorCoolingRate(Context context, Arguments args) {
 		return new Object[] {cooling};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getNumberOfCells(Context context, Arguments args) {
+		return new Object[] {cells};
 	}
 	
 	@Callback

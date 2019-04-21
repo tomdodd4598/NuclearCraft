@@ -1,13 +1,24 @@
 package nc.integration.crafttweaker;
 
+import java.util.List;
+
 import com.google.common.collect.Lists;
 
 import crafttweaker.CraftTweakerAPI;
 import crafttweaker.annotations.ZenRegister;
 import crafttweaker.api.item.IIngredient;
+import crafttweaker.api.item.IItemStack;
+import crafttweaker.api.item.IngredientStack;
+import crafttweaker.api.oredict.IOreDictEntry;
 import nc.config.NCConfig;
+import nc.radiation.RadSources;
 import nc.recipe.IngredientSorption;
 import nc.recipe.NCRecipes;
+import nc.recipe.ingredient.IItemIngredient;
+import nc.recipe.ingredient.OreIngredient;
+import nc.util.ItemInfo;
+import nc.util.OreDictHelper;
+import net.minecraft.item.ItemStack;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
@@ -1146,6 +1157,54 @@ public class NCCraftTweaker {
 		@ZenMethod
 		public static void removeAllRecipes() {
 			CraftTweakerAPI.apply(new RemoveAllProcessorRecipes(NCRecipes.Type.CONDENSER));
+		}
+	}
+	
+	@ZenClass("mods.nuclearcraft.radiation")
+	@ZenRegister
+	public static class RadiationHandler {
+		
+		@ZenMethod
+		public static double getRadiationLevel(IIngredient ingredient) {
+			if (ingredient == null) {
+				return 0D;
+			}
+			else if (ingredient instanceof IItemStack) {
+				ItemStack stack = CTHelper.getItemStack((IItemStack) ingredient);
+				if (stack.isEmpty()) {
+					return 0D;
+				}
+				ItemInfo itemInfo = new ItemInfo(stack);
+				if (RadSources.STACK_MAP.containsKey(itemInfo)) {
+					return RadSources.STACK_MAP.get(itemInfo)*stack.getCount();
+				}
+				List<String> oreNames = OreDictHelper.getOreNames(stack);
+				return !oreNames.isEmpty() && RadSources.ORE_MAP.containsKey(oreNames.get(0)) ? RadSources.ORE_MAP.get(oreNames.get(0))*stack.getCount() : 0D;
+			}
+			else if (ingredient instanceof IOreDictEntry) {
+				String oreName = ((IOreDictEntry) ingredient).getName();
+				int amount = ((IOreDictEntry) ingredient).getAmount();
+				return RadSources.ORE_MAP.containsKey(oreName) ? RadSources.ORE_MAP.get(oreName)*amount : 0D;
+			}
+			else if (ingredient instanceof IngredientStack) {
+				IItemIngredient ing = CTHelper.buildOreIngredientArray((IngredientStack) ingredient, true);
+				if (ing instanceof OreIngredient) {
+					String oreName = ((OreIngredient) ing).oreName;
+					int amount = ((OreIngredient) ing).stackSize;
+					return RadSources.ORE_MAP.containsKey(oreName) ? RadSources.ORE_MAP.get(oreName)*amount : 0D;
+				}
+				else {
+					ItemStack stack = ing.getStack();
+					if (stack == null || stack.isEmpty()) {
+						return 0D;
+					}
+					ItemInfo itemInfo = new ItemInfo(stack);
+					return RadSources.STACK_MAP.containsKey(itemInfo) ? RadSources.STACK_MAP.get(itemInfo)*stack.getCount() : 0D;
+				}
+			}
+			else {
+				return 0D;
+			}
 		}
 	}
 }

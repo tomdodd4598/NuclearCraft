@@ -48,15 +48,15 @@ public abstract class MultiblockBlockPartBase extends NCBlock implements ITileEn
 		return getDefaultState();
 	}
 	
-	protected boolean rightClickOnPart(World world, BlockPos pos, EntityPlayer player, EnumHand hand) {
-		return rightClickOnPart(world, pos, player, hand, false);
+	protected boolean rightClickOnPart(World world, BlockPos pos, EntityPlayer player, EnumHand hand, EnumFacing facing) {
+		return rightClickOnPart(world, pos, player, hand, facing, false);
 	}
 	
-	protected boolean rightClickOnPart(World world, BlockPos pos, EntityPlayer player, EnumHand hand, boolean prioritiseGui) {
+	protected boolean rightClickOnPart(World world, BlockPos pos, EntityPlayer player, EnumHand hand, EnumFacing facing, boolean prioritiseGui) {
 		TileEntity tile = world.getTileEntity(pos);
 		if (tile instanceof ITileFluid && FluidUtil.getFluidHandler(player.getHeldItem(hand)) != null) {
 			ITileFluid tileFluid = (ITileFluid) tile;
-			if (tileFluid.getTanks() != null && FluidHelper.accessTanks(player, hand, tileFluid.getTanks())) return true;
+			if (tileFluid.getTanks() != null && FluidHelper.accessTanks(player, hand, facing, tileFluid)) return true;
 		}
 		if (!world.isRemote && player.getHeldItemMainhand().isEmpty()) {
 			if (tile instanceof IMultiblockPart) {
@@ -147,6 +147,6 @@ public abstract class MultiblockBlockPartBase extends NCBlock implements ITileEn
 			if (blockState != otherState) return true;
 			
 			return block == this ? false : super.shouldSideBeRendered(blockState, world, pos, side);
-	    }
+		}
 	}
 }

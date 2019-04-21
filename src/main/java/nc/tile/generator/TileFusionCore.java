@@ -68,7 +68,7 @@ public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpd
 	private BlockFinder finder;
 	
 	public TileFusionCore() {
-		super("Fusion Core", 2, 4, 0, defaultTankCapacities(32000, 2, 4), defaultTankSorptions(2, 4), NCRecipes.fusion_valid_fluids, maxPower(), NCRecipes.Type.FUSION);
+		super("Fusion Core", 2, 4, 0, defaultItemSorptions(), defaultTankCapacities(32000, 2, 4), defaultTankSorptions(2, 4), NCRecipes.fusion_valid_fluids, maxPower(), NCRecipes.Type.FUSION);
 		setInputTanksSeparated(false);
 	}
 	
@@ -208,17 +208,17 @@ public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpd
 	
 	@Override
 	public boolean setRecipeStats() {
-		if (recipe == null) {
+		if (recipeInfo == null) {
 			baseProcessTime = defaultProcessTime;
 			baseProcessPower = defaultProcessPower;
 			processHeatVariable = 1000D;
 			baseProcessRadiation = 0D;
 			return false;
 		}
-		baseProcessTime = recipe.getFusionComboTime();
-		baseProcessPower = recipe.getFusionComboPower();
-		processHeatVariable = recipe.getFusionComboHeatVariable();
-		baseProcessRadiation = recipe.getFusionComboRadiation();
+		baseProcessTime = recipeInfo.getRecipe().getFusionComboTime();
+		baseProcessPower = recipeInfo.getRecipe().getFusionComboPower();
+		processHeatVariable = recipeInfo.getRecipe().getFusionComboHeatVariable();
+		baseProcessRadiation = recipeInfo.getRecipe().getFusionComboRadiation();
 		return true;
 	}
 	
@@ -263,7 +263,7 @@ public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpd
 	
 	@Override
 	public int getEUSinkTier() {
-		return 4;
+		return 10;
 	}
 	
 	// Reactor Stats
@@ -605,7 +605,7 @@ public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpd
 	@Callback
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getFusionComboTime(Context context, Arguments args) {
-		return new Object[] {recipe != null ? baseProcessTime : 0};
+		return new Object[] {recipeInfo != null ? baseProcessTime : 0D};
 	}
 	
 	@Callback
@@ -617,25 +617,25 @@ public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpd
 	@Callback
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getFusionComboHeatVariable(Context context, Arguments args) {
-		return new Object[] {recipe != null ? processHeatVariable : 0};
+		return new Object[] {recipeInfo != null ? processHeatVariable : 0D};
 	}
 	
 	@Callback
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getFirstFusionFuel(Context context, Arguments args) {
-		return new Object[] {recipe != null ? recipe.fluidIngredients().get(0).getIngredientName() : NO_FUEL};
+		return new Object[] {recipeInfo != null ? getFluidIngredients().get(0).getIngredientName() : NO_FUEL};
 	}
 	
 	@Callback
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getSecondFusionFuel(Context context, Arguments args) {
-		return new Object[] {recipe != null ? recipe.fluidIngredients().get(1).getIngredientName() : NO_FUEL};
+		return new Object[] {recipeInfo != null ? getFluidIngredients().get(1).getIngredientName() : NO_FUEL};
 	}
 	
 	@Callback
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getReactorProcessTime(Context context, Arguments args) {
-		return new Object[] {recipe != null ? (size == 0 ? baseProcessTime : baseProcessTime/size) : 0};
+		return new Object[] {recipeInfo != null ? (size == 0 ? baseProcessTime : baseProcessTime/size) : 0D};
 	}
 	
 	@Callback

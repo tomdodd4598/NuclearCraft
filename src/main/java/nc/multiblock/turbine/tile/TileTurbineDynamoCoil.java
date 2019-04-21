@@ -44,7 +44,7 @@ public class TileTurbineDynamoCoil extends TileTurbinePartBase implements ITileE
 	private boolean isEnergyTileSet = true;
 	private boolean ic2reg = false;
 	
-	private final TurbineDynamoCoilType coilType;
+	public final TurbineDynamoCoilType coilType;
 	public boolean checked = false, isInValidPosition;
 	
 	public static class Magnesium extends TileTurbineDynamoCoil {
@@ -396,9 +396,12 @@ public class TileTurbineDynamoCoil extends TileTurbinePartBase implements ITileE
 	@Override
 	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing side) {
 		if (hasEnergySideCapability(side)) {
-			side = nonNullSide(side);
-			if (capability == CapabilityEnergy.ENERGY) return getEnergySide(side) != null;
-			if (ModCheck.gregtechLoaded() && NCConfig.enable_gtce_eu) if (capability == GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER) return getEnergySideGT(side) != null;
+			if (capability == CapabilityEnergy.ENERGY) {
+				return true;
+			}
+			if (ModCheck.gregtechLoaded() && NCConfig.enable_gtce_eu && capability == GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER) {
+				return true;
+			}
 		}
 		return super.hasCapability(capability, side);
 	}
@@ -406,9 +409,12 @@ public class TileTurbineDynamoCoil extends TileTurbinePartBase implements ITileE
 	@Override
 	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing side) {
 		if (hasEnergySideCapability(side)) {
-			side = nonNullSide(side);
-			if (capability == CapabilityEnergy.ENERGY) return (T) getEnergySide(side);
-			if (ModCheck.gregtechLoaded() && NCConfig.enable_gtce_eu) if (capability == GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER) return (T) getEnergySideGT(side);
+			if (capability == CapabilityEnergy.ENERGY) {
+				return (T) getEnergySide(nonNullSide(side));
+			}
+			if (ModCheck.gregtechLoaded() && NCConfig.enable_gtce_eu && capability == GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER) {
+				return (T) getEnergySideGT(nonNullSide(side));
+			}
 		}
 		return super.getCapability(capability, side);
 	}

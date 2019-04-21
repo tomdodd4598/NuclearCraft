@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
+import nc.recipe.IngredientMatchResult;
 import nc.recipe.IngredientSorption;
 import nc.util.OreDictHelper;
 import net.minecraft.item.ItemStack;
@@ -40,33 +41,35 @@ public class OreIngredient implements IItemIngredient {
 	}
 	
 	@Override
-	public boolean matches(Object object, IngredientSorption type) {
+	public IngredientMatchResult match(Object object, IngredientSorption type) {
 		if (object instanceof OreIngredient) {
 			OreIngredient oreStack = (OreIngredient)object;
 			if (oreStack.oreName.equals(oreName) && type.checkStackSize(stackSize, oreStack.stackSize)) {
-				return true;
+				return IngredientMatchResult.PASS_0;
 			}
 		}
 		else if (object instanceof String) {
-			return oreName.equals(object);
+			return new IngredientMatchResult(oreName.equals(object), 0);
 		}
 		else if (object instanceof ItemStack && type.checkStackSize(stackSize, ((ItemStack) object).getCount())) {
 			ItemStack itemstack = (ItemStack)object;
-			if (itemstack.isEmpty()) return false;
-			if (OreDictHelper.getOreNames(itemstack).contains(oreName)) return true;
+			if (itemstack.isEmpty()) return IngredientMatchResult.FAIL;
+			if (OreDictHelper.getOreNames(itemstack).contains(oreName)) return IngredientMatchResult.PASS_0;
 		}
 		else if (object instanceof ItemIngredient) {
-			if (matches(((ItemIngredient) object).stack, type)) return true;
+			if (match(((ItemIngredient) object).stack, type).matches()) return IngredientMatchResult.PASS_0;
 		}
 		else if (object instanceof ItemArrayIngredient) {
-			for (IItemIngredient ingredient : ((ItemArrayIngredient) object).ingredientList) if (!matches(ingredient, type)) return false;
-			return true;
+			for (IItemIngredient ingredient : ((ItemArrayIngredient) object).ingredientList) {
+				if (!match(ingredient, type).matches()) return IngredientMatchResult.FAIL;
+			}
+			return IngredientMatchResult.PASS_0;
 		}
-		return false;
+		return IngredientMatchResult.FAIL;
 	}
 	
 	@Override
-	public int getMaxStackSize() {
+	public int getMaxStackSize(int ingredientNumber) {
 		return stackSize;
 	}
 	

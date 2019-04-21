@@ -12,13 +12,11 @@ import nc.capability.radiation.source.RadiationSourceProvider;
 import nc.capability.radiation.source.RadiationSourceStackProvider;
 import nc.config.NCConfig;
 import nc.init.NCItems;
-import nc.radiation.RadWorlds;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -40,14 +38,14 @@ public class RadiationCapabilityHandler {
 		event.addCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE_NAME, new RadiationSourceProvider(0D));
 	}
 	
-	@SubscribeEvent
+	/*@SubscribeEvent
 	public void attachWorldRadiationCapability(AttachCapabilitiesEvent<World> event) {
 		int dim = event.getObject().provider.getDimension();
 		if (RadWorlds.RAD_MAP.containsKey(dim)) {
 			event.addCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE_NAME, new RadiationSourceProvider(RadWorlds.RAD_MAP.get(dim)));
 			return;
 		}
-	}
+	}*/
 	
 	@SubscribeEvent
 	public void attachTileRadiationCapability(AttachCapabilitiesEvent<TileEntity> event) {

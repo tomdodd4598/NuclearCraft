@@ -29,6 +29,8 @@ import nc.multiblock.turbine.tile.TileTurbineRotorStator;
 import nc.multiblock.validation.IMultiblockValidator;
 import nc.recipe.NCRecipes;
 import nc.recipe.ProcessorRecipe;
+import nc.recipe.RecipeInfo;
+import nc.recipe.RecipeMatchResult;
 import nc.recipe.ingredient.IFluidIngredient;
 import nc.tile.internal.energy.EnergyStorage;
 import nc.tile.internal.fluid.Tank;
@@ -63,11 +65,11 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> impleme
 	private static final int BASE_MAX_ENERGY = 64000, BASE_MAX_INPUT = 4000, BASE_MAX_OUTPUT = 16000;
 	
 	public final NCRecipes.Type recipeType = NCRecipes.Type.TURBINE;
-	protected ProcessorRecipe recipe, cachedRecipe;
+	protected RecipeInfo<ProcessorRecipe> recipeInfo, cachedRecipeInfo;
 	
 	private int updateCount = 0;
 	
-	public boolean isTurbineOn, isProcessing;
+	public boolean isTurbineOn, computerActivated, isProcessing;
 	public double power = 0D, rawConductivity = 0D;
 	public EnumFacing flowDir = null;
 	public int shaftWidth = 0, shaftVolume = 0, bladeLength = 0, noBladeSets = 0, recipeRate = 0;
@@ -249,8 +251,8 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> impleme
 		
 		boolean dirMinX = false, dirMaxX = false, dirMinY = false, dirMaxY = false, dirMinZ = false, dirMaxZ = false;
 		EnumFacing.Axis axis = null;
-		boolean tooManyAxes = false; //Is any of the bearings in more than a single axis?
-		boolean notInAWall = false; //Is the bearing somewhere else in the structure other than the wall?
+		boolean tooManyAxes = false; // Is any of the bearings in more than a single axis?
+		boolean notInAWall = false; // Is the bearing somewhere else in the structure other than the wall?
 		
 		for (TileTurbineRotorBearing rotorBearing : rotorBearings) {
 			BlockPos pos = rotorBearing.getPos();
@@ -503,7 +505,7 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> impleme
 		return true;
 	}
 	
-	// Kurtchekov stuff!
+	/* ================================== Kurtchekov stuff! ===================================== */
 	
 	protected static class Blade {
 		
@@ -534,7 +536,7 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> impleme
 		return null;
 	}
 	
-	// End of Kurtchekov stuff!
+	/* =============================== End of Kurtchekov stuff! ================================= */
 	
 	protected int getFlowLength() {
 		return getInteriorLength(flowDir);
@@ -567,7 +569,7 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> impleme
 	
 	public void setIsTurbineOn() {
 		boolean oldIsTurbineOn = isTurbineOn;
-		isTurbineOn = isRedstonePowered() && isAssembled();
+		isTurbineOn = (isRedstonePowered()|| computerActivated) && isAssembled();
 		if (isTurbineOn != oldIsTurbineOn) {
 			if (controller != null) controller.updateBlock(isTurbineOn);
 			sendUpdateToAllPlayers();
@@ -599,18 +601,21 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> impleme
 	}
 	
 	protected void refreshRecipe() {
-		if (recipe == null || !recipe.matchingInputs(new ArrayList<ItemStack>(), tanks.subList(0, 1))) {
+		RecipeMatchResult matchResult = recipeInfo == null ? RecipeMatchResult.FAIL : recipeInfo.getRecipe().matchInputs(new ArrayList<ItemStack>(), tanks.subList(0, 1));
+		if (!matchResult.matches()) {
 			/** Temporary caching while looking for recipe map solution */
-			if (cachedRecipe != null && cachedRecipe.matchingInputs(new ArrayList<ItemStack>(), tanks.subList(0, 1))) {
-				recipe = cachedRecipe;
+			matchResult = cachedRecipeInfo == null ? RecipeMatchResult.FAIL : cachedRecipeInfo.getRecipe().matchInputs(new ArrayList<ItemStack>(), tanks.subList(0, 1));
+			if (matchResult.matches()) {
+				recipeInfo = new RecipeInfo(cachedRecipeInfo.getRecipe(), matchResult);
 			}
 			else {
-				recipe = recipeType.getRecipeHandler().getRecipeFromInputs(new ArrayList<ItemStack>(), tanks.subList(0, 1));
+				recipeInfo = recipeType.getRecipeHandler().getRecipeInfoFromInputs(new ArrayList<ItemStack>(), tanks.subList(0, 1));
 			}
-			if (recipe != null) {
-				cachedRecipe = recipe;
+			if (recipeInfo != null) {
+				cachedRecipeInfo = recipeInfo;
 			}
 		}
+		else recipeInfo = new RecipeInfo(recipeInfo.getRecipe(), matchResult);
 	}
 	
 	protected boolean canProcessInputs() {
@@ -619,25 +624,25 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> impleme
 	}
 	
 	protected boolean setRecipeStats() {
-		if (recipe == null) {
+		if (recipeInfo == null) {
 			recipeRate = 0;
 			basePowerPerMB = 0D;
 			idealTotalExpansionLevel = 1D;
 			return false;
 		}
-		basePowerPerMB = recipe.getTurbinePowerPerMB();
-		idealTotalExpansionLevel = Math.max(1D, (double)recipe.fluidProducts().get(0).getMaxStackSize()/(double)recipe.fluidIngredients().get(0).getMaxStackSize());
+		basePowerPerMB = recipeInfo.getRecipe().getTurbinePowerPerMB();
+		idealTotalExpansionLevel = recipeInfo.getRecipe().getTurbineExpansionLevel();
 		return true;
 	}
 	
 	protected boolean canProduceProducts() {
-		IFluidIngredient fluidProduct = recipe.fluidProducts().get(0);
-		if (fluidProduct.getMaxStackSize() <= 0 || fluidProduct.getStack() == null) return false;
+		IFluidIngredient fluidProduct = recipeInfo.getRecipe().fluidProducts().get(0);
+		if (fluidProduct.getMaxStackSize(0) <= 0 || fluidProduct.getStack() == null) return false;
 		recipeRate = Math.min(tanks.get(0).getFluidAmount(), getMaxRecipeRateMultiplier()*updateTime());
 		if (!tanks.get(1).isEmpty()) {
 			if (!tanks.get(1).getFluid().isFluidEqual(fluidProduct.getStack())) {
 				return false;
-			} else if (tanks.get(1).getFluidAmount() + fluidProduct.getMaxStackSize()*recipeRate > tanks.get(1).getCapacity()) {
+			} else if (tanks.get(1).getFluidAmount() + fluidProduct.getMaxStackSize(0)*recipeRate > tanks.get(1).getCapacity()) {
 				return false;
 			}
 		}
@@ -645,17 +650,17 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> impleme
 	}
 	
 	public void produceProducts() {
-		int fluidIngredientStackSize = recipe.fluidIngredients().get(0).getMaxStackSize()*recipeRate;
+		int fluidIngredientStackSize = recipeInfo.getRecipe().fluidIngredients().get(0).getMaxStackSize(recipeInfo.getFluidIngredientNumbers().get(0))*recipeRate;
 		if (fluidIngredientStackSize > 0) tanks.get(0).changeFluidAmount(-fluidIngredientStackSize);
 		if (tanks.get(0).getFluidAmount() <= 0) tanks.get(0).setFluidStored(null);
 		
-		IFluidIngredient fluidProduct = recipe.fluidProducts().get(0);
-		if (fluidProduct.getMaxStackSize() <= 0) return;
+		IFluidIngredient fluidProduct = recipeInfo.getRecipe().fluidProducts().get(0);
+		if (fluidProduct.getMaxStackSize(0) <= 0) return;
 		if (tanks.get(1).isEmpty()) {
-			tanks.get(1).setFluidStored(fluidProduct.getNextStack());
+			tanks.get(1).setFluidStored(fluidProduct.getNextStack(0));
 			tanks.get(1).setFluidAmount(tanks.get(1).getFluidAmount()*recipeRate);
 		} else if (tanks.get(1).getFluid().isFluidEqual(fluidProduct.getStack())) {
-			tanks.get(1).changeFluidAmount(fluidProduct.getNextStackSize()*recipeRate);
+			tanks.get(1).changeFluidAmount(fluidProduct.getNextStackSize(0)*recipeRate);
 		}
 	}
 	
@@ -672,7 +677,7 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> impleme
 		}
 	}
 	
-	protected double getMaxProcessPower() {
+	private double getMaxProcessPower() {
 		if (noBladeSets == 0) return 0D;
 		
 		double bladeMultiplier = 0D;
@@ -686,16 +691,27 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> impleme
 		return bladeMultiplier*getExpansionIdealityMultiplier(idealTotalExpansionLevel, totalExpansionLevel)*getEffectiveConductivity()*(recipeRate/(double)updateTime())*basePowerPerMB;
 	}
 	
-	protected double getExpansionIdealityMultiplier(double ideal, double actual) {
+	private double getExpansionIdealityMultiplier(double ideal, double actual) {
 		if (ideal <= 0 || actual <= 0) return 0D;
 		return ideal < actual ? ideal/actual : actual/ideal;
 	}
 	
-	protected double getIdealExpansionLevel(int depth) {
+	private double getIdealExpansionLevel(int depth) {
 		return Math.pow(idealTotalExpansionLevel, (depth + 0.5D)/(double)getFlowLength());
 	}
 	
-	protected double getEffectiveConductivity() {
+	public List<Double> getIdealExpansionLevels() {
+		List<Double> levels = new ArrayList<Double>();
+		if (flowDir == null) {
+			return levels;
+		}
+		for (int depth = 0; depth < getFlowLength(); depth++) {
+			levels.add(getIdealExpansionLevel(depth));
+		}
+		return levels;
+	}
+	
+	public double getEffectiveConductivity() {
 		if (rotorBearings.size() == 0 || dynamoCoils.size() == 0) return 0;
 		return dynamoCoils.size() >= rotorBearings.size() ? rawConductivity : rawConductivity*(double)dynamoCoils.size()/(double)rotorBearings.size();
 	}
@@ -722,7 +738,7 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> impleme
 	protected void updateClient() {
 		// TODO
 		if (isProcessing && !Minecraft.getMinecraft().isGamePaused()) {
-			double flowSpeed = getFlowLength()/23.2D;
+			double flowSpeed = getFlowLength()/23.2D; // Particles will just reach the outlets at this speed
 			double offsetX = particleSpeedOffest(), offsetY = particleSpeedOffest(), offsetZ = particleSpeedOffest();
 			
 			double speedX = flowDir == EnumFacing.WEST ? -flowSpeed : (flowDir == EnumFacing.EAST ? flowSpeed : offsetX);
@@ -738,11 +754,11 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> impleme
 		}
 	}
 	
-	protected double particleSpeedOffest() {
+	private double particleSpeedOffest() {
 		return (rand.nextDouble() - 0.5D)/getFlowLength();
 	}
 	
-	protected double[] particleSpawnPos(BlockPos pos) {
+	private double[] particleSpawnPos(BlockPos pos) {
 		double offsetU = 0.5D + (rand.nextDouble() - 0.5D)/2D;
 		double offsetV = 0.5D + (rand.nextDouble() - 0.5D)/2D;
 		switch (flowDir) {
@@ -770,6 +786,7 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> impleme
 		energyStorage.writeToNBT(data);
 		writeTanks(data);
 		data.setBoolean("isTurbineOn", isTurbineOn);
+		data.setBoolean("computerActivated", computerActivated);
 		data.setDouble("power", power);
 		data.setDouble("rawConductivity", rawConductivity);
 		data.setInteger("flowDir", flowDir == null ? -1 : flowDir.getIndex());
@@ -793,6 +810,7 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> impleme
 		energyStorage.readFromNBT(data);
 		readTanks(data);
 		isTurbineOn = data.getBoolean("isTurbineOn");
+		computerActivated = data.getBoolean("computerActivated");
 		power = data.getDouble("power");
 		rawConductivity = data.getDouble("rawConductivity");
 		flowDir = data.getInteger("flowDir") < 0 ? null : EnumFacing.VALUES[data.getInteger("flowDir")];

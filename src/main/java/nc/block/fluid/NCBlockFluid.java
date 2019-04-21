@@ -10,12 +10,12 @@ import net.minecraft.world.World;
 import net.minecraftforge.fluids.BlockFluidClassic;
 import net.minecraftforge.fluids.Fluid;
 
-public class BlockFluidBase extends BlockFluidClassic {
+public class NCBlockFluid extends BlockFluidClassic {
 	
 	String name;
 	public final Fluid fluid;
 	
-	public BlockFluidBase(Fluid fluid, Material material) {
+	public NCBlockFluid(Fluid fluid, Material material) {
 		super(fluid, material);
 		String fluidBlockName = "fluid_" + fluid.getName();
 		this.name = fluidBlockName;
@@ -25,7 +25,7 @@ public class BlockFluidBase extends BlockFluidClassic {
 		this.fluid = fluid;
 	}
 	
-	public BlockFluidBase(FluidBase fluid, Material material) {
+	public NCBlockFluid(FluidBase fluid, Material material) {
 		super(fluid, material);
 		String fluidBlockName = "fluid_" + fluid.getName();
 		this.name = fluidBlockName;
@@ -34,18 +34,16 @@ public class BlockFluidBase extends BlockFluidClassic {
 		//NuclearCraft.proxy.registerFluidBlockRendering(this, name);
 		this.fluid = fluid;
 	}
-
+	
 	@Override
 	public boolean canDisplace(IBlockAccess world, BlockPos pos) {
-		if (world.getBlockState(pos).getBlock().getMaterial(world.getBlockState(pos)).isLiquid())
-			return false;
+		if (world.getBlockState(pos).getBlock().getMaterial(world.getBlockState(pos)).isLiquid()) return false;
 		return super.canDisplace(world, pos);
 	}
-
+	
 	@Override
 	public boolean displaceIfPossible(World world, BlockPos pos) {
-		if (world.getBlockState(pos).getBlock().getMaterial(world.getBlockState(pos)).isLiquid())
-			return false;
+		if (world.getBlockState(pos).getBlock().getMaterial(world.getBlockState(pos)).isLiquid()) return false;
 		return super.displaceIfPossible(world, pos);
 	}
 	

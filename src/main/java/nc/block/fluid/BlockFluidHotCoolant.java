@@ -11,7 +11,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.Fluid;
 
-public class BlockFluidHotCoolant extends BlockFluid {
+public class BlockFluidHotCoolant extends NCBlockFluid {
 	
 	public static DamageSource hot_coolant_burn = new DamageSource("hot_coolant_burn");
 

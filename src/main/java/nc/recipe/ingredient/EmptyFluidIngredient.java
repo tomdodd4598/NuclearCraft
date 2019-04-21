@@ -3,6 +3,7 @@ package nc.recipe.ingredient;
 import java.util.ArrayList;
 import java.util.List;
 
+import nc.recipe.IngredientMatchResult;
 import nc.recipe.IngredientSorption;
 import nc.tile.internal.fluid.Tank;
 import net.minecraftforge.fluids.FluidStack;
@@ -27,7 +28,7 @@ public class EmptyFluidIngredient implements IFluidIngredient {
 	}
 
 	@Override
-	public int getMaxStackSize() {
+	public int getMaxStackSize(int ingredientNumber) {
 		return 0;
 	}
 	
@@ -47,12 +48,12 @@ public class EmptyFluidIngredient implements IFluidIngredient {
 	}
 
 	@Override
-	public boolean matches(Object object, IngredientSorption sorption) {
-		if (object == null) return true;
+	public IngredientMatchResult match(Object object, IngredientSorption sorption) {
+		if (object == null) return IngredientMatchResult.PASS_0;
 		if (object instanceof Tank) {
-			return ((Tank)object).getFluid() == null;
+			return new IngredientMatchResult(((Tank)object).getFluid() == null, 0);
 		}
-		return object instanceof EmptyFluidIngredient;
+		return new IngredientMatchResult(object instanceof EmptyFluidIngredient, 0);
 	}
 	
 	@Override

@@ -18,6 +18,9 @@ import nc.tile.energyFluid.TileEnergyFluidSidedInventory;
 import nc.tile.fluid.ITileFluid;
 import nc.tile.internal.energy.EnergyConnection;
 import nc.tile.internal.fluid.TankSorption;
+import nc.tile.internal.inventory.ItemSorption;
+import nc.tile.inventory.ITileInventory;
+import nc.util.EnergyHelper;
 import nc.util.GasHelper;
 import nc.util.ItemStackHelper;
 import net.minecraft.init.Items;
@@ -32,7 +35,6 @@ import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 
 public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory implements ITilePassive {
@@ -87,7 +89,7 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 	}
 	
 	public TilePassiveAbstract(String name, IItemIngredient item, int itemChange, int energyChange, Fluid fluid, int fluidChange, int changeRate, List<String> fluidTypes) {
-		super(name, 1, energyChange == 0 ? 1 : NCConfig.rf_per_eu*MathHelper.abs(energyChange)*changeRate, energyChange == 0 ? 0 : NCConfig.rf_per_eu*MathHelper.abs(energyChange), energyChange > 0 ? ITileEnergy.energyConnectionAll(EnergyConnection.OUT) : (energyChange < 0 ? ITileEnergy.energyConnectionAll(EnergyConnection.IN) : ITileEnergy.energyConnectionAll(EnergyConnection.NON)), fluidChange == 0 ? 1 : 6*MathHelper.abs(fluidChange)*changeRate, fluidTypes, fluidChange > 0 ? ITileFluid.fluidConnectionAll(TankSorption.OUT) : (fluidChange < 0 ? ITileFluid.fluidConnectionAll(TankSorption.IN) : ITileFluid.fluidConnectionAll(TankSorption.NON)));
+		super(name, 1, itemChange > 0 ? ITileInventory.inventoryConnectionAll(ItemSorption.OUT) : (itemChange < 0 ? ITileInventory.inventoryConnectionAll(ItemSorption.IN) : ITileInventory.inventoryConnectionAll(ItemSorption.NON)), energyChange == 0 ? 1 : NCConfig.rf_per_eu*MathHelper.abs(energyChange)*changeRate, energyChange == 0 ? 0 : NCConfig.rf_per_eu*MathHelper.abs(energyChange), energyChange > 0 ? ITileEnergy.energyConnectionAll(EnergyConnection.OUT) : (energyChange < 0 ? ITileEnergy.energyConnectionAll(EnergyConnection.IN) : ITileEnergy.energyConnectionAll(EnergyConnection.NON)), fluidChange == 0 ? 1 : 6*MathHelper.abs(fluidChange)*changeRate, fluidTypes, fluidChange > 0 ? ITileFluid.fluidConnectionAll(TankSorption.OUT) : (fluidChange < 0 ? ITileFluid.fluidConnectionAll(TankSorption.IN) : ITileFluid.fluidConnectionAll(TankSorption.NON)));
 		this.energyChange = energyChange*changeRate;
 		this.itemChange = itemChange*changeRate;
 		stackChange = new ItemIngredient(ItemStackHelper.changeStackSize(item.getStack(), MathHelper.abs(itemChange)*changeRate));
@@ -115,7 +117,7 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 				updateBlockType();
 			}
 			if (pushCount == 0) {
-				if (itemChange > 0) pushStacks(this);
+				if (itemChange > 0) pushStacks();
 				if (energyChange > 0) pushEnergy();
 				if (fluidChange > 0) pushFluid();
 			}
@@ -154,30 +156,30 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 	
 	protected boolean changeStack(boolean simulateChange) {
 		if (itemChange == 0) return simulateChange;
-		if (!stackChange.matches(inventoryStacks.get(0), IngredientSorption.NEUTRAL) && !inventoryStacks.get(0).isEmpty() && !simulateChange) inventoryStacks.set(0, ItemStack.EMPTY);
+		if (!stackChange.match(getInventoryStacks().get(0), IngredientSorption.NEUTRAL).matches() && !getInventoryStacks().get(0).isEmpty() && !simulateChange) getInventoryStacks().set(0, ItemStack.EMPTY);
 		if (itemChange > 0) {
-			if (!inventoryStacks.get(0).isEmpty()) if (inventoryStacks.get(0).getCount() + itemChange > getInventoryStackLimit()) return false;
-			if (inventoryStacks.get(0).isEmpty() && !simulateChange) {
+			if (!getInventoryStacks().get(0).isEmpty()) if (getInventoryStacks().get(0).getCount() + itemChange > getInventoryStackLimit()) return false;
+			if (getInventoryStacks().get(0).isEmpty() && !simulateChange) {
 				if (changeEnergy(true) && changeFluid(true)) setNewStack();
 			}
 			else if (!simulateChange) {
-				if (changeEnergy(true) && changeFluid(true)) inventoryStacks.get(0).grow(itemChange);
+				if (changeEnergy(true) && changeFluid(true)) getInventoryStacks().get(0).grow(itemChange);
 			}
 			return true;
 		} else {
-			if (inventoryStacks.get(0).isEmpty() || inventoryStacks.get(0).getCount() < MathHelper.abs(itemChange)) return false;
-			else if (inventoryStacks.get(0).getCount() > MathHelper.abs(itemChange) && !simulateChange) {
-				if (changeEnergy(true) && changeFluid(true)) inventoryStacks.get(0).grow(itemChange);
+			if (getInventoryStacks().get(0).isEmpty() || getInventoryStacks().get(0).getCount() < MathHelper.abs(itemChange)) return false;
+			else if (getInventoryStacks().get(0).getCount() > MathHelper.abs(itemChange) && !simulateChange) {
+				if (changeEnergy(true) && changeFluid(true)) getInventoryStacks().get(0).grow(itemChange);
 			}
-			else if (inventoryStacks.get(0).getCount() == MathHelper.abs(itemChange) && !simulateChange) {
-				if (changeEnergy(true) && changeFluid(true)) inventoryStacks.set(0, ItemStack.EMPTY);
+			else if (getInventoryStacks().get(0).getCount() == MathHelper.abs(itemChange) && !simulateChange) {
+				if (changeEnergy(true) && changeFluid(true)) getInventoryStacks().set(0, ItemStack.EMPTY);
 			}
 			return true;
 		}
 	}
 	
 	protected void setNewStack() {
-		inventoryStacks.set(0, stackChange.getStack());
+		getInventoryStacks().set(0, stackChange.getStack());
 	}
 	
 	protected boolean changeFluid(boolean simulateChange) {
@@ -246,14 +248,12 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 		return fluidChange < 0;
 	}
 	
-	// Inventory
+	// ITileInventory
 	
 	@Override
 	public int getInventoryStackLimit() {
 		return itemChange == 0 ? 1 : 6*MathHelper.abs(itemChange);
 	}
-	
-	// Sided Inventory
 
 	@Override
 	public int[] getSlotsForFace(EnumFacing side) {
@@ -261,25 +261,25 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 	}
 
 	@Override
-	public boolean canInsertItem(int slot, ItemStack stack, EnumFacing direction) {
-		return itemChange < 0 && stackChange.matches(stack, IngredientSorption.NEUTRAL);
+	public boolean canInsertItem(int slot, ItemStack stack, EnumFacing side) {
+		return itemChange < 0 && super.canInsertItem(slot, stack, side) && stackChange.match(stack, IngredientSorption.NEUTRAL).matches();
 	}
 
 	@Override
-	public boolean canExtractItem(int slot, ItemStack stack, EnumFacing direction) {
-		return itemChange > 0;
+	public boolean canExtractItem(int slot, ItemStack stack, EnumFacing side) {
+		return itemChange > 0 && super.canExtractItem(slot, stack, side);
 	}
 	
 	// IC2 EU
 
 	@Override
 	public int getEUSourceTier() {
-		return 2;
+		return EnergyHelper.getEUTier(energyChange);
 	}
 
 	@Override
 	public int getEUSinkTier() {
-		return 4;
+		return 10;
 	}
 	
 	// NBT
@@ -305,45 +305,57 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 	
 	// Capability
 	
-	IItemHandler itemHandler = new InvWrapper(this);
-	
 	@Override
 	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing side) {
+		if (capability == IRadiationSource.CAPABILITY_RADIATION_SOURCE) {
+			return getRadiationSource() != null;
+		}
 		if (energyChange != 0 && hasEnergySideCapability(side)) {
-			side = nonNullSide(side);
-			if (capability == CapabilityEnergy.ENERGY) return getEnergySide(side) != null;
-			if (ModCheck.gregtechLoaded() && NCConfig.enable_gtce_eu) if (capability == GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER) return getEnergySideGT(side) != null;
+			if (capability == CapabilityEnergy.ENERGY) {
+				return true;
+			}
+			if (ModCheck.gregtechLoaded() && NCConfig.enable_gtce_eu && capability == GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER) {
+				return true;
+			}
 		}
 		if (fluidChange != 0 && hasFluidSideCapability(side)) {
-			side = nonNullSide(side);
-			if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) return true;
-			if (ModCheck.mekanismLoaded()) if (GasHelper.isGasCapability(capability)) return getGasWrapper() != null;
+			if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
+				return true;
+			}
+			if (ModCheck.mekanismLoaded() && GasHelper.isGasCapability(capability)) {
+				return true;
+			}
 		}
-		if (itemChange != 0) {
-			if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) return true;
+		if (itemChange != 0 && capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+			return true;
 		}
-		if (capability == IRadiationSource.CAPABILITY_RADIATION_SOURCE) return true;
-		
 		return hasCapabilityDefault(capability, side);
 	}
 	
 	@Override
 	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing side) {
+		if (capability == IRadiationSource.CAPABILITY_RADIATION_SOURCE) {
+			return (T) getRadiationSource();
+		}
 		if (energyChange != 0 && hasEnergySideCapability(side)) {
-			side = nonNullSide(side);
-			if (capability == CapabilityEnergy.ENERGY) return (T) getEnergySide(side);
-			if (ModCheck.gregtechLoaded() && NCConfig.enable_gtce_eu) if (capability == GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER) return (T) getEnergySideGT(side);
+			if (capability == CapabilityEnergy.ENERGY) {
+				return (T) getEnergySide(nonNullSide(side));
+			}
+			if (ModCheck.gregtechLoaded() && NCConfig.enable_gtce_eu && capability == GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER) {
+				return (T) getEnergySideGT(nonNullSide(side));
+			}
 		}
 		if (fluidChange != 0 && hasFluidSideCapability(side)) {
-			side = nonNullSide(side);
-			if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) return (T) getFluidSide(side);
-			if (ModCheck.mekanismLoaded()) if (GasHelper.isGasCapability(capability)) return (T) getGasWrapper();
+			if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
+				return (T) getFluidSide(nonNullSide(side));
+			}
+			if (ModCheck.mekanismLoaded() && GasHelper.isGasCapability(capability)) {
+				return (T) getGasWrapper();
+			}
 		}
-		if (itemChange != 0) {
-			if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) return (T) itemHandler;
+		if (itemChange != 0 && capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+			return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(new InvWrapper(this));
 		}
-		if (capability == IRadiationSource.CAPABILITY_RADIATION_SOURCE) return (T) getRadiationSource();
-		
 		return getCapabilityDefault(capability, side);
 	}
 }

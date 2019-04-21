@@ -9,11 +9,10 @@ import nc.Global;
 import nc.recipe.ingredient.IFluidIngredient;
 import nc.recipe.ingredient.IItemIngredient;
 import nc.util.NCUtil;
-import nc.util.RecipeHelper;
 
 public abstract class ProcessorRecipeHandler extends AbstractRecipeHandler<ProcessorRecipe> {
 	
-	public int itemInputSize, fluidInputSize, itemOutputSize, fluidOutputSize;
+	public final int itemInputSize, fluidInputSize, itemOutputSize, fluidOutputSize;
 	public final boolean shapeless;
 	private final String recipeName;
 	
@@ -51,38 +50,34 @@ public abstract class ProcessorRecipeHandler extends AbstractRecipeHandler<Proce
 		addRecipe(buildRecipe(itemInputs, fluidInputs, itemOutputs, fluidOutputs, extras, shapeless));
 	}
 	
-	public void addRecipe(List itemInputList, List fluidInputList, List itemOutputList, List fluidOutputList, List extrasList, boolean shapeless) {
-		addRecipe(buildRecipe(itemInputList, fluidInputList, itemOutputList, fluidOutputList, extrasList, shapeless));
-	}
-	
 	@Nullable
 	public ProcessorRecipe buildRecipe(List itemInputs, List fluidInputs, List itemOutputs, List fluidOutputs, List extras, boolean shapeless) {
 		List<IItemIngredient> itemIngredients = new ArrayList<IItemIngredient>(), itemProducts = new ArrayList<IItemIngredient>();
 		List<IFluidIngredient> fluidIngredients = new ArrayList<IFluidIngredient>(), fluidProducts = new ArrayList<IFluidIngredient>();
 		for (Object obj : itemInputs) {
 			if (obj != null && isValidItemInputType(obj)) {
-				IItemIngredient input = buildItemIngredient(obj);
+				IItemIngredient input = RecipeHelper.buildItemIngredient(obj);
 				if (input == null) return null;
 				itemIngredients.add(input);
 			} else return null;
 		}
 		for (Object obj : fluidInputs) {
 			if (obj != null && isValidFluidInputType(obj)) {
-				IFluidIngredient input = buildFluidIngredient(obj);
+				IFluidIngredient input = RecipeHelper.buildFluidIngredient(obj);
 				if (input == null) return null;
 				fluidIngredients.add(input);
 			} else return null;
 		}
 		for (Object obj : itemOutputs) {
 			if (obj != null && isValidItemOutputType(obj)) {
-				IItemIngredient output = buildItemIngredient(obj);
+				IItemIngredient output = RecipeHelper.buildItemIngredient(obj);
 				if (output == null) return null;
 				itemProducts.add(output);
 			} else return null;
 		}
 		for (Object obj : fluidOutputs) {
 			if (obj != null && isValidFluidOutputType(obj)) {
-				IFluidIngredient output = buildFluidIngredient(obj);
+				IFluidIngredient output = RecipeHelper.buildFluidIngredient(obj);
 				if (output == null) return null;
 				fluidProducts.add(output);
 			} else return null;

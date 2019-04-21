@@ -15,7 +15,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.Fluid;
 
-public class BlockFluidHotGas extends BlockFluid {
+public class BlockFluidHotGas extends NCBlockFluid {
 	
 	private static final Material GAS = new MaterialLiquid(MapColor.AIR);
 	

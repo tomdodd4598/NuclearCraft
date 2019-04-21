@@ -8,21 +8,23 @@ import nc.tile.fluid.ITileFluid;
 import nc.tile.internal.energy.EnergyConnection;
 import nc.tile.internal.fluid.Tank;
 import nc.tile.internal.fluid.TankSorption;
+import nc.tile.internal.inventory.ItemSorption;
+import nc.tile.inventory.ITileInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 
 public class TileBin extends TileEnergyFluidSidedInventory implements IInterfaceable {
 	
 	public TileBin() {
-		super("bin", 4, 16777216, ITileEnergy.energyConnectionAll(EnergyConnection.IN), Arrays.asList(256000, 256000, 256000, 256000), null, ITileFluid.fluidConnectionAll(Arrays.asList(TankSorption.IN, TankSorption.IN, TankSorption.IN, TankSorption.IN)));
+		super("bin", 4, ITileInventory.inventoryConnectionAll(Arrays.asList(ItemSorption.IN, ItemSorption.IN, ItemSorption.IN, ItemSorption.IN)), 16777216, ITileEnergy.energyConnectionAll(EnergyConnection.IN), Arrays.asList(256000, 256000, 256000, 256000), null, ITileFluid.fluidConnectionAll(Arrays.asList(TankSorption.IN, TankSorption.IN, TankSorption.IN, TankSorption.IN)));
 	}
 	
 	@Override
 	public void update() {
 		super.update();
 		if(!world.isRemote) {
-			for (int i = 0; i < inventoryStacks.size(); i++) {
-				if (inventoryStacks.get(i) != ItemStack.EMPTY) inventoryStacks.set(i, ItemStack.EMPTY);
+			for (int i = 0; i < getInventoryStacks().size(); i++) {
+				if (getInventoryStacks().get(i) != ItemStack.EMPTY) getInventoryStacks().set(i, ItemStack.EMPTY);
 			}
 			for (Tank tank : getTanks()) if (tank.getFluidAmount() > 0) tank.setFluid(null);
 			if (getEnergyStorage().getEnergyStored() > 0) getEnergyStorage().setEnergyStored(0);

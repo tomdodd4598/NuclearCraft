@@ -34,7 +34,7 @@ public class ItemRadiationBadge extends NCItem implements IBauble {
 	@Override
 	@Optional.Method(modid = "baubles")
 	public BaubleType getBaubleType(ItemStack stack) {
-		return BaubleType.CHARM;
+		return BaubleType.TRINKET;
 	}
 	
 	@Override

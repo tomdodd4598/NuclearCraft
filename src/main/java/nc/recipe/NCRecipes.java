@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import nc.radiation.RadSources;
 import nc.recipe.generator.DecayGeneratorRecipes;
 import nc.recipe.generator.FissionRecipes;
 import nc.recipe.generator.FusionRecipes;
@@ -36,7 +37,6 @@ import nc.recipe.processor.SupercoolerRecipes;
 import nc.recipe.vanilla.CraftingRecipeHandler;
 import nc.recipe.vanilla.FurnaceFuelHandler;
 import nc.recipe.vanilla.FurnaceRecipeHandler;
-import nc.util.RecipeHelper;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -77,7 +77,7 @@ public class NCRecipes {
 	private static CondenserRecipes condenser;
 	
 	@SubscribeEvent(priority = EventPriority.LOW)
-    public void registerRecipes(RegistryEvent.Register<net.minecraft.item.crafting.IRecipe> event) {
+	public void registerRecipes(RegistryEvent.Register<net.minecraft.item.crafting.IRecipe> event) {
 		if (initialized) return;
 		
 		manufactory = new ManufactoryRecipes();
@@ -113,6 +113,8 @@ public class NCRecipes {
 		CraftingRecipeHandler.registerCraftingRecipes();
 		FurnaceRecipeHandler.registerFurnaceRecipes();
 		GameRegistry.registerFuelHandler(new FurnaceFuelHandler());
+		
+		RadSources.init();
 		
 		initialized = true;
 	}

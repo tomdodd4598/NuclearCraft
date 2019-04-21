@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nc.Global;
-import nc.block.fluid.BlockFluidBase;
+import nc.block.fluid.NCBlockFluid;
 import nc.config.NCConfig;
 import nc.handler.TooltipHandler;
 import nc.init.NCArmor;
@@ -156,8 +156,8 @@ public class ClientProxy extends CommonProxy {
 			BlockColors blockcolors = mc.getBlockColors();
 			ItemColors itemcolors = mc.getItemColors();
 			for(T fluid : fluidList) {
-				if (fluid.getBlock() != null) if (BlockFluidBase.class.isAssignableFrom(fluid.getBlock().getClass())) {
-					BlockFluidBase block = (BlockFluidBase) fluid.getBlock();
+				if (fluid.getBlock() != null) if (NCBlockFluid.class.isAssignableFrom(fluid.getBlock().getClass())) {
+					NCBlockFluid block = (NCBlockFluid) fluid.getBlock();
 					blockcolors.registerBlockColorHandler(new ColorRenderer.FluidBlockColor(block), block);
 					itemcolors.registerItemColorHandler(new ColorRenderer.FluidItemBlockColor(block), block);
 				}

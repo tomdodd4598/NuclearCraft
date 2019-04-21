@@ -47,7 +47,7 @@ public abstract class JEICategoryAbstract<WRAPPER extends JEIProcessorRecipeWrap
 			int outputIndex = slotIndex - recipeWrapper.recipeHandler.itemInputSize;
 			if (outputIndex >= 0 && outputIndex <= recipeWrapper.recipeHandler.itemOutputSize && recipeWrapper.recipe.itemProducts().get(outputIndex) instanceof ChanceItemIngredient) {
 				ChanceItemIngredient chanceIngredient = (ChanceItemIngredient)recipeWrapper.recipe.itemProducts().get(outputIndex);
-				tooltip.add(TextFormatting.WHITE + Lang.localise("jei.nuclearcraft.chance_output", chanceIngredient.minStackSize, chanceIngredient.getMaxStackSize(), chanceIngredient.meanStackSize));
+				tooltip.add(TextFormatting.WHITE + Lang.localise("jei.nuclearcraft.chance_output", chanceIngredient.minStackSize, chanceIngredient.getMaxStackSize(0), chanceIngredient.meanStackSize));
 			}
 		});
 		
@@ -55,7 +55,7 @@ public abstract class JEICategoryAbstract<WRAPPER extends JEIProcessorRecipeWrap
 			int outputIndex = slotIndex - recipeWrapper.recipeHandler.fluidInputSize;
 			if (outputIndex >= 0 && outputIndex <= recipeWrapper.recipeHandler.fluidOutputSize && recipeWrapper.recipe.fluidProducts().get(outputIndex) instanceof ChanceFluidIngredient) {
 				ChanceFluidIngredient chanceIngredient = (ChanceFluidIngredient)recipeWrapper.recipe.fluidProducts().get(outputIndex);
-				tooltip.add(TextFormatting.WHITE + Lang.localise("jei.nuclearcraft.chance_output", chanceIngredient.minStackSize, chanceIngredient.getMaxStackSize(), chanceIngredient.meanStackSize));
+				tooltip.add(TextFormatting.WHITE + Lang.localise("jei.nuclearcraft.chance_output", chanceIngredient.minStackSize, chanceIngredient.getMaxStackSize(0), chanceIngredient.meanStackSize));
 			}
 		});
 	}

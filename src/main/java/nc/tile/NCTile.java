@@ -205,13 +205,17 @@ public abstract class NCTile extends TileEntity implements ITickable, ITile {
 	
 	@Override
 	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing side) {
-		if (capability == IRadiationSource.CAPABILITY_RADIATION_SOURCE) return radiation != null;
+		if (capability == IRadiationSource.CAPABILITY_RADIATION_SOURCE) {
+			return radiation != null;
+		}
 		return super.hasCapability(capability, side);
 	}
 	
 	@Override
 	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing side) {
-		if (capability == IRadiationSource.CAPABILITY_RADIATION_SOURCE) return (T) radiation;
+		if (capability == IRadiationSource.CAPABILITY_RADIATION_SOURCE) {
+			return (T) radiation;
+		}
 		return super.getCapability(capability, side);
 	}
 	

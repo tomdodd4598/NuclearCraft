@@ -60,8 +60,8 @@ public class SaltFissionReactor extends CuboidalMultiblockBase<SaltFissionUpdate
 	public int comparatorSignal = 0;
 	private int updateCount = 0, distributeCount = 0;
 	
-	public boolean isReactorOn;
-	public double cooling, heating, efficiency, heatMult, coolingRate;
+	public boolean isReactorOn, computerActivated;
+	public double cooling, heating, rawEfficiency, heatMult, coolingEfficiency;
 	
 	private short heaterCheckCount = 0;
 
@@ -185,7 +185,7 @@ public class SaltFissionReactor extends CuboidalMultiblockBase<SaltFissionUpdate
 	protected void onMachineDisassembled() {
 		isReactorOn = false;
 		if (controller != null) controller.updateBlock(false);
-		cooling = heating = efficiency = heatMult = coolingRate = 0D;
+		cooling = heating = rawEfficiency = heatMult = coolingEfficiency = 0D;
 	}
 	
 	@Override
@@ -240,7 +240,7 @@ public class SaltFissionReactor extends CuboidalMultiblockBase<SaltFissionUpdate
 	
 	public void setIsReactorOn() {
 		boolean oldIsReactorOn = isReactorOn;
-		isReactorOn = isRedstonePowered() && isAssembled();
+		isReactorOn = (isRedstonePowered() || computerActivated) && isAssembled();
 		if (isReactorOn != oldIsReactorOn) {
 			if (controller != null) controller.updateBlock(isReactorOn);
 			sendUpdateToAllPlayers();
@@ -300,7 +300,7 @@ public class SaltFissionReactor extends CuboidalMultiblockBase<SaltFissionUpdate
 		setVesselStats();
 		doHeaterPlacementChecks();
 		setCooling();
-		heatBuffer.changeHeatStored((long) (updateTime()*getHeatChange(true)));
+		heatBuffer.changeHeatStored((long) (updateTime()*getNetHeatingRate(true)));
 		setCoolingRate();
 	}
 	
@@ -321,7 +321,7 @@ public class SaltFissionReactor extends CuboidalMultiblockBase<SaltFissionUpdate
 		}
 		
 		if (vessels.size() < 1) {
-			efficiency = 0;
+			rawEfficiency = 0;
 			heatMult = 0;
 			heating = 0;
 		} else {
@@ -334,7 +334,7 @@ public class SaltFissionReactor extends CuboidalMultiblockBase<SaltFissionUpdate
 				newHeatMult += vessel.getHeatMultiplier();
 				newHeating += vessel.getProcessHeat();
 			}
-			efficiency = newEfficiency/vessels.size();
+			rawEfficiency = newEfficiency/vessels.size();
 			heatMult = newHeatMult/vessels.size();
 			heating = newHeating;
 			
@@ -363,16 +363,16 @@ public class SaltFissionReactor extends CuboidalMultiblockBase<SaltFissionUpdate
 		cooling = newCooling;
 	}
 	
-	public double getHeatChange(boolean checkIsReactorOn) {
+	public double getNetHeatingRate(boolean checkIsReactorOn) {
 		return isReactorOn || !checkIsReactorOn ? heating - cooling : -cooling;
 	}
 	
 	protected void setCoolingRate() {
-		if (vessels.size() <= 0 || cooling <= 0) coolingRate = 0;
+		if (vessels.size() <= 0 || cooling <= 0) coolingEfficiency = 0;
 		else {
-			coolingRate = getHeatChange(false) >= 0 ? efficiency : efficiency*heating/cooling;
-			double heaterRate = !isReactorOn && coolingRate*heatBuffer.heatStored < cooling ? coolingRate*heatBuffer.heatStored/cooling : coolingRate;
-			for (TileSaltFissionHeater heater : heaters) heater.reactorCoolingRate = heaterRate;
+			coolingEfficiency = getNetHeatingRate(false) >= 0 ? rawEfficiency : rawEfficiency*heating/cooling;
+			double heaterEfficiency = !isReactorOn && coolingEfficiency*heatBuffer.heatStored < cooling ? coolingEfficiency*heatBuffer.heatStored/cooling : coolingEfficiency;
+			for (TileSaltFissionHeater heater : heaters) heater.reactorCoolingEfficiency = heaterEfficiency;
 		}
 	}
 	
@@ -434,7 +434,7 @@ public class SaltFissionReactor extends CuboidalMultiblockBase<SaltFissionUpdate
 	
 	protected void playFissionSound(BlockPos pos) {
 		if (vessels.size() <= 0) return;
-		double soundRate = Math.min(efficiency/(14D*NCConfig.salt_fission_max_size*Math.sqrt(vessels.size())), 1D/vessels.size());
+		double soundRate = Math.min(rawEfficiency/(14D*NCConfig.salt_fission_max_size*Math.sqrt(vessels.size())), 1D/vessels.size());
 		if (rand.nextDouble() < soundRate) {
 			WORLD.playSound(pos.getX(), pos.getY(), pos.getZ(), SoundHandler.geiger_tick, SoundCategory.BLOCKS, 1.6F, 1.0F + 0.12F*(rand.nextFloat() - 0.5F), false);
 		}
@@ -447,11 +447,12 @@ public class SaltFissionReactor extends CuboidalMultiblockBase<SaltFissionUpdate
 		heatBuffer.writeToNBT(data);
 		data.setInteger("comparatorSignal", comparatorSignal);
 		data.setBoolean("isReactorOn", isReactorOn);
+		data.setBoolean("computerActivated", computerActivated);
 		data.setDouble("cooling", cooling);
 		data.setDouble("heating", heating);
-		data.setDouble("efficiency", efficiency);
+		data.setDouble("efficiency", rawEfficiency);
 		data.setDouble("heatMult", heatMult);
-		data.setDouble("coolingRate", coolingRate);
+		data.setDouble("coolingRate", coolingEfficiency);
 	}
 	
 	@Override
@@ -459,18 +460,19 @@ public class SaltFissionReactor extends CuboidalMultiblockBase<SaltFissionUpdate
 		heatBuffer.readFromNBT(data);
 		comparatorSignal = data.getInteger("comparatorSignal");
 		isReactorOn = data.getBoolean("isReactorOn");
+		computerActivated = data.getBoolean("computerActivated");
 		cooling = data.getDouble("cooling");
 		heating = data.getDouble("heating");
-		efficiency = data.getDouble("efficiency");
+		rawEfficiency = data.getDouble("efficiency");
 		heatMult = data.getDouble("heatMult");
-		coolingRate = data.getDouble("coolingRate");
+		coolingEfficiency = data.getDouble("coolingRate");
 	}
 	
 	// Packets
 	
 	@Override
 	protected SaltFissionUpdatePacket getUpdatePacket() {
-		return new SaltFissionUpdatePacket(controller.getPos(), isReactorOn, cooling, heating, efficiency, heatMult, coolingRate, heatBuffer.getHeatCapacity(), heatBuffer.getHeatStored());
+		return new SaltFissionUpdatePacket(controller.getPos(), isReactorOn, cooling, heating, rawEfficiency, heatMult, coolingEfficiency, heatBuffer.getHeatCapacity(), heatBuffer.getHeatStored());
 	}
 	
 	@Override
@@ -478,9 +480,9 @@ public class SaltFissionReactor extends CuboidalMultiblockBase<SaltFissionUpdate
 		isReactorOn = message.isReactorOn;
 		cooling = message.cooling;
 		heating = message.heating;
-		efficiency = message.efficiency;
+		rawEfficiency = message.rawEfficiency;
 		heatMult = message.heatMult;
-		coolingRate = message.coolingRate;
+		coolingEfficiency = message.coolingEfficiency;
 		heatBuffer.setHeatCapacity(message.capacity);
 		heatBuffer.setHeatStored(message.heat);
 	}

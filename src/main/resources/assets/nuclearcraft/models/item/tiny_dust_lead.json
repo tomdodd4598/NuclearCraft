@@ -1,6 +1,6 @@
 {
-	"parent": "item/generated",
+	"parent": "nuclearcraft:item/item_small",
 	"textures": {
-		"layer0": "nuclearcraft:items/tiny_dust_lead"
+		"layer0": "nuclearcraft:items/dust_lead"
 	}
 }

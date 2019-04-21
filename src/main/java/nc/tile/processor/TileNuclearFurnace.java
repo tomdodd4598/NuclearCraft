@@ -1,6 +1,9 @@
 package nc.tile.processor;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+
+import com.google.common.collect.Lists;
 
 import nc.Global;
 import nc.block.tile.processor.BlockNuclearFurnace;
@@ -9,16 +12,15 @@ import nc.capability.radiation.source.RadiationSource;
 import nc.radiation.RadSources;
 import nc.tile.dummy.IInterfaceable;
 import nc.tile.energyFluid.IBufferable;
+import nc.tile.internal.inventory.InventoryConnection;
+import nc.tile.internal.inventory.ItemSorption;
 import nc.tile.inventory.ITileInventory;
 import nc.util.OreDictHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
@@ -39,20 +41,18 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
 
-public class TileNuclearFurnace extends TileEntity implements ITickable, ISidedInventory, ITileInventory, IInterfaceable, IBufferable {
+public class TileNuclearFurnace extends TileEntity implements ITickable, ITileInventory, IInterfaceable, IBufferable {
 	
-	private static final int[] SLOTS_TOP = new int[] {0};
-	private static final int[] SLOTS_BOTTOM = new int[] {2, 1};
-	private static final int[] SLOTS_SIDES = new int[] {1};
-	private NonNullList<ItemStack> furnaceItemStacks = NonNullList.<ItemStack>withSize(3, ItemStack.EMPTY);
-
-	private int furnaceBurnTime;
-	private int currentItemBurnTime;
-	private int cookTime;
-	private int totalCookTime;
+	private @Nonnull NonNullList<ItemStack> furnaceItemStacks = NonNullList.<ItemStack>withSize(3, ItemStack.EMPTY);
+	
+	private final InventoryConnection outputConnection = new InventoryConnection(Lists.newArrayList(ItemSorption.NON, ItemSorption.IN, ItemSorption.OUT));
+	private final InventoryConnection inputConnection = new InventoryConnection(Lists.newArrayList(ItemSorption.IN, ItemSorption.NON, ItemSorption.NON));
+	
+	private @Nonnull InventoryConnection[] inventoryConnections = new InventoryConnection[] {outputConnection, inputConnection, outputConnection, outputConnection, outputConnection, outputConnection};
+	
+	private int furnaceBurnTime, currentItemBurnTime, cookTime, totalCookTime;
 	
 	private IRadiationSource radiation;
 	
@@ -60,48 +60,19 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ISidedI
 		super();
 		radiation = new RadiationSource(0D);
 	}
-
-	@Override
-	public int getSizeInventory() {
-		return furnaceItemStacks.size();
-	}
-
-	@Override
-	public boolean isEmpty() {
-		for (ItemStack itemstack : furnaceItemStacks) {
-			if (!itemstack.isEmpty()) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	@Override
-	public ItemStack getStackInSlot(int slot) {
-		return furnaceItemStacks.get(slot);
-	}
-
-	@Override
-	public ItemStack decrStackSize(int index, int amount) {
-		return ItemStackHelper.getAndSplit(furnaceItemStacks, index, amount);
-	}
-
-	@Override
-	public ItemStack removeStackFromSlot(int index) {
-		return ItemStackHelper.getAndRemove(furnaceItemStacks, index);
-	}
-
+	
 	@Override
 	public void setInventorySlotContents(int index, ItemStack stack) {
 		ItemStack itemstack = furnaceItemStacks.get(index);
 		boolean flag = !stack.isEmpty() && stack.isItemEqual(itemstack) && nc.util.ItemStackHelper.areItemStackTagsEqual(stack, itemstack);
-		furnaceItemStacks.set(index, stack);
-
+		
 		if (stack.getCount() > getInventoryStackLimit()) {
 			stack.setCount(getInventoryStackLimit());
 		}
-
-		if (index == 0 && !flag) {
+		
+		furnaceItemStacks.set(index, stack);
+		
+		if (!flag) {
 			//totalCookTime = getCookTime(stack);
 			totalCookTime = getCookTime();
 			cookTime = 0;
@@ -110,7 +81,7 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ISidedI
 	}
 	
 	@Override
-	public NonNullList<ItemStack> getInventoryStacks() {
+	public @Nonnull NonNullList<ItemStack> getInventoryStacks() {
 		return furnaceItemStacks;
 	}
 	
@@ -118,17 +89,22 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ISidedI
 	public IRadiationSource getRadiationSource() {
 		return radiation;
 	}
-
+	
 	@Override
 	public String getName() {
 		return Global.MOD_ID + ".container." + "nuclear_furnace";
 	}
-
+	
 	@Override
-	public boolean hasCustomName() {
-		return false;
+	public @Nonnull InventoryConnection[] getInventoryConnections() {
+		return inventoryConnections;
 	}
 
+	@Override
+	public void setInventoryConnections(@Nonnull InventoryConnection[] connections) {
+		inventoryConnections = connections;
+	}
+	
 	public static void registerFixesFurnace(DataFixer fixer) {
 		fixer.registerWalker(FixTypes.BLOCK_ENTITY, new ItemStackDataLists(TileNuclearFurnace.class, new String[] {"Items"}));
 	}
@@ -141,68 +117,63 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ISidedI
 		nbt.setDouble("radiationLevel", getRadiationSource().getRadiationLevel());
 		return nbt;
 	}
-
+	
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
-		furnaceItemStacks = NonNullList.<ItemStack>withSize(getSizeInventory(), ItemStack.EMPTY);
-		ItemStackHelper.loadAllItems(nbt, furnaceItemStacks);
 		furnaceBurnTime = nbt.getInteger("BurnTime");
 		cookTime = nbt.getInteger("CookTime");
 		totalCookTime = nbt.getInteger("CookTimeTotal");
+		readInventory(nbt);
+		readInventoryConnections(nbt);
 		currentItemBurnTime = getItemBurnTime(furnaceItemStacks.get(1));
 		readRadiation(nbt);
 	}
-
+	
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		nbt.setInteger("BurnTime", (short) furnaceBurnTime);
 		nbt.setInteger("CookTime", (short) cookTime);
 		nbt.setInteger("CookTimeTotal", (short) totalCookTime);
-		ItemStackHelper.saveAllItems(nbt, furnaceItemStacks);
+		writeInventory(nbt);
+		writeInventoryConnections(nbt);
 		writeRadiation(nbt);
-		
 		return nbt;
 	}
-
-	@Override
-	public int getInventoryStackLimit() {
-		return 64;
-	}
-
+	
 	public boolean isBurning() {
 		return furnaceBurnTime > 0;
 	}
-
+	
 	@SideOnly(Side.CLIENT)
 	public static boolean isBurning(IInventory inventory) {
 		return inventory.getField(0) > 0;
 	}
-
+	
 	@Override
 	public void update() {
 		boolean flag = isBurning();
 		boolean flag1 = false;
-
+		
 		if (isBurning()) {
 			--furnaceBurnTime;
 			getRadiationSource().setRadiationLevel(RadSources.THORIUM);
 		} else {
 			getRadiationSource().setRadiationLevel(0D);
 		}
-
+		
 		if (!world.isRemote) {
 			ItemStack itemstack = furnaceItemStacks.get(1);
-
+			
 			if (isBurning() || !itemstack.isEmpty() && !(furnaceItemStacks.get(0)).isEmpty()) {
 				if (!isBurning() && canSmelt()) {
 					furnaceBurnTime = getItemBurnTime(itemstack);
 					currentItemBurnTime = furnaceBurnTime;
-
+					
 					if (isBurning()) {
 						flag1 = true;
-
+						
 						if (!itemstack.isEmpty()) {
 							Item item = itemstack.getItem();
 							itemstack.shrink(1);
@@ -214,10 +185,10 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ISidedI
 						}
 					}
 				}
-
+				
 				if (isBurning() && canSmelt()) {
 					++cookTime;
-
+					
 					if (cookTime == totalCookTime) {
 						cookTime = 0;
 						//totalCookTime = getCookTime(furnaceItemStacks.get(0));
@@ -231,23 +202,22 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ISidedI
 			} else if (!isBurning() && cookTime > 0) {
 				cookTime = MathHelper.clamp(cookTime - 2, 0, totalCookTime);
 			}
-
+			
 			if (flag != isBurning()) {
 				flag1 = true;
 				BlockNuclearFurnace.setState(isBurning(), world, pos);
 				world.notifyNeighborsOfStateChange(pos, blockType, true);
 			}
 		}
-
 		if (flag1) {
 			markDirty();
 		}
 	}
-
+	
 	public int getCookTime() {
 		return 10;
 	}
-
+	
 	private boolean canSmelt() {
 		if ((furnaceItemStacks.get(0)).isEmpty()) {
 			return false;
@@ -265,27 +235,25 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ISidedI
 			}
 		}
 	}
-
+	
 	public void smeltItem() {
 		if (canSmelt()) {
 			ItemStack itemstack = furnaceItemStacks.get(0);
 			ItemStack itemstack1 = FurnaceRecipes.instance().getSmeltingResult(itemstack);
 			ItemStack itemstack2 = furnaceItemStacks.get(2);
-
+			
 			if (itemstack2.isEmpty()) {
 				furnaceItemStacks.set(2, itemstack1.copy());
 			} else if (itemstack2.getItem() == itemstack1.getItem()) {
 				itemstack2.grow(itemstack1.getCount());
 			}
-
 			if (itemstack.getItem() == Item.getItemFromBlock(Blocks.SPONGE) && itemstack.getItemDamage() == 1 && !(furnaceItemStacks.get(1)).isEmpty() && (furnaceItemStacks.get(1)).getItem() == Items.BUCKET) {
 				furnaceItemStacks.set(1, new ItemStack(Items.WATER_BUCKET));
 			}
-
 			itemstack.shrink(1);
 		}
 	}
-
+	
 	public static int getItemBurnTime(ItemStack stack) {
 		if (stack.isEmpty()) return 0;
 		else if (OreDictHelper.isOreMember(stack, "blockThorium")) return 3200;
@@ -300,22 +268,11 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ISidedI
 		else if (OreDictHelper.isOreMember(stack, "dustUraniumOxide")) return 480;
 		else return 0;
 	}
-
+	
 	public static boolean isItemFuel(ItemStack stack) {
 		return getItemBurnTime(stack) > 0;
 	}
-
-	@Override
-	public boolean isUsableByPlayer(EntityPlayer player) {
-		return world.getTileEntity(pos) != this ? false : player.getDistanceSq((double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D) <= 64.0D;
-	}
-
-	@Override
-	public void openInventory(EntityPlayer player) {}
-
-	@Override
-	public void closeInventory(EntityPlayer player) {}
-
+	
 	@Override
 	public boolean isItemValidForSlot(int index, ItemStack stack) {
 		if (index == 2) {
@@ -326,35 +283,28 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ISidedI
 			return isItemFuel(stack);
 		}
 	}
-
+	
 	@Override
-	public int[] getSlotsForFace(EnumFacing side) {
-		return side == EnumFacing.DOWN ? SLOTS_BOTTOM : (side == EnumFacing.UP ? SLOTS_TOP : SLOTS_SIDES);
+	public boolean canInsertItem(int slot, ItemStack stack, EnumFacing side) {
+		return ITileInventory.super.canInsertItem(slot, stack, side) && isItemValidForSlot(slot, stack);
 	}
-
+	
 	@Override
-	public boolean canInsertItem(int index, ItemStack stack, EnumFacing direction) {
-		return isItemValidForSlot(index, stack);
-	}
-
-	@Override
-	public boolean canExtractItem(int index, ItemStack stack, EnumFacing direction) {
-		if (direction == EnumFacing.DOWN && index == 1) {
+	public boolean canExtractItem(int slot, ItemStack stack, EnumFacing side) {
+		if (side == EnumFacing.DOWN && slot == 1) {
 			Item item = stack.getItem();
-
 			if (item != Items.WATER_BUCKET && item != Items.BUCKET) {
 				return false;
 			}
 		}
-
-		return true;
+		return ITileInventory.super.canExtractItem(slot, stack, side);
 	}
 	
 	@Override
 	public int getFieldCount() {
 		return 4;
 	}
-
+	
 	@Override
 	public int getField(int id) {
 		switch (id) {
@@ -370,7 +320,7 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ISidedI
 				return 0;
 		}
 	}
-
+	
 	@Override
 	public void setField(int id, int value) {
 		switch (id) {
@@ -387,41 +337,33 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ISidedI
 				totalCookTime = value;
 		}
 	}
-
-	@Override
-	public void clear() {
-		furnaceItemStacks.clear();
-	}
 	
 	@Override
 	public ITextComponent getDisplayName() {
-		if (getBlockType() != null) return new TextComponentTranslation(getBlockType().getLocalizedName()); else return null;
-	}
-	
-	IItemHandler handlerTop = new SidedInvWrapper(this, EnumFacing.UP);
-	IItemHandler handlerBottom = new SidedInvWrapper(this, EnumFacing.DOWN);
-	IItemHandler handlerSide = new SidedInvWrapper(this, EnumFacing.WEST);
-	
-	@Override
-	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing) {
-		if (capability == IRadiationSource.CAPABILITY_RADIATION_SOURCE) return radiation != null;
-		if (facing != null && capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) return true;
-		return super.hasCapability(capability, facing);
+		if (getBlockType() != null) return new TextComponentTranslation(getBlockType().getLocalizedName());
+		else return null;
 	}
 	
 	@Override
-	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing) {
-		if (capability == IRadiationSource.CAPABILITY_RADIATION_SOURCE) return (T) radiation;
-		if (facing != null && capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-			if (facing == EnumFacing.DOWN) {
-				return (T) handlerBottom;
-			} else if (facing == EnumFacing.UP) {
-				return (T) handlerTop;
-			} else {
-				return (T) handlerSide;
-			}
+	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing side) {
+		if (capability == IRadiationSource.CAPABILITY_RADIATION_SOURCE) {
+			return radiation != null;
 		}
-		return super.getCapability(capability, facing);
+		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+			return true;
+		}
+		return super.hasCapability(capability, side);
+	}
+	
+	@Override
+	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing side) {
+		if (capability == IRadiationSource.CAPABILITY_RADIATION_SOURCE) {
+			return (T) radiation;
+		}
+		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+			return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(new SidedInvWrapper(this, nonNullSide(side)));
+		}
+		return super.getCapability(capability, side);
 	}
 	
 	//ITile
@@ -455,22 +397,22 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ISidedI
 	public void onBlockNeighborChanged(IBlockState state, World world, BlockPos pos, BlockPos fromPos) {
 		
 	}
-
+	
 	@Override
 	public boolean getIsRedstonePowered() {
 		return false;
 	}
-
+	
 	@Override
 	public void setIsRedstonePowered(boolean isRedstonePowered) {
 		
 	}
-
+	
 	@Override
 	public boolean getAlternateComparator() {
 		return false;
 	}
-
+	
 	@Override
 	public void setAlternateComparator(boolean alternate) {
 		

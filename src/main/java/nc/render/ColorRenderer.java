@@ -2,7 +2,7 @@ package nc.render;
 
 import javax.annotation.Nullable;
 
-import nc.block.fluid.BlockFluidBase;
+import nc.block.fluid.NCBlockFluid;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.color.IBlockColor;
 import net.minecraft.client.renderer.color.IItemColor;
@@ -14,9 +14,9 @@ public class ColorRenderer {
 	
 	public static class FluidBlockColor implements IBlockColor {
 		
-		final BlockFluidBase fluidBlock;
+		final NCBlockFluid fluidBlock;
 		
-		public FluidBlockColor(BlockFluidBase fluidBlock) {
+		public FluidBlockColor(NCBlockFluid fluidBlock) {
 			this.fluidBlock = fluidBlock;	
 		}
 
@@ -31,9 +31,9 @@ public class ColorRenderer {
 	
 	public static class FluidItemBlockColor implements IItemColor {
 		
-		final BlockFluidBase fluidBlock;
+		final NCBlockFluid fluidBlock;
 		
-		public FluidItemBlockColor(BlockFluidBase fluidBlock) {
+		public FluidItemBlockColor(NCBlockFluid fluidBlock) {
 			this.fluidBlock = fluidBlock;	
 		}
 

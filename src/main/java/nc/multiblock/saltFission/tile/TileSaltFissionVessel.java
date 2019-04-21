@@ -16,10 +16,11 @@ import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.saltFission.SaltFissionReactor;
 import nc.multiblock.saltFission.SaltFissionVesselSetting;
 import nc.recipe.AbstractRecipeHandler;
-import nc.recipe.IngredientSorption;
 import nc.recipe.NCRecipes;
 import nc.recipe.ProcessorRecipe;
 import nc.recipe.ProcessorRecipeHandler;
+import nc.recipe.RecipeInfo;
+import nc.recipe.RecipeMatchResult;
 import nc.recipe.ingredient.IFluidIngredient;
 import nc.tile.fluid.ITileFluid;
 import nc.tile.generator.IFluidGenerator;
@@ -70,7 +71,7 @@ public class TileSaltFissionVessel extends TileSaltFissionPartBase implements IF
 	public boolean isProcessing, hasConsumed, canProcessInputs;
 	
 	public final NCRecipes.Type recipeType = NCRecipes.Type.SALT_FISSION;
-	protected ProcessorRecipe recipe, cachedRecipe;
+	protected RecipeInfo<ProcessorRecipe> recipeInfo, cachedRecipeInfo;
 	
 	protected int vesselCount;
 	
@@ -140,7 +141,7 @@ public class TileSaltFissionVessel extends TileSaltFissionPartBase implements IF
 	public void doMeltdown() {
 		IRadiationSource chunkSource = RadiationHelper.getRadiationSource(world.getChunkFromBlockCoords(pos));
 		if (chunkSource != null) {
-			RadiationHelper.addToSourceRadiation(chunkSource, 8D*baseProcessRadiation*NCConfig.salt_fission_fuel_use);
+			RadiationHelper.addToSourceRadiation(chunkSource, 8D*baseProcessRadiation*getSpeedMultiplier());
 		}
 		
 		Block corium = RegistryHelper.getBlock(Global.MOD_ID + ":fluid_corium");
@@ -208,18 +209,21 @@ public class TileSaltFissionVessel extends TileSaltFissionPartBase implements IF
 	
 	@Override
 	public void refreshRecipe() {
-		if (recipe == null || !recipe.matchingInputs(new ArrayList<ItemStack>(), getFluidInputs(hasConsumed))) {
+		RecipeMatchResult matchResult = recipeInfo == null ? RecipeMatchResult.FAIL : recipeInfo.getRecipe().matchInputs(new ArrayList<ItemStack>(), getFluidInputs(hasConsumed));
+		if (!matchResult.matches()) {
 			/** Temporary caching while looking for recipe map solution */
-			if (cachedRecipe != null && cachedRecipe.matchingInputs(new ArrayList<ItemStack>(), getFluidInputs(hasConsumed))) {
-				recipe = cachedRecipe;
+			matchResult = cachedRecipeInfo == null ? RecipeMatchResult.FAIL : cachedRecipeInfo.getRecipe().matchInputs(new ArrayList<ItemStack>(), getFluidInputs(hasConsumed));
+			if (matchResult.matches()) {
+				recipeInfo = new RecipeInfo(cachedRecipeInfo.getRecipe(), matchResult);
 			}
 			else {
-				recipe = getRecipeHandler().getRecipeFromInputs(new ArrayList<ItemStack>(), getFluidInputs(hasConsumed));
+				recipeInfo = getRecipeHandler().getRecipeInfoFromInputs(new ArrayList<ItemStack>(), getFluidInputs(hasConsumed));
 			}
-			if (recipe != null) {
-				cachedRecipe = recipe;
+			if (recipeInfo != null) {
+				cachedRecipeInfo = recipeInfo;
 			}
 		}
+		else recipeInfo = new RecipeInfo(recipeInfo.getRecipe(), matchResult);
 		consumeInputs();
 	}
 	
@@ -235,22 +239,26 @@ public class TileSaltFissionVessel extends TileSaltFissionPartBase implements IF
 	
 	// Processor Stats
 	
+	public double getSpeedMultiplier() {
+		return NCConfig.salt_fission_fuel_use;
+	}
+	
 	public boolean setRecipeStats() {
-		if (recipe == null) {
+		if (recipeInfo == null) {
 			baseProcessTime = 1D;
 			baseProcessHeat = 0D;
 			baseProcessRadiation = 0D;
 			return false;
 		}
-		baseProcessTime = recipe.getSaltFissionFuelTime();
-		baseProcessHeat = recipe.getSaltFissionFuelHeat();
-		baseProcessRadiation = recipe.getSaltFissionFuelRadiation();
+		baseProcessTime = recipeInfo.getRecipe().getSaltFissionFuelTime();
+		baseProcessHeat = recipeInfo.getRecipe().getSaltFissionFuelHeat();
+		baseProcessRadiation = recipeInfo.getRecipe().getSaltFissionFuelRadiation();
 		fluidToHold = getFluidToHold();
 		return true;
 	}
 	
 	private int getFluidToHold() {
-		return Math.min(FluidStackHelper.INGOT_BLOCK_VOLUME/2, getFluidIngredients().get(0).getMaxStackSize()*NCConfig.machine_update_rate / 2);
+		return Math.min(FluidStackHelper.INGOT_BLOCK_VOLUME/2, getFluidIngredients().get(0).getMaxStackSize(recipeInfo.getFluidIngredientNumbers().get(0))*NCConfig.machine_update_rate / 2);
 	}
 	
 	// Processing
@@ -286,12 +294,12 @@ public class TileSaltFissionVessel extends TileSaltFissionPartBase implements IF
 	public boolean canProduceProducts() {
 		for(int j = 0; j < fluidOutputSize; j++) {
 			IFluidIngredient fluidProduct = getFluidProducts().get(j);
-			if (fluidProduct.getMaxStackSize() <= 0) continue;
+			if (fluidProduct.getMaxStackSize(0) <= 0) continue;
 			if (fluidProduct.getStack() == null) return false;
 			else if (!tanks.get(j + fluidInputSize).isEmpty()) {
 				if (!tanks.get(j + fluidInputSize).getFluid().isFluidEqual(fluidProduct.getStack())) {
 					return false;
-				} else if (tanks.get(j + fluidInputSize).getFluidAmount() + fluidProduct.getMaxStackSize() > tanks.get(j + fluidInputSize).getCapacity()) {
+				} else if (tanks.get(j + fluidInputSize).getFluidAmount() + fluidProduct.getMaxStackSize(0) > tanks.get(j + fluidInputSize).getCapacity()) {
 					return false;
 				}
 			}
@@ -300,8 +308,8 @@ public class TileSaltFissionVessel extends TileSaltFissionPartBase implements IF
 	}
 		
 	public void consumeInputs() {
-		if (hasConsumed || recipe == null) return;
-		List<Integer> fluidInputOrder = getFluidInputOrder();
+		if (hasConsumed || recipeInfo == null) return;
+		List<Integer> fluidInputOrder = recipeInfo.getFluidInputOrder();
 		if (fluidInputOrder == AbstractRecipeHandler.INVALID) return;
 		
 		for (int i = 0; i < fluidInputSize; i++) {
@@ -310,10 +318,10 @@ public class TileSaltFissionVessel extends TileSaltFissionPartBase implements IF
 			}
 		}
 		for (int i = 0; i < fluidInputSize; i++) {
-			IFluidIngredient fluidIngredient = getFluidIngredients().get(fluidInputOrder.get(i));
-			if (fluidIngredient.getMaxStackSize() > 0) {
-				tanks.get(i + fluidInputSize + fluidOutputSize).setFluidStored(new FluidStack(tanks.get(i).getFluid(), fluidIngredient.getMaxStackSize()));
-				tanks.get(i).changeFluidAmount(-fluidIngredient.getMaxStackSize());
+			int maxStackSize = getFluidIngredients().get(fluidInputOrder.get(i)).getMaxStackSize(recipeInfo.getFluidIngredientNumbers().get(i));
+			if (maxStackSize > 0) {
+				tanks.get(i + fluidInputSize + fluidOutputSize).setFluidStored(new FluidStack(tanks.get(i).getFluid(), maxStackSize));
+				tanks.get(i).changeFluidAmount(-maxStackSize);
 			}
 			if (tanks.get(i).isEmpty()) tanks.get(i).setFluid(null);
 		}
@@ -321,8 +329,8 @@ public class TileSaltFissionVessel extends TileSaltFissionPartBase implements IF
 	}
 	
 	public void process() {
-		time += NCConfig.salt_fission_fuel_use;
-		getRadiationSource().setRadiationLevel(baseProcessRadiation*NCConfig.salt_fission_fuel_use);
+		time += getSpeedMultiplier();
+		getRadiationSource().setRadiationLevel(baseProcessRadiation*getSpeedMultiplier());
 		if (time >= baseProcessTime) finishProcess();
 	}
 	
@@ -339,15 +347,15 @@ public class TileSaltFissionVessel extends TileSaltFissionPartBase implements IF
 	public void produceProducts() {
 		for (int i = fluidInputSize + fluidOutputSize; i < 2*fluidInputSize + fluidOutputSize; i++) tanks.get(i).setFluid(null);
 		
-		if (!hasConsumed || recipe == null) return;
+		if (!hasConsumed || recipeInfo == null) return;
 		
 		for (int j = 0; j < fluidOutputSize; j++) {
 			IFluidIngredient fluidProduct = getFluidProducts().get(j);
-			if (fluidProduct.getNextStackSize() <= 0) continue;
+			if (fluidProduct.getNextStackSize(0) <= 0) continue;
 			if (tanks.get(j + fluidInputSize).isEmpty()) {
-				tanks.get(j + fluidInputSize).setFluidStored(fluidProduct.getNextStack());
+				tanks.get(j + fluidInputSize).setFluidStored(fluidProduct.getNextStack(0));
 			} else if (tanks.get(j + fluidInputSize).getFluid().isFluidEqual(fluidProduct.getStack())) {
-				tanks.get(j + fluidInputSize).changeFluidAmount(fluidProduct.getNextStackSize());
+				tanks.get(j + fluidInputSize).changeFluidAmount(fluidProduct.getNextStackSize(0));
 			}
 		}
 		hasConsumed = false;
@@ -359,11 +367,6 @@ public class TileSaltFissionVessel extends TileSaltFissionPartBase implements IF
 	public ProcessorRecipeHandler getRecipeHandler() {
 		return recipeType.getRecipeHandler();
 	}
-		
-	@Override
-	public ProcessorRecipe getRecipe() {
-		return recipe;
-	}
 	
 	@Override
 	public List<Tank> getFluidInputs(boolean consumed) {
@@ -372,30 +375,12 @@ public class TileSaltFissionVessel extends TileSaltFissionPartBase implements IF
 	
 	@Override
 	public List<IFluidIngredient> getFluidIngredients() {
-		return recipe.fluidIngredients();
+		return recipeInfo.getRecipe().fluidIngredients();
 	}
 	
 	@Override
 	public List<IFluidIngredient> getFluidProducts() {
-		return recipe.fluidProducts();
-	}
-	
-	@Override
-	public List<Integer> getFluidInputOrder() {
-		List<Integer> fluidInputOrder = new ArrayList<Integer>();
-		List<IFluidIngredient> fluidIngredients = recipe.fluidIngredients();
-		for (int i = 0; i < fluidInputSize; i++) {
-			int position = -1;
-			for (int j = 0; j < fluidIngredients.size(); j++) {
-				if (fluidIngredients.get(j).matches(getFluidInputs(false).get(i), IngredientSorption.INPUT)) {
-					position = j;
-					break;
-				}
-			}
-			if (position == -1) return AbstractRecipeHandler.INVALID;
-			fluidInputOrder.add(position);
-		}
-		return fluidInputOrder;
+		return recipeInfo.getRecipe().fluidProducts();
 	}
 	
 	// Fluids
@@ -645,9 +630,12 @@ public class TileSaltFissionVessel extends TileSaltFissionPartBase implements IF
 	@Override
 	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing side) {
 		if (!getTanks().isEmpty() && hasFluidSideCapability(side)) {
-			side = nonNullSide(side);
-			if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) return getFluidSide(side) != null;
-			if (ModCheck.mekanismLoaded()) if (GasHelper.isGasCapability(capability)) return getGasWrapper() != null;
+			if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
+				return true;
+			}
+			if (ModCheck.mekanismLoaded() && GasHelper.isGasCapability(capability)) {
+				return true;
+			}
 		}
 		return super.hasCapability(capability, side);
 	}
@@ -655,9 +643,12 @@ public class TileSaltFissionVessel extends TileSaltFissionPartBase implements IF
 	@Override
 	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing side) {
 		if (!getTanks().isEmpty() && hasFluidSideCapability(side)) {
-			side = nonNullSide(side);
-			if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) return (T) getFluidSide(side);
-			if (ModCheck.mekanismLoaded()) if (GasHelper.isGasCapability(capability)) return (T) getGasWrapper();
+			if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
+				return (T) getFluidSide(nonNullSide(side));
+			}
+			if (ModCheck.mekanismLoaded() && GasHelper.isGasCapability(capability)) {
+				return (T) getGasWrapper();
+			}
 		}
 		return super.getCapability(capability, side);
 	}

@@ -25,7 +25,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class RenderSpin extends TileEntitySpecialRenderer<TileSpin> {
 	
 	private IModel modelAmbient, modelUp, modelDown;
-    private IBakedModel bakedModelAmbient, bakedModelUp, bakedModelDown;
+	private IBakedModel bakedModelAmbient, bakedModelUp, bakedModelDown;
 	
 	@Override
 	public void render(TileSpin te, double posX, double posY, double posZ, float partialTicks, int destroyStage, float alpha) {

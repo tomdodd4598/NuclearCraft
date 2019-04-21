@@ -2,11 +2,11 @@ package nc.capability.radiation.source;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.MathHelper;
 
 public class RadiationSource implements IRadiationSource {
 	
-	private double radiationLevel = 0D, radiationBuffer = 0D;
-	private boolean scrubbing = false;
+	private double radiationLevel = 0D, radiationBuffer = 0D, scrubbing = 0D;
 	
 	public RadiationSource(double startRadiation) {
 		this.radiationLevel = startRadiation;
@@ -46,12 +46,17 @@ public class RadiationSource implements IRadiationSource {
 	}
 	
 	@Override
-	public boolean getScrubbing() {
+	public double getScrubbingFraction() {
 		return scrubbing;
 	}
 	
 	@Override
-	public void setScrubbing(boolean scrubbing) {
-		this.scrubbing = scrubbing;
+	public void addScrubbingFraction(double scrubbing) {
+		this.scrubbing = MathHelper.clamp(this.scrubbing + scrubbing, 0D, 1D);
+	}
+	
+	@Override
+	public void resetScrubbingFraction() {
+		scrubbing = 0D;
 	}
 }
