@@ -306,7 +306,7 @@ ________________________________________________________________________________
  Steam Turbine:
 >--------------<
 
-mods.nuclearcraft.turbine.addRecipe([fluidInput, fluidOutput, powerPerMB (double)]);
+mods.nuclearcraft.turbine.addRecipe([fluidInput, fluidOutput, powerPerMB (double), expansionLevel (double)]);
 
 mods.nuclearcraft.turbine.removeRecipeWithInput([fluidInput]);
 mods.nuclearcraft.turbine.removeRecipeWithOutput([fluidOutput]);

@@ -4,7 +4,7 @@ import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
 import nc.integration.jei.IJEIHandler;
-import nc.integration.jei.JEICategoryAbstract;
+import nc.integration.jei.JEICategoryProcessor;
 import nc.integration.jei.JEIMethods.RecipeFluidMapper;
 import nc.integration.jei.JEIRecipeWrapper;
 import nc.recipe.IngredientSorption;
@@ -12,7 +12,7 @@ import nc.util.Lang;
 import nc.util.UnitHelper;
 import net.minecraft.util.text.TextFormatting;
 
-public class ActiveCoolerCategory extends JEICategoryAbstract<JEIRecipeWrapper.ActiveCooler> {
+public class ActiveCoolerCategory extends JEICategoryProcessor<JEIRecipeWrapper.ActiveCooler> {
 	
 	public ActiveCoolerCategory(IGuiHelper guiHelper, IJEIHandler handler) {
 		super(guiHelper, handler, "active_cooler", 47, 30, 90, 26);

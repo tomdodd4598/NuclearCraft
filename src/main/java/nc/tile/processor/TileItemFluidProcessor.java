@@ -201,9 +201,9 @@ public class TileItemFluidProcessor extends TileEnergyFluidSidedInventory implem
 			baseProcessRadiation = 0D;
 			return false;
 		}
-		baseProcessTime = recipeInfo.getRecipe().getProcessTime(defaultProcessTime);
-		baseProcessPower = recipeInfo.getRecipe().getProcessPower(defaultProcessPower);
-		baseProcessRadiation = recipeInfo.getRecipe().getProcessRadiation();
+		baseProcessTime = recipeInfo.getRecipe().getBaseProcessTime(defaultProcessTime);
+		baseProcessPower = recipeInfo.getRecipe().getBaseProcessPower(defaultProcessPower);
+		baseProcessRadiation = recipeInfo.getRecipe().getBaseProcessRadiation();
 		return true;
 	}
 	

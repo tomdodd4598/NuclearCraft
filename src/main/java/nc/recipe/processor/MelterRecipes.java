@@ -108,7 +108,7 @@ public class MelterRecipes extends ProcessorRecipeHandler {
 		
 		// Advanced Rocketry
 		addIngotMeltingRecipes("dilithium");
-		addIngotMeltingRecipes("titanium");
+		//addIngotMeltingRecipes("titanium");
 		
 		// PlusTiC - Botania
 		addIngotMeltingRecipes("manasteel");
@@ -218,7 +218,6 @@ public class MelterRecipes extends ProcessorRecipeHandler {
 		for (String fluidName : fluidList) {
 			if (MELTING_BLACKLIST.contains(fluidName)) continue;
 			String materialName = StringHelper.capitalize(fluidName);
-			String ore = "ore" + materialName;
 			String ingot = "ingot" + materialName;
 			String gem = "gem" + materialName;
 			String dust = "dust" + materialName;

@@ -62,7 +62,7 @@ public class TileSaltFissionVent extends TileSaltFissionPartBase implements ITil
 	@Override
 	public void update() {
 		super.update();
-		if(!world.isRemote) {
+		if (!world.isRemote) {
 			if (ventCount == 0) pushFluid();
 			tickVent();
 		}

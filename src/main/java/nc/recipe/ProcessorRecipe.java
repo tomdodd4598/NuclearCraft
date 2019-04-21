@@ -85,19 +85,19 @@ public class ProcessorRecipe implements IRecipe {
 	
 	// Processors
 	
-	public double getProcessTime(double defaultProcessTime) {
+	public double getBaseProcessTime(double defaultProcessTime) {
 		if (extras.isEmpty()) return defaultProcessTime;
 		else if (extras.get(0) instanceof Double) return ((double) extras.get(0))*defaultProcessTime;
 		else return defaultProcessTime;
 	}
 	
-	public double getProcessPower(double defaultProcessPower) {
+	public double getBaseProcessPower(double defaultProcessPower) {
 		if (extras.size() < 2) return defaultProcessPower;
 		else if (extras.get(1) instanceof Double) return ((double) extras.get(1))*defaultProcessPower;
 		else return defaultProcessPower;
 	}
 	
-	public double getProcessRadiation() {
+	public double getBaseProcessRadiation() {
 		if (extras.size() < 3) return 0D;
 		else if (extras.get(2) instanceof Double) return (double) extras.get(2);
 		else return 0D;
@@ -121,7 +121,7 @@ public class ProcessorRecipe implements IRecipe {
 	
 	public double getDecayLifetime() {
 		if (extras.isEmpty()) return TileDecayGenerator.DEFAULT_LIFETIME;
-		else if (extras.get(0) instanceof Double) return ((double) extras.get(0))/(double)NCConfig.machine_update_rate;
+		else if (extras.get(0) instanceof Double) return ((double) extras.get(0))*20D/(double)NCConfig.machine_update_rate;
 		return TileDecayGenerator.DEFAULT_LIFETIME;
 	}
 	

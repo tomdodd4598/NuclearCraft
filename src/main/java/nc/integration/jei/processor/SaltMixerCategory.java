@@ -4,12 +4,12 @@ import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
 import nc.integration.jei.IJEIHandler;
-import nc.integration.jei.JEICategoryAbstract;
+import nc.integration.jei.JEICategoryProcessor;
 import nc.integration.jei.JEIMethods.RecipeFluidMapper;
 import nc.integration.jei.JEIRecipeWrapper;
 import nc.recipe.IngredientSorption;
 
-public class SaltMixerCategory extends JEICategoryAbstract<JEIRecipeWrapper.SaltMixer> {
+public class SaltMixerCategory extends JEICategoryProcessor<JEIRecipeWrapper.SaltMixer> {
 	
 	public SaltMixerCategory(IGuiHelper guiHelper, IJEIHandler handler) {
 		super(guiHelper, handler, "salt_mixer_idle", 45, 30, 102, 26);

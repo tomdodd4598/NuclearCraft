@@ -1,3 +1,16 @@
+v2.15b
+
+* Moved JEI recipe information to the progress bar as a separate tooltip
+
+* Exothermic Chemical Reactor recipes now require no power
+* Fixed appearance of duplicate Ingot Former recipes
+
+* Increased mean lifetime of blocks adjacent to Decay Generators
+
+* Fixed buckets accessing incorrect machine tanks
+
+* Fixed IC2 rubber boots not having default radiation protection
+
 v2.15a
 
 * Corium now produces radiation

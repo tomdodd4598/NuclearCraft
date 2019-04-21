@@ -106,7 +106,7 @@ public class NCJEI implements IModPlugin {
 		for (IJEIHandler handler : JEIHandler.values()) {
 			if (!handler.getEnabled()) continue;
 			registry.addRecipes(handler.getJEIRecipes(guiHelper));
-			JEICategory category = handler.getCategory(guiHelper);
+			JEICategoryAbstract category = handler.getCategory(guiHelper);
 			registry.addRecipeCategories(category);
 			registry.addRecipeHandlers(category);
 			if (handler.getCrafters() != null) for (ItemStack crafter : handler.getCrafters()) {
@@ -273,24 +273,24 @@ public class NCJEI implements IModPlugin {
 		TURBINE(NCRecipes.Type.TURBINE, NCBlocks.turbine_controller, "turbine", JEIRecipeWrapper.Turbine.class);
 		
 		private NCRecipes.Type recipeType;
-		private Class<? extends JEIProcessorRecipeWrapper> recipeWrapper;
+		private Class<? extends JEIRecipeWrapperAbstract> recipeWrapper;
 		private boolean enabled;
 		private List<ItemStack> crafters;
 		private String textureName;
 		
-		JEIHandler(NCRecipes.Type recipeType, Block crafter, String textureName, Class<? extends JEIProcessorRecipeWrapper> recipeWrapper) {
+		JEIHandler(NCRecipes.Type recipeType, Block crafter, String textureName, Class<? extends JEIRecipeWrapperAbstract> recipeWrapper) {
 			this(recipeType, Lists.<Block>newArrayList(crafter), textureName, recipeWrapper);
 		}
 		
-		JEIHandler(NCRecipes.Type recipeType, List<Block> crafters, String textureName, Class<? extends JEIProcessorRecipeWrapper> recipeWrapper) {
+		JEIHandler(NCRecipes.Type recipeType, List<Block> crafters, String textureName, Class<? extends JEIRecipeWrapperAbstract> recipeWrapper) {
 			this(recipeType, crafters, textureName, recipeWrapper, -1);
 		}
 		
-		JEIHandler(NCRecipes.Type recipeType, Block crafter, String textureName, Class<? extends JEIProcessorRecipeWrapper> recipeWrapper, int enabled) {
+		JEIHandler(NCRecipes.Type recipeType, Block crafter, String textureName, Class<? extends JEIRecipeWrapperAbstract> recipeWrapper, int enabled) {
 			this(recipeType, Lists.<Block>newArrayList(crafter), textureName, recipeWrapper, enabled);
 		}
 		
-		JEIHandler(NCRecipes.Type recipeType, List<Block> crafters, String textureName, Class<? extends JEIProcessorRecipeWrapper> recipeWrapper, int enabled) {
+		JEIHandler(NCRecipes.Type recipeType, List<Block> crafters, String textureName, Class<? extends JEIRecipeWrapperAbstract> recipeWrapper, int enabled) {
 			this.recipeType = recipeType;
 			this.recipeWrapper = recipeWrapper;
 			this.enabled = enabled < 0 ? true : NCConfig.register_processor[enabled];
@@ -300,7 +300,7 @@ public class NCJEI implements IModPlugin {
 		}
 		
 		@Override
-		public JEICategory getCategory(IGuiHelper guiHelper) {
+		public JEICategoryAbstract getCategory(IGuiHelper guiHelper) {
 			switch (this) {
 			case MANUFACTORY:
 				return new ManufactoryCategory(guiHelper, this);
@@ -369,12 +369,12 @@ public class NCJEI implements IModPlugin {
 		}
 		
 		@Override
-		public Class<? extends JEIProcessorRecipeWrapper> getJEIRecipeWrapper() {
+		public Class<? extends JEIRecipeWrapperAbstract> getJEIRecipeWrapper() {
 			return recipeWrapper;
 		}
 		
 		@Override
-		public ArrayList<JEIProcessorRecipeWrapper> getJEIRecipes(IGuiHelper guiHelper) {
+		public ArrayList<JEIRecipeWrapperAbstract> getJEIRecipes(IGuiHelper guiHelper) {
 			return JEIMethods.getJEIRecipes(guiHelper, this, getRecipeHandler(), getJEIRecipeWrapper());
 		}
 

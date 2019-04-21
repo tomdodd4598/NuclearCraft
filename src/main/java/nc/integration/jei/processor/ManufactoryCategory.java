@@ -4,12 +4,12 @@ import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
 import nc.integration.jei.IJEIHandler;
-import nc.integration.jei.JEICategoryAbstract;
+import nc.integration.jei.JEICategoryProcessor;
 import nc.integration.jei.JEIMethods.RecipeItemMapper;
 import nc.integration.jei.JEIRecipeWrapper;
 import nc.recipe.IngredientSorption;
 
-public class ManufactoryCategory extends JEICategoryAbstract<JEIRecipeWrapper.Manufactory> {
+public class ManufactoryCategory extends JEICategoryProcessor<JEIRecipeWrapper.Manufactory> {
 	
 	public ManufactoryCategory(IGuiHelper guiHelper, IJEIHandler handler) {
 		super(guiHelper, handler, "manufactory_idle", 47, 30, 90, 26);

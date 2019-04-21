@@ -9,13 +9,13 @@ import net.minecraft.item.ItemStack;
 
 public interface IJEIHandler {
 	
-	public JEICategory getCategory(IGuiHelper guiHelper);
+	public JEICategoryAbstract getCategory(IGuiHelper guiHelper);
 	
 	public ProcessorRecipeHandler getRecipeHandler();
 	
-	public Class<? extends JEIProcessorRecipeWrapper> getJEIRecipeWrapper();
+	public Class<? extends JEIRecipeWrapperAbstract> getJEIRecipeWrapper();
 	
-	public ArrayList<JEIProcessorRecipeWrapper> getJEIRecipes(IGuiHelper guiHelper);
+	public ArrayList<JEIRecipeWrapperAbstract> getJEIRecipes(IGuiHelper guiHelper);
 	
 	public String getUUID();
 	

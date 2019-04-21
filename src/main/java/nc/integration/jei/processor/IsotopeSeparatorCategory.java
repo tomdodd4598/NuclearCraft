@@ -4,12 +4,12 @@ import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
 import nc.integration.jei.IJEIHandler;
-import nc.integration.jei.JEICategoryAbstract;
+import nc.integration.jei.JEICategoryProcessor;
 import nc.integration.jei.JEIMethods.RecipeItemMapper;
 import nc.integration.jei.JEIRecipeWrapper;
 import nc.recipe.IngredientSorption;
 
-public class IsotopeSeparatorCategory extends JEICategoryAbstract<JEIRecipeWrapper.IsotopeSeparator> {
+public class IsotopeSeparatorCategory extends JEICategoryProcessor<JEIRecipeWrapper.IsotopeSeparator> {
 	
 	public IsotopeSeparatorCategory(IGuiHelper guiHelper, IJEIHandler handler) {
 		super(guiHelper, handler, "isotope_separator_idle", 33, 30, 118, 26);

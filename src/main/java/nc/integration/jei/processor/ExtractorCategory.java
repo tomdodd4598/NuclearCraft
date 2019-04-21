@@ -4,13 +4,13 @@ import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
 import nc.integration.jei.IJEIHandler;
-import nc.integration.jei.JEICategoryAbstract;
+import nc.integration.jei.JEICategoryProcessor;
 import nc.integration.jei.JEIMethods.RecipeFluidMapper;
 import nc.integration.jei.JEIMethods.RecipeItemMapper;
 import nc.integration.jei.JEIRecipeWrapper;
 import nc.recipe.IngredientSorption;
 
-public class ExtractorCategory extends JEICategoryAbstract<JEIRecipeWrapper.Extractor> {
+public class ExtractorCategory extends JEICategoryProcessor<JEIRecipeWrapper.Extractor> {
 	
 	public ExtractorCategory(IGuiHelper guiHelper, IJEIHandler handler) {
 		super(guiHelper, handler, "extractor_idle", 33, 30, 118, 26);

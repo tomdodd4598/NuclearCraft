@@ -1704,8 +1704,11 @@ item.nuclearcraft.record_hyperspace.des1=Originally by Riku Nuottajärvi
 
 jei.nuclearcraft.chance_output=Output: %s-%s [Average: %s]
 
-jei.nuclearcraft.active_fission_cooling=Fission Cooling Rate:
-jei.nuclearcraft.active_fusion_cooling=Base Fusion Cooling Rate:
+jei.nuclearcraft.base_process_time=Base process time:
+jei.nuclearcraft.base_process_power=Base process power:
+
+jei.nuclearcraft.active_fission_cooling=Fission cooling rate:
+jei.nuclearcraft.active_fusion_cooling=Base Fusion cooling rate:
 
 jei.nuclearcraft.solid_fuel_time=Base depletion time:
 jei.nuclearcraft.solid_fuel_power=Base power gen:
@@ -1714,6 +1717,9 @@ jei.nuclearcraft.solid_fuel_heat=Base heat gen:
 jei.nuclearcraft.fusion_time=Base combo lifetime:
 jei.nuclearcraft.fusion_power=Base max power:
 jei.nuclearcraft.fusion_temp=Optimal temperature:
+
+jei.nuclearcraft.decay_gen_lifetime=Mean lifetime:
+jei.nuclearcraft.decay_gen_power=Power gen:
 
 jei.nuclearcraft.salt_fuel_time=Depletion time:
 jei.nuclearcraft.salt_fuel_heat=Base heat gen:
@@ -1726,8 +1732,8 @@ jei.nuclearcraft.exchanger_cooling_provided=Cooling provided:
 jei.nuclearcraft.exchanger_heating_required=Heating required:
 jei.nuclearcraft.exchanger_cooling_required=Cooling required:
 
-jei.nuclearcraft.turbine_energy_density=Base Energy Density:
-jei.nuclearcraft.turbine_expansion=Fluid Expansion:
+jei.nuclearcraft.turbine_energy_density=Base energy density:
+jei.nuclearcraft.turbine_expansion=Fluid expansion:
 
 jei.nuclearcraft.coolant_heater.nak=Must touch at least one active Fission Vessel or active moderator.
 jei.nuclearcraft.coolant_heater.redstone_nak=Must touch at least one active Fission Vessel.

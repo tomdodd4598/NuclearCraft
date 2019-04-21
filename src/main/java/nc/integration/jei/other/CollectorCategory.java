@@ -5,14 +5,14 @@ import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
 import nc.Global;
 import nc.integration.jei.IJEIHandler;
-import nc.integration.jei.JEICategoryAbstract;
+import nc.integration.jei.JEICategoryProcessor;
 import nc.integration.jei.JEIMethods.RecipeFluidMapper;
 import nc.integration.jei.JEIMethods.RecipeItemMapper;
 import nc.integration.jei.JEIRecipeWrapper;
 import nc.recipe.IngredientSorption;
 import nc.util.Lang;
 
-public class CollectorCategory extends JEICategoryAbstract<JEIRecipeWrapper.Collector> {
+public class CollectorCategory extends JEICategoryProcessor<JEIRecipeWrapper.Collector> {
 	
 	public CollectorCategory(IGuiHelper guiHelper, IJEIHandler handler) {
 		super(guiHelper, handler, "collector", 33, 30, 118, 26);

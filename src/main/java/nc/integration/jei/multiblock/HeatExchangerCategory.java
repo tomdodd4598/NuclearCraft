@@ -5,14 +5,14 @@ import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
 import nc.Global;
 import nc.integration.jei.IJEIHandler;
-import nc.integration.jei.JEICategoryAbstract;
+import nc.integration.jei.JEICategoryProcessor;
 import nc.integration.jei.JEIMethods.RecipeFluidMapper;
 import nc.integration.jei.JEIRecipeWrapper;
 import nc.recipe.IngredientSorption;
 import nc.util.Lang;
 import net.minecraft.util.text.TextFormatting;
 
-public class HeatExchangerCategory extends JEICategoryAbstract<JEIRecipeWrapper.HeatExchanger> {
+public class HeatExchangerCategory extends JEICategoryProcessor<JEIRecipeWrapper.HeatExchanger> {
 	
 	public HeatExchangerCategory(IGuiHelper guiHelper, IJEIHandler handler) {
 		super(guiHelper, handler, "heat_exchanger", 47, 30, 90, 26);
@@ -29,30 +29,16 @@ public class HeatExchangerCategory extends JEICategoryAbstract<JEIRecipeWrapper.
 		fluidMapper.mapFluidsTo(recipeLayout.getFluidStacks(), ingredients);
 		
 		recipeLayout.getFluidStacks().addTooltipCallback((slotIndex, input, ingredient, tooltip) -> {
-			if (ingredient != null && ingredient.getFluid() != null) {
-				boolean heating = recipeWrapper.recipe.getHeatExchangerIsHeating();
-				int inputTemp = recipeWrapper.recipe.getHeatExchangerInputTemperature();
-				int outputTemp = recipeWrapper.recipe.getHeatExchangerOutputTemperature();
-				int rate = Math.abs(inputTemp - outputTemp);
-				int processTime = (int)recipeWrapper.recipe.getHeatExchangerProcessTime(16000);
-				
-				if (slotIndex == 0) {
-					tooltip.add((heating ? TextFormatting.AQUA : TextFormatting.RED) + TEMPERATURE + TextFormatting.WHITE + " " + inputTemp + "K");
-					tooltip.add((heating ? TextFormatting.AQUA + COOLING_PROVIDED : TextFormatting.RED + HEATING_PROVIDED) + TextFormatting.WHITE + " " + rate + "/t");
-					tooltip.add((heating ? TextFormatting.RED + HEATING_REQUIRED : TextFormatting.AQUA + COOLING_REQUIRED) + TextFormatting.WHITE + " " + processTime);
-				}
-				else if (slotIndex == 1) {
-					tooltip.add((heating ? TextFormatting.RED : TextFormatting.AQUA) + TEMPERATURE + TextFormatting.WHITE + " " + outputTemp + "K");
-					tooltip.add((heating ? TextFormatting.AQUA + COOLING_PROVIDED : TextFormatting.RED + HEATING_PROVIDED) + TextFormatting.WHITE + " " + rate + "/t");
-					tooltip.add((heating ? TextFormatting.RED + HEATING_REQUIRED : TextFormatting.AQUA + COOLING_REQUIRED) + TextFormatting.WHITE + " " + processTime);
-				}
+			boolean heating = recipeWrapper.recipe.getHeatExchangerIsHeating();
+			
+			if (slotIndex == 0) {
+				tooltip.add((heating ? TextFormatting.AQUA : TextFormatting.RED) + TEMPERATURE + TextFormatting.WHITE + " " + recipeWrapper.recipe.getHeatExchangerInputTemperature() + "K");
+			}
+			else if (slotIndex == 1) {
+				tooltip.add((heating ? TextFormatting.RED : TextFormatting.AQUA) + TEMPERATURE + TextFormatting.WHITE + " " + recipeWrapper.recipe.getHeatExchangerOutputTemperature() + "K");
 			}
 		});
 	}
 	
 	private static final String TEMPERATURE = Lang.localise("jei.nuclearcraft.exchanger_fluid_temp");
-	private static final String HEATING_PROVIDED = Lang.localise("jei.nuclearcraft.exchanger_heating_provided");
-	private static final String COOLING_PROVIDED = Lang.localise("jei.nuclearcraft.exchanger_cooling_provided");
-	private static final String HEATING_REQUIRED = Lang.localise("jei.nuclearcraft.exchanger_heating_required");
-	private static final String COOLING_REQUIRED = Lang.localise("jei.nuclearcraft.exchanger_cooling_required");
 }

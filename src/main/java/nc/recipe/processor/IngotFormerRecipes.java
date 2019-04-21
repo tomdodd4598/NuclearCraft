@@ -41,13 +41,13 @@ public class IngotFormerRecipes extends ProcessorRecipeHandler {
 		else addRecipe(fluidStack("silicon", FluidStackHelper.INGOT_VOLUME), "itemSilicon", 1D, 1D);
 		
 		// Tinkers' Construct
-		addIngotFormingRecipe("Manyullyn");
+		/*addIngotFormingRecipe("Manyullyn");
 		addIngotFormingRecipe("Alubrass");
 		addIngotFormingRecipe("Pigiron");
 		addIngotFormingRecipe("Brass");
 		addIngotFormingRecipe("Bronze");
 		addIngotFormingRecipe("Electrum");
-		addIngotFormingRecipe("Steel");
+		addIngotFormingRecipe("Steel");*/
 		
 		// EnderIO
 		addIngotFormingRecipe("electrical_steel", "ElectricalSteel");

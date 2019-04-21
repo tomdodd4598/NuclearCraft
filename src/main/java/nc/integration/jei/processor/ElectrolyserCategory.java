@@ -4,12 +4,12 @@ import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
 import nc.integration.jei.IJEIHandler;
-import nc.integration.jei.JEICategoryAbstract;
+import nc.integration.jei.JEICategoryProcessor;
 import nc.integration.jei.JEIMethods.RecipeFluidMapper;
 import nc.integration.jei.JEIRecipeWrapper;
 import nc.recipe.IngredientSorption;
 
-public class ElectrolyserCategory extends JEICategoryAbstract<JEIRecipeWrapper.Electrolyser> {
+public class ElectrolyserCategory extends JEICategoryProcessor<JEIRecipeWrapper.Electrolyser> {
 	
 	public ElectrolyserCategory(IGuiHelper guiHelper, IJEIHandler handler) {
 		super(guiHelper, handler, "electrolyser_idle", 49, 30, 94, 38);

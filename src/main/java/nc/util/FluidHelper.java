@@ -40,9 +40,9 @@ public class FluidHelper {
 				IFluidHandlerItem container = FluidUtil.getFluidHandler(ItemHandlerHelper.copyStackWithSize(heldItem, 1));
 				if (container == null) return false;
 				for (int i = 0; i < tile.getTanks().size(); i++) {
-					FluidActionResult fluidActionResult = FluidUtil.tryFillContainerAndStow(heldItem, tile.getTanks().get(i), playerInventory, Integer.MAX_VALUE, player, true);
+					FluidActionResult fluidActionResult = tile.getTankSorption(facing, i).canDrain() ? FluidActionResult.FAILURE : FluidUtil.tryFillContainerAndStow(heldItem, tile.getTanks().get(i), playerInventory, Integer.MAX_VALUE, player, true);
 					if (!fluidActionResult.isSuccess()) {
-						if (tile.isNextToFill(facing, i, container.drain(Integer.MAX_VALUE, false))) {
+						if (tile.getTankSorption(facing, i).canFill() && tile.isNextToFill(facing, i, container.drain(Integer.MAX_VALUE, false))) {
 							fluidActionResult = FluidUtil.tryEmptyContainerAndStow(heldItem, tile.getTanks().get(i), playerInventory, Integer.MAX_VALUE, player, true);
 						}
 					}
