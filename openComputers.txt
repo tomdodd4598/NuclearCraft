@@ -1,76 +1,151 @@
  NuclearCraft OpenComputers Methods
 #==================================#
 
- Fission Reactor - component.nc_fission_reactor:
->-----------------------------------------------<
+ Solid Fuel Fission Reactor - component.nc_fission_reactor:
+>----------------------------------------------------------<
 
-isComplete()
-isProcessing()
-getProblem()
-getLengthX()
-getLengthY()
-getLengthZ()
-getEnergyStored()
-getMaxEnergyStored()
-getEnergyChange()
-getCurrentProcessTime()
-getHeatLevel()
-getMaxHeatLevel()
-getEfficiency()
-getHeatMultiplier()
-getFissionFuelTime()
-getFissionFuelPower()
-getFissionFuelHeat()
-getFissionFuelName()
-getReactorProcessTime()
-getReactorProcessPower()
-getReactorProcessHeat()
-getReactorCoolingRate()
+boolean isComplete()
+boolean isProcessing()
+String getProblem()
+int getLengthX()
+int getLengthY()
+int getLengthZ()
+int getEnergyStored()
+int getMaxEnergyStored()
+int getEnergyChange()
+double getCurrentProcessTime()
+double getHeatLevel()
+int getMaxHeatLevel()
+double getEfficiency()
+double getHeatMultiplier()
+double getFissionFuelTime()
+double getFissionFuelPower()
+double getFissionFuelHeat()
+String getFissionFuelName()
+double getReactorProcessTime()
+double getReactorProcessPower()
+double getReactorProcessHeat()
+double getReactorCoolingRate()
+int getNumberOfCells()
 
-getReactorLayout()
-forceUpdate()
-
-activate()
-deactivate()
+Object[] getReactorLayout() -> {{{reactorPosX, reactorPosY, reactorPosZ}, {blockName, blockMeta}},...}
+void activate()
+void deactivate()
+void forceUpdate()
 ___________________________________________________________________________________________________________________________
 
  Fusion Reactor - component.nc_fusion_reactor:
 >---------------------------------------------<
 
-isComplete()
-isProcessing()
-isHotEnough()
-getToroidSize()
-getEnergyStored()
-getMaxEnergyStored()
-getEnergyChange()
-getCurrentProcessTime()
-getTemperature()
-getMaxTemperature()
-getEfficiency()
-getFusionComboTime()
-getFusionComboPower()
-getFusionComboHeatVariable()
-getFirstFusionFuel()
-getSecondFusionFuel()
-getReactorProcessTime()
-getReactorProcessPower()
-getReactorProcessHeat()
-getReactorCoolingRate()
+boolean isComplete()
+boolean isProcessing()
+boolean isHotEnough()
+String getProblem()
+int getToroidSize()
+int getEnergyStored()
+int getMaxEnergyStored()
+int getEnergyChange()
+double getCurrentProcessTime()
+double getTemperature()
+double getMaxTemperature()
+double getEfficiency()
+double getFusionComboTime()
+double getFusionComboPower()
+double getFusionComboHeatVariable()
+String getFirstFusionFuel()
+String getSecondFusionFuel()
+double getReactorProcessTime()
+double getReactorProcessPower()
+double getReactorProcessHeat()
+double getReactorCoolingRate()
 
-activate()
-deactivate()
+void activate()
+void deactivate()
+___________________________________________________________________________________________________________________________
+
+ Molten Salt Fission Reactor - component.nc_salt_fission_reactor:
+>----------------------------------------------------------------<
+
+boolean isComplete()
+boolean isReactorOn()
+int getLengthX()
+int getLengthY()
+int getLengthZ()
+long getHeatStored()
+long getHeatCapacity()
+double getCoolingRate()
+double getRawHeatingRate()
+double getNetHeatingRate()
+double getRawEfficiency()
+double getHeatMultiplier()
+double getCoolingEfficiency()
+int getNumberOfVessels()
+int getNumberOfHeaters()
+int getNumberOfModerators()
+Object[] getVesselStats() -> {{{posX, posY, posZ}, isProcessing, currentRecipeTime, processTime, processHeat, efficiency, heatMultiplier},...}
+Object[] getHeaterStats() -> {{{posX, posY, posZ}, coolantName, isProcessing, currentRecipeTime, processTime, processCooling},...}
+Object[] getModeratorStats() -> {{{posX, posY, posZ}, isInValidPosition, isInModerationLine},...}
+
+void activate()
+void deactivate()
+void clearAllFluids()
+___________________________________________________________________________________________________________________________
+
+ Heat Exchanger - component.nc_heat_exchanger:
+>---------------------------------------------<
+
+boolean isComplete()
+boolean isReactorOn()
+int getLengthX()
+int getLengthY()
+int getLengthZ()
+double getFractionOfTubesActive()
+double getMeanEfficiency()
+int getNumberOfTubes()
+Object[] getTubeStats() -> {{{posX, posY, posZ}, conductivity, isProcessing, currentRecipeTime, processTime, speedMultiplier, inputTemperature, outputTemperature, flowDirection},...}
+
+void activate()
+void deactivate()
+void clearAllFluids()
+___________________________________________________________________________________________________________________________
+
+ Turbine - component.nc_turbine:
+>-------------------------------<
+
+boolean isComplete()
+boolean isReactorOn()
+int getLengthX()
+int getLengthY()
+int getLengthZ()
+boolean isProcessing()
+int getEnergyStored()
+int getEnergyCapacity()
+double getPower()
+double getCoilConductivity()
+String getFlowDirection()
+double getTotalExpansionLevel()
+double getIdealTotalExpansionLevel()
+double[] getExpansionLevels()
+double[] getIdealExpansionLevels()
+double[] getBladeEfficiencies()
+int getInputRate()
+int getNumberOfDynamoCoils()
+Object[] getDynamoCoilStats() -> {{{posX, posY, posZ}, coilType, isInValidPosition},...}
+
+void activate()
+void deactivate()
+void clearAllFluids()
 ___________________________________________________________________________________________________________________________
 
  Geiger Counter - component.nc_geiger_counter:
 >---------------------------------------------<
 
-getChunkRadiationLevel()
+double getChunkRadiationLevel()
 ___________________________________________________________________________________________________________________________
 
  Radiation Scrubber - component.nc_radiation_scrubber:
 >-----------------------------------------------------<
 
-getRadiationRemovalRate()
-getEfficiency()
+double getRadiationRemovalRate()
+double getEfficiency()
 ___________________________________________________________________________________________________________________________

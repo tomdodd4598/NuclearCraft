@@ -1,7 +1,7 @@
  NuclearCraft CraftTweaker Recipe Addition and Removal
 #=====================================================#
 
-Note: The double set of brackets `([...])` are a must-have!
+Note: The double set of brackets `([...])` is a must-have!
 This is basically because all NC CT methods require an array of objects, be they ingredients, strings, integers or doubles.
 
 All recipes involve five sets of information - item inputs, fluid inputs, item outputs, fluid outputs and extra info. The
@@ -319,4 +319,12 @@ mods.nuclearcraft.condenser.addRecipe([fluidInput, fluidOutput, {timeMultiplier 
 
 mods.nuclearcraft.condenser.removeRecipeWithInput([fluidInput]);
 mods.nuclearcraft.condenser.removeRecipeWithOutput([fluidOutput]);
+___________________________________________________________________________________________________________________________
+
+ Radiation:
+>----------<
+
+Note: The double set of brackets `([...])` is not required here!
+
+mods.nuclearcraft.radiation.getRadiationLevel(itemInput);
 ___________________________________________________________________________________________________________________________

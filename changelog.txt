@@ -1,3 +1,24 @@
+v2.15a
+
+* Corium now produces radiation
+* Radiation Scrubbers now increase chunk's resistance to radiation spreading into it
++ Added CT method to get the radiation level of an item
+* Radiation Badge is now a trinket Bauble rather than a charm
+* Hopefully fixed rare crash on breaking a Radiation Scrubber
+
+* Fixed machines not correctly respecting the different stack sizes of 'ORed' recipe ingredients
+* Fixed slightly broken CT recipe removal using the Ore Dictionary
+
++ Added OC support for the MSR, Heat Exchanger and Turbine
+
+* The expansion levels of the default steam turbine recipes are now configurable
+
+* Fixed bucketing fluid into machines filling incorrect tanks
+* Fixed Fusion Core GUI not correctly showing empty tank information
+
+* Huge refactors item-using TEs in preparation for machine side configuration
+* Many changes to the recipe system to make it a bit more efficient and slightly more versatile
+
 v2.15
 
 + Added radiation to fusion reactor recipes
