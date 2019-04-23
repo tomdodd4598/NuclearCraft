@@ -63,6 +63,7 @@ public class NCConfig {
 	public static int cobble_gen_power;
 	public static boolean ore_processing;
 	public static int[] manufactory_wood;
+	public static boolean gtce_recipes;
 	public static boolean smart_processor_input;
 	public static boolean passive_permeation;
 	public static boolean processor_particles;
@@ -231,6 +232,7 @@ public class NCConfig {
 	public static double radiation_chunk_limit;
 	
 	public static double radiation_radaway_amount;
+	public static double radiation_radaway_slow_amount;
 	public static double radiation_radaway_rate;
 	public static double radiation_radaway_slow_rate;
 	public static double radiation_radaway_cooldown;
@@ -381,6 +383,8 @@ public class NCConfig {
 		propertyOreProcessing.setLanguageKey("gui.config.processors.ore_processing");
 		Property propertyManufactoryWood = config.get(CATEGORY_PROCESSORS, "manufactory_wood", new int[] {6, 4}, Lang.localise("gui.config.processors.manufactory_wood.comment"), 1, 64);
 		propertyManufactoryWood.setLanguageKey("gui.config.processors.manufactory_wood");
+		Property propertyGTCERecipes = config.get(CATEGORY_PROCESSORS, "gtce_recipes", true, Lang.localise("gui.config.processors.gtce_recipes.comment"));
+		propertyGTCERecipes.setLanguageKey("gui.config.processors.gtce_recipes");
 		Property propertySmartProcessorInput = config.get(CATEGORY_PROCESSORS, "smart_processor_input", true, Lang.localise("gui.config.processors.smart_processor_input.comment"));
 		propertySmartProcessorInput.setLanguageKey("gui.config.processors.smart_processor_input");
 		Property propertyPermeation = config.get(CATEGORY_PROCESSORS, "passive_permeation", false, Lang.localise("gui.config.processors.passive_permeation.comment"));
@@ -688,6 +692,8 @@ public class NCConfig {
 		
 		Property propertyRadiationRadawayAmount = config.get(CATEGORY_RADIATION, "radiation_radaway_amount", 300D, Lang.localise("gui.config.radiation.radiation_radaway_amount.comment"), 0.001D, 1000000000D);
 		propertyRadiationRadawayAmount.setLanguageKey("gui.config.radiation.radiation_radaway_amount");
+		Property propertyRadiationRadawaySlowAmount = config.get(CATEGORY_RADIATION, "radiation_radaway_slow_amount", 300D, Lang.localise("gui.config.radiation.radiation_radaway_slow_amount.comment"), 0.001D, 1000000000D);
+		propertyRadiationRadawaySlowAmount.setLanguageKey("gui.config.radiation.radiation_radaway_slow_amount");
 		Property propertyRadiationRadawayRate = config.get(CATEGORY_RADIATION, "radiation_radaway_rate", 5D, Lang.localise("gui.config.radiation.radiation_radaway_rate.comment"), 0.001D, 1000000000D);
 		propertyRadiationRadawayRate.setLanguageKey("gui.config.radiation.radiation_radaway_rate");
 		Property propertyRadiationRadawaySlowRate = config.get(CATEGORY_RADIATION, "radiation_radaway_slow_rate", 0.025D, Lang.localise("gui.config.radiation.radiation_radaway_slow_rate.comment"), 0.00001D, 10000000D);
@@ -840,6 +846,7 @@ public class NCConfig {
 		propertyOrderProcessors.add(propertyCobbleGenPower.getName());
 		propertyOrderProcessors.add(propertyOreProcessing.getName());
 		propertyOrderProcessors.add(propertyManufactoryWood.getName());
+		propertyOrderProcessors.add(propertyGTCERecipes.getName());
 		propertyOrderProcessors.add(propertySmartProcessorInput.getName());
 		propertyOrderProcessors.add(propertyPermeation.getName());
 		propertyOrderProcessors.add(propertyProcessorParticles.getName());
@@ -1024,6 +1031,7 @@ public class NCConfig {
 		propertyOrderRadiation.add(propertyRadiationLowestRate.getName());
 		propertyOrderRadiation.add(propertyRadiationChunkLimit.getName());
 		propertyOrderRadiation.add(propertyRadiationRadawayAmount.getName());
+		propertyOrderRadiation.add(propertyRadiationRadawaySlowAmount.getName());
 		propertyOrderRadiation.add(propertyRadiationRadawayRate.getName());
 		propertyOrderRadiation.add(propertyRadiationRadawaySlowRate.getName());
 		propertyOrderRadiation.add(propertyRadiationRadawayCooldown.getName());
@@ -1108,6 +1116,7 @@ public class NCConfig {
 			cobble_gen_power = propertyCobbleGenPower.getInt();
 			ore_processing = propertyOreProcessing.getBoolean();
 			manufactory_wood = readIntegerArrayFromConfig(propertyManufactoryWood);
+			gtce_recipes = propertyGTCERecipes.getBoolean();
 			smart_processor_input = propertySmartProcessorInput.getBoolean();
 			passive_permeation = propertyPermeation.getBoolean();
 			processor_particles = propertyProcessorParticles.getBoolean();
@@ -1275,6 +1284,7 @@ public class NCConfig {
 			radiation_chunk_limit = propertyRadiationChunkLimit.getDouble();
 			
 			radiation_radaway_amount = propertyRadiationRadawayAmount.getDouble();
+			radiation_radaway_slow_amount = propertyRadiationRadawaySlowAmount.getDouble();
 			radiation_radaway_rate = propertyRadiationRadawayRate.getDouble();
 			radiation_radaway_slow_rate = propertyRadiationRadawaySlowRate.getDouble();
 			radiation_radaway_cooldown = propertyRadiationRadawayCooldown.getDouble();
@@ -1362,6 +1372,7 @@ public class NCConfig {
 		propertyCobbleGenPower.set(cobble_gen_power);
 		propertyOreProcessing.set(ore_processing);
 		propertyManufactoryWood.set(manufactory_wood);
+		propertyGTCERecipes.set(gtce_recipes);
 		propertySmartProcessorInput.set(smart_processor_input);
 		propertyPermeation.set(passive_permeation);
 		propertyProcessorParticles.set(processor_particles);
@@ -1529,6 +1540,7 @@ public class NCConfig {
 		propertyRadiationChunkLimit.set(radiation_chunk_limit);
 		
 		propertyRadiationRadawayAmount.set(radiation_radaway_amount);
+		propertyRadiationRadawaySlowAmount.set(radiation_radaway_slow_amount);
 		propertyRadiationRadawayRate.set(radiation_radaway_rate);
 		propertyRadiationRadawaySlowRate.set(radiation_radaway_slow_rate);
 		propertyRadiationRadawayCooldown.set(radiation_radaway_cooldown);

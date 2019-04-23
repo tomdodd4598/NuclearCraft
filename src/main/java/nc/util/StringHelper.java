@@ -20,12 +20,12 @@ public class StringHelper {
 	}
 	
 	public static String removePrefix(String string, int length) {
-		int fixedLength = Math.min(length, string.length());
+		//int fixedLength = Math.min(length, string.length());
 		return string.substring(length);
 	}
 	
 	public static String removeSuffix(String string, int length) {
-		int fixedLength = Math.min(length, string.length());
+		//int fixedLength = Math.min(length, string.length());
 		return string.substring(0, string.length() - length);
 	}
 	

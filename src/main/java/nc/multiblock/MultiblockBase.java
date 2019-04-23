@@ -20,7 +20,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
-import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraftforge.fml.common.FMLLog;
 
 /**
@@ -125,7 +124,7 @@ public abstract class MultiblockBase<PACKET extends MultiblockUpdatePacket> impl
 	 * @param part The part to add.
 	 */
 	public void attachBlock(IMultiblockPart part) {
-		IMultiblockPart candidate;
+		//IMultiblockPart candidate;
 		BlockPos coord = part.getWorldPosition();
 
 		if(!connectedParts.add(part))
@@ -443,7 +442,7 @@ public abstract class MultiblockBase<PACKET extends MultiblockUpdatePacket> impl
 			throw new IllegalArgumentException("The multiblock with the lowest minimum-coord value must consume the one with the higher coords");
 		}
 
-		TileEntity te;
+		//TileEntity te;
 		Set<IMultiblockPart> partsToAcquire = new HashSet<IMultiblockPart>(other.connectedParts);
 
 		// releases all blocks and references gently so they can be incorporated into another multiblock
@@ -848,8 +847,8 @@ public abstract class MultiblockBase<PACKET extends MultiblockUpdatePacket> impl
 			return null;
 		}
 		
-		TileEntity te;
-		IChunkProvider chunkProvider = WORLD.getChunkProvider();
+		//TileEntity te;
+		//IChunkProvider chunkProvider = WORLD.getChunkProvider();
 
 		// Invalidate our reference coord, we'll recalculate it shortly
 		referenceCoord = null;
@@ -965,7 +964,7 @@ public abstract class MultiblockBase<PACKET extends MultiblockUpdatePacket> impl
 	public Set<IMultiblockPart> detachAllBlocks() {
 		if(WORLD == null) { return new HashSet<IMultiblockPart>(); }
 		
-		IChunkProvider chunkProvider = WORLD.getChunkProvider();
+		//IChunkProvider chunkProvider = WORLD.getChunkProvider();
 		for(IMultiblockPart part : connectedParts) {
 			if(this.WORLD.isBlockLoaded(part.getWorldPosition())) {
 				onDetachBlock(part);
@@ -985,7 +984,7 @@ public abstract class MultiblockBase<PACKET extends MultiblockUpdatePacket> impl
 	}
 	
 	private void selectNewReferenceCoord() {
-		IChunkProvider chunkProvider = WORLD.getChunkProvider();
+		//IChunkProvider chunkProvider = WORLD.getChunkProvider();
 		IMultiblockPart theChosenOne = null;
 		BlockPos position;
 

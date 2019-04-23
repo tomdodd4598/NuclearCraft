@@ -18,7 +18,7 @@ import nc.tile.internal.energy.EnergyConnection;
 import nc.tile.internal.fluid.Tank;
 import nc.util.EnergyHelper;
 import nc.util.ItemStackHelper;
-import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 
@@ -96,10 +96,9 @@ public class TileDecayGenerator extends TileEnergy implements IInterfaceable {
 		if (getDecayRecipeInfo(side) == null) return 0;
 		ItemStack stack = getOutput(side);
 		if (stack.isEmpty() || stack == null) return 0;
-		Block block = ItemStackHelper.getBlockFromStack(stack);
+		IBlockState block = ItemStackHelper.getBlockStateFromStack(stack);
 		if (block == null) return 0;
-		int meta = stack.getItemDamage();
-		if (rand.nextDouble()*getRecipeLifetime(side) < 1D) getWorld().setBlockState(getPos().offset(side), block.getStateFromMeta(meta));
+		if (rand.nextDouble()*getRecipeLifetime(side) < 1D) getWorld().setBlockState(getPos().offset(side), block);
 		return getRecipePower(side);
 	}
 	

@@ -65,7 +65,7 @@ public class ItemRadaway extends NCItem {
 		if (world.isRemote || !player.hasCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null)) return;
 		IEntityRads playerRads = player.getCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null);
 		if (playerRads == null) return;
-		playerRads.setRadawayBuffer(slow, playerRads.getRadawayBuffer(slow) + NCConfig.radiation_radaway_amount);
+		playerRads.setRadawayBuffer(slow, playerRads.getRadawayBuffer(slow) + (slow ? NCConfig.radiation_radaway_slow_amount : NCConfig.radiation_radaway_amount));
 	}
 	
 	@Override

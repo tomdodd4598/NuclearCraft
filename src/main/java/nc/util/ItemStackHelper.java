@@ -35,13 +35,13 @@ public class ItemStackHelper {
 		return new ItemStack(block, 1, meta);
 	}
 	
-	public static Block getBlockFromStack(ItemStack stack) {
+	public static IBlockState getBlockStateFromStack(ItemStack stack) {
 		if (stack.isEmpty() || stack == null) return null;
 		int meta = stack.getItemDamage();
 		Item item = stack.getItem();
 		if (!ItemBlock.class.isAssignableFrom(item.getClass())) return null;
 		ItemBlock itemBlock = (ItemBlock) item;
-		return itemBlock.getBlock();
+		return itemBlock.getBlock().getStateFromMeta(meta);
 	}
 	
 	public static ItemStack changeStackSize(ItemStack stack, int size) {

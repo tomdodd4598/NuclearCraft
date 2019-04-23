@@ -1834,6 +1834,8 @@ gui.config.processors.ore_processing=Ore Processing
 gui.config.processors.ore_processing.comment=Can NuclearCraft machines process ores?
 gui.config.processors.manufactory_wood=Manufactory Wood Processing
 gui.config.processors.manufactory_wood.comment=Specify the size of the output stack for Manufactory wood processing recipes. Order: Logs->Planks, Planks->Sticks.
+gui.config.processors.gtce_recipes=Register GTCE Recipes
+gui.config.processors.gtce_recipes.comment=If enabled, recipes will also be added for GTCE machines.
 gui.config.processors.smart_processor_input=Smart Processor Input
 gui.config.processors.smart_processor_input.comment=Will a machine's valid inputs depend on the stacks already in its input slots as well as its possible recipes?
 gui.config.processors.passive_permeation=Passive Permeation
@@ -2186,6 +2188,8 @@ gui.config.radiation.radiation_chunk_limit.comment=The maximum chunk radiation l
 
 gui.config.radiation.radiation_radaway_amount=RadAway Rads Removed
 gui.config.radiation.radiation_radaway_amount.comment=The total number of rads removed when using RadAway.
+gui.config.radiation.radiation_radaway_slow_amount=Slow-Acting RadAway Rads Removed
+gui.config.radiation.radiation_radaway_slow_amount.comment=The total number of rads removed when using Slow-Acting RadAway.
 gui.config.radiation.radiation_radaway_rate=RadAway Rad Removal Rate
 gui.config.radiation.radiation_radaway_rate.comment=The rate at which rads is removed when using RadAway in Rads/t.
 gui.config.radiation.radiation_radaway_slow_rate=Slow-Acting RadAway Rad Removal Rate

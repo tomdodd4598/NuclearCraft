@@ -6,6 +6,9 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import nc.Global;
+import nc.ModCheck;
+import nc.config.NCConfig;
+import nc.integration.gtce.GTCERecipeHelper;
 import nc.recipe.ingredient.IFluidIngredient;
 import nc.recipe.ingredient.IItemIngredient;
 import nc.util.NCUtil;
@@ -47,7 +50,12 @@ public abstract class ProcessorRecipeHandler extends AbstractRecipeHandler<Proce
 				extras.add(object);
 			}
 		}
-		addRecipe(buildRecipe(itemInputs, fluidInputs, itemOutputs, fluidOutputs, extras, shapeless));
+		ProcessorRecipe recipe = buildRecipe(itemInputs, fluidInputs, itemOutputs, fluidOutputs, extras, shapeless);
+		addRecipe(recipe);
+		
+		if (ModCheck.gregtechLoaded() && NCConfig.gtce_recipes && recipe != null) {
+			GTCERecipeHelper.addGTCERecipe(recipeName, recipe);
+		}
 	}
 	
 	@Nullable

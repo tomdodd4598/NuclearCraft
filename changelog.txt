@@ -1,3 +1,11 @@
+v2.16a
+
++ Added NC recipes to GTCE machines [thanks to Firew0lf for the initial code!]
+
+* Separated config option for regular and slow-acting RadAway total rad removal
+
+* Exothermic Chemical Reactor recipes now require a bit of power
+
 v2.16
 
 + Added Condensation Tubes to complete the Rankine cycle!

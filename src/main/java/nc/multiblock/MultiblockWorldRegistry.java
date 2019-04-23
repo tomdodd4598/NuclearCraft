@@ -12,7 +12,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
-import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraftforge.fml.common.FMLLog;
 
 /**
@@ -107,7 +106,7 @@ final class MultiblockWorldRegistry {
 			}
 
 			if(orphansToProcess != null && orphansToProcess.size() > 0) {
-				IChunkProvider chunkProvider = this.worldObj.getChunkProvider();
+				//IChunkProvider chunkProvider = this.worldObj.getChunkProvider();
 				Set<MultiblockBase> compatibleMultiblocks;
 
 				// Process orphaned blocks
@@ -142,7 +141,7 @@ final class MultiblockWorldRegistry {
 						// THIS IS THE ONLY PLACE WHERE MERGES ARE DETECTED
 						// Multiple compatible multiblocks indicates an impending merge.
 						// Locate the appropriate merge pool(s)
-						boolean hasAddedToPool = false;
+						//boolean hasAddedToPool = false;
 						List<Set<MultiblockBase>> candidatePools = new ArrayList<Set<MultiblockBase>>();
 						for(Set<MultiblockBase> candidatePool : mergePools) {
 							if(!Collections.disjoint(candidatePool, compatibleMultiblocks)) {

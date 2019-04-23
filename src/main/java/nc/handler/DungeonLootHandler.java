@@ -28,61 +28,61 @@ public class DungeonLootHandler {
 				event.getTable().addPool(pool);
 			}
 			
-			boolean addPlating = false, addSolenoids = false, addMachinery = false, addOther = false;
+			boolean /*addPlating = false, addSolenoids = false, addMachinery = false,*/ addOther = false;
 			
 			if (NCConfig.dungeon_loot) {
 				if (LootTableList.CHESTS_SIMPLE_DUNGEON.equals(event.getName())) {
-					addPlating = true;
-					addMachinery = true;
+					//addPlating = true;
+					//addMachinery = true;
 					addOther = true;
 				}
 				else if (LootTableList.CHESTS_ABANDONED_MINESHAFT.equals(event.getName())) {
-					addPlating = true;
-					addMachinery = true;
+					//addPlating = true;
+					//addMachinery = true;
 				}
 				else if (LootTableList.CHESTS_VILLAGE_BLACKSMITH.equals(event.getName())) {
-					addPlating = true;
-					addSolenoids = true;
+					//addPlating = true;
+					//addSolenoids = true;
 					addOther = true;
 				}
 				else if (LootTableList.CHESTS_STRONGHOLD_LIBRARY.equals(event.getName())) {
 					addOther = true;
 				}
 				else if (LootTableList.CHESTS_STRONGHOLD_CROSSING.equals(event.getName())) {
-					addPlating = true;
-					addSolenoids = true;
-					addMachinery = true;
+					//addPlating = true;
+					//addSolenoids = true;
+					//addMachinery = true;
 				}
 				else if (LootTableList.CHESTS_STRONGHOLD_CORRIDOR.equals(event.getName())) {
-					addPlating = true;
-					addSolenoids = true;
-					addMachinery = true;
+					//addPlating = true;
+					//addSolenoids = true;
+					//addMachinery = true;
 				}
 				else if (LootTableList.CHESTS_IGLOO_CHEST.equals(event.getName())) {
-					addSolenoids = true;
-					addMachinery = true;
+					//addSolenoids = true;
+					//addMachinery = true;
 				}
 				else if (LootTableList.CHESTS_DESERT_PYRAMID.equals(event.getName())) {
-					addSolenoids = true;
+					//addSolenoids = true;
 					addOther = true;
 				}
 				else if (LootTableList.CHESTS_NETHER_BRIDGE.equals(event.getName())) {
-					addPlating = true;
-					addSolenoids = true;
-					addMachinery = true;
+					//addPlating = true;
+					//addSolenoids = true;
+					//addMachinery = true;
 				}
 				else if (LootTableList.CHESTS_END_CITY_TREASURE.equals(event.getName())) {
-					addPlating = true;
-					addSolenoids = true;
-					addMachinery = true;
+					//addPlating = true;
+					//addSolenoids = true;
+					//addMachinery = true;
 				}
 				else if (LootTableList.CHESTS_WOODLAND_MANSION.equals(event.getName())) {
 					addOther = true;
 				}
 				else if (LootTableList.CHESTS_JUNGLE_TEMPLE.equals(event.getName())) {
-					addPlating = true;
-					addSolenoids = true;
-					addMachinery = true;
+					//addPlating = true;
+					//addSolenoids = true;
+					//addMachinery = true;
 				}
 			}
 			

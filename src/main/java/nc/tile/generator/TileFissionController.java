@@ -788,7 +788,7 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 							TileActiveCooler cooler = (TileActiveCooler) tile;
 							Tank tank = cooler.getTanks().get(0);
 							if (tank.getFluidAmount() > 0) {
-								double currentHeat = heat + (isProcessing ? heatThisTick : 0) + coolerHeatThisTick;
+								//double currentHeat = heat + (isProcessing ? heatThisTick : 0) + coolerHeatThisTick;
 								boolean isInValidPosition = false;
 								for (int i = 1; i < CoolerType.values().length; i++) {
 									if (tank.getFluidName().equals(CoolerType.values()[i].getFluidName())) {
@@ -908,7 +908,7 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 							TileActiveCooler cooler = (TileActiveCooler) tile;
 							Tank tank = cooler.getTanks().get(0);
 							if (tank.getFluidAmount() > 0) {
-								double currentHeat = heat + (isProcessing ? heatThisTick : 0) + coolerHeatThisTick;
+								//double currentHeat = heat + (isProcessing ? heatThisTick : 0) + coolerHeatThisTick;
 								boolean isInValidPosition = false;
 								for (int i = 1; i < CoolerType.values().length; i++) {
 									if (tank.getFluidName().equals(CoolerType.values()[i].getFluidName())) {
