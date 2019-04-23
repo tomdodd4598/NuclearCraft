@@ -7,16 +7,16 @@ public enum SaltFissionHeaterSetting implements IStringSerializable {
 	
 	public SaltFissionHeaterSetting next() {
 		switch (this) {
-		case DEFAULT:
-			return DISABLED;
 		case DISABLED:
+			return DEFAULT;
+		case DEFAULT:
 			return HOT_COOLANT_OUT;
 		case HOT_COOLANT_OUT:
 			return COOLANT_SPREAD;
 		case COOLANT_SPREAD:
-			return DEFAULT;
+			return DISABLED;
 		default:
-			return DEFAULT;
+			return DISABLED;
 		}
 	}
 	
@@ -32,7 +32,7 @@ public enum SaltFissionHeaterSetting implements IStringSerializable {
 		case COOLANT_SPREAD:
 			return "coolant_spread";
 		default:
-			return "default";
+			return "disabled";
 		}
 	}
 }

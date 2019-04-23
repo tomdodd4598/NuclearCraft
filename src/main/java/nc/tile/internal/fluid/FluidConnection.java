@@ -20,6 +20,14 @@ public class FluidConnection {
 		return new FluidConnection(sorptionList);
 	}
 	
+	public static FluidConnection[] cloneArray(@Nonnull FluidConnection[] connections) {
+		FluidConnection[] clone = new FluidConnection[6];
+		for (int i = 0; i < 6; i++) {
+			clone[i] = connections[i].copy();
+		}
+		return clone;
+	}
+	
 	public TankSorption getTankSorption(int tankNumber) {
 		return sorptionList.get(tankNumber);
 	}

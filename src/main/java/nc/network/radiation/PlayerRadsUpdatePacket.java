@@ -18,7 +18,7 @@ public class PlayerRadsUpdatePacket implements IMessage {
 	protected double radiationLevel;
 	protected double radiationResistance;
 	protected boolean radXWoreOff;
-	protected double radawayBuffer;
+	protected double radawayBuffer, radawayBufferSlow;
 	protected boolean consumed;
 	protected double radawayCooldown;
 	protected double radXCooldown;
@@ -33,7 +33,8 @@ public class PlayerRadsUpdatePacket implements IMessage {
 		radiationLevel = playerRads.getRadiationLevel();
 		radiationResistance = playerRads.getRadiationResistance();
 		radXWoreOff = playerRads.getRadXWoreOff();
-		radawayBuffer = playerRads.getRadawayBuffer();
+		radawayBuffer = playerRads.getRadawayBuffer(false);
+		radawayBufferSlow = playerRads.getRadawayBuffer(true);
 		consumed = playerRads.getConsumedMedicine();
 		radawayCooldown = playerRads.getRadawayCooldown();
 		radXCooldown = playerRads.getRadXCooldown();
@@ -50,6 +51,7 @@ public class PlayerRadsUpdatePacket implements IMessage {
 			radiationResistance = buf.readDouble();
 			radXWoreOff = buf.readBoolean();
 			radawayBuffer = buf.readDouble();
+			radawayBufferSlow = buf.readDouble();
 			consumed = buf.readBoolean();
 			radawayCooldown = buf.readDouble();
 			radXCooldown = buf.readDouble();
@@ -70,6 +72,7 @@ public class PlayerRadsUpdatePacket implements IMessage {
 		buf.writeDouble(radiationResistance);
 		buf.writeBoolean(radXWoreOff);
 		buf.writeDouble(radawayBuffer);
+		buf.writeDouble(radawayBufferSlow);
 		buf.writeBoolean(consumed);
 		buf.writeDouble(radawayCooldown);
 		buf.writeDouble(radXCooldown);
@@ -94,7 +97,8 @@ public class PlayerRadsUpdatePacket implements IMessage {
 			playerRads.setRadiationLevel(message.radiationLevel);
 			playerRads.setRadiationResistance(message.radiationResistance);
 			playerRads.setRadXWoreOff(message.radXWoreOff);
-			playerRads.setRadawayBuffer(message.radawayBuffer);
+			playerRads.setRadawayBuffer(false, message.radawayBuffer);
+			playerRads.setRadawayBuffer(true, message.radawayBufferSlow);
 			playerRads.setConsumedMedicine(message.consumed);
 			playerRads.setRadawayCooldown(message.radawayCooldown);
 			playerRads.setRadXCooldown(message.radXCooldown);

@@ -15,7 +15,6 @@ import nc.tile.radiation.TileGeigerCounter;
 import nc.tile.radiation.TileRadiationScrubber;
 import nc.util.GuiHelper;
 import nc.util.Lang;
-import nc.util.RadiationHelper;
 import nc.util.TextHelper;
 import nc.util.UnitHelper;
 import net.minecraft.client.Minecraft;

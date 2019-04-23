@@ -61,7 +61,7 @@ public class GuiHeatExchangerController extends GuiMultiblockController<HeatExch
 		String underline = StringHelper.charLine('-', MathHelper.ceil((double)width(title)/width("-")));
 		fontRenderer.drawString(underline, xSize / 2 - width(underline) / 2, 12, fontColor);
 		
-		String tubes = Lang.localise("gui.container.heat_exchanger_controller.tubes") + " " + multiblock.getTubes().size();
+		String tubes = Lang.localise("gui.container.heat_exchanger_controller.tubes") + " " + (multiblock.getTubes().size() + multiblock.getCondenserTubes().size());
 		fontRenderer.drawString(tubes, xSize / 2 - width(tubes) / 2, 24, fontColor);
 		
 		String efficiency = Lang.localise("gui.container.heat_exchanger_controller.efficiency") + " " + (int) (multiblock.efficiency*100D) + "%";

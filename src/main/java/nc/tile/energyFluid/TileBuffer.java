@@ -85,7 +85,7 @@ public class TileBuffer extends TileEnergyFluidSidedInventory implements IInterf
 		for (int i = 0; i < getTanks().size(); i++) {
 			if (getTanks().get(i).getFluid() == null || !getTankSorption(side, i).canDrain()) return;
 			
-			getTanks().get(i).drainInternal(adjStorage.fill(getTanks().get(i).drainInternal(getTanks().get(i).getCapacity(), false), true), true);
+			getTanks().get(i).drain(adjStorage.fill(getTanks().get(i).drain(getTanks().get(i).getCapacity(), false), true), true);
 		}
 	}
 	

@@ -7,7 +7,7 @@ import javax.annotation.Nonnull;
 import nc.capability.radiation.source.IRadiationSource;
 import nc.fluid.FluidCorium;
 import nc.radiation.RadSources;
-import nc.util.RadiationHelper;
+import nc.radiation.RadiationHelper;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.DamageSource;

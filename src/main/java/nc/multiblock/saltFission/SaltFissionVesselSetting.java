@@ -7,16 +7,16 @@ public enum SaltFissionVesselSetting implements IStringSerializable {
 	
 	public SaltFissionVesselSetting next() {
 		switch (this) {
-		case DEFAULT:
-			return DISABLED;
 		case DISABLED:
+			return DEFAULT;
+		case DEFAULT:
 			return DEPLETED_OUT;
 		case DEPLETED_OUT:
 			return FUEL_SPREAD;
 		case FUEL_SPREAD:
-			return DEFAULT;
+			return DISABLED;
 		default:
-			return DEFAULT;
+			return DISABLED;
 		}
 	}
 	
@@ -32,7 +32,7 @@ public enum SaltFissionVesselSetting implements IStringSerializable {
 		case FUEL_SPREAD:
 			return "fuel_spread";
 		default:
-			return "default";
+			return "disabled";
 		}
 	}
 }

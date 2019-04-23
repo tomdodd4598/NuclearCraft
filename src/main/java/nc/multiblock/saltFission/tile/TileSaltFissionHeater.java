@@ -44,13 +44,13 @@ public class TileSaltFissionHeater extends TileSaltFissionPartBase implements IF
 	
 	private final @Nonnull List<Tank> tanks = Lists.newArrayList(new Tank(FluidStackHelper.INGOT_BLOCK_VOLUME*2, NCRecipes.coolant_heater_valid_fluids.get(0)), new Tank(FluidStackHelper.INGOT_BLOCK_VOLUME*4, new ArrayList<String>()));
 	
-	private @Nonnull FluidConnection[] fluidConnections = ITileFluid.fluidConnectionAll(Lists.newArrayList(TankSorption.IN, TankSorption.OUT));
+	private @Nonnull FluidConnection[] fluidConnections = ITileFluid.fluidConnectionAll(Lists.newArrayList(TankSorption.NON, TankSorption.NON));
 	
 	private @Nonnull FluidTileWrapper[] fluidSides;
 	
 	private @Nonnull GasTileWrapper gasWrapper;
 	
-	private @Nonnull SaltFissionHeaterSetting[] heaterSettings = new SaltFissionHeaterSetting[] {SaltFissionHeaterSetting.DEFAULT, SaltFissionHeaterSetting.DEFAULT, SaltFissionHeaterSetting.DEFAULT, SaltFissionHeaterSetting.DEFAULT, SaltFissionHeaterSetting.DEFAULT, SaltFissionHeaterSetting.DEFAULT};
+	private @Nonnull SaltFissionHeaterSetting[] heaterSettings = new SaltFissionHeaterSetting[] {SaltFissionHeaterSetting.DISABLED, SaltFissionHeaterSetting.DISABLED, SaltFissionHeaterSetting.DISABLED, SaltFissionHeaterSetting.DISABLED, SaltFissionHeaterSetting.DISABLED, SaltFissionHeaterSetting.DISABLED};
 	
 	public final int fluidInputSize = 1, fluidOutputSize = 1;
 	
@@ -58,8 +58,6 @@ public class TileSaltFissionHeater extends TileSaltFissionPartBase implements IF
 	public final int baseProcessTime = 20;
 	public double reactorCoolingEfficiency; // Based on the reactor efficiency, but with heat/cooling taken into account
 	public boolean checked = false, isInValidPosition;
-	
-	private int fluidToHold;
 	
 	public double time;
 	public boolean isProcessing, canProcessInputs;
@@ -446,12 +444,7 @@ public class TileSaltFissionHeater extends TileSaltFissionPartBase implements IF
 			return false;
 		}
 		baseProcessCooling = recipeInfo.getRecipe().getCoolantHeaterCoolingRate();
-		fluidToHold = getFluidToHold();
 		return true;
-	}
-	
-	private int getFluidToHold() {
-		return Math.min(FluidStackHelper.INGOT_BLOCK_VOLUME/2, getFluidIngredients().get(0).getMaxStackSize(recipeInfo.getFluidIngredientNumbers().get(0))*NCConfig.machine_update_rate / 2);
 	}
 	
 	// Processing
@@ -592,13 +585,18 @@ public class TileSaltFissionHeater extends TileSaltFissionPartBase implements IF
 	
 	public void toggleHeaterSetting(@Nonnull EnumFacing side) {
 		setHeaterSetting(side, getHeaterSetting(side).next());
+		refreshFluidConnections(side);
+		markAndRefresh();
+	}
+	
+	public void refreshFluidConnections(@Nonnull EnumFacing side) {
 		switch (getHeaterSetting(side)) {
-		case DEFAULT:
-			setTankSorption(side, 0, TankSorption.IN);
-			setTankSorption(side, 1, TankSorption.NON);
-			break;
 		case DISABLED:
 			setTankSorption(side, 0, TankSorption.NON);
+			setTankSorption(side, 1, TankSorption.NON);
+			break;
+		case DEFAULT:
+			setTankSorption(side, 0, TankSorption.IN);
 			setTankSorption(side, 1, TankSorption.NON);
 			break;
 		case HOT_COOLANT_OUT:
@@ -610,11 +608,10 @@ public class TileSaltFissionHeater extends TileSaltFissionPartBase implements IF
 			setTankSorption(side, 1, TankSorption.NON);
 			break;
 		default:
-			setTankSorption(side, 0, TankSorption.IN);
+			setTankSorption(side, 0, TankSorption.NON);
 			setTankSorption(side, 1, TankSorption.NON);
 			break;
 		}
-		markAndRefresh();
 	}
 	
 	@Override
@@ -649,19 +646,20 @@ public class TileSaltFissionHeater extends TileSaltFissionPartBase implements IF
 			for (int i = 0; i < getTanks().size(); i++) {
 				if (getTanks().get(i).getFluid() == null || !getTankSorption(side, i).canDrain()) continue;
 				
-				getTanks().get(i).drainInternal(adjStorage.fill(getTanks().get(i).drainInternal(getTanks().get(i).getCapacity(), false), true), true);
+				getTanks().get(i).drain(adjStorage.fill(getTanks().get(i).drain(getTanks().get(i).getCapacity(), false), true), true);
 			}
 		}
 	}
 	
 	public void pushCoolant(TileSaltFissionHeater other) {
-		if (getTanks().get(0).getFluidAmount() > other.getTanks().get(0).getFluidAmount()) {
-			getTanks().get(0).drainInternal(other.getTanks().get(0).fillInternal(getTanks().get(0).drainInternal(getTanks().get(0).getFluidAmount() - fluidToHold, false), true), true);
+		int diff = getTanks().get(0).getFluidAmount() - other.getTanks().get(0).getFluidAmount();
+		if (diff > 0) {
+			getTanks().get(0).drain(other.getTanks().get(0).fill(getTanks().get(0).drain(diff/2, false), true), true);
 		}
 	}
 	
 	public void pushHotCoolant(TileSaltFissionHeater other) {
-		getTanks().get(1).drainInternal(other.getTanks().get(1).fillInternal(getTanks().get(1).drainInternal(getTanks().get(1).getCapacity(), false), true), true);
+		getTanks().get(1).drain(other.getTanks().get(1).fill(getTanks().get(1).drain(getTanks().get(1).getCapacity(), false), true), true);
 	}
 
 	@Override
@@ -709,15 +707,15 @@ public class TileSaltFissionHeater extends TileSaltFissionPartBase implements IF
 			for (EnumFacing side : EnumFacing.VALUES) {
 				TankSorption sorption = TankSorption.values()[nbt.getInteger("fluidConnections" + side.getIndex())];
 				switch (sorption) {
-				case BOTH:
-					setTankSorption(side, 0, TankSorption.IN);
-					setTankSorption(side, 1, TankSorption.NON);
-					setHeaterSetting(side, SaltFissionHeaterSetting.DEFAULT);
-					break;
 				case NON:
 					setTankSorption(side, 0, TankSorption.NON);
 					setTankSorption(side, 1, TankSorption.NON);
 					setHeaterSetting(side, SaltFissionHeaterSetting.DISABLED);
+					break;
+				case BOTH:
+					setTankSorption(side, 0, TankSorption.IN);
+					setTankSorption(side, 1, TankSorption.NON);
+					setHeaterSetting(side, SaltFissionHeaterSetting.DEFAULT);
 					break;
 				case IN:
 					setTankSorption(side, 0, TankSorption.NON);
@@ -730,9 +728,9 @@ public class TileSaltFissionHeater extends TileSaltFissionPartBase implements IF
 					setHeaterSetting(side, SaltFissionHeaterSetting.COOLANT_SPREAD);
 					break;
 				default:
-					setTankSorption(side, 0, TankSorption.IN);
+					setTankSorption(side, 0, TankSorption.NON);
 					setTankSorption(side, 1, TankSorption.NON);
-					setHeaterSetting(side, SaltFissionHeaterSetting.DEFAULT);
+					setHeaterSetting(side, SaltFissionHeaterSetting.DISABLED);
 					break;
 				}
 			}
@@ -741,6 +739,7 @@ public class TileSaltFissionHeater extends TileSaltFissionPartBase implements IF
 			NBTTagCompound settingsTag = nbt.getCompoundTag("heaterSettings");
 			for (EnumFacing side : EnumFacing.VALUES) {
 				setHeaterSetting(side, SaltFissionHeaterSetting.values()[settingsTag.getInteger("setting" + side.getIndex())]);
+				refreshFluidConnections(side);
 			}
 		}
 	}
@@ -749,7 +748,6 @@ public class TileSaltFissionHeater extends TileSaltFissionPartBase implements IF
 	public NBTTagCompound writeAll(NBTTagCompound nbt) {
 		super.writeAll(nbt);
 		writeTanks(nbt);
-		writeFluidConnections(nbt);
 		writeHeaterSettings(nbt);
 		
 		nbt.setDouble("baseProcessCooling", baseProcessCooling);
@@ -759,7 +757,6 @@ public class TileSaltFissionHeater extends TileSaltFissionPartBase implements IF
 		nbt.setBoolean("isProcessing", isProcessing);
 		nbt.setBoolean("canProcessInputs", canProcessInputs);
 		nbt.setBoolean("isInValidPosition", isInValidPosition);
-		nbt.setInteger("fluidToHold", fluidToHold);
 		return nbt;
 	}
 	
@@ -767,7 +764,6 @@ public class TileSaltFissionHeater extends TileSaltFissionPartBase implements IF
 	public void readAll(NBTTagCompound nbt) {
 		super.readAll(nbt);
 		readTanks(nbt);
-		readFluidConnections(nbt);
 		readHeaterSettings(nbt);
 		
 		baseProcessCooling = nbt.getDouble("baseProcessCooling");
@@ -777,7 +773,6 @@ public class TileSaltFissionHeater extends TileSaltFissionPartBase implements IF
 		isProcessing = nbt.getBoolean("isProcessing");
 		canProcessInputs = nbt.getBoolean("canProcessInputs");
 		isInValidPosition = nbt.getBoolean("isInValidPosition");
-		fluidToHold = nbt.getInteger("fluidToHold");
 	}
 	
 	// Capability

@@ -56,8 +56,6 @@ public class TileHeatExchangerTube extends TileHeatExchangerPartBase implements 
 	public final int defaultProcessTime = 16000;
 	public double baseProcessTime = defaultProcessTime;
 	
-	private int fluidToHold;
-	
 	public double time;
 	public boolean isProcessing, canProcessInputs;
 	public double speedMultiplier = 0;
@@ -117,17 +115,17 @@ public class TileHeatExchangerTube extends TileHeatExchangerPartBase implements 
 	
 	public int checkPosition() {
 		if (!isMultiblockAssembled() || !canProcessInputs) {
-			speedMultiplier = 0;
+			speedMultiplier = 0D;
 			return 0;
 		}
 		
 		int adjCount = 0;
-		double speedCount = 0;
+		double speedCount = 0D;
 		
 		for (EnumFacing dir : EnumFacing.VALUES) {
 			double mult = getTubeSpeedMultiplier(dir);
 			speedCount += mult;
-			if (mult > 0) adjCount++;
+			if (mult > 0D) adjCount++;
 		}
 		
 		speedMultiplier = speedCount;
@@ -139,16 +137,16 @@ public class TileHeatExchangerTube extends TileHeatExchangerPartBase implements 
 		if (!(tile instanceof TileHeatExchangerTube)) return 0;
 		TileHeatExchangerTube tube = (TileHeatExchangerTube) tile;
 		
-		if (!tube.canProcessInputs || (requiresContraflow(tube) && !isContraflow(tube))) return 0;
+		if (!tube.canProcessInputs || (requiresContraflow(tube) && !isContraflow(tube))) return 0D;
 		
 		if (!canConnectFluid(dir) || !tube.canConnectFluid(dir.getOpposite())) {
 			return conductivityMult()*getRawTubeSpeedMultiplier(tube);
 		}
-		return 0;
+		return 0D;
 	}
 	
 	private double getRawTubeSpeedMultiplier(TileHeatExchangerTube tube) {
-		return isHeating() != tube.isHeating() ? tube.getAbsRecipeTempDiff() : (isHeating() ? -getAbsInputTempDiff(tube) : 0);
+		return isHeating() != tube.isHeating() ? tube.getAbsRecipeTempDiff() : (isHeating() ? -getAbsInputTempDiff(tube) : 0D);
 	}
 	
 	private boolean isContraflow(TileHeatExchangerTube tube) {
@@ -261,14 +259,9 @@ public class TileHeatExchangerTube extends TileHeatExchangerPartBase implements 
 			return false;
 		}
 		baseProcessTime = recipeInfo.getRecipe().getHeatExchangerProcessTime(defaultProcessTime);
-		fluidToHold = getFluidToHold();
 		inputTemperature = recipeInfo.getRecipe().getHeatExchangerInputTemperature();
 		outputTemperature = recipeInfo.getRecipe().getHeatExchangerOutputTemperature();
 		return true;
-	}
-	
-	private int getFluidToHold() {
-		return Math.min(8000, getFluidIngredients().get(0).getMaxStackSize(recipeInfo.getFluidIngredientNumbers().get(0))*NCConfig.machine_update_rate / 4);
 	}
 	
 	// Processing
@@ -409,6 +402,12 @@ public class TileHeatExchangerTube extends TileHeatExchangerPartBase implements 
 	
 	public void toggleTubeSetting(@Nonnull EnumFacing side) {
 		setTubeSetting(side, getTubeSetting(side).next());
+		refreshFluidConnections(side);
+		updateFlowDir();
+		markAndRefresh();
+	}
+	
+	public void refreshFluidConnections(@Nonnull EnumFacing side) {
 		switch (getTubeSetting(side)) {
 		case DISABLED:
 			setTankSorption(side, 0, TankSorption.NON);
@@ -431,8 +430,6 @@ public class TileHeatExchangerTube extends TileHeatExchangerPartBase implements 
 			setTankSorption(side, 1, TankSorption.NON);
 			break;
 		}
-		updateFlowDir();
-		markAndRefresh();
 	}
 	
 	public void updateFlowDir() {
@@ -498,19 +495,20 @@ public class TileHeatExchangerTube extends TileHeatExchangerPartBase implements 
 			for (int i = 0; i < getTanks().size(); i++) {
 				if (getTanks().get(i).getFluid() == null || !getTankSorption(side, i).canDrain()) continue;
 				
-				getTanks().get(i).drainInternal(adjStorage.fill(getTanks().get(i).drainInternal(getTanks().get(i).getCapacity(), false), true), true);
+				getTanks().get(i).drain(adjStorage.fill(getTanks().get(i).drain(getTanks().get(i).getCapacity(), false), true), true);
 			}
 		}
 	}
 	
 	public void pushInputFluid(TileHeatExchangerTube other) {
-		if (getTanks().get(0).getFluidAmount() > other.getTanks().get(0).getFluidAmount()) {
-			getTanks().get(0).drainInternal(other.getTanks().get(0).fillInternal(getTanks().get(0).drainInternal(getTanks().get(0).getFluidAmount() - fluidToHold, false), true), true);
+		int diff = getTanks().get(0).getFluidAmount() - other.getTanks().get(0).getFluidAmount();
+		if (diff > 0) {
+			getTanks().get(0).drain(other.getTanks().get(0).fill(getTanks().get(0).drain(diff/2, false), true), true);
 		}
 	}
 	
 	public void pushProduct(TileHeatExchangerTube other) {
-		getTanks().get(1).drainInternal(other.getTanks().get(1).fillInternal(getTanks().get(1).drainInternal(getTanks().get(1).getCapacity(), false), true), true);
+		getTanks().get(1).drain(other.getTanks().get(1).fill(getTanks().get(1).drain(getTanks().get(1).getCapacity(), false), true), true);
 	}
 
 	@Override
@@ -590,6 +588,7 @@ public class TileHeatExchangerTube extends TileHeatExchangerPartBase implements 
 			NBTTagCompound settingsTag = nbt.getCompoundTag("tubeSettings");
 			for (EnumFacing side : EnumFacing.VALUES) {
 				setTubeSetting(side, HeatExchangerTubeSetting.values()[settingsTag.getInteger("setting" + side.getIndex())]);
+				refreshFluidConnections(side);
 			}
 		}
 	}
@@ -598,7 +597,6 @@ public class TileHeatExchangerTube extends TileHeatExchangerPartBase implements 
 	public NBTTagCompound writeAll(NBTTagCompound nbt) {
 		super.writeAll(nbt);
 		writeTanks(nbt);
-		writeFluidConnections(nbt);
 		writeTubeSettings(nbt);
 		
 		nbt.setDouble("baseProcessTime", baseProcessTime);
@@ -607,8 +605,6 @@ public class TileHeatExchangerTube extends TileHeatExchangerPartBase implements 
 		nbt.setBoolean("isProcessing", isProcessing);
 		nbt.setBoolean("canProcessInputs", canProcessInputs);
 		nbt.setDouble("speedMultiplier", speedMultiplier);
-		
-		nbt.setInteger("fluidToHold", fluidToHold);
 		
 		nbt.setInteger("inputTemperature", inputTemperature);
 		nbt.setInteger("outputTemperature", outputTemperature);
@@ -621,7 +617,6 @@ public class TileHeatExchangerTube extends TileHeatExchangerPartBase implements 
 	public void readAll(NBTTagCompound nbt) {
 		super.readAll(nbt);
 		readTanks(nbt);
-		readFluidConnections(nbt);
 		readTubeSettings(nbt);
 		
 		baseProcessTime = nbt.getDouble("baseProcessTime");
@@ -630,8 +625,6 @@ public class TileHeatExchangerTube extends TileHeatExchangerPartBase implements 
 		isProcessing = nbt.getBoolean("isProcessing");
 		canProcessInputs = nbt.getBoolean("canProcessInputs");
 		speedMultiplier = nbt.getDouble("speedMultiplier");
-		
-		fluidToHold = nbt.getInteger("fluidToHold");
 		
 		inputTemperature = nbt.getInteger("inputTemperature");
 		outputTemperature = nbt.getInteger("outputTemperature");

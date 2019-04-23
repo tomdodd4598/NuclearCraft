@@ -36,6 +36,7 @@ import nc.enumm.MetaEnums.IngotType;
 import nc.enumm.MetaEnums.OreType;
 import nc.multiblock.heatExchanger.HeatExchangerTubeType;
 import nc.multiblock.heatExchanger.block.BlockHeatExchangerComputerPort;
+import nc.multiblock.heatExchanger.block.BlockHeatExchangerCondenserTube;
 import nc.multiblock.heatExchanger.block.BlockHeatExchangerController;
 import nc.multiblock.heatExchanger.block.BlockHeatExchangerFrame;
 import nc.multiblock.heatExchanger.block.BlockHeatExchangerGlass;
@@ -215,6 +216,9 @@ public class NCBlocks {
 	public static Block heat_exchanger_tube_copper;
 	public static Block heat_exchanger_tube_hard_carbon;
 	public static Block heat_exchanger_tube_thermoconducting;
+	public static Block heat_exchanger_condenser_tube_copper;
+	public static Block heat_exchanger_condenser_tube_hard_carbon;
+	public static Block heat_exchanger_condenser_tube_thermoconducting;
 	public static Block heat_exchanger_computer_port;
 	
 	public static Block turbine_controller;
@@ -398,6 +402,9 @@ public class NCBlocks {
 		heat_exchanger_tube_copper = new BlockHeatExchangerTube(HeatExchangerTubeType.COPPER);
 		heat_exchanger_tube_hard_carbon = new BlockHeatExchangerTube(HeatExchangerTubeType.HARD_CARBON);
 		heat_exchanger_tube_thermoconducting = new BlockHeatExchangerTube(HeatExchangerTubeType.THERMOCONDUCTING);
+		heat_exchanger_condenser_tube_copper = new BlockHeatExchangerCondenserTube(HeatExchangerTubeType.COPPER);
+		heat_exchanger_condenser_tube_hard_carbon = new BlockHeatExchangerCondenserTube(HeatExchangerTubeType.HARD_CARBON);
+		heat_exchanger_condenser_tube_thermoconducting = new BlockHeatExchangerCondenserTube(HeatExchangerTubeType.THERMOCONDUCTING);
 		heat_exchanger_computer_port = new BlockHeatExchangerComputerPort();
 		
 		turbine_controller = new BlockTurbineController();
@@ -584,6 +591,9 @@ public class NCBlocks {
 		registerBlock(heat_exchanger_tube_copper, TextFormatting.AQUA, InfoHelper.formattedInfo(fixedLine("heat_exchanger_tube"), Math.round(100D*NCConfig.heat_exchanger_conductivity[0]) + "%"), InfoHelper.formattedInfo(infoLine("heat_exchanger_tube")));
 		registerBlock(heat_exchanger_tube_hard_carbon, TextFormatting.AQUA, InfoHelper.formattedInfo(fixedLine("heat_exchanger_tube"), Math.round(100D*NCConfig.heat_exchanger_conductivity[1]) + "%"), InfoHelper.formattedInfo(infoLine("heat_exchanger_tube")));
 		registerBlock(heat_exchanger_tube_thermoconducting, TextFormatting.AQUA, InfoHelper.formattedInfo(fixedLine("heat_exchanger_tube"), Math.round(100D*NCConfig.heat_exchanger_conductivity[2]) + "%"), InfoHelper.formattedInfo(infoLine("heat_exchanger_tube")));
+		registerBlock(heat_exchanger_condenser_tube_copper, TextFormatting.AQUA, InfoHelper.formattedInfo(fixedLine("heat_exchanger_condenser_tube"), Math.round(100D*NCConfig.heat_exchanger_conductivity[0]) + "%"), InfoHelper.formattedInfo(infoLine("heat_exchanger_condenser_tube")));
+		registerBlock(heat_exchanger_condenser_tube_hard_carbon, TextFormatting.AQUA, InfoHelper.formattedInfo(fixedLine("heat_exchanger_condenser_tube"), Math.round(100D*NCConfig.heat_exchanger_conductivity[1]) + "%"), InfoHelper.formattedInfo(infoLine("heat_exchanger_condenser_tube")));
+		registerBlock(heat_exchanger_condenser_tube_thermoconducting, TextFormatting.AQUA, InfoHelper.formattedInfo(fixedLine("heat_exchanger_condenser_tube"), Math.round(100D*NCConfig.heat_exchanger_conductivity[2]) + "%"), InfoHelper.formattedInfo(infoLine("heat_exchanger_condenser_tube")));
 		registerBlock(heat_exchanger_computer_port);
 		
 		registerBlock(turbine_controller);
@@ -782,6 +792,9 @@ public class NCBlocks {
 		registerRender(heat_exchanger_tube_copper);
 		registerRender(heat_exchanger_tube_hard_carbon);
 		registerRender(heat_exchanger_tube_thermoconducting);
+		registerRender(heat_exchanger_condenser_tube_copper);
+		registerRender(heat_exchanger_condenser_tube_hard_carbon);
+		registerRender(heat_exchanger_condenser_tube_thermoconducting);
 		registerRender(heat_exchanger_computer_port);
 		
 		registerRender(turbine_controller, 0, "turbine_controller_off");

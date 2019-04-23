@@ -4,6 +4,7 @@ import nc.block.property.ISidedProperty;
 import nc.block.property.PropertySidedEnum;
 import nc.multiblock.saltFission.SaltFissionVesselSetting;
 import nc.multiblock.saltFission.tile.TileSaltFissionVessel;
+import nc.tile.internal.fluid.FluidConnection;
 import nc.util.Lang;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -44,7 +45,7 @@ public class BlockSaltFissionVessel extends BlockSaltFissionPartBase implements 
 		if (world.getTileEntity(pos) instanceof TileSaltFissionVessel) {
 			return ((TileSaltFissionVessel) world.getTileEntity(pos)).getVesselSetting(facing);
 		}
-		return SaltFissionVesselSetting.DEFAULT;
+		return SaltFissionVesselSetting.DISABLED;
 	}
 	
 	@Override
@@ -97,7 +98,7 @@ public class BlockSaltFissionVessel extends BlockSaltFissionPartBase implements 
 		if (world.getTileEntity(pos) instanceof TileSaltFissionVessel && world.getTileEntity(from) instanceof TileSaltFissionVessel) {
 			TileSaltFissionVessel vessel = (TileSaltFissionVessel) world.getTileEntity(pos);
 			TileSaltFissionVessel other = (TileSaltFissionVessel) world.getTileEntity(from);
-			vessel.setFluidConnections(other.getFluidConnections().clone());
+			vessel.setFluidConnections(FluidConnection.cloneArray(other.getFluidConnections()));
 			vessel.setVesselSettings(other.getVesselSettings().clone());
 			vessel.markAndRefresh();
 		}

@@ -12,7 +12,7 @@ public class EntityRads implements IEntityRads {
 	private double radiationLevel = 0D;
 	private double radiationResistance = 0D;
 	private boolean radXWoreOff = false;
-	private double radawayBuffer = 0D;
+	private double radawayBuffer = 0D, radawayBufferSlow = 0D;
 	private boolean consumed = false;
 	private double radawayCooldown = 0D;
 	private double radXCooldown = 0D;
@@ -28,6 +28,8 @@ public class EntityRads implements IEntityRads {
 		nbt.setDouble("radiationLevel", getRadiationLevel());
 		nbt.setDouble("radiationResistance", getRadiationResistance());
 		nbt.setBoolean("radXWoreOff", getRadXWoreOff());
+		nbt.setDouble("radawayBuffer", getRadawayBuffer(false));
+		nbt.setDouble("radawayBufferSlow", getRadawayBuffer(true));
 		nbt.setDouble("radawayCooldown", getRadawayCooldown());
 		nbt.setDouble("radXCooldown", getRadXCooldown());
 		nbt.setDouble("radiationImmunityTime", getRadiationImmunityTime());
@@ -40,7 +42,8 @@ public class EntityRads implements IEntityRads {
 		setRadiationLevel(nbt.getDouble("radiationLevel"));
 		setRadiationResistance(nbt.getDouble("radiationResistance"));
 		setRadXWoreOff(nbt.getBoolean("radXWoreOff"));
-		setRadawayBuffer(nbt.getDouble("radawayBuffer"));
+		setRadawayBuffer(false, nbt.getDouble("radawayBuffer"));
+		setRadawayBuffer(true, nbt.getDouble("radawayBufferSlow"));
 		setRadawayCooldown(nbt.getDouble("radawayCooldown"));
 		setRadXCooldown(nbt.getDouble("radXCooldown"));
 		setRadiationImmunityTime(nbt.getDouble("radiationImmunityTime"));
@@ -92,13 +95,14 @@ public class EntityRads implements IEntityRads {
 	}
 	
 	@Override
-	public double getRadawayBuffer() {
-		return radawayBuffer;
+	public double getRadawayBuffer(boolean slow) {
+		return slow ? radawayBufferSlow : radawayBuffer;
 	}
 	
 	@Override
-	public void setRadawayBuffer(double newBuffer) {
-		radawayBuffer = Math.max(newBuffer, 0D);
+	public void setRadawayBuffer(boolean slow, double newBuffer) {
+		if (slow) radawayBufferSlow = Math.max(newBuffer, 0D);
+		else radawayBuffer = Math.max(newBuffer, 0D);
 	}
 
 	@Override

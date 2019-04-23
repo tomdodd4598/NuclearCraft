@@ -33,8 +33,7 @@ public abstract class TileEnergy extends NCTile implements ITileEnergy, IEnergyT
 	private @Nonnull EnergyTileWrapper[] energySides;
 	private @Nonnull EnergyTileWrapperGT[] energySidesGT;
 	
-	public boolean isEnergyTileSet = true;
-	public boolean ic2reg = false;
+	private boolean ic2reg = false;
 	
 	public TileEnergy(int capacity, @Nonnull EnergyConnection[] energyConnections) {
 		this(capacity, capacity, energyConnections);

@@ -74,7 +74,7 @@ public class TileActiveCooler extends TileFluid implements IInterfaceable, IBuff
 				maxDrain -= stack.amount/2;
 			}
 			if (maxDrain > 0) {
-				getTanks().get(i).drainInternal(adjStorage.fill(getTanks().get(i).drainInternal(maxDrain, false), true), true);
+				getTanks().get(i).drain(adjStorage.fill(getTanks().get(i).drain(maxDrain, false), true), true);
 			}
 		}
 	}

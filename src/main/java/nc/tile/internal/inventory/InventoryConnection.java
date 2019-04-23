@@ -20,6 +20,14 @@ public class InventoryConnection {
 		return new InventoryConnection(sorptionList);
 	}
 	
+	public static InventoryConnection[] cloneArray(@Nonnull InventoryConnection[] connections) {
+		InventoryConnection[] clone = new InventoryConnection[6];
+		for (int i = 0; i < 6; i++) {
+			clone[i] = connections[i].copy();
+		}
+		return clone;
+	}
+	
 	public ItemSorption getItemSorption(int tankNumber) {
 		return sorptionList.get(tankNumber);
 	}

@@ -1,12 +1,9 @@
 package nc.init;
 
 import nc.Global;
-import nc.multiblock.condenser.tile.TileCondenserController;
-import nc.multiblock.condenser.tile.TileCondenserFrame;
-import nc.multiblock.condenser.tile.TileCondenserGlass;
-import nc.multiblock.condenser.tile.TileCondenserWall;
 import nc.multiblock.heatExchanger.HeatExchangerTubeType;
 import nc.multiblock.heatExchanger.tile.TileHeatExchangerComputerPort;
+import nc.multiblock.heatExchanger.tile.TileHeatExchangerCondenserTube;
 import nc.multiblock.heatExchanger.tile.TileHeatExchangerController;
 import nc.multiblock.heatExchanger.tile.TileHeatExchangerFrame;
 import nc.multiblock.heatExchanger.tile.TileHeatExchangerGlass;
@@ -40,11 +37,11 @@ import nc.multiblock.turbine.tile.TileTurbineRotorBlade;
 import nc.multiblock.turbine.tile.TileTurbineRotorShaft;
 import nc.multiblock.turbine.tile.TileTurbineRotorStator;
 import nc.multiblock.turbine.tile.TileTurbineWall;
+import nc.tile.TileBin;
 import nc.tile.dummy.TileFissionPort;
 import nc.tile.dummy.TileFusionDummy;
 import nc.tile.dummy.TileMachineInterface;
 import nc.tile.energy.battery.TileBattery;
-import nc.tile.energyFluid.TileBin;
 import nc.tile.energyFluid.TileBuffer;
 import nc.tile.fluid.TileActiveCooler;
 import nc.tile.generator.TileDecayGenerator;
@@ -115,6 +112,9 @@ public class NCTiles {
 		GameRegistry.registerTileEntity(TileHeatExchangerTube.Copper.class, Global.MOD_ID + ":heat_exchanger_tube_" + HeatExchangerTubeType.COPPER.toString());
 		GameRegistry.registerTileEntity(TileHeatExchangerTube.HardCarbon.class, Global.MOD_ID + ":heat_exchanger_tube_" + HeatExchangerTubeType.HARD_CARBON.toString());
 		GameRegistry.registerTileEntity(TileHeatExchangerTube.Thermoconducting.class, Global.MOD_ID + ":heat_exchanger_tube_" + HeatExchangerTubeType.THERMOCONDUCTING.toString());
+		GameRegistry.registerTileEntity(TileHeatExchangerCondenserTube.Copper.class, Global.MOD_ID + ":heat_exchanger_condenser_tube_" + HeatExchangerTubeType.COPPER.toString());
+		GameRegistry.registerTileEntity(TileHeatExchangerCondenserTube.HardCarbon.class, Global.MOD_ID + ":heat_exchanger_condenser_tube_" + HeatExchangerTubeType.HARD_CARBON.toString());
+		GameRegistry.registerTileEntity(TileHeatExchangerCondenserTube.Thermoconducting.class, Global.MOD_ID + ":heat_exchanger_condenser_tube_" + HeatExchangerTubeType.THERMOCONDUCTING.toString());
 		GameRegistry.registerTileEntity(TileHeatExchangerComputerPort.class, Global.MOD_ID + ":heat_exchanger_computer_port");
 		
 		GameRegistry.registerTileEntity(TileTurbineController.class, Global.MOD_ID + ":turbine_controller");
@@ -136,11 +136,6 @@ public class NCTiles {
 		GameRegistry.registerTileEntity(TileTurbineInlet.class, Global.MOD_ID + ":turbine_inlet");
 		GameRegistry.registerTileEntity(TileTurbineOutlet.class, Global.MOD_ID + ":turbine_outlet");
 		GameRegistry.registerTileEntity(TileTurbineComputerPort.class, Global.MOD_ID + ":turbine_computer_port");
-		
-		GameRegistry.registerTileEntity(TileCondenserController.class, Global.MOD_ID + ":condenser_controller");
-		GameRegistry.registerTileEntity(TileCondenserWall.class, Global.MOD_ID + ":condenser_wall");
-		GameRegistry.registerTileEntity(TileCondenserGlass.class, Global.MOD_ID + ":condenser_glass");
-		GameRegistry.registerTileEntity(TileCondenserFrame.class, Global.MOD_ID + ":condenser_frame");
 		
 		GameRegistry.registerTileEntity(TileRTG.Uranium.class, Global.MOD_ID + ":rtg_uranium");
 		GameRegistry.registerTileEntity(TileRTG.Plutonium.class, Global.MOD_ID + ":rtg_plutonium");

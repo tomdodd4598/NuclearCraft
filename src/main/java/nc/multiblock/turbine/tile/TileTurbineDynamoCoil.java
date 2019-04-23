@@ -41,7 +41,6 @@ public class TileTurbineDynamoCoil extends TileTurbinePartBase implements ITileE
 	private final EnergyTileWrapper[] energySides = ITileEnergy.getDefaultEnergySides(this);
 	private final EnergyTileWrapperGT[] energySidesGT = ITileEnergy.getDefaultEnergySidesGT(this);
 	
-	private boolean isEnergyTileSet = true;
 	private boolean ic2reg = false;
 	
 	public final TurbineDynamoCoilType coilType;

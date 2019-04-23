@@ -23,8 +23,11 @@ public class ItemRadaway extends NCItem {
 	
 	private static final String RADAWAY_COOLDOWN = Lang.localise("message.nuclearcraft.radaway_cooling_down");
 	
-	public ItemRadaway(String nameIn, String... tooltip) {
+	private final boolean slow;
+	
+	public ItemRadaway(String nameIn, boolean slow, String... tooltip) {
 		super(nameIn, tooltip);
+		this.slow = slow;
 	}
 	
 	@Override
@@ -62,7 +65,7 @@ public class ItemRadaway extends NCItem {
 		if (world.isRemote || !player.hasCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null)) return;
 		IEntityRads playerRads = player.getCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null);
 		if (playerRads == null) return;
-		playerRads.setRadawayBuffer(playerRads.getRadawayBuffer() + NCConfig.radiation_radaway_amount);
+		playerRads.setRadawayBuffer(slow, playerRads.getRadawayBuffer(slow) + NCConfig.radiation_radaway_amount);
 	}
 	
 	@Override

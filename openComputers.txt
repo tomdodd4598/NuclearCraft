@@ -101,8 +101,10 @@ int getLengthY()
 int getLengthZ()
 double getFractionOfTubesActive()
 double getMeanEfficiency()
-int getNumberOfTubes()
-Object[] getTubeStats() -> {{{posX, posY, posZ}, conductivity, isProcessing, currentRecipeTime, processTime, speedMultiplier, inputTemperature, outputTemperature, flowDirection},...}
+int getNumberOfExchangerTubes()
+int getNumberOfCondensationTubes()
+Object[] getExchangerTubeStats() -> {{{posX, posY, posZ}, conductivity, isProcessing, currentRecipeTime, processTime, speedMultiplier, inputTemperature, outputTemperature, flowDirection},...}
+Object[] getCondensationTubeStats() -> {{{posX, posY, posZ}, conductivity, isProcessing, currentRecipeTime, processTime, speedMultiplier, condensingTemperature, {adjacentTemperatures}},...}
 
 void activate()
 void deactivate()

@@ -4,6 +4,7 @@ import nc.block.property.ISidedProperty;
 import nc.block.property.PropertySidedEnum;
 import nc.multiblock.saltFission.SaltFissionHeaterSetting;
 import nc.multiblock.saltFission.tile.TileSaltFissionHeater;
+import nc.tile.internal.fluid.FluidConnection;
 import nc.util.Lang;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -44,7 +45,7 @@ public class BlockSaltFissionHeater extends BlockSaltFissionPartBase implements 
 		if (world.getTileEntity(pos) instanceof TileSaltFissionHeater) {
 			return ((TileSaltFissionHeater) world.getTileEntity(pos)).getHeaterSetting(facing);
 		}
-		return SaltFissionHeaterSetting.DEFAULT;
+		return SaltFissionHeaterSetting.DISABLED;
 	}
 	
 	@Override
@@ -97,7 +98,7 @@ public class BlockSaltFissionHeater extends BlockSaltFissionPartBase implements 
 		if (world.getTileEntity(pos) instanceof TileSaltFissionHeater && world.getTileEntity(from) instanceof TileSaltFissionHeater) {
 			TileSaltFissionHeater heater = (TileSaltFissionHeater) world.getTileEntity(pos);
 			TileSaltFissionHeater other = (TileSaltFissionHeater) world.getTileEntity(from);
-			heater.setFluidConnections(other.getFluidConnections().clone());
+			heater.setFluidConnections(FluidConnection.cloneArray(other.getFluidConnections()));
 			heater.setHeaterSettings(other.getHeaterSettings().clone());
 			heater.markAndRefresh();
 		}

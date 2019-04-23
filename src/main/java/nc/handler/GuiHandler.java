@@ -44,12 +44,9 @@ import nc.gui.processor.GuiPressurizer;
 import nc.gui.processor.GuiRockCrusher;
 import nc.gui.processor.GuiSaltMixer;
 import nc.gui.processor.GuiSupercooler;
-import nc.multiblock.condenser.tile.TileCondenserController;
-import nc.multiblock.container.ContainerCondenserController;
 import nc.multiblock.container.ContainerHeatExchangerController;
 import nc.multiblock.container.ContainerSaltFissionController;
 import nc.multiblock.container.ContainerTurbineController;
-import nc.multiblock.gui.GuiCondenserController;
 import nc.multiblock.gui.GuiHeatExchangerController;
 import nc.multiblock.gui.GuiSaltFissionController;
 import nc.multiblock.gui.GuiTurbineController;
@@ -143,8 +140,6 @@ public class GuiHandler implements IGuiHandler {
 				if (tile instanceof TileHeatExchangerController) return new ContainerHeatExchangerController(player, (TileHeatExchangerController) tile);
 			case 104:
 				if (tile instanceof TileTurbineController) return new ContainerTurbineController(player, (TileTurbineController) tile);
-			case 105:
-				if (tile instanceof TileCondenserController) return new ContainerCondenserController(player, (TileCondenserController) tile);
 			}
 		}
 		
@@ -207,8 +202,6 @@ public class GuiHandler implements IGuiHandler {
 				if (tile instanceof TileHeatExchangerController) return new GuiHeatExchangerController(((TileHeatExchangerController) tile).getMultiblock(), tile.getPos(), ((TileHeatExchangerController) tile).getMultiblock().getContainer(player));
 			case 104:
 				if (tile instanceof TileTurbineController) return new GuiTurbineController(((TileTurbineController) tile).getMultiblock(), tile.getPos(), ((TileTurbineController) tile).getMultiblock().getContainer(player));
-			case 105:
-				if (tile instanceof TileCondenserController) return new GuiCondenserController(((TileCondenserController) tile).getMultiblock(), tile.getPos(), ((TileCondenserController) tile).getMultiblock().getContainer(player));
 			}
 		}
 		

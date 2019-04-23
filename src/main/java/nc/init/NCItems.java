@@ -19,6 +19,7 @@ import nc.item.NCItemRecord;
 import nc.item.bauble.ItemGeigerCounter;
 import nc.item.bauble.ItemRadiationBadge;
 import nc.item.energy.ItemBattery;
+import nc.radiation.RadiationHelper;
 import nc.tab.NCTabs;
 import nc.tile.energy.battery.BatteryType;
 import nc.util.InfoHelper;
@@ -90,6 +91,7 @@ public class NCItems {
 	public static Item radiation_badge;
 	
 	public static Item radaway;
+	public static Item radaway_slow;
 	public static Item rad_x;
 	
 	public static Item portable_ender_chest;
@@ -176,7 +178,8 @@ public class NCItems {
 		rad_shielding = new ItemRadShielding("rad_shielding", NCInfo.radShieldingInfo());
 		radiation_badge = new ItemRadiationBadge("radiation_badge", InfoHelper.formattedInfo(infoLine("radiation_badge"), UnitHelper.prefix(NCConfig.radiation_badge_durability*NCConfig.radiation_badge_info_rate, 3, "Rads"), UnitHelper.prefix(NCConfig.radiation_badge_durability, 3, "Rads")));
 		
-		radaway = new ItemRadaway("radaway", InfoHelper.formattedInfo(infoLine("radaway"), UnitHelper.prefix(NCConfig.radiation_radaway_amount, 3, "Rads"), Math.round(100D*NCConfig.radiation_radaway_amount/NCConfig.max_player_rads) + "%"));
+		radaway = new ItemRadaway("radaway", false, InfoHelper.formattedInfo(infoLine("radaway"), RadiationHelper.radsPrefix(NCConfig.radiation_radaway_amount, false), Math.round(100D*NCConfig.radiation_radaway_amount/NCConfig.max_player_rads) + "%", RadiationHelper.radsPrefix(NCConfig.radiation_radaway_rate, true)));
+		radaway_slow = new ItemRadaway("radaway_slow", true, InfoHelper.formattedInfo(infoLine("radaway"), RadiationHelper.radsPrefix(NCConfig.radiation_radaway_amount, false), Math.round(100D*NCConfig.radiation_radaway_amount/NCConfig.max_player_rads) + "%", RadiationHelper.radsPrefix(NCConfig.radiation_radaway_slow_rate, true)));
 		rad_x = new ItemRadX("rad_x", InfoHelper.formattedInfo(infoLine("rad_x"), (int)NCConfig.radiation_rad_x_amount, UnitHelper.applyTimeUnit(NCConfig.radiation_rad_x_lifetime, 2)));
 		
 		portable_ender_chest = new ItemPortableEnderChest("portable_ender_chest");
@@ -264,6 +267,7 @@ public class NCItems {
 		registerItem(radiation_badge, NCTabs.RADIATION);
 		
 		registerItem(radaway, NCTabs.RADIATION);
+		registerItem(radaway_slow, NCTabs.RADIATION);
 		registerItem(rad_x, NCTabs.RADIATION);
 		
 		registerItem(portable_ender_chest, NCTabs.MISC);
@@ -463,6 +467,7 @@ public class NCItems {
 		registerRender(radiation_badge);
 		
 		registerRender(radaway);
+		registerRender(radaway_slow);
 		registerRender(rad_x);
 		
 		registerRender(portable_ender_chest);

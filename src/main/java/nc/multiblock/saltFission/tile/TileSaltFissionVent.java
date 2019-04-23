@@ -111,14 +111,14 @@ public class TileSaltFissionVent extends TileSaltFissionPartBase implements ITil
 			TileSaltFissionVessel vessel = (TileSaltFissionVessel) tile;
 			
 			if (vessel.getVesselSetting(side.getOpposite()) == SaltFissionVesselSetting.DEFAULT) {
-				getTanks().get(0).drainInternal(vessel.getTanks().get(0).fill(getTanks().get(0).drainInternal(getTanks().get(0).getCapacity(), false), true), true);
+				getTanks().get(0).drain(vessel.getTanks().get(0).fill(getTanks().get(0).drain(getTanks().get(0).getCapacity(), false), true), true);
 			}
 		}
 		else if (tile instanceof TileSaltFissionHeater) {
 			TileSaltFissionHeater heater = (TileSaltFissionHeater) tile;
 			
 			if (heater.getHeaterSetting(side.getOpposite()) == SaltFissionHeaterSetting.DEFAULT) {
-				getTanks().get(0).drainInternal(heater.getTanks().get(0).fill(getTanks().get(0).drainInternal(getTanks().get(0).getCapacity(), false), true), true);
+				getTanks().get(0).drain(heater.getTanks().get(0).fill(getTanks().get(0).drain(getTanks().get(0).getCapacity(), false), true), true);
 			}
 		}
 	}

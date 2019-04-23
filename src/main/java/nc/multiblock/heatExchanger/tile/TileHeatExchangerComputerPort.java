@@ -85,13 +85,19 @@ public class TileHeatExchangerComputerPort extends TileHeatExchangerPartBase imp
 	
 	@Callback
 	@Optional.Method(modid = "opencomputers")
-	public Object[] getNumberOfTubes(Context context, Arguments args) {
+	public Object[] getNumberOfExchangerTubes(Context context, Arguments args) {
 		return new Object[] {isMultiblockAssembled() ? getMultiblock().getTubes().size() : 0};
 	}
 	
 	@Callback
 	@Optional.Method(modid = "opencomputers")
-	public Object[] getTubeStats(Context context, Arguments args) {
+	public Object[] getNumberOfCondensationTubes(Context context, Arguments args) {
+		return new Object[] {isMultiblockAssembled() ? getMultiblock().getCondenserTubes().size() : 0};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getExchangerTubeStats(Context context, Arguments args) {
 		if (isMultiblockAssembled()) {
 			List<Object[]> stats = new ArrayList<Object[]>();
 			for (TileHeatExchangerTube tube : getMultiblock().getTubes()) {
@@ -105,6 +111,28 @@ public class TileHeatExchangerComputerPort extends TileHeatExchangerPartBase imp
 						tube.inputTemperature,
 						tube.outputTemperature,
 						tube.flowDir == null ? "null" : tube.flowDir.getName()
+						});
+			}
+			return stats.toArray();
+		}
+		else return new Object[] {};
+	}
+	
+	@Callback
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getCondensationTubeStats(Context context, Arguments args) {
+		if (isMultiblockAssembled()) {
+			List<Object[]> stats = new ArrayList<Object[]>();
+			for (TileHeatExchangerCondenserTube condenserTube : getMultiblock().getCondenserTubes()) {
+				stats.add(new Object[] {
+						new Object[] {condenserTube.getPos().getX(), condenserTube.getPos().getY(), condenserTube.getPos().getZ()},
+						condenserTube.conductivity,
+						condenserTube.isProcessing,
+						condenserTube.time,
+						condenserTube.recipeInfo != null ? condenserTube.baseProcessTime/condenserTube.getSpeedMultiplier() : 0D,
+						condenserTube.getSpeedMultiplier(),
+						condenserTube.condensingTemperature,
+						condenserTube.adjacentTemperatures
 						});
 			}
 			return stats.toArray();

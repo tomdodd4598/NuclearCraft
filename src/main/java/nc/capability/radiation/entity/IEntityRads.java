@@ -37,9 +37,9 @@ public interface IEntityRads extends IRadiation, ICapability<IEntityRads> {
 	
 	public void setRadXWoreOff(boolean radXWoreOff);
 	
-	public double getRadawayBuffer();
+	public double getRadawayBuffer(boolean slow);
 	
-	public void setRadawayBuffer(double newCount);
+	public void setRadawayBuffer(boolean slow, double newCount);
 	
 	public default boolean isFatal() {
 		return getTotalRads() >= getMaxRads();

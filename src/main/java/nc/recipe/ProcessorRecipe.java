@@ -260,4 +260,18 @@ public class ProcessorRecipe implements IRecipe {
 		else if (extras.get(1) instanceof Double) return (double) extras.get(1);
 		else return 1D;
 	}
+	
+	// Condenser
+	
+	public double getCondenserProcessTime(double defaultProcessTime) {
+		if (extras.isEmpty()) return defaultProcessTime;
+		else if (extras.get(0) instanceof Double) return (double) extras.get(0);
+		else return defaultProcessTime;
+	}
+	
+	public int getCondenserCondensingTemperature() {
+		if (extras.size() < 2) return 300;
+		else if (extras.get(1) instanceof Integer) return (int) extras.get(1);
+		else return 300;
+	}
 }

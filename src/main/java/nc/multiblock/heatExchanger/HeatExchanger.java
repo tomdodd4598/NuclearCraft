@@ -11,6 +11,7 @@ import nc.multiblock.MultiblockBase;
 import nc.multiblock.TileBeefBase.SyncReason;
 import nc.multiblock.container.ContainerHeatExchangerController;
 import nc.multiblock.cuboidal.CuboidalMultiblockBase;
+import nc.multiblock.heatExchanger.tile.TileHeatExchangerCondenserTube;
 import nc.multiblock.heatExchanger.tile.TileHeatExchangerController;
 import nc.multiblock.heatExchanger.tile.TileHeatExchangerTube;
 import nc.multiblock.heatExchanger.tile.TileHeatExchangerVent;
@@ -26,6 +27,7 @@ public class HeatExchanger extends CuboidalMultiblockBase<HeatExchangerUpdatePac
 	private Set<TileHeatExchangerController> controllers;
 	private Set<TileHeatExchangerVent> vents;
 	private Set<TileHeatExchangerTube> tubes;
+	private Set<TileHeatExchangerCondenserTube> condenserTubes;
 	
 	private TileHeatExchangerController controller;
 	
@@ -40,6 +42,7 @@ public class HeatExchanger extends CuboidalMultiblockBase<HeatExchangerUpdatePac
 		controllers = new HashSet<TileHeatExchangerController>();
 		vents = new HashSet<TileHeatExchangerVent>();
 		tubes = new HashSet<TileHeatExchangerTube>();
+		condenserTubes = new HashSet<TileHeatExchangerCondenserTube>();
 	}
 	
 	// Multiblock Part Getters
@@ -54,6 +57,10 @@ public class HeatExchanger extends CuboidalMultiblockBase<HeatExchangerUpdatePac
 	
 	public Set<TileHeatExchangerTube> getTubes() {
 		return tubes;
+	}
+	
+	public Set<TileHeatExchangerCondenserTube> getCondenserTubes() {
+		return condenserTubes;
 	}
 	
 	// Multiblock Size Limits
@@ -80,6 +87,7 @@ public class HeatExchanger extends CuboidalMultiblockBase<HeatExchangerUpdatePac
 		if (newPart instanceof TileHeatExchangerController) controllers.add((TileHeatExchangerController) newPart);
 		if (newPart instanceof TileHeatExchangerVent) vents.add((TileHeatExchangerVent) newPart);
 		if (newPart instanceof TileHeatExchangerTube) tubes.add((TileHeatExchangerTube) newPart);
+		if (newPart instanceof TileHeatExchangerCondenserTube) condenserTubes.add((TileHeatExchangerCondenserTube) newPart);
 	}
 	
 	@Override
@@ -87,6 +95,7 @@ public class HeatExchanger extends CuboidalMultiblockBase<HeatExchangerUpdatePac
 		if (oldPart instanceof TileHeatExchangerController) controllers.remove(oldPart);
 		if (oldPart instanceof TileHeatExchangerVent) vents.remove(oldPart);
 		if (oldPart instanceof TileHeatExchangerTube) tubes.remove(oldPart);
+		if (oldPart instanceof TileHeatExchangerCondenserTube) condenserTubes.remove(oldPart);
 	}
 	
 	@Override
@@ -103,6 +112,7 @@ public class HeatExchanger extends CuboidalMultiblockBase<HeatExchangerUpdatePac
 	protected void onHeatExchangerFormed() {
 		setIsHeatExchangerOn();
 		for (TileHeatExchangerTube tube : tubes) tube.updateFlowDir();
+		for (TileHeatExchangerCondenserTube condenserTube : condenserTubes) condenserTube.updateAdjacentTemperatures();
 		updateHeatExchangerStats();
 	}
 	
@@ -171,7 +181,7 @@ public class HeatExchanger extends CuboidalMultiblockBase<HeatExchangerUpdatePac
 	}
 	
 	protected void updateHeatExchangerStats() {
-		if (tubes.size() < 1) {
+		if (tubes.size() + condenserTubes.size() < 1) {
 			fractionOfTubesActive = 0;
 			efficiency = 0;
 			return;
@@ -185,7 +195,13 @@ public class HeatExchanger extends CuboidalMultiblockBase<HeatExchangerUpdatePac
 			efficiencyCount += eff;
 		}
 		
-		fractionOfTubesActive = (double)activeCount/tubes.size();
+		for (TileHeatExchangerCondenserTube condenserTube : condenserTubes) {
+			int eff = condenserTube.checkPosition();
+			if (eff > 0) activeCount++;
+			efficiencyCount += eff;
+		}
+		
+		fractionOfTubesActive = (double)activeCount/(tubes.size() + condenserTubes.size());
 		efficiency = activeCount == 0 ? 0 : efficiencyCount/(double)activeCount;
 	}
 	
@@ -248,6 +264,7 @@ public class HeatExchanger extends CuboidalMultiblockBase<HeatExchangerUpdatePac
 	public void clearAllFluids() {
 		for (TileHeatExchangerVent vent : vents) vent.clearAllTanks();
 		for (TileHeatExchangerTube tube : tubes) tube.clearAllTanks();
+		for (TileHeatExchangerCondenserTube condenserTube : condenserTubes) condenserTube.clearAllTanks();
 	}
 	
 	// Multiblock Validators

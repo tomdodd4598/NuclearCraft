@@ -610,7 +610,7 @@ public class JEIRecipeWrapper {
 		
 		@Override
 		protected int getProgressArrowTime() {
-			return recipe != null ? (int) (recipe.getHeatExchangerProcessTime(16000D)*recipe.getHeatExchangerInputTemperature()/80000D) : 20;
+			return recipe != null ? (int) (recipe.getHeatExchangerProcessTime(16000D)*recipe.getHeatExchangerInputTemperature()/128000D) : 20;
 		}
 		
 		protected int getHeatExchangerProcessTime() {
@@ -638,6 +638,43 @@ public class JEIRecipeWrapper {
 		private static final String COOLING_PROVIDED = Lang.localise("jei.nuclearcraft.exchanger_cooling_provided");
 		private static final String HEATING_REQUIRED = Lang.localise("jei.nuclearcraft.exchanger_heating_required");
 		private static final String COOLING_REQUIRED = Lang.localise("jei.nuclearcraft.exchanger_cooling_required");
+	}
+	
+	public static class Condenser extends JEIRecipeWrapperAbstract<Condenser> {
+
+		public Condenser(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
+			super(guiHelper, jeiHandler, recipeHandler, recipe, 47, 30, 176, 3, 37, 16, 74, 35);
+		}
+		
+		@Override
+		protected int getProgressArrowTime() {
+			return (int) (getCondenserProcessTime()/2D);
+		}
+		
+		protected int getCondenserProcessTime() {
+			if (recipe == null) return 16000;
+			return (int) recipe.getCondenserProcessTime(16000D);
+		}
+		
+		protected int getCondenserCondensingTemperature() {
+			if (recipe == null) return 300;
+			return (int) recipe.getCondenserCondensingTemperature();
+		}
+		
+		@Override
+		public List<String> getTooltipStrings(int mouseX, int mouseY) {
+			List<String> tooltip = new ArrayList<String>();
+			
+			if (mouseX >= 73 - 47 && mouseY >= 34 - 30 && mouseX < 73 - 47 + 37 + 1 && mouseY < 34 - 30 + 18 + 1) {
+				tooltip.add(TextFormatting.YELLOW + CONDENSING_TEMPERATURE + TextFormatting.WHITE + " " + getCondenserCondensingTemperature() + "K");
+				tooltip.add(TextFormatting.BLUE + HEAT_REMOVAL_REQUIRED + TextFormatting.WHITE + " " + getCondenserProcessTime());
+			}
+			
+			return tooltip;
+		}
+		
+		private static final String CONDENSING_TEMPERATURE = Lang.localise("jei.nuclearcraft.condenser_condensing_temp");
+		private static final String HEAT_REMOVAL_REQUIRED = Lang.localise("jei.nuclearcraft.condenser_heat_removal_req");
 	}
 	
 	public static class Turbine extends JEIRecipeWrapperAbstract<Turbine> {

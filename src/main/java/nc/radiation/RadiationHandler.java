@@ -14,7 +14,6 @@ import nc.network.PacketHandler;
 import nc.network.radiation.PlayerRadsUpdatePacket;
 import nc.tile.radiation.ITileRadiationEnvironment;
 import nc.util.Lang;
-import nc.util.RadiationHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.item.EntityItem;
@@ -85,9 +84,14 @@ public class RadiationHandler {
 				playerRads.setTotalRads(playerRads.getTotalRads()*Math.pow(1D - NCConfig.radiation_player_decay_rate, PLAYER_TICK_RATE), false);
 			}
 			
-			if (playerRads.getRadawayBuffer() > 0D) {
+			if (playerRads.getRadawayBuffer(false) > 0D) {
 				playerRads.setTotalRads(playerRads.getTotalRads() - NCConfig.radiation_radaway_rate*PLAYER_TICK_RATE, false);
-				playerRads.setRadawayBuffer(playerRads.getRadawayBuffer() - NCConfig.radiation_radaway_rate*PLAYER_TICK_RATE);
+				playerRads.setRadawayBuffer(false, playerRads.getRadawayBuffer(false) - NCConfig.radiation_radaway_rate*PLAYER_TICK_RATE);
+			}
+			
+			if (playerRads.getRadawayBuffer(true) > 0D) {
+				playerRads.setTotalRads(playerRads.getTotalRads() - NCConfig.radiation_radaway_slow_rate*PLAYER_TICK_RATE, false);
+				playerRads.setRadawayBuffer(true, playerRads.getRadawayBuffer(true) - NCConfig.radiation_radaway_slow_rate*PLAYER_TICK_RATE);
 			}
 			
 			if (playerRads.getRadawayCooldown() > 0D) {

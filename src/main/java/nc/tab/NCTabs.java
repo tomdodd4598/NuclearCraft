@@ -18,7 +18,6 @@ public class NCTabs {
 	public static final CreativeTabs SALT_FISSION_BLOCKS = NCConfig.single_creative_tab ? NUCLEARCRAFT : new TabSaltFissionBlocks();
 	public static final CreativeTabs HEAT_EXCHANGER_BLOCKS = NCConfig.single_creative_tab ? NUCLEARCRAFT : new TabHeatExchangerBlocks();
 	public static final CreativeTabs TURBINE_BLOCKS = NCConfig.single_creative_tab ? NUCLEARCRAFT : new TabTurbineBlocks();
-	public static final CreativeTabs CONDENSER_BLOCKS = /*NCConfig.single_creative_tab ? NUCLEARCRAFT : new TabCondenserBlocks();*/ NUCLEARCRAFT;
 	public static final CreativeTabs ACCELERATOR = NCConfig.single_creative_tab ? NUCLEARCRAFT : new TabAccelerator();
 	public static final CreativeTabs MISC = NCConfig.single_creative_tab ? NUCLEARCRAFT : new TabMisc();
 }

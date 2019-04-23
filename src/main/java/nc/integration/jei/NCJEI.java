@@ -61,6 +61,7 @@ import nc.init.NCItems;
 import nc.integration.jei.generator.DecayGeneratorCategory;
 import nc.integration.jei.generator.FissionCategory;
 import nc.integration.jei.generator.FusionCategory;
+import nc.integration.jei.multiblock.CondenserCategory;
 import nc.integration.jei.multiblock.CoolantHeaterCategory;
 import nc.integration.jei.multiblock.HeatExchangerCategory;
 import nc.integration.jei.multiblock.SaltFissionCategory;
@@ -270,7 +271,8 @@ public class NCJEI implements IModPlugin {
 		SALT_FISSION(NCRecipes.Type.SALT_FISSION, NCBlocks.salt_fission_vessel, "salt_fission", JEIRecipeWrapper.SaltFission.class),
 		COOLANT_HEATER(NCRecipes.Type.COOLANT_HEATER, NCBlocks.salt_fission_heater, "coolant_heater", JEIRecipeWrapper.CoolantHeater.class),
 		HEAT_EXCHANGER(NCRecipes.Type.HEAT_EXCHANGER, Lists.<Block>newArrayList(NCBlocks.heat_exchanger_tube_copper, NCBlocks.heat_exchanger_tube_hard_carbon, NCBlocks.heat_exchanger_tube_thermoconducting), "heat_exchanger", JEIRecipeWrapper.HeatExchanger.class),
-		TURBINE(NCRecipes.Type.TURBINE, NCBlocks.turbine_controller, "turbine", JEIRecipeWrapper.Turbine.class);
+		TURBINE(NCRecipes.Type.TURBINE, NCBlocks.turbine_controller, "turbine", JEIRecipeWrapper.Turbine.class),
+		CONDENSER(NCRecipes.Type.CONDENSER, Lists.<Block>newArrayList(NCBlocks.heat_exchanger_condenser_tube_copper, NCBlocks.heat_exchanger_condenser_tube_hard_carbon, NCBlocks.heat_exchanger_condenser_tube_thermoconducting), "condenser", JEIRecipeWrapper.Condenser.class);
 		
 		private NCRecipes.Type recipeType;
 		private Class<? extends JEIRecipeWrapperAbstract> recipeWrapper;
@@ -356,6 +358,8 @@ public class NCJEI implements IModPlugin {
 				return new CoolantHeaterCategory(guiHelper, this);
 			case HEAT_EXCHANGER:
 				return new HeatExchangerCategory(guiHelper, this);
+			case CONDENSER:
+				return new CondenserCategory(guiHelper, this);
 			case TURBINE:
 				return new TurbineCategory(guiHelper, this);
 			default:

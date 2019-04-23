@@ -315,7 +315,7 @@ ________________________________________________________________________________
  Condenser:
 >----------<
 
-mods.nuclearcraft.condenser.addRecipe([fluidInput, fluidOutput, {timeMultiplier (double)}]);
+mods.nuclearcraft.condenser.addRecipe([fluidInput, fluidOutput, {coolingRequired (double), condensingTemperature (int)}]);
 
 mods.nuclearcraft.condenser.removeRecipeWithInput([fluidInput]);
 mods.nuclearcraft.condenser.removeRecipeWithOutput([fluidOutput]);

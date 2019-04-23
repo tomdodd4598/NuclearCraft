@@ -1,4 +1,4 @@
-package nc.util;
+package nc.radiation;
 
 import java.util.List;
 
@@ -9,8 +9,10 @@ import nc.capability.radiation.entity.IEntityRads;
 import nc.capability.radiation.resistance.IRadiationResistance;
 import nc.capability.radiation.source.IRadiationSource;
 import nc.config.NCConfig;
-import nc.radiation.RadBiomes;
 import nc.tile.radiation.ITileRadiationEnvironment;
+import nc.util.ArmorHelper;
+import nc.util.NCMath;
+import nc.util.UnitHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
@@ -367,8 +369,8 @@ public class RadiationHelper {
 	
 	// Unit Prefixing
 	
-	public static String radsPrefix(double radsPerTick, boolean rate) {
+	public static String radsPrefix(double rads, boolean rate) {
 		String unit = rate ? "Rads/t" : "Rads";
-		return NCConfig.radiation_unit_prefixes > 0 ? NCMath.sigFigs(radsPerTick, NCConfig.radiation_unit_prefixes) + " " + unit : UnitHelper.prefix(radsPerTick, 3, unit, 0, -8);
+		return NCConfig.radiation_unit_prefixes > 0 ? NCMath.sigFigs(rads, NCConfig.radiation_unit_prefixes) + " " + unit : UnitHelper.prefix(rads, 3, unit, 0, -8);
 	}
 }

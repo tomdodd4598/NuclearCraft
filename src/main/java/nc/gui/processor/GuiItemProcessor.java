@@ -51,7 +51,7 @@ public abstract class GuiItemProcessor extends NCGui {
 	
 	@Override
 	public void drawEnergyTooltip(ITileEnergy tile, int mouseX, int mouseY, int x, int y, int width, int height) {
-		if (this.tile.baseProcessPower != 0) super.drawEnergyTooltip(tile, mouseX, mouseY, x, y, width, height);
+		if (this.tile.defaultProcessPower != 0) super.drawEnergyTooltip(tile, mouseX, mouseY, x, y, width, height);
 		else drawNoEnergyTooltip(mouseX, mouseY, x, y, width, height);
 	}
 	

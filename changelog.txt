@@ -1,3 +1,19 @@
+v2.16
+
++ Added Condensation Tubes to complete the Rankine cycle!
+* Fixed Vessels/Heaters/Tubes not copying across their side configurations correctly
+
++ Added Slow-Acting RadAway
+* Fixed RadAway buffer not being saved correctly
+
+* Improved machine energy tooltips for recipes requiring no power
+
+* Improved performance of Universal Bin
+
+* Other minor additions and changes
+* Possible other things that I have forgotten
+- Removed Paulobrine and Herobrian
+
 v2.15b
 
 * Moved JEI recipe information to the progress bar as a separate tooltip

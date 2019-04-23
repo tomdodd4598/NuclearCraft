@@ -32,7 +32,6 @@ public class NCConfig {
 	public static final String CATEGORY_SALT_FISSION = "salt_fission";
 	public static final String CATEGORY_HEAT_EXCHANGER = "heat_exchanger";
 	public static final String CATEGORY_TURBINE = "turbine";
-	public static final String CATEGORY_CONDENSER = "condenser";
 	public static final String CATEGORY_ACCELERATOR = "accelerator";
 	public static final String CATEGORY_ENERGY_STORAGE = "energy_storage";
 	public static final String CATEGORY_TOOLS = "tools";
@@ -181,9 +180,6 @@ public class NCConfig {
 	public static double[] turbine_expansion_level;
 	public static int turbine_mb_per_blade;
 	
-	public static int condenser_min_size; // Default: 1
-	public static int condenser_max_size; // Default: 24
-	
 	public static int accelerator_electromagnet_power;
 	public static int accelerator_supercooler_coolant;
 	
@@ -236,6 +232,7 @@ public class NCConfig {
 	
 	public static double radiation_radaway_amount;
 	public static double radiation_radaway_rate;
+	public static double radiation_radaway_slow_rate;
 	public static double radiation_radaway_cooldown;
 	public static double radiation_rad_x_amount;
 	public static double radiation_rad_x_lifetime;
@@ -600,11 +597,6 @@ public class NCConfig {
 		Property propertyTurbineMBPerBlade = config.get(CATEGORY_TURBINE, "turbine_mb_per_blade", 100, Lang.localise("gui.config.turbine.turbine_mb_per_blade.comment"), 1, 32767);
 		propertyTurbineMBPerBlade.setLanguageKey("gui.config.turbine.turbine_mb_per_blade");
 		
-		Property propertyCondenserMinSize = config.get(CATEGORY_CONDENSER, "condenser_min_size", 1, Lang.localise("gui.config.condenser.condenser_min_size.comment"), 1, 255);
-		propertyCondenserMinSize.setLanguageKey("gui.config.condenser.condenser_min_size");
-		Property propertyCondenserMaxSize = config.get(CATEGORY_CONDENSER, "condenser_max_size", 24, Lang.localise("gui.config.condenser.condenser_max_size.comment"), 1, 255);
-		propertyCondenserMaxSize.setLanguageKey("gui.config.condenser.condenser_max_size");
-		
 		Property propertyAcceleratorElectromagnetPower = config.get(CATEGORY_ACCELERATOR, "accelerator_electromagnet_power", 20000, Lang.localise("gui.config.accelerator.accelerator_electromagnet_power.comment"), 0, Integer.MAX_VALUE);
 		propertyAcceleratorElectromagnetPower.setLanguageKey("gui.config.accelerator.accelerator_electromagnet_power");
 		Property propertyAcceleratorSupercoolerCoolant = config.get(CATEGORY_ACCELERATOR, "accelerator_supercooler_coolant", 4, Lang.localise("gui.config.accelerator.accelerator_supercooler_coolant.comment"), 0, 32767);
@@ -696,8 +688,10 @@ public class NCConfig {
 		
 		Property propertyRadiationRadawayAmount = config.get(CATEGORY_RADIATION, "radiation_radaway_amount", 300D, Lang.localise("gui.config.radiation.radiation_radaway_amount.comment"), 0.001D, 1000000000D);
 		propertyRadiationRadawayAmount.setLanguageKey("gui.config.radiation.radiation_radaway_amount");
-		Property propertyRadiationRadawayRate = config.get(CATEGORY_RADIATION, "radiation_radaway_rate", 7.5D, Lang.localise("gui.config.radiation.radiation_radaway_rate.comment"), 0.001D, 1000000000D);
+		Property propertyRadiationRadawayRate = config.get(CATEGORY_RADIATION, "radiation_radaway_rate", 5D, Lang.localise("gui.config.radiation.radiation_radaway_rate.comment"), 0.001D, 1000000000D);
 		propertyRadiationRadawayRate.setLanguageKey("gui.config.radiation.radiation_radaway_rate");
+		Property propertyRadiationRadawaySlowRate = config.get(CATEGORY_RADIATION, "radiation_radaway_slow_rate", 0.025D, Lang.localise("gui.config.radiation.radiation_radaway_slow_rate.comment"), 0.00001D, 10000000D);
+		propertyRadiationRadawaySlowRate.setLanguageKey("gui.config.radiation.radiation_radaway_slow_rate");
 		Property propertyRadiationRadawayCooldown = config.get(CATEGORY_RADIATION, "radiation_radaway_cooldown", 0D, Lang.localise("gui.config.radiation.radiation_radaway_cooldown.comment"), 0D, 100000D);
 		propertyRadiationRadawayCooldown.setLanguageKey("gui.config.radiation.radiation_radaway_cooldown");
 		Property propertyRadiationRadXAmount = config.get(CATEGORY_RADIATION, "radiation_rad_x_amount", 25D, Lang.localise("gui.config.radiation.radiation_rad_x_amount.comment"), 0.001D, 1000000000D);
@@ -976,11 +970,6 @@ public class NCConfig {
 		propertyOrderTurbine.add(propertyTurbineMBPerBlade.getName());
 		config.setCategoryPropertyOrder(CATEGORY_TURBINE, propertyOrderTurbine);
 		
-		List<String> propertyOrderCondenser = new ArrayList<String>();
-		propertyOrderCondenser.add(propertyCondenserMinSize.getName());
-		propertyOrderCondenser.add(propertyCondenserMaxSize.getName());
-		config.setCategoryPropertyOrder(CATEGORY_CONDENSER, propertyOrderCondenser);
-		
 		List<String> propertyOrderAccelerator = new ArrayList<String>();
 		propertyOrderAccelerator.add(propertyAcceleratorElectromagnetPower.getName());
 		propertyOrderAccelerator.add(propertyAcceleratorSupercoolerCoolant.getName());
@@ -1036,6 +1025,7 @@ public class NCConfig {
 		propertyOrderRadiation.add(propertyRadiationChunkLimit.getName());
 		propertyOrderRadiation.add(propertyRadiationRadawayAmount.getName());
 		propertyOrderRadiation.add(propertyRadiationRadawayRate.getName());
+		propertyOrderRadiation.add(propertyRadiationRadawaySlowRate.getName());
 		propertyOrderRadiation.add(propertyRadiationRadawayCooldown.getName());
 		propertyOrderRadiation.add(propertyRadiationRadXAmount.getName());
 		propertyOrderRadiation.add(propertyRadiationRadXLifetime.getName());
@@ -1235,9 +1225,6 @@ public class NCConfig {
 			turbine_expansion_level = readDoubleArrayFromConfig(propertyTurbineExpansionLevel);
 			turbine_mb_per_blade = propertyTurbineMBPerBlade.getInt();
 			
-			condenser_min_size = propertyCondenserMinSize.getInt();
-			condenser_max_size = propertyCondenserMaxSize.getInt();
-			
 			accelerator_electromagnet_power = propertyAcceleratorElectromagnetPower.getInt();
 			accelerator_supercooler_coolant = propertyAcceleratorSupercoolerCoolant.getInt();
 			
@@ -1269,7 +1256,7 @@ public class NCConfig {
 			radiation_biomes = propertyRadiationBiomes.getStringList();
 			radiation_world_limits = propertyRadiationWorldLimit.getStringList();
 			radiation_biome_limits = propertyRadiationBiomeLimit.getStringList();
-			radiation_from_biomes_dims_blacklist = readIntegerArrayFromConfig(propertyRadiationFromBiomesDimsBlacklist);
+			radiation_from_biomes_dims_blacklist = propertyRadiationFromBiomesDimsBlacklist.getIntList();
 			
 			radiation_ores = propertyRadiationOres.getStringList();
 			radiation_items = propertyRadiationItems.getStringList();
@@ -1289,6 +1276,7 @@ public class NCConfig {
 			
 			radiation_radaway_amount = propertyRadiationRadawayAmount.getDouble();
 			radiation_radaway_rate = propertyRadiationRadawayRate.getDouble();
+			radiation_radaway_slow_rate = propertyRadiationRadawaySlowRate.getDouble();
 			radiation_radaway_cooldown = propertyRadiationRadawayCooldown.getDouble();
 			radiation_rad_x_amount = propertyRadiationRadXAmount.getDouble();
 			radiation_rad_x_lifetime = propertyRadiationRadXLifetime.getDouble();
@@ -1491,9 +1479,6 @@ public class NCConfig {
 		propertyTurbineExpansionLevel.set(turbine_expansion_level);
 		propertyTurbineMBPerBlade.set(turbine_mb_per_blade);
 		
-		propertyCondenserMinSize.set(condenser_min_size);
-		propertyCondenserMaxSize.set(condenser_max_size);
-		
 		propertyAcceleratorElectromagnetPower.set(accelerator_electromagnet_power);
 		propertyAcceleratorSupercoolerCoolant.set(accelerator_supercooler_coolant);
 		
@@ -1545,6 +1530,7 @@ public class NCConfig {
 		
 		propertyRadiationRadawayAmount.set(radiation_radaway_amount);
 		propertyRadiationRadawayRate.set(radiation_radaway_rate);
+		propertyRadiationRadawaySlowRate.set(radiation_radaway_slow_rate);
 		propertyRadiationRadawayCooldown.set(radiation_radaway_cooldown);
 		propertyRadiationRadXAmount.set(radiation_rad_x_amount);
 		propertyRadiationRadXLifetime.set(radiation_rad_x_lifetime);
@@ -1612,7 +1598,7 @@ public class NCConfig {
 		if (config.hasChanged()) config.save();
 	}
 	
-	public static boolean[] readBooleanArrayFromConfig(Property property) {
+	private static boolean[] readBooleanArrayFromConfig(Property property) {
 		int currentLength = property.getBooleanList().length;
 		int defaultLength = property.getDefaults().length;
 		if (currentLength == defaultLength) {
@@ -1634,7 +1620,7 @@ public class NCConfig {
 		return newArray;
 	}
 	
-	public static int[] readIntegerArrayFromConfig(Property property) {
+	private static int[] readIntegerArrayFromConfig(Property property) {
 		int currentLength = property.getIntList().length;
 		int defaultLength = property.getDefaults().length;
 		if (currentLength == defaultLength) {
@@ -1656,7 +1642,7 @@ public class NCConfig {
 		return newArray;
 	}
 	
-	public static double[] readDoubleArrayFromConfig(Property property) {
+	private static double[] readDoubleArrayFromConfig(Property property) {
 		int currentLength = property.getDoubleList().length;
 		int defaultLength = property.getDefaults().length;
 		if (currentLength == defaultLength) {

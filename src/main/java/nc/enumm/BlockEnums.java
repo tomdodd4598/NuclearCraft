@@ -2,11 +2,11 @@ package nc.enumm;
 
 import nc.init.NCBlocks;
 import nc.tab.NCTabs;
+import nc.tile.TileBin;
 import nc.tile.dummy.TileFissionPort;
 import nc.tile.dummy.TileFusionDummy;
 import nc.tile.dummy.TileMachineInterface;
 import nc.tile.energy.battery.TileBattery;
-import nc.tile.energyFluid.TileBin;
 import nc.tile.energyFluid.TileBuffer;
 import nc.tile.fluid.TileActiveCooler;
 import nc.tile.generator.TileDecayGenerator;
