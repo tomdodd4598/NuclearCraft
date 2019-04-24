@@ -70,6 +70,7 @@ public class NCConfig {
 	
 	public static int[] rtg_power;
 	public static int[] solar_power;
+	public static double[] decay_lifetime;
 	public static int[] decay_power;
 	
 	public static double fission_power; // Default: 1
@@ -396,6 +397,8 @@ public class NCConfig {
 		propertyRTGPower.setLanguageKey("gui.config.generators.rtg_power");
 		Property propertySolarPower = config.get(CATEGORY_GENERATORS, "solar_power", new int[] {5, 20, 80, 320}, Lang.localise("gui.config.generators.solar_power.comment"), 1, Integer.MAX_VALUE);
 		propertySolarPower.setLanguageKey("gui.config.generators.solar_power");
+		Property propertyDecayLifetime = config.get(CATEGORY_GENERATORS, "decay_lifetime", new double[] {62.4D*1200D, 20.4D*1200D, 36.6D*1200D, 39.6D*1200D, 35.5D*1200D, 12.8D*1200D, 52.8D*1200D, 8.5D*1200D, 7.2D*1200D, 65.2D*1200D}, Lang.localise("gui.config.generators.decay_lifetime.comment"), 1D, 16777215D);
+		propertyDecayLifetime.setLanguageKey("gui.config.generators.decay_lifetime");
 		Property propertyDecayPower = config.get(CATEGORY_GENERATORS, "decay_power", new int[] {80, 80, 15, 5, 10, 15, 20, 25, 30, 40}, Lang.localise("gui.config.generators.decay_power.comment"), 0, 32767);
 		propertyDecayPower.setLanguageKey("gui.config.generators.decay_power");
 		
@@ -855,6 +858,7 @@ public class NCConfig {
 		List<String> propertyOrderGenerators = new ArrayList<String>();
 		propertyOrderGenerators.add(propertyRTGPower.getName());
 		propertyOrderGenerators.add(propertySolarPower.getName());
+		propertyOrderGenerators.add(propertyDecayLifetime.getName());
 		propertyOrderGenerators.add(propertyDecayPower.getName());
 		config.setCategoryPropertyOrder(CATEGORY_GENERATORS, propertyOrderGenerators);
 		
@@ -1123,6 +1127,7 @@ public class NCConfig {
 			
 			rtg_power = readIntegerArrayFromConfig(propertyRTGPower);
 			solar_power = readIntegerArrayFromConfig(propertySolarPower);
+			decay_lifetime = readDoubleArrayFromConfig(propertyDecayLifetime);
 			decay_power = readIntegerArrayFromConfig(propertyDecayPower);
 			
 			fission_power = propertyFissionPower.getDouble();
@@ -1379,6 +1384,7 @@ public class NCConfig {
 		
 		propertyRTGPower.set(rtg_power);
 		propertySolarPower.set(solar_power);
+		propertyDecayLifetime.set(decay_lifetime);
 		propertyDecayPower.set(decay_power);
 		
 		propertyFissionPower.set(fission_power);

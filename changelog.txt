@@ -1,3 +1,8 @@
+v2.16b
+
+* Decay Generator mean lifetimes are now configurable
+* Changed a couple of Decay Generator recipes
+
 v2.16a
 
 + Added NC recipes to GTCE machines [thanks to Firew0lf for the initial code!]
