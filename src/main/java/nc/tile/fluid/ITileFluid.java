@@ -205,28 +205,20 @@ public interface ITileFluid extends ITile {
 	}
 	
 	public default void spreadFluidToSide(@Nonnull EnumFacing side) {
-		if (!getFluidConnection(side).canConnect()) {
-			return;
-		}
+		if (!getFluidConnection(side).canConnect()) return;
+		
 		TileEntity tile = getTileWorld().getTileEntity(getTilePos().offset(side));
-		if (tile == null || !(tile instanceof IFluidSpread) || (tile instanceof ITilePassive && !((ITilePassive) tile).canPushFluidsTo())) {
-			return;
-		}
-		IFluidHandler adjStorage = tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side.getOpposite());
-		if (adjStorage == null) {
-			return;
-		}
-		for (int i = 0; i < getTanks().size(); i++) {
-			if (!getFluidConnection(side).getTankSorption(i).canConnect() || getTanks().get(i).getFluid() == null) {
-				continue;
-			}
-			int maxDrain = getTanks().get(i).getFluidAmount()/2;
-			FluidStack stack = adjStorage.getTankProperties()[0].getContents();
-			if (stack != null) {
-				maxDrain -= stack.amount/2;
-			}
-			if (maxDrain > 0) {
-				getTanks().get(i).drain(adjStorage.fill(getTanks().get(i).drain(maxDrain, false), true), true);
+		
+		if (tile instanceof IFluidSpread) {
+			if (tile instanceof ITilePassive && !((ITilePassive)tile).canPushFluidsTo()) return;
+			
+			IFluidSpread other = (IFluidSpread) tile;
+			
+			for (int i = 0; i < getTanks().size(); i++) {
+				int diff = getTanks().get(i).getFluidAmount() - other.getTanks().get(0).getFluidAmount();
+				if (diff > 1) {
+					getTanks().get(i).drain(other.getTanks().get(0).fillInternal(getTanks().get(i).drain(diff/2, false), true), true);
+				}
 			}
 		}
 	}

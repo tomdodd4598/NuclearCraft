@@ -23,6 +23,7 @@ public class PlayerRadsUpdatePacket implements IMessage {
 	protected double radawayCooldown;
 	protected double radXCooldown;
 	protected double radiationImmunityTime;
+	protected boolean shouldWarn;
 	
 	public PlayerRadsUpdatePacket() {
 		messageValid = false;
@@ -39,6 +40,7 @@ public class PlayerRadsUpdatePacket implements IMessage {
 		radawayCooldown = playerRads.getRadawayCooldown();
 		radXCooldown = playerRads.getRadXCooldown();
 		radiationImmunityTime = playerRads.getRadiationImmunityTime();
+		shouldWarn = playerRads.getShouldWarn();
 		
 		messageValid = true;
 	}
@@ -56,6 +58,7 @@ public class PlayerRadsUpdatePacket implements IMessage {
 			radawayCooldown = buf.readDouble();
 			radXCooldown = buf.readDouble();
 			radiationImmunityTime = buf.readDouble();
+			shouldWarn = buf.readBoolean();
 		} catch (IndexOutOfBoundsException ioe) {
 			NCUtil.getLogger().catching(ioe);
 			return;
@@ -77,6 +80,7 @@ public class PlayerRadsUpdatePacket implements IMessage {
 		buf.writeDouble(radawayCooldown);
 		buf.writeDouble(radXCooldown);
 		buf.writeDouble(radiationImmunityTime);
+		buf.writeBoolean(shouldWarn);
 	}
 	
 	public static class Handler implements IMessageHandler<PlayerRadsUpdatePacket, IMessage> {
@@ -103,6 +107,7 @@ public class PlayerRadsUpdatePacket implements IMessage {
 			playerRads.setRadawayCooldown(message.radawayCooldown);
 			playerRads.setRadXCooldown(message.radXCooldown);
 			playerRads.setRadiationImmunityTime(message.radiationImmunityTime);
+			playerRads.setShouldWarn(message.shouldWarn);
 		}
 	}
 }

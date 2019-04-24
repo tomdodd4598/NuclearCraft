@@ -274,7 +274,7 @@ public class SaltFissionReactor extends CuboidalMultiblockBase<SaltFissionUpdate
 				if (vessel.distributedTo) continue;
 				Tank vesselTank = vessel.getTanks().get(0);
 				
-				distributorTank.drain(vesselTank.fill(distributorTank.drain(rate, false), true), true);
+				distributorTank.drain(vesselTank.fillInternal(distributorTank.drain(rate, false), true), true);
 				vessel.distributedTo = true;
 				count -= rate;
 			}
@@ -289,7 +289,7 @@ public class SaltFissionReactor extends CuboidalMultiblockBase<SaltFissionUpdate
 				if (vessel.retrievedFrom) continue;
 				Tank vesselTank = vessel.getTanks().get(1);
 				
-				vesselTank.drain(retrieverTank.fill(vesselTank.drain(rate, false), true), true);
+				vesselTank.drain(retrieverTank.fillInternal(vesselTank.drain(rate, false), true), true);
 				vessel.retrievedFrom = true;
 				count -= rate;
 			}

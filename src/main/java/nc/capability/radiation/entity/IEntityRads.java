@@ -68,4 +68,8 @@ public interface IEntityRads extends IRadiation, ICapability<IEntityRads> {
 	public default boolean isImmune() {
 		return getRadiationImmunityTime() > 0D;
 	}
+	
+	public boolean getShouldWarn();
+	
+	public void setShouldWarn(boolean shouldWarn);
 }

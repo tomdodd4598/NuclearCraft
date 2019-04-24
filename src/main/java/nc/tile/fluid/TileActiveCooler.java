@@ -13,9 +13,6 @@ import nc.tile.internal.fluid.TankSorption;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidHandler;
 
 public class TileActiveCooler extends TileFluid implements IInterfaceable, IBufferable, IFluidSpread {
 	
@@ -32,7 +29,7 @@ public class TileActiveCooler extends TileFluid implements IInterfaceable, IBuff
 	private static final int DRAIN_MULT = Math.max(1, NCConfig.machine_update_rate*NCConfig.active_cooler_max_rate/20);
 	
 	public TileActiveCooler() {
-		super(80*DRAIN_MULT, validFluids(), ITileFluid.fluidConnectionAll(TankSorption.IN));
+		super(100*DRAIN_MULT, validFluids(), ITileFluid.fluidConnectionAll(TankSorption.IN));
 	}
 	
 	@Override
@@ -53,28 +50,14 @@ public class TileActiveCooler extends TileFluid implements IInterfaceable, IBuff
 	
 	@Override
 	public void spreadFluidToSide(@Nonnull EnumFacing side) {
-		if (!getFluidConnection(side).canConnect()) {
-			return;
-		}
 		TileEntity tile = getTileWorld().getTileEntity(getTilePos().offset(side));
-		if (!(tile instanceof TileActiveCooler)) {
-			return;
-		}
-		IFluidHandler adjStorage = tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side.getOpposite());
-		if (adjStorage == null) {
-			return;
-		}
-		for (int i = 0; i < getTanks().size(); i++) {
-			if (!getFluidConnection(side).getTankSorption(i).canConnect() || getTanks().get(i).getFluid() == null) {
-				continue;
-			}
-			int maxDrain = getTanks().get(i).getFluidAmount()/2;
-			FluidStack stack = adjStorage.getTankProperties()[0].getContents();
-			if (stack != null) {
-				maxDrain -= stack.amount/2;
-			}
-			if (maxDrain > 0) {
-				getTanks().get(i).drain(adjStorage.fill(getTanks().get(i).drain(maxDrain, false), true), true);
+		
+		if (tile instanceof TileActiveCooler) {
+			TileActiveCooler other = (TileActiveCooler) tile;
+			
+			int diff = getTanks().get(0).getFluidAmount() - other.getTanks().get(0).getFluidAmount();
+			if (diff > 1) {
+				getTanks().get(0).drain(other.getTanks().get(0).fillInternal(getTanks().get(0).drain(diff/2, false), true), true);
 			}
 		}
 	}

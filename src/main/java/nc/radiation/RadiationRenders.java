@@ -47,13 +47,8 @@ public class RadiationRenders {
 	
 	private static final String IMMUNE_FOR = Lang.localise("hud.nuclearcraft.rad_immune");
 	
-	private final ItemStack geiger_counter, geiger_block, scrubber;
-	
 	public RadiationRenders(Minecraft mc) {
 		this.mc = mc;
-		geiger_counter = new ItemStack(NCItems.geiger_counter);
-		geiger_block = new ItemStack(NCBlocks.geiger_block);
-		scrubber = new ItemStack(NCBlocks.radiation_scrubber);
 	}
 	
 	/* Originally from coolAlias' 'Tutorial-Demo' - tutorial.client.gui.GuiManaBar */
@@ -98,9 +93,11 @@ public class RadiationRenders {
 		GlStateManager.popMatrix();
 	}
 	
-	private boolean shouldShowHUD(EntityPlayer player) {
+	public static boolean shouldShowHUD(EntityPlayer player) {
 		if (!player.hasCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null)) return false;
 		if (!NCConfig.radiation_require_counter) return true;
+		
+		final ItemStack geiger_counter = new ItemStack(NCItems.geiger_counter), geiger_block = new ItemStack(NCItems.geiger_counter);
 		
 		if (ModCheck.baublesLoaded() && player.hasCapability(BaublesCapabilities.CAPABILITY_BAUBLES, null)) {
 			IBaublesItemHandler baublesHandler = player.getCapability(BaublesCapabilities.CAPABILITY_BAUBLES, null);
@@ -141,8 +138,8 @@ public class RadiationRenders {
 		// Draw the chunk borders if we're either holding a geiger block OR looking at one
 		for (EnumHand hand : EnumHand.values()) {
 			ItemStack heldItem = Minecraft.getMinecraft().player.getHeldItem(hand);
-
-			 if (OreDictionary.itemMatches(geiger_block, heldItem, true) || OreDictionary.itemMatches(scrubber, heldItem, true)) {
+			final ItemStack geiger_block = new ItemStack(NCItems.geiger_counter), scrubber = new ItemStack(NCBlocks.radiation_scrubber);
+			if (OreDictionary.itemMatches(geiger_block, heldItem, true) || OreDictionary.itemMatches(scrubber, heldItem, true)) {
 				chunkBorders = true;
 				break;
 			}

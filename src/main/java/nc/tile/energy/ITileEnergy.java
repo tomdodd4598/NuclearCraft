@@ -177,15 +177,16 @@ public interface ITileEnergy extends ITile {
 		if (!getEnergyConnection(side).canConnect()) return;
 		
 		TileEntity tile = getTileWorld().getTileEntity(getTilePos().offset(side));
-		if (tile == null) return;
 		
-		if (!(tile instanceof IEnergySpread)) return;
-		if (tile instanceof ITilePassive) if (!((ITilePassive) tile).canPushEnergyTo()) return;
-		IEnergyStorage adjStorage = tile.getCapability(CapabilityEnergy.ENERGY, side.getOpposite());
-		
-		if (adjStorage != null && getEnergyStorage().canExtract()) {
-			int maxExtract = (getEnergyStorage().getEnergyStored() - adjStorage.getEnergyStored())/2;
-			if (maxExtract > 0) getEnergyStorage().extractEnergy(adjStorage.receiveEnergy(getEnergyStorage().extractEnergy(maxExtract, true), false), false);
+		if (tile instanceof IEnergySpread) {
+			if (tile instanceof ITilePassive && !((ITilePassive)tile).canPushEnergyTo()) return;
+			
+			IEnergySpread other = (IEnergySpread) tile;
+			
+			int diff = getEnergyStorage().getEnergyStored() - other.getEnergyStorage().getEnergyStored();
+			if (diff > 1) {
+				getEnergyStorage().extractEnergy(other.getEnergyStorage().receiveEnergy(getEnergyStorage().extractEnergy(diff/2, true), false), false);
+			}
 		}
 	}
 	

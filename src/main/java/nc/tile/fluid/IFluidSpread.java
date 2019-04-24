@@ -1,5 +1,5 @@
 package nc.tile.fluid;
 
-public interface IFluidSpread {
-
+public interface IFluidSpread extends ITileFluid {
+	
 }

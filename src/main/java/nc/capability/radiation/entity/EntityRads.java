@@ -17,6 +17,7 @@ public class EntityRads implements IEntityRads {
 	private double radawayCooldown = 0D;
 	private double radXCooldown = 0D;
 	private double radiationImmunityTime = 0D;
+	private boolean shouldWarn = false;
 	
 	public EntityRads(double maxRads) {
 		this.maxRads = maxRads;
@@ -24,29 +25,33 @@ public class EntityRads implements IEntityRads {
 
 	@Override
 	public NBTTagCompound writeNBT(IEntityRads instance, EnumFacing side, NBTTagCompound nbt) {
-		nbt.setDouble("totalRads", getTotalRads());
-		nbt.setDouble("radiationLevel", getRadiationLevel());
-		nbt.setDouble("radiationResistance", getRadiationResistance());
-		nbt.setBoolean("radXWoreOff", getRadXWoreOff());
-		nbt.setDouble("radawayBuffer", getRadawayBuffer(false));
-		nbt.setDouble("radawayBufferSlow", getRadawayBuffer(true));
-		nbt.setDouble("radawayCooldown", getRadawayCooldown());
-		nbt.setDouble("radXCooldown", getRadXCooldown());
-		nbt.setDouble("radiationImmunityTime", getRadiationImmunityTime());
+		nbt.setDouble("totalRads", totalRads);
+		nbt.setDouble("radiationLevel", radiationLevel);
+		nbt.setDouble("radiationResistance", radiationResistance);
+		nbt.setBoolean("radXWoreOff", radXWoreOff);
+		nbt.setDouble("radawayBuffer", radawayBuffer);
+		nbt.setDouble("radawayBufferSlow", radawayBufferSlow);
+		nbt.setBoolean("consumed", consumed);
+		nbt.setDouble("radawayCooldown", radawayCooldown);
+		nbt.setDouble("radXCooldown", radXCooldown);
+		nbt.setDouble("radiationImmunityTime", radiationImmunityTime);
+		nbt.setBoolean("shouldWarn", shouldWarn);
 		return nbt;
 	}
 
 	@Override
 	public void readNBT(IEntityRads instance, EnumFacing side, NBTTagCompound nbt) {
-		setTotalRads(nbt.getDouble("totalRads"), false);
-		setRadiationLevel(nbt.getDouble("radiationLevel"));
-		setRadiationResistance(nbt.getDouble("radiationResistance"));
-		setRadXWoreOff(nbt.getBoolean("radXWoreOff"));
-		setRadawayBuffer(false, nbt.getDouble("radawayBuffer"));
-		setRadawayBuffer(true, nbt.getDouble("radawayBufferSlow"));
-		setRadawayCooldown(nbt.getDouble("radawayCooldown"));
-		setRadXCooldown(nbt.getDouble("radXCooldown"));
-		setRadiationImmunityTime(nbt.getDouble("radiationImmunityTime"));
+		totalRads = nbt.getDouble("totalRads");
+		radiationLevel = nbt.getDouble("radiationLevel");
+		radiationResistance = nbt.getDouble("radiationResistance");
+		radXWoreOff = nbt.getBoolean("radXWoreOff");
+		radawayBuffer = nbt.getDouble("radawayBuffer");
+		radawayBufferSlow = nbt.getDouble("radawayBufferSlow");
+		consumed = nbt.getBoolean("consumed");
+		radawayCooldown = nbt.getDouble("radawayCooldown");
+		radXCooldown = nbt.getDouble("radXCooldown");
+		radiationImmunityTime = nbt.getDouble("radiationImmunityTime");
+		shouldWarn = nbt.getBoolean("shouldWarn");
 	}
 	
 	@Override
@@ -153,5 +158,15 @@ public class EntityRads implements IEntityRads {
 	@Override
 	public void setRadiationImmunityTime(double newRadiationImmunityTime) {
 		radiationImmunityTime = Math.max(newRadiationImmunityTime, 0D);
+	}
+	
+	@Override
+	public boolean getShouldWarn() {
+		return shouldWarn;
+	}
+	
+	@Override
+	public void setShouldWarn(boolean shouldWarn) {
+		this.shouldWarn = shouldWarn;
 	}
 }

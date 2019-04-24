@@ -1,3 +1,15 @@
+v2.16d
+
++ Added warning message for players without Geiger counters upon beginning to suffer from rad poisoning
+* Fixed radiation buffs and debuffs not being applied correctly
+
+* Improved performance of energy and fluid spreading
+* Passive permeation is now enabled by default
+
+v2.16c
+
+* Fixed Vessels/Heaters/Tubes failing to push products to each other
+
 v2.16b
 
 * Decay Generator mean lifetimes are now configurable

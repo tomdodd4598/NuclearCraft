@@ -340,8 +340,9 @@ public class RadiationHelper {
 		double radPercentage = entityRads.getRadsPercentage();
 		
 		for (int i = 0; i < radLevelList.size(); i++) {
-			if (radPercentage >= radLevelList.get(i)) {
-				for (PotionEffect potionEffect : potionList.get(i)) {
+			final int j = radLevelList.size() - 1 - i;
+			if (radPercentage >= radLevelList.get(j)) {
+				for (PotionEffect potionEffect : potionList.get(j)) {
 					entity.addPotionEffect(new PotionEffect(potionEffect));
 				}
 				break;

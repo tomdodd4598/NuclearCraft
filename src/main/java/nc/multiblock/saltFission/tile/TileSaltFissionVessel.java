@@ -492,13 +492,13 @@ public class TileSaltFissionVessel extends TileSaltFissionPartBase implements IF
 	
 	public void pushFuel(TileSaltFissionVessel other) {
 		int diff = getTanks().get(0).getFluidAmount() - other.getTanks().get(0).getFluidAmount();
-		if (diff > 0) {
-			getTanks().get(0).drain(other.getTanks().get(0).fill(getTanks().get(0).drain(diff/2, false), true), true);
+		if (diff > 1) {
+			getTanks().get(0).drain(other.getTanks().get(0).fillInternal(getTanks().get(0).drain(diff/2, false), true), true);
 		}
 	}
 	
 	public void pushDepleted(TileSaltFissionVessel other) {
-		getTanks().get(1).drain(other.getTanks().get(1).fill(getTanks().get(1).drain(getTanks().get(1).getCapacity(), false), true), true);
+		getTanks().get(1).drain(other.getTanks().get(1).fillInternal(getTanks().get(1).drain(getTanks().get(1).getCapacity(), false), true), true);
 	}
 
 	@Override

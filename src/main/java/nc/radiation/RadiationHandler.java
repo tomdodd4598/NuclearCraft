@@ -43,6 +43,7 @@ public class RadiationHandler {
 	public static final DamageSource FATAL_RADS = new DamageSource("fatal_rads").setDamageBypassesArmor().setDamageIsAbsolute();
 	
 	private static final String RAD_X_WORE_OFF = Lang.localise("message.nuclearcraft.rad_x_wore_off");
+	private static final String RAD_WARNING = Lang.localise("message.nuclearcraft.rad_warning");
 	
 	private static final int WORLD_TICK_RATE = NCConfig.radiation_world_tick_rate, PLAYER_TICK_RATE = NCConfig.radiation_player_tick_rate;
 			
@@ -66,11 +67,22 @@ public class RadiationHandler {
 			if (previousImmunityTime > 0D) {
 				playerRads.setRadiationImmunityTime(previousImmunityTime - PLAYER_TICK_RATE);
 			}
+			double previousRadPercentage = playerRads.getRadsPercentage();
 			
 			double radiationLevel = RadiationHelper.transferRadsToPlayer(chunkSource, playerRads, player, PLAYER_TICK_RATE) + RadiationHelper.transferRadsFromInventoryToPlayer(playerRads, player, PLAYER_TICK_RATE);
 			playerRads.setRadiationLevel(radiationLevel);
 			
-			if (!player.isCreative() && playerRads.isFatal()) player.attackEntityFrom(FATAL_RADS, Float.MAX_VALUE);
+			if (!player.isCreative()) {
+				if (playerRads.isFatal()) {
+					player.attackEntityFrom(FATAL_RADS, Float.MAX_VALUE);
+				}
+				else if (!RadEffects.PLAYER_RAD_LEVEL_LIST.isEmpty() && previousRadPercentage < RadEffects.PLAYER_RAD_LEVEL_LIST.get(0) && playerRads.getRadsPercentage() >= RadEffects.PLAYER_RAD_LEVEL_LIST.get(0) && !RadiationRenders.shouldShowHUD(player)) {
+					playerRads.setShouldWarn(true);
+				}
+				else {
+					playerRads.setShouldWarn(false);
+				}
+			}
 			
 			double previousResistance = playerRads.getRadiationResistance();
 			if (previousResistance > 0D) {
@@ -103,14 +115,21 @@ public class RadiationHandler {
 			
 			PacketHandler.instance.sendTo(new PlayerRadsUpdatePacket(playerRads), player);
 			
-			if (!player.isCreative()) RadiationHelper.applyPotionEffects(player, playerRads, RadEffects.PLAYER_RAD_LEVEL_LIST, RadEffects.PLAYER_DEBUFF_LIST);
-		} else {
+			if (!player.isCreative()) {
+				RadiationHelper.applyPotionEffects(player, playerRads, RadEffects.PLAYER_RAD_LEVEL_LIST, RadEffects.PLAYER_DEBUFF_LIST);
+			}
+		}
+		else {
 			EntityPlayer player = event.player;
 			IEntityRads playerRads = RadiationHelper.getEntityRadiation(player);
 			if (playerRads == null) return;
 			if (playerRads.getRadXWoreOff()) {
 				player.playSound(SoundHandler.chems_wear_off, 0.65F, 1F);
 				player.sendMessage(new TextComponentString(TextFormatting.ITALIC + RAD_X_WORE_OFF));
+			}
+			if (playerRads.getShouldWarn()) {
+				player.playSound(SoundHandler.chems_wear_off, 0.8F, 0.7F);
+				player.sendMessage(new TextComponentString(TextFormatting.GOLD + RAD_WARNING));
 			}
 		}
 	}

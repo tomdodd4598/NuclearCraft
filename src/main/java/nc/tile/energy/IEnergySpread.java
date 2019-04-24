@@ -1,5 +1,5 @@
 package nc.tile.energy;
 
-public interface IEnergySpread {
-
+public interface IEnergySpread extends ITileEnergy {
+	
 }

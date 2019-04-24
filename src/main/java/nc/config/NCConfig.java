@@ -388,7 +388,7 @@ public class NCConfig {
 		propertyGTCERecipes.setLanguageKey("gui.config.processors.gtce_recipes");
 		Property propertySmartProcessorInput = config.get(CATEGORY_PROCESSORS, "smart_processor_input", true, Lang.localise("gui.config.processors.smart_processor_input.comment"));
 		propertySmartProcessorInput.setLanguageKey("gui.config.processors.smart_processor_input");
-		Property propertyPermeation = config.get(CATEGORY_PROCESSORS, "passive_permeation", false, Lang.localise("gui.config.processors.passive_permeation.comment"));
+		Property propertyPermeation = config.get(CATEGORY_PROCESSORS, "passive_permeation", true, Lang.localise("gui.config.processors.passive_permeation.comment"));
 		propertyPermeation.setLanguageKey("gui.config.processors.passive_permeation");
 		Property propertyProcessorParticles = config.get(CATEGORY_PROCESSORS, "processor_particles", true, Lang.localise("gui.config.processors.processor_particles.comment"));
 		propertyProcessorParticles.setLanguageKey("gui.config.processors.processor_particles");
