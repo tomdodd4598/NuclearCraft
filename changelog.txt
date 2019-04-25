@@ -1,3 +1,7 @@
+v2.16e
+
+* Modified steam temperatures and Heat Exchanger recipe rates to make two-stage cycles more efficient than one-stage cycles
+
 v2.16d
 
 + Added warning message for players without Geiger counters upon beginning to suffer from rad poisoning

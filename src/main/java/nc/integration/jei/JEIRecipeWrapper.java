@@ -610,7 +610,7 @@ public class JEIRecipeWrapper {
 		
 		@Override
 		protected int getProgressArrowTime() {
-			return recipe != null ? (int) (recipe.getHeatExchangerProcessTime(16000D)*recipe.getHeatExchangerInputTemperature()/128000D) : 20;
+			return recipe != null ? (int) (recipe.getHeatExchangerProcessTime(16000D)/400D) : 40;
 		}
 		
 		protected int getHeatExchangerProcessTime() {

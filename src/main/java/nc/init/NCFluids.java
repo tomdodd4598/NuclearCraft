@@ -105,8 +105,8 @@ public class NCFluids {
 			
 			if (registerCoFHAlt()) fluidPairList.add(fluidPair(FluidType.STEAM, "steam", 0x929292, 800));
 			fluidPairList.add(fluidPair(FluidType.STEAM, "high_pressure_steam", 0xBDBDBD, 1200));
-			fluidPairList.add(fluidPair(FluidType.STEAM, "exhaust_steam", 0x7E7E7E, 400));
-			fluidPairList.add(fluidPair(FluidType.STEAM, "low_pressure_steam", 0xA8A8A8, 1000));
+			fluidPairList.add(fluidPair(FluidType.STEAM, "exhaust_steam", 0x7E7E7E, 500));
+			fluidPairList.add(fluidPair(FluidType.STEAM, "low_pressure_steam", 0xA8A8A8, 800));
 			fluidPairList.add(fluidPair(FluidType.STEAM, "low_quality_steam", 0x828282, 350));
 			
 			fluidPairList.add(fluidPair(FluidType.LIQUID, "preheated_water", 0x2F43F4, 400));
