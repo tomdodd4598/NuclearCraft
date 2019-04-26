@@ -1,39 +1,45 @@
 package nc.radiation;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 import com.google.common.collect.Lists;
 
+import it.unimi.dsi.fastutil.ints.Int2DoubleMap;
+import it.unimi.dsi.fastutil.ints.Int2DoubleOpenHashMap;
+import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
+import it.unimi.dsi.fastutil.ints.IntSet;
+import it.unimi.dsi.fastutil.objects.Object2DoubleMap;
+import it.unimi.dsi.fastutil.objects.Object2DoubleOpenHashMap;
 import nc.ModCheck;
 import nc.config.NCConfig;
 import nc.init.NCBlocks;
-import nc.util.ItemInfo;
 import nc.util.RegistryHelper;
 import net.minecraft.block.Block;
+import net.minecraft.client.util.RecipeItemHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
 
 public class RadSources {
 	
-	public static final List<String> ORE_BLACKLIST = new ArrayList<String>();
-	public static final List<ItemStack> STACK_BLACKLIST = new ArrayList<ItemStack>();
+	public static final Set<String> ORE_BLACKLIST = new HashSet<>();
+	public static final IntSet STACK_BLACKLIST = new IntOpenHashSet();
 	
-	public static final Map<String, Double> ORE_MAP = new HashMap<String, Double>();
-	public static final Map<ItemInfo, Double> STACK_MAP = new HashMap<ItemInfo, Double>();
+	public static final Object2DoubleMap<String> ORE_MAP = new Object2DoubleOpenHashMap<>();
+	public static final Int2DoubleMap STACK_MAP = new Int2DoubleOpenHashMap();
 	
-	public static void addToOreMap(String ore, Double radiation) {
+	public static void addToOreMap(String ore, double radiation) {
 		if (ORE_BLACKLIST.contains(ore)) return;
+		OreDictionary.getOres(ore).forEach(s -> addToStackMap(s, radiation));
 		ORE_MAP.put(ore, radiation);
 	}
 	
-	public static void addToStackMap(ItemStack stack, Double radiation) {
-		for (ItemStack blacklisted : STACK_BLACKLIST) {
-			if (stack.isItemEqual(blacklisted)) return;
-		}
-		STACK_MAP.put(new ItemInfo(stack), radiation);
+	public static void addToStackMap(ItemStack stack, double radiation) {
+		int packed = RecipeItemHelper.pack(stack);
+		if(STACK_BLACKLIST.contains(packed)) return;
+		STACK_MAP.put(packed, radiation);
 	}
 	
 	public static final double INGOT = 1D;
@@ -118,11 +124,11 @@ public class RadSources {
 		}
 		for (String itemInfo : NCConfig.radiation_items_blacklist) {
 			ItemStack stack = RegistryHelper.itemStackFromRegistry(itemInfo);
-			if (stack != null) STACK_BLACKLIST.add(stack);
+			if (stack != null) STACK_BLACKLIST.add(RecipeItemHelper.pack(stack));
 		}
 		for (String blockInfo : NCConfig.radiation_blocks_blacklist) {
 			ItemStack stack = RegistryHelper.blockStackFromRegistry(blockInfo);
-			if (stack != null) STACK_BLACKLIST.add(stack);
+			if (stack != null) STACK_BLACKLIST.add(RecipeItemHelper.pack(stack));
 		}
 		
 		if (ModCheck.gregtechLoaded()) {
