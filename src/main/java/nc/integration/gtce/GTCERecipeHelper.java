@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -141,7 +142,7 @@ public class GTCERecipeHelper {
 				List<String> ingredientOreList = new ArrayList<String>(); // Hold the different oreDict names
 				List<SimpleRecipeBuilder> newBuilders = new ArrayList<SimpleRecipeBuilder>();
 				for (ItemStack inputVariant : input.getInputStackList()) {
-					List<String> variantOreList = OreDictHelper.getOreNames(inputVariant);
+					Set<String> variantOreList = OreDictHelper.getOreNames(inputVariant);
 					
 					if (!variantOreList.isEmpty()) { // This variant has oreDict entries
 						if (ingredientOreList.containsAll(variantOreList)) {
@@ -150,7 +151,7 @@ public class GTCERecipeHelper {
 						ingredientOreList.addAll(variantOreList);
 						
 						for (SimpleRecipeBuilder recipeBuilder : builders) {
-							newBuilders.add(recipeBuilder.copy().input(variantOreList.get(0), inputVariant.getCount()));
+							newBuilders.add(recipeBuilder.copy().input(variantOreList.iterator().next(), inputVariant.getCount()));
 						}
 					}
 					else {

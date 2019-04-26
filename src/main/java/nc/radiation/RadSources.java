@@ -32,7 +32,6 @@ public class RadSources {
 	
 	public static void addToOreMap(String ore, double radiation) {
 		if (ORE_BLACKLIST.contains(ore)) return;
-		OreDictionary.getOres(ore).forEach(s -> addToStackMap(s, radiation));
 		ORE_MAP.put(ore, radiation);
 	}
 	
@@ -117,6 +116,10 @@ public class RadSources {
 	public static final double CALIFORNIUM_250 = 0.0765D;
 	public static final double CALIFORNIUM_251 = 0.00115D;
 	public static final double CALIFORNIUM_252 = 0.38D;
+	
+	public static void postInit() {
+		ORE_MAP.entrySet().forEach(ent -> OreDictionary.getOres(ent.getKey()).forEach(s -> addToStackMap(s, ent.getValue())));
+	}
 	
 	public static void init() {
 		for (String oreInfo : NCConfig.radiation_ores_blacklist) {

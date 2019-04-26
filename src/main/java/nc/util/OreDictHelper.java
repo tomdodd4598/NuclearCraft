@@ -1,14 +1,18 @@
 package nc.util;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 import com.google.common.collect.Lists;
 
+import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import nc.config.NCConfig;
 import net.minecraft.block.Block;
+import net.minecraft.client.util.RecipeItemHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
@@ -122,17 +126,17 @@ public class OreDictHelper {
 		return getPrioritisedCraftingStack(backup == null ? ItemStack.EMPTY : new ItemStack(backup), ore);
 	}
 	
-	private static final Map<ItemInfo, List<String>> ORE_DICT_CACHE = new HashMap<ItemInfo, List<String>>();
+	private static final Int2ObjectMap<Set<String>> ORE_DICT_CACHE = new Int2ObjectOpenHashMap<>();
 	
-	public static List<String> getOreNames(ItemStack stack) {
-		List<String> names = new ArrayList<String>();
-		if (stack == null || stack.isEmpty()) return names;
-		ItemInfo key = new ItemInfo(stack);
-		if (!ORE_DICT_CACHE.containsKey(key)) {
+	public static Set<String> getOreNames(ItemStack stack) {
+		if (stack == null || stack.isEmpty()) return Collections.emptySet();
+		int packed = RecipeItemHelper.pack(stack);
+		if (!ORE_DICT_CACHE.containsKey(packed)) {
+			Set<String> names = new HashSet<>();
 			for (int oreID : OreDictionary.getOreIDs(stack)) names.add(OreDictionary.getOreName(oreID));
-			ORE_DICT_CACHE.put(key, names);
+			ORE_DICT_CACHE.put(packed, names);
 			return names;
 		}
-		return ORE_DICT_CACHE.get(key);
+		return ORE_DICT_CACHE.get(packed);
 	}
 }
