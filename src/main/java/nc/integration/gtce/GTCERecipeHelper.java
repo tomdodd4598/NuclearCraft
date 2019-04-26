@@ -142,6 +142,7 @@ public class GTCERecipeHelper {
 				List<String> ingredientOreList = new ArrayList<String>(); // Hold the different oreDict names
 				List<SimpleRecipeBuilder> newBuilders = new ArrayList<SimpleRecipeBuilder>();
 				for (ItemStack inputVariant : input.getInputStackList()) {
+					if(inputVariant.isEmpty()) continue;
 					Set<String> variantOreList = OreDictHelper.getOreNames(inputVariant);
 					
 					if (!variantOreList.isEmpty()) { // This variant has oreDict entries
@@ -193,7 +194,7 @@ public class GTCERecipeHelper {
 		}
 		
 		for (SimpleRecipeBuilder builderVariant : builders) {
-			builderVariant.buildAndRegister();
+			if(!builderVariant.getInputs().isEmpty()) builderVariant.buildAndRegister();
 		}
 	}
 	

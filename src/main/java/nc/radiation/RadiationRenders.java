@@ -25,6 +25,7 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumHand;
@@ -116,10 +117,10 @@ public class RadiationRenders {
 		Tessellator tessellator = Tessellator.getInstance();
 		BufferBuilder bufferbuilder = tessellator.getBuffer();
 		bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX);
-		bufferbuilder.pos((double)(x + 0), (double)(y + height), zLevel).tex((double)((float)(textureX + 0) * 0.00390625F), (double)((float)(textureY + height) * 0.00390625F)).endVertex();
-		bufferbuilder.pos((double)(x + width), (double)(y + height), zLevel).tex((double)((float)(textureX + width) * 0.00390625F), (double)((float)(textureY + height) * 0.00390625F)).endVertex();
-		bufferbuilder.pos((double)(x + width), (double)(y + 0), zLevel).tex((double)((float)(textureX + width) * 0.00390625F), (double)((float)(textureY + 0) * 0.00390625F)).endVertex();
-		bufferbuilder.pos((double)(x + 0), (double)(y + 0), zLevel).tex((double)((float)(textureX + 0) * 0.00390625F), (double)((float)(textureY + 0) * 0.00390625F)).endVertex();
+		bufferbuilder.pos(x + 0, y + height, zLevel).tex((textureX + 0) * 0.00390625F, (textureY + height) * 0.00390625F).endVertex();
+		bufferbuilder.pos(x + width, y + height, zLevel).tex((textureX + width) * 0.00390625F, (textureY + height) * 0.00390625F).endVertex();
+		bufferbuilder.pos(x + width, y + 0, zLevel).tex((textureX + width) * 0.00390625F, (textureY + 0) * 0.00390625F).endVertex();
+		bufferbuilder.pos(x + 0, y + 0, zLevel).tex((textureX + 0) * 0.00390625F, (textureY + 0) * 0.00390625F).endVertex();
 		tessellator.draw();
 	}
 	
@@ -138,8 +139,7 @@ public class RadiationRenders {
 		// Draw the chunk borders if we're either holding a geiger block OR looking at one
 		for (EnumHand hand : EnumHand.values()) {
 			ItemStack heldItem = Minecraft.getMinecraft().player.getHeldItem(hand);
-			final ItemStack geiger_block = new ItemStack(NCItems.geiger_counter), scrubber = new ItemStack(NCBlocks.radiation_scrubber);
-			if (OreDictionary.itemMatches(geiger_block, heldItem, true) || OreDictionary.itemMatches(scrubber, heldItem, true)) {
+			if (NCItems.geiger_counter == heldItem.getItem() || Item.getItemFromBlock(NCBlocks.radiation_scrubber) == heldItem.getItem()) {
 				chunkBorders = true;
 				break;
 			}
