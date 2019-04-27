@@ -2,6 +2,7 @@ package nc.config;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import nc.Global;
@@ -281,6 +282,7 @@ public class NCConfig {
 	public static boolean[] register_passive;
 	public static boolean[] register_tool;
 	public static boolean[] register_armor;
+	public static boolean[] register_gt_integration;
 	
 	public static boolean ctrl_info;
 	
@@ -305,12 +307,14 @@ public class NCConfig {
 	
 	public static boolean ore_dict_priority_bool;
 	public static String[] ore_dict_priority;
+
+	public static HashMap<String,Integer> recipename_to_gt_config = new HashMap<>();
 	
 	public static void preInit() {
 		File configFile = new File(Loader.instance().getConfigDir(), "nuclearcraft.cfg");
+		initHashMaps();
 		config = new Configuration(configFile);
 		syncFromFiles();
-		
 		MinecraftForge.EVENT_BUS.register(new ServerConfigEventHandler());
 	}
 	
@@ -781,6 +785,8 @@ public class NCConfig {
 		propertyRegisterTool.setLanguageKey("gui.config.other.register_tool");
 		Property propertyRegisterArmor = config.get(CATEGORY_OTHER, "register_armor", new boolean[] {true, true, true, true}, Lang.localise("gui.config.other.register_armor.comment"));
 		propertyRegisterArmor.setLanguageKey("gui.config.other.register_armor");
+		Property propertyRegisterGTIntegration = config.get(CATEGORY_OTHER, "register_gt_integration", new boolean[] {true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true}, Lang.localise("gui.config.other.register_gt_integration.comment"));
+        propertyRegisterGTIntegration.setLanguageKey("gui.config.other.register_gt_integration");
 		
 		Property propertyCtrlInfo = config.get(CATEGORY_OTHER, "ctrl_info", false, Lang.localise("gui.config.other.ctrl_info.comment"));
 		propertyCtrlInfo.setLanguageKey("gui.config.other.ctrl_info");
@@ -861,7 +867,7 @@ public class NCConfig {
 		propertyOrderGenerators.add(propertyDecayLifetime.getName());
 		propertyOrderGenerators.add(propertyDecayPower.getName());
 		config.setCategoryPropertyOrder(CATEGORY_GENERATORS, propertyOrderGenerators);
-		
+
 		List<String> propertyOrderFission = new ArrayList<String>();
 		propertyOrderFission.add(propertyFissionPower.getName());
 		propertyOrderFission.add(propertyFissionFuelUse.getName());
@@ -1335,6 +1341,7 @@ public class NCConfig {
 			register_passive = readBooleanArrayFromConfig(propertyRegisterPassive);
 			register_tool = readBooleanArrayFromConfig(propertyRegisterTool);
 			register_armor = readBooleanArrayFromConfig(propertyRegisterArmor);
+			register_gt_integration = readBooleanArrayFromConfig(propertyRegisterGTIntegration);
 			ctrl_info = propertyCtrlInfo.getBoolean();
 			jei_chance_items_include_null = propertyJEIChanceItemsIncludeNull.getBoolean();
 			rare_drops = propertyRareDrops.getBoolean();
@@ -1706,4 +1713,26 @@ public class NCConfig {
 		radiation_enabled_public = message.radiation_enabled;
 		radiation_horse_armor_public = message.radiation_horse_armor;
 	}
+
+	public static void initHashMaps() {
+        recipename_to_gt_config.put("manufactory", 0);
+        recipename_to_gt_config.put("isotope_separator", 1);
+        recipename_to_gt_config.put("decay_hastener", 2);
+        recipename_to_gt_config.put("fuel_reprocessor", 3);
+        recipename_to_gt_config.put("alloy_furnace", 4);
+        recipename_to_gt_config.put("infuser", 5);
+        recipename_to_gt_config.put("melter", 6);
+        recipename_to_gt_config.put("supercooler", 7);
+        recipename_to_gt_config.put("electrolyser", 8);
+        recipename_to_gt_config.put("irradiator", 9);
+        recipename_to_gt_config.put("ingot_former", 10);
+        recipename_to_gt_config.put("pressurizer", 11);
+        recipename_to_gt_config.put("chemical_reactor", 12);
+        recipename_to_gt_config.put("salt_mixer", 13);
+        recipename_to_gt_config.put("crystallizer", 14);
+        recipename_to_gt_config.put("dissolver", 15);
+        recipename_to_gt_config.put("extractor", 16);
+        recipename_to_gt_config.put("centrifuge", 17);
+        recipename_to_gt_config.put("rock_crusher", 18);
+    }
 }
