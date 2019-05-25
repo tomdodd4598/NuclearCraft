@@ -1,6 +1,7 @@
 package nc.handler;
 
 import java.util.List;
+import java.util.Set;
 
 import nc.Global;
 import nc.NCInfo;
@@ -28,7 +29,7 @@ public class TooltipHandler {
 		if (stack == null || stack.isEmpty()) return;
 		
 		if (!stack.getItem().getRegistryName().getResourceDomain().equals(Global.MOD_ID)) {
-			List<String> oreNames = OreDictHelper.getOreNames(stack);
+			Set<String> oreNames = OreDictHelper.getOreNames(stack);
 			if (!oreNames.isEmpty()) {
 				if (oreNames.contains("blockGraphite")) {
 					InfoHelper.infoFull(event.getToolTip(), TextFormatting.AQUA, NCInfo.ingotBlockFixedInfo()[8], NCInfo.ingotBlockInfo()[8]);

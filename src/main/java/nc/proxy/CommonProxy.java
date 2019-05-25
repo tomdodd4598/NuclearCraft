@@ -28,6 +28,7 @@ import nc.multiblock.MultiblockRegistry;
 import nc.network.PacketHandler;
 import nc.radiation.RadBiomes;
 import nc.radiation.RadEffects;
+import nc.radiation.RadSources;
 import nc.radiation.RadWorlds;
 import nc.radiation.RadiationArmor;
 import nc.radiation.RadiationHandler;
@@ -123,6 +124,7 @@ public class CommonProxy {
 		RadiationArmor.postInit();
 		RadWorlds.init();
 		RadEffects.init();
+		RadSources.postInit();
 		
 		MinecraftForge.EVENT_BUS.register(new RadiationCapabilityHandler());
 		MinecraftForge.EVENT_BUS.register(new RadiationHandler());

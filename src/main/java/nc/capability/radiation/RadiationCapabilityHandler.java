@@ -12,6 +12,9 @@ import nc.capability.radiation.source.RadiationSourceProvider;
 import nc.capability.radiation.source.RadiationSourceStackProvider;
 import nc.config.NCConfig;
 import nc.init.NCItems;
+import nc.radiation.RadSources;
+import nc.radiation.RadiationArmor;
+import net.minecraft.client.util.RecipeItemHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -55,27 +58,10 @@ public class RadiationCapabilityHandler {
 	@SubscribeEvent
 	public void attachStackRadiationCapability(AttachCapabilitiesEvent<ItemStack> event) {
 		ItemStack stack = event.getObject();
-		if (stack.isEmpty()) return;
-		/*ItemInfo itemInfo = new ItemInfo(stack);
-		if (RadSources.STACK_MAP.containsKey(itemInfo)) {
-			event.addCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE_NAME, new RadiationSourceProvider(RadSources.STACK_MAP.get(itemInfo)));
-			return;
-		}
-		for (String oreName : OreDictHelper.getOreNames(stack)) {
-			if (RadSources.ORE_MAP.containsKey(oreName)) {
-				event.addCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE_NAME, new RadiationSourceProvider(RadSources.ORE_MAP.get(oreName)));
-				return;
-			}
-		}*/
-		event.addCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE_NAME, new RadiationSourceStackProvider(stack));
+		int packed = RecipeItemHelper.pack(stack);
 		
-		if (stack.getItem() == NCItems.radiation_badge) event.addCapability(IRadiationSink.CAPABILITY_RADIATION_SINK_NAME, new RadiationSinkProvider(0D));
-		
-		/*ItemInfo itemInfo = new ItemInfo(stack);
-		if (RadiationArmor.ARMOR_RAD_RESISTANCE_MAP.containsKey(itemInfo)) {
-			event.addCapability(IRadiationResistance.CAPABILITY_RADIATION_RESISTANCE_NAME, new RadiationResistanceProvider(RadiationArmor.ARMOR_RAD_RESISTANCE_MAP.get(itemInfo)));
-			return;
-		}*/
-		event.addCapability(IRadiationResistance.CAPABILITY_RADIATION_RESISTANCE_NAME, new RadiationResistanceStackProvider(stack));
+		if(RadSources.STACK_MAP.containsKey(packed)) event.addCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE_NAME, new RadiationSourceStackProvider(stack));
+		else if (stack.getItem() == NCItems.radiation_badge) event.addCapability(IRadiationSink.CAPABILITY_RADIATION_SINK_NAME, new RadiationSinkProvider(0D));
+		else if (RadiationArmor.ARMOR_RAD_RESISTANCE_MAP.containsKey(packed)) event.addCapability(IRadiationResistance.CAPABILITY_RADIATION_RESISTANCE_NAME, new RadiationResistanceStackProvider(stack));
 	}
 }

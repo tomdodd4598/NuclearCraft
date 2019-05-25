@@ -48,8 +48,7 @@ public class DecayHastenerRecipes extends ProcessorRecipeHandler {
 		boolean isInputBase = input.substring(input.length() - 4, input.length()).equals("Base"), isOutputBase = output.substring(output.length() - 4, output.length()).equals("Base"), isLead = output.equals("dustLead");
 		for (String size : new String[] {"ingot", "nugget"}) for (String oxide : new String[] {"", "Oxide"}) {
 			String inputName = size + ((oxide.equals("Oxide") && isInputBase) || (size.equals("nugget") && isInputBase) ? input.substring(0, input.length() - 4) : input) + oxide;
-			Double radiation = RadSources.ORE_MAP.get(inputName);
-			double radiationLevel = radiation == null ? 0D : radiation;
+			double radiationLevel = RadSources.ORE_MAP.getDouble(inputName);
 			addRecipe(inputName, isLead ? (size.equals("ingot") ? "dustLead" : "tinyDustLead") : (size + ((oxide.equals("Oxide") && isOutputBase) || (size.equals("nugget") && isOutputBase) ? output.substring(0, output.length() - 4) : output) + oxide), size.equals("nugget") ? 1D/9D : 1D, 1D, radiationLevel/8D);
 		}
 	}

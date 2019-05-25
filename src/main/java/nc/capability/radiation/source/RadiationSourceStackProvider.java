@@ -4,8 +4,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import nc.radiation.RadSources;
-import nc.util.ItemInfo;
-import nc.util.OreDictHelper;
+import net.minecraft.client.util.RecipeItemHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
@@ -22,19 +21,7 @@ public class RadiationSourceStackProvider implements ICapabilityProvider {
 	
 	private IRadiationSource getRadiation() {
 		if (radiation == null) {
-			ItemInfo itemInfo = new ItemInfo(stack);
-			if (RadSources.STACK_MAP.containsKey(itemInfo)) {
-				radiation = new RadiationSource(RadSources.STACK_MAP.get(itemInfo));
-			}
-			else for (String oreName : OreDictHelper.getOreNames(stack)) {
-				if (RadSources.ORE_MAP.containsKey(oreName)) {
-					radiation = new RadiationSource(RadSources.ORE_MAP.get(oreName));
-					break;
-				}
-			}
-			if (radiation == null) {
-				radiation = new RadiationSource(0D);
-			}
+			radiation = new RadiationSource(RadSources.STACK_MAP.get(RecipeItemHelper.pack(stack)));
 		}
 		return radiation;
 	}

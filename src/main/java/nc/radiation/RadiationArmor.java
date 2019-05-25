@@ -1,27 +1,27 @@
 package nc.radiation;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.HashSet;
+import java.util.Set;
 
+import it.unimi.dsi.fastutil.ints.Int2DoubleMap;
+import it.unimi.dsi.fastutil.ints.Int2DoubleOpenHashMap;
 import nc.config.NCConfig;
 import nc.init.NCArmor;
 import nc.init.NCItems;
 import nc.recipe.vanilla.CraftingRecipeHandler;
 import nc.util.ArmorHelper;
-import nc.util.ItemInfo;
 import nc.util.RegistryHelper;
+import net.minecraft.client.util.RecipeItemHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class RadiationArmor {
 	
-	public static final List<Item> ARMOR_ITEM_SHIELDING_BLACKLIST = new ArrayList<Item>();
-	public static final List<ItemStack> ARMOR_STACK_SHIELDING_LIST = new ArrayList<ItemStack>();
+	public static final Set<Item> ARMOR_ITEM_SHIELDING_BLACKLIST = new HashSet<>();
+	public static final Set<ItemStack> ARMOR_STACK_SHIELDING_LIST = new HashSet<>();
 	
-	public static final Map<ItemInfo, Double> ARMOR_RAD_RESISTANCE_MAP = new HashMap<ItemInfo, Double>();
+	public static final Int2DoubleMap ARMOR_RAD_RESISTANCE_MAP = new Int2DoubleOpenHashMap();
 	
 	public static void init() {
 		ARMOR_ITEM_SHIELDING_BLACKLIST.add(NCArmor.helm_hazmat);
@@ -36,7 +36,7 @@ public class RadiationArmor {
 		
 		for (String stackInfo : NCConfig.radiation_shielding_custom_stacks) {
 			ItemStack stack = RegistryHelper.itemStackFromRegistry(stackInfo);
-			if (stack != null) ARMOR_STACK_SHIELDING_LIST.add(stack);
+			ARMOR_STACK_SHIELDING_LIST.add(stack);
 		}
 	}
 	
@@ -46,7 +46,7 @@ public class RadiationArmor {
 			if (scorePos == -1) continue;
 			ItemStack stack = RegistryHelper.itemStackFromRegistry(stackInfo.substring(0, scorePos));
 			if (stack == null || stack.isEmpty() || !ArmorHelper.isArmor(stack.getItem(), NCConfig.radiation_horse_armor_public)) return;
-			ARMOR_RAD_RESISTANCE_MAP.put(new ItemInfo(stack), Double.parseDouble(stackInfo.substring(scorePos + 1)));
+			ARMOR_RAD_RESISTANCE_MAP.put(RecipeItemHelper.pack(stack), Double.parseDouble(stackInfo.substring(scorePos + 1)));
 		}
 	}
 	

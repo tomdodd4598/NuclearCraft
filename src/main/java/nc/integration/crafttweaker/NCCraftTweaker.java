@@ -1,7 +1,5 @@
 package nc.integration.crafttweaker;
 
-import java.util.List;
-
 import com.google.common.collect.Lists;
 
 import crafttweaker.CraftTweakerAPI;
@@ -16,8 +14,7 @@ import nc.recipe.IngredientSorption;
 import nc.recipe.NCRecipes;
 import nc.recipe.ingredient.IItemIngredient;
 import nc.recipe.ingredient.OreIngredient;
-import nc.util.ItemInfo;
-import nc.util.OreDictHelper;
+import net.minecraft.client.util.RecipeItemHelper;
 import net.minecraft.item.ItemStack;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
@@ -1174,32 +1171,26 @@ public class NCCraftTweaker {
 				if (stack.isEmpty()) {
 					return 0D;
 				}
-				ItemInfo itemInfo = new ItemInfo(stack);
-				if (RadSources.STACK_MAP.containsKey(itemInfo)) {
-					return RadSources.STACK_MAP.get(itemInfo)*stack.getCount();
-				}
-				List<String> oreNames = OreDictHelper.getOreNames(stack);
-				return !oreNames.isEmpty() && RadSources.ORE_MAP.containsKey(oreNames.get(0)) ? RadSources.ORE_MAP.get(oreNames.get(0))*stack.getCount() : 0D;
+				return RadSources.STACK_MAP.get(RecipeItemHelper.pack(stack))*stack.getCount();
 			}
 			else if (ingredient instanceof IOreDictEntry) {
 				String oreName = ((IOreDictEntry) ingredient).getName();
 				int amount = ((IOreDictEntry) ingredient).getAmount();
-				return RadSources.ORE_MAP.containsKey(oreName) ? RadSources.ORE_MAP.get(oreName)*amount : 0D;
+				return RadSources.ORE_MAP.getDouble(oreName)*amount;
 			}
 			else if (ingredient instanceof IngredientStack) {
 				IItemIngredient ing = CTHelper.buildOreIngredientArray((IngredientStack) ingredient, true);
 				if (ing instanceof OreIngredient) {
 					String oreName = ((OreIngredient) ing).oreName;
 					int amount = ((OreIngredient) ing).stackSize;
-					return RadSources.ORE_MAP.containsKey(oreName) ? RadSources.ORE_MAP.get(oreName)*amount : 0D;
+					return RadSources.ORE_MAP.getDouble(oreName)*amount;
 				}
 				else {
 					ItemStack stack = ing.getStack();
 					if (stack == null || stack.isEmpty()) {
 						return 0D;
 					}
-					ItemInfo itemInfo = new ItemInfo(stack);
-					return RadSources.STACK_MAP.containsKey(itemInfo) ? RadSources.STACK_MAP.get(itemInfo)*stack.getCount() : 0D;
+					return RadSources.STACK_MAP.get(RecipeItemHelper.pack(stack))*stack.getCount();
 				}
 			}
 			else {

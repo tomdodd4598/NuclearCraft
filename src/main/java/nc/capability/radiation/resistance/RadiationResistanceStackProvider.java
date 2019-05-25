@@ -4,7 +4,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import nc.radiation.RadiationArmor;
-import nc.util.ItemInfo;
+import net.minecraft.client.util.RecipeItemHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
@@ -21,11 +21,7 @@ public class RadiationResistanceStackProvider implements ICapabilityProvider {
 	
 	private IRadiationResistance getRadiationResistance() {
 		if (radiationResistance == null) {
-			ItemInfo itemInfo = new ItemInfo(stack);
-			if (RadiationArmor.ARMOR_RAD_RESISTANCE_MAP.containsKey(itemInfo)) {
-				radiationResistance = new RadiationResistance(RadiationArmor.ARMOR_RAD_RESISTANCE_MAP.get(itemInfo));
-			}
-			else radiationResistance = new RadiationResistance(0D);
+			radiationResistance = new RadiationResistance(RadiationArmor.ARMOR_RAD_RESISTANCE_MAP.get(RecipeItemHelper.pack(stack)));
 		}
 		return radiationResistance;
 	}

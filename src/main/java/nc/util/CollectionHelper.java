@@ -2,6 +2,7 @@ package nc.util;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -16,7 +17,7 @@ public class CollectionHelper {
 		return list;
 	}
 	
-	public static <T> List<T> intersect(List<T> list1, List<T> list2) {
+	public static <T> List<T> intersect(List<T> list1, Collection<T> list2) {
 		List<T> list = new ArrayList<T>();
 		for (T t : list1) if(list2.contains(t)) list.add(t);
 		return list;
@@ -78,7 +79,7 @@ public class CollectionHelper {
 		return set;
 	}
 	
-	public static <T> Set<T> intersect(Set<T> set1, Set<T> set2) {
+	public static <T> Set<T> intersect(Set<T> set1, Collection<T> set2) {
 		Set<T> set = new HashSet<T>();
 		for (T t : set1) if(set2.contains(t)) set.add(t);
 		return set;
