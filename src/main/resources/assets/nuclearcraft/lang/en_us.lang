@@ -2282,6 +2282,8 @@ gui.config.other.register_tool=Register Tools
 gui.config.other.register_tool.comment=Register tool types to the game? Order: boron, tough alloy, hard carbon, boron nitride.
 gui.config.other.register_armor=Register Armor
 gui.config.other.register_armor.comment=Register armor types to the game? Order: boron, tough alloy, hard carbon, boron nitride.
+gui.config.other.register_gt_integration=Register GT Integration
+gui.config.other.register_gt_integration.comment=Register GT recipe integration for machines? Order: Manufactory, Isotope Separator, Decay Hastener, Fuel Reprocessor, Alloy Furnace, Fluid Infuser, Melter, Supercooler, Electrolyzer, Neutron Irradiator, Ingot Former, Pressurizer, Chemical Reactor, Salt Mixer, Crystallizer, Fluid Enricher, Fluid Extractor, Centrifuge, Rock Crusher.
 
 gui.config.other.ctrl_info=Ctrl For More Info
 gui.config.other.ctrl_info.comment=Hold down the control key rather than the shift key to show extra tooltip info?
