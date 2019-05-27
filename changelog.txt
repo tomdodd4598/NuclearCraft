@@ -1,19 +1,28 @@
 v2.17
 
-* Updated and improved radiation system and ore-dict caching [thanks to Shadows-of-Fire!]
-+ Added config options for meltdown radiation multipliers
-+ Added warning message for clients with radiation disabled joining servers with it enabled
-
 * Fixed not being able to extract depleted fuel from solid-fuel Fission Ports
 + Added config option to force solid-fuel Fission Controller into heat-based comparator mode
 
+* Updated fusion combo stats to be more accurate to real data
+
 * Changed form of MSR cooling rate configs from units of H/t/mB to H/t, fixing the base heating rate
+* Fluid clear buttons in multiblock GUIs are now only visible when shift is held
+
+* Updated and improved radiation system and ore-dict caching [thanks to Shadows-of-Fire!]
++ Added config options for meltdown radiation multipliers
++ Added warning message for clients with radiation disabled joining servers with it enabled
+* Fixed radiation-related bug which caused the game to crash with certain other mods installed
+* Fixed some shielding recipes not showing correctly in JEI or not working with enchanted armour
 
 * Changed GTCE machine integration config to be per-machine [thanks to LordPINE!]
+* Infuser recipes are now added to the GTCE Chemical Bath instead of the Fluid Canning Machine
 
 + Added Hazmat Suit armour configs
+* A full Hazmat Suit now protects fully against IC2 radiation
 
-* Ingot Formers no longer produce flames
+* Fixed machines sometimes not quite waiting long enough to have the energy to complete the next process
+* Slightly modified machine textures
+* Ingot Formers no longer produce flame particles
 
 * Updated Russian language file [thanks to B45E!]
 
