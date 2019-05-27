@@ -107,11 +107,11 @@ public interface ITileEnergy extends ITile {
 	public @Nonnull EnergyTileWrapperGT[] getEnergySidesGT();
 	
 	public default @Nonnull EnergyTileWrapper getEnergySide(@Nonnull EnumFacing side) {
-		return side == null ? getEnergySides()[0] : getEnergySides()[side.getIndex()];
+		return getEnergySides()[side.getIndex()];
 	}
 	
 	public default @Nonnull EnergyTileWrapperGT getEnergySideGT(@Nonnull EnumFacing side) {
-		return side == null ? getEnergySidesGT()[0] : getEnergySidesGT()[side.getIndex()];
+		return getEnergySidesGT()[side.getIndex()];
 	}
 	
 	public static @Nonnull EnergyTileWrapper[] getDefaultEnergySides(@Nonnull ITileEnergy tile) {

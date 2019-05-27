@@ -40,7 +40,7 @@ public class ContainerNuclearFurnace extends ContainerTile {
 		super.detectAndSendChanges();
 		
 		for (int i = 0; i < listeners.size(); i++) {
-			IContainerListener icontainerlistener = (IContainerListener) listeners.get(i);
+			IContainerListener icontainerlistener = listeners.get(i);
 			
 			if (furnaceBurnTime != tile.getField(0)) {
 				icontainerlistener.sendWindowProperty(this, 0, tile.getField(0));
@@ -68,7 +68,7 @@ public class ContainerNuclearFurnace extends ContainerTile {
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int index) {
 		ItemStack itemstack = ItemStack.EMPTY;
-		Slot slot = (Slot)inventorySlots.get(index);
+		Slot slot = inventorySlots.get(index);
 		
 		if (slot != null && slot.getHasStack()) {
 			ItemStack itemstack1 = slot.getStack();

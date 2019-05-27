@@ -8,6 +8,7 @@ import nc.config.NCConfig;
 import nc.recipe.ProcessorRecipe;
 import nc.recipe.ProcessorRecipeHandler;
 import nc.tile.generator.TileDecayGenerator;
+import nc.tile.generator.TileFusionCore;
 import nc.util.Lang;
 import nc.util.NCMath;
 import nc.util.UnitHelper;
@@ -426,7 +427,7 @@ public class JEIRecipeWrapper {
 			List<String> tooltip = new ArrayList<String>();
 			
 			if (mouseX >= 73 - 47 && mouseY >= 34 - 30 && mouseX < 73 - 47 + 37 + 1 && mouseY < 34 - 30 + 18 + 1) {
-				tooltip.add(TextFormatting.GREEN + BLOCK_LIFETIME + " " + TextFormatting.WHITE + UnitHelper.applyTimeUnitShort(NCMath.round(getDecayLifetime(), 2), 2, 1));
+				tooltip.add(TextFormatting.GREEN + BLOCK_LIFETIME + " " + TextFormatting.WHITE + UnitHelper.applyTimeUnitShort(NCMath.round(getDecayLifetime(), 2), 3, 1));
 				tooltip.add(TextFormatting.LIGHT_PURPLE + BLOCK_POWER + " " + TextFormatting.WHITE + UnitHelper.prefix(getDecayPower(), 5, "RF/s"));
 			}
 			
@@ -468,7 +469,7 @@ public class JEIRecipeWrapper {
 			List<String> tooltip = new ArrayList<String>();
 			
 			if (mouseX >= 73 - 47 && mouseY >= 34 - 30 && mouseX < 73 - 47 + 37 + 1 && mouseY < 34 - 30 + 18 + 1) {
-				tooltip.add(TextFormatting.GREEN + FUEL_TIME + " " + TextFormatting.WHITE + UnitHelper.applyTimeUnitShort(NCMath.round(getFissionFuelTime()/NCConfig.fission_fuel_use, 2), 2));
+				tooltip.add(TextFormatting.GREEN + FUEL_TIME + " " + TextFormatting.WHITE + UnitHelper.applyTimeUnitShort(NCMath.round(getFissionFuelTime()/NCConfig.fission_fuel_use, 2), 3));
 				tooltip.add(TextFormatting.LIGHT_PURPLE + FUEL_POWER + " " + TextFormatting.WHITE + UnitHelper.prefix(getFissionFuelPower()*NCConfig.fission_heat_generation, 5, "RF/t"));
 				tooltip.add(TextFormatting.YELLOW + FUEL_HEAT + " " + TextFormatting.WHITE + UnitHelper.prefix(getFissionFuelHeat()*NCConfig.fission_heat_generation, 5, "H/t"));
 			}
@@ -512,9 +513,10 @@ public class JEIRecipeWrapper {
 			List<String> tooltip = new ArrayList<String>();
 			
 			if (mouseX >= 73 - 55 && mouseY >= 34 - 30 && mouseX < 73 - 55 + 37 + 1 && mouseY < 34 - 30 + 18 + 1) {
-				tooltip.add(TextFormatting.GREEN + COMBO_TIME + " " + TextFormatting.WHITE + UnitHelper.applyTimeUnitShort(NCMath.round(getFusionComboTime()/NCConfig.fusion_fuel_use, 2), 2));
+				tooltip.add(TextFormatting.GREEN + COMBO_TIME + " " + TextFormatting.WHITE + UnitHelper.applyTimeUnitShort(NCMath.round(getFusionComboTime()/NCConfig.fusion_fuel_use, 2), 3));
 				tooltip.add(TextFormatting.LIGHT_PURPLE + COMBO_POWER + " " + TextFormatting.WHITE + UnitHelper.prefix(100D*getFusionComboPower()*NCConfig.fusion_base_power, 5, "RF/t"));
-				tooltip.add(TextFormatting.YELLOW + COMBO_TEMP + " " + TextFormatting.WHITE + UnitHelper.prefix(NCMath.round(R*getFusionComboHeatVariable(), 2), 5, "K", 2));
+				double optimalTemp = NCMath.round(R*getFusionComboHeatVariable(), 2);
+				tooltip.add(TextFormatting.YELLOW + COMBO_TEMP + " " + (optimalTemp < TileFusionCore.getMaxHeat()/1000D ? TextFormatting.WHITE : TextFormatting.GOLD) + UnitHelper.prefix(optimalTemp, 5, "K", 2));
 			}
 			
 			return tooltip;
@@ -553,7 +555,7 @@ public class JEIRecipeWrapper {
 			List<String> tooltip = new ArrayList<String>();
 			
 			if (mouseX >= 73 - 47 && mouseY >= 34 - 30 && mouseX < 73 - 47 + 37 + 1 && mouseY < 34 - 30 + 18 + 1) {
-				tooltip.add(TextFormatting.GREEN + FUEL_TIME + " " + TextFormatting.WHITE + UnitHelper.applyTimeUnitShort(NCMath.round(getSaltFissionFuelTime()/NCConfig.salt_fission_fuel_use, 2), 2));
+				tooltip.add(TextFormatting.GREEN + FUEL_TIME + " " + TextFormatting.WHITE + UnitHelper.applyTimeUnitShort(NCMath.round(getSaltFissionFuelTime()/NCConfig.salt_fission_fuel_use, 2), 3));
 				tooltip.add(TextFormatting.YELLOW + FUEL_HEAT + " " + TextFormatting.WHITE + UnitHelper.prefix(getSaltFissionFuelHeat()*NCConfig.salt_fission_heat_generation, 5, "H/t"));
 			}
 			
@@ -658,7 +660,7 @@ public class JEIRecipeWrapper {
 		
 		protected int getCondenserCondensingTemperature() {
 			if (recipe == null) return 300;
-			return (int) recipe.getCondenserCondensingTemperature();
+			return recipe.getCondenserCondensingTemperature();
 		}
 		
 		@Override

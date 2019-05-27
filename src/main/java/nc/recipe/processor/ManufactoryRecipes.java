@@ -6,6 +6,7 @@ import nc.config.NCConfig;
 import nc.init.NCItems;
 import nc.recipe.ProcessorRecipeHandler;
 import nc.recipe.RecipeHelper;
+import nc.util.ItemStackHelper;
 import nc.util.OreDictHelper;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
@@ -58,7 +59,8 @@ public class ManufactoryRecipes extends ProcessorRecipeHandler {
 		addRecipe("cropBarley", "dustBarley", 0.25D, 0.5D);
 		addRecipe("bone", new ItemStack(Items.DYE, 6, 15), 0.5D, 1D);
 		addRecipe(NCItems.roasted_cocoa_beans, NCItems.ground_cocoa_nibs, 0.5D, 0.5D);
-		addRecipe(Lists.newArrayList(Items.PORKCHOP, Items.FISH, new ItemStack(Items.FISH, 1, 1), new ItemStack(Items.FISH, 1, 2), new ItemStack(Items.FISH, 1, 3)), NCItems.gelatin, 0.5D, 0.5D);
+		addRecipe(Items.PORKCHOP, new ItemStack(NCItems.gelatin, 8), 0.5D, 0.5D);
+		addRecipe(Lists.newArrayList(Items.FISH, new ItemStack(Items.FISH, 1, 1), new ItemStack(Items.FISH, 1, 2), new ItemStack(Items.FISH, 1, 3)), new ItemStack(NCItems.gelatin, 4), 0.5D, 0.5D);
 		
 		// EnderIO
 		addRecipe("itemPrecientCrystal", "itemPrecientPowder", 1D, 1D);
@@ -111,9 +113,9 @@ public class ManufactoryRecipes extends ProcessorRecipeHandler {
 		for (ItemStack logWood : OreDictionary.getOres("logWood", false)) {
 			Block logBlock = Block.getBlockFromItem(logWood.getItem());
 			
-			if (logWood.getItemDamage() == OreDictionary.WILDCARD_VALUE) {
+			if (ItemStackHelper.getMetadata(logWood) == OreDictionary.WILDCARD_VALUE) {
 				NonNullList<ItemStack> logVariants = NonNullList.create();
-				logBlock.getSubBlocks(logBlock.getCreativeTabToDisplayOn(), logVariants);
+				logBlock.getSubBlocks(logBlock.getCreativeTab(), logVariants);
 				
 				for (ItemStack log : logVariants) {
 					fakeCrafter.setInventorySlotContents(0, log);

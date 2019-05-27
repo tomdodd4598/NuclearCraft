@@ -1,11 +1,10 @@
 package nc.recipe;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class RecipeMatchResult {
 	
-	public static final RecipeMatchResult FAIL = new RecipeMatchResult(false, new ArrayList<Integer>(), new ArrayList<Integer>(), AbstractRecipeHandler.INVALID, AbstractRecipeHandler.INVALID);
+	public static final RecipeMatchResult FAIL = new RecipeMatchResult(false, AbstractRecipeHandler.INVALID, AbstractRecipeHandler.INVALID, AbstractRecipeHandler.INVALID, AbstractRecipeHandler.INVALID);
 	
 	private final boolean match;
 	

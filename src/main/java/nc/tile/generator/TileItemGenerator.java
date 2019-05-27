@@ -22,6 +22,7 @@ import nc.tile.internal.energy.EnergyConnection;
 import nc.tile.internal.fluid.Tank;
 import nc.tile.internal.inventory.ItemSorption;
 import nc.tile.inventory.ITileInventory;
+import nc.util.ItemStackHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -190,7 +191,7 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 		for (int i = 0; i < itemInputSize; i++) {
 			int maxStackSize = getItemIngredients().get(itemInputOrder.get(i)).getMaxStackSize(recipeInfo.getItemIngredientNumbers().get(i));
 			if (maxStackSize > 0) {
-				getInventoryStacks().set(i + itemInputSize + itemOutputSize, new ItemStack(getInventoryStacks().get(i).getItem(), maxStackSize, getInventoryStacks().get(i).getItemDamage()));
+				getInventoryStacks().set(i + itemInputSize + itemOutputSize, new ItemStack(getInventoryStacks().get(i).getItem(), maxStackSize, ItemStackHelper.getMetadata(getInventoryStacks().get(i))));
 				getInventoryStacks().get(i).shrink(maxStackSize);
 			}
 			if (getInventoryStacks().get(i).getCount() <= 0) getInventoryStacks().set(i, ItemStack.EMPTY);

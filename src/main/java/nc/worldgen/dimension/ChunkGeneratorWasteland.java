@@ -86,7 +86,7 @@ public class ChunkGeneratorWasteland implements IChunkGenerator
 		{
 			for (int j = -2; j <= 2; ++j)
 			{
-				float f = 10.0F / MathHelper.sqrt((float)(i * i + j * j) + 0.2F);
+				float f = 10.0F / MathHelper.sqrt(i * i + j * j + 0.2F);
 				this.biomeWeights[i + 2 + (j + 2) * 5] = f;
 			}
 		}
@@ -177,7 +177,7 @@ public class ChunkGeneratorWasteland implements IChunkGenerator
 	public void replaceBiomeBlocks(int x, int z, ChunkPrimer primer)
 	{
 		if (!ForgeEventFactory.onReplaceBiomeBlocks(this, x, z, primer, this.world)) return;
-		this.depthBuffer = this.surfaceNoise.getRegion(this.depthBuffer, (double)(x * 16), (double)(z * 16), 16, 16, 0.0625D, 0.0625D, 1.0D);
+		this.depthBuffer = this.surfaceNoise.getRegion(this.depthBuffer, x * 16, z * 16, 16, 16, 0.0625D, 0.0625D, 1.0D);
 
 		for (int i = 0; i < 16; ++i)
 		{
@@ -194,7 +194,7 @@ public class ChunkGeneratorWasteland implements IChunkGenerator
 	@Override
 	public Chunk generateChunk(int x, int z)
 	{
-		this.rand.setSeed((long)x * 341873128712L + (long)z * 132897987541L);
+		this.rand.setSeed(x * 341873128712L + z * 132897987541L);
 		ChunkPrimer chunkprimer = new ChunkPrimer();
 		this.setBlocksInChunk(x, z, chunkprimer);
 		this.replaceBiomeBlocks(x, z, chunkprimer);
@@ -221,12 +221,12 @@ public class ChunkGeneratorWasteland implements IChunkGenerator
 
 	private void generateHeightmap(int p_185978_1_, int p_185978_2_, int p_185978_3_)
 	{
-		this.depthRegion = this.depthNoise.generateNoiseOctaves(this.depthRegion, p_185978_1_, p_185978_3_, 5, 5, (double)this.settings.depthNoiseScaleX, (double)this.settings.depthNoiseScaleZ, (double)this.settings.depthNoiseScaleExponent);
+		this.depthRegion = this.depthNoise.generateNoiseOctaves(this.depthRegion, p_185978_1_, p_185978_3_, 5, 5, this.settings.depthNoiseScaleX, this.settings.depthNoiseScaleZ, this.settings.depthNoiseScaleExponent);
 		float f = this.settings.coordinateScale;
 		float f1 = this.settings.heightScale;
-		this.mainNoiseRegion = this.mainPerlinNoise.generateNoiseOctaves(this.mainNoiseRegion, p_185978_1_, p_185978_2_, p_185978_3_, 5, 33, 5, (double)(f / this.settings.mainNoiseScaleX), (double)(f1 / this.settings.mainNoiseScaleY), (double)(f / this.settings.mainNoiseScaleZ));
-		this.minLimitRegion = this.minLimitPerlinNoise.generateNoiseOctaves(this.minLimitRegion, p_185978_1_, p_185978_2_, p_185978_3_, 5, 33, 5, (double)f, (double)f1, (double)f);
-		this.maxLimitRegion = this.maxLimitPerlinNoise.generateNoiseOctaves(this.maxLimitRegion, p_185978_1_, p_185978_2_, p_185978_3_, 5, 33, 5, (double)f, (double)f1, (double)f);
+		this.mainNoiseRegion = this.mainPerlinNoise.generateNoiseOctaves(this.mainNoiseRegion, p_185978_1_, p_185978_2_, p_185978_3_, 5, 33, 5, f / this.settings.mainNoiseScaleX, f1 / this.settings.mainNoiseScaleY, f / this.settings.mainNoiseScaleZ);
+		this.minLimitRegion = this.minLimitPerlinNoise.generateNoiseOctaves(this.minLimitRegion, p_185978_1_, p_185978_2_, p_185978_3_, 5, 33, 5, f, f1, f);
+		this.maxLimitRegion = this.maxLimitPerlinNoise.generateNoiseOctaves(this.maxLimitRegion, p_185978_1_, p_185978_2_, p_185978_3_, 5, 33, 5, f, f1, f);
 		int i = 0;
 		int j = 0;
 
@@ -294,29 +294,29 @@ public class ChunkGeneratorWasteland implements IChunkGenerator
 				}
 
 				++j;
-				double d8 = (double)f3;
-				double d9 = (double)f2;
+				double d8 = f3;
+				double d9 = f2;
 				d8 = d8 + d7 * 0.2D;
-				d8 = d8 * (double)this.settings.baseSize / 8.0D;
-				double d0 = (double)this.settings.baseSize + d8 * 4.0D;
+				d8 = d8 * this.settings.baseSize / 8.0D;
+				double d0 = this.settings.baseSize + d8 * 4.0D;
 
 				for (int l1 = 0; l1 < 33; ++l1)
 				{
-					double d1 = ((double)l1 - d0) * (double)this.settings.stretchY * 128.0D / 256.0D / d9;
+					double d1 = (l1 - d0) * this.settings.stretchY * 128.0D / 256.0D / d9;
 
 					if (d1 < 0.0D)
 					{
 						d1 *= 4.0D;
 					}
 
-					double d2 = this.minLimitRegion[i] / (double)this.settings.lowerLimitScale;
-					double d3 = this.maxLimitRegion[i] / (double)this.settings.upperLimitScale;
+					double d2 = this.minLimitRegion[i] / this.settings.lowerLimitScale;
+					double d3 = this.maxLimitRegion[i] / this.settings.upperLimitScale;
 					double d4 = (this.mainNoiseRegion[i] / 10.0D + 1.0D) / 2.0D;
 					double d5 = MathHelper.clampedLerp(d2, d3, d4) - d1;
 
 					if (l1 > 29)
 					{
-						double d6 = (double)((float)(l1 - 29) / 3.0F);
+						double d6 = (l1 - 29) / 3.0F;
 						d5 = d5 * (1.0D - d6) + -10.0D * d6;
 					}
 
@@ -338,7 +338,7 @@ public class ChunkGeneratorWasteland implements IChunkGenerator
 		this.rand.setSeed(this.world.getSeed());
 		long k = this.rand.nextLong() / 2L * 2L + 1L;
 		long l = this.rand.nextLong() / 2L * 2L + 1L;
-		this.rand.setSeed((long)x * k + (long)z * l ^ this.world.getSeed());
+		this.rand.setSeed(x * k + z * l ^ this.world.getSeed());
 		boolean flag = false;
 		ChunkPos chunkpos = new ChunkPos(x, z);
 

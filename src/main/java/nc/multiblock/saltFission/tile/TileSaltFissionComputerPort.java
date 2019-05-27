@@ -170,7 +170,7 @@ public class TileSaltFissionComputerPort extends TileSaltFissionPartBase impleme
 						heater.isProcessing,
 						heater.time,
 						heater.recipeInfo != null ? heater.baseProcessTime/heater.getSpeedMultiplier() : 0D,
-						heater.getProcessCooling()
+						heater.baseProcessCooling
 						});
 			}
 			return stats.toArray();

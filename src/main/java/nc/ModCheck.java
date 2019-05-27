@@ -19,6 +19,7 @@ public class ModCheck {
 	private static boolean techRebornLoaded = false;
 	private static boolean baublesLoaded = false;
 	private static boolean thermalFoundationLoaded = false;
+	private static boolean jeiLoaded = false;
 	
 	public static void init() {
 		if (initialized) return;
@@ -36,6 +37,7 @@ public class ModCheck {
 		techRebornLoaded = Loader.isModLoaded("techreborn") || Loader.isModLoaded("Tech Reborn");
 		baublesLoaded = Loader.isModLoaded("baubles") || Loader.isModLoaded("Baubles");
 		thermalFoundationLoaded = Loader.isModLoaded("thermalfoundation") || Loader.isModLoaded("Thermal Foundation");
+		jeiLoaded = Loader.isModLoaded("jei") || Loader.isModLoaded("Just Enough Items");
 		
 		initialized = true;
 	}
@@ -90,5 +92,9 @@ public class ModCheck {
 	
 	public static boolean thermalFoundationLoaded() {
 		return thermalFoundationLoaded;
+	}
+	
+	public static boolean jeiLoaded() {
+		return jeiLoaded;
 	}
 }

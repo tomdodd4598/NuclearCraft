@@ -41,7 +41,7 @@ public class BlockSimpleTile extends BlockTile {
 		
 		@Override
 		@SideOnly(Side.CLIENT)
-		public BlockRenderLayer getBlockLayer() {
+		public BlockRenderLayer getRenderLayer() {
 			return BlockRenderLayer.CUTOUT;
 		}
 

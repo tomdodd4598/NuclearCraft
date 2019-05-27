@@ -53,7 +53,7 @@ public class TileBuffer extends TileEnergyFluidSidedInventory implements IInterf
 		TileEntity tile = getTileWorld().getTileEntity(getTilePos().offset(side));
 		if (!(tile instanceof IBufferable)) return;
 		
-		IItemHandler adjInv = tile == null ? null : tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side.getOpposite());
+		IItemHandler adjInv = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side.getOpposite());
 		if (adjInv == null || adjInv.getSlots() < 1) return;
 		
 		for (int i = 0; i < getInventoryStacks().size(); i++) {

@@ -15,7 +15,7 @@ public class UniversalOrePredicate implements Predicate<IBlockState> {
 	public boolean apply(@Nullable IBlockState state) {
 		if (state != null) {
 			if (state.getBlock() == Blocks.STONE) {
-				BlockStone.EnumType blockstone$enumtype = (BlockStone.EnumType)state.getValue(BlockStone.VARIANT);
+				BlockStone.EnumType blockstone$enumtype = state.getValue(BlockStone.VARIANT);
 				return blockstone$enumtype.isNatural();
 			}
 			if (state.getBlock() == Blocks.NETHERRACK || state.getBlock() == Blocks.END_STONE) return true;

@@ -47,8 +47,8 @@ public class BlockSpin extends NCBlock implements ITileEntityProvider {
 		TileEntity tile = world.getTileEntity(pos);
 		if (tile != null) {
 			if (tile instanceof TileSpin) {
-				phi = (double) (placer.rotationYaw + 360D) % 360D;
-				theta = (double) placer.rotationPitch;
+				phi = (placer.rotationYaw + 360D) % 360D;
+				theta = placer.rotationPitch;
 				((TileSpin) tile).setStateFromAngles(phi, theta);
 			}
 		}
@@ -59,8 +59,8 @@ public class BlockSpin extends NCBlock implements ITileEntityProvider {
 		TileEntity tile = world.getTileEntity(pos);
 		if (player != null) if (tile instanceof TileSpin && !player.isSneaking()) {
 			TileSpin qubit = (TileSpin) tile;
-			double phi = (double) (player.rotationYaw + 360D) % 360D;
-			double theta = (double) player.rotationPitch;
+			double phi = (player.rotationYaw + 360D) % 360D;
+			double theta = player.rotationPitch;
 			NCUtil.getLogger().info(phi + "   " + theta);
 			Complex[] newState = qubit.getStateFromAngles(phi, theta);
 			NCUtil.getLogger().info(newState[0].re() + "   " + newState[0].im() + "   " + newState[1].re() + "   " + newState[1].im());

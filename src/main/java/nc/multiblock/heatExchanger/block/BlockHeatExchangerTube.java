@@ -91,7 +91,7 @@ public class BlockHeatExchangerTube extends BlockHeatExchangerPartBase implement
 		return super.onBlockActivated(world, pos, state, player, hand, facing, hitX, hitY, hitZ);
 	}
 	
-	private TextComponentString getToggleMessage(EntityPlayer player, TileHeatExchangerTube tube, EnumFacing side) {
+	private static TextComponentString getToggleMessage(EntityPlayer player, TileHeatExchangerTube tube, EnumFacing side) {
 		HeatExchangerTubeSetting setting = tube.getTubeSetting(side);
 		String message = player.isSneaking() ? "nc.block.fluid_toggle_opposite" : "nc.block.fluid_toggle";
 		TextFormatting color = setting == HeatExchangerTubeSetting.PRODUCT_OUT ? TextFormatting.LIGHT_PURPLE : (setting == HeatExchangerTubeSetting.INPUT_SPREAD ? TextFormatting.GREEN : (setting == HeatExchangerTubeSetting.DEFAULT ? TextFormatting.WHITE : TextFormatting.GRAY));

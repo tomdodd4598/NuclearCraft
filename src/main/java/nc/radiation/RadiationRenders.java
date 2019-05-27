@@ -38,7 +38,6 @@ import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraftforge.oredict.OreDictionary;
 
 public class RadiationRenders {
 	
@@ -112,7 +111,7 @@ public class RadiationRenders {
 		return player.inventory.hasItemStack(geiger_counter) || player.inventory.hasItemStack(geiger_block);
 	}
 	
-	private void drawTexturedModalRect(int x, int y, int textureX, int textureY, int width, int height) {
+	private static void drawTexturedModalRect(int x, int y, int textureX, int textureY, int width, int height) {
 		double zLevel = 0D;
 		Tessellator tessellator = Tessellator.getInstance();
 		BufferBuilder bufferbuilder = tessellator.getBuffer();
@@ -162,7 +161,7 @@ public class RadiationRenders {
 			double pz = TileEntityRendererDispatcher.staticPlayerZ;
 			int chunkX = (int)player.posX >> 4<<4;
 			int chunkZ = (int)player.posZ >> 4<<4;
-			int y = Math.min((int)player.posY-2, player.getEntityWorld().getChunkFromChunkCoords(chunkX, chunkZ).getLowestHeight());
+			int y = Math.min((int)player.posY-2, player.getEntityWorld().getChunk(chunkX, chunkZ).getLowestHeight());
 			float h = (float)Math.max(32, player.posY - y + 8);
 			Tessellator tessellator = Tessellator.getInstance();
 			BufferBuilder BufferBuilder = tessellator.getBuffer();

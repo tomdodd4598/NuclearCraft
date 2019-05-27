@@ -10,6 +10,7 @@ import nc.enumm.IBlockMeta;
 import nc.enumm.MetaEnums;
 import nc.tab.NCTabs;
 import nc.util.CollectionHelper;
+import nc.util.ItemStackHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -46,7 +47,7 @@ public abstract class BlockMeta<T extends Enum<T> & IStringSerializable & IBlock
 	
 	public BlockMeta(String name, Class<T> enumm, PropertyEnum property, Material material, boolean canCreatureSpawn) {
 		super(material);
-		setUnlocalizedName(Global.MOD_ID + "." + name);
+		setTranslationKey(Global.MOD_ID + "." + name);
 		setRegistryName(new ResourceLocation(Global.MOD_ID, name));
 		values = enumm.getEnumConstants();
 		type = property;
@@ -73,7 +74,7 @@ public abstract class BlockMeta<T extends Enum<T> & IStringSerializable & IBlock
 		
 		@Override
 		@SideOnly(Side.CLIENT)
-		public BlockRenderLayer getBlockLayer() {
+		public BlockRenderLayer getRenderLayer() {
 			return BlockRenderLayer.CUTOUT;
 		}
 	}
@@ -180,6 +181,6 @@ public abstract class BlockMeta<T extends Enum<T> & IStringSerializable & IBlock
 	
 	@Override
 	public String getSpecialName(ItemStack stack) {
-		return values[stack.getItemDamage()].getName();
+		return values[ItemStackHelper.getMetadata(stack)].getName();
 	}
 }

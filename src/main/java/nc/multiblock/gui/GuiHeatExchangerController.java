@@ -36,7 +36,7 @@ public class GuiHeatExchangerController extends GuiMultiblockController<HeatExch
 	
 	@Override
 	public void renderTooltips(int mouseX, int mouseY) {
-		drawTooltip(clearAllFluidsInfo(), mouseX, mouseY, 162, 45, 9, 9);
+		if (isShiftKeyDown()) drawTooltip(clearAllFluidsInfo(), mouseX, mouseY, 162, 45, 9, 9);
 		
 		drawEfficiencyTooltip(mouseX, mouseY, 6, 57, 164, 6);
 	}

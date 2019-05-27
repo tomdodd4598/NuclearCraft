@@ -14,7 +14,7 @@ import net.minecraftforge.fml.common.Optional;
 public class TileGeigerCounter extends TileEntity implements SimpleComponent {
 	
 	public double getChunkRadiationLevel() {
-		Chunk chunk = world.getChunkFromBlockCoords(pos);
+		Chunk chunk = world.getChunk(pos);
 		if (chunk == null || !chunk.hasCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null)) return 0D;
 		IRadiationSource chunkRadiation = chunk.getCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null);
 		if (chunkRadiation == null) return 0D;

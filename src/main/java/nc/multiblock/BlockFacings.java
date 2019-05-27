@@ -154,9 +154,9 @@ public final class BlockFacings {
 		for (EnumFacing facing: EnumFacing.VALUES)
 			if (this.isSet(facing)) {
 
-				x += facing.getFrontOffsetX();
-				y += facing.getFrontOffsetY();
-				z += facing.getFrontOffsetZ();
+				x += facing.getXOffset();
+				y += facing.getYOffset();
+				z += facing.getZOffset();
 			}
 
 		return originalPosition.add(x, y, z);

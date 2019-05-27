@@ -91,7 +91,7 @@ public class JEIMethods {
 					Object obj = objects.get(mapping.getKey());
 					if (obj instanceof List) {
 						List<FluidStack> list = (List<FluidStack>) obj;
-						FluidStack stack = (list == null || list.isEmpty()) ? null : list.get(list.size() - 1);
+						FluidStack stack = list.isEmpty() ? null : list.get(list.size() - 1);
 						fluids.init(recipe.slotPos, entry.getKey() == IngredientSorption.INPUT, recipe.xPos + 1, recipe.yPos + 1, recipe.xSize, recipe.ySize, stack == null ? 1000 : Math.max(1, stack.amount), true, null);
 						fluids.set(recipe.slotPos, stack == null ? null : (List<FluidStack>) obj);
 					} else {

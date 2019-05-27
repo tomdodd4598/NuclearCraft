@@ -24,7 +24,7 @@ public class BlockFluidAcid extends NCBlockFluid {
 	}
 	
 	@Override
-	public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
+	public void onEntityCollision(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
 		entityIn.attackEntityFrom(acid_burn, 3.0F);
 		if (entityIn instanceof EntityLivingBase) {
 			((EntityLivingBase) entityIn).addPotionEffect(PotionHelper.newEffect(18, 2, 100));

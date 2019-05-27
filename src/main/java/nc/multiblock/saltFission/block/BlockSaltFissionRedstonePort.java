@@ -37,7 +37,7 @@ public class BlockSaltFissionRedstonePort extends BlockSaltFissionPartBase {
 	
 	@Override
 	public int getMetaFromState(IBlockState state) {
-		return ((Boolean)state.getValue(ACTIVE)).booleanValue() ? 1 : 0;
+		return state.getValue(ACTIVE).booleanValue() ? 1 : 0;
 	}
 
 	@Override

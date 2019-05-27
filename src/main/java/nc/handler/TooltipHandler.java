@@ -26,9 +26,9 @@ public class TooltipHandler {
 	@SideOnly(Side.CLIENT)
 	public void addAdditionalTooltips(ItemTooltipEvent event) {
 		final ItemStack stack = event.getItemStack();
-		if (stack == null || stack.isEmpty()) return;
+		if (stack.isEmpty()) return;
 		
-		if (!stack.getItem().getRegistryName().getResourceDomain().equals(Global.MOD_ID)) {
+		if (!stack.getItem().getRegistryName().getNamespace().equals(Global.MOD_ID)) {
 			Set<String> oreNames = OreDictHelper.getOreNames(stack);
 			if (!oreNames.isEmpty()) {
 				if (oreNames.contains("blockGraphite")) {

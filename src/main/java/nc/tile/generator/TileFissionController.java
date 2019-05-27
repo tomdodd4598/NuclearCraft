@@ -155,10 +155,10 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 	}
 	
 	public int getComparatorStrength() {
-		if (heatChange > 0) {
-			return (int) MathHelper.clamp(1500D/(double)NCConfig.fission_comparator_max_heat*(double)heat/(double)getMaxHeat(), 0D, 15D);
+		if (heatChange > 0 || NCConfig.fission_force_heat_comparator) {
+			return (int) MathHelper.clamp(1500D/NCConfig.fission_comparator_max_heat*heat/getMaxHeat(), 0D, 15D);
 		} else {
-			return (int) MathHelper.clamp(15D*(double)getEnergyStored()/(double)getMaxEnergyStored(), 0D, 15D);
+			return (int) MathHelper.clamp(15D*getEnergyStored()/getMaxEnergyStored(), 0D, 15D);
 		}
 	}
 	
@@ -197,9 +197,9 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 	public void meltdown() {
 		BlockPos middle = finder.position((minX + maxX)/2, (minY + maxY)/2, (minZ + maxZ)/2);
 		
-		IRadiationSource chunkSource = RadiationHelper.getRadiationSource(world.getChunkFromBlockCoords(middle));
+		IRadiationSource chunkSource = RadiationHelper.getRadiationSource(world.getChunk(middle));
 		if (chunkSource != null) {
-			RadiationHelper.addToSourceRadiation(chunkSource, 8D*baseProcessRadiation*cells*NCConfig.fission_fuel_use);
+			RadiationHelper.addToSourceRadiation(chunkSource, 8D*baseProcessRadiation*cells*NCConfig.fission_fuel_use*NCConfig.fission_meltdown_radiation_multiplier);
 		}
 		
 		IBlockState corium = RegistryHelper.getBlock(Global.MOD_ID + ":fluid_corium").getDefaultState();
@@ -930,8 +930,8 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 				heatChange = heatThisTick + coolerHeatThisTick;
 				cooling = coolerHeatThisTick;
 				cells = cellCount;
-				efficiency = cellCount == 0 ? 0D : 100D*energyMultThisTick/(double)cellCount;
-				heatMult = cellCount == 0 ? 0D : 100D*heatMultThisTick/(double)cellCount;
+				efficiency = cellCount == 0 ? 0D : 100D*energyMultThisTick/cellCount;
+				heatMult = cellCount == 0 ? 0D : 100D*heatMultThisTick/cellCount;
 				processPower = energyThisTick;
 				speedMultiplier = fuelThisTick;
 			} else {

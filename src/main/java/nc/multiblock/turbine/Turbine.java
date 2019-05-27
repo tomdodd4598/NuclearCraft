@@ -686,18 +686,18 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> impleme
 			if (rawBladeEfficiencies.get(depth) <= 0D) continue;
 			bladeMultiplier += rawBladeEfficiencies.get(depth)*getExpansionIdealityMultiplier(getIdealExpansionLevel(depth), expansionLevels.get(depth));
 		}
-		bladeMultiplier /= (double)noBladeSets;
+		bladeMultiplier /= noBladeSets;
 		
 		return bladeMultiplier*getExpansionIdealityMultiplier(idealTotalExpansionLevel, totalExpansionLevel)*getEffectiveConductivity()*(recipeRate/(double)updateTime())*basePowerPerMB;
 	}
 	
-	private double getExpansionIdealityMultiplier(double ideal, double actual) {
+	private static double getExpansionIdealityMultiplier(double ideal, double actual) {
 		if (ideal <= 0 || actual <= 0) return 0D;
 		return ideal < actual ? ideal/actual : actual/ideal;
 	}
 	
 	private double getIdealExpansionLevel(int depth) {
-		return Math.pow(idealTotalExpansionLevel, (depth + 0.5D)/(double)getFlowLength());
+		return Math.pow(idealTotalExpansionLevel, (depth + 0.5D)/getFlowLength());
 	}
 	
 	public List<Double> getIdealExpansionLevels() {
@@ -713,7 +713,7 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> impleme
 	
 	public double getEffectiveConductivity() {
 		if (rotorBearings.size() == 0 || dynamoCoils.size() == 0) return 0;
-		return dynamoCoils.size() >= rotorBearings.size() ? rawConductivity : rawConductivity*(double)dynamoCoils.size()/(double)rotorBearings.size();
+		return dynamoCoils.size() >= rotorBearings.size() ? rawConductivity : rawConductivity*dynamoCoils.size()/rotorBearings.size();
 	}
 	
 	public int getActualInputRate() {
@@ -724,7 +724,7 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> impleme
 		updateCount++; updateCount %= updateTime();
 	}
 	
-	private int updateTime() {
+	private static int updateTime() {
 		return NCConfig.machine_update_rate / 4;
 	}
 	

@@ -13,7 +13,7 @@ public class TabMisc extends CreativeTabs {
 	}
 
 	@Override
-	public ItemStack getTabIconItem() {
+	public ItemStack createIcon() {
 		return new ItemStack(NCConfig.register_tool[1] ? NCTools.spaxelhoe_tough : NCItems.portable_ender_chest);
 	}
 }

@@ -51,14 +51,14 @@ public class ItemRadX extends NCItem {
 		return stack;
 	}
 	
-	private void sendCooldownMessage(World world, EntityPlayer player, IEntityRads playerRads, boolean playSound) {
+	private static void sendCooldownMessage(World world, EntityPlayer player, IEntityRads playerRads, boolean playSound) {
 		if (playerRads.getRadXCooldown() > 0D) {
 			if (playSound && world.isRemote) player.playSound(SoundHandler.chems_wear_off, 0.5F, 1F);
 			if (!world.isRemote) player.sendMessage(new TextComponentString(TextFormatting.ITALIC + RAD_X_COOLDOWN + " " + UnitHelper.applyTimeUnitShort(Math.ceil(playerRads.getRadXCooldown()), 2, 1)));
 		}
 	}
 	
-	private void onRadawayConsumed(ItemStack stack, World world, EntityPlayer player) {
+	private static void onRadawayConsumed(ItemStack stack, World world, EntityPlayer player) {
 		if (world.isRemote || !player.hasCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null)) return;
 		IEntityRads playerRads = player.getCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null);
 		if (playerRads == null) return;

@@ -36,6 +36,7 @@ import nc.radiation.environment.RadiationEnvironmentHandler;
 import nc.recipe.NCRecipes;
 import nc.recipe.vanilla.CraftingRecipeHandler;
 import nc.util.GasHelper;
+import nc.util.OreDictHelper;
 import nc.worldgen.biome.NCBiomes;
 import nc.worldgen.decoration.BushGenerator;
 import nc.worldgen.dimension.NCWorlds;
@@ -47,6 +48,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLModIdMappingEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
@@ -140,12 +142,19 @@ public class CommonProxy {
 		CommandHandler.registerCommands(serverStartEvent);
 	}
 	
+	public void onIdMapping(FMLModIdMappingEvent idMappingEvent) {
+		OreDictHelper.refreshOreDictCache();
+		
+		RadSources.refreshRadSources();
+		RadiationArmor.refreshRadiationArmor();
+	}
+	
 	// Packets
 	
 	public World getWorld(int dimensionId) {
 		return FMLCommonHandler.instance().getMinecraftServerInstance().getWorld(dimensionId);
 	}
-
+	
 	public int getCurrentClientDimension() {
 		return -8954;
 	}

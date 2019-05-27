@@ -103,7 +103,7 @@ public class TileBattery extends TileEnergy implements IBattery, IInterfaceable,
 	
 	@Override
 	public int getComparatorStrength() {
-		return (int) Math.round(15D*(double)getEnergyStored()/(double)getMaxEnergyStored());
+		return (int) Math.round(15D*getEnergyStored()/getMaxEnergyStored());
 	}
 	
 	public boolean findAdjacentComparator() {

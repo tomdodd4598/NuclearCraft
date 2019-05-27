@@ -25,11 +25,11 @@ public class NCItem extends Item {
 	public final String[] info;
 	
 	public NCItem(String nameIn, TextFormatting fixedColor, String[] fixedTooltip, String... tooltip) {
-		setUnlocalizedName(Global.MOD_ID + "." + nameIn);
+		setTranslationKey(Global.MOD_ID + "." + nameIn);
 		setRegistryName(new ResourceLocation(Global.MOD_ID, nameIn));
 		this.fixedColor = fixedColor;
-		fixedInfo = InfoHelper.buildFixedInfo(getUnlocalizedName(), fixedTooltip);
-		info = InfoHelper.buildInfo(getUnlocalizedName(), tooltip);
+		fixedInfo = InfoHelper.buildFixedInfo(getTranslationKey(), fixedTooltip);
+		info = InfoHelper.buildInfo(getTranslationKey(), tooltip);
 	}
 	
 	public NCItem(String nameIn, TextFormatting fixedColor, String... tooltip) {

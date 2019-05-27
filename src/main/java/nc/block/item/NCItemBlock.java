@@ -23,8 +23,8 @@ public class NCItemBlock extends ItemBlock {
 	public NCItemBlock(Block block, TextFormatting fixedColor, String[] fixedTooltip, String... tooltip) {
 		super(block);
 		this.fixedColor = fixedColor;
-		fixedInfo = InfoHelper.buildFixedInfo(block.getUnlocalizedName(), fixedTooltip);
-		info = InfoHelper.buildInfo(block.getUnlocalizedName(), tooltip);
+		fixedInfo = InfoHelper.buildFixedInfo(block.getTranslationKey(), fixedTooltip);
+		info = InfoHelper.buildInfo(block.getTranslationKey(), tooltip);
 	}
 	
 	public NCItemBlock(Block block, TextFormatting fixedColor, String... tooltip) {

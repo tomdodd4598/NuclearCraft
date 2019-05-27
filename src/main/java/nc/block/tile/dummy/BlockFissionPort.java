@@ -21,8 +21,7 @@ public class BlockFissionPort extends BlockSimpleSidedDummy {
 	
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		if (player == null) return false;
-		if (hand != EnumHand.MAIN_HAND || player.isSneaking()) return false;
+		if (player == null || hand != EnumHand.MAIN_HAND || player.isSneaking()) return false;
 		if (world.isRemote) return true;
 		
 		TileEntity tile = world.getTileEntity(pos);

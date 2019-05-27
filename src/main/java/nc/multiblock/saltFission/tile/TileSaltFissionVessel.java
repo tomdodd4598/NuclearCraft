@@ -137,9 +137,9 @@ public class TileSaltFissionVessel extends TileSaltFissionPartBase implements IF
 	}
 	
 	public void doMeltdown() {
-		IRadiationSource chunkSource = RadiationHelper.getRadiationSource(world.getChunkFromBlockCoords(pos));
+		IRadiationSource chunkSource = RadiationHelper.getRadiationSource(world.getChunk(pos));
 		if (chunkSource != null) {
-			RadiationHelper.addToSourceRadiation(chunkSource, 8D*baseProcessRadiation*getSpeedMultiplier());
+			RadiationHelper.addToSourceRadiation(chunkSource, 8D*baseProcessRadiation*getSpeedMultiplier()*NCConfig.salt_fission_meltdown_radiation_multiplier);
 		}
 		
 		Block corium = RegistryHelper.getBlock(Global.MOD_ID + ":fluid_corium");

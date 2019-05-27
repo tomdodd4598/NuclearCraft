@@ -112,7 +112,7 @@ public class AlloyFurnaceRecipes extends ProcessorRecipeHandler {
 		addRecipe(typeStackList(in1, OreDictHelper.BLOCK_VOLUME_TYPES, inSize1), typeStackList("Coal", OreDictHelper.BLOCK_VOLUME_TYPES, inSize2), oreStack("block" + out, outSize), time*9D, power);
 	}
 	
-	private ArrayList<OreIngredient> typeStackList(String type, List<String> forms, int size) {
+	private static ArrayList<OreIngredient> typeStackList(String type, List<String> forms, int size) {
 		ArrayList<OreIngredient> list = new ArrayList<OreIngredient>();
 		for (String form : forms) list.add(oreStack(form + type, size));
 		return list;
@@ -121,11 +121,11 @@ public class AlloyFurnaceRecipes extends ProcessorRecipeHandler {
 	private static final List<String> SILICON = Lists.newArrayList("itemSilicon", "ingotSilicon");
 	private static final List<Object> ENDER_PEARL = Lists.newArrayList(Items.ENDER_PEARL, "dustEnder");
 	
-	private List<String> metalList(String name) {
+	private static List<String> metalList(String name) {
 		return Lists.newArrayList("ingot" + name, "dust" + name);
 	}
 	
-	private List<String> gemList(String name) {
+	private static List<String> gemList(String name) {
 		return Lists.newArrayList("gem" + name, "dust" + name);
 	}
 }

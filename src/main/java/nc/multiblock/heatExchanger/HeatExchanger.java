@@ -202,14 +202,14 @@ public class HeatExchanger extends CuboidalMultiblockBase<HeatExchangerUpdatePac
 		}
 		
 		fractionOfTubesActive = (double)activeCount/(tubes.size() + condenserTubes.size());
-		efficiency = activeCount == 0 ? 0 : efficiencyCount/(double)activeCount;
+		efficiency = activeCount == 0 ? 0 : efficiencyCount/activeCount;
 	}
 	
 	private void incrementUpdateCount() {
 		updateCount++; updateCount %= updateTime();
 	}
 	
-	private int updateTime() {
+	private static int updateTime() {
 		return NCConfig.machine_update_rate;
 	}
 	

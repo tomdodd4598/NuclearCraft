@@ -23,7 +23,7 @@ public class ElectricItemManager implements IElectricItemManager {
 			
 			if(!simulate) item.setEnergyStored(stack, item.getEnergyStored(stack) + (int)(energyToStore/stack.getCount()));
 
-			return (int)Math.round(energyToStore / (double)NCConfig.rf_per_eu);
+			return (int)Math.round(energyToStore / NCConfig.rf_per_eu);
 		}
 		return 0;
 	}
@@ -35,7 +35,7 @@ public class ElectricItemManager implements IElectricItemManager {
 			
 			if(!simulate) item.setEnergyStored(stack, item.getEnergyStored(stack) - (int)(energyToGive/stack.getCount()));
 			
-			return Math.round(energyToGive / (double)NCConfig.rf_per_eu);
+			return Math.round(energyToGive / NCConfig.rf_per_eu);
 		}
 		return 0;
 	}

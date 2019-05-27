@@ -281,99 +281,64 @@ public class RecipeHelper {
 	public static RecipeMatchResult matchIngredients(IngredientSorption sorption, List<IItemIngredient> itemIngredients, List<IFluidIngredient> fluidIngredients, List items, List fluids, boolean shapeless) {
 		if (itemIngredients.size() != items.size() || fluidIngredients.size() != fluids.size()) return RecipeMatchResult.FAIL;
 		
-		List<IItemIngredient> itemIngredientsRemaining = new ArrayList<IItemIngredient>(itemIngredients);
-		List<IFluidIngredient> fluidIngredientsRemaining = new ArrayList<IFluidIngredient>(fluidIngredients);
+		List<Integer> itemIngredientNumbers = new ArrayList<Integer>(Collections.nCopies(itemIngredients.size(), 0));
+		List<Integer> fluidIngredientNumbers = new ArrayList<Integer>(Collections.nCopies(fluidIngredients.size(), 0));
+		List<Integer> itemInputOrder = CollectionHelper.increasingList(itemIngredients.size());
+		List<Integer> fluidInputOrder = CollectionHelper.increasingList(fluidIngredients.size());
 		
-		List<Integer> itemIngredientNumbers = new ArrayList<Integer>(Collections.nCopies(itemIngredients.size(), 0)), fluidIngredientNumbers = new ArrayList<Integer>(Collections.nCopies(fluidIngredients.size(), 0));
-		
-		int pos = -1;
-		itemInputs: for (Object item : items) {
-			pos++;
-			if (shapeless) {
-				for (int i = 0; i < itemIngredients.size(); i++) {
-					IItemIngredient itemIngredient = itemIngredientsRemaining.get(i);
+		if (!shapeless) {
+			for (int i = 0; i < items.size(); i++) {
+				IngredientMatchResult matchResult = itemIngredients.get(i).match(items.get(i), sorption);
+				if (matchResult.matches()) {
+					itemIngredientNumbers.set(i, matchResult.getIngredientNumber());
+					continue;
+				}
+				return RecipeMatchResult.FAIL;
+			}
+			for (int i = 0; i < fluids.size(); i++) {
+				Object fluid = fluids.get(i) instanceof Tank ? ((Tank)fluids.get(i)).getFluid() : fluids.get(i);
+				IngredientMatchResult matchResult = fluidIngredients.get(i).match(fluid, sorption);
+				if (matchResult.matches()) {
+					fluidIngredientNumbers.set(i, matchResult.getIngredientNumber());
+					continue;
+				}
+				return RecipeMatchResult.FAIL;
+			}
+		}
+		else {
+			List<IItemIngredient> itemIngredientsRemaining = new ArrayList<IItemIngredient>(itemIngredients);
+			itemInputs: for (int i = 0; i < items.size(); i++) {
+				for (int j = 0; j < itemIngredients.size(); j++) {
+					IItemIngredient itemIngredient = itemIngredientsRemaining.get(j);
 					if (itemIngredient == null) continue;
-					IngredientMatchResult matchResult = itemIngredient.match(item, sorption);
+					IngredientMatchResult matchResult = itemIngredient.match(items.get(i), sorption);
 					if (matchResult.matches()) {
-						itemIngredientsRemaining.set(i, null);
+						itemIngredientsRemaining.set(j, null);
 						itemIngredientNumbers.set(i, matchResult.getIngredientNumber());
+						itemInputOrder.set(i, j);
 						continue itemInputs;
 					}
 				}
-			} else {
-				IngredientMatchResult matchResult = itemIngredients.get(pos).match(item, sorption);
-				if (matchResult.matches()) {
-					itemIngredientNumbers.set(pos, matchResult.getIngredientNumber());
-					continue itemInputs;
-				}
+				return RecipeMatchResult.FAIL;
 			}
-			return RecipeMatchResult.FAIL;
-		}
-		pos = -1;
-		fluidInputs: for (Object fluid : fluids) {
-			pos++;
-			if (fluid instanceof Tank) fluid = ((Tank)fluid).getFluid();
-			if (shapeless) {
-				for (int i = 0; i < fluidIngredients.size(); i++) {
-					IFluidIngredient fluidIngredient = fluidIngredientsRemaining.get(i);
+			List<IFluidIngredient> fluidIngredientsRemaining = new ArrayList<IFluidIngredient>(fluidIngredients);
+			fluidInputs: for (int i = 0; i < fluids.size(); i++) {
+				Object fluid = fluids.get(i) instanceof Tank ? ((Tank)fluids.get(i)).getFluid() : fluids.get(i);
+				for (int j = 0; j < fluidIngredients.size(); j++) {
+					IFluidIngredient fluidIngredient = fluidIngredientsRemaining.get(j);
 					if (fluidIngredient == null) continue;
 					IngredientMatchResult matchResult = fluidIngredient.match(fluid, sorption);
 					if (matchResult.matches()) {
-						fluidIngredientsRemaining.set(i, null);
+						fluidIngredientsRemaining.set(j, null);
 						fluidIngredientNumbers.set(i, matchResult.getIngredientNumber());
+						fluidInputOrder.set(i, j);
 						continue fluidInputs;
 					}
 				}
-			} else {
-				IngredientMatchResult matchResult = fluidIngredients.get(pos).match(fluid, sorption);
-				if (matchResult.matches()) {
-					fluidIngredientNumbers.set(pos, matchResult.getIngredientNumber());
-					continue fluidInputs;
-				}
+				return RecipeMatchResult.FAIL;
 			}
-			return RecipeMatchResult.FAIL;
 		}
-		return new RecipeMatchResult(true, itemIngredientNumbers, fluidIngredientNumbers, getItemInputOrder(itemIngredients, items, shapeless), getFluidInputOrder(fluidIngredients, fluids, shapeless));
-	}
-	
-	public static List<Integer> getItemInputOrder(List<IItemIngredient> itemIngredients, List items, boolean shapeless) {
-		int size = itemIngredients.size();
-		if (size != items.size()) return AbstractRecipeHandler.INVALID;
-		if (!shapeless) return CollectionHelper.increasingList(size);
-		List<Integer> itemInputOrder = new ArrayList<Integer>();
-		
-		for (int i = 0; i < size; i++) {
-			int position = -1;
-			for (int j = 0; j < size; j++) {
-				if (itemIngredients.get(j).match(items.get(i), IngredientSorption.INPUT).matches()) {
-					position = j;
-					break;
-				}
-			}
-			if (position == -1) return AbstractRecipeHandler.INVALID;
-			itemInputOrder.add(position);
-		}
-		return itemInputOrder;
-	}
-	
-	public static List<Integer> getFluidInputOrder(List<IFluidIngredient> fluidIngredients, List fluids, boolean shapeless) {
-		int size = fluidIngredients.size();
-		if (size != fluids.size()) return AbstractRecipeHandler.INVALID;
-		if (!shapeless) return CollectionHelper.increasingList(size);
-		List<Integer> fluidInputOrder = new ArrayList<Integer>();
-		
-		for (int i = 0; i < size; i++) {
-			int position = -1;
-			for (int j = 0; j < size; j++) {
-				if (fluidIngredients.get(j).match(fluids.get(i), IngredientSorption.INPUT).matches()) {
-					position = j;
-					break;
-				}
-			}
-			if (position == -1) return AbstractRecipeHandler.INVALID;
-			fluidInputOrder.add(position);
-		}
-		return fluidInputOrder;
+		return new RecipeMatchResult(true, itemIngredientNumbers, fluidIngredientNumbers, itemInputOrder, fluidInputOrder);
 	}
 	
 	public static List<String> getItemIngredientNames(List<IItemIngredient> ingredientList) {
@@ -466,7 +431,7 @@ public class RecipeHelper {
 	}
 	
 	public static OreIngredient getOreStackFromItems(List<ItemStack> stackList, int stackSize) {
-		if (stackList.isEmpty() || stackList == null) return null;
+		if (stackList == null || stackList.isEmpty()) return null;
 		String oreName = OreDictHelper.getOreNameFromStacks(stackList);
 		if (oreName.equals("Unknown")) return null;
 		return new OreIngredient(oreName, stackSize);

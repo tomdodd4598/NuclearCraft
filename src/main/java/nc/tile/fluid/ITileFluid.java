@@ -153,7 +153,7 @@ public interface ITileFluid extends ITile {
 	public @Nonnull FluidTileWrapper[] getFluidSides();
 	
 	public default @Nonnull FluidTileWrapper getFluidSide(@Nonnull EnumFacing side) {
-		return side == null ? getFluidSides()[0] : getFluidSides()[side.getIndex()];
+		return getFluidSides()[side.getIndex()];
 	}
 	
 	public static @Nonnull FluidTileWrapper[] getDefaultFluidSides(@Nonnull ITileFluid tile) {

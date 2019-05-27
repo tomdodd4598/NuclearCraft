@@ -72,10 +72,6 @@ public class MetaEnums {
 		public int getLightValue() {
 			return lightValue;
 		}
-
-		public Object[] getValues() {
-			return values();
-		}
 	}
 	
 	public static enum FissionBlockType implements IStringSerializable, IBlockMeta {
@@ -138,10 +134,6 @@ public class MetaEnums {
 		@Override
 		public int getLightValue() {
 			return lightValue;
-		}
-		
-		public Object[] getValues() {
-			return values();
 		}
 	}
 	
@@ -232,10 +224,6 @@ public class MetaEnums {
 		public int getLightValue() {
 			return lightValue;
 		}
-		
-		public Object[] getValues() {
-			return values();
-		}
 	}
 	
 	public static enum IngotType implements IStringSerializable, IBlockMeta, IItemMeta {
@@ -311,10 +299,6 @@ public class MetaEnums {
 		public int getLightValue() {
 			return lightValue;
 		}
-		
-		public Object[] getValues() {
-			return values();
-		}
 	}
 	
 	public static enum IngotOxideType implements IStringSerializable, IItemMeta {
@@ -344,10 +328,6 @@ public class MetaEnums {
 		@Override
 		public int getID() {
 			return id;
-		}
-		
-		public Object[] getValues() {
-			return values();
 		}
 	}
 	
@@ -389,10 +369,6 @@ public class MetaEnums {
 		public int getID() {
 			return id;
 		}
-		
-		public Object[] getValues() {
-			return values();
-		}
 	}
 	
 	public static enum DustOxideType implements IStringSerializable, IItemMeta {
@@ -422,10 +398,6 @@ public class MetaEnums {
 		@Override
 		public int getID() {
 			return id;
-		}
-		
-		public Object[] getValues() {
-			return values();
 		}
 	}
 	
@@ -459,10 +431,6 @@ public class MetaEnums {
 		@Override
 		public int getID() {
 			return id;
-		}
-		
-		public Object[] getValues() {
-			return values();
 		}
 	}
 	
@@ -501,10 +469,6 @@ public class MetaEnums {
 		@Override
 		public int getID() {
 			return id;
-		}
-		
-		public Object[] getValues() {
-			return values();
 		}
 	}
 	
@@ -548,10 +512,6 @@ public class MetaEnums {
 		public int getID() {
 			return id;
 		}
-		
-		public Object[] getValues() {
-			return values();
-		}
 	}
 	
 	public static enum CompoundType implements IStringSerializable, IItemMeta {
@@ -588,10 +548,6 @@ public class MetaEnums {
 		@Override
 		public int getID() {
 			return id;
-		}
-		
-		public Object[] getValues() {
-			return values();
 		}
 	}
 	
@@ -633,10 +589,6 @@ public class MetaEnums {
 		public int getID() {
 			return id;
 		}
-		
-		public Object[] getValues() {
-			return values();
-		}
 	}
 	
 	public static enum UpgradeType implements IStringSerializable, IItemMeta {
@@ -664,10 +616,6 @@ public class MetaEnums {
 		@Override
 		public int getID() {
 			return id;
-		}
-		
-		public Object[] getValues() {
-			return values();
 		}
 	}
 	
@@ -702,10 +650,6 @@ public class MetaEnums {
 		@Override
 		public int getID() {
 			return id;
-		}
-		
-		public Object[] getValues() {
-			return values();
 		}
 	}
 	
@@ -745,10 +689,6 @@ public class MetaEnums {
 		public int getID() {
 			return id;
 		}
-		
-		public Object[] getValues() {
-			return values();
-		}
 	}
 	
 	public static enum NeptuniumType implements IStringSerializable, IItemMeta {
@@ -782,10 +722,6 @@ public class MetaEnums {
 		@Override
 		public int getID() {
 			return id;
-		}
-		
-		public Object[] getValues() {
-			return values();
 		}
 	}
 	
@@ -829,10 +765,6 @@ public class MetaEnums {
 		public int getID() {
 			return id;
 		}
-		
-		public Object[] getValues() {
-			return values();
-		}
 	}
 	
 	public static enum AmericiumType implements IStringSerializable, IItemMeta {
@@ -870,10 +802,6 @@ public class MetaEnums {
 		@Override
 		public int getID() {
 			return id;
-		}
-		
-		public Object[] getValues() {
-			return values();
 		}
 	}
 	
@@ -917,10 +845,6 @@ public class MetaEnums {
 		public int getID() {
 			return id;
 		}
-		
-		public Object[] getValues() {
-			return values();
-		}
 	}
 	
 	public static enum BerkeliumType implements IStringSerializable, IItemMeta {
@@ -954,10 +878,6 @@ public class MetaEnums {
 		@Override
 		public int getID() {
 			return id;
-		}
-		
-		public Object[] getValues() {
-			return values();
 		}
 	}
 	
@@ -1000,10 +920,6 @@ public class MetaEnums {
 		@Override
 		public int getID() {
 			return id;
-		}
-		
-		public Object[] getValues() {
-			return values();
 		}
 	}
 	
@@ -1053,10 +969,6 @@ public class MetaEnums {
 		@Override
 		public double getBaseHeat() {
 			return heatGen;
-		}
-		
-		public Object[] getValues() {
-			return values();
 		}
 	}
 	
@@ -1113,10 +1025,6 @@ public class MetaEnums {
 		public double getBaseHeat() {
 			return heatGen;
 		}
-		
-		public Object[] getValues() {
-			return values();
-		}
 	}
 	
 	public static enum NeptuniumFuelType implements IStringSerializable, IItemMeta, IFissionStats {
@@ -1167,10 +1075,6 @@ public class MetaEnums {
 		@Override
 		public double getBaseHeat() {
 			return heatGen;
-		}
-		
-		public Object[] getValues() {
-			return values();
 		}
 	}
 	
@@ -1227,10 +1131,6 @@ public class MetaEnums {
 		public double getBaseHeat() {
 			return heatGen;
 		}
-		
-		public Object[] getValues() {
-			return values();
-		}
 	}
 	
 	public static enum MixedOxideFuelType implements IStringSerializable, IItemMeta, IFissionStats {
@@ -1279,10 +1179,6 @@ public class MetaEnums {
 		@Override
 		public double getBaseHeat() {
 			return heatGen;
-		}
-		
-		public Object[] getValues() {
-			return values();
 		}
 	}
 	
@@ -1334,10 +1230,6 @@ public class MetaEnums {
 		@Override
 		public double getBaseHeat() {
 			return heatGen;
-		}
-		
-		public Object[] getValues() {
-			return values();
 		}
 	}
 	
@@ -1398,10 +1290,6 @@ public class MetaEnums {
 		public double getBaseHeat() {
 			return heatGen;
 		}
-		
-		public Object[] getValues() {
-			return values();
-		}
 	}
 	
 	public static enum BerkeliumFuelType implements IStringSerializable, IItemMeta, IFissionStats {
@@ -1452,10 +1340,6 @@ public class MetaEnums {
 		@Override
 		public double getBaseHeat() {
 			return heatGen;
-		}
-		
-		public Object[] getValues() {
-			return values();
 		}
 	}
 	
@@ -1512,10 +1396,6 @@ public class MetaEnums {
 		public double getBaseHeat() {
 			return heatGen;
 		}
-		
-		public Object[] getValues() {
-			return values();
-		}
 	}
 	
 	public static enum ThoriumDepletedFuelType implements IStringSerializable, IItemMeta {
@@ -1543,10 +1423,6 @@ public class MetaEnums {
 		@Override
 		public int getID() {
 			return id;
-		}
-		
-		public Object[] getValues() {
-			return values();
 		}
 	}
 	
@@ -1582,10 +1458,6 @@ public class MetaEnums {
 		public int getID() {
 			return id;
 		}
-		
-		public Object[] getValues() {
-			return values();
-		}
 	}
 	
 	public static enum NeptuniumDepletedFuelType implements IStringSerializable, IItemMeta {
@@ -1615,10 +1487,6 @@ public class MetaEnums {
 		@Override
 		public int getID() {
 			return id;
-		}
-		
-		public Object[] getValues() {
-			return values();
 		}
 	}
 	
@@ -1654,10 +1522,6 @@ public class MetaEnums {
 		public int getID() {
 			return id;
 		}
-		
-		public Object[] getValues() {
-			return values();
-		}
 	}
 	
 	public static enum MixedOxideDepletedFuelType implements IStringSerializable, IItemMeta {
@@ -1685,10 +1549,6 @@ public class MetaEnums {
 		@Override
 		public int getID() {
 			return id;
-		}
-		
-		public Object[] getValues() {
-			return values();
 		}
 	}
 	
@@ -1719,10 +1579,6 @@ public class MetaEnums {
 		@Override
 		public int getID() {
 			return id;
-		}
-		
-		public Object[] getValues() {
-			return values();
 		}
 	}
 	
@@ -1762,10 +1618,6 @@ public class MetaEnums {
 		public int getID() {
 			return id;
 		}
-		
-		public Object[] getValues() {
-			return values();
-		}
 	}
 	
 	public static enum BerkeliumDepletedFuelType implements IStringSerializable, IItemMeta {
@@ -1795,10 +1647,6 @@ public class MetaEnums {
 		@Override
 		public int getID() {
 			return id;
-		}
-		
-		public Object[] getValues() {
-			return values();
 		}
 	}
 	
@@ -1834,10 +1682,6 @@ public class MetaEnums {
 		public int getID() {
 			return id;
 		}
-		
-		public Object[] getValues() {
-			return values();
-		}
 	}
 	
 	public static enum IC2DepletedFuelType implements IStringSerializable, IItemMeta {
@@ -1865,10 +1709,6 @@ public class MetaEnums {
 		@Override
 		public int getID() {
 			return id;
-		}
-		
-		public Object[] getValues() {
-			return values();
 		}
 	}
 	
@@ -1900,10 +1740,6 @@ public class MetaEnums {
 		public int getID() {
 			return id;
 		}
-		
-		public Object[] getValues() {
-			return values();
-		}
 	}
 	
 	public static enum LithiumType implements IStringSerializable, IItemMeta {
@@ -1934,10 +1770,6 @@ public class MetaEnums {
 		public int getID() {
 			return id;
 		}
-		
-		public Object[] getValues() {
-			return values();
-		}
 	}
 	
 	public static enum RadShieldingType implements IStringSerializable, IItemMeta {
@@ -1966,10 +1798,6 @@ public class MetaEnums {
 		@Override
 		public int getID() {
 			return id;
-		}
-		
-		public Object[] getValues() {
-			return values();
 		}
 	}
 }

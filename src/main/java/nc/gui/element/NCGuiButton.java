@@ -70,7 +70,7 @@ public final class NCGuiButton {
 		
 		@Override
 		public void drawButton(Minecraft minecraft, int x, int y, float partialTicks) {
-			if (this.visible) {
+			if (visible) {
 				GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 				hovered = x >= this.x && y >= this.y && x < this.x + width && y < this.y + height;
 				minecraft.getTextureManager().bindTexture(getTexture());
@@ -95,7 +95,7 @@ public final class NCGuiButton {
 		
 		@Override
 		public void drawButton(Minecraft minecraft, int x, int y, float partialTicks) {
-			if (this.visible) {
+			if (visible) {
 				hovered = x >= this.x && y >= this.y && x < this.x + width && y < this.y + height;
 				itemRenderer.draw();
 			}

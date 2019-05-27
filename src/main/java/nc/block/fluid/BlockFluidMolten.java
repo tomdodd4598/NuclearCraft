@@ -26,7 +26,7 @@ public class BlockFluidMolten extends NCBlockFluid {
 	}
 	
 	@Override
-	public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
+	public void onEntityCollision(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
 		entityIn.attackEntityFrom(molten_burn, 4.0F);
 		entityIn.setFire(10);
 	}

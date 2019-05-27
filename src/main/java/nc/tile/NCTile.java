@@ -46,7 +46,7 @@ public abstract class NCTile extends TileEntity implements ITickable, ITile {
 	public void onAdded() {
 		if (world.isRemote) {
 			getWorld().markBlockRangeForRenderUpdate(pos, pos);
-			getWorld().getChunkFromBlockCoords(getPos()).markDirty();
+			getWorld().getChunk(getPos()).markDirty();
 			refreshIsRedstonePowered(world, pos);
 			markTileDirty();
 		}
@@ -84,8 +84,8 @@ public abstract class NCTile extends TileEntity implements ITickable, ITile {
 	
 	@Override
 	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
-		String oldName = oldState.getBlock().getUnlocalizedName().toString();
-		String newName = newState.getBlock().getUnlocalizedName().toString();
+		String oldName = oldState.getBlock().getTranslationKey().toString();
+		String newName = newState.getBlock().getTranslationKey().toString();
 		if (oldName.contains("_idle") || oldName.contains("_active")) {
 			return !oldName.replace("_idle","").replace("_active","").equals(newName.replace("_idle","").replace("_active",""));
 		}

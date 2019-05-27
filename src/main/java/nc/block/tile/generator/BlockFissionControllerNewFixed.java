@@ -40,7 +40,7 @@ public class BlockFissionControllerNewFixed extends BlockProcessor {
 	
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
-		EnumFacing enumfacing = EnumFacing.getFront(meta & 7);
+		EnumFacing enumfacing = EnumFacing.byIndex(meta & 7);
 		if (enumfacing.getAxis() == EnumFacing.Axis.Y) enumfacing = EnumFacing.NORTH;
 		
 		return getDefaultState().withProperty(FACING, enumfacing).withProperty(ACTIVE, Boolean.valueOf((meta & 8) > 0));
@@ -48,9 +48,9 @@ public class BlockFissionControllerNewFixed extends BlockProcessor {
 	
 	@Override
 	public int getMetaFromState(IBlockState state) {
-		int i = ((EnumFacing)state.getValue(FACING)).getIndex();
+		int i = state.getValue(FACING).getIndex();
 		
-		if (((Boolean)state.getValue(ACTIVE)).booleanValue()) i |= 8;
+		if (state.getValue(ACTIVE).booleanValue()) i |= 8;
 		
 		return i;
 	}
@@ -71,9 +71,9 @@ public class BlockFissionControllerNewFixed extends BlockProcessor {
 		setDefaultDirection(world, pos, state);
 	}
 	
-	private void setDefaultDirection(World world, BlockPos pos, IBlockState state) {
+	private static void setDefaultDirection(World world, BlockPos pos, IBlockState state) {
 		if (!world.isRemote) {
-			EnumFacing enumfacing = (EnumFacing)state.getValue(FACING);
+			EnumFacing enumfacing = state.getValue(FACING);
 			boolean flag = world.getBlockState(pos.north()).isFullBlock();
 			boolean flag1 = world.getBlockState(pos.south()).isFullBlock();
 
@@ -148,9 +148,9 @@ public class BlockFissionControllerNewFixed extends BlockProcessor {
 			BlockPos position = finder.randomWithin(controller.minX, controller.maxX, controller.minY, controller.maxY, controller.minZ, controller.maxZ);
 			
 			if (controller.cells <= 0) return;
-			double soundRate = MathHelper.clamp(0.08D, 2*Math.sqrt(controller.cells)/(double)NCConfig.fission_max_size, 1D);
+			double soundRate = MathHelper.clamp(0.08D, 2*Math.sqrt(controller.cells)/NCConfig.fission_max_size, 1D);
 			if (controller.isProcessing) if (rand.nextDouble() < soundRate) {
-				world.playSound((double)position.getX(), (double)position.getY(), (double)position.getZ(), SoundHandler.geiger_tick, SoundCategory.BLOCKS, 1.6F, 1.0F + 0.12F*(rand.nextFloat() - 0.5F), false);
+				world.playSound(position.getX(), position.getY(), position.getZ(), SoundHandler.geiger_tick, SoundCategory.BLOCKS, 1.6F, 1.0F + 0.12F*(rand.nextFloat() - 0.5F), false);
 			}
 		}
 	}

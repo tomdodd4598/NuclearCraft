@@ -8,6 +8,7 @@ import nc.Global;
 import nc.enumm.IItemMeta;
 import nc.init.NCItems;
 import nc.util.InfoHelper;
+import nc.util.ItemStackHelper;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -30,11 +31,11 @@ public class NCItemMeta<T extends Enum<T> & IStringSerializable & IItemMeta> ext
 	public final String[][] info;
 	
 	public NCItemMeta(String nameIn, Class<T> enumm, String[]... tooltips) {
-		setUnlocalizedName(Global.MOD_ID + "." + nameIn);
+		setTranslationKey(Global.MOD_ID + "." + nameIn);
 		setRegistryName(new ResourceLocation(Global.MOD_ID, nameIn));
 		setHasSubtypes(true);
 		values = enumm.getEnumConstants();
-		info = InfoHelper.buildInfo(getUnlocalizedName(), enumm, tooltips);
+		info = InfoHelper.buildInfo(getTranslationKey(), enumm, tooltips);
 	}
 	
 	@Override
@@ -45,12 +46,12 @@ public class NCItemMeta<T extends Enum<T> & IStringSerializable & IItemMeta> ext
 	}
 	
 	@Override
-	public String getUnlocalizedName(ItemStack stack) {
+	public String getTranslationKey(ItemStack stack) {
 		for (int i = 0; i < values.length; i++) {
-			if (stack.getItemDamage() == i) return getUnlocalizedName() + "." + values[i].getName();
+			if (ItemStackHelper.getMetadata(stack) == i) return getTranslationKey() + "." + values[i].getName();
 			else continue;
 		}
-		return getUnlocalizedName() + "." + values[0].getName();
+		return getTranslationKey() + "." + values[0].getName();
 	}
 	
 	@Override

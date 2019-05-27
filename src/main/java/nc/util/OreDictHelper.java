@@ -65,11 +65,11 @@ public class OreDictHelper {
 	
 	public static String getOreNameFromStacks(List<ItemStack> stackList) {
 		List<String> oreNameList = new ArrayList<String>();
-		if (stackList.isEmpty() || stackList == null) return "Unknown";
+		if (stackList == null || stackList.isEmpty()) return "Unknown";
 		oreNameList.addAll(getOreNames(stackList.get(0)));
 		
 		for (ItemStack stack : stackList) {
-			if (stack.isEmpty() || stack == null) return "Unknown";
+			if (stack == null || stack.isEmpty()) return "Unknown";
 			oreNameList = CollectionHelper.intersect(oreNameList, getOreNames(stack));
 			if (oreNameList.isEmpty()) return "Unknown";
 		}
@@ -133,10 +133,16 @@ public class OreDictHelper {
 		int packed = RecipeItemHelper.pack(stack);
 		if (!ORE_DICT_CACHE.containsKey(packed)) {
 			Set<String> names = new HashSet<>();
-			for (int oreID : OreDictionary.getOreIDs(stack)) names.add(OreDictionary.getOreName(oreID));
+			for (int oreID : OreDictionary.getOreIDs(stack)) {
+				names.add(OreDictionary.getOreName(oreID));
+			}
 			ORE_DICT_CACHE.put(packed, names);
 			return names;
 		}
 		return ORE_DICT_CACHE.get(packed);
+	}
+	
+	public static void refreshOreDictCache() {
+		ORE_DICT_CACHE.clear();
 	}
 }

@@ -162,7 +162,7 @@ public class BiomeDecoratorNuclearWasteland extends BiomeDecorator {
 		}
 	}
 	
-	private void generateFalls(World worldIn, Random random, BlockPos chunkPos) {
+	private static void generateFalls(World worldIn, Random random, BlockPos chunkPos) {
 		if(TerrainGen.decorate(worldIn, random, chunkPos, DecorateBiomeEvent.Decorate.EventType.LAKE_WATER))
 		for (int k5 = 0; k5 < 50; ++k5) {
 			int i10 = random.nextInt(16) + 8;
@@ -186,7 +186,7 @@ public class BiomeDecoratorNuclearWasteland extends BiomeDecorator {
 		}
 	}
 
-	private void generate(World worldIn, Random random, BlockPos chunkPos, EventType eventType, WorldGenerator generator, int countPerChunk) {
+	private static void generate(World worldIn, Random random, BlockPos chunkPos, EventType eventType, WorldGenerator generator, int countPerChunk) {
 		if(TerrainGen.decorate(worldIn, random, chunkPos, eventType)) {
 			for (int count = 0; count < countPerChunk; ++count) {
 				int randX = random.nextInt(16) + 8;

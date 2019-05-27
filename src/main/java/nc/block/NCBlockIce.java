@@ -22,7 +22,7 @@ public class NCBlockIce extends BlockIce {
 
 	public NCBlockIce(String name) {
 		super();
-		setUnlocalizedName(Global.MOD_ID + "." + name);
+		setTranslationKey(Global.MOD_ID + "." + name);
 		setRegistryName(new ResourceLocation(Global.MOD_ID, name));
 		setHardness(0.5F);
 		setLightOpacity(3);
@@ -50,7 +50,7 @@ public class NCBlockIce extends BlockIce {
 	}
 	
 	@Override
-	public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
+	public void onEntityCollision(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
 		entityIn.attackEntityFrom(hypothermia, 2.0F);
 	}
 	

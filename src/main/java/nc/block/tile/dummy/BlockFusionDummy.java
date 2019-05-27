@@ -49,7 +49,7 @@ public class BlockFusionDummy extends BlockTile {
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public BlockRenderLayer getBlockLayer() {
+	public BlockRenderLayer getRenderLayer() {
 		return BlockRenderLayer.CUTOUT;
 	}
 	
@@ -70,21 +70,18 @@ public class BlockFusionDummy extends BlockTile {
 	
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		if (player == null) return false;
-		if (hand != EnumHand.MAIN_HAND || player.isSneaking()) return false;
+		if (player == null || hand != EnumHand.MAIN_HAND || player.isSneaking()) return false;
 		if (world.isRemote) return true;
 		
 		BlockPos corePos = findCore(world, pos);
 		if (corePos != null) {
 			if (world.getTileEntity(corePos) instanceof TileFusionCore) {
 				TileFusionCore core = (TileFusionCore) world.getTileEntity(corePos);
-				if (core.getTanks() != null) {
-					boolean accessedTanks = FluidHelper.accessTanks(player, hand, facing, core);
-					if (accessedTanks) {
-						core.refreshRecipe();
-						core.refreshActivity();
-						return true;
-					}
+				boolean accessedTanks = FluidHelper.accessTanks(player, hand, facing, core);
+				if (accessedTanks) {
+					core.refreshRecipe();
+					core.refreshActivity();
+					return true;
 				}
 				core.refreshMultiblock();
 				FMLNetworkHandler.openGui(player, NuclearCraft.instance, 101, world, corePos.getX(), corePos.getY(), corePos.getZ());
@@ -99,7 +96,7 @@ public class BlockFusionDummy extends BlockTile {
 		return null;
 	}
 	
-	private boolean isCore(World world, BlockPos pos) {
+	private static boolean isCore(World world, BlockPos pos) {
 		return world.getBlockState(pos).getBlock() instanceof BlockFusionCore;
 	}
 	

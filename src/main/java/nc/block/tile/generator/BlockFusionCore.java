@@ -77,21 +77,21 @@ public class BlockFusionCore extends BlockTile implements IActivatable {
 		world.removeTileEntity(pos);
 	}
 	
-	private boolean isAir(World world, BlockPos pos) {
+	private static boolean isAir(World world, BlockPos pos) {
 		Material mat = world.getBlockState(pos).getMaterial();
 		return mat == Material.AIR || mat == Material.FIRE || mat == Material.WATER || mat == Material.VINE || mat == Material.SNOW;
 	}
 	
-	private void setAir(World world, BlockPos pos) {
+	private static void setAir(World world, BlockPos pos) {
 		world.destroyBlock(pos, false);
 	}
 	
-	private void setSide(World world, BlockPos pos) {
+	private static void setSide(World world, BlockPos pos) {
 		IBlockState dummy = NCBlocks.fusion_dummy_side.getDefaultState();
 		world.setBlockState(pos, dummy);
 	}
 	
-	private void setTop(World world, BlockPos pos) {
+	private static void setTop(World world, BlockPos pos) {
 		IBlockState dummy = NCBlocks.fusion_dummy_top.getDefaultState();
 		world.setBlockState(pos, dummy);
 	}

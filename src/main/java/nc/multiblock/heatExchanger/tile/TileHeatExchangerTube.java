@@ -439,15 +439,9 @@ public class TileHeatExchangerTube extends TileHeatExchangerPartBase implements 
 			
 			TileEntity tile = getTileWorld().getTileEntity(getTilePos().offset(side));
 			
-			if (tile instanceof TileHeatExchangerVent) {
-				if (thisSetting == HeatExchangerTubeSetting.DEFAULT) {
-					flowDir = side.getOpposite();
-					return;
-				}
-				else if (thisSetting == HeatExchangerTubeSetting.PRODUCT_OUT) {
-					flowDir = side;
-					return;
-				}
+			if (tile instanceof TileHeatExchangerVent && thisSetting == HeatExchangerTubeSetting.PRODUCT_OUT) {
+				flowDir = side;
+				return;
 			}
 			else if (tile instanceof TileHeatExchangerTube) {
 				TileHeatExchangerTube tube = (TileHeatExchangerTube)tile;

@@ -51,7 +51,7 @@ public class OreGenerator implements IWorldGenerator {
 		if (dimList.contains(world.provider.getDimension()) != NCConfig.ore_dims_list_type) generateOres(random, chunkX, chunkZ, world, chunkGenerator, chunkProvider);
 	}
 	
-	private void generateOre(WorldGenerator generator, World world, Random rand, int chunk_X, int chunk_Z, int chancesToSpawn, int minHeight, int maxHeight) {
+	private static void generateOre(WorldGenerator generator, World world, Random rand, int chunk_X, int chunk_Z, int chancesToSpawn, int minHeight, int maxHeight) {
 		if (minHeight < 0 || maxHeight > 256 || minHeight > maxHeight)
 			throw new IllegalArgumentException("Illegal height arguments for WorldGenerator!");
 		

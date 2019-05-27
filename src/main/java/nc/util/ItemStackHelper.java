@@ -4,6 +4,7 @@ import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -36,12 +37,16 @@ public class ItemStackHelper {
 	}
 	
 	public static IBlockState getBlockStateFromStack(ItemStack stack) {
-		if (stack.isEmpty() || stack == null) return null;
-		int meta = stack.getItemDamage();
+		if (stack == null || stack.isEmpty()) return null;
+		int meta = getMetadata(stack);
 		Item item = stack.getItem();
 		if (!ItemBlock.class.isAssignableFrom(item.getClass())) return null;
 		ItemBlock itemBlock = (ItemBlock) item;
 		return itemBlock.getBlock().getStateFromMeta(meta);
+	}
+	
+	public static int getMetadata(ItemStack stack) {
+		return Items.DIAMOND.getMetadata(stack);
 	}
 	
 	public static ItemStack changeStackSize(ItemStack stack, int size) {
@@ -51,7 +56,7 @@ public class ItemStackHelper {
 	}
 	
 	public static String stackName(ItemStack stack) {
-		return stack.getItem().getUnlocalizedName() + ":" + stack.getItemDamage();
+		return stack.getItem().getTranslationKey() + ":" + getMetadata(stack);
 	}
 	
 	public static String stackListNames(List<ItemStack> list) {

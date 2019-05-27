@@ -52,7 +52,7 @@ public abstract class TileBeefBase extends TileEntity implements ITile, ITickabl
 	public void onAdded() {
 		if (world.isRemote) {
 			getWorld().markBlockRangeForRenderUpdate(pos, pos);
-			getWorld().getChunkFromBlockCoords(getPos()).markDirty();
+			getWorld().getChunk(getPos()).markDirty();
 			refreshIsRedstonePowered(world, pos);
 			markDirty();
 		}
@@ -89,8 +89,7 @@ public abstract class TileBeefBase extends TileEntity implements ITile, ITickabl
 		if (getWorld().getTileEntity(position) != this)
 			return false;
 
-		return entityplayer.getDistanceSq((double)position.getX() + 0.5D, (double)position.getY() + 0.5D,
-				(double)position.getZ() + 0.5D) <= 64D;
+		return entityplayer.getDistanceSq(position.getX() + 0.5D, position.getY() + 0.5D, position.getZ() + 0.5D) <= 64D;
 	}
 	
 	@Override

@@ -28,9 +28,9 @@ public class TileDecayGenerator extends TileEnergy implements IInterfaceable {
 	public int tickCount;
 	
 	public final NCRecipes.Type decayGenRecipeType;
-	protected RecipeInfo<ProcessorRecipe>[] recipes = (RecipeInfo<ProcessorRecipe>[]) new RecipeInfo[6];
+	protected RecipeInfo<ProcessorRecipe>[] recipes = new RecipeInfo[6];
 	
-	public static final double DEFAULT_LIFETIME = 1200D/(double)NCConfig.machine_update_rate;
+	public static final double DEFAULT_LIFETIME = 1200D/NCConfig.machine_update_rate;
 	
 	protected int generatorCount;
 	
@@ -95,7 +95,7 @@ public class TileDecayGenerator extends TileEnergy implements IInterfaceable {
 	public int decayGen(EnumFacing side) {
 		if (getDecayRecipeInfo(side) == null) return 0;
 		ItemStack stack = getOutput(side);
-		if (stack.isEmpty() || stack == null) return 0;
+		if (stack == null || stack.isEmpty()) return 0;
 		IBlockState block = ItemStackHelper.getBlockStateFromStack(stack);
 		if (block == null) return 0;
 		if (rand.nextDouble()*getRecipeLifetime(side) < 1D) getWorld().setBlockState(getPos().offset(side), block);

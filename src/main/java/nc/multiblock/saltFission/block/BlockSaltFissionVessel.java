@@ -77,7 +77,7 @@ public class BlockSaltFissionVessel extends BlockSaltFissionPartBase implements 
 		return super.onBlockActivated(world, pos, state, player, hand, facing, hitX, hitY, hitZ);
 	}
 	
-	private TextComponentString getToggleMessage(EntityPlayer player, TileSaltFissionVessel vessel, EnumFacing side) {
+	private static TextComponentString getToggleMessage(EntityPlayer player, TileSaltFissionVessel vessel, EnumFacing side) {
 		SaltFissionVesselSetting setting = vessel.getVesselSetting(side);
 		String message = player.isSneaking() ? "nc.block.fluid_toggle_opposite" : "nc.block.fluid_toggle";
 		TextFormatting color = setting == SaltFissionVesselSetting.DEPLETED_OUT ? TextFormatting.LIGHT_PURPLE : (setting == SaltFissionVesselSetting.FUEL_SPREAD ? TextFormatting.GREEN : (setting == SaltFissionVesselSetting.DEFAULT ? TextFormatting.WHITE : TextFormatting.GRAY));

@@ -23,6 +23,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.Chunk;
@@ -55,8 +56,8 @@ public class RadiationHelper {
 		return provider.getCapability(IRadiationResistance.CAPABILITY_RADIATION_RESISTANCE, null);
 	}
 	
-	public static IItemHandler getTileInventory(ICapabilityProvider provider) {
-		if (!(provider instanceof TileEntity) || !provider.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null)) {
+	public static IItemHandler getTileInventory(ICapabilityProvider provider, EnumFacing side) {
+		if (!(provider instanceof TileEntity) || !provider.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side)) {
 			return null;
 		}
 		return provider.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
@@ -108,7 +109,7 @@ public class RadiationHelper {
 	
 	// Source -> ChunkBuffer
 	
-	public static void transferRadiationFromProviderToChunkBuffer(ICapabilityProvider provider, IRadiationSource chunkSource) {
+	public static void transferRadiationFromProviderToChunkBuffer(ICapabilityProvider provider, EnumFacing side, IRadiationSource chunkSource) {
 		if (chunkSource == null) {
 			return;
 		}
@@ -120,7 +121,7 @@ public class RadiationHelper {
 			}
 		}
 		
-		IItemHandler inventory = getTileInventory(provider);
+		IItemHandler inventory = getTileInventory(provider, side);
 		if (NCConfig.radiation_hardcore_containers > 0D && inventory != null) {
 			for (int i = 0; i < inventory.getSlots(); i++) {
 				ItemStack stack = inventory.getStackInSlot(i);
@@ -151,17 +152,17 @@ public class RadiationHelper {
 		}
 		for (ItemStack stack : inventory.mainInventory) {
 			if (!stack.isEmpty()) {
-				transferRadiationFromProviderToChunkBuffer(stack, chunkSource);
+				transferRadiationFromProviderToChunkBuffer(stack, null, chunkSource);
 			}
 		}
 		for (ItemStack stack : inventory.armorInventory) {
 			if (!stack.isEmpty()) {
-				transferRadiationFromProviderToChunkBuffer(stack, chunkSource);
+				transferRadiationFromProviderToChunkBuffer(stack, null, chunkSource);
 			}
 		}
 		for (ItemStack stack : inventory.offHandInventory) {
 			if (!stack.isEmpty()) {
-				transferRadiationFromProviderToChunkBuffer(stack, chunkSource);
+				transferRadiationFromProviderToChunkBuffer(stack, null, chunkSource);
 			}
 		}
 	}
@@ -257,7 +258,7 @@ public class RadiationHelper {
 		horse.writeEntityToNBT(compound);
 		
 		ItemStack armor = new ItemStack(compound.getCompoundTag("ArmorItem"));
-		if (armor != null && ArmorHelper.isHorseArmor(armor.getItem())) {
+		if (ArmorHelper.isHorseArmor(armor.getItem())) {
 			resistance += getArmorRadResistance(armor);
 		}
 		return resistance;

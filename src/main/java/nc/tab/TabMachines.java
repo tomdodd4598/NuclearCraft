@@ -12,7 +12,7 @@ public class TabMachines extends CreativeTabs {
 	}
 
 	@Override
-	public ItemStack getTabIconItem() {
+	public ItemStack createIcon() {
 		return new ItemStack(NCConfig.register_processor[1] ? NCBlocks.manufactory_active : NCBlocks.machine_interface);
 	}
 }

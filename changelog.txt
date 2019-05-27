@@ -1,3 +1,29 @@
+v2.17
+
+* Updated and improved radiation system and ore-dict caching [thanks to Shadows-of-Fire!]
++ Added config options for meltdown radiation multipliers
++ Added warning message for clients with radiation disabled joining servers with it enabled
+
+* Fixed not being able to extract depleted fuel from solid-fuel Fission Ports
++ Added config option to force solid-fuel Fission Controller into heat-based comparator mode
+
+* Changed form of MSR cooling rate configs from units of H/t/mB to H/t, fixing the base heating rate
+
+* Changed GTCE machine integration config to be per-machine [thanks to LordPINE!]
+
++ Added Hazmat Suit armour configs
+
+* Ingot Formers no longer produce flames
+
+* Updated Russian language file [thanks to B45E!]
+
+* Many minor refactors
+* Updated MCP mappings
+
+v2.16f
+
+* Fixed crashes with various multi-input recipes
+
 v2.16e
 
 * Modified steam temperatures and Heat Exchanger recipe rates to make two-stage cycles more efficient than one-stage cycles

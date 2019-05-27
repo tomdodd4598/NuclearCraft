@@ -55,7 +55,7 @@ public class RadEffects {
 				int modifiedTime = getModifiedTime(potionName, effectTime, strength - 1);
 				
 				Potion potion = Potion.getPotionFromResourceLocation(potionName);
-				if (potion != null && strength != null) {
+				if (potion != null) {
 					effectList.add(PotionHelper.newEffect(potion, strength, modifiedTime));
 				}
 			}

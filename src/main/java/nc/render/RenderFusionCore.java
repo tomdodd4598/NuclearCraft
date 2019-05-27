@@ -27,7 +27,7 @@ public class RenderFusionCore extends TileEntitySpecialRenderer<TileFusionCore> 
 	@Override
 	public void render(TileFusionCore tile, double posX, double posY, double posZ, float partialTicks, int destroyStage, float alpha) {
 		
-		if (tile.getWorld() == null || tile==null) return;
+		if (tile == null || tile.getWorld() == null) return;
 		if(!(tile.getBlockType() instanceof BlockFusionCore)) return;
 		
 		GlStateManager.pushMatrix();

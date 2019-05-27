@@ -11,7 +11,7 @@ public class TabFissionMaterials extends CreativeTabs {
 	}
 
 	@Override
-	public ItemStack getTabIconItem() {
+	public ItemStack createIcon() {
 		return new ItemStack(NCItems.uranium, 1, 4);
 	}
 }

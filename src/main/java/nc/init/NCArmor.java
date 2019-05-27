@@ -7,6 +7,7 @@ import nc.item.armor.NCItemArmor;
 import nc.tab.NCTabs;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
@@ -24,7 +25,7 @@ public class NCArmor {
 	public static final ArmorMaterial TOUGH = armorMaterial("tough", 1, NCConfig.armor_tough, SoundEvents.ITEM_ARMOR_EQUIP_IRON, new ItemStack(NCItems.alloy, 1, 1));
 	public static final ArmorMaterial HARD_CARBON = armorMaterial("hard_carbon", 2, NCConfig.armor_hard_carbon, SoundEvents.ITEM_ARMOR_EQUIP_IRON, new ItemStack(NCItems.alloy, 1, 2));
 	public static final ArmorMaterial BORON_NITRIDE = armorMaterial("boron_nitride", 3, NCConfig.armor_boron_nitride, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, new ItemStack(NCItems.gem, 1, 1));
-	public static final ArmorMaterial HAZMAT = EnumHelper.addArmorMaterial("hazmat", Global.MOD_ID + ":hazmat", 0, NCConfig.armor_tough, 5, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0F);
+	public static final ArmorMaterial HAZMAT = armorMaterial("hazmat", 4, NCConfig.armor_hazmat, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, new ItemStack(Items.LEATHER));
 	
 	public static ItemArmor helm_boron;
 	public static ItemArmor chest_boron;

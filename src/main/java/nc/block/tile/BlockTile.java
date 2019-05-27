@@ -59,15 +59,13 @@ public abstract class BlockTile extends NCBlock implements ITileEntityProvider {
 		if (tile instanceof ITileFluid) {
 			if (world.isRemote) return true;
 			ITileFluid tileFluid = (ITileFluid) tile;
-			if (tileFluid.getTanks() != null) {
-				boolean accessedTanks = FluidHelper.accessTanks(player, hand, facing, tileFluid);
-				if (accessedTanks) {
-					if (tile instanceof IProcessor) {
-						((IProcessor) tile).refreshRecipe();
-						((IProcessor) tile).refreshActivity();
-					}
-					return true;
+			boolean accessedTanks = FluidHelper.accessTanks(player, hand, facing, tileFluid);
+			if (accessedTanks) {
+				if (tile instanceof IProcessor) {
+					((IProcessor) tile).refreshRecipe();
+					((IProcessor) tile).refreshActivity();
 				}
+				return true;
 			}
 		}
 		if (tile instanceof IGui) {

@@ -47,12 +47,12 @@ public class BlockBattery extends BlockSimpleTile implements ISidedEnergy, INBTD
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if (hand != EnumHand.MAIN_HAND) return false;
 		
-		if (player != null) {
-			if (player.isSneaking() && world.getTileEntity(pos) instanceof ITileEnergy) {
+		if (player != null && world.getTileEntity(pos) instanceof ITileEnergy) {
+			if (player.isSneaking()) {
 				((ITileEnergy) world.getTileEntity(pos)).toggleEnergyConnection(facing);
 			}
-			else if (!world.isRemote && !player.isSneaking() && world.getTileEntity(pos) instanceof IBattery) {
-				EnergyStorage storage = ((IBattery) world.getTileEntity(pos)).getEnergyStorage();
+			else if (!world.isRemote && !player.isSneaking()) {
+				EnergyStorage storage = ((ITileEnergy) world.getTileEntity(pos)).getEnergyStorage();
 				player.sendMessage(new TextComponentString(Lang.localise("gui.container.energy_stored") + " " + UnitHelper.prefix(storage.getEnergyStored(), storage.getMaxEnergyStored(), 5, "RF")));
 			}
 		}

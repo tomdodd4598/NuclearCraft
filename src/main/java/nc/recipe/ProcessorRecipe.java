@@ -121,7 +121,7 @@ public class ProcessorRecipe implements IRecipe {
 	
 	public double getDecayLifetime() {
 		if (extras.isEmpty()) return TileDecayGenerator.DEFAULT_LIFETIME;
-		else if (extras.get(0) instanceof Double) return ((double) extras.get(0))*20D/(double)NCConfig.machine_update_rate;
+		else if (extras.get(0) instanceof Double) return ((double) extras.get(0))*20D/NCConfig.machine_update_rate;
 		return TileDecayGenerator.DEFAULT_LIFETIME;
 	}
 	

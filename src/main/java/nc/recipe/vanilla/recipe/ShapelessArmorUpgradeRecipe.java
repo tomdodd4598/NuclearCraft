@@ -13,6 +13,7 @@ public class ShapelessArmorUpgradeRecipe extends ShapelessOreRecipe {
 	
 	public ShapelessArmorUpgradeRecipe(ResourceLocation group, @Nonnull ItemStack result, Object... recipe) {
 		super(group, result, recipe);
+		isSimple = false;
 	}
 	
 	@Override
@@ -23,20 +24,21 @@ public class ShapelessArmorUpgradeRecipe extends ShapelessOreRecipe {
 	@Override
 	public @Nonnull ItemStack getCraftingResult(@Nonnull InventoryCrafting inv) {
 		ItemStack output = this.output.copy();
-		int meta = 0;
 		
 		for (int i = 0; i < inv.getSizeInventory(); i++) {
 			ItemStack stack = inv.getStackInSlot(i);
 			if (!stack.isEmpty() && stack.getItem() instanceof ItemArmor) {
-				meta = stack.getItemDamage();
-				if (!output.hasTagCompound()) output.setTagCompound(new NBTTagCompound());
+				if (!output.hasTagCompound()) {
+					output.setTagCompound(new NBTTagCompound());
+				}
 				NBTTagCompound tag = output.getTagCompound().copy();
-				if (stack.hasTagCompound()) output.getTagCompound().merge(stack.getTagCompound());
+				if (stack.hasTagCompound()) {
+					output.getTagCompound().merge(stack.getTagCompound());
+				}
 				output.getTagCompound().merge(tag);
 				break;
 			}
 		}
-		output.setItemDamage(meta);
 		return output;
 	}
 }

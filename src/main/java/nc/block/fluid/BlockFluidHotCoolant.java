@@ -28,7 +28,7 @@ public class BlockFluidHotCoolant extends NCBlockFluid {
 	}
 	
 	@Override
-	public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
+	public void onEntityCollision(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
 		entityIn.attackEntityFrom(hot_coolant_burn, 2.0F);
 		entityIn.setFire(3);
 		if (entityIn instanceof EntityLivingBase) {

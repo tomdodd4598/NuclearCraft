@@ -10,6 +10,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+@SuppressWarnings("static-method")
 public final class MultiblockEventHandler {
 	
 	@SubscribeEvent(priority = EventPriority.NORMAL)

@@ -11,7 +11,7 @@ public class TabRadiation extends CreativeTabs {
 	}
 
 	@Override
-	public ItemStack getTabIconItem() {
+	public ItemStack createIcon() {
 		return new ItemStack(NCItems.geiger_counter);
 	}
 }

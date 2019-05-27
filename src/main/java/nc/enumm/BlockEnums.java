@@ -36,7 +36,7 @@ public class BlockEnums {
 		SUPERCOOLER("supercooler", 8, "snowshovel", "smoke"),
 		ELECTROLYSER("electrolyser", 9, "reddust", "splash"),
 		IRRADIATOR("irradiator", 10, "portal", "enchantmenttable"),
-		INGOT_FORMER("ingot_former", 11, "flame", "smoke"),
+		INGOT_FORMER("ingot_former", 11, "smoke", "smoke"),
 		PRESSURIZER("pressurizer", 12, "smoke", "smoke"),
 		CHEMICAL_REACTOR("chemical_reactor", 13, "reddust", "reddust"),
 		SALT_MIXER("salt_mixer", 14, "reddust", "endRod"),
@@ -236,7 +236,7 @@ public class BlockEnums {
 			}
 		}
 		
-		public SoundEvent getSound() {
+		public static SoundEvent getSound() {
 			return null;
 		}
 		

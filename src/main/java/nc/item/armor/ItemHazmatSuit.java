@@ -2,6 +2,7 @@ package nc.item.armor;
 
 import javax.annotation.Nonnull;
 
+import ic2.api.item.IHazmatLike;
 import nc.ModCheck;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -10,8 +11,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.common.ISpecialArmor;
+import net.minecraftforge.fml.common.Optional;
 
-public class ItemHazmatSuit extends NCItemArmor implements ISpecialArmor {
+@Optional.InterfaceList({@Optional.Interface(iface = "ic2.api.item.IHazmatLike", modid = "ic2")})
+public class ItemHazmatSuit extends NCItemArmor implements ISpecialArmor, IHazmatLike {
 	
 	public final double radiationProtection;
 	
@@ -19,7 +22,7 @@ public class ItemHazmatSuit extends NCItemArmor implements ISpecialArmor {
 		super(unlocalizedName, materialIn, renderIndexIn, equipmentSlotIn, tooltip);
 		this.radiationProtection = radiationProtection;
 	}
-
+	
 	@Override
 	public ArmorProperties getProperties(EntityLivingBase player, @Nonnull ItemStack armor, DamageSource source, double damage, int slot) {
 		if (source.damageType.equals("radiation") || source.damageType.equals("sulphuric_acid") || source.damageType.equals("acid_burn") || source.damageType.equals("corium_burn") || source.damageType.equals("hot_coolant_burn")) {
@@ -27,12 +30,12 @@ public class ItemHazmatSuit extends NCItemArmor implements ISpecialArmor {
 		}
 		return new ArmorProperties(0, 0, Integer.MAX_VALUE);
 	}
-
+	
 	@Override
 	public int getArmorDisplay(EntityPlayer player, @Nonnull ItemStack armor, int slot) {
 		return 0;
 	}
-
+	
 	@Override
 	public void damageArmor(EntityLivingBase entity, @Nonnull ItemStack stack, DamageSource source, int damage, int slot) {
 		if (ModCheck.ic2Loaded()) {
@@ -44,5 +47,11 @@ public class ItemHazmatSuit extends NCItemArmor implements ISpecialArmor {
 	@Override
 	public boolean handleUnblockableDamage(EntityLivingBase entity, @Nonnull ItemStack armor, DamageSource source, double damage, int slot) {
 		return source.damageType.equals("radiation") || source.damageType.equals("sulphuric_acid") || source.damageType.equals("acid_burn") || source.damageType.equals("corium_burn") || source.damageType.equals("hot_coolant_burn");
+	}
+	
+	@Override
+	@Optional.Method(modid = "ic2")
+	public boolean addsProtection(EntityLivingBase entity, EntityEquipmentSlot slot, ItemStack stack) {
+		return true;
 	}
 }

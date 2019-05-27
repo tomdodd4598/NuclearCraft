@@ -11,7 +11,7 @@ public class TabFissionFuels extends CreativeTabs {
 	}
 
 	@Override
-	public ItemStack getTabIconItem() {
+	public ItemStack createIcon() {
 		return new ItemStack(NCItems.fuel_uranium);
 	}
 }

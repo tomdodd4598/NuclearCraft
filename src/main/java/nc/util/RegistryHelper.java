@@ -14,13 +14,13 @@ public class RegistryHelper {
 	
 	public static Block getBlock(String location) {
 		ResourceLocation resLoc = new ResourceLocation(location);
-		if (!Loader.isModLoaded(resLoc.getResourceDomain())) return null;
+		if (!Loader.isModLoaded(resLoc.getNamespace())) return null;
 		return ForgeRegistries.BLOCKS.getValue(resLoc);
 	}
 	
 	public static Item getItem(String location) {
 		ResourceLocation resLoc = new ResourceLocation(location);
-		if (!Loader.isModLoaded(resLoc.getResourceDomain())) return null;
+		if (!Loader.isModLoaded(resLoc.getNamespace())) return null;
 		return ForgeRegistries.ITEMS.getValue(resLoc);
 	}
 	
@@ -42,7 +42,7 @@ public class RegistryHelper {
 	
 	public static Biome biomeFromRegistry(String location) {
 		ResourceLocation resLoc = new ResourceLocation(location);
-		if (!Loader.isModLoaded(resLoc.getResourceDomain())) return null;
+		if (!Loader.isModLoaded(resLoc.getNamespace())) return null;
 		return ForgeRegistries.BIOMES.getValue(resLoc);
 	}
 	
@@ -59,7 +59,7 @@ public class RegistryHelper {
 	public static String getModID(ItemStack stack) {
 		if (stack == null) return "";
 		Item item = stack.getItem();
-		if (item == null || item.delegate == null || item.delegate.name() == null || item.delegate.name().getResourceDomain() == null) return "";
-		return item.delegate.name().getResourceDomain();
+		if (item == null || item.delegate == null || item.delegate.name() == null || item.delegate.name().getNamespace() == null) return "";
+		return item.delegate.name().getNamespace();
 	}
 }

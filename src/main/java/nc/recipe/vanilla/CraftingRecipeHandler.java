@@ -24,11 +24,13 @@ import nc.util.OreDictHelper;
 import nc.util.RegistryHelper;
 import nc.util.StringHelper;
 import net.minecraft.block.Block;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.oredict.ShapedOreRecipe;
@@ -342,9 +344,17 @@ public class CraftingRecipeHandler {
 	}
 	
 	public static void registerRadShieldingCraftingRecipes() {
-		if (NCConfig.radiation_shielding_default_recipes) for (Item item : ForgeRegistries.ITEMS.getValuesCollection()) {
-			if (ArmorHelper.isArmor(item, NCConfig.radiation_horse_armor_public) && !RadiationArmor.ARMOR_ITEM_SHIELDING_BLACKLIST.contains(item)) {
-				RadiationArmor.addArmorShieldingRecipes(item);
+		if (NCConfig.radiation_shielding_default_recipes) {
+			for (Item item : ForgeRegistries.ITEMS.getValuesCollection()) {
+				if (ArmorHelper.isArmor(item, NCConfig.radiation_horse_armor_public)) {
+					NonNullList<ItemStack> stacks = NonNullList.create();
+					item.getSubItems(CreativeTabs.SEARCH, stacks);
+					for (ItemStack stack : stacks) {
+						if (!RadiationArmor.ARMOR_STACK_SHIELDING_BLACKLIST.contains(stack)) {
+							RadiationArmor.addArmorShieldingRecipes(stack);
+						}
+					}
+				}
 			}
 		}
 		
@@ -443,7 +453,7 @@ public class CraftingRecipeHandler {
 		if (out == null || Arrays.asList(inputs).contains(null)) return;
 		ItemStack outStack = ItemStackHelper.fixItemStack(out);
 		if (!outStack.isEmpty() && inputs != null) {
-			String outName = outStack.getUnlocalizedName();
+			String outName = outStack.getTranslationKey();
 			if (RECIPE_COUNT_MAP.containsKey(outName)) {
 				int count = RECIPE_COUNT_MAP.get(outName);
 				RECIPE_COUNT_MAP.put(outName, count + 1);

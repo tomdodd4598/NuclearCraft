@@ -65,7 +65,7 @@ public class GasHelper {
 		} catch (Exception e) {
 			return false;
 		}
-		if (capability.getDefaultInstance() == null || capability.getDefaultInstance().getClass() == null) return false;
+		if (capability.getDefaultInstance() == null) return false;
 		String name = capability.getDefaultInstance().getClass().getName();
 		if (name == null) return false;
 		return name.equals("mekanism.common.capabilities.DefaultTubeConnection") || name.equals("mekanism.common.capabilities.DefaultGasHandler");

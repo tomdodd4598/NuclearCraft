@@ -305,7 +305,7 @@ public class SaltFissionReactor extends CuboidalMultiblockBase<SaltFissionUpdate
 	}
 	
 	protected void updateRedstonePorts() {
-		comparatorSignal = (int) MathHelper.clamp(1500D/(double)NCConfig.fission_comparator_max_heat*(double)heatBuffer.heatStored/(double)heatBuffer.heatCapacity, 0D, 15D);
+		comparatorSignal = (int) MathHelper.clamp(1500D/NCConfig.fission_comparator_max_heat*heatBuffer.heatStored/heatBuffer.heatCapacity, 0D, 15D);
 		for (TileSaltFissionRedstonePort redstonePort : redstonePorts) {
 			if (redstonePort.comparatorSignal != comparatorSignal) {
 				redstonePort.comparatorSignal = comparatorSignal;
@@ -359,7 +359,7 @@ public class SaltFissionReactor extends CuboidalMultiblockBase<SaltFissionUpdate
 	
 	protected void setCooling() {
 		double newCooling = 0;
-		for (TileSaltFissionHeater heater : heaters) if (heater.isInValidPosition) newCooling += heater.getProcessCooling();
+		for (TileSaltFissionHeater heater : heaters) if (heater.isInValidPosition) newCooling += heater.baseProcessCooling;
 		cooling = newCooling;
 	}
 	
@@ -407,7 +407,7 @@ public class SaltFissionReactor extends CuboidalMultiblockBase<SaltFissionUpdate
 		distributeCount++; distributeCount %= distributeTime();
 	}
 	
-	private int updateTime() {
+	private static int updateTime() {
 		return NCConfig.machine_update_rate / 2;
 	}
 	
@@ -415,7 +415,7 @@ public class SaltFissionReactor extends CuboidalMultiblockBase<SaltFissionUpdate
 		return updateCount == 0;
 	}
 	
-	private int distributeTime() {
+	private static int distributeTime() {
 		return 20;
 	}
 	

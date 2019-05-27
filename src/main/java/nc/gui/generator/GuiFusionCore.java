@@ -25,19 +25,16 @@ import nc.util.UnitHelper;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 
 public class GuiFusionCore extends NCGui {
 	
-	private final InventoryPlayer playerInventory;
 	protected TileFusionCore tile;
 	protected final ResourceLocation gui_textures;
 
 	public GuiFusionCore(EntityPlayer player, TileFusionCore tile) {
 		super(new ContainerFusionCore(player, tile));
-		playerInventory = player.inventory;
 		this.tile = tile;
 		gui_textures = new ResourceLocation(Global.MOD_ID + ":textures/gui/container/" + "fusion_core" + ".png");
 		xSize = 196;

@@ -16,9 +16,9 @@ public class BlockHelper {
 	public static void spawnParticleOnProcessor(IBlockState state, World world, BlockPos pos, Random rand, EnumFacing side, String particleName) {
 		if (particleName.equals("") || !NCConfig.processor_particles) return;
 		
-		double d0 = (double)pos.getX() + 0.5D;
-		double d1 = (double)pos.getY() + 0.125D + rand.nextDouble() * 0.75D;
-		double d2 = (double)pos.getZ() + 0.5D;
+		double d0 = pos.getX() + 0.5D;
+		double d1 = pos.getY() + 0.125D + rand.nextDouble() * 0.75D;
+		double d2 = pos.getZ() + 0.5D;
 		double d3 = 0.52D;
 		double d4 = rand.nextDouble() * 0.6D - 0.3D;
 	
@@ -41,7 +41,7 @@ public class BlockHelper {
 	
 	public static void playSoundOnProcessor(World world, BlockPos pos, Random rand, SoundEvent sound) {
 		if (sound != null) if (rand.nextDouble() < 0.2D) {
-			world.playSound((double)pos.getX() + 0.5D, (double)pos.getY(), (double)pos.getZ() + 0.5D, sound, SoundCategory.BLOCKS, 1.0F, 1.0F, false);
+			world.playSound(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, sound, SoundCategory.BLOCKS, 1.0F, 1.0F, false);
 		}
 	}
 }

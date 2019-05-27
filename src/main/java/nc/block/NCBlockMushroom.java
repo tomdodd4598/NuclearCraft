@@ -15,7 +15,7 @@ public class NCBlockMushroom extends BlockMushroom {
 	
 	public NCBlockMushroom(String name) {
 		super();
-		setUnlocalizedName(Global.MOD_ID + "." + name);
+		setTranslationKey(Global.MOD_ID + "." + name);
 		setRegistryName(new ResourceLocation(Global.MOD_ID, name));
 		setCreativeTab(NCTabs.BASE_BLOCK_MATERIALS);
 		setLightLevel(1F);

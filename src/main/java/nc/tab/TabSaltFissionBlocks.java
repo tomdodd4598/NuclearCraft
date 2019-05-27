@@ -11,7 +11,7 @@ public class TabSaltFissionBlocks extends CreativeTabs {
 	}
 
 	@Override
-	public ItemStack getTabIconItem() {
+	public ItemStack createIcon() {
 		return new ItemStack(NCBlocks.salt_fission_controller, 1);
 	}
 }

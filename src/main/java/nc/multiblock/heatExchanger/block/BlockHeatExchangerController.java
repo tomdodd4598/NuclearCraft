@@ -33,15 +33,15 @@ public class BlockHeatExchangerController extends BlockHeatExchangerPartBase {
 	
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
-		EnumFacing enumfacing = EnumFacing.getFront(meta & 7);
+		EnumFacing enumfacing = EnumFacing.byIndex(meta & 7);
 		return getDefaultState().withProperty(FACING, enumfacing).withProperty(ACTIVE, Boolean.valueOf((meta & 8) > 0));
 	}
 	
 	@Override
 	public int getMetaFromState(IBlockState state) {
-		int i = ((EnumFacing)state.getValue(FACING)).getIndex();
+		int i = state.getValue(FACING).getIndex();
 		
-		if (((Boolean)state.getValue(ACTIVE)).booleanValue()) i |= 8;
+		if (state.getValue(ACTIVE).booleanValue()) i |= 8;
 		
 		return i;
 	}
@@ -62,9 +62,9 @@ public class BlockHeatExchangerController extends BlockHeatExchangerPartBase {
 		setDefaultDirection(world, pos, state);
 	}
 	
-	private void setDefaultDirection(World world, BlockPos pos, IBlockState state) {
+	private static void setDefaultDirection(World world, BlockPos pos, IBlockState state) {
 		if (!world.isRemote) {
-			EnumFacing enumfacing = (EnumFacing)state.getValue(FACING);
+			EnumFacing enumfacing = state.getValue(FACING);
 			boolean flag = world.getBlockState(pos.north()).isFullBlock();
 			boolean flag1 = world.getBlockState(pos.south()).isFullBlock();
 

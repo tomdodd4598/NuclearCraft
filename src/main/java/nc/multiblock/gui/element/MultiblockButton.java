@@ -15,6 +15,12 @@ public class MultiblockButton {
 		}
 		
 		@Override
+		public void drawButton(Minecraft minecraft, int x, int y, float partialTicks) {
+			visible = isShiftKeyDown();
+			super.drawButton(minecraft, x, y, partialTicks);
+		}
+		
+		@Override
 		public boolean mousePressed(Minecraft minecraft, int mouseX, int mouseY) {
 			isButtonPressed = isShiftKeyDown() && enabled && visible && mouseX >= this.x && mouseY >= this.y && mouseX < this.x + width && mouseY < this.y + height;
 			return isButtonPressed;

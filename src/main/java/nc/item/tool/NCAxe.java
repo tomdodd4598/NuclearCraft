@@ -30,9 +30,9 @@ public class NCAxe extends ItemTool {
 	
 	public NCAxe(String unlocalizedName, ToolMaterial material, String... tooltip) {
 		super(material, EFFECTIVE_ON);
-		setUnlocalizedName(Global.MOD_ID + "." + unlocalizedName);
+		setTranslationKey(Global.MOD_ID + "." + unlocalizedName);
 		setRegistryName(new ResourceLocation(Global.MOD_ID, unlocalizedName));
-		info = InfoHelper.buildInfo(getUnlocalizedName(), tooltip);
+		info = InfoHelper.buildInfo(getTranslationKey(), tooltip);
 	}
 	
 	@Override

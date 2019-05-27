@@ -36,7 +36,7 @@ public class CommandSetChunkRadiation extends CommandBase {
 				throw new WrongUsageException(getUsage(sender), new Object[0]);
 			}
 			
-			Chunk chunk = sender.getEntityWorld().getChunkFromChunkCoords(sender.getPosition().getX() >> 4, sender.getPosition().getZ() >> 4);
+			Chunk chunk = sender.getEntityWorld().getChunk(sender.getPosition().getX() >> 4, sender.getPosition().getZ() >> 4);
 			
 			if (chunk != null && chunk.isLoaded() && chunk.hasCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null)) {
 				IRadiationSource chunkRadiation = chunk.getCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null);
@@ -53,7 +53,7 @@ public class CommandSetChunkRadiation extends CommandBase {
 				throw new WrongUsageException(getUsage(sender), new Object[0]);
 			}
 			
-			int x = (int)sender.getPosition().getX();
+			int x = sender.getPosition().getX();
 			try {
 				x = Integer.parseInt(args[1]);
 			}
@@ -61,7 +61,7 @@ public class CommandSetChunkRadiation extends CommandBase {
 				throw new WrongUsageException(getUsage(sender), new Object[0]);
 			}
 			
-			int z = (int)sender.getPosition().getZ();
+			int z = sender.getPosition().getZ();
 			try {
 				z = Integer.parseInt(args[2]);
 			}
@@ -69,7 +69,7 @@ public class CommandSetChunkRadiation extends CommandBase {
 				throw new WrongUsageException(getUsage(sender), new Object[0]);
 			}
 			
-			Chunk chunk = sender.getEntityWorld().getChunkFromChunkCoords(x >> 4, z >> 4);
+			Chunk chunk = sender.getEntityWorld().getChunk(x >> 4, z >> 4);
 			
 			if (chunk != null && chunk.isLoaded() && chunk.hasCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null)) {
 				IRadiationSource chunkRadiation = chunk.getCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE, null);

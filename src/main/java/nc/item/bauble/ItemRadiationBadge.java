@@ -64,7 +64,7 @@ public class ItemRadiationBadge extends NCItem implements IBauble {
 		if (entity instanceof EntityPlayer) updateBadge(stack, (EntityPlayer) entity);
 	}
 	
-	private void updateBadge(ItemStack stack, EntityPlayer player) {
+	private static void updateBadge(ItemStack stack, EntityPlayer player) {
 		if (player.hasCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null)) {
 			IEntityRads entityRads = player.getCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null);
 			if (entityRads == null || entityRads.isRadiationUndetectable() || !stack.hasCapability(IRadiationSink.CAPABILITY_RADIATION_SINK, null)) return;

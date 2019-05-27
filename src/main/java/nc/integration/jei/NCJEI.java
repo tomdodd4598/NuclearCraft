@@ -228,17 +228,17 @@ public class NCJEI implements IModPlugin {
 		NCUtil.getLogger().info("JEI integration complete");
 	}
 	
-	private void blacklist(IJeiHelpers jeiHelpers, Object ingredient) {
+	private static void blacklist(IJeiHelpers jeiHelpers, Object ingredient) {
 		if (ingredient == null) return;
 		jeiHelpers.getIngredientBlacklist().addIngredientToBlacklist(ItemStackHelper.fixItemStack(ingredient));
 	}
 	
-	private <T extends Enum<T>> void blacklistAll(IJeiHelpers jeiHelpers, Class<T> enumm, Block block) {
+	private static <T extends Enum<T>> void blacklistAll(IJeiHelpers jeiHelpers, Class<T> enumm, Block block) {
 		if (block == null) return;
 		for (int i = 0; i < enumm.getEnumConstants().length; i++) blacklist(jeiHelpers, new ItemStack(block, 1, i));
 	}
 	
-	private <T extends Enum<T>> void blacklistAll(IJeiHelpers jeiHelpers, Class<T> enumm, Item item) {
+	private static <T extends Enum<T>> void blacklistAll(IJeiHelpers jeiHelpers, Class<T> enumm, Item item) {
 		if (item == null) return;
 		for (int i = 0; i < enumm.getEnumConstants().length; i++) blacklist(jeiHelpers, new ItemStack(item, 1, i));
 	}

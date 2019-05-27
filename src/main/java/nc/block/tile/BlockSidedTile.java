@@ -31,13 +31,13 @@ public abstract class BlockSidedTile extends BlockTile {
 		setDefaultFacing(world, pos, state);
 	}
 	
-	private void setDefaultFacing(World world, BlockPos pos, IBlockState state) {
+	private static void setDefaultFacing(World world, BlockPos pos, IBlockState state) {
 		if (!world.isRemote) {
 			IBlockState northBlock = world.getBlockState(pos.north());
 			IBlockState southBlock = world.getBlockState(pos.south());
 			IBlockState westBlock = world.getBlockState(pos.west());
 			IBlockState eastBlock = world.getBlockState(pos.east());
-			EnumFacing facing = (EnumFacing)state.getValue(FACING);
+			EnumFacing facing = state.getValue(FACING);
 			
 			if (facing == EnumFacing.NORTH && northBlock.isFullBlock() && !southBlock.isFullBlock()) {
 				facing = EnumFacing.SOUTH;
@@ -64,7 +64,7 @@ public abstract class BlockSidedTile extends BlockTile {
 	
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
-		EnumFacing enumfacing = EnumFacing.getFront(meta);
+		EnumFacing enumfacing = EnumFacing.byIndex(meta);
 		
 		if (enumfacing.getAxis() == EnumFacing.Axis.Y) enumfacing = EnumFacing.NORTH;
 		
@@ -73,17 +73,17 @@ public abstract class BlockSidedTile extends BlockTile {
 	
 	@Override
 	public int getMetaFromState(IBlockState state) {
-		return ((EnumFacing) state.getValue(FACING)).getIndex();
+		return state.getValue(FACING).getIndex();
 	}
 	
 	@Override
 	public IBlockState withRotation(IBlockState state, Rotation rot) {
-		return state.withProperty(FACING, rot.rotate((EnumFacing) state.getValue(FACING)));
+		return state.withProperty(FACING, rot.rotate(state.getValue(FACING)));
 	}
 	
 	@Override
 	public IBlockState withMirror(IBlockState state, Mirror mirrorIn) {
-		return state.withRotation(mirrorIn.toRotation((EnumFacing) state.getValue(FACING)));
+		return state.withRotation(mirrorIn.toRotation(state.getValue(FACING)));
 	}
 	
 	@Override

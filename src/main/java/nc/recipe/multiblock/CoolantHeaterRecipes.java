@@ -12,7 +12,7 @@ public class CoolantHeaterRecipes extends ProcessorRecipeHandler {
 	@Override
 	public void addRecipes() {
 		for (int i = 0; i < COOLANTS.length; i++) {
-			addRecipe(fluidStack(COOLANTS[i] + "nak", NCConfig.salt_fission_cooling_max_rate), fluidStack(COOLANTS[i] + "nak_hot", NCConfig.salt_fission_cooling_max_rate), NCConfig.salt_fission_cooling_rate[i], "jei.nuclearcraft.coolant_heater." + COOLANTS[i] + "nak");
+			addRecipe(fluidStack(COOLANTS[i] + "nak", 20), fluidStack(COOLANTS[i] + "nak_hot", 20), NCConfig.salt_fission_cooling_rate[i], "jei.nuclearcraft.coolant_heater." + COOLANTS[i] + "nak");
 		}
 	}
 	

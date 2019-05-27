@@ -22,7 +22,7 @@ public class ArmorTraitUplifting extends AbstractArmorTrait {
 		return super.onHurt(armor, player, source, damage, newDamage, evt);
 	}
 	
-	private void uplift(EntityLivingBase player) {
+	private static void uplift(EntityLivingBase player) {
 		if(!player.getEntityWorld().isRemote && random.nextInt(2) == 0) {
 			player.addPotionEffect(new PotionEffect(PotionHelper.newEffect(10, 3, 81)));
 		}

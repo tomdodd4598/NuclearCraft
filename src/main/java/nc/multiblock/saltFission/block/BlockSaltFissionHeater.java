@@ -77,7 +77,7 @@ public class BlockSaltFissionHeater extends BlockSaltFissionPartBase implements 
 		return super.onBlockActivated(world, pos, state, player, hand, facing, hitX, hitY, hitZ);
 	}
 	
-	private TextComponentString getToggleMessage(EntityPlayer player, TileSaltFissionHeater heater, EnumFacing side) {
+	private static TextComponentString getToggleMessage(EntityPlayer player, TileSaltFissionHeater heater, EnumFacing side) {
 		SaltFissionHeaterSetting setting = heater.getHeaterSetting(side);
 		String message = player.isSneaking() ? "nc.block.fluid_toggle_opposite" : "nc.block.fluid_toggle";
 		TextFormatting color = setting == SaltFissionHeaterSetting.HOT_COOLANT_OUT ? TextFormatting.RED : (setting == SaltFissionHeaterSetting.COOLANT_SPREAD ? TextFormatting.AQUA : (setting == SaltFissionHeaterSetting.DEFAULT ? TextFormatting.WHITE : TextFormatting.GRAY));

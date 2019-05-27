@@ -52,7 +52,7 @@ public class GTCERecipeHelper {
 			builder = addStats(recipeMap.recipeBuilder(), recipe, 16, 10);
 			break;
 		case "infuser":
-			recipeMap = RecipeMaps.FLUID_CANNER_RECIPES;
+			recipeMap = RecipeMaps.CHEMICAL_BATH_RECIPES;
 			builder = addStats(recipeMap.recipeBuilder(), recipe, 30, 10);
 			break;
 		case "melter":

@@ -16,6 +16,8 @@ import nc.init.NCBlocks;
 import nc.tile.energy.ITileEnergy;
 import nc.tile.generator.TileFissionController;
 import nc.tile.internal.energy.EnergyConnection;
+import nc.tile.internal.inventory.ItemSorption;
+import nc.tile.inventory.ITileInventory;
 import nc.tile.passive.ITilePassive;
 import nc.util.BlockFinder;
 import nc.util.EnergyHelper;
@@ -32,7 +34,7 @@ public class TileFissionPort extends TileDummy<TileFissionController> implements
 	private BlockFinder finder;
 
 	public TileFissionPort() {
-		super(TileFissionController.class, "fission_port", ITileEnergy.energyConnectionAll(EnergyConnection.OUT), NCConfig.machine_update_rate, null);
+		super(TileFissionController.class, "fission_port", ITileInventory.inventoryConnectionAll(ItemSorption.BOTH), ITileEnergy.energyConnectionAll(EnergyConnection.OUT), NCConfig.machine_update_rate, null);
 	}
 	
 	@Override
@@ -117,7 +119,7 @@ public class TileFissionPort extends TileDummy<TileFissionController> implements
 	
 	// Finding Blocks
 	
-	private boolean notOrigin(int x, int y, int z) {
+	private static boolean notOrigin(int x, int y, int z) {
 		return x != 0 || y != 0 || z != 0;
 	}
 	

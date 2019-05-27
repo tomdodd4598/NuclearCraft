@@ -29,14 +29,14 @@ public class BlockFluidCorium extends BlockFluidFission {
 	}
 	
 	@Override
-	public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
+	public void onEntityCollision(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
 		entityIn.attackEntityFrom(corium_burn, 4.0F);
-		super.onEntityCollidedWithBlock(worldIn, pos, state, entityIn);
+		super.onEntityCollision(worldIn, pos, state, entityIn);
 	}
 	
 	@Override
 	public void updateTick(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull IBlockState state, @Nonnull Random rand) {
-		Chunk chunk = world.getChunkFromBlockCoords(pos);
+		Chunk chunk = world.getChunk(pos);
 		if (chunk.isLoaded()) {
 			IRadiationSource chunkSource = RadiationHelper.getRadiationSource(chunk);
 			if (chunkSource != null) {

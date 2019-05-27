@@ -11,7 +11,7 @@ public class TabBaseBlockMaterials extends CreativeTabs {
 	}
 
 	@Override
-	public ItemStack getTabIconItem() {
+	public ItemStack createIcon() {
 		return new ItemStack(NCBlocks.ore, 1, 2);
 	}
 }

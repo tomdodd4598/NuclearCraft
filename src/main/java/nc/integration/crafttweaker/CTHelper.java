@@ -79,7 +79,7 @@ public class CTHelper {
 		} else if (ingredient instanceof IngredientStack) {
 			return buildOreIngredientArray((IngredientStack) ingredient, false);
 		} else if (ingredient instanceof IngredientOr) {
-			return buildItemIngredientArray((IngredientOr) ingredient);
+			return buildItemIngredientArray(ingredient);
 		} else {
 			CraftTweakerAPI.logError(String.format("%s: Invalid ingredient: %s, %s", recipeType.getRecipeName(), ingredient.getClass().getName(), ingredient));
 			return null;

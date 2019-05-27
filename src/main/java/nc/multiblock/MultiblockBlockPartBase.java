@@ -56,7 +56,7 @@ public abstract class MultiblockBlockPartBase extends NCBlock implements ITileEn
 		TileEntity tile = world.getTileEntity(pos);
 		if (tile instanceof ITileFluid && FluidUtil.getFluidHandler(player.getHeldItem(hand)) != null) {
 			ITileFluid tileFluid = (ITileFluid) tile;
-			if (tileFluid.getTanks() != null && FluidHelper.accessTanks(player, hand, facing, tileFluid)) return true;
+			if (FluidHelper.accessTanks(player, hand, facing, tileFluid)) return true;
 		}
 		if (!world.isRemote && player.getHeldItemMainhand().isEmpty()) {
 			if (tile instanceof IMultiblockPart) {
@@ -122,7 +122,7 @@ public abstract class MultiblockBlockPartBase extends NCBlock implements ITileEn
 		
 		@Override
 		@SideOnly(Side.CLIENT)
-		public BlockRenderLayer getBlockLayer() {
+		public BlockRenderLayer getRenderLayer() {
 			return BlockRenderLayer.CUTOUT;
 		}
 

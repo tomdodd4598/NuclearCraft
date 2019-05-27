@@ -11,7 +11,7 @@ public class TabNuclearCraft extends CreativeTabs {
 	}
 
 	@Override
-	public ItemStack getTabIconItem() {
+	public ItemStack createIcon() {
 		return new ItemStack(NCBlocks.fission_controller_new_active);
 	}
 }

@@ -46,7 +46,7 @@ public class FluidIngredient implements IFluidIngredient {
 	
 	@Override
 	public IngredientMatchResult match(Object object, IngredientSorption type) {
-		if (object instanceof Tank) object = (FluidStack)((Tank)object).getFluid();
+		if (object instanceof Tank) object = ((Tank)object).getFluid();
 		if (object instanceof FluidStack) {
 			FluidStack fluidstack = (FluidStack) object;
 			if (!fluidstack.isFluidEqual(stack) || !FluidStack.areFluidStackTagsEqual(fluidstack, stack)) {

@@ -14,14 +14,10 @@
 		"announce_to_chat": false
 	},
 	"criteria": {
-		"has_item": {
-			"trigger": "minecraft:inventory_changed",
+		"location": {
+			"trigger": "minecraft:location",
 			"conditions": {
-				"items": [
-					{
-						"item": "minecraft:stick"
-					}
-				]
+				"dimension":"overworld"
 			}
 		}
 	}

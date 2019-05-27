@@ -19,7 +19,7 @@ public class NCBlockFluid extends BlockFluidClassic {
 		super(fluid, material);
 		String fluidBlockName = "fluid_" + fluid.getName();
 		this.name = fluidBlockName;
-		setUnlocalizedName(Global.MOD_ID + "." + fluidBlockName);
+		setTranslationKey(Global.MOD_ID + "." + fluidBlockName);
 		setRegistryName(new ResourceLocation(Global.MOD_ID, fluidBlockName));
 		//NuclearCraft.proxy.registerFluidBlockRendering(this, name);
 		this.fluid = fluid;
@@ -29,7 +29,7 @@ public class NCBlockFluid extends BlockFluidClassic {
 		super(fluid, material);
 		String fluidBlockName = "fluid_" + fluid.getName();
 		this.name = fluidBlockName;
-		setUnlocalizedName(Global.MOD_ID + "." + fluidBlockName);
+		setTranslationKey(Global.MOD_ID + "." + fluidBlockName);
 		setRegistryName(new ResourceLocation(Global.MOD_ID, fluidBlockName));
 		//NuclearCraft.proxy.registerFluidBlockRendering(this, name);
 		this.fluid = fluid;

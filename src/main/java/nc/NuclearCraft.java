@@ -11,6 +11,7 @@ import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLModIdMappingEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
@@ -55,5 +56,10 @@ public class NuclearCraft {
 	public void serverStart(FMLServerStartingEvent serverStartEvent) {
 		NCUtil.getLogger().info("Server Loading...");
 		proxy.serverStart(serverStartEvent);
+	}
+	
+	@EventHandler
+	public void onIdMapping(FMLModIdMappingEvent idMappingEvent) {
+		proxy.onIdMapping(idMappingEvent);
 	}
 }

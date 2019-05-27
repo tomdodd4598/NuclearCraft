@@ -1,7 +1,11 @@
 package nc.recipe.processor;
 
+import java.util.Arrays;
+import java.util.List;
+
 import nc.radiation.RadSources;
 import nc.recipe.ProcessorRecipeHandler;
+import nc.util.OreDictHelper;
 
 public class DecayHastenerRecipes extends ProcessorRecipeHandler {
 	
@@ -11,11 +15,11 @@ public class DecayHastenerRecipes extends ProcessorRecipeHandler {
 
 	@Override
 	public void addRecipes() {
-		addDecayRecipes("Thorium230Base", "dustLead");
-		addDecayRecipes("Thorium232", "dustLead");
+		addDecayRecipes("Thorium230Base", "Lead");
+		addDecayRecipes("Thorium232", "Lead");
 		
-		addDecayRecipes("Uranium233", "dustLead");
-		addDecayRecipes("Uranium235", "dustLead");
+		addDecayRecipes("Uranium233", OreDictHelper.oreExists("dustBismuth") ? "Bismuth" : "Lead");
+		addDecayRecipes("Uranium235", "Lead");
 		addDecayRecipes("Uranium238Base", "Thorium230Base");
 		
 		addDecayRecipes("Neptunium236", "Thorium232");
@@ -44,12 +48,14 @@ public class DecayHastenerRecipes extends ProcessorRecipeHandler {
 		addDecayRecipes("Californium252Base", "Thorium232");
 	}
 	
+	private static final List<String> CHAIN_ENDS = Arrays.asList("Lead", "Bismuth");
+	
 	public void addDecayRecipes(String input, String output) {
-		boolean isInputBase = input.substring(input.length() - 4, input.length()).equals("Base"), isOutputBase = output.substring(output.length() - 4, output.length()).equals("Base"), isLead = output.equals("dustLead");
+		boolean isInputBase = input.substring(input.length() - 4, input.length()).equals("Base"), isOutputBase = output.substring(output.length() - 4, output.length()).equals("Base"), isChainEnd = CHAIN_ENDS.contains(output);
 		for (String size : new String[] {"ingot", "nugget"}) for (String oxide : new String[] {"", "Oxide"}) {
 			String inputName = size + ((oxide.equals("Oxide") && isInputBase) || (size.equals("nugget") && isInputBase) ? input.substring(0, input.length() - 4) : input) + oxide;
 			double radiationLevel = RadSources.ORE_MAP.getDouble(inputName);
-			addRecipe(inputName, isLead ? (size.equals("ingot") ? "dustLead" : "tinyDustLead") : (size + ((oxide.equals("Oxide") && isOutputBase) || (size.equals("nugget") && isOutputBase) ? output.substring(0, output.length() - 4) : output) + oxide), size.equals("nugget") ? 1D/9D : 1D, 1D, radiationLevel/8D);
+			addRecipe(inputName, isChainEnd ? (size.equals("ingot") ? "dust" : "tinyDust") + output : size + ((oxide.equals("Oxide") && isOutputBase) || (size.equals("nugget") && isOutputBase) ? output.substring(0, output.length() - 4) : output) + oxide, size.equals("nugget") ? 1D/9D : 1D, 1D, radiationLevel/8D);
 		}
 	}
 }

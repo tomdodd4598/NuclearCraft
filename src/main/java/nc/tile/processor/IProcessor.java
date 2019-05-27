@@ -18,17 +18,25 @@ public interface IProcessor extends IInterfaceable, IBufferable {
 	
 	public void refreshActivityOnProduction();
 	
-	public static double maxPowerMultiplier(NCRecipes.Type recipeType) {
+	public static double maxStat(NCRecipes.Type recipeType, int i) {
 		double max = 1D;
 		List<ProcessorRecipe> recipes = recipeType.getRecipeHandler().getRecipes();
 		for (ProcessorRecipe recipe : recipes) {
-			if (recipe == null || recipe.extras().size() < 2) continue;
-			else if (recipe.extras().get(1) instanceof Double) max = Math.max(max, (double) recipe.extras().get(1));
+			if (recipe == null || recipe.extras().size() <= i) continue;
+			else if (recipe.extras().get(i) instanceof Double) max = Math.max(max, (double) recipe.extras().get(i));
 		}
 		return max;
 	}
 	
-	public static int getBaseCapacity(NCRecipes.Type recipeType) {
-		return (int) (32000D*IProcessor.maxPowerMultiplier(recipeType));
+	public static double maxBaseProcessTime(NCRecipes.Type recipeType, int defaultProcessTime) {
+		return maxStat(recipeType, 0)*defaultProcessTime;
+	}
+	
+	public static double maxBaseProcessPower(NCRecipes.Type recipeType, int defaultProcessPower) {
+		return maxStat(recipeType, 1)*defaultProcessPower;
+	}
+	
+	public static int getCapacity(NCRecipes.Type recipeType, int defaultProcessTime, double speedMultiplier, int defaultProcessPower, double powerMultiplier) {
+		return Math.max(1, (int) Math.round(Math.ceil(maxBaseProcessTime(recipeType, defaultProcessTime)/speedMultiplier)))*Math.min(Integer.MAX_VALUE, (int) (maxBaseProcessPower(recipeType, defaultProcessPower)*powerMultiplier));
 	}
 }

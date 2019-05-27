@@ -16,19 +16,16 @@ import nc.util.UnitHelper;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 
 public abstract class GuiFluidProcessor extends NCGui {
 	
-	private final InventoryPlayer playerInventory;
 	protected TileFluidProcessor tile;
 	protected final ResourceLocation gui_textures;
 
 	public GuiFluidProcessor(String name, EntityPlayer player, ContainerFluidProcessor inv) {
 		super(inv);
-		playerInventory = player.inventory;
 		gui_textures = new ResourceLocation(Global.MOD_ID + ":textures/gui/container/" + name + ".png");
 	}
 

@@ -9,11 +9,13 @@ import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
 import li.cil.oc.api.network.SimpleComponent;
 import nc.Global;
+import nc.capability.radiation.source.IRadiationSource;
 import nc.config.NCConfig;
 import nc.enumm.MetaEnums.CoolerType;
 import nc.handler.SoundHandler;
 import nc.init.NCBlocks;
 import nc.network.tile.FusionUpdatePacket;
+import nc.radiation.RadiationHelper;
 import nc.recipe.NCRecipes;
 import nc.recipe.ProcessorRecipe;
 import nc.tile.IGui;
@@ -119,7 +121,7 @@ public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpd
 	}
 	
 	public int getComparatorStrength() {
-		double strength = getAlternateComparator() ? (double)heat/getMaxHeat() : (double)efficiency/(double)NCConfig.fusion_comparator_max_efficiency;
+		double strength = getAlternateComparator() ? heat/getMaxHeat() : efficiency/NCConfig.fusion_comparator_max_efficiency;
 		return (int) MathHelper.clamp(15D*strength, 0, 15);
 	}
 	
@@ -161,6 +163,11 @@ public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpd
 	}
 	
 	public void meltdown() {
+		IRadiationSource chunkSource = RadiationHelper.getRadiationSource(world.getChunk(pos));
+		if (chunkSource != null) {
+			RadiationHelper.addToSourceRadiation(chunkSource, 8D*baseProcessRadiation*size*NCConfig.fusion_fuel_use*NCConfig.fusion_meltdown_radiation_multiplier);
+		}
+		
 		world.removeTileEntity(pos);
 		world.destroyBlock(pos, false);
 		world.setBlockState(pos, Blocks.LAVA.getDefaultState());
@@ -196,11 +203,11 @@ public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpd
 		world.playSound(pos.getX() + x, pos.getY() + y, pos.getZ() + z, getSound(), SoundCategory.BLOCKS, 1F, 1.0F, false);
 	}
 	
-	private int getSoundTime() {
+	private static int getSoundTime() {
 		return !NCConfig.fusion_alternate_sound ? SoundHandler.FUSION_RUN_TIME : SoundHandler.ACCELERATOR_RUN_TIME;
 	}
 	
-	private SoundEvent getSound() {
+	private static SoundEvent getSound() {
 		return !NCConfig.fusion_alternate_sound ? SoundHandler.fusion_run : SoundHandler.accelerator_run;
 	}
 	
@@ -268,7 +275,7 @@ public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpd
 	
 	// Reactor Stats
 	
-	public double getMaxHeat() {
+	public static double getMaxHeat() {
 		return 20000000D;
 	}
 	
@@ -394,7 +401,7 @@ public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpd
 	
 	public void doHeating() {
 		if (!readyToProcess()) {
-			double r = 0.0001D*getEnergyStorage().getEnergyStored()/((double) ringRadius());
+			double r = 0.0001D*getEnergyStorage().getEnergyStored()/(ringRadius());
 			getEnergyStorage().setEnergyStored(0);
 			heat = heat + r*NCConfig.fusion_heating_multiplier;
 			setEnergyConnectionAll(EnergyConnection.IN);

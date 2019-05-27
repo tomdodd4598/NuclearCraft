@@ -11,7 +11,7 @@ public class TabTurbineBlocks extends CreativeTabs {
 	}
 
 	@Override
-	public ItemStack getTabIconItem() {
+	public ItemStack createIcon() {
 		return new ItemStack(NCBlocks.turbine_controller, 1);
 	}
 }

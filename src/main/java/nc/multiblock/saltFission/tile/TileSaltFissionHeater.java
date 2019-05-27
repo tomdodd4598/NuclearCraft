@@ -54,7 +54,7 @@ public class TileSaltFissionHeater extends TileSaltFissionPartBase implements IF
 	
 	public final int fluidInputSize = 1, fluidOutputSize = 1;
 	
-	private double baseProcessCooling;
+	public double baseProcessCooling;
 	public final int baseProcessTime = 20;
 	public double reactorCoolingEfficiency; // Based on the reactor efficiency, but with heat/cooling taken into account
 	public boolean checked = false, isInValidPosition;
@@ -432,10 +432,6 @@ public class TileSaltFissionHeater extends TileSaltFissionPartBase implements IF
 	
 	public double getSpeedMultiplier() {
 		return reactorCoolingEfficiency;
-	}
-	
-	public double getProcessCooling() {
-		return 0.05D*NCConfig.salt_fission_cooling_max_rate*baseProcessCooling;
 	}
 	
 	public boolean setRecipeStats() {

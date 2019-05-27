@@ -37,7 +37,7 @@ public class GuiSaltFissionController extends GuiMultiblockController<SaltFissio
 	
 	@Override
 	public void renderTooltips(int mouseX, int mouseY) {
-		drawTooltip(clearAllFluidsInfo(), mouseX, mouseY, 162, 81, 9, 9);
+		if (isShiftKeyDown()) drawTooltip(clearAllFluidsInfo(), mouseX, mouseY, 162, 81, 9, 9);
 		
 		drawEfficiencyTooltip(mouseX, mouseY, 6, 93, 164, 6);
 		drawHeatTooltip(mouseX, mouseY, 6, 103, 164, 6);

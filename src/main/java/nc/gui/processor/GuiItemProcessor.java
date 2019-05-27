@@ -14,19 +14,16 @@ import nc.util.NCMath;
 import nc.util.UnitHelper;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 
 public abstract class GuiItemProcessor extends NCGui {
 	
-	private final InventoryPlayer playerInventory;
 	protected TileItemProcessor tile;
 	protected final ResourceLocation gui_textures;
 
 	public GuiItemProcessor(String name, EntityPlayer player, ContainerItemProcessor inv) {
 		super(inv);
-		playerInventory = player.inventory;
 		gui_textures = new ResourceLocation(Global.MOD_ID + ":textures/gui/container/" + name + ".png");
 	}
 

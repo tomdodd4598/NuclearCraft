@@ -36,7 +36,7 @@ public abstract class JEIRecipeWrapperProcessor<T extends JEIRecipeWrapperProces
 		List<String> tooltip = new ArrayList<String>();
 		
 		if (mouseX >= infoX && mouseY >= infoY && mouseX < infoX + infoWidth + 1 && mouseY < infoY + infoHeight + 1) {
-			tooltip.add(TextFormatting.GREEN + BASE_TIME + " " + TextFormatting.WHITE + UnitHelper.applyTimeUnitShort(Math.round(getBaseProcessTime()), 2));
+			tooltip.add(TextFormatting.GREEN + BASE_TIME + " " + TextFormatting.WHITE + UnitHelper.applyTimeUnitShort(Math.round(getBaseProcessTime()), 3));
 			tooltip.add(TextFormatting.LIGHT_PURPLE + BASE_POWER + " " + TextFormatting.WHITE + UnitHelper.prefix(Math.round(getBaseProcessPower()), 5, "RF/t"));
 		}
 		

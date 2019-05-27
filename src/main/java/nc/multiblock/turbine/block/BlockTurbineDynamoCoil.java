@@ -3,6 +3,7 @@ package nc.multiblock.turbine.block;
 import nc.block.item.IMetaBlockName;
 import nc.multiblock.turbine.TurbineDynamoCoilType;
 import nc.multiblock.turbine.tile.TileTurbineDynamoCoil;
+import nc.util.ItemStackHelper;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
@@ -94,6 +95,6 @@ public class BlockTurbineDynamoCoil extends BlockTurbinePartBase implements IMet
 	
 	@Override
 	public String getSpecialName(ItemStack stack) {
-		return TurbineDynamoCoilType.values()[stack.getItemDamage()].getName();
+		return TurbineDynamoCoilType.values()[ItemStackHelper.getMetadata(stack)].getName();
 	}
 }

@@ -44,7 +44,7 @@ public class BlockNuclearFurnace extends BlockContainer implements ITileEntityPr
 	
 	public BlockNuclearFurnace(boolean isBurning) {
 		super(Material.IRON);
-		setUnlocalizedName(Global.MOD_ID + ".nuclear_furnace" + (isBurning ? "_active" : "_idle"));
+		setTranslationKey(Global.MOD_ID + ".nuclear_furnace" + (isBurning ? "_active" : "_idle"));
 		setRegistryName(new ResourceLocation(Global.MOD_ID, "nuclear_furnace" + (isBurning ? "_active" : "_idle")));
 		setDefaultState(blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
 		this.isBurning = isBurning;
@@ -64,13 +64,13 @@ public class BlockNuclearFurnace extends BlockContainer implements ITileEntityPr
 		setDefaultFacing(world, pos, state);
 	}
 	
-	private void setDefaultFacing(World world, BlockPos pos, IBlockState state) {
+	private static void setDefaultFacing(World world, BlockPos pos, IBlockState state) {
 		if (!world.isRemote) {
 			IBlockState state0 = world.getBlockState(pos.north());
 			IBlockState state1 = world.getBlockState(pos.south());
 			IBlockState state2 = world.getBlockState(pos.west());
 			IBlockState state3 = world.getBlockState(pos.east());
-			EnumFacing enumfacing = (EnumFacing)state.getValue(FACING);
+			EnumFacing enumfacing = state.getValue(FACING);
 			
 			if (enumfacing == EnumFacing.NORTH && state0.isFullBlock() && !state1.isFullBlock()) {
 				enumfacing = EnumFacing.SOUTH;
@@ -110,8 +110,7 @@ public class BlockNuclearFurnace extends BlockContainer implements ITileEntityPr
 	
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		if (player == null) return false;
-		if (hand != EnumHand.MAIN_HAND || player.isSneaking()) return false;
+		if (player == null || hand != EnumHand.MAIN_HAND || player.isSneaking()) return false;
 		if (world.isRemote) return true;
 		
 		TileEntity tileentity = world.getTileEntity(pos);
@@ -126,15 +125,15 @@ public class BlockNuclearFurnace extends BlockContainer implements ITileEntityPr
 	@SuppressWarnings("incomplete-switch")
 	public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random rand) {
 		if (isBurning) {
-			EnumFacing enumfacing = (EnumFacing) state.getValue(FACING);
-			double d0 = (double)pos.getX() + 0.5D;
-			double d1 = (double)pos.getY() + rand.nextDouble() * 0.4D;
-			double d2 = (double)pos.getZ() + 0.5D;
+			EnumFacing enumfacing = state.getValue(FACING);
+			double d0 = pos.getX() + 0.5D;
+			double d1 = pos.getY() + rand.nextDouble() * 0.4D;
+			double d2 = pos.getZ() + 0.5D;
 			double d3 = 0.52D;
 			double d4 = rand.nextDouble() * 0.6D - 0.3D;
 			
 			if (rand.nextDouble() < 0.2D) {
-				world.playSound((double)pos.getX() + 0.5D, (double)pos.getY(), (double)pos.getZ() + 0.5D, SoundEvents.BLOCK_FURNACE_FIRE_CRACKLE, SoundCategory.BLOCKS, 1.0F, 1.0F, false);
+				world.playSound(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, SoundEvents.BLOCK_FURNACE_FIRE_CRACKLE, SoundCategory.BLOCKS, 1.0F, 1.0F, false);
 			}
 			
 			switch (enumfacing) {
@@ -202,7 +201,7 @@ public class BlockNuclearFurnace extends BlockContainer implements ITileEntityPr
 	
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
-		EnumFacing enumfacing = EnumFacing.getFront(meta);
+		EnumFacing enumfacing = EnumFacing.byIndex(meta);
 		
 		if (enumfacing.getAxis() == EnumFacing.Axis.Y) {
 			enumfacing = EnumFacing.NORTH;
@@ -213,17 +212,17 @@ public class BlockNuclearFurnace extends BlockContainer implements ITileEntityPr
 	
 	@Override
 	public int getMetaFromState(IBlockState state) {
-		return ((EnumFacing) state.getValue(FACING)).getIndex();
+		return state.getValue(FACING).getIndex();
 	}
 	
 	@Override
 	public IBlockState withRotation(IBlockState state, Rotation rot) {
-		return state.withProperty(FACING, rot.rotate((EnumFacing) state.getValue(FACING)));
+		return state.withProperty(FACING, rot.rotate(state.getValue(FACING)));
 	}
 	
 	@Override
 	public IBlockState withMirror(IBlockState state, Mirror mirrorIn) {
-		return state.withRotation(mirrorIn.toRotation((EnumFacing) state.getValue(FACING)));
+		return state.withRotation(mirrorIn.toRotation(state.getValue(FACING)));
 	}
 	
 	@Override

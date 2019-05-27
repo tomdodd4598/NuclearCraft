@@ -39,7 +39,7 @@ public class BushGenerator implements IWorldGenerator {
 		BlockPos chunkPos = new BlockPos(xPos, 0, zPos);
 		BlockPos position;
 
-		Biome biome = world.getChunkFromBlockCoords(chunkPos).getBiome(chunkPos, world.getBiomeProvider());
+		Biome biome = world.getChunk(chunkPos).getBiome(chunkPos, world.getBiomeProvider());
 		if (biome == null) return;
 		
 		if (BiomeDictionary.hasType(biome, Type.NETHER)) {

@@ -47,7 +47,13 @@ repositories {
 		url = "http://chickenbones.net/maven/"
 	}
 	maven {
+		// AE2
 		url "http://ae2.ae-mod.info/Downloads"
+	}
+	maven {
+		// Fallbacks
+		name = "ModMaven"
+		url = "https://modmaven.k-4u.nl"
 	}
 }
 
@@ -63,7 +69,7 @@ minecraft {
 	version = "${mc_version}-${forge_version}"
 	runDir = "run"
 	replace "@VERSION@", "${mod_version}"
-	mappings = "snapshot_20171003"
+	mappings = "${mapping_version}"
 	makeObfSourceJar = true
 }
 

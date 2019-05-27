@@ -8,7 +8,6 @@ import java.util.Set;
 import javax.annotation.Nonnull;
 
 import nc.ModCheck;
-import nc.config.NCConfig;
 import nc.init.NCItems;
 import nc.network.tile.ProcessorUpdatePacket;
 import nc.recipe.AbstractRecipeHandler;
@@ -43,23 +42,19 @@ public class TileFluidProcessor extends TileEnergyFluidSidedInventory implements
 	public boolean isProcessing, canProcessInputs;
 	
 	public final boolean shouldLoseProgress, hasUpgrades;
-	public final int guiID;
+	public final int processorID;
 	
 	public final NCRecipes.Type recipeType;
 	protected RecipeInfo<ProcessorRecipe> recipeInfo, cachedRecipeInfo;
 	
 	protected Set<EntityPlayer> playersToUpdate;
 	
-	public TileFluidProcessor(String name, int fluidInSize, int fluidOutSize, @Nonnull List<ItemSorption> itemSorptions, @Nonnull List<Integer> fluidCapacity, @Nonnull List<TankSorption> tankSorptions, List<List<String>> allowedFluids, int time, int power, boolean shouldLoseProgress, @Nonnull NCRecipes.Type recipeType) {
-		this(name, fluidInSize, fluidOutSize, itemSorptions, fluidCapacity, tankSorptions, allowedFluids, time, power, shouldLoseProgress, false, recipeType, 1);
+	public TileFluidProcessor(String name, int fluidInSize, int fluidOutSize, @Nonnull List<ItemSorption> itemSorptions, @Nonnull List<Integer> fluidCapacity, @Nonnull List<TankSorption> tankSorptions, List<List<String>> allowedFluids, int time, int power, boolean shouldLoseProgress, @Nonnull NCRecipes.Type recipeType, int processorID) {
+		this(name, fluidInSize, fluidOutSize, itemSorptions, fluidCapacity, tankSorptions, allowedFluids, time, power, shouldLoseProgress, true, recipeType, processorID);
 	}
 	
-	public TileFluidProcessor(String name, int fluidInSize, int fluidOutSize, @Nonnull List<ItemSorption> itemSorptions, @Nonnull List<Integer> fluidCapacity, @Nonnull List<TankSorption> tankSorptions, List<List<String>> allowedFluids, int time, int power, boolean shouldLoseProgress, @Nonnull NCRecipes.Type recipeType, int guiID) {
-		this(name, fluidInSize, fluidOutSize, itemSorptions, fluidCapacity, tankSorptions, allowedFluids, time, power, shouldLoseProgress, true, recipeType, guiID);
-	}
-	
-	public TileFluidProcessor(String name, int fluidInSize, int fluidOutSize, @Nonnull List<ItemSorption> itemSorptions, @Nonnull List<Integer> fluidCapacity, @Nonnull List<TankSorption> tankSorptions, List<List<String>> allowedFluids, int time, int power, boolean shouldLoseProgress, boolean upgrades, @Nonnull NCRecipes.Type recipeType, int guiID) {
-		super(name, upgrades ? 2 : 0, ITileInventory.inventoryConnectionAll(itemSorptions), IProcessor.getBaseCapacity(recipeType), power != 0 ? ITileEnergy.energyConnectionAll(EnergyConnection.IN) : ITileEnergy.energyConnectionAll(EnergyConnection.NON), fluidCapacity, fluidCapacity, allowedFluids, ITileFluid.fluidConnectionAll(tankSorptions));
+	public TileFluidProcessor(String name, int fluidInSize, int fluidOutSize, @Nonnull List<ItemSorption> itemSorptions, @Nonnull List<Integer> fluidCapacity, @Nonnull List<TankSorption> tankSorptions, List<List<String>> allowedFluids, int time, int power, boolean shouldLoseProgress, boolean upgrades, @Nonnull NCRecipes.Type recipeType, int processorID) {
+		super(name, upgrades ? 2 : 0, ITileInventory.inventoryConnectionAll(itemSorptions), IProcessor.getCapacity(recipeType, time, 1D, power, 1D), power != 0 ? ITileEnergy.energyConnectionAll(EnergyConnection.IN) : ITileEnergy.energyConnectionAll(EnergyConnection.NON), fluidCapacity, fluidCapacity, allowedFluids, ITileFluid.fluidConnectionAll(tankSorptions));
 		fluidInputSize = fluidInSize;
 		fluidOutputSize = fluidOutSize;
 		
@@ -70,7 +65,7 @@ public class TileFluidProcessor extends TileEnergyFluidSidedInventory implements
 		
 		this.shouldLoseProgress = shouldLoseProgress;
 		hasUpgrades = upgrades;
-		this.guiID = guiID;
+		this.processorID = processorID;
 		setInputTanksSeparated(fluidInSize > 1);
 		
 		this.recipeType = recipeType;
@@ -177,15 +172,15 @@ public class TileFluidProcessor extends TileEnergyFluidSidedInventory implements
 	
 	// Processor Stats
 	
-	public double getProcessTime() {
-		return Math.max(1, baseProcessTime/getSpeedMultiplier());
+	public int getProcessTime() {
+		return Math.max(1, (int) Math.round(Math.ceil(baseProcessTime/getSpeedMultiplier())));
 	}
 	
 	public int getProcessPower() {
 		return Math.min(Integer.MAX_VALUE, (int) (baseProcessPower*getPowerMultiplier()));
 	}
 	
-	public double getProcessEnergy() {
+	public int getProcessEnergy() {
 		return getProcessTime()*getProcessPower();
 	}
 	
@@ -203,8 +198,8 @@ public class TileFluidProcessor extends TileEnergyFluidSidedInventory implements
 	}
 	
 	public void setCapacityFromSpeed() {
-		getEnergyStorage().setStorageCapacity((int)MathHelper.clamp(NCConfig.machine_update_rate*defaultProcessPower*getPowerMultiplier(), IProcessor.getBaseCapacity(recipeType), Integer.MAX_VALUE));
-		getEnergyStorage().setMaxTransfer((int)MathHelper.clamp(NCConfig.machine_update_rate*defaultProcessPower*getPowerMultiplier(), IProcessor.getBaseCapacity(recipeType), Integer.MAX_VALUE));
+		getEnergyStorage().setStorageCapacity(IProcessor.getCapacity(recipeType, defaultProcessTime, getSpeedMultiplier(), defaultProcessPower, getPowerMultiplier()));
+		getEnergyStorage().setMaxTransfer(IProcessor.getCapacity(recipeType, defaultProcessTime, getSpeedMultiplier(), defaultProcessPower, getPowerMultiplier()));
 	}
 	
 	private int getMaxEnergyModified() { // Needed for Galacticraft
@@ -438,7 +433,7 @@ public class TileFluidProcessor extends TileEnergyFluidSidedInventory implements
 	
 	@Override
 	public int getGuiID() {
-		return guiID;
+		return processorID;
 	}
 	
 	@Override

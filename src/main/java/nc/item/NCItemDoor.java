@@ -9,7 +9,7 @@ public class NCItemDoor extends ItemDoor {
 
 	public NCItemDoor(String nameIn, Block block) {
 		super(block);
-		setUnlocalizedName(Global.MOD_ID + "." + nameIn);
+		setTranslationKey(Global.MOD_ID + "." + nameIn);
 		setRegistryName(new ResourceLocation(Global.MOD_ID, nameIn));
 	}
 }

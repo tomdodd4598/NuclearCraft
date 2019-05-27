@@ -32,7 +32,7 @@ public class BlockFluidSteam extends NCBlockFluid {
 	}
 	
 	@Override
-	public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
+	public void onEntityCollision(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
 		entityIn.attackEntityFrom(steam_burn, 3.0F);
 		entityIn.setFire(1);
 	}

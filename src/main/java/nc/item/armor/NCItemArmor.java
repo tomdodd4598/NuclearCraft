@@ -22,9 +22,9 @@ public class NCItemArmor extends ItemArmor {
 
 	public NCItemArmor(String unlocalizedName, ArmorMaterial materialIn, int renderIndexIn, EntityEquipmentSlot equipmentSlotIn, String... tooltip) {
 		super(materialIn, renderIndexIn, equipmentSlotIn);
-		setUnlocalizedName(Global.MOD_ID + "." + unlocalizedName);
+		setTranslationKey(Global.MOD_ID + "." + unlocalizedName);
 		setRegistryName(new ResourceLocation(Global.MOD_ID, unlocalizedName));
-		info = InfoHelper.buildInfo(getUnlocalizedName(), tooltip);
+		info = InfoHelper.buildInfo(getTranslationKey(), tooltip);
 	}
 	
 	@Override

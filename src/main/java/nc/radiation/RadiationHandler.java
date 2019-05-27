@@ -22,6 +22,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
@@ -46,6 +47,8 @@ public class RadiationHandler {
 	private static final String RAD_WARNING = Lang.localise("message.nuclearcraft.rad_warning");
 	
 	private static final int WORLD_TICK_RATE = NCConfig.radiation_world_tick_rate, PLAYER_TICK_RATE = NCConfig.radiation_player_tick_rate;
+	
+	private static EnumFacing tile_side = EnumFacing.DOWN;
 			
 	@SubscribeEvent
 	public void updatePlayerRadiation(PlayerTickEvent event) {
@@ -61,7 +64,7 @@ public class RadiationHandler {
 			IEntityRads playerRads = RadiationHelper.getEntityRadiation(player);
 			if (playerRads == null) return;
 			
-			IRadiationSource chunkSource = RadiationHelper.getRadiationSource(player.world.getChunkFromChunkCoords((int) Math.floor(player.posX) >> 4, (int) Math.floor(player.posZ) >> 4));
+			IRadiationSource chunkSource = RadiationHelper.getRadiationSource(player.world.getChunk((int) Math.floor(player.posX) >> 4, (int) Math.floor(player.posZ) >> 4));
 			
 			double previousImmunityTime = playerRads.getRadiationImmunityTime();
 			if (previousImmunityTime > 0D) {
@@ -146,7 +149,7 @@ public class RadiationHandler {
 		
 		Entity[] entityArray = world.loadedEntityList.toArray(new Entity[world.loadedEntityList.size()]);
 		for (Entity entity : entityArray) {
-			IRadiationSource chunkSource = RadiationHelper.getRadiationSource(world.getChunkFromChunkCoords((int) Math.floor(entity.posX) >> 4, (int) Math.floor(entity.posZ) >> 4));
+			IRadiationSource chunkSource = RadiationHelper.getRadiationSource(world.getChunk((int) Math.floor(entity.posX) >> 4, (int) Math.floor(entity.posZ) >> 4));
 			if (entity instanceof EntityPlayer) {
 				RadiationHelper.transferRadsFromInventoryToChunkBuffer(((EntityPlayer)entity).inventory, chunkSource);
 			}
@@ -181,8 +184,8 @@ public class RadiationHandler {
 		
 		TileEntity[] tileArray = world.loadedTileEntityList.toArray(new TileEntity[world.loadedTileEntityList.size()]);
 		for (TileEntity tile : tileArray) {
-			Chunk chunk = world.getChunkFromBlockCoords(tile.getPos());
-			RadiationHelper.transferRadiationFromProviderToChunkBuffer(tile, RadiationHelper.getRadiationSource(chunk));
+			Chunk chunk = world.getChunk(tile.getPos());
+			RadiationHelper.transferRadiationFromProviderToChunkBuffer(tile, tile_side, RadiationHelper.getRadiationSource(chunk));
 		}
 		
 		BiomeProvider biomeProvider = world.getBiomeProvider();
@@ -206,7 +209,7 @@ public class RadiationHandler {
 		
 		for (TileEntity tile : tileArray) {
 			if (tile instanceof ITileRadiationEnvironment) {
-				Chunk chunk = world.getChunkFromBlockCoords(tile.getPos());
+				Chunk chunk = world.getChunk(tile.getPos());
 				IRadiationSource chunkSource = RadiationHelper.getRadiationSource(chunk);
 				if (chunkSource == null) return;
 				
@@ -216,7 +219,7 @@ public class RadiationHandler {
 		
 		for (TileEntity tile : tileArray) {
 			if (tile instanceof ITileRadiationEnvironment) {
-				Chunk chunk = world.getChunkFromBlockCoords(tile.getPos());
+				Chunk chunk = world.getChunk(tile.getPos());
 				RadiationHelper.addFractionToChunkBuffer(RadiationHelper.getRadiationSource(chunk), (ITileRadiationEnvironment)tile);
 			}
 		}
@@ -247,11 +250,13 @@ public class RadiationHandler {
 			// Emptying buffers here too!
 			RadiationHelper.spreadRadiationFromChunk(chunk, getRandomAdjacentChunk(chunkProvider, chunk));
 		}
+		
+		tile_side = EnumFacing.byIndex(tile_side.getIndex() + 1);
 	}
 	
 	private static final List<byte[]> ADJACENT_COORDS = Lists.newArrayList(new byte[] {1, 0}, new byte[] {0, 1}, new byte[] {-1, 0}, new byte[] {0, -1});
 	
-	private Chunk getRandomAdjacentChunk(ChunkProviderServer chunkProvider, Chunk chunk) {
+	private static Chunk getRandomAdjacentChunk(ChunkProviderServer chunkProvider, Chunk chunk) {
 		if (chunkProvider == null || chunk == null || !chunk.isLoaded()) return null;
 		int x = chunk.getPos().x;
 		int z = chunk.getPos().z;

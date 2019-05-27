@@ -34,7 +34,7 @@ public class NCBlock extends Block {
 	
 	public NCBlock(String name, Material material, boolean canCreatureSpawn) {
 		super(material);
-		setUnlocalizedName(Global.MOD_ID + "." + name);
+		setTranslationKey(Global.MOD_ID + "." + name);
 		setRegistryName(new ResourceLocation(Global.MOD_ID, name));
 		setHarvestLevel("pickaxe", 0);
 		setHardness(2F);
@@ -95,7 +95,7 @@ public class NCBlock extends Block {
 		
 		@Override
 		@SideOnly(Side.CLIENT)
-		public BlockRenderLayer getBlockLayer() {
+		public BlockRenderLayer getRenderLayer() {
 			return BlockRenderLayer.CUTOUT;
 		}
 

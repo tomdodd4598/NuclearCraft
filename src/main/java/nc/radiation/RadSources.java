@@ -37,7 +37,7 @@ public class RadSources {
 	
 	public static void addToStackMap(ItemStack stack, double radiation) {
 		int packed = RecipeItemHelper.pack(stack);
-		if(STACK_BLACKLIST.contains(packed)) return;
+		if(packed == 0 || STACK_BLACKLIST.contains(packed)) return;
 		STACK_MAP.put(packed, radiation);
 	}
 	
@@ -116,10 +116,6 @@ public class RadSources {
 	public static final double CALIFORNIUM_250 = 0.0765D;
 	public static final double CALIFORNIUM_251 = 0.00115D;
 	public static final double CALIFORNIUM_252 = 0.38D;
-	
-	public static void postInit() {
-		ORE_MAP.entrySet().forEach(ent -> OreDictionary.getOres(ent.getKey()).forEach(s -> addToStackMap(s, ent.getValue())));
-	}
 	
 	public static void init() {
 		for (String oreInfo : NCConfig.radiation_ores_blacklist) {
@@ -276,6 +272,18 @@ public class RadSources {
 			ItemStack stack = RegistryHelper.blockStackFromRegistry(blockInfo.substring(0, scorePos));
 			if (stack != null) addToStackMap(stack, Double.parseDouble(blockInfo.substring(scorePos + 1)));
 		}
+	}
+	
+	public static void postInit() {
+		ORE_MAP.entrySet().forEach(ent -> OreDictionary.getOres(ent.getKey()).forEach(s -> addToStackMap(s, ent.getValue())));
+	}
+	
+	public static void refreshRadSources() {
+		STACK_BLACKLIST.clear();
+		STACK_MAP.clear();
+		
+		init();
+		postInit();
 	}
 	
 	public static void putMaterial(double radiation, String... ores) {

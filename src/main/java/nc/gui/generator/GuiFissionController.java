@@ -15,20 +15,17 @@ import nc.util.NCMath;
 import nc.util.UnitHelper;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextFormatting;
 
 public class GuiFissionController extends NCGui {
 	
-	private final InventoryPlayer playerInventory;
 	protected TileFissionController tile;
 	protected final ResourceLocation gui_textures;
 
 	public GuiFissionController(EntityPlayer player, TileFissionController tile) {
 		super(new ContainerFissionController(player, tile));
-		playerInventory = player.inventory;
 		this.tile = tile;
 		gui_textures = new ResourceLocation(Global.MOD_ID + ":textures/gui/container/" + "fission_controller" + ".png");
 		xSize = 176;
@@ -91,7 +88,7 @@ public class GuiFissionController extends NCGui {
 		double e = Math.round(((double) tile.getEnergyStorage().getEnergyStored()) / ((double) tile.getEnergyStorage().getMaxEnergyStored()) * 85);
 		drawTexturedModalRect(guiLeft + 8, guiTop + 6 + 85 - (int) e, 176, 90 + 85 - (int) e, 6, (int) e);
 		
-		double h = Math.round(((double) tile.heat) / ((double) tile.getMaxHeat()) * 85);
+		double h = Math.round(tile.heat / tile.getMaxHeat() * 85);
 		drawTexturedModalRect(guiLeft + 18, guiTop + 6 + 85 - (int) h, 182, 90 + 85 - (int) h, 6, (int) h);
 		
 		int k = getCookProgressScaled(37);

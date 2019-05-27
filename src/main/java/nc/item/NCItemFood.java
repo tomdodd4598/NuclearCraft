@@ -31,10 +31,10 @@ public class NCItemFood extends ItemFood {
 	
 	public NCItemFood(String nameIn, int amount, float saturation, boolean isWolfFood, PotionEffect[] potionEffects, String... tooltip) {
 		super(amount, saturation, isWolfFood);
-		setUnlocalizedName(Global.MOD_ID + "." + nameIn);
+		setTranslationKey(Global.MOD_ID + "." + nameIn);
 		setRegistryName(new ResourceLocation(Global.MOD_ID, nameIn));
 		effects = potionEffects;
-		info = InfoHelper.buildInfo(getUnlocalizedName(), tooltip);
+		info = InfoHelper.buildInfo(getTranslationKey(), tooltip);
 	}
 
 	@Override

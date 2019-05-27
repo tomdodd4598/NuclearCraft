@@ -121,7 +121,7 @@ public abstract class TileEnergy extends NCTile implements ITileEnergy, IEnergyT
 	@Override
 	@Optional.Method(modid = "ic2")
 	public double injectEnergy(EnumFacing directionFrom, double amount, double voltage) {
-		int energyReceived = getEnergyStorage().receiveEnergy((int) ((double)NCConfig.rf_per_eu * amount), true);
+		int energyReceived = getEnergyStorage().receiveEnergy((int) (NCConfig.rf_per_eu * amount), true);
 		getEnergyStorage().receiveEnergy(energyReceived, false);
 		return amount - (double)energyReceived/(double)NCConfig.rf_per_eu;
 	}

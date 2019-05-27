@@ -29,7 +29,7 @@ public class BlockFluidParticle extends NCBlockFluid {
 	}
 	
 	@Override
-	public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
+	public void onEntityCollision(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
 		if (entityIn instanceof EntityLivingBase) {
 			((EntityLivingBase) entityIn).addPotionEffect(PotionHelper.newEffect(9, 2, 200));
 			((EntityLivingBase) entityIn).addPotionEffect(PotionHelper.newEffect(20, 2, 100));

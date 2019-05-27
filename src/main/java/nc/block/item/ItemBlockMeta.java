@@ -23,13 +23,13 @@ public class ItemBlockMeta extends ItemBlock {
 	public <T extends Enum<T>> ItemBlockMeta(Block block, Class<T> enumm, TextFormatting fixedColor, String[][] fixedTooltips, String[]... tooltips) {
 		super(block);
 		if (!(block instanceof IMetaBlockName)) {
-			throw new IllegalArgumentException(String.format("The given block %s is not an instance of IMetaBlockName!", block.getUnlocalizedName()));
+			throw new IllegalArgumentException(String.format("The given block %s is not an instance of IMetaBlockName!", block.getTranslationKey()));
 		}
 		setMaxDamage(0);
 		setHasSubtypes(true);
 		this.fixedColor = fixedColor;
-		fixedInfo = InfoHelper.buildFixedInfo(block.getUnlocalizedName(), enumm, fixedTooltips);
-		info = InfoHelper.buildInfo(block.getUnlocalizedName(), enumm, tooltips);
+		fixedInfo = InfoHelper.buildFixedInfo(block.getTranslationKey(), enumm, fixedTooltips);
+		info = InfoHelper.buildInfo(block.getTranslationKey(), enumm, tooltips);
 	}
 	
 	public <T extends Enum<T>> ItemBlockMeta(Block block, Class<T> enumm, TextFormatting fixedColor, String[]... tooltips) {
@@ -45,8 +45,8 @@ public class ItemBlockMeta extends ItemBlock {
 	}
 	
 	@Override
-	public String getUnlocalizedName(ItemStack stack) {
-		return getUnlocalizedName() + "." + ((IMetaBlockName) block).getSpecialName(stack);
+	public String getTranslationKey(ItemStack stack) {
+		return getTranslationKey() + "." + ((IMetaBlockName) block).getSpecialName(stack);
 	}
 	
 	@Override

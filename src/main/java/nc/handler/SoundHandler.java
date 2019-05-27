@@ -7,8 +7,6 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 public class SoundHandler {
 	
-	private static int size = 0;
-	
 	public static SoundEvent fusion_run;
 	public static final int FUSION_RUN_TIME = 67;
 	
@@ -26,7 +24,7 @@ public class SoundHandler {
 	public static SoundEvent hyperspace;
 	
 	public static void init() {
-		size = SoundEvent.REGISTRY.getKeys().size();
+		SoundEvent.REGISTRY.getKeys().size();
 		
 		fusion_run = register("block.fusion_run");
 		accelerator_run = register("block.accelerator_run");
@@ -47,7 +45,6 @@ public class SoundHandler {
 		SoundEvent event = new SoundEvent(location);
 		
 		ForgeRegistries.SOUND_EVENTS.register(event.setRegistryName(location));
-		size++;
 		return event;
 	}
 }

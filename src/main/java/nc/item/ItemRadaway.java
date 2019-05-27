@@ -54,7 +54,7 @@ public class ItemRadaway extends NCItem {
 		return stack;
 	}
 	
-	private void sendCooldownMessage(World world, EntityPlayer player, IEntityRads playerRads, boolean playSound) {
+	private static void sendCooldownMessage(World world, EntityPlayer player, IEntityRads playerRads, boolean playSound) {
 		if (playerRads.getRadawayCooldown() > 0D) {
 			if (playSound && world.isRemote) player.playSound(SoundHandler.chems_wear_off, 0.5F, 1F);
 			player.sendMessage(new TextComponentString(TextFormatting.ITALIC + RADAWAY_COOLDOWN + " " + UnitHelper.applyTimeUnitShort(Math.ceil(playerRads.getRadawayCooldown()), 2, 1)));

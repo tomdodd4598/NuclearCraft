@@ -2,16 +2,20 @@ package nc.config;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import nc.Global;
+import nc.ModCheck;
 import nc.network.PacketHandler;
 import nc.network.config.ConfigUpdatePacket;
 import nc.radiation.RadSources;
+import nc.recipe.ProcessorRecipeHandler;
 import nc.util.Lang;
 import nc.util.NCMath;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
@@ -64,7 +68,7 @@ public class NCConfig {
 	public static int cobble_gen_power;
 	public static boolean ore_processing;
 	public static int[] manufactory_wood;
-	public static boolean gtce_recipes;
+	public static boolean[] gtce_recipe_integration;
 	public static boolean smart_processor_input;
 	public static boolean passive_permeation;
 	public static boolean processor_particles;
@@ -82,9 +86,11 @@ public class NCConfig {
 	public static boolean fission_water_cooler_requirement;
 	public static boolean fission_overheat;
 	public static boolean fission_explosions;
+	public static double fission_meltdown_radiation_multiplier;
 	public static int fission_min_size; // Default: 1
 	public static int fission_max_size; // Default: 24
 	public static int fission_comparator_max_heat;
+	public static boolean fission_force_heat_comparator;
 	public static int active_cooler_max_rate;
 	
 	public static double fission_moderator_extra_power;
@@ -141,6 +147,7 @@ public class NCConfig {
 	public static double fusion_heat_generation; // Default: 1
 	public static double fusion_heating_multiplier; // Default: 1
 	public static boolean fusion_overheat;
+	public static double fusion_meltdown_radiation_multiplier;
 	public static boolean fusion_active_cooling;
 	public static double[] fusion_active_cooling_rate;
 	public static int fusion_min_size; // Default: 1
@@ -160,10 +167,10 @@ public class NCConfig {
 	public static double salt_fission_fuel_use; // Default: 1
 	public static double salt_fission_heat_generation; // Default: 1
 	public static boolean salt_fission_overheat;
+	public static double salt_fission_meltdown_radiation_multiplier;
 	public static int salt_fission_min_size; // Default: 1
 	public static int salt_fission_max_size; // Default: 24
 	public static double[] salt_fission_cooling_rate;
-	public static int salt_fission_cooling_max_rate;
 	public static int salt_fission_redstone_max_heat;
 	public static int salt_fission_max_distribution_rate;
 	
@@ -201,6 +208,7 @@ public class NCConfig {
 	public static int[] armor_tough;
 	public static int[] armor_hard_carbon;
 	public static int[] armor_boron_nitride;
+	public static int[] armor_hazmat;
 	public static int[] armor_enchantability;
 	public static double[] armor_toughness;
 	public static boolean[] armor_conarm_register;
@@ -282,7 +290,6 @@ public class NCConfig {
 	public static boolean[] register_passive;
 	public static boolean[] register_tool;
 	public static boolean[] register_armor;
-	public static boolean[] register_gt_integration;
 	
 	public static boolean ctrl_info;
 	
@@ -307,14 +314,12 @@ public class NCConfig {
 	
 	public static boolean ore_dict_priority_bool;
 	public static String[] ore_dict_priority;
-
-	public static HashMap<String,Integer> recipename_to_gt_config = new HashMap<>();
 	
 	public static void preInit() {
 		File configFile = new File(Loader.instance().getConfigDir(), "nuclearcraft.cfg");
-		initHashMaps();
 		config = new Configuration(configFile);
 		syncFromFiles();
+		
 		MinecraftForge.EVENT_BUS.register(new ServerConfigEventHandler());
 	}
 	
@@ -388,8 +393,8 @@ public class NCConfig {
 		propertyOreProcessing.setLanguageKey("gui.config.processors.ore_processing");
 		Property propertyManufactoryWood = config.get(CATEGORY_PROCESSORS, "manufactory_wood", new int[] {6, 4}, Lang.localise("gui.config.processors.manufactory_wood.comment"), 1, 64);
 		propertyManufactoryWood.setLanguageKey("gui.config.processors.manufactory_wood");
-		Property propertyGTCERecipes = config.get(CATEGORY_PROCESSORS, "gtce_recipes", true, Lang.localise("gui.config.processors.gtce_recipes.comment"));
-		propertyGTCERecipes.setLanguageKey("gui.config.processors.gtce_recipes");
+		Property propertyGTCERecipes = config.get(CATEGORY_PROCESSORS, "gtce_recipe_integration", new boolean[] {true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true}, Lang.localise("gui.config.processors.gtce_recipe_integration.comment"));
+		propertyGTCERecipes.setLanguageKey("gui.config.processors.gtce_recipe_integration");
 		Property propertySmartProcessorInput = config.get(CATEGORY_PROCESSORS, "smart_processor_input", true, Lang.localise("gui.config.processors.smart_processor_input.comment"));
 		propertySmartProcessorInput.setLanguageKey("gui.config.processors.smart_processor_input");
 		Property propertyPermeation = config.get(CATEGORY_PROCESSORS, "passive_permeation", true, Lang.localise("gui.config.processors.passive_permeation.comment"));
@@ -422,12 +427,16 @@ public class NCConfig {
 		propertyFissionOverheat.setLanguageKey("gui.config.fission.fission_overheat");
 		Property propertyFissionExplosions = config.get(CATEGORY_FISSION, "fission_explosions", false, Lang.localise("gui.config.fission.fission_explosions.comment"));
 		propertyFissionExplosions.setLanguageKey("gui.config.fission.fission_explosions");
+		Property propertyFissionMeltdownRadiationMultiplier = config.get(CATEGORY_FISSION, "fission_meltdown_radiation_multiplier", 1D, Lang.localise("gui.config.fission.fission_meltdown_radiation_multiplier.comment"), 0D, 255D);
+		propertyFissionMeltdownRadiationMultiplier.setLanguageKey("gui.config.fission.fission_meltdown_radiation_multiplier");
 		Property propertyFissionMinSize = config.get(CATEGORY_FISSION, "fission_min_size", 1, Lang.localise("gui.config.fission.fission_min_size.comment"), 1, 255);
 		propertyFissionMinSize.setLanguageKey("gui.config.fission.fission_min_size");
 		Property propertyFissionMaxSize = config.get(CATEGORY_FISSION, "fission_max_size", 24, Lang.localise("gui.config.fission.fission_max_size.comment"), 1, 255);
 		propertyFissionMaxSize.setLanguageKey("gui.config.fission.fission_max_size");
 		Property propertyFissionComparatorMaxHeat = config.get(CATEGORY_FISSION, "fission_comparator_max_heat", 50, Lang.localise("gui.config.fission.fission_comparator_max_heat.comment"), 1, 100);
 		propertyFissionComparatorMaxHeat.setLanguageKey("gui.config.fission.fission_comparator_max_heat");
+		Property propertyFissionForceHeatComparator = config.get(CATEGORY_FISSION, "fission_force_heat_comparator", false, Lang.localise("gui.config.fission.fission_force_heat_comparator.comment"));
+		propertyFissionForceHeatComparator.setLanguageKey("gui.config.fission.fission_force_heat_comparator");
 		Property propertyFissionActiveCoolerMaxRate = config.get(CATEGORY_FISSION, "fission_active_cooler_max_rate", 10, Lang.localise("gui.config.fission.fission_active_cooler_max_rate.comment"), 1, 8000);
 		propertyFissionActiveCoolerMaxRate.setLanguageKey("gui.config.fission.fission_active_cooler_max_rate");
 		
@@ -529,6 +538,8 @@ public class NCConfig {
 		propertyFusionHeatingMultiplier.setLanguageKey("gui.config.fusion.fusion_heating_multiplier");
 		Property propertyFusionOverheat = config.get(CATEGORY_FUSION, "fusion_overheat", true, Lang.localise("gui.config.fusion.fusion_overheat.comment"));
 		propertyFusionOverheat.setLanguageKey("gui.config.fusion.fusion_overheat");
+		Property propertyFusionMeltdownRadiationMultiplier = config.get(CATEGORY_FUSION, "fusion_meltdown_radiation_multiplier", 1D, Lang.localise("gui.config.fusion.fusion_meltdown_radiation_multiplier.comment"), 0D, 255D);
+		propertyFusionMeltdownRadiationMultiplier.setLanguageKey("gui.config.fusion.fusion_meltdown_radiation_multiplier");
 		Property propertyFusionActiveCooling = config.get(CATEGORY_FUSION, "fusion_active_cooling", true, Lang.localise("gui.config.fusion.fusion_active_cooling.comment"));
 		propertyFusionActiveCooling.setLanguageKey("gui.config.fusion.fusion_active_cooling");
 		Property propertyFusionActiveCoolingRate = config.get(CATEGORY_FUSION, "fusion_active_cooling_rate", new double[] {400D, 25600D, 24000D, 38400D, 32000D, 22400D, 56000D, 52800D, 43200D, 51200D, 19200D, 28800D, 20800D, 24000D, 28800D}, Lang.localise("gui.config.fusion.fusion_active_cooling_rate.comment"), 1D, 16777215D);
@@ -548,11 +559,11 @@ public class NCConfig {
 		Property propertyFusionPlasmaCraziness = config.get(CATEGORY_FUSION, "fusion_plasma_craziness", true, Lang.localise("gui.config.fusion.fusion_plasma_craziness.comment"));
 		propertyFusionPlasmaCraziness.setLanguageKey("gui.config.fusion.fusion_plasma_craziness");
 		
-		Property propertyFusionFuelTime = config.get(CATEGORY_FUSION, "fusion_fuel_time", new double[] {100D, 208.3D, 312.5D, 312.5D, 1250D, 1250D, 625D, 312.5D, 156.3D, 500D, 1250D, 500D, 2500D, 833.3D, 1250D, 1250D, 6250D, 3125D, 833.3D, 2500D, 625D, 1250D, 2500D, 2500D, 5000D, 5000D, 2500D, 5000D}, Lang.localise("gui.config.fusion.fusion_fuel_time.comment"), 1D, 32767D);
+		Property propertyFusionFuelTime = config.get(CATEGORY_FUSION, "fusion_fuel_time", new double[] {100D, 150D, 200D, 200D, 350D, 400D, 600D, 200D, 250D, 250D, 400D, 450D, 650D, 300D, 300D, 450D, 500D, 700D, 300D, 450D, 500D, 700D, 600D, 650D, 850D, 700D, 900D, 1100D}, Lang.localise("gui.config.fusion.fusion_fuel_time.comment"), 1D, 32767D);
 		propertyFusionFuelTime.setLanguageKey("gui.config.fusion.fusion_fuel_time");
-		Property propertyFusionPower = config.get(CATEGORY_FUSION, "fusion_power", new double[] {440D, 420D, 160D, 160D, 640D, 240D, 960D, 1120D, 1600D, 1280D, 160D, 1200D, 80D, 480D, 320D, 80D, 40D, 60D, 960D, 40D, 1120D, 240D, 60D, 40D, 40D, 30D, 40D, 20D}, Lang.localise("gui.config.fusion.fusion_power.comment"), 0D, 32767D);
+		Property propertyFusionPower = config.get(CATEGORY_FUSION, "fusion_power", new double[] {442D, 1123D, 0.3D, 3036D, 351D, 1330D, 444D, 507D, 1726D, 2252D, 1716D, 859D, 261D, 901D, 1099D, 915D, 435D, 7D, 1315D, 1151D, 727D, 140D, 1068D, 552D, 157D, 229D, 0.45D, 0.05D}, Lang.localise("gui.config.fusion.fusion_power.comment"), 0D, 32767D);
 		propertyFusionPower.setLanguageKey("gui.config.fusion.fusion_power");
-		Property propertyFusionHeatVariable = config.get(CATEGORY_FUSION, "fusion_heat_variable", new double[] {2140D, 1380D, 4700D, 4820D, 5660, 4550D, 4640D, 4780D, 670D, 2370D, 5955D, 5335D, 7345D, 3875D, 5070D, 7810D, 7510D, 8060D, 6800D, 8060D, 8800D, 12500D, 8500D, 9200D, 13000D, 12000D, 11000D, 14000D}, Lang.localise("gui.config.fusion.fusion_heat_variable.comment"), 500D, 20000D);
+		Property propertyFusionHeatVariable = config.get(CATEGORY_FUSION, "fusion_heat_variable", new double[] {3635D, 1022D, 4964D, 2740D, 5972D, 4161D, 13432D, 949D, 670D, 2160D, 3954D, 4131D, 13853D, 736D, 2137D, 4079D, 4522D, 27254D, 5420D, 7800D, 7937D, 24266D, 11268D, 11927D, 30399D, 13630D, 166414D, 293984D}, Lang.localise("gui.config.fusion.fusion_heat_variable.comment"), 500D, 20000D);
 		propertyFusionHeatVariable.setLanguageKey("gui.config.fusion.fusion_heat_variable");
 		Property propertyFusionRadiation = config.get(CATEGORY_FUSION, "fusion_radiation", new double[] {RadSources.FUSION/64D, RadSources.FUSION/64D, (RadSources.FUSION + RadSources.TRITIUM + RadSources.NEUTRON)/64D, RadSources.FUSION/64D, (RadSources.FUSION + RadSources.TRITIUM)/64D, RadSources.FUSION/64D, RadSources.FUSION/64D, (RadSources.FUSION + RadSources.TRITIUM/2D + RadSources.NEUTRON/2D)/64D, (RadSources.FUSION + RadSources.TRITIUM + RadSources.NEUTRON)/64D, RadSources.FUSION/64D, RadSources.FUSION/64D, (RadSources.FUSION + RadSources.NEUTRON)/64D, (RadSources.FUSION + RadSources.NEUTRON)/64D, (RadSources.FUSION + 2*RadSources.TRITIUM + 2*RadSources.NEUTRON)/64D, (RadSources.FUSION + RadSources.NEUTRON)/64D, (RadSources.FUSION + RadSources.NEUTRON)/64D, (RadSources.FUSION + 2*RadSources.NEUTRON)/64D, (RadSources.FUSION + 2*RadSources.NEUTRON)/64D, RadSources.FUSION/64D, RadSources.FUSION/64D, RadSources.FUSION/64D, RadSources.FUSION/64D, RadSources.FUSION/64D, (RadSources.FUSION + RadSources.NEUTRON)/64D, (RadSources.FUSION + RadSources.NEUTRON)/64D, (RadSources.FUSION + 2*RadSources.NEUTRON)/64D, (RadSources.FUSION + 2*RadSources.NEUTRON)/64D, (RadSources.FUSION + 2*RadSources.NEUTRON)/64D}, Lang.localise("gui.config.fusion.fusion_radiation.comment"), 0D, 1000D);
 		propertyFusionRadiation.setLanguageKey("gui.config.fusion.fusion_radiation");
@@ -565,14 +576,14 @@ public class NCConfig {
 		propertySaltFissionHeatGeneration.setLanguageKey("gui.config.salt_fission.salt_fission_heat_generation");
 		Property propertySaltFissionOverheat = config.get(CATEGORY_SALT_FISSION, "salt_fission_overheat", true, Lang.localise("gui.config.salt_fission.salt_fission_overheat.comment"));
 		propertySaltFissionOverheat.setLanguageKey("gui.config.salt_fission.salt_fission_overheat");
+		Property propertySaltFissionMeltdownRadiationMultiplier = config.get(CATEGORY_SALT_FISSION, "salt_fission_meltdown_radiation_multiplier", 1D, Lang.localise("gui.config.salt_fission.salt_fission_meltdown_radiation_multiplier.comment"), 0D, 255D);
+		propertySaltFissionMeltdownRadiationMultiplier.setLanguageKey("gui.config.salt_fission.salt_fission_meltdown_radiation_multiplier");
 		Property propertySaltFissionMinSize = config.get(CATEGORY_SALT_FISSION, "salt_fission_min_size", 1, Lang.localise("gui.config.salt_fission.salt_fission_min_size.comment"), 1, 255);
 		propertySaltFissionMinSize.setLanguageKey("gui.config.salt_fission.salt_fission_min_size");
 		Property propertySaltFissionMaxSize = config.get(CATEGORY_SALT_FISSION, "salt_fission_max_size", 24, Lang.localise("gui.config.salt_fission.salt_fission_max_size.comment"), 1, 255);
 		propertySaltFissionMaxSize.setLanguageKey("gui.config.salt_fission.salt_fission_max_size");
 		Property propertySaltFissionCoolingRate = config.get(CATEGORY_SALT_FISSION, "salt_fission_cooling_rate", new double[] {240D, 360D, 360D, 480D, 520D, 480D, 600D, 560D, 480D, 640D, 320D, 640D, 320D, 480D, 440D}, Lang.localise("gui.config.salt_fission.salt_fission_cooling_rate.comment"), 1D, 16777215D);
 		propertySaltFissionCoolingRate.setLanguageKey("gui.config.salt_fission.salt_fission_cooling_rate");
-		Property propertySaltFissionCoolingMaxRate = config.get(CATEGORY_SALT_FISSION, "salt_fission_cooling_max_rate", 20, Lang.localise("gui.config.salt_fission.salt_fission_cooling_max_rate.comment"), 1, 16000);
-		propertySaltFissionCoolingMaxRate.setLanguageKey("gui.config.salt_fission.salt_fission_cooling_max_rate");
 		Property propertySaltFissionRedstoneMaxHeat = config.get(CATEGORY_SALT_FISSION, "salt_fission_redstone_max_heat", 50, Lang.localise("gui.config.salt_fission.salt_fission_redstone_max_heat.comment"), 1, 100);
 		propertySaltFissionRedstoneMaxHeat.setLanguageKey("gui.config.salt_fission.salt_fission_redstone_max_heat");
 		Property propertySaltFissionMaxDistributionRate = config.get(CATEGORY_SALT_FISSION, "salt_fission_max_distribution_rate", 4, Lang.localise("gui.config.salt_fission.salt_fission_max_distribution_rate.comment"), 1, 1000);
@@ -631,7 +642,7 @@ public class NCConfig {
 		Property propertyToolTiCRegister = config.get(CATEGORY_TOOLS, "tool_tic_register", new boolean[] {true, true, true, true, true, true, true, true}, Lang.localise("gui.config.tools.tool_tic_register.comment"));
 		propertyToolTiCRegister.setLanguageKey("gui.config.tools.tool_tic_register");
 		
-		Property propertyArmorDurability = config.get(CATEGORY_ARMOR, "armor_durability", new int[] {22, 30, 34, 42}, Lang.localise("gui.config.armor.armor_durability.comment"), 1, 127);
+		Property propertyArmorDurability = config.get(CATEGORY_ARMOR, "armor_durability", new int[] {22, 30, 34, 42, 0}, Lang.localise("gui.config.armor.armor_durability.comment"), 1, 127);
 		propertyArmorDurability.setLanguageKey("gui.config.armor.armor_durability");
 		Property propertyArmorBoron = config.get(CATEGORY_ARMOR, "armor_boron", new int[] {2, 5, 7, 3}, Lang.localise("gui.config.armor.armor_boron.comment"), 1, 25);
 		propertyArmorBoron.setLanguageKey("gui.config.armor.armor_boron");
@@ -641,14 +652,16 @@ public class NCConfig {
 		propertyArmorHardCarbon.setLanguageKey("gui.config.armor.armor_hard_carbon");
 		Property propertyArmorBoronNitride = config.get(CATEGORY_ARMOR, "armor_boron_nitride", new int[] {3, 6, 8, 3}, Lang.localise("gui.config.armor.armor_boron_nitride.comment"), 1, 25);
 		propertyArmorBoronNitride.setLanguageKey("gui.config.armor.armor_boron_nitride");
-		Property propertyArmorEnchantability = config.get(CATEGORY_ARMOR, "armor_enchantability", new int[] {6, 15, 12, 20}, Lang.localise("gui.config.armor.armor_enchantability.comment"), 1, 255);
+		Property propertyArmorHazmat = config.get(CATEGORY_ARMOR, "armor_hazmat", new int[] {3, 6, 7, 3}, Lang.localise("gui.config.armor.armor_hazmat.comment"), 1, 25);
+		propertyArmorHazmat.setLanguageKey("gui.config.armor.armor_hazmat");
+		Property propertyArmorEnchantability = config.get(CATEGORY_ARMOR, "armor_enchantability", new int[] {6, 15, 12, 20, 5}, Lang.localise("gui.config.armor.armor_enchantability.comment"), 1, 255);
 		propertyArmorEnchantability.setLanguageKey("gui.config.armor.armor_enchantability");
-		Property propertyArmorToughness = config.get(CATEGORY_ARMOR, "armor_toughness", new double[] {1D, 2D, 1D, 2D}, Lang.localise("gui.config.armor.armor_toughness.comment"), 1D, 8D);
+		Property propertyArmorToughness = config.get(CATEGORY_ARMOR, "armor_toughness", new double[] {1D, 2D, 1D, 2D, 0D}, Lang.localise("gui.config.armor.armor_toughness.comment"), 1D, 8D);
 		propertyArmorToughness.setLanguageKey("gui.config.armor.armor_toughness");
 		Property propertyArmorConarmRegister = config.get(CATEGORY_ARMOR, "armor_conarm_register", new boolean[] {true, true, true, true, true, true, true, true}, Lang.localise("gui.config.armor.armor_conarm_register.comment"));
 		propertyArmorConarmRegister.setLanguageKey("gui.config.armor.armor_conarm_register");
 		
-		Property propertyRadiationEnabled = config.get(CATEGORY_RADIATION, "radiation_enabled", false, Lang.localise("gui.config.radiation.radiation_enabled.comment"));
+		Property propertyRadiationEnabled = config.get(CATEGORY_RADIATION, "radiation_enabled", true, Lang.localise("gui.config.radiation.radiation_enabled.comment"));
 		propertyRadiationEnabled.setLanguageKey("gui.config.radiation.radiation_enabled");
 		
 		Property propertyRadiationWorldTickRate = config.get(CATEGORY_RADIATION, "radiation_world_tick_rate", 20, Lang.localise("gui.config.radiation.radiation_world_tick_rate.comment"), 1, 400);
@@ -785,8 +798,6 @@ public class NCConfig {
 		propertyRegisterTool.setLanguageKey("gui.config.other.register_tool");
 		Property propertyRegisterArmor = config.get(CATEGORY_OTHER, "register_armor", new boolean[] {true, true, true, true}, Lang.localise("gui.config.other.register_armor.comment"));
 		propertyRegisterArmor.setLanguageKey("gui.config.other.register_armor");
-		Property propertyRegisterGTIntegration = config.get(CATEGORY_OTHER, "register_gt_integration", new boolean[] {true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true}, Lang.localise("gui.config.other.register_gt_integration.comment"));
-        propertyRegisterGTIntegration.setLanguageKey("gui.config.other.register_gt_integration");
 		
 		Property propertyCtrlInfo = config.get(CATEGORY_OTHER, "ctrl_info", false, Lang.localise("gui.config.other.ctrl_info.comment"));
 		propertyCtrlInfo.setLanguageKey("gui.config.other.ctrl_info");
@@ -867,7 +878,7 @@ public class NCConfig {
 		propertyOrderGenerators.add(propertyDecayLifetime.getName());
 		propertyOrderGenerators.add(propertyDecayPower.getName());
 		config.setCategoryPropertyOrder(CATEGORY_GENERATORS, propertyOrderGenerators);
-
+		
 		List<String> propertyOrderFission = new ArrayList<String>();
 		propertyOrderFission.add(propertyFissionPower.getName());
 		propertyOrderFission.add(propertyFissionFuelUse.getName());
@@ -877,9 +888,11 @@ public class NCConfig {
 		propertyOrderFission.add(propertyFissionWaterCoolerRequirement.getName());
 		propertyOrderFission.add(propertyFissionOverheat.getName());
 		propertyOrderFission.add(propertyFissionExplosions.getName());
+		propertyOrderFission.add(propertyFissionMeltdownRadiationMultiplier.getName());
 		propertyOrderFission.add(propertyFissionMinSize.getName());
 		propertyOrderFission.add(propertyFissionMaxSize.getName());
 		propertyOrderFission.add(propertyFissionComparatorMaxHeat.getName());
+		propertyOrderFission.add(propertyFissionForceHeatComparator.getName());
 		propertyOrderFission.add(propertyFissionActiveCoolerMaxRate.getName());
 		
 		propertyOrderFission.add(propertyFissionModeratorExtraPower.getName());
@@ -938,6 +951,7 @@ public class NCConfig {
 		propertyOrderFusion.add(propertyFusionHeatGeneration.getName());
 		propertyOrderFusion.add(propertyFusionHeatingMultiplier.getName());
 		propertyOrderFusion.add(propertyFusionOverheat.getName());
+		propertyOrderFusion.add(propertyFusionMeltdownRadiationMultiplier.getName());
 		propertyOrderFusion.add(propertyFusionActiveCooling.getName());
 		propertyOrderFusion.add(propertyFusionActiveCoolingRate.getName());
 		propertyOrderFusion.add(propertyFusionMinSize.getName());
@@ -959,10 +973,10 @@ public class NCConfig {
 		propertyOrderSaltFission.add(propertySaltFissionFuelUse.getName());
 		propertyOrderSaltFission.add(propertySaltFissionHeatGeneration.getName());
 		propertyOrderSaltFission.add(propertySaltFissionOverheat.getName());
+		propertyOrderSaltFission.add(propertySaltFissionMeltdownRadiationMultiplier.getName());
 		propertyOrderSaltFission.add(propertySaltFissionMinSize.getName());
 		propertyOrderSaltFission.add(propertySaltFissionMaxSize.getName());
 		propertyOrderSaltFission.add(propertySaltFissionCoolingRate.getName());
-		propertyOrderSaltFission.add(propertySaltFissionCoolingMaxRate.getName());
 		propertyOrderSaltFission.add(propertySaltFissionRedstoneMaxHeat.getName());
 		propertyOrderSaltFission.add(propertySaltFissionMaxDistributionRate.getName());
 		config.setCategoryPropertyOrder(CATEGORY_SALT_FISSION, propertyOrderSaltFission);
@@ -1013,6 +1027,7 @@ public class NCConfig {
 		propertyOrderArmor.add(propertyArmorTough.getName());
 		propertyOrderArmor.add(propertyArmorHardCarbon.getName());
 		propertyOrderArmor.add(propertyArmorBoronNitride.getName());
+		propertyOrderArmor.add(propertyArmorHazmat.getName());
 		propertyOrderArmor.add(propertyArmorToughness.getName());
 		propertyOrderArmor.add(propertyArmorConarmRegister.getName());
 		config.setCategoryPropertyOrder(CATEGORY_ARMOR, propertyOrderArmor);
@@ -1126,7 +1141,8 @@ public class NCConfig {
 			cobble_gen_power = propertyCobbleGenPower.getInt();
 			ore_processing = propertyOreProcessing.getBoolean();
 			manufactory_wood = readIntegerArrayFromConfig(propertyManufactoryWood);
-			gtce_recipes = propertyGTCERecipes.getBoolean();
+			gtce_recipe_integration = readBooleanArrayFromConfig(propertyGTCERecipes);
+			ProcessorRecipeHandler.initGTCEIntegration();
 			smart_processor_input = propertySmartProcessorInput.getBoolean();
 			passive_permeation = propertyPermeation.getBoolean();
 			processor_particles = propertyProcessorParticles.getBoolean();
@@ -1144,9 +1160,11 @@ public class NCConfig {
 			fission_water_cooler_requirement = propertyFissionWaterCoolerRequirement.getBoolean();
 			fission_overheat = propertyFissionOverheat.getBoolean();
 			fission_explosions = propertyFissionExplosions.getBoolean();
+			fission_meltdown_radiation_multiplier = propertyFissionMeltdownRadiationMultiplier.getDouble();
 			fission_min_size = propertyFissionMinSize.getInt();
 			fission_max_size = propertyFissionMaxSize.getInt();
 			fission_comparator_max_heat = propertyFissionComparatorMaxHeat.getInt();
+			fission_force_heat_comparator = propertyFissionForceHeatComparator.getBoolean();
 			active_cooler_max_rate = propertyFissionActiveCoolerMaxRate.getInt();
 			
 			fission_moderator_extra_power = propertyFissionModeratorExtraPower.getDouble();
@@ -1203,6 +1221,7 @@ public class NCConfig {
 			fusion_heat_generation = propertyFusionHeatGeneration.getDouble();
 			fusion_heating_multiplier = propertyFusionHeatingMultiplier.getDouble();
 			fusion_overheat = propertyFusionOverheat.getBoolean();
+			fusion_meltdown_radiation_multiplier = propertyFusionMeltdownRadiationMultiplier.getDouble();
 			fusion_active_cooling = propertyFusionActiveCooling.getBoolean();
 			fusion_active_cooling_rate = readDoubleArrayFromConfig(propertyFusionActiveCoolingRate);
 			fusion_min_size = propertyFusionMinSize.getInt();
@@ -1222,10 +1241,10 @@ public class NCConfig {
 			salt_fission_fuel_use = propertySaltFissionFuelUse.getDouble();
 			salt_fission_heat_generation = propertySaltFissionHeatGeneration.getDouble();
 			salt_fission_overheat = propertySaltFissionOverheat.getBoolean();
+			salt_fission_meltdown_radiation_multiplier = propertySaltFissionMeltdownRadiationMultiplier.getDouble();
 			salt_fission_min_size = propertySaltFissionMinSize.getInt();
 			salt_fission_max_size = propertySaltFissionMaxSize.getInt();
 			salt_fission_cooling_rate = readDoubleArrayFromConfig(propertySaltFissionCoolingRate);
-			salt_fission_cooling_max_rate = propertySaltFissionCoolingMaxRate.getInt();
 			salt_fission_redstone_max_heat = propertySaltFissionRedstoneMaxHeat.getInt();
 			salt_fission_max_distribution_rate = propertySaltFissionMaxDistributionRate.getInt();
 			
@@ -1264,6 +1283,7 @@ public class NCConfig {
 			armor_tough = readIntegerArrayFromConfig(propertyArmorTough);
 			armor_hard_carbon = readIntegerArrayFromConfig(propertyArmorHardCarbon);
 			armor_boron_nitride = readIntegerArrayFromConfig(propertyArmorBoronNitride);
+			armor_hazmat = readIntegerArrayFromConfig(propertyArmorHazmat);
 			armor_toughness = readDoubleArrayFromConfig(propertyArmorToughness);
 			armor_conarm_register = readBooleanArrayFromConfig(propertyArmorConarmRegister);
 			
@@ -1341,7 +1361,6 @@ public class NCConfig {
 			register_passive = readBooleanArrayFromConfig(propertyRegisterPassive);
 			register_tool = readBooleanArrayFromConfig(propertyRegisterTool);
 			register_armor = readBooleanArrayFromConfig(propertyRegisterArmor);
-			register_gt_integration = readBooleanArrayFromConfig(propertyRegisterGTIntegration);
 			ctrl_info = propertyCtrlInfo.getBoolean();
 			jei_chance_items_include_null = propertyJEIChanceItemsIncludeNull.getBoolean();
 			rare_drops = propertyRareDrops.getBoolean();
@@ -1384,7 +1403,7 @@ public class NCConfig {
 		propertyCobbleGenPower.set(cobble_gen_power);
 		propertyOreProcessing.set(ore_processing);
 		propertyManufactoryWood.set(manufactory_wood);
-		propertyGTCERecipes.set(gtce_recipes);
+		propertyGTCERecipes.set(gtce_recipe_integration);
 		propertySmartProcessorInput.set(smart_processor_input);
 		propertyPermeation.set(passive_permeation);
 		propertyProcessorParticles.set(processor_particles);
@@ -1402,9 +1421,11 @@ public class NCConfig {
 		propertyFissionWaterCoolerRequirement.set(fission_water_cooler_requirement);
 		propertyFissionOverheat.set(fission_overheat);
 		propertyFissionExplosions.set(fission_explosions);
+		propertyFissionMeltdownRadiationMultiplier.set(fission_meltdown_radiation_multiplier);
 		propertyFissionMinSize.set(fission_min_size);
 		propertyFissionMaxSize.set(fission_max_size);
 		propertyFissionComparatorMaxHeat.set(fission_comparator_max_heat);
+		propertyFissionForceHeatComparator.set(fission_force_heat_comparator);
 		propertyFissionActiveCoolerMaxRate.set(active_cooler_max_rate);
 		
 		propertyFissionModeratorExtraPower.set(fission_moderator_extra_power);
@@ -1461,6 +1482,7 @@ public class NCConfig {
 		propertyFusionHeatGeneration.set(fusion_heat_generation);
 		propertyFusionHeatingMultiplier.set(fusion_heating_multiplier);
 		propertyFusionOverheat.set(fusion_overheat);
+		propertyFusionMeltdownRadiationMultiplier.set(fusion_meltdown_radiation_multiplier);
 		propertyFusionActiveCooling.set(fusion_active_cooling);
 		propertyFusionActiveCoolingRate.set(fusion_active_cooling_rate);
 		propertyFusionMinSize.set(fusion_min_size);
@@ -1480,10 +1502,10 @@ public class NCConfig {
 		propertySaltFissionFuelUse.set(salt_fission_fuel_use);
 		propertySaltFissionHeatGeneration.set(salt_fission_heat_generation);
 		propertySaltFissionOverheat.set(salt_fission_overheat);
+		propertySaltFissionMeltdownRadiationMultiplier.set(salt_fission_meltdown_radiation_multiplier);
 		propertySaltFissionMinSize.set(salt_fission_min_size);
 		propertySaltFissionMaxSize.set(salt_fission_max_size);
 		propertySaltFissionCoolingRate.set(salt_fission_cooling_rate);
-		propertySaltFissionCoolingMaxRate.set(salt_fission_cooling_max_rate);
 		propertySaltFissionRedstoneMaxHeat.set(salt_fission_redstone_max_heat);
 		propertySaltFissionMaxDistributionRate.set(salt_fission_max_distribution_rate);
 		
@@ -1522,6 +1544,7 @@ public class NCConfig {
 		propertyArmorTough.set(armor_tough);
 		propertyArmorHardCarbon.set(armor_hard_carbon);
 		propertyArmorBoronNitride.set(armor_boron_nitride);
+		propertyArmorHazmat.set(armor_hazmat);
 		propertyArmorToughness.set(armor_toughness);
 		propertyArmorConarmRegister.set(armor_conarm_register);
 		
@@ -1693,8 +1716,23 @@ public class NCConfig {
 		
 		@SubscribeEvent
 		public void configOnWorldLoad(PlayerLoggedInEvent event) {
-			if (event.player instanceof EntityPlayerMP) PacketHandler.instance.sendTo(getConfigUpdatePacket(), (EntityPlayerMP)event.player);
+			if (event.player instanceof EntityPlayerMP) {
+				PacketHandler.instance.sendTo(getConfigUpdatePacket(), (EntityPlayerMP)event.player);
+			}
 		}
+	}
+	
+	public static ConfigUpdatePacket getConfigUpdatePacket() {
+		return new ConfigUpdatePacket(radiation_enabled, radiation_horse_armor);
+	}
+	
+	public static void onConfigPacket(ConfigUpdatePacket message) {
+		if (!radiation_enabled_public && message.radiation_enabled) {
+			String unloc = "message.nuclearcraft.radiation_config_info" + (ModCheck.jeiLoaded() ? "_jei" : "");
+			Minecraft.getMinecraft().player.sendMessage(new TextComponentString(TextFormatting.GOLD + Lang.localise(unloc)));
+		}
+		radiation_enabled_public = message.radiation_enabled;
+		radiation_horse_armor_public = message.radiation_horse_armor;
 	}
 	
 	private static class ClientConfigEventHandler {
@@ -1704,35 +1742,4 @@ public class NCConfig {
 			if (event.getModID().equals(Global.MOD_ID)) syncFromGui();
 		}
 	}
-	
-	public static ConfigUpdatePacket getConfigUpdatePacket() {
-		return new ConfigUpdatePacket(radiation_enabled, radiation_horse_armor);
-	}
-	
-	public static void onConfigPacket(ConfigUpdatePacket message) {
-		radiation_enabled_public = message.radiation_enabled;
-		radiation_horse_armor_public = message.radiation_horse_armor;
-	}
-
-	public static void initHashMaps() {
-        recipename_to_gt_config.put("manufactory", 0);
-        recipename_to_gt_config.put("isotope_separator", 1);
-        recipename_to_gt_config.put("decay_hastener", 2);
-        recipename_to_gt_config.put("fuel_reprocessor", 3);
-        recipename_to_gt_config.put("alloy_furnace", 4);
-        recipename_to_gt_config.put("infuser", 5);
-        recipename_to_gt_config.put("melter", 6);
-        recipename_to_gt_config.put("supercooler", 7);
-        recipename_to_gt_config.put("electrolyser", 8);
-        recipename_to_gt_config.put("irradiator", 9);
-        recipename_to_gt_config.put("ingot_former", 10);
-        recipename_to_gt_config.put("pressurizer", 11);
-        recipename_to_gt_config.put("chemical_reactor", 12);
-        recipename_to_gt_config.put("salt_mixer", 13);
-        recipename_to_gt_config.put("crystallizer", 14);
-        recipename_to_gt_config.put("dissolver", 15);
-        recipename_to_gt_config.put("extractor", 16);
-        recipename_to_gt_config.put("centrifuge", 17);
-        recipename_to_gt_config.put("rock_crusher", 18);
-    }
 }

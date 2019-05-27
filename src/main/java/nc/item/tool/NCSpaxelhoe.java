@@ -30,9 +30,9 @@ public class NCSpaxelhoe extends ItemTool {
 	
 	public NCSpaxelhoe(String unlocalizedName, ToolMaterial material, String... tooltip) {
 		super(3.0F, -2.4F, material, new HashSet<Block>());
-		setUnlocalizedName(Global.MOD_ID + "." + unlocalizedName);
+		setTranslationKey(Global.MOD_ID + "." + unlocalizedName);
 		setRegistryName(new ResourceLocation(Global.MOD_ID, unlocalizedName));
-		info = InfoHelper.buildInfo(getUnlocalizedName(), tooltip);
+		info = InfoHelper.buildInfo(getTranslationKey(), tooltip);
 	}
 	
 	@Override
@@ -84,7 +84,7 @@ public class NCSpaxelhoe extends ItemTool {
 				}
 				
 				if (block == Blocks.DIRT) {
-					switch ((BlockDirt.DirtType)iblockstate.getValue(BlockDirt.VARIANT)) {
+					switch (iblockstate.getValue(BlockDirt.VARIANT)) {
 					case DIRT:
 						this.setBlock(itemstack, player, worldIn, pos, Blocks.FARMLAND.getDefaultState());
 						return EnumActionResult.SUCCESS;

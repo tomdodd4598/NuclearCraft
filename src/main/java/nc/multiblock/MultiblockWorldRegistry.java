@@ -402,7 +402,7 @@ final class MultiblockWorldRegistry {
 
 	/* *** INTERNAL HELPERS *** */
 
-	protected IMultiblockPart getMultiblockPartFromWorld(final World world, final BlockPos position) {
+	protected static IMultiblockPart getMultiblockPartFromWorld(final World world, final BlockPos position) {
 
 		TileEntity te = world.getTileEntity(position);
 

@@ -40,7 +40,7 @@ public class BlockFluidPlasma extends NCBlockFluid {
 	}
 	
 	@Override
-	public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
+	public void onEntityCollision(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
 		entityIn.attackEntityFrom(plasma_burn, 8.0F);
 		entityIn.setFire(10);
 	}

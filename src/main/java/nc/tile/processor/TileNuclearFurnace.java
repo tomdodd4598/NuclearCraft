@@ -15,6 +15,7 @@ import nc.tile.energyFluid.IBufferable;
 import nc.tile.internal.inventory.InventoryConnection;
 import nc.tile.internal.inventory.ItemSorption;
 import nc.tile.inventory.ITileInventory;
+import nc.util.ItemStackHelper;
 import nc.util.OreDictHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -247,7 +248,7 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ITileIn
 			} else if (itemstack2.getItem() == itemstack1.getItem()) {
 				itemstack2.grow(itemstack1.getCount());
 			}
-			if (itemstack.getItem() == Item.getItemFromBlock(Blocks.SPONGE) && itemstack.getItemDamage() == 1 && !(furnaceItemStacks.get(1)).isEmpty() && (furnaceItemStacks.get(1)).getItem() == Items.BUCKET) {
+			if (itemstack.getItem() == Item.getItemFromBlock(Blocks.SPONGE) && ItemStackHelper.getMetadata(itemstack) == 1 && !(furnaceItemStacks.get(1)).isEmpty() && (furnaceItemStacks.get(1)).getItem() == Items.BUCKET) {
 				furnaceItemStacks.set(1, new ItemStack(Items.WATER_BUCKET));
 			}
 			itemstack.shrink(1);

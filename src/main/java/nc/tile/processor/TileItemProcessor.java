@@ -41,23 +41,19 @@ public class TileItemProcessor extends TileEnergySidedInventory implements IItem
 	public boolean isProcessing, canProcessInputs;
 	
 	public final boolean shouldLoseProgress, hasUpgrades;
-	public final int guiID;
+	public final int processorID;
 	
 	public final NCRecipes.Type recipeType;
 	protected RecipeInfo<ProcessorRecipe> recipeInfo, cachedRecipeInfo;
 	
 	protected Set<EntityPlayer> playersToUpdate;
 	
-	public TileItemProcessor(String name, int itemInSize, int itemOutSize, @Nonnull List<ItemSorption> itemSorptions, int time, int power, boolean shouldLoseProgress, @Nonnull NCRecipes.Type recipeType) {
-		this(name, itemInSize, itemOutSize, itemSorptions, time, power, shouldLoseProgress, false, recipeType, 1);
+	public TileItemProcessor(String name, int itemInSize, int itemOutSize, @Nonnull List<ItemSorption> itemSorptions, int time, int power, boolean shouldLoseProgress, @Nonnull NCRecipes.Type recipeType, int processorID) {
+		this(name, itemInSize, itemOutSize, itemSorptions, time, power, shouldLoseProgress, true, recipeType, processorID);
 	}
 	
-	public TileItemProcessor(String name, int itemInSize, int itemOutSize, @Nonnull List<ItemSorption> itemSorptions, int time, int power, boolean shouldLoseProgress, @Nonnull NCRecipes.Type recipeType, int guiID) {
-		this(name, itemInSize, itemOutSize, itemSorptions, time, power, shouldLoseProgress, true, recipeType, guiID);
-	}
-	
-	public TileItemProcessor(String name, int itemInSize, int itemOutSize, @Nonnull List<ItemSorption> itemSorptions, int time, int power, boolean shouldLoseProgress, boolean upgrades, @Nonnull NCRecipes.Type recipeType, int guiID) {
-		super(name, itemInSize + itemOutSize + (upgrades ? 2 : 0), ITileInventory.inventoryConnectionAll(itemSorptions), IProcessor.getBaseCapacity(recipeType), power != 0 ? ITileEnergy.energyConnectionAll(EnergyConnection.IN) : ITileEnergy.energyConnectionAll(EnergyConnection.NON));
+	public TileItemProcessor(String name, int itemInSize, int itemOutSize, @Nonnull List<ItemSorption> itemSorptions, int time, int power, boolean shouldLoseProgress, boolean upgrades, @Nonnull NCRecipes.Type recipeType, int processorID) {
+		super(name, itemInSize + itemOutSize + (upgrades ? 2 : 0), ITileInventory.inventoryConnectionAll(itemSorptions), IProcessor.getCapacity(recipeType, time, 1D, power, 1D), power != 0 ? ITileEnergy.energyConnectionAll(EnergyConnection.IN) : ITileEnergy.energyConnectionAll(EnergyConnection.NON));
 		itemInputSize = itemInSize;
 		itemOutputSize = itemOutSize;
 		
@@ -68,7 +64,7 @@ public class TileItemProcessor extends TileEnergySidedInventory implements IItem
 		
 		this.shouldLoseProgress = shouldLoseProgress;
 		hasUpgrades = upgrades;
-		this.guiID = guiID;
+		this.processorID = processorID;
 		
 		this.recipeType = recipeType;
 		
@@ -163,15 +159,15 @@ public class TileItemProcessor extends TileEnergySidedInventory implements IItem
 	
 	// Processor Stats
 	
-	public double getProcessTime() {
-		return Math.max(1, baseProcessTime/getSpeedMultiplier());
+	public int getProcessTime() {
+		return Math.max(1, (int) Math.round(Math.ceil(baseProcessTime/getSpeedMultiplier())));
 	}
 	
 	public int getProcessPower() {
 		return Math.min(Integer.MAX_VALUE, (int) (baseProcessPower*getPowerMultiplier()));
 	}
 	
-	public double getProcessEnergy() {
+	public int getProcessEnergy() {
 		return getProcessTime()*getProcessPower();
 	}
 	
@@ -189,8 +185,8 @@ public class TileItemProcessor extends TileEnergySidedInventory implements IItem
 	}
 	
 	public void setCapacityFromSpeed() {
-		getEnergyStorage().setStorageCapacity((int)MathHelper.clamp(NCConfig.machine_update_rate*defaultProcessPower*getPowerMultiplier(), IProcessor.getBaseCapacity(recipeType), Integer.MAX_VALUE));
-		getEnergyStorage().setMaxTransfer((int)MathHelper.clamp(NCConfig.machine_update_rate*defaultProcessPower*getPowerMultiplier(), IProcessor.getBaseCapacity(recipeType), Integer.MAX_VALUE));
+		getEnergyStorage().setStorageCapacity(IProcessor.getCapacity(recipeType, defaultProcessTime, getSpeedMultiplier(), defaultProcessPower, getPowerMultiplier()));
+		getEnergyStorage().setMaxTransfer(IProcessor.getCapacity(recipeType, defaultProcessTime, getSpeedMultiplier(), defaultProcessPower, getPowerMultiplier()));
 	}
 	
 	private int getMaxEnergyModified() { // Needed for Galacticraft
@@ -440,7 +436,7 @@ public class TileItemProcessor extends TileEnergySidedInventory implements IItem
 	
 	@Override
 	public int getGuiID() {
-		return guiID;
+		return processorID;
 	}
 	
 	@Override

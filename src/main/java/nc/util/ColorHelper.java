@@ -41,7 +41,7 @@ public class ColorHelper {
 		int green2 = ((color2 & 0xFF00) >> 8);
 		int blue2 = (color2 & 0xFF);
 		
-		int alpha = (int) (Math.max(alpha1, alpha2));
+		int alpha = Math.max(alpha1, alpha2);
 		int red = (int) (red1 + (red2 - red1)*blendRatio);
 		int green = (int) (green1 + (green2 - green1)*blendRatio);
 		int blue = (int) (blue1 + (blue2 - blue1)*blendRatio);
