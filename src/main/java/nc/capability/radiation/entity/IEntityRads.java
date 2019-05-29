@@ -41,6 +41,10 @@ public interface IEntityRads extends IRadiation, ICapability<IEntityRads> {
 	
 	public void setRadawayBuffer(boolean slow, double newCount);
 	
+	public double getPoisonBuffer();
+	
+	public void setPoisonBuffer(double newBuffer, double maxLevel);
+	
 	public default boolean isFatal() {
 		return getTotalRads() >= getMaxRads();
 	}

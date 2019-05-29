@@ -114,8 +114,8 @@ public class BiomeNuclearWasteland extends Biome {
 		spawnableWaterCreatureList.clear();
 		spawnableCaveCreatureList.clear();
 		
-		spawnableCreatureList.add(new Biome.SpawnListEntry(EntityFeralGhoul.class, 100, 2, 6));
-		spawnableMonsterList.add(new Biome.SpawnListEntry(EntityFeralGhoul.class, 100, 2, 6));
+		spawnableCreatureList.add(new Biome.SpawnListEntry(EntityFeralGhoul.class, Short.MAX_VALUE, 1, 2));
+		spawnableMonsterList.add(new Biome.SpawnListEntry(EntityFeralGhoul.class, Short.MAX_VALUE, 1, 2));
 	}
 	
 	@Override

@@ -35,6 +35,8 @@ public class InfuserRecipes extends ProcessorRecipeHandler {
 		addRecipe(new ItemStack(NCBlocks.cooler, 1, 0), fluidStack("cryotheum", FluidStackHelper.BUCKET_VOLUME*2), new ItemStack(NCBlocks.cooler, 1, 10), 1D, 1D);
 		
 		addRecipe(oreStack("bioplastic", 2), fluidStack("radaway", FluidStackHelper.BUCKET_VOLUME/4), NCItems.radaway, 1D, 0.5D);
+		addRecipe(oreStack("bioplastic", 2), fluidStack("radaway_slow", FluidStackHelper.BUCKET_VOLUME/4), NCItems.radaway_slow, 1D, 0.5D);
+		addRecipe(NCItems.radaway, fluidStack("redstone", FluidStackHelper.REDSTONE_DUST_VOLUME*2), NCItems.radaway_slow, 1D, 0.5D);
 		
 		addRecipe("emptyFrame", fluidStack("water", FluidStackHelper.BUCKET_VOLUME*2), NCBlocks.water_source, 1D, 1D);
 		addRecipe(NCBlocks.water_source, fluidStack("lava", FluidStackHelper.BUCKET_VOLUME), NCBlocks.cobblestone_generator, 1D, 1D);

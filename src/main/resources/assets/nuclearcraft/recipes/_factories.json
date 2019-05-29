@@ -1,5 +1,0 @@
-{
-  "recipes": {
-    "energy_storage_upgrade": "nc.recipe.vanilla.recipe.factories.EnergyStorageUpgradeRecipeFactory"
-  }
-}

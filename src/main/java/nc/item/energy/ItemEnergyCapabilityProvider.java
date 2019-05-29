@@ -63,13 +63,13 @@ public class ItemEnergyCapabilityProvider implements ICapabilityProvider {
 			
 			@Override
 			public boolean canReceive() {
-				if (stack.hasTagCompound()) return stack.getTagCompound().getInteger("maxReceive") > 0;
+				if (stack.hasTagCompound()) return stack.getTagCompound().getInteger("maxTransfer") > 0;
 				return super.canReceive();
 			}
 			
 			@Override
 			public boolean canExtract() {
-				if (stack.hasTagCompound()) return stack.getTagCompound().getInteger("maxExtract") > 0;
+				if (stack.hasTagCompound()) return stack.getTagCompound().getInteger("maxTransfer") > 0;
 				return super.canExtract();
 			}
 			

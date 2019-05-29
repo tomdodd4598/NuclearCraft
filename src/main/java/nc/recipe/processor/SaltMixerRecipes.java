@@ -23,6 +23,8 @@ public class SaltMixerRecipes extends ProcessorRecipeHandler {
 		addRecipe(fluidStack("ferroboron", FluidStackHelper.INGOT_VOLUME/2), fluidStackList(Lists.newArrayList("lithium", "lithium6", "lithium7"), FluidStackHelper.INGOT_VOLUME/2), fluidStack("tough", FluidStackHelper.INGOT_VOLUME), 1D, 1D);
 		addRecipe(fluidStack("coal", FluidStackHelper.COAL_DUST_VOLUME), fluidStack("diamond", FluidStackHelper.GEM_VOLUME/2), fluidStack("hardCarbon", FluidStackHelper.INGOT_VOLUME), 1D, 1D);
 		
+		addRecipe(fluidStack("radaway", FluidStackHelper.BUCKET_VOLUME/4), fluidStack("redstone", FluidStackHelper.REDSTONE_DUST_VOLUME*2), fluidStack("radaway_slow", FluidStackHelper.BUCKET_VOLUME/4), 1D, 0.5D);
+		
 		addRecipe(fluidStack("chocolate_liquor", FluidStackHelper.INGOT_VOLUME), fluidStack("cocoa_butter", FluidStackHelper.INGOT_VOLUME), fluidStack("unsweetened_chocolate", FluidStackHelper.INGOT_VOLUME*2), 1D, 0.5D);
 		addRecipe(fluidStack("unsweetened_chocolate", FluidStackHelper.INGOT_VOLUME), fluidStack("sugar", FluidStackHelper.INGOT_VOLUME/2), fluidStack("dark_chocolate", FluidStackHelper.INGOT_VOLUME), 1D, 0.5D);
 		addRecipe(fluidStack("dark_chocolate", FluidStackHelper.INGOT_VOLUME), fluidStack("milk", FluidStackHelper.BUCKET_VOLUME/4), fluidStack("milk_chocolate", FluidStackHelper.INGOT_VOLUME*2), 0.5D, 0.5D);

@@ -224,6 +224,12 @@
 				"fluid": "radaway"
 			}
 		},
+		"fluid_radaway_slow": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "radaway_slow"
+			}
+		},
 		"fluid_beryllium": {
 			"model": "forge:fluid",
 			"custom": {

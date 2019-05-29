@@ -108,6 +108,9 @@ public class OreDictHelper {
 	}
 	
 	public static ItemStack getPrioritisedCraftingStack(ItemStack backup, String ore) {
+		if (ore == null) {
+			return backup;
+		}
 		List<ItemStack> stackList = getPrioritisedStackList(ore);
 		if (stackList == null || stackList.isEmpty()) {
 			if (backup == null || backup.isEmpty()) return null;

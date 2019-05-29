@@ -35,6 +35,7 @@ import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.MobEffects;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.datasync.DataParameter;
@@ -71,13 +72,13 @@ public class EntityFeralGhoul extends EntityZombie {
 	@Override
 	protected void initEntityAI() {
 		tasks.addTask(2, new EntityAIZombieAttack(this, 1D, false));
-		tasks.addTask(3, new EntityAIFeralGhoulLeap(this));
+		tasks.addTask(1, new EntityAIFeralGhoulLeap(this));
 		
 		tasks.addTask(0, new EntityAISwimming(this));
 		tasks.addTask(5, new EntityAIMoveTowardsRestriction(this, 1D));
 		tasks.addTask(7, new EntityAIWanderAvoidWater(this, 1D));
 		
-		tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 16F));
+		tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 24F));
 		tasks.addTask(8, new EntityAILookIdle(this));
 		
 		tasks.addTask(6, new EntityAIMoveThroughVillage(this, 1D, false));
@@ -85,30 +86,37 @@ public class EntityFeralGhoul extends EntityZombie {
 		targetTasks.addTask(1, new EntityAIHurtByTarget(this, true, new Class[] {EntityPigZombie.class}));
 		
 		targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, true));
-		targetTasks.addTask(3, new EntityAINearestAttackableTarget(this, EntityVillager.class, false));
+		targetTasks.addTask(3, new EntityAINearestAttackableTarget(this, EntityVillager.class, true));
 	}
 	
 	@Override
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
 		
-		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(20D);
-		getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(2D);
-		getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(4.5D);
+		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(16D);
+		getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(4D);
+		getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(3D);
 		
 		getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.4D);
-		getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(0.35D);
-		getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(40D);
+		getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(0.4D);
+		getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(32D);
 	}
 	
 	@Override
 	protected SoundEvent getAmbientSound() {
-		return SoundHandler.feral_ghoul_ambient;
+		//return SoundHandler.feral_ghoul_ambient;
+		return SoundEvents.ENTITY_HUSK_AMBIENT;
 	}
 	
 	@Override
 	protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-		return SoundHandler.feral_ghoul_hurt;
+		//return SoundHandler.feral_ghoul_hurt;
+		return SoundHandler.feral_ghoul_charge;
+	}
+	
+	@Override
+	protected void playHurtSound(DamageSource source) {
+		playSound(getHurtSound(source), getSoundVolume(), getSoundPitch() - 0.3F);
 	}
 	
 	@Override
@@ -118,7 +126,8 @@ public class EntityFeralGhoul extends EntityZombie {
 	
 	@Override
 	protected SoundEvent getStepSound() {
-		return SoundHandler.feral_ghoul_step;
+		//return SoundHandler.feral_ghoul_step;
+		return SoundEvents.ENTITY_HUSK_STEP;
 	}
 	
 	@Nullable
@@ -152,13 +161,13 @@ public class EntityFeralGhoul extends EntityZombie {
 		
 		if (flag && entityIn instanceof EntityLivingBase && !(entityIn instanceof IMob)) {
 			EntityLivingBase target = (EntityLivingBase)entityIn;
-			float mult = MathHelper.clamp(world.getDifficultyForLocation(new BlockPos(this)).getAdditionalDifficulty(), 1F, 4F);
-			target.addPotionEffect(new PotionEffect(MobEffects.HUNGER, (int) (100*mult)));
+			int mult = (int) (30F*MathHelper.clamp(world.getDifficultyForLocation(new BlockPos(this)).getAdditionalDifficulty(), 1F, 2.5F));
+			target.addPotionEffect(new PotionEffect(MobEffects.POISON, mult));
 			
 			IEntityRads entityRads = RadiationHelper.getEntityRadiation(target);
 			if (entityRads != null) {
-				entityRads.setRadiationLevel(entityRads.getRadiationLevel() + RadSources.CAESIUM_137);
-				playSound(SoundHandler.rad_poisoning, 1.2F, 1F);
+				entityRads.setPoisonBuffer(entityRads.getPoisonBuffer() + RadSources.CAESIUM_137*mult, 4D*RadSources.CAESIUM_137*mult);
+				playSound(SoundHandler.rad_poisoning, 1.35F, 1F + 0.2F*(rand.nextFloat() - rand.nextFloat()));
 			}
 		}
 		
@@ -240,8 +249,8 @@ public class EntityFeralGhoul extends EntityZombie {
 		int i = MathHelper.ceil((distance - 3F) * damageMultiplier);
 		if (i > 0) {
 			playSound(getFallSound(i), 1F, 1F);
-			playSound(SoundHandler.feral_ghoul_fall, 1F, 1F);
-			//attackEntityFrom(DamageSource.FALL, i);
+			//playSound(SoundHandler.feral_ghoul_fall, 1F, 1F);
+			playSound(SoundEvents.ENTITY_HUSK_AMBIENT, 1F, 1F);
 			int j = MathHelper.floor(posX);
 			int k = MathHelper.floor(posY - 0.20000000298023224D);
 			int l = MathHelper.floor(posZ);

@@ -486,6 +486,9 @@ fluid.diborane=Diborane
 tile.nuclearcraft.fluid_radaway.name=RadAway Fluid
 fluid.radaway=RadAway Fluid
 
+tile.nuclearcraft.fluid_radaway_slow.name=Slow-Acting RadAway Fluid
+fluid.radaway_slow=Slow-Acting RadAway Fluid
+
 tile.nuclearcraft.fluid_beryllium.name=Molten Beryllium
 fluid.beryllium=Molten Beryllium
 
@@ -1836,6 +1839,8 @@ gui.config.processors.ore_processing=Ore Processing
 gui.config.processors.ore_processing.comment=Can NuclearCraft machines process ores?
 gui.config.processors.manufactory_wood=Manufactory Wood Processing
 gui.config.processors.manufactory_wood.comment=Specify the size of the output stack for Manufactory wood processing recipes. Order: Logs->Planks, Planks->Sticks.
+gui.config.processors.rock_crusher_alternate=Rock Crusher Alternate Recipes
+gui.config.processors.rock_crusher_alternate.comment=Use an alternate set of recipes for the Rock Crusher that only produce NC dusts?
 gui.config.processors.gtce_recipe_integration=Register GTCE Recipes
 gui.config.processors.gtce_recipe_integration.comment=If enabled, recipes of the corresponding NC machine will also be added for GTCE machines. Order: Manufactory, Isotope Separator, Decay Hastener, Fuel Reprocessor, Alloy Furnace, Fluid Infuser, Melter, Supercooler, Electrolyzer, Neutron Irradiator, Ingot Former, Pressurizer, Chemical Reactor, Salt Mixer, Crystallizer, Fluid Enricher, Fluid Extractor, Centrifuge, Rock Crusher.
 gui.config.processors.smart_processor_input=Smart Processor Input
@@ -2168,6 +2173,8 @@ gui.config.radiation.radiation_worlds=World Background Radiation
 gui.config.radiation.radiation_worlds.comment=List of dimensions and their background radiation levels. Format: 'dimID_radiationLevel'.
 gui.config.radiation.radiation_biomes=Biome Background Radiation
 gui.config.radiation.radiation_biomes.comment=List of biomes and their background radiation levels. These values stack with the underlying world's background radiation. Format: 'modid:biomeName_radiationLevel'.
+gui.config.radiation.radiation_structures=Structure Background Radiation
+gui.config.radiation.radiation_structures.comment=List of structures and their background radiation levels. These values stack with the underlying world or biome's background radiation. Format: 'structureName_radiationLevel'.
 gui.config.radiation.radiation_world_limits=World Radiation Limit
 gui.config.radiation.radiation_world_limits.comment=List of dimensions and their radiation level limits. Format: 'dimID_radiationLimit'.
 gui.config.radiation.radiation_biome_limits=Biome Radiation Limit
@@ -2214,6 +2221,8 @@ gui.config.radiation.radiation_radaway_rate=RadAway Rad Removal Rate
 gui.config.radiation.radiation_radaway_rate.comment=The rate at which rads is removed when using RadAway in Rads/t.
 gui.config.radiation.radiation_radaway_slow_rate=Slow-Acting RadAway Rad Removal Rate
 gui.config.radiation.radiation_radaway_slow_rate.comment=The rate at which rads is removed when using Slow-Acting RadAway in Rads/t.
+gui.config.radiation.radiation_poison_rate=Rad Poisoning Radiation Rate
+gui.config.radiation.radiation_poison_rate.comment=The rate at which radiation poisoning adds to the player's rad count in Rads/t.
 gui.config.radiation.radiation_radaway_cooldown=RadAway Cooldown Time
 gui.config.radiation.radiation_radaway_cooldown.comment=The time that must be waited between doses of RadAway in ticks.
 gui.config.radiation.radiation_rad_x_amount=Rad-X Radiation Resistance

@@ -110,7 +110,7 @@ public class ItemBlockEnergy extends NCItemBlock implements ISpecialElectricItem
 	
 	@Override
 	public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable NBTTagCompound nbt) {
-		if (nbt != null && nbt.hasKey("energy") && nbt.hasKey("capacity") && nbt.hasKey("maxReceive") && nbt.hasKey("maxExtract")) {
+		if (nbt != null && nbt.hasKey("energy") && nbt.hasKey("capacity") && nbt.hasKey("maxTransfer")) {
 			return new ItemEnergyCapabilityProvider(stack, nbt, energyTier);
 		}
 		return new ItemEnergyCapabilityProvider(stack, getEnergyStored(stack), capacity, maxTransfer, energyTier);

@@ -3,8 +3,11 @@ package nc.handler;
 import java.util.Random;
 
 import nc.config.NCConfig;
+import nc.entity.EntityFeralGhoul;
 import nc.init.NCItems;
+import nc.util.OreDictHelper;
 import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.init.Blocks;
@@ -20,17 +23,28 @@ public class DropHandler {
 	
 	@SubscribeEvent
 	public void addEntityDrop(LivingDropsEvent event) {
-		if (NCConfig.rare_drops && event.getEntity().getEntityWorld().getGameRules().getBoolean("doMobLoot")) {
-			if (event.getEntity() instanceof EntityMob && rand.nextInt(100) < 1) {
-				ItemStack stack = new ItemStack(NCItems.dominos, 1);
-				event.getDrops().add(new EntityItem(event.getEntity().getEntityWorld(), event.getEntity().posX, event.getEntity().posY, event.getEntity().posZ, stack));
+		Entity entity = event.getEntity();
+		if (entity.getEntityWorld().getGameRules().getBoolean("doMobLoot")) {
+			if (entity instanceof EntityFeralGhoul) {
+				if (rand.nextInt(50) < 1) event.getDrops().add(entityItem(entity, new ItemStack(NCItems.ingot, 1, 3), "ingotThorium"));
+				if (rand.nextInt(50) < 1) event.getDrops().add(entityItem(entity, new ItemStack(NCItems.ingot, 1, 4), "ingotUranium"));
+			}
+			
+			if (NCConfig.rare_drops) {
+				if (entity instanceof EntityMob) {
+					if (rand.nextInt(100) < 1) event.getDrops().add(entityItem(entity, new ItemStack(NCItems.dominos, 1), null));
+				}
 			}
 		}
 	}
 	
+	private static EntityItem entityItem(Entity entity, ItemStack stack, String oreName) {
+		return new EntityItem(entity.getEntityWorld(), entity.posX, entity.posY, entity.posZ, OreDictHelper.getPrioritisedCraftingStack(stack, oreName));
+	}
+	
 	@SubscribeEvent
 	public void addBlockDrop(HarvestDropsEvent event) {
-		if (event.getWorld().getGameRules().getBoolean("doTileDrops")) {
+		if (event.getWorld().getGameRules().getBoolean("doTileDrops") && !event.isSilkTouching()) {
 			if (NCConfig.ore_drops[0]) blockDrop(event, new ItemStack(NCItems.gem, 1, 0), Blocks.REDSTONE_ORE, 25);
 			if (NCConfig.ore_drops[0]) blockDrop(event, new ItemStack(NCItems.gem, 1, 0), Blocks.LIT_REDSTONE_ORE, 25);
 			if (NCConfig.ore_drops[1]) blockDrop(event, new ItemStack(NCItems.dust, 1, 9), Blocks.COAL_ORE, 18);
@@ -42,15 +56,13 @@ public class DropHandler {
 		}
 	}
 	
-	public void blockDrop(HarvestDropsEvent event, ItemStack drop, Block block, int chance) {
+	private void blockDrop(HarvestDropsEvent event, ItemStack drop, Block block, int chance) {
 		if((event.getState().getBlock() == block) && rand.nextInt(100) < chance) {
-			if (!event.isSilkTouching()) event.getDrops().add(drop);
+			event.getDrops().add(drop);
 		}
 	}
 	
-	public void blockDrop(HarvestDropsEvent event, Item drop, int maxAmount, int meta, Block block, int chance) {
-		if((event.getState().getBlock() == block) && rand.nextInt(100) < chance) {
-			if (!event.isSilkTouching()) event.getDrops().add(new ItemStack(drop, rand.nextInt(maxAmount + 1), meta));
-		}
+	private void blockDrop(HarvestDropsEvent event, Item drop, int maxAmount, int meta, Block block, int chance) {
+		blockDrop(event, new ItemStack(drop, rand.nextInt(maxAmount + 1), meta), block, chance);
 	}
 }

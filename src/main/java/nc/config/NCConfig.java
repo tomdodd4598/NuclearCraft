@@ -69,6 +69,7 @@ public class NCConfig {
 	public static int cobble_gen_power;
 	public static boolean ore_processing;
 	public static int[] manufactory_wood;
+	public static boolean rock_crusher_alternate;
 	public static boolean[] gtce_recipe_integration;
 	public static boolean smart_processor_input;
 	public static boolean passive_permeation;
@@ -225,6 +226,7 @@ public class NCConfig {
 	
 	public static String[] radiation_worlds;
 	public static String[] radiation_biomes;
+	public static String[] radiation_structures;
 	public static String[] radiation_world_limits;
 	public static String[] radiation_biome_limits;
 	public static int[] radiation_from_biomes_dims_blacklist;
@@ -249,6 +251,7 @@ public class NCConfig {
 	public static double radiation_radaway_slow_amount;
 	public static double radiation_radaway_rate;
 	public static double radiation_radaway_slow_rate;
+	public static double radiation_poison_rate;
 	public static double radiation_radaway_cooldown;
 	public static double radiation_rad_x_amount;
 	public static double radiation_rad_x_lifetime;
@@ -397,6 +400,8 @@ public class NCConfig {
 		propertyOreProcessing.setLanguageKey("gui.config.processors.ore_processing");
 		Property propertyManufactoryWood = config.get(CATEGORY_PROCESSORS, "manufactory_wood", new int[] {6, 4}, Lang.localise("gui.config.processors.manufactory_wood.comment"), 1, 64);
 		propertyManufactoryWood.setLanguageKey("gui.config.processors.manufactory_wood");
+		Property propertyRockCrusherAlternate = config.get(CATEGORY_PROCESSORS, "rock_crusher_alternate", false, Lang.localise("gui.config.processors.rock_crusher_alternate.comment"));
+		propertyRockCrusherAlternate.setLanguageKey("gui.config.processors.rock_crusher_alternate");
 		Property propertyGTCERecipes = config.get(CATEGORY_PROCESSORS, "gtce_recipe_integration", new boolean[] {true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true}, Lang.localise("gui.config.processors.gtce_recipe_integration.comment"));
 		propertyGTCERecipes.setLanguageKey("gui.config.processors.gtce_recipe_integration");
 		Property propertySmartProcessorInput = config.get(CATEGORY_PROCESSORS, "smart_processor_input", true, Lang.localise("gui.config.processors.smart_processor_input.comment"));
@@ -682,6 +687,8 @@ public class NCConfig {
 		propertyRadiationWorlds.setLanguageKey("gui.config.radiation.radiation_worlds");
 		Property propertyRadiationBiomes = config.get(CATEGORY_RADIATION, "radiation_biomes", new String[] {"nuclearcraft:nuclear_wasteland_0.25"}, Lang.localise("gui.config.radiation.radiation_biomes.comment"));
 		propertyRadiationBiomes.setLanguageKey("gui.config.radiation.radiation_biomes");
+		Property propertyRadiationStructures = config.get(CATEGORY_RADIATION, "radiation_structures", new String[] {"Fortress_0.0025", "Mineshaft_0.00005", "Stronghold_0.001"}, Lang.localise("gui.config.radiation.radiation_structures.comment"));
+		propertyRadiationStructures.setLanguageKey("gui.config.radiation.radiation_structures");
 		Property propertyRadiationWorldLimit = config.get(CATEGORY_RADIATION, "radiation_world_limits", new String[] {}, Lang.localise("gui.config.radiation.radiation_world_limits.comment"));
 		propertyRadiationWorldLimit.setLanguageKey("gui.config.radiation.radiation_world_limits");
 		Property propertyRadiationBiomeLimit = config.get(CATEGORY_RADIATION, "radiation_biome_limits", new String[] {}, Lang.localise("gui.config.radiation.radiation_biome_limits.comment"));
@@ -727,6 +734,8 @@ public class NCConfig {
 		propertyRadiationRadawayRate.setLanguageKey("gui.config.radiation.radiation_radaway_rate");
 		Property propertyRadiationRadawaySlowRate = config.get(CATEGORY_RADIATION, "radiation_radaway_slow_rate", 0.025D, Lang.localise("gui.config.radiation.radiation_radaway_slow_rate.comment"), 0.00001D, 10000000D);
 		propertyRadiationRadawaySlowRate.setLanguageKey("gui.config.radiation.radiation_radaway_slow_rate");
+		Property propertyRadiationPoisonRate = config.get(CATEGORY_RADIATION, "radiation_poison_rate", 0.025D, Lang.localise("gui.config.radiation.radiation_poison_rate.comment"), 0.00001D, 10000000D);
+		propertyRadiationPoisonRate.setLanguageKey("gui.config.radiation.radiation_poison_rate");
 		Property propertyRadiationRadawayCooldown = config.get(CATEGORY_RADIATION, "radiation_radaway_cooldown", 0D, Lang.localise("gui.config.radiation.radiation_radaway_cooldown.comment"), 0D, 100000D);
 		propertyRadiationRadawayCooldown.setLanguageKey("gui.config.radiation.radiation_radaway_cooldown");
 		Property propertyRadiationRadXAmount = config.get(CATEGORY_RADIATION, "radiation_rad_x_amount", 25D, Lang.localise("gui.config.radiation.radiation_rad_x_amount.comment"), 0.001D, 1000000000D);
@@ -875,6 +884,7 @@ public class NCConfig {
 		propertyOrderProcessors.add(propertyCobbleGenPower.getName());
 		propertyOrderProcessors.add(propertyOreProcessing.getName());
 		propertyOrderProcessors.add(propertyManufactoryWood.getName());
+		propertyOrderProcessors.add(propertyRockCrusherAlternate.getName());
 		propertyOrderProcessors.add(propertyGTCERecipes.getName());
 		propertyOrderProcessors.add(propertySmartProcessorInput.getName());
 		propertyOrderProcessors.add(propertyPermeation.getName());
@@ -1052,6 +1062,7 @@ public class NCConfig {
 		propertyOrderRadiation.add(propertyRadiationPlayerTickRate.getName());
 		propertyOrderRadiation.add(propertyRadiationWorlds.getName());
 		propertyOrderRadiation.add(propertyRadiationBiomes.getName());
+		propertyOrderRadiation.add(propertyRadiationStructures.getName());
 		propertyOrderRadiation.add(propertyRadiationWorldLimit.getName());
 		propertyOrderRadiation.add(propertyRadiationBiomeLimit.getName());
 		propertyOrderRadiation.add(propertyRadiationFromBiomesDimsBlacklist.getName());
@@ -1073,6 +1084,7 @@ public class NCConfig {
 		propertyOrderRadiation.add(propertyRadiationRadawaySlowAmount.getName());
 		propertyOrderRadiation.add(propertyRadiationRadawayRate.getName());
 		propertyOrderRadiation.add(propertyRadiationRadawaySlowRate.getName());
+		propertyOrderRadiation.add(propertyRadiationPoisonRate.getName());
 		propertyOrderRadiation.add(propertyRadiationRadawayCooldown.getName());
 		propertyOrderRadiation.add(propertyRadiationRadXAmount.getName());
 		propertyOrderRadiation.add(propertyRadiationRadXLifetime.getName());
@@ -1155,6 +1167,7 @@ public class NCConfig {
 			cobble_gen_power = propertyCobbleGenPower.getInt();
 			ore_processing = propertyOreProcessing.getBoolean();
 			manufactory_wood = readIntegerArrayFromConfig(propertyManufactoryWood);
+			rock_crusher_alternate = propertyRockCrusherAlternate.getBoolean();
 			gtce_recipe_integration = readBooleanArrayFromConfig(propertyGTCERecipes);
 			ProcessorRecipeHandler.initGTCEIntegration();
 			smart_processor_input = propertySmartProcessorInput.getBoolean();
@@ -1311,6 +1324,7 @@ public class NCConfig {
 			
 			radiation_worlds = propertyRadiationWorlds.getStringList();
 			radiation_biomes = propertyRadiationBiomes.getStringList();
+			radiation_structures = propertyRadiationStructures.getStringList();
 			radiation_world_limits = propertyRadiationWorldLimit.getStringList();
 			radiation_biome_limits = propertyRadiationBiomeLimit.getStringList();
 			radiation_from_biomes_dims_blacklist = propertyRadiationFromBiomesDimsBlacklist.getIntList();
@@ -1335,6 +1349,7 @@ public class NCConfig {
 			radiation_radaway_slow_amount = propertyRadiationRadawaySlowAmount.getDouble();
 			radiation_radaway_rate = propertyRadiationRadawayRate.getDouble();
 			radiation_radaway_slow_rate = propertyRadiationRadawaySlowRate.getDouble();
+			radiation_poison_rate = propertyRadiationPoisonRate.getDouble();
 			radiation_radaway_cooldown = propertyRadiationRadawayCooldown.getDouble();
 			radiation_rad_x_amount = propertyRadiationRadXAmount.getDouble();
 			radiation_rad_x_lifetime = propertyRadiationRadXLifetime.getDouble();
@@ -1420,6 +1435,7 @@ public class NCConfig {
 		propertyCobbleGenPower.set(cobble_gen_power);
 		propertyOreProcessing.set(ore_processing);
 		propertyManufactoryWood.set(manufactory_wood);
+		propertyRockCrusherAlternate.set(rock_crusher_alternate);
 		propertyGTCERecipes.set(gtce_recipe_integration);
 		propertySmartProcessorInput.set(smart_processor_input);
 		propertyPermeation.set(passive_permeation);
@@ -1575,6 +1591,7 @@ public class NCConfig {
 		
 		propertyRadiationWorlds.set(radiation_worlds);
 		propertyRadiationBiomes.set(radiation_biomes);
+		propertyRadiationStructures.set(radiation_structures);
 		propertyRadiationWorldLimit.set(radiation_world_limits);
 		propertyRadiationBiomeLimit.set(radiation_biome_limits);
 		propertyRadiationFromBiomesDimsBlacklist.set(radiation_from_biomes_dims_blacklist);
@@ -1599,6 +1616,7 @@ public class NCConfig {
 		propertyRadiationRadawaySlowAmount.set(radiation_radaway_slow_amount);
 		propertyRadiationRadawayRate.set(radiation_radaway_rate);
 		propertyRadiationRadawaySlowRate.set(radiation_radaway_slow_rate);
+		propertyRadiationPoisonRate.set(radiation_poison_rate);
 		propertyRadiationRadawayCooldown.set(radiation_radaway_cooldown);
 		propertyRadiationRadXAmount.set(radiation_rad_x_amount);
 		propertyRadiationRadXLifetime.set(radiation_rad_x_lifetime);

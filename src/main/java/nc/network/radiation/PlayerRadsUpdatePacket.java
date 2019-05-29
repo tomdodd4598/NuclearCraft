@@ -19,6 +19,7 @@ public class PlayerRadsUpdatePacket implements IMessage {
 	protected double radiationResistance;
 	protected boolean radXWoreOff;
 	protected double radawayBuffer, radawayBufferSlow;
+	protected double poisonBuffer;
 	protected boolean consumed;
 	protected double radawayCooldown;
 	protected double radXCooldown;
@@ -36,6 +37,7 @@ public class PlayerRadsUpdatePacket implements IMessage {
 		radXWoreOff = playerRads.getRadXWoreOff();
 		radawayBuffer = playerRads.getRadawayBuffer(false);
 		radawayBufferSlow = playerRads.getRadawayBuffer(true);
+		poisonBuffer = playerRads.getPoisonBuffer();
 		consumed = playerRads.getConsumedMedicine();
 		radawayCooldown = playerRads.getRadawayCooldown();
 		radXCooldown = playerRads.getRadXCooldown();
@@ -54,6 +56,7 @@ public class PlayerRadsUpdatePacket implements IMessage {
 			radXWoreOff = buf.readBoolean();
 			radawayBuffer = buf.readDouble();
 			radawayBufferSlow = buf.readDouble();
+			poisonBuffer = buf.readDouble();
 			consumed = buf.readBoolean();
 			radawayCooldown = buf.readDouble();
 			radXCooldown = buf.readDouble();
@@ -76,6 +79,7 @@ public class PlayerRadsUpdatePacket implements IMessage {
 		buf.writeBoolean(radXWoreOff);
 		buf.writeDouble(radawayBuffer);
 		buf.writeDouble(radawayBufferSlow);
+		buf.writeDouble(poisonBuffer);
 		buf.writeBoolean(consumed);
 		buf.writeDouble(radawayCooldown);
 		buf.writeDouble(radXCooldown);
@@ -103,6 +107,7 @@ public class PlayerRadsUpdatePacket implements IMessage {
 			playerRads.setRadXWoreOff(message.radXWoreOff);
 			playerRads.setRadawayBuffer(false, message.radawayBuffer);
 			playerRads.setRadawayBuffer(true, message.radawayBufferSlow);
+			playerRads.setPoisonBuffer(message.poisonBuffer, Double.MAX_VALUE);
 			playerRads.setConsumedMedicine(message.consumed);
 			playerRads.setRadawayCooldown(message.radawayCooldown);
 			playerRads.setRadXCooldown(message.radXCooldown);

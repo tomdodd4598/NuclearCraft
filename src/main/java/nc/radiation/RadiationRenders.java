@@ -151,8 +151,7 @@ public class RadiationRenders {
 			}
 		}
 		
-		// Logic/rendering below taken with minor changes from BluSunrize's Immersive Engineering mod
-		// github.com/BluSunrize/ImmersiveEngineering/../blusunrize/immersiveengineering/client/ClientEventHandler.java
+		/* Logic below taken with minor changes from BluSunrize's Immersive Engineering: blusunrize.immersiveengineering.client.ClientEventHandler */
 		
 		if (chunkBorders) {
 			EntityPlayer player = mc.player;

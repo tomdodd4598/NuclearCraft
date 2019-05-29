@@ -9,6 +9,7 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.layers.LayerCustomHead;
 import net.minecraft.client.renderer.entity.layers.LayerElytra;
 import net.minecraft.client.renderer.entity.layers.LayerHeldItem;
+import net.minecraft.util.EnumHandSide;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -22,7 +23,12 @@ public class RenderFeralGhoul extends RenderLiving<EntityFeralGhoul> {
 		super(renderManager, new ModelFeralGhoul(), 0.5F);
 		addLayer(new LayerCustomHead(((ModelFeralGhoul)mainModel).bipedHead));
 		addLayer(new LayerElytra(this));
-		addLayer(new LayerHeldItem(this));
+		addLayer(new LayerHeldItem(this) {
+			@Override
+			protected void translateToHand(EnumHandSide side) {
+				((ModelFeralGhoul)mainModel).postRenderArm(0.0625F, side);
+			}
+		});
 	}
 	
 	@Override

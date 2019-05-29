@@ -30,6 +30,7 @@ import nc.network.PacketHandler;
 import nc.radiation.RadBiomes;
 import nc.radiation.RadEffects;
 import nc.radiation.RadSources;
+import nc.radiation.RadStructures;
 import nc.radiation.RadWorlds;
 import nc.radiation.RadiationArmor;
 import nc.radiation.RadiationHandler;
@@ -38,6 +39,7 @@ import nc.recipe.NCRecipes;
 import nc.recipe.vanilla.CraftingRecipeHandler;
 import nc.util.GasHelper;
 import nc.util.OreDictHelper;
+import nc.util.StructureHelper;
 import nc.worldgen.biome.NCBiomes;
 import nc.worldgen.decoration.BushGenerator;
 import nc.worldgen.dimension.NCWorlds;
@@ -53,6 +55,7 @@ import net.minecraftforge.fml.common.event.FMLModIdMappingEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.minecraftforge.fml.common.event.FMLServerStoppedEvent;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import slimeknights.tconstruct.library.materials.Material;
@@ -130,6 +133,7 @@ public class CommonProxy {
 		RadWorlds.init();
 		RadEffects.init();
 		RadSources.postInit();
+		RadStructures.init();
 		
 		MinecraftForge.EVENT_BUS.register(new RadiationCapabilityHandler());
 		MinecraftForge.EVENT_BUS.register(new RadiationHandler());
@@ -143,6 +147,10 @@ public class CommonProxy {
 		RadBiomes.init();
 		
 		CommandHandler.registerCommands(serverStartEvent);
+	}
+	
+	public void serverStop(FMLServerStoppedEvent serverStopEvent) {
+		StructureHelper.CACHE.clear();
 	}
 	
 	public void onIdMapping(FMLModIdMappingEvent idMappingEvent) {

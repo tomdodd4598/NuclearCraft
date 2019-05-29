@@ -56,6 +56,7 @@ public class NCFluids {
 			fluidPairList.add(fluidPair(FluidType.FLAMMABLE, "methanol", 0x71524C));
 			
 			fluidPairList.add(fluidPair(FluidType.LIQUID, "radaway"));
+			fluidPairList.add(fluidPair(FluidType.LIQUID, "radaway_slow"));
 			
 			fluidPairList.add(fluidPair(FluidType.GAS, "nitrogen", 0x7CC37B));
 			fluidPairList.add(fluidPair(FluidType.GAS, "fluorine", 0xD3C75D));

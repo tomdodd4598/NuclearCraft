@@ -15,6 +15,7 @@ import net.minecraftforge.fml.common.event.FMLModIdMappingEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.minecraftforge.fml.common.event.FMLServerStoppedEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 
 @Mod(modid = Global.MOD_ID, name = Global.MOD_NAME, version = Global.VERSION, dependencies = Global.DEPENDENCIES, guiFactory = Global.GUI_FACTORY)
@@ -56,6 +57,12 @@ public class NuclearCraft {
 	public void serverStart(FMLServerStartingEvent serverStartEvent) {
 		NCUtil.getLogger().info("Server Loading...");
 		proxy.serverStart(serverStartEvent);
+	}
+	
+	@EventHandler
+	public void serverStop(FMLServerStoppedEvent serverStopEvent) {
+		NCUtil.getLogger().info("Server Closing...");
+		proxy.serverStop(serverStopEvent);
 	}
 	
 	@EventHandler

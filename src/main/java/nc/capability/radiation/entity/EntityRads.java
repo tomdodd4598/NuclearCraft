@@ -13,6 +13,7 @@ public class EntityRads implements IEntityRads {
 	private double radiationResistance = 0D;
 	private boolean radXWoreOff = false;
 	private double radawayBuffer = 0D, radawayBufferSlow = 0D;
+	private double poisonBuffer = 0D;
 	private boolean consumed = false;
 	private double radawayCooldown = 0D;
 	private double radXCooldown = 0D;
@@ -31,6 +32,7 @@ public class EntityRads implements IEntityRads {
 		nbt.setBoolean("radXWoreOff", radXWoreOff);
 		nbt.setDouble("radawayBuffer", radawayBuffer);
 		nbt.setDouble("radawayBufferSlow", radawayBufferSlow);
+		nbt.setDouble("poisonBuffer", poisonBuffer);
 		nbt.setBoolean("consumed", consumed);
 		nbt.setDouble("radawayCooldown", radawayCooldown);
 		nbt.setDouble("radXCooldown", radXCooldown);
@@ -47,6 +49,7 @@ public class EntityRads implements IEntityRads {
 		radXWoreOff = nbt.getBoolean("radXWoreOff");
 		radawayBuffer = nbt.getDouble("radawayBuffer");
 		radawayBufferSlow = nbt.getDouble("radawayBufferSlow");
+		poisonBuffer = nbt.getDouble("poisonBuffer");
 		consumed = nbt.getBoolean("consumed");
 		radawayCooldown = nbt.getDouble("radawayCooldown");
 		radXCooldown = nbt.getDouble("radXCooldown");
@@ -108,6 +111,16 @@ public class EntityRads implements IEntityRads {
 	public void setRadawayBuffer(boolean slow, double newBuffer) {
 		if (slow) radawayBufferSlow = Math.max(newBuffer, 0D);
 		else radawayBuffer = Math.max(newBuffer, 0D);
+	}
+	
+	@Override
+	public double getPoisonBuffer() {
+		return poisonBuffer;
+	}
+	
+	@Override
+	public void setPoisonBuffer(double newBuffer, double maxLevel) {
+		poisonBuffer = MathHelper.clamp(newBuffer, 0D, maxLevel);
 	}
 
 	@Override
