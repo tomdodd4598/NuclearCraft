@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PSP",
+    "SMS",
+    "PSP"
+  ],
+  "key": {
+    "P": {
+      "type": "forge:ore_dict",
+      "ore": "plateBasic"
+    },
+    "S": {
+      "type": "forge:ore_dict",
+      "ore": "solenoidCopper"
+    },
+    "M": {
+      "type": "forge:ore_dict",
+      "ore": "blockMagnesium"
+    }
+  },
+  "result": {
+    "item": "nuclearcraft:voltaic_pile_basic"
+  }
+}

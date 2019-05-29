@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CCC",
+    "FLF",
+    "DDD"
+  ],
+  "key": {
+    "C": {
+      "type": "forge:ore_dict",
+      "ore": "ingotHardCarbon"
+    },
+    "F": {
+      "type": "forge:ore_dict",
+      "ore": "ingotFerroboron"
+    },
+    "L": {
+      "type": "forge:ore_dict",
+      "ore": "ingotLithium"
+    },
+    "D": {
+      "type": "forge:ore_dict",
+      "ore": "ingotLithiumManganeseDioxide"
+    }
+  },
+  "result": {
+    "item": "nuclearcraft:lithium_ion_cell"
+  }
+}

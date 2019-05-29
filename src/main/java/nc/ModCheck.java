@@ -24,20 +24,20 @@ public class ModCheck {
 	public static void init() {
 		if (initialized) return;
 		
-		cofhCoreLoaded = Loader.isModLoaded("cofhcore") || Loader.isModLoaded("CoFH Core");
-		ic2Loaded = Loader.isModLoaded("ic2") || Loader.isModLoaded("IC2");
-		mekanismLoaded = Loader.isModLoaded("mekanism") || Loader.isModLoaded("Mekanism");
-		craftTweakerLoaded = Loader.isModLoaded("minetweaker3") || Loader.isModLoaded("MineTweaker3") || Loader.isModLoaded("crafttweaker") || Loader.isModLoaded("CraftTweaker2");
-		mantleLoaded = Loader.isModLoaded("mantle") || Loader.isModLoaded("Mantle");
-		tinkersLoaded = mantleLoaded && (Loader.isModLoaded("tconstruct") || Loader.isModLoaded("Tinkers' Construct"));
-		constructsArmoryLoaded = tinkersLoaded && (Loader.isModLoaded("conarm") || Loader.isModLoaded("Construct's Armory"));
-		gregtechLoaded = Loader.isModLoaded("gregtech") || Loader.isModLoaded("GregTech Community Edition");
-		openComputersLoaded = Loader.isModLoaded("OpenComputers") || Loader.isModLoaded("opencomputers");
-		galacticraftLoaded = Loader.isModLoaded("GalacticraftCore") || Loader.isModLoaded("galacticraftcore") || Loader.isModLoaded("Galacticraft Core");
-		techRebornLoaded = Loader.isModLoaded("techreborn") || Loader.isModLoaded("Tech Reborn");
-		baublesLoaded = Loader.isModLoaded("baubles") || Loader.isModLoaded("Baubles");
-		thermalFoundationLoaded = Loader.isModLoaded("thermalfoundation") || Loader.isModLoaded("Thermal Foundation");
-		jeiLoaded = Loader.isModLoaded("jei") || Loader.isModLoaded("Just Enough Items");
+		cofhCoreLoaded = Loader.isModLoaded("cofhcore");
+		ic2Loaded = Loader.isModLoaded("ic2");
+		mekanismLoaded = Loader.isModLoaded("mekanism");
+		craftTweakerLoaded = Loader.isModLoaded("minetweaker3") || Loader.isModLoaded("crafttweaker");
+		mantleLoaded = Loader.isModLoaded("mantle");
+		tinkersLoaded = mantleLoaded && Loader.isModLoaded("tconstruct");
+		constructsArmoryLoaded = tinkersLoaded && Loader.isModLoaded("conarm");
+		gregtechLoaded = Loader.isModLoaded("gregtech");
+		openComputersLoaded = Loader.isModLoaded("opencomputers");
+		galacticraftLoaded = Loader.isModLoaded("galacticraftcore");
+		techRebornLoaded = Loader.isModLoaded("techreborn");
+		baublesLoaded = Loader.isModLoaded("baubles");
+		thermalFoundationLoaded = Loader.isModLoaded("thermalfoundation");
+		jeiLoaded = Loader.isModLoaded("jei");
 		
 		initialized = true;
 	}
