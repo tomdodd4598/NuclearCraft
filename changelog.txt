@@ -1,3 +1,9 @@
+v2.17a
+
++ Added Feral Ghouls to the Nuclear Wasteland
+
+* Tweaked entity radiation decay and mob buffs to be a little less difficult by default
+
 v2.17
 
 * Fixed not being able to extract depleted fuel from solid-fuel Fission Ports

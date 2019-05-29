@@ -1,4 +1,4 @@
-package nc.render;
+package nc.render.tile;
 
 import org.lwjgl.opengl.GL11;
 

@@ -6,19 +6,13 @@ import java.util.List;
 import nc.Global;
 import nc.block.fluid.NCBlockFluid;
 import nc.config.NCConfig;
+import nc.handler.RenderHandler;
 import nc.handler.TooltipHandler;
-import nc.init.NCArmor;
-import nc.init.NCBlocks;
 import nc.init.NCCoolantFluids;
 import nc.init.NCFissionFluids;
-import nc.init.NCItems;
-import nc.init.NCTools;
 import nc.model.ModelTexturedFluid;
 import nc.radiation.RadiationRenders;
-import nc.render.BlockHighlightHandler;
 import nc.render.ColorRenderer;
-import nc.render.RenderFusionCore;
-import nc.tile.generator.TileFusionCore;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -37,7 +31,6 @@ import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -59,15 +52,7 @@ public class ClientProxy extends CommonProxy {
 		
 		NCConfig.clientPreInit();
 		
-		NCBlocks.registerRenders();
-		NCItems.registerRenders();
-		NCTools.registerRenders();
-		NCArmor.registerRenders();
-		
-		ClientRegistry.bindTileEntitySpecialRenderer(TileFusionCore.class, new RenderFusionCore());
-		//ClientRegistry.bindTileEntitySpecialRenderer(TileSpin.class, new RenderSpin());
-		
-		MinecraftForge.EVENT_BUS.register(new BlockHighlightHandler());
+		RenderHandler.init();
 	}
 
 	@Override

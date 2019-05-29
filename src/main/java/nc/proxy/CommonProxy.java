@@ -13,6 +13,7 @@ import nc.handler.SoundHandler;
 import nc.init.NCArmor;
 import nc.init.NCBlocks;
 import nc.init.NCCoolantFluids;
+import nc.init.NCEntities;
 import nc.init.NCFissionFluids;
 import nc.init.NCFluids;
 import nc.init.NCItems;
@@ -113,6 +114,8 @@ public class CommonProxy {
 		GameRegistry.registerWorldGenerator(new OreGenerator(), 0);
 		GameRegistry.registerWorldGenerator(new BushGenerator(), 100);
 		//GameRegistry.registerWorldGenerator(new WastelandPortalGenerator(), 10);
+		
+		NCEntities.register();
 		
 		if (ModCheck.tinkersLoaded()) TConstructExtras.init();
 		if (ModCheck.constructsArmoryLoaded()) ConArmMaterials.init();

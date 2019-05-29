@@ -207,7 +207,7 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 		world.setBlockState(pos, corium);
 		
 		if (NCConfig.fission_explosions) {
-			world.createExplosion(null, middle.getX(), middle.getY(), middle.getZ(), lengthX*lengthX + lengthY*lengthY + lengthZ*lengthZ, true);
+			world.createExplosion(null, middle.getX(), middle.getY(), middle.getZ(), getLengthX()*getLengthX() + getLengthY()*getLengthY() + getLengthZ()*getLengthZ(), true);
 		}
 		
 		for (int i = minX; i <= maxX; i++) {

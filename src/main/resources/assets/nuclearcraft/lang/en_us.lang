@@ -1711,6 +1711,8 @@ item.nuclearcraft.record_hyperspace.name=Music Disc
 item.nuclearcraft.record_hyperspace.des0=Ur-Quan Masters - Hyperspace
 item.nuclearcraft.record_hyperspace.des1=Originally by Riku Nuottajärvi
 
+entity.nuclearcraft.feral_ghoul.name=Feral Ghoul
+
 jei.nuclearcraft.chance_output=Output: %s-%s [Average: %s]
 
 jei.nuclearcraft.base_process_time=Base process time:
@@ -2142,6 +2144,14 @@ gui.config.armor.armor_toughness=Toughnesses
 gui.config.armor.armor_toughness.comment=Toughnesses of armor types. Order: boron, tough alloy, hard carbon, boron nitride, hazmat.
 gui.config.armor.armor_conarm_register=ConArm Armor Material Registration
 gui.config.armor.armor_conarm_register.comment=Will these materials be registered as armor materials for Construct's Armory? Order: boron, tough alloy, hard carbon, boron nitride, thorium, uranium, magnesium, chocolate.
+
+gui.config.category.entities=Entity Configs
+gui.config.category.entities.tooltip=Configure entities.
+
+gui.config.entities.entity_register=Entity Registration
+gui.config.entities.entity_register.comment=Will these entities be registered? Order: feral ghoul.
+gui.config.entities.entity_tracking_range=Entity Tracking Range
+gui.config.entities.entity_tracking_range.comment=The range at which Minecraft will send tracking updates for NC entities.
 
 gui.config.category.radiation=Radiation Configs
 gui.config.category.radiation.tooltip=Configure aspects of nuclear radiation.
@@ -2651,10 +2661,24 @@ advancement.nuclearcraft.foursmore.desc=Make a FourS'more QuadS'mingot
 
 block.fusion_run=Fusion Reactor Running
 block.accelerator_run=Accelerator Running
+
 player.geiger_tick=Geiger Tick
+player.radaway=Use RadAway
+player.rad_x=Use Rad-X
+player.chems_wear_off=Chems Wear Off
+player.rad_poisoning=Rad Poisoning
+
+entity.feral_ghoul_ambient=Feral Ghoul Ambient
+entity.feral_ghoul_hurt=Feral Ghoul Hurt
+entity.feral_ghoul_death=Feral Ghoul Death
+entity.feral_ghoul_step=Feral Ghoul Step
+entity.feral_ghoul_fall=Feral Ghoul Fall
+entity.feral_ghoul_charge=Feral Ghoul Charge
+
 music.wanderer=Wanderer
 music.end_of_the_world=End of the World
 music.money_for_nothing=Money For Nothing
+music.hyperspace=Hyperspace
 
 material.boron.name=Boron
 material.tough.name=Tough Alloy

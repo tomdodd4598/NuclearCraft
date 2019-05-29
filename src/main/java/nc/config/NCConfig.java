@@ -42,6 +42,7 @@ public class NCConfig {
 	public static final String CATEGORY_TOOLS = "tools";
 	public static final String CATEGORY_ARMOR = "armor";
 	public static final String CATEGORY_RADIATION = "radiation";
+	public static final String CATEGORY_ENTITIES = "entities";
 	public static final String CATEGORY_OTHER = "other";
 	
 	public static int[] ore_dims;
@@ -212,6 +213,9 @@ public class NCConfig {
 	public static int[] armor_enchantability;
 	public static double[] armor_toughness;
 	public static boolean[] armor_conarm_register;
+	
+	public static boolean[] entity_register;
+	public static int entity_tracking_range;
 	
 	private static boolean radiation_enabled;
 	public static boolean radiation_enabled_public;
@@ -661,6 +665,11 @@ public class NCConfig {
 		Property propertyArmorConarmRegister = config.get(CATEGORY_ARMOR, "armor_conarm_register", new boolean[] {true, true, true, true, true, true, true, true}, Lang.localise("gui.config.armor.armor_conarm_register.comment"));
 		propertyArmorConarmRegister.setLanguageKey("gui.config.armor.armor_conarm_register");
 		
+		Property propertyEntityRegister = config.get(CATEGORY_ENTITIES, "entity_register", new boolean[] {true}, Lang.localise("gui.config.entities.entity_register.comment"));
+		propertyEntityRegister.setLanguageKey("gui.config.entities.entity_register");
+		Property propertyEntityTrackingRange = config.get(CATEGORY_ENTITIES, "entity_tracking_range", 64, Lang.localise("gui.config.entities.entity_tracking_range.comment"), 1, 255);
+		propertyEntityTrackingRange.setLanguageKey("gui.config.entities.entity_tracking_range");
+		
 		Property propertyRadiationEnabled = config.get(CATEGORY_RADIATION, "radiation_enabled", true, Lang.localise("gui.config.radiation.radiation_enabled.comment"));
 		propertyRadiationEnabled.setLanguageKey("gui.config.radiation.radiation_enabled");
 		
@@ -697,7 +706,7 @@ public class NCConfig {
 		propertyRadiationMaxPlayerRads.setLanguageKey("gui.config.radiation.max_player_rads");
 		Property propertyRadiationPlayerDecayRate = config.get(CATEGORY_RADIATION, "radiation_player_decay_rate", 0D, Lang.localise("gui.config.radiation.radiation_player_decay_rate.comment"), 0D, 1D);
 		propertyRadiationPlayerDecayRate.setLanguageKey("gui.config.radiation.radiation_player_decay_rate");
-		Property propertyRadiationEntityDecayRate = config.get(CATEGORY_RADIATION, "radiation_entity_decay_rate", 0.00004D, Lang.localise("gui.config.radiation.radiation_entity_decay_rate.comment"), 0D, 1D);
+		Property propertyRadiationEntityDecayRate = config.get(CATEGORY_RADIATION, "radiation_entity_decay_rate", 0.001D, Lang.localise("gui.config.radiation.radiation_entity_decay_rate.comment"), 0D, 1D);
 		propertyRadiationEntityDecayRate.setLanguageKey("gui.config.radiation.radiation_entity_decay_rate");
 		Property propertyRadiationSpreadRate = config.get(CATEGORY_RADIATION, "radiation_spread_rate", 0.1D, Lang.localise("gui.config.radiation.radiation_spread_rate.comment"), 0D, 1D);
 		propertyRadiationSpreadRate.setLanguageKey("gui.config.radiation.radiation_spread_rate");
@@ -761,7 +770,7 @@ public class NCConfig {
 		
 		Property propertyRadiationPassiveDebuffLists = config.get(CATEGORY_RADIATION, "radiation_passive_debuff_lists", new String[] {"40.0_minecraft:weakness@1", "55.0_minecraft:weakness@1,minecraft:mining_fatigue@1", "70.0_minecraft:weakness@2,minecraft:mining_fatigue@1,minecraft:hunger@1", "80.0_minecraft:weakness@2,minecraft:mining_fatigue@2,minecraft:hunger@1,minecraft:poison@1", "90.0_minecraft:weakness@3,minecraft:mining_fatigue@3,minecraft:hunger@2,minecraft:poison@1,minecraft:wither@1"}, Lang.localise("gui.config.radiation.radiation_passive_debuff_lists.comment"));
 		propertyRadiationPassiveDebuffLists.setLanguageKey("gui.config.radiation.radiation_passive_debuff_lists");
-		Property propertyRadiationMobBuffLists = config.get(CATEGORY_RADIATION, "radiation_mob_buff_lists", new String[] {"40.0_minecraft:speed@1", "55.0_minecraft:speed@1,minecraft:jump_boost@1", "70.0_minecraft:speed@2,minecraft:jump_boost@1,minecraft:resistance@1", "80.0_minecraft:speed@2,minecraft:jump_boost@2,minecraft:resistance@1,minecraft:absorption@1", "90.0_minecraft:speed@3,minecraft:jump_boost@3,minecraft:resistance@2,minecraft:absorption@1,minecraft:regeneration@1"}, Lang.localise("gui.config.radiation.radiation_mob_buff_lists.comment"));
+		Property propertyRadiationMobBuffLists = config.get(CATEGORY_RADIATION, "radiation_mob_buff_lists", new String[] {"40.0_minecraft:speed@1", "55.0_minecraft:speed@1,minecraft:jump_boost@1", "70.0_minecraft:speed@1,minecraft:jump_boost@1,minecraft:resistance@1", "80.0_minecraft:speed@1,minecraft:jump_boost@1,minecraft:resistance@1,minecraft:absorption@1", "90.0_minecraft:speed@1,minecraft:jump_boost@1,minecraft:resistance@1,minecraft:absorption@1,minecraft:regeneration@1"}, Lang.localise("gui.config.radiation.radiation_mob_buff_lists.comment"));
 		propertyRadiationMobBuffLists.setLanguageKey("gui.config.radiation.radiation_mob_buff_lists");
 		
 		Property propertyRadiationHorseArmor = config.get(CATEGORY_RADIATION, "radiation_horse_armor", false, Lang.localise("gui.config.radiation.radiation_horse_armor.comment"));
@@ -1032,6 +1041,11 @@ public class NCConfig {
 		propertyOrderArmor.add(propertyArmorConarmRegister.getName());
 		config.setCategoryPropertyOrder(CATEGORY_ARMOR, propertyOrderArmor);
 		
+		List<String> propertyOrderEntities = new ArrayList<String>();
+		propertyOrderEntities.add(propertyEntityTrackingRange.getName());
+		propertyOrderEntities.add(propertyEntityRegister.getName());
+		config.setCategoryPropertyOrder(CATEGORY_ENTITIES, propertyOrderEntities);
+		
 		List<String> propertyOrderRadiation = new ArrayList<String>();
 		propertyOrderRadiation.add(propertyRadiationEnabled.getName());
 		propertyOrderRadiation.add(propertyRadiationWorldTickRate.getName());
@@ -1286,6 +1300,9 @@ public class NCConfig {
 			armor_hazmat = readIntegerArrayFromConfig(propertyArmorHazmat);
 			armor_toughness = readDoubleArrayFromConfig(propertyArmorToughness);
 			armor_conarm_register = readBooleanArrayFromConfig(propertyArmorConarmRegister);
+			
+			entity_register = readBooleanArrayFromConfig(propertyEntityRegister);
+			entity_tracking_range = propertyEntityTrackingRange.getInt();
 			
 			radiation_enabled = propertyRadiationEnabled.getBoolean();
 			
@@ -1547,6 +1564,9 @@ public class NCConfig {
 		propertyArmorHazmat.set(armor_hazmat);
 		propertyArmorToughness.set(armor_toughness);
 		propertyArmorConarmRegister.set(armor_conarm_register);
+		
+		propertyEntityRegister.set(entity_register);
+		propertyEntityTrackingRange.set(entity_tracking_range);
 		
 		propertyRadiationEnabled.set(radiation_enabled);
 		

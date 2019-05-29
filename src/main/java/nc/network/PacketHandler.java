@@ -22,15 +22,9 @@ import net.minecraftforge.fml.relauncher.Side;
 
 public class PacketHandler {
 	
-	private static int packetId = 0;
-
 	public static SimpleNetworkWrapper instance = null;
 
 	public PacketHandler() {}
-
-	public static int nextID() {
-		return packetId++;
-	}
 
 	public static void registerMessages(String channelName) {
 		instance = NetworkRegistry.INSTANCE.newSimpleChannel(channelName);
@@ -63,5 +57,11 @@ public class PacketHandler {
 		instance.registerMessage(TurbineUpdatePacket.Handler.class, TurbineUpdatePacket.class, nextID(), Side.CLIENT);
 		
 		instance.registerMessage(PlayerRadsUpdatePacket.Handler.class, PlayerRadsUpdatePacket.class, nextID(), Side.CLIENT);
+	}
+	
+	private static int packetId = 0;
+	
+	public static int nextID() {
+		return packetId++;
 	}
 }

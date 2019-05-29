@@ -3,16 +3,12 @@ package nc.worldgen.biome;
 import java.util.List;
 import java.util.Random;
 
+import nc.entity.EntityFeralGhoul;
 import nc.init.NCBlocks;
 import net.minecraft.block.BlockFlower;
 import net.minecraft.block.BlockTallGrass;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.monster.EntityCreeper;
-import net.minecraft.entity.monster.EntityEnderman;
-import net.minecraft.entity.monster.EntitySkeleton;
-import net.minecraft.entity.monster.EntitySpider;
-import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -33,7 +29,7 @@ public class BiomeNuclearWasteland extends Biome {
 	protected static final IBlockState BEDROCK = Blocks.BEDROCK.getDefaultState();
 	
 	public BiomeNuclearWasteland() {
-		super(new BiomeProperties(BIOME_NAME).setBaseHeight(0.12F).setHeightVariation(0.02F).setTemperature(2F).setRainDisabled());
+		super(new BiomeProperties(BIOME_NAME).setBaseHeight(0.12F).setHeightVariation(0.02F).setTemperature(2F).setWaterColor(0x994C00).setRainDisabled());
 				
 		topBlock = NCBlocks.dry_earth.getDefaultState();
 		fillerBlock = Blocks.SAND.getDefaultState();
@@ -53,7 +49,13 @@ public class BiomeNuclearWasteland extends Biome {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public int getGrassColorAtPos(BlockPos pos) {
-		return 0x9DA071;
+		return getModdedBiomeGrassColor(0x994C00);
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public int getFoliageColorAtPos(BlockPos pos) {
+		return getModdedBiomeFoliageColor(0x994C00);
 	}
 	
 	/**
@@ -111,11 +113,9 @@ public class BiomeNuclearWasteland extends Biome {
 		spawnableMonsterList.clear();
 		spawnableWaterCreatureList.clear();
 		spawnableCaveCreatureList.clear();
-		spawnableMonsterList.add(new Biome.SpawnListEntry(EntitySpider.class, 100, 4, 4));
-		spawnableMonsterList.add(new Biome.SpawnListEntry(EntityZombie.class, 95, 4, 4));
-		spawnableMonsterList.add(new Biome.SpawnListEntry(EntitySkeleton.class, 100, 4, 4));
-		spawnableMonsterList.add(new Biome.SpawnListEntry(EntityCreeper.class, 100, 4, 4));
-		spawnableMonsterList.add(new Biome.SpawnListEntry(EntityEnderman.class, 10, 1, 4));
+		
+		spawnableCreatureList.add(new Biome.SpawnListEntry(EntityFeralGhoul.class, 100, 2, 6));
+		spawnableMonsterList.add(new Biome.SpawnListEntry(EntityFeralGhoul.class, 100, 2, 6));
 	}
 	
 	@Override
