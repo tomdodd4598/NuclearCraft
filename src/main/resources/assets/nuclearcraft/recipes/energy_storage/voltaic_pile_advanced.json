@@ -1,0 +1,28 @@
+{
+  "type": "nuclearcraft:energy_storage_upgrade",
+  "pattern": [
+    "PMP",
+    "VVV",
+    "PCP"
+  ],
+  "key": {
+    "P": {
+      "type": "forge:ore_dict",
+      "ore": "plateAdvanced"
+    },
+    "M": {
+      "type": "forge:ore_dict",
+      "ore": "ingotMagnesium"
+    },
+    "V": {
+      "item": "nuclearcraft:voltaic_pile_basic"
+    },
+    "C": {
+      "type": "forge:ore_dict",
+      "ore": "ingotCopper"
+    }
+  },
+  "result": {
+    "item": "nuclearcraft:voltaic_pile_advanced"
+  }
+}

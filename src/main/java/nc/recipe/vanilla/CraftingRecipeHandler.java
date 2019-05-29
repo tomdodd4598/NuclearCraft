@@ -149,7 +149,9 @@ public class CraftingRecipeHandler {
 		addShapedOreRecipe(NCBlocks.solar_panel_elite, "PBP", "SSS", "PMP", 'S', NCBlocks.solar_panel_du, 'B', "gemBoronArsenide", 'P', "plateElite", 'M', "solenoidMagnesiumDiboride");
 		
 		addShapedOreRecipe(NCBlocks.decay_generator, "LCL", "CRC", "LCL", 'C', "cobblestone", 'L', "ingotLead", 'R', "dustRedstone");
-		
+
+		//These shouldn't be needed anymore
+		/*
 		addShapedOreRecipe(NCBlocks.voltaic_pile_basic, "PSP", "SMS", "PSP", 'P', "plateBasic", 'S', "solenoidCopper", 'M', "blockMagnesium");
 		addShapedOreRecipe(NCBlocks.voltaic_pile_advanced, "PMP", "VVV", "PCP", 'V', NCBlocks.voltaic_pile_basic, 'P', "plateAdvanced", 'M', "ingotMagnesium", 'C', "ingotCopper");
 		addShapedOreRecipe(NCBlocks.voltaic_pile_du, "PMP", "VVV", "PCP", 'V', NCBlocks.voltaic_pile_advanced, 'P', "plateDU", 'M', "ingotMagnesium", 'C', "ingotCopper");
@@ -160,7 +162,8 @@ public class CraftingRecipeHandler {
 		addShapedOreRecipe(NCBlocks.lithium_ion_battery_advanced, "PDP", "LLL", "PSP", 'L', NCBlocks.lithium_ion_battery_basic, 'P', "plateAdvanced", 'D', "ingotLithiumManganeseDioxide", 'S', "solenoidMagnesiumDiboride");
 		addShapedOreRecipe(NCBlocks.lithium_ion_battery_du, "PDP", "LLL", "PSP", 'L', NCBlocks.lithium_ion_battery_advanced, 'P', "plateDU", 'D', "ingotLithiumManganeseDioxide", 'S', "solenoidMagnesiumDiboride");
 		addShapedOreRecipe(NCBlocks.lithium_ion_battery_elite, "PDP", "LLL", "PSP", 'L', NCBlocks.lithium_ion_battery_du, 'P', "plateElite", 'D', "ingotLithiumManganeseDioxide", 'S', "solenoidMagnesiumDiboride");
-		
+		*/
+
 		addShapedOreRecipe(NCBlocks.bin, "PZP", "Z Z", "PZP", 'P', "plateBasic", 'Z', "ingotZirconium");
 		
 		addShapedOreRecipe(NCBlocks.accelerator_electromagnet_idle, "SPS", "P P", "SPS", 'P', "plateElite", 'S', "solenoidMagnesiumDiboride");
