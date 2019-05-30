@@ -5,7 +5,7 @@ v2.17a
 + Added config option for radiation from structures such as villages and strongholds [thanks to McJty for the crucial methods!]
 * Tweaked entity radiation decay and mob buffs to be a little less difficult by default
 
-* Battery upgrading recipes now conserve the energy [thanks to Tfarcenim!]
+* Battery upgrading recipes now conserve their energy [thanks to Tfarcenim!]
 * Fixed energy-handling items not transferring energy
 
 * Added config option for alternate Rock Crusher recipes which only produce NC materials
