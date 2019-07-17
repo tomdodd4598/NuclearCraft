@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import nc.Global;
+import nc.NuclearCraft;
 import nc.util.InfoHelper;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
@@ -26,7 +27,7 @@ public class NCItem extends Item {
 	
 	public NCItem(String nameIn, TextFormatting fixedColor, String[] fixedTooltip, String... tooltip) {
 		setTranslationKey(Global.MOD_ID + "." + nameIn);
-		setRegistryName(new ResourceLocation(Global.MOD_ID, nameIn));
+		if (NuclearCraft.regName) setRegistryName(new ResourceLocation(Global.MOD_ID, nameIn));
 		this.fixedColor = fixedColor;
 		fixedInfo = InfoHelper.buildFixedInfo(getTranslationKey(), fixedTooltip);
 		info = InfoHelper.buildInfo(getTranslationKey(), tooltip);

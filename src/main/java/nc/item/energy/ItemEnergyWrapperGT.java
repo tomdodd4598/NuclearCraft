@@ -80,6 +80,12 @@ public class ItemEnergyWrapperGT implements IElectricItem {
 	
 	@Override
 	@Optional.Method(modid = "gregtech")
+	public long getTransferLimit() {
+		return EnergyHelper.getMaxEUFromTier(1 + energyTier);
+	}
+	
+	@Override
+	@Optional.Method(modid = "gregtech")
 	public boolean canUse(long amount) {
 		return getCharge() >= amount;
 	}

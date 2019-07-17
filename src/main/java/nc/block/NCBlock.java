@@ -5,6 +5,7 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 import nc.Global;
+import nc.NuclearCraft;
 import nc.block.tile.INBTDrop;
 import nc.tile.ITile;
 import net.minecraft.block.Block;
@@ -35,7 +36,7 @@ public class NCBlock extends Block {
 	public NCBlock(String name, Material material, boolean canCreatureSpawn) {
 		super(material);
 		setTranslationKey(Global.MOD_ID + "." + name);
-		setRegistryName(new ResourceLocation(Global.MOD_ID, name));
+		if (NuclearCraft.regName) setRegistryName(new ResourceLocation(Global.MOD_ID, name));
 		setHarvestLevel("pickaxe", 0);
 		setHardness(2F);
 		setResistance(15F);

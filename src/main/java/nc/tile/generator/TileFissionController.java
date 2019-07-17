@@ -93,7 +93,7 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 	}
 
 	private TileFissionController(boolean newRules) {
-		super("fission_controller", 1, 1, 0, defaultItemSorptions(1, 1), BASE_CAPACITY, NCRecipes.Type.FISSION);
+		super("fission_controller", 1, 1, 0, defaultItemSorptions(1, 1), BASE_CAPACITY, NCRecipes.fission);
 		this.newRules = newRules;
 	}
 	
@@ -108,7 +108,7 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 	@Override
 	public void updateGenerator() {
 		if (fixControllerBlock()) return;
-		if(!world.isRemote) {
+		if (!world.isRemote) {
 			boolean wasActivated = isActivated, wasProcessing = isProcessing;
 			isActivated = isActivated();
 			isProcessing = isProcessing();
@@ -1109,7 +1109,7 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 	
 	@Override
 	public boolean isUsableByPlayer(EntityPlayer player) {
-		return world.getTileEntity(pos) != this ? false : player.getDistanceSq(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D) <= Math.max(lengthX*lengthX + lengthY*lengthY + lengthZ*lengthZ, 64.0D);
+		return world.getTileEntity(pos) != this ? false : player.getDistanceSq(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D) <= Math.max(lengthX*lengthX + lengthY*lengthY + lengthZ*lengthZ, 64D);
 	}
 	
 	// OpenComputers

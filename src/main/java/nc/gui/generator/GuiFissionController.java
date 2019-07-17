@@ -60,7 +60,7 @@ public class GuiFissionController extends NCGui {
 	public List<String> energyInfo(ITileEnergy tile) {
 		String energy = UnitHelper.prefix(tile.getEnergyStorage().getEnergyStored(), tile.getEnergyStorage().getMaxEnergyStored(), 6, "RF");
 		String power = UnitHelper.prefix((int)this.tile.processPower, 6, "RF/t");
-		String efficiency = NCMath.round(this.tile.efficiency, 1) + "%";
+		String efficiency = NCMath.decimalPlaces(this.tile.efficiency, 1) + "%";
 		if (this.tile.getFuelName().equals(TileFissionController.NO_FUEL) || this.tile.cells == 0) return Lists.newArrayList(TextFormatting.LIGHT_PURPLE + Lang.localise("gui.container.energy_stored") + TextFormatting.WHITE + " " + energy, TextFormatting.LIGHT_PURPLE + Lang.localise("gui.container.power_gen") + TextFormatting.WHITE + " " + power, TextFormatting.LIGHT_PURPLE + Lang.localise("gui.container.fission_controller.efficiency") + TextFormatting.WHITE + " " + efficiency);
 		double fuelTimeLeft = MathHelper.clamp((this.tile.baseProcessTime - this.tile.time)/(this.tile.cells*NCConfig.fission_fuel_use), 0D, this.tile.baseProcessTime);
 		int fuelTimeLeftPercent = (int)(100D*MathHelper.clamp(1D - this.tile.time/this.tile.baseProcessTime, 0D, 1D));
@@ -71,7 +71,7 @@ public class GuiFissionController extends NCGui {
 		String heat = UnitHelper.prefix((int)tile.heat, tile.getMaxHeat(), 6, "H");
 		String heatGen = UnitHelper.prefix((int)tile.heatChange, 6, "H/t");
 		String cooling = UnitHelper.prefix((int)tile.cooling, 6, "H/t");
-		String heatMult = NCMath.round(this.tile.heatMult, 1) + "%";
+		String heatMult = NCMath.decimalPlaces(this.tile.heatMult, 1) + "%";
 		return Lists.newArrayList(TextFormatting.YELLOW + Lang.localise("gui.container.fission_controller.heat") + TextFormatting.WHITE + " " + heat, TextFormatting.YELLOW + Lang.localise("gui.container.fission_controller.heat_gen") + TextFormatting.WHITE + " " + heatGen, TextFormatting.BLUE + Lang.localise("gui.container.fission_controller.cooling") + TextFormatting.WHITE + " " + cooling, TextFormatting.YELLOW + Lang.localise("gui.container.fission_controller.heat_mult") + TextFormatting.WHITE + " " + heatMult);
 	}
 	
@@ -81,7 +81,7 @@ public class GuiFissionController extends NCGui {
 	
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
-		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+		GlStateManager.color(1F, 1F, 1F, 1F);
 		mc.getTextureManager().bindTexture(gui_textures);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		

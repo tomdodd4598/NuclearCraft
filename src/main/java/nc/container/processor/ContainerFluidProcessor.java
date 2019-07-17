@@ -2,7 +2,6 @@ package nc.container.processor;
 
 import nc.container.ContainerTile;
 import nc.init.NCItems;
-import nc.recipe.NCRecipes;
 import nc.recipe.ProcessorRecipeHandler;
 import nc.tile.processor.TileFluidProcessor;
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,21 +11,17 @@ import net.minecraft.item.ItemStack;
 public class ContainerFluidProcessor extends ContainerTile {
 	
 	public final TileFluidProcessor tile;
-	public final NCRecipes.Type recipeType;
+	public final ProcessorRecipeHandler recipeHandler;
 	
 	protected ItemStack speedUpgrade = new ItemStack(NCItems.upgrade, 1, 0);
 	protected ItemStack energyUpgrade = new ItemStack(NCItems.upgrade, 1, 1);
 	
-	public ContainerFluidProcessor(EntityPlayer player, TileFluidProcessor tileEntity, NCRecipes.Type recipeType) {
+	public ContainerFluidProcessor(EntityPlayer player, TileFluidProcessor tileEntity, ProcessorRecipeHandler recipeHandler) {
 		super(tileEntity);
 		tile = tileEntity;
-		this.recipeType = recipeType;
+		this.recipeHandler = recipeHandler;
 		
 		tileEntity.beginUpdatingPlayer(player);
-	}
-	
-	public ProcessorRecipeHandler getRecipeHandler() {
-		return recipeType.getRecipeHandler();
 	}
 	
 	@Override
@@ -70,7 +65,7 @@ public class ContainerFluidProcessor extends ContainerTile {
 					}
 				}
 				
-				else if (getRecipeHandler().isValidItemInput(itemstack1)) {
+				else if (recipeHandler.isValidItemInput(itemstack1)) {
 					if (!mergeItemStack(itemstack1, 0, 0, false)) {
 						return ItemStack.EMPTY;
 					}

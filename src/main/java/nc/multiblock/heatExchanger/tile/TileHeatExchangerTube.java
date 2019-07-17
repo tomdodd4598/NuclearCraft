@@ -63,7 +63,7 @@ public class TileHeatExchangerTube extends TileHeatExchangerPartBase implements 
 	public int inputTemperature = 0, outputTemperature = 0;
 	public EnumFacing flowDir = null;
 	
-	public final NCRecipes.Type recipeType = NCRecipes.Type.HEAT_EXCHANGER;
+	public static final ProcessorRecipeHandler RECIPE_HANDLER = NCRecipes.heat_exchanger;
 	protected RecipeInfo<ProcessorRecipe> recipeInfo, cachedRecipeInfo;
 	
 	public final double conductivity;
@@ -210,7 +210,7 @@ public class TileHeatExchangerTube extends TileHeatExchangerPartBase implements 
 				recipeInfo = new RecipeInfo(cachedRecipeInfo.getRecipe(), matchResult);
 			}
 			else {
-				recipeInfo = getRecipeHandler().getRecipeInfoFromInputs(new ArrayList<ItemStack>(), getFluidInputs());
+				recipeInfo = RECIPE_HANDLER.getRecipeInfoFromInputs(new ArrayList<ItemStack>(), getFluidInputs());
 			}
 			if (recipeInfo != null) {
 				cachedRecipeInfo = recipeInfo;
@@ -333,11 +333,6 @@ public class TileHeatExchangerTube extends TileHeatExchangerPartBase implements 
 	}
 	
 	// IProcessor
-	
-	@Override
-	public ProcessorRecipeHandler getRecipeHandler() {
-		return recipeType.getRecipeHandler();
-	}
 	
 	@Override
 	public List<Tank> getFluidInputs() {
@@ -634,7 +629,7 @@ public class TileHeatExchangerTube extends TileHeatExchangerPartBase implements 
 			if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
 				return true;
 			}
-			if (ModCheck.mekanismLoaded() && GasHelper.isGasCapability(capability)) {
+			if (ModCheck.mekanismLoaded() && capability == GasHelper.GAS_HANDLER_CAPABILITY) {
 				return true;
 			}
 		}
@@ -647,7 +642,7 @@ public class TileHeatExchangerTube extends TileHeatExchangerPartBase implements 
 			if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
 				return (T) getFluidSide(nonNullSide(side));
 			}
-			if (ModCheck.mekanismLoaded() && GasHelper.isGasCapability(capability)) {
+			if (ModCheck.mekanismLoaded() && capability == GasHelper.GAS_HANDLER_CAPABILITY) {
 				return (T) getGasWrapper();
 			}
 		}

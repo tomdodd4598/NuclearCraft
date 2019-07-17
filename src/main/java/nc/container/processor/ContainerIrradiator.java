@@ -9,7 +9,7 @@ import net.minecraft.inventory.Slot;
 public class ContainerIrradiator extends ContainerFluidProcessor {
 
 	public ContainerIrradiator(EntityPlayer player, TileFluidProcessor tileEntity) {
-		super(player, tileEntity, NCRecipes.Type.IRRADIATOR);
+		super(player, tileEntity, NCRecipes.irradiator);
 		
 		addSlotToContainer(new SlotSpecificInput(tileEntity, 0, 132, 64, speedUpgrade));
 		addSlotToContainer(new SlotSpecificInput(tileEntity, 1, 152, 64, energyUpgrade));

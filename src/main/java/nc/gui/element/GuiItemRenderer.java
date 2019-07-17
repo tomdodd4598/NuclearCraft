@@ -34,7 +34,7 @@ public class GuiItemRenderer extends Gui {
 	private int yPosition;
 	private int xPosition;
 	
-	private float alpha = 1.0f;
+	private float alpha = 1F;
 	
 	public GuiItemRenderer(int x, int y, float alph, @Nonnull Item item, int itemMeta) {
 		xPosition = x;
@@ -105,7 +105,7 @@ public class GuiItemRenderer extends Gui {
 	}
 	
 	public void draw() {
-		GlStateManager.color(1.0F, 1.0F, 1.0F, alpha);
+		GlStateManager.color(1F, 1F, 1F, alpha);
 		GlStateManager.pushAttrib();
 		GlStateManager.enableBlend();
 		GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
@@ -116,6 +116,6 @@ public class GuiItemRenderer extends Gui {
 		GlStateManager.popAttrib();
 		GlStateManager.disableBlend();
 		
-		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+		GlStateManager.color(1F, 1F, 1F, 1F);
 	}
 }

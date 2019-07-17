@@ -1,3 +1,26 @@
+v2.17b
+
++ Added config option for food radiation and rad resistance effects
+* The Geiger Counter now displays the true radiation level and can read entities
+* Fixed ConArm armour rad shielding recipes modifying the armour materials
+
+* Fixed radiation-related crash with various mods' machines
+* Fixed radiation building up in chunks with no loaded neighbours
+
+* Fixed Feral Ghouls spawning in very large numbers
+* Fixed disabling Feral Ghouls leading to strange bugs
+
+* Improved Mekanism gas capability support performance
+
++ Added liquid nitrogen
+
+* Various useful changes for those writing NC addons
+
+* Improved formatting of various printed numbers
+* Other minor additions, changes and fixes
+* Possible other things that I have forgotten
+- Removed Paulobrine and Herobrian
+
 v2.17a
 
 + Added Feral Ghouls to the Nuclear Wasteland

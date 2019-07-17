@@ -640,7 +640,7 @@ public class NCBlocks {
 			registerBlock(nitrogen_collector_dense, InfoHelper.formattedInfo(infoLine("nitrogen_collector"), UnitHelper.ratePrefix(NCConfig.processor_passive_rate[3]*64, 5, "B", -1)));
 		}
 		
-		registerBlock(radiation_scrubber, InfoHelper.formattedInfo(infoLine("radiation_scrubber"), NCMath.round(100D*NCConfig.radiation_scrubber_fraction, 1) + "%", NCConfig.radiation_scrubber_borax_rate > 0 ? Lang.localise("info.nuclearcraft.radiation_scrubber_req_borax", NCConfig.radiation_scrubber_power/20, NCConfig.radiation_scrubber_borax_rate) : Lang.localise("info.nuclearcraft.radiation_scrubber_no_req_borax", NCConfig.radiation_scrubber_power/20)));
+		registerBlock(radiation_scrubber, InfoHelper.formattedInfo(infoLine("radiation_scrubber"), NCMath.decimalPlaces(100D*NCConfig.radiation_scrubber_fraction, 1) + "%", NCConfig.radiation_scrubber_borax_rate > 0 ? Lang.localise("info.nuclearcraft.radiation_scrubber_req_borax", NCConfig.radiation_scrubber_power/20, NCConfig.radiation_scrubber_borax_rate) : Lang.localise("info.nuclearcraft.radiation_scrubber_no_req_borax", NCConfig.radiation_scrubber_power/20)));
 		
 		registerBlock(geiger_block);
 		

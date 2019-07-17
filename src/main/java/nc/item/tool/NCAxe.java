@@ -8,6 +8,7 @@ import javax.annotation.Nullable;
 import com.google.common.collect.Sets;
 
 import nc.Global;
+import nc.NuclearCraft;
 import nc.util.InfoHelper;
 import nc.util.OreDictHelper;
 import net.minecraft.block.Block;
@@ -31,7 +32,7 @@ public class NCAxe extends ItemTool {
 	public NCAxe(String unlocalizedName, ToolMaterial material, String... tooltip) {
 		super(material, EFFECTIVE_ON);
 		setTranslationKey(Global.MOD_ID + "." + unlocalizedName);
-		setRegistryName(new ResourceLocation(Global.MOD_ID, unlocalizedName));
+		if (NuclearCraft.regName) setRegistryName(new ResourceLocation(Global.MOD_ID, unlocalizedName));
 		info = InfoHelper.buildInfo(getTranslationKey(), tooltip);
 	}
 	

@@ -11,9 +11,9 @@ import net.minecraft.inventory.SlotFurnaceOutput;
 public class ContainerInfuser extends ContainerItemFluidProcessor {
 
 	public ContainerInfuser(EntityPlayer player, TileItemFluidProcessor tileEntity) {
-		super(player, tileEntity, NCRecipes.Type.INFUSER);
+		super(player, tileEntity, NCRecipes.infuser);
 		
-		addSlotToContainer(new SlotProcessorInput(tileEntity, recipeType, 0, 46, 35));
+		addSlotToContainer(new SlotProcessorInput(tileEntity, recipeHandler, 0, 46, 35));
 		
 		addSlotToContainer(new SlotFurnaceOutput(player, tileEntity, 1, 126, 35));
 		

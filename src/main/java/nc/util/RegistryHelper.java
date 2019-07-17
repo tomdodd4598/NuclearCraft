@@ -25,7 +25,8 @@ public class RegistryHelper {
 	}
 	
 	public static ItemStack blockStackFromRegistry(String location, int stackSize) {
-		return new ItemStack(getBlock(removeMeta(location)), stackSize, getStackMeta(location));
+		Block block = getBlock(removeMeta(location));
+		return block == null ? null : new ItemStack(block, stackSize, getStackMeta(location));
 	}
 	
 	public static ItemStack blockStackFromRegistry(String location) {
@@ -33,7 +34,8 @@ public class RegistryHelper {
 	}
 	
 	public static ItemStack itemStackFromRegistry(String location, int stackSize) {
-		return new ItemStack(getItem(removeMeta(location)), stackSize, getStackMeta(location));
+		Item item = getItem(removeMeta(location));
+		return item == null ? null : new ItemStack(item, stackSize, getStackMeta(location));
 	}
 	
 	public static ItemStack itemStackFromRegistry(String location) {

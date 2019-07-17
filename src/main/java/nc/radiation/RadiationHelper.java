@@ -25,7 +25,6 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -60,7 +59,7 @@ public class RadiationHelper {
 		if (!(provider instanceof TileEntity) || !provider.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side)) {
 			return null;
 		}
-		return provider.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
+		return provider.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side);
 	}
 	
 	// Radiation Level Modification
@@ -170,45 +169,32 @@ public class RadiationHelper {
 	// Chunk Set Previous Radiation and Spread
 	
 	public static void spreadRadiationFromChunk(Chunk chunk, Chunk targetChunk) {
-		if (chunk == null || !chunk.isLoaded()) {
-			return;
-		}
-		IRadiationSource chunkSource = getRadiationSource(chunk);
-		
-		if (chunkSource == null || targetChunk == null || !targetChunk.isLoaded()) {
-			return;
-		}
-		IRadiationSource targetChunkSource = getRadiationSource(targetChunk);
-		if (targetChunkSource != null && !chunkSource.isRadiationNegligible() && targetChunkSource.getScrubbingFraction() < 1D) {
-			double spreadMult = 1D - targetChunkSource.getScrubbingFraction();
-			if (targetChunkSource.getRadiationLevel() == 0D || spreadMult == 0D || chunkSource.getRadiationLevel()/targetChunkSource.getRadiationLevel() > (1D + NCConfig.radiation_spread_gradient)/spreadMult) {
-				double radiationSpread = (chunkSource.getRadiationLevel() - targetChunkSource.getRadiationLevel())*NCConfig.radiation_spread_rate*spreadMult;
-				chunkSource.setRadiationLevel(chunkSource.getRadiationLevel() - radiationSpread);
-				targetChunkSource.setRadiationLevel(targetChunkSource.getRadiationLevel() + radiationSpread);
+		if (chunk != null && chunk.isLoaded()) {
+			IRadiationSource chunkSource = getRadiationSource(chunk);
+			if (chunkSource == null) return;
+			
+			if (targetChunk != null && targetChunk.isLoaded()) {
+				IRadiationSource targetChunkSource = getRadiationSource(targetChunk);
+				if (targetChunkSource != null && !chunkSource.isRadiationNegligible() && targetChunkSource.getScrubbingFraction() < 1D) {
+					double spreadMult = 1D - targetChunkSource.getScrubbingFraction();
+					if (spreadMult > 0D && (targetChunkSource.getRadiationLevel() == 0D || chunkSource.getRadiationLevel()/targetChunkSource.getRadiationLevel() > (1D + NCConfig.radiation_spread_gradient)/spreadMult)) {
+						double radiationSpread = (chunkSource.getRadiationLevel() - targetChunkSource.getRadiationLevel())*NCConfig.radiation_spread_rate*spreadMult;
+						chunkSource.setRadiationLevel(chunkSource.getRadiationLevel() - radiationSpread);
+						targetChunkSource.setRadiationLevel(targetChunkSource.getRadiationLevel() + radiationSpread);
+					}
+				}
 			}
-		}
-		
-		chunkSource.setRadiationBuffer(0D);
-		if (chunkSource.isRadiationNegligible()) {
-			chunkSource.setRadiationLevel(0D);
+			
+			chunkSource.setRadiationBuffer(0D);
+			if (chunkSource.isRadiationNegligible()) {
+				chunkSource.setRadiationLevel(0D);
+			}
 		}
 	}
 	
 	// Player Radiation Resistance
 	
-	public static double addRadsToPlayer(EntityPlayer player, IEntityRads playerRads, double rawRadiation, int updateRate) {
-		double resistance = playerRads.getRadiationResistance() + getPlayerArmorRadResistance(player);
-		
-		double addedRadiation = rawRadiation <= 0D ? 0D : NCMath.square(rawRadiation)/(rawRadiation + resistance);
-		playerRads.setTotalRads(playerRads.getTotalRads() + addedRadiation*updateRate, true);
-		return addedRadiation;
-	}
-	
-	public static double getPlayerArmorRadResistance(EntityPlayer player) {
-		return getArmorInventoryRadResistance(player);
-	}
-	
-	private static double getArmorInventoryRadResistance(Entity entity) {
+	public static double getArmorInventoryRadResistance(Entity entity) {
 		if (entity == null) {
 			return 0D;
 		}
@@ -236,10 +222,10 @@ public class RadiationHelper {
 	
 	// Entity Radiation Resistance
 	
-	public static double addRadsToEntity(IEntityRads entityRads, EntityLiving entityLiving, double rawRadiation, int updateRate) {
-		double resistance = entityRads.getRadiationResistance() + getEntityArmorRadResistance(entityLiving);
+	public static double addRadsToEntity(IEntityRads entityRads, double rawRadiation, boolean ignoreResistance, int updateRate) {
+		double resistance = ignoreResistance ? Math.min(0D, entityRads.getInternalRadiationResistance()) : entityRads.getFullRadiationResistance();
 		
-		double addedRadiation = rawRadiation <= 0D ? 0D : NCMath.square(rawRadiation)/(rawRadiation + resistance);
+		double addedRadiation = rawRadiation <= 0D ? 0D : resistance > 0D ? NCMath.square(rawRadiation)/(rawRadiation + resistance) : rawRadiation*(1D - resistance);
 		entityRads.setTotalRads(entityRads.getTotalRads() + addedRadiation*updateRate, true);
 		return addedRadiation;
 	}
@@ -292,7 +278,7 @@ public class RadiationHelper {
 		if (stackSource == null) {
 			return 0D;
 		}
-		return addRadsToPlayer(player, playerRads, stackSource.getRadiationLevel()*stack.getCount(), updateRate);
+		return addRadsToEntity(playerRads, stackSource.getRadiationLevel()*stack.getCount(), false, updateRate);
 	}
 	
 	// Source -> Player
@@ -301,18 +287,18 @@ public class RadiationHelper {
 		if (source == null) {
 			return 0D;
 		}
-		return addRadsToPlayer(player, playerRads, source.getRadiationLevel(), updateRate);
+		return addRadsToEntity(playerRads, source.getRadiationLevel(), false, updateRate);
 	}
 	
 	// Biome -> Player
 	
-	public static double transferBackgroundRadsToPlayer(Biome biome, IEntityRads playerRads, EntityPlayer player, int updateRate) {
+	/*public static double transferBackgroundRadsToPlayer(Biome biome, IEntityRads playerRads, EntityPlayer player, int updateRate) {
 		Double biomeRadiation = RadBiomes.RAD_MAP.get(biome);
 		if (biomeRadiation == null) {
 			return 0D;
 		}
-		return addRadsToPlayer(player, playerRads, biomeRadiation, updateRate);
-	}
+		return addRadsToPlayer(playerRads, player, biomeRadiation, updateRate);
+	}*/
 	
 	// Source -> Entity
 	
@@ -320,17 +306,17 @@ public class RadiationHelper {
 		if (source == null) {
 			return;
 		}
-		entityRads.setRadiationLevel(addRadsToEntity(entityRads, entityLiving, source.getRadiationLevel(), updateRate));
+		entityRads.setRadiationLevel(addRadsToEntity(entityRads, source.getRadiationLevel(), false, updateRate));
 	}
 	
 	// Biome -> Entity
 	
-	public static void transferBackgroundRadsToEntity(Biome biome, IEntityRads entityRads, EntityLiving entityLiving, int updateRate) {
+	/*public static void transferBackgroundRadsToEntity(Biome biome, IEntityRads entityRads, EntityLiving entityLiving, int updateRate) {
 		Double biomeRadiation = RadBiomes.RAD_MAP.get(biome);
 		if (biomeRadiation != null) {
 			entityRads.setRadiationLevel(addRadsToEntity(entityRads, entityLiving, biomeRadiation, updateRate));
 		}
-	}
+	}*/
 	
 	// Entity Symptoms
 	
@@ -353,20 +339,29 @@ public class RadiationHelper {
 	
 	// Text Colours
 	
-	public static TextFormatting getRadsTextColor(IEntityRads playerRads) {
-		double radsPercent = playerRads.getRadsPercentage();
-		return radsPercent < 30 ? TextFormatting.WHITE : (radsPercent < 50 ? TextFormatting.YELLOW : (radsPercent < 70 ? TextFormatting.GOLD : (radsPercent < 90 ? TextFormatting.RED : TextFormatting.DARK_RED)));
+	public static TextFormatting getRadsTextColor(IEntityRads entityRads) {
+		double radsPercent = entityRads.getRadsPercentage();
+		return radsPercent < 30 ? TextFormatting.WHITE : radsPercent < 50 ? TextFormatting.YELLOW : radsPercent < 70 ? TextFormatting.GOLD : radsPercent < 90 ? TextFormatting.RED : TextFormatting.DARK_RED;
 	}
 	
 	public static TextFormatting getRadiationTextColor(double radiation) {
-		if (radiation < 0.000000001D) {
-			return TextFormatting.WHITE;
-		}
-		return radiation < 0.001D ? TextFormatting.YELLOW : (radiation < 0.1D ? TextFormatting.GOLD : (radiation < 1D ? TextFormatting.RED : TextFormatting.DARK_RED));
+		return radiation < 0.000000001D ? TextFormatting.WHITE : radiation < 0.001D ? TextFormatting.YELLOW : radiation < 0.1D ? TextFormatting.GOLD : radiation < 1D ? TextFormatting.RED : TextFormatting.DARK_RED;
 	}
 	
 	public static TextFormatting getRadiationTextColor(IRadiation irradiated) {
 		return getRadiationTextColor(irradiated.getRadiationLevel());
+	}
+	
+	public static TextFormatting getRawRadiationTextColor(IEntityRads entityRads) {
+		return getRadiationTextColor(entityRads.getRawRadiationLevel());
+	}
+	
+	public static TextFormatting getFoodRadiationTextColor(double radiation) {
+		return radiation <= -100D ? TextFormatting.LIGHT_PURPLE : radiation <= -10D ? TextFormatting.BLUE : radiation < 0D ? TextFormatting.AQUA : radiation < 0.1D ? TextFormatting.WHITE : radiation < 1D ? TextFormatting.YELLOW : radiation < 10D ? TextFormatting.GOLD : radiation < 100D ? TextFormatting.RED : TextFormatting.DARK_RED;
+	}
+	
+	public static TextFormatting getFoodResistanceTextColor(double resistance) {
+		return resistance < 0D ? TextFormatting.GRAY : TextFormatting.WHITE;
 	}
 	
 	// Unit Prefixing
@@ -374,5 +369,11 @@ public class RadiationHelper {
 	public static String radsPrefix(double rads, boolean rate) {
 		String unit = rate ? "Rads/t" : "Rads";
 		return NCConfig.radiation_unit_prefixes > 0 ? NCMath.sigFigs(rads, NCConfig.radiation_unit_prefixes) + " " + unit : UnitHelper.prefix(rads, 3, unit, 0, -8);
+	}
+	
+	// Rad Resistance Sig Figs
+	
+	public static String resistanceSigFigs(double resistance) {
+		return NCMath.sigFigs(resistance, Math.max(2, NCConfig.radiation_unit_prefixes));
 	}
 }

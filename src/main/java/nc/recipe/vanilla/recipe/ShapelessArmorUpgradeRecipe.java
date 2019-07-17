@@ -7,6 +7,7 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 
 public class ShapelessArmorUpgradeRecipe extends ShapelessOreRecipe {
@@ -23,22 +24,29 @@ public class ShapelessArmorUpgradeRecipe extends ShapelessOreRecipe {
 	
 	@Override
 	public @Nonnull ItemStack getCraftingResult(@Nonnull InventoryCrafting inv) {
-		ItemStack output = this.output.copy();
-		
 		for (int i = 0; i < inv.getSizeInventory(); i++) {
-			ItemStack stack = inv.getStackInSlot(i);
+			ItemStack stack = inv.getStackInSlot(i).copy();
 			if (!stack.isEmpty() && stack.getItem() instanceof ItemArmor) {
-				if (!output.hasTagCompound()) {
-					output.setTagCompound(new NBTTagCompound());
+				if (!stack.hasTagCompound()) {
+					stack.setTagCompound(new NBTTagCompound());
 				}
-				NBTTagCompound tag = output.getTagCompound().copy();
-				if (stack.hasTagCompound()) {
-					output.getTagCompound().merge(stack.getTagCompound());
+				if (output.hasTagCompound()) {
+					NBTTagCompound tag = stack.getTagCompound().copy();
+					if (tag.getDouble("ncRadiationResistance") >= output.getTagCompound().getDouble("ncRadiationResistance")) {
+						return ItemStack.EMPTY;
+					}
+					stack.getTagCompound().merge(output.getTagCompound());
+					stack.getTagCompound().merge(tag);
+					stack.getTagCompound().setDouble("ncRadiationResistance", output.getTagCompound().getDouble("ncRadiationResistance"));
 				}
-				output.getTagCompound().merge(tag);
-				break;
+				return stack;
 			}
 		}
-		return output;
+		return ItemStack.EMPTY;
+	}
+	
+	@Override
+	public boolean matches(@Nonnull InventoryCrafting inv, @Nonnull World world) {
+		return super.matches(inv, world) && !getCraftingResult(inv).isEmpty();
 	}
 }

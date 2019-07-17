@@ -19,6 +19,7 @@ import nc.util.RegistryHelper;
 import net.minecraft.block.Block;
 import net.minecraft.client.util.RecipeItemHelper;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
@@ -30,6 +31,9 @@ public class RadSources {
 	public static final Object2DoubleMap<String> ORE_MAP = new Object2DoubleOpenHashMap<>();
 	public static final Int2DoubleMap STACK_MAP = new Int2DoubleOpenHashMap();
 	
+	public static final Int2DoubleMap FOOD_RAD_MAP = new Int2DoubleOpenHashMap();
+	public static final Int2DoubleMap FOOD_RESISTANCE_MAP = new Int2DoubleOpenHashMap();
+	
 	public static void addToOreMap(String ore, double radiation) {
 		if (ORE_BLACKLIST.contains(ore)) return;
 		ORE_MAP.put(ore, radiation);
@@ -37,8 +41,15 @@ public class RadSources {
 	
 	public static void addToStackMap(ItemStack stack, double radiation) {
 		int packed = RecipeItemHelper.pack(stack);
-		if(packed == 0 || STACK_BLACKLIST.contains(packed)) return;
+		if (packed == 0 || STACK_BLACKLIST.contains(packed)) return;
 		STACK_MAP.put(packed, radiation);
+	}
+	
+	public static void addToFoodMaps(ItemStack stack, double radiation, double resistance) {
+		int packed = RecipeItemHelper.pack(stack);
+		if (packed == 0) return;
+		FOOD_RAD_MAP.put(packed, radiation);
+		FOOD_RESISTANCE_MAP.put(packed, resistance);
 	}
 	
 	public static final double INGOT = 1D;
@@ -70,6 +81,8 @@ public class RadSources {
 	public static final List<String> ISOTOPE_INGOT_NAME_LIST = Lists.newArrayList("ingot");
 	public static final List<String> ISOTOPE_NUGGET_NAME_LIST = Lists.newArrayList("nugget");
 	public static final List<String> ISOTOPE_BLOCK_NAME_LIST = Lists.newArrayList("block");
+	
+	public static final List<String> ORE_PREFIXES = Lists.newArrayList("ore");
 	
 	public static final double FUSION = 0.000000315D;
 	
@@ -132,12 +145,14 @@ public class RadSources {
 		
 		if (ModCheck.gregtechLoaded()) {
 			MATERIAL_INGOT_NAME_LIST.addAll(Lists.newArrayList("crushedPurified", "crushedCentrifuged", "toolHeadShovel"));
-			MATERIAL_SMALL_NAME_LIST.addAll(Lists.newArrayList("bolt", "screw", "oreNetherrack", "oreEndstone", "oreSand", "oreNetherrack", "oreBlackgranite", "oreRedgranite", "oreMarble", "oreBasalt"));
+			MATERIAL_SMALL_NAME_LIST.addAll(Lists.newArrayList("bolt", "screw", "oreNetherrack", "oreEndstone", "oreSand", "oreGravel", "oreBlackgranite", "oreRedgranite", "oreMarble", "oreBasalt"));
 			MATERIAL_DOUBLE_NAME_LIST.addAll(Lists.newArrayList("toolHeadSword", "toolHeadHoe", "toolHeadFile", "toolHeadSaw", "toolHeadChainsaw"));
 			MATERIAL_TRIPLE_NAME_LIST.addAll(Lists.newArrayList("toolHeadPickaxe", "toolHeadAxe", "toolHeadSense"));
 			MATERIAL_QUAD_NAME_LIST.addAll(Lists.newArrayList("toolHeadDrill", "toolHeadWrench", "toolHeadPlow", "toolHeadBuzzSaw"));
 			MATERIAL_FIVE_NAME_LIST.add("turbineBlade");
 			MATERIAL_SIX_NAME_LIST.addAll(Lists.newArrayList("toolHeadHammer", "toolHeadUniversalSpade"));
+			
+			ORE_PREFIXES.addAll(Lists.newArrayList("oreNetherrack", "oreEndstone", "oreSand", "oreNetherrack", "oreBlackgranite", "oreRedgranite", "oreMarble", "oreBasalt"));
 		}
 		
 		putMaterial(THORIUM, "Thorium");
@@ -253,6 +268,12 @@ public class RadSources {
 		put(RadSources.THORIUM_230*8D*9D/4D, NCBlocks.helium_collector_compact);
 		put(RadSources.THORIUM_230*64D*9D/4D, NCBlocks.helium_collector_dense);
 		
+		if (ModCheck.gregtechLoaded()) {
+			for (String prefix : ORE_PREFIXES) {
+				put(17D*THORIUM/4D, prefix + "Monazite");
+			}
+		}
+		
 		// Custom and Stack Entries
 		
 		for (String oreInfo : NCConfig.radiation_ores) {
@@ -272,6 +293,20 @@ public class RadSources {
 			ItemStack stack = RegistryHelper.blockStackFromRegistry(blockInfo.substring(0, scorePos));
 			if (stack != null) addToStackMap(stack, Double.parseDouble(blockInfo.substring(scorePos + 1)));
 		}
+		
+		// Food Entries
+		
+		for (String itemInfo : NCConfig.radiation_foods) {
+			int scorePos = itemInfo.lastIndexOf('_');
+			if (scorePos == -1) continue;
+			double resistance = Double.parseDouble(itemInfo.substring(scorePos + 1));
+			itemInfo = itemInfo.substring(0, scorePos);
+			scorePos = itemInfo.lastIndexOf('_');
+			if (scorePos == -1) continue;
+			ItemStack stack = RegistryHelper.itemStackFromRegistry(itemInfo.substring(0, scorePos));
+			double rads = Double.parseDouble(itemInfo.substring(scorePos + 1));
+			if (stack != null && (rads != 0D || resistance != 0D) && stack.getItem() instanceof ItemFood) addToFoodMaps(stack, rads, resistance);
+		}
 	}
 	
 	public static void postInit() {
@@ -281,6 +316,8 @@ public class RadSources {
 	public static void refreshRadSources() {
 		STACK_BLACKLIST.clear();
 		STACK_MAP.clear();
+		FOOD_RAD_MAP.clear();
+		FOOD_RESISTANCE_MAP.clear();
 		
 		init();
 		postInit();

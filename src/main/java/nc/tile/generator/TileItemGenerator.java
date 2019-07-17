@@ -10,7 +10,6 @@ import javax.annotation.Nonnull;
 import nc.ModCheck;
 import nc.config.NCConfig;
 import nc.recipe.AbstractRecipeHandler;
-import nc.recipe.NCRecipes;
 import nc.recipe.ProcessorRecipe;
 import nc.recipe.ProcessorRecipeHandler;
 import nc.recipe.RecipeInfo;
@@ -40,12 +39,12 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 	public double time;
 	public boolean isProcessing, hasConsumed, canProcessInputs;
 	
-	public final NCRecipes.Type recipeType;
+	public final ProcessorRecipeHandler recipeHandler;
 	protected RecipeInfo<ProcessorRecipe> recipeInfo, cachedRecipeInfo;
 	
 	protected Set<EntityPlayer> playersToUpdate;
 	
-	public TileItemGenerator(String name, int itemInSize, int itemOutSize, int otherSize, @Nonnull List<ItemSorption> itemSorptions, int capacity, @Nonnull NCRecipes.Type recipeType) {
+	public TileItemGenerator(String name, int itemInSize, int itemOutSize, int otherSize, @Nonnull List<ItemSorption> itemSorptions, int capacity, @Nonnull ProcessorRecipeHandler recipeHandler) {
 		super(name, 2*itemInSize + itemOutSize + otherSize, ITileInventory.inventoryConnectionAll(itemSorptions), capacity, ITileEnergy.energyConnectionAll(EnergyConnection.OUT));
 		itemInputSize = itemInSize;
 		itemOutputSize = itemOutSize;
@@ -55,7 +54,7 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 		defaultProcessTime = 1;
 		defaultProcessPower = 0;
 		
-		this.recipeType = recipeType;
+		this.recipeHandler = recipeHandler;
 		
 		playersToUpdate = new HashSet<EntityPlayer>();
 	}
@@ -108,7 +107,7 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 				recipeInfo = new RecipeInfo(cachedRecipeInfo.getRecipe(), matchResult);
 			}
 			else {
-				recipeInfo = getRecipeHandler().getRecipeInfoFromInputs(getItemInputs(hasConsumed), new ArrayList<Tank>());
+				recipeInfo = recipeHandler.getRecipeInfoFromInputs(getItemInputs(hasConsumed), new ArrayList<Tank>());
 			}
 			if (recipeInfo != null) {
 				cachedRecipeInfo = recipeInfo;
@@ -236,11 +235,6 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 	// IProcessor
 	
 	@Override
-	public ProcessorRecipeHandler getRecipeHandler() {
-		return recipeType.getRecipeHandler();
-	}
-	
-	@Override
 	public List<ItemStack> getItemInputs(boolean consumed) {
 		return consumed ? getInventoryStacks().subList(itemInputSize + itemOutputSize, 2*itemInputSize + itemOutputSize) : getInventoryStacks().subList(0, itemInputSize);
 	}
@@ -297,7 +291,7 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {
 		if (stack == ItemStack.EMPTY) return false;
 		else if (slot >= itemInputSize && slot < itemInputSize + itemOutputSize) return false;
-		return NCConfig.smart_processor_input ? getRecipeHandler().isValidItemInput(stack, getInventoryStacks().get(slot), inputItemStacksExcludingSlot(slot)) : getRecipeHandler().isValidItemInput(stack);
+		return NCConfig.smart_processor_input ? recipeHandler.isValidItemInput(stack, getInventoryStacks().get(slot), inputItemStacksExcludingSlot(slot)) : recipeHandler.isValidItemInput(stack);
 	}
 	
 	public List<ItemStack> inputItemStacksExcludingSlot(int slot) {

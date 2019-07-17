@@ -420,6 +420,9 @@ fluid.condensate_water=Condensate Water
 tile.nuclearcraft.fluid_liquidhelium.name=Liquid Helium
 fluid.liquidhelium=Liquid Helium
 
+tile.nuclearcraft.fluid_liquid_nitrogen.name=Liquid Nitrogen
+fluid.liquid_nitrogen=Liquid Nitrogen
+
 tile.nuclearcraft.fluid_plasma.name=Plasma
 fluid.plasma=Plasma
 
@@ -1214,7 +1217,8 @@ tile.nuclearcraft.fluid_magnesium_nak_hot.name=Hot Eutectic NaK-Magnesium Mixtur
 fluid.magnesium_nak_hot=Hot Eutectic NaK-Magnesium Mixture
 
 item.nuclearcraft.rads=Radiation:
-item.nuclearcraft.rad_resist=Radiation Resistance:
+item.nuclearcraft.rad_resist=Rad Resistance:
+item.nuclearcraft.food_rads=Food Effects:
 
 item.nuclearcraft.ingot.copper.name=Copper Ingot
 item.nuclearcraft.ingot.tin.name=Tin Ingot
@@ -1658,8 +1662,8 @@ item.nuclearcraft.geiger_counter.rads=Radiation:
 item.nuclearcraft.rad_shielding.light.name=Light Radiation Shielding
 item.nuclearcraft.rad_shielding.medium.name=Medium Radiation Shielding
 item.nuclearcraft.rad_shielding.heavy.name=Heavy Radiation Shielding
-item.nuclearcraft.rad_shielding.desc=Can be applied to armor to give the player %s radiation resistance while worn.
-item.nuclearcraft.rad_shielding.desc_hardcore=Can be applied to armor to give the player %s radiation resistance while worn. Can also be applied to containers to shield against irradiation from its contents.
+item.nuclearcraft.rad_shielding.desc=Can be applied to armor to give the player %s rad resistance while worn.
+item.nuclearcraft.rad_shielding.desc_hardcore=Can be applied to armor to give the player %s rad resistance while worn. Can also be applied to containers to shield against irradiation from its contents.
 item.nuclearcraft.rad_shielding.not_hardcore=Failed to install shielding. Hardcore containers is disabled in the configs!
 item.nuclearcraft.rad_shielding.install_fail=Failed to install shielding. The container already has a resistance level of
 item.nuclearcraft.rad_shielding.install_success=Successfully installed shielding! The container now has a resistance level of
@@ -1674,7 +1678,7 @@ item.nuclearcraft.radaway.desc=Removes %s [%s] at a rate of %s.
 item.nuclearcraft.radaway_slow.name=Slow-Acting RadAway
 item.nuclearcraft.radaway_slow.desc=Removes %s [%s] at a rate of %s.
 item.nuclearcraft.rad_x.name=Rad-X
-item.nuclearcraft.rad_x.desc=Increases radiation resistance by %s for %s. The effect can be stacked, but higher levels of resistance will wear off more quickly.
+item.nuclearcraft.rad_x.desc=Increases rad resistance by %s for %s. The effect can be stacked, but higher levels of resistance will wear off more quickly.
 
 item.nuclearcraft.portable_ender_chest.name=Portable Ender Chest
 item.nuclearcraft.portable_ender_chest.desc=Access your Ender Chest on the move.
@@ -2153,8 +2157,8 @@ gui.config.armor.armor_conarm_register.comment=Will these materials be registere
 gui.config.category.entities=Entity Configs
 gui.config.category.entities.tooltip=Configure entities.
 
-gui.config.entities.entity_register=Entity Registration
-gui.config.entities.entity_register.comment=Will these entities be registered? Order: feral ghoul.
+gui.config.entities.entity_register=Entity Spawn Registration
+gui.config.entities.entity_register.comment=Will these entities be registered to spawn? Order: feral ghoul.
 gui.config.entities.entity_tracking_range=Entity Tracking Range
 gui.config.entities.entity_tracking_range.comment=The range at which Minecraft will send tracking updates for NC entities.
 
@@ -2188,6 +2192,8 @@ gui.config.radiation.radiation_items=Item Stack Radiation
 gui.config.radiation.radiation_items.comment=List of items and their stack radiation levels. Can be used to overwrite default values. Format: 'modid:name:meta_radiationLevel'.
 gui.config.radiation.radiation_blocks=Block Stack Radiation
 gui.config.radiation.radiation_blocks.comment=List of blocks and their stack radiation levels. Can be used to overwrite default values. Format: 'modid:name:meta_radiationLevel'.
+gui.config.radiation.radiation_foods=Food Radiation and Resistance
+gui.config.radiation.radiation_foods.comment=List of foods and the rads and rad resistance gained on consumption. Negative values mean rads and rad resistance will be lost. Can be used to overwrite default values. Format: 'modid:name:meta_radiationLevel_radiationResistance'.
 
 gui.config.radiation.radiation_ores_blacklist=Ore Stack Radiation Blacklist
 gui.config.radiation.radiation_ores_blacklist.comment=List of ore dict entries that will be forced not have a radiation level. Format: 'oreName'.
@@ -2221,22 +2227,22 @@ gui.config.radiation.radiation_radaway_rate=RadAway Rad Removal Rate
 gui.config.radiation.radiation_radaway_rate.comment=The rate at which rads is removed when using RadAway in Rads/t.
 gui.config.radiation.radiation_radaway_slow_rate=Slow-Acting RadAway Rad Removal Rate
 gui.config.radiation.radiation_radaway_slow_rate.comment=The rate at which rads is removed when using Slow-Acting RadAway in Rads/t.
-gui.config.radiation.radiation_poison_rate=Rad Poisoning Radiation Rate
-gui.config.radiation.radiation_poison_rate.comment=The rate at which radiation poisoning adds to the player's rad count in Rads/t.
+gui.config.radiation.radiation_poison_time=Rad Poisoning Time
+gui.config.radiation.radiation_poison_time.comment=The time taken for a dose of radiation poisoning to be added to the player's rad count in ticks.
 gui.config.radiation.radiation_radaway_cooldown=RadAway Cooldown Time
 gui.config.radiation.radiation_radaway_cooldown.comment=The time that must be waited between doses of RadAway in ticks.
-gui.config.radiation.radiation_rad_x_amount=Rad-X Radiation Resistance
-gui.config.radiation.radiation_rad_x_amount.comment=Controls the amount of radiation resistance gained when consuming Rad-X.
+gui.config.radiation.radiation_rad_x_amount=Rad-X Rad Resistance
+gui.config.radiation.radiation_rad_x_amount.comment=Controls the amount of rad resistance gained when consuming Rad-X.
 gui.config.radiation.radiation_rad_x_lifetime=Rad-X Lifetime
 gui.config.radiation.radiation_rad_x_lifetime.comment=The time taken for one dose of Rad-X to wear off in ticks.
 gui.config.radiation.radiation_rad_x_cooldown=Rad-X Cooldown Time
 gui.config.radiation.radiation_rad_x_cooldown.comment=The time that must be waited between doses of Rad-X in ticks.
 gui.config.radiation.radiation_shielding_level=Radiation Shielding Levels
-gui.config.radiation.radiation_shielding_level.comment=The radiation resistance levels provided by the three levels of shielding. Order: light, medium, heavy.
+gui.config.radiation.radiation_shielding_level.comment=The rad resistance levels provided by the three levels of shielding. Order: light, medium, heavy.
 gui.config.radiation.radiation_tile_shielding=Radiation Container Shielding
 gui.config.radiation.radiation_tile_shielding.comment=If enabled along with hardcore containers, radiation shielding can be applied to tile entities.
 gui.config.radiation.radiation_hazmat_shielding=Radiation Hazmat Shielding
-gui.config.radiation.radiation_hazmat_shielding.comment=The radiation resistance levels provided by each piece of the hazmat suit. Order: headwear, chestpiece, leggings, boots.
+gui.config.radiation.radiation_hazmat_shielding.comment=The rad resistance levels provided by each piece of the hazmat suit. Order: headwear, chestpiece, leggings, boots.
 gui.config.radiation.radiation_scrubber_fraction=Scrubber Max Removal Rate
 gui.config.radiation.radiation_scrubber_fraction.comment=The maximum rate at which scrubbers will remove radiation as a fraction of the radiation level of the chunk it is in.
 gui.config.radiation.radiation_scrubber_power=Scrubber Power Use
@@ -2251,7 +2257,7 @@ gui.config.radiation.radiation_shielding_item_blacklist.comment=List of armor it
 gui.config.radiation.radiation_shielding_custom_stacks=Radiation Shielding ItemStack List
 gui.config.radiation.radiation_shielding_custom_stacks.comment=List of armor item stacks for which shielding recipes will be added. Mostly used when the automated shielding recipes are disabled. Format: 'modid:armorName:meta'.
 gui.config.radiation.radiation_shielding_default_levels=Radiation Default Armor Shielding
-gui.config.radiation.radiation_shielding_default_levels.comment=List of armor item stacks and their default radiation shielding levels. Format: 'modid:armorName:meta_resistance'. Note: this is not the only way to add these values if you have CraftTweaker installed. Radiation resistance can also be given to armor by changing their recipe such that an NBT tag called "ncRadiationResistance" with the double value equal to the resistance level is attached to it.
+gui.config.radiation.radiation_shielding_default_levels.comment=List of armor item stacks and their default radiation shielding levels. Format: 'modid:armorName:meta_resistance'. Note: this is not the only way to add these values if you have CraftTweaker installed. Rad resistance can also be given to armor by changing their recipe such that an NBT tag called "ncRadiationResistance" with the double value equal to the resistance level is attached to it.
 
 gui.config.radiation.radiation_hud_size=Radiation HUD Size
 gui.config.radiation.radiation_hud_size.comment=Modifier for the size of radiation info on the HUD.
@@ -2735,5 +2741,6 @@ death.attack.molten_burn=%1$s went to hell but didn't come back
 death.attack.corium_burn=%1$s tried swimming in what's left of their reactor
 death.attack.hot_coolant_burn=%1$s cooled off at the wrong time and place
 death.attack.acid_burn=%1$s turned out to be far too alkaline
+death.attack.fluid_burn=%1$s was effectively pan-fried
 death.attack.hypothermia=%1$s died as a result of extreme hypothermia
 death.attack.fatal_rads=%1$s died due to fatal radiation poisoning

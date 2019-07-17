@@ -3,6 +3,7 @@ package nc.block;
 import java.util.Random;
 
 import nc.Global;
+import nc.NuclearCraft;
 import nc.config.NCConfig;
 import nc.tab.NCTabs;
 import net.minecraft.block.BlockMushroom;
@@ -16,7 +17,7 @@ public class NCBlockMushroom extends BlockMushroom {
 	public NCBlockMushroom(String name) {
 		super();
 		setTranslationKey(Global.MOD_ID + "." + name);
-		setRegistryName(new ResourceLocation(Global.MOD_ID, name));
+		if (NuclearCraft.regName) setRegistryName(new ResourceLocation(Global.MOD_ID, name));
 		setCreativeTab(NCTabs.BASE_BLOCK_MATERIALS);
 		setLightLevel(1F);
 	}

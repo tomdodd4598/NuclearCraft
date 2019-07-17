@@ -35,6 +35,7 @@ public class OreDictHelper {
 	public static final List<String> FUEL_VOLUME_TYPES = Lists.newArrayList("fuel", "dust");
 	
 	public static final List<String> BLOCK_VOLUME_TYPES = Lists.newArrayList("block");
+	public static final List<String> FUEL_BLOCK_VOLUME_TYPES = Lists.newArrayList("block", "blockFuel");
 	
 	public static boolean isOreMatching(ItemStack stack, ItemStack target) {
 		for (String oreName : getOreNames(target)) {
@@ -131,18 +132,31 @@ public class OreDictHelper {
 	
 	private static final Int2ObjectMap<Set<String>> ORE_DICT_CACHE = new Int2ObjectOpenHashMap<>();
 	
-	public static Set<String> getOreNames(ItemStack stack) {
+	private static Set<String> getOreNames(ItemStack stack, boolean useCache) {
 		if (stack == null || stack.isEmpty()) return Collections.emptySet();
 		int packed = RecipeItemHelper.pack(stack);
-		if (!ORE_DICT_CACHE.containsKey(packed)) {
+		if (!useCache || !ORE_DICT_CACHE.containsKey(packed)) {
 			Set<String> names = new HashSet<>();
 			for (int oreID : OreDictionary.getOreIDs(stack)) {
 				names.add(OreDictionary.getOreName(oreID));
 			}
-			ORE_DICT_CACHE.put(packed, names);
+			if (useCache) ORE_DICT_CACHE.put(packed, names);
 			return names;
 		}
 		return ORE_DICT_CACHE.get(packed);
+	}
+	
+	public static Set<String> getOreNames(ItemStack stack) {
+		return getOreNames(stack, true);
+	}
+	
+	public static boolean hasOrePrefix(ItemStack stack, String... prefixes) {
+		for (String name : getOreNames(stack, false)) {
+			for (String prefix : prefixes) {
+				if (name.startsWith(prefix)) return true;
+			}
+		}
+		return false;
 	}
 	
 	public static void refreshOreDictCache() {

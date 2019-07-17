@@ -322,7 +322,7 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 			if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
 				return true;
 			}
-			if (ModCheck.mekanismLoaded() && GasHelper.isGasCapability(capability)) {
+			if (ModCheck.mekanismLoaded() && capability == GasHelper.GAS_HANDLER_CAPABILITY) {
 				return true;
 			}
 		}
@@ -349,7 +349,7 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 			if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
 				return (T) getFluidSide(nonNullSide(side));
 			}
-			if (ModCheck.mekanismLoaded() && GasHelper.isGasCapability(capability)) {
+			if (ModCheck.mekanismLoaded() && capability == GasHelper.GAS_HANDLER_CAPABILITY) {
 				return (T) getGasWrapper();
 			}
 		}

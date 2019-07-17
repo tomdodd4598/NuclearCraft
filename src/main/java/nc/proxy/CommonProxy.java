@@ -7,6 +7,7 @@ import nc.command.CommandHandler;
 import nc.handler.CapabilityHandler;
 import nc.handler.DropHandler;
 import nc.handler.DungeonLootHandler;
+import nc.handler.ItemUseHandler;
 import nc.handler.OreDictHandler;
 import nc.handler.PlayerRespawnHandler;
 import nc.handler.SoundHandler;
@@ -141,6 +142,8 @@ public class CommonProxy {
 		//RadBiomes.init();
 		
 		MinecraftForge.EVENT_BUS.register(new PlayerRespawnHandler());
+		
+		MinecraftForge.EVENT_BUS.register(new ItemUseHandler());
 	}
 	
 	public void serverStart(FMLServerStartingEvent serverStartEvent) {

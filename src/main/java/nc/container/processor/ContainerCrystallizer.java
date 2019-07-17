@@ -10,7 +10,7 @@ import net.minecraft.inventory.SlotFurnaceOutput;
 public class ContainerCrystallizer extends ContainerItemFluidProcessor {
 
 	public ContainerCrystallizer(EntityPlayer player, TileItemFluidProcessor tileEntity) {
-		super(player, tileEntity, NCRecipes.Type.CRYSTALLIZER);
+		super(player, tileEntity, NCRecipes.crystallizer);
 		
 		addSlotToContainer(new SlotFurnaceOutput(player, tileEntity, 0, 116, 35));
 		

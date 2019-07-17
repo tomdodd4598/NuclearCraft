@@ -1,7 +1,5 @@
 package nc.recipe;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import nc.radiation.RadSources;
@@ -37,6 +35,7 @@ import nc.recipe.processor.SupercoolerRecipes;
 import nc.recipe.vanilla.CraftingRecipeHandler;
 import nc.recipe.vanilla.FurnaceFuelHandler;
 import nc.recipe.vanilla.FurnaceRecipeHandler;
+import net.minecraft.item.crafting.IRecipe;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -46,38 +45,38 @@ public class NCRecipes {
 	
 	private static boolean initialized = false;
 	
-	private static ManufactoryRecipes manufactory;
-	private static IsotopeSeparatorRecipes isotope_separator;
-	private static DecayHastenerRecipes decay_hastener;
-	private static FuelReprocessorRecipes fuel_reprocessor;
-	private static AlloyFurnaceRecipes alloy_furnace;
-	private static InfuserRecipes infuser;
-	private static MelterRecipes melter;
-	private static SupercoolerRecipes supercooler;
-	private static ElectrolyserRecipes electrolyser;
-	private static IrradiatorRecipes irradiator;
-	private static IngotFormerRecipes ingot_former;
-	private static PressurizerRecipes pressurizer;
-	private static ChemicalReactorRecipes chemical_reactor;
-	private static SaltMixerRecipes salt_mixer;
-	private static CrystallizerRecipes crystallizer;
-	private static DissolverRecipes dissolver;
-	private static ExtractorRecipes extractor;
-	private static CentrifugeRecipes centrifuge;
-	private static RockCrusherRecipes rock_crusher;
-	private static CollectorRecipes collector;
-	private static ActiveCoolerRecipes active_cooler;
-	private static DecayGeneratorRecipes decay_generator;
-	private static FissionRecipes fission;
-	private static FusionRecipes fusion;
-	private static SaltFissionRecipes salt_fission;
-	private static CoolantHeaterRecipes coolant_heater;
-	private static HeatExchangerRecipes heat_exchanger;
-	private static TurbineRecipes turbine;
-	private static CondenserRecipes condenser;
+	public static ManufactoryRecipes manufactory;
+	public static IsotopeSeparatorRecipes isotope_separator;
+	public static DecayHastenerRecipes decay_hastener;
+	public static FuelReprocessorRecipes fuel_reprocessor;
+	public static AlloyFurnaceRecipes alloy_furnace;
+	public static InfuserRecipes infuser;
+	public static MelterRecipes melter;
+	public static SupercoolerRecipes supercooler;
+	public static ElectrolyserRecipes electrolyser;
+	public static IrradiatorRecipes irradiator;
+	public static IngotFormerRecipes ingot_former;
+	public static PressurizerRecipes pressurizer;
+	public static ChemicalReactorRecipes chemical_reactor;
+	public static SaltMixerRecipes salt_mixer;
+	public static CrystallizerRecipes crystallizer;
+	public static DissolverRecipes dissolver;
+	public static ExtractorRecipes extractor;
+	public static CentrifugeRecipes centrifuge;
+	public static RockCrusherRecipes rock_crusher;
+	public static CollectorRecipes collector;
+	public static ActiveCoolerRecipes active_cooler;
+	public static DecayGeneratorRecipes decay_generator;
+	public static FissionRecipes fission;
+	public static FusionRecipes fusion;
+	public static SaltFissionRecipes salt_fission;
+	public static CoolantHeaterRecipes coolant_heater;
+	public static HeatExchangerRecipes heat_exchanger;
+	public static TurbineRecipes turbine;
+	public static CondenserRecipes condenser;
 	
 	@SubscribeEvent(priority = EventPriority.LOW)
-	public void registerRecipes(RegistryEvent.Register<net.minecraft.item.crafting.IRecipe> event) {
+	public void registerRecipes(RegistryEvent.Register<IRecipe> event) {
 		if (initialized) return;
 		
 		manufactory = new ManufactoryRecipes();
@@ -119,107 +118,6 @@ public class NCRecipes {
 		initialized = true;
 	}
 	
-	public static enum Type {
-		MANUFACTORY,
-		ISOTOPE_SEPARATOR,
-		DECAY_HASTENER,
-		FUEL_REPROCESSOR,
-		ALLOY_FURNACE,
-		INFUSER,
-		MELTER,
-		SUPERCOOLER,
-		ELECTROLYSER,
-		IRRADIATOR,
-		INGOT_FORMER,
-		PRESSURIZER,
-		CHEMICAL_REACTOR,
-		SALT_MIXER,
-		CRYSTALLIZER,
-		DISSOLVER,
-		EXTRACTOR,
-		CENTRIFUGE,
-		ROCK_CRUSHER,
-		COLLECTOR,
-		ACTIVE_COOLER,
-		DECAY_GENERATOR,
-		FISSION,
-		FUSION,
-		SALT_FISSION,
-		COOLANT_HEATER,
-		HEAT_EXCHANGER,
-		TURBINE,
-		CONDENSER;
-		
-		public ProcessorRecipeHandler getRecipeHandler() {
-			switch (this) {
-			case MANUFACTORY:
-				return manufactory;
-			case ISOTOPE_SEPARATOR:
-				return isotope_separator;
-			case DECAY_HASTENER:
-				return decay_hastener;
-			case FUEL_REPROCESSOR:
-				return fuel_reprocessor;
-			case ALLOY_FURNACE:
-				return alloy_furnace;
-			case INFUSER:
-				return infuser;
-			case MELTER:
-				return melter;
-			case SUPERCOOLER:
-				return supercooler;
-			case ELECTROLYSER:
-				return electrolyser;
-			case IRRADIATOR:
-				return irradiator;
-			case INGOT_FORMER:
-				return ingot_former;
-			case PRESSURIZER:
-				return pressurizer;
-			case CHEMICAL_REACTOR:
-				return chemical_reactor;
-			case SALT_MIXER:
-				return salt_mixer;
-			case CRYSTALLIZER:
-				return crystallizer;
-			case DISSOLVER:
-				return dissolver;
-			case EXTRACTOR:
-				return extractor;
-			case CENTRIFUGE:
-				return centrifuge;
-			case ROCK_CRUSHER:
-				return rock_crusher;
-			case COLLECTOR:
-				return collector;
-			case ACTIVE_COOLER:
-				return active_cooler;
-			case DECAY_GENERATOR:
-				return decay_generator;
-			case FISSION:
-				return fission;
-			case FUSION:
-				return fusion;
-			case SALT_FISSION:
-				return salt_fission;
-			case COOLANT_HEATER:
-				return coolant_heater;
-			case HEAT_EXCHANGER:
-				return heat_exchanger;
-			case TURBINE:
-				return turbine;
-			case CONDENSER:
-				return condenser;
-			default:
-				return manufactory;
-			}
-		}
-		
-		public String getRecipeName() {
-			return getRecipeHandler().getRecipeName();
-		}
-	}
-	
 	public static List<List<String>> infuser_valid_fluids;
 	public static List<List<String>> melter_valid_fluids;
 	public static List<List<String>> supercooler_valid_fluids;
@@ -240,23 +138,23 @@ public class NCRecipes {
 	public static List<List<String>> condenser_valid_fluids;
 	
 	public static void init() {
-		infuser_valid_fluids = RecipeHelper.validFluids(NCRecipes.Type.INFUSER);
-		melter_valid_fluids = RecipeHelper.validFluids(NCRecipes.Type.MELTER);
-		supercooler_valid_fluids = RecipeHelper.validFluids(NCRecipes.Type.SUPERCOOLER);
-		electrolyser_valid_fluids = RecipeHelper.validFluids(NCRecipes.Type.ELECTROLYSER);
-		irradiator_valid_fluids = Arrays.asList(RecipeHelper.validFluids(NCRecipes.Type.IRRADIATOR, Arrays.asList("neutron")).get(0), Arrays.asList("neutron"), new ArrayList<String>(), new ArrayList<String>());
-		ingot_former_valid_fluids = RecipeHelper.validFluids(NCRecipes.Type.INGOT_FORMER);
-		chemical_reactor_valid_fluids = RecipeHelper.validFluids(NCRecipes.Type.CHEMICAL_REACTOR);
-		salt_mixer_valid_fluids = RecipeHelper.validFluids(NCRecipes.Type.SALT_MIXER);
-		crystallizer_valid_fluids = RecipeHelper.validFluids(NCRecipes.Type.CRYSTALLIZER);
-		dissolver_valid_fluids = RecipeHelper.validFluids(NCRecipes.Type.DISSOLVER);
-		extractor_valid_fluids = RecipeHelper.validFluids(NCRecipes.Type.EXTRACTOR);
-		centrifuge_valid_fluids = RecipeHelper.validFluids(NCRecipes.Type.CENTRIFUGE);
-		fusion_valid_fluids = RecipeHelper.validFluids(NCRecipes.Type.FUSION);
-		salt_fission_valid_fluids = RecipeHelper.validFluids(NCRecipes.Type.SALT_FISSION);
-		coolant_heater_valid_fluids = RecipeHelper.validFluids(NCRecipes.Type.COOLANT_HEATER);
-		heat_exchanger_valid_fluids = RecipeHelper.validFluids(NCRecipes.Type.HEAT_EXCHANGER);
-		turbine_valid_fluids = RecipeHelper.validFluids(NCRecipes.Type.TURBINE);
-		condenser_valid_fluids = RecipeHelper.validFluids(NCRecipes.Type.CONDENSER);
+		infuser_valid_fluids = RecipeHelper.validFluids(infuser);
+		melter_valid_fluids = RecipeHelper.validFluids(melter);
+		supercooler_valid_fluids = RecipeHelper.validFluids(supercooler);
+		electrolyser_valid_fluids = RecipeHelper.validFluids(electrolyser);
+		irradiator_valid_fluids = RecipeHelper.validFluids(irradiator);
+		ingot_former_valid_fluids = RecipeHelper.validFluids(ingot_former);
+		chemical_reactor_valid_fluids = RecipeHelper.validFluids(chemical_reactor);
+		salt_mixer_valid_fluids = RecipeHelper.validFluids(salt_mixer);
+		crystallizer_valid_fluids = RecipeHelper.validFluids(crystallizer);
+		dissolver_valid_fluids = RecipeHelper.validFluids(dissolver);
+		extractor_valid_fluids = RecipeHelper.validFluids(extractor);
+		centrifuge_valid_fluids = RecipeHelper.validFluids(centrifuge);
+		fusion_valid_fluids = RecipeHelper.validFluids(fusion);
+		salt_fission_valid_fluids = RecipeHelper.validFluids(salt_fission);
+		coolant_heater_valid_fluids = RecipeHelper.validFluids(coolant_heater);
+		heat_exchanger_valid_fluids = RecipeHelper.validFluids(heat_exchanger);
+		turbine_valid_fluids = RecipeHelper.validFluids(turbine);
+		condenser_valid_fluids = RecipeHelper.validFluids(condenser);
 	}
 }

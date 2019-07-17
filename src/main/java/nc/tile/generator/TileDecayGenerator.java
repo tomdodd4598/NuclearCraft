@@ -27,7 +27,7 @@ public class TileDecayGenerator extends TileEnergy implements IInterfaceable {
 	Random rand = new Random();
 	public int tickCount;
 	
-	public final NCRecipes.Type decayGenRecipeType;
+	public static final ProcessorRecipeHandler RECIPE_HANDLER = NCRecipes.decay_generator;
 	protected RecipeInfo<ProcessorRecipe>[] recipes = new RecipeInfo[6];
 	
 	public static final double DEFAULT_LIFETIME = 1200D/NCConfig.machine_update_rate;
@@ -36,11 +36,6 @@ public class TileDecayGenerator extends TileEnergy implements IInterfaceable {
 	
 	public TileDecayGenerator() {
 		super(maxPower(), ITileEnergy.energyConnectionAll(EnergyConnection.OUT));
-		decayGenRecipeType = NCRecipes.Type.DECAY_GENERATOR;
-	}
-	
-	public ProcessorRecipeHandler getRecipeHandler() {
-		return decayGenRecipeType.getRecipeHandler();
 	}
 	
 	@Override
@@ -52,7 +47,7 @@ public class TileDecayGenerator extends TileEnergy implements IInterfaceable {
 				for (EnumFacing side : EnumFacing.VALUES) {
 					List<ItemStack> input = Arrays.asList(ItemStackHelper.blockStateToStack(world.getBlockState(getPos().offset(side))));
 					if (recipes[side.getIndex()] == null || !recipes[side.getIndex()].getRecipe().matchInputs(input, new ArrayList<Tank>()).matches()) {
-						recipes[side.getIndex()] = getRecipeHandler().getRecipeInfoFromInputs(input, new ArrayList<Tank>());
+						recipes[side.getIndex()] = RECIPE_HANDLER.getRecipeInfoFromInputs(input, new ArrayList<Tank>());
 					}
 				}
 				getEnergyStorage().changeEnergyStored(getGenerated());
@@ -68,7 +63,7 @@ public class TileDecayGenerator extends TileEnergy implements IInterfaceable {
 	
 	private static int maxPower() {
 		int max = 0;
-		List<ProcessorRecipe> recipes = NCRecipes.Type.DECAY_GENERATOR.getRecipeHandler().getRecipes();
+		List<ProcessorRecipe> recipes = RECIPE_HANDLER.getRecipes();
 		for (ProcessorRecipe recipe : recipes) {
 			if (recipe == null) continue;
 			max = Math.max(max, recipe.getDecayPower());

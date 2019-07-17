@@ -9,6 +9,7 @@ import nc.enumm.MetaEnums.IngotType;
 import nc.enumm.MetaEnums.RadShieldingType;
 import nc.enumm.MetaEnums.UpgradeType;
 import nc.multiblock.turbine.TurbineDynamoCoilType;
+import nc.radiation.RadiationHelper;
 import nc.util.CollectionHelper;
 import nc.util.InfoHelper;
 import nc.util.Lang;
@@ -41,15 +42,15 @@ public class NCInfo {
 	public static <T extends Enum<T> & IStringSerializable & IItemMeta & IFissionStats> String[][] fuelRodInfo(T[] values) {
 		String[][] info = new String[values.length][];
 		for (int i = 0; i < values.length; i++) {
-			info[i] = new String[] {Lang.localise("item." + Global.MOD_ID + ".fission_fuel.base_time.desc", NCMath.round(values[i].getBaseTime()/(1200D*NCConfig.fission_fuel_use), 2)), Lang.localise("item." + Global.MOD_ID + ".fission_fuel.base_power.desc", values[i].getBasePower()*NCConfig.fission_power), Lang.localise("item." + Global.MOD_ID + ".fission_fuel.base_heat.desc", values[i].getBaseHeat()*NCConfig.fission_heat_generation)};
+			info[i] = new String[] {Lang.localise("item." + Global.MOD_ID + ".fission_fuel.base_time.desc", NCMath.decimalPlaces(values[i].getBaseTime()/(1200D*NCConfig.fission_fuel_use), 2)), Lang.localise("item." + Global.MOD_ID + ".fission_fuel.base_power.desc", NCMath.decimalPlaces(values[i].getBasePower()*NCConfig.fission_power, 2)), Lang.localise("item." + Global.MOD_ID + ".fission_fuel.base_heat.desc", NCMath.decimalPlaces(values[i].getBaseHeat()*NCConfig.fission_heat_generation, 2))};
 		}
 		return info;
 	}
 	
 	// Ingot Blocks
 	
-	public static String moderatorPowerInfo = Lang.localise("info.moderator.power", NCMath.round(6D/NCConfig.fission_moderator_extra_power, 2));
-	public static String moderatorHeatInfo = Lang.localise("info.moderator.heat", NCMath.round(6D/NCConfig.fission_moderator_extra_heat, 2));
+	public static String moderatorPowerInfo = Lang.localise("info.moderator.power", NCMath.decimalPlaces(6D/NCConfig.fission_moderator_extra_power, 2));
+	public static String moderatorHeatInfo = Lang.localise("info.moderator.heat", NCMath.decimalPlaces(6D/NCConfig.fission_moderator_extra_heat, 2));
 	
 	public static String[][] ingotBlockInfo() {
 		String[][] info = new String[IngotType.values().length][];
@@ -144,7 +145,7 @@ public class NCInfo {
 	public static String[][] radShieldingInfo() {
 		String[][] info = new String[RadShieldingType.values().length][];
 		for (int i = 0; i < RadShieldingType.values().length; i++) {
-			info[i] = InfoHelper.formattedInfo(Lang.localise("item.nuclearcraft.rad_shielding.desc" + (NCConfig.radiation_hardcore_containers > 0D ? "_hardcore" : ""), NCConfig.radiation_shielding_level[i]));
+			info[i] = InfoHelper.formattedInfo(Lang.localise("item.nuclearcraft.rad_shielding.desc" + (NCConfig.radiation_hardcore_containers > 0D ? "_hardcore" : ""), RadiationHelper.resistanceSigFigs(NCConfig.radiation_shielding_level[i])));
 		}
 		return info;
 	}

@@ -66,6 +66,7 @@ public class ItemRadaway extends NCItem {
 		IEntityRads playerRads = player.getCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null);
 		if (playerRads == null) return;
 		playerRads.setRadawayBuffer(slow, playerRads.getRadawayBuffer(slow) + (slow ? NCConfig.radiation_radaway_slow_amount : NCConfig.radiation_radaway_amount));
+		if (!slow) playerRads.setRecentRadawayAddition(NCConfig.radiation_radaway_amount);
 	}
 	
 	@Override

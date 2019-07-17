@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import nc.Global;
+import nc.NuclearCraft;
 import nc.enumm.IItemMeta;
 import nc.init.NCItems;
 import nc.util.InfoHelper;
@@ -32,7 +33,7 @@ public class NCItemMeta<T extends Enum<T> & IStringSerializable & IItemMeta> ext
 	
 	public NCItemMeta(String nameIn, Class<T> enumm, String[]... tooltips) {
 		setTranslationKey(Global.MOD_ID + "." + nameIn);
-		setRegistryName(new ResourceLocation(Global.MOD_ID, nameIn));
+		if (NuclearCraft.regName) setRegistryName(new ResourceLocation(Global.MOD_ID, nameIn));
 		setHasSubtypes(true);
 		values = enumm.getEnumConstants();
 		info = InfoHelper.buildInfo(getTranslationKey(), enumm, tooltips);

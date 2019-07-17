@@ -70,13 +70,13 @@ public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpd
 	private BlockFinder finder;
 	
 	public TileFusionCore() {
-		super("Fusion Core", 2, 4, 0, defaultItemSorptions(), defaultTankCapacities(32000, 2, 4), defaultTankSorptions(2, 4), NCRecipes.fusion_valid_fluids, maxPower(), NCRecipes.Type.FUSION);
+		super("Fusion Core", 2, 4, 0, defaultItemSorptions(), defaultTankCapacities(32000, 2, 4), defaultTankSorptions(2, 4), NCRecipes.fusion_valid_fluids, maxPower(), NCRecipes.fusion);
 		setInputTanksSeparated(false);
 	}
 	
 	private static int maxPower() {
 		double max = 0D;
-		List<ProcessorRecipe> recipes = NCRecipes.Type.FUSION.getRecipeHandler().getRecipes();
+		List<ProcessorRecipe> recipes = NCRecipes.fusion.getRecipes();
 		for (ProcessorRecipe recipe : recipes) {
 			if (recipe == null) continue;
 			max = Math.max(max, recipe.getFusionComboPower());
@@ -94,7 +94,7 @@ public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpd
 	
 	@Override
 	public void updateGenerator() {
-		if(!world.isRemote) {
+		if (!world.isRemote) {
 			boolean wasProcessing = isProcessing;
 			isProcessing = isProcessing();
 			if (structureCount == 0) refreshMultiblock();
@@ -132,6 +132,7 @@ public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpd
 	public void refreshMultiblock() {
 		setSize();
 		if (NCConfig.fusion_active_cooling) setCooling();
+		refreshActivity();
 	}
 	
 	@Override
@@ -200,7 +201,7 @@ public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpd
 	}
 	
 	public void playFusionSound(int x, int y, int z) {
-		world.playSound(pos.getX() + x, pos.getY() + y, pos.getZ() + z, getSound(), SoundCategory.BLOCKS, 1F, 1.0F, false);
+		world.playSound(pos.getX() + x, pos.getY() + y, pos.getZ() + z, getSound(), SoundCategory.BLOCKS, 1F, 1F, false);
 	}
 	
 	private static int getSoundTime() {

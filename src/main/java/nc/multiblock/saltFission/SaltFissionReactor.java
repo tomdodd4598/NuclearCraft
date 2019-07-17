@@ -436,7 +436,7 @@ public class SaltFissionReactor extends CuboidalMultiblockBase<SaltFissionUpdate
 		if (vessels.size() <= 0) return;
 		double soundRate = Math.min(rawEfficiency/(14D*NCConfig.salt_fission_max_size*Math.sqrt(vessels.size())), 1D/vessels.size());
 		if (rand.nextDouble() < soundRate) {
-			WORLD.playSound(pos.getX(), pos.getY(), pos.getZ(), SoundHandler.geiger_tick, SoundCategory.BLOCKS, 1.6F, 1.0F + 0.12F*(rand.nextFloat() - 0.5F), false);
+			WORLD.playSound(pos.getX(), pos.getY(), pos.getZ(), SoundHandler.geiger_tick, SoundCategory.BLOCKS, 1.6F, 1F + 0.12F*(rand.nextFloat() - 0.5F), false);
 		}
 	}
 	

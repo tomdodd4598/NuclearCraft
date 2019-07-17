@@ -374,7 +374,7 @@ public class RecipeHelper {
 		return getRecipeString(recipe.itemIngredients(), recipe.fluidIngredients(), recipe.itemProducts(), recipe.fluidProducts());
 	}
 	
-	public static List<String> buildItemIngredientNames(List ingredientList, NCRecipes.Type recipeType) {
+	public static List<String> buildItemIngredientNames(List ingredientList) {
 		List<String> ingredientNames = new ArrayList<String>();
 		for (Object obj : ingredientList) {
 			if (obj == null) ingredientNames.add("null");
@@ -388,7 +388,7 @@ public class RecipeHelper {
 		return ingredientNames;
 	}
 	
-	public static List<String> buildFluidIngredientNames(List ingredientList, NCRecipes.Type recipeType) {
+	public static List<String> buildFluidIngredientNames(List ingredientList) {
 		List<String> ingredientNames = new ArrayList<String>();
 		for (Object obj : ingredientList) {
 			if (obj == null) ingredientNames.add("null");
@@ -402,15 +402,11 @@ public class RecipeHelper {
 		return ingredientNames;
 	}
 	
-	public static List<List<String>> validFluids(NCRecipes.Type recipeType) {
-		return validFluids(recipeType, new ArrayList<String>());
+	public static List<List<String>> validFluids(ProcessorRecipeHandler recipes) {
+		return validFluids(recipes, new ArrayList<String>());
 	}
 	
-	public static List<List<String>> validFluids(NCRecipes.Type recipeType, List<String> exceptions) {
-		return validFluids(recipeType.getRecipeHandler(), exceptions);
-	}
-	
-	private static List<List<String>> validFluids(ProcessorRecipeHandler recipes, List<String> exceptions) {
+	public static List<List<String>> validFluids(ProcessorRecipeHandler recipes, List<String> exceptions) {
 		int fluidInputSize = recipes.fluidInputSize;
 		int fluidOutputSize = recipes.fluidOutputSize;
 		

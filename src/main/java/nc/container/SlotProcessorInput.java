@@ -1,21 +1,21 @@
 package nc.container;
 
-import nc.recipe.NCRecipes;
+import nc.recipe.ProcessorRecipeHandler;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
 public class SlotProcessorInput extends Slot {
 	
-	public final NCRecipes.Type recipeType;
+	public final ProcessorRecipeHandler recipeHandler;
 	
-	public SlotProcessorInput(IInventory inventoryIn, NCRecipes.Type recipeType, int slotIndex, int xPosition, int yPosition) {
+	public SlotProcessorInput(IInventory inventoryIn, ProcessorRecipeHandler recipeHandler, int slotIndex, int xPosition, int yPosition) {
 		super(inventoryIn, slotIndex, xPosition, yPosition);
-		this.recipeType = recipeType;
+		this.recipeHandler = recipeHandler;
 	}
 	
 	@Override
 	public boolean isItemValid(ItemStack stack) {
-		return recipeType.getRecipeHandler().isValidItemInput(stack);
+		return recipeHandler.isValidItemInput(stack);
 	}
 }

@@ -93,7 +93,7 @@ public class AlloyFurnaceRecipes extends ProcessorRecipeHandler {
 	}
 	
 	public void addAlloyIngotFuelRecipes(String in1, int inSize1, String in2, int inSize2, String out, int outSize, double time, double power) {
-		addAlloyRecipes(in1, inSize1, in2, inSize2, out, outSize, time, power, OreDictHelper.NUGGET_VOLUME_TYPES, OreDictHelper.INGOT_VOLUME_TYPES, OreDictHelper.BLOCK_VOLUME_TYPES, OreDictHelper.TINYDUST_VOLUME_TYPES, OreDictHelper.FUEL_VOLUME_TYPES, OreDictHelper.BLOCK_VOLUME_TYPES);
+		addAlloyRecipes(in1, inSize1, in2, inSize2, out, outSize, time, power, OreDictHelper.NUGGET_VOLUME_TYPES, OreDictHelper.INGOT_VOLUME_TYPES, OreDictHelper.BLOCK_VOLUME_TYPES, OreDictHelper.TINYDUST_VOLUME_TYPES, OreDictHelper.FUEL_VOLUME_TYPES, OreDictHelper.FUEL_BLOCK_VOLUME_TYPES);
 	}
 	
 	public void addAlloyIngotGemRecipes(String in1, int inSize1, String in2, int inSize2, String out, int outSize, double time, double power) {

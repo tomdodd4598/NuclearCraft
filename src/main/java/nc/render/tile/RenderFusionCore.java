@@ -34,13 +34,13 @@ public class RenderFusionCore extends TileEntitySpecialRenderer<TileFusionCore> 
 		GlStateManager.translate(posX, posY, posZ);
 		Minecraft.getMinecraft().renderEngine.bindTexture(TEXTURE);
 		GlStateManager.pushMatrix();
-		GlStateManager.rotate(180.0F, 180.0F, 0.0F, 0.0F);
-		frame_model.render(null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
+		GlStateManager.rotate(180F, 180F, 0F, 0F);
+		frame_model.render(null, 0F, 0F, -0.1F, 0F, 0F, 0.0625F);
 		GlStateManager.translate(0.5F, 0F, -0.5F);
 		long angle = (((long)tile.efficiency) * System.currentTimeMillis() / 400) % 360;
 		GlStateManager.rotate(angle, 0, 1, 0);
 		GlStateManager.translate(-0.5F, 0F, 0.5F);
-		centre_model.render(null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
+		centre_model.render(null, 0F, 0F, -0.1F, 0F, 0F, 0.0625F);
 		GlStateManager.popMatrix();
 		GlStateManager.popMatrix();
 	}

@@ -24,16 +24,16 @@ public class BlockHelper {
 	
 		switch (side) {
 			case WEST:
-				world.spawnParticle(EnumParticleTypes.getByName(particleName), d0 - d3, d1, d2 + d4, 0.0D, 0.0D, 0.0D);
+				world.spawnParticle(EnumParticleTypes.getByName(particleName), d0 - d3, d1, d2 + d4, 0D, 0D, 0D);
 				break;
 			case EAST:
-				world.spawnParticle(EnumParticleTypes.getByName(particleName), d0 + d3, d1, d2 + d4, 0.0D, 0.0D, 0.0D);
+				world.spawnParticle(EnumParticleTypes.getByName(particleName), d0 + d3, d1, d2 + d4, 0D, 0D, 0D);
 				break;
 			case NORTH:
-				world.spawnParticle(EnumParticleTypes.getByName(particleName), d0 + d4, d1, d2 - d3, 0.0D, 0.0D, 0.0D);
+				world.spawnParticle(EnumParticleTypes.getByName(particleName), d0 + d4, d1, d2 - d3, 0D, 0D, 0D);
 				break;
 			case SOUTH:
-				world.spawnParticle(EnumParticleTypes.getByName(particleName), d0 + d4, d1, d2 + d3, 0.0D, 0.0D, 0.0D);
+				world.spawnParticle(EnumParticleTypes.getByName(particleName), d0 + d4, d1, d2 + d3, 0D, 0D, 0D);
 			default:
 				break;
 		}
@@ -41,7 +41,7 @@ public class BlockHelper {
 	
 	public static void playSoundOnProcessor(World world, BlockPos pos, Random rand, SoundEvent sound) {
 		if (sound != null) if (rand.nextDouble() < 0.2D) {
-			world.playSound(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, sound, SoundCategory.BLOCKS, 1.0F, 1.0F, false);
+			world.playSound(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, sound, SoundCategory.BLOCKS, 1F, 1F, false);
 		}
 	}
 }

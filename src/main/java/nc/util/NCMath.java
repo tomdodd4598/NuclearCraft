@@ -2,6 +2,8 @@ package nc.util;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
+import java.text.DecimalFormat;
+import java.util.Arrays;
 import java.util.Random;
 
 import net.minecraft.util.math.MathHelper;
@@ -75,7 +77,7 @@ public class NCMath {
 	}
 	
 	public static int minus1Power(int pow) {
-		if ((pow & 1) == 0) return 1; else return -1;
+		return (pow & 1) == 0 ? 1 : -1;
 	}
 	
 	public static int choose(int n, int k) {
@@ -85,7 +87,7 @@ public class NCMath {
 		
 		double x = 1D;
 		for (int i = 1, m = n; i <= k; i++, m--) x *= (double)m/(double)i;
-		return (int) x;
+		return (int)Math.round(x);
 	}
 	
 	public static int simplexNumber(int n, int p) {
@@ -93,15 +95,15 @@ public class NCMath {
 	}
 	
 	public static int floorTo(int x, int mult) {
-		return mult*MathHelper.floor(x/mult);
+		return mult*MathHelper.floor(1D*x/mult);
 	}
 	
 	public static int ceilTo(int x, int mult) {
-		return mult*MathHelper.ceil(x/mult);
+		return mult*MathHelper.ceil(1D*x/mult);
 	}
 	
 	public static int roundTo(int x, int mult) {
-		return mult*Math.round(x/mult);
+		return mult*(int)Math.round(1D*x/mult);
 	}
 	
 	public static double roundTo(double x, double mult) {
@@ -147,9 +149,22 @@ public class NCMath {
 		else return 1D;
 	}
 	
-	public static double sigFigs(double number, int sigFigs) {
+	public static String sigFigs(double number, int sigFigs) {
+		if (number == (int)number) {
+			return (int)number + "";
+		}
 		BigDecimal bd = new BigDecimal(number);
-		bd = bd.round(new MathContext(sigFigs));
-		return bd.doubleValue();
+		bd = bd.round(new MathContext(Math.max(1, sigFigs)));
+		return bd.doubleValue() + "";
+	}
+	
+	public static String decimalPlaces(double number, int sigFigs) {
+		if (number == (int)number) {
+			return (int)number + "";
+		}
+		char[] arr = new char[Math.max(1, sigFigs)];
+		Arrays.fill(arr, '#');
+		DecimalFormat df = new DecimalFormat("0." + new String(arr));
+		return df.format(number);
 	}
 }

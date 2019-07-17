@@ -11,9 +11,9 @@ import net.minecraft.inventory.SlotFurnaceOutput;
 public class ContainerExtractor extends ContainerItemFluidProcessor {
 
 	public ContainerExtractor(EntityPlayer player, TileItemFluidProcessor tileEntity) {
-		super(player, tileEntity, NCRecipes.Type.EXTRACTOR);
+		super(player, tileEntity, NCRecipes.extractor);
 		
-		addSlotToContainer(new SlotProcessorInput(tileEntity, recipeType, 0, 42, 35));
+		addSlotToContainer(new SlotProcessorInput(tileEntity, recipeHandler, 0, 42, 35));
 		
 		addSlotToContainer(new SlotFurnaceOutput(player, tileEntity, 1, 102, 35));
 		

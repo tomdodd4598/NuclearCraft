@@ -43,10 +43,10 @@ public class MelterRecipes extends ProcessorRecipeHandler {
 		addIngotMeltingRecipes("alugentum");
 		
 		addRecipe(NCItems.ground_cocoa_nibs, fluidStack("chocolate_liquor", FluidStackHelper.INGOT_VOLUME), 0.25D, 0.5D);
-		addRecipe(NCItems.cocoa_butter, fluidStack("cocoa_butter", FluidStackHelper.INGOT_VOLUME), 0.25D, 0.5D);
-		addRecipe(NCItems.unsweetened_chocolate, fluidStack("unsweetened_chocolate", FluidStackHelper.INGOT_VOLUME), 0.25D, 0.5D);
-		addRecipe(NCItems.dark_chocolate, fluidStack("dark_chocolate", FluidStackHelper.INGOT_VOLUME), 0.25D, 0.5D);
-		addRecipe(NCItems.milk_chocolate, fluidStack("milk_chocolate", FluidStackHelper.INGOT_VOLUME), 0.25D, 0.5D);
+		addRecipe("ingotCocoaButter", fluidStack("cocoa_butter", FluidStackHelper.INGOT_VOLUME), 0.25D, 0.5D);
+		addRecipe("ingotUnsweetenedChocolate", fluidStack("unsweetened_chocolate", FluidStackHelper.INGOT_VOLUME), 0.25D, 0.5D);
+		addRecipe("ingotDarkChocolate", fluidStack("dark_chocolate", FluidStackHelper.INGOT_VOLUME), 0.25D, 0.5D);
+		addRecipe("ingotChocolate", fluidStack("milk_chocolate", FluidStackHelper.INGOT_VOLUME), 0.25D, 0.5D);
 		addRecipe(Items.SUGAR, fluidStack("sugar", FluidStackHelper.INGOT_VOLUME), 0.5D, 0.5D);
 		addRecipe(NCItems.gelatin, fluidStack("gelatin", FluidStackHelper.INGOT_VOLUME), 0.5D, 0.5D);
 		addRecipe(NCItems.marshmallow, fluidStack("marshmallow", FluidStackHelper.INGOT_VOLUME), 0.5D, 0.5D);

@@ -86,7 +86,7 @@ public class ChunkGeneratorWasteland implements IChunkGenerator
 		{
 			for (int j = -2; j <= 2; ++j)
 			{
-				float f = 10.0F / MathHelper.sqrt(i * i + j * j + 0.2F);
+				float f = 10F / MathHelper.sqrt(i * i + j * j + 0.2F);
 				this.biomeWeights[i + 2 + (j + 2) * 5] = f;
 			}
 		}
@@ -150,7 +150,7 @@ public class ChunkGeneratorWasteland implements IChunkGenerator
 
 							for (int l2 = 0; l2 < 4; ++l2)
 							{
-								if ((lvt_45_1_ += d16) > 0.0D)
+								if ((lvt_45_1_ += d16) > 0D)
 								{
 									primer.setBlockState(i * 4 + k2, i2 * 8 + j2, l * 4 + l2, STONE);
 								}
@@ -177,7 +177,7 @@ public class ChunkGeneratorWasteland implements IChunkGenerator
 	public void replaceBiomeBlocks(int x, int z, ChunkPrimer primer)
 	{
 		if (!ForgeEventFactory.onReplaceBiomeBlocks(this, x, z, primer, this.world)) return;
-		this.depthBuffer = this.surfaceNoise.getRegion(this.depthBuffer, x * 16, z * 16, 16, 16, 0.0625D, 0.0625D, 1.0D);
+		this.depthBuffer = this.surfaceNoise.getRegion(this.depthBuffer, x * 16, z * 16, 16, 16, 0.0625D, 0.0625D, 1D);
 
 		for (int i = 0; i < 16; ++i)
 		{
@@ -234,9 +234,9 @@ public class ChunkGeneratorWasteland implements IChunkGenerator
 		{
 			for (int l = 0; l < 5; ++l)
 			{
-				float f2 = 0.0F;
-				float f3 = 0.0F;
-				float f4 = 0.0F;
+				float f2 = 0F;
+				float f3 = 0F;
+				float f4 = 0F;
 				for (int j1 = -2; j1 <= 2; ++j1)
 				{
 					for (int k1 = -2; k1 <= 2; ++k1)
@@ -244,13 +244,13 @@ public class ChunkGeneratorWasteland implements IChunkGenerator
 						float f5 = this.settings.biomeDepthOffSet + biome.getBaseHeight() * this.settings.biomeDepthWeight;
 						float f6 = this.settings.biomeScaleOffset + biome.getHeightVariation() * this.settings.biomeScaleWeight;
 
-						if (this.terrainType == WorldType.AMPLIFIED && f5 > 0.0F)
+						if (this.terrainType == WorldType.AMPLIFIED && f5 > 0F)
 						{
-							f5 = 1.0F + f5 * 2.0F;
-							f6 = 1.0F + f6 * 4.0F;
+							f5 = 1F + f5 * 2F;
+							f6 = 1F + f6 * 4F;
 						}
 
-						float f7 = this.biomeWeights[j1 + 2 + (k1 + 2) * 5] / (f5 + 2.0F);
+						float f7 = this.biomeWeights[j1 + 2 + (k1 + 2) * 5] / (f5 + 2F);
 
 						f2 += f6 * f7;
 						f3 += f5 * f7;
@@ -261,63 +261,63 @@ public class ChunkGeneratorWasteland implements IChunkGenerator
 				f2 = f2 / f4;
 				f3 = f3 / f4;
 				f2 = f2 * 0.9F + 0.1F;
-				f3 = (f3 * 4.0F - 1.0F) / 8.0F;
-				double d7 = this.depthRegion[j] / 8000.0D;
+				f3 = (f3 * 4F - 1F) / 8F;
+				double d7 = this.depthRegion[j] / 8000D;
 
-				if (d7 < 0.0D)
+				if (d7 < 0D)
 				{
 					d7 = -d7 * 0.3D;
 				}
 
-				d7 = d7 * 3.0D - 2.0D;
+				d7 = d7 * 3D - 2D;
 
-				if (d7 < 0.0D)
+				if (d7 < 0D)
 				{
-					d7 = d7 / 2.0D;
+					d7 = d7 / 2D;
 
-					if (d7 < -1.0D)
+					if (d7 < -1D)
 					{
-						d7 = -1.0D;
+						d7 = -1D;
 					}
 
 					d7 = d7 / 1.4D;
-					d7 = d7 / 2.0D;
+					d7 = d7 / 2D;
 				}
 				else
 				{
-					if (d7 > 1.0D)
+					if (d7 > 1D)
 					{
-						d7 = 1.0D;
+						d7 = 1D;
 					}
 
-					d7 = d7 / 8.0D;
+					d7 = d7 / 8D;
 				}
 
 				++j;
 				double d8 = f3;
 				double d9 = f2;
 				d8 = d8 + d7 * 0.2D;
-				d8 = d8 * this.settings.baseSize / 8.0D;
-				double d0 = this.settings.baseSize + d8 * 4.0D;
+				d8 = d8 * this.settings.baseSize / 8D;
+				double d0 = this.settings.baseSize + d8 * 4D;
 
 				for (int l1 = 0; l1 < 33; ++l1)
 				{
-					double d1 = (l1 - d0) * this.settings.stretchY * 128.0D / 256.0D / d9;
+					double d1 = (l1 - d0) * this.settings.stretchY * 128D / 256D / d9;
 
-					if (d1 < 0.0D)
+					if (d1 < 0D)
 					{
-						d1 *= 4.0D;
+						d1 *= 4D;
 					}
 
 					double d2 = this.minLimitRegion[i] / this.settings.lowerLimitScale;
 					double d3 = this.maxLimitRegion[i] / this.settings.upperLimitScale;
-					double d4 = (this.mainNoiseRegion[i] / 10.0D + 1.0D) / 2.0D;
+					double d4 = (this.mainNoiseRegion[i] / 10D + 1D) / 2D;
 					double d5 = MathHelper.clampedLerp(d2, d3, d4) - d1;
 
 					if (l1 > 29)
 					{
-						double d6 = (l1 - 29) / 3.0F;
-						d5 = d5 * (1.0D - d6) + -10.0D * d6;
+						double d6 = (l1 - 29) / 3F;
+						d5 = d5 * (1D - d6) + -10D * d6;
 					}
 
 					this.heightMap[i] = d5;

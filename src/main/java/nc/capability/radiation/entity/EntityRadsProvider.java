@@ -3,6 +3,7 @@ package nc.capability.radiation.entity;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
@@ -12,8 +13,12 @@ public class EntityRadsProvider implements ICapabilitySerializable {
 	
 	private final IEntityRads entityRads;
 	
-	public EntityRadsProvider(double maxRads) {
-		entityRads = new EntityRads(maxRads);
+	public EntityRadsProvider() {
+		entityRads = new PlayerRads();
+	}
+	
+	public EntityRadsProvider(EntityLivingBase entity) {
+		entityRads = new EntityRads(entity);
 	}
 
 	@Override

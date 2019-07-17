@@ -9,7 +9,7 @@ import net.minecraft.inventory.Slot;
 public class ContainerCentrifuge extends ContainerFluidProcessor {
 
 	public ContainerCentrifuge(EntityPlayer player, TileFluidProcessor tileEntity) {
-		super(player, tileEntity, NCRecipes.Type.CENTRIFUGE);
+		super(player, tileEntity, NCRecipes.centrifuge);
 		
 		addSlotToContainer(new SlotSpecificInput(tileEntity, 0, 132, 76, speedUpgrade));
 		addSlotToContainer(new SlotSpecificInput(tileEntity, 1, 152, 76, energyUpgrade));

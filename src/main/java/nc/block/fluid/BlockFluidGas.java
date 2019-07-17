@@ -19,12 +19,10 @@ public class BlockFluidGas extends NCBlockFluid {
 
 	public BlockFluidGas(Fluid fluid) {
 		super(fluid, GAS);
-		setQuantaPerBlock(16);
 	}
 	
 	public BlockFluidGas(FluidGas fluid) {
 		super(fluid, GAS);
-		setQuantaPerBlock(16);
 	}
 	
 	@Override

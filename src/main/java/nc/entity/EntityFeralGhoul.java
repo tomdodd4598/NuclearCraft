@@ -5,6 +5,7 @@ import java.util.Calendar;
 import javax.annotation.Nullable;
 
 import nc.capability.radiation.entity.IEntityRads;
+import nc.config.NCConfig;
 import nc.entity.ai.EntityAIFeralGhoulLeap;
 import nc.handler.SoundHandler;
 import nc.radiation.RadSources;
@@ -143,6 +144,11 @@ public class EntityFeralGhoul extends EntityZombie {
 	
 	@Override
 	public void onUpdate() {
+		if (!NCConfig.entity_register[0]) {
+			setDead();
+			return;
+		}
+		
 		super.onUpdate();
 
 		if (!world.isRemote) {
@@ -166,12 +172,23 @@ public class EntityFeralGhoul extends EntityZombie {
 			
 			IEntityRads entityRads = RadiationHelper.getEntityRadiation(target);
 			if (entityRads != null) {
-				entityRads.setPoisonBuffer(entityRads.getPoisonBuffer() + RadSources.CAESIUM_137*mult, 4D*RadSources.CAESIUM_137*mult);
+				entityRads.setPoisonBuffer(entityRads.getPoisonBuffer() + RadSources.CAESIUM_137*mult);
+				entityRads.setRecentPoisonAddition(RadSources.CAESIUM_137*mult);
 				playSound(SoundHandler.rad_poisoning, 1.35F, 1F + 0.2F*(rand.nextFloat() - rand.nextFloat()));
 			}
 		}
 		
 		return flag;
+	}
+	
+	@Override
+	public boolean getCanSpawnHere() {
+		return super.getCanSpawnHere() && world.canSeeSky(new BlockPos(posX, getEntityBoundingBox().minY, posZ)) && world.countEntities(EntityFeralGhoul.class) < 10;
+	}
+	
+	@Override
+	protected boolean isValidLightLevel() {
+		return true;
 	}
 	
 	@Nullable

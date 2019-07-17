@@ -436,6 +436,9 @@ public class OreDictHandler {
 		OreDictionary.registerOre("dustWheat", NCItems.flour);
 		OreDictionary.registerOre("dyeBrown", NCItems.cocoa_solids);
 		OreDictionary.registerOre("dustCocoa", NCItems.cocoa_solids);
+		OreDictionary.registerOre("ingotCocoaButter", NCItems.cocoa_butter);
+		OreDictionary.registerOre("ingotUnsweetenedChocolate", NCItems.unsweetened_chocolate);
+		OreDictionary.registerOre("ingotDarkChocolate", NCItems.dark_chocolate);
 		OreDictionary.registerOre("ingotChocolate", NCItems.milk_chocolate);
 		
 		OreDictionary.registerOre("record", NCItems.record_wanderer);

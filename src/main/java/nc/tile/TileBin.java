@@ -192,7 +192,7 @@ public class TileBin extends NCTile implements IInventory, IEnergyTile, IEnergyS
 		else if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
 			return true;
 		}
-		else if (ModCheck.mekanismLoaded() && GasHelper.isGasCapability(capability)) {
+		else if (ModCheck.mekanismLoaded() && capability == GasHelper.GAS_HANDLER_CAPABILITY) {
 			return true;
 		}
 		else if (capability == CapabilityEnergy.ENERGY) {
@@ -212,7 +212,7 @@ public class TileBin extends NCTile implements IInventory, IEnergyTile, IEnergyS
 		else if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
 			return (T) CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(tank);
 		}
-		else if (ModCheck.mekanismLoaded() && GasHelper.isGasCapability(capability)) {
+		else if (ModCheck.mekanismLoaded() && capability == GasHelper.GAS_HANDLER_CAPABILITY) {
 			return (T) tank;
 		}
 		else if (capability == CapabilityEnergy.ENERGY) {

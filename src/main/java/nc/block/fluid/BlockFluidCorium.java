@@ -8,17 +8,15 @@ import nc.capability.radiation.source.IRadiationSource;
 import nc.fluid.FluidCorium;
 import nc.radiation.RadSources;
 import nc.radiation.RadiationHelper;
+import nc.util.DamageSources;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.fluids.Fluid;
 
 public class BlockFluidCorium extends BlockFluidFission {
-	
-	protected static DamageSource corium_burn = new DamageSource("corium_burn");
 	
 	public BlockFluidCorium(Fluid fluid) {
 		super(fluid);
@@ -30,7 +28,7 @@ public class BlockFluidCorium extends BlockFluidFission {
 	
 	@Override
 	public void onEntityCollision(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
-		entityIn.attackEntityFrom(corium_burn, 4.0F);
+		entityIn.attackEntityFrom(DamageSources.CORIUM_BURN, 4F);
 		super.onEntityCollision(worldIn, pos, state, entityIn);
 	}
 	

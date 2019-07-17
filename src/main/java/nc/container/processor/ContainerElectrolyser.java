@@ -9,7 +9,7 @@ import net.minecraft.inventory.Slot;
 public class ContainerElectrolyser extends ContainerFluidProcessor {
 
 	public ContainerElectrolyser(EntityPlayer player, TileFluidProcessor tileEntity) {
-		super(player, tileEntity, NCRecipes.Type.ELECTROLYSER);
+		super(player, tileEntity, NCRecipes.electrolyser);
 		
 		addSlotToContainer(new SlotSpecificInput(tileEntity, 0, 132, 76, speedUpgrade));
 		addSlotToContainer(new SlotSpecificInput(tileEntity, 1, 152, 76, energyUpgrade));

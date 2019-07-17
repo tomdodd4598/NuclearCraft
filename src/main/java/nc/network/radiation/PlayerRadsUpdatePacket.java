@@ -16,13 +16,17 @@ public class PlayerRadsUpdatePacket implements IMessage {
 	
 	protected double totalRads;
 	protected double radiationLevel;
-	protected double radiationResistance;
+	protected double internalRadiationResistance, externalRadiationResistance;
+	protected boolean radXUsed;
 	protected boolean radXWoreOff;
 	protected double radawayBuffer, radawayBufferSlow;
 	protected double poisonBuffer;
 	protected boolean consumed;
 	protected double radawayCooldown;
+	protected double recentRadawayAddition;
 	protected double radXCooldown;
+	protected double recentRadXAddition;
+	protected double recentPoisonAddition;
 	protected double radiationImmunityTime;
 	protected boolean shouldWarn;
 	
@@ -33,14 +37,19 @@ public class PlayerRadsUpdatePacket implements IMessage {
 	public PlayerRadsUpdatePacket(IEntityRads playerRads) {
 		totalRads = playerRads.getTotalRads();
 		radiationLevel = playerRads.getRadiationLevel();
-		radiationResistance = playerRads.getRadiationResistance();
+		internalRadiationResistance = playerRads.getInternalRadiationResistance();
+		externalRadiationResistance = playerRads.getExternalRadiationResistance();
+		radXUsed = playerRads.getRadXUsed();
 		radXWoreOff = playerRads.getRadXWoreOff();
 		radawayBuffer = playerRads.getRadawayBuffer(false);
 		radawayBufferSlow = playerRads.getRadawayBuffer(true);
 		poisonBuffer = playerRads.getPoisonBuffer();
 		consumed = playerRads.getConsumedMedicine();
 		radawayCooldown = playerRads.getRadawayCooldown();
+		recentRadawayAddition = playerRads.getRecentRadawayAddition();
 		radXCooldown = playerRads.getRadXCooldown();
+		recentRadXAddition = playerRads.getRecentRadXAddition();
+		recentPoisonAddition = playerRads.getRecentPoisonAddition();
 		radiationImmunityTime = playerRads.getRadiationImmunityTime();
 		shouldWarn = playerRads.getShouldWarn();
 		
@@ -52,14 +61,19 @@ public class PlayerRadsUpdatePacket implements IMessage {
 		try {
 			totalRads = buf.readDouble();
 			radiationLevel = buf.readDouble();
-			radiationResistance = buf.readDouble();
+			internalRadiationResistance = buf.readDouble();
+			externalRadiationResistance = buf.readDouble();
+			radXUsed = buf.readBoolean();
 			radXWoreOff = buf.readBoolean();
 			radawayBuffer = buf.readDouble();
 			radawayBufferSlow = buf.readDouble();
 			poisonBuffer = buf.readDouble();
 			consumed = buf.readBoolean();
 			radawayCooldown = buf.readDouble();
+			recentRadawayAddition = buf.readDouble();
 			radXCooldown = buf.readDouble();
+			recentRadXAddition = buf.readDouble();
+			recentPoisonAddition = buf.readDouble();
 			radiationImmunityTime = buf.readDouble();
 			shouldWarn = buf.readBoolean();
 		} catch (IndexOutOfBoundsException ioe) {
@@ -75,14 +89,19 @@ public class PlayerRadsUpdatePacket implements IMessage {
 		
 		buf.writeDouble(totalRads);
 		buf.writeDouble(radiationLevel);
-		buf.writeDouble(radiationResistance);
+		buf.writeDouble(internalRadiationResistance);
+		buf.writeDouble(externalRadiationResistance);
+		buf.writeBoolean(radXUsed);
 		buf.writeBoolean(radXWoreOff);
 		buf.writeDouble(radawayBuffer);
 		buf.writeDouble(radawayBufferSlow);
 		buf.writeDouble(poisonBuffer);
 		buf.writeBoolean(consumed);
 		buf.writeDouble(radawayCooldown);
+		buf.writeDouble(recentRadawayAddition);
 		buf.writeDouble(radXCooldown);
+		buf.writeDouble(recentRadXAddition);
+		buf.writeDouble(recentPoisonAddition);
 		buf.writeDouble(radiationImmunityTime);
 		buf.writeBoolean(shouldWarn);
 	}
@@ -103,14 +122,19 @@ public class PlayerRadsUpdatePacket implements IMessage {
 			if (playerRads == null) return;
 			playerRads.setTotalRads(message.totalRads, false);
 			playerRads.setRadiationLevel(message.radiationLevel);
-			playerRads.setRadiationResistance(message.radiationResistance);
+			playerRads.setInternalRadiationResistance(message.internalRadiationResistance);
+			playerRads.setExternalRadiationResistance(message.externalRadiationResistance);
+			playerRads.setRadXUsed(message.radXUsed);
 			playerRads.setRadXWoreOff(message.radXWoreOff);
 			playerRads.setRadawayBuffer(false, message.radawayBuffer);
 			playerRads.setRadawayBuffer(true, message.radawayBufferSlow);
-			playerRads.setPoisonBuffer(message.poisonBuffer, Double.MAX_VALUE);
+			playerRads.setPoisonBuffer(message.poisonBuffer);
 			playerRads.setConsumedMedicine(message.consumed);
 			playerRads.setRadawayCooldown(message.radawayCooldown);
+			playerRads.setRecentRadawayAddition(message.recentRadawayAddition);
 			playerRads.setRadXCooldown(message.radXCooldown);
+			playerRads.setRecentRadXAddition(message.recentRadXAddition);
+			playerRads.setRecentPoisonAddition(message.recentPoisonAddition);
 			playerRads.setRadiationImmunityTime(message.radiationImmunityTime);
 			playerRads.setShouldWarn(message.shouldWarn);
 		}

@@ -33,24 +33,35 @@ public class NuclearCraft {
 	
 	public BlockHighlightTracker blockOverlayTracker = new BlockHighlightTracker();
 	
+	/** Used to control whether new instances of NC blocks and items should have a registry name attached to them.
+	 * It is only enabled for the course of each of NC's initialisation phases.
+	 * Addons and other mods will thus be able to create new instances and then attach their own registry names. */
+	public static boolean regName = false;
+	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent preEvent) {
 		NCUtil.getLogger().info("Pre Initializing...");
+		regName = true;
 		NCConfig.preInit();
 		proxy.preInit(preEvent);
+		regName = false;
 	}
 	
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
 		NCUtil.getLogger().info("Initializing...");
+		regName = true;
 		proxy.init(event);
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
+		regName = false;
 	}
 	
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent postEvent) {
 		NCUtil.getLogger().info("Post Initializing...");
+		regName = true;
 		proxy.postInit(postEvent);
+		regName = false;
 	}
 	
 	@EventHandler

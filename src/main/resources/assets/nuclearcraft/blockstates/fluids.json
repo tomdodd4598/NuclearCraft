@@ -92,6 +92,12 @@
 				"fluid": "liquidhelium"
 			}
 		},
+		"fluid_liquid_nitrogen": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "liquid_nitrogen"
+			}
+		},
 		"fluid_plasma": {
 			"model": "forge:fluid",
 			"custom": {

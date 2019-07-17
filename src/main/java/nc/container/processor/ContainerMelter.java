@@ -10,9 +10,9 @@ import net.minecraft.inventory.Slot;
 public class ContainerMelter extends ContainerItemFluidProcessor {
 
 	public ContainerMelter(EntityPlayer player, TileItemFluidProcessor tileEntity) {
-		super(player, tileEntity, NCRecipes.Type.MELTER);
+		super(player, tileEntity, NCRecipes.melter);
 		
-		addSlotToContainer(new SlotProcessorInput(tileEntity, recipeType, 0, 56, 35));
+		addSlotToContainer(new SlotProcessorInput(tileEntity, recipeHandler, 0, 56, 35));
 		
 		addSlotToContainer(new SlotSpecificInput(tileEntity, 1, 132, 64, speedUpgrade));
 		addSlotToContainer(new SlotSpecificInput(tileEntity, 2, 152, 64, energyUpgrade));

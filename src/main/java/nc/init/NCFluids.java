@@ -49,6 +49,8 @@ public class NCFluids {
 			fluidPairList.add(fluidPair(FluidType.MOLTEN, "arsenic", 0x818475));
 			
 			fluidPairList.add(fluidPair(FluidType.SUPERFLUID, "liquidhelium"));
+			fluidPairList.add(fluidPair(FluidType.LIQUID, "liquid_nitrogen", false, 0x31C23A, 810, 70, 170));
+			
 			fluidPairList.add(fluidPair(FluidType.PLASMA, "plasma"));
 			fluidPairList.add(fluidPair(FluidType.PARTICLE, "neutron"));
 			
@@ -96,7 +98,7 @@ public class NCFluids {
 			fluidPairList.add(fluidPair(FluidType.SUGAR, "gelatin", 0xDDD09C));
 			fluidPairList.add(fluidPair(FluidType.SUGAR, "hydrated_gelatin", waterBlend(0xDDD09C, 0.8F)));
 			fluidPairList.add(fluidPair(FluidType.CHOCOLATE, "marshmallow", 0xE1E1E3));
-			fluidPairList.add(fluidPair(FluidType.LIQUID, "milk", true, 0xDEDBCF));
+			fluidPairList.add(fluidPair(FluidType.LIQUID, "milk", true, 0xDEDBCF, 1100, 300, 1000));
 			
 			fluidPairList.add(fluidPair(FluidType.MOLTEN, "lif", 0xCDCDCB));
 			fluidPairList.add(fluidPair(FluidType.MOLTEN, "bef2", 0xBEC6AA));
@@ -110,8 +112,8 @@ public class NCFluids {
 			fluidPairList.add(fluidPair(FluidType.STEAM, "low_pressure_steam", 0xA8A8A8, 800));
 			fluidPairList.add(fluidPair(FluidType.STEAM, "low_quality_steam", 0x828282, 350));
 			
-			fluidPairList.add(fluidPair(FluidType.LIQUID, "preheated_water", 0x2F43F4, 400));
-			fluidPairList.add(fluidPair(FluidType.LIQUID, "condensate_water", 0x2F43F4, 300));
+			fluidPairList.add(fluidPair(FluidType.LIQUID, "preheated_water", false, 0x2F43F4, 1000, 400, 250));
+			fluidPairList.add(fluidPair(FluidType.LIQUID, "condensate_water", false, 0x2F43F4, 1000, 300, 850));
 			
 			fluidPairList.add(fluidPair(FluidType.MOLTEN, "sodium", 0xC1898C));
 			fluidPairList.add(fluidPair(FluidType.MOLTEN, "potassium", 0xB8C503));

@@ -10,7 +10,7 @@ import crafttweaker.api.item.IngredientOr;
 import crafttweaker.api.item.IngredientStack;
 import crafttweaker.api.liquid.ILiquidStack;
 import crafttweaker.api.oredict.IOreDictEntry;
-import nc.recipe.NCRecipes;
+import nc.recipe.ProcessorRecipeHandler;
 import nc.recipe.RecipeHelper;
 import nc.recipe.ingredient.EmptyFluidIngredient;
 import nc.recipe.ingredient.EmptyItemIngredient;
@@ -39,7 +39,7 @@ public class CTHelper {
 		return (FluidStack) stack.getInternal();
 	}
 	
-	public static IItemIngredient buildAdditionItemIngredient(Object ingredient, NCRecipes.Type recipeType) {
+	public static IItemIngredient buildAdditionItemIngredient(Object ingredient, ProcessorRecipeHandler recipeHandler) {
 		if (ingredient == null) {
 			return new EmptyItemIngredient();
 		} else if (ingredient instanceof IItemStack) {
@@ -51,12 +51,12 @@ public class CTHelper {
 		} else if (ingredient instanceof IngredientOr) {
 			return buildItemIngredientArray((IngredientOr) ingredient);
 		} else {
-			CraftTweakerAPI.logError(String.format("%s: Invalid ingredient: %s, %s", recipeType.getRecipeName(), ingredient.getClass().getName(), ingredient));
+			CraftTweakerAPI.logError(String.format("%s: Invalid ingredient: %s, %s", recipeHandler.getRecipeName(), ingredient.getClass().getName(), ingredient));
 			return null;
 		}
 	}
 	
-	public static IFluidIngredient buildAdditionFluidIngredient(Object ingredient, NCRecipes.Type recipeType) {
+	public static IFluidIngredient buildAdditionFluidIngredient(Object ingredient, ProcessorRecipeHandler recipeHandler) {
 		if (ingredient == null) {
 			return new EmptyFluidIngredient();
 		} else if (ingredient instanceof ILiquidStack) {
@@ -64,12 +64,12 @@ public class CTHelper {
 		} else if (ingredient instanceof IngredientOr) {
 			return buildFluidIngredientArray((IngredientOr) ingredient);
 		} else {
-			CraftTweakerAPI.logError(String.format("%s: Invalid ingredient: %s, %s", recipeType.getRecipeName(), ingredient.getClass().getName(), ingredient));
+			CraftTweakerAPI.logError(String.format("%s: Invalid ingredient: %s, %s", recipeHandler.getRecipeName(), ingredient.getClass().getName(), ingredient));
 			return null;
 		}
 	}
 	
-	public static IItemIngredient buildRemovalItemIngredient(IIngredient ingredient, NCRecipes.Type recipeType) {
+	public static IItemIngredient buildRemovalItemIngredient(IIngredient ingredient, ProcessorRecipeHandler recipeHandler) {
 		if (ingredient == null) {
 			return new EmptyItemIngredient();
 		} else if (ingredient instanceof IItemStack) {
@@ -81,12 +81,12 @@ public class CTHelper {
 		} else if (ingredient instanceof IngredientOr) {
 			return buildItemIngredientArray(ingredient);
 		} else {
-			CraftTweakerAPI.logError(String.format("%s: Invalid ingredient: %s, %s", recipeType.getRecipeName(), ingredient.getClass().getName(), ingredient));
+			CraftTweakerAPI.logError(String.format("%s: Invalid ingredient: %s, %s", recipeHandler.getRecipeName(), ingredient.getClass().getName(), ingredient));
 			return null;
 		}
 	}
 	
-	public static IFluidIngredient buildRemovalFluidIngredient(IIngredient ingredient, NCRecipes.Type recipeType) {
+	public static IFluidIngredient buildRemovalFluidIngredient(IIngredient ingredient, ProcessorRecipeHandler recipeHandler) {
 		if (ingredient == null) {
 			return new EmptyFluidIngredient();
 		} else if (ingredient instanceof ILiquidStack) {
@@ -94,7 +94,7 @@ public class CTHelper {
 		} else if (ingredient instanceof IngredientOr) {
 			return buildFluidIngredientArray((IngredientOr) ingredient);
 		} else {
-			CraftTweakerAPI.logError(String.format("%s: Invalid ingredient: %s, %s", recipeType.getRecipeName(), ingredient.getClass().getName(), ingredient));
+			CraftTweakerAPI.logError(String.format("%s: Invalid ingredient: %s, %s", recipeHandler.getRecipeName(), ingredient.getClass().getName(), ingredient));
 			return null;
 		}
 	}

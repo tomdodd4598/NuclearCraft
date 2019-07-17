@@ -6,16 +6,15 @@ import java.util.List;
 import crafttweaker.CraftTweakerAPI;
 import crafttweaker.IAction;
 import crafttweaker.api.item.IIngredient;
-import nc.recipe.NCRecipes;
 import nc.recipe.ProcessorRecipe;
 import nc.recipe.ProcessorRecipeHandler;
 import nc.recipe.RecipeHelper;
-import nc.recipe.ingredient.IFluidIngredient;
-import nc.recipe.ingredient.IItemIngredient;
 import nc.recipe.ingredient.ChanceFluidIngredient;
 import nc.recipe.ingredient.ChanceItemIngredient;
 import nc.recipe.ingredient.EmptyFluidIngredient;
 import nc.recipe.ingredient.EmptyItemIngredient;
+import nc.recipe.ingredient.IFluidIngredient;
+import nc.recipe.ingredient.IItemIngredient;
 
 public class AddProcessorRecipe implements IAction {
 	
@@ -29,11 +28,10 @@ public class AddProcessorRecipe implements IAction {
 	public ProcessorRecipe recipe;
 	public boolean inputsAllNull = true, outputsAllNull = true;
 	public boolean wasNull, wrongSize;
-	public final NCRecipes.Type recipeType;
+	public final ProcessorRecipeHandler recipeHandler;
 
-	public AddProcessorRecipe(NCRecipes.Type recipeType, List<Object> objects) {
-		this.recipeType = recipeType;
-		ProcessorRecipeHandler recipeHandler = recipeType.getRecipeHandler();
+	public AddProcessorRecipe(ProcessorRecipeHandler recipeHandler, List<Object> objects) {
+		this.recipeHandler = recipeHandler;
 		
 		int listCount = 0, ingredientCount = 0;
 		List<IItemIngredient> itemIngredients = new ArrayList<IItemIngredient>();
@@ -55,7 +53,7 @@ public class AddProcessorRecipe implements IAction {
 					}
 					inputsAllNull = false;
 				}
-				IItemIngredient ingredient = CTHelper.buildAdditionItemIngredient(object, recipeType);
+				IItemIngredient ingredient = CTHelper.buildAdditionItemIngredient(object, recipeHandler);
 				if (ingredient == null) {
 					wasNull = true;
 					return;
@@ -69,7 +67,7 @@ public class AddProcessorRecipe implements IAction {
 					}
 					inputsAllNull = false;
 				}
-				IFluidIngredient ingredient = CTHelper.buildAdditionFluidIngredient(object, recipeType);
+				IFluidIngredient ingredient = CTHelper.buildAdditionFluidIngredient(object, recipeHandler);
 				if (ingredient == null) {
 					wasNull = true;
 					return;
@@ -83,7 +81,7 @@ public class AddProcessorRecipe implements IAction {
 					}
 					outputsAllNull = false;
 				}
-				IItemIngredient ingredient = CTHelper.buildAdditionItemIngredient(object, recipeType);
+				IItemIngredient ingredient = CTHelper.buildAdditionItemIngredient(object, recipeHandler);
 				if (ingredient == null) {
 					wasNull = true;
 					return;
@@ -110,7 +108,7 @@ public class AddProcessorRecipe implements IAction {
 					}
 					outputsAllNull = false;
 				}
-				IFluidIngredient ingredient = CTHelper.buildAdditionFluidIngredient(object, recipeType);
+				IFluidIngredient ingredient = CTHelper.buildAdditionFluidIngredient(object, recipeHandler);
 				if (ingredient == null) {
 					wasNull = true;
 					return;
@@ -139,7 +137,7 @@ public class AddProcessorRecipe implements IAction {
 		}
 		
 		if (itemIngredients.size() != recipeHandler.itemInputSize || fluidIngredients.size() != recipeHandler.fluidInputSize || itemProducts.size() != recipeHandler.itemOutputSize || fluidProducts.size() != recipeHandler.fluidOutputSize) {
-			CraftTweakerAPI.logError("A " + recipeType.getRecipeName() + " recipe was the wrong size");
+			CraftTweakerAPI.logError("A " + recipeHandler.getRecipeName() + " recipe was the wrong size");
 			wrongSize = true;
 			return;
 		}
@@ -150,14 +148,14 @@ public class AddProcessorRecipe implements IAction {
 		this.fluidProducts = fluidProducts;
 		this.extras = extras;
 		
-		recipe = recipeType.getRecipeHandler().buildRecipe(itemIngredients, fluidIngredients, itemProducts, fluidProducts, extras, recipeType.getRecipeHandler().shapeless);
+		recipe = recipeHandler.buildRecipe(itemIngredients, fluidIngredients, itemProducts, fluidProducts, extras, recipeHandler.isShapeless);
 		if (recipe == null) wasNull = true;
 	}
 	
 	@Override
 	public void apply() {
 		if (validRecipe()) {
-			boolean added = recipeType.getRecipeHandler().addRecipe(recipe);
+			boolean added = recipeHandler.addRecipe(recipe);
 			if (added) return;
 		}
 		callError();
@@ -166,9 +164,9 @@ public class AddProcessorRecipe implements IAction {
 	@Override
 	public String describe() {
 		if (!validRecipe()) {
-			return String.format("Error: Failed to add %s recipe: %s", recipeType.getRecipeName(), RecipeHelper.getRecipeString(itemIngredients, fluidIngredients, itemProducts, fluidProducts));
+			return String.format("Error: Failed to add %s recipe: %s", recipeHandler.getRecipeName(), RecipeHelper.getRecipeString(itemIngredients, fluidIngredients, itemProducts, fluidProducts));
 		}
-		return String.format("Adding %s recipe: %s", recipeType.getRecipeName(), RecipeHelper.getRecipeString(itemIngredients, fluidIngredients, itemProducts, fluidProducts));
+		return String.format("Adding %s recipe: %s", recipeHandler.getRecipeName(), RecipeHelper.getRecipeString(itemIngredients, fluidIngredients, itemProducts, fluidProducts));
 	}
 	
 	public static void callError() {

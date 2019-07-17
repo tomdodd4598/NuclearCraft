@@ -6,7 +6,9 @@ import java.util.Map;
 import mekanism.api.gas.Gas;
 import mekanism.api.gas.GasRegistry;
 import mekanism.api.gas.GasStack;
+import mekanism.api.gas.IGasHandler;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
@@ -58,16 +60,6 @@ public class GasHelper {
 		return new GasStack(gas, fluidStack.amount);
 	}
 	
-	public static boolean isGasCapability(Capability capability) {
-		if (capability == null) return false;
-		try {
-			capability.getDefaultInstance();
-		} catch (Exception e) {
-			return false;
-		}
-		if (capability.getDefaultInstance() == null) return false;
-		String name = capability.getDefaultInstance().getClass().getName();
-		if (name == null) return false;
-		return name.equals("mekanism.common.capabilities.DefaultTubeConnection") || name.equals("mekanism.common.capabilities.DefaultGasHandler");
-	}
+	@CapabilityInject(IGasHandler.class)
+	public static Capability<IGasHandler> GAS_HANDLER_CAPABILITY = null;
 }

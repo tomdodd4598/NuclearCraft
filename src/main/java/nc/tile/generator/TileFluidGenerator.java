@@ -9,7 +9,6 @@ import javax.annotation.Nonnull;
 
 import nc.ModCheck;
 import nc.recipe.AbstractRecipeHandler;
-import nc.recipe.NCRecipes;
 import nc.recipe.ProcessorRecipe;
 import nc.recipe.ProcessorRecipeHandler;
 import nc.recipe.RecipeInfo;
@@ -41,12 +40,12 @@ public abstract class TileFluidGenerator extends TileEnergyFluidSidedInventory i
 	public double time;
 	public boolean isProcessing, hasConsumed, canProcessInputs;
 	
-	public final NCRecipes.Type recipeType;
+	public final ProcessorRecipeHandler recipeHandler;
 	protected RecipeInfo<ProcessorRecipe> recipeInfo, cachedRecipeInfo;
 	
 	protected Set<EntityPlayer> playersToUpdate;
 	
-	public TileFluidGenerator(String name, int fluidInSize, int fluidOutSize, int otherSize, @Nonnull List<ItemSorption> itemSorptions, @Nonnull List<Integer> fluidCapacity, @Nonnull List<TankSorption> tankSorptions, List<List<String>> allowedFluids, int capacity, @Nonnull NCRecipes.Type recipeType) {
+	public TileFluidGenerator(String name, int fluidInSize, int fluidOutSize, int otherSize, @Nonnull List<ItemSorption> itemSorptions, @Nonnull List<Integer> fluidCapacity, @Nonnull List<TankSorption> tankSorptions, List<List<String>> allowedFluids, int capacity, @Nonnull ProcessorRecipeHandler recipeHandler) {
 		super(name, otherSize, ITileInventory.inventoryConnectionAll(itemSorptions), capacity, ITileEnergy.energyConnectionAll(EnergyConnection.OUT), fluidCapacity, fluidCapacity, allowedFluids, ITileFluid.fluidConnectionAll(tankSorptions));
 		fluidInputSize = fluidInSize;
 		fluidOutputSize = fluidOutSize;
@@ -57,7 +56,7 @@ public abstract class TileFluidGenerator extends TileEnergyFluidSidedInventory i
 		defaultProcessTime = 1;
 		defaultProcessPower = 0;
 		
-		this.recipeType = recipeType;
+		this.recipeHandler = recipeHandler;
 		
 		playersToUpdate = new HashSet<EntityPlayer>();
 	}
@@ -120,7 +119,7 @@ public abstract class TileFluidGenerator extends TileEnergyFluidSidedInventory i
 				recipeInfo = new RecipeInfo(cachedRecipeInfo.getRecipe(), matchResult);
 			}
 			else {
-				recipeInfo = getRecipeHandler().getRecipeInfoFromInputs(new ArrayList<ItemStack>(), getFluidInputs(hasConsumed));
+				recipeInfo = recipeHandler.getRecipeInfoFromInputs(new ArrayList<ItemStack>(), getFluidInputs(hasConsumed));
 			}
 			if (recipeInfo != null) {
 				cachedRecipeInfo = recipeInfo;
@@ -251,11 +250,6 @@ public abstract class TileFluidGenerator extends TileEnergyFluidSidedInventory i
 	}
 	
 	// IProcessor
-	
-	@Override
-	public ProcessorRecipeHandler getRecipeHandler() {
-		return recipeType.getRecipeHandler();
-	}
 	
 	@Override
 	public List<Tank> getFluidInputs(boolean consumed) {

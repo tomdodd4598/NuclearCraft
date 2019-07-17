@@ -6,6 +6,7 @@ import javax.annotation.Nullable;
 
 import nc.Global;
 import nc.NCInfo;
+import nc.NuclearCraft;
 import nc.enumm.IFissionStats;
 import nc.enumm.IItemMeta;
 import nc.util.InfoHelper;
@@ -30,7 +31,7 @@ public class ItemFissionFuel<T extends Enum<T> & IStringSerializable & IItemMeta
 	
 	public ItemFissionFuel(String nameIn, Class<T> enumm) {
 		setTranslationKey(Global.MOD_ID + "." + nameIn);
-		setRegistryName(new ResourceLocation(Global.MOD_ID, nameIn));
+		if (NuclearCraft.regName) setRegistryName(new ResourceLocation(Global.MOD_ID, nameIn));
 		setHasSubtypes(true);
 		values = enumm.getEnumConstants();
 		fixedInfo = InfoHelper.buildFixedInfo(getTranslationKey(), InfoHelper.EMPTY_ARRAY);

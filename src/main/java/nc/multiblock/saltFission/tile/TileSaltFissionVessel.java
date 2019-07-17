@@ -68,7 +68,7 @@ public class TileSaltFissionVessel extends TileSaltFissionPartBase implements IF
 	public double time;
 	public boolean isProcessing, hasConsumed, canProcessInputs;
 	
-	public final NCRecipes.Type recipeType = NCRecipes.Type.SALT_FISSION;
+	public static final ProcessorRecipeHandler RECIPE_HANDLER = NCRecipes.salt_fission;
 	protected RecipeInfo<ProcessorRecipe> recipeInfo, cachedRecipeInfo;
 	
 	protected int vesselCount;
@@ -215,7 +215,7 @@ public class TileSaltFissionVessel extends TileSaltFissionPartBase implements IF
 				recipeInfo = new RecipeInfo(cachedRecipeInfo.getRecipe(), matchResult);
 			}
 			else {
-				recipeInfo = getRecipeHandler().getRecipeInfoFromInputs(new ArrayList<ItemStack>(), getFluidInputs(hasConsumed));
+				recipeInfo = RECIPE_HANDLER.getRecipeInfoFromInputs(new ArrayList<ItemStack>(), getFluidInputs(hasConsumed));
 			}
 			if (recipeInfo != null) {
 				cachedRecipeInfo = recipeInfo;
@@ -355,11 +355,6 @@ public class TileSaltFissionVessel extends TileSaltFissionPartBase implements IF
 	}
 	
 	// IProcessor
-	
-	@Override
-	public ProcessorRecipeHandler getRecipeHandler() {
-		return recipeType.getRecipeHandler();
-	}
 	
 	@Override
 	public List<Tank> getFluidInputs(boolean consumed) {
@@ -628,7 +623,7 @@ public class TileSaltFissionVessel extends TileSaltFissionPartBase implements IF
 			if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
 				return true;
 			}
-			if (ModCheck.mekanismLoaded() && GasHelper.isGasCapability(capability)) {
+			if (ModCheck.mekanismLoaded() && capability == GasHelper.GAS_HANDLER_CAPABILITY) {
 				return true;
 			}
 		}
@@ -641,7 +636,7 @@ public class TileSaltFissionVessel extends TileSaltFissionPartBase implements IF
 			if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
 				return (T) getFluidSide(nonNullSide(side));
 			}
-			if (ModCheck.mekanismLoaded() && GasHelper.isGasCapability(capability)) {
+			if (ModCheck.mekanismLoaded() && capability == GasHelper.GAS_HANDLER_CAPABILITY) {
 				return (T) getGasWrapper();
 			}
 		}

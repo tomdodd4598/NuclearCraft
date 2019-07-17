@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import nc.Global;
+import nc.NuclearCraft;
 import nc.util.InfoHelper;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
@@ -32,14 +33,14 @@ public class NCItemFood extends ItemFood {
 	public NCItemFood(String nameIn, int amount, float saturation, boolean isWolfFood, PotionEffect[] potionEffects, String... tooltip) {
 		super(amount, saturation, isWolfFood);
 		setTranslationKey(Global.MOD_ID + "." + nameIn);
-		setRegistryName(new ResourceLocation(Global.MOD_ID, nameIn));
+		if (NuclearCraft.regName) setRegistryName(new ResourceLocation(Global.MOD_ID, nameIn));
 		effects = potionEffects;
 		info = InfoHelper.buildInfo(getTranslationKey(), tooltip);
 	}
 
 	@Override
 	protected void onFoodEaten(ItemStack stack, World worldIn, EntityPlayer player) {
-		if (effects != null && effects.length > 0) for(PotionEffect effect : effects) {
+		if (effects != null && effects.length > 0) for (PotionEffect effect : effects) {
 			player.addPotionEffect(new PotionEffect(effect));
 		}
 	}

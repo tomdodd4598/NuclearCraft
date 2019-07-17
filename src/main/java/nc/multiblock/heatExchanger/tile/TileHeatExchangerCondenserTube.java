@@ -67,7 +67,7 @@ public class TileHeatExchangerCondenserTube extends TileHeatExchangerPartBase im
 	
 	public int[] adjacentTemperatures = new int[] {Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE};
 	
-	public final NCRecipes.Type recipeType = NCRecipes.Type.CONDENSER;
+	public static final ProcessorRecipeHandler RECIPE_HANDLER = NCRecipes.condenser;
 	protected RecipeInfo<ProcessorRecipe> recipeInfo, cachedRecipeInfo;
 	
 	public final double conductivity;
@@ -213,7 +213,7 @@ public class TileHeatExchangerCondenserTube extends TileHeatExchangerPartBase im
 				recipeInfo = new RecipeInfo(cachedRecipeInfo.getRecipe(), matchResult);
 			}
 			else {
-				recipeInfo = getRecipeHandler().getRecipeInfoFromInputs(new ArrayList<ItemStack>(), getFluidInputs());
+				recipeInfo = RECIPE_HANDLER.getRecipeInfoFromInputs(new ArrayList<ItemStack>(), getFluidInputs());
 			}
 			if (recipeInfo != null) {
 				cachedRecipeInfo = recipeInfo;
@@ -318,11 +318,6 @@ public class TileHeatExchangerCondenserTube extends TileHeatExchangerPartBase im
 	}
 	
 	// IProcessor
-	
-	@Override
-	public ProcessorRecipeHandler getRecipeHandler() {
-		return recipeType.getRecipeHandler();
-	}
 	
 	@Override
 	public List<Tank> getFluidInputs() {
@@ -595,7 +590,7 @@ public class TileHeatExchangerCondenserTube extends TileHeatExchangerPartBase im
 			if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
 				return true;
 			}
-			if (ModCheck.mekanismLoaded() && GasHelper.isGasCapability(capability)) {
+			if (ModCheck.mekanismLoaded() && capability == GasHelper.GAS_HANDLER_CAPABILITY) {
 				return true;
 			}
 		}
@@ -608,7 +603,7 @@ public class TileHeatExchangerCondenserTube extends TileHeatExchangerPartBase im
 			if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
 				return (T) getFluidSide(nonNullSide(side));
 			}
-			if (ModCheck.mekanismLoaded() && GasHelper.isGasCapability(capability)) {
+			if (ModCheck.mekanismLoaded() && capability == GasHelper.GAS_HANDLER_CAPABILITY) {
 				return (T) getGasWrapper();
 			}
 		}

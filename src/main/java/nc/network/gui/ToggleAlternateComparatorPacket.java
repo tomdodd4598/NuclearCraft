@@ -60,8 +60,7 @@ public class ToggleAlternateComparatorPacket implements IMessage {
 		
 		void processMessage(ToggleAlternateComparatorPacket message, MessageContext ctx) {
 			TileEntity tile = ctx.getServerHandler().player.getServerWorld().getTileEntity(message.pos);
-			if (tile == null) return;
-			if(tile instanceof ITile) {
+			if (tile instanceof ITile) {
 				ITile machine = (ITile) tile;
 				machine.setAlternateComparator(message.alternateComparator);
 				ctx.getServerHandler().player.getServerWorld().getTileEntity(message.pos).markDirty();

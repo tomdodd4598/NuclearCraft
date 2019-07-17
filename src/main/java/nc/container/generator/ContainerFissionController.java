@@ -11,9 +11,9 @@ import net.minecraft.inventory.SlotFurnaceOutput;
 public class ContainerFissionController extends ContainerItemGenerator<TileFissionController> {
 	
 	public ContainerFissionController(EntityPlayer player, TileFissionController tileEntity) {
-		super(tileEntity, NCRecipes.Type.FISSION);
+		super(tileEntity, NCRecipes.fission);
 		
-		addSlotToContainer(new SlotProcessorInput(tileEntity, recipeType, 0, 56, 35));
+		addSlotToContainer(new SlotProcessorInput(tileEntity, recipeHandler, 0, 56, 35));
 		
 		addSlotToContainer(new SlotFurnaceOutput(player, tileEntity, 1, 116, 35));
 		

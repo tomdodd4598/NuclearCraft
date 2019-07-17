@@ -10,7 +10,6 @@ import nc.capability.radiation.sink.RadiationSinkProvider;
 import nc.capability.radiation.source.IRadiationSource;
 import nc.capability.radiation.source.RadiationSourceProvider;
 import nc.capability.radiation.source.RadiationSourceStackProvider;
-import nc.config.NCConfig;
 import nc.init.NCItems;
 import nc.radiation.RadSources;
 import nc.radiation.RadiationArmor;
@@ -29,10 +28,10 @@ public class RadiationCapabilityHandler {
 	@SubscribeEvent
 	public void attachEntityRadiationCapability(AttachCapabilitiesEvent<Entity> event) {
 		if (event.getObject() instanceof EntityPlayer) {
-			event.addCapability(IEntityRads.CAPABILITY_ENTITY_RADS_NAME, new EntityRadsProvider(NCConfig.max_player_rads));
+			event.addCapability(IEntityRads.CAPABILITY_ENTITY_RADS_NAME, new EntityRadsProvider());
 		}
 		else if (event.getObject() instanceof EntityLivingBase) {
-			event.addCapability(IEntityRads.CAPABILITY_ENTITY_RADS_NAME, new EntityRadsProvider(50D*((EntityLivingBase)event.getObject()).getHealth()));
+			event.addCapability(IEntityRads.CAPABILITY_ENTITY_RADS_NAME, new EntityRadsProvider((EntityLivingBase)event.getObject()));
 		}
 	}
 	

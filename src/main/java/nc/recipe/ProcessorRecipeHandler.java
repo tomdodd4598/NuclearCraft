@@ -19,19 +19,19 @@ import nc.util.NCUtil;
 public abstract class ProcessorRecipeHandler extends AbstractRecipeHandler<ProcessorRecipe> {
 	
 	public final int itemInputSize, fluidInputSize, itemOutputSize, fluidOutputSize;
-	public final boolean shapeless;
+	public final boolean isShapeless;
 	private final String recipeName;
 	
 	public ProcessorRecipeHandler(@Nonnull String recipeName, int itemInputSize, int fluidInputSize, int itemOutputSize, int fluidOutputSize) {
 		this(recipeName, itemInputSize, fluidInputSize, itemOutputSize, fluidOutputSize, true);
 	}
 	
-	public ProcessorRecipeHandler(@Nonnull String recipeName, int itemInputSize, int fluidInputSize, int itemOutputSize, int fluidOutputSize, boolean shapeless) {
+	public ProcessorRecipeHandler(@Nonnull String recipeName, int itemInputSize, int fluidInputSize, int itemOutputSize, int fluidOutputSize, boolean isShapeless) {
 		this.itemInputSize = itemInputSize;
 		this.fluidInputSize = fluidInputSize;
 		this.itemOutputSize = itemOutputSize;
 		this.fluidOutputSize = fluidOutputSize;
-		this.shapeless = shapeless;
+		this.isShapeless = isShapeless;
 		this.recipeName = recipeName;
 		addRecipes();
 	}
@@ -53,7 +53,7 @@ public abstract class ProcessorRecipeHandler extends AbstractRecipeHandler<Proce
 				extras.add(object);
 			}
 		}
-		ProcessorRecipe recipe = buildRecipe(itemInputs, fluidInputs, itemOutputs, fluidOutputs, extras, shapeless);
+		ProcessorRecipe recipe = buildRecipe(itemInputs, fluidInputs, itemOutputs, fluidOutputs, extras, isShapeless);
 		addRecipe(recipe);
 		
 		if (ModCheck.gregtechLoaded() && GTCE_INTEGRATION.getBoolean(recipeName) && recipe != null) {

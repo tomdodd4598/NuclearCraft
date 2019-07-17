@@ -36,7 +36,7 @@ public class ItemRadX extends NCItem {
 			if (playerRads == null) return stack;
 			if (playerRads.canConsumeRadX()) {
 				world.playSound((EntityPlayer)null, player.posX, player.posY, player.posZ, SoundHandler.rad_x, SoundCategory.PLAYERS, 0.5F, 1F);
-				onRadawayConsumed(stack, world, player);
+				onRadXConsumed(stack, world, player);
 				player.addStat(StatList.getObjectUseStats(this));
 				if (player instanceof EntityPlayerMP) CriteriaTriggers.CONSUME_ITEM.trigger((EntityPlayerMP)player, stack);
 				stack.shrink(1);
@@ -58,11 +58,13 @@ public class ItemRadX extends NCItem {
 		}
 	}
 	
-	private static void onRadawayConsumed(ItemStack stack, World world, EntityPlayer player) {
+	private static void onRadXConsumed(ItemStack stack, World world, EntityPlayer player) {
 		if (world.isRemote || !player.hasCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null)) return;
 		IEntityRads playerRads = player.getCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null);
 		if (playerRads == null) return;
-		playerRads.setRadiationResistance(playerRads.getRadiationResistance() + NCConfig.radiation_rad_x_amount);
+		playerRads.setInternalRadiationResistance(playerRads.getInternalRadiationResistance() + NCConfig.radiation_rad_x_amount);
+		playerRads.setRecentRadXAddition(NCConfig.radiation_rad_x_amount);
+		playerRads.setRadXUsed(true);
 	}
 	
 	@Override

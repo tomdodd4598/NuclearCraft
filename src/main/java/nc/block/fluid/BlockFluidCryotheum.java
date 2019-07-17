@@ -1,6 +1,7 @@
 package nc.block.fluid;
 
 import nc.fluid.FluidCryotheum;
+import nc.util.DamageSources;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
@@ -22,6 +23,6 @@ public class BlockFluidCryotheum extends NCBlockFluid {
 	
 	@Override
 	public void onEntityCollision(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
-		entityIn.attackEntityFrom(BlockSuperFluid.superfluid_freeze, 4.0F);
+		entityIn.attackEntityFrom(DamageSources.HYPOTHERMIA, 4F);
 	}
 }

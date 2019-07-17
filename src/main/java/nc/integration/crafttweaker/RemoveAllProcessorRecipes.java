@@ -1,24 +1,24 @@
 package nc.integration.crafttweaker;
 
 import crafttweaker.IAction;
-import nc.recipe.NCRecipes;
+import nc.recipe.ProcessorRecipeHandler;
 
 public class RemoveAllProcessorRecipes implements IAction {
 	
 	public static boolean hasErrored = false;
-	public final NCRecipes.Type recipeType;
+	public final ProcessorRecipeHandler recipeHandler;
 	
-	public RemoveAllProcessorRecipes(NCRecipes.Type recipeType) {
-		this.recipeType = recipeType;
+	public RemoveAllProcessorRecipes(ProcessorRecipeHandler recipeHandler) {
+		this.recipeHandler = recipeHandler;
 	}
 	
 	@Override
 	public void apply() {
-		recipeType.getRecipeHandler().removeAllRecipes();
+		recipeHandler.removeAllRecipes();
 	}
 	
 	@Override
 	public String describe() {
-		return String.format("Removing all %s recipes", recipeType.getRecipeName());
+		return String.format("Removing all %s recipes", recipeHandler.getRecipeName());
 	}
 }

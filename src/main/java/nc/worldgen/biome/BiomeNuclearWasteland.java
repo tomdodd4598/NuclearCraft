@@ -129,7 +129,7 @@ public class BiomeNuclearWasteland extends Biome {
 		IBlockState topBlockState = topBlock;
 		IBlockState fillerBlockState = fillerBlock;
 		int heightCount = -1;
-		int noise = (int)(noiseVal / 3.0D + 3.0D + rand.nextDouble() * 0.25D);
+		int noise = (int)(noiseVal / 3D + 3D + rand.nextDouble() * 0.25D);
 		int chunkPosX = x & 15;
 		int chunkPosZ = z & 15;
 		BlockPos.MutableBlockPos mutableblockpos = new BlockPos.MutableBlockPos();

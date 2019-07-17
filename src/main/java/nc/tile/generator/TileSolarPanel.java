@@ -39,7 +39,7 @@ public class TileSolarPanel extends TilePassiveGenerator {
 	
 	@Override
 	public int getGenerated() {
-		if (world.canBlockSeeSky(pos.offset(EnumFacing.UP))) return (int) (world.getSunBrightnessFactor(1.0F) * power);
+		if (world.canBlockSeeSky(pos.offset(EnumFacing.UP))) return (int) (world.getSunBrightnessFactor(1F) * power);
 		return 0;
 	}
 }

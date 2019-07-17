@@ -5,6 +5,7 @@ import java.util.Iterator;
 import javax.annotation.Nullable;
 
 import nc.Global;
+import nc.NuclearCraft;
 import nc.block.item.IMetaBlockName;
 import nc.enumm.IBlockMeta;
 import nc.enumm.MetaEnums;
@@ -48,7 +49,7 @@ public abstract class BlockMeta<T extends Enum<T> & IStringSerializable & IBlock
 	public BlockMeta(String name, Class<T> enumm, PropertyEnum property, Material material, boolean canCreatureSpawn) {
 		super(material);
 		setTranslationKey(Global.MOD_ID + "." + name);
-		setRegistryName(new ResourceLocation(Global.MOD_ID, name));
+		if (NuclearCraft.regName) setRegistryName(new ResourceLocation(Global.MOD_ID, name));
 		values = enumm.getEnumConstants();
 		type = property;
 		setDefaultState(blockState.getBaseState().withProperty(type, values[0]));

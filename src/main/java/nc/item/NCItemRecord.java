@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import nc.Global;
+import nc.NuclearCraft;
 import nc.util.InfoHelper;
 import nc.util.Lang;
 import net.minecraft.client.util.ITooltipFlag;
@@ -26,7 +27,7 @@ public class NCItemRecord extends ItemRecord {
 		super("record_" + nameIn, sound);
 		name = nameIn;
 		setTranslationKey(Global.MOD_ID + "." + "record_" + nameIn);
-		setRegistryName(new ResourceLocation(Global.MOD_ID, "record_" + nameIn));
+		if (NuclearCraft.regName) setRegistryName(new ResourceLocation(Global.MOD_ID, "record_" + nameIn));
 		info = InfoHelper.buildInfo(getTranslationKey(), tooltip);
 	}
 	

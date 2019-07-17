@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import nc.Global;
+import nc.NuclearCraft;
 import nc.util.InfoHelper;
 import nc.util.OreDictHelper;
 import net.minecraft.client.util.ITooltipFlag;
@@ -22,7 +23,7 @@ public class NCPickaxe extends ItemPickaxe {
 	public NCPickaxe(String unlocalizedName, ToolMaterial material, String... tooltip) {
 		super(material);
 		setTranslationKey(Global.MOD_ID + "." + unlocalizedName);
-		setRegistryName(new ResourceLocation(Global.MOD_ID, unlocalizedName));
+		if (NuclearCraft.regName) setRegistryName(new ResourceLocation(Global.MOD_ID, unlocalizedName));
 		info = InfoHelper.buildInfo(getTranslationKey(), tooltip);
 	}
 	

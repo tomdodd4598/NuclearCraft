@@ -45,7 +45,7 @@ public class BlockNuclearFurnace extends BlockContainer implements ITileEntityPr
 	public BlockNuclearFurnace(boolean isBurning) {
 		super(Material.IRON);
 		setTranslationKey(Global.MOD_ID + ".nuclear_furnace" + (isBurning ? "_active" : "_idle"));
-		setRegistryName(new ResourceLocation(Global.MOD_ID, "nuclear_furnace" + (isBurning ? "_active" : "_idle")));
+		if (NuclearCraft.regName) setRegistryName(new ResourceLocation(Global.MOD_ID, "nuclear_furnace" + (isBurning ? "_active" : "_idle")));
 		setDefaultState(blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
 		this.isBurning = isBurning;
 		if (!isBurning) setCreativeTab(NCTabs.MACHINES);
@@ -133,25 +133,25 @@ public class BlockNuclearFurnace extends BlockContainer implements ITileEntityPr
 			double d4 = rand.nextDouble() * 0.6D - 0.3D;
 			
 			if (rand.nextDouble() < 0.2D) {
-				world.playSound(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, SoundEvents.BLOCK_FURNACE_FIRE_CRACKLE, SoundCategory.BLOCKS, 1.0F, 1.0F, false);
+				world.playSound(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, SoundEvents.BLOCK_FURNACE_FIRE_CRACKLE, SoundCategory.BLOCKS, 1F, 1F, false);
 			}
 			
 			switch (enumfacing) {
 				case WEST:
-					world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0 - d3, d1, d2 + d4, 0.0D, 0.0D, 0.0D);
-					world.spawnParticle(EnumParticleTypes.FLAME, d0 - d3, d1, d2 + d4, 0.0D, 0.0D, 0.0D);
+					world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0 - d3, d1, d2 + d4, 0D, 0D, 0D);
+					world.spawnParticle(EnumParticleTypes.FLAME, d0 - d3, d1, d2 + d4, 0D, 0D, 0D);
 					break;
 				case EAST:
-					world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0 + d3, d1, d2 + d4, 0.0D, 0.0D, 0.0D);
-					world.spawnParticle(EnumParticleTypes.FLAME, d0 + d3, d1, d2 + d4, 0.0D, 0.0D, 0.0D);
+					world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0 + d3, d1, d2 + d4, 0D, 0D, 0D);
+					world.spawnParticle(EnumParticleTypes.FLAME, d0 + d3, d1, d2 + d4, 0D, 0D, 0D);
 					break;
 				case NORTH:
-					world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0 + d4, d1, d2 - d3, 0.0D, 0.0D, 0.0D);
-					world.spawnParticle(EnumParticleTypes.FLAME, d0 + d4, d1, d2 - d3, 0.0D, 0.0D, 0.0D);
+					world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0 + d4, d1, d2 - d3, 0D, 0D, 0D);
+					world.spawnParticle(EnumParticleTypes.FLAME, d0 + d4, d1, d2 - d3, 0D, 0D, 0D);
 					break;
 				case SOUTH:
-					world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0 + d4, d1, d2 + d3, 0.0D, 0.0D, 0.0D);
-					world.spawnParticle(EnumParticleTypes.FLAME, d0 + d4, d1, d2 + d3, 0.0D, 0.0D, 0.0D);
+					world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0 + d4, d1, d2 + d3, 0D, 0D, 0D);
+					world.spawnParticle(EnumParticleTypes.FLAME, d0 + d4, d1, d2 + d3, 0D, 0D, 0D);
 			}
 		}
 	}

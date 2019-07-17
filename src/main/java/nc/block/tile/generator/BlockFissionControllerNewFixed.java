@@ -150,7 +150,7 @@ public class BlockFissionControllerNewFixed extends BlockProcessor {
 			if (controller.cells <= 0) return;
 			double soundRate = MathHelper.clamp(0.08D, 2*Math.sqrt(controller.cells)/NCConfig.fission_max_size, 1D);
 			if (controller.isProcessing) if (rand.nextDouble() < soundRate) {
-				world.playSound(position.getX(), position.getY(), position.getZ(), SoundHandler.geiger_tick, SoundCategory.BLOCKS, 1.6F, 1.0F + 0.12F*(rand.nextFloat() - 0.5F), false);
+				world.playSound(position.getX(), position.getY(), position.getZ(), SoundHandler.geiger_tick, SoundCategory.BLOCKS, 1.6F, 1F + 0.12F*(rand.nextFloat() - 0.5F), false);
 			}
 		}
 	}

@@ -11,9 +11,9 @@ import net.minecraft.inventory.SlotFurnaceOutput;
 public class ContainerDecayHastener extends ContainerItemProcessor {
 
 	public ContainerDecayHastener(EntityPlayer player, TileItemProcessor tileEntity) {
-		super(player, tileEntity, NCRecipes.Type.DECAY_HASTENER);
+		super(player, tileEntity, NCRecipes.decay_hastener);
 		
-		addSlotToContainer(new SlotProcessorInput(tileEntity, recipeType, 0, 56, 35));
+		addSlotToContainer(new SlotProcessorInput(tileEntity, recipeHandler, 0, 56, 35));
 		
 		addSlotToContainer(new SlotFurnaceOutput(player, tileEntity, 1, 116, 35));
 		

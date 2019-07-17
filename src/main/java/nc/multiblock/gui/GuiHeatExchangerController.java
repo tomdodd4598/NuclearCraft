@@ -43,8 +43,8 @@ public class GuiHeatExchangerController extends GuiMultiblockController<HeatExch
 	
 	public List<String> efficiencyInfo() {
 		List<String> info = new ArrayList<String>();
-		info.add(TextFormatting.LIGHT_PURPLE + Lang.localise("gui.container.heat_exchanger_controller.active_percent") + " " + TextFormatting.WHITE + NCMath.round(multiblock.fractionOfTubesActive*100D, 1) + "%");
-		info.add(TextFormatting.AQUA + Lang.localise("gui.container.heat_exchanger_controller.efficiency") + " " + TextFormatting.WHITE + NCMath.round(multiblock.efficiency*100D, 1) + "%");
+		info.add(TextFormatting.LIGHT_PURPLE + Lang.localise("gui.container.heat_exchanger_controller.active_percent") + " " + TextFormatting.WHITE + NCMath.decimalPlaces(multiblock.fractionOfTubesActive*100D, 1) + "%");
+		info.add(TextFormatting.AQUA + Lang.localise("gui.container.heat_exchanger_controller.efficiency") + " " + TextFormatting.WHITE + NCMath.decimalPlaces(multiblock.efficiency*100D, 1) + "%");
 		return info;
 	}
 	

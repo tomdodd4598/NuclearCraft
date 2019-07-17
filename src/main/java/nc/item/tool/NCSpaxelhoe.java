@@ -5,6 +5,7 @@ import java.util.HashSet;
 import javax.annotation.Nullable;
 
 import nc.Global;
+import nc.NuclearCraft;
 import nc.util.InfoHelper;
 import nc.util.OreDictHelper;
 import net.minecraft.block.Block;
@@ -29,9 +30,9 @@ public class NCSpaxelhoe extends ItemTool {
 	String[] info;
 	
 	public NCSpaxelhoe(String unlocalizedName, ToolMaterial material, String... tooltip) {
-		super(3.0F, -2.4F, material, new HashSet<Block>());
+		super(3F, -2.4F, material, new HashSet<Block>());
 		setTranslationKey(Global.MOD_ID + "." + unlocalizedName);
-		setRegistryName(new ResourceLocation(Global.MOD_ID, unlocalizedName));
+		if (NuclearCraft.regName) setRegistryName(new ResourceLocation(Global.MOD_ID, unlocalizedName));
 		info = InfoHelper.buildInfo(getTranslationKey(), tooltip);
 	}
 	
@@ -102,7 +103,7 @@ public class NCSpaxelhoe extends ItemTool {
 	}
 	 
 	 protected void setBlock(ItemStack stack, EntityPlayer player, World worldIn, BlockPos pos, IBlockState state) {
-		worldIn.playSound(player, pos, SoundEvents.ITEM_HOE_TILL, SoundCategory.BLOCKS, 1.0F, 1.0F);
+		worldIn.playSound(player, pos, SoundEvents.ITEM_HOE_TILL, SoundCategory.BLOCKS, 1F, 1F);
 		
 		if (!worldIn.isRemote) {
 			worldIn.setBlockState(pos, state, 11);

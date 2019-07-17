@@ -234,6 +234,7 @@ public class NCConfig {
 	public static String[] radiation_ores;
 	public static String[] radiation_items;
 	public static String[] radiation_blocks;
+	public static String[] radiation_foods;
 	public static String[] radiation_ores_blacklist;
 	public static String[] radiation_items_blacklist;
 	public static String[] radiation_blocks_blacklist;
@@ -251,7 +252,7 @@ public class NCConfig {
 	public static double radiation_radaway_slow_amount;
 	public static double radiation_radaway_rate;
 	public static double radiation_radaway_slow_rate;
-	public static double radiation_poison_rate;
+	public static double radiation_poison_time;
 	public static double radiation_radaway_cooldown;
 	public static double radiation_rad_x_amount;
 	public static double radiation_rad_x_lifetime;
@@ -322,16 +323,16 @@ public class NCConfig {
 	public static boolean ore_dict_priority_bool;
 	public static String[] ore_dict_priority;
 	
+	public static Configuration getConfig() {
+		return config;
+	}
+	
 	public static void preInit() {
 		File configFile = new File(Loader.instance().getConfigDir(), "nuclearcraft.cfg");
 		config = new Configuration(configFile);
 		syncFromFiles();
 		
 		MinecraftForge.EVENT_BUS.register(new ServerConfigEventHandler());
-	}
-	
-	public static Configuration getConfig() {
-		return config;
 	}
 	
 	public static void clientPreInit() {
@@ -702,6 +703,8 @@ public class NCConfig {
 		propertyRadiationItems.setLanguageKey("gui.config.radiation.radiation_items");
 		Property propertyRadiationBlocks = config.get(CATEGORY_RADIATION, "radiation_blocks", new String[] {}, Lang.localise("gui.config.radiation.radiation_blocks.comment"));
 		propertyRadiationBlocks.setLanguageKey("gui.config.radiation.radiation_blocks");
+		Property propertyRadiationFoods = config.get(CATEGORY_RADIATION, "radiation_foods", new String[] {"minecraft:golden_apple:0_-20_0.1", "minecraft:golden_apple:1_-100_0.5", "minecraft:golden_carrot:0_-4_0", "minecraft:spider_eye:0_0_0.5", "minecraft:poisonous_potato:0_0_0.5", "minecraft:fish:3_0_2", "minecraft:rabbit_stew:0_0_0.1", "minecraft:chorus_fruit:0_0_-0.25", "minecraft:beetroot:0_0_0.25", "minecraft:beetroot_soup:0_0_1.5"}, Lang.localise("gui.config.radiation.radiation_foods.comment"));
+		propertyRadiationFoods.setLanguageKey("gui.config.radiation.radiation_foods");
 		Property propertyRadiationOresBlacklist = config.get(CATEGORY_RADIATION, "radiation_ores_blacklist", new String[] {}, Lang.localise("gui.config.radiation.radiation_ores_blacklist.comment"));
 		propertyRadiationOresBlacklist.setLanguageKey("gui.config.radiation.radiation_ores_blacklist");
 		Property propertyRadiationItemsBlacklist = config.get(CATEGORY_RADIATION, "radiation_items_blacklist", new String[] {}, Lang.localise("gui.config.radiation.radiation_items_blacklist.comment"));
@@ -711,7 +714,7 @@ public class NCConfig {
 		
 		Property propertyRadiationMaxPlayerRads = config.get(CATEGORY_RADIATION, "max_player_rads", 1000D, Lang.localise("gui.config.radiation.max_player_rads.comment"), 1D, 1000000000D);
 		propertyRadiationMaxPlayerRads.setLanguageKey("gui.config.radiation.max_player_rads");
-		Property propertyRadiationPlayerDecayRate = config.get(CATEGORY_RADIATION, "radiation_player_decay_rate", 0D, Lang.localise("gui.config.radiation.radiation_player_decay_rate.comment"), 0D, 1D);
+		Property propertyRadiationPlayerDecayRate = config.get(CATEGORY_RADIATION, "radiation_player_decay_rate", 0.0000005D, Lang.localise("gui.config.radiation.radiation_player_decay_rate.comment"), 0D, 1D);
 		propertyRadiationPlayerDecayRate.setLanguageKey("gui.config.radiation.radiation_player_decay_rate");
 		Property propertyRadiationEntityDecayRate = config.get(CATEGORY_RADIATION, "radiation_entity_decay_rate", 0.001D, Lang.localise("gui.config.radiation.radiation_entity_decay_rate.comment"), 0D, 1D);
 		propertyRadiationEntityDecayRate.setLanguageKey("gui.config.radiation.radiation_entity_decay_rate");
@@ -734,8 +737,8 @@ public class NCConfig {
 		propertyRadiationRadawayRate.setLanguageKey("gui.config.radiation.radiation_radaway_rate");
 		Property propertyRadiationRadawaySlowRate = config.get(CATEGORY_RADIATION, "radiation_radaway_slow_rate", 0.025D, Lang.localise("gui.config.radiation.radiation_radaway_slow_rate.comment"), 0.00001D, 10000000D);
 		propertyRadiationRadawaySlowRate.setLanguageKey("gui.config.radiation.radiation_radaway_slow_rate");
-		Property propertyRadiationPoisonRate = config.get(CATEGORY_RADIATION, "radiation_poison_rate", 0.025D, Lang.localise("gui.config.radiation.radiation_poison_rate.comment"), 0.00001D, 10000000D);
-		propertyRadiationPoisonRate.setLanguageKey("gui.config.radiation.radiation_poison_rate");
+		Property propertyRadiationPoisonTime = config.get(CATEGORY_RADIATION, "radiation_poison_time", 60D, Lang.localise("gui.config.radiation.radiation_poison_time.comment"), 1D, 1000000D);
+		propertyRadiationPoisonTime.setLanguageKey("gui.config.radiation.radiation_poison_time");
 		Property propertyRadiationRadawayCooldown = config.get(CATEGORY_RADIATION, "radiation_radaway_cooldown", 0D, Lang.localise("gui.config.radiation.radiation_radaway_cooldown.comment"), 0D, 100000D);
 		propertyRadiationRadawayCooldown.setLanguageKey("gui.config.radiation.radiation_radaway_cooldown");
 		Property propertyRadiationRadXAmount = config.get(CATEGORY_RADIATION, "radiation_rad_x_amount", 25D, Lang.localise("gui.config.radiation.radiation_rad_x_amount.comment"), 0.001D, 1000000000D);
@@ -772,9 +775,9 @@ public class NCConfig {
 		propertyRadiationDroppedItems.setLanguageKey("gui.config.radiation.radiation_dropped_items");
 		Property propertyRadiationDeathPersist = config.get(CATEGORY_RADIATION, "radiation_death_persist", true, Lang.localise("gui.config.radiation.radiation_death_persist.comment"));
 		propertyRadiationDeathPersist.setLanguageKey("gui.config.radiation.radiation_death_persist");
-		Property propertyRadiationDeathPersistFraction = config.get(CATEGORY_RADIATION, "radiation_death_persist_fraction", 0.5D, Lang.localise("gui.config.radiation.radiation_death_persist_fraction.comment"), 0D, 1D);
+		Property propertyRadiationDeathPersistFraction = config.get(CATEGORY_RADIATION, "radiation_death_persist_fraction", 0.75D, Lang.localise("gui.config.radiation.radiation_death_persist_fraction.comment"), 0D, 1D);
 		propertyRadiationDeathPersistFraction.setLanguageKey("gui.config.radiation.radiation_death_persist_fraction");
-		Property propertyRadiationDeathImmunityTime = config.get(CATEGORY_RADIATION, "radiation_death_immunity_time", 60D, Lang.localise("gui.config.radiation.radiation_death_immunity_time.comment"), 0D, 3600D);
+		Property propertyRadiationDeathImmunityTime = config.get(CATEGORY_RADIATION, "radiation_death_immunity_time", 90D, Lang.localise("gui.config.radiation.radiation_death_immunity_time.comment"), 0D, 3600D);
 		propertyRadiationDeathImmunityTime.setLanguageKey("gui.config.radiation.radiation_death_immunity_time");
 		
 		Property propertyRadiationPassiveDebuffLists = config.get(CATEGORY_RADIATION, "radiation_passive_debuff_lists", new String[] {"40.0_minecraft:weakness@1", "55.0_minecraft:weakness@1,minecraft:mining_fatigue@1", "70.0_minecraft:weakness@2,minecraft:mining_fatigue@1,minecraft:hunger@1", "80.0_minecraft:weakness@2,minecraft:mining_fatigue@2,minecraft:hunger@1,minecraft:poison@1", "90.0_minecraft:weakness@3,minecraft:mining_fatigue@3,minecraft:hunger@2,minecraft:poison@1,minecraft:wither@1"}, Lang.localise("gui.config.radiation.radiation_passive_debuff_lists.comment"));
@@ -1069,6 +1072,7 @@ public class NCConfig {
 		propertyOrderRadiation.add(propertyRadiationOres.getName());
 		propertyOrderRadiation.add(propertyRadiationItems.getName());
 		propertyOrderRadiation.add(propertyRadiationBlocks.getName());
+		propertyOrderRadiation.add(propertyRadiationFoods.getName());
 		propertyOrderRadiation.add(propertyRadiationOresBlacklist.getName());
 		propertyOrderRadiation.add(propertyRadiationItemsBlacklist.getName());
 		propertyOrderRadiation.add(propertyRadiationBlocksBlacklist.getName());
@@ -1084,7 +1088,7 @@ public class NCConfig {
 		propertyOrderRadiation.add(propertyRadiationRadawaySlowAmount.getName());
 		propertyOrderRadiation.add(propertyRadiationRadawayRate.getName());
 		propertyOrderRadiation.add(propertyRadiationRadawaySlowRate.getName());
-		propertyOrderRadiation.add(propertyRadiationPoisonRate.getName());
+		propertyOrderRadiation.add(propertyRadiationPoisonTime.getName());
 		propertyOrderRadiation.add(propertyRadiationRadawayCooldown.getName());
 		propertyOrderRadiation.add(propertyRadiationRadXAmount.getName());
 		propertyOrderRadiation.add(propertyRadiationRadXLifetime.getName());
@@ -1332,6 +1336,7 @@ public class NCConfig {
 			radiation_ores = propertyRadiationOres.getStringList();
 			radiation_items = propertyRadiationItems.getStringList();
 			radiation_blocks = propertyRadiationBlocks.getStringList();
+			radiation_foods = propertyRadiationFoods.getStringList();
 			radiation_ores_blacklist = propertyRadiationOresBlacklist.getStringList();
 			radiation_items_blacklist = propertyRadiationItemsBlacklist.getStringList();
 			radiation_blocks_blacklist = propertyRadiationBlocksBlacklist.getStringList();
@@ -1349,7 +1354,7 @@ public class NCConfig {
 			radiation_radaway_slow_amount = propertyRadiationRadawaySlowAmount.getDouble();
 			radiation_radaway_rate = propertyRadiationRadawayRate.getDouble();
 			radiation_radaway_slow_rate = propertyRadiationRadawaySlowRate.getDouble();
-			radiation_poison_rate = propertyRadiationPoisonRate.getDouble();
+			radiation_poison_time = propertyRadiationPoisonTime.getDouble();
 			radiation_radaway_cooldown = propertyRadiationRadawayCooldown.getDouble();
 			radiation_rad_x_amount = propertyRadiationRadXAmount.getDouble();
 			radiation_rad_x_lifetime = propertyRadiationRadXLifetime.getDouble();
@@ -1599,6 +1604,7 @@ public class NCConfig {
 		propertyRadiationOres.set(radiation_ores);
 		propertyRadiationItems.set(radiation_items);
 		propertyRadiationBlocks.set(radiation_blocks);
+		propertyRadiationFoods.set(radiation_foods);
 		propertyRadiationOresBlacklist.set(radiation_ores_blacklist);
 		propertyRadiationItemsBlacklist.set(radiation_items_blacklist);
 		propertyRadiationBlocksBlacklist.set(radiation_blocks_blacklist);
@@ -1616,7 +1622,7 @@ public class NCConfig {
 		propertyRadiationRadawaySlowAmount.set(radiation_radaway_slow_amount);
 		propertyRadiationRadawayRate.set(radiation_radaway_rate);
 		propertyRadiationRadawaySlowRate.set(radiation_radaway_slow_rate);
-		propertyRadiationPoisonRate.set(radiation_poison_rate);
+		propertyRadiationPoisonTime.set(radiation_poison_time);
 		propertyRadiationRadawayCooldown.set(radiation_radaway_cooldown);
 		propertyRadiationRadXAmount.set(radiation_rad_x_amount);
 		propertyRadiationRadXLifetime.set(radiation_rad_x_lifetime);

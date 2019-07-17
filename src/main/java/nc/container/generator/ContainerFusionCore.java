@@ -8,7 +8,7 @@ import net.minecraft.inventory.Slot;
 public class ContainerFusionCore extends ContainerFluidGenerator<TileFusionCore> {
 	
 	public ContainerFusionCore(EntityPlayer player, TileFusionCore tileEntity) {
-		super(tileEntity, NCRecipes.Type.FUSION);
+		super(tileEntity, NCRecipes.fusion);
 		
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 9; j++) {

@@ -102,7 +102,7 @@ public class GuiFusionCore extends NCGui {
 	}
 	
 	public List<String> efficiencyInfo() {
-		String efficiency = NCMath.round(tile.efficiency, 1) + "%";
+		String efficiency = NCMath.decimalPlaces(tile.efficiency, 1) + "%";
 		return Lists.newArrayList(TextFormatting.AQUA + Lang.localise("gui.container.fusion_core.efficiency") + TextFormatting.WHITE + " " + efficiency);
 	}
 	
@@ -112,7 +112,7 @@ public class GuiFusionCore extends NCGui {
 	
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
-		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+		GlStateManager.color(1F, 1F, 1F, 1F);
 		mc.getTextureManager().bindTexture(gui_textures);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		

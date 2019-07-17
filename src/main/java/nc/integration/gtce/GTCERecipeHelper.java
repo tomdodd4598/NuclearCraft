@@ -8,11 +8,12 @@ import java.util.Set;
 
 import org.apache.commons.lang3.tuple.Pair;
 
+import gregtech.api.items.metaitem.MetaItem.MetaValueItem;
 import gregtech.api.recipes.CountableIngredient;
 import gregtech.api.recipes.Recipe;
+import gregtech.api.recipes.RecipeBuilder;
 import gregtech.api.recipes.RecipeMap;
 import gregtech.api.recipes.RecipeMaps;
-import gregtech.api.recipes.builders.SimpleRecipeBuilder;
 import gregtech.api.util.GTUtility;
 import gregtech.common.items.MetaItems;
 import nc.recipe.ProcessorRecipe;
@@ -29,8 +30,8 @@ public class GTCERecipeHelper {
 	// Thanks so much to Firew0lf for the original method!
 	@Optional.Method(modid = "gregtech")
 	public static void addGTCERecipe(String recipeName, ProcessorRecipe recipe) {
-		RecipeMap<SimpleRecipeBuilder> recipeMap = null;
-		SimpleRecipeBuilder builder = null;
+		RecipeMap<?> recipeMap = null;
+		RecipeBuilder<?> builder = null;
 		
 		switch (recipeName) {
 		case "manufactory":
@@ -74,8 +75,14 @@ public class GTCERecipeHelper {
 			builder = addStats(recipeMap.recipeBuilder(), recipe, 8, 1);
 			break;
 		case "pressurizer":
-			recipeMap = RecipeMaps.COMPRESSOR_RECIPES;
-			builder = addStats(recipeMap.recipeBuilder(), recipe, 2, 20);
+			if (isPlateRecipe(recipe)) {
+				recipeMap = RecipeMaps.BENDER_RECIPES;
+				builder = addStats(recipeMap.recipeBuilder(), recipe, 2, 20);
+			}
+			else {
+				recipeMap = RecipeMaps.COMPRESSOR_RECIPES;
+				builder = addStats(recipeMap.recipeBuilder(), recipe, 2, 20);
+			}
 			break;
 		case "chemical_reactor":
 			recipeMap = RecipeMaps.CHEMICAL_RECIPES;
@@ -129,18 +136,18 @@ public class GTCERecipeHelper {
 			}
 		}
 		
-		List<SimpleRecipeBuilder> builders = new ArrayList<SimpleRecipeBuilder>(); // Holds all the recipe variants
+		List<RecipeBuilder<?>> builders = new ArrayList<RecipeBuilder<?>>(); // Holds all the recipe variants
 		builders.add(builder);
 		
 		for (IItemIngredient input : recipe.itemIngredients()) {
 			if (input instanceof OreIngredient) {
-				for (SimpleRecipeBuilder builderVariant : builders) {
+				for (RecipeBuilder<?> builderVariant : builders) {
 					builderVariant.input(((OreIngredient)input).oreName, ((OreIngredient)input).stackSize);
 				}
 			}
 			else {
 				List<String> ingredientOreList = new ArrayList<String>(); // Hold the different oreDict names
-				List<SimpleRecipeBuilder> newBuilders = new ArrayList<SimpleRecipeBuilder>();
+				List<RecipeBuilder<?>> newBuilders = new ArrayList<RecipeBuilder<?>>();
 				for (ItemStack inputVariant : input.getInputStackList()) {
 					if(inputVariant.isEmpty()) continue;
 					Set<String> variantOreList = OreDictHelper.getOreNames(inputVariant);
@@ -151,12 +158,12 @@ public class GTCERecipeHelper {
 						}
 						ingredientOreList.addAll(variantOreList);
 						
-						for (SimpleRecipeBuilder recipeBuilder : builders) {
+						for (RecipeBuilder<?> recipeBuilder : builders) {
 							newBuilders.add(recipeBuilder.copy().input(variantOreList.iterator().next(), inputVariant.getCount()));
 						}
 					}
 					else {
-						for (SimpleRecipeBuilder recipeBuilder : builders) {
+						for (RecipeBuilder<?> recipeBuilder : builders) {
 							newBuilders.add(recipeBuilder.copy().inputs(inputVariant));
 						}
 					}
@@ -165,15 +172,21 @@ public class GTCERecipeHelper {
 			}
 		}
 		
-		if (recipeName.equals("ingot_former")) {
-			for (SimpleRecipeBuilder builderVariant : builders) {
-				builderVariant.notConsumable(MetaItems.SHAPE_MOLD_INGOT);
+		if (recipeMap == RecipeMaps.FLUID_SOLIDFICATION_RECIPES) {
+			MetaValueItem mold = getIngotFormerMold(recipe);
+			for (RecipeBuilder<?> builderVariant : builders) {
+				builderVariant.notConsumable(mold);
+			}
+		}
+		else if (recipeMap == RecipeMaps.BENDER_RECIPES) {
+			for (RecipeBuilder<?> builderVariant : builders) {
+				builderVariant.notConsumable(MetaItems.INTEGRATED_CIRCUIT);
 			}
 		}
 		
 		for (IFluidIngredient input : recipe.fluidIngredients()) {
 			if (input.getInputStackList().isEmpty()) continue;
-			for (SimpleRecipeBuilder builderVariant : builders) {
+			for (RecipeBuilder<?> builderVariant : builders) {
 				builderVariant.fluidInputs(input.getInputStackList().get(0));
 			}
 		}
@@ -181,25 +194,25 @@ public class GTCERecipeHelper {
 		for (IItemIngredient output : recipe.itemProducts()) {
 			List<ItemStack> outputStackList = output.getOutputStackList();
 			if (outputStackList.isEmpty()) continue;
-			for (SimpleRecipeBuilder builderVariant : builders) {
+			for (RecipeBuilder<?> builderVariant : builders) {
 				builderVariant = builderVariant.outputs(outputStackList.get(0));
 			}
 		}
 		
 		for (IFluidIngredient output : recipe.fluidProducts()) {
 			if (output.getOutputStackList().isEmpty()) continue;
-			for (SimpleRecipeBuilder builderVariant : builders) {
+			for (RecipeBuilder<?> builderVariant : builders) {
 				builderVariant.fluidOutputs(output.getOutputStackList().get(0));
 			}
 		}
 		
-		for (SimpleRecipeBuilder builderVariant : builders) {
+		for (RecipeBuilder<?> builderVariant : builders) {
 			if(!builderVariant.getInputs().isEmpty()) builderVariant.buildAndRegister();
 		}
 	}
 	
 	@Optional.Method(modid = "gregtech")
-	private static SimpleRecipeBuilder addStats(SimpleRecipeBuilder builder, ProcessorRecipe recipe, int processPower, int processTime) {
+	private static RecipeBuilder<?> addStats(RecipeBuilder<?> builder, ProcessorRecipe recipe, int processPower, int processTime) {
 		return builder.EUt(Math.max((int) recipe.getBaseProcessPower(processPower), 8)).duration((int) recipe.getBaseProcessTime(20D*processTime));
 	}
 	
@@ -249,7 +262,7 @@ public class GTCERecipeHelper {
 	// GTCE recipe matching - modified from GTCE source
 	
 	@Optional.Method(modid = "gregtech")
-	private static Recipe findRecipe(RecipeMap<SimpleRecipeBuilder> recipeMap, List<ItemStack> inputs, List<FluidStack> fluidInputs) {
+	private static Recipe findRecipe(RecipeMap<?> recipeMap, List<ItemStack> inputs, List<FluidStack> fluidInputs) {
 		if (recipeMap.getRecipeList().isEmpty())
 			return null;
 		if (recipeMap.getMinFluidInputs() > 0 && GTUtility.amountOfNonNullElements(fluidInputs) < recipeMap.getMinFluidInputs()) {
@@ -267,7 +280,7 @@ public class GTCERecipeHelper {
 	}
 	
 	@Optional.Method(modid = "gregtech")
-	private static Recipe findByFluidInputs(RecipeMap<SimpleRecipeBuilder> recipeMap, List<ItemStack> inputs, List<FluidStack> fluidInputs) {
+	private static Recipe findByFluidInputs(RecipeMap<?> recipeMap, List<ItemStack> inputs, List<FluidStack> fluidInputs) {
 		for (FluidStack fluid : fluidInputs) {
 			if (fluid == null) continue;
 			Collection<Recipe> recipes = recipeMap.getRecipesForFluid(fluid);
@@ -282,7 +295,7 @@ public class GTCERecipeHelper {
 	}
 	
 	@Optional.Method(modid = "gregtech")
-	private static Recipe findByInputs(RecipeMap<SimpleRecipeBuilder> recipeMap, List<ItemStack> inputs, List<FluidStack> fluidInputs) {
+	private static Recipe findByInputs(RecipeMap<?> recipeMap, List<ItemStack> inputs, List<FluidStack> fluidInputs) {
 		for (Recipe recipe : recipeMap.getRecipeList()) {
 			if (recipeMatches(recipe, inputs, fluidInputs)) {
 				return recipe;
@@ -293,14 +306,6 @@ public class GTCERecipeHelper {
 	
 	@Optional.Method(modid = "gregtech")
 	private static boolean recipeMatches(Recipe recipe, List<ItemStack> inputs, List<FluidStack> fluidInputs) {
-		fluidLoop : for (FluidStack fluid : recipe.getFluidInputs()) {
-			for (FluidStack input : fluidInputs) {
-				if (input != null && input.isFluidEqual(fluid)) {
-					continue fluidLoop;
-				}
-			}
-			return false;
-		}
 		itemLoop : for (CountableIngredient ingredient : recipe.getInputs()) {
 			for (ItemStack input : inputs) {
 				if (!input.isEmpty() && ingredient.getIngredient().apply(input)) {
@@ -309,6 +314,28 @@ public class GTCERecipeHelper {
 			}
 			return false;
 		}
+		fluidLoop : for (FluidStack fluid : recipe.getFluidInputs()) {
+			for (FluidStack input : fluidInputs) {
+				if (input != null && input.isFluidEqual(fluid)) {
+					continue fluidLoop;
+				}
+			}
+			return false;
+		}
 		return true;
+	}
+	
+	private static boolean isPlateRecipe(ProcessorRecipe recipe) {
+		ItemStack output = recipe.itemProducts().get(0).getStack();
+		return output != null && OreDictHelper.hasOrePrefix(output, "plate", "plateDense");
+	}
+	
+	private static MetaValueItem getIngotFormerMold(ProcessorRecipe recipe) {
+		ItemStack output = recipe.itemProducts().get(0).getStack();
+		if (output != null) {
+			if (OreDictHelper.hasOrePrefix(output, "ingot")) return MetaItems.SHAPE_MOLD_INGOT;
+			else if (OreDictHelper.hasOrePrefix(output, "block")) return MetaItems.SHAPE_MOLD_BLOCK;
+		}
+		return MetaItems.SHAPE_MOLD_BALL;
 	}
 }

@@ -30,7 +30,7 @@ public class BlockFusionCore extends BlockTile implements IActivatable {
 	
 	@Override
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess world, BlockPos pos) {
-		return new AxisAlignedBB(-1.0F, 0.0F, -1.0F, 2.0F, 3.0F, 2.0F);
+		return new AxisAlignedBB(-1F, 0F, -1F, 2F, 3F, 2F);
 	}
 	
 	@Override

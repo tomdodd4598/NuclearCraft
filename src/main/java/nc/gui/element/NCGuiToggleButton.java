@@ -81,7 +81,7 @@ public final class NCGuiToggleButton {
 		@Override
 		public void drawButton(Minecraft minecraft, int x, int y, float partialTicks) {
 			if (this.visible) {
-				GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+				GL11.glColor4f(1F, 1F, 1F, 1F);
 				hovered = x >= this.x && y >= this.y && x < this.x + width && y < this.y + height;
 				minecraft.getTextureManager().bindTexture(getTexture());
 				drawTexturedModalRect(this.x, this.y, textureX, textureY, textureWidth, textureHeight);

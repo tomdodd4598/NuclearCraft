@@ -6,16 +6,10 @@ public class FluidLiquid extends FluidBase {
 		super(fluidName, true);
 	}
 	
-	public FluidLiquid(String fluidName, Integer colour) {
-		super(fluidName, true, "liquid", colour);
-	}
-	
-	public FluidLiquid(String fluidName, Boolean opaque, Integer colour) {
+	public FluidLiquid(String fluidName, Boolean opaque, Integer colour, Integer density, Integer temperature, Integer viscosity) {
 		super(fluidName, true, opaque ? "liquid_opaque" : "liquid", colour);
-	}
-	
-	public FluidLiquid(String fluidName, Integer colour, Integer temperature) {
-		super(fluidName, true, "liquid", colour);
+		setDensity(density);
 		setTemperature(temperature);
+		setViscosity(viscosity);
 	}
 }

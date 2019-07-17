@@ -1,6 +1,7 @@
 package nc.block.fluid;
 
 import nc.Global;
+import nc.NuclearCraft;
 import nc.fluid.FluidBase;
 import net.minecraft.block.material.Material;
 import net.minecraft.util.ResourceLocation;
@@ -20,7 +21,7 @@ public class NCBlockFluid extends BlockFluidClassic {
 		String fluidBlockName = "fluid_" + fluid.getName();
 		this.name = fluidBlockName;
 		setTranslationKey(Global.MOD_ID + "." + fluidBlockName);
-		setRegistryName(new ResourceLocation(Global.MOD_ID, fluidBlockName));
+		if (NuclearCraft.regName) setRegistryName(new ResourceLocation(Global.MOD_ID, fluidBlockName));
 		//NuclearCraft.proxy.registerFluidBlockRendering(this, name);
 		this.fluid = fluid;
 	}
@@ -30,7 +31,7 @@ public class NCBlockFluid extends BlockFluidClassic {
 		String fluidBlockName = "fluid_" + fluid.getName();
 		this.name = fluidBlockName;
 		setTranslationKey(Global.MOD_ID + "." + fluidBlockName);
-		setRegistryName(new ResourceLocation(Global.MOD_ID, fluidBlockName));
+		if (NuclearCraft.regName) setRegistryName(new ResourceLocation(Global.MOD_ID, fluidBlockName));
 		//NuclearCraft.proxy.registerFluidBlockRendering(this, name);
 		this.fluid = fluid;
 	}

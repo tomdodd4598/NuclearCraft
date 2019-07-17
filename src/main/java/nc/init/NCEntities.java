@@ -13,11 +13,9 @@ import net.minecraftforge.fml.common.registry.EntityRegistry;
 public class NCEntities {
 	
 	public static void register() {
+		registerEntity("feral_ghoul", EntityFeralGhoul.class, 0, 0x967D73, 0x302C28);
 		if (NCConfig.entity_register[0]) {
-			registerEntity("feral_ghoul", EntityFeralGhoul.class, 0, 0x967D73, 0x302C28);
-			for (EnumCreatureType type : new EnumCreatureType[] {EnumCreatureType.CREATURE, EnumCreatureType.MONSTER}) {
-				EntityRegistry.addSpawn(EntityFeralGhoul.class, Short.MAX_VALUE, 1, 2, type, NCBiomes.NUCLEAR_WASTELAND);
-			}
+			EntityRegistry.addSpawn(EntityFeralGhoul.class, Short.MAX_VALUE, 1, 1, EnumCreatureType.MONSTER, NCBiomes.NUCLEAR_WASTELAND);
 		}
 	}
 	

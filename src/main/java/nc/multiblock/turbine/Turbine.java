@@ -29,6 +29,7 @@ import nc.multiblock.turbine.tile.TileTurbineRotorStator;
 import nc.multiblock.validation.IMultiblockValidator;
 import nc.recipe.NCRecipes;
 import nc.recipe.ProcessorRecipe;
+import nc.recipe.ProcessorRecipeHandler;
 import nc.recipe.RecipeInfo;
 import nc.recipe.RecipeMatchResult;
 import nc.recipe.ingredient.IFluidIngredient;
@@ -64,7 +65,7 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> impleme
 	public final List<Tank> tanks;
 	private static final int BASE_MAX_ENERGY = 64000, BASE_MAX_INPUT = 4000, BASE_MAX_OUTPUT = 16000;
 	
-	public final NCRecipes.Type recipeType = NCRecipes.Type.TURBINE;
+	public static final ProcessorRecipeHandler RECIPE_HANDLER = NCRecipes.turbine;
 	protected RecipeInfo<ProcessorRecipe> recipeInfo, cachedRecipeInfo;
 	
 	private int updateCount = 0;
@@ -609,7 +610,7 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> impleme
 				recipeInfo = new RecipeInfo(cachedRecipeInfo.getRecipe(), matchResult);
 			}
 			else {
-				recipeInfo = recipeType.getRecipeHandler().getRecipeInfoFromInputs(new ArrayList<ItemStack>(), tanks.subList(0, 1));
+				recipeInfo = RECIPE_HANDLER.getRecipeInfoFromInputs(new ArrayList<ItemStack>(), tanks.subList(0, 1));
 			}
 			if (recipeInfo != null) {
 				cachedRecipeInfo = recipeInfo;

@@ -11,10 +11,10 @@ import net.minecraft.inventory.SlotFurnaceOutput;
 public class ContainerAlloyFurnace extends ContainerItemProcessor {
 
 	public ContainerAlloyFurnace(EntityPlayer player, TileItemProcessor tileEntity) {
-		super(player, tileEntity, NCRecipes.Type.ALLOY_FURNACE);
+		super(player, tileEntity, NCRecipes.alloy_furnace);
 		
-		addSlotToContainer(new SlotProcessorInput(tileEntity, recipeType, 0, 46, 35));
-		addSlotToContainer(new SlotProcessorInput(tileEntity, recipeType, 1, 66, 35));
+		addSlotToContainer(new SlotProcessorInput(tileEntity, recipeHandler, 0, 46, 35));
+		addSlotToContainer(new SlotProcessorInput(tileEntity, recipeHandler, 1, 66, 35));
 		
 		addSlotToContainer(new SlotFurnaceOutput(player, tileEntity, 2, 126, 35));
 		

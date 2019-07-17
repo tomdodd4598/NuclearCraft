@@ -85,7 +85,7 @@ dependencies {
 	deobfCompile "codechicken:CodeChickenLib:1.12.2-+:universal"
 	deobfCompile "cofh:RedstoneFlux:1.12-+:universal"
 	deobfCompile "net.industrial-craft:industrialcraft-2:${ic2_version}:api"
-	deobfCompile "CraftTweaker2:CraftTweaker2-API:${crafttweaker_version}"
+	deobfCompile "CraftTweaker2:CraftTweaker2-MC1120-Main:${crafttweaker_version}"
 	deobfCompile "slimeknights.mantle:Mantle:${mantle_version}"
 	deobfCompile "slimeknights:TConstruct:${tic_version}"
 	deobfCompile "constructs-armory:conarm:${conarm_version}"
