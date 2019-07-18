@@ -156,4 +156,28 @@ public class EntityExtension {
         }
         return 0.0D;
     }
+
+    @ZenMethod
+    public static double getRawRadiationLevel(IEntityLivingBase entity) {
+        EntityLivingBase actualentity = CraftTweakerMC.getEntityLivingBase(entity);
+        if (actualentity != null) {
+            IEntityRads rads = RadiationHelper.getEntityRadiation(actualentity);
+            if (rads != null) {
+                return rads.getRawRadiationLevel();
+            }
+        }
+        return 0.0D;
+    }
+
+    @ZenMethod
+    public static double getRadiationLevel(IEntityLivingBase entity) {
+        EntityLivingBase actualentity = CraftTweakerMC.getEntityLivingBase(entity);
+        if (actualentity != null) {
+            IEntityRads rads = RadiationHelper.getEntityRadiation(actualentity);
+            if (rads != null) {
+                return rads.getRadiationLevel();
+            }
+        }
+        return 0.0D;
+    }
 }
