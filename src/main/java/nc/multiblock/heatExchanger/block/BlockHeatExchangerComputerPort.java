@@ -12,7 +12,7 @@ import net.minecraft.world.World;
 public class BlockHeatExchangerComputerPort extends BlockHeatExchangerPartBase {
 
 	public BlockHeatExchangerComputerPort() {
-		super("heat_exchanger_computer_port");
+		super();
 	}
 
 	@Override

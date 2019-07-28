@@ -126,12 +126,12 @@ public class Tank extends FluidTank {
 	}
 	
 	public String getFluidName() {
-		if (fluid == null || fluid.getFluid() == null) return "nullFluid";
-		return FluidRegistry.getFluidName(getFluid());
+		if (fluid == null) return "nullFluid";
+		return fluid.getFluid().getName();
 	}
 	
 	public String getFluidLocalizedName() {
-		if (fluid == null || fluid.getFluid() == null) return "";	
+		if (fluid == null) return "";	
 		return fluid.getLocalizedName();
 	}
 	

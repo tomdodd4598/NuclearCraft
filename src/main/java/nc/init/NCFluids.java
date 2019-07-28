@@ -5,14 +5,17 @@ import java.util.List;
 
 import org.apache.commons.lang3.tuple.Pair;
 
+import nc.Global;
 import nc.ModCheck;
 import nc.NuclearCraft;
 import nc.block.fluid.NCBlockFluid;
+import nc.block.item.NCItemBlock;
 import nc.config.NCConfig;
 import nc.enumm.FluidType;
 import nc.util.ColorHelper;
 import nc.util.NCUtil;
-import net.minecraft.item.ItemBlock;
+import net.minecraft.block.Block;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
@@ -135,6 +138,10 @@ public class NCFluids {
 		}
 	}
 	
+	public static <T extends NCBlockFluid> Block withName(T block) {
+		return block.setTranslationKey(Global.MOD_ID + "." + block.getBlockName()).setRegistryName(new ResourceLocation(Global.MOD_ID, block.getBlockName()));
+	}
+	
 	public static void register() {
 		for (Pair<Fluid, NCBlockFluid> fluidPair : fluidPairList) {
 			Fluid fluid = fluidPair.getLeft();
@@ -148,9 +155,9 @@ public class NCFluids {
 	}
 	
 	public static void registerBlock(NCBlockFluid block) {
-		ForgeRegistries.BLOCKS.register(block);
-		ForgeRegistries.ITEMS.register(new ItemBlock(block).setRegistryName(block.getRegistryName()));
-		NuclearCraft.proxy.registerFluidBlockRendering(block, block.getName());
+		ForgeRegistries.BLOCKS.register(withName(block));
+		ForgeRegistries.ITEMS.register(new NCItemBlock(block).setRegistryName(block.getRegistryName()));
+		NuclearCraft.proxy.registerFluidBlockRendering(block, block.getBlockName());
 	}
 	
 	public static <T extends Fluid, V extends NCBlockFluid> Pair<Fluid, NCBlockFluid> fluidPair(FluidType fluidType, Object... fluidArgs) throws Exception {

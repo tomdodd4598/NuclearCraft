@@ -6,14 +6,14 @@ import net.minecraft.block.material.Material;
 
 public abstract class BlockSaltFissionPartBase extends MultiblockBlockPartBase {
 	
-	public BlockSaltFissionPartBase(String name) {
-		super(name, Material.IRON, NCTabs.SALT_FISSION_BLOCKS);
+	public BlockSaltFissionPartBase() {
+		super(Material.IRON, NCTabs.SALT_FISSION_BLOCKS);
 	}
 	
 	public static abstract class Transparent extends MultiblockBlockPartBase.Transparent {
 		
-		public Transparent(String name, boolean smartRender) {
-			super(name, Material.IRON, NCTabs.SALT_FISSION_BLOCKS, smartRender);
+		public Transparent(boolean smartRender) {
+			super(Material.IRON, NCTabs.SALT_FISSION_BLOCKS, smartRender);
 		}
 	}
 }

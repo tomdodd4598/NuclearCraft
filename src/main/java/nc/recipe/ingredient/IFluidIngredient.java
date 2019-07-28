@@ -1,5 +1,7 @@
 package nc.recipe.ingredient;
 
+import java.util.List;
+
 import net.minecraftforge.fluids.FluidStack;
 
 public interface IFluidIngredient extends IIngredient<FluidStack> {
@@ -9,5 +11,10 @@ public interface IFluidIngredient extends IIngredient<FluidStack> {
 		FluidStack nextStack = getStack();
 		nextStack.amount = getNextStackSize(ingredientNumber);
 		return nextStack;
+	}
+	
+	@Override
+	public default List<FluidStack> getInputStackHashingList() {
+		return getInputStackList();
 	}
 }

@@ -30,7 +30,7 @@ public class BlockScrubber extends BlockSimpleTile {
 					TileRadiationScrubber scrubber = (TileRadiationScrubber) world.getTileEntity(pos);
 					scrubber.checkRadiationEnvironmentInfo();
 					double radRemoval = scrubber.getRawScrubberRate();
-					player.sendMessage(new TextComponentString(Lang.localise("message.nuclearcraft.scrubber_removal_rate") + " " + (Math.abs(radRemoval) < NCConfig.radiation_lowest_rate ? "0 Rads/t" : RadiationHelper.radsPrefix(radRemoval, true)) + " [" + Math.abs(Math.round(100D*scrubber.getContributionFraction()/TileRadiationScrubber.MAX_SCRUBBER_RATE_FRACTION)) + "%]"));
+					player.sendMessage(new TextComponentString(Lang.localise("message.nuclearcraft.scrubber_removal_rate") + " " + (Math.abs(radRemoval) < NCConfig.radiation_lowest_rate ? "0 Rads/t" : RadiationHelper.radsPrefix(radRemoval, true)) + " [" + Math.abs(Math.round(100D*scrubber.getContributionFraction()/TileRadiationScrubber.getMaxScrubberFraction())) + "%]"));
 				}
 				return true;
 			}

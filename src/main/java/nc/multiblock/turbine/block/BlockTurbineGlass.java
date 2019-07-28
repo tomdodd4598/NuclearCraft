@@ -12,7 +12,7 @@ import net.minecraft.world.World;
 public class BlockTurbineGlass extends BlockTurbinePartBase.Transparent {
 
 	public BlockTurbineGlass() {
-		super("turbine_glass", true);
+		super(true);
 	}
 
 	@Override

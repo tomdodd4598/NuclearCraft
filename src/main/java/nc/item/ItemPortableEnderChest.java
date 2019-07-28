@@ -11,8 +11,8 @@ import net.minecraft.world.World;
 
 public class ItemPortableEnderChest extends NCItem {
 	
-	public ItemPortableEnderChest(String nameIn, String... tooltip) {
-		super(nameIn, tooltip);
+	public ItemPortableEnderChest(String... tooltip) {
+		super(tooltip);
 	}
 	
 	@Override

@@ -122,92 +122,92 @@ public class NCItems {
 	public static Item record_hyperspace;
 	
 	public static void init() {
-		ingot = new NCItemMeta("ingot", MetaEnums.IngotType.class);
-		ingot_oxide = new NCItemMeta("ingot_oxide", MetaEnums.IngotOxideType.class);
-		dust = new NCItemMeta("dust", MetaEnums.DustType.class, NCInfo.dustOreDropInfo());
-		dust_oxide = new NCItemMeta("dust_oxide", MetaEnums.DustOxideType.class);
-		gem = new NCItemMeta("gem", MetaEnums.GemType.class, NCInfo.gemOreDropInfo());
-		gem_dust = new NCItemMeta("gem_dust", MetaEnums.GemDustType.class, NCInfo.gemDustOreDropInfo());
-		alloy = new NCItemMeta("alloy", MetaEnums.AlloyType.class);
-		compound = new NCItemMeta("compound", MetaEnums.CompoundType.class);
+		ingot = withName(new NCItemMeta(MetaEnums.IngotType.class), "ingot");
+		ingot_oxide = withName(new NCItemMeta(MetaEnums.IngotOxideType.class), "ingot_oxide");
+		dust = withName(new NCItemMeta(MetaEnums.DustType.class, NCInfo.dustOreDropInfo()), "dust");
+		dust_oxide = withName(new NCItemMeta(MetaEnums.DustOxideType.class), "dust_oxide");
+		gem = withName(new NCItemMeta(MetaEnums.GemType.class, NCInfo.gemOreDropInfo()), "gem");
+		gem_dust = withName(new NCItemMeta(MetaEnums.GemDustType.class, NCInfo.gemDustOreDropInfo()), "gem_dust");
+		alloy = withName(new NCItemMeta(MetaEnums.AlloyType.class), "alloy");
+		compound = withName(new NCItemMeta(MetaEnums.CompoundType.class), "compound");
 		
-		part = new NCItemMeta("part", MetaEnums.PartType.class);
-		upgrade = new NCItemMeta("upgrade", MetaEnums.UpgradeType.class, NCInfo.upgradeInfo());
+		part = withName(new NCItemMeta(MetaEnums.PartType.class), "part");
+		upgrade = withName(new NCItemMeta(MetaEnums.UpgradeType.class, NCInfo.upgradeInfo()), "upgrade");
 		
-		tiny_dust_lead = new NCItem("tiny_dust_lead");
-		fuel_rod = new NCItem("fuel_rod");
-		reactor_door = new NCItemDoor("reactor_door_item", NCBlocks.reactor_door);
+		tiny_dust_lead = withName(new NCItem(), "tiny_dust_lead");
+		fuel_rod = withName(new NCItem(), "fuel_rod");
+		reactor_door = withName(new NCItemDoor(NCBlocks.reactor_door), "reactor_door_item");
 		
-		thorium = new NCItemMeta("thorium", MetaEnums.ThoriumType.class);
-		uranium = new NCItemMeta("uranium", MetaEnums.UraniumType.class);
-		neptunium = new NCItemMeta("neptunium", MetaEnums.NeptuniumType.class);
-		plutonium = new NCItemMeta("plutonium", MetaEnums.PlutoniumType.class);
-		americium = new NCItemMeta("americium", MetaEnums.AmericiumType.class);
-		curium = new NCItemMeta("curium", MetaEnums.CuriumType.class);
-		berkelium = new NCItemMeta("berkelium", MetaEnums.BerkeliumType.class);
-		californium = new NCItemMeta("californium", MetaEnums.CaliforniumType.class);
+		thorium = withName(new NCItemMeta(MetaEnums.ThoriumType.class), "thorium");
+		uranium = withName(new NCItemMeta(MetaEnums.UraniumType.class), "uranium");
+		neptunium = withName(new NCItemMeta(MetaEnums.NeptuniumType.class), "neptunium");
+		plutonium = withName(new NCItemMeta(MetaEnums.PlutoniumType.class), "plutonium");
+		americium = withName(new NCItemMeta(MetaEnums.AmericiumType.class), "americium");
+		curium = withName(new NCItemMeta(MetaEnums.CuriumType.class), "curium");
+		berkelium = withName(new NCItemMeta(MetaEnums.BerkeliumType.class), "berkelium");
+		californium = withName(new NCItemMeta(MetaEnums.CaliforniumType.class), "californium");
 		
-		fuel_thorium = new ItemFissionFuel("fuel_thorium", MetaEnums.ThoriumFuelType.class);
-		fuel_uranium = new ItemFissionFuel("fuel_uranium", MetaEnums.UraniumFuelType.class);
-		fuel_neptunium = new ItemFissionFuel("fuel_neptunium", MetaEnums.NeptuniumFuelType.class);
-		fuel_plutonium = new ItemFissionFuel("fuel_plutonium", MetaEnums.PlutoniumFuelType.class);
-		fuel_mixed_oxide = new ItemFissionFuel("fuel_mixed_oxide", MetaEnums.MixedOxideFuelType.class);
-		fuel_americium = new ItemFissionFuel("fuel_americium", MetaEnums.AmericiumFuelType.class);
-		fuel_curium = new ItemFissionFuel("fuel_curium", MetaEnums.CuriumFuelType.class);
-		fuel_berkelium = new ItemFissionFuel("fuel_berkelium", MetaEnums.BerkeliumFuelType.class);
-		fuel_californium = new ItemFissionFuel("fuel_californium", MetaEnums.CaliforniumFuelType.class);
+		fuel_thorium = withName(new ItemFissionFuel(MetaEnums.ThoriumFuelType.class), "fuel_thorium");
+		fuel_uranium = withName(new ItemFissionFuel(MetaEnums.UraniumFuelType.class), "fuel_uranium");
+		fuel_neptunium = withName(new ItemFissionFuel(MetaEnums.NeptuniumFuelType.class), "fuel_neptunium");
+		fuel_plutonium = withName(new ItemFissionFuel(MetaEnums.PlutoniumFuelType.class), "fuel_plutonium");
+		fuel_mixed_oxide = withName(new ItemFissionFuel(MetaEnums.MixedOxideFuelType.class), "fuel_mixed_oxide");
+		fuel_americium = withName(new ItemFissionFuel(MetaEnums.AmericiumFuelType.class), "fuel_americium");
+		fuel_curium = withName(new ItemFissionFuel(MetaEnums.CuriumFuelType.class), "fuel_curium");
+		fuel_berkelium = withName(new ItemFissionFuel(MetaEnums.BerkeliumFuelType.class), "fuel_berkelium");
+		fuel_californium = withName(new ItemFissionFuel(MetaEnums.CaliforniumFuelType.class), "fuel_californium");
 		
-		depleted_fuel_thorium = new ItemDepletedFissionFuel("depleted_fuel_thorium", MetaEnums.ThoriumDepletedFuelType.class);
-		depleted_fuel_uranium = new ItemDepletedFissionFuel("depleted_fuel_uranium", MetaEnums.UraniumDepletedFuelType.class);
-		depleted_fuel_neptunium = new ItemDepletedFissionFuel("depleted_fuel_neptunium", MetaEnums.NeptuniumDepletedFuelType.class);
-		depleted_fuel_plutonium = new ItemDepletedFissionFuel("depleted_fuel_plutonium", MetaEnums.PlutoniumDepletedFuelType.class);
-		depleted_fuel_mixed_oxide = new ItemDepletedFissionFuel("depleted_fuel_mixed_oxide", MetaEnums.MixedOxideDepletedFuelType.class);
-		depleted_fuel_americium = new ItemDepletedFissionFuel("depleted_fuel_americium", MetaEnums.AmericiumDepletedFuelType.class);
-		depleted_fuel_curium = new ItemDepletedFissionFuel("depleted_fuel_curium", MetaEnums.CuriumDepletedFuelType.class);
-		depleted_fuel_berkelium = new ItemDepletedFissionFuel("depleted_fuel_berkelium", MetaEnums.BerkeliumDepletedFuelType.class);
-		depleted_fuel_californium = new ItemDepletedFissionFuel("depleted_fuel_californium", MetaEnums.CaliforniumDepletedFuelType.class);
+		depleted_fuel_thorium = withName(new ItemDepletedFissionFuel(MetaEnums.ThoriumDepletedFuelType.class), "depleted_fuel_thorium");
+		depleted_fuel_uranium = withName(new ItemDepletedFissionFuel(MetaEnums.UraniumDepletedFuelType.class), "depleted_fuel_uranium");
+		depleted_fuel_neptunium = withName(new ItemDepletedFissionFuel(MetaEnums.NeptuniumDepletedFuelType.class), "depleted_fuel_neptunium");
+		depleted_fuel_plutonium = withName(new ItemDepletedFissionFuel(MetaEnums.PlutoniumDepletedFuelType.class), "depleted_fuel_plutonium");
+		depleted_fuel_mixed_oxide = withName(new ItemDepletedFissionFuel(MetaEnums.MixedOxideDepletedFuelType.class), "depleted_fuel_mixed_oxide");
+		depleted_fuel_americium = withName(new ItemDepletedFissionFuel(MetaEnums.AmericiumDepletedFuelType.class), "depleted_fuel_americium");
+		depleted_fuel_curium = withName(new ItemDepletedFissionFuel(MetaEnums.CuriumDepletedFuelType.class), "depleted_fuel_curium");
+		depleted_fuel_berkelium = withName(new ItemDepletedFissionFuel(MetaEnums.BerkeliumDepletedFuelType.class), "depleted_fuel_berkelium");
+		depleted_fuel_californium = withName(new ItemDepletedFissionFuel(MetaEnums.CaliforniumDepletedFuelType.class), "depleted_fuel_californium");
 		
-		depleted_fuel_ic2 = new ItemDepletedFissionFuel("depleted_fuel_ic2", MetaEnums.IC2DepletedFuelType.class);
+		depleted_fuel_ic2 = withName(new ItemDepletedFissionFuel(MetaEnums.IC2DepletedFuelType.class), "depleted_fuel_ic2");
 		
-		boron = new NCItemMeta("boron", MetaEnums.BoronType.class);
-		lithium = new NCItemMeta("lithium", MetaEnums.LithiumType.class);
+		boron = withName(new NCItemMeta(MetaEnums.BoronType.class), "boron");
+		lithium = withName(new NCItemMeta(MetaEnums.LithiumType.class), "lithium");
 		
-		lithium_ion_cell = new ItemBattery("lithium_ion_cell", BatteryType.LITHIUM_ION_BATTERY_BASIC);
+		lithium_ion_cell = withName(new ItemBattery(BatteryType.LITHIUM_ION_BATTERY_BASIC), "lithium_ion_cell");
 		
-		geiger_counter = new ItemGeigerCounter("geiger_counter");
-		rad_shielding = new ItemRadShielding("rad_shielding", NCInfo.radShieldingInfo());
-		radiation_badge = new ItemRadiationBadge("radiation_badge", InfoHelper.formattedInfo(infoLine("radiation_badge"), UnitHelper.prefix(NCConfig.radiation_badge_durability*NCConfig.radiation_badge_info_rate, 3, "Rads"), UnitHelper.prefix(NCConfig.radiation_badge_durability, 3, "Rads")));
+		geiger_counter = withName(new ItemGeigerCounter(), "geiger_counter");
+		rad_shielding = withName(new ItemRadShielding(NCInfo.radShieldingInfo()), "rad_shielding");
+		radiation_badge = withName(new ItemRadiationBadge(InfoHelper.formattedInfo(infoLine("radiation_badge"), UnitHelper.prefix(NCConfig.radiation_badge_durability*NCConfig.radiation_badge_info_rate, 3, "Rads"), UnitHelper.prefix(NCConfig.radiation_badge_durability, 3, "Rads"))), "radiation_badge");
 		
-		radaway = new ItemRadaway("radaway", false, InfoHelper.formattedInfo(infoLine("radaway"), RadiationHelper.radsPrefix(NCConfig.radiation_radaway_amount, false), Math.round(100D*NCConfig.radiation_radaway_amount/NCConfig.max_player_rads) + "%", RadiationHelper.radsPrefix(NCConfig.radiation_radaway_rate, true)));
-		radaway_slow = new ItemRadaway("radaway_slow", true, InfoHelper.formattedInfo(infoLine("radaway"), RadiationHelper.radsPrefix(NCConfig.radiation_radaway_slow_amount, false), Math.round(100D*NCConfig.radiation_radaway_slow_amount/NCConfig.max_player_rads) + "%", RadiationHelper.radsPrefix(NCConfig.radiation_radaway_slow_rate, true)));
-		rad_x = new ItemRadX("rad_x", InfoHelper.formattedInfo(infoLine("rad_x"), RadiationHelper.resistanceSigFigs(NCConfig.radiation_rad_x_amount), UnitHelper.applyTimeUnit(NCConfig.radiation_rad_x_lifetime, 2)));
+		radaway = withName(new ItemRadaway(false, InfoHelper.formattedInfo(infoLine("radaway"), RadiationHelper.radsPrefix(NCConfig.radiation_radaway_amount, false), Math.round(100D*NCConfig.radiation_radaway_amount/NCConfig.max_player_rads) + "%", RadiationHelper.radsPrefix(NCConfig.radiation_radaway_rate, true))), "radaway");
+		radaway_slow = withName(new ItemRadaway(true, InfoHelper.formattedInfo(infoLine("radaway"), RadiationHelper.radsPrefix(NCConfig.radiation_radaway_slow_amount, false), Math.round(100D*NCConfig.radiation_radaway_slow_amount/NCConfig.max_player_rads) + "%", RadiationHelper.radsPrefix(NCConfig.radiation_radaway_slow_rate, true))), "radaway_slow");
+		rad_x = withName(new ItemRadX(InfoHelper.formattedInfo(infoLine("rad_x"), RadiationHelper.resistanceSigFigs(NCConfig.radiation_rad_x_amount), UnitHelper.applyTimeUnit(NCConfig.radiation_rad_x_lifetime, 2))), "rad_x");
 		
-		portable_ender_chest = new ItemPortableEnderChest("portable_ender_chest");
+		portable_ender_chest = withName(new ItemPortableEnderChest(), "portable_ender_chest");
 		
-		dominos = new NCItemFood("dominos", 16, 1.8F, new PotionEffect[] {PotionHelper.newEffect(1, 2, 600), PotionHelper.newEffect(3, 2, 600)});
+		dominos = withName(new NCItemFood(16, 1.8F, new PotionEffect[] {PotionHelper.newEffect(1, 2, 600), PotionHelper.newEffect(3, 2, 600)}), "dominos");
 		
-		flour = new NCItem("flour");
-		graham_cracker = new NCItemFood("graham_cracker", 1, 0.2F, new PotionEffect[] {});
+		flour = withName(new NCItem(), "flour");
+		graham_cracker = withName(new NCItemFood(1, 0.2F, new PotionEffect[] {}), "graham_cracker");
 		
-		roasted_cocoa_beans = new NCItem("roasted_cocoa_beans");
-		ground_cocoa_nibs = new NCItemFood("ground_cocoa_nibs", 1, 0.2F, new PotionEffect[] {});
-		cocoa_butter = new NCItemFood("cocoa_butter", 2, 0.2F, new PotionEffect[] {PotionHelper.newEffect(22, 1, 300)});
-		cocoa_solids = new NCItem("cocoa_solids");
-		unsweetened_chocolate = new NCItemFood("unsweetened_chocolate", 2, 0.2F, new PotionEffect[] {PotionHelper.newEffect(3, 1, 300)});
-		dark_chocolate = new NCItemFood("dark_chocolate", 3, 0.4F, new PotionEffect[] {PotionHelper.newEffect(3, 1, 300), PotionHelper.newEffect(1, 1, 300)});
-		milk_chocolate = new NCItemFood("milk_chocolate", 4, 0.6F, new PotionEffect[] {PotionHelper.newEffect(3, 1, 300), PotionHelper.newEffect(1, 1, 300), PotionHelper.newEffect(22, 1, 300)});
+		roasted_cocoa_beans = withName(new NCItem(), "roasted_cocoa_beans");
+		ground_cocoa_nibs = withName(new NCItemFood(1, 0.2F, new PotionEffect[] {}), "ground_cocoa_nibs");
+		cocoa_butter = withName(new NCItemFood(2, 0.2F, new PotionEffect[] {PotionHelper.newEffect(22, 1, 300)}), "cocoa_butter");
+		cocoa_solids = withName(new NCItem(), "cocoa_solids");
+		unsweetened_chocolate = withName(new NCItemFood(2, 0.2F, new PotionEffect[] {PotionHelper.newEffect(3, 1, 300)}), "unsweetened_chocolate");
+		dark_chocolate = withName(new NCItemFood(3, 0.4F, new PotionEffect[] {PotionHelper.newEffect(3, 1, 300), PotionHelper.newEffect(1, 1, 300)}), "dark_chocolate");
+		milk_chocolate = withName(new NCItemFood(4, 0.6F, new PotionEffect[] {PotionHelper.newEffect(3, 1, 300), PotionHelper.newEffect(1, 1, 300), PotionHelper.newEffect(22, 1, 300)}), "milk_chocolate");
 		
-		gelatin = new NCItem("gelatin");
-		marshmallow = new NCItemFood("marshmallow", 1, 0.2F, new PotionEffect[] {PotionHelper.newEffect(1, 1, 300)});
+		gelatin = withName(new NCItem(), "gelatin");
+		marshmallow = withName(new NCItemFood(1, 0.2F, new PotionEffect[] {PotionHelper.newEffect(1, 1, 300)}), "marshmallow");
 		
-		smore = new NCItemFood("smore", 8, 1.2F, new PotionEffect[] {PotionHelper.newEffect(3, 2, 300), PotionHelper.newEffect(1, 2, 300), PotionHelper.newEffect(22, 2, 300)});
-		moresmore = new NCItemFood("moresmore", 20, 2.4F, new PotionEffect[] {PotionHelper.newEffect(3, 2, 600), PotionHelper.newEffect(1, 2, 600), PotionHelper.newEffect(22, 2, 600)});
-		foursmore = new NCItemFood("foursmore", 48, 4.8F, new PotionEffect[] {PotionHelper.newEffect(3, 2, 1200), PotionHelper.newEffect(1, 2, 1200), PotionHelper.newEffect(22, 2, 1200)});
+		smore = withName(new NCItemFood(8, 1.2F, new PotionEffect[] {PotionHelper.newEffect(3, 2, 300), PotionHelper.newEffect(1, 2, 300), PotionHelper.newEffect(22, 2, 300)}), "smore");
+		moresmore = withName(new NCItemFood(20, 2.4F, new PotionEffect[] {PotionHelper.newEffect(3, 2, 600), PotionHelper.newEffect(1, 2, 600), PotionHelper.newEffect(22, 2, 600)}), "moresmore");
+		foursmore = withName(new NCItemFood(48, 4.8F, new PotionEffect[] {PotionHelper.newEffect(3, 2, 1200), PotionHelper.newEffect(1, 2, 1200), PotionHelper.newEffect(22, 2, 1200)}), "foursmore");
 		
-		record_wanderer = new NCItemRecord("wanderer", SoundHandler.wanderer);
-		record_end_of_the_world = new NCItemRecord("end_of_the_world", SoundHandler.end_of_the_world);
-		record_money_for_nothing = new NCItemRecord("money_for_nothing", SoundHandler.money_for_nothing);
-		record_hyperspace = new NCItemRecord("hyperspace", SoundHandler.hyperspace);
+		record_wanderer = withName(new NCItemRecord("record_wanderer", SoundHandler.wanderer), "record_wanderer");
+		record_end_of_the_world = withName(new NCItemRecord("record_end_of_the_world", SoundHandler.end_of_the_world), "record_end_of_the_world");
+		record_money_for_nothing = withName(new NCItemRecord("record_money_for_nothing", SoundHandler.money_for_nothing), "record_money_for_nothing");
+		record_hyperspace = withName(new NCItemRecord("record_hyperspace", SoundHandler.hyperspace), "record_hyperspace");
 	}
 	
 	public static void register() {
@@ -498,7 +498,11 @@ public class NCItems {
 		registerRender(record_hyperspace);
 	}
 	
-	private static String infoLine(String name) {
+	public static Item withName(Item item, String name) {
+		return item.setTranslationKey(Global.MOD_ID + "." + name).setRegistryName(new ResourceLocation(Global.MOD_ID, name));
+	}
+	
+	public static String infoLine(String name) {
 		return "item." + Global.MOD_ID + "." + name + ".desc";
 	}
 	

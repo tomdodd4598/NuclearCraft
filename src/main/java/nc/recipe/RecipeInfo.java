@@ -2,18 +2,20 @@ package nc.recipe;
 
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 public class RecipeInfo<T extends IRecipe> {
 	
 	private final T recipe;
 	
 	private final RecipeMatchResult matchResult;
 	
-	public RecipeInfo(T recipe, RecipeMatchResult matchResult) {
+	public RecipeInfo(@Nonnull T recipe, RecipeMatchResult matchResult) {
 		this.recipe = recipe;
 		this.matchResult = matchResult;
 	}
 	
-	public T getRecipe() {
+	public @Nonnull T getRecipe() {
 		return recipe;
 	}
 	

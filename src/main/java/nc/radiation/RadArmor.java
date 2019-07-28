@@ -1,12 +1,10 @@
 package nc.radiation;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import it.unimi.dsi.fastutil.ints.Int2DoubleMap;
 import it.unimi.dsi.fastutil.ints.Int2DoubleOpenHashMap;
+import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
+import it.unimi.dsi.fastutil.ints.IntSet;
 import nc.config.NCConfig;
-import nc.init.NCArmor;
 import nc.init.NCItems;
 import nc.recipe.vanilla.CraftingRecipeHandler;
 import nc.util.ArmorHelper;
@@ -15,27 +13,28 @@ import net.minecraft.client.util.RecipeItemHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class RadiationArmor {
+public class RadArmor {
 	
-	public static final Set<ItemStack> ARMOR_STACK_SHIELDING_BLACKLIST = new HashSet<>();
-	public static final Set<ItemStack> ARMOR_STACK_SHIELDING_LIST = new HashSet<>();
+	public static final IntSet ARMOR_STACK_SHIELDING_BLACKLIST = new IntOpenHashSet();
+	public static final IntSet ARMOR_STACK_SHIELDING_LIST = new IntOpenHashSet();
 	
 	public static final Int2DoubleMap ARMOR_RAD_RESISTANCE_MAP = new Int2DoubleOpenHashMap();
 	
 	public static void init() {
-		ARMOR_STACK_SHIELDING_BLACKLIST.add(new ItemStack(NCArmor.helm_hazmat));
-		ARMOR_STACK_SHIELDING_BLACKLIST.add(new ItemStack(NCArmor.chest_hazmat));
-		ARMOR_STACK_SHIELDING_BLACKLIST.add(new ItemStack(NCArmor.legs_hazmat));
-		ARMOR_STACK_SHIELDING_BLACKLIST.add(new ItemStack(NCArmor.boots_hazmat));
-		
 		for (String stackInfo : NCConfig.radiation_shielding_item_blacklist) {
 			ItemStack stack = RegistryHelper.itemStackFromRegistry(stackInfo);
-			if (stack != null) ARMOR_STACK_SHIELDING_BLACKLIST.add(stack);
+			if (stack != null) {
+				int packed = RecipeItemHelper.pack(stack);
+				if (packed != 0) ARMOR_STACK_SHIELDING_BLACKLIST.add(packed);
+			}
 		}
 		
 		for (String stackInfo : NCConfig.radiation_shielding_custom_stacks) {
 			ItemStack stack = RegistryHelper.itemStackFromRegistry(stackInfo);
-			if (stack != null) ARMOR_STACK_SHIELDING_LIST.add(stack);
+			if (stack != null) {
+				int packed = RecipeItemHelper.pack(stack);
+				if (packed != 0) ARMOR_STACK_SHIELDING_LIST.add(packed);
+			}
 		}
 	}
 	
@@ -66,8 +65,8 @@ public class RadiationArmor {
 	}
 	
 	public static void addArmorShieldingRecipes(ItemStack stack) {
-		CraftingRecipeHandler.addShapelessArmorUpgradeRecipe(armorWithRadResistance(stack, NCConfig.radiation_shielding_level[0]), new Object[] {stack, new ItemStack(NCItems.rad_shielding, 1, 0)});
-		CraftingRecipeHandler.addShapelessArmorUpgradeRecipe(armorWithRadResistance(stack, NCConfig.radiation_shielding_level[1]), new Object[] {stack, new ItemStack(NCItems.rad_shielding, 1, 1)});
-		CraftingRecipeHandler.addShapelessArmorUpgradeRecipe(armorWithRadResistance(stack, NCConfig.radiation_shielding_level[2]), new Object[] {stack, new ItemStack(NCItems.rad_shielding, 1, 2)});
+		for (int i : new int[] {0, 1, 2}) {
+			CraftingRecipeHandler.addShapelessArmorUpgradeRecipe(armorWithRadResistance(stack, NCConfig.radiation_shielding_level[i]), new Object[] {stack, new ItemStack(NCItems.rad_shielding, 1, i)});
+		}
 	}
 }

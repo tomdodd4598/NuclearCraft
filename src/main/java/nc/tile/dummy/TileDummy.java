@@ -108,10 +108,19 @@ public abstract class TileDummy<T extends IDummyMaster> extends TileEnergyFluidS
 	}
 	
 	@Override
+	public ItemStack decrStackSize(int slot, int amount) {
+		if (getMaster() instanceof ITileInventory) {
+			return ((ITileInventory) getMaster()).decrStackSize(slot, amount);
+		}
+		else {
+			return super.decrStackSize(slot, amount);
+		}
+	}
+	
+	@Override
 	public void setInventorySlotContents(int index, ItemStack stack) {
 		if (getMaster() instanceof ITileInventory) {
 			((ITileInventory) getMaster()).setInventorySlotContents(index, stack);
-			return;
 		}
 		else {
 			super.setInventorySlotContents(index, stack);

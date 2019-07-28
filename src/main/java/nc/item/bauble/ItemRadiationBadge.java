@@ -26,8 +26,8 @@ public class ItemRadiationBadge extends NCItem implements IBauble {
 	private static final String EXPOSURE = Lang.localise("item.nuclearcraft.radiation_badge.exposure");
 	private static final String BADGE_BROKEN = Lang.localise("item.nuclearcraft.radiation_badge.broken");
 	
-	public ItemRadiationBadge(String nameIn, String... tooltip) {
-		super(nameIn, tooltip);
+	public ItemRadiationBadge(String... tooltip) {
+		super(tooltip);
 		maxStackSize = 1;
 	}
 	

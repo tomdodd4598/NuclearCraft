@@ -6,7 +6,7 @@ import javax.annotation.Nullable;
 import com.google.common.collect.Lists;
 
 import nc.Global;
-import nc.block.tile.processor.BlockNuclearFurnace;
+import nc.block.tile.IActivatable;
 import nc.capability.radiation.source.IRadiationSource;
 import nc.capability.radiation.source.RadiationSource;
 import nc.radiation.RadSources;
@@ -206,7 +206,7 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ITileIn
 			
 			if (flag != isBurning()) {
 				flag1 = true;
-				BlockNuclearFurnace.setState(isBurning(), world, pos);
+				setState(isBurning());
 				world.notifyNeighborsOfStateChange(pos, blockType, true);
 			}
 		}
@@ -391,7 +391,7 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ITileIn
 	
 	@Override
 	public void setState(boolean isActive) {
-		
+		if (getBlockType() instanceof IActivatable) ((IActivatable)getBlockType()).setState(isActive, world, pos);
 	}
 	
 	@Override

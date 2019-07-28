@@ -19,8 +19,9 @@ import net.minecraft.world.World;
 public class BlockFusionCore extends BlockTile implements IActivatable {
 	
 	public BlockFusionCore() {
-		super("fusion_core", Material.ANVIL);
+		super(Material.ANVIL);
 		setCreativeTab(NCTabs.FUSION);
+		canCreatureSpawn = false;
 	}
 	
 	@Override

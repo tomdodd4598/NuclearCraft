@@ -20,7 +20,9 @@ public interface IRadiationSource extends IRadiation, ICapability<IRadiationSour
 	
 	public double getScrubbingFraction();
 	
-	public void addScrubbingFraction(double scrubbing);
+	public void setScrubbingFraction(double newFraction);
 	
-	public void resetScrubbingFraction();
+	public double getEffectiveScrubberCount();
+	
+	public void setEffectiveScrubberCount(double newScrubberCount);
 }

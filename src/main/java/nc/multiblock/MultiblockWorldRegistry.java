@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -50,12 +50,12 @@ final class MultiblockWorldRegistry {
 	public MultiblockWorldRegistry(final World world) {
 		worldObj = world;
 
-		multiblocks = new HashSet<MultiblockBase>();
-		deadMultiblocks = new HashSet<MultiblockBase>();
-		dirtyMultiblocks = new HashSet<MultiblockBase>();
+		multiblocks = new ObjectOpenHashSet<MultiblockBase>();
+		deadMultiblocks = new ObjectOpenHashSet<MultiblockBase>();
+		dirtyMultiblocks = new ObjectOpenHashSet<MultiblockBase>();
 
-		detachedParts = new HashSet<IMultiblockPart>();
-		orphanedParts = new HashSet<IMultiblockPart>();
+		detachedParts = new ObjectOpenHashSet<IMultiblockPart>();
+		orphanedParts = new ObjectOpenHashSet<IMultiblockPart>();
 
 		partsAwaitingChunkLoad = new HashMap<Long, Set<IMultiblockPart>>();
 		partsAwaitingChunkLoadMutex = new Object();
@@ -101,7 +101,7 @@ final class MultiblockWorldRegistry {
 			synchronized(orphanedPartsMutex) {
 				if(orphanedParts.size() > 0) {
 					orphansToProcess = orphanedParts;
-					orphanedParts = new HashSet<IMultiblockPart>();
+					orphanedParts = new ObjectOpenHashSet<IMultiblockPart>();
 				}
 			}
 
@@ -279,7 +279,7 @@ final class MultiblockWorldRegistry {
 
 			synchronized(partsAwaitingChunkLoadMutex) {
 				if(!partsAwaitingChunkLoad.containsKey(chunkHash)) {
-					partSet = new HashSet<IMultiblockPart>();
+					partSet = new ObjectOpenHashSet<IMultiblockPart>();
 					partsAwaitingChunkLoad.put(chunkHash, partSet);
 				}
 				else {

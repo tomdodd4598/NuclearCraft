@@ -12,7 +12,7 @@ import net.minecraft.world.World;
 public class BlockTurbineRotorBearing extends BlockTurbinePartBase {
 
 	public BlockTurbineRotorBearing() {
-		super("turbine_rotor_bearing");
+		super();
 	}
 
 	@Override

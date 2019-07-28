@@ -10,11 +10,14 @@ import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
 import li.cil.oc.api.network.SimpleComponent;
 import nc.Global;
+import nc.capability.radiation.source.IRadiationSource;
 import nc.config.NCConfig;
+import nc.radiation.RadiationHelper;
 import nc.radiation.environment.RadiationEnvironmentHandler;
 import nc.radiation.environment.RadiationEnvironmentInfo;
 import nc.recipe.ingredient.OreIngredient;
 import nc.tile.passive.TilePassiveAbstract;
+import nc.util.FourPos;
 import nc.util.MaterialHelper;
 import nc.util.NCMath;
 import net.minecraft.nbt.NBTTagCompound;
@@ -26,12 +29,7 @@ import net.minecraftforge.fml.common.Optional;
 @Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers")
 public class TileRadiationScrubber extends TilePassiveAbstract implements ITileRadiationEnvironment, SimpleComponent {
 	
-	private static final int RADIUS = 5;
-	
-	private static final double OCCLUSION_PENALTY_FRACTION = NCConfig.radiation_scrubber_fraction/52D;
-	public static final double MAX_SCRUBBER_RATE_FRACTION = NCConfig.radiation_scrubber_fraction;
-	
-	private double scrubberRateFraction = 0D, currentChunkBuffer = 0D;
+	private double scrubberFraction = 0D, currentChunkBuffer = 0D;
 	
 	public final Map<BlockPos, Integer> occlusionMap = new ConcurrentHashMap<BlockPos, Integer>();
 	
@@ -46,8 +44,8 @@ public class TileRadiationScrubber extends TilePassiveAbstract implements ITileR
 	public void onAdded() {
 		super.onAdded();
 		if(!world.isRemote) {
-			for (int x = -RADIUS; x <= RADIUS; x++) for (int y = -RADIUS; y <= RADIUS; y++) for (int z = -RADIUS; z <= RADIUS; z++) {
-				RadiationEnvironmentHandler.addTile(pos.add(x, y, z), this);
+			for (int x = -searchRadius(); x <= searchRadius(); x++) for (int y = -searchRadius(); y <= searchRadius(); y++) for (int z = -searchRadius(); z <= searchRadius(); z++) {
+				RadiationEnvironmentHandler.addTile(getFourPos().add(x, y, z), this);
 			}
 		}
 	}
@@ -62,7 +60,15 @@ public class TileRadiationScrubber extends TilePassiveAbstract implements ITileR
 	}
 	
 	public double getRawScrubberRate() {
-		return isActive ? -currentChunkBuffer*scrubberRateFraction : 0D;
+		if (!isActive) {
+			return 0D;
+		}
+		if (NCConfig.radiation_scrubber_alt) {
+			IRadiationSource chunkSource = RadiationHelper.getRadiationSource(world.getChunk(pos));
+			if (chunkSource == null || chunkSource.getEffectiveScrubberCount() == 0D) return 0D;
+			return -currentChunkBuffer*scrubberFraction*chunkSource.getScrubbingFraction()/chunkSource.getEffectiveScrubberCount();
+		}
+		return -currentChunkBuffer*scrubberFraction;
 	}
 	
 	public void tickRadCount() {
@@ -83,7 +89,7 @@ public class TileRadiationScrubber extends TilePassiveAbstract implements ITileR
 	
 	@Override
 	public void checkRadiationEnvironmentInfo() {
-		double newScrubberRateFraction = MAX_SCRUBBER_RATE_FRACTION;
+		double newScrubberFraction = getMaxScrubberFraction();
 		
 		Iterator<Entry<BlockPos, Integer>> occlusionIterator = occlusionMap.entrySet().iterator();
 		
@@ -93,27 +99,27 @@ public class TileRadiationScrubber extends TilePassiveAbstract implements ITileR
 			Entry<BlockPos, Integer> occlusion = occlusionIterator.next();
 			
 			if (isOcclusive(pos, world, occlusion.getKey())) {
-				newScrubberRateFraction -= OCCLUSION_PENALTY_FRACTION/pos.distanceSq(occlusion.getKey());
+				newScrubberFraction -= getOcclusionPenalty()/pos.distanceSq(occlusion.getKey());
 				occlusionCount++;
 				tileCount += Math.max(1D, Math.sqrt(occlusion.getValue()));
 			}
 			else occlusionIterator.remove();
 		}
 		
-		scrubberRateFraction = occlusionCount == 0 ? MAX_SCRUBBER_RATE_FRACTION : Math.max(0D, (newScrubberRateFraction*occlusionCount)/tileCount);
+		scrubberFraction = occlusionCount == 0 ? getMaxScrubberFraction() : Math.max(0D, (newScrubberFraction*occlusionCount)/tileCount);
 	}
 	
 	@Override
 	public void handleRadiationEnvironmentInfo(RadiationEnvironmentInfo info) {
-		BlockPos blockPos = info.pos;
-		if (!pos.equals(blockPos) && isOcclusive(pos, world, blockPos)) {
-			occlusionMap.put(blockPos, Math.max(1, info.tileMap.size()));
+		FourPos fourPos = getFourPos(), infoPos = info.pos;
+		if (fourPos.getDimension() == infoPos.getDimension() && !fourPos.equals(infoPos) && !info.tileMap.isEmpty() /*&& isOcclusive(fourPos.getBlockPos(), world, infoPos.getBlockPos())*/) {
+			occlusionMap.put(infoPos.getBlockPos(), Math.max(1, info.tileMap.size()));
 		}
 	}
 	
 	@Override
 	public double getContributionFraction() {
-		return isActive ? -scrubberRateFraction : 0D;
+		return isActive ? -scrubberFraction : 0D;
 	}
 	
 	@Override
@@ -126,17 +132,29 @@ public class TileRadiationScrubber extends TilePassiveAbstract implements ITileR
 		currentChunkBuffer = buffer;
 	}
 	
+	public static double getMaxScrubberFraction() {
+		return NCConfig.radiation_scrubber_alt ? 1D : NCConfig.radiation_scrubber_fraction;
+	}
+	
+	private static double getOcclusionPenalty() {
+		return getMaxScrubberFraction()/52D;
+	}
+	
+	private static int searchRadius() {
+		return NCConfig.radiation_scrubber_radius;
+	}
+	
 	// Helper
 	
 	private static boolean isOcclusive(BlockPos pos, World world, BlockPos otherPos) {
-		return pos.distanceSq(otherPos) < NCMath.square(RADIUS) && !MaterialHelper.isEmpty(world.getBlockState(otherPos).getMaterial());
+		return pos.distanceSq(otherPos) < NCMath.square(searchRadius()) && !MaterialHelper.isEmpty(world.getBlockState(otherPos).getMaterial());
 	}
 	
 	@Override
 	public boolean equals(Object obj) {
 		if (obj == this) return true;
 		if (!(obj instanceof TileRadiationScrubber)) return false;
-		return pos.equals(((TileRadiationScrubber)obj).pos);
+		return getFourPos().equals(((TileRadiationScrubber)obj).getFourPos());
 	}
 	
 	// NBT
@@ -144,7 +162,7 @@ public class TileRadiationScrubber extends TilePassiveAbstract implements ITileR
 	@Override
 	public NBTTagCompound writeAll(NBTTagCompound nbt) {
 		super.writeAll(nbt);
-		nbt.setDouble("scrubberRate", scrubberRateFraction);
+		nbt.setDouble("scrubberRate", scrubberFraction);
 		nbt.setDouble("currentChunkBuffer", currentChunkBuffer);
 		
 		int count = 0;
@@ -159,7 +177,7 @@ public class TileRadiationScrubber extends TilePassiveAbstract implements ITileR
 	@Override
 	public void readAll(NBTTagCompound nbt) {
 		super.readAll(nbt);
-		scrubberRateFraction = nbt.getDouble("scrubberRate");
+		scrubberFraction = nbt.getDouble("scrubberRate");
 		currentChunkBuffer = nbt.getDouble("currentChunkBuffer");
 		
 		for (String key : nbt.getKeySet()) {
@@ -188,6 +206,6 @@ public class TileRadiationScrubber extends TilePassiveAbstract implements ITileR
 	@Callback
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getEfficiency(Context context, Arguments args) {
-		return new Object[] {Math.abs(100D*getContributionFraction()/MAX_SCRUBBER_RATE_FRACTION)};
+		return new Object[] {Math.abs(100D*getContributionFraction()/getMaxScrubberFraction())};
 	}
 }

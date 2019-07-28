@@ -34,13 +34,12 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public abstract class MultiblockBlockPartBase extends NCBlock implements ITileEntityProvider {
 	
-	protected static boolean keepInventory;
-	
-	public MultiblockBlockPartBase(String name, Material material, CreativeTabs tab) {
-		super(name, material);
+	public MultiblockBlockPartBase(Material material, CreativeTabs tab) {
+		super(material);
 		hasTileEntity = true;
 		setDefaultState(blockState.getBaseState());
 		setCreativeTab(tab);
+		canCreatureSpawn = false;
 	}
 	
 	@Override
@@ -113,8 +112,8 @@ public abstract class MultiblockBlockPartBase extends NCBlock implements ITileEn
 		
 		protected final boolean smartRender;
 		
-		public Transparent(String name, Material material, CreativeTabs tab, boolean smartRender) {
-			super(name, material, tab);
+		public Transparent(Material material, CreativeTabs tab, boolean smartRender) {
+			super(material, tab);
 			setHardness(1.5F);
 			setResistance(10F);
 			this.smartRender = smartRender;

@@ -121,8 +121,8 @@ public class IngotFormerRecipes extends ProcessorRecipeHandler {
 		for (int type : types) {
 			addRecipe(fluidStack("fuel_l" + suffix + suffixExtra + "_" + type, FluidStackHelper.INGOT_BLOCK_VOLUME), "fuelL" + suffix.toUpperCase() + suffixExtra + type, 9D, 1D);
 			addRecipe(fluidStack("fuel_h" + suffix + suffixExtra + "_" + type, FluidStackHelper.INGOT_BLOCK_VOLUME), "fuelH" + suffix.toUpperCase() + suffixExtra + type, 9D, 1D);
-			addRecipe(fluidStack("depleted_fuel_l" + suffix + suffixExtra + "_" + type, FluidStackHelper.NUGGET_VOLUME*64), "depletedFuelL" + suffix.toUpperCase() + suffixExtra + type, 64D/9D, 1D);
-			addRecipe(fluidStack("depleted_fuel_h" + suffix + suffixExtra + "_" + type, FluidStackHelper.NUGGET_VOLUME*64), "depletedFuelH" + suffix.toUpperCase() + suffixExtra + type, 64D/9D, 1D);
+			addRecipe(fluidStack("depleted_fuel_l" + suffix + suffixExtra + "_" + type, FluidStackHelper.INGOT_BLOCK_VOLUME), "depletedFuelL" + suffix.toUpperCase() + suffixExtra + type, 64D/9D, 1D);
+			addRecipe(fluidStack("depleted_fuel_h" + suffix + suffixExtra + "_" + type, FluidStackHelper.INGOT_BLOCK_VOLUME), "depletedFuelH" + suffix.toUpperCase() + suffixExtra + type, 64D/9D, 1D);
 		}
 	}
 	

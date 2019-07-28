@@ -27,7 +27,7 @@ public class BlockTurbineDynamoCoil extends BlockTurbinePartBase implements IMet
 	private final static PropertyEnum TYPE = PropertyEnum.create("type", TurbineDynamoCoilType.class);
 
 	public BlockTurbineDynamoCoil() {
-		super("turbine_dynamo_coil");
+		super();
 		setDefaultState(blockState.getBaseState().withProperty(TYPE, TurbineDynamoCoilType.MAGNESIUM));
 	}
 	

@@ -1,8 +1,8 @@
 package nc.multiblock.heatExchanger;
 
-import java.util.HashSet;
 import java.util.Set;
 
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import nc.Global;
 import nc.config.NCConfig;
 import nc.multiblock.IMultiblockFluid;
@@ -39,10 +39,10 @@ public class HeatExchanger extends CuboidalMultiblockBase<HeatExchangerUpdatePac
 	public HeatExchanger(World world) {
 		super(world);
 		
-		controllers = new HashSet<TileHeatExchangerController>();
-		vents = new HashSet<TileHeatExchangerVent>();
-		tubes = new HashSet<TileHeatExchangerTube>();
-		condenserTubes = new HashSet<TileHeatExchangerCondenserTube>();
+		controllers = new ObjectOpenHashSet<TileHeatExchangerController>();
+		vents = new ObjectOpenHashSet<TileHeatExchangerVent>();
+		tubes = new ObjectOpenHashSet<TileHeatExchangerTube>();
+		condenserTubes = new ObjectOpenHashSet<TileHeatExchangerCondenserTube>();
 	}
 	
 	// Multiblock Part Getters

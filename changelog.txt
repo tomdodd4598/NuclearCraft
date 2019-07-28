@@ -1,3 +1,32 @@
+v2.17c
+
+* Recipe checking moved to cache-based system - should significantly improve performance
+
++ Added configurable block mutation radiation effect - disabled by default!
++ Added configs for irradiation multipliers in rain and water
+
++ Added various radiation-related CT entity methods [thanks to LordPINE!]
++ Added config option to switch to non-linear radiation scrubbing system
+* Added configs for fluid radiation levels
+* Hardcore containers now reads the fluid contents of TEs
+
+* Fixed scrubbers effectively behaving 'inter-dimensionally'
+* Fixed entity and chunk radiation updating being out of synch
+* Radiation updates now occur every tick in subsets of loaded chunks
+
+* Slightly changed when and how fusion reactor plasma disappears from the e-magnet toroid
+
+* Fission ports are no longer required to be placed facing a particular direction
+* Fixed fission reactors not correctly updating after receiving new fuel from a port
+
+* Fixed GTCE recipe integration not transferring all recipes correctly
+* Changed a couple of GTCE machines targeted for NC recipe integration
+
++ Added some default ProjectE EMC values for basic NC materials
+
+* Updated APIs
+* Other minor additions, changes, fixes and refactors
+
 v2.17b
 
 + Added config option for food radiation and rad resistance effects
@@ -18,8 +47,6 @@ v2.17b
 
 * Improved formatting of various printed numbers
 * Other minor additions, changes and fixes
-* Possible other things that I have forgotten
-- Removed Paulobrine and Herobrian
 
 v2.17a
 

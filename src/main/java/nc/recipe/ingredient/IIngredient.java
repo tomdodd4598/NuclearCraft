@@ -13,6 +13,8 @@ public interface IIngredient<T> {
 	
 	public List<T> getInputStackList();
 	
+	public List<T> getInputStackHashingList();
+	
 	public List<T> getOutputStackList();
 	
 	public String getIngredientName();

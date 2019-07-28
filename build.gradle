@@ -92,6 +92,7 @@ dependencies {
 	deobfCompile "li.cil.oc:OpenComputers:${oc_version}"
 	deobfCompile "gregtechce:gregtech:${gregtech_version}"
 	deobfCompile "mekanism:Mekanism:${mekanism_version}"
+	deobfCompile "projecte:ProjectE:${projecte_version}"
 	deobfCompile ("appeng:appliedenergistics2:rv6-stable-6"){
 		transitive = false
 	}

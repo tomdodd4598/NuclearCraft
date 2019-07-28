@@ -28,8 +28,7 @@ public class BlockHeatExchangerTube extends BlockHeatExchangerPartBase implement
 	private final HeatExchangerTubeType tubeType;
 
 	public BlockHeatExchangerTube(HeatExchangerTubeType tubeType) {
-		super("heat_exchanger_tube_" + tubeType.toString());
-		
+		super();
 		this.tubeType = tubeType;
 	}
 

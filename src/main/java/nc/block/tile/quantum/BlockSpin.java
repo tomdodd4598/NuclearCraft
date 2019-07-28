@@ -30,8 +30,8 @@ public class BlockSpin extends NCBlock implements ITileEntityProvider {
 	public double phi = 0;
 	public double theta = 0;
 
-	public BlockSpin(String name) {
-		super(name, Material.IRON);
+	public BlockSpin() {
+		super(Material.IRON);
 		setHardness(1F);
 		setResistance(5F);
 		setCreativeTab(NCTabs.MISC);

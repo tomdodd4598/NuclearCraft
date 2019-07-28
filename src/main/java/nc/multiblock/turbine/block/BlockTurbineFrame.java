@@ -12,7 +12,7 @@ import net.minecraft.world.World;
 public class BlockTurbineFrame extends BlockTurbinePartBase {
 
 	public BlockTurbineFrame() {
-		super("turbine_frame");
+		super();
 	}
 
 	@Override

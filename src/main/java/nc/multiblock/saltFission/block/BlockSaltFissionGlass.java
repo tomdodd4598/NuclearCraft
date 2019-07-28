@@ -12,7 +12,7 @@ import net.minecraft.world.World;
 public class BlockSaltFissionGlass extends BlockSaltFissionPartBase.Transparent {
 
 	public BlockSaltFissionGlass() {
-		super("salt_fission_glass", true);
+		super(true);
 	}
 
 	@Override

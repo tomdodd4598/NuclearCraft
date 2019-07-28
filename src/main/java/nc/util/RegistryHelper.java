@@ -3,6 +3,7 @@ package nc.util;
 import org.apache.commons.lang3.StringUtils;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -26,7 +27,7 @@ public class RegistryHelper {
 	
 	public static ItemStack blockStackFromRegistry(String location, int stackSize) {
 		Block block = getBlock(removeMeta(location));
-		return block == null ? null : new ItemStack(block, stackSize, getStackMeta(location));
+		return block == null ? null : new ItemStack(block, stackSize, getMeta(location));
 	}
 	
 	public static ItemStack blockStackFromRegistry(String location) {
@@ -35,11 +36,16 @@ public class RegistryHelper {
 	
 	public static ItemStack itemStackFromRegistry(String location, int stackSize) {
 		Item item = getItem(removeMeta(location));
-		return item == null ? null : new ItemStack(item, stackSize, getStackMeta(location));
+		return item == null ? null : new ItemStack(item, stackSize, getMeta(location));
 	}
 	
 	public static ItemStack itemStackFromRegistry(String location) {
 		return itemStackFromRegistry(location, 1);
+	}
+	
+	public static IBlockState blockStateFromRegistry(String location) {
+		Block block = getBlock(removeMeta(location));
+		return block == null ? null : block.getStateFromMeta(getMeta(location));
 	}
 	
 	public static Biome biomeFromRegistry(String location) {
@@ -48,7 +54,7 @@ public class RegistryHelper {
 		return ForgeRegistries.BIOMES.getValue(resLoc);
 	}
 	
-	public static int getStackMeta(String location) {
+	public static int getMeta(String location) {
 		if (StringUtils.countMatches(location, ':') < 2) return 0;
 		return Integer.parseInt(location.substring(location.lastIndexOf(':') + 1));
 	}

@@ -24,7 +24,7 @@ public class BlockTurbineRotorStator extends BlockTurbinePartBase {
 	private static final PropertyEnum<RotorStatorState> DIR = PropertyEnum.create("dir", RotorStatorState.class);
 	
 	public BlockTurbineRotorStator() {
-		super("turbine_rotor_stator");
+		super();
 		setDefaultState(blockState.getBaseState().withProperty(DIR, RotorStatorState.Y));
 	}
 	

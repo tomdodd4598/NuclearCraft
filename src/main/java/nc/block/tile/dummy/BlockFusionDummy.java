@@ -4,6 +4,7 @@ import javax.annotation.Nullable;
 
 import nc.NuclearCraft;
 import nc.block.tile.BlockTile;
+import nc.block.tile.ITileType;
 import nc.block.tile.generator.BlockFusionCore;
 import nc.enumm.BlockEnums.FusionDummyTileType;
 import nc.init.NCBlocks;
@@ -27,13 +28,19 @@ import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BlockFusionDummy extends BlockTile {
+public class BlockFusionDummy extends BlockTile implements ITileType {
 	
 	private final FusionDummyTileType type;
 	
 	public BlockFusionDummy(FusionDummyTileType type) {
-		super(type.getName(), Material.ANVIL);
+		super(Material.ANVIL);
 		this.type = type;
+		canCreatureSpawn = false;
+	}
+	
+	@Override
+	public String getTileName() {
+		return type.getName();
 	}
 	
 	@Override

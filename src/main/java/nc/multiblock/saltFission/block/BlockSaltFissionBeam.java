@@ -12,7 +12,7 @@ import net.minecraft.world.World;
 public class BlockSaltFissionBeam extends BlockSaltFissionPartBase {
 
 	public BlockSaltFissionBeam() {
-		super("salt_fission_beam");
+		super();
 	}
 
 	@Override

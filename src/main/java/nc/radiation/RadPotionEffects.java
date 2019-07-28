@@ -11,16 +11,16 @@ import nc.util.PotionHelper;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 
-public class RadEffects {
+public class RadPotionEffects {
 	
-	public static final List<Double> PLAYER_RAD_LEVEL_LIST = new ArrayList<Double>();
-	public static final List<List<PotionEffect>> PLAYER_DEBUFF_LIST = new ArrayList<List<PotionEffect>>();
+	public static final List<Double> PLAYER_RAD_LEVEL_LIST = new ArrayList<>();
+	public static final List<List<PotionEffect>> PLAYER_DEBUFF_LIST = new ArrayList<>();
 	
-	public static final List<Double> ENTITY_RAD_LEVEL_LIST = new ArrayList<Double>();
-	public static final List<List<PotionEffect>> ENTITY_DEBUFF_LIST = new ArrayList<List<PotionEffect>>();
+	public static final List<Double> ENTITY_RAD_LEVEL_LIST = new ArrayList<>();
+	public static final List<List<PotionEffect>> ENTITY_DEBUFF_LIST = new ArrayList<>();
 	
-	public static final List<Double> MOB_RAD_LEVEL_LIST = new ArrayList<Double>();
-	public static final List<List<PotionEffect>> MOB_EFFECTS_LIST = new ArrayList<List<PotionEffect>>();
+	public static final List<Double> MOB_RAD_LEVEL_LIST = new ArrayList<>();
+	public static final List<List<PotionEffect>> MOB_EFFECTS_LIST = new ArrayList<>();
 	
 	public static void init() {
 		parseEffects(NCConfig.radiation_passive_debuff_lists, PLAYER_RAD_LEVEL_LIST, PLAYER_DEBUFF_LIST, Math.max(NCConfig.radiation_player_tick_rate, 19));
@@ -29,12 +29,14 @@ public class RadEffects {
 	}
 	
 	private static void parseEffects(String[] effectsArray, List<Double> radLevelList, List<List<PotionEffect>> potionList, int effectTime) {
-		List<Double> radLevelListUnordered = new ArrayList<Double>();
-		List<List<PotionEffect>> potionListUnordered = new ArrayList<List<PotionEffect>>();
+		List<Double> radLevelListUnordered = new ArrayList<>();
+		List<List<PotionEffect>> potionListUnordered = new ArrayList<>();
 		
 		main: for (String effects : effectsArray) {
 			int puncPos = effects.indexOf('_');
-			if (puncPos == -1) continue;
+			if (puncPos == -1) {
+				continue;
+			}
 			
 			double health = Double.parseDouble(effects.substring(0, puncPos));
 			effects = effects.substring(puncPos + 1);
@@ -42,7 +44,9 @@ public class RadEffects {
 			List<PotionEffect> effectList = new ArrayList<PotionEffect>();
 			do {
 				puncPos = effects.indexOf('@');
-				if (puncPos == -1) continue main;
+				if (puncPos == -1) {
+					continue main;
+				}
 				
 				String potionName = effects.substring(0, puncPos);
 				
@@ -81,9 +85,15 @@ public class RadEffects {
 	}
 	
 	private static int getModifiedTime(String potionName, int effectTime, int amplifier) {
-		if (potionName.equals("regeneration") || potionName.equals("minecraft:regeneration")) return Math.max(effectTime, 50 >> amplifier);
-		else if (potionName.equals("wither") || potionName.equals("minecraft:wither")) return Math.max(effectTime, 40 >> amplifier);
-		else if (potionName.equals("poison") || potionName.equals("minecraft:poison")) return Math.max(effectTime, 25 >> amplifier);
+		if (potionName.equals("regeneration") || potionName.equals("minecraft:regeneration")) {
+			return Math.max(effectTime, 50 >> amplifier);
+		}
+		else if (potionName.equals("wither") || potionName.equals("minecraft:wither")) {
+			return Math.max(effectTime, 40 >> amplifier);
+		}
+		else if (potionName.equals("poison") || potionName.equals("minecraft:poison")) {
+			return Math.max(effectTime, 25 >> amplifier);
+		}
 		else return effectTime;
 	}
 }

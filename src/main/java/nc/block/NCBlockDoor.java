@@ -2,8 +2,6 @@ package nc.block;
 
 import java.util.Random;
 
-import nc.Global;
-import nc.NuclearCraft;
 import nc.init.NCItems;
 import net.minecraft.block.BlockDoor;
 import net.minecraft.block.material.Material;
@@ -11,17 +9,14 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class NCBlockDoor extends BlockDoor {
 	
-	public NCBlockDoor(String name, Material material) {
+	public NCBlockDoor(Material material) {
 		super(material);
-		setTranslationKey(Global.MOD_ID + "." + name);
-		if (NuclearCraft.regName) setRegistryName(new ResourceLocation(Global.MOD_ID, name));
 		setHarvestLevel("pickaxe", 0);
 		setHardness(2F);
 		setResistance(15F);

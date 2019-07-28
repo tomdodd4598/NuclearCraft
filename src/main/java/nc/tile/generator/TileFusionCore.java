@@ -28,6 +28,7 @@ import nc.util.EnergyHelper;
 import nc.util.Lang;
 import nc.util.MaterialHelper;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
@@ -70,13 +71,13 @@ public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpd
 	private BlockFinder finder;
 	
 	public TileFusionCore() {
-		super("Fusion Core", 2, 4, 0, defaultItemSorptions(), defaultTankCapacities(32000, 2, 4), defaultTankSorptions(2, 4), NCRecipes.fusion_valid_fluids, maxPower(), NCRecipes.fusion);
+		super("fusion_core", 2, 4, 0, defaultItemSorptions(), defaultTankCapacities(32000, 2, 4), defaultTankSorptions(2, 4), NCRecipes.fusion_valid_fluids, maxPower(), NCRecipes.fusion);
 		setInputTanksSeparated(false);
 	}
 	
 	private static int maxPower() {
 		double max = 0D;
-		List<ProcessorRecipe> recipes = NCRecipes.fusion.getRecipes();
+		List<ProcessorRecipe> recipes = NCRecipes.fusion.getRecipeList();
 		for (ProcessorRecipe recipe : recipes) {
 			if (recipe == null) continue;
 			max = Math.max(max, recipe.getFusionComboPower());
@@ -103,13 +104,14 @@ public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpd
 			double previousHeat = heat;
 			run();
 			if (isHotEnough()) doCooling();
+			else plasma(false);
 			doHeating();
 			heatChange = 1000*(heat - previousHeat);
 			if (overheat()) return;
 			if (isProcessing) process();
 			else getRadiationSource().setRadiationLevel(0D);
 			if (wasProcessing != isProcessing) {
-				plasma();
+				if (isProcessing || recipeInfo == null) plasma(isProcessing);
 				updateBlockType();
 				sendUpdateToAllPlayers();
 			}
@@ -286,17 +288,19 @@ public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpd
 	
 	// Setting Blocks
 	
-	private void setPlasma(BlockPos pos) {
-		world.setBlockState(pos, FluidRegistry.getFluid("plasma").getBlock().getDefaultState());
+	private static IBlockState plasmaState() {
+		return FluidRegistry.getFluid("plasma").getBlock().getDefaultState();
 	}
 	
-	public void plasma() {
+	public void plasma(boolean createPlasma) {
+		setSize();
+		if (complete == 0) return;
 		BlockPosHelper helper = new BlockPosHelper(pos);
-		if (isProcessing) {
-			for (BlockPos pos : helper.squareRing(ringRadius(), 1)) if (!findPlasma(pos)) setPlasma(pos);
+		if (createPlasma) {
+			for (BlockPos pos : helper.squareRing(ringRadius(), 1)) world.setBlockState(pos, plasmaState());
 		}
-		else if (!canProcessInputs || !isHotEnough() || (isDeactivated() && complete == 1)) {
-			for (BlockPos pos : helper.squareRing(ringRadius(), 1)) if (findPlasma(pos)) world.setBlockToAir(pos);
+		else {
+			for (BlockPos pos : helper.squareRing(ringRadius(), 1)) world.setBlockToAir(pos);
 		}
 	}
 	
@@ -320,7 +324,7 @@ public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpd
 	}
 	
 	private boolean findPlasma(BlockPos pos) {
-		return finder.find(pos, FluidRegistry.getFluid("plasma").getBlock().getDefaultState());
+		return finder.find(pos, plasmaState());
 	}
 	
 	private TileActiveCooler findActiveCooler(BlockPos pos) {

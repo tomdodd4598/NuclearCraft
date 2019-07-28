@@ -12,7 +12,7 @@ import net.minecraft.world.World;
 public class BlockSaltFissionFrame extends BlockSaltFissionPartBase {
 
 	public BlockSaltFissionFrame() {
-		super("salt_fission_frame");
+		super();
 	}
 
 	@Override

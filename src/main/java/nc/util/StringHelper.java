@@ -2,11 +2,12 @@ package nc.util;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 public class StringHelper {
 	
 	public static String capitalize(String string) {
-		return string.substring(0, 1).toUpperCase() + string.substring(1);
+		return string.substring(0, 1).toUpperCase(Locale.ROOT) + string.substring(1);
 	}
 	
 	public static String starting(String string, int length) {
@@ -30,7 +31,7 @@ public class StringHelper {
 	}
 	
 	public static boolean beginsWith(String stringIn, String stringCheck) {
-		return starting(stringIn, stringCheck.length()) == stringCheck;
+		return starting(stringIn, stringCheck.length()).equals(stringCheck);
 	}
 	
 	public static String stringListConcat(List<String> stringList) {

@@ -31,6 +31,7 @@ public class BlockFissionControllerNewFixed extends BlockProcessor {
 
 	public BlockFissionControllerNewFixed() {
 		super(ProcessorType.FISSION_CONTROLLER_NEW_FIXED);
+		canCreatureSpawn = false;
 	}
 	
 	@Override

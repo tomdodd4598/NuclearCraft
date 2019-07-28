@@ -12,7 +12,7 @@ import net.minecraft.world.World;
 public class BlockSaltFissionVent extends BlockSaltFissionPartBase {
 
 	public BlockSaltFissionVent() {
-		super("salt_fission_vent");
+		super();
 	}
 
 	@Override

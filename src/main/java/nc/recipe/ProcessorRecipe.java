@@ -274,4 +274,12 @@ public class ProcessorRecipe implements IRecipe {
 		else if (extras.get(1) instanceof Integer) return (int) extras.get(1);
 		else return 300;
 	}
+	
+	// Radiation Block Mutations
+	
+	public double getBlockMutationThreshold() {
+		if (extras.isEmpty()) return NCConfig.radiation_block_effect_limit;
+		else if (extras.get(0) instanceof Double) return (double) extras.get(0);
+		else return NCConfig.radiation_block_effect_limit;
+	}
 }

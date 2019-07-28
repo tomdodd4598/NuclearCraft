@@ -25,7 +25,7 @@ public class BlockSaltFissionVessel extends BlockSaltFissionPartBase implements 
 	private static EnumFacing placementSide = null;
 	
 	public BlockSaltFissionVessel() {
-		super("salt_fission_vessel");
+		super();
 	}
 
 	@Override

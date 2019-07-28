@@ -25,8 +25,8 @@ public class ItemRadaway extends NCItem {
 	
 	private final boolean slow;
 	
-	public ItemRadaway(String nameIn, boolean slow, String... tooltip) {
-		super(nameIn, tooltip);
+	public ItemRadaway(boolean slow, String... tooltip) {
+		super(tooltip);
 		this.slow = slow;
 	}
 	

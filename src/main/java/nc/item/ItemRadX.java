@@ -23,8 +23,8 @@ public class ItemRadX extends NCItem {
 	
 	private static final String RAD_X_COOLDOWN = Lang.localise("message.nuclearcraft.rad_x_cooling_down");
 	
-	public ItemRadX(String nameIn, String... tooltip) {
-		super(nameIn, tooltip);
+	public ItemRadX(String... tooltip) {
+		super(tooltip);
 	}
 	
 	@Override

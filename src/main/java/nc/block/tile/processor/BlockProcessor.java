@@ -4,6 +4,7 @@ import java.util.Random;
 
 import nc.block.tile.BlockSidedTile;
 import nc.block.tile.IActivatable;
+import nc.block.tile.ITileType;
 import nc.enumm.BlockEnums.ProcessorType;
 import nc.util.BlockHelper;
 import net.minecraft.block.material.Material;
@@ -16,27 +17,33 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BlockProcessor extends BlockSidedTile implements IActivatable {
+public class BlockProcessor extends BlockSidedTile implements IActivatable, ITileType {
 	
-	public final boolean isActive;
+	public final boolean isActive, isActivatable;
 	protected final ProcessorType type;
 	
 	public BlockProcessor(ProcessorType type) {
-		super(type.getName(), Material.IRON);
-		isActive = false;
+		super(Material.IRON);
+		isActive = isActivatable = false;
 		if (!isActive && type.getCreativeTab() != null) setCreativeTab(type.getCreativeTab());
 		this.type = type;
 	}
 	
 	public BlockProcessor(ProcessorType type, boolean isActive) {
-		super(type.getName() + (isActive ? "_active" : "_idle"), Material.IRON);
+		super(Material.IRON);
 		this.isActive = isActive;
+		isActivatable = true;
 		if (!isActive && type.getCreativeTab() != null) setCreativeTab(type.getCreativeTab());
 		this.type = type;
 	}
 	
 	protected String getActiveSuffix(boolean isActive) {
 		return isActive ? "_active" : "_idle";
+	}
+	
+	@Override
+	public String getTileName() {
+		return isActivatable ? type.getName() + getActiveSuffix(isActive) : type.getName();
 	}
 	
 	@Override

@@ -3,12 +3,12 @@
 package nc.util;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.Nonnull;
 
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
@@ -53,7 +53,7 @@ public class StructureHelper {
 	}
 	
 	private static Set<Long> parseStructureData(MapGenStructureData data) {
-		Set<Long> chunks = new HashSet<>();
+		Set<Long> chunks = new ObjectOpenHashSet<>();
 		NBTTagCompound nbttagcompound = data.getTagCompound();
 		
 		for (String s : nbttagcompound.getKeySet()) {

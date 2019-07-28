@@ -194,6 +194,7 @@ public class NCJEI implements IModPlugin {
 		blacklist(jeiHelpers, NCBlocks.centrifuge_active);
 		blacklist(jeiHelpers, NCBlocks.rock_crusher_active);
 		
+		blacklist(jeiHelpers, NCBlocks.fission_controller_idle);
 		blacklist(jeiHelpers, NCBlocks.fission_controller_active);
 		blacklist(jeiHelpers, NCBlocks.fission_controller_new_idle);
 		blacklist(jeiHelpers, NCBlocks.fission_controller_new_active);

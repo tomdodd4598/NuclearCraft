@@ -25,6 +25,7 @@ public class BlockFissionController extends BlockProcessor {
 	public BlockFissionController(boolean isActive, boolean isNew) {
 		super(isNew ? ProcessorType.FISSION_CONTROLLER_NEW : ProcessorType.FISSION_CONTROLLER, isActive);
 		this.isNew = isNew;
+		canCreatureSpawn = false;
 	}
 	
 	@Override

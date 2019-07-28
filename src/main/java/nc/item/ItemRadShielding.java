@@ -4,7 +4,6 @@ import nc.capability.radiation.resistance.IRadiationResistance;
 import nc.config.NCConfig;
 import nc.enumm.MetaEnums;
 import nc.util.Lang;
-import nc.util.NCUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
@@ -19,8 +18,8 @@ import net.minecraftforge.items.CapabilityItemHandler;
 
 public class ItemRadShielding extends NCItemMeta<MetaEnums.RadShieldingType> {
 	
-	public ItemRadShielding(String nameIn, String[]... tooltips) {
-		super(nameIn, MetaEnums.RadShieldingType.class, tooltips);
+	public ItemRadShielding(String[]... tooltips) {
+		super(MetaEnums.RadShieldingType.class, tooltips);
 	}
 	
 	private static final String NOT_HARDCORE = Lang.localise("item.nuclearcraft.rad_shielding.not_hardcore");
@@ -48,7 +47,6 @@ public class ItemRadShielding extends NCItemMeta<MetaEnums.RadShieldingType> {
 		if (tile == null) return actionResult(false, stack);
 		
 		double newResistance = NCConfig.radiation_shielding_level[stack.getMetadata()];
-		NCUtil.getLogger().info(tile.getRadiationResistance());
 		if (newResistance <= tile.getRadiationResistance()) {
 			if (!world.isRemote) {
 				player.sendMessage(new TextComponentString(INSTALL_FAIL + " " + tile.getRadiationResistance()));

@@ -1,10 +1,10 @@
 package nc.multiblock;
 
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Random;
 import java.util.Set;
 
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import nc.Global;
 import nc.NuclearCraft;
 import nc.multiblock.network.MultiblockUpdatePacket;
@@ -38,7 +38,7 @@ public abstract class MultiblockBase<PACKET extends MultiblockUpdatePacket> impl
 	protected enum AssemblyState { Disassembled, Assembled, Paused }
 	protected AssemblyState assemblyState;
 
-	protected HashSet<IMultiblockPart> connectedParts;
+	protected ObjectOpenHashSet<IMultiblockPart> connectedParts;
 	
 	protected Random rand = new Random();
 	
@@ -79,7 +79,7 @@ public abstract class MultiblockBase<PACKET extends MultiblockUpdatePacket> impl
 	protected MultiblockBase(World world) {
 		// Multiblock stuff
 		WORLD = world;
-		connectedParts  = new HashSet<IMultiblockPart>();
+		connectedParts  = new ObjectOpenHashSet<IMultiblockPart>();
 
 		referenceCoord = null;
 		assemblyState = AssemblyState.Disassembled;
@@ -92,7 +92,7 @@ public abstract class MultiblockBase<PACKET extends MultiblockUpdatePacket> impl
 		
 		debugMode = false;
 		
-		playersToUpdate = new HashSet<EntityPlayer>();
+		playersToUpdate = new ObjectOpenHashSet<EntityPlayer>();
 	}
 
 	public void setDebugMode(boolean active) {
@@ -443,7 +443,7 @@ public abstract class MultiblockBase<PACKET extends MultiblockUpdatePacket> impl
 		}
 
 		//TileEntity te;
-		Set<IMultiblockPart> partsToAcquire = new HashSet<IMultiblockPart>(other.connectedParts);
+		Set<IMultiblockPart> partsToAcquire = new ObjectOpenHashSet<IMultiblockPart>(other.connectedParts);
 
 		// releases all blocks and references gently so they can be incorporated into another multiblock
 		other._onAssimilated(this);
@@ -820,7 +820,7 @@ public abstract class MultiblockBase<PACKET extends MultiblockUpdatePacket> impl
 	 * Checks all of the parts in the multiblock. If any are dead or do not exist in the world, they are removed.
 	 */
 	private void auditParts() {
-		HashSet<IMultiblockPart> deadParts = new HashSet<IMultiblockPart>();
+		ObjectOpenHashSet<IMultiblockPart> deadParts = new ObjectOpenHashSet<IMultiblockPart>();
 		for(IMultiblockPart part : connectedParts) {
 			if(part.isPartInvalid() || WORLD.getTileEntity(part.getWorldPosition()) != part) {
 				onDetachBlock(part);
@@ -854,7 +854,7 @@ public abstract class MultiblockBase<PACKET extends MultiblockUpdatePacket> impl
 		referenceCoord = null;
 		
 		// Reset visitations and find the minimum coordinate
-		Set<IMultiblockPart> deadParts = new HashSet<IMultiblockPart>();
+		Set<IMultiblockPart> deadParts = new ObjectOpenHashSet<IMultiblockPart>();
 		BlockPos position;
 		IMultiblockPart referencePart = null;
 
@@ -929,7 +929,7 @@ public abstract class MultiblockBase<PACKET extends MultiblockUpdatePacket> impl
 		}
 		
 		// Finally, remove all parts that remain disconnected.
-		Set<IMultiblockPart> removedParts = new HashSet<IMultiblockPart>();
+		Set<IMultiblockPart> removedParts = new ObjectOpenHashSet<IMultiblockPart>();
 		for(IMultiblockPart orphanCandidate : connectedParts) {
 			if (!orphanCandidate.isVisited()) {
 				deadParts.add(orphanCandidate);
@@ -962,7 +962,7 @@ public abstract class MultiblockBase<PACKET extends MultiblockUpdatePacket> impl
 	 * @return A set of all parts which still have a valid tile entity.
 	 */
 	public Set<IMultiblockPart> detachAllBlocks() {
-		if(WORLD == null) { return new HashSet<IMultiblockPart>(); }
+		if(WORLD == null) { return new ObjectOpenHashSet<IMultiblockPart>(); }
 		
 		//IChunkProvider chunkProvider = WORLD.getChunkProvider();
 		for(IMultiblockPart part : connectedParts) {
@@ -972,7 +972,7 @@ public abstract class MultiblockBase<PACKET extends MultiblockUpdatePacket> impl
 		}
 
 		Set<IMultiblockPart> detachedParts = connectedParts;
-		connectedParts = new HashSet<IMultiblockPart>();
+		connectedParts = new ObjectOpenHashSet<IMultiblockPart>();
 		return detachedParts;
 	}
 

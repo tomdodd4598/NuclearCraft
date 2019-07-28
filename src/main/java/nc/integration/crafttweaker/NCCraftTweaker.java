@@ -4,19 +4,25 @@ import com.google.common.collect.Lists;
 
 import crafttweaker.CraftTweakerAPI;
 import crafttweaker.annotations.ZenRegister;
+import crafttweaker.api.entity.IEntityLivingBase;
 import crafttweaker.api.item.IIngredient;
 import crafttweaker.api.item.IItemStack;
 import crafttweaker.api.item.IngredientStack;
+import crafttweaker.api.minecraft.CraftTweakerMC;
 import crafttweaker.api.oredict.IOreDictEntry;
+import nc.capability.radiation.entity.IEntityRads;
 import nc.config.NCConfig;
 import nc.radiation.RadSources;
+import nc.radiation.RadiationHelper;
 import nc.recipe.IngredientSorption;
 import nc.recipe.NCRecipes;
 import nc.recipe.ingredient.IItemIngredient;
 import nc.recipe.ingredient.OreIngredient;
 import net.minecraft.client.util.RecipeItemHelper;
 import net.minecraft.item.ItemStack;
+import stanhebben.zenscript.annotations.Optional;
 import stanhebben.zenscript.annotations.ZenClass;
+import stanhebben.zenscript.annotations.ZenExpansion;
 import stanhebben.zenscript.annotations.ZenMethod;
 
 public class NCCraftTweaker {
@@ -1196,6 +1202,126 @@ public class NCCraftTweaker {
 			else {
 				return 0D;
 			}
+		}
+		
+		@ZenMethod
+		public static void addBlockMutation(IIngredient input, IIngredient output, double threshold) {
+			CraftTweakerAPI.apply(new AddProcessorRecipe(NCRecipes.radiation_block_mutations, Lists.newArrayList(input, output, threshold)));
+		}
+	}
+	
+	@ZenRegister
+	@ZenExpansion("crafttweaker.entity.IEntityLivingBase")
+	public static class EntityExpansion {
+		
+		@ZenMethod
+		public static void addRadiation(IEntityLivingBase entity, double amount, @Optional boolean useImmunity) {
+			IEntityRads rads = entityRads(entity);
+			if (rads != null) {
+				rads.setTotalRads(rads.getTotalRads() + amount, useImmunity);
+			}
+		}
+		
+		@ZenMethod
+		public static void setRadiation(IEntityLivingBase entity, double amount, @Optional boolean useImmunity) {
+			IEntityRads rads = entityRads(entity);
+			if (rads != null) {
+				rads.setTotalRads(amount, useImmunity);
+			}
+		}
+		
+		@ZenMethod
+		public static double getRadiation(IEntityLivingBase entity) {
+			IEntityRads rads = entityRads(entity);
+			return rads == null ? 0D : rads.getTotalRads();
+		}
+		
+		@ZenMethod
+		public static void addRadawayBuffer(IEntityLivingBase entity, double amount, @Optional boolean slow) {
+			IEntityRads rads = entityRads(entity);
+			if (rads != null) {
+				rads.setRadawayBuffer(slow, rads.getRadawayBuffer(slow) + amount);
+				if (!slow) rads.setRecentRadawayAddition(Math.abs(amount));
+			}
+		}
+		
+		@ZenMethod
+		public static void setRadawayBuffer(IEntityLivingBase entity, double amount, @Optional boolean slow) {
+			IEntityRads rads = entityRads(entity);
+			if (rads != null) {
+				rads.setRadawayBuffer(slow, amount);
+				if (!slow) rads.setRecentRadawayAddition(Math.abs(amount));
+			}
+		}
+		
+		@ZenMethod
+		public static double getRadawayBuffer(IEntityLivingBase entity, @Optional boolean slow) {
+			IEntityRads rads = entityRads(entity);
+			return rads == null ? 0D : rads.getRadawayBuffer(slow);
+		}
+		
+		@ZenMethod
+		public static void addPoisonBuffer(IEntityLivingBase entity, double amount) {
+			IEntityRads rads = entityRads(entity);
+			if (rads != null) {
+				rads.setPoisonBuffer(rads.getPoisonBuffer() + amount);
+				rads.setRecentPoisonAddition(Math.abs(amount));
+			}
+		}
+		
+		@ZenMethod
+		public static void setPoisonBuffer(IEntityLivingBase entity, double amount) {
+			IEntityRads rads = entityRads(entity);
+			if (rads != null) {
+				rads.setPoisonBuffer(amount);
+				rads.setRecentPoisonAddition(Math.abs(amount));
+			}
+		}
+		
+		@ZenMethod
+		public static double getPoisonBuffer(IEntityLivingBase entity) {
+			IEntityRads rads = entityRads(entity);
+			return rads == null ? 0D : rads.getPoisonBuffer();
+		}
+		
+		@ZenMethod
+		public static void addRadiationResistance(IEntityLivingBase entity, double amount) {
+			IEntityRads rads = entityRads(entity);
+			if (rads != null) {
+				rads.setInternalRadiationResistance(rads.getInternalRadiationResistance() + amount);
+				rads.setRecentRadXAddition(Math.abs(amount));
+			}
+		}
+		
+		@ZenMethod
+		public static void setRadiationResistance(IEntityLivingBase entity, double amount) {
+			IEntityRads rads = entityRads(entity);
+			if (rads != null) {
+				rads.setInternalRadiationResistance(amount);
+				rads.setRecentRadXAddition(Math.abs(amount));
+			}
+		}
+		
+		@ZenMethod
+		public static double getRadiationResistance(IEntityLivingBase entity) {
+			IEntityRads rads = entityRads(entity);
+			return rads == null ? 0D : rads.getInternalRadiationResistance();
+		}
+		
+		@ZenMethod
+		public static double getRawRadiationLevel(IEntityLivingBase entity) {
+			IEntityRads rads = entityRads(entity);
+			return rads == null ? 0D : rads.getRawRadiationLevel();
+		}
+		
+		@ZenMethod
+		public static double getRadiationLevel(IEntityLivingBase entity) {
+			IEntityRads rads = entityRads(entity);
+			return rads == null ? 0D : rads.getRadiationLevel();
+		}
+		
+		private static IEntityRads entityRads(IEntityLivingBase entity) {
+			return RadiationHelper.getEntityRadiation(CraftTweakerMC.getEntityLivingBase(entity));
 		}
 	}
 }

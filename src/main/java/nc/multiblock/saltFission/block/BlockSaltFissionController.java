@@ -21,7 +21,7 @@ public class BlockSaltFissionController extends BlockSaltFissionPartBase {
 	private static final PropertyBool ACTIVE = PropertyBool.create("active");
 	
 	public BlockSaltFissionController() {
-		super("salt_fission_controller");
+		super();
 		setDefaultState(blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(ACTIVE, Boolean.valueOf(false)));
 	}
 	

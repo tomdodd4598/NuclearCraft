@@ -3,9 +3,10 @@ package nc.util;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 
 public class CollectionHelper {
 	
@@ -31,7 +32,7 @@ public class CollectionHelper {
 	}
 	
 	public static <T> List<T> union(List<T> first, List<T>... rest) {
-		Set<T> set = new HashSet<T>();
+		Set<T> set = new ObjectOpenHashSet<T>();
 		set.addAll(first);
 		for (List<T> list : rest) set.addAll(list);
 		return new ArrayList<T>(set);
@@ -74,26 +75,26 @@ public class CollectionHelper {
 	/* Sets */
 	
 	public static <T> Set<T> asSet(T[] array) {
-		Set<T> set = new HashSet<T>();
+		Set<T> set = new ObjectOpenHashSet<T>();
 		for (T t : array) set.add(t);
 		return set;
 	}
 	
 	public static <T> Set<T> intersect(Set<T> set1, Collection<T> set2) {
-		Set<T> set = new HashSet<T>();
+		Set<T> set = new ObjectOpenHashSet<T>();
 		for (T t : set1) if(set2.contains(t)) set.add(t);
 		return set;
 	}
 	
 	public static <T> Set<T> intersect(Set<T> first, Set<T>... rest) {
-		Set<T> tSet = new HashSet<T>();
+		Set<T> tSet = new ObjectOpenHashSet<T>();
 		tSet.addAll(first);
 		for (Set<T> set : rest) tSet = intersect(tSet, set);
 		return tSet;
 	}
 	
 	public static <T> Set<T> union(Set<T> first, Set<T>... rest) {
-		Set<T> tSet = new HashSet<T>();
+		Set<T> tSet = new ObjectOpenHashSet<T>();
 		tSet.addAll(first);
 		for (Set<T> set : rest) tSet.addAll(set);
 		return tSet;

@@ -16,7 +16,7 @@ public class BlockSaltFissionRedstonePort extends BlockSaltFissionPartBase {
 	private static final PropertyBool ACTIVE = PropertyBool.create("active");
 
 	public BlockSaltFissionRedstonePort() {
-		super("salt_fission_redstone_port");
+		super();
 		setDefaultState(blockState.getBaseState().withProperty(ACTIVE, Boolean.valueOf(false)));
 	}
 

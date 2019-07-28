@@ -5,14 +5,19 @@ import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class BlockSimpleSidedTile extends BlockSidedTile {
+public class BlockSimpleSidedTile extends BlockSidedTile implements ITileType {
 	
 	private final SimpleTileType type;
 
 	public BlockSimpleSidedTile(SimpleTileType type) {
-		super(type.getName(), Material.IRON);
+		super(Material.IRON);
 		this.type = type;
 		setCreativeTab(type.getTab());
+	}
+	
+	@Override
+	public String getTileName() {
+		return type.getName();
 	}
 	
 	@Override

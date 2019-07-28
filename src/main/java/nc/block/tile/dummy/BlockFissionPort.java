@@ -17,6 +17,7 @@ public class BlockFissionPort extends BlockSimpleSidedDummy {
 	
 	public BlockFissionPort(SimpleTileType type) {
 		super(type);
+		canCreatureSpawn = false;
 	}
 	
 	@Override

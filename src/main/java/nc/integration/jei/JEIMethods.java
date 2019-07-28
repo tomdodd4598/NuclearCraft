@@ -21,7 +21,7 @@ public class JEIMethods {
 	public static ArrayList<JEIRecipeWrapperAbstract> getJEIRecipes(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, Class<? extends JEIRecipeWrapperAbstract> recipeWrapper) {
 		ArrayList<JEIRecipeWrapperAbstract> recipes = new ArrayList();
 		if (recipeHandler != null) {
-			for (ProcessorRecipe recipe : recipeHandler.getRecipes()) {
+			for (ProcessorRecipe recipe : recipeHandler.getRecipeList()) {
 				try {
 					recipes.add(recipeWrapper.getConstructor(IGuiHelper.class, IJEIHandler.class, ProcessorRecipeHandler.class, ProcessorRecipe.class).newInstance(guiHelper, jeiHandler, recipeHandler, recipe));
 				} catch (Exception e) {

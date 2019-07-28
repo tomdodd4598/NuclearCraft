@@ -11,6 +11,18 @@ public class MaterialHelper {
 	}
 	
 	public static boolean isEmpty(Material mat) {
-		return mat.isReplaceable() || mat.getMaterialMapColor() == MapColor.FOLIAGE;
+		return mat.isReplaceable() || isFoliage(mat);
+	}
+	
+	public static boolean isFoliage(Material mat) {
+		return mat.getMaterialMapColor() == MapColor.FOLIAGE;
+	}
+	
+	public static boolean isGrass(Material mat) {
+		return mat.getMaterialMapColor() == MapColor.GRASS;
+	}
+	
+	public static boolean isDirt(Material mat) {
+		return mat.getMaterialMapColor() == MapColor.DIRT || isGrass(mat);
 	}
 }

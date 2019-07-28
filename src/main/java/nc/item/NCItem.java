@@ -4,8 +4,6 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import nc.Global;
-import nc.NuclearCraft;
 import nc.util.InfoHelper;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
@@ -13,7 +11,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -25,24 +22,22 @@ public class NCItem extends Item {
 	public final String[] fixedInfo;
 	public final String[] info;
 	
-	public NCItem(String nameIn, TextFormatting fixedColor, String[] fixedTooltip, String... tooltip) {
-		setTranslationKey(Global.MOD_ID + "." + nameIn);
-		if (NuclearCraft.regName) setRegistryName(new ResourceLocation(Global.MOD_ID, nameIn));
+	public NCItem(TextFormatting fixedColor, String[] fixedTooltip, String... tooltip) {
 		this.fixedColor = fixedColor;
 		fixedInfo = InfoHelper.buildFixedInfo(getTranslationKey(), fixedTooltip);
 		info = InfoHelper.buildInfo(getTranslationKey(), tooltip);
 	}
 	
-	public NCItem(String nameIn, TextFormatting fixedColor, String... tooltip) {
-		this(nameIn, fixedColor, InfoHelper.EMPTY_ARRAY, tooltip);
+	public NCItem(TextFormatting fixedColor, String... tooltip) {
+		this(fixedColor, InfoHelper.EMPTY_ARRAY, tooltip);
 	}
 	
-	public NCItem(String nameIn, String[] fixedTooltip, String... tooltip) {
-		this(nameIn, TextFormatting.AQUA, fixedTooltip, tooltip);
+	public NCItem(String[] fixedTooltip, String... tooltip) {
+		this(TextFormatting.AQUA, fixedTooltip, tooltip);
 	}
 	
-	public NCItem(String nameIn, String... tooltip) {
-		this(nameIn, InfoHelper.EMPTY_ARRAY, tooltip);
+	public NCItem(String... tooltip) {
+		this(InfoHelper.EMPTY_ARRAY, tooltip);
 	}
 	
 	@Override

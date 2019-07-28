@@ -1,19 +1,18 @@
 package nc.tile.generator;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import javax.annotation.Nonnull;
 
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import nc.ModCheck;
 import nc.config.NCConfig;
 import nc.recipe.AbstractRecipeHandler;
 import nc.recipe.ProcessorRecipe;
 import nc.recipe.ProcessorRecipeHandler;
 import nc.recipe.RecipeInfo;
-import nc.recipe.RecipeMatchResult;
 import nc.recipe.ingredient.IFluidIngredient;
 import nc.recipe.ingredient.IItemIngredient;
 import nc.tile.energy.ITileEnergy;
@@ -44,7 +43,7 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 	public boolean isProcessing, hasConsumed, canProcessInputs;
 	
 	public final ProcessorRecipeHandler recipeHandler;
-	protected RecipeInfo<ProcessorRecipe> recipeInfo, cachedRecipeInfo;
+	protected RecipeInfo<ProcessorRecipe> recipeInfo;
 	
 	protected Set<EntityPlayer> playersToUpdate;
 	
@@ -63,7 +62,7 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 		
 		this.recipeHandler = recipeHandler;
 		
-		playersToUpdate = new HashSet<EntityPlayer>();
+		playersToUpdate = new ObjectOpenHashSet<EntityPlayer>();
 	}
 	
 	public static List<ItemSorption> defaultItemSorptions(int inSize, int outSize, ItemSorption... others) {
@@ -118,21 +117,7 @@ public abstract class TileItemFluidGenerator extends TileEnergyFluidSidedInvento
 	
 	@Override
 	public void refreshRecipe() {
-		RecipeMatchResult matchResult = recipeInfo == null ? RecipeMatchResult.FAIL : recipeInfo.getRecipe().matchInputs(getItemInputs(hasConsumed), getFluidInputs(hasConsumed));
-		if (!matchResult.matches()) {
-			/** Temporary caching while looking for recipe map solution */
-			matchResult = cachedRecipeInfo == null ? RecipeMatchResult.FAIL : cachedRecipeInfo.getRecipe().matchInputs(getItemInputs(hasConsumed), getFluidInputs(hasConsumed));
-			if (matchResult.matches()) {
-				recipeInfo = new RecipeInfo(cachedRecipeInfo.getRecipe(), matchResult);
-			}
-			else {
-				recipeInfo = recipeHandler.getRecipeInfoFromInputs(getItemInputs(hasConsumed), getFluidInputs(hasConsumed));
-			}
-			if (recipeInfo != null) {
-				cachedRecipeInfo = recipeInfo;
-			}
-		}
-		else recipeInfo = new RecipeInfo(recipeInfo.getRecipe(), matchResult);
+		recipeInfo = recipeHandler.getRecipeInfoFromInputs(getItemInputs(hasConsumed), getFluidInputs(hasConsumed));
 		consumeInputs();
 	}
 	

@@ -14,7 +14,6 @@ import nc.util.ArmorHelper;
 import nc.util.NCMath;
 import nc.util.UnitHelper;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.player.EntityPlayer;
@@ -27,6 +26,10 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidTankProperties;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 
@@ -62,6 +65,13 @@ public class RadiationHelper {
 		return provider.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side);
 	}
 	
+	public static IFluidHandler getTileTanks(ICapabilityProvider provider, EnumFacing side) {
+		if (!(provider instanceof TileEntity) || !provider.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side)) {
+			return null;
+		}
+		return provider.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side);
+	}
+	
 	// Radiation Level Modification
 	
 	public static void addToSourceBuffer(IRadiationSource source, double addedRadiation) {
@@ -75,15 +85,27 @@ public class RadiationHelper {
 	
 	// ITileRadiationEnvironment -> ChunkBuffer
 	
-	public static void addFractionToChunkBuffer(IRadiationSource chunkSource, ITileRadiationEnvironment tile) {
+	public static void addScrubbingFractionToChunk(IRadiationSource chunkSource, ITileRadiationEnvironment tile) {
 		if (chunkSource == null) {
 			return;
 		}
-		addToSourceBuffer(chunkSource, tile.getContributionFraction()*tile.getCurrentChunkBuffer());
-		
-		if (tile.getContributionFraction() < 0D) {
-			chunkSource.addScrubbingFraction(-tile.getContributionFraction());
+		if (NCConfig.radiation_scrubber_alt) {
+			if (tile.getContributionFraction() < 0D) {
+				chunkSource.setEffectiveScrubberCount(chunkSource.getEffectiveScrubberCount() - tile.getContributionFraction());
+			}
 		}
+		else {
+			addToSourceBuffer(chunkSource, tile.getContributionFraction()*tile.getCurrentChunkBuffer());
+			
+			if (tile.getContributionFraction() < 0D) {
+				chunkSource.setScrubbingFraction(chunkSource.getScrubbingFraction() - tile.getContributionFraction());
+				chunkSource.setEffectiveScrubberCount(chunkSource.getEffectiveScrubberCount() - tile.getContributionFraction());
+			}
+		}
+	}
+	
+	public static double getAltScrubbingFraction(double scrubbers) {
+		return scrubbers <= 0D ? 0D : 1D - Math.pow(NCConfig.radiation_scrubber_param[0], -Math.pow(scrubbers/NCConfig.radiation_scrubber_param[1], Math.pow(scrubbers/NCConfig.radiation_scrubber_param[2] + 1D, 1D/NCConfig.radiation_scrubber_param[3])));
 	}
 	
 	// ItemStack -> ChunkBuffer
@@ -100,10 +122,16 @@ public class RadiationHelper {
 			return 0D;
 		}
 		IRadiationSource stackSource = getRadiationSource(stack);
-		if (stackSource == null) {
+		return stackSource == null ? 0D : stackSource.getRadiationLevel()*stack.getCount()*multiplier;
+	}
+	
+	// FluidStack -> ChunkBuffer
+	
+	public static double getRadiationFromFluid(FluidStack stack, double multiplier) {
+		if (stack == null || stack.getFluid() == null) {
 			return 0D;
 		}
-		return stackSource.getRadiationLevel()*stack.getCount()*multiplier;
+		return RadSources.FLUID_MAP.getDouble(stack.getFluid().getName())*stack.amount*multiplier/1000D;
 	}
 	
 	// Source -> ChunkBuffer
@@ -125,6 +153,15 @@ public class RadiationHelper {
 			for (int i = 0; i < inventory.getSlots(); i++) {
 				ItemStack stack = inventory.getStackInSlot(i);
 				rawRadiation += getRadiationFromStack(stack, NCConfig.radiation_hardcore_containers);
+			}
+		}
+		
+		IFluidHandler tanks = getTileTanks(provider, side);
+		if (NCConfig.radiation_hardcore_containers > 0D && tanks != null) {
+			IFluidTankProperties[] props = tanks.getTankProperties();
+			for (int i = 0; i < props.length; i++) {
+				FluidStack stack = props[i].getContents();
+				rawRadiation += getRadiationFromFluid(stack, NCConfig.radiation_hardcore_containers);
 			}
 		}
 		
@@ -175,12 +212,15 @@ public class RadiationHelper {
 			
 			if (targetChunk != null && targetChunk.isLoaded()) {
 				IRadiationSource targetChunkSource = getRadiationSource(targetChunk);
-				if (targetChunkSource != null && !chunkSource.isRadiationNegligible() && targetChunkSource.getScrubbingFraction() < 1D) {
-					double spreadMult = 1D - targetChunkSource.getScrubbingFraction();
-					if (spreadMult > 0D && (targetChunkSource.getRadiationLevel() == 0D || chunkSource.getRadiationLevel()/targetChunkSource.getRadiationLevel() > (1D + NCConfig.radiation_spread_gradient)/spreadMult)) {
-						double radiationSpread = (chunkSource.getRadiationLevel() - targetChunkSource.getRadiationLevel())*NCConfig.radiation_spread_rate*spreadMult;
-						chunkSource.setRadiationLevel(chunkSource.getRadiationLevel() - radiationSpread);
-						targetChunkSource.setRadiationLevel(targetChunkSource.getRadiationLevel() + radiationSpread);
+				if (targetChunkSource != null) {
+					double scrubbing = Math.max(chunkSource.getScrubbingFraction(), targetChunkSource.getScrubbingFraction());
+					if (!chunkSource.isRadiationNegligible() && scrubbing < 1D) {
+						double spreadMult = 1D - scrubbing;
+						if (spreadMult > 0D && (targetChunkSource.getRadiationLevel() == 0D || chunkSource.getRadiationLevel()/targetChunkSource.getRadiationLevel() > (1D + NCConfig.radiation_spread_gradient)/spreadMult)) {
+							double radiationSpread = (chunkSource.getRadiationLevel() - targetChunkSource.getRadiationLevel())*NCConfig.radiation_spread_rate*spreadMult;
+							chunkSource.setRadiationLevel(chunkSource.getRadiationLevel() - radiationSpread);
+							targetChunkSource.setRadiationLevel(targetChunkSource.getRadiationLevel() + radiationSpread);
+						}
 					}
 				}
 			}
@@ -222,18 +262,27 @@ public class RadiationHelper {
 	
 	// Entity Radiation Resistance
 	
-	public static double addRadsToEntity(IEntityRads entityRads, double rawRadiation, boolean ignoreResistance, int updateRate) {
+	public static double addRadsToEntity(IEntityRads entityRads, EntityLivingBase entity, double rawRadiation, boolean ignoreResistance, boolean ignoreMultipliers, int updateRate) {
+		if (rawRadiation <= 0D) return 0D;
+		if (!ignoreMultipliers) {
+			if (entity.isInWater()) {
+				rawRadiation *= NCConfig.radiation_swim_mult;
+			}
+			else if (NCConfig.radiation_rain_mult != 1D && entity.isWet()) {
+				rawRadiation *= NCConfig.radiation_rain_mult;
+			}
+		}
 		double resistance = ignoreResistance ? Math.min(0D, entityRads.getInternalRadiationResistance()) : entityRads.getFullRadiationResistance();
 		
-		double addedRadiation = rawRadiation <= 0D ? 0D : resistance > 0D ? NCMath.square(rawRadiation)/(rawRadiation + resistance) : rawRadiation*(1D - resistance);
+		double addedRadiation = resistance > 0D ? NCMath.square(rawRadiation)/(rawRadiation + resistance) : rawRadiation*(1D - resistance);
 		entityRads.setTotalRads(entityRads.getTotalRads() + addedRadiation*updateRate, true);
 		return addedRadiation;
 	}
 	
-	public static double getEntityArmorRadResistance(EntityLiving entityLiving) {
-		double resistance = getArmorInventoryRadResistance(entityLiving);
-		if (NCConfig.radiation_horse_armor_public && entityLiving instanceof EntityHorse) {
-			resistance += getHorseArmorRadResistance((EntityHorse)entityLiving);
+	public static double getEntityArmorRadResistance(EntityLivingBase entity) {
+		double resistance = getArmorInventoryRadResistance(entity);
+		if (NCConfig.radiation_horse_armor_public && entity instanceof EntityHorse) {
+			resistance += getHorseArmorRadResistance((EntityHorse)entity);
 		}
 		return resistance;
 	}
@@ -278,7 +327,7 @@ public class RadiationHelper {
 		if (stackSource == null) {
 			return 0D;
 		}
-		return addRadsToEntity(playerRads, stackSource.getRadiationLevel()*stack.getCount(), false, updateRate);
+		return addRadsToEntity(playerRads, player, stackSource.getRadiationLevel()*stack.getCount(), false, false, updateRate);
 	}
 	
 	// Source -> Player
@@ -287,7 +336,7 @@ public class RadiationHelper {
 		if (source == null) {
 			return 0D;
 		}
-		return addRadsToEntity(playerRads, source.getRadiationLevel(), false, updateRate);
+		return addRadsToEntity(playerRads, player, source.getRadiationLevel(), false, false, updateRate);
 	}
 	
 	// Biome -> Player
@@ -302,11 +351,11 @@ public class RadiationHelper {
 	
 	// Source -> Entity
 	
-	public static void transferRadsFromSourceToEntity(IRadiationSource source, IEntityRads entityRads, EntityLiving entityLiving, int updateRate) {
+	public static void transferRadsFromSourceToEntity(IRadiationSource source, IEntityRads entityRads, EntityLivingBase entity, int updateRate) {
 		if (source == null) {
 			return;
 		}
-		entityRads.setRadiationLevel(addRadsToEntity(entityRads, source.getRadiationLevel(), false, updateRate));
+		entityRads.setRadiationLevel(addRadsToEntity(entityRads, entity, source.getRadiationLevel(), false, false, updateRate));
 	}
 	
 	// Biome -> Entity

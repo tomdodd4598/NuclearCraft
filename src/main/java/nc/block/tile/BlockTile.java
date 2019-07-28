@@ -29,9 +29,9 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 
 public abstract class BlockTile extends NCBlock implements ITileEntityProvider {
-
-	public BlockTile(String name, Material material) {
-		super(name, material);
+	
+	public BlockTile(Material material) {
+		super(material);
 		hasTileEntity = true;
 		setDefaultState(blockState.getBaseState());
 	}

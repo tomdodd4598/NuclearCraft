@@ -30,7 +30,7 @@ public class NCInfo {
 	}
 	
 	private static String coolingRateString(int meta) {
-		return Lang.localise("tile." + Global.MOD_ID + ".cooler.cooling_rate") + " " + CoolerType.values()[meta].getCooling() + " H/t";
+		return Lang.localise("tile." + Global.MOD_ID + ".cooler.cooling_rate") + " " + NCMath.decimalPlaces(CoolerType.values()[meta].getCooling(), 2) + " H/t";
 	}
 	
 	private static String coolerInfoString(int meta) {
@@ -88,7 +88,7 @@ public class NCInfo {
 	}
 	
 	private static String coilConductivityString(int meta) {
-		return Lang.localise("tile." + Global.MOD_ID + ".turbine_dynamo_coil.conductivity") + " " + Math.round(100D*TurbineDynamoCoilType.values()[meta].getConductivity()) + "%";
+		return Lang.localise("tile." + Global.MOD_ID + ".turbine_dynamo_coil.conductivity") + " " + NCMath.decimalPlaces(100D*TurbineDynamoCoilType.values()[meta].getConductivity(), 1) + "%";
 	}
 	
 	private static String coiInfoString(int meta) {
@@ -110,7 +110,7 @@ public class NCInfo {
 	}
 	
 	private static String powerString(double power) {
-		return ((power % 1) == 0 ? "" : Lang.localise("info.nuclearcraft.approximately" + " ")) + POLY_POWER[(int)Math.round(power) - 1];
+		return (power == (int)power ? "" : Lang.localise("info.nuclearcraft.approximately" + " ")) + POLY_POWER[(int)Math.round(power) - 1];
 	}
 	
 	// Extra Ore Drops

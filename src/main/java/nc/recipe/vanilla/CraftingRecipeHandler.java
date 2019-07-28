@@ -12,7 +12,7 @@ import nc.init.NCArmor;
 import nc.init.NCBlocks;
 import nc.init.NCItems;
 import nc.init.NCTools;
-import nc.radiation.RadiationArmor;
+import nc.radiation.RadArmor;
 import nc.recipe.vanilla.ingredient.BucketIngredient;
 import nc.recipe.vanilla.recipe.ShapedEnergyRecipe;
 import nc.recipe.vanilla.recipe.ShapedFluidRecipe;
@@ -25,6 +25,7 @@ import nc.util.OreDictHelper;
 import nc.util.RegistryHelper;
 import nc.util.StringHelper;
 import net.minecraft.block.Block;
+import net.minecraft.client.util.RecipeItemHelper;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -351,16 +352,17 @@ public class CraftingRecipeHandler {
 					NonNullList<ItemStack> stacks = NonNullList.create();
 					item.getSubItems(CreativeTabs.SEARCH, stacks);
 					for (ItemStack stack : stacks) {
-						if (!RadiationArmor.ARMOR_STACK_SHIELDING_BLACKLIST.contains(stack)) {
-							RadiationArmor.addArmorShieldingRecipes(stack);
+						int packed = RecipeItemHelper.pack(stack);
+						if (!RadArmor.ARMOR_STACK_SHIELDING_BLACKLIST.contains(packed)) {
+							RadArmor.addArmorShieldingRecipes(stack);
 						}
 					}
 				}
 			}
 		}
 		
-		for (ItemStack stack : RadiationArmor.ARMOR_STACK_SHIELDING_LIST) {
-			RadiationArmor.addArmorShieldingRecipes(stack);
+		for (int packed : RadArmor.ARMOR_STACK_SHIELDING_LIST) {
+			RadArmor.addArmorShieldingRecipes(RecipeItemHelper.unpack(packed));
 		}
 	}
 	

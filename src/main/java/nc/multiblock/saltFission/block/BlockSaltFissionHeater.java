@@ -25,7 +25,7 @@ public class BlockSaltFissionHeater extends BlockSaltFissionPartBase implements 
 	private static EnumFacing placementSide = null;
 	
 	public BlockSaltFissionHeater() {
-		super("salt_fission_heater");
+		super();
 	}
 
 	@Override

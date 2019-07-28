@@ -210,7 +210,7 @@ tile.nuclearcraft.fission_controller_new_fixed.name=Fission Controller
 tile.nuclearcraft.fission_controller_new_fixed.desc=Build a multiblock reactor using reactor casing, reactor cells, coolers and moderator blocks! Place the controller along an edge, at a corner or within one of the faces of the structure.
 
 tile.nuclearcraft.fission_port.name=Fission Reactor Port
-tile.nuclearcraft.fission_port.desc=Place this block in the shell of a fission reactor in place of some reactor casing, but *not* in the top or bottom sides. If a controller is attached to the reactor structure, then its inventory and stored energy can be accessed by automation through this block. Do make sure that the front of the port is on the outside of the reactor - this is the side with the slightly different texture.
+tile.nuclearcraft.fission_port.desc=Place this block in the shell of a fission reactor in place of some reactor casing, but *not* in the top or bottom sides. If a controller is attached to the reactor structure, then its inventory and stored energy can be accessed by automation through this block.
 
 tile.nuclearcraft.rtg_uranium.name=Uranium RTG
 tile.nuclearcraft.rtg_plutonium.name=Plutonium RTG
@@ -246,9 +246,11 @@ tile.nuclearcraft.fusion_dummy_top.name=Fusion Core
 tile.nuclearcraft.salt_fission_controller.name=Molten Salt Fission Controller
 tile.nuclearcraft.salt_fission_controller.desc=The heart of the reactor - one is needed in the wall for it to form.
 tile.nuclearcraft.salt_fission_wall.name=Molten Salt Reactor Wall
+tile.nuclearcraft.salt_fission_wall.desc=Comprises the faces of the reactor structure.
 tile.nuclearcraft.salt_fission_glass.name=Transparent Molten Salt Reactor Wall
+tile.nuclearcraft.salt_fission_glass.desc=Comprises the faces of the reactor structure.
 tile.nuclearcraft.salt_fission_frame.name=Molten Salt Reactor Frame
-tile.nuclearcraft.salt_fission_frame.desc=Comprises the skeleton of the reactor.
+tile.nuclearcraft.salt_fission_frame.desc=Comprises the edges and corners of the reactor structure.
 tile.nuclearcraft.salt_fission_beam.name=Molten Salt Reactor Beam
 tile.nuclearcraft.salt_fission_beam.desc=Used to connect otherwise disconnected parts of the reactor to the wall.
 tile.nuclearcraft.salt_fission_vent.name=Molten Salt Reactor Vent
@@ -271,9 +273,11 @@ tile.nuclearcraft.salt_fission_computer_port.desc=Used to access the reactor via
 tile.nuclearcraft.heat_exchanger_controller.name=Heat Exchanger Controller
 tile.nuclearcraft.heat_exchanger_controller.desc=The heart of the exchanger - one is needed in the wall for it to form.
 tile.nuclearcraft.heat_exchanger_wall.name=Heat Exchanger Shell
+tile.nuclearcraft.heat_exchanger_wall.desc=Comprises the faces of the exchanger structure.
 tile.nuclearcraft.heat_exchanger_glass.name=Transparent Heat Exchanger Shell
+tile.nuclearcraft.heat_exchanger_glass.desc=Comprises the faces of the exchanger structure.
 tile.nuclearcraft.heat_exchanger_frame.name=Heat Exchanger Frame
-tile.nuclearcraft.heat_exchanger_frame.desc=Comprises the skeleton of the exchanger.
+tile.nuclearcraft.heat_exchanger_frame.desc=Comprises the edges and corners of the exchanger structure.
 tile.nuclearcraft.heat_exchanger_vent.name=Heat Exchanger Vent
 tile.nuclearcraft.heat_exchanger_vent.desc=Used to move fluid in and out of the exchanger. Will push to [accept from] accepting [pushing] tubes.
 tile.nuclearcraft.heat_exchanger_tube_copper.name=Copper Heat Exchanger Tube
@@ -292,9 +296,11 @@ tile.nuclearcraft.heat_exchanger_computer_port.desc=Used to access the exchanger
 tile.nuclearcraft.turbine_controller.name=Turbine Controller
 tile.nuclearcraft.turbine_controller.desc=The heart of the turbine - one is needed in the wall for it to form.
 tile.nuclearcraft.turbine_wall.name=Turbine Wall
+tile.nuclearcraft.turbine_wall.desc=Comprises the faces of the turbine structure.
 tile.nuclearcraft.turbine_glass.name=Transparent Turbine Wall
+tile.nuclearcraft.turbine_glass.desc=Comprises the faces of the turbine structure.
 tile.nuclearcraft.turbine_frame.name=Turbine Frame
-tile.nuclearcraft.turbine_frame.desc=Comprises the skeleton of the turbine.
+tile.nuclearcraft.turbine_frame.desc=Comprises the edges and corners of the turbine structure.
 tile.nuclearcraft.turbine_rotor_shaft.name=Turbine Rotor Shaft
 tile.nuclearcraft.turbine_rotor_shaft.desc=Connects the rotor blades to the dynamo to convert the generated kinetic energy into electrical energy. Must be placed axially as a cuboid along the centre of the turbine interior.
 tile.nuclearcraft.turbine_rotor_blade_steel.name=Steel Turbine Rotor Blade
@@ -365,7 +371,8 @@ tile.nuclearcraft.nitrogen_collector.desc=Produces %s of nitrogen constantly.
 nuclearcraft.collector.jei_name=Collector
 
 tile.nuclearcraft.radiation_scrubber.name=Radiation Scrubber
-tile.nuclearcraft.radiation_scrubber.desc=Reduces the radiation level of the chunk it is placed in. Its effectiveness is dependent on the amount of free space around it, removing a maximum of %s of the radiation in its chunk. %s
+tile.nuclearcraft.radiation_scrubber.desc=Reduces the radiation level of the chunk it is placed in. Its effectiveness is dependent on the amount of free space around it, removing a maximum of %s of the radiation in its chunk. The collective contribution from all scrubbers in the chunk will stack linearly. %s
+tile.nuclearcraft.radiation_scrubber_alt.desc=Reduces the radiation level of the chunk it is placed in. Its effectiveness is dependent on the amount of free space around it. Alone, it will remove a maximum of %s of the radiation in its chunk, though the collective contribution from all scrubbers in the chunk will stack non-linearly. The radiation level will fall approximately linearly at first, but eventually doubly exponentially in the limit of many scrubbers. %s
 info.nuclearcraft.radiation_scrubber_req_borax=Requires %s RF/t and %s Borax/s to run.
 info.nuclearcraft.radiation_scrubber_no_req_borax=Requires %s RF/t to run.
 
@@ -424,6 +431,7 @@ tile.nuclearcraft.fluid_liquid_nitrogen.name=Liquid Nitrogen
 fluid.liquid_nitrogen=Liquid Nitrogen
 
 tile.nuclearcraft.fluid_plasma.name=Plasma
+tile.nuclearcraft.fluid_plasma.desc=Produced in active fusion reactors. May cause an explosion and fire when coming into contact with an unpowered fusion electromagnet.
 fluid.plasma=Plasma
 
 tile.nuclearcraft.fluid_lithium.name=Molten Lithium
@@ -538,6 +546,7 @@ tile.nuclearcraft.fluid_oxygen_difluoride.name=Oxygen Difluoride
 fluid.oxygen_difluoride=Oxygen Difluoride
 
 tile.nuclearcraft.fluid_corium.name=Corium
+tile.nuclearcraft.fluid_corium.desc=A poisonous, molten mixture of fuel and components produced in fission reactor meltdowns.
 fluid.corium=Corium
 
 tile.nuclearcraft.fluid_chocolate_liquor.name=Chocolate Liquor
@@ -1993,8 +2002,8 @@ gui.config.category.fusion.tooltip=Configure aspects of nuclear fusion.
 
 gui.config.fusion.fusion_base_power=Power Gen Multiplier
 gui.config.fusion.fusion_base_power.comment=Modifies the power generated by fusion reactors.
-gui.config.fusion.fusion_fuel_use=Fuel Lifetime Multiplier
-gui.config.fusion.fusion_fuel_use.comment=Modifies the lifetime of fuels in fusion reactors.
+gui.config.fusion.fusion_fuel_use=Fuel Use Multiplier
+gui.config.fusion.fusion_fuel_use.comment=Modifies the rate of fuel used by fusion reactors.
 gui.config.fusion.fusion_heat_generation=Heat Gen Multiplier
 gui.config.fusion.fusion_heat_generation.comment=Modifies the heat generated by fusion reactors while running.
 gui.config.fusion.fusion_heating_multiplier=Heating Rate Multiplier
@@ -2191,7 +2200,9 @@ gui.config.radiation.radiation_ores.comment=List of ore dict entries and their s
 gui.config.radiation.radiation_items=Item Stack Radiation
 gui.config.radiation.radiation_items.comment=List of items and their stack radiation levels. Can be used to overwrite default values. Format: 'modid:name:meta_radiationLevel'.
 gui.config.radiation.radiation_blocks=Block Stack Radiation
-gui.config.radiation.radiation_blocks.comment=List of blocks and their stack radiation levels. Can be used to overwrite default values. Format: 'modid:name:meta_radiationLevel'.
+gui.config.radiation.radiation_blocks.comment=List of blocks and their radiation levels. Can be used to overwrite default values. Format: 'modid:name:meta_radiationLevel'.
+gui.config.radiation.radiation_fluids=Fluid Stack Radiation
+gui.config.radiation.radiation_fluids.comment=List of fluids and their radiation levels. Can be used to overwrite default values. If the fluid has a corresponding block, then it will also be given a radiation level. Format: 'fluidName_radiationLevel'.
 gui.config.radiation.radiation_foods=Food Radiation and Resistance
 gui.config.radiation.radiation_foods.comment=List of foods and the rads and rad resistance gained on consumption. Negative values mean rads and rad resistance will be lost. Can be used to overwrite default values. Format: 'modid:name:meta_radiationLevel_radiationResistance'.
 
@@ -2201,6 +2212,8 @@ gui.config.radiation.radiation_items_blacklist=Item Stack Radiation Blacklist
 gui.config.radiation.radiation_items_blacklist.comment=List of items that will be forced not have a radiation level. Format: 'modid:name:meta'.
 gui.config.radiation.radiation_blocks_blacklist=Block Stack Radiation Blacklist
 gui.config.radiation.radiation_blocks_blacklist.comment=List of blocks that will be forced not have a radiation level. Format: 'modid:name:meta'.
+gui.config.radiation.radiation_fluids_blacklist=Fluid Radiation Blacklist
+gui.config.radiation.radiation_fluids_blacklist.comment=List of fluids that will be forced not have a radiation level. Format: 'fluidName'.
 
 gui.config.radiation.max_player_rads=Max Player Rads
 gui.config.radiation.max_player_rads.comment=The maximum number of rads a player can have before the radiation is fatal.
@@ -2218,6 +2231,16 @@ gui.config.radiation.radiation_lowest_rate=Lowest Radiation Rate
 gui.config.radiation.radiation_lowest_rate.comment=The lowest rate of player and chunk irradiation possible in Rads/t - amounts below this are ignored.
 gui.config.radiation.radiation_chunk_limit=Chunk Radiation Limit
 gui.config.radiation.radiation_chunk_limit.comment=The maximum chunk radiation level possible in Rads/t. A negative value means there is no limit.
+gui.config.radiation.radiation_block_effects=Radiation Block Mutations
+gui.config.radiation.radiation_block_effects.comment=A list of mutation results, the material properties of the blocks which should mutate to them, and the threshold radiation level at which the mutation should occur. All arguments of the chosen parameters have to match those of the target block for a mutation to happen. The parameters 'isLiquid', 'isSolid', 'blocksLight', 'blocksMovement', 'getCanBurn', 'isReplaceable', 'isOpaque' and 'isToolNotRequired' are boolean-valued, 'materialMapColor' is integer-valued and 'getPushReaction' is an EnumPushReaction, with the possible values being 'normal', 'destroy', 'block', 'ignore' or 'pushOnly'. More precise control through a recipe system is available via NC's CraftTweaker integration. Format: 'modid:name:meta_radiationThreshold_parameterA@argumentA,parameterB@argumentB,...,parameterZ@argumentZ'.
+gui.config.radiation.radiation_block_effect_limit=Radiation Block Mutation Threshold
+gui.config.radiation.radiation_block_effect_limit.comment=The chunk radiation level in Rads/t beyond which blocks will start to be affected by radiation.
+gui.config.radiation.radiation_block_effect_max_rate=Radiation Block Mutation Max Rate
+gui.config.radiation.radiation_block_effect_max_rate.comment=The maximum number of attempts per chunk radiation update to mutate blocks.
+gui.config.radiation.radiation_rain_mult=Radiation Rain Multiplier
+gui.config.radiation.radiation_rain_mult.comment=Multiplies the rate of irradiation while in rain.
+gui.config.radiation.radiation_swim_mult=Radiation Swimming Multiplier
+gui.config.radiation.radiation_swim_mult.comment=Multiplies the rate of irradiation while swimming.
 
 gui.config.radiation.radiation_radaway_amount=RadAway Rads Removed
 gui.config.radiation.radiation_radaway_amount.comment=The total number of rads removed when using RadAway.
@@ -2245,6 +2268,12 @@ gui.config.radiation.radiation_hazmat_shielding=Radiation Hazmat Shielding
 gui.config.radiation.radiation_hazmat_shielding.comment=The rad resistance levels provided by each piece of the hazmat suit. Order: headwear, chestpiece, leggings, boots.
 gui.config.radiation.radiation_scrubber_fraction=Scrubber Max Removal Rate
 gui.config.radiation.radiation_scrubber_fraction.comment=The maximum rate at which scrubbers will remove radiation as a fraction of the radiation level of the chunk it is in.
+gui.config.radiation.radiation_scrubber_radius=Scrubber Search Radius
+gui.config.radiation.radiation_scrubber_radius.comment=The range of scrubbers' search for occluding blocks.
+gui.config.radiation.radiation_scrubber_alt=Alternate Scrubber Mechanics
+gui.config.radiation.radiation_scrubber_alt.comment=Use a non-linear scrubbing rate equation instead of the linear behaviour?
+gui.config.radiation.radiation_scrubber_param=Alternate Scrubber Equation Parameters
+gui.config.radiation.radiation_scrubber_param.comment=The four parameters a,b,c,d in the non-linear scrubbing rate equation 'F = a^[-(S/b)^(S/c + 1)^(1/d)]', where 'F' is the remaining fraction of radiation left in the chunk's update buffer after scrubbing and 'S' is the effective number of scrubbers in the chunk after accounting for inefficiencies. It is recommended that you only modify these if you know what you are doing.
 gui.config.radiation.radiation_scrubber_power=Scrubber Power Use
 gui.config.radiation.radiation_scrubber_power.comment=The power in RF/s scrubbers need to be supplied to run.
 gui.config.radiation.radiation_scrubber_borax_rate=Scrubber Borax Use Rate
@@ -2252,9 +2281,9 @@ gui.config.radiation.radiation_scrubber_borax_rate.comment=The amount of borax s
 
 gui.config.radiation.radiation_shielding_default_recipes=Radiation Shielding Default Recipes
 gui.config.radiation.radiation_shielding_default_recipes.comment=If enabled, radiation shielding attachment recipes will be added for all registered armor pieces.
-gui.config.radiation.radiation_shielding_item_blacklist=Radiation Shielding Item Blacklist
-gui.config.radiation.radiation_shielding_item_blacklist.comment=List of armor item stacks for which shielding recipes will not be added. Format: 'modid:armorName:meta'.
-gui.config.radiation.radiation_shielding_custom_stacks=Radiation Shielding ItemStack List
+gui.config.radiation.radiation_shielding_item_blacklist=Radiation Shielding ItemStack Blacklist
+gui.config.radiation.radiation_shielding_item_blacklist.comment=List of armor item stacks for which shielding recipes will not be added by default. Format: 'modid:armorName:meta'.
+gui.config.radiation.radiation_shielding_custom_stacks=Radiation Shielding ItemStack Whitelist
 gui.config.radiation.radiation_shielding_custom_stacks.comment=List of armor item stacks for which shielding recipes will be added. Mostly used when the automated shielding recipes are disabled. Format: 'modid:armorName:meta'.
 gui.config.radiation.radiation_shielding_default_levels=Radiation Default Armor Shielding
 gui.config.radiation.radiation_shielding_default_levels.comment=List of armor item stacks and their default radiation shielding levels. Format: 'modid:armorName:meta_resistance'. Note: this is not the only way to add these values if you have CraftTweaker installed. Rad resistance can also be given to armor by changing their recipe such that an NBT tag called "ncRadiationResistance" with the double value equal to the resistance level is attached to it.
@@ -2296,7 +2325,7 @@ gui.config.radiation.radiation_death_immunity_time.comment=Number of seconds pla
 gui.config.radiation.radiation_passive_debuff_lists=Passive Entity Radiation Effects
 gui.config.radiation.radiation_passive_debuff_lists.comment=Lists of potion effects experienced at various percentages of radiation level by passive entities. Format: 'radPercent_potionNameA@strength,potionNameB@strength,...,potionNameZ@strength'.
 gui.config.radiation.radiation_mob_buff_lists=Mob Radiation Effects
-gui.config.radiation.radiation_mob_buff_lists.comment=Lists of potion effects experienced at various percentages of radiation level by mobs. Format: 'radPercent_potionNameA_strength,potionNameB_strength,...,potionNameZ_strength'.
+gui.config.radiation.radiation_mob_buff_lists.comment=Lists of potion effects experienced at various percentages of radiation level by mobs. Format: 'radPercent_potionNameA@strength,potionNameB@strength,...,potionNameZ@strength'.
 
 gui.config.radiation.radiation_horse_armor=Horse Armor
 gui.config.radiation.radiation_horse_armor.comment=If enabled, horses can be equipped with radiation-protective armor.
@@ -2351,6 +2380,9 @@ gui.config.other.register_fluid_blocks.comment=Register fission fluid and molten
 gui.config.other.register_cofh_fluids=Register CoFH Fluid Alternatives
 gui.config.other.register_cofh_fluids.comment=Register alternative Thermal Foundation fluids? It is recommended that this is set to true if no CoFH mods are installed.
 
+gui.config.other.register_projecte_emc=Register Base EMC Values
+gui.config.other.register_projecte_emc.comment=Register NC raw material EMC values if ProjectE is installed?
+
 gui.config.other.ore_dict_priority_bool=Enable Ore Dict Mod Priority
 gui.config.other.ore_dict_priority_bool.comment=Will Ore Dictionary outputs be prioritised according to the mod list below? If false, the default Ore Dict entry will be used when deciding machine outputs.
 gui.config.other.ore_dict_priority=Ore Dict Mod Priority
@@ -2395,6 +2427,60 @@ nc.block.exchanger_tube_fluid_side.input_spread=INPUT SPREAD
 
 gui.inventory.shift_for_info=Hold Shift for more info
 gui.inventory.ctrl_for_info=Hold Ctrl for more info
+
+nuclearcraft.container.nuclear_furnace=Nuclear Furnace
+nuclearcraft.container.manufactory=Manufactory
+nuclearcraft.container.isotope_separator=Isotope Separator
+nuclearcraft.container.decay_hastener=Decay Hastener
+nuclearcraft.container.fuel_reprocessor=Fuel Reprocessor
+nuclearcraft.container.alloy_furnace=Alloy Furnace
+nuclearcraft.container.infuser=Fluid Infuser
+nuclearcraft.container.melter=Melter
+nuclearcraft.container.supercooler=Supercooler
+nuclearcraft.container.electrolyser=Electrolyzer
+nuclearcraft.container.irradiator=Neutron Irradiator
+nuclearcraft.container.ingot_former=Ingot Former
+nuclearcraft.container.pressurizer=Pressurizer
+nuclearcraft.container.chemical_reactor=Chemical Reactor
+nuclearcraft.container.salt_mixer=Salt Mixer
+nuclearcraft.container.crystallizer=Crystallizer
+nuclearcraft.container.dissolver=Fluid Enricher
+nuclearcraft.container.extractor=Fluid Extractor
+nuclearcraft.container.centrifuge=Centrifuge
+nuclearcraft.container.rock_crusher=Rock Crusher
+
+nuclearcraft.container.machine_interface=Machine Interface
+nuclearcraft.container.buffer=Buffer
+nuclearcraft.container.bin=Universal Bin
+
+nuclearcraft.container.fission_controller=Fission Controller (Old)
+nuclearcraft.container.fission_controller_new=Fission Controller
+nuclearcraft.container.fission_controller_new_fixed=Fission Controller
+nuclearcraft.container.fission_port=Fission Reactor Port
+
+nuclearcraft.container.fusion_core=Fusion Core
+nuclearcraft.container.fusion_dummy_side=Fusion Core
+nuclearcraft.container.fusion_dummy_top=Fusion Core
+
+nuclearcraft.container.fusion_electromagnet=Fusion Electromagnet
+nuclearcraft.container.fusion_electromagnet_transparent=Transparent Fusion Electromagnet
+nuclearcraft.container.accelerator_electromagnet=Superconducting Electromagnet
+nuclearcraft.container.electromagnet_supercooler=Superconducting Supercooler
+
+nuclearcraft.container.helium_collector=Helium Collector
+nuclearcraft.container.helium_collector_compact=Compact Helium Collector
+nuclearcraft.container.helium_collector_dense=Dense Helium Collector
+nuclearcraft.container.cobblestone_generator=Cobblestone Generator
+nuclearcraft.container.cobblestone_generator_compact=Compact Cobblestone Generator
+nuclearcraft.container.cobblestone_generator_dense=Dense Cobblestone Generator
+nuclearcraft.container.water_source=Infinite Water Source
+nuclearcraft.container.water_source_compact=Compact Infinite Water Source
+nuclearcraft.container.water_source_dense=Dense Infinite Water Source
+nuclearcraft.container.nitrogen_collector=Nitrogen Collector
+nuclearcraft.container.nitrogen_collector_compact=Compact Nitrogen Collector
+nuclearcraft.container.nitrogen_collector_dense=Dense Nitrogen Collector
+
+nuclearcraft.container.radiation_scrubber=Radiation Scrubber
 
 gui.container.fission_controller.reactor=Fission Reactor
 gui.container.fission_controller.casing_incomplete=Casing Incomplete

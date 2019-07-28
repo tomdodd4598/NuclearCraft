@@ -12,7 +12,7 @@ import net.minecraft.world.World;
 public class BlockTurbineComputerPort extends BlockTurbinePartBase {
 
 	public BlockTurbineComputerPort() {
-		super("turbine_computer_port");
+		super();
 	}
 
 	@Override

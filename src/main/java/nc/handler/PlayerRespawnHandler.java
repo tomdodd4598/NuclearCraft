@@ -26,7 +26,7 @@ public class PlayerRespawnHandler {
 			if (event.isWasDeath()) {
 				if (NCConfig.radiation_death_persist) {
 					newRads.setTotalRads((oldRads.getTotalRads()*NCConfig.radiation_death_persist_fraction) % oldRads.getMaxRads(), false);
-					if (oldRads.getTotalRads() >= oldRads.getMaxRads()) newRads.setRadiationImmunityTime(NCConfig.radiation_death_immunity_time*20D);
+					newRads.setRadiationImmunityTime(oldRads.getTotalRads()*NCConfig.radiation_death_immunity_time*20D/oldRads.getMaxRads());
 				}
 			}
 			else {

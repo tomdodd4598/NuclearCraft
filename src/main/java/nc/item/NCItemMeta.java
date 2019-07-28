@@ -4,8 +4,6 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import nc.Global;
-import nc.NuclearCraft;
 import nc.enumm.IItemMeta;
 import nc.init.NCItems;
 import nc.util.InfoHelper;
@@ -19,7 +17,6 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -31,9 +28,7 @@ public class NCItemMeta<T extends Enum<T> & IStringSerializable & IItemMeta> ext
 	public final T[] values;
 	public final String[][] info;
 	
-	public NCItemMeta(String nameIn, Class<T> enumm, String[]... tooltips) {
-		setTranslationKey(Global.MOD_ID + "." + nameIn);
-		if (NuclearCraft.regName) setRegistryName(new ResourceLocation(Global.MOD_ID, nameIn));
+	public NCItemMeta(Class<T> enumm, String[]... tooltips) {
 		setHasSubtypes(true);
 		values = enumm.getEnumConstants();
 		info = InfoHelper.buildInfo(getTranslationKey(), enumm, tooltips);

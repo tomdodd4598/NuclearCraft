@@ -6,14 +6,14 @@ import net.minecraft.block.material.Material;
 
 public abstract class BlockHeatExchangerPartBase extends MultiblockBlockPartBase {
 	
-	public BlockHeatExchangerPartBase(String name) {
-		super(name, Material.IRON, NCTabs.HEAT_EXCHANGER_BLOCKS);
+	public BlockHeatExchangerPartBase() {
+		super(Material.IRON, NCTabs.HEAT_EXCHANGER_BLOCKS);
 	}
 	
 	public static abstract class Transparent extends MultiblockBlockPartBase.Transparent {
 		
-		public Transparent(String name, boolean smartRender) {
-			super(name, Material.IRON, NCTabs.HEAT_EXCHANGER_BLOCKS, smartRender);
+		public Transparent(boolean smartRender) {
+			super(Material.IRON, NCTabs.HEAT_EXCHANGER_BLOCKS, smartRender);
 		}
 	}
 }

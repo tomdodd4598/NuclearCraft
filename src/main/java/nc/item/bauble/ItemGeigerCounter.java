@@ -12,7 +12,6 @@ import nc.radiation.RadiationHelper;
 import nc.util.Lang;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -33,8 +32,8 @@ public class ItemGeigerCounter extends NCItem implements IBauble {
 	
 	private static final String RADIATION = Lang.localise("item.nuclearcraft.geiger_counter.rads");
 	
-	public ItemGeigerCounter(String nameIn, String... tooltip) {
-		super(nameIn, tooltip);
+	public ItemGeigerCounter(String... tooltip) {
+		super(tooltip);
 		maxStackSize = 1;
 	}
 	
@@ -42,8 +41,8 @@ public class ItemGeigerCounter extends NCItem implements IBauble {
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
 		if (worldIn.isRemote) {
 			RayTraceResult rayTrace = Minecraft.getMinecraft().objectMouseOver;
-			if (!(rayTrace != null && rayTrace.typeOfHit == Type.ENTITY) && playerIn.hasCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null)) {
-				IEntityRads playerRads = playerIn.getCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null);
+			if (!(rayTrace != null && rayTrace.typeOfHit == Type.ENTITY)) {
+				IEntityRads playerRads = RadiationHelper.getEntityRadiation(playerIn);
 				if (playerRads != null) {
 					playerIn.sendMessage(new TextComponentString(RadiationHelper.getRadsTextColor(playerRads) + RADIATION + " " + (playerRads.isTotalRadsNegligible() ? "0 Rads" : RadiationHelper.radsPrefix(playerRads.getTotalRads(), false)) + " [" + Math.round(playerRads.getRadsPercentage()) + "%], " + RadiationHelper.getRawRadiationTextColor(playerRads) + (playerRads.isRadiationNegligible() ? "0 Rads/t" : RadiationHelper.radsPrefix(playerRads.getRawRadiationLevel(), true))));
 				}
@@ -54,8 +53,8 @@ public class ItemGeigerCounter extends NCItem implements IBauble {
 	
 	@Override
 	public boolean itemInteractionForEntity(ItemStack stack, EntityPlayer player, EntityLivingBase entity, EnumHand hand) {
-		if (!entity.world.isRemote && entity instanceof EntityLiving && entity.hasCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null)) {
-			IEntityRads entityRads = entity.getCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null);
+		if (!entity.world.isRemote) {
+			IEntityRads entityRads = RadiationHelper.getEntityRadiation(entity);
 			if (entityRads != null) {
 				player.sendMessage(new TextComponentString(RadiationHelper.getRadsTextColor(entityRads) + RADIATION + " " + (entityRads.isTotalRadsNegligible() ? "0 Rads" : RadiationHelper.radsPrefix(entityRads.getTotalRads(), false)) + " [" + Math.round(entityRads.getRadsPercentage()) + "%], " + RadiationHelper.getRadiationTextColor(entityRads) + (entityRads.isRadiationNegligible() ? "0 Rads/t" : RadiationHelper.radsPrefix(entityRads.getRadiationLevel(), true))));
 			}
@@ -67,8 +66,8 @@ public class ItemGeigerCounter extends NCItem implements IBauble {
 	public void onUpdate(ItemStack stack, World world, Entity entity, int itemSlot, boolean isSelected) {
 		if (!world.isRemote || !NCConfig.radiation_require_counter || !(entity instanceof EntityPlayer)) return;
 		EntityPlayer player = (EntityPlayer) entity;
-		if (isStackOnHotbar(stack, player) && player.hasCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null)) {
-			IEntityRads entityRads = player.getCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null);
+		if (isStackOnHotbar(stack, player)) {
+			IEntityRads entityRads = RadiationHelper.getEntityRadiation(player);
 			if (entityRads == null || entityRads.isRadiationUndetectable()) return;
 			double soundChance = Math.cbrt(entityRads.getRawRadiationLevel()/200D);
 			float soundVolume = MathHelper.clamp((float)(8F*soundChance), 0.55F, 1.1F);

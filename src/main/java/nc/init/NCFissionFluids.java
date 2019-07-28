@@ -3,12 +3,15 @@ package nc.init;
 import java.util.ArrayList;
 import java.util.List;
 
+import nc.Global;
 import nc.NuclearCraft;
-import nc.block.fluid.NCBlockFluid;
 import nc.block.fluid.BlockFluidFission;
+import nc.block.fluid.NCBlockFluid;
+import nc.block.item.NCItemBlock;
 import nc.config.NCConfig;
 import nc.fluid.FluidFission;
-import net.minecraft.item.ItemBlock;
+import net.minecraft.block.Block;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
@@ -23,7 +26,7 @@ public class NCFissionFluids {
 		fluidList.addAll(fissionFluids("plutonium", 0xDBDBDB));
 		
 		fluidList.addAll(fissionFluids("thorium_230", 0x383838));
-		fluidList.addAll(fissionFluids("thorium_232", 0x303030));
+		//fluidList.addAll(fissionFluids("thorium_232", 0x303030));
 		
 		fluidList.addAll(fissionFluids("uranium_233", 0x212E20));
 		fluidList.addAll(fissionFluids("uranium_235", 0x102D10));
@@ -121,6 +124,10 @@ public class NCFissionFluids {
 		fluidList.addAll(fissionFluids("depleted_fuel_hecf_251", 0x4B1B23));
 	}
 	
+	public static <T extends NCBlockFluid> Block withName(T block) {
+		return block.setTranslationKey(Global.MOD_ID + "." + block.getBlockName()).setRegistryName(new ResourceLocation(Global.MOD_ID, block.getBlockName()));
+	}
+	
 	public static void register() {
 		for (FluidFission fluid : fluidList) {
 			
@@ -138,8 +145,8 @@ public class NCFissionFluids {
 	}
 	
 	public static void registerBlock(NCBlockFluid block) {
-		ForgeRegistries.BLOCKS.register(block);
-		ForgeRegistries.ITEMS.register(new ItemBlock(block).setRegistryName(block.getRegistryName()));
+		ForgeRegistries.BLOCKS.register(withName(block));
+		ForgeRegistries.ITEMS.register(new NCItemBlock(block).setRegistryName(block.getRegistryName()));
 		NuclearCraft.proxy.registerFluidBlockRendering(block, "fluid_molten_colored");
 	}
 	

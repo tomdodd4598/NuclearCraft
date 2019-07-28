@@ -1,9 +1,9 @@
 package nc.util;
 
-import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementManager;
 import net.minecraft.entity.Entity;
@@ -16,7 +16,7 @@ public class AdvancementHelper {
 	
 	// Thanks go to the BuildCraft devs for the methods below!
 	
-	private static final Set<ResourceLocation> ERRONEOUS_ADVANCEMENTS = new HashSet<>();
+	private static final Set<ResourceLocation> ERRONEOUS_ADVANCEMENTS = new ObjectOpenHashSet<>();
 
 	public static void unlockAdvancement(EntityPlayer player, ResourceLocation advancementName) {
 		if (player instanceof EntityPlayerMP) {

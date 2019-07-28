@@ -5,14 +5,12 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import nc.Global;
-import nc.NuclearCraft;
 import nc.util.InfoHelper;
 import nc.util.Lang;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemRecord;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -24,11 +22,9 @@ public class NCItemRecord extends ItemRecord {
 	private final String name;
 	
 	public NCItemRecord(String nameIn, SoundEvent sound, String... tooltip) {
-		super("record_" + nameIn, sound);
-		name = nameIn;
-		setTranslationKey(Global.MOD_ID + "." + "record_" + nameIn);
-		if (NuclearCraft.regName) setRegistryName(new ResourceLocation(Global.MOD_ID, "record_" + nameIn));
+		super(nameIn, sound);
 		info = InfoHelper.buildInfo(getTranslationKey(), tooltip);
+		name = nameIn;
 	}
 	
 	@Override
@@ -46,6 +42,6 @@ public class NCItemRecord extends ItemRecord {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public String getRecordNameLocal() {
-		return Lang.localise("item." + Global.MOD_ID + ".record_" + name + ".des0");
+		return Lang.localise("item." + Global.MOD_ID + "." + name + ".des0");
 	}
 }

@@ -12,7 +12,7 @@ import net.minecraft.world.World;
 public class BlockTurbineInlet extends BlockTurbinePartBase {
 
 	public BlockTurbineInlet() {
-		super("turbine_inlet");
+		super();
 	}
 
 	@Override

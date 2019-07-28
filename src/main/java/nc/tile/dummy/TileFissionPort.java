@@ -47,7 +47,7 @@ public class TileFissionPort extends TileDummy<TileFissionController> implements
 	
 	@Override
 	public void onAdded() {
-		finder = new BlockFinder(pos, world, getBlockMetadata());
+		findControllerOnPlaced();
 		super.onAdded();
 	}
 	
@@ -117,7 +117,8 @@ public class TileFissionPort extends TileDummy<TileFissionController> implements
 		}
 	}
 	
-	// Finding Blocks
+	@Override
+	public void findMaster() {}
 	
 	private static boolean notOrigin(int x, int y, int z) {
 		return x != 0 || y != 0 || z != 0;
@@ -139,118 +140,110 @@ public class TileFissionPort extends TileDummy<TileFissionController> implements
 		return findCasing(x, y, z) || findController(x, y, z);
 	}
 	
-	private boolean findCasingAllNotOrigin(int x, int y, int z) {
-		return notOrigin(x, y, z) && findCasingAll(x, y, z);
-	}
-	
-	// Find Master
-	
-	@Override
-	public void findMaster() {
-		int l = NCConfig.fission_max_size + 2;
-		boolean f = false;
-		int rz = 0;
-		int z0 = 0;
-		int x0 = 0;
-		int y0 = 0;
-		int z1 = 0;
-		int x1 = 0;
-		int y1 = 0;
-		for (int z = 0; z <= l; z++) {
-			if ((findCasingAll(0, 1, 0) || findCasingAll(0, -1, 0)) || ((findCasingAll(1, 1, 0) || findCasingAll(1, -1, 0)) && findCasingAll(1, 0, 0)) || ((findCasingAll(1, 1, 0) && !findCasingAll(1, -1, 0)) && !findCasingAll(1, 0, 0)) || ((!findCasingAll(1, 1, 0) && findCasingAll(1, -1, 0)) && !findCasingAll(1, 0, 0))) {
-				if ((!findCasingAll(0, 1, -z) || (!findCasingAll(1, 1, -z) && !findCasingAll(0, 1, -z + 1))) && (!findCasingAll(0, -1, -z) || (!findCasingAll(1, -1, -z) && !findCasingAll(0, -1, -z + 1))) && (findCasingAll(0, 0, -z + 1) || findCasingAll(0, 1, -z + 1) || findCasingAll(0, -1, -z + 1))) {
+	private void findControllerOnPlaced() {
+		for (int dir = 2; dir <= 5; dir++) {
+			finder = new BlockFinder(pos, world, dir);
+			int l = NCConfig.fission_max_size + 2;
+			boolean f = false;
+			int rz = 0;
+			int z0 = 0, x0 = 0, y0 = 0;
+			int z1 = 0, x1 = 0, y1 = 0;
+			for (int z = 0; z <= l; z++) {
+				if ((findCasingAll(0, 1, 0) || findCasingAll(0, -1, 0)) || ((findCasingAll(1, 1, 0) || findCasingAll(1, -1, 0)) && findCasingAll(1, 0, 0)) || ((findCasingAll(1, 1, 0) && !findCasingAll(1, -1, 0)) && !findCasingAll(1, 0, 0)) || ((!findCasingAll(1, 1, 0) && findCasingAll(1, -1, 0)) && !findCasingAll(1, 0, 0))) {
+					if ((!findCasingAll(0, 1, -z) || (!findCasingAll(1, 1, -z) && !findCasingAll(0, 1, -z + 1))) && (!findCasingAll(0, -1, -z) || (!findCasingAll(1, -1, -z) && !findCasingAll(0, -1, -z + 1))) && (findCasingAll(0, 0, -z + 1) || findCasingAll(0, 1, -z + 1) || findCasingAll(0, -1, -z + 1))) {
+						rz = l - z;
+						z0 = -z;
+						f = true;
+						break;
+					}
+				} else if (!findCasingNotOrigin(0, 0, -z) && !findCasing(1, 1, -z) && !findCasing(1, -1, -z) && findCasingAll(0, 0, -z + 1) && findCasing(1, 0, -z) && findCasing(1, 1, -z + 1) && findCasing(1, -1, -z + 1)) {
 					rz = l - z;
 					z0 = -z;
 					f = true;
 					break;
 				}
-			} else if (!findCasingNotOrigin(0, 0, -z) && !findCasing(1, 1, -z) && !findCasing(1, -1, -z) && findCasingAll(0, 0, -z + 1) && findCasing(1, 0, -z) && findCasing(1, 1, -z + 1) && findCasing(1, -1, -z + 1)) {
-				rz = l - z;
-				z0 = -z;
-				f = true;
-				break;
 			}
-		}
-		if (!f) {
-			masterPosition = null;
-			return;
-		}
-		f = false;
-		for (int y = 0; y <= l; y++) {
-			if (!findCasingNotOrigin(x0, -y + 1, z0) && !findCasing(x0 + 1, -y, z0) && !findCasing(x0, -y, z0 + 1) && findCasingAll(x0 + 1, -y, z0 + 1) && findCasingAll(x0, -y + 1, z0 + 1) && findCasingAll(x0 + 1, -y + 1, z0)) {
-				y0 = -y;
-				f = true;
-				break;
+			if (!f) {
+				masterPosition = null;
+				continue;
 			}
-		}
-		if (!f) {
-			masterPosition = null;
-			return;
-		}
-		f = false;
-		for (int z = 0; z <= rz; z++) {
-			if (!findCasing(x0, y0 + 1, z) && !findCasing(x0 + 1, y0, z) && !findCasing(x0, y0, z - 1) && findCasingAll(x0 + 1, y0, z - 1) && findCasingAll(x0, y0 + 1, z - 1) && findCasingAll(x0 + 1, y0 + 1, z)) {
-				z1 = z;
-				f = true;
-				break;
+			f = false;
+			for (int y = 0; y <= l; y++) {
+				if (!findCasingNotOrigin(x0, -y + 1, z0) && !findCasing(x0 + 1, -y, z0) && !findCasing(x0, -y, z0 + 1) && findCasingAll(x0 + 1, -y, z0 + 1) && findCasingAll(x0, -y + 1, z0 + 1) && findCasingAll(x0 + 1, -y + 1, z0)) {
+					y0 = -y;
+					f = true;
+					break;
+				}
 			}
-		}
-		if (!f) {
-			masterPosition = null;
-			return;
-		}
-		f = false;
-		for (int x = 0; x <= l; x++) {
-			if (!findCasing(x0 + x, y0 + 1, z0) && !findCasing(x0 + x - 1, y0, z0) && !findCasing(x0 + x, y0, z0 + 1) && findCasingAll(x0 + x - 1, y0, z0 + 1) && findCasingAll(x0 + x, y0 + 1, z0 + 1) && findCasingAll(x0 + x - 1, y0 + 1, z0)) {
-				x1 = x0 + x;
-				f = true;
-				break;
+			if (!f) {
+				masterPosition = null;
+				continue;
 			}
-		}
-		if (!f) {
-			masterPosition = null;
-			return;
-		}
-		f = false;
-		for (int y = 0; y <= l; y++) {
-			if (!findCasing(x0, y0 + y - 1, z0) && !findCasing(x0 + 1, y0 + y, z0) && !findCasing(x0, y0 + y, z0 + 1) && findCasingAll(x0 + 1, y0 + y, z0 + 1) && findCasingAll(x0, y0 + y - 1, z0 + 1) && findCasingAll(x0 + 1, y0 + y - 1, z0)) {
-				y1 = y0 + y;
-				f = true;
-				break;
+			f = false;
+			for (int z = 0; z <= rz; z++) {
+				if (!findCasing(x0, y0 + 1, z) && !findCasing(x0 + 1, y0, z) && !findCasing(x0, y0, z - 1) && findCasingAll(x0 + 1, y0, z - 1) && findCasingAll(x0, y0 + 1, z - 1) && findCasingAll(x0 + 1, y0 + 1, z)) {
+					z1 = z;
+					f = true;
+					break;
+				}
 			}
-		}
-		if (!f) {
-			masterPosition = null;
-			return;
-		}
-		f = false;
-		if ((x0 > 0 || x1 < 0) || (y0 > 0 || y1 < 0) || (z0 > 0 || z1 < 0) || x1 - x0 < 1 || y1 - y0 < 1 || z1 - z0 < 1) {
-			masterPosition = null;
-			return;
-		}
-		for (int y = y0; y <= y1; y++) {
-			for (int z = z0; z <= z1; z++) {
-				for (int x : new int[] {x0, x1}) {
-					if(world.getTileEntity(finder.position(x, y, z)) != null) {
-						if(isMaster(finder.position(x, y, z))) {
-							masterPosition = finder.position(x, y, z);
-							return;
+			if (!f) {
+				masterPosition = null;
+				continue;
+			}
+			f = false;
+			for (int x = 0; x <= l; x++) {
+				if (!findCasing(x0 + x, y0 + 1, z0) && !findCasing(x0 + x - 1, y0, z0) && !findCasing(x0 + x, y0, z0 + 1) && findCasingAll(x0 + x - 1, y0, z0 + 1) && findCasingAll(x0 + x, y0 + 1, z0 + 1) && findCasingAll(x0 + x - 1, y0 + 1, z0)) {
+					x1 = x0 + x;
+					f = true;
+					break;
+				}
+			}
+			if (!f) {
+				masterPosition = null;
+				continue;
+			}
+			f = false;
+			for (int y = 0; y <= l; y++) {
+				if (!findCasing(x0, y0 + y - 1, z0) && !findCasing(x0 + 1, y0 + y, z0) && !findCasing(x0, y0 + y, z0 + 1) && findCasingAll(x0 + 1, y0 + y, z0 + 1) && findCasingAll(x0, y0 + y - 1, z0 + 1) && findCasingAll(x0 + 1, y0 + y - 1, z0)) {
+					y1 = y0 + y;
+					f = true;
+					break;
+				}
+			}
+			if (!f) {
+				masterPosition = null;
+				continue;
+			}
+			f = false;
+			if ((x0 > 0 || x1 < 0) || (y0 > 0 || y1 < 0) || (z0 > 0 || z1 < 0) || x1 - x0 < 1 || y1 - y0 < 1 || z1 - z0 < 1) {
+				masterPosition = null;
+				continue;
+			}
+			for (int y = y0; y <= y1; y++) {
+				for (int z = z0; z <= z1; z++) {
+					for (int x : new int[] {x0, x1}) {
+						if(world.getTileEntity(finder.position(x, y, z)) != null) {
+							if(isMaster(finder.position(x, y, z))) {
+								masterPosition = finder.position(x, y, z);
+								return;
+							}
+						}
+					}
+				}
+				for (int z : new int[] {z0, z1}) {
+					for (int x = x0; x <= x1; x++) {
+						if(world.getTileEntity(finder.position(x, y, z)) != null) {
+							if(isMaster(finder.position(x, y, z))) {
+								masterPosition = finder.position(x, y, z);
+								return;
+							}
 						}
 					}
 				}
 			}
-			for (int z : new int[] {z0, z1}) {
-				for (int x = x0; x <= x1; x++) {
-					if(world.getTileEntity(finder.position(x, y, z)) != null) {
-						if(isMaster(finder.position(x, y, z))) {
-							masterPosition = finder.position(x, y, z);
-							return;
-						}
-					}
-				}
-			}
+			masterPosition = null;
 		}
-		masterPosition = null;
 	}
 	
 	// OpenComputers

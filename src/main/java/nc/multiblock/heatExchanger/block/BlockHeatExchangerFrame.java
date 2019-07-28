@@ -12,7 +12,7 @@ import net.minecraft.world.World;
 public class BlockHeatExchangerFrame extends BlockHeatExchangerPartBase {
 
 	public BlockHeatExchangerFrame() {
-		super("heat_exchanger_frame");
+		super();
 	}
 
 	@Override

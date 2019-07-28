@@ -2,8 +2,8 @@ package nc.block.tile.processor;
 
 import java.util.Random;
 
-import nc.Global;
 import nc.NuclearCraft;
+import nc.block.tile.IActivatable;
 import nc.init.NCBlocks;
 import nc.tab.NCTabs;
 import nc.tile.processor.TileNuclearFurnace;
@@ -27,7 +27,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.Mirror;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
@@ -36,7 +35,7 @@ import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BlockNuclearFurnace extends BlockContainer implements ITileEntityProvider {
+public class BlockNuclearFurnace extends BlockContainer implements ITileEntityProvider, IActivatable {
 	
 	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 	private final boolean isBurning;
@@ -44,8 +43,6 @@ public class BlockNuclearFurnace extends BlockContainer implements ITileEntityPr
 	
 	public BlockNuclearFurnace(boolean isBurning) {
 		super(Material.IRON);
-		setTranslationKey(Global.MOD_ID + ".nuclear_furnace" + (isBurning ? "_active" : "_idle"));
-		if (NuclearCraft.regName) setRegistryName(new ResourceLocation(Global.MOD_ID, "nuclear_furnace" + (isBurning ? "_active" : "_idle")));
 		setDefaultState(blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
 		this.isBurning = isBurning;
 		if (!isBurning) setCreativeTab(NCTabs.MACHINES);
@@ -90,7 +87,8 @@ public class BlockNuclearFurnace extends BlockContainer implements ITileEntityPr
 		return new TileNuclearFurnace();
 	}
 	
-	public static void setState(boolean active, World world, BlockPos pos) {
+	@Override
+	public void setState(boolean active, World world, BlockPos pos) {
 		IBlockState state = world.getBlockState(pos);
 		TileEntity tile = world.getTileEntity(pos);
 		keepInventory = true;

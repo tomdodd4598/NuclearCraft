@@ -17,16 +17,21 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BlockActivatable extends BlockTile implements IActivatable {
+public class BlockActivatable extends BlockTile implements IActivatable, ITileType {
 	
 	protected final boolean isActive;
 	protected final ActivatableTileType type;
 	
 	public BlockActivatable(ActivatableTileType type, boolean isActive) {
-		super(type.getName() + (isActive ? "_active" : "_idle"), Material.IRON);
+		super(Material.IRON);
 		this.isActive = isActive;
 		if (!isActive) setCreativeTab(type.getTab());
 		this.type = type;
+	}
+	
+	@Override
+	public String getTileName() {
+		return type.getName() + (isActive ? "_active" : "_idle");
 	}
 	
 	@Override

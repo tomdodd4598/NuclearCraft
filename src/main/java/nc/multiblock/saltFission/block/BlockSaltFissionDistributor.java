@@ -12,7 +12,7 @@ import net.minecraft.world.World;
 public class BlockSaltFissionDistributor extends BlockSaltFissionPartBase {
 
 	public BlockSaltFissionDistributor() {
-		super("salt_fission_distributor");
+		super();
 	}
 
 	@Override

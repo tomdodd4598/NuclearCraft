@@ -18,8 +18,8 @@ public class ItemHazmatSuit extends NCItemArmor implements ISpecialArmor, IHazma
 	
 	public final double radiationProtection;
 	
-	public ItemHazmatSuit(String unlocalizedName, ArmorMaterial materialIn, int renderIndexIn, EntityEquipmentSlot equipmentSlotIn, double radiationProtection, String... tooltip) {
-		super(unlocalizedName, materialIn, renderIndexIn, equipmentSlotIn, tooltip);
+	public ItemHazmatSuit(ArmorMaterial materialIn, int renderIndexIn, EntityEquipmentSlot equipmentSlotIn, double radiationProtection, String... tooltip) {
+		super(materialIn, renderIndexIn, equipmentSlotIn, tooltip);
 		this.radiationProtection = radiationProtection;
 	}
 	

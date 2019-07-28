@@ -21,6 +21,8 @@ import nc.util.ItemStackHelper;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 public class TileDecayGenerator extends TileEnergy implements IInterfaceable {
 	
@@ -44,12 +46,6 @@ public class TileDecayGenerator extends TileEnergy implements IInterfaceable {
 		if(!world.isRemote) {
 			tickGenerator();
 			if (generatorCount == 0) {
-				for (EnumFacing side : EnumFacing.VALUES) {
-					List<ItemStack> input = Arrays.asList(ItemStackHelper.blockStateToStack(world.getBlockState(getPos().offset(side))));
-					if (recipes[side.getIndex()] == null || !recipes[side.getIndex()].getRecipe().matchInputs(input, new ArrayList<Tank>()).matches()) {
-						recipes[side.getIndex()] = RECIPE_HANDLER.getRecipeInfoFromInputs(input, new ArrayList<Tank>());
-					}
-				}
 				getEnergyStorage().changeEnergyStored(getGenerated());
 				getRadiationSource().setRadiationLevel(getRadiation());
 			}
@@ -63,7 +59,7 @@ public class TileDecayGenerator extends TileEnergy implements IInterfaceable {
 	
 	private static int maxPower() {
 		int max = 0;
-		List<ProcessorRecipe> recipes = RECIPE_HANDLER.getRecipes();
+		List<ProcessorRecipe> recipes = RECIPE_HANDLER.getRecipeList();
 		for (ProcessorRecipe recipe : recipes) {
 			if (recipe == null) continue;
 			max = Math.max(max, recipe.getDecayPower());
@@ -91,10 +87,27 @@ public class TileDecayGenerator extends TileEnergy implements IInterfaceable {
 		if (getDecayRecipeInfo(side) == null) return 0;
 		ItemStack stack = getOutput(side);
 		if (stack == null || stack.isEmpty()) return 0;
-		IBlockState block = ItemStackHelper.getBlockStateFromStack(stack);
-		if (block == null) return 0;
-		if (rand.nextDouble()*getRecipeLifetime(side) < 1D) getWorld().setBlockState(getPos().offset(side), block);
+		if (rand.nextDouble()*getRecipeLifetime(side) < 1D) {
+			IBlockState block = ItemStackHelper.getBlockStateFromStack(stack);
+			if (block == null) return 0;
+			getWorld().setBlockState(getPos().offset(side), block);
+			refreshRecipe(side);
+			
+		}
 		return getRecipePower(side);
+	}
+	
+	@Override
+	public void onBlockNeighborChanged(IBlockState state, World world, BlockPos pos, BlockPos fromPos) {
+		super.onBlockNeighborChanged(state, world, pos, fromPos);
+		for (EnumFacing side : EnumFacing.VALUES) {
+			refreshRecipe(side);
+		}
+	}
+	
+	public void refreshRecipe(EnumFacing side) {
+		List<ItemStack> input = Arrays.asList(ItemStackHelper.blockStateToStack(world.getBlockState(getPos().offset(side))));
+		recipes[side.getIndex()] = RECIPE_HANDLER.getRecipeInfoFromInputs(input, new ArrayList<Tank>());
 	}
 	
 	// IC2

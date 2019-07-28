@@ -17,6 +17,7 @@ import gregtech.api.recipes.RecipeMaps;
 import gregtech.api.util.GTUtility;
 import gregtech.common.items.MetaItems;
 import nc.recipe.ProcessorRecipe;
+import nc.recipe.RecipeHelper;
 import nc.recipe.ingredient.IFluidIngredient;
 import nc.recipe.ingredient.IItemIngredient;
 import nc.recipe.ingredient.OreIngredient;
@@ -54,7 +55,7 @@ public class GTCERecipeHelper {
 			break;
 		case "infuser":
 			recipeMap = RecipeMaps.CHEMICAL_BATH_RECIPES;
-			builder = addStats(recipeMap.recipeBuilder(), recipe, 30, 10);
+			builder = addStats(recipeMap.recipeBuilder(), recipe, 16, 12);
 			break;
 		case "melter":
 			recipeMap = RecipeMaps.FLUID_EXTRACTION_RECIPES;
@@ -77,7 +78,7 @@ public class GTCERecipeHelper {
 		case "pressurizer":
 			if (isPlateRecipe(recipe)) {
 				recipeMap = RecipeMaps.BENDER_RECIPES;
-				builder = addStats(recipeMap.recipeBuilder(), recipe, 2, 20);
+				builder = addStats(recipeMap.recipeBuilder(), recipe, 24, 10);
 			}
 			else {
 				recipeMap = RecipeMaps.COMPRESSOR_RECIPES;
@@ -118,20 +119,34 @@ public class GTCERecipeHelper {
 			return;
 		}
 		
-		List<List<ItemStack>> itemInputLists = new ArrayList<List<ItemStack>>();
-		List<List<FluidStack>> fluidInputLists = new ArrayList<List<FluidStack>>();
+		List<List<ItemStack>> itemInputLists = new ArrayList<>();
+		List<List<FluidStack>> fluidInputLists = new ArrayList<>();
 		
 		for (IItemIngredient item : recipe.itemIngredients()) itemInputLists.add(item.getInputStackList());
 		for (IFluidIngredient fluid : recipe.fluidIngredients()) fluidInputLists.add(fluid.getInputStackList());
 		
-		List<Pair<List<ItemStack>, List<FluidStack>>> ingredientListTuples = new ArrayList<Pair<List<ItemStack>, List<FluidStack>>>();
-		
-		int[] inputNumbers = new int[recipe.itemIngredients().size() + recipe.fluidIngredients().size()];
+		int arrSize = recipe.itemIngredients().size() + recipe.fluidIngredients().size();
+		int[] inputNumbers = new int[arrSize];
 		Arrays.fill(inputNumbers, 0);
-		generateIngredientListTuples(ingredientListTuples, inputNumbers, 0, itemInputLists, fluidInputLists);
 		
-		for (Pair<List<ItemStack>, List<FluidStack>> ingredients : ingredientListTuples) {
-			if (findRecipe(recipeMap, ingredients.getLeft(), ingredients.getRight()) != null) {
+		int[] maxNumbers  = new int[arrSize];
+		for (int i = 0; i < itemInputLists.size(); i++) {
+			int maxNumber = itemInputLists.get(i).size() - 1;
+			if (maxNumber < 0) return;
+			maxNumbers[i] = maxNumber;
+		}
+		for (int i = 0; i < fluidInputLists.size(); i++) {
+			int maxNumber = fluidInputLists.get(i).size() - 1;
+			if (maxNumber < 0) return;
+			maxNumbers[i + itemInputLists.size()] = maxNumber;
+		}
+		
+		List<Pair<List<ItemStack>, List<FluidStack>>> materialListTuples = new ArrayList<>();
+		
+		RecipeHelper.generateMaterialListTuples(materialListTuples, maxNumbers, inputNumbers, itemInputLists, fluidInputLists);
+		
+		for (Pair<List<ItemStack>, List<FluidStack>> materials : materialListTuples) {
+			if (findRecipe(recipeMap, materials.getLeft(), materials.getRight()) != null) {
 				return;
 			}
 		}
@@ -213,50 +228,7 @@ public class GTCERecipeHelper {
 	
 	@Optional.Method(modid = "gregtech")
 	private static RecipeBuilder<?> addStats(RecipeBuilder<?> builder, ProcessorRecipe recipe, int processPower, int processTime) {
-		return builder.EUt(Math.max((int) recipe.getBaseProcessPower(processPower), 8)).duration((int) recipe.getBaseProcessTime(20D*processTime));
-	}
-	
-	@Optional.Method(modid = "gregtech")
-	private static void generateIngredientListTuples(List<Pair<List<ItemStack>, List<FluidStack>>> tuples, int[] inputNumbers, int activeIndex, List<List<ItemStack>> itemInputLists, List<List<FluidStack>> fluidInputLists) {
-		int itemInputSize = itemInputLists.size(), fluidInputSize = fluidInputLists.size();
-		
-		List<ItemStack> itemInputs = new ArrayList<ItemStack>();
-		List<FluidStack> fluidInputs = new ArrayList<FluidStack>();
-		
-		for (int i = 0; i < itemInputSize; i++) {
-			if (itemInputLists.get(i).size() > inputNumbers[i]) {
-				itemInputs.add(itemInputLists.get(i).get(inputNumbers[i]));
-			}
-			else {
-				if (activeIndex == i) {
-					activeIndex++;
-				}
-				inputNumbers[i] = -1;
-			}
-		}
-		
-		for (int i = 0; i < fluidInputSize; i++) {
-			if (fluidInputLists.get(i).size() > inputNumbers[i + itemInputSize]) {
-				fluidInputs.add(fluidInputLists.get(i).get(inputNumbers[i + itemInputSize]));
-			}
-			else {
-				if (activeIndex == i + itemInputSize) {
-					activeIndex++;
-				}
-				inputNumbers[i + itemInputSize] = -1;
-			}
-		}
-		
-		if (itemInputs.size() == itemInputSize && fluidInputs.size() == fluidInputSize) {
-			tuples.add(Pair.of(itemInputs, fluidInputs));
-		}
-		
-		if (activeIndex < itemInputSize + fluidInputSize) {
-			for (int i = 0; i <= activeIndex; i++) {
-				inputNumbers[i]++;
-			}
-			generateIngredientListTuples(tuples, inputNumbers, activeIndex, itemInputLists, fluidInputLists);
-		}
+		return builder.EUt(Math.max((int) recipe.getBaseProcessPower(processPower), 1)).duration((int) recipe.getBaseProcessTime(20D*processTime));
 	}
 	
 	// GTCE recipe matching - modified from GTCE source

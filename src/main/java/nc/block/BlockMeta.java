@@ -4,8 +4,6 @@ import java.util.Iterator;
 
 import javax.annotation.Nullable;
 
-import nc.Global;
-import nc.NuclearCraft;
 import nc.block.item.IMetaBlockName;
 import nc.enumm.IBlockMeta;
 import nc.enumm.MetaEnums;
@@ -26,7 +24,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.Explosion;
@@ -40,31 +37,24 @@ public abstract class BlockMeta<T extends Enum<T> & IStringSerializable & IBlock
 	public final T[] values;
 	public final PropertyEnum type;
 	
-	protected final boolean canCreatureSpawn;
+	protected boolean canCreatureSpawn = true;
 	
-	public BlockMeta(String name, Class<T> enumm, PropertyEnum property, Material material) {
-		this(name, enumm, property, material, false);
-	}
-	
-	public BlockMeta(String name, Class<T> enumm, PropertyEnum property, Material material, boolean canCreatureSpawn) {
+	public BlockMeta(Class<T> enumm, PropertyEnum property, Material material) {
 		super(material);
-		setTranslationKey(Global.MOD_ID + "." + name);
-		if (NuclearCraft.regName) setRegistryName(new ResourceLocation(Global.MOD_ID, name));
 		values = enumm.getEnumConstants();
 		type = property;
 		setDefaultState(blockState.getBaseState().withProperty(type, values[0]));
 		setMetaHarvestLevels();
 		setHardness(2F);
 		setResistance(15F);
-		this.canCreatureSpawn = canCreatureSpawn;
 	}
 	
 	public static class BlockOre extends BlockMeta {
 		
 		public final static PropertyEnum TYPE = PropertyEnum.create("type", MetaEnums.OreType.class);
 		
-		public BlockOre(String name) {
-			super(name, MetaEnums.OreType.class, TYPE, Material.ROCK, true);
+		public BlockOre() {
+			super(MetaEnums.OreType.class, TYPE, Material.ROCK);
 			setCreativeTab(NCTabs.BASE_BLOCK_MATERIALS);
 		}
 		
@@ -84,8 +74,8 @@ public abstract class BlockMeta<T extends Enum<T> & IStringSerializable & IBlock
 		
 		public final static PropertyEnum TYPE = PropertyEnum.create("type", MetaEnums.IngotType.class);
 		
-		public BlockIngot(String name) {
-			super(name, MetaEnums.IngotType.class, TYPE, Material.IRON);
+		public BlockIngot() {
+			super(MetaEnums.IngotType.class, TYPE, Material.IRON);
 			setCreativeTab(NCTabs.BASE_BLOCK_MATERIALS);
 		}
 
@@ -99,9 +89,10 @@ public abstract class BlockMeta<T extends Enum<T> & IStringSerializable & IBlock
 		
 		public final static PropertyEnum TYPE = PropertyEnum.create("type", MetaEnums.FissionBlockType.class);
 		
-		public BlockFission(String name) {
-			super(name, MetaEnums.FissionBlockType.class, TYPE, Material.IRON);
+		public BlockFission() {
+			super(MetaEnums.FissionBlockType.class, TYPE, Material.IRON);
 			setCreativeTab(NCTabs.FISSION_BLOCKS);
+			canCreatureSpawn = false;
 		}
 		
 		@Override
@@ -114,9 +105,10 @@ public abstract class BlockMeta<T extends Enum<T> & IStringSerializable & IBlock
 		
 		public final static PropertyEnum TYPE = PropertyEnum.create("type", MetaEnums.CoolerType.class);
 
-		public BlockCooler(String name) {
-			super(name, MetaEnums.CoolerType.class, TYPE, Material.IRON);
+		public BlockCooler() {
+			super(MetaEnums.CoolerType.class, TYPE, Material.IRON);
 			setCreativeTab(NCTabs.FISSION_BLOCKS);
+			canCreatureSpawn = false;
 		}
 
 		@Override

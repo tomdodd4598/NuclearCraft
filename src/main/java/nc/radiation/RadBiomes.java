@@ -1,10 +1,10 @@
 package nc.radiation;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import nc.config.NCConfig;
 import nc.util.RegistryHelper;
 import net.minecraft.world.biome.Biome;
@@ -13,7 +13,7 @@ public class RadBiomes {
 	
 	public static final Map<Biome, Double> RAD_MAP = new HashMap<Biome, Double>();
 	public static final Map<Biome, Double> LIMIT_MAP = new HashMap<Biome, Double>();
-	public static final Set<Integer> DIM_BLACKLIST = new HashSet<Integer>();
+	public static final Set<Integer> DIM_BLACKLIST = new ObjectOpenHashSet<Integer>();
 	
 	public static void init() {
 		for (String biomeInfo : NCConfig.radiation_biomes) {

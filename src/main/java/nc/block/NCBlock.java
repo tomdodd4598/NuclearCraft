@@ -4,8 +4,6 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import nc.Global;
-import nc.NuclearCraft;
 import nc.block.tile.INBTDrop;
 import nc.tile.ITile;
 import net.minecraft.block.Block;
@@ -15,9 +13,9 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -26,21 +24,14 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class NCBlock extends Block {
 	
-	protected final boolean canCreatureSpawn;
+	protected boolean canCreatureSpawn = true;
 	protected static boolean keepInventory;
 	
-	public NCBlock(String name, Material material) {
-		this(name, material, false);
-	}
-	
-	public NCBlock(String name, Material material, boolean canCreatureSpawn) {
+	public NCBlock(Material material) {
 		super(material);
-		setTranslationKey(Global.MOD_ID + "." + name);
-		if (NuclearCraft.regName) setRegistryName(new ResourceLocation(Global.MOD_ID, name));
 		setHarvestLevel("pickaxe", 0);
 		setHardness(2F);
 		setResistance(15F);
-		this.canCreatureSpawn = canCreatureSpawn;
 	}
 	
 	@Override
@@ -56,7 +47,8 @@ public class NCBlock extends Block {
 	@Override
 	public void neighborChanged(IBlockState state, World world, BlockPos pos, Block blockIn, BlockPos fromPos) {
 		if (this instanceof ITileEntityProvider) {
-			if (world.getTileEntity(pos) instanceof ITile) ((ITile)world.getTileEntity(pos)).onBlockNeighborChanged(state, world, pos, fromPos);
+			TileEntity tile = world.getTileEntity(pos);
+			if (tile instanceof ITile) ((ITile)tile).onBlockNeighborChanged(state, world, pos, fromPos);
 		}
 	}
 	
@@ -87,11 +79,12 @@ public class NCBlock extends Block {
 		
 		protected final boolean smartRender;
 		
-		public Transparent(String name, Material material, boolean smartRender) {
-			super(name, material);
+		public Transparent(Material material, boolean smartRender) {
+			super(material);
 			setHardness(1.5F);
 			setResistance(10F);
 			this.smartRender = smartRender;
+			canCreatureSpawn = false;
 		}
 		
 		@Override

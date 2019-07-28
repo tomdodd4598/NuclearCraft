@@ -2,7 +2,6 @@ package nc.util;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -10,6 +9,7 @@ import com.google.common.collect.Lists;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import nc.config.NCConfig;
 import net.minecraft.block.Block;
 import net.minecraft.client.util.RecipeItemHelper;
@@ -136,7 +136,7 @@ public class OreDictHelper {
 		if (stack == null || stack.isEmpty()) return Collections.emptySet();
 		int packed = RecipeItemHelper.pack(stack);
 		if (!useCache || !ORE_DICT_CACHE.containsKey(packed)) {
-			Set<String> names = new HashSet<>();
+			Set<String> names = new ObjectOpenHashSet<>();
 			for (int oreID : OreDictionary.getOreIDs(stack)) {
 				names.add(OreDictionary.getOreName(oreID));
 			}

@@ -4,9 +4,7 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import nc.Global;
 import nc.NCInfo;
-import nc.NuclearCraft;
 import nc.enumm.IFissionStats;
 import nc.enumm.IItemMeta;
 import nc.util.InfoHelper;
@@ -17,7 +15,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -29,9 +26,7 @@ public class ItemFissionFuel<T extends Enum<T> & IStringSerializable & IItemMeta
 	public final String[] fixedInfo;
 	public final String[][] info;
 	
-	public ItemFissionFuel(String nameIn, Class<T> enumm) {
-		setTranslationKey(Global.MOD_ID + "." + nameIn);
-		if (NuclearCraft.regName) setRegistryName(new ResourceLocation(Global.MOD_ID, nameIn));
+	public ItemFissionFuel(Class<T> enumm) {
 		setHasSubtypes(true);
 		values = enumm.getEnumConstants();
 		fixedInfo = InfoHelper.buildFixedInfo(getTranslationKey(), InfoHelper.EMPTY_ARRAY);

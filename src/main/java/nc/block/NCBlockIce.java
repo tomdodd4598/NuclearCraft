@@ -1,7 +1,5 @@
 package nc.block;
 
-import nc.Global;
-import nc.NuclearCraft;
 import nc.tab.NCTabs;
 import nc.util.DamageSources;
 import net.minecraft.block.Block;
@@ -9,7 +7,6 @@ import net.minecraft.block.BlockIce;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -19,10 +16,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class NCBlockIce extends BlockIce {
 	
-	public NCBlockIce(String name) {
+	public NCBlockIce() {
 		super();
-		setTranslationKey(Global.MOD_ID + "." + name);
-		if (NuclearCraft.regName) setRegistryName(new ResourceLocation(Global.MOD_ID, name));
 		setHardness(0.5F);
 		setLightOpacity(3);
 		slipperiness = 0.999F;

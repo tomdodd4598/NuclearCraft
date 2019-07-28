@@ -8,6 +8,7 @@ import java.util.Set;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import nc.Global;
 import nc.config.NCConfig;
 import nc.multiblock.IMultiblockFluid;
@@ -31,7 +32,6 @@ import nc.recipe.NCRecipes;
 import nc.recipe.ProcessorRecipe;
 import nc.recipe.ProcessorRecipeHandler;
 import nc.recipe.RecipeInfo;
-import nc.recipe.RecipeMatchResult;
 import nc.recipe.ingredient.IFluidIngredient;
 import nc.tile.internal.energy.EnergyStorage;
 import nc.tile.internal.fluid.Tank;
@@ -66,7 +66,7 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> impleme
 	private static final int BASE_MAX_ENERGY = 64000, BASE_MAX_INPUT = 4000, BASE_MAX_OUTPUT = 16000;
 	
 	public static final ProcessorRecipeHandler RECIPE_HANDLER = NCRecipes.turbine;
-	protected RecipeInfo<ProcessorRecipe> recipeInfo, cachedRecipeInfo;
+	protected RecipeInfo<ProcessorRecipe> recipeInfo;
 	
 	private int updateCount = 0;
 	
@@ -84,12 +84,12 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> impleme
 	public Turbine(World world) {
 		super(world);
 		
-		controllers = new HashSet<TileTurbineController>();
-		rotorShafts = new HashSet<TileTurbineRotorShaft>();
-		rotorBearings = new HashSet<TileTurbineRotorBearing>();
-		dynamoCoils = new HashSet<TileTurbineDynamoCoil>();
-		inlets = new HashSet<TileTurbineInlet>();
-		outlets = new HashSet<TileTurbineOutlet>();
+		controllers = new ObjectOpenHashSet<TileTurbineController>();
+		rotorShafts = new ObjectOpenHashSet<TileTurbineRotorShaft>();
+		rotorBearings = new ObjectOpenHashSet<TileTurbineRotorBearing>();
+		dynamoCoils = new ObjectOpenHashSet<TileTurbineDynamoCoil>();
+		inlets = new ObjectOpenHashSet<TileTurbineInlet>();
+		outlets = new ObjectOpenHashSet<TileTurbineOutlet>();
 		
 		energyStorage = new EnergyStorage(BASE_MAX_ENERGY);
 		tanks = Lists.newArrayList(new Tank(BASE_MAX_INPUT, NCRecipes.turbine_valid_fluids.get(0)), new Tank(BASE_MAX_OUTPUT, null));
@@ -602,21 +602,7 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> impleme
 	}
 	
 	protected void refreshRecipe() {
-		RecipeMatchResult matchResult = recipeInfo == null ? RecipeMatchResult.FAIL : recipeInfo.getRecipe().matchInputs(new ArrayList<ItemStack>(), tanks.subList(0, 1));
-		if (!matchResult.matches()) {
-			/** Temporary caching while looking for recipe map solution */
-			matchResult = cachedRecipeInfo == null ? RecipeMatchResult.FAIL : cachedRecipeInfo.getRecipe().matchInputs(new ArrayList<ItemStack>(), tanks.subList(0, 1));
-			if (matchResult.matches()) {
-				recipeInfo = new RecipeInfo(cachedRecipeInfo.getRecipe(), matchResult);
-			}
-			else {
-				recipeInfo = RECIPE_HANDLER.getRecipeInfoFromInputs(new ArrayList<ItemStack>(), tanks.subList(0, 1));
-			}
-			if (recipeInfo != null) {
-				cachedRecipeInfo = recipeInfo;
-			}
-		}
-		else recipeInfo = new RecipeInfo(recipeInfo.getRecipe(), matchResult);
+		recipeInfo = RECIPE_HANDLER.getRecipeInfoFromInputs(new ArrayList<ItemStack>(), tanks.subList(0, 1));
 	}
 	
 	protected boolean canProcessInputs() {

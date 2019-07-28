@@ -1,10 +1,10 @@
 package nc.multiblock;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import nc.Global;
 import nc.NuclearCraft;
 import nc.multiblock.validation.IMultiblockValidator;
@@ -64,7 +64,7 @@ public abstract class MultiblockTileBase<T extends MultiblockBase> extends TileB
 				}
 				
 				if(multiblocks == null) {
-					multiblocks = new HashSet<T>();
+					multiblocks = new ObjectOpenHashSet<T>();
 					bestMultiblock = candidate;
 				}
 				else if(!multiblocks.contains(candidate) && candidate.shouldConsume(bestMultiblock)) {

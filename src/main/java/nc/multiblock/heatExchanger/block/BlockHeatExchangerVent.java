@@ -12,7 +12,7 @@ import net.minecraft.world.World;
 public class BlockHeatExchangerVent extends BlockHeatExchangerPartBase {
 
 	public BlockHeatExchangerVent() {
-		super("heat_exchanger_vent");
+		super();
 	}
 
 	@Override

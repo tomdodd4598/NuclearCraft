@@ -12,7 +12,7 @@ import net.minecraft.world.World;
 public class BlockHeatExchangerGlass extends BlockHeatExchangerPartBase.Transparent {
 
 	public BlockHeatExchangerGlass() {
-		super("heat_exchanger_glass", true);
+		super(true);
 	}
 
 	@Override

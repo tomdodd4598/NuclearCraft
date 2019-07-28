@@ -12,7 +12,7 @@ import nc.capability.radiation.source.RadiationSourceProvider;
 import nc.capability.radiation.source.RadiationSourceStackProvider;
 import nc.init.NCItems;
 import nc.radiation.RadSources;
-import nc.radiation.RadiationArmor;
+import nc.radiation.RadArmor;
 import net.minecraft.client.util.RecipeItemHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -57,7 +57,7 @@ public class RadiationCapabilityHandler {
 		if(RadSources.STACK_MAP.containsKey(packed)) {
 			event.addCapability(IRadiationSource.CAPABILITY_RADIATION_SOURCE_NAME, new RadiationSourceStackProvider(stack));
 		}
-		if (RadiationArmor.ARMOR_RAD_RESISTANCE_MAP.containsKey(packed)) {
+		if (RadArmor.ARMOR_RAD_RESISTANCE_MAP.containsKey(packed)) {
 			event.addCapability(IRadiationResistance.CAPABILITY_RADIATION_RESISTANCE_NAME, new RadiationResistanceStackProvider(stack));
 		}
 	}

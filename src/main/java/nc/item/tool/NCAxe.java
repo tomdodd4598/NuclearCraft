@@ -7,8 +7,6 @@ import javax.annotation.Nullable;
 
 import com.google.common.collect.Sets;
 
-import nc.Global;
-import nc.NuclearCraft;
 import nc.util.InfoHelper;
 import nc.util.OreDictHelper;
 import net.minecraft.block.Block;
@@ -19,7 +17,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -29,10 +26,8 @@ public class NCAxe extends ItemTool {
 	private static final Set<Block> EFFECTIVE_ON = Sets.newHashSet(Blocks.PLANKS, Blocks.BOOKSHELF, Blocks.LOG, Blocks.LOG2, Blocks.CHEST, Blocks.PUMPKIN, Blocks.LIT_PUMPKIN, Blocks.MELON_BLOCK, Blocks.LADDER, Blocks.WOODEN_BUTTON, Blocks.WOODEN_PRESSURE_PLATE);
 	String[] info;
 	
-	public NCAxe(String unlocalizedName, ToolMaterial material, String... tooltip) {
+	public NCAxe(ToolMaterial material, String... tooltip) {
 		super(material, EFFECTIVE_ON);
-		setTranslationKey(Global.MOD_ID + "." + unlocalizedName);
-		if (NuclearCraft.regName) setRegistryName(new ResourceLocation(Global.MOD_ID, unlocalizedName));
 		info = InfoHelper.buildInfo(getTranslationKey(), tooltip);
 	}
 	

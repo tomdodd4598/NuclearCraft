@@ -27,12 +27,12 @@ public class ItemEnergy extends NCItem implements ISpecialElectricItem, IChargab
 	private final EnergyConnection energyConnection;
 	private final int energyTier;
 	
-	public ItemEnergy(String name, int capacity, int energyTier, EnergyConnection connection, String... tooltip) {
-		this(name, capacity, capacity, energyTier, connection, tooltip);
+	public ItemEnergy(int capacity, int energyTier, EnergyConnection connection, String... tooltip) {
+		this(capacity, capacity, energyTier, connection, tooltip);
 	}
 	
-	public ItemEnergy(String name, int capacity, int maxTransfer, int energyTier, EnergyConnection connection, String... tooltip) {
-		super(name, tooltip);
+	public ItemEnergy(int capacity, int maxTransfer, int energyTier, EnergyConnection connection, String... tooltip) {
+		super(tooltip);
 		this.capacity = capacity;
 		this.maxTransfer = maxTransfer;
 		energyConnection = connection;

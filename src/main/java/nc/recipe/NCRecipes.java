@@ -2,6 +2,7 @@ package nc.recipe;
 
 import java.util.List;
 
+import nc.radiation.RadBlockEffects;
 import nc.radiation.RadSources;
 import nc.recipe.generator.DecayGeneratorRecipes;
 import nc.recipe.generator.FissionRecipes;
@@ -74,6 +75,7 @@ public class NCRecipes {
 	public static HeatExchangerRecipes heat_exchanger;
 	public static TurbineRecipes turbine;
 	public static CondenserRecipes condenser;
+	public static RadBlockEffects radiation_block_mutations;
 	
 	@SubscribeEvent(priority = EventPriority.LOW)
 	public void registerRecipes(RegistryEvent.Register<IRecipe> event) {
@@ -108,6 +110,7 @@ public class NCRecipes {
 		heat_exchanger = new HeatExchangerRecipes();
 		turbine = new TurbineRecipes();
 		condenser = new CondenserRecipes();
+		radiation_block_mutations = new RadBlockEffects();
 		
 		CraftingRecipeHandler.registerCraftingRecipes();
 		FurnaceRecipeHandler.registerFurnaceRecipes();
@@ -156,5 +159,38 @@ public class NCRecipes {
 		heat_exchanger_valid_fluids = RecipeHelper.validFluids(heat_exchanger);
 		turbine_valid_fluids = RecipeHelper.validFluids(turbine);
 		condenser_valid_fluids = RecipeHelper.validFluids(condenser);
+	}
+	
+	public static void refreshRecipeCaches() {
+		manufactory.refreshCache();
+		isotope_separator.refreshCache();
+		decay_hastener.refreshCache();
+		fuel_reprocessor.refreshCache();
+		alloy_furnace.refreshCache();
+		infuser.refreshCache();
+		melter.refreshCache();
+		supercooler.refreshCache();
+		electrolyser.refreshCache();
+		irradiator.refreshCache();
+		ingot_former.refreshCache();
+		pressurizer.refreshCache();
+		chemical_reactor.refreshCache();
+		salt_mixer.refreshCache();
+		crystallizer.refreshCache();
+		dissolver.refreshCache();
+		extractor.refreshCache();
+		centrifuge.refreshCache();
+		rock_crusher.refreshCache();
+		collector.refreshCache();
+		active_cooler.refreshCache();
+		decay_generator.refreshCache();
+		fission.refreshCache();
+		fusion.refreshCache();
+		salt_fission.refreshCache();
+		coolant_heater.refreshCache();
+		heat_exchanger.refreshCache();
+		turbine.refreshCache();
+		condenser.refreshCache();
+		radiation_block_mutations.refreshCache();
 	}
 }

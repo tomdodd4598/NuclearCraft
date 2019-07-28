@@ -4,6 +4,7 @@ import nc.Global;
 import nc.ModCheck;
 import nc.capability.radiation.RadiationCapabilityHandler;
 import nc.command.CommandHandler;
+import nc.config.NCConfig;
 import nc.handler.CapabilityHandler;
 import nc.handler.DropHandler;
 import nc.handler.DungeonLootHandler;
@@ -20,6 +21,7 @@ import nc.init.NCFluids;
 import nc.init.NCItems;
 import nc.init.NCTiles;
 import nc.init.NCTools;
+import nc.integration.projecte.NCProjectE;
 import nc.integration.tconstruct.TConstructExtras;
 import nc.integration.tconstruct.TConstructIMC;
 import nc.integration.tconstruct.TConstructMaterials;
@@ -29,11 +31,12 @@ import nc.multiblock.MultiblockEventHandler;
 import nc.multiblock.MultiblockRegistry;
 import nc.network.PacketHandler;
 import nc.radiation.RadBiomes;
-import nc.radiation.RadEffects;
+import nc.radiation.RadBlockEffects;
+import nc.radiation.RadPotionEffects;
 import nc.radiation.RadSources;
 import nc.radiation.RadStructures;
 import nc.radiation.RadWorlds;
-import nc.radiation.RadiationArmor;
+import nc.radiation.RadArmor;
 import nc.radiation.RadiationHandler;
 import nc.radiation.environment.RadiationEnvironmentHandler;
 import nc.recipe.NCRecipes;
@@ -110,7 +113,7 @@ public class CommonProxy {
 		MinecraftForge.EVENT_BUS.register(new DropHandler());
 		MinecraftForge.EVENT_BUS.register(new DungeonLootHandler());
 		
-		RadiationArmor.init();
+		RadArmor.init();
 		
 		NCBiomes.initBiomeManagerAndDictionary();
 		NCWorlds.registerDimensions();
@@ -130,11 +133,12 @@ public class CommonProxy {
 		
 		CraftingRecipeHandler.registerRadShieldingCraftingRecipes();
 		
-		RadiationArmor.postInit();
+		RadArmor.postInit();
 		RadWorlds.init();
-		RadEffects.init();
+		RadPotionEffects.init();
 		RadSources.postInit();
 		RadStructures.init();
+		RadBlockEffects.init();
 		
 		MinecraftForge.EVENT_BUS.register(new RadiationCapabilityHandler());
 		MinecraftForge.EVENT_BUS.register(new RadiationHandler());
@@ -144,6 +148,8 @@ public class CommonProxy {
 		MinecraftForge.EVENT_BUS.register(new PlayerRespawnHandler());
 		
 		MinecraftForge.EVENT_BUS.register(new ItemUseHandler());
+		
+		if (ModCheck.projectELoaded() && NCConfig.register_projecte_emc) NCProjectE.addEMCValues();
 	}
 	
 	public void serverStart(FMLServerStartingEvent serverStartEvent) {
@@ -159,8 +165,10 @@ public class CommonProxy {
 	public void onIdMapping(FMLModIdMappingEvent idMappingEvent) {
 		OreDictHelper.refreshOreDictCache();
 		
+		NCRecipes.refreshRecipeCaches();
+		
 		RadSources.refreshRadSources();
-		RadiationArmor.refreshRadiationArmor();
+		RadArmor.refreshRadiationArmor();
 	}
 	
 	// Packets

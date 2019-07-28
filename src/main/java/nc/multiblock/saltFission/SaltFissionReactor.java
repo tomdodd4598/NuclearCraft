@@ -1,13 +1,13 @@
 package nc.multiblock.saltFission;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Random;
 import java.util.Set;
 
 import com.google.common.collect.Lists;
 
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import nc.Global;
 import nc.config.NCConfig;
 import nc.handler.SoundHandler;
@@ -68,14 +68,14 @@ public class SaltFissionReactor extends CuboidalMultiblockBase<SaltFissionUpdate
 	public SaltFissionReactor(World world) {
 		super(world);
 		
-		controllers = new HashSet<TileSaltFissionController>();
-		vents = new HashSet<TileSaltFissionVent>();
-		vessels = new HashSet<TileSaltFissionVessel>();
-		heaters = new HashSet<TileSaltFissionHeater>();
-		moderators = new HashSet<TileSaltFissionModerator>();
-		distributors = new HashSet<TileSaltFissionDistributor>();
-		retrievers = new HashSet<TileSaltFissionRetriever>();
-		redstonePorts = new HashSet<TileSaltFissionRedstonePort>();
+		controllers = new ObjectOpenHashSet<TileSaltFissionController>();
+		vents = new ObjectOpenHashSet<TileSaltFissionVent>();
+		vessels = new ObjectOpenHashSet<TileSaltFissionVessel>();
+		heaters = new ObjectOpenHashSet<TileSaltFissionHeater>();
+		moderators = new ObjectOpenHashSet<TileSaltFissionModerator>();
+		distributors = new ObjectOpenHashSet<TileSaltFissionDistributor>();
+		retrievers = new ObjectOpenHashSet<TileSaltFissionRetriever>();
+		redstonePorts = new ObjectOpenHashSet<TileSaltFissionRedstonePort>();
 		
 		heatBuffer = new HeatBuffer(BASE_MAX_HEAT);
 	}

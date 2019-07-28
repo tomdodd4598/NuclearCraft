@@ -17,7 +17,7 @@ public interface IProcessor extends IInterfaceable, IBufferable {
 	
 	public static double maxStat(ProcessorRecipeHandler recipeHandler, int i) {
 		double max = 1D;
-		List<ProcessorRecipe> recipes = recipeHandler.getRecipes();
+		List<ProcessorRecipe> recipes = recipeHandler.getRecipeList();
 		for (ProcessorRecipe recipe : recipes) {
 			if (recipe == null || recipe.extras().size() <= i) continue;
 			else if (recipe.extras().get(i) instanceof Double) max = Math.max(max, (double) recipe.extras().get(i));

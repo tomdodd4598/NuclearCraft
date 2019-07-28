@@ -20,6 +20,7 @@ public class ModCheck {
 	private static boolean baublesLoaded = false;
 	private static boolean thermalFoundationLoaded = false;
 	private static boolean jeiLoaded = false;
+	private static boolean projectELoaded = false;
 	
 	public static void init() {
 		if (initialized) return;
@@ -38,6 +39,7 @@ public class ModCheck {
 		baublesLoaded = Loader.isModLoaded("baubles");
 		thermalFoundationLoaded = Loader.isModLoaded("thermalfoundation");
 		jeiLoaded = Loader.isModLoaded("jei");
+		projectELoaded = Loader.isModLoaded("projecte");
 		
 		initialized = true;
 	}
@@ -96,5 +98,9 @@ public class ModCheck {
 	
 	public static boolean jeiLoaded() {
 		return jeiLoaded;
+	}
+	
+	public static boolean projectELoaded() {
+		return projectELoaded;
 	}
 }

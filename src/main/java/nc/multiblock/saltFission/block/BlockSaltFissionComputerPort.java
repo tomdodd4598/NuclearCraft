@@ -12,7 +12,7 @@ import net.minecraft.world.World;
 public class BlockSaltFissionComputerPort extends BlockSaltFissionPartBase {
 
 	public BlockSaltFissionComputerPort() {
-		super("salt_fission_computer_port");
+		super();
 	}
 
 	@Override

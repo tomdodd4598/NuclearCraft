@@ -4,15 +4,12 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import nc.Global;
-import nc.NuclearCraft;
 import nc.util.InfoHelper;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -22,18 +19,16 @@ public class NCItemFood extends ItemFood {
 	private final PotionEffect[] effects;
 	public final String[] info;
 
-	public NCItemFood(String nameIn, int amount, boolean isWolfFood, PotionEffect[] potionEffects, String... tooltip) {
-		this(nameIn, amount, 0.6F, isWolfFood, potionEffects, tooltip);
+	public NCItemFood(int amount, boolean isWolfFood, PotionEffect[] potionEffects, String... tooltip) {
+		this(amount, 0.6F, isWolfFood, potionEffects, tooltip);
 	}
 	
-	public NCItemFood(String nameIn, int amount, float saturation, PotionEffect[] potionEffects, String... tooltip) {
-		this(nameIn, amount, saturation, false, potionEffects, tooltip);
+	public NCItemFood(int amount, float saturation, PotionEffect[] potionEffects, String... tooltip) {
+		this(amount, saturation, false, potionEffects, tooltip);
 	}
 	
-	public NCItemFood(String nameIn, int amount, float saturation, boolean isWolfFood, PotionEffect[] potionEffects, String... tooltip) {
+	public NCItemFood(int amount, float saturation, boolean isWolfFood, PotionEffect[] potionEffects, String... tooltip) {
 		super(amount, saturation, isWolfFood);
-		setTranslationKey(Global.MOD_ID + "." + nameIn);
-		if (NuclearCraft.regName) setRegistryName(new ResourceLocation(Global.MOD_ID, nameIn));
 		effects = potionEffects;
 		info = InfoHelper.buildInfo(getTranslationKey(), tooltip);
 	}

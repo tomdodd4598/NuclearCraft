@@ -19,7 +19,6 @@ import nc.recipe.NCRecipes;
 import nc.recipe.ProcessorRecipe;
 import nc.recipe.ProcessorRecipeHandler;
 import nc.recipe.RecipeInfo;
-import nc.recipe.RecipeMatchResult;
 import nc.recipe.ingredient.IFluidIngredient;
 import nc.tile.fluid.ITileFluid;
 import nc.tile.internal.fluid.FluidConnection;
@@ -68,7 +67,7 @@ public class TileHeatExchangerCondenserTube extends TileHeatExchangerPartBase im
 	public int[] adjacentTemperatures = new int[] {Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE};
 	
 	public static final ProcessorRecipeHandler RECIPE_HANDLER = NCRecipes.condenser;
-	protected RecipeInfo<ProcessorRecipe> recipeInfo, cachedRecipeInfo;
+	protected RecipeInfo<ProcessorRecipe> recipeInfo;
 	
 	public final double conductivity;
 	
@@ -205,21 +204,7 @@ public class TileHeatExchangerCondenserTube extends TileHeatExchangerPartBase im
 	
 	@Override
 	public void refreshRecipe() {
-		RecipeMatchResult matchResult = recipeInfo == null ? RecipeMatchResult.FAIL : recipeInfo.getRecipe().matchInputs(new ArrayList<ItemStack>(), getFluidInputs());
-		if (!matchResult.matches()) {
-			/** Temporary caching while looking for recipe map solution */
-			matchResult = cachedRecipeInfo == null ? RecipeMatchResult.FAIL : cachedRecipeInfo.getRecipe().matchInputs(new ArrayList<ItemStack>(), getFluidInputs());
-			if (matchResult.matches()) {
-				recipeInfo = new RecipeInfo(cachedRecipeInfo.getRecipe(), matchResult);
-			}
-			else {
-				recipeInfo = RECIPE_HANDLER.getRecipeInfoFromInputs(new ArrayList<ItemStack>(), getFluidInputs());
-			}
-			if (recipeInfo != null) {
-				cachedRecipeInfo = recipeInfo;
-			}
-		}
-		else recipeInfo = new RecipeInfo(recipeInfo.getRecipe(), matchResult);
+		recipeInfo = RECIPE_HANDLER.getRecipeInfoFromInputs(new ArrayList<ItemStack>(), getFluidInputs());
 	}
 	
 	@Override

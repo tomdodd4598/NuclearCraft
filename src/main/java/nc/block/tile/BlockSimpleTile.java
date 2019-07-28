@@ -13,14 +13,19 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BlockSimpleTile extends BlockTile {
+public class BlockSimpleTile extends BlockTile implements ITileType {
 	
 	private final SimpleTileType type;
 
 	public BlockSimpleTile(SimpleTileType type) {
-		super(type.getName(), Material.IRON);
+		super(Material.IRON);
 		this.type = type;
 		setCreativeTab(type.getTab());
+	}
+	
+	@Override
+	public String getTileName() {
+		return type.getName();
 	}
 	
 	@Override

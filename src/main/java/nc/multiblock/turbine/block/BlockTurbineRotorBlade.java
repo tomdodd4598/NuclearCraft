@@ -27,9 +27,8 @@ public class BlockTurbineRotorBlade extends BlockTurbinePartBase {
 	private final TurbineRotorBladeType bladeType;
 	
 	public BlockTurbineRotorBlade(TurbineRotorBladeType bladeType) {
-		super("turbine_rotor_blade_" + bladeType.toString());
+		super();
 		setDefaultState(blockState.getBaseState().withProperty(DIR, RotorBladeState.Y));
-		
 		this.bladeType = bladeType;
 	}
 	

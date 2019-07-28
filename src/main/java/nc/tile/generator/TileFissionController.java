@@ -20,6 +20,7 @@ import nc.network.tile.FissionUpdatePacket;
 import nc.radiation.RadiationHelper;
 import nc.recipe.NCRecipes;
 import nc.tile.IGui;
+import nc.tile.dummy.TileFissionPort;
 import nc.tile.fluid.TileActiveCooler;
 import nc.tile.internal.fluid.Tank;
 import nc.util.BlockFinder;
@@ -508,7 +509,15 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 	}
 	
 	private boolean findPort(BlockPos pos) {
-		return finder.find(pos, NCBlocks.fission_port);
+		boolean found = finder.find(pos, NCBlocks.fission_port);
+		if (found) {
+			TileEntity tile = world.getTileEntity(pos);
+			if (tile instanceof TileFissionPort) {
+				((TileFissionPort)tile).masterPosition = this.pos;
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	private boolean findPort(int x, int y, int z) {
@@ -530,6 +539,10 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 			if (count > 1) return false;
 		}
 		return count == 1;
+	}
+	
+	private static boolean notOrigin(int x, int y, int z) {
+		return x != 0 || y != 0 || z != 0;
 	}
 	
 	// Finding Structure
@@ -627,7 +640,7 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 			}
 			for (int z = minZ; z <= maxZ; z++) for (int x = minX; x <= maxX; x++) for (int y = minY; y <= maxY; y++) {
 				if (findController(x, y, z)) {
-					if (!(x == 0 && y == 0 && z == 0)) {
+					if (notOrigin(x, y, z)) {
 						problem = EXTRA_CONTROLLER_AT;
 						complete = 0;
 						problemPosX = x; problemPosY = y; problemPosZ = z;
@@ -637,14 +650,14 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 				}
 			}
 			for (int z = minZ + 1; z <= maxZ - 1; z++) for (int x = minX + 1; x <= maxX - 1; x++) {
-				if (!findCasing(x, minY, z) && !(x == 0 && minY == 0 && z == 0)) {
+				if (!findCasing(x, minY, z) && notOrigin(x, minY, z)) {
 					problem = CASING_INCOMPLETE_AT;
 					complete = 0;
 					problemPosX = x; problemPosY = minY; problemPosZ = z;
 					problemPos = POS + " " + BlockPosHelper.stringPos(finder.position(problemPosX, problemPosY, problemPosZ));
 					return false;
 				}
-				if (!findCasing(x, maxY, z) && !(x == 0 && maxY == 0 && z == 0)) {
+				if (!findCasing(x, maxY, z) && notOrigin(x, maxY, z)) {
 					problem = CASING_INCOMPLETE_AT;
 					complete = 0;
 					problemPosX = x; problemPosY = maxY; problemPosZ = z;
@@ -654,14 +667,14 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 			}
 			for (int y = minY + 1; y <= maxY - 1; y++) {
 				for (int x = minX + 1; x <= maxX - 1; x++) {
-					if (!findCasing(x, y, minZ) && !(x == 0 && y == 0 && minZ == 0)) {
+					if (!findCasing(x, y, minZ) && notOrigin(x, y, minZ)) {
 						problem = CASING_INCOMPLETE_AT;
 						complete = 0;
 						problemPosX = x; problemPosY = y; problemPosZ = minZ;
 						problemPos = POS + " " + BlockPosHelper.stringPos(finder.position(problemPosX, problemPosY, problemPosZ));
 						return false;
 					}
-					if (!findCasing(x, y, maxZ) && !(x == 0 && y == 0 && maxZ == 0)) {
+					if (!findCasing(x, y, maxZ) && notOrigin(x, y, maxZ)) {
 						problem = CASING_INCOMPLETE_AT;
 						complete = 0;
 						problemPosX = x; problemPosY = y; problemPosZ = maxZ;
@@ -672,14 +685,14 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 					if (findPort(x, y, maxZ)) portCount++;
 				}
 				for (int z = minZ + 1; z <= maxZ - 1; z++) {
-					if (!findCasing(minX, y, z) && !(minX == 0 && y == 0 && z == 0)) {
+					if (!findCasing(minX, y, z) && notOrigin(minX, y, z)) {
 						problem = CASING_INCOMPLETE_AT;
 						complete = 0;
 						problemPosX = minX; problemPosY = y; problemPosZ = z;
 						problemPos = POS + " " + BlockPosHelper.stringPos(finder.position(problemPosX, problemPosY, problemPosZ));
 						return false;
 					}
-					if (!findCasing(maxX, y, z) && !(maxX == 0 && y == 0 && z == 0)) {
+					if (!findCasing(maxX, y, z) && notOrigin(maxX, y, z)) {
 						problem = CASING_INCOMPLETE_AT;
 						complete = 0;
 						problemPosX = maxX; problemPosY = y; problemPosZ = z;
@@ -726,15 +739,12 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 	// Set Fuel and Power and Modify Heat
 	
 	private void run(boolean checkBlocks) {
-		double energyThisTick = 0;
-		double fuelThisTick = 0;
-		double heatThisTick = 0;
-		double coolerHeatThisTick = 0;
+		double energyThisTick = 0D;
+		double fuelThisTick = 0D, heatThisTick = 0D, coolerHeatThisTick = 0D;
 		int cellCount = 0;
-		double energyMultThisTick = 0, heatMultThisTick = 0;
+		double energyMultThisTick = 0D, heatMultThisTick = 0D;
 		
-		double baseRF = baseProcessPower;
-		double baseHeat = baseProcessHeat;
+		double baseRF = baseProcessPower, baseHeat = baseProcessHeat;
 		
 		ready = readyToProcess() && !isActivated ? 1 : 0;
 
@@ -815,13 +825,10 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 				processPower = energyThisTick;
 				speedMultiplier = fuelThisTick;
 			} else {
-				heatChange = 0;
-				cooling = 0;
-				efficiency = 0;
-				heatMult = 0;
+				heatChange = cooling = 0D;
+				efficiency = heatMult = 0D;
 				cells = 0;
-				processPower = 0;
-				speedMultiplier = 0;
+				processPower = speedMultiplier = 0D;
 			}
 		}
 		
@@ -842,9 +849,7 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 	
 	private void newRun(boolean checkBlocks) {
 		double energyThisTick = 0D;
-		double fuelThisTick = 0D;
-		double heatThisTick = 0D;
-		double coolerHeatThisTick = 0D;
+		double fuelThisTick = 0D, heatThisTick = 0D, coolerHeatThisTick = 0D;
 		int cellCount = 0;
 		double energyMultThisTick = 0D, heatMultThisTick = 0D;
 		
@@ -935,13 +940,10 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 				processPower = energyThisTick;
 				speedMultiplier = fuelThisTick;
 			} else {
-				heatChange = 0D;
-				cooling = 0D;
-				efficiency = 0D;
-				heatMult = 0D;
+				heatChange = cooling = 0D;
+				efficiency = heatMult = 0D;
 				cells = 0;
-				processPower = 0D;
-				speedMultiplier = 0D;
+				processPower = speedMultiplier = 0D;
 			}
 		}
 		
@@ -1207,7 +1209,7 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 	@Callback
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getFissionFuelTime(Context context, Arguments args) {
-		return new Object[] {recipeInfo.getRecipe() != null ? baseProcessTime : 0D};
+		return new Object[] {recipeInfo != null ? baseProcessTime : 0D};
 	}
 	
 	@Callback
@@ -1231,7 +1233,7 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 	@Callback
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getReactorProcessTime(Context context, Arguments args) {
-		return new Object[] {recipeInfo.getRecipe() != null ? (cells == 0 ? baseProcessTime : baseProcessTime/cells) : 0D};
+		return new Object[] {recipeInfo != null ? (cells == 0 ? baseProcessTime : baseProcessTime/cells) : 0D};
 	}
 	
 	@Callback

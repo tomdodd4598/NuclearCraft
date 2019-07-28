@@ -17,8 +17,8 @@ public abstract class BlockSidedTile extends BlockTile {
 	
 	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 
-	public BlockSidedTile(String name, Material material) {
-		super(name, material);
+	public BlockSidedTile(Material material) {
+		super(material);
 		setDefaultState(getNewDefaultState());
 	}
 	

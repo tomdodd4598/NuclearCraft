@@ -6,7 +6,7 @@ import net.minecraft.util.math.MathHelper;
 
 public class RadiationSource implements IRadiationSource {
 	
-	private double radiationLevel = 0D, radiationBuffer = 0D, scrubbing = 0D;
+	private double radiationLevel = 0D, radiationBuffer = 0D, scrubbingFraction = 0D, effectiveScrubberCount = 0D;
 	
 	public RadiationSource(double startRadiation) {
 		this.radiationLevel = startRadiation;
@@ -16,6 +16,8 @@ public class RadiationSource implements IRadiationSource {
 	public NBTTagCompound writeNBT(IRadiationSource instance, EnumFacing side, NBTTagCompound nbt) {
 		nbt.setDouble("radiationLevel", getRadiationLevel());
 		nbt.setDouble("radiationBuffer", getRadiationBuffer());
+		nbt.setDouble("scrubbingFraction", scrubbingFraction);
+		nbt.setDouble("effectiveScrubberCount", effectiveScrubberCount);
 		return nbt;
 	}
 	
@@ -23,6 +25,8 @@ public class RadiationSource implements IRadiationSource {
 	public void readNBT(IRadiationSource instance, EnumFacing side, NBTTagCompound nbt) {
 		setRadiationLevel(nbt.getDouble("radiationLevel"));
 		setRadiationBuffer(nbt.getDouble("radiationBuffer"));
+		scrubbingFraction = nbt.getDouble("scrubbingFraction");
+		effectiveScrubberCount = nbt.getDouble("effectiveScrubberCount");
 	}
 	
 	@Override
@@ -47,16 +51,21 @@ public class RadiationSource implements IRadiationSource {
 	
 	@Override
 	public double getScrubbingFraction() {
-		return scrubbing;
+		return scrubbingFraction;
 	}
 	
 	@Override
-	public void addScrubbingFraction(double scrubbing) {
-		this.scrubbing = MathHelper.clamp(this.scrubbing + scrubbing, 0D, 1D);
+	public void setScrubbingFraction(double newFraction) {
+		scrubbingFraction = MathHelper.clamp(newFraction, 0D, 1D);
 	}
 	
 	@Override
-	public void resetScrubbingFraction() {
-		scrubbing = 0D;
+	public double getEffectiveScrubberCount() {
+		return effectiveScrubberCount;
+	}
+	
+	@Override
+	public void setEffectiveScrubberCount(double newScrubberCount) {
+		effectiveScrubberCount = Math.max(0D, newScrubberCount);
 	}
 }

@@ -5,21 +5,24 @@ import java.util.List;
 
 import org.apache.commons.lang3.tuple.Pair;
 
+import nc.Global;
 import nc.ModCheck;
 import nc.NuclearCraft;
-import nc.block.fluid.NCBlockFluid;
 import nc.block.fluid.BlockFluidCoolant;
 import nc.block.fluid.BlockFluidCryotheum;
 import nc.block.fluid.BlockFluidGlowstone;
 import nc.block.fluid.BlockFluidHotCoolant;
 import nc.block.fluid.BlockFluidMolten;
+import nc.block.fluid.NCBlockFluid;
+import nc.block.item.NCItemBlock;
 import nc.config.NCConfig;
 import nc.fluid.FluidCoolant;
 import nc.fluid.FluidCryotheum;
 import nc.fluid.FluidGlowstone;
 import nc.fluid.FluidHotCoolant;
 import nc.fluid.FluidMolten;
-import net.minecraft.item.ItemBlock;
+import net.minecraft.block.Block;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
@@ -148,6 +151,10 @@ public class NCCoolantFluids {
 		fluidPairList.add(Pair.of(magnesium_nak_hot, !NCConfig.register_fission_fluid_blocks ? null : new BlockFluidHotCoolant(magnesium_nak_hot)));
 	}
 	
+	public static <T extends NCBlockFluid> Block withName(T block) {
+		return block.setTranslationKey(Global.MOD_ID + "." + block.getBlockName()).setRegistryName(new ResourceLocation(Global.MOD_ID, block.getBlockName()));
+	}
+	
 	public static void register() {
 		for (Pair<Fluid, NCBlockFluid> fluidPair : fluidPairList) {
 			Fluid fluid = fluidPair.getLeft();
@@ -163,8 +170,8 @@ public class NCCoolantFluids {
 	}
 	
 	public static void registerBlock(NCBlockFluid block) {
-		ForgeRegistries.BLOCKS.register(block);
-		ForgeRegistries.ITEMS.register(new ItemBlock(block).setRegistryName(block.getRegistryName()));
+		ForgeRegistries.BLOCKS.register(withName(block));
+		ForgeRegistries.ITEMS.register(new NCItemBlock(block).setRegistryName(block.getRegistryName()));
 		NuclearCraft.proxy.registerFluidBlockRendering(block, "fluid_molten_colored");
 	}
 	

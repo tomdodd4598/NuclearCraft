@@ -22,7 +22,7 @@ public class BlockHeatExchangerController extends BlockHeatExchangerPartBase {
 	private static final PropertyBool ACTIVE = PropertyBool.create("active");
 	
 	public BlockHeatExchangerController() {
-		super("heat_exchanger_controller");
+		super();
 		setDefaultState(blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(ACTIVE, Boolean.valueOf(false)));
 	}
 	

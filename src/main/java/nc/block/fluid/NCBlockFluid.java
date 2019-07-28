@@ -1,10 +1,7 @@
 package nc.block.fluid;
 
-import nc.Global;
-import nc.NuclearCraft;
 import nc.fluid.FluidBase;
 import net.minecraft.block.material.Material;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -13,25 +10,19 @@ import net.minecraftforge.fluids.Fluid;
 
 public class NCBlockFluid extends BlockFluidClassic {
 	
-	String name;
+	protected String name;
 	public final Fluid fluid;
 	
 	public NCBlockFluid(Fluid fluid, Material material) {
 		super(fluid, material);
-		String fluidBlockName = "fluid_" + fluid.getName();
-		this.name = fluidBlockName;
-		setTranslationKey(Global.MOD_ID + "." + fluidBlockName);
-		if (NuclearCraft.regName) setRegistryName(new ResourceLocation(Global.MOD_ID, fluidBlockName));
+		this.name = "fluid_" + fluid.getName();
 		//NuclearCraft.proxy.registerFluidBlockRendering(this, name);
 		this.fluid = fluid;
 	}
 	
 	public NCBlockFluid(FluidBase fluid, Material material) {
 		super(fluid, material);
-		String fluidBlockName = "fluid_" + fluid.getName();
-		this.name = fluidBlockName;
-		setTranslationKey(Global.MOD_ID + "." + fluidBlockName);
-		if (NuclearCraft.regName) setRegistryName(new ResourceLocation(Global.MOD_ID, fluidBlockName));
+		this.name = "fluid_" + fluid.getName();
 		//NuclearCraft.proxy.registerFluidBlockRendering(this, name);
 		this.fluid = fluid;
 	}
@@ -48,7 +39,7 @@ public class NCBlockFluid extends BlockFluidClassic {
 		return super.displaceIfPossible(world, pos);
 	}
 	
-	public String getName() {
+	public String getBlockName() {
 		return name;
 	}
 }

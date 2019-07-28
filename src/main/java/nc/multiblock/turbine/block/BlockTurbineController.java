@@ -22,7 +22,7 @@ public class BlockTurbineController extends BlockTurbinePartBase {
 	private static final PropertyBool ACTIVE = PropertyBool.create("active");
 	
 	public BlockTurbineController() {
-		super("turbine_controller");
+		super();
 		setDefaultState(blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(ACTIVE, Boolean.valueOf(false)));
 	}
 	

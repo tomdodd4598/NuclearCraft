@@ -1,11 +1,8 @@
 package nc.item.tool;
 
-import java.util.HashSet;
-
 import javax.annotation.Nullable;
 
-import nc.Global;
-import nc.NuclearCraft;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import nc.util.InfoHelper;
 import nc.util.OreDictHelper;
 import net.minecraft.block.Block;
@@ -20,7 +17,6 @@ import net.minecraft.item.ItemTool;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -29,10 +25,8 @@ public class NCSpaxelhoe extends ItemTool {
 	
 	String[] info;
 	
-	public NCSpaxelhoe(String unlocalizedName, ToolMaterial material, String... tooltip) {
-		super(3F, -2.4F, material, new HashSet<Block>());
-		setTranslationKey(Global.MOD_ID + "." + unlocalizedName);
-		if (NuclearCraft.regName) setRegistryName(new ResourceLocation(Global.MOD_ID, unlocalizedName));
+	public NCSpaxelhoe(ToolMaterial material, String... tooltip) {
+		super(3F, -2.4F, material, new ObjectOpenHashSet<Block>());
 		info = InfoHelper.buildInfo(getTranslationKey(), tooltip);
 	}
 	

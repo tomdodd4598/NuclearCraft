@@ -234,10 +234,12 @@ public class NCConfig {
 	public static String[] radiation_ores;
 	public static String[] radiation_items;
 	public static String[] radiation_blocks;
+	public static String[] radiation_fluids;
 	public static String[] radiation_foods;
 	public static String[] radiation_ores_blacklist;
 	public static String[] radiation_items_blacklist;
 	public static String[] radiation_blocks_blacklist;
+	public static String[] radiation_fluids_blacklist;
 	
 	public static double max_player_rads;
 	public static double radiation_player_decay_rate;
@@ -247,6 +249,12 @@ public class NCConfig {
 	public static double radiation_decay_rate;
 	public static double radiation_lowest_rate;
 	public static double radiation_chunk_limit;
+	
+	public static String[] radiation_block_effects;
+	public static double radiation_block_effect_limit;
+	public static int radiation_block_effect_max_rate;
+	public static double radiation_rain_mult;
+	public static double radiation_swim_mult;
 	
 	public static double radiation_radaway_amount;
 	public static double radiation_radaway_slow_amount;
@@ -260,6 +268,9 @@ public class NCConfig {
 	public static double[] radiation_shielding_level;
 	public static boolean radiation_tile_shielding;
 	public static double radiation_scrubber_fraction;
+	public static int radiation_scrubber_radius;
+	public static boolean radiation_scrubber_alt;
+	public static double[] radiation_scrubber_param;
 	public static int radiation_scrubber_power;
 	public static int radiation_scrubber_borax_rate;
 	
@@ -319,6 +330,8 @@ public class NCConfig {
 	
 	public static boolean register_fission_fluid_blocks;
 	public static boolean register_cofh_fluids;
+	
+	public static boolean register_projecte_emc;
 	
 	public static boolean ore_dict_priority_bool;
 	public static String[] ore_dict_priority;
@@ -666,7 +679,7 @@ public class NCConfig {
 		propertyArmorHazmat.setLanguageKey("gui.config.armor.armor_hazmat");
 		Property propertyArmorEnchantability = config.get(CATEGORY_ARMOR, "armor_enchantability", new int[] {6, 15, 12, 20, 5}, Lang.localise("gui.config.armor.armor_enchantability.comment"), 1, 255);
 		propertyArmorEnchantability.setLanguageKey("gui.config.armor.armor_enchantability");
-		Property propertyArmorToughness = config.get(CATEGORY_ARMOR, "armor_toughness", new double[] {1D, 2D, 1D, 2D, 0D}, Lang.localise("gui.config.armor.armor_toughness.comment"), 1D, 8D);
+		Property propertyArmorToughness = config.get(CATEGORY_ARMOR, "armor_toughness", new double[] {1D, 2D, 1D, 2D, 0D}, Lang.localise("gui.config.armor.armor_toughness.comment"), 0D, 8D);
 		propertyArmorToughness.setLanguageKey("gui.config.armor.armor_toughness");
 		Property propertyArmorConarmRegister = config.get(CATEGORY_ARMOR, "armor_conarm_register", new boolean[] {true, true, true, true, true, true, true, true}, Lang.localise("gui.config.armor.armor_conarm_register.comment"));
 		propertyArmorConarmRegister.setLanguageKey("gui.config.armor.armor_conarm_register");
@@ -703,7 +716,9 @@ public class NCConfig {
 		propertyRadiationItems.setLanguageKey("gui.config.radiation.radiation_items");
 		Property propertyRadiationBlocks = config.get(CATEGORY_RADIATION, "radiation_blocks", new String[] {}, Lang.localise("gui.config.radiation.radiation_blocks.comment"));
 		propertyRadiationBlocks.setLanguageKey("gui.config.radiation.radiation_blocks");
-		Property propertyRadiationFoods = config.get(CATEGORY_RADIATION, "radiation_foods", new String[] {"minecraft:golden_apple:0_-20_0.1", "minecraft:golden_apple:1_-100_0.5", "minecraft:golden_carrot:0_-4_0", "minecraft:spider_eye:0_0_0.5", "minecraft:poisonous_potato:0_0_0.5", "minecraft:fish:3_0_2", "minecraft:rabbit_stew:0_0_0.1", "minecraft:chorus_fruit:0_0_-0.25", "minecraft:beetroot:0_0_0.25", "minecraft:beetroot_soup:0_0_1.5"}, Lang.localise("gui.config.radiation.radiation_foods.comment"));
+		Property propertyRadiationFluids = config.get(CATEGORY_RADIATION, "radiation_fluids", new String[] {}, Lang.localise("gui.config.radiation.radiation_fluids.comment"));
+		propertyRadiationFluids.setLanguageKey("gui.config.radiation.radiation_fluids");
+		Property propertyRadiationFoods = config.get(CATEGORY_RADIATION, "radiation_foods", new String[] {"minecraft:golden_apple:0_-20_0.1", "minecraft:golden_apple:1_-100_0.5", "minecraft:golden_carrot:0_-4_0", "minecraft:spider_eye:0_0_0.5", "minecraft:poisonous_potato:0_0_0.5", "minecraft:fish:3_0_2", "minecraft:rabbit_stew:0_0_0.1", "minecraft:chorus_fruit:0_0_-0.25", "minecraft:beetroot:0_0_0.25", "minecraft:beetroot_soup:0_0_1.5", "quark:golden_frog_leg:0_-4_0"}, Lang.localise("gui.config.radiation.radiation_foods.comment"));
 		propertyRadiationFoods.setLanguageKey("gui.config.radiation.radiation_foods");
 		Property propertyRadiationOresBlacklist = config.get(CATEGORY_RADIATION, "radiation_ores_blacklist", new String[] {}, Lang.localise("gui.config.radiation.radiation_ores_blacklist.comment"));
 		propertyRadiationOresBlacklist.setLanguageKey("gui.config.radiation.radiation_ores_blacklist");
@@ -711,6 +726,8 @@ public class NCConfig {
 		propertyRadiationItemsBlacklist.setLanguageKey("gui.config.radiation.radiation_items_blacklist");
 		Property propertyRadiationBlocksBlacklist = config.get(CATEGORY_RADIATION, "radiation_blocks_blacklist", new String[] {}, Lang.localise("gui.config.radiation.radiation_blocks_blacklist.comment"));
 		propertyRadiationBlocksBlacklist.setLanguageKey("gui.config.radiation.radiation_blocks_blacklist");
+		Property propertyRadiationFluidsBlacklist = config.get(CATEGORY_RADIATION, "radiation_fluids_blacklist", new String[] {}, Lang.localise("gui.config.radiation.radiation_fluids_blacklist.comment"));
+		propertyRadiationFluidsBlacklist.setLanguageKey("gui.config.radiation.radiation_fluids_blacklist");
 		
 		Property propertyRadiationMaxPlayerRads = config.get(CATEGORY_RADIATION, "max_player_rads", 1000D, Lang.localise("gui.config.radiation.max_player_rads.comment"), 1D, 1000000000D);
 		propertyRadiationMaxPlayerRads.setLanguageKey("gui.config.radiation.max_player_rads");
@@ -728,6 +745,17 @@ public class NCConfig {
 		propertyRadiationLowestRate.setLanguageKey("gui.config.radiation.radiation_lowest_rate");
 		Property propertyRadiationChunkLimit = config.get(CATEGORY_RADIATION, "radiation_chunk_limit", -1D, Lang.localise("gui.config.radiation.radiation_chunk_limit.comment"), -1D, Double.MAX_VALUE);
 		propertyRadiationChunkLimit.setLanguageKey("gui.config.radiation.radiation_chunk_limit");
+		
+		Property propertyRadiationBlockEffects = config.get(CATEGORY_RADIATION, "radiation_block_effects", new String[] {"nuclearcraft:dry_earth:0_20_materialMapColor@8368696", "nuclearcraft:dry_earth:0_20_materialMapColor@9923917", "minecraft:air:0_10_materialMapColor@31744"}, Lang.localise("gui.config.radiation.radiation_block_effects.comment"));
+		propertyRadiationBlockEffects.setLanguageKey("gui.config.radiation.radiation_block_effects");
+		Property propertyRadiationBlockEffectLimit = config.get(CATEGORY_RADIATION, "radiation_block_effect_limit", 10D, Lang.localise("gui.config.radiation.radiation_block_effect_limit.comment"), 0.000000000000000001D, Double.MAX_VALUE);
+		propertyRadiationBlockEffectLimit.setLanguageKey("gui.config.radiation.radiation_block_effect_limit");
+		Property propertyRadiationBlockEffectMaxRate = config.get(CATEGORY_RADIATION, "radiation_block_effect_max_rate", 0, Lang.localise("gui.config.radiation.radiation_block_effect_max_rate.comment"), 0, 15);
+		propertyRadiationBlockEffectMaxRate.setLanguageKey("gui.config.radiation.radiation_block_effect_max_rate");
+		Property propertyRadiationRainMult = config.get(CATEGORY_RADIATION, "radiation_rain_mult", 1D, Lang.localise("gui.config.radiation.radiation_rain_mult.comment"), 0.000001D, 1000000D);
+		propertyRadiationRainMult.setLanguageKey("gui.config.radiation.radiation_rain_mult");
+		Property propertyRadiationSwimMult = config.get(CATEGORY_RADIATION, "radiation_swim_mult", 2D, Lang.localise("gui.config.radiation.radiation_swim_mult.comment"), 0.000001D, 1000000D);
+		propertyRadiationSwimMult.setLanguageKey("gui.config.radiation.radiation_swim_mult");
 		
 		Property propertyRadiationRadawayAmount = config.get(CATEGORY_RADIATION, "radiation_radaway_amount", 300D, Lang.localise("gui.config.radiation.radiation_radaway_amount.comment"), 0.001D, 1000000000D);
 		propertyRadiationRadawayAmount.setLanguageKey("gui.config.radiation.radiation_radaway_amount");
@@ -751,8 +779,14 @@ public class NCConfig {
 		propertyRadiationShieldingLevel.setLanguageKey("gui.config.radiation.radiation_shielding_level");
 		Property propertyRadiationTileShielding = config.get(CATEGORY_RADIATION, "radiation_tile_shielding", true, Lang.localise("gui.config.radiation.radiation_tile_shielding.comment"));
 		propertyRadiationTileShielding.setLanguageKey("gui.config.radiation.radiation_tile_shielding");
-		Property propertyRadiationScrubberRate = config.get(CATEGORY_RADIATION, "radiation_scrubber_fraction", 0.1D, Lang.localise("gui.config.radiation.radiation_scrubber_fraction.comment"), 0D, 1D);
+		Property propertyRadiationScrubberRate = config.get(CATEGORY_RADIATION, "radiation_scrubber_fraction", 0.125D, Lang.localise("gui.config.radiation.radiation_scrubber_fraction.comment"), 0.001D, 1D);
 		propertyRadiationScrubberRate.setLanguageKey("gui.config.radiation.radiation_scrubber_fraction");
+		Property propertyRadiationScrubberRadius = config.get(CATEGORY_RADIATION, "radiation_scrubber_radius", 4, Lang.localise("gui.config.radiation.radiation_scrubber_radius.comment"), 1, 10);
+		propertyRadiationScrubberRadius.setLanguageKey("gui.config.radiation.radiation_scrubber_radius");
+		Property propertyRadiationScrubberAlt = config.get(CATEGORY_RADIATION, "radiation_scrubber_alt", false, Lang.localise("gui.config.radiation.radiation_scrubber_alt.comment"));
+		propertyRadiationScrubberAlt.setLanguageKey("gui.config.radiation.radiation_scrubber_alt");
+		Property propertyRadiationScrubberParam = config.get(CATEGORY_RADIATION, "radiation_scrubber_param", new double[] {2.14280951676725D, 3D, 4D, 2D}, Lang.localise("gui.config.radiation.radiation_scrubber_param.comment"), 1D, 15D);
+		propertyRadiationScrubberParam.setLanguageKey("gui.config.radiation.radiation_scrubber_param");
 		Property propertyRadiationScrubberPower = config.get(CATEGORY_RADIATION, "radiation_scrubber_power", 500, Lang.localise("gui.config.radiation.radiation_scrubber_power.comment"), 0, Integer.MAX_VALUE);
 		propertyRadiationScrubberPower.setLanguageKey("gui.config.radiation.radiation_scrubber_power");
 		Property propertyRadiationScrubberBoraxRate = config.get(CATEGORY_RADIATION, "radiation_scrubber_borax_rate", 0, Lang.localise("gui.config.radiation.radiation_scrubber_borax_rate.comment"), 0, 100);
@@ -760,7 +794,7 @@ public class NCConfig {
 		
 		Property propertyRadiationShieldingDefaultRecipes = config.get(CATEGORY_RADIATION, "radiation_shielding_default_recipes", true, Lang.localise("gui.config.radiation.radiation_shielding_default_recipes.comment"));
 		propertyRadiationShieldingDefaultRecipes.setLanguageKey("gui.config.radiation.radiation_shielding_default_recipes");
-		Property propertyRadiationShieldingItemBlacklist = config.get(CATEGORY_RADIATION, "radiation_shielding_item_blacklist", new String[] {"ic2:hazmat_helmet", "ic2:hazmat_chestplate", "ic2:hazmat_leggings", "ic2:rubber_boots", "extraplanets:tier1_space_suit_helmet", "extraplanets:tier1_space_suit_chest", "extraplanets:tier1_space_suit_jetpack_chest", "extraplanets:tier1_space_suit_leggings", "extraplanets:tier1_space_suit_boots", "extraplanets:tier1_space_suit_gravity_boots", "extraplanets:tier2_space_suit_helmet", "extraplanets:tier2_space_suit_chest", "extraplanets:tier2_space_suit_jetpack_chest", "extraplanets:tier2_space_suit_leggings", "extraplanets:tier2_space_suit_boots", "extraplanets:tier2_space_suit_gravity_boots", "extraplanets:tier3_space_suit_helmet", "extraplanets:tier3_space_suit_chest", "extraplanets:tier3_space_suit_jetpack_chest", "extraplanets:tier3_space_suit_leggings", "extraplanets:tier3_space_suit_boots", "extraplanets:tier3_space_suit_gravity_boots", "extraplanets:tier4_space_suit_helmet", "extraplanets:tier4_space_suit_chest", "extraplanets:tier4_space_suit_jetpack_chest", "extraplanets:tier4_space_suit_leggings", "extraplanets:tier4_space_suit_boots", "extraplanets:tier4_space_suit_gravity_boots"}, Lang.localise("gui.config.radiation.radiation_shielding_item_blacklist.comment"));
+		Property propertyRadiationShieldingItemBlacklist = config.get(CATEGORY_RADIATION, "radiation_shielding_item_blacklist", new String[] {"nuclearcraft:helm_hazmat", "nuclearcraft:chest_hazmat", "nuclearcraft:legs_hazmat", "nuclearcraft:boots_hazmat", "ic2:hazmat_helmet", "ic2:hazmat_chestplate", "ic2:hazmat_leggings", "ic2:rubber_boots", "extraplanets:tier1_space_suit_helmet", "extraplanets:tier1_space_suit_chest", "extraplanets:tier1_space_suit_jetpack_chest", "extraplanets:tier1_space_suit_leggings", "extraplanets:tier1_space_suit_boots", "extraplanets:tier1_space_suit_gravity_boots", "extraplanets:tier2_space_suit_helmet", "extraplanets:tier2_space_suit_chest", "extraplanets:tier2_space_suit_jetpack_chest", "extraplanets:tier2_space_suit_leggings", "extraplanets:tier2_space_suit_boots", "extraplanets:tier2_space_suit_gravity_boots", "extraplanets:tier3_space_suit_helmet", "extraplanets:tier3_space_suit_chest", "extraplanets:tier3_space_suit_jetpack_chest", "extraplanets:tier3_space_suit_leggings", "extraplanets:tier3_space_suit_boots", "extraplanets:tier3_space_suit_gravity_boots", "extraplanets:tier4_space_suit_helmet", "extraplanets:tier4_space_suit_chest", "extraplanets:tier4_space_suit_jetpack_chest", "extraplanets:tier4_space_suit_leggings", "extraplanets:tier4_space_suit_boots", "extraplanets:tier4_space_suit_gravity_boots"}, Lang.localise("gui.config.radiation.radiation_shielding_item_blacklist.comment"));
 		propertyRadiationShieldingItemBlacklist.setLanguageKey("gui.config.radiation.radiation_shielding_item_blacklist");
 		Property propertyRadiationShieldingCustomStacks = config.get(CATEGORY_RADIATION, "radiation_shielding_custom_stacks", new String[] {}, Lang.localise("gui.config.radiation.radiation_shielding_custom_stacks.comment"));
 		propertyRadiationShieldingCustomStacks.setLanguageKey("gui.config.radiation.radiation_shielding_custom_stacks");
@@ -782,7 +816,7 @@ public class NCConfig {
 		
 		Property propertyRadiationPassiveDebuffLists = config.get(CATEGORY_RADIATION, "radiation_passive_debuff_lists", new String[] {"40.0_minecraft:weakness@1", "55.0_minecraft:weakness@1,minecraft:mining_fatigue@1", "70.0_minecraft:weakness@2,minecraft:mining_fatigue@1,minecraft:hunger@1", "80.0_minecraft:weakness@2,minecraft:mining_fatigue@2,minecraft:hunger@1,minecraft:poison@1", "90.0_minecraft:weakness@3,minecraft:mining_fatigue@3,minecraft:hunger@2,minecraft:poison@1,minecraft:wither@1"}, Lang.localise("gui.config.radiation.radiation_passive_debuff_lists.comment"));
 		propertyRadiationPassiveDebuffLists.setLanguageKey("gui.config.radiation.radiation_passive_debuff_lists");
-		Property propertyRadiationMobBuffLists = config.get(CATEGORY_RADIATION, "radiation_mob_buff_lists", new String[] {"40.0_minecraft:speed@1", "55.0_minecraft:speed@1,minecraft:jump_boost@1", "70.0_minecraft:speed@1,minecraft:jump_boost@1,minecraft:resistance@1", "80.0_minecraft:speed@1,minecraft:jump_boost@1,minecraft:resistance@1,minecraft:absorption@1", "90.0_minecraft:speed@1,minecraft:jump_boost@1,minecraft:resistance@1,minecraft:absorption@1,minecraft:regeneration@1"}, Lang.localise("gui.config.radiation.radiation_mob_buff_lists.comment"));
+		Property propertyRadiationMobBuffLists = config.get(CATEGORY_RADIATION, "radiation_mob_buff_lists", new String[] {"40.0_minecraft:speed@1", "55.0_minecraft:speed@1,minecraft:strength@1", "70.0_minecraft:speed@1,minecraft:strength@1,minecraft:resistance@1", "80.0_minecraft:speed@1,minecraft:strength@1,minecraft:resistance@1,minecraft:absorption@1", "90.0_minecraft:speed@1,minecraft:strength@1,minecraft:resistance@1,minecraft:absorption@1,minecraft:regeneration@1"}, Lang.localise("gui.config.radiation.radiation_mob_buff_lists.comment"));
 		propertyRadiationMobBuffLists.setLanguageKey("gui.config.radiation.radiation_mob_buff_lists");
 		
 		Property propertyRadiationHorseArmor = config.get(CATEGORY_RADIATION, "radiation_horse_armor", false, Lang.localise("gui.config.radiation.radiation_horse_armor.comment"));
@@ -854,6 +888,9 @@ public class NCConfig {
 		propertyRegisterFluidBlocks.setLanguageKey("gui.config.other.register_fluid_blocks");
 		Property propertyRegisterCoFHFluids = config.get(CATEGORY_OTHER, "register_cofh_fluids", false, Lang.localise("gui.config.other.register_cofh_fluids.comment"));
 		propertyRegisterCoFHFluids.setLanguageKey("gui.config.other.register_cofh_fluids");
+		
+		Property propertyRegisterProjectEEMC = config.get(CATEGORY_OTHER, "register_projecte_emc", true, Lang.localise("gui.config.other.register_projecte_emc.comment"));
+		propertyRegisterProjectEEMC.setLanguageKey("gui.config.other.register_projecte_emc");
 		
 		Property propertyOreDictPriorityBool = config.get(CATEGORY_OTHER, "ore_dict_priority_bool", true, Lang.localise("gui.config.other.ore_dict_priority_bool.comment"));
 		propertyOreDictPriorityBool.setLanguageKey("gui.config.other.ore_dict_priority_bool");
@@ -1072,10 +1109,12 @@ public class NCConfig {
 		propertyOrderRadiation.add(propertyRadiationOres.getName());
 		propertyOrderRadiation.add(propertyRadiationItems.getName());
 		propertyOrderRadiation.add(propertyRadiationBlocks.getName());
+		propertyOrderRadiation.add(propertyRadiationFluids.getName());
 		propertyOrderRadiation.add(propertyRadiationFoods.getName());
 		propertyOrderRadiation.add(propertyRadiationOresBlacklist.getName());
 		propertyOrderRadiation.add(propertyRadiationItemsBlacklist.getName());
 		propertyOrderRadiation.add(propertyRadiationBlocksBlacklist.getName());
+		propertyOrderRadiation.add(propertyRadiationFluidsBlacklist.getName());
 		propertyOrderRadiation.add(propertyRadiationMaxPlayerRads.getName());
 		propertyOrderRadiation.add(propertyRadiationPlayerDecayRate.getName());
 		propertyOrderRadiation.add(propertyRadiationEntityDecayRate.getName());
@@ -1084,6 +1123,11 @@ public class NCConfig {
 		propertyOrderRadiation.add(propertyRadiationDecayRate.getName());
 		propertyOrderRadiation.add(propertyRadiationLowestRate.getName());
 		propertyOrderRadiation.add(propertyRadiationChunkLimit.getName());
+		propertyOrderRadiation.add(propertyRadiationBlockEffects.getName());
+		propertyOrderRadiation.add(propertyRadiationBlockEffectLimit.getName());
+		propertyOrderRadiation.add(propertyRadiationBlockEffectMaxRate.getName());
+		propertyOrderRadiation.add(propertyRadiationRainMult.getName());
+		propertyOrderRadiation.add(propertyRadiationSwimMult.getName());
 		propertyOrderRadiation.add(propertyRadiationRadawayAmount.getName());
 		propertyOrderRadiation.add(propertyRadiationRadawaySlowAmount.getName());
 		propertyOrderRadiation.add(propertyRadiationRadawayRate.getName());
@@ -1096,6 +1140,9 @@ public class NCConfig {
 		propertyOrderRadiation.add(propertyRadiationShieldingLevel.getName());
 		propertyOrderRadiation.add(propertyRadiationTileShielding.getName());
 		propertyOrderRadiation.add(propertyRadiationScrubberRate.getName());
+		propertyOrderRadiation.add(propertyRadiationScrubberRadius.getName());
+		propertyOrderRadiation.add(propertyRadiationScrubberAlt.getName());
+		propertyOrderRadiation.add(propertyRadiationScrubberParam.getName());
 		propertyOrderRadiation.add(propertyRadiationScrubberPower.getName());
 		propertyOrderRadiation.add(propertyRadiationScrubberBoraxRate.getName());
 		propertyOrderRadiation.add(propertyRadiationShieldingDefaultRecipes.getName());
@@ -1142,6 +1189,7 @@ public class NCConfig {
 		propertyOrderOther.add(propertyMushroomGenRate.getName());
 		propertyOrderOther.add(propertyRegisterFluidBlocks.getName());
 		propertyOrderOther.add(propertyRegisterCoFHFluids.getName());
+		propertyOrderOther.add(propertyRegisterProjectEEMC.getName());
 		propertyOrderOther.add(propertyOreDictPriorityBool.getName());
 		propertyOrderOther.add(propertyOreDictPriority.getName());
 		config.setCategoryPropertyOrder(CATEGORY_OTHER, propertyOrderOther);
@@ -1336,10 +1384,12 @@ public class NCConfig {
 			radiation_ores = propertyRadiationOres.getStringList();
 			radiation_items = propertyRadiationItems.getStringList();
 			radiation_blocks = propertyRadiationBlocks.getStringList();
+			radiation_fluids = propertyRadiationFluids.getStringList();
 			radiation_foods = propertyRadiationFoods.getStringList();
 			radiation_ores_blacklist = propertyRadiationOresBlacklist.getStringList();
 			radiation_items_blacklist = propertyRadiationItemsBlacklist.getStringList();
 			radiation_blocks_blacklist = propertyRadiationBlocksBlacklist.getStringList();
+			radiation_fluids_blacklist = propertyRadiationFluidsBlacklist.getStringList();
 			
 			max_player_rads = propertyRadiationMaxPlayerRads.getDouble();
 			radiation_player_decay_rate = propertyRadiationPlayerDecayRate.getDouble();
@@ -1349,6 +1399,12 @@ public class NCConfig {
 			radiation_decay_rate = propertyRadiationDecayRate.getDouble();
 			radiation_lowest_rate = propertyRadiationLowestRate.getDouble();
 			radiation_chunk_limit = propertyRadiationChunkLimit.getDouble();
+			
+			radiation_block_effects = propertyRadiationBlockEffects.getStringList();
+			radiation_block_effect_limit = propertyRadiationBlockEffectLimit.getDouble();
+			radiation_block_effect_max_rate = propertyRadiationBlockEffectMaxRate.getInt();
+			radiation_rain_mult = propertyRadiationRainMult.getDouble();
+			radiation_swim_mult = propertyRadiationSwimMult.getDouble();
 			
 			radiation_radaway_amount = propertyRadiationRadawayAmount.getDouble();
 			radiation_radaway_slow_amount = propertyRadiationRadawaySlowAmount.getDouble();
@@ -1362,6 +1418,9 @@ public class NCConfig {
 			radiation_shielding_level = readDoubleArrayFromConfig(propertyRadiationShieldingLevel);
 			radiation_tile_shielding = propertyRadiationTileShielding.getBoolean();
 			radiation_scrubber_fraction = propertyRadiationScrubberRate.getDouble();
+			radiation_scrubber_radius = propertyRadiationScrubberRadius.getInt();
+			radiation_scrubber_alt = propertyRadiationScrubberAlt.getBoolean();
+			radiation_scrubber_param = readDoubleArrayFromConfig(propertyRadiationScrubberParam);
 			radiation_scrubber_power = propertyRadiationScrubberPower.getInt();
 			radiation_scrubber_borax_rate = propertyRadiationScrubberBoraxRate.getInt();
 			
@@ -1412,6 +1471,7 @@ public class NCConfig {
 			mushroom_gen_rate = propertyMushroomGenRate.getInt();
 			register_fission_fluid_blocks = propertyRegisterFluidBlocks.getBoolean();
 			register_cofh_fluids = propertyRegisterCoFHFluids.getBoolean();
+			register_projecte_emc = propertyRegisterProjectEEMC.getBoolean();
 			ore_dict_priority_bool = propertyOreDictPriorityBool.getBoolean();
 			ore_dict_priority = propertyOreDictPriority.getStringList();
 		}
@@ -1604,10 +1664,12 @@ public class NCConfig {
 		propertyRadiationOres.set(radiation_ores);
 		propertyRadiationItems.set(radiation_items);
 		propertyRadiationBlocks.set(radiation_blocks);
+		propertyRadiationFluids.set(radiation_fluids);
 		propertyRadiationFoods.set(radiation_foods);
 		propertyRadiationOresBlacklist.set(radiation_ores_blacklist);
 		propertyRadiationItemsBlacklist.set(radiation_items_blacklist);
 		propertyRadiationBlocksBlacklist.set(radiation_blocks_blacklist);
+		propertyRadiationFluidsBlacklist.set(radiation_fluids_blacklist);
 		
 		propertyRadiationMaxPlayerRads.set(max_player_rads);
 		propertyRadiationPlayerDecayRate.set(radiation_player_decay_rate);
@@ -1617,6 +1679,12 @@ public class NCConfig {
 		propertyRadiationDecayRate.set(radiation_decay_rate);
 		propertyRadiationLowestRate.set(radiation_lowest_rate);
 		propertyRadiationChunkLimit.set(radiation_chunk_limit);
+		
+		propertyRadiationBlockEffects.set(radiation_block_effects);
+		propertyRadiationBlockEffectLimit.set(radiation_block_effect_limit);
+		propertyRadiationBlockEffectMaxRate.set(radiation_block_effect_max_rate);
+		propertyRadiationRainMult.set(radiation_rain_mult);
+		propertyRadiationSwimMult.set(radiation_swim_mult);
 		
 		propertyRadiationRadawayAmount.set(radiation_radaway_amount);
 		propertyRadiationRadawaySlowAmount.set(radiation_radaway_slow_amount);
@@ -1630,6 +1698,9 @@ public class NCConfig {
 		propertyRadiationShieldingLevel.set(radiation_shielding_level);
 		propertyRadiationTileShielding.set(radiation_tile_shielding);
 		propertyRadiationScrubberRate.set(radiation_scrubber_fraction);
+		propertyRadiationScrubberRadius.set(radiation_scrubber_radius);
+		propertyRadiationScrubberAlt.set(radiation_scrubber_alt);
+		propertyRadiationScrubberParam.set(radiation_scrubber_param);
 		propertyRadiationScrubberPower.set(radiation_scrubber_power);
 		propertyRadiationScrubberBoraxRate.set(radiation_scrubber_borax_rate);
 		
@@ -1679,6 +1750,7 @@ public class NCConfig {
 		propertyMushroomGenRate.set(mushroom_gen_rate);
 		propertyRegisterFluidBlocks.set(register_fission_fluid_blocks);
 		propertyRegisterCoFHFluids.set(register_cofh_fluids);
+		propertyRegisterProjectEEMC.set(register_projecte_emc);
 		propertyOreDictPriorityBool.set(ore_dict_priority_bool);
 		propertyOreDictPriority.set(ore_dict_priority);
 		
