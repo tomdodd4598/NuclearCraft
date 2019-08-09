@@ -33,6 +33,13 @@ public class IsotopeSeparatorRecipes extends ProcessorRecipeHandler {
 		addRecipe("fuelRodMOX239", oreStack("ingotUranium238Base", 8), oreStack("ingotPlutonium239Oxide", 1), 1D, 1D);
 		addRecipe("fuelRodMOX241", oreStack("ingotUranium238Base", 8), oreStack("ingotPlutonium241Oxide", 1), 1D, 1D);
 		
+		addRecipe("ingotNeptunium", oreStack("nuggetNeptunium236", 4), oreStack("nuggetNeptunium237", 5), 1D, 1D);
+		addRecipe("ingotPlutonium", oreStack("nuggetPlutonium239", 4), oreStack("nuggetPlutonium242", 5), 1D, 1D);
+		addRecipe("ingotAmericium", oreStack("nuggetAmericium242", 4), oreStack("nuggetAmericium243", 5), 1D, 1D);
+		addRecipe("ingotCurium", oreStack("nuggetCurium243", 4), oreStack("nuggetCurium246", 5), 1D, 1D);
+		addRecipe("ingotBerkelium", oreStack("nuggetBerkelium248", 4), oreStack("nuggetBerkelium247", 5), 1D, 1D);
+		addRecipe("ingotCalifornium", oreStack("nuggetCalifornium251", 4), oreStack("nuggetCalifornium252", 5), 1D, 1D);
+		
 		addFuelSeparationRecipes("U", "Uranium", 238, 233, 235);
 		addFuelSeparationRecipes("N", "Neptunium", 237, 236);
 		addFuelSeparationRecipes("P", "Plutonium", 242, 239, 241);
