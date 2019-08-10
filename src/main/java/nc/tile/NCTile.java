@@ -38,38 +38,38 @@ public abstract class NCTile extends TileEntity implements ITickable, ITile {
 			isAdded = true;
 		}
 		if (isMarkedDirty) {
-			markTileDirty();
+			markDirty();
 			isMarkedDirty = false;
 		}
 	}
 	
 	public void onAdded() {
 		if (world.isRemote) {
-			getWorld().markBlockRangeForRenderUpdate(pos, pos);
-			getWorld().getChunk(getPos()).markDirty();
+			world.markBlockRangeForRenderUpdate(pos, pos);
+			world.getChunk(pos).markDirty();
 			refreshIsRedstonePowered(world, pos);
-			markTileDirty();
+			markDirty();
 		}
 	}
 	
 	@Override
 	public World getTileWorld() {
-		return getWorld();
+		return world;
 	}
 	
 	@Override
 	public BlockPos getTilePos() {
-		return getPos();
-	}
-	
-	@Override
-	public void markTileDirty() {
-		markDirty();
+		return pos;
 	}
 	
 	@Override
 	public Block getTileBlockType() {
 		return getBlockType();
+	}
+
+	@Override
+	public int getTileBlockMeta() {
+		return getBlockMetadata();
 	}
 	
 	@Override
@@ -84,21 +84,27 @@ public abstract class NCTile extends TileEntity implements ITickable, ITile {
 	
 	@Override
 	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
-		String oldName = oldState.getBlock().getTranslationKey().toString();
-		String newName = newState.getBlock().getTranslationKey().toString();
+		String oldName = oldState.getBlock().getRegistryName().toString();
+		String newName = newState.getBlock().getRegistryName().toString();
 		if (oldName.contains("_idle") || oldName.contains("_active")) {
 			return !oldName.replace("_idle","").replace("_active","").equals(newName.replace("_idle","").replace("_active",""));
 		}
 		return oldState.getBlock() != newState.getBlock();
 	}
 	
-	public IBlockState getDefaultBlockState() {
-		return world.getBlockState(pos).getBlock().getDefaultState();
+	@Override
+	public void setState(boolean isActive, TileEntity tile) {
+		if (getBlockType() instanceof IActivatable) {
+			((IActivatable)getBlockType()).setState(isActive, tile);
+			blockType = ((IActivatable)getBlockType()).getBlockType(isActive);
+		}
 	}
 	
 	@Override
-	public void setState(boolean isActive) {
-		if (getBlockType() instanceof IActivatable) ((IActivatable)getBlockType()).setState(isActive, world, pos);
+	public void markDirtyAndNotify() {
+		markDirty();
+		world.notifyBlockUpdate(pos, world.getBlockState(pos), world.getBlockState(pos), 3);
+		world.notifyNeighborsOfStateChange(pos, getBlockType(), true);
 	}
 	
 	// Redstone

@@ -1,5 +1,6 @@
 package nc.container;
 
+import nc.tile.inventory.ITileInventory;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.Item;
@@ -10,8 +11,12 @@ public class SlotSpecificInput extends Slot {
 	
 	public final Object[] inputs;
 	
-	public SlotSpecificInput(IInventory inventoryIn, int slotIndex, int xPosition, int yPosition, Object... inputs) {
-		super(inventoryIn, slotIndex, xPosition, yPosition);
+	public SlotSpecificInput(ITileInventory tile, int slotIndex, int xPosition, int yPosition, Object... inputs) {
+		this(tile.getInventory(), slotIndex, xPosition, yPosition, inputs);
+	}
+	
+	public SlotSpecificInput(IInventory inv, int slotIndex, int xPosition, int yPosition, Object... inputs) {
+		super(inv, slotIndex, xPosition, yPosition);
 		this.inputs = inputs;
 	}
 	
@@ -26,7 +31,7 @@ public class SlotSpecificInput extends Slot {
 			} else if (inputs[i] instanceof ItemStack) {
 				if (ItemStack.areItemsEqual((ItemStack)inputs[i], stack)) return true;
 			} else if (inputs[i] instanceof Item) {
-				if (((Item)inputs[i]).equals(stack.getItem())) return true;
+				if ((Item)inputs[i] == stack.getItem()) return true;
 			}
 		}
 		return false;

@@ -5,7 +5,6 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 import nc.Global;
-import nc.container.processor.ContainerItemProcessor;
 import nc.gui.NCGui;
 import nc.tile.energy.ITileEnergy;
 import nc.tile.processor.TileItemProcessor;
@@ -14,19 +13,23 @@ import nc.util.NCMath;
 import nc.util.UnitHelper;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 
 public abstract class GuiItemProcessor extends NCGui {
 	
-	protected TileItemProcessor tile;
+	protected final EntityPlayer player;
+	protected final TileItemProcessor tile;
 	protected final ResourceLocation gui_textures;
 
-	public GuiItemProcessor(String name, EntityPlayer player, ContainerItemProcessor inv) {
-		super(inv);
+	public GuiItemProcessor(String name, EntityPlayer player, TileItemProcessor tile, Container inventory) {
+		super(inventory);
+		this.player = player;
+		this.tile = tile;
 		gui_textures = new ResourceLocation(Global.MOD_ID + ":textures/gui/container/" + name + ".png");
 	}
-
+	
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		String s = tile.getDisplayName().getUnformattedText();

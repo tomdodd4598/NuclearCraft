@@ -1,12 +1,12 @@
 package nc.container.generator;
 
+import nc.container.SlotFurnace;
 import nc.container.SlotInaccessible;
 import nc.container.SlotProcessorInput;
 import nc.recipe.NCRecipes;
 import nc.tile.generator.TileFissionController;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
-import net.minecraft.inventory.SlotFurnaceOutput;
 
 public class ContainerFissionController extends ContainerItemGenerator<TileFissionController> {
 	
@@ -15,7 +15,7 @@ public class ContainerFissionController extends ContainerItemGenerator<TileFissi
 		
 		addSlotToContainer(new SlotProcessorInput(tileEntity, recipeHandler, 0, 56, 35));
 		
-		addSlotToContainer(new SlotFurnaceOutput(player, tileEntity, 1, 116, 35));
+		addSlotToContainer(new SlotFurnace(player, tileEntity, 1, 116, 35));
 		
 		addSlotToContainer(new SlotInaccessible(tileEntity, 2, -4095, -4095));
 		

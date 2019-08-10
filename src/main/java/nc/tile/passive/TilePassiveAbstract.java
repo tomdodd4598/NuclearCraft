@@ -35,7 +35,6 @@ import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.wrapper.InvWrapper;
 
 public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory implements ITilePassive {
 	
@@ -139,7 +138,7 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 	
 	public void updateBlockType() {
 		if (ModCheck.ic2Loaded()) removeTileFromENet();
-		setState(isActive);
+		setState(isActive, this);
 		world.notifyNeighborsOfStateChange(pos, getBlockType(), true);
 		if (ModCheck.ic2Loaded()) addTileToENet();
 	}
@@ -310,24 +309,20 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 		if (capability == IRadiationSource.CAPABILITY_RADIATION_SOURCE) {
 			return getRadiationSource() != null;
 		}
-		if (energyChange != 0 && hasEnergySideCapability(side)) {
-			if (capability == CapabilityEnergy.ENERGY) {
-				return true;
-			}
-			if (ModCheck.gregtechLoaded() && NCConfig.enable_gtce_eu && capability == GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER) {
-				return true;
-			}
+		else if (capability == CapabilityEnergy.ENERGY) {
+			return energyChange != 0 && hasEnergySideCapability(side);
 		}
-		if (fluidChange != 0 && hasFluidSideCapability(side)) {
-			if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
-				return true;
-			}
-			if (ModCheck.mekanismLoaded() && capability == GasHelper.GAS_HANDLER_CAPABILITY) {
-				return true;
-			}
+		else if (ModCheck.gregtechLoaded() && capability == GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER) {
+			return NCConfig.enable_gtce_eu && energyChange != 0 && hasEnergySideCapability(side);
 		}
-		if (itemChange != 0 && capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-			return true;
+		else if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
+			return fluidChange != 0 && hasFluidSideCapability(side);
+		}
+		else if (ModCheck.mekanismLoaded() && capability == GasHelper.GAS_HANDLER_CAPABILITY) {
+			return NCConfig.enable_mek_gas && fluidChange != 0 && hasFluidSideCapability(side);
+		}
+		else if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+			return itemChange != 0;
 		}
 		return hasCapabilityDefault(capability, side);
 	}
@@ -337,24 +332,35 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 		if (capability == IRadiationSource.CAPABILITY_RADIATION_SOURCE) {
 			return (T) getRadiationSource();
 		}
-		if (energyChange != 0 && hasEnergySideCapability(side)) {
-			if (capability == CapabilityEnergy.ENERGY) {
+		else if (capability == CapabilityEnergy.ENERGY) {
+			if (energyChange != 0 && hasEnergySideCapability(side)) {
 				return (T) getEnergySide(nonNullSide(side));
 			}
-			if (ModCheck.gregtechLoaded() && NCConfig.enable_gtce_eu && capability == GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER) {
+			return null;
+		}
+		else if (ModCheck.gregtechLoaded() && capability == GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER) {
+			if (NCConfig.enable_gtce_eu && energyChange != 0 && hasEnergySideCapability(side)) {
 				return (T) getEnergySideGT(nonNullSide(side));
 			}
+			return null;
 		}
-		if (fluidChange != 0 && hasFluidSideCapability(side)) {
-			if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
+		else if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
+			if (fluidChange != 0 && hasFluidSideCapability(side)) {
 				return (T) getFluidSide(nonNullSide(side));
 			}
-			if (ModCheck.mekanismLoaded() && capability == GasHelper.GAS_HANDLER_CAPABILITY) {
+			return null;
+		}
+		else if (ModCheck.mekanismLoaded() && capability == GasHelper.GAS_HANDLER_CAPABILITY) {
+			if (NCConfig.enable_mek_gas && fluidChange != 0 && hasFluidSideCapability(side)) {
 				return (T) getGasWrapper();
 			}
+			return null;
 		}
-		if (itemChange != 0 && capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-			return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(new InvWrapper(this));
+		else if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+			if (itemChange != 0) {
+				return (T) getItemHandlerCapability(null);
+			}
+			return null;
 		}
 		return getCapabilityDefault(capability, side);
 	}

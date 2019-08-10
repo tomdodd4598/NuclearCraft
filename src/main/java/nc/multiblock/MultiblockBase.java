@@ -125,7 +125,7 @@ public abstract class MultiblockBase<PACKET extends MultiblockUpdatePacket> impl
 	 */
 	public void attachBlock(IMultiblockPart part) {
 		//IMultiblockPart candidate;
-		BlockPos coord = part.getWorldPosition();
+		BlockPos coord = part.getTilePos();
 
 		if(!connectedParts.add(part))
 			FMLLog.warning("[%s] Multiblock %s is double-adding part %d @ %s. This is unusual. If you encounter odd behavior, please tear down the machine and rebuild it.",
@@ -155,7 +155,7 @@ public abstract class MultiblockBase<PACKET extends MultiblockUpdatePacket> impl
 			part.forfeitMultiblockSaveDelegate();
 		}
 
-		BlockPos partPos = part.getWorldPosition();
+		BlockPos partPos = part.getTilePos();
 		int curX, curY, curZ;
 		int newX, newY, newZ;
 		int partCoord;
@@ -248,7 +248,7 @@ public abstract class MultiblockBase<PACKET extends MultiblockUpdatePacket> impl
 
 		minimumCoord = maximumCoord = null;
 		
-		if(referenceCoord != null && referenceCoord.equals(part.getWorldPosition())) {
+		if(referenceCoord != null && referenceCoord.equals(part.getTilePos())) {
 			referenceCoord = null;
 		}
 		
@@ -270,7 +270,7 @@ public abstract class MultiblockBase<PACKET extends MultiblockUpdatePacket> impl
 		// Strip out this part
 		onDetachBlock(part);
 		if(!connectedParts.remove(part)) {
-			BlockPos position = part.getWorldPosition();
+			BlockPos position = part.getTilePos();
 
 			FMLLog.warning("[%s] Double-removing part (%d) @ %d, %d, %d, this is unexpected and may cause problems. If you encounter anomalies, please tear down the reactor and rebuild it.",
 					this.WORLD.isRemote ? "CLIENT" : "SERVER", part.hashCode(), position.getX(), position.getY(), position.getZ());
@@ -662,7 +662,7 @@ public abstract class MultiblockBase<PACKET extends MultiblockUpdatePacket> impl
 
 		for (IMultiblockPart part : this.connectedParts) {
 
-			partPos = part.getWorldPosition();
+			partPos = part.getTilePos();
 
 			partCoord = partPos.getX();
 			if (partCoord < minX) minX = partCoord;
@@ -808,7 +808,7 @@ public abstract class MultiblockBase<PACKET extends MultiblockUpdatePacket> impl
 			if(!first) {
 				sb.append(", ");
 			}
-			partPos = part.getWorldPosition();
+			partPos = part.getTilePos();
 			sb.append(String.format("(%d: %d, %d, %d)", part.hashCode(), partPos.getX(), partPos.getY(), partPos.getZ()));
 			first = false;
 		}
@@ -822,7 +822,7 @@ public abstract class MultiblockBase<PACKET extends MultiblockUpdatePacket> impl
 	private void auditParts() {
 		ObjectOpenHashSet<IMultiblockPart> deadParts = new ObjectOpenHashSet<IMultiblockPart>();
 		for(IMultiblockPart part : connectedParts) {
-			if(part.isPartInvalid() || WORLD.getTileEntity(part.getWorldPosition()) != part) {
+			if(part.isPartInvalid() || WORLD.getTileEntity(part.getTilePos()) != part) {
 				onDetachBlock(part);
 				deadParts.add(part);
 			}
@@ -861,7 +861,7 @@ public abstract class MultiblockBase<PACKET extends MultiblockUpdatePacket> impl
 		int originalSize = connectedParts.size();
 
 		for(IMultiblockPart part : connectedParts) {
-			position = part.getWorldPosition();
+			position = part.getTilePos();
 			// This happens during chunk unload.
 			if (!this.WORLD.isBlockLoaded(position) || part.isPartInvalid()) {
 				deadParts.add(part);
@@ -966,7 +966,7 @@ public abstract class MultiblockBase<PACKET extends MultiblockUpdatePacket> impl
 		
 		//IChunkProvider chunkProvider = WORLD.getChunkProvider();
 		for(IMultiblockPart part : connectedParts) {
-			if(this.WORLD.isBlockLoaded(part.getWorldPosition())) {
+			if(this.WORLD.isBlockLoaded(part.getTilePos())) {
 				onDetachBlock(part);
 			}
 		}
@@ -991,7 +991,7 @@ public abstract class MultiblockBase<PACKET extends MultiblockUpdatePacket> impl
 		referenceCoord = null;
 
 		for(IMultiblockPart part : connectedParts) {
-			position = part.getWorldPosition();
+			position = part.getTilePos();
 			if(part.isPartInvalid() || !this.WORLD.isBlockLoaded(position)) {
 				// Chunk is unloading, skip this coord to prevent chunk thrashing
 				continue;

@@ -3,9 +3,11 @@ package nc.tile;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import nc.block.property.BlockProperties;
 import nc.capability.radiation.source.IRadiationSource;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -16,9 +18,21 @@ public interface ITile {
 	
 	public BlockPos getTilePos();
 	
-	public void markTileDirty();
-	
 	public Block getTileBlockType();
+	
+	public int getTileBlockMeta();
+	
+	public default EnumFacing getFacingHorizontal() {
+		return getTileBlockType().getStateFromMeta(getTileBlockMeta()).getValue(BlockProperties.FACING_HORIZONTAL);
+	}
+	
+	public default IBlockState getBlockState(BlockPos pos) {
+		return getTileWorld().getBlockState(pos);
+	}
+	
+	public default Block getBlock(BlockPos pos) {
+		return getBlockState(pos).getBlock();
+	}
 	
 	public IRadiationSource getRadiationSource();
 	
@@ -26,7 +40,7 @@ public interface ITile {
 		return true;
 	}
 	
-	public void setState(boolean isActive);
+	public void setState(boolean isActive, TileEntity tile);
 	
 	public default void onBlockNeighborChanged(IBlockState state, World world, BlockPos pos, BlockPos fromPos) {
 		refreshIsRedstonePowered(world, pos);
@@ -56,19 +70,7 @@ public interface ITile {
 	
 	// State Updating
 	
-	public default void markAndRefresh() {
-		markAndRefresh(getTilePos(), getTileWorld().getBlockState(getTilePos()));
-	}
-	
-	public default void markAndRefresh(IBlockState newState) {
-		markAndRefresh(getTilePos(), newState);
-	}
-	
-	public default void markAndRefresh(BlockPos pos, IBlockState newState) {
-		markTileDirty();
-		getTileWorld().notifyBlockUpdate(pos, getTileWorld().getBlockState(pos), newState, 3);
-		getTileWorld().notifyNeighborsOfStateChange(pos, getTileBlockType(), true);
-	}
+	public void markDirtyAndNotify();
 	
 	// Capabilities
 	

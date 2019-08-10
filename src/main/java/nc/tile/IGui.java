@@ -38,4 +38,8 @@ public interface IGui<PACKET extends TileUpdatePacket> extends ITile {
 	public default void sendUpdateToAllPlayers() {
 		PacketHandler.instance.sendToAll(getGuiUpdatePacket());
 	}
+	
+	public default int getSideConfigYOffset() {
+		return 0;
+	}
 }

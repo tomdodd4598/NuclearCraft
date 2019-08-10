@@ -75,9 +75,9 @@ public class EnergyStorage implements IEnergyStorage {
 	}
 	
 	public void setStorageCapacity(int newCapacity) {
-		if(newCapacity == energyCapacity || newCapacity <= 0) return;
+		if (newCapacity == energyCapacity || newCapacity <= 0) return;
 		energyCapacity = Math.max(newCapacity, NCConfig.rf_per_eu);
-		if(newCapacity < energyStored) setEnergyStored(newCapacity);
+		if (newCapacity < energyStored) setEnergyStored(newCapacity);
 	}
 	
 	public void mergeEnergyStorage(EnergyStorage other) {
@@ -86,8 +86,8 @@ public class EnergyStorage implements IEnergyStorage {
 	}
 	
 	public void setMaxTransfer(int newMaxTransfer) {
-		if(newMaxTransfer < 0) return;
-		if(newMaxTransfer != maxTransfer) maxTransfer = Math.max(newMaxTransfer, NCConfig.rf_per_eu);
+		if (newMaxTransfer < 0) return;
+		if (newMaxTransfer != maxTransfer) maxTransfer = Math.max(newMaxTransfer, NCConfig.rf_per_eu);
 	}
 	
 	// NBT

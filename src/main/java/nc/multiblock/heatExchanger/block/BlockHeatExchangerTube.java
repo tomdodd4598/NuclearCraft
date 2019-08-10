@@ -113,7 +113,7 @@ public class BlockHeatExchangerTube extends BlockHeatExchangerPartBase implement
 			TileHeatExchangerTube other = (TileHeatExchangerTube) world.getTileEntity(from);
 			tube.setFluidConnections(FluidConnection.cloneArray(other.getFluidConnections()));
 			tube.setTubeSettings(other.getTubeSettings().clone());
-			tube.markAndRefresh();
+			tube.markDirtyAndNotify();
 		}
 	}
 }

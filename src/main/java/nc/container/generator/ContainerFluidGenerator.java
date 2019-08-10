@@ -30,7 +30,7 @@ public class ContainerFluidGenerator<GENERATOR extends TileFluidGenerator> exten
 		//int otherSlots = tile.otherSlotsSize;
 		int invStart = tile.otherSlotsSize;
 		int invEnd = 36 + tile.otherSlotsSize;
-		if ((slot != null) && (slot.getHasStack())) {
+		if (slot != null && slot.getHasStack()) {
 			ItemStack itemstack1 = slot.getStack();
 			itemstack = itemstack1.copy();
 			if (index >= 0 && index < invStart) {
@@ -39,18 +39,18 @@ public class ContainerFluidGenerator<GENERATOR extends TileFluidGenerator> exten
 				}
 				slot.onSlotChange(itemstack1, itemstack);
 			}
-			else if(index >= invStart) {
+			else if (index >= invStart) {
 				if (recipeHandler.isValidItemInput(itemstack1)) {
 					if (!mergeItemStack(itemstack1, 0, 0, false)) {
 						return ItemStack.EMPTY;
 					}
 				}
-				else if ((index >= invStart) && (index < invEnd - 9)) {
+				else if (index >= invStart && index < invEnd - 9) {
 					if (!mergeItemStack(itemstack1, invEnd - 9, invEnd, false)) {
 						return ItemStack.EMPTY;
 					}
 				}
-				else if ((index >= invEnd - 9) && (index < invEnd) && (!mergeItemStack(itemstack1, invStart, invEnd - 9, false))) {
+				else if (index >= invEnd - 9 && index < invEnd && !mergeItemStack(itemstack1, invStart, invEnd - 9, false)) {
 					return ItemStack.EMPTY;
 				}
 			}

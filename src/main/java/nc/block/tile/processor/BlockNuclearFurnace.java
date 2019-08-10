@@ -1,5 +1,7 @@
 package nc.block.tile.processor;
 
+import static nc.block.property.BlockProperties.FACING_HORIZONTAL;
+
 import java.util.Random;
 
 import nc.NuclearCraft;
@@ -7,11 +9,11 @@ import nc.block.tile.IActivatable;
 import nc.init.NCBlocks;
 import nc.tab.NCTabs;
 import nc.tile.processor.TileNuclearFurnace;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
@@ -37,13 +39,12 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockNuclearFurnace extends BlockContainer implements ITileEntityProvider, IActivatable {
 	
-	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 	private final boolean isBurning;
 	private static boolean keepInventory;
 	
 	public BlockNuclearFurnace(boolean isBurning) {
 		super(Material.IRON);
-		setDefaultState(blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
+		setDefaultState(blockState.getBaseState().withProperty(FACING_HORIZONTAL, EnumFacing.NORTH));
 		this.isBurning = isBurning;
 		if (!isBurning) setCreativeTab(NCTabs.MACHINES);
 		setHarvestLevel("pickaxe", 0);
@@ -67,7 +68,7 @@ public class BlockNuclearFurnace extends BlockContainer implements ITileEntityPr
 			IBlockState state1 = world.getBlockState(pos.south());
 			IBlockState state2 = world.getBlockState(pos.west());
 			IBlockState state3 = world.getBlockState(pos.east());
-			EnumFacing enumfacing = state.getValue(FACING);
+			EnumFacing enumfacing = state.getValue(FACING_HORIZONTAL);
 			
 			if (enumfacing == EnumFacing.NORTH && state0.isFullBlock() && !state1.isFullBlock()) {
 				enumfacing = EnumFacing.SOUTH;
@@ -78,7 +79,7 @@ public class BlockNuclearFurnace extends BlockContainer implements ITileEntityPr
 			} else if (enumfacing == EnumFacing.EAST && state3.isFullBlock() && !state2.isFullBlock()) {
 				enumfacing = EnumFacing.WEST;
 			}
-			world.setBlockState(pos, state.withProperty(FACING, enumfacing), 2);
+			world.setBlockState(pos, state.withProperty(FACING_HORIZONTAL, enumfacing), 2);
 		}
 	}
 	
@@ -88,22 +89,26 @@ public class BlockNuclearFurnace extends BlockContainer implements ITileEntityPr
 	}
 	
 	@Override
-	public void setState(boolean active, World world, BlockPos pos) {
+	public Block getBlockType(boolean active) {
+		return active ? NCBlocks.nuclear_furnace_active : NCBlocks.nuclear_furnace_idle;
+	}
+	
+	@Override
+	public void setState(boolean isActive, TileEntity tile) {
+		World world = tile.getWorld();
+		BlockPos pos = tile.getPos();
 		IBlockState state = world.getBlockState(pos);
-		TileEntity tile = world.getTileEntity(pos);
 		keepInventory = true;
 		
-		if (active) {
-			world.setBlockState(pos, NCBlocks.nuclear_furnace_active.getDefaultState().withProperty(FACING, state.getValue(FACING)), 3);
+		if (isActive) {
+			world.setBlockState(pos, NCBlocks.nuclear_furnace_active.getDefaultState().withProperty(FACING_HORIZONTAL, state.getValue(FACING_HORIZONTAL)), 3);
 		} else {
-			world.setBlockState(pos, NCBlocks.nuclear_furnace_idle.getDefaultState().withProperty(FACING, state.getValue(FACING)), 3);
+			world.setBlockState(pos, NCBlocks.nuclear_furnace_idle.getDefaultState().withProperty(FACING_HORIZONTAL, state.getValue(FACING_HORIZONTAL)), 3);
 		}
 		keepInventory = false;
 		
-		if (tile != null) {
-			tile.validate();
-			world.setTileEntity(pos, tile);
-		}
+		tile.validate();
+		world.setTileEntity(pos, tile);
 	}
 	
 	@Override
@@ -123,7 +128,7 @@ public class BlockNuclearFurnace extends BlockContainer implements ITileEntityPr
 	@SuppressWarnings("incomplete-switch")
 	public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random rand) {
 		if (isBurning) {
-			EnumFacing enumfacing = state.getValue(FACING);
+			EnumFacing enumfacing = state.getValue(FACING_HORIZONTAL);
 			double d0 = pos.getX() + 0.5D;
 			double d1 = pos.getY() + rand.nextDouble() * 0.4D;
 			double d2 = pos.getZ() + 0.5D;
@@ -156,12 +161,12 @@ public class BlockNuclearFurnace extends BlockContainer implements ITileEntityPr
 	
 	@Override
 	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
-		return getDefaultState().withProperty(FACING, placer.getHorizontalFacing().getOpposite());
+		return getDefaultState().withProperty(FACING_HORIZONTAL, placer.getHorizontalFacing().getOpposite());
 	}
 	
 	@Override
 	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
-		world.setBlockState(pos, state.withProperty(FACING, placer.getHorizontalFacing().getOpposite()), 2);
+		world.setBlockState(pos, state.withProperty(FACING_HORIZONTAL, placer.getHorizontalFacing().getOpposite()), 2);
 	}
 	
 	@Override
@@ -170,7 +175,7 @@ public class BlockNuclearFurnace extends BlockContainer implements ITileEntityPr
 			TileEntity tileentity = world.getTileEntity(pos);
 			
 			if (tileentity instanceof TileNuclearFurnace) {
-				InventoryHelper.dropInventoryItems(world, pos, (TileNuclearFurnace)tileentity);
+				InventoryHelper.dropInventoryItems(world, pos, ((TileNuclearFurnace)tileentity).getInventory());
 				world.updateComparatorOutputLevel(pos, this);
 			}
 		}
@@ -205,26 +210,26 @@ public class BlockNuclearFurnace extends BlockContainer implements ITileEntityPr
 			enumfacing = EnumFacing.NORTH;
 		}
 		
-		return getDefaultState().withProperty(FACING, enumfacing);
+		return getDefaultState().withProperty(FACING_HORIZONTAL, enumfacing);
 	}
 	
 	@Override
 	public int getMetaFromState(IBlockState state) {
-		return state.getValue(FACING).getIndex();
+		return state.getValue(FACING_HORIZONTAL).getIndex();
 	}
 	
 	@Override
 	public IBlockState withRotation(IBlockState state, Rotation rot) {
-		return state.withProperty(FACING, rot.rotate(state.getValue(FACING)));
+		return state.withProperty(FACING_HORIZONTAL, rot.rotate(state.getValue(FACING_HORIZONTAL)));
 	}
 	
 	@Override
 	public IBlockState withMirror(IBlockState state, Mirror mirrorIn) {
-		return state.withRotation(mirrorIn.toRotation(state.getValue(FACING)));
+		return state.withRotation(mirrorIn.toRotation(state.getValue(FACING_HORIZONTAL)));
 	}
 	
 	@Override
 	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, new IProperty[] {FACING});
+		return new BlockStateContainer(this, new IProperty[] {FACING_HORIZONTAL});
 	}
 }

@@ -100,7 +100,7 @@ public class BlockSaltFissionHeater extends BlockSaltFissionPartBase implements 
 			TileSaltFissionHeater other = (TileSaltFissionHeater) world.getTileEntity(from);
 			heater.setFluidConnections(FluidConnection.cloneArray(other.getFluidConnections()));
 			heater.setHeaterSettings(other.getHeaterSettings().clone());
-			heater.markAndRefresh();
+			heater.markDirtyAndNotify();
 		}
 	}
 }

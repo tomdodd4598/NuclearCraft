@@ -80,7 +80,7 @@ public abstract class CuboidalMultiblockTileBase<T extends MultiblockBase> exten
 
 		if (null != multiblock) {
 
-			BlockPos position = this.getWorldPosition();
+			BlockPos position = pos;
 			BlockPos min = multiblock.getMinimumCoord();
 			BlockPos max = multiblock.getMaximumCoord();
 			int x = position.getX(), y = position.getY(), z = position.getZ();

@@ -225,11 +225,11 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 	}
 	
 	@Override
-	public void setState(boolean isActive) {
-		super.setState(isActive);
+	public void setState(boolean isActive, TileEntity tile) {
 		if (getBlockType() instanceof BlockFissionControllerNewFixed) {
-			((BlockFissionControllerNewFixed)getBlockType()).setActiveState(world.getBlockState(pos), world, pos, isActive);
+			((BlockFissionControllerNewFixed)getBlockType()).setStateNewFixed(isActive, this);
 		}
+		else super.setState(isActive, tile);
 	}
 	
 	// Processor Stats
@@ -975,14 +975,15 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 	
 	public Object[] getOCReactorLayout() {
 		if (ModCheck.openComputersLoaded() && complete == 1) {
-			oc_layout = new Object[getLengthX()*getLengthY()*getLengthZ()];
+			Object[] layout = new Object[getLengthX()*getLengthY()*getLengthZ()];
 			for (int z = minZ + 1; z <= maxZ - 1; z++) for (int x = minX + 1; x <= maxX - 1; x++) for (int y = minY + 1; y <= maxY - 1; y++) {
 				int arrayX = x - minX - 1; int arrayY = y - minY - 1; int arrayZ = z - minZ - 1;
 				IBlockState layoutState = world.getBlockState(finder.position(x, y, z));
 				String mainName = layoutState.getBlock().getRegistryName().toString();
 				int meta = layoutState.getBlock().getMetaFromState(layoutState);
-				oc_layout[arrayX + getLengthX()*arrayY + getLengthX()*getLengthY()*arrayZ] = new Object[] {new Object[] {x, y, z}, new Object[] {mainName, meta}};
+				layout[arrayX + getLengthX()*arrayY + getLengthX()*getLengthY()*arrayZ] = new Object[] {new Object[] {x, y, z}, new Object[] {mainName, meta}};
 			}
+			oc_layout = new Object[] {layout};
 		}
 		else oc_layout = new Object[] {};
 		

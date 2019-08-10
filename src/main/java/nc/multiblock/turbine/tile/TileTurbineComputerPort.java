@@ -161,7 +161,7 @@ public class TileTurbineComputerPort extends TileTurbinePartBase implements Simp
 						dynamoCoil.isInValidPosition
 						});
 			}
-			return stats.toArray();
+			return new Object[] {stats.toArray()};
 		}
 		else return new Object[] {};
 	}

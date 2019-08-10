@@ -16,11 +16,13 @@ import gregtech.api.recipes.RecipeMap;
 import gregtech.api.recipes.RecipeMaps;
 import gregtech.api.util.GTUtility;
 import gregtech.common.items.MetaItems;
+import nc.config.NCConfig;
 import nc.recipe.ProcessorRecipe;
 import nc.recipe.RecipeHelper;
 import nc.recipe.ingredient.IFluidIngredient;
 import nc.recipe.ingredient.IItemIngredient;
 import nc.recipe.ingredient.OreIngredient;
+import nc.util.NCUtil;
 import nc.util.OreDictHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
@@ -221,8 +223,16 @@ public class GTCERecipeHelper {
 			}
 		}
 		
+		boolean built = false;
 		for (RecipeBuilder<?> builderVariant : builders) {
-			if(!builderVariant.getInputs().isEmpty()) builderVariant.buildAndRegister();
+			if (!builderVariant.getInputs().isEmpty() || !builderVariant.getFluidInputs().isEmpty()) {
+				builderVariant.buildAndRegister();
+				built = true;
+			}
+		}
+		
+		if (built && NCConfig.gtce_recipe_logging) {
+			NCUtil.getLogger().info("Injected GTCE " + recipeMap.unlocalizedName + " recipe: " + RecipeHelper.getRecipeString(recipe));
 		}
 	}
 	

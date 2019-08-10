@@ -11,13 +11,20 @@ import net.minecraft.util.EnumFacing;
 public class FluidConnection {
 	
 	private @Nonnull List<TankSorption> sorptionList;
+	private final @Nonnull List<TankSorption> defaultSorptions;
 	
 	public FluidConnection(@Nonnull List<TankSorption> sorptionList) {
 		this.sorptionList = new ArrayList<TankSorption>(sorptionList);
+		defaultSorptions = new ArrayList<TankSorption>(sorptionList);
 	}
 	
-	public FluidConnection copy() {
-		return new FluidConnection(sorptionList);
+	private FluidConnection(@Nonnull FluidConnection connection) {
+		sorptionList = new ArrayList<TankSorption>(connection.sorptionList);
+		defaultSorptions = new ArrayList<TankSorption>(connection.defaultSorptions);
+	}
+	
+	private FluidConnection copy() {
+		return new FluidConnection(this);
 	}
 	
 	public static FluidConnection[] cloneArray(@Nonnull FluidConnection[] connections) {
@@ -36,6 +43,10 @@ public class FluidConnection {
 		sorptionList.set(tankNumber, sorption);
 	}
 	
+	public TankSorption getDefaultTankSorption(int slot) {
+		return defaultSorptions.get(slot);
+	}
+	
 	public boolean canConnect() {
 		for (TankSorption sorption : sorptionList) {
 			if (sorption.canConnect()) {
@@ -45,8 +56,8 @@ public class FluidConnection {
 		return false;
 	}
 	
-	public void toggleTankSorption(int tankNumber) {
-		setTankSorption(tankNumber, getTankSorption(tankNumber).next());
+	public void toggleTankSorption(int tankNumber, TankSorption.Type type, boolean reverse) {
+		setTankSorption(tankNumber, getTankSorption(tankNumber).next(type, reverse));
 	}
 	
 	public final NBTTagCompound writeToNBT(NBTTagCompound nbt, @Nonnull EnumFacing side) {

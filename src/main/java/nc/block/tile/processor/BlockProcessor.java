@@ -1,5 +1,7 @@
 package nc.block.tile.processor;
 
+import static nc.block.property.BlockProperties.FACING_HORIZONTAL;
+
 import java.util.Random;
 
 import nc.block.tile.BlockSidedTile;
@@ -7,6 +9,7 @@ import nc.block.tile.IActivatable;
 import nc.block.tile.ITileType;
 import nc.enumm.BlockEnums.ProcessorType;
 import nc.util.BlockHelper;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
@@ -60,32 +63,36 @@ public class BlockProcessor extends BlockSidedTile implements IActivatable, ITil
 	public ItemStack getItem(World world, BlockPos pos, IBlockState state) {
 		return new ItemStack(type.getIdleBlock());
 	}
-
+	
 	@Override
-	public void setState(boolean active, World world, BlockPos pos) {
+	public Block getBlockType(boolean active) {
+		return active ? type.getActiveBlock() : type.getIdleBlock();
+	}
+	
+	@Override
+	public void setState(boolean isActive, TileEntity tile) {
+		World world = tile.getWorld();
+		BlockPos pos = tile.getPos();
 		IBlockState state = world.getBlockState(pos);
-		TileEntity tile = world.getTileEntity(pos);
 		keepInventory = true;
 		
-		if (active) {
-			world.setBlockState(pos, type.getActiveBlock().getDefaultState().withProperty(FACING, state.getValue(FACING)), 3);
+		if (isActive) {
+			world.setBlockState(pos, type.getActiveBlock().getDefaultState().withProperty(FACING_HORIZONTAL, state.getValue(FACING_HORIZONTAL)), 3);
 		} else {
-			world.setBlockState(pos, type.getIdleBlock().getDefaultState().withProperty(FACING, state.getValue(FACING)), 3);
+			world.setBlockState(pos, type.getIdleBlock().getDefaultState().withProperty(FACING_HORIZONTAL, state.getValue(FACING_HORIZONTAL)), 3);
 		}
 		keepInventory = false;
 		
-		if (tile != null) {
-			tile.validate();
-			world.setTileEntity(pos, tile);
-		}
+		tile.validate();
+		world.setTileEntity(pos, tile);
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random rand) {
 		if (!isActive) return;
-		BlockHelper.spawnParticleOnProcessor(state, world, pos, rand, state.getValue(FACING), type.getParticle1());
-		BlockHelper.spawnParticleOnProcessor(state, world, pos, rand, state.getValue(FACING), type.getParticle2());
+		BlockHelper.spawnParticleOnProcessor(state, world, pos, rand, state.getValue(FACING_HORIZONTAL), type.getParticle1());
+		BlockHelper.spawnParticleOnProcessor(state, world, pos, rand, state.getValue(FACING_HORIZONTAL), type.getParticle2());
 		BlockHelper.playSoundOnProcessor(world, pos, rand, type.getSound());
 	}
 }

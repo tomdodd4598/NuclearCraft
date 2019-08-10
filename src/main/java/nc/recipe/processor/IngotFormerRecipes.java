@@ -22,9 +22,6 @@ public class IngotFormerRecipes extends ProcessorRecipeHandler {
 	public void addRecipes() {
 		addIngotFormingRecipes();
 		
-		addIngotFormingRecipe("thorium", "ThoriumOxide");
-		addIngotFormingRecipe("uranium", "UraniumOxide");
-		
 		addIngotFormingRecipe("hard_carbon", "HardCarbon");
 		addIngotFormingRecipe("manganese_dioxide", "ManganeseDioxide");
 		

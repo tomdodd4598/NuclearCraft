@@ -1,11 +1,16 @@
 package nc.tile.energy;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import nc.Global;
 import nc.tile.internal.energy.EnergyConnection;
 import nc.tile.internal.inventory.InventoryConnection;
+import nc.tile.internal.inventory.InventoryTileWrapper;
+import nc.tile.internal.inventory.ItemOutputSetting;
 import nc.tile.inventory.ITileInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -13,7 +18,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.wrapper.InvWrapper;
 
 public abstract class TileEnergyInventory extends TileEnergy implements ITileInventory {
 	
@@ -22,6 +26,10 @@ public abstract class TileEnergyInventory extends TileEnergy implements ITileInv
 	private @Nonnull NonNullList<ItemStack> inventoryStacks;
 	
 	private @Nonnull InventoryConnection[] inventoryConnections;
+	
+	private @Nonnull InventoryTileWrapper invWrapper;
+	
+	private @Nonnull List<ItemOutputSetting> itemOutputSettings;
 	
 	public TileEnergyInventory(String name, int size, @Nonnull InventoryConnection[] inventoryConnections, int capacity, @Nonnull EnergyConnection[] energyConnections) {
 		this(name, size, inventoryConnections, capacity, capacity, energyConnections);
@@ -32,6 +40,9 @@ public abstract class TileEnergyInventory extends TileEnergy implements ITileInv
 		inventoryName = Global.MOD_ID + ".container." + name;
 		inventoryStacks = NonNullList.<ItemStack>withSize(size, ItemStack.EMPTY);
 		this.inventoryConnections = inventoryConnections;
+		invWrapper = new InventoryTileWrapper(this);
+		itemOutputSettings = new ArrayList<ItemOutputSetting>();
+		for (int i = 0; i < size; i++) itemOutputSettings.add(ItemOutputSetting.DEFAULT);
 	}
 	
 	// Inventory
@@ -56,6 +67,21 @@ public abstract class TileEnergyInventory extends TileEnergy implements ITileInv
 		inventoryConnections = connections;
 	}
 	
+	@Override
+	public @Nonnull InventoryTileWrapper getInventory() {
+		return invWrapper;
+	}
+	
+	@Override
+	public ItemOutputSetting getItemOutputSetting(int slot) {
+		return itemOutputSettings.get(slot);
+	}
+	
+	@Override
+	public void setItemOutputSetting(int slot, ItemOutputSetting setting) {
+		itemOutputSettings.set(slot, setting);
+	}
+	
 	// NBT
 	
 	@Override
@@ -63,6 +89,7 @@ public abstract class TileEnergyInventory extends TileEnergy implements ITileInv
 		super.writeAll(nbt);
 		writeInventory(nbt);
 		writeInventoryConnections(nbt);
+		writeSlotSettings(nbt);
 		return nbt;
 	}
 	
@@ -71,22 +98,26 @@ public abstract class TileEnergyInventory extends TileEnergy implements ITileInv
 		super.readAll(nbt);
 		readInventory(nbt);
 		readInventoryConnections(nbt);
+		readSlotSettings(nbt);
 	}
 	
 	// Capability
 	
 	@Override
 	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing side) {
-		if (!getInventoryStacks().isEmpty() && hasInventorySideCapability(side) && capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-			return true;
+		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+			return !getInventoryStacks().isEmpty() && hasInventorySideCapability(side);
 		}
 		return super.hasCapability(capability, side);
 	}
 	
 	@Override
 	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing side) {
-		if (!getInventoryStacks().isEmpty() && hasInventorySideCapability(side) && capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-			return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(new InvWrapper(this));
+		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+			if (!getInventoryStacks().isEmpty() && hasInventorySideCapability(side)) {
+				return (T) getItemHandlerCapability(null);
+			}
+			return null;
 		}
 		return super.getCapability(capability, side);
 	}

@@ -186,19 +186,7 @@ public class TileBin extends NCTile implements IInventory, IEnergyTile, IEnergyS
 	
 	@Override
 	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing side) {
-		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-			return true;
-		}
-		else if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
-			return true;
-		}
-		else if (ModCheck.mekanismLoaded() && capability == GasHelper.GAS_HANDLER_CAPABILITY) {
-			return true;
-		}
-		else if (capability == CapabilityEnergy.ENERGY) {
-			return true;
-		}
-		else if (ModCheck.gregtechLoaded() && NCConfig.enable_gtce_eu && capability == GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER) {
+		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || (ModCheck.mekanismLoaded() && NCConfig.enable_mek_gas && capability == GasHelper.GAS_HANDLER_CAPABILITY) || capability == CapabilityEnergy.ENERGY || (ModCheck.gregtechLoaded() && NCConfig.enable_gtce_eu && capability == GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER)) {
 			return true;
 		}
 		return super.hasCapability(capability, side);
@@ -213,13 +201,19 @@ public class TileBin extends NCTile implements IInventory, IEnergyTile, IEnergyS
 			return (T) CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(tank);
 		}
 		else if (ModCheck.mekanismLoaded() && capability == GasHelper.GAS_HANDLER_CAPABILITY) {
-			return (T) tank;
+			if (NCConfig.enable_mek_gas) {
+				return (T) tank;
+			}
+			return null;
 		}
 		else if (capability == CapabilityEnergy.ENERGY) {
 			return (T) CapabilityEnergy.ENERGY.cast(energyStorage);
 		}
-		else if (ModCheck.gregtechLoaded() && NCConfig.enable_gtce_eu && capability == GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER) {
-			return (T) GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER.cast(energyStorageGT);
+		else if (ModCheck.gregtechLoaded() && capability == GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER) {
+			if (NCConfig.enable_gtce_eu) {
+				return (T) GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER.cast(energyStorageGT);
+			}
+			return null;
 		}
 		return super.getCapability(capability, side);
 	}

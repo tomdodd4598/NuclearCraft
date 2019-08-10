@@ -2,8 +2,6 @@ package nc.util;
 
 import java.util.List;
 
-import org.lwjgl.input.Keyboard;
-
 import nc.config.NCConfig;
 import net.minecraft.util.text.TextFormatting;
 
@@ -33,17 +31,13 @@ public class InfoHelper {
 		if (infoBelow) shiftInfo(list);
 	}
 	
-	public static boolean shift() {
-		return NCConfig.ctrl_info ? (Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) || Keyboard.isKeyDown(Keyboard.KEY_RCONTROL)) : (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT));
-	}
-	
 	public static void infoList(List list, String... lines) {
 		for (int i = 0; i < lines.length; i++) infoLine(list, lines[i]);
 	}
 	
 	public static void infoFull(List list, TextFormatting fixedColor, String[] fixedLines, String... lines) {
-		if (fixedLines != EMPTY_ARRAY && (!shift() || lines == EMPTY_ARRAY)) fixedInfoList(list, lines != EMPTY_ARRAY, fixedColor, fixedLines);
-		else if ((shift() && lines != EMPTY_ARRAY) || lines.length == 1) infoList(list, lines);
+		if (fixedLines != EMPTY_ARRAY && (!NCUtil.isInfoKeyDown() || lines == EMPTY_ARRAY)) fixedInfoList(list, lines != EMPTY_ARRAY, fixedColor, fixedLines);
+		else if ((NCUtil.isInfoKeyDown() && lines != EMPTY_ARRAY) || lines.length == 1) infoList(list, lines);
 		else if (lines != EMPTY_ARRAY) shiftInfo(list);
 	}
 	

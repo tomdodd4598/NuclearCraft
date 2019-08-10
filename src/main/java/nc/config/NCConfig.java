@@ -64,6 +64,7 @@ public class NCConfig {
 	public static double[] energy_upgrade_multipliers;
 	public static int rf_per_eu;
 	public static boolean enable_gtce_eu;
+	public static boolean enable_mek_gas;
 	public static int machine_update_rate;
 	public static int[] processor_passive_rate;
 	public static int cobble_gen_power;
@@ -71,6 +72,7 @@ public class NCConfig {
 	public static int[] manufactory_wood;
 	public static boolean rock_crusher_alternate;
 	public static boolean[] gtce_recipe_integration;
+	public static boolean gtce_recipe_logging;
 	public static boolean smart_processor_input;
 	public static boolean passive_permeation;
 	public static boolean processor_particles;
@@ -404,6 +406,8 @@ public class NCConfig {
 		propertyRFPerEU.setLanguageKey("gui.config.processors.rf_per_eu");
 		Property propertyEnableGTCEEU = config.get(CATEGORY_PROCESSORS, "enable_gtce_eu", true, Lang.localise("gui.config.processors.enable_gtce_eu.comment"));
 		propertyEnableGTCEEU.setLanguageKey("gui.config.processors.enable_gtce_eu");
+		Property propertyEnableMekGas = config.get(CATEGORY_PROCESSORS, "enable_mek_gas", true, Lang.localise("gui.config.processors.enable_mek_gas.comment"));
+		propertyEnableMekGas.setLanguageKey("gui.config.processors.enable_mek_gas");
 		Property propertyMachineUpdateRate = config.get(CATEGORY_PROCESSORS, "machine_update_rate", 20, Lang.localise("gui.config.processors.machine_update_rate.comment"), 1, 1200);
 		propertyMachineUpdateRate.setLanguageKey("gui.config.processors.machine_update_rate");
 		Property propertyProcessorPassiveRate = config.get(CATEGORY_PROCESSORS, "processor_passive_rate", new int[] {100, 2, 200, 50}, Lang.localise("gui.config.processors.processor_passive_rate.comment"), 1, 4000);
@@ -418,6 +422,8 @@ public class NCConfig {
 		propertyRockCrusherAlternate.setLanguageKey("gui.config.processors.rock_crusher_alternate");
 		Property propertyGTCERecipes = config.get(CATEGORY_PROCESSORS, "gtce_recipe_integration", new boolean[] {true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true}, Lang.localise("gui.config.processors.gtce_recipe_integration.comment"));
 		propertyGTCERecipes.setLanguageKey("gui.config.processors.gtce_recipe_integration");
+		Property propertyGTCERecipeLogging = config.get(CATEGORY_PROCESSORS, "gtce_recipe_logging", false, Lang.localise("gui.config.processors.gtce_recipe_logging.comment"));
+		propertyGTCERecipeLogging.setLanguageKey("gui.config.processors.gtce_recipe_logging");
 		Property propertySmartProcessorInput = config.get(CATEGORY_PROCESSORS, "smart_processor_input", true, Lang.localise("gui.config.processors.smart_processor_input.comment"));
 		propertySmartProcessorInput.setLanguageKey("gui.config.processors.smart_processor_input");
 		Property propertyPermeation = config.get(CATEGORY_PROCESSORS, "passive_permeation", true, Lang.localise("gui.config.processors.passive_permeation.comment"));
@@ -919,6 +925,7 @@ public class NCConfig {
 		propertyOrderProcessors.add(propertyEnergyUpgradeMultipliers.getName());
 		propertyOrderProcessors.add(propertyRFPerEU.getName());
 		propertyOrderProcessors.add(propertyEnableGTCEEU.getName());
+		propertyOrderProcessors.add(propertyEnableMekGas.getName());
 		propertyOrderProcessors.add(propertyMachineUpdateRate.getName());
 		propertyOrderProcessors.add(propertyProcessorPassiveRate.getName());
 		propertyOrderProcessors.add(propertyCobbleGenPower.getName());
@@ -926,6 +933,7 @@ public class NCConfig {
 		propertyOrderProcessors.add(propertyManufactoryWood.getName());
 		propertyOrderProcessors.add(propertyRockCrusherAlternate.getName());
 		propertyOrderProcessors.add(propertyGTCERecipes.getName());
+		propertyOrderProcessors.add(propertyGTCERecipeLogging.getName());
 		propertyOrderProcessors.add(propertySmartProcessorInput.getName());
 		propertyOrderProcessors.add(propertyPermeation.getName());
 		propertyOrderProcessors.add(propertyProcessorParticles.getName());
@@ -1214,6 +1222,7 @@ public class NCConfig {
 			energy_upgrade_multipliers = readDoubleArrayFromConfig(propertyEnergyUpgradeMultipliers);
 			rf_per_eu = propertyRFPerEU.getInt();
 			enable_gtce_eu = propertyEnableGTCEEU.getBoolean();
+			enable_mek_gas = propertyEnableMekGas.getBoolean();
 			machine_update_rate = propertyMachineUpdateRate.getInt();
 			processor_passive_rate = readIntegerArrayFromConfig(propertyProcessorPassiveRate);
 			cobble_gen_power = propertyCobbleGenPower.getInt();
@@ -1222,6 +1231,7 @@ public class NCConfig {
 			rock_crusher_alternate = propertyRockCrusherAlternate.getBoolean();
 			gtce_recipe_integration = readBooleanArrayFromConfig(propertyGTCERecipes);
 			ProcessorRecipeHandler.initGTCEIntegration();
+			gtce_recipe_logging = propertyGTCERecipeLogging.getBoolean();
 			smart_processor_input = propertySmartProcessorInput.getBoolean();
 			passive_permeation = propertyPermeation.getBoolean();
 			processor_particles = propertyProcessorParticles.getBoolean();
@@ -1495,6 +1505,7 @@ public class NCConfig {
 		propertyEnergyUpgradeMultipliers.set(energy_upgrade_multipliers);
 		propertyRFPerEU.set(rf_per_eu);
 		propertyEnableGTCEEU.set(enable_gtce_eu);
+		propertyEnableMekGas.set(enable_mek_gas);
 		propertyMachineUpdateRate.set(machine_update_rate);
 		propertyProcessorPassiveRate.set(processor_passive_rate);
 		propertyCobbleGenPower.set(cobble_gen_power);
@@ -1502,6 +1513,7 @@ public class NCConfig {
 		propertyManufactoryWood.set(manufactory_wood);
 		propertyRockCrusherAlternate.set(rock_crusher_alternate);
 		propertyGTCERecipes.set(gtce_recipe_integration);
+		propertyGTCERecipeLogging.set(gtce_recipe_logging);
 		propertySmartProcessorInput.set(smart_processor_input);
 		propertyPermeation.set(passive_permeation);
 		propertyProcessorParticles.set(processor_particles);

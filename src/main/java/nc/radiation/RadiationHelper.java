@@ -148,20 +148,22 @@ public class RadiationHelper {
 			}
 		}
 		
-		IItemHandler inventory = getTileInventory(provider, side);
-		if (NCConfig.radiation_hardcore_containers > 0D && inventory != null) {
-			for (int i = 0; i < inventory.getSlots(); i++) {
-				ItemStack stack = inventory.getStackInSlot(i);
-				rawRadiation += getRadiationFromStack(stack, NCConfig.radiation_hardcore_containers);
+		if (NCConfig.radiation_hardcore_containers > 0D) {
+			IItemHandler inventory = getTileInventory(provider, side);
+			if (inventory != null) {
+				for (int i = 0; i < inventory.getSlots(); i++) {
+					ItemStack stack = inventory.getStackInSlot(i);
+					rawRadiation += getRadiationFromStack(stack, NCConfig.radiation_hardcore_containers);
+				}
 			}
-		}
-		
-		IFluidHandler tanks = getTileTanks(provider, side);
-		if (NCConfig.radiation_hardcore_containers > 0D && tanks != null) {
-			IFluidTankProperties[] props = tanks.getTankProperties();
-			for (int i = 0; i < props.length; i++) {
-				FluidStack stack = props[i].getContents();
-				rawRadiation += getRadiationFromFluid(stack, NCConfig.radiation_hardcore_containers);
+			
+			IFluidHandler tanks = getTileTanks(provider, side);
+			if (tanks != null) {
+				IFluidTankProperties[] props = tanks.getTankProperties();
+				for (int i = 0; i < props.length; i++) {
+					FluidStack stack = props[i].getContents();
+					rawRadiation += getRadiationFromFluid(stack, NCConfig.radiation_hardcore_containers);
+				}
 			}
 		}
 		

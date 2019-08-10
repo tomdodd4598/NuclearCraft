@@ -1,5 +1,9 @@
 package nc.multiblock;
 
+import java.util.Set;
+
+import nc.tile.ITile;
+
 /*
  * A multiblock library for making irregularly-shaped multiblock machines
  *
@@ -11,9 +15,6 @@ package nc.multiblock;
  */
 
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.math.BlockPos;
-
-import java.util.Set;
 
 /**
  * Basic interface for a multiblock machine part.
@@ -22,8 +23,8 @@ import java.util.Set;
  * 
  * {@link nc.multiblock.MultiblockTileBase}
  */
-public interface IMultiblockPart<MULTIBLOCK extends MultiblockBase> {
-
+public interface IMultiblockPart<MULTIBLOCK extends MultiblockBase> extends ITile {
+	
 	/**
 	 * @return True if this block is connected to a multiblock. False otherwise.
 	 */
@@ -34,12 +35,6 @@ public interface IMultiblockPart<MULTIBLOCK extends MultiblockBase> {
 	 */
 	MULTIBLOCK getMultiblock();
 	
-	/**
-	 * Returns the location of this multiblock part in the world, in BlockPos form.
-	 * @return A BlockPos set to the location of this multiblock part in the world.
-	 */
-	BlockPos getWorldPosition();
-
 	boolean isPartInvalid();
 	
 	// Multiblock connection-logic callbacks
@@ -75,7 +70,7 @@ public interface IMultiblockPart<MULTIBLOCK extends MultiblockBase> {
 	 * @return A new Multiblock, derived from MultiblockBase.
 	 */
 	MULTIBLOCK createNewMultiblock();
-
+	
 	/**
 	 * Retrieve the type of multiblock which governs this part.
 	 * Used to ensure that incompatible multiblocks are not merged.
@@ -90,7 +85,7 @@ public interface IMultiblockPart<MULTIBLOCK extends MultiblockBase> {
 	 * @param newMultiblock The new multiblock into which this tile entity is being merged.
 	 */
 	void onAssimilated(MULTIBLOCK newMultiblock);
-
+	
 	// Multiblock connection data access.
 	// You generally shouldn't toy with these!
 	// They're for use by Multiblocks.
@@ -121,12 +116,12 @@ public interface IMultiblockPart<MULTIBLOCK extends MultiblockBase> {
 	 * and transmitting data across the wire.
 	 */
 	void forfeitMultiblockSaveDelegate();
-
+	
 	/**
 	 * Is this block the designated save/load & network delegate?
 	 */
 	boolean isMultiblockSaveDelegate();
-
+	
 	/**
 	 * Returns an array containing references to neighboring IMultiblockPart tile entities.
 	 * Primarily a utility method. Only works after tileentity construction, so it cannot be used in
@@ -137,7 +132,7 @@ public interface IMultiblockPart<MULTIBLOCK extends MultiblockBase> {
 	 * @return An array of references to neighboring IMultiblockPart tile entities.
 	 */
 	IMultiblockPart<MULTIBLOCK>[] getNeighboringParts();
-
+	
 	// Multiblock business-logic callbacks - implement these!
 	/**
 	 * Called when a machine is fully assembled from the disassembled state, meaning
@@ -159,13 +154,13 @@ public interface IMultiblockPart<MULTIBLOCK extends MultiblockBase> {
 	 * as most machines have this game-logical concept.
 	 */
 	void onMachineActivated();
-
+	
 	/**
 	 * Called when the user deactivates the machine. This is not called by default, but is included
 	 * as most machines have this game-logical concept.
 	 */
 	void onMachineDeactivated();
-
+	
 	// Block events
 	/**
 	 * Called when this part should check its neighbors.
@@ -175,13 +170,13 @@ public interface IMultiblockPart<MULTIBLOCK extends MultiblockBase> {
 	 * @return A Set of multiblocks to which this object would like to attach. It should have attached to one of the multiblocks in this list. Return null if there are no compatible multiblocks nearby. 
 	 */
 	Set<MULTIBLOCK> attachToNeighbors();
-
+	
 	/**
 	 * Assert that this part is detached. If not, log a warning and set the part's multiblock to null.
 	 * Do NOT fire the full disconnection logic.
 	 */
 	void assertDetached();
-
+	
 	/**
 	 * @return True if a part has multiblock game-data saved inside it.
 	 */
@@ -191,7 +186,7 @@ public interface IMultiblockPart<MULTIBLOCK extends MultiblockBase> {
 	 * @return The part's saved multiblock game-data in NBT format, or null if there isn't any.
 	 */
 	NBTTagCompound getMultiblockSaveData();
-
+	
 	/**
 	 * Called after a block is added and the multiblock has incorporated the part's saved
 	 * multiblock game-data into itself. Generally, you should clear the saved data here.

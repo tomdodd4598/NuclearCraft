@@ -15,6 +15,7 @@ import nc.container.processor.ContainerInfuser;
 import nc.container.processor.ContainerIngotFormer;
 import nc.container.processor.ContainerIrradiator;
 import nc.container.processor.ContainerIsotopeSeparator;
+import nc.container.processor.ContainerMachineConfig;
 import nc.container.processor.ContainerManufactory;
 import nc.container.processor.ContainerMelter;
 import nc.container.processor.ContainerNuclearFurnace;
@@ -76,7 +77,6 @@ import nc.tile.processor.TileProcessor.RockCrusher;
 import nc.tile.processor.TileProcessor.SaltMixer;
 import nc.tile.processor.TileProcessor.Supercooler;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -87,11 +87,10 @@ public class GuiHandler implements IGuiHandler {
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		TileEntity tile = world.getTileEntity(new BlockPos(x, y, z));
-		
 		if (tile != null) {
 			switch(ID) {
 			case 0:
-				if (tile instanceof TileNuclearFurnace) return new ContainerNuclearFurnace(player, (IInventory) tile);
+				if (tile instanceof TileNuclearFurnace) return new ContainerNuclearFurnace(player, (TileNuclearFurnace) tile);
 			case 1:
 				if (tile instanceof Manufactory) return new ContainerManufactory(player, (Manufactory) tile);
 			case 2:
@@ -140,6 +139,44 @@ public class GuiHandler implements IGuiHandler {
 				if (tile instanceof TileHeatExchangerController) return new ContainerHeatExchangerController(player, (TileHeatExchangerController) tile);
 			case 104:
 				if (tile instanceof TileTurbineController) return new ContainerTurbineController(player, (TileTurbineController) tile);
+			case 1001:
+				if (tile instanceof Manufactory) return new ContainerMachineConfig(player, (Manufactory) tile);
+			case 1002:
+				if (tile instanceof IsotopeSeparator) return new ContainerMachineConfig(player, (IsotopeSeparator) tile);
+			case 1003:
+				if (tile instanceof DecayHastener) return new ContainerMachineConfig(player, (DecayHastener) tile);
+			case 1004:
+				if (tile instanceof FuelReprocessor) return new ContainerMachineConfig(player, (FuelReprocessor) tile);
+			case 1005:
+				if (tile instanceof AlloyFurnace) return new ContainerMachineConfig(player, (AlloyFurnace) tile);
+			case 1006:
+				if (tile instanceof Infuser) return new ContainerMachineConfig(player, (Infuser) tile);
+			case 1007:
+				if (tile instanceof Melter) return new ContainerMachineConfig(player, (Melter) tile);
+			case 1008:
+				if (tile instanceof Supercooler) return new ContainerMachineConfig(player, (Supercooler) tile);
+			case 1009:
+				if (tile instanceof Electrolyser) return new ContainerMachineConfig(player, (Electrolyser) tile);
+			case 1010:
+				if (tile instanceof Irradiator) return new ContainerMachineConfig(player, (Irradiator) tile);
+			case 1011:
+				if (tile instanceof IngotFormer) return new ContainerMachineConfig(player, (IngotFormer) tile);
+			case 1012:
+				if (tile instanceof Pressurizer) return new ContainerMachineConfig(player, (Pressurizer) tile);
+			case 1013:
+				if (tile instanceof ChemicalReactor) return new ContainerMachineConfig(player, (ChemicalReactor) tile);
+			case 1014:
+				if (tile instanceof SaltMixer) return new ContainerMachineConfig(player, (SaltMixer) tile);
+			case 1015:
+				if (tile instanceof Crystallizer) return new ContainerMachineConfig(player, (Crystallizer) tile);
+			case 1016:
+				if (tile instanceof Dissolver) return new ContainerMachineConfig(player, (Dissolver) tile);
+			case 1017:
+				if (tile instanceof Extractor) return new ContainerMachineConfig(player, (Extractor) tile);
+			case 1018:
+				if (tile instanceof Centrifuge) return new ContainerMachineConfig(player, (Centrifuge) tile);
+			case 1019:
+				if (tile instanceof RockCrusher) return new ContainerMachineConfig(player, (RockCrusher) tile);
 			}
 		}
 		
@@ -149,11 +186,10 @@ public class GuiHandler implements IGuiHandler {
 	@Override
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		TileEntity tile = world.getTileEntity(new BlockPos(x, y, z));
-		
 		if (tile != null) {
 			switch(ID) {
 			case 0:
-				if (tile instanceof TileNuclearFurnace) return new GuiNuclearFurnace(player, (IInventory) tile);
+				if (tile instanceof TileNuclearFurnace) return new GuiNuclearFurnace(player, (TileNuclearFurnace) tile);
 			case 1:
 				if (tile instanceof Manufactory) return new GuiManufactory(player, (Manufactory) tile);
 			case 2:
@@ -202,6 +238,44 @@ public class GuiHandler implements IGuiHandler {
 				if (tile instanceof TileHeatExchangerController) return new GuiHeatExchangerController(((TileHeatExchangerController) tile).getMultiblock(), tile.getPos(), ((TileHeatExchangerController) tile).getMultiblock().getContainer(player));
 			case 104:
 				if (tile instanceof TileTurbineController) return new GuiTurbineController(((TileTurbineController) tile).getMultiblock(), tile.getPos(), ((TileTurbineController) tile).getMultiblock().getContainer(player));
+			case 1001:
+				if (tile instanceof Manufactory) return new GuiManufactory.SideConfig(player, (Manufactory) tile);
+			case 1002:
+				if (tile instanceof IsotopeSeparator) return new GuiIsotopeSeparator.SideConfig(player, (IsotopeSeparator) tile);
+			case 1003:
+				if (tile instanceof DecayHastener) return new GuiDecayHastener.SideConfig(player, (DecayHastener) tile);
+			case 1004:
+				if (tile instanceof FuelReprocessor) return new GuiFuelReprocessor.SideConfig(player, (FuelReprocessor) tile);
+			case 1005:
+				if (tile instanceof AlloyFurnace) return new GuiAlloyFurnace.SideConfig(player, (AlloyFurnace) tile);
+			case 1006:
+				if (tile instanceof Infuser) return new GuiInfuser.SideConfig(player, (Infuser) tile);
+			case 1007:
+				if (tile instanceof Melter) return new GuiMelter.SideConfig(player, (Melter) tile);
+			case 1008:
+				if (tile instanceof Supercooler) return new GuiSupercooler.SideConfig(player, (Supercooler) tile);
+			case 1009:
+				if (tile instanceof Electrolyser) return new GuiElectrolyser.SideConfig(player, (Electrolyser) tile);
+			case 1010:
+				if (tile instanceof Irradiator) return new GuiIrradiator.SideConfig(player, (Irradiator) tile);
+			case 1011:
+				if (tile instanceof IngotFormer) return new GuiIngotFormer.SideConfig(player, (IngotFormer) tile);
+			case 1012:
+				if (tile instanceof Pressurizer) return new GuiPressurizer.SideConfig(player, (Pressurizer) tile);
+			case 1013:
+				if (tile instanceof ChemicalReactor) return new GuiChemicalReactor.SideConfig(player, (ChemicalReactor) tile);
+			case 1014:
+				if (tile instanceof SaltMixer) return new GuiSaltMixer.SideConfig(player, (SaltMixer) tile);
+			case 1015:
+				if (tile instanceof Crystallizer) return new GuiCrystallizer.SideConfig(player, (Crystallizer) tile);
+			case 1016:
+				if (tile instanceof Dissolver) return new GuiDissolver.SideConfig(player, (Dissolver) tile);
+			case 1017:
+				if (tile instanceof Extractor) return new GuiExtractor.SideConfig(player, (Extractor) tile);
+			case 1018:
+				if (tile instanceof Centrifuge) return new GuiCentrifuge.SideConfig(player, (Centrifuge) tile);
+			case 1019:
+				if (tile instanceof RockCrusher) return new GuiRockCrusher.SideConfig(player, (RockCrusher) tile);
 			}
 		}
 		

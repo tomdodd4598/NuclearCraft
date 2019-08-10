@@ -2,6 +2,7 @@ package nc.network.gui;
 
 import io.netty.buffer.ByteBuf;
 import nc.tile.fluid.ITileFluid;
+import nc.tile.internal.fluid.TankOutputSetting;
 import nc.util.NCUtil;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
@@ -16,7 +17,7 @@ public class ToggleVoidExcessFluidOutputPacket implements IMessage {
 	boolean messageValid;
 	
 	BlockPos pos;
-	boolean voidExcessFluidOutput;
+	int voidExcessFluidOutput;
 	int tankNumber;
 	
 	public ToggleVoidExcessFluidOutputPacket() {
@@ -25,7 +26,7 @@ public class ToggleVoidExcessFluidOutputPacket implements IMessage {
 	
 	public ToggleVoidExcessFluidOutputPacket(ITileFluid machine, int tankNumber) {
 		pos = machine.getTilePos();
-		voidExcessFluidOutput = machine.getVoidExcessFluidOutput(tankNumber);
+		voidExcessFluidOutput = machine.getTankOutputSetting(tankNumber).ordinal();
 		this.tankNumber = tankNumber;
 		messageValid = true;
 	}
@@ -34,7 +35,7 @@ public class ToggleVoidExcessFluidOutputPacket implements IMessage {
 	public void fromBytes(ByteBuf buf) {
 		try {
 			pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
-			voidExcessFluidOutput = buf.readBoolean();
+			voidExcessFluidOutput = buf.readInt();
 			tankNumber = buf.readInt();
 		} catch (IndexOutOfBoundsException ioe) {
 			NCUtil.getLogger().catching(ioe);
@@ -49,7 +50,7 @@ public class ToggleVoidExcessFluidOutputPacket implements IMessage {
 		buf.writeInt(pos.getX());
 		buf.writeInt(pos.getY());
 		buf.writeInt(pos.getZ());
-		buf.writeBoolean(voidExcessFluidOutput);
+		buf.writeInt(voidExcessFluidOutput);
 		buf.writeInt(tankNumber);
 	}
 	
@@ -66,7 +67,7 @@ public class ToggleVoidExcessFluidOutputPacket implements IMessage {
 			TileEntity tile = ctx.getServerHandler().player.getServerWorld().getTileEntity(message.pos);
 			if (tile instanceof ITileFluid) {
 				ITileFluid machine = (ITileFluid) tile;
-				machine.setVoidExcessFluidOutput(message.tankNumber, message.voidExcessFluidOutput);
+				machine.setTankOutputSetting(message.tankNumber, TankOutputSetting.values()[message.voidExcessFluidOutput]);
 				ctx.getServerHandler().player.getServerWorld().getTileEntity(message.pos).markDirty();
 			}
 		}

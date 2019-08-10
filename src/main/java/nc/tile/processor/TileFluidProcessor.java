@@ -21,6 +21,7 @@ import nc.tile.energyFluid.TileEnergyFluidSidedInventory;
 import nc.tile.fluid.ITileFluid;
 import nc.tile.internal.energy.EnergyConnection;
 import nc.tile.internal.fluid.Tank;
+import nc.tile.internal.fluid.TankOutputSetting;
 import nc.tile.internal.fluid.TankSorption;
 import nc.tile.internal.inventory.ItemSorption;
 import nc.tile.inventory.ITileInventory;
@@ -40,18 +41,18 @@ public class TileFluidProcessor extends TileEnergyFluidSidedInventory implements
 	public boolean isProcessing, canProcessInputs;
 	
 	public final boolean shouldLoseProgress, hasUpgrades;
-	public final int processorID;
+	public final int processorID, sideConfigYOffset;
 	
 	public final ProcessorRecipeHandler recipeHandler;
 	protected RecipeInfo<ProcessorRecipe> recipeInfo;
 	
 	protected Set<EntityPlayer> playersToUpdate;
 	
-	public TileFluidProcessor(String name, int fluidInSize, int fluidOutSize, @Nonnull List<ItemSorption> itemSorptions, @Nonnull List<Integer> fluidCapacity, @Nonnull List<TankSorption> tankSorptions, List<List<String>> allowedFluids, int time, int power, boolean shouldLoseProgress, @Nonnull ProcessorRecipeHandler recipeHandler, int processorID) {
-		this(name, fluidInSize, fluidOutSize, itemSorptions, fluidCapacity, tankSorptions, allowedFluids, time, power, shouldLoseProgress, true, recipeHandler, processorID);
+	public TileFluidProcessor(String name, int fluidInSize, int fluidOutSize, @Nonnull List<ItemSorption> itemSorptions, @Nonnull List<Integer> fluidCapacity, @Nonnull List<TankSorption> tankSorptions, List<List<String>> allowedFluids, int time, int power, boolean shouldLoseProgress, @Nonnull ProcessorRecipeHandler recipeHandler, int processorID, int sideConfigYOffset) {
+		this(name, fluidInSize, fluidOutSize, itemSorptions, fluidCapacity, tankSorptions, allowedFluids, time, power, shouldLoseProgress, true, recipeHandler, processorID, sideConfigYOffset);
 	}
 	
-	public TileFluidProcessor(String name, int fluidInSize, int fluidOutSize, @Nonnull List<ItemSorption> itemSorptions, @Nonnull List<Integer> fluidCapacity, @Nonnull List<TankSorption> tankSorptions, List<List<String>> allowedFluids, int time, int power, boolean shouldLoseProgress, boolean upgrades, @Nonnull ProcessorRecipeHandler recipeHandler, int processorID) {
+	public TileFluidProcessor(String name, int fluidInSize, int fluidOutSize, @Nonnull List<ItemSorption> itemSorptions, @Nonnull List<Integer> fluidCapacity, @Nonnull List<TankSorption> tankSorptions, List<List<String>> allowedFluids, int time, int power, boolean shouldLoseProgress, boolean upgrades, @Nonnull ProcessorRecipeHandler recipeHandler, int processorID, int sideConfigYOffset) {
 		super(name, upgrades ? 2 : 0, ITileInventory.inventoryConnectionAll(itemSorptions), IProcessor.getCapacity(recipeHandler, time, 1D, power, 1D), power != 0 ? ITileEnergy.energyConnectionAll(EnergyConnection.IN) : ITileEnergy.energyConnectionAll(EnergyConnection.NON), fluidCapacity, fluidCapacity, allowedFluids, ITileFluid.fluidConnectionAll(tankSorptions));
 		fluidInputSize = fluidInSize;
 		fluidOutputSize = fluidOutSize;
@@ -64,6 +65,7 @@ public class TileFluidProcessor extends TileEnergyFluidSidedInventory implements
 		this.shouldLoseProgress = shouldLoseProgress;
 		hasUpgrades = upgrades;
 		this.processorID = processorID;
+		this.sideConfigYOffset = sideConfigYOffset;
 		setInputTanksSeparated(fluidInSize > 1);
 		
 		this.recipeHandler = recipeHandler;
@@ -120,7 +122,7 @@ public class TileFluidProcessor extends TileEnergyFluidSidedInventory implements
 			if (isProcessing) process();
 			else {
 				getRadiationSource().setRadiationLevel(0D);
-				if (time > 0 && !isHaltedByRedstone()) loseProgress();
+				if (time > 0 && (!isHaltedByRedstone() || !readyToProcess())) loseProgress();
 			}
 			if (wasProcessing != isProcessing) {
 				shouldUpdate = true;
@@ -134,7 +136,7 @@ public class TileFluidProcessor extends TileEnergyFluidSidedInventory implements
 	
 	public void updateBlockType() {
 		if (ModCheck.ic2Loaded()) removeTileFromENet();
-		setState(isProcessing);
+		setState(isProcessing, this);
 		world.notifyNeighborsOfStateChange(pos, getBlockType(), true);
 		if (ModCheck.ic2Loaded()) addTileToENet();
 	}
@@ -216,13 +218,17 @@ public class TileFluidProcessor extends TileEnergyFluidSidedInventory implements
 	
 	public boolean canProduceProducts() {
 		for (int j = 0; j < fluidOutputSize; j++) {
+			if (getTankOutputSetting(j + fluidInputSize) == TankOutputSetting.VOID) {
+				clearTank(j + fluidInputSize);
+				continue;
+			}
 			IFluidIngredient fluidProduct = getFluidProducts().get(j);
 			if (fluidProduct.getMaxStackSize(0) <= 0) continue;
 			if (fluidProduct.getStack() == null) return false;
 			else if (!getTanks().get(j + fluidInputSize).isEmpty()) {
 				if (!getTanks().get(j + fluidInputSize).getFluid().isFluidEqual(fluidProduct.getStack())) {
 					return false;
-				} else if (!getVoidExcessFluidOutput(j) && getTanks().get(j + fluidInputSize).getFluidAmount() + fluidProduct.getMaxStackSize(0) > getTanks().get(j + fluidInputSize).getCapacity()) {
+				} else if (getTankOutputSetting(j + fluidInputSize) == TankOutputSetting.DEFAULT && getTanks().get(j + fluidInputSize).getFluidAmount() + fluidProduct.getMaxStackSize(0) > getTanks().get(j + fluidInputSize).getCapacity()) {
 					return false;
 				}
 			}
@@ -263,6 +269,10 @@ public class TileFluidProcessor extends TileEnergyFluidSidedInventory implements
 			if (getTanks().get(i).getFluidAmount() <= 0) getTanks().get(i).setFluidStored(null);
 		}
 		for (int j = 0; j < fluidOutputSize; j++) {
+			if (getTankOutputSetting(j + fluidInputSize) == TankOutputSetting.VOID) {
+				clearTank(j + fluidInputSize);
+				continue;
+			}
 			IFluidIngredient fluidProduct = getFluidProducts().get(j);
 			if (fluidProduct.getMaxStackSize(0) <= 0) continue;
 			if (getTanks().get(j + fluidInputSize).isEmpty()) {
@@ -386,6 +396,16 @@ public class TileFluidProcessor extends TileEnergyFluidSidedInventory implements
 		return super.canInsertItem(slot, stack, side) && isItemValidForSlot(slot, stack);
 	}
 	
+	@Override
+	public boolean hasConfigurableInventoryConnections() {
+		return true;
+	}
+	
+	@Override
+	public boolean hasConfigurableFluidConnections() {
+		return true;
+	}
+	
 	// NBT
 	
 	@Override
@@ -432,5 +452,10 @@ public class TileFluidProcessor extends TileEnergyFluidSidedInventory implements
 		baseProcessTime = message.baseProcessTime;
 		baseProcessPower = message.baseProcessPower;
 		for (int i = 0; i < getTanks().size(); i++) getTanks().get(i).readInfo(message.tanksInfo.get(i));
+	}
+	
+	@Override
+	public int getSideConfigYOffset() {
+		return sideConfigYOffset;
 	}
 }

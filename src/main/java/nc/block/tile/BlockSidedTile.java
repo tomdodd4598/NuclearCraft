@@ -1,8 +1,9 @@
 package nc.block.tile;
 
+import static nc.block.property.BlockProperties.FACING_HORIZONTAL;
+
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
@@ -14,8 +15,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public abstract class BlockSidedTile extends BlockTile {
-	
-	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 
 	public BlockSidedTile(Material material) {
 		super(material);
@@ -23,7 +22,7 @@ public abstract class BlockSidedTile extends BlockTile {
 	}
 	
 	protected IBlockState getNewDefaultState() {
-		return blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH);
+		return blockState.getBaseState().withProperty(FACING_HORIZONTAL, EnumFacing.NORTH);
 	}
 	
 	@Override
@@ -37,7 +36,7 @@ public abstract class BlockSidedTile extends BlockTile {
 			IBlockState southBlock = world.getBlockState(pos.south());
 			IBlockState westBlock = world.getBlockState(pos.west());
 			IBlockState eastBlock = world.getBlockState(pos.east());
-			EnumFacing facing = state.getValue(FACING);
+			EnumFacing facing = state.getValue(FACING_HORIZONTAL);
 			
 			if (facing == EnumFacing.NORTH && northBlock.isFullBlock() && !southBlock.isFullBlock()) {
 				facing = EnumFacing.SOUTH;
@@ -48,18 +47,18 @@ public abstract class BlockSidedTile extends BlockTile {
 			} else if (facing == EnumFacing.EAST && eastBlock.isFullBlock() && !westBlock.isFullBlock()) {
 				facing = EnumFacing.WEST;
 			}
-			world.setBlockState(pos, state.withProperty(FACING, facing), 2);
+			world.setBlockState(pos, state.withProperty(FACING_HORIZONTAL, facing), 2);
 		}
 	}
 	
 	@Override
 	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
-		return getDefaultState().withProperty(FACING, placer.getHorizontalFacing().getOpposite());
+		return getDefaultState().withProperty(FACING_HORIZONTAL, placer.getHorizontalFacing().getOpposite());
 	}
 	
 	@Override
 	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
-		world.setBlockState(pos, state.withProperty(FACING, placer.getHorizontalFacing().getOpposite()), 2);
+		world.setBlockState(pos, state.withProperty(FACING_HORIZONTAL, placer.getHorizontalFacing().getOpposite()), 2);
 	}
 	
 	@Override
@@ -68,26 +67,26 @@ public abstract class BlockSidedTile extends BlockTile {
 		
 		if (enumfacing.getAxis() == EnumFacing.Axis.Y) enumfacing = EnumFacing.NORTH;
 		
-		return getDefaultState().withProperty(FACING, enumfacing);
+		return getDefaultState().withProperty(FACING_HORIZONTAL, enumfacing);
 	}
 	
 	@Override
 	public int getMetaFromState(IBlockState state) {
-		return state.getValue(FACING).getIndex();
+		return state.getValue(FACING_HORIZONTAL).getIndex();
 	}
 	
 	@Override
 	public IBlockState withRotation(IBlockState state, Rotation rot) {
-		return state.withProperty(FACING, rot.rotate(state.getValue(FACING)));
+		return state.withProperty(FACING_HORIZONTAL, rot.rotate(state.getValue(FACING_HORIZONTAL)));
 	}
 	
 	@Override
 	public IBlockState withMirror(IBlockState state, Mirror mirrorIn) {
-		return state.withRotation(mirrorIn.toRotation(state.getValue(FACING)));
+		return state.withRotation(mirrorIn.toRotation(state.getValue(FACING_HORIZONTAL)));
 	}
 	
 	@Override
 	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, new IProperty[] {FACING});
+		return new BlockStateContainer(this, new IProperty[] {FACING_HORIZONTAL});
 	}
 }

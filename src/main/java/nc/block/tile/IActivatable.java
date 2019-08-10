@@ -1,9 +1,11 @@
 package nc.block.tile;
 
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.block.Block;
+import net.minecraft.tileentity.TileEntity;
 
 public interface IActivatable {
 	
-	public void setState(boolean active, World world, BlockPos pos);
+	public Block getBlockType(boolean active);
+	
+	public void setState(boolean isActive, TileEntity tile);
 }

@@ -1,5 +1,8 @@
 package nc.block.tile.generator;
 
+import static nc.block.property.BlockProperties.ACTIVE;
+import static nc.block.property.BlockProperties.FACING_HORIZONTAL;
+
 import java.util.Random;
 
 import nc.block.tile.processor.BlockProcessor;
@@ -9,8 +12,6 @@ import nc.handler.SoundHandler;
 import nc.tile.generator.TileFissionController;
 import nc.util.BlockFinder;
 import nc.util.NCInventoryHelper;
-import net.minecraft.block.properties.PropertyBool;
-import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
@@ -25,9 +26,6 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
 public class BlockFissionControllerNewFixed extends BlockProcessor {
-	
-	private static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
-	private static final PropertyBool ACTIVE = PropertyBool.create("active");
 
 	public BlockFissionControllerNewFixed() {
 		super(ProcessorType.FISSION_CONTROLLER_NEW_FIXED);
@@ -36,7 +34,7 @@ public class BlockFissionControllerNewFixed extends BlockProcessor {
 	
 	@Override
 	protected IBlockState getNewDefaultState() {
-		return blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(ACTIVE, Boolean.valueOf(false));
+		return blockState.getBaseState().withProperty(FACING_HORIZONTAL, EnumFacing.NORTH).withProperty(ACTIVE, Boolean.valueOf(false));
 	}
 	
 	@Override
@@ -44,12 +42,12 @@ public class BlockFissionControllerNewFixed extends BlockProcessor {
 		EnumFacing enumfacing = EnumFacing.byIndex(meta & 7);
 		if (enumfacing.getAxis() == EnumFacing.Axis.Y) enumfacing = EnumFacing.NORTH;
 		
-		return getDefaultState().withProperty(FACING, enumfacing).withProperty(ACTIVE, Boolean.valueOf((meta & 8) > 0));
+		return getDefaultState().withProperty(FACING_HORIZONTAL, enumfacing).withProperty(ACTIVE, Boolean.valueOf((meta & 8) > 0));
 	}
 	
 	@Override
 	public int getMetaFromState(IBlockState state) {
-		int i = state.getValue(FACING).getIndex();
+		int i = state.getValue(FACING_HORIZONTAL).getIndex();
 		
 		if (state.getValue(ACTIVE).booleanValue()) i |= 8;
 		
@@ -58,12 +56,12 @@ public class BlockFissionControllerNewFixed extends BlockProcessor {
 	
 	@Override
 	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, FACING, ACTIVE);
+		return new BlockStateContainer(this, FACING_HORIZONTAL, ACTIVE);
 	}
 	
 	@Override
 	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
-		return getDefaultState().withProperty(FACING, placer.getHorizontalFacing().getOpposite()).withProperty(ACTIVE, Boolean.valueOf(false));
+		return getDefaultState().withProperty(FACING_HORIZONTAL, placer.getHorizontalFacing().getOpposite()).withProperty(ACTIVE, Boolean.valueOf(false));
 	}
 	
 	@Override
@@ -74,7 +72,7 @@ public class BlockFissionControllerNewFixed extends BlockProcessor {
 	
 	private static void setDefaultDirection(World world, BlockPos pos, IBlockState state) {
 		if (!world.isRemote) {
-			EnumFacing enumfacing = state.getValue(FACING);
+			EnumFacing enumfacing = state.getValue(FACING_HORIZONTAL);
 			boolean flag = world.getBlockState(pos.north()).isFullBlock();
 			boolean flag1 = world.getBlockState(pos.south()).isFullBlock();
 
@@ -88,7 +86,7 @@ public class BlockFissionControllerNewFixed extends BlockProcessor {
 				if (enumfacing == EnumFacing.WEST && flag2 && !flag3) enumfacing = EnumFacing.EAST;
 				else if (enumfacing == EnumFacing.EAST && flag3 && !flag2) enumfacing = EnumFacing.WEST;
 			}
-			world.setBlockState(pos, state.withProperty(FACING, enumfacing).withProperty(ACTIVE, Boolean.valueOf(false)), 2);
+			world.setBlockState(pos, state.withProperty(FACING_HORIZONTAL, enumfacing).withProperty(ACTIVE, Boolean.valueOf(false)), 2);
 		}
 	}
 	
@@ -97,18 +95,17 @@ public class BlockFissionControllerNewFixed extends BlockProcessor {
 		
 	}
 	
-	public void setActiveState(IBlockState state, World world, BlockPos pos, boolean active) {
-		if (!world.isRemote) {
-			if (active != state.getValue(ACTIVE)) {
-				world.setBlockState(pos, state.withProperty(ACTIVE, active), 2);
-			}
+	public void setStateNewFixed(boolean isActive, TileEntity tile) {
+		World world = tile.getWorld();
+		BlockPos pos = tile.getPos();
+		IBlockState state = world.getBlockState(pos);
+		if (isActive != state.getValue(ACTIVE)) {
+			world.setBlockState(pos, state.withProperty(ACTIVE, isActive), 2);
 		}
 	}
 	
 	@Override
-	public void setState(boolean active, World world, BlockPos pos) {
-		
-	}
+	public void setState(boolean isActive, TileEntity tile) {}
 	
 	@Override
 	public void onGuiOpened(World world, BlockPos pos) {

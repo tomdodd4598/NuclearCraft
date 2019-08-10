@@ -184,7 +184,7 @@ public class SaltFissionReactor extends CuboidalMultiblockBase<SaltFissionUpdate
 	@Override
 	protected void onMachineDisassembled() {
 		isReactorOn = false;
-		if (controller != null) controller.updateBlock(false);
+		if (controller != null) controller.updateBlockState(false);
 		cooling = heating = rawEfficiency = heatMult = coolingEfficiency = 0D;
 	}
 	
@@ -242,7 +242,7 @@ public class SaltFissionReactor extends CuboidalMultiblockBase<SaltFissionUpdate
 		boolean oldIsReactorOn = isReactorOn;
 		isReactorOn = (isRedstonePowered() || computerActivated) && isAssembled();
 		if (isReactorOn != oldIsReactorOn) {
-			if (controller != null) controller.updateBlock(isReactorOn);
+			if (controller != null) controller.updateBlockState(isReactorOn);
 			sendUpdateToAllPlayers();
 		}
 	}

@@ -124,7 +124,7 @@ public class HeatExchanger extends CuboidalMultiblockBase<HeatExchangerUpdatePac
 	@Override
 	protected void onMachineDisassembled() {
 		isHeatExchangerOn = false;
-		if (controller != null) controller.updateBlock(false);
+		if (controller != null) controller.updateBlockState(false);
 		fractionOfTubesActive = efficiency = 0D;
 	}
 	
@@ -170,7 +170,7 @@ public class HeatExchanger extends CuboidalMultiblockBase<HeatExchangerUpdatePac
 		boolean oldIsHeatExchangerOn = isHeatExchangerOn;
 		isHeatExchangerOn = (isRedstonePowered() || computerActivated) && isAssembled();
 		if (isHeatExchangerOn != oldIsHeatExchangerOn) {
-			if (controller != null) controller.updateBlock(isHeatExchangerOn);
+			if (controller != null) controller.updateBlockState(isHeatExchangerOn);
 			sendUpdateToAllPlayers();
 		}
 	}

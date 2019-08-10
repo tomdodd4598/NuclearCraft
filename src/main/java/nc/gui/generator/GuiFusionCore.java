@@ -9,8 +9,8 @@ import nc.config.NCConfig;
 import nc.container.generator.ContainerFusionCore;
 import nc.gui.NCGui;
 import nc.gui.element.GuiFluidRenderer;
-import nc.gui.element.NCGuiButton;
-import nc.gui.element.NCGuiToggleButton;
+import nc.gui.element.NCButton;
+import nc.gui.element.NCToggleButton;
 import nc.network.PacketHandler;
 import nc.network.gui.EmptyTankPacket;
 import nc.network.gui.ToggleAlternateComparatorPacket;
@@ -19,8 +19,10 @@ import nc.network.gui.ToggleVoidExcessFluidOutputPacket;
 import nc.network.gui.ToggleVoidUnusableFluidInputPacket;
 import nc.tile.energy.ITileEnergy;
 import nc.tile.generator.TileFusionCore;
+import nc.tile.internal.fluid.TankOutputSetting;
 import nc.util.Lang;
 import nc.util.NCMath;
+import nc.util.NCUtil;
 import nc.util.UnitHelper;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
@@ -136,22 +138,22 @@ public class GuiFusionCore extends NCGui {
 	@Override
 	public void initGui() {
 		super.initGui();
-		buttonList.add(new NCGuiButton.EmptyTankButton(0, guiLeft + 38, guiTop + 6, 6, 46));
-		buttonList.add(new NCGuiButton.EmptyTankButton(1, guiLeft + 38, guiTop + 55, 6, 46));
-		buttonList.add(new NCGuiButton.EmptyTankButton(2, guiLeft + 172, guiTop + 6, 6, 46));
-		buttonList.add(new NCGuiButton.EmptyTankButton(3, guiLeft + 182, guiTop + 6, 6, 46));
-		buttonList.add(new NCGuiButton.EmptyTankButton(4, guiLeft + 172, guiTop + 55, 6, 46));
-		buttonList.add(new NCGuiButton.EmptyTankButton(5, guiLeft + 182, guiTop + 55, 6, 46));
-		buttonList.add(new NCGuiToggleButton.ToggleInputTanksSeparatedButton(6, guiLeft + 171, guiTop + 104, tile));
-		buttonList.add(new NCGuiToggleButton.ToggleVoidUnusableFluidInputButton(7, guiLeft + 171, guiTop + 123, tile, 2));
-		buttonList.add(new NCGuiToggleButton.ToggleVoidExcessFluidOutputButton(8, guiLeft + 171, guiTop + 142, tile, 2));
-		buttonList.add(new NCGuiToggleButton.ToggleAlternateComparatorButton(9, guiLeft + 171, guiTop + 162, tile));
+		buttonList.add(new NCButton.EmptyTank(0, guiLeft + 38, guiTop + 6, 6, 46));
+		buttonList.add(new NCButton.EmptyTank(1, guiLeft + 38, guiTop + 55, 6, 46));
+		buttonList.add(new NCButton.EmptyTank(2, guiLeft + 172, guiTop + 6, 6, 46));
+		buttonList.add(new NCButton.EmptyTank(3, guiLeft + 182, guiTop + 6, 6, 46));
+		buttonList.add(new NCButton.EmptyTank(4, guiLeft + 172, guiTop + 55, 6, 46));
+		buttonList.add(new NCButton.EmptyTank(5, guiLeft + 182, guiTop + 55, 6, 46));
+		buttonList.add(new NCToggleButton.InputTanksSeparated(6, guiLeft + 171, guiTop + 104, tile));
+		buttonList.add(new NCToggleButton.VoidUnusableFluidInput(7, guiLeft + 171, guiTop + 123, tile, 2));
+		buttonList.add(new NCToggleButton.VoidExcessFluidOutput(8, guiLeft + 171, guiTop + 142, tile, 2));
+		buttonList.add(new NCToggleButton.AlternateComparator(9, guiLeft + 171, guiTop + 162, tile));
 	}
 	
 	@Override
 	protected void actionPerformed(GuiButton guiButton) {
 		if (tile.getWorld().isRemote) {
-			for (int i = 0; i < 6; i++) if (guiButton.id == i && isShiftKeyDown()) {
+			for (int i = 0; i < 6; i++) if (guiButton.id == i && NCUtil.isModifierKeyDown()) {
 				PacketHandler.instance.sendToServer(new EmptyTankPacket(tile, i));
 			}
 			if (guiButton.id == 6) {
@@ -166,7 +168,7 @@ public class GuiFusionCore extends NCGui {
 			}
 			if (guiButton.id == 8) {
 				for (int i = 0; i < tile.getTanks().size(); i++) {
-					tile.setVoidExcessFluidOutput(i, !tile.getVoidExcessFluidOutput(i));
+					tile.setTankOutputSetting(i, tile.getTankOutputSetting(i) == TankOutputSetting.DEFAULT ? TankOutputSetting.VOID_EXCESS : TankOutputSetting.DEFAULT);
 					PacketHandler.instance.sendToServer(new ToggleVoidExcessFluidOutputPacket(tile, i));
 				}
 			}

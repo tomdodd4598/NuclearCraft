@@ -51,8 +51,8 @@ public abstract class TileBeefBase extends TileEntity implements ITile, ITickabl
 	
 	public void onAdded() {
 		if (world.isRemote) {
-			getWorld().markBlockRangeForRenderUpdate(pos, pos);
-			getWorld().getChunk(getPos()).markDirty();
+			world.markBlockRangeForRenderUpdate(pos, pos);
+			world.getChunk(pos).markDirty();
 			refreshIsRedstonePowered(world, pos);
 			markDirty();
 		}
@@ -60,41 +60,49 @@ public abstract class TileBeefBase extends TileEntity implements ITile, ITickabl
 	
 	@Override
 	public World getTileWorld() {
-		return getWorld();
+		return world;
 	}
 	
 	@Override
 	public BlockPos getTilePos() {
-		return getPos();
-	}
-	
-	@Override
-	public void markTileDirty() {
-		markDirty();
+		return pos;
 	}
 	
 	@Override
 	public Block getTileBlockType() {
 		return getBlockType();
 	}
+
+	@Override
+	public int getTileBlockMeta() {
+		return getBlockMetadata();
+	}
 	
 	@Override
 	public IRadiationSource getRadiationSource() {
 		return radiation;
 	}
-
+	
 	public boolean isUseableByPlayer(EntityPlayer entityplayer) {
-		BlockPos position = getPos();
-
-		if (getWorld().getTileEntity(position) != this)
-			return false;
-
+		BlockPos position = pos;
+		
+		if (world.getTileEntity(position) != this) return false;
+		
 		return entityplayer.getDistanceSq(position.getX() + 0.5D, position.getY() + 0.5D, position.getZ() + 0.5D) <= 64D;
 	}
 	
 	@Override
-	public void setState(boolean isActive) {
-		if (getBlockType() instanceof IActivatable) ((IActivatable)getBlockType()).setState(isActive, world, pos);
+	public void setState(boolean isActive, TileEntity tile) {
+		if (getBlockType() instanceof IActivatable) {
+			((IActivatable)getBlockType()).setState(isActive, tile);
+		}
+	}
+	
+	@Override
+	public void markDirtyAndNotify() {
+		markDirty();
+		world.notifyBlockUpdate(pos, world.getBlockState(pos), world.getBlockState(pos), 3);
+		world.notifyNeighborsOfStateChange(pos, getBlockType(), true);
 	}
 	
 	// Redstone
@@ -146,11 +154,11 @@ public abstract class TileBeefBase extends TileEntity implements ITile, ITickabl
 		}
 		return super.getCapability(capability, side);
 	}
-
+	
 	/*
 	GUI management
 	 */
-
+	
 	/**
 	 * Check if the tile entity has a GUI or not
 	 * Override in derived classes to return true if your tile entity got a GUI
@@ -158,7 +166,7 @@ public abstract class TileBeefBase extends TileEntity implements ITile, ITickabl
 	public boolean canOpenGui(World world, BlockPos posistion, IBlockState state) {
 		return false;
 	}
-
+	
 	/**
 	 * Open the specified GUI
 	 *
@@ -168,10 +176,10 @@ public abstract class TileBeefBase extends TileEntity implements ITile, ITickabl
 	 */
 	public boolean openGui(Object mod, EntityPlayer player, int guiId) {
 
-		player.openGui(mod, guiId, getWorld(), pos.getX(), pos.getY(), pos.getZ());
+		player.openGui(mod, guiId, world, pos.getX(), pos.getY(), pos.getZ());
 		return true;
 	}
-
+	
 	/**
 	 * Returns a Server side Container to be displayed to the user.
 	 *
@@ -182,7 +190,7 @@ public abstract class TileBeefBase extends TileEntity implements ITile, ITickabl
 	public Object getServerGuiElement(int guiId, EntityPlayer player) {
 		return null;
 	}
-
+	
 	/**
 	 * Returns a Container to be displayed to the user. On the client side, this
 	 * needs to return a instance of GuiScreen On the server side, this needs to
@@ -195,11 +203,11 @@ public abstract class TileBeefBase extends TileEntity implements ITile, ITickabl
 	public Object getClientGuiElement(int guiId, EntityPlayer player) {
 		return null;
 	}
-
+	
 	/*
 	TileEntity synchronization
 	 */
-
+	
 	public enum SyncReason {
 		FullSync,	   // full sync from storage
 		NetworkUpdate   // update from the other side
@@ -229,7 +237,7 @@ public abstract class TileBeefBase extends TileEntity implements ITile, ITickabl
 		if (shouldSaveRadiation()) writeRadiation(data);
 		return data;
 	}
-
+	
 	@Override
 	public void readFromNBT(NBTTagCompound data) {
 		super.readFromNBT(data);
@@ -243,13 +251,13 @@ public abstract class TileBeefBase extends TileEntity implements ITile, ITickabl
 		redstoneControl = data.getBoolean("redstoneControl");
 		if (shouldSaveRadiation()) readRadiation(data);
 	}
-
+	
 	@Override
 	public void handleUpdateTag(NBTTagCompound data) {
 		super.handleUpdateTag(data);
 		syncDataFrom(data, SyncReason.NetworkUpdate);
 	}
-
+	
 	@Override
 	public NBTTagCompound getUpdateTag() {
 		NBTTagCompound data = super.getUpdateTag();
@@ -257,13 +265,13 @@ public abstract class TileBeefBase extends TileEntity implements ITile, ITickabl
 		syncDataTo(data, SyncReason.NetworkUpdate);
 		return data;
 	}
-
+	
 	@Override
 	public final void onDataPacket(NetworkManager net, SPacketUpdateTileEntity packet) {
 		readAll(packet.getNbtCompound());
 		syncDataFrom(packet.getNbtCompound(), SyncReason.NetworkUpdate);
 	}
-
+	
 	@Nullable
 	@Override
 	public SPacketUpdateTileEntity getUpdatePacket() {
@@ -271,59 +279,20 @@ public abstract class TileBeefBase extends TileEntity implements ITile, ITickabl
 		writeAll(data);
 		int metadata = getBlockMetadata();
 		syncDataTo(data, SyncReason.NetworkUpdate);
-		return new SPacketUpdateTileEntity(getPos(), metadata, data);
+		return new SPacketUpdateTileEntity(pos, metadata, data);
 	}
-
+	
 	/**
 	 * Sync tile entity data from the given NBT compound
 	 * @param data the data
 	 * @param syncReason the reason why the synchronization is necessary
 	 */
 	protected abstract void syncDataFrom(NBTTagCompound data, SyncReason syncReason);
-
+	
 	/**
 	 * Sync tile entity data to the given NBT compound
 	 * @param data the data
 	 * @param syncReason the reason why the synchronization is necessary
 	 */
 	protected abstract void syncDataTo(NBTTagCompound data, SyncReason syncReason);
-
-	/*
-	 Chunk and block updates
-	 */
-
-	@Override
-	public void onChunkUnload() {
-		if (!tileEntityInvalid) {
-			invalidate();
-		}
-	}
-
-	public void markChunkDirty() {
-
-		getWorld().markChunkDirty(getPos(), this);
-	}
-
-	public void callNeighborBlockChange() {
-
-		getWorld().notifyNeighborsOfStateChange(getPos(), getBlockType(), true);
-	}
-
-	@Deprecated // not implemented
-	public void callNeighborTileChange() {
-		//WORLD.func_147453_f(xCoord, yCoord, zCoord, getBlockType());
-	}
-
-	public void notifyBlockUpdate() {
-		WorldHelper.notifyBlockUpdate(getWorld(), getPos(), null, null);
-	}
-
-	public void notifyBlockUpdate(IBlockState oldState, IBlockState newState) {
-		WorldHelper.notifyBlockUpdate(getWorld(), getPos(), oldState, newState);
-	}
-
-	public void nofityTileEntityUpdate() {
-		markDirty();
-		WorldHelper.notifyBlockUpdate(getWorld(), getPos(), null, null);
-	}
 }

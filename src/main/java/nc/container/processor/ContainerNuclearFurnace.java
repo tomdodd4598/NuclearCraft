@@ -1,13 +1,13 @@
 package nc.container.processor;
 
 import nc.container.ContainerTile;
+import nc.container.SlotFurnace;
 import nc.container.SlotNuclearFuel;
+import nc.tile.inventory.ITileInventory;
 import nc.tile.processor.TileNuclearFurnace;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IContainerListener;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
-import net.minecraft.inventory.SlotFurnaceOutput;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 
@@ -17,11 +17,11 @@ public class ContainerNuclearFurnace extends ContainerTile {
 	private int furnaceBurnTime;
 	private int currentItemBurnTime;
 	
-	public ContainerNuclearFurnace(EntityPlayer player, IInventory inventory) {
-		super(inventory);
-		addSlotToContainer(new Slot(inventory, 0, 56, 17));
-		addSlotToContainer(new SlotNuclearFuel(inventory, 1, 56, 53));
-		addSlotToContainer(new SlotFurnaceOutput(player, inventory, 2, 116, 35));
+	public ContainerNuclearFurnace(EntityPlayer player, ITileInventory tile) {
+		super(tile);
+		addSlotToContainer(new Slot(tile.getInventory(), 0, 56, 17));
+		addSlotToContainer(new SlotNuclearFuel(tile, 1, 56, 53));
+		addSlotToContainer(new SlotFurnace(player, tile, 2, 116, 35));
 		
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 9; j++) {
@@ -42,27 +42,27 @@ public class ContainerNuclearFurnace extends ContainerTile {
 		for (int i = 0; i < listeners.size(); i++) {
 			IContainerListener icontainerlistener = listeners.get(i);
 			
-			if (furnaceBurnTime != tile.getField(0)) {
-				icontainerlistener.sendWindowProperty(this, 0, tile.getField(0));
+			if (furnaceBurnTime != invWrapper.getField(0)) {
+				icontainerlistener.sendWindowProperty(this, 0, invWrapper.getField(0));
 			}
 			
-			if (currentItemBurnTime != tile.getField(1)) {
-				icontainerlistener.sendWindowProperty(this, 1, tile.getField(1));
+			if (currentItemBurnTime != invWrapper.getField(1)) {
+				icontainerlistener.sendWindowProperty(this, 1, invWrapper.getField(1));
 			}
 			
-			if (cookTime != tile.getField(2)) {
-				icontainerlistener.sendWindowProperty(this, 2, tile.getField(2));
+			if (cookTime != invWrapper.getField(2)) {
+				icontainerlistener.sendWindowProperty(this, 2, invWrapper.getField(2));
 			}
 			
-			if (totalCookTime != tile.getField(3)) {
-				icontainerlistener.sendWindowProperty(this, 3, tile.getField(3));
+			if (totalCookTime != invWrapper.getField(3)) {
+				icontainerlistener.sendWindowProperty(this, 3, invWrapper.getField(3));
 			}
 		}
 		
-		furnaceBurnTime = tile.getField(0);
-		currentItemBurnTime = tile.getField(1);
-		cookTime = tile.getField(2);
-		totalCookTime = tile.getField(3);
+		furnaceBurnTime = invWrapper.getField(0);
+		currentItemBurnTime = invWrapper.getField(1);
+		cookTime = invWrapper.getField(2);
+		totalCookTime = invWrapper.getField(3);
 	}
 
 	@Override

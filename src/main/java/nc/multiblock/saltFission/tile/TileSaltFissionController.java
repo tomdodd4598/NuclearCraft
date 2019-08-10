@@ -36,9 +36,9 @@ public class TileSaltFissionController extends TileSaltFissionPartBase {
 		if (getMultiblock() != null) getMultiblock().setIsReactorOn();
 	}
 	
-	public void updateBlock(boolean active) {
+	public void updateBlockState(boolean isActive) {
 		if (getBlockType() instanceof BlockSaltFissionController) {
-			((BlockSaltFissionController)getBlockType()).setActiveState(getBlockState(pos), world, pos, active);
+			((BlockSaltFissionController)getBlockType()).setState(isActive, this);
 			world.notifyNeighborsOfStateChange(pos, getBlockType(), true);
 		}
 	}

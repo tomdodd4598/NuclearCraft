@@ -18,6 +18,7 @@ import nc.tile.energyFluid.TileEnergyFluidSidedInventory;
 import nc.tile.fluid.ITileFluid;
 import nc.tile.internal.energy.EnergyConnection;
 import nc.tile.internal.fluid.Tank;
+import nc.tile.internal.fluid.TankOutputSetting;
 import nc.tile.internal.fluid.TankSorption;
 import nc.tile.internal.inventory.ItemSorption;
 import nc.tile.inventory.ITileInventory;
@@ -103,7 +104,7 @@ public abstract class TileFluidGenerator extends TileEnergyFluidSidedInventory i
 	
 	public void updateBlockType() {
 		if (ModCheck.ic2Loaded()) removeTileFromENet();
-		setState(isProcessing);
+		setState(isProcessing, this);
 		world.notifyNeighborsOfStateChange(pos, getBlockType(), true);
 		if (ModCheck.ic2Loaded()) addTileToENet();
 	}
@@ -160,13 +161,17 @@ public abstract class TileFluidGenerator extends TileEnergyFluidSidedInventory i
 	
 	public boolean canProduceProducts() {
 		for(int j = 0; j < fluidOutputSize; j++) {
+			if (getTankOutputSetting(j + fluidInputSize) == TankOutputSetting.VOID) {
+				clearTank(j + fluidInputSize);
+				continue;
+			}
 			IFluidIngredient fluidProduct = getFluidProducts().get(j);
 			if (fluidProduct.getMaxStackSize(0) <= 0) continue;
 			if (fluidProduct.getStack() == null) return false;
 			else if (!getTanks().get(j + fluidInputSize).isEmpty()) {
 				if (!getTanks().get(j + fluidInputSize).getFluid().isFluidEqual(fluidProduct.getStack())) {
 					return false;
-				} else if (!getVoidExcessFluidOutput(j) && getTanks().get(j + fluidInputSize).getFluidAmount() + fluidProduct.getMaxStackSize(0) > getTanks().get(j + fluidInputSize).getCapacity()) {
+				} else if (getTankOutputSetting(j + fluidInputSize) == TankOutputSetting.DEFAULT && getTanks().get(j + fluidInputSize).getFluidAmount() + fluidProduct.getMaxStackSize(0) > getTanks().get(j + fluidInputSize).getCapacity()) {
 					return false;
 				}
 			}
@@ -223,6 +228,10 @@ public abstract class TileFluidGenerator extends TileEnergyFluidSidedInventory i
 		if (!hasConsumed || recipeInfo == null) return;
 		
 		for (int j = 0; j < fluidOutputSize; j++) {
+			if (getTankOutputSetting(j + fluidInputSize) == TankOutputSetting.VOID) {
+				clearTank(j + fluidInputSize);
+				continue;
+			}
 			IFluidIngredient fluidProduct = getFluidProducts().get(j);
 			if (fluidProduct.getNextStackSize(0) <= 0) continue;
 			if (getTanks().get(j + fluidInputSize).isEmpty()) {
@@ -273,6 +282,11 @@ public abstract class TileFluidGenerator extends TileEnergyFluidSidedInventory i
 	@Override
 	public boolean canExtractItem(int slot, ItemStack stack, EnumFacing side) {
 		return super.canExtractItem(slot, stack, side);
+	}
+	
+	@Override
+	public boolean hasConfigurableFluidConnections() {
+		return true;
 	}
 	
 	// NBT

@@ -21,6 +21,7 @@ import nc.tile.energy.ITileEnergy;
 import nc.tile.energy.TileEnergySidedInventory;
 import nc.tile.internal.energy.EnergyConnection;
 import nc.tile.internal.fluid.Tank;
+import nc.tile.internal.inventory.ItemOutputSetting;
 import nc.tile.internal.inventory.ItemSorption;
 import nc.tile.inventory.ITileInventory;
 import net.minecraft.entity.player.EntityPlayer;
@@ -39,18 +40,18 @@ public class TileItemProcessor extends TileEnergySidedInventory implements IItem
 	public boolean isProcessing, canProcessInputs;
 	
 	public final boolean shouldLoseProgress, hasUpgrades;
-	public final int processorID;
+	public final int processorID, sideConfigYOffset;
 	
 	public final ProcessorRecipeHandler recipeHandler;
 	protected RecipeInfo<ProcessorRecipe> recipeInfo;
 	
 	protected Set<EntityPlayer> playersToUpdate;
 	
-	public TileItemProcessor(String name, int itemInSize, int itemOutSize, @Nonnull List<ItemSorption> itemSorptions, int time, int power, boolean shouldLoseProgress, @Nonnull ProcessorRecipeHandler recipeHandler, int processorID) {
-		this(name, itemInSize, itemOutSize, itemSorptions, time, power, shouldLoseProgress, true, recipeHandler, processorID);
+	public TileItemProcessor(String name, int itemInSize, int itemOutSize, @Nonnull List<ItemSorption> itemSorptions, int time, int power, boolean shouldLoseProgress, @Nonnull ProcessorRecipeHandler recipeHandler, int processorID, int sideConfigYOffset) {
+		this(name, itemInSize, itemOutSize, itemSorptions, time, power, shouldLoseProgress, true, recipeHandler, processorID, sideConfigYOffset);
 	}
 	
-	public TileItemProcessor(String name, int itemInSize, int itemOutSize, @Nonnull List<ItemSorption> itemSorptions, int time, int power, boolean shouldLoseProgress, boolean upgrades, @Nonnull ProcessorRecipeHandler recipeHandler, int processorID) {
+	public TileItemProcessor(String name, int itemInSize, int itemOutSize, @Nonnull List<ItemSorption> itemSorptions, int time, int power, boolean shouldLoseProgress, boolean upgrades, @Nonnull ProcessorRecipeHandler recipeHandler, int processorID, int sideConfigYOffset) {
 		super(name, itemInSize + itemOutSize + (upgrades ? 2 : 0), ITileInventory.inventoryConnectionAll(itemSorptions), IProcessor.getCapacity(recipeHandler, time, 1D, power, 1D), power != 0 ? ITileEnergy.energyConnectionAll(EnergyConnection.IN) : ITileEnergy.energyConnectionAll(EnergyConnection.NON));
 		itemInputSize = itemInSize;
 		itemOutputSize = itemOutSize;
@@ -63,6 +64,7 @@ public class TileItemProcessor extends TileEnergySidedInventory implements IItem
 		this.shouldLoseProgress = shouldLoseProgress;
 		hasUpgrades = upgrades;
 		this.processorID = processorID;
+		this.sideConfigYOffset = sideConfigYOffset;
 		
 		this.recipeHandler = recipeHandler;
 		
@@ -107,7 +109,7 @@ public class TileItemProcessor extends TileEnergySidedInventory implements IItem
 			if (isProcessing) process();
 			else {
 				getRadiationSource().setRadiationLevel(0D);
-				if (time > 0 && !isHaltedByRedstone()) loseProgress();
+				if (time > 0 && (!isHaltedByRedstone() || !readyToProcess())) loseProgress();
 			}
 			if (wasProcessing != isProcessing) {
 				shouldUpdate = true;
@@ -121,7 +123,7 @@ public class TileItemProcessor extends TileEnergySidedInventory implements IItem
 	
 	public void updateBlockType() {
 		if (ModCheck.ic2Loaded()) removeTileFromENet();
-		setState(isProcessing);
+		setState(isProcessing, this);
 		world.notifyNeighborsOfStateChange(pos, getBlockType(), true);
 		if (ModCheck.ic2Loaded()) addTileToENet();
 	}
@@ -203,13 +205,17 @@ public class TileItemProcessor extends TileEnergySidedInventory implements IItem
 	
 	public boolean canProduceProducts() {
 		for (int j = 0; j < itemOutputSize; j++) {
+			if (getItemOutputSetting(j + itemInputSize) == ItemOutputSetting.VOID) {
+				getInventoryStacks().set(j + itemInputSize, ItemStack.EMPTY);
+				continue;
+			}
 			IItemIngredient itemProduct = getItemProducts().get(j);
 			if (itemProduct.getMaxStackSize(0) <= 0) continue;
 			if (itemProduct.getStack() == null || itemProduct.getStack() == ItemStack.EMPTY) return false;
 			else if (!getInventoryStacks().get(j + itemInputSize).isEmpty()) {
 				if (!getInventoryStacks().get(j + itemInputSize).isItemEqual(itemProduct.getStack())) {
 					return false;
-				} else if (getInventoryStacks().get(j + itemInputSize).getCount() + itemProduct.getMaxStackSize(0) > getInventoryStacks().get(j + itemInputSize).getMaxStackSize()) {
+				} else if (getItemOutputSetting(j + itemInputSize) == ItemOutputSetting.DEFAULT && getInventoryStacks().get(j + itemInputSize).getCount() + itemProduct.getMaxStackSize(0) > getInventoryStacks().get(j + itemInputSize).getMaxStackSize()) {
 					return false;
 				}
 			}
@@ -245,12 +251,17 @@ public class TileItemProcessor extends TileEnergySidedInventory implements IItem
 			if (getInventoryStacks().get(i).getCount() <= 0) getInventoryStacks().set(i, ItemStack.EMPTY);
 		}
 		for (int j = 0; j < itemOutputSize; j++) {
+			if (getItemOutputSetting(j + itemInputSize) == ItemOutputSetting.VOID) {
+				getInventoryStacks().set(j + itemInputSize, ItemStack.EMPTY);
+				continue;
+			}
 			IItemIngredient itemProduct = getItemProducts().get(j);
 			if (itemProduct.getMaxStackSize(0) <= 0) continue;
 			if (getInventoryStacks().get(j + itemInputSize).isEmpty()) {
 				getInventoryStacks().set(j + itemInputSize, itemProduct.getNextStack(0));
 			} else if (getInventoryStacks().get(j + itemInputSize).isItemEqual(itemProduct.getStack())) {
-				getInventoryStacks().get(j + itemInputSize).grow(itemProduct.getNextStackSize(0));
+				int count = Math.min(getInventoryStackLimit(), getInventoryStacks().get(j + itemInputSize).getCount() + itemProduct.getNextStackSize(0));
+				getInventoryStacks().get(j + itemInputSize).setCount(count);
 			}
 		}
 	}
@@ -389,6 +400,11 @@ public class TileItemProcessor extends TileEnergySidedInventory implements IItem
 		return super.canInsertItem(slot, stack, side) && isItemValidForSlot(slot, stack);
 	}
 	
+	@Override
+	public boolean hasConfigurableInventoryConnections() {
+		return true;
+	}
+	
 	// NBT
 	
 	@Override
@@ -434,5 +450,10 @@ public class TileItemProcessor extends TileEnergySidedInventory implements IItem
 		getEnergyStorage().setEnergyStored(message.energyStored);
 		baseProcessTime = message.baseProcessTime;
 		baseProcessPower = message.baseProcessPower;
+	}
+	
+	@Override
+	public int getSideConfigYOffset() {
+		return sideConfigYOffset;
 	}
 }

@@ -21,22 +21,22 @@ repositories {
 	maven {
 		// JEI & TiC
 		name = "progwml6"
-		url = 'http://dvs1.progwml6.com/files/maven/'
+		url = "http://dvs1.progwml6.com/files/maven/"
 	}
 	maven {
 		// CraftTweaker
 		name = "blamejared"
-		url = 'http://maven.blamejared.com/'
+		url = "http://maven.blamejared.com/"
 	}
 	maven {
 		// IC2
 		name = "ic2"
-		url = 'http://maven.ic2.player.to/'
+		url = "http://maven.ic2.player.to/"
 	}
 	maven {
 		// OpenComputers
 		name = "cil"
-		url = 'http://maven.cil.li/'
+		url = "http://maven.cil.li/"
 	}
 	maven {
 		name = "CoFH Maven"
@@ -48,7 +48,17 @@ repositories {
 	}
 	maven {
 		// AE2
-		url "http://ae2.ae-mod.info/Downloads"
+		url = "http://ae2.ae-mod.info/Downloads"
+	}
+	maven {
+		// CyclopsMC
+		name = "CyclopsMC"
+		url = "https://oss.jfrog.org/artifactory/simple/libs-release/"
+	}
+	maven {
+		// General
+		name = "mcmoddev"
+		url = "https://maven.mcmoddev.com"
 	}
 	maven {
 		// Fallbacks
@@ -93,6 +103,8 @@ dependencies {
 	deobfCompile "gregtechce:gregtech:${gregtech_version}"
 	deobfCompile "mekanism:Mekanism:${mekanism_version}"
 	deobfCompile "projecte:ProjectE:${projecte_version}"
+	deobfCompile "org.cyclops.commoncapabilities:CommonCapabilities:${mc_version}-${common_capabilities_version}"
+	deobfCompile "net.darkhax.gamestages:GameStages-${mc_version}:${gamestages_version}"
 	deobfCompile ("appeng:appliedenergistics2:rv6-stable-6"){
 		transitive = false
 	}

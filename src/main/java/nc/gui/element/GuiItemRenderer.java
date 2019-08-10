@@ -16,7 +16,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class GuiItemRenderer extends Gui {
 	
-	private static Minecraft minecraft = Minecraft.getMinecraft();
+	private static final Minecraft MC = Minecraft.getMinecraft();
 	
 	public static final int DEFAULT_WIDTH = 16;
 	public static final int HWIDTH = DEFAULT_WIDTH / 2;
@@ -97,11 +97,11 @@ public class GuiItemRenderer extends Gui {
 	}
 	
 	public static void bindTexture(String string) {
-		minecraft.renderEngine.bindTexture(new ResourceLocation(string));
+		MC.renderEngine.bindTexture(new ResourceLocation(string));
 	}
 	
 	public static void bindTexture(@Nonnull ResourceLocation tex) {
-		minecraft.renderEngine.bindTexture(tex);
+		MC.renderEngine.bindTexture(tex);
 	}
 	
 	public void draw() {

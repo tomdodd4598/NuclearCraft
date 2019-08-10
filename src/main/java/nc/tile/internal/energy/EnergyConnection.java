@@ -17,16 +17,30 @@ public enum EnergyConnection implements IStringSerializable {
 		return this != NON;
 	}
 	
-	public EnergyConnection next() {
-		switch (this) {
-		case IN:
-			return OUT;
-		case OUT:
-			return NON;
-		case NON:
-			return IN;
+	public EnergyConnection next(Type type) {
+		switch (type) {
+		case DEFAULT:
+			switch (this) {
+			case IN:
+				return OUT;
+			case OUT:
+				return NON;
+			case NON:
+				return IN;
+			default:
+				return NON;
+			}
 		default:
-			return NON;
+			switch (this) {
+			case IN:
+				return OUT;
+			case OUT:
+				return NON;
+			case NON:
+				return IN;
+			default:
+				return NON;
+			}
 		}
 	}
 
@@ -44,5 +58,9 @@ public enum EnergyConnection implements IStringSerializable {
 		default:
 			return "non";
 		}
+	}
+	
+	public static enum Type {
+		DEFAULT;
 	}
 }

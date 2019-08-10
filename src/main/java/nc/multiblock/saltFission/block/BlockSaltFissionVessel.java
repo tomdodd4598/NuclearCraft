@@ -100,7 +100,7 @@ public class BlockSaltFissionVessel extends BlockSaltFissionPartBase implements 
 			TileSaltFissionVessel other = (TileSaltFissionVessel) world.getTileEntity(from);
 			vessel.setFluidConnections(FluidConnection.cloneArray(other.getFluidConnections()));
 			vessel.setVesselSettings(other.getVesselSettings().clone());
-			vessel.markAndRefresh();
+			vessel.markDirtyAndNotify();
 		}
 	}
 }

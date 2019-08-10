@@ -6,9 +6,18 @@ import nc.multiblock.network.SaltFissionUpdatePacket;
 import nc.multiblock.network.TurbineUpdatePacket;
 import nc.network.config.ConfigUpdatePacket;
 import nc.network.gui.EmptyTankPacket;
+import nc.network.gui.OpenGuiPacket;
+import nc.network.gui.OpenSideConfigGuiPacket;
+import nc.network.gui.OpenTileGuiPacket;
+import nc.network.gui.ResetItemSorptionsPacket;
+import nc.network.gui.ResetTankSorptionsPacket;
 import nc.network.gui.ToggleAlternateComparatorPacket;
 import nc.network.gui.ToggleInputTanksSeparatedPacket;
+import nc.network.gui.ToggleItemOutputSettingPacket;
+import nc.network.gui.ToggleItemSorptionPacket;
 import nc.network.gui.ToggleRedstoneControlPacket;
+import nc.network.gui.ToggleTankOutputSettingPacket;
+import nc.network.gui.ToggleTankSorptionPacket;
 import nc.network.gui.ToggleVoidExcessFluidOutputPacket;
 import nc.network.gui.ToggleVoidUnusableFluidInputPacket;
 import nc.network.radiation.PlayerRadsUpdatePacket;
@@ -40,6 +49,16 @@ public class PacketHandler {
 		instance.registerMessage(ToggleVoidExcessFluidOutputPacket.Handler.class, ToggleVoidExcessFluidOutputPacket.class, nextID(), Side.SERVER);
 		instance.registerMessage(ToggleAlternateComparatorPacket.Handler.class, ToggleAlternateComparatorPacket.class, nextID(), Side.SERVER);
 		instance.registerMessage(ToggleRedstoneControlPacket.Handler.class, ToggleRedstoneControlPacket.class, nextID(), Side.SERVER);
+		
+		instance.registerMessage(OpenGuiPacket.Handler.class, OpenGuiPacket.class, nextID(), Side.SERVER);
+		instance.registerMessage(OpenTileGuiPacket.Handler.class, OpenTileGuiPacket.class, nextID(), Side.SERVER);
+		instance.registerMessage(OpenSideConfigGuiPacket.Handler.class, OpenSideConfigGuiPacket.class, nextID(), Side.SERVER);
+		instance.registerMessage(ToggleItemSorptionPacket.Handler.class, ToggleItemSorptionPacket.class, nextID(), Side.SERVER);
+		instance.registerMessage(ResetItemSorptionsPacket.Handler.class, ResetItemSorptionsPacket.class, nextID(), Side.SERVER);
+		instance.registerMessage(ToggleItemOutputSettingPacket.Handler.class, ToggleItemOutputSettingPacket.class, nextID(), Side.SERVER);
+		instance.registerMessage(ToggleTankSorptionPacket.Handler.class, ToggleTankSorptionPacket.class, nextID(), Side.SERVER);
+		instance.registerMessage(ResetTankSorptionsPacket.Handler.class, ResetTankSorptionsPacket.class, nextID(), Side.SERVER);
+		instance.registerMessage(ToggleTankOutputSettingPacket.Handler.class, ToggleTankOutputSettingPacket.class, nextID(), Side.SERVER);
 		
 		instance.registerMessage(ClearAllFluidsPacket.Handler.class, ClearAllFluidsPacket.class, nextID(), Side.SERVER);
 		

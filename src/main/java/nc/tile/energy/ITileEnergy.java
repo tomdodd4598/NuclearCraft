@@ -41,10 +41,10 @@ public interface ITileEnergy extends ITile {
 		getEnergyConnections()[side.getIndex()] = energyConnection;
 	}
 	
-	public default void toggleEnergyConnection(@Nonnull EnumFacing side) {
+	public default void toggleEnergyConnection(@Nonnull EnumFacing side, @Nonnull EnergyConnection.Type type) {
 		if (ModCheck.ic2Loaded()) removeTileFromENet();
-		setEnergyConnection(getEnergyConnection(side).next(), side);
-		markAndRefresh();
+		setEnergyConnection(getEnergyConnection(side).next(type), side);
+		markDirtyAndNotify();
 		if (ModCheck.ic2Loaded()) addTileToENet();
 	}
 	

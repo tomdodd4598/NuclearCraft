@@ -5,14 +5,15 @@ import nc.tile.internal.energy.EnergyConnection;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 
 public interface ISidedEnergy {
 	
-	public static final PropertySidedEnum<EnergyConnection> ENERGY_UP = energySide("up", EnumFacing.UP);
 	public static final PropertySidedEnum<EnergyConnection> ENERGY_DOWN = energySide("down", EnumFacing.DOWN);
+	public static final PropertySidedEnum<EnergyConnection> ENERGY_UP = energySide("up", EnumFacing.UP);
 	public static final PropertySidedEnum<EnergyConnection> ENERGY_NORTH = energySide("north", EnumFacing.NORTH);
 	public static final PropertySidedEnum<EnergyConnection> ENERGY_SOUTH = energySide("south", EnumFacing.SOUTH);
 	public static final PropertySidedEnum<EnergyConnection> ENERGY_WEST = energySide("west", EnumFacing.WEST);
@@ -23,15 +24,15 @@ public interface ISidedEnergy {
 	}
 	
 	public default IBlockState getActualEnergyState(IBlockState state, IBlockAccess world, BlockPos pos) {
-		return state.withProperty(ENERGY_NORTH, getEnergyConnection(world, pos, EnumFacing.NORTH)).withProperty(ENERGY_SOUTH, getEnergyConnection(world, pos, EnumFacing.SOUTH)).withProperty(ENERGY_WEST, getEnergyConnection(world, pos, EnumFacing.WEST)).withProperty(ENERGY_EAST, getEnergyConnection(world, pos, EnumFacing.EAST)).withProperty(ENERGY_UP, getEnergyConnection(world, pos, EnumFacing.UP)).withProperty(ENERGY_DOWN, getEnergyConnection(world, pos, EnumFacing.DOWN));
+		return state.withProperty(ENERGY_DOWN, getEnergyConnection(world, pos, EnumFacing.DOWN)).withProperty(ENERGY_UP, getEnergyConnection(world, pos, EnumFacing.UP)).withProperty(ENERGY_NORTH, getEnergyConnection(world, pos, EnumFacing.NORTH)).withProperty(ENERGY_SOUTH, getEnergyConnection(world, pos, EnumFacing.SOUTH)).withProperty(ENERGY_WEST, getEnergyConnection(world, pos, EnumFacing.WEST)).withProperty(ENERGY_EAST, getEnergyConnection(world, pos, EnumFacing.EAST));
 	}
 	
 	public default EnergyConnection getEnergyConnection(IBlockAccess world, BlockPos pos, EnumFacing facing) {
-		if (world.getTileEntity(pos) instanceof ITileEnergy) return ((ITileEnergy) world.getTileEntity(pos)).getEnergyConnection(facing);
-		return EnergyConnection.NON;
+		TileEntity tile = world.getTileEntity(pos);
+		return tile instanceof ITileEnergy ? ((ITileEnergy) tile).getEnergyConnection(facing) : EnergyConnection.NON;
 	}
 	
 	public default BlockStateContainer createEnergyBlockState(Block block) {
-		return new BlockStateContainer(block, ENERGY_NORTH, ENERGY_EAST, ENERGY_SOUTH, ENERGY_WEST, ENERGY_DOWN, ENERGY_UP);
+		return new BlockStateContainer(block, ENERGY_DOWN, ENERGY_UP, ENERGY_NORTH, ENERGY_SOUTH, ENERGY_WEST, ENERGY_EAST);
 	}
 }

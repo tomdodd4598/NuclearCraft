@@ -33,9 +33,9 @@ public class TileTurbineController extends TileTurbinePartBase {
 		if (getMultiblock() != null) getMultiblock().setIsTurbineOn();
 	}
 	
-	public void updateBlock(boolean active) {
+	public void updateBlockState(boolean isActive) {
 		if (getBlockType() instanceof BlockTurbineController) {
-			((BlockTurbineController)getBlockType()).setActiveState(getBlockState(pos), world, pos, active);
+			((BlockTurbineController)getBlockType()).setState(isActive, this);
 			world.notifyNeighborsOfStateChange(pos, getBlockType(), true);
 		}
 	}

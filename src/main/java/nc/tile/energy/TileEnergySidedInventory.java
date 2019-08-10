@@ -8,7 +8,6 @@ import nc.tile.internal.inventory.InventoryConnection;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.wrapper.SidedInvWrapper;
 
 public abstract class TileEnergySidedInventory extends TileEnergyInventory {
 	
@@ -24,8 +23,11 @@ public abstract class TileEnergySidedInventory extends TileEnergyInventory {
 	
 	@Override
 	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing side) {
-		if (!getInventoryStacks().isEmpty() && hasInventorySideCapability(side) && capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-			return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(new SidedInvWrapper(this, nonNullSide(side)));
+		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+			if (!getInventoryStacks().isEmpty() && hasInventorySideCapability(side)) {
+				return (T) getItemHandlerCapability(side);
+			}
+			return null;
 		}
 		return super.getCapability(capability, side);
 	}

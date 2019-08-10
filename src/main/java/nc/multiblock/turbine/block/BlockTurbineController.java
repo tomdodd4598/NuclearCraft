@@ -1,11 +1,11 @@
 package nc.multiblock.turbine.block;
 
+import static nc.block.property.BlockProperties.ACTIVE;
+import static nc.block.property.BlockProperties.FACING_ALL;
+
 import nc.NuclearCraft;
 import nc.init.NCBlocks;
 import nc.multiblock.turbine.tile.TileTurbineController;
-import net.minecraft.block.BlockDirectional;
-import net.minecraft.block.properties.PropertyBool;
-import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
@@ -18,12 +18,9 @@ import net.minecraft.world.World;
 
 public class BlockTurbineController extends BlockTurbinePartBase {
 	
-	private static final PropertyDirection FACING = BlockDirectional.FACING;
-	private static final PropertyBool ACTIVE = PropertyBool.create("active");
-	
 	public BlockTurbineController() {
 		super();
-		setDefaultState(blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(ACTIVE, Boolean.valueOf(false)));
+		setDefaultState(blockState.getBaseState().withProperty(FACING_ALL, EnumFacing.NORTH).withProperty(ACTIVE, Boolean.valueOf(false)));
 	}
 	
 	@Override
@@ -34,12 +31,12 @@ public class BlockTurbineController extends BlockTurbinePartBase {
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
 		EnumFacing enumfacing = EnumFacing.byIndex(meta & 7);
-		return getDefaultState().withProperty(FACING, enumfacing).withProperty(ACTIVE, Boolean.valueOf((meta & 8) > 0));
+		return getDefaultState().withProperty(FACING_ALL, enumfacing).withProperty(ACTIVE, Boolean.valueOf((meta & 8) > 0));
 	}
 	
 	@Override
 	public int getMetaFromState(IBlockState state) {
-		int i = state.getValue(FACING).getIndex();
+		int i = state.getValue(FACING_ALL).getIndex();
 		
 		if (state.getValue(ACTIVE).booleanValue()) i |= 8;
 		
@@ -48,12 +45,12 @@ public class BlockTurbineController extends BlockTurbinePartBase {
 	
 	@Override
 	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, FACING, ACTIVE);
+		return new BlockStateContainer(this, FACING_ALL, ACTIVE);
 	}
 	
 	@Override
 	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
-		return getDefaultState().withProperty(FACING, EnumFacing.getDirectionFromEntityLiving(pos, placer)).withProperty(ACTIVE, Boolean.valueOf(false));
+		return getDefaultState().withProperty(FACING_ALL, EnumFacing.getDirectionFromEntityLiving(pos, placer)).withProperty(ACTIVE, Boolean.valueOf(false));
 	}
 	
 	@Override
@@ -64,7 +61,7 @@ public class BlockTurbineController extends BlockTurbinePartBase {
 	
 	private static void setDefaultDirection(World world, BlockPos pos, IBlockState state) {
 		if (!world.isRemote) {
-			EnumFacing enumfacing = state.getValue(FACING);
+			EnumFacing enumfacing = state.getValue(FACING_ALL);
 			boolean flag = world.getBlockState(pos.north()).isFullBlock();
 			boolean flag1 = world.getBlockState(pos.south()).isFullBlock();
 
@@ -78,7 +75,7 @@ public class BlockTurbineController extends BlockTurbinePartBase {
 				if (enumfacing == EnumFacing.WEST && flag2 && !flag3) enumfacing = EnumFacing.EAST;
 				else if (enumfacing == EnumFacing.EAST && flag3 && !flag2) enumfacing = EnumFacing.WEST;
 			}
-			world.setBlockState(pos, state.withProperty(FACING, enumfacing).withProperty(ACTIVE, Boolean.valueOf(false)), 2);
+			world.setBlockState(pos, state.withProperty(FACING_ALL, enumfacing).withProperty(ACTIVE, Boolean.valueOf(false)), 2);
 		}
 	}
 	
@@ -99,10 +96,13 @@ public class BlockTurbineController extends BlockTurbinePartBase {
 		return rightClickOnPart(world, pos, player, hand, facing, true);
 	}
 	
-	public void setActiveState(IBlockState state, World world, BlockPos pos, boolean active) {
+	public void setState(boolean isActive, TileEntity tile) {
+		World world = tile.getWorld();
+		BlockPos pos = tile.getPos();
+		IBlockState state = world.getBlockState(pos);
 		if (!world.isRemote && state.getBlock() == NCBlocks.turbine_controller) {
-			if (active != state.getValue(ACTIVE)) {
-				world.setBlockState(pos, state.withProperty(ACTIVE, active), 2);
+			if (isActive != state.getValue(ACTIVE)) {
+				world.setBlockState(pos, state.withProperty(ACTIVE, isActive), 2);
 			}
 		}
 	}

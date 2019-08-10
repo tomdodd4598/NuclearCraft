@@ -1,12 +1,12 @@
 package nc.container.processor;
 
+import nc.container.SlotFurnace;
 import nc.container.SlotProcessorInput;
 import nc.container.SlotSpecificInput;
 import nc.recipe.NCRecipes;
 import nc.tile.processor.TileItemFluidProcessor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
-import net.minecraft.inventory.SlotFurnaceOutput;
 
 public class ContainerExtractor extends ContainerItemFluidProcessor {
 
@@ -15,7 +15,7 @@ public class ContainerExtractor extends ContainerItemFluidProcessor {
 		
 		addSlotToContainer(new SlotProcessorInput(tileEntity, recipeHandler, 0, 42, 35));
 		
-		addSlotToContainer(new SlotFurnaceOutput(player, tileEntity, 1, 102, 35));
+		addSlotToContainer(new SlotFurnace(player, tileEntity, 1, 102, 35));
 		
 		addSlotToContainer(new SlotSpecificInput(tileEntity, 2, 132, 64, speedUpgrade));
 		addSlotToContainer(new SlotSpecificInput(tileEntity, 3, 152, 64, energyUpgrade));

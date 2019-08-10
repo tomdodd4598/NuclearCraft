@@ -44,7 +44,7 @@ public class ContainerItemProcessor extends ContainerTile {
 		int speedUpgradeSlot = tile.itemInputSize + tile.itemOutputSize;
 		int otherUpgradeSlot = tile.itemInputSize + tile.itemOutputSize + 1;
 		int invEnd = tile.itemInputSize + tile.itemOutputSize + 36 + upgrades;
-		if ((slot != null) && (slot.getHasStack())) {
+		if (slot != null && slot.getHasStack()) {
 			ItemStack itemstack1 = slot.getStack();
 			itemstack = itemstack1.copy();
 			if (index >= tile.itemInputSize && index < invStart) {
@@ -53,7 +53,7 @@ public class ContainerItemProcessor extends ContainerTile {
 				}
 				slot.onSlotChange(itemstack1, itemstack);
 			}
-			else if(index >= invStart) {
+			else if (index >= invStart) {
 				if (tile.isItemValidForSlot(speedUpgradeSlot, itemstack1) && tile.hasUpgrades && itemstack1.getItem() == NCItems.upgrade) {
 					if (!mergeItemStack(itemstack1, speedUpgradeSlot, speedUpgradeSlot + 1, false)) {
 						return ItemStack.EMPTY;
@@ -70,12 +70,12 @@ public class ContainerItemProcessor extends ContainerTile {
 						return ItemStack.EMPTY;
 					}
 				}
-				else if ((index >= invStart) && (index < invEnd - 9)) {
+				else if (index >= invStart && index < invEnd - 9) {
 					if (!mergeItemStack(itemstack1, invEnd - 9, invEnd, false)) {
 						return ItemStack.EMPTY;
 					}
 				}
-				else if ((index >= invEnd - 9) && (index < invEnd) && (!mergeItemStack(itemstack1, invStart, invEnd - 9, false))) {
+				else if (index >= invEnd - 9 && index < invEnd && !mergeItemStack(itemstack1, invStart, invEnd - 9, false)) {
 					return ItemStack.EMPTY;
 				}
 			}

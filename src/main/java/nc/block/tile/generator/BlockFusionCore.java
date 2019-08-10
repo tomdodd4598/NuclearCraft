@@ -6,6 +6,7 @@ import nc.init.NCBlocks;
 import nc.tab.NCTabs;
 import nc.tile.generator.TileFusionCore;
 import nc.util.BlockPosHelper;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.inventory.Container;
@@ -98,8 +99,13 @@ public class BlockFusionCore extends BlockTile implements IActivatable {
 	}
 	
 	@Override
-	public void setState(boolean active, World world, BlockPos pos) {
-		//world.setBlockState(pos, NCBlocks.fusion_core.getDefaultState(), 2);
+	public Block getBlockType(boolean active) {
+		return NCBlocks.fusion_core;
+	}
+	
+	@Override
+	public void setState(boolean isActive, TileEntity tile) {
+		//tile.getWorld().setBlockState(tile.getPos(), NCBlocks.fusion_core.getDefaultState(), 2);
 	}
 	
 	@Override

@@ -50,21 +50,25 @@ public class BlockActivatable extends BlockTile implements IActivatable, ITileTy
 	}
 	
 	@Override
-	public void setState(boolean active, World world, BlockPos pos) {
-		TileEntity tile = world.getTileEntity(pos);
+	public Block getBlockType(boolean active) {
+		return active ? type.getActiveBlock() : type.getIdleBlock();
+	}
+	
+	@Override
+	public void setState(boolean isActive, TileEntity tile) {
+		World world = tile.getWorld();
+		BlockPos pos = tile.getPos();
 		keepInventory = true;
 		
-		if (active) {
+		if (isActive) {
 			world.setBlockState(pos, type.getActiveBlock().getDefaultState(), 3);
 		} else {
 			world.setBlockState(pos, type.getIdleBlock().getDefaultState(), 3);
 		}
 		keepInventory = false;
 		
-		if (tile != null) {
-			tile.validate();
-			world.setTileEntity(pos, tile);
-		}
+		tile.validate();
+		world.setTileEntity(pos, tile);
 	}
 	
 	public static class Transparent extends BlockActivatable {

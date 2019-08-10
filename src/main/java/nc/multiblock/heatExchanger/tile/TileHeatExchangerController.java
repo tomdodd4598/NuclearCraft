@@ -33,9 +33,9 @@ public class TileHeatExchangerController extends TileHeatExchangerPartBase {
 		if (getMultiblock() != null) getMultiblock().setIsHeatExchangerOn();
 	}
 	
-	public void updateBlock(boolean active) {
+	public void updateBlockState(boolean isActive) {
 		if (getBlockType() instanceof BlockHeatExchangerController) {
-			((BlockHeatExchangerController)getBlockType()).setActiveState(getBlockState(pos), world, pos, active);
+			((BlockHeatExchangerController)getBlockType()).setState(isActive, this);
 			world.notifyNeighborsOfStateChange(pos, getBlockType(), true);
 		}
 	}

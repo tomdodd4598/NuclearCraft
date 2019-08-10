@@ -18,6 +18,7 @@ import nc.tile.energy.ITileEnergy;
 import nc.tile.energy.TileEnergySidedInventory;
 import nc.tile.internal.energy.EnergyConnection;
 import nc.tile.internal.fluid.Tank;
+import nc.tile.internal.inventory.ItemOutputSetting;
 import nc.tile.internal.inventory.ItemSorption;
 import nc.tile.inventory.ITileInventory;
 import nc.util.ItemStackHelper;
@@ -91,7 +92,7 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 	
 	public void updateBlockType() {
 		if (ModCheck.ic2Loaded()) removeTileFromENet();
-		setState(isProcessing);
+		setState(isProcessing, this);
 		world.notifyNeighborsOfStateChange(pos, getBlockType(), true);
 		if (ModCheck.ic2Loaded()) addTileToENet();
 	}
@@ -148,13 +149,17 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 	
 	public boolean canProduceProducts() {
 		for(int j = 0; j < itemOutputSize; j++) {
+			if (getItemOutputSetting(j + itemInputSize) == ItemOutputSetting.VOID) {
+				getInventoryStacks().set(j + itemInputSize, ItemStack.EMPTY);
+				continue;
+			}
 			IItemIngredient itemProduct = getItemProducts().get(j);
 			if (itemProduct.getMaxStackSize(0) <= 0) continue;
 			if (itemProduct.getStack() == null || itemProduct.getStack() == ItemStack.EMPTY) return false;
 			else if (!getInventoryStacks().get(j + itemInputSize).isEmpty()) {
 				if (!getInventoryStacks().get(j + itemInputSize).isItemEqual(itemProduct.getStack())) {
 					return false;
-				} else if (getInventoryStacks().get(j + itemInputSize).getCount() + itemProduct.getMaxStackSize(0) > getInventoryStacks().get(j + itemInputSize).getMaxStackSize()) {
+				} else if (getItemOutputSetting(j + itemInputSize) == ItemOutputSetting.DEFAULT && getInventoryStacks().get(j + itemInputSize).getCount() + itemProduct.getMaxStackSize(0) > getInventoryStacks().get(j + itemInputSize).getMaxStackSize()) {
 					return false;
 				}
 			}
@@ -206,12 +211,17 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 		if (!hasConsumed || recipeInfo == null) return;
 		
 		for (int j = 0; j < itemOutputSize; j++) {
+			if (getItemOutputSetting(j + itemInputSize) == ItemOutputSetting.VOID) {
+				getInventoryStacks().set(j + itemInputSize, ItemStack.EMPTY);
+				continue;
+			}
 			IItemIngredient itemProduct = getItemProducts().get(j);
 			if (itemProduct.getNextStackSize(0) <= 0) continue;
 			if (getInventoryStacks().get(j + itemInputSize).isEmpty()) {
 				getInventoryStacks().set(j + itemInputSize, itemProduct.getNextStack(0));
 			} else if (getInventoryStacks().get(j + itemInputSize).isItemEqual(itemProduct.getStack())) {
-				getInventoryStacks().get(j + itemInputSize).grow(itemProduct.getNextStackSize(0));
+				int count = Math.min(getInventoryStackLimit(), getInventoryStacks().get(j + itemInputSize).getCount() + itemProduct.getNextStackSize(0));
+				getInventoryStacks().get(j + itemInputSize).setCount(count);
 			}
 		}
 		hasConsumed = false;
@@ -288,6 +298,11 @@ public abstract class TileItemGenerator extends TileEnergySidedInventory impleme
 	@Override
 	public boolean canInsertItem(int slot, ItemStack stack, EnumFacing side) {
 		return super.canInsertItem(slot, stack, side) && isItemValidForSlot(slot, stack);
+	}
+	
+	@Override
+	public boolean hasConfigurableInventoryConnections() {
+		return true;
 	}
 	
 	// NBT

@@ -33,13 +33,13 @@ public class TileSaltFissionRedstonePort extends TileSaltFissionPartBase {
 	@Override
 	public void onBlockNeighborChanged(IBlockState state, World world, BlockPos pos, BlockPos fromPos) {
 		super.onBlockNeighborChanged(state, world, pos, fromPos);
-		updateBlock();
+		updateBlockState();
 		if (getMultiblock() != null) getMultiblock().setIsReactorOn();
 	}
 	
-	public void updateBlock() {
+	public void updateBlockState() {
 		if (getBlockType() instanceof BlockSaltFissionRedstonePort) {
-			((BlockSaltFissionRedstonePort)getBlockType()).setActiveState(getBlockState(pos), world, pos, getIsRedstonePowered());
+			((BlockSaltFissionRedstonePort)getBlockType()).setState(getIsRedstonePowered(), this);
 			world.notifyNeighborsOfStateChange(pos, getBlockType(), true);
 		}
 	}

@@ -218,7 +218,7 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> impleme
 	@Override
 	protected void onMachineDisassembled() {
 		isTurbineOn = false;
-		if (controller != null) controller.updateBlock(false);
+		if (controller != null) controller.updateBlockState(false);
 		power = rawConductivity = 0D;
 		flowDir = null;
 		shaftWidth = shaftVolume = bladeLength = noBladeSets = recipeRate = 0;
@@ -572,7 +572,7 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> impleme
 		boolean oldIsTurbineOn = isTurbineOn;
 		isTurbineOn = (isRedstonePowered()|| computerActivated) && isAssembled();
 		if (isTurbineOn != oldIsTurbineOn) {
-			if (controller != null) controller.updateBlock(isTurbineOn);
+			if (controller != null) controller.updateBlockState(isTurbineOn);
 			sendUpdateToAllPlayers();
 		}
 	}

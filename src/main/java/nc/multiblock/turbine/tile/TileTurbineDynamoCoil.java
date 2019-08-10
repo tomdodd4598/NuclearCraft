@@ -394,26 +394,25 @@ public class TileTurbineDynamoCoil extends TileTurbinePartBase implements ITileE
 	
 	@Override
 	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing side) {
-		if (hasEnergySideCapability(side)) {
-			if (capability == CapabilityEnergy.ENERGY) {
-				return true;
-			}
-			if (ModCheck.gregtechLoaded() && NCConfig.enable_gtce_eu && capability == GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER) {
-				return true;
-			}
+		if (capability == CapabilityEnergy.ENERGY || (ModCheck.gregtechLoaded() && NCConfig.enable_gtce_eu && capability == GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER)) {
+			return hasEnergySideCapability(side);
 		}
 		return super.hasCapability(capability, side);
 	}
 	
 	@Override
 	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing side) {
-		if (hasEnergySideCapability(side)) {
-			if (capability == CapabilityEnergy.ENERGY) {
+		if (capability == CapabilityEnergy.ENERGY) {
+			if (hasEnergySideCapability(side)) {
 				return (T) getEnergySide(nonNullSide(side));
 			}
-			if (ModCheck.gregtechLoaded() && NCConfig.enable_gtce_eu && capability == GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER) {
+			return null;
+		}
+		else if (ModCheck.gregtechLoaded() && capability == GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER) {
+			if (NCConfig.enable_gtce_eu && hasEnergySideCapability(side)) {
 				return (T) getEnergySideGT(nonNullSide(side));
 			}
+			return null;
 		}
 		return super.getCapability(capability, side);
 	}

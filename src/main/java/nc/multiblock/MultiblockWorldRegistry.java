@@ -112,7 +112,7 @@ final class MultiblockWorldRegistry {
 				// Process orphaned blocks
 				// These are blocks that exist in a valid chunk and require a multiblock
 				for(IMultiblockPart orphan : orphansToProcess) {
-					coord = orphan.getWorldPosition();
+					coord = orphan.getTilePos();
 					if(!this.worldObj.isBlockLoaded(coord)) {
 						continue;
 					}
@@ -270,7 +270,7 @@ final class MultiblockWorldRegistry {
 	 * @param part The part which is being added to this world.
 	 */
 	public void onPartAdded(final IMultiblockPart part) {
-		BlockPos worldLocation = part.getWorldPosition();
+		BlockPos worldLocation = part.getTilePos();
 
 		if(!this.worldObj.isBlockLoaded(worldLocation)) {
 			// Part goes into the waiting-for-chunk-load list
@@ -301,7 +301,7 @@ final class MultiblockWorldRegistry {
 	 * @param part The part which is being removed.
 	 */
 	public void onPartRemovedFromWorld(final IMultiblockPart part) {
-		final BlockPos coord = part.getWorldPosition();
+		final BlockPos coord = part.getTilePos();
 		if(coord != null) {
 			long hash = WorldHelper.getChunkXZHashFromBlock(coord);
 

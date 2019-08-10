@@ -153,7 +153,7 @@ public class TileSaltFissionComputerPort extends TileSaltFissionPartBase impleme
 						vessel.getHeatMultiplier()
 						});
 			}
-			return stats.toArray();
+			return new Object[] {stats.toArray()};
 		}
 		else return new Object[] {};
 	}
@@ -173,7 +173,7 @@ public class TileSaltFissionComputerPort extends TileSaltFissionPartBase impleme
 						heater.baseProcessCooling
 						});
 			}
-			return stats.toArray();
+			return new Object[] {stats.toArray()};
 		}
 		else return new Object[] {};
 	}
@@ -190,7 +190,7 @@ public class TileSaltFissionComputerPort extends TileSaltFissionPartBase impleme
 						moderator.isInModerationLine
 						});
 			}
-			return stats.toArray();
+			return new Object[] {stats.toArray()};
 		}
 		else return new Object[] {};
 	}

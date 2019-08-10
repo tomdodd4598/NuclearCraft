@@ -30,7 +30,7 @@ public class ContainerItemGenerator<GENERATOR extends TileItemGenerator> extends
 		//int otherSlots = tile.otherSlotsSize;
 		int invStart = 2*tile.itemInputSize + tile.itemOutputSize + tile.otherSlotsSize;
 		int invEnd = 2*tile.itemInputSize + tile.itemOutputSize + 36 + tile.otherSlotsSize;
-		if ((slot != null) && (slot.getHasStack())) {
+		if (slot != null && slot.getHasStack()) {
 			ItemStack itemstack1 = slot.getStack();
 			itemstack = itemstack1.copy();
 			if (index >= tile.itemInputSize && index < invStart) {
@@ -39,18 +39,18 @@ public class ContainerItemGenerator<GENERATOR extends TileItemGenerator> extends
 				}
 				slot.onSlotChange(itemstack1, itemstack);
 			}
-			else if(index >= invStart) {
+			else if (index >= invStart) {
 				if (recipeHandler.isValidItemInput(itemstack1)) {
 					if (!mergeItemStack(itemstack1, 0, tile.itemInputSize, false)) {
 						return ItemStack.EMPTY;
 					}
 				}
-				else if ((index >= invStart) && (index < invEnd - 9)) {
+				else if (index >= invStart && index < invEnd - 9) {
 					if (!mergeItemStack(itemstack1, invEnd - 9, invEnd, false)) {
 						return ItemStack.EMPTY;
 					}
 				}
-				else if ((index >= invEnd - 9) && (index < invEnd) && (!mergeItemStack(itemstack1, invStart, invEnd - 9, false))) {
+				else if (index >= invEnd - 9 && index < invEnd && !mergeItemStack(itemstack1, invStart, invEnd - 9, false)) {
 					return ItemStack.EMPTY;
 				}
 			}

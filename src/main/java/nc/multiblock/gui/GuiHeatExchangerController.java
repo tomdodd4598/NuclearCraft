@@ -10,6 +10,7 @@ import nc.multiblock.network.ClearAllFluidsPacket;
 import nc.network.PacketHandler;
 import nc.util.Lang;
 import nc.util.NCMath;
+import nc.util.NCUtil;
 import nc.util.StringHelper;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.inventory.Container;
@@ -36,7 +37,7 @@ public class GuiHeatExchangerController extends GuiMultiblockController<HeatExch
 	
 	@Override
 	public void renderTooltips(int mouseX, int mouseY) {
-		if (isShiftKeyDown()) drawTooltip(clearAllFluidsInfo(), mouseX, mouseY, 162, 45, 9, 9);
+		if (NCUtil.isModifierKeyDown()) drawTooltip(clearAllFluidsInfo(), mouseX, mouseY, 153, 35, 18, 18);
 		
 		drawEfficiencyTooltip(mouseX, mouseY, 6, 57, 164, 6);
 	}
@@ -79,13 +80,13 @@ public class GuiHeatExchangerController extends GuiMultiblockController<HeatExch
 	@Override
 	public void initGui() {
 		super.initGui();
-		buttonList.add(new MultiblockButton.ButtonClearAllFluids(0, guiLeft + 162, guiTop + 45));
+		buttonList.add(new MultiblockButton.ClearAllFluids(0, guiLeft + 153, guiTop + 35));
 	}
 	
 	@Override
 	protected void actionPerformed(GuiButton guiButton) {
 		if (multiblock.WORLD.isRemote) {
-			if (guiButton.id == 0 && isShiftKeyDown()) {
+			if (guiButton.id == 0 && NCUtil.isModifierKeyDown()) {
 				PacketHandler.instance.sendToServer(new ClearAllFluidsPacket(controllerPos));
 			}
 		}

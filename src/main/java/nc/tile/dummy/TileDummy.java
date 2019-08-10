@@ -13,8 +13,11 @@ import nc.tile.internal.fluid.FluidConnection;
 import nc.tile.internal.fluid.FluidTileWrapper;
 import nc.tile.internal.fluid.GasTileWrapper;
 import nc.tile.internal.fluid.Tank;
+import nc.tile.internal.fluid.TankOutputSetting;
 import nc.tile.internal.fluid.TankSorption;
 import nc.tile.internal.inventory.InventoryConnection;
+import nc.tile.internal.inventory.InventoryTileWrapper;
+import nc.tile.internal.inventory.ItemOutputSetting;
 import nc.tile.internal.inventory.ItemSorption;
 import nc.tile.inventory.ITileInventory;
 import net.minecraft.block.state.IBlockState;
@@ -102,38 +105,6 @@ public abstract class TileDummy<T extends IDummyMaster> extends TileEnergyFluidS
 	}
 	
 	@Override
-	public boolean isEmpty() {
-		if (getMaster() instanceof ITileInventory) ((ITileInventory) getMaster()).isEmpty();
-		return super.isEmpty();
-	}
-	
-	@Override
-	public ItemStack decrStackSize(int slot, int amount) {
-		if (getMaster() instanceof ITileInventory) {
-			return ((ITileInventory) getMaster()).decrStackSize(slot, amount);
-		}
-		else {
-			return super.decrStackSize(slot, amount);
-		}
-	}
-	
-	@Override
-	public void setInventorySlotContents(int index, ItemStack stack) {
-		if (getMaster() instanceof ITileInventory) {
-			((ITileInventory) getMaster()).setInventorySlotContents(index, stack);
-		}
-		else {
-			super.setInventorySlotContents(index, stack);
-		}
-	}
-	
-	@Override
-	public boolean isItemValidForSlot(int slot, ItemStack stack) {
-		if (getMaster() instanceof ITileInventory) return ((ITileInventory) getMaster()).isItemValidForSlot(slot, stack);
-		return false;
-	}
-	
-	@Override
 	public int getInventoryStackLimit() {
 		if (getMaster() instanceof ITileInventory) return ((ITileInventory) getMaster()).getInventoryStackLimit();
 		return 1;
@@ -145,31 +116,33 @@ public abstract class TileDummy<T extends IDummyMaster> extends TileEnergyFluidS
 	}
 	
 	@Override
-	public void openInventory(EntityPlayer player) {
-		
+	public @Nonnull InventoryConnection[] getInventoryConnections() {
+		if (getMaster() instanceof ITileInventory) return ((ITileInventory) getMaster()).getInventoryConnections();
+		return super.getInventoryConnections();
 	}
 	
 	@Override
-	public void closeInventory(EntityPlayer player) {
-		
+	public void setInventoryConnections(@Nonnull InventoryConnection[] connections) {
+		if (getMaster() instanceof ITileInventory) ((ITileInventory) getMaster()).setInventoryConnections(connections);
+		super.setInventoryConnections(connections);
 	}
 	
 	@Override
-	public int[] getSlotsForFace(EnumFacing side) {
-		if (getMaster() instanceof ITileInventory) return ((ITileInventory) getMaster()).getSlotsForFace(side);
-		return new int[] {0};
+	public @Nonnull InventoryTileWrapper getInventory() {
+		if (getMaster() instanceof ITileInventory) return ((ITileInventory) getMaster()).getInventory();
+		return super.getInventory();
 	}
 	
 	@Override
-	public boolean canInsertItem(int slot, ItemStack stack, EnumFacing direction) {
-		if (getMaster() instanceof ITileInventory) return ((ITileInventory) getMaster()).canInsertItem(slot, stack, direction);
-		return false;
+	public ItemOutputSetting getItemOutputSetting(int tankNumber) {
+		if (getMaster() instanceof ITileInventory) return ((ITileInventory) getMaster()).getItemOutputSetting(tankNumber);
+		return super.getItemOutputSetting(tankNumber);
 	}
 	
 	@Override
-	public boolean canExtractItem(int slot, ItemStack stack, EnumFacing direction) {
-		if (getMaster() instanceof ITileInventory) return ((ITileInventory) getMaster()).canExtractItem(slot, stack, direction);
-		return false;
+	public void setItemOutputSetting(int tankNumber, ItemOutputSetting setting) {
+		if (getMaster() instanceof ITileInventory) ((ITileInventory) getMaster()).setItemOutputSetting(tankNumber, setting);
+		else super.setItemOutputSetting(tankNumber, setting);
 	}
 	
 	// ITileEnergy
@@ -268,11 +241,11 @@ public abstract class TileDummy<T extends IDummyMaster> extends TileEnergyFluidS
 		return super.getFluidConnections();
 	}
 	
-	@Override
+	/*@Override
 	public void setFluidConnections(@Nonnull FluidConnection[] connections) {
 		if (getMaster() instanceof ITileFluid) ((ITileFluid) getMaster()).setFluidConnections(connections);
 		super.setFluidConnections(connections);
-	}
+	}*/
 	
 	@Override
 	public @Nonnull FluidTileWrapper[] getFluidSides() {
@@ -311,15 +284,15 @@ public abstract class TileDummy<T extends IDummyMaster> extends TileEnergyFluidS
 	}
 	
 	@Override
-	public boolean getVoidExcessFluidOutput(int tankNumber) {
-		if (getMaster() instanceof ITileFluid) return ((ITileFluid) getMaster()).getVoidExcessFluidOutput(tankNumber);
-		return super.getVoidExcessFluidOutput(tankNumber);
+	public TankOutputSetting getTankOutputSetting(int tankNumber) {
+		if (getMaster() instanceof ITileFluid) return ((ITileFluid) getMaster()).getTankOutputSetting(tankNumber);
+		return super.getTankOutputSetting(tankNumber);
 	}
 	
 	@Override
-	public void setVoidExcessFluidOutput(int tankNumber, boolean voidExcessFluidOutput) {
-		if (getMaster() instanceof ITileFluid) ((ITileFluid) getMaster()).setVoidExcessFluidOutput(tankNumber, voidExcessFluidOutput);
-		else super.setVoidExcessFluidOutput(tankNumber, voidExcessFluidOutput);
+	public void setTankOutputSetting(int tankNumber, TankOutputSetting setting) {
+		if (getMaster() instanceof ITileFluid) ((ITileFluid) getMaster()).setTankOutputSetting(tankNumber, setting);
+		else super.setTankOutputSetting(tankNumber, setting);
 	}
 	
 	// Fluid Distribution

@@ -9,6 +9,7 @@ import javax.annotation.Nullable;
 import com.google.common.collect.Lists;
 
 import nc.ModCheck;
+import nc.config.NCConfig;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.turbine.Turbine;
 import nc.tile.fluid.ITileFluid;
@@ -16,6 +17,7 @@ import nc.tile.internal.fluid.FluidConnection;
 import nc.tile.internal.fluid.FluidTileWrapper;
 import nc.tile.internal.fluid.GasTileWrapper;
 import nc.tile.internal.fluid.Tank;
+import nc.tile.internal.fluid.TankOutputSetting;
 import nc.tile.internal.fluid.TankSorption;
 import nc.util.GasHelper;
 import net.minecraft.nbt.NBTTagCompound;
@@ -101,12 +103,12 @@ public class TileTurbineInlet extends TileTurbinePartBase implements ITileFluid 
 	public void setVoidUnusableFluidInput(int tankNumber, boolean voidUnusableFluidInput) {}
 
 	@Override
-	public boolean getVoidExcessFluidOutput(int tankNumber) {
-		return false;
+	public TankOutputSetting getTankOutputSetting(int tankNumber) {
+		return TankOutputSetting.DEFAULT;
 	}
-
+	
 	@Override
-	public void setVoidExcessFluidOutput(int tankNumber, boolean voidExcessFluidOutput) {}
+	public void setTankOutputSetting(int tankNumber, TankOutputSetting setting) {}
 	
 	// NBT
 	
@@ -127,26 +129,25 @@ public class TileTurbineInlet extends TileTurbinePartBase implements ITileFluid 
 	
 	@Override
 	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing side) {
-		if (!getTanks().isEmpty() && hasFluidSideCapability(side)) {
-			if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
-				return true;
-			}
-			if (ModCheck.mekanismLoaded() && capability == GasHelper.GAS_HANDLER_CAPABILITY) {
-				return true;
-			}
+		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || (ModCheck.mekanismLoaded() && NCConfig.enable_mek_gas && capability == GasHelper.GAS_HANDLER_CAPABILITY)) {
+			return !getTanks().isEmpty() && hasFluidSideCapability(side);
 		}
 		return super.hasCapability(capability, side);
 	}
 
 	@Override
 	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing side) {
-		if (!getTanks().isEmpty() && hasFluidSideCapability(side)) {
-			if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
+		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
+			if (!getTanks().isEmpty() && hasFluidSideCapability(side)) {
 				return (T) getFluidSide(nonNullSide(side));
 			}
-			if (ModCheck.mekanismLoaded() && capability == GasHelper.GAS_HANDLER_CAPABILITY) {
+			return null;
+		}
+		else if (ModCheck.mekanismLoaded() && capability == GasHelper.GAS_HANDLER_CAPABILITY) {
+			if (NCConfig.enable_mek_gas && !getTanks().isEmpty() && hasFluidSideCapability(side)) {
 				return (T) getGasWrapper();
 			}
+			return null;
 		}
 		return super.getCapability(capability, side);
 	}

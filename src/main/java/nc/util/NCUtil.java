@@ -4,8 +4,10 @@ import java.lang.reflect.Constructor;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.lwjgl.input.Keyboard;
 
 import nc.Global;
+import nc.config.NCConfig;
 
 public class NCUtil {
 
@@ -31,5 +33,21 @@ public class NCUtil {
 	public static boolean areEqual(int value, int... values) {
 		for (int i : values) if(value != i) return false;
 		return true;
+	}
+	
+	private static boolean isShiftKeyDown() {
+		return Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT);
+	}
+	
+	private static boolean isCtrlKeyDown() {
+		return Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) || Keyboard.isKeyDown(Keyboard.KEY_RCONTROL);
+	}
+	
+	public static boolean isInfoKeyDown() {
+		return NCConfig.ctrl_info ? NCUtil.isCtrlKeyDown() : NCUtil.isShiftKeyDown();
+	}
+	
+	public static boolean isModifierKeyDown() {
+		return NCUtil.isCtrlKeyDown() || NCUtil.isShiftKeyDown();
 	}
 }

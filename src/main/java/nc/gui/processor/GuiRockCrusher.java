@@ -1,36 +1,55 @@
 package nc.gui.processor;
 
+import java.io.IOException;
+
+import nc.container.ContainerTile;
+import nc.container.processor.ContainerMachineConfig;
 import nc.container.processor.ContainerRockCrusher;
 import nc.gui.element.GuiItemRenderer;
-import nc.gui.element.NCGuiToggleButton;
+import nc.gui.element.NCButton;
+import nc.gui.element.NCToggleButton;
 import nc.init.NCItems;
 import nc.network.PacketHandler;
+import nc.network.gui.OpenTileGuiPacket;
+import nc.network.gui.OpenSideConfigGuiPacket;
 import nc.network.gui.ToggleRedstoneControlPacket;
 import nc.tile.processor.TileItemProcessor;
 import nc.util.Lang;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public class GuiRockCrusher extends GuiItemProcessor {
-
+	
 	public GuiRockCrusher(EntityPlayer player, TileItemProcessor tile) {
-		super("rock_crusher", player, new ContainerRockCrusher(player, tile));
-		this.tile = tile;
+		this(player, tile, new ContainerRockCrusher(player, tile));
+	}
+	
+	private GuiRockCrusher(EntityPlayer player, TileItemProcessor tile, ContainerTile container) {
+		super("rock_crusher", player, tile, container);
 		xSize = 176;
 		ySize = 166;
 	}
 	
 	@Override
 	public void renderTooltips(int mouseX, int mouseY) {
-		drawTooltip(Lang.localise("gui.container.redstone_control"), mouseX, mouseY, 27, 63, 18, 18);
-		
 		drawEnergyTooltip(tile, mouseX, mouseY, 8, 6, 16, 74);
+		renderButtonTooltips(mouseX, mouseY);
+	}
+	
+	public void renderButtonTooltips(int mouseX, int mouseY) {
+		drawTooltip(Lang.localise("gui.container.machine_side_config"), mouseX, mouseY, 27, 63, 18, 18);
+		drawTooltip(Lang.localise("gui.container.redstone_control"), mouseX, mouseY, 47, 63, 18, 18);
 	}
 	
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		super.drawGuiContainerForegroundLayer(mouseX, mouseY);
-		
+		drawUpgradeRenderers();
+	}
+	
+	protected void drawUpgradeRenderers() {
 		new GuiItemRenderer(132, ySize - 102, 0.5F, NCItems.upgrade, 0).draw();
 		new GuiItemRenderer(152, ySize - 102, 0.5F, NCItems.upgrade, 1).draw();
 	}
@@ -40,27 +59,103 @@ public class GuiRockCrusher extends GuiItemProcessor {
 		super.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY);
 		
 		if (tile.defaultProcessPower != 0) {
-			double e = Math.round(((double) tile.getEnergyStorage().getEnergyStored()) / ((double) tile.getEnergyStorage().getMaxEnergyStored()) * 74);
-			drawTexturedModalRect(guiLeft + 8, guiTop + 6 + 74 - (int) e, 176, 90 + 74 - (int) e, 16, (int) e);
+			int e = (int) Math.round(74D*tile.getEnergyStorage().getEnergyStored()/tile.getEnergyStorage().getMaxEnergyStored());
+			drawTexturedModalRect(guiLeft + 8, guiTop + 6 + 74 - e, 176, 90 + 74 - e, 16, e);
 		}
 		else drawGradientRect(guiLeft + 8, guiTop + 6, guiLeft + 8 + 16, guiTop + 6 + 74, 0xFFC6C6C6, 0xFF8B8B8B);
 		
-		int k = getCookProgressScaled(37);
-		drawTexturedModalRect(guiLeft + 56, guiTop + 35, 176, 3, k, 18);
+		drawTexturedModalRect(guiLeft + 56, guiTop + 35, 176, 3, getCookProgressScaled(37), 18);
+		
+		drawBackgroundExtras();
 	}
+	
+	protected void drawBackgroundExtras() {};
 	
 	@Override
 	public void initGui() {
 		super.initGui();
-		buttonList.add(new NCGuiToggleButton.ToggleRedstoneControlButton(0, guiLeft + 27, guiTop + 63, tile));
+		initButtons();
+	}
+	
+	public void initButtons() {
+		buttonList.add(new NCButton.MachineConfig(0, guiLeft + 27, guiTop + 63));
+		buttonList.add(new NCToggleButton.RedstoneControl(1, guiLeft + 47, guiTop + 63, tile));
 	}
 	
 	@Override
 	protected void actionPerformed(GuiButton guiButton) {
 		if (tile.getWorld().isRemote) {
 			if (guiButton.id == 0) {
+				PacketHandler.instance.sendToServer(new OpenSideConfigGuiPacket(tile));
+			}
+			else if (guiButton.id == 1) {
 				tile.setRedstoneControl(!tile.getRedstoneControl());
 				PacketHandler.instance.sendToServer(new ToggleRedstoneControlPacket(tile));
+			}
+		}
+	}
+	
+	public static class SideConfig extends GuiRockCrusher {
+		
+		public SideConfig(EntityPlayer player, TileItemProcessor tile) {
+			super(player, tile, new ContainerMachineConfig(player, tile));
+		}
+		
+		@Override
+		protected void keyTyped(char typedChar, int keyCode) throws IOException {
+			if (isEscapeKeyDown(keyCode)) {
+				PacketHandler.instance.sendToServer(new OpenTileGuiPacket(tile));
+			}
+			else super.keyTyped(typedChar, keyCode);
+		}
+		
+		@Override
+		public void renderButtonTooltips(int mouseX, int mouseY) {
+			drawTooltip(TextFormatting.BLUE + Lang.localise("gui.container.input_item_config"), mouseX, mouseY, 37, 34, 18, 18);
+			drawTooltip(TextFormatting.GOLD + Lang.localise("gui.container.output_item_config"), mouseX, mouseY, 93, 34, 18, 18);
+			drawTooltip(TextFormatting.GOLD + Lang.localise("gui.container.output_item_config"), mouseX, mouseY, 113, 34, 18, 18);
+			drawTooltip(TextFormatting.GOLD + Lang.localise("gui.container.output_item_config"), mouseX, mouseY, 133, 34, 18, 18);
+			drawTooltip(TextFormatting.DARK_BLUE + Lang.localise("gui.container.upgrade_config"), mouseX, mouseY, 131, 63, 18, 18);
+			drawTooltip(TextFormatting.YELLOW + Lang.localise("gui.container.upgrade_config"), mouseX, mouseY, 151, 63, 18, 18);
+		}
+		
+		@Override
+		protected void drawUpgradeRenderers() {}
+		
+		@Override
+		protected void drawBackgroundExtras() {};
+		
+		@Override
+		public void initButtons() {
+			buttonList.add(new NCButton.SorptionConfig.ItemInput(0, guiLeft + 37, guiTop + 34));
+			buttonList.add(new NCButton.SorptionConfig.ItemOutputSmall(1, guiLeft + 93, guiTop + 34));
+			buttonList.add(new NCButton.SorptionConfig.ItemOutputSmall(2, guiLeft + 113, guiTop + 34));
+			buttonList.add(new NCButton.SorptionConfig.ItemOutputSmall(3, guiLeft + 133, guiTop + 34));
+			buttonList.add(new NCButton.SorptionConfig.SpeedUpgrade(4, guiLeft + 131, guiTop + 63));
+			buttonList.add(new NCButton.SorptionConfig.EnergyUpgrade(5, guiLeft + 151, guiTop + 63));
+		}
+		
+		@Override
+		protected void actionPerformed(GuiButton guiButton) {
+			if (tile.getWorld().isRemote) {
+				if (guiButton.id == 0) {
+					FMLCommonHandler.instance().showGuiScreen(new GuiItemSorptions.Input(this, tile, 0));
+				}
+				else if (guiButton.id == 1) {
+					FMLCommonHandler.instance().showGuiScreen(new GuiItemSorptions.Output(this, tile, 1));
+				}
+				else if (guiButton.id == 2) {
+					FMLCommonHandler.instance().showGuiScreen(new GuiItemSorptions.Output(this, tile, 2));
+				}
+				else if (guiButton.id == 3) {
+					FMLCommonHandler.instance().showGuiScreen(new GuiItemSorptions.Output(this, tile, 3));
+				}
+				else if (guiButton.id == 4) {
+					FMLCommonHandler.instance().showGuiScreen(new GuiItemSorptions.SpeedUpgrade(this, tile, 4));
+				}
+				else if (guiButton.id == 5) {
+					FMLCommonHandler.instance().showGuiScreen(new GuiItemSorptions.EnergyUpgrade(this, tile, 5));
+				}
 			}
 		}
 	}

@@ -1,18 +1,18 @@
 package nc.container.processor;
 
+import nc.container.SlotFurnace;
 import nc.container.SlotSpecificInput;
 import nc.recipe.NCRecipes;
 import nc.tile.processor.TileItemFluidProcessor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
-import net.minecraft.inventory.SlotFurnaceOutput;
 
 public class ContainerIngotFormer extends ContainerItemFluidProcessor {
 
 	public ContainerIngotFormer(EntityPlayer player, TileItemFluidProcessor tileEntity) {
 		super(player, tileEntity, NCRecipes.ingot_former);
 		
-		addSlotToContainer(new SlotFurnaceOutput(player, tileEntity, 0, 116, 35));
+		addSlotToContainer(new SlotFurnace(player, tileEntity, 0, 116, 35));
 		
 		addSlotToContainer(new SlotSpecificInput(tileEntity, 1, 132, 64, speedUpgrade));
 		addSlotToContainer(new SlotSpecificInput(tileEntity, 2, 152, 64, energyUpgrade));

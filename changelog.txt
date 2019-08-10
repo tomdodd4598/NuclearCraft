@@ -1,3 +1,25 @@
+v2.18
+
++ Finally added slot and tank side configurations and settings to machines!
+
++ Added config to disable Mekanism gas support
++ Added config to log injected GTCE recipes
+
+* Fixed array-returning OC methods not respecting Lua's multi-output protocol
+
+* Fixed battery blocks' side configs not updating on sneak-right-clicking
+* Fixed fission ports sometimes forgetting their connection to the controller on closing the server
+* Fixed decay generators forgetting their active recipes on closing the server
+
+* Changed item handling capabilities of machines to use a wrapper rather than cast the TE
+* Improved performance of capability checking in general for machines and the radiation system
+
+* Fixed molten thorium and uranium producing oxidised ingots in the Ingot Former
+
++ Added more ProjectE EMC values for NC materials
+
++ Added Integrated Dynamics temperature reading support for the fusion reactor
+
 v2.17c
 
 * Recipe checking moved to cache-based system - should significantly improve performance

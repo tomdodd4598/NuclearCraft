@@ -116,25 +116,82 @@ public class NCJEI implements IModPlugin {
 		}
 		IRecipeTransferRegistry recipeTransferRegistry = registry.getRecipeTransferRegistry();
 		
-		if (NCConfig.register_processor[1]) registry.addRecipeClickArea(GuiManufactory.class, 73, 34, 37, 18, JEIHandler.MANUFACTORY.getUUID());
-		if (NCConfig.register_processor[2]) registry.addRecipeClickArea(GuiIsotopeSeparator.class, 59, 34, 37, 18, JEIHandler.ISOTOPE_SEPARATOR.getUUID());
-		if (NCConfig.register_processor[3]) registry.addRecipeClickArea(GuiDecayHastener.class, 73, 34, 37, 18, JEIHandler.DECAY_HASTENER.getUUID());
-		if (NCConfig.register_processor[4]) registry.addRecipeClickArea(GuiFuelReprocessor.class, 67, 30, 37, 38, JEIHandler.FUEL_REPROCESSOR.getUUID());
-		if (NCConfig.register_processor[5]) registry.addRecipeClickArea(GuiAlloyFurnace.class, 83, 34, 37, 18, JEIHandler.ALLOY_FURNACE.getUUID());
-		if (NCConfig.register_processor[6]) registry.addRecipeClickArea(GuiInfuser.class, 83, 34, 37, 18, JEIHandler.INFUSER.getUUID());
-		if (NCConfig.register_processor[7]) registry.addRecipeClickArea(GuiMelter.class, 73, 34, 37, 18, JEIHandler.MELTER.getUUID());
-		if (NCConfig.register_processor[8]) registry.addRecipeClickArea(GuiSupercooler.class, 73, 34, 37, 18, JEIHandler.SUPERCOOLER.getUUID());
-		if (NCConfig.register_processor[9]) registry.addRecipeClickArea(GuiElectrolyser.class, 67, 30, 37, 38, JEIHandler.ELECTROLYSER.getUUID());
-		if (NCConfig.register_processor[10]) registry.addRecipeClickArea(GuiIrradiator.class, 69, 34, 37, 18, JEIHandler.IRRADIATOR.getUUID());
-		if (NCConfig.register_processor[11]) registry.addRecipeClickArea(GuiIngotFormer.class, 73, 34, 37, 18, JEIHandler.INGOT_FORMER.getUUID());
-		if (NCConfig.register_processor[12]) registry.addRecipeClickArea(GuiPressurizer.class, 73, 34, 37, 18, JEIHandler.PRESSURIZER.getUUID());
-		if (NCConfig.register_processor[13]) registry.addRecipeClickArea(GuiChemicalReactor.class, 69, 34, 37, 18, JEIHandler.CHEMICAL_REACTOR.getUUID());
-		if (NCConfig.register_processor[14]) registry.addRecipeClickArea(GuiSaltMixer.class, 83, 34, 37, 18, JEIHandler.SALT_MIXER.getUUID());
-		if (NCConfig.register_processor[15]) registry.addRecipeClickArea(GuiCrystallizer.class, 73, 34, 37, 18, JEIHandler.CRYSTALLIZER.getUUID());
-		if (NCConfig.register_processor[16]) registry.addRecipeClickArea(GuiDissolver.class, 83, 34, 37, 18, JEIHandler.DISSOLVER.getUUID());
-		if (NCConfig.register_processor[17]) registry.addRecipeClickArea(GuiExtractor.class, 59, 34, 37, 18, JEIHandler.EXTRACTOR.getUUID());
-		if (NCConfig.register_processor[18]) registry.addRecipeClickArea(GuiCentrifuge.class, 67, 30, 37, 38, JEIHandler.CENTRIFUGE.getUUID());
-		if (NCConfig.register_processor[19]) registry.addRecipeClickArea(GuiRockCrusher.class, 55, 34, 37, 18, JEIHandler.ROCK_CRUSHER.getUUID());
+		if (NCConfig.register_processor[1]) {
+			registry.addRecipeClickArea(GuiManufactory.class, 73, 34, 37, 18, JEIHandler.MANUFACTORY.getUUID());
+			registry.addRecipeClickArea(GuiManufactory.SideConfig.class, 73, 34, 37, 18, JEIHandler.MANUFACTORY.getUUID());
+		}
+		if (NCConfig.register_processor[2]) {
+			registry.addRecipeClickArea(GuiIsotopeSeparator.class, 59, 34, 37, 18, JEIHandler.ISOTOPE_SEPARATOR.getUUID());
+			registry.addRecipeClickArea(GuiIsotopeSeparator.SideConfig.class, 59, 34, 37, 18, JEIHandler.ISOTOPE_SEPARATOR.getUUID());
+		}
+		if (NCConfig.register_processor[3]) {
+			registry.addRecipeClickArea(GuiDecayHastener.class, 73, 34, 37, 18, JEIHandler.DECAY_HASTENER.getUUID());
+			registry.addRecipeClickArea(GuiDecayHastener.SideConfig.class, 73, 34, 37, 18, JEIHandler.DECAY_HASTENER.getUUID());
+		}
+		if (NCConfig.register_processor[4]) {
+			registry.addRecipeClickArea(GuiFuelReprocessor.class, 67, 30, 37, 38, JEIHandler.FUEL_REPROCESSOR.getUUID());
+			registry.addRecipeClickArea(GuiFuelReprocessor.SideConfig.class, 67, 30, 37, 38, JEIHandler.FUEL_REPROCESSOR.getUUID());
+		}
+		if (NCConfig.register_processor[5]) {
+			registry.addRecipeClickArea(GuiAlloyFurnace.class, 83, 34, 37, 18, JEIHandler.ALLOY_FURNACE.getUUID());
+			registry.addRecipeClickArea(GuiAlloyFurnace.SideConfig.class, 83, 34, 37, 18, JEIHandler.ALLOY_FURNACE.getUUID());
+		}
+		if (NCConfig.register_processor[6]) {
+			registry.addRecipeClickArea(GuiInfuser.class, 83, 34, 37, 18, JEIHandler.INFUSER.getUUID());
+			registry.addRecipeClickArea(GuiInfuser.SideConfig.class, 83, 34, 37, 18, JEIHandler.INFUSER.getUUID());
+		}
+		if (NCConfig.register_processor[7]) {
+			registry.addRecipeClickArea(GuiMelter.class, 73, 34, 37, 18, JEIHandler.MELTER.getUUID());
+			registry.addRecipeClickArea(GuiMelter.SideConfig.class, 73, 34, 37, 18, JEIHandler.MELTER.getUUID());
+		}
+		if (NCConfig.register_processor[8]) {
+			registry.addRecipeClickArea(GuiSupercooler.class, 73, 34, 37, 18, JEIHandler.SUPERCOOLER.getUUID());
+			registry.addRecipeClickArea(GuiSupercooler.SideConfig.class, 73, 34, 37, 18, JEIHandler.SUPERCOOLER.getUUID());
+		}
+		if (NCConfig.register_processor[9]) {
+			registry.addRecipeClickArea(GuiElectrolyser.class, 67, 30, 37, 38, JEIHandler.ELECTROLYSER.getUUID());
+			registry.addRecipeClickArea(GuiElectrolyser.SideConfig.class, 67, 30, 37, 38, JEIHandler.ELECTROLYSER.getUUID());
+		}
+		if (NCConfig.register_processor[10]) {
+			registry.addRecipeClickArea(GuiIrradiator.class, 69, 34, 37, 18, JEIHandler.IRRADIATOR.getUUID());
+			registry.addRecipeClickArea(GuiIrradiator.SideConfig.class, 69, 34, 37, 18, JEIHandler.IRRADIATOR.getUUID());
+		}
+		if (NCConfig.register_processor[11]) {
+			registry.addRecipeClickArea(GuiIngotFormer.class, 73, 34, 37, 18, JEIHandler.INGOT_FORMER.getUUID());
+			registry.addRecipeClickArea(GuiIngotFormer.SideConfig.class, 73, 34, 37, 18, JEIHandler.INGOT_FORMER.getUUID());
+		}
+		if (NCConfig.register_processor[12]) {
+			registry.addRecipeClickArea(GuiPressurizer.class, 73, 34, 37, 18, JEIHandler.PRESSURIZER.getUUID());
+			registry.addRecipeClickArea(GuiPressurizer.SideConfig.class, 73, 34, 37, 18, JEIHandler.PRESSURIZER.getUUID());
+		}
+		if (NCConfig.register_processor[13]) {
+			registry.addRecipeClickArea(GuiChemicalReactor.class, 69, 34, 37, 18, JEIHandler.CHEMICAL_REACTOR.getUUID());
+			registry.addRecipeClickArea(GuiChemicalReactor.SideConfig.class, 69, 34, 37, 18, JEIHandler.CHEMICAL_REACTOR.getUUID());
+		}
+		if (NCConfig.register_processor[14]) {
+			registry.addRecipeClickArea(GuiSaltMixer.class, 83, 34, 37, 18, JEIHandler.SALT_MIXER.getUUID());
+			registry.addRecipeClickArea(GuiSaltMixer.SideConfig.class, 83, 34, 37, 18, JEIHandler.SALT_MIXER.getUUID());
+		}
+		if (NCConfig.register_processor[15]) {
+			registry.addRecipeClickArea(GuiCrystallizer.class, 73, 34, 37, 18, JEIHandler.CRYSTALLIZER.getUUID());
+			registry.addRecipeClickArea(GuiCrystallizer.SideConfig.class, 73, 34, 37, 18, JEIHandler.CRYSTALLIZER.getUUID());
+		}
+		if (NCConfig.register_processor[16]) {
+			registry.addRecipeClickArea(GuiDissolver.class, 83, 34, 37, 18, JEIHandler.DISSOLVER.getUUID());
+			registry.addRecipeClickArea(GuiDissolver.SideConfig.class, 83, 34, 37, 18, JEIHandler.DISSOLVER.getUUID());
+		}
+		if (NCConfig.register_processor[17]) {
+			registry.addRecipeClickArea(GuiExtractor.class, 59, 34, 37, 18, JEIHandler.EXTRACTOR.getUUID());
+			registry.addRecipeClickArea(GuiExtractor.SideConfig.class, 59, 34, 37, 18, JEIHandler.EXTRACTOR.getUUID());
+		}
+		if (NCConfig.register_processor[18]) {
+			registry.addRecipeClickArea(GuiCentrifuge.class, 67, 30, 37, 38, JEIHandler.CENTRIFUGE.getUUID());
+			registry.addRecipeClickArea(GuiCentrifuge.SideConfig.class, 67, 30, 37, 38, JEIHandler.CENTRIFUGE.getUUID());
+		}
+		if (NCConfig.register_processor[19]) {
+			registry.addRecipeClickArea(GuiRockCrusher.class, 55, 34, 37, 18, JEIHandler.ROCK_CRUSHER.getUUID());
+			registry.addRecipeClickArea(GuiRockCrusher.SideConfig.class, 55, 34, 37, 18, JEIHandler.ROCK_CRUSHER.getUUID());
+		}
 		registry.addRecipeClickArea(GuiFissionController.class, 73, 34, 37, 18, JEIHandler.FISSION.getUUID());
 		registry.addRecipeClickArea(GuiFusionCore.class, 47, 5, 121, 97, JEIHandler.FUSION.getUUID());
 		

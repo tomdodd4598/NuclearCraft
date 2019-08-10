@@ -28,7 +28,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
-import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -48,7 +47,7 @@ public class ClientProxy extends CommonProxy {
 	public void preInit(FMLPreInitializationEvent preEvent) {
 		super.preInit(preEvent);
 		
-		OBJLoader.INSTANCE.addDomain(Global.MOD_ID);
+		//OBJLoader.INSTANCE.addDomain(Global.MOD_ID);
 		
 		NCConfig.clientPreInit();
 		

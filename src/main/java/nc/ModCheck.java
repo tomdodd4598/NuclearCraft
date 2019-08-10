@@ -21,6 +21,8 @@ public class ModCheck {
 	private static boolean thermalFoundationLoaded = false;
 	private static boolean jeiLoaded = false;
 	private static boolean projectELoaded = false;
+	private static boolean commonCapabilitiesLoaded = false;
+	private static boolean gameStagesLoaded = false;
 	
 	public static void init() {
 		if (initialized) return;
@@ -40,6 +42,8 @@ public class ModCheck {
 		thermalFoundationLoaded = Loader.isModLoaded("thermalfoundation");
 		jeiLoaded = Loader.isModLoaded("jei");
 		projectELoaded = Loader.isModLoaded("projecte");
+		commonCapabilitiesLoaded = Loader.isModLoaded("commoncapabilities");
+		gameStagesLoaded = Loader.isModLoaded("gamestages");
 		
 		initialized = true;
 	}
@@ -102,5 +106,13 @@ public class ModCheck {
 	
 	public static boolean projectELoaded() {
 		return projectELoaded;
+	}
+	
+	public static boolean commonCapabilitiesLoaded() {
+		return commonCapabilitiesLoaded;
+	}
+	
+	public static boolean gameStagesLoaded() {
+		return gameStagesLoaded;
 	}
 }

@@ -10,14 +10,21 @@ import net.minecraft.util.EnumFacing;
 
 public class InventoryConnection {
 	
-	private List<ItemSorption> sorptionList;
+	private @Nonnull List<ItemSorption> sorptionList;
+	private final @Nonnull List<ItemSorption> defaultSorptions;
 	
-	public InventoryConnection(List<ItemSorption> sorptionList) {
+	public InventoryConnection(@Nonnull List<ItemSorption> sorptionList) {
 		this.sorptionList = new ArrayList<ItemSorption>(sorptionList);
+		defaultSorptions = new ArrayList<ItemSorption>(sorptionList);
 	}
 	
-	public InventoryConnection copy() {
-		return new InventoryConnection(sorptionList);
+	private InventoryConnection(@Nonnull InventoryConnection connection) {
+		sorptionList = new ArrayList<ItemSorption>(connection.sorptionList);
+		defaultSorptions = new ArrayList<ItemSorption>(connection.defaultSorptions);
+	}
+	
+	private InventoryConnection copy() {
+		return new InventoryConnection(this);
 	}
 	
 	public static InventoryConnection[] cloneArray(@Nonnull InventoryConnection[] connections) {
@@ -28,12 +35,16 @@ public class InventoryConnection {
 		return clone;
 	}
 	
-	public ItemSorption getItemSorption(int tankNumber) {
-		return sorptionList.get(tankNumber);
+	public ItemSorption getItemSorption(int slot) {
+		return sorptionList.get(slot);
 	}
 	
-	public void setItemSorption(int tankNumber, ItemSorption sorption) {
-		sorptionList.set(tankNumber, sorption);
+	public void setItemSorption(int slot, ItemSorption sorption) {
+		sorptionList.set(slot, sorption);
+	}
+	
+	public ItemSorption getDefaultItemSorption(int slot) {
+		return defaultSorptions.get(slot);
 	}
 	
 	public boolean canConnect() {
@@ -55,8 +66,8 @@ public class InventoryConnection {
 		return slotList.stream().mapToInt(i -> i).toArray();
 	}
 	
-	public void toggleItemSorption(int tankNumber) {
-		setItemSorption(tankNumber, getItemSorption(tankNumber).next());
+	public void toggleItemSorption(int slot, ItemSorption.Type type, boolean reverse) {
+		setItemSorption(slot, getItemSorption(slot).next(type, reverse));
 	}
 	
 	public final NBTTagCompound writeToNBT(NBTTagCompound nbt, @Nonnull EnumFacing side) {

@@ -113,7 +113,7 @@ public class TileHeatExchangerComputerPort extends TileHeatExchangerPartBase imp
 						tube.flowDir == null ? "null" : tube.flowDir.getName()
 						});
 			}
-			return stats.toArray();
+			return new Object[] {stats.toArray()};
 		}
 		else return new Object[] {};
 	}
@@ -135,7 +135,7 @@ public class TileHeatExchangerComputerPort extends TileHeatExchangerPartBase imp
 						condenserTube.adjacentTemperatures
 						});
 			}
-			return stats.toArray();
+			return new Object[] {stats.toArray()};
 		}
 		else return new Object[] {};
 	}

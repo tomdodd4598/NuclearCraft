@@ -9,8 +9,6 @@ import nc.Global;
 import nc.NuclearCraft;
 import nc.multiblock.validation.IMultiblockValidator;
 import nc.util.NCUtil;
-import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -88,7 +86,7 @@ public abstract class MultiblockTileBase<T extends MultiblockBase> extends TileB
 	@Override
 	public void assertDetached() {
 		if(this.multiblock != null) {
-			BlockPos coord = this.getWorldPosition();
+			BlockPos coord = pos;
 
 			FMLLog.info("[assert] Part @ (%d, %d, %d) should be detached already, but detected that it was not. This is not a fatal error, and will be repaired, but is unusual.",
 					coord.getX(), coord.getY(), coord.getZ());
@@ -274,7 +272,7 @@ public abstract class MultiblockTileBase<T extends MultiblockBase> extends TileB
 
 		TileEntity te;
 		List<IMultiblockPart<T>> neighborParts = new ArrayList<IMultiblockPart<T>>();
-		BlockPos neighborPosition, partPosition = this.getWorldPosition();
+		BlockPos neighborPosition, partPosition = pos;
 
 		for (EnumFacing facing : EnumFacing.VALUES) {
 
@@ -291,38 +289,12 @@ public abstract class MultiblockTileBase<T extends MultiblockBase> extends TileB
 	@Override
 	public void onOrphaned(T multiblock, int oldSize, int newSize) {
 		this.markDirty();
-		getWorld().markChunkDirty(this.getWorldPosition(), this);
-	}
-
-	@Override
-	public BlockPos getWorldPosition() {
-		return this.pos;
+		getWorld().markChunkDirty(pos, this);
 	}
 
 	@Override
 	public boolean isPartInvalid() {
-		return this.isInvalid();
-	}
-
-	//// Helper functions for notifying neighboring blocks
-	protected void notifyNeighborsOfBlockChange() {
-		getWorld().notifyNeighborsOfStateChange(this.getWorldPosition(), this.getBlockType(), true);
-	}
-
-	@Deprecated // not implemented yet
-	protected void notifyNeighborsOfTileChange() {
-		//WORLD.func_147453_f(xCoord, yCoord, zCoord, getBlockType());
-
-	}
-	
-	// BlockState getting
-	
-	protected IBlockState getBlockState(BlockPos pos) {
-		return getWorld().getBlockState(pos);
-	}
-	
-	protected Block getBlock(BlockPos pos) {
-		return getBlockState(pos).getBlock();
+		return isInvalid();
 	}
 	
 	// Validator standard errors

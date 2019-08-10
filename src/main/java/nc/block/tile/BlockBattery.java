@@ -4,6 +4,7 @@ import nc.block.property.ISidedEnergy;
 import nc.enumm.BlockEnums.SimpleTileType;
 import nc.tile.energy.ITileEnergy;
 import nc.tile.energy.battery.IBattery;
+import nc.tile.internal.energy.EnergyConnection;
 import nc.tile.internal.energy.EnergyStorage;
 import nc.util.Lang;
 import nc.util.UnitHelper;
@@ -47,12 +48,14 @@ public class BlockBattery extends BlockSimpleTile implements ISidedEnergy, INBTD
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if (hand != EnumHand.MAIN_HAND) return false;
 		
-		if (player != null && world.getTileEntity(pos) instanceof ITileEnergy) {
+		TileEntity tile = world.getTileEntity(pos);
+		if (player != null && tile instanceof ITileEnergy) {
+			ITileEnergy battery = (ITileEnergy) tile;
 			if (player.isSneaking()) {
-				((ITileEnergy) world.getTileEntity(pos)).toggleEnergyConnection(facing);
+				battery.toggleEnergyConnection(facing, EnergyConnection.Type.DEFAULT);
 			}
 			else if (!world.isRemote && !player.isSneaking()) {
-				EnergyStorage storage = ((ITileEnergy) world.getTileEntity(pos)).getEnergyStorage();
+				EnergyStorage storage = battery.getEnergyStorage();
 				player.sendMessage(new TextComponentString(Lang.localise("gui.container.energy_stored") + " " + UnitHelper.prefix(storage.getEnergyStored(), storage.getMaxEnergyStored(), 5, "RF")));
 			}
 		}

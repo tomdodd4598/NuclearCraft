@@ -41,6 +41,11 @@ public class TileDecayGenerator extends TileEnergy implements IInterfaceable {
 	}
 	
 	@Override
+	public void onAdded() {
+		for (EnumFacing side : EnumFacing.VALUES) refreshRecipe(side);
+	}
+	
+	@Override
 	public void update() {
 		super.update();
 		if(!world.isRemote) {
@@ -100,9 +105,7 @@ public class TileDecayGenerator extends TileEnergy implements IInterfaceable {
 	@Override
 	public void onBlockNeighborChanged(IBlockState state, World world, BlockPos pos, BlockPos fromPos) {
 		super.onBlockNeighborChanged(state, world, pos, fromPos);
-		for (EnumFacing side : EnumFacing.VALUES) {
-			refreshRecipe(side);
-		}
+		for (EnumFacing side : EnumFacing.VALUES) refreshRecipe(side);
 	}
 	
 	public void refreshRecipe(EnumFacing side) {

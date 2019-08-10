@@ -4,11 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import javax.annotation.Nullable;
+
+import org.cyclops.commoncapabilities.api.capability.temperature.ITemperature;
+import org.cyclops.commoncapabilities.api.capability.work.IWorker;
+
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
 import li.cil.oc.api.network.SimpleComponent;
 import nc.Global;
+import nc.ModCheck;
 import nc.capability.radiation.source.IRadiationSource;
 import nc.config.NCConfig;
 import nc.enumm.MetaEnums.CoolerType;
@@ -24,6 +30,7 @@ import nc.tile.internal.energy.EnergyConnection;
 import nc.tile.internal.fluid.Tank;
 import nc.util.BlockFinder;
 import nc.util.BlockPosHelper;
+import nc.util.CommonCapsHelper;
 import nc.util.EnergyHelper;
 import nc.util.Lang;
 import nc.util.MaterialHelper;
@@ -39,11 +46,12 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
+import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.Optional;
 
-@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers")
-public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpdatePacket>, SimpleComponent {
+@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers"), @Optional.Interface(iface = "org.cyclops.commoncapabilities.api.capability.temperature.ITemperature", modid = "commoncapabilities"), @Optional.Interface(iface = "org.cyclops.commoncapabilities.api.capability.work.IWorker", modid = "commoncapabilities")})
+public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpdatePacket>, SimpleComponent, ITemperature, IWorker {
 	
 	public static final double ROOM_TEMP = 0.298D;
 	
@@ -384,7 +392,7 @@ public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpd
 			speedMultiplier = 0;
 			
 			if (heat >= 1.005D*ROOM_TEMP) {
-				heat = heat-((heat/100000D)*Math.log10(1000*(heat-ROOM_TEMP)));
+				heat = heat-((heat/100000D)*Math.log10(1000D*(heat-ROOM_TEMP)));
 			}
 		}
 		
@@ -534,6 +542,29 @@ public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpd
 		for (int i = 0; i < getTanks().size(); i++) getTanks().get(i).readInfo(message.tanksInfo.get(i));
 	}
 	
+	// Capability
+	
+	@Override
+	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing side) {
+		if (ModCheck.commonCapabilitiesLoaded() && (capability == CommonCapsHelper.CAPABILITY_TEMPERATURE || capability == CommonCapsHelper.CAPABILITY_WORKER)) {
+			return true;
+		}
+		return super.hasCapability(capability, side);
+	}
+	
+	@Override
+	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing side) {
+		if (ModCheck.commonCapabilitiesLoaded()) {
+			if (capability == CommonCapsHelper.CAPABILITY_TEMPERATURE) {
+				return CommonCapsHelper.CAPABILITY_TEMPERATURE.cast(this);
+			}
+			if (capability == CommonCapsHelper.CAPABILITY_WORKER) {
+				return CommonCapsHelper.CAPABILITY_WORKER.cast(this);
+			}
+		}
+		return super.getCapability(capability, side);
+	}
+	
 	// OpenComputers
 	
 	@Override
@@ -599,13 +630,13 @@ public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpd
 	@Callback
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getTemperature(Context context, Arguments args) {
-		return new Object[] {heat};
+		return new Object[] {1000D*heat};
 	}
 	
 	@Callback
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getMaxTemperature(Context context, Arguments args) {
-		return new Object[] {getMaxHeat()};
+		return new Object[] {1000D*getMaxHeat()};
 	}
 	
 	@Callback
@@ -680,5 +711,43 @@ public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpd
 	public Object[] deactivate(Context context, Arguments args) {
 		computerActivated = false;
 		return new Object[] {};
+	}
+	
+	// CommonCapabilities
+	
+	@Override
+	@Optional.Method(modid = "commoncapabilities")
+	public double getTemperature() {
+		return 1000D*heat;
+	}
+	
+	@Override
+	@Optional.Method(modid = "commoncapabilities")
+	public double getMaximumTemperature() {
+		return 1000D*getMaxHeat();
+	}
+	
+	@Override
+	@Optional.Method(modid = "commoncapabilities")
+	public double getMinimumTemperature() {
+		return 1000D*ROOM_TEMP;
+	}
+	
+	@Override
+	@Optional.Method(modid = "commoncapabilities")
+	public double getDefaultTemperature() {
+		return 1000D*ROOM_TEMP;
+	}
+	
+	@Override
+	@Optional.Method(modid = "commoncapabilities")
+	public boolean hasWork() {
+		return isProcessing;
+	}
+	
+	@Override
+	@Optional.Method(modid = "commoncapabilities")
+	public boolean canWork() {
+		return readyToProcess();
 	}
 }

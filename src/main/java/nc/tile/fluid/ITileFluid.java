@@ -13,6 +13,7 @@ import nc.tile.internal.fluid.FluidConnection;
 import nc.tile.internal.fluid.FluidTileWrapper;
 import nc.tile.internal.fluid.GasTileWrapper;
 import nc.tile.internal.fluid.Tank;
+import nc.tile.internal.fluid.TankOutputSetting;
 import nc.tile.internal.fluid.TankSorption;
 import nc.tile.passive.ITilePassive;
 import net.minecraft.nbt.NBTTagCompound;
@@ -64,9 +65,9 @@ public interface ITileFluid extends ITile {
 		return getFluidConnections()[side.getIndex()];
 	}
 	
-	public default void setFluidConnection(@Nonnull EnumFacing side, @Nonnull FluidConnection connection) {
+	/*public default void setFluidConnection(@Nonnull EnumFacing side, @Nonnull FluidConnection connection) {
 		getFluidConnections()[side.getIndex()] = connection.copy();
-	}
+	}*/
 	
 	public default @Nonnull TankSorption getTankSorption(@Nonnull EnumFacing side, int tankNumber) {
 		return getFluidConnections()[side.getIndex()].getTankSorption(tankNumber);
@@ -76,12 +77,12 @@ public interface ITileFluid extends ITile {
 		getFluidConnections()[side.getIndex()].setTankSorption(tankNumber, sorption);
 	}
 	
-	public default void toggleTankSorption(@Nonnull EnumFacing side, int tankNumber) {
+	public default void toggleTankSorption(@Nonnull EnumFacing side, int tankNumber, TankSorption.Type type, boolean reverse) {
 		if (!hasConfigurableFluidConnections()) {
 			return;
 		}
-		getFluidConnection(side).toggleTankSorption(tankNumber);
-		markAndRefresh();
+		getFluidConnection(side).toggleTankSorption(tankNumber, type, reverse);
+		markDirtyAndNotify();
 	}
 	
 	public default boolean canConnectFluid(@Nonnull EnumFacing side) {
@@ -281,7 +282,7 @@ public interface ITileFluid extends ITile {
 		nbt.setBoolean("inputTanksSeparated", getInputTanksSeparated());
 		for (int i = 0; i < getTanks().size(); i++) {
 			nbt.setBoolean("voidUnusableFluidInput" + i, getVoidUnusableFluidInput(i));
-			nbt.setBoolean("voidExcessFluidOutput" + i, getVoidExcessFluidOutput(i));
+			nbt.setInteger("tankOutputSetting" + i, getTankOutputSetting(i).ordinal());
 		}
 		return nbt;
 	}
@@ -291,14 +292,16 @@ public interface ITileFluid extends ITile {
 			setInputTanksSeparated(nbt.getBoolean("areTanksShared"));
 			for (int i = 0; i < getTanks().size(); i++) {
 				setVoidUnusableFluidInput(i, nbt.getBoolean("emptyUnusable"));
-				setVoidExcessFluidOutput(i, nbt.getBoolean("voidExcessOutputs"));
+				int ordinal = nbt.hasKey("voidExcessOutputs") ? (nbt.getBoolean("voidExcessOutputs") ? 1 : 0) : nbt.getInteger("tankOutputSetting" + i);
+				setTankOutputSetting(i, TankOutputSetting.values()[ordinal]);
 			}
 		}
 		else {
 			setInputTanksSeparated(nbt.getBoolean("inputTanksSeparated"));
 			for (int i = 0; i < getTanks().size(); i++) {
 				setVoidUnusableFluidInput(i, nbt.getBoolean("voidUnusableFluidInput" + i));
-				setVoidExcessFluidOutput(i, nbt.getBoolean("voidExcessFluidOutput" + i));
+				int ordinal = nbt.hasKey("voidExcessFluidOutput" + i) ? (nbt.getBoolean("voidExcessFluidOutput" + i) ? 1 : 0) : nbt.getInteger("tankOutputSetting" + i);
+				setTankOutputSetting(i, TankOutputSetting.values()[ordinal]);
 			}
 		}
 	}
@@ -313,9 +316,9 @@ public interface ITileFluid extends ITile {
 	
 	public void setVoidUnusableFluidInput(int tankNumber, boolean voidUnusableFluidInput);
 	
-	public boolean getVoidExcessFluidOutput(int tankNumber);
+	public TankOutputSetting getTankOutputSetting(int tankNumber);
 	
-	public void setVoidExcessFluidOutput(int tankNumber, boolean voidExcessFluidOutput);
+	public void setTankOutputSetting(int tankNumber, TankOutputSetting setting);
 	
 	// Capabilities
 	

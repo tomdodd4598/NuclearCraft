@@ -9,20 +9,24 @@ import com.google.common.collect.Lists;
 
 import nc.tile.ITile;
 import nc.tile.internal.inventory.InventoryConnection;
+import nc.tile.internal.inventory.InventoryTileWrapper;
+import nc.tile.internal.inventory.ItemOutputSetting;
 import nc.tile.internal.inventory.ItemSorption;
 import nc.util.NCInventoryHelper;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.wrapper.InvWrapper;
+import net.minecraftforge.items.wrapper.SidedInvWrapper;
 
-public interface ITileInventory extends ITile, ISidedInventory {
+public interface ITileInventory extends ITile {
 	
 	// Inventory
 	
@@ -30,17 +34,14 @@ public interface ITileInventory extends ITile, ISidedInventory {
 	
 	// IInventory
 	
-	@Override
 	public default boolean hasCustomName() {
 		return false;
 	}
 	
-	@Override
 	public default int getSizeInventory() {
 		return getInventoryStacks().size();
 	}
 	
-	@Override
 	public default boolean isEmpty() {
 		for (ItemStack itemstack : getInventoryStacks()) {
 			if (!itemstack.isEmpty()) {
@@ -50,22 +51,18 @@ public interface ITileInventory extends ITile, ISidedInventory {
 		return true;
 	}
 	
-	@Override
 	public default ItemStack getStackInSlot(int slot) {
 		return getInventoryStacks().get(slot);
 	}
 	
-	@Override
 	public default ItemStack decrStackSize(int slot, int count) {
 		return ItemStackHelper.getAndSplit(getInventoryStacks(), slot, count);
 	}
 	
-	@Override
 	public default ItemStack removeStackFromSlot(int slot) {
 		return ItemStackHelper.getAndRemove(getInventoryStacks(), slot);
 	}
 	
-	@Override
 	public default void setInventorySlotContents(int slot, ItemStack stack) {
 		ItemStack itemstack = getInventoryStacks().get(slot);
 		boolean flag = !stack.isEmpty() && stack.isItemEqual(itemstack) && nc.util.ItemStackHelper.areItemStackTagsEqual(stack, itemstack);
@@ -81,64 +78,52 @@ public interface ITileInventory extends ITile, ISidedInventory {
 		}
 	}
 	
-	@Override
 	public default boolean isItemValidForSlot(int slot, ItemStack stack) {
 		return true;
 	}
 	
-	@Override
 	public default int getInventoryStackLimit() {
 		return 64;
 	}
 	
-	@Override
 	public default void clear() {
 		getInventoryStacks().clear();
 	}
 	
-	@Override
 	public default boolean isUsableByPlayer(EntityPlayer player) {
 		return getTileWorld().getTileEntity(getTilePos()) != this ? false : player.getDistanceSq(getTilePos().getX() + 0.5D, getTilePos().getY() + 0.5D, getTilePos().getZ() + 0.5D) <= 64D;
 	}
 	
-	@Override
-	public default void openInventory(EntityPlayer player) {
-		
-	}
+	public default void openInventory(EntityPlayer player) {}
 	
-	@Override
-	public default void closeInventory(EntityPlayer player) {
-		
-	}
+	public default void closeInventory(EntityPlayer player) {}
 	
-	@Override
 	public default int getField(int id) {
 		return 0;
 	}
 	
-	@Override
-	public default void setField(int id, int value) {
-		
-	}
+	public default void setField(int id, int value) {}
 	
-	@Override
 	public default int getFieldCount() {
 		return 0;
 	}
 	
+	public void markDirty();
+	
+	public String getName();
+	
+	public ITextComponent getDisplayName();
+	
 	// ISidedInventory
 	
-	@Override
 	public default int[] getSlotsForFace(EnumFacing side) {
 		return getInventoryConnection(side).getSlotsForFace();
 	}
 	
-	@Override
 	public default boolean canInsertItem(int slot, ItemStack stack, EnumFacing side) {
 		return getItemSorption(side, slot).canReceive();
 	}
 	
-	@Override
 	public default boolean canExtractItem(int slot, ItemStack stack, EnumFacing side) {
 		return getItemSorption(side, slot).canExtract();
 	}
@@ -153,9 +138,9 @@ public interface ITileInventory extends ITile, ISidedInventory {
 		return getInventoryConnections()[side.getIndex()];
 	}
 	
-	public default void setInventoryConnection(@Nonnull EnumFacing side, @Nonnull InventoryConnection connection) {
+	/*public default void setInventoryConnection(@Nonnull EnumFacing side, @Nonnull InventoryConnection connection) {
 		getInventoryConnections()[side.getIndex()] = connection.copy();
-	}
+	}*/
 	
 	public default @Nonnull ItemSorption getItemSorption(@Nonnull EnumFacing side, int slotNumber) {
 		return getInventoryConnections()[side.getIndex()].getItemSorption(slotNumber);
@@ -165,12 +150,12 @@ public interface ITileInventory extends ITile, ISidedInventory {
 		getInventoryConnections()[side.getIndex()].setItemSorption(slotNumber, sorption);
 	}
 	
-	public default void toggleItemSorption(@Nonnull EnumFacing side, int slotNumber) {
+	public default void toggleItemSorption(@Nonnull EnumFacing side, int slotNumber, ItemSorption.Type type, boolean reverse) {
 		if (!hasConfigurableInventoryConnections()) {
 			return;
 		}
-		getInventoryConnection(side).toggleItemSorption(slotNumber);
-		markAndRefresh();
+		getInventoryConnection(side).toggleItemSorption(slotNumber, type, reverse);
+		markDirtyAndNotify();
 	}
 	
 	public default boolean canConnectInventory(@Nonnull EnumFacing side) {
@@ -192,6 +177,10 @@ public interface ITileInventory extends ITile, ISidedInventory {
 	public default boolean hasConfigurableInventoryConnections() {
 		return false;
 	}
+	
+	// Inventory Wrapper
+	
+	public @Nonnull InventoryTileWrapper getInventory();
 	
 	// Item Distribution
 	
@@ -249,9 +238,32 @@ public interface ITileInventory extends ITile, ISidedInventory {
 		}
 	}
 	
+	public default NBTTagCompound writeSlotSettings(NBTTagCompound nbt) {
+		for (int i = 0; i < getSizeInventory(); i++) {
+			nbt.setInteger("itemOutputSetting" + i, getItemOutputSetting(i).ordinal());
+		}
+		return nbt;
+	}
+	
+	public default void readSlotSettings(NBTTagCompound nbt) {
+		for (int i = 0; i < getSizeInventory(); i++) {
+			setItemOutputSetting(i, ItemOutputSetting.values()[nbt.getInteger("itemOutputSetting" + i)]);
+		}
+	}
+	
+	// Item Functions
+	
+	public ItemOutputSetting getItemOutputSetting(int slot);
+	
+	public void setItemOutputSetting(int slot, ItemOutputSetting setting);
+	
 	// Capabilities
 	
 	public default boolean hasInventorySideCapability(@Nullable EnumFacing side) {
 		return side == null || getInventoryConnection(side).canConnect();
+	}
+	
+	public default IItemHandler getItemHandlerCapability(@Nullable EnumFacing side) {
+		return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(side == null ? new InvWrapper(getInventory()) : new SidedInvWrapper(getInventory(), side));
 	}
 }

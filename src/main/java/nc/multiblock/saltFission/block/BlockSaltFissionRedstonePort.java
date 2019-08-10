@@ -1,7 +1,8 @@
 package nc.multiblock.saltFission.block;
 
+import static nc.block.property.BlockProperties.ACTIVE;
+
 import nc.multiblock.saltFission.tile.TileSaltFissionRedstonePort;
-import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -13,8 +14,6 @@ import net.minecraft.world.World;
 
 public class BlockSaltFissionRedstonePort extends BlockSaltFissionPartBase {
 	
-	private static final PropertyBool ACTIVE = PropertyBool.create("active");
-
 	public BlockSaltFissionRedstonePort() {
 		super();
 		setDefaultState(blockState.getBaseState().withProperty(ACTIVE, Boolean.valueOf(false)));
@@ -61,10 +60,13 @@ public class BlockSaltFissionRedstonePort extends BlockSaltFissionPartBase {
 		return 0;
 	}
 	
-	public void setActiveState(IBlockState state, World world, BlockPos pos, boolean active) {
+	public void setState(boolean isActive, TileEntity tile) {
+		World world = tile.getWorld();
+		BlockPos pos = tile.getPos();
+		IBlockState state = world.getBlockState(pos);
 		if (!world.isRemote) {
-			if (active != state.getValue(ACTIVE)) {
-				world.setBlockState(pos, state.withProperty(ACTIVE, active), 2);
+			if (isActive != state.getValue(ACTIVE)) {
+				world.setBlockState(pos, state.withProperty(ACTIVE, isActive), 2);
 			}
 		}
 	}

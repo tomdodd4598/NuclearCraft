@@ -5,9 +5,7 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 import nc.Global;
-import nc.container.processor.ContainerFluidProcessor;
 import nc.gui.NCGui;
-import nc.gui.element.NCGuiButton.Button;
 import nc.tile.energy.ITileEnergy;
 import nc.tile.processor.TileFluidProcessor;
 import nc.util.Lang;
@@ -16,16 +14,20 @@ import nc.util.UnitHelper;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 
 public abstract class GuiFluidProcessor extends NCGui {
 	
-	protected TileFluidProcessor tile;
+	protected final EntityPlayer player;
+	protected final TileFluidProcessor tile;
 	protected final ResourceLocation gui_textures;
 
-	public GuiFluidProcessor(String name, EntityPlayer player, ContainerFluidProcessor inv) {
-		super(inv);
+	public GuiFluidProcessor(String name, EntityPlayer player, TileFluidProcessor tile, Container inventory) {
+		super(inventory);
+		this.player = player;
+		this.tile = tile;
 		gui_textures = new ResourceLocation(Global.MOD_ID + ":textures/gui/container/" + name + ".png");
 	}
 
@@ -50,11 +52,11 @@ public abstract class GuiFluidProcessor extends NCGui {
 	
 	@Override
 	protected void actionPerformed(GuiButton guiButton) {
-		if (tile.getWorld().isRemote) {
-			if (guiButton != null) if (guiButton instanceof Button) {
+		/*if (tile.getWorld().isRemote) {
+			if (guiButton != null) if (guiButton instanceof NCButton) {
 				
 			}
-		}
+		}*/
 	}
 	
 	@Override

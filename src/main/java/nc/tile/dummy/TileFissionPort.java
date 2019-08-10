@@ -16,6 +16,7 @@ import nc.init.NCBlocks;
 import nc.tile.energy.ITileEnergy;
 import nc.tile.generator.TileFissionController;
 import nc.tile.internal.energy.EnergyConnection;
+import nc.tile.internal.inventory.InventoryConnection;
 import nc.tile.internal.inventory.ItemSorption;
 import nc.tile.inventory.ITileInventory;
 import nc.tile.passive.ITilePassive;
@@ -32,6 +33,8 @@ import net.minecraftforge.fml.common.Optional;
 public class TileFissionPort extends TileDummy<TileFissionController> implements IInterfaceable, SimpleComponent {
 	
 	private BlockFinder finder;
+	
+	private InventoryConnection[] inventoryConnections = ITileInventory.inventoryConnectionAll(ItemSorption.BOTH);
 
 	public TileFissionPort() {
 		super(TileFissionController.class, "fission_port", ITileInventory.inventoryConnectionAll(ItemSorption.BOTH), ITileEnergy.energyConnectionAll(EnergyConnection.OUT), NCConfig.machine_update_rate, null);
@@ -47,9 +50,19 @@ public class TileFissionPort extends TileDummy<TileFissionController> implements
 	
 	@Override
 	public void onAdded() {
-		findControllerOnPlaced();
+		findController();
 		super.onAdded();
 	}
+	
+	@Override
+	public @Nonnull InventoryConnection[] getInventoryConnections() {
+		return inventoryConnections;
+	}
+	
+	/*@Override
+	public void setInventoryConnections(@Nonnull InventoryConnection[] connections) {
+		inventoryConnections = connections;
+	}*/
 	
 	private int getNumberOfPorts() {
 		if (hasMaster()) return getMaster().ports;
@@ -140,7 +153,7 @@ public class TileFissionPort extends TileDummy<TileFissionController> implements
 		return findCasing(x, y, z) || findController(x, y, z);
 	}
 	
-	private void findControllerOnPlaced() {
+	public void findController() {
 		for (int dir = 2; dir <= 5; dir++) {
 			finder = new BlockFinder(pos, world, dir);
 			int l = NCConfig.fission_max_size + 2;
