@@ -15,29 +15,27 @@ public final class MultiblockEventHandler {
 	
 	@SubscribeEvent(priority = EventPriority.NORMAL)
 	public void onChunkLoad(final ChunkEvent.Load loadEvent) {
-
 		Chunk chunk = loadEvent.getChunk();
-
 		MultiblockRegistry.INSTANCE.onChunkLoaded(loadEvent.getWorld(), chunk.x, chunk.z);
 	}
-
+	
 	@SubscribeEvent(priority = EventPriority.NORMAL)
 	public void onWorldUnload(final WorldEvent.Unload unloadWorldEvent) {
 		MultiblockRegistry.INSTANCE.onWorldUnloaded(unloadWorldEvent.getWorld());
 	}
-
+	
 	@SubscribeEvent
 	public void onWorldTick(final TickEvent.WorldTickEvent event) {
-
-		if (TickEvent.Phase.START == event.phase)
+		if (TickEvent.Phase.START == event.phase) {
 			MultiblockRegistry.INSTANCE.tickStart(event.world);
+		}
 	}
-
+	
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
 	public void onClientTick(final TickEvent.ClientTickEvent event) {
-
-		if (TickEvent.Phase.START == event.phase)
+		if (TickEvent.Phase.START == event.phase) {
 			MultiblockRegistry.INSTANCE.tickStart(Minecraft.getMinecraft().world);
+		}
 	}
 }

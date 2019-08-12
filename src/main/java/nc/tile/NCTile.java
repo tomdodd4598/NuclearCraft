@@ -101,6 +101,11 @@ public abstract class NCTile extends TileEntity implements ITickable, ITile {
 	}
 	
 	@Override
+	public void markTileDirty() {
+		markDirty();
+	}
+	
+	@Override
 	public void markDirtyAndNotify() {
 		markDirty();
 		world.notifyBlockUpdate(pos, world.getBlockState(pos), world.getBlockState(pos), 3);

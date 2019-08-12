@@ -11,8 +11,7 @@ import nc.util.FourPos;
 import nc.util.MapHelper;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
-import net.minecraftforge.fml.common.gameevent.TickEvent.WorldTickEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 
 public class RadiationEnvironmentHandler {
@@ -21,10 +20,10 @@ public class RadiationEnvironmentHandler {
 	private static final Map<FourPos, RadiationEnvironmentInfo> ENVIRONMENT_BACKUP = new ConcurrentHashMap<FourPos, RadiationEnvironmentInfo>();
 	
 	@SubscribeEvent
-	public void updateRadiationEnvironment(WorldTickEvent event) {
+	public void updateRadiationEnvironment(TickEvent.WorldTickEvent event) {
 		if (!NCConfig.radiation_enabled_public) return;
 		
-		if (event.phase != Phase.END || event.side == Side.CLIENT || !(event.world instanceof WorldServer)) return;
+		if (event.phase != TickEvent.Phase.END || event.side == Side.CLIENT || !(event.world instanceof WorldServer)) return;
 		
 		int count = Math.min(Math.max(1, NCConfig.radiation_world_tick_rate/5), ENVIRONMENT.size());
 		

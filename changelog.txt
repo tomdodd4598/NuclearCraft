@@ -1,3 +1,13 @@
+v2.18a
+
+* Fixed major crash on adding or taking items from machines
+
++ Added tritium lamp
+
+* MSRs and heat exchangers will show max efficiencies and heat multipliers while holding shift or control in their GUI
+
+* Fixed radiation shielding not being applicable to fluid handlers
+
 v2.18
 
 + Finally added slot and tank side configurations and settings to machines!

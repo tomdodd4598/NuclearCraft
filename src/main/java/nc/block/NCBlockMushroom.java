@@ -14,7 +14,6 @@ public class NCBlockMushroom extends BlockMushroom {
 	public NCBlockMushroom() {
 		super();
 		setCreativeTab(NCTabs.BASE_BLOCK_MATERIALS);
-		setLightLevel(1F);
 	}
 	
 	@Override

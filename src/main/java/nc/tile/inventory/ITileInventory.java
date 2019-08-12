@@ -74,7 +74,7 @@ public interface ITileInventory extends ITile {
 		getInventoryStacks().set(slot, stack);
 		
 		if (!flag) {
-			markDirty();
+			markTileDirty();
 		}
 	}
 	
@@ -107,8 +107,6 @@ public interface ITileInventory extends ITile {
 	public default int getFieldCount() {
 		return 0;
 	}
-	
-	public void markDirty();
 	
 	public String getName();
 	

@@ -55,9 +55,7 @@ import net.minecraft.world.biome.BiomeProvider;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.gen.ChunkProviderServer;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
-import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent.WorldTickEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 
 public class RadiationHandler {
@@ -70,12 +68,12 @@ public class RadiationHandler {
 	private static EnumFacing tile_side = EnumFacing.DOWN;
 			
 	@SubscribeEvent
-	public void updatePlayerRadiation(PlayerTickEvent event) {
+	public void updatePlayerRadiation(TickEvent.PlayerTickEvent event) {
 		if (!NCConfig.radiation_enabled_public) return;
 		
-		if (!NCConfig.radiation_require_counter && event.phase == Phase.START && event.side == Side.CLIENT) playGeigerSound(event.player);
+		if (!NCConfig.radiation_require_counter && event.phase == TickEvent.Phase.START && event.side == Side.CLIENT) playGeigerSound(event.player);
 		
-		if (event.phase != Phase.START || ((event.player.world.getTotalWorldTime() + event.player.getUniqueID().hashCode()) % radiation_player_tick_rate) != 0) return;
+		if (event.phase != TickEvent.Phase.START || ((event.player.world.getTotalWorldTime() + event.player.getUniqueID().hashCode()) % radiation_player_tick_rate) != 0) return;
 		
 		if (event.side == Side.SERVER && event.player instanceof EntityPlayerMP) {
 			EntityPlayerMP player = (EntityPlayerMP)event.player;
@@ -192,10 +190,10 @@ public class RadiationHandler {
 	}
 	
 	@SubscribeEvent
-	public void updateWorldRadiation(WorldTickEvent event) {
+	public void updateWorldRadiation(TickEvent.WorldTickEvent event) {
 		if (!NCConfig.radiation_enabled_public) return;
 		
-		if (event.phase != Phase.START || event.side == Side.CLIENT || !(event.world instanceof WorldServer)) return;
+		if (event.phase != TickEvent.Phase.START || event.side == Side.CLIENT || !(event.world instanceof WorldServer)) return;
 		WorldServer world = (WorldServer)event.world;
 		
 		ChunkProviderServer chunkProvider = world.getChunkProvider();

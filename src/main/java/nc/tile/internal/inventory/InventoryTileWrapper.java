@@ -4,14 +4,15 @@ import nc.tile.inventory.ITileInventory;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.text.ITextComponent;
 
-public class InventoryTileWrapper implements ISidedInventory {
+public class InventoryTileWrapper<T extends TileEntity & ITileInventory> implements ISidedInventory {
 	
-	public final ITileInventory tile;
+	public final T tile;
 	
-	public InventoryTileWrapper(ITileInventory tile) {
+	public InventoryTileWrapper(T tile) {
 		this.tile = tile;
 	}
 	

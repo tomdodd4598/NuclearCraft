@@ -94,6 +94,9 @@ tile.nuclearcraft.cooler.magnesium.desc=Must be adjacent to at least one Reactor
 
 tile.nuclearcraft.cooler.cooling_rate=Cooling rate:
 
+tile.nuclearcraft.reactor_door.name=Reactor Door
+tile.nuclearcraft.reactor_trapdoor.name=Reactor Trapdoor
+
 tile.nuclearcraft.block_depleted_thorium.name=Thorium-230 Block
 tile.nuclearcraft.block_depleted_uranium.name=Uranium-238 Block
 tile.nuclearcraft.block_depleted_neptunium.name=Neptunium-237 Block
@@ -243,11 +246,11 @@ tile.nuclearcraft.fusion_core.desc=This is the central part of a multiblock fusi
 tile.nuclearcraft.fusion_dummy_side.name=Fusion Core
 tile.nuclearcraft.fusion_dummy_top.name=Fusion Core
 
-tile.nuclearcraft.salt_fission_controller.name=Molten Salt Fission Controller
+tile.nuclearcraft.salt_fission_controller.name=Molten Salt Reactor Controller
 tile.nuclearcraft.salt_fission_controller.desc=The heart of the reactor - one is needed in the wall for it to form.
 tile.nuclearcraft.salt_fission_wall.name=Molten Salt Reactor Wall
 tile.nuclearcraft.salt_fission_wall.desc=Comprises the faces of the reactor structure.
-tile.nuclearcraft.salt_fission_glass.name=Transparent Molten Salt Reactor Wall
+tile.nuclearcraft.salt_fission_glass.name=Molten Salt Reactor Glass
 tile.nuclearcraft.salt_fission_glass.desc=Comprises the faces of the reactor structure.
 tile.nuclearcraft.salt_fission_frame.name=Molten Salt Reactor Frame
 tile.nuclearcraft.salt_fission_frame.desc=Comprises the edges and corners of the reactor structure.
@@ -274,7 +277,7 @@ tile.nuclearcraft.heat_exchanger_controller.name=Heat Exchanger Controller
 tile.nuclearcraft.heat_exchanger_controller.desc=The heart of the exchanger - one is needed in the wall for it to form.
 tile.nuclearcraft.heat_exchanger_wall.name=Heat Exchanger Shell
 tile.nuclearcraft.heat_exchanger_wall.desc=Comprises the faces of the exchanger structure.
-tile.nuclearcraft.heat_exchanger_glass.name=Transparent Heat Exchanger Shell
+tile.nuclearcraft.heat_exchanger_glass.name=Heat Exchanger Glass
 tile.nuclearcraft.heat_exchanger_glass.desc=Comprises the faces of the exchanger structure.
 tile.nuclearcraft.heat_exchanger_frame.name=Heat Exchanger Frame
 tile.nuclearcraft.heat_exchanger_frame.desc=Comprises the edges and corners of the exchanger structure.
@@ -382,8 +385,8 @@ tile.nuclearcraft.geiger_block.desc=Reads the radiation level of the chunk it is
 tile.nuclearcraft.glowing_mushroom.name=Glowing Mushroom
 tile.nuclearcraft.dry_earth.name=Wasteland Earth
 
-tile.nuclearcraft.reactor_door.name=Reactor Door
-tile.nuclearcraft.reactor_trapdoor.name=Reactor Trapdoor
+tile.nuclearcraft.tritium_lamp.name=Tritium Lamp
+tile.nuclearcraft.tritium_lantern.name=Tritium Lantern
 
 tile.nuclearcraft.fluid_oxygen.name=Oxygen
 fluid.oxygen=Oxygen
@@ -1729,7 +1732,7 @@ item.nuclearcraft.record_hyperspace.des1=Originally by Riku Nuottajärvi
 
 entity.nuclearcraft.feral_ghoul.name=Feral Ghoul
 
-jei.nuclearcraft.chance_output=Output: %s-%s [Average: %s]
+jei.nuclearcraft.chance_output=Output: %s-%s [Mean: %s]
 
 jei.nuclearcraft.base_process_time=Base process time:
 jei.nuclearcraft.base_process_power=Base process power:
@@ -2548,7 +2551,9 @@ gui.container.salt_fission_controller.pos=BlockPos
 gui.container.salt_fission_controller.vessels=Fission Vessels:
 gui.container.salt_fission_controller.heaters=Coolant Heaters:
 gui.container.salt_fission_controller.raw_efficiency=Mean Raw Efficiency:
+gui.container.salt_fission_controller.raw_efficiency_max=Max Mean Raw Efficiency:
 gui.container.salt_fission_controller.heat_mult=Mean Heat Multiplier:
+gui.container.salt_fission_controller.heat_mult_max=Max Mean Heat Multiplier:
 gui.container.salt_fission_controller.cooling_efficiency=Cooling Efficiency:
 gui.container.salt_fission_controller.heat_stored=Heat Stored:
 gui.container.salt_fission_controller.net_heat_gen=Net Heat Gen:
@@ -2556,7 +2561,8 @@ gui.container.salt_fission_controller.cooling_rate=Cooling Rate:
 
 gui.container.heat_exchanger_controller.heat_exchanger=Heat Exchanger
 gui.container.heat_exchanger_controller.tubes=Number of Tubes:
-gui.container.heat_exchanger_controller.efficiency=Average Efficiency:
+gui.container.heat_exchanger_controller.efficiency=Mean Efficiency:
+gui.container.heat_exchanger_controller.efficiency_max=Max Mean Efficiency:
 gui.container.heat_exchanger_controller.active_percent=Tubes Active:
 
 gui.container.turbine_controller.turbine=Turbine (WIP)

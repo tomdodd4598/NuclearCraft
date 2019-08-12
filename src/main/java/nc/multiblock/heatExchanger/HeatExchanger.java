@@ -34,7 +34,7 @@ public class HeatExchanger extends CuboidalMultiblockBase<HeatExchangerUpdatePac
 	private int updateCount = 0;
 	
 	public boolean isHeatExchangerOn, computerActivated;
-	public double fractionOfTubesActive, efficiency;
+	public double fractionOfTubesActive, efficiency, maxEfficiency;
 	
 	public HeatExchanger(World world) {
 		super(world);
@@ -125,7 +125,7 @@ public class HeatExchanger extends CuboidalMultiblockBase<HeatExchangerUpdatePac
 	protected void onMachineDisassembled() {
 		isHeatExchangerOn = false;
 		if (controller != null) controller.updateBlockState(false);
-		fractionOfTubesActive = efficiency = 0D;
+		fractionOfTubesActive = efficiency = maxEfficiency = 0D;
 	}
 	
 	@Override
@@ -181,28 +181,30 @@ public class HeatExchanger extends CuboidalMultiblockBase<HeatExchangerUpdatePac
 	}
 	
 	protected void updateHeatExchangerStats() {
-		if (tubes.size() + condenserTubes.size() < 1) {
-			fractionOfTubesActive = 0;
-			efficiency = 0;
+		int numberOfTubes = tubes.size() + condenserTubes.size();
+		if (numberOfTubes < 1) {
+			fractionOfTubesActive = efficiency = maxEfficiency = 0D;
 			return;
 		}
-		int activeCount = 0;
-		double efficiencyCount = 0;
+		int activeCount = 0, efficiencyCount = 0, maxEfficiencyCount = 0;
 		
 		for (TileHeatExchangerTube tube : tubes) {
-			int eff = tube.checkPosition();
-			if (eff > 0) activeCount++;
-			efficiencyCount += eff;
+			int[] eff = tube.checkPosition();
+			if (eff[0] > 0) activeCount++;
+			efficiencyCount += eff[0];
+			maxEfficiencyCount += eff[1];
 		}
 		
 		for (TileHeatExchangerCondenserTube condenserTube : condenserTubes) {
 			int eff = condenserTube.checkPosition();
 			if (eff > 0) activeCount++;
 			efficiencyCount += eff;
+			maxEfficiencyCount += eff;
 		}
 		
-		fractionOfTubesActive = (double)activeCount/(tubes.size() + condenserTubes.size());
-		efficiency = activeCount == 0 ? 0 : efficiencyCount/activeCount;
+		fractionOfTubesActive = (double)activeCount/numberOfTubes;
+		efficiency = activeCount == 0 ? 0D : (double)efficiencyCount/activeCount;
+		maxEfficiency = (double)maxEfficiencyCount/numberOfTubes;
 	}
 	
 	private void incrementUpdateCount() {
@@ -232,6 +234,7 @@ public class HeatExchanger extends CuboidalMultiblockBase<HeatExchangerUpdatePac
 		data.setBoolean("computerActivated", computerActivated);
 		data.setDouble("fractionOfTubesActive", fractionOfTubesActive);
 		data.setDouble("efficiency", efficiency);
+		data.setDouble("maxEfficiency", maxEfficiency);
 	}
 	
 	@Override
@@ -240,13 +243,14 @@ public class HeatExchanger extends CuboidalMultiblockBase<HeatExchangerUpdatePac
 		computerActivated = data.getBoolean("computerActivated");
 		fractionOfTubesActive = data.getDouble("fractionOfTubesActive");
 		efficiency = data.getDouble("efficiency");
+		maxEfficiency = data.getDouble("maxEfficiency");
 	}
 	
 	// Packets
 	
 	@Override
 	protected HeatExchangerUpdatePacket getUpdatePacket() {
-		return new HeatExchangerUpdatePacket(controller.getPos(), isHeatExchangerOn, fractionOfTubesActive, efficiency);
+		return new HeatExchangerUpdatePacket(controller.getPos(), isHeatExchangerOn, fractionOfTubesActive, efficiency, maxEfficiency);
 	}
 	
 	@Override
@@ -254,6 +258,7 @@ public class HeatExchanger extends CuboidalMultiblockBase<HeatExchangerUpdatePac
 		isHeatExchangerOn = message.isHeatExchangerOn;
 		fractionOfTubesActive = message.fractionOfTubesActive;
 		efficiency = message.efficiency;
+		maxEfficiency = message.maxEfficiency;
 	}
 	
 	public Container getContainer(EntityPlayer player) {

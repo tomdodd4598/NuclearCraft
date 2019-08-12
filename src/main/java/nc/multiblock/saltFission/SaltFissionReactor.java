@@ -61,7 +61,7 @@ public class SaltFissionReactor extends CuboidalMultiblockBase<SaltFissionUpdate
 	private int updateCount = 0, distributeCount = 0;
 	
 	public boolean isReactorOn, computerActivated;
-	public double cooling, heating, rawEfficiency, heatMult, coolingEfficiency;
+	public double cooling, heating, rawEfficiency, maxRawEfficiency, heatMult, maxHeatMult, coolingEfficiency;
 	
 	private short heaterCheckCount = 0;
 
@@ -185,7 +185,7 @@ public class SaltFissionReactor extends CuboidalMultiblockBase<SaltFissionUpdate
 	protected void onMachineDisassembled() {
 		isReactorOn = false;
 		if (controller != null) controller.updateBlockState(false);
-		cooling = heating = rawEfficiency = heatMult = coolingEfficiency = 0D;
+		cooling = heating = rawEfficiency = maxRawEfficiency = heatMult = maxHeatMult = coolingEfficiency = 0D;
 	}
 	
 	@Override
@@ -321,21 +321,25 @@ public class SaltFissionReactor extends CuboidalMultiblockBase<SaltFissionUpdate
 		}
 		
 		if (vessels.size() < 1) {
-			rawEfficiency = 0;
-			heatMult = 0;
+			rawEfficiency = maxRawEfficiency = 0;
+			heatMult = maxHeatMult = 0;
 			heating = 0;
 		} else {
-			double newEfficiency = 0;
-			double newHeatMult = 0;
+			double newEfficiency = 0, newMaxEfficiency = 0;
+			double newHeatMult = 0, newMaxHeatMult = 0;
 			double newHeating = 0;
 			for (TileSaltFissionVessel vessel : vessels) {
 				vessel.calculateEfficiency();
 				newEfficiency += vessel.getEfficiency();
+				newMaxEfficiency += vessel.getMaxEfficiency();
 				newHeatMult += vessel.getHeatMultiplier();
+				newMaxHeatMult += vessel.getMaxHeatMultiplier();
 				newHeating += vessel.getProcessHeat();
 			}
 			rawEfficiency = newEfficiency/vessels.size();
+			maxRawEfficiency = newMaxEfficiency/vessels.size();
 			heatMult = newHeatMult/vessels.size();
+			maxHeatMult = newMaxHeatMult/vessels.size();
 			heating = newHeating;
 			
 			/*for (TileSaltFissionModerator moderator : moderators) {
@@ -359,7 +363,9 @@ public class SaltFissionReactor extends CuboidalMultiblockBase<SaltFissionUpdate
 	
 	protected void setCooling() {
 		double newCooling = 0;
-		for (TileSaltFissionHeater heater : heaters) if (heater.isInValidPosition) newCooling += heater.baseProcessCooling;
+		for (TileSaltFissionHeater heater : heaters) {
+			if (heater.isInValidPosition) newCooling += heater.baseProcessCooling;
+		}
 		cooling = newCooling;
 	}
 	
@@ -451,7 +457,9 @@ public class SaltFissionReactor extends CuboidalMultiblockBase<SaltFissionUpdate
 		data.setDouble("cooling", cooling);
 		data.setDouble("heating", heating);
 		data.setDouble("efficiency", rawEfficiency);
+		data.setDouble("maxEfficiency", maxRawEfficiency);
 		data.setDouble("heatMult", heatMult);
+		data.setDouble("maxHeatMult", maxHeatMult);
 		data.setDouble("coolingRate", coolingEfficiency);
 	}
 	
@@ -464,7 +472,9 @@ public class SaltFissionReactor extends CuboidalMultiblockBase<SaltFissionUpdate
 		cooling = data.getDouble("cooling");
 		heating = data.getDouble("heating");
 		rawEfficiency = data.getDouble("efficiency");
+		maxRawEfficiency = data.getDouble("maxEfficiency");
 		heatMult = data.getDouble("heatMult");
+		maxHeatMult = data.getDouble("maxHeatMult");
 		coolingEfficiency = data.getDouble("coolingRate");
 	}
 	
@@ -472,7 +482,7 @@ public class SaltFissionReactor extends CuboidalMultiblockBase<SaltFissionUpdate
 	
 	@Override
 	protected SaltFissionUpdatePacket getUpdatePacket() {
-		return new SaltFissionUpdatePacket(controller.getPos(), isReactorOn, cooling, heating, rawEfficiency, heatMult, coolingEfficiency, heatBuffer.getHeatCapacity(), heatBuffer.getHeatStored());
+		return new SaltFissionUpdatePacket(controller.getPos(), isReactorOn, cooling, heating, rawEfficiency, maxRawEfficiency, heatMult, maxHeatMult, coolingEfficiency, heatBuffer.getHeatCapacity(), heatBuffer.getHeatStored());
 	}
 	
 	@Override

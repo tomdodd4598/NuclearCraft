@@ -113,36 +113,44 @@ public class TileHeatExchangerTube extends TileHeatExchangerPartBase implements 
 		//getWorld().setBlockState(getPos(), getWorld().getBlockState(getPos()), 2);
 	}
 	
-	public int checkPosition() {
-		if (!isMultiblockAssembled() || !canProcessInputs) {
-			speedMultiplier = 0D;
-			return 0;
-		}
-		
-		int adjCount = 0;
+	public int[] checkPosition() {
+		boolean canProcess = isMultiblockAssembled() && canProcessInputs;
+		int adjRealCount = 0, adjMaxCount = 0;
 		double speedCount = 0D;
 		
 		for (EnumFacing dir : EnumFacing.VALUES) {
-			double mult = getTubeSpeedMultiplier(dir);
-			speedCount += mult;
-			if (mult > 0D) adjCount++;
+			SpeedMultiplierInfo info = getTubeSpeedMultiplier(dir);
+			speedCount += info.multiplier;
+			if (info.multiplier > 0D) adjRealCount++;
+			if (info.contributeMax) adjMaxCount++;
 		}
 		
-		speedMultiplier = speedCount;
-		return adjCount;
+		speedMultiplier = canProcess ? speedCount : 0D;
+		return new int[] {canProcess ? adjRealCount : 0, adjMaxCount};
 	}
 	
-	private double getTubeSpeedMultiplier(EnumFacing dir) {
+	private SpeedMultiplierInfo getTubeSpeedMultiplier(EnumFacing dir) {
 		TileEntity tile = world.getTileEntity(pos.offset(dir));
-		if (!(tile instanceof TileHeatExchangerTube)) return 0;
+		if (!(tile instanceof TileHeatExchangerTube)) return new SpeedMultiplierInfo(0D, false);
 		TileHeatExchangerTube tube = (TileHeatExchangerTube) tile;
 		
-		if (!tube.canProcessInputs || (requiresContraflow(tube) && !isContraflow(tube))) return 0D;
+		boolean tubeActive = tube.canProcessInputs && (!requiresContraflow(tube) || isContraflow(tube));
 		
 		if (!canConnectFluid(dir) || !tube.canConnectFluid(dir.getOpposite())) {
-			return conductivityMult()*getRawTubeSpeedMultiplier(tube);
+			return new SpeedMultiplierInfo(tubeActive ? conductivityMult()*getRawTubeSpeedMultiplier(tube) : 0D, true);
 		}
-		return 0D;
+		return new SpeedMultiplierInfo(0D, false);
+	}
+	
+	private static class SpeedMultiplierInfo {
+		
+		final double multiplier;
+		final boolean contributeMax;
+		
+		SpeedMultiplierInfo(double multiplier, boolean contributeMax) {
+			this.multiplier = multiplier;
+			this.contributeMax = contributeMax;
+		}
 	}
 	
 	private double getRawTubeSpeedMultiplier(TileHeatExchangerTube tube) {

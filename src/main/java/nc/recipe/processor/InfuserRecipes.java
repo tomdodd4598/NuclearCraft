@@ -6,6 +6,7 @@ import nc.init.NCBlocks;
 import nc.init.NCItems;
 import nc.recipe.ProcessorRecipeHandler;
 import nc.util.FluidStackHelper;
+import nc.util.OreDictHelper;
 import nc.util.RegistryHelper;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -40,8 +41,7 @@ public class InfuserRecipes extends ProcessorRecipeHandler {
 		
 		addRecipe("emptyFrame", fluidStack("water", FluidStackHelper.BUCKET_VOLUME*2), NCBlocks.water_source, 1D, 1D);
 		addRecipe(NCBlocks.water_source, fluidStack("lava", FluidStackHelper.BUCKET_VOLUME), NCBlocks.cobblestone_generator, 1D, 1D);
-		
-		addRecipe("emptyFrame", fluidStack("water", FluidStackHelper.BUCKET_VOLUME*2), NCBlocks.water_source, 1D, 1D);
+		addRecipe(OreDictHelper.oreExists("blockGlassHardened") ? "blockGlassHardened" : "blockGlass", fluidStack("tritium", FluidStackHelper.BUCKET_VOLUME), NCBlocks.tritium_lamp, 1D, 1D);
 		
 		addRecipe("sandstone", fluidStack("ender", FluidStackHelper.EUM_DUST_VOLUME), Blocks.END_STONE, 1D, 1D);
 		

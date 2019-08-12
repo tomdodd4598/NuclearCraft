@@ -60,8 +60,8 @@ public class TileSaltFissionVessel extends TileSaltFissionPartBase implements IF
 	public final int fluidInputSize = 1, fluidOutputSize = 1;
 	
 	public double baseProcessTime = 1, baseProcessHeat = 0, baseProcessRadiation = 0;
-	private int baseVesselEfficiency;
-	private double moderatorExtraEfficiency, moderatorHeatFactor;
+	private int baseVesselEfficiency, baseVesselMaxEfficiency;
+	private double moderatorExtraEfficiency, moderatorMaxExtraEfficiency, moderatorHeatFactor, moderatorMaxHeatFactor;
 	
 	public boolean distributedTo = false, retrievedFrom = false;
 	
@@ -94,13 +94,19 @@ public class TileSaltFissionVessel extends TileSaltFissionPartBase implements IF
 	}
 	
 	public void calculateEfficiency() {
-		int newEfficiency = 1;
+		int newEfficiency = 1, newMaxEfficiency = 1;
 		dirLoop: for (EnumFacing dir : EnumFacing.VALUES) {
-			if (isVessel(dir, 1)) newEfficiency++;
+			PartCheckInfo info = isVessel(dir, 1);
+			if (info.partValid) {
+				if (info.partActive) newEfficiency++;
+				newMaxEfficiency++;
+			}
 			else for (int i = 1; i <= NCConfig.fission_neutron_reach; i++) {
 				if (isModerator(dir, i, false)) {
-					if (isVessel(dir, i + 1)) {
-						newEfficiency++;
+					info = isVessel(dir, i + 1);
+					if (info.partValid) {
+						if (info.partActive) newEfficiency++;
+						newMaxEfficiency++;
 						continue dirLoop;
 					} else continue;
 				} else continue dirLoop;
@@ -115,15 +121,18 @@ public class TileSaltFissionVessel extends TileSaltFissionPartBase implements IF
 		}
 		
 		baseVesselEfficiency = newEfficiency;
+		baseVesselMaxEfficiency = newMaxEfficiency;
 		moderatorExtraEfficiency = newEfficiency*moderatorCount*NCConfig.fission_moderator_extra_power/6D;
+		moderatorMaxExtraEfficiency = newMaxEfficiency*moderatorCount*NCConfig.fission_moderator_extra_power/6D;
 		moderatorHeatFactor = newEfficiency*moderatorCount*NCConfig.fission_moderator_extra_heat/6D;
+		moderatorMaxHeatFactor = newMaxEfficiency*moderatorCount*NCConfig.fission_moderator_extra_heat/6D;
 	}
 	
-	private boolean isVessel(EnumFacing dir, int offset) {
+	private PartCheckInfo isVessel(EnumFacing dir, int offset) {
 		TileEntity tile = world.getTileEntity(pos.offset(dir, offset));
-		if (!(tile instanceof TileSaltFissionVessel)) return false;
+		if (!(tile instanceof TileSaltFissionVessel)) return new PartCheckInfo(false, false);
 		TileSaltFissionVessel vessel = (TileSaltFissionVessel) tile;
-		return vessel.canProcessInputs && vessel.isMultiblockAssembled();
+		return new PartCheckInfo(vessel.isMultiblockAssembled(), vessel.canProcessInputs && vessel.isMultiblockAssembled());
 	}
 	
 	private boolean isModerator(EnumFacing dir, int offset, boolean isInValidPosition) {
@@ -134,6 +143,16 @@ public class TileSaltFissionVessel extends TileSaltFissionPartBase implements IF
 		if (isInValidPosition && canProcessInputs) moderator.isInValidPosition = true;
 		return true;
 		
+	}
+	
+	private static class PartCheckInfo {
+		
+		final boolean partValid, partActive;
+		
+		PartCheckInfo(boolean partValid, boolean partActive) {
+			this.partValid = partValid;
+			this.partActive = partActive;
+		}
 	}
 	
 	public void doMeltdown() {
@@ -153,8 +172,16 @@ public class TileSaltFissionVessel extends TileSaltFissionPartBase implements IF
 		return baseVesselEfficiency + moderatorExtraEfficiency;
 	}
 	
+	public double getMaxEfficiency() {
+		return baseVesselMaxEfficiency + moderatorMaxExtraEfficiency;
+	}
+	
 	public double getHeatMultiplier() {
 		return baseVesselEfficiency*(baseVesselEfficiency + 1D)*0.5D + moderatorHeatFactor;
+	}
+	
+	public double getMaxHeatMultiplier() {
+		return baseVesselMaxEfficiency*(baseVesselMaxEfficiency + 1D)*0.5D + moderatorMaxHeatFactor;
 	}
 	
 	public double getProcessHeat() {
@@ -573,8 +600,11 @@ public class TileSaltFissionVessel extends TileSaltFissionPartBase implements IF
 		nbt.setDouble("baseProcessTime", baseProcessTime);
 		nbt.setDouble("baseProcessHeat", baseProcessHeat);
 		nbt.setInteger("baseVesselEfficiency", baseVesselEfficiency);
+		nbt.setInteger("baseVesselMaxEfficiency", baseVesselMaxEfficiency);
 		nbt.setDouble("moderatorExtraEfficiency", moderatorExtraEfficiency);
+		nbt.setDouble("moderatorMaxExtraEfficiency", moderatorMaxExtraEfficiency);
 		nbt.setDouble("moderatorHeatFactor", moderatorHeatFactor);
+		nbt.setDouble("moderatorMaxHeatFactor", moderatorMaxHeatFactor);
 		
 		nbt.setDouble("time", time);
 		nbt.setBoolean("isProcessing", isProcessing);
@@ -592,8 +622,11 @@ public class TileSaltFissionVessel extends TileSaltFissionPartBase implements IF
 		baseProcessTime = nbt.getDouble("baseProcessTime");
 		baseProcessHeat = nbt.getDouble("baseProcessHeat");
 		baseVesselEfficiency = nbt.getInteger("baseVesselEfficiency");
+		baseVesselMaxEfficiency = nbt.getInteger("baseVesselMaxEfficiency");
 		moderatorExtraEfficiency = nbt.getDouble("moderatorExtraEfficiency");
+		moderatorMaxExtraEfficiency = nbt.getDouble("moderatorMaxExtraEfficiency");
 		moderatorHeatFactor = nbt.getDouble("moderatorHeatFactor");
+		moderatorMaxHeatFactor = nbt.getDouble("moderatorMaxHeatFactor");
 		
 		time = nbt.getDouble("time");
 		isProcessing = nbt.getBoolean("isProcessing");

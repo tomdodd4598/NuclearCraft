@@ -413,6 +413,11 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ITileIn
 	}
 	
 	@Override
+	public void markTileDirty() {
+		markDirty();
+	}
+	
+	@Override
 	public void markDirtyAndNotify() {
 		markDirty();
 		world.notifyBlockUpdate(pos, world.getBlockState(pos), world.getBlockState(pos), 3);

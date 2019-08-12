@@ -14,6 +14,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
 
 public class ItemRadShielding extends NCItemMeta<MetaEnums.RadShieldingType> {
@@ -42,7 +43,9 @@ public class ItemRadShielding extends NCItemMeta<MetaEnums.RadShieldingType> {
 		
 		BlockPos pos = raytraceresult.getBlockPos();
 		TileEntity te = world.getTileEntity(pos);
-		if (!world.isBlockModifiable(player, pos) || te == null || !te.hasCapability(IRadiationResistance.CAPABILITY_RADIATION_RESISTANCE, null) || !te.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null)) return actionResult(false, stack);
+		if (!world.isBlockModifiable(player, pos) || te == null || !te.hasCapability(IRadiationResistance.CAPABILITY_RADIATION_RESISTANCE, null) || !te.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null) || !te.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null)) {
+			return actionResult(false, stack);
+		}
 		IRadiationResistance tile = te.getCapability(IRadiationResistance.CAPABILITY_RADIATION_RESISTANCE, null);
 		if (tile == null) return actionResult(false, stack);
 		

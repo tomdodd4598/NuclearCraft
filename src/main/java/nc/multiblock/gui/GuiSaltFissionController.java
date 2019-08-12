@@ -46,8 +46,8 @@ public class GuiSaltFissionController extends GuiMultiblockController<SaltFissio
 	
 	public List<String> efficiencyInfo() {
 		List<String> info = new ArrayList<String>();
-		info.add(TextFormatting.AQUA + Lang.localise("gui.container.salt_fission_controller.raw_efficiency") + " " + TextFormatting.WHITE + NCMath.decimalPlaces(multiblock.rawEfficiency*100D, 1) + "%");
-		info.add(TextFormatting.YELLOW + Lang.localise("gui.container.salt_fission_controller.heat_mult") + " " + TextFormatting.WHITE + NCMath.decimalPlaces(multiblock.heatMult*100D, 1) + "%");
+		info.add(TextFormatting.AQUA + Lang.localise("gui.container.salt_fission_controller.raw_efficiency" + (NCUtil.isModifierKeyDown() ? "_max" : "")) + " " + TextFormatting.WHITE + NCMath.decimalPlaces((NCUtil.isModifierKeyDown() ? multiblock.maxRawEfficiency : multiblock.rawEfficiency)*100D, 1) + "%");
+		info.add(TextFormatting.YELLOW + Lang.localise("gui.container.salt_fission_controller.heat_mult" + (NCUtil.isModifierKeyDown() ? "_max" : "")) + " " + TextFormatting.WHITE + NCMath.decimalPlaces((NCUtil.isModifierKeyDown() ? multiblock.maxHeatMult : multiblock.heatMult)*100D, 1) + "%");
 		info.add(TextFormatting.BLUE + Lang.localise("gui.container.salt_fission_controller.cooling_efficiency") + " " + TextFormatting.WHITE + NCMath.decimalPlaces(multiblock.coolingEfficiency*100D, 1) + "%");
 		return info;
 	}

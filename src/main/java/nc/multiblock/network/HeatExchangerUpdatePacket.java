@@ -10,16 +10,18 @@ public class HeatExchangerUpdatePacket extends MultiblockUpdatePacket {
 	public boolean isHeatExchangerOn;
 	public double fractionOfTubesActive;
 	public double efficiency;
+	public double maxEfficiency;
 	
 	public HeatExchangerUpdatePacket() {
 		messageValid = false;
 	}
 	
-	public HeatExchangerUpdatePacket(BlockPos pos, boolean isHeatExchangerOn, double fractionOfTubesActive, double efficiency) {
+	public HeatExchangerUpdatePacket(BlockPos pos, boolean isHeatExchangerOn, double fractionOfTubesActive, double efficiency, double maxEfficiency) {
 		this.pos = pos;
 		this.isHeatExchangerOn = isHeatExchangerOn;
 		this.fractionOfTubesActive = fractionOfTubesActive;
 		this.efficiency = efficiency;
+		this.maxEfficiency = maxEfficiency;
 		
 		messageValid = true;
 	}
@@ -30,6 +32,7 @@ public class HeatExchangerUpdatePacket extends MultiblockUpdatePacket {
 		isHeatExchangerOn = buf.readBoolean();
 		fractionOfTubesActive = buf.readDouble();
 		efficiency = buf.readDouble();
+		maxEfficiency = buf.readDouble();
 	}
 	
 	@Override
@@ -40,6 +43,7 @@ public class HeatExchangerUpdatePacket extends MultiblockUpdatePacket {
 		buf.writeBoolean(isHeatExchangerOn);
 		buf.writeDouble(fractionOfTubesActive);
 		buf.writeDouble(efficiency);
+		buf.writeDouble(maxEfficiency);
 	}
 	
 	public static class Handler extends MultiblockUpdatePacket.Handler<HeatExchangerUpdatePacket, HeatExchanger, TileHeatExchangerController> {

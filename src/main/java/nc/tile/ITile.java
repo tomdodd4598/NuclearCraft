@@ -70,6 +70,8 @@ public interface ITile {
 	
 	// State Updating
 	
+	public void markTileDirty();
+	
 	public void markDirtyAndNotify();
 	
 	// Capabilities

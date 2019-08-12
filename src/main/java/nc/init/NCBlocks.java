@@ -272,6 +272,9 @@ public class NCBlocks {
 	public static Block glowing_mushroom;
 	public static Block dry_earth;
 	
+	public static Block tritium_lamp;
+	public static Block tritium_lantern;
+	
 	//public static Block spin;
 	
 	public static void init() {
@@ -457,8 +460,10 @@ public class NCBlocks {
 		
 		geiger_block = withName(new BlockGeigerCounter(), "geiger_block");
 		
-		glowing_mushroom = withName(new NCBlockMushroom(), "glowing_mushroom");
+		glowing_mushroom = withName(new NCBlockMushroom().setLightLevel(1F), "glowing_mushroom");
 		dry_earth = withName(new NCBlock(Material.ROCK).setCreativeTab(NCTabs.BASE_BLOCK_MATERIALS), "dry_earth");
+		
+		tritium_lamp = withName(new NCBlock(Material.GLASS).setCreativeTab(NCTabs.MISC).setLightLevel(1F), "tritium_lamp");
 		
 		//spin = withName(new BlockSpin(), "spin");
 	}
@@ -648,6 +653,8 @@ public class NCBlocks {
 		
 		registerBlock(glowing_mushroom);
 		registerBlock(dry_earth);
+		
+		registerBlock(tritium_lamp);
 		
 		//registerBlock(spin);
 	}
@@ -851,6 +858,8 @@ public class NCBlocks {
 		
 		registerRender(glowing_mushroom);
 		registerRender(dry_earth);
+		
+		registerRender(tritium_lamp);
 		
 		//registerRender(spin);
 	}
