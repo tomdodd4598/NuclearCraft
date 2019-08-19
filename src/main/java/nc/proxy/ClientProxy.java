@@ -7,6 +7,7 @@ import nc.Global;
 import nc.block.fluid.NCBlockFluid;
 import nc.config.NCConfig;
 import nc.handler.RenderHandler;
+import nc.handler.SoundHandler;
 import nc.handler.TooltipHandler;
 import nc.init.NCCoolantFluids;
 import nc.init.NCFissionFluids;
@@ -41,7 +42,7 @@ import slimeknights.tconstruct.library.materials.Material;
 
 public class ClientProxy extends CommonProxy {
 	
-	private final Minecraft mc = Minecraft.getMinecraft();
+	private static final Minecraft MC = Minecraft.getMinecraft();
 	
 	@Override
 	public void preInit(FMLPreInitializationEvent preEvent) {
@@ -57,6 +58,8 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public void init(FMLInitializationEvent event) {
 		super.init(event);
+		
+		MinecraftForge.EVENT_BUS.register(SoundHandler.class);
 	}
 
 	@Override
@@ -65,7 +68,7 @@ public class ClientProxy extends CommonProxy {
 		
 		MinecraftForge.EVENT_BUS.register(new TooltipHandler());
 		
-		MinecraftForge.EVENT_BUS.register(new RadiationRenders(mc));
+		MinecraftForge.EVENT_BUS.register(new RadiationRenders());
 	}
 	
 	// Packets
@@ -75,17 +78,17 @@ public class ClientProxy extends CommonProxy {
 		if (getCurrentClientDimension() != dimensionId) {
 			return null;
 		} else
-			return mc.world;
+			return MC.world;
 	}
 
 	@Override
 	public int getCurrentClientDimension() {
-		return mc.world.provider.getDimension();
+		return MC.world.provider.getDimension();
 	}
 	
 	@Override
 	public EntityPlayer getPlayerEntity(MessageContext ctx) {
-		return ctx.side.isClient() ? mc.player : super.getPlayerEntity(ctx);
+		return ctx.side.isClient() ? MC.player : super.getPlayerEntity(ctx);
 	}
 	
 	// Fluid Colours
@@ -135,10 +138,10 @@ public class ClientProxy extends CommonProxy {
 		initFluidColors(fluidList);
 	}
 	
-	private <T extends Fluid> void initFluidColors(List<T> fluidList) {
+	private static <T extends Fluid> void initFluidColors(List<T> fluidList) {
 		if(FMLCommonHandler.instance().getEffectiveSide().isClient()) {
-			BlockColors blockcolors = mc.getBlockColors();
-			ItemColors itemcolors = mc.getItemColors();
+			BlockColors blockcolors = MC.getBlockColors();
+			ItemColors itemcolors = MC.getItemColors();
 			for(T fluid : fluidList) {
 				if (fluid.getBlock() != null) if (NCBlockFluid.class.isAssignableFrom(fluid.getBlock().getClass())) {
 					NCBlockFluid block = (NCBlockFluid) fluid.getBlock();

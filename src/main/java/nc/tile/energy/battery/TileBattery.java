@@ -70,7 +70,6 @@ public class TileBattery extends TileEnergy implements IBattery, IInterfaceable,
 	
 	private final BatteryType type;
 	private BlockFinder finder;
-	
 	protected int batteryCount = 0, comparatorStrength = 0;
 	
 	public TileBattery(BatteryType type) {
@@ -90,14 +89,19 @@ public class TileBattery extends TileEnergy implements IBattery, IInterfaceable,
 		super.update();
 		if(!world.isRemote) {
 			pushEnergy();
-			if (batteryCount == 0) spreadEnergy();
+			if (batteryCount == 0) {
+				spreadEnergy();
+			}
 			tickBattery();
 			boolean shouldUpdate = false;
-			if (comparatorStrength != getComparatorStrength()) {
-				if (findAdjacentComparator()) shouldUpdate = true;
+			int compStrength = getComparatorStrength();
+			if (comparatorStrength != compStrength && findAdjacentComparator()) {
+				shouldUpdate = true;
 			}
-			comparatorStrength = getComparatorStrength();
-			if (shouldUpdate) markDirty();
+			comparatorStrength = compStrength;
+			if (shouldUpdate) {
+				markDirty();
+			}
 		}
 	}
 	

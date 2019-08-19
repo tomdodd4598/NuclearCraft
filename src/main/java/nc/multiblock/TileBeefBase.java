@@ -105,6 +105,7 @@ public abstract class TileBeefBase extends TileEntity implements ITile, ITickabl
 		world.notifyNeighborsOfStateChange(pos, getBlockType(), true);
 	}
 	
+	/** Never override this! */
 	@Override
 	public void markTileDirty() {
 		markDirty();

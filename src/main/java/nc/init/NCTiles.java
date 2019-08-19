@@ -24,7 +24,7 @@ import nc.multiblock.saltFission.tile.TileSaltFissionVent;
 import nc.multiblock.saltFission.tile.TileSaltFissionVessel;
 import nc.multiblock.saltFission.tile.TileSaltFissionWall;
 import nc.multiblock.turbine.TurbineDynamoCoilType;
-import nc.multiblock.turbine.TurbineRotorBladeType;
+import nc.multiblock.turbine.TurbineRotorBladeUtil.TurbineRotorBladeType;
 import nc.multiblock.turbine.tile.TileTurbineComputerPort;
 import nc.multiblock.turbine.tile.TileTurbineController;
 import nc.multiblock.turbine.tile.TileTurbineDynamoCoil;

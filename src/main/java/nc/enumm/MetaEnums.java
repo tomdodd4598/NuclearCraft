@@ -227,20 +227,20 @@ public class MetaEnums {
 	}
 	
 	public static enum IngotType implements IStringSerializable, IBlockMeta, IItemMeta {
-		COPPER("copper", 0, 0, "pickaxe", 4, 30, 0),
-		TIN("tin", 1, 0, "pickaxe", 4, 30, 0),
-		LEAD("lead", 2, 0, "pickaxe", 4, 30, 0),
-		THORIUM("thorium", 3, 0, "pickaxe", 4, 30, 0),
-		URANIUM("uranium", 4, 0, "pickaxe", 4, 30, 0),
-		BORON("boron", 5, 0, "pickaxe", 4, 30, 0),
-		LITHIUM("lithium", 6, 0, "pickaxe", 4, 30, 0),
-		MAGNESIUM("magnesium", 7, 0, "pickaxe", 4, 30, 0),
-		GRAPHITE("graphite", 8, 0, "pickaxe", 4, 30, 0),
-		BERYLLIUM("beryllium", 9, 0, "pickaxe", 4, 30, 0),
-		ZIRCONIUM("zirconium", 10, 0, "pickaxe", 4, 30, 0),
-		MANGANESE("manganese", 11, 0, "pickaxe", 4, 30, 0),
-		ALUMINUM("aluminum", 12, 0, "pickaxe", 4, 30, 0),
-		SILVER("silver", 13, 0, "pickaxe", 4, 30, 0);
+		COPPER("copper", 0, 0, "pickaxe", 4, 30, 0, 0, 0, false),
+		TIN("tin", 1, 0, "pickaxe", 4, 30, 0, 0, 0, false),
+		LEAD("lead", 2, 0, "pickaxe", 4, 30, 0, 0, 0, false),
+		THORIUM("thorium", 3, 0, "pickaxe", 4, 30, 0, 0, 0, false),
+		URANIUM("uranium", 4, 0, "pickaxe", 4, 30, 0, 0, 0, false),
+		BORON("boron", 5, 0, "pickaxe", 4, 30, 0, 0, 0, false),
+		LITHIUM("lithium", 6, 0, "pickaxe", 4, 30, 0, 5, 5, false),
+		MAGNESIUM("magnesium", 7, 0, "pickaxe", 4, 30, 0, 5, 5, false),
+		GRAPHITE("graphite", 8, 0, "pickaxe", 4, 30, 0, 5, 5, true),
+		BERYLLIUM("beryllium", 9, 0, "pickaxe", 4, 30, 0, 0, 0, false),
+		ZIRCONIUM("zirconium", 10, 0, "pickaxe", 4, 30, 0, 0, 0, false),
+		MANGANESE("manganese", 11, 0, "pickaxe", 4, 30, 0, 0, 0, false),
+		ALUMINUM("aluminum", 12, 0, "pickaxe", 4, 30, 0, 0, 0, false),
+		SILVER("silver", 13, 0, "pickaxe", 4, 30, 0, 0, 0, false);
 		
 		private String name;
 		private int id;
@@ -249,8 +249,11 @@ public class MetaEnums {
 		private float hardness;
 		private float resistance;
 		private int lightValue;
+		private int fireSpreadSpeed;
+		private int flammability;
+		private boolean isFireSource;
 		
-		private IngotType(String name, int id, int harvestLevel, String harvestTool, float hardness, float resistance, int lightValue) {
+		private IngotType(String name, int id, int harvestLevel, String harvestTool, float hardness, float resistance, int lightValue, int fireSpreadSpeed, int flammability, boolean isFireSource) {
 			this.name = name;
 			this.id = id;
 			this.harvestLevel = harvestLevel;
@@ -258,6 +261,9 @@ public class MetaEnums {
 			this.hardness = hardness;
 			this.resistance = resistance;
 			this.lightValue = lightValue;
+			this.fireSpreadSpeed = fireSpreadSpeed;
+			this.flammability = flammability;
+			this.isFireSource = isFireSource;
 		}
 
 		@Override
@@ -298,6 +304,18 @@ public class MetaEnums {
 		@Override
 		public int getLightValue() {
 			return lightValue;
+		}
+		
+		public int getFireSpreadSpeed() {
+			return fireSpreadSpeed;
+		}
+		
+		public int getFlammability() {
+			return flammability;
+		}
+		
+		public boolean isFireSource() {
+			return isFireSource;
 		}
 	}
 	

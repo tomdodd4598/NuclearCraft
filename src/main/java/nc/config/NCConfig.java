@@ -158,7 +158,6 @@ public class NCConfig {
 	public static int fusion_max_size; // Default: 24
 	public static int fusion_comparator_max_efficiency;
 	public static int fusion_electromagnet_power;
-	public static boolean fusion_alternate_sound;
 	public static boolean fusion_enable_sound;
 	public static boolean fusion_plasma_craziness;
 	
@@ -275,6 +274,7 @@ public class NCConfig {
 	public static double[] radiation_scrubber_param;
 	public static int radiation_scrubber_power;
 	public static int radiation_scrubber_borax_rate;
+	public static double radiation_geiger_block_redstone;
 	
 	public static boolean radiation_shielding_default_recipes;
 	public static String[] radiation_shielding_item_blacklist;
@@ -581,8 +581,6 @@ public class NCConfig {
 		propertyFusionComparatorMaxEfficiency.setLanguageKey("gui.config.fusion.fusion_comparator_max_efficiency");
 		Property propertyFusionElectromagnetPower = config.get(CATEGORY_FUSION, "fusion_electromagnet_power", 4000, Lang.localise("gui.config.fusion.fusion_electromagnet_power.comment"), 0, Integer.MAX_VALUE);
 		propertyFusionElectromagnetPower.setLanguageKey("gui.config.fusion.fusion_electromagnet_power");
-		Property propertyFusionAlternateSound = config.get(CATEGORY_FUSION, "fusion_alternate_sound", false, Lang.localise("gui.config.fusion.fusion_alternate_sound.comment"));
-		propertyFusionAlternateSound.setLanguageKey("gui.config.fusion.fusion_alternate_sound");
 		Property propertyFusionEnableSound = config.get(CATEGORY_FUSION, "fusion_enable_sound", true, Lang.localise("gui.config.fusion.fusion_enable_sound.comment"));
 		propertyFusionEnableSound.setLanguageKey("gui.config.fusion.fusion_enable_sound");
 		Property propertyFusionPlasmaCraziness = config.get(CATEGORY_FUSION, "fusion_plasma_craziness", true, Lang.localise("gui.config.fusion.fusion_plasma_craziness.comment"));
@@ -797,6 +795,8 @@ public class NCConfig {
 		propertyRadiationScrubberPower.setLanguageKey("gui.config.radiation.radiation_scrubber_power");
 		Property propertyRadiationScrubberBoraxRate = config.get(CATEGORY_RADIATION, "radiation_scrubber_borax_rate", 0, Lang.localise("gui.config.radiation.radiation_scrubber_borax_rate.comment"), 0, 100);
 		propertyRadiationScrubberBoraxRate.setLanguageKey("gui.config.radiation.radiation_scrubber_borax_rate");
+		Property propertyRadiationGeigerBlockRedstone = config.get(CATEGORY_RADIATION, "radiation_geiger_block_redstone", 3D, Lang.localise("gui.config.radiation.radiation_geiger_block_redstone.comment"), -100D, 100D);
+		propertyRadiationGeigerBlockRedstone.setLanguageKey("gui.config.radiation.radiation_geiger_block_redstone");
 		
 		Property propertyRadiationShieldingDefaultRecipes = config.get(CATEGORY_RADIATION, "radiation_shielding_default_recipes", true, Lang.localise("gui.config.radiation.radiation_shielding_default_recipes.comment"));
 		propertyRadiationShieldingDefaultRecipes.setLanguageKey("gui.config.radiation.radiation_shielding_default_recipes");
@@ -1025,7 +1025,6 @@ public class NCConfig {
 		propertyOrderFusion.add(propertyFusionMaxSize.getName());
 		propertyOrderFusion.add(propertyFusionComparatorMaxEfficiency.getName());
 		propertyOrderFusion.add(propertyFusionElectromagnetPower.getName());
-		propertyOrderFusion.add(propertyFusionAlternateSound.getName());
 		propertyOrderFusion.add(propertyFusionEnableSound.getName());
 		propertyOrderFusion.add(propertyFusionPlasmaCraziness.getName());
 		
@@ -1153,6 +1152,7 @@ public class NCConfig {
 		propertyOrderRadiation.add(propertyRadiationScrubberParam.getName());
 		propertyOrderRadiation.add(propertyRadiationScrubberPower.getName());
 		propertyOrderRadiation.add(propertyRadiationScrubberBoraxRate.getName());
+		propertyOrderRadiation.add(propertyRadiationGeigerBlockRedstone.getName());
 		propertyOrderRadiation.add(propertyRadiationShieldingDefaultRecipes.getName());
 		propertyOrderRadiation.add(propertyRadiationShieldingItemBlacklist.getName());
 		propertyOrderRadiation.add(propertyRadiationShieldingCustomStacks.getName());
@@ -1317,7 +1317,6 @@ public class NCConfig {
 			fusion_max_size = propertyFusionMaxSize.getInt();
 			fusion_comparator_max_efficiency = propertyFusionComparatorMaxEfficiency.getInt();
 			fusion_electromagnet_power = propertyFusionElectromagnetPower.getInt();
-			fusion_alternate_sound = propertyFusionAlternateSound.getBoolean();
 			fusion_enable_sound = propertyFusionEnableSound.getBoolean();
 			fusion_plasma_craziness = propertyFusionPlasmaCraziness.getBoolean();
 			
@@ -1433,6 +1432,7 @@ public class NCConfig {
 			radiation_scrubber_param = readDoubleArrayFromConfig(propertyRadiationScrubberParam);
 			radiation_scrubber_power = propertyRadiationScrubberPower.getInt();
 			radiation_scrubber_borax_rate = propertyRadiationScrubberBoraxRate.getInt();
+			radiation_geiger_block_redstone = propertyRadiationGeigerBlockRedstone.getDouble();
 			
 			radiation_shielding_default_recipes = propertyRadiationShieldingDefaultRecipes.getBoolean();
 			radiation_shielding_item_blacklist = propertyRadiationShieldingItemBlacklist.getStringList();
@@ -1599,7 +1599,6 @@ public class NCConfig {
 		propertyFusionMaxSize.set(fusion_max_size);
 		propertyFusionComparatorMaxEfficiency.set(fusion_comparator_max_efficiency);
 		propertyFusionElectromagnetPower.set(fusion_electromagnet_power);
-		propertyFusionAlternateSound.set(fusion_alternate_sound);
 		propertyFusionEnableSound.set(fusion_enable_sound);
 		propertyFusionPlasmaCraziness.set(fusion_plasma_craziness);
 		
@@ -1715,6 +1714,7 @@ public class NCConfig {
 		propertyRadiationScrubberParam.set(radiation_scrubber_param);
 		propertyRadiationScrubberPower.set(radiation_scrubber_power);
 		propertyRadiationScrubberBoraxRate.set(radiation_scrubber_borax_rate);
+		propertyRadiationGeigerBlockRedstone.set(radiation_geiger_block_redstone);
 		
 		propertyRadiationShieldingDefaultRecipes.set(radiation_shielding_default_recipes);
 		propertyRadiationShieldingItemBlacklist.set(radiation_shielding_item_blacklist);

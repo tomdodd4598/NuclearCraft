@@ -9,6 +9,7 @@ import nc.capability.radiation.entity.IEntityRads;
 import nc.capability.radiation.resistance.IRadiationResistance;
 import nc.capability.radiation.source.IRadiationSource;
 import nc.config.NCConfig;
+import nc.tile.dummy.TileDummy;
 import nc.tile.radiation.ITileRadiationEnvironment;
 import nc.util.ArmorHelper;
 import nc.util.NCMath;
@@ -59,14 +60,14 @@ public class RadiationHelper {
 	}
 	
 	public static IItemHandler getTileInventory(ICapabilityProvider provider, EnumFacing side) {
-		if (!(provider instanceof TileEntity) || !provider.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side)) {
+		if (!(provider instanceof TileEntity) || provider instanceof TileDummy || !provider.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side)) {
 			return null;
 		}
 		return provider.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side);
 	}
 	
 	public static IFluidHandler getTileTanks(ICapabilityProvider provider, EnumFacing side) {
-		if (!(provider instanceof TileEntity) || !provider.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side)) {
+		if (!(provider instanceof TileEntity) || provider instanceof TileDummy || !provider.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side)) {
 			return null;
 		}
 		return provider.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side);

@@ -24,12 +24,13 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RenderSpin extends TileEntitySpecialRenderer<TileSpin> {
 	
+	private static final Minecraft MC = Minecraft.getMinecraft();
+	
 	private IModel modelAmbient, modelUp, modelDown;
 	private IBakedModel bakedModelAmbient, bakedModelUp, bakedModelDown;
 	
 	@Override
 	public void render(TileSpin te, double posX, double posY, double posZ, float partialTicks, int destroyStage, float alpha) {
-		
 		if(!(te.getBlockType() instanceof BlockSpin)) return;
 		
 		GlStateManager.pushAttrib();
@@ -48,43 +49,40 @@ public class RenderSpin extends TileEntitySpecialRenderer<TileSpin> {
 	}
 	
 	private IBakedModel getBakedModelAmbient() {
-		
 		if (bakedModelAmbient == null) {
 			try {
 				modelAmbient = ModelLoaderRegistry.getModel(new ResourceLocation(Global.MOD_ID, "block/spin"));
 			} catch (Exception e) {
 				throw new RuntimeException(e);
 			}
-			bakedModelAmbient = modelAmbient.bake(TRSRTransformation.identity(), DefaultVertexFormats.ITEM, location -> Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(location.toString()));
+			bakedModelAmbient = modelAmbient.bake(TRSRTransformation.identity(), DefaultVertexFormats.ITEM, location -> MC.getTextureMapBlocks().getAtlasSprite(location.toString()));
 		}
 		return bakedModelAmbient;
 	}
 	
 	private IBakedModel getBakedModelUp() {
-		
 		if (bakedModelUp == null) {
 			try {
 				modelUp = ModelLoaderRegistry.getModel(new ResourceLocation(Global.MOD_ID, "block/spin_up"));
 			} catch (Exception e) {
 				throw new RuntimeException(e);
 			}
-			bakedModelUp = modelUp.bake(TRSRTransformation.identity(), DefaultVertexFormats.ITEM, location -> Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(location.toString()));
+			bakedModelUp = modelUp.bake(TRSRTransformation.identity(), DefaultVertexFormats.ITEM, location -> MC.getTextureMapBlocks().getAtlasSprite(location.toString()));
 		}
 		return bakedModelUp;
 	}
 
 	private IBakedModel getBakedModelDown() {
-	
-	if (bakedModelDown == null) {
-		try {
-			modelDown = ModelLoaderRegistry.getModel(new ResourceLocation(Global.MOD_ID, "block/spin_down"));
-		} catch (Exception e) {
-			throw new RuntimeException(e);
+		if (bakedModelDown == null) {
+			try {
+				modelDown = ModelLoaderRegistry.getModel(new ResourceLocation(Global.MOD_ID, "block/spin_down"));
+			} catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+			bakedModelDown = modelDown.bake(TRSRTransformation.identity(), DefaultVertexFormats.ITEM, location -> MC.getTextureMapBlocks().getAtlasSprite(location.toString()));
 		}
-		bakedModelDown = modelDown.bake(TRSRTransformation.identity(), DefaultVertexFormats.ITEM, location -> Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(location.toString()));
+		return bakedModelDown;
 	}
-	return bakedModelDown;
-}
 	
 	private void renderAmbient(TileSpin te) {
 		GlStateManager.pushAttrib();
@@ -98,7 +96,7 @@ public class RenderSpin extends TileEntitySpecialRenderer<TileSpin> {
 		
 		Tessellator tessellator = Tessellator.getInstance();
 		tessellator.getBuffer().begin(GL11.GL_QUADS, DefaultVertexFormats.BLOCK);
-		Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelRenderer().renderModel(
+		MC.getBlockRendererDispatcher().getBlockModelRenderer().renderModel(
 				world,
 				getBakedModelAmbient(),
 				world.getBlockState(te.getPos()),
@@ -124,7 +122,7 @@ public class RenderSpin extends TileEntitySpecialRenderer<TileSpin> {
 		
 		Tessellator tessellator = Tessellator.getInstance();
 		tessellator.getBuffer().begin(GL11.GL_QUADS, DefaultVertexFormats.BLOCK);
-		Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelRenderer().renderModel(
+		MC.getBlockRendererDispatcher().getBlockModelRenderer().renderModel(
 				world,
 				getBakedModelUp(),
 				world.getBlockState(te.getPos()),
@@ -150,7 +148,7 @@ public class RenderSpin extends TileEntitySpecialRenderer<TileSpin> {
 		
 		Tessellator tessellator = Tessellator.getInstance();
 		tessellator.getBuffer().begin(GL11.GL_QUADS, DefaultVertexFormats.BLOCK);
-		Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelRenderer().renderModel(
+		MC.getBlockRendererDispatcher().getBlockModelRenderer().renderModel(
 				world,
 				getBakedModelDown(),
 				world.getBlockState(te.getPos()),

@@ -34,11 +34,12 @@ import nc.tile.passive.ITilePassive;
 import nc.util.FluidStackHelper;
 import nc.util.GasHelper;
 import nc.util.RegistryHelper;
-import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.FluidStack;
@@ -161,9 +162,19 @@ public class TileSaltFissionVessel extends TileSaltFissionPartBase implements IF
 			RadiationHelper.addToSourceRadiation(chunkSource, 8D*baseProcessRadiation*getSpeedMultiplier()*NCConfig.salt_fission_meltdown_radiation_multiplier);
 		}
 		
-		Block corium = RegistryHelper.getBlock(Global.MOD_ID + ":fluid_corium");
+		IBlockState corium = RegistryHelper.getBlock(Global.MOD_ID + ":fluid_corium").getDefaultState();
 		world.removeTileEntity(pos);
-		world.setBlockState(pos, corium.getDefaultState());
+		world.setBlockState(pos, corium);
+		
+		if (getMultiblock() != null) {
+			for (EnumFacing dir : EnumFacing.VALUES) {
+				BlockPos offPos = pos.offset(dir);
+				if (getMultiblock().rand.nextDouble() < 0.75D) {
+					world.removeTileEntity(offPos);
+					world.setBlockState(offPos, corium);
+				}
+			}
+		}
 	}
 	
 	// Processing

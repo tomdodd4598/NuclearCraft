@@ -179,35 +179,35 @@ public abstract class CuboidalMultiblockBase<PACKET extends MultiblockUpdatePack
 	}
 	
 	protected BlockPos getMinimumInteriorCoord() {
-		return new BlockPos(getMinimumCoord().getX() + 1, getMinimumCoord().getY() + 1, getMinimumCoord().getZ() + 1);
+		return new BlockPos(getMinInteriorX(), getMinInteriorY(), getMinInteriorZ());
 	}
 	
 	protected BlockPos getMaximumInteriorCoord() {
-		return new BlockPos(getMaximumCoord().getX() - 1, getMaximumCoord().getY() - 1, getMaximumCoord().getZ() - 1);
+		return new BlockPos(getMaxInteriorX(), getMaxInteriorY(), getMaxInteriorZ());
 	}
 	
 	public int getMinInteriorX() {
-		return getMinimumInteriorCoord().getX();
+		return getMinimumCoord().getX() + 1;
 	}
 
 	public int getMinInteriorY() {
-		return getMinimumInteriorCoord().getY();
+		return getMinimumCoord().getY() + 1;
 	}
 
 	public int getMinInteriorZ() {
-		return getMinimumInteriorCoord().getZ();
+		return getMinimumCoord().getZ() + 1;
 	}
 
 	public int getMaxInteriorX() {
-		return getMaximumInteriorCoord().getX();
+		return getMaximumCoord().getX() - 1;
 	}
 
 	public int getMaxInteriorY() {
-		return getMaximumInteriorCoord().getY();
+		return getMaximumCoord().getY() - 1;
 	}
 
 	public int getMaxInteriorZ() {
-		return getMaximumInteriorCoord().getZ();
+		return getMaximumCoord().getZ() - 1;
 	}
 	
 	public BlockPos getExtremeInteriorCoord(boolean maxX, boolean maxY, boolean maxZ) {
@@ -391,8 +391,8 @@ public abstract class CuboidalMultiblockBase<PACKET extends MultiblockUpdatePack
 		}
 	}
 	
-	public BlockPos getMinimumInteriorPlaneCoord(EnumFacing side, int depth, int uCushion, int vCushion) {
-		switch (side) {
+	public BlockPos getMinimumInteriorPlaneCoord(EnumFacing normal, int depth, int uCushion, int vCushion) {
+		switch (normal) {
 		case DOWN:
 			return getExtremeInteriorCoord(false, false, false).offset(EnumFacing.UP, depth).offset(EnumFacing.SOUTH, uCushion).offset(EnumFacing.EAST, vCushion);
 		case UP:
@@ -410,8 +410,8 @@ public abstract class CuboidalMultiblockBase<PACKET extends MultiblockUpdatePack
 		}
 	}
 	
-	public BlockPos getMaximumInteriorPlaneCoord(EnumFacing side, int depth, int uCushion, int vCushion) {
-		switch (side) {
+	public BlockPos getMaximumInteriorPlaneCoord(EnumFacing normal, int depth, int uCushion, int vCushion) {
+		switch (normal) {
 		case DOWN:
 			return getExtremeInteriorCoord(true, false, true).offset(EnumFacing.UP, depth).offset(EnumFacing.NORTH, uCushion).offset(EnumFacing.WEST, vCushion);
 		case UP:
@@ -453,8 +453,8 @@ public abstract class CuboidalMultiblockBase<PACKET extends MultiblockUpdatePack
 		return BlockPos.getAllInBoxMutable(getMinimumInteriorPlaneCoord(EnumFacing.SOUTH, depth, minUCushion, minVCushion), getMaximumInteriorPlaneCoord(EnumFacing.SOUTH, depth, maxUCushion, maxVCushion));
 	}
 	
-	public Iterable<MutableBlockPos> getInteriorPlane(EnumFacing side, int depth, int minUCushion, int minVCushion, int maxUCushion, int maxVCushion) {
-		switch (side) {
+	public Iterable<MutableBlockPos> getInteriorPlane(EnumFacing normal, int depth, int minUCushion, int minVCushion, int maxUCushion, int maxVCushion) {
+		switch (normal) {
 		case DOWN:
 			return getInteriorPlaneMinY(depth, minUCushion, minVCushion, maxUCushion, maxVCushion);
 		case UP:

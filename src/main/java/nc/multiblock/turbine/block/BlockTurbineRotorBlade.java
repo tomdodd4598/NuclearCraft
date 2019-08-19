@@ -1,9 +1,11 @@
 package nc.multiblock.turbine.block;
 
-import nc.multiblock.turbine.TurbineRotorBladeType;
+import nc.multiblock.turbine.TurbineRotorBladeUtil;
+import nc.multiblock.turbine.TurbineRotorBladeUtil.IBlockRotorBlade;
+import nc.multiblock.turbine.TurbineRotorBladeUtil.TurbinePartDir;
+import nc.multiblock.turbine.TurbineRotorBladeUtil.TurbineRotorBladeType;
 import nc.multiblock.turbine.tile.TileTurbineRotorBlade;
 import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
@@ -12,7 +14,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -20,26 +21,24 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BlockTurbineRotorBlade extends BlockTurbinePartBase {
-	
-	private static final PropertyEnum<RotorBladeState> DIR = PropertyEnum.create("dir", RotorBladeState.class);
+public class BlockTurbineRotorBlade extends BlockTurbinePartBase implements IBlockRotorBlade {
 	
 	private final TurbineRotorBladeType bladeType;
 	
 	public BlockTurbineRotorBlade(TurbineRotorBladeType bladeType) {
 		super();
-		setDefaultState(blockState.getBaseState().withProperty(DIR, RotorBladeState.Y));
+		setDefaultState(blockState.getBaseState().withProperty(TurbineRotorBladeUtil.DIR, TurbinePartDir.Y));
 		this.bladeType = bladeType;
 	}
 	
 	@Override
 	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, new IProperty[] {DIR});
+		return new BlockStateContainer(this, new IProperty[] {TurbineRotorBladeUtil.DIR});
 	}
 	
 	@Override
 	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
-		return getDefaultState().withProperty(DIR, RotorBladeState.fromFacingAxis(facing.getAxis()));
+		return getDefaultState().withProperty(TurbineRotorBladeUtil.DIR, TurbinePartDir.fromFacingAxis(facing.getAxis()));
 	}
 	
 	@Override
@@ -70,12 +69,12 @@ public class BlockTurbineRotorBlade extends BlockTurbinePartBase {
 	
 	@Override
 	public int getMetaFromState(IBlockState state) {
-		return state.getValue(DIR).getID();
+		return state.getValue(TurbineRotorBladeUtil.DIR).ordinal();
 	}
 	
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
-		return getDefaultState().withProperty(DIR, RotorBladeState.values()[meta]);
+		return getDefaultState().withProperty(TurbineRotorBladeUtil.DIR, TurbinePartDir.values()[meta]);
 	}
 	
 	@Override
@@ -102,47 +101,5 @@ public class BlockTurbineRotorBlade extends BlockTurbinePartBase {
 	@Override
 	public boolean causesSuffocation(IBlockState state) {
 		return false;
-	}
-	
-	private static enum RotorBladeState implements IStringSerializable {
-		INVISIBLE("invisible", 0),
-		X("x", 1),
-		Y("y", 2),
-		Z("z", 3);
-		
-		private String name;
-		private int id;
-		
-		private RotorBladeState(String name, int id) {
-			this.name = name;
-			this.id = id;
-		}
-		
-		@Override
-		public String getName() {
-			return name;
-		}
-		
-		@Override
-		public String toString() {
-			return getName();
-		}
-		
-		public int getID() {
-			return id;
-		}
-		
-		public static RotorBladeState fromFacingAxis(EnumFacing.Axis axis) {
-			switch (axis) {
-				case X:
-					return X;
-				case Y:
-					return Y;
-				case Z:
-					return Z;
-				default:
-					return INVISIBLE;
-			}
-		}
 	}
 }

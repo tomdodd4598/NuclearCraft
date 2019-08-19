@@ -5,9 +5,11 @@ import nc.init.NCArmor;
 import nc.init.NCBlocks;
 import nc.init.NCItems;
 import nc.init.NCTools;
+import nc.multiblock.turbine.tile.TileTurbineController;
 import nc.render.BlockHighlightHandler;
 import nc.render.entity.RenderFeralGhoul;
 import nc.render.tile.RenderFusionCore;
+import nc.render.tile.RenderTurbineRotor;
 import nc.tile.generator.TileFusionCore;
 import nc.util.NCUtil;
 import net.minecraft.client.renderer.entity.Render;
@@ -27,6 +29,7 @@ public class RenderHandler {
 		NCArmor.registerRenders();
 		
 		ClientRegistry.bindTileEntitySpecialRenderer(TileFusionCore.class, new RenderFusionCore());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileTurbineController.class, new RenderTurbineRotor());
 		//ClientRegistry.bindTileEntitySpecialRenderer(TileSpin.class, new RenderSpin());
 		
 		registerEntityRender(EntityFeralGhoul.class, RenderFeralGhoul.class);

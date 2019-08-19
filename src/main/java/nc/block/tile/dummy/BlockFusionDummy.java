@@ -114,13 +114,13 @@ public class BlockFusionDummy extends BlockTile implements ITileType {
 	
 	@Override
 	public int getComparatorInputOverride(IBlockState state, World world, BlockPos pos) {
-		BlockPos position = findCore(world, pos);
-		if (position == null) return 0;
-		TileEntity tile = world.getTileEntity(position);
+		BlockPos corePos = findCore(world, pos);
+		if (corePos == null) return 0;
+		TileEntity tile = world.getTileEntity(corePos);
 		if (tile instanceof TileFusionCore) {
-			return ((TileFusionCore) tile).getComparatorStrength();
+			return ((TileFusionCore)tile).getComparatorStrength();
 		}
-		return Container.calcRedstone(world.getTileEntity(position));
+		return Container.calcRedstone(tile);
 	}
 	
 	@Override

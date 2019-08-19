@@ -20,7 +20,10 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
+@SideOnly(Side.CLIENT)
 public class BlockHighlightHandler {
 	
 	private static BlockHighlightTracker getOverlayTracker() {
@@ -32,7 +35,6 @@ public class BlockHighlightHandler {
 		BlockPos pos = getOverlayTracker().getHighlightPos();
 		if (pos == null) return;
 		
-		Minecraft mc = Minecraft.getMinecraft();
 		long time = System.currentTimeMillis();
 		
 		if (time > getOverlayTracker().getHighlightExpireTimeMillis()) {
@@ -40,7 +42,7 @@ public class BlockHighlightHandler {
 			return;
 		}
 		
-		EntityPlayerSP player = mc.player;
+		EntityPlayerSP player = Minecraft.getMinecraft().player;
 		double relativeX = player.lastTickPosX + (player.posX - player.lastTickPosX) * event.getPartialTicks();
 		double relativeY = player.lastTickPosY + (player.posY - player.lastTickPosY) * event.getPartialTicks();
 		double relativeZ = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * event.getPartialTicks();

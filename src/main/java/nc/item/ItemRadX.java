@@ -2,7 +2,7 @@ package nc.item;
 
 import nc.capability.radiation.entity.IEntityRads;
 import nc.config.NCConfig;
-import nc.handler.SoundHandler;
+import nc.init.NCSounds;
 import nc.util.Lang;
 import nc.util.UnitHelper;
 import net.minecraft.advancements.CriteriaTriggers;
@@ -35,7 +35,7 @@ public class ItemRadX extends NCItem {
 			IEntityRads playerRads = player.getCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null);
 			if (playerRads == null) return stack;
 			if (playerRads.canConsumeRadX()) {
-				world.playSound((EntityPlayer)null, player.posX, player.posY, player.posZ, SoundHandler.rad_x, SoundCategory.PLAYERS, 0.5F, 1F);
+				world.playSound((EntityPlayer)null, player.posX, player.posY, player.posZ, NCSounds.rad_x, SoundCategory.PLAYERS, 0.5F, 1F);
 				onRadXConsumed(stack, world, player);
 				player.addStat(StatList.getObjectUseStats(this));
 				if (player instanceof EntityPlayerMP) CriteriaTriggers.CONSUME_ITEM.trigger((EntityPlayerMP)player, stack);
@@ -53,7 +53,7 @@ public class ItemRadX extends NCItem {
 	
 	private static void sendCooldownMessage(World world, EntityPlayer player, IEntityRads playerRads, boolean playSound) {
 		if (playerRads.getRadXCooldown() > 0D) {
-			if (playSound && world.isRemote) player.playSound(SoundHandler.chems_wear_off, 0.5F, 1F);
+			if (playSound && world.isRemote) player.playSound(NCSounds.chems_wear_off, 0.5F, 1F);
 			if (!world.isRemote) player.sendMessage(new TextComponentString(TextFormatting.ITALIC + RAD_X_COOLDOWN + " " + UnitHelper.applyTimeUnitShort(Math.ceil(playerRads.getRadXCooldown()), 2, 1)));
 		}
 	}

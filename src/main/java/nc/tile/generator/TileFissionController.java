@@ -27,8 +27,10 @@ import nc.util.BlockFinder;
 import nc.util.BlockPosHelper;
 import nc.util.EnergyHelper;
 import nc.util.Lang;
+import nc.util.MaterialHelper;
 import nc.util.NCMath;
 import nc.util.RegistryHelper;
+import net.minecraft.block.BlockFire;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -108,7 +110,9 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 	
 	@Override
 	public void updateGenerator() {
-		if (fixControllerBlock()) return;
+		if (fixControllerBlock()) {
+			return;
+		}
 		if (!world.isRemote) {
 			boolean wasActivated = isActivated, wasProcessing = isProcessing;
 			isActivated = isActivated();
@@ -128,12 +132,15 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 			}
 			pushEnergy();
 			currentEnergyStored = getEnergyStored();
-			if (comparatorStrength != getComparatorStrength()) {
-				if (findAdjacentComparator()) shouldUpdate = true;
+			int compStrength = getComparatorStrength();
+			if (comparatorStrength != compStrength && findAdjacentComparator()) {
+				shouldUpdate = true;
 			}
-			comparatorStrength = getComparatorStrength();
+			comparatorStrength = compStrength;
 			sendUpdateToListeningPlayers();
-			if (shouldUpdate) markDirty();
+			if (shouldUpdate) {
+				markDirty();
+			}
 		}
 	}
 	
@@ -211,17 +218,53 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 			world.createExplosion(null, middle.getX(), middle.getY(), middle.getZ(), getLengthX()*getLengthX() + getLengthY()*getLengthY() + getLengthZ()*getLengthZ(), true);
 		}
 		
+		for (EnumFacing dir : EnumFacing.VALUES) {
+			BlockPos offPos = pos.offset(dir);
+			if (rand.nextDouble() < 0.25D) {
+				world.removeTileEntity(offPos);
+				world.setBlockState(offPos, corium);
+			}
+		}
+		
 		for (int i = minX; i <= maxX; i++) {
 			for (int j = minY; j <= maxY; j++) {
 				for (int k = minZ; k <= maxZ; k++) {
-					if (rand.nextDouble() < 0.18D) {
-						BlockPos position = finder.position(i, j, k);
-						if (world.getTileEntity(position) != null) world.removeTileEntity(position);
+					BlockPos position = finder.position(i, j, k);
+					if (findCell(position)) {
+						world.removeTileEntity(position);
 						world.setBlockState(position, corium);
+						
+						for (EnumFacing dir : EnumFacing.VALUES) {
+							BlockPos offPos = position.offset(dir);
+							if (finder.find(offPos, "blockGraphite")) {
+								for (EnumFacing offDir : EnumFacing.VALUES) {
+									BlockPos graphiteOffPos = offPos.offset(offDir);
+									if (MaterialHelper.isReplaceable(world.getBlockState(graphiteOffPos).getMaterial())) {
+										world.setBlockState(graphiteOffPos, Blocks.FIRE.getDefaultState().withProperty(BlockFire.NORTH, Boolean.valueOf(offDir == EnumFacing.SOUTH)).withProperty(BlockFire.EAST, Boolean.valueOf(offDir == EnumFacing.WEST)).withProperty(BlockFire.SOUTH, Boolean.valueOf(offDir == EnumFacing.NORTH)).withProperty(BlockFire.WEST, Boolean.valueOf(offDir == EnumFacing.EAST)).withProperty(BlockFire.UPPER, Boolean.valueOf(offDir == EnumFacing.DOWN)));
+									}
+								}
+							}
+							else if (rand.nextDouble() < 0.75D) {
+								world.removeTileEntity(offPos);
+								world.setBlockState(offPos, corium);
+							}
+						}
 					}
 				}
 			}
 		}
+		
+		/*for (int i = minX; i <= maxX; i++) {
+			for (int j = minY; j <= maxY; j++) {
+				for (int k = minZ; k <= maxZ; k++) {
+					if (rand.nextDouble() < 0.18D) {
+						BlockPos position = finder.position(i, j, k);
+						world.removeTileEntity(position);
+						world.setBlockState(position, corium);
+					}
+				}
+			}
+		}*/
 	}
 	
 	@Override

@@ -319,7 +319,9 @@ mods.nuclearcraft.condenser.addRecipe([fluidInput, fluidOutput, {double coolingR
 
 mods.nuclearcraft.condenser.removeRecipeWithInput([fluidInput]);
 mods.nuclearcraft.condenser.removeRecipeWithOutput([fluidOutput]);
+
 ___________________________________________________________________________________________________________________________
+---------------------------------------------------------------------------------------------------------------------------
 
  Radiation:
 >----------<

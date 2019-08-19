@@ -15,7 +15,7 @@ import nc.capability.radiation.entity.IEntityRads;
 import nc.capability.radiation.source.IRadiationSource;
 import nc.config.NCConfig;
 import nc.entity.EntityFeralGhoul;
-import nc.handler.SoundHandler;
+import nc.init.NCSounds;
 import nc.network.PacketHandler;
 import nc.network.radiation.PlayerRadsUpdatePacket;
 import nc.radiation.RadBlockEffects.MaterialQuery;
@@ -179,11 +179,11 @@ public class RadiationHandler {
 			IEntityRads playerRads = RadiationHelper.getEntityRadiation(player);
 			if (playerRads == null) return;
 			if (playerRads.getRadXWoreOff() && playerRads.getRadXUsed()) {
-				player.playSound(SoundHandler.chems_wear_off, 0.65F, 1F);
+				player.playSound(NCSounds.chems_wear_off, 0.65F, 1F);
 				player.sendMessage(new TextComponentString(TextFormatting.ITALIC + RAD_X_WORE_OFF));
 			}
 			if (playerRads.getShouldWarn()) {
-				player.playSound(SoundHandler.chems_wear_off, 0.8F, 0.7F);
+				player.playSound(NCSounds.chems_wear_off, 0.8F, 0.7F);
 				player.sendMessage(new TextComponentString(TextFormatting.GOLD + RAD_WARNING));
 			}
 		}
@@ -422,7 +422,7 @@ public class RadiationHandler {
 			double soundChance = Math.cbrt(entityRads.getRawRadiationLevel()/200D);
 			for (int i = 0; i < 2; i++) {
 				if (RAND.nextDouble() < soundChance) {
-					player.playSound(SoundHandler.geiger_tick, 0.6F + RAND.nextFloat()*0.2F, 0.92F + RAND.nextFloat()*0.16F);
+					player.playSound(NCSounds.geiger_tick, 0.6F + RAND.nextFloat()*0.2F, 0.92F + RAND.nextFloat()*0.16F);
 				}
 			}
 		}

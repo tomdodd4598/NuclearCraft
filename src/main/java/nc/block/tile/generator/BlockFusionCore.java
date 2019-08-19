@@ -12,9 +12,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.inventory.Container;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class BlockFusionCore extends BlockTile implements IActivatable {
@@ -28,11 +26,6 @@ public class BlockFusionCore extends BlockTile implements IActivatable {
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
 		return new TileFusionCore();
-	}
-	
-	@Override
-	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess world, BlockPos pos) {
-		return new AxisAlignedBB(-1F, 0F, -1F, 2F, 3F, 2F);
 	}
 	
 	@Override
@@ -125,8 +118,8 @@ public class BlockFusionCore extends BlockTile implements IActivatable {
 	public int getComparatorInputOverride(IBlockState state, World world, BlockPos pos) {
 		TileEntity tile = world.getTileEntity(pos);
 		if (tile instanceof TileFusionCore) {
-			return ((TileFusionCore) tile).getComparatorStrength();
+			return ((TileFusionCore)tile).getComparatorStrength();
 		}
-		return Container.calcRedstone(world.getTileEntity(pos));
+		return Container.calcRedstone(tile);
 	}
 }

@@ -103,8 +103,8 @@ public class RadSources {
 	public static final List<String> ORE_PREFIXES = Lists.newArrayList("ore");
 	
 	public static final double FUSION = 0.000000315D;
-	public static final double NEUTRON = 0.036D;
-	public static final double TRITIUM = 0.081D;
+	public static final double NEUTRON = 0.00505D;
+	public static final double TRITIUM = 0.0115D;
 	
 	public static final double CAESIUM_137 = 0.033D;
 	public static final double CORIUM = 0.0000165D;
@@ -276,14 +276,16 @@ public class RadSources {
 		
 		put(URANIUM_238*4, "plateDU");
 		
-		put(RadSources.URANIUM_238/4D, NCBlocks.rtg_uranium);
-		put(RadSources.PLUTONIUM_238/4D, NCBlocks.rtg_plutonium);
-		put(RadSources.AMERICIUM_241/4D, NCBlocks.rtg_americium);
-		put(RadSources.CALIFORNIUM_250/4D, NCBlocks.rtg_californium);
+		put(URANIUM_238/4D, NCBlocks.rtg_uranium);
+		put(PLUTONIUM_238/4D, NCBlocks.rtg_plutonium);
+		put(AMERICIUM_241/4D, NCBlocks.rtg_americium);
+		put(CALIFORNIUM_250/4D, NCBlocks.rtg_californium);
 		
-		put(RadSources.THORIUM_230*9D/4D, NCBlocks.helium_collector);
-		put(RadSources.THORIUM_230*8D*9D/4D, NCBlocks.helium_collector_compact);
-		put(RadSources.THORIUM_230*64D*9D/4D, NCBlocks.helium_collector_dense);
+		put(THORIUM_230*9D/4D, NCBlocks.helium_collector);
+		put(THORIUM_230*8D*9D/4D, NCBlocks.helium_collector_compact);
+		put(THORIUM_230*64D*9D/4D, NCBlocks.helium_collector_dense);
+		
+		put(TRITIUM/512D, NCBlocks.tritium_lamp);
 		
 		if (ModCheck.gregtechLoaded()) {
 			for (String prefix : ORE_PREFIXES) {

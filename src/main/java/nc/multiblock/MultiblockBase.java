@@ -30,7 +30,7 @@ import net.minecraftforge.fml.common.FMLLog;
  */
 public abstract class MultiblockBase<PACKET extends MultiblockUpdatePacket> implements IMultiblockValidator {
 	public static final short DIMENSION_UNBOUNDED = -1;
-
+	
 	// Multiblock stuff - do not mess with
 	public final World WORLD;
 	
@@ -40,7 +40,7 @@ public abstract class MultiblockBase<PACKET extends MultiblockUpdatePacket> impl
 
 	protected ObjectOpenHashSet<IMultiblockPart> connectedParts;
 	
-	protected Random rand = new Random();
+	public Random rand = new Random();
 	
 	/** This is a deterministically-picked coordinate that identifies this
 	 * multiblock uniquely in its dimension.

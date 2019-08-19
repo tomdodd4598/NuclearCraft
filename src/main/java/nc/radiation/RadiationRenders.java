@@ -39,41 +39,37 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+@SideOnly(Side.CLIENT)
 public class RadiationRenders {
 	
-	private final Minecraft mc;
+	private static final Minecraft MC = Minecraft.getMinecraft();
 	
 	private static final ResourceLocation RADS_BAR = new ResourceLocation(Global.MOD_ID + ":textures/hud/" + "rads_bar" + ".png");
 	
 	private static final String IMMUNE_FOR = Lang.localise("hud.nuclearcraft.rad_immune");
 	
-	public RadiationRenders(Minecraft mc) {
-		this.mc = mc;
-	}
-	
 	/* Originally from coolAlias' 'Tutorial-Demo' - tutorial.client.gui.GuiManaBar */
 	@SubscribeEvent(priority = EventPriority.LOWEST)
-	@SideOnly(Side.CLIENT)
 	public void addRadiationInfo(RenderGameOverlayEvent.Post event) {
 		if (!NCConfig.radiation_enabled_public) return;
 		
 		if(event.getType() != ElementType.HOTBAR) return;
-		final EntityPlayer player = mc.player;
+		final EntityPlayer player = MC.player;
 		if (!shouldShowHUD(player)) return;
 		IEntityRads playerRads = player.getCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null);
 		if (playerRads == null) return;
 		
-		ScaledResolution res = new ScaledResolution(mc);
+		ScaledResolution res = new ScaledResolution(MC);
 		int barWidth = (int)(100D*playerRads.getTotalRads()/playerRads.getMaxRads());
 		String info = playerRads.isImmune() ? IMMUNE_FOR + " " + UnitHelper.applyTimeUnitShort(playerRads.getRadiationImmunityTime(), 2, 1) : (playerRads.isRadiationNegligible() ? "0 Rads/t" : RadiationHelper.radsPrefix(playerRads.getRadiationLevel(), true));
-		int infoWidth = mc.fontRenderer.getStringWidth(info);
+		int infoWidth = MC.fontRenderer.getStringWidth(info);
 		int overlayWidth = (int)Math.round(Math.max(104, infoWidth)*NCConfig.radiation_hud_size);
 		int overlayHeight = (int)Math.round(19*NCConfig.radiation_hud_size);
 		
 		int xPos = (int)Math.round(NCConfig.radiation_hud_position_cartesian.length >= 2 ? NCConfig.radiation_hud_position_cartesian[0]*res.getScaledWidth() : GuiHelper.getRenderPositionXFromAngle(res, NCConfig.radiation_hud_position, overlayWidth, 3)/NCConfig.radiation_hud_size);
 		int yPos = (int)Math.round(NCConfig.radiation_hud_position_cartesian.length >= 2 ? NCConfig.radiation_hud_position_cartesian[1]*res.getScaledHeight() : GuiHelper.getRenderPositionYFromAngle(res, NCConfig.radiation_hud_position, overlayHeight, 3)/NCConfig.radiation_hud_size);
 		
-		mc.getTextureManager().bindTexture(RADS_BAR);
+		MC.getTextureManager().bindTexture(RADS_BAR);
 		
 		GlStateManager.pushMatrix();
 		
@@ -83,12 +79,12 @@ public class RadiationRenders {
 		drawTexturedModalRect(xPos + 2 + 100 - barWidth, yPos + 2, 100 - barWidth, 10, barWidth, 6);
 		yPos += 12;
 		if (NCConfig.radiation_hud_text_outline) {
-			mc.fontRenderer.drawString(info, xPos + 1 + (104 - infoWidth)/2, yPos, 0);
-			mc.fontRenderer.drawString(info, xPos - 1 + (104 - infoWidth)/2, yPos, 0);
-			mc.fontRenderer.drawString(info, xPos + (104 - infoWidth)/2, yPos + 1, 0);
-			mc.fontRenderer.drawString(info, xPos + (104 - infoWidth)/2, yPos - 1, 0);
+			MC.fontRenderer.drawString(info, xPos + 1 + (104 - infoWidth)/2, yPos, 0);
+			MC.fontRenderer.drawString(info, xPos - 1 + (104 - infoWidth)/2, yPos, 0);
+			MC.fontRenderer.drawString(info, xPos + (104 - infoWidth)/2, yPos + 1, 0);
+			MC.fontRenderer.drawString(info, xPos + (104 - infoWidth)/2, yPos - 1, 0);
 		}
-		mc.fontRenderer.drawString(info, xPos + (104 - infoWidth)/2, yPos, playerRads.isImmune() ? 0x55FF55 : TextHelper.getFormatColor(RadiationHelper.getRadiationTextColor(playerRads)));
+		MC.fontRenderer.drawString(info, xPos + (104 - infoWidth)/2, yPos, playerRads.isImmune() ? 0x55FF55 : TextHelper.getFormatColor(RadiationHelper.getRadiationTextColor(playerRads)));
 		
 		GlStateManager.popMatrix();
 	}
@@ -125,7 +121,6 @@ public class RadiationRenders {
 	
 	/* Thanks to dizzyd for this method! */
 	@SubscribeEvent
-	@SideOnly(Side.CLIENT)
 	public void onRenderWorldLastEvent(RenderWorldLastEvent event) {
 		// Overlay renderer for the geiger counter and radiation scrubber blocks
 		boolean chunkBorders = false;
@@ -137,15 +132,15 @@ public class RadiationRenders {
 		
 		// Draw the chunk borders if we're either holding a geiger block OR looking at one
 		for (EnumHand hand : EnumHand.values()) {
-			ItemStack heldItem = Minecraft.getMinecraft().player.getHeldItem(hand);
+			ItemStack heldItem = MC.player.getHeldItem(hand);
 			if (NCItems.geiger_counter == heldItem.getItem() || Item.getItemFromBlock(NCBlocks.radiation_scrubber) == heldItem.getItem()) {
 				chunkBorders = true;
 				break;
 			}
 		}
 		
-		if (!chunkBorders && mc.objectMouseOver != null && mc.objectMouseOver.typeOfHit == RayTraceResult.Type.BLOCK) {
-			TileEntity te = mc.world.getTileEntity(mc.objectMouseOver.getBlockPos());
+		if (!chunkBorders && MC.objectMouseOver != null && MC.objectMouseOver.typeOfHit == RayTraceResult.Type.BLOCK) {
+			TileEntity te = MC.world.getTileEntity(MC.objectMouseOver.getBlockPos());
 			if (!chunkBorders && (te instanceof TileGeigerCounter || te instanceof TileRadiationScrubber)) {
 				chunkBorders = true;
 			}
@@ -154,7 +149,7 @@ public class RadiationRenders {
 		/* Logic below taken with minor changes from BluSunrize's Immersive Engineering: blusunrize.immersiveengineering.client.ClientEventHandler */
 		
 		if (chunkBorders) {
-			EntityPlayer player = mc.player;
+			EntityPlayer player = MC.player;
 			double px = TileEntityRendererDispatcher.staticPlayerX;
 			double py = TileEntityRendererDispatcher.staticPlayerY;
 			double pz = TileEntityRendererDispatcher.staticPlayerZ;

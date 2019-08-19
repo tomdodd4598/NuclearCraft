@@ -4,11 +4,6 @@
 		"subtitle": "block.fusion_run",
 		"sounds": [ { "name": "nuclearcraft:block/fusion_run", "stream": false } ]
 	},
-	"block.accelerator_run": {
-		"category": "block",
-		"subtitle": "block.accelerator_run",
-		"sounds": [ { "name": "nuclearcraft:block/accelerator_run", "stream": false } ]
-	},
 	"player.geiger_tick": {
 		"category": "player",
 		"subtitle": "player.geiger_tick",
@@ -34,30 +29,10 @@
 		"subtitle": "player.rad_poisoning",
 		"sounds": [ { "name": "nuclearcraft:player/rad_poisoning", "stream": false } ]
 	},
-	"entity.feral_ghoul_ambient": {
-		"category": "mob",
-		"subtitle": "entity.feral_ghoul_ambient",
-		"sounds": [ { "name": "nuclearcraft:entity/feral_ghoul_ambient", "stream": false } ]
-	},
-	"entity.feral_ghoul_hurt": {
-		"category": "mob",
-		"subtitle": "entity.feral_ghoul_hurt",
-		"sounds": [ { "name": "nuclearcraft:entity/feral_ghoul_hurt", "stream": false } ]
-	},
 	"entity.feral_ghoul_death": {
 		"category": "mob",
 		"subtitle": "entity.feral_ghoul_death",
 		"sounds": [ { "name": "nuclearcraft:entity/feral_ghoul_death", "stream": false } ]
-	},
-	"entity.feral_ghoul_step": {
-		"category": "mob",
-		"subtitle": "entity.feral_ghoul_step",
-		"sounds": [ { "name": "nuclearcraft:entity/feral_ghoul_step", "stream": false } ]
-	},
-	"entity.feral_ghoul_fall": {
-		"category": "mob",
-		"subtitle": "entity.feral_ghoul_fall",
-		"sounds": [ { "name": "nuclearcraft:entity/feral_ghoul_fall", "stream": false } ]
 	},
 	"entity.feral_ghoul_charge": {
 		"category": "mob",

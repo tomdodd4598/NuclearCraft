@@ -9,6 +9,7 @@ import nc.gui.element.NCButton;
 import nc.tile.energy.ITileEnergy;
 import nc.tile.internal.fluid.Tank;
 import nc.util.Lang;
+import nc.util.SoundHelper;
 import nc.util.UnitHelper;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.GuiButton;
@@ -55,7 +56,7 @@ public abstract class NCGui extends GuiContainer {
 					float soundPitch = 1F;
 					if (mouseButton == 1) {
 						actionPerformedRight(guibutton);
-						soundPitch = 1.05946F;
+						soundPitch = SoundHelper.getPitch(1D);
 					}
 					else if (mouseButton == 2) {
 						actionPerformedMiddle(guibutton);

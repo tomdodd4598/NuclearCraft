@@ -6,7 +6,7 @@ import baubles.api.BaubleType;
 import baubles.api.IBauble;
 import nc.capability.radiation.entity.IEntityRads;
 import nc.config.NCConfig;
-import nc.handler.SoundHandler;
+import nc.init.NCSounds;
 import nc.item.NCItem;
 import nc.radiation.RadiationHelper;
 import nc.util.Lang;
@@ -71,7 +71,7 @@ public class ItemGeigerCounter extends NCItem implements IBauble {
 			if (entityRads == null || entityRads.isRadiationUndetectable()) return;
 			double soundChance = Math.cbrt(entityRads.getRawRadiationLevel()/200D);
 			float soundVolume = MathHelper.clamp((float)(8F*soundChance), 0.55F, 1.1F);
-			for (int i = 0; i < 2; i++) if (rand.nextDouble() < soundChance) player.playSound(SoundHandler.geiger_tick, soundVolume + rand.nextFloat()*0.12F, 0.92F + rand.nextFloat()*0.16F);
+			for (int i = 0; i < 2; i++) if (rand.nextDouble() < soundChance) player.playSound(NCSounds.geiger_tick, soundVolume + rand.nextFloat()*0.12F, 0.92F + rand.nextFloat()*0.16F);
 		}
 	}
 	

@@ -4,7 +4,6 @@ import nc.Global;
 import nc.NCInfo;
 import nc.config.NCConfig;
 import nc.enumm.MetaEnums;
-import nc.handler.SoundHandler;
 import nc.item.ItemDepletedFissionFuel;
 import nc.item.ItemFissionFuel;
 import nc.item.ItemPortableEnderChest;
@@ -204,10 +203,10 @@ public class NCItems {
 		moresmore = withName(new NCItemFood(20, 2.4F, new PotionEffect[] {PotionHelper.newEffect(3, 2, 600), PotionHelper.newEffect(1, 2, 600), PotionHelper.newEffect(22, 2, 600)}), "moresmore");
 		foursmore = withName(new NCItemFood(48, 4.8F, new PotionEffect[] {PotionHelper.newEffect(3, 2, 1200), PotionHelper.newEffect(1, 2, 1200), PotionHelper.newEffect(22, 2, 1200)}), "foursmore");
 		
-		record_wanderer = withName(new NCItemRecord("record_wanderer", SoundHandler.wanderer), "record_wanderer");
-		record_end_of_the_world = withName(new NCItemRecord("record_end_of_the_world", SoundHandler.end_of_the_world), "record_end_of_the_world");
-		record_money_for_nothing = withName(new NCItemRecord("record_money_for_nothing", SoundHandler.money_for_nothing), "record_money_for_nothing");
-		record_hyperspace = withName(new NCItemRecord("record_hyperspace", SoundHandler.hyperspace), "record_hyperspace");
+		record_wanderer = withName(new NCItemRecord("record_wanderer", NCSounds.wanderer), "record_wanderer");
+		record_end_of_the_world = withName(new NCItemRecord("record_end_of_the_world", NCSounds.end_of_the_world), "record_end_of_the_world");
+		record_money_for_nothing = withName(new NCItemRecord("record_money_for_nothing", NCSounds.money_for_nothing), "record_money_for_nothing");
+		record_hyperspace = withName(new NCItemRecord("record_hyperspace", NCSounds.hyperspace), "record_hyperspace");
 	}
 	
 	public static void register() {

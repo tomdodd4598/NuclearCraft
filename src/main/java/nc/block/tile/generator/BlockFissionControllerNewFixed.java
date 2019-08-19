@@ -8,7 +8,7 @@ import java.util.Random;
 import nc.block.tile.processor.BlockProcessor;
 import nc.config.NCConfig;
 import nc.enumm.BlockEnums.ProcessorType;
-import nc.handler.SoundHandler;
+import nc.init.NCSounds;
 import nc.tile.generator.TileFissionController;
 import nc.util.BlockFinder;
 import nc.util.NCInventoryHelper;
@@ -130,9 +130,9 @@ public class BlockFissionControllerNewFixed extends BlockProcessor {
 	public int getComparatorInputOverride(IBlockState state, World world, BlockPos pos) {
 		TileEntity tile = world.getTileEntity(pos);
 		if (tile instanceof TileFissionController) {
-			return ((TileFissionController) tile).getComparatorStrength();
+			return ((TileFissionController)tile).getComparatorStrength();
 		}
-		return Container.calcRedstone(world.getTileEntity(pos));
+		return Container.calcRedstone(tile);
 	}
 	
 	@Override
@@ -148,7 +148,7 @@ public class BlockFissionControllerNewFixed extends BlockProcessor {
 			if (controller.cells <= 0) return;
 			double soundRate = MathHelper.clamp(0.08D, 2*Math.sqrt(controller.cells)/NCConfig.fission_max_size, 1D);
 			if (controller.isProcessing) if (rand.nextDouble() < soundRate) {
-				world.playSound(position.getX(), position.getY(), position.getZ(), SoundHandler.geiger_tick, SoundCategory.BLOCKS, 1.6F, 1F + 0.12F*(rand.nextFloat() - 0.5F), false);
+				world.playSound(position.getX(), position.getY(), position.getZ(), NCSounds.geiger_tick, SoundCategory.BLOCKS, 1.6F, 1F + 0.12F*(rand.nextFloat() - 0.5F), false);
 			}
 		}
 	}

@@ -100,6 +100,7 @@ public abstract class NCTile extends TileEntity implements ITickable, ITile {
 		}
 	}
 	
+	/** Never override this! */
 	@Override
 	public void markTileDirty() {
 		markDirty();

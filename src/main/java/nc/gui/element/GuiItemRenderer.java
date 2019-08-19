@@ -53,8 +53,8 @@ public class GuiItemRenderer extends Gui {
 	}
 	
 	public static @Nonnull TextureAtlasSprite getIconForItem(@Nonnull Item item, int meta) {
-		final TextureAtlasSprite icon = Minecraft.getMinecraft().getRenderItem().getItemModelMesher().getParticleIcon(item, meta);
-		return icon != null ? icon : Minecraft.getMinecraft().getTextureMapBlocks().getMissingSprite();
+		final TextureAtlasSprite icon = MC.getRenderItem().getItemModelMesher().getParticleIcon(item, meta);
+		return icon != null ? icon : MC.getTextureMapBlocks().getMissingSprite();
 	}
 	
 	public void setSize(int width, int height) {

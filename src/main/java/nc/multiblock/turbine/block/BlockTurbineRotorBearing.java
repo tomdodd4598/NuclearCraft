@@ -10,16 +10,16 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class BlockTurbineRotorBearing extends BlockTurbinePartBase {
-
+	
 	public BlockTurbineRotorBearing() {
 		super();
 	}
-
+	
 	@Override
 	public TileEntity createNewTileEntity(World world, int metadata) {
 		return new TileTurbineRotorBearing();
 	}
-
+	
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if (player == null) return false;

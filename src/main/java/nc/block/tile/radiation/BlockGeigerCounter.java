@@ -8,6 +8,8 @@ import nc.tile.radiation.TileGeigerCounter;
 import nc.util.Lang;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
@@ -37,5 +39,19 @@ public class BlockGeigerCounter extends BlockSimpleTile {
 			}
 		}
 		return super.onBlockActivated(world, pos, state, player, hand, facing, hitX, hitY, hitZ);
+	}
+	
+	@Override
+	public boolean hasComparatorInputOverride(IBlockState state) {
+		return true;
+	}
+	
+	@Override
+	public int getComparatorInputOverride(IBlockState state, World world, BlockPos pos) {
+		TileEntity tile = world.getTileEntity(pos);
+		if (tile instanceof TileGeigerCounter) {
+			return ((TileGeigerCounter)tile).comparatorStrength;
+		}
+		return Container.calcRedstone(tile);
 	}
 }

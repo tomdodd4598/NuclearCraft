@@ -28,6 +28,11 @@ public class TileHeatExchangerController extends TileHeatExchangerPartBase {
 	}
 	
 	@Override
+	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newSate) {
+		return oldState.getBlock() != newSate.getBlock();
+	}
+	
+	@Override
 	public void onBlockNeighborChanged(IBlockState state, World world, BlockPos pos, BlockPos fromPos) {
 		super.onBlockNeighborChanged(state, world, pos, fromPos);
 		if (getMultiblock() != null) getMultiblock().setIsHeatExchangerOn();

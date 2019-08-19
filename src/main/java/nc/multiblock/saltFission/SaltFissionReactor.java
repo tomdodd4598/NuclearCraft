@@ -2,7 +2,6 @@ package nc.multiblock.saltFission;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Random;
 import java.util.Set;
 
 import com.google.common.collect.Lists;
@@ -10,7 +9,7 @@ import com.google.common.collect.Lists;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import nc.Global;
 import nc.config.NCConfig;
-import nc.handler.SoundHandler;
+import nc.init.NCSounds;
 import nc.multiblock.IMultiblockFluid;
 import nc.multiblock.IMultiblockPart;
 import nc.multiblock.MultiblockBase;
@@ -29,8 +28,6 @@ import nc.multiblock.saltFission.tile.TileSaltFissionVessel;
 import nc.multiblock.validation.IMultiblockValidator;
 import nc.tile.internal.fluid.Tank;
 import nc.tile.internal.heat.HeatBuffer;
-import nc.util.RegistryHelper;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
@@ -41,29 +38,27 @@ import net.minecraft.world.World;
 
 public class SaltFissionReactor extends CuboidalMultiblockBase<SaltFissionUpdatePacket> implements IMultiblockFluid {
 	
-	private Set<TileSaltFissionController> controllers;
-	private Set<TileSaltFissionVent> vents;
-	private Set<TileSaltFissionVessel> vessels;
-	private Set<TileSaltFissionHeater> heaters;
-	private Set<TileSaltFissionModerator> moderators;
-	private Set<TileSaltFissionDistributor> distributors;
-	private Set<TileSaltFissionRetriever> retrievers;
-	private Set<TileSaltFissionRedstonePort> redstonePorts;
+	protected Set<TileSaltFissionController> controllers;
+	protected Set<TileSaltFissionVent> vents;
+	protected Set<TileSaltFissionVessel> vessels;
+	protected Set<TileSaltFissionHeater> heaters;
+	protected Set<TileSaltFissionModerator> moderators;
+	protected Set<TileSaltFissionDistributor> distributors;
+	protected Set<TileSaltFissionRetriever> retrievers;
+	protected Set<TileSaltFissionRedstonePort> redstonePorts;
 	
-	private TileSaltFissionController controller;
-	
-	private Random rand = new Random();
+	protected TileSaltFissionController controller;
 	
 	public final HeatBuffer heatBuffer;
-	private static final int BASE_MAX_HEAT = 25000;
+	protected static final int BASE_MAX_HEAT = 25000;
 	
 	public int comparatorSignal = 0;
-	private int updateCount = 0, distributeCount = 0;
+	protected int updateCount = 0, distributeCount = 0;
 	
 	public boolean isReactorOn, computerActivated;
 	public double cooling, heating, rawEfficiency, maxRawEfficiency, heatMult, maxHeatMult, coolingEfficiency;
 	
-	private short heaterCheckCount = 0;
+	protected short heaterCheckCount = 0;
 
 	public SaltFissionReactor(World world) {
 		super(world);
@@ -397,35 +392,35 @@ public class SaltFissionReactor extends CuboidalMultiblockBase<SaltFissionUpdate
 			controller.doMeltdown();
 		}
 		
-		IBlockState corium = RegistryHelper.getBlock(Global.MOD_ID + ":fluid_corium").getDefaultState();
+		/*IBlockState corium = RegistryHelper.getBlock(Global.MOD_ID + ":fluid_corium").getDefaultState();
 		for (BlockPos blockPos : BlockPos.getAllInBoxMutable(getMinimumCoord(), getMaximumCoord())) {
 			if (rand.nextDouble() < 0.18D) {
-				if (WORLD.getTileEntity(blockPos) != null) WORLD.removeTileEntity(blockPos);
+				WORLD.removeTileEntity(blockPos);
 				WORLD.setBlockState(blockPos, corium);
 			}
-		}
+		}*/
 		
 		checkIfMachineIsWhole();
 	}
 	
-	private void incrementUpdateCount() {
+	protected void incrementUpdateCount() {
 		updateCount++; updateCount %= updateTime();
 		distributeCount++; distributeCount %= distributeTime();
 	}
 	
-	private static int updateTime() {
+	protected static int updateTime() {
 		return NCConfig.machine_update_rate / 2;
 	}
 	
-	private boolean shouldUpdate() {
+	protected boolean shouldUpdate() {
 		return updateCount == 0;
 	}
 	
-	private static int distributeTime() {
+	protected static int distributeTime() {
 		return 20;
 	}
 	
-	private boolean shouldDistribute() {
+	protected boolean shouldDistribute() {
 		return distributeCount == 0;
 	}
 	
@@ -442,7 +437,7 @@ public class SaltFissionReactor extends CuboidalMultiblockBase<SaltFissionUpdate
 		if (vessels.size() <= 0) return;
 		double soundRate = Math.min(rawEfficiency/(14D*NCConfig.salt_fission_max_size*Math.sqrt(vessels.size())), 1D/vessels.size());
 		if (rand.nextDouble() < soundRate) {
-			WORLD.playSound(pos.getX(), pos.getY(), pos.getZ(), SoundHandler.geiger_tick, SoundCategory.BLOCKS, 1.6F, 1F + 0.12F*(rand.nextFloat() - 0.5F), false);
+			WORLD.playSound(pos.getX(), pos.getY(), pos.getZ(), NCSounds.geiger_tick, SoundCategory.BLOCKS, 1.6F, 1F + 0.12F*(rand.nextFloat() - 0.5F), false);
 		}
 	}
 	

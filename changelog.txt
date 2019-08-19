@@ -1,3 +1,22 @@
+v2.18c
+
+* Fission reactor meltdowns are now localised about cells/vessels and will set nearby graphite on fire
+
+* Geiger counter blocks will output a comparator signal of strength relative to the logarithm of the chunk radiation level
+
+* Fixed radiation shielding not being applicable to item containers
+* Fixed hardcore containers treating dummy TEs as separate entities
+
+* Fixed turbine rotor render blind-spots near chunk boundaries
+
+v2.18b
+
++ Added animated render for turbine rotors
+
+* Fusion reactors have a new sound effect [thanks to the Mekanism devs for their machine sound logic!]
+
+* Graphite, lithium and magnesium blocks are now flammable
+
 v2.18a
 
 * Fixed major crash on adding or taking items from machines
@@ -29,6 +48,9 @@ v2.18
 + Added more ProjectE EMC values for NC materials
 
 + Added Integrated Dynamics temperature reading support for the fusion reactor
+
+* Possible other things that I have forgotten
+- Removed Paulobrine and Herobrian
 
 v2.17c
 
@@ -123,6 +145,9 @@ v2.17
 
 * Many minor refactors
 * Updated MCP mappings
+
+* Possible other things that I have forgotten
+- Removed Paulobrine and Herobrian
 
 v2.16f
 
@@ -401,6 +426,7 @@ v2.13
 * Updated Russian language file [thanks to Lokuster!]
 
 * Many other minor additions and changes
+* Possible other things that I have forgotten
 - Removed Paulobrine and Herobrian
 
 v2.12k
@@ -584,6 +610,7 @@ v2.12
 * Idle machines now take up much less tick time
 
 * Many under-the-hood changes
+* Possible other things that I have forgotten
 - Removed Paulobrine and Herobrian
 
 v2.11g
@@ -720,6 +747,7 @@ v2.11
 
 * Updated Forge and APIs
 
+* Possible other things that I have forgotten
 - Removed Paulobrine and Herobrian
 
 v2.10p
@@ -897,6 +925,7 @@ v2.10
 * Updated JEI, CraftTweaker and Tesla APIs
 
 - Removed many unused textures
+* Possible other things that I have forgotten
 - Removed Paulobrine and Herobrian
 
 v2.9e
@@ -1037,6 +1066,9 @@ v2.8
 * Made lots of internal changes and cleaned up code
 * Some recipe tweaks and fixes
 
+* Possible other things that I have forgotten
+- Removed Paulobrine and Herobrian
+
 v2.7a
 
 * Fixed errors with the active cooling rate configs
@@ -1049,6 +1081,9 @@ v2.7
 * Slightly nerfed Decay Generator
 * Fixed Cobblestone Generator not working
 * Added and tweaked a few recipes
+
+* Possible other things that I have forgotten
+- Removed Paulobrine and Herobrian
 
 v2.6
 
@@ -1116,6 +1151,9 @@ v2.5
 * Fixed potential crashes with fluid transfer
 * Minor recipe tweaks
 
+* Possible other things that I have forgotten
+- Removed Paulobrine and Herobrian
+
 v2.4b
 
 * Fixed fission ports not recognising transparent casing
@@ -1161,6 +1199,9 @@ v2.4
 * Updated Forge
 * Updated IC2 and JEI APIs
 
+* Possible other things that I have forgotten
+- Removed Paulobrine and Herobrian
+
 v2.3
 
 + Added active cooling for Fission and Fusion Reactors
@@ -1180,6 +1221,9 @@ v2.3
 * Updated CoFH API (1.10.2)
 - Removed CoFH API (1.11.2)
 * Updated IC2 API
+
+* Possible other things that I have forgotten
+- Removed Paulobrine and Herobrian
 
 v2.2d
 
@@ -1243,6 +1287,9 @@ v2.2
 * Updated IC2 API
 * Many thanks go to CrazyPants for allowing me to use EnderIO's GUI fluid rendering code!
 
+* Possible other things that I have forgotten
+- Removed Paulobrine and Herobrian
+
 v2.1c
 
 * Improved mod creative tabs
@@ -1278,6 +1325,9 @@ v2.1
 * Changed some fission fuel and cooler stats
 * Tweaked some recipes
 
+* Possible other things that I have forgotten
+- Removed Paulobrine and Herobrian
+
 v2.0a
 
 + Added Alloy Furnace
@@ -1306,3 +1356,5 @@ v2.0
 
 + Added base blocks, including ores and fission reactor components
 + Added base items, including ingots, dusts, fission materials and tools
+
+* Possible other things that I have forgotten

@@ -56,6 +56,7 @@ import nc.gui.processor.GuiPressurizer;
 import nc.gui.processor.GuiRockCrusher;
 import nc.gui.processor.GuiSaltMixer;
 import nc.gui.processor.GuiSupercooler;
+import nc.init.NCArmor;
 import nc.init.NCBlocks;
 import nc.init.NCItems;
 import nc.integration.jei.generator.DecayGeneratorCategory;
@@ -219,15 +220,11 @@ public class NCJEI implements IModPlugin {
 		
 		for (int i = 0; i < 8; i++) {
 			if (!OreGenerator.showOre(i)) {
-				blacklist(jeiHelpers, new ItemStack(NCBlocks.ore, 1, i));
-				blacklist(jeiHelpers, new ItemStack(NCBlocks.ingot_block, 1, i));
-				blacklist(jeiHelpers, new ItemStack(NCItems.ingot, 1, i));
-				blacklist(jeiHelpers, new ItemStack(NCItems.dust, 1, i));
+				blacklist(jeiHelpers, new ItemStack(NCBlocks.ore, 1, i), new ItemStack(NCBlocks.ingot_block, 1, i), new ItemStack(NCItems.ingot, 1, i), new ItemStack(NCItems.dust, 1, i));
 			}
 		}
 		
 		blacklist(jeiHelpers, NCItems.fuel_rod);
-		
 		blacklist(jeiHelpers, NCBlocks.reactor_door);
 		
 		blacklist(jeiHelpers, NCBlocks.nuclear_furnace_active);
@@ -251,18 +248,13 @@ public class NCJEI implements IModPlugin {
 		blacklist(jeiHelpers, NCBlocks.centrifuge_active);
 		blacklist(jeiHelpers, NCBlocks.rock_crusher_active);
 		
-		blacklist(jeiHelpers, NCBlocks.fission_controller_idle);
-		blacklist(jeiHelpers, NCBlocks.fission_controller_active);
-		blacklist(jeiHelpers, NCBlocks.fission_controller_new_idle);
-		blacklist(jeiHelpers, NCBlocks.fission_controller_new_active);
+		blacklist(jeiHelpers, NCBlocks.fission_controller_idle, NCBlocks.fission_controller_active);
+		blacklist(jeiHelpers, NCBlocks.fission_controller_new_idle, NCBlocks.fission_controller_new_active);
 		
-		blacklist(jeiHelpers, NCBlocks.fusion_dummy_side);
-		blacklist(jeiHelpers, NCBlocks.fusion_dummy_top);
+		blacklist(jeiHelpers, NCBlocks.fusion_dummy_side, NCBlocks.fusion_dummy_top);
 		
-		blacklist(jeiHelpers, NCBlocks.fusion_electromagnet_active);
-		blacklist(jeiHelpers, NCBlocks.fusion_electromagnet_transparent_active);
-		blacklist(jeiHelpers, NCBlocks.accelerator_electromagnet_active);
-		blacklist(jeiHelpers, NCBlocks.electromagnet_supercooler_active);
+		blacklist(jeiHelpers, NCBlocks.fusion_electromagnet_active, NCBlocks.fusion_electromagnet_transparent_active);
+		blacklist(jeiHelpers, NCBlocks.accelerator_electromagnet_active, NCBlocks.electromagnet_supercooler_active);
 		
 		if (!ModCheck.openComputersLoaded()) {
 			blacklist(jeiHelpers, NCBlocks.salt_fission_computer_port);
@@ -273,12 +265,14 @@ public class NCJEI implements IModPlugin {
 		
 		if (!NCConfig.radiation_enabled_public) {
 			blacklist(jeiHelpers, NCBlocks.radiation_scrubber);
-			blacklist(jeiHelpers, NCBlocks.geiger_block);
-			blacklist(jeiHelpers, NCItems.geiger_counter);
+			blacklist(jeiHelpers, NCBlocks.geiger_block, NCItems.geiger_counter);
 			blacklistAll(jeiHelpers, MetaEnums.RadShieldingType.class, NCItems.rad_shielding);
 			blacklist(jeiHelpers, NCItems.radiation_badge);
-			blacklist(jeiHelpers, NCItems.radaway);
+			blacklist(jeiHelpers, NCItems.radaway, NCItems.radaway_slow);
 			blacklist(jeiHelpers, NCItems.rad_x);
+			if (!ModCheck.ic2Loaded()) {
+				blacklist(jeiHelpers, NCArmor.helm_hazmat, NCArmor.chest_hazmat, NCArmor.legs_hazmat, NCArmor.boots_hazmat);
+			}
 		}
 		
 		blacklist(jeiHelpers, NCItems.foursmore);
@@ -286,9 +280,11 @@ public class NCJEI implements IModPlugin {
 		NCUtil.getLogger().info("JEI integration complete");
 	}
 	
-	private static void blacklist(IJeiHelpers jeiHelpers, Object ingredient) {
-		if (ingredient == null) return;
-		jeiHelpers.getIngredientBlacklist().addIngredientToBlacklist(ItemStackHelper.fixItemStack(ingredient));
+	private static void blacklist(IJeiHelpers jeiHelpers, Object... items) {
+		for (Object item : items) {
+			if (item == null) return;
+			jeiHelpers.getIngredientBlacklist().addIngredientToBlacklist(ItemStackHelper.fixItemStack(item));
+		}
 	}
 	
 	private static <T extends Enum<T>> void blacklistAll(IJeiHelpers jeiHelpers, Class<T> enumm, Block block) {

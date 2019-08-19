@@ -46,11 +46,14 @@ public class BlockFinder {
 	public boolean find(BlockPos pos, Object... blocks) {
 		for (int i = 0; i < blocks.length; i++) {
 			if (blocks[i] == null) continue;
-			if (blocks[i] instanceof IBlockState) if (getBlockState(pos) == (IBlockState)blocks[i]) return true;
-			boolean isSubClass = String.class.isAssignableFrom(blocks[i].getClass());
-			if (blocks[i] instanceof String) if (findOre(pos, (String)blocks[i])) return true;
-			isSubClass = Block.class.isAssignableFrom(blocks[i].getClass());
-			if (isSubClass) if (getBlockState(pos).getBlock() == (Block)blocks[i]) return true;
+			if (blocks[i] instanceof IBlockState) {
+				if (getBlockState(pos) == (IBlockState)blocks[i]) return true;
+			}
+			if (blocks[i] instanceof String) {
+				if (findOre(pos, (String)blocks[i])) return true;
+			}
+			boolean isSubClass = Block.class.isAssignableFrom(blocks[i].getClass());
+			if (isSubClass && getBlockState(pos).getBlock() == (Block)blocks[i]) return true;
 		}
 		return false;
 	}
@@ -66,7 +69,9 @@ public class BlockFinder {
 			stackList.addAll(stacks);
 		}
 		ItemStack stack = ItemStackHelper.blockStateToStack(getBlockState(pos));
-		for (ItemStack oreStack : stackList) if (oreStack.isItemEqual(stack)) return true;
+		for (ItemStack oreStack : stackList) {
+			if (oreStack.isItemEqual(stack)) return true;
+		}
 		return false;
 	}
 	

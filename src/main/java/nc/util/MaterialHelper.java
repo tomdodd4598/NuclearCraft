@@ -7,7 +7,7 @@ import net.minecraft.block.material.Material;
 public class MaterialHelper {
 	
 	public static boolean isReplaceable(Material mat) {
-		return mat.getPushReaction() == EnumPushReaction.DESTROY || mat == Material.AIR;
+		return mat.isReplaceable() || mat.getPushReaction() == EnumPushReaction.DESTROY || mat == Material.AIR;
 	}
 	
 	public static boolean isEmpty(Material mat) {

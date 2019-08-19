@@ -22,6 +22,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockRenderLayer;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
@@ -49,7 +50,7 @@ public abstract class BlockMeta<T extends Enum<T> & IStringSerializable & IBlock
 		setResistance(15F);
 	}
 	
-	public static class BlockOre extends BlockMeta {
+	public static class BlockOre extends BlockMeta<MetaEnums.OreType> {
 		
 		public final static PropertyEnum TYPE = PropertyEnum.create("type", MetaEnums.OreType.class);
 		
@@ -70,7 +71,7 @@ public abstract class BlockMeta<T extends Enum<T> & IStringSerializable & IBlock
 		}
 	}
 	
-	public static class BlockIngot extends BlockMeta {
+	public static class BlockIngot extends BlockMeta<MetaEnums.IngotType> {
 		
 		public final static PropertyEnum TYPE = PropertyEnum.create("type", MetaEnums.IngotType.class);
 		
@@ -78,14 +79,29 @@ public abstract class BlockMeta<T extends Enum<T> & IStringSerializable & IBlock
 			super(MetaEnums.IngotType.class, TYPE, Material.IRON);
 			setCreativeTab(NCTabs.BASE_BLOCK_MATERIALS);
 		}
-
+		
 		@Override
 		protected BlockStateContainer createBlockState() {
 			return new BlockStateContainer(this, new IProperty[] {TYPE});
 		}
+		
+		@Override
+		public int getFireSpreadSpeed(IBlockAccess world, BlockPos pos, EnumFacing face) {
+			return ((MetaEnums.IngotType)world.getBlockState(pos).getValue(type)).getFireSpreadSpeed();
+		}
+		
+		@Override
+		public int getFlammability(IBlockAccess world, BlockPos pos, EnumFacing face) {
+			return ((MetaEnums.IngotType)world.getBlockState(pos).getValue(type)).getFlammability();
+		}
+		
+		@Override
+		public boolean isFireSource(World world, BlockPos pos, EnumFacing side) {
+			return ((MetaEnums.IngotType)world.getBlockState(pos).getValue(type)).isFireSource();
+		}
 	}
 	
-	public static class BlockFission extends BlockMeta {
+	public static class BlockFission extends BlockMeta<MetaEnums.FissionBlockType> {
 		
 		public final static PropertyEnum TYPE = PropertyEnum.create("type", MetaEnums.FissionBlockType.class);
 		
@@ -101,7 +117,7 @@ public abstract class BlockMeta<T extends Enum<T> & IStringSerializable & IBlock
 		}
 	}
 	
-	public static class BlockCooler extends BlockMeta {
+	public static class BlockCooler extends BlockMeta<MetaEnums.CoolerType> {
 		
 		public final static PropertyEnum TYPE = PropertyEnum.create("type", MetaEnums.CoolerType.class);
 
@@ -127,22 +143,22 @@ public abstract class BlockMeta<T extends Enum<T> & IStringSerializable & IBlock
 	
 	@Override
 	public int getLightValue(IBlockState state, IBlockAccess world, BlockPos pos) {
-		return ((T) state.getValue(type)).getLightValue();
+		return ((T)state.getValue(type)).getLightValue();
 	}
 	
 	@Override
 	public float getBlockHardness(IBlockState state, World world, BlockPos pos) {
-		return ((T) state.getValue(type)).getHardness();
+		return ((T)state.getValue(type)).getHardness();
 	}
 	
 	@Override
 	public float getExplosionResistance(World world, BlockPos pos, @Nullable Entity exploder, Explosion explosion) {
-		return ((T) world.getBlockState(pos).getValue(type)).getResistance();
+		return ((T)world.getBlockState(pos).getValue(type)).getResistance();
 	}
 	
 	@Override
 	public int getMetaFromState(IBlockState state) {
-		return ((T) state.getValue(type)).getID();
+		return ((T)state.getValue(type)).getID();
 	}
 	
 	@Override

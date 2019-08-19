@@ -1676,7 +1676,8 @@ item.nuclearcraft.rad_shielding.medium.name=Medium Radiation Shielding
 item.nuclearcraft.rad_shielding.heavy.name=Heavy Radiation Shielding
 item.nuclearcraft.rad_shielding.desc=Can be applied to armor to give the player %s rad resistance while worn.
 item.nuclearcraft.rad_shielding.desc_hardcore=Can be applied to armor to give the player %s rad resistance while worn. Can also be applied to containers to shield against irradiation from its contents.
-item.nuclearcraft.rad_shielding.not_hardcore=Failed to install shielding. Hardcore containers is disabled in the configs!
+item.nuclearcraft.rad_shielding.not_hardcore=Hardcore containers is disabled in the configs!
+item.nuclearcraft.rad_shielding.failed_not_hardcore=Failed to install shielding. Hardcore containers is disabled in the configs!
 item.nuclearcraft.rad_shielding.install_fail=Failed to install shielding. The container already has a resistance level of
 item.nuclearcraft.rad_shielding.install_success=Successfully installed shielding! The container now has a resistance level of
 
@@ -2029,8 +2030,6 @@ gui.config.fusion.fusion_max_size=Maximum Toroid Size
 gui.config.fusion.fusion_max_size.comment=Maximum size of fusion toroids.
 gui.config.fusion.fusion_comparator_max_efficiency=Max Comparator Signal Efficiency
 gui.config.fusion.fusion_comparator_max_efficiency.comment=Efficiency of a fusion reactor at which a comparator adjacent to the core will output a full-strength redstone signal.
-gui.config.fusion.fusion_alternate_sound=Use Alternate Sound
-gui.config.fusion.fusion_alternate_sound.comment=Use an alternate reactor sound effect?
 gui.config.fusion.fusion_enable_sound=Enable Fusion Sound
 gui.config.fusion.fusion_enable_sound.comment=If true, reactor sound effects will play.
 gui.config.fusion.fusion_plasma_craziness=Fusion Plasma Fires
@@ -2285,6 +2284,8 @@ gui.config.radiation.radiation_scrubber_power=Scrubber Power Use
 gui.config.radiation.radiation_scrubber_power.comment=The power in RF/s scrubbers need to be supplied to run.
 gui.config.radiation.radiation_scrubber_borax_rate=Scrubber Borax Use Rate
 gui.config.radiation.radiation_scrubber_borax_rate.comment=The amount of borax scrubbers need to be supplied per second.
+gui.config.radiation.radiation_geiger_block_redstone=Geiger Counter Block Comparator Scale
+gui.config.radiation.radiation_geiger_block_redstone.comment=The radiation level, as a power of ten, at which the Geiger counter block will emit a full-strength comparator signal.
 
 gui.config.radiation.radiation_shielding_default_recipes=Radiation Shielding Default Recipes
 gui.config.radiation.radiation_shielding_default_recipes.comment=If enabled, radiation shielding attachment recipes will be added for all registered armor pieces.

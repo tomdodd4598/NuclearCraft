@@ -11,7 +11,6 @@ import nc.handler.DungeonLootHandler;
 import nc.handler.ItemUseHandler;
 import nc.handler.OreDictHandler;
 import nc.handler.PlayerRespawnHandler;
-import nc.handler.SoundHandler;
 import nc.init.NCArmor;
 import nc.init.NCBlocks;
 import nc.init.NCCoolantFluids;
@@ -19,6 +18,7 @@ import nc.init.NCEntities;
 import nc.init.NCFissionFluids;
 import nc.init.NCFluids;
 import nc.init.NCItems;
+import nc.init.NCSounds;
 import nc.init.NCTiles;
 import nc.init.NCTools;
 import nc.integration.projecte.NCProjectE;
@@ -69,7 +69,7 @@ public class CommonProxy {
 	public void preInit(FMLPreInitializationEvent preEvent) {
 		ModCheck.init();
 		
-		SoundHandler.init();
+		NCSounds.init();
 		
 		NCBlocks.init();
 		NCItems.init();

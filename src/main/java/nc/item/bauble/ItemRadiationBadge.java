@@ -6,7 +6,7 @@ import nc.ModCheck;
 import nc.capability.radiation.entity.IEntityRads;
 import nc.capability.radiation.sink.IRadiationSink;
 import nc.config.NCConfig;
-import nc.handler.SoundHandler;
+import nc.init.NCSounds;
 import nc.item.NCItem;
 import nc.util.Lang;
 import nc.util.UnitHelper;
@@ -79,7 +79,7 @@ public class ItemRadiationBadge extends NCItem implements IBauble {
 					player.sendMessage(new TextComponentString(TextFormatting.ITALIC + BADGE_BROKEN));
 				}
 				else {
-					player.playSound(SoundHandler.chems_wear_off, 0.65F, 1F);
+					player.playSound(NCSounds.chems_wear_off, 0.65F, 1F);
 				}
 				stack.shrink(1);
 			}

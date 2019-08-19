@@ -7,7 +7,7 @@ import javax.annotation.Nullable;
 import nc.capability.radiation.entity.IEntityRads;
 import nc.config.NCConfig;
 import nc.entity.ai.EntityAIFeralGhoulLeap;
-import nc.handler.SoundHandler;
+import nc.init.NCSounds;
 import nc.radiation.RadSources;
 import nc.radiation.RadiationHelper;
 import net.minecraft.block.SoundType;
@@ -112,7 +112,7 @@ public class EntityFeralGhoul extends EntityZombie {
 	@Override
 	protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
 		//return SoundHandler.feral_ghoul_hurt;
-		return SoundHandler.feral_ghoul_charge;
+		return NCSounds.feral_ghoul_charge;
 	}
 	
 	@Override
@@ -122,7 +122,7 @@ public class EntityFeralGhoul extends EntityZombie {
 	
 	@Override
 	protected SoundEvent getDeathSound() {
-		return SoundHandler.feral_ghoul_death;
+		return NCSounds.feral_ghoul_death;
 	}
 	
 	@Override
@@ -174,7 +174,7 @@ public class EntityFeralGhoul extends EntityZombie {
 			if (entityRads != null) {
 				entityRads.setPoisonBuffer(entityRads.getPoisonBuffer() + RadSources.CAESIUM_137*mult);
 				entityRads.setRecentPoisonAddition(RadSources.CAESIUM_137*mult);
-				playSound(SoundHandler.rad_poisoning, 1.35F, 1F + 0.2F*(rand.nextFloat() - rand.nextFloat()));
+				playSound(NCSounds.rad_poisoning, 1.35F, 1F + 0.2F*(rand.nextFloat() - rand.nextFloat()));
 			}
 		}
 		

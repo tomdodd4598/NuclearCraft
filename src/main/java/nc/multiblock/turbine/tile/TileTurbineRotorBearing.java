@@ -22,5 +22,4 @@ public class TileTurbineRotorBearing extends TileTurbinePartBase {
 		if (getWorld().isRemote) return;
 		//getWorld().setBlockState(getPos(), getWorld().getBlockState(getPos()), 2);
 	}
-
 }

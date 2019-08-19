@@ -75,9 +75,13 @@ public abstract class TileFusionDummy extends TileDummy<TileFusionCore> implemen
 	public void update() {
 		super.update();
 		if(!world.isRemote) {
-			if (ModCheck.openComputersLoaded()) refreshNode();
+			if (ModCheck.openComputersLoaded()) {
+				refreshNode();
+			}
 			pushEnergy();
-			if (checkCount == 0 && findAdjacentComparator()) markDirty();
+			if (checkCount == 0 && findAdjacentComparator()) {
+				markDirty();
+			}
 		}
 	}
 	

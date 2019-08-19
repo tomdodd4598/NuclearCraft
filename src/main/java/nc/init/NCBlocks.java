@@ -58,7 +58,7 @@ import nc.multiblock.saltFission.block.BlockSaltFissionVent;
 import nc.multiblock.saltFission.block.BlockSaltFissionVessel;
 import nc.multiblock.saltFission.block.BlockSaltFissionWall;
 import nc.multiblock.turbine.TurbineDynamoCoilType;
-import nc.multiblock.turbine.TurbineRotorBladeType;
+import nc.multiblock.turbine.TurbineRotorBladeUtil.TurbineRotorBladeType;
 import nc.multiblock.turbine.block.BlockTurbineComputerPort;
 import nc.multiblock.turbine.block.BlockTurbineController;
 import nc.multiblock.turbine.block.BlockTurbineDynamoCoil;

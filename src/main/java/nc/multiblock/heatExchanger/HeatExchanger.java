@@ -24,14 +24,14 @@ import net.minecraft.world.World;
 
 public class HeatExchanger extends CuboidalMultiblockBase<HeatExchangerUpdatePacket> implements IMultiblockFluid {
 	
-	private Set<TileHeatExchangerController> controllers;
-	private Set<TileHeatExchangerVent> vents;
-	private Set<TileHeatExchangerTube> tubes;
-	private Set<TileHeatExchangerCondenserTube> condenserTubes;
+	protected Set<TileHeatExchangerController> controllers;
+	protected Set<TileHeatExchangerVent> vents;
+	protected Set<TileHeatExchangerTube> tubes;
+	protected Set<TileHeatExchangerCondenserTube> condenserTubes;
 	
-	private TileHeatExchangerController controller;
+	protected TileHeatExchangerController controller;
 	
-	private int updateCount = 0;
+	protected int updateCount = 0;
 	
 	public boolean isHeatExchangerOn, computerActivated;
 	public double fractionOfTubesActive, efficiency, maxEfficiency;
@@ -207,15 +207,15 @@ public class HeatExchanger extends CuboidalMultiblockBase<HeatExchangerUpdatePac
 		maxEfficiency = (double)maxEfficiencyCount/numberOfTubes;
 	}
 	
-	private void incrementUpdateCount() {
+	protected void incrementUpdateCount() {
 		updateCount++; updateCount %= updateTime();
 	}
 	
-	private static int updateTime() {
+	protected static int updateTime() {
 		return NCConfig.machine_update_rate;
 	}
 	
-	private boolean shouldUpdate() {
+	protected boolean shouldUpdate() {
 		return updateCount == 0;
 	}
 	

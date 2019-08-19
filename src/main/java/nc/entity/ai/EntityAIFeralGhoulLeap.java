@@ -1,9 +1,7 @@
 package nc.entity.ai;
 
-import java.util.Random;
-
 import nc.entity.EntityFeralGhoul;
-import nc.handler.SoundHandler;
+import nc.init.NCSounds;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIBase;
 
@@ -11,7 +9,6 @@ public class EntityAIFeralGhoulLeap extends EntityAIBase {
 	
 	EntityFeralGhoul ghoul;
 	EntityLivingBase leapTarget;
-	final Random rand = new Random();
 	
 	public EntityAIFeralGhoulLeap(EntityFeralGhoul ghoul) {
 		this.ghoul = ghoul;
@@ -48,6 +45,6 @@ public class EntityAIFeralGhoulLeap extends EntityAIBase {
 	@Override
 	public void startExecuting() {
 		ghoul.leap(1.25D);
-		ghoul.playSound(SoundHandler.feral_ghoul_charge, 1F, 1F + 0.2F*(rand.nextFloat() - rand.nextFloat()));
+		ghoul.playSound(NCSounds.feral_ghoul_charge, 1F, 1F + 0.2F*(ghoul.getRNG().nextFloat() - ghoul.getRNG().nextFloat()));
 	}
 }

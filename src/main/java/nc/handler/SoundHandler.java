@@ -1,64 +1,185 @@
 package nc.handler;
 
-import nc.Global;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvent;
-import net.minecraftforge.fml.common.registry.ForgeRegistries;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
+import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
+import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
+import nc.init.NCSounds;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.ISound;
+import net.minecraft.client.audio.ITickableSound;
+import net.minecraft.client.audio.PositionedSoundRecord;
+import net.minecraft.client.audio.Sound;
+import net.minecraft.client.audio.SoundEventAccessor;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.client.event.sound.PlaySoundEvent;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
+@SideOnly(Side.CLIENT)
 public class SoundHandler {
 	
-	public static SoundEvent fusion_run;
-	public static final int FUSION_RUN_TIME = 67;
+	/* =========================== TE sound handling - thanks to the Mekanism devs for this system! =========================== */
 	
-	public static SoundEvent accelerator_run;
-	public static final int ACCELERATOR_RUN_TIME = 67;
+	private static final Minecraft MC = Minecraft.getMinecraft();
+	private static Long2ObjectMap<ISound> soundMap = new Long2ObjectOpenHashMap<>();
 	
-	public static SoundEvent geiger_tick;
-	public static SoundEvent radaway;
-	public static SoundEvent rad_x;
-	public static SoundEvent chems_wear_off;
-	public static SoundEvent rad_poisoning;
-	
-	//public static SoundEvent feral_ghoul_ambient;
-	//public static SoundEvent feral_ghoul_hurt;
-	public static SoundEvent feral_ghoul_death;
-	//public static SoundEvent feral_ghoul_step;
-	//public static SoundEvent feral_ghoul_fall;
-	public static SoundEvent feral_ghoul_charge;
-	
-	public static SoundEvent wanderer;
-	public static SoundEvent end_of_the_world;
-	public static SoundEvent money_for_nothing;
-	public static SoundEvent hyperspace;
-	
-	public static void init() {
-		fusion_run = register("block.fusion_run");
-		accelerator_run = register("block.accelerator_run");
-		
-		geiger_tick = register("player.geiger_tick");
-		radaway = register("player.radaway");
-		rad_x = register("player.rad_x");
-		chems_wear_off = register("player.chems_wear_off");
-		rad_poisoning = register("player.rad_poisoning");
-		
-		//feral_ghoul_ambient = register("entity.feral_ghoul_ambient");
-		//feral_ghoul_hurt = register("entity.feral_ghoul_hurt");
-		feral_ghoul_death = register("entity.feral_ghoul_death");
-		//feral_ghoul_step = register("entity.feral_ghoul_step");
-		//feral_ghoul_fall = register("entity.feral_ghoul_fall");
-		feral_ghoul_charge = register("entity.feral_ghoul_charge");
-		
-		wanderer = register("music.wanderer");
-		end_of_the_world = register("music.end_of_the_world");
-		money_for_nothing = register("music.money_for_nothing");
-		hyperspace = register("music.hyperspace");
+	private static void playSound(ISound sound) {
+		MC.getSoundHandler().playSound(sound);
 	}
 	
-	public static SoundEvent register(String name) {
-		ResourceLocation location = new ResourceLocation(Global.MOD_ID, name);
-		SoundEvent event = new SoundEvent(location);
+	public static ISound startTileSound(SoundEvent soundEvent, BlockPos pos, float volume, float pitch) {
+		// First, check to see if there's already a sound playing at the desired location
+		ISound sound = soundMap.get(pos.toLong());
+		if (sound == null || !MC.getSoundHandler().isSoundPlaying(sound)) {
+			// No sound playing, start one up - we assume that tile sounds will play until explicitly stopped
+			sound = new PositionedSoundRecord(soundEvent.getSoundName(), SoundCategory.BLOCKS, volume, pitch, true, 0, ISound.AttenuationType.LINEAR, pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F) {
+				@Override
+				public float getVolume() {
+					if (this.sound == null) {
+						this.createAccessor(MC.getSoundHandler());
+					}
+					return super.getVolume();
+				}
+			};
+			
+			// Start the sound
+			playSound(sound);
+			
+			// N.B. By the time playSound returns, our expectation is that our wrapping-detector handler has fired
+			// and dealt with any muting interceptions and, CRITICALLY, updated the soundMap with the final ISound.
+			sound = soundMap.get(pos.toLong());
+		}
+		return sound;
+	}
+	
+	public static void stopTileSound(BlockPos pos) {
+		long posKey = pos.toLong();
+		ISound sound = soundMap.get(posKey);
+		if (sound != null) {
+			MC.getSoundHandler().stopSound(sound);
+			soundMap.remove(posKey);
+		}
+	}
+	
+	@SubscribeEvent(priority = EventPriority.LOWEST)
+	public static void onTilePlaySound(PlaySoundEvent event) {
+		// Ignore any sound event which is null or is happening in a muffled check
+		ISound resultSound = event.getResultSound();
+		if (resultSound == null) {
+			return;
+		}
 		
-		ForgeRegistries.SOUND_EVENTS.register(event.setRegistryName(location));
-		return event;
+		// Ignore any sound event outside this mod namespace
+		ResourceLocation soundLoc = event.getSound().getSoundLocation();
+		if (!NCSounds.TICKABLE_SOUNDS.contains(soundLoc.toString())) {
+			return;
+		}
+		
+		// At this point, we've got a known tickable block sound
+		resultSound = new TileSound(event.getSound(), resultSound.getVolume());
+		event.setResultSound(resultSound);
+		
+		// Finally, update our soundMap so that we can actually have a shot at stopping this sound; note that we also
+		// need to "un-offset" the sound position so that we build the correct key for the sound map
+		BlockPos pos = new BlockPos(resultSound.getXPosF() - 0.5F, resultSound.getYPosF() - 0.5F, resultSound.getZPosF() - 0.5F);
+		soundMap.put(pos.toLong(), resultSound);
+	}
+	
+	private static class TileSound implements ITickableSound {
+		
+		private ISound sound;
+		private float volume;
+		private boolean donePlaying = false;
+		
+		TileSound(ISound sound, float volume) {
+			this.sound = sound;
+			this.volume = volume;
+		}
+		
+		@Override
+		public void update() {}
+		
+		@Override
+		public boolean isDonePlaying() {
+			return donePlaying;
+		}
+		
+		@Override
+		public float getVolume() {
+			return volume;
+		}
+		
+		@Override
+		public @Nonnull ResourceLocation getSoundLocation() {
+			return sound.getSoundLocation();
+		}
+		
+		@Override
+		public @Nullable SoundEventAccessor createAccessor(net.minecraft.client.audio.SoundHandler handler) {
+			return sound.createAccessor(handler);
+		}
+		
+		@Override
+		public @Nonnull Sound getSound() {
+			return sound.getSound();
+		}
+		
+		@Override
+		public @Nonnull SoundCategory getCategory() {
+			return sound.getCategory();
+		}
+		
+		@Override
+		public boolean canRepeat() {
+			return sound.canRepeat();
+		}
+		
+		@Override
+		public int getRepeatDelay() {
+			return sound.getRepeatDelay();
+		}
+		
+		@Override
+		public float getPitch() {
+			return sound.getPitch();
+		}
+		
+		@Override
+		public float getXPosF() {
+			return sound.getXPosF();
+		}
+		
+		@Override
+		public float getYPosF() {
+			return sound.getYPosF();
+		}
+		
+		@Override
+		public float getZPosF() {
+			return sound.getZPosF();
+		}
+		
+		@Override
+		public @Nonnull AttenuationType getAttenuationType() {
+			return sound.getAttenuationType();
+		}
+	}
+	
+	public static class SoundInfo {
+		
+		public ISound sound;
+		public BlockPos pos;
+		
+		public SoundInfo(ISound sound, BlockPos pos) {
+			this.sound = sound;
+			this.pos = pos;
+		}
 	}
 }

@@ -2,6 +2,7 @@ package nc.tile.generator;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 import javax.annotation.Nullable;
@@ -19,7 +20,9 @@ import nc.capability.radiation.source.IRadiationSource;
 import nc.config.NCConfig;
 import nc.enumm.MetaEnums.CoolerType;
 import nc.handler.SoundHandler;
+import nc.handler.SoundHandler.SoundInfo;
 import nc.init.NCBlocks;
+import nc.init.NCSounds;
 import nc.network.tile.FusionUpdatePacket;
 import nc.radiation.RadiationHelper;
 import nc.recipe.NCRecipes;
@@ -34,21 +37,24 @@ import nc.util.CommonCapsHelper;
 import nc.util.EnergyHelper;
 import nc.util.Lang;
 import nc.util.MaterialHelper;
+import nc.util.SoundHelper;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.Optional;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers"), @Optional.Interface(iface = "org.cyclops.commoncapabilities.api.capability.temperature.ITemperature", modid = "commoncapabilities"), @Optional.Interface(iface = "org.cyclops.commoncapabilities.api.capability.work.IWorker", modid = "commoncapabilities")})
 public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpdatePacket>, SimpleComponent, ITemperature, IWorker {
@@ -59,9 +65,7 @@ public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpd
 	public double heat = ROOM_TEMP, efficiency, cooling, heatChange; // cooling and heatChange are in K, not kK
 	public int currentEnergyStored = 0, energyChange = 0;
 	
-	public int soundCount;
 	public int size = 1;
-	
 	public int complete;
 	public String problem = RING_INCOMPLETE;
 	
@@ -78,6 +82,12 @@ public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpd
 	
 	private BlockFinder finder;
 	
+	@SideOnly(Side.CLIENT)
+	private List<SoundInfo> activeSounds;
+	private int soundCount = 0;
+	private boolean updateSoundInfo = true;
+	private final Random rand = new Random();
+	
 	public TileFusionCore() {
 		super("fusion_core", 2, 4, 0, defaultItemSorptions(), defaultTankCapacities(32000, 2, 4), defaultTankSorptions(2, 4), NCRecipes.fusion_valid_fluids, maxPower(), NCRecipes.fusion);
 		setInputTanksSeparated(false);
@@ -91,6 +101,12 @@ public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpd
 			max = Math.max(max, recipe.getFusionComboPower());
 		}
 		return (int) Math.min(100*max*NCConfig.fusion_base_power*NCConfig.fusion_max_size, Integer.MAX_VALUE);
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public AxisAlignedBB getRenderBoundingBox() {
+		return new AxisAlignedBB(pos.add(-1, 0, -1), pos.add(2, 3, 2));
 	}
 	
 	// Ticking
@@ -119,14 +135,16 @@ public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpd
 			if (isProcessing) process();
 			else getRadiationSource().setRadiationLevel(0D);
 			if (wasProcessing != isProcessing) {
-				if (isProcessing || recipeInfo == null) plasma(isProcessing);
+				if (isProcessing || recipeInfo == null) {
+					plasma(isProcessing);
+				}
 				updateBlockType();
 				sendUpdateToAllPlayers();
 			}
 			if (isHotEnough()) pushEnergy();
 			sendUpdateToListeningPlayers();
 		} else {
-			if (NCConfig.fusion_enable_sound) playSounds();
+			updateSounds();
 		}
 	}
 	
@@ -165,7 +183,7 @@ public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpd
 		this.computerActivated = computerActivated;
 	}
 	
-	public boolean overheat() {
+	private boolean overheat() {
 		if (heat >= getMaxHeat() && NCConfig.fusion_overheat) {
 			meltdown();
 			return true;
@@ -191,35 +209,83 @@ public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpd
 		}
 	}
 	
-	public void playSounds() {
-		if (soundCount >= getSoundTime()) {
-			if (isProcessing) {
-				if (ringRadius() > 1) playFusionSound(0, 1, 0);
-				playFusionSound(ringRadius(), 1, ringRadius());
-				playFusionSound(ringRadius(), 1, -ringRadius());
-				playFusionSound(-ringRadius(), 1, ringRadius());
-				playFusionSound(-ringRadius(), 1, -ringRadius());
-				if (ringRadius() > 5) {
-					playFusionSound(ringRadius(), 1, 0);
-					playFusionSound(-ringRadius(), 1, 0);
-					playFusionSound(0, 1, ringRadius());
-					playFusionSound(0, 1, -ringRadius());
+	@SideOnly(Side.CLIENT)
+	private void updateSounds() {
+		if (!NCConfig.fusion_enable_sound) {
+			return;
+		}
+		
+		if (activeSounds == null) {
+			activeSounds = new ArrayList<>();
+		}
+		
+		if (isProcessing && !isInvalid()) {
+			if (--soundCount > 0) {
+				return;
+			}
+			
+			// Generate sound info if necessary
+			if (updateSoundInfo) {
+				stopSounds();
+				activeSounds.clear();
+				if (size < 2) {
+					addSoundInfo(0, 1, 0);
+				}
+				else {
+					if (size > 4) {
+						addSoundInfo(0, 1, 0);
+					}
+					addSoundInfo(ringRadius(), 1, ringRadius());
+					addSoundInfo(ringRadius(), 1, -ringRadius());
+					addSoundInfo(-ringRadius(), 1, ringRadius());
+					addSoundInfo(-ringRadius(), 1, -ringRadius());
+					if (size > 8) {
+						addSoundInfo(ringRadius(), 1, 0);
+						addSoundInfo(-ringRadius(), 1, 0);
+						addSoundInfo(0, 1, ringRadius());
+						addSoundInfo(0, 1, -ringRadius());
+					}
+				}
+				updateSoundInfo = false;
+			}
+			
+			// If this machine isn't playing sounds, go ahead and play them
+			for (SoundInfo activeSound : activeSounds) {
+				if (activeSound != null && (activeSound.sound == null || !Minecraft.getMinecraft().getSoundHandler().isSoundPlaying(activeSound.sound))) {
+					activeSound.sound = SoundHandler.startTileSound(NCSounds.fusion_run, activeSound.pos, 0.35F, SoundHelper.getPitch(1F));
 				}
 			}
-			soundCount = 0;
-		} else soundCount ++;
+			
+			// Always reset the count
+			soundCount = 116;
+		}
+		else {
+			stopSounds();
+		}
 	}
 	
-	public void playFusionSound(int x, int y, int z) {
-		world.playSound(pos.getX() + x, pos.getY() + y, pos.getZ() + z, getSound(), SoundCategory.BLOCKS, 1F, 1F, false);
+	@SideOnly(Side.CLIENT)
+	private void stopSounds() {
+		for (SoundInfo activeSound : activeSounds) {
+			if (activeSound != null) {
+				SoundHandler.stopTileSound(activeSound.pos);
+				activeSound.sound = null;
+			}
+		}
+		soundCount = 0;
 	}
 	
-	private static int getSoundTime() {
-		return !NCConfig.fusion_alternate_sound ? SoundHandler.FUSION_RUN_TIME : SoundHandler.ACCELERATOR_RUN_TIME;
+	@SideOnly(Side.CLIENT)
+	private void addSoundInfo(int x, int y, int z) {
+		activeSounds.add(new SoundInfo(null, new BlockPos(pos.getX() + x, pos.getY() + y, pos.getZ() + z)));
 	}
 	
-	private static SoundEvent getSound() {
-		return !NCConfig.fusion_alternate_sound ? SoundHandler.fusion_run : SoundHandler.accelerator_run;
+	@Override
+	public void invalidate() {
+		super.invalidate();
+		if (world.isRemote) {
+			updateSounds();
+		}
 	}
 	
 	// Processor Stats
@@ -528,7 +594,9 @@ public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpd
 		baseProcessTime = message.baseProcessTime;
 		baseProcessPower = message.baseProcessPower;
 		processPower = message.processPower;
+		boolean wasProcessing = isProcessing;
 		isProcessing = message.isProcessing;
+		updateSoundInfo = updateSoundInfo || (wasProcessing != isProcessing);
 		heat = message.heat;
 		efficiency = message.efficiency;
 		speedMultiplier = message.speedMultiplier;
