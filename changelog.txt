@@ -1,10 +1,10 @@
 v2.18d
 
++ Added turbine sound effect
 * Turbine stators now stay in place rather than rotate with the rotor
-* Added turbine sound effect
 * Fixed poorly-sized turbine GUI
 
-* Added config for passive item/fluid source auto-pushing
++ Added config for passive item/fluid source auto-pushing
 
 v2.18c
 
