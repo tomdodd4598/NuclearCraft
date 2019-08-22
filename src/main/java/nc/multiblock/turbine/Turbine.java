@@ -9,6 +9,9 @@ import com.google.common.collect.Lists;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import nc.Global;
 import nc.config.NCConfig;
+import nc.handler.SoundHandler;
+import nc.handler.SoundHandler.SoundInfo;
+import nc.init.NCSounds;
 import nc.multiblock.IMultiblockFluid;
 import nc.multiblock.IMultiblockPart;
 import nc.multiblock.MultiblockBase;
@@ -30,7 +33,9 @@ import nc.multiblock.turbine.tile.TileTurbineInlet;
 import nc.multiblock.turbine.tile.TileTurbineOutlet;
 import nc.multiblock.turbine.tile.TileTurbinePartBase;
 import nc.multiblock.turbine.tile.TileTurbineRotorBearing;
+import nc.multiblock.turbine.tile.TileTurbineRotorBlade;
 import nc.multiblock.turbine.tile.TileTurbineRotorShaft;
+import nc.multiblock.turbine.tile.TileTurbineRotorStator;
 import nc.multiblock.validation.IMultiblockValidator;
 import nc.network.PacketHandler;
 import nc.recipe.NCRecipes;
@@ -42,6 +47,7 @@ import nc.tile.internal.energy.EnergyStorage;
 import nc.tile.internal.fluid.Tank;
 import nc.util.MaterialHelper;
 import nc.util.NCUtil;
+import nc.util.SoundHelper;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
@@ -58,12 +64,15 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockPos.MutableBlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> implements IMultiblockFluid {
 	
 	protected Set<TileTurbineController> controllers;
 	protected Set<TileTurbineRotorShaft> rotorShafts;
-	protected Set<ITurbineRotorBlade> rotorBlades;
+	protected Set<TileTurbineRotorBlade> rotorBlades;
+	protected Set<TileTurbineRotorStator> rotorStators;
 	protected Set<TileTurbineRotorBearing> rotorBearings;
 	protected Set<TileTurbineDynamoCoil> dynamoCoils;
 	protected Set<TileTurbineInlet> inlets;
@@ -88,19 +97,25 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> impleme
 	public double totalExpansionLevel = 1D, idealTotalExpansionLevel = 1D, basePowerPerMB = 0D;
 	public List<Double> expansionLevels = new ArrayList<Double>(), rawBladeEfficiencies = new ArrayList<Double>();
 	
+	protected int dynamoCoilCheckCount = 0;
+	
+	@SideOnly(Side.CLIENT)
+	protected List<SoundInfo> activeSounds;
+	protected int soundCount = rand.nextInt(20);
+	protected boolean refreshSoundInfo = true;
+	protected float prevAngVel = 0F;
+	
 	public float angVel = 0F, rotorAngle = 0F;
 	public long prevRenderTime = 0L;
-	
 	protected Iterable<MutableBlockPos>[] inputPlane = new Iterable[4];
-	
-	protected short dynamoCoilCheckCount = 0;
 	
 	public Turbine(World world) {
 		super(world);
 		
 		controllers = new ObjectOpenHashSet<TileTurbineController>();
 		rotorShafts = new ObjectOpenHashSet<TileTurbineRotorShaft>();
-		rotorBlades = new ObjectOpenHashSet<ITurbineRotorBlade>();
+		rotorBlades = new ObjectOpenHashSet<TileTurbineRotorBlade>();
+		rotorStators = new ObjectOpenHashSet<TileTurbineRotorStator>();
 		rotorBearings = new ObjectOpenHashSet<TileTurbineRotorBearing>();
 		dynamoCoils = new ObjectOpenHashSet<TileTurbineDynamoCoil>();
 		inlets = new ObjectOpenHashSet<TileTurbineInlet>();
@@ -120,8 +135,12 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> impleme
 		return rotorShafts;
 	}
 	
-	public Set<ITurbineRotorBlade> getRotorBlades() {
+	public Set<TileTurbineRotorBlade> getRotorBlades() {
 		return rotorBlades;
+	}
+	
+	public Set<TileTurbineRotorStator> getRotorStators() {
+		return rotorStators;
 	}
 	
 	public Set<TileTurbineRotorBearing> getRotorBearings() {
@@ -163,7 +182,8 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> impleme
 	protected void onBlockAdded(IMultiblockPart newPart) {
 		if (newPart instanceof TileTurbineController) controllers.add((TileTurbineController) newPart);
 		if (newPart instanceof TileTurbineRotorShaft) rotorShafts.add((TileTurbineRotorShaft) newPart);
-		if (newPart instanceof ITurbineRotorBlade) rotorBlades.add((ITurbineRotorBlade) newPart);
+		if (newPart instanceof TileTurbineRotorBlade) rotorBlades.add((TileTurbineRotorBlade) newPart);
+		if (newPart instanceof TileTurbineRotorStator) rotorStators.add((TileTurbineRotorStator) newPart);
 		if (newPart instanceof TileTurbineRotorBearing) rotorBearings.add((TileTurbineRotorBearing) newPart);
 		if (newPart instanceof TileTurbineDynamoCoil) dynamoCoils.add((TileTurbineDynamoCoil) newPart);
 		if (newPart instanceof TileTurbineInlet) inlets.add((TileTurbineInlet) newPart);
@@ -174,7 +194,8 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> impleme
 	protected void onBlockRemoved(IMultiblockPart oldPart) {
 		if (oldPart instanceof TileTurbineController) controllers.remove(oldPart);
 		if (oldPart instanceof TileTurbineRotorShaft) rotorShafts.remove(oldPart);
-		if (oldPart instanceof ITurbineRotorBlade) rotorBlades.remove(oldPart);
+		if (oldPart instanceof TileTurbineRotorBlade) rotorBlades.remove(oldPart);
+		if (oldPart instanceof TileTurbineRotorStator) rotorStators.remove(oldPart);
 		if (oldPart instanceof TileTurbineRotorBearing) rotorBearings.remove(oldPart);
 		if (oldPart instanceof TileTurbineDynamoCoil) dynamoCoils.remove(oldPart);
 		if (oldPart instanceof TileTurbineInlet) inlets.remove(oldPart);
@@ -215,8 +236,16 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> impleme
 			}
 		}
 		
-		for (ITurbineRotorBlade rotorBlade : rotorBlades) {
+		for (TileTurbineRotorBlade rotorBlade : rotorBlades) {
 			BlockPos pos = rotorBlade.bladePos();
+			IBlockState state = WORLD.getBlockState(pos);
+			if (state.getBlock() instanceof IBlockRotorBlade) {
+				WORLD.setBlockState(pos, state.withProperty(TurbineRotorBladeUtil.DIR, TurbinePartDir.INVISIBLE));
+			}
+		}
+		
+		for (TileTurbineRotorStator rotorStator : rotorStators) {
+			BlockPos pos = rotorStator.bladePos();
 			IBlockState state = WORLD.getBlockState(pos);
 			if (state.getBlock() instanceof IBlockRotorBlade) {
 				WORLD.setBlockState(pos, state.withProperty(TurbineRotorBladeUtil.DIR, TurbinePartDir.INVISIBLE));
@@ -242,7 +271,7 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> impleme
 		
 		double newConductivity = 0D;
 		
-		for (short i = 0; i <= 4; i++) for (TileTurbineDynamoCoil dynamoCoil : dynamoCoils) {
+		for (int i = 0; i <= 4; i++) for (TileTurbineDynamoCoil dynamoCoil : dynamoCoils) {
 			dynamoCoilCheckCount = i;
 			if (!dynamoCoil.checked) newConductivity += dynamoCoil.contributeConductivity(dynamoCoilCheckCount);
 		}
@@ -267,16 +296,24 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> impleme
 				}
 			}
 			
-			for (ITurbineRotorBlade rotorBlade : rotorBlades) {
+			for (TileTurbineRotorBlade rotorBlade : rotorBlades) {
 				BlockPos pos = rotorBlade.bladePos();
 				IBlockState state = WORLD.getBlockState(pos);
 				if (state.getBlock() instanceof IBlockRotorBlade) {
 					WORLD.setBlockState(pos, state.withProperty(TurbineRotorBladeUtil.DIR, rotorBlade.getDir()));
 				}
 			}
+			
+			for (TileTurbineRotorStator rotorStator : rotorStators) {
+				BlockPos pos = rotorStator.bladePos();
+				IBlockState state = WORLD.getBlockState(pos);
+				if (state.getBlock() instanceof IBlockRotorBlade) {
+					WORLD.setBlockState(pos, state.withProperty(TurbineRotorBladeUtil.DIR, rotorStator.getDir()));
+				}
+			}
 		}
 		
-		isTurbineOn = false;
+		isTurbineOn = isProcessing = false;
 		if (controller != null) controller.updateBlockState(false);
 		power = rawPower = rawConductivity = 0D;
 		angVel = rotorAngle = 0F;
@@ -287,6 +324,10 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> impleme
 		expansionLevels = new ArrayList<Double>();
 		rawBladeEfficiencies = new ArrayList<Double>();
 		inputPlane[0] = inputPlane[1] = inputPlane[2] = inputPlane[3] = null;
+		
+		if (WORLD.isRemote) {
+			updateSounds();
+		}
 	}
 	
 	@Override
@@ -446,6 +487,7 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> impleme
 				TileEntity tile = WORLD.getTileEntity(pos);
 				if (tile instanceof TileTurbineRotorShaft) {
 					((TileTurbineRotorShaft)tile).render = true;
+					((TileTurbineRotorShaft)tile).depth = slice;
 					continue;
 				}
 				validatorCallback.setLastError(Global.MOD_ID + ".multiblock_validation.turbine.shaft_centre", pos);
@@ -856,7 +898,13 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> impleme
 	
 	@Override
 	protected void updateClient() {
-		if (isProcessing && !Minecraft.getMinecraft().isGamePaused()) {
+		updateParticles();
+		updateSounds();
+	}
+
+	@SideOnly(Side.CLIENT)
+	private void updateParticles() {
+		if (isProcessing && isAssembled() && !Minecraft.getMinecraft().isGamePaused()) {
 			double flowSpeed = getFlowLength()/23.2D; // Particles will just reach the outlets at this speed
 			double offsetX = particleSpeedOffest(), offsetY = particleSpeedOffest(), offsetZ = particleSpeedOffest();
 			
@@ -877,10 +925,12 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> impleme
 		}
 	}
 	
+	@SideOnly(Side.CLIENT)
 	protected double particleSpeedOffest() {
 		return (rand.nextDouble() - 0.5D)/getFlowLength();
 	}
 	
+	@SideOnly(Side.CLIENT)
 	protected double[] particleSpawnPos(BlockPos pos) {
 		double offsetU = 0.5D + (rand.nextDouble() - 0.5D)/2D;
 		double offsetV = 0.5D + (rand.nextDouble() - 0.5D)/2D;
@@ -900,6 +950,79 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> impleme
 		default:
 			return new double[] {pos.getX(), pos.getY(), pos.getZ()};
 		}
+	}
+	
+	@SideOnly(Side.CLIENT)
+	private void updateSounds() {
+		if (!NCConfig.turbine_enable_sound) {
+			return;
+		}
+		
+		if (activeSounds == null) {
+			activeSounds = new ArrayList<>();
+		}
+		
+		if (isProcessing && isAssembled()) {
+			refreshSoundInfo = refreshSoundInfo || Math.abs(angVel - prevAngVel) > 0.025F;
+			
+			if (--soundCount > (refreshSoundInfo ? 186/2 : 0)) {
+				return;
+			}
+			
+			// Generate sound info if necessary
+			if (refreshSoundInfo) {
+				stopSounds();
+				activeSounds.clear();
+				final int _x = 1 + (getExteriorLengthX()/8), _y = 1 + (getExteriorLengthY()/8), _z = 1 + (getExteriorLengthZ()/8);
+				final int[] xList = new int[_x], yList = new int[_y], zList = new int[_z];
+				for (int i = 0; i < _x; i++) {
+					xList[i] = getMinimumCoord().getX() + (i + 1)*getExteriorLengthX()/(_x + 1);
+				}
+				for (int j = 0; j < _y; j++) {
+					yList[j] = getMinimumCoord().getY() + (j + 1)*getExteriorLengthY()/(_y + 1);
+				}
+				for (int k = 0; k < _z; k++) {
+					zList[k] = getMinimumCoord().getZ() + (k + 1)*getExteriorLengthZ()/(_z + 1);
+				}
+				for (int i = 0; i < _x; i++) {
+					for (int j = 0; j < _y; j++) {
+						for (int k = 0; k < _z; k++) {
+							if (i == 0 || i == _x - 1 || j == 0 || j == _y - 1 || k == 0 || k == _z - 1) {
+								activeSounds.add(new SoundInfo(null, new BlockPos(xList[i], yList[j], zList[k])));
+							}
+						}
+					}
+				}
+				refreshSoundInfo = false;
+			}
+			
+			// If this machine isn't playing sounds, go ahead and play them
+			for (SoundInfo activeSound : activeSounds) {
+				if (activeSound != null && (activeSound.sound == null || !Minecraft.getMinecraft().getSoundHandler().isSoundPlaying(activeSound.sound))) {
+					NCUtil.getLogger().info(angVel);
+					activeSound.sound = SoundHandler.startTileSound(NCSounds.turbine_run, activeSound.pos, 0.125F + angVel*0.5F, SoundHelper.getPitch(6F*angVel - 2F));
+				}
+			}
+			
+			// Always reset the count
+			soundCount = 186;
+			
+			prevAngVel = angVel;
+		}
+		else {
+			stopSounds();
+		}
+	}
+	
+	@SideOnly(Side.CLIENT)
+	private void stopSounds() {
+		for (SoundInfo activeSound : activeSounds) {
+			if (activeSound != null) {
+				SoundHandler.stopTileSound(activeSound.pos);
+				activeSound.sound = null;
+			}
+		}
+		soundCount = 0;
 	}
 	
 	// NBT
@@ -1004,7 +1127,9 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> impleme
 	
 	public void onRenderPacket(TurbineRenderPacket message) {
 		angVel = message.angVel;
+		boolean wasProcessing = isProcessing;
 		isProcessing = message.isProcessing;
+		refreshSoundInfo = refreshSoundInfo || (wasProcessing != isProcessing);
 		recipeRate = message.recipeRate;
 	}
 	

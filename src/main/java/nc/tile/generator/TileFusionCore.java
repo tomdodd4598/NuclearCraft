@@ -84,9 +84,8 @@ public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpd
 	
 	@SideOnly(Side.CLIENT)
 	private List<SoundInfo> activeSounds;
-	private int soundCount = 0;
-	private boolean updateSoundInfo = true;
-	private final Random rand = new Random();
+	private int soundCount = new Random().nextInt(20);
+	private boolean refreshSoundInfo = true;
 	
 	public TileFusionCore() {
 		super("fusion_core", 2, 4, 0, defaultItemSorptions(), defaultTankCapacities(32000, 2, 4), defaultTankSorptions(2, 4), NCRecipes.fusion_valid_fluids, maxPower(), NCRecipes.fusion);
@@ -177,12 +176,6 @@ public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpd
 		return false;
 	}
 	
-	public void onFusionPacket(boolean isProcessing, double efficiency, boolean computerActivated) {
-		this.isProcessing = isProcessing;
-		this.efficiency = efficiency;
-		this.computerActivated = computerActivated;
-	}
-	
 	private boolean overheat() {
 		if (heat >= getMaxHeat() && NCConfig.fusion_overheat) {
 			meltdown();
@@ -225,7 +218,7 @@ public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpd
 			}
 			
 			// Generate sound info if necessary
-			if (updateSoundInfo) {
+			if (refreshSoundInfo) {
 				stopSounds();
 				activeSounds.clear();
 				if (size < 2) {
@@ -246,7 +239,7 @@ public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpd
 						addSoundInfo(0, 1, -ringRadius());
 					}
 				}
-				updateSoundInfo = false;
+				refreshSoundInfo = false;
 			}
 			
 			// If this machine isn't playing sounds, go ahead and play them
@@ -596,7 +589,7 @@ public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpd
 		processPower = message.processPower;
 		boolean wasProcessing = isProcessing;
 		isProcessing = message.isProcessing;
-		updateSoundInfo = updateSoundInfo || (wasProcessing != isProcessing);
+		refreshSoundInfo = refreshSoundInfo || (wasProcessing != isProcessing);
 		heat = message.heat;
 		efficiency = message.efficiency;
 		speedMultiplier = message.speedMultiplier;

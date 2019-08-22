@@ -108,7 +108,7 @@ public class TileTurbineDynamoCoil extends TileTurbinePartBase implements ITileE
 		//getWorld().setBlockState(getPos(), getWorld().getBlockState(getPos()), 2);
 	}
 	
-	public double contributeConductivity(short dynamoCoilCheckCount) {
+	public double contributeConductivity(int dynamoCoilCheckCount) {
 		EnumFacing flowDir = getMultiblock().flowDir;
 		
 		if (!isMultiblockAssembled() || flowDir == null) {

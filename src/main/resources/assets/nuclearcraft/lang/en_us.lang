@@ -1852,6 +1852,8 @@ gui.config.processors.machine_update_rate=Machine Update Rate
 gui.config.processors.machine_update_rate.comment=Ticks per machine update - used for various processes such as GUI updates and multiblock structure checks.
 gui.config.processors.processor_passive_rate=Passive Production Rate
 gui.config.processors.processor_passive_rate.comment=Rates at which passive machines produce materials. Order: Helium Collector, Cobblestone Generator, Infinite Water Source, Nitrogen Collector.
+gui.config.processors.passive_push=Passive Pushing
+gui.config.processors.passive_push.comment=Will passive machines that produce materials automatically push to adjacent inventories and fluid handlers?
 gui.config.processors.cobble_gen_power=Cobble Gen Power Use
 gui.config.processors.cobble_gen_power.comment=RF/s required for Cobblestone Generator to run.
 gui.config.processors.ore_processing=Ore Processing
@@ -2106,6 +2108,8 @@ gui.config.turbine.turbine_expansion_level=Steam Expansion Level
 gui.config.turbine.turbine_expansion_level.comment=Expansion level for this type of steam's recipe. Order: high pressure, low pressure, standard.
 gui.config.turbine.turbine_mb_per_blade=Rotor Blade Maximum Process Rate
 gui.config.turbine.turbine_mb_per_blade.comment=Maximum mB of fluid processed per tick per rotor blade.
+gui.config.turbine.turbine_enable_sound=Enable Turbine Sound
+gui.config.turbine.turbine_enable_sound.comment=If true, turbine sound effects will play.
 
 gui.config.category.condenser=Condenser Configs
 gui.config.category.condenser.tooltip=Configure aspects of condensers.
@@ -2566,13 +2570,11 @@ gui.container.heat_exchanger_controller.efficiency=Mean Efficiency:
 gui.container.heat_exchanger_controller.efficiency_max=Max Mean Efficiency:
 gui.container.heat_exchanger_controller.active_percent=Tubes Active:
 
-gui.container.turbine_controller.turbine=Turbine (WIP)
+gui.container.turbine_controller.turbine=Turbine
 gui.container.turbine_controller.power=Power:
 gui.container.turbine_controller.dynamo_coil_count=Dynamo Coils:
 gui.container.turbine_controller.expansion_level=Expansion:
 gui.container.turbine_controller.fluid_rate=Input Rate:
-
-gui.container.condenser_controller.condenser=Condenser (WIP)
 
 gui.container.energy_stored=Energy Stored:
 gui.container.process_power=Process Power:

@@ -12,6 +12,7 @@ public class NCSounds {
 	public static final ObjectSet<String> TICKABLE_SOUNDS = new ObjectOpenHashSet<>();
 	
 	public static SoundEvent fusion_run;
+	public static SoundEvent turbine_run;
 	
 	public static SoundEvent geiger_tick;
 	public static SoundEvent radaway;
@@ -33,6 +34,7 @@ public class NCSounds {
 	
 	public static void init() {
 		fusion_run = register("block.fusion_run", true);
+		turbine_run = register("block.turbine_run", true);
 		
 		geiger_tick = register("player.geiger_tick");
 		radaway = register("player.radaway");

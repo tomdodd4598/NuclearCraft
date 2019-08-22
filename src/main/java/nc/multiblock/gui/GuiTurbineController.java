@@ -25,6 +25,8 @@ public class GuiTurbineController extends GuiMultiblockController<Turbine> {
 	public GuiTurbineController(Turbine multiblock, BlockPos controllerPos, Container container) {
 		super(multiblock, controllerPos, container);
 		gui_texture = new ResourceLocation(Global.MOD_ID + ":textures/gui/container/" + "turbine_controller" + ".png");
+		xSize = 176;
+		ySize = 75;
 	}
 	
 	@Override

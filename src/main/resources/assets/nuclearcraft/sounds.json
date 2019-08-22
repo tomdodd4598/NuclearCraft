@@ -4,6 +4,11 @@
 		"subtitle": "block.fusion_run",
 		"sounds": [ { "name": "nuclearcraft:block/fusion_run", "stream": false } ]
 	},
+	"block.turbine_run": {
+		"category": "block",
+		"subtitle": "block.turbine_run",
+		"sounds": [ { "name": "nuclearcraft:block/turbine_run", "stream": false } ]
+	},
 	"player.geiger_tick": {
 		"category": "player",
 		"subtitle": "player.geiger_tick",

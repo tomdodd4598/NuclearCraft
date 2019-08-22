@@ -116,9 +116,11 @@ public abstract class TilePassiveAbstract extends TileEnergyFluidSidedInventory 
 				updateBlockType();
 			}
 			if (pushCount == 0) {
-				if (itemChange > 0) pushStacks();
+				if (NCConfig.passive_push) {
+					if (itemChange > 0) pushStacks();
+					if (fluidChange > 0) pushFluid();
+				}
 				if (energyChange > 0) pushEnergy();
-				if (fluidChange > 0) pushFluid();
 			}
 			
 			tickCount();

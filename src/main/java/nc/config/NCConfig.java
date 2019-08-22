@@ -67,6 +67,7 @@ public class NCConfig {
 	public static boolean enable_mek_gas;
 	public static int machine_update_rate;
 	public static int[] processor_passive_rate;
+	public static boolean passive_push;
 	public static int cobble_gen_power;
 	public static boolean ore_processing;
 	public static int[] manufactory_wood;
@@ -192,6 +193,7 @@ public class NCConfig {
 	public static double[] turbine_power_per_mb;
 	public static double[] turbine_expansion_level;
 	public static int turbine_mb_per_blade;
+	public static boolean turbine_enable_sound;
 	
 	public static int accelerator_electromagnet_power;
 	public static int accelerator_supercooler_coolant;
@@ -412,6 +414,8 @@ public class NCConfig {
 		propertyMachineUpdateRate.setLanguageKey("gui.config.processors.machine_update_rate");
 		Property propertyProcessorPassiveRate = config.get(CATEGORY_PROCESSORS, "processor_passive_rate", new int[] {100, 2, 200, 50}, Lang.localise("gui.config.processors.processor_passive_rate.comment"), 1, 4000);
 		propertyProcessorPassiveRate.setLanguageKey("gui.config.processors.processor_passive_rate");
+		Property propertyPassivePush = config.get(CATEGORY_PROCESSORS, "passive_push", true, Lang.localise("gui.config.processors.passive_push.comment"));
+		propertyPassivePush.setLanguageKey("gui.config.processors.passive_push");
 		Property propertyCobbleGenPower = config.get(CATEGORY_PROCESSORS, "cobble_gen_power", 0, Lang.localise("gui.config.processors.cobble_gen_power.comment"), 0, 255);
 		propertyCobbleGenPower.setLanguageKey("gui.config.processors.cobble_gen_power");
 		Property propertyOreProcessing = config.get(CATEGORY_PROCESSORS, "ore_processing", true, Lang.localise("gui.config.processors.ore_processing.comment"));
@@ -645,6 +649,8 @@ public class NCConfig {
 		propertyTurbineExpansionLevel.setLanguageKey("gui.config.turbine.turbine_expansion_level");
 		Property propertyTurbineMBPerBlade = config.get(CATEGORY_TURBINE, "turbine_mb_per_blade", 100, Lang.localise("gui.config.turbine.turbine_mb_per_blade.comment"), 1, 32767);
 		propertyTurbineMBPerBlade.setLanguageKey("gui.config.turbine.turbine_mb_per_blade");
+		Property propertyTurbineEnableSound = config.get(CATEGORY_TURBINE, "turbine_enable_sound", true, Lang.localise("gui.config.turbine.turbine_enable_sound.comment"));
+		propertyTurbineEnableSound.setLanguageKey("gui.config.turbine.turbine_enable_sound");
 		
 		Property propertyAcceleratorElectromagnetPower = config.get(CATEGORY_ACCELERATOR, "accelerator_electromagnet_power", 20000, Lang.localise("gui.config.accelerator.accelerator_electromagnet_power.comment"), 0, Integer.MAX_VALUE);
 		propertyAcceleratorElectromagnetPower.setLanguageKey("gui.config.accelerator.accelerator_electromagnet_power");
@@ -928,6 +934,7 @@ public class NCConfig {
 		propertyOrderProcessors.add(propertyEnableMekGas.getName());
 		propertyOrderProcessors.add(propertyMachineUpdateRate.getName());
 		propertyOrderProcessors.add(propertyProcessorPassiveRate.getName());
+		propertyOrderProcessors.add(propertyPassivePush.getName());
 		propertyOrderProcessors.add(propertyCobbleGenPower.getName());
 		propertyOrderProcessors.add(propertyOreProcessing.getName());
 		propertyOrderProcessors.add(propertyManufactoryWood.getName());
@@ -1065,6 +1072,7 @@ public class NCConfig {
 		propertyOrderTurbine.add(propertyTurbinePowerPerMB.getName());
 		propertyOrderTurbine.add(propertyTurbineExpansionLevel.getName());
 		propertyOrderTurbine.add(propertyTurbineMBPerBlade.getName());
+		propertyOrderTurbine.add(propertyTurbineEnableSound.getName());
 		config.setCategoryPropertyOrder(CATEGORY_TURBINE, propertyOrderTurbine);
 		
 		List<String> propertyOrderAccelerator = new ArrayList<String>();
@@ -1225,6 +1233,7 @@ public class NCConfig {
 			enable_mek_gas = propertyEnableMekGas.getBoolean();
 			machine_update_rate = propertyMachineUpdateRate.getInt();
 			processor_passive_rate = readIntegerArrayFromConfig(propertyProcessorPassiveRate);
+			passive_push = propertyPassivePush.getBoolean();
 			cobble_gen_power = propertyCobbleGenPower.getInt();
 			ore_processing = propertyOreProcessing.getBoolean();
 			manufactory_wood = readIntegerArrayFromConfig(propertyManufactoryWood);
@@ -1351,6 +1360,7 @@ public class NCConfig {
 			turbine_power_per_mb = readDoubleArrayFromConfig(propertyTurbinePowerPerMB);
 			turbine_expansion_level = readDoubleArrayFromConfig(propertyTurbineExpansionLevel);
 			turbine_mb_per_blade = propertyTurbineMBPerBlade.getInt();
+			turbine_enable_sound = propertyTurbineEnableSound.getBoolean();
 			
 			accelerator_electromagnet_power = propertyAcceleratorElectromagnetPower.getInt();
 			accelerator_supercooler_coolant = propertyAcceleratorSupercoolerCoolant.getInt();
@@ -1508,6 +1518,7 @@ public class NCConfig {
 		propertyEnableMekGas.set(enable_mek_gas);
 		propertyMachineUpdateRate.set(machine_update_rate);
 		propertyProcessorPassiveRate.set(processor_passive_rate);
+		propertyPassivePush.set(passive_push);
 		propertyCobbleGenPower.set(cobble_gen_power);
 		propertyOreProcessing.set(ore_processing);
 		propertyManufactoryWood.set(manufactory_wood);
@@ -1633,6 +1644,7 @@ public class NCConfig {
 		propertyTurbinePowerPerMB.set(turbine_power_per_mb);
 		propertyTurbineExpansionLevel.set(turbine_expansion_level);
 		propertyTurbineMBPerBlade.set(turbine_mb_per_blade);
+		propertyTurbineEnableSound.set(turbine_enable_sound);
 		
 		propertyAcceleratorElectromagnetPower.set(accelerator_electromagnet_power);
 		propertyAcceleratorSupercoolerCoolant.set(accelerator_supercooler_coolant);

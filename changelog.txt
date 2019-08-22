@@ -1,3 +1,11 @@
+v2.18d
+
+* Turbine stators now stay in place rather than rotate with the rotor
+* Added turbine sound effect
+* Fixed poorly-sized turbine GUI
+
+* Added config for passive item/fluid source auto-pushing
+
 v2.18c
 
 * Fission reactor meltdowns are now localised about cells/vessels and will set nearby graphite on fire

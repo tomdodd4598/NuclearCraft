@@ -10,6 +10,7 @@ import net.minecraft.world.World;
 public class TileTurbineRotorShaft extends TileTurbinePartBase {
 	
 	public boolean render = false;
+	public int depth = 0;
 	
 	public TileTurbineRotorShaft() {
 		super(CuboidalPartPositionType.INTERIOR);
@@ -40,6 +41,7 @@ public class TileTurbineRotorShaft extends TileTurbinePartBase {
 	public NBTTagCompound writeAll(NBTTagCompound nbt) {
 		super.writeAll(nbt);
 		nbt.setBoolean("renderShaft", render);
+		nbt.setInteger("posDepth", depth);
 		return nbt;
 	}
 	
@@ -47,5 +49,6 @@ public class TileTurbineRotorShaft extends TileTurbinePartBase {
 	public void readAll(NBTTagCompound nbt) {
 		super.readAll(nbt);
 		render = nbt.getBoolean("renderShaft");
+		depth = nbt.getInteger("posDepth");
 	}
 }
