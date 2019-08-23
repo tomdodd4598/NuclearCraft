@@ -3,7 +3,6 @@ package nc.gui.processor;
 import nc.Global;
 import nc.container.processor.ContainerNuclearFurnace;
 import nc.gui.NCGui;
-import nc.tile.inventory.ITileInventory;
 import nc.tile.processor.TileNuclearFurnace;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
@@ -13,13 +12,15 @@ import net.minecraft.util.ResourceLocation;
 
 public class GuiNuclearFurnace extends NCGui {
 	private static final ResourceLocation FURNACE_GUI_TEXTURES = new ResourceLocation(Global.MOD_ID + ":textures/gui/container/nuclear_furnace.png");
-	/** The player inventory bound to this GUI */
+	
 	private final InventoryPlayer playerInventory;
+	private final TileNuclearFurnace furnace;
 	private final IInventory furnaceInv;
 	
-	public GuiNuclearFurnace(EntityPlayer player, ITileInventory furnace) {
+	public GuiNuclearFurnace(EntityPlayer player, TileNuclearFurnace furnace) {
 		super(new ContainerNuclearFurnace(player, furnace));
 		playerInventory = player.inventory;
+		this.furnace = furnace;
 		furnaceInv = furnace.getInventory();
 	}
 	
@@ -59,7 +60,7 @@ public class GuiNuclearFurnace extends NCGui {
 		int i = furnaceInv.getField(1);
 		
 		if (i == 0) {
-			i = ((TileNuclearFurnace) furnaceInv).getCookTime();
+			i = furnace.getCookTime();
 		}
 		
 		return furnaceInv.getField(0) * pixels / i;
