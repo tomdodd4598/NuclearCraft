@@ -1,3 +1,7 @@
+v2.18e
+
+* Fixed crash on opening Nuclear Furnace GUI
+
 v2.18d
 
 + Added turbine sound effect
