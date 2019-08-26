@@ -161,9 +161,11 @@ public class RadiationHelper {
 			IFluidHandler tanks = getTileTanks(provider, side);
 			if (tanks != null) {
 				IFluidTankProperties[] props = tanks.getTankProperties();
-				for (int i = 0; i < props.length; i++) {
-					FluidStack stack = props[i].getContents();
-					rawRadiation += getRadiationFromFluid(stack, NCConfig.radiation_hardcore_containers);
+				if (props != null) {
+					for (int i = 0; i < props.length; i++) {
+						FluidStack stack = props[i].getContents();
+						rawRadiation += getRadiationFromFluid(stack, NCConfig.radiation_hardcore_containers);
+					}
 				}
 			}
 		}
