@@ -1,3 +1,7 @@
+v2.18f
+
+* Fixed occasional crash when trying to get tank info for radiation's hardcore containers mechanic
+
 v2.18e
 
 * Fixed crash on opening Nuclear Furnace GUI
