@@ -4,6 +4,7 @@ import nc.Global;
 import nc.NCInfo;
 import nc.config.NCConfig;
 import nc.enumm.MetaEnums;
+import nc.item.IInfoItem;
 import nc.item.ItemDepletedFissionFuel;
 import nc.item.ItemFissionFuel;
 import nc.item.ItemPortableEnderChest;
@@ -497,8 +498,11 @@ public class NCItems {
 		registerRender(record_hyperspace);
 	}
 	
-	public static Item withName(Item item, String name) {
-		return item.setTranslationKey(Global.MOD_ID + "." + name).setRegistryName(new ResourceLocation(Global.MOD_ID, name));
+	public static <T extends Item & IInfoItem> Item withName(T item, String name) {
+		item.setTranslationKey(Global.MOD_ID + "." + name);
+		item.setRegistryName(new ResourceLocation(Global.MOD_ID, name));
+		item.setInfo();
+		return item;
 	}
 	
 	public static String infoLine(String name) {

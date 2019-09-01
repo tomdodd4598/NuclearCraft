@@ -290,6 +290,7 @@ public class NCConfig {
 	public static double radiation_death_persist_fraction;
 	public static double radiation_death_immunity_time;
 	
+	public static String[] radiation_player_debuff_lists;
 	public static String[] radiation_passive_debuff_lists;
 	public static String[] radiation_mob_buff_lists;
 	
@@ -826,6 +827,8 @@ public class NCConfig {
 		Property propertyRadiationDeathImmunityTime = config.get(CATEGORY_RADIATION, "radiation_death_immunity_time", 90D, Lang.localise("gui.config.radiation.radiation_death_immunity_time.comment"), 0D, 3600D);
 		propertyRadiationDeathImmunityTime.setLanguageKey("gui.config.radiation.radiation_death_immunity_time");
 		
+		Property propertyRadiationPlayerDebuffLists = config.get(CATEGORY_RADIATION, "radiation_player_debuff_lists", new String[] {"40.0_minecraft:weakness@1", "55.0_minecraft:weakness@1,minecraft:mining_fatigue@1", "70.0_minecraft:weakness@2,minecraft:mining_fatigue@1,minecraft:hunger@1", "80.0_minecraft:weakness@2,minecraft:mining_fatigue@2,minecraft:hunger@1,minecraft:poison@1", "90.0_minecraft:weakness@3,minecraft:mining_fatigue@3,minecraft:hunger@2,minecraft:poison@1,minecraft:wither@1"}, Lang.localise("gui.config.radiation.radiation_player_debuff_lists.comment"));
+		propertyRadiationPlayerDebuffLists.setLanguageKey("gui.config.radiation.radiation_player_debuff_lists");
 		Property propertyRadiationPassiveDebuffLists = config.get(CATEGORY_RADIATION, "radiation_passive_debuff_lists", new String[] {"40.0_minecraft:weakness@1", "55.0_minecraft:weakness@1,minecraft:mining_fatigue@1", "70.0_minecraft:weakness@2,minecraft:mining_fatigue@1,minecraft:hunger@1", "80.0_minecraft:weakness@2,minecraft:mining_fatigue@2,minecraft:hunger@1,minecraft:poison@1", "90.0_minecraft:weakness@3,minecraft:mining_fatigue@3,minecraft:hunger@2,minecraft:poison@1,minecraft:wither@1"}, Lang.localise("gui.config.radiation.radiation_passive_debuff_lists.comment"));
 		propertyRadiationPassiveDebuffLists.setLanguageKey("gui.config.radiation.radiation_passive_debuff_lists");
 		Property propertyRadiationMobBuffLists = config.get(CATEGORY_RADIATION, "radiation_mob_buff_lists", new String[] {"40.0_minecraft:speed@1", "55.0_minecraft:speed@1,minecraft:strength@1", "70.0_minecraft:speed@1,minecraft:strength@1,minecraft:resistance@1", "80.0_minecraft:speed@1,minecraft:strength@1,minecraft:resistance@1,minecraft:absorption@1", "90.0_minecraft:speed@1,minecraft:strength@1,minecraft:resistance@1,minecraft:absorption@1,minecraft:regeneration@1"}, Lang.localise("gui.config.radiation.radiation_mob_buff_lists.comment"));
@@ -1171,6 +1174,7 @@ public class NCConfig {
 		propertyOrderRadiation.add(propertyRadiationDeathPersist.getName());
 		propertyOrderRadiation.add(propertyRadiationDeathPersistFraction.getName());
 		propertyOrderRadiation.add(propertyRadiationDeathImmunityTime.getName());
+		propertyOrderRadiation.add(propertyRadiationPlayerDebuffLists.getName());
 		propertyOrderRadiation.add(propertyRadiationPassiveDebuffLists.getName());
 		propertyOrderRadiation.add(propertyRadiationMobBuffLists.getName());
 		propertyOrderRadiation.add(propertyRadiationHorseArmor.getName());
@@ -1456,6 +1460,7 @@ public class NCConfig {
 			radiation_death_persist_fraction = propertyRadiationDeathPersistFraction.getDouble();
 			radiation_death_immunity_time = propertyRadiationDeathImmunityTime.getDouble();
 			
+			radiation_player_debuff_lists = propertyRadiationPlayerDebuffLists.getStringList();
 			radiation_passive_debuff_lists = propertyRadiationPassiveDebuffLists.getStringList();
 			radiation_mob_buff_lists = propertyRadiationMobBuffLists.getStringList();
 			
@@ -1740,6 +1745,7 @@ public class NCConfig {
 		propertyRadiationDeathPersistFraction.set(radiation_death_persist_fraction);
 		propertyRadiationDeathImmunityTime.set(radiation_death_immunity_time);
 		
+		propertyRadiationPlayerDebuffLists.set(radiation_player_debuff_lists);
 		propertyRadiationPassiveDebuffLists.set(radiation_passive_debuff_lists);
 		propertyRadiationMobBuffLists.set(radiation_mob_buff_lists);
 		

@@ -7,6 +7,7 @@ import nc.block.NCBlock;
 import nc.multiblock.validation.ValidationError;
 import nc.render.BlockHighlightTracker;
 import nc.tile.fluid.ITileFluid;
+import nc.tile.inventory.ITileInventory;
 import nc.util.FluidHelper;
 import nc.util.Lang;
 import net.minecraft.block.Block;
@@ -82,8 +83,16 @@ public abstract class MultiblockBlockPartBase extends NCBlock implements ITileEn
 		if (!keepInventory) {
 			TileEntity tileentity = world.getTileEntity(pos);
 			
+			IInventory inv = null;
 			if (tileentity instanceof IInventory) {
-				dropItems(world, pos, (IInventory) tileentity);
+				inv = (IInventory) tileentity;
+			}
+			else if (tileentity instanceof ITileInventory) {
+				inv = ((ITileInventory)tileentity).getInventory();
+			}
+			
+			if (inv != null) {
+				dropItems(world, pos, inv);
 				world.updateComparatorOutputLevel(pos, this);
 			}
 		}

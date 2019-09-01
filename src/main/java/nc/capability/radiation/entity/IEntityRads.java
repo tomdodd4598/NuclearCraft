@@ -108,8 +108,12 @@ public interface IEntityRads extends IRadiation, ICapability<IEntityRads> {
 	
 	public void setRadiationImmunityTime(double newRadiationImmunityTime);
 	
+	public boolean getRadiationImmunityStage();
+	
+	public void setRadiationImmunityStage(boolean newRadiationImmunityStage);
+	
 	public default boolean isImmune() {
-		return getRadiationImmunityTime() > 0D;
+		return getRadiationImmunityStage() || getRadiationImmunityTime() > 0D;
 	}
 	
 	public boolean getShouldWarn();

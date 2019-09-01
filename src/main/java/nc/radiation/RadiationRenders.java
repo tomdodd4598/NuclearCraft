@@ -46,7 +46,8 @@ public class RadiationRenders {
 	
 	private static final ResourceLocation RADS_BAR = new ResourceLocation(Global.MOD_ID + ":textures/hud/" + "rads_bar" + ".png");
 	
-	private static final String IMMUNE_FOR = Lang.localise("hud.nuclearcraft.rad_immune");
+	private static final String IMMUNE = Lang.localise("hud.nuclearcraft.rad_immune");
+	private static final String IMMUNE_FOR = Lang.localise("hud.nuclearcraft.rad_immune_for");
 	
 	/* Originally from coolAlias' 'Tutorial-Demo' - tutorial.client.gui.GuiManaBar */
 	@SubscribeEvent(priority = EventPriority.LOWEST)
@@ -61,7 +62,7 @@ public class RadiationRenders {
 		
 		ScaledResolution res = new ScaledResolution(MC);
 		int barWidth = (int)(100D*playerRads.getTotalRads()/playerRads.getMaxRads());
-		String info = playerRads.isImmune() ? IMMUNE_FOR + " " + UnitHelper.applyTimeUnitShort(playerRads.getRadiationImmunityTime(), 2, 1) : (playerRads.isRadiationNegligible() ? "0 Rads/t" : RadiationHelper.radsPrefix(playerRads.getRadiationLevel(), true));
+		String info = playerRads.isImmune() ? (playerRads.getRadiationImmunityStage() ? IMMUNE : IMMUNE_FOR + " " + UnitHelper.applyTimeUnitShort(playerRads.getRadiationImmunityTime(), 2, 1)) : (playerRads.isRadiationNegligible() ? "0 Rads/t" : RadiationHelper.radsPrefix(playerRads.getRadiationLevel(), true));
 		int infoWidth = MC.fontRenderer.getStringWidth(info);
 		int overlayWidth = (int)Math.round(Math.max(104, infoWidth)*NCConfig.radiation_hud_size);
 		int overlayHeight = (int)Math.round(19*NCConfig.radiation_hud_size);

@@ -20,17 +20,17 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ItemFissionFuel<T extends Enum<T> & IStringSerializable & IItemMeta & IFissionStats> extends Item {
-
+public class ItemFissionFuel<T extends Enum<T> & IStringSerializable & IItemMeta & IFissionStats> extends Item implements IInfoItem {
+	
+	private final Class<T> enumm;
 	public final T[] values;
-	public final String[] fixedInfo;
-	public final String[][] info;
+	public String[] fixedInfo;
+	public String[][] info;
 	
 	public ItemFissionFuel(Class<T> enumm) {
 		setHasSubtypes(true);
+		this.enumm = enumm;
 		values = enumm.getEnumConstants();
-		fixedInfo = InfoHelper.buildFixedInfo(getTranslationKey(), InfoHelper.EMPTY_ARRAY);
-		info = InfoHelper.buildInfo(getTranslationKey(), enumm, NCInfo.fuelRodInfo(values));
 	}
 	
 	@Override
@@ -47,6 +47,12 @@ public class ItemFissionFuel<T extends Enum<T> & IStringSerializable & IItemMeta
 			else continue;
 		}
 		return getTranslationKey() + "." + values[0].getName();
+	}
+	
+	@Override
+	public void setInfo() {
+		fixedInfo = InfoHelper.buildFixedInfo(getTranslationKey(), InfoHelper.EMPTY_ARRAY);
+		info = InfoHelper.buildInfo(getTranslationKey(), enumm, NCInfo.fuelRodInfo(values));
 	}
 	
 	@Override

@@ -28,6 +28,7 @@ public class PlayerRadsUpdatePacket implements IMessage {
 	protected double recentRadXAddition;
 	protected double recentPoisonAddition;
 	protected double radiationImmunityTime;
+	protected boolean radiationImmunityStage;
 	protected boolean shouldWarn;
 	
 	public PlayerRadsUpdatePacket() {
@@ -51,6 +52,7 @@ public class PlayerRadsUpdatePacket implements IMessage {
 		recentRadXAddition = playerRads.getRecentRadXAddition();
 		recentPoisonAddition = playerRads.getRecentPoisonAddition();
 		radiationImmunityTime = playerRads.getRadiationImmunityTime();
+		radiationImmunityStage = playerRads.getRadiationImmunityStage();
 		shouldWarn = playerRads.getShouldWarn();
 		
 		messageValid = true;
@@ -75,6 +77,7 @@ public class PlayerRadsUpdatePacket implements IMessage {
 			recentRadXAddition = buf.readDouble();
 			recentPoisonAddition = buf.readDouble();
 			radiationImmunityTime = buf.readDouble();
+			radiationImmunityStage = buf.readBoolean();
 			shouldWarn = buf.readBoolean();
 		} catch (IndexOutOfBoundsException ioe) {
 			NCUtil.getLogger().catching(ioe);
@@ -103,6 +106,7 @@ public class PlayerRadsUpdatePacket implements IMessage {
 		buf.writeDouble(recentRadXAddition);
 		buf.writeDouble(recentPoisonAddition);
 		buf.writeDouble(radiationImmunityTime);
+		buf.writeBoolean(radiationImmunityStage);
 		buf.writeBoolean(shouldWarn);
 	}
 	
@@ -136,6 +140,7 @@ public class PlayerRadsUpdatePacket implements IMessage {
 			playerRads.setRecentRadXAddition(message.recentRadXAddition);
 			playerRads.setRecentPoisonAddition(message.recentPoisonAddition);
 			playerRads.setRadiationImmunityTime(message.radiationImmunityTime);
+			playerRads.setRadiationImmunityStage(message.radiationImmunityStage);
 			playerRads.setShouldWarn(message.shouldWarn);
 		}
 	}

@@ -22,6 +22,7 @@ public class PlayerRads implements IEntityRads {
 	private double recentRadXAddition = 0D;
 	private double recentPoisonAddition = 0D;
 	private double radiationImmunityTime = 0D;
+	private boolean radiationImmunityStage = false;
 	private boolean shouldWarn = false;
 	
 	public PlayerRads() {
@@ -46,6 +47,7 @@ public class PlayerRads implements IEntityRads {
 		nbt.setDouble("recentRadXAddition", recentRadXAddition);
 		nbt.setDouble("recentPoisonAddition", recentPoisonAddition);
 		nbt.setDouble("radiationImmunityTime", radiationImmunityTime);
+		nbt.setBoolean("radiationImmunityStage", radiationImmunityStage);
 		nbt.setBoolean("shouldWarn", shouldWarn);
 		return nbt;
 	}
@@ -68,6 +70,7 @@ public class PlayerRads implements IEntityRads {
 		recentRadXAddition = nbt.getDouble("recentRadXAddition");
 		recentPoisonAddition = nbt.getDouble("recentPoisonAddition");
 		radiationImmunityTime = nbt.getDouble("radiationImmunityTime");
+		radiationImmunityStage = nbt.getBoolean("radiationImmunityStage");
 		shouldWarn = nbt.getBoolean("shouldWarn");
 	}
 	
@@ -250,6 +253,16 @@ public class PlayerRads implements IEntityRads {
 	@Override
 	public void setRadiationImmunityTime(double newRadiationImmunityTime) {
 		radiationImmunityTime = Math.max(newRadiationImmunityTime, 0D);
+	}
+	
+	@Override
+	public boolean getRadiationImmunityStage() {
+		return radiationImmunityStage;
+	}
+	
+	@Override
+	public void setRadiationImmunityStage(boolean newRadiationImmunityStage) {
+		radiationImmunityStage = newRadiationImmunityStage;
 	}
 	
 	@Override

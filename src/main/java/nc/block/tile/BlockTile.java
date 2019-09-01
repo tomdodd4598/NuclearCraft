@@ -7,6 +7,7 @@ import nc.block.NCBlock;
 import nc.init.NCItems;
 import nc.tile.IGui;
 import nc.tile.fluid.ITileFluid;
+import nc.tile.inventory.ITileInventory;
 import nc.tile.processor.IProcessor;
 import nc.tile.processor.IUpgradable;
 import nc.util.FluidHelper;
@@ -114,8 +115,16 @@ public abstract class BlockTile extends NCBlock implements ITileEntityProvider {
 		if (!keepInventory) {
 			TileEntity tileentity = world.getTileEntity(pos);
 			
+			IInventory inv = null;
 			if (tileentity instanceof IInventory) {
-				dropItems(world, pos, (IInventory) tileentity);
+				inv = (IInventory) tileentity;
+			}
+			else if (tileentity instanceof ITileInventory) {
+				inv = ((ITileInventory)tileentity).getInventory();
+			}
+			
+			if (inv != null) {
+				dropItems(world, pos, inv);
 				world.updateComparatorOutputLevel(pos, this);
 			}
 		}

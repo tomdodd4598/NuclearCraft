@@ -11,6 +11,7 @@ import java.util.Random;
 
 import com.google.common.collect.Lists;
 
+import nc.ModCheck;
 import nc.capability.radiation.entity.IEntityRads;
 import nc.capability.radiation.source.IRadiationSource;
 import nc.config.NCConfig;
@@ -30,6 +31,7 @@ import nc.util.ItemStackHelper;
 import nc.util.Lang;
 import nc.util.StructureHelper;
 import nc.worldgen.biome.NCBiomes;
+import net.darkhax.gamestages.GameStageHelper;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.util.RecipeItemHelper;
@@ -66,7 +68,10 @@ public class RadiationHandler {
 	private static final String RAD_WARNING = Lang.localise("message.nuclearcraft.rad_warning");
 	
 	private static EnumFacing tile_side = EnumFacing.DOWN;
-			
+	
+	public static boolean default_rad_immunity = false;
+	public static String[] rad_immunity_stages = new String[] {};
+	
 	@SubscribeEvent
 	public void updatePlayerRadiation(TickEvent.PlayerTickEvent event) {
 		if (!NCConfig.radiation_enabled_public) return;
@@ -80,7 +85,13 @@ public class RadiationHandler {
 			IEntityRads playerRads = RadiationHelper.getEntityRadiation(player);
 			if (playerRads == null) return;
 			
-			if (!player.isCreative() && playerRads.isFatal()) player.attackEntityFrom(DamageSources.FATAL_RADS, Float.MAX_VALUE);
+			if (ModCheck.gameStagesLoaded()) {
+				playerRads.setRadiationImmunityStage(default_rad_immunity ^ GameStageHelper.hasAnyOf(player, rad_immunity_stages));
+			}
+			
+			if (!player.isCreative() && playerRads.isFatal()) {
+				player.attackEntityFrom(DamageSources.FATAL_RADS, Float.MAX_VALUE);
+			}
 			
 			double previousImmunityTime = playerRads.getRadiationImmunityTime();
 			if (previousImmunityTime > 0D) {

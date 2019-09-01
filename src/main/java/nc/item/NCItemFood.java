@@ -14,11 +14,18 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class NCItemFood extends ItemFood {
+public class NCItemFood extends ItemFood implements IInfoItem {
 	
 	private final PotionEffect[] effects;
-	public final String[] info;
-
+	private final String[] tooltip;
+	public String[] info;
+	
+	public NCItemFood(int amount, float saturation, boolean isWolfFood, PotionEffect[] potionEffects, String... tooltip) {
+		super(amount, saturation, isWolfFood);
+		effects = potionEffects;
+		this.tooltip = tooltip;
+	}
+	
 	public NCItemFood(int amount, boolean isWolfFood, PotionEffect[] potionEffects, String... tooltip) {
 		this(amount, 0.6F, isWolfFood, potionEffects, tooltip);
 	}
@@ -27,17 +34,16 @@ public class NCItemFood extends ItemFood {
 		this(amount, saturation, false, potionEffects, tooltip);
 	}
 	
-	public NCItemFood(int amount, float saturation, boolean isWolfFood, PotionEffect[] potionEffects, String... tooltip) {
-		super(amount, saturation, isWolfFood);
-		effects = potionEffects;
-		info = InfoHelper.buildInfo(getTranslationKey(), tooltip);
-	}
-
 	@Override
 	protected void onFoodEaten(ItemStack stack, World worldIn, EntityPlayer player) {
 		if (effects != null && effects.length > 0) for (PotionEffect effect : effects) {
 			player.addPotionEffect(new PotionEffect(effect));
 		}
+	}
+	
+	@Override
+	public void setInfo() {
+		info = InfoHelper.buildInfo(getTranslationKey(), tooltip);
 	}
 	
 	@Override

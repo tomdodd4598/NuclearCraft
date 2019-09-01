@@ -26,8 +26,7 @@ public class AddProcessorRecipe implements IAction {
 	public List<IFluidIngredient> fluidProducts;
 	public List extras;
 	public ProcessorRecipe recipe;
-	public boolean inputsAllNull = true, outputsAllNull = true;
-	public boolean wasNull, wrongSize;
+	public boolean inputsAllNull = true, ingredientError, wasNull, wrongSize;
 	public final ProcessorRecipeHandler recipeHandler;
 
 	public AddProcessorRecipe(ProcessorRecipeHandler recipeHandler, List<Object> objects) {
@@ -48,42 +47,41 @@ public class AddProcessorRecipe implements IAction {
 			if (ingredientCount < recipeHandler.itemInputSize) {
 				if (object != null) {
 					if (!(object instanceof IIngredient)) {
-						wasNull = true;
+						ingredientError = true;
 						return;
 					}
 					inputsAllNull = false;
 				}
 				IItemIngredient ingredient = CTHelper.buildAdditionItemIngredient(object, recipeHandler);
 				if (ingredient == null) {
-					wasNull = true;
+					ingredientError = true;
 					return;
 				}
 				itemIngredients.add(ingredient);
 			} else if (ingredientCount < recipeHandler.itemInputSize + recipeHandler.fluidInputSize) {
 				if (object != null) {
 					if (!(object instanceof IIngredient)) {
-						wasNull = true;
+						ingredientError = true;
 						return;
 					}
 					inputsAllNull = false;
 				}
 				IFluidIngredient ingredient = CTHelper.buildAdditionFluidIngredient(object, recipeHandler);
 				if (ingredient == null) {
-					wasNull = true;
+					ingredientError = true;
 					return;
 				}
 				fluidIngredients.add(ingredient);
 			} else if (ingredientCount < recipeHandler.itemInputSize + recipeHandler.fluidInputSize + recipeHandler.itemOutputSize) {
 				if (object != null) {
 					if (!(object instanceof IIngredient)) {
-						wasNull = true;
+						ingredientError = true;
 						return;
 					}
-					outputsAllNull = false;
 				}
 				IItemIngredient ingredient = CTHelper.buildAdditionItemIngredient(object, recipeHandler);
 				if (ingredient == null) {
-					wasNull = true;
+					ingredientError = true;
 					return;
 				}
 				if (nextObject instanceof Integer && nextNextObject instanceof Integer) {
@@ -103,14 +101,13 @@ public class AddProcessorRecipe implements IAction {
 			} else if (ingredientCount < recipeHandler.itemInputSize + recipeHandler.fluidInputSize + recipeHandler.itemOutputSize + recipeHandler.fluidOutputSize) {
 				if (object != null) {
 					if (!(object instanceof IIngredient)) {
-						wasNull = true;
+						ingredientError = true;
 						return;
 					}
-					outputsAllNull = false;
 				}
 				IFluidIngredient ingredient = CTHelper.buildAdditionFluidIngredient(object, recipeHandler);
 				if (ingredient == null) {
-					wasNull = true;
+					ingredientError = true;
 					return;
 				}
 				if (nextObject instanceof Integer && nextNextObject instanceof Integer && nextNextNextObject instanceof Integer) {
@@ -154,27 +151,24 @@ public class AddProcessorRecipe implements IAction {
 	
 	@Override
 	public void apply() {
-		if (validRecipe()) {
-			boolean added = recipeHandler.addRecipe(recipe);
-			if (added) return;
+		if (!inputsAllNull && !ingredientError && !wasNull && !wrongSize) {
+			recipeHandler.addRecipe(recipe);
 		}
-		callError();
 	}
 	
 	@Override
 	public String describe() {
-		if (!validRecipe()) {
+		if (inputsAllNull || ingredientError || wasNull || wrongSize) {
+			if (ingredientError || wrongSize) callError();
 			return String.format("Error: Failed to add %s recipe: %s", recipeHandler.getRecipeName(), RecipeHelper.getRecipeString(itemIngredients, fluidIngredients, itemProducts, fluidProducts));
 		}
 		return String.format("Adding %s recipe: %s", recipeHandler.getRecipeName(), RecipeHelper.getRecipeString(itemIngredients, fluidIngredients, itemProducts, fluidProducts));
 	}
 	
 	public static void callError() {
-		if (!hasErrored) CraftTweakerAPI.logError("At least one NuclearCraft CraftTweaker recipe addition method has errored - check the CraftTweaker log for more details");
+		if (!hasErrored) {
+			CraftTweakerAPI.logError("At least one NuclearCraft CraftTweaker recipe addition method has errored - check the CraftTweaker log for more details");
+		}
 		hasErrored = true;
-	}
-	
-	private boolean validRecipe() {
-		return !wasNull && !wrongSize && !inputsAllNull && !outputsAllNull;
 	}
 }

@@ -21,7 +21,7 @@ public class RemoveProcessorRecipe implements IAction {
 	public List<IFluidIngredient> fluidIngredients;
 	public IngredientSorption type;
 	public ProcessorRecipe recipe;
-	public boolean wasNull, wrongSize;
+	public boolean ingredientError, wasNull, wrongSize;
 	public final ProcessorRecipeHandler recipeHandler;
 
 	public RemoveProcessorRecipe(ProcessorRecipeHandler recipeHandler, IngredientSorption type, List<IIngredient> ctIngredients) {
@@ -39,7 +39,7 @@ public class RemoveProcessorRecipe implements IAction {
 		for (int i = 0; i < itemSize; i++) {
 			IItemIngredient ingredient = CTHelper.buildRemovalItemIngredient(ctIngredients.get(i), recipeHandler);
 			if (ingredient == null) {
-				wasNull = true;
+				ingredientError = true;
 				return;
 			}
 			itemIngredients.add(ingredient);
@@ -47,7 +47,7 @@ public class RemoveProcessorRecipe implements IAction {
 		for (int i = itemSize; i < fluidSize; i++) {
 			IFluidIngredient ingredient = CTHelper.buildRemovalFluidIngredient(ctIngredients.get(i), recipeHandler);
 			if (ingredient == null) {
-				wasNull = true;
+				ingredientError = true;
 				return;
 			}
 			fluidIngredients.add(ingredient);
@@ -61,30 +61,31 @@ public class RemoveProcessorRecipe implements IAction {
 	
 	@Override
 	public void apply() {
-		if (!wasNull && !wrongSize) {
+		if (!ingredientError && !wasNull && !wrongSize) {
 			boolean removed = recipeHandler.removeRecipe(recipe);
-			if (removed) {
-				while (removed) {
-					recipe = type == IngredientSorption.INPUT ? recipeHandler.getRecipeFromIngredients(itemIngredients, fluidIngredients) : recipeHandler.getRecipeFromProducts(itemIngredients, fluidIngredients);
-					removed = recipeHandler.removeRecipe(recipe);
-				}
-				return;
+			while (removed) {
+				recipe = type == IngredientSorption.INPUT ? recipeHandler.getRecipeFromIngredients(itemIngredients, fluidIngredients) : recipeHandler.getRecipeFromProducts(itemIngredients, fluidIngredients);
+				removed = recipeHandler.removeRecipe(recipe);
 			}
 		}
-		callError();
 	}
 	
 	@Override
 	public String describe() {
-		if (wasNull || wrongSize) {
-			return String.format("Error: Failed to remove %s recipe with %s as the " + (type == IngredientSorption.INPUT ? "input" : "output"), recipeHandler, RecipeHelper.getAllIngredientNamesConcat(itemIngredients, fluidIngredients));
+		if (ingredientError || wasNull || wrongSize) {
+			if (ingredientError || wrongSize) callError();
+			return String.format("Error: Failed to remove %s recipe with %s as the " + (type == IngredientSorption.INPUT ? "input" : "output"), recipeHandler.getRecipeName(), RecipeHelper.getAllIngredientNamesConcat(itemIngredients, fluidIngredients));
 		}
-		if (type == IngredientSorption.INPUT) return String.format("Removing %s recipe: %s", recipeHandler, RecipeHelper.getRecipeString(recipe));
-		else return String.format("Removing %s recipes for: %s", recipeHandler, RecipeHelper.getAllIngredientNamesConcat(itemIngredients, fluidIngredients));
+		if (type == IngredientSorption.INPUT) {
+			return String.format("Removing %s recipe: %s", recipeHandler.getRecipeName(), RecipeHelper.getRecipeString(recipe));
+		}
+		else return String.format("Removing %s recipes for: %s", recipeHandler.getRecipeName(), RecipeHelper.getAllIngredientNamesConcat(itemIngredients, fluidIngredients));
 	}
 	
 	public static void callError() {
-		if (!hasErrored) CraftTweakerAPI.logError("At least one NuclearCraft CraftTweaker recipe removal method has errored - check the CraftTweaker log for more details");
+		if (!hasErrored) {
+			CraftTweakerAPI.logError("At least one NuclearCraft CraftTweaker recipe removal method has errored - check the CraftTweaker log for more details");
+		}
 		hasErrored = true;
 	}
 }

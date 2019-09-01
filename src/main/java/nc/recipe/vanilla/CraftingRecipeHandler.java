@@ -16,7 +16,7 @@ import nc.radiation.RadArmor;
 import nc.recipe.vanilla.ingredient.BucketIngredient;
 import nc.recipe.vanilla.recipe.ShapedEnergyRecipe;
 import nc.recipe.vanilla.recipe.ShapedFluidRecipe;
-import nc.recipe.vanilla.recipe.ShapelessArmorUpgradeRecipe;
+import nc.recipe.vanilla.recipe.ShapelessArmorRadShieldingRecipe;
 import nc.recipe.vanilla.recipe.ShapelessFluidRecipe;
 import nc.util.ArmorHelper;
 import nc.util.ItemStackHelper;
@@ -453,7 +453,7 @@ public class CraftingRecipeHandler {
 	}
 	
 	public static void addShapelessArmorUpgradeRecipe(Object out, Object... inputs) {
-		registerRecipe(ShapelessArmorUpgradeRecipe.class, out, inputs);
+		registerRecipe(ShapelessArmorRadShieldingRecipe.class, out, inputs);
 	}
 	
 	public static void registerRecipe(Class<? extends IRecipe> clazz, Object out, Object... inputs) {

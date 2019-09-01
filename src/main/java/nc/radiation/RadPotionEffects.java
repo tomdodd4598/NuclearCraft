@@ -23,7 +23,7 @@ public class RadPotionEffects {
 	public static final List<List<PotionEffect>> MOB_EFFECTS_LIST = new ArrayList<>();
 	
 	public static void init() {
-		parseEffects(NCConfig.radiation_passive_debuff_lists, PLAYER_RAD_LEVEL_LIST, PLAYER_DEBUFF_LIST, Math.max(NCConfig.radiation_player_tick_rate, 19));
+		parseEffects(NCConfig.radiation_player_debuff_lists, PLAYER_RAD_LEVEL_LIST, PLAYER_DEBUFF_LIST, Math.max(NCConfig.radiation_player_tick_rate, 19));
 		parseEffects(NCConfig.radiation_passive_debuff_lists, ENTITY_RAD_LEVEL_LIST, ENTITY_DEBUFF_LIST, Math.max(NCConfig.radiation_world_tick_rate, 39));
 		parseEffects(NCConfig.radiation_mob_buff_lists, MOB_RAD_LEVEL_LIST, MOB_EFFECTS_LIST, Math.max(NCConfig.radiation_world_tick_rate, 39));
 	}

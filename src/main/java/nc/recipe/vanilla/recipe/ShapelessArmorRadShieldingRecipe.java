@@ -10,9 +10,9 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 
-public class ShapelessArmorUpgradeRecipe extends ShapelessOreRecipe {
+public class ShapelessArmorRadShieldingRecipe extends ShapelessOreRecipe {
 	
-	public ShapelessArmorUpgradeRecipe(ResourceLocation group, @Nonnull ItemStack result, Object... recipe) {
+	public ShapelessArmorRadShieldingRecipe(ResourceLocation group, @Nonnull ItemStack result, Object... recipe) {
 		super(group, result, recipe);
 		isSimple = false;
 	}

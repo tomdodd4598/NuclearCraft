@@ -16,16 +16,16 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class NCItem extends Item {
+public class NCItem extends Item implements IInfoItem {
 	
 	public final TextFormatting fixedColor;
-	public final String[] fixedInfo;
-	public final String[] info;
+	private final String[] fixedTooltip, tooltip;
+	public String[] fixedInfo, info;
 	
 	public NCItem(TextFormatting fixedColor, String[] fixedTooltip, String... tooltip) {
 		this.fixedColor = fixedColor;
-		fixedInfo = InfoHelper.buildFixedInfo(getTranslationKey(), fixedTooltip);
-		info = InfoHelper.buildInfo(getTranslationKey(), tooltip);
+		this.fixedTooltip = fixedTooltip;
+		this.tooltip = tooltip;
 	}
 	
 	public NCItem(TextFormatting fixedColor, String... tooltip) {
@@ -38,6 +38,12 @@ public class NCItem extends Item {
 	
 	public NCItem(String... tooltip) {
 		this(InfoHelper.EMPTY_ARRAY, tooltip);
+	}
+	
+	@Override
+	public void setInfo() {
+		fixedInfo = InfoHelper.buildFixedInfo(getTranslationKey(), fixedTooltip);
+		info = InfoHelper.buildInfo(getTranslationKey(), tooltip);
 	}
 	
 	@Override

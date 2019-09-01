@@ -1,3 +1,16 @@
+v2.18g
+
++ Added GameStages support for radiation immunity through CraftTweaker
+* Split player and passive mob radiation effects into separate configs
+
+* Stators are now correctly rendered at right-angles to blades
+
+* Fixed items not dropping from broken machines
+
+* Fixed various items missing their tooltip info
+
+* Improved CraftTweaker error-reporting
+
 v2.18f
 
 * Fixed occasional crash when trying to get tank info for radiation's hardcore containers mechanic

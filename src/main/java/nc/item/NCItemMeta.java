@@ -23,15 +23,18 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class NCItemMeta<T extends Enum<T> & IStringSerializable & IItemMeta> extends Item {
+public class NCItemMeta<T extends Enum<T> & IStringSerializable & IItemMeta> extends Item implements IInfoItem {
 	
+	private final Class<T> enumm;
 	public final T[] values;
-	public final String[][] info;
+	private final String[][] tooltips;
+	public String[][] info;
 	
 	public NCItemMeta(Class<T> enumm, String[]... tooltips) {
 		setHasSubtypes(true);
+		this.enumm = enumm;
 		values = enumm.getEnumConstants();
-		info = InfoHelper.buildInfo(getTranslationKey(), enumm, tooltips);
+		this.tooltips = tooltips;
 	}
 	
 	@Override
@@ -48,6 +51,11 @@ public class NCItemMeta<T extends Enum<T> & IStringSerializable & IItemMeta> ext
 			else continue;
 		}
 		return getTranslationKey() + "." + values[0].getName();
+	}
+	
+	@Override
+	public void setInfo() {
+		info = InfoHelper.buildInfo(getTranslationKey(), enumm, tooltips);
 	}
 	
 	@Override

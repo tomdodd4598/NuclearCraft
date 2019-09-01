@@ -82,9 +82,10 @@ public class TileTurbineRotorStator extends TileTurbinePartBase implements ITurb
 		return rotation;
 	}
 	
+	// Stators are rotated at 90 degrees to the blades
 	@Override
 	public void setRenderRotation(float newRotation) {
-		rotation = newRotation;
+		rotation = -newRotation;
 	}
 	
 	// NBT

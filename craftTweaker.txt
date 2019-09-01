@@ -331,6 +331,8 @@ Note: The double set of brackets `([...])` is not required here!
 mods.nuclearcraft.radiation.getRadiationLevel(itemInput);
 mods.nuclearcraft.radiation.addBlockMutation(blockInput, blockOutput, double radiationThreshold);
 
+mods.nuclearcraft.radiation.setRadiationImmunityGameStages(boolean defaultImmunity, String... stageNames);
+
 IEntityLivingBase.addRadiation(double amount, {boolean useImmunity});
 IEntityLivingBase.setRadiation(double amount, {boolean useImmunity});
 IEntityLivingBase.getRadiation();

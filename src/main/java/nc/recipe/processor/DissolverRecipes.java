@@ -1,8 +1,10 @@
 package nc.recipe.processor;
 
+import nc.ModCheck;
 import nc.init.NCBlocks;
 import nc.recipe.ProcessorRecipeHandler;
 import nc.util.FluidStackHelper;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
 public class DissolverRecipes extends ProcessorRecipeHandler {
@@ -23,5 +25,9 @@ public class DissolverRecipes extends ProcessorRecipeHandler {
 		addRecipe("dustBorax", fluidStack("water", FluidStackHelper.BUCKET_VOLUME), fluidStack("borax_solution", FluidStackHelper.GEM_VOLUME), 0.5D, 0.5D);
 		
 		addRecipe(new ItemStack(NCBlocks.glowing_mushroom, 3), fluidStack("ethanol", FluidStackHelper.BUCKET_VOLUME/4), fluidStack("radaway", FluidStackHelper.BUCKET_VOLUME/4), 1D, 0.5D);
+		
+		if (!ModCheck.thermalFoundationLoaded()) {
+			addRecipe(new ItemStack(Items.SNOWBALL, 4), fluidStack("liquid_helium", 25), fluidStack("cryotheum", 25), 0.5D, 1D);
+		}
 	}
 }

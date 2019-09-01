@@ -1,5 +1,7 @@
 package nc.integration.crafttweaker;
 
+import java.util.Arrays;
+
 import com.google.common.collect.Lists;
 
 import crafttweaker.CraftTweakerAPI;
@@ -1207,6 +1209,13 @@ public class NCCraftTweaker {
 		@ZenMethod
 		public static void addBlockMutation(IIngredient input, IIngredient output, double threshold) {
 			CraftTweakerAPI.apply(new AddProcessorRecipe(NCRecipes.radiation_block_mutations, Lists.newArrayList(input, output, threshold)));
+		}
+		
+		@ZenMethod
+		public static void setRadiationImmunityGameStages(boolean defaultImmunity, String... stageNames) {
+			nc.radiation.RadiationHandler.default_rad_immunity = defaultImmunity;
+			nc.radiation.RadiationHandler.rad_immunity_stages = stageNames;
+			CraftTweakerAPI.logInfo("Added radiation immunity game stages " + Arrays.asList(stageNames).toString() + ", with immunity " + (defaultImmunity ? "enabled" : "disabled") + " by default");
 		}
 	}
 	

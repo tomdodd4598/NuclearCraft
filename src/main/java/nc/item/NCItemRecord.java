@@ -16,15 +16,21 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class NCItemRecord extends ItemRecord {
+public class NCItemRecord extends ItemRecord implements IInfoItem {
 	
-	public final String[] info;
+	private final String[] tooltip;
+	public String[] info;
 	private final String name;
 	
 	public NCItemRecord(String nameIn, SoundEvent sound, String... tooltip) {
 		super(nameIn, sound);
-		info = InfoHelper.buildInfo(getTranslationKey(), tooltip);
+		this.tooltip = tooltip;
 		name = nameIn;
+	}
+	
+	@Override
+	public void setInfo() {
+		info = InfoHelper.buildInfo(getTranslationKey(), tooltip);
 	}
 	
 	@Override

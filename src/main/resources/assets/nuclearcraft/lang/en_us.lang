@@ -292,7 +292,7 @@ tile.nuclearcraft.heat_exchanger_condenser_tube_copper.name=Copper Condensation 
 tile.nuclearcraft.heat_exchanger_condenser_tube_hard_carbon.name=Hard Carbon Condensation Tube
 tile.nuclearcraft.heat_exchanger_condenser_tube_thermoconducting.name=Thermoconducting Alloy Condensation Tube
 tile.nuclearcraft.heat_exchanger_condenser_tube.fixd=Conductivity Multiplier: %s
-tile.nuclearcraft.heat_exchanger_condenser_tube.desc=Holds and transports fluids to condense. The condensation rate is proportional to the number of adjacent blocks of fluid colder than the input condensing fluid temperature; the colder the adjacent fluid, the faster the condensation. Place against another condensation tube while sneaking to copy across its side configuration.
+tile.nuclearcraft.heat_exchanger_condenser_tube.desc=Holds and transports fluids to condense. The condensation rate is proportional to the number of adjacent blocks of fluid colder than the input condensing fluid temperature; the colder the adjacent fluid, the faster the condensation - the speed bonus is the natural logarithm of the ratio of the fluids' temperatures. Place against another condensation tube while sneaking to copy across its side configuration.
 tile.nuclearcraft.heat_exchanger_computer_port.name=Heat Exchanger Computer Port
 tile.nuclearcraft.heat_exchanger_computer_port.desc=Used to access the exchanger via OpenComputers.
 
@@ -1668,7 +1668,7 @@ item.nuclearcraft.reactor_door_item.name=Reactor Door
 item.nuclearcraft.lithium_ion_cell.name=Lithium Ion Cell
 
 item.nuclearcraft.geiger_counter.name=Geiger Counter
-item.nuclearcraft.geiger_counter.desc=Detects radiation and informs the player of their rad count. Will be muted if off the hotbar.
+item.nuclearcraft.geiger_counter.desc=Detects radiation and informs the player of their rad count. Can be used to read the irradiation of entities. Will be muted if off the hotbar.
 item.nuclearcraft.geiger_counter.rads=Radiation:
 
 item.nuclearcraft.rad_shielding.light.name=Light Radiation Shielding
@@ -2282,13 +2282,13 @@ gui.config.radiation.radiation_scrubber_radius=Scrubber Search Radius
 gui.config.radiation.radiation_scrubber_radius.comment=The range of scrubbers' search for occluding blocks.
 gui.config.radiation.radiation_scrubber_alt=Alternate Scrubber Mechanics
 gui.config.radiation.radiation_scrubber_alt.comment=Use a non-linear scrubbing rate equation instead of the linear behaviour?
-gui.config.radiation.radiation_scrubber_param=Alternate Scrubber Equation Parameters
+gui.config.radiation.radiation_scrubber_param=Alternate Scrubber Parameters
 gui.config.radiation.radiation_scrubber_param.comment=The four parameters a,b,c,d in the non-linear scrubbing rate equation 'F = a^[-(S/b)^(S/c + 1)^(1/d)]', where 'F' is the remaining fraction of radiation left in the chunk's update buffer after scrubbing and 'S' is the effective number of scrubbers in the chunk after accounting for inefficiencies. It is recommended that you only modify these if you know what you are doing.
 gui.config.radiation.radiation_scrubber_power=Scrubber Power Use
 gui.config.radiation.radiation_scrubber_power.comment=The power in RF/s scrubbers need to be supplied to run.
 gui.config.radiation.radiation_scrubber_borax_rate=Scrubber Borax Use Rate
 gui.config.radiation.radiation_scrubber_borax_rate.comment=The amount of borax scrubbers need to be supplied per second.
-gui.config.radiation.radiation_geiger_block_redstone=Geiger Counter Block Comparator Scale
+gui.config.radiation.radiation_geiger_block_redstone=Geiger Block Comparator Scale
 gui.config.radiation.radiation_geiger_block_redstone.comment=The radiation level, as a power of ten, at which the Geiger counter block will emit a full-strength comparator signal.
 
 gui.config.radiation.radiation_shielding_default_recipes=Radiation Shielding Default Recipes
@@ -2334,6 +2334,8 @@ gui.config.radiation.radiation_death_persist_fraction.comment=Specifies the frac
 gui.config.radiation.radiation_death_immunity_time=Post-Death Immunity Time
 gui.config.radiation.radiation_death_immunity_time.comment=Number of seconds players will have radiation immunity after death due to radiation.
 
+gui.config.radiation.radiation_player_debuff_lists=Player Radiation Effects
+gui.config.radiation.radiation_player_debuff_lists.comment=Lists of potion effects experienced at various percentages of radiation level by players. Format: 'radPercent_potionNameA@strength,potionNameB@strength,...,potionNameZ@strength'.
 gui.config.radiation.radiation_passive_debuff_lists=Passive Entity Radiation Effects
 gui.config.radiation.radiation_passive_debuff_lists.comment=Lists of potion effects experienced at various percentages of radiation level by passive entities. Format: 'radPercent_potionNameA@strength,potionNameB@strength,...,potionNameZ@strength'.
 gui.config.radiation.radiation_mob_buff_lists=Mob Radiation Effects
@@ -2851,7 +2853,8 @@ message.nuclearcraft.radaway_cooling_down=Your RadAway cooldown is at
 message.nuclearcraft.rad_x_cooling_down=Your Rad-X cooldown is at
 message.nuclearcraft.scrubber_removal_rate=Active radiation removal rate:
 
-hud.nuclearcraft.rad_immune=Immune for:
+hud.nuclearcraft.rad_immune_for=Immune for:
+hud.nuclearcraft.rad_immune=Immune!
 
 commands.nuclearcraft.set_chunk_radiation.usage=/nc_set_chunk_radiation <radiation_level> [coord_x] [coord_z]
 
