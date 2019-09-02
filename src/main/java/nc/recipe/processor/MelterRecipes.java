@@ -49,7 +49,7 @@ public class MelterRecipes extends ProcessorRecipeHandler {
 		addRecipe("ingotChocolate", fluidStack("milk_chocolate", FluidStackHelper.INGOT_VOLUME), 0.25D, 0.5D);
 		addRecipe(Items.SUGAR, fluidStack("sugar", FluidStackHelper.INGOT_VOLUME), 0.5D, 0.5D);
 		addRecipe(NCItems.gelatin, fluidStack("gelatin", FluidStackHelper.INGOT_VOLUME), 0.5D, 0.5D);
-		addRecipe(NCItems.marshmallow, fluidStack("marshmallow", FluidStackHelper.INGOT_VOLUME), 0.5D, 0.5D);
+		addRecipe("ingotMarshmallow", fluidStack("marshmallow", FluidStackHelper.INGOT_VOLUME), 0.5D, 0.5D);
 		
 		// Tinkers' Construct
 		addRecipe("obsidian", fluidStack("obsidian", FluidStackHelper.SEARED_BLOCK_VOLUME), 2D, 2D);

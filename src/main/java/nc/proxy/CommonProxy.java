@@ -98,9 +98,14 @@ public class CommonProxy {
 		if (ModCheck.mekanismLoaded()) GasHelper.preInit();
 		MinecraftForge.EVENT_BUS.register(new NCRecipes());
 		
-		TConstructIMC.sendIMCs();
-		if (ModCheck.tinkersLoaded()) TConstructMaterials.init();
-		if (ModCheck.constructsArmoryLoaded()) ConArmMaterials.preInit();
+		if (ModCheck.tinkersLoaded()) {
+			TConstructIMC.sendIMCs();
+			TConstructMaterials.init();
+			
+			if (ModCheck.constructsArmoryLoaded()) {
+				ConArmMaterials.preInit();
+			}
+		}
 	}
 
 	public void init(FMLInitializationEvent event) {
@@ -124,8 +129,11 @@ public class CommonProxy {
 		
 		NCEntities.register();
 		
-		if (ModCheck.tinkersLoaded()) TConstructExtras.init();
-		if (ModCheck.constructsArmoryLoaded()) ConArmMaterials.init();
+		if (ModCheck.tinkersLoaded()) {
+			TConstructExtras.init();
+			
+			if (ModCheck.constructsArmoryLoaded()) ConArmMaterials.init();
+		}
 	}
 
 	public void postInit(FMLPostInitializationEvent postEvent) {

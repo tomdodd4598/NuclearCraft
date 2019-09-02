@@ -440,6 +440,7 @@ public class OreDictHandler {
 		OreDictionary.registerOre("ingotUnsweetenedChocolate", NCItems.unsweetened_chocolate);
 		OreDictionary.registerOre("ingotDarkChocolate", NCItems.dark_chocolate);
 		OreDictionary.registerOre("ingotChocolate", NCItems.milk_chocolate);
+		OreDictionary.registerOre("ingotMarshmallow", NCItems.marshmallow);
 		
 		OreDictionary.registerOre("record", NCItems.record_wanderer);
 		OreDictionary.registerOre("record", NCItems.record_end_of_the_world);

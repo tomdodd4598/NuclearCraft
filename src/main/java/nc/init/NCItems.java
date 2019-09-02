@@ -198,11 +198,11 @@ public class NCItems {
 		milk_chocolate = withName(new NCItemFood(4, 0.6F, new PotionEffect[] {PotionHelper.newEffect(3, 1, 300), PotionHelper.newEffect(1, 1, 300), PotionHelper.newEffect(22, 1, 300)}), "milk_chocolate");
 		
 		gelatin = withName(new NCItem(), "gelatin");
-		marshmallow = withName(new NCItemFood(1, 0.2F, new PotionEffect[] {PotionHelper.newEffect(1, 1, 300)}), "marshmallow");
+		marshmallow = withName(new NCItemFood(1, 0.4F, new PotionEffect[] {PotionHelper.newEffect(1, 1, 300)}), "marshmallow");
 		
-		smore = withName(new NCItemFood(8, 1.2F, new PotionEffect[] {PotionHelper.newEffect(3, 2, 300), PotionHelper.newEffect(1, 2, 300), PotionHelper.newEffect(22, 2, 300)}), "smore");
-		moresmore = withName(new NCItemFood(20, 2.4F, new PotionEffect[] {PotionHelper.newEffect(3, 2, 600), PotionHelper.newEffect(1, 2, 600), PotionHelper.newEffect(22, 2, 600)}), "moresmore");
-		foursmore = withName(new NCItemFood(48, 4.8F, new PotionEffect[] {PotionHelper.newEffect(3, 2, 1200), PotionHelper.newEffect(1, 2, 1200), PotionHelper.newEffect(22, 2, 1200)}), "foursmore");
+		smore = withName(new NCItemFood(8, 1.4F, new PotionEffect[] {PotionHelper.newEffect(3, 2, 300), PotionHelper.newEffect(1, 2, 300), PotionHelper.newEffect(22, 2, 300)}), "smore");
+		moresmore = withName(new NCItemFood(20, 3.8F, new PotionEffect[] {PotionHelper.newEffect(3, 2, 600), PotionHelper.newEffect(1, 2, 600), PotionHelper.newEffect(22, 2, 600)}), "moresmore");
+		foursmore = withName(new NCItemFood(44, 8.6F, new PotionEffect[] {PotionHelper.newEffect(3, 2, 1200), PotionHelper.newEffect(1, 2, 1200), PotionHelper.newEffect(22, 2, 1200)}), "foursmore");
 		
 		record_wanderer = withName(new NCItemRecord("record_wanderer", NCSounds.wanderer), "record_wanderer");
 		record_end_of_the_world = withName(new NCItemRecord("record_end_of_the_world", NCSounds.end_of_the_world), "record_end_of_the_world");

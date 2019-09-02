@@ -77,7 +77,7 @@ public class IngotFormerRecipes extends ProcessorRecipeHandler {
 		addRecipe(fluidStack("milk_chocolate", FluidStackHelper.INGOT_VOLUME), "ingotChocolate", 0.5D, 0.5D);
 		addRecipe(fluidStack("sugar", FluidStackHelper.INGOT_VOLUME), Items.SUGAR, 0.5D, 0.5D);
 		addRecipe(fluidStack("gelatin", FluidStackHelper.INGOT_VOLUME), NCItems.gelatin, 0.5D, 0.5D);
-		addRecipe(fluidStack("marshmallow", FluidStackHelper.INGOT_VOLUME), NCItems.marshmallow, 0.5D, 0.5D);
+		addRecipe(fluidStack("marshmallow", FluidStackHelper.INGOT_VOLUME), "ingotMarshmallow", 0.5D, 0.5D);
 		
 		// Fission Isotopes
 		addIsotopeFormingRecipes("Thorium", 230);

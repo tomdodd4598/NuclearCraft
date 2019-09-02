@@ -1,3 +1,10 @@
+v2.18h
+
+* Fixed needlessly generating new ore dict entries
+
++ Added smetlery chocolatier support
+* Increased saturation levels of s'mores
+
 v2.18g
 
 + Added GameStages support for radiation immunity through CraftTweaker

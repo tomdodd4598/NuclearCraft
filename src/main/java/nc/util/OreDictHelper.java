@@ -39,7 +39,7 @@ public class OreDictHelper {
 	
 	public static boolean isOreMatching(ItemStack stack, ItemStack target) {
 		for (String oreName : getOreNames(target)) {
-			for (ItemStack ore : OreDictionary.getOres(oreName)) {
+			for (ItemStack ore : OreDictionary.getOres(oreName, false)) {
 				if (ItemStack.areItemsEqual(ore, stack)) return true;
 			}
 		}
@@ -47,14 +47,14 @@ public class OreDictHelper {
 	}
 	
 	public static boolean isOreMember(ItemStack stack, String oreName) {
-		for (ItemStack ore : OreDictionary.getOres(oreName)) {
+		for (ItemStack ore : OreDictionary.getOres(oreName, false)) {
 			if (ItemStack.areItemsEqual(ore, stack)) return true;
 		}
 		return false;
 	}
 	
 	public static boolean oreExists(String ore) {
-		return !OreDictionary.getOres(ore).isEmpty();
+		return !OreDictionary.getOres(ore, false).isEmpty();
 	}
 	
 	public static boolean oresExist(String... ores) {
@@ -80,7 +80,7 @@ public class OreDictHelper {
 	public static boolean getBlockMatchesOre(World world, BlockPos pos, String... names) {
 		List<ItemStack> stackList = new ArrayList<ItemStack>();
 		for (int i = 0; i < names.length; i++) {
-			List<ItemStack> stacks = OreDictionary.getOres(names[i]);
+			List<ItemStack> stacks = OreDictionary.getOres(names[i], false);
 			stackList.addAll(stacks);
 		}
 		ItemStack stack = ItemStackHelper.blockStateToStack(world.getBlockState(pos));
@@ -89,7 +89,7 @@ public class OreDictHelper {
 	}
 	
 	public static List<ItemStack> getPrioritisedStackList(String ore) {
-		List<ItemStack> defaultStackList = new ArrayList<ItemStack>(OreDictionary.getOres(ore));
+		List<ItemStack> defaultStackList = new ArrayList<ItemStack>(OreDictionary.getOres(ore, false));
 		if (!NCConfig.ore_dict_priority_bool || NCConfig.ore_dict_priority.length < 1) return defaultStackList;
 		List<ItemStack> prioritisedStackList = new ArrayList<ItemStack>();
 		for (int i = 0; i < NCConfig.ore_dict_priority.length; i++) {

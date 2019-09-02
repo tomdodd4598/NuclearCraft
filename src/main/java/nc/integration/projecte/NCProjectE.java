@@ -83,7 +83,7 @@ public class NCProjectE {
 	private static final List<String> BLOCK_BLACKLIST = Arrays.asList("Quartz", "NetherQuartz");
 	
 	private static void addEMCValues(String type, long emc) {
-		for (ItemStack stack : OreDictionary.getOres(type)) ProjectEAPI.getEMCProxy().registerCustomEMC(stack, emc);
+		for (ItemStack stack : OreDictionary.getOres(type, false)) ProjectEAPI.getEMCProxy().registerCustomEMC(stack, emc);
 	}
 	
 	private static void addIngotEMCValues(String type, long emc) {

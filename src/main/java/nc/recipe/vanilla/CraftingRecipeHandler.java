@@ -316,9 +316,9 @@ public class CraftingRecipeHandler {
 		addShapelessOreRecipe(NCBlocks.glowing_mushroom, new Object[] {Blocks.BROWN_MUSHROOM, "dustGlowstone"});
 		
 		addShapedOreRecipe(new ItemStack(Items.COOKIE, 12), new Object[] {"FCF", 'F', "dustWheat", 'C', "dustCocoa"});
-		addShapelessOreRecipe(NCItems.smore, new Object[] {NCItems.graham_cracker, NCItems.milk_chocolate, NCItems.marshmallow, NCItems.graham_cracker});
-		addShapelessOreRecipe(NCItems.moresmore, new Object[] {NCItems.smore, NCItems.milk_chocolate, NCItems.marshmallow, NCItems.smore});
-		addShapelessOreRecipe(NCItems.foursmore, new Object[] {NCItems.moresmore, NCItems.milk_chocolate, NCItems.marshmallow, NCItems.moresmore});
+		addShapelessOreRecipe(NCItems.smore, new Object[] {NCItems.graham_cracker, "ingotChocolate", "ingotMarshmallow", NCItems.graham_cracker});
+		addShapelessOreRecipe(NCItems.moresmore, new Object[] {NCItems.smore, "ingotChocolate", "ingotMarshmallow", NCItems.smore});
+		addShapelessOreRecipe(NCItems.foursmore, new Object[] {NCItems.moresmore, "ingotChocolate", "ingotMarshmallow", NCItems.moresmore});
 		
 		addShapedOreRecipe(NCItems.geiger_counter, new Object[] {"SFF", "CRR", "BFF", 'S', "ingotSteel", 'F', "ingotFerroboron", 'C', "ingotCopper", 'R', "dustRedstone", 'B', "bioplastic"});
 		addShapedOreRecipe(NCItems.radiation_badge, new Object[] {" C ", "SRS", " L ", 'C', "ingotCopper", 'S', "string", 'R', "dustRedstone", 'L', "ingotLead"});

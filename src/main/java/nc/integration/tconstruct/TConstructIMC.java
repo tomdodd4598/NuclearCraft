@@ -2,10 +2,17 @@ package nc.integration.tconstruct;
 
 import org.apache.commons.lang3.tuple.Pair;
 
+import nc.init.NCItems;
+import nc.util.FluidStackHelper;
 import nc.util.StringHelper;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.event.FMLInterModComms;
+import slimeknights.tconstruct.library.TinkerRegistry;
 
 public class TConstructIMC {
 	
@@ -39,6 +46,22 @@ public class TConstructIMC {
 		sendTiCAlloyInfo("lithium_manganese_dioxide", 2, fluid("lithium", 1), fluid("manganese_dioxide", 1));
 		sendTiCAlloyInfo("extreme", 1, fluid("tough", 1), fluid("hard_carbon", 1));
 		sendTiCAlloyInfo("thermoconducting", 16, fluid("extreme", 8), fluid("boron_arsenide", 37));
+		
+		TinkerRegistry.registerMelting(new ItemStack(NCItems.ground_cocoa_nibs), FluidRegistry.getFluid("chocolate_liquor"), FluidStackHelper.INGOT_VOLUME);
+		TinkerRegistry.registerMelting(new ItemStack(Items.SUGAR), FluidRegistry.getFluid("sugar"), FluidStackHelper.INGOT_VOLUME);
+		TinkerRegistry.registerMelting(new ItemStack(NCItems.gelatin), FluidRegistry.getFluid("gelatin"), FluidStackHelper.INGOT_VOLUME);
+		
+		sendTiCSmelteryInfo("cocoa_butter", "cocoaButter", false);
+		sendTiCSmelteryInfo("unsweetened_chocolate", "unsweetenedChocolate", false);
+		sendTiCSmelteryInfo("dark_chocolate", "darkChocolate", false);
+		sendTiCSmelteryInfo("milk_chocolate", "chocolate", false);
+		sendTiCSmelteryInfo("marshmallow", false);
+		
+		sendTiCAlloyInfo("unsweetened_chocolate", 2, fluid("chocolate_liquor", 1), fluid("cocoa_butter", 1));
+		sendTiCAlloyInfo("dark_chocolate", 2, fluid("unsweetened_chocolate", 2), fluid("sugar", 1));
+		sendTiCAlloyInfo("milk_chocolate", 144, fluid("dark_chocolate", 72), fluid("milk", 125));
+		sendTiCAlloyInfo("hydrated_gelatin", 36, fluid("gelatin", 36), fluid("water", 125));
+		sendTiCAlloyInfo("marshmallow", 2, fluid("hydrated_gelatin", 2), fluid("sugar", 1));
 	}
 	
 	public static void sendTiCSmelteryInfo(String fluidName, String oreName, boolean toolForge) {
@@ -51,6 +74,23 @@ public class TConstructIMC {
 	
 	public static void sendTiCSmelteryInfo(String name, boolean toolForge) {
 		sendTiCSmelteryInfo(name, name, toolForge);
+	}
+	
+	public static void sendTiCSmelteryMeltingInfo(ItemStack input, ItemStack render, String fluidName, int fluidAmount, int temp) {
+		NBTTagCompound tag = new NBTTagCompound();
+		NBTTagCompound inputNBT = new NBTTagCompound();
+		input.writeToNBT(inputNBT);
+		tag.setTag("Item", inputNBT);
+		NBTTagCompound renderNBT = new NBTTagCompound();
+		render.writeToNBT(renderNBT);
+		tag.setTag("Block", renderNBT);
+		new FluidStack(FluidRegistry.getFluid(fluidName), fluidAmount).writeToNBT(tag);
+		tag.setInteger("Temperature", temp);
+		FMLInterModComms.sendMessage("tconstruct", "addSmelteryMelting", tag);
+	}
+	
+	public static void sendTiCSmelteryMeltingInfo(ItemStack input, String fluidName, int fluidAmount, int temp) {
+		sendTiCSmelteryMeltingInfo(input, input, fluidName, fluidAmount, temp);
 	}
 	
 	public static void sendTiCAlloyInfo(String alloyName, int alloyAmount, Pair<String, Integer>... components) {
