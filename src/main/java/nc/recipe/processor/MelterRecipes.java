@@ -211,7 +211,7 @@ public class MelterRecipes extends ProcessorRecipeHandler {
 		addFissionFuelMeltingRecipes(element, suffix, "", types);
 	}
 	
-	private static final List<String> MELTING_BLACKLIST = Arrays.asList("coal", "redstone", "glowstone", "prismarine", "obsidian", "silicon");
+	private static final List<String> MELTING_BLACKLIST = Arrays.asList("coal", "redstone", "glowstone", "prismarine", "obsidian", "silicon", "marshmallow");
 	
 	public void addOreMeltingRecipes() {
 		ArrayList<String> fluidList = new ArrayList(FluidRegistry.getRegisteredFluids().keySet());

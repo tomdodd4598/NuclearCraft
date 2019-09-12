@@ -2,11 +2,7 @@ package nc.radiation;
 
 import org.lwjgl.opengl.GL11;
 
-import baubles.api.BaubleType;
-import baubles.api.cap.BaublesCapabilities;
-import baubles.api.cap.IBaublesItemHandler;
 import nc.Global;
-import nc.ModCheck;
 import nc.capability.radiation.entity.IEntityRads;
 import nc.config.NCConfig;
 import nc.init.NCBlocks;
@@ -56,7 +52,7 @@ public class RadiationRenders {
 		
 		if(event.getType() != ElementType.HOTBAR) return;
 		final EntityPlayer player = MC.player;
-		if (!shouldShowHUD(player)) return;
+		if (!RadiationHelper.shouldShowHUD(player)) return;
 		IEntityRads playerRads = player.getCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null);
 		if (playerRads == null) return;
 		
@@ -88,24 +84,6 @@ public class RadiationRenders {
 		MC.fontRenderer.drawString(info, xPos + (104 - infoWidth)/2, yPos, playerRads.isImmune() ? 0x55FF55 : TextHelper.getFormatColor(RadiationHelper.getRadiationTextColor(playerRads)));
 		
 		GlStateManager.popMatrix();
-	}
-	
-	public static boolean shouldShowHUD(EntityPlayer player) {
-		if (!player.hasCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null)) return false;
-		if (!NCConfig.radiation_require_counter) return true;
-		
-		final ItemStack geiger_counter = new ItemStack(NCItems.geiger_counter), geiger_block = new ItemStack(NCItems.geiger_counter);
-		
-		if (ModCheck.baublesLoaded() && player.hasCapability(BaublesCapabilities.CAPABILITY_BAUBLES, null)) {
-			IBaublesItemHandler baublesHandler = player.getCapability(BaublesCapabilities.CAPABILITY_BAUBLES, null);
-			if (baublesHandler == null) return false;
-			
-			for (int slot : BaubleType.TRINKET.getValidSlots()) {
-				if (baublesHandler.getStackInSlot(slot).isItemEqual(geiger_counter)) return true;
-			}
-		}
-		
-		return player.inventory.hasItemStack(geiger_counter) || player.inventory.hasItemStack(geiger_block);
 	}
 	
 	private static void drawTexturedModalRect(int x, int y, int textureX, int textureY, int width, int height) {

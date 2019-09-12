@@ -29,7 +29,7 @@ import net.minecraftforge.fml.common.Optional;
 @Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers")
 public class TileRadiationScrubber extends TilePassiveAbstract implements ITileRadiationEnvironment, SimpleComponent {
 	
-	private double scrubberFraction = 0D, currentChunkBuffer = 0D;
+	private double scrubberFraction = 0D, currentChunkLevel = 0D, currentChunkBuffer = 0D;
 	
 	public final Map<BlockPos, Integer> occlusionMap = new ConcurrentHashMap<BlockPos, Integer>();
 	
@@ -63,12 +63,13 @@ public class TileRadiationScrubber extends TilePassiveAbstract implements ITileR
 		if (!isActive) {
 			return 0D;
 		}
+		double rateMult = currentChunkBuffer + NCConfig.radiation_spread_rate*Math.max(0D, (currentChunkLevel - currentChunkBuffer));
 		if (NCConfig.radiation_scrubber_alt) {
 			IRadiationSource chunkSource = RadiationHelper.getRadiationSource(world.getChunk(pos));
 			if (chunkSource == null || chunkSource.getEffectiveScrubberCount() == 0D) return 0D;
-			return -currentChunkBuffer*scrubberFraction*chunkSource.getScrubbingFraction()/chunkSource.getEffectiveScrubberCount();
+			return -rateMult*scrubberFraction*chunkSource.getScrubbingFraction()/chunkSource.getEffectiveScrubberCount();
 		}
-		return -currentChunkBuffer*scrubberFraction;
+		return -rateMult*scrubberFraction;
 	}
 	
 	public void tickRadCount() {
@@ -118,17 +119,27 @@ public class TileRadiationScrubber extends TilePassiveAbstract implements ITileR
 	}
 	
 	@Override
-	public double getContributionFraction() {
+	public double getRadiationContributionFraction() {
 		return isActive ? -scrubberFraction : 0D;
 	}
 	
 	@Override
-	public double getCurrentChunkBuffer() {
+	public double getCurrentChunkRadiationLevel() {
+		return currentChunkLevel;
+	}
+	
+	@Override
+	public void setCurrentChunkRadiationLevel(double level) {
+		currentChunkLevel = level;
+	}
+	
+	@Override
+	public double getCurrentChunkRadiationBuffer() {
 		return currentChunkBuffer;
 	}
 	
 	@Override
-	public void setCurrentChunkBuffer(double buffer) {
+	public void setCurrentChunkRadiationBuffer(double buffer) {
 		currentChunkBuffer = buffer;
 	}
 	
@@ -163,6 +174,7 @@ public class TileRadiationScrubber extends TilePassiveAbstract implements ITileR
 	public NBTTagCompound writeAll(NBTTagCompound nbt) {
 		super.writeAll(nbt);
 		nbt.setDouble("scrubberRate", scrubberFraction);
+		nbt.setDouble("currentChunkLevel", currentChunkLevel);
 		nbt.setDouble("currentChunkBuffer", currentChunkBuffer);
 		
 		int count = 0;
@@ -178,6 +190,7 @@ public class TileRadiationScrubber extends TilePassiveAbstract implements ITileR
 	public void readAll(NBTTagCompound nbt) {
 		super.readAll(nbt);
 		scrubberFraction = nbt.getDouble("scrubberRate");
+		currentChunkLevel = nbt.getDouble("currentChunkLevel");
 		currentChunkBuffer = nbt.getDouble("currentChunkBuffer");
 		
 		for (String key : nbt.getKeySet()) {
@@ -206,6 +219,6 @@ public class TileRadiationScrubber extends TilePassiveAbstract implements ITileR
 	@Callback
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getEfficiency(Context context, Arguments args) {
-		return new Object[] {Math.abs(100D*getContributionFraction()/getMaxScrubberFraction())};
+		return new Object[] {Math.abs(100D*getRadiationContributionFraction()/getMaxScrubberFraction())};
 	}
 }

@@ -1,3 +1,11 @@
+v2.18i
+
+* Radiation now spreads from scrubbed chunks as normal, while radiation to scrubbed chunks is diminished
+* Fixed scrubbers incorrectly displaying their radiation removal rate in chunks with no active sources
+
+* Fixed server-side crash when displaying radiation warning to players
+* Fixed occasional crash on game load
+
 v2.18h
 
 * Fixed needlessly generating new ore dict entries

@@ -126,7 +126,7 @@ public class RadiationHandler {
 				if (playerRads.isFatal()) {
 					player.attackEntityFrom(DamageSources.FATAL_RADS, Float.MAX_VALUE);
 				}
-				else if (!RadPotionEffects.PLAYER_RAD_LEVEL_LIST.isEmpty() && previousRadPercentage < RadPotionEffects.PLAYER_RAD_LEVEL_LIST.get(0) && playerRads.getRadsPercentage() >= RadPotionEffects.PLAYER_RAD_LEVEL_LIST.get(0) && !RadiationRenders.shouldShowHUD(player)) {
+				else if (!RadPotionEffects.PLAYER_RAD_LEVEL_LIST.isEmpty() && previousRadPercentage < RadPotionEffects.PLAYER_RAD_LEVEL_LIST.get(0) && playerRads.getRadsPercentage() >= RadPotionEffects.PLAYER_RAD_LEVEL_LIST.get(0) && !RadiationHelper.shouldShowHUD(player)) {
 					playerRads.setShouldWarn(true);
 				}
 				else {
@@ -310,10 +310,11 @@ public class RadiationHandler {
 				}
 			}
 			
-			double currentBuffer = chunkSource.getRadiationBuffer();
+			double currentLevel = chunkSource.getRadiationLevel(), currentBuffer = chunkSource.getRadiationBuffer();
 			for (TileEntity tile : tileArray) {
 				if (tile instanceof ITileRadiationEnvironment) {
-					((ITileRadiationEnvironment)tile).setCurrentChunkBuffer(currentBuffer);
+					((ITileRadiationEnvironment)tile).setCurrentChunkRadiationLevel(currentLevel);
+					((ITileRadiationEnvironment)tile).setCurrentChunkRadiationBuffer(currentBuffer);
 					RadiationHelper.addScrubbingFractionToChunk(RadiationHelper.getRadiationSource(chunk), (ITileRadiationEnvironment)tile);
 				}
 			}

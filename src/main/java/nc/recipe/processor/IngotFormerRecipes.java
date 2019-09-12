@@ -127,7 +127,7 @@ public class IngotFormerRecipes extends ProcessorRecipeHandler {
 		addFissionFuelFormingRecipes(element, suffix, "", types);
 	}
 	
-	private static final List<String> CASTING_BLACKLIST = Arrays.asList("glass", "coal", "redstone", "glowstone", "prismarine", "obsidian", "silicon");
+	private static final List<String> CASTING_BLACKLIST = Arrays.asList("glass", "coal", "redstone", "glowstone", "prismarine", "obsidian", "silicon", "marshmallow");
 	
 	public void addIngotFormingRecipes() {
 		ArrayList<String> fluidList = new ArrayList(FluidRegistry.getRegisteredFluids().keySet());

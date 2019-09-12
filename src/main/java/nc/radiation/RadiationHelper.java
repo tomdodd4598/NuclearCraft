@@ -2,6 +2,9 @@ package nc.radiation;
 
 import java.util.List;
 
+import baubles.api.BaubleType;
+import baubles.api.cap.BaublesCapabilities;
+import baubles.api.cap.IBaublesItemHandler;
 import ic2.api.reactor.IReactor;
 import nc.ModCheck;
 import nc.capability.radiation.IRadiation;
@@ -9,6 +12,7 @@ import nc.capability.radiation.entity.IEntityRads;
 import nc.capability.radiation.resistance.IRadiationResistance;
 import nc.capability.radiation.source.IRadiationSource;
 import nc.config.NCConfig;
+import nc.init.NCItems;
 import nc.tile.dummy.TileDummy;
 import nc.tile.radiation.ITileRadiationEnvironment;
 import nc.util.ArmorHelper;
@@ -91,16 +95,16 @@ public class RadiationHelper {
 			return;
 		}
 		if (NCConfig.radiation_scrubber_alt) {
-			if (tile.getContributionFraction() < 0D) {
-				chunkSource.setEffectiveScrubberCount(chunkSource.getEffectiveScrubberCount() - tile.getContributionFraction());
+			if (tile.getRadiationContributionFraction() < 0D) {
+				chunkSource.setEffectiveScrubberCount(chunkSource.getEffectiveScrubberCount() - tile.getRadiationContributionFraction());
 			}
 		}
 		else {
-			addToSourceBuffer(chunkSource, tile.getContributionFraction()*tile.getCurrentChunkBuffer());
+			addToSourceBuffer(chunkSource, tile.getRadiationContributionFraction()*tile.getCurrentChunkRadiationBuffer());
 			
-			if (tile.getContributionFraction() < 0D) {
-				chunkSource.setScrubbingFraction(chunkSource.getScrubbingFraction() - tile.getContributionFraction());
-				chunkSource.setEffectiveScrubberCount(chunkSource.getEffectiveScrubberCount() - tile.getContributionFraction());
+			if (tile.getRadiationContributionFraction() < 0D) {
+				chunkSource.setScrubbingFraction(chunkSource.getScrubbingFraction() - tile.getRadiationContributionFraction());
+				chunkSource.setEffectiveScrubberCount(chunkSource.getEffectiveScrubberCount() - tile.getRadiationContributionFraction());
 			}
 		}
 	}
@@ -217,16 +221,10 @@ public class RadiationHelper {
 			
 			if (targetChunk != null && targetChunk.isLoaded()) {
 				IRadiationSource targetChunkSource = getRadiationSource(targetChunk);
-				if (targetChunkSource != null) {
-					double scrubbing = Math.max(chunkSource.getScrubbingFraction(), targetChunkSource.getScrubbingFraction());
-					if (!chunkSource.isRadiationNegligible() && scrubbing < 1D) {
-						double spreadMult = 1D - scrubbing;
-						if (spreadMult > 0D && (targetChunkSource.getRadiationLevel() == 0D || chunkSource.getRadiationLevel()/targetChunkSource.getRadiationLevel() > (1D + NCConfig.radiation_spread_gradient)/spreadMult)) {
-							double radiationSpread = (chunkSource.getRadiationLevel() - targetChunkSource.getRadiationLevel())*NCConfig.radiation_spread_rate*spreadMult;
-							chunkSource.setRadiationLevel(chunkSource.getRadiationLevel() - radiationSpread);
-							targetChunkSource.setRadiationLevel(targetChunkSource.getRadiationLevel() + radiationSpread);
-						}
-					}
+				if (targetChunkSource != null && !chunkSource.isRadiationNegligible() && (targetChunkSource.getRadiationLevel() == 0D || chunkSource.getRadiationLevel()/targetChunkSource.getRadiationLevel() > 1D + NCConfig.radiation_spread_gradient)) {
+					double radiationSpread = (chunkSource.getRadiationLevel() - targetChunkSource.getRadiationLevel())*NCConfig.radiation_spread_rate;
+					chunkSource.setRadiationLevel(chunkSource.getRadiationLevel() - radiationSpread);
+					targetChunkSource.setRadiationLevel(targetChunkSource.getRadiationLevel() + radiationSpread*(1D - targetChunkSource.getScrubbingFraction()));
 				}
 			}
 			
@@ -389,6 +387,26 @@ public class RadiationHelper {
 				break;
 			}
 		}
+	}
+	
+	// Radiation HUD
+	
+	public static boolean shouldShowHUD(EntityPlayer player) {
+		if (!player.hasCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null)) return false;
+		if (!NCConfig.radiation_require_counter) return true;
+		
+		final ItemStack geiger_counter = new ItemStack(NCItems.geiger_counter), geiger_block = new ItemStack(NCItems.geiger_counter);
+		
+		if (ModCheck.baublesLoaded() && player.hasCapability(BaublesCapabilities.CAPABILITY_BAUBLES, null)) {
+			IBaublesItemHandler baublesHandler = player.getCapability(BaublesCapabilities.CAPABILITY_BAUBLES, null);
+			if (baublesHandler == null) return false;
+			
+			for (int slot : BaubleType.TRINKET.getValidSlots()) {
+				if (baublesHandler.getStackInSlot(slot).isItemEqual(geiger_counter)) return true;
+			}
+		}
+		
+		return player.inventory.hasItemStack(geiger_counter) || player.inventory.hasItemStack(geiger_block);
 	}
 	
 	// Text Colours
