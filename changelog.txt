@@ -1,3 +1,7 @@
+v2.18j
+
+* Fixed broken alternative cryotheum recipe
+
 v2.18i
 
 * Radiation now spreads from scrubbed chunks as normal, while radiation to scrubbed chunks is diminished
