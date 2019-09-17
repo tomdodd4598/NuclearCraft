@@ -27,7 +27,7 @@ public class DissolverRecipes extends ProcessorRecipeHandler {
 		addRecipe(new ItemStack(NCBlocks.glowing_mushroom, 3), fluidStack("ethanol", FluidStackHelper.BUCKET_VOLUME/4), fluidStack("radaway", FluidStackHelper.BUCKET_VOLUME/4), 1D, 0.5D);
 		
 		if (!ModCheck.thermalFoundationLoaded()) {
-			addRecipe(new ItemStack(Items.SNOWBALL, 4), fluidStack("liquid_helium", 25), fluidStack("cryotheum", 25), 0.5D, 1D);
+			addRecipe(new ItemStack(Items.SNOWBALL, 4), fluidStack("liquidhelium", 25), fluidStack("cryotheum", 25), 0.5D, 1D);
 		}
 	}
 }
