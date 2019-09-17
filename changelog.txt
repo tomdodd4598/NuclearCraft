@@ -38,7 +38,7 @@ v2.18e
 
 * Fixed crash on opening Nuclear Furnace GUI
 
-+ Added alternate cryotheum recipe for when TF isn't installed
++ Added alternative cryotheum recipe for when TF isn't installed
 
 v2.18d
 
