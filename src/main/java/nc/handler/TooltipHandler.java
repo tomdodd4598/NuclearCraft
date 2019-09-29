@@ -1,19 +1,22 @@
 package nc.handler;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 
-import nc.Global;
 import nc.NCInfo;
 import nc.capability.radiation.resistance.IRadiationResistance;
 import nc.capability.radiation.source.IRadiationSource;
 import nc.config.NCConfig;
 import nc.radiation.RadSources;
 import nc.radiation.RadiationHelper;
+import nc.recipe.NCRecipes;
+import nc.recipe.ProcessorRecipe;
+import nc.recipe.RecipeInfo;
+import nc.tile.internal.fluid.Tank;
 import nc.util.ArmorHelper;
 import nc.util.InfoHelper;
 import nc.util.Lang;
-import nc.util.OreDictHelper;
 import net.minecraft.client.util.RecipeItemHelper;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
@@ -28,19 +31,17 @@ public class TooltipHandler {
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public void addAdditionalTooltips(ItemTooltipEvent event) {
-		final ItemStack stack = event.getItemStack();
-		if (stack.isEmpty()) return;
+		ItemStack stack = event.getItemStack();
+		RecipeInfo<ProcessorRecipe> recipeInfo = NCRecipes.fission_moderator.getRecipeInfoFromInputs(Arrays.asList(stack), new ArrayList<Tank>());
+		ProcessorRecipe recipe = recipeInfo == null ? null : recipeInfo.getRecipe();
+		if (recipe != null) {
+			InfoHelper.infoFull(event.getToolTip(), new TextFormatting[] {TextFormatting.UNDERLINE, TextFormatting.GREEN, TextFormatting.GREEN}, NCInfo.fissionModeratorFixedInfo(recipe), NCInfo.fissionModeratorInfo());
+		}
 		
-		if (!stack.getItem().getRegistryName().getNamespace().equals(Global.MOD_ID)) {
-			Set<String> oreNames = OreDictHelper.getOreNames(stack);
-			if (!oreNames.isEmpty()) {
-				if (oreNames.contains("blockGraphite")) {
-					InfoHelper.infoFull(event.getToolTip(), TextFormatting.AQUA, NCInfo.ingotBlockFixedInfo()[8], NCInfo.ingotBlockInfo()[8]);
-				}
-				else if (oreNames.contains("blockBeryllium")) {
-					InfoHelper.infoFull(event.getToolTip(), TextFormatting.AQUA, NCInfo.ingotBlockFixedInfo()[9], NCInfo.ingotBlockInfo()[9]);
-				}
-			}
+		recipeInfo = NCRecipes.fission_reflector.getRecipeInfoFromInputs(Arrays.asList(stack), new ArrayList<Tank>());
+		recipe = recipeInfo == null ? null : recipeInfo.getRecipe();
+		if (recipe != null) {
+			InfoHelper.infoFull(event.getToolTip(), new TextFormatting[] {TextFormatting.UNDERLINE, TextFormatting.LIGHT_PURPLE, TextFormatting.LIGHT_PURPLE}, NCInfo.fissionReflectorFixedInfo(recipe), NCInfo.fissionReflectorInfo());
 		}
 		
 		if (NCConfig.radiation_enabled_public) {

@@ -135,8 +135,12 @@ public class NCMath {
 		return Math.abs(a*b)/highestCommonFactor(a, b);
 	}
 	
+	public static int hollowCuboid(int x, int y, int z) {
+		return x*y*z - (x-2)*(y-2)*(z-2);
+	}
+	
 	public static int hollowCube(int length) {
-		return cube(length) - cube(length - 2);
+		return hollowCuboid(length, length, length);
 	}
 	
 	public static double trapezoidalWave(double degs, double phase) {
@@ -158,11 +162,11 @@ public class NCMath {
 		return bd.doubleValue() + "";
 	}
 	
-	public static String decimalPlaces(double number, int sigFigs) {
+	public static String decimalPlaces(double number, int places) {
 		if (number == (int)number) {
 			return (int)number + "";
 		}
-		char[] arr = new char[Math.max(1, sigFigs)];
+		char[] arr = new char[Math.max(1, places)];
 		Arrays.fill(arr, '#');
 		DecimalFormat df = new DecimalFormat("0." + new String(arr));
 		return df.format(number);

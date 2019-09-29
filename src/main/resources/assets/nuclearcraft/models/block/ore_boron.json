@@ -1,6 +1,0 @@
-{
-	"parent": "nuclearcraft:block/ore",
-	"textures": {
-		"ore": "nuclearcraft:blocks/ore_boron"
-	}
-}

@@ -12,7 +12,7 @@ public class BlockSimpleSidedTile extends BlockSidedTile implements ITileType {
 	public BlockSimpleSidedTile(SimpleTileType type) {
 		super(Material.IRON);
 		this.type = type;
-		setCreativeTab(type.getTab());
+		setCreativeTab(type.getCreativeTab());
 	}
 	
 	@Override

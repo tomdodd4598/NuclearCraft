@@ -1,7 +1,7 @@
 {
 	"display": {
 		"icon": {
-			"item": "nuclearcraft:rock_crusher_active"
+			"item": "nuclearcraft:rock_crusher"
 		},
 		"title": {
 			"translate": "advancement.nuclearcraft.rock_crusher.name"
@@ -17,7 +17,7 @@
 			"conditions": {
 				"items": [
 					{
-						"item": "nuclearcraft:rock_crusher_idle"
+						"item": "nuclearcraft:rock_crusher"
 					}
 				]
 			}

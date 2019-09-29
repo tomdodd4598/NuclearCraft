@@ -1,6 +1,0 @@
-{
-	"parent": "nuclearcraft:item/item_gem",
-	"textures": {
-		"layer0": "nuclearcraft:items/gem_rhodochrosite"
-	}
-}

@@ -13,7 +13,7 @@ import nc.recipe.IngredientSorption;
 public class CrystallizerCategory extends JEICategoryProcessor<JEIRecipeWrapper.Crystallizer> {
 	
 	public CrystallizerCategory(IGuiHelper guiHelper, IJEIHandler handler) {
-		super(guiHelper, handler, "crystallizer_idle", 47, 30, 90, 26);
+		super(guiHelper, handler, "crystallizer", 47, 30, 90, 26);
 	}
 	
 	@Override

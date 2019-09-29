@@ -47,7 +47,7 @@ public class OreGenerator implements IWorldGenerator {
 	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
 		List<Integer> dimList = new ArrayList<Integer>();
-		for (int i = 0; i < NCConfig.ore_dims.length; i ++) dimList.add(NCConfig.ore_dims[i]);
+		for (int i = 0; i < NCConfig.ore_dims.length; i++) dimList.add(NCConfig.ore_dims[i]);
 		if (dimList.contains(world.provider.getDimension()) != NCConfig.ore_dims_list_type) generateOres(random, chunkX, chunkZ, world, chunkGenerator, chunkProvider);
 	}
 	
@@ -56,7 +56,7 @@ public class OreGenerator implements IWorldGenerator {
 			throw new IllegalArgumentException("Illegal height arguments for WorldGenerator!");
 		
 		int heightDiff = maxHeight - minHeight + 1;
-		for (int i = 0; i < chancesToSpawn; i ++) {
+		for (int i = 0; i < chancesToSpawn; i++) {
 			int x = chunk_X * 16 + rand.nextInt(16);
 			int y = minHeight + rand.nextInt(heightDiff);
 			int z = chunk_Z * 16 + rand.nextInt(16);

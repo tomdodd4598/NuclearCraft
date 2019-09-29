@@ -1,6 +1,0 @@
-{
-    "parent": "nuclearcraft:block/processor",
-    "textures": {
-        "front": "nuclearcraft:blocks/chemical_reactor_front_on"
-    }
-}

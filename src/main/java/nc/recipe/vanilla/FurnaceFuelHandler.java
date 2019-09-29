@@ -15,9 +15,8 @@ public class FurnaceFuelHandler implements IFuelHandler {
 		else if (fuel.isItemEqual(new ItemStack(NCBlocks.ingot_block, 1, 8))) return 16000;
 		else if (fuel.isItemEqual(new ItemStack(NCItems.gem_dust, 1, 7))) return 1600;
 		
-		else if (fuel.isItemEqual(new ItemStack(Items.REEDS))) return 300;
+		else if (fuel.isItemEqual(new ItemStack(Items.REEDS))) return 200;
 		else if (fuel.isItemEqual(new ItemStack(Items.SUGAR))) return 200;
 		return 0;
 	}
-	
 }

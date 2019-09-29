@@ -21,6 +21,10 @@ public class ChemicalReactorRecipes extends ProcessorRecipeHandler {
 		
 		addRecipe(fluidStack("boric_acid", FluidStackHelper.BUCKET_VOLUME), fluidStack("ammonia", FluidStackHelper.BUCKET_VOLUME), fluidStack("boron_nitride_solution", FluidStackHelper.GEM_VOLUME), fluidStack("water", FluidStackHelper.BUCKET_VOLUME*2), 1D, 0.5D);
 		
+		addRecipe(fluidStack("hydrogen", FluidStackHelper.BUCKET_VOLUME*2), fluidStack("oxygen", FluidStackHelper.BUCKET_VOLUME), fluidStack("water", FluidStackHelper.BUCKET_VOLUME), emptyFluidStack(), 0.5D, 0.5D);
+		addRecipe(fluidStack("deuterium", FluidStackHelper.BUCKET_VOLUME*2), fluidStack("oxygen", FluidStackHelper.BUCKET_VOLUME), fluidStack("heavy_water", FluidStackHelper.BUCKET_VOLUME), emptyFluidStack(), 0.5D, 0.5D);
+		addRecipe(fluidStack("hydrogen", FluidStackHelper.BUCKET_VOLUME), fluidStack("fluorine", FluidStackHelper.BUCKET_VOLUME), fluidStack("hydrofluoric_acid", FluidStackHelper.BUCKET_VOLUME), emptyFluidStack(), 0.5D, 0.5D);
+		
 		addRecipe(fluidStackList(Lists.newArrayList("lithium", "lithium6", "lithium7"), FluidStackHelper.INGOT_VOLUME), fluidStack("fluorine", FluidStackHelper.BUCKET_VOLUME/2), fluidStack("lif", FluidStackHelper.INGOT_VOLUME), emptyFluidStack(), 1D, 0.5D);
 		addRecipe(fluidStack("beryllium", FluidStackHelper.INGOT_VOLUME), fluidStack("fluorine", FluidStackHelper.BUCKET_VOLUME), fluidStack("bef2", FluidStackHelper.INGOT_VOLUME), emptyFluidStack(), 1D, 0.5D);
 		

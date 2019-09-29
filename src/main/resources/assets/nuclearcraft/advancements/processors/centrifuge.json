@@ -1,7 +1,7 @@
 {
 	"display": {
 		"icon": {
-			"item": "nuclearcraft:centrifuge_active"
+			"item": "nuclearcraft:centrifuge"
 		},
 		"title": {
 			"translate": "advancement.nuclearcraft.centrifuge.name"
@@ -17,7 +17,7 @@
 			"conditions": {
 				"items": [
 					{
-						"item": "nuclearcraft:centrifuge_idle"
+						"item": "nuclearcraft:centrifuge"
 					}
 				]
 			}

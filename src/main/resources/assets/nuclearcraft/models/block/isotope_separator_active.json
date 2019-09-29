@@ -1,6 +1,0 @@
-{
-    "parent": "nuclearcraft:block/processor",
-    "textures": {
-        "front": "nuclearcraft:blocks/isotope_separator_front_on"
-    }
-}

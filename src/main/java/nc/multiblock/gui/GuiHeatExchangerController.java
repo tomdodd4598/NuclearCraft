@@ -6,7 +6,7 @@ import java.util.List;
 import nc.Global;
 import nc.multiblock.gui.element.MultiblockButton;
 import nc.multiblock.heatExchanger.HeatExchanger;
-import nc.multiblock.network.ClearAllFluidsPacket;
+import nc.multiblock.network.ClearAllPacket;
 import nc.network.PacketHandler;
 import nc.util.Lang;
 import nc.util.NCMath;
@@ -44,8 +44,8 @@ public class GuiHeatExchangerController extends GuiMultiblockController<HeatExch
 	
 	public List<String> efficiencyInfo() {
 		List<String> info = new ArrayList<String>();
-		info.add(TextFormatting.LIGHT_PURPLE + Lang.localise("gui.container.heat_exchanger_controller.active_percent") + " " + TextFormatting.WHITE + NCMath.decimalPlaces(multiblock.fractionOfTubesActive*100D, 1) + "%");
-		info.add(TextFormatting.AQUA + Lang.localise("gui.container.heat_exchanger_controller.efficiency" + (NCUtil.isModifierKeyDown() ? "_max" : "")) + " " + TextFormatting.WHITE + NCMath.decimalPlaces((NCUtil.isModifierKeyDown() ? multiblock.maxEfficiency : multiblock.efficiency)*100D, 1) + "%");
+		info.add(TextFormatting.LIGHT_PURPLE + Lang.localise("gui.nc.container.heat_exchanger_controller.active_percent") + " " + TextFormatting.WHITE + NCMath.decimalPlaces(multiblock.fractionOfTubesActive*100D, 1) + "%");
+		info.add(TextFormatting.AQUA + Lang.localise("gui.nc.container.heat_exchanger_controller.efficiency" + (NCUtil.isModifierKeyDown() ? "_max" : "")) + " " + TextFormatting.WHITE + NCMath.decimalPlaces((NCUtil.isModifierKeyDown() ? multiblock.maxEfficiency : multiblock.efficiency)*100D, 1) + "%");
 		return info;
 	}
 	
@@ -56,16 +56,16 @@ public class GuiHeatExchangerController extends GuiMultiblockController<HeatExch
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		int fontColor = multiblock.isHeatExchangerOn ? 4210752 : 15619328;
-		String title = multiblock.getInteriorLengthX() + "*" +  multiblock.getInteriorLengthY() + "*" +  multiblock.getInteriorLengthZ() + " " + Lang.localise("gui.container.heat_exchanger_controller.heat_exchanger");
+		String title = multiblock.getInteriorLengthX() + "*" +  multiblock.getInteriorLengthY() + "*" +  multiblock.getInteriorLengthZ() + " " + Lang.localise("gui.nc.container.heat_exchanger_controller.heat_exchanger");
 		fontRenderer.drawString(title, xSize / 2 - width(title) / 2, 6, fontColor);
 		
 		String underline = StringHelper.charLine('-', MathHelper.ceil((double)width(title)/width("-")));
 		fontRenderer.drawString(underline, xSize / 2 - width(underline) / 2, 12, fontColor);
 		
-		String tubes = Lang.localise("gui.container.heat_exchanger_controller.tubes") + " " + (multiblock.getTubes().size() + multiblock.getCondenserTubes().size());
+		String tubes = Lang.localise("gui.nc.container.heat_exchanger_controller.tubes") + " " + (multiblock.getTubes().size() + multiblock.getCondenserTubes().size());
 		fontRenderer.drawString(tubes, xSize / 2 - width(tubes) / 2, 24, fontColor);
 		
-		String efficiency = Lang.localise("gui.container.heat_exchanger_controller.efficiency") + " " + (int) (multiblock.efficiency*100D) + "%";
+		String efficiency = Lang.localise("gui.nc.container.heat_exchanger_controller.efficiency") + " " + (int) (multiblock.efficiency*100D) + "%";
 		fontRenderer.drawString(efficiency, xSize / 2 - width(efficiency) / 2, 40, fontColor);
 	}
 	
@@ -80,14 +80,14 @@ public class GuiHeatExchangerController extends GuiMultiblockController<HeatExch
 	@Override
 	public void initGui() {
 		super.initGui();
-		buttonList.add(new MultiblockButton.ClearAllFluids(0, guiLeft + 153, guiTop + 35));
+		buttonList.add(new MultiblockButton.ClearAll(0, guiLeft + 153, guiTop + 35));
 	}
 	
 	@Override
 	protected void actionPerformed(GuiButton guiButton) {
 		if (multiblock.WORLD.isRemote) {
 			if (guiButton.id == 0 && NCUtil.isModifierKeyDown()) {
-				PacketHandler.instance.sendToServer(new ClearAllFluidsPacket(controllerPos));
+				PacketHandler.instance.sendToServer(new ClearAllPacket(controllerPos));
 			}
 		}
 	}

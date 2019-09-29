@@ -23,13 +23,13 @@ public class TileTurbineComputerPort extends TileTurbinePartBase implements Simp
 	public void onMachineAssembled(Turbine controller) {
 		doStandardNullControllerResponse(controller);
 		super.onMachineAssembled(controller);
-		if (getWorld().isRemote) return;
+		//if (getWorld().isRemote) return;
 	}
 	
 	@Override
 	public void onMachineBroken() {
 		super.onMachineBroken();
-		if (getWorld().isRemote) return;
+		//if (getWorld().isRemote) return;
 		//getWorld().setBlockState(getPos(), getWorld().getBlockState(getPos()), 2);
 	}
 	
@@ -188,9 +188,9 @@ public class TileTurbineComputerPort extends TileTurbinePartBase implements Simp
 	
 	@Callback
 	@Optional.Method(modid = "opencomputers")
-	public Object[] clearAllFluids(Context context, Arguments args) {
+	public Object[] clearAll(Context context, Arguments args) {
 		if (isMultiblockAssembled()) {
-			getMultiblock().clearAllFluids();
+			getMultiblock().clearAll();
 		}
 		return new Object[] {};
 	}

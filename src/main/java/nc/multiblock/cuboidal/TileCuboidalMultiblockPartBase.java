@@ -12,11 +12,6 @@ public abstract class TileCuboidalMultiblockPartBase<T extends MultiblockBase> e
 		this.positionType = positionType;
 	}
 	
-	public boolean isMultiblockAssembled() {
-		if (getMultiblock() == null) return false;
-		return getMultiblock().isAssembled();
-	}
-	
 	@Override
 	public void onMachineActivated() {
 		
@@ -40,21 +35,21 @@ public abstract class TileCuboidalMultiblockPartBase<T extends MultiblockBase> e
 
 	@Override
 	public boolean isGoodForSides(IMultiblockValidator validator) {
-		if (positionType.isGoodForWalls()) return true;
+		if (positionType.isGoodForWall()) return true;
 		setStandardLastError(validator);
 		return false;
 	}
 
 	@Override
 	public boolean isGoodForTop(IMultiblockValidator validator) {
-		if (positionType.isGoodForWalls()) return true;
+		if (positionType.isGoodForWall()) return true;
 		setStandardLastError(validator);
 		return false;
 	}
 
 	@Override
 	public boolean isGoodForBottom(IMultiblockValidator validator) {
-		if (positionType.isGoodForWalls()) return true;
+		if (positionType.isGoodForWall()) return true;
 		setStandardLastError(validator);
 		return false;
 	}

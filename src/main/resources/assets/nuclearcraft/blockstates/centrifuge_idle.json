@@ -1,8 +1,0 @@
-{
-    "variants": {
-        "facing=north": { "model": "nuclearcraft:centrifuge_idle" },
-        "facing=south": { "model": "nuclearcraft:centrifuge_idle", "y": 180 },
-        "facing=west":  { "model": "nuclearcraft:centrifuge_idle", "y": 270 },
-        "facing=east":  { "model": "nuclearcraft:centrifuge_idle", "y": 90 }
-    }
-}

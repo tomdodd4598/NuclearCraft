@@ -1,5 +1,7 @@
 package nc.recipe.processor;
 
+import com.google.common.collect.Lists;
+
 import nc.recipe.ProcessorRecipeHandler;
 import nc.util.FluidStackHelper;
 
@@ -11,16 +13,14 @@ public class ElectrolyserRecipes extends ProcessorRecipeHandler {
 
 	@Override
 	public void addRecipes() {
-		addRecipe(fluidStack("water", FluidStackHelper.BUCKET_VOLUME), fluidStack("hydrogen", 950), fluidStack("deuterium", 50), fluidStack("oxygen", FluidStackHelper.BUCKET_VOLUME/2), emptyFluidStack(), 1.5D, 1D);
-		addRecipe(fluidStack("hydrofluoric_acid", FluidStackHelper.BUCKET_VOLUME), fluidStack("hydrogen", FluidStackHelper.BUCKET_VOLUME/2), fluidStack("fluorine", FluidStackHelper.BUCKET_VOLUME/2), emptyFluidStack(), emptyFluidStack(), 1D, 0.5D);
+		addRecipe(fluidStack("water", FluidStackHelper.BUCKET_VOLUME), fluidStack("hydrogen", FluidStackHelper.BUCKET_VOLUME*2), fluidStack("oxygen", FluidStackHelper.BUCKET_VOLUME), emptyFluidStack(), emptyFluidStack(), 1D, 1D);
+		addRecipe(fluidStackList(Lists.newArrayList("heavywater", "heavy_water"), FluidStackHelper.BUCKET_VOLUME), fluidStack("deuterium", FluidStackHelper.BUCKET_VOLUME*2), fluidStack("oxygen", FluidStackHelper.BUCKET_VOLUME), emptyFluidStack(), emptyFluidStack(), 1D, 1D);
+		addRecipe(fluidStack("hydrofluoric_acid", FluidStackHelper.BUCKET_VOLUME), fluidStack("hydrogen", FluidStackHelper.BUCKET_VOLUME), fluidStack("fluorine", FluidStackHelper.BUCKET_VOLUME), emptyFluidStack(), emptyFluidStack(), 1D, 0.5D);
 		
 		addRecipe(fluidStack("naoh", FluidStackHelper.GEM_VOLUME), fluidStack("sodium", FluidStackHelper.INGOT_VOLUME), fluidStack("water", FluidStackHelper.BUCKET_VOLUME), fluidStack("oxygen", FluidStackHelper.BUCKET_VOLUME/2), emptyFluidStack(), 1.5D, 1.5D);
 		addRecipe(fluidStack("koh", FluidStackHelper.GEM_VOLUME), fluidStack("potassium", FluidStackHelper.INGOT_VOLUME), fluidStack("water", FluidStackHelper.BUCKET_VOLUME), fluidStack("oxygen", FluidStackHelper.BUCKET_VOLUME/2), emptyFluidStack(), 1.5D, 1.5D);
 		
 		addRecipe(fluidStack("alumina", FluidStackHelper.INGOT_VOLUME), fluidStack("aluminum", 2*FluidStackHelper.INGOT_VOLUME), fluidStack("oxygen", 3*FluidStackHelper.BUCKET_VOLUME), emptyFluidStack(), emptyFluidStack(), 2D, 1D);
-		
-		// Mekanism
-		addRecipe(fluidStack("heavywater", FluidStackHelper.BUCKET_VOLUME), fluidStack("deuterium", 950), fluidStack("tritium", 50), fluidStack("oxygen", FluidStackHelper.BUCKET_VOLUME/2), emptyFluidStack(), 1.5D, 1D);
 		
 		addElementFluorideRecipes("thorium", "uranium", "plutonium");
 		

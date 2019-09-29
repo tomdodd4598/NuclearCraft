@@ -18,6 +18,5 @@ build
 .gradle
 
 # other
-classes
 eclipse
 run

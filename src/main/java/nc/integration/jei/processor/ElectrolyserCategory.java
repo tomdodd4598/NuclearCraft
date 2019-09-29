@@ -12,7 +12,7 @@ import nc.recipe.IngredientSorption;
 public class ElectrolyserCategory extends JEICategoryProcessor<JEIRecipeWrapper.Electrolyser> {
 	
 	public ElectrolyserCategory(IGuiHelper guiHelper, IJEIHandler handler) {
-		super(guiHelper, handler, "electrolyser_idle", 49, 30, 94, 38);
+		super(guiHelper, handler, "electrolyser", 49, 30, 94, 38);
 	}
 	
 	@Override

@@ -1,5 +1,7 @@
 package nc.multiblock.turbine.tile;
 
+import static nc.block.property.BlockProperties.FACING_ALL;
+
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.turbine.Turbine;
 import nc.multiblock.turbine.block.BlockTurbineController;
@@ -23,19 +25,21 @@ public class TileTurbineController extends TileTurbinePartBase {
 	public void onMachineAssembled(Turbine controller) {
 		doStandardNullControllerResponse(controller);
 		super.onMachineAssembled(controller);
-		if (getWorld().isRemote) return;
+		if (!getWorld().isRemote && getPartPosition().getFacing() != null) {
+			getWorld().setBlockState(getPos(), getWorld().getBlockState(getPos()).withProperty(FACING_ALL, getPartPosition().getFacing()), 2);
+		}
 	}
 	
 	@Override
 	public void onMachineBroken() {
 		super.onMachineBroken();
-		if (getWorld().isRemote) return;
+		//if (getWorld().isRemote) return;
 		//getWorld().setBlockState(getPos(), getWorld().getBlockState(getPos()), 2);
 	}
 	
 	@Override
-	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newSate) {
-		return oldState.getBlock() != newSate.getBlock();
+	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
+		return oldState.getBlock() != newState.getBlock();
 	}
 	
 	@Override

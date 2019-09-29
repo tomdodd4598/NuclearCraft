@@ -86,8 +86,8 @@ public class EntityFeralGhoul extends EntityZombie {
 		
 		targetTasks.addTask(1, new EntityAIHurtByTarget(this, true, new Class[] {EntityPigZombie.class}));
 		
-		targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, true));
-		targetTasks.addTask(3, new EntityAINearestAttackableTarget(this, EntityVillager.class, true));
+		targetTasks.addTask(2, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, true));
+		targetTasks.addTask(3, new EntityAINearestAttackableTarget<>(this, EntityVillager.class, true));
 	}
 	
 	@Override

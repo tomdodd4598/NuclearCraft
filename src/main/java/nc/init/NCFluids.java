@@ -51,11 +51,11 @@ public class NCFluids {
 			fluidPairList.add(fluidPair(FluidType.MOLTEN, "sulfur", 0xDEDE7A));
 			fluidPairList.add(fluidPair(FluidType.MOLTEN, "arsenic", 0x818475));
 			
-			fluidPairList.add(fluidPair(FluidType.SUPERFLUID, "liquidhelium"));
+			fluidPairList.add(fluidPair(FluidType.SUPERFLUID, "liquid_helium"));
 			fluidPairList.add(fluidPair(FluidType.LIQUID, "liquid_nitrogen", false, 0x31C23A, 810, 70, 170));
+			fluidPairList.add(fluidPair(FluidType.LIQUID, "heavy_water"));
 			
 			fluidPairList.add(fluidPair(FluidType.PLASMA, "plasma"));
-			fluidPairList.add(fluidPair(FluidType.PARTICLE, "neutron"));
 			
 			fluidPairList.add(fluidPair(FluidType.FLAMMABLE, "ethanol", 0x655140));
 			fluidPairList.add(fluidPair(FluidType.FLAMMABLE, "methanol", 0x71524C));

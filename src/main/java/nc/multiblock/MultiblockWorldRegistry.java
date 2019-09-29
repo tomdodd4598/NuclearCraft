@@ -120,7 +120,7 @@ final class MultiblockWorldRegistry {
 					// This can occur on slow machines.
 					if(orphan.isPartInvalid()) { continue; }
 
-					if(this.getMultiblockPartFromWorld(worldObj, coord) != orphan) {
+					if(MultiblockWorldRegistry.getMultiblockPartFromWorld(worldObj, coord) != orphan) {
 						// This block has been replaced by another.
 						continue;
 					}

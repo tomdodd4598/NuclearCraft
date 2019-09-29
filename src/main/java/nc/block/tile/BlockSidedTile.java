@@ -27,6 +27,7 @@ public abstract class BlockSidedTile extends BlockTile {
 	
 	@Override
 	public void onBlockAdded(World world, BlockPos pos, IBlockState state) {
+		super.onBlockAdded(world, pos, state);
 		setDefaultFacing(world, pos, state);
 	}
 	

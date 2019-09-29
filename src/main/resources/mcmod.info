@@ -1,7 +1,7 @@
 [{
 	"modid": "nuclearcraft",
 	"name": "NuclearCraft",
-	"description": "Nuclear Physics, Minecraft Style",
+	"description": "Nuclear Physics, Minecraft Style, Overhauled!",
 	"version": "${version}",
 	"mcversion": "${mcversion}",
 	"url": "https://minecraft.curseforge.com/projects/nuclearcraft-mod",

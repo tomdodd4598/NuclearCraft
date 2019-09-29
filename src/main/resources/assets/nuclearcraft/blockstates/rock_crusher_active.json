@@ -1,8 +1,0 @@
-{
-    "variants": {
-        "facing=north": { "model": "nuclearcraft:rock_crusher_active" },
-        "facing=south": { "model": "nuclearcraft:rock_crusher_active", "y": 180 },
-        "facing=west":  { "model": "nuclearcraft:rock_crusher_active", "y": 270 },
-        "facing=east":  { "model": "nuclearcraft:rock_crusher_active", "y": 90 }
-    }
-}

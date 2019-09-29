@@ -1,8 +1,0 @@
-{
-    "variants": {
-        "facing=north": { "model": "nuclearcraft:crystallizer_idle" },
-        "facing=south": { "model": "nuclearcraft:crystallizer_idle", "y": 180 },
-        "facing=west":  { "model": "nuclearcraft:crystallizer_idle", "y": 270 },
-        "facing=east":  { "model": "nuclearcraft:crystallizer_idle", "y": 90 }
-    }
-}

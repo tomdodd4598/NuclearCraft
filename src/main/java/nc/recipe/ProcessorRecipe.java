@@ -16,7 +16,7 @@ public class ProcessorRecipe implements IRecipe {
 	protected List<IItemIngredient> itemIngredients, itemProducts;
 	protected List<IFluidIngredient> fluidIngredients, fluidProducts;
 	
-	private int itemInputSize, fluidInputSize, itemOutputSize, fluidOutputSize;
+	//private int itemInputSize, fluidInputSize, itemOutputSize, fluidOutputSize;
 	
 	protected List extras;
 	public boolean isShapeless;
@@ -27,10 +27,10 @@ public class ProcessorRecipe implements IRecipe {
 		itemProducts = itemProductsList;
 		fluidProducts = fluidProductsList;
 		
-		itemInputSize = itemIngredientsList.size();
+		/*itemInputSize = itemIngredientsList.size();
 		fluidInputSize = fluidIngredientsList.size();
 		itemOutputSize = itemProductsList.size();
-		fluidOutputSize = fluidProductsList.size();
+		fluidOutputSize = fluidProductsList.size();*/
 		
 		extras = extrasList;
 		isShapeless = shapeless;
@@ -103,20 +103,6 @@ public class ProcessorRecipe implements IRecipe {
 		else return 0D;
 	}
 	
-	// Active Cooler
-	
-	public long getActiveFissionCoolingRate() {
-		if (extras.isEmpty()) return 0;
-		else if (extras.get(0) instanceof Long) return (long) extras.get(0);
-		else return 0;
-	}
-	
-	public long getActiveFusionCoolingRate() {
-		if (extras.size() < 2) return 0;
-		else if (extras.get(1) instanceof Long) return (long) extras.get(1);
-		else return 0;
-	}
-	
 	// Decay Generator
 	
 	public double getDecayLifetime() {
@@ -139,22 +125,28 @@ public class ProcessorRecipe implements IRecipe {
 	
 	// Fission
 	
-	public double getFissionFuelTime() {
-		if (extras.isEmpty()) return 1D;
-		else if (extras.get(0) instanceof Double) return (double) extras.get(0);
-		else return 1D;
+	public int getFissionFuelTime() {
+		if (extras.isEmpty()) return 1;
+		else if (extras.get(0) instanceof Integer) return (int) extras.get(0);
+		else return 1;
 	}
 	
-	public double getFissionFuelPower() {
-		if (extras.size() < 2) return 0D;
-		else if (extras.get(1) instanceof Double) return (double) extras.get(1);
-		else return 0D;
+	public int getFissionFuelHeat() {
+		if (extras.size() < 2) return 0;
+		else if (extras.get(1) instanceof Integer) return (int) extras.get(1);
+		else return 0;
 	}
 	
-	public double getFissionFuelHeat() {
+	public double getFissionFuelEfficiency() {
 		if (extras.size() < 3) return 0D;
 		else if (extras.get(2) instanceof Double) return (double) extras.get(2);
 		else return 0D;
+	}
+	
+	public int getFissionFuelCriticality() {
+		if (extras.size() < 4) return 1;
+		else if (extras.get(3) instanceof Integer) return (int) extras.get(3);
+		else return 1;
 	}
 	
 	public double getFissionFuelRadiation() {
@@ -189,6 +181,34 @@ public class ProcessorRecipe implements IRecipe {
 		else return 0D;
 	}
 	
+	// Fission Moderator
+	
+	public int getFissionModeratorFluxFactor() {
+		if (extras.isEmpty()) return 0;
+		else if (extras.get(0) instanceof Integer) return (int) extras.get(0);
+		else return 0;
+	}
+	
+	public double getFissionModeratorEfficiency() {
+		if (extras.size() < 2) return 1D;
+		else if (extras.get(1) instanceof Double) return (double) extras.get(1);
+		else return 1D;
+	}
+	
+	// Fission Reflector
+	
+	public double getFissionReflectorEfficiency() {
+		if (extras.isEmpty()) return 0D;
+		else if (extras.get(0) instanceof Double) return (double) extras.get(0);
+		else return 0D;
+	}
+	
+	public double getFissionReflectorReflectivity() {
+		if (extras.size() < 2) return 0D;
+		else if (extras.get(1) instanceof Double) return (double) extras.get(1);
+		else return 0D;
+	}
+	
 	// Salt Fission Vessel
 	
 	public double getSaltFissionFuelTime() {
@@ -214,7 +234,7 @@ public class ProcessorRecipe implements IRecipe {
 	public double getCoolantHeaterCoolingRate() {
 		if (extras.isEmpty()) return 10D;
 		else if (extras.get(0) instanceof Double) return (double) extras.get(0);
-		else return 0D;
+		else return 10D;
 	}
 	
 	public String[] getCoolantHeaterJEIInfo() {

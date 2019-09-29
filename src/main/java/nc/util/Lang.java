@@ -7,7 +7,7 @@ import com.google.common.collect.Lists;
 import net.minecraft.util.text.translation.I18n;
 
 public class Lang {
-	private static final String REGEX = "\\|";
+	//private static final String REGEX = "\\|";
 	public static final char CHAR = '|';
 
 	public static String localise(String unloc, Object... args) {

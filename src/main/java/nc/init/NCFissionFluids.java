@@ -25,7 +25,6 @@ public class NCFissionFluids {
 		fluidList.addAll(fissionFluids("uranium", 0x375437));
 		fluidList.addAll(fissionFluids("plutonium", 0xDBDBDB));
 		
-		fluidList.addAll(fissionFluids("thorium_230", 0x383838));
 		//fluidList.addAll(fissionFluids("thorium_232", 0x303030));
 		
 		fluidList.addAll(fissionFluids("uranium_233", 0x212E20));
@@ -72,6 +71,9 @@ public class NCFissionFluids {
 		fluidList.addAll(fissionFluids("fuel_lep_241", 0x969696));
 		fluidList.addAll(fissionFluids("fuel_hep_241", 0x8C8C8C));
 		
+		fluidList.addAll(fissionFluids("fuel_mix_239", 0x485547));
+		fluidList.addAll(fissionFluids("fuel_mix_241", 0x404E3E));
+		
 		fluidList.addAll(fissionFluids("fuel_lea_242", 0x322C1B));
 		fluidList.addAll(fissionFluids("fuel_hea_242", 0x3B2F0D));
 		
@@ -104,6 +106,9 @@ public class NCFissionFluids {
 		fluidList.addAll(fissionFluids("depleted_fuel_hep_239", 0x392D2F));
 		fluidList.addAll(fissionFluids("depleted_fuel_lep_241", 0x473441));
 		fluidList.addAll(fissionFluids("depleted_fuel_hep_241", 0x40213A));
+		
+		fluidList.addAll(fissionFluids("depleted_fuel_mix_239", 0x2F342C));
+		fluidList.addAll(fissionFluids("depleted_fuel_mix_241", 0x2F342F));
 		
 		fluidList.addAll(fissionFluids("depleted_fuel_lea_242", 0x311830));
 		fluidList.addAll(fissionFluids("depleted_fuel_hea_242", 0x391C28));

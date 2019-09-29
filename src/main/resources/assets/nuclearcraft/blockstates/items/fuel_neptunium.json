@@ -1,0 +1,52 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "nuclearcraft:item/pellet"
+	},
+	"variants": {
+		"type": {
+			"len_236_tr": {
+				"model": "nuclearcraft:item/triso",
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_neptunium/len_236_tr"
+				}
+			},
+			"len_236_ox": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_neptunium/len_236_ox"
+				}
+			},
+			"len_236_ni": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_neptunium/len_236_ni"
+				}
+			},
+			"len_236_za": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_neptunium/len_236_za"
+				}
+			},
+			"hen_236_tr": {
+				"model": "nuclearcraft:item/triso",
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_neptunium/hen_236_tr"
+				}
+			},
+			"hen_236_ox": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_neptunium/hen_236_ox"
+				}
+			},
+			"hen_236_ni": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_neptunium/hen_236_ni"
+				}
+			},
+			"hen_236_za": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_neptunium/hen_236_za"
+				}
+			}
+		}
+	}
+}

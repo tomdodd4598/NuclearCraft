@@ -1,7 +1,0 @@
-{
-    "parent": "block/cube_column",
-    "textures": {
-        "end": "nuclearcraft:blocks/fusion_electromagnet_transparent_top_off",
-        "side": "nuclearcraft:blocks/fusion_electromagnet_transparent_side_off"
-    }
-}

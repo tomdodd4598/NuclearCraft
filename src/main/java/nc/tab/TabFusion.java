@@ -1,6 +1,6 @@
 package nc.tab;
 
-import nc.init.NCBlocks;
+import nc.init.NCItems;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 
@@ -12,6 +12,6 @@ public class TabFusion extends CreativeTabs {
 
 	@Override
 	public ItemStack createIcon() {
-		return new ItemStack(NCBlocks.fusion_core);
+		return new ItemStack(NCItems.part, 1, 4);
 	}
 }

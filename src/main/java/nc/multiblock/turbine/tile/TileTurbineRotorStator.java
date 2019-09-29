@@ -27,13 +27,13 @@ public class TileTurbineRotorStator extends TileTurbinePartBase implements ITurb
 	public void onMachineAssembled(Turbine controller) {
 		doStandardNullControllerResponse(controller);
 		super.onMachineAssembled(controller);
-		if (getWorld().isRemote) return;
+		//if (getWorld().isRemote) return;
 	}
 	
 	@Override
 	public void onMachineBroken() {
 		super.onMachineBroken();
-		if (getWorld().isRemote) return;
+		//if (getWorld().isRemote) return;
 		//getWorld().setBlockState(getPos(), getWorld().getBlockState(getPos()), 2);
 	}
 	
@@ -82,10 +82,9 @@ public class TileTurbineRotorStator extends TileTurbinePartBase implements ITurb
 		return rotation;
 	}
 	
-	// Stators are rotated at 90 degrees to the blades
 	@Override
 	public void setRenderRotation(float newRotation) {
-		rotation = -newRotation;
+		rotation = newRotation;
 	}
 	
 	// NBT

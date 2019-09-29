@@ -1,8 +1,0 @@
-{
-    "variants": {
-        "facing=north": { "model": "nuclearcraft:salt_mixer_active" },
-        "facing=south": { "model": "nuclearcraft:salt_mixer_active", "y": 180 },
-        "facing=west":  { "model": "nuclearcraft:salt_mixer_active", "y": 270 },
-        "facing=east":  { "model": "nuclearcraft:salt_mixer_active", "y": 90 }
-    }
-}

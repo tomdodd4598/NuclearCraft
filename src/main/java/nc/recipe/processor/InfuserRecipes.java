@@ -29,11 +29,11 @@ public class InfuserRecipes extends ProcessorRecipeHandler {
 		addOxidizingRecipe("dustManganese", FluidStackHelper.BUCKET_VOLUME);
 		addRecipe("dustManganeseOxide", fluidStack("oxygen", FluidStackHelper.BUCKET_VOLUME), "dustManganeseDioxide", 1D, 1D);
 		
-		addRecipe(Lists.newArrayList(Blocks.ICE, Blocks.PACKED_ICE), fluidStack("liquidhelium", 50), NCBlocks.block_ice, 0.2D, 0.5D);
+		addRecipe(Lists.newArrayList(Blocks.ICE, Blocks.PACKED_ICE), fluidStack("liquid_helium", 50), NCBlocks.supercold_ice, 0.2D, 0.5D);
 		
-		addRecipe(new ItemStack(NCBlocks.cooler, 1, 0), fluidStack("water", FluidStackHelper.BUCKET_VOLUME), new ItemStack(NCBlocks.cooler, 1, 1), 1D, 1D);
-		addRecipe(new ItemStack(NCBlocks.cooler, 1, 0), fluidStack("liquidhelium", FluidStackHelper.BUCKET_VOLUME), new ItemStack(NCBlocks.cooler, 1, 8), 1D, 1D);
-		addRecipe(new ItemStack(NCBlocks.cooler, 1, 0), fluidStack("cryotheum", FluidStackHelper.BUCKET_VOLUME*2), new ItemStack(NCBlocks.cooler, 1, 10), 1D, 1D);
+		//addRecipe(new ItemStack(NCBlocks.cooler, 1, 0), fluidStack("water", FluidStackHelper.BUCKET_VOLUME), new ItemStack(NCBlocks.cooler, 1, 1), 1D, 1D);
+		//addRecipe(new ItemStack(NCBlocks.cooler, 1, 0), fluidStack("liquid_helium", FluidStackHelper.BUCKET_VOLUME), new ItemStack(NCBlocks.cooler, 1, 8), 1D, 1D);
+		//addRecipe(new ItemStack(NCBlocks.cooler, 1, 0), fluidStack("cryotheum", FluidStackHelper.BUCKET_VOLUME*2), new ItemStack(NCBlocks.cooler, 1, 10), 1D, 1D);
 		
 		addRecipe(oreStack("bioplastic", 2), fluidStack("radaway", FluidStackHelper.BUCKET_VOLUME/4), NCItems.radaway, 1D, 0.5D);
 		addRecipe(oreStack("bioplastic", 2), fluidStack("radaway_slow", FluidStackHelper.BUCKET_VOLUME/4), NCItems.radaway_slow, 1D, 0.5D);
@@ -50,7 +50,7 @@ public class InfuserRecipes extends ProcessorRecipeHandler {
 		}
 		
 		// Immersive Engineering
-		addRecipe("plankWood", fluidStack("creosote", 100), RegistryHelper.blockStackFromRegistry("immersiveengineering:treated_wood"), 0.2D, 0.5D);
+		addRecipe("plankWood", fluidStack("creosote", 125), RegistryHelper.blockStackFromRegistry("immersiveengineering:treated_wood"), 0.25D, 0.5D);
 		
 		// Redstone Arsenal
 		addIngotInfusionRecipes("Electrum", "redstone", FluidStackHelper.REDSTONE_DUST_VOLUME*2, "ElectrumFlux", 1D, 1D);

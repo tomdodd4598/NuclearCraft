@@ -6,7 +6,6 @@ import gregtech.api.capability.GregtechCapabilities;
 import ic2.api.energy.EnergyNet;
 import ic2.api.energy.tile.IEnergyEmitter;
 import ic2.api.energy.tile.IEnergySink;
-import ic2.api.energy.tile.IEnergyTile;
 import nc.Global;
 import nc.ModCheck;
 import nc.config.NCConfig;
@@ -27,7 +26,7 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "ic2.api.energy.tile.IEnergyTile", modid = "ic2"), @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "ic2")})
-public class TileBin extends NCTile implements IInventory, IEnergyTile, IEnergySink, IInterfaceable {
+public class TileBin extends NCTile implements IInventory, IEnergySink, IInterfaceable {
 	
 	private final EnergyStorageVoid energyStorage = new EnergyStorageVoid();
 	private final EnergyStorageVoidGT energyStorageGT = new EnergyStorageVoidGT();

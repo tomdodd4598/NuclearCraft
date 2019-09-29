@@ -1,0 +1,21 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "builtin/generated",
+		"transform": "forge:default-item"
+	},
+	"variants": {
+		"type": {
+			"10": {
+				"textures": {
+					"layer0": "nuclearcraft:items/boron/10"
+				}
+			},
+			"11": {
+				"textures": {
+					"layer0": "nuclearcraft:items/boron/11"
+				}
+			}
+		}
+	}
+}

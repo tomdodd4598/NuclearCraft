@@ -1,5 +1,13 @@
 {
+	"forge_marker": 1,
+	"defaults": {
+		"model":"cube_all",
+		"textures": {
+			"all": "nuclearcraft:blocks/turbine/turbine_glass"
+		}
+	},
 	"variants": {
-		"normal": {"model": "nuclearcraft:turbine_glass"}
+		"inventory": [{}],
+		"normal": [{}]
 	}
 }

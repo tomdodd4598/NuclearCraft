@@ -12,7 +12,7 @@ import nc.recipe.IngredientSorption;
 public class IsotopeSeparatorCategory extends JEICategoryProcessor<JEIRecipeWrapper.IsotopeSeparator> {
 	
 	public IsotopeSeparatorCategory(IGuiHelper guiHelper, IJEIHandler handler) {
-		super(guiHelper, handler, "isotope_separator_idle", 33, 30, 118, 26);
+		super(guiHelper, handler, "isotope_separator", 33, 30, 118, 26);
 	}
 	
 	@Override

@@ -2,17 +2,16 @@ package nc.multiblock.turbine;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import com.google.common.collect.Lists;
 
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+import it.unimi.dsi.fastutil.objects.ObjectSet;
 import nc.Global;
 import nc.config.NCConfig;
 import nc.handler.SoundHandler;
 import nc.handler.SoundHandler.SoundInfo;
 import nc.init.NCSounds;
-import nc.multiblock.IMultiblockFluid;
 import nc.multiblock.IMultiblockPart;
 import nc.multiblock.MultiblockBase;
 import nc.multiblock.TileBeefBase.SyncReason;
@@ -67,21 +66,21 @@ import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> implements IMultiblockFluid {
+public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> {
 	
-	protected Set<TileTurbineController> controllers;
-	protected Set<TileTurbineRotorShaft> rotorShafts;
-	protected Set<TileTurbineRotorBlade> rotorBlades;
-	protected Set<TileTurbineRotorStator> rotorStators;
-	protected Set<TileTurbineRotorBearing> rotorBearings;
-	protected Set<TileTurbineDynamoCoil> dynamoCoils;
-	protected Set<TileTurbineInlet> inlets;
-	protected Set<TileTurbineOutlet> outlets;
+	protected final ObjectSet<TileTurbineController> controllers = new ObjectOpenHashSet<>();
+	protected final ObjectSet<TileTurbineRotorShaft> rotorShafts = new ObjectOpenHashSet<>();
+	protected final ObjectSet<TileTurbineRotorBlade> rotorBlades = new ObjectOpenHashSet<>();
+	protected final ObjectSet<TileTurbineRotorStator> rotorStators = new ObjectOpenHashSet<>();
+	protected final ObjectSet<TileTurbineRotorBearing> rotorBearings = new ObjectOpenHashSet<>();
+	protected final ObjectSet<TileTurbineDynamoCoil> dynamoCoils = new ObjectOpenHashSet<>();
+	protected final ObjectSet<TileTurbineInlet> inlets = new ObjectOpenHashSet<>();
+	protected final ObjectSet<TileTurbineOutlet> outlets = new ObjectOpenHashSet<>();
 	
 	protected TileTurbineController controller;
 	
-	public final EnergyStorage energyStorage;
-	public final List<Tank> tanks;
+	public final EnergyStorage energyStorage = new EnergyStorage(BASE_MAX_ENERGY);
+	public final List<Tank> tanks = Lists.newArrayList(new Tank(BASE_MAX_INPUT, NCRecipes.turbine_valid_fluids.get(0)), new Tank(BASE_MAX_OUTPUT, null));
 	protected static final int BASE_MAX_ENERGY = 64000, BASE_MAX_INPUT = 4000, BASE_MAX_OUTPUT = 16000;
 	
 	public static final ProcessorRecipeHandler RECIPE_HANDLER = NCRecipes.turbine;
@@ -111,51 +110,39 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> impleme
 	
 	public Turbine(World world) {
 		super(world);
-		
-		controllers = new ObjectOpenHashSet<TileTurbineController>();
-		rotorShafts = new ObjectOpenHashSet<TileTurbineRotorShaft>();
-		rotorBlades = new ObjectOpenHashSet<TileTurbineRotorBlade>();
-		rotorStators = new ObjectOpenHashSet<TileTurbineRotorStator>();
-		rotorBearings = new ObjectOpenHashSet<TileTurbineRotorBearing>();
-		dynamoCoils = new ObjectOpenHashSet<TileTurbineDynamoCoil>();
-		inlets = new ObjectOpenHashSet<TileTurbineInlet>();
-		outlets = new ObjectOpenHashSet<TileTurbineOutlet>();
-		
-		energyStorage = new EnergyStorage(BASE_MAX_ENERGY);
-		tanks = Lists.newArrayList(new Tank(BASE_MAX_INPUT, NCRecipes.turbine_valid_fluids.get(0)), new Tank(BASE_MAX_OUTPUT, null));
 	}
 	
 	// Multiblock Part Getters
 	
-	public Set<TileTurbineController> getControllers() {
+	public ObjectSet<TileTurbineController> getControllers() {
 		return controllers;
 	}
 	
-	public Set<TileTurbineRotorShaft> getRotorShafts() {
+	public ObjectSet<TileTurbineRotorShaft> getRotorShafts() {
 		return rotorShafts;
 	}
 	
-	public Set<TileTurbineRotorBlade> getRotorBlades() {
+	public ObjectSet<TileTurbineRotorBlade> getRotorBlades() {
 		return rotorBlades;
 	}
 	
-	public Set<TileTurbineRotorStator> getRotorStators() {
+	public ObjectSet<TileTurbineRotorStator> getRotorStators() {
 		return rotorStators;
 	}
 	
-	public Set<TileTurbineRotorBearing> getRotorBearings() {
+	public ObjectSet<TileTurbineRotorBearing> getRotorBearings() {
 		return rotorBearings;
 	}
 	
-	public Set<TileTurbineDynamoCoil> getDynamoCoils() {
+	public ObjectSet<TileTurbineDynamoCoil> getDynamoCoils() {
 		return dynamoCoils;
 	}
 	
-	public Set<TileTurbineInlet> getInlets() {
+	public ObjectSet<TileTurbineInlet> getInlets() {
 		return inlets;
 	}
 	
-	public Set<TileTurbineOutlet> getOutlets() {
+	public ObjectSet<TileTurbineOutlet> getOutlets() {
 		return outlets;
 	}
 	
@@ -253,11 +240,11 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> impleme
 		}
 	}
 	
-	private static final ArrayList<String> STAGE_0_COILS = Lists.newArrayList("magnesium");
-	private static final ArrayList<String> STAGE_1_COILS = Lists.newArrayList("beryllium");
-	private static final ArrayList<String> STAGE_2_COILS = Lists.newArrayList("gold");
-	private static final ArrayList<String> STAGE_3_COILS = Lists.newArrayList("copper", "silver");
-	private static final ArrayList<String> STAGE_4_COILS = Lists.newArrayList("aluminum");
+	//private static final ArrayList<String> STAGE_0_COILS = Lists.newArrayList("magnesium");
+	//private static final ArrayList<String> STAGE_1_COILS = Lists.newArrayList("beryllium");
+	//private static final ArrayList<String> STAGE_2_COILS = Lists.newArrayList("gold");
+	//private static final ArrayList<String> STAGE_3_COILS = Lists.newArrayList("copper", "silver");
+	//private static final ArrayList<String> STAGE_4_COILS = Lists.newArrayList("aluminum");
 	
 	protected void doDynamoCoilPlacementChecks() {
 		if (dynamoCoils.size() < 1) {
@@ -1138,7 +1125,7 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> impleme
 	}
 	
 	@Override
-	public void clearAllFluids() {
+	public void clearAll() {
 		for (Tank tank : tanks) tank.setFluidStored(null);
 	}
 	

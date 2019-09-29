@@ -13,13 +13,13 @@ public class TileHeatExchangerGlass extends TileHeatExchangerPartBase {
 	public void onMachineAssembled(HeatExchanger controller) {
 		doStandardNullControllerResponse(controller);
 		super.onMachineAssembled(controller);
-		if (getWorld().isRemote) return;
+		//if (getWorld().isRemote) return;
 	}
 	
 	@Override
 	public void onMachineBroken() {
 		super.onMachineBroken();
-		if (getWorld().isRemote) return;
+		//if (getWorld().isRemote) return;
 		//getWorld().setBlockState(getPos(), getWorld().getBlockState(getPos()), 2);
 	}
 	

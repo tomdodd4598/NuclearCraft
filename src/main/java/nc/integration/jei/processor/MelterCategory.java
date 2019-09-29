@@ -13,7 +13,7 @@ import nc.recipe.IngredientSorption;
 public class MelterCategory extends JEICategoryProcessor<JEIRecipeWrapper.Melter> {
 	
 	public MelterCategory(IGuiHelper guiHelper, IJEIHandler handler) {
-		super(guiHelper, handler, "melter_idle", 47, 30, 90, 26);
+		super(guiHelper, handler, "melter", 47, 30, 90, 26);
 	}
 	
 	@Override

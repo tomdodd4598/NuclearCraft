@@ -1,6 +1,0 @@
-{
-	"parent": "item/generated",
-	"textures": {
-		"layer0": "nuclearcraft:items/depleted_fuel_ic2_u"
-	}
-}

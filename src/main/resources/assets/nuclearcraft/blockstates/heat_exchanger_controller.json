@@ -1,17 +1,32 @@
 {
+	"forge_marker": 1,
+	"defaults": {
+		"model": "nuclearcraft:machine",
+		"textures": {
+			"top": "nuclearcraft:blocks/heat_exchanger/heat_exchanger_controller_top",
+			"bottom": "nuclearcraft:blocks/heat_exchanger/heat_exchanger_controller_bottom",
+			"front": "nuclearcraft:blocks/heat_exchanger/heat_exchanger_controller_front_off",
+			"side": "nuclearcraft:blocks/heat_exchanger/heat_exchanger_controller_side",
+			"back": "nuclearcraft:blocks/heat_exchanger/heat_exchanger_controller_back"
+		}
+	},
 	"variants": {
-		"active=false,facing=down": { "model": "nuclearcraft:heat_exchanger_controller_off", "x": 90 },
-		"active=false,facing=up": { "model": "nuclearcraft:heat_exchanger_controller_off", "x": 270 },
-		"active=false,facing=north": { "model": "nuclearcraft:heat_exchanger_controller_off" },
-		"active=false,facing=south": { "model": "nuclearcraft:heat_exchanger_controller_off", "y": 180 },
-		"active=false,facing=west": { "model": "nuclearcraft:heat_exchanger_controller_off", "y": 270 },
-		"active=false,facing=east": { "model": "nuclearcraft:heat_exchanger_controller_off", "y": 90 },
-		
-		"active=true,facing=down": { "model": "nuclearcraft:heat_exchanger_controller_on", "x": 90 },
-		"active=true,facing=up": { "model": "nuclearcraft:heat_exchanger_controller_on", "x": 270 },
-		"active=true,facing=north": { "model": "nuclearcraft:heat_exchanger_controller_on" },
-		"active=true,facing=south": { "model": "nuclearcraft:heat_exchanger_controller_on", "y": 180 },
-		"active=true,facing=west": { "model": "nuclearcraft:heat_exchanger_controller_on", "y": 270 },
-		"active=true,facing=east": { "model": "nuclearcraft:heat_exchanger_controller_on", "y": 90 }
+		"inventory": [{}],
+		"active": {
+			"false": {},
+			"true": {
+				"textures": {
+					"front": "nuclearcraft:blocks/heat_exchanger/heat_exchanger_controller_front_on"
+				}
+			}
+		},
+		"facing": {
+			"down": {"x": 90},
+			"up": {"x": 270},
+			"north": {},
+			"east": {"y": 90},
+			"south": {"y": 180},
+			"west": {"y": 270}
+		}
 	}
 }

@@ -34,6 +34,6 @@ public abstract class GuiMultiblockController<MULTIBLOCK extends MultiblockBase>
 	protected abstract ResourceLocation getGuiTexture();
 	
 	public List<String> clearAllFluidsInfo() {
-		return Lists.newArrayList(TextFormatting.ITALIC + Lang.localise("gui.container.shift_clear_multiblock"));
+		return Lists.newArrayList(TextFormatting.ITALIC + Lang.localise("gui.nc.container.shift_clear_multiblock"));
 	}
 }

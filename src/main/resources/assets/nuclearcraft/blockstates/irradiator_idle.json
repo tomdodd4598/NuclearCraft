@@ -1,8 +1,0 @@
-{
-    "variants": {
-        "facing=north": { "model": "nuclearcraft:irradiator_idle" },
-        "facing=south": { "model": "nuclearcraft:irradiator_idle", "y": 180 },
-        "facing=west":  { "model": "nuclearcraft:irradiator_idle", "y": 270 },
-        "facing=east":  { "model": "nuclearcraft:irradiator_idle", "y": 90 }
-    }
-}

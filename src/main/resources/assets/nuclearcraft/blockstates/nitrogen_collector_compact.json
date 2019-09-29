@@ -1,5 +1,13 @@
 {
+	"forge_marker": 1,
+	"defaults": {
+		"model":"cube_all",
+		"textures": {
+			"all": "nuclearcraft:blocks/nitrogen_collector_compact"
+		}
+	},
 	"variants": {
-		"normal": {"model": "nuclearcraft:nitrogen_collector_compact"}
+		"inventory": [{}],
+		"normal": [{}]
 	}
 }

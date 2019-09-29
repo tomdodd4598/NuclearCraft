@@ -1,6 +1,6 @@
 package nc.tab;
 
-import nc.init.NCBlocks;
+import nc.init.NCItems;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 
@@ -12,6 +12,6 @@ public class TabNuclearCraft extends CreativeTabs {
 
 	@Override
 	public ItemStack createIcon() {
-		return new ItemStack(NCBlocks.fission_controller_new_active);
+		return new ItemStack(NCItems.fuel_uranium, 1, 10);
 	}
 }

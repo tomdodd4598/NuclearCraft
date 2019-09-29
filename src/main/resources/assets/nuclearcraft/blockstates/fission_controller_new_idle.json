@@ -1,8 +1,0 @@
-{
-    "variants": {
-        "facing=north": { "model": "nuclearcraft:fission_controller_new_idle" },
-        "facing=south": { "model": "nuclearcraft:fission_controller_new_idle", "y": 180 },
-        "facing=west":  { "model": "nuclearcraft:fission_controller_new_idle", "y": 270 },
-        "facing=east":  { "model": "nuclearcraft:fission_controller_new_idle", "y": 90 }
-    }
-}

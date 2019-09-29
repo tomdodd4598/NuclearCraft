@@ -13,7 +13,7 @@ import nc.recipe.IngredientSorption;
 public class DissolverCategory extends JEICategoryProcessor<JEIRecipeWrapper.Dissolver> {
 	
 	public DissolverCategory(IGuiHelper guiHelper, IJEIHandler handler) {
-		super(guiHelper, handler, "dissolver_idle", 45, 30, 102, 26);
+		super(guiHelper, handler, "dissolver", 45, 30, 102, 26);
 	}
 	
 	@Override

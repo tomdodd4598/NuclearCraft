@@ -80,11 +80,11 @@ public abstract class AbstractRecipeHandler<T extends IRecipe> {
 		return null;
 	}*/
 	
-	private static boolean isFullNull(List<ItemStack> items, List<Tank> tanks) {
+	/*private static boolean isFullNull(List<ItemStack> items, List<Tank> tanks) {
 		for (ItemStack item : items) if (item != null && !item.isEmpty()) return false;
 		for (Tank tank : tanks) if (tank.getFluid() != null) return false;
 		return true;
-	}
+	}*/
 	
 	public @Nullable T getRecipeFromIngredients(List<IItemIngredient> itemIngredients, List<IFluidIngredient> fluidIngredients) {
 		for (T recipe : recipeList) {

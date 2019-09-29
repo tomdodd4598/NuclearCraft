@@ -8,8 +8,8 @@ import net.minecraft.util.text.TextFormatting;
 public class InfoHelper {
 	private static final int MINIMUM_TEXT_WIDTH = 225;
 	
-	public static final String SHIFT_STRING = Lang.localise("gui.inventory.shift_for_info");
-	public static final String CTRL_STRING = Lang.localise("gui.inventory.ctrl_for_info");
+	public static final String SHIFT_STRING = Lang.localise("gui.nc.inventory.shift_for_info");
+	public static final String CTRL_STRING = Lang.localise("gui.nc.inventory.ctrl_for_info");
 	
 	public static final String[] EMPTY_ARRAY = {};
 	public static final String[][] EMPTY_ARRAYS = {};
@@ -31,11 +31,22 @@ public class InfoHelper {
 		if (infoBelow) shiftInfo(list);
 	}
 	
+	public static void fixedInfoList(List list, boolean infoBelow, TextFormatting[] fixedColor, String... fixedLines) {
+		for (int i = 0; i < fixedLines.length; i++) infoLine(list, fixedColor[i], fixedLines[i]);
+		if (infoBelow) shiftInfo(list);
+	}
+	
 	public static void infoList(List list, String... lines) {
 		for (int i = 0; i < lines.length; i++) infoLine(list, lines[i]);
 	}
 	
 	public static void infoFull(List list, TextFormatting fixedColor, String[] fixedLines, String... lines) {
+		if (fixedLines != EMPTY_ARRAY && (!NCUtil.isInfoKeyDown() || lines == EMPTY_ARRAY)) fixedInfoList(list, lines != EMPTY_ARRAY, fixedColor, fixedLines);
+		else if ((NCUtil.isInfoKeyDown() && lines != EMPTY_ARRAY) || lines.length == 1) infoList(list, lines);
+		else if (lines != EMPTY_ARRAY) shiftInfo(list);
+	}
+	
+	public static void infoFull(List list, TextFormatting[] fixedColor, String[] fixedLines, String... lines) {
 		if (fixedLines != EMPTY_ARRAY && (!NCUtil.isInfoKeyDown() || lines == EMPTY_ARRAY)) fixedInfoList(list, lines != EMPTY_ARRAY, fixedColor, fixedLines);
 		else if ((NCUtil.isInfoKeyDown() && lines != EMPTY_ARRAY) || lines.length == 1) infoList(list, lines);
 		else if (lines != EMPTY_ARRAY) shiftInfo(list);

@@ -12,7 +12,7 @@ import nc.recipe.IngredientSorption;
 public class SaltMixerCategory extends JEICategoryProcessor<JEIRecipeWrapper.SaltMixer> {
 	
 	public SaltMixerCategory(IGuiHelper guiHelper, IJEIHandler handler) {
-		super(guiHelper, handler, "salt_mixer_idle", 45, 30, 102, 26);
+		super(guiHelper, handler, "salt_mixer", 45, 30, 102, 26);
 	}
 	
 	@Override

@@ -1,7 +1,5 @@
 package nc.handler;
 
-import nc.container.generator.ContainerFissionController;
-import nc.container.generator.ContainerFusionCore;
 import nc.container.processor.ContainerAlloyFurnace;
 import nc.container.processor.ContainerCentrifuge;
 import nc.container.processor.ContainerChemicalReactor;
@@ -23,8 +21,6 @@ import nc.container.processor.ContainerPressurizer;
 import nc.container.processor.ContainerRockCrusher;
 import nc.container.processor.ContainerSaltMixer;
 import nc.container.processor.ContainerSupercooler;
-import nc.gui.generator.GuiFissionController;
-import nc.gui.generator.GuiFusionCore;
 import nc.gui.processor.GuiAlloyFurnace;
 import nc.gui.processor.GuiCentrifuge;
 import nc.gui.processor.GuiChemicalReactor;
@@ -47,15 +43,16 @@ import nc.gui.processor.GuiSaltMixer;
 import nc.gui.processor.GuiSupercooler;
 import nc.multiblock.container.ContainerHeatExchangerController;
 import nc.multiblock.container.ContainerSaltFissionController;
+import nc.multiblock.container.ContainerSolidFissionController;
 import nc.multiblock.container.ContainerTurbineController;
+import nc.multiblock.fission.salt.tile.TileSaltFissionController;
+import nc.multiblock.fission.solid.tile.TileSolidFissionController;
 import nc.multiblock.gui.GuiHeatExchangerController;
 import nc.multiblock.gui.GuiSaltFissionController;
+import nc.multiblock.gui.GuiSolidFissionController;
 import nc.multiblock.gui.GuiTurbineController;
 import nc.multiblock.heatExchanger.tile.TileHeatExchangerController;
-import nc.multiblock.saltFission.tile.TileSaltFissionController;
 import nc.multiblock.turbine.tile.TileTurbineController;
-import nc.tile.generator.TileFissionController;
-import nc.tile.generator.TileFusionCore;
 import nc.tile.processor.TileNuclearFurnace;
 import nc.tile.processor.TileProcessor.AlloyFurnace;
 import nc.tile.processor.TileProcessor.Centrifuge;
@@ -130,9 +127,9 @@ public class GuiHandler implements IGuiHandler {
 			case 19:
 				if (tile instanceof RockCrusher) return new ContainerRockCrusher(player, (RockCrusher) tile);
 			case 100:
-				if (tile instanceof TileFissionController) return new ContainerFissionController(player, (TileFissionController) tile);
+				//if (tile instanceof TileFissionController) return new ContainerFissionController(player, (TileFissionController) tile);
 			case 101:
-				if (tile instanceof TileFusionCore) return new ContainerFusionCore(player, (TileFusionCore) tile);
+				if (tile instanceof TileSolidFissionController) return new ContainerSolidFissionController(player, (TileSolidFissionController) tile);
 			case 102:
 				if (tile instanceof TileSaltFissionController) return new ContainerSaltFissionController(player, (TileSaltFissionController) tile);
 			case 103:
@@ -229,9 +226,9 @@ public class GuiHandler implements IGuiHandler {
 			case 19:
 				if (tile instanceof RockCrusher) return new GuiRockCrusher(player, (RockCrusher) tile);
 			case 100:
-				if (tile instanceof TileFissionController) return new GuiFissionController(player, (TileFissionController) tile);
+				//if (tile instanceof TileFissionController) return new GuiFissionController(player, (TileFissionController) tile);
 			case 101:
-				if (tile instanceof TileFusionCore) return new GuiFusionCore(player, (TileFusionCore) tile);
+				if (tile instanceof TileSolidFissionController) return new GuiSolidFissionController(((TileSolidFissionController) tile).getMultiblock(), tile.getPos(), ((TileSolidFissionController) tile).getMultiblock().getContainer(player));
 			case 102:
 				if (tile instanceof TileSaltFissionController) return new GuiSaltFissionController(((TileSaltFissionController) tile).getMultiblock(), tile.getPos(), ((TileSaltFissionController) tile).getMultiblock().getContainer(player));
 			case 103:

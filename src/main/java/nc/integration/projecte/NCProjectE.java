@@ -72,7 +72,7 @@ public class NCProjectE {
 		addCompoundEMCValues("CarbonManganese", 96);
 		addCompoundEMCValues("Alugentum", 1024);
 		
-		ProjectEAPI.getEMCProxy().registerCustomEMC(new ItemStack(NCBlocks.dry_earth), 1);
+		ProjectEAPI.getEMCProxy().registerCustomEMC(new ItemStack(NCBlocks.wasteland_earth), 1);
 		
 		addEMCValues("dustObsidian", 16);
 		addEMCValues("dustEndstone", 1);

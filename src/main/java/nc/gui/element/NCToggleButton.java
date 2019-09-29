@@ -65,7 +65,6 @@ public abstract class NCToggleButton extends NCButton {
 	@SideOnly(Side.CLIENT)
 	public static class Item extends NCToggleButton {
 		
-		protected int width, height;
 		protected GuiItemRenderer unpressedItemRenderer, pressedItemRenderer;
 		
 		public Item(int id, int x, int y, int width, int height, float unpressedAlph, @Nonnull net.minecraft.item.Item unpressedItem, int unpressedItemMeta, float pressedAlph, @Nonnull net.minecraft.item.Item pressedItem, int pressedItemMeta, boolean pressed) {

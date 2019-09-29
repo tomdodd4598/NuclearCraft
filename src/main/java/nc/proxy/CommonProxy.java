@@ -102,9 +102,7 @@ public class CommonProxy {
 			TConstructIMC.sendIMCs();
 			TConstructMaterials.init();
 			
-			if (ModCheck.constructsArmoryLoaded()) {
-				ConArmMaterials.preInit();
-			}
+			if (ModCheck.constructsArmoryLoaded()) ConArmMaterials.preInit();
 		}
 	}
 

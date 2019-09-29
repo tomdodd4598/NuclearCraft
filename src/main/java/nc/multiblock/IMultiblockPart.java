@@ -1,8 +1,15 @@
 package nc.multiblock;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Set;
 
+import nc.recipe.ProcessorRecipe;
+import nc.recipe.ProcessorRecipeHandler;
+import nc.recipe.RecipeInfo;
 import nc.tile.ITile;
+import nc.tile.internal.fluid.Tank;
+import nc.util.ItemStackHelper;
 
 /*
  * A multiblock library for making irregularly-shaped multiblock machines
@@ -15,6 +22,7 @@ import nc.tile.ITile;
  */
 
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.math.BlockPos;
 
 /**
  * Basic interface for a multiblock machine part.
@@ -192,4 +200,11 @@ public interface IMultiblockPart<MULTIBLOCK extends MultiblockBase> extends ITil
 	 * multiblock game-data into itself. Generally, you should clear the saved data here.
 	 */
 	void onMultiblockDataAssimilated();
+	
+	// Helper methods
+	
+	public default ProcessorRecipe blockRecipe(ProcessorRecipeHandler recipeHandler, BlockPos pos) {
+		RecipeInfo<ProcessorRecipe> recipeInfo = recipeHandler.getRecipeInfoFromInputs(Arrays.asList(ItemStackHelper.blockStateToStack(getTileWorld().getBlockState(pos))), new ArrayList<Tank>());
+		return recipeInfo == null ? null : recipeInfo.getRecipe();
+	}
 }

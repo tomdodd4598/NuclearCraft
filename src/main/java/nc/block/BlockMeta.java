@@ -8,9 +8,11 @@ import nc.block.item.IMetaBlockName;
 import nc.enumm.IBlockMeta;
 import nc.enumm.MetaEnums;
 import nc.tab.NCTabs;
+import nc.tile.ITile;
 import nc.util.CollectionHelper;
 import nc.util.ItemStackHelper;
 import net.minecraft.block.Block;
+import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
@@ -21,6 +23,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.IStringSerializable;
@@ -36,11 +39,12 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public abstract class BlockMeta<T extends Enum<T> & IStringSerializable & IBlockMeta> extends Block implements IMetaBlockName {
 	
 	public final T[] values;
-	public final PropertyEnum type;
+	public final PropertyEnum<T> type;
 	
 	protected boolean canCreatureSpawn = true;
+	protected static boolean keepInventory;
 	
-	public BlockMeta(Class<T> enumm, PropertyEnum property, Material material) {
+	public BlockMeta(Class<T> enumm, PropertyEnum<T> property, Material material) {
 		super(material);
 		values = enumm.getEnumConstants();
 		type = property;
@@ -52,7 +56,7 @@ public abstract class BlockMeta<T extends Enum<T> & IStringSerializable & IBlock
 	
 	public static class BlockOre extends BlockMeta<MetaEnums.OreType> {
 		
-		public final static PropertyEnum TYPE = PropertyEnum.create("type", MetaEnums.OreType.class);
+		public final static PropertyEnum<MetaEnums.OreType> TYPE = PropertyEnum.create("type", MetaEnums.OreType.class);
 		
 		public BlockOre() {
 			super(MetaEnums.OreType.class, TYPE, Material.ROCK);
@@ -73,7 +77,7 @@ public abstract class BlockMeta<T extends Enum<T> & IStringSerializable & IBlock
 	
 	public static class BlockIngot extends BlockMeta<MetaEnums.IngotType> {
 		
-		public final static PropertyEnum TYPE = PropertyEnum.create("type", MetaEnums.IngotType.class);
+		public final static PropertyEnum<MetaEnums.IngotType> TYPE = PropertyEnum.create("type", MetaEnums.IngotType.class);
 		
 		public BlockIngot() {
 			super(MetaEnums.IngotType.class, TYPE, Material.IRON);
@@ -87,46 +91,29 @@ public abstract class BlockMeta<T extends Enum<T> & IStringSerializable & IBlock
 		
 		@Override
 		public int getFireSpreadSpeed(IBlockAccess world, BlockPos pos, EnumFacing face) {
-			return ((MetaEnums.IngotType)world.getBlockState(pos).getValue(type)).getFireSpreadSpeed();
+			return world.getBlockState(pos).getValue(type).getFireSpreadSpeed();
 		}
 		
 		@Override
 		public int getFlammability(IBlockAccess world, BlockPos pos, EnumFacing face) {
-			return ((MetaEnums.IngotType)world.getBlockState(pos).getValue(type)).getFlammability();
+			return world.getBlockState(pos).getValue(type).getFlammability();
 		}
 		
 		@Override
 		public boolean isFireSource(World world, BlockPos pos, EnumFacing side) {
-			return ((MetaEnums.IngotType)world.getBlockState(pos).getValue(type)).isFireSource();
+			return world.getBlockState(pos).getValue(type).isFireSource();
 		}
 	}
 	
-	public static class BlockFission extends BlockMeta<MetaEnums.FissionBlockType> {
+	public static class BlockFertileIsotope extends BlockMeta<MetaEnums.FertileIsotopeType> {
 		
-		public final static PropertyEnum TYPE = PropertyEnum.create("type", MetaEnums.FissionBlockType.class);
+		public final static PropertyEnum<MetaEnums.FertileIsotopeType> TYPE = PropertyEnum.create("type", MetaEnums.FertileIsotopeType.class);
 		
-		public BlockFission() {
-			super(MetaEnums.FissionBlockType.class, TYPE, Material.IRON);
-			setCreativeTab(NCTabs.FISSION_BLOCKS);
-			canCreatureSpawn = false;
+		public BlockFertileIsotope() {
+			super(MetaEnums.FertileIsotopeType.class, TYPE, Material.ROCK);
+			setCreativeTab(NCTabs.FISSION_MATERIALS);
 		}
 		
-		@Override
-		protected BlockStateContainer createBlockState() {
-			return new BlockStateContainer(this, new IProperty[] {TYPE});
-		}
-	}
-	
-	public static class BlockCooler extends BlockMeta<MetaEnums.CoolerType> {
-		
-		public final static PropertyEnum TYPE = PropertyEnum.create("type", MetaEnums.CoolerType.class);
-
-		public BlockCooler() {
-			super(MetaEnums.CoolerType.class, TYPE, Material.IRON);
-			setCreativeTab(NCTabs.FISSION_BLOCKS);
-			canCreatureSpawn = false;
-		}
-
 		@Override
 		protected BlockStateContainer createBlockState() {
 			return new BlockStateContainer(this, new IProperty[] {TYPE});
@@ -143,22 +130,22 @@ public abstract class BlockMeta<T extends Enum<T> & IStringSerializable & IBlock
 	
 	@Override
 	public int getLightValue(IBlockState state, IBlockAccess world, BlockPos pos) {
-		return ((T)state.getValue(type)).getLightValue();
+		return state.getValue(type).getLightValue();
 	}
 	
 	@Override
 	public float getBlockHardness(IBlockState state, World world, BlockPos pos) {
-		return ((T)state.getValue(type)).getHardness();
+		return state.getValue(type).getHardness();
 	}
 	
 	@Override
 	public float getExplosionResistance(World world, BlockPos pos, @Nullable Entity exploder, Explosion explosion) {
-		return ((T)world.getBlockState(pos).getValue(type)).getResistance();
+		return world.getBlockState(pos).getValue(type).getResistance();
 	}
 	
 	@Override
 	public int getMetaFromState(IBlockState state) {
-		return ((T)state.getValue(type)).getID();
+		return state.getValue(type).getID();
 	}
 	
 	@Override
@@ -186,6 +173,19 @@ public abstract class BlockMeta<T extends Enum<T> & IStringSerializable & IBlock
 	@Override
 	public boolean canCreatureSpawn(IBlockState state, IBlockAccess world, BlockPos pos, net.minecraft.entity.EntityLiving.SpawnPlacementType type) {
 		return canCreatureSpawn && super.canCreatureSpawn(state, world, pos, type);
+	}
+	
+	@Override
+	public boolean rotateBlock(World world, BlockPos pos, EnumFacing axis) {
+		return false;
+	}
+	
+	@Override
+	public void neighborChanged(IBlockState state, World world, BlockPos pos, Block blockIn, BlockPos fromPos) {
+		if (this instanceof ITileEntityProvider) {
+			TileEntity tile = world.getTileEntity(pos);
+			if (tile instanceof ITile) ((ITile)tile).onBlockNeighborChanged(state, world, pos, fromPos);
+		}
 	}
 	
 	@Override

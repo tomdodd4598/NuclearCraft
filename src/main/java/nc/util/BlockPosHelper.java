@@ -137,11 +137,11 @@ public class BlockPosHelper {
 		return axialsList(1);
 	}
 	
-	public static List<EnumFacing[]> axialsDirList() {
+	public static List<EnumFacing[]> axialDirsList() {
 		return Lists.newArrayList(AXIALS_X, AXIALS_Y, AXIALS_Z);
 	}
 	
-	public static EnumFacing[] getAxials(EnumFacing dir) {
+	public static EnumFacing[] getAxialDirs(EnumFacing dir) {
 		switch (dir) {
 		case DOWN:
 			return AXIALS_Y;

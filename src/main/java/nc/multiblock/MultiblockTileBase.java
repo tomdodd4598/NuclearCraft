@@ -28,7 +28,7 @@ public abstract class MultiblockTileBase<T extends MultiblockBase> extends TileB
 	
 	private boolean saveMultiblockData;
 	private NBTTagCompound cachedMultiblockData;
-	private boolean paused;
+	//private boolean paused;
 
 	public MultiblockTileBase(Class<T> tClass) {
 		super();
@@ -36,7 +36,7 @@ public abstract class MultiblockTileBase<T extends MultiblockBase> extends TileB
 		this.tClass = tClass;
 		visited = false;
 		saveMultiblockData = false;
-		paused = false;
+		//paused = false;
 		cachedMultiblockData = null;
 	}
 	
@@ -295,6 +295,10 @@ public abstract class MultiblockTileBase<T extends MultiblockBase> extends TileB
 	@Override
 	public boolean isPartInvalid() {
 		return isInvalid();
+	}
+	
+	public boolean isMultiblockAssembled() {
+		return getMultiblock() != null && getMultiblock().isAssembled();
 	}
 	
 	// Validator standard errors

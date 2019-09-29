@@ -3,14 +3,10 @@ package nc.enumm;
 import nc.init.NCBlocks;
 import nc.tab.NCTabs;
 import nc.tile.TileBin;
-import nc.tile.dummy.TileFissionPort;
-import nc.tile.dummy.TileFusionDummy;
 import nc.tile.dummy.TileMachineInterface;
 import nc.tile.energy.battery.TileBattery;
 import nc.tile.energyFluid.TileBuffer;
-import nc.tile.fluid.TileActiveCooler;
 import nc.tile.generator.TileDecayGenerator;
-import nc.tile.generator.TileFissionController;
 import nc.tile.generator.TileRTG;
 import nc.tile.generator.TileSolarPanel;
 import nc.tile.passive.TilePassive;
@@ -44,10 +40,7 @@ public class BlockEnums {
 		DISSOLVER("dissolver", 16, "splash", "depthsuspend"),
 		EXTRACTOR("extractor", 17, "reddust", "depthsuspend"),
 		CENTRIFUGE("centrifuge", 18, "endRod", "depthsuspend"),
-		ROCK_CRUSHER("rock_crusher", 19, "smoke", "smoke"),
-		FISSION_CONTROLLER("fission_controller", 100, "", ""),
-		FISSION_CONTROLLER_NEW("fission_controller_new", 100, "", ""),
-		FISSION_CONTROLLER_NEW_FIXED("fission_controller_new_fixed", 100, "", "");
+		ROCK_CRUSHER("rock_crusher", 19, "smoke", "smoke");
 		
 		private String name;
 		private int id;
@@ -110,133 +103,66 @@ public class BlockEnums {
 				return new TileProcessor.Centrifuge();
 			case ROCK_CRUSHER:
 				return new TileProcessor.RockCrusher();
-			case FISSION_CONTROLLER:
-				return new TileFissionController.Old();
-			case FISSION_CONTROLLER_NEW:
-				return new TileFissionController.New();
-			case FISSION_CONTROLLER_NEW_FIXED:
-				return new TileFissionController.New();
+
 			default:
 				return null;
 			}
 		}
 		
-		public Block getIdleBlock() {
+		public Block getBlock() {
 			switch (this) {
 			case MANUFACTORY:
-				return NCBlocks.manufactory_idle;
+				return NCBlocks.manufactory;
 			case ISOTOPE_SEPARATOR:
-				return NCBlocks.isotope_separator_idle;
+				return NCBlocks.isotope_separator;
 			case DECAY_HASTENER:
-				return NCBlocks.decay_hastener_idle;
+				return NCBlocks.decay_hastener;
 			case FUEL_REPROCESSOR:
-				return NCBlocks.fuel_reprocessor_idle;
+				return NCBlocks.fuel_reprocessor;
 			case ALLOY_FURNACE:
-				return NCBlocks.alloy_furnace_idle;
+				return NCBlocks.alloy_furnace;
 			case INFUSER:
-				return NCBlocks.infuser_idle;
+				return NCBlocks.infuser;
 			case MELTER:
-				return NCBlocks.melter_idle;
+				return NCBlocks.melter;
 			case SUPERCOOLER:
-				return NCBlocks.supercooler_idle;
+				return NCBlocks.supercooler;
 			case ELECTROLYSER:
-				return NCBlocks.electrolyser_idle;
+				return NCBlocks.electrolyser;
 			case IRRADIATOR:
-				return NCBlocks.irradiator_idle;
+				return NCBlocks.irradiator;
 			case INGOT_FORMER:
-				return NCBlocks.ingot_former_idle;
+				return NCBlocks.ingot_former;
 			case PRESSURIZER:
-				return NCBlocks.pressurizer_idle;
+				return NCBlocks.pressurizer;
 			case CHEMICAL_REACTOR:
-				return NCBlocks.chemical_reactor_idle;
+				return NCBlocks.chemical_reactor;
 			case SALT_MIXER:
-				return NCBlocks.salt_mixer_idle;
+				return NCBlocks.salt_mixer;
 			case CRYSTALLIZER:
-				return NCBlocks.crystallizer_idle;
+				return NCBlocks.crystallizer;
 			case DISSOLVER:
-				return NCBlocks.dissolver_idle;
+				return NCBlocks.dissolver;
 			case EXTRACTOR:
-				return NCBlocks.extractor_idle;
+				return NCBlocks.extractor;
 			case CENTRIFUGE:
-				return NCBlocks.centrifuge_idle;
+				return NCBlocks.centrifuge;
 			case ROCK_CRUSHER:
-				return NCBlocks.rock_crusher_idle;
-			case FISSION_CONTROLLER:
-				return NCBlocks.fission_controller_idle;
-			case FISSION_CONTROLLER_NEW:
-				return NCBlocks.fission_controller_new_idle;
-			case FISSION_CONTROLLER_NEW_FIXED:
-				return NCBlocks.fission_controller_new_fixed;
+				return NCBlocks.rock_crusher;
 			default:
-				return NCBlocks.manufactory_idle;
-			}
-		}
-		
-		public Block getActiveBlock() {
-			switch (this) {
-			case MANUFACTORY:
-				return NCBlocks.manufactory_active;
-			case ISOTOPE_SEPARATOR:
-				return NCBlocks.isotope_separator_active;
-			case DECAY_HASTENER:
-				return NCBlocks.decay_hastener_active;
-			case FUEL_REPROCESSOR:
-				return NCBlocks.fuel_reprocessor_active;
-			case ALLOY_FURNACE:
-				return NCBlocks.alloy_furnace_active;
-			case INFUSER:
-				return NCBlocks.infuser_active;
-			case MELTER:
-				return NCBlocks.melter_active;
-			case SUPERCOOLER:
-				return NCBlocks.supercooler_active;
-			case ELECTROLYSER:
-				return NCBlocks.electrolyser_active;
-			case IRRADIATOR:
-				return NCBlocks.irradiator_active;
-			case INGOT_FORMER:
-				return NCBlocks.ingot_former_active;
-			case PRESSURIZER:
-				return NCBlocks.pressurizer_active;
-			case CHEMICAL_REACTOR:
-				return NCBlocks.chemical_reactor_active;
-			case SALT_MIXER:
-				return NCBlocks.salt_mixer_active;
-			case CRYSTALLIZER:
-				return NCBlocks.crystallizer_active;
-			case DISSOLVER:
-				return NCBlocks.dissolver_active;
-			case EXTRACTOR:
-				return NCBlocks.extractor_active;
-			case CENTRIFUGE:
-				return NCBlocks.centrifuge_active;
-			case ROCK_CRUSHER:
-				return NCBlocks.rock_crusher_active;
-			case FISSION_CONTROLLER:
-				return NCBlocks.fission_controller_active;
-			case FISSION_CONTROLLER_NEW:
-				return NCBlocks.fission_controller_new_active;
-			case FISSION_CONTROLLER_NEW_FIXED:
-				return NCBlocks.fission_controller_new_fixed;
-			default:
-				return NCBlocks.manufactory_active;
+				return NCBlocks.manufactory;
 			}
 		}
 		
 		public CreativeTabs getCreativeTab() {
 			switch (this) {
-			case FISSION_CONTROLLER:
-				return null;
-			case FISSION_CONTROLLER_NEW:
-				return null;
-			case FISSION_CONTROLLER_NEW_FIXED:
-				return NCTabs.FISSION_BLOCKS;
 			default:
 				return NCTabs.MACHINES;
 			}
 		}
 		
-		public static SoundEvent getSound() {
+		@SuppressWarnings("static-method")
+		public SoundEvent getSound() {
 			return null;
 		}
 		
@@ -254,7 +180,6 @@ public class BlockEnums {
 		FISSION_PORT("fission_port", NCTabs.FISSION_BLOCKS),
 		DECAY_GENERATOR("decay_generator", NCTabs.MACHINES),
 		BUFFER("buffer", NCTabs.MACHINES),
-		ACTIVE_COOLER("active_cooler", NCTabs.FISSION_BLOCKS),
 		BIN("bin", NCTabs.MACHINES),
 		
 		RTG_URANIUM("rtg_uranium", NCTabs.MACHINES),
@@ -276,10 +201,6 @@ public class BlockEnums {
 		LITHIUM_ION_BATTERY_ADVANCED("lithium_ion_battery_advanced", NCTabs.MACHINES),
 		LITHIUM_ION_BATTERY_DU("lithium_ion_battery_du", NCTabs.MACHINES),
 		LITHIUM_ION_BATTERY_ELITE("lithium_ion_battery_elite", NCTabs.MACHINES),
-		
-		HELIUM_COLLECTOR("helium_collector", NCTabs.MACHINES),
-		HELIUM_COLLECTOR_COMPACT("helium_collector_compact", NCTabs.MACHINES),
-		HELIUM_COLLECTOR_DENSE("helium_collector_dense", NCTabs.MACHINES),
 		
 		COBBLESTONE_GENERATOR("cobblestone_generator", NCTabs.MACHINES),
 		COBBLESTONE_GENERATOR_COMPACT("cobblestone_generator_compact", NCTabs.MACHINES),
@@ -314,14 +235,10 @@ public class BlockEnums {
 			switch (this) {
 			case MACHINE_INTERFACE:
 				return new TileMachineInterface();
-			case FISSION_PORT:
-				return new TileFissionPort();
 			case DECAY_GENERATOR:
 				return new TileDecayGenerator();
 			case BUFFER:
 				return new TileBuffer();
-			case ACTIVE_COOLER:
-				return new TileActiveCooler();
 			case BIN:
 				return new TileBin();
 			
@@ -361,13 +278,6 @@ public class BlockEnums {
 			case LITHIUM_ION_BATTERY_ELITE:
 				return new TileBattery.LithiumIonBatteryElite();
 				
-			case HELIUM_COLLECTOR:
-				return new TilePassive.HeliumCollector();
-			case HELIUM_COLLECTOR_COMPACT:
-				return new TilePassive.HeliumCollectorCompact();
-			case HELIUM_COLLECTOR_DENSE:
-				return new TilePassive.HeliumCollectorDense();
-				
 			case COBBLESTONE_GENERATOR:
 				return new TilePassive.CobblestoneGenerator();
 			case COBBLESTONE_GENERATOR_COMPACT:
@@ -400,16 +310,16 @@ public class BlockEnums {
 			}
 		}
 		
-		public CreativeTabs getTab() {
+		public CreativeTabs getCreativeTab() {
 			return tab;
 		}
 	}
 	
 	public enum ActivatableTileType implements IStringSerializable {
-		FUSION_ELECTROMAGNET("fusion_electromagnet", NCTabs.FUSION),
+		/*FUSION_ELECTROMAGNET("fusion_electromagnet", NCTabs.FUSION),
 		FUSION_ELECTROMAGNET_TRANSPARENT("fusion_electromagnet_transparent", NCTabs.FUSION),
 		ACCELERATOR_ELECTROMAGNET("accelerator_electromagnet", NCTabs.ACCELERATOR),
-		ELECTROMAGNET_SUPERCOOLER("electromagnet_supercooler", NCTabs.ACCELERATOR);
+		ELECTROMAGNET_SUPERCOOLER("electromagnet_supercooler", NCTabs.ACCELERATOR)*/;
 		
 		private String name;
 		private CreativeTabs tab;
@@ -426,84 +336,36 @@ public class BlockEnums {
 		
 		public TileEntity getTile() {
 			switch (this) {
-			case FUSION_ELECTROMAGNET:
+			/*case FUSION_ELECTROMAGNET:
 				return new TilePassive.FusionElectromagnet();
 			case FUSION_ELECTROMAGNET_TRANSPARENT:
 				return new TilePassive.FusionElectromagnet();
 			case ACCELERATOR_ELECTROMAGNET:
 				return new TilePassive.AcceleratorElectromagnet();
 			case ELECTROMAGNET_SUPERCOOLER:
-				return new TilePassive.ElectromagnetSupercooler();
+				return new TilePassive.ElectromagnetSupercooler();*/
 			default:
 				return null;
 			}
 		}
 		
-		public CreativeTabs getTab() {
+		public CreativeTabs getCreativeTab() {
 			return tab;
 		}
 		
-		public Block getIdleBlock() {
+		public Block getBlock() {
 			switch (this) {
-			case FUSION_ELECTROMAGNET:
-				return NCBlocks.fusion_electromagnet_idle;
+			/*case FUSION_ELECTROMAGNET:
+				return NCBlocks.fusion_electromagnet;
 			case FUSION_ELECTROMAGNET_TRANSPARENT:
-				return NCBlocks.fusion_electromagnet_transparent_idle;
+				return NCBlocks.fusion_electromagnet_transparent;
 			case ACCELERATOR_ELECTROMAGNET:
-				return NCBlocks.accelerator_electromagnet_idle;
+				return NCBlocks.accelerator_electromagnet;
 			case ELECTROMAGNET_SUPERCOOLER:
-				return NCBlocks.electromagnet_supercooler_idle;
+				return NCBlocks.electromagnet_supercooler;*/
 			default:
-				return NCBlocks.fusion_electromagnet_idle;
+				return /*NCBlocks.fusion_electromagnet*/ null;
 			}
-		}
-		
-		public Block getActiveBlock() {
-			switch (this) {
-			case FUSION_ELECTROMAGNET:
-				return NCBlocks.fusion_electromagnet_active;
-			case FUSION_ELECTROMAGNET_TRANSPARENT:
-				return NCBlocks.fusion_electromagnet_transparent_active;
-			case ACCELERATOR_ELECTROMAGNET:
-				return NCBlocks.accelerator_electromagnet_active;
-			case ELECTROMAGNET_SUPERCOOLER:
-				return NCBlocks.electromagnet_supercooler_active;
-			default:
-				return NCBlocks.fusion_electromagnet_active;
-			}
-		}
-	}
-	
-	public enum FusionDummyTileType implements IStringSerializable {
-		FUSION_DUMMY_SIDE("fusion_dummy_side", new int[] {-1, -1, -1, 1, 0, 1}),
-		FUSION_DUMMY_TOP("fusion_dummy_top", new int[] {-1, -2, -1, 1, -2, 1});
-		
-		private String name;
-		private int[] coords;
-		
-		private FusionDummyTileType(String name, int[] coords) {
-			this.name = name;
-			this.coords = coords;
-		}
-		
-		@Override
-		public String getName() {
-			return name;
-		}
-		
-		public TileEntity getTile() {
-			switch (this) {
-			case FUSION_DUMMY_SIDE:
-				return new TileFusionDummy.Side();
-			case FUSION_DUMMY_TOP:
-				return new TileFusionDummy.Top();
-			default:
-				return null;
-			}
-		}
-		
-		public int[] getCoords() {
-			return coords;
 		}
 	}
 }

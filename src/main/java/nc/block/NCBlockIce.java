@@ -1,6 +1,5 @@
 package nc.block;
 
-import nc.tab.NCTabs;
 import nc.util.DamageSources;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockIce;
@@ -16,12 +15,11 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class NCBlockIce extends BlockIce {
 	
-	public NCBlockIce() {
+	public NCBlockIce(float slipperiness) {
 		super();
 		setHardness(0.5F);
 		setLightOpacity(3);
-		slipperiness = 0.999F;
-		setCreativeTab(NCTabs.BASE_BLOCK_MATERIALS);
+		this.slipperiness = slipperiness;
 	}
 	
 	@Override

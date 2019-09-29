@@ -13,7 +13,7 @@ import nc.recipe.IngredientSorption;
 public class ExtractorCategory extends JEICategoryProcessor<JEIRecipeWrapper.Extractor> {
 	
 	public ExtractorCategory(IGuiHelper guiHelper, IJEIHandler handler) {
-		super(guiHelper, handler, "extractor_idle", 33, 30, 118, 26);
+		super(guiHelper, handler, "extractor", 33, 30, 118, 26);
 	}
 	
 	@Override

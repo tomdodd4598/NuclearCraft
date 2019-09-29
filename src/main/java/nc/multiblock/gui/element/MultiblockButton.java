@@ -9,9 +9,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class MultiblockButton {
 	
 	@SideOnly(Side.CLIENT)
-	public static class ClearAllFluids extends NCButton.Image {
+	public static class ClearAll extends NCButton.Image {
 		
-		public ClearAllFluids(int id, int x, int y) {
+		public ClearAll(int id, int x, int y) {
 			super(id, x, y, 216, 0, 18, 18);
 		}
 		

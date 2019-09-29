@@ -12,7 +12,7 @@ import nc.recipe.IngredientSorption;
 public class AlloyFurnaceCategory extends JEICategoryProcessor<JEIRecipeWrapper.AlloyFurnace> {
 	
 	public AlloyFurnaceCategory(IGuiHelper guiHelper, IJEIHandler handler) {
-		super(guiHelper, handler, "alloy_furnace_idle", 45, 30, 102, 26);
+		super(guiHelper, handler, "alloy_furnace", 45, 30, 102, 26);
 	}
 	
 	@Override

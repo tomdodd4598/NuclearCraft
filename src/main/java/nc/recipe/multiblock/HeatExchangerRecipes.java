@@ -14,7 +14,7 @@ public class HeatExchangerRecipes extends ProcessorRecipeHandler {
 		// Hot NaK -> NaK
 		
 		for (int i = 0; i < COOLANTS.length; i++) {
-			addRecipe(fluidStack(COOLANTS[i] + "nak_hot", 20), fluidStack(COOLANTS[i] + "nak", 20), NCConfig.salt_fission_cooling_rate[i]*NCConfig.heat_exchanger_coolant_mult, 700, 300);
+			addRecipe(fluidStack(COOLANTS[i] + "nak_hot", 20), fluidStack(COOLANTS[i] + "nak", 20), NCConfig.fission_sink_cooling_rate[i]*NCConfig.heat_exchanger_coolant_mult, 700, 300);
 		}
 		
 		// Steam <-> Water
@@ -32,5 +32,5 @@ public class HeatExchangerRecipes extends ProcessorRecipeHandler {
 		addRecipe(fluidStack("condensate_water", 1000), fluidStack("preheated_water", 1000), 32000D, 300, 400);
 	}
 	
-	private static final String[] COOLANTS = new String[] {"", "redstone_", "quartz_", "gold_", "glowstone_", "lapis_", "diamond_", "liquidhelium_", "ender_", "cryotheum_", "iron_", "emerald_", "copper_", "tin_", "magnesium_"};
+	private static final String[] COOLANTS = new String[] {"", "redstone_", "quartz_", "gold_", "glowstone_", "lapis_", "diamond_", "liquid_helium_", "ender_", "cryotheum_", "iron_", "emerald_", "copper_", "tin_", "magnesium_"};
 }

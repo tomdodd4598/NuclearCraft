@@ -2,7 +2,6 @@ package nc.block;
 
 import java.util.Random;
 
-import nc.init.NCItems;
 import net.minecraft.block.BlockDoor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -13,7 +12,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class NCBlockDoor extends BlockDoor {
+public abstract class NCBlockDoor extends BlockDoor {
 	
 	public NCBlockDoor(Material material) {
 		super(material);
@@ -29,15 +28,13 @@ public class NCBlockDoor extends BlockDoor {
 	
 	@Override
 	public ItemStack getItem(World worldIn, BlockPos pos, IBlockState state) {
-		return new ItemStack(getItem());
+		return new ItemStack(getDoorItem());
 	}
 	
-	private static Item getItem() {
-		return NCItems.reactor_door;
-	}
+	protected abstract Item getDoorItem();
 	
 	@Override
 	public Item getItemDropped(IBlockState state, Random rand, int fortune) {
-		return state.getValue(HALF) == BlockDoor.EnumDoorHalf.UPPER ? Items.AIR : this.getItem();
+		return state.getValue(HALF) == BlockDoor.EnumDoorHalf.UPPER ? Items.AIR : getDoorItem();
 	}
 }

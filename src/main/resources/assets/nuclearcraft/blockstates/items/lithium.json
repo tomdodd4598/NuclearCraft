@@ -1,0 +1,21 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "builtin/generated",
+		"transform": "forge:default-item"
+	},
+	"variants": {
+		"type": {
+			"6": {
+				"textures": {
+					"layer0": "nuclearcraft:items/lithium/6"
+				}
+			},
+			"7": {
+				"textures": {
+					"layer0": "nuclearcraft:items/lithium/7"
+				}
+			}
+		}
+	}
+}

@@ -2,9 +2,11 @@ package nc.enumm;
 
 public interface IFissionStats {
 	
-	public double getBaseTime();
-	
-	public double getBasePower();
+	public int getBaseTime();
 		
-	public double getBaseHeat();
+	public int getBaseHeat();
+	
+	public double getBaseEfficiency();
+	
+	public int getCriticality();
 }

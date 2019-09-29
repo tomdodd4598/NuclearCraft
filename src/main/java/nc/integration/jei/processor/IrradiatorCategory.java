@@ -12,7 +12,7 @@ import nc.recipe.IngredientSorption;
 public class IrradiatorCategory extends JEICategoryProcessor<JEIRecipeWrapper.Irradiator> {
 	
 	public IrradiatorCategory(IGuiHelper guiHelper, IJEIHandler handler) {
-		super(guiHelper, handler, "irradiator_idle", 31, 30, 130, 26);
+		super(guiHelper, handler, "irradiator", 31, 30, 130, 26);
 	}
 	
 	@Override

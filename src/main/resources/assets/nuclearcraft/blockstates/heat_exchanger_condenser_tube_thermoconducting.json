@@ -2,20 +2,25 @@
 	"forge_marker": 1,
 	"defaults": {
 		"textures": {
-			"particle":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_condenser_tube_thermoconducting/default",
-			"north":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_condenser_tube_thermoconducting/default",
-			"east":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_condenser_tube_thermoconducting/default",
-			"south":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_condenser_tube_thermoconducting/default",
-			"west":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_condenser_tube_thermoconducting/default",
-			"up":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_condenser_tube_thermoconducting/default",
-			"down":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_condenser_tube_thermoconducting/default"
+			"particle":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_condenser_tube_thermoconducting",
+			"north":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_condenser_tube_thermoconducting",
+			"east":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_condenser_tube_thermoconducting",
+			"south":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_condenser_tube_thermoconducting",
+			"west":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_condenser_tube_thermoconducting",
+			"up":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_condenser_tube_thermoconducting",
+			"down":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_condenser_tube_thermoconducting"
 		},
 		"model":"cube",
 		"transform":"forge:default-block"
 	},
 	"variants": {
+		"inventory": [{}],
 		"north": {
-			"default": {},
+			"default": {
+			   "textures": {
+					"north":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_condenser_tube_thermoconducting/default"
+				}
+			},
 			"input_spread": {
 			   "textures": {
 					"north":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_condenser_tube_thermoconducting/input_spread"
@@ -33,7 +38,11 @@
 			}
 		},
 		"east": {
-			"default": {},
+			"default": {
+			   "textures": {
+					"east":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_condenser_tube_thermoconducting/default"
+				}
+			},
 			"input_spread": {
 			   "textures": {
 					"east":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_condenser_tube_thermoconducting/input_spread"
@@ -51,7 +60,11 @@
 			}
 		},
 		"south": {
-			"default": {},
+			"default": {
+			   "textures": {
+					"south":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_condenser_tube_thermoconducting/default"
+				}
+			},
 			"input_spread": {
 			   "textures": {
 					"south":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_condenser_tube_thermoconducting/input_spread"
@@ -69,7 +82,11 @@
 			}
 		},
 		"west": {
-			"default": {},
+			"default": {
+			   "textures": {
+					"west":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_condenser_tube_thermoconducting/default"
+				}
+			},
 			"input_spread": {
 			   "textures": {
 					"west":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_condenser_tube_thermoconducting/input_spread"
@@ -87,7 +104,11 @@
 			}
 		},
 		"up": {
-			"default": {},
+			"default": {
+			   "textures": {
+					"up":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_condenser_tube_thermoconducting/default"
+				}
+			},
 			"input_spread": {
 			   "textures": {
 					"up":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_condenser_tube_thermoconducting/input_spread"
@@ -105,7 +126,11 @@
 			}
 		},
 		"down": {
-			"default": {},
+			"default": {
+			   "textures": {
+					"down":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_condenser_tube_thermoconducting/default"
+				}
+			},
 			"input_spread": {
 			   "textures": {
 					"down":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_condenser_tube_thermoconducting/input_spread"

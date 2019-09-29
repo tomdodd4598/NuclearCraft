@@ -1,5 +1,13 @@
 {
+	"forge_marker": 1,
+	"defaults": {
+		"model":"cube_all",
+		"textures": {
+			"all": "nuclearcraft:blocks/cobblestone_generator"
+		}
+	},
 	"variants": {
-		"normal": {"model": "nuclearcraft:cobblestone_generator"}
+		"inventory": [{}],
+		"normal": [{}]
 	}
 }

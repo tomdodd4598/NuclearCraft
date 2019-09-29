@@ -109,12 +109,9 @@ public class RadSources {
 	public static final double CAESIUM_137 = 0.033D;
 	public static final double CORIUM = 0.0000165D;
 	
-	public static final double THORIUM = 0.0000015D;
+	public static final double THORIUM = 0.0000000000715D;
 	public static final double URANIUM = 0.000000000385D;
 	public static final double PLUTONIUM = 0.000042D;
-	
-	public static final double THORIUM_230 = 0.0000135D;
-	public static final double THORIUM_232 = 0.0000000000715D;
 	
 	public static final double URANIUM_233 = 0.0000063D;
 	public static final double URANIUM_235 = 0.00000000145D;
@@ -177,9 +174,6 @@ public class RadSources {
 		putMaterial(URANIUM, "Uranium", "Yellorium");
 		putMaterial(PLUTONIUM, "Plutonium", "Blutonium");
 		
-		putIsotope(THORIUM_230, "Thorium230");
-		putIsotope(THORIUM_232, "Thorium232");
-		
 		putIsotope(URANIUM_233, "Uranium233");
 		putMaterial(URANIUM_235, "Uranium235");
 		putMaterial(URANIUM_238, "Uranium238", "Cyanite");
@@ -209,7 +203,7 @@ public class RadSources {
 		putIsotope(CALIFORNIUM_251, "Californium251");
 		putIsotope(CALIFORNIUM_252, "Californium252");
 		
-		putFuel(THORIUM_232, 9, THORIUM_230, 0, "TBU", "tbu");
+		putFuel(THORIUM, 9, THORIUM, 0, "TBU", "tbu");
 		
 		putFuel(URANIUM_238, URANIUM_233, "U233", "u_233");
 		putFuel(URANIUM_238, URANIUM_235, "U235", "u_235");
@@ -281,10 +275,6 @@ public class RadSources {
 		put(AMERICIUM_241/4D, NCBlocks.rtg_americium);
 		put(CALIFORNIUM_250/4D, NCBlocks.rtg_californium);
 		
-		put(THORIUM_230*9D/4D, NCBlocks.helium_collector);
-		put(THORIUM_230*8D*9D/4D, NCBlocks.helium_collector_compact);
-		put(THORIUM_230*64D*9D/4D, NCBlocks.helium_collector_dense);
-		
 		put(TRITIUM/512D, NCBlocks.tritium_lamp);
 		
 		if (ModCheck.gregtechLoaded()) {
@@ -294,7 +284,6 @@ public class RadSources {
 		}
 		
 		putFluid(FUSION, "plasma");
-		putFluid(NEUTRON, "neutron");
 		putFluid(TRITIUM, "tritium");
 		
 		putFluid(CAESIUM_137, "caesium_137");
@@ -303,9 +292,6 @@ public class RadSources {
 		putFissionFluid(THORIUM, "thorium");
 		putFissionFluid(URANIUM, "uranium", "yellorium");
 		putFissionFluid(PLUTONIUM, "plutonium", "blutonium");
-		
-		putFissionFluid(THORIUM_230, "thorium_230");
-		//putFissionFluid(THORIUM_232, "thorium_232");
 		
 		putFissionFluid(URANIUM_233, "uranium_233");
 		putFissionFluid(URANIUM_235, "uranium_235");
@@ -391,7 +377,7 @@ public class RadSources {
 	}
 	
 	public static void putMaterial(double radiation, String... ores) {
-		for (String ore : ores) for (String suffix : new String[] {"", "Oxide"}) {
+		for (String ore : ores) for (String suffix : new String[] {"", "Carbide", "Oxide", "Nitride", "ZA"}) {
 			for (String prefix : MATERIAL_INGOT_NAME_LIST) addToOreMap(prefix + ore + suffix, radiation*INGOT);
 			for (String prefix : MATERIAL_NUGGET_NAME_LIST) addToOreMap(prefix + ore + suffix, radiation*NUGGET);
 			for (String prefix : MATERIAL_HALF_NAME_LIST) addToOreMap(prefix + ore + suffix, radiation*HALF);
@@ -408,7 +394,7 @@ public class RadSources {
 	}
 	
 	public static void putIsotope(double radiation, String... ores) {
-		for (String ore : ores) for (String suffix : new String[] {"", "Base", "Oxide"}) {
+		for (String ore : ores) for (String suffix : new String[] {"", "Carbide", "Oxide", "Nitride", "ZA"}) {
 			for (String prefix : ISOTOPE_INGOT_NAME_LIST) addToOreMap(prefix + ore + suffix, radiation*INGOT);
 			for (String prefix : ISOTOPE_NUGGET_NAME_LIST) addToOreMap(prefix + ore + suffix, radiation*NUGGET);
 			for (String prefix : ISOTOPE_BLOCK_NAME_LIST) addToOreMap(prefix + ore + suffix, radiation*BLOCK);
@@ -430,15 +416,15 @@ public class RadSources {
 	}
 	
 	public static double getFuelRadiation(double rad1, int amount1, double rad2, int amount2) {
-		return (rad1*amount1 + rad2*amount2)*INGOT;
+		return (rad1*amount1 + rad2*amount2)*INGOT/9D;
 	}
 	
 	public static void putFuel(double rad1, int amount1, double rad2, int amount2, String ore, String fluid) {
 		double radiation = getFuelRadiation(rad1, amount1, rad2, amount2);
-		addToOreMap("fuel" + ore, radiation);
+		addToOreMap("fuel" + ore + "TRIGO", radiation);
 		addToOreMap("fuel" + ore + "Oxide", radiation);
-		addToOreMap("fuelRod" + ore, radiation);
-		addToOreMap("fuelRod" + ore + "Oxide", radiation);
+		addToOreMap("fuel" + ore + "Nitride", radiation);
+		addToOreMap("fuel" + ore + "ZA", radiation);
 		addToFluidMap("fuel_" + fluid, radiation*FLUID/9D);
 		addToFluidMap("fuel_" + fluid + "_fluoride", radiation*FLUID/9D);
 		addToFluidMap("fuel_" + fluid + "_fluoride_flibe", radiation*FLUID/18D);
@@ -450,15 +436,15 @@ public class RadSources {
 	}
 	
 	public static double getDepletedFuelRadiation(double rad1, int amount1, double rad2, int amount2, double rad3, int amount3, double rad4, int amount4) {
-		return (rad1*amount1 + rad2*amount2 + rad3*amount3 + rad4*amount4)*NUGGET;
+		return (rad1*amount1 + rad2*amount2 + rad3*amount3 + rad4*amount4)*INGOT/81D;
 	}
 	
 	public static void putDepletedFuel(double rad1, int amount1, double rad2, int amount2, double rad3, int amount3, double rad4, int amount4, String ore, String fluid) {
 		double radiation = getDepletedFuelRadiation(rad1, amount1, rad2, amount2, rad3, amount3, rad4, amount4);
-		addToOreMap("depletedFuel" + ore, radiation);
+		addToOreMap("depletedFuel" + ore + "TRIGO", radiation);
 		addToOreMap("depletedFuel" + ore + "Oxide", radiation);
-		addToOreMap("depletedFuelRod" + ore, radiation);
-		addToOreMap("depletedFuelRod" + ore + "Oxide", radiation);
+		addToOreMap("depletedFuel" + ore + "Nitride", radiation);
+		addToOreMap("depletedFuel" + ore + "ZA", radiation);
 		addToFluidMap("depleted_fuel_" + fluid, radiation*FLUID/9D);
 		addToFluidMap("depleted_fuel_" + fluid + "_fluoride", radiation*FLUID/9D);
 		addToFluidMap("depleted_fuel_" + fluid + "_fluoride_flibe", radiation*FLUID/18D);
@@ -482,7 +468,7 @@ public class RadSources {
 	
 	// Fuels
 	
-	public static final double TBU = getFuelRadiation(THORIUM_232, 9, THORIUM_230, 0);
+	public static final double TBU = getFuelRadiation(THORIUM, 9, THORIUM, 0);
 	
 	public static final double LEU_233 = getFuelRadiation(URANIUM_238, 8, URANIUM_233, 1);
 	public static final double HEU_233 = getFuelRadiation(URANIUM_238, 5, URANIUM_233, 4);
@@ -497,8 +483,8 @@ public class RadSources {
 	public static final double LEP_241 = getFuelRadiation(PLUTONIUM_242, 8, PLUTONIUM_241, 1);
 	public static final double HEP_241 = getFuelRadiation(PLUTONIUM_242, 5, PLUTONIUM_241, 4);
 	
-	public static final double MOX_239 = getFuelRadiation(URANIUM_238, 8, PLUTONIUM_239, 1);
-	public static final double MOX_241 = getFuelRadiation(URANIUM_238, 8, PLUTONIUM_241, 1);
+	public static final double MIX_239 = getFuelRadiation(URANIUM_238, 8, PLUTONIUM_239, 1);
+	public static final double MIX_241 = getFuelRadiation(URANIUM_238, 8, PLUTONIUM_241, 1);
 	
 	public static final double LEA_242 = getFuelRadiation(AMERICIUM_243, 8, AMERICIUM_242, 1);
 	public static final double HEA_242 = getFuelRadiation(AMERICIUM_243, 5, AMERICIUM_242, 4);
@@ -517,4 +503,40 @@ public class RadSources {
 	public static final double HECf_249 = getFuelRadiation(CALIFORNIUM_252, 5, CALIFORNIUM_249, 4);
 	public static final double LECf_251 = getFuelRadiation(CALIFORNIUM_252, 8, CALIFORNIUM_251, 1);
 	public static final double HECf_251 = getFuelRadiation(CALIFORNIUM_252, 5, CALIFORNIUM_251, 4);
+	
+	public static final double TBU_FISSION = TBU;
+	
+	public static final double LEU_233_FISSION = (LEU_233 + CAESIUM_137)/64D;
+	public static final double HEU_233_FISSION = (HEU_233 + CAESIUM_137)/64D;
+	public static final double LEU_235_FISSION = (LEU_235 + CAESIUM_137)/64D;
+	public static final double HEU_235_FISSION = (HEU_235 + CAESIUM_137)/64D;
+	
+	public static final double LEN_236_FISSION = (LEN_236 + CAESIUM_137)/64D;
+	public static final double HEN_236_FISSION = (HEN_236 + CAESIUM_137)/64D;
+	
+	public static final double LEP_239_FISSION = (LEP_239 + CAESIUM_137)/64D;
+	public static final double HEP_239_FISSION = (HEP_239 + CAESIUM_137)/64D;
+	public static final double LEP_241_FISSION = (LEP_241 + CAESIUM_137)/64D;
+	public static final double HEP_241_FISSION = (HEP_241 + CAESIUM_137)/64D;
+	
+	public static final double MIX_239_FISSION = (MIX_239 + CAESIUM_137)/64D;
+	public static final double MIX_241_FISSION = (MIX_241 + CAESIUM_137)/64D;
+	
+	public static final double LEA_242_FISSION = (LEA_242 + CAESIUM_137)/64D;
+	public static final double HEA_242_FISSION = (HEA_242 + CAESIUM_137)/64D;
+	
+	public static final double LECm_243_FISSION = (LECm_243 + CAESIUM_137)/64D;
+	public static final double HECm_243_FISSION = (HECm_243 + CAESIUM_137)/64D;
+	public static final double LECm_245_FISSION = (LECm_245 + CAESIUM_137)/64D;
+	public static final double HECm_245_FISSION = (HECm_245 + CAESIUM_137)/64D;
+	public static final double LECm_247_FISSION = (LECm_247 + CAESIUM_137)/64D;
+	public static final double HECm_247_FISSION = (HECm_247 + CAESIUM_137)/64D;
+	
+	public static final double LEB_248_FISSION = (LEB_248 + CAESIUM_137)/64D;
+	public static final double HEB_248_FISSION = (HEB_248 + CAESIUM_137)/64D;
+	
+	public static final double LECf_249_FISSION = (LECf_249 + CAESIUM_137)/64D;
+	public static final double HECf_249_FISSION = (HECf_249 + CAESIUM_137)/64D;
+	public static final double LECf_251_FISSION = (LECf_251 + CAESIUM_137)/64D;
+	public static final double HECf_251_FISSION = (HECf_251 + CAESIUM_137)/64D;
 }

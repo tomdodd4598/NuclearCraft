@@ -48,8 +48,8 @@ public class GuiElectrolyser extends GuiFluidProcessor {
 		drawFluidTooltip(tile.getTanks().get(3), mouseX, mouseY, 106, 51, 16, 16);
 		drawFluidTooltip(tile.getTanks().get(4), mouseX, mouseY, 126, 51, 16, 16);
 		
-		drawTooltip(Lang.localise("gui.container.machine_side_config"), mouseX, mouseY, 27, 75, 18, 18);
-		drawTooltip(Lang.localise("gui.container.redstone_control"), mouseX, mouseY, 47, 75, 18, 18);
+		drawTooltip(Lang.localise("gui.nc.container.machine_side_config"), mouseX, mouseY, 27, 75, 18, 18);
+		drawTooltip(Lang.localise("gui.nc.container.redstone_control"), mouseX, mouseY, 47, 75, 18, 18);
 	}
 	
 	@Override
@@ -136,13 +136,13 @@ public class GuiElectrolyser extends GuiFluidProcessor {
 		
 		@Override
 		public void renderButtonTooltips(int mouseX, int mouseY) {
-			drawTooltip(TextFormatting.DARK_AQUA + Lang.localise("gui.container.input_tank_config"), mouseX, mouseY, 49, 40, 18, 18);
-			drawTooltip(TextFormatting.RED + Lang.localise("gui.container.output_tank_config"), mouseX, mouseY, 105, 30, 18, 18);
-			drawTooltip(TextFormatting.RED + Lang.localise("gui.container.output_tank_config"), mouseX, mouseY, 125, 30, 18, 18);
-			drawTooltip(TextFormatting.RED + Lang.localise("gui.container.output_tank_config"), mouseX, mouseY, 105, 50, 18, 18);
-			drawTooltip(TextFormatting.RED + Lang.localise("gui.container.output_tank_config"), mouseX, mouseY, 125, 50, 18, 18);
-			drawTooltip(TextFormatting.DARK_BLUE + Lang.localise("gui.container.upgrade_config"), mouseX, mouseY, 131, 75, 18, 18);
-			drawTooltip(TextFormatting.YELLOW + Lang.localise("gui.container.upgrade_config"), mouseX, mouseY, 151, 75, 18, 18);
+			drawTooltip(TextFormatting.DARK_AQUA + Lang.localise("gui.nc.container.input_tank_config"), mouseX, mouseY, 49, 40, 18, 18);
+			drawTooltip(TextFormatting.RED + Lang.localise("gui.nc.container.output_tank_config"), mouseX, mouseY, 105, 30, 18, 18);
+			drawTooltip(TextFormatting.RED + Lang.localise("gui.nc.container.output_tank_config"), mouseX, mouseY, 125, 30, 18, 18);
+			drawTooltip(TextFormatting.RED + Lang.localise("gui.nc.container.output_tank_config"), mouseX, mouseY, 105, 50, 18, 18);
+			drawTooltip(TextFormatting.RED + Lang.localise("gui.nc.container.output_tank_config"), mouseX, mouseY, 125, 50, 18, 18);
+			drawTooltip(TextFormatting.DARK_BLUE + Lang.localise("gui.nc.container.upgrade_config"), mouseX, mouseY, 131, 75, 18, 18);
+			drawTooltip(TextFormatting.YELLOW + Lang.localise("gui.nc.container.upgrade_config"), mouseX, mouseY, 151, 75, 18, 18);
 		}
 		
 		@Override

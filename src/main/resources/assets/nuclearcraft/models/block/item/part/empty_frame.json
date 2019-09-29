@@ -1,0 +1,6 @@
+{
+	"parent": "block/cube_all",
+	"textures": {
+		"all": "nuclearcraft:items/part/empty_frame"
+	}
+}

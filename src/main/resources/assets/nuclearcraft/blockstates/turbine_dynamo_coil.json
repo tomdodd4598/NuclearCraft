@@ -1,10 +1,40 @@
 {
+	"forge_marker": 1,
+	"defaults": {
+		"model":"cube_all"
+	},
 	"variants": {
-		"type=magnesium": {"model": "nuclearcraft:turbine_dynamo_coil_magnesium"},
-		"type=beryllium": {"model": "nuclearcraft:turbine_dynamo_coil_beryllium"},
-		"type=aluminum": {"model": "nuclearcraft:turbine_dynamo_coil_aluminum"},
-		"type=gold": {"model": "nuclearcraft:turbine_dynamo_coil_gold"},
-		"type=copper": {"model": "nuclearcraft:turbine_dynamo_coil_copper"},
-		"type=silver": {"model": "nuclearcraft:turbine_dynamo_coil_silver"}
+		"type": {
+			"magnesium": {
+				"textures": {
+					"all":"nuclearcraft:blocks/turbine/dynamo_coil/magnesium"
+				}
+			},
+			"beryllium": {
+				"textures": {
+					"all":"nuclearcraft:blocks/turbine/dynamo_coil/beryllium"
+				}
+			},
+			"aluminum": {
+				"textures": {
+					"all":"nuclearcraft:blocks/turbine/dynamo_coil/aluminum"
+				}
+			},
+			"gold": {
+				"textures": {
+					"all":"nuclearcraft:blocks/turbine/dynamo_coil/gold"
+				}
+			},
+			"copper": {
+				"textures": {
+					"all":"nuclearcraft:blocks/turbine/dynamo_coil/copper"
+				}
+			},
+			"silver": {
+				"textures": {
+					"all":"nuclearcraft:blocks/turbine/dynamo_coil/silver"
+				}
+			}
+		}
 	}
 }

@@ -1,8 +1,13 @@
 {
+	"forge_marker": 1,
+	"defaults": {
+		"model":"cube_all",
+		"textures": {
+			"all": "nuclearcraft:blocks/fission/port"
+		}
+	},
 	"variants": {
-		"facing=north": {"model": "nuclearcraft:fission_port"},
-		"facing=south": {"model": "nuclearcraft:fission_port"},
-		"facing=west":  {"model": "nuclearcraft:fission_port"},
-		"facing=east":  {"model": "nuclearcraft:fission_port"}
+		"inventory": [{}],
+		"normal": [{}]
 	}
 }

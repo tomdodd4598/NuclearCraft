@@ -27,18 +27,18 @@ public class TConstructIMC {
 		sendTiCSmelteryInfo("manganese", true);
 		sendTiCSmelteryInfo("aluminum", true);
 		sendTiCSmelteryInfo("silver", true);
+		sendTiCSmelteryInfo("manganese_oxide", "manganeseOxide", false);
+		sendTiCSmelteryInfo("manganese_dioxide", "manganeseDioxide", false);
 		
 		sendTiCSmelteryInfo("sodium", false);
 		sendTiCSmelteryInfo("potassium", false);
 		sendTiCSmelteryInfo("plutonium", false);
 		
-		sendTiCSmelteryInfo("manganese_dioxide", "manganeseDioxide", true);
-		
 		sendTiCSmelteryInfo("ferroboron", true);
 		sendTiCSmelteryInfo("tough", true);
 		sendTiCSmelteryInfo("hard_carbon", "hardCarbon", true);
 		
-		sendTiCAlloyInfo("steel", 18, fluid("iron", 18), fluid("coal", 25));
+		sendTiCAlloyInfo("steel", 9, fluid("iron", 9), fluid("coal", 25));
 		sendTiCAlloyInfo("ferroboron", 2, fluid("steel", 1), fluid("boron", 1));
 		sendTiCAlloyInfo("tough", 2, fluid("ferroboron", 1), fluid("lithium", 1));
 		sendTiCAlloyInfo("hard_carbon", 144, fluid("coal", 100), fluid("diamond", 333));

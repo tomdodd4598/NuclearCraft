@@ -1,11 +1,9 @@
 package nc.multiblock.heatExchanger;
 
-import java.util.Set;
-
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+import it.unimi.dsi.fastutil.objects.ObjectSet;
 import nc.Global;
 import nc.config.NCConfig;
-import nc.multiblock.IMultiblockFluid;
 import nc.multiblock.IMultiblockPart;
 import nc.multiblock.MultiblockBase;
 import nc.multiblock.TileBeefBase.SyncReason;
@@ -22,12 +20,12 @@ import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
-public class HeatExchanger extends CuboidalMultiblockBase<HeatExchangerUpdatePacket> implements IMultiblockFluid {
+public class HeatExchanger extends CuboidalMultiblockBase<HeatExchangerUpdatePacket> {
 	
-	protected Set<TileHeatExchangerController> controllers;
-	protected Set<TileHeatExchangerVent> vents;
-	protected Set<TileHeatExchangerTube> tubes;
-	protected Set<TileHeatExchangerCondenserTube> condenserTubes;
+	protected final ObjectSet<TileHeatExchangerController> controllers = new ObjectOpenHashSet<>();
+	protected final ObjectSet<TileHeatExchangerVent> vents = new ObjectOpenHashSet<>();
+	protected final ObjectSet<TileHeatExchangerTube> tubes = new ObjectOpenHashSet<>();
+	protected final ObjectSet<TileHeatExchangerCondenserTube> condenserTubes = new ObjectOpenHashSet<>();
 	
 	protected TileHeatExchangerController controller;
 	
@@ -38,28 +36,23 @@ public class HeatExchanger extends CuboidalMultiblockBase<HeatExchangerUpdatePac
 	
 	public HeatExchanger(World world) {
 		super(world);
-		
-		controllers = new ObjectOpenHashSet<TileHeatExchangerController>();
-		vents = new ObjectOpenHashSet<TileHeatExchangerVent>();
-		tubes = new ObjectOpenHashSet<TileHeatExchangerTube>();
-		condenserTubes = new ObjectOpenHashSet<TileHeatExchangerCondenserTube>();
 	}
 	
 	// Multiblock Part Getters
 	
-	public Set<TileHeatExchangerController> getControllers() {
+	public ObjectSet<TileHeatExchangerController> getControllers() {
 		return controllers;
 	}
 	
-	public Set<TileHeatExchangerVent> getVents() {
+	public ObjectSet<TileHeatExchangerVent> getVents() {
 		return vents;
 	}
 	
-	public Set<TileHeatExchangerTube> getTubes() {
+	public ObjectSet<TileHeatExchangerTube> getTubes() {
 		return tubes;
 	}
 	
-	public Set<TileHeatExchangerCondenserTube> getCondenserTubes() {
+	public ObjectSet<TileHeatExchangerCondenserTube> getCondenserTubes() {
 		return condenserTubes;
 	}
 	
@@ -266,7 +259,7 @@ public class HeatExchanger extends CuboidalMultiblockBase<HeatExchangerUpdatePac
 	}
 	
 	@Override
-	public void clearAllFluids() {
+	public void clearAll() {
 		for (TileHeatExchangerVent vent : vents) vent.clearAllTanks();
 		for (TileHeatExchangerTube tube : tubes) tube.clearAllTanks();
 		for (TileHeatExchangerCondenserTube condenserTube : condenserTubes) condenserTube.clearAllTanks();

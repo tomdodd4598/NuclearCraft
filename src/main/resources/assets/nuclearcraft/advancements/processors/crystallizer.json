@@ -1,7 +1,7 @@
 {
 	"display": {
 		"icon": {
-			"item": "nuclearcraft:crystallizer_active"
+			"item": "nuclearcraft:crystallizer"
 		},
 		"title": {
 			"translate": "advancement.nuclearcraft.crystallizer.name"
@@ -17,7 +17,7 @@
 			"conditions": {
 				"items": [
 					{
-						"item": "nuclearcraft:crystallizer_idle"
+						"item": "nuclearcraft:crystallizer"
 					}
 				]
 			}

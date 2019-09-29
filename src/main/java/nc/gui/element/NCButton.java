@@ -70,7 +70,6 @@ public abstract class NCButton extends GuiButton {
 	@SideOnly(Side.CLIENT)
 	public static class Item extends NCButton {
 		
-		protected int width, height;
 		protected GuiItemRenderer itemRenderer;
 		
 		public Item(int id, int x, int y, int width, int height, float alph, @Nonnull net.minecraft.item.Item item, int itemMeta) {

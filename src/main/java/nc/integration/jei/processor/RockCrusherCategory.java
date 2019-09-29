@@ -12,7 +12,7 @@ import nc.recipe.IngredientSorption;
 public class RockCrusherCategory extends JEICategoryProcessor<JEIRecipeWrapper.RockCrusher> {
 	
 	public RockCrusherCategory(IGuiHelper guiHelper, IJEIHandler handler) {
-		super(guiHelper, handler, "rock_crusher_idle", 29, 30, 122, 26);
+		super(guiHelper, handler, "rock_crusher", 29, 30, 122, 26);
 	}
 	
 	@Override

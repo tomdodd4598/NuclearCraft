@@ -1,67 +1,67 @@
 {
-	"block.fusion_run": {
+	"block.nc.fusion_run": {
 		"category": "block",
-		"subtitle": "block.fusion_run",
+		"subtitle": "block.nc.fusion_run",
 		"sounds": [ { "name": "nuclearcraft:block/fusion_run", "stream": false } ]
 	},
-	"block.turbine_run": {
+	"block.nc.turbine_run": {
 		"category": "block",
-		"subtitle": "block.turbine_run",
+		"subtitle": "block.nc.turbine_run",
 		"sounds": [ { "name": "nuclearcraft:block/turbine_run", "stream": false } ]
 	},
-	"player.geiger_tick": {
+	"player.nc.geiger_tick": {
 		"category": "player",
-		"subtitle": "player.geiger_tick",
+		"subtitle": "player.nc.geiger_tick",
 		"sounds": [ { "name": "nuclearcraft:player/geiger_tick", "stream": false } ]
 	},
-	"player.radaway": {
+	"player.nc.radaway": {
 		"category": "player",
-		"subtitle": "player.radaway",
+		"subtitle": "player.nc.radaway",
 		"sounds": [ { "name": "nuclearcraft:player/radaway", "stream": false } ]
 	},
-	"player.rad_x": {
+	"player.nc.rad_x": {
 		"category": "player",
-		"subtitle": "player.rad_x",
+		"subtitle": "player.nc.rad_x",
 		"sounds": [ { "name": "nuclearcraft:player/rad_x", "stream": false } ]
 	},
-	"player.chems_wear_off": {
+	"player.nc.chems_wear_off": {
 		"category": "player",
-		"subtitle": "player.chems_wear_off",
+		"subtitle": "player.nc.chems_wear_off",
 		"sounds": [ { "name": "nuclearcraft:player/chems_wear_off", "stream": false } ]
 	},
-	"player.rad_poisoning": {
+	"player.nc.rad_poisoning": {
 		"category": "player",
-		"subtitle": "player.rad_poisoning",
+		"subtitle": "player.nc.rad_poisoning",
 		"sounds": [ { "name": "nuclearcraft:player/rad_poisoning", "stream": false } ]
 	},
-	"entity.feral_ghoul_death": {
+	"entity.nc.feral_ghoul_death": {
 		"category": "mob",
-		"subtitle": "entity.feral_ghoul_death",
+		"subtitle": "entity.nc.feral_ghoul_death",
 		"sounds": [ { "name": "nuclearcraft:entity/feral_ghoul_death", "stream": false } ]
 	},
-	"entity.feral_ghoul_charge": {
+	"entity.nc.feral_ghoul_charge": {
 		"category": "mob",
-		"subtitle": "entity.feral_ghoul_charge",
+		"subtitle": "entity.nc.feral_ghoul_charge",
 		"sounds": [ { "name": "nuclearcraft:entity/feral_ghoul_charge", "stream": false } ]
 	},
-	"music.wanderer": {
+	"music.nc.wanderer": {
 		"category": "record",
-		"subtitle": "music.wanderer",
+		"subtitle": "music.nc.wanderer",
 		"sounds": [ { "name": "nuclearcraft:music/wanderer", "stream": true } ]
 	},
-	"music.end_of_the_world": {
+	"music.nc.end_of_the_world": {
 		"category": "record",
-		"subtitle": "music.end_of_the_world",
+		"subtitle": "music.nc.end_of_the_world",
 		"sounds": [ { "name": "nuclearcraft:music/end_of_the_world", "stream": true } ]
 	},
-	"music.money_for_nothing": {
+	"music.nc.money_for_nothing": {
 		"category": "record",
-		"subtitle": "music.money_for_nothing",
+		"subtitle": "music.nc.money_for_nothing",
 		"sounds": [ { "name": "nuclearcraft:music/money_for_nothing", "stream": true } ]
 	},
-	"music.hyperspace": {
+	"music.nc.hyperspace": {
 		"category": "record",
-		"subtitle": "music.hyperspace",
+		"subtitle": "music.nc.hyperspace",
 		"sounds": [ { "name": "nuclearcraft:music/hyperspace", "stream": true } ]
 	}
 }

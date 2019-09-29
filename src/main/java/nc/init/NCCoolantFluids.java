@@ -85,10 +85,10 @@ public class NCCoolantFluids {
 		fluidPairList.add(Pair.of(diamond_nak, !NCConfig.register_fission_fluid_blocks ? null : new BlockFluidCoolant(diamond_nak)));
 		fluidPairList.add(Pair.of(diamond_nak_hot, !NCConfig.register_fission_fluid_blocks ? null : new BlockFluidHotCoolant(diamond_nak_hot)));
 		
-		FluidCoolant liquidhelium_nak = new FluidCoolant("liquidhelium_nak", FluidCoolant.getNAKColor(0xF3433D));
-		FluidHotCoolant liquidhelium_nak_hot = new FluidHotCoolant("liquidhelium_nak_hot", FluidHotCoolant.getNAKColor(0xF3433D));
-		fluidPairList.add(Pair.of(liquidhelium_nak, !NCConfig.register_fission_fluid_blocks ? null : new BlockFluidCoolant(liquidhelium_nak)));
-		fluidPairList.add(Pair.of(liquidhelium_nak_hot, !NCConfig.register_fission_fluid_blocks ? null : new BlockFluidHotCoolant(liquidhelium_nak_hot)));
+		FluidCoolant liquid_helium_nak = new FluidCoolant("liquid_helium_nak", FluidCoolant.getNAKColor(0xF3433D));
+		FluidHotCoolant liquid_helium_nak_hot = new FluidHotCoolant("liquid_helium_nak_hot", FluidHotCoolant.getNAKColor(0xF3433D));
+		fluidPairList.add(Pair.of(liquid_helium_nak, !NCConfig.register_fission_fluid_blocks ? null : new BlockFluidCoolant(liquid_helium_nak)));
+		fluidPairList.add(Pair.of(liquid_helium_nak_hot, !NCConfig.register_fission_fluid_blocks ? null : new BlockFluidHotCoolant(liquid_helium_nak_hot)));
 		
 		if (registerCoFHAlt()) {
 			FluidMolten ender = new FluidMolten("ender", 0x14584D);

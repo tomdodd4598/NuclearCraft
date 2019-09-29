@@ -1,7 +1,7 @@
 {
 	"display": {
 		"icon": {
-			"item": "nuclearcraft:chemical_reactor_active"
+			"item": "nuclearcraft:chemical_reactor"
 		},
 		"title": {
 			"translate": "advancement.nuclearcraft.chemical_reactor.name"
@@ -18,7 +18,7 @@
 			"conditions": {
 				"items": [
 					{
-						"item": "nuclearcraft:chemical_reactor_idle"
+						"item": "nuclearcraft:chemical_reactor"
 					}
 				]
 			}

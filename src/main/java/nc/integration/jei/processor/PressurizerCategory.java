@@ -12,7 +12,7 @@ import nc.recipe.IngredientSorption;
 public class PressurizerCategory extends JEICategoryProcessor<JEIRecipeWrapper.Pressurizer> {
 	
 	public PressurizerCategory(IGuiHelper guiHelper, IJEIHandler handler) {
-		super(guiHelper, handler, "pressurizer_idle", 47, 30, 90, 26);
+		super(guiHelper, handler, "pressurizer", 47, 30, 90, 26);
 	}
 	
 	@Override

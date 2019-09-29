@@ -1,7 +1,7 @@
 {
 	"display": {
 		"icon": {
-			"item": "nuclearcraft:pressurizer_active"
+			"item": "nuclearcraft:pressurizer"
 		},
 		"title": {
 			"translate": "advancement.nuclearcraft.pressurizer.name"
@@ -17,7 +17,7 @@
 			"conditions": {
 				"items": [
 					{
-						"item": "nuclearcraft:pressurizer_idle"
+						"item": "nuclearcraft:pressurizer"
 					}
 				]
 			}

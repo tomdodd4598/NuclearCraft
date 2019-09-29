@@ -13,7 +13,7 @@ import nc.recipe.IngredientSorption;
 public class InfuserCategory extends JEICategoryProcessor<JEIRecipeWrapper.Infuser> {
 	
 	public InfuserCategory(IGuiHelper guiHelper, IJEIHandler handler) {
-		super(guiHelper, handler, "infuser_idle", 45, 30, 102, 26);
+		super(guiHelper, handler, "infuser", 45, 30, 102, 26);
 	}
 	
 	@Override

@@ -1,6 +1,0 @@
-{
-	"variants": {
-		"type=casing": {"model": "nuclearcraft:fission_block_casing"},
-		"type=blast": {"model": "nuclearcraft:fission_block_blast"}
-	}
-}

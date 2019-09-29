@@ -1,5 +1,14 @@
 {
+	"forge_marker": 1,
+	"defaults": {
+		"model":"orientable_vertical",
+		"textures": {
+			"front": "nuclearcraft:blocks/solar_panel_basic_top",
+			"side": "nuclearcraft:blocks/solar_panel_basic_side"
+		}
+	},
 	"variants": {
-		"normal": {"model": "nuclearcraft:solar_panel_basic"}
+		"inventory": [{}],
+		"normal": [{}]
 	}
 }

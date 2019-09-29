@@ -1,5 +1,13 @@
 {
+	"forge_marker": 1,
+	"defaults": {
+		"model":"cube_all",
+		"textures": {
+			"all": "nuclearcraft:blocks/tritium_lamp"
+		}
+	},
 	"variants": {
-		"normal": {"model": "nuclearcraft:tritium_lamp"}
+		"inventory": [{}],
+		"normal": [{}]
 	}
 }

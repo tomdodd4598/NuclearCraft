@@ -42,7 +42,7 @@ public class TilePassive {
 	public static class ElectromagnetSupercooler extends TilePassiveAbstract implements IEnergySpread, IFluidSpread {
 		
 		public ElectromagnetSupercooler() {
-			super("electromagnet_supercooler", -NCConfig.accelerator_electromagnet_power, FluidRegistry.getFluid("liquidhelium"), -NCConfig.accelerator_supercooler_coolant, NCConfig.machine_update_rate / 5);
+			super("electromagnet_supercooler", -NCConfig.accelerator_electromagnet_power, FluidRegistry.getFluid("liquid_helium"), -NCConfig.accelerator_supercooler_coolant, NCConfig.machine_update_rate / 5);
 		}
 		
 		@Override
@@ -55,46 +55,18 @@ public class TilePassive {
 		}
 	}
 	
-	public static abstract class HeliumCollectorAbstract extends TilePassiveAbstract {
-		
-		public HeliumCollectorAbstract(String type, int rateMult) {
-			super("helium_collector" + type, FluidRegistry.getFluid("helium"), NCConfig.processor_passive_rate[0]*rateMult, NCConfig.machine_update_rate / 5);
-		}
-	}
-	
-	public static class HeliumCollector extends HeliumCollectorAbstract {
-		
-		public HeliumCollector() {
-			super("", 1);
-		}
-	}
-	
-	public static class HeliumCollectorCompact extends HeliumCollectorAbstract {
-		
-		public HeliumCollectorCompact() {
-			super("_compact", 8);
-		}
-	}
-	
-	public static class HeliumCollectorDense extends HeliumCollectorAbstract {
-		
-		public HeliumCollectorDense() {
-			super("_dense", 64);
-		}
-	}
-	
 	public static abstract class CobblestoneGeneratorAbstract extends TilePassiveAbstract {
 		
 		final int rateMult;
 		
 		public CobblestoneGeneratorAbstract(String type, int rateMult) {
-			super("cobblestone_generator" + type, new ItemIngredient(new ItemStack(Blocks.COBBLESTONE)), NCConfig.processor_passive_rate[1]*rateMult, -NCConfig.cobble_gen_power*rateMult, NCConfig.machine_update_rate / 5);
+			super("cobblestone_generator" + type, new ItemIngredient(new ItemStack(Blocks.COBBLESTONE)), NCConfig.processor_passive_rate[0]*rateMult, -NCConfig.cobble_gen_power*rateMult, NCConfig.machine_update_rate / 5);
 			this.rateMult = rateMult;
 		}
 		
 		@Override
 		protected void setNewStack() {
-			getInventoryStacks().set(0, new ItemStack(Blocks.COBBLESTONE, NCConfig.processor_passive_rate[1]*NCConfig.machine_update_rate*rateMult/5));
+			getInventoryStacks().set(0, new ItemStack(Blocks.COBBLESTONE, NCConfig.processor_passive_rate[0]*NCConfig.machine_update_rate*rateMult/5));
 		}
 	}
 	
@@ -122,7 +94,7 @@ public class TilePassive {
 	public static abstract class WaterSourceAbstract extends TilePassiveAbstract {
 		
 		public WaterSourceAbstract(String type, int rateMult) {
-			super("water_source" + type, FluidRegistry.WATER, NCConfig.processor_passive_rate[2]*rateMult, NCConfig.machine_update_rate / 5);
+			super("water_source" + type, FluidRegistry.WATER, NCConfig.processor_passive_rate[1]*rateMult, NCConfig.machine_update_rate / 5);
 		}
 	}
 	
@@ -150,7 +122,7 @@ public class TilePassive {
 	public static abstract class NitrogenCollectorAbstract extends TilePassiveAbstract {
 		
 		public NitrogenCollectorAbstract(String type, int rateMult) {
-			super("nitrogen_collector" + type, FluidRegistry.getFluid("nitrogen"), NCConfig.processor_passive_rate[3]*rateMult, NCConfig.machine_update_rate / 5);
+			super("nitrogen_collector" + type, FluidRegistry.getFluid("nitrogen"), NCConfig.processor_passive_rate[2]*rateMult, NCConfig.machine_update_rate / 5);
 		}
 	}
 	

@@ -736,7 +736,11 @@ public abstract class MultiblockBase<PACKET extends MultiblockUpdatePacket> impl
 	public int getMiddleZ() {
 		return (int)(((long)getMinZ() + (long)getMaxZ())/2);
 	}
-
+	
+	public BlockPos getMiddleCoord() {
+		return new BlockPos(getMiddleX(), getMiddleY(), getMiddleZ());
+	}
+	
 	/**
 	 * Called when the save delegate's tile entity is being asked for its description packet
 	 * @param data A fresh compound tag to write your multiblock data into
@@ -1052,6 +1056,8 @@ public abstract class MultiblockBase<PACKET extends MultiblockUpdatePacket> impl
 	protected void markMultiblockForRenderUpdate() {
 		this.WORLD.markBlockRangeForRenderUpdate(this.getMinimumCoord(), this.getMaximumCoord());
 	}
+	
+	public abstract void clearAll();
 	
 	// Packets
 	

@@ -12,7 +12,7 @@ import nc.recipe.IngredientSorption;
 public class ChemicalReactorCategory extends JEICategoryProcessor<JEIRecipeWrapper.ChemicalReactor> {
 	
 	public ChemicalReactorCategory(IGuiHelper guiHelper, IJEIHandler handler) {
-		super(guiHelper, handler, "chemical_reactor_idle", 31, 30, 130, 26);
+		super(guiHelper, handler, "chemical_reactor", 31, 30, 130, 26);
 	}
 	
 	@Override

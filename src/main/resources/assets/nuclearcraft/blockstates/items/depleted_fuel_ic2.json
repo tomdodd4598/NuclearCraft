@@ -1,0 +1,21 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "builtin/generated",
+		"transform": "forge:default-item"
+	},
+	"variants": {
+		"type": {
+			"u": {
+				"textures": {
+					"layer0": "nuclearcraft:items/depleted_fuel_ic2/u"
+				}
+			},
+			"mox": {
+				"textures": {
+					"layer0": "nuclearcraft:items/depleted_fuel_ic2/mox"
+				}
+			}
+		}
+	}
+}

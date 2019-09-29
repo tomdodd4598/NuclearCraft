@@ -1,0 +1,45 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "cube_all"
+	},
+	"variants": {
+		"type": {
+			"uranium": {
+				"textures": {
+					"all": "nuclearcraft:blocks/fertile_isotope/uranium"
+				}
+			},
+			"neptunium": {
+				"textures": {
+					"all": "nuclearcraft:blocks/fertile_isotope/neptunium"
+				}
+			},
+			"plutonium": {
+				"textures": {
+					"all": "nuclearcraft:blocks/fertile_isotope/plutonium"
+				}
+			},
+			"americium": {
+				"textures": {
+					"all": "nuclearcraft:blocks/fertile_isotope/americium"
+				}
+			},
+			"curium": {
+				"textures": {
+					"all": "nuclearcraft:blocks/fertile_isotope/curium"
+				}
+			},
+			"berkelium": {
+				"textures": {
+					"all": "nuclearcraft:blocks/fertile_isotope/berkelium"
+				}
+			},
+			"californium": {
+				"textures": {
+					"all": "nuclearcraft:blocks/fertile_isotope/californium"
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,52 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "nuclearcraft:item/pellet"
+	},
+	"variants": {
+		"type": {
+			"lea_242_tr": {
+				"model": "nuclearcraft:item/triso",
+				"textures": {
+					"layer0": "nuclearcraft:items/depleted_fuel_americium/lea_242_tr"
+				}
+			},
+			"lea_242_ox": {
+				"textures": {
+					"layer0": "nuclearcraft:items/depleted_fuel_americium/lea_242_ox"
+				}
+			},
+			"lea_242_ni": {
+				"textures": {
+					"layer0": "nuclearcraft:items/depleted_fuel_americium/lea_242_ni"
+				}
+			},
+			"lea_242_za": {
+				"textures": {
+					"layer0": "nuclearcraft:items/depleted_fuel_americium/lea_242_za"
+				}
+			},
+			"hea_242_tr": {
+				"model": "nuclearcraft:item/triso",
+				"textures": {
+					"layer0": "nuclearcraft:items/depleted_fuel_americium/hea_242_tr"
+				}
+			},
+			"hea_242_ox": {
+				"textures": {
+					"layer0": "nuclearcraft:items/depleted_fuel_americium/hea_242_ox"
+				}
+			},
+			"hea_242_ni": {
+				"textures": {
+					"layer0": "nuclearcraft:items/depleted_fuel_americium/hea_242_ni"
+				}
+			},
+			"hea_242_za": {
+				"textures": {
+					"layer0": "nuclearcraft:items/depleted_fuel_americium/hea_242_za"
+				}
+			}
+		}
+	}
+}

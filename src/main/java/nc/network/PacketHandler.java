@@ -1,8 +1,9 @@
 package nc.network;
 
-import nc.multiblock.network.ClearAllFluidsPacket;
+import nc.multiblock.network.ClearAllPacket;
 import nc.multiblock.network.HeatExchangerUpdatePacket;
 import nc.multiblock.network.SaltFissionUpdatePacket;
+import nc.multiblock.network.SolidFissionUpdatePacket;
 import nc.multiblock.network.TurbineRenderPacket;
 import nc.multiblock.network.TurbineUpdatePacket;
 import nc.network.config.ConfigUpdatePacket;
@@ -23,8 +24,6 @@ import nc.network.gui.ToggleVoidExcessFluidOutputPacket;
 import nc.network.gui.ToggleVoidUnusableFluidInputPacket;
 import nc.network.radiation.PlayerRadsUpdatePacket;
 import nc.network.render.BlockHighlightUpdatePacket;
-import nc.network.tile.FissionUpdatePacket;
-import nc.network.tile.FusionUpdatePacket;
 import nc.network.tile.ProcessorUpdatePacket;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
@@ -61,7 +60,7 @@ public class PacketHandler {
 		instance.registerMessage(ResetTankSorptionsPacket.Handler.class, ResetTankSorptionsPacket.class, nextID(), Side.SERVER);
 		instance.registerMessage(ToggleTankOutputSettingPacket.Handler.class, ToggleTankOutputSettingPacket.class, nextID(), Side.SERVER);
 		
-		instance.registerMessage(ClearAllFluidsPacket.Handler.class, ClearAllFluidsPacket.class, nextID(), Side.SERVER);
+		instance.registerMessage(ClearAllPacket.Handler.class, ClearAllPacket.class, nextID(), Side.SERVER);
 		
 		// CLIENT
 		instance.registerMessage(ConfigUpdatePacket.Handler.class, ConfigUpdatePacket.class, nextID(), Side.CLIENT);
@@ -69,9 +68,8 @@ public class PacketHandler {
 		instance.registerMessage(BlockHighlightUpdatePacket.Handler.class, BlockHighlightUpdatePacket.class, nextID(), Side.CLIENT);
 		
 		instance.registerMessage(ProcessorUpdatePacket.Handler.class, ProcessorUpdatePacket.class, nextID(), Side.CLIENT);
-		instance.registerMessage(FissionUpdatePacket.Handler.class, FissionUpdatePacket.class, nextID(), Side.CLIENT);
-		instance.registerMessage(FusionUpdatePacket.Handler.class, FusionUpdatePacket.class, nextID(), Side.CLIENT);
 		
+		instance.registerMessage(SolidFissionUpdatePacket.Handler.class, SolidFissionUpdatePacket.class, nextID(), Side.CLIENT);
 		instance.registerMessage(SaltFissionUpdatePacket.Handler.class, SaltFissionUpdatePacket.class, nextID(), Side.CLIENT);
 		instance.registerMessage(HeatExchangerUpdatePacket.Handler.class, HeatExchangerUpdatePacket.class, nextID(), Side.CLIENT);
 		instance.registerMessage(TurbineUpdatePacket.Handler.class, TurbineUpdatePacket.class, nextID(), Side.CLIENT);

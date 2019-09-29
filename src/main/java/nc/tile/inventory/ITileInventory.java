@@ -32,6 +32,16 @@ public interface ITileInventory extends ITile {
 	
 	public @Nonnull NonNullList<ItemStack> getInventoryStacks();
 	
+	// Inventory Logic
+	
+	public default void clearSlot(int slot) {
+		getInventoryStacks().set(slot, ItemStack.EMPTY);
+	}
+	
+	public default void clearAllSlots() {
+		for (int i = 0; i < getInventoryStacks().size(); i++) clearSlot(i);
+	}
+	
 	// IInventory
 	
 	public default boolean hasCustomName() {

@@ -12,7 +12,7 @@ import nc.recipe.IngredientSorption;
 public class DecayHastenerCategory extends JEICategoryProcessor<JEIRecipeWrapper.DecayHastener> {
 	
 	public DecayHastenerCategory(IGuiHelper guiHelper, IJEIHandler handler) {
-		super(guiHelper, handler, "decay_hastener_idle", 47, 30, 90, 26);
+		super(guiHelper, handler, "decay_hastener", 47, 30, 90, 26);
 	}
 	
 	@Override

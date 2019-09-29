@@ -37,7 +37,7 @@ public class NCConfigGuiFactory implements IModGuiFactory {
 	public static class NCConfigGui extends GuiConfig {
 		
 		public NCConfigGui(GuiScreen parentScreen) {
-			super(parentScreen, getConfigElements(), Global.MOD_ID, false, false, Lang.localise("gui.config.main_title"));
+			super(parentScreen, getConfigElements(), Global.MOD_ID, false, false, Lang.localise("gui.nc.config.main_title"));
 		}
 
 		private static List<IConfigElement> getConfigElements() {
@@ -47,7 +47,6 @@ public class NCConfigGuiFactory implements IModGuiFactory {
 			list.add(categoryElement(NCConfig.CATEGORY_GENERATORS, CategoryEntryGenerators.class));
 			list.add(categoryElement(NCConfig.CATEGORY_FISSION, CategoryEntryFission.class));
 			list.add(categoryElement(NCConfig.CATEGORY_FUSION, CategoryEntryFusion.class));
-			list.add(categoryElement(NCConfig.CATEGORY_SALT_FISSION, CategoryEntrySaltFission.class));
 			list.add(categoryElement(NCConfig.CATEGORY_HEAT_EXCHANGER, CategoryEntryHeatExchanger.class));
 			list.add(categoryElement(NCConfig.CATEGORY_TURBINE, CategoryEntryTurbine.class));
 			list.add(categoryElement(NCConfig.CATEGORY_ACCELERATOR, CategoryEntryAccelerator.class));
@@ -61,7 +60,7 @@ public class NCConfigGuiFactory implements IModGuiFactory {
 		}
 		
 		private static DummyCategoryElement categoryElement(String categoryName, Class<? extends IConfigEntry> categoryClass) {
-			return new DummyCategoryElement(Lang.localise("gui.config.category." + categoryName), "gui.config.category." + categoryName, categoryClass);
+			return new DummyCategoryElement(Lang.localise("gui.nc.config.category." + categoryName), "gui.nc.config.category." + categoryName, categoryClass);
 		}
 		
 		public static class CategoryEntryOres extends CategoryEntry implements IConfigCategory {
@@ -121,18 +120,6 @@ public class NCConfigGuiFactory implements IModGuiFactory {
 			@Override
 			protected GuiScreen buildChildScreen() {
 				return buildChildScreen(NCConfig.CATEGORY_FUSION, owningScreen, configElement);
-			}
-		}
-		
-		public static class CategoryEntrySaltFission extends CategoryEntry implements IConfigCategory {
-
-			public CategoryEntrySaltFission(GuiConfig owningScreen, GuiConfigEntries owningEntryList, IConfigElement configElement) {
-				super(owningScreen, owningEntryList, configElement);
-			}
-			
-			@Override
-			protected GuiScreen buildChildScreen() {
-				return buildChildScreen(NCConfig.CATEGORY_SALT_FISSION, owningScreen, configElement);
 			}
 		}
 		

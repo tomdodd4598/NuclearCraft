@@ -1,0 +1,86 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "builtin/generated",
+		"transform": "forge:default-item"
+	},
+	"variants": {
+		"type": {
+			"241": {
+				"textures": {
+					"layer0": "nuclearcraft:items/americium/241"
+				}
+			},
+			"241_c": {
+				"textures": {
+					"layer0": "nuclearcraft:items/americium/241_c"
+				}
+			},
+			"241_ox": {
+				"textures": {
+					"layer0": "nuclearcraft:items/americium/241_ox"
+				}
+			},
+			"241_ni": {
+				"textures": {
+					"layer0": "nuclearcraft:items/americium/241_ni"
+				}
+			},
+			"241_za": {
+				"textures": {
+					"layer0": "nuclearcraft:items/americium/241_za"
+				}
+			},
+			"242": {
+				"textures": {
+					"layer0": "nuclearcraft:items/americium/242"
+				}
+			},
+			"242_c": {
+				"textures": {
+					"layer0": "nuclearcraft:items/americium/242_c"
+				}
+			},
+			"242_ox": {
+				"textures": {
+					"layer0": "nuclearcraft:items/americium/242_ox"
+				}
+			},
+			"242_ni": {
+				"textures": {
+					"layer0": "nuclearcraft:items/americium/242_ni"
+				}
+			},
+			"242_za": {
+				"textures": {
+					"layer0": "nuclearcraft:items/americium/242_za"
+				}
+			},
+			"243": {
+				"textures": {
+					"layer0": "nuclearcraft:items/americium/243"
+				}
+			},
+			"243_c": {
+				"textures": {
+					"layer0": "nuclearcraft:items/americium/243_c"
+				}
+			},
+			"243_ox": {
+				"textures": {
+					"layer0": "nuclearcraft:items/americium/243_ox"
+				}
+			},
+			"243_ni": {
+				"textures": {
+					"layer0": "nuclearcraft:items/americium/243_ni"
+				}
+			},
+			"243_za": {
+				"textures": {
+					"layer0": "nuclearcraft:items/americium/243_za"
+				}
+			}
+		}
+	}
+}

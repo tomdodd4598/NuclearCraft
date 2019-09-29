@@ -49,13 +49,13 @@ public class GuiNuclearFurnace extends NCGui {
 		int l = getCookProgressScaled(24);
 		drawTexturedModalRect(i + 79, j + 34, 176, 14, l + 1, 16);
 	}
-
+	
 	private int getCookProgressScaled(int pixels) {
 		int i = furnaceInv.getField(2);
 		int j = furnaceInv.getField(3);
 		return j != 0 && i != 0 ? i * pixels / j : 0;
 	}
-
+	
 	private int getBurnLeftScaled(int pixels) {
 		int i = furnaceInv.getField(1);
 		

@@ -1,7 +1,0 @@
-{
-	"parent": "block/cube_column",
-	"textures": {
-		"end": "nuclearcraft:blocks/radiation_scrubber_top",
-		"side": "nuclearcraft:blocks/radiation_scrubber_side"
-	}
-}

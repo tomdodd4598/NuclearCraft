@@ -2,123 +2,148 @@
 	"forge_marker": 1,
 	"defaults": {
 		"textures": {
-			"particle":"nuclearcraft:blocks/salt_fission/salt_fission_vessel/default",
-			"north":"nuclearcraft:blocks/salt_fission/salt_fission_vessel/default",
-			"east":"nuclearcraft:blocks/salt_fission/salt_fission_vessel/default",
-			"south":"nuclearcraft:blocks/salt_fission/salt_fission_vessel/default",
-			"west":"nuclearcraft:blocks/salt_fission/salt_fission_vessel/default",
-			"up":"nuclearcraft:blocks/salt_fission/salt_fission_vessel/default",
-			"down":"nuclearcraft:blocks/salt_fission/salt_fission_vessel/default"
+			"particle":"nuclearcraft:blocks/fission/salt/vessel",
+			"north":"nuclearcraft:blocks/fission/salt/vessel",
+			"east":"nuclearcraft:blocks/fission/salt/vessel",
+			"south":"nuclearcraft:blocks/fission/salt/vessel",
+			"west":"nuclearcraft:blocks/fission/salt/vessel",
+			"up":"nuclearcraft:blocks/fission/salt/vessel",
+			"down":"nuclearcraft:blocks/fission/salt/vessel"
 		},
 		"model":"cube",
 		"transform":"forge:default-block"
 	},
 	"variants": {
+		"inventory": [{}],
 		"north": {
-			"default": {},
+			"default": {
+			   "textures": {
+					"north":"nuclearcraft:blocks/fission/salt/vessel/default"
+				}
+			},
 			"fuel_spread": {
 			   "textures": {
-					"north":"nuclearcraft:blocks/salt_fission/salt_fission_vessel/fuel_spread"
+					"north":"nuclearcraft:blocks/fission/salt/vessel/fuel_spread"
 				}
 			},
 			"depleted_out": {
 				 "textures": {
-					"north":"nuclearcraft:blocks/salt_fission/salt_fission_vessel/depleted_out"
+					"north":"nuclearcraft:blocks/fission/salt/vessel/depleted_out"
 				}
 			},
 			"disabled": {
 				 "textures": {
-					"north":"nuclearcraft:blocks/salt_fission/salt_fission_vessel/disabled"
+					"north":"nuclearcraft:blocks/fission/salt/vessel/disabled"
 				}
 			}
 		},
 		"east": {
-			"default": {},
+			"default": {
+			   "textures": {
+					"east":"nuclearcraft:blocks/fission/salt/vessel/default"
+				}
+			},
 			"fuel_spread": {
 			   "textures": {
-					"east":"nuclearcraft:blocks/salt_fission/salt_fission_vessel/fuel_spread"
+					"east":"nuclearcraft:blocks/fission/salt/vessel/fuel_spread"
 				}
 			},
 			"depleted_out": {
 				 "textures": {
-					"east":"nuclearcraft:blocks/salt_fission/salt_fission_vessel/depleted_out"
+					"east":"nuclearcraft:blocks/fission/salt/vessel/depleted_out"
 				}
 			},
 			"disabled": {
 				 "textures": {
-					"east":"nuclearcraft:blocks/salt_fission/salt_fission_vessel/disabled"
+					"east":"nuclearcraft:blocks/fission/salt/vessel/disabled"
 				}
 			}
 		},
 		"south": {
-			"default": {},
+			"default": {
+			   "textures": {
+					"south":"nuclearcraft:blocks/fission/salt/vessel/default"
+				}
+			},
 			"fuel_spread": {
 			   "textures": {
-					"south":"nuclearcraft:blocks/salt_fission/salt_fission_vessel/fuel_spread"
+					"south":"nuclearcraft:blocks/fission/salt/vessel/fuel_spread"
 				}
 			},
 			"depleted_out": {
 				 "textures": {
-					"south":"nuclearcraft:blocks/salt_fission/salt_fission_vessel/depleted_out"
+					"south":"nuclearcraft:blocks/fission/salt/vessel/depleted_out"
 				}
 			},
 			"disabled": {
 				 "textures": {
-					"south":"nuclearcraft:blocks/salt_fission/salt_fission_vessel/disabled"
+					"south":"nuclearcraft:blocks/fission/salt/vessel/disabled"
 				}
 			}
 		},
 		"west": {
-			"default": {},
+			"default": {
+			   "textures": {
+					"west":"nuclearcraft:blocks/fission/salt/vessel/default"
+				}
+			},
 			"fuel_spread": {
 			   "textures": {
-					"west":"nuclearcraft:blocks/salt_fission/salt_fission_vessel/fuel_spread"
+					"west":"nuclearcraft:blocks/fission/salt/vessel/fuel_spread"
 				}
 			},
 			"depleted_out": {
 				 "textures": {
-					"west":"nuclearcraft:blocks/salt_fission/salt_fission_vessel/depleted_out"
+					"west":"nuclearcraft:blocks/fission/salt/vessel/depleted_out"
 				}
 			},
 			"disabled": {
 				 "textures": {
-					"west":"nuclearcraft:blocks/salt_fission/salt_fission_vessel/disabled"
+					"west":"nuclearcraft:blocks/fission/salt/vessel/disabled"
 				}
 			}
 		},
 		"up": {
-			"default": {},
+			"default": {
+			   "textures": {
+					"up":"nuclearcraft:blocks/fission/salt/vessel/default"
+				}
+			},
 			"fuel_spread": {
 			   "textures": {
-					"up":"nuclearcraft:blocks/salt_fission/salt_fission_vessel/fuel_spread"
+					"up":"nuclearcraft:blocks/fission/salt/vessel/fuel_spread"
 				}
 			},
 			"depleted_out": {
 				 "textures": {
-					"up":"nuclearcraft:blocks/salt_fission/salt_fission_vessel/depleted_out"
+					"up":"nuclearcraft:blocks/fission/salt/vessel/depleted_out"
 				}
 			},
 			"disabled": {
 				 "textures": {
-					"up":"nuclearcraft:blocks/salt_fission/salt_fission_vessel/disabled"
+					"up":"nuclearcraft:blocks/fission/salt/vessel/disabled"
 				}
 			}
 		},
 		"down": {
-			"default": {},
+			"default": {
+			   "textures": {
+					"down":"nuclearcraft:blocks/fission/salt/vessel/default"
+				}
+			},
 			"fuel_spread": {
 			   "textures": {
-					"down":"nuclearcraft:blocks/salt_fission/salt_fission_vessel/fuel_spread"
+					"down":"nuclearcraft:blocks/fission/salt/vessel/fuel_spread"
 				}
 			},
 			"depleted_out": {
 				 "textures": {
-					"down":"nuclearcraft:blocks/salt_fission/salt_fission_vessel/depleted_out"
+					"down":"nuclearcraft:blocks/fission/salt/vessel/depleted_out"
 				}
 			},
 			"disabled": {
 				 "textures": {
-					"down":"nuclearcraft:blocks/salt_fission/salt_fission_vessel/disabled"
+					"down":"nuclearcraft:blocks/fission/salt/vessel/disabled"
 				}
 			}
 		}

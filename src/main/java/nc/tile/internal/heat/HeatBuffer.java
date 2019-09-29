@@ -5,7 +5,7 @@ import net.minecraftforge.common.util.INBTSerializable;
 
 public class HeatBuffer implements INBTSerializable<NBTTagCompound> {
 	
-	public long heatStored, heatCapacity;
+	private long heatStored, heatCapacity;
 
 	public HeatBuffer(long capacity) {
 		heatCapacity = capacity;

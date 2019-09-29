@@ -1,5 +1,13 @@
 {
+	"forge_marker": 1,
+	"defaults": {
+		"model":"cube_all",
+		"textures": {
+			"all": "nuclearcraft:blocks/water_source_dense"
+		}
+	},
 	"variants": {
-		"normal": {"model": "nuclearcraft:water_source_dense"}
+		"inventory": [{}],
+		"normal": [{}]
 	}
 }

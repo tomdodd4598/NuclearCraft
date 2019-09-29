@@ -408,7 +408,6 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ITileIn
 	public void setState(boolean isActive, TileEntity tile) {
 		if (getBlockType() instanceof IActivatable) {
 			((IActivatable)getBlockType()).setState(isActive, tile);
-			blockType = ((IActivatable)getBlockType()).getBlockType(isActive);
 		}
 	}
 	

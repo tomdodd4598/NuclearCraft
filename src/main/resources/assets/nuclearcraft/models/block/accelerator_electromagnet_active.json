@@ -1,7 +1,0 @@
-{
-    "parent": "block/cube_column",
-    "textures": {
-        "end": "nuclearcraft:blocks/accelerator_electromagnet_top_on",
-        "side": "nuclearcraft:blocks/accelerator_electromagnet_side_on"
-    }
-}

@@ -20,8 +20,8 @@ public class AlloyFurnaceRecipes extends ProcessorRecipeHandler {
 	@Override
 	public void addRecipes() {
 		addAlloyIngotIngotRecipes("Copper", 3, "Tin", 1, "Bronze", 4, 1D, 1D);
-		addAlloyIngotIngotRecipes("Iron", 1, "Graphite", 1, "Steel", 1, 1D, 1D);
-		addAlloyIngotCoalRecipes("Iron", 1, 2, "Steel", 1, 1D, 1D);
+		addAlloyIngotCoalRecipes("Iron", 1, 4, "Steel", 1, 1D, 1D);
+		addAlloyIngotIngotRecipes("Iron", 1, "Graphite", 4, "Steel", 1, 1D, 1D);
 		addAlloyIngotIngotRecipes("Steel", 1, "Boron", 1, "Ferroboron", 2, 1D, 1.5D);
 		addAlloyIngotIngotRecipes("Ferroboron", 1, "Lithium", 1, "Tough", 2, 1.5D, 1.5D);
 		addAlloyIngotGemRecipes("Graphite", 2, "Diamond", 1, "HardCarbon", 2, 1D, 2D);
@@ -76,7 +76,7 @@ public class AlloyFurnaceRecipes extends ProcessorRecipeHandler {
 		addAlloyIngotDustRecipes("Gold", 1, "Redstone", 2, "ingotRedmetal", 1, 1D, 1D);
 		
 		// Immersive Engineering
-		addAlloyIngotFuelRecipes("Iron", 2, "Coke", 1, "Steel", 2, 1D, 1D);
+		addAlloyIngotFuelRecipes("Iron", 1, "Coke", 1, "Steel", 1, 1D, 1D);
 		
 		// Advanced Rocketry
 		addAlloyIngotIngotRecipes("Aluminum", 7, "Titanium", 3, "TitaniumAluminide", 3, 3D, 1D);

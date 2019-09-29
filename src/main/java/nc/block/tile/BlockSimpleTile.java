@@ -20,7 +20,7 @@ public class BlockSimpleTile extends BlockTile implements ITileType {
 	public BlockSimpleTile(SimpleTileType type) {
 		super(Material.IRON);
 		this.type = type;
-		setCreativeTab(type.getTab());
+		setCreativeTab(type.getCreativeTab());
 	}
 	
 	@Override

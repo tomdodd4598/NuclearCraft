@@ -4,14 +4,15 @@ public enum CuboidalPartPositionType {
 	WALL,
 	FRAME,
 	INTERIOR,
+	EXTERIOR,
 	ALL;
 	
-	public boolean isGoodForWalls() {
-		return this == WALL || this == ALL;
+	public boolean isGoodForWall() {
+		return this == WALL || this == EXTERIOR || this == ALL;
 	}
 	
 	public boolean isGoodForFrame() {
-		return this == FRAME || this == ALL;
+		return this == FRAME || this == EXTERIOR || this == ALL;
 	}
 	
 	public boolean isGoodForInterior() {

@@ -238,6 +238,10 @@ public abstract class CuboidalMultiblockBase<PACKET extends MultiblockUpdatePack
 		return getExteriorLengthZ() - 2;
 	}
 	
+	public int getInteriorVolume() {
+		return getInteriorLengthX()*getInteriorLengthY()*getInteriorLengthZ();
+	}
+	
 	public int getInteriorLength(EnumFacing dir) {
 		switch (dir) {
 		case DOWN:

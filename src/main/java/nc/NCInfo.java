@@ -4,23 +4,23 @@ import nc.config.NCConfig;
 import nc.enumm.IFissionStats;
 import nc.enumm.IItemMeta;
 import nc.enumm.MetaEnums;
-import nc.enumm.MetaEnums.CoolerType;
-import nc.enumm.MetaEnums.IngotType;
 import nc.enumm.MetaEnums.RadShieldingType;
 import nc.enumm.MetaEnums.UpgradeType;
 import nc.multiblock.turbine.TurbineDynamoCoilType;
 import nc.radiation.RadiationHelper;
+import nc.recipe.ProcessorRecipe;
 import nc.util.CollectionHelper;
 import nc.util.InfoHelper;
 import nc.util.Lang;
 import nc.util.NCMath;
+import nc.util.UnitHelper;
 import net.minecraft.util.IStringSerializable;
 
 public class NCInfo {
 	
 	// Coolers
 	
-	public static String[][] coolerInfo() {
+	/*public static String[][] coolerInfo() {
 		String[][] info = new String[CoolerType.values().length][];
 		info[0] = new String[] {};
 		for (int i = 1; i < CoolerType.values().length; i++) {
@@ -35,45 +35,49 @@ public class NCInfo {
 	
 	private static String coolerInfoString(int meta) {
 		return Lang.localise("tile." + Global.MOD_ID + ".cooler." + CoolerType.values()[meta].name().toLowerCase() + ".desc");
-	}
+	}*/
 	
 	// Fuel Rods
 	
 	public static <T extends Enum<T> & IStringSerializable & IItemMeta & IFissionStats> String[][] fuelRodInfo(T[] values) {
 		String[][] info = new String[values.length][];
 		for (int i = 0; i < values.length; i++) {
-			info[i] = new String[] {Lang.localise("item." + Global.MOD_ID + ".fission_fuel.base_time.desc", NCMath.decimalPlaces(values[i].getBaseTime()/(1200D*NCConfig.fission_fuel_use), 2)), Lang.localise("item." + Global.MOD_ID + ".fission_fuel.base_power.desc", NCMath.decimalPlaces(values[i].getBasePower()*NCConfig.fission_power, 2)), Lang.localise("item." + Global.MOD_ID + ".fission_fuel.base_heat.desc", NCMath.decimalPlaces(values[i].getBaseHeat()*NCConfig.fission_heat_generation, 2))};
+			info[i] = new String[] {
+					Lang.localise("item." + Global.MOD_ID + ".fission_fuel.base_time.desc", UnitHelper.applyTimeUnit(values[i].getBaseTime()*NCConfig.fission_fuel_time_multiplier, 3)),
+					Lang.localise("item." + Global.MOD_ID + ".fission_fuel.base_heat.desc", UnitHelper.prefix(values[i].getBaseHeat(), 5, "H/t")),
+					Lang.localise("item." + Global.MOD_ID + ".fission_fuel.base_efficiency.desc", Math.round(100D*values[i].getBaseEfficiency()) + "%"),
+					Lang.localise("item." + Global.MOD_ID + ".fission_fuel.criticality.desc", values[i].getCriticality() + " N/t")
+					};
 		}
 		return info;
 	}
 	
-	// Ingot Blocks
+	// Fission Moderators
 	
-	public static String moderatorPowerInfo = Lang.localise("info.moderator.power", NCMath.decimalPlaces(6D/NCConfig.fission_moderator_extra_power, 2));
-	public static String moderatorHeatInfo = Lang.localise("info.moderator.heat", NCMath.decimalPlaces(6D/NCConfig.fission_moderator_extra_heat, 2));
-	
-	public static String[][] ingotBlockInfo() {
-		String[][] info = new String[IngotType.values().length][];
-		for (int i = 0; i < IngotType.values().length; i++) {
-			info[i] = InfoHelper.EMPTY_ARRAY;
-		}
-		info[8] = InfoHelper.formattedInfo(Lang.localise(ingotBlockInfoString(8), moderatorPowerInfo, moderatorHeatInfo));
-		info[9] = InfoHelper.formattedInfo(Lang.localise(ingotBlockInfoString(9), moderatorPowerInfo, moderatorHeatInfo));
-		return info;
+	public static String[] fissionModeratorInfo() {
+		return InfoHelper.formattedInfo(Lang.localise("info." + Global.MOD_ID + ".moderator.desc", NCConfig.fission_neutron_reach, NCConfig.fission_neutron_reach/2));
 	}
 	
-	private static String ingotBlockInfoString(int meta) {
-		return "tile." + Global.MOD_ID + ".ingot_block." + IngotType.values()[meta].name().toLowerCase() + ".desc";
+	public static String[] fissionModeratorFixedInfo(ProcessorRecipe moderatorInfo) {
+		return new String[] {
+				Lang.localise("info." + Global.MOD_ID + ".moderator.fixd"),
+				Lang.localise("info." + Global.MOD_ID + ".moderator.flux_factor.fixd", moderatorInfo.getFissionModeratorFluxFactor() + " N/t"),
+				Lang.localise("info." + Global.MOD_ID + ".moderator.efficiency.fixd", Math.round(100D*moderatorInfo.getFissionModeratorEfficiency()) + "%")
+				};
 	}
 	
-	public static String[][] ingotBlockFixedInfo() {
-		String[][] info = new String[IngotType.values().length][];
-		for (int i = 0; i < IngotType.values().length; i++) {
-			info[i] = InfoHelper.EMPTY_ARRAY;
-		}
-		info[8] = new String[] {Lang.localise("info.moderator.desc")};
-		info[9] = new String[] {Lang.localise("info.moderator.desc")};
-		return info;
+	// Fission Reflectors
+	
+	public static String[] fissionReflectorInfo() {
+		return InfoHelper.formattedInfo(Lang.localise("info." + Global.MOD_ID + ".reflector.desc"));
+	}
+	
+	public static String[] fissionReflectorFixedInfo(ProcessorRecipe reflectorInfo) {
+		return new String[] {
+				Lang.localise("info." + Global.MOD_ID + ".reflector.fixd"),
+				Lang.localise("info." + Global.MOD_ID + ".reflector.efficiency.fixd", Math.round(100D*reflectorInfo.getFissionReflectorEfficiency()) + "%"),
+				Lang.localise("info." + Global.MOD_ID + ".reflector.reflectivity.fixd", Math.round(100D*reflectorInfo.getFissionReflectorReflectivity()) + "%")
+				};
 	}
 	
 	// Dynamo Coils

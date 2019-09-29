@@ -86,16 +86,22 @@
 				"fluid": "condensate_water"
 			}
 		},
-		"fluid_liquidhelium": {
+		"fluid_liquid_helium": {
 			"model": "forge:fluid",
 			"custom": {
-				"fluid": "liquidhelium"
+				"fluid": "liquid_helium"
 			}
 		},
 		"fluid_liquid_nitrogen": {
 			"model": "forge:fluid",
 			"custom": {
 				"fluid": "liquid_nitrogen"
+			}
+		},
+		"fluid_heavy_water": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "heavy_water"
 			}
 		},
 		"fluid_plasma": {
@@ -162,12 +168,6 @@
 			"model": "forge:fluid",
 			"custom": {
 				"fluid": "coal"
-			}
-		},
-		"fluid_neutron": {
-			"model": "forge:fluid",
-			"custom": {
-				"fluid": "neutron"
 			}
 		},
 		"fluid_fluorine": {

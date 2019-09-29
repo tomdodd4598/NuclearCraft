@@ -3,7 +3,6 @@ package nc.block;
 import java.util.Random;
 
 import nc.config.NCConfig;
-import nc.tab.NCTabs;
 import net.minecraft.block.BlockMushroom;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
@@ -13,7 +12,6 @@ public class NCBlockMushroom extends BlockMushroom {
 	
 	public NCBlockMushroom() {
 		super();
-		setCreativeTab(NCTabs.BASE_BLOCK_MATERIALS);
 	}
 	
 	@Override

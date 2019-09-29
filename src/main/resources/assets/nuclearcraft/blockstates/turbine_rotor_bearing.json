@@ -1,5 +1,13 @@
 {
+	"forge_marker": 1,
+	"defaults": {
+		"model":"cube_all",
+		"textures": {
+			"all": "nuclearcraft:blocks/turbine/turbine_rotor_bearing"
+		}
+	},
 	"variants": {
-		"normal": {"model": "nuclearcraft:turbine_rotor_bearing"}
+		"inventory": [{}],
+		"normal": [{}]
 	}
 }

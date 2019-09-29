@@ -67,8 +67,8 @@ public class RenderTurbineRotor extends TileEntitySpecialRenderer<TileTurbineCon
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(posX - rX, posY - rY, posZ - rZ);
 		GlStateManager.scale(dir.getAxis() == Axis.X ? 1D : scale, dir.getAxis() == Axis.Y ? 1D : scale, dir.getAxis() == Axis.Z ? 1D : scale);
-		if (!MC.isGamePaused()) turbine.rotorAngle = (turbine.rotorAngle + (MC.getSystemTime() - turbine.prevRenderTime)*turbine.angVel) % 360F;
-		turbine.prevRenderTime = MC.getSystemTime();
+		if (!MC.isGamePaused()) turbine.rotorAngle = (turbine.rotorAngle + (Minecraft.getSystemTime() - turbine.prevRenderTime)*turbine.angVel) % 360F;
+		turbine.prevRenderTime = Minecraft.getSystemTime();
 		GlStateManager.rotate(turbine.rotorAngle, dir.getAxis() == Axis.X ? 1F : 0F, dir.getAxis() == Axis.Y ? 1F : 0F, dir.getAxis() == Axis.Z ? 1F : 0F);
 		GlStateManager.translate(-pos.getX() + rX, -pos.getY() + rY, -pos.getZ() + rZ);
 		

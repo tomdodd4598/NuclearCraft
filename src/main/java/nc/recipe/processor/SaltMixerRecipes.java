@@ -38,7 +38,7 @@ public class SaltMixerRecipes extends ProcessorRecipeHandler {
 		addCoolantNAKRecipe("glowstone", FluidStackHelper.GLOWSTONE_DUST_VOLUME*7);
 		addCoolantNAKRecipe("lapis", FluidStackHelper.GEM_BLOCK_VOLUME);
 		addCoolantNAKRecipe("diamond", FluidStackHelper.GEM_VOLUME*4);
-		addCoolantNAKRecipe("liquidhelium", FluidStackHelper.BUCKET_VOLUME/2);
+		addCoolantNAKRecipe("liquid_helium", FluidStackHelper.BUCKET_VOLUME/2);
 		addCoolantNAKRecipe("ender", FluidStackHelper.EUM_DUST_VOLUME*4);
 		addCoolantNAKRecipe("cryotheum", FluidStackHelper.EUM_DUST_VOLUME*4);
 		addCoolantNAKRecipe("iron", FluidStackHelper.INGOT_VOLUME*4);

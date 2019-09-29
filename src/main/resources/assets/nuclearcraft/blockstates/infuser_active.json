@@ -1,8 +1,0 @@
-{
-    "variants": {
-        "facing=north": { "model": "nuclearcraft:infuser_active" },
-        "facing=south": { "model": "nuclearcraft:infuser_active", "y": 180 },
-        "facing=west":  { "model": "nuclearcraft:infuser_active", "y": 270 },
-        "facing=east":  { "model": "nuclearcraft:infuser_active", "y": 90 }
-    }
-}

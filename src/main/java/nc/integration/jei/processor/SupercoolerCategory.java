@@ -12,7 +12,7 @@ import nc.recipe.IngredientSorption;
 public class SupercoolerCategory extends JEICategoryProcessor<JEIRecipeWrapper.Supercooler> {
 	
 	public SupercoolerCategory(IGuiHelper guiHelper, IJEIHandler handler) {
-		super(guiHelper, handler, "supercooler_idle", 47, 30, 90, 26);
+		super(guiHelper, handler, "supercooler", 47, 30, 90, 26);
 	}
 	
 	@Override

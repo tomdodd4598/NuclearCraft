@@ -1,5 +1,13 @@
 {
-    "variants": {
-        "normal": {"model": "nuclearcraft:glowing_mushroom"}
-    }
+	"forge_marker": 1,
+	"defaults": {
+		"model":"cross",
+		"textures": {
+			"cross": "nuclearcraft:blocks/glowing_mushroom"
+		}
+	},
+	"variants": {
+		"inventory": [{}],
+		"normal": [{}]
+	}
 }

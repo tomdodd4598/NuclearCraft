@@ -1,8 +1,0 @@
-{
-    "variants": {
-        "facing=north": { "model": "nuclearcraft:chemical_reactor_idle" },
-        "facing=south": { "model": "nuclearcraft:chemical_reactor_idle", "y": 180 },
-        "facing=west":  { "model": "nuclearcraft:chemical_reactor_idle", "y": 270 },
-        "facing=east":  { "model": "nuclearcraft:chemical_reactor_idle", "y": 90 }
-    }
-}

@@ -1,7 +1,7 @@
 {
 	"display": {
 		"icon": {
-			"item": "nuclearcraft:nuclear_furnace_active"
+			"item": "nuclearcraft:nuclear_furnace"
 		},
 		"title": {
 			"translate": "advancement.nuclearcraft.nuclear_furnace.name"
@@ -17,7 +17,7 @@
 			"conditions": {
 				"items": [
 					{
-						"item": "nuclearcraft:nuclear_furnace_idle"
+						"item": "nuclearcraft:nuclear_furnace"
 					}
 				]
 			}
