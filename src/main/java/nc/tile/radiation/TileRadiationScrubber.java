@@ -1,9 +1,9 @@
 package nc.tile.radiation;
 
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
@@ -31,7 +31,7 @@ public class TileRadiationScrubber extends TilePassiveAbstract implements ITileR
 	
 	private double scrubberFraction = 0D, currentChunkLevel = 0D, currentChunkBuffer = 0D;
 	
-	public final Map<BlockPos, Integer> occlusionMap = new ConcurrentHashMap<BlockPos, Integer>();
+	public final ConcurrentMap<BlockPos, Integer> occlusionMap = new ConcurrentHashMap<BlockPos, Integer>();
 	
 	private int radCheckCount = 0;
 	

@@ -1,7 +1,7 @@
 package nc.radiation;
 
 import static nc.config.NCConfig.radiation_player_tick_rate;
-import static nc.config.NCConfig.radiation_world_tick_rate;
+import static nc.config.NCConfig.radiation_world_chunks_per_tick;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -212,22 +212,23 @@ public class RadiationHandler {
 		int chunkArrSize = loadedChunks.size();
 		Chunk[] chunkArray = loadedChunks.toArray(new Chunk[chunkArrSize]);
 		int chunkStart = RAND.nextInt(chunkArrSize + 1);
-		int chunkFinish = chunkStart + Math.max(1, chunkArrSize/radiation_world_tick_rate);
+		int chunksPerTick = Math.min(radiation_world_chunks_per_tick, chunkArrSize);
+		int tickMult = chunkArrSize > 0 ? Math.max(1, chunkArrSize/chunksPerTick) : 1;
 		
 		BiomeProvider biomeProvider = world.getBiomeProvider();
 		int dimension = world.provider.getDimension();
 		BlockPos randomOffsetPos = newRandomOffsetPos();
 		String randomStructure = RadStructures.STRUCTURE_LIST.isEmpty() ? null : RadStructures.STRUCTURE_LIST.get(RAND.nextInt(RadStructures.STRUCTURE_LIST.size()));
 		
-		if (chunkArrSize > 0) for (int i = chunkStart; i < chunkFinish; i++) {
+		if (chunkArrSize > 0) for (int i = chunkStart; i < chunkStart + chunksPerTick; i++) {
 			Chunk chunk = chunkArray[i % chunkArrSize];
 			if (!chunk.isLoaded()) continue;
 			
 			IRadiationSource chunkSource = RadiationHelper.getRadiationSource(chunk);
 			if (chunkSource == null) continue;
 			
-			ClassInheritanceMultiMap<Entity>[] entityLists = chunk.getEntityLists().clone();
-			for (ClassInheritanceMultiMap<Entity> entitySubset : entityLists) {
+			for (int j = 0; j < chunk.getEntityLists().length; j++) {
+				ClassInheritanceMultiMap<Entity> entitySubset = chunk.getEntityLists()[j];
 				Entity[] entityArray = entitySubset.toArray(new Entity[entitySubset.size()]);
 				for (Entity entity : entityArray) {
 					if (entity instanceof EntityPlayer) {
@@ -244,13 +245,13 @@ public class RadiationHandler {
 						entityRads.setExternalRadiationResistance(RadiationHelper.getEntityArmorRadResistance(entityLiving));
 						
 						if (NCConfig.radiation_entity_decay_rate > 0D) {
-							entityRads.setTotalRads(entityRads.getTotalRads()*Math.pow(1D - NCConfig.radiation_entity_decay_rate, radiation_world_tick_rate), false);
+							entityRads.setTotalRads(entityRads.getTotalRads()*Math.pow(1D - NCConfig.radiation_entity_decay_rate, tickMult), false);
 						}
 						
-						RadiationHelper.transferRadsFromSourceToEntity(chunkSource, entityRads, entityLiving, radiation_world_tick_rate);
+						RadiationHelper.transferRadsFromSourceToEntity(chunkSource, entityRads, entityLiving, tickMult);
 						
 						if (entityRads.getPoisonBuffer() > 0D) {
-							double poisonRads = Math.min(entityRads.getPoisonBuffer(), entityRads.getRecentPoisonAddition()*radiation_world_tick_rate/NCConfig.radiation_poison_time);
+							double poisonRads = Math.min(entityRads.getPoisonBuffer(), entityRads.getRecentPoisonAddition()*tickMult/NCConfig.radiation_poison_time);
 							entityRads.setTotalRads(entityRads.getTotalRads() + poisonRads, false);
 							entityRads.setPoisonBuffer(entityRads.getPoisonBuffer() - poisonRads);
 							if (entityRads.getPoisonBuffer() == 0D) entityRads.resetRecentPoisonAddition();
@@ -262,7 +263,7 @@ public class RadiationHandler {
 						}
 						else {
 							if (entityRads.isFatal()) {
-								if (entityLiving instanceof INpc) {
+								if (NCConfig.entity_register[0] && entityLiving instanceof INpc) {
 									spawnFeralGhoul(world, entityLiving);
 								}
 								else {
@@ -273,7 +274,7 @@ public class RadiationHandler {
 								RadiationHelper.applyPotionEffects(entityLiving, entityRads, RadPotionEffects.ENTITY_RAD_LEVEL_LIST, RadPotionEffects.ENTITY_DEBUFF_LIST);
 							}
 						}
-						entityRads.setRadiationLevel(entityRads.getRadiationLevel()*Math.pow(1D - NCConfig.radiation_decay_rate, radiation_world_tick_rate));
+						entityRads.setRadiationLevel(entityRads.getRadiationLevel()*Math.pow(1D - NCConfig.radiation_decay_rate, tickMult));
 					}
 				}
 			}
@@ -346,7 +347,7 @@ public class RadiationHandler {
 			mutateTerrain(world, chunk, newLevel);
 		}
 		
-		if (chunkArrSize > 0) for (int i = chunkStart; i < chunkFinish; i++) {
+		if (chunkArrSize > 0) for (int i = chunkStart; i < chunkStart + chunksPerTick; i++) {
 			Chunk chunk = chunkArray[i % chunkArrSize];
 			// Emptying buffers here too!
 			RadiationHelper.spreadRadiationFromChunk(chunk, getRandomAdjacentChunk(chunkProvider, chunk));

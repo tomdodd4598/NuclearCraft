@@ -2,12 +2,12 @@
 
 package nc.util;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.Nonnull;
 
+import it.unimi.dsi.fastutil.objects.Object2BooleanMap;
+import it.unimi.dsi.fastutil.objects.Object2BooleanOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
@@ -20,7 +20,7 @@ public class StructureHelper {
 	
 	public static final StructureHelper CACHE = new StructureHelper();
 	
-	private final Map<StructureCacheEntry, Boolean> structureCache = new HashMap<StructureCacheEntry, Boolean>();
+	private final Object2BooleanMap<StructureCacheEntry> structureCache = new Object2BooleanOpenHashMap<StructureCacheEntry>();
 	
 	public void clear() {
 		structureCache.clear();
@@ -37,6 +37,7 @@ public class StructureHelper {
 		
 		MapGenStructureData data = (MapGenStructureData) world.getPerWorldStorage().getOrLoadData(MapGenStructureData.class, structure);
 		if (data == null) {
+			structureCache.put(entry, false);
 			return false;
 		}
 		

@@ -1,3 +1,9 @@
+v2.18k
+
+* Changed world radiation update rate config to use flat chunks per tick maximum
+* Fixed radiation scrubbers being terribly laggy
+* Fixed slow radiation structure checking code due to ineffective caching
+
 v2.18j
 
 * Fixed broken alternative cryotheum recipe
@@ -115,7 +121,7 @@ v2.17c
 * Hardcore containers now reads the fluid contents of TEs
 
 * Fixed scrubbers effectively behaving 'inter-dimensionally'
-* Fixed entity and chunk radiation updating being out of synch
+* Fixed entity and chunk radiation updating being out of sync
 * Radiation updates now occur every tick in subsets of loaded chunks
 
 * Slightly changed when and how fusion reactor plasma disappears from the e-magnet toroid

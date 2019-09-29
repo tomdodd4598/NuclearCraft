@@ -2187,10 +2187,10 @@ gui.config.category.radiation.tooltip=Configure aspects of nuclear radiation.
 gui.config.radiation.radiation_enabled=Enable Radiation
 gui.config.radiation.radiation_enabled.comment=Will nuclear radiation exist in the world? Note that the game will require a restart for radiation-related items to be shown in JEI after enabling this feature.
 
-gui.config.radiation.radiation_world_tick_rate=Radiation World Tick Rate
-gui.config.radiation.radiation_world_tick_rate.comment=The rate at which radiation in the world updates.
+gui.config.radiation.radiation_world_chunks_per_tick=Radiation World Chunks Per Tick
+gui.config.radiation.radiation_world_chunks_per_tick.comment=The maximum number of chunks in which radiation will be updated per tick.
 gui.config.radiation.radiation_player_tick_rate=Radiation Player Tick Rate
-gui.config.radiation.radiation_player_tick_rate.comment=The rate at which player radiation data updates.
+gui.config.radiation.radiation_player_tick_rate.comment=The number of ticks between each player radiation update.
 
 gui.config.radiation.radiation_worlds=World Background Radiation
 gui.config.radiation.radiation_worlds.comment=List of dimensions and their background radiation levels. Format: 'dimID_radiationLevel'.

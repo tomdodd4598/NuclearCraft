@@ -1,7 +1,7 @@
 package nc.radiation.environment;
 
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 import nc.tile.radiation.ITileRadiationEnvironment;
 import nc.util.FourPos;
@@ -9,7 +9,7 @@ import nc.util.FourPos;
 public class RadiationEnvironmentInfo {
 	
 	public final FourPos pos;
-	public final Map<FourPos, ITileRadiationEnvironment> tileMap = new ConcurrentHashMap<FourPos, ITileRadiationEnvironment>();
+	public final ConcurrentMap<FourPos, ITileRadiationEnvironment> tileMap = new ConcurrentHashMap<FourPos, ITileRadiationEnvironment>();
 	
 	public RadiationEnvironmentInfo(FourPos pos) {
 		this.pos = pos;
@@ -22,8 +22,7 @@ public class RadiationEnvironmentInfo {
 	
 	public void addToTileMap(ITileRadiationEnvironment tile) {
 		FourPos tilePos = tile.getFourPos();
-		int tileDim = tilePos.getDimension();
-		if (tileDim != pos.getDimension()) return;
+		if (tilePos.getDimension() != pos.getDimension()) return;
 		tileMap.put(tilePos, tile);
 	}
 }

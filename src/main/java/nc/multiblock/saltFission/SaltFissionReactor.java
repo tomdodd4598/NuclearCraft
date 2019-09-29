@@ -202,8 +202,9 @@ public class SaltFissionReactor extends CuboidalMultiblockBase<SaltFissionUpdate
 	
 	@Override
 	protected void onAssimilate(MultiblockBase assimilated) {
-		SaltFissionReactor newController = (SaltFissionReactor) assimilated;
-		heatBuffer.mergeHeatBuffers(newController.heatBuffer);
+		if (!(assimilated instanceof SaltFissionReactor)) return;
+		SaltFissionReactor assimilatedReactor = (SaltFissionReactor) assimilated;
+		heatBuffer.mergeHeatBuffers(assimilatedReactor.heatBuffer);
 	}
 	
 	@Override

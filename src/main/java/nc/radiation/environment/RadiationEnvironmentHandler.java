@@ -1,14 +1,13 @@
 package nc.radiation.environment;
 
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 import nc.config.NCConfig;
 import nc.tile.radiation.ITileRadiationEnvironment;
 import nc.util.FourPos;
-import nc.util.MapHelper;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
@@ -16,27 +15,33 @@ import net.minecraftforge.fml.relauncher.Side;
 
 public class RadiationEnvironmentHandler {
 	
-	private static final Map<FourPos, RadiationEnvironmentInfo> ENVIRONMENT = new ConcurrentHashMap<FourPos, RadiationEnvironmentInfo>();
-	private static final Map<FourPos, RadiationEnvironmentInfo> ENVIRONMENT_BACKUP = new ConcurrentHashMap<FourPos, RadiationEnvironmentInfo>();
+	private static final ConcurrentMap<FourPos, RadiationEnvironmentInfo> ENVIRONMENT = new ConcurrentHashMap<FourPos, RadiationEnvironmentInfo>();
+	private static final ConcurrentMap<FourPos, RadiationEnvironmentInfo> ENVIRONMENT_BACKUP = new ConcurrentHashMap<FourPos, RadiationEnvironmentInfo>();
 	
 	@SubscribeEvent
 	public void updateRadiationEnvironment(TickEvent.WorldTickEvent event) {
 		if (!NCConfig.radiation_enabled_public) return;
 		
 		if (event.phase != TickEvent.Phase.END || event.side == Side.CLIENT || !(event.world instanceof WorldServer)) return;
+		int dim = event.world.provider.getDimension();
 		
-		int count = Math.min(Math.max(1, NCConfig.radiation_world_tick_rate/5), ENVIRONMENT.size());
+		int count = Math.min((1 + NCConfig.radiation_world_chunks_per_tick)/2, ENVIRONMENT.size());
+		Iterator<Entry<FourPos, RadiationEnvironmentInfo>> environmentIter = ENVIRONMENT.entrySet().iterator();
+		Entry<FourPos, RadiationEnvironmentInfo> environmentEntry;
 		
 		while (count > 0) {
 			count--;
 			
-			Entry<FourPos, RadiationEnvironmentInfo> environmentEntry = MapHelper.getNextEntry(ENVIRONMENT);
+			if (environmentIter.hasNext()) {
+				environmentEntry = environmentIter.next();
+			}
+			else break;
 			if (environmentEntry == null) break;
 			
 			FourPos pos = environmentEntry.getKey();
 			RadiationEnvironmentInfo info = environmentEntry.getValue();
 			
-			if (pos.getDimension() == event.world.provider.getDimension()) {
+			if (pos.getDimension() == dim) {
 				for (Entry<FourPos, ITileRadiationEnvironment> infoEntry : info.tileMap.entrySet()) {
 					infoEntry.getValue().handleRadiationEnvironmentInfo(info);
 				}

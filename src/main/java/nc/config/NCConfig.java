@@ -224,7 +224,7 @@ public class NCConfig {
 	private static boolean radiation_enabled;
 	public static boolean radiation_enabled_public;
 	
-	public static int radiation_world_tick_rate;
+	public static int radiation_world_chunks_per_tick;
 	public static int radiation_player_tick_rate;
 	
 	public static String[] radiation_worlds;
@@ -703,8 +703,8 @@ public class NCConfig {
 		Property propertyRadiationEnabled = config.get(CATEGORY_RADIATION, "radiation_enabled", true, Lang.localise("gui.config.radiation.radiation_enabled.comment"));
 		propertyRadiationEnabled.setLanguageKey("gui.config.radiation.radiation_enabled");
 		
-		Property propertyRadiationWorldTickRate = config.get(CATEGORY_RADIATION, "radiation_world_tick_rate", 20, Lang.localise("gui.config.radiation.radiation_world_tick_rate.comment"), 1, 400);
-		propertyRadiationWorldTickRate.setLanguageKey("gui.config.radiation.radiation_world_tick_rate");
+		Property propertyRadiationWorldChunksPerTick = config.get(CATEGORY_RADIATION, "radiation_world_chunks_per_tick", 5, Lang.localise("gui.config.radiation.radiation_world_chunks_per_tick.comment"), 1, 400);
+		propertyRadiationWorldChunksPerTick.setLanguageKey("gui.config.radiation.radiation_world_chunks_per_tick");
 		Property propertyRadiationPlayerTickRate = config.get(CATEGORY_RADIATION, "radiation_player_tick_rate", 5, Lang.localise("gui.config.radiation.radiation_player_tick_rate.comment"), 1, 400);
 		propertyRadiationPlayerTickRate.setLanguageKey("gui.config.radiation.radiation_player_tick_rate");
 		
@@ -1116,7 +1116,7 @@ public class NCConfig {
 		
 		List<String> propertyOrderRadiation = new ArrayList<String>();
 		propertyOrderRadiation.add(propertyRadiationEnabled.getName());
-		propertyOrderRadiation.add(propertyRadiationWorldTickRate.getName());
+		propertyOrderRadiation.add(propertyRadiationWorldChunksPerTick.getName());
 		propertyOrderRadiation.add(propertyRadiationPlayerTickRate.getName());
 		propertyOrderRadiation.add(propertyRadiationWorlds.getName());
 		propertyOrderRadiation.add(propertyRadiationBiomes.getName());
@@ -1394,7 +1394,7 @@ public class NCConfig {
 			
 			radiation_enabled = propertyRadiationEnabled.getBoolean();
 			
-			radiation_world_tick_rate = propertyRadiationWorldTickRate.getInt();
+			radiation_world_chunks_per_tick = propertyRadiationWorldChunksPerTick.getInt();
 			radiation_player_tick_rate = propertyRadiationPlayerTickRate.getInt();
 			
 			radiation_worlds = propertyRadiationWorlds.getStringList();
@@ -1679,7 +1679,7 @@ public class NCConfig {
 		
 		propertyRadiationEnabled.set(radiation_enabled);
 		
-		propertyRadiationWorldTickRate.set(radiation_world_tick_rate);
+		propertyRadiationWorldChunksPerTick.set(radiation_world_chunks_per_tick);
 		propertyRadiationPlayerTickRate.set(radiation_player_tick_rate);
 		
 		propertyRadiationWorlds.set(radiation_worlds);
