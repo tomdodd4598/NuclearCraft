@@ -1,0 +1,91 @@
+ NuclearCraft OpenComputers Methods
+#==================================#
+
+ Fission Reactor - component.nc_fission_reactor:
+>----------------------------------------------------------------<
+
+boolean isComplete()
+boolean isReactorOn()
+int getLengthX()
+int getLengthY()
+int getLengthZ()
+long getHeatStored()
+long getHeatCapacity()
+double getCoolingRate()
+double getRawHeatingRate()
+double getNetHeatingRate()
+double getRawEfficiency()
+double getHeatMultiplier()
+double getCoolingEfficiency()
+int getNumberOfVessels()
+int getNumberOfHeaters()
+int getNumberOfModerators()
+Object[] getVesselStats() -> {{{posX, posY, posZ}, isProcessing, currentRecipeTime, processTime, processHeat, efficiency, heatMultiplier},...}
+Object[] getHeaterStats() -> {{{posX, posY, posZ}, coolantName, isProcessing, currentRecipeTime, processTime, processCooling},...}
+Object[] getModeratorStats() -> {{{posX, posY, posZ}, isInValidPosition, isInModerationLine},...}
+
+void activate()
+void deactivate()
+void clearAll()
+___________________________________________________________________________________________________________________________
+
+ Heat Exchanger - component.nc_heat_exchanger:
+>---------------------------------------------<
+
+boolean isComplete()
+boolean isReactorOn()
+int getLengthX()
+int getLengthY()
+int getLengthZ()
+double getFractionOfTubesActive()
+double getMeanEfficiency()
+int getNumberOfExchangerTubes()
+int getNumberOfCondensationTubes()
+Object[] getExchangerTubeStats() -> {{{posX, posY, posZ}, conductivity, isProcessing, currentRecipeTime, processTime, speedMultiplier, inputTemperature, outputTemperature, flowDirection},...}
+Object[] getCondensationTubeStats() -> {{{posX, posY, posZ}, conductivity, isProcessing, currentRecipeTime, processTime, speedMultiplier, condensingTemperature, {adjacentTemperatures}},...}
+
+void activate()
+void deactivate()
+void clearAll()
+___________________________________________________________________________________________________________________________
+
+ Turbine - component.nc_turbine:
+>-------------------------------<
+
+boolean isComplete()
+boolean isReactorOn()
+int getLengthX()
+int getLengthY()
+int getLengthZ()
+boolean isProcessing()
+int getEnergyStored()
+int getEnergyCapacity()
+double getPower()
+double getCoilConductivity()
+String getFlowDirection()
+double getTotalExpansionLevel()
+double getIdealTotalExpansionLevel()
+double[] getExpansionLevels()
+double[] getIdealExpansionLevels()
+double[] getBladeEfficiencies()
+int getInputRate()
+int getNumberOfDynamoCoils()
+Object[] getDynamoCoilStats() -> {{{posX, posY, posZ}, coilType, isInValidPosition},...}
+
+void activate()
+void deactivate()
+void clearAll()
+___________________________________________________________________________________________________________________________
+
+ Geiger Counter - component.nc_geiger_counter:
+>---------------------------------------------<
+
+double getChunkRadiationLevel()
+___________________________________________________________________________________________________________________________
+
+ Radiation Scrubber - component.nc_radiation_scrubber:
+>-----------------------------------------------------<
+
+double getRadiationRemovalRate()
+double getEfficiency()
+___________________________________________________________________________________________________________________________
