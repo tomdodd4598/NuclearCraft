@@ -1,6 +1,0 @@
-{
-	"parent": "item/handheld",
-	"textures": {
-		"layer0": "nuclearcraft:items/pickaxe_hard_carbon"
-	}
-}

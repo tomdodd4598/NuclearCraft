@@ -1,7 +1,0 @@
-{
-	"parent": "nuclearcraft:block/cube_all_overlayed",
-	"textures": {
-		"all": "blocks/stone",
-		"overlay": "#ore"
-	}
-}

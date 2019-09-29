@@ -1,6 +1,0 @@
-{
-	"parent": "item/handheld",
-	"textures": {
-		"layer0": "nuclearcraft:items/hoe_hard_carbon"
-	}
-}
