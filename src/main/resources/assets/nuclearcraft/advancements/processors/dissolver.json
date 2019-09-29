@@ -1,0 +1,26 @@
+{
+	"display": {
+		"icon": {
+			"item": "nuclearcraft:dissolver"
+		},
+		"title": {
+			"translate": "advancement.nuclearcraft.dissolver.name"
+		},
+		"description": {
+			"translate": "advancement.nuclearcraft.dissolver.desc"
+		}
+	},
+	"parent": "nuclearcraft:processors/chemical_reactor",
+	"criteria": {
+		"has_item": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"item": "nuclearcraft:dissolver"
+					}
+				]
+			}
+		}
+	}
+}

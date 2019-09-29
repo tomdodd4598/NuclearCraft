@@ -1,0 +1,26 @@
+{
+	"display": {
+		"icon": {
+			"item": "nuclearcraft:alloy_furnace"
+		},
+		"title": {
+			"translate": "advancement.nuclearcraft.alloy_furnace.name"
+		},
+		"description": {
+			"translate": "advancement.nuclearcraft.alloy_furnace.desc"
+		}
+	},
+	"parent": "nuclearcraft:processors/manufactory",
+	"criteria": {
+		"has_item": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"item": "nuclearcraft:alloy_furnace"
+					}
+				]
+			}
+		}
+	}
+}

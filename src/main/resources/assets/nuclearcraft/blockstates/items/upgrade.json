@@ -1,0 +1,21 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "builtin/generated",
+		"transform": "forge:default-item"
+	},
+	"variants": {
+		"type": {
+			"speed": {
+				"textures": {
+					"layer0": "nuclearcraft:items/upgrade/speed"
+				}
+			},
+			"energy": {
+				"textures": {
+					"layer0": "nuclearcraft:items/upgrade/energy"
+				}
+			}
+		}
+	}
+}

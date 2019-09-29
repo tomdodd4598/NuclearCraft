@@ -1,0 +1,26 @@
+{
+	"display": {
+		"icon": {
+			"item": "nuclearcraft:moresmore"
+		},
+		"title": {
+			"translate": "advancement.nuclearcraft.moresmore.name"
+		},
+		"description": {
+			"translate": "advancement.nuclearcraft.moresmore.desc"
+		}
+	},
+	"parent": "nuclearcraft:food/smore",
+	"criteria": {
+		"has_item": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"item": "nuclearcraft:moresmore"
+					}
+				]
+			}
+		}
+	}
+}

@@ -1,0 +1,91 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "builtin/generated",
+		"transform": "forge:default-item"
+	},
+	"variants": {
+		"type": {
+			"bronze": {
+				"textures": {
+					"layer0": "nuclearcraft:items/alloy/bronze"
+				}
+			},
+			"tough": {
+				"textures": {
+					"layer0": "nuclearcraft:items/alloy/tough"
+				}
+			},
+			"hard_carbon": {
+				"textures": {
+					"layer0": "nuclearcraft:items/alloy/hard_carbon"
+				}
+			},
+			"magnesium_diboride": {
+				"textures": {
+					"layer0": "nuclearcraft:items/alloy/magnesium_diboride"
+				}
+			},
+			"lithium_manganese_dioxide": {
+				"textures": {
+					"layer0": "nuclearcraft:items/alloy/lithium_manganese_dioxide"
+				}
+			},
+			"steel": {
+				"textures": {
+					"layer0": "nuclearcraft:items/alloy/steel"
+				}
+			},
+			"ferroboron": {
+				"textures": {
+					"layer0": "nuclearcraft:items/alloy/ferroboron"
+				}
+			},
+			"shibuichi": {
+				"textures": {
+					"layer0": "nuclearcraft:items/alloy/shibuichi"
+				}
+			},
+			"tin_silver": {
+				"textures": {
+					"layer0": "nuclearcraft:items/alloy/tin_silver"
+				}
+			},
+			"lead_platinum": {
+				"textures": {
+					"layer0": "nuclearcraft:items/alloy/lead_platinum"
+				}
+			},
+			"extreme": {
+				"textures": {
+					"layer0": "nuclearcraft:items/alloy/extreme"
+				}
+			},
+			"thermoconducting": {
+				"textures": {
+					"layer0": "nuclearcraft:items/alloy/thermoconducting"
+				}
+			},
+			"zircaloy": {
+				"textures": {
+					"layer0": "nuclearcraft:items/alloy/zircaloy"
+				}
+			},
+			"silicon_carbide": {
+				"textures": {
+					"layer0": "nuclearcraft:items/alloy/silicon_carbide"
+				}
+			},
+			"sic_sic_cmc": {
+				"textures": {
+					"layer0": "nuclearcraft:items/alloy/sic_sic_cmc"
+				}
+			},
+			"hsla_steel": {
+				"textures": {
+					"layer0": "nuclearcraft:items/alloy/hsla_steel"
+				}
+			}
+		}
+	}
+}

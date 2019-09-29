@@ -1,0 +1,136 @@
+buildscript {
+	repositories {
+		jcenter()
+		maven {
+			name = "forge"
+			url = "http://files.minecraftforge.net/maven"
+		}
+	}
+	dependencies {
+		classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+	}
+}
+
+apply plugin: 'net.minecraftforge.gradle.forge'
+
+repositories {
+	maven {
+		name = "CurseForge"
+		url = "https://minecraft.curseforge.com/api/maven/"
+	}
+	maven {
+		// JEI & TiC
+		name = "progwml6"
+		url = "http://dvs1.progwml6.com/files/maven/"
+	}
+	maven {
+		// CraftTweaker
+		name = "blamejared"
+		url = "http://maven.blamejared.com/"
+	}
+	maven {
+		// IC2
+		name = "ic2"
+		url = "http://maven.ic2.player.to/"
+	}
+	maven {
+		// OpenComputers
+		name = "cil"
+		url = "http://maven.cil.li/"
+	}
+	maven {
+		name = "CoFH Maven"
+		url = "http://maven.covers1624.net"
+	}
+	maven {
+		name = "CCL Maven"
+		url = "http://chickenbones.net/maven/"
+	}
+	maven {
+		// AE2
+		url = "http://ae2.ae-mod.info/Downloads"
+	}
+	maven {
+		// CyclopsMC
+		name = "CyclopsMC"
+		url = "https://oss.jfrog.org/artifactory/simple/libs-release/"
+	}
+	maven {
+		// General
+		name = "mcmoddev"
+		url = "https://maven.mcmoddev.com"
+	}
+	maven {
+		// Fallbacks
+		name = "ModMaven"
+		url = "https://modmaven.k-4u.nl"
+	}
+}
+
+version = "${mod_version}-${mc_version}"
+group = "nc"
+archivesBaseName = "NuclearCraft"
+sourceCompatibility = targetCompatibility = '1.8'
+compileJava {
+	sourceCompatibility = targetCompatibility = '1.8'
+}
+
+minecraft {
+	version = "${mc_version}-${forge_version}"
+	runDir = "run"
+	replace "@VERSION@", "${mod_version}"
+	mappings = "${mapping_version}"
+	makeObfSourceJar = true
+}
+
+dependencies {
+	// compile against the JEI API but do not include it at runtime
+	deobfProvided "mezz.jei:jei_${mc_version}:${jei_version}:api"
+	// at runtime, use the full JEI jar
+	runtime "mezz.jei:jei_${mc_version}:${jei_version}"
+	deobfCompile "baubles:Baubles:${baubles_version}"
+	deobfCompile ("cofh:CoFHCore:${cofh_core_version}:universal") {
+		transitive = false
+	}
+	deobfCompile "codechicken:CodeChickenLib:1.12.2-+:universal"
+	deobfCompile "cofh:RedstoneFlux:1.12-+:universal"
+	deobfCompile "net.industrial-craft:industrialcraft-2:${ic2_version}:api"
+	deobfCompile "CraftTweaker2:CraftTweaker2-MC1120-Main:${crafttweaker_version}"
+	deobfCompile "slimeknights.mantle:Mantle:${mantle_version}"
+	deobfCompile "slimeknights:TConstruct:${tic_version}"
+	deobfCompile "constructs-armory:conarm:${conarm_version}"
+	deobfCompile "li.cil.oc:OpenComputers:${oc_version}"
+	deobfCompile "gregtechce:gregtech:${gregtech_version}"
+	deobfCompile "mekanism:Mekanism:${mekanism_version}"
+	deobfCompile "projecte:ProjectE:${projecte_version}"
+	deobfCompile "org.cyclops.commoncapabilities:CommonCapabilities:${mc_version}-${common_capabilities_version}"
+	deobfCompile "net.darkhax.gamestages:GameStages-${mc_version}:${gamestages_version}"
+	deobfCompile ("appeng:appliedenergistics2:rv6-stable-6"){
+		transitive = false
+	}
+}
+
+processResources {
+	exclude '**/Thumbs.db'
+	
+	inputs.property "version", project.version
+	inputs.property "mcversion", project.minecraft.version
+
+	from(sourceSets.main.resources.srcDirs) {
+		include 'mcmod.info'
+		expand 'version':project.version, 'mcversion':project.minecraft.version
+	}
+	
+	from(sourceSets.main.resources.srcDirs) {
+		exclude 'mcmod.info'
+	}
+}
+
+task deobfJar(type: Jar) {
+	from sourceSets.main.output
+	classifier = 'deobf'
+}
+
+artifacts {
+	archives deobfJar
+}

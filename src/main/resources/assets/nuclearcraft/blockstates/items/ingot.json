@@ -1,0 +1,91 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "builtin/generated",
+		"transform": "forge:default-item"
+	},
+	"variants": {
+		"type": {
+			"copper": {
+				"textures": {
+					"layer0": "nuclearcraft:items/ingot/copper"
+				}
+			},
+			"tin": {
+				"textures": {
+					"layer0": "nuclearcraft:items/ingot/tin"
+				}
+			},
+			"lead": {
+				"textures": {
+					"layer0": "nuclearcraft:items/ingot/lead"
+				}
+			},
+			"thorium": {
+				"textures": {
+					"layer0": "nuclearcraft:items/ingot/thorium"
+				}
+			},
+			"uranium": {
+				"textures": {
+					"layer0": "nuclearcraft:items/ingot/uranium"
+				}
+			},
+			"boron": {
+				"textures": {
+					"layer0": "nuclearcraft:items/ingot/boron"
+				}
+			},
+			"lithium": {
+				"textures": {
+					"layer0": "nuclearcraft:items/ingot/lithium"
+				}
+			},
+			"magnesium": {
+				"textures": {
+					"layer0": "nuclearcraft:items/ingot/magnesium"
+				}
+			},
+			"graphite": {
+				"textures": {
+					"layer0": "nuclearcraft:items/ingot/graphite"
+				}
+			},
+			"beryllium": {
+				"textures": {
+					"layer0": "nuclearcraft:items/ingot/beryllium"
+				}
+			},
+			"zirconium": {
+				"textures": {
+					"layer0": "nuclearcraft:items/ingot/zirconium"
+				}
+			},
+			"manganese": {
+				"textures": {
+					"layer0": "nuclearcraft:items/ingot/manganese"
+				}
+			},
+			"aluminum": {
+				"textures": {
+					"layer0": "nuclearcraft:items/ingot/aluminum"
+				}
+			},
+			"silver": {
+				"textures": {
+					"layer0": "nuclearcraft:items/ingot/silver"
+				}
+			},
+			"manganese_oxide": {
+				"textures": {
+					"layer0": "nuclearcraft:items/ingot/manganese_oxide"
+				}
+			},
+			"manganese_dioxide": {
+				"textures": {
+					"layer0": "nuclearcraft:items/ingot/manganese_dioxide"
+				}
+			}
+		}
+	}
+}

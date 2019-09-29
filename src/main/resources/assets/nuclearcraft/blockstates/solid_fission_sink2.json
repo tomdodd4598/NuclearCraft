@@ -1,0 +1,90 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "cube_all"
+	},
+	"variants": {
+		"type": {
+			"tin": {
+				"textures": {
+					"all": "nuclearcraft:blocks/fission/solid/sink/tin"
+				}
+			},
+			"lead": {
+				"textures": {
+					"all": "nuclearcraft:blocks/fission/solid/sink/lead"
+				}
+			},
+			"boron": {
+				"textures": {
+					"all": "nuclearcraft:blocks/fission/solid/sink/boron"
+				}
+			},
+			"lithium": {
+				"textures": {
+					"all": "nuclearcraft:blocks/fission/solid/sink/lithium"
+				}
+			},
+			"magnesium": {
+				"textures": {
+					"all": "nuclearcraft:blocks/fission/solid/sink/magnesium"
+				}
+			},
+			"manganese": {
+				"textures": {
+					"all": "nuclearcraft:blocks/fission/solid/sink/manganese"
+				}
+			},
+			"aluminum": {
+				"textures": {
+					"all": "nuclearcraft:blocks/fission/solid/sink/aluminum"
+				}
+			},
+			"silver": {
+				"textures": {
+					"all": "nuclearcraft:blocks/fission/solid/sink/silver"
+				}
+			},
+			"fluorite": {
+				"textures": {
+					"all": "nuclearcraft:blocks/fission/solid/sink/fluorite"
+				}
+			},
+			"villiaumite": {
+				"textures": {
+					"all": "nuclearcraft:blocks/fission/solid/sink/villiaumite"
+				}
+			},
+			"carobbiite": {
+				"textures": {
+					"all": "nuclearcraft:blocks/fission/solid/sink/carobbiite"
+				}
+			},
+			"arsenic": {
+				"textures": {
+					"all": "nuclearcraft:blocks/fission/solid/sink/arsenic"
+				}
+			},
+			"liquid_nitrogen": {
+				"textures": {
+					"all": "nuclearcraft:blocks/fission/solid/sink/liquid_nitrogen"
+				}
+			},
+			"liquid_helium": {
+				"textures": {
+					"all": "nuclearcraft:blocks/fission/solid/sink/liquid_helium"
+				}
+			},
+			"enderium": {
+				"textures": {
+					"all": "nuclearcraft:blocks/fission/solid/sink/enderium"
+				}
+			},
+			"cryotheum": {
+				"textures": {
+					"all": "nuclearcraft:blocks/fission/solid/sink/cryotheum"
+				}
+			}
+		}
+	}
+}

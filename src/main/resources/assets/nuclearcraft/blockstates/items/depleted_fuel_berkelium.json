@@ -1,0 +1,52 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "nuclearcraft:item/pellet"
+	},
+	"variants": {
+		"type": {
+			"leb_248_tr": {
+				"model": "nuclearcraft:item/triso",
+				"textures": {
+					"layer0": "nuclearcraft:items/depleted_fuel_berkelium/leb_248_tr"
+				}
+			},
+			"leb_248_ox": {
+				"textures": {
+					"layer0": "nuclearcraft:items/depleted_fuel_berkelium/leb_248_ox"
+				}
+			},
+			"leb_248_ni": {
+				"textures": {
+					"layer0": "nuclearcraft:items/depleted_fuel_berkelium/leb_248_ni"
+				}
+			},
+			"leb_248_za": {
+				"textures": {
+					"layer0": "nuclearcraft:items/depleted_fuel_berkelium/leb_248_za"
+				}
+			},
+			"heb_248_tr": {
+				"model": "nuclearcraft:item/triso",
+				"textures": {
+					"layer0": "nuclearcraft:items/depleted_fuel_berkelium/heb_248_tr"
+				}
+			},
+			"heb_248_ox": {
+				"textures": {
+					"layer0": "nuclearcraft:items/depleted_fuel_berkelium/heb_248_ox"
+				}
+			},
+			"heb_248_ni": {
+				"textures": {
+					"layer0": "nuclearcraft:items/depleted_fuel_berkelium/heb_248_ni"
+				}
+			},
+			"heb_248_za": {
+				"textures": {
+					"layer0": "nuclearcraft:items/depleted_fuel_berkelium/heb_248_za"
+				}
+			}
+		}
+	}
+}

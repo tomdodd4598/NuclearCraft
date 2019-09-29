@@ -1,0 +1,28 @@
+{
+	"display": {
+		"icon": {
+			"item": "nuclearcraft:upgrade",
+			"data": 1
+		},
+		"title": {
+			"translate": "advancement.nuclearcraft.energy_upgrade.name"
+		},
+		"description": {
+			"translate": "advancement.nuclearcraft.energy_upgrade.desc"
+		}
+	},
+	"parent": "nuclearcraft:processors/manufactory",
+	"criteria": {
+		"has_item": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"item": "nuclearcraft:upgrade",
+						"data": 1
+					}
+				]
+			}
+		}
+	}
+}

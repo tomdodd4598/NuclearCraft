@@ -1,0 +1,27 @@
+{
+	"display": {
+		"icon": {
+			"item": "nuclearcraft:lithium_ion_battery_basic"
+		},
+		"title": {
+			"translate": "advancement.nuclearcraft.lithium_ion_battery_basic.name"
+		},
+		"description": {
+			"translate": "advancement.nuclearcraft.lithium_ion_battery_basic.desc"
+		},
+		"frame": "goal"
+	},
+	"parent": "nuclearcraft:devices/voltaic_pile_basic",
+	"criteria": {
+		"has_item": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"item": "nuclearcraft:lithium_ion_battery_basic"
+					}
+				]
+			}
+		}
+	}
+}

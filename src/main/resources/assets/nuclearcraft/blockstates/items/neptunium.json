@@ -1,0 +1,61 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "builtin/generated",
+		"transform": "forge:default-item"
+	},
+	"variants": {
+		"type": {
+			"236": {
+				"textures": {
+					"layer0": "nuclearcraft:items/neptunium/236"
+				}
+			},
+			"236_c": {
+				"textures": {
+					"layer0": "nuclearcraft:items/neptunium/236_c"
+				}
+			},
+			"236_ox": {
+				"textures": {
+					"layer0": "nuclearcraft:items/neptunium/236_ox"
+				}
+			},
+			"236_ni": {
+				"textures": {
+					"layer0": "nuclearcraft:items/neptunium/236_ni"
+				}
+			},
+			"236_za": {
+				"textures": {
+					"layer0": "nuclearcraft:items/neptunium/236_za"
+				}
+			},
+			"237": {
+				"textures": {
+					"layer0": "nuclearcraft:items/neptunium/237"
+				}
+			},
+			"237_c": {
+				"textures": {
+					"layer0": "nuclearcraft:items/neptunium/237_c"
+				}
+			},
+			"237_ox": {
+				"textures": {
+					"layer0": "nuclearcraft:items/neptunium/237_ox"
+				}
+			},
+			"237_ni": {
+				"textures": {
+					"layer0": "nuclearcraft:items/neptunium/237_ni"
+				}
+			},
+			"237_za": {
+				"textures": {
+					"layer0": "nuclearcraft:items/neptunium/237_za"
+				}
+			}
+		}
+	}
+}

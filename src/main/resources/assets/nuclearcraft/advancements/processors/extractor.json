@@ -1,0 +1,26 @@
+{
+	"display": {
+		"icon": {
+			"item": "nuclearcraft:extractor"
+		},
+		"title": {
+			"translate": "advancement.nuclearcraft.extractor.name"
+		},
+		"description": {
+			"translate": "advancement.nuclearcraft.extractor.desc"
+		}
+	},
+	"parent": "nuclearcraft:processors/alloy_furnace",
+	"criteria": {
+		"has_item": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"item": "nuclearcraft:extractor"
+					}
+				]
+			}
+		}
+	}
+}

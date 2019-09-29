@@ -1,0 +1,10 @@
+{
+	"ctm": {
+		"ctm_version": 1,
+		"type":"ctm",
+		"layer":"SOLID",
+		"textures":[
+			"nuclearcraft:blocks/turbine/turbine_rotor_bearing_ctm"
+		]
+	}
+}

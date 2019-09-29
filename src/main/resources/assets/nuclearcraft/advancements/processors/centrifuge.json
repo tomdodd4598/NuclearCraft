@@ -1,0 +1,26 @@
+{
+	"display": {
+		"icon": {
+			"item": "nuclearcraft:centrifuge"
+		},
+		"title": {
+			"translate": "advancement.nuclearcraft.centrifuge.name"
+		},
+		"description": {
+			"translate": "advancement.nuclearcraft.centrifuge.desc"
+		}
+	},
+	"parent": "nuclearcraft:processors/rock_crusher",
+	"criteria": {
+		"has_item": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"item": "nuclearcraft:centrifuge"
+					}
+				]
+			}
+		}
+	}
+}

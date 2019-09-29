@@ -1,0 +1,26 @@
+{
+	"display": {
+		"icon": {
+			"item": "nuclearcraft:decay_generator"
+		},
+		"title": {
+			"translate": "advancement.nuclearcraft.decay_generator.name"
+		},
+		"description": {
+			"translate": "advancement.nuclearcraft.decay_generator.desc"
+		}
+	},
+	"parent": "nuclearcraft:root",
+	"criteria": {
+		"has_item": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"item": "nuclearcraft:decay_generator"
+					}
+				]
+			}
+		}
+	}
+}

@@ -1,0 +1,136 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "nuclearcraft:item/pellet"
+	},
+	"variants": {
+		"type": {
+			"lec_243_tr": {
+				"model": "nuclearcraft:item/triso",
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_curium/lec_243_tr"
+				}
+			},
+			"lec_243_ox": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_curium/lec_243_ox"
+				}
+			},
+			"lec_243_ni": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_curium/lec_243_ni"
+				}
+			},
+			"lec_243_za": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_curium/lec_243_za"
+				}
+			},
+			"hec_243_tr": {
+				"model": "nuclearcraft:item/triso",
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_curium/hec_243_tr"
+				}
+			},
+			"hec_243_ox": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_curium/hec_243_ox"
+				}
+			},
+			"hec_243_ni": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_curium/hec_243_ni"
+				}
+			},
+			"hec_243_za": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_curium/hec_243_za"
+				}
+			},
+			"lec_245_tr": {
+				"model": "nuclearcraft:item/triso",
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_curium/lec_245_tr"
+				}
+			},
+			"lec_245_ox": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_curium/lec_245_ox"
+				}
+			},
+			"lec_245_ni": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_curium/lec_245_ni"
+				}
+			},
+			"lec_245_za": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_curium/lec_245_za"
+				}
+			},
+			"hec_245_tr": {
+				"model": "nuclearcraft:item/triso",
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_curium/hec_245_tr"
+				}
+			},
+			"hec_245_ox": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_curium/hec_245_ox"
+				}
+			},
+			"hec_245_ni": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_curium/hec_245_ni"
+				}
+			},
+			"hec_245_za": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_curium/hec_245_za"
+				}
+			},
+			"lec_247_tr": {
+				"model": "nuclearcraft:item/triso",
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_curium/lec_247_tr"
+				}
+			},
+			"lec_247_ox": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_curium/lec_247_ox"
+				}
+			},
+			"lec_247_ni": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_curium/lec_247_ni"
+				}
+			},
+			"lec_247_za": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_curium/lec_247_za"
+				}
+			},
+			"hec_247_tr": {
+				"model": "nuclearcraft:item/triso",
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_curium/hec_247_tr"
+				}
+			},
+			"hec_247_ox": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_curium/hec_247_ox"
+				}
+			},
+			"hec_247_ni": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_curium/hec_247_ni"
+				}
+			},
+			"hec_247_za": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_curium/hec_247_za"
+				}
+			}
+		}
+	}
+}

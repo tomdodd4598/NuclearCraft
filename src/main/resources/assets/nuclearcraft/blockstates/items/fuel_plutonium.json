@@ -1,0 +1,94 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "nuclearcraft:item/pellet"
+	},
+	"variants": {
+		"type": {
+			"lep_239_tr": {
+				"model": "nuclearcraft:item/triso",
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_plutonium/lep_239_tr"
+				}
+			},
+			"lep_239_ox": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_plutonium/lep_239_ox"
+				}
+			},
+			"lep_239_ni": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_plutonium/lep_239_ni"
+				}
+			},
+			"lep_239_za": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_plutonium/lep_239_za"
+				}
+			},
+			"hep_239_tr": {
+				"model": "nuclearcraft:item/triso",
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_plutonium/hep_239_tr"
+				}
+			},
+			"hep_239_ox": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_plutonium/hep_239_ox"
+				}
+			},
+			"hep_239_ni": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_plutonium/hep_239_ni"
+				}
+			},
+			"hep_239_za": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_plutonium/hep_239_za"
+				}
+			},
+			"lep_241_tr": {
+				"model": "nuclearcraft:item/triso",
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_plutonium/lep_241_tr"
+				}
+			},
+			"lep_241_ox": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_plutonium/lep_241_ox"
+				}
+			},
+			"lep_241_ni": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_plutonium/lep_241_ni"
+				}
+			},
+			"lep_241_za": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_plutonium/lep_241_za"
+				}
+			},
+			"hep_241_tr": {
+				"model": "nuclearcraft:item/triso",
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_plutonium/hep_241_tr"
+				}
+			},
+			"hep_241_ox": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_plutonium/hep_241_ox"
+				}
+			},
+			"hep_241_ni": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_plutonium/hep_241_ni"
+				}
+			},
+			"hep_241_za": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_plutonium/hep_241_za"
+				}
+			}
+		}
+	}
+}

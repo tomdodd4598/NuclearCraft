@@ -1,0 +1,90 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "cube_all"
+	},
+	"variants": {
+		"type": {
+			"copper": {
+				"textures": {
+					"all": "nuclearcraft:blocks/ingot_block/copper"
+				}
+			},
+			"tin": {
+				"textures": {
+					"all": "nuclearcraft:blocks/ingot_block/tin"
+				}
+			},
+			"lead": {
+				"textures": {
+					"all": "nuclearcraft:blocks/ingot_block/lead"
+				}
+			},
+			"thorium": {
+				"textures": {
+					"all": "nuclearcraft:blocks/ingot_block/thorium"
+				}
+			},
+			"uranium": {
+				"textures": {
+					"all": "nuclearcraft:blocks/ingot_block/uranium"
+				}
+			},
+			"boron": {
+				"textures": {
+					"all": "nuclearcraft:blocks/ingot_block/boron"
+				}
+			},
+			"lithium": {
+				"textures": {
+					"all": "nuclearcraft:blocks/ingot_block/lithium"
+				}
+			},
+			"magnesium": {
+				"textures": {
+					"all": "nuclearcraft:blocks/ingot_block/magnesium"
+				}
+			},
+			"graphite": {
+				"textures": {
+					"all": "nuclearcraft:blocks/ingot_block/graphite"
+				}
+			},
+			"beryllium": {
+				"textures": {
+					"all": "nuclearcraft:blocks/ingot_block/beryllium"
+				}
+			},
+			"zirconium": {
+				"textures": {
+					"all": "nuclearcraft:blocks/ingot_block/zirconium"
+				}
+			},
+			"manganese": {
+				"textures": {
+					"all": "nuclearcraft:blocks/ingot_block/manganese"
+				}
+			},
+			"aluminum": {
+				"textures": {
+					"all": "nuclearcraft:blocks/ingot_block/aluminum"
+				}
+			},
+			"silver": {
+				"textures": {
+					"all": "nuclearcraft:blocks/ingot_block/silver"
+				}
+			},
+			"manganese_oxide": {
+				"textures": {
+					"all": "nuclearcraft:blocks/ingot_block/manganese_oxide"
+				}
+			},
+			"manganese_dioxide": {
+				"textures": {
+					"all": "nuclearcraft:blocks/ingot_block/manganese_dioxide"
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,26 @@
+{
+	"display": {
+		"icon": {
+			"item": "nuclearcraft:bin"
+		},
+		"title": {
+			"translate": "advancement.nuclearcraft.bin.name"
+		},
+		"description": {
+			"translate": "advancement.nuclearcraft.bin.desc"
+		}
+	},
+	"parent": "nuclearcraft:root",
+	"criteria": {
+		"has_item": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"item": "nuclearcraft:bin"
+					}
+				]
+			}
+		}
+	}
+}

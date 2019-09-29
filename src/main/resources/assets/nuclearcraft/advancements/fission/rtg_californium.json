@@ -1,0 +1,27 @@
+{
+	"display": {
+		"icon": {
+			"item": "nuclearcraft:rtg_californium"
+		},
+		"title": {
+			"translate": "advancement.nuclearcraft.rtg_californium.name"
+		},
+		"description": {
+			"translate": "advancement.nuclearcraft.rtg_californium.desc"
+		},
+		"frame": "challenge"
+	},
+	"parent": "nuclearcraft:fission/californium",
+	"criteria": {
+		"has_item": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"item": "nuclearcraft:rtg_californium"
+					}
+				]
+			}
+		}
+	}
+}

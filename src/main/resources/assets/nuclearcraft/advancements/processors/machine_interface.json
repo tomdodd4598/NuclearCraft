@@ -1,0 +1,26 @@
+{
+	"display": {
+		"icon": {
+			"item": "nuclearcraft:machine_interface"
+		},
+		"title": {
+			"translate": "advancement.nuclearcraft.machine_interface.name"
+		},
+		"description": {
+			"translate": "advancement.nuclearcraft.machine_interface.desc"
+		}
+	},
+	"parent": "nuclearcraft:processors/manufactory",
+	"criteria": {
+		"has_item": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"item": "nuclearcraft:machine_interface"
+					}
+				]
+			}
+		}
+	}
+}

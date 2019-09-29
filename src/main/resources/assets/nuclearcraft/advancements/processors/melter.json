@@ -1,0 +1,26 @@
+{
+	"display": {
+		"icon": {
+			"item": "nuclearcraft:melter"
+		},
+		"title": {
+			"translate": "advancement.nuclearcraft.melter.name"
+		},
+		"description": {
+			"translate": "advancement.nuclearcraft.melter.desc"
+		}
+	},
+	"parent": "nuclearcraft:processors/alloy_furnace",
+	"criteria": {
+		"has_item": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"item": "nuclearcraft:melter"
+					}
+				]
+			}
+		}
+	}
+}

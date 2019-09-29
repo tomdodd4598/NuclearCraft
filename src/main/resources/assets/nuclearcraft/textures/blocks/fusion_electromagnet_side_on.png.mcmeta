@@ -1,0 +1,10 @@
+{
+	"ctm": {
+		"ctm_version": 1,
+		"type":"ctm",
+		"layer":"SOLID",
+		"textures":[
+			"nuclearcraft:blocks/fusion_electromagnet_side_on_ctm"
+		]
+	}
+}

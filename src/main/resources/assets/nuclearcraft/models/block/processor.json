@@ -1,0 +1,10 @@
+{
+    "parent": "nuclearcraft:block/machine",
+    "textures": {
+        "top": "nuclearcraft:blocks/processor_top",
+        "bottom": "nuclearcraft:blocks/processor_bottom",
+        "front": "#front",
+        "side": "nuclearcraft:blocks/processor_side",
+        "back": "nuclearcraft:blocks/processor_back"
+    }
+}

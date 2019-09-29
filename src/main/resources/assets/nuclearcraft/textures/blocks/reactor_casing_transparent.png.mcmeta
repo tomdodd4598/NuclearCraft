@@ -1,0 +1,10 @@
+{
+	"ctm": {
+		"ctm_version": 1,
+		"type":"ctm",
+		"layer":"CUTOUT",
+		"textures":[
+			"nuclearcraft:blocks/reactor_casing_transparent_ctm"
+		]
+	}
+}

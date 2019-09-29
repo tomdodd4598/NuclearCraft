@@ -1,0 +1,26 @@
+{
+	"display": {
+		"icon": {
+			"item": "nuclearcraft:supercooler"
+		},
+		"title": {
+			"translate": "advancement.nuclearcraft.supercooler.name"
+		},
+		"description": {
+			"translate": "advancement.nuclearcraft.supercooler.desc"
+		}
+	},
+	"parent": "nuclearcraft:processors/alloy_furnace",
+	"criteria": {
+		"has_item": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"item": "nuclearcraft:supercooler"
+					}
+				]
+			}
+		}
+	}
+}

@@ -1,0 +1,94 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "nuclearcraft:item/pellet"
+	},
+	"variants": {
+		"type": {
+			"leu_233_tr": {
+				"model": "nuclearcraft:item/triso",
+				"textures": {
+					"layer0": "nuclearcraft:items/depleted_fuel_uranium/leu_233_tr"
+				}
+			},
+			"leu_233_ox": {
+				"textures": {
+					"layer0": "nuclearcraft:items/depleted_fuel_uranium/leu_233_ox"
+				}
+			},
+			"leu_233_ni": {
+				"textures": {
+					"layer0": "nuclearcraft:items/depleted_fuel_uranium/leu_233_ni"
+				}
+			},
+			"leu_233_za": {
+				"textures": {
+					"layer0": "nuclearcraft:items/depleted_fuel_uranium/leu_233_za"
+				}
+			},
+			"heu_233_tr": {
+				"model": "nuclearcraft:item/triso",
+				"textures": {
+					"layer0": "nuclearcraft:items/depleted_fuel_uranium/heu_233_tr"
+				}
+			},
+			"heu_233_ox": {
+				"textures": {
+					"layer0": "nuclearcraft:items/depleted_fuel_uranium/heu_233_ox"
+				}
+			},
+			"heu_233_ni": {
+				"textures": {
+					"layer0": "nuclearcraft:items/depleted_fuel_uranium/heu_233_ni"
+				}
+			},
+			"heu_233_za": {
+				"textures": {
+					"layer0": "nuclearcraft:items/depleted_fuel_uranium/heu_233_za"
+				}
+			},
+			"leu_235_tr": {
+				"model": "nuclearcraft:item/triso",
+				"textures": {
+					"layer0": "nuclearcraft:items/depleted_fuel_uranium/leu_235_tr"
+				}
+			},
+			"leu_235_ox": {
+				"textures": {
+					"layer0": "nuclearcraft:items/depleted_fuel_uranium/leu_235_ox"
+				}
+			},
+			"leu_235_ni": {
+				"textures": {
+					"layer0": "nuclearcraft:items/depleted_fuel_uranium/leu_235_ni"
+				}
+			},
+			"leu_235_za": {
+				"textures": {
+					"layer0": "nuclearcraft:items/depleted_fuel_uranium/leu_235_za"
+				}
+			},
+			"heu_235_tr": {
+				"model": "nuclearcraft:item/triso",
+				"textures": {
+					"layer0": "nuclearcraft:items/depleted_fuel_uranium/heu_235_tr"
+				}
+			},
+			"heu_235_ox": {
+				"textures": {
+					"layer0": "nuclearcraft:items/depleted_fuel_uranium/heu_235_ox"
+				}
+			},
+			"heu_235_ni": {
+				"textures": {
+					"layer0": "nuclearcraft:items/depleted_fuel_uranium/heu_235_ni"
+				}
+			},
+			"heu_235_za": {
+				"textures": {
+					"layer0": "nuclearcraft:items/depleted_fuel_uranium/heu_235_za"
+				}
+			}
+		}
+	}
+}
