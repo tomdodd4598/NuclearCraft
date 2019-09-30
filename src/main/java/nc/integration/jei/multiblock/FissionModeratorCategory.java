@@ -15,7 +15,7 @@ public class FissionModeratorCategory extends JEICategoryProcessor<JEIRecipeWrap
 	
 	public FissionModeratorCategory(IGuiHelper guiHelper, IJEIHandler handler) {
 		super(guiHelper, handler, "fission_moderator", 47, 30, 90, 26);
-		recipeTitle = Lang.localise(Global.MOD_ID + ".multiblock_gui.fission_moderator.jei_name");
+		recipeTitle = Lang.localise(Global.MOD_ID + ".fission_moderator.jei_name");
 	}
 	
 	@Override

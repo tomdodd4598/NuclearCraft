@@ -267,8 +267,8 @@ mods.nuclearcraft.decay_generator.removeRecipeWithInput([blockInput]);
 mods.nuclearcraft.decay_generator.removeRecipeWithOutput([blockOutput]);
 ___________________________________________________________________________________________________________________________
 
- Fission:
->--------<
+ Solid Fuel Fission:
+>-------------------<
 
 mods.nuclearcraft.fission.addRecipe([itemInput, itemOutput, double baseTime, double basePower, double baseHeat, String guiName, {double processRadiation}]);
 
@@ -276,17 +276,8 @@ mods.nuclearcraft.fission.removeRecipeWithInput([itemInput]);
 mods.nuclearcraft.fission.removeRecipeWithOutput([itemOutput]);
 ___________________________________________________________________________________________________________________________
 
- Fusion:
->-------<
-
-mods.nuclearcraft.fusion.addRecipe([fluidInput1, fluidInput2, fluidOutput1, fluidOutput2, fluidOutput3, fluidOutput4, double comboTime, double comboPower, double comboHeatVar, {double processRadiation}]);
-
-mods.nuclearcraft.fusion.removeRecipeWithInput([fluidInput1, fluidInput2]);
-mods.nuclearcraft.fusion.removeRecipeWithOutput([fluidOutput1, fluidOutput2, fluidOutput3, fluidOutput4]);
-___________________________________________________________________________________________________________________________
-
- Salt Fission:
->-------------<
+ Salt Fission (KINDA BROKEN!):
+>-----------------------------<
 
 mods.nuclearcraft.salt_fission.addRecipe([fluidInput, fluidOutput, double baseTime, double basePower, {double processRadiation}]);
 
@@ -294,8 +285,17 @@ mods.nuclearcraft.salt_fission.removeRecipeWithInput([fluidInput]);
 mods.nuclearcraft.salt_fission.removeRecipeWithOutput([fluidOutput]);
 ___________________________________________________________________________________________________________________________
 
- Heat Exchanger:
->---------------<
+ Fusion (NOT YET IMPLEMENTED!):
+>------------------------------<
+
+mods.nuclearcraft.fusion.addRecipe([fluidInput1, fluidInput2, fluidOutput1, fluidOutput2, fluidOutput3, fluidOutput4, double comboTime, double comboPower, double comboHeatVar, {double processRadiation}]);
+
+mods.nuclearcraft.fusion.removeRecipeWithInput([fluidInput1, fluidInput2]);
+mods.nuclearcraft.fusion.removeRecipeWithOutput([fluidOutput1, fluidOutput2, fluidOutput3, fluidOutput4]);
+___________________________________________________________________________________________________________________________
+
+ Heat Exchanger (KINDA BROKEN!):
+>-------------------------------<
 
 mods.nuclearcraft.heat_exchanger.addRecipe([fluidInput, fluidOutput, double heatRequired, int temperatureIn, int temperatureOut]);
 
@@ -312,8 +312,8 @@ mods.nuclearcraft.turbine.removeRecipeWithInput([fluidInput]);
 mods.nuclearcraft.turbine.removeRecipeWithOutput([fluidOutput]);
 ___________________________________________________________________________________________________________________________
 
- Condenser:
->----------<
+ Condenser (KINDA BROKEN!):
+>--------------------------<
 
 mods.nuclearcraft.condenser.addRecipe([fluidInput, fluidOutput, {double coolingRequired, int condensingTemperature}]);
 

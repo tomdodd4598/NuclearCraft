@@ -2,7 +2,11 @@ package nc.multiblock.fission;
 
 import static nc.block.property.BlockProperties.FACING_ALL;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
+
+import com.google.common.collect.Lists;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
@@ -40,14 +44,23 @@ import nc.multiblock.network.FissionUpdatePacket;
 import nc.multiblock.network.SaltFissionUpdatePacket;
 import nc.multiblock.network.SolidFissionUpdatePacket;
 import nc.multiblock.validation.IMultiblockValidator;
+import nc.recipe.NCRecipes;
+import nc.recipe.ProcessorRecipe;
+import nc.recipe.ProcessorRecipeHandler;
+import nc.recipe.RecipeInfo;
+import nc.recipe.ingredient.IFluidIngredient;
+import nc.tile.internal.fluid.Tank;
 import nc.tile.internal.heat.HeatBuffer;
+import nc.util.NCMath;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.FluidRegistry;
 
 public class FissionReactor extends CuboidalMultiblockBase<FissionUpdatePacket> {
 	
@@ -77,15 +90,18 @@ public class FissionReactor extends CuboidalMultiblockBase<FissionUpdatePacket> 
 	public final LongSet activeModeratorCache = new LongOpenHashSet();
 	public final LongSet activeReflectorCache = new LongOpenHashSet();
 	
-	public static final int BASE_MAX_HEAT = 25000, MAX_TEMP = 2400;
+	public static final int BASE_MAX_HEAT = 25000, MAX_TEMP = 2400, BASE_TANK_CAPACITY = 4000;
 	public final HeatBuffer heatBuffer = new HeatBuffer(BASE_MAX_HEAT);
-	public int ambientTemp = 290;
-	public int comparatorSignal = 0;
+	public int ambientTemp = 290, comparatorSignal = 0;
+	
+	public final List<Tank> tanks = Lists.newArrayList(new Tank(BASE_TANK_CAPACITY, NCRecipes.fission_heating_valid_fluids.get(0)), new Tank(BASE_TANK_CAPACITY, null));
+	public static final ProcessorRecipeHandler HEATING_RECIPE_HANDLER = NCRecipes.fission_heating;
+	protected RecipeInfo<ProcessorRecipe> recipeInfo;
 	
 	public boolean refreshFlag = true;
 	
-	public boolean isReactorOn/*, computerActivated*/;
-	public int fuelComponentCount = 0;
+	public boolean isReactorOn, isProcessing;
+	public int fuelComponentCount = 0, heatingRecipeRate = 0, heatPerMB = 32;
 	public long cooling = 0L, heating = 0L, totalHeatMult = 0L, usefulPartCount = 0L;
 	public double meanHeatMult = 0D, totalEfficiency = 0D, meanEfficiency = 0D, sparsityEfficiencyMult = 0D;
 	
@@ -213,6 +229,8 @@ public class FissionReactor extends CuboidalMultiblockBase<FissionUpdatePacket> 
 	
 	protected void onReactorFormed() {
 		heatBuffer.setHeatCapacity(BASE_MAX_HEAT*getNumConnectedBlocks());
+		tanks.get(0).setCapacity(BASE_TANK_CAPACITY*getNumConnectedBlocks());
+		tanks.get(1).setCapacity(BASE_TANK_CAPACITY*getNumConnectedBlocks());
 		refreshReactor();
 		ambientTemp = 273 + (int) (WORLD.getBiome(getMiddleCoord()).getTemperature(getMiddleCoord())*20F);
 		updateActivity();
@@ -381,7 +399,7 @@ public class FissionReactor extends CuboidalMultiblockBase<FissionUpdatePacket> 
 	
 	protected void resetStats() {
 		isReactorOn = false;
-		fuelComponentCount = 0;
+		fuelComponentCount = heatingRecipeRate = 0;
 		cooling = heating = totalHeatMult = usefulPartCount = 0L;
 		meanHeatMult = totalEfficiency = meanEfficiency = sparsityEfficiencyMult = 0D;
 	}
@@ -458,11 +476,25 @@ public class FissionReactor extends CuboidalMultiblockBase<FissionUpdatePacket> 
 			refreshFlag = false;
 		}
 		updateActivity();
-		heatBuffer.changeHeatStored(getNetHeating());
+		
+		if (type == FissionReactorType.PEBBLE_BED) {
+			
+		}
+		else if (type == FissionReactorType.SOLID_FUEL) {
+			heatBuffer.changeHeatStored(heating);
+			updateFluidHeating();
+		}
+		else {
+			heatBuffer.changeHeatStored(getNetHeating());
+		}
+		
 		if (heatBuffer.isFull() && NCConfig.fission_overheat) {
 			heatBuffer.setHeatStored(0);
 			doMeltdown();
 			return true;
+		}
+		if (!isReactorOn) {
+			heatBuffer.changeHeatStored(-getHeatDissipation());
 		}
 		
 		for (FissionCluster cluster : clusterMap.values()) {
@@ -482,7 +514,7 @@ public class FissionReactor extends CuboidalMultiblockBase<FissionUpdatePacket> 
 	
 	public void updateActivity() {
 		boolean wasReactorOn = isReactorOn;
-		isReactorOn = (heating > 0L /*|| computerActivated*/) && isAssembled();
+		isReactorOn = heating > 0L && isAssembled();
 		if (isReactorOn != wasReactorOn) {
 			if (controller != null) controller.updateBlockState(isReactorOn);
 			sendUpdateToAllPlayers();
@@ -507,14 +539,98 @@ public class FissionReactor extends CuboidalMultiblockBase<FissionUpdatePacket> 
 		return Math.round(ambientTemp + (MAX_TEMP - ambientTemp)*(float)heatBuffer.getHeatStored()/heatBuffer.getHeatCapacity());
 	}
 	
-	protected void doMeltdown() {
-		//TODO
+	//TODO - config
+	public long getHeatDissipation() {
+		return heatBuffer.getHeatStored()*2L*(getExteriorLengthX()*getExteriorLengthY() + getExteriorLengthY()*getExteriorLengthZ() + getExteriorLengthZ()*getExteriorLengthX())/(NCMath.cube(6)*672000L);
+	}
+	
+	public void updateFluidHeating() {
+		if (isReactorOn) {
+			refreshRecipe();
+			if (canProcessInputs()) {
+				isProcessing = true;
+				produceProducts();
+			}
+			else {
+				isProcessing = false;
+			}
+		}
+		else {
+			isProcessing = false;
+		}
+	}
+	
+	protected void refreshRecipe() {
+		recipeInfo = HEATING_RECIPE_HANDLER.getRecipeInfoFromInputs(new ArrayList<ItemStack>(), tanks.subList(0, 1));
+	}
+	
+	protected boolean canProcessInputs() {
+		if (!isReactorOn || !setRecipeStats()) return false;
+		return canProduceProducts();
+	}
+	
+	protected boolean setRecipeStats() {
+		if (recipeInfo == null) {
+			heatingRecipeRate = 0;
+			heatPerMB = 32;
+			return false;
+		}
+		heatPerMB = recipeInfo.getRecipe().getFissionHeatingHeatPerMB();
+		return true;
+	}
+	
+	protected boolean canProduceProducts() {
+		IFluidIngredient fluidProduct = recipeInfo.getRecipe().fluidProducts().get(0);
+		if (fluidProduct.getMaxStackSize(0) <= 0 || fluidProduct.getStack() == null) return false;
+		heatingRecipeRate = Math.min(tanks.get(0).getFluidAmount(), getMaxHeatingRecipeRateMultiplier());
+		if (!tanks.get(1).isEmpty()) {
+			if (!tanks.get(1).getFluid().isFluidEqual(fluidProduct.getStack())) {
+				return false;
+			} else if (tanks.get(1).getFluidAmount() + fluidProduct.getMaxStackSize(0)*heatingRecipeRate > tanks.get(1).getCapacity()) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	//TODO - tweak to deal with recipe inputs of size greater than 1 mB
+	public void produceProducts() {
+		int fluidIngredientStackSize = recipeInfo.getRecipe().fluidIngredients().get(0).getMaxStackSize(recipeInfo.getFluidIngredientNumbers().get(0))*heatingRecipeRate;
+		if (fluidIngredientStackSize > 0) tanks.get(0).changeFluidAmount(-fluidIngredientStackSize);
+		if (tanks.get(0).getFluidAmount() <= 0) tanks.get(0).setFluidStored(null);
 		
+		IFluidIngredient fluidProduct = recipeInfo.getRecipe().fluidProducts().get(0);
+		if (fluidProduct.getMaxStackSize(0) > 0) {
+			if (tanks.get(1).isEmpty()) {
+				tanks.get(1).setFluidStored(fluidProduct.getNextStack(0));
+				tanks.get(1).setFluidAmount(tanks.get(1).getFluidAmount()*heatingRecipeRate);
+			} else if (tanks.get(1).getFluid().isFluidEqual(fluidProduct.getStack())) {
+				tanks.get(1).changeFluidAmount(fluidProduct.getNextStackSize(0)*heatingRecipeRate);
+			}
+		}
+		
+		heatBuffer.changeHeatStored(-heatingRecipeRate*heatPerMB);
+	}
+	
+	//TODO - config
+	public int getMaxHeatingRecipeRateMultiplier() {
+		return (int) (Math.min(heatBuffer.getHeatStored(), 2L*heating)/heatPerMB);
+	}
+	
+	protected void doMeltdown() {
 		Iterator<IFissionController> controllerIterator = controllerMap.values().iterator();
 		while (controllerIterator.hasNext()) {
 			IFissionController controller = controllerIterator.next();
 			controllerIterator.remove();
 			controller.doMeltdown();
+		}
+		
+		//TODO - explosions if vents are present, melt casing if not
+		if (ventMap.isEmpty()) {
+			
+		}
+		else {
+			
 		}
 		
 		/*IBlockState corium = RegistryHelper.getBlock(Global.MOD_ID + ":fluid_corium").getDefaultState();
@@ -558,9 +674,9 @@ public class FissionReactor extends CuboidalMultiblockBase<FissionUpdatePacket> 
 	@Override
 	protected void syncDataTo(NBTTagCompound data, SyncReason syncReason) {
 		heatBuffer.writeToNBT(data);
+		writeTanks(data);
 		data.setInteger("comparatorSignal", comparatorSignal);
 		data.setBoolean("isReactorOn", isReactorOn);
-		//data.setBoolean("computerActivated", computerActivated);
 		data.setInteger("clusterCount", clusterCount);
 		data.setLong("cooling", cooling);
 		data.setLong("heating", heating);
@@ -576,9 +692,9 @@ public class FissionReactor extends CuboidalMultiblockBase<FissionUpdatePacket> 
 	@Override
 	protected void syncDataFrom(NBTTagCompound data, SyncReason syncReason) {
 		heatBuffer.readFromNBT(data);
+		readTanks(data);
 		comparatorSignal = data.getInteger("comparatorSignal");
 		isReactorOn = data.getBoolean("isReactorOn");
-		//computerActivated = data.getBoolean("computerActivated");
 		clusterCount = data.getInteger("clusterCount");
 		cooling = data.getLong("cooling");
 		heating = data.getLong("heating");
@@ -589,6 +705,21 @@ public class FissionReactor extends CuboidalMultiblockBase<FissionUpdatePacket> 
 		totalEfficiency = data.getDouble("totalEfficiency");
 		meanEfficiency = data.getDouble("meanEfficiency");
 		sparsityEfficiencyMult = data.getDouble("sparsityEfficiencyMult");
+	}
+	
+	protected NBTTagCompound writeTanks(NBTTagCompound nbt) {
+		if (!tanks.isEmpty()) for (int i = 0; i < tanks.size(); i++) {
+			nbt.setInteger("fluidAmount" + i, tanks.get(i).getFluidAmount());
+			nbt.setString("fluidName" + i, tanks.get(i).getFluidName());
+		}
+		return nbt;
+	}
+	
+	protected void readTanks(NBTTagCompound nbt) {
+		if (!tanks.isEmpty()) for (int i = 0; i < tanks.size(); i++) {
+			if (nbt.getString("fluidName" + i).equals("nullFluid") || nbt.getInteger("fluidAmount" + i) == 0) tanks.get(i).setFluidStored(null);
+			else tanks.get(i).setFluidStored(FluidRegistry.getFluid(nbt.getString("fluidName" + i)), nbt.getInteger("fluidAmount" + i));
+		}
 	}
 	
 	// Packets
@@ -634,6 +765,10 @@ public class FissionReactor extends CuboidalMultiblockBase<FissionUpdatePacket> 
 	
 	@Override
 	public void clearAll() {
+		for (Tank tank : tanks) {
+			tank.setFluidStored(null);
+		}
+		
 		for (TileFissionPort port : portMap.values()) {
 			port.clearAllSlots();
 			port.clearAllTanks();

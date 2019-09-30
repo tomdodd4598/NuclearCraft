@@ -209,6 +209,14 @@ public class ProcessorRecipe implements IRecipe {
 		else return 0D;
 	}
 	
+	// Fission Heating
+	
+	public int getFissionHeatingHeatPerMB() {
+		if (extras.isEmpty()) return 32;
+		else if (extras.get(0) instanceof Integer) return (int) extras.get(0);
+		else return 32;
+	}
+	
 	// Salt Fission Vessel
 	
 	public double getSaltFissionFuelTime() {

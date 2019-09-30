@@ -2,6 +2,7 @@ package nc.multiblock.fission.tile;
 
 import static nc.block.property.BlockProperties.FACING_ALL;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -21,15 +22,18 @@ import nc.tile.internal.fluid.GasTileWrapper;
 import nc.tile.internal.fluid.Tank;
 import nc.tile.internal.fluid.TankOutputSetting;
 import nc.tile.internal.fluid.TankSorption;
+import nc.tile.passive.ITilePassive;
 import nc.util.GasHelper;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 
 public class TileFissionVent extends TileFissionPartBase implements ITileFluid {
 	
-	private final @Nonnull List<Tank> tanks = Lists.newArrayList(new Tank(16000, null), new Tank(16000, null));
+	private final @Nonnull List<Tank> backupTanks = Lists.newArrayList(new Tank(1, new ArrayList<String>()), new Tank(1, new ArrayList<String>()));
 	
 	private @Nonnull FluidConnection[] fluidConnections = ITileFluid.fluidConnectionAll(Arrays.asList(TankSorption.IN, TankSorption.OUT));
 	
@@ -64,9 +68,9 @@ public class TileFissionVent extends TileFissionPartBase implements ITileFluid {
 	@Override
 	public void update() {
 		super.update();
-		if (!world.isRemote) {
-			
-		}
+		/*if (!world.isRemote && getPartPosition().getFacing() != null && !getTanks().get(1).isEmpty()) {
+			pushFluidToSide(getPartPosition().getFacing());
+		}*/
 	}
 	
 	// Fluids
@@ -74,7 +78,8 @@ public class TileFissionVent extends TileFissionPartBase implements ITileFluid {
 	@Override
 	@Nonnull
 	public List<Tank> getTanks() {
-		return tanks;
+		if (!isMultiblockAssembled()) return backupTanks;
+		return getMultiblock().tanks;
 	}
 
 	@Override
@@ -98,7 +103,24 @@ public class TileFissionVent extends TileFissionPartBase implements ITileFluid {
 	public @Nonnull GasTileWrapper getGasWrapper() {
 		return gasWrapper;
 	}
-
+	
+	@Override
+	public void pushFluidToSide(@Nonnull EnumFacing side) {
+		TileEntity tile = getTileWorld().getTileEntity(getTilePos().offset(side));
+		if (tile == null || tile instanceof TileFissionVent) return;
+		
+		if (tile instanceof ITilePassive) if (!((ITilePassive) tile).canPushFluidsTo()) return;
+		
+		IFluidHandler adjStorage = tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side.getOpposite());
+		if (adjStorage == null) return;
+		
+		for (int i = 0; i < getTanks().size(); i++) {
+			if (getTanks().get(i).getFluid() == null || !getTankSorption(side, i).canDrain()) continue;
+			
+			getTanks().get(i).drain(adjStorage.fill(getTanks().get(i).drain(getTanks().get(i).getCapacity(), false), true), true);
+		}
+	}
+	
 	@Override
 	public boolean getInputTanksSeparated() {
 		return false;
@@ -128,7 +150,6 @@ public class TileFissionVent extends TileFissionPartBase implements ITileFluid {
 	@Override
 	public NBTTagCompound writeAll(NBTTagCompound nbt) {
 		super.writeAll(nbt);
-		writeTanks(nbt);
 		writeFluidConnections(nbt);
 		return nbt;
 	}
@@ -136,7 +157,6 @@ public class TileFissionVent extends TileFissionPartBase implements ITileFluid {
 	@Override
 	public void readAll(NBTTagCompound nbt) {
 		super.readAll(nbt);
-		readTanks(nbt);
 		readFluidConnections(nbt);
 	}
 	

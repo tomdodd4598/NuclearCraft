@@ -1,7 +1,7 @@
  NuclearCraft OpenComputers Methods
 #==================================#
 
- Fission Reactor - component.nc_fission_reactor:
+ Fission Reactor - component.nc_fission_reactor  (KINDA BROKEN!):
 >----------------------------------------------------------------<
 
 boolean isComplete()

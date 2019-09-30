@@ -192,14 +192,14 @@ tile.nuclearcraft.solid_fission_sink2.liquid_helium.name=Liquid Helium Fission R
 tile.nuclearcraft.solid_fission_sink2.enderium.name=Enderium Fission Reactor Sink
 tile.nuclearcraft.solid_fission_sink2.cryotheum.name=Cryotheum Fission Reactor Sink
 
-tile.nuclearcraft.salt_fission_controller.name=Molten Salt Reactor Controller
+tile.nuclearcraft.salt_fission_controller.name=Molten Salt Reactor Controller (MULTIBLOCK BROKEN!)
 tile.nuclearcraft.salt_fission_controller.desc=The heart of the reactor - one is needed in the wall for it to form.
 tile.nuclearcraft.salt_fission_vessel.name=Fission Reactor Fuel Vessel
 tile.nuclearcraft.salt_fission_vessel.desc=Where the molten salt nuclear fuel fissions and depletes. Place against another vessel while sneaking to copy across its side configuration.
 tile.nuclearcraft.salt_fission_heater.name=Fission Reactor Coolant Heater
 tile.nuclearcraft.salt_fission_heater.desc=Where the salt coolant is heated to cool the reactor. Coolants must obey their placement rules to have any effect. Place against another heater while sneaking to copy across its side configuration.
 
-tile.nuclearcraft.heat_exchanger_controller.name=Heat Exchanger Controller
+tile.nuclearcraft.heat_exchanger_controller.name=Heat Exchanger Controller (MULTIBLOCK BROKEN!)
 tile.nuclearcraft.heat_exchanger_controller.desc=The heart of the exchanger - one is needed in the wall for it to form.
 tile.nuclearcraft.heat_exchanger_wall.name=Heat Exchanger Shell
 tile.nuclearcraft.heat_exchanger_wall.desc=Comprises the faces of the exchanger structure.
@@ -1759,13 +1759,12 @@ jei.nuclearcraft.chance_output=Output: %s-%s [Mean: %s]
 jei.nuclearcraft.base_process_time=Base process time:
 jei.nuclearcraft.base_process_power=Base process power:
 
-jei.nuclearcraft.active_fission_cooling=Fission cooling rate:
-jei.nuclearcraft.active_fusion_cooling=Base Fusion cooling rate:
-
 jei.nuclearcraft.solid_fuel_time=Base depletion time:
 jei.nuclearcraft.solid_fuel_heat=Base heat gen:
 jei.nuclearcraft.solid_fuel_efficiency=Base efficiency:
 jei.nuclearcraft.solid_fuel_criticality=Fuel criticality:
+
+jei.nuclearcraft.fission_heating_heat_per_mb=Heat per input mB:
 
 jei.nuclearcraft.fusion_time=Base combo lifetime:
 jei.nuclearcraft.fusion_power=Base max power:
@@ -2605,6 +2604,9 @@ nuclearcraft.multiblock_validation.turbine.missing_blades=Each section of the ro
 nuclearcraft.multiblock_gui.fission_moderator.jei_name=Fission Moderator
 nuclearcraft.multiblock_gui.fission_reflector.jei_name=Fission Reflector
 nuclearcraft.multiblock_gui.solid_fission.jei_name=Solid Fuel Fission
+nuclearcraft.fission_moderator.jei_name=Fission Moderators
+nuclearcraft.fission_reflector.jei_name=Fission Reflectors
+nuclearcraft.fission_heating.jei_name=Solid Fuel Fission Heating
 nuclearcraft.multiblock_gui.salt_fission.jei_name=Molten Salt Fission
 nuclearcraft.multiblock_gui.coolant_heater.jei_name=Molten Salt Cooling
 nuclearcraft.multiblock_gui.heat_exchanger.jei_name=Heat Exchanger Tube

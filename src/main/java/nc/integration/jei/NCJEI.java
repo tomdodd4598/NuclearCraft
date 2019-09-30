@@ -58,6 +58,7 @@ import nc.init.NCItems;
 import nc.integration.jei.generator.DecayGeneratorCategory;
 import nc.integration.jei.multiblock.CondenserCategory;
 import nc.integration.jei.multiblock.CoolantHeaterCategory;
+import nc.integration.jei.multiblock.FissionHeatingCategory;
 import nc.integration.jei.multiblock.FissionModeratorCategory;
 import nc.integration.jei.multiblock.FissionReflectorCategory;
 import nc.integration.jei.multiblock.HeatExchangerCategory;
@@ -290,6 +291,7 @@ public class NCJEI implements IModPlugin {
 		//FUSION(NCRecipes.fusion, NCBlocks.fusion_core, "fusion_core", JEIRecipeWrapper.Fusion.class),
 		FISSION_MODERATOR(NCRecipes.fission_moderator, NCBlocks.heavy_water_moderator, "fission_moderator", JEIRecipeWrapper.FissionModerator.class),
 		FISSION_REFLECTOR(NCRecipes.fission_reflector, NCBlocks.fission_reflector, "fission_reflector", JEIRecipeWrapper.FissionReflector.class),
+		FISSION_HEATING(NCRecipes.fission_heating, NCBlocks.fission_vent, "fission_heating", JEIRecipeWrapper.FissionHeating.class),
 		SALT_FISSION(NCRecipes.salt_fission, Lists.newArrayList(NCBlocks.salt_fission_controller, NCBlocks.salt_fission_vessel), "salt_fission", JEIRecipeWrapper.SaltFission.class),
 		COOLANT_HEATER(NCRecipes.coolant_heater, NCBlocks.salt_fission_heater, "coolant_heater", JEIRecipeWrapper.CoolantHeater.class),
 		HEAT_EXCHANGER(NCRecipes.heat_exchanger, Lists.newArrayList(NCBlocks.heat_exchanger_tube_copper, NCBlocks.heat_exchanger_tube_hard_carbon, NCBlocks.heat_exchanger_tube_thermoconducting), "heat_exchanger", JEIRecipeWrapper.HeatExchanger.class),
@@ -376,6 +378,8 @@ public class NCJEI implements IModPlugin {
 				return new FissionModeratorCategory(guiHelper, this);
 			case FISSION_REFLECTOR:
 				return new FissionReflectorCategory(guiHelper, this);
+			case FISSION_HEATING:
+				return new FissionHeatingCategory(guiHelper, this);
 			case SALT_FISSION:
 				return new SaltFissionCategory(guiHelper, this);
 			case COOLANT_HEATER:

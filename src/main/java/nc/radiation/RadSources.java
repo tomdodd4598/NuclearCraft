@@ -109,6 +109,9 @@ public class RadSources {
 	public static final double CAESIUM_137 = 0.033D;
 	public static final double CORIUM = 0.0000165D;
 	
+	public static final double RADIUM = 0.000625;
+	public static final double POLONIUM = 2.64D/9D;
+	
 	public static final double THORIUM = 0.0000000000715D;
 	public static final double URANIUM = 0.000000000385D;
 	public static final double PLUTONIUM = 0.000042D;
@@ -169,6 +172,9 @@ public class RadSources {
 			
 			ORE_PREFIXES.addAll(Lists.newArrayList("oreNetherrack", "oreEndstone", "oreSand", "oreNetherrack", "oreBlackgranite", "oreRedgranite", "oreMarble", "oreBasalt"));
 		}
+		
+		putMaterial(RADIUM, "Radium");
+		putMaterial(POLONIUM, "Polonium");
 		
 		putMaterial(THORIUM, "Thorium");
 		putMaterial(URANIUM, "Uranium", "Yellorium");
@@ -268,12 +274,16 @@ public class RadSources {
 		putDepletedFuel(CALIFORNIUM_251, 4, CALIFORNIUM_252, 20, CALIFORNIUM_252, 20, CALIFORNIUM_252, 20, "LECf251", "lecf_251");
 		putDepletedFuel(CALIFORNIUM_251, 16, CALIFORNIUM_252, 16, CALIFORNIUM_252, 16, CALIFORNIUM_252, 16, "HECf251", "hecf_251");
 		
-		put(URANIUM_238*4, "plateDU");
+		put(URANIUM_238*4D, "plateDU");
 		
 		put(URANIUM_238/4D, NCBlocks.rtg_uranium);
 		put(PLUTONIUM_238/4D, NCBlocks.rtg_plutonium);
 		put(AMERICIUM_241/4D, NCBlocks.rtg_americium);
 		put(CALIFORNIUM_250/4D, NCBlocks.rtg_californium);
+		
+		put(RADIUM/4D, new ItemStack(NCBlocks.fission_source, 1, 0));
+		put(POLONIUM/4D, new ItemStack(NCBlocks.fission_source, 1, 1));
+		put(CALIFORNIUM_252/4D, new ItemStack(NCBlocks.fission_source, 1, 2));
 		
 		put(TRITIUM/512D, NCBlocks.tritium_lamp);
 		

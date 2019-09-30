@@ -15,7 +15,7 @@ public class FissionReflectorCategory extends JEICategoryProcessor<JEIRecipeWrap
 	
 	public FissionReflectorCategory(IGuiHelper guiHelper, IJEIHandler handler) {
 		super(guiHelper, handler, "fission_reflector", 47, 30, 90, 26);
-		recipeTitle = Lang.localise(Global.MOD_ID + ".multiblock_gui.fission_reflector.jei_name");
+		recipeTitle = Lang.localise(Global.MOD_ID + ".fission_reflector.jei_name");
 	}
 	
 	@Override

@@ -1126,7 +1126,9 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> {
 	
 	@Override
 	public void clearAll() {
-		for (Tank tank : tanks) tank.setFluidStored(null);
+		for (Tank tank : tanks) {
+			tank.setFluidStored(null);
+		}
 	}
 	
 	// Multiblock Validators

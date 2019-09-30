@@ -547,6 +547,36 @@ public class JEIRecipeWrapper {
 		}
 	}
 	
+	public static class FissionHeating extends JEIRecipeWrapperAbstract<FissionHeating> {
+		
+		public FissionHeating(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
+			super(guiHelper, jeiHandler, recipeHandler, recipe, 47, 30, 176, 3, 37, 16, 74, 35);
+		}
+		
+		@Override
+		protected int getProgressArrowTime() {
+			return 20;
+		}
+		
+		protected int getFissionHeatingHeatPerMB() {
+			if (recipe == null) return 32;
+			return recipe.getFissionHeatingHeatPerMB();
+		}
+		
+		@Override
+		public List<String> getTooltipStrings(int mouseX, int mouseY) {
+			List<String> tooltip = new ArrayList<String>();
+			
+			if (mouseX >= 73 - 47 && mouseY >= 34 - 30 && mouseX < 73 - 47 + 37 + 1 && mouseY < 34 - 30 + 18 + 1) {
+				tooltip.add(TextFormatting.YELLOW + HEAT_PER_MB + " " + TextFormatting.WHITE + getFissionHeatingHeatPerMB() + " H/mB");
+			}
+			
+			return tooltip;
+		}
+		
+		private static final String HEAT_PER_MB = Lang.localise("jei.nuclearcraft.fission_heating_heat_per_mb");
+	}
+	
 	public static class SaltFission extends JEIRecipeWrapperAbstract<SaltFission> {
 		
 		public SaltFission(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
@@ -723,7 +753,7 @@ public class JEIRecipeWrapper {
 			List<String> tooltip = new ArrayList<String>();
 			
 			if (mouseX >= 73 - 47 && mouseY >= 34 - 30 && mouseX < 73 - 47 + 37 + 1 && mouseY < 34 - 30 + 18 + 1) {
-				tooltip.add(TextFormatting.LIGHT_PURPLE + ENERGY_DENSITY + " " + TextFormatting.WHITE + UnitHelper.prefix(getTurbinePowerPerMB(), 3, "RF/mB"));
+				tooltip.add(TextFormatting.LIGHT_PURPLE + ENERGY_DENSITY + " " + TextFormatting.WHITE + getTurbinePowerPerMB() + " RF/mB");
 				tooltip.add(TextFormatting.GRAY + EXPANSION + " " + TextFormatting.WHITE + Math.round(100D*getTurbineExpansionLevel()) + "%");
 			}
 			

@@ -19,8 +19,8 @@ public class HeatExchangerRecipes extends ProcessorRecipeHandler {
 		
 		// Steam <-> Water
 		
-		addRecipe(fluidStack("water", 200), fluidStack("high_pressure_steam", 1000), 32000D, 300, 1200);
-		addRecipe(fluidStack("preheated_water", 200), fluidStack("high_pressure_steam", 1000), 16000D, 400, 1200);
+		addRecipe(fluidStack("water", 250), fluidStack("high_pressure_steam", 1000), 32000D, 300, 1200);
+		addRecipe(fluidStack("preheated_water", 250), fluidStack("high_pressure_steam", 1000), 16000D, 400, 1200);
 		
 		if (!NCConfig.heat_exchanger_alternate_exhaust_recipe) {
 			addRecipe(fluidStack("exhaust_steam", 1000), fluidStack("low_pressure_steam", 1000), 4000D, 500, 800);
