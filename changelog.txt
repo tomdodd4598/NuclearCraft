@@ -1,3 +1,7 @@
+v2o.0.1
+
+* Fixed various bugs in the calculations of reactors' stats
+
 v2o.0.0
 
 * Initial overhaul build!
