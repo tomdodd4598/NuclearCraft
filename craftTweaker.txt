@@ -1,5 +1,5 @@
- NuclearCraft CraftTweaker Recipe Addition and Removal
-#=====================================================#
+ NuclearCraft CraftTweaker Integration
+#=====================================#
 
 All recipes involve five sets of information - item inputs, fluid inputs, item outputs, fluid outputs and extra info. The
 first four are clearly the ingredients and products involved in the recipe, and the extra info contains data such as
@@ -32,16 +32,16 @@ millibuckets of the fluid.
 >---------------------<
 mods.nuclearcraft.IChanceItemIngredient.create(IIngredient ingredient, int chancePercent, {int minStackSize});
 
-Examples:	`IChanceItemIngredient.create(<minecraft:coal>*2, 25)`,
-			`IChanceItemIngredient.create(<ore:dustGlowstone>*3, 60, 2)`.
+Examples: `IChanceItemIngredient.create(<minecraft:coal>*2, 25)`,
+          `IChanceItemIngredient.create(<ore:dustGlowstone>*3, 60, 2)`.
 ___________________________________________________________________________________________________________________________
 
  ChanceFluidIngredient:
 >----------------------<
 mods.nuclearcraft.IChanceFluidIngredient.create(IIngredient ingredient, int chancePercent, int stackDiff, {int minStackSize});
 
-Examples:	`IChanceFluidIngredient.create(<liquid:water>*1500, 35, 300)`,
-			`IChanceFluidIngredient.create(<liquid:oil>*1000, 80, 200, 400)`.
+Examples: `IChanceFluidIngredient.create(<liquid:water>*1500, 35, 300)`,
+          `IChanceFluidIngredient.create(<liquid:oil>*1000, 80, 200, 400)`.
 ___________________________________________________________________________________________________________________________
 
  Recipe Addition
