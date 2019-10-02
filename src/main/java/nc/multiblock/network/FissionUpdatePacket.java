@@ -7,19 +7,20 @@ public abstract class FissionUpdatePacket extends MultiblockUpdatePacket {
 	
 	public boolean isReactorOn;
 	public int clusterCount, fuelComponentCount;
-	public long cooling, heating, totalHeatMult, usefulPartCount, capacity, heat;
-	public double meanHeatMult, totalEfficiency, meanEfficiency, sparsityEfficiencyMult;
+	public long cooling, rawHeating, totalHeatMult, usefulPartCount, capacity, heat;
+	public double effectiveHeating, meanHeatMult, totalEfficiency, meanEfficiency, sparsityEfficiencyMult, heatingOutputRate;
 	
 	public FissionUpdatePacket() {
 		messageValid = false;
 	}
 	
-	public FissionUpdatePacket(BlockPos pos, boolean isReactorOn, int clusterCount, long cooling, long heating, long totalHeatMult, double meanHeatMult, int fuelComponentCount, long usefulPartCount, double totalEfficiency, double meanEfficiency, double sparsityEfficiencyMult, long capacity, long heat) {
+	public FissionUpdatePacket(BlockPos pos, boolean isReactorOn, int clusterCount, long cooling, long rawHeating, double effectiveHeating, long totalHeatMult, double meanHeatMult, int fuelComponentCount, long usefulPartCount, double totalEfficiency, double meanEfficiency, double sparsityEfficiencyMult, long capacity, long heat, double heatingOutputRate) {
 		this.pos = pos;
 		this.isReactorOn = isReactorOn;
 		this.clusterCount = clusterCount;
 		this.cooling = cooling;
-		this.heating = heating;
+		this.rawHeating = rawHeating;
+		this.effectiveHeating = effectiveHeating;
 		this.totalHeatMult = totalHeatMult;
 		this.meanHeatMult = meanHeatMult;
 		this.fuelComponentCount = fuelComponentCount;
@@ -29,6 +30,7 @@ public abstract class FissionUpdatePacket extends MultiblockUpdatePacket {
 		this.sparsityEfficiencyMult = sparsityEfficiencyMult;
 		this.capacity = capacity;
 		this.heat = heat;
+		this.heatingOutputRate = heatingOutputRate;
 		
 		messageValid = true;
 	}
@@ -39,7 +41,8 @@ public abstract class FissionUpdatePacket extends MultiblockUpdatePacket {
 		isReactorOn = buf.readBoolean();
 		clusterCount = buf.readInt();
 		cooling = buf.readLong();
-		heating = buf.readLong();
+		rawHeating = buf.readLong();
+		effectiveHeating = buf.readDouble();
 		totalHeatMult = buf.readLong();
 		meanHeatMult = buf.readDouble();
 		fuelComponentCount = buf.readInt();
@@ -49,6 +52,7 @@ public abstract class FissionUpdatePacket extends MultiblockUpdatePacket {
 		sparsityEfficiencyMult = buf.readDouble();
 		capacity = buf.readLong();
 		heat = buf.readLong();
+		heatingOutputRate = buf.readDouble();
 	}
 	
 	@Override
@@ -59,7 +63,8 @@ public abstract class FissionUpdatePacket extends MultiblockUpdatePacket {
 		buf.writeBoolean(isReactorOn);
 		buf.writeInt(clusterCount);
 		buf.writeLong(cooling);
-		buf.writeLong(heating);
+		buf.writeLong(rawHeating);
+		buf.writeDouble(effectiveHeating);
 		buf.writeLong(totalHeatMult);
 		buf.writeDouble(meanHeatMult);
 		buf.writeInt(fuelComponentCount);
@@ -69,5 +74,6 @@ public abstract class FissionUpdatePacket extends MultiblockUpdatePacket {
 		buf.writeDouble(sparsityEfficiencyMult);
 		buf.writeLong(capacity);
 		buf.writeLong(heat);
+		buf.writeDouble(heatingOutputRate);
 	}
 }

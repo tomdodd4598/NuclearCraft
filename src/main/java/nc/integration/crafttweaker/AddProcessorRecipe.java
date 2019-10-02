@@ -9,10 +9,6 @@ import crafttweaker.api.item.IIngredient;
 import nc.recipe.ProcessorRecipe;
 import nc.recipe.ProcessorRecipeHandler;
 import nc.recipe.RecipeHelper;
-import nc.recipe.ingredient.ChanceFluidIngredient;
-import nc.recipe.ingredient.ChanceItemIngredient;
-import nc.recipe.ingredient.EmptyFluidIngredient;
-import nc.recipe.ingredient.EmptyItemIngredient;
 import nc.recipe.ingredient.IFluidIngredient;
 import nc.recipe.ingredient.IItemIngredient;
 
@@ -41,9 +37,6 @@ public class AddProcessorRecipe implements IAction {
 		
 		while (listCount < objects.size()) {
 			Object object = objects.get(listCount);
-			Object nextObject = listCount + 1 < objects.size() ? objects.get(listCount + 1) : null;
-			Object nextNextObject = listCount + 2 < objects.size() ? objects.get(listCount + 2) : null;
-			Object nextNextNextObject = listCount + 3 < objects.size() ? objects.get(listCount + 3) : null;
 			if (ingredientCount < recipeHandler.itemInputSize) {
 				if (object != null) {
 					if (!(object instanceof IIngredient)) {
@@ -52,7 +45,7 @@ public class AddProcessorRecipe implements IAction {
 					}
 					inputsAllNull = false;
 				}
-				IItemIngredient ingredient = CTHelper.buildAdditionItemIngredient(object, recipeHandler);
+				IItemIngredient ingredient = CTHelper.buildAdditionItemIngredient((IIngredient) object);
 				if (ingredient == null) {
 					ingredientError = true;
 					return;
@@ -66,7 +59,7 @@ public class AddProcessorRecipe implements IAction {
 					}
 					inputsAllNull = false;
 				}
-				IFluidIngredient ingredient = CTHelper.buildAdditionFluidIngredient(object, recipeHandler);
+				IFluidIngredient ingredient = CTHelper.buildAdditionFluidIngredient((IIngredient) object);
 				if (ingredient == null) {
 					ingredientError = true;
 					return;
@@ -79,23 +72,10 @@ public class AddProcessorRecipe implements IAction {
 						return;
 					}
 				}
-				IItemIngredient ingredient = CTHelper.buildAdditionItemIngredient(object, recipeHandler);
+				IItemIngredient ingredient = CTHelper.buildAdditionItemIngredient((IIngredient) object);
 				if (ingredient == null) {
 					ingredientError = true;
 					return;
-				}
-				if (nextObject instanceof Integer && nextNextObject instanceof Integer) {
-					int chancePercent = (Integer) nextObject;
-					int minStackSize = (Integer) nextNextObject;
-					if (chancePercent <= 0) ingredient = new EmptyItemIngredient();
-					else if (chancePercent < 100) ingredient = new ChanceItemIngredient(ingredient, chancePercent, minStackSize);
-					listCount += 2;
-				}
-				else if (nextObject instanceof Integer) {
-					int chancePercent = (Integer) nextObject;
-					if (chancePercent <= 0) ingredient = new EmptyItemIngredient();
-					else if (chancePercent < 100) ingredient = new ChanceItemIngredient(ingredient, chancePercent);
-					listCount++;
 				}
 				itemProducts.add(ingredient);
 			} else if (ingredientCount < recipeHandler.itemInputSize + recipeHandler.fluidInputSize + recipeHandler.itemOutputSize + recipeHandler.fluidOutputSize) {
@@ -105,25 +85,10 @@ public class AddProcessorRecipe implements IAction {
 						return;
 					}
 				}
-				IFluidIngredient ingredient = CTHelper.buildAdditionFluidIngredient(object, recipeHandler);
+				IFluidIngredient ingredient = CTHelper.buildAdditionFluidIngredient((IIngredient) object);
 				if (ingredient == null) {
 					ingredientError = true;
 					return;
-				}
-				if (nextObject instanceof Integer && nextNextObject instanceof Integer && nextNextNextObject instanceof Integer) {
-					int chancePercent = (Integer) nextObject;
-					int stackDiff = (Integer) nextNextObject;
-					int minStackSize = (Integer) nextNextNextObject;
-					if (chancePercent <= 0) ingredient = new EmptyFluidIngredient();
-					else if (chancePercent < 100) ingredient = new ChanceFluidIngredient(ingredient, chancePercent, stackDiff, minStackSize);
-					listCount += 3;
-				}
-				else if (nextObject instanceof Integer && nextNextObject instanceof Integer) {
-					int chancePercent = (Integer) nextObject;
-					int stackDiff = (Integer) nextNextObject;
-					if (chancePercent <= 0) ingredient = new EmptyFluidIngredient();
-					else if (chancePercent < 100) ingredient = new ChanceFluidIngredient(ingredient, chancePercent, stackDiff);
-					listCount += 2;
 				}
 				fluidProducts.add(ingredient);
 			} else {

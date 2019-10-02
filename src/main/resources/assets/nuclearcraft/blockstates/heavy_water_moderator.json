@@ -3,7 +3,7 @@
 	"defaults": {
 		"model":"cube_all",
 		"textures": {
-			"all": "nuclearcraft:blocks/heavy_water_moderator"
+			"all": "nuclearcraft:blocks/fission/heavy_water_moderator"
 		}
 	},
 	"variants": {

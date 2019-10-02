@@ -73,14 +73,14 @@ public abstract class ProcessorRecipeHandler extends AbstractRecipeHandler<Proce
 		GTCE_INTEGRATION.put("infuser", arr[5]);
 		GTCE_INTEGRATION.put("melter", arr[6]);
 		GTCE_INTEGRATION.put("supercooler", arr[7]);
-		GTCE_INTEGRATION.put("electrolyser", arr[8]);
+		GTCE_INTEGRATION.put("electrolyzer", arr[8]);
 		GTCE_INTEGRATION.put("irradiator", arr[9]);
 		GTCE_INTEGRATION.put("ingot_former", arr[10]);
 		GTCE_INTEGRATION.put("pressurizer", arr[11]);
 		GTCE_INTEGRATION.put("chemical_reactor", arr[12]);
 		GTCE_INTEGRATION.put("salt_mixer", arr[13]);
 		GTCE_INTEGRATION.put("crystallizer", arr[14]);
-		GTCE_INTEGRATION.put("dissolver", arr[15]);
+		GTCE_INTEGRATION.put("enricher", arr[15]);
 		GTCE_INTEGRATION.put("extractor", arr[16]);
 		GTCE_INTEGRATION.put("centrifuge", arr[17]);
 		GTCE_INTEGRATION.put("rock_crusher", arr[18]);

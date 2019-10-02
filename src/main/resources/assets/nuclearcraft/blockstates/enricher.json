@@ -3,7 +3,7 @@
 	"defaults": {
 		"model": "nuclearcraft:processor",
 		"textures": {
-			"front": "nuclearcraft:blocks/electrolyser_front_off"
+			"front": "nuclearcraft:blocks/enricher_front_off"
 		}
 	},
 	"variants": {
@@ -12,7 +12,7 @@
 			"false": {},
 			"true": {
 				"textures": {
-					"front": "nuclearcraft:blocks/electrolyser_front_on"
+					"front": "nuclearcraft:blocks/enricher_front_on"
 				}
 			}
 		},
@@ -24,3 +24,4 @@
 		}
 	}
 }
+

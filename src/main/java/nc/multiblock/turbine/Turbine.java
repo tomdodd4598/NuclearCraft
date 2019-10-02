@@ -986,7 +986,6 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> {
 			// If this machine isn't playing sounds, go ahead and play them
 			for (SoundInfo activeSound : activeSounds) {
 				if (activeSound != null && (activeSound.sound == null || !Minecraft.getMinecraft().getSoundHandler().isSoundPlaying(activeSound.sound))) {
-					NCUtil.getLogger().info(angVel);
 					activeSound.sound = SoundHandler.startTileSound(NCSounds.turbine_run, activeSound.pos, 0.125F + angVel*0.5F, SoundHelper.getPitch(6F*angVel - 2F));
 				}
 			}

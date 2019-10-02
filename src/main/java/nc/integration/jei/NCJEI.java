@@ -18,8 +18,8 @@ import nc.container.processor.ContainerCentrifuge;
 import nc.container.processor.ContainerChemicalReactor;
 import nc.container.processor.ContainerCrystallizer;
 import nc.container.processor.ContainerDecayHastener;
-import nc.container.processor.ContainerDissolver;
-import nc.container.processor.ContainerElectrolyser;
+import nc.container.processor.ContainerEnricher;
+import nc.container.processor.ContainerElectrolyzer;
 import nc.container.processor.ContainerExtractor;
 import nc.container.processor.ContainerFuelReprocessor;
 import nc.container.processor.ContainerInfuser;
@@ -38,8 +38,8 @@ import nc.gui.processor.GuiCentrifuge;
 import nc.gui.processor.GuiChemicalReactor;
 import nc.gui.processor.GuiCrystallizer;
 import nc.gui.processor.GuiDecayHastener;
-import nc.gui.processor.GuiDissolver;
-import nc.gui.processor.GuiElectrolyser;
+import nc.gui.processor.GuiEnricher;
+import nc.gui.processor.GuiElectrolyzer;
 import nc.gui.processor.GuiExtractor;
 import nc.gui.processor.GuiFuelReprocessor;
 import nc.gui.processor.GuiInfuser;
@@ -71,8 +71,8 @@ import nc.integration.jei.processor.CentrifugeCategory;
 import nc.integration.jei.processor.ChemicalReactorCategory;
 import nc.integration.jei.processor.CrystallizerCategory;
 import nc.integration.jei.processor.DecayHastenerCategory;
-import nc.integration.jei.processor.DissolverCategory;
-import nc.integration.jei.processor.ElectrolyserCategory;
+import nc.integration.jei.processor.EnricherCategory;
+import nc.integration.jei.processor.ElectrolyzerCategory;
 import nc.integration.jei.processor.ExtractorCategory;
 import nc.integration.jei.processor.FuelReprocessorCategory;
 import nc.integration.jei.processor.InfuserCategory;
@@ -147,8 +147,8 @@ public class NCJEI implements IModPlugin {
 			registry.addRecipeClickArea(GuiSupercooler.SideConfig.class, 73, 34, 37, 18, JEIHandler.SUPERCOOLER.getUUID());
 		}
 		if (NCConfig.register_processor[9]) {
-			registry.addRecipeClickArea(GuiElectrolyser.class, 67, 30, 37, 38, JEIHandler.ELECTROLYSER.getUUID());
-			registry.addRecipeClickArea(GuiElectrolyser.SideConfig.class, 67, 30, 37, 38, JEIHandler.ELECTROLYSER.getUUID());
+			registry.addRecipeClickArea(GuiElectrolyzer.class, 67, 30, 37, 38, JEIHandler.ELECTROLYZER.getUUID());
+			registry.addRecipeClickArea(GuiElectrolyzer.SideConfig.class, 67, 30, 37, 38, JEIHandler.ELECTROLYZER.getUUID());
 		}
 		if (NCConfig.register_processor[10]) {
 			registry.addRecipeClickArea(GuiIrradiator.class, 69, 34, 37, 18, JEIHandler.IRRADIATOR.getUUID());
@@ -175,8 +175,8 @@ public class NCJEI implements IModPlugin {
 			registry.addRecipeClickArea(GuiCrystallizer.SideConfig.class, 73, 34, 37, 18, JEIHandler.CRYSTALLIZER.getUUID());
 		}
 		if (NCConfig.register_processor[16]) {
-			registry.addRecipeClickArea(GuiDissolver.class, 83, 34, 37, 18, JEIHandler.DISSOLVER.getUUID());
-			registry.addRecipeClickArea(GuiDissolver.SideConfig.class, 83, 34, 37, 18, JEIHandler.DISSOLVER.getUUID());
+			registry.addRecipeClickArea(GuiEnricher.class, 83, 34, 37, 18, JEIHandler.ENRICHER.getUUID());
+			registry.addRecipeClickArea(GuiEnricher.SideConfig.class, 83, 34, 37, 18, JEIHandler.ENRICHER.getUUID());
 		}
 		if (NCConfig.register_processor[17]) {
 			registry.addRecipeClickArea(GuiExtractor.class, 59, 34, 37, 18, JEIHandler.EXTRACTOR.getUUID());
@@ -201,14 +201,14 @@ public class NCJEI implements IModPlugin {
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerInfuser.class, JEIHandler.INFUSER.getUUID(), 0, 1, 4, 36);
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerMelter.class, JEIHandler.MELTER.getUUID(), 0, 1, 3, 36);
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerSupercooler.class, JEIHandler.SUPERCOOLER.getUUID(), 0, 0, 2, 36);
-		recipeTransferRegistry.addRecipeTransferHandler(ContainerElectrolyser.class, JEIHandler.ELECTROLYSER.getUUID(), 0, 0, 2, 36);
+		recipeTransferRegistry.addRecipeTransferHandler(ContainerElectrolyzer.class, JEIHandler.ELECTROLYZER.getUUID(), 0, 0, 2, 36);
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerIrradiator.class, JEIHandler.IRRADIATOR.getUUID(), 0, 0, 2, 36);
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerIngotFormer.class, JEIHandler.INGOT_FORMER.getUUID(), 0, 0, 3, 36);
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerPressurizer.class, JEIHandler.PRESSURIZER.getUUID(), 0, 1, 4, 36);
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerChemicalReactor.class, JEIHandler.CHEMICAL_REACTOR.getUUID(), 0, 0, 2, 36);
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerSaltMixer.class, JEIHandler.SALT_MIXER.getUUID(), 0, 0, 2, 36);
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerCrystallizer.class, JEIHandler.CRYSTALLIZER.getUUID(), 0, 0, 3, 36);
-		recipeTransferRegistry.addRecipeTransferHandler(ContainerDissolver.class, JEIHandler.DISSOLVER.getUUID(), 0, 1, 3, 36);
+		recipeTransferRegistry.addRecipeTransferHandler(ContainerEnricher.class, JEIHandler.ENRICHER.getUUID(), 0, 1, 3, 36);
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerExtractor.class, JEIHandler.EXTRACTOR.getUUID(), 0, 1, 4, 36);
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerCentrifuge.class, JEIHandler.CENTRIFUGE.getUUID(), 0, 0, 2, 36);
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerRockCrusher.class, JEIHandler.ROCK_CRUSHER.getUUID(), 0, 1, 6, 36);
@@ -274,25 +274,25 @@ public class NCJEI implements IModPlugin {
 		INFUSER(NCRecipes.infuser, NCBlocks.infuser, "infuser", JEIRecipeWrapper.Infuser.class, 6),
 		MELTER(NCRecipes.melter, NCBlocks.melter, "melter", JEIRecipeWrapper.Melter.class, 7),
 		SUPERCOOLER(NCRecipes.supercooler, NCBlocks.supercooler, "supercooler", JEIRecipeWrapper.Supercooler.class, 8),
-		ELECTROLYSER(NCRecipes.electrolyser, NCBlocks.electrolyser, "electrolyser", JEIRecipeWrapper.Electrolyser.class, 9),
+		ELECTROLYZER(NCRecipes.electrolyzer, NCBlocks.electrolyzer, "electrolyzer", JEIRecipeWrapper.Electrolyzer.class, 9),
 		IRRADIATOR(NCRecipes.irradiator, NCBlocks.irradiator, "irradiator", JEIRecipeWrapper.Irradiator.class, 10),
 		INGOT_FORMER(NCRecipes.ingot_former, NCBlocks.ingot_former, "ingot_former", JEIRecipeWrapper.IngotFormer.class, 11),
 		PRESSURIZER(NCRecipes.pressurizer, NCBlocks.pressurizer, "pressurizer", JEIRecipeWrapper.Pressurizer.class, 12),
 		CHEMICAL_REACTOR(NCRecipes.chemical_reactor, NCBlocks.chemical_reactor, "chemical_reactor", JEIRecipeWrapper.ChemicalReactor.class, 13),
 		SALT_MIXER(NCRecipes.salt_mixer, NCBlocks.salt_mixer, "salt_mixer", JEIRecipeWrapper.SaltMixer.class, 14),
 		CRYSTALLIZER(NCRecipes.crystallizer, NCBlocks.crystallizer, "crystallizer", JEIRecipeWrapper.Crystallizer.class, 15),
-		DISSOLVER(NCRecipes.dissolver, NCBlocks.dissolver, "dissolver", JEIRecipeWrapper.Dissolver.class, 16),
+		ENRICHER(NCRecipes.enricher, NCBlocks.enricher, "enricher", JEIRecipeWrapper.Enricher.class, 16),
 		EXTRACTOR(NCRecipes.extractor, NCBlocks.extractor, "extractor", JEIRecipeWrapper.Extractor.class, 17),
 		CENTRIFUGE(NCRecipes.centrifuge, NCBlocks.centrifuge, "centrifuge", JEIRecipeWrapper.Centrifuge.class, 18),
 		ROCK_CRUSHER(NCRecipes.rock_crusher, NCBlocks.rock_crusher, "rock_crusher", JEIRecipeWrapper.RockCrusher.class, 19),
 		COLLECTOR(NCRecipes.collector, registeredCollectors(), "collector", JEIRecipeWrapper.Collector.class),
 		DECAY_GENERATOR(NCRecipes.decay_generator, NCBlocks.decay_generator, "decay_generator", JEIRecipeWrapper.DecayGenerator.class),
-		SOLID_FISSION(NCRecipes.solid_fission, Lists.newArrayList(NCBlocks.solid_fission_controller, NCBlocks.solid_fission_cell), "solid_fission", JEIRecipeWrapper.SolidFission.class),
-		//FUSION(NCRecipes.fusion, NCBlocks.fusion_core, "fusion_core", JEIRecipeWrapper.Fusion.class),
 		FISSION_MODERATOR(NCRecipes.fission_moderator, NCBlocks.heavy_water_moderator, "fission_moderator", JEIRecipeWrapper.FissionModerator.class),
 		FISSION_REFLECTOR(NCRecipes.fission_reflector, NCBlocks.fission_reflector, "fission_reflector", JEIRecipeWrapper.FissionReflector.class),
+		SOLID_FISSION(NCRecipes.solid_fission, Lists.newArrayList(NCBlocks.solid_fission_controller, NCBlocks.solid_fission_cell), "solid_fission", JEIRecipeWrapper.SolidFission.class),
 		FISSION_HEATING(NCRecipes.fission_heating, NCBlocks.fission_vent, "fission_heating", JEIRecipeWrapper.FissionHeating.class),
 		SALT_FISSION(NCRecipes.salt_fission, Lists.newArrayList(NCBlocks.salt_fission_controller, NCBlocks.salt_fission_vessel), "salt_fission", JEIRecipeWrapper.SaltFission.class),
+		//FUSION(NCRecipes.fusion, NCBlocks.fusion_core, "fusion_core", JEIRecipeWrapper.Fusion.class),
 		COOLANT_HEATER(NCRecipes.coolant_heater, NCBlocks.salt_fission_heater, "coolant_heater", JEIRecipeWrapper.CoolantHeater.class),
 		HEAT_EXCHANGER(NCRecipes.heat_exchanger, Lists.newArrayList(NCBlocks.heat_exchanger_tube_copper, NCBlocks.heat_exchanger_tube_hard_carbon, NCBlocks.heat_exchanger_tube_thermoconducting), "heat_exchanger", JEIRecipeWrapper.HeatExchanger.class),
 		TURBINE(NCRecipes.turbine, NCBlocks.turbine_controller, "turbine", JEIRecipeWrapper.Turbine.class),
@@ -344,8 +344,8 @@ public class NCJEI implements IModPlugin {
 				return new MelterCategory(guiHelper, this);
 			case SUPERCOOLER:
 				return new SupercoolerCategory(guiHelper, this);
-			case ELECTROLYSER:
-				return new ElectrolyserCategory(guiHelper, this);
+			case ELECTROLYZER:
+				return new ElectrolyzerCategory(guiHelper, this);
 			case IRRADIATOR:
 				return new IrradiatorCategory(guiHelper, this);
 			case INGOT_FORMER:
@@ -358,8 +358,8 @@ public class NCJEI implements IModPlugin {
 				return new SaltMixerCategory(guiHelper, this);
 			case CRYSTALLIZER:
 				return new CrystallizerCategory(guiHelper, this);
-			case DISSOLVER:
-				return new DissolverCategory(guiHelper, this);
+			case ENRICHER:
+				return new EnricherCategory(guiHelper, this);
 			case EXTRACTOR:
 				return new ExtractorCategory(guiHelper, this);
 			case CENTRIFUGE:
@@ -370,18 +370,18 @@ public class NCJEI implements IModPlugin {
 				return new CollectorCategory(guiHelper, this);
 			case DECAY_GENERATOR:
 				return new DecayGeneratorCategory(guiHelper, this);
-			case SOLID_FISSION:
-				return new SolidFissionCategory(guiHelper, this);
-			/*case FUSION:
-				return new FusionCategory(guiHelper, this);*/
 			case FISSION_MODERATOR:
 				return new FissionModeratorCategory(guiHelper, this);
 			case FISSION_REFLECTOR:
 				return new FissionReflectorCategory(guiHelper, this);
+			case SOLID_FISSION:
+				return new SolidFissionCategory(guiHelper, this);
 			case FISSION_HEATING:
 				return new FissionHeatingCategory(guiHelper, this);
 			case SALT_FISSION:
 				return new SaltFissionCategory(guiHelper, this);
+			/*case FUSION:
+				return new FusionCategory(guiHelper, this);*/
 			case COOLANT_HEATER:
 				return new CoolantHeaterCategory(guiHelper, this);
 			case HEAT_EXCHANGER:

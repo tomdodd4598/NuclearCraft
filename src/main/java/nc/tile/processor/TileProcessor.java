@@ -61,10 +61,10 @@ public class TileProcessor {
 		}
 	}
 	
-	public static class Electrolyser extends TileFluidProcessor {
+	public static class Electrolyzer extends TileFluidProcessor {
 
-		public Electrolyser() {
-			super("electrolyser", 1, 4, defaultItemSorptions(true), defaultTankCapacities(16000, 1, 4), defaultTankSorptions(1, 4), NCRecipes.electrolyser_valid_fluids, NCConfig.processor_time[8], NCConfig.processor_power[8], true, NCRecipes.electrolyser, 9, 12);
+		public Electrolyzer() {
+			super("electrolyzer", 1, 4, defaultItemSorptions(true), defaultTankCapacities(16000, 1, 4), defaultTankSorptions(1, 4), NCRecipes.electrolyzer_valid_fluids, NCConfig.processor_time[8], NCConfig.processor_power[8], true, NCRecipes.electrolyzer, 9, 12);
 		}
 	}
 	
@@ -110,10 +110,10 @@ public class TileProcessor {
 		}
 	}
 	
-	public static class Dissolver extends TileItemFluidProcessor {
+	public static class Enricher extends TileItemFluidProcessor {
 
-		public Dissolver() {
-			super("dissolver", 1, 1, 0, 1, defaultItemSorptions(1, 0, true), defaultTankCapacities(16000, 1, 1), defaultTankSorptions(1, 1), NCRecipes.dissolver_valid_fluids, NCConfig.processor_time[15], NCConfig.processor_power[15], true, NCRecipes.dissolver, 16, 0);
+		public Enricher() {
+			super("enricher", 1, 1, 0, 1, defaultItemSorptions(1, 0, true), defaultTankCapacities(16000, 1, 1), defaultTankSorptions(1, 1), NCRecipes.enricher_valid_fluids, NCConfig.processor_time[15], NCConfig.processor_power[15], true, NCRecipes.enricher, 16, 0);
 		}
 	}
 	

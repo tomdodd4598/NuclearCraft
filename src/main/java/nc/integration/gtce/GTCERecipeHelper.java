@@ -67,7 +67,7 @@ public class GTCERecipeHelper {
 			recipeMap = RecipeMaps.VACUUM_RECIPES;
 			builder = addStats(recipeMap.recipeBuilder(), recipe, 240, 20);
 			break;
-		case "electrolyser":
+		case "electrolyzer":
 			recipeMap = RecipeMaps.ELECTROLYZER_RECIPES;
 			builder = addStats(recipeMap.recipeBuilder(), recipe, 30, 16);
 			break;
@@ -99,7 +99,7 @@ public class GTCERecipeHelper {
 			recipeMap = RecipeMaps.CHEMICAL_RECIPES;
 			builder = addStats(recipeMap.recipeBuilder(), recipe, 30, 10);
 			break;
-		case "dissolver":
+		case "enricher":
 			recipeMap = RecipeMaps.CHEMICAL_RECIPES;
 			builder = addStats(recipeMap.recipeBuilder(), recipe, 20, 20);
 			break;

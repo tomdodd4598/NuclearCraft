@@ -5,7 +5,6 @@ import nc.tab.NCTabs;
 import nc.tile.TileBin;
 import nc.tile.dummy.TileMachineInterface;
 import nc.tile.energy.battery.TileBattery;
-import nc.tile.energyFluid.TileBuffer;
 import nc.tile.generator.TileDecayGenerator;
 import nc.tile.generator.TileRTG;
 import nc.tile.generator.TileSolarPanel;
@@ -30,14 +29,14 @@ public class BlockEnums {
 		INFUSER("infuser", 6, "portal", "reddust"),
 		MELTER("melter", 7, "flame", "lava"),
 		SUPERCOOLER("supercooler", 8, "snowshovel", "smoke"),
-		ELECTROLYSER("electrolyser", 9, "reddust", "splash"),
+		ELECTROLYZER("electrolyzer", 9, "reddust", "splash"),
 		IRRADIATOR("irradiator", 10, "portal", "enchantmenttable"),
 		INGOT_FORMER("ingot_former", 11, "smoke", "smoke"),
 		PRESSURIZER("pressurizer", 12, "smoke", "smoke"),
 		CHEMICAL_REACTOR("chemical_reactor", 13, "reddust", "reddust"),
 		SALT_MIXER("salt_mixer", 14, "reddust", "endRod"),
 		CRYSTALLIZER("crystallizer", 15, "depthsuspend", "depthsuspend"),
-		DISSOLVER("dissolver", 16, "splash", "depthsuspend"),
+		ENRICHER("enricher", 16, "splash", "depthsuspend"),
 		EXTRACTOR("extractor", 17, "reddust", "depthsuspend"),
 		CENTRIFUGE("centrifuge", 18, "endRod", "depthsuspend"),
 		ROCK_CRUSHER("rock_crusher", 19, "smoke", "smoke");
@@ -81,8 +80,8 @@ public class BlockEnums {
 				return new TileProcessor.Melter();
 			case SUPERCOOLER:
 				return new TileProcessor.Supercooler();
-			case ELECTROLYSER:
-				return new TileProcessor.Electrolyser();
+			case ELECTROLYZER:
+				return new TileProcessor.Electrolyzer();
 			case IRRADIATOR:
 				return new TileProcessor.Irradiator();
 			case INGOT_FORMER:
@@ -95,8 +94,8 @@ public class BlockEnums {
 				return new TileProcessor.SaltMixer();
 			case CRYSTALLIZER:
 				return new TileProcessor.Crystallizer();
-			case DISSOLVER:
-				return new TileProcessor.Dissolver();
+			case ENRICHER:
+				return new TileProcessor.Enricher();
 			case EXTRACTOR:
 				return new TileProcessor.Extractor();
 			case CENTRIFUGE:
@@ -127,8 +126,8 @@ public class BlockEnums {
 				return NCBlocks.melter;
 			case SUPERCOOLER:
 				return NCBlocks.supercooler;
-			case ELECTROLYSER:
-				return NCBlocks.electrolyser;
+			case ELECTROLYZER:
+				return NCBlocks.electrolyzer;
 			case IRRADIATOR:
 				return NCBlocks.irradiator;
 			case INGOT_FORMER:
@@ -141,8 +140,8 @@ public class BlockEnums {
 				return NCBlocks.salt_mixer;
 			case CRYSTALLIZER:
 				return NCBlocks.crystallizer;
-			case DISSOLVER:
-				return NCBlocks.dissolver;
+			case ENRICHER:
+				return NCBlocks.enricher;
 			case EXTRACTOR:
 				return NCBlocks.extractor;
 			case CENTRIFUGE:
@@ -177,9 +176,7 @@ public class BlockEnums {
 	
 	public enum SimpleTileType implements IStringSerializable {
 		MACHINE_INTERFACE("machine_interface", NCTabs.MACHINES),
-		FISSION_PORT("fission_port", NCTabs.FISSION_BLOCKS),
 		DECAY_GENERATOR("decay_generator", NCTabs.MACHINES),
-		BUFFER("buffer", NCTabs.MACHINES),
 		BIN("bin", NCTabs.MACHINES),
 		
 		RTG_URANIUM("rtg_uranium", NCTabs.MACHINES),
@@ -237,8 +234,6 @@ public class BlockEnums {
 				return new TileMachineInterface();
 			case DECAY_GENERATOR:
 				return new TileDecayGenerator();
-			case BUFFER:
-				return new TileBuffer();
 			case BIN:
 				return new TileBin();
 			

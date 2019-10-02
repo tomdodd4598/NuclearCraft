@@ -9,14 +9,14 @@ import nc.integration.jei.JEIMethods.RecipeFluidMapper;
 import nc.integration.jei.JEIRecipeWrapper;
 import nc.recipe.IngredientSorption;
 
-public class ElectrolyserCategory extends JEICategoryProcessor<JEIRecipeWrapper.Electrolyser> {
+public class ElectrolyzerCategory extends JEICategoryProcessor<JEIRecipeWrapper.Electrolyzer> {
 	
-	public ElectrolyserCategory(IGuiHelper guiHelper, IJEIHandler handler) {
-		super(guiHelper, handler, "electrolyser", 49, 30, 94, 38);
+	public ElectrolyzerCategory(IGuiHelper guiHelper, IJEIHandler handler) {
+		super(guiHelper, handler, "electrolyzer", 49, 30, 94, 38);
 	}
 	
 	@Override
-	public void setRecipe(IRecipeLayout recipeLayout, JEIRecipeWrapper.Electrolyser recipeWrapper, IIngredients ingredients) {
+	public void setRecipe(IRecipeLayout recipeLayout, JEIRecipeWrapper.Electrolyzer recipeWrapper, IIngredients ingredients) {
 		super.setRecipe(recipeLayout, recipeWrapper, ingredients);
 		
 		RecipeFluidMapper fluidMapper = new RecipeFluidMapper();

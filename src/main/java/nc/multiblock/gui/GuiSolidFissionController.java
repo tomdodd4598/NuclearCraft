@@ -24,6 +24,8 @@ public class GuiSolidFissionController extends GuiMultiblockController<FissionRe
 	
 	protected final ResourceLocation gui_texture;
 	
+	int outputRateWidth = 0;
+	
 	public GuiSolidFissionController(FissionReactor multiblock, BlockPos controllerPos, Container container) {
 		super(multiblock, controllerPos, container);
 		gui_texture = new ResourceLocation(Global.MOD_ID + ":textures/gui/container/" + "solid_fission_controller" + ".png");
@@ -69,11 +71,11 @@ public class GuiSolidFissionController extends GuiMultiblockController<FissionRe
 		String clusters = Lang.localise("gui.nc.container.fission_controller.clusters") + " " + multiblock.clusterCount;
 		fontRenderer.drawString(clusters, xSize / 2 - width(clusters) / 2, 22, fontColor);
 		
-		String heatMult = Lang.localise("gui.nc.container.fission_controller.heat_mult") + " " + NCMath.decimalPlaces(100D*multiblock.meanHeatMult, 1) + "%";
-		fontRenderer.drawString(heatMult, xSize / 2 - width(heatMult) / 2, 34, fontColor);
+		String efficiency = NCUtil.isModifierKeyDown() ? Lang.localise("gui.nc.container.fission_controller.heat_mult") + " " + NCMath.decimalPlaces(100D*multiblock.meanHeatMult, 1) + "%" : Lang.localise("gui.nc.container.solid_fission_controller.efficiency") + " " + NCMath.decimalPlaces(100D*multiblock.meanEfficiency, 1) + "%";
+		fontRenderer.drawString(efficiency, xSize / 2 - width(efficiency) / 2, 34, fontColor);
 		
-		String efficiency = Lang.localise("gui.nc.container.solid_fission_controller.efficiency") + " " + NCMath.decimalPlaces(100D*multiblock.meanEfficiency, 1) + "%";
-		fontRenderer.drawString(efficiency, xSize / 2 - width(efficiency) / 2, 46, fontColor);
+		String outputRate = Lang.localise("gui.nc.container.solid_fission_controller.output_rate") + " " + UnitHelper.prefix(multiblock.heatingOutputRate, 6, "B/t", -1);
+		fontRenderer.drawString(outputRate, xSize / 2 - (outputRateWidth = Math.max(outputRateWidth, width(outputRate))) / 2, 46, fontColor);
 		
 		String sparsity = NCUtil.isModifierKeyDown() ? Lang.localise("gui.nc.container.fission_controller.useful_parts") + " " + multiblock.usefulPartCount + "/" + multiblock.getInteriorVolume() : Lang.localise("gui.nc.container.fission_controller.sparsity") + " " + NCMath.decimalPlaces(100D*multiblock.sparsityEfficiencyMult, 1) + "%";
 		fontRenderer.drawString(sparsity, xSize / 2 - width(sparsity) / 2, 58, fontColor);
@@ -81,8 +83,8 @@ public class GuiSolidFissionController extends GuiMultiblockController<FissionRe
 		String temperature = Lang.localise("gui.nc.container.fission_controller.temperature") + " " + (NCUtil.isModifierKeyDown() ? multiblock.getTemperature() - 273 + " °C" : multiblock.getTemperature() + " K");
 		fontRenderer.drawString(temperature, xSize / 2 - width(temperature) / 2, 76, fontColor);
 		
-		String heat_gen = Lang.localise("gui.nc.container.fission_controller.net_heating") + " " + UnitHelper.prefix(multiblock.getNetHeating(), 6, "H/t");
-		fontRenderer.drawString(heat_gen, xSize / 2 - width(heat_gen) / 2, 88, fontColor);
+		String netHeating = Lang.localise("gui.nc.container.fission_controller.net_heating") + " " + UnitHelper.prefix(multiblock.getNetHeating(), 6, "H/t");
+		fontRenderer.drawString(netHeating, xSize / 2 - width(netHeating) / 2, 88, fontColor);
 	}
 	
 	//TODO

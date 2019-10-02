@@ -1,13 +1,13 @@
 {
 	"display": {
 		"icon": {
-			"item": "nuclearcraft:electrolyser"
+			"item": "nuclearcraft:electrolyzer"
 		},
 		"title": {
-			"translate": "advancement.nuclearcraft.electrolyser.name"
+			"translate": "advancement.nuclearcraft.electrolyzer.name"
 		},
 		"description": {
-			"translate": "advancement.nuclearcraft.electrolyser.desc"
+			"translate": "advancement.nuclearcraft.electrolyzer.desc"
 		}
 	},
 	"parent": "nuclearcraft:root",
@@ -17,7 +17,7 @@
 			"conditions": {
 				"items": [
 					{
-						"item": "nuclearcraft:electrolyser"
+						"item": "nuclearcraft:electrolyzer"
 					}
 				]
 			}

@@ -37,7 +37,7 @@ public class RemoveProcessorRecipe implements IAction {
 		List<IItemIngredient> itemIngredients = new ArrayList<IItemIngredient>();
 		List<IFluidIngredient> fluidIngredients = new ArrayList<IFluidIngredient>();
 		for (int i = 0; i < itemSize; i++) {
-			IItemIngredient ingredient = CTHelper.buildRemovalItemIngredient(ctIngredients.get(i), recipeHandler);
+			IItemIngredient ingredient = CTHelper.buildRemovalItemIngredient(ctIngredients.get(i));
 			if (ingredient == null) {
 				ingredientError = true;
 				return;
@@ -45,7 +45,7 @@ public class RemoveProcessorRecipe implements IAction {
 			itemIngredients.add(ingredient);
 		}
 		for (int i = itemSize; i < fluidSize; i++) {
-			IFluidIngredient ingredient = CTHelper.buildRemovalFluidIngredient(ctIngredients.get(i), recipeHandler);
+			IFluidIngredient ingredient = CTHelper.buildRemovalFluidIngredient(ctIngredients.get(i));
 			if (ingredient == null) {
 				ingredientError = true;
 				return;

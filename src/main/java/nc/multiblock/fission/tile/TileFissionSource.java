@@ -67,6 +67,14 @@ public abstract class TileFissionSource extends TileFissionPartBase {
 	}
 	
 	@Override
+	public void onAdded() {
+		if (!world.isRemote) {
+			onBlockNeighborChanged(world.getBlockState(pos), world, pos, pos);
+		}
+		super.onAdded();
+	}
+	
+	@Override
 	public void onBlockNeighborChanged(IBlockState state, World world, BlockPos pos, BlockPos fromPos) {
 		boolean wasRedstonePowered = getIsRedstonePowered();
 		super.onBlockNeighborChanged(state, world, pos, fromPos);
@@ -79,21 +87,35 @@ public abstract class TileFissionSource extends TileFissionPartBase {
 	public void updateBlockState(boolean isActive) {
 		if (getBlockType() instanceof BlockFissionSource) {
 			((BlockFissionSource)getBlockType()).setState(isActive, this);
-			world.notifyNeighborsOfStateChange(pos, getBlockType(), true);
+			//world.notifyNeighborsOfStateChange(pos, getBlockType(), true);
 		}
 	}
 	
-	public IFissionFuelComponent getPrimingTarget() {
+	public PrimingTargetInfo getPrimingTarget() {
+		if (getPartPosition().getFacing() == null) return null;
 		EnumFacing dir = getPartPosition().getFacing().getOpposite();
 		for (int i = NCConfig.fission_min_size; i <= NCConfig.fission_max_size; i++) {
 			BlockPos offPos = pos.offset(dir, i);
 			if (blockRecipe(NCRecipes.fission_reflector, offPos) != null) return null;
 			TileEntity tile = world.getTileEntity(offPos);
 			if (tile instanceof IFissionFuelComponent) {
-				((IFissionFuelComponent)tile).setSourceEfficiency(type.getEfficiency(), true);
-				return (IFissionFuelComponent) tile;
+				IFissionFuelComponent fuelComponent = (IFissionFuelComponent) tile;
+				double oldSourceEfficiency = fuelComponent.getSourceEfficiency();
+				fuelComponent.setSourceEfficiency(type.getEfficiency(), true);
+				return new PrimingTargetInfo(fuelComponent, oldSourceEfficiency != fuelComponent.getSourceEfficiency());
 			}
 		}
 		return null;
+	}
+	
+	public static class PrimingTargetInfo {
+		
+		public final IFissionFuelComponent fuelComponent;
+		public final boolean newSourceEfficiency;
+		
+		PrimingTargetInfo(IFissionFuelComponent fuelComponent, boolean newSourceEfficiency) {
+			this.fuelComponent = fuelComponent;
+			this.newSourceEfficiency = newSourceEfficiency;
+		}
 	}
 }

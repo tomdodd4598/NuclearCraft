@@ -22,8 +22,8 @@ public class FissionCluster {
 	
 	public boolean connectedToWall = false;
 	public int componentCount = 0, fuelComponentCount = 0;
-	public long cooling = 0L, heating = 0L, totalHeatMult = 0L, meanHeatMult = 0L;
-	public double totalEfficiency = 0D, meanEfficiency = 0D, overcoolingEfficiencyFactor = 0D, undercoolingLifetimeFactor = 0D;
+	public long cooling = 0L, rawHeating = 0L, totalHeatMult = 0L, meanHeatMult = 0L;
+	public double effectiveHeating = 0D, totalEfficiency = 0D, meanEfficiency = 0D, overcoolingEfficiencyFactor = 0D, undercoolingLifetimeFactor = 0D;
 	
 	public FissionCluster(FissionReactor reactor, int id) {
 		this.reactor = reactor;
@@ -44,8 +44,8 @@ public class FissionCluster {
 	
 	public void refreshClusterStats() {
 		componentCount = fuelComponentCount = 0;
-		cooling = heating = totalHeatMult = meanHeatMult = 0L;
-		totalEfficiency = meanEfficiency = overcoolingEfficiencyFactor = undercoolingLifetimeFactor = 0D;
+		cooling = rawHeating = totalHeatMult = meanHeatMult = 0L;
+		effectiveHeating = totalEfficiency = meanEfficiency = overcoolingEfficiencyFactor = undercoolingLifetimeFactor = 0D;
 		
 		heatBuffer.setHeatCapacity(FissionReactor.BASE_MAX_HEAT*componentMap.size());
 		
@@ -59,7 +59,8 @@ public class FissionCluster {
 					if (component instanceof IFissionFuelComponent) {
 						IFissionFuelComponent fuelComponent = (IFissionFuelComponent) component;
 						fuelComponentCount++;
-						heating += fuelComponent.getHeating();
+						rawHeating += fuelComponent.getRawHeating();
+						effectiveHeating += fuelComponent.getEffectiveHeating();
 						totalHeatMult += fuelComponent.getHeatMultiplier();
 						totalEfficiency += fuelComponent.getEfficiency();
 					}
@@ -70,8 +71,9 @@ public class FissionCluster {
 			}
 		}
 		
-		overcoolingEfficiencyFactor = cooling == 0 ? 1D : Math.min(1D, (double)(heating + NCConfig.fission_cooling_efficiency_leniency)/(double)cooling);
-		undercoolingLifetimeFactor = heating == 0 ? 1D : Math.min(1D, (double)(cooling + NCConfig.fission_cooling_efficiency_leniency)/(double)heating);
+		overcoolingEfficiencyFactor = cooling == 0 ? 1D : Math.min(1D, (double)(rawHeating + NCConfig.fission_cooling_efficiency_leniency)/(double)cooling);
+		undercoolingLifetimeFactor = rawHeating == 0 ? 1D : Math.min(1D, (double)(cooling + NCConfig.fission_cooling_efficiency_leniency)/(double)rawHeating);
+		effectiveHeating *= overcoolingEfficiencyFactor;
 		totalEfficiency *= overcoolingEfficiencyFactor;
 		meanHeatMult = fuelComponentCount == 0 ? 0L : Math.round((double)totalHeatMult/fuelComponentCount);
 		meanEfficiency = fuelComponentCount == 0 ? 0D : totalEfficiency/fuelComponentCount;
@@ -89,7 +91,7 @@ public class FissionCluster {
 	}
 	
 	public long getNetHeating() {
-		return connectedToWall ? -cooling : heating - cooling;
+		return connectedToWall ? -cooling : rawHeating - cooling;
 	}
 	
 	public void doMeltdown() {

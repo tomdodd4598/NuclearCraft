@@ -10,8 +10,8 @@ public class SaltFissionUpdatePacket extends FissionUpdatePacket {
 		super();
 	}
 	
-	public SaltFissionUpdatePacket(BlockPos pos, boolean isReactorOn, int clusterCount, long cooling, long heating, long totalHeatMult, double meanHeatMult, int fuelComponentCount, long usefulPartCount, double totalEfficiency, double meanEfficiency, double sparsityEfficiencyMult, long capacity, long heat) {
-		super(pos, isReactorOn, clusterCount, cooling, heating, totalHeatMult, meanHeatMult, fuelComponentCount, usefulPartCount, totalEfficiency, meanEfficiency, sparsityEfficiencyMult, capacity, heat);
+	public SaltFissionUpdatePacket(BlockPos pos, boolean isReactorOn, int clusterCount, long cooling, long rawHeating, double effectiveHeating, long totalHeatMult, double meanHeatMult, int fuelComponentCount, long usefulPartCount, double totalEfficiency, double meanEfficiency, double sparsityEfficiencyMult, long capacity, long heat, double heatingOutputRate) {
+		super(pos, isReactorOn, clusterCount, cooling, rawHeating, effectiveHeating, totalHeatMult, meanHeatMult, fuelComponentCount, usefulPartCount, totalEfficiency, meanEfficiency, sparsityEfficiencyMult, capacity, heat, heatingOutputRate);
 	}
 	
 	public static class Handler extends MultiblockUpdatePacket.Handler<SaltFissionUpdatePacket, FissionReactor, TileSaltFissionController> {

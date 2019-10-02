@@ -6,10 +6,10 @@ import nc.tile.processor.TileFluidProcessor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 
-public class ContainerElectrolyser extends ContainerFluidProcessor {
+public class ContainerElectrolyzer extends ContainerFluidProcessor {
 
-	public ContainerElectrolyser(EntityPlayer player, TileFluidProcessor tileEntity) {
-		super(player, tileEntity, NCRecipes.electrolyser);
+	public ContainerElectrolyzer(EntityPlayer player, TileFluidProcessor tileEntity) {
+		super(player, tileEntity, NCRecipes.electrolyzer);
 		
 		addSlotToContainer(new SlotSpecificInput(tileEntity, 0, 132, 76, speedUpgrade));
 		addSlotToContainer(new SlotSpecificInput(tileEntity, 1, 152, 76, energyUpgrade));

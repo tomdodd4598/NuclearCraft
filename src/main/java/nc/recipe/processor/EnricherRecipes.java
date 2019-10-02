@@ -7,10 +7,10 @@ import nc.util.FluidStackHelper;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
-public class DissolverRecipes extends ProcessorRecipeHandler {
+public class EnricherRecipes extends ProcessorRecipeHandler {
 	
-	public DissolverRecipes() {
-		super("dissolver", 1, 1, 0, 1);
+	public EnricherRecipes() {
+		super("enricher", 1, 1, 0, 1);
 	}
 
 	@Override

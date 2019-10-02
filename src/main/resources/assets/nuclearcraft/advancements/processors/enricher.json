@@ -1,13 +1,13 @@
 {
 	"display": {
 		"icon": {
-			"item": "nuclearcraft:dissolver"
+			"item": "nuclearcraft:enricher"
 		},
 		"title": {
-			"translate": "advancement.nuclearcraft.dissolver.name"
+			"translate": "advancement.nuclearcraft.enricher.name"
 		},
 		"description": {
-			"translate": "advancement.nuclearcraft.dissolver.desc"
+			"translate": "advancement.nuclearcraft.enricher.desc"
 		}
 	},
 	"parent": "nuclearcraft:processors/chemical_reactor",
@@ -17,7 +17,7 @@
 			"conditions": {
 				"items": [
 					{
-						"item": "nuclearcraft:dissolver"
+						"item": "nuclearcraft:enricher"
 					}
 				]
 			}

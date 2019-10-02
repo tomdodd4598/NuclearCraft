@@ -33,7 +33,7 @@ public class BlockFissionSource extends BlockMetaFissionPartBase<MetaEnums.Neutr
 	
 	@Override
 	public IBlockState getActualState(IBlockState state, IBlockAccess world, BlockPos pos) {
-		return state.withProperty(FACING_ALL, getFacing(state, world, pos)).withProperty(ACTIVE, isActive(world, pos));
+		return state.withProperty(FACING_ALL, getFacing(state, world, pos)).withProperty(ACTIVE, world.getTileEntity(pos) instanceof TileFissionSource && ((TileFissionSource)world.getTileEntity(pos)).getIsRedstonePowered());
 	}
 	
 	public EnumFacing getFacing(IBlockState state, IBlockAccess world, BlockPos pos) {
@@ -42,14 +42,6 @@ public class BlockFissionSource extends BlockMetaFissionPartBase<MetaEnums.Neutr
 			facing = ((TileFissionSource) world.getTileEntity(pos)).getPartPosition().getFacing();
 		}
 		return facing == null ? state.getValue(FACING_ALL) : facing;
-	}
-	
-	public boolean isActive(IBlockAccess world, BlockPos pos) {
-		boolean active = false;
-		if (world.getTileEntity(pos) instanceof TileFissionSource) {
-			active = ((TileFissionSource) world.getTileEntity(pos)).getIsRedstonePowered();
-		}
-		return active;
 	}
 	
 	@Override
@@ -107,10 +99,8 @@ public class BlockFissionSource extends BlockMetaFissionPartBase<MetaEnums.Neutr
 		World world = tile.getWorld();
 		BlockPos pos = tile.getPos();
 		IBlockState state = world.getBlockState(pos);
-		if (!world.isRemote && state.getBlock() instanceof BlockFissionSource) {
-			if (isActive != state.getValue(ACTIVE)) {
-				world.setBlockState(pos, state.withProperty(ACTIVE, isActive), 2);
-			}
+		if (!world.isRemote && isActive != state.getValue(ACTIVE)) {
+			world.setBlockState(pos, state.withProperty(ACTIVE, isActive), 2);
 		}
 	}
 }

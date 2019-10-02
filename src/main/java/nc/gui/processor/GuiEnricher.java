@@ -3,7 +3,7 @@ package nc.gui.processor;
 import java.io.IOException;
 
 import nc.container.ContainerTile;
-import nc.container.processor.ContainerDissolver;
+import nc.container.processor.ContainerEnricher;
 import nc.container.processor.ContainerMachineConfig;
 import nc.gui.element.GuiFluidRenderer;
 import nc.gui.element.GuiItemRenderer;
@@ -23,14 +23,14 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
-public class GuiDissolver extends GuiItemFluidProcessor {
+public class GuiEnricher extends GuiItemFluidProcessor {
 	
-	public GuiDissolver(EntityPlayer player, TileItemFluidProcessor tile) {
-		this(player, tile, new ContainerDissolver(player, tile));
+	public GuiEnricher(EntityPlayer player, TileItemFluidProcessor tile) {
+		this(player, tile, new ContainerEnricher(player, tile));
 	}
 	
-	private GuiDissolver(EntityPlayer player, TileItemFluidProcessor tile, ContainerTile container) {
-		super("dissolver", player, tile, container);
+	private GuiEnricher(EntityPlayer player, TileItemFluidProcessor tile, ContainerTile container) {
+		super("enricher", player, tile, container);
 		xSize = 176;
 		ySize = 166;
 	}
@@ -111,7 +111,7 @@ public class GuiDissolver extends GuiItemFluidProcessor {
 		}
 	}
 	
-	public static class SideConfig extends GuiDissolver {
+	public static class SideConfig extends GuiEnricher {
 		
 		public SideConfig(EntityPlayer player, TileItemFluidProcessor tile) {
 			super(player, tile, new ContainerMachineConfig(player, tile));

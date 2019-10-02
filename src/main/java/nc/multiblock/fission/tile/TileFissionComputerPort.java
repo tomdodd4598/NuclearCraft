@@ -89,7 +89,7 @@ public class TileFissionComputerPort extends TileFissionPartBase implements Simp
 	@Callback
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getRawHeatingRate(Context context, Arguments args) {
-		return new Object[] {isMultiblockAssembled() ? getMultiblock().heating : 0D};
+		return new Object[] {isMultiblockAssembled() ? getMultiblock().rawHeating : 0D};
 	}
 	
 	/*@Callback

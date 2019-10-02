@@ -10,7 +10,7 @@ public class FissionHeatingRecipes extends ProcessorRecipeHandler {
 	
 	@Override
 	public void addRecipes() {
-		addRecipe(fluidStack("water", 1), fluidStack("high_pressure_steam", 4), 32);
-		addRecipe(fluidStack("preheated_water", 1), fluidStack("high_pressure_steam", 4), 16);
+		addRecipe(fluidStack("water", 1), fluidStack("high_pressure_steam", 4), 128);
+		addRecipe(fluidStack("preheated_water", 1), fluidStack("high_pressure_steam", 4), 64);
 	}	
 }

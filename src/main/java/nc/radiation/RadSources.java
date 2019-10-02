@@ -431,7 +431,7 @@ public class RadSources {
 	
 	public static void putFuel(double rad1, int amount1, double rad2, int amount2, String ore, String fluid) {
 		double radiation = getFuelRadiation(rad1, amount1, rad2, amount2);
-		addToOreMap("fuel" + ore + "TRIGO", radiation);
+		addToOreMap("fuel" + ore + "TRISO", radiation);
 		addToOreMap("fuel" + ore + "Oxide", radiation);
 		addToOreMap("fuel" + ore + "Nitride", radiation);
 		addToOreMap("fuel" + ore + "ZA", radiation);
@@ -451,7 +451,7 @@ public class RadSources {
 	
 	public static void putDepletedFuel(double rad1, int amount1, double rad2, int amount2, double rad3, int amount3, double rad4, int amount4, String ore, String fluid) {
 		double radiation = getDepletedFuelRadiation(rad1, amount1, rad2, amount2, rad3, amount3, rad4, amount4);
-		addToOreMap("depletedFuel" + ore + "TRIGO", radiation);
+		addToOreMap("depletedFuel" + ore + "TRISO", radiation);
 		addToOreMap("depletedFuel" + ore + "Oxide", radiation);
 		addToOreMap("depletedFuel" + ore + "Nitride", radiation);
 		addToOreMap("depletedFuel" + ore + "ZA", radiation);

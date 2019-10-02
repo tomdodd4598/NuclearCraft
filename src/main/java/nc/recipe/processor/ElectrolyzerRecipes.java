@@ -5,10 +5,10 @@ import com.google.common.collect.Lists;
 import nc.recipe.ProcessorRecipeHandler;
 import nc.util.FluidStackHelper;
 
-public class ElectrolyserRecipes extends ProcessorRecipeHandler {
+public class ElectrolyzerRecipes extends ProcessorRecipeHandler {
 	
-	public ElectrolyserRecipes() {
-		super("electrolyser", 0, 1, 0, 4);
+	public ElectrolyzerRecipes() {
+		super("electrolyzer", 0, 1, 0, 4);
 	}
 
 	@Override

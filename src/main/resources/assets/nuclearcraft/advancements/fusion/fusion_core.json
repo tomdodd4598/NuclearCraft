@@ -11,7 +11,7 @@
 		},
 		"frame": "goal"
 	},
-	"parent": "nuclearcraft:processors/electrolyser",
+	"parent": "nuclearcraft:processors/electrolyzer",
 	"criteria": {
 		"has_item": {
 			"trigger": "minecraft:inventory_changed",

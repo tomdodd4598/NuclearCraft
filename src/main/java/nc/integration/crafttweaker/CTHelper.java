@@ -10,8 +10,11 @@ import crafttweaker.api.item.IngredientOr;
 import crafttweaker.api.item.IngredientStack;
 import crafttweaker.api.liquid.ILiquidStack;
 import crafttweaker.api.oredict.IOreDictEntry;
-import nc.recipe.ProcessorRecipeHandler;
+import nc.integration.crafttweaker.ingredient.IChanceFluidIngredient;
+import nc.integration.crafttweaker.ingredient.IChanceItemIngredient;
 import nc.recipe.RecipeHelper;
+import nc.recipe.ingredient.ChanceFluidIngredient;
+import nc.recipe.ingredient.ChanceItemIngredient;
 import nc.recipe.ingredient.EmptyFluidIngredient;
 import nc.recipe.ingredient.EmptyItemIngredient;
 import nc.recipe.ingredient.FluidIngredient;
@@ -39,75 +42,99 @@ public class CTHelper {
 		return (FluidStack) stack.getInternal();
 	}
 	
-	public static IItemIngredient buildAdditionItemIngredient(Object ingredient, ProcessorRecipeHandler recipeHandler) {
+	public static IItemIngredient buildAdditionItemIngredient(IIngredient ingredient) {
 		if (ingredient == null) {
 			return new EmptyItemIngredient();
+		} else if (ingredient instanceof IChanceItemIngredient) {
+			IChanceItemIngredient chanceIngredient = (IChanceItemIngredient) ingredient;
+			return new ChanceItemIngredient(buildAdditionItemIngredient(chanceIngredient.getInternalIngredient()), chanceIngredient.getChancePercent(), chanceIngredient.getMinStackSize());
 		} else if (ingredient instanceof IItemStack) {
 			return RecipeHelper.buildItemIngredient(getItemStack((IItemStack) ingredient));
 		} else if (ingredient instanceof IOreDictEntry) {
-			return new OreIngredient(((IOreDictEntry) ingredient).getName(), ((IOreDictEntry) ingredient).getAmount());
+			return new OreIngredient(((IOreDictEntry)ingredient).getName(), ((IOreDictEntry)ingredient).getAmount());
 		} else if (ingredient instanceof IngredientStack) {
-			return buildOreIngredientArray((IngredientStack) ingredient, true);
+			return buildOreIngredientArray(ingredient, true);
 		} else if (ingredient instanceof IngredientOr) {
-			return buildItemIngredientArray((IngredientOr) ingredient);
+			return buildAdditionItemIngredientArray((IngredientOr) ingredient);
 		} else {
-			CraftTweakerAPI.logError(String.format("%s: Invalid ingredient: %s, %s", recipeHandler.getRecipeName(), ingredient.getClass().getName(), ingredient));
+			CraftTweakerAPI.logError(String.format("NuclearCraft: Invalid ingredient: %s, %s", ingredient.getClass().getName(), ingredient));
 			return null;
 		}
 	}
 	
-	public static IFluidIngredient buildAdditionFluidIngredient(Object ingredient, ProcessorRecipeHandler recipeHandler) {
+	public static IFluidIngredient buildAdditionFluidIngredient(IIngredient ingredient) {
 		if (ingredient == null) {
 			return new EmptyFluidIngredient();
+		} else if (ingredient instanceof IChanceFluidIngredient) {
+			IChanceFluidIngredient chanceIngredient = (IChanceFluidIngredient) ingredient;
+			return new ChanceFluidIngredient(buildAdditionFluidIngredient(chanceIngredient.getInternalIngredient()), chanceIngredient.getChancePercent(), chanceIngredient.getStackDiff(), chanceIngredient.getMinStackSize());
 		} else if (ingredient instanceof ILiquidStack) {
 			return RecipeHelper.buildFluidIngredient(getFluidStack((ILiquidStack) ingredient));
 		} else if (ingredient instanceof IngredientOr) {
-			return buildFluidIngredientArray((IngredientOr) ingredient);
+			return buildAdditionFluidIngredientArray((IngredientOr) ingredient);
 		} else {
-			CraftTweakerAPI.logError(String.format("%s: Invalid ingredient: %s, %s", recipeHandler.getRecipeName(), ingredient.getClass().getName(), ingredient));
+			CraftTweakerAPI.logError(String.format("NuclearCraft: Invalid ingredient: %s, %s", ingredient.getClass().getName(), ingredient));
 			return null;
 		}
 	}
 	
-	public static IItemIngredient buildRemovalItemIngredient(IIngredient ingredient, ProcessorRecipeHandler recipeHandler) {
+	public static IItemIngredient buildRemovalItemIngredient(IIngredient ingredient) {
 		if (ingredient == null) {
 			return new EmptyItemIngredient();
 		} else if (ingredient instanceof IItemStack) {
 			return RecipeHelper.buildItemIngredient(CTHelper.getItemStack((IItemStack) ingredient));
 		} else if (ingredient instanceof IOreDictEntry) {
-			return new OreIngredient(((IOreDictEntry) ingredient).getName(), ((IOreDictEntry) ingredient).getAmount());
+			return new OreIngredient(((IOreDictEntry)ingredient).getName(), ((IOreDictEntry)ingredient).getAmount());
 		} else if (ingredient instanceof IngredientStack) {
-			return buildOreIngredientArray((IngredientStack) ingredient, false);
+			return buildOreIngredientArray(ingredient, false);
 		} else if (ingredient instanceof IngredientOr) {
-			return buildItemIngredientArray(ingredient);
+			return buildRemovalItemIngredientArray((IngredientOr) ingredient);
 		} else {
-			CraftTweakerAPI.logError(String.format("%s: Invalid ingredient: %s, %s", recipeHandler.getRecipeName(), ingredient.getClass().getName(), ingredient));
+			CraftTweakerAPI.logError(String.format("NuclearCraft: Invalid ingredient: %s, %s", ingredient.getClass().getName(), ingredient));
 			return null;
 		}
 	}
 	
-	public static IFluidIngredient buildRemovalFluidIngredient(IIngredient ingredient, ProcessorRecipeHandler recipeHandler) {
+	public static IFluidIngredient buildRemovalFluidIngredient(IIngredient ingredient) {
 		if (ingredient == null) {
 			return new EmptyFluidIngredient();
 		} else if (ingredient instanceof ILiquidStack) {
-			return new FluidIngredient(((ILiquidStack) ingredient).getName(), ((ILiquidStack) ingredient).getAmount());
+			return new FluidIngredient(((ILiquidStack)ingredient).getName(), ((ILiquidStack)ingredient).getAmount());
 		} else if (ingredient instanceof IngredientOr) {
-			return buildFluidIngredientArray((IngredientOr) ingredient);
+			return buildRemovalFluidIngredientArray((IngredientOr) ingredient);
 		} else {
-			CraftTweakerAPI.logError(String.format("%s: Invalid ingredient: %s, %s", recipeHandler.getRecipeName(), ingredient.getClass().getName(), ingredient));
+			CraftTweakerAPI.logError(String.format("NuclearCraft: Invalid ingredient: %s, %s", ingredient.getClass().getName(), ingredient));
 			return null;
 		}
 	}
 	
 	// Array Ingredients
 	
-	public static IItemIngredient buildItemIngredientArray(IIngredient ingredient) {
-		List<ItemStack> stackList = new ArrayList<ItemStack>();
-		ingredient.getItems().forEach(item -> stackList.add(getItemStack(item)));
-		return RecipeHelper.buildItemIngredient(stackList);
+	public static IItemIngredient buildAdditionItemIngredientArray(IngredientOr ingredient) {
+		if (!(ingredient.getInternal() instanceof IIngredient[])) {
+			CraftTweakerAPI.logError(String.format("NuclearCraft: Invalid ingredient: %s, %s", ingredient.getClass().getName(), ingredient));
+			return null;
+		}
+		List<IItemIngredient> ingredientList = new ArrayList<IItemIngredient>();
+		for (IIngredient ctIngredient : (IIngredient[])ingredient.getInternal()) {
+			ingredientList.add(buildAdditionItemIngredient(ctIngredient));
+		}
+		return RecipeHelper.buildItemIngredient(ingredientList);
 	}
 	
-	public static IItemIngredient buildOreIngredientArray(IngredientStack stack, boolean addition) {
+	public static IItemIngredient buildRemovalItemIngredientArray(IngredientOr ingredient) {
+		if (!(ingredient.getInternal() instanceof IIngredient[])) {
+			CraftTweakerAPI.logError(String.format("NuclearCraft: Invalid ingredient: %s, %s", ingredient.getClass().getName(), ingredient));
+			return null;
+		}
+		List<IItemIngredient> ingredientList = new ArrayList<IItemIngredient>();
+		for (IIngredient ctIngredient : (IIngredient[])ingredient.getInternal()) {
+			ingredientList.add(buildRemovalItemIngredient(ctIngredient));
+		}
+		return RecipeHelper.buildItemIngredient(ingredientList);
+	}
+	
+	public static IItemIngredient buildOreIngredientArray(IIngredient stack, boolean addition) {
 		List<ItemStack> stackList = new ArrayList<ItemStack>();
 		stack.getItems().forEach(item -> stackList.add(ItemStackHelper.changeStackSize(getItemStack(item), stack.getAmount())));
 		if (addition) {
@@ -117,9 +144,27 @@ public class CTHelper {
 		return RecipeHelper.buildItemIngredient(stackList);
 	}
 	
-	public static IFluidIngredient buildFluidIngredientArray(IngredientOr ingredient) {
-		List<FluidStack> stackList = new ArrayList<FluidStack>();
-		ingredient.getLiquids().forEach(fluid -> stackList.add(getFluidStack(fluid)));
-		return RecipeHelper.buildFluidIngredient(stackList);
+	public static IFluidIngredient buildAdditionFluidIngredientArray(IngredientOr ingredient) {
+		if (!(ingredient.getInternal() instanceof IIngredient[])) {
+			CraftTweakerAPI.logError(String.format("NuclearCraft: Invalid ingredient: %s, %s", ingredient.getClass().getName(), ingredient));
+			return null;
+		}
+		List<IFluidIngredient> ingredientList = new ArrayList<IFluidIngredient>();
+		for (IIngredient ctIngredient : (IIngredient[])ingredient.getInternal()) {
+			ingredientList.add(buildAdditionFluidIngredient(ctIngredient));
+		}
+		return RecipeHelper.buildFluidIngredient(ingredientList);
+	}
+	
+	public static IFluidIngredient buildRemovalFluidIngredientArray(IngredientOr ingredient) {
+		if (!(ingredient.getInternal() instanceof IIngredient[])) {
+			CraftTweakerAPI.logError(String.format("NuclearCraft: Invalid ingredient: %s, %s", ingredient.getClass().getName(), ingredient));
+			return null;
+		}
+		List<IFluidIngredient> ingredientList = new ArrayList<IFluidIngredient>();
+		for (IIngredient ctIngredient : (IIngredient[])ingredient.getInternal()) {
+			ingredientList.add(buildRemovalFluidIngredient(ctIngredient));
+		}
+		return RecipeHelper.buildFluidIngredient(ingredientList);
 	}
 }

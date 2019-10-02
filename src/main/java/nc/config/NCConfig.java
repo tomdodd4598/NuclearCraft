@@ -440,7 +440,7 @@ public class NCConfig {
 		propertyFissionFuelTimeMultiplier.setLanguageKey("gui.nc.config.fission.fission_fuel_time_multiplier");
 		Property propertyFissionSourceEfficiency = config.get(CATEGORY_FISSION, "fission_source_efficiency", new double[] {0.8D, 1D, 1.2D}, Lang.localise("gui.nc.config.fission.fission_source_efficiency.comment"), 0D, 255D);
 		propertyFissionSourceEfficiency.setLanguageKey("gui.nc.config.fission.fission_source_efficiency");
-		Property propertyFissionSinkCoolingRate = config.get(CATEGORY_FISSION, "fission_sink_cooling_rate", new int[] {50, 55, 85, 75, 70, 100, 110, 95, 105, 115, 135, 60, 90, 190, 195, 80, 120, 65, 165, 125, 130, 140, 175, 170, 150, 155, 160, 145, 185, 200, 180, 205}, Lang.localise("gui.nc.config.fission.fission_sink_cooling_rate.comment"), 0, 32767);
+		Property propertyFissionSinkCoolingRate = config.get(CATEGORY_FISSION, "fission_sink_cooling_rate", new int[] {50, 55, 85, 75, 70, 100, 110, 95, 105, 115, 135, 60, 90, 190, 195, 80, 120, 65, 165, 125, 130, 140, 175, 170, 155, 160, 150, 145, 185, 200, 180, 205}, Lang.localise("gui.nc.config.fission.fission_sink_cooling_rate.comment"), 0, 32767);
 		propertyFissionSinkCoolingRate.setLanguageKey("gui.nc.config.fission.fission_sink_cooling_rate");
 		Property propertyFissionModeratorFluxFactor = config.get(CATEGORY_FISSION, "fission_moderator_flux_factor", new int[] {10, 22, 36}, Lang.localise("gui.nc.config.fission.fission_moderator_flux_factor.comment"), 0, 32767);
 		propertyFissionModeratorFluxFactor.setLanguageKey("gui.nc.config.fission.fission_moderator_flux_factor");

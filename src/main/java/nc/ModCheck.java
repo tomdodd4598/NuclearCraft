@@ -23,6 +23,7 @@ public class ModCheck {
 	private static boolean projectELoaded = false;
 	private static boolean commonCapabilitiesLoaded = false;
 	private static boolean gameStagesLoaded = false;
+	private static boolean cubicChunksLoaded = false;
 	
 	public static void init() {
 		if (initialized) return;
@@ -44,6 +45,7 @@ public class ModCheck {
 		projectELoaded = Loader.isModLoaded("projecte");
 		commonCapabilitiesLoaded = Loader.isModLoaded("commoncapabilities");
 		gameStagesLoaded = Loader.isModLoaded("gamestages");
+		cubicChunksLoaded = Loader.isModLoaded("cubicchunks");
 		
 		initialized = true;
 	}
@@ -114,5 +116,9 @@ public class ModCheck {
 	
 	public static boolean gameStagesLoaded() {
 		return gameStagesLoaded;
+	}
+	
+	public static boolean cubicChunksLoaded() {
+		return cubicChunksLoaded;
 	}
 }

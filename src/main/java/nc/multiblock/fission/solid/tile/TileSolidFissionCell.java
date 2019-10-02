@@ -7,6 +7,8 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
+import it.unimi.dsi.fastutil.longs.LongSet;
 import nc.Global;
 import nc.capability.radiation.source.IRadiationSource;
 import nc.config.NCConfig;
@@ -71,6 +73,7 @@ public class TileSolidFissionCell extends TileFissionPartBase implements IItemGe
 	protected double undercoolingLifetimeFactor = 1D;
 	protected Double sourceEfficiency = null;
 	protected Double[] moderatorLineEfficiencies = new Double[] {null, null, null, null, null, null};
+	protected final LongSet passiveModeratorCache = new LongOpenHashSet(), activeReflectorCache = new LongOpenHashSet();
 	
 	protected int cellCount;
 	
@@ -123,11 +126,13 @@ public class TileSolidFissionCell extends TileFissionPartBase implements IItemGe
 	
 	@Override
 	public void resetStats() {
-		primed = fluxSearched = false;
+		/*primed =*/ fluxSearched = false;
 		flux = heatMult = 0;
 		undercoolingLifetimeFactor = 1D;
 		sourceEfficiency = null;
 		moderatorLineEfficiencies[0] = moderatorLineEfficiencies[1] = moderatorLineEfficiencies[2] = moderatorLineEfficiencies[3] = moderatorLineEfficiencies[4] = moderatorLineEfficiencies[5] = null;
+		passiveModeratorCache.clear();
+		activeReflectorCache.clear();
 		
 		refreshRecipe();
 		refreshActivity();
@@ -148,11 +153,6 @@ public class TileSolidFissionCell extends TileFissionPartBase implements IItemGe
 		if (getMultiblock() != sourceReactor) return;
 		
 		if (canProcessInputs) primed = true;
-	}
-	
-	@Override
-	public void unprime() {
-		primed = false;
 	}
 	
 	@Override
@@ -182,13 +182,13 @@ public class TileSolidFissionCell extends TileFissionPartBase implements IItemGe
 	}
 	
 	@Override
-	public void setSourceEfficiency(double sourceEfficiency, boolean maximize) {
-		this.sourceEfficiency = (this.sourceEfficiency != null && maximize) ? Math.max(this.sourceEfficiency, sourceEfficiency) : sourceEfficiency;
+	public double getSourceEfficiency() {
+		return sourceEfficiency == null ? 1D : sourceEfficiency.doubleValue();
 	}
 	
 	@Override
-	public void resetFlux() {
-		flux = 0;
+	public void setSourceEfficiency(double sourceEfficiency, boolean maximize) {
+		this.sourceEfficiency = (this.sourceEfficiency != null && maximize) ? Math.max(this.sourceEfficiency, sourceEfficiency) : sourceEfficiency;
 	}
 	
 	@Override
@@ -202,8 +202,23 @@ public class TileSolidFissionCell extends TileFissionPartBase implements IItemGe
 	}
 	
 	@Override
-	public long getHeating() {
+	public LongSet getPassiveModeratorCache() {
+		return passiveModeratorCache;
+	}
+	
+	@Override
+	public LongSet getActiveReflectorCache() {
+		return activeReflectorCache;
+	}
+	
+	@Override
+	public long getRawHeating() {
 		return baseProcessHeat*heatMult;
+	}
+	
+	@Override
+	public double getEffectiveHeating() {
+		return baseProcessHeat*getEfficiency();
 	}
 	
 	@Override
@@ -218,7 +233,7 @@ public class TileSolidFissionCell extends TileFissionPartBase implements IItemGe
 	
 	@Override
 	public double getEfficiency() {
-		return heatMult*baseProcessEfficiency*(sourceEfficiency == null ? 1D : sourceEfficiency)*getModeratorEfficiencyFactor()*getFluxEfficiencyFactor();
+		return heatMult*baseProcessEfficiency*getSourceEfficiency()*getModeratorEfficiencyFactor()*getFluxEfficiencyFactor();
 	}
 	
 	@Override

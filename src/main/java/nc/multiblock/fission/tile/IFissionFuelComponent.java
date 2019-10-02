@@ -14,8 +14,6 @@ public interface IFissionFuelComponent extends IFissionComponent {
 	
 	public void tryPriming(FissionReactor sourceReactor);
 	
-	public void unprime();
-	
 	public boolean isPrimed();
 	
 	public void refreshIsProcessing(boolean checkCluster);
@@ -30,15 +28,21 @@ public interface IFissionFuelComponent extends IFissionComponent {
 	
 	public void incrementHeatMultiplier();
 	
-	public void setSourceEfficiency(double sourceEfficiency, boolean maximize);
+	public double getSourceEfficiency();
 	
-	public void resetFlux();
+	public void setSourceEfficiency(double sourceEfficiency, boolean maximize);
 	
 	public void addFlux(int flux);
 	
 	public Double[] getModeratorLineEfficiencies();
 	
-	public long getHeating();
+	public LongSet getPassiveModeratorCache();
+	
+	public LongSet getActiveReflectorCache();
+	
+	public long getRawHeating();
+	
+	public double getEffectiveHeating();
 	
 	public long getHeatMultiplier();
 	
@@ -105,14 +109,13 @@ public interface IFissionFuelComponent extends IFissionComponent {
 							else if (i - 1 <= NCConfig.fission_neutron_reach/2) {
 								recipe = blockRecipe(NCRecipes.fission_reflector, offPos);
 								if (recipe != null) {
-									addFlux((int) Math.round(2*moderatorFlux*recipe.getFissionReflectorReflectivity()));
+									addFlux((int) Math.round(2D*moderatorFlux*recipe.getFissionReflectorReflectivity()));
 									getModeratorLineEfficiencies()[dir.getIndex()] = recipe.getFissionReflectorEfficiency()*moderatorEfficiency/(i - 1);
 									incrementHeatMultiplier();
-									if (isFunctional()) {
-										getMultiblock().passiveModeratorCache.addAll(passiveModeratorCache);
-										passiveModeratorCache.clear();
-										getMultiblock().activeReflectorCache.add(offPos.toLong());
-									}
+									
+									getPassiveModeratorCache().addAll(passiveModeratorCache);
+									passiveModeratorCache.clear();
+									getActiveReflectorCache().add(offPos.toLong());
 								}
 							}
 							continue dirLoop;
@@ -134,6 +137,9 @@ public interface IFissionFuelComponent extends IFissionComponent {
 				BlockPos offPos = getTilePos().offset(dir);
 				if (blockRecipe(NCRecipes.fission_moderator, offPos) != null) getMultiblock().activeModeratorCache.add(offPos.toLong());
 			}
+			
+			getMultiblock().passiveModeratorCache.addAll(getPassiveModeratorCache());
+			getMultiblock().activeReflectorCache.addAll(getActiveReflectorCache());
 		}
 	}
 	

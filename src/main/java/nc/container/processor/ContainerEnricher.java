@@ -7,10 +7,10 @@ import nc.tile.processor.TileItemFluidProcessor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 
-public class ContainerDissolver extends ContainerItemFluidProcessor {
+public class ContainerEnricher extends ContainerItemFluidProcessor {
 
-	public ContainerDissolver(EntityPlayer player, TileItemFluidProcessor tileEntity) {
-		super(player, tileEntity, NCRecipes.dissolver);
+	public ContainerEnricher(EntityPlayer player, TileItemFluidProcessor tileEntity) {
+		super(player, tileEntity, NCRecipes.enricher);
 		
 		addSlotToContainer(new SlotProcessorInput(tileEntity, recipeHandler, 0, 46, 35));
 		

@@ -218,7 +218,7 @@ public class RadiationHandler {
 		BiomeProvider biomeProvider = world.getBiomeProvider();
 		int dimension = world.provider.getDimension();
 		BlockPos randomOffsetPos = newRandomOffsetPos();
-		String randomStructure = RadStructures.STRUCTURE_LIST.isEmpty() ? null : RadStructures.STRUCTURE_LIST.get(RAND.nextInt(RadStructures.STRUCTURE_LIST.size()));
+		String randomStructure = (ModCheck.cubicChunksLoaded() || RadStructures.STRUCTURE_LIST.isEmpty()) ? null : RadStructures.STRUCTURE_LIST.get(RAND.nextInt(RadStructures.STRUCTURE_LIST.size()));
 		
 		if (chunkArrSize > 0) for (int i = chunkStart; i < chunkStart + chunksPerTick; i++) {
 			Chunk chunk = chunkArray[i % chunkArrSize];

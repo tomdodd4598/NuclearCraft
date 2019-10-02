@@ -113,71 +113,13 @@ public class ProcessorRecipe implements IRecipe {
 	
 	public int getDecayPower() {
 		if (extras.size() < 2) return 0;
-		if (extras.get(1) instanceof Double) return (int) (((double) extras.get(1))*NCConfig.machine_update_rate/20D);
+		if (extras.get(1) instanceof Integer) return (int) (((Integer)extras.get(1)).intValue()*NCConfig.machine_update_rate/20D);
 		return 0;
 	}
 	
 	public double getDecayRadiation() {
 		if (extras.size() < 3) return 0D;
 		else if (extras.get(2) instanceof Double) return ((double) extras.get(2))*NCConfig.machine_update_rate/20D;
-		else return 0D;
-	}
-	
-	// Fission
-	
-	public int getFissionFuelTime() {
-		if (extras.isEmpty()) return 1;
-		else if (extras.get(0) instanceof Integer) return (int) extras.get(0);
-		else return 1;
-	}
-	
-	public int getFissionFuelHeat() {
-		if (extras.size() < 2) return 0;
-		else if (extras.get(1) instanceof Integer) return (int) extras.get(1);
-		else return 0;
-	}
-	
-	public double getFissionFuelEfficiency() {
-		if (extras.size() < 3) return 0D;
-		else if (extras.get(2) instanceof Double) return (double) extras.get(2);
-		else return 0D;
-	}
-	
-	public int getFissionFuelCriticality() {
-		if (extras.size() < 4) return 1;
-		else if (extras.get(3) instanceof Integer) return (int) extras.get(3);
-		else return 1;
-	}
-	
-	public double getFissionFuelRadiation() {
-		if (extras.size() < 5) return 0D;
-		else if (extras.get(4) instanceof Double) return (double) extras.get(4);
-		else return 0D;
-	}
-	
-	// Fusion
-	
-	public double getFusionComboTime() {
-		if (extras.isEmpty()) return 1D;
-		else if (extras.get(0) instanceof Double) return (double) extras.get(0);
-		else return 1D;
-	}
-	
-	public double getFusionComboPower() {
-		if (extras.size() < 2) return 0D;
-		else if (extras.get(1) instanceof Double) return (double) extras.get(1);
-		else return 0D;
-	}
-	
-	public double getFusionComboHeatVariable() {
-		if (extras.size() < 3) return 1000D;
-		else if (extras.get(2) instanceof Double) return (double) extras.get(2);
-		else return 1000D;
-	}
-	
-	public double getFusionComboRadiation() {
-		if (extras.size() < 4) return 0D;
-		else if (extras.get(3) instanceof Double) return (double) extras.get(3);
 		else return 0D;
 	}
 	
@@ -209,12 +151,44 @@ public class ProcessorRecipe implements IRecipe {
 		else return 0D;
 	}
 	
+	// Solid Fission
+	
+	public int getFissionFuelTime() {
+		if (extras.isEmpty()) return 1;
+		else if (extras.get(0) instanceof Integer) return (int) extras.get(0);
+		else return 1;
+	}
+	
+	public int getFissionFuelHeat() {
+		if (extras.size() < 2) return 0;
+		else if (extras.get(1) instanceof Integer) return (int) extras.get(1);
+		else return 0;
+	}
+	
+	public double getFissionFuelEfficiency() {
+		if (extras.size() < 3) return 0D;
+		else if (extras.get(2) instanceof Double) return (double) extras.get(2);
+		else return 0D;
+	}
+	
+	public int getFissionFuelCriticality() {
+		if (extras.size() < 4) return 1;
+		else if (extras.get(3) instanceof Integer) return (int) extras.get(3);
+		else return 1;
+	}
+	
+	public double getFissionFuelRadiation() {
+		if (extras.size() < 5) return 0D;
+		else if (extras.get(4) instanceof Double) return (double) extras.get(4);
+		else return 0D;
+	}
+	
 	// Fission Heating
 	
-	public int getFissionHeatingHeatPerMB() {
-		if (extras.isEmpty()) return 32;
+	public int getFissionHeatingHeatPerInputMB() {
+		if (extras.isEmpty()) return 128;
 		else if (extras.get(0) instanceof Integer) return (int) extras.get(0);
-		else return 32;
+		else return 128;
 	}
 	
 	// Salt Fission Vessel
@@ -234,6 +208,32 @@ public class ProcessorRecipe implements IRecipe {
 	public double getSaltFissionFuelRadiation() {
 		if (extras.size() < 3) return 0D;
 		else if (extras.get(2) instanceof Double) return (double) extras.get(2);
+		else return 0D;
+	}
+	
+	// Fusion
+	
+	public double getFusionComboTime() {
+		if (extras.isEmpty()) return 1D;
+		else if (extras.get(0) instanceof Double) return (double) extras.get(0);
+		else return 1D;
+	}
+	
+	public double getFusionComboPower() {
+		if (extras.size() < 2) return 0D;
+		else if (extras.get(1) instanceof Double) return (double) extras.get(1);
+		else return 0D;
+	}
+	
+	public double getFusionComboHeatVariable() {
+		if (extras.size() < 3) return 1000D;
+		else if (extras.get(2) instanceof Double) return (double) extras.get(2);
+		else return 1000D;
+	}
+	
+	public double getFusionComboRadiation() {
+		if (extras.size() < 4) return 0D;
+		else if (extras.get(3) instanceof Double) return (double) extras.get(3);
 		else return 0D;
 	}
 	

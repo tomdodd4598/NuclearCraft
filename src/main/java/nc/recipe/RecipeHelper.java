@@ -180,8 +180,8 @@ public class RecipeHelper {
 		}
 		if (object instanceof IItemIngredient) {
 			return checkedItemIngredient((IItemIngredient) object);
-		} else if (object instanceof ArrayList) {
-			ArrayList list = (ArrayList) object;
+		} else if (object instanceof List) {
+			List list = (List) object;
 			List<IItemIngredient> buildList = new ArrayList<IItemIngredient>();
 			if (!list.isEmpty()) {
 				for (Object listObject : list) {
@@ -224,8 +224,8 @@ public class RecipeHelper {
 		}
 		if (object instanceof IFluidIngredient) {
 			return checkedFluidIngredient((IFluidIngredient) object);
-		} else if (object instanceof ArrayList) {
-			ArrayList list = (ArrayList) object;
+		} else if (object instanceof List) {
+			List list = (List) object;
 			List<IFluidIngredient> buildList = new ArrayList<IFluidIngredient>();
 			if (!list.isEmpty()) {
 				for (Object listObject : list) {

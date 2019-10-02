@@ -3,7 +3,7 @@ package nc.gui.processor;
 import java.io.IOException;
 
 import nc.container.ContainerTile;
-import nc.container.processor.ContainerElectrolyser;
+import nc.container.processor.ContainerElectrolyzer;
 import nc.container.processor.ContainerMachineConfig;
 import nc.gui.element.GuiFluidRenderer;
 import nc.gui.element.GuiItemRenderer;
@@ -23,14 +23,14 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
-public class GuiElectrolyser extends GuiFluidProcessor {
+public class GuiElectrolyzer extends GuiFluidProcessor {
 	
-	public GuiElectrolyser(EntityPlayer player, TileFluidProcessor tile) {
-		this(player, tile, new ContainerElectrolyser(player, tile));
+	public GuiElectrolyzer(EntityPlayer player, TileFluidProcessor tile) {
+		this(player, tile, new ContainerElectrolyzer(player, tile));
 	}
 	
-	private GuiElectrolyser(EntityPlayer player, TileFluidProcessor tile, ContainerTile container) {
-		super("electrolyser", player, tile, container);
+	private GuiElectrolyzer(EntityPlayer player, TileFluidProcessor tile, ContainerTile container) {
+		super("electrolyzer", player, tile, container);
 		xSize = 176;
 		ySize = 178;
 	}
@@ -120,7 +120,7 @@ public class GuiElectrolyser extends GuiFluidProcessor {
 		}
 	}
 	
-	public static class SideConfig extends GuiElectrolyser {
+	public static class SideConfig extends GuiElectrolyzer {
 		
 		public SideConfig(EntityPlayer player, TileFluidProcessor tile) {
 			super(player, tile, new ContainerMachineConfig(player, tile));

@@ -10,14 +10,14 @@ import nc.integration.jei.JEIMethods.RecipeItemMapper;
 import nc.integration.jei.JEIRecipeWrapper;
 import nc.recipe.IngredientSorption;
 
-public class DissolverCategory extends JEICategoryProcessor<JEIRecipeWrapper.Dissolver> {
+public class EnricherCategory extends JEICategoryProcessor<JEIRecipeWrapper.Enricher> {
 	
-	public DissolverCategory(IGuiHelper guiHelper, IJEIHandler handler) {
-		super(guiHelper, handler, "dissolver", 45, 30, 102, 26);
+	public EnricherCategory(IGuiHelper guiHelper, IJEIHandler handler) {
+		super(guiHelper, handler, "enricher", 45, 30, 102, 26);
 	}
 	
 	@Override
-	public void setRecipe(IRecipeLayout recipeLayout, JEIRecipeWrapper.Dissolver recipeWrapper, IIngredients ingredients) {
+	public void setRecipe(IRecipeLayout recipeLayout, JEIRecipeWrapper.Enricher recipeWrapper, IIngredients ingredients) {
 		super.setRecipe(recipeLayout, recipeWrapper, ingredients);
 		
 		RecipeItemMapper itemMapper = new RecipeItemMapper();

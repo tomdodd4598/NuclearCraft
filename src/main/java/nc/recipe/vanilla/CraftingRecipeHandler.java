@@ -71,9 +71,9 @@ public class CraftingRecipeHandler {
 		addShapedOreRecipe(NCBlocks.isotope_separator, new Object[] {"PMP", "RCR", "PMP", 'C', "chassis", 'M', "motor", 'P', "plateBasic", 'R', "dustRedstone"});
 		addShapedOreRecipe(NCBlocks.pressurizer, new Object[] {"PTP", "ACA", "PTP", 'C', "chassis", 'P', "plateAdvanced", 'T', "ingotTough", 'A', "actuator"});
 		addShapedOreRecipe(NCBlocks.salt_mixer, new Object[] {"PSP", "BCB", "PMP", 'C', "chassis", 'P', "plateBasic", 'B', Items.BUCKET, 'M', "motor", 'S', "ingotSteel"});
-		addShapedOreRecipe(NCBlocks.dissolver, new Object[] {"PHP", "LCL", "PMP", 'C', "chassis", 'P', "plateAdvanced", 'L', "gemLapis", 'M', "motor", 'H', Blocks.HOPPER});
+		addShapedOreRecipe(NCBlocks.enricher, new Object[] {"PHP", "LCL", "PMP", 'C', "chassis", 'P', "plateAdvanced", 'L', "gemLapis", 'M', "motor", 'H', Blocks.HOPPER});
 		addShapedOreRecipe(NCBlocks.chemical_reactor, new Object[] {"PMP", "GCG", "PSP", 'C', "chassis", 'P', "plateAdvanced", 'G', "dustGlowstone", 'M', "motor", 'S', "servo"});
-		addShapedOreRecipe(NCBlocks.electrolyser, new Object[] {"PGP", "SCS", "PMP", 'C', "chassis", 'S', "solenoidCopper", 'P', "plateAdvanced", 'G', "ingotGraphite", 'M', "motor"});
+		addShapedOreRecipe(NCBlocks.electrolyzer, new Object[] {"PGP", "SCS", "PMP", 'C', "chassis", 'S', "solenoidCopper", 'P', "plateAdvanced", 'G', "ingotGraphite", 'M', "motor"});
 		addShapedOreRecipe(NCBlocks.irradiator, new Object[] {"PEP", "LCL", "PSP", 'C', "chassis", 'P', "plateAdvanced", 'E', Items.ENDER_PEARL, 'L', "solenoidCopper", 'S', "servo"});
 		addShapedOreRecipe(NCBlocks.supercooler, new Object[] {"PDP", "HCH", "PSP", 'C', "chassis", 'D', "ingotMagnesiumDiboride", 'H', "ingotHardCarbon", 'P', "plateAdvanced", 'S', "servo"});
 		addShapedOreRecipe(NCBlocks.ingot_former, new Object[] {"PHP", "FCF", "PTP", 'C', "chassis", 'P', "plateBasic", 'F', "ingotFerroboron", 'T', "ingotTough", 'H', Blocks.HOPPER});

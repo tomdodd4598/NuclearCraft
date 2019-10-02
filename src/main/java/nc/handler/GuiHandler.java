@@ -5,8 +5,8 @@ import nc.container.processor.ContainerCentrifuge;
 import nc.container.processor.ContainerChemicalReactor;
 import nc.container.processor.ContainerCrystallizer;
 import nc.container.processor.ContainerDecayHastener;
-import nc.container.processor.ContainerDissolver;
-import nc.container.processor.ContainerElectrolyser;
+import nc.container.processor.ContainerEnricher;
+import nc.container.processor.ContainerElectrolyzer;
 import nc.container.processor.ContainerExtractor;
 import nc.container.processor.ContainerFuelReprocessor;
 import nc.container.processor.ContainerInfuser;
@@ -26,8 +26,8 @@ import nc.gui.processor.GuiCentrifuge;
 import nc.gui.processor.GuiChemicalReactor;
 import nc.gui.processor.GuiCrystallizer;
 import nc.gui.processor.GuiDecayHastener;
-import nc.gui.processor.GuiDissolver;
-import nc.gui.processor.GuiElectrolyser;
+import nc.gui.processor.GuiEnricher;
+import nc.gui.processor.GuiElectrolyzer;
 import nc.gui.processor.GuiExtractor;
 import nc.gui.processor.GuiFuelReprocessor;
 import nc.gui.processor.GuiInfuser;
@@ -59,8 +59,8 @@ import nc.tile.processor.TileProcessor.Centrifuge;
 import nc.tile.processor.TileProcessor.ChemicalReactor;
 import nc.tile.processor.TileProcessor.Crystallizer;
 import nc.tile.processor.TileProcessor.DecayHastener;
-import nc.tile.processor.TileProcessor.Dissolver;
-import nc.tile.processor.TileProcessor.Electrolyser;
+import nc.tile.processor.TileProcessor.Enricher;
+import nc.tile.processor.TileProcessor.Electrolyzer;
 import nc.tile.processor.TileProcessor.Extractor;
 import nc.tile.processor.TileProcessor.FuelReprocessor;
 import nc.tile.processor.TileProcessor.Infuser;
@@ -105,7 +105,7 @@ public class GuiHandler implements IGuiHandler {
 			case 8:
 				if (tile instanceof Supercooler) return new ContainerSupercooler(player, (Supercooler) tile);
 			case 9:
-				if (tile instanceof Electrolyser) return new ContainerElectrolyser(player, (Electrolyser) tile);
+				if (tile instanceof Electrolyzer) return new ContainerElectrolyzer(player, (Electrolyzer) tile);
 			case 10:
 				if (tile instanceof Irradiator) return new ContainerIrradiator(player, (Irradiator) tile);
 			case 11:
@@ -119,7 +119,7 @@ public class GuiHandler implements IGuiHandler {
 			case 15:
 				if (tile instanceof Crystallizer) return new ContainerCrystallizer(player, (Crystallizer) tile);
 			case 16:
-				if (tile instanceof Dissolver) return new ContainerDissolver(player, (Dissolver) tile);
+				if (tile instanceof Enricher) return new ContainerEnricher(player, (Enricher) tile);
 			case 17:
 				if (tile instanceof Extractor) return new ContainerExtractor(player, (Extractor) tile);
 			case 18:
@@ -153,7 +153,7 @@ public class GuiHandler implements IGuiHandler {
 			case 1008:
 				if (tile instanceof Supercooler) return new ContainerMachineConfig(player, (Supercooler) tile);
 			case 1009:
-				if (tile instanceof Electrolyser) return new ContainerMachineConfig(player, (Electrolyser) tile);
+				if (tile instanceof Electrolyzer) return new ContainerMachineConfig(player, (Electrolyzer) tile);
 			case 1010:
 				if (tile instanceof Irradiator) return new ContainerMachineConfig(player, (Irradiator) tile);
 			case 1011:
@@ -167,7 +167,7 @@ public class GuiHandler implements IGuiHandler {
 			case 1015:
 				if (tile instanceof Crystallizer) return new ContainerMachineConfig(player, (Crystallizer) tile);
 			case 1016:
-				if (tile instanceof Dissolver) return new ContainerMachineConfig(player, (Dissolver) tile);
+				if (tile instanceof Enricher) return new ContainerMachineConfig(player, (Enricher) tile);
 			case 1017:
 				if (tile instanceof Extractor) return new ContainerMachineConfig(player, (Extractor) tile);
 			case 1018:
@@ -204,7 +204,7 @@ public class GuiHandler implements IGuiHandler {
 			case 8:
 				if (tile instanceof Supercooler) return new GuiSupercooler(player, (Supercooler) tile);
 			case 9:
-				if (tile instanceof Electrolyser) return new GuiElectrolyser(player, (Electrolyser) tile);
+				if (tile instanceof Electrolyzer) return new GuiElectrolyzer(player, (Electrolyzer) tile);
 			case 10:
 				if (tile instanceof Irradiator) return new GuiIrradiator(player, (Irradiator) tile);
 			case 11:
@@ -218,7 +218,7 @@ public class GuiHandler implements IGuiHandler {
 			case 15:
 				if (tile instanceof Crystallizer) return new GuiCrystallizer(player, (Crystallizer) tile);
 			case 16:
-				if (tile instanceof Dissolver) return new GuiDissolver(player, (Dissolver) tile);
+				if (tile instanceof Enricher) return new GuiEnricher(player, (Enricher) tile);
 			case 17:
 				if (tile instanceof Extractor) return new GuiExtractor(player, (Extractor) tile);
 			case 18:
@@ -252,7 +252,7 @@ public class GuiHandler implements IGuiHandler {
 			case 1008:
 				if (tile instanceof Supercooler) return new GuiSupercooler.SideConfig(player, (Supercooler) tile);
 			case 1009:
-				if (tile instanceof Electrolyser) return new GuiElectrolyser.SideConfig(player, (Electrolyser) tile);
+				if (tile instanceof Electrolyzer) return new GuiElectrolyzer.SideConfig(player, (Electrolyzer) tile);
 			case 1010:
 				if (tile instanceof Irradiator) return new GuiIrradiator.SideConfig(player, (Irradiator) tile);
 			case 1011:
@@ -266,7 +266,7 @@ public class GuiHandler implements IGuiHandler {
 			case 1015:
 				if (tile instanceof Crystallizer) return new GuiCrystallizer.SideConfig(player, (Crystallizer) tile);
 			case 1016:
-				if (tile instanceof Dissolver) return new GuiDissolver.SideConfig(player, (Dissolver) tile);
+				if (tile instanceof Enricher) return new GuiEnricher.SideConfig(player, (Enricher) tile);
 			case 1017:
 				if (tile instanceof Extractor) return new GuiExtractor.SideConfig(player, (Extractor) tile);
 			case 1018:

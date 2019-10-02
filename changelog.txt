@@ -1,6 +1,19 @@
+v2o.0.2
+
++ Revamped CraftTweaker integration
+
+* Fixed small efficiency calculation bug
+* Added more useful information to the fission reactor GUI
+* Tweaked fission sink cooling rates
+
+* Fixed TRISO fuel not having a radiation level
+* Fixed radiation-related crash with Cubic Chunks installed
+
+* Renamed and reorganised a few processor blocks and classes
+
 v2o.0.1
 
-* Fixed various bugs in the calculations of reactors' stats
+* Fixed various bugs in the calculations of fission reactor stats
 
 v2o.0.0
 

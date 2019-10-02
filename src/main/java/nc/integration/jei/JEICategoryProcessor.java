@@ -8,6 +8,7 @@ import nc.Global;
 import nc.recipe.ingredient.ChanceFluidIngredient;
 import nc.recipe.ingredient.ChanceItemIngredient;
 import nc.util.Lang;
+import nc.util.NCMath;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
@@ -47,7 +48,7 @@ public abstract class JEICategoryProcessor<WRAPPER extends JEIRecipeWrapperAbstr
 			int outputIndex = slotIndex - recipeWrapper.recipeHandler.itemInputSize;
 			if (outputIndex >= 0 && outputIndex <= recipeWrapper.recipeHandler.itemOutputSize && recipeWrapper.recipe.itemProducts().get(outputIndex) instanceof ChanceItemIngredient) {
 				ChanceItemIngredient chanceIngredient = (ChanceItemIngredient)recipeWrapper.recipe.itemProducts().get(outputIndex);
-				tooltip.add(TextFormatting.WHITE + Lang.localise("jei.nuclearcraft.chance_output", chanceIngredient.minStackSize, chanceIngredient.getMaxStackSize(0), chanceIngredient.meanStackSize));
+				tooltip.add(TextFormatting.WHITE + Lang.localise("jei.nuclearcraft.chance_output", chanceIngredient.minStackSize, chanceIngredient.getMaxStackSize(0), NCMath.decimalPlaces(chanceIngredient.meanStackSize, 2)));
 			}
 		});
 		
@@ -55,7 +56,7 @@ public abstract class JEICategoryProcessor<WRAPPER extends JEIRecipeWrapperAbstr
 			int outputIndex = slotIndex - recipeWrapper.recipeHandler.fluidInputSize;
 			if (outputIndex >= 0 && outputIndex <= recipeWrapper.recipeHandler.fluidOutputSize && recipeWrapper.recipe.fluidProducts().get(outputIndex) instanceof ChanceFluidIngredient) {
 				ChanceFluidIngredient chanceIngredient = (ChanceFluidIngredient)recipeWrapper.recipe.fluidProducts().get(outputIndex);
-				tooltip.add(TextFormatting.WHITE + Lang.localise("jei.nuclearcraft.chance_output", chanceIngredient.minStackSize, chanceIngredient.getMaxStackSize(0), chanceIngredient.meanStackSize));
+				tooltip.add(TextFormatting.WHITE + Lang.localise("jei.nuclearcraft.chance_output", chanceIngredient.minStackSize, chanceIngredient.getMaxStackSize(0), NCMath.decimalPlaces(chanceIngredient.meanStackSize, 2)));
 			}
 		});
 	}

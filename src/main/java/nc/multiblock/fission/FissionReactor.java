@@ -1,5 +1,6 @@
 package nc.multiblock.fission;
 
+import static nc.block.property.BlockProperties.ACTIVE;
 import static nc.block.property.BlockProperties.FACING_ALL;
 
 import java.util.ArrayList;
@@ -39,6 +40,7 @@ import nc.multiblock.fission.tile.IFissionSpecialComponent;
 import nc.multiblock.fission.tile.TileFissionConductor;
 import nc.multiblock.fission.tile.TileFissionPort;
 import nc.multiblock.fission.tile.TileFissionSource;
+import nc.multiblock.fission.tile.TileFissionSource.PrimingTargetInfo;
 import nc.multiblock.fission.tile.TileFissionVent;
 import nc.multiblock.network.FissionUpdatePacket;
 import nc.multiblock.network.SaltFissionUpdatePacket;
@@ -100,10 +102,10 @@ public class FissionReactor extends CuboidalMultiblockBase<FissionUpdatePacket> 
 	
 	public boolean refreshFlag = true;
 	
-	public boolean isReactorOn, isProcessing;
-	public int fuelComponentCount = 0, heatingRecipeRate = 0, heatPerMB = 32;
-	public long cooling = 0L, heating = 0L, totalHeatMult = 0L, usefulPartCount = 0L;
-	public double meanHeatMult = 0D, totalEfficiency = 0D, meanEfficiency = 0D, sparsityEfficiencyMult = 0D;
+	public boolean isReactorOn;
+	public int fuelComponentCount = 0, heatingRecipeRate = 0;
+	public long cooling = 0L, rawHeating = 0L, totalHeatMult = 0L, usefulPartCount = 0L;
+	public double effectiveHeating = 0D, meanHeatMult = 0D, totalEfficiency = 0D, meanEfficiency = 0D, sparsityEfficiencyMult = 0D, heatPerInputSize = 128D, heatingOutputRate = 0D;
 	
 	public FissionReactor(World world) {
 		super(world);
@@ -237,6 +239,7 @@ public class FissionReactor extends CuboidalMultiblockBase<FissionUpdatePacket> 
 	}
 	
 	protected void refreshReactor() {
+		refreshFlag = false;
 		if (!isAssembled()) return;
 		
 		final ObjectSet<IFissionFuelComponent> primedCache = new ObjectOpenHashSet<>();
@@ -245,7 +248,10 @@ public class FissionReactor extends CuboidalMultiblockBase<FissionUpdatePacket> 
 				IFissionFuelComponent fuelComponent = (IFissionFuelComponent) component;
 				fuelComponent.refreshIsProcessing(false);
 				if (fuelComponent.isFunctional()) {
-					primedCache.add(fuelComponent);
+					fuelComponent.tryPriming(this);
+					if (fuelComponent.isPrimed()) {
+						primedCache.add(fuelComponent);
+					}
 				}
 			}
 			component.setCluster(null);
@@ -261,26 +267,26 @@ public class FissionReactor extends CuboidalMultiblockBase<FissionUpdatePacket> 
 			
 		}
 		else {
-			for (IFissionFuelComponent primedComponent : primedCache) {
-				primedComponent.tryPriming(this);
-				primedComponent.fluxSearch();
-			}
-			
 			for (TileFissionSource source : sourceMap.values()) {
 				EnumFacing facing = source.getPartPosition().getFacing();
 				if (facing != null) {
-					WORLD.setBlockState(source.getPos(), WORLD.getBlockState(source.getPos()).withProperty(FACING_ALL, facing), 3);
+					WORLD.setBlockState(source.getPos(), WORLD.getBlockState(source.getPos()).withProperty(FACING_ALL, facing), 2);
 				}
+				source.refreshIsRedstonePowered(WORLD, source.getPos());
+				WORLD.setBlockState(source.getPos(), WORLD.getBlockState(source.getPos()).withProperty(ACTIVE, source.getIsRedstonePowered()), 3);
 				
 				if (!source.getIsRedstonePowered()) continue;
-				IFissionFuelComponent fuelComponent = source.getPrimingTarget();
-				if (fuelComponent == null || fuelComponent.isFluxSearched()) continue;
+				PrimingTargetInfo targetInfo = source.getPrimingTarget();
+				if (targetInfo == null || targetInfo.fuelComponent == null) continue;
 				
-				fuelComponent.tryPriming(this);
-				if (fuelComponent.isPrimed()) {
-					primedCache.add(fuelComponent);
-					fuelComponent.fluxSearch();
+				targetInfo.fuelComponent.tryPriming(this);
+				if (targetInfo.fuelComponent.isPrimed()) {
+					primedCache.add(targetInfo.fuelComponent);
 				}
+			}
+			
+			for (IFissionFuelComponent primedComponent : primedCache) {
+				primedComponent.fluxSearch();
 			}
 			
 			for (IFissionFuelComponent primedComponent : primedCache) {
@@ -327,9 +333,12 @@ public class FissionReactor extends CuboidalMultiblockBase<FissionUpdatePacket> 
 	}
 	
 	public void onSourceUpdated(TileFissionSource source) {
-		if (!source.getIsRedstonePowered()) return;
-		IFissionFuelComponent fuelComponent = source.getPrimingTarget();
-		if (!fuelComponent.isFunctional()) refreshReactor();
+		if (!source.getIsRedstonePowered()) {
+			refreshFlag = true;
+			return;
+		}
+		PrimingTargetInfo targetInfo = source.getPrimingTarget();
+		if (targetInfo != null && (!targetInfo.fuelComponent.isFunctional() || targetInfo.newSourceEfficiency)) refreshFlag = true;
 	}
 	
 	/** Only use when the cluster geometry isn't changed and there is no effect on other clusters! */
@@ -346,7 +355,8 @@ public class FissionReactor extends CuboidalMultiblockBase<FissionUpdatePacket> 
 				usefulPartCount += cluster.componentCount;
 				fuelComponentCount += cluster.fuelComponentCount;
 				cooling += cluster.cooling;
-				heating += cluster.heating;
+				rawHeating += cluster.rawHeating;
+				effectiveHeating += cluster.effectiveHeating;
 				totalHeatMult += cluster.totalHeatMult;
 				totalEfficiency += cluster.totalEfficiency;
 			}
@@ -355,6 +365,7 @@ public class FissionReactor extends CuboidalMultiblockBase<FissionUpdatePacket> 
 		usefulPartCount += passiveModeratorCache.size() + activeModeratorCache.size() + activeReflectorCache.size();
 		double usefulPartRatio = (double)usefulPartCount/(double)getInteriorVolume();
 		sparsityEfficiencyMult = usefulPartRatio >= NCConfig.fission_sparsity_penalty_params[1] ? 1D : (1D - NCConfig.fission_sparsity_penalty_params[0])*Math.sin(usefulPartRatio*Math.PI/(2D*NCConfig.fission_sparsity_penalty_params[1])) + NCConfig.fission_sparsity_penalty_params[0];
+		effectiveHeating *= sparsityEfficiencyMult;
 		totalEfficiency *= sparsityEfficiencyMult;
 		meanHeatMult = fuelComponentCount == 0 ? 0D : (double)totalHeatMult/(double)fuelComponentCount;
 		meanEfficiency = fuelComponentCount == 0 ? 0D : totalEfficiency/fuelComponentCount;
@@ -375,7 +386,7 @@ public class FissionReactor extends CuboidalMultiblockBase<FissionUpdatePacket> 
 		clusterCount = clusterMap.size();
 	}
 	
-	public void mergeClusters(long assimilatorId, FissionCluster targetCluster) {
+	public void mergeClusters(int assimilatorId, FissionCluster targetCluster) {
 		if (assimilatorId == targetCluster.getId()) return;
 		FissionCluster assimilatorCluster = clusterMap.get(assimilatorId);
 		for (IFissionComponent component : targetCluster.getComponentMap().values()) {
@@ -400,8 +411,8 @@ public class FissionReactor extends CuboidalMultiblockBase<FissionUpdatePacket> 
 	protected void resetStats() {
 		isReactorOn = false;
 		fuelComponentCount = heatingRecipeRate = 0;
-		cooling = heating = totalHeatMult = usefulPartCount = 0L;
-		meanHeatMult = totalEfficiency = meanEfficiency = sparsityEfficiencyMult = 0D;
+		cooling = rawHeating = totalHeatMult = usefulPartCount = 0L;
+		effectiveHeating = meanHeatMult = totalEfficiency = meanEfficiency = sparsityEfficiencyMult = heatingOutputRate = 0D;
 	}
 	
 	@Override
@@ -473,7 +484,6 @@ public class FissionReactor extends CuboidalMultiblockBase<FissionUpdatePacket> 
 	protected boolean updateServer() {
 		if (refreshFlag) {
 			refreshReactor();
-			refreshFlag = false;
 		}
 		updateActivity();
 		
@@ -481,7 +491,7 @@ public class FissionReactor extends CuboidalMultiblockBase<FissionUpdatePacket> 
 			
 		}
 		else if (type == FissionReactorType.SOLID_FUEL) {
-			heatBuffer.changeHeatStored(heating);
+			heatBuffer.changeHeatStored(rawHeating);
 			updateFluidHeating();
 		}
 		else {
@@ -514,7 +524,7 @@ public class FissionReactor extends CuboidalMultiblockBase<FissionUpdatePacket> 
 	
 	public void updateActivity() {
 		boolean wasReactorOn = isReactorOn;
-		isReactorOn = heating > 0L && isAssembled();
+		isReactorOn = rawHeating > 0L && isAssembled();
 		if (isReactorOn != wasReactorOn) {
 			if (controller != null) controller.updateBlockState(isReactorOn);
 			sendUpdateToAllPlayers();
@@ -532,7 +542,7 @@ public class FissionReactor extends CuboidalMultiblockBase<FissionUpdatePacket> 
 	}*/
 	
 	public long getNetHeating() {
-		return heating - cooling;
+		return rawHeating - cooling;
 	}
 	
 	public int getTemperature() {
@@ -548,16 +558,11 @@ public class FissionReactor extends CuboidalMultiblockBase<FissionUpdatePacket> 
 		if (isReactorOn) {
 			refreshRecipe();
 			if (canProcessInputs()) {
-				isProcessing = true;
 				produceProducts();
-			}
-			else {
-				isProcessing = false;
+				return;
 			}
 		}
-		else {
-			isProcessing = false;
-		}
+		heatingOutputRate = 0D;
 	}
 	
 	protected void refreshRecipe() {
@@ -572,17 +577,19 @@ public class FissionReactor extends CuboidalMultiblockBase<FissionUpdatePacket> 
 	protected boolean setRecipeStats() {
 		if (recipeInfo == null) {
 			heatingRecipeRate = 0;
-			heatPerMB = 32;
+			heatPerInputSize = 128D;
 			return false;
 		}
-		heatPerMB = recipeInfo.getRecipe().getFissionHeatingHeatPerMB();
+		ProcessorRecipe recipe = recipeInfo.getRecipe();
+		heatPerInputSize = (double)recipe.getFissionHeatingHeatPerInputMB()/(double)recipe.fluidIngredients().get(0).getMaxStackSize(recipeInfo.getFluidIngredientNumbers().get(0));
 		return true;
 	}
 	
 	protected boolean canProduceProducts() {
 		IFluidIngredient fluidProduct = recipeInfo.getRecipe().fluidProducts().get(0);
 		if (fluidProduct.getMaxStackSize(0) <= 0 || fluidProduct.getStack() == null) return false;
-		heatingRecipeRate = Math.min(tanks.get(0).getFluidAmount(), getMaxHeatingRecipeRateMultiplier());
+		heatingRecipeRate = Math.min(tanks.get(0).getFluidAmount(), (int) getMaxHeatingRecipeRate(true));
+		heatingOutputRate = Math.min(tanks.get(0).getFluidAmount(), getMaxHeatingRecipeRate(false));
 		if (!tanks.get(1).isEmpty()) {
 			if (!tanks.get(1).getFluid().isFluidEqual(fluidProduct.getStack())) {
 				return false;
@@ -593,7 +600,6 @@ public class FissionReactor extends CuboidalMultiblockBase<FissionUpdatePacket> 
 		return true;
 	}
 	
-	//TODO - tweak to deal with recipe inputs of size greater than 1 mB
 	public void produceProducts() {
 		int fluidIngredientStackSize = recipeInfo.getRecipe().fluidIngredients().get(0).getMaxStackSize(recipeInfo.getFluidIngredientNumbers().get(0))*heatingRecipeRate;
 		if (fluidIngredientStackSize > 0) tanks.get(0).changeFluidAmount(-fluidIngredientStackSize);
@@ -603,18 +609,25 @@ public class FissionReactor extends CuboidalMultiblockBase<FissionUpdatePacket> 
 		if (fluidProduct.getMaxStackSize(0) > 0) {
 			if (tanks.get(1).isEmpty()) {
 				tanks.get(1).setFluidStored(fluidProduct.getNextStack(0));
-				tanks.get(1).setFluidAmount(tanks.get(1).getFluidAmount()*heatingRecipeRate);
+				int amount = tanks.get(1).getFluidAmount();
+				tanks.get(1).setFluidAmount(amount*heatingRecipeRate);
+				heatingOutputRate *= amount;
 			} else if (tanks.get(1).getFluid().isFluidEqual(fluidProduct.getStack())) {
-				tanks.get(1).changeFluidAmount(fluidProduct.getNextStackSize(0)*heatingRecipeRate);
+				int amount = fluidProduct.getNextStackSize(0);
+				tanks.get(1).changeFluidAmount(amount*heatingRecipeRate);
+				heatingOutputRate *= amount;
 			}
 		}
-		
-		heatBuffer.changeHeatStored(-heatingRecipeRate*heatPerMB);
+		heatBuffer.changeHeatStored(-Math.min(Integer.MAX_VALUE, Math.round(heatingRecipeRate*heatPerInputSize/getEfficiencyRecipeRateMultiplier())));
 	}
 	
-	//TODO - config
-	public int getMaxHeatingRecipeRateMultiplier() {
-		return (int) (Math.min(heatBuffer.getHeatStored(), 2L*heating)/heatPerMB);
+	protected double getMaxHeatingRecipeRate(boolean ceil) {
+		double rate = Math.min(heatBuffer.getHeatStored(), cooling)*getEfficiencyRecipeRateMultiplier()/heatPerInputSize;
+		return Math.min(Integer.MAX_VALUE, (ceil && heatBuffer.getHeatStored() > cooling) ? Math.ceil(rate) : rate);
+	}
+	
+	protected double getEfficiencyRecipeRateMultiplier() {
+		return rawHeating == 0 ? 0D : effectiveHeating/rawHeating;
 	}
 	
 	protected void doMeltdown() {
@@ -624,6 +637,8 @@ public class FissionReactor extends CuboidalMultiblockBase<FissionUpdatePacket> 
 			controllerIterator.remove();
 			controller.doMeltdown();
 		}
+		
+		//TODO - graphite fires
 		
 		//TODO - explosions if vents are present, melt casing if not
 		if (ventMap.isEmpty()) {
@@ -679,7 +694,8 @@ public class FissionReactor extends CuboidalMultiblockBase<FissionUpdatePacket> 
 		data.setBoolean("isReactorOn", isReactorOn);
 		data.setInteger("clusterCount", clusterCount);
 		data.setLong("cooling", cooling);
-		data.setLong("heating", heating);
+		data.setLong("rawHeating", rawHeating);
+		data.setDouble("effectiveHeating", effectiveHeating);
 		data.setLong("totalHeatMult", totalHeatMult);
 		data.setDouble("meanHeatMult", meanHeatMult);
 		data.setInteger("fuelComponentCount", fuelComponentCount);
@@ -697,7 +713,8 @@ public class FissionReactor extends CuboidalMultiblockBase<FissionUpdatePacket> 
 		isReactorOn = data.getBoolean("isReactorOn");
 		clusterCount = data.getInteger("clusterCount");
 		cooling = data.getLong("cooling");
-		heating = data.getLong("heating");
+		rawHeating = data.getLong("rawHeating");
+		effectiveHeating = data.getDouble("effectiveHeating");
 		totalHeatMult = data.getLong("totalHeatMult");
 		meanHeatMult = data.getDouble("meanHeatMult");
 		fuelComponentCount = data.getInteger("fuelComponentCount");
@@ -730,10 +747,10 @@ public class FissionReactor extends CuboidalMultiblockBase<FissionUpdatePacket> 
 			
 		}
 		else*/ if (type == FissionReactorType.SOLID_FUEL) {
-			return new SolidFissionUpdatePacket(controller.getTilePos(), isReactorOn, clusterCount, cooling, heating, totalHeatMult, meanHeatMult, fuelComponentCount, usefulPartCount, totalEfficiency, meanEfficiency, sparsityEfficiencyMult, heatBuffer.getHeatCapacity(), heatBuffer.getHeatStored());
+			return new SolidFissionUpdatePacket(controller.getTilePos(), isReactorOn, clusterCount, cooling, rawHeating, effectiveHeating, totalHeatMult, meanHeatMult, fuelComponentCount, usefulPartCount, totalEfficiency, meanEfficiency, sparsityEfficiencyMult, heatBuffer.getHeatCapacity(), heatBuffer.getHeatStored(), heatingOutputRate);
 		}
 		else {
-			return new SaltFissionUpdatePacket(controller.getTilePos(), isReactorOn, clusterCount, cooling, heating, totalHeatMult, meanHeatMult, fuelComponentCount, usefulPartCount, totalEfficiency, meanEfficiency, sparsityEfficiencyMult, heatBuffer.getHeatCapacity(), heatBuffer.getHeatStored());
+			return new SaltFissionUpdatePacket(controller.getTilePos(), isReactorOn, clusterCount, cooling, rawHeating, effectiveHeating, totalHeatMult, meanHeatMult, fuelComponentCount, usefulPartCount, totalEfficiency, meanEfficiency, sparsityEfficiencyMult, heatBuffer.getHeatCapacity(), heatBuffer.getHeatStored(), heatingOutputRate);
 		}
 	}
 	
@@ -742,7 +759,8 @@ public class FissionReactor extends CuboidalMultiblockBase<FissionUpdatePacket> 
 		isReactorOn = message.isReactorOn;
 		clusterCount = message.clusterCount;
 		cooling = message.cooling;
-		heating = message.heating;
+		rawHeating = message.rawHeating;
+		effectiveHeating = message.effectiveHeating;
 		totalHeatMult = message.totalHeatMult;
 		meanHeatMult = message.meanHeatMult;
 		fuelComponentCount = message.fuelComponentCount;
@@ -752,6 +770,7 @@ public class FissionReactor extends CuboidalMultiblockBase<FissionUpdatePacket> 
 		sparsityEfficiencyMult = message.sparsityEfficiencyMult;
 		heatBuffer.setHeatCapacity(message.capacity);
 		heatBuffer.setHeatStored(message.heat);
+		heatingOutputRate = message.heatingOutputRate;
 	}
 	
 	public Container getContainer(EntityPlayer player) {

@@ -32,7 +32,7 @@ info.nuclearcraft.moderator.efficiency.fixd=Efficiency Multiplier: %s
 
 info.nuclearcraft.moderator.desc=Moderators are the medium through which one fission reactor cell/vessel sends neutron flux to another or itself. A moderator line consists of EITHER at most %s collimated moderators with a cell/vessel at one endpoint and a cell/vessel at the other OR at most %s collimated moderators with a cell/vessel at one endpoint and a neutron reflector at the other. Moderators are only considered 'active' if part of a line AND adjacent to at least one functional endpoint cell/vessel. A primed or functional cell/vessel sends flux down the line, either to be accepted by the other cell/vessel or to be sent back by the reflector. The total flux sent is the sum of flux factors of the moderators in the line. This is doubled in the case of reflection, and is multiplied by the reflector's reflectivity factor. Finally, the total efficiency of the cells at the line endpoints is multiplied by the mean efficiency of the lines it receives flux from - the efficiency of a line is the mean efficiency multiplier of the moderators in the line.
 
-tile.nuclearcraft.fission_reflector.name=Heavy Water Moderator
+tile.nuclearcraft.fission_reflector.name=Neutron Reflector
 
 info.nuclearcraft.reflector.fixd=Fission Reactor Reflector
 info.nuclearcraft.reflector.efficiency.fixd=Efficiency Multiplier: %s
@@ -80,8 +80,8 @@ tile.nuclearcraft.melter.desc=Melts down materials.
 tile.nuclearcraft.supercooler.name=Supercooler
 tile.nuclearcraft.supercooler.desc=Lowers the temperature of fluids.
 
-tile.nuclearcraft.electrolyser.name=Electrolyzer
-tile.nuclearcraft.electrolyser.desc=Splits compounds into their elements.
+tile.nuclearcraft.electrolyzer.name=Electrolyzer
+tile.nuclearcraft.electrolyzer.desc=Splits compounds into their elements.
 
 tile.nuclearcraft.irradiator.name=Neutron Irradiator
 tile.nuclearcraft.irradiator.desc=Induces changes to nuclear structure.
@@ -101,8 +101,8 @@ tile.nuclearcraft.salt_mixer.desc=Blends fluids together.
 tile.nuclearcraft.crystallizer.name=Crystallizer
 tile.nuclearcraft.crystallizer.desc=Precipitates solids from solution.
 
-tile.nuclearcraft.dissolver.name=Fluid Enricher
-tile.nuclearcraft.dissolver.desc=Enriches fluids with materials.
+tile.nuclearcraft.enricher.name=Fluid Enricher
+tile.nuclearcraft.enricher.desc=Enriches fluids with materials.
 
 tile.nuclearcraft.extractor.name=Fluid Extractor
 tile.nuclearcraft.extractor.desc=Draws fluids from materials.
@@ -2461,14 +2461,14 @@ nuclearcraft.container.alloy_furnace=Alloy Furnace
 nuclearcraft.container.infuser=Fluid Infuser
 nuclearcraft.container.melter=Melter
 nuclearcraft.container.supercooler=Supercooler
-nuclearcraft.container.electrolyser=Electrolyzer
+nuclearcraft.container.electrolyzer=Electrolyzer
 nuclearcraft.container.irradiator=Neutron Irradiator
 nuclearcraft.container.ingot_former=Ingot Former
 nuclearcraft.container.pressurizer=Pressurizer
 nuclearcraft.container.chemical_reactor=Chemical Reactor
 nuclearcraft.container.salt_mixer=Salt Mixer
 nuclearcraft.container.crystallizer=Crystallizer
-nuclearcraft.container.dissolver=Fluid Enricher
+nuclearcraft.container.enricher=Fluid Enricher
 nuclearcraft.container.extractor=Fluid Extractor
 nuclearcraft.container.centrifuge=Centrifuge
 nuclearcraft.container.rock_crusher=Rock Crusher
@@ -2500,6 +2500,7 @@ gui.nc.container.fission_controller.heat_stored=Casing Heat Level:
 
 gui.nc.container.solid_fission_controller.reactor=Solid Fuel Reactor (WIP)
 gui.nc.container.solid_fission_controller.efficiency=Mean Cluster Efficiency:
+gui.nc.container.solid_fission_controller.output_rate=Production Rate:
 
 gui.nc.container.fusion_core.reactor=Fusion Reactor
 gui.nc.container.fusion_core.ring_incomplete=Ring Incomplete
@@ -2625,8 +2626,8 @@ advancement.nuclearcraft.isotope_separator.desc=Craft an Isotope Separator
 advancement.nuclearcraft.voltaic_pile_basic.name=Electric Avenue
 advancement.nuclearcraft.voltaic_pile_basic.desc=Craft a Basic Voltaic Pile
 
-advancement.nuclearcraft.electrolyser.name=Fizzing Electrodes
-advancement.nuclearcraft.electrolyser.desc=Craft an Electrolyzer
+advancement.nuclearcraft.electrolyzer.name=Fizzing Electrodes
+advancement.nuclearcraft.electrolyzer.desc=Craft an Electrolyzer
 
 advancement.nuclearcraft.decay_generator.name=Alpha Power
 advancement.nuclearcraft.decay_generator.desc=Craft a Decay Generator
@@ -2691,8 +2692,8 @@ advancement.nuclearcraft.supercooler.desc=Craft a Supercooler
 advancement.nuclearcraft.extractor.name=Squeezing the Sponge
 advancement.nuclearcraft.extractor.desc=Craft a Fluid Extractor
 
-advancement.nuclearcraft.dissolver.name=Chemical Brewery
-advancement.nuclearcraft.dissolver.desc=Craft a Fluid Enricher
+advancement.nuclearcraft.enricher.name=Chemical Brewery
+advancement.nuclearcraft.enricher.desc=Craft a Fluid Enricher
 
 advancement.nuclearcraft.nuclear_furnace.name=Kitchen Nightmare
 advancement.nuclearcraft.nuclear_furnace.desc=Craft a Nuclear Furnace
