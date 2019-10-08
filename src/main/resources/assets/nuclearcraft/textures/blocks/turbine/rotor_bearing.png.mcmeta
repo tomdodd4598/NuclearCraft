@@ -4,7 +4,7 @@
 		"type":"ctm",
 		"layer":"SOLID",
 		"textures":[
-			"nuclearcraft:blocks/turbine/turbine_rotor_bearing_ctm"
+			"nuclearcraft:blocks/turbine/rotor_bearing_ctm"
 		]
 	}
 }

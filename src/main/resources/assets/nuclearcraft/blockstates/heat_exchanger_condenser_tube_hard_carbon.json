@@ -2,13 +2,13 @@
 	"forge_marker": 1,
 	"defaults": {
 		"textures": {
-			"particle":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_condenser_tube_hard_carbon",
-			"north":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_condenser_tube_hard_carbon",
-			"east":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_condenser_tube_hard_carbon",
-			"south":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_condenser_tube_hard_carbon",
-			"west":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_condenser_tube_hard_carbon",
-			"up":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_condenser_tube_hard_carbon",
-			"down":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_condenser_tube_hard_carbon"
+			"particle":"nuclearcraft:blocks/heat_exchanger/condenser_tube/hard_carbon",
+			"north":"nuclearcraft:blocks/heat_exchanger/condenser_tube/hard_carbon",
+			"east":"nuclearcraft:blocks/heat_exchanger/condenser_tube/hard_carbon",
+			"south":"nuclearcraft:blocks/heat_exchanger/condenser_tube/hard_carbon",
+			"west":"nuclearcraft:blocks/heat_exchanger/condenser_tube/hard_carbon",
+			"up":"nuclearcraft:blocks/heat_exchanger/condenser_tube/hard_carbon",
+			"down":"nuclearcraft:blocks/heat_exchanger/condenser_tube/hard_carbon"
 		},
 		"model":"cube",
 		"transform":"forge:default-block"
@@ -18,132 +18,132 @@
 		"north": {
 			"default": {
 			   "textures": {
-					"north":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_condenser_tube_hard_carbon/default"
+					"north":"nuclearcraft:blocks/heat_exchanger/condenser_tube/hard_carbon/default"
 				}
 			},
 			"input_spread": {
 			   "textures": {
-					"north":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_condenser_tube_hard_carbon/input_spread"
+					"north":"nuclearcraft:blocks/heat_exchanger/condenser_tube/hard_carbon/input_spread"
 				}
 			},
 			"product_out": {
 				 "textures": {
-					"north":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_condenser_tube_hard_carbon/product_out"
+					"north":"nuclearcraft:blocks/heat_exchanger/condenser_tube/hard_carbon/product_out"
 				}
 			},
 			"disabled": {
 				 "textures": {
-					"north":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_condenser_tube_hard_carbon/disabled"
+					"north":"nuclearcraft:blocks/heat_exchanger/condenser_tube/hard_carbon/disabled"
 				}
 			}
 		},
 		"east": {
 			"default": {
 			   "textures": {
-					"east":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_condenser_tube_hard_carbon/default"
+					"east":"nuclearcraft:blocks/heat_exchanger/condenser_tube/hard_carbon/default"
 				}
 			},
 			"input_spread": {
 			   "textures": {
-					"east":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_condenser_tube_hard_carbon/input_spread"
+					"east":"nuclearcraft:blocks/heat_exchanger/condenser_tube/hard_carbon/input_spread"
 				}
 			},
 			"product_out": {
 				 "textures": {
-					"east":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_condenser_tube_hard_carbon/product_out"
+					"east":"nuclearcraft:blocks/heat_exchanger/condenser_tube/hard_carbon/product_out"
 				}
 			},
 			"disabled": {
 				 "textures": {
-					"east":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_condenser_tube_hard_carbon/disabled"
+					"east":"nuclearcraft:blocks/heat_exchanger/condenser_tube/hard_carbon/disabled"
 				}
 			}
 		},
 		"south": {
 			"default": {
 			   "textures": {
-					"south":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_condenser_tube_hard_carbon/default"
+					"south":"nuclearcraft:blocks/heat_exchanger/condenser_tube/hard_carbon/default"
 				}
 			},
 			"input_spread": {
 			   "textures": {
-					"south":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_condenser_tube_hard_carbon/input_spread"
+					"south":"nuclearcraft:blocks/heat_exchanger/condenser_tube/hard_carbon/input_spread"
 				}
 			},
 			"product_out": {
 				 "textures": {
-					"south":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_condenser_tube_hard_carbon/product_out"
+					"south":"nuclearcraft:blocks/heat_exchanger/condenser_tube/hard_carbon/product_out"
 				}
 			},
 			"disabled": {
 				 "textures": {
-					"south":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_condenser_tube_hard_carbon/disabled"
+					"south":"nuclearcraft:blocks/heat_exchanger/condenser_tube/hard_carbon/disabled"
 				}
 			}
 		},
 		"west": {
 			"default": {
 			   "textures": {
-					"west":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_condenser_tube_hard_carbon/default"
+					"west":"nuclearcraft:blocks/heat_exchanger/condenser_tube/hard_carbon/default"
 				}
 			},
 			"input_spread": {
 			   "textures": {
-					"west":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_condenser_tube_hard_carbon/input_spread"
+					"west":"nuclearcraft:blocks/heat_exchanger/condenser_tube/hard_carbon/input_spread"
 				}
 			},
 			"product_out": {
 				 "textures": {
-					"west":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_condenser_tube_hard_carbon/product_out"
+					"west":"nuclearcraft:blocks/heat_exchanger/condenser_tube/hard_carbon/product_out"
 				}
 			},
 			"disabled": {
 				 "textures": {
-					"west":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_condenser_tube_hard_carbon/disabled"
+					"west":"nuclearcraft:blocks/heat_exchanger/condenser_tube/hard_carbon/disabled"
 				}
 			}
 		},
 		"up": {
 			"default": {
 			   "textures": {
-					"up":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_condenser_tube_hard_carbon/default"
+					"up":"nuclearcraft:blocks/heat_exchanger/condenser_tube/hard_carbon/default"
 				}
 			},
 			"input_spread": {
 			   "textures": {
-					"up":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_condenser_tube_hard_carbon/input_spread"
+					"up":"nuclearcraft:blocks/heat_exchanger/condenser_tube/hard_carbon/input_spread"
 				}
 			},
 			"product_out": {
 				 "textures": {
-					"up":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_condenser_tube_hard_carbon/product_out"
+					"up":"nuclearcraft:blocks/heat_exchanger/condenser_tube/hard_carbon/product_out"
 				}
 			},
 			"disabled": {
 				 "textures": {
-					"up":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_condenser_tube_hard_carbon/disabled"
+					"up":"nuclearcraft:blocks/heat_exchanger/condenser_tube/hard_carbon/disabled"
 				}
 			}
 		},
 		"down": {
 			"default": {
 			   "textures": {
-					"down":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_condenser_tube_hard_carbon/default"
+					"down":"nuclearcraft:blocks/heat_exchanger/condenser_tube/hard_carbon/default"
 				}
 			},
 			"input_spread": {
 			   "textures": {
-					"down":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_condenser_tube_hard_carbon/input_spread"
+					"down":"nuclearcraft:blocks/heat_exchanger/condenser_tube/hard_carbon/input_spread"
 				}
 			},
 			"product_out": {
 				 "textures": {
-					"down":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_condenser_tube_hard_carbon/product_out"
+					"down":"nuclearcraft:blocks/heat_exchanger/condenser_tube/hard_carbon/product_out"
 				}
 			},
 			"disabled": {
 				 "textures": {
-					"down":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_condenser_tube_hard_carbon/disabled"
+					"down":"nuclearcraft:blocks/heat_exchanger/condenser_tube/hard_carbon/disabled"
 				}
 			}
 		}

@@ -1,5 +1,7 @@
 package nc.multiblock.turbine.tile;
 
+import static nc.block.property.BlockProperties.AXIS_ALL;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,9 +23,12 @@ import nc.tile.internal.fluid.TankOutputSetting;
 import nc.tile.internal.fluid.TankSorption;
 import nc.tile.passive.ITilePassive;
 import nc.util.GasHelper;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
@@ -50,14 +55,19 @@ public class TileTurbineOutlet extends TileTurbinePartBase implements ITileFluid
 	public void onMachineAssembled(Turbine controller) {
 		doStandardNullControllerResponse(controller);
 		super.onMachineAssembled(controller);
-		//if (getWorld().isRemote) return;
+		if (!getWorld().isRemote && getPartPosition().getFacing() != null) {
+			getWorld().setBlockState(getPos(), getWorld().getBlockState(getPos()).withProperty(AXIS_ALL, getPartPosition().getFacing().getAxis()), 2);
+		}
 	}
 	
 	@Override
 	public void onMachineBroken() {
 		super.onMachineBroken();
-		//if (getWorld().isRemote) return;
-		//getWorld().setBlockState(getPos(), getWorld().getBlockState(getPos()), 2);
+	}
+	
+	@Override
+	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
+		return oldState.getBlock() != newState.getBlock();
 	}
 	
 	@Override
@@ -81,7 +91,7 @@ public class TileTurbineOutlet extends TileTurbinePartBase implements ITileFluid
 		if (!isMultiblockAssembled()) return backupTanks;
 		return getMultiblock().tanks.subList(1, 2);
 	}
-
+	
 	@Override
 	@Nonnull
 	public FluidConnection[] getFluidConnections() {
@@ -92,7 +102,7 @@ public class TileTurbineOutlet extends TileTurbinePartBase implements ITileFluid
 	public void setFluidConnections(@Nonnull FluidConnection[] connections) {
 		fluidConnections = connections;
 	}
-
+	
 	@Override
 	@Nonnull
 	public FluidTileWrapper[] getFluidSides() {
@@ -106,37 +116,35 @@ public class TileTurbineOutlet extends TileTurbinePartBase implements ITileFluid
 	
 	@Override
 	public void pushFluidToSide(@Nonnull EnumFacing side) {
+		if (!getTankSorption(side, 0).canDrain() || getTanks().get(0).getFluid() == null) return;
+		
 		TileEntity tile = getTileWorld().getTileEntity(getTilePos().offset(side));
 		if (tile == null || tile instanceof TileTurbineOutlet) return;
 		
-		if (tile instanceof ITilePassive) if (!((ITilePassive) tile).canPushFluidsTo()) return;
+		if (tile instanceof ITilePassive) if (!((ITilePassive)tile).canPushFluidsTo()) return;
 		
 		IFluidHandler adjStorage = tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side.getOpposite());
-		if (adjStorage == null) return;
+		if (adjStorage == null || getTanks().get(0).getFluid() == null) return;
 		
-		for (int i = 0; i < getTanks().size(); i++) {
-			if (getTanks().get(i).getFluid() == null || !getTankSorption(side, i).canDrain()) continue;
-			
-			getTanks().get(i).drain(adjStorage.fill(getTanks().get(i).drain(getTanks().get(i).getCapacity(), false), true), true);
-		}
+		getTanks().get(0).drain(adjStorage.fill(getTanks().get(0).drain(getTanks().get(0).getCapacity(), false), true), true);
 	}
-
+	
 	@Override
 	public boolean getInputTanksSeparated() {
 		return false;
 	}
-
+	
 	@Override
 	public void setInputTanksSeparated(boolean separated) {}
-
+	
 	@Override
 	public boolean getVoidUnusableFluidInput(int tankNumber) {
 		return false;
 	}
-
+	
 	@Override
 	public void setVoidUnusableFluidInput(int tankNumber, boolean voidUnusableFluidInput) {}
-
+	
 	@Override
 	public TankOutputSetting getTankOutputSetting(int tankNumber) {
 		return TankOutputSetting.DEFAULT;
@@ -169,7 +177,7 @@ public class TileTurbineOutlet extends TileTurbinePartBase implements ITileFluid
 		}
 		return super.hasCapability(capability, side);
 	}
-
+	
 	@Override
 	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing side) {
 		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {

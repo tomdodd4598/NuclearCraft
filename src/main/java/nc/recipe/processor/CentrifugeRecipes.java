@@ -21,7 +21,7 @@ public class CentrifugeRecipes extends ProcessorRecipeHandler {
 		addCoolantNAKRecipe("lapis", FluidStackHelper.GEM_BLOCK_VOLUME);
 		addCoolantNAKRecipe("diamond", FluidStackHelper.GEM_VOLUME*4);
 		addCoolantNAKRecipe("liquid_helium", FluidStackHelper.BUCKET_VOLUME/2);
-		addCoolantNAKRecipe("ender", FluidStackHelper.EUM_DUST_VOLUME*4);
+		addCoolantNAKRecipe("enderium", FluidStackHelper.INGOT_VOLUME*4);
 		addCoolantNAKRecipe("cryotheum", FluidStackHelper.EUM_DUST_VOLUME*4);
 		addCoolantNAKRecipe("iron", FluidStackHelper.INGOT_VOLUME*4);
 		addCoolantNAKRecipe("emerald", FluidStackHelper.GEM_VOLUME*3);

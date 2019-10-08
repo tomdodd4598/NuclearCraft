@@ -4,6 +4,7 @@ import nc.block.fluid.BlockFluidAcid;
 import nc.block.fluid.BlockFluidChocolate;
 import nc.block.fluid.BlockFluidCoolant;
 import nc.block.fluid.BlockFluidCorium;
+import nc.block.fluid.BlockFluidCryotheum;
 import nc.block.fluid.BlockFluidFission;
 import nc.block.fluid.BlockFluidFlammable;
 import nc.block.fluid.BlockFluidGas;
@@ -22,6 +23,7 @@ import nc.fluid.FluidAcid;
 import nc.fluid.FluidChocolate;
 import nc.fluid.FluidCoolant;
 import nc.fluid.FluidCorium;
+import nc.fluid.FluidCryotheum;
 import nc.fluid.FluidFission;
 import nc.fluid.FluidFlammable;
 import nc.fluid.FluidGas;
@@ -54,7 +56,8 @@ public enum FluidType {
 	CHOCOLATE(FluidChocolate.class, BlockFluidChocolate.class),
 	SUGAR(FluidSugar.class, BlockFluidSugar.class),
 	COOLANT(FluidCoolant.class, BlockFluidCoolant.class),
-	HOT_COOLANT(FluidHotCoolant.class, BlockFluidHotCoolant.class);
+	HOT_COOLANT(FluidHotCoolant.class, BlockFluidHotCoolant.class),
+	CRYOTHEUM(FluidCryotheum.class, BlockFluidCryotheum.class);
 	
 	private Class<? extends Fluid> fluidClass;
 	private Class<? extends NCBlockFluid> blockClass;

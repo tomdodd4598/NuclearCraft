@@ -103,7 +103,7 @@ public class RenderTurbineRotor extends TileEntitySpecialRenderer<TileTurbineCon
 		GlStateManager.translate(-pos.getX() + rX, -pos.getY() + rY, -pos.getZ() + rZ);
 		
 		for (TileTurbineRotorShaft shaft : turbine.getRotorShafts()) {
-			if (!isStatorSet[shaft.depth]) continue;
+			if (!shaft.render || !isStatorSet[shaft.depth]) continue;
 			GlStateManager.pushMatrix();
 			pos = shaft.getPos();
 			GlStateManager.translate(pos.getX(), pos.getY(), pos.getZ());

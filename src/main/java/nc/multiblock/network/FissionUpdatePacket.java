@@ -7,14 +7,14 @@ public abstract class FissionUpdatePacket extends MultiblockUpdatePacket {
 	
 	public boolean isReactorOn;
 	public int clusterCount, fuelComponentCount;
-	public long cooling, rawHeating, totalHeatMult, usefulPartCount, capacity, heat;
-	public double effectiveHeating, meanHeatMult, totalEfficiency, meanEfficiency, sparsityEfficiencyMult, heatingOutputRate;
+	public long cooling, rawHeating, totalHeatMult, usefulPartCount, capacity, heat, netHeating;
+	public double effectiveHeating, meanHeatMult, totalEfficiency, meanEfficiency, sparsityEfficiencyMult, roundedOutputRate;
 	
 	public FissionUpdatePacket() {
 		messageValid = false;
 	}
 	
-	public FissionUpdatePacket(BlockPos pos, boolean isReactorOn, int clusterCount, long cooling, long rawHeating, double effectiveHeating, long totalHeatMult, double meanHeatMult, int fuelComponentCount, long usefulPartCount, double totalEfficiency, double meanEfficiency, double sparsityEfficiencyMult, long capacity, long heat, double heatingOutputRate) {
+	public FissionUpdatePacket(BlockPos pos, boolean isReactorOn, int clusterCount, long cooling, long rawHeating, double effectiveHeating, long totalHeatMult, double meanHeatMult, int fuelComponentCount, long usefulPartCount, double totalEfficiency, double meanEfficiency, double sparsityEfficiencyMult, long capacity, long heat, double roundedOutputRate, long netHeating) {
 		this.pos = pos;
 		this.isReactorOn = isReactorOn;
 		this.clusterCount = clusterCount;
@@ -30,7 +30,8 @@ public abstract class FissionUpdatePacket extends MultiblockUpdatePacket {
 		this.sparsityEfficiencyMult = sparsityEfficiencyMult;
 		this.capacity = capacity;
 		this.heat = heat;
-		this.heatingOutputRate = heatingOutputRate;
+		this.roundedOutputRate = roundedOutputRate;
+		this.netHeating = netHeating;
 		
 		messageValid = true;
 	}
@@ -52,7 +53,8 @@ public abstract class FissionUpdatePacket extends MultiblockUpdatePacket {
 		sparsityEfficiencyMult = buf.readDouble();
 		capacity = buf.readLong();
 		heat = buf.readLong();
-		heatingOutputRate = buf.readDouble();
+		roundedOutputRate = buf.readDouble();
+		netHeating = buf.readLong();
 	}
 	
 	@Override
@@ -74,6 +76,7 @@ public abstract class FissionUpdatePacket extends MultiblockUpdatePacket {
 		buf.writeDouble(sparsityEfficiencyMult);
 		buf.writeLong(capacity);
 		buf.writeLong(heat);
-		buf.writeDouble(heatingOutputRate);
+		buf.writeDouble(roundedOutputRate);
+		buf.writeLong(netHeating);
 	}
 }

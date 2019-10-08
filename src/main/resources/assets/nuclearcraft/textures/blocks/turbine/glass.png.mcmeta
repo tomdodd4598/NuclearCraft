@@ -2,9 +2,9 @@
 	"ctm": {
 		"ctm_version": 1,
 		"type":"ctm",
-		"layer":"SOLID",
+		"layer":"CUTOUT",
 		"textures":[
-			"nuclearcraft:blocks/turbine/turbine_wall_ctm"
+			"nuclearcraft:blocks/turbine/glass_ctm"
 		]
 	}
 }

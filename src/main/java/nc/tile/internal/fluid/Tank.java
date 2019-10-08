@@ -142,6 +142,7 @@ public class Tank extends FluidTank {
 		if (getFluidAmount() < 0) {
 			fluid = null;
 		}
+		tankTag.setInteger("capacity", capacity);
 		tankTag.setInteger("fluidAmount", getFluidAmount());
 		tankTag.setString("fluidName", getFluidName());
 		nbt.setTag("tank" + tankNumber, tankTag);
@@ -151,6 +152,7 @@ public class Tank extends FluidTank {
 	public final Tank readFromNBT(NBTTagCompound nbt, int tankNumber) {
 		if (nbt.hasKey("tank" + tankNumber)) {
 			NBTTagCompound tankTag = nbt.getCompoundTag("tank" + tankNumber);
+			setCapacity(tankTag.getInteger("capacity"));
 			if (tankTag.getString("fluidName").equals("nullFluid") || tankTag.getInteger("fluidAmount") == 0) {
 				fluid = null;
 			}

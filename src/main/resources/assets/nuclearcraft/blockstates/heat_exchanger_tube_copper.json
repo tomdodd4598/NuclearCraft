@@ -2,13 +2,13 @@
 	"forge_marker": 1,
 	"defaults": {
 		"textures": {
-			"particle":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_copper",
-			"north":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_copper",
-			"east":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_copper",
-			"south":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_copper",
-			"west":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_copper",
-			"up":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_copper",
-			"down":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_copper"
+			"particle":"nuclearcraft:blocks/heat_exchanger/tube/copper",
+			"north":"nuclearcraft:blocks/heat_exchanger/tube/copper",
+			"east":"nuclearcraft:blocks/heat_exchanger/tube/copper",
+			"south":"nuclearcraft:blocks/heat_exchanger/tube/copper",
+			"west":"nuclearcraft:blocks/heat_exchanger/tube/copper",
+			"up":"nuclearcraft:blocks/heat_exchanger/tube/copper",
+			"down":"nuclearcraft:blocks/heat_exchanger/tube/copper"
 		},
 		"model":"cube",
 		"transform":"forge:default-block"
@@ -18,132 +18,132 @@
 		"north": {
 			"default": {
 			   "textures": {
-					"north":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_copper/default"
+					"north":"nuclearcraft:blocks/heat_exchanger/tube/copper/default"
 				}
 			},
 			"input_spread": {
 			   "textures": {
-					"north":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_copper/input_spread"
+					"north":"nuclearcraft:blocks/heat_exchanger/tube/copper/input_spread"
 				}
 			},
 			"product_out": {
 				 "textures": {
-					"north":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_copper/product_out"
+					"north":"nuclearcraft:blocks/heat_exchanger/tube/copper/product_out"
 				}
 			},
 			"disabled": {
 				 "textures": {
-					"north":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_copper/disabled"
+					"north":"nuclearcraft:blocks/heat_exchanger/tube/copper/disabled"
 				}
 			}
 		},
 		"east": {
 			"default": {
 			   "textures": {
-					"east":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_copper/default"
+					"east":"nuclearcraft:blocks/heat_exchanger/tube/copper/default"
 				}
 			},
 			"input_spread": {
 			   "textures": {
-					"east":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_copper/input_spread"
+					"east":"nuclearcraft:blocks/heat_exchanger/tube/copper/input_spread"
 				}
 			},
 			"product_out": {
 				 "textures": {
-					"east":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_copper/product_out"
+					"east":"nuclearcraft:blocks/heat_exchanger/tube/copper/product_out"
 				}
 			},
 			"disabled": {
 				 "textures": {
-					"east":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_copper/disabled"
+					"east":"nuclearcraft:blocks/heat_exchanger/tube/copper/disabled"
 				}
 			}
 		},
 		"south": {
 			"default": {
 			   "textures": {
-					"south":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_copper/default"
+					"south":"nuclearcraft:blocks/heat_exchanger/tube/copper/default"
 				}
 			},
 			"input_spread": {
 			   "textures": {
-					"south":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_copper/input_spread"
+					"south":"nuclearcraft:blocks/heat_exchanger/tube/copper/input_spread"
 				}
 			},
 			"product_out": {
 				 "textures": {
-					"south":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_copper/product_out"
+					"south":"nuclearcraft:blocks/heat_exchanger/tube/copper/product_out"
 				}
 			},
 			"disabled": {
 				 "textures": {
-					"south":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_copper/disabled"
+					"south":"nuclearcraft:blocks/heat_exchanger/tube/copper/disabled"
 				}
 			}
 		},
 		"west": {
 			"default": {
 			   "textures": {
-					"west":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_copper/default"
+					"west":"nuclearcraft:blocks/heat_exchanger/tube/copper/default"
 				}
 			},
 			"input_spread": {
 			   "textures": {
-					"west":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_copper/input_spread"
+					"west":"nuclearcraft:blocks/heat_exchanger/tube/copper/input_spread"
 				}
 			},
 			"product_out": {
 				 "textures": {
-					"west":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_copper/product_out"
+					"west":"nuclearcraft:blocks/heat_exchanger/tube/copper/product_out"
 				}
 			},
 			"disabled": {
 				 "textures": {
-					"west":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_copper/disabled"
+					"west":"nuclearcraft:blocks/heat_exchanger/tube/copper/disabled"
 				}
 			}
 		},
 		"up": {
 			"default": {
 			   "textures": {
-					"up":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_copper/default"
+					"up":"nuclearcraft:blocks/heat_exchanger/tube/copper/default"
 				}
 			},
 			"input_spread": {
 			   "textures": {
-					"up":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_copper/input_spread"
+					"up":"nuclearcraft:blocks/heat_exchanger/tube/copper/input_spread"
 				}
 			},
 			"product_out": {
 				 "textures": {
-					"up":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_copper/product_out"
+					"up":"nuclearcraft:blocks/heat_exchanger/tube/copper/product_out"
 				}
 			},
 			"disabled": {
 				 "textures": {
-					"up":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_copper/disabled"
+					"up":"nuclearcraft:blocks/heat_exchanger/tube/copper/disabled"
 				}
 			}
 		},
 		"down": {
 			"default": {
 			   "textures": {
-					"down":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_copper/default"
+					"down":"nuclearcraft:blocks/heat_exchanger/tube/copper/default"
 				}
 			},
 			"input_spread": {
 			   "textures": {
-					"down":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_copper/input_spread"
+					"down":"nuclearcraft:blocks/heat_exchanger/tube/copper/input_spread"
 				}
 			},
 			"product_out": {
 				 "textures": {
-					"down":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_copper/product_out"
+					"down":"nuclearcraft:blocks/heat_exchanger/tube/copper/product_out"
 				}
 			},
 			"disabled": {
 				 "textures": {
-					"down":"nuclearcraft:blocks/heat_exchanger/heat_exchanger_tube_copper/disabled"
+					"down":"nuclearcraft:blocks/heat_exchanger/tube/copper/disabled"
 				}
 			}
 		}

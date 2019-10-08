@@ -1,6 +1,6 @@
 package nc.enumm;
 
-public interface IItemMeta {
+public interface IMetaEnum {
 	
 	public int getID();
 }

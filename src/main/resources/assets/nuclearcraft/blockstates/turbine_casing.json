@@ -1,0 +1,20 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "cube_all",
+		"textures": {
+			"all": "nuclearcraft:blocks/turbine/casing/wall"
+		}
+	},
+	"variants": {
+		"inventory": [{}],
+		"frame": {
+			"false": {},
+			"true": {
+				"textures": {
+					"all": "nuclearcraft:blocks/turbine/casing/frame"
+				}
+			}
+		}
+	}
+}

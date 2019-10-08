@@ -4,7 +4,7 @@
 		"type":"ctm",
 		"layer":"SOLID",
 		"textures":[
-			"nuclearcraft:blocks/turbine/turbine_frame_ctm"
+			"nuclearcraft:blocks/turbine/casing/frame_ctm"
 		]
 	}
 }

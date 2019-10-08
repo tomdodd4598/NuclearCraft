@@ -1,7 +1,5 @@
 package nc.multiblock.gui;
 
-import com.google.common.math.DoubleMath;
-
 import nc.Global;
 import nc.multiblock.gui.element.MultiblockButton;
 import nc.multiblock.network.ClearAllPacket;
@@ -36,7 +34,7 @@ public class GuiTurbineController extends GuiMultiblockController<Turbine> {
 	
 	@Override
 	public void renderTooltips(int mouseX, int mouseY) {
-		if (NCUtil.isModifierKeyDown()) drawTooltip(clearAllFluidsInfo(), mouseX, mouseY, 153, 142, 18, 18);
+		if (NCUtil.isModifierKeyDown()) drawTooltip(clearAllFluidsInfo(), mouseX, mouseY, 153, 5, 18, 18);
 	}
 	
 	@Override
@@ -51,10 +49,10 @@ public class GuiTurbineController extends GuiMultiblockController<Turbine> {
 		String power = Lang.localise("gui.nc.container.turbine_controller.power") + " " + UnitHelper.prefix(Math.round(multiblock.power), 6, "RF/t");
 		fontRenderer.drawString(power, xSize / 2 - width(power) / 2, 24, fontColor);
 		
-		String coils = Lang.localise("gui.nc.container.turbine_controller.dynamo_coil_count") + " " + (multiblock.getRotorBearings().size() == 0 ? "0/0 [0%]" : multiblock.getDynamoCoils().size() + "/" + multiblock.getRotorBearings().size() + " [" + Math.min(100, Math.round((100D*multiblock.getDynamoCoils().size()/multiblock.getRotorBearings().size()))) + "%]");
+		String coils = NCUtil.isModifierKeyDown() ? Lang.localise("gui.nc.container.turbine_controller.dynamo_coil_count") + " " + (multiblock.getRotorBearingMap().size() == 0 ? "0/0, 0/0" : multiblock.dynamoCoilCount + "/" + multiblock.getRotorBearingMap().size()/2 + ", " + multiblock.dynamoCoilCountOpposite + "/" + multiblock.getRotorBearingMap().size()/2) : Lang.localise("gui.nc.container.turbine_controller.dynamo_efficiency") + " " + NCMath.decimalPlaces(100D*multiblock.conductivity, 1) + "%";
 		fontRenderer.drawString(coils, xSize / 2 - width(coils) / 2, 36, fontColor);
 		
-		String expansion_level = Lang.localise("gui.nc.container.turbine_controller.expansion_level") + " " + (multiblock.idealTotalExpansionLevel <= 0D ? "0%" : (NCMath.decimalPlaces(100D*multiblock.totalExpansionLevel, 1) + "% [" + (DoubleMath.isMathematicalInteger(multiblock.idealTotalExpansionLevel) ? new Integer((int)multiblock.idealTotalExpansionLevel).toString() : NCMath.decimalPlaces(multiblock.idealTotalExpansionLevel, 1)) + " x " + NCMath.decimalPlaces(100D*(multiblock.totalExpansionLevel/multiblock.idealTotalExpansionLevel), 1) + "%]"));
+		String expansion_level = Lang.localise("gui.nc.container.turbine_controller.expansion_level") + " " + (multiblock.idealTotalExpansionLevel <= 0D ? "0%" : (NCMath.decimalPlaces(100D*multiblock.totalExpansionLevel, 1) + "% [" + NCMath.decimalPlaces(multiblock.idealTotalExpansionLevel, 1) + " x " + NCMath.decimalPlaces(100D*(multiblock.totalExpansionLevel/multiblock.idealTotalExpansionLevel), 1) + "%]"));
 		fontRenderer.drawString(expansion_level, xSize / 2 - width(expansion_level) / 2, 48, fontColor);
 		
 		String fluid_rate = Lang.localise("gui.nc.container.turbine_controller.fluid_rate") + " " + UnitHelper.prefix(Math.round(multiblock.getActualInputRate()), 6, "B/t", -1) + " [" + Math.round(100D*multiblock.getActualInputRate()/multiblock.getMaxRecipeRateMultiplier()) + "%]";
@@ -64,7 +62,7 @@ public class GuiTurbineController extends GuiMultiblockController<Turbine> {
 	@Override
 	public void initGui() {
 		super.initGui();
-		buttonList.add(new MultiblockButton.ClearAll(0, guiLeft + 153, guiTop + 142));
+		buttonList.add(new MultiblockButton.ClearAll(0, guiLeft + 153, guiTop + 5));
 	}
 	
 	@Override

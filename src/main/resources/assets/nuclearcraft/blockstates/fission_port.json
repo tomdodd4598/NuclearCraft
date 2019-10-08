@@ -1,13 +1,20 @@
 {
 	"forge_marker": 1,
 	"defaults": {
-		"model":"cube_all",
+		"model": "nuclearcraft:wall_part",
 		"textures": {
-			"all": "nuclearcraft:blocks/fission/port"
+			"in": "nuclearcraft:blocks/fission/port",
+			"out": "nuclearcraft:blocks/fission/port",
+			"side": "nuclearcraft:blocks/fission/port_side",
+			"top": "nuclearcraft:blocks/fission/port_top"
 		}
 	},
 	"variants": {
 		"inventory": [{}],
-		"normal": [{}]
+		"axis": {
+			"x": {"y": 90},
+			"y": {"x": 90},
+			"z": {}
+		}
 	}
 }

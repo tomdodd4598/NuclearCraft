@@ -145,8 +145,8 @@ public interface ITileEnergy extends ITile {
 		TileEntity tile = getTileWorld().getTileEntity(getTilePos().offset(side));
 		if (tile == null) return;
 		
-		if (tile instanceof ITileEnergy) if (!((ITileEnergy) tile).getEnergyConnection(side.getOpposite()).canReceive()) return;
-		if (tile instanceof ITilePassive) if (!((ITilePassive) tile).canPushEnergyTo()) return;
+		if (tile instanceof ITileEnergy) if (!((ITileEnergy)tile).getEnergyConnection(side.getOpposite()).canReceive()) return;
+		if (tile instanceof ITilePassive) if (!((ITilePassive)tile).canPushEnergyTo()) return;
 		
 		IEnergyStorage adjStorage = tile.getCapability(CapabilityEnergy.ENERGY, side.getOpposite());
 		
@@ -159,7 +159,7 @@ public interface ITileEnergy extends ITile {
 		
 		if (ModCheck.ic2Loaded()) {
 			if (tile instanceof IEnergySink) {
-				getEnergyStorage().extractEnergy((int) Math.round(((IEnergySink) tile).injectEnergy(side.getOpposite(), getEnergyStorage().extractEnergy(getEnergyStorage().getMaxEnergyStored(), true)/NCConfig.rf_per_eu, getEUSourceTier())*NCConfig.rf_per_eu), false);
+				getEnergyStorage().extractEnergy((int) Math.round(((IEnergySink)tile).injectEnergy(side.getOpposite(), getEnergyStorage().extractEnergy(getEnergyStorage().getMaxEnergyStored(), true)/NCConfig.rf_per_eu, getEUSourceTier())*NCConfig.rf_per_eu), false);
 				return;
 			}
 		}

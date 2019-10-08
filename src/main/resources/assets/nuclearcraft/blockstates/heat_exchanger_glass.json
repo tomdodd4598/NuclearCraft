@@ -3,7 +3,7 @@
 	"defaults": {
 		"model":"cube_all",
 		"textures": {
-			"all": "nuclearcraft:blocks/heat_exchanger/heat_exchanger_glass"
+			"all": "nuclearcraft:blocks/heat_exchanger/glass"
 		}
 	},
 	"variants": {

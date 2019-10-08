@@ -1,13 +1,20 @@
 {
 	"forge_marker": 1,
 	"defaults": {
-		"model":"cube_all",
+		"model":"nuclearcraft:wall_part",
 		"textures": {
-			"all": "nuclearcraft:blocks/turbine/turbine_outlet"
+			"in": "nuclearcraft:blocks/turbine/outlet",
+			"out": "nuclearcraft:blocks/turbine/outlet",
+			"side": "nuclearcraft:blocks/turbine/outlet_side",
+			"top": "nuclearcraft:blocks/turbine/outlet_top"
 		}
 	},
 	"variants": {
 		"inventory": [{}],
-		"normal": [{}]
+		"axis": {
+			"x": {"y": 90},
+			"y": {"x": 90},
+			"z": {}
+		}
 	}
 }

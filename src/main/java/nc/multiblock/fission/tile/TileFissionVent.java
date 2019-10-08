@@ -24,9 +24,12 @@ import nc.tile.internal.fluid.TankOutputSetting;
 import nc.tile.internal.fluid.TankSorption;
 import nc.tile.passive.ITilePassive;
 import nc.util.GasHelper;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
@@ -63,6 +66,11 @@ public class TileFissionVent extends TileFissionPartBase implements ITileFluid {
 		super.onMachineBroken();
 		//if (getWorld().isRemote) return;
 		//getWorld().setBlockState(getPos(), getWorld().getBlockState(getPos()), 2);
+	}
+	
+	@Override
+	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
+		return oldState.getBlock() != newState.getBlock();
 	}
 	
 	@Override

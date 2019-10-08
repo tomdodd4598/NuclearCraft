@@ -3,11 +3,11 @@
 	"defaults": {
 		"model": "nuclearcraft:machine",
 		"textures": {
-			"top": "nuclearcraft:blocks/heat_exchanger/heat_exchanger_controller_top",
-			"bottom": "nuclearcraft:blocks/heat_exchanger/heat_exchanger_controller_bottom",
-			"front": "nuclearcraft:blocks/heat_exchanger/heat_exchanger_controller_front_off",
-			"side": "nuclearcraft:blocks/heat_exchanger/heat_exchanger_controller_side",
-			"back": "nuclearcraft:blocks/heat_exchanger/heat_exchanger_controller_back"
+			"top": "nuclearcraft:blocks/heat_exchanger/controller_top",
+			"bottom": "nuclearcraft:blocks/heat_exchanger/controller_bottom",
+			"front": "nuclearcraft:blocks/heat_exchanger/controller_front_off",
+			"side": "nuclearcraft:blocks/heat_exchanger/controller_side",
+			"back": "nuclearcraft:blocks/heat_exchanger/controller_back"
 		}
 	},
 	"variants": {
@@ -16,7 +16,7 @@
 			"false": {},
 			"true": {
 				"textures": {
-					"front": "nuclearcraft:blocks/heat_exchanger/heat_exchanger_controller_front_on"
+					"front": "nuclearcraft:blocks/heat_exchanger/controller_front_on"
 				}
 			}
 		},

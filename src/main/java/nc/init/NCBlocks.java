@@ -42,7 +42,7 @@ import nc.multiblock.heatExchanger.block.BlockHeatExchangerController;
 import nc.multiblock.heatExchanger.block.BlockHeatExchangerGlass;
 import nc.multiblock.heatExchanger.block.BlockHeatExchangerTube;
 import nc.multiblock.heatExchanger.block.BlockHeatExchangerVent;
-import nc.multiblock.heatExchanger.block.BlockHeatExchangerWall;
+import nc.multiblock.heatExchanger.block.BlockHeatExchangerCasing;
 import nc.multiblock.turbine.TurbineDynamoCoilType;
 import nc.multiblock.turbine.TurbineRotorBladeUtil.TurbineRotorBladeType;
 import nc.multiblock.turbine.block.BlockTurbineComputerPort;
@@ -55,7 +55,7 @@ import nc.multiblock.turbine.block.BlockTurbineRotorBearing;
 import nc.multiblock.turbine.block.BlockTurbineRotorBlade;
 import nc.multiblock.turbine.block.BlockTurbineRotorShaft;
 import nc.multiblock.turbine.block.BlockTurbineRotorStator;
-import nc.multiblock.turbine.block.BlockTurbineWall;
+import nc.multiblock.turbine.block.BlockTurbineCasing;
 import nc.radiation.RadiationHelper;
 import nc.tab.NCTabs;
 import nc.tile.energy.battery.BatteryType;
@@ -149,7 +149,7 @@ public class NCBlocks {
 	public static Block salt_fission_heater;
 	
 	public static Block heat_exchanger_controller;
-	public static Block heat_exchanger_wall;
+	public static Block heat_exchanger_casing;
 	public static Block heat_exchanger_glass;
 	public static Block heat_exchanger_vent;
 	public static Block heat_exchanger_tube_copper;
@@ -161,7 +161,7 @@ public class NCBlocks {
 	public static Block heat_exchanger_computer_port;
 	
 	public static Block turbine_controller;
-	public static Block turbine_wall;
+	public static Block turbine_casing;
 	public static Block turbine_glass;
 	public static Block turbine_rotor_shaft;
 	public static Block turbine_rotor_blade_steel;
@@ -204,7 +204,7 @@ public class NCBlocks {
 		
 		fertile_isotope = withName(new BlockMeta.BlockFertileIsotope(), "fertile_isotope");
 		
-		supercold_ice = withName(new NCBlockIce(0.999F).setCreativeTab(NCTabs.BASE_BLOCK_MATERIALS), "supercold_ice");
+		supercold_ice = withName(new NCBlockIce(0.999F).setCreativeTab(NCTabs.MATERIAL), "supercold_ice");
 		
 		heavy_water_moderator = withName(new NCBlock(Material.IRON), "heavy_water_moderator");
 		
@@ -274,7 +274,7 @@ public class NCBlocks {
 		salt_fission_heater = withName(new BlockSaltFissionHeater(), "salt_fission_heater");
 		
 		heat_exchanger_controller = withName(new BlockHeatExchangerController(), "heat_exchanger_controller");
-		heat_exchanger_wall = withName(new BlockHeatExchangerWall(), "heat_exchanger_wall");
+		heat_exchanger_casing = withName(new BlockHeatExchangerCasing(), "heat_exchanger_casing");
 		heat_exchanger_glass = withName(new BlockHeatExchangerGlass(), "heat_exchanger_glass");
 		heat_exchanger_vent = withName(new BlockHeatExchangerVent(), "heat_exchanger_vent");
 		heat_exchanger_tube_copper = withName(new BlockHeatExchangerTube(HeatExchangerTubeType.COPPER), "heat_exchanger_tube_copper");
@@ -286,7 +286,7 @@ public class NCBlocks {
 		heat_exchanger_computer_port = withName(new BlockHeatExchangerComputerPort(), "heat_exchanger_computer_port");
 		
 		turbine_controller = withName(new BlockTurbineController(), "turbine_controller");
-		turbine_wall = withName(new BlockTurbineWall(), "turbine_wall");
+		turbine_casing = withName(new BlockTurbineCasing(), "turbine_casing");
 		turbine_glass = withName(new BlockTurbineGlass(), "turbine_glass");
 		turbine_rotor_shaft = withName(new BlockTurbineRotorShaft(), "turbine_rotor_shaft");
 		turbine_rotor_blade_steel = withName(new BlockTurbineRotorBlade(TurbineRotorBladeType.STEEL), "turbine_rotor_blade_steel");
@@ -321,8 +321,8 @@ public class NCBlocks {
 		
 		geiger_block = withName(new BlockGeigerCounter(), "geiger_block");
 		
-		glowing_mushroom = withName(new NCBlockMushroom().setCreativeTab(NCTabs.BASE_BLOCK_MATERIALS).setLightLevel(1F), "glowing_mushroom");
-		wasteland_earth = withName(new NCBlock(Material.ROCK).setCreativeTab(NCTabs.BASE_BLOCK_MATERIALS), "wasteland_earth");
+		glowing_mushroom = withName(new NCBlockMushroom().setCreativeTab(NCTabs.RADIATION).setLightLevel(1F), "glowing_mushroom");
+		wasteland_earth = withName(new NCBlock(Material.ROCK).setCreativeTab(NCTabs.RADIATION), "wasteland_earth");
 		
 		tritium_lamp = withName(new NCBlock(Material.GLASS).setCreativeTab(NCTabs.MISC).setLightLevel(1F), "tritium_lamp");
 		
@@ -330,10 +330,10 @@ public class NCBlocks {
 	}
 	
 	public static void register() {
-		registerBlock(ore, new ItemBlockMeta(ore, MetaEnums.OreType.class));
-		registerBlock(ingot_block, new ItemBlockMeta(ingot_block, MetaEnums.IngotType.class));
+		registerBlock(ore, new ItemBlockMeta(ore, MetaEnums.OreType.class, TextFormatting.AQUA));
+		registerBlock(ingot_block, new ItemBlockMeta(ingot_block, MetaEnums.IngotType.class, TextFormatting.AQUA));
 		
-		registerBlock(fertile_isotope, new ItemBlockMeta(fertile_isotope, MetaEnums.FertileIsotopeType.class));
+		registerBlock(fertile_isotope, new ItemBlockMeta(fertile_isotope, MetaEnums.FertileIsotopeType.class, TextFormatting.AQUA));
 		
 		registerBlock(supercold_ice);
 		
@@ -392,40 +392,40 @@ public class NCBlocks {
 		registerBlock(fission_reflector);
 		registerBlock(fission_port);
 		registerBlock(fission_vent);
-		registerBlock(fission_source, new ItemBlockMeta(fission_source, MetaEnums.NeutronSourceType.class));
+		registerBlock(fission_source, new ItemBlockMeta(fission_source, MetaEnums.NeutronSourceType.class, TextFormatting.LIGHT_PURPLE, NCInfo.neutronSourceFixedInfo(), TextFormatting.AQUA, NCInfo.neutronSourceInfo()));
 		registerBlock(fission_computer_port);
 		
 		registerBlock(solid_fission_controller);
 		registerBlock(solid_fission_cell);
-		registerBlock(solid_fission_sink, new ItemBlockMeta(solid_fission_sink, MetaEnums.HeatSinkType.class));
-		registerBlock(solid_fission_sink2, new ItemBlockMeta(solid_fission_sink2, MetaEnums.HeatSinkType2.class));
+		registerBlock(solid_fission_sink, new ItemBlockMeta(solid_fission_sink, MetaEnums.HeatSinkType.class, TextFormatting.BLUE, NCInfo.heatSinkFixedInfo(), TextFormatting.AQUA, NCInfo.heatSinkInfo()));
+		registerBlock(solid_fission_sink2, new ItemBlockMeta(solid_fission_sink2, MetaEnums.HeatSinkType2.class, TextFormatting.BLUE, NCInfo.heatSinkFixedInfo2(), TextFormatting.AQUA, NCInfo.heatSinkInfo2()));
 		
 		registerBlock(salt_fission_controller);
 		registerBlock(salt_fission_vessel);
 		registerBlock(salt_fission_heater);
 		
 		registerBlock(heat_exchanger_controller);
-		registerBlock(heat_exchanger_wall);
+		registerBlock(heat_exchanger_casing);
 		registerBlock(heat_exchanger_glass);
 		registerBlock(heat_exchanger_vent);
-		registerBlock(heat_exchanger_tube_copper, TextFormatting.AQUA, InfoHelper.formattedInfo(fixedLine("heat_exchanger_tube"), Math.round(100D*NCConfig.heat_exchanger_conductivity[0]) + "%"), InfoHelper.formattedInfo(infoLine("heat_exchanger_tube")));
-		registerBlock(heat_exchanger_tube_hard_carbon, TextFormatting.AQUA, InfoHelper.formattedInfo(fixedLine("heat_exchanger_tube"), Math.round(100D*NCConfig.heat_exchanger_conductivity[1]) + "%"), InfoHelper.formattedInfo(infoLine("heat_exchanger_tube")));
-		registerBlock(heat_exchanger_tube_thermoconducting, TextFormatting.AQUA, InfoHelper.formattedInfo(fixedLine("heat_exchanger_tube"), Math.round(100D*NCConfig.heat_exchanger_conductivity[2]) + "%"), InfoHelper.formattedInfo(infoLine("heat_exchanger_tube")));
-		registerBlock(heat_exchanger_condenser_tube_copper, TextFormatting.AQUA, InfoHelper.formattedInfo(fixedLine("heat_exchanger_condenser_tube"), Math.round(100D*NCConfig.heat_exchanger_conductivity[0]) + "%"), InfoHelper.formattedInfo(infoLine("heat_exchanger_condenser_tube")));
-		registerBlock(heat_exchanger_condenser_tube_hard_carbon, TextFormatting.AQUA, InfoHelper.formattedInfo(fixedLine("heat_exchanger_condenser_tube"), Math.round(100D*NCConfig.heat_exchanger_conductivity[1]) + "%"), InfoHelper.formattedInfo(infoLine("heat_exchanger_condenser_tube")));
-		registerBlock(heat_exchanger_condenser_tube_thermoconducting, TextFormatting.AQUA, InfoHelper.formattedInfo(fixedLine("heat_exchanger_condenser_tube"), Math.round(100D*NCConfig.heat_exchanger_conductivity[2]) + "%"), InfoHelper.formattedInfo(infoLine("heat_exchanger_condenser_tube")));
+		registerBlock(heat_exchanger_tube_copper, TextFormatting.BLUE, InfoHelper.formattedInfo(fixedLine("heat_exchanger_tube"), Math.round(100D*NCConfig.heat_exchanger_conductivity[0]) + "%"), TextFormatting.AQUA, InfoHelper.formattedInfo(infoLine("heat_exchanger_tube")));
+		registerBlock(heat_exchanger_tube_hard_carbon, TextFormatting.BLUE, InfoHelper.formattedInfo(fixedLine("heat_exchanger_tube"), Math.round(100D*NCConfig.heat_exchanger_conductivity[1]) + "%"), TextFormatting.AQUA, InfoHelper.formattedInfo(infoLine("heat_exchanger_tube")));
+		registerBlock(heat_exchanger_tube_thermoconducting, TextFormatting.BLUE, InfoHelper.formattedInfo(fixedLine("heat_exchanger_tube"), Math.round(100D*NCConfig.heat_exchanger_conductivity[2]) + "%"), TextFormatting.AQUA, InfoHelper.formattedInfo(infoLine("heat_exchanger_tube")));
+		registerBlock(heat_exchanger_condenser_tube_copper, TextFormatting.BLUE, InfoHelper.formattedInfo(fixedLine("heat_exchanger_condenser_tube"), Math.round(100D*NCConfig.heat_exchanger_conductivity[0]) + "%"), TextFormatting.AQUA, InfoHelper.formattedInfo(infoLine("heat_exchanger_condenser_tube")));
+		registerBlock(heat_exchanger_condenser_tube_hard_carbon, TextFormatting.BLUE, InfoHelper.formattedInfo(fixedLine("heat_exchanger_condenser_tube"), Math.round(100D*NCConfig.heat_exchanger_conductivity[1]) + "%"), TextFormatting.AQUA, InfoHelper.formattedInfo(infoLine("heat_exchanger_condenser_tube")));
+		registerBlock(heat_exchanger_condenser_tube_thermoconducting, TextFormatting.BLUE, InfoHelper.formattedInfo(fixedLine("heat_exchanger_condenser_tube"), Math.round(100D*NCConfig.heat_exchanger_conductivity[2]) + "%"), TextFormatting.AQUA, InfoHelper.formattedInfo(infoLine("heat_exchanger_condenser_tube")));
 		registerBlock(heat_exchanger_computer_port);
 		
 		registerBlock(turbine_controller);
-		registerBlock(turbine_wall);
+		registerBlock(turbine_casing);
 		registerBlock(turbine_glass);
 		registerBlock(turbine_rotor_shaft);
-		registerBlock(turbine_rotor_blade_steel, TextFormatting.AQUA, new String[] {Lang.localise(fixedLine("turbine_rotor_blade_efficiency"), Math.round(100D*NCConfig.turbine_blade_efficiency[0]) + "%"), Lang.localise(fixedLine("turbine_rotor_blade_expansion"), Math.round(100D*NCConfig.turbine_blade_expansion[0]) + "%")}, InfoHelper.formattedInfo(infoLine("turbine_rotor_blade"), UnitHelper.prefix(NCConfig.turbine_mb_per_blade, 5, "B/t", -1)));
-		registerBlock(turbine_rotor_blade_extreme, TextFormatting.AQUA, new String[] {Lang.localise(fixedLine("turbine_rotor_blade_efficiency"), Math.round(100D*NCConfig.turbine_blade_efficiency[1]) + "%"), Lang.localise(fixedLine("turbine_rotor_blade_expansion"), Math.round(100D*NCConfig.turbine_blade_expansion[1]) + "%")}, InfoHelper.formattedInfo(infoLine("turbine_rotor_blade"), UnitHelper.prefix(NCConfig.turbine_mb_per_blade, 5, "B/t", -1)));
-		registerBlock(turbine_rotor_blade_sic_sic_cmc, TextFormatting.AQUA, new String[] {Lang.localise(fixedLine("turbine_rotor_blade_efficiency"), Math.round(100D*NCConfig.turbine_blade_efficiency[2]) + "%"), Lang.localise(fixedLine("turbine_rotor_blade_expansion"), Math.round(100D*NCConfig.turbine_blade_expansion[2]) + "%")}, InfoHelper.formattedInfo(infoLine("turbine_rotor_blade"), UnitHelper.prefix(NCConfig.turbine_mb_per_blade, 5, "B/t", -1)));
-		registerBlock(turbine_rotor_stator, TextFormatting.AQUA, new String[] {Lang.localise(fixedLine("turbine_rotor_stator_expansion"), Math.round(100D*NCConfig.turbine_stator_expansion) + "%")}, InfoHelper.formattedInfo(infoLine("turbine_rotor_stator")));
+		registerBlock(turbine_rotor_blade_steel, new TextFormatting[] {TextFormatting.LIGHT_PURPLE, TextFormatting.GRAY}, new String[] {Lang.localise(fixedLine("turbine_rotor_blade_efficiency"), Math.round(100D*NCConfig.turbine_blade_efficiency[0]) + "%"), Lang.localise(fixedLine("turbine_rotor_blade_expansion"), Math.round(100D*NCConfig.turbine_blade_expansion[0]) + "%")}, TextFormatting.AQUA, InfoHelper.formattedInfo(infoLine("turbine_rotor_blade"), UnitHelper.prefix(NCConfig.turbine_mb_per_blade, 5, "B/t", -1)));
+		registerBlock(turbine_rotor_blade_extreme, new TextFormatting[] {TextFormatting.LIGHT_PURPLE, TextFormatting.GRAY}, new String[] {Lang.localise(fixedLine("turbine_rotor_blade_efficiency"), Math.round(100D*NCConfig.turbine_blade_efficiency[1]) + "%"), Lang.localise(fixedLine("turbine_rotor_blade_expansion"), Math.round(100D*NCConfig.turbine_blade_expansion[1]) + "%")}, TextFormatting.AQUA, InfoHelper.formattedInfo(infoLine("turbine_rotor_blade"), UnitHelper.prefix(NCConfig.turbine_mb_per_blade, 5, "B/t", -1)));
+		registerBlock(turbine_rotor_blade_sic_sic_cmc, new TextFormatting[] {TextFormatting.LIGHT_PURPLE, TextFormatting.GRAY}, new String[] {Lang.localise(fixedLine("turbine_rotor_blade_efficiency"), Math.round(100D*NCConfig.turbine_blade_efficiency[2]) + "%"), Lang.localise(fixedLine("turbine_rotor_blade_expansion"), Math.round(100D*NCConfig.turbine_blade_expansion[2]) + "%")}, TextFormatting.AQUA, InfoHelper.formattedInfo(infoLine("turbine_rotor_blade"), UnitHelper.prefix(NCConfig.turbine_mb_per_blade, 5, "B/t", -1)));
+		registerBlock(turbine_rotor_stator, TextFormatting.GRAY, new String[] {Lang.localise(fixedLine("turbine_rotor_stator_expansion"), Math.round(100D*NCConfig.turbine_stator_expansion) + "%")}, TextFormatting.AQUA, InfoHelper.formattedInfo(infoLine("turbine_rotor_stator")));
 		registerBlock(turbine_rotor_bearing);
-		registerBlock(turbine_dynamo_coil, new ItemBlockMeta(turbine_dynamo_coil, TurbineDynamoCoilType.class, NCInfo.dynamoCoilInfo()));
+		registerBlock(turbine_dynamo_coil, new ItemBlockMeta(turbine_dynamo_coil, TurbineDynamoCoilType.class, TextFormatting.LIGHT_PURPLE, NCInfo.dynamoCoilFixedInfo(), TextFormatting.AQUA, NCInfo.dynamoCoilInfo()));
 		registerBlock(turbine_inlet);
 		registerBlock(turbine_outlet);
 		registerBlock(turbine_computer_port);
@@ -548,7 +548,7 @@ public class NCBlocks {
 		registerRender(salt_fission_heater);
 		
 		registerRender(heat_exchanger_controller);
-		registerRender(heat_exchanger_wall);
+		registerRender(heat_exchanger_casing);
 		registerRender(heat_exchanger_glass);
 		registerRender(heat_exchanger_vent);
 		registerRender(heat_exchanger_tube_copper);
@@ -560,7 +560,7 @@ public class NCBlocks {
 		registerRender(heat_exchanger_computer_port);
 		
 		registerRender(turbine_controller);
-		registerRender(turbine_wall);
+		registerRender(turbine_casing);
 		registerRender(turbine_glass);
 		registerRender(turbine_rotor_shaft);
 		registerRender(turbine_rotor_blade_steel);
@@ -621,19 +621,18 @@ public class NCBlocks {
 		return "tile." + Global.MOD_ID + "." + name + ".desc";
 	}
 	
-	public static void registerBlock(Block block, String... info) {
+	public static void registerBlock(Block block, TextFormatting[] fixedColors, String[] fixedTooltip, TextFormatting infoColor, String... tooltip) {
 		ForgeRegistries.BLOCKS.register(block);
-		ForgeRegistries.ITEMS.register(new NCItemBlock(block, info).setRegistryName(block.getRegistryName()));
+		ForgeRegistries.ITEMS.register(new NCItemBlock(block, fixedColors, fixedTooltip, infoColor, tooltip).setRegistryName(block.getRegistryName()));
 	}
 	
-	public static void registerBlock(Block block, TextFormatting fixedColor, String... info) {
+	public static void registerBlock(Block block, TextFormatting fixedColor, String[] fixedTooltip, TextFormatting infoColor, String... tooltip) {
 		ForgeRegistries.BLOCKS.register(block);
-		ForgeRegistries.ITEMS.register(new NCItemBlock(block, fixedColor, info).setRegistryName(block.getRegistryName()));
+		ForgeRegistries.ITEMS.register(new NCItemBlock(block, fixedColor, fixedTooltip, infoColor, tooltip).setRegistryName(block.getRegistryName()));
 	}
 	
-	public static void registerBlock(Block block, TextFormatting fixedColor, String[] fixedTooltip, String... info) {
-		ForgeRegistries.BLOCKS.register(block);
-		ForgeRegistries.ITEMS.register(new NCItemBlock(block, fixedColor, fixedTooltip, info).setRegistryName(block.getRegistryName()));
+	public static void registerBlock(Block block, String... tooltip) {
+		registerBlock(block, TextFormatting.RED, InfoHelper.EMPTY_ARRAY, TextFormatting.AQUA, tooltip);
 	}
 	
 	public static void registerBlock(Block block, ItemBlock itemBlock) {

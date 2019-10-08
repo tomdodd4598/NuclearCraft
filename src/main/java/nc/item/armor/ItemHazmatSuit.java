@@ -10,6 +10,7 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.ISpecialArmor;
 import net.minecraftforge.fml.common.Optional;
 
@@ -18,8 +19,8 @@ public class ItemHazmatSuit extends NCItemArmor implements ISpecialArmor, IHazma
 	
 	public final double radiationProtection;
 	
-	public ItemHazmatSuit(ArmorMaterial materialIn, int renderIndexIn, EntityEquipmentSlot equipmentSlotIn, double radiationProtection, String... tooltip) {
-		super(materialIn, renderIndexIn, equipmentSlotIn, tooltip);
+	public ItemHazmatSuit(ArmorMaterial materialIn, int renderIndexIn, EntityEquipmentSlot equipmentSlotIn, double radiationProtection, TextFormatting infoColor, String... tooltip) {
+		super(materialIn, renderIndexIn, equipmentSlotIn, infoColor, tooltip);
 		this.radiationProtection = radiationProtection;
 	}
 	

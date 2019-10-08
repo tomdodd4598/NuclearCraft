@@ -31,9 +31,11 @@ public class InfuserRecipes extends ProcessorRecipeHandler {
 		
 		addRecipe(Lists.newArrayList(Blocks.ICE, Blocks.PACKED_ICE), fluidStack("liquid_helium", 50), NCBlocks.supercold_ice, 0.2D, 0.5D);
 		
-		//addRecipe(new ItemStack(NCBlocks.cooler, 1, 0), fluidStack("water", FluidStackHelper.BUCKET_VOLUME), new ItemStack(NCBlocks.cooler, 1, 1), 1D, 1D);
-		//addRecipe(new ItemStack(NCBlocks.cooler, 1, 0), fluidStack("liquid_helium", FluidStackHelper.BUCKET_VOLUME), new ItemStack(NCBlocks.cooler, 1, 8), 1D, 1D);
-		//addRecipe(new ItemStack(NCBlocks.cooler, 1, 0), fluidStack("cryotheum", FluidStackHelper.BUCKET_VOLUME*2), new ItemStack(NCBlocks.cooler, 1, 10), 1D, 1D);
+		addRecipe("emptyHeatSink", fluidStack("water", FluidStackHelper.BUCKET_VOLUME), new ItemStack(NCBlocks.solid_fission_sink, 1, 0), 1D, 1D);
+		addRecipe("emptyHeatSink", fluidStack("liquid_nitrogen", FluidStackHelper.BUCKET_VOLUME), new ItemStack(NCBlocks.solid_fission_sink2, 1, 12), 1D, 1D);
+		addRecipe("emptyHeatSink", fluidStack("liquid_helium", FluidStackHelper.BUCKET_VOLUME), new ItemStack(NCBlocks.solid_fission_sink2, 1, 13), 1D, 1D);
+		addRecipe("emptyHeatSink", fluidStack("enderium", FluidStackHelper.INGOT_VOLUME*8), new ItemStack(NCBlocks.solid_fission_sink2, 1, 14), 1D, 1D);
+		addRecipe("emptyHeatSink", fluidStack("cryotheum", FluidStackHelper.BUCKET_VOLUME*2), new ItemStack(NCBlocks.solid_fission_sink2, 1, 15), 1D, 1D);
 		
 		addRecipe(oreStack("bioplastic", 2), fluidStack("radaway", FluidStackHelper.BUCKET_VOLUME/4), NCItems.radaway, 1D, 0.5D);
 		addRecipe(oreStack("bioplastic", 2), fluidStack("radaway_slow", FluidStackHelper.BUCKET_VOLUME/4), NCItems.radaway_slow, 1D, 0.5D);
@@ -41,6 +43,8 @@ public class InfuserRecipes extends ProcessorRecipeHandler {
 		
 		addRecipe("emptyFrame", fluidStack("water", FluidStackHelper.BUCKET_VOLUME*2), NCBlocks.water_source, 1D, 1D);
 		addRecipe(NCBlocks.water_source, fluidStack("lava", FluidStackHelper.BUCKET_VOLUME), NCBlocks.cobblestone_generator, 1D, 1D);
+		addRecipe("emptyFrame", fluidStackList(Lists.newArrayList("heavywater", "heavy_water"), FluidStackHelper.BUCKET_VOLUME), NCBlocks.heavy_water_moderator, 1D, 1D);
+		
 		addRecipe(OreDictHelper.oreExists("blockGlassHardened") ? "blockGlassHardened" : "blockGlass", fluidStack("tritium", FluidStackHelper.BUCKET_VOLUME), NCBlocks.tritium_lamp, 1D, 1D);
 		
 		addRecipe("sandstone", fluidStack("ender", FluidStackHelper.EUM_DUST_VOLUME), Blocks.END_STONE, 1D, 1D);

@@ -238,8 +238,20 @@ public abstract class CuboidalMultiblockBase<PACKET extends MultiblockUpdatePack
 		return getExteriorLengthZ() - 2;
 	}
 	
+	public int getExteriorVolume() {
+		return getExteriorLengthX()*getExteriorLengthY()*getExteriorLengthZ();
+	}
+	
 	public int getInteriorVolume() {
 		return getInteriorLengthX()*getInteriorLengthY()*getInteriorLengthZ();
+	}
+	
+	public int getExteriorSurfaceArea() {
+		return 2*(getExteriorLengthX()*getExteriorLengthY() + getExteriorLengthY()*getExteriorLengthZ() + getExteriorLengthZ()*getExteriorLengthX());
+	}
+	
+	public int getInteriorSurfaceArea() {
+		return 2*(getInteriorLengthX()*getInteriorLengthY() + getInteriorLengthY()*getInteriorLengthZ() + getInteriorLengthZ()*getInteriorLengthX());
 	}
 	
 	public int getInteriorLength(EnumFacing dir) {

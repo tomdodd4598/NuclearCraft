@@ -16,33 +16,46 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class NCItemBlock extends ItemBlock {
 	
-	public final TextFormatting fixedColor;
-	public final String[] fixedInfo;
-	public final String[] info;
-
-	public NCItemBlock(Block block, TextFormatting fixedColor, String[] fixedTooltip, String... tooltip) {
+	private final TextFormatting[] fixedColors;
+	private final TextFormatting fixedColor, infoColor;
+	public final String[] fixedInfo, info;
+	
+	private NCItemBlock(Block block, TextFormatting[] fixedColors, TextFormatting fixedColor, String[] fixedTooltip, TextFormatting infoColor, String... tooltip) {
 		super(block);
+		this.fixedColors = fixedColors;
 		this.fixedColor = fixedColor;
 		fixedInfo = InfoHelper.buildFixedInfo(block.getTranslationKey(), fixedTooltip);
+		this.infoColor = infoColor;
 		info = InfoHelper.buildInfo(block.getTranslationKey(), tooltip);
 	}
 	
-	public NCItemBlock(Block block, TextFormatting fixedColor, String... tooltip) {
-		this(block, fixedColor, InfoHelper.EMPTY_ARRAY, tooltip);
+	public NCItemBlock(Block block, TextFormatting[] fixedColors, String[] fixedTooltip, TextFormatting infoColor, String... tooltip) {
+		this(block, fixedColors, null, fixedTooltip, infoColor, tooltip);
 	}
 	
-	public NCItemBlock(Block block, String[] fixedTooltip, String... tooltip) {
-		this(block, TextFormatting.AQUA, fixedTooltip, tooltip);
+	public NCItemBlock(Block block, TextFormatting fixedColor, String[] fixedTooltip, TextFormatting infoColor, String... tooltip) {
+		this(block, null, fixedColor, fixedTooltip, infoColor, tooltip);
+	}
+	
+	public NCItemBlock(Block block, TextFormatting infoColor, String... tooltip) {
+		this(block, TextFormatting.RED, InfoHelper.EMPTY_ARRAY, infoColor, tooltip);
 	}
 	
 	public NCItemBlock(Block block, String... tooltip) {
-		this(block, InfoHelper.EMPTY_ARRAY, tooltip);
+		this(block, TextFormatting.RED, InfoHelper.EMPTY_ARRAY, TextFormatting.AQUA, tooltip);
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack itemStack, @Nullable World world, List<String> tooltip, ITooltipFlag flag) {
 		super.addInformation(itemStack, world, tooltip, flag);
-		if (info.length + fixedInfo.length > 0) InfoHelper.infoFull(tooltip, fixedColor, fixedInfo, info);
+		if (info.length + fixedInfo.length > 0) {
+			if (fixedColors != null) {
+				InfoHelper.infoFull(tooltip, fixedColors, fixedInfo, infoColor, info);
+			}
+			else {
+				InfoHelper.infoFull(tooltip, fixedColor, fixedInfo, infoColor, info);
+			}
+		}
 	}
 }

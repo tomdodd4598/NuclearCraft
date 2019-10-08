@@ -3,7 +3,7 @@
 	"defaults": {
 		"model":"cube_all",
 		"textures": {
-			"all": "nuclearcraft:blocks/turbine/turbine_rotor_bearing"
+			"all": "nuclearcraft:blocks/turbine/rotor_bearing"
 		}
 	},
 	"variants": {

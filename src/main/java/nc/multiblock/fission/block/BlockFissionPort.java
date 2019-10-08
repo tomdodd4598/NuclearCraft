@@ -1,7 +1,11 @@
 package nc.multiblock.fission.block;
 
+import static nc.block.property.BlockProperties.AXIS_ALL;
+
 import nc.multiblock.fission.tile.TileFissionPort;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -13,11 +17,32 @@ public class BlockFissionPort extends BlockFissionPartBase {
 
 	public BlockFissionPort() {
 		super();
+		setDefaultState(blockState.getBaseState().withProperty(AXIS_ALL, EnumFacing.Axis.Z));
+	}
+	
+	@Override
+	protected BlockStateContainer createBlockState() {
+		return new BlockStateContainer(this, AXIS_ALL);
+	}
+	
+	@Override
+	public IBlockState getStateFromMeta(int meta) {
+		return getDefaultState().withProperty(AXIS_ALL, EnumFacing.Axis.values()[meta]);
+	}
+	
+	@Override
+	public int getMetaFromState(IBlockState state) {
+		return state.getValue(AXIS_ALL).ordinal();
 	}
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int metadata) {
 		return new TileFissionPort();
+	}
+	
+	@Override
+	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
+		return getDefaultState().withProperty(AXIS_ALL, EnumFacing.getDirectionFromEntityLiving(pos, placer).getAxis());
 	}
 
 	@Override

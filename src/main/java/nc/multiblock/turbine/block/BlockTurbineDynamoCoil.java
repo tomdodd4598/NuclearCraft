@@ -1,6 +1,6 @@
 package nc.multiblock.turbine.block;
 
-import nc.block.item.IMetaBlockName;
+import nc.block.IBlockMeta;
 import nc.multiblock.turbine.TurbineDynamoCoilType;
 import nc.multiblock.turbine.tile.TileTurbineDynamoCoil;
 import nc.util.ItemStackHelper;
@@ -22,7 +22,7 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockTurbineDynamoCoil extends BlockTurbinePartBase implements IMetaBlockName {
+public class BlockTurbineDynamoCoil extends BlockTurbinePartBase implements IBlockMeta {
 	
 	private final static PropertyEnum TYPE = PropertyEnum.create("type", TurbineDynamoCoilType.class);
 
@@ -94,7 +94,7 @@ public class BlockTurbineDynamoCoil extends BlockTurbinePartBase implements IMet
 	}
 	
 	@Override
-	public String getSpecialName(ItemStack stack) {
+	public String getMetaName(ItemStack stack) {
 		return TurbineDynamoCoilType.values()[ItemStackHelper.getMetadata(stack)].getName();
 	}
 }

@@ -7,13 +7,13 @@ import net.minecraft.block.material.Material;
 public abstract class BlockTurbinePartBase extends MultiblockBlockPartBase {
 	
 	public BlockTurbinePartBase() {
-		super(Material.IRON, NCTabs.TURBINE_BLOCKS);
+		super(Material.IRON, NCTabs.MULTIBLOCK);
 	}
 	
 	public static abstract class Transparent extends MultiblockBlockPartBase.Transparent {
 		
 		public Transparent(boolean smartRender) {
-			super(Material.IRON, NCTabs.TURBINE_BLOCKS, smartRender);
+			super(Material.IRON, NCTabs.MULTIBLOCK, smartRender);
 		}
 	}
 }

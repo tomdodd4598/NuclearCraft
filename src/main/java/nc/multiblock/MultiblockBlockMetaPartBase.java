@@ -4,7 +4,7 @@ import javax.annotation.Nullable;
 
 import nc.Global;
 import nc.block.BlockMeta;
-import nc.enumm.IBlockMeta;
+import nc.enumm.IBlockMetaEnum;
 import nc.multiblock.validation.ValidationError;
 import nc.render.BlockHighlightTracker;
 import nc.tile.fluid.ITileFluid;
@@ -30,7 +30,7 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidUtil;
 
-public abstract class MultiblockBlockMetaPartBase<T extends Enum<T> & IStringSerializable & IBlockMeta> extends BlockMeta<T> implements ITileEntityProvider {
+public abstract class MultiblockBlockMetaPartBase<T extends Enum<T> & IStringSerializable & IBlockMetaEnum> extends BlockMeta<T> implements ITileEntityProvider {
 	
 	public MultiblockBlockMetaPartBase(Class<T> enumm, PropertyEnum<T> property, Material material, CreativeTabs tab) {
 		super(enumm, property, material);

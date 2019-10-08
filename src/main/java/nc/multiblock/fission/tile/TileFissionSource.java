@@ -1,12 +1,16 @@
 package nc.multiblock.fission.tile;
 
+import javax.annotation.Nonnull;
+
 import nc.config.NCConfig;
 import nc.enumm.MetaEnums;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
+import nc.multiblock.cuboidal.PartPosition;
 import nc.multiblock.fission.FissionReactor;
 import nc.multiblock.fission.block.BlockFissionSource;
 import nc.recipe.NCRecipes;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
@@ -15,6 +19,8 @@ import net.minecraft.world.World;
 public abstract class TileFissionSource extends TileFissionPartBase {
 	
 	protected final MetaEnums.NeutronSourceType type;
+	
+	public EnumFacing facing = EnumFacing.DOWN;
 	
 	public TileFissionSource(MetaEnums.NeutronSourceType type) {
 		super(CuboidalPartPositionType.WALL);
@@ -51,12 +57,7 @@ public abstract class TileFissionSource extends TileFissionPartBase {
 	public void onMachineAssembled(FissionReactor controller) {
 		doStandardNullControllerResponse(controller);
 		super.onMachineAssembled(controller);
-		/*if (!getWorld().isRemote && getMultiblock() != null) {
-			EnumFacing facing = pos.getX() == getMultiblock().getMaxX() ? EnumFacing.EAST : pos.getX() == getMultiblock().getMinX() ? EnumFacing.WEST : pos.getY() == getMultiblock().getMaxY() ? EnumFacing.UP : pos.getY() == getMultiblock().getMinY() ? EnumFacing.DOWN : pos.getZ() == getMultiblock().getMaxZ() ? EnumFacing.SOUTH : pos.getZ() == getMultiblock().getMinZ() ? EnumFacing.NORTH : null;
-			if (facing != null) {
-				getWorld().setBlockState(pos, world.getBlockState(pos).withProperty(FACING_ALL, facing), 2);
-			}
-		}*/
+		//if (getWorld().isRemote) return;
 	}
 	
 	@Override
@@ -67,10 +68,17 @@ public abstract class TileFissionSource extends TileFissionPartBase {
 	}
 	
 	@Override
-	public void onAdded() {
-		if (!world.isRemote) {
-			onBlockNeighborChanged(world.getBlockState(pos), world, pos, pos);
+	public @Nonnull PartPosition getPartPosition() {
+		PartPosition partPos = super.getPartPosition();
+		if (partPos.getFacing() != null) {
+			facing = partPos.getFacing();
 		}
+		return partPos;
+	}
+	
+	@Override
+	public void onAdded() {
+		world.neighborChanged(pos, getBlockType(), pos);
 		super.onAdded();
 	}
 	
@@ -79,7 +87,7 @@ public abstract class TileFissionSource extends TileFissionPartBase {
 		boolean wasRedstonePowered = getIsRedstonePowered();
 		super.onBlockNeighborChanged(state, world, pos, fromPos);
 		updateBlockState(getIsRedstonePowered());
-		if (wasRedstonePowered != getIsRedstonePowered()) {
+		if (!world.isRemote && wasRedstonePowered != getIsRedstonePowered()) {
 			getMultiblock().onSourceUpdated(this);
 		}
 	}
@@ -117,5 +125,18 @@ public abstract class TileFissionSource extends TileFissionPartBase {
 			this.fuelComponent = fuelComponent;
 			this.newSourceEfficiency = newSourceEfficiency;
 		}
+	}
+	
+	@Override
+	public NBTTagCompound writeAll(NBTTagCompound nbt) {
+		super.writeAll(nbt);
+		nbt.setInteger("facing", facing.getIndex());
+		return nbt;
+	}
+	
+	@Override
+	public void readAll(NBTTagCompound nbt) {
+		super.readAll(nbt);
+		facing = EnumFacing.byIndex(nbt.getInteger("facing"));
 	}
 }

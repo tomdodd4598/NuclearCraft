@@ -7,7 +7,7 @@ import net.minecraft.item.ItemStack;
 public class TabRadiation extends CreativeTabs {
 
 	public TabRadiation() {
-		super("nuclearcraftRadiation");
+		super("nuclearcraft.radiation");
 	}
 
 	@Override

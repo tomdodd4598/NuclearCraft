@@ -4,7 +4,8 @@
 		"model": "nuclearcraft:wall_part",
 		"textures": {
 			"out": "nuclearcraft:blocks/fission/source_out_off",
-			"side": "nuclearcraft:blocks/fission/source_side"
+			"side": "nuclearcraft:blocks/fission/source_side",
+			"top": "nuclearcraft:blocks/fission/source_side"
 		}
 	},
 	"variants": {

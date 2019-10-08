@@ -10,6 +10,8 @@ import net.minecraft.util.math.BlockPos;
 
 public class BlockPosHelper {
 	
+	public static final BlockPos DEFAULT_NON = new BlockPos(0, -1, 0);
+	
 	private final BlockPos pos;
 	
 	public BlockPosHelper(BlockPos pos) {

@@ -14,6 +14,7 @@ public class DamageSources {
 	public static final DamageSource ACID_BURN = new DamageSource("acid_burn");
 	public static final DamageSource FLUID_BURN = new DamageSource("fluid_burn");
 	public static final DamageSource HYPOTHERMIA = new DamageSource("hypothermia").setDamageBypassesArmor();
+	public static final DamageSource FISSION_BURN = new DamageSource("fission_burn");
 	public static final DamageSource FATAL_RADS = new DamageSource("fatal_rads").setDamageBypassesArmor().setDamageIsAbsolute();
 	
 }

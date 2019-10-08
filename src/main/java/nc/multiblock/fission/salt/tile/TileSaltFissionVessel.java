@@ -80,7 +80,12 @@ public class TileSaltFissionVessel extends TileFissionPartBase implements IFluid
 	protected double undercoolingLifetimeFactor = 1D;
 	protected Double sourceEfficiency = null;
 	protected Double[] moderatorLineEfficiencies = new Double[] {null, null, null, null, null, null};
-	protected final LongSet passiveModeratorCache = new LongOpenHashSet(), activeReflectorCache = new LongOpenHashSet();
+	protected IFissionFuelComponent[] adjacentFuelComponents = new IFissionFuelComponent[] {null, null, null, null, null, null};
+	protected final LongSet[] passiveModeratorCaches = new LongSet[] {new LongOpenHashSet(), new LongOpenHashSet(), new LongOpenHashSet(), new LongOpenHashSet(), new LongOpenHashSet(), new LongOpenHashSet()};
+	protected final Long[] activeModeratorCache = new Long[] {null, null, null, null, null, null};
+	protected final LongSet passiveReflectorModeratorCache = new LongOpenHashSet();
+	protected Long activeReflectorModeratorCache = null;
+	protected final LongSet activeReflectorCache = new LongOpenHashSet();
 	
 	protected int vesselCount;
 	
@@ -138,8 +143,14 @@ public class TileSaltFissionVessel extends TileFissionPartBase implements IFluid
 		flux = heatMult = 0;
 		undercoolingLifetimeFactor = 1D;
 		sourceEfficiency = null;
-		moderatorLineEfficiencies[0] = moderatorLineEfficiencies[1] = moderatorLineEfficiencies[2] = moderatorLineEfficiencies[3] = moderatorLineEfficiencies[4] = moderatorLineEfficiencies[5] = null;
-		passiveModeratorCache.clear();
+		for (EnumFacing dir : EnumFacing.VALUES) {
+			moderatorLineEfficiencies[dir.getIndex()] = null;
+			adjacentFuelComponents[dir.getIndex()] = null;
+			passiveModeratorCaches[dir.getIndex()].clear();
+			activeModeratorCache[dir.getIndex()] = null;
+		}
+		passiveReflectorModeratorCache.clear();
+		activeReflectorModeratorCache = null;
 		activeReflectorCache.clear();
 		
 		refreshRecipe();
@@ -166,6 +177,11 @@ public class TileSaltFissionVessel extends TileFissionPartBase implements IFluid
 	@Override
 	public boolean isPrimed() {
 		return primed;
+	}
+	
+	@Override
+	public void unprime() {
+		primed = false;
 	}
 	
 	@Override
@@ -210,8 +226,33 @@ public class TileSaltFissionVessel extends TileFissionPartBase implements IFluid
 	}
 	
 	@Override
-	public LongSet getPassiveModeratorCache() {
-		return passiveModeratorCache;
+	public IFissionFuelComponent[] getAdjacentFuelComponents() {
+		return adjacentFuelComponents;
+	}
+	
+	@Override
+	public LongSet[] getPassiveModeratorCaches() {
+		return passiveModeratorCaches;
+	}
+	
+	@Override
+	public Long[] getActiveModeratorCache() {
+		return activeModeratorCache;
+	}
+	
+	@Override
+	public LongSet getPassiveReflectorModeratorCache() {
+		return passiveReflectorModeratorCache;
+	}
+	
+	@Override
+	public Long getActiveReflectorModeratorCache() {
+		return activeReflectorModeratorCache;
+	}
+	
+	@Override
+	public void setActiveReflectorModeratorCache(long posLong) {
+		activeReflectorModeratorCache = posLong;
 	}
 	
 	@Override
@@ -447,7 +488,7 @@ public class TileSaltFissionVessel extends TileFissionPartBase implements IFluid
 						getMultiblock().refreshFlag = true;
 					}
 					else {
-						getMultiblock().refreshCluster(cluster.getId());
+						getMultiblock().refreshCluster(cluster);
 					}
 				}
 			}
@@ -714,6 +755,9 @@ public class TileSaltFissionVessel extends TileFissionPartBase implements IFluid
 		writeVesselSettings(nbt);
 		
 		nbt.setDouble("baseProcessTime", baseProcessTime);
+		nbt.setInteger("baseProcessHeat", baseProcessHeat);
+		nbt.setDouble("baseProcessEfficiency", baseProcessEfficiency);
+		nbt.setInteger("baseProcessCriticality", baseProcessCriticality);
 		
 		nbt.setDouble("time", time);
 		nbt.setBoolean("isProcessing", isProcessing);
@@ -731,6 +775,9 @@ public class TileSaltFissionVessel extends TileFissionPartBase implements IFluid
 		readVesselSettings(nbt);
 		
 		baseProcessTime = nbt.getDouble("baseProcessTime");
+		baseProcessHeat = nbt.getInteger("baseProcessHeat");
+		baseProcessEfficiency = nbt.getDouble("baseProcessEfficiency");
+		baseProcessCriticality = nbt.getInteger("baseProcessCriticality");
 		
 		time = nbt.getDouble("time");
 		isProcessing = nbt.getBoolean("isProcessing");

@@ -616,7 +616,6 @@ public abstract class TileSolidFissionSink extends TileFissionPartBase implement
 	@Override
 	public boolean isValidHeatConductor() {
 		if (isInValidPosition) return true;
-		
 		return isInValidPosition = isSinkValid();
 	}
 	

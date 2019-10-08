@@ -3,7 +3,7 @@
 	"defaults": {
 		"model": "nuclearcraft:turbine_rotor_stator",
 		"textures": {
-			"texture": "nuclearcraft:blocks/turbine/turbine_rotor_stator"
+			"texture": "nuclearcraft:blocks/turbine/rotor_stator"
 		}
 	},
 	"variants": {

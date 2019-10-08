@@ -33,15 +33,12 @@ public class BlockFissionSource extends BlockMetaFissionPartBase<MetaEnums.Neutr
 	
 	@Override
 	public IBlockState getActualState(IBlockState state, IBlockAccess world, BlockPos pos) {
-		return state.withProperty(FACING_ALL, getFacing(state, world, pos)).withProperty(ACTIVE, world.getTileEntity(pos) instanceof TileFissionSource && ((TileFissionSource)world.getTileEntity(pos)).getIsRedstonePowered());
-	}
-	
-	public EnumFacing getFacing(IBlockState state, IBlockAccess world, BlockPos pos) {
-		EnumFacing facing = null;
 		if (world.getTileEntity(pos) instanceof TileFissionSource) {
-			facing = ((TileFissionSource) world.getTileEntity(pos)).getPartPosition().getFacing();
+			TileFissionSource source = (TileFissionSource) world.getTileEntity(pos);
+			EnumFacing facing = source.getPartPosition().getFacing();
+			return state.withProperty(FACING_ALL, facing != null ? facing : source.facing).withProperty(ACTIVE, source.getIsRedstonePowered());
 		}
-		return facing == null ? state.getValue(FACING_ALL) : facing;
+		return state;
 	}
 	
 	@Override
@@ -58,34 +55,8 @@ public class BlockFissionSource extends BlockMetaFissionPartBase<MetaEnums.Neutr
 	}
 	
 	@Override
-	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
+	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
 		return getStateFromMeta(meta).withProperty(FACING_ALL, EnumFacing.getDirectionFromEntityLiving(pos, placer)).withProperty(ACTIVE, Boolean.valueOf(false));
-	}
-	
-	@Override
-	public void onBlockAdded(World world, BlockPos pos, IBlockState state) {
-		super.onBlockAdded(world, pos, state);
-		setDefaultDirection(world, pos, state);
-	}
-	
-	private static void setDefaultDirection(World world, BlockPos pos, IBlockState state) {
-		if (!world.isRemote) {
-			EnumFacing enumfacing = state.getValue(FACING_ALL);
-			boolean flag = world.getBlockState(pos.north()).isFullBlock();
-			boolean flag1 = world.getBlockState(pos.south()).isFullBlock();
-
-			if (enumfacing == EnumFacing.NORTH && flag && !flag1) enumfacing = EnumFacing.SOUTH;
-			else if (enumfacing == EnumFacing.SOUTH && flag1 && !flag) enumfacing = EnumFacing.NORTH;
-			
-			else {
-				boolean flag2 = world.getBlockState(pos.west()).isFullBlock();
-				boolean flag3 = world.getBlockState(pos.east()).isFullBlock();
-
-				if (enumfacing == EnumFacing.WEST && flag2 && !flag3) enumfacing = EnumFacing.EAST;
-				else if (enumfacing == EnumFacing.EAST && flag3 && !flag2) enumfacing = EnumFacing.WEST;
-			}
-			world.setBlockState(pos, state.withProperty(FACING_ALL, enumfacing).withProperty(ACTIVE, Boolean.valueOf(false)), 2);
-		}
 	}
 	
 	@Override

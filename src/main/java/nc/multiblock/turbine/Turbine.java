@@ -5,6 +5,8 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
+import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
+import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import it.unimi.dsi.fastutil.objects.ObjectSet;
 import nc.Global;
@@ -42,9 +44,12 @@ import nc.recipe.ProcessorRecipe;
 import nc.recipe.ProcessorRecipeHandler;
 import nc.recipe.RecipeInfo;
 import nc.recipe.ingredient.IFluidIngredient;
+import nc.tile.internal.energy.EnergyConnection;
 import nc.tile.internal.energy.EnergyStorage;
 import nc.tile.internal.fluid.Tank;
+import nc.tile.internal.fluid.TankSorption;
 import nc.util.MaterialHelper;
+import nc.util.NCMath;
 import nc.util.NCUtil;
 import nc.util.SoundHelper;
 import net.minecraft.block.state.IBlockState;
@@ -72,8 +77,8 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> {
 	protected final ObjectSet<TileTurbineRotorShaft> rotorShafts = new ObjectOpenHashSet<>();
 	protected final ObjectSet<TileTurbineRotorBlade> rotorBlades = new ObjectOpenHashSet<>();
 	protected final ObjectSet<TileTurbineRotorStator> rotorStators = new ObjectOpenHashSet<>();
-	protected final ObjectSet<TileTurbineRotorBearing> rotorBearings = new ObjectOpenHashSet<>();
-	protected final ObjectSet<TileTurbineDynamoCoil> dynamoCoils = new ObjectOpenHashSet<>();
+	protected final Long2ObjectMap<TileTurbineRotorBearing> rotorBearingMap = new Long2ObjectOpenHashMap<>();
+	protected final Long2ObjectMap<TileTurbineDynamoCoil> dynamoCoilMap = new Long2ObjectOpenHashMap<>();
 	protected final ObjectSet<TileTurbineInlet> inlets = new ObjectOpenHashSet<>();
 	protected final ObjectSet<TileTurbineOutlet> outlets = new ObjectOpenHashSet<>();
 	
@@ -89,10 +94,10 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> {
 	protected int updateCount = 0;
 	
 	public boolean isTurbineOn, computerActivated, isProcessing;
-	public double power = 0D, rawConductivity = 0D;
-	protected double rawPower = 0D;
+	public double power = 0D, conductivity = 0D;
+	protected double rawPower = 0, rawMaxPower = 0D;
 	public EnumFacing flowDir = null;
-	public int shaftWidth = 0, inertia = 0, bladeLength = 0, noBladeSets = 0, recipeRate = 0;
+	public int shaftWidth = 0, inertia = 0, bladeLength = 0, noBladeSets = 0, recipeRate = 0, dynamoCoilCount = 0, dynamoCoilCountOpposite = 0;
 	public double totalExpansionLevel = 1D, idealTotalExpansionLevel = 1D, basePowerPerMB = 0D;
 	public List<Double> expansionLevels = new ArrayList<Double>(), rawBladeEfficiencies = new ArrayList<Double>();
 	
@@ -130,12 +135,12 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> {
 		return rotorStators;
 	}
 	
-	public ObjectSet<TileTurbineRotorBearing> getRotorBearings() {
-		return rotorBearings;
+	public Long2ObjectMap<TileTurbineRotorBearing> getRotorBearingMap() {
+		return rotorBearingMap;
 	}
 	
-	public ObjectSet<TileTurbineDynamoCoil> getDynamoCoils() {
-		return dynamoCoils;
+	public Long2ObjectMap<TileTurbineDynamoCoil> getDynamoCoilMap() {
+		return dynamoCoilMap;
 	}
 	
 	public ObjectSet<TileTurbineInlet> getInlets() {
@@ -158,6 +163,11 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> {
 		return NCConfig.turbine_max_size;
 	}
 	
+	@Override
+	protected int getMinimumNumberOfBlocksForAssembledMachine() {
+		return NCMath.hollowCuboid(Math.max(5, getMinimumInteriorLength() + 2), Math.max(5, getMinimumInteriorLength() + 2), getMinimumInteriorLength() + 2);
+	}
+	
 	// Multiblock Methods
 	
 	@Override
@@ -171,8 +181,8 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> {
 		if (newPart instanceof TileTurbineRotorShaft) rotorShafts.add((TileTurbineRotorShaft) newPart);
 		if (newPart instanceof TileTurbineRotorBlade) rotorBlades.add((TileTurbineRotorBlade) newPart);
 		if (newPart instanceof TileTurbineRotorStator) rotorStators.add((TileTurbineRotorStator) newPart);
-		if (newPart instanceof TileTurbineRotorBearing) rotorBearings.add((TileTurbineRotorBearing) newPart);
-		if (newPart instanceof TileTurbineDynamoCoil) dynamoCoils.add((TileTurbineDynamoCoil) newPart);
+		if (newPart instanceof TileTurbineRotorBearing) rotorBearingMap.put(newPart.getTilePos().toLong(), (TileTurbineRotorBearing) newPart);
+		if (newPart instanceof TileTurbineDynamoCoil) dynamoCoilMap.put(newPart.getTilePos().toLong(), (TileTurbineDynamoCoil) newPart);
 		if (newPart instanceof TileTurbineInlet) inlets.add((TileTurbineInlet) newPart);
 		if (newPart instanceof TileTurbineOutlet) outlets.add((TileTurbineOutlet) newPart);
 	}
@@ -183,15 +193,14 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> {
 		if (oldPart instanceof TileTurbineRotorShaft) rotorShafts.remove(oldPart);
 		if (oldPart instanceof TileTurbineRotorBlade) rotorBlades.remove(oldPart);
 		if (oldPart instanceof TileTurbineRotorStator) rotorStators.remove(oldPart);
-		if (oldPart instanceof TileTurbineRotorBearing) rotorBearings.remove(oldPart);
-		if (oldPart instanceof TileTurbineDynamoCoil) dynamoCoils.remove(oldPart);
+		if (oldPart instanceof TileTurbineRotorBearing) rotorBearingMap.remove(oldPart.getTilePos().toLong());
+		if (oldPart instanceof TileTurbineDynamoCoil) dynamoCoilMap.remove(oldPart.getTilePos().toLong());
 		if (oldPart instanceof TileTurbineInlet) inlets.remove(oldPart);
 		if (oldPart instanceof TileTurbineOutlet) outlets.remove(oldPart);
 	}
 	
 	@Override
 	protected void onMachineAssembled() {
-		for (TileTurbineController contr : controllers) controller = contr;
 		onTurbineFormed();
 	}
 	
@@ -201,41 +210,58 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> {
 	}
 	
 	protected void onTurbineFormed() {
+		for (TileTurbineController contr : controllers) controller = contr;
 		setIsTurbineOn();
 		
-		energyStorage.setStorageCapacity(BASE_MAX_ENERGY*getNumConnectedBlocks());
-		energyStorage.setMaxTransfer(BASE_MAX_ENERGY*getNumConnectedBlocks());
-		tanks.get(0).setCapacity(BASE_MAX_INPUT*getNumConnectedBlocks());
-		tanks.get(1).setCapacity(BASE_MAX_OUTPUT*getNumConnectedBlocks());
+		energyStorage.setStorageCapacity(BASE_MAX_ENERGY*getExteriorSurfaceArea());
+		energyStorage.setMaxTransfer(BASE_MAX_ENERGY*getExteriorSurfaceArea());
+		tanks.get(0).setCapacity(BASE_MAX_INPUT*getExteriorSurfaceArea());
+		tanks.get(1).setCapacity(BASE_MAX_OUTPUT*getExteriorSurfaceArea());
 		
-		inputPlane[0] = getInteriorPlane(flowDir.getOpposite(), 0, 0, 0, bladeLength, shaftWidth + bladeLength);
-		inputPlane[1] = getInteriorPlane(flowDir.getOpposite(), 0, shaftWidth + bladeLength, 0, 0, bladeLength);
-		inputPlane[2] = getInteriorPlane(flowDir.getOpposite(), 0, bladeLength, shaftWidth + bladeLength, 0, 0);
-		inputPlane[3] = getInteriorPlane(flowDir.getOpposite(), 0, 0, bladeLength, shaftWidth + bladeLength, 0);
-		
-		doDynamoCoilPlacementChecks();
-		
-		for (TileTurbineRotorShaft rotorShaft : rotorShafts) {
-			BlockPos pos = rotorShaft.getPos();
-			IBlockState state = WORLD.getBlockState(pos);
-			if (state.getBlock() instanceof BlockTurbineRotorShaft) {
-				WORLD.setBlockState(pos, state.withProperty(TurbineRotorBladeUtil.DIR, TurbinePartDir.INVISIBLE));
-			}
+		if (WORLD.isRemote) {
+			inputPlane[0] = getInteriorPlane(flowDir.getOpposite(), 0, 0, 0, bladeLength, shaftWidth + bladeLength);
+			inputPlane[1] = getInteriorPlane(flowDir.getOpposite(), 0, shaftWidth + bladeLength, 0, 0, bladeLength);
+			inputPlane[2] = getInteriorPlane(flowDir.getOpposite(), 0, bladeLength, shaftWidth + bladeLength, 0, 0);
+			inputPlane[3] = getInteriorPlane(flowDir.getOpposite(), 0, 0, bladeLength, shaftWidth + bladeLength, 0);
 		}
 		
-		for (TileTurbineRotorBlade rotorBlade : rotorBlades) {
-			BlockPos pos = rotorBlade.bladePos();
-			IBlockState state = WORLD.getBlockState(pos);
-			if (state.getBlock() instanceof IBlockRotorBlade) {
-				WORLD.setBlockState(pos, state.withProperty(TurbineRotorBladeUtil.DIR, TurbinePartDir.INVISIBLE));
+		if (!WORLD.isRemote) {
+			refreshDynamoCoils();
+			
+			for (TileTurbineRotorShaft rotorShaft : rotorShafts) {
+				BlockPos pos = rotorShaft.getPos();
+				IBlockState state = WORLD.getBlockState(pos);
+				if (state.getBlock() instanceof BlockTurbineRotorShaft) {
+					WORLD.setBlockState(pos, state.withProperty(TurbineRotorBladeUtil.DIR, TurbinePartDir.INVISIBLE));
+				}
 			}
-		}
-		
-		for (TileTurbineRotorStator rotorStator : rotorStators) {
-			BlockPos pos = rotorStator.bladePos();
-			IBlockState state = WORLD.getBlockState(pos);
-			if (state.getBlock() instanceof IBlockRotorBlade) {
-				WORLD.setBlockState(pos, state.withProperty(TurbineRotorBladeUtil.DIR, TurbinePartDir.INVISIBLE));
+			
+			for (TileTurbineRotorBlade rotorBlade : rotorBlades) {
+				BlockPos pos = rotorBlade.bladePos();
+				IBlockState state = WORLD.getBlockState(pos);
+				if (state.getBlock() instanceof IBlockRotorBlade) {
+					WORLD.setBlockState(pos, state.withProperty(TurbineRotorBladeUtil.DIR, TurbinePartDir.INVISIBLE));
+				}
+			}
+			
+			for (TileTurbineRotorStator rotorStator : rotorStators) {
+				BlockPos pos = rotorStator.bladePos();
+				IBlockState state = WORLD.getBlockState(pos);
+				if (state.getBlock() instanceof IBlockRotorBlade) {
+					WORLD.setBlockState(pos, state.withProperty(TurbineRotorBladeUtil.DIR, TurbinePartDir.INVISIBLE));
+				}
+			}
+			
+			for (TileTurbineDynamoCoil dynamoCoil : dynamoCoilMap.values()) {
+				for (EnumFacing side : EnumFacing.VALUES) {
+					dynamoCoil.setEnergyConnection(side == flowDir || side == flowDir.getOpposite() ? EnergyConnection.OUT : EnergyConnection.NON, side);
+				}
+			}
+			
+			for (TileTurbineOutlet outlet : outlets) {
+				for (EnumFacing side : EnumFacing.VALUES) {
+					outlet.setTankSorption(side, 0, side == flowDir ? TankSorption.OUT : TankSorption.NON);
+				}
 			}
 		}
 	}
@@ -246,24 +272,47 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> {
 	//private static final ArrayList<String> STAGE_3_COILS = Lists.newArrayList("copper", "silver");
 	//private static final ArrayList<String> STAGE_4_COILS = Lists.newArrayList("aluminum");
 	
-	protected void doDynamoCoilPlacementChecks() {
-		if (dynamoCoils.size() < 1) {
-			rawConductivity = 0D;
+	protected void refreshDynamoCoils() {
+		if (dynamoCoilMap.isEmpty()) {
+			conductivity = 0D;
+			return;
 		}
 		
-		for (TileTurbineDynamoCoil dynamoCoil : dynamoCoils) {
-			dynamoCoil.isInValidPosition = false;
-			dynamoCoil.checked = false;
+		ObjectSet<TileTurbineDynamoCoil> dynamoCoilRootCache = new ObjectOpenHashSet<>(), dynamoCoilRootCacheOpposite = new ObjectOpenHashSet<>();
+		for (TileTurbineDynamoCoil dynamoCoil : dynamoCoilMap.values()) {
+			dynamoCoil.isSearched = dynamoCoil.isInValidPosition = false;
+			if (dynamoCoil.isSearchRoot()) {
+				if (dynamoCoil.getPartPosition().getFacing() == flowDir) {
+					dynamoCoilRootCache.add(dynamoCoil);
+				}
+				else {
+					dynamoCoilRootCacheOpposite.add(dynamoCoil);
+				}
+			}
 		}
 		
-		double newConductivity = 0D;
-		
-		for (int i = 0; i <= 4; i++) for (TileTurbineDynamoCoil dynamoCoil : dynamoCoils) {
-			dynamoCoilCheckCount = i;
-			if (!dynamoCoil.checked) newConductivity += dynamoCoil.contributeConductivity(dynamoCoilCheckCount);
+		ObjectSet<TileTurbineDynamoCoil> dynamoCoilCache = new ObjectOpenHashSet<>(), dynamoCoilCacheOpposite = new ObjectOpenHashSet<>();
+		for (TileTurbineDynamoCoil dynamoCoil : dynamoCoilRootCache) {
+			dynamoCoil.dynamoSearch(dynamoCoilCache);
+		}
+		for (TileTurbineDynamoCoil dynamoCoil : dynamoCoilRootCacheOpposite) {
+			dynamoCoil.dynamoSearch(dynamoCoilCacheOpposite);
 		}
 		
-		rawConductivity = newConductivity/dynamoCoils.size();
+		double newConductivity = 0D, newConductivityOpposite = 0D;
+		for (TileTurbineDynamoCoil dynamoCoil : dynamoCoilCache) {
+			newConductivity += dynamoCoil.conductivity;
+		}
+		for (TileTurbineDynamoCoil dynamoCoil : dynamoCoilCacheOpposite) {
+			newConductivityOpposite += dynamoCoil.conductivity;
+		}
+		dynamoCoilCount = dynamoCoilCache.size();
+		dynamoCoilCountOpposite = dynamoCoilCacheOpposite.size();
+		
+		newConductivity = dynamoCoilCount == 0 ? 0D : newConductivity*Math.min(rotorBearingMap.size()/2, dynamoCoilCount)/dynamoCoilCount;
+		newConductivityOpposite = dynamoCoilCountOpposite == 0 ? 0D : newConductivityOpposite*Math.min(rotorBearingMap.size()/2, dynamoCoilCountOpposite)/dynamoCoilCountOpposite;
+		
+		conductivity = (newConductivity + newConductivityOpposite)/rotorBearingMap.size();
 	}
 	
 	@Override
@@ -277,6 +326,7 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> {
 			TurbinePartDir shaftDir = getShaftDir();
 			for (TileTurbineRotorShaft rotorShaft : rotorShafts) {
 				BlockPos pos = rotorShaft.getPos();
+				rotorShaft.render = false;
 				IBlockState state = WORLD.getBlockState(pos);
 				if (state.getBlock() instanceof BlockTurbineRotorShaft) {
 					WORLD.setBlockState(pos, state.withProperty(TurbineRotorBladeUtil.DIR, shaftDir));
@@ -302,7 +352,7 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> {
 		
 		isTurbineOn = isProcessing = false;
 		if (controller != null) controller.updateBlockState(false);
-		power = rawPower = rawConductivity = 0D;
+		power = rawPower = rawMaxPower = conductivity = 0D;
 		angVel = rotorAngle = 0F;
 		flowDir = null;
 		shaftWidth = inertia = bladeLength = noBladeSets = recipeRate = 0;
@@ -343,7 +393,7 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> {
 		boolean tooManyAxes = false; // Is any of the bearings in more than a single axis?
 		boolean notInAWall = false; // Is the bearing somewhere else in the structure other than the wall?
 		
-		for (TileTurbineRotorBearing rotorBearing : rotorBearings) {
+		for (TileTurbineRotorBearing rotorBearing : rotorBearingMap.values()) {
 			BlockPos pos = rotorBearing.getPos();
 			
 			if (pos.getX() == minX) dirMinX = true;
@@ -391,7 +441,7 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> {
 		boolean validAmountOfBearings = false;
 		
 		for (shaftWidth = isEvenDiameter? 2 : 1; shaftWidth <= internalDiameter - 2; shaftWidth += 2) {
-			if (rotorBearings.size() == 2*shaftWidth*shaftWidth) {
+			if (rotorBearingMap.size() == 2*shaftWidth*shaftWidth) {
 				validAmountOfBearings = true;
 				break;
 			}
@@ -741,8 +791,8 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> {
 		if (shouldUpdate()) {
 			boolean wasProcessing = isProcessing;
 			refreshRecipe();
-			double previousRawPower = rawPower;
-			double rawMaxPower = getRawMaxProcessPower();
+			double previousRawPower = rawPower, previousRawMaxPower = rawMaxPower;
+			rawMaxPower = getRawMaxProcessPower();
 			if (canProcessInputs()) {
 				isProcessing = true;
 				produceProducts();
@@ -750,9 +800,10 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> {
 			}
 			else {
 				isProcessing = false;
+				rawMaxPower = previousRawMaxPower;
 				rawPower = getNewRawProcessPower(previousRawPower, rawMaxPower, false);
 			}
-			power = rawPower*getEffectiveConductivity();
+			power = rawPower*conductivity;
 			angVel = rawMaxPower == 0D ? 0F : (float) (0.5D*rawPower/rawMaxPower);
 			if (wasProcessing != isProcessing) {
 				sendUpdateToAllPlayers();
@@ -860,11 +911,6 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> {
 		return levels;
 	}
 	
-	public double getEffectiveConductivity() {
-		if (rotorBearings.size() == 0 || dynamoCoils.size() == 0) return 0;
-		return dynamoCoils.size() >= rotorBearings.size() ? rawConductivity : rawConductivity*dynamoCoils.size()/rotorBearings.size();
-	}
-	
 	public int getActualInputRate() {
 		return Math.round(recipeRate/(float)updateTime());
 	}
@@ -914,7 +960,7 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> {
 	
 	@SideOnly(Side.CLIENT)
 	protected double particleSpeedOffest() {
-		return (rand.nextDouble() - 0.5D)/getFlowLength();
+		return (rand.nextDouble() - 0.5D)/(4D*Math.sqrt(getFlowLength()));
 	}
 	
 	@SideOnly(Side.CLIENT)
@@ -1021,7 +1067,8 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> {
 		data.setBoolean("computerActivated", computerActivated);
 		data.setDouble("power", power);
 		data.setDouble("rawPower", rawPower);
-		data.setDouble("rawConductivity", rawConductivity);
+		data.setDouble("rawMaxPower", rawMaxPower);
+		data.setDouble("conductivity", conductivity);
 		data.setFloat("angVel", angVel);
 		data.setInteger("flowDir", flowDir == null ? -1 : flowDir.getIndex());
 		data.setInteger("shaftWidth", shaftWidth);
@@ -1029,6 +1076,8 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> {
 		data.setInteger("bladeLength", bladeLength);
 		data.setInteger("noBladeSets", noBladeSets);
 		data.setInteger("recipeRate", recipeRate);
+		data.setInteger("dynamoCoilCount", dynamoCoilCount);
+		data.setInteger("dynamoCoilCountOpposite", dynamoCoilCountOpposite);
 		data.setDouble("totalExpansionLevel", totalExpansionLevel);
 		data.setDouble("idealTotalExpansionLevel", idealTotalExpansionLevel);
 		data.setDouble("basePowerPerMB", basePowerPerMB);
@@ -1047,7 +1096,8 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> {
 		computerActivated = data.getBoolean("computerActivated");
 		power = data.getDouble("power");
 		rawPower = data.getDouble("rawPower");
-		rawConductivity = data.getDouble("rawConductivity");
+		rawMaxPower = data.getDouble("rawMaxPower");
+		conductivity = data.getDouble("conductivity");
 		angVel = data.getFloat("angVel");
 		flowDir = data.getInteger("flowDir") < 0 ? null : EnumFacing.VALUES[data.getInteger("flowDir")];
 		shaftWidth = data.getInteger("shaftWidth");
@@ -1055,6 +1105,8 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> {
 		bladeLength = data.getInteger("bladeLength");
 		noBladeSets = data.getInteger("noBladeSets");
 		recipeRate = data.getInteger("recipeRate");
+		dynamoCoilCount = data.getInteger("dynamoCoilCount");
+		dynamoCoilCountOpposite = data.getInteger("dynamoCoilCountOpposite");
 		totalExpansionLevel = data.getDouble("totalExpansionLevel");
 		idealTotalExpansionLevel = data.getDouble("idealTotalExpansionLevel");
 		basePowerPerMB = data.getDouble("basePowerPerMB");
@@ -1071,6 +1123,7 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> {
 	
 	protected NBTTagCompound writeTanks(NBTTagCompound nbt) {
 		if (!tanks.isEmpty()) for (int i = 0; i < tanks.size(); i++) {
+			nbt.setInteger("capacity" + i, tanks.get(i).getCapacity());
 			nbt.setInteger("fluidAmount" + i, tanks.get(i).getFluidAmount());
 			nbt.setString("fluidName" + i, tanks.get(i).getFluidName());
 		}
@@ -1079,6 +1132,7 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> {
 	
 	protected void readTanks(NBTTagCompound nbt) {
 		if (!tanks.isEmpty()) for (int i = 0; i < tanks.size(); i++) {
+			tanks.get(i).setCapacity(nbt.getInteger("capacity" + i));
 			if (nbt.getString("fluidName" + i).equals("nullFluid") || nbt.getInteger("fluidAmount" + i) == 0) tanks.get(i).setFluidStored(null);
 			else tanks.get(i).setFluidStored(FluidRegistry.getFluid(nbt.getString("fluidName" + i)), nbt.getInteger("fluidAmount" + i));
 		}
@@ -1088,7 +1142,7 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> {
 	
 	@Override
 	protected TurbineUpdatePacket getUpdatePacket() {
-		return new TurbineUpdatePacket(controller.getPos(), isTurbineOn, power, rawPower, rawConductivity, totalExpansionLevel, idealTotalExpansionLevel, shaftWidth, bladeLength, noBladeSets, energyStorage.getMaxEnergyStored(), energyStorage.getEnergyStored());
+		return new TurbineUpdatePacket(controller.getPos(), isTurbineOn, power, rawPower, conductivity, totalExpansionLevel, idealTotalExpansionLevel, shaftWidth, bladeLength, noBladeSets, dynamoCoilCount, dynamoCoilCountOpposite, energyStorage.getMaxEnergyStored(), energyStorage.getEnergyStored());
 	}
 	
 	@Override
@@ -1096,12 +1150,14 @@ public class Turbine extends CuboidalMultiblockBase<TurbineUpdatePacket> {
 		isTurbineOn = message.isTurbineOn;
 		power = message.power;
 		rawPower = message.rawPower;
-		rawConductivity = message.rawConductivity;
+		conductivity = message.conductivity;
 		totalExpansionLevel = message.totalExpansionLevel;
 		idealTotalExpansionLevel = message.idealTotalExpansionLevel;
 		shaftWidth = message.shaftWidth;
 		bladeLength = message.bladeLength;
 		noBladeSets = message.noBladeSets;
+		dynamoCoilCount = message.dynamoCoilCount;
+		dynamoCoilCountOpposite = message.dynamoCoilCountOpposite;
 		energyStorage.setStorageCapacity(message.capacity);
 		energyStorage.setMaxTransfer(message.capacity);
 		energyStorage.setEnergyStored(message.energy);

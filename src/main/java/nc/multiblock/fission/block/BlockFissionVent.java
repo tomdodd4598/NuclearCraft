@@ -28,8 +28,7 @@ public class BlockFissionVent extends BlockFissionPartBase {
 	
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
-		EnumFacing enumfacing = EnumFacing.byIndex(meta);
-		return getDefaultState().withProperty(FACING_ALL, enumfacing);
+		return getDefaultState().withProperty(FACING_ALL, EnumFacing.byIndex(meta));
 	}
 	
 	@Override

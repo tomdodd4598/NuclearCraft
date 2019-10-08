@@ -111,4 +111,12 @@ public class FissionCluster {
 		
 		reactor.checkIfMachineIsWhole();
 	}
+	
+	public int getTemperature() {
+		return Math.round(reactor.ambientTemp + (FissionReactor.MAX_TEMP - reactor.ambientTemp)*(float)heatBuffer.getHeatStored()/heatBuffer.getHeatCapacity());
+	}
+	
+	public float getBurnDamage() {
+		return getTemperature() < 373 ? 0F : 1F + (getTemperature() - 373)/200F;
+	}
 }

@@ -18,6 +18,7 @@ import nc.multiblock.fission.FissionReactor;
 import nc.multiblock.fission.solid.SolidFissionCellSetting;
 import nc.multiblock.fission.tile.IFissionFuelComponent;
 import nc.multiblock.fission.tile.TileFissionPartBase;
+import nc.multiblock.fission.tile.TileFissionPort;
 import nc.radiation.RadiationHelper;
 import nc.recipe.AbstractRecipeHandler;
 import nc.recipe.NCRecipes;
@@ -31,7 +32,9 @@ import nc.tile.internal.inventory.InventoryTileWrapper;
 import nc.tile.internal.inventory.ItemOutputSetting;
 import nc.tile.internal.inventory.ItemSorption;
 import nc.tile.inventory.ITileInventory;
+import nc.util.BlockPosHelper;
 import nc.util.ItemStackHelper;
+import nc.util.NBTHelper;
 import nc.util.RegistryHelper;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
@@ -73,7 +76,15 @@ public class TileSolidFissionCell extends TileFissionPartBase implements IItemGe
 	protected double undercoolingLifetimeFactor = 1D;
 	protected Double sourceEfficiency = null;
 	protected Double[] moderatorLineEfficiencies = new Double[] {null, null, null, null, null, null};
-	protected final LongSet passiveModeratorCache = new LongOpenHashSet(), activeReflectorCache = new LongOpenHashSet();
+	protected IFissionFuelComponent[] adjacentFuelComponents = new IFissionFuelComponent[] {null, null, null, null, null, null};
+	protected final LongSet[] passiveModeratorCaches = new LongSet[] {new LongOpenHashSet(), new LongOpenHashSet(), new LongOpenHashSet(), new LongOpenHashSet(), new LongOpenHashSet(), new LongOpenHashSet()};
+	protected final Long[] activeModeratorCache = new Long[] {null, null, null, null, null, null};
+	protected final LongSet passiveReflectorModeratorCache = new LongOpenHashSet();
+	protected Long activeReflectorModeratorCache = null;
+	protected final LongSet activeReflectorCache = new LongOpenHashSet();
+	
+	protected BlockPos portPos = BlockPosHelper.DEFAULT_NON;
+	protected TileFissionPort port = null;
 	
 	protected int cellCount;
 	
@@ -130,8 +141,14 @@ public class TileSolidFissionCell extends TileFissionPartBase implements IItemGe
 		flux = heatMult = 0;
 		undercoolingLifetimeFactor = 1D;
 		sourceEfficiency = null;
-		moderatorLineEfficiencies[0] = moderatorLineEfficiencies[1] = moderatorLineEfficiencies[2] = moderatorLineEfficiencies[3] = moderatorLineEfficiencies[4] = moderatorLineEfficiencies[5] = null;
-		passiveModeratorCache.clear();
+		for (EnumFacing dir : EnumFacing.VALUES) {
+			moderatorLineEfficiencies[dir.getIndex()] = null;
+			adjacentFuelComponents[dir.getIndex()] = null;
+			passiveModeratorCaches[dir.getIndex()].clear();
+			activeModeratorCache[dir.getIndex()] = null;
+		}
+		passiveReflectorModeratorCache.clear();
+		activeReflectorModeratorCache = null;
 		activeReflectorCache.clear();
 		
 		refreshRecipe();
@@ -158,6 +175,11 @@ public class TileSolidFissionCell extends TileFissionPartBase implements IItemGe
 	@Override
 	public boolean isPrimed() {
 		return primed;
+	}
+	
+	@Override
+	public void unprime() {
+		primed = false;
 	}
 	
 	@Override
@@ -202,8 +224,33 @@ public class TileSolidFissionCell extends TileFissionPartBase implements IItemGe
 	}
 	
 	@Override
-	public LongSet getPassiveModeratorCache() {
-		return passiveModeratorCache;
+	public IFissionFuelComponent[] getAdjacentFuelComponents() {
+		return adjacentFuelComponents;
+	}
+	
+	@Override
+	public LongSet[] getPassiveModeratorCaches() {
+		return passiveModeratorCaches;
+	}
+	
+	@Override
+	public Long[] getActiveModeratorCache() {
+		return activeModeratorCache;
+	}
+	
+	@Override
+	public LongSet getPassiveReflectorModeratorCache() {
+		return passiveReflectorModeratorCache;
+	}
+	
+	@Override
+	public Long getActiveReflectorModeratorCache() {
+		return activeReflectorModeratorCache;
+	}
+	
+	@Override
+	public void setActiveReflectorModeratorCache(long posLong) {
+		activeReflectorModeratorCache = posLong;
 	}
 	
 	@Override
@@ -263,12 +310,37 @@ public class TileSolidFissionCell extends TileFissionPartBase implements IItemGe
 		}
 	}
 	
+	public BlockPos getPortPos() {
+		return portPos;
+	}
+	
+	public void setPortPos(BlockPos pos) {
+		portPos = pos;
+	}
+	
+	public TileFissionPort getPort() {
+		return port;
+	}
+	
+	public void clearPort() {
+		port = null;
+		portPos = BlockPosHelper.DEFAULT_NON;
+	}
+	
+	public void refreshPort() {
+		if (getMultiblock() != null) {
+			port = getMultiblock().getPortMap().get(portPos.toLong());
+			if (port == null) portPos = BlockPosHelper.DEFAULT_NON;
+		}
+	}
+	
 	// Processing
 	
 	@Override
 	public void onAdded() {
 		super.onAdded();
 		if (!world.isRemote) {
+			refreshPort();
 			refreshRecipe();
 			refreshActivity();
 			refreshIsProcessing(true);
@@ -439,7 +511,7 @@ public class TileSolidFissionCell extends TileFissionPartBase implements IItemGe
 						getMultiblock().refreshFlag = true;
 					}
 					else {
-						getMultiblock().refreshCluster(cluster.getId());
+						getMultiblock().refreshCluster(cluster);
 					}
 				}
 			}
@@ -493,7 +565,7 @@ public class TileSolidFissionCell extends TileFissionPartBase implements IItemGe
 	
 	@Override
 	public @Nonnull NonNullList<ItemStack> getInventoryStacks() {
-		return inventoryStacks;
+		return port != null ? port.getInventoryStacks() : inventoryStacks;
 	}
 	
 	@Override
@@ -667,6 +739,9 @@ public class TileSolidFissionCell extends TileFissionPartBase implements IItemGe
 		writeCellSettings(nbt);
 		
 		nbt.setDouble("baseProcessTime", baseProcessTime);
+		nbt.setInteger("baseProcessHeat", baseProcessHeat);
+		nbt.setDouble("baseProcessEfficiency", baseProcessEfficiency);
+		nbt.setInteger("baseProcessCriticality", baseProcessCriticality);
 		
 		nbt.setDouble("time", time);
 		nbt.setBoolean("isProcessing", isProcessing);
@@ -674,6 +749,8 @@ public class TileSolidFissionCell extends TileFissionPartBase implements IItemGe
 		nbt.setBoolean("canProcessInputs", canProcessInputs);
 		
 		nbt.setInteger("flux", flux);
+		
+		nbt.setLong("portPos", portPos.toLong());
 		return nbt;
 	}
 	
@@ -685,6 +762,9 @@ public class TileSolidFissionCell extends TileFissionPartBase implements IItemGe
 		readCellSettings(nbt);
 		
 		baseProcessTime = nbt.getDouble("baseProcessTime");
+		baseProcessHeat = nbt.getInteger("baseProcessHeat");
+		baseProcessEfficiency = nbt.getDouble("baseProcessEfficiency");
+		baseProcessCriticality = nbt.getInteger("baseProcessCriticality");
 		
 		time = nbt.getDouble("time");
 		isProcessing = nbt.getBoolean("isProcessing");
@@ -692,6 +772,19 @@ public class TileSolidFissionCell extends TileFissionPartBase implements IItemGe
 		canProcessInputs = nbt.getBoolean("canProcessInputs");
 		
 		flux = nbt.getInteger("flux");
+		
+		portPos = BlockPos.fromLong(nbt.getLong("portPos"));
+	}
+	
+	@Override
+	public NBTTagCompound writeInventory(NBTTagCompound nbt) {
+		NBTHelper.saveAllItems(nbt, inventoryStacks, consumedStacks);
+		return nbt;
+	}
+	
+	@Override
+	public void readInventory(NBTTagCompound nbt) {
+		NBTHelper.loadAllItems(nbt, inventoryStacks, consumedStacks);
 	}
 	
 	// Capability

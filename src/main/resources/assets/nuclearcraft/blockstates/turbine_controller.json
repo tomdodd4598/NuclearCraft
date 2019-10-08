@@ -3,11 +3,11 @@
 	"defaults": {
 		"model": "nuclearcraft:machine",
 		"textures": {
-			"top": "nuclearcraft:blocks/turbine/turbine_controller_top",
-			"bottom": "nuclearcraft:blocks/turbine/turbine_controller_bottom",
-			"front": "nuclearcraft:blocks/turbine/turbine_controller_front_off",
-			"side": "nuclearcraft:blocks/turbine/turbine_controller_side",
-			"back": "nuclearcraft:blocks/turbine/turbine_controller_back"
+			"top": "nuclearcraft:blocks/turbine/controller_top",
+			"bottom": "nuclearcraft:blocks/turbine/controller_bottom",
+			"front": "nuclearcraft:blocks/turbine/controller_front_off",
+			"side": "nuclearcraft:blocks/turbine/controller_side",
+			"back": "nuclearcraft:blocks/turbine/controller_back"
 		}
 	},
 	"variants": {
@@ -16,7 +16,7 @@
 			"false": {},
 			"true": {
 				"textures": {
-					"front": "nuclearcraft:blocks/turbine/turbine_controller_front_on"
+					"front": "nuclearcraft:blocks/turbine/controller_front_on"
 				}
 			}
 		},

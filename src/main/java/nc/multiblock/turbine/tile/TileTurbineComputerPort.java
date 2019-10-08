@@ -98,7 +98,7 @@ public class TileTurbineComputerPort extends TileTurbinePartBase implements Simp
 	@Callback
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getCoilConductivity(Context context, Arguments args) {
-		return new Object[] {isMultiblockAssembled() ? getMultiblock().getEffectiveConductivity() : 0D};
+		return new Object[] {isMultiblockAssembled() ? getMultiblock().conductivity : 0D};
 	}
 	
 	@Callback
@@ -146,7 +146,7 @@ public class TileTurbineComputerPort extends TileTurbinePartBase implements Simp
 	@Callback
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getNumberOfDynamoCoils(Context context, Arguments args) {
-		return new Object[] {isMultiblockAssembled() ? getMultiblock().getDynamoCoils().size() : 0};
+		return new Object[] {isMultiblockAssembled() ? getMultiblock().getDynamoCoilMap().size() : 0};
 	}
 	
 	@Callback
@@ -154,10 +154,10 @@ public class TileTurbineComputerPort extends TileTurbinePartBase implements Simp
 	public Object[] getDynamoCoilStats(Context context, Arguments args) {
 		if (isMultiblockAssembled()) {
 			List<Object[]> stats = new ArrayList<Object[]>();
-			for (TileTurbineDynamoCoil dynamoCoil : getMultiblock().getDynamoCoils()) {
+			for (TileTurbineDynamoCoil dynamoCoil : getMultiblock().getDynamoCoilMap().values()) {
 				stats.add(new Object[] {
 						new Object[] {dynamoCoil.getPos().getX(), dynamoCoil.getPos().getY(), dynamoCoil.getPos().getZ()},
-						dynamoCoil.coilType.getName(),
+						dynamoCoil.coilName,
 						dynamoCoil.isInValidPosition
 						});
 			}

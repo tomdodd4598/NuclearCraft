@@ -5,7 +5,8 @@
 		"textures": {
 			"in": "nuclearcraft:blocks/fission/vent_in",
 			"out": "nuclearcraft:blocks/fission/vent_out",
-			"side": "nuclearcraft:blocks/fission/vent_side"
+			"side": "nuclearcraft:blocks/fission/vent_side",
+			"top": "nuclearcraft:blocks/fission/vent_side"
 		}
 	},
 	"variants": {

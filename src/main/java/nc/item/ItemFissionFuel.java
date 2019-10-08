@@ -5,8 +5,7 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import nc.NCInfo;
-import nc.enumm.IFissionStats;
-import nc.enumm.IItemMeta;
+import nc.enumm.IFissionFuelEnum;
 import nc.util.InfoHelper;
 import nc.util.ItemStackHelper;
 import net.minecraft.client.util.ITooltipFlag;
@@ -20,7 +19,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ItemFissionFuel<T extends Enum<T> & IStringSerializable & IItemMeta & IFissionStats> extends Item implements IInfoItem {
+public class ItemFissionFuel<T extends Enum<T> & IStringSerializable & IFissionFuelEnum> extends Item implements IInfoItem {
 	
 	private final Class<T> enumm;
 	public final T[] values;
@@ -61,7 +60,7 @@ public class ItemFissionFuel<T extends Enum<T> & IStringSerializable & IItemMeta
 		super.addInformation(itemStack, world, tooltip, flag);
 		int meta = itemStack.getMetadata();
 		if (info.length != 0 && info.length > meta && info[meta].length > 0) {
-			InfoHelper.infoFull(tooltip, TextFormatting.GREEN, fixedInfo, info[meta]);
+			InfoHelper.infoFull(tooltip, TextFormatting.GREEN, fixedInfo, new TextFormatting[] {TextFormatting.GREEN, TextFormatting.YELLOW, TextFormatting.LIGHT_PURPLE, TextFormatting.RED}, info[meta]);
 		}
 	}
 }

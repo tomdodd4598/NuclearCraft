@@ -35,13 +35,13 @@ public class TooltipHandler {
 		RecipeInfo<ProcessorRecipe> recipeInfo = NCRecipes.fission_moderator.getRecipeInfoFromInputs(Arrays.asList(stack), new ArrayList<Tank>());
 		ProcessorRecipe recipe = recipeInfo == null ? null : recipeInfo.getRecipe();
 		if (recipe != null) {
-			InfoHelper.infoFull(event.getToolTip(), new TextFormatting[] {TextFormatting.UNDERLINE, TextFormatting.GREEN, TextFormatting.GREEN}, NCInfo.fissionModeratorFixedInfo(recipe), NCInfo.fissionModeratorInfo());
+			InfoHelper.infoFull(event.getToolTip(), new TextFormatting[] {TextFormatting.UNDERLINE, TextFormatting.GREEN, TextFormatting.LIGHT_PURPLE}, NCInfo.fissionModeratorFixedInfo(recipe), TextFormatting.AQUA, NCInfo.fissionModeratorInfo());
 		}
 		
 		recipeInfo = NCRecipes.fission_reflector.getRecipeInfoFromInputs(Arrays.asList(stack), new ArrayList<Tank>());
 		recipe = recipeInfo == null ? null : recipeInfo.getRecipe();
 		if (recipe != null) {
-			InfoHelper.infoFull(event.getToolTip(), new TextFormatting[] {TextFormatting.UNDERLINE, TextFormatting.LIGHT_PURPLE, TextFormatting.LIGHT_PURPLE}, NCInfo.fissionReflectorFixedInfo(recipe), NCInfo.fissionReflectorInfo());
+			InfoHelper.infoFull(event.getToolTip(), new TextFormatting[] {TextFormatting.UNDERLINE, TextFormatting.WHITE, TextFormatting.LIGHT_PURPLE}, NCInfo.fissionReflectorFixedInfo(recipe), TextFormatting.AQUA, NCInfo.fissionReflectorInfo());
 		}
 		
 		if (NCConfig.radiation_enabled_public) {

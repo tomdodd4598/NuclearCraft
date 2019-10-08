@@ -8,6 +8,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -44,6 +45,8 @@ public class BlockHelper {
 			world.playSound(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, sound, SoundCategory.BLOCKS, 1F, 1F, false);
 		}
 	}
+	
+	public static final AxisAlignedBB REDUCED_BLOCK_AABB = new AxisAlignedBB(0.002D, 0.002D, 0.002D, 0.998D, 0.998D, 0.998D);
 	
 	// Taken from cofh.core.util.helpers.BlockHelper. Good idea Lemming!
 	

@@ -1,5 +1,7 @@
 package nc.multiblock.turbine.tile;
 
+import static nc.block.property.BlockProperties.AXIS_ALL;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,8 +22,11 @@ import nc.tile.internal.fluid.Tank;
 import nc.tile.internal.fluid.TankOutputSetting;
 import nc.tile.internal.fluid.TankSorption;
 import nc.util.GasHelper;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 
@@ -45,14 +50,19 @@ public class TileTurbineInlet extends TileTurbinePartBase implements ITileFluid 
 	public void onMachineAssembled(Turbine controller) {
 		doStandardNullControllerResponse(controller);
 		super.onMachineAssembled(controller);
-		//if (getWorld().isRemote) return;
+		if (!getWorld().isRemote && getPartPosition().getFacing() != null) {
+			getWorld().setBlockState(getPos(), getWorld().getBlockState(getPos()).withProperty(AXIS_ALL, getPartPosition().getFacing().getAxis()), 2);
+		}
 	}
 	
 	@Override
 	public void onMachineBroken() {
 		super.onMachineBroken();
-		//if (getWorld().isRemote) return;
-		//getWorld().setBlockState(getPos(), getWorld().getBlockState(getPos()), 2);
+	}
+	
+	@Override
+	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
+		return oldState.getBlock() != newState.getBlock();
 	}
 	
 	// Fluids
@@ -63,7 +73,7 @@ public class TileTurbineInlet extends TileTurbinePartBase implements ITileFluid 
 		if (!isMultiblockAssembled()) return backupTanks;
 		return getMultiblock().tanks.subList(0, 1);
 	}
-
+	
 	@Override
 	@Nonnull
 	public FluidConnection[] getFluidConnections() {
@@ -74,7 +84,7 @@ public class TileTurbineInlet extends TileTurbinePartBase implements ITileFluid 
 	public void setFluidConnections(@Nonnull FluidConnection[] connections) {
 		fluidConnections = connections;
 	}
-
+	
 	@Override
 	@Nonnull
 	public FluidTileWrapper[] getFluidSides() {
@@ -85,23 +95,23 @@ public class TileTurbineInlet extends TileTurbinePartBase implements ITileFluid 
 	public @Nonnull GasTileWrapper getGasWrapper() {
 		return gasWrapper;
 	}
-
+	
 	@Override
 	public boolean getInputTanksSeparated() {
 		return false;
 	}
-
+	
 	@Override
 	public void setInputTanksSeparated(boolean separated) {}
-
+	
 	@Override
 	public boolean getVoidUnusableFluidInput(int tankNumber) {
 		return false;
 	}
-
+	
 	@Override
 	public void setVoidUnusableFluidInput(int tankNumber, boolean voidUnusableFluidInput) {}
-
+	
 	@Override
 	public TankOutputSetting getTankOutputSetting(int tankNumber) {
 		return TankOutputSetting.DEFAULT;
@@ -118,7 +128,7 @@ public class TileTurbineInlet extends TileTurbinePartBase implements ITileFluid 
 		writeFluidConnections(nbt);
 		return nbt;
 	}
-		
+	
 	@Override
 	public void readAll(NBTTagCompound nbt) {
 		super.readAll(nbt);
@@ -134,7 +144,7 @@ public class TileTurbineInlet extends TileTurbinePartBase implements ITileFluid 
 		}
 		return super.hasCapability(capability, side);
 	}
-
+	
 	@Override
 	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing side) {
 		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {

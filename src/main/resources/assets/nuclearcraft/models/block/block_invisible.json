@@ -1,6 +1,18 @@
 {
-	"parent": "block/cube_all",
+	"parent": "block/block",
 	"textures": {
-		"all": "nuclearcraft:blocks/block_invisible"
-	}
+		"invis": "nuclearcraft:blocks/block_invisible"
+	},
+	"elements": [{
+		"from": [ 0, 0, 0 ],
+		"to": [ 16, 16, 16 ],
+		"faces": {
+			"down": { "texture": "#invis", "cullface": "down" },
+			"up": { "texture": "#invis", "cullface": "up" },
+			"north": { "texture": "#invis", "cullface": "north" },
+			"south": { "texture": "#invis", "cullface": "south" },
+			"west": { "texture": "#invis", "cullface": "west" },
+			"east": { "texture": "#invis", "cullface": "east" }
+		}
+	}]
 }

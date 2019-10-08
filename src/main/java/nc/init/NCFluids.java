@@ -16,6 +16,7 @@ import nc.util.ColorHelper;
 import nc.util.NCUtil;
 import net.minecraft.block.Block;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
@@ -52,8 +53,13 @@ public class NCFluids {
 			fluidPairList.add(fluidPair(FluidType.MOLTEN, "arsenic", 0x818475));
 			
 			fluidPairList.add(fluidPair(FluidType.SUPERFLUID, "liquid_helium"));
-			fluidPairList.add(fluidPair(FluidType.LIQUID, "liquid_nitrogen", false, 0x31C23A, 810, 70, 170));
+			fluidPairList.add(fluidPair(FluidType.LIQUID, "liquid_nitrogen", false, 0x31C23A, 810, 70, 170, 0));
 			fluidPairList.add(fluidPair(FluidType.LIQUID, "heavy_water"));
+			
+			if (registerCoFHAlt()) fluidPairList.add(fluidPair(FluidType.LIQUID, "ender", true, 0x14584D, 4000, 300, 2500, 3));
+			fluidPairList.add(fluidPair(FluidType.MOLTEN, "lead_platinum", 0x415B60));
+			fluidPairList.add(fluidPair(FluidType.MOLTEN, "enderium", 0x0B5B5C));
+			if (registerCoFHAlt()) fluidPairList.add(fluidPair(FluidType.CRYOTHEUM, "cryotheum", 0x0099C1));
 			
 			fluidPairList.add(fluidPair(FluidType.PLASMA, "plasma"));
 			
@@ -101,7 +107,7 @@ public class NCFluids {
 			fluidPairList.add(fluidPair(FluidType.SUGAR, "gelatin", 0xDDD09C));
 			fluidPairList.add(fluidPair(FluidType.SUGAR, "hydrated_gelatin", waterBlend(0xDDD09C, 0.8F)));
 			fluidPairList.add(fluidPair(FluidType.CHOCOLATE, "marshmallow", 0xE1E1E3));
-			fluidPairList.add(fluidPair(FluidType.LIQUID, "milk", true, 0xDEDBCF, 1100, 300, 1000));
+			fluidPairList.add(fluidPair(FluidType.LIQUID, "milk", true, 0xDEDBCF, 1100, 300, 1000, 0));
 			
 			fluidPairList.add(fluidPair(FluidType.MOLTEN, "lif", 0xCDCDCB));
 			fluidPairList.add(fluidPair(FluidType.MOLTEN, "bef2", 0xBEC6AA));
@@ -115,8 +121,8 @@ public class NCFluids {
 			fluidPairList.add(fluidPair(FluidType.STEAM, "low_pressure_steam", 0xA8A8A8, 800));
 			fluidPairList.add(fluidPair(FluidType.STEAM, "low_quality_steam", 0x828282, 350));
 			
-			fluidPairList.add(fluidPair(FluidType.LIQUID, "preheated_water", false, 0x2F43F4, 1000, 400, 250));
-			fluidPairList.add(fluidPair(FluidType.LIQUID, "condensate_water", false, 0x2F43F4, 1000, 300, 850));
+			fluidPairList.add(fluidPair(FluidType.LIQUID, "preheated_water", false, 0x2F43F4, 1000, 400, 250, 0));
+			fluidPairList.add(fluidPair(FluidType.LIQUID, "condensate_water", false, 0x2F43F4, 1000, 300, 850, 0));
 			
 			fluidPairList.add(fluidPair(FluidType.MOLTEN, "sodium", 0xC1898C));
 			fluidPairList.add(fluidPair(FluidType.MOLTEN, "potassium", 0xB8C503));
@@ -156,7 +162,7 @@ public class NCFluids {
 	
 	public static void registerBlock(NCBlockFluid block) {
 		ForgeRegistries.BLOCKS.register(withName(block));
-		ForgeRegistries.ITEMS.register(new NCItemBlock(block).setRegistryName(block.getRegistryName()));
+		ForgeRegistries.ITEMS.register(new NCItemBlock(block, TextFormatting.AQUA).setRegistryName(block.getRegistryName()));
 		NuclearCraft.proxy.registerFluidBlockRendering(block, block.getBlockName());
 	}
 	

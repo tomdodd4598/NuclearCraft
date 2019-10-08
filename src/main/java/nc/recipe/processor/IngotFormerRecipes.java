@@ -24,6 +24,7 @@ public class IngotFormerRecipes extends ProcessorRecipeHandler {
 		
 		addIngotFormingRecipe("hard_carbon", "HardCarbon");
 		addIngotFormingRecipe("manganese_dioxide", "ManganeseDioxide");
+		addIngotFormingRecipe("lead_platinum", "LeadPlatinum");
 		
 		addRecipe(fluidStack("bas", FluidStackHelper.GEM_VOLUME), "gemBoronArsenide", 2D, 2D);
 		

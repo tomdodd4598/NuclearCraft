@@ -4,14 +4,14 @@ import nc.init.NCItems;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 
-public class TabBaseItemMaterials extends CreativeTabs {
+public class TabMaterial extends CreativeTabs {
 
-	public TabBaseItemMaterials() {
-		super("nuclearcraftBaseItemMaterials");
+	public TabMaterial() {
+		super("nuclearcraft.material");
 	}
 
 	@Override
 	public ItemStack createIcon() {
-		return new ItemStack(NCItems.alloy, 1, 1);
+		return new ItemStack(NCItems.alloy, 1, 10);
 	}
 }

@@ -2,6 +2,7 @@ package nc.init;
 
 import nc.Global;
 import nc.config.NCConfig;
+import nc.item.IInfoItem;
 import nc.item.tool.NCAxe;
 import nc.item.tool.NCHoe;
 import nc.item.tool.NCPickaxe;
@@ -14,6 +15,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
@@ -59,39 +61,39 @@ public class NCTools {
 	
 	public static void init() {
 		if (NCConfig.register_tool[0]) {
-			sword_boron = withName(new NCSword(BORON), "sword_boron");
-			pickaxe_boron = withName(new NCPickaxe(BORON), "pickaxe_boron");
-			shovel_boron = withName(new NCShovel(BORON), "shovel_boron");
-			axe_boron = withName(new NCAxe(BORON), "axe_boron");
-			hoe_boron = withName(new NCHoe(BORON), "hoe_boron");
-			spaxelhoe_boron = withName(new NCSpaxelhoe(SPAXELHOE_BORON), "spaxelhoe_boron");
+			sword_boron = withName(new NCSword(BORON, TextFormatting.GRAY), "sword_boron");
+			pickaxe_boron = withName(new NCPickaxe(BORON, TextFormatting.GRAY), "pickaxe_boron");
+			shovel_boron = withName(new NCShovel(BORON, TextFormatting.GRAY), "shovel_boron");
+			axe_boron = withName(new NCAxe(BORON, TextFormatting.GRAY), "axe_boron");
+			hoe_boron = withName(new NCHoe(BORON, TextFormatting.GRAY), "hoe_boron");
+			spaxelhoe_boron = withName(new NCSpaxelhoe(SPAXELHOE_BORON, TextFormatting.GRAY), "spaxelhoe_boron");
 		}
 		
 		if (NCConfig.register_tool[1]) {
-			sword_tough = withName(new NCSword(TOUGH), "sword_tough");
-			pickaxe_tough = withName(new NCPickaxe(TOUGH), "pickaxe_tough");
-			shovel_tough = withName(new NCShovel(TOUGH), "shovel_tough");
-			axe_tough = withName(new NCAxe(TOUGH), "axe_tough");
-			hoe_tough = withName(new NCHoe(TOUGH), "hoe_tough");
-			spaxelhoe_tough = withName(new NCSpaxelhoe(SPAXELHOE_TOUGH), "spaxelhoe_tough");
+			sword_tough = withName(new NCSword(TOUGH, TextFormatting.DARK_PURPLE), "sword_tough");
+			pickaxe_tough = withName(new NCPickaxe(TOUGH, TextFormatting.DARK_PURPLE), "pickaxe_tough");
+			shovel_tough = withName(new NCShovel(TOUGH, TextFormatting.DARK_PURPLE), "shovel_tough");
+			axe_tough = withName(new NCAxe(TOUGH, TextFormatting.DARK_PURPLE), "axe_tough");
+			hoe_tough = withName(new NCHoe(TOUGH, TextFormatting.DARK_PURPLE), "hoe_tough");
+			spaxelhoe_tough = withName(new NCSpaxelhoe(SPAXELHOE_TOUGH, TextFormatting.DARK_PURPLE), "spaxelhoe_tough");
 		}
 		
 		if (NCConfig.register_tool[2]) {
-			sword_hard_carbon = withName(new NCSword(HARD_CARBON), "sword_hard_carbon");
-			pickaxe_hard_carbon = withName(new NCPickaxe(HARD_CARBON), "pickaxe_hard_carbon");
-			shovel_hard_carbon = withName(new NCShovel(HARD_CARBON), "shovel_hard_carbon");
-			axe_hard_carbon = withName(new NCAxe(HARD_CARBON), "axe_hard_carbon");
-			hoe_hard_carbon = withName(new NCHoe(HARD_CARBON), "hoe_hard_carbon");
-			spaxelhoe_hard_carbon = withName(new NCSpaxelhoe(SPAXELHOE_HARD_CARBON), "spaxelhoe_hard_carbon");
+			sword_hard_carbon = withName(new NCSword(HARD_CARBON, TextFormatting.BLUE), "sword_hard_carbon");
+			pickaxe_hard_carbon = withName(new NCPickaxe(HARD_CARBON, TextFormatting.BLUE), "pickaxe_hard_carbon");
+			shovel_hard_carbon = withName(new NCShovel(HARD_CARBON, TextFormatting.BLUE), "shovel_hard_carbon");
+			axe_hard_carbon = withName(new NCAxe(HARD_CARBON, TextFormatting.BLUE), "axe_hard_carbon");
+			hoe_hard_carbon = withName(new NCHoe(HARD_CARBON, TextFormatting.BLUE), "hoe_hard_carbon");
+			spaxelhoe_hard_carbon = withName(new NCSpaxelhoe(SPAXELHOE_HARD_CARBON, TextFormatting.BLUE), "spaxelhoe_hard_carbon");
 		}
 		
 		if (NCConfig.register_tool[3]) {
-			sword_boron_nitride = withName(new NCSword(BORON_NITRIDE), "sword_boron_nitride");
-			pickaxe_boron_nitride = withName(new NCPickaxe(BORON_NITRIDE), "pickaxe_boron_nitride");
-			shovel_boron_nitride = withName(new NCShovel(BORON_NITRIDE), "shovel_boron_nitride");
-			axe_boron_nitride = withName(new NCAxe(BORON_NITRIDE), "axe_boron_nitride");
-			hoe_boron_nitride = withName(new NCHoe(BORON_NITRIDE), "hoe_boron_nitride");
-			spaxelhoe_boron_nitride = withName(new NCSpaxelhoe(SPAXELHOE_BORON_NITRIDE), "spaxelhoe_boron_nitride");
+			sword_boron_nitride = withName(new NCSword(BORON_NITRIDE, TextFormatting.GREEN), "sword_boron_nitride");
+			pickaxe_boron_nitride = withName(new NCPickaxe(BORON_NITRIDE, TextFormatting.GREEN), "pickaxe_boron_nitride");
+			shovel_boron_nitride = withName(new NCShovel(BORON_NITRIDE, TextFormatting.GREEN), "shovel_boron_nitride");
+			axe_boron_nitride = withName(new NCAxe(BORON_NITRIDE, TextFormatting.GREEN), "axe_boron_nitride");
+			hoe_boron_nitride = withName(new NCHoe(BORON_NITRIDE, TextFormatting.GREEN), "hoe_boron_nitride");
+			spaxelhoe_boron_nitride = withName(new NCSpaxelhoe(SPAXELHOE_BORON_NITRIDE, TextFormatting.GREEN), "spaxelhoe_boron_nitride");
 		}
 	}
 		
@@ -171,8 +173,10 @@ public class NCTools {
 		}
 	}
 	
-	public static Item withName(Item item, String name) {
-		return item.setTranslationKey(Global.MOD_ID + "." + name).setRegistryName(new ResourceLocation(Global.MOD_ID, name));
+	public static <T extends Item & IInfoItem> Item withName(T item, String name) {
+		item.setTranslationKey(Global.MOD_ID + "." + name).setRegistryName(new ResourceLocation(Global.MOD_ID, name));
+		item.setInfo();
+		return item;
 	}
 	
 	public static void registerItem(Item item) {

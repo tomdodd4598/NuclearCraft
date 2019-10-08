@@ -9,11 +9,12 @@ import ic2.api.energy.EnergyNet;
 import ic2.api.energy.tile.IEnergyAcceptor;
 import ic2.api.energy.tile.IEnergySink;
 import ic2.api.energy.tile.IEnergySource;
+import it.unimi.dsi.fastutil.objects.ObjectSet;
 import nc.ModCheck;
 import nc.config.NCConfig;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
-import nc.multiblock.turbine.TurbineDynamoCoilType;
 import nc.multiblock.turbine.Turbine;
+import nc.multiblock.turbine.TurbineDynamoCoilType;
 import nc.tile.energy.ITileEnergy;
 import nc.tile.internal.energy.EnergyConnection;
 import nc.tile.internal.energy.EnergyStorage;
@@ -25,6 +26,7 @@ import nc.util.EnergyHelper;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
@@ -32,24 +34,38 @@ import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.fml.common.Optional;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "ic2.api.energy.tile.IEnergyTile", modid = "ic2"), @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "ic2"), @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySource", modid = "ic2")})
-public class TileTurbineDynamoCoil extends TileTurbinePartBase implements ITileEnergy, IEnergySource {
+public abstract class TileTurbineDynamoCoil extends TileTurbinePartBase implements ITileEnergy, IEnergySource {
 	
-	private final EnergyStorage backupStorage = new EnergyStorage(1);
+	protected final EnergyStorage backupStorage = new EnergyStorage(1);
 	
-	private final EnergyConnection[] energyConnections = ITileEnergy.energyConnectionAll(EnergyConnection.OUT);
+	protected final EnergyConnection[] energyConnections = ITileEnergy.energyConnectionAll(EnergyConnection.OUT);
 	
-	private final EnergyTileWrapper[] energySides = ITileEnergy.getDefaultEnergySides(this);
-	private final EnergyTileWrapperGT[] energySidesGT = ITileEnergy.getDefaultEnergySidesGT(this);
+	protected final EnergyTileWrapper[] energySides = ITileEnergy.getDefaultEnergySides(this);
+	protected final EnergyTileWrapperGT[] energySidesGT = ITileEnergy.getDefaultEnergySidesGT(this);
 	
-	private boolean ic2reg = false;
+	protected boolean ic2reg = false;
 	
-	public final TurbineDynamoCoilType coilType;
-	public boolean checked = false, isInValidPosition;
+	public final String coilName;
+	public final double conductivity;
+	public boolean isSearched = false, isInValidPosition = false;
 	
 	public static class Magnesium extends TileTurbineDynamoCoil {
 		
 		public Magnesium() {
 			super(TurbineDynamoCoilType.MAGNESIUM);
+		}
+		
+		@Override
+		protected boolean checkDynamoCoilValid() {
+			for (EnumFacing dir : BlockPosHelper.getHorizontals(getMultiblock().flowDir)) {
+				if (isRotorBearing(pos.offset(dir))) return true;
+			}
+			return false;
+		}
+		
+		@Override
+		public boolean isSearchRoot() {
+			return true;
 		}
 	}
 	
@@ -58,12 +74,30 @@ public class TileTurbineDynamoCoil extends TileTurbinePartBase implements ITileE
 		public Beryllium() {
 			super(TurbineDynamoCoilType.BERYLLIUM);
 		}
+		
+		@Override
+		protected boolean checkDynamoCoilValid() {
+			for (EnumFacing dir : BlockPosHelper.getHorizontals(getMultiblock().flowDir)) {
+				if (isDynamoCoil(pos.offset(dir), "magnesium")) return true;
+			}
+			return false;
+		}
 	}
 	
 	public static class Aluminum extends TileTurbineDynamoCoil {
 		
 		public Aluminum() {
 			super(TurbineDynamoCoilType.ALUMINUM);
+		}
+		
+		@Override
+		protected boolean checkDynamoCoilValid() {
+			byte magnesium = 0;
+			for (EnumFacing dir : BlockPosHelper.getHorizontals(getMultiblock().flowDir)) {
+				if (isDynamoCoil(pos.offset(dir), "magnesium")) magnesium++;
+				if (magnesium >= 2) return true;
+			}
+			return false;
 		}
 	}
 	
@@ -72,12 +106,28 @@ public class TileTurbineDynamoCoil extends TileTurbinePartBase implements ITileE
 		public Gold() {
 			super(TurbineDynamoCoilType.GOLD);
 		}
+		
+		@Override
+		protected boolean checkDynamoCoilValid() {
+			for (EnumFacing dir : BlockPosHelper.getHorizontals(getMultiblock().flowDir)) {
+				if (isDynamoCoil(pos.offset(dir), "aluminum")) return true;
+			}
+			return false;
+		}
 	}
 	
 	public static class Copper extends TileTurbineDynamoCoil {
 		
 		public Copper() {
 			super(TurbineDynamoCoilType.COPPER);
+		}
+		
+		@Override
+		protected boolean checkDynamoCoilValid() {
+			for (EnumFacing dir : BlockPosHelper.getHorizontals(getMultiblock().flowDir)) {
+				if (isDynamoCoil(pos.offset(dir), "beryllium")) return true;
+			}
+			return false;
 		}
 	}
 	
@@ -86,12 +136,29 @@ public class TileTurbineDynamoCoil extends TileTurbinePartBase implements ITileE
 		public Silver() {
 			super(TurbineDynamoCoilType.SILVER);
 		}
+		
+		@Override
+		protected boolean checkDynamoCoilValid() {
+			boolean gold = false, copper = false;
+			for (EnumFacing dir : BlockPosHelper.getHorizontals(getMultiblock().flowDir)) {
+				if (!gold && isDynamoCoil(pos.offset(dir), "gold")) gold = true;
+				if (!copper && isDynamoCoil(pos.offset(dir), "copper")) copper = true;
+				if (gold && copper) return true;
+			}
+			return false;
+		}
+	}
+	
+	public TileTurbineDynamoCoil(String coilType, double conductivity) {
+		super(CuboidalPartPositionType.WALL);
+		this.coilName = coilType;
+		this.conductivity = conductivity;
 	}
 	
 	private TileTurbineDynamoCoil(TurbineDynamoCoilType coilType) {
 		super(CuboidalPartPositionType.WALL);
-		
-		this.coilType = coilType;
+		this.coilName = coilType.getName();
+		this.conductivity = coilType.getConductivity();
 	}
 	
 	@Override
@@ -108,127 +175,36 @@ public class TileTurbineDynamoCoil extends TileTurbinePartBase implements ITileE
 		//getWorld().setBlockState(getPos(), getWorld().getBlockState(getPos()), 2);
 	}
 	
-	public double contributeConductivity(int dynamoCoilCheckCount) {
-		EnumFacing flowDir = getMultiblock().flowDir;
+	public void dynamoSearch(ObjectSet<TileTurbineDynamoCoil> cache) {
+		if (isSearched || !isDynamoCoilValid()) return;
 		
-		if (!isMultiblockAssembled() || flowDir == null) {
-			isInValidPosition = false;
-			checked = true;
-			return 0D;
-		}
+		isSearched = true;
+		cache.add(this);
 		
-		switch (coilType) {
-		case MAGNESIUM: {
-			if (dynamoCoilCheckCount != 0) return 0D;
-			for (EnumFacing dir : BlockPosHelper.getHorizontals(flowDir)) {
-				if (isRotorBearing(dir)) {
-					isInValidPosition = true;
-					checked = true;
-					return coilType.getConductivity();
-				}
-			}
-			isInValidPosition = false;
-			checked = true;
-			return 0D;
-		}
-			
-		case BERYLLIUM: {
-			if (dynamoCoilCheckCount != 1) return 0D;
-			for (EnumFacing dir : BlockPosHelper.getHorizontals(flowDir)) {
-				if (isDynamoCoil(dir, TurbineDynamoCoilType.MAGNESIUM)) {
-					isInValidPosition = true;
-					checked = true;
-					return coilType.getConductivity();
-				}
-			}
-			isInValidPosition = false;
-			checked = true;
-			return 0D;
-		}
-			
-		case ALUMINUM: {
-			if (dynamoCoilCheckCount != 4) return 0D;
-			for (EnumFacing dir : BlockPosHelper.getHorizontals(flowDir)) {
-				if (isDynamoCoilExcluding(dir, TurbineDynamoCoilType.ALUMINUM)) {
-					isInValidPosition = true;
-					checked = true;
-					return coilType.getConductivity();
-				}
-			}
-			isInValidPosition = false;
-			checked = true;
-			return 0D;
-		}
-			
-		case GOLD: {
-			if (dynamoCoilCheckCount != 2) return 0D;
-			for (EnumFacing dir : BlockPosHelper.getHorizontals(flowDir)) {
-				if (isDynamoCoil(dir, TurbineDynamoCoilType.BERYLLIUM)) {
-					isInValidPosition = true;
-					checked = true;
-					return coilType.getConductivity();
-				}
-			}
-			isInValidPosition = false;
-			checked = true;
-			return 0D;
-		}
-			
-		case COPPER: {
-			if (dynamoCoilCheckCount != 3) return 0D;
-			for (EnumFacing dir : BlockPosHelper.getHorizontals(flowDir)) {
-				if (isDynamoCoil(dir, TurbineDynamoCoilType.GOLD)) {
-					isInValidPosition = true;
-					checked = true;
-					return coilType.getConductivity();
-				}
-			}
-			isInValidPosition = false;
-			checked = true;
-			return 0D;
-		}
-			
-		case SILVER: {
-			if (dynamoCoilCheckCount != 3) return 0D;
-			boolean magnesium = false;
-			boolean gold = false;
-			for (EnumFacing dir : BlockPosHelper.getHorizontals(flowDir)) {
-				if (!magnesium) if (isDynamoCoil(dir, TurbineDynamoCoilType.MAGNESIUM)) magnesium = true;
-				if (!gold) if (isDynamoCoil(dir, TurbineDynamoCoilType.GOLD)) gold = true;
-				if (magnesium && gold) {
-					isInValidPosition = true;
-					checked = true;
-					return coilType.getConductivity();
-				}
-			}
-			isInValidPosition = false;
-			checked = true;
-			return 0D;
-		}
-			
-		default: {
-			isInValidPosition = false;
-			return 0D;
-		}
+		for (EnumFacing dir : EnumFacing.VALUES) {
+			TileTurbineDynamoCoil dynamoCoil = getMultiblock().getDynamoCoilMap().get(getTilePos().offset(dir).toLong());
+			if (dynamoCoil != null) dynamoCoil.dynamoSearch(cache);
 		}
 	}
 	
-	private boolean isRotorBearing(EnumFacing dir) {
-		return world.getTileEntity(pos.offset(dir)) instanceof TileTurbineRotorBearing;
+	public boolean isDynamoCoilValid() {
+		if (isInValidPosition) return true;
+		return isInValidPosition = checkDynamoCoilValid();
 	}
 	
-	private boolean isDynamoCoil(EnumFacing dir, TurbineDynamoCoilType coilType) {
-		TileEntity tile = world.getTileEntity(pos.offset(dir));
-		if (!(tile instanceof TileTurbineDynamoCoil)) return false;
-		TileTurbineDynamoCoil dynamoCoil = (TileTurbineDynamoCoil) tile;
-		return dynamoCoil.isInValidPosition && dynamoCoil.coilType == coilType;
+	protected abstract boolean checkDynamoCoilValid();
+	
+	protected boolean isRotorBearing(BlockPos pos) {
+		return getMultiblock().getRotorBearingMap().get(pos.toLong()) != null;
 	}
 	
-	private boolean isDynamoCoilExcluding(EnumFacing dir, TurbineDynamoCoilType coilType) {
-		TileEntity tile = world.getTileEntity(pos.offset(dir));
-		if (!(tile instanceof TileTurbineDynamoCoil)) return false;
-		TileTurbineDynamoCoil dynamoCoil = (TileTurbineDynamoCoil) tile;
-		return dynamoCoil.isInValidPosition && dynamoCoil.coilType != coilType;
+	protected boolean isDynamoCoil(BlockPos pos, String coilName) {
+		TileTurbineDynamoCoil dynamoCoil = getMultiblock().getDynamoCoilMap().get(pos.toLong());
+		return dynamoCoil == null ? false : dynamoCoil.isInValidPosition && dynamoCoil.coilName.equals(coilName);
+	}
+	
+	public boolean isSearchRoot() {
+		return false;
 	}
 	
 	@Override
@@ -294,13 +270,13 @@ public class TileTurbineDynamoCoil extends TileTurbinePartBase implements ITileE
 	
 	@Override
 	public void pushEnergyToSide(@Nonnull EnumFacing side) {
-		if (!getEnergyConnection(side).canExtract()) return;
+		if (!getEnergyConnection(side).canExtract() || getEnergyStorage().getEnergyStored() == 0) return;
 		
 		TileEntity tile = getTileWorld().getTileEntity(getTilePos().offset(side));
 		if (tile == null || tile instanceof TileTurbinePartBase) return;
 		
-		if (tile instanceof ITileEnergy) if (!((ITileEnergy) tile).getEnergyConnection(side.getOpposite()).canReceive()) return;
-		if (tile instanceof ITilePassive) if (!((ITilePassive) tile).canPushEnergyTo()) return;
+		if (tile instanceof ITileEnergy) if (!((ITileEnergy)tile).getEnergyConnection(side.getOpposite()).canReceive()) return;
+		if (tile instanceof ITilePassive) if (!((ITilePassive)tile).canPushEnergyTo()) return;
 		
 		IEnergyStorage adjStorage = tile.getCapability(CapabilityEnergy.ENERGY, side.getOpposite());
 		
@@ -313,7 +289,7 @@ public class TileTurbineDynamoCoil extends TileTurbinePartBase implements ITileE
 		
 		if (ModCheck.ic2Loaded()) {
 			if (tile instanceof IEnergySink) {
-				getEnergyStorage().extractEnergy((int) Math.round(((IEnergySink) tile).injectEnergy(side.getOpposite(), getEnergyStorage().extractEnergy(getEnergyStorage().getMaxEnergyStored(), true)/NCConfig.rf_per_eu, getEUSourceTier())*NCConfig.rf_per_eu), false);
+				getEnergyStorage().extractEnergy((int) Math.round(((IEnergySink)tile).injectEnergy(side.getOpposite(), getEnergyStorage().extractEnergy(getEnergyStorage().getMaxEnergyStored(), true)/NCConfig.rf_per_eu, getEUSourceTier())*NCConfig.rf_per_eu), false);
 				return;
 			}
 		}

@@ -9,8 +9,8 @@
     },
     "textures": {
         "particle": "#side",
-        "down": "#side",
-        "up": "#side",
+        "down": "#top",
+        "up": "#top",
         "north": "#out",
         "east": "#side",
         "south": "#in",

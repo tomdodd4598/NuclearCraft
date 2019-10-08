@@ -4,7 +4,7 @@
 		"type":"ctm",
 		"layer":"SOLID",
 		"textures":[
-			"nuclearcraft:blocks/heat_exchanger/heat_exchanger_wall_ctm"
+			"nuclearcraft:blocks/turbine/casing/wall_ctm"
 		]
 	}
 }

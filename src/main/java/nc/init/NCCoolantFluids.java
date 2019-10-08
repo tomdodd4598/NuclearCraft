@@ -9,7 +9,6 @@ import nc.Global;
 import nc.ModCheck;
 import nc.NuclearCraft;
 import nc.block.fluid.BlockFluidCoolant;
-import nc.block.fluid.BlockFluidCryotheum;
 import nc.block.fluid.BlockFluidGlowstone;
 import nc.block.fluid.BlockFluidHotCoolant;
 import nc.block.fluid.BlockFluidMolten;
@@ -17,12 +16,12 @@ import nc.block.fluid.NCBlockFluid;
 import nc.block.item.NCItemBlock;
 import nc.config.NCConfig;
 import nc.fluid.FluidCoolant;
-import nc.fluid.FluidCryotheum;
 import nc.fluid.FluidGlowstone;
 import nc.fluid.FluidHotCoolant;
 import nc.fluid.FluidMolten;
 import net.minecraft.block.Block;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
@@ -90,20 +89,10 @@ public class NCCoolantFluids {
 		fluidPairList.add(Pair.of(liquid_helium_nak, !NCConfig.register_fission_fluid_blocks ? null : new BlockFluidCoolant(liquid_helium_nak)));
 		fluidPairList.add(Pair.of(liquid_helium_nak_hot, !NCConfig.register_fission_fluid_blocks ? null : new BlockFluidHotCoolant(liquid_helium_nak_hot)));
 		
-		if (registerCoFHAlt()) {
-			FluidMolten ender = new FluidMolten("ender", 0x14584D);
-			fluidPairList.add(Pair.of(ender, !NCConfig.register_fission_fluid_blocks ? null : new BlockFluidMolten(ender)));
-		}
-		
-		FluidCoolant ender_nak = new FluidCoolant("ender_nak", FluidCoolant.getNAKColor(0x14584D));
-		FluidHotCoolant ender_nak_hot = new FluidHotCoolant("ender_nak_hot", FluidHotCoolant.getNAKColor(0x14584D));
-		fluidPairList.add(Pair.of(ender_nak, !NCConfig.register_fission_fluid_blocks ? null : new BlockFluidCoolant(ender_nak)));
-		fluidPairList.add(Pair.of(ender_nak_hot, !NCConfig.register_fission_fluid_blocks ? null : new BlockFluidHotCoolant(ender_nak_hot)));
-		
-		if (registerCoFHAlt()) {
-			FluidCryotheum cryotheum = new FluidCryotheum("cryotheum", 0x0099C1);
-			fluidPairList.add(Pair.of(cryotheum, !NCConfig.register_fission_fluid_blocks ? null : new BlockFluidCryotheum(cryotheum)));
-		}
+		FluidCoolant enderium_nak = new FluidCoolant("enderium_nak", FluidCoolant.getNAKColor(0x0B5B5C));
+		FluidHotCoolant enderium_nak_hot = new FluidHotCoolant("enderium_nak_hot", FluidHotCoolant.getNAKColor(0x0B5B5C));
+		fluidPairList.add(Pair.of(enderium_nak, !NCConfig.register_fission_fluid_blocks ? null : new BlockFluidCoolant(enderium_nak)));
+		fluidPairList.add(Pair.of(enderium_nak_hot, !NCConfig.register_fission_fluid_blocks ? null : new BlockFluidHotCoolant(enderium_nak_hot)));
 		
 		FluidCoolant cryotheum_nak = new FluidCoolant("cryotheum_nak", FluidCoolant.getNAKColor(0x0099C1));
 		FluidHotCoolant cryotheum_nak_hot = new FluidHotCoolant("cryotheum_nak_hot", FluidHotCoolant.getNAKColor(0x0099C1));
@@ -171,7 +160,7 @@ public class NCCoolantFluids {
 	
 	public static void registerBlock(NCBlockFluid block) {
 		ForgeRegistries.BLOCKS.register(withName(block));
-		ForgeRegistries.ITEMS.register(new NCItemBlock(block).setRegistryName(block.getRegistryName()));
+		ForgeRegistries.ITEMS.register(new NCItemBlock(block, TextFormatting.AQUA).setRegistryName(block.getRegistryName()));
 		NuclearCraft.proxy.registerFluidBlockRendering(block, "fluid_molten_colored");
 	}
 	

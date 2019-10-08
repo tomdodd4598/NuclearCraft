@@ -604,9 +604,9 @@ public class NCConfig {
 		propertyHeatExchangerMinSize.setLanguageKey("gui.nc.config.heat_exchanger.heat_exchanger_min_size");
 		Property propertyHeatExchangerMaxSize = config.get(CATEGORY_HEAT_EXCHANGER, "heat_exchanger_max_size", 24, Lang.localise("gui.nc.config.heat_exchanger.heat_exchanger_max_size.comment"), 1, 255);
 		propertyHeatExchangerMaxSize.setLanguageKey("gui.nc.config.heat_exchanger.heat_exchanger_max_size");
-		Property propertyHeatExchangerConductivity = config.get(CATEGORY_HEAT_EXCHANGER, "heat_exchanger_conductivity", new double[] {1D, 1.1D, 1.25D}, Lang.localise("gui.nc.config.heat_exchanger.heat_exchanger_conductivity.comment"), 0.01D, 15D);
+		Property propertyHeatExchangerConductivity = config.get(CATEGORY_HEAT_EXCHANGER, "heat_exchanger_conductivity", new double[] {1D, 1.1D, 1.2D}, Lang.localise("gui.nc.config.heat_exchanger.heat_exchanger_conductivity.comment"), 0.01D, 15D);
 		propertyHeatExchangerConductivity.setLanguageKey("gui.nc.config.heat_exchanger.heat_exchanger_conductivity");
-		Property propertyHeatExchangerCoolantMult = config.get(CATEGORY_HEAT_EXCHANGER, "heat_exchanger_coolant_mult", 125D, Lang.localise("gui.nc.config.heat_exchanger.heat_exchanger_coolant_mult.comment"), 1D, 10000D);
+		Property propertyHeatExchangerCoolantMult = config.get(CATEGORY_HEAT_EXCHANGER, "heat_exchanger_coolant_mult", 100D, Lang.localise("gui.nc.config.heat_exchanger.heat_exchanger_coolant_mult.comment"), 1D, 10000D);
 		propertyHeatExchangerCoolantMult.setLanguageKey("gui.nc.config.heat_exchanger.heat_exchanger_coolant_mult");
 		Property propertyHeatExchangerAlternateExhaustRecipe = config.get(CATEGORY_HEAT_EXCHANGER, "heat_exchanger_alternate_exhaust_recipe", false, Lang.localise("gui.nc.config.heat_exchanger.heat_exchanger_alternate_exhaust_recipe.comment"));
 		propertyHeatExchangerAlternateExhaustRecipe.setLanguageKey("gui.nc.config.heat_exchanger.heat_exchanger_alternate_exhaust_recipe");
@@ -615,7 +615,7 @@ public class NCConfig {
 		propertyTurbineMinSize.setLanguageKey("gui.nc.config.turbine.turbine_min_size");
 		Property propertyTurbineMaxSize = config.get(CATEGORY_TURBINE, "turbine_max_size", 24, Lang.localise("gui.nc.config.turbine.turbine_max_size.comment"), 1, 255);
 		propertyTurbineMaxSize.setLanguageKey("gui.nc.config.turbine.turbine_max_size");
-		Property propertyTurbineBladeEfficiency = config.get(CATEGORY_TURBINE, "turbine_blade_efficiency", new double[] {1D, 1.1D, 1.25D}, Lang.localise("gui.nc.config.turbine.turbine_blade_efficiency.comment"), 0.01D, 15D);
+		Property propertyTurbineBladeEfficiency = config.get(CATEGORY_TURBINE, "turbine_blade_efficiency", new double[] {1D, 1.1D, 1.2D}, Lang.localise("gui.nc.config.turbine.turbine_blade_efficiency.comment"), 0.01D, 15D);
 		propertyTurbineBladeEfficiency.setLanguageKey("gui.nc.config.turbine.turbine_blade_efficiency");
 		Property propertyTurbineBladeExpansion = config.get(CATEGORY_TURBINE, "turbine_blade_expansion", new double[] {1.4D, 1.6D, 1.8D}, Lang.localise("gui.nc.config.turbine.turbine_blade_expansion.comment"), 1D, 15D);
 		propertyTurbineBladeExpansion.setLanguageKey("gui.nc.config.turbine.turbine_blade_expansion");

@@ -10,6 +10,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -24,14 +25,6 @@ public class NCItemFood extends ItemFood implements IInfoItem {
 		super(amount, saturation, isWolfFood);
 		effects = potionEffects;
 		this.tooltip = tooltip;
-	}
-	
-	public NCItemFood(int amount, boolean isWolfFood, PotionEffect[] potionEffects, String... tooltip) {
-		this(amount, 0.6F, isWolfFood, potionEffects, tooltip);
-	}
-	
-	public NCItemFood(int amount, float saturation, PotionEffect[] potionEffects, String... tooltip) {
-		this(amount, saturation, false, potionEffects, tooltip);
 	}
 	
 	@Override
@@ -50,6 +43,6 @@ public class NCItemFood extends ItemFood implements IInfoItem {
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack itemStack, @Nullable World world, List<String> tooltip, ITooltipFlag flag) {
 		super.addInformation(itemStack, world, tooltip, flag);
-		if (info.length > 0) InfoHelper.infoFull(tooltip, info);
+		if (info.length > 0) InfoHelper.infoFull(tooltip, TextFormatting.RED, InfoHelper.EMPTY_ARRAY, TextFormatting.AQUA, info);
 	}
 }

@@ -15,6 +15,7 @@ import nc.multiblock.heatExchanger.tile.TileHeatExchangerTube;
 import nc.multiblock.heatExchanger.tile.TileHeatExchangerVent;
 import nc.multiblock.network.HeatExchangerUpdatePacket;
 import nc.multiblock.validation.IMultiblockValidator;
+import nc.util.NCMath;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
@@ -68,6 +69,11 @@ public class HeatExchanger extends CuboidalMultiblockBase<HeatExchangerUpdatePac
 		return NCConfig.heat_exchanger_max_size;
 	}
 	
+	@Override
+	protected int getMinimumNumberOfBlocksForAssembledMachine() {
+		return NCMath.hollowCuboid(Math.max(4, getMinimumInteriorLength() + 2), getMinimumInteriorLength() + 2, getMinimumInteriorLength() + 2);
+	}
+	
 	// Multiblock Methods
 	
 	@Override
@@ -93,7 +99,6 @@ public class HeatExchanger extends CuboidalMultiblockBase<HeatExchangerUpdatePac
 	
 	@Override
 	protected void onMachineAssembled() {
-		for (TileHeatExchangerController contr : controllers) controller = contr;
 		onHeatExchangerFormed();
 	}
 	
@@ -103,10 +108,15 @@ public class HeatExchanger extends CuboidalMultiblockBase<HeatExchangerUpdatePac
 	}
 	
 	protected void onHeatExchangerFormed() {
+		for (TileHeatExchangerController contr : controllers) controller = contr;
 		setIsHeatExchangerOn();
-		for (TileHeatExchangerTube tube : tubes) tube.updateFlowDir();
-		for (TileHeatExchangerCondenserTube condenserTube : condenserTubes) condenserTube.updateAdjacentTemperatures();
-		updateHeatExchangerStats();
+		
+		if (!WORLD.isRemote) {
+			for (TileHeatExchangerTube tube : tubes) tube.updateFlowDir();
+			for (TileHeatExchangerCondenserTube condenserTube : condenserTubes) condenserTube.updateAdjacentTemperatures();
+			
+			updateHeatExchangerStats();
+		}
 	}
 	
 	@Override

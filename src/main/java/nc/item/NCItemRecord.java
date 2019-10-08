@@ -12,6 +12,7 @@ import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemRecord;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -37,7 +38,7 @@ public class NCItemRecord extends ItemRecord implements IInfoItem {
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack itemStack, @Nullable World world, List<String> tooltip, ITooltipFlag flag) {
 		//super.addInformation(itemStack, player, tooltip, advanced);
-		if (info.length > 0) InfoHelper.infoFull(tooltip, info);
+		if (info.length > 0) InfoHelper.infoFull(tooltip, TextFormatting.RED, InfoHelper.EMPTY_ARRAY, TextFormatting.AQUA, info);
 	}
 
 	@Override

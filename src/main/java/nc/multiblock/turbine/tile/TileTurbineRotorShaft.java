@@ -40,15 +40,15 @@ public class TileTurbineRotorShaft extends TileTurbinePartBase {
 	@Override
 	public NBTTagCompound writeAll(NBTTagCompound nbt) {
 		super.writeAll(nbt);
-		nbt.setBoolean("renderShaft", render);
-		nbt.setInteger("posDepth", depth);
+		nbt.setBoolean("render", render);
+		nbt.setInteger("depth", depth);
 		return nbt;
 	}
 	
 	@Override
 	public void readAll(NBTTagCompound nbt) {
 		super.readAll(nbt);
-		render = nbt.getBoolean("renderShaft");
-		depth = nbt.getInteger("posDepth");
+		render = nbt.getBoolean("render");
+		depth = nbt.getInteger("depth");
 	}
 }

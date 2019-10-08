@@ -4,8 +4,7 @@ import java.util.Iterator;
 
 import javax.annotation.Nullable;
 
-import nc.block.item.IMetaBlockName;
-import nc.enumm.IBlockMeta;
+import nc.enumm.IBlockMetaEnum;
 import nc.enumm.MetaEnums;
 import nc.tab.NCTabs;
 import nc.tile.ITile;
@@ -36,7 +35,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public abstract class BlockMeta<T extends Enum<T> & IStringSerializable & IBlockMeta> extends Block implements IMetaBlockName {
+public abstract class BlockMeta<T extends Enum<T> & IStringSerializable & IBlockMetaEnum> extends Block implements IBlockMeta {
 	
 	public final T[] values;
 	public final PropertyEnum<T> type;
@@ -60,7 +59,7 @@ public abstract class BlockMeta<T extends Enum<T> & IStringSerializable & IBlock
 		
 		public BlockOre() {
 			super(MetaEnums.OreType.class, TYPE, Material.ROCK);
-			setCreativeTab(NCTabs.BASE_BLOCK_MATERIALS);
+			setCreativeTab(NCTabs.MATERIAL);
 		}
 		
 		@Override
@@ -81,7 +80,7 @@ public abstract class BlockMeta<T extends Enum<T> & IStringSerializable & IBlock
 		
 		public BlockIngot() {
 			super(MetaEnums.IngotType.class, TYPE, Material.IRON);
-			setCreativeTab(NCTabs.BASE_BLOCK_MATERIALS);
+			setCreativeTab(NCTabs.MATERIAL);
 		}
 		
 		@Override
@@ -111,7 +110,7 @@ public abstract class BlockMeta<T extends Enum<T> & IStringSerializable & IBlock
 		
 		public BlockFertileIsotope() {
 			super(MetaEnums.FertileIsotopeType.class, TYPE, Material.ROCK);
-			setCreativeTab(NCTabs.FISSION_MATERIALS);
+			setCreativeTab(NCTabs.MATERIAL);
 		}
 		
 		@Override
@@ -189,7 +188,7 @@ public abstract class BlockMeta<T extends Enum<T> & IStringSerializable & IBlock
 	}
 	
 	@Override
-	public String getSpecialName(ItemStack stack) {
+	public String getMetaName(ItemStack stack) {
 		return values[ItemStackHelper.getMetadata(stack)].getName();
 	}
 }

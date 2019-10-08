@@ -3,7 +3,7 @@
 	"defaults": {
 		"model": "cube_all",
 		"textures": {
-			"all": "nuclearcraft:blocks/turbine/turbine_rotor_shaft"
+			"all": "nuclearcraft:blocks/turbine/rotor_shaft"
 		}
 	},
 	"variants": {

@@ -37,6 +37,8 @@ public class TConstructIMC {
 		sendTiCSmelteryInfo("ferroboron", true);
 		sendTiCSmelteryInfo("tough", true);
 		sendTiCSmelteryInfo("hard_carbon", "hardCarbon", true);
+		sendTiCSmelteryInfo("lead_platinum", "leadPlatinum", true);
+		sendTiCSmelteryInfo("enderium", true);
 		
 		sendTiCAlloyInfo("steel", 9, fluid("iron", 9), fluid("coal", 25));
 		sendTiCAlloyInfo("ferroboron", 2, fluid("steel", 1), fluid("boron", 1));
@@ -46,6 +48,8 @@ public class TConstructIMC {
 		sendTiCAlloyInfo("lithium_manganese_dioxide", 2, fluid("lithium", 1), fluid("manganese_dioxide", 1));
 		sendTiCAlloyInfo("extreme", 1, fluid("tough", 1), fluid("hard_carbon", 1));
 		sendTiCAlloyInfo("thermoconducting", 16, fluid("extreme", 8), fluid("boron_arsenide", 37));
+		sendTiCAlloyInfo("lead_platinum", 4, fluid("lead", 3), fluid("platinum", 1));
+		sendTiCAlloyInfo("enderium", 72, fluid("lead_platinum", 72), fluid("ender", 125));
 		
 		TinkerRegistry.registerMelting(new ItemStack(NCItems.ground_cocoa_nibs), FluidRegistry.getFluid("chocolate_liquor"), FluidStackHelper.INGOT_VOLUME);
 		TinkerRegistry.registerMelting(new ItemStack(Items.SUGAR), FluidRegistry.getFluid("sugar"), FluidStackHelper.INGOT_VOLUME);

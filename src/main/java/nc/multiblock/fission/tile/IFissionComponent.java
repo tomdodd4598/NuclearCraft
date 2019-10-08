@@ -51,7 +51,7 @@ public interface IFissionComponent extends IMultiblockPart<FissionReactor> {
 		
 		for (EnumFacing dir : EnumFacing.VALUES) {
 			BlockPos offPos = getTilePos().offset(dir);
-			if (isWall(offPos)) {
+			if (!getCluster().connectedToWall && isWall(offPos)) {
 				getCluster().connectedToWall = true;
 				continue;
 			}

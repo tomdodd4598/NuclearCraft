@@ -3,7 +3,7 @@
 	"defaults": {
 		"model": "nuclearcraft:turbine_rotor_blade",
 		"textures": {
-			"texture": "nuclearcraft:blocks/turbine/turbine_rotor_blade_steel"
+			"texture": "nuclearcraft:blocks/turbine/rotor_blade/steel"
 		}
 	},
 	"variants": {

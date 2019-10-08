@@ -104,6 +104,30 @@
 				"fluid": "heavy_water"
 			}
 		},
+		"fluid_ender": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "ender"
+			}
+		},
+		"fluid_lead_platinum": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "lead_platinum"
+			}
+		},
+		"fluid_enderium": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "enderium"
+			}
+		},
+		"fluid_cryotheum": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "cryotheum"
+			}
+		},
 		"fluid_plasma": {
 			"model": "forge:fluid",
 			"custom": {

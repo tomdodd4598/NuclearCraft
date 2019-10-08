@@ -18,26 +18,23 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class NCItem extends Item implements IInfoItem {
 	
-	public final TextFormatting fixedColor;
+	private final TextFormatting fixedColor, infoColor;
 	private final String[] fixedTooltip, tooltip;
 	public String[] fixedInfo, info;
 	
-	public NCItem(TextFormatting fixedColor, String[] fixedTooltip, String... tooltip) {
+	public NCItem(TextFormatting fixedColor, String[] fixedTooltip, TextFormatting infoColor, String... tooltip) {
 		this.fixedColor = fixedColor;
 		this.fixedTooltip = fixedTooltip;
+		this.infoColor = infoColor;
 		this.tooltip = tooltip;
 	}
 	
-	public NCItem(TextFormatting fixedColor, String... tooltip) {
-		this(fixedColor, InfoHelper.EMPTY_ARRAY, tooltip);
-	}
-	
-	public NCItem(String[] fixedTooltip, String... tooltip) {
-		this(TextFormatting.AQUA, fixedTooltip, tooltip);
+	public NCItem(TextFormatting infoColor, String... tooltip) {
+		this(TextFormatting.RED, InfoHelper.EMPTY_ARRAY, infoColor, tooltip);
 	}
 	
 	public NCItem(String... tooltip) {
-		this(InfoHelper.EMPTY_ARRAY, tooltip);
+		this(TextFormatting.RED, InfoHelper.EMPTY_ARRAY, TextFormatting.AQUA, tooltip);
 	}
 	
 	@Override
@@ -50,7 +47,7 @@ public class NCItem extends Item implements IInfoItem {
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack itemStack, @Nullable World world, List<String> tooltip, ITooltipFlag flag) {
 		super.addInformation(itemStack, world, tooltip, flag);
-		if (info.length + fixedInfo.length > 0) InfoHelper.infoFull(tooltip, fixedColor, fixedInfo, info);
+		if (info.length + fixedInfo.length > 0) InfoHelper.infoFull(tooltip, fixedColor, fixedInfo, infoColor, info);
 	}
 	
 	protected ActionResult<ItemStack> actionResult(boolean success, ItemStack stack) {

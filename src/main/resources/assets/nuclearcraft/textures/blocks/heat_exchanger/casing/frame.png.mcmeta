@@ -4,7 +4,7 @@
 		"type":"ctm",
 		"layer":"SOLID",
 		"textures":[
-			"nuclearcraft:blocks/heat_exchanger/heat_exchanger_frame_ctm"
+			"nuclearcraft:blocks/heat_exchanger/casing/frame_ctm"
 		]
 	}
 }

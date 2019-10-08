@@ -12,6 +12,7 @@ import nc.config.NCConfig;
 import nc.fluid.FluidFission;
 import net.minecraft.block.Block;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
@@ -151,7 +152,7 @@ public class NCFissionFluids {
 	
 	public static void registerBlock(NCBlockFluid block) {
 		ForgeRegistries.BLOCKS.register(withName(block));
-		ForgeRegistries.ITEMS.register(new NCItemBlock(block).setRegistryName(block.getRegistryName()));
+		ForgeRegistries.ITEMS.register(new NCItemBlock(block, TextFormatting.AQUA).setRegistryName(block.getRegistryName()));
 		NuclearCraft.proxy.registerFluidBlockRendering(block, "fluid_molten_colored");
 	}
 	

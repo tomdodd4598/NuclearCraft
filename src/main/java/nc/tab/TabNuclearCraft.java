@@ -7,7 +7,7 @@ import net.minecraft.item.ItemStack;
 public class TabNuclearCraft extends CreativeTabs {
 
 	public TabNuclearCraft() {
-		super("nuclearcraft");
+		super("nuclearcraft.main");
 	}
 
 	@Override

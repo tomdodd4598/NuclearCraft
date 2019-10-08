@@ -16,6 +16,8 @@ public interface IFissionFuelComponent extends IFissionComponent {
 	
 	public boolean isPrimed();
 	
+	public void unprime();
+	
 	public void refreshIsProcessing(boolean checkCluster);
 	
 	public default boolean isProducingFlux() {
@@ -36,7 +38,17 @@ public interface IFissionFuelComponent extends IFissionComponent {
 	
 	public Double[] getModeratorLineEfficiencies();
 	
-	public LongSet getPassiveModeratorCache();
+	public IFissionFuelComponent[] getAdjacentFuelComponents();
+	
+	public LongSet[] getPassiveModeratorCaches();
+	
+	public Long[] getActiveModeratorCache();
+	
+	public LongSet getPassiveReflectorModeratorCache();
+	
+	public Long getActiveReflectorModeratorCache();
+	
+	public void setActiveReflectorModeratorCache(long posLong);
 	
 	public LongSet getActiveReflectorCache();
 	
@@ -101,9 +113,14 @@ public interface IFissionFuelComponent extends IFissionComponent {
 								fuelComponent.refreshIsProcessing(false);
 								if (isFunctional() && fuelComponent.isFunctional()) {
 									getMultiblock().passiveModeratorCache.addAll(passiveModeratorCache);
-									passiveModeratorCache.clear();
 									getMultiblock().activeModeratorCache.add(activeModeratorPos);
+									getMultiblock().activeModeratorCache.add(offPos.offset(dir.getOpposite()).toLong());
 								}
+								else {
+									getPassiveModeratorCaches()[dir.getIndex()].addAll(passiveModeratorCache);
+									getActiveModeratorCache()[dir.getIndex()] = activeModeratorPos;
+								}
+								getAdjacentFuelComponents()[dir.getIndex()] = fuelComponent;
 								fuelComponent.fluxSearch();
 							}
 							else if (i - 1 <= NCConfig.fission_neutron_reach/2) {
@@ -113,11 +130,19 @@ public interface IFissionFuelComponent extends IFissionComponent {
 									getModeratorLineEfficiencies()[dir.getIndex()] = recipe.getFissionReflectorEfficiency()*moderatorEfficiency/(i - 1);
 									incrementHeatMultiplier();
 									
-									getPassiveModeratorCache().addAll(passiveModeratorCache);
-									passiveModeratorCache.clear();
-									getActiveReflectorCache().add(offPos.toLong());
+									if (isFunctional()) {
+										getMultiblock().passiveModeratorCache.addAll(passiveModeratorCache);
+										getMultiblock().activeModeratorCache.add(activeModeratorPos);
+										getMultiblock().activeReflectorCache.add(offPos.toLong());
+									}
+									else {
+										getPassiveReflectorModeratorCache().addAll(passiveModeratorCache);
+										setActiveReflectorModeratorCache(activeModeratorPos);
+										getActiveReflectorCache().add(offPos.toLong());
+									}
 								}
 							}
+							passiveModeratorCache.clear();
 							continue dirLoop;
 						}
 					}
@@ -134,11 +159,20 @@ public interface IFissionFuelComponent extends IFissionComponent {
 		}
 		else {
 			for (EnumFacing dir : EnumFacing.VALUES) {
-				BlockPos offPos = getTilePos().offset(dir);
-				if (blockRecipe(NCRecipes.fission_moderator, offPos) != null) getMultiblock().activeModeratorCache.add(offPos.toLong());
+				IFissionFuelComponent fuelComponent = getAdjacentFuelComponents()[dir.getIndex()];
+				if (fuelComponent != null && fuelComponent.isFunctional()) {
+					getMultiblock().passiveModeratorCache.addAll(getPassiveModeratorCaches()[dir.getIndex()]);
+					Long posLong = getActiveModeratorCache()[dir.getIndex()];
+					if (posLong != null) {
+						getMultiblock().activeModeratorCache.add(posLong.longValue());
+					}
+				}
 			}
-			
-			getMultiblock().passiveModeratorCache.addAll(getPassiveModeratorCache());
+			getMultiblock().passiveModeratorCache.addAll(getPassiveReflectorModeratorCache());
+			Long posLong = getActiveReflectorModeratorCache();
+			if (posLong != null) {
+				getMultiblock().activeModeratorCache.add(posLong.longValue());
+			}
 			getMultiblock().activeReflectorCache.addAll(getActiveReflectorCache());
 		}
 	}

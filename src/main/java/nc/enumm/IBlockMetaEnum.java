@@ -1,8 +1,6 @@
 package nc.enumm;
 
-public interface IBlockMeta {
-	
-	public int getID();
+public interface IBlockMetaEnum extends IMetaEnum {
 	
 	public int getHarvestLevel();
 	

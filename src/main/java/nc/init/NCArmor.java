@@ -2,6 +2,7 @@ package nc.init;
 
 import nc.Global;
 import nc.config.NCConfig;
+import nc.item.IInfoItem;
 import nc.item.armor.ItemHazmatSuit;
 import nc.item.armor.NCItemArmor;
 import nc.tab.NCTabs;
@@ -15,6 +16,7 @@ import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
@@ -54,37 +56,37 @@ public class NCArmor {
 
 	public static void init() {
 		if (NCConfig.register_armor[0]) {
-			helm_boron = withName(new NCItemArmor(BORON, 1, EntityEquipmentSlot.HEAD), "helm_boron");
-			chest_boron = withName(new NCItemArmor(BORON, 1, EntityEquipmentSlot.CHEST), "chest_boron");
-			legs_boron = withName(new NCItemArmor(BORON, 2, EntityEquipmentSlot.LEGS), "legs_boron");
-			boots_boron = withName(new NCItemArmor(BORON, 1, EntityEquipmentSlot.FEET), "boots_boron");
+			helm_boron = withName(new NCItemArmor(BORON, 1, EntityEquipmentSlot.HEAD, TextFormatting.GRAY), "helm_boron");
+			chest_boron = withName(new NCItemArmor(BORON, 1, EntityEquipmentSlot.CHEST, TextFormatting.GRAY), "chest_boron");
+			legs_boron = withName(new NCItemArmor(BORON, 2, EntityEquipmentSlot.LEGS, TextFormatting.GRAY), "legs_boron");
+			boots_boron = withName(new NCItemArmor(BORON, 1, EntityEquipmentSlot.FEET, TextFormatting.GRAY), "boots_boron");
 		}
 		
 		if (NCConfig.register_armor[1]) {
-			helm_tough = withName(new NCItemArmor(TOUGH, 1, EntityEquipmentSlot.HEAD), "helm_tough");
-			chest_tough = withName(new NCItemArmor(TOUGH, 1, EntityEquipmentSlot.CHEST), "chest_tough");
-			legs_tough = withName(new NCItemArmor(TOUGH, 2, EntityEquipmentSlot.LEGS), "legs_tough");
-			boots_tough = withName(new NCItemArmor(TOUGH, 1, EntityEquipmentSlot.FEET), "boots_tough");
+			helm_tough = withName(new NCItemArmor(TOUGH, 1, EntityEquipmentSlot.HEAD, TextFormatting.DARK_PURPLE), "helm_tough");
+			chest_tough = withName(new NCItemArmor(TOUGH, 1, EntityEquipmentSlot.CHEST, TextFormatting.DARK_PURPLE), "chest_tough");
+			legs_tough = withName(new NCItemArmor(TOUGH, 2, EntityEquipmentSlot.LEGS, TextFormatting.DARK_PURPLE), "legs_tough");
+			boots_tough = withName(new NCItemArmor(TOUGH, 1, EntityEquipmentSlot.FEET, TextFormatting.DARK_PURPLE), "boots_tough");
 		}
 		
 		if (NCConfig.register_armor[2]) {
-			helm_hard_carbon = withName(new NCItemArmor(HARD_CARBON, 1, EntityEquipmentSlot.HEAD), "helm_hard_carbon");
-			chest_hard_carbon = withName(new NCItemArmor(HARD_CARBON, 1, EntityEquipmentSlot.CHEST), "chest_hard_carbon");
-			legs_hard_carbon = withName(new NCItemArmor(HARD_CARBON, 2, EntityEquipmentSlot.LEGS), "legs_hard_carbon");
-			boots_hard_carbon = withName(new NCItemArmor(HARD_CARBON, 1, EntityEquipmentSlot.FEET), "boots_hard_carbon");
+			helm_hard_carbon = withName(new NCItemArmor(HARD_CARBON, 1, EntityEquipmentSlot.HEAD, TextFormatting.BLUE), "helm_hard_carbon");
+			chest_hard_carbon = withName(new NCItemArmor(HARD_CARBON, 1, EntityEquipmentSlot.CHEST, TextFormatting.BLUE), "chest_hard_carbon");
+			legs_hard_carbon = withName(new NCItemArmor(HARD_CARBON, 2, EntityEquipmentSlot.LEGS, TextFormatting.BLUE), "legs_hard_carbon");
+			boots_hard_carbon = withName(new NCItemArmor(HARD_CARBON, 1, EntityEquipmentSlot.FEET, TextFormatting.BLUE), "boots_hard_carbon");
 		}
 		
 		if (NCConfig.register_armor[3]) {
-			helm_boron_nitride = withName(new NCItemArmor(BORON_NITRIDE, 1, EntityEquipmentSlot.HEAD), "helm_boron_nitride");
-			chest_boron_nitride = withName(new NCItemArmor(BORON_NITRIDE, 1, EntityEquipmentSlot.CHEST), "chest_boron_nitride");
-			legs_boron_nitride = withName(new NCItemArmor(BORON_NITRIDE, 2, EntityEquipmentSlot.LEGS), "legs_boron_nitride");
-			boots_boron_nitride = withName(new NCItemArmor(BORON_NITRIDE, 1, EntityEquipmentSlot.FEET), "boots_boron_nitride");
+			helm_boron_nitride = withName(new NCItemArmor(BORON_NITRIDE, 1, EntityEquipmentSlot.HEAD, TextFormatting.GREEN), "helm_boron_nitride");
+			chest_boron_nitride = withName(new NCItemArmor(BORON_NITRIDE, 1, EntityEquipmentSlot.CHEST, TextFormatting.GREEN), "chest_boron_nitride");
+			legs_boron_nitride = withName(new NCItemArmor(BORON_NITRIDE, 2, EntityEquipmentSlot.LEGS, TextFormatting.GREEN), "legs_boron_nitride");
+			boots_boron_nitride = withName(new NCItemArmor(BORON_NITRIDE, 1, EntityEquipmentSlot.FEET, TextFormatting.GREEN), "boots_boron_nitride");
 		}
 		
-		helm_hazmat = withName(new ItemHazmatSuit(HAZMAT, 1, EntityEquipmentSlot.HEAD, 0.2D), "helm_hazmat");
-		chest_hazmat = withName(new ItemHazmatSuit(HAZMAT, 1, EntityEquipmentSlot.CHEST, 0.4D), "chest_hazmat");
-		legs_hazmat = withName(new ItemHazmatSuit(HAZMAT, 2, EntityEquipmentSlot.LEGS, 0.2D), "legs_hazmat");
-		boots_hazmat = withName(new ItemHazmatSuit(HAZMAT, 1, EntityEquipmentSlot.FEET, 0.2D), "boots_hazmat");
+		helm_hazmat = withName(new ItemHazmatSuit(HAZMAT, 1, EntityEquipmentSlot.HEAD, 0.2D, TextFormatting.YELLOW), "helm_hazmat");
+		chest_hazmat = withName(new ItemHazmatSuit(HAZMAT, 1, EntityEquipmentSlot.CHEST, 0.4D, TextFormatting.YELLOW), "chest_hazmat");
+		legs_hazmat = withName(new ItemHazmatSuit(HAZMAT, 2, EntityEquipmentSlot.LEGS, 0.2D, TextFormatting.YELLOW), "legs_hazmat");
+		boots_hazmat = withName(new ItemHazmatSuit(HAZMAT, 1, EntityEquipmentSlot.FEET, 0.2D, TextFormatting.YELLOW), "boots_hazmat");
 	}
 		
 	public static void register() {
@@ -157,8 +159,10 @@ public class NCArmor {
 		registerRender(boots_hazmat);
 	}
 	
-	public static Item withName(Item item, String name) {
-		return item.setTranslationKey(Global.MOD_ID + "." + name).setRegistryName(new ResourceLocation(Global.MOD_ID, name));
+	public static <T extends Item & IInfoItem> Item withName(T item, String name) {
+		item.setTranslationKey(Global.MOD_ID + "." + name).setRegistryName(new ResourceLocation(Global.MOD_ID, name));
+		item.setInfo();
+		return item;
 	}
 	
 	public static void registerItem(Item item, CreativeTabs tab) {

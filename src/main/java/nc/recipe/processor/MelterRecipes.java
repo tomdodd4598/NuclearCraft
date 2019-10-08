@@ -41,6 +41,7 @@ public class MelterRecipes extends ProcessorRecipeHandler {
 		addIngotMeltingRecipes("hardCarbon", "hard_carbon");
 		addIngotMeltingRecipes("manganeseDioxide", "manganese_dioxide");
 		addIngotMeltingRecipes("alugentum");
+		addIngotMeltingRecipes("leadPlatinum", "lead_platinum");
 		
 		addRecipe(NCItems.ground_cocoa_nibs, fluidStack("chocolate_liquor", FluidStackHelper.INGOT_VOLUME), 0.25D, 0.5D);
 		addRecipe("ingotCocoaButter", fluidStack("cocoa_butter", FluidStackHelper.INGOT_VOLUME), 0.25D, 0.5D);

@@ -1,6 +1,6 @@
 package nc.enumm;
 
-public interface IFissionStats {
+public interface IFissionFuelEnum extends IMetaEnum {
 	
 	public int getBaseTime();
 		

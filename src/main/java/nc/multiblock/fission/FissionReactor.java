@@ -54,6 +54,7 @@ import nc.recipe.ingredient.IFluidIngredient;
 import nc.tile.internal.fluid.Tank;
 import nc.tile.internal.heat.HeatBuffer;
 import nc.util.NCMath;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
@@ -103,9 +104,9 @@ public class FissionReactor extends CuboidalMultiblockBase<FissionUpdatePacket> 
 	public boolean refreshFlag = true;
 	
 	public boolean isReactorOn;
-	public int fuelComponentCount = 0, heatingRecipeRate = 0;
-	public long cooling = 0L, rawHeating = 0L, totalHeatMult = 0L, usefulPartCount = 0L;
-	public double effectiveHeating = 0D, meanHeatMult = 0D, totalEfficiency = 0D, meanEfficiency = 0D, sparsityEfficiencyMult = 0D, heatPerInputSize = 128D, heatingOutputRate = 0D;
+	public int fuelComponentCount = 0, recipeRate = 0, heatRemovalRecipeRate = 0;
+	public long cooling = 0L, rawHeating = 0L, totalHeatMult = 0L, usefulPartCount = 0L, netHeating = 0L;
+	public double effectiveHeating = 0D, meanHeatMult = 0D, totalEfficiency = 0D, meanEfficiency = 0D, sparsityEfficiencyMult = 0D, heatPerInputSize = 128D, roundedOutputRate = 0D;
 	
 	public FissionReactor(World world) {
 		super(world);
@@ -220,7 +221,6 @@ public class FissionReactor extends CuboidalMultiblockBase<FissionUpdatePacket> 
 	
 	@Override
 	protected void onMachineAssembled() {
-		for (IFissionController contr : controllerMap.values()) controller = contr;
 		onReactorFormed();
 	}
 	
@@ -230,12 +230,64 @@ public class FissionReactor extends CuboidalMultiblockBase<FissionUpdatePacket> 
 	}
 	
 	protected void onReactorFormed() {
-		heatBuffer.setHeatCapacity(BASE_MAX_HEAT*getNumConnectedBlocks());
-		tanks.get(0).setCapacity(BASE_TANK_CAPACITY*getNumConnectedBlocks());
-		tanks.get(1).setCapacity(BASE_TANK_CAPACITY*getNumConnectedBlocks());
-		refreshReactor();
+		for (IFissionController contr : controllerMap.values()) controller = contr;
+		
+		heatBuffer.setHeatCapacity(BASE_MAX_HEAT*getCapacityMultiplier());
+		tanks.get(0).setCapacity(BASE_TANK_CAPACITY*getCapacityMultiplier());
+		tanks.get(1).setCapacity(BASE_TANK_CAPACITY*getCapacityMultiplier());
 		ambientTemp = 273 + (int) (WORLD.getBiome(getMiddleCoord()).getTemperature(getMiddleCoord())*20F);
-		updateActivity();
+		
+		if (!WORLD.isRemote) {
+			refreshReactor();
+			updateActivity();
+			linkPorts();
+		}
+	}
+	
+	//TODO - temporary ports
+	protected void linkPorts() {
+		if (portMap.isEmpty()) {
+			for (TileSolidFissionCell cell : cellMap.values()) {
+				cell.clearPort();
+			}
+			return;
+		}
+		
+		for (TileFissionPort port : portMap.values()) {
+			port.clearMasterPort();
+		}
+		
+		TileFissionPort masterPort = null;
+		for (TileFissionPort port : portMap.values()) {
+			masterPort = port;
+			break;
+		}
+		
+		for (TileFissionPort port : portMap.values()) {
+			if (port != masterPort) {
+				port.shiftStacks(masterPort);
+				port.setMasterPortPos(masterPort.getPos());
+				port.refreshMasterPort();
+			}
+			
+			if (!cellMap.isEmpty()) {
+				port.inventoryStackLimit = Math.max(64, 2*cellMap.size());
+				port.recipe_handler = NCRecipes.solid_fission;
+			}
+			else {
+				port.inventoryStackLimit = 64;
+				port.recipe_handler = null;
+			}
+		}
+		
+		for (TileSolidFissionCell cell : cellMap.values()) {
+			cell.setPortPos(masterPort.getPos());
+			cell.refreshPort();
+		}
+	}
+	
+	protected int getCapacityMultiplier() {
+		return Math.max(getExteriorSurfaceArea(), getInteriorVolume());
 	}
 	
 	protected void refreshReactor() {
@@ -268,12 +320,10 @@ public class FissionReactor extends CuboidalMultiblockBase<FissionUpdatePacket> 
 		}
 		else {
 			for (TileFissionSource source : sourceMap.values()) {
+				IBlockState state = WORLD.getBlockState(source.getPos());
 				EnumFacing facing = source.getPartPosition().getFacing();
-				if (facing != null) {
-					WORLD.setBlockState(source.getPos(), WORLD.getBlockState(source.getPos()).withProperty(FACING_ALL, facing), 2);
-				}
 				source.refreshIsRedstonePowered(WORLD, source.getPos());
-				WORLD.setBlockState(source.getPos(), WORLD.getBlockState(source.getPos()).withProperty(ACTIVE, source.getIsRedstonePowered()), 3);
+				WORLD.setBlockState(source.getPos(), state.withProperty(FACING_ALL, facing != null ? facing : state.getValue(FACING_ALL)).withProperty(ACTIVE, source.getIsRedstonePowered()), 3);
 				
 				if (!source.getIsRedstonePowered()) continue;
 				PrimingTargetInfo targetInfo = source.getPrimingTarget();
@@ -292,6 +342,7 @@ public class FissionReactor extends CuboidalMultiblockBase<FissionUpdatePacket> 
 			for (IFissionFuelComponent primedComponent : primedCache) {
 				primedComponent.refreshIsProcessing(false);
 				primedComponent.refreshPrimed();
+				primedComponent.unprime();
 			}
 			
 			if (type == FissionReactorType.SOLID_FUEL) {
@@ -333,18 +384,24 @@ public class FissionReactor extends CuboidalMultiblockBase<FissionUpdatePacket> 
 	}
 	
 	public void onSourceUpdated(TileFissionSource source) {
-		if (!source.getIsRedstonePowered()) {
-			refreshFlag = true;
-			return;
+		if (source.getIsRedstonePowered()) {
+			PrimingTargetInfo targetInfo = source.getPrimingTarget();
+			if (targetInfo != null) {
+				if (!targetInfo.fuelComponent.isFunctional()) {
+					refreshFlag = true;
+				}
+				else if (targetInfo.newSourceEfficiency) {
+					refreshCluster(targetInfo.fuelComponent.getCluster());
+				}
+			}
 		}
-		PrimingTargetInfo targetInfo = source.getPrimingTarget();
-		if (targetInfo != null && (!targetInfo.fuelComponent.isFunctional() || targetInfo.newSourceEfficiency)) refreshFlag = true;
 	}
 	
 	/** Only use when the cluster geometry isn't changed and there is no effect on other clusters! */
-	public void refreshCluster(long id) {
-		FissionCluster cluster = clusterMap.get(id);
-		if (cluster != null) cluster.refreshClusterStats();
+	public void refreshCluster(FissionCluster cluster) {
+		if (cluster != null && clusterMap.containsKey(cluster.getId())) {
+			cluster.refreshClusterStats();
+		}
 		refreshReactorStats();
 	}
 	
@@ -406,13 +463,14 @@ public class FissionReactor extends CuboidalMultiblockBase<FissionUpdatePacket> 
 	protected void onMachineDisassembled() {
 		resetStats();
 		if (controller != null) controller.updateBlockState(false);
+		isReactorOn = false;
 	}
 	
 	protected void resetStats() {
-		isReactorOn = false;
-		fuelComponentCount = heatingRecipeRate = 0;
-		cooling = rawHeating = totalHeatMult = usefulPartCount = 0L;
-		effectiveHeating = meanHeatMult = totalEfficiency = meanEfficiency = sparsityEfficiencyMult = heatingOutputRate = 0D;
+		//isReactorOn = false;
+		fuelComponentCount = recipeRate = heatRemovalRecipeRate = 0;
+		cooling = rawHeating = totalHeatMult = usefulPartCount = netHeating = 0L;
+		effectiveHeating = meanHeatMult = totalEfficiency = meanEfficiency = sparsityEfficiencyMult = roundedOutputRate = 0D;
 	}
 	
 	@Override
@@ -491,11 +549,13 @@ public class FissionReactor extends CuboidalMultiblockBase<FissionUpdatePacket> 
 			
 		}
 		else if (type == FissionReactorType.SOLID_FUEL) {
+			long oldHeatStored = heatBuffer.getHeatStored();
 			heatBuffer.changeHeatStored(rawHeating);
 			updateFluidHeating();
+			netHeating = netHeating == Long.MIN_VALUE ? getRawNetHeating() : heatBuffer.getHeatStored() - oldHeatStored;
 		}
 		else {
-			heatBuffer.changeHeatStored(getNetHeating());
+			heatBuffer.changeHeatStored(getRawNetHeating());
 		}
 		
 		if (heatBuffer.isFull() && NCConfig.fission_overheat) {
@@ -541,7 +601,7 @@ public class FissionReactor extends CuboidalMultiblockBase<FissionUpdatePacket> 
 		}
 	}*/
 	
-	public long getNetHeating() {
+	public long getRawNetHeating() {
 		return rawHeating - cooling;
 	}
 	
@@ -549,9 +609,13 @@ public class FissionReactor extends CuboidalMultiblockBase<FissionUpdatePacket> 
 		return Math.round(ambientTemp + (MAX_TEMP - ambientTemp)*(float)heatBuffer.getHeatStored()/heatBuffer.getHeatCapacity());
 	}
 	
+	public float getBurnDamage() {
+		return getTemperature() < 373 ? 0F : 1F + (getTemperature() - 373)/200F;
+	}
+	
 	//TODO - config
 	public long getHeatDissipation() {
-		return heatBuffer.getHeatStored()*2L*(getExteriorLengthX()*getExteriorLengthY() + getExteriorLengthY()*getExteriorLengthZ() + getExteriorLengthZ()*getExteriorLengthX())/(NCMath.cube(6)*672000L);
+		return Math.max(1L, heatBuffer.getHeatStored()*getExteriorSurfaceArea()/(NCMath.cube(6)*672000L));
 	}
 	
 	public void updateFluidHeating() {
@@ -562,7 +626,8 @@ public class FissionReactor extends CuboidalMultiblockBase<FissionUpdatePacket> 
 				return;
 			}
 		}
-		heatingOutputRate = 0D;
+		recipeRate = heatRemovalRecipeRate = 0;
+		roundedOutputRate = 0D;
 	}
 	
 	protected void refreshRecipe() {
@@ -576,7 +641,7 @@ public class FissionReactor extends CuboidalMultiblockBase<FissionUpdatePacket> 
 	
 	protected boolean setRecipeStats() {
 		if (recipeInfo == null) {
-			heatingRecipeRate = 0;
+			recipeRate = heatRemovalRecipeRate = 0;
 			heatPerInputSize = 128D;
 			return false;
 		}
@@ -588,12 +653,15 @@ public class FissionReactor extends CuboidalMultiblockBase<FissionUpdatePacket> 
 	protected boolean canProduceProducts() {
 		IFluidIngredient fluidProduct = recipeInfo.getRecipe().fluidProducts().get(0);
 		if (fluidProduct.getMaxStackSize(0) <= 0 || fluidProduct.getStack() == null) return false;
-		heatingRecipeRate = Math.min(tanks.get(0).getFluidAmount(), (int) getMaxHeatingRecipeRate(true));
-		heatingOutputRate = Math.min(tanks.get(0).getFluidAmount(), getMaxHeatingRecipeRate(false));
+		
+		recipeRate = Math.min(tanks.get(0).getFluidAmount(), (int) getMaxRecipeRate(false, true));
+		heatRemovalRecipeRate = Math.min(tanks.get(0).getFluidAmount(), (int) getMaxRecipeRate(true, true));
+		roundedOutputRate = Math.min(tanks.get(0).getFluidAmount(), getMaxRecipeRate(false, false));
+		
 		if (!tanks.get(1).isEmpty()) {
 			if (!tanks.get(1).getFluid().isFluidEqual(fluidProduct.getStack())) {
 				return false;
-			} else if (tanks.get(1).getFluidAmount() + fluidProduct.getMaxStackSize(0)*heatingRecipeRate > tanks.get(1).getCapacity()) {
+			} else if (tanks.get(1).getFluidAmount() + fluidProduct.getMaxStackSize(0)*recipeRate > tanks.get(1).getCapacity()) {
 				return false;
 			}
 		}
@@ -601,7 +669,9 @@ public class FissionReactor extends CuboidalMultiblockBase<FissionUpdatePacket> 
 	}
 	
 	public void produceProducts() {
-		int fluidIngredientStackSize = recipeInfo.getRecipe().fluidIngredients().get(0).getMaxStackSize(recipeInfo.getFluidIngredientNumbers().get(0))*heatingRecipeRate;
+		boolean isMaxRecipeRate = roundedOutputRate == getMaxRecipeRate(false, false);
+		
+		int fluidIngredientStackSize = recipeInfo.getRecipe().fluidIngredients().get(0).getMaxStackSize(recipeInfo.getFluidIngredientNumbers().get(0))*recipeRate;
 		if (fluidIngredientStackSize > 0) tanks.get(0).changeFluidAmount(-fluidIngredientStackSize);
 		if (tanks.get(0).getFluidAmount() <= 0) tanks.get(0).setFluidStored(null);
 		
@@ -610,24 +680,34 @@ public class FissionReactor extends CuboidalMultiblockBase<FissionUpdatePacket> 
 			if (tanks.get(1).isEmpty()) {
 				tanks.get(1).setFluidStored(fluidProduct.getNextStack(0));
 				int amount = tanks.get(1).getFluidAmount();
-				tanks.get(1).setFluidAmount(amount*heatingRecipeRate);
-				heatingOutputRate *= amount;
+				tanks.get(1).setFluidAmount(amount*recipeRate);
+				roundedOutputRate *= amount;
 			} else if (tanks.get(1).getFluid().isFluidEqual(fluidProduct.getStack())) {
 				int amount = fluidProduct.getNextStackSize(0);
-				tanks.get(1).changeFluidAmount(amount*heatingRecipeRate);
-				heatingOutputRate *= amount;
+				tanks.get(1).changeFluidAmount(amount*recipeRate);
+				roundedOutputRate *= amount;
 			}
 		}
-		heatBuffer.changeHeatStored(-Math.min(Integer.MAX_VALUE, Math.round(heatingRecipeRate*heatPerInputSize/getEfficiencyRecipeRateMultiplier())));
+		
+		long heatRemoval = (isMaxRecipeRate && getRawNetHeating() == 0) ? cooling : Math.min(Integer.MAX_VALUE, Math.round(heatRemovalRecipeRate/getRecipeRateMult()));
+		if (isMaxRecipeRate) {
+			if (heatRemoval <= heatBuffer.getHeatStored()) {
+				heatRemoval = cooling;
+			}
+			if (heatRemoval > heatBuffer.getHeatStored()) {
+				netHeating = Long.MIN_VALUE;
+			}
+		}
+		heatBuffer.changeHeatStored(-heatRemoval);
 	}
 	
-	protected double getMaxHeatingRecipeRate(boolean ceil) {
-		double rate = Math.min(heatBuffer.getHeatStored(), cooling)*getEfficiencyRecipeRateMultiplier()/heatPerInputSize;
-		return Math.min(Integer.MAX_VALUE, (ceil && heatBuffer.getHeatStored() > cooling) ? Math.ceil(rate) : rate);
+	protected double getMaxRecipeRate(boolean heatRemoval, boolean ceil) {
+		double rate = Math.min(heatBuffer.getHeatStored(), (heatRemoval ? cooling : rawHeating)*getRecipeRateMult());
+		return Math.min(Integer.MAX_VALUE, (ceil && heatBuffer.getHeatStored() > rawHeating && cooling >= rawHeating) ? Math.ceil(rate) : rate);
 	}
 	
-	protected double getEfficiencyRecipeRateMultiplier() {
-		return rawHeating == 0 ? 0D : effectiveHeating/rawHeating;
+	protected double getRecipeRateMult() {
+		return rawHeating == 0 ? 0D : effectiveHeating/(rawHeating*heatPerInputSize);
 	}
 	
 	protected void doMeltdown() {
@@ -664,24 +744,35 @@ public class FissionReactor extends CuboidalMultiblockBase<FissionUpdatePacket> 
 	@Override
 	protected void updateClient() {
 		if (isReactorOn) {
+			int i;
 			if (type == FissionReactorType.PEBBLE_BED) {
 				
 			}
 			else if (type == FissionReactorType.SOLID_FUEL) {
-				for (TileSolidFissionCell cell : cellMap.values()) playFissionSound(cell.getPos());
+				i = cellMap.size();
+				for (TileSolidFissionCell cell : cellMap.values()) {
+					if (rand.nextDouble() < 1D/i && playFissionSound(cell)) return;
+					if (cell.isFunctional()) i--;
+				}
 			}
 			else {
-				for (TileSaltFissionVessel vessel : vesselMap.values()) playFissionSound(vessel.getPos());
+				i = vesselMap.size();
+				for (TileSaltFissionVessel vessel : vesselMap.values()) {
+					if (rand.nextDouble() < 1D/i && playFissionSound(vessel)) return;
+					if (vessel.isFunctional()) i--;
+				}
 			}
 		}
 	}
 	
-	protected void playFissionSound(BlockPos pos) {
-		if (fuelComponentCount <= 0) return;
-		double soundRate = Math.min(meanEfficiency/(14D*NCConfig.fission_max_size*Math.sqrt(fuelComponentCount)), 1D/fuelComponentCount);
+	protected boolean playFissionSound(IFissionFuelComponent fuelComponent) {
+		if (fuelComponentCount <= 0) return true;
+		double soundRate = Math.min(1D, meanEfficiency/(14D*NCConfig.fission_max_size));
 		if (rand.nextDouble() < soundRate) {
-			WORLD.playSound(pos.getX(), pos.getY(), pos.getZ(), NCSounds.geiger_tick, SoundCategory.BLOCKS, 1.6F, 1F + 0.12F*(rand.nextFloat() - 0.5F), false);
+			WORLD.playSound(fuelComponent.getTilePos().getX(), fuelComponent.getTilePos().getY(), fuelComponent.getTilePos().getZ(), NCSounds.geiger_tick, SoundCategory.BLOCKS, (float) (1.6D*Math.log1p(Math.sqrt(fuelComponentCount))), 1F + 0.12F*(rand.nextFloat() - 0.5F), false);
+			return true;
 		}
+		return false;
 	}
 	
 	// NBT
@@ -703,6 +794,7 @@ public class FissionReactor extends CuboidalMultiblockBase<FissionUpdatePacket> 
 		data.setDouble("totalEfficiency", totalEfficiency);
 		data.setDouble("meanEfficiency", meanEfficiency);
 		data.setDouble("sparsityEfficiencyMult", sparsityEfficiencyMult);
+		data.setLong("netHeating", netHeating);
 	}
 	
 	@Override
@@ -722,10 +814,12 @@ public class FissionReactor extends CuboidalMultiblockBase<FissionUpdatePacket> 
 		totalEfficiency = data.getDouble("totalEfficiency");
 		meanEfficiency = data.getDouble("meanEfficiency");
 		sparsityEfficiencyMult = data.getDouble("sparsityEfficiencyMult");
+		netHeating = data.getLong("netHeating");
 	}
 	
 	protected NBTTagCompound writeTanks(NBTTagCompound nbt) {
 		if (!tanks.isEmpty()) for (int i = 0; i < tanks.size(); i++) {
+			nbt.setInteger("capacity" + i, tanks.get(i).getCapacity());
 			nbt.setInteger("fluidAmount" + i, tanks.get(i).getFluidAmount());
 			nbt.setString("fluidName" + i, tanks.get(i).getFluidName());
 		}
@@ -734,6 +828,7 @@ public class FissionReactor extends CuboidalMultiblockBase<FissionUpdatePacket> 
 	
 	protected void readTanks(NBTTagCompound nbt) {
 		if (!tanks.isEmpty()) for (int i = 0; i < tanks.size(); i++) {
+			tanks.get(i).setCapacity(nbt.getInteger("capacity" + i));
 			if (nbt.getString("fluidName" + i).equals("nullFluid") || nbt.getInteger("fluidAmount" + i) == 0) tanks.get(i).setFluidStored(null);
 			else tanks.get(i).setFluidStored(FluidRegistry.getFluid(nbt.getString("fluidName" + i)), nbt.getInteger("fluidAmount" + i));
 		}
@@ -747,10 +842,10 @@ public class FissionReactor extends CuboidalMultiblockBase<FissionUpdatePacket> 
 			
 		}
 		else*/ if (type == FissionReactorType.SOLID_FUEL) {
-			return new SolidFissionUpdatePacket(controller.getTilePos(), isReactorOn, clusterCount, cooling, rawHeating, effectiveHeating, totalHeatMult, meanHeatMult, fuelComponentCount, usefulPartCount, totalEfficiency, meanEfficiency, sparsityEfficiencyMult, heatBuffer.getHeatCapacity(), heatBuffer.getHeatStored(), heatingOutputRate);
+			return new SolidFissionUpdatePacket(controller.getTilePos(), isReactorOn, clusterCount, cooling, rawHeating, effectiveHeating, totalHeatMult, meanHeatMult, fuelComponentCount, usefulPartCount, totalEfficiency, meanEfficiency, sparsityEfficiencyMult, heatBuffer.getHeatCapacity(), heatBuffer.getHeatStored(), roundedOutputRate, netHeating);
 		}
 		else {
-			return new SaltFissionUpdatePacket(controller.getTilePos(), isReactorOn, clusterCount, cooling, rawHeating, effectiveHeating, totalHeatMult, meanHeatMult, fuelComponentCount, usefulPartCount, totalEfficiency, meanEfficiency, sparsityEfficiencyMult, heatBuffer.getHeatCapacity(), heatBuffer.getHeatStored(), heatingOutputRate);
+			return new SaltFissionUpdatePacket(controller.getTilePos(), isReactorOn, clusterCount, cooling, rawHeating, effectiveHeating, totalHeatMult, meanHeatMult, fuelComponentCount, usefulPartCount, totalEfficiency, meanEfficiency, sparsityEfficiencyMult, heatBuffer.getHeatCapacity(), heatBuffer.getHeatStored(), roundedOutputRate, netHeating);
 		}
 	}
 	
@@ -770,7 +865,8 @@ public class FissionReactor extends CuboidalMultiblockBase<FissionUpdatePacket> 
 		sparsityEfficiencyMult = message.sparsityEfficiencyMult;
 		heatBuffer.setHeatCapacity(message.capacity);
 		heatBuffer.setHeatStored(message.heat);
-		heatingOutputRate = message.heatingOutputRate;
+		roundedOutputRate = message.roundedOutputRate;
+		netHeating = message.netHeating;
 	}
 	
 	public Container getContainer(EntityPlayer player) {

@@ -1,3 +1,30 @@
+v2o.0.3
+
++ Added fission port default behaviour, linking all cells' inventories
+
+* Fixed moderators adjacent to cells but not in flux lines counting as active
+* Fixed bug where cells would erroneously remain primed
+* Fixed fuel in cells and casing coolant being lost on world load
+
++ Added IC2 coolant heating solid fuel reactor recipe
+* Hot reactor components will burn when contacted
+* Improved performance of (de)activating neutron sources
+* Fixed flickering of neutron source blocks' states
+* Improved accuracy of reactor GUI information
+
+* Revamped turbine dynamo coil placement rules
+* Total coil requirements are now 'per bearing'
+* Fixed buggy rotor shaft double-rendering
++ Added ability for addons to introduce custom dynamo coils
+
++ Added axial states to multiblock ports and vents
++ Added recipes for various multiblock parts
+
+* Reorganised creative tabs
+* Added and spruced up various info tooltips
+* Slightly tweaked a few config option defaults
+* Reorganised many multiblock texture assets
+
 v2o.0.2
 
 + Revamped CraftTweaker integration

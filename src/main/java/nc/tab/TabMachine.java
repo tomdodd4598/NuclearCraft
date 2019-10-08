@@ -5,10 +5,10 @@ import nc.init.NCBlocks;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 
-public class TabMachines extends CreativeTabs {
+public class TabMachine extends CreativeTabs {
 
-	public TabMachines() {
-		super("nuclearcraftMachines");
+	public TabMachine() {
+		super("nuclearcraft.machine");
 	}
 
 	@Override
