@@ -123,8 +123,8 @@ public class TileHeatExchangerVent extends TileHeatExchangerPartBase implements 
 				getTanks().get(0).drain(tube.getTanks().get(0).fill(getTanks().get(0).drain(getTanks().get(0).getCapacity(), false), true), true);
 			}
 		}
-		else if (tile instanceof TileHeatExchangerCondenserTube) {
-			TileHeatExchangerCondenserTube condenserTube = (TileHeatExchangerCondenserTube) tile;
+		else if (tile instanceof TileCondenserTube) {
+			TileCondenserTube condenserTube = (TileCondenserTube) tile;
 			
 			if (condenserTube.getTubeSetting(side.getOpposite()) == HeatExchangerTubeSetting.DEFAULT) {
 				getTanks().get(0).drain(condenserTube.getTanks().get(0).fill(getTanks().get(0).drain(getTanks().get(0).getCapacity(), false), true), true);

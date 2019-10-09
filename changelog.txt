@@ -1,3 +1,14 @@
+v2o.0.4
+
+* Hopefully fixed issues with fission cell activation on port-linking
+* Fixed information about cell-reflector flux lines being lost
+
++ Added ability for addons to introduce custom neutron sources
+
+* Tweaked a few heat sink placement rules
+* Tweaked various multiblock component recipes
+* Minor textures changes and refactors
+
 v2o.0.3
 
 + Added fission port default behaviour, linking all cells' inventories

@@ -36,15 +36,17 @@ import nc.multiblock.fission.solid.block.BlockSolidFissionController;
 import nc.multiblock.fission.solid.block.BlockSolidFissionSink;
 import nc.multiblock.fission.solid.block.BlockSolidFissionSink2;
 import nc.multiblock.heatExchanger.HeatExchangerTubeType;
+import nc.multiblock.heatExchanger.block.BlockCondenserController;
+import nc.multiblock.heatExchanger.block.BlockCondenserTube;
+import nc.multiblock.heatExchanger.block.BlockHeatExchangerCasing;
 import nc.multiblock.heatExchanger.block.BlockHeatExchangerComputerPort;
-import nc.multiblock.heatExchanger.block.BlockHeatExchangerCondenserTube;
 import nc.multiblock.heatExchanger.block.BlockHeatExchangerController;
 import nc.multiblock.heatExchanger.block.BlockHeatExchangerGlass;
 import nc.multiblock.heatExchanger.block.BlockHeatExchangerTube;
 import nc.multiblock.heatExchanger.block.BlockHeatExchangerVent;
-import nc.multiblock.heatExchanger.block.BlockHeatExchangerCasing;
 import nc.multiblock.turbine.TurbineDynamoCoilType;
 import nc.multiblock.turbine.TurbineRotorBladeUtil.TurbineRotorBladeType;
+import nc.multiblock.turbine.block.BlockTurbineCasing;
 import nc.multiblock.turbine.block.BlockTurbineComputerPort;
 import nc.multiblock.turbine.block.BlockTurbineController;
 import nc.multiblock.turbine.block.BlockTurbineDynamoCoil;
@@ -55,7 +57,6 @@ import nc.multiblock.turbine.block.BlockTurbineRotorBearing;
 import nc.multiblock.turbine.block.BlockTurbineRotorBlade;
 import nc.multiblock.turbine.block.BlockTurbineRotorShaft;
 import nc.multiblock.turbine.block.BlockTurbineRotorStator;
-import nc.multiblock.turbine.block.BlockTurbineCasing;
 import nc.radiation.RadiationHelper;
 import nc.tab.NCTabs;
 import nc.tile.energy.battery.BatteryType;
@@ -155,10 +156,12 @@ public class NCBlocks {
 	public static Block heat_exchanger_tube_copper;
 	public static Block heat_exchanger_tube_hard_carbon;
 	public static Block heat_exchanger_tube_thermoconducting;
-	public static Block heat_exchanger_condenser_tube_copper;
-	public static Block heat_exchanger_condenser_tube_hard_carbon;
-	public static Block heat_exchanger_condenser_tube_thermoconducting;
 	public static Block heat_exchanger_computer_port;
+	
+	public static Block condenser_controller;
+	public static Block condenser_tube_copper;
+	public static Block condenser_tube_hard_carbon;
+	public static Block condenser_tube_thermoconducting;
 	
 	public static Block turbine_controller;
 	public static Block turbine_casing;
@@ -280,10 +283,12 @@ public class NCBlocks {
 		heat_exchanger_tube_copper = withName(new BlockHeatExchangerTube(HeatExchangerTubeType.COPPER), "heat_exchanger_tube_copper");
 		heat_exchanger_tube_hard_carbon = withName(new BlockHeatExchangerTube(HeatExchangerTubeType.HARD_CARBON), "heat_exchanger_tube_hard_carbon");
 		heat_exchanger_tube_thermoconducting = withName(new BlockHeatExchangerTube(HeatExchangerTubeType.THERMOCONDUCTING), "heat_exchanger_tube_thermoconducting");
-		heat_exchanger_condenser_tube_copper = withName(new BlockHeatExchangerCondenserTube(HeatExchangerTubeType.COPPER), "heat_exchanger_condenser_tube_copper");
-		heat_exchanger_condenser_tube_hard_carbon = withName(new BlockHeatExchangerCondenserTube(HeatExchangerTubeType.HARD_CARBON), "heat_exchanger_condenser_tube_hard_carbon");
-		heat_exchanger_condenser_tube_thermoconducting = withName(new BlockHeatExchangerCondenserTube(HeatExchangerTubeType.THERMOCONDUCTING), "heat_exchanger_condenser_tube_thermoconducting");
 		heat_exchanger_computer_port = withName(new BlockHeatExchangerComputerPort(), "heat_exchanger_computer_port");
+		
+		condenser_controller = withName(new BlockCondenserController(), "condenser_controller");
+		condenser_tube_copper = withName(new BlockCondenserTube(HeatExchangerTubeType.COPPER), "condenser_tube_copper");
+		condenser_tube_hard_carbon = withName(new BlockCondenserTube(HeatExchangerTubeType.HARD_CARBON), "condenser_tube_hard_carbon");
+		condenser_tube_thermoconducting = withName(new BlockCondenserTube(HeatExchangerTubeType.THERMOCONDUCTING), "condenser_tube_thermoconducting");
 		
 		turbine_controller = withName(new BlockTurbineController(), "turbine_controller");
 		turbine_casing = withName(new BlockTurbineCasing(), "turbine_casing");
@@ -411,10 +416,12 @@ public class NCBlocks {
 		registerBlock(heat_exchanger_tube_copper, TextFormatting.BLUE, InfoHelper.formattedInfo(fixedLine("heat_exchanger_tube"), Math.round(100D*NCConfig.heat_exchanger_conductivity[0]) + "%"), TextFormatting.AQUA, InfoHelper.formattedInfo(infoLine("heat_exchanger_tube")));
 		registerBlock(heat_exchanger_tube_hard_carbon, TextFormatting.BLUE, InfoHelper.formattedInfo(fixedLine("heat_exchanger_tube"), Math.round(100D*NCConfig.heat_exchanger_conductivity[1]) + "%"), TextFormatting.AQUA, InfoHelper.formattedInfo(infoLine("heat_exchanger_tube")));
 		registerBlock(heat_exchanger_tube_thermoconducting, TextFormatting.BLUE, InfoHelper.formattedInfo(fixedLine("heat_exchanger_tube"), Math.round(100D*NCConfig.heat_exchanger_conductivity[2]) + "%"), TextFormatting.AQUA, InfoHelper.formattedInfo(infoLine("heat_exchanger_tube")));
-		registerBlock(heat_exchanger_condenser_tube_copper, TextFormatting.BLUE, InfoHelper.formattedInfo(fixedLine("heat_exchanger_condenser_tube"), Math.round(100D*NCConfig.heat_exchanger_conductivity[0]) + "%"), TextFormatting.AQUA, InfoHelper.formattedInfo(infoLine("heat_exchanger_condenser_tube")));
-		registerBlock(heat_exchanger_condenser_tube_hard_carbon, TextFormatting.BLUE, InfoHelper.formattedInfo(fixedLine("heat_exchanger_condenser_tube"), Math.round(100D*NCConfig.heat_exchanger_conductivity[1]) + "%"), TextFormatting.AQUA, InfoHelper.formattedInfo(infoLine("heat_exchanger_condenser_tube")));
-		registerBlock(heat_exchanger_condenser_tube_thermoconducting, TextFormatting.BLUE, InfoHelper.formattedInfo(fixedLine("heat_exchanger_condenser_tube"), Math.round(100D*NCConfig.heat_exchanger_conductivity[2]) + "%"), TextFormatting.AQUA, InfoHelper.formattedInfo(infoLine("heat_exchanger_condenser_tube")));
 		registerBlock(heat_exchanger_computer_port);
+		
+		registerBlock(condenser_controller);
+		registerBlock(condenser_tube_copper, TextFormatting.BLUE, InfoHelper.formattedInfo(fixedLine("condenser_tube"), Math.round(100D*NCConfig.heat_exchanger_conductivity[0]) + "%"), TextFormatting.AQUA, InfoHelper.formattedInfo(infoLine("condenser_tube")));
+		registerBlock(condenser_tube_hard_carbon, TextFormatting.BLUE, InfoHelper.formattedInfo(fixedLine("condenser_tube"), Math.round(100D*NCConfig.heat_exchanger_conductivity[1]) + "%"), TextFormatting.AQUA, InfoHelper.formattedInfo(infoLine("condenser_tube")));
+		registerBlock(condenser_tube_thermoconducting, TextFormatting.BLUE, InfoHelper.formattedInfo(fixedLine("condenser_tube"), Math.round(100D*NCConfig.heat_exchanger_conductivity[2]) + "%"), TextFormatting.AQUA, InfoHelper.formattedInfo(infoLine("condenser_tube")));
 		
 		registerBlock(turbine_controller);
 		registerBlock(turbine_casing);
@@ -554,10 +561,12 @@ public class NCBlocks {
 		registerRender(heat_exchanger_tube_copper);
 		registerRender(heat_exchanger_tube_hard_carbon);
 		registerRender(heat_exchanger_tube_thermoconducting);
-		registerRender(heat_exchanger_condenser_tube_copper);
-		registerRender(heat_exchanger_condenser_tube_hard_carbon);
-		registerRender(heat_exchanger_condenser_tube_thermoconducting);
 		registerRender(heat_exchanger_computer_port);
+		
+		registerRender(condenser_controller);
+		registerRender(condenser_tube_copper);
+		registerRender(condenser_tube_hard_carbon);
+		registerRender(condenser_tube_thermoconducting);
 		
 		registerRender(turbine_controller);
 		registerRender(turbine_casing);

@@ -5,7 +5,6 @@ import java.util.Iterator;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 import nc.config.NCConfig;
-import nc.multiblock.fission.salt.FissionReactorType;
 import nc.multiblock.fission.tile.IFissionComponent;
 import nc.multiblock.fission.tile.IFissionCoolingComponent;
 import nc.multiblock.fission.tile.IFissionFuelComponent;

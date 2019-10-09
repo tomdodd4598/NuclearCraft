@@ -9,7 +9,7 @@ import nc.multiblock.MultiblockBase;
 import nc.multiblock.TileBeefBase.SyncReason;
 import nc.multiblock.container.ContainerHeatExchangerController;
 import nc.multiblock.cuboidal.CuboidalMultiblockBase;
-import nc.multiblock.heatExchanger.tile.TileHeatExchangerCondenserTube;
+import nc.multiblock.heatExchanger.tile.TileCondenserTube;
 import nc.multiblock.heatExchanger.tile.TileHeatExchangerController;
 import nc.multiblock.heatExchanger.tile.TileHeatExchangerTube;
 import nc.multiblock.heatExchanger.tile.TileHeatExchangerVent;
@@ -26,7 +26,7 @@ public class HeatExchanger extends CuboidalMultiblockBase<HeatExchangerUpdatePac
 	protected final ObjectSet<TileHeatExchangerController> controllers = new ObjectOpenHashSet<>();
 	protected final ObjectSet<TileHeatExchangerVent> vents = new ObjectOpenHashSet<>();
 	protected final ObjectSet<TileHeatExchangerTube> tubes = new ObjectOpenHashSet<>();
-	protected final ObjectSet<TileHeatExchangerCondenserTube> condenserTubes = new ObjectOpenHashSet<>();
+	protected final ObjectSet<TileCondenserTube> condenserTubes = new ObjectOpenHashSet<>();
 	
 	protected TileHeatExchangerController controller;
 	
@@ -53,7 +53,7 @@ public class HeatExchanger extends CuboidalMultiblockBase<HeatExchangerUpdatePac
 		return tubes;
 	}
 	
-	public ObjectSet<TileHeatExchangerCondenserTube> getCondenserTubes() {
+	public ObjectSet<TileCondenserTube> getCondenserTubes() {
 		return condenserTubes;
 	}
 	
@@ -86,7 +86,7 @@ public class HeatExchanger extends CuboidalMultiblockBase<HeatExchangerUpdatePac
 		if (newPart instanceof TileHeatExchangerController) controllers.add((TileHeatExchangerController) newPart);
 		if (newPart instanceof TileHeatExchangerVent) vents.add((TileHeatExchangerVent) newPart);
 		if (newPart instanceof TileHeatExchangerTube) tubes.add((TileHeatExchangerTube) newPart);
-		if (newPart instanceof TileHeatExchangerCondenserTube) condenserTubes.add((TileHeatExchangerCondenserTube) newPart);
+		if (newPart instanceof TileCondenserTube) condenserTubes.add((TileCondenserTube) newPart);
 	}
 	
 	@Override
@@ -94,7 +94,7 @@ public class HeatExchanger extends CuboidalMultiblockBase<HeatExchangerUpdatePac
 		if (oldPart instanceof TileHeatExchangerController) controllers.remove(oldPart);
 		if (oldPart instanceof TileHeatExchangerVent) vents.remove(oldPart);
 		if (oldPart instanceof TileHeatExchangerTube) tubes.remove(oldPart);
-		if (oldPart instanceof TileHeatExchangerCondenserTube) condenserTubes.remove(oldPart);
+		if (oldPart instanceof TileCondenserTube) condenserTubes.remove(oldPart);
 	}
 	
 	@Override
@@ -113,7 +113,7 @@ public class HeatExchanger extends CuboidalMultiblockBase<HeatExchangerUpdatePac
 		
 		if (!WORLD.isRemote) {
 			for (TileHeatExchangerTube tube : tubes) tube.updateFlowDir();
-			for (TileHeatExchangerCondenserTube condenserTube : condenserTubes) condenserTube.updateAdjacentTemperatures();
+			for (TileCondenserTube condenserTube : condenserTubes) condenserTube.updateAdjacentTemperatures();
 			
 			updateHeatExchangerStats();
 		}
@@ -198,7 +198,7 @@ public class HeatExchanger extends CuboidalMultiblockBase<HeatExchangerUpdatePac
 			maxEfficiencyCount += eff[1];
 		}
 		
-		for (TileHeatExchangerCondenserTube condenserTube : condenserTubes) {
+		for (TileCondenserTube condenserTube : condenserTubes) {
 			int eff = condenserTube.checkPosition();
 			if (eff > 0) activeCount++;
 			efficiencyCount += eff;
@@ -272,7 +272,7 @@ public class HeatExchanger extends CuboidalMultiblockBase<HeatExchangerUpdatePac
 	public void clearAll() {
 		for (TileHeatExchangerVent vent : vents) vent.clearAllTanks();
 		for (TileHeatExchangerTube tube : tubes) tube.clearAllTanks();
-		for (TileHeatExchangerCondenserTube condenserTube : condenserTubes) condenserTube.clearAllTanks();
+		for (TileCondenserTube condenserTube : condenserTubes) condenserTube.clearAllTanks();
 	}
 	
 	// Multiblock Validators

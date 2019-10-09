@@ -34,8 +34,8 @@ public class InfuserRecipes extends ProcessorRecipeHandler {
 		addRecipe("emptyHeatSink", fluidStack("water", FluidStackHelper.BUCKET_VOLUME), new ItemStack(NCBlocks.solid_fission_sink, 1, 0), 1D, 1D);
 		addRecipe("emptyHeatSink", fluidStack("liquid_nitrogen", FluidStackHelper.BUCKET_VOLUME), new ItemStack(NCBlocks.solid_fission_sink2, 1, 12), 1D, 1D);
 		addRecipe("emptyHeatSink", fluidStack("liquid_helium", FluidStackHelper.BUCKET_VOLUME), new ItemStack(NCBlocks.solid_fission_sink2, 1, 13), 1D, 1D);
-		addRecipe("emptyHeatSink", fluidStack("enderium", FluidStackHelper.INGOT_VOLUME*8), new ItemStack(NCBlocks.solid_fission_sink2, 1, 14), 1D, 1D);
-		addRecipe("emptyHeatSink", fluidStack("cryotheum", FluidStackHelper.BUCKET_VOLUME*2), new ItemStack(NCBlocks.solid_fission_sink2, 1, 15), 1D, 1D);
+		addRecipe("emptyHeatSink", fluidStack("enderium", FluidStackHelper.INGOT_VOLUME*4), new ItemStack(NCBlocks.solid_fission_sink2, 1, 14), 1D, 1D);
+		addRecipe("emptyHeatSink", fluidStack("cryotheum", FluidStackHelper.BUCKET_VOLUME), new ItemStack(NCBlocks.solid_fission_sink2, 1, 15), 1D, 1D);
 		
 		addRecipe(oreStack("bioplastic", 2), fluidStack("radaway", FluidStackHelper.BUCKET_VOLUME/4), NCItems.radaway, 1D, 0.5D);
 		addRecipe(oreStack("bioplastic", 2), fluidStack("radaway_slow", FluidStackHelper.BUCKET_VOLUME/4), NCItems.radaway_slow, 1D, 0.5D);

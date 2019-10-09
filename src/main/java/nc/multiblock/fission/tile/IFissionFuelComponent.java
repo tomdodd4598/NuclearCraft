@@ -4,7 +4,7 @@ import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
 import it.unimi.dsi.fastutil.longs.LongSet;
 import nc.config.NCConfig;
 import nc.multiblock.fission.FissionReactor;
-import nc.multiblock.fission.salt.FissionReactorType;
+import nc.multiblock.fission.FissionReactorType;
 import nc.recipe.NCRecipes;
 import nc.recipe.ProcessorRecipe;
 import net.minecraft.util.EnumFacing;
@@ -44,11 +44,9 @@ public interface IFissionFuelComponent extends IFissionComponent {
 	
 	public Long[] getActiveModeratorCache();
 	
-	public LongSet getPassiveReflectorModeratorCache();
+	public LongSet[] getPassiveReflectorModeratorCaches();
 	
-	public Long getActiveReflectorModeratorCache();
-	
-	public void setActiveReflectorModeratorCache(long posLong);
+	public Long[] getActiveReflectorModeratorCache();
 	
 	public LongSet getActiveReflectorCache();
 	
@@ -136,8 +134,8 @@ public interface IFissionFuelComponent extends IFissionComponent {
 										getMultiblock().activeReflectorCache.add(offPos.toLong());
 									}
 									else {
-										getPassiveReflectorModeratorCache().addAll(passiveModeratorCache);
-										setActiveReflectorModeratorCache(activeModeratorPos);
+										getPassiveReflectorModeratorCaches()[dir.getIndex()].addAll(passiveModeratorCache);
+										getActiveReflectorModeratorCache()[dir.getIndex()] = activeModeratorPos;
 										getActiveReflectorCache().add(offPos.toLong());
 									}
 								}
@@ -151,7 +149,7 @@ public interface IFissionFuelComponent extends IFissionComponent {
 		}
 	}
 	
-	public default void refreshPrimed() {
+	public default void refreshLocal() {
 		if (!isFunctional()) return;
 		
 		if (getMultiblock().type == FissionReactorType.PEBBLE_BED) {
@@ -167,13 +165,33 @@ public interface IFissionFuelComponent extends IFissionComponent {
 						getMultiblock().activeModeratorCache.add(posLong.longValue());
 					}
 				}
+				getMultiblock().passiveModeratorCache.addAll(getPassiveReflectorModeratorCaches()[dir.getIndex()]);
+				Long posLong = getActiveReflectorModeratorCache()[dir.getIndex()];
+				if (posLong != null) {
+					getMultiblock().activeModeratorCache.add(posLong.longValue());
+				}
+				getMultiblock().activeReflectorCache.addAll(getActiveReflectorCache());
 			}
-			getMultiblock().passiveModeratorCache.addAll(getPassiveReflectorModeratorCache());
-			Long posLong = getActiveReflectorModeratorCache();
-			if (posLong != null) {
-				getMultiblock().activeModeratorCache.add(posLong.longValue());
+		}
+	}
+	
+	/** Fix to force adjacent moderators to be active */
+	public default void refreshModerators() {
+		if (!isFunctional()) return;
+		
+		if (getMultiblock().type == FissionReactorType.PEBBLE_BED) {
+			
+		}
+		else {
+			for (EnumFacing dir : EnumFacing.VALUES) {
+				IFissionFuelComponent fuelComponent = getAdjacentFuelComponents()[dir.getIndex()];
+				if (fuelComponent != null && fuelComponent.isFunctional()) {
+					long adjPosLong = getTilePos().offset(dir).toLong();
+					if (getMultiblock().passiveModeratorCache.contains(adjPosLong)) {
+						getMultiblock().activeModeratorCache.add(adjPosLong);
+					}
+				}
 			}
-			getMultiblock().activeReflectorCache.addAll(getActiveReflectorCache());
 		}
 	}
 	

@@ -296,7 +296,7 @@ public class NCJEI implements IModPlugin {
 		COOLANT_HEATER(NCRecipes.coolant_heater, NCBlocks.salt_fission_heater, "coolant_heater", JEIRecipeWrapper.CoolantHeater.class),
 		HEAT_EXCHANGER(NCRecipes.heat_exchanger, Lists.newArrayList(NCBlocks.heat_exchanger_tube_copper, NCBlocks.heat_exchanger_tube_hard_carbon, NCBlocks.heat_exchanger_tube_thermoconducting), "heat_exchanger", JEIRecipeWrapper.HeatExchanger.class),
 		TURBINE(NCRecipes.turbine, NCBlocks.turbine_controller, "turbine", JEIRecipeWrapper.Turbine.class),
-		CONDENSER(NCRecipes.condenser, Lists.newArrayList(NCBlocks.heat_exchanger_condenser_tube_copper, NCBlocks.heat_exchanger_condenser_tube_hard_carbon, NCBlocks.heat_exchanger_condenser_tube_thermoconducting), "condenser", JEIRecipeWrapper.Condenser.class);
+		CONDENSER(NCRecipes.condenser, Lists.newArrayList(NCBlocks.condenser_tube_copper, NCBlocks.condenser_tube_hard_carbon, NCBlocks.condenser_tube_thermoconducting), "condenser", JEIRecipeWrapper.Condenser.class);
 		
 		private ProcessorRecipeHandler recipeHandler;
 		private Class<? extends JEIRecipeWrapperAbstract> recipeWrapper;

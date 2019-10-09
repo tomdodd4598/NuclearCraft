@@ -4,7 +4,7 @@ import nc.block.property.ISidedProperty;
 import nc.block.property.PropertySidedEnum;
 import nc.multiblock.heatExchanger.HeatExchangerTubeSetting;
 import nc.multiblock.heatExchanger.HeatExchangerTubeType;
-import nc.multiblock.heatExchanger.tile.TileHeatExchangerCondenserTube;
+import nc.multiblock.heatExchanger.tile.TileCondenserTube;
 import nc.tile.internal.fluid.FluidConnection;
 import nc.util.Lang;
 import net.minecraft.block.state.BlockStateContainer;
@@ -21,13 +21,13 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockHeatExchangerCondenserTube extends BlockHeatExchangerPartBase implements ISidedProperty<HeatExchangerTubeSetting> {
+public class BlockCondenserTube extends BlockHeatExchangerPartBase implements ISidedProperty<HeatExchangerTubeSetting> {
 	
 	private static EnumFacing placementSide = null;
 	
 	private final HeatExchangerTubeType tubeType;
 
-	public BlockHeatExchangerCondenserTube(HeatExchangerTubeType tubeType) {
+	public BlockCondenserTube(HeatExchangerTubeType tubeType) {
 		super();
 		this.tubeType = tubeType;
 	}
@@ -36,11 +36,11 @@ public class BlockHeatExchangerCondenserTube extends BlockHeatExchangerPartBase 
 	public TileEntity createNewTileEntity(World world, int metadata) {
 		switch (tubeType) {
 		case COPPER:
-			return new TileHeatExchangerCondenserTube.Copper();
+			return new TileCondenserTube.Copper();
 		case HARD_CARBON:
-			return new TileHeatExchangerCondenserTube.HardCarbon();
+			return new TileCondenserTube.HardCarbon();
 		case THERMOCONDUCTING:
-			return new TileHeatExchangerCondenserTube.Thermoconducting();
+			return new TileCondenserTube.Thermoconducting();
 		default:
 			return null;
 		}
@@ -55,8 +55,8 @@ public class BlockHeatExchangerCondenserTube extends BlockHeatExchangerPartBase 
 	
 	@Override
 	public HeatExchangerTubeSetting getProperty(IBlockAccess world, BlockPos pos, EnumFacing facing) {
-		if (world.getTileEntity(pos) instanceof TileHeatExchangerCondenserTube) {
-			return ((TileHeatExchangerCondenserTube) world.getTileEntity(pos)).getTubeSetting(facing);
+		if (world.getTileEntity(pos) instanceof TileCondenserTube) {
+			return ((TileCondenserTube) world.getTileEntity(pos)).getTubeSetting(facing);
 		}
 		return HeatExchangerTubeSetting.DISABLED;
 	}
@@ -80,8 +80,8 @@ public class BlockHeatExchangerCondenserTube extends BlockHeatExchangerPartBase 
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if (hand != EnumHand.MAIN_HAND || player == null) return false;
 		
-		if (player.getHeldItemMainhand().isEmpty() && world.getTileEntity(pos) instanceof TileHeatExchangerCondenserTube) {
-			TileHeatExchangerCondenserTube tube = (TileHeatExchangerCondenserTube) world.getTileEntity(pos);
+		if (player.getHeldItemMainhand().isEmpty() && world.getTileEntity(pos) instanceof TileCondenserTube) {
+			TileCondenserTube tube = (TileCondenserTube) world.getTileEntity(pos);
 			EnumFacing side = player.isSneaking() ? facing.getOpposite() : facing;
 			tube.toggleTubeSetting(side);
 			if (!world.isRemote) player.sendMessage(getToggleMessage(player, tube, side));
@@ -90,7 +90,7 @@ public class BlockHeatExchangerCondenserTube extends BlockHeatExchangerPartBase 
 		return super.onBlockActivated(world, pos, state, player, hand, facing, hitX, hitY, hitZ);
 	}
 	
-	private static TextComponentString getToggleMessage(EntityPlayer player, TileHeatExchangerCondenserTube tube, EnumFacing side) {
+	private static TextComponentString getToggleMessage(EntityPlayer player, TileCondenserTube tube, EnumFacing side) {
 		HeatExchangerTubeSetting setting = tube.getTubeSetting(side);
 		String message = player.isSneaking() ? "nc.block.fluid_toggle_opposite" : "nc.block.fluid_toggle";
 		TextFormatting color = setting == HeatExchangerTubeSetting.PRODUCT_OUT ? TextFormatting.LIGHT_PURPLE : (setting == HeatExchangerTubeSetting.INPUT_SPREAD ? TextFormatting.GREEN : (setting == HeatExchangerTubeSetting.DEFAULT ? TextFormatting.WHITE : TextFormatting.GRAY));
@@ -108,9 +108,9 @@ public class BlockHeatExchangerCondenserTube extends BlockHeatExchangerPartBase 
 	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
 		if (placementSide ==  null) return;
 		BlockPos from = pos.offset(placementSide);
-		if (world.getTileEntity(pos) instanceof TileHeatExchangerCondenserTube && world.getTileEntity(from) instanceof TileHeatExchangerCondenserTube) {
-			TileHeatExchangerCondenserTube tube = (TileHeatExchangerCondenserTube) world.getTileEntity(pos);
-			TileHeatExchangerCondenserTube other = (TileHeatExchangerCondenserTube) world.getTileEntity(from);
+		if (world.getTileEntity(pos) instanceof TileCondenserTube && world.getTileEntity(from) instanceof TileCondenserTube) {
+			TileCondenserTube tube = (TileCondenserTube) world.getTileEntity(pos);
+			TileCondenserTube other = (TileCondenserTube) world.getTileEntity(from);
 			tube.setFluidConnections(FluidConnection.cloneArray(other.getFluidConnections()));
 			tube.setTubeSettings(other.getTubeSettings().clone());
 			tube.markDirtyAndNotify();

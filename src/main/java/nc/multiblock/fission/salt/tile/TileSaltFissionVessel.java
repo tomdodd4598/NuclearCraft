@@ -83,8 +83,8 @@ public class TileSaltFissionVessel extends TileFissionPartBase implements IFluid
 	protected IFissionFuelComponent[] adjacentFuelComponents = new IFissionFuelComponent[] {null, null, null, null, null, null};
 	protected final LongSet[] passiveModeratorCaches = new LongSet[] {new LongOpenHashSet(), new LongOpenHashSet(), new LongOpenHashSet(), new LongOpenHashSet(), new LongOpenHashSet(), new LongOpenHashSet()};
 	protected final Long[] activeModeratorCache = new Long[] {null, null, null, null, null, null};
-	protected final LongSet passiveReflectorModeratorCache = new LongOpenHashSet();
-	protected Long activeReflectorModeratorCache = null;
+	protected final LongSet[] passiveReflectorModeratorCaches = new LongSet[] {new LongOpenHashSet(), new LongOpenHashSet(), new LongOpenHashSet(), new LongOpenHashSet(), new LongOpenHashSet(), new LongOpenHashSet()};
+	protected final Long[] activeReflectorModeratorCache = new Long[] {null, null, null, null, null, null};
 	protected final LongSet activeReflectorCache = new LongOpenHashSet();
 	
 	protected int vesselCount;
@@ -148,9 +148,9 @@ public class TileSaltFissionVessel extends TileFissionPartBase implements IFluid
 			adjacentFuelComponents[dir.getIndex()] = null;
 			passiveModeratorCaches[dir.getIndex()].clear();
 			activeModeratorCache[dir.getIndex()] = null;
+			passiveReflectorModeratorCaches[dir.getIndex()].clear();
+			activeReflectorModeratorCache[dir.getIndex()] = null;
 		}
-		passiveReflectorModeratorCache.clear();
-		activeReflectorModeratorCache = null;
 		activeReflectorCache.clear();
 		
 		refreshRecipe();
@@ -241,18 +241,13 @@ public class TileSaltFissionVessel extends TileFissionPartBase implements IFluid
 	}
 	
 	@Override
-	public LongSet getPassiveReflectorModeratorCache() {
-		return passiveReflectorModeratorCache;
+	public LongSet[] getPassiveReflectorModeratorCaches() {
+		return passiveReflectorModeratorCaches;
 	}
 	
 	@Override
-	public Long getActiveReflectorModeratorCache() {
+	public Long[] getActiveReflectorModeratorCache() {
 		return activeReflectorModeratorCache;
-	}
-	
-	@Override
-	public void setActiveReflectorModeratorCache(long posLong) {
-		activeReflectorModeratorCache = posLong;
 	}
 	
 	@Override
@@ -333,25 +328,22 @@ public class TileSaltFissionVessel extends TileFissionPartBase implements IFluid
 	}
 	
 	public void updateVessel() {
-		if(!world.isRemote) {
+		if (!world.isRemote) {
 			boolean wasProcessing = isProcessing;
 			isProcessing = isProcessing(true);
-			boolean shouldUpdate = false;
-			tickVessel();
+			boolean shouldRefresh = !isProcessing && isProcessing(false);
+			boolean shouldUpdate = wasProcessing != isProcessing;
+			
 			if (isProcessing) process();
 			else getRadiationSource().setRadiationLevel(0D);
-			if (wasProcessing != isProcessing) {
-				shouldUpdate = true;
+			
+			tickVessel();
+			if (vesselCount == 0) pushFluid();
+			
+			if (shouldRefresh && isMultiblockAssembled()) {
+				getMultiblock().refreshFlag = true;
 			}
-			if (vesselCount == 0) {
-				pushFluid();
-			}
-			if (shouldUpdate) {
-				if (getMultiblock() != null) {
-					getMultiblock().refreshFlag = true;
-				}
-				markDirty();
-			}
+			if (shouldUpdate) markDirty();
 		}
 	}
 	

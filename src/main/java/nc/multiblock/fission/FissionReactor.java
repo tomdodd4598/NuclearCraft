@@ -26,7 +26,6 @@ import nc.multiblock.TileBeefBase.SyncReason;
 import nc.multiblock.container.ContainerSaltFissionController;
 import nc.multiblock.container.ContainerSolidFissionController;
 import nc.multiblock.cuboidal.CuboidalMultiblockBase;
-import nc.multiblock.fission.salt.FissionReactorType;
 import nc.multiblock.fission.salt.tile.TileSaltFissionController;
 import nc.multiblock.fission.salt.tile.TileSaltFissionHeater;
 import nc.multiblock.fission.salt.tile.TileSaltFissionVessel;
@@ -238,9 +237,9 @@ public class FissionReactor extends CuboidalMultiblockBase<FissionUpdatePacket> 
 		ambientTemp = 273 + (int) (WORLD.getBiome(getMiddleCoord()).getTemperature(getMiddleCoord())*20F);
 		
 		if (!WORLD.isRemote) {
+			linkPorts();
 			refreshReactor();
 			updateActivity();
-			linkPorts();
 		}
 	}
 	
@@ -341,9 +340,22 @@ public class FissionReactor extends CuboidalMultiblockBase<FissionUpdatePacket> 
 			
 			for (IFissionFuelComponent primedComponent : primedCache) {
 				primedComponent.refreshIsProcessing(false);
-				primedComponent.refreshPrimed();
+				primedComponent.refreshLocal();
 				primedComponent.unprime();
 			}
+			
+			if (type == FissionReactorType.SOLID_FUEL) {
+				for (TileSolidFissionCell cell : cellMap.values()) {
+					cell.refreshModerators();
+				}
+			}
+			else {
+				for (TileSaltFissionVessel vessel : vesselMap.values()) {
+					vessel.refreshModerators();
+				}
+			}
+			
+			passiveModeratorCache.removeAll(activeModeratorCache);
 			
 			if (type == FissionReactorType.SOLID_FUEL) {
 				for (TileSolidFissionCell cell : cellMap.values()) {

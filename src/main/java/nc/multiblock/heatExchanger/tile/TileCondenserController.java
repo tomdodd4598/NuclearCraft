@@ -4,14 +4,14 @@ import static nc.block.property.BlockProperties.FACING_ALL;
 
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.heatExchanger.HeatExchanger;
-import nc.multiblock.heatExchanger.block.BlockHeatExchangerController;
+import nc.multiblock.heatExchanger.block.BlockCondenserController;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class TileHeatExchangerController extends TileHeatExchangerPartBase implements IHeatExchangerController {
+public class TileCondenserController extends TileHeatExchangerPartBase implements IHeatExchangerController {
 	
-	public TileHeatExchangerController() {
+	public TileCondenserController() {
 		super(CuboidalPartPositionType.WALL);
 	}
 	
@@ -44,8 +44,8 @@ public class TileHeatExchangerController extends TileHeatExchangerPartBase imple
 	
 	@Override
 	public void updateBlockState(boolean isActive) {
-		if (getBlockType() instanceof BlockHeatExchangerController) {
-			((BlockHeatExchangerController)getBlockType()).setState(isActive, this);
+		if (getBlockType() instanceof BlockCondenserController) {
+			((BlockCondenserController)getBlockType()).setState(isActive, this);
 			world.notifyNeighborsOfStateChange(pos, getBlockType(), true);
 		}
 	}

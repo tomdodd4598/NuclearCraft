@@ -198,14 +198,13 @@ public abstract class TileSolidFissionSink extends TileFissionPartBase implement
 		
 		@Override
 		public boolean isSinkValid() {
-			boolean reflector = false;
-			byte water = 0;
+			byte water = 0, lead = 0;
 			for (EnumFacing dir : EnumFacing.VALUES) {
-				if (!reflector && isActiveReflector(pos.offset(dir))) reflector = true;
 				if (isActiveSink(pos.offset(dir), "water")) water++;
 				if (water > 1) return false;
+				if (lead < 2 && isActiveSink(pos.offset(dir), "lead")) lead++;
 			}
-			return reflector && water == 1;
+			return water == 1 && lead >= 2;
 		}
 	}
 	
@@ -354,14 +353,19 @@ public abstract class TileSolidFissionSink extends TileFissionPartBase implement
 		
 		@Override
 		public boolean isSinkValid() {
-			byte lead = 0;
-			boolean wall = false;
-			for (EnumFacing dir : EnumFacing.VALUES) {
-				if (isActiveSink(pos.offset(dir), "lead")) lead++;
-				if (lead > 2) return false;
-				if (!wall && isWall(pos.offset(dir))) wall = true;
+			boolean lead = false;
+			axialDirsLoop: for (EnumFacing[] axialDirs : BlockPosHelper.axialDirsList()) {
+				for (EnumFacing dir : axialDirs) {
+					if (!isActiveSink(pos.offset(dir), "lead")) continue axialDirsLoop;
+				}
+				lead = true;
+				break;
 			}
-			return lead == 2 && wall;
+			if (!lead) return false;
+			for (EnumFacing dir : EnumFacing.VALUES) {
+				if (isWall(pos.offset(dir))) return true;
+			}
+			return false;
 		}
 	}
 	
@@ -517,12 +521,12 @@ public abstract class TileSolidFissionSink extends TileFissionPartBase implement
 		
 		@Override
 		public boolean isSinkValid() {
-			boolean copper = false;
-			byte lead = 0;
+			byte copper = 0;
+			boolean purpur = false;
 			for (EnumFacing dir : EnumFacing.VALUES) {
-				if (!copper && isActiveSink(pos.offset(dir), "copper")) copper = true;
-				if (lead < 2 && isActiveSink(pos.offset(dir), "lead")) lead++;
-				if (copper && lead >= 2) return true;
+				if (copper < 2 && isActiveSink(pos.offset(dir), "copper")) copper++;
+				if (!purpur && isActiveSink(pos.offset(dir), "purpur")) purpur = true;
+				if (copper >= 2 && purpur) return true;
 			}
 			return false;
 		}

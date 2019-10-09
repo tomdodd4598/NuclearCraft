@@ -1,4 +1,4 @@
-package nc.multiblock.fission.salt;
+package nc.multiblock.fission;
 
 import net.minecraft.util.IStringSerializable;
 

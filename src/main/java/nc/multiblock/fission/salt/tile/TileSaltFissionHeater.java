@@ -54,14 +54,14 @@ public class TileSaltFissionHeater extends TileFissionPartBase implements IFluid
 	
 	protected @Nonnull SaltFissionHeaterSetting[] heaterSettings = new SaltFissionHeaterSetting[] {SaltFissionHeaterSetting.DISABLED, SaltFissionHeaterSetting.DISABLED, SaltFissionHeaterSetting.DISABLED, SaltFissionHeaterSetting.DISABLED, SaltFissionHeaterSetting.DISABLED, SaltFissionHeaterSetting.DISABLED};
 	
-	public final int fluidInputSize = 1, fluidOutputSize = 1;
+	protected final int fluidInputSize = 1, fluidOutputSize = 1;
 	
-	public double baseProcessCooling;
-	public final int baseProcessTime = 20;
-	public double clusterCoolingEfficiency; // Based on the cluster efficiency, but with heat/cooling taken into account
+	protected double baseProcessCooling;
+	protected final int baseProcessTime = 20;
+	protected double clusterCoolingEfficiency; // Based on the cluster efficiency, but with heat/cooling taken into account
 	
-	public double time;
-	public boolean isProcessing, canProcessInputs;
+	protected double time;
+	protected boolean isProcessing, canProcessInputs;
 	
 	protected static final ProcessorRecipeHandler RECIPE_HANDLER = NCRecipes.coolant_heater;
 	protected RecipeInfo<ProcessorRecipe> recipeInfo;
@@ -129,20 +129,20 @@ public class TileSaltFissionHeater extends TileFissionPartBase implements IFluid
 		
 		refreshRecipe();
 		refreshActivity();
-		refreshIsProcessing();
+		refreshIsProcessing(true);
 	}
 	
 	@Override
 	public void clusterSearch(Integer id) {
 		refreshRecipe();
 		refreshActivity();
-		refreshIsProcessing();
+		refreshIsProcessing(false);
 		
 		IFissionCoolingComponent.super.clusterSearch(id);
 	}
 	
-	public void refreshIsProcessing() {
-		isProcessing = isProcessing();
+	public void refreshIsProcessing(boolean checkCluster) {
+		isProcessing = isProcessing(checkCluster);
 	}
 	
 	@Override
@@ -159,7 +159,7 @@ public class TileSaltFissionHeater extends TileFissionPartBase implements IFluid
 		if (!world.isRemote) {
 			refreshRecipe();
 			refreshActivity();
-			isProcessing = isProcessing();
+			refreshIsProcessing(true);
 		}
 	}
 	
@@ -172,22 +172,19 @@ public class TileSaltFissionHeater extends TileFissionPartBase implements IFluid
 	public void updateHeater() {
 		if (!world.isRemote) {
 			boolean wasProcessing = isProcessing;
-			isProcessing = isProcessing();
-			boolean shouldUpdate = false;
-			tickHeater();
+			isProcessing = isProcessing(true);
+			boolean shouldRefresh = !isProcessing && isProcessing(false);
+			boolean shouldUpdate = wasProcessing != isProcessing;
+			
 			if (isProcessing) process();
-			if (wasProcessing != isProcessing) {
-				shouldUpdate = true;
+			
+			tickHeater();
+			if (heaterCount == 0) pushFluid();
+			
+			if (shouldRefresh && isMultiblockAssembled()) {
+				getMultiblock().refreshFlag = true;
 			}
-			if (heaterCount == 0) {
-				pushFluid();
-			}
-			if (shouldUpdate) {
-				if (getMultiblock() != null) {
-					getMultiblock().refreshFlag = true;
-				}
-				markDirty();
-			}
+			if (shouldUpdate) markDirty();
 		}
 	}
 	
@@ -227,12 +224,12 @@ public class TileSaltFissionHeater extends TileFissionPartBase implements IFluid
 	
 	// Processing
 	
-	public boolean isProcessing() {
-		return readyToProcess() && cluster != null;
+	public boolean isProcessing(boolean checkCluster) {
+		return readyToProcess(checkCluster);
 	}
 	
-	public boolean readyToProcess() {
-		return canProcessInputs && isInValidPosition && isMultiblockAssembled();
+	public boolean readyToProcess(boolean checkCluster) {
+		return canProcessInputs && isInValidPosition && isMultiblockAssembled() && !(checkCluster && cluster == null);
 	}
 	
 	public boolean canProcessInputs(boolean justProduced) {

@@ -79,8 +79,8 @@ public class TileSolidFissionCell extends TileFissionPartBase implements IItemGe
 	protected IFissionFuelComponent[] adjacentFuelComponents = new IFissionFuelComponent[] {null, null, null, null, null, null};
 	protected final LongSet[] passiveModeratorCaches = new LongSet[] {new LongOpenHashSet(), new LongOpenHashSet(), new LongOpenHashSet(), new LongOpenHashSet(), new LongOpenHashSet(), new LongOpenHashSet()};
 	protected final Long[] activeModeratorCache = new Long[] {null, null, null, null, null, null};
-	protected final LongSet passiveReflectorModeratorCache = new LongOpenHashSet();
-	protected Long activeReflectorModeratorCache = null;
+	protected final LongSet[] passiveReflectorModeratorCaches = new LongSet[] {new LongOpenHashSet(), new LongOpenHashSet(), new LongOpenHashSet(), new LongOpenHashSet(), new LongOpenHashSet(), new LongOpenHashSet()};
+	protected final Long[] activeReflectorModeratorCache = new Long[] {null, null, null, null, null, null};
 	protected final LongSet activeReflectorCache = new LongOpenHashSet();
 	
 	protected BlockPos portPos = BlockPosHelper.DEFAULT_NON;
@@ -146,9 +146,9 @@ public class TileSolidFissionCell extends TileFissionPartBase implements IItemGe
 			adjacentFuelComponents[dir.getIndex()] = null;
 			passiveModeratorCaches[dir.getIndex()].clear();
 			activeModeratorCache[dir.getIndex()] = null;
+			passiveReflectorModeratorCaches[dir.getIndex()].clear();
+			activeReflectorModeratorCache[dir.getIndex()] = null;
 		}
-		passiveReflectorModeratorCache.clear();
-		activeReflectorModeratorCache = null;
 		activeReflectorCache.clear();
 		
 		refreshRecipe();
@@ -239,18 +239,13 @@ public class TileSolidFissionCell extends TileFissionPartBase implements IItemGe
 	}
 	
 	@Override
-	public LongSet getPassiveReflectorModeratorCache() {
-		return passiveReflectorModeratorCache;
+	public LongSet[] getPassiveReflectorModeratorCaches() {
+		return passiveReflectorModeratorCaches;
 	}
 	
 	@Override
-	public Long getActiveReflectorModeratorCache() {
+	public Long[] getActiveReflectorModeratorCache() {
 		return activeReflectorModeratorCache;
-	}
-	
-	@Override
-	public void setActiveReflectorModeratorCache(long posLong) {
-		activeReflectorModeratorCache = posLong;
 	}
 	
 	@Override
@@ -356,25 +351,22 @@ public class TileSolidFissionCell extends TileFissionPartBase implements IItemGe
 	}
 	
 	public void updateCell() {
-		if(!world.isRemote) {
+		if (!world.isRemote) {
 			boolean wasProcessing = isProcessing;
 			isProcessing = isProcessing(true);
-			boolean shouldUpdate = false;
-			tickCell();
+			boolean shouldRefresh = !isProcessing && isProcessing(false);
+			boolean shouldUpdate = wasProcessing != isProcessing;
+			
 			if (isProcessing) process();
 			else getRadiationSource().setRadiationLevel(0D);
-			if (wasProcessing != isProcessing) {
-				shouldUpdate = true;
+			
+			tickCell();
+			if (cellCount == 0) pushStacks();
+			
+			if (shouldRefresh && isMultiblockAssembled()) {
+				getMultiblock().refreshFlag = true;
 			}
-			if (cellCount == 0) {
-				pushStacks();
-			}
-			if (shouldUpdate) {
-				if (getMultiblock() != null) {
-					getMultiblock().refreshFlag = true;
-				}
-				markDirty();
-			}
+			if (shouldUpdate) markDirty();
 		}
 	}
 	

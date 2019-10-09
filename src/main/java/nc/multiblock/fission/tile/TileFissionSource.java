@@ -18,13 +18,13 @@ import net.minecraft.world.World;
 
 public abstract class TileFissionSource extends TileFissionPartBase {
 	
-	protected final MetaEnums.NeutronSourceType type;
+	protected final double efficiency;
 	
 	public EnumFacing facing = EnumFacing.DOWN;
 	
-	public TileFissionSource(MetaEnums.NeutronSourceType type) {
+	public TileFissionSource(double efficiency) {
 		super(CuboidalPartPositionType.WALL);
-		this.type = type;
+		this.efficiency = efficiency;
 	}
 	
 	public static class RadiumBeryllium extends TileFissionSource {
@@ -46,6 +46,10 @@ public abstract class TileFissionSource extends TileFissionPartBase {
 		public Californium() {
 			super(MetaEnums.NeutronSourceType.CALIFORNIUM);
 		}
+	}
+	
+	private TileFissionSource(MetaEnums.NeutronSourceType type) {
+		this(type.getEfficiency());
 	}
 	
 	@Override
@@ -109,7 +113,7 @@ public abstract class TileFissionSource extends TileFissionPartBase {
 			if (tile instanceof IFissionFuelComponent) {
 				IFissionFuelComponent fuelComponent = (IFissionFuelComponent) tile;
 				double oldSourceEfficiency = fuelComponent.getSourceEfficiency();
-				fuelComponent.setSourceEfficiency(type.getEfficiency(), true);
+				fuelComponent.setSourceEfficiency(efficiency, true);
 				return new PrimingTargetInfo(fuelComponent, oldSourceEfficiency != fuelComponent.getSourceEfficiency());
 			}
 		}

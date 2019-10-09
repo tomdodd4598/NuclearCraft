@@ -72,7 +72,7 @@ public class TileFissionPort extends TileFissionPartBase implements ITileInvento
 	
 	protected BlockPos masterPortPos = BlockPosHelper.DEFAULT_NON;
 	protected TileFissionPort masterPort = null;
-	public boolean isMasterPort = false;
+	public boolean refreshCellsFlag = false;
 	
 	//protected int portCount;
 	
@@ -152,16 +152,17 @@ public class TileFissionPort extends TileFissionPartBase implements ITileInvento
 	}
 	
 	//TODO - temporary ports
-	protected void refreshConnectedCells(boolean refreshRecipe, boolean refreshIsProcessing) {
-		if (getMultiblock() != null) {
+	protected void refreshConnectedCells(/*boolean refreshRecipe, boolean refreshIsProcessing*/) {
+		refreshCellsFlag = false;
+		if (isMultiblockAssembled()) {
 			boolean refresh = false;
 			for (TileSolidFissionCell cell : getMultiblock().getCellMap().values()) {
 				if (cell.getPortPos() != null && (cell.getPortPos().equals(pos) || cell.getPortPos().equals(masterPortPos))) {
-					if (refreshRecipe) cell.refreshRecipe();
+					/*if (refreshRecipe)*/ cell.refreshRecipe();
 					cell.refreshActivity();
-					if (refreshIsProcessing) cell.refreshIsProcessing(true);
+					/*if (refreshIsProcessing)*/ cell.refreshIsProcessing(cell.isFunctional());
 					
-					if (!refresh && !cell.isProcessing(true) && cell.readyToProcess(false)) {
+					if (!refresh && (cell.isFunctional() ^ cell.readyToProcess(false))) {
 						refresh = true;
 					}
 				}
@@ -174,6 +175,9 @@ public class TileFissionPort extends TileFissionPartBase implements ITileInvento
 	public void update() {
 		super.update();
 		if (!world.isRemote) {
+			if (refreshCellsFlag) {
+				refreshConnectedCells();
+			}
 			/*if (portCount == 0) {
 				pushStacks();
 				pushFluid();
@@ -207,10 +211,12 @@ public class TileFissionPort extends TileFissionPartBase implements ITileInvento
 		ItemStack stack = ITileInventory.super.decrStackSize(slot, amount);
 		if (!world.isRemote && getRecipeHandler() != null) {
 			if (slot < getRecipeHandler().itemInputSize) {
-				refreshConnectedCells(true, false);
+				//refreshConnectedCells(true, false);
+				refreshCellsFlag = true;
 			}
 			else if (slot < getRecipeHandler().itemInputSize + getRecipeHandler().itemOutputSize) {
-				refreshConnectedCells(false, false);
+				//refreshConnectedCells(false, false);
+				refreshCellsFlag = true;
 			}
 		}
 		return stack;
@@ -221,17 +227,20 @@ public class TileFissionPort extends TileFissionPartBase implements ITileInvento
 		ITileInventory.super.setInventorySlotContents(slot, stack);
 		if (!world.isRemote && getRecipeHandler() != null) {
 			if (slot < getRecipeHandler().itemInputSize) {
-				refreshConnectedCells(true, false);
+				//refreshConnectedCells(true, false);
+				refreshCellsFlag = true;
 			}
 			else if (slot < getRecipeHandler().itemInputSize + getRecipeHandler().itemOutputSize) {
-				refreshConnectedCells(false, false);
+				//refreshConnectedCells(false, false);
+				refreshCellsFlag = true;
 			}
 		}
 	}
 	
 	@Override
 	public void markDirty() {
-		refreshConnectedCells(true, false);
+		//refreshConnectedCells(true, false);
+		refreshCellsFlag = true;
 		super.markDirty();
 	}
 	
@@ -258,7 +267,8 @@ public class TileFissionPort extends TileFissionPartBase implements ITileInvento
 	@Override
 	public void clearAllSlots() {
 		ITileInventory.super.clearAllSlots();
-		refreshConnectedCells(true, true);
+		//refreshConnectedCells(true, true);
+		refreshCellsFlag = true;
 	}
 	
 	@Override

@@ -42,7 +42,7 @@ import net.minecraftforge.fluids.IFluidBlock;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 
-public class TileHeatExchangerCondenserTube extends TileHeatExchangerPartBase implements IFluidProcessor, ITileFluid {
+public class TileCondenserTube extends TileHeatExchangerPartBase implements IFluidProcessor, ITileFluid {
 	
 	private final @Nonnull List<Tank> tanks = Lists.newArrayList(new Tank(32000, NCRecipes.condenser_valid_fluids.get(0)), new Tank(64000, new ArrayList<String>()));
 	
@@ -74,28 +74,28 @@ public class TileHeatExchangerCondenserTube extends TileHeatExchangerPartBase im
 	
 	protected int tubeCount;
 	
-	public static class Copper extends TileHeatExchangerCondenserTube {
+	public static class Copper extends TileCondenserTube {
 		
 		public Copper() {
 			super(HeatExchangerTubeType.COPPER);
 		}
 	}
 	
-	public static class HardCarbon extends TileHeatExchangerCondenserTube {
+	public static class HardCarbon extends TileCondenserTube {
 		
 		public HardCarbon() {
 			super(HeatExchangerTubeType.HARD_CARBON);
 		}
 	}
 	
-	public static class Thermoconducting extends TileHeatExchangerCondenserTube {
+	public static class Thermoconducting extends TileCondenserTube {
 		
 		public Thermoconducting() {
 			super(HeatExchangerTubeType.THERMOCONDUCTING);
 		}
 	}
 	
-	private TileHeatExchangerCondenserTube(HeatExchangerTubeType tubeType) {
+	private TileCondenserTube(HeatExchangerTubeType tubeType) {
 		super(CuboidalPartPositionType.INTERIOR);
 		fluidSides = ITileFluid.getDefaultFluidSides(this);
 		gasWrapper = new GasTileWrapper(this);
@@ -404,8 +404,8 @@ public class TileHeatExchangerCondenserTube extends TileHeatExchangerPartBase im
 		
 		TileEntity tile = getTileWorld().getTileEntity(getTilePos().offset(side));
 		
-		if (tile instanceof TileHeatExchangerCondenserTube) {
-			TileHeatExchangerCondenserTube tube = (TileHeatExchangerCondenserTube)tile;
+		if (tile instanceof TileCondenserTube) {
+			TileCondenserTube tube = (TileCondenserTube)tile;
 			HeatExchangerTubeSetting tubeSetting = tube.getTubeSetting(side.getOpposite());
 			
 			if (thisSetting == HeatExchangerTubeSetting.INPUT_SPREAD) {
@@ -434,14 +434,14 @@ public class TileHeatExchangerCondenserTube extends TileHeatExchangerPartBase im
 		}
 	}
 	
-	public void pushInputFluid(TileHeatExchangerCondenserTube other) {
+	public void pushInputFluid(TileCondenserTube other) {
 		int diff = getTanks().get(0).getFluidAmount() - other.getTanks().get(0).getFluidAmount();
 		if (diff > 1) {
 			getTanks().get(0).drain(other.getTanks().get(0).fillInternal(getTanks().get(0).drain(diff/2, false), true), true);
 		}
 	}
 	
-	public void pushProduct(TileHeatExchangerCondenserTube other) {
+	public void pushProduct(TileCondenserTube other) {
 		getTanks().get(1).drain(other.getTanks().get(1).fillInternal(getTanks().get(1).drain(getTanks().get(1).getCapacity(), false), true), true);
 	}
 

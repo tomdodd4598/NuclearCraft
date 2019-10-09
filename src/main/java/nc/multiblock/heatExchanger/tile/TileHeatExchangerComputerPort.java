@@ -123,7 +123,7 @@ public class TileHeatExchangerComputerPort extends TileHeatExchangerPartBase imp
 	public Object[] getCondensationTubeStats(Context context, Arguments args) {
 		if (isMultiblockAssembled()) {
 			List<Object[]> stats = new ArrayList<Object[]>();
-			for (TileHeatExchangerCondenserTube condenserTube : getMultiblock().getCondenserTubes()) {
+			for (TileCondenserTube condenserTube : getMultiblock().getCondenserTubes()) {
 				stats.add(new Object[] {
 						new Object[] {condenserTube.getPos().getX(), condenserTube.getPos().getY(), condenserTube.getPos().getZ()},
 						condenserTube.conductivity,
