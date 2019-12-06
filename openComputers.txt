@@ -309,7 +309,7 @@ double getCoilConductivity()
 Returns the coil effective conductivity.
 
 String getFlowDirection()
-Returns the flow direction e.g. "North"
+Returns the flow direction e.g. "North", "Up", etc.
 
 double getTotalExpansionLevel()
 Returns the total expansion level of the turbine.
