@@ -6,56 +6,82 @@
 
 boolean isComplete()
 Returns whether or not the multiblock is complete.
+
 boolean isProcessing()
 Returns whether or not the reactor is active.
+
 String getProblem()
-Returns a variety of errors about why your reactor may not be functioning, such as: "No problem", "No fuel", "Casing incomplete".
+Returns an error describing why the reactor may not be functioning, e.g. "No Fuel", "Casing Incomplete", etc.
+
 int getLengthX()
 Returns the x-dimension of the reactor.
+
 int getLengthY()
 Returns the y-dimension of the reactor.
+
 int getLengthZ()
 Returns the z-dimension of the reactor.
+
 int getEnergyStored()
 Returns the current energy stored in the reactor.
+
 int getMaxEnergyStored()
-Returns the max energy stored in the reactor.
+Returns the max energy stored by the reactor.
+
 int getEnergyChange()
-Returns the change in stored energy since last tick.
+Returns the change in energy stored since the last tick.
+
 double getCurrentProcessTime()
-Returns the time elapsed since the start of the current process, in ticks.
+Returns the time the current fuel has been processing, in ticks.
+
 double getHeatLevel()
 Returns the current heat level of the reactor.
+
 int getMaxHeatLevel()
 Returns the max heat level of the reactor.
+
 double getEfficiency()
-Returns the efficiency stat of the reactor.
+Returns the efficiency of the reactor.
+
 double getHeatMultiplier()
-Returns the heat multiplier stat of the reactor.
+Returns the heat multiplier of the reactor.
+
 double getFissionFuelTime()
 Returns the base process time of the fuel currently being processed, in ticks.
+
 double getFissionFuelPower()
-Returns the base power of the fuel currently being processed, in RF/t.
+Returns the base process power of the fuel currently being processed, in RF/t.
+
 double getFissionFuelHeat()
-Returns the base heat output of the fuel currently being processed, in H/t.
+Returns the base process heat of the fuel currently being processed, in H/t.
+
 String getFissionFuelName()
 Returns the name of the fuel currently being processed.
+
 double getReactorProcessTime()
-Returns the time for the current process, base fuel process time divided by the number of reactor cells.
+Returns the total process time of the current process - the base fuel process time, divided by the number of reactor cells.
+
 double getReactorProcessPower()
-Returns the power output for the current process, number of cells times efficiency.
+Returns the power output of the current process - the base fuel process power, times the number of cells, times the efficiency.
+
 double getReactorProcessHeat()
-Returns the heat generation per tick of the current process.
+Returns the heat generation per tick of the current process - the base fuel process heat, times the number of cells, times the heat multiplier.
+
 double getReactorCoolingRate()
-Returns the cooling rate per tick of the current process.
+Returns the cooling rate per tick of the reactor.
+
 int getNumberOfCells()
 Returns the number of reactor cells.
+
 Object[] getReactorLayout() -> {{{reactorPosX, reactorPosY, reactorPosZ}, {blockName, blockMeta}},...}
 Returns a table representing the current reactor layout, with the locations and types of each block.
+
 void activate()
 Activates the reactor.
+
 void deactivate()
 Deactivates the reactor.
+
 void forceUpdate()
 Forces a refresh of the multiblock, rechecking whether it is active, whether the multiblock is complete, etc.
 ___________________________________________________________________________________________________________________________
@@ -65,49 +91,70 @@ ________________________________________________________________________________
 
 boolean isComplete()
 Returns whether or not the multiblock is complete.
+
 boolean isProcessing()
 Returns whether or not the reactor is active.
+
 boolean isHotEnough()
-Returns whether the temperature is over 8000 kelvin.
+Returns whether the temperature is over 8000 kK.
+
 String getProblem()
-Returns a variety of errors about why your reactor may not be functioning, such as: "No problem", "No fuel", "Casing incomplete".
+Returns an error describing why the reactor may not be functioning, e.g. "Ring Incomplete", "E-magnets not Powered", etc.
+
 int getToroidSize()
-Returns the size of the toroid.
+Returns the inner core-to-plasma radius of the toroid.
+
 int getEnergyStored()
-Returns the current energy stored in the fusion reactor.
+Returns the current energy stored in the reactor core.
+
 int getMaxEnergyStored()
-Returns the max energy stored in the reactor.
+Returns the max energy stored by the reactor core.
+
 int getEnergyChange()
-Returns the change in stored energy since last tick.
+Returns the change in stored energy since the last tick.
+
 double getCurrentProcessTime()
 Returns the time elapsed since the start of the current process, in ticks.
+
 double getTemperature()
 Returns the current temperature of the reactor.
+
 double getMaxTemperature()
 Returns the maximum temperature of the reactor.
+
 double getEfficiency()
 Returns the current efficiency of the reactor.
+
 double getFusionComboTime()
-Returns the base duration of the current fuels inside the reactor, or zero if an invalid combination is input or one or more tanks are empty.
+Returns the base process time of the current fuel combo.
+
 double getFusionComboPower()
-Returns the base power generation of the current fuel combination.
+Returns the base process power of the current fuel combo.
+
 double getFusionComboHeatVariable()
-Returns the heat variable for the current fuel combination, this variable is related to the optimal temperature of the fuel combination.
+Returns the heat variable of the current fuel combo, proportional to the optimal temperature.
+
 String getFirstFusionFuel()
-Returns the fuel in the first tank of the fusion reactor.
+Returns the fuel in the first input tank of the reactor.
+
 String getSecondFusionFuel()
-Returns the fuel in the second tank of the fusion reactor.
+Returns the fuel in the second input tank of the reactor.
+
 double getReactorProcessTime()
-Returns the process time for the current reactor process, which is the base process time divided by the reactor size.
+Returns the total process time of the current process - the base process time, divided by the toroid size.
+
 double getReactorProcessPower()
-Returns the power output of the current reactor process.
+Returns the power output of the current reactor process - the base process power, multiplied by the toroid size, multiplied by the efficiency.
+
 double getReactorProcessHeat()
-Returns the heat change per tick of the current reactor process in K/t.
+Returns the temperature change per tick of the current reactor process, in K/t.
+
 double getReactorCoolingRate()
-Returns the current reactor active cooling rate in K/t.
+Returns the current reactor active cooling rate, in K/t.
 
 void activate()
 Activates the reactor.
+
 void deactivate()
 Deactivates the reactor.
 ___________________________________________________________________________________________________________________________
@@ -117,47 +164,67 @@ ________________________________________________________________________________
 
 boolean isComplete()
 Returns whether or not the multiblock is complete.
+
 boolean isReactorOn()
-Returns the online/offline state of the reactor.
+Returns whether or not the reactor is active.
+
 int getLengthX()
 Returns the x-dimension of the reactor.
+
 int getLengthY()
 Returns the y-dimension of the reactor.
+
 int getLengthZ()
 Returns the z-dimension of the reactor.
+
 long getHeatStored()
 Returns the current heat level of the reactor.
+
 long getHeatCapacity()
 Returns the max heat level of the reactor.
+
 double getCoolingRate()
 Returns the current cooling rate in K/t.
+
 double getRawHeatingRate()
 Returns the current heating rate in K/t.
+
 double getNetHeatingRate()
 Returns the current net heat change per tick.
+
 double getRawEfficiency()
 Returns the efficiency of the reactor.
+
 double getHeatMultiplier()
 Returns the heat multiplier of the reactor.
+
 double getCoolingEfficiency()
 Returns the cooling efficiency of the reactor.
+
 int getNumberOfVessels()
 Returns the number of vessels in the multiblock.
+
 int getNumberOfHeaters()
 Returns the number of heaters in the multiblock.
+
 int getNumberOfModerators()
 Returns the number of moderators in the multiblock.
+
 Object[] getVesselStats() -> {{{posX, posY, posZ}, isProcessing, currentRecipeTime, processTime, processHeat, efficiency, heatMultiplier},...}
 Returns a table containing the stats of all the vessels in the multiblock.
+
 Object[] getHeaterStats() -> {{{posX, posY, posZ}, coolantName, isProcessing, currentRecipeTime, processTime, processCooling},...}
 Returns a table containing the stats of all the heaters in the multiblock.
+
 Object[] getModeratorStats() -> {{{posX, posY, posZ}, isInValidPosition, isInModerationLine},...}
 Returns a table containing the stats of all the moderators in the multiblock.
 
 void activate()
 Activates the reactor.
+
 void deactivate()
 Deactivates the reactor.
+
 void clearAll()
 Voids all fluids from the reactor.
 ___________________________________________________________________________________________________________________________
@@ -167,31 +234,43 @@ ________________________________________________________________________________
 
 boolean isComplete()
 Returns whether or not the multiblock is complete.
+
 boolean isReactorOn()
 Returns the online/offline status of the heat exchanger.
+
 int getLengthX()
 Returns the x-dimension of the heat exchanger.
+
 int getLengthY()
 Returns the y-dimension of the heat exchanger.
+
 int getLengthZ()
 Returns the z-dimension of the heat exchanger.
+
 double getFractionOfTubesActive()
 Returns the ratio of active tubes to total tubes.
+
 double getMeanEfficiency()
 Returns the overall efficiency of the heat exchanger.
+
 int getNumberOfExchangerTubes()
 Returns the number of heat exchanger tubes in the heat exchanger.
+
 int getNumberOfCondensationTubes()
 Returns the number of condensation tubes in the reactor.
+
 Object[] getExchangerTubeStats() -> {{{posX, posY, posZ}, conductivity, isProcessing, currentRecipeTime, processTime, speedMultiplier, inputTemperature, outputTemperature, flowDirection},...}
 Returns a table containing the stats of all exchanger tubes in the reactor.
+
 Object[] getCondensationTubeStats() -> {{{posX, posY, posZ}, conductivity, isProcessing, currentRecipeTime, processTime, speedMultiplier, condensingTemperature, {adjacentTemperatures}},...}
 Returns a table containing the stats of all condensation tubes in the reactor.
 
 void activate()
 Activates the heat exchanger.
+
 void deactivate()
 Deactivates the heat exchanger.
+
 void clearAll()
 Voids all fluids from the heat exchanger.
 ___________________________________________________________________________________________________________________________
@@ -201,46 +280,67 @@ ________________________________________________________________________________
 
 boolean isComplete()
 Returns whether or not the multiblock is complete.
+
 boolean isReactorOn()
 Returns the online/offline status of the turbine.
+
 int getLengthX()
 Returns the x-dimension of the turbine.
+
 int getLengthY()
 Returns the y-dimension of the turbine.
+
 int getLengthZ()
 Returns the z-dimension of the turbine.
+
 boolean isProcessing()
 Returns whether the turbine is currently online and processing.
+
 int getEnergyStored()
 Returns current energy stored within the turbine.
+
 int getEnergyCapacity()
 Returns the current total energy stored within the turbine.
+
 double getPower()
 Returns the current turbine power.
+
 double getCoilConductivity()
 Returns the coil effective conductivity.
+
 String getFlowDirection()
 Returns the flow direction e.g. "North"
+
 double getTotalExpansionLevel()
 Returns the total expansion level of the turbine.
+
 double getIdealTotalExpansionLevel()
 Returns the ideal expansion level of the turbine.
+
 double[] getExpansionLevels()
 Returns a table with the expansion levels at each set of blades.
+
 double[] getIdealExpansionLevels()
 Returns a table with the ideal expansion levels at each set of blades.
+
 double[] getBladeEfficiencies()
 Returns a table with the efficiencies of each set of blades.
+
 int getInputRate()
 Returns the fluid input rate.
+
 int getNumberOfDynamoCoils()
 Returns the number of coils.
+
 Object[] getDynamoCoilStats() -> {{{posX, posY, posZ}, coilType, isInValidPosition},...}
 Returns the position, types and validity of each coil in a table.
+
 void activate()
 Activates the turbine.
+
 void deactivate()
 Deactivates the turbine.
+
 void clearAll()
 Voids all gases within the turbine.
 ___________________________________________________________________________________________________________________________
@@ -249,14 +349,15 @@ ________________________________________________________________________________
 >---------------------------------------------<
 
 double getChunkRadiationLevel()
-Returns the current radiation level within the chunk in rads.
+Returns the current radiation level of the Geiger counter's chunk, in Rads/t.
 ___________________________________________________________________________________________________________________________
 
  Radiation Scrubber - component.nc_radiation_scrubber:
 >-----------------------------------------------------<
 
 double getRadiationRemovalRate()
-Returns the current radiation removal rate in rads/t.
+Returns the scrubber's current radiation removal rate, in Rads/t.
+
 double getEfficiency()
 Returns the efficiency of the scrubber.
 ___________________________________________________________________________________________________________________________
