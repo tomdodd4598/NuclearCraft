@@ -47,10 +47,6 @@ repositories {
 		url = "http://chickenbones.net/maven/"
 	}
 	maven {
-		// AE2
-		url = "http://ae2.ae-mod.info/Downloads"
-	}
-	maven {
 		// CyclopsMC
 		name = "CyclopsMC"
 		url = "https://oss.jfrog.org/artifactory/simple/libs-release/"

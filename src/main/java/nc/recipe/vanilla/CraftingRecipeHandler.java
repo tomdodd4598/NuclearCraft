@@ -1,5 +1,7 @@
 package nc.recipe.vanilla;
 
+import static nc.config.NCConfig.ore_dict_raw_material_recipes;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -35,6 +37,7 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
+import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 
@@ -42,8 +45,20 @@ public class CraftingRecipeHandler {
 	
 	public static void registerCraftingRecipes() {
 		for (int i = 0; i < IngotType.values().length; i++) {
-			blockCompress(new ItemStack(NCBlocks.ingot_block, 1, i), "block" + StringHelper.capitalize(IngotType.values()[i].getName()), new ItemStack(NCItems.ingot, 1, i));
-			blockOpen(NCItems.ingot, i, "ingot" + StringHelper.capitalize(IngotType.values()[i].getName()), new ItemStack(NCBlocks.ingot_block, 1, i));
+			String type = StringHelper.capitalize(IngotType.values()[i].getName());
+			if (!ore_dict_raw_material_recipes) {
+				blockCompress(NCBlocks.ingot_block, i, "block" + type, new ItemStack(NCItems.ingot, 1, i));
+			}
+			else for (ItemStack ingot : OreDictionary.getOres("ingot" + type)) {
+				blockCompress(NCBlocks.ingot_block, i, "block" + type, ingot);
+			}
+			
+			if (!ore_dict_raw_material_recipes) {
+				blockOpen(NCItems.ingot, i, "ingot" + type, new ItemStack(NCBlocks.ingot_block, 1, i));
+			}
+			else for (ItemStack block : OreDictionary.getOres("block" + type)) {
+				blockOpen(NCItems.ingot, i, "ingot" + type, block);
+			}
 		}
 		
 		addShapedOreRecipe(new ItemStack(NCBlocks.fission_block, 4, 0), new Object[] {" P ", "PTP", " P ", 'P', "plateBasic", 'T', "ingotTough"});
@@ -81,14 +96,14 @@ public class CraftingRecipeHandler {
 		addShapedOreRecipe(NCItems.reactor_door, new Object[] {"CC", "CC", "CC", 'C', new ItemStack(NCBlocks.fission_block, 1, 0)});
 		addShapedOreRecipe(NCBlocks.reactor_trapdoor, new Object[] {"CCC", "CCC", 'C', new ItemStack(NCBlocks.fission_block, 1, 0)});
 		
-		blockCompress(NCBlocks.block_depleted_thorium, "blockThorium230", "ingotThorium230");
-		blockCompress(NCBlocks.block_depleted_uranium, "blockUranium238", "ingotUranium238");
-		blockCompress(NCBlocks.block_depleted_neptunium, "blockNeptunium237", "ingotNeptunium237");
-		blockCompress(NCBlocks.block_depleted_plutonium, "blockPlutonium242", "ingotPlutonium242");
-		blockCompress(NCBlocks.block_depleted_americium, "blockAmericium243", "ingotAmericium243");
-		blockCompress(NCBlocks.block_depleted_curium, "blockCurium246", "ingotCurium246");
-		blockCompress(NCBlocks.block_depleted_berkelium, "blockBerkelium247", "ingotBerkelium247");
-		blockCompress(NCBlocks.block_depleted_californium, "blockCalifornium252", "ingotCalifornium252");
+		blockCompress(NCBlocks.block_depleted_thorium, 0, "blockThorium230", "ingotThorium230");
+		blockCompress(NCBlocks.block_depleted_uranium, 0, "blockUranium238", "ingotUranium238");
+		blockCompress(NCBlocks.block_depleted_neptunium, 0, "blockNeptunium237", "ingotNeptunium237");
+		blockCompress(NCBlocks.block_depleted_plutonium, 0, "blockPlutonium242", "ingotPlutonium242");
+		blockCompress(NCBlocks.block_depleted_americium, 0, "blockAmericium243", "ingotAmericium243");
+		blockCompress(NCBlocks.block_depleted_curium, 0, "blockCurium246", "ingotCurium246");
+		blockCompress(NCBlocks.block_depleted_berkelium, 0, "blockBerkelium247", "ingotBerkelium247");
+		blockCompress(NCBlocks.block_depleted_californium, 0, "blockCalifornium252", "ingotCalifornium252");
 		
 		blockOpen(NCItems.thorium, 0, "ingotThorium230", "blockThorium230");
 		blockOpen(NCItems.uranium, 8, "ingotUranium238", "blockUranium238");
@@ -264,7 +279,7 @@ public class CraftingRecipeHandler {
 		addShapedOreRecipe(new ItemStack(NCItems.upgrade, 1, 1), new Object[] {"OQO", "QPQ", "OQO", 'O', "dustObsidian", 'Q', "dustQuartz", 'P', Blocks.LIGHT_WEIGHTED_PRESSURE_PLATE});
 		addShapedOreRecipe(new ItemStack(NCItems.upgrade, 1, 1), new Object[] {"OQO", "QPQ", "OQO", 'O', "dustObsidian", 'Q', "dustNetherQuartz", 'P', Blocks.LIGHT_WEIGHTED_PRESSURE_PLATE});
 		
-		blockCompress(new ItemStack(NCItems.dust, 1, 2), "dustLead", "tinyDustLead");
+		itemCompress(NCItems.dust, 2, "dustLead", "tinyDustLead");
 		//blockOpen(NCItems.tiny_dust_lead, "tinyDustLead", "dustLead");
 		
 		tools("ingotBoron", NCTools.sword_boron, NCTools.pickaxe_boron, NCTools.shovel_boron, NCTools.axe_boron, NCTools.hoe_boron, NCTools.spaxelhoe_boron);
@@ -277,8 +292,8 @@ public class CraftingRecipeHandler {
 		armor("ingotHardCarbon", NCArmor.helm_hard_carbon, NCArmor.chest_hard_carbon, NCArmor.legs_hard_carbon, NCArmor.boots_hard_carbon);
 		armor("gemBoronNitride", NCArmor.helm_boron_nitride, NCArmor.chest_boron_nitride, NCArmor.legs_boron_nitride, NCArmor.boots_boron_nitride);
 		
-		blockCompress(new ItemStack(NCItems.fuel_thorium, 1, 0), "fuelTBU", "ingotThorium232");
-		blockCompress(new ItemStack(NCItems.fuel_thorium, 1, 1), "fuelTBUOxide", "ingotThorium232Oxide");
+		itemCompress(NCItems.fuel_thorium, 0, "fuelTBU", "ingotThorium232");
+		itemCompress(NCItems.fuel_thorium, 1, "fuelTBUOxide", "ingotThorium232Oxide");
 		
 		addShapelessOreRecipe(new ItemStack(NCItems.fuel_mixed_oxide, 1, 0), new Object[] {"ingotPlutonium239Oxide", "ingotUranium238", "ingotUranium238", "ingotUranium238", "ingotUranium238", "ingotUranium238", "ingotUranium238", "ingotUranium238", "ingotUranium238"});
 		addShapelessOreRecipe(new ItemStack(NCItems.fuel_mixed_oxide, 1, 1), new Object[] {"ingotPlutonium241Oxide", "ingotUranium238", "ingotUranium238", "ingotUranium238", "ingotUranium238", "ingotUranium238", "ingotUranium238", "ingotUranium238", "ingotUranium238"});
@@ -378,8 +393,8 @@ public class CraftingRecipeHandler {
 	
 	public static void fissionClumpRecipes(String element, Item material, int... types) {
 		for (int i = 0; i < types.length; i++) {
-			blockCompress(new ItemStack(material, 1, 4*i), "ingot" + element + types[i] + "Base", "nugget" + element + types[i]);
-			blockCompress(new ItemStack(material, 1, 1 + 4*i), "ingot" + element + types[i] + "Oxide", "nugget" + element + types[i] + "Oxide");
+			itemCompress(material, 4*i, "ingot" + element + types[i] + "Base", "nugget" + element + types[i]);
+			itemCompress(material, 1 + 4*i, "ingot" + element + types[i] + "Oxide", "nugget" + element + types[i] + "Oxide");
 			blockOpen(material, 2 + 4*i, "nugget" + element + types[i], "ingot" + element + types[i] + "Base");
 			blockOpen(material, 3 + 4*i, "nugget" + element + types[i] + "Oxide", "ingot" + element + types[i] + "Oxide");
 		}
@@ -387,29 +402,21 @@ public class CraftingRecipeHandler {
 	
 	public static void tinyClumpRecipes(String element, Item material, int... types) {
 		for (int i = 0; i < types.length; i++) {
-			blockCompress(new ItemStack(material, 1, 2*i), "ingot" + element + types[i], "nugget" + element + types[i]);
+			itemCompress(material, 2*i, "ingot" + element + types[i], "nugget" + element + types[i]);
 			blockOpen(material, 1 + 2*i, "nugget" + element + types[i], "ingot" + element + types[i]);
 		}
 	}
 	
-	public static void blockCompress(ItemStack itemOut, String itemOutOreName, Object itemIn) {
-		addShapedOreRecipe(OreDictHelper.getPrioritisedCraftingStack(itemOut, itemOutOreName), new Object[] {"III", "III", "III", 'I', itemIn});
+	public static void itemCompress(Item itemOut, int metaOut, String itemOutOreName, Object itemIn) {
+		addShapedOreRecipe(OreDictHelper.getPrioritisedCraftingStack(new ItemStack(itemOut, 1, metaOut), itemOutOreName), new Object[] {"III", "III", "III", 'I', itemIn});
 	}
 	
-	public static void blockCompress(Item itemOut, String itemOutOreName, Object itemIn) {
-		addShapedOreRecipe(OreDictHelper.getPrioritisedCraftingStack(itemOut, itemOutOreName), new Object[] {"III", "III", "III", 'I', itemIn});
-	}
-	
-	public static void blockCompress(Block itemOut, String itemOutOreName, Object itemIn) {
-		addShapedOreRecipe(OreDictHelper.getPrioritisedCraftingStack(itemOut, itemOutOreName), new Object[] {"III", "III", "III", 'I', itemIn});
+	public static void blockCompress(Block blockOut, int metaOut, String itemOutOreName, Object itemIn) {
+		addShapedOreRecipe(OreDictHelper.getPrioritisedCraftingStack(new ItemStack(blockOut, 1, metaOut), itemOutOreName), new Object[] {"III", "III", "III", 'I', itemIn});
 	}
 	
 	public static void blockOpen(Item itemOut, int metaOut, String itemOutOreName, Object itemIn) {
 		addShapelessOreRecipe(OreDictHelper.getPrioritisedCraftingStack(new ItemStack(itemOut, 9, metaOut), itemOutOreName), new Object[] {itemIn});
-	}
-	
-	public static void blockOpen(Item itemOut, String itemOutOreName, Object itemIn) {
-		addShapelessOreRecipe(OreDictHelper.getPrioritisedCraftingStack(new ItemStack(itemOut, 9, 0), itemOutOreName), new Object[] {itemIn});
 	}
 	
 	public static void tools(Object material, Item sword, Item pick, Item shovel, Item axe, Item hoe, Item spaxelhoe) {

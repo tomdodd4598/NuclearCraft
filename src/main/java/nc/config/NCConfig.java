@@ -338,6 +338,7 @@ public class NCConfig {
 	
 	public static boolean register_projecte_emc;
 	
+	public static boolean ore_dict_raw_material_recipes;
 	public static boolean ore_dict_priority_bool;
 	public static String[] ore_dict_priority;
 	
@@ -907,6 +908,8 @@ public class NCConfig {
 		Property propertyRegisterProjectEEMC = config.get(CATEGORY_OTHER, "register_projecte_emc", true, Lang.localise("gui.config.other.register_projecte_emc.comment"));
 		propertyRegisterProjectEEMC.setLanguageKey("gui.config.other.register_projecte_emc");
 		
+		Property propertyOreDictRawMaterialRecipes = config.get(CATEGORY_OTHER, "ore_dict_raw_material_recipes", false, Lang.localise("gui.config.other.ore_dict_raw_material_recipes.comment"));
+		propertyOreDictRawMaterialRecipes.setLanguageKey("gui.config.other.ore_dict_raw_material_recipes");
 		Property propertyOreDictPriorityBool = config.get(CATEGORY_OTHER, "ore_dict_priority_bool", true, Lang.localise("gui.config.other.ore_dict_priority_bool.comment"));
 		propertyOreDictPriorityBool.setLanguageKey("gui.config.other.ore_dict_priority_bool");
 		Property propertyOreDictPriority = config.get(CATEGORY_OTHER, "ore_dict_priority", new String[] {"minecraft", "thermalfoundation", "techreborn", "nuclearcraft", "immersiveengineering", "mekanism", "ic2", "appliedenergistics2", "refinedstorage", "actuallyadditions", "advancedRocketry", "thaumcraft", "biomesoplenty"}, Lang.localise("gui.config.other.ore_dict_priority.comment"));
@@ -1210,6 +1213,7 @@ public class NCConfig {
 		propertyOrderOther.add(propertyRegisterFluidBlocks.getName());
 		propertyOrderOther.add(propertyRegisterCoFHFluids.getName());
 		propertyOrderOther.add(propertyRegisterProjectEEMC.getName());
+		propertyOrderOther.add(propertyOreDictRawMaterialRecipes.getName());
 		propertyOrderOther.add(propertyOreDictPriorityBool.getName());
 		propertyOrderOther.add(propertyOreDictPriority.getName());
 		config.setCategoryPropertyOrder(CATEGORY_OTHER, propertyOrderOther);
@@ -1497,6 +1501,7 @@ public class NCConfig {
 			register_fission_fluid_blocks = propertyRegisterFluidBlocks.getBoolean();
 			register_cofh_fluids = propertyRegisterCoFHFluids.getBoolean();
 			register_projecte_emc = propertyRegisterProjectEEMC.getBoolean();
+			ore_dict_raw_material_recipes = propertyOreDictRawMaterialRecipes.getBoolean();
 			ore_dict_priority_bool = propertyOreDictPriorityBool.getBoolean();
 			ore_dict_priority = propertyOreDictPriority.getStringList();
 		}
@@ -1781,6 +1786,7 @@ public class NCConfig {
 		propertyRegisterFluidBlocks.set(register_fission_fluid_blocks);
 		propertyRegisterCoFHFluids.set(register_cofh_fluids);
 		propertyRegisterProjectEEMC.set(register_projecte_emc);
+		propertyOreDictRawMaterialRecipes.set(ore_dict_raw_material_recipes);
 		propertyOreDictPriorityBool.set(ore_dict_priority_bool);
 		propertyOreDictPriority.set(ore_dict_priority);
 		

@@ -53,7 +53,7 @@ public class AlloyFurnaceRecipes extends ProcessorRecipeHandler {
 		addRecipe(SILICON, "dustRedstone", "ingotRedstoneAlloy", 1D, 1D);
 		addRecipe(metalList("Iron"), "dustRedstone", "ingotConductiveIron", 1D, 1D);
 		addRecipe(metalList("Iron"), ENDER_PEARL, "ingotPulsatingIron", 1.5D, 1D);
-		addRecipe(metalList("Steel"), "obsidian", "ingotDarkSteel", 1.5D, 2D);
+		addRecipe(metalList("Steel"), "obsidian", OreDictHelper.oreExists("ingotDarkSteel") ? "ingotDarkSteel" : "ingotObsidianSteel", 1.5D, 2D);
 		addRecipe(metalList("Gold"), Blocks.SOUL_SAND, "ingotSoularium", 1.5D, 0.5D);
 		addRecipe("ingotDarkSteel", oreStack("dustDimensional", 2), "ingotEndSteel", 2D, 2D);
 		addRecipe(oreStackList(metalList("Lead"), 2), metalList("Iron"), oreStack("ingotConstructionAlloy", 3), 1D, 1D);

@@ -28,7 +28,7 @@ public class PressurizerRecipes extends ProcessorRecipeHandler {
 		addRecipe("dustVilliaumite", "gemVilliaumite", 1D, 1D);
 		addRecipe("dustCarobbiite", "gemCarobbiite", 1D, 1D);
 		addRecipe(oreStack("ingotGraphite", 64), "gemDiamond", 3D, 1.5D);
-		addRecipe(oreStack("dustWheat", 2), NCItems.graham_cracker, 0.25D, 0.5D);
+		addRecipe(oreStackList(Lists.newArrayList("dustWheat", "foodFlour"), 2), NCItems.graham_cracker, 0.25D, 0.5D);
 		
 		// IC2
 		addRecipe(oreStack("dustClay", 4), "dustSiliconDioxide", 1D, 1D);

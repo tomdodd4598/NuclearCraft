@@ -120,7 +120,7 @@ public class TileFissionPort extends TileDummy<TileFissionController> implements
 				return;
 			}
 		}
-		if (ModCheck.gregtechLoaded()) {
+		if (NCConfig.enable_gtce_eu && ModCheck.gregtechLoaded()) {
 			IEnergyContainer adjStorageGT = tile.getCapability(GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER, side.getOpposite());
 			if (adjStorageGT != null && getEnergyStorage().canExtract()) {
 				int voltage = MathHelper.clamp((getCurrentEnergyStored()/getNumberOfPorts())/NCConfig.rf_per_eu, 1, EnergyHelper.getMaxEUFromTier(getEUSourceTier()));

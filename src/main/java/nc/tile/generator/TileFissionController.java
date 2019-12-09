@@ -78,6 +78,10 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 	public static final String NO_PROBLEM = Lang.localise("gui.container.fission_controller.no_problem");
 	
 	private BlockFinder finder;
+	private BlockFinder getFinder() {
+		if (finder == null) finder = new BlockFinder(pos, world, getBlockMetadata() & 7);
+		return finder;
+	}
 	
 	private boolean newRules;
 	
@@ -101,12 +105,6 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 	}
 	
 	// Ticking
-	
-	@Override
-	public void onAdded() {
-		finder = new BlockFinder(pos, world, getBlockMetadata() & 7);
-		super.onAdded();
-	}
 	
 	@Override
 	public void updateGenerator() {
@@ -191,7 +189,7 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 	}
 	
 	public boolean findAdjacentComparator() {
-		return finder.adjacent(pos, 1, Blocks.UNPOWERED_COMPARATOR, Blocks.POWERED_COMPARATOR);
+		return getFinder().adjacent(pos, 1, Blocks.UNPOWERED_COMPARATOR, Blocks.POWERED_COMPARATOR);
 	}
 	
 	public boolean overheat() {
@@ -203,7 +201,7 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 	}
 	
 	public void meltdown() {
-		BlockPos middle = finder.position((minX + maxX)/2, (minY + maxY)/2, (minZ + maxZ)/2);
+		BlockPos middle = getFinder().position((minX + maxX)/2, (minY + maxY)/2, (minZ + maxZ)/2);
 		
 		IRadiationSource chunkSource = RadiationHelper.getRadiationSource(world.getChunk(middle));
 		if (chunkSource != null) {
@@ -229,14 +227,14 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 		for (int i = minX; i <= maxX; i++) {
 			for (int j = minY; j <= maxY; j++) {
 				for (int k = minZ; k <= maxZ; k++) {
-					BlockPos position = finder.position(i, j, k);
+					BlockPos position = getFinder().position(i, j, k);
 					if (findCell(position)) {
 						world.removeTileEntity(position);
 						world.setBlockState(position, corium);
 						
 						for (EnumFacing dir : EnumFacing.VALUES) {
 							BlockPos offPos = position.offset(dir);
-							if (finder.find(offPos, "blockGraphite")) {
+							if (getFinder().find(offPos, "blockGraphite")) {
 								for (EnumFacing offDir : EnumFacing.VALUES) {
 									BlockPos graphiteOffPos = offPos.offset(offDir);
 									if (MaterialHelper.isReplaceable(world.getBlockState(graphiteOffPos).getMaterial())) {
@@ -258,7 +256,7 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 			for (int j = minY; j <= maxY; j++) {
 				for (int k = minZ; k <= maxZ; k++) {
 					if (rand.nextDouble() < 0.18D) {
-						BlockPos position = finder.position(i, j, k);
+						BlockPos position = getFinder().position(i, j, k);
 						world.removeTileEntity(position);
 						world.setBlockState(position, corium);
 					}
@@ -352,33 +350,33 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 	// Finding Blocks
 	
 	private boolean findCell(BlockPos pos) {
-		return finder.find(pos, NCBlocks.cell_block);
+		return getFinder().find(pos, NCBlocks.cell_block);
 	}
 	
 	private boolean findCell(int x, int y, int z) {
-		return findCell(finder.position(x, y, z));
+		return findCell(getFinder().position(x, y, z));
 	}
 	
 	private boolean findModerator(BlockPos pos) {
-		return finder.find(pos, "blockGraphite", "blockBeryllium");
+		return getFinder().find(pos, "blockGraphite", "blockBeryllium");
 	}
 	
 	private boolean findModerator(int x, int y, int z) {
-		return findModerator(finder.position(x, y, z));
+		return findModerator(getFinder().position(x, y, z));
 	}
 	
 	private boolean findCellOnSide(int x, int y, int z, EnumFacing side) {
-		return findCell(finder.position(x, y, z).offset(side));
+		return findCell(getFinder().position(x, y, z).offset(side));
 	}
 	
 	private boolean findModeratorThenCellOnSide(int x, int y, int z, EnumFacing side) {
-		return findModerator(finder.position(x, y, z).offset(side)) && findCell(finder.position(x, y, z).offset(side, 2));
+		return findModerator(getFinder().position(x, y, z).offset(side)) && findCell(getFinder().position(x, y, z).offset(side, 2));
 	}
 	
 	private boolean newFindModeratorThenCellOnSide(int x, int y, int z, EnumFacing side) {
 		for (int i = 1; i <= NCConfig.fission_neutron_reach; i++) {
-			for (int j = 1; j <= i; j++) if (!findModerator(finder.position(x, y, z).offset(side, j))) return false;
-			if (findCell(finder.position(x, y, z).offset(side, i + 1))) return true;
+			for (int j = 1; j <= i; j++) if (!findModerator(getFinder().position(x, y, z).offset(side, j))) return false;
+			if (findCell(getFinder().position(x, y, z).offset(side, i + 1))) return true;
 		}
 		return false;
 	}
@@ -391,7 +389,7 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 	}
 	
 	private int moderatorAdjacentCount(int x, int y, int z) {
-		return moderatorAdjacentCount(finder.position(x, y, z));
+		return moderatorAdjacentCount(getFinder().position(x, y, z));
 	}
 	
 	private int activeModeratorAdjacentCount(BlockPos pos) {
@@ -404,23 +402,23 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 	}
 	
 	private int activeModeratorAdjacentCount(int x, int y, int z) {
-		return activeModeratorAdjacentCount(finder.position(x, y, z));
+		return activeModeratorAdjacentCount(getFinder().position(x, y, z));
 	}
 	
 	private boolean cellAdjacent(BlockPos pos) {
-		return finder.adjacent(pos, 1, NCBlocks.cell_block);
+		return getFinder().adjacent(pos, 1, NCBlocks.cell_block);
 	}
 	
 	private boolean cellAdjacent(int x, int y, int z) {
-		return finder.adjacent(x, y, z, 1, NCBlocks.cell_block);
+		return getFinder().adjacent(x, y, z, 1, NCBlocks.cell_block);
 	}
 	
 	private int cellAdjacentCount(BlockPos pos) {
-		return finder.adjacentCount(pos, 1, NCBlocks.cell_block);
+		return getFinder().adjacentCount(pos, 1, NCBlocks.cell_block);
 	}
 	
 	private int cellAdjacentCount(int x, int y, int z) {
-		return cellAdjacentCount(finder.position(x, y, z));
+		return cellAdjacentCount(getFinder().position(x, y, z));
 	}
 	
 	private boolean activeModeratorAdjacent(BlockPos pos) {
@@ -432,15 +430,15 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 	}
 	
 	private boolean activeModeratorAdjacent(int x, int y, int z) {
-		return activeModeratorAdjacent(finder.position(x, y, z));
+		return activeModeratorAdjacent(getFinder().position(x, y, z));
 	}
 	
 	private boolean findCooler(BlockPos pos, int meta) {
-		return finder.find(pos, NCBlocks.cooler.getStateFromMeta(meta));
+		return getFinder().find(pos, NCBlocks.cooler.getStateFromMeta(meta));
 	}
 	
 	private boolean findCooler(int x, int y, int z, int meta) {
-		return findCooler(finder.position(x, y, z), meta);
+		return findCooler(getFinder().position(x, y, z), meta);
 	}
 	
 	private boolean activeCoolerAdjacent(BlockPos pos, int meta) {
@@ -452,7 +450,7 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 	}
 	
 	private boolean activeCoolerAdjacent(int x, int y, int z, int meta) {
-		return activeCoolerAdjacent(finder.position(x, y, z), meta);
+		return activeCoolerAdjacent(getFinder().position(x, y, z), meta);
 	}
 	
 	private int activeCoolerAdjacentCount(BlockPos pos, int meta) {
@@ -465,12 +463,12 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 	}
 	
 	private int activeCoolerAdjacentCount(int x, int y, int z, int meta) {
-		return activeCoolerAdjacentCount(finder.position(x, y, z), meta);
+		return activeCoolerAdjacentCount(getFinder().position(x, y, z), meta);
 	}
 	
 	private boolean activeCoolerConfiguration(BlockPos pos, int meta, List<BlockPos[]> posArrays) {
 		for (BlockPos[] posArray : posArrays) {
-			if (finder.configuration(posArray, NCBlocks.cooler.getStateFromMeta(meta))) {
+			if (getFinder().configuration(posArray, NCBlocks.cooler.getStateFromMeta(meta))) {
 				for (BlockPos blockPos : posArray) if (!coolerRequirements(blockPos, meta)) return false;
 				return true;
 			}
@@ -524,23 +522,23 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 	}
 	
 	private boolean coolerRequirements(int x, int y, int z, int meta) {
-		return coolerRequirements(finder.position(x, y, z), meta);
+		return coolerRequirements(getFinder().position(x, y, z), meta);
 	}
 	
 	private boolean findCasing(BlockPos pos) {
-		return finder.find(pos, NCBlocks.fission_block.getStateFromMeta(0), NCBlocks.reactor_casing_transparent, NCBlocks.fission_port, NCBlocks.buffer, NCBlocks.reactor_door, NCBlocks.reactor_trapdoor);
+		return getFinder().find(pos, NCBlocks.fission_block.getStateFromMeta(0), NCBlocks.reactor_casing_transparent, NCBlocks.fission_port, NCBlocks.buffer, NCBlocks.reactor_door, NCBlocks.reactor_trapdoor);
 	}
 	
 	private boolean findCasing(int x, int y, int z) {
-		return findCasing(finder.position(x, y, z));
+		return findCasing(getFinder().position(x, y, z));
 	}
 	
 	private boolean findController(BlockPos pos) {
-		return finder.find(pos, NCBlocks.fission_controller_new_fixed, NCBlocks.fission_controller_idle, NCBlocks.fission_controller_active, NCBlocks.fission_controller_new_idle, NCBlocks.fission_controller_new_active);
+		return getFinder().find(pos, NCBlocks.fission_controller_new_fixed, NCBlocks.fission_controller_idle, NCBlocks.fission_controller_active, NCBlocks.fission_controller_new_idle, NCBlocks.fission_controller_new_active);
 	}
 	
 	private boolean findController(int x, int y, int z) {
-		return findController(finder.position(x, y, z));
+		return findController(getFinder().position(x, y, z));
 	}
 	
 	private boolean findCasingAll(BlockPos pos) {
@@ -548,11 +546,11 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 	}
 	
 	private boolean findCasingAll(int x, int y, int z) {
-		return findCasingAll(finder.position(x, y, z));
+		return findCasingAll(getFinder().position(x, y, z));
 	}
 	
 	private boolean findPort(BlockPos pos) {
-		boolean found = finder.find(pos, NCBlocks.fission_port);
+		boolean found = getFinder().find(pos, NCBlocks.fission_port);
 		if (found) {
 			TileEntity tile = world.getTileEntity(pos);
 			if (tile instanceof TileFissionPort) {
@@ -564,7 +562,7 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 	}
 	
 	private boolean findPort(int x, int y, int z) {
-		return findPort(finder.position(x, y, z));
+		return findPort(getFinder().position(x, y, z));
 	}
 	
 	private boolean casingAllAdjacent(BlockPos pos) {
@@ -687,7 +685,7 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 						problem = EXTRA_CONTROLLER_AT;
 						complete = 0;
 						problemPosX = x; problemPosY = y; problemPosZ = z;
-						problemPos = POS + " " + BlockPosHelper.stringPos(finder.position(problemPosX, problemPosY, problemPosZ));
+						problemPos = POS + " " + BlockPosHelper.stringPos(getFinder().position(problemPosX, problemPosY, problemPosZ));
 						return false;
 					}
 				}
@@ -697,14 +695,14 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 					problem = CASING_INCOMPLETE_AT;
 					complete = 0;
 					problemPosX = x; problemPosY = minY; problemPosZ = z;
-					problemPos = POS + " " + BlockPosHelper.stringPos(finder.position(problemPosX, problemPosY, problemPosZ));
+					problemPos = POS + " " + BlockPosHelper.stringPos(getFinder().position(problemPosX, problemPosY, problemPosZ));
 					return false;
 				}
 				if (!findCasing(x, maxY, z) && notOrigin(x, maxY, z)) {
 					problem = CASING_INCOMPLETE_AT;
 					complete = 0;
 					problemPosX = x; problemPosY = maxY; problemPosZ = z;
-					problemPos = POS + " " + BlockPosHelper.stringPos(finder.position(problemPosX, problemPosY, problemPosZ));
+					problemPos = POS + " " + BlockPosHelper.stringPos(getFinder().position(problemPosX, problemPosY, problemPosZ));
 					return false;
 				}
 			}
@@ -714,14 +712,14 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 						problem = CASING_INCOMPLETE_AT;
 						complete = 0;
 						problemPosX = x; problemPosY = y; problemPosZ = minZ;
-						problemPos = POS + " " + BlockPosHelper.stringPos(finder.position(problemPosX, problemPosY, problemPosZ));
+						problemPos = POS + " " + BlockPosHelper.stringPos(getFinder().position(problemPosX, problemPosY, problemPosZ));
 						return false;
 					}
 					if (!findCasing(x, y, maxZ) && notOrigin(x, y, maxZ)) {
 						problem = CASING_INCOMPLETE_AT;
 						complete = 0;
 						problemPosX = x; problemPosY = y; problemPosZ = maxZ;
-						problemPos = POS + " " + BlockPosHelper.stringPos(finder.position(problemPosX, problemPosY, problemPosZ));
+						problemPos = POS + " " + BlockPosHelper.stringPos(getFinder().position(problemPosX, problemPosY, problemPosZ));
 						return false;
 					}
 					if (findPort(x, y, minZ)) portCount++;
@@ -732,14 +730,14 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 						problem = CASING_INCOMPLETE_AT;
 						complete = 0;
 						problemPosX = minX; problemPosY = y; problemPosZ = z;
-						problemPos = POS + " " + BlockPosHelper.stringPos(finder.position(problemPosX, problemPosY, problemPosZ));
+						problemPos = POS + " " + BlockPosHelper.stringPos(getFinder().position(problemPosX, problemPosY, problemPosZ));
 						return false;
 					}
 					if (!findCasing(maxX, y, z) && notOrigin(maxX, y, z)) {
 						problem = CASING_INCOMPLETE_AT;
 						complete = 0;
 						problemPosX = maxX; problemPosY = y; problemPosZ = z;
-						problemPos = POS + " " + BlockPosHelper.stringPos(finder.position(problemPosX, problemPosY, problemPosZ));
+						problemPos = POS + " " + BlockPosHelper.stringPos(getFinder().position(problemPosX, problemPosY, problemPosZ));
 						return false;
 					}
 					if (findPort(minX, y, z)) portCount++;
@@ -751,7 +749,7 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 					problem = CASING_IN_INTERIOR_AT;
 					complete = 0;
 					problemPosX = x; problemPosY = y; problemPosZ = z;
-					problemPos = POS + " " + BlockPosHelper.stringPos(finder.position(problemPosX, problemPosY, problemPosZ));
+					problemPos = POS + " " + BlockPosHelper.stringPos(getFinder().position(problemPosX, problemPosY, problemPosZ));
 					return false;
 				}
 			}
@@ -835,8 +833,8 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 					}
 					
 					// Active Coolers
-					if (finder.find(x, y, z, NCBlocks.active_cooler)) {
-						TileEntity tile = world.getTileEntity(finder.position(x, y, z));
+					if (getFinder().find(x, y, z, NCBlocks.active_cooler)) {
+						TileEntity tile = world.getTileEntity(getFinder().position(x, y, z));
 						if (tile instanceof TileActiveCooler) {
 							TileActiveCooler cooler = (TileActiveCooler) tile;
 							Tank tank = cooler.getTanks().get(0);
@@ -950,8 +948,8 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 					}	
 					
 					// Active Coolers
-					if (finder.find(x, y, z, NCBlocks.active_cooler)) {
-						TileEntity tile = world.getTileEntity(finder.position(x, y, z));
+					if (getFinder().find(x, y, z, NCBlocks.active_cooler)) {
+						TileEntity tile = world.getTileEntity(getFinder().position(x, y, z));
 						if (tile instanceof TileActiveCooler) {
 							TileActiveCooler cooler = (TileActiveCooler) tile;
 							Tank tank = cooler.getTanks().get(0);
@@ -1007,8 +1005,8 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 	
 	public void stopActiveCooling() {
 		for (int z = minZ + 1; z <= maxZ - 1; z++) for (int x = minX + 1; x <= maxX - 1; x++) for (int y = minY + 1; y <= maxY - 1; y++) {
-			if (finder.find(x, y, z, NCBlocks.active_cooler)) {
-				TileEntity tile = world.getTileEntity(finder.position(x, y, z));
+			if (getFinder().find(x, y, z, NCBlocks.active_cooler)) {
+				TileEntity tile = world.getTileEntity(getFinder().position(x, y, z));
 				if (tile instanceof TileActiveCooler) {
 					((TileActiveCooler) tile).isActive = false;
 				}
@@ -1021,7 +1019,7 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 			Object[] layout = new Object[getLengthX()*getLengthY()*getLengthZ()];
 			for (int z = minZ + 1; z <= maxZ - 1; z++) for (int x = minX + 1; x <= maxX - 1; x++) for (int y = minY + 1; y <= maxY - 1; y++) {
 				int arrayX = x - minX - 1; int arrayY = y - minY - 1; int arrayZ = z - minZ - 1;
-				IBlockState layoutState = world.getBlockState(finder.position(x, y, z));
+				IBlockState layoutState = world.getBlockState(getFinder().position(x, y, z));
 				String mainName = layoutState.getBlock().getRegistryName().toString();
 				int meta = layoutState.getBlock().getMetaFromState(layoutState);
 				layout[arrayX + getLengthX()*arrayY + getLengthX()*getLengthY()*arrayZ] = new Object[] {new Object[] {x, y, z}, new Object[] {mainName, meta}};

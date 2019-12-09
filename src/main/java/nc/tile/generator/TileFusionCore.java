@@ -81,6 +81,10 @@ public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpd
 	public int structureCount = 0;
 	
 	private BlockFinder finder;
+	private BlockFinder getFinder() {
+		if (finder == null) finder = new BlockFinder(pos, world);
+		return finder;
+	}
 	
 	@SideOnly(Side.CLIENT)
 	private List<SoundInfo> activeSounds;
@@ -109,12 +113,6 @@ public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpd
 	}
 	
 	// Ticking
-	
-	@Override
-	public void onAdded() {
-		finder = new BlockFinder(pos, world);
-		super.onAdded();
-	}
 	
 	@Override
 	public void updateGenerator() {
@@ -374,24 +372,24 @@ public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpd
 	// Finding Blocks
 	
 	private boolean findIdleElectromagnet(BlockPos pos) {
-		return finder.find(pos, NCBlocks.fusion_electromagnet_idle, NCBlocks.fusion_electromagnet_transparent_idle);
+		return getFinder().find(pos, NCBlocks.fusion_electromagnet_idle, NCBlocks.fusion_electromagnet_transparent_idle);
 	}
 	
 	private boolean findActiveElectromagnet(BlockPos pos) {
-		return finder.find(pos, NCBlocks.fusion_electromagnet_active, NCBlocks.fusion_electromagnet_transparent_active);
+		return getFinder().find(pos, NCBlocks.fusion_electromagnet_active, NCBlocks.fusion_electromagnet_transparent_active);
 	}
 	
 	private boolean findElectromagnet(BlockPos pos) {
-		return finder.find(pos, NCBlocks.fusion_electromagnet_active, NCBlocks.fusion_electromagnet_transparent_active, NCBlocks.fusion_electromagnet_idle, NCBlocks.fusion_electromagnet_transparent_idle);
+		return getFinder().find(pos, NCBlocks.fusion_electromagnet_active, NCBlocks.fusion_electromagnet_transparent_active, NCBlocks.fusion_electromagnet_idle, NCBlocks.fusion_electromagnet_transparent_idle);
 	}
 	
 	private boolean findAir(BlockPos pos) {
-		Material mat = finder.getBlockState(pos).getMaterial();
+		Material mat = getFinder().getBlockState(pos).getMaterial();
 		return MaterialHelper.isReplaceable(mat) || findPlasma(pos);
 	}
 	
 	private boolean findPlasma(BlockPos pos) {
-		return finder.find(pos, plasmaState());
+		return getFinder().find(pos, plasmaState());
 	}
 	
 	private TileActiveCooler findActiveCooler(BlockPos pos) {
@@ -405,7 +403,7 @@ public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpd
 	public void setSize() {
 		int runningSize = 1;
 		for (int r = 0; r <= NCConfig.fusion_max_size; r++) {
-			if (finder.horizontalY(pos.offset(EnumFacing.UP), r + 2, NCBlocks.fusion_connector)) {
+			if (getFinder().horizontalY(pos.offset(EnumFacing.UP), r + 2, NCBlocks.fusion_connector)) {
 				runningSize ++;
 			} else break;
 		}
@@ -484,7 +482,7 @@ public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpd
 	
 	public BlockPos getOpposite(BlockPos pos) {
 		BlockPos relativePos = new BlockPos(pos.getX() - this.pos.getX(), pos.getY() - this.pos.getY(), pos.getZ() - this.pos.getZ());
-		return finder.position(-relativePos.getX(), -relativePos.getY() + 2, -relativePos.getZ());
+		return getFinder().position(-relativePos.getX(), -relativePos.getY() + 2, -relativePos.getZ());
 	}
 	
 	public void setCooling() {
