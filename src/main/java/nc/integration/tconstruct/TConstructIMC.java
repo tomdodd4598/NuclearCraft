@@ -32,7 +32,6 @@ public class TConstructIMC {
 		
 		sendTiCSmelteryInfo("sodium", false);
 		sendTiCSmelteryInfo("potassium", false);
-		sendTiCSmelteryInfo("plutonium", false);
 		
 		sendTiCSmelteryInfo("ferroboron", true);
 		sendTiCSmelteryInfo("tough", true);

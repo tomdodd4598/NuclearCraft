@@ -5,10 +5,12 @@ import javax.annotation.Nullable;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.fission.FissionCluster;
 import nc.multiblock.fission.FissionReactor;
+import net.minecraft.nbt.NBTTagCompound;
 
-public class TileFissionConductor extends TileFissionPartBase implements IFissionComponent {
+public class TileFissionConductor extends TileFissionPart implements IFissionComponent {
 	
 	private FissionCluster cluster = null;
+	private long heat = 0L;
 	
 	public TileFissionConductor() {
 		super(CuboidalPartPositionType.INTERIOR);
@@ -36,13 +38,7 @@ public class TileFissionConductor extends TileFissionPartBase implements IFissio
 	}
 	
 	@Override
-	public void setCluster(@Nullable FissionCluster cluster) {
-		if (cluster == null && this.cluster !=  null) {
-			this.cluster.getComponentMap().remove(pos.toLong());
-		}
-		else if (cluster != null) {
-			cluster.getComponentMap().put(pos.toLong(), this);
-		}
+	public void setClusterInternal(@Nullable FissionCluster cluster) {
 		this.cluster = cluster;
 	}
 	
@@ -58,4 +54,30 @@ public class TileFissionConductor extends TileFissionPartBase implements IFissio
 	
 	@Override
 	public void resetStats() {}
+	
+	@Override
+	public long getHeatStored() {
+		return heat;
+	}
+	
+	@Override
+	public void setHeatStored(long heat) {
+		this.heat = heat;
+	}
+	
+	@Override
+	public void onClusterMeltdown() {}
+	
+	@Override
+	public NBTTagCompound writeAll(NBTTagCompound nbt) {
+		super.writeAll(nbt);
+		nbt.setLong("clusterHeat", heat);
+		return nbt;
+	}
+	
+	@Override
+	public void readAll(NBTTagCompound nbt) {
+		super.readAll(nbt);
+		heat = nbt.getLong("clusterHeat");
+	}
 }

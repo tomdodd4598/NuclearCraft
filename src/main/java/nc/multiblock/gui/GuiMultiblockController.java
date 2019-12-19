@@ -5,7 +5,7 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 import nc.gui.NCGui;
-import nc.multiblock.MultiblockBase;
+import nc.multiblock.Multiblock;
 import nc.util.Lang;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.inventory.Container;
@@ -13,7 +13,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 
-public abstract class GuiMultiblockController<MULTIBLOCK extends MultiblockBase> extends NCGui {
+public abstract class GuiMultiblockController<MULTIBLOCK extends Multiblock> extends NCGui {
 	
 	protected MULTIBLOCK multiblock;
 	protected BlockPos controllerPos;

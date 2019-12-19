@@ -2,7 +2,8 @@ package nc.recipe;
 
 import java.util.List;
 
-import nc.radiation.RadBlockEffects;
+import nc.radiation.RadBlockEffects.RadiationBlockMutation;
+import nc.radiation.RadBlockEffects.RadiationBlockPurification;
 import nc.radiation.RadSources;
 import nc.recipe.generator.DecayGeneratorRecipes;
 import nc.recipe.generator.FusionRecipes;
@@ -79,7 +80,8 @@ public class NCRecipes {
 	public static HeatExchangerRecipes heat_exchanger;
 	public static TurbineRecipes turbine;
 	public static CondenserRecipes condenser;
-	public static RadBlockEffects radiation_block_mutations;
+	public static RadiationBlockMutation radiation_block_mutation;
+	public static RadiationBlockPurification radiation_block_purification;
 	
 	@SubscribeEvent(priority = EventPriority.LOW)
 	public void registerRecipes(RegistryEvent.Register<IRecipe> event) {
@@ -116,7 +118,8 @@ public class NCRecipes {
 		heat_exchanger = new HeatExchangerRecipes();
 		turbine = new TurbineRecipes();
 		condenser = new CondenserRecipes();
-		radiation_block_mutations = new RadBlockEffects();
+		radiation_block_mutation = new RadiationBlockMutation();
+		radiation_block_purification = new RadiationBlockPurification();
 		
 		CraftingRecipeHandler.registerCraftingRecipes();
 		FurnaceRecipeHandler.registerFurnaceRecipes();
@@ -201,6 +204,7 @@ public class NCRecipes {
 		heat_exchanger.refreshCache();
 		turbine.refreshCache();
 		condenser.refreshCache();
-		radiation_block_mutations.refreshCache();
+		radiation_block_mutation.refreshCache();
+		radiation_block_purification.refreshCache();
 	}
 }

@@ -13,7 +13,7 @@ import nc.multiblock.heatExchanger.HeatExchanger;
 import net.minecraftforge.fml.common.Optional;
 
 @Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers")
-public class TileHeatExchangerComputerPort extends TileHeatExchangerPartBase implements SimpleComponent {
+public class TileHeatExchangerComputerPort extends TileHeatExchangerPart implements SimpleComponent {
 	
 	public TileHeatExchangerComputerPort() {
 		super(CuboidalPartPositionType.WALL);
@@ -162,9 +162,9 @@ public class TileHeatExchangerComputerPort extends TileHeatExchangerPartBase imp
 	
 	@Callback
 	@Optional.Method(modid = "opencomputers")
-	public Object[] clearAll(Context context, Arguments args) {
+	public Object[] clearAllMaterial(Context context, Arguments args) {
 		if (isMultiblockAssembled()) {
-			getMultiblock().clearAll();
+			getMultiblock().clearAllMaterial();
 		}
 		return new Object[] {};
 	}

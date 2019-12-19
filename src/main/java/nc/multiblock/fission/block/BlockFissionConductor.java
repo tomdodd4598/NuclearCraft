@@ -9,7 +9,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockFissionConductor extends BlockFissionPartBase {
+public class BlockFissionConductor extends BlockFissionPart {
 
 	public BlockFissionConductor() {
 		super();

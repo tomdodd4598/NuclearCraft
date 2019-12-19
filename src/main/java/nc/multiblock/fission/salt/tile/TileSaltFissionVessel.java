@@ -19,7 +19,7 @@ import nc.multiblock.fission.FissionCluster;
 import nc.multiblock.fission.FissionReactor;
 import nc.multiblock.fission.salt.SaltFissionVesselSetting;
 import nc.multiblock.fission.tile.IFissionFuelComponent;
-import nc.multiblock.fission.tile.TileFissionPartBase;
+import nc.multiblock.fission.tile.TileFissionPart;
 import nc.radiation.RadiationHelper;
 import nc.recipe.AbstractRecipeHandler;
 import nc.recipe.NCRecipes;
@@ -51,7 +51,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 
-public class TileSaltFissionVessel extends TileFissionPartBase implements IFluidGenerator, ITileFluid, IFissionFuelComponent {
+public class TileSaltFissionVessel extends TileFissionPart implements IFluidGenerator, ITileFluid, IFissionFuelComponent {
 	
 	protected final @Nonnull List<Tank> tanks = Lists.newArrayList(new Tank(FluidStackHelper.INGOT_BLOCK_VOLUME*2, NCRecipes.salt_fission_valid_fluids.get(0)), new Tank(FluidStackHelper.INGOT_BLOCK_VOLUME*4, new ArrayList<String>()), new Tank(FluidStackHelper.INGOT_BLOCK_VOLUME*2, new ArrayList<String>()));
 	
@@ -75,6 +75,8 @@ public class TileSaltFissionVessel extends TileFissionPartBase implements IFluid
 	protected RecipeInfo<ProcessorRecipe> recipeInfo;
 	
 	protected FissionCluster cluster = null;
+	private long heat = 0L;
+	
 	protected boolean primed = false, fluxSearched = false;
 	protected int flux = 0, heatMult = 0;
 	protected double undercoolingLifetimeFactor = 1D;
@@ -117,13 +119,7 @@ public class TileSaltFissionVessel extends TileFissionPartBase implements IFluid
 	}
 	
 	@Override
-	public void setCluster(@Nullable FissionCluster cluster) {
-		if (cluster == null && this.cluster != null) {
-			this.cluster.getComponentMap().remove(pos.toLong());
-		}
-		else if (cluster != null) {
-			cluster.getComponentMap().put(pos.toLong(), this);
-		}
+	public void setClusterInternal(@Nullable FissionCluster cluster) {
 		this.cluster = cluster;
 	}
 	
@@ -286,7 +282,7 @@ public class TileSaltFissionVessel extends TileFissionPartBase implements IFluid
 	}
 	
 	@Override
-	public void doMeltdown() {
+	public void onClusterMeltdown() {
 		IRadiationSource chunkSource = RadiationHelper.getRadiationSource(world.getChunk(pos));
 		if (chunkSource != null) {
 			RadiationHelper.addToSourceRadiation(chunkSource, 8D*baseProcessRadiation*getSpeedMultiplier()*NCConfig.fission_meltdown_radiation_multiplier);
@@ -305,6 +301,16 @@ public class TileSaltFissionVessel extends TileFissionPartBase implements IFluid
 				}
 			}
 		}
+	}
+	
+	@Override
+	public long getHeatStored() {
+		return heat;
+	}
+	
+	@Override
+	public void setHeatStored(long heat) {
+		this.heat = heat;
 	}
 	
 	// Processing
@@ -757,6 +763,7 @@ public class TileSaltFissionVessel extends TileFissionPartBase implements IFluid
 		nbt.setBoolean("canProcessInputs", canProcessInputs);
 		
 		nbt.setInteger("flux", flux);
+		nbt.setLong("clusterHeat", heat);
 		return nbt;
 	}
 	
@@ -777,6 +784,7 @@ public class TileSaltFissionVessel extends TileFissionPartBase implements IFluid
 		canProcessInputs = nbt.getBoolean("canProcessInputs");
 		
 		flux = nbt.getInteger("flux");
+		heat = nbt.getLong("clusterHeat");
 	}
 	
 	// Capability

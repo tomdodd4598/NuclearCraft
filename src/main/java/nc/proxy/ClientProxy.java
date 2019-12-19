@@ -2,6 +2,7 @@ package nc.proxy;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import nc.Global;
 import nc.block.fluid.NCBlockFluid;
@@ -95,7 +96,7 @@ public class ClientProxy extends CommonProxy {
 	
 	@Override
 	public void registerFluidBlockRendering(Block block, String name) {
-		name = name.toLowerCase();
+		name = name.toLowerCase(Locale.ROOT);
 		super.registerFluidBlockRendering(block, name);
 		FluidStateMapper mapper = new FluidStateMapper(name);
 		

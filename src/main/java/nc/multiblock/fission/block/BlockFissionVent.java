@@ -14,7 +14,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockFissionVent extends BlockFissionPartBase {
+public class BlockFissionVent extends BlockFissionPart {
 
 	public BlockFissionVent() {
 		super();

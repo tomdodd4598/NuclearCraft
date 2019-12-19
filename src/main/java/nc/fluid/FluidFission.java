@@ -6,6 +6,7 @@ public class FluidFission extends FluidMolten {
 	
 	private static final Integer FLUORINE_COLOR = 0xD3C85D;
 	private static final Integer FLIBE_COLOR = 0xC1C8B0;
+	private static final Integer ZA_COLOR = 0xDBDBAD;
 			
 	public FluidFission(String fluidName) {
 		super(fluidName);
@@ -21,5 +22,9 @@ public class FluidFission extends FluidMolten {
 	
 	public static int getFLIBEColor(Integer colour) {
 		return ColorHelper.blend(colour.intValue(), FLIBE_COLOR, 0.4F);
+	}
+	
+	public static int getZAColor(Integer colour) {
+		return ColorHelper.glow(colour.intValue(), ZA_COLOR, 0.4F);
 	}
 }

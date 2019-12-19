@@ -747,6 +747,56 @@ public class NCCraftTweaker {
 		}
 	}
 	
+	@ZenClass("mods.nuclearcraft.radiation_block_mutation")
+	@ZenRegister
+	public static class RadiationBlockMutation {
+		
+		@ZenMethod
+		public static void addRecipe(IIngredient input, IIngredient output, double radiationThreshold) {
+			CraftTweakerAPI.apply(new AddProcessorRecipe(NCRecipes.radiation_block_mutation, Lists.newArrayList(input, output, radiationThreshold)));
+		}
+		
+		@ZenMethod
+		public static void removeRecipeWithInput(IIngredient input) {
+			CraftTweakerAPI.apply(new RemoveProcessorRecipe(NCRecipes.radiation_block_mutation, IngredientSorption.INPUT, Lists.newArrayList(input)));
+		}
+		
+		@ZenMethod
+		public static void removeRecipeWithOutput(IIngredient output) {
+			CraftTweakerAPI.apply(new RemoveProcessorRecipe(NCRecipes.radiation_block_mutation, IngredientSorption.OUTPUT, Lists.newArrayList(output)));
+		}
+		
+		@ZenMethod
+		public static void removeAllRecipes() {
+			CraftTweakerAPI.apply(new RemoveAllProcessorRecipes(NCRecipes.radiation_block_mutation));
+		}
+	}
+	
+	@ZenClass("mods.nuclearcraft.radiation_block_purification")
+	@ZenRegister
+	public static class RadiationBlockPurification {
+		
+		@ZenMethod
+		public static void addRecipe(IIngredient input, IIngredient output, double radiationThreshold) {
+			CraftTweakerAPI.apply(new AddProcessorRecipe(NCRecipes.radiation_block_purification, Lists.newArrayList(input, output, radiationThreshold)));
+		}
+		
+		@ZenMethod
+		public static void removeRecipeWithInput(IIngredient input) {
+			CraftTweakerAPI.apply(new RemoveProcessorRecipe(NCRecipes.radiation_block_purification, IngredientSorption.INPUT, Lists.newArrayList(input)));
+		}
+		
+		@ZenMethod
+		public static void removeRecipeWithOutput(IIngredient output) {
+			CraftTweakerAPI.apply(new RemoveProcessorRecipe(NCRecipes.radiation_block_purification, IngredientSorption.OUTPUT, Lists.newArrayList(output)));
+		}
+		
+		@ZenMethod
+		public static void removeAllRecipes() {
+			CraftTweakerAPI.apply(new RemoveAllProcessorRecipes(NCRecipes.radiation_block_purification));
+		}
+	}
+	
 	@ZenClass("mods.nuclearcraft.radiation")
 	@ZenRegister
 	public static class RadiationHandler {
@@ -790,7 +840,7 @@ public class NCCraftTweaker {
 		
 		@ZenMethod
 		public static void addBlockMutation(IIngredient input, IIngredient output, double threshold) {
-			CraftTweakerAPI.apply(new AddProcessorRecipe(NCRecipes.radiation_block_mutations, Lists.newArrayList(input, output, threshold)));
+			CraftTweakerAPI.apply(new AddProcessorRecipe(NCRecipes.radiation_block_mutation, Lists.newArrayList(input, output, threshold)));
 		}
 		
 		@ZenMethod

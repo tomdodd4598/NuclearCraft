@@ -13,7 +13,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockTurbineOutlet extends BlockTurbinePartBase {
+public class BlockTurbineOutlet extends BlockTurbinePart {
 
 	public BlockTurbineOutlet() {
 		super();

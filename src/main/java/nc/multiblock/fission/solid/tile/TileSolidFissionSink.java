@@ -7,16 +7,18 @@ import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.fission.FissionCluster;
 import nc.multiblock.fission.FissionReactor;
 import nc.multiblock.fission.tile.IFissionCoolingComponent;
-import nc.multiblock.fission.tile.TileFissionPartBase;
+import nc.multiblock.fission.tile.TileFissionPart;
 import nc.util.BlockPosHelper;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 
-public abstract class TileSolidFissionSink extends TileFissionPartBase implements IFissionCoolingComponent {
+public abstract class TileSolidFissionSink extends TileFissionPart implements IFissionCoolingComponent {
 	
 	public final int coolingRate;
 	public final String sinkName;
 	
 	private FissionCluster cluster = null;
+	private long heat = 0L;
 	public boolean isInValidPosition = false;
 	
 	public TileSolidFissionSink(int coolingRate, String sinkName) {
@@ -413,11 +415,11 @@ public abstract class TileSolidFissionSink extends TileFissionPartBase implement
 		
 		@Override
 		public boolean isSinkValid() {
-			boolean quartz = false, tin = false;
+			boolean quartz = false, lapis = false;
 			for (EnumFacing dir : EnumFacing.VALUES) {
 				if (!quartz && isActiveSink(pos.offset(dir), "quartz")) quartz = true;
-				if (!tin && isActiveSink(pos.offset(dir), "tin")) tin = true;
-				if (quartz && tin) return true;
+				if (!lapis && isActiveSink(pos.offset(dir), "lapis")) lapis = true;
+				if (quartz && lapis) return true;
 			}
 			return false;
 		}
@@ -431,11 +433,11 @@ public abstract class TileSolidFissionSink extends TileFissionPartBase implement
 		
 		@Override
 		public boolean isSinkValid() {
-			boolean glowstone = false, lapis = false;
+			boolean glowstone = false, tin = false;
 			for (EnumFacing dir : EnumFacing.VALUES) {
 				if (!glowstone && isActiveSink(pos.offset(dir), "glowstone")) glowstone = true;
-				if (!lapis && isActiveSink(pos.offset(dir), "lapis")) lapis = true;
-				if (glowstone && lapis) return true;
+				if (!tin && isActiveSink(pos.offset(dir), "tin")) tin = true;
+				if (glowstone && tin) return true;
 			}
 			return false;
 		}
@@ -607,13 +609,7 @@ public abstract class TileSolidFissionSink extends TileFissionPartBase implement
 	}
 	
 	@Override
-	public void setCluster(@Nullable FissionCluster cluster) {
-		if (cluster == null && this.cluster != null) {
-			this.cluster.getComponentMap().remove(pos.toLong());
-		}
-		else if (cluster != null) {
-			cluster.getComponentMap().put(pos.toLong(), this);
-		}
+	public void setClusterInternal(@Nullable FissionCluster cluster) {
 		this.cluster = cluster;
 	}
 	
@@ -636,7 +632,33 @@ public abstract class TileSolidFissionSink extends TileFissionPartBase implement
 	}
 	
 	@Override
+	public long getHeatStored() {
+		return heat;
+	}
+	
+	@Override
+	public void setHeatStored(long heat) {
+		this.heat = heat;
+	}
+	
+	@Override
+	public void onClusterMeltdown() {}
+	
+	@Override
 	public long getCooling() {
 		return coolingRate;
+	}
+	
+	@Override
+	public NBTTagCompound writeAll(NBTTagCompound nbt) {
+		super.writeAll(nbt);
+		nbt.setLong("clusterHeat", heat);
+		return nbt;
+	}
+	
+	@Override
+	public void readAll(NBTTagCompound nbt) {
+		super.readAll(nbt);
+		heat = nbt.getLong("clusterHeat");
 	}
 }

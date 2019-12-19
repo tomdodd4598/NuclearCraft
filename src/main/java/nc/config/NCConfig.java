@@ -25,7 +25,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 
 public class NCConfig {
-
+	
 	private static Configuration config = null;
 	
 	public static final String CATEGORY_ORES = "ores";
@@ -244,8 +244,8 @@ public class NCConfig {
 	public static double radiation_lowest_rate;
 	public static double radiation_chunk_limit;
 	
-	public static String[] radiation_block_effects;
-	public static double radiation_block_effect_limit;
+	//public static String[] radiation_block_effects;
+	//public static double radiation_block_effect_limit;
 	public static int radiation_block_effect_max_rate;
 	public static double radiation_rain_mult;
 	public static double radiation_swim_mult;
@@ -263,7 +263,7 @@ public class NCConfig {
 	public static boolean radiation_tile_shielding;
 	public static double radiation_scrubber_fraction;
 	public static int radiation_scrubber_radius;
-	public static boolean radiation_scrubber_alt;
+	public static boolean radiation_scrubber_non_linear;
 	public static double[] radiation_scrubber_param;
 	public static int radiation_scrubber_power;
 	public static int radiation_scrubber_borax_rate;
@@ -329,6 +329,7 @@ public class NCConfig {
 	
 	public static boolean register_projecte_emc;
 	
+	public static boolean ore_dict_raw_material_recipes;
 	public static boolean ore_dict_priority_bool;
 	public static String[] ore_dict_priority;
 	
@@ -369,9 +370,9 @@ public class NCConfig {
 		propertyOreDimsListType.setLanguageKey("gui.nc.config.ores.ore_dims_list_type");
 		Property propertyOreGen = config.get(CATEGORY_ORES, "ore_gen", new boolean[] {true, true, true, true, true, true, true, true}, Lang.localise("gui.nc.config.ores.ore_gen.comment"));
 		propertyOreGen.setLanguageKey("gui.nc.config.ores.ore_gen");
-		Property propertyOreSize = config.get(CATEGORY_ORES, "ore_size", new int[] {6, 6, 6, 4, 4, 5, 5, 5}, Lang.localise("gui.nc.config.ores.ore_size.comment"), 1, Integer.MAX_VALUE);
+		Property propertyOreSize = config.get(CATEGORY_ORES, "ore_size", new int[] {6, 6, 6, 3, 3, 4, 4, 5}, Lang.localise("gui.nc.config.ores.ore_size.comment"), 1, Integer.MAX_VALUE);
 		propertyOreSize.setLanguageKey("gui.nc.config.ores.ore_size");
-		Property propertyOreRate = config.get(CATEGORY_ORES, "ore_rate", new int[] {5, 4, 6, 4, 4, 6, 6, 4}, Lang.localise("gui.nc.config.ores.ore_rate.comment"), 1, Integer.MAX_VALUE);
+		Property propertyOreRate = config.get(CATEGORY_ORES, "ore_rate", new int[] {5, 4, 6, 3, 6, 6, 6, 4}, Lang.localise("gui.nc.config.ores.ore_rate.comment"), 1, Integer.MAX_VALUE);
 		propertyOreRate.setLanguageKey("gui.nc.config.ores.ore_rate");
 		Property propertyOreMinHeight = config.get(CATEGORY_ORES, "ore_min_height", new int[] {0, 0, 0, 0, 0, 0, 0, 0}, Lang.localise("gui.nc.config.ores.ore_min_height.comment"), 1, 255);
 		propertyOreMinHeight.setLanguageKey("gui.nc.config.ores.ore_min_height");
@@ -438,13 +439,13 @@ public class NCConfig {
 		
 		Property propertyFissionFuelTimeMultiplier = config.get(CATEGORY_FISSION, "fission_fuel_time_multiplier", 1D, Lang.localise("gui.nc.config.fission.fission_fuel_time_multiplier.comment"), 0.001D, 255D);
 		propertyFissionFuelTimeMultiplier.setLanguageKey("gui.nc.config.fission.fission_fuel_time_multiplier");
-		Property propertyFissionSourceEfficiency = config.get(CATEGORY_FISSION, "fission_source_efficiency", new double[] {0.8D, 1D, 1.2D}, Lang.localise("gui.nc.config.fission.fission_source_efficiency.comment"), 0D, 255D);
+		Property propertyFissionSourceEfficiency = config.get(CATEGORY_FISSION, "fission_source_efficiency", new double[] {0.8D, 0.9D, 1D}, Lang.localise("gui.nc.config.fission.fission_source_efficiency.comment"), 0D, 255D);
 		propertyFissionSourceEfficiency.setLanguageKey("gui.nc.config.fission.fission_source_efficiency");
-		Property propertyFissionSinkCoolingRate = config.get(CATEGORY_FISSION, "fission_sink_cooling_rate", new int[] {50, 55, 85, 75, 70, 100, 110, 95, 105, 115, 135, 60, 90, 190, 195, 80, 120, 65, 165, 125, 130, 140, 175, 170, 155, 160, 150, 145, 185, 200, 180, 205}, Lang.localise("gui.nc.config.fission.fission_sink_cooling_rate.comment"), 0, 32767);
+		Property propertyFissionSinkCoolingRate = config.get(CATEGORY_FISSION, "fission_sink_cooling_rate", new int[] {50, 55, 85, 75, 70, 100, 110, 95, 105, 115, 135, 60, 90, 190, 195, 80, 120, 65, 165, 125, 130, 140, 185, 170, 155, 160, 150, 145, 180, 200, 175, 205}, Lang.localise("gui.nc.config.fission.fission_sink_cooling_rate.comment"), 0, 32767);
 		propertyFissionSinkCoolingRate.setLanguageKey("gui.nc.config.fission.fission_sink_cooling_rate");
 		Property propertyFissionModeratorFluxFactor = config.get(CATEGORY_FISSION, "fission_moderator_flux_factor", new int[] {10, 22, 36}, Lang.localise("gui.nc.config.fission.fission_moderator_flux_factor.comment"), 0, 32767);
 		propertyFissionModeratorFluxFactor.setLanguageKey("gui.nc.config.fission.fission_moderator_flux_factor");
-		Property propertyFissionModeratorEfficiency = config.get(CATEGORY_FISSION, "fission_moderator_efficiency", new double[] {1.2D, 1.1D, 1D}, Lang.localise("gui.nc.config.fission.fission_moderator_efficiency.comment"), 0D, 255D);
+		Property propertyFissionModeratorEfficiency = config.get(CATEGORY_FISSION, "fission_moderator_efficiency", new double[] {1.1D, 1.05D, 1D}, Lang.localise("gui.nc.config.fission.fission_moderator_efficiency.comment"), 0D, 255D);
 		propertyFissionModeratorEfficiency.setLanguageKey("gui.nc.config.fission.fission_moderator_efficiency");
 		Property propertyFissionReflectorStats = config.get(CATEGORY_FISSION, "fission_reflector_stats", new double[] {0.5D, 1D}, Lang.localise("gui.nc.config.fission.fission_reflector_stats.comment"), 0D, 1D);
 		propertyFissionReflectorStats.setLanguageKey("gui.nc.config.fission.fission_reflector_stats");
@@ -512,7 +513,7 @@ public class NCConfig {
 		propertyFissionPlutoniumRadiation.setLanguageKey("gui.nc.config.fission.fission_plutonium_radiation");
 		
 		Property propertyFissionMixedFuelTime = config.get(CATEGORY_FISSION, "fission_mixed_fuel_time", new int[] {4354, 4354, 5486, 3472, 5486, 3014, 3014, 3758, 2406, 3758}, Lang.localise("gui.nc.config.fission.fission_mixed_fuel_time.comment"), 1, Integer.MAX_VALUE);
-		propertyFissionMixedFuelTime.setLanguageKey("gui.nc.config.fission.fission_mox_fuel_time");
+		propertyFissionMixedFuelTime.setLanguageKey("gui.nc.config.fission.fission_mixed_fuel_time");
 		Property propertyFissionMixedHeatGeneration = config.get(CATEGORY_FISSION, "fission_mixed_heat_generation", new int[] {132, 132, 106, 166, 106, 192, 192, 154, 240, 154}, Lang.localise("gui.nc.config.fission.fission_mixed_heat_generation.comment"), 0, 32767);
 		propertyFissionMixedHeatGeneration.setLanguageKey("gui.nc.config.fission.fission_mixed_heat_generation");
 		Property propertyFissionMixedEfficiency = config.get(CATEGORY_FISSION, "fission_mixed_efficiency", new double[] {0.5D, 1.05D, 1.05D, 1.1D, 2.1D, 0.55D, 1.15D, 1.15D, 1.2D, 2.3D}, Lang.localise("gui.nc.config.fission.fission_mixed_efficiency.comment"), 0D, 32767D);
@@ -623,7 +624,7 @@ public class NCConfig {
 		propertyTurbineStatorExpansion.setLanguageKey("gui.nc.config.turbine.turbine_stator_expansion");
 		Property propertyTurbineCoilConductivity = config.get(CATEGORY_TURBINE, "turbine_coil_conductivity", new double[] {0.86D, 0.9D, 0.98D, 1.04D, 1.1D, 1.12D}, Lang.localise("gui.nc.config.turbine.turbine_coil_conductivity.comment"), 0.01D, 15D);
 		propertyTurbineCoilConductivity.setLanguageKey("gui.nc.config.turbine.turbine_coil_conductivity");
-		Property propertyTurbinePowerPerMB = config.get(CATEGORY_TURBINE, "turbine_power_per_mb", new double[] {16D, 4D, 4D}, Lang.localise("gui.nc.config.turbine.turbine_power_per_mb.comment"), 0D, 255D);
+		Property propertyTurbinePowerPerMB = config.get(CATEGORY_TURBINE, "turbine_power_per_mb", new double[] {32D, 4D, 8D}, Lang.localise("gui.nc.config.turbine.turbine_power_per_mb.comment"), 0D, 255D);
 		propertyTurbinePowerPerMB.setLanguageKey("gui.nc.config.turbine.turbine_power_per_mb");
 		Property propertyTurbineExpansionLevel = config.get(CATEGORY_TURBINE, "turbine_expansion_level", new double[] {4D, 2D, 2D}, Lang.localise("gui.nc.config.turbine.turbine_expansion_level.comment"), 1D, 255D);
 		propertyTurbineExpansionLevel.setLanguageKey("gui.nc.config.turbine.turbine_expansion_level");
@@ -736,10 +737,10 @@ public class NCConfig {
 		Property propertyRadiationChunkLimit = config.get(CATEGORY_RADIATION, "radiation_chunk_limit", -1D, Lang.localise("gui.nc.config.radiation.radiation_chunk_limit.comment"), -1D, Double.MAX_VALUE);
 		propertyRadiationChunkLimit.setLanguageKey("gui.nc.config.radiation.radiation_chunk_limit");
 		
-		Property propertyRadiationBlockEffects = config.get(CATEGORY_RADIATION, "radiation_block_effects", new String[] {"nuclearcraft:wasteland_earth:0_20_materialMapColor@8368696", "nuclearcraft:dry_earth:0_20_materialMapColor@9923917", "minecraft:air:0_10_materialMapColor@31744"}, Lang.localise("gui.nc.config.radiation.radiation_block_effects.comment"));
-		propertyRadiationBlockEffects.setLanguageKey("gui.nc.config.radiation.radiation_block_effects");
-		Property propertyRadiationBlockEffectLimit = config.get(CATEGORY_RADIATION, "radiation_block_effect_limit", 10D, Lang.localise("gui.nc.config.radiation.radiation_block_effect_limit.comment"), 0.000000000000000001D, Double.MAX_VALUE);
-		propertyRadiationBlockEffectLimit.setLanguageKey("gui.nc.config.radiation.radiation_block_effect_limit");
+		//Property propertyRadiationBlockEffects = config.get(CATEGORY_RADIATION, "radiation_block_effects", new String[] {"nuclearcraft:wasteland_earth:0_20_materialMapColor@8368696", "nuclearcraft:dry_earth:0_20_materialMapColor@9923917", "minecraft:air:0_10_materialMapColor@31744"}, Lang.localise("gui.nc.config.radiation.radiation_block_effects.comment"));
+		//propertyRadiationBlockEffects.setLanguageKey("gui.nc.config.radiation.radiation_block_effects");
+		//Property propertyRadiationBlockEffectLimit = config.get(CATEGORY_RADIATION, "radiation_block_effect_limit", 10D, Lang.localise("gui.nc.config.radiation.radiation_block_effect_limit.comment"), 0.000000000000000001D, Double.MAX_VALUE);
+		//propertyRadiationBlockEffectLimit.setLanguageKey("gui.nc.config.radiation.radiation_block_effect_limit");
 		Property propertyRadiationBlockEffectMaxRate = config.get(CATEGORY_RADIATION, "radiation_block_effect_max_rate", 0, Lang.localise("gui.nc.config.radiation.radiation_block_effect_max_rate.comment"), 0, 15);
 		propertyRadiationBlockEffectMaxRate.setLanguageKey("gui.nc.config.radiation.radiation_block_effect_max_rate");
 		Property propertyRadiationRainMult = config.get(CATEGORY_RADIATION, "radiation_rain_mult", 1D, Lang.localise("gui.nc.config.radiation.radiation_rain_mult.comment"), 0.000001D, 1000000D);
@@ -773,8 +774,8 @@ public class NCConfig {
 		propertyRadiationScrubberRate.setLanguageKey("gui.nc.config.radiation.radiation_scrubber_fraction");
 		Property propertyRadiationScrubberRadius = config.get(CATEGORY_RADIATION, "radiation_scrubber_radius", 4, Lang.localise("gui.nc.config.radiation.radiation_scrubber_radius.comment"), 1, 10);
 		propertyRadiationScrubberRadius.setLanguageKey("gui.nc.config.radiation.radiation_scrubber_radius");
-		Property propertyRadiationScrubberAlt = config.get(CATEGORY_RADIATION, "radiation_scrubber_alt", false, Lang.localise("gui.nc.config.radiation.radiation_scrubber_alt.comment"));
-		propertyRadiationScrubberAlt.setLanguageKey("gui.nc.config.radiation.radiation_scrubber_alt");
+		Property propertyRadiationScrubberNonLinear = config.get(CATEGORY_RADIATION, "radiation_scrubber_non_linear", true, Lang.localise("gui.nc.config.radiation.radiation_scrubber_non_linear.comment"));
+		propertyRadiationScrubberNonLinear.setLanguageKey("gui.nc.config.radiation.radiation_scrubber_non_linear");
 		Property propertyRadiationScrubberParam = config.get(CATEGORY_RADIATION, "radiation_scrubber_param", new double[] {2.14280951676725D, 3D, 4D, 2D}, Lang.localise("gui.nc.config.radiation.radiation_scrubber_param.comment"), 1D, 15D);
 		propertyRadiationScrubberParam.setLanguageKey("gui.nc.config.radiation.radiation_scrubber_param");
 		Property propertyRadiationScrubberPower = config.get(CATEGORY_RADIATION, "radiation_scrubber_power", 500, Lang.localise("gui.nc.config.radiation.radiation_scrubber_power.comment"), 0, Integer.MAX_VALUE);
@@ -886,6 +887,8 @@ public class NCConfig {
 		Property propertyRegisterProjectEEMC = config.get(CATEGORY_OTHER, "register_projecte_emc", true, Lang.localise("gui.nc.config.other.register_projecte_emc.comment"));
 		propertyRegisterProjectEEMC.setLanguageKey("gui.nc.config.other.register_projecte_emc");
 		
+		Property propertyOreDictRawMaterialRecipes = config.get(CATEGORY_OTHER, "ore_dict_raw_material_recipes", false, Lang.localise("gui.nc.config.other.ore_dict_raw_material_recipes.comment"));
+		propertyOreDictRawMaterialRecipes.setLanguageKey("gui.nc.config.other.ore_dict_raw_material_recipes");
 		Property propertyOreDictPriorityBool = config.get(CATEGORY_OTHER, "ore_dict_priority_bool", true, Lang.localise("gui.nc.config.other.ore_dict_priority_bool.comment"));
 		propertyOreDictPriorityBool.setLanguageKey("gui.nc.config.other.ore_dict_priority_bool");
 		Property propertyOreDictPriority = config.get(CATEGORY_OTHER, "ore_dict_priority", new String[] {"minecraft", "thermalfoundation", "techreborn", "nuclearcraft", "immersiveengineering", "mekanism", "ic2", "appliedenergistics2", "refinedstorage", "actuallyadditions", "advancedRocketry", "thaumcraft", "biomesoplenty"}, Lang.localise("gui.nc.config.other.ore_dict_priority.comment"));
@@ -1111,8 +1114,8 @@ public class NCConfig {
 		propertyOrderRadiation.add(propertyRadiationDecayRate.getName());
 		propertyOrderRadiation.add(propertyRadiationLowestRate.getName());
 		propertyOrderRadiation.add(propertyRadiationChunkLimit.getName());
-		propertyOrderRadiation.add(propertyRadiationBlockEffects.getName());
-		propertyOrderRadiation.add(propertyRadiationBlockEffectLimit.getName());
+		//propertyOrderRadiation.add(propertyRadiationBlockEffects.getName());
+		//propertyOrderRadiation.add(propertyRadiationBlockEffectLimit.getName());
 		propertyOrderRadiation.add(propertyRadiationBlockEffectMaxRate.getName());
 		propertyOrderRadiation.add(propertyRadiationRainMult.getName());
 		propertyOrderRadiation.add(propertyRadiationSwimMult.getName());
@@ -1129,7 +1132,7 @@ public class NCConfig {
 		propertyOrderRadiation.add(propertyRadiationTileShielding.getName());
 		propertyOrderRadiation.add(propertyRadiationScrubberRate.getName());
 		propertyOrderRadiation.add(propertyRadiationScrubberRadius.getName());
-		propertyOrderRadiation.add(propertyRadiationScrubberAlt.getName());
+		propertyOrderRadiation.add(propertyRadiationScrubberNonLinear.getName());
 		propertyOrderRadiation.add(propertyRadiationScrubberParam.getName());
 		propertyOrderRadiation.add(propertyRadiationScrubberPower.getName());
 		propertyOrderRadiation.add(propertyRadiationScrubberBoraxRate.getName());
@@ -1180,6 +1183,7 @@ public class NCConfig {
 		propertyOrderOther.add(propertyRegisterFluidBlocks.getName());
 		propertyOrderOther.add(propertyRegisterCoFHFluids.getName());
 		propertyOrderOther.add(propertyRegisterProjectEEMC.getName());
+		propertyOrderOther.add(propertyOreDictRawMaterialRecipes.getName());
 		propertyOrderOther.add(propertyOreDictPriorityBool.getName());
 		propertyOrderOther.add(propertyOreDictPriority.getName());
 		config.setCategoryPropertyOrder(CATEGORY_OTHER, propertyOrderOther);
@@ -1386,8 +1390,8 @@ public class NCConfig {
 			radiation_lowest_rate = propertyRadiationLowestRate.getDouble();
 			radiation_chunk_limit = propertyRadiationChunkLimit.getDouble();
 			
-			radiation_block_effects = propertyRadiationBlockEffects.getStringList();
-			radiation_block_effect_limit = propertyRadiationBlockEffectLimit.getDouble();
+			//radiation_block_effects = propertyRadiationBlockEffects.getStringList();
+			//radiation_block_effect_limit = propertyRadiationBlockEffectLimit.getDouble();
 			radiation_block_effect_max_rate = propertyRadiationBlockEffectMaxRate.getInt();
 			radiation_rain_mult = propertyRadiationRainMult.getDouble();
 			radiation_swim_mult = propertyRadiationSwimMult.getDouble();
@@ -1405,7 +1409,7 @@ public class NCConfig {
 			radiation_tile_shielding = propertyRadiationTileShielding.getBoolean();
 			radiation_scrubber_fraction = propertyRadiationScrubberRate.getDouble();
 			radiation_scrubber_radius = propertyRadiationScrubberRadius.getInt();
-			radiation_scrubber_alt = propertyRadiationScrubberAlt.getBoolean();
+			radiation_scrubber_non_linear = propertyRadiationScrubberNonLinear.getBoolean();
 			radiation_scrubber_param = readDoubleArrayFromConfig(propertyRadiationScrubberParam);
 			radiation_scrubber_power = propertyRadiationScrubberPower.getInt();
 			radiation_scrubber_borax_rate = propertyRadiationScrubberBoraxRate.getInt();
@@ -1460,6 +1464,7 @@ public class NCConfig {
 			register_fission_fluid_blocks = propertyRegisterFluidBlocks.getBoolean();
 			register_cofh_fluids = propertyRegisterCoFHFluids.getBoolean();
 			register_projecte_emc = propertyRegisterProjectEEMC.getBoolean();
+			ore_dict_raw_material_recipes = propertyOreDictRawMaterialRecipes.getBoolean();
 			ore_dict_priority_bool = propertyOreDictPriorityBool.getBoolean();
 			ore_dict_priority = propertyOreDictPriority.getStringList();
 		}
@@ -1664,8 +1669,8 @@ public class NCConfig {
 		propertyRadiationLowestRate.set(radiation_lowest_rate);
 		propertyRadiationChunkLimit.set(radiation_chunk_limit);
 		
-		propertyRadiationBlockEffects.set(radiation_block_effects);
-		propertyRadiationBlockEffectLimit.set(radiation_block_effect_limit);
+		//propertyRadiationBlockEffects.set(radiation_block_effects);
+		//propertyRadiationBlockEffectLimit.set(radiation_block_effect_limit);
 		propertyRadiationBlockEffectMaxRate.set(radiation_block_effect_max_rate);
 		propertyRadiationRainMult.set(radiation_rain_mult);
 		propertyRadiationSwimMult.set(radiation_swim_mult);
@@ -1683,7 +1688,7 @@ public class NCConfig {
 		propertyRadiationTileShielding.set(radiation_tile_shielding);
 		propertyRadiationScrubberRate.set(radiation_scrubber_fraction);
 		propertyRadiationScrubberRadius.set(radiation_scrubber_radius);
-		propertyRadiationScrubberAlt.set(radiation_scrubber_alt);
+		propertyRadiationScrubberNonLinear.set(radiation_scrubber_non_linear);
 		propertyRadiationScrubberParam.set(radiation_scrubber_param);
 		propertyRadiationScrubberPower.set(radiation_scrubber_power);
 		propertyRadiationScrubberBoraxRate.set(radiation_scrubber_borax_rate);
@@ -1737,6 +1742,7 @@ public class NCConfig {
 		propertyRegisterFluidBlocks.set(register_fission_fluid_blocks);
 		propertyRegisterCoFHFluids.set(register_cofh_fluids);
 		propertyRegisterProjectEEMC.set(register_projecte_emc);
+		propertyOreDictRawMaterialRecipes.set(ore_dict_raw_material_recipes);
 		propertyOreDictPriorityBool.set(ore_dict_priority_bool);
 		propertyOreDictPriority.set(ore_dict_priority);
 		

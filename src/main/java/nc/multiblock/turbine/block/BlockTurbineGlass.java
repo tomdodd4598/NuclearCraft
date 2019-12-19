@@ -9,7 +9,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockTurbineGlass extends BlockTurbinePartBase.Transparent {
+public class BlockTurbineGlass extends BlockTurbinePart.Transparent {
 
 	public BlockTurbineGlass() {
 		super(true);

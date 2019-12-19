@@ -26,7 +26,7 @@ Object[] getModeratorStats() -> {{{posX, posY, posZ}, isInValidPosition, isInMod
 
 void activate()
 void deactivate()
-void clearAll()
+void clearAllMaterial()
 ___________________________________________________________________________________________________________________________
 
  Heat Exchanger - component.nc_heat_exchanger:
@@ -46,7 +46,7 @@ Object[] getCondensationTubeStats() -> {{{posX, posY, posZ}, conductivity, isPro
 
 void activate()
 void deactivate()
-void clearAll()
+void clearAllMaterial()
 ___________________________________________________________________________________________________________________________
 
  Turbine - component.nc_turbine:
@@ -74,7 +74,7 @@ Object[] getDynamoCoilStats() -> {{{posX, posY, posZ}, coilType, isInValidPositi
 
 void activate()
 void deactivate()
-void clearAll()
+void clearAllMaterial()
 ___________________________________________________________________________________________________________________________
 
  Geiger Counter - component.nc_geiger_counter:

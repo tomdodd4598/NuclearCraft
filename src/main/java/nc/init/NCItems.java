@@ -163,7 +163,7 @@ public class NCItems {
 		
 		geiger_counter = withName(new ItemGeigerCounter(), "geiger_counter");
 		rad_shielding = withName(new ItemRadShielding(NCInfo.radShieldingInfo()), "rad_shielding");
-		radiation_badge = withName(new ItemRadiationBadge(InfoHelper.formattedInfo(infoLine("radiation_badge"), UnitHelper.prefix(NCConfig.radiation_badge_durability*NCConfig.radiation_badge_info_rate, 3, "Rads"), UnitHelper.prefix(NCConfig.radiation_badge_durability, 3, "Rads"))), "radiation_badge");
+		radiation_badge = withName(new ItemRadiationBadge(InfoHelper.formattedInfo(infoLine("radiation_badge"), UnitHelper.prefix(NCConfig.radiation_badge_durability*NCConfig.radiation_badge_info_rate, 3, "Rad"), UnitHelper.prefix(NCConfig.radiation_badge_durability, 3, "Rad"))), "radiation_badge");
 		
 		radaway = withName(new ItemRadaway(false, InfoHelper.formattedInfo(infoLine("radaway"), RadiationHelper.radsPrefix(NCConfig.radiation_radaway_amount, false), Math.round(100D*NCConfig.radiation_radaway_amount/NCConfig.max_player_rads) + "%", RadiationHelper.radsPrefix(NCConfig.radiation_radaway_rate, true))), "radaway");
 		radaway_slow = withName(new ItemRadaway(true, InfoHelper.formattedInfo(infoLine("radaway"), RadiationHelper.radsPrefix(NCConfig.radiation_radaway_slow_amount, false), Math.round(100D*NCConfig.radiation_radaway_slow_amount/NCConfig.max_player_rads) + "%", RadiationHelper.radsPrefix(NCConfig.radiation_radaway_slow_rate, true))), "radaway_slow");

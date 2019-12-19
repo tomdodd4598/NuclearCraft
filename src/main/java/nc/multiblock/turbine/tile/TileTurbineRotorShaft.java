@@ -7,7 +7,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class TileTurbineRotorShaft extends TileTurbinePartBase {
+public class TileTurbineRotorShaft extends TileTurbinePart {
 	
 	public boolean render = false;
 	public int depth = 0;

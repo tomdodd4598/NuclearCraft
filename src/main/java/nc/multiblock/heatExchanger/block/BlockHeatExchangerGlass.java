@@ -9,7 +9,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockHeatExchangerGlass extends BlockHeatExchangerPartBase.Transparent {
+public class BlockHeatExchangerGlass extends BlockHeatExchangerPart.Transparent {
 
 	public BlockHeatExchangerGlass() {
 		super(true);

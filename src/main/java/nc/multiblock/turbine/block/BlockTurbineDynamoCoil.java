@@ -22,7 +22,7 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockTurbineDynamoCoil extends BlockTurbinePartBase implements IBlockMeta {
+public class BlockTurbineDynamoCoil extends BlockTurbinePart implements IBlockMeta {
 	
 	private final static PropertyEnum TYPE = PropertyEnum.create("type", TurbineDynamoCoilType.class);
 

@@ -1,5 +1,7 @@
 package nc.integration.tconstruct;
 
+import java.util.Locale;
+
 import nc.util.FluidStackHelper;
 import nc.util.OreDictHelper;
 import net.minecraft.item.ItemStack;
@@ -36,17 +38,17 @@ public class TConstructExtras {
 	}
 	
 	private static void registerMelting(String inputName, String fluidName, int fluidAmount) {
-		if (FluidRegistry.getFluid(fluidName.toLowerCase()) == null) return;
-		TinkerRegistry.registerMelting(inputName, FluidRegistry.getFluid(fluidName.toLowerCase()), fluidAmount);
+		if (FluidRegistry.getFluid(fluidName.toLowerCase(Locale.ROOT)) == null) return;
+		TinkerRegistry.registerMelting(inputName, FluidRegistry.getFluid(fluidName.toLowerCase(Locale.ROOT)), fluidAmount);
 	}
 	
 	private static void registerTableCasting(ItemStack output, ItemStack cast, String fluidIn, int fluidAmount) {
-		if (output == null || output.isEmpty() || FluidRegistry.getFluid(fluidIn.toLowerCase()) == null) return;
-		TinkerRegistry.registerTableCasting(new CastingRecipe(output, cast == null ? null : RecipeMatch.of(cast), FluidRegistry.getFluid(fluidIn.toLowerCase()), fluidAmount));
+		if (output == null || output.isEmpty() || FluidRegistry.getFluid(fluidIn.toLowerCase(Locale.ROOT)) == null) return;
+		TinkerRegistry.registerTableCasting(new CastingRecipe(output, cast == null ? null : RecipeMatch.of(cast), FluidRegistry.getFluid(fluidIn.toLowerCase(Locale.ROOT)), fluidAmount));
 	}
 	
 	private static void registerBasinCasting(ItemStack output, ItemStack cast, String fluidIn, int fluidAmount) {
-		if (output == null || output.isEmpty() || FluidRegistry.getFluid(fluidIn.toLowerCase()) == null) return;
-		TinkerRegistry.registerBasinCasting(new CastingRecipe(output, cast == null ? null : RecipeMatch.of(cast), FluidRegistry.getFluid(fluidIn.toLowerCase()), fluidAmount));
+		if (output == null || output.isEmpty() || FluidRegistry.getFluid(fluidIn.toLowerCase(Locale.ROOT)) == null) return;
+		TinkerRegistry.registerBasinCasting(new CastingRecipe(output, cast == null ? null : RecipeMatch.of(cast), FluidRegistry.getFluid(fluidIn.toLowerCase(Locale.ROOT)), fluidAmount));
 	}
 }

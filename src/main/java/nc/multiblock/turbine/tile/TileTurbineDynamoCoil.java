@@ -34,7 +34,7 @@ import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.fml.common.Optional;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "ic2.api.energy.tile.IEnergyTile", modid = "ic2"), @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "ic2"), @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySource", modid = "ic2")})
-public abstract class TileTurbineDynamoCoil extends TileTurbinePartBase implements ITileEnergy, IEnergySource {
+public abstract class TileTurbineDynamoCoil extends TileTurbinePart implements ITileEnergy, IEnergySource {
 	
 	protected final EnergyStorage backupStorage = new EnergyStorage(1);
 	
@@ -182,7 +182,7 @@ public abstract class TileTurbineDynamoCoil extends TileTurbinePartBase implemen
 		cache.add(this);
 		
 		for (EnumFacing dir : EnumFacing.VALUES) {
-			TileTurbineDynamoCoil dynamoCoil = getMultiblock().getDynamoCoilMap().get(getTilePos().offset(dir).toLong());
+			TileTurbineDynamoCoil dynamoCoil = getMultiblock().getPartMap(TileTurbineDynamoCoil.class).get(getTilePos().offset(dir).toLong());
 			if (dynamoCoil != null) dynamoCoil.dynamoSearch(cache);
 		}
 	}
@@ -195,11 +195,11 @@ public abstract class TileTurbineDynamoCoil extends TileTurbinePartBase implemen
 	protected abstract boolean checkDynamoCoilValid();
 	
 	protected boolean isRotorBearing(BlockPos pos) {
-		return getMultiblock().getRotorBearingMap().get(pos.toLong()) != null;
+		return getMultiblock().getPartMap(TileTurbineRotorBearing.class).get(pos.toLong()) != null;
 	}
 	
 	protected boolean isDynamoCoil(BlockPos pos, String coilName) {
-		TileTurbineDynamoCoil dynamoCoil = getMultiblock().getDynamoCoilMap().get(pos.toLong());
+		TileTurbineDynamoCoil dynamoCoil = getMultiblock().getPartMap(TileTurbineDynamoCoil.class).get(pos.toLong());
 		return dynamoCoil == null ? false : dynamoCoil.isInValidPosition && dynamoCoil.coilName.equals(coilName);
 	}
 	
@@ -273,7 +273,7 @@ public abstract class TileTurbineDynamoCoil extends TileTurbinePartBase implemen
 		if (!getEnergyConnection(side).canExtract() || getEnergyStorage().getEnergyStored() == 0) return;
 		
 		TileEntity tile = getTileWorld().getTileEntity(getTilePos().offset(side));
-		if (tile == null || tile instanceof TileTurbinePartBase) return;
+		if (tile == null || tile instanceof TileTurbinePart) return;
 		
 		if (tile instanceof ITileEnergy) if (!((ITileEnergy)tile).getEnergyConnection(side.getOpposite()).canReceive()) return;
 		if (tile instanceof ITilePassive) if (!((ITilePassive)tile).canPushEnergyTo()) return;
@@ -293,7 +293,7 @@ public abstract class TileTurbineDynamoCoil extends TileTurbinePartBase implemen
 				return;
 			}
 		}
-		if (ModCheck.gregtechLoaded()) {
+		if (NCConfig.enable_gtce_eu && ModCheck.gregtechLoaded()) {
 			IEnergyContainer adjStorageGT = tile.getCapability(GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER, side.getOpposite());
 			if (adjStorageGT != null && getEnergyStorage().canExtract()) {
 				int voltage = MathHelper.clamp(getEnergyStorage().getEnergyStored()/NCConfig.rf_per_eu, 1, EnergyHelper.getMaxEUFromTier(getEUSourceTier()));

@@ -278,10 +278,10 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ITileIn
 		else if (OreDictHelper.isOreMember(stack, "ingotUranium")) return 320;
 		else if (OreDictHelper.isOreMember(stack, "dustThorium")) return 320;
 		else if (OreDictHelper.isOreMember(stack, "dustUranium")) return 320;
+		else if (OreDictHelper.isOreMember(stack, "ingotThoriumCarbide")) return 480;
 		else if (OreDictHelper.isOreMember(stack, "ingotThoriumOxide")) return 480;
-		else if (OreDictHelper.isOreMember(stack, "ingotUraniumOxide")) return 480;
-		else if (OreDictHelper.isOreMember(stack, "dustThoriumOxide")) return 480;
-		else if (OreDictHelper.isOreMember(stack, "dustUraniumOxide")) return 480;
+		else if (OreDictHelper.isOreMember(stack, "ingotThoriumNitride")) return 480;
+		else if (OreDictHelper.isOreMember(stack, "ingotThoriumZA")) return 480;
 		else return 0;
 	}
 	

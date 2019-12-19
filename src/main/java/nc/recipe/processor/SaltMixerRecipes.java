@@ -1,6 +1,6 @@
 package nc.recipe.processor;
 
-import com.google.common.collect.Lists;
+import static nc.util.FissionHelper.FUEL_FLUID;
 
 import nc.recipe.ProcessorRecipeHandler;
 import nc.util.FluidStackHelper;
@@ -19,8 +19,8 @@ public class SaltMixerRecipes extends ProcessorRecipeHandler {
 		addRecipe(fluidStack("boron11", FluidStackHelper.INGOT_VOLUME), fluidStack("boron10", FluidStackHelper.NUGGET_VOLUME*3), fluidStack("boron", FluidStackHelper.INGOT_VOLUME), 1D, 1D);
 		addRecipe(fluidStack("lithium7", FluidStackHelper.INGOT_VOLUME), fluidStack("lithium6", FluidStackHelper.NUGGET_VOLUME*3), fluidStack("lithium", FluidStackHelper.INGOT_VOLUME), 1D, 1D);
 		
-		addRecipe(fluidStack("steel", FluidStackHelper.INGOT_VOLUME/2), fluidStackList(Lists.newArrayList("boron", "boron10", "boron11"), FluidStackHelper.INGOT_VOLUME/2), fluidStack("ferroboron", FluidStackHelper.INGOT_VOLUME), 1D, 1D);
-		addRecipe(fluidStack("ferroboron", FluidStackHelper.INGOT_VOLUME/2), fluidStackList(Lists.newArrayList("lithium", "lithium6", "lithium7"), FluidStackHelper.INGOT_VOLUME/2), fluidStack("tough", FluidStackHelper.INGOT_VOLUME), 1D, 1D);
+		addRecipe(fluidStack("steel", FluidStackHelper.INGOT_VOLUME/2), fluidStack("boron", FluidStackHelper.INGOT_VOLUME/2), fluidStack("ferroboron", FluidStackHelper.INGOT_VOLUME), 1D, 1D);
+		addRecipe(fluidStack("ferroboron", FluidStackHelper.INGOT_VOLUME/2), fluidStack("lithium", FluidStackHelper.INGOT_VOLUME/2), fluidStack("tough", FluidStackHelper.INGOT_VOLUME), 1D, 1D);
 		addRecipe(fluidStack("coal", FluidStackHelper.COAL_DUST_VOLUME), fluidStack("diamond", FluidStackHelper.GEM_VOLUME/2), fluidStack("hardCarbon", FluidStackHelper.INGOT_VOLUME), 1D, 1D);
 		
 		addRecipe(fluidStack("lead_platinum", FluidStackHelper.INGOT_VOLUME), fluidStack("ender", FluidStackHelper.EUM_DUST_VOLUME), fluidStack("enderium", FluidStackHelper.INGOT_VOLUME), 1D, 1D);
@@ -50,41 +50,20 @@ public class SaltMixerRecipes extends ProcessorRecipeHandler {
 		addCoolantNAKRecipe("tin", FluidStackHelper.INGOT_VOLUME*4);
 		addCoolantNAKRecipe("magnesium", FluidStackHelper.INGOT_VOLUME*4);
 		
-		addFuelIsotopeRecipes("eu", "uranium", 238, 233, 235);
-		addFuelIsotopeRecipes("en", "neptunium", 237, 236);
-		addFuelIsotopeRecipes("ep", "plutonium", 242, 239, 241);
-		addFuelIsotopeRecipes("ea", "americium", 243, 242);
-		addFuelIsotopeRecipes("ecm", "curium", 246, 243, 245, 247);
-		addFuelIsotopeRecipes("eb", "berkelium", 247, 248);
-		addFuelIsotopeRecipes("ecf", "californium", 252, 249, 251);
+		//addRecipe(fluidStack("uranium_238", FluidStackHelper.INGOT_VOLUME), fluidStack("uranium_235", FluidStackHelper.NUGGET_VOLUME), fluidStack("uranium", FluidStackHelper.NUGGET_VOLUME*10), 10D/9D, 1D);
 		
-		addElementFLIBERecipes("thorium", "uranium", "plutonium");
+		addFuelIsotopeRecipes("u", "uranium", 238, 233, 235);
+		addFuelIsotopeRecipes("n", "neptunium", 237, 236);
+		addFuelIsotopeRecipes("p", "plutonium", 242, 239, 241);
+		for (int fissile : new int[] {239, 241}) {
+			addRecipe(fluidStack("uranium_238", FluidStackHelper.NUGGET_VOLUME*8), fluidStack("plutonium_" + fissile, FluidStackHelper.NUGGET_VOLUME), fluidStack("fuel_mix_" + fissile, FluidStackHelper.INGOT_VOLUME), 1D, 1D);
+		}
+		addFuelIsotopeRecipes("a", "americium", 243, 242);
+		addFuelIsotopeRecipes("cm", "curium", 246, 243, 245, 247);
+		addFuelIsotopeRecipes("b", "berkelium", 247, 248);
+		addFuelIsotopeRecipes("cf", "californium", 252, 249, 251);
 		
-		addRecipe(fluidStack("fuel_tbu", FluidStackHelper.INGOT_VOLUME), fluidStack("thorium_230", FluidStackHelper.NUGGET_VOLUME), fluidStack("thorium", FluidStackHelper.INGOT_VOLUME), 1D, 1D);
-		addRecipe(fluidStack("fuel_tbu_fluoride", FluidStackHelper.INGOT_VOLUME), fluidStack("thorium_230_fluoride", FluidStackHelper.NUGGET_VOLUME), fluidStack("thorium_fluoride", FluidStackHelper.INGOT_VOLUME), 1D, 1D);
-		addRecipe(fluidStack("fuel_tbu_fluoride_flibe", FluidStackHelper.INGOT_VOLUME), fluidStack("thorium_230_fluoride_flibe", FluidStackHelper.NUGGET_VOLUME), fluidStack("thorium_fluoride_flibe", FluidStackHelper.INGOT_VOLUME), 1D, 1D);
-
-		//addIsotopeMixRecipes("uranium", 238, 235);
-		//addIsotopeMixRecipes("plutonium", 239, 242);
-		
-		addIsotopeFLIBERecipes("thorium", 230);
-		addIsotopeFLIBERecipes("uranium", 233, 235, 238);
-		addIsotopeFLIBERecipes("neptunium", 236, 237);
-		addIsotopeFLIBERecipes("plutonium", 238, 239, 241, 242);
-		addIsotopeFLIBERecipes("americium", 241, 242, 243);
-		addIsotopeFLIBERecipes("curium", 243, 245, 246, 247);
-		addIsotopeFLIBERecipes("berkelium", 247, 248);
-		addIsotopeFLIBERecipes("californium", 249, 250, 251, 252);
-		
-		addRecipe(fluidStack("fuel_tbu_fluoride", FluidStackHelper.INGOT_VOLUME), fluidStack("flibe", FluidStackHelper.INGOT_VOLUME), fluidStack("fuel_tbu_fluoride_flibe", FluidStackHelper.INGOT_VOLUME*2), 1D, 1D);
-		addRecipe(fluidStack("depleted_fuel_tbu_fluoride", FluidStackHelper.INGOT_VOLUME), fluidStack("flibe", FluidStackHelper.INGOT_VOLUME), fluidStack("depleted_fuel_tbu_fluoride_flibe", FluidStackHelper.INGOT_VOLUME*2), 1D, 1D);
-		addFissionFuelFLIBERecipes("eu", 233, 235);
-		addFissionFuelFLIBERecipes("en", 236);
-		addFissionFuelFLIBERecipes("ep", 239, 241);
-		addFissionFuelFLIBERecipes("ea", 242);
-		addFissionFuelFLIBERecipes("ecm", 243, 245, 247);
-		addFissionFuelFLIBERecipes("eb", 248);
-		addFissionFuelFLIBERecipes("ecf", 249, 251);
+		addFissionFuelFLIBERecipes();
 	}
 	
 	public void addCoolantNAKRecipe(String name, int amount) {
@@ -92,29 +71,17 @@ public class SaltMixerRecipes extends ProcessorRecipeHandler {
 	}
 	
 	public void addFuelIsotopeRecipes(String suffix, String element, int fertile, int... fissiles) {
-		for (String type : new String[] {"", "_fluoride", "_fluoride_flibe"}) for (int fissile : fissiles) {
-			addRecipe(fluidStack(element + "_" + fertile + type, FluidStackHelper.NUGGET_VOLUME*8), fluidStack(element + "_" + fissile + type, FluidStackHelper.NUGGET_VOLUME), fluidStack("fuel_l" + suffix + "_" + fissile + type, FluidStackHelper.INGOT_VOLUME), 1D, 1D);
-			addRecipe(fluidStack("fuel_l" + suffix + "_" + fissile + type, FluidStackHelper.NUGGET_VOLUME*5), fluidStack(element + "_" + fissile + type, FluidStackHelper.NUGGET_VOLUME*3), fluidStack("fuel_h" + suffix + "_" + fissile + type, FluidStackHelper.NUGGET_VOLUME*8), 0.5D, 1D);
+		for (int fissile : fissiles) {
+			addRecipe(fluidStack(element + "_" + fertile, FluidStackHelper.NUGGET_VOLUME*8), fluidStack(element + "_" + fissile, FluidStackHelper.NUGGET_VOLUME), fluidStack("fuel_le" + suffix + "_" + fissile, FluidStackHelper.INGOT_VOLUME), 1D, 1D);
+			addRecipe(fluidStack("fuel_le" + suffix + "_" + fissile, FluidStackHelper.NUGGET_VOLUME*3), fluidStack(element + "_" + fissile, FluidStackHelper.NUGGET_VOLUME), fluidStack("fuel_he" + suffix + "_" + fissile, FluidStackHelper.NUGGET_VOLUME*4), 0.5D, 1D);
 		}
 	}
 	
-	public void addElementFLIBERecipes(String... elements) {
-		for (String element : elements) addRecipe(fluidStack(element + "_fluoride", FluidStackHelper.INGOT_VOLUME), fluidStack("flibe", FluidStackHelper.INGOT_VOLUME), fluidStack(element + "_fluoride_flibe", FluidStackHelper.INGOT_VOLUME*2), 1D, 1D);
-	}
-	
-	public void addIsotopeMixRecipes(String element, int major, int minor) {
-		addRecipe(fluidStack(element + "_" + major, FluidStackHelper.INGOT_VOLUME), fluidStack(element + "_" + minor, FluidStackHelper.NUGGET_VOLUME), fluidStack(element, FluidStackHelper.INGOT_VOLUME), 1D, 1D);
-		addRecipe(fluidStack(element + "_" + major + "_fluoride", FluidStackHelper.INGOT_VOLUME), fluidStack(element + "_" + minor + "_fluoride", FluidStackHelper.NUGGET_VOLUME), fluidStack(element + "_fluoride", FluidStackHelper.INGOT_VOLUME), 1D, 1D);
-		addRecipe(fluidStack(element + "_" + major + "_fluoride_flibe", FluidStackHelper.INGOT_VOLUME), fluidStack(element + "_" + minor + "_fluoride_flibe", FluidStackHelper.NUGGET_VOLUME), fluidStack(element + "_fluoride_flibe", FluidStackHelper.INGOT_VOLUME), 1D, 1D);
-	}
-	
-	public void addIsotopeFLIBERecipes(String element, int... types) {
-		for (int type : types) addRecipe(fluidStack(element + "_" + type + "_fluoride", FluidStackHelper.INGOT_VOLUME), fluidStack("flibe", FluidStackHelper.INGOT_VOLUME), fluidStack(element + "_" + type + "_fluoride_flibe", FluidStackHelper.INGOT_VOLUME*2), 1D, 1D);
-	}
-	
-	public void addFissionFuelFLIBERecipes(String suffix, int... types) {
-		for (int type : types) for (String form : new String[] {"fuel_l", "fuel_h", "depleted_fuel_l", "depleted_fuel_h"}) {
-			addRecipe(fluidStack(form + suffix + "_" + type + "_fluoride", FluidStackHelper.INGOT_VOLUME), fluidStack("flibe", FluidStackHelper.INGOT_VOLUME), fluidStack(form + suffix + "_" + type + "_fluoride_flibe", FluidStackHelper.INGOT_VOLUME*2), 1D, 1D);
+	public void addFissionFuelFLIBERecipes() {
+		for (int i = 0; i < FUEL_FLUID.length; i++) {
+			for (String form : new String[] {"fuel_"/*, "depleted_fuel_"*/}) {
+				addRecipe(fluidStack(form + FUEL_FLUID[i] + "_fluoride", FluidStackHelper.INGOT_VOLUME), fluidStack("flibe", FluidStackHelper.INGOT_VOLUME), fluidStack(form + FUEL_FLUID[i] + "_fluoride_flibe", FluidStackHelper.INGOT_VOLUME), 1D, 1D);
+			}
 		}
 	}
 }

@@ -13,7 +13,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockFissionCasing extends BlockFissionPartBase {
+public class BlockFissionCasing extends BlockFissionPart {
 	
 	public BlockFissionCasing() {
 		super();

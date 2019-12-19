@@ -2,28 +2,20 @@ package nc.multiblock.fission.solid.block;
 
 import nc.block.property.ISidedProperty;
 import nc.block.property.PropertySidedEnum;
-import nc.multiblock.fission.block.BlockFissionPartBase;
+import nc.multiblock.fission.block.BlockFissionPart;
 import nc.multiblock.fission.solid.SolidFissionCellSetting;
 import nc.multiblock.fission.solid.tile.TileSolidFissionCell;
-import nc.tile.internal.inventory.InventoryConnection;
-import nc.util.Lang;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockSolidFissionCell extends BlockFissionPartBase implements ISidedProperty<SolidFissionCellSetting> {
+public class BlockSolidFissionCell extends BlockFissionPart implements ISidedProperty<SolidFissionCellSetting> {
 
-	private static EnumFacing placementSide = null;
+	//private static EnumFacing placementSide = null;
 	
 	public BlockSolidFissionCell() {
 		super();
@@ -64,7 +56,7 @@ public class BlockSolidFissionCell extends BlockFissionPartBase implements ISide
 		return 0;
 	}
 	
-	@Override
+	/*@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if (hand != EnumHand.MAIN_HAND || player == null) return false;
 		
@@ -103,5 +95,5 @@ public class BlockSolidFissionCell extends BlockFissionPartBase implements ISide
 			vessel.setCellSettings(other.getCellSettings().clone());
 			vessel.markDirtyAndNotify();
 		}
-	}
+	}*/
 }

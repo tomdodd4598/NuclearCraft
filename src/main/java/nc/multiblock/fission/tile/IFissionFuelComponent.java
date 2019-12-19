@@ -4,7 +4,10 @@ import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
 import it.unimi.dsi.fastutil.longs.LongSet;
 import nc.config.NCConfig;
 import nc.multiblock.fission.FissionReactor;
-import nc.multiblock.fission.FissionReactorType;
+import nc.multiblock.fission.salt.MoltenSaltFissionLogic;
+import nc.multiblock.fission.salt.tile.TileSaltFissionVessel;
+import nc.multiblock.fission.solid.SolidFuelFissionLogic;
+import nc.multiblock.fission.solid.tile.TileSolidFissionCell;
 import nc.recipe.NCRecipes;
 import nc.recipe.ProcessorRecipe;
 import net.minecraft.util.EnumFacing;
@@ -80,10 +83,7 @@ public interface IFissionFuelComponent extends IFissionComponent {
 		}
 		else return;
 		
-		if (getMultiblock().type == FissionReactorType.PEBBLE_BED) {
-			
-		}
-		else {
+		if (getMultiblock().getLogic() instanceof SolidFuelFissionLogic || getMultiblock().getLogic() instanceof MoltenSaltFissionLogic) {
 			dirLoop: for (EnumFacing dir : EnumFacing.VALUES) {
 				BlockPos offPos = getTilePos().offset(dir);
 				ProcessorRecipe recipe = blockRecipe(NCRecipes.fission_moderator, offPos);
@@ -102,7 +102,7 @@ public interface IFissionFuelComponent extends IFissionComponent {
 							moderatorEfficiency += recipe.getFissionModeratorEfficiency();
 						}
 						else {
-							IFissionFuelComponent fuelComponent = getMultiblock().type == FissionReactorType.SOLID_FUEL ? getMultiblock().getCellMap().get(offPos.toLong()) : getMultiblock().getVesselMap().get(offPos.toLong());
+							IFissionFuelComponent fuelComponent = getMultiblock().getLogic() instanceof SolidFuelFissionLogic ? getMultiblock().getPartMap(TileSolidFissionCell.class).get(offPos.toLong()) : getMultiblock().getPartMap(TileSaltFissionVessel.class).get(offPos.toLong());
 							if (fuelComponent != null) {
 								fuelComponent.addFlux(moderatorFlux);
 								fuelComponent.getModeratorLineEfficiencies()[dir.getOpposite().getIndex()] = moderatorEfficiency/(i - 1);
@@ -152,10 +152,7 @@ public interface IFissionFuelComponent extends IFissionComponent {
 	public default void refreshLocal() {
 		if (!isFunctional()) return;
 		
-		if (getMultiblock().type == FissionReactorType.PEBBLE_BED) {
-			
-		}
-		else {
+		if (getMultiblock().getLogic() instanceof SolidFuelFissionLogic || getMultiblock().getLogic() instanceof MoltenSaltFissionLogic) {
 			for (EnumFacing dir : EnumFacing.VALUES) {
 				IFissionFuelComponent fuelComponent = getAdjacentFuelComponents()[dir.getIndex()];
 				if (fuelComponent != null && fuelComponent.isFunctional()) {
@@ -179,10 +176,8 @@ public interface IFissionFuelComponent extends IFissionComponent {
 	public default void refreshModerators() {
 		if (!isFunctional()) return;
 		
-		if (getMultiblock().type == FissionReactorType.PEBBLE_BED) {
-			
-		}
-		else {
+		if (getMultiblock().getLogic() instanceof SolidFuelFissionLogic || getMultiblock().getLogic() instanceof MoltenSaltFissionLogic) {
+
 			for (EnumFacing dir : EnumFacing.VALUES) {
 				IFissionFuelComponent fuelComponent = getAdjacentFuelComponents()[dir.getIndex()];
 				if (fuelComponent != null && fuelComponent.isFunctional()) {
@@ -194,6 +189,4 @@ public interface IFissionFuelComponent extends IFissionComponent {
 			}
 		}
 	}
-	
-	public void doMeltdown();
 }

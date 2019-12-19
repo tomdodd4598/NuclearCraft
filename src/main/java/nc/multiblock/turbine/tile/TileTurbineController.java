@@ -4,6 +4,7 @@ import static nc.block.property.BlockProperties.FACING_ALL;
 
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.turbine.Turbine;
+import nc.multiblock.turbine.TurbineLogic;
 import nc.multiblock.turbine.block.BlockTurbineController;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -13,12 +14,22 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class TileTurbineController extends TileTurbinePartBase {
+public class TileTurbineController extends TileTurbinePart implements ITurbineController {
 	
 	public boolean isRenderer = false;
 	
 	public TileTurbineController() {
 		super(CuboidalPartPositionType.WALL);
+	}
+	
+	@Override
+	public Class<? extends TurbineLogic> getLogicClass() {
+		return TurbineLogic.class;
+	}
+	
+	@Override
+	public TurbineLogic createNewLogic(TurbineLogic oldLogic) {
+		return new TurbineLogic(oldLogic);
 	}
 	
 	@Override
@@ -54,13 +65,24 @@ public class TileTurbineController extends TileTurbinePartBase {
 	@Override
 	public void onBlockNeighborChanged(IBlockState state, World world, BlockPos pos, BlockPos fromPos) {
 		super.onBlockNeighborChanged(state, world, pos, fromPos);
-		if (getMultiblock() != null) getMultiblock().setIsTurbineOn();
+		if (getMultiblock() != null) getMultiblock().getLogic().setIsTurbineOn();
 	}
 	
+	@Override
 	public void updateBlockState(boolean isActive) {
 		if (getBlockType() instanceof BlockTurbineController) {
 			((BlockTurbineController)getBlockType()).setState(isActive, this);
 			world.notifyNeighborsOfStateChange(pos, getBlockType(), true);
 		}
+	}
+	
+	@Override
+	public boolean isRenderer() {
+		return isRenderer;
+	}
+	
+	@Override
+	public void setIsRenderer(boolean isRenderer) {
+		this.isRenderer = isRenderer;
 	}
 }

@@ -9,7 +9,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockTurbineComputerPort extends BlockTurbinePartBase {
+public class BlockTurbineComputerPort extends BlockTurbinePart {
 
 	public BlockTurbineComputerPort() {
 		super();

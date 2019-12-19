@@ -15,7 +15,7 @@ import nc.multiblock.fission.FissionCluster;
 import nc.multiblock.fission.FissionReactor;
 import nc.multiblock.fission.salt.SaltFissionHeaterSetting;
 import nc.multiblock.fission.tile.IFissionCoolingComponent;
-import nc.multiblock.fission.tile.TileFissionPartBase;
+import nc.multiblock.fission.tile.TileFissionPart;
 import nc.recipe.AbstractRecipeHandler;
 import nc.recipe.NCRecipes;
 import nc.recipe.ProcessorRecipe;
@@ -42,7 +42,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 
-public class TileSaltFissionHeater extends TileFissionPartBase implements IFluidProcessor, ITileFluid, IFissionCoolingComponent {
+public class TileSaltFissionHeater extends TileFissionPart implements IFluidProcessor, ITileFluid, IFissionCoolingComponent {
 	
 	protected final @Nonnull List<Tank> tanks = Lists.newArrayList(new Tank(FluidStackHelper.INGOT_BLOCK_VOLUME*2, NCRecipes.coolant_heater_valid_fluids.get(0)), new Tank(FluidStackHelper.INGOT_BLOCK_VOLUME*4, new ArrayList<String>()));
 	
@@ -67,6 +67,7 @@ public class TileSaltFissionHeater extends TileFissionPartBase implements IFluid
 	protected RecipeInfo<ProcessorRecipe> recipeInfo;
 	
 	protected FissionCluster cluster = null;
+	private long heat = 0L;
 	public boolean isInValidPosition = false;
 	
 	protected int heaterCount;
@@ -99,13 +100,7 @@ public class TileSaltFissionHeater extends TileFissionPartBase implements IFluid
 	}
 	
 	@Override
-	public void setCluster(@Nullable FissionCluster cluster) {
-		if (cluster == null && this.cluster != null) {
-			this.cluster.getComponentMap().remove(pos.toLong());
-		}
-		else if (cluster != null) {
-			cluster.getComponentMap().put(pos.toLong(), this);
-		}
+	public void setClusterInternal(@Nullable FissionCluster cluster) {
 		this.cluster = cluster;
 	}
 	
@@ -144,6 +139,19 @@ public class TileSaltFissionHeater extends TileFissionPartBase implements IFluid
 	public void refreshIsProcessing(boolean checkCluster) {
 		isProcessing = isProcessing(checkCluster);
 	}
+	
+	@Override
+	public long getHeatStored() {
+		return heat;
+	}
+	
+	@Override
+	public void setHeatStored(long heat) {
+		this.heat = heat;
+	}
+	
+	@Override
+	public void onClusterMeltdown() {}
 	
 	@Override
 	public long getCooling() {
@@ -537,6 +545,8 @@ public class TileSaltFissionHeater extends TileFissionPartBase implements IFluid
 		nbt.setDouble("time", time);
 		nbt.setBoolean("isProcessing", isProcessing);
 		nbt.setBoolean("canProcessInputs", canProcessInputs);
+		
+		nbt.setLong("clusterHeat", heat);
 		nbt.setBoolean("isInValidPosition", isInValidPosition);
 		return nbt;
 	}
@@ -553,6 +563,8 @@ public class TileSaltFissionHeater extends TileFissionPartBase implements IFluid
 		time = nbt.getDouble("time");
 		isProcessing = nbt.getBoolean("isProcessing");
 		canProcessInputs = nbt.getBoolean("canProcessInputs");
+		
+		heat = nbt.getLong("clusterHeat");
 		isInValidPosition = nbt.getBoolean("isInValidPosition");
 	}
 	

@@ -1,8 +1,14 @@
 package nc.recipe.processor;
 
+import static nc.util.FissionHelper.FUEL_FLUID;
+import static nc.util.FissionHelper.FUEL_ORE_DICT;
+import static nc.util.FissionHelper.ISOTOPE_FLUID;
+import static nc.util.FissionHelper.ISOTOPE_ORE_DICT;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 import nc.init.NCItems;
 import nc.recipe.ProcessorRecipeHandler;
@@ -17,7 +23,7 @@ public class IngotFormerRecipes extends ProcessorRecipeHandler {
 	public IngotFormerRecipes() {
 		super("ingot_former", 0, 1, 1, 0);
 	}
-
+	
 	@Override
 	public void addRecipes() {
 		addIngotFormingRecipes();
@@ -28,8 +34,12 @@ public class IngotFormerRecipes extends ProcessorRecipeHandler {
 		
 		addRecipe(fluidStack("bas", FluidStackHelper.GEM_VOLUME), "gemBoronArsenide", 2D, 2D);
 		
-		if (OreDictHelper.oreExists("ingotObsidian")) addRecipe(fluidStack("obsidian", FluidStackHelper.SEARED_MATERIAL_VOLUME), "ingotObsidian", 0.5D, 2D);
-		else addRecipe(fluidStack("obsidian", FluidStackHelper.SEARED_BLOCK_VOLUME), "obsidian", 2D, 2D);
+		if (OreDictHelper.oreExists("ingotObsidian")) {
+			addRecipe(fluidStack("obsidian", FluidStackHelper.SEARED_MATERIAL_VOLUME), "ingotObsidian", 0.5D, 2D);
+		}
+		else {
+			addRecipe(fluidStack("obsidian", FluidStackHelper.SEARED_BLOCK_VOLUME), "obsidian", 2D, 2D);
+		}
 		addRecipe(fluidStack("redstone", FluidStackHelper.REDSTONE_DUST_VOLUME), "ingotRedstone", 0.25D, 1D);
 		addRecipe(fluidStack("glowstone", FluidStackHelper.GLOWSTONE_DUST_VOLUME), "ingotGlowstone", 0.25D, 1D);
 		addRecipe(fluidStack("coal", FluidStackHelper.COAL_DUST_VOLUME), "ingotGraphite", 0.5D, 1D);
@@ -81,51 +91,32 @@ public class IngotFormerRecipes extends ProcessorRecipeHandler {
 		addRecipe(fluidStack("marshmallow", FluidStackHelper.INGOT_VOLUME), "ingotMarshmallow", 0.5D, 0.5D);
 		
 		// Fission Isotopes
-		addIsotopeFormingRecipes("Thorium", 230);
-		addIngotFormingRecipe("fuel_tbu", "Thorium232Base");
-		addIsotopeFormingRecipes("Uranium", 233, 235, 238);
-		addIsotopeFormingRecipes("Neptunium", 236, 237);
-		addIsotopeFormingRecipes("Plutonium", 238, 239, 241, 242);
-		addIsotopeFormingRecipes("Americium", 241, 242, 243);
-		addIsotopeFormingRecipes("Curium", 243, 245, 246, 247);
-		addIsotopeFormingRecipes("Berkelium", 247, 248);
-		addIsotopeFormingRecipes("Californium", 249, 250, 251, 252);
+		addIsotopeFormingRecipes();
 		
 		// Fission Fuels
-		//addRecipe(fluidStack("fuel_tbu", FluidStackHelper.INGOT_BLOCK_VOLUME), "fuelTBU", NCConfig.processor_time[10]*9);
-		addRecipe(fluidStack("depleted_fuel_tbu", FluidStackHelper.NUGGET_VOLUME*64), "depletedFuelTBU", 64D/9D, 1D);
-		addFissionFuelFormingRecipes("uranium", "eu", 233, 235);
-		addFissionFuelFormingRecipes("neptunium", "en", 236);
-		addFissionFuelFormingRecipes("plutonium", "ep", 239, 241);
-		addFissionFuelFormingRecipes("americium", "ea", 242);
-		addFissionFuelFormingRecipes("curium", "ec", "m", 243, 245, 247);
-		addFissionFuelFormingRecipes("berkelium", "eb", 248);
-		addFissionFuelFormingRecipes("californium", "ec", "f", 249, 251);
+		addFissionFuelFormingRecipes();
 	}
 	
 	public void addIngotFormingRecipe(String fluid, String metal) {
-		addRecipe(fluidStack(fluid.toLowerCase(), FluidStackHelper.INGOT_VOLUME), "ingot" + metal, 1D, 1D);
+		addRecipe(fluidStack(fluid.toLowerCase(Locale.ROOT), FluidStackHelper.INGOT_VOLUME), "ingot" + metal, 1D, 1D);
 	}
 	
 	public void addIngotFormingRecipe(String metal) {
 		addIngotFormingRecipe(metal, metal);
 	}
 	
-	public void addIsotopeFormingRecipes(String element, int... types) {
-		for (int type : types) addIngotFormingRecipe(element.toLowerCase() + "_" + type, element + type + "Base");
-	}
-	
-	public void addFissionFuelFormingRecipes(String element, String suffix, String suffixExtra, int... types) {
-		for (int type : types) {
-			addRecipe(fluidStack("fuel_l" + suffix + suffixExtra + "_" + type, FluidStackHelper.INGOT_BLOCK_VOLUME), "fuelL" + suffix.toUpperCase() + suffixExtra + type, 9D, 1D);
-			addRecipe(fluidStack("fuel_h" + suffix + suffixExtra + "_" + type, FluidStackHelper.INGOT_BLOCK_VOLUME), "fuelH" + suffix.toUpperCase() + suffixExtra + type, 9D, 1D);
-			addRecipe(fluidStack("depleted_fuel_l" + suffix + suffixExtra + "_" + type, FluidStackHelper.INGOT_BLOCK_VOLUME), "depletedFuelL" + suffix.toUpperCase() + suffixExtra + type, 64D/9D, 1D);
-			addRecipe(fluidStack("depleted_fuel_h" + suffix + suffixExtra + "_" + type, FluidStackHelper.INGOT_BLOCK_VOLUME), "depletedFuelH" + suffix.toUpperCase() + suffixExtra + type, 64D/9D, 1D);
+	public void addIsotopeFormingRecipes() {
+		for (int i = 0; i < ISOTOPE_ORE_DICT.length; i++) {
+			addIngotFormingRecipe(ISOTOPE_FLUID[i], ISOTOPE_ORE_DICT[i]);
+			addIngotFormingRecipe(ISOTOPE_FLUID[i] + "_za", ISOTOPE_ORE_DICT[i] + "ZA");
 		}
 	}
 	
-	public void addFissionFuelFormingRecipes(String element, String suffix, int... types) {
-		addFissionFuelFormingRecipes(element, suffix, "", types);
+	public void addFissionFuelFormingRecipes() {
+		for (int i = 0; i < FUEL_ORE_DICT.length; i++) {
+			addRecipe(fluidStack("fuel_" + FUEL_FLUID[i], FluidStackHelper.INGOT_VOLUME), "fuel" + FUEL_ORE_DICT[i], 1D, 1D);
+			addRecipe(fluidStack("depleted_fuel_" + FUEL_FLUID[i], FluidStackHelper.INGOT_VOLUME), "depletedFuel" + FUEL_ORE_DICT[i], 1D, 1D);
+		}
 	}
 	
 	private static final List<String> CASTING_BLACKLIST = Arrays.asList("glass", "coal", "redstone", "glowstone", "prismarine", "obsidian", "silicon", "marshmallow");

@@ -3,16 +3,28 @@ package nc.multiblock.heatExchanger.tile;
 import static nc.block.property.BlockProperties.FACING_ALL;
 
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
+import nc.multiblock.heatExchanger.CondenserLogic;
 import nc.multiblock.heatExchanger.HeatExchanger;
+import nc.multiblock.heatExchanger.HeatExchangerLogic;
 import nc.multiblock.heatExchanger.block.BlockCondenserController;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class TileCondenserController extends TileHeatExchangerPartBase implements IHeatExchangerController {
+public class TileCondenserController extends TileHeatExchangerPart implements IHeatExchangerController {
 	
 	public TileCondenserController() {
 		super(CuboidalPartPositionType.WALL);
+	}
+	
+	@Override
+	public Class<? extends HeatExchangerLogic> getLogicClass() {
+		return CondenserLogic.class;
+	}
+	
+	@Override
+	public HeatExchangerLogic createNewLogic(HeatExchangerLogic oldLogic) {
+		return new CondenserLogic(oldLogic);
 	}
 	
 	@Override

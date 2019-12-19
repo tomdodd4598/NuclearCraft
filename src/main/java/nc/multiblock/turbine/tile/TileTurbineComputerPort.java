@@ -13,7 +13,7 @@ import nc.multiblock.turbine.Turbine;
 import net.minecraftforge.fml.common.Optional;
 
 @Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers")
-public class TileTurbineComputerPort extends TileTurbinePartBase implements SimpleComponent {
+public class TileTurbineComputerPort extends TileTurbinePart implements SimpleComponent {
 	
 	public TileTurbineComputerPort() {
 		super(CuboidalPartPositionType.WALL);
@@ -128,7 +128,7 @@ public class TileTurbineComputerPort extends TileTurbinePartBase implements Simp
 	@Callback
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getIdealExpansionLevels(Context context, Arguments args) {
-		return isMultiblockAssembled() ? getMultiblock().getIdealExpansionLevels().toArray() : new Object[] {};
+		return isMultiblockAssembled() ? getMultiblock().getLogic().getIdealExpansionLevels().toArray() : new Object[] {};
 	}
 	
 	@Callback
@@ -140,13 +140,13 @@ public class TileTurbineComputerPort extends TileTurbinePartBase implements Simp
 	@Callback
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getInputRate(Context context, Arguments args) {
-		return new Object[] {isMultiblockAssembled() ? getMultiblock().getActualInputRate() : 0};
+		return new Object[] {isMultiblockAssembled() ? getMultiblock().recipeInputRate : 0};
 	}
 	
 	@Callback
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getNumberOfDynamoCoils(Context context, Arguments args) {
-		return new Object[] {isMultiblockAssembled() ? getMultiblock().getDynamoCoilMap().size() : 0};
+		return new Object[] {isMultiblockAssembled() ? getMultiblock().getPartMap(TileTurbineDynamoCoil.class).size() : 0};
 	}
 	
 	@Callback
@@ -154,7 +154,7 @@ public class TileTurbineComputerPort extends TileTurbinePartBase implements Simp
 	public Object[] getDynamoCoilStats(Context context, Arguments args) {
 		if (isMultiblockAssembled()) {
 			List<Object[]> stats = new ArrayList<Object[]>();
-			for (TileTurbineDynamoCoil dynamoCoil : getMultiblock().getDynamoCoilMap().values()) {
+			for (TileTurbineDynamoCoil dynamoCoil : getMultiblock().getPartMap(TileTurbineDynamoCoil.class).values()) {
 				stats.add(new Object[] {
 						new Object[] {dynamoCoil.getPos().getX(), dynamoCoil.getPos().getY(), dynamoCoil.getPos().getZ()},
 						dynamoCoil.coilName,
@@ -171,7 +171,7 @@ public class TileTurbineComputerPort extends TileTurbinePartBase implements Simp
 	public Object[] activate(Context context, Arguments args) {
 		if (isMultiblockAssembled()) {
 			getMultiblock().computerActivated = true;
-			getMultiblock().setIsTurbineOn();
+			getMultiblock().getLogic().setIsTurbineOn();
 		}
 		return new Object[] {};
 	}
@@ -181,16 +181,16 @@ public class TileTurbineComputerPort extends TileTurbinePartBase implements Simp
 	public Object[] deactivate(Context context, Arguments args) {
 		if (isMultiblockAssembled()) {
 			getMultiblock().computerActivated = false;
-			getMultiblock().setIsTurbineOn();
+			getMultiblock().getLogic().setIsTurbineOn();
 		}
 		return new Object[] {};
 	}
 	
 	@Callback
 	@Optional.Method(modid = "opencomputers")
-	public Object[] clearAll(Context context, Arguments args) {
+	public Object[] clearAllMaterial(Context context, Arguments args) {
 		if (isMultiblockAssembled()) {
-			getMultiblock().clearAll();
+			getMultiblock().clearAllMaterial();
 		}
 		return new Object[] {};
 	}

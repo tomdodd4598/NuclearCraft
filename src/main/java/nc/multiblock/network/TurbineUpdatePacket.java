@@ -3,21 +3,24 @@ package nc.multiblock.network;
 import io.netty.buffer.ByteBuf;
 import nc.multiblock.turbine.Turbine;
 import nc.multiblock.turbine.tile.TileTurbineController;
+import nc.tile.internal.energy.EnergyStorage;
 import net.minecraft.util.math.BlockPos;
 
 public class TurbineUpdatePacket extends MultiblockUpdatePacket {
 	
 	public boolean isTurbineOn;
 	public double power, rawPower, conductivity, totalExpansionLevel, idealTotalExpansionLevel;
-	public int shaftWidth, bladeLength, noBladeSets, dynamoCoilCount, dynamoCoilCountOpposite, capacity, energy;
+	public int energy, capacity, shaftWidth, bladeLength, noBladeSets, dynamoCoilCount, dynamoCoilCountOpposite;
 	
 	public TurbineUpdatePacket() {
 		messageValid = false;
 	}
 	
-	public TurbineUpdatePacket(BlockPos pos, boolean isTurbineOn, double power, double rawPower, double conductivity, double totalExpansionLevel, double idealTotalExpansionLevel, int shaftWidth, int bladeLength, int noBladeSets, int dynamoCoilCount, int dynamoCoilCountOpposite, int capacity, int energy) {
+	public TurbineUpdatePacket(BlockPos pos, boolean isTurbineOn, EnergyStorage energyStorage, double power, double rawPower, double conductivity, double totalExpansionLevel, double idealTotalExpansionLevel, int shaftWidth, int bladeLength, int noBladeSets, int dynamoCoilCount, int dynamoCoilCountOpposite) {
 		this.pos = pos;
 		this.isTurbineOn = isTurbineOn;
+		energy = energyStorage.getEnergyStored();
+		capacity = energyStorage.getMaxEnergyStored();
 		this.power = power;
 		this.rawPower = rawPower;
 		this.conductivity = conductivity;
@@ -28,8 +31,6 @@ public class TurbineUpdatePacket extends MultiblockUpdatePacket {
 		this.noBladeSets = noBladeSets;
 		this.dynamoCoilCount = dynamoCoilCount;
 		this.dynamoCoilCountOpposite = dynamoCoilCountOpposite;
-		this.capacity = capacity;
-		this.energy = energy;
 		
 		messageValid = true;
 	}
@@ -38,6 +39,8 @@ public class TurbineUpdatePacket extends MultiblockUpdatePacket {
 	public void readMessage(ByteBuf buf) {
 		pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
 		isTurbineOn = buf.readBoolean();
+		energy = buf.readInt();
+		capacity = buf.readInt();
 		power = buf.readDouble();
 		rawPower = buf.readDouble();
 		conductivity = buf.readDouble();
@@ -48,8 +51,6 @@ public class TurbineUpdatePacket extends MultiblockUpdatePacket {
 		noBladeSets = buf.readInt();
 		dynamoCoilCount = buf.readInt();
 		dynamoCoilCountOpposite = buf.readInt();
-		capacity = buf.readInt();
-		energy = buf.readInt();
 	}
 	
 	@Override
@@ -58,6 +59,8 @@ public class TurbineUpdatePacket extends MultiblockUpdatePacket {
 		buf.writeInt(pos.getY());
 		buf.writeInt(pos.getZ());
 		buf.writeBoolean(isTurbineOn);
+		buf.writeInt(energy);
+		buf.writeInt(capacity);
 		buf.writeDouble(power);
 		buf.writeDouble(rawPower);
 		buf.writeDouble(conductivity);
@@ -68,8 +71,6 @@ public class TurbineUpdatePacket extends MultiblockUpdatePacket {
 		buf.writeInt(noBladeSets);
 		buf.writeInt(dynamoCoilCount);
 		buf.writeInt(dynamoCoilCountOpposite);
-		buf.writeInt(capacity);
-		buf.writeInt(energy);
 	}
 	
 	public static class Handler extends MultiblockUpdatePacket.Handler<TurbineUpdatePacket, Turbine, TileTurbineController> {

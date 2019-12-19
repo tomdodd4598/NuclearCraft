@@ -5,8 +5,9 @@ import java.util.List;
 
 import nc.Global;
 import nc.multiblock.fission.FissionReactor;
+import nc.multiblock.fission.salt.MoltenSaltFissionLogic;
 import nc.multiblock.gui.element.MultiblockButton;
-import nc.multiblock.network.ClearAllPacket;
+import nc.multiblock.network.ClearAllMaterialPacket;
 import nc.network.PacketHandler;
 import nc.util.Lang;
 import nc.util.NCMath;
@@ -20,7 +21,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextFormatting;
 
-public class GuiSaltFissionController extends GuiMultiblockController<FissionReactor> {
+public class GuiSaltFissionController extends GuiLogicMultiblockController<FissionReactor, MoltenSaltFissionLogic> {
 	
 	protected final ResourceLocation gui_texture;
 	
@@ -60,7 +61,7 @@ public class GuiSaltFissionController extends GuiMultiblockController<FissionRea
 	public List<String> heatInfo() {
 		List<String> info = new ArrayList<String>();
 		info.add(TextFormatting.YELLOW + Lang.localise("gui.nc.container.salt_fission_controller.heat_stored") + " " + TextFormatting.WHITE + UnitHelper.prefix(multiblock.heatBuffer.getHeatStored(), multiblock.heatBuffer.getHeatCapacity(), 6, "H"));
-		info.add(TextFormatting.YELLOW + Lang.localise("gui.nc.container.salt_fission_controller.raw_net_heating") + " " + TextFormatting.WHITE + UnitHelper.prefix(multiblock.getRawNetHeating(), 6, "H/t"));
+		info.add(TextFormatting.YELLOW + Lang.localise("gui.nc.container.salt_fission_controller.raw_net_heating") + " " + TextFormatting.WHITE + UnitHelper.prefix(logic.getNetClusterHeating(), 6, "H/t"));
 		info.add(TextFormatting.BLUE + Lang.localise("gui.nc.container.salt_fission_controller.cooling_rate") + " " + TextFormatting.WHITE + UnitHelper.prefix(-multiblock.cooling, 6, "H/t"));
 		return info;
 	}
@@ -88,8 +89,8 @@ public class GuiSaltFissionController extends GuiMultiblockController<FissionRea
 		String coolingRate = Lang.localise("gui.nc.container.salt_fission_controller.cooling_efficiency") + " " + (int) (/*multiblock.coolingEfficiency*/100D) + "%";
 		fontRenderer.drawString(coolingRate, xSize / 2 - width(coolingRate) / 2, 52, fontColor);
 		
-		String heat_gen = Lang.localise("gui.nc.container.salt_fission_controller.net_heating") + " " + UnitHelper.prefix(multiblock.netHeating, 6, "H/t");
-		fontRenderer.drawString(heat_gen, xSize / 2 - width(heat_gen) / 2, 64, fontColor);
+		//String heat_gen = Lang.localise("gui.nc.container.salt_fission_controller.net_heating") + " " + UnitHelper.prefix(multiblock.netHeating, 6, "H/t");
+		//fontRenderer.drawString(heat_gen, xSize / 2 - width(heat_gen) / 2, 64, fontColor);
 		
 		String cooling = Lang.localise("gui.nc.container.salt_fission_controller.cooling_rate") + " " + UnitHelper.prefix(-multiblock.cooling, 6, "H/t");
 		fontRenderer.drawString(cooling, xSize / 2 - width(cooling) / 2, 76, fontColor);
@@ -110,14 +111,14 @@ public class GuiSaltFissionController extends GuiMultiblockController<FissionRea
 	@Override
 	public void initGui() {
 		super.initGui();
-		buttonList.add(new MultiblockButton.ClearAll(0, guiLeft + 153, guiTop + 71));
+		buttonList.add(new MultiblockButton.ClearAllMaterial(0, guiLeft + 153, guiTop + 71));
 	}
 	
 	@Override
 	protected void actionPerformed(GuiButton guiButton) {
 		if (multiblock.WORLD.isRemote) {
 			if (guiButton.id == 0 && NCUtil.isModifierKeyDown()) {
-				PacketHandler.instance.sendToServer(new ClearAllPacket(controllerPos));
+				PacketHandler.instance.sendToServer(new ClearAllMaterialPacket(controllerPos));
 			}
 		}
 	}

@@ -1,5 +1,6 @@
 package nc.radiation;
 
+import static nc.config.NCConfig.radiation_block_effect_max_rate;
 import static nc.config.NCConfig.radiation_player_tick_rate;
 import static nc.config.NCConfig.radiation_world_chunks_per_tick;
 
@@ -19,7 +20,6 @@ import nc.entity.EntityFeralGhoul;
 import nc.init.NCSounds;
 import nc.network.PacketHandler;
 import nc.network.radiation.PlayerRadsUpdatePacket;
-import nc.radiation.RadBlockEffects.MaterialQuery;
 import nc.recipe.NCRecipes;
 import nc.recipe.ProcessorRecipe;
 import nc.recipe.RecipeHelper;
@@ -30,9 +30,7 @@ import nc.util.DamageSources;
 import nc.util.ItemStackHelper;
 import nc.util.Lang;
 import nc.util.StructureHelper;
-import nc.worldgen.biome.NCBiomes;
 import net.darkhax.gamestages.GameStageHelper;
-import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.util.RecipeItemHelper;
 import net.minecraft.entity.Entity;
@@ -48,6 +46,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ClassInheritanceMultiMap;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
@@ -320,7 +319,7 @@ public class RadiationHandler {
 				}
 			}
 			
-			if (NCConfig.radiation_scrubber_alt) {
+			if (NCConfig.radiation_scrubber_non_linear) {
 				double scrubbers = chunkSource.getEffectiveScrubberCount();
 				double scrubbingFraction = RadiationHelper.getAltScrubbingFraction(scrubbers);
 				
@@ -381,76 +380,99 @@ public class RadiationHandler {
 	}
 	
 	private static void mutateTerrain(World world, Chunk chunk, double radiation) {
-		if (NCConfig.radiation_block_effect_max_rate > 0 && radiation > NCConfig.radiation_block_effect_limit) {
-			long count = Math.min(NCConfig.radiation_block_effect_max_rate, 1L + Math.round(Math.log(radiation/NCConfig.radiation_block_effect_limit))), j = count;
-			while (j > 0) {
-				BlockPos randomChunkPos = newRandomPosInChunk(chunk);
-				IBlockState state = world.getBlockState(randomChunkPos);
-				Material mat = state.getMaterial();
-				
-				boolean fromRecipe = false;
-				if (RadBlockEffects.hasRecipes) {
-					ItemStack stack = ItemStackHelper.blockStateToStack(state);
-					if (stack != null && !stack.isEmpty()) {
-						RecipeInfo<ProcessorRecipe> mutationInfo = NCRecipes.radiation_block_mutations.getRecipeInfoFromInputs(Lists.newArrayList(ItemStackHelper.blockStateToStack(state)), new ArrayList<Tank>());
-						if (mutationInfo != null && radiation >= mutationInfo.getRecipe().getBlockMutationThreshold()) {
-							ItemStack output = RecipeHelper.getItemStackFromIngredientList(mutationInfo.getRecipe().itemProducts(), 0);
-							if (output != null && !output.isEmpty()) {
-								IBlockState result = ItemStackHelper.getBlockStateFromStack(output);
-								if (result != null) {
-									world.setBlockState(randomChunkPos, result);
-									j--;
-									fromRecipe = true;
-								}
-							}
+		long j = Math.min(radiation_block_effect_max_rate, (long) Math.log(Math.E - 1D + radiation/getBlockMutationThreshold()));
+		while (j > 0) {
+			j--;
+			BlockPos randomChunkPos = newRandomPosInChunk(chunk);
+			IBlockState state = world.getBlockState(randomChunkPos);
+			
+			ItemStack stack = ItemStackHelper.blockStateToStack(state);
+			if (stack != null && !stack.isEmpty()) {
+				RecipeInfo<ProcessorRecipe> mutationInfo = NCRecipes.radiation_block_mutation.getRecipeInfoFromInputs(Lists.newArrayList(stack), new ArrayList<Tank>());
+				if (mutationInfo != null && radiation >= mutationInfo.getRecipe().getBlockMutationThreshold(false)) {
+					ItemStack output = RecipeHelper.getItemStackFromIngredientList(mutationInfo.getRecipe().itemProducts(), 0);
+					if (output != null) {
+						IBlockState result = ItemStackHelper.getBlockStateFromStack(output);
+						if (result != null) {
+							world.setBlockState(randomChunkPos, result);
 						}
 					}
 				}
-				
-				if (!fromRecipe) {
-					for (MaterialQuery query : RadBlockEffects.MATERIAL_QUERIES) {
-						if (query.matches(mat, radiation)) {
-							world.setBlockState(randomChunkPos, query.result);
-							if (chunk.canSeeSky(randomChunkPos)) {
-								chunk.getBiomeArray()[(randomChunkPos.getZ() & 15) << 4 | randomChunkPos.getX() & 15] = (byte)Biome.getIdForBiome(NCBiomes.NUCLEAR_WASTELAND);
-								j--;
-							}
-							j--;
-							break;
+			}
+		}
+		
+		j = radiation == 0D ? radiation_block_effect_max_rate : Math.min(radiation_block_effect_max_rate, (long) Math.log(Math.E - 1D + getBlockPurificationThreshold()/radiation));
+		while (j > 0) {
+			j--;
+			BlockPos randomChunkPos = newRandomPosInChunk(chunk);
+			IBlockState state = world.getBlockState(randomChunkPos);
+			ItemStack stack = ItemStackHelper.blockStateToStack(state);
+			if (stack != null && !stack.isEmpty()) {
+				RecipeInfo<ProcessorRecipe> mutationInfo = NCRecipes.radiation_block_purification.getRecipeInfoFromInputs(Lists.newArrayList(stack), new ArrayList<Tank>());
+				if (mutationInfo != null && radiation < mutationInfo.getRecipe().getBlockMutationThreshold(true)) {
+					ItemStack output = RecipeHelper.getItemStackFromIngredientList(mutationInfo.getRecipe().itemProducts(), 0);
+					if (output != null) {
+						IBlockState result = ItemStackHelper.getBlockStateFromStack(output);
+						if (result != null) {
+							world.setBlockState(randomChunkPos, result);
 						}
 					}
-				}
-				
-				if (RAND.nextInt(NCConfig.radiation_block_effect_max_rate) >= count) {
-					j--;
 				}
 			}
 		}
 	}
 	
-	private static void playGeigerSound(EntityPlayer player) {
+	private static Double block_mutation_threshold = null;
+	private static double getBlockMutationThreshold() {
+		if (block_mutation_threshold == null) {
+			double threshold = Double.MAX_VALUE;
+			for (ProcessorRecipe recipe : NCRecipes.radiation_block_mutation.getRecipeList()) {
+				if (recipe != null) threshold = Math.min(threshold, recipe.getBlockMutationThreshold(false));
+			}
+			block_mutation_threshold = new Double(threshold);
+		}
+		return block_mutation_threshold.doubleValue();
+	}
+	
+	private static Double block_purification_threshold = null;
+	private static double getBlockPurificationThreshold() {
+		if (block_purification_threshold == null) {
+			double threshold = 0D;
+			for (ProcessorRecipe recipe : NCRecipes.radiation_block_purification.getRecipeList()) {
+				if (recipe != null) threshold = Math.max(threshold, recipe.getBlockMutationThreshold(true));
+			}
+			block_purification_threshold = new Double(threshold);
+		}
+		return block_purification_threshold.doubleValue();
+	}
+	
+	public static void playGeigerSound(EntityPlayer player) {
 		IEntityRads entityRads = RadiationHelper.getEntityRadiation(player);
-		if (entityRads == null) return;
-		if (!entityRads.isRadiationUndetectable()) {
-			double soundChance = Math.cbrt(entityRads.getRawRadiationLevel()/200D);
-			for (int i = 0; i < 2; i++) {
-				if (RAND.nextDouble() < soundChance) {
-					player.playSound(NCSounds.geiger_tick, 0.6F + RAND.nextFloat()*0.2F, 0.92F + RAND.nextFloat()*0.16F);
-				}
+		if (entityRads == null || entityRads.isRadiationUndetectable()) return;
+		
+		double radiation = entityRads.getRawRadiationLevel();
+		int loops = radiation == 0D ? 0 : Math.min(4, (int) Math.log(Math.E + entityRads.getRawRadiationLevel()));
+		if (loops == 0) return;
+		
+		double soundChance = Math.cbrt(entityRads.getRawRadiationLevel()/200D);
+		float soundVolume = MathHelper.clamp((float)(8F*soundChance), 0.55F, 1.1F);
+		for (int i = 0; i < loops; i++) {
+			if (RAND.nextDouble() < soundChance) {
+				player.playSound(NCSounds.geiger_tick, soundVolume + RAND.nextFloat()*0.12F, 0.92F + RAND.nextFloat()*0.16F);
 			}
 		}
 	}
 	
 	private static void spawnFeralGhoul(World world, EntityLiving entityLiving) {
-		EntityFeralGhoul feral_ghoul = new EntityFeralGhoul(world);
-		feral_ghoul.setLocationAndAngles(entityLiving.posX, entityLiving.posY, entityLiving.posZ, entityLiving.rotationYaw, entityLiving.rotationPitch);
-		feral_ghoul.onInitialSpawn(world.getDifficultyForLocation(new BlockPos(feral_ghoul)), (IEntityLivingData)null);
-		feral_ghoul.setNoAI(entityLiving.isAIDisabled());
+		EntityFeralGhoul feralGhoul = new EntityFeralGhoul(world);
+		feralGhoul.setLocationAndAngles(entityLiving.posX, entityLiving.posY, entityLiving.posZ, entityLiving.rotationYaw, entityLiving.rotationPitch);
+		feralGhoul.onInitialSpawn(world.getDifficultyForLocation(new BlockPos(feralGhoul)), (IEntityLivingData)null);
+		feralGhoul.setNoAI(entityLiving.isAIDisabled());
 		if (entityLiving.hasCustomName()) {
-			feral_ghoul.setCustomNameTag(entityLiving.getCustomNameTag());
-			feral_ghoul.setAlwaysRenderNameTag(entityLiving.getAlwaysRenderNameTag());
+			feralGhoul.setCustomNameTag(entityLiving.getCustomNameTag());
+			feralGhoul.setAlwaysRenderNameTag(entityLiving.getAlwaysRenderNameTag());
 		}
-		world.spawnEntity(feral_ghoul);
+		world.spawnEntity(feralGhoul);
 		entityLiving.setDead();
 	}
 }

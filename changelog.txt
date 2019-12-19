@@ -1,3 +1,27 @@
+v2o.0.5
+
++ Implemented multiblock logic system - addons can introduce their own mechanics!
+
+* Fixed unphysical cluster-to-casing heat distribution mechanics
+* Fixed potential activation of cells by other cells which themselves do not remain active
+
++ Added most recipes, some temporary, for SFR and MSR fuel manufactoring
+* Revamped fuel reprocessing recipes
+- Removed many unnecessary fission isotope fluids
+
++ Added world radiation block purification
+- Removed unwieldy config for world radiation block effects
+
+* Increased the energy output of high pressure and normal steam
+
++ Added config to use ore dictionary ingredients in basic ingot and block crafting/smelting recipes
+
+* Tweaked a few heat sink rules
+* Tweaked the default moderator efficiency factors
+* Tweaked radiation units from Rads/t to Rad/t
+
+* Various bits of refactoring of multiblock API
+
 v2o.0.4
 
 * Hopefully fixed issues with fission cell activation on port-linking

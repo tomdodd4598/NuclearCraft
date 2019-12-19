@@ -7,7 +7,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class TileFissionCasing extends TileFissionPartBase {
+public class TileFissionCasing extends TileFissionPart {
 	
 	public TileFissionCasing() {
 		super(CuboidalPartPositionType.EXTERIOR);

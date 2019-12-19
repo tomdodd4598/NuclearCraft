@@ -2,28 +2,20 @@ package nc.multiblock.fission.salt.block;
 
 import nc.block.property.ISidedProperty;
 import nc.block.property.PropertySidedEnum;
-import nc.multiblock.fission.block.BlockFissionPartBase;
+import nc.multiblock.fission.block.BlockFissionPart;
 import nc.multiblock.fission.salt.SaltFissionHeaterSetting;
 import nc.multiblock.fission.salt.tile.TileSaltFissionHeater;
-import nc.tile.internal.fluid.FluidConnection;
-import nc.util.Lang;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockSaltFissionHeater extends BlockFissionPartBase implements ISidedProperty<SaltFissionHeaterSetting> {
+public class BlockSaltFissionHeater extends BlockFissionPart implements ISidedProperty<SaltFissionHeaterSetting> {
 
-	private static EnumFacing placementSide = null;
+	//private static EnumFacing placementSide = null;
 	
 	public BlockSaltFissionHeater() {
 		super();
@@ -64,7 +56,7 @@ public class BlockSaltFissionHeater extends BlockFissionPartBase implements ISid
 		return 0;
 	}
 	
-	@Override
+	/*@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if (hand != EnumHand.MAIN_HAND || player == null) return false;
 		
@@ -103,5 +95,5 @@ public class BlockSaltFissionHeater extends BlockFissionPartBase implements ISid
 			heater.setHeaterSettings(other.getHeaterSettings().clone());
 			heater.markDirtyAndNotify();
 		}
-	}
+	}*/
 }

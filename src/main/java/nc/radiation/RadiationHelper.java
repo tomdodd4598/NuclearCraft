@@ -94,7 +94,7 @@ public class RadiationHelper {
 		if (chunkSource == null) {
 			return;
 		}
-		if (NCConfig.radiation_scrubber_alt) {
+		if (NCConfig.radiation_scrubber_non_linear) {
 			if (tile.getRadiationContributionFraction() < 0D) {
 				chunkSource.setEffectiveScrubberCount(chunkSource.getEffectiveScrubberCount() - tile.getRadiationContributionFraction());
 			}
@@ -439,8 +439,8 @@ public class RadiationHelper {
 	// Unit Prefixing
 	
 	public static String radsPrefix(double rads, boolean rate) {
-		String unit = rate ? "Rads/t" : "Rads";
-		return NCConfig.radiation_unit_prefixes > 0 ? NCMath.sigFigs(rads, NCConfig.radiation_unit_prefixes) + " " + unit : UnitHelper.prefix(rads, 3, unit, 0, -8);
+		String unit = rate ? "Rad/t" : "Rad";
+		return NCConfig.radiation_unit_prefixes > 0 ? NCMath.sigFigs(rads, NCConfig.radiation_unit_prefixes) + " " + unit : UnitHelper.prefix(rads, 3, unit);
 	}
 	
 	// Rad Resistance Sig Figs

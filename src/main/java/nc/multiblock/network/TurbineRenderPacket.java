@@ -4,22 +4,28 @@ import io.netty.buffer.ByteBuf;
 import nc.multiblock.turbine.Turbine;
 import nc.multiblock.turbine.tile.TileTurbineController;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.fml.common.network.ByteBufUtils;
 
 public class TurbineRenderPacket extends MultiblockUpdatePacket {
 	
+	public String particleEffect;
+	public double particleSpeedMult, recipeInputRateFP;
 	public float angVel;
 	public boolean isProcessing;
-	public int recipeRate;
+	public int recipeInputRate;
 	
 	public TurbineRenderPacket() {
 		messageValid = false;
 	}
 	
-	public TurbineRenderPacket(BlockPos pos, float angVel, boolean isProcessing, int recipeRate) {
+	public TurbineRenderPacket(BlockPos pos, String particleEffect, double particleSpeedMult, float angVel, boolean isProcessing, int recipeInputRate, double recipeInputRateFP) {
 		this.pos = pos;
+		this.particleEffect = particleEffect;
+		this.particleSpeedMult = particleSpeedMult;
 		this.angVel = angVel;
 		this.isProcessing = isProcessing;
-		this.recipeRate = recipeRate;
+		this.recipeInputRate = recipeInputRate;
+		this.recipeInputRateFP = recipeInputRateFP;
 		
 		messageValid = true;
 	}
@@ -27,9 +33,12 @@ public class TurbineRenderPacket extends MultiblockUpdatePacket {
 	@Override
 	public void readMessage(ByteBuf buf) {
 		pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
+		particleEffect = ByteBufUtils.readUTF8String(buf);
+		particleSpeedMult = buf.readDouble();
 		angVel = buf.readFloat();
 		isProcessing = buf.readBoolean();
-		recipeRate = buf.readInt();
+		recipeInputRate = buf.readInt();
+		recipeInputRateFP = buf.readDouble();
 	}
 	
 	@Override
@@ -37,9 +46,12 @@ public class TurbineRenderPacket extends MultiblockUpdatePacket {
 		buf.writeInt(pos.getX());
 		buf.writeInt(pos.getY());
 		buf.writeInt(pos.getZ());
+		ByteBufUtils.writeUTF8String(buf, particleEffect);
+		buf.writeDouble(particleSpeedMult);
 		buf.writeFloat(angVel);
 		buf.writeBoolean(isProcessing);
-		buf.writeInt(recipeRate);
+		buf.writeInt(recipeInputRate);
+		buf.writeDouble(recipeInputRateFP);
 	}
 	
 	public static class Handler extends MultiblockUpdatePacket.Handler<TurbineRenderPacket, Turbine, TileTurbineController> {

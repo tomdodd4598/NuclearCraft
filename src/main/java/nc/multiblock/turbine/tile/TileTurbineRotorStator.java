@@ -13,7 +13,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class TileTurbineRotorStator extends TileTurbinePartBase implements ITurbineRotorBlade {
+public class TileTurbineRotorStator extends TileTurbinePart implements ITurbineRotorBlade {
 	
 	protected TurbinePartDir dir = TurbinePartDir.Y;
 	protected int depth = 0;

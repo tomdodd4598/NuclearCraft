@@ -16,7 +16,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockCondenserController extends BlockHeatExchangerPartBase {
+public class BlockCondenserController extends BlockHeatExchangerPart {
 	
 	public BlockCondenserController() {
 		super();

@@ -27,9 +27,4 @@ public class SolidFissionCategory extends JEICategoryProcessor<JEIRecipeWrapper.
 		itemMapper.map(IngredientSorption.OUTPUT, 0, 1, 116 - backPosX, 35 - backPosY);
 		itemMapper.mapItemsTo(recipeLayout.getItemStacks(), ingredients);
 	}
-	
-	@Override
-	public String getTitle() {
-		return recipeTitle;
-	}
 }

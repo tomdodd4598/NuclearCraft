@@ -18,8 +18,8 @@ import nc.container.processor.ContainerCentrifuge;
 import nc.container.processor.ContainerChemicalReactor;
 import nc.container.processor.ContainerCrystallizer;
 import nc.container.processor.ContainerDecayHastener;
-import nc.container.processor.ContainerEnricher;
 import nc.container.processor.ContainerElectrolyzer;
+import nc.container.processor.ContainerEnricher;
 import nc.container.processor.ContainerExtractor;
 import nc.container.processor.ContainerFuelReprocessor;
 import nc.container.processor.ContainerInfuser;
@@ -38,8 +38,8 @@ import nc.gui.processor.GuiCentrifuge;
 import nc.gui.processor.GuiChemicalReactor;
 import nc.gui.processor.GuiCrystallizer;
 import nc.gui.processor.GuiDecayHastener;
-import nc.gui.processor.GuiEnricher;
 import nc.gui.processor.GuiElectrolyzer;
+import nc.gui.processor.GuiEnricher;
 import nc.gui.processor.GuiExtractor;
 import nc.gui.processor.GuiFuelReprocessor;
 import nc.gui.processor.GuiInfuser;
@@ -71,8 +71,8 @@ import nc.integration.jei.processor.CentrifugeCategory;
 import nc.integration.jei.processor.ChemicalReactorCategory;
 import nc.integration.jei.processor.CrystallizerCategory;
 import nc.integration.jei.processor.DecayHastenerCategory;
-import nc.integration.jei.processor.EnricherCategory;
 import nc.integration.jei.processor.ElectrolyzerCategory;
+import nc.integration.jei.processor.EnricherCategory;
 import nc.integration.jei.processor.ExtractorCategory;
 import nc.integration.jei.processor.FuelReprocessorCategory;
 import nc.integration.jei.processor.InfuserCategory;
@@ -89,7 +89,6 @@ import nc.recipe.NCRecipes;
 import nc.recipe.ProcessorRecipeHandler;
 import nc.util.ItemStackHelper;
 import nc.util.NCUtil;
-import nc.worldgen.ore.OreGenerator;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -215,8 +214,8 @@ public class NCJEI implements IModPlugin {
 		//recipeTransferRegistry.addRecipeTransferHandler(ContainerFissionController.class, JEIHandler.SOLID_FISSION.getUUID(), 0, 1, 3, 36);
 		//recipeTransferRegistry.addRecipeTransferHandler(ContainerFusionCore.class, JEIHandler.FUSION.getUUID(), 0, 0, 0, 36);
 		
-		for (int i = 0; i < 8; i++) {
-			if (!OreGenerator.showOre(i)) {
+		for (int i = 0; i < MetaEnums.OreType.values().length; i++) {
+			if (!NCConfig.ore_gen[i] && NCConfig.hide_disabled_ores) {
 				blacklist(jeiHelpers, new ItemStack(NCBlocks.ore, 1, i), new ItemStack(NCBlocks.ingot_block, 1, i), new ItemStack(NCItems.ingot, 1, i), new ItemStack(NCItems.dust, 1, i));
 			}
 		}

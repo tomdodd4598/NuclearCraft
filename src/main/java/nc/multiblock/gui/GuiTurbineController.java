@@ -2,8 +2,9 @@ package nc.multiblock.gui;
 
 import nc.Global;
 import nc.multiblock.gui.element.MultiblockButton;
-import nc.multiblock.network.ClearAllPacket;
+import nc.multiblock.network.ClearAllMaterialPacket;
 import nc.multiblock.turbine.Turbine;
+import nc.multiblock.turbine.tile.TileTurbineRotorBearing;
 import nc.network.PacketHandler;
 import nc.util.Lang;
 import nc.util.NCMath;
@@ -19,6 +20,8 @@ import net.minecraft.util.math.MathHelper;
 public class GuiTurbineController extends GuiMultiblockController<Turbine> {
 	
 	protected final ResourceLocation gui_texture;
+	
+	int inputRateWidth = 0;
 	
 	public GuiTurbineController(Turbine multiblock, BlockPos controllerPos, Container container) {
 		super(multiblock, controllerPos, container);
@@ -49,27 +52,27 @@ public class GuiTurbineController extends GuiMultiblockController<Turbine> {
 		String power = Lang.localise("gui.nc.container.turbine_controller.power") + " " + UnitHelper.prefix(Math.round(multiblock.power), 6, "RF/t");
 		fontRenderer.drawString(power, xSize / 2 - width(power) / 2, 24, fontColor);
 		
-		String coils = NCUtil.isModifierKeyDown() ? Lang.localise("gui.nc.container.turbine_controller.dynamo_coil_count") + " " + (multiblock.getRotorBearingMap().size() == 0 ? "0/0, 0/0" : multiblock.dynamoCoilCount + "/" + multiblock.getRotorBearingMap().size()/2 + ", " + multiblock.dynamoCoilCountOpposite + "/" + multiblock.getRotorBearingMap().size()/2) : Lang.localise("gui.nc.container.turbine_controller.dynamo_efficiency") + " " + NCMath.decimalPlaces(100D*multiblock.conductivity, 1) + "%";
+		String coils = NCUtil.isModifierKeyDown() ? Lang.localise("gui.nc.container.turbine_controller.dynamo_coil_count") + " " + (multiblock.getPartMap(TileTurbineRotorBearing.class).size() == 0 ? "0/0, 0/0" : multiblock.dynamoCoilCount + "/" + multiblock.getPartMap(TileTurbineRotorBearing.class).size()/2 + ", " + multiblock.dynamoCoilCountOpposite + "/" + multiblock.getPartMap(TileTurbineRotorBearing.class).size()/2) : Lang.localise("gui.nc.container.turbine_controller.dynamo_efficiency") + " " + NCMath.decimalPlaces(100D*multiblock.conductivity, 1) + "%";
 		fontRenderer.drawString(coils, xSize / 2 - width(coils) / 2, 36, fontColor);
 		
-		String expansion_level = Lang.localise("gui.nc.container.turbine_controller.expansion_level") + " " + (multiblock.idealTotalExpansionLevel <= 0D ? "0%" : (NCMath.decimalPlaces(100D*multiblock.totalExpansionLevel, 1) + "% [" + NCMath.decimalPlaces(multiblock.idealTotalExpansionLevel, 1) + " x " + NCMath.decimalPlaces(100D*(multiblock.totalExpansionLevel/multiblock.idealTotalExpansionLevel), 1) + "%]"));
-		fontRenderer.drawString(expansion_level, xSize / 2 - width(expansion_level) / 2, 48, fontColor);
+		String expansionLevel = Lang.localise("gui.nc.container.turbine_controller.expansion_level") + " " + (multiblock.idealTotalExpansionLevel <= 0D ? "0%" : (NCMath.decimalPlaces(100D*multiblock.totalExpansionLevel, 1) + "% [" + NCMath.decimalPlaces(multiblock.idealTotalExpansionLevel, 1) + " x " + NCMath.decimalPlaces(100D*(multiblock.totalExpansionLevel/multiblock.idealTotalExpansionLevel), 1) + "%]"));
+		fontRenderer.drawString(expansionLevel, xSize / 2 - width(expansionLevel) / 2, 48, fontColor);
 		
-		String fluid_rate = Lang.localise("gui.nc.container.turbine_controller.fluid_rate") + " " + UnitHelper.prefix(Math.round(multiblock.getActualInputRate()), 6, "B/t", -1) + " [" + Math.round(100D*multiblock.getActualInputRate()/multiblock.getMaxRecipeRateMultiplier()) + "%]";
-		fontRenderer.drawString(fluid_rate, xSize / 2 - width(fluid_rate) / 2, 60, fontColor);
+		String inputRate = Lang.localise("gui.nc.container.turbine_controller.fluid_rate") + " " + UnitHelper.prefix(Math.round(multiblock.recipeInputRateFP), 6, "B/t", -1) + " [" + Math.round(100D*multiblock.recipeInputRateFP/multiblock.getLogic().getMaxRecipeRateMultiplier()) + "%]";
+		fontRenderer.drawString(inputRate, xSize / 2 - (inputRateWidth = Math.max(inputRateWidth, width(inputRate))) / 2, 60, fontColor);
 	}
 	
 	@Override
 	public void initGui() {
 		super.initGui();
-		buttonList.add(new MultiblockButton.ClearAll(0, guiLeft + 153, guiTop + 5));
+		buttonList.add(new MultiblockButton.ClearAllMaterial(0, guiLeft + 153, guiTop + 5));
 	}
 	
 	@Override
 	protected void actionPerformed(GuiButton guiButton) {
 		if (multiblock.WORLD.isRemote) {
 			if (guiButton.id == 0 && NCUtil.isModifierKeyDown()) {
-				PacketHandler.instance.sendToServer(new ClearAllPacket(controllerPos));
+				PacketHandler.instance.sendToServer(new ClearAllMaterialPacket(controllerPos));
 			}
 		}
 	}

@@ -1,5 +1,7 @@
 package nc.recipe.processor;
 
+import static nc.util.FissionHelper.ISOTOPE_ORE_DICT;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,7 +55,7 @@ public class AlloyFurnaceRecipes extends ProcessorRecipeHandler {
 		addRecipe(SILICON, "dustRedstone", "ingotRedstoneAlloy", 1D, 1D);
 		addRecipe(metalList("Iron"), "dustRedstone", "ingotConductiveIron", 1D, 1D);
 		addRecipe(metalList("Iron"), ENDER_PEARL, "ingotPulsatingIron", 1.5D, 1D);
-		addRecipe(metalList("Steel"), "obsidian", "ingotDarkSteel", 1.5D, 2D);
+		addRecipe(metalList("Steel"), "obsidian", OreDictHelper.oreExists("ingotDarkSteel") ? "ingotDarkSteel" : "ingotObsidianSteel", 1.5D, 2D);
 		addRecipe(metalList("Gold"), Blocks.SOUL_SAND, "ingotSoularium", 1.5D, 0.5D);
 		addRecipe("ingotDarkSteel", oreStack("dustDimensional", 2), "ingotEndSteel", 2D, 2D);
 		addRecipe(oreStackList(metalList("Lead"), 2), metalList("Iron"), oreStack("ingotConstructionAlloy", 3), 1D, 1D);
@@ -82,6 +84,9 @@ public class AlloyFurnaceRecipes extends ProcessorRecipeHandler {
 		addAlloyIngotIngotRecipes("Aluminum", 7, "Titanium", 3, "TitaniumAluminide", 3, 3D, 1D);
 		addAlloyIngotIngotRecipes("Aluminium", 7, "Titanium", 3, "TitaniumAluminide", 3, 3D, 1D);
 		addAlloyIngotIngotRecipes("Titanium", 1, "Iridium", 1, "TitaniumIridium", 2, 1.5D, 2D);
+		
+		// Fission Isotopes
+		addIsotopeZARecipes();
 	}
 	
 	public void addAlloyIngotIngotRecipes(String in1, int inSize1, String in2, int inSize2, String out, int outSize, double time, double power) {
@@ -110,6 +115,12 @@ public class AlloyFurnaceRecipes extends ProcessorRecipeHandler {
 		addRecipe(typeStackList(in1, OreDictHelper.INGOT_VOLUME_TYPES, inSize1), typeStackList("", OreDictHelper.COAL_TYPES, inSize2), oreStack("ingot" + out, outSize), time, power);
 		addRecipe(typeStackList(in1, OreDictHelper.NUGGET_VOLUME_TYPES, inSize1), typeStackList("Coal", OreDictHelper.TINYDUST_VOLUME_TYPES, inSize2), oreStack("nugget" + out, outSize), time/9D, power);
 		addRecipe(typeStackList(in1, OreDictHelper.BLOCK_VOLUME_TYPES, inSize1), typeStackList("Coal", OreDictHelper.BLOCK_VOLUME_TYPES, inSize2), oreStack("block" + out, outSize), time*9D, power);
+	}
+	
+	public void addIsotopeZARecipes() {
+		for (int i = 0; i < ISOTOPE_ORE_DICT.length; i++) {
+			addAlloyIngotIngotRecipes(ISOTOPE_ORE_DICT[i], 1, "Zirconium", 1, ISOTOPE_ORE_DICT[i] + "ZA", 1, 1D, 1D);
+		}
 	}
 	
 	private static ArrayList<OreIngredient> typeStackList(String type, List<String> forms, int size) {

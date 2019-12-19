@@ -33,7 +33,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 
-public class TileTurbineOutlet extends TileTurbinePartBase implements ITileFluid {
+public class TileTurbineOutlet extends TileTurbinePart implements ITileFluid {
 	
 	private final @Nonnull List<Tank> backupTanks = Lists.newArrayList(new Tank(1, new ArrayList<String>()));
 	

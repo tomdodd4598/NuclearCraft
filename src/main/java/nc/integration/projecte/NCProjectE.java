@@ -18,9 +18,7 @@ public class NCProjectE {
 		addIngotEMCValues("Tin", 256);
 		addIngotEMCValues("Lead", 512);
 		addIngotEMCValues("Thorium", 2048);
-		addIngotEMCValues("ThoriumOxide", 2048);
 		addIngotEMCValues("Uranium", 4096);
-		addIngotEMCValues("UraniumOxide", 4096);
 		addIngotEMCValues("Boron", 512);
 		addIngotEMCValues("Lithium", 512);
 		addIngotEMCValues("Magnesium", 512);

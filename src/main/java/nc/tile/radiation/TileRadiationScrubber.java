@@ -64,7 +64,7 @@ public class TileRadiationScrubber extends TilePassiveAbstract implements ITileR
 			return 0D;
 		}
 		double rateMult = currentChunkBuffer + NCConfig.radiation_spread_rate*Math.max(0D, (currentChunkLevel - currentChunkBuffer));
-		if (NCConfig.radiation_scrubber_alt) {
+		if (NCConfig.radiation_scrubber_non_linear) {
 			IRadiationSource chunkSource = RadiationHelper.getRadiationSource(world.getChunk(pos));
 			if (chunkSource == null || chunkSource.getEffectiveScrubberCount() == 0D) return 0D;
 			return -rateMult*scrubberFraction*chunkSource.getScrubbingFraction()/chunkSource.getEffectiveScrubberCount();
@@ -144,7 +144,7 @@ public class TileRadiationScrubber extends TilePassiveAbstract implements ITileR
 	}
 	
 	public static double getMaxScrubberFraction() {
-		return NCConfig.radiation_scrubber_alt ? 1D : NCConfig.radiation_scrubber_fraction;
+		return NCConfig.radiation_scrubber_non_linear ? 1D : NCConfig.radiation_scrubber_fraction;
 	}
 	
 	private static double getOcclusionPenalty() {

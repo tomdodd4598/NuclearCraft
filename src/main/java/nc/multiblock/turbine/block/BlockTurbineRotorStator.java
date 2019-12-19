@@ -20,7 +20,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BlockTurbineRotorStator extends BlockTurbinePartBase implements IBlockRotorBlade {
+public class BlockTurbineRotorStator extends BlockTurbinePart implements IBlockRotorBlade {
 	
 	public BlockTurbineRotorStator() {
 		super();

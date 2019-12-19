@@ -1,6 +1,6 @@
 package nc.network;
 
-import nc.multiblock.network.ClearAllPacket;
+import nc.multiblock.network.ClearAllMaterialPacket;
 import nc.multiblock.network.HeatExchangerUpdatePacket;
 import nc.multiblock.network.SaltFissionUpdatePacket;
 import nc.multiblock.network.SolidFissionUpdatePacket;
@@ -60,7 +60,7 @@ public class PacketHandler {
 		instance.registerMessage(ResetTankSorptionsPacket.Handler.class, ResetTankSorptionsPacket.class, nextID(), Side.SERVER);
 		instance.registerMessage(ToggleTankOutputSettingPacket.Handler.class, ToggleTankOutputSettingPacket.class, nextID(), Side.SERVER);
 		
-		instance.registerMessage(ClearAllPacket.Handler.class, ClearAllPacket.class, nextID(), Side.SERVER);
+		instance.registerMessage(ClearAllMaterialPacket.Handler.class, ClearAllMaterialPacket.class, nextID(), Side.SERVER);
 		
 		// CLIENT
 		instance.registerMessage(ConfigUpdatePacket.Handler.class, ConfigUpdatePacket.class, nextID(), Side.CLIENT);

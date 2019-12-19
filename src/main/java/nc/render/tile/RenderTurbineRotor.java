@@ -44,7 +44,7 @@ public class RenderTurbineRotor extends TileEntitySpecialRenderer<TileTurbineCon
 		IBlockState shaftState = NCBlocks.turbine_rotor_shaft.getDefaultState().withProperty(TurbineRotorBladeUtil.DIR, turbine.getShaftDir());
 		
 		boolean[] isStatorSet = new boolean[turbine.getFlowLength()];
-		for (TileTurbineRotorStator stator : turbine.getRotorStators()) {
+		for (TileTurbineRotorStator stator : turbine.getPartMap(TileTurbineRotorStator.class).values()) {
 			isStatorSet[stator.getDepth()] = true;
 		}
 		
@@ -72,7 +72,7 @@ public class RenderTurbineRotor extends TileEntitySpecialRenderer<TileTurbineCon
 		GlStateManager.rotate(turbine.rotorAngle, dir.getAxis() == Axis.X ? 1F : 0F, dir.getAxis() == Axis.Y ? 1F : 0F, dir.getAxis() == Axis.Z ? 1F : 0F);
 		GlStateManager.translate(-pos.getX() + rX, -pos.getY() + rY, -pos.getZ() + rZ);
 		
-		for (TileTurbineRotorShaft shaft : turbine.getRotorShafts()) {
+		for (TileTurbineRotorShaft shaft : turbine.getPartMap(TileTurbineRotorShaft.class).values()) {
 			if (!shaft.render || isStatorSet[shaft.depth]) continue;
 			GlStateManager.pushMatrix();
 			pos = shaft.getPos();
@@ -82,7 +82,7 @@ public class RenderTurbineRotor extends TileEntitySpecialRenderer<TileTurbineCon
 			GlStateManager.popMatrix();
 		}
 		
-		for (TileTurbineRotorBlade blade : turbine.getRotorBlades()) {
+		for (TileTurbineRotorBlade blade : turbine.getPartMap(TileTurbineRotorBlade.class).values()) {
 			GlStateManager.pushMatrix();
 			pos = blade.bladePos();
 			TurbinePartDir bladeDir = blade.getDir();
@@ -102,7 +102,7 @@ public class RenderTurbineRotor extends TileEntitySpecialRenderer<TileTurbineCon
 		GlStateManager.scale(dir.getAxis() == Axis.X ? 1D : scale, dir.getAxis() == Axis.Y ? 1D : scale, dir.getAxis() == Axis.Z ? 1D : scale);
 		GlStateManager.translate(-pos.getX() + rX, -pos.getY() + rY, -pos.getZ() + rZ);
 		
-		for (TileTurbineRotorShaft shaft : turbine.getRotorShafts()) {
+		for (TileTurbineRotorShaft shaft : turbine.getPartMap(TileTurbineRotorShaft.class).values()) {
 			if (!shaft.render || !isStatorSet[shaft.depth]) continue;
 			GlStateManager.pushMatrix();
 			pos = shaft.getPos();
@@ -112,7 +112,7 @@ public class RenderTurbineRotor extends TileEntitySpecialRenderer<TileTurbineCon
 			GlStateManager.popMatrix();
 		}
 		
-		for (TileTurbineRotorStator stator : turbine.getRotorStators()) {
+		for (TileTurbineRotorStator stator : turbine.getPartMap(TileTurbineRotorStator.class).values()) {
 			GlStateManager.pushMatrix();
 			pos = stator.bladePos();
 			TurbinePartDir bladeDir = stator.getDir();

@@ -512,6 +512,12 @@
 				"fluid": "sic_vapor"
 			}
 		},
+		"fluid_zirconium": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "zirconium"
+			}
+		},
 		"fluid_manganese": {
 			"model": "forge:fluid",
 			"custom": {

@@ -5,6 +5,8 @@ import java.util.List;
 
 import nc.util.ItemStackHelper;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.oredict.OreDictionary;
@@ -22,12 +24,19 @@ public interface IItemIngredient extends IIngredient<ItemStack> {
 	public default List<ItemStack> getInputStackHashingList() {
 		List<ItemStack> list = new ArrayList<>();
 		for (ItemStack stack : getInputStackList()) {
-			if (stack != null && !stack.isEmpty() && ItemStackHelper.getMetadata(stack) == OreDictionary.WILDCARD_VALUE) {
+			int meta = ItemStackHelper.getMetadata(stack);
+			if (stack != null && !stack.isEmpty() && meta == OreDictionary.WILDCARD_VALUE) {
 				NonNullList<ItemStack> subStacks = NonNullList.create();
-				stack.getItem().getSubItems(CreativeTabs.SEARCH, subStacks);
-				for (ItemStack subStack : subStacks) {
-					list.add(subStack);
+				Item item = stack.getItem();
+				if (ItemBlock.class.isAssignableFrom(item.getClass())) {
+					for (int i = 0; i < 16; i++) {
+						subStacks.add(new ItemStack(item, stack.getCount(), i));
+					}
 				}
+				else {
+					stack.getItem().getSubItems(CreativeTabs.SEARCH, subStacks);
+				}
+				list.addAll(subStacks);
 			}
 			else list.add(stack);
 		}

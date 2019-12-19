@@ -7,10 +7,12 @@ import li.cil.oc.api.network.SimpleComponent;
 import nc.Global;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.fission.FissionReactor;
+import nc.multiblock.fission.salt.tile.TileSaltFissionHeater;
+import nc.multiblock.fission.salt.tile.TileSaltFissionVessel;
 import net.minecraftforge.fml.common.Optional;
 
 @Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers")
-public class TileFissionComputerPort extends TileFissionPartBase implements SimpleComponent {
+public class TileFissionComputerPort extends TileFissionPart implements SimpleComponent {
 	
 	public TileFissionComputerPort() {
 		super(CuboidalPartPositionType.WALL);
@@ -119,13 +121,13 @@ public class TileFissionComputerPort extends TileFissionPartBase implements Simp
 	@Callback
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getNumberOfVessels(Context context, Arguments args) {
-		return new Object[] {isMultiblockAssembled() ? getMultiblock().getVesselMap().size() : 0};
+		return new Object[] {isMultiblockAssembled() ? getMultiblock().getPartMap(TileSaltFissionVessel.class).size() : 0};
 	}
 	
 	@Callback
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getNumberOfHeaters(Context context, Arguments args) {
-		return new Object[] {isMultiblockAssembled() ? getMultiblock().getHeaterMap().size() : 0};
+		return new Object[] {isMultiblockAssembled() ? getMultiblock().getPartMap(TileSaltFissionHeater.class).size() : 0};
 	}
 	
 	//TODO
@@ -216,9 +218,9 @@ public class TileFissionComputerPort extends TileFissionPartBase implements Simp
 	
 	@Callback
 	@Optional.Method(modid = "opencomputers")
-	public Object[] clearAll(Context context, Arguments args) {
+	public Object[] clearAllMaterial(Context context, Arguments args) {
 		if (isMultiblockAssembled()) {
-			getMultiblock().clearAll();
+			getMultiblock().clearAllMaterial();
 		}
 		return new Object[] {};
 	}

@@ -7,7 +7,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class TileTurbineCasing extends TileTurbinePartBase {
+public class TileTurbineCasing extends TileTurbinePart {
 	
 	public TileTurbineCasing() {
 		super(CuboidalPartPositionType.EXTERIOR);

@@ -58,7 +58,7 @@ public class RadiationRenders {
 		
 		ScaledResolution res = new ScaledResolution(MC);
 		int barWidth = (int)(100D*playerRads.getTotalRads()/playerRads.getMaxRads());
-		String info = playerRads.isImmune() ? (playerRads.getRadiationImmunityStage() ? IMMUNE : IMMUNE_FOR + " " + UnitHelper.applyTimeUnitShort(playerRads.getRadiationImmunityTime(), 2, 1)) : (playerRads.isRadiationNegligible() ? "0 Rads/t" : RadiationHelper.radsPrefix(playerRads.getRadiationLevel(), true));
+		String info = playerRads.isImmune() ? (playerRads.getRadiationImmunityStage() ? IMMUNE : IMMUNE_FOR + " " + UnitHelper.applyTimeUnitShort(playerRads.getRadiationImmunityTime(), 2, 1)) : (playerRads.isRadiationNegligible() ? "0 Rad/t" : RadiationHelper.radsPrefix(playerRads.getRadiationLevel(), true));
 		int infoWidth = MC.fontRenderer.getStringWidth(info);
 		int overlayWidth = (int)Math.round(Math.max(104, infoWidth)*NCConfig.radiation_hud_size);
 		int overlayHeight = (int)Math.round(19*NCConfig.radiation_hud_size);

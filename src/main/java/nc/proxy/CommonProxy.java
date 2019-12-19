@@ -26,17 +26,16 @@ import nc.integration.tconstruct.TConstructExtras;
 import nc.integration.tconstruct.TConstructIMC;
 import nc.integration.tconstruct.TConstructMaterials;
 import nc.integration.tconstruct.conarm.ConArmMaterials;
-import nc.multiblock.IMultiblockRegistry;
-import nc.multiblock.MultiblockEventHandler;
+import nc.multiblock.MultiblockHandler;
+import nc.multiblock.MultiblockLogic;
 import nc.multiblock.MultiblockRegistry;
 import nc.network.PacketHandler;
+import nc.radiation.RadArmor;
 import nc.radiation.RadBiomes;
-import nc.radiation.RadBlockEffects;
 import nc.radiation.RadPotionEffects;
 import nc.radiation.RadSources;
 import nc.radiation.RadStructures;
 import nc.radiation.RadWorlds;
-import nc.radiation.RadArmor;
 import nc.radiation.RadiationHandler;
 import nc.radiation.environment.RadiationEnvironmentHandler;
 import nc.recipe.NCRecipes;
@@ -91,6 +90,8 @@ public class CommonProxy {
 		
 		NCTiles.register();
 		
+		MultiblockLogic.init();
+		
 		OreDictHandler.registerOres();
 		
 		PacketHandler.registerMessages(Global.MOD_ID);
@@ -133,7 +134,7 @@ public class CommonProxy {
 			if (ModCheck.constructsArmoryLoaded()) ConArmMaterials.init();
 		}
 	}
-
+	
 	public void postInit(FMLPostInitializationEvent postEvent) {
 		if (ModCheck.mekanismLoaded()) GasHelper.init();
 		
@@ -144,7 +145,7 @@ public class CommonProxy {
 		RadPotionEffects.init();
 		RadSources.postInit();
 		RadStructures.init();
-		RadBlockEffects.init();
+		//RadBlockEffects.init();
 		
 		MinecraftForge.EVENT_BUS.register(new RadiationCapabilityHandler());
 		MinecraftForge.EVENT_BUS.register(new RadiationHandler());
@@ -215,14 +216,14 @@ public class CommonProxy {
 	
 	// Multiblocks
 	
-	public IMultiblockRegistry initMultiblockRegistry() {
+	public MultiblockRegistry initMultiblockRegistry() {
 
 		if (multiblockEventHandler == null) {
-			MinecraftForge.EVENT_BUS.register(multiblockEventHandler = new MultiblockEventHandler());
+			MinecraftForge.EVENT_BUS.register(multiblockEventHandler = new MultiblockHandler());
 		}
 		
 		return MultiblockRegistry.INSTANCE;
 	}
 	
-	private static MultiblockEventHandler multiblockEventHandler = null;
+	private static MultiblockHandler multiblockEventHandler = null;
 }

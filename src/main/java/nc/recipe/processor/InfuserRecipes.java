@@ -1,5 +1,7 @@
 package nc.recipe.processor;
 
+import static nc.util.FissionHelper.ISOTOPE_ORE_DICT;
+
 import com.google.common.collect.Lists;
 
 import nc.init.NCBlocks;
@@ -17,15 +19,13 @@ public class InfuserRecipes extends ProcessorRecipeHandler {
 	public InfuserRecipes() {
 		super("infuser", 1, 1, 1, 0);
 	}
-
+	
 	@Override
 	public void addRecipes() {
 		addOxidizingRecipe("ingotThorium", FluidStackHelper.BUCKET_VOLUME);
-		addOxidizingRecipe("ingotUranium", FluidStackHelper.BUCKET_VOLUME);
 		addOxidizingRecipe("ingotManganese", FluidStackHelper.BUCKET_VOLUME);
 		addRecipe("ingotManganeseOxide", fluidStack("oxygen", FluidStackHelper.BUCKET_VOLUME), "ingotManganeseDioxide", 1D, 1D);
 		addOxidizingRecipe("dustThorium", FluidStackHelper.BUCKET_VOLUME);
-		addOxidizingRecipe("dustUranium", FluidStackHelper.BUCKET_VOLUME);
 		addOxidizingRecipe("dustManganese", FluidStackHelper.BUCKET_VOLUME);
 		addRecipe("dustManganeseOxide", fluidStack("oxygen", FluidStackHelper.BUCKET_VOLUME), "dustManganeseDioxide", 1D, 1D);
 		
@@ -70,95 +70,22 @@ public class InfuserRecipes extends ProcessorRecipeHandler {
 		addRecipe(Blocks.HARDENED_CLAY, fluidStack("water", FluidStackHelper.BUCKET_VOLUME*4), Blocks.CLAY, 4D, 1D);
 		
 		// Fission Materials
-		addFertileOxidizingRecipes("Thorium230");
-		addFissileOxidizingRecipes("Thorium232");
-		
-		addFissileOxidizingRecipes("Uranium233");
-		addFissileOxidizingRecipes("Uranium235");
-		addFertileOxidizingRecipes("Uranium238");
-		
-		addFissileOxidizingRecipes("Neptunium236");
-		addFertileOxidizingRecipes("Neptunium237");
-		
-		addFertileOxidizingRecipes("Plutonium238");
-		addFissileOxidizingRecipes("Plutonium239");
-		addFissileOxidizingRecipes("Plutonium241");
-		addFertileOxidizingRecipes("Plutonium242");
-		
-		addFertileOxidizingRecipes("Americium241");
-		addFissileOxidizingRecipes("Americium242");
-		addFertileOxidizingRecipes("Americium243");
-		
-		addFissileOxidizingRecipes("Curium243");
-		addFissileOxidizingRecipes("Curium245");
-		addFertileOxidizingRecipes("Curium246");
-		addFissileOxidizingRecipes("Curium247");
-		
-		addFertileOxidizingRecipes("Berkelium247");
-		addFissileOxidizingRecipes("Berkelium248");
-		
-		addFissileOxidizingRecipes("Californium249");
-		addFertileOxidizingRecipes("Californium250");
-		addFissileOxidizingRecipes("Californium251");
-		addFertileOxidizingRecipes("Californium252");
-		
-		addFuelOxidizingRecipes("TBU");
-		
-		addFuelOxidizingRecipes("LEU233");
-		addFuelOxidizingRecipes("HEU233");
-		addFuelOxidizingRecipes("LEU235");
-		addFuelOxidizingRecipes("HEU235");
-		
-		addFuelOxidizingRecipes("LEN236");
-		addFuelOxidizingRecipes("HEN236");
-		
-		addFuelOxidizingRecipes("LEP239");
-		addFuelOxidizingRecipes("HEP239");
-		addFuelOxidizingRecipes("LEP241");
-		addFuelOxidizingRecipes("HEP241");
-		
-		addFuelOxidizingRecipes("LEA242");
-		addFuelOxidizingRecipes("HEA242");
-		
-		addFuelOxidizingRecipes("LECm243");
-		addFuelOxidizingRecipes("HECm243");
-		addFuelOxidizingRecipes("LECm245");
-		addFuelOxidizingRecipes("HECm245");
-		addFuelOxidizingRecipes("LECm247");
-		addFuelOxidizingRecipes("HECm247");
-		
-		addFuelOxidizingRecipes("LEB248");
-		addFuelOxidizingRecipes("HEB248");
-		
-		addFuelOxidizingRecipes("LECf249");
-		addFuelOxidizingRecipes("HECf249");
-		addFuelOxidizingRecipes("LECf251");
-		addFuelOxidizingRecipes("HECf251");
+		addIsotopeInfusionRecipes();
 	}
 	
 	public void addOxidizingRecipe(String name, int oxygenAmount) {
 		addRecipe(name, fluidStack("oxygen", oxygenAmount), name + "Oxide", 1D, 1D);
 	}
 	
-	public void addFertileOxidizingRecipes(String name) {
-		addRecipe("ingot" + name + "Base", fluidStack("oxygen", FluidStackHelper.OXIDIZING_VOLUME), "ingot" + name + "Oxide", 0.5D, 1D);
-		addRecipe("nugget" + name, fluidStack("oxygen", FluidStackHelper.OXIDIZING_VOLUME/8), "nugget" + name + "Oxide", 1D/18D, 1D);
-	}
-	
-	public void addFissileOxidizingRecipes(String name) {
-		addRecipe("ingot" + name, fluidStack("oxygen", FluidStackHelper.OXIDIZING_VOLUME), "ingot" + name + "Oxide", 0.5D, 1D);
-		addRecipe("nugget" + name, fluidStack("oxygen", FluidStackHelper.OXIDIZING_VOLUME/8), "nugget" + name + "Oxide", 1D/18D, 1D);
-	}
-	
-	public void addFuelOxidizingRecipes(String name) {
-		addRecipe("fuel" + name, fluidStack("oxygen", FluidStackHelper.OXIDIZING_VOLUME*10), "fuel" + name + "Oxide", 2D, 2D);
-		addRecipe("fuelRod" + name, fluidStack("oxygen", FluidStackHelper.OXIDIZING_VOLUME*10), "fuelRod" + name + "Oxide", 2D, 2D);
-		addRecipe("depletedFuel" + name, fluidStack("oxygen", FluidStackHelper.OXIDIZING_VOLUME*8), "depletedFuel" + name + "Oxide", 2D, 2D);
-		addRecipe("depletedFuelRod" + name, fluidStack("oxygen", FluidStackHelper.OXIDIZING_VOLUME*8), "depletedFuelRod" + name + "Oxide", 2D, 2D);
-	}
-	
 	public void addIngotInfusionRecipes(String in, String fluid, int amount, String out, double time, double power) {
 		addRecipe("ingot" + in, fluidStack(fluid, amount), "ingot" + out, time, power);
 		addRecipe("dust" + in, fluidStack(fluid, amount), "dust" + out, time, power);
+	}
+	
+	public void addIsotopeInfusionRecipes() {
+		for (int i = 0; i < ISOTOPE_ORE_DICT.length; i++) {
+			addRecipe("ingot" + ISOTOPE_ORE_DICT[i], fluidStack("oxygen", FluidStackHelper.BUCKET_VOLUME/2), "ingot" + ISOTOPE_ORE_DICT[i] + "Oxide", 1D, 1D);
+			addRecipe("ingot" + ISOTOPE_ORE_DICT[i], fluidStack("nitrogen", FluidStackHelper.BUCKET_VOLUME/2), "ingot" + ISOTOPE_ORE_DICT[i] + "Nitride", 1D, 1D);
+		}
 	}
 }

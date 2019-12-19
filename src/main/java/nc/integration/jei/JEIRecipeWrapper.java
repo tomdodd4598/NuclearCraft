@@ -538,17 +538,27 @@ public class JEIRecipeWrapper {
 		
 		@Override
 		protected int getProgressArrowTime() {
-			return (int) (648D*getSaltFissionFuelTime()/80D);
+			return (int) (getFissionFuelTime()/80D);
 		}
 		
-		protected double getSaltFissionFuelTime() {
-			if (recipe == null) return 1D;
-			return recipe.getSaltFissionFuelTime();
+		protected int getFissionFuelTime() {
+			if (recipe == null) return 1;
+			return recipe.getFissionFuelTime();
 		}
 		
-		protected double getSaltFissionFuelHeat() {
+		protected int getFissionFuelHeat() {
+			if (recipe == null) return 0;
+			return recipe.getFissionFuelHeat();
+		}
+		
+		protected double getFissionFuelEfficiency() {
 			if (recipe == null) return 0D;
-			return recipe.getSaltFissionFuelHeat();
+			return recipe.getFissionFuelEfficiency();
+		}
+		
+		protected int getFissionFuelCriticality() {
+			if (recipe == null) return 1;
+			return recipe.getFissionFuelCriticality();
 		}
 		
 		@Override
@@ -556,15 +566,19 @@ public class JEIRecipeWrapper {
 			List<String> tooltip = new ArrayList<String>();
 			
 			if (mouseX >= 73 - 47 && mouseY >= 34 - 30 && mouseX < 73 - 47 + 37 + 1 && mouseY < 34 - 30 + 18 + 1) {
-				tooltip.add(TextFormatting.GREEN + FUEL_TIME + " " + TextFormatting.WHITE + UnitHelper.applyTimeUnitShort(NCMath.round(getSaltFissionFuelTime()*NCConfig.fission_fuel_time_multiplier, 2), 3));
-				tooltip.add(TextFormatting.YELLOW + FUEL_HEAT + " " + TextFormatting.WHITE + UnitHelper.prefix(getSaltFissionFuelHeat(), 5, "H/t"));
+				tooltip.add(TextFormatting.GREEN + FUEL_TIME + " " + TextFormatting.WHITE + UnitHelper.applyTimeUnitShort(NCMath.round(getFissionFuelTime()*NCConfig.fission_fuel_time_multiplier, 2), 3));
+				tooltip.add(TextFormatting.YELLOW + FUEL_HEAT + " " + TextFormatting.WHITE + UnitHelper.prefix(getFissionFuelHeat(), 5, "H/t"));
+				tooltip.add(TextFormatting.LIGHT_PURPLE + FUEL_EFFICIENCY + " " + TextFormatting.WHITE + Math.round(100D*getFissionFuelEfficiency()) + "%");
+				tooltip.add(TextFormatting.RED + FUEL_CRITICALITY + " " + TextFormatting.WHITE + getFissionFuelCriticality() + " N/t");
 			}
 			
 			return tooltip;
 		}
 		
-		private static final String FUEL_TIME = Lang.localise("jei.nuclearcraft.salt_fuel_time");
-		private static final String FUEL_HEAT = Lang.localise("jei.nuclearcraft.salt_fuel_heat");
+		private static final String FUEL_TIME = Lang.localise("jei.nuclearcraft.solid_fuel_time");
+		private static final String FUEL_HEAT = Lang.localise("jei.nuclearcraft.solid_fuel_heat");
+		private static final String FUEL_EFFICIENCY = Lang.localise("jei.nuclearcraft.solid_fuel_efficiency");
+		private static final String FUEL_CRITICALITY = Lang.localise("jei.nuclearcraft.solid_fuel_criticality");
 	}
 	
 	public static class Fusion extends JEIRecipeWrapperAbstract<Fusion> {

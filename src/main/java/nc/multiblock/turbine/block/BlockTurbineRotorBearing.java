@@ -9,7 +9,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockTurbineRotorBearing extends BlockTurbinePartBase {
+public class BlockTurbineRotorBearing extends BlockTurbinePart {
 	
 	public BlockTurbineRotorBearing() {
 		super();

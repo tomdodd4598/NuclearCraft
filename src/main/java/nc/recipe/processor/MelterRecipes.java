@@ -1,5 +1,10 @@
 package nc.recipe.processor;
 
+import static nc.util.FissionHelper.FUEL_FLUID;
+import static nc.util.FissionHelper.FUEL_ORE_DICT;
+import static nc.util.FissionHelper.ISOTOPE_FLUID;
+import static nc.util.FissionHelper.ISOTOPE_ORE_DICT;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -135,36 +140,15 @@ public class MelterRecipes extends ProcessorRecipeHandler {
 		addIngotMeltingRecipes("supremium");
 		
 		// Fission Isotopes
-		addIsotopeMeltingRecipes("thorium", 230);
-		addIngotMeltingRecipes("thorium232", "fuel_tbu");
-		addIsotopeMeltingRecipes("uranium", 233, 235, 238);
-		addIsotopeMeltingRecipes("neptunium", 236, 237);
-		addIsotopeMeltingRecipes("plutonium", 238, 239, 241, 242);
-		addIsotopeMeltingRecipes("americium", 241, 242, 243);
-		addIsotopeMeltingRecipes("curium", 243, 245, 246, 247);
-		addIsotopeMeltingRecipes("berkelium", 247, 248);
-		addIsotopeMeltingRecipes("californium", 249, 250, 251, 252);
+		addIsotopeMeltingRecipes();
 		
 		// Fission Fuels
-		for (String suffix : new String[] {"", "Oxide"}) {
-			for (String prefix : new String[] {"fuel", "fuelRod"}) addRecipe(prefix + "TBU" + suffix, fluidStack("fuel_tbu", FluidStackHelper.INGOT_BLOCK_VOLUME), 9D);
-			for (String prefix : new String[] {"depletedFuel", "depletedFuelRod"}) addRecipe(prefix + "TBU" + suffix, fluidStack("depleted_fuel_tbu", FluidStackHelper.NUGGET_VOLUME*64), 64D/9D);
-		}
-		addFissionFuelMeltingRecipes("uranium", "eu", 233, 235);
-		addFissionFuelMeltingRecipes("neptunium", "en", 236);
-		addFissionFuelMeltingRecipes("plutonium", "ep", 239, 241);
-		addFissionFuelMeltingRecipes("americium", "ea", 242);
-		addFissionFuelMeltingRecipes("curium", "ec", "m", 243, 245, 247);
-		addFissionFuelMeltingRecipes("berkelium", "eb", 248);
-		addFissionFuelMeltingRecipes("californium", "ec", "f", 249, 251);
+		addFissionFuelMeltingRecipes();
 		
 		addRecipe(Blocks.ICE, fluidStack("water", FluidStackHelper.BUCKET_VOLUME), 0.25D, 0.5D);
 		addRecipe(Blocks.PACKED_ICE, fluidStack("water", FluidStackHelper.BUCKET_VOLUME), 0.5D, 0.5D);
 		
 		addOreMeltingRecipes();
-		
-		addIngotMeltingRecipes("thoriumOxide", "thorium");
-		addIngotMeltingRecipes("uraniumOxide", "uranium");
 		
 		addRecipe("blockQuartz", fluidStack("quartz", FluidStackHelper.GEM_VOLUME*4), 4D, 1D);
 		addRecipe("blockLapis", fluidStack("lapis", FluidStackHelper.GEM_BLOCK_VOLUME), 9D, 1D);
@@ -191,25 +175,18 @@ public class MelterRecipes extends ProcessorRecipeHandler {
 		addRecipe(Lists.newArrayList("nugget" + oreName, "tinyDust" + oreName), fluidStack(name, FluidStackHelper.GEM_NUGGET_VOLUME), 1D/9D, 1D);
 	}
 	
-	public void addIsotopeMeltingRecipes(String element, int... types) {
-		for (int type : types) addIngotMeltingRecipes(element + type, element + "_" + type);
-	}
-	
-	public void addFissionFuelMeltingRecipes(String element, String suffix, String suffixExtra, int... types) {
-		for (int type : types) for (String oxide : new String[] {"", "Oxide"}) {
-			for (String prefix : new String[] {"fuel", "fuelRod"}) {
-				addRecipe(prefix + "L" + suffix.toUpperCase() + suffixExtra + type + oxide, fluidStack("fuel_l" + suffix + suffixExtra + "_" + type, FluidStackHelper.INGOT_BLOCK_VOLUME), 9D, 1D);
-				addRecipe(prefix + "H" + suffix.toUpperCase() + suffixExtra + type + oxide, fluidStack("fuel_h" + suffix + suffixExtra + "_" + type, FluidStackHelper.INGOT_BLOCK_VOLUME), 9D, 1D);
-			}
-			for (String prefix : new String[] {"depletedFuel", "depletedFuelRod"}) {
-				addRecipe(prefix + "L" + suffix.toUpperCase() + suffixExtra + type + oxide, fluidStack("depleted_fuel_l" + suffix + suffixExtra + "_" + type, FluidStackHelper.INGOT_BLOCK_VOLUME), 64D/9D, 1D);
-				addRecipe(prefix + "H" + suffix.toUpperCase() + suffixExtra + type + oxide, fluidStack("depleted_fuel_h" + suffix + suffixExtra + "_" + type, FluidStackHelper.INGOT_BLOCK_VOLUME), 64D/9D, 1D);
-			}
+	public void addIsotopeMeltingRecipes() {
+		for (int i = 0; i < ISOTOPE_ORE_DICT.length; i++) {
+			addIngotMeltingRecipes(ISOTOPE_ORE_DICT[i], ISOTOPE_FLUID[i]);
+			addIngotMeltingRecipes(ISOTOPE_ORE_DICT[i] + "ZA", ISOTOPE_FLUID[i] + "_za");
 		}
 	}
 	
-	public void addFissionFuelMeltingRecipes(String element, String suffix, int... types) {
-		addFissionFuelMeltingRecipes(element, suffix, "", types);
+	public void addFissionFuelMeltingRecipes() {
+		for (int i = 0; i < FUEL_ORE_DICT.length; i++) {
+			addRecipe("fuel" + FUEL_ORE_DICT[i], fluidStack("fuel_" + FUEL_FLUID[i], FluidStackHelper.INGOT_VOLUME), 1D, 1D);
+			addRecipe("depletedFuel" + FUEL_ORE_DICT[i], fluidStack("depleted_fuel_" + FUEL_FLUID[i], FluidStackHelper.INGOT_VOLUME), 1D, 1D);
+		}
 	}
 	
 	private static final List<String> MELTING_BLACKLIST = Arrays.asList("coal", "redstone", "glowstone", "prismarine", "obsidian", "silicon", "marshmallow");

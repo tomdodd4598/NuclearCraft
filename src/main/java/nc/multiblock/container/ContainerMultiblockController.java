@@ -1,12 +1,12 @@
 package nc.multiblock.container;
 
-import nc.multiblock.MultiblockBase;
-import nc.multiblock.MultiblockTileBase;
+import nc.multiblock.IMultiblockController;
+import nc.multiblock.Multiblock;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 
-public class ContainerMultiblockController<MULTIBLOCK extends MultiblockBase, CONTROLLER extends MultiblockTileBase<MULTIBLOCK>> extends Container {
+public class ContainerMultiblockController<MULTIBLOCK extends Multiblock, CONTROLLER extends IMultiblockController<MULTIBLOCK>> extends Container {
 	
 	protected final CONTROLLER controller;
 	

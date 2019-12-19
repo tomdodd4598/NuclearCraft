@@ -10,6 +10,7 @@ import nc.tile.internal.fluid.Tank;
 import nc.util.InfoHelper;
 import nc.util.Lang;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumParticleTypes;
 
 public class ProcessorRecipe implements IRecipe {
 	
@@ -191,26 +192,6 @@ public class ProcessorRecipe implements IRecipe {
 		else return 128;
 	}
 	
-	// Salt Fission Vessel
-	
-	public double getSaltFissionFuelTime() {
-		if (extras.isEmpty()) return 1D;
-		else if (extras.get(0) instanceof Double) return (double) extras.get(0);
-		else return 1D;
-	}
-	
-	public double getSaltFissionFuelHeat() {
-		if (extras.size() < 2) return 0D;
-		else if (extras.get(1) instanceof Double) return (double) extras.get(1);
-		else return 0D;
-	}
-	
-	public double getSaltFissionFuelRadiation() {
-		if (extras.size() < 3) return 0D;
-		else if (extras.get(2) instanceof Double) return (double) extras.get(2);
-		else return 0D;
-	}
-	
 	// Fusion
 	
 	public double getFusionComboTime() {
@@ -289,6 +270,21 @@ public class ProcessorRecipe implements IRecipe {
 		else return 1D;
 	}
 	
+	public String getTurbineParticleEffect() {
+		if (extras.size() < 3) return "cloud";
+		else if (extras.get(2) instanceof String) {
+			EnumParticleTypes particle = EnumParticleTypes.getByName((String)extras.get(2));
+			return particle == null ? "cloud" : (String)extras.get(2);
+		}
+		else return "cloud";
+	}
+	
+	public double getTurbineParticleSpeedMultiplier() {
+		if (extras.size() < 4) return 1D/23.2D;
+		else if (extras.get(3) instanceof Double) return (double) extras.get(3);
+		else return 1D/23.2D;
+	}
+	
 	// Condenser
 	
 	public double getCondenserProcessTime(double defaultProcessTime) {
@@ -305,9 +301,9 @@ public class ProcessorRecipe implements IRecipe {
 	
 	// Radiation Block Mutations
 	
-	public double getBlockMutationThreshold() {
-		if (extras.isEmpty()) return NCConfig.radiation_block_effect_limit;
+	public double getBlockMutationThreshold(boolean purification) {
+		if (extras.isEmpty()) return purification ? 0D : Double.MAX_VALUE;
 		else if (extras.get(0) instanceof Double) return (double) extras.get(0);
-		else return NCConfig.radiation_block_effect_limit;
+		else return purification ? 0D : Double.MAX_VALUE;
 	}
 }

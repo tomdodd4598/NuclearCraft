@@ -1,37 +1,34 @@
 package nc.multiblock.network;
 
 import io.netty.buffer.ByteBuf;
+import nc.tile.internal.heat.HeatBuffer;
 import net.minecraft.util.math.BlockPos;
 
 public abstract class FissionUpdatePacket extends MultiblockUpdatePacket {
 	
 	public boolean isReactorOn;
+	public long cooling, rawHeating, totalHeatMult, usefulPartCount, heatStored, heatCapacity;
 	public int clusterCount, fuelComponentCount;
-	public long cooling, rawHeating, totalHeatMult, usefulPartCount, capacity, heat, netHeating;
-	public double effectiveHeating, meanHeatMult, totalEfficiency, meanEfficiency, sparsityEfficiencyMult, roundedOutputRate;
+	public double meanHeatMult, totalEfficiency, meanEfficiency;
 	
 	public FissionUpdatePacket() {
 		messageValid = false;
 	}
 	
-	public FissionUpdatePacket(BlockPos pos, boolean isReactorOn, int clusterCount, long cooling, long rawHeating, double effectiveHeating, long totalHeatMult, double meanHeatMult, int fuelComponentCount, long usefulPartCount, double totalEfficiency, double meanEfficiency, double sparsityEfficiencyMult, long capacity, long heat, double roundedOutputRate, long netHeating) {
+	public FissionUpdatePacket(BlockPos pos, boolean isReactorOn, HeatBuffer heatBuffer, int clusterCount, long cooling, long rawHeating, long totalHeatMult, double meanHeatMult, int fuelComponentCount, long usefulPartCount, double totalEfficiency, double meanEfficiency) {
 		this.pos = pos;
 		this.isReactorOn = isReactorOn;
+		heatStored = heatBuffer.getHeatStored();
+		heatCapacity = heatBuffer.getHeatCapacity();
 		this.clusterCount = clusterCount;
 		this.cooling = cooling;
 		this.rawHeating = rawHeating;
-		this.effectiveHeating = effectiveHeating;
 		this.totalHeatMult = totalHeatMult;
 		this.meanHeatMult = meanHeatMult;
 		this.fuelComponentCount = fuelComponentCount;
 		this.usefulPartCount = usefulPartCount;
 		this.totalEfficiency = totalEfficiency;
 		this.meanEfficiency = meanEfficiency;
-		this.sparsityEfficiencyMult = sparsityEfficiencyMult;
-		this.capacity = capacity;
-		this.heat = heat;
-		this.roundedOutputRate = roundedOutputRate;
-		this.netHeating = netHeating;
 		
 		messageValid = true;
 	}
@@ -40,21 +37,17 @@ public abstract class FissionUpdatePacket extends MultiblockUpdatePacket {
 	public void readMessage(ByteBuf buf) {
 		pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
 		isReactorOn = buf.readBoolean();
+		heatStored = buf.readLong();
+		heatCapacity = buf.readLong();
 		clusterCount = buf.readInt();
 		cooling = buf.readLong();
 		rawHeating = buf.readLong();
-		effectiveHeating = buf.readDouble();
 		totalHeatMult = buf.readLong();
 		meanHeatMult = buf.readDouble();
 		fuelComponentCount = buf.readInt();
 		usefulPartCount = buf.readLong();
 		totalEfficiency = buf.readDouble();
 		meanEfficiency = buf.readDouble();
-		sparsityEfficiencyMult = buf.readDouble();
-		capacity = buf.readLong();
-		heat = buf.readLong();
-		roundedOutputRate = buf.readDouble();
-		netHeating = buf.readLong();
 	}
 	
 	@Override
@@ -63,20 +56,16 @@ public abstract class FissionUpdatePacket extends MultiblockUpdatePacket {
 		buf.writeInt(pos.getY());
 		buf.writeInt(pos.getZ());
 		buf.writeBoolean(isReactorOn);
+		buf.writeLong(heatStored);
+		buf.writeLong(heatCapacity);
 		buf.writeInt(clusterCount);
 		buf.writeLong(cooling);
 		buf.writeLong(rawHeating);
-		buf.writeDouble(effectiveHeating);
 		buf.writeLong(totalHeatMult);
 		buf.writeDouble(meanHeatMult);
 		buf.writeInt(fuelComponentCount);
 		buf.writeLong(usefulPartCount);
 		buf.writeDouble(totalEfficiency);
 		buf.writeDouble(meanEfficiency);
-		buf.writeDouble(sparsityEfficiencyMult);
-		buf.writeLong(capacity);
-		buf.writeLong(heat);
-		buf.writeDouble(roundedOutputRate);
-		buf.writeLong(netHeating);
 	}
 }

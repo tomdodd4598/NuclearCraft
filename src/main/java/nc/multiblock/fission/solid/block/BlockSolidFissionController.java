@@ -4,7 +4,7 @@ import static nc.block.property.BlockProperties.ACTIVE;
 import static nc.block.property.BlockProperties.FACING_ALL;
 
 import nc.NuclearCraft;
-import nc.multiblock.fission.block.BlockFissionPartBase;
+import nc.multiblock.fission.block.BlockFissionPart;
 import nc.multiblock.fission.solid.tile.TileSolidFissionController;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -16,7 +16,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockSolidFissionController extends BlockFissionPartBase {
+public class BlockSolidFissionController extends BlockFissionPart {
 	
 	public BlockSolidFissionController() {
 		super();

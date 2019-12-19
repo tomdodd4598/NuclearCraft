@@ -1,5 +1,7 @@
 package nc;
 
+import java.util.Locale;
+
 import nc.config.NCConfig;
 import nc.enumm.IFissionFuelEnum;
 import nc.enumm.IHeatSinkEnum;
@@ -154,7 +156,7 @@ public class NCInfo {
 	}
 	
 	private static String coiInfoString(int meta) {
-		return Lang.localise("tile." + Global.MOD_ID + ".turbine_dynamo_coil." + TurbineDynamoCoilType.values()[meta].name().toLowerCase() + ".desc");
+		return Lang.localise("tile." + Global.MOD_ID + ".turbine_dynamo_coil." + TurbineDynamoCoilType.values()[meta].name().toLowerCase(Locale.ROOT) + ".desc");
 	}
 	
 	// Speed Upgrade

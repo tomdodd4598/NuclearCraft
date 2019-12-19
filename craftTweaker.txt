@@ -341,7 +341,7 @@ ________________________________________________________________________________
  Steam Turbine:
 >--------------<
 
-mods.nuclearcraft.turbine.addRecipe(ILiquidStack fluidInput, ILiquidStack fluidOutput, double powerPerMB, double expansionLevel);
+mods.nuclearcraft.turbine.addRecipe(ILiquidStack fluidInput, ILiquidStack fluidOutput, double powerPerMB, double expansionLevel, {String particleEffect, double particleSpeedMultiplier});
 
 mods.nuclearcraft.turbine.removeRecipeWithInput(ILiquidStack fluidInput);
 mods.nuclearcraft.turbine.removeRecipeWithOutput(ILiquidStack fluidOutput);
@@ -361,8 +361,15 @@ ________________________________________________________________________________
  Radiation:
 >----------<
 
+mods.nuclearcraft.radiation_block_mutation.addRecipe(IIngredient blockInput, IIngredient blockOutput, double radiationThreshold);
+mods.nuclearcraft.radiation_block_mutation.removeRecipeWithInput(IIngredient blockInput);
+mods.nuclearcraft.radiation_block_mutation.removeRecipeWithOutput(IIngredient blockOutput);
+
+mods.nuclearcraft.radiation_block_purification.addRecipe(IIngredient blockInput, IIngredient blockOutput, double radiationThreshold);
+mods.nuclearcraft.radiation_block_purification.removeRecipeWithInput(IIngredient blockInput);
+mods.nuclearcraft.radiation_block_purification.removeRecipeWithOutput(IIngredient blockOutput);
+
 mods.nuclearcraft.radiation.getRadiationLevel(IIngredient itemInput);
-mods.nuclearcraft.radiation.addBlockMutation(blockInput, blockOutput, double radiationThreshold);
 
 mods.nuclearcraft.radiation.setRadiationImmunityGameStages(boolean defaultImmunity, String... stageNames);
 

@@ -16,7 +16,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockTurbineController extends BlockTurbinePartBase {
+public class BlockTurbineController extends BlockTurbinePart {
 	
 	public BlockTurbineController() {
 		super();

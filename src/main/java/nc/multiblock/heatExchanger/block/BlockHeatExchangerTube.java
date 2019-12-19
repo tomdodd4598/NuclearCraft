@@ -21,7 +21,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockHeatExchangerTube extends BlockHeatExchangerPartBase implements ISidedProperty<HeatExchangerTubeSetting> {
+public class BlockHeatExchangerTube extends BlockHeatExchangerPart implements ISidedProperty<HeatExchangerTubeSetting> {
 	
 	private static EnumFacing placementSide = null;
 	

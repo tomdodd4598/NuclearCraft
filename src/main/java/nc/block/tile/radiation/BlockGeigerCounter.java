@@ -33,7 +33,7 @@ public class BlockGeigerCounter extends BlockSimpleTile {
 				if (!world.isRemote) {
 					TileGeigerCounter geiger = (TileGeigerCounter) world.getTileEntity(pos);
 					double radiation = geiger.getChunkRadiationLevel();
-					player.sendMessage(new TextComponentString(RADIATION + " " + RadiationHelper.getRadiationTextColor(radiation) + (radiation < NCConfig.radiation_lowest_rate ? "0 Rads/t" : RadiationHelper.radsPrefix(radiation, true))));
+					player.sendMessage(new TextComponentString(RADIATION + " " + RadiationHelper.getRadiationTextColor(radiation) + (radiation < NCConfig.radiation_lowest_rate ? "0 Rad/t" : RadiationHelper.radsPrefix(radiation, true))));
 				}
 				return true;
 			}

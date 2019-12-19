@@ -6,6 +6,7 @@ import java.util.Random;
 
 import nc.block.BlockMeta;
 import nc.config.NCConfig;
+import nc.enumm.MetaEnums;
 import nc.init.NCBlocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -17,14 +18,7 @@ import net.minecraftforge.fml.common.IWorldGenerator;
 
 public class OreGenerator implements IWorldGenerator {
 	
-	private final WorldGenerator copper;
-	private final WorldGenerator tin;
-	private final WorldGenerator lead;
-	private final WorldGenerator thorium;
-	private final WorldGenerator uranium;
-	private final WorldGenerator boron;
-	private final WorldGenerator lithium;
-	private final WorldGenerator magnesium;
+	private final WorldGenerator[] ores;
 	
 	private static class WorldGenOre extends WorldGenMinable {
 		
@@ -34,14 +28,10 @@ public class OreGenerator implements IWorldGenerator {
 	}
 	
 	public OreGenerator() {
-		copper = new WorldGenOre(0);
-		tin = new WorldGenOre(1);
-		lead = new WorldGenOre(2);
-		thorium = new WorldGenOre(3);
-		uranium = new WorldGenOre(4);
-		boron = new WorldGenOre(5);
-		lithium = new WorldGenOre(6);
-		magnesium = new WorldGenOre(7);
+		ores = new WorldGenerator[8];
+		for (int i = 0; i < MetaEnums.OreType.values().length; i++) {
+			ores[i] = new WorldGenOre(i);
+		}
 	}
 
 	@Override
@@ -52,8 +42,9 @@ public class OreGenerator implements IWorldGenerator {
 	}
 	
 	private static void generateOre(WorldGenerator generator, World world, Random rand, int chunk_X, int chunk_Z, int chancesToSpawn, int minHeight, int maxHeight) {
-		if (minHeight < 0 || maxHeight > 256 || minHeight > maxHeight)
+		if (minHeight < 0 || maxHeight > 256 || minHeight > maxHeight) {
 			throw new IllegalArgumentException("Illegal height arguments for WorldGenerator!");
+		}
 		
 		int heightDiff = maxHeight - minHeight + 1;
 		for (int i = 0; i < chancesToSpawn; i++) {
@@ -65,17 +56,8 @@ public class OreGenerator implements IWorldGenerator {
 	}
 	
 	private void generateOres(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
-		if (NCConfig.ore_gen[0]) generateOre(copper, world, random, chunkX, chunkZ, NCConfig.ore_rate[0], NCConfig.ore_min_height[0], NCConfig.ore_max_height[0]);
-		if (NCConfig.ore_gen[1]) generateOre(tin, world, random, chunkX, chunkZ, NCConfig.ore_rate[1], NCConfig.ore_min_height[1], NCConfig.ore_max_height[1]);
-		if (NCConfig.ore_gen[2]) generateOre(lead, world, random, chunkX, chunkZ, NCConfig.ore_rate[2], NCConfig.ore_min_height[2], NCConfig.ore_max_height[2]);
-		if (NCConfig.ore_gen[3]) generateOre(thorium, world, random, chunkX, chunkZ, NCConfig.ore_rate[3], NCConfig.ore_min_height[3], NCConfig.ore_max_height[3]);
-		if (NCConfig.ore_gen[4]) generateOre(uranium, world, random, chunkX, chunkZ, NCConfig.ore_rate[4], NCConfig.ore_min_height[4], NCConfig.ore_max_height[4]);
-		if (NCConfig.ore_gen[5]) generateOre(boron, world, random, chunkX, chunkZ, NCConfig.ore_rate[5], NCConfig.ore_min_height[5], NCConfig.ore_max_height[5]);
-		if (NCConfig.ore_gen[6]) generateOre(lithium, world, random, chunkX, chunkZ, NCConfig.ore_rate[6], NCConfig.ore_min_height[6], NCConfig.ore_max_height[6]);
-		if (NCConfig.ore_gen[7]) generateOre(magnesium, world, random, chunkX, chunkZ, NCConfig.ore_rate[7], NCConfig.ore_min_height[7], NCConfig.ore_max_height[7]);
-	}
-	
-	public static boolean showOre(int i) {
-		return NCConfig.ore_gen[i] || !NCConfig.hide_disabled_ores;
+		for (int i = 0; i < MetaEnums.OreType.values().length; i++) {
+			if (NCConfig.ore_gen[i]) generateOre(ores[i], world, random, chunkX, chunkZ, NCConfig.ore_rate[i], NCConfig.ore_min_height[i], NCConfig.ore_max_height[i]);
+		}
 	}
 }

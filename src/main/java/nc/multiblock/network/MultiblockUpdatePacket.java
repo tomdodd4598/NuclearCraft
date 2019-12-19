@@ -1,8 +1,8 @@
 package nc.multiblock.network;
 
 import io.netty.buffer.ByteBuf;
-import nc.multiblock.MultiblockBase;
-import nc.multiblock.MultiblockTileBase;
+import nc.multiblock.Multiblock;
+import nc.multiblock.TileMultiblockPart;
 import nc.util.NCUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.tileentity.TileEntity;
@@ -42,7 +42,7 @@ public abstract class MultiblockUpdatePacket implements IMessage {
 		writeMessage(buf);
 	}
 	
-	public static abstract class Handler<MESSAGE extends MultiblockUpdatePacket, MULTIBLOCK extends MultiblockBase, CONTROLLER extends MultiblockTileBase<MULTIBLOCK>> implements IMessageHandler<MESSAGE, IMessage> {
+	public static abstract class Handler<MESSAGE extends MultiblockUpdatePacket, MULTIBLOCK extends Multiblock, CONTROLLER extends TileMultiblockPart<MULTIBLOCK>> implements IMessageHandler<MESSAGE, IMessage> {
 		
 		protected final Class<CONTROLLER> controllerClass;
 		

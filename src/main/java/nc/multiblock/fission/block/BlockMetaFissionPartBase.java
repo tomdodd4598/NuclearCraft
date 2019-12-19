@@ -1,7 +1,7 @@
 package nc.multiblock.fission.block;
 
 import nc.enumm.IBlockMetaEnum;
-import nc.multiblock.MultiblockBlockMetaPartBase;
+import nc.multiblock.BlockMultiblockMetaPart;
 import nc.tab.NCTabs;
 import nc.util.BlockHelper;
 import net.minecraft.block.material.Material;
@@ -14,7 +14,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public abstract class BlockMetaFissionPartBase<T extends Enum<T> & IStringSerializable & IBlockMetaEnum> extends MultiblockBlockMetaPartBase<T> {
+public abstract class BlockMetaFissionPartBase<T extends Enum<T> & IStringSerializable & IBlockMetaEnum> extends BlockMultiblockMetaPart<T> {
 	
 	public BlockMetaFissionPartBase(Class<T> enumm, PropertyEnum<T> property) {
 		super(enumm, property, Material.IRON, NCTabs.MULTIBLOCK);
@@ -27,6 +27,6 @@ public abstract class BlockMetaFissionPartBase<T extends Enum<T> & IStringSerial
 	
 	@Override
 	public void onEntityCollision(World world, BlockPos pos, IBlockState state, Entity entity) {
-		BlockFissionPartBase.onEntityCollisionWithFissionReactor(world, pos, entity);
+		BlockFissionPart.onEntityCollisionWithFissionReactor(world, pos, entity);
 	}
 }

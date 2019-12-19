@@ -21,7 +21,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BlockTurbineRotorBlade extends BlockTurbinePartBase implements IBlockRotorBlade {
+public class BlockTurbineRotorBlade extends BlockTurbinePart implements IBlockRotorBlade {
 	
 	private final TurbineRotorBladeType bladeType;
 	

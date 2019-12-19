@@ -50,7 +50,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
 
-public class TileFissionPort extends TileFissionPartBase implements ITileInventory, ITileFluid {
+public class TileFissionPort extends TileFissionPart implements ITileInventory, ITileFluid {
 	
 	private final @Nonnull String inventoryName = Global.MOD_ID + ".container.fission_port";
 	
@@ -128,7 +128,7 @@ public class TileFissionPort extends TileFissionPartBase implements ITileInvento
 	
 	public void refreshMasterPort() {
 		if (getMultiblock() != null) {
-			masterPort = getMultiblock().getPortMap().get(masterPortPos.toLong());
+			masterPort = getMultiblock().getPartMap(TileFissionPort.class).get(masterPortPos.toLong());
 			if (masterPort == null) masterPortPos = BlockPosHelper.DEFAULT_NON;
 		}
 	}
@@ -156,7 +156,7 @@ public class TileFissionPort extends TileFissionPartBase implements ITileInvento
 		refreshCellsFlag = false;
 		if (isMultiblockAssembled()) {
 			boolean refresh = false;
-			for (TileSolidFissionCell cell : getMultiblock().getCellMap().values()) {
+			for (TileSolidFissionCell cell : getMultiblock().getPartMap(TileSolidFissionCell.class).values()) {
 				if (cell.getPortPos() != null && (cell.getPortPos().equals(pos) || cell.getPortPos().equals(masterPortPos))) {
 					/*if (refreshRecipe)*/ cell.refreshRecipe();
 					cell.refreshActivity();

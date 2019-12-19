@@ -75,7 +75,7 @@ public class ItemRadiationBadge extends NCItem implements IBauble {
 			World world = player.getEntityWorld();
 			if (badge.getRadiationLevel() >= NCConfig.radiation_badge_durability) {
 				if (!world.isRemote) {
-					player.sendMessage(new TextComponentString(TextFormatting.ITALIC + EXPOSURE + " " + UnitHelper.prefix(badge.getRadiationLevel(), 3, "Rads")));
+					player.sendMessage(new TextComponentString(TextFormatting.ITALIC + EXPOSURE + " " + UnitHelper.prefix(badge.getRadiationLevel(), 3, "Rad")));
 					player.sendMessage(new TextComponentString(TextFormatting.ITALIC + BADGE_BROKEN));
 				}
 				else {
@@ -84,7 +84,7 @@ public class ItemRadiationBadge extends NCItem implements IBauble {
 				stack.shrink(1);
 			}
 			else if (!world.isRemote && infoCount != MathHelper.floor(badge.getRadiationLevel()/(NCConfig.radiation_badge_info_rate*NCConfig.radiation_badge_durability))) {
-				player.sendMessage(new TextComponentString(TextFormatting.ITALIC + EXPOSURE + " " + UnitHelper.prefix(badge.getRadiationLevel(), 3, "Rads")));
+				player.sendMessage(new TextComponentString(TextFormatting.ITALIC + EXPOSURE + " " + UnitHelper.prefix(badge.getRadiationLevel(), 3, "Rad")));
 			}
 		}
 	}

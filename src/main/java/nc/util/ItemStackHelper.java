@@ -4,6 +4,7 @@ import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -37,7 +38,9 @@ public class ItemStackHelper {
 	}
 	
 	public static IBlockState getBlockStateFromStack(ItemStack stack) {
-		if (stack == null || stack.isEmpty()) return null;
+		if (stack == null) return null;
+		if (stack.getItem() == Items.AIR) return Blocks.AIR.getDefaultState();
+		if (stack.isEmpty()) return null;
 		int meta = getMetadata(stack);
 		Item item = stack.getItem();
 		if (!ItemBlock.class.isAssignableFrom(item.getClass())) return null;

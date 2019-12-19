@@ -5,18 +5,30 @@ import static nc.block.property.BlockProperties.FACING_ALL;
 import nc.Global;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.fission.FissionReactor;
+import nc.multiblock.fission.FissionReactorLogic;
+import nc.multiblock.fission.salt.MoltenSaltFissionLogic;
 import nc.multiblock.fission.salt.block.BlockSaltFissionController;
 import nc.multiblock.fission.tile.IFissionController;
-import nc.multiblock.fission.tile.TileFissionPartBase;
+import nc.multiblock.fission.tile.TileFissionPart;
 import nc.util.RegistryHelper;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class TileSaltFissionController extends TileFissionPartBase implements IFissionController {
+public class TileSaltFissionController extends TileFissionPart implements IFissionController {
 	
 	public TileSaltFissionController() {
 		super(CuboidalPartPositionType.WALL);
+	}
+	
+	@Override
+	public Class<? extends FissionReactorLogic> getLogicClass() {
+		return MoltenSaltFissionLogic.class;
+	}
+	
+	@Override
+	public FissionReactorLogic createNewLogic(FissionReactorLogic oldLogic) {
+		return new MoltenSaltFissionLogic(oldLogic);
 	}
 	
 	@Override

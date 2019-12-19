@@ -3,7 +3,7 @@ package nc.multiblock.heatExchanger.tile;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.heatExchanger.HeatExchanger;
 
-public class TileHeatExchangerGlass extends TileHeatExchangerPartBase {
+public class TileHeatExchangerGlass extends TileHeatExchangerPart {
 	
 	public TileHeatExchangerGlass() {
 		super(CuboidalPartPositionType.WALL);

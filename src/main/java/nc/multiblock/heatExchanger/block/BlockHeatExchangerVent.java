@@ -13,7 +13,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockHeatExchangerVent extends BlockHeatExchangerPartBase {
+public class BlockHeatExchangerVent extends BlockHeatExchangerPart {
 
 	public BlockHeatExchangerVent() {
 		super();

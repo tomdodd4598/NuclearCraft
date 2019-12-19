@@ -4,15 +4,26 @@ import static nc.block.property.BlockProperties.FACING_ALL;
 
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.heatExchanger.HeatExchanger;
+import nc.multiblock.heatExchanger.HeatExchangerLogic;
 import nc.multiblock.heatExchanger.block.BlockHeatExchangerController;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class TileHeatExchangerController extends TileHeatExchangerPartBase implements IHeatExchangerController {
+public class TileHeatExchangerController extends TileHeatExchangerPart implements IHeatExchangerController {
 	
 	public TileHeatExchangerController() {
 		super(CuboidalPartPositionType.WALL);
+	}
+	
+	@Override
+	public Class<? extends HeatExchangerLogic> getLogicClass() {
+		return HeatExchangerLogic.class;
+	}
+	
+	@Override
+	public HeatExchangerLogic createNewLogic(HeatExchangerLogic oldLogic) {
+		return new HeatExchangerLogic(oldLogic);
 	}
 	
 	@Override

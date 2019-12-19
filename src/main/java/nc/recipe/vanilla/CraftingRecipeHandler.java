@@ -1,5 +1,7 @@
 package nc.recipe.vanilla;
 
+import static nc.config.NCConfig.ore_dict_raw_material_recipes;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -35,6 +37,7 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
+import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 
@@ -42,8 +45,20 @@ public class CraftingRecipeHandler {
 	
 	public static void registerCraftingRecipes() {
 		for (int i = 0; i < IngotType.values().length; i++) {
-			blockCompress(NCBlocks.ingot_block, i, "block" + StringHelper.capitalize(IngotType.values()[i].getName()), new ItemStack(NCItems.ingot, 1, i));
-			blockOpen(NCItems.ingot, i, "ingot" + StringHelper.capitalize(IngotType.values()[i].getName()), new ItemStack(NCBlocks.ingot_block, 1, i));
+			String type = StringHelper.capitalize(IngotType.values()[i].getName());
+			if (!ore_dict_raw_material_recipes) {
+				blockCompress(NCBlocks.ingot_block, i, "block" + type, new ItemStack(NCItems.ingot, 1, i));
+			}
+			else for (ItemStack ingot : OreDictionary.getOres("ingot" + type)) {
+				blockCompress(NCBlocks.ingot_block, i, "block" + type, ingot);
+			}
+			
+			if (!ore_dict_raw_material_recipes) {
+				blockOpen(NCItems.ingot, i, "ingot" + type, new ItemStack(NCBlocks.ingot_block, 1, i));
+			}
+			else for (ItemStack block : OreDictionary.getOres("block" + type)) {
+				blockOpen(NCItems.ingot, i, "ingot" + type, block);
+			}
 		}
 		
 		blockCompress(NCBlocks.fertile_isotope, 0, "blockUranium238", "ingotUranium238");
@@ -183,6 +198,8 @@ public class CraftingRecipeHandler {
 		addShapedOreRecipe(new ItemStack(NCBlocks.salt_fission_vessel, 4), new Object[] {"PTP", "ZFZ", "PSP", 'P', "plateElite", 'T', "ingotTough", 'Z', "ingotZircaloy", 'F', "steelFrame", 'S', "servo"});
 		addShapedOreRecipe(new ItemStack(NCBlocks.salt_fission_heater, 4), new Object[] {"PEP", "TFT", "PSP", 'P', "plateElite", 'T', "ingotThermoconducting", 'E', "ingotExtreme", 'F', "steelFrame", 'S', "servo"});
 		
+		addShapedOreRecipe(new ItemStack(NCBlocks.fission_reflector, 2), new Object[] {"LGL", "BFB", "LGL", 'L', "ingotLead", 'G', "ingotGraphite", 'B', "ingotBeryllium", 'F', "steelFrame"});
+		
 		addShapedOreRecipe(NCBlocks.heat_exchanger_controller, new Object[] {"PTP", "SFS", "PTP", 'P', "plateAdvanced", 'S', "ingotSteel", 'T', "ingotThermoconducting", 'F', "steelFrame"});
 		addShapedOreRecipe(new ItemStack(NCBlocks.heat_exchanger_casing, 8), new Object[] {"SNS", "NFN", "SNS", 'S', "ingotSteel", 'N', "stone", 'F', "steelFrame"});
 		addShapelessOreRecipe(NCBlocks.heat_exchanger_casing, new Object[] {NCBlocks.heat_exchanger_glass});
@@ -254,10 +271,10 @@ public class CraftingRecipeHandler {
 		armor("ingotHardCarbon", NCArmor.helm_hard_carbon, NCArmor.chest_hard_carbon, NCArmor.legs_hard_carbon, NCArmor.boots_hard_carbon);
 		armor("gemBoronNitride", NCArmor.helm_boron_nitride, NCArmor.chest_boron_nitride, NCArmor.legs_boron_nitride, NCArmor.boots_boron_nitride);
 		
-		//fissionFuelLowEnrichedRecipe(NCItems.fuel_thorium, 0, "ThoriumOxide", "ThoriumOxide");
-		fissionFuelLowEnrichedRecipe(NCItems.fuel_thorium, 1, "ThoriumOxide", "ThoriumOxide");
-		fissionFuelLowEnrichedRecipe(NCItems.fuel_thorium, 2, "ThoriumNitride", "ThoriumNitride");
-		fissionFuelLowEnrichedRecipe(NCItems.fuel_thorium, 3, "ThoriumZA", "ThoriumZA");
+		//fissionFuelLowEnrichedRecipe(NCItems.fuel_thorium, 0, "ThoriumCarbide", "ThoriumCarbide");
+		//fissionFuelLowEnrichedRecipe(NCItems.fuel_thorium, 1, "ThoriumOxide", "ThoriumOxide");
+		//fissionFuelLowEnrichedRecipe(NCItems.fuel_thorium, 2, "ThoriumNitride", "ThoriumNitride");
+		//fissionFuelLowEnrichedRecipe(NCItems.fuel_thorium, 3, "ThoriumZA", "ThoriumZA");
 		fissionFuelRecipes("Uranium", NCItems.fuel_uranium, 238, 233, 235);
 		fissionFuelRecipes("Neptunium", NCItems.fuel_neptunium, 237, 236);
 		fissionFuelRecipes("Plutonium", NCItems.fuel_plutonium, 242, 239, 241);
@@ -368,16 +385,8 @@ public class CraftingRecipeHandler {
 		addShapedOreRecipe(OreDictHelper.getPrioritisedCraftingStack(new ItemStack(blockOut, 1, metaOut), itemOutOreName), new Object[] {"III", "III", "III", 'I', itemIn});
 	}
 	
-	public static void blockCompress(Block blockOut, String itemOutOreName, Object itemIn) {
-		addShapedOreRecipe(OreDictHelper.getPrioritisedCraftingStack(blockOut, itemOutOreName), new Object[] {"III", "III", "III", 'I', itemIn});
-	}
-	
 	public static void blockOpen(Item itemOut, int metaOut, String itemOutOreName, Object itemIn) {
 		addShapelessOreRecipe(OreDictHelper.getPrioritisedCraftingStack(new ItemStack(itemOut, 9, metaOut), itemOutOreName), new Object[] {itemIn});
-	}
-	
-	public static void blockOpen(Item itemOut, String itemOutOreName, Object itemIn) {
-		addShapelessOreRecipe(OreDictHelper.getPrioritisedCraftingStack(new ItemStack(itemOut, 9, 0), itemOutOreName), new Object[] {itemIn});
 	}
 	
 	public static void tools(Object material, Item sword, Item pick, Item shovel, Item axe, Item hoe, Item spaxelhoe) {

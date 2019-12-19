@@ -31,7 +31,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 
-public class TileHeatExchangerVent extends TileHeatExchangerPartBase implements ITileFluid {
+public class TileHeatExchangerVent extends TileHeatExchangerPart implements ITileFluid {
 	
 	private final @Nonnull List<Tank> tanks = Lists.newArrayList(new Tank(128000, null));
 	

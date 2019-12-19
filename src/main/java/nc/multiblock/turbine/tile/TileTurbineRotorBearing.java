@@ -3,7 +3,7 @@ package nc.multiblock.turbine.tile;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.turbine.Turbine;
 
-public class TileTurbineRotorBearing extends TileTurbinePartBase {
+public class TileTurbineRotorBearing extends TileTurbinePart {
 	
 	public TileTurbineRotorBearing() {
 		super(CuboidalPartPositionType.WALL);

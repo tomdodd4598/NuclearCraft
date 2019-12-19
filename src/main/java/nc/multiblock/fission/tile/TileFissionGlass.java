@@ -3,7 +3,7 @@ package nc.multiblock.fission.tile;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.fission.FissionReactor;
 
-public class TileFissionGlass extends TileFissionPartBase {
+public class TileFissionGlass extends TileFissionPart {
 	
 	public TileFissionGlass() {
 		super(CuboidalPartPositionType.WALL);

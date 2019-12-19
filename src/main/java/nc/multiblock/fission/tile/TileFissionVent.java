@@ -15,6 +15,7 @@ import nc.ModCheck;
 import nc.config.NCConfig;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.fission.FissionReactor;
+import nc.multiblock.fission.solid.SolidFuelFissionLogic;
 import nc.tile.fluid.ITileFluid;
 import nc.tile.internal.fluid.FluidConnection;
 import nc.tile.internal.fluid.FluidTileWrapper;
@@ -34,7 +35,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 
-public class TileFissionVent extends TileFissionPartBase implements ITileFluid {
+public class TileFissionVent extends TileFissionPart implements ITileFluid {
 	
 	private final @Nonnull List<Tank> backupTanks = Lists.newArrayList(new Tank(1, new ArrayList<String>()), new Tank(1, new ArrayList<String>()));
 	
@@ -86,8 +87,10 @@ public class TileFissionVent extends TileFissionPartBase implements ITileFluid {
 	@Override
 	@Nonnull
 	public List<Tank> getTanks() {
-		if (!isMultiblockAssembled()) return backupTanks;
-		return getMultiblock().tanks;
+		if (isMultiblockAssembled() && getMultiblock().getLogic() instanceof SolidFuelFissionLogic) {
+			return ((SolidFuelFissionLogic)getMultiblock().getLogic()).tanks;
+		}
+		return backupTanks;
 	}
 
 	@Override

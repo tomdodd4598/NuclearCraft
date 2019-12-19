@@ -42,10 +42,6 @@ public static final int BUCKET_VOLUME = 1000;
 	
 	public static final int EUM_DUST_VOLUME = 250;
 	
-	public static final int OXIDIZING_VOLUME = 400;
-	
-	public static final int PARTICLE_VOLUME = 10;
-	
 	public static FluidStack fixFluidStack(Object object) {
 		if (object instanceof FluidStack) {
 			FluidStack fluidstack = ((FluidStack) object).copy();

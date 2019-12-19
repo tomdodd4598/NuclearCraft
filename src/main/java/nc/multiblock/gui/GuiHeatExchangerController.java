@@ -6,7 +6,7 @@ import java.util.List;
 import nc.Global;
 import nc.multiblock.gui.element.MultiblockButton;
 import nc.multiblock.heatExchanger.HeatExchanger;
-import nc.multiblock.network.ClearAllPacket;
+import nc.multiblock.network.ClearAllMaterialPacket;
 import nc.network.PacketHandler;
 import nc.util.Lang;
 import nc.util.NCMath;
@@ -80,14 +80,14 @@ public class GuiHeatExchangerController extends GuiMultiblockController<HeatExch
 	@Override
 	public void initGui() {
 		super.initGui();
-		buttonList.add(new MultiblockButton.ClearAll(0, guiLeft + 153, guiTop + 35));
+		buttonList.add(new MultiblockButton.ClearAllMaterial(0, guiLeft + 153, guiTop + 35));
 	}
 	
 	@Override
 	protected void actionPerformed(GuiButton guiButton) {
 		if (multiblock.WORLD.isRemote) {
 			if (guiButton.id == 0 && NCUtil.isModifierKeyDown()) {
-				PacketHandler.instance.sendToServer(new ClearAllPacket(controllerPos));
+				PacketHandler.instance.sendToServer(new ClearAllMaterialPacket(controllerPos));
 			}
 		}
 	}

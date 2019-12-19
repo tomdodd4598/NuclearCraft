@@ -47,6 +47,7 @@ public class NCFluids {
 			
 			if (registerCoFHAlt()) fluidPairList.add(fluidPair(FluidType.MOLTEN, "coal", 0x202020));
 			fluidPairList.add(fluidPair(FluidType.MOLTEN, "beryllium", 0xD4DBC2));
+			fluidPairList.add(fluidPair(FluidType.MOLTEN, "zirconium", 0xE0E0B8));
 			fluidPairList.add(fluidPair(FluidType.MOLTEN, "manganese", 0x7284CC));
 			fluidPairList.add(fluidPair(FluidType.MOLTEN, "manganese_dioxide", 0x28211E));
 			fluidPairList.add(fluidPair(FluidType.MOLTEN, "sulfur", 0xDEDE7A));

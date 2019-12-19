@@ -39,7 +39,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 
-public class TileHeatExchangerTube extends TileHeatExchangerPartBase implements IFluidProcessor, ITileFluid {
+public class TileHeatExchangerTube extends TileHeatExchangerPart implements IFluidProcessor, ITileFluid {
 	
 	private final @Nonnull List<Tank> tanks = Lists.newArrayList(new Tank(32000, NCRecipes.heat_exchanger_valid_fluids.get(0)), new Tank(64000, new ArrayList<String>()));
 	

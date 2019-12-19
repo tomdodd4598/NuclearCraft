@@ -17,7 +17,7 @@ import nc.multiblock.fission.FissionCluster;
 import nc.multiblock.fission.FissionReactor;
 import nc.multiblock.fission.solid.SolidFissionCellSetting;
 import nc.multiblock.fission.tile.IFissionFuelComponent;
-import nc.multiblock.fission.tile.TileFissionPartBase;
+import nc.multiblock.fission.tile.TileFissionPart;
 import nc.multiblock.fission.tile.TileFissionPort;
 import nc.radiation.RadiationHelper;
 import nc.recipe.AbstractRecipeHandler;
@@ -46,7 +46,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.CapabilityItemHandler;
 
-public class TileSolidFissionCell extends TileFissionPartBase implements IItemGenerator, ITileInventory, IFissionFuelComponent {
+public class TileSolidFissionCell extends TileFissionPart implements IItemGenerator, ITileInventory, IFissionFuelComponent {
 	
 	protected final @Nonnull String inventoryName = Global.MOD_ID + ".container.fission_cell";
 	
@@ -71,6 +71,8 @@ public class TileSolidFissionCell extends TileFissionPartBase implements IItemGe
 	protected RecipeInfo<ProcessorRecipe> recipeInfo;
 	
 	protected FissionCluster cluster = null;
+	private long heat = 0L;
+	
 	protected boolean primed = false, fluxSearched = false;
 	protected int flux = 0, heatMult = 0;
 	protected double undercoolingLifetimeFactor = 1D;
@@ -115,13 +117,7 @@ public class TileSolidFissionCell extends TileFissionPartBase implements IItemGe
 	}
 	
 	@Override
-	public void setCluster(@Nullable FissionCluster cluster) {
-		if (cluster == null && this.cluster != null) {
-			this.cluster.getComponentMap().remove(pos.toLong());
-		}
-		else if (cluster != null) {
-			cluster.getComponentMap().put(pos.toLong(), this);
-		}
+	public void setClusterInternal(@Nullable FissionCluster cluster) {
 		this.cluster = cluster;
 	}
 	
@@ -284,7 +280,7 @@ public class TileSolidFissionCell extends TileFissionPartBase implements IItemGe
 	}
 	
 	@Override
-	public void doMeltdown() {
+	public void onClusterMeltdown() {
 		IRadiationSource chunkSource = RadiationHelper.getRadiationSource(world.getChunk(pos));
 		if (chunkSource != null) {
 			RadiationHelper.addToSourceRadiation(chunkSource, 8D*baseProcessRadiation*getSpeedMultiplier()*NCConfig.fission_meltdown_radiation_multiplier);
@@ -303,6 +299,16 @@ public class TileSolidFissionCell extends TileFissionPartBase implements IItemGe
 				}
 			}
 		}
+	}
+	
+	@Override
+	public long getHeatStored() {
+		return heat;
+	}
+	
+	@Override
+	public void setHeatStored(long heat) {
+		this.heat = heat;
 	}
 	
 	public BlockPos getPortPos() {
@@ -324,7 +330,7 @@ public class TileSolidFissionCell extends TileFissionPartBase implements IItemGe
 	
 	public void refreshPort() {
 		if (getMultiblock() != null) {
-			port = getMultiblock().getPortMap().get(portPos.toLong());
+			port = getMultiblock().getPartMap(TileFissionPort.class).get(portPos.toLong());
 			if (port == null) portPos = BlockPosHelper.DEFAULT_NON;
 		}
 	}
@@ -741,6 +747,7 @@ public class TileSolidFissionCell extends TileFissionPartBase implements IItemGe
 		nbt.setBoolean("canProcessInputs", canProcessInputs);
 		
 		nbt.setInteger("flux", flux);
+		nbt.setLong("clusterHeat", heat);
 		
 		nbt.setLong("portPos", portPos.toLong());
 		return nbt;
@@ -764,6 +771,7 @@ public class TileSolidFissionCell extends TileFissionPartBase implements IItemGe
 		canProcessInputs = nbt.getBoolean("canProcessInputs");
 		
 		flux = nbt.getInteger("flux");
+		heat = nbt.getLong("clusterHeat");
 		
 		portPos = BlockPos.fromLong(nbt.getLong("portPos"));
 	}

@@ -16,7 +16,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public abstract class TileFissionSource extends TileFissionPartBase {
+public abstract class TileFissionSource extends TileFissionPart {
 	
 	protected final double efficiency;
 	
@@ -92,7 +92,7 @@ public abstract class TileFissionSource extends TileFissionPartBase {
 		super.onBlockNeighborChanged(state, world, pos, fromPos);
 		updateBlockState(getIsRedstonePowered());
 		if (!world.isRemote && wasRedstonePowered != getIsRedstonePowered()) {
-			getMultiblock().onSourceUpdated(this);
+			getMultiblock().getLogic().onSourceUpdated(this);
 		}
 	}
 	
