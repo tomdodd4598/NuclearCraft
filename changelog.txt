@@ -1,3 +1,12 @@
+v2.18m
+
+* Fixed stack overflow error caused by deep recursion in recipe generation
+
++ Added configs for reactor sound effect volumes
++ Added server logging of reactor meltdowns
+
+* Feral Ghoul spawners now ignore the natural spawning limitations
+
 v2.18l
 
 * Fixed energy providers emitting GTCE EU when integration is disabled
