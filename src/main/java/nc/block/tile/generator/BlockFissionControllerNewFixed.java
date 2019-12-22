@@ -139,16 +139,19 @@ public class BlockFissionControllerNewFixed extends BlockProcessor {
 	public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random rand) {
 		super.randomDisplayTick(state, world, pos, rand);
 		
+		if (NCConfig.fission_sound_volume == 0D) return;
+		
 		TileEntity tile = world.getTileEntity(pos);
 		if (tile instanceof TileFissionController) {
 			TileFissionController controller = (TileFissionController) tile;
+			if (controller.cells <= 0) return;
+			
 			BlockFinder finder = new BlockFinder(pos, world, controller.getBlockMetadata() & 7);
 			BlockPos position = finder.randomWithin(controller.minX, controller.maxX, controller.minY, controller.maxY, controller.minZ, controller.maxZ);
 			
-			if (controller.cells <= 0) return;
 			double soundRate = MathHelper.clamp(0.08D, 2*Math.sqrt(controller.cells)/NCConfig.fission_max_size, 1D);
 			if (controller.isProcessing) if (rand.nextDouble() < soundRate) {
-				world.playSound(position.getX(), position.getY(), position.getZ(), NCSounds.geiger_tick, SoundCategory.BLOCKS, 1.6F, 1F + 0.12F*(rand.nextFloat() - 0.5F), false);
+				world.playSound(position.getX(), position.getY(), position.getZ(), NCSounds.geiger_tick, SoundCategory.BLOCKS, (float) (1.6D*NCConfig.fission_sound_volume), 1F + 0.12F*(rand.nextFloat() - 0.5F), false);
 			}
 		}
 	}

@@ -183,7 +183,8 @@ public class EntityFeralGhoul extends EntityZombie {
 	
 	@Override
 	public boolean getCanSpawnHere() {
-		return super.getCanSpawnHere() && world.canSeeSky(new BlockPos(posX, getEntityBoundingBox().minY, posZ)) && world.countEntities(EntityFeralGhoul.class) < 10;
+		// Spawning limitations controlled in EntityHandler
+		return super.getCanSpawnHere();
 	}
 	
 	@Override

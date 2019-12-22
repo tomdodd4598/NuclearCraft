@@ -28,6 +28,7 @@ import nc.multiblock.saltFission.tile.TileSaltFissionVessel;
 import nc.multiblock.validation.IMultiblockValidator;
 import nc.tile.internal.fluid.Tank;
 import nc.tile.internal.heat.HeatBuffer;
+import nc.util.NCUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
@@ -379,6 +380,8 @@ public class SaltFissionReactor extends CuboidalMultiblockBase<SaltFissionUpdate
 	}
 	
 	protected void doMeltdown() {
+		NCUtil.getLogger().info("Molten Salt Reactor meltdown at " + getMiddleCoord().toString() + "!");
+		
 		Iterator<TileSaltFissionVessel> vesselIterator = vessels.iterator();
 		while (vesselIterator.hasNext()) {
 			TileSaltFissionVessel vessel = vesselIterator.next();
@@ -435,10 +438,10 @@ public class SaltFissionReactor extends CuboidalMultiblockBase<SaltFissionUpdate
 	}
 	
 	protected void playFissionSound(BlockPos pos) {
-		if (vessels.size() <= 0) return;
+		if (NCConfig.fission_sound_volume == 0D || vessels.size() <= 0) return;
 		double soundRate = Math.min(rawEfficiency/(14D*NCConfig.salt_fission_max_size*Math.sqrt(vessels.size())), 1D/vessels.size());
 		if (rand.nextDouble() < soundRate) {
-			WORLD.playSound(pos.getX(), pos.getY(), pos.getZ(), NCSounds.geiger_tick, SoundCategory.BLOCKS, 1.6F, 1F + 0.12F*(rand.nextFloat() - 0.5F), false);
+			WORLD.playSound(pos.getX(), pos.getY(), pos.getZ(), NCSounds.geiger_tick, SoundCategory.BLOCKS, (float) (1.6D*NCConfig.fission_sound_volume), 1F + 0.12F*(rand.nextFloat() - 0.5F), false);
 		}
 	}
 	

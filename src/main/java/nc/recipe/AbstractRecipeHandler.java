@@ -155,7 +155,7 @@ public abstract class AbstractRecipeHandler<T extends IRecipe> {
 			
 			List<Pair<List<ItemStack>, List<FluidStack>>> materialListTuples = new ArrayList<>();
 			
-			RecipeHelper.generateMaterialListTuples(materialListTuples, maxNumbers, inputNumbers, itemInputLists, fluidInputLists);
+			RecipeTupleGenerator.INSTANCE.generateMaterialListTuples(materialListTuples, maxNumbers, inputNumbers, itemInputLists, fluidInputLists);
 			
 			for (Pair<List<ItemStack>, List<FluidStack>> materials : materialListTuples) {
 				for (List<ItemStack> items : permutations(materials.getLeft())) {

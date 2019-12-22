@@ -29,6 +29,7 @@ import nc.util.EnergyHelper;
 import nc.util.Lang;
 import nc.util.MaterialHelper;
 import nc.util.NCMath;
+import nc.util.NCUtil;
 import nc.util.RegistryHelper;
 import net.minecraft.block.BlockFire;
 import net.minecraft.block.state.IBlockState;
@@ -201,6 +202,8 @@ public class TileFissionController extends TileItemGenerator implements IGui<Fis
 	}
 	
 	public void meltdown() {
+		NCUtil.getLogger().info("Fission Reactor meltdown at " + pos.toString() + "!");
+		
 		BlockPos middle = getFinder().position((minX + maxX)/2, (minY + maxY)/2, (minZ + maxZ)/2);
 		
 		IRadiationSource chunkSource = RadiationHelper.getRadiationSource(world.getChunk(middle));

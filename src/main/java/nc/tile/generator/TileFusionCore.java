@@ -37,6 +37,7 @@ import nc.util.CommonCapsHelper;
 import nc.util.EnergyHelper;
 import nc.util.Lang;
 import nc.util.MaterialHelper;
+import nc.util.NCUtil;
 import nc.util.SoundHelper;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -183,6 +184,8 @@ public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpd
 	}
 	
 	public void meltdown() {
+		NCUtil.getLogger().info("Fusion Reactor meltdown at " + pos.toString() + "!");
+		
 		IRadiationSource chunkSource = RadiationHelper.getRadiationSource(world.getChunk(pos));
 		if (chunkSource != null) {
 			RadiationHelper.addToSourceRadiation(chunkSource, 8D*baseProcessRadiation*size*NCConfig.fusion_fuel_use*NCConfig.fusion_meltdown_radiation_multiplier);
@@ -202,7 +205,12 @@ public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpd
 	
 	@SideOnly(Side.CLIENT)
 	private void updateSounds() {
-		if (!NCConfig.fusion_enable_sound) {
+		if (NCConfig.fusion_sound_volume == 0D) {
+			if (activeSounds != null) {
+				stopSounds();
+				activeSounds.clear();
+				activeSounds = null;
+			}
 			return;
 		}
 		
@@ -243,7 +251,7 @@ public class TileFusionCore extends TileFluidGenerator implements IGui<FusionUpd
 			// If this machine isn't playing sounds, go ahead and play them
 			for (SoundInfo activeSound : activeSounds) {
 				if (activeSound != null && (activeSound.sound == null || !Minecraft.getMinecraft().getSoundHandler().isSoundPlaying(activeSound.sound))) {
-					activeSound.sound = SoundHandler.startTileSound(NCSounds.fusion_run, activeSound.pos, 0.35F, SoundHelper.getPitch(1F));
+					activeSound.sound = SoundHandler.startTileSound(NCSounds.fusion_run, activeSound.pos, (float) (0.35D*NCConfig.fusion_sound_volume), SoundHelper.getPitch(1F));
 				}
 			}
 			

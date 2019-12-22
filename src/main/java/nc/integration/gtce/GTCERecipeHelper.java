@@ -19,6 +19,7 @@ import gregtech.common.items.MetaItems;
 import nc.config.NCConfig;
 import nc.recipe.ProcessorRecipe;
 import nc.recipe.RecipeHelper;
+import nc.recipe.RecipeTupleGenerator;
 import nc.recipe.ingredient.IFluidIngredient;
 import nc.recipe.ingredient.IItemIngredient;
 import nc.recipe.ingredient.OreIngredient;
@@ -145,7 +146,7 @@ public class GTCERecipeHelper {
 		
 		List<Pair<List<ItemStack>, List<FluidStack>>> materialListTuples = new ArrayList<>();
 		
-		RecipeHelper.generateMaterialListTuples(materialListTuples, maxNumbers, inputNumbers, itemInputLists, fluidInputLists);
+		RecipeTupleGenerator.INSTANCE.generateMaterialListTuples(materialListTuples, maxNumbers, inputNumbers, itemInputLists, fluidInputLists);
 		
 		for (Pair<List<ItemStack>, List<FluidStack>> materials : materialListTuples) {
 			if (findRecipe(recipeMap, materials.getLeft(), materials.getRight()) != null) {

@@ -8,6 +8,7 @@ import nc.config.NCConfig;
 import nc.handler.CapabilityHandler;
 import nc.handler.DropHandler;
 import nc.handler.DungeonLootHandler;
+import nc.handler.EntityHandler;
 import nc.handler.ItemUseHandler;
 import nc.handler.OreDictHandler;
 import nc.handler.PlayerRespawnHandler;
@@ -30,13 +31,13 @@ import nc.multiblock.IMultiblockRegistry;
 import nc.multiblock.MultiblockEventHandler;
 import nc.multiblock.MultiblockRegistry;
 import nc.network.PacketHandler;
+import nc.radiation.RadArmor;
 import nc.radiation.RadBiomes;
 import nc.radiation.RadBlockEffects;
 import nc.radiation.RadPotionEffects;
 import nc.radiation.RadSources;
 import nc.radiation.RadStructures;
 import nc.radiation.RadWorlds;
-import nc.radiation.RadArmor;
 import nc.radiation.RadiationHandler;
 import nc.radiation.environment.RadiationEnvironmentHandler;
 import nc.recipe.NCRecipes;
@@ -128,6 +129,7 @@ public class CommonProxy {
 		//GameRegistry.registerWorldGenerator(new WastelandPortalGenerator(), 10);
 		
 		NCEntities.register();
+		MinecraftForge.EVENT_BUS.register(new EntityHandler());
 		
 		if (ModCheck.tinkersLoaded()) {
 			TConstructExtras.init();

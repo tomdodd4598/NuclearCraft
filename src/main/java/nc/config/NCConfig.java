@@ -97,6 +97,7 @@ public class NCConfig {
 	public static int fission_comparator_max_heat;
 	public static boolean fission_force_heat_comparator;
 	public static int active_cooler_max_rate;
+	public static double fission_sound_volume;
 	
 	public static double fission_moderator_extra_power;
 	public static double fission_moderator_extra_heat;
@@ -159,8 +160,8 @@ public class NCConfig {
 	public static int fusion_max_size; // Default: 24
 	public static int fusion_comparator_max_efficiency;
 	public static int fusion_electromagnet_power;
-	public static boolean fusion_enable_sound;
 	public static boolean fusion_plasma_craziness;
+	public static double fusion_sound_volume;
 	
 	public static double[] fusion_fuel_time;
 	public static double[] fusion_power;
@@ -193,7 +194,7 @@ public class NCConfig {
 	public static double[] turbine_power_per_mb;
 	public static double[] turbine_expansion_level;
 	public static int turbine_mb_per_blade;
-	public static boolean turbine_enable_sound;
+	public static double turbine_sound_volume;
 	
 	public static int accelerator_electromagnet_power;
 	public static int accelerator_supercooler_coolant;
@@ -474,6 +475,8 @@ public class NCConfig {
 		propertyFissionForceHeatComparator.setLanguageKey("gui.config.fission.fission_force_heat_comparator");
 		Property propertyFissionActiveCoolerMaxRate = config.get(CATEGORY_FISSION, "fission_active_cooler_max_rate", 10, Lang.localise("gui.config.fission.fission_active_cooler_max_rate.comment"), 1, 8000);
 		propertyFissionActiveCoolerMaxRate.setLanguageKey("gui.config.fission.fission_active_cooler_max_rate");
+		Property propertyFissionSoundVolume = config.get(CATEGORY_FISSION, "fission_sound_volume", 1D, Lang.localise("gui.config.fission.fission_sound_volume.comment"), 0D, 15D);
+		propertyFissionSoundVolume.setLanguageKey("gui.config.fission.fission_sound_volume");
 		
 		Property propertyFissionModeratorExtraPower = config.get(CATEGORY_FISSION, "fission_moderator_extra_power", 1D, Lang.localise("gui.config.fission.fission_moderator_extra_power.comment"), 0D, 15D);
 		propertyFissionModeratorExtraPower.setLanguageKey("gui.config.fission.fission_moderator_extra_power");
@@ -587,10 +590,10 @@ public class NCConfig {
 		propertyFusionComparatorMaxEfficiency.setLanguageKey("gui.config.fusion.fusion_comparator_max_efficiency");
 		Property propertyFusionElectromagnetPower = config.get(CATEGORY_FUSION, "fusion_electromagnet_power", 4000, Lang.localise("gui.config.fusion.fusion_electromagnet_power.comment"), 0, Integer.MAX_VALUE);
 		propertyFusionElectromagnetPower.setLanguageKey("gui.config.fusion.fusion_electromagnet_power");
-		Property propertyFusionEnableSound = config.get(CATEGORY_FUSION, "fusion_enable_sound", true, Lang.localise("gui.config.fusion.fusion_enable_sound.comment"));
-		propertyFusionEnableSound.setLanguageKey("gui.config.fusion.fusion_enable_sound");
 		Property propertyFusionPlasmaCraziness = config.get(CATEGORY_FUSION, "fusion_plasma_craziness", true, Lang.localise("gui.config.fusion.fusion_plasma_craziness.comment"));
 		propertyFusionPlasmaCraziness.setLanguageKey("gui.config.fusion.fusion_plasma_craziness");
+		Property propertyFusionSoundVolume = config.get(CATEGORY_FUSION, "fusion_sound_volume", 1D, Lang.localise("gui.config.fusion.fusion_sound_volume.comment"), 0D, 15D);
+		propertyFusionSoundVolume.setLanguageKey("gui.config.fusion.fusion_sound_volume");
 		
 		Property propertyFusionFuelTime = config.get(CATEGORY_FUSION, "fusion_fuel_time", new double[] {100D, 150D, 200D, 200D, 350D, 400D, 600D, 200D, 250D, 250D, 400D, 450D, 650D, 300D, 300D, 450D, 500D, 700D, 300D, 450D, 500D, 700D, 600D, 650D, 850D, 700D, 900D, 1100D}, Lang.localise("gui.config.fusion.fusion_fuel_time.comment"), 1D, 32767D);
 		propertyFusionFuelTime.setLanguageKey("gui.config.fusion.fusion_fuel_time");
@@ -651,8 +654,8 @@ public class NCConfig {
 		propertyTurbineExpansionLevel.setLanguageKey("gui.config.turbine.turbine_expansion_level");
 		Property propertyTurbineMBPerBlade = config.get(CATEGORY_TURBINE, "turbine_mb_per_blade", 100, Lang.localise("gui.config.turbine.turbine_mb_per_blade.comment"), 1, 32767);
 		propertyTurbineMBPerBlade.setLanguageKey("gui.config.turbine.turbine_mb_per_blade");
-		Property propertyTurbineEnableSound = config.get(CATEGORY_TURBINE, "turbine_enable_sound", true, Lang.localise("gui.config.turbine.turbine_enable_sound.comment"));
-		propertyTurbineEnableSound.setLanguageKey("gui.config.turbine.turbine_enable_sound");
+		Property propertyTurbineSoundVolume = config.get(CATEGORY_TURBINE, "turbine_sound_volume", 1D, Lang.localise("gui.config.turbine.turbine_sound_volume.comment"), 0D, 15D);
+		propertyTurbineSoundVolume.setLanguageKey("gui.config.turbine.turbine_sound_volume");
 		
 		Property propertyAcceleratorElectromagnetPower = config.get(CATEGORY_ACCELERATOR, "accelerator_electromagnet_power", 20000, Lang.localise("gui.config.accelerator.accelerator_electromagnet_power.comment"), 0, Integer.MAX_VALUE);
 		propertyAcceleratorElectromagnetPower.setLanguageKey("gui.config.accelerator.accelerator_electromagnet_power");
@@ -974,6 +977,7 @@ public class NCConfig {
 		propertyOrderFission.add(propertyFissionComparatorMaxHeat.getName());
 		propertyOrderFission.add(propertyFissionForceHeatComparator.getName());
 		propertyOrderFission.add(propertyFissionActiveCoolerMaxRate.getName());
+		propertyOrderFission.add(propertyFissionSoundVolume.getName());
 		
 		propertyOrderFission.add(propertyFissionModeratorExtraPower.getName());
 		propertyOrderFission.add(propertyFissionModeratorExtraHeat.getName());
@@ -1038,8 +1042,8 @@ public class NCConfig {
 		propertyOrderFusion.add(propertyFusionMaxSize.getName());
 		propertyOrderFusion.add(propertyFusionComparatorMaxEfficiency.getName());
 		propertyOrderFusion.add(propertyFusionElectromagnetPower.getName());
-		propertyOrderFusion.add(propertyFusionEnableSound.getName());
 		propertyOrderFusion.add(propertyFusionPlasmaCraziness.getName());
+		propertyOrderFusion.add(propertyFusionSoundVolume.getName());
 		
 		propertyOrderFusion.add(propertyFusionFuelTime.getName());
 		propertyOrderFusion.add(propertyFusionPower.getName());
@@ -1078,7 +1082,7 @@ public class NCConfig {
 		propertyOrderTurbine.add(propertyTurbinePowerPerMB.getName());
 		propertyOrderTurbine.add(propertyTurbineExpansionLevel.getName());
 		propertyOrderTurbine.add(propertyTurbineMBPerBlade.getName());
-		propertyOrderTurbine.add(propertyTurbineEnableSound.getName());
+		propertyOrderTurbine.add(propertyTurbineSoundVolume.getName());
 		config.setCategoryPropertyOrder(CATEGORY_TURBINE, propertyOrderTurbine);
 		
 		List<String> propertyOrderAccelerator = new ArrayList<String>();
@@ -1272,6 +1276,7 @@ public class NCConfig {
 			fission_comparator_max_heat = propertyFissionComparatorMaxHeat.getInt();
 			fission_force_heat_comparator = propertyFissionForceHeatComparator.getBoolean();
 			active_cooler_max_rate = propertyFissionActiveCoolerMaxRate.getInt();
+			fission_sound_volume = propertyFissionSoundVolume.getDouble();
 			
 			fission_moderator_extra_power = propertyFissionModeratorExtraPower.getDouble();
 			fission_moderator_extra_heat = propertyFissionModeratorExtraHeat.getDouble();
@@ -1334,8 +1339,8 @@ public class NCConfig {
 			fusion_max_size = propertyFusionMaxSize.getInt();
 			fusion_comparator_max_efficiency = propertyFusionComparatorMaxEfficiency.getInt();
 			fusion_electromagnet_power = propertyFusionElectromagnetPower.getInt();
-			fusion_enable_sound = propertyFusionEnableSound.getBoolean();
 			fusion_plasma_craziness = propertyFusionPlasmaCraziness.getBoolean();
+			fusion_sound_volume = propertyFusionSoundVolume.getDouble();
 			
 			fusion_fuel_time = readDoubleArrayFromConfig(propertyFusionFuelTime);
 			fusion_power = readDoubleArrayFromConfig(propertyFusionPower);
@@ -1368,7 +1373,7 @@ public class NCConfig {
 			turbine_power_per_mb = readDoubleArrayFromConfig(propertyTurbinePowerPerMB);
 			turbine_expansion_level = readDoubleArrayFromConfig(propertyTurbineExpansionLevel);
 			turbine_mb_per_blade = propertyTurbineMBPerBlade.getInt();
-			turbine_enable_sound = propertyTurbineEnableSound.getBoolean();
+			turbine_sound_volume = propertyTurbineSoundVolume.getDouble();
 			
 			accelerator_electromagnet_power = propertyAcceleratorElectromagnetPower.getInt();
 			accelerator_supercooler_coolant = propertyAcceleratorSupercoolerCoolant.getInt();
@@ -1558,6 +1563,7 @@ public class NCConfig {
 		propertyFissionComparatorMaxHeat.set(fission_comparator_max_heat);
 		propertyFissionForceHeatComparator.set(fission_force_heat_comparator);
 		propertyFissionActiveCoolerMaxRate.set(active_cooler_max_rate);
+		propertyFissionSoundVolume.set(fission_sound_volume);
 		
 		propertyFissionModeratorExtraPower.set(fission_moderator_extra_power);
 		propertyFissionModeratorExtraHeat.set(fission_moderator_extra_heat);
@@ -1620,8 +1626,8 @@ public class NCConfig {
 		propertyFusionMaxSize.set(fusion_max_size);
 		propertyFusionComparatorMaxEfficiency.set(fusion_comparator_max_efficiency);
 		propertyFusionElectromagnetPower.set(fusion_electromagnet_power);
-		propertyFusionEnableSound.set(fusion_enable_sound);
 		propertyFusionPlasmaCraziness.set(fusion_plasma_craziness);
+		propertyFusionSoundVolume.set(fusion_sound_volume);
 		
 		propertyFusionFuelTime.set(fusion_fuel_time);
 		propertyFusionPower.set(fusion_power);
@@ -1654,7 +1660,7 @@ public class NCConfig {
 		propertyTurbinePowerPerMB.set(turbine_power_per_mb);
 		propertyTurbineExpansionLevel.set(turbine_expansion_level);
 		propertyTurbineMBPerBlade.set(turbine_mb_per_blade);
-		propertyTurbineEnableSound.set(turbine_enable_sound);
+		propertyTurbineSoundVolume.set(turbine_sound_volume);
 		
 		propertyAcceleratorElectromagnetPower.set(accelerator_electromagnet_power);
 		propertyAcceleratorSupercoolerCoolant.set(accelerator_supercooler_coolant);
