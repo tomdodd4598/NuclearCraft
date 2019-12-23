@@ -15,7 +15,7 @@ public class EntityHandler {
 		EntityLivingBase entity = event.getEntityLiving();
 		if (entity instanceof EntityFeralGhoul) {
 			World world = entity.world;
-			if (!event.isSpawner() && !world.canSeeSky(new BlockPos(entity.posX, entity.getEntityBoundingBox().minY, entity.posZ)) && world.countEntities(EntityFeralGhoul.class) > 10) {
+			if (!event.isSpawner() && (!world.canSeeSky(new BlockPos(entity.posX, entity.getEntityBoundingBox().minY, entity.posZ)) || world.countEntities(EntityFeralGhoul.class) > 20)) {
 				event.setResult(Result.DENY);
 			}
 		}

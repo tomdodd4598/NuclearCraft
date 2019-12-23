@@ -167,27 +167,27 @@ public abstract class AbstractRecipeHandler<T extends IRecipe> {
 		}
 	}
 	
-	private static long hashMaterialsRaw(List<ItemStack> items, List<Tank> fluids) {
+	public static long hashMaterialsRaw(List<ItemStack> items, List<Tank> fluids) {
 		long hash = 1L;
 		Iterator<ItemStack> itemIter = items.iterator();
 		while (itemIter.hasNext()) {
 			ItemStack stack = itemIter.next();
-			hash = 31L*hash + (stack == null ? 0L : RecipeItemHelper.pack(stack));
+			hash = 31L*hash + (stack == null || stack.isEmpty() ? 0L : RecipeItemHelper.pack(stack));
 		}
 		Iterator<Tank> fluidIter = fluids.iterator();
 		while (fluidIter.hasNext()) {
 			Tank tank = fluidIter.next();
-			hash = 31L*hash + (tank == null ? 0L : tank.getFluid() == null ? 0L : tank.getFluid().getFluid().getName().hashCode());
+			hash = 31L*hash + (tank == null || tank.getFluid() == null ? 0L : tank.getFluid().getFluid().getName().hashCode());
 		}
 		return hash;
 	}
 	
-	private static long hashMaterials(List<ItemStack> items, List<FluidStack> fluids) {
+	public static long hashMaterials(List<ItemStack> items, List<FluidStack> fluids) {
 		long hash = 1L;
 		Iterator<ItemStack> itemIter = items.iterator();
 		while (itemIter.hasNext()) {
 			ItemStack stack = itemIter.next();
-			hash = 31L*hash + (stack == null ? 0L : RecipeItemHelper.pack(stack));
+			hash = 31L*hash + (stack == null || stack.isEmpty() ? 0L : RecipeItemHelper.pack(stack));
 		}
 		Iterator<FluidStack> fluidIter = fluids.iterator();
 		while (fluidIter.hasNext()) {

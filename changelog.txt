@@ -1,3 +1,8 @@
+v2.18n
+
+* Fixed recipes involving empty ingredients not being cached
+* Fixed dodgy Feral Ghoul spawning logic
+
 v2.18m
 
 * Fixed stack overflow error caused by deep recursion in recipe generation

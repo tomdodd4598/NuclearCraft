@@ -3,6 +3,8 @@ package nc.recipe.ingredient;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.common.collect.Lists;
+
 import nc.recipe.IngredientMatchResult;
 import nc.recipe.IngredientSorption;
 import net.minecraft.item.ItemStack;
@@ -38,14 +40,19 @@ public class EmptyItemIngredient implements IItemIngredient {
 
 	@Override
 	public List<ItemStack> getInputStackList() {
-		return new ArrayList();
+		return new ArrayList<>();
 	}
 	
 	@Override
 	public List<ItemStack> getOutputStackList() {
-		return new ArrayList();
+		return new ArrayList<>();
 	}
-
+	
+	@Override
+	public List<ItemStack> getInputStackHashingList() {
+		return Lists.newArrayList(ItemStack.EMPTY);
+	}
+	
 	@Override
 	public IngredientMatchResult match(Object object, IngredientSorption sorption) {
 		if (object == null) return IngredientMatchResult.PASS_0;

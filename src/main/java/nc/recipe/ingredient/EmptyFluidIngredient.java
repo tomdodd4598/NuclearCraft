@@ -3,6 +3,8 @@ package nc.recipe.ingredient;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.common.collect.Lists;
+
 import nc.recipe.IngredientMatchResult;
 import nc.recipe.IngredientSorption;
 import nc.tile.internal.fluid.Tank;
@@ -39,14 +41,19 @@ public class EmptyFluidIngredient implements IFluidIngredient {
 
 	@Override
 	public List<FluidStack> getInputStackList() {
-		return new ArrayList();
+		return new ArrayList<>();
 	}
 	
 	@Override
 	public List<FluidStack> getOutputStackList() {
-		return new ArrayList();
+		return new ArrayList<>();
 	}
-
+	
+	@Override
+	public List<FluidStack> getInputStackHashingList() {
+		return Lists.newArrayList((FluidStack)null);
+	}
+	
 	@Override
 	public IngredientMatchResult match(Object object, IngredientSorption sorption) {
 		if (object == null) return IngredientMatchResult.PASS_0;
