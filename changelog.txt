@@ -1,3 +1,21 @@
+v2o.0.6
+
+* Revamped scrubbers to have a recipe system with CT support
+
+* All units now use ticks and not seconds - a config regeneration is recommended!
+
+* Fixed recipes involving empty ingredients not being cached
+* Fixed stack overflow error caused by deep recursion in recipe generation
+
+* Fixed missing radium recipe
++ Added radiation JEI info to irradiating recipes
+
+* Replaced recursive reactor search algorithm with iterative one
+* Fixed fission ports updating unnecessarily
++ Added configs for reactor sound effect volumes
+
+* Feral Ghoul spawners now ignore the natural spawning limitations
+
 v2o.0.5
 
 + Implemented multiblock logic system - addons can introduce their own mechanics!

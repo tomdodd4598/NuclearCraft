@@ -260,6 +260,12 @@
 				"fluid": "radaway_slow"
 			}
 		},
+		"fluid_redstone_ethanol": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "redstone_ethanol"
+			}
+		},
 		"fluid_beryllium": {
 			"model": "forge:fluid",
 			"custom": {
@@ -486,6 +492,12 @@
 			"model": "forge:fluid",
 			"custom": {
 				"fluid": "borax_solution"
+			}
+		},
+		"fluid_irradiated_borax_solution": {
+			"model": "forge:fluid",
+			"custom": {
+				"fluid": "irradiated_borax_solution"
 			}
 		},
 		"fluid_naoh": {

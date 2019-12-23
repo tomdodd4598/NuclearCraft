@@ -82,6 +82,10 @@ public abstract class MultiblockLogic<MULTIBLOCK extends Multiblock<PACKET> & IL
 	
 	public abstract void onMachinePaused();
 	
+	public abstract void onMachineDisassembled();
+	
+	public abstract boolean isMachineWhole(Multiblock multiblock);
+	
 	// NBT
 	
 	public abstract void writeToNBT(NBTTagCompound data, SyncReason syncReason);

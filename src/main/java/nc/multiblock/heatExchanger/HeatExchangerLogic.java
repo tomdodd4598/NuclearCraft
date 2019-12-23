@@ -1,5 +1,6 @@
 package nc.multiblock.heatExchanger;
 
+import nc.multiblock.Multiblock;
 import nc.multiblock.MultiblockLogic;
 import nc.multiblock.TileBeefBase.SyncReason;
 import nc.multiblock.heatExchanger.tile.IHeatExchangerPart;
@@ -54,6 +55,18 @@ public class HeatExchangerLogic extends MultiblockLogic<HeatExchanger, IHeatExch
 	public void onMachinePaused() {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	@Override
+	public void onMachineDisassembled() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public boolean isMachineWhole(Multiblock multiblock) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 	
 	// Server

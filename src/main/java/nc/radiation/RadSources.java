@@ -15,6 +15,7 @@ import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import nc.ModCheck;
 import nc.config.NCConfig;
 import nc.init.NCBlocks;
+import nc.init.NCItems;
 import nc.util.RegistryHelper;
 import net.minecraft.block.Block;
 import net.minecraft.client.util.RecipeItemHelper;
@@ -275,6 +276,8 @@ public class RadSources {
 		putDepletedFuel(CALIFORNIUM_251, 16, CALIFORNIUM_252, 16, CALIFORNIUM_252, 16, CALIFORNIUM_252, 16, "HECf251", "hecf_251");
 		
 		put(URANIUM_238*4D, "plateDU");
+		put(URANIUM_238*16D, NCBlocks.solar_panel_du, NCBlocks.voltaic_pile_du, NCBlocks.lithium_ion_battery_du);
+		put(URANIUM_238*12D, new ItemStack(NCItems.rad_shielding, 1, 2));
 		
 		put(URANIUM_238/4D, NCBlocks.rtg_uranium);
 		put(PLUTONIUM_238/4D, NCBlocks.rtg_plutonium);
@@ -285,7 +288,9 @@ public class RadSources {
 		put(POLONIUM/4D, new ItemStack(NCBlocks.fission_source, 1, 1));
 		put(CALIFORNIUM_252/4D, new ItemStack(NCBlocks.fission_source, 1, 2));
 		
-		put(TRITIUM/512D, NCBlocks.tritium_lamp);
+		put(TRITIUM/256D, NCBlocks.tritium_lamp);
+		
+		put(CAESIUM_137/4D, "dustIrradiatedBorax");
 		
 		if (ModCheck.gregtechLoaded()) {
 			for (String prefix : ORE_PREFIXES) {
@@ -331,6 +336,8 @@ public class RadSources {
 		putFissionFluid(CALIFORNIUM_250, "californium_250");
 		putFissionFluid(CALIFORNIUM_251, "californium_251");
 		putFissionFluid(CALIFORNIUM_252, "californium_252");
+		
+		putFluid(CAESIUM_137/4D, "irradiated_borax_solution");
 		
 		// Custom and Stack Entries
 		
@@ -420,8 +427,7 @@ public class RadSources {
 	public static void putFissionFluid(double radiation, String... fluids) {
 		for (String fluid : fluids) {
 			addToFluidMap(fluid, radiation*FLUID);
-			addToFluidMap(fluid + "_fluoride", radiation*FLUID);
-			addToFluidMap(fluid + "_fluoride_flibe", radiation*FLUID/2D);
+			addToFluidMap(fluid + "_za", radiation*FLUID);
 		}
 	}
 	
@@ -437,7 +443,7 @@ public class RadSources {
 		addToOreMap("fuel" + ore + "ZA", radiation);
 		addToFluidMap("fuel_" + fluid, radiation*FLUID/9D);
 		addToFluidMap("fuel_" + fluid + "_fluoride", radiation*FLUID/9D);
-		addToFluidMap("fuel_" + fluid + "_fluoride_flibe", radiation*FLUID/18D);
+		addToFluidMap("fuel_" + fluid + "_fluoride_flibe", radiation*FLUID/9D);
 	}
 	
 	public static void putFuel(double fertile, double fissile, String ore, String fluid) {
@@ -457,7 +463,7 @@ public class RadSources {
 		addToOreMap("depletedFuel" + ore + "ZA", radiation);
 		addToFluidMap("depleted_fuel_" + fluid, radiation*FLUID/9D);
 		addToFluidMap("depleted_fuel_" + fluid + "_fluoride", radiation*FLUID/9D);
-		addToFluidMap("depleted_fuel_" + fluid + "_fluoride_flibe", radiation*FLUID/18D);
+		addToFluidMap("depleted_fuel_" + fluid + "_fluoride_flibe", radiation*FLUID/9D);
 	}
 	
 	public static void put(double radiation, String... ores) {

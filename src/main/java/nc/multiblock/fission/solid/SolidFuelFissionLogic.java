@@ -102,7 +102,7 @@ public class SolidFuelFissionLogic extends FissionReactorLogic {
 		}
 		
 		for (IFissionFuelComponent primedComponent : primedCache) {
-			primedComponent.fluxSearch();
+			iterateFluxSearch(primedComponent);
 		}
 		
 		for (IFissionFuelComponent primedComponent : primedCache) {
@@ -126,20 +126,20 @@ public class SolidFuelFissionLogic extends FissionReactorLogic {
 		getReactor().passiveModeratorCache.removeAll(getReactor().activeModeratorCache);
 		
 		for (TileSolidFissionCell cell : getPartMap(TileSolidFissionCell.class).values()) {
-			cell.clusterSearch(null);
+			iterateClusterSearch(cell);
 		}
 		
 		for (long posLong : getReactor().activeModeratorCache) {
 			for (EnumFacing dir : EnumFacing.VALUES) {
 				IFissionComponent component = getPartMap(IFissionComponent.class).get(BlockPos.fromLong(posLong).offset(dir).toLong());
-				if (component != null) component.clusterSearch(null);
+				if (component != null) iterateClusterSearch(component);
 			}
 		}
 		
 		for (long posLong : getReactor().activeReflectorCache) {
 			for (EnumFacing dir : EnumFacing.VALUES) {
 				IFissionComponent component = getPartMap(IFissionComponent.class).get(BlockPos.fromLong(posLong).offset(dir).toLong());
-				if (component != null) component.clusterSearch(null);
+				if (component != null) iterateClusterSearch(component);
 			}
 		}
 		

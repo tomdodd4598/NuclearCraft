@@ -438,24 +438,25 @@ public class NCBlocks {
 		registerBlock(turbine_computer_port);
 		
 		if (NCConfig.register_passive[0]) {
-			registerBlock(cobblestone_generator, NCConfig.cobble_gen_power > 0 ? InfoHelper.formattedInfo("tile.nuclearcraft.cobblestone_generator_req_power", UnitHelper.ratePrefix(NCConfig.processor_passive_rate[0], 5, Lang.localise("nuclearcraft.cobblestone")), UnitHelper.ratePrefix(NCConfig.cobble_gen_power, 5, "RF")) : InfoHelper.formattedInfo("tile.nuclearcraft.cobblestone_generator_no_req_power", UnitHelper.ratePrefix(NCConfig.processor_passive_rate[0], 5, Lang.localise("nuclearcraft.cobblestone"))));
-			registerBlock(cobblestone_generator_compact, NCConfig.cobble_gen_power > 0 ? InfoHelper.formattedInfo("tile.nuclearcraft.cobblestone_generator_req_power", UnitHelper.ratePrefix(NCConfig.processor_passive_rate[0]*8, 5, Lang.localise("nuclearcraft.cobblestone")), UnitHelper.ratePrefix(NCConfig.cobble_gen_power*8, 5, "RF")) : InfoHelper.formattedInfo("tile.nuclearcraft.cobblestone_generator_no_req_power", UnitHelper.ratePrefix(NCConfig.processor_passive_rate[0]*8, 5, Lang.localise("nuclearcraft.cobblestone"))));
-			registerBlock(cobblestone_generator_dense, NCConfig.cobble_gen_power > 0 ? InfoHelper.formattedInfo("tile.nuclearcraft.cobblestone_generator_req_power", UnitHelper.ratePrefix(NCConfig.processor_passive_rate[0]*64, 5, Lang.localise("nuclearcraft.cobblestone")), UnitHelper.ratePrefix(NCConfig.cobble_gen_power*64, 5, "RF")) : InfoHelper.formattedInfo("tile.nuclearcraft.cobblestone_generator_no_req_power", UnitHelper.ratePrefix(NCConfig.processor_passive_rate[0]*64, 5, Lang.localise("nuclearcraft.cobblestone"))));
+			String cobblePerTick = " " + Lang.localise("nuclearcraft.cobblestone") + "/t";
+			registerBlock(cobblestone_generator, NCConfig.cobble_gen_power > 0 ? InfoHelper.formattedInfo("tile.nuclearcraft.cobblestone_generator_req_power", NCMath.sigFigs(NCConfig.processor_passive_rate[0], 5) + cobblePerTick, UnitHelper.prefix(NCConfig.cobble_gen_power, 5, "RF/t")) : InfoHelper.formattedInfo("tile.nuclearcraft.cobblestone_generator_no_req_power", NCMath.sigFigs(NCConfig.processor_passive_rate[0], 5) + cobblePerTick));
+			registerBlock(cobblestone_generator_compact, NCConfig.cobble_gen_power > 0 ? InfoHelper.formattedInfo("tile.nuclearcraft.cobblestone_generator_req_power", NCMath.sigFigs(NCConfig.processor_passive_rate[0]*8, 5) + cobblePerTick, UnitHelper.prefix(NCConfig.cobble_gen_power*8, 5, "RF/t")) : InfoHelper.formattedInfo("tile.nuclearcraft.cobblestone_generator_no_req_power", NCMath.sigFigs(NCConfig.processor_passive_rate[0]*8, 5) + cobblePerTick));
+			registerBlock(cobblestone_generator_dense, NCConfig.cobble_gen_power > 0 ? InfoHelper.formattedInfo("tile.nuclearcraft.cobblestone_generator_req_power", NCMath.sigFigs(NCConfig.processor_passive_rate[0]*64, 5) + cobblePerTick, UnitHelper.prefix(NCConfig.cobble_gen_power*64, 5, "RF/t")) : InfoHelper.formattedInfo("tile.nuclearcraft.cobblestone_generator_no_req_power", NCMath.sigFigs(NCConfig.processor_passive_rate[0]*64, 5) + cobblePerTick));
 		}
 		
 		if (NCConfig.register_passive[1]) {
-			registerBlock(water_source, InfoHelper.formattedInfo(infoLine("water_source"), UnitHelper.ratePrefix(NCConfig.processor_passive_rate[1], 5, "B", -1)));
-			registerBlock(water_source_compact, InfoHelper.formattedInfo(infoLine("water_source"), UnitHelper.ratePrefix(NCConfig.processor_passive_rate[1]*8, 5, "B", -1)));
-			registerBlock(water_source_dense, InfoHelper.formattedInfo(infoLine("water_source"), UnitHelper.ratePrefix(NCConfig.processor_passive_rate[1]*64, 5, "B", -1)));
+			registerBlock(water_source, InfoHelper.formattedInfo(infoLine("water_source"), UnitHelper.prefix(NCConfig.processor_passive_rate[1], 5, "B/t", -1)));
+			registerBlock(water_source_compact, InfoHelper.formattedInfo(infoLine("water_source"), UnitHelper.prefix(NCConfig.processor_passive_rate[1]*8, 5, "B/t", -1)));
+			registerBlock(water_source_dense, InfoHelper.formattedInfo(infoLine("water_source"), UnitHelper.prefix(NCConfig.processor_passive_rate[1]*64, 5, "B/t", -1)));
 		}
 		
 		if (NCConfig.register_passive[2]) {
-			registerBlock(nitrogen_collector, InfoHelper.formattedInfo(infoLine("nitrogen_collector"), UnitHelper.ratePrefix(NCConfig.processor_passive_rate[2], 5, "B", -1)));
-			registerBlock(nitrogen_collector_compact, InfoHelper.formattedInfo(infoLine("nitrogen_collector"), UnitHelper.ratePrefix(NCConfig.processor_passive_rate[2]*8, 5, "B", -1)));
-			registerBlock(nitrogen_collector_dense, InfoHelper.formattedInfo(infoLine("nitrogen_collector"), UnitHelper.ratePrefix(NCConfig.processor_passive_rate[2]*64, 5, "B", -1)));
+			registerBlock(nitrogen_collector, InfoHelper.formattedInfo(infoLine("nitrogen_collector"), UnitHelper.prefix(NCConfig.processor_passive_rate[2], 5, "B/t", -1)));
+			registerBlock(nitrogen_collector_compact, InfoHelper.formattedInfo(infoLine("nitrogen_collector"), UnitHelper.prefix(NCConfig.processor_passive_rate[2]*8, 5, "B/t", -1)));
+			registerBlock(nitrogen_collector_dense, InfoHelper.formattedInfo(infoLine("nitrogen_collector"), UnitHelper.prefix(NCConfig.processor_passive_rate[2]*64, 5, "B/t", -1)));
 		}
 		
-		registerBlock(radiation_scrubber, NCConfig.radiation_scrubber_non_linear ? InfoHelper.formattedInfo(infoLine("radiation_scrubber_alt"), NCMath.decimalPlaces(100D*RadiationHelper.getAltScrubbingFraction(1D), 1) + "%", NCConfig.radiation_scrubber_borax_rate > 0 ? Lang.localise("info.nuclearcraft.radiation_scrubber_req_borax", NCConfig.radiation_scrubber_power/20, NCConfig.radiation_scrubber_borax_rate) : Lang.localise("info.nuclearcraft.radiation_scrubber_no_req_borax", NCConfig.radiation_scrubber_power/20)) : InfoHelper.formattedInfo(infoLine("radiation_scrubber"), NCMath.decimalPlaces(100D*NCConfig.radiation_scrubber_fraction, 1) + "%", NCConfig.radiation_scrubber_borax_rate > 0 ? Lang.localise("info.nuclearcraft.radiation_scrubber_req_borax", NCConfig.radiation_scrubber_power/20, NCConfig.radiation_scrubber_borax_rate) : Lang.localise("info.nuclearcraft.radiation_scrubber_no_req_borax", NCConfig.radiation_scrubber_power/20)));
+		registerBlock(radiation_scrubber, NCConfig.radiation_scrubber_non_linear ? InfoHelper.formattedInfo(infoLine("radiation_scrubber_non_linear"), NCMath.decimalPlaces(100D*RadiationHelper.getAltScrubbingFraction(1D), 1) + "%", Lang.localise("nuclearcraft.one_hundred_percent")) : InfoHelper.formattedInfo(infoLine("radiation_scrubber"), NCMath.decimalPlaces(100D*NCConfig.radiation_scrubber_fraction, 1) + "%", Lang.localise("nuclearcraft.one_hundred_percent")));
 		
 		registerBlock(geiger_block);
 		

@@ -8,6 +8,7 @@ import nc.config.NCConfig;
 import nc.handler.CapabilityHandler;
 import nc.handler.DropHandler;
 import nc.handler.DungeonLootHandler;
+import nc.handler.EntityHandler;
 import nc.handler.ItemUseHandler;
 import nc.handler.OreDictHandler;
 import nc.handler.PlayerRespawnHandler;
@@ -127,6 +128,7 @@ public class CommonProxy {
 		//GameRegistry.registerWorldGenerator(new WastelandPortalGenerator(), 10);
 		
 		NCEntities.register();
+		MinecraftForge.EVENT_BUS.register(new EntityHandler());
 		
 		if (ModCheck.tinkersLoaded()) {
 			TConstructExtras.init();

@@ -110,7 +110,7 @@ public class FissionCluster {
 	
 	public void doMeltdown() {
 		if (reactor.logic instanceof SolidFuelFissionLogic || reactor.logic instanceof MoltenSaltFissionLogic) {
-			Iterator<IFissionComponent> componentIterator = componentMap.values().iterator();
+			final Iterator<IFissionComponent> componentIterator = componentMap.values().iterator();
 			while (componentIterator.hasNext()) {
 				IFissionComponent component = componentIterator.next();
 				componentIterator.remove();

@@ -46,6 +46,11 @@
 					"layer0": "nuclearcraft:items/compound/borax"
 				}
 			},
+			"irradiated_borax": {
+				"textures": {
+					"layer0": "nuclearcraft:items/compound/irradiated_borax"
+				}
+			},
 			"dimensional_blend": {
 				"textures": {
 					"layer0": "nuclearcraft:items/compound/dimensional_blend"

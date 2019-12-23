@@ -4,7 +4,6 @@ import static nc.util.PermutationHelper.permutations;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.Nullable;
@@ -29,7 +28,6 @@ import nc.util.FluidRegHelper;
 import nc.util.ItemStackHelper;
 import nc.util.OreDictHelper;
 import net.minecraft.block.Block;
-import net.minecraft.client.util.RecipeItemHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
@@ -59,10 +57,14 @@ public abstract class AbstractRecipeHandler<T extends IRecipe> {
 		return recipeList;
 	}
 	
+	public Long2ObjectMap<T> getRecipeCache() {
+		return recipeCache;
+	}
+	
 	public abstract void addRecipe(Object... objects);
 	
 	public @Nullable RecipeInfo<T> getRecipeInfoFromInputs(List<ItemStack> itemInputs, List<Tank> fluidInputs) {
-		T recipe = recipeCache.get(hashMaterialsRaw(itemInputs, fluidInputs));
+		T recipe = recipeCache.get(RecipeHelper.hashMaterialsRaw(itemInputs, fluidInputs));
 		if (recipe != null) {
 			RecipeMatchResult matchResult = recipe.matchInputs(itemInputs, fluidInputs);
 			if (matchResult.matches()) return new RecipeInfo(recipe, matchResult);
@@ -155,46 +157,16 @@ public abstract class AbstractRecipeHandler<T extends IRecipe> {
 			
 			List<Pair<List<ItemStack>, List<FluidStack>>> materialListTuples = new ArrayList<>();
 			
-			RecipeHelper.generateMaterialListTuples(materialListTuples, maxNumbers, inputNumbers, itemInputLists, fluidInputLists);
+			RecipeTupleGenerator.INSTANCE.generateMaterialListTuples(materialListTuples, maxNumbers, inputNumbers, itemInputLists, fluidInputLists);
 			
 			for (Pair<List<ItemStack>, List<FluidStack>> materials : materialListTuples) {
 				for (List<ItemStack> items : permutations(materials.getLeft())) {
 					for (List<FluidStack> fluids : permutations(materials.getRight())) {
-						recipeCache.put(hashMaterials(items, fluids), recipe);
+						recipeCache.put(RecipeHelper.hashMaterials(items, fluids), recipe);
 					}
 				}
 			}
 		}
-	}
-	
-	private static long hashMaterialsRaw(List<ItemStack> items, List<Tank> fluids) {
-		long hash = 1L;
-		Iterator<ItemStack> itemIter = items.iterator();
-		while (itemIter.hasNext()) {
-			ItemStack stack = itemIter.next();
-			hash = 31L*hash + (stack == null ? 0L : RecipeItemHelper.pack(stack));
-		}
-		Iterator<Tank> fluidIter = fluids.iterator();
-		while (fluidIter.hasNext()) {
-			Tank tank = fluidIter.next();
-			hash = 31L*hash + (tank == null ? 0L : tank.getFluid() == null ? 0L : tank.getFluid().getFluid().getName().hashCode());
-		}
-		return hash;
-	}
-	
-	private static long hashMaterials(List<ItemStack> items, List<FluidStack> fluids) {
-		long hash = 1L;
-		Iterator<ItemStack> itemIter = items.iterator();
-		while (itemIter.hasNext()) {
-			ItemStack stack = itemIter.next();
-			hash = 31L*hash + (stack == null ? 0L : RecipeItemHelper.pack(stack));
-		}
-		Iterator<FluidStack> fluidIter = fluids.iterator();
-		while (fluidIter.hasNext()) {
-			FluidStack stack = fluidIter.next();
-			hash = 31L*hash + (stack == null ? 0L : stack.getFluid().getName().hashCode());
-		}
-		return hash;
 	}
 	
 	public static void addValidItemInput(Class itemInputType) {

@@ -9,6 +9,7 @@ import javax.annotation.Nullable;
 
 import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
 import it.unimi.dsi.fastutil.longs.LongSet;
+import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import nc.Global;
 import nc.capability.radiation.source.IRadiationSource;
 import nc.config.NCConfig;
@@ -16,6 +17,7 @@ import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.fission.FissionCluster;
 import nc.multiblock.fission.FissionReactor;
 import nc.multiblock.fission.solid.SolidFissionCellSetting;
+import nc.multiblock.fission.tile.IFissionComponent;
 import nc.multiblock.fission.tile.IFissionFuelComponent;
 import nc.multiblock.fission.tile.TileFissionPart;
 import nc.multiblock.fission.tile.TileFissionPort;
@@ -85,8 +87,8 @@ public class TileSolidFissionCell extends TileFissionPart implements IItemGenera
 	protected final Long[] activeReflectorModeratorCache = new Long[] {null, null, null, null, null, null};
 	protected final LongSet activeReflectorCache = new LongOpenHashSet();
 	
-	protected BlockPos portPos = BlockPosHelper.DEFAULT_NON;
-	protected TileFissionPort port = null;
+	protected BlockPos masterPortPos = BlockPosHelper.DEFAULT_NON;
+	protected TileFissionPort masterPort = null;
 	
 	protected int cellCount;
 	
@@ -153,12 +155,12 @@ public class TileSolidFissionCell extends TileFissionPart implements IItemGenera
 	}
 	
 	@Override
-	public void clusterSearch(Integer id) {
+	public void clusterSearch(Integer id, final Object2IntMap<IFissionComponent> clusterSearchCache) {
 		refreshRecipe();
 		refreshActivity();
 		refreshIsProcessing(false);
 		
-		IFissionFuelComponent.super.clusterSearch(id);
+		IFissionFuelComponent.super.clusterSearch(id, clusterSearchCache);
 	}
 	
 	@Override
@@ -311,27 +313,29 @@ public class TileSolidFissionCell extends TileFissionPart implements IItemGenera
 		this.heat = heat;
 	}
 	
-	public BlockPos getPortPos() {
-		return portPos;
+	public BlockPos getMasterPortPos() {
+		return masterPortPos;
 	}
 	
-	public void setPortPos(BlockPos pos) {
-		portPos = pos;
+	public void setMasterPortPos(BlockPos pos) {
+		masterPortPos = pos;
 	}
 	
-	public TileFissionPort getPort() {
-		return port;
+	public TileFissionPort getMasterPort() {
+		return masterPort;
 	}
 	
-	public void clearPort() {
-		port = null;
-		portPos = BlockPosHelper.DEFAULT_NON;
+	public void clearMasterPort() {
+		masterPort = null;
+		masterPortPos = BlockPosHelper.DEFAULT_NON;
 	}
 	
 	public void refreshPort() {
 		if (getMultiblock() != null) {
-			port = getMultiblock().getPartMap(TileFissionPort.class).get(portPos.toLong());
-			if (port == null) portPos = BlockPosHelper.DEFAULT_NON;
+			masterPort = getMultiblock().getPartMap(TileFissionPort.class).get(masterPortPos.toLong());
+			if (masterPort == null) {
+				masterPortPos = BlockPosHelper.DEFAULT_NON;
+			}
 		}
 	}
 	
@@ -563,7 +567,7 @@ public class TileSolidFissionCell extends TileFissionPart implements IItemGenera
 	
 	@Override
 	public @Nonnull NonNullList<ItemStack> getInventoryStacks() {
-		return port != null ? port.getInventoryStacks() : inventoryStacks;
+		return masterPort != null ? masterPort.getInventoryStacks() : inventoryStacks;
 	}
 	
 	@Override
@@ -749,7 +753,7 @@ public class TileSolidFissionCell extends TileFissionPart implements IItemGenera
 		nbt.setInteger("flux", flux);
 		nbt.setLong("clusterHeat", heat);
 		
-		nbt.setLong("portPos", portPos.toLong());
+		nbt.setLong("masterPortPos", masterPortPos.toLong());
 		return nbt;
 	}
 	
@@ -773,7 +777,7 @@ public class TileSolidFissionCell extends TileFissionPart implements IItemGenera
 		flux = nbt.getInteger("flux");
 		heat = nbt.getLong("clusterHeat");
 		
-		portPos = BlockPos.fromLong(nbt.getLong("portPos"));
+		masterPortPos = BlockPos.fromLong(nbt.getLong("masterPortPos"));
 	}
 	
 	@Override

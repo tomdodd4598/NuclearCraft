@@ -66,6 +66,7 @@ import nc.integration.jei.multiblock.SaltFissionCategory;
 import nc.integration.jei.multiblock.SolidFissionCategory;
 import nc.integration.jei.multiblock.TurbineCategory;
 import nc.integration.jei.other.CollectorCategory;
+import nc.integration.jei.other.RadiationScrubberCategory;
 import nc.integration.jei.processor.AlloyFurnaceCategory;
 import nc.integration.jei.processor.CentrifugeCategory;
 import nc.integration.jei.processor.ChemicalReactorCategory;
@@ -244,7 +245,7 @@ public class NCJEI implements IModPlugin {
 		
 		blacklist(jeiHelpers, NCItems.foursmore);
 		
-		NCUtil.getLogger().info("JEI integration complete");
+		NCUtil.getLogger().info("JEI integration complete!");
 	}
 	
 	private static void blacklist(IJeiHelpers jeiHelpers, Object... items) {
@@ -294,8 +295,9 @@ public class NCJEI implements IModPlugin {
 		//FUSION(NCRecipes.fusion, NCBlocks.fusion_core, "fusion_core", JEIRecipeWrapper.Fusion.class),
 		COOLANT_HEATER(NCRecipes.coolant_heater, NCBlocks.salt_fission_heater, "coolant_heater", JEIRecipeWrapper.CoolantHeater.class),
 		HEAT_EXCHANGER(NCRecipes.heat_exchanger, Lists.newArrayList(NCBlocks.heat_exchanger_tube_copper, NCBlocks.heat_exchanger_tube_hard_carbon, NCBlocks.heat_exchanger_tube_thermoconducting), "heat_exchanger", JEIRecipeWrapper.HeatExchanger.class),
+		CONDENSER(NCRecipes.condenser, Lists.newArrayList(NCBlocks.condenser_tube_copper, NCBlocks.condenser_tube_hard_carbon, NCBlocks.condenser_tube_thermoconducting), "condenser", JEIRecipeWrapper.Condenser.class),
 		TURBINE(NCRecipes.turbine, NCBlocks.turbine_controller, "turbine", JEIRecipeWrapper.Turbine.class),
-		CONDENSER(NCRecipes.condenser, Lists.newArrayList(NCBlocks.condenser_tube_copper, NCBlocks.condenser_tube_hard_carbon, NCBlocks.condenser_tube_thermoconducting), "condenser", JEIRecipeWrapper.Condenser.class);
+		RADIATION_SCRUBBER(NCRecipes.radiation_scrubber, NCBlocks.radiation_scrubber, "radiation_scrubber", JEIRecipeWrapper.RadiationScrubber.class);
 		
 		private ProcessorRecipeHandler recipeHandler;
 		private Class<? extends JEIRecipeWrapperAbstract> recipeWrapper;
@@ -385,10 +387,12 @@ public class NCJEI implements IModPlugin {
 				return new CoolantHeaterCategory(guiHelper, this);
 			case HEAT_EXCHANGER:
 				return new HeatExchangerCategory(guiHelper, this);
-			case CONDENSER:
-				return new CondenserCategory(guiHelper, this);
 			case TURBINE:
 				return new TurbineCategory(guiHelper, this);
+			case CONDENSER:
+				return new CondenserCategory(guiHelper, this);
+			case RADIATION_SCRUBBER:
+				return new RadiationScrubberCategory(guiHelper, this);
 			default:
 				return null;
 			}

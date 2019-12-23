@@ -5,6 +5,8 @@ import java.util.Random;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
+import it.unimi.dsi.fastutil.objects.Object2IntMap;
+import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import it.unimi.dsi.fastutil.objects.ObjectSet;
 import nc.config.NCConfig;
@@ -105,6 +107,7 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, IFissio
 	@Override
 	public void onMachinePaused() {}
 	
+	@Override
 	public void onMachineDisassembled() {
 		getReactor().resetStats();
 		if (getReactor().controller != null) {
@@ -113,6 +116,7 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, IFissio
 		getReactor().isReactorOn = false;
 	}
 	
+	@Override
 	public boolean isMachineWhole(Multiblock multiblock) {
 		multiblock.setLastError("zerocore.api.nc.multiblock.validation.invalid_logic", null);
 		return false;
@@ -130,21 +134,35 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, IFissio
 	public void linkPorts() {
 		Long2ObjectMap<TileFissionPort> portMap = getPartMap(TileFissionPort.class);
 		Long2ObjectMap<TileSolidFissionCell> cellMap = getPartMap(TileSolidFissionCell.class);
+		
 		if (portMap.isEmpty()) {
 			for (TileSolidFissionCell cell : cellMap.values()) {
-				cell.clearPort();
+				cell.clearMasterPort();
 			}
 			return;
 		}
 		
-		for (TileFissionPort port : portMap.values()) {
-			port.clearMasterPort();
-		}
-		
 		TileFissionPort masterPort = null;
 		for (TileFissionPort port : portMap.values()) {
-			masterPort = port;
+			masterPort = port.getMasterPort();
 			break;
+		}
+		
+		for (TileFissionPort port : portMap.values()) {
+			if (port != masterPort) {
+				port.clearMasterPort();
+			}
+		}
+		
+		if (masterPort == null) {
+			for (TileFissionPort port : portMap.values()) {
+				masterPort = port;
+				break;
+			}
+		}
+		
+		if (masterPort == null) {
+			return;
 		}
 		
 		for (TileFissionPort port : portMap.values()) {
@@ -154,18 +172,12 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, IFissio
 				port.refreshMasterPort();
 			}
 			
-			if (!cellMap.isEmpty()) {
-				port.inventoryStackLimit = Math.max(64, 2*cellMap.size());
-				port.recipe_handler = NCRecipes.solid_fission;
-			}
-			else {
-				port.inventoryStackLimit = 64;
-				port.recipe_handler = null;
-			}
+			port.inventoryStackLimit = Math.max(64, 2*cellMap.size());
+			port.recipe_handler = NCRecipes.solid_fission;
 		}
 		
 		for (TileSolidFissionCell cell : cellMap.values()) {
-			cell.setPortPos(masterPort.getPos());
+			cell.setMasterPortPos(masterPort.getPos());
 			cell.refreshPort();
 		}
 	}
@@ -242,6 +254,41 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, IFissio
 		}
 	}
 	
+	public void iterateFluxSearch(IFissionFuelComponent rootFuelComponent) {
+		final ObjectSet<IFissionFuelComponent> fluxSearchCache = new ObjectOpenHashSet<>();
+		rootFuelComponent.fluxSearch(fluxSearchCache);
+		
+		do {
+			final Iterator<IFissionFuelComponent> fluxSearchIterator = fluxSearchCache.iterator();
+			final ObjectSet<IFissionFuelComponent> fluxSearchSubCache = new ObjectOpenHashSet<>();
+			while (fluxSearchIterator.hasNext()) {
+				IFissionFuelComponent fuelComponent = fluxSearchIterator.next();
+				fluxSearchIterator.remove();
+				fuelComponent.fluxSearch(fluxSearchSubCache);
+			}
+			fluxSearchCache.addAll(fluxSearchSubCache);
+		}
+		while (!fluxSearchCache.isEmpty());
+	}
+	
+	public void iterateClusterSearch(IFissionComponent rootComponent) {
+		final Object2IntMap<IFissionComponent> clusterSearchCache = new Object2IntOpenHashMap<>();
+		rootComponent.clusterSearch(null, clusterSearchCache);
+		
+		do {
+			final Iterator<IFissionComponent> clusterSearchIterator = clusterSearchCache.keySet().iterator();
+			final Object2IntMap<IFissionComponent> clusterSearchSubCache = new Object2IntOpenHashMap<>();
+			while (clusterSearchIterator.hasNext()) {
+				IFissionComponent component = clusterSearchIterator.next();
+				Integer id = clusterSearchCache.get(component);
+				clusterSearchIterator.remove();
+				component.clusterSearch(id, clusterSearchSubCache);
+			}
+			clusterSearchCache.putAll(clusterSearchSubCache);
+		}
+		while (!clusterSearchCache.isEmpty());
+	}
+	
 	public void refreshReactorStats() {
 		
 	}
@@ -311,7 +358,7 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, IFissio
 		if (getReactor().fuelComponentCount <= 0) return true;
 		double soundRate = Math.min(1D, getReactor().meanEfficiency/(14D*NCConfig.fission_max_size));
 		if (rand.nextDouble() < soundRate) {
-			getWorld().playSound(fuelComponent.getTilePos().getX(), fuelComponent.getTilePos().getY(), fuelComponent.getTilePos().getZ(), NCSounds.geiger_tick, SoundCategory.BLOCKS, (float) (1.6D*Math.log1p(Math.sqrt(getReactor().fuelComponentCount))), 1F + 0.12F*(rand.nextFloat() - 0.5F), false);
+			getWorld().playSound(fuelComponent.getTilePos().getX(), fuelComponent.getTilePos().getY(), fuelComponent.getTilePos().getZ(), NCSounds.geiger_tick, SoundCategory.BLOCKS, (float) (1.6D*Math.log1p(Math.sqrt(getReactor().fuelComponentCount))*NCConfig.fission_sound_volume), 1F + 0.12F*(rand.nextFloat() - 0.5F), false);
 			return true;
 		}
 		return false;

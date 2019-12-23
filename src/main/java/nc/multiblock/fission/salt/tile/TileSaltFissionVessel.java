@@ -10,6 +10,7 @@ import com.google.common.collect.Lists;
 
 import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
 import it.unimi.dsi.fastutil.longs.LongSet;
+import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import nc.Global;
 import nc.ModCheck;
 import nc.capability.radiation.source.IRadiationSource;
@@ -18,6 +19,7 @@ import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.fission.FissionCluster;
 import nc.multiblock.fission.FissionReactor;
 import nc.multiblock.fission.salt.SaltFissionVesselSetting;
+import nc.multiblock.fission.tile.IFissionComponent;
 import nc.multiblock.fission.tile.IFissionFuelComponent;
 import nc.multiblock.fission.tile.TileFissionPart;
 import nc.radiation.RadiationHelper;
@@ -155,12 +157,12 @@ public class TileSaltFissionVessel extends TileFissionPart implements IFluidGene
 	}
 	
 	@Override
-	public void clusterSearch(Integer id) {
+	public void clusterSearch(Integer id, final Object2IntMap<IFissionComponent> clusterSearchCache) {
 		refreshRecipe();
 		refreshActivity();
 		refreshIsProcessing(false);
 		
-		IFissionFuelComponent.super.clusterSearch(id);
+		IFissionFuelComponent.super.clusterSearch(id, clusterSearchCache);
 	}
 	
 	@Override

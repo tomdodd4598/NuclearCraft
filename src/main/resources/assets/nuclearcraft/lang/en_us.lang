@@ -201,9 +201,9 @@ tile.nuclearcraft.solid_fission_sink2.magnesium.desc=Must be adjacent to exactly
 tile.nuclearcraft.solid_fission_sink2.manganese.name=Manganese Fission Reactor Sink
 tile.nuclearcraft.solid_fission_sink2.manganese.desc=Must be adjacent to at least two functional fuel cells.
 tile.nuclearcraft.solid_fission_sink2.aluminum.name=Aluminum Fission Reactor Sink
-tile.nuclearcraft.solid_fission_sink2.aluminum.desc=Must be adjacent to at least one valid quartz sink and one valid tin sink.
+tile.nuclearcraft.solid_fission_sink2.aluminum.desc=Must be adjacent to at least one valid quartz sink and one valid lapis sink.
 tile.nuclearcraft.solid_fission_sink2.silver.name=Silver Fission Reactor Sink
-tile.nuclearcraft.solid_fission_sink2.silver.desc=Must be adjacent to at least one valid glowstone sink and one valid lapis sink.
+tile.nuclearcraft.solid_fission_sink2.silver.desc=Must be adjacent to at least one valid glowstone sink and one valid tin sink.
 tile.nuclearcraft.solid_fission_sink2.fluorite.name=Fluorite Fission Reactor Sink
 tile.nuclearcraft.solid_fission_sink2.fluorite.desc=Must be adjacent to at least one valid gold sink and one valid prismarine sink.
 tile.nuclearcraft.solid_fission_sink2.villiaumite.name=Villiaumite Fission Reactor Sink
@@ -301,13 +301,10 @@ tile.nuclearcraft.nitrogen_collector_compact.name=Compact Nitrogen Collector
 tile.nuclearcraft.nitrogen_collector_dense.name=Dense Nitrogen Collector
 tile.nuclearcraft.nitrogen_collector.desc=Produces %s of nitrogen constantly.
 
-nuclearcraft.collector.jei_name=Collector
-
 tile.nuclearcraft.radiation_scrubber.name=Radiation Scrubber
-tile.nuclearcraft.radiation_scrubber.desc=Reduces the radiation level of the chunk it is placed in. Its effectiveness is dependent on the amount of free space around it, removing a maximum of %s of the radiation in its chunk. The collective contribution from all scrubbers in the chunk will stack linearly. %s
-tile.nuclearcraft.radiation_scrubber_alt.desc=Reduces the radiation level of the chunk it is placed in. Its effectiveness is dependent on the amount of free space around it. Alone, it will remove a maximum of %s of the radiation in its chunk, though the collective contribution from all scrubbers in the chunk will stack non-linearly. The radiation level will fall approximately linearly at first, but eventually doubly exponentially in the limit of many scrubbers. %s
-info.nuclearcraft.radiation_scrubber_req_borax=Requires %s RF/t and %s Borax/s to run.
-info.nuclearcraft.radiation_scrubber_no_req_borax=Requires %s RF/t to run.
+tile.nuclearcraft.radiation_scrubber.desc=Reduces the radiation level of the chunk it is placed in. Its effectiveness depends on the amount of free space around it, removing a maximum of %s of the radiation in its chunk at %s efficiency. The collective contribution from all scrubbers in the chunk will stack linearly. The efficiency and required power depends on the rad-clearing agent being used
+tile.nuclearcraft.radiation_scrubber_non_linear.desc=Reduces the radiation level of the chunk it is placed in. Its effectiveness depends on the amount of free space around it. Alone, it will remove a maximum of %s of the radiation in its chunk at %s efficiency, though the collective contribution from all scrubbers in the chunk will stack non-linearly. The radiation level will fall approximately linearly at first, but eventually doubly exponentially in the limit of many scrubbers. The efficiency and required power depends on the rad-clearing agent being used.
+nuclearcraft.one_hundred_percent=100%
 
 tile.nuclearcraft.geiger_block.name=Geiger Counter Block
 tile.nuclearcraft.geiger_block.desc=Reads the radiation level of the chunk it is placed in.
@@ -445,6 +442,9 @@ fluid.radaway=RadAway Fluid
 tile.nuclearcraft.fluid_radaway_slow.name=Slow-Acting RadAway Fluid
 fluid.radaway_slow=Slow-Acting RadAway Fluid
 
+tile.nuclearcraft.fluid_redstone_ethanol.name=Redstone-Infused Ethanol
+fluid.redstone_ethanol=Redstone-Infused Ethanol
+
 tile.nuclearcraft.fluid_beryllium.name=Molten Beryllium
 fluid.beryllium=Molten Beryllium
 
@@ -556,6 +556,9 @@ fluid.potassium_hydroxide_solution=Potassium Hydroxide Solution
 
 tile.nuclearcraft.fluid_borax_solution.name=Borax Solution
 fluid.borax_solution=Borax Solution
+
+tile.nuclearcraft.fluid_irradiated_borax_solution.name=Irradiated Borax Solution
+fluid.irradiated_borax_solution=Irradiated Borax Solution
 
 tile.nuclearcraft.fluid_naoh.name=Molten Sodium Hydroxide
 fluid.naoh=Molten Sodium Hydroxide
@@ -1219,6 +1222,7 @@ item.nuclearcraft.compound.potassium_fluoride.name=Potassium Fluoride
 item.nuclearcraft.compound.sodium_hydroxide.name=Sodium Hydroxide
 item.nuclearcraft.compound.potassium_hydroxide.name=Potassium Hydroxide
 item.nuclearcraft.compound.borax.name=Borax
+item.nuclearcraft.compound.irradiated_borax.name=Irradiated Borax
 item.nuclearcraft.compound.dimensional_blend.name=Dimensional Blend
 item.nuclearcraft.compound.c_mn_blend.name=Carbon-Manganese Blend
 item.nuclearcraft.compound.alugentum.name=Alugentum Dust
@@ -1749,13 +1753,23 @@ jei.nuclearcraft.chance_output=Output: %s-%s [Mean: %s]
 
 jei.nuclearcraft.base_process_time=Base process time:
 jei.nuclearcraft.base_process_power=Base process power:
+jei.nuclearcraft.base_process_radiation=Base process radiation:
+
+jei.nuclearcraft.collector_production_rate=Production rate:
 
 jei.nuclearcraft.solid_fuel_time=Base depletion time:
 jei.nuclearcraft.solid_fuel_heat=Base heat gen:
 jei.nuclearcraft.solid_fuel_efficiency=Base efficiency:
 jei.nuclearcraft.solid_fuel_criticality=Fuel criticality:
+jei.nuclearcraft.solid_fuel_radiation=Fuel radiation:
 
 jei.nuclearcraft.fission_heating_heat_per_mb=Heat per input mB:
+
+jei.nuclearcraft.salt_fuel_time=Base depletion time:
+jei.nuclearcraft.salt_fuel_heat=Base heat gen:
+jei.nuclearcraft.salt_fuel_efficiency=Base efficiency:
+jei.nuclearcraft.salt_fuel_criticality=Fuel criticality:
+jei.nuclearcraft.salt_fuel_radiation=Fuel radiation:
 
 jei.nuclearcraft.fusion_time=Base combo lifetime:
 jei.nuclearcraft.fusion_power=Base max power:
@@ -1763,6 +1777,7 @@ jei.nuclearcraft.fusion_temp=Optimal temperature:
 
 jei.nuclearcraft.decay_gen_lifetime=Mean lifetime:
 jei.nuclearcraft.decay_gen_power=Power gen:
+jei.nuclearcraft.decay_gen_radiation=Decay radiation:
 
 jei.nuclearcraft.salt_fuel_time=Depletion time:
 jei.nuclearcraft.salt_fuel_heat=Base heat gen:
@@ -1780,6 +1795,10 @@ jei.nuclearcraft.condenser_heat_removal_req=Heat removal required:
 
 jei.nuclearcraft.turbine_energy_density=Base energy density:
 jei.nuclearcraft.turbine_expansion=Fluid expansion:
+
+jei.nuclearcraft.scrubber_process_time=Scrubbing lifetime:
+jei.nuclearcraft.scrubber_process_power=Required power:
+jei.nuclearcraft.scrubber_process_efficiency=Efficiency multiplier:
 
 jei.nuclearcraft.coolant_heater.nak=Must be adjacent to at least one active Fission Vessel or active moderator.
 jei.nuclearcraft.coolant_heater.redstone_nak=Must be adjacent to at least one active Fission Vessel.
@@ -1857,7 +1876,7 @@ gui.nc.config.processors.processor_passive_rate.comment=Rates at which passive m
 gui.nc.config.processors.passive_push=Passive Pushing
 gui.nc.config.processors.passive_push.comment=Will passive machines that produce materials automatically push to adjacent inventories and fluid handlers?
 gui.nc.config.processors.cobble_gen_power=Cobble Gen Power Use
-gui.nc.config.processors.cobble_gen_power.comment=RF/s required for Cobblestone Generator to run.
+gui.nc.config.processors.cobble_gen_power.comment=RF/t required for Cobblestone Generator to run.
 gui.nc.config.processors.ore_processing=Ore Processing
 gui.nc.config.processors.ore_processing.comment=Can NuclearCraft machines process ores?
 gui.nc.config.processors.manufactory_wood=Manufactory Wood Processing
@@ -1883,9 +1902,9 @@ gui.nc.config.generators.rtg_power.comment=RF/t generated. Order: Uranium, Pluto
 gui.nc.config.generators.solar_power=Solar Panel Power Gen
 gui.nc.config.generators.solar_power.comment=RF/t generated. Order: Basic, Advanced, DU, Elite.
 gui.nc.config.generators.decay_lifetime=Decay Generator Mean Lifetimes
-gui.nc.config.generators.decay_lifetime.comment=Mean lifetimes of adjacent radioactive blocks. Order: Thorium, Uranium, Depleted Thorium, Depleted Uranium, Depleted Neptunium, Depleted Plutonium, Depleted Americium, Depleted Curium, Depleted Berkelium, Depleted Californium.
+gui.nc.config.generators.decay_lifetime.comment=Mean lifetimes of adjacent radioactive blocks in ticks. Order: Thorium, Uranium, Depleted Thorium, Depleted Uranium, Depleted Neptunium, Depleted Plutonium, Depleted Americium, Depleted Curium, Depleted Berkelium, Depleted Californium.
 gui.nc.config.generators.decay_power=Decay Generator Power Gen
-gui.nc.config.generators.decay_power.comment=RF/s generated by adjacent radioactive blocks. Order: Thorium, Uranium, Depleted Thorium, Depleted Uranium, Depleted Neptunium, Depleted Plutonium, Depleted Americium, Depleted Curium, Depleted Berkelium, Depleted Californium.
+gui.nc.config.generators.decay_power.comment=RF/t generated by adjacent radioactive blocks. Order: Thorium, Uranium, Depleted Thorium, Depleted Uranium, Depleted Neptunium, Depleted Plutonium, Depleted Americium, Depleted Curium, Depleted Berkelium, Depleted Californium.
 gui.nc.config.generators.generator_rf_per_eu=RF Use per EU Emitted
 gui.nc.config.generators.generator_rf_per_eu.comment=The RF used per EU emitted for generators.
 
@@ -1914,8 +1933,8 @@ gui.nc.config.fission.fission_comparator_max_heat=Max Comparator Signal Heat
 gui.nc.config.fission.fission_comparator_max_heat.comment=Percentage heat level of a fission reactor at which a comparator adjacent to the controller will output a full-strength redstone signal.
 gui.nc.config.fission.fission_force_heat_comparator=Force Heat Comparator
 gui.nc.config.fission.fission_force_heat_comparator.comment=If enabled, the controller of a heat-negative or heat-neutral reactor will output a heat-based comparator signal as if it were heat-positive instead of an energy-based one.
-gui.nc.config.fission.fission_active_cooler_max_rate=Maximum Active Cooler Fluid Use
-gui.nc.config.fission.fission_active_cooler_max_rate.comment=Maximum rate at which the Active Fluid Cooler uses coolant in mB/s.
+gui.nc.config.fission.fission_sound_volume=Fission Sound Volume
+gui.nc.config.fission.fission_sound_volume.comment=Modifier for the volume of fission sound effects.
 
 gui.nc.config.fission.fission_moderator_extra_power=Moderator Power Modifier
 gui.nc.config.fission.fission_moderator_extra_power.comment=*Only effects new mechanics.* Determines the extra power generated by each moderator block adjacent to a reactor cell. Equal to the effective number of extra cell's worth of power that would be generated by a cell totally surrounded by moderator blocks. Each moderator block will contribute one sixth of this amount of power (the amount of additional power scales linearly with the number of moderator blocks).
@@ -2048,10 +2067,10 @@ gui.nc.config.fusion.fusion_max_size=Maximum Toroid Size
 gui.nc.config.fusion.fusion_max_size.comment=Maximum size of fusion toroids.
 gui.nc.config.fusion.fusion_comparator_max_efficiency=Max Comparator Signal Efficiency
 gui.nc.config.fusion.fusion_comparator_max_efficiency.comment=Efficiency of a fusion reactor at which a comparator adjacent to the core will output a full-strength redstone signal.
-gui.nc.config.fusion.fusion_enable_sound=Enable Fusion Sound
-gui.nc.config.fusion.fusion_enable_sound.comment=If true, reactor sound effects will play.
 gui.nc.config.fusion.fusion_plasma_craziness=Fusion Plasma Fires
 gui.nc.config.fusion.fusion_plasma_craziness.comment=Will fusion plasma start fires? Disabling this will reduce lag somewhat.
+gui.nc.config.fusion.fusion_sound_volume=Fusion Sound Volume
+gui.nc.config.fusion.fusion_sound_volume.comment=Modifier for the volume of fusion sound effects.
 
 gui.nc.config.fusion.fusion_fuel_time=Fusion Fuel Combo Durations
 gui.nc.config.fusion.fusion_fuel_time.comment=Base ticks the fuel combos last. Order: H-H, H-D, H-T, H-He3, H-Li6, H-Li7, H-B11, D-D, D-T, D-He3, ..., D-B11, T-T, ..., T-B11, ..., B11-B11.
@@ -2062,7 +2081,7 @@ gui.nc.config.fusion.fusion_heat_variable.comment=Heat variables that determine 
 gui.nc.config.fusion.fusion_radiation=Fusion Fuel Combo Radiation
 gui.nc.config.fusion.fusion_radiation.comment=Base radiation the fuel combos produce while processing. Order: H-H, H-D, H-T, H-He3, H-Li6, H-Li7, H-B11, D-D, D-T, D-He3, ..., D-B11, T-T, ..., T-B11, ..., B11-B11.
 gui.nc.config.fusion.fusion_electromagnet_power=Electromagnet Power
-gui.nc.config.fusion.fusion_electromagnet_power.comment=RF/s required to keep an electromagnet active.
+gui.nc.config.fusion.fusion_electromagnet_power.comment=RF/t required to keep an electromagnet active.
 
 gui.nc.config.category.heat_exchanger=Heat Exchanger Configs
 gui.nc.config.category.heat_exchanger.tooltip=Configure aspects of heat exchangers.
@@ -2099,8 +2118,8 @@ gui.nc.config.turbine.turbine_expansion_level=Steam Expansion Level
 gui.nc.config.turbine.turbine_expansion_level.comment=Expansion level for this type of steam's recipe. Order: high pressure, low pressure, standard.
 gui.nc.config.turbine.turbine_mb_per_blade=Rotor Blade Maximum Process Rate
 gui.nc.config.turbine.turbine_mb_per_blade.comment=Maximum mB of fluid processed per tick per rotor blade.
-gui.nc.config.turbine.turbine_enable_sound=Enable Turbine Sound
-gui.nc.config.turbine.turbine_enable_sound.comment=If true, turbine sound effects will play.
+gui.nc.config.turbine.turbine_sound_volume=Turbine Sound Volume
+gui.nc.config.turbine.turbine_sound_volume.comment=Modifier for the volume of turbine sound effects.
 
 gui.nc.config.category.condenser=Condenser Configs
 gui.nc.config.category.condenser.tooltip=Configure aspects of condensers.
@@ -2114,9 +2133,9 @@ gui.nc.config.category.accelerator=Accelerator Configs
 gui.nc.config.category.accelerator.tooltip=Configure aspects of particle acceleration.
 
 gui.nc.config.accelerator.accelerator_electromagnet_power=Superconducting Electromagnet Power
-gui.nc.config.accelerator.accelerator_electromagnet_power.comment=RF/s required to keep a superconducting electromagnet active.
+gui.nc.config.accelerator.accelerator_electromagnet_power.comment=RF/t required to keep a superconducting electromagnet active.
 gui.nc.config.accelerator.accelerator_supercooler_coolant=Superconducting Supercooler Coolant
-gui.nc.config.accelerator.accelerator_supercooler_coolant.comment=mB/s of liquid helium required to keep a superconducting supercooler active.
+gui.nc.config.accelerator.accelerator_supercooler_coolant.comment=mB/t of liquid helium required to keep a superconducting supercooler active.
 
 gui.nc.config.category.energy_storage=Energy Storage Configs
 gui.nc.config.category.energy_storage.tooltip=Configure energy storages.
@@ -2268,17 +2287,19 @@ gui.nc.config.radiation.radiation_tile_shielding.comment=If enabled along with h
 gui.nc.config.radiation.radiation_hazmat_shielding=Radiation Hazmat Shielding
 gui.nc.config.radiation.radiation_hazmat_shielding.comment=The rad resistance levels provided by each piece of the hazmat suit. Order: headwear, chestpiece, leggings, boots.
 gui.nc.config.radiation.radiation_scrubber_fraction=Scrubber Max Removal Rate
-gui.nc.config.radiation.radiation_scrubber_fraction.comment=The maximum rate at which scrubbers will remove radiation as a fraction of the radiation level of the chunk it is in.
+gui.nc.config.radiation.radiation_scrubber_fraction.comment=The maximum rate at which a 100% efficiency scrubber will remove radiation as a fraction of the radiation level of the chunk it is in. Only applies when using linear scrubbing mechanics.
 gui.nc.config.radiation.radiation_scrubber_radius=Scrubber Search Radius
 gui.nc.config.radiation.radiation_scrubber_radius.comment=The range of scrubbers' search for occluding blocks.
 gui.nc.config.radiation.radiation_scrubber_non_linear=Non-linear Scrubber Mechanics
 gui.nc.config.radiation.radiation_scrubber_non_linear.comment=Use a non-linear scrubbing rate equation instead of the linear behaviour?
 gui.nc.config.radiation.radiation_scrubber_param=Non-linear Scrubber Parameters
 gui.nc.config.radiation.radiation_scrubber_param.comment=The four parameters a,b,c,d in the non-linear scrubbing rate equation 'F = a^[-(S/b)^(S/c + 1)^(1/d)]', where 'F' is the remaining fraction of radiation left in the chunk's update buffer after scrubbing and 'S' is the effective number of scrubbers in the chunk after accounting for inefficiencies. It is recommended that you only modify these if you know what you are doing.
-gui.nc.config.radiation.radiation_scrubber_power=Scrubber Power Use
-gui.nc.config.radiation.radiation_scrubber_power.comment=The power in RF/s scrubbers need to be supplied to run.
-gui.nc.config.radiation.radiation_scrubber_borax_rate=Scrubber Borax Use Rate
-gui.nc.config.radiation.radiation_scrubber_borax_rate.comment=The amount of borax scrubbers need to be supplied per second.
+gui.nc.config.radiation.radiation_scrubber_time=Scrubber Recipe Lifetime
+gui.nc.config.radiation.radiation_scrubber_time.comment=The lifetime in ticks of one item or 250 mB of fluid in an active scrubber. Order: borax dust, RadAway, Slow-Acting RadAway
+gui.nc.config.radiation.radiation_scrubber_power=Scrubber Recipe Power Use
+gui.nc.config.radiation.radiation_scrubber_power.comment=The power in RF/t scrubbers need to be supplied to run with these ingredients. Order: borax dust, RadAway, Slow-Acting RadAway
+gui.nc.config.radiation.radiation_scrubber_efficiency=Scrubber Recipe Efficiency
+gui.nc.config.radiation.radiation_scrubber_efficiency.comment=The efficiency multiplier of an active scrubber using these ingredients. Order: borax dust, RadAway, Slow-Acting RadAway
 gui.nc.config.radiation.radiation_geiger_block_redstone=Geiger Block Comparator Scale
 gui.nc.config.radiation.radiation_geiger_block_redstone.comment=The radiation level, as a power of ten, at which the Geiger counter block will emit a full-strength comparator signal.
 
@@ -2590,6 +2611,7 @@ nuclearcraft.multiblock_validation.turbine.space_between_blades=The space betwee
 nuclearcraft.multiblock_validation.turbine.different_type_blades=The rotor blades or stators about each section of the rotor shaft must be of the same type for the turbine to form
 nuclearcraft.multiblock_validation.turbine.missing_blades=Each section of the rotor shaft must have rotor blades or stators of the same type extend fully to the wall for the turbine to form
 
+nuclearcraft.collector.jei_name=Collector
 nuclearcraft.multiblock_gui.fission_moderator.jei_name=Fission Moderator
 nuclearcraft.multiblock_gui.fission_reflector.jei_name=Fission Reflector
 nuclearcraft.multiblock_gui.solid_fission.jei_name=Solid Fuel Fission
@@ -2601,6 +2623,7 @@ nuclearcraft.multiblock_gui.coolant_heater.jei_name=Molten Salt Cooling
 nuclearcraft.multiblock_gui.heat_exchanger.jei_name=Heat Exchanger Tube
 nuclearcraft.multiblock_gui.condenser.jei_name=Condensation Tube
 nuclearcraft.multiblock_gui.turbine.jei_name=Turbine
+nuclearcraft.radiation_scrubber.jei_name=Radiation Scrubber
 
 advancement.nuclearcraft.root.name=NuclearCraft
 advancement.nuclearcraft.root.desc=Nuclear Physics, Minecraft Style

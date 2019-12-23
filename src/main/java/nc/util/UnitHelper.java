@@ -189,13 +189,4 @@ public class UnitHelper {
 		while ((Math.round(ticks/TIME_MULT[i]) + "").length() > maxLength) i++;
 		return Math.round(ticks/TIME_MULT[i]) + TIME_UNIT_SHORT[i];
 	}
-	
-	public static String ratePrefix(long perSecond, int maxLength, String unit, int startingPrefixNo) {
-		boolean useTicks = perSecond % 20 == 0;
-		return UnitHelper.prefix(useTicks ? perSecond/20 : perSecond, maxLength, unit + (useTicks ? "/t" : "/s"), startingPrefixNo);
-	}
-	
-	public static String ratePrefix(long perSecond, int maxLength, String unit) {
-		return UnitHelper.ratePrefix(perSecond, maxLength, unit, 0);
-	}
 }

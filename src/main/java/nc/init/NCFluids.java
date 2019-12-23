@@ -69,6 +69,7 @@ public class NCFluids {
 			
 			fluidPairList.add(fluidPair(FluidType.LIQUID, "radaway"));
 			fluidPairList.add(fluidPair(FluidType.LIQUID, "radaway_slow"));
+			fluidPairList.add(fluidPair(FluidType.LIQUID, "redstone_ethanol"));
 			
 			fluidPairList.add(fluidPair(FluidType.GAS, "nitrogen", 0x7CC37B));
 			fluidPairList.add(fluidPair(FluidType.GAS, "fluorine", 0xD3C75D));
@@ -96,6 +97,7 @@ public class NCFluids {
 			fluidPairList.add(fluidPair(FluidType.SALT_SOLUTION, "sodium_hydroxide_solution", waterBlend(0xC2B7BB)));
 			fluidPairList.add(fluidPair(FluidType.SALT_SOLUTION, "potassium_hydroxide_solution", waterBlend(0xB8C6B0)));
 			fluidPairList.add(fluidPair(FluidType.SALT_SOLUTION, "borax_solution", waterBlend(0xEEEEEE)));
+			fluidPairList.add(fluidPair(FluidType.SALT_SOLUTION, "irradiated_borax_solution", waterBlend(0xFFD0A3)));
 			
 			fluidPairList.add(fluidPair(FluidType.CORIUM, "corium", 0x7F8178));
 			

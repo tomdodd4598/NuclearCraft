@@ -3,6 +3,9 @@ package nc.recipe.other;
 import nc.config.NCConfig;
 import nc.init.NCBlocks;
 import nc.recipe.ProcessorRecipeHandler;
+import nc.util.Lang;
+import nc.util.NCMath;
+import nc.util.UnitHelper;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 
@@ -15,21 +18,22 @@ public class CollectorRecipes extends ProcessorRecipeHandler {
 	@Override
 	public void addRecipes() {
 		if (NCConfig.register_passive[0]) {
-			addRecipe(NCBlocks.cobblestone_generator, new ItemStack(Blocks.COBBLESTONE, NCConfig.processor_passive_rate[0]), emptyFluidStack());
-			addRecipe(NCBlocks.cobblestone_generator_compact, new ItemStack(Blocks.COBBLESTONE, NCConfig.processor_passive_rate[0]*8), emptyFluidStack());
-			addRecipe(NCBlocks.cobblestone_generator_dense, new ItemStack(Blocks.COBBLESTONE, NCConfig.processor_passive_rate[0]*64), emptyFluidStack());
+			String cobblePerTick = " " + Lang.localise("nuclearcraft.cobblestone") + "/t";
+			addRecipe(NCBlocks.cobblestone_generator, new ItemStack(Blocks.COBBLESTONE), emptyFluidStack(), NCMath.sigFigs(NCConfig.processor_passive_rate[0], 5) + cobblePerTick);
+			addRecipe(NCBlocks.cobblestone_generator_compact, new ItemStack(Blocks.COBBLESTONE), emptyFluidStack(), NCMath.sigFigs(NCConfig.processor_passive_rate[0]*8, 5) + cobblePerTick);
+			addRecipe(NCBlocks.cobblestone_generator_dense, new ItemStack(Blocks.COBBLESTONE), emptyFluidStack(), NCMath.sigFigs(NCConfig.processor_passive_rate[0]*64, 5) + cobblePerTick);
 		}
 		
 		if (NCConfig.register_passive[1]) {
-			addRecipe(NCBlocks.water_source, emptyItemStack(), fluidStack("water", NCConfig.processor_passive_rate[1]));
-			addRecipe(NCBlocks.water_source_compact, emptyItemStack(), fluidStack("water", NCConfig.processor_passive_rate[1]*8));
-			addRecipe(NCBlocks.water_source_dense, emptyItemStack(), fluidStack("water", NCConfig.processor_passive_rate[1]*64));
+			addRecipe(NCBlocks.water_source, emptyItemStack(), fluidStack("water", 1000), UnitHelper.prefix(NCConfig.processor_passive_rate[1], 5, "B/t", -1));
+			addRecipe(NCBlocks.water_source_compact, emptyItemStack(), fluidStack("water", 1000), UnitHelper.prefix(NCConfig.processor_passive_rate[1]*8, 5, "B/t", -1));
+			addRecipe(NCBlocks.water_source_dense, emptyItemStack(), fluidStack("water", 1000), UnitHelper.prefix(NCConfig.processor_passive_rate[1]*64, 5, "B/t", -1));
 		}
 		
 		if (NCConfig.register_passive[2]) {
-			addRecipe(NCBlocks.nitrogen_collector, emptyItemStack(), fluidStack("nitrogen", NCConfig.processor_passive_rate[2]));
-			addRecipe(NCBlocks.nitrogen_collector_compact, emptyItemStack(), fluidStack("nitrogen", NCConfig.processor_passive_rate[2]*8));
-			addRecipe(NCBlocks.nitrogen_collector_dense, emptyItemStack(), fluidStack("nitrogen", NCConfig.processor_passive_rate[2]*64));
+			addRecipe(NCBlocks.nitrogen_collector, emptyItemStack(), fluidStack("nitrogen", 1000), UnitHelper.prefix(NCConfig.processor_passive_rate[2], 5, "B/t", -1));
+			addRecipe(NCBlocks.nitrogen_collector_compact, emptyItemStack(), fluidStack("nitrogen", 1000), UnitHelper.prefix(NCConfig.processor_passive_rate[2]*8, 5, "B/t", -1));
+			addRecipe(NCBlocks.nitrogen_collector_dense, emptyItemStack(), fluidStack("nitrogen", 1000), UnitHelper.prefix(NCConfig.processor_passive_rate[2]*64, 5, "B/t", -1));
 		}
 	}
 }

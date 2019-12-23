@@ -4,7 +4,6 @@ import nc.config.NCConfig;
 import nc.handler.GuiHandler;
 import nc.proxy.CommonProxy;
 import nc.render.BlockHighlightTracker;
-import nc.util.NCUtil;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -35,33 +34,28 @@ public class NuclearCraft {
 	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent preEvent) {
-		NCUtil.getLogger().info("Pre Initializing...");
 		NCConfig.preInit();
 		proxy.preInit(preEvent);
 	}
 	
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
-		NCUtil.getLogger().info("Initializing...");
 		proxy.init(event);
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
 	}
 	
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent postEvent) {
-		NCUtil.getLogger().info("Post Initializing...");
 		proxy.postInit(postEvent);
 	}
 	
 	@EventHandler
 	public void serverStart(FMLServerStartingEvent serverStartEvent) {
-		NCUtil.getLogger().info("Server Loading...");
 		proxy.serverStart(serverStartEvent);
 	}
 	
 	@EventHandler
 	public void serverStop(FMLServerStoppedEvent serverStopEvent) {
-		NCUtil.getLogger().info("Server Closing...");
 		proxy.serverStop(serverStopEvent);
 	}
 	

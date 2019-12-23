@@ -8,12 +8,14 @@ import javax.annotation.Nullable;
 
 import com.google.common.collect.Lists;
 
+import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import nc.ModCheck;
 import nc.config.NCConfig;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.fission.FissionCluster;
 import nc.multiblock.fission.FissionReactor;
 import nc.multiblock.fission.salt.SaltFissionHeaterSetting;
+import nc.multiblock.fission.tile.IFissionComponent;
 import nc.multiblock.fission.tile.IFissionCoolingComponent;
 import nc.multiblock.fission.tile.TileFissionPart;
 import nc.recipe.AbstractRecipeHandler;
@@ -128,12 +130,12 @@ public class TileSaltFissionHeater extends TileFissionPart implements IFluidProc
 	}
 	
 	@Override
-	public void clusterSearch(Integer id) {
+	public void clusterSearch(Integer id, final Object2IntMap<IFissionComponent> clusterSearchCache) {
 		refreshRecipe();
 		refreshActivity();
 		refreshIsProcessing(false);
 		
-		IFissionCoolingComponent.super.clusterSearch(id);
+		IFissionCoolingComponent.super.clusterSearch(id, clusterSearchCache);
 	}
 	
 	public void refreshIsProcessing(boolean checkCluster) {

@@ -2,7 +2,6 @@ package nc.recipe;
 
 import java.util.List;
 
-import nc.config.NCConfig;
 import nc.recipe.ingredient.IFluidIngredient;
 import nc.recipe.ingredient.IItemIngredient;
 import nc.tile.generator.TileDecayGenerator;
@@ -104,23 +103,31 @@ public class ProcessorRecipe implements IRecipe {
 		else return 0D;
 	}
 	
+	// Passive Collector
+	
+	public String getCollectorProductionRate() {
+		if (extras.isEmpty()) return null;
+		else if (extras.get(0) instanceof String) return (String) extras.get(0);
+		return null;
+	}
+	
 	// Decay Generator
 	
 	public double getDecayLifetime() {
 		if (extras.isEmpty()) return TileDecayGenerator.DEFAULT_LIFETIME;
-		else if (extras.get(0) instanceof Double) return ((double) extras.get(0))*20D/NCConfig.machine_update_rate;
+		else if (extras.get(0) instanceof Double) return (double) extras.get(0);
 		return TileDecayGenerator.DEFAULT_LIFETIME;
 	}
 	
-	public int getDecayPower() {
-		if (extras.size() < 2) return 0;
-		if (extras.get(1) instanceof Integer) return (int) (((Integer)extras.get(1)).intValue()*NCConfig.machine_update_rate/20D);
-		return 0;
+	public double getDecayPower() {
+		if (extras.size() < 2) return 0D;
+		if (extras.get(1) instanceof Double) return (double) extras.get(1);
+		return 0D;
 	}
 	
 	public double getDecayRadiation() {
 		if (extras.size() < 3) return 0D;
-		else if (extras.get(2) instanceof Double) return ((double) extras.get(2))*NCConfig.machine_update_rate/20D;
+		else if (extras.get(2) instanceof Double) return (double) extras.get(2);
 		else return 0D;
 	}
 	
@@ -297,6 +304,26 @@ public class ProcessorRecipe implements IRecipe {
 		if (extras.size() < 2) return 300;
 		else if (extras.get(1) instanceof Integer) return (int) extras.get(1);
 		else return 300;
+	}
+	
+	// Radiation Scrubber
+	
+	public int getScrubberProcessTime() {
+		if (extras.isEmpty()) return 1;
+		else if (extras.get(0) instanceof Integer) return (int) extras.get(0);
+		else return 1;
+	}
+	
+	public int getScrubberProcessPower() {
+		if (extras.size() < 2) return 0;
+		else if (extras.get(1) instanceof Integer) return (int) extras.get(1);
+		else return 0;
+	}
+	
+	public double getScrubberProcessEfficiency() {
+		if (extras.size() < 3) return 0D;
+		else if (extras.get(2) instanceof Double) return (double) extras.get(2);
+		else return 0D;
 	}
 	
 	// Radiation Block Mutations

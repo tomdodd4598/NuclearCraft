@@ -15,11 +15,14 @@ public class DecayHastenerRecipes extends ProcessorRecipeHandler {
 
 	@Override
 	public void addRecipes() {
+		addDecayRecipes("Radium", "Lead");
+		addDecayRecipes("Polonium", "Lead");
+		
 		addDecayRecipes("Thorium", "Lead");
 		
 		addDecayRecipes("Uranium233", OreDictHelper.oreExists("dustBismuth") ? "Bismuth" : "Lead");
 		addDecayRecipes("Uranium235", "Lead");
-		addDecayRecipes("Uranium238", "Lead");
+		addDecayRecipes("Uranium238", "Radium");
 		
 		addDecayRecipes("Neptunium236", "Thorium");
 		addDecayRecipes("Neptunium237", "Uranium233");
@@ -47,14 +50,16 @@ public class DecayHastenerRecipes extends ProcessorRecipeHandler {
 		addDecayRecipes("Californium252", "Thorium");
 	}
 	
-	private static final List<String> CHAIN_ENDS = Arrays.asList("Lead", "Bismuth");
+	private static final List<String> DUSTS = Arrays.asList("Lead", "Bismuth", "Radium", "Polonium");
 	
 	public void addDecayRecipes(String input, String output) {
-		boolean isChainEnd = CHAIN_ENDS.contains(output);
-		for (String type : new String[] {"", "Carbide", "Oxide", "Nitride", "ZA"}) {
-			String inputName = "ingot" + input + type;
-			double radiationLevel = RadSources.ORE_MAP.getDouble(inputName);
-			addRecipe(inputName, isChainEnd ? "dust" + output : "ingot" + output + type, 1D, 1D, radiationLevel/8D);
+		String inputName = "ingot" + input;
+		double radiationLevel = RadSources.ORE_MAP.getDouble(inputName);
+		if (DUSTS.contains(output)) {
+			addRecipe(inputName + (OreDictHelper.oreExists(inputName + "All") ? "All" : ""), "dust" + output, 1D, 1D, radiationLevel/8D);
+		}
+		else for (String type : new String[] {"", "Carbide", "Oxide", "Nitride", "ZA"}) {
+			addRecipe(inputName + type, "ingot" + output + type, 1D, 1D, radiationLevel/8D);
 		}
 	}
 }

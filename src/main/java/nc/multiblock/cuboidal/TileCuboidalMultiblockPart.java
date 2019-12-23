@@ -9,13 +9,13 @@ import nc.multiblock.TileMultiblockPart;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 
-public abstract class TileCuboidalMultiblockPart<T extends CuboidalMultiblock> extends TileMultiblockPart<T> {
+public abstract class TileCuboidalMultiblockPart<MULTIBLOCK extends CuboidalMultiblock> extends TileMultiblockPart<MULTIBLOCK> {
 	
 	private final CuboidalPartPositionType positionType;
 	private PartPosition position;
 	private BlockFacing outwardFacings;
 	
-	public TileCuboidalMultiblockPart(Class<T> tClass, CuboidalPartPositionType positionType) {
+	public TileCuboidalMultiblockPart(Class<MULTIBLOCK> tClass, CuboidalPartPositionType positionType) {
 		super(tClass);
 		
 		this.positionType = positionType;
@@ -30,16 +30,6 @@ public abstract class TileCuboidalMultiblockPart<T extends CuboidalMultiblock> e
 	}
 	
 	/**
-	 * Get the outward facing of the part in the formed multiblock
-	 *
-	 * @return the outward facing of the part. A face is "set" in the BlockFacings object if that face is facing outward
-	 */
-	@Nonnull
-	public BlockFacing getOutwardsDir() {
-		return outwardFacings;
-	}
-	
-	/**
 	 * Get the position of the part in the formed multiblock
 	 *
 	 * @return the position of the part
@@ -47,6 +37,16 @@ public abstract class TileCuboidalMultiblockPart<T extends CuboidalMultiblock> e
 	@Nonnull
 	public PartPosition getPartPosition() {
 		return position;
+	}
+	
+	/**
+	 * Get the outward facing of the part in the formed multiblock
+	 *
+	 * @return the outward facing of the part. A face is "set" in the BlockFacings object if that face is facing outward
+	 */
+	@Nonnull
+	public BlockFacing getOutwardsDir() {
+		return outwardFacings;
 	}
 	
 	/**
@@ -75,7 +75,7 @@ public abstract class TileCuboidalMultiblockPart<T extends CuboidalMultiblock> e
 	@Nullable
 	public EnumFacing getOutwardFacingFromWorldPosition() {
 		BlockFacing facings = null;
-		T multiblock = this.getMultiblock();
+		MULTIBLOCK multiblock = getMultiblock();
 		
 		if (null != multiblock) {
 			BlockPos position = pos;
@@ -92,13 +92,13 @@ public abstract class TileCuboidalMultiblockPart<T extends CuboidalMultiblock> e
 	// Handlers from MultiblockTileEntityBase
 	
 	@Override
-	public void onAttached(T newMultiblock) {
+	public void onAttached(MULTIBLOCK newMultiblock) {
 		super.onAttached(newMultiblock);
 		recalculateOutwardsDirection(newMultiblock.getMinimumCoord(), newMultiblock.getMaximumCoord());
 	}
 	
 	@Override
-	public void onMachineAssembled(T multiblock) {
+	public void onMachineAssembled(MULTIBLOCK multiblock) {
 		// Discover where I am on the multiblock
 		recalculateOutwardsDirection(multiblock.getMinimumCoord(), multiblock.getMaximumCoord());
 	}

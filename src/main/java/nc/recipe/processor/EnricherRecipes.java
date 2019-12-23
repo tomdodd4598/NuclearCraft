@@ -23,8 +23,10 @@ public class EnricherRecipes extends ProcessorRecipeHandler {
 		addRecipe("dustSodiumHydroxide", fluidStack("water", FluidStackHelper.BUCKET_VOLUME), fluidStack("sodium_hydroxide_solution", FluidStackHelper.GEM_VOLUME), 0.5D, 0.5D);
 		addRecipe("dustPotassiumHydroxide", fluidStack("water", FluidStackHelper.BUCKET_VOLUME), fluidStack("potassium_hydroxide_solution", FluidStackHelper.GEM_VOLUME), 0.5D, 0.5D);
 		addRecipe("dustBorax", fluidStack("water", FluidStackHelper.BUCKET_VOLUME), fluidStack("borax_solution", FluidStackHelper.GEM_VOLUME), 0.5D, 0.5D);
+		addRecipe("dustIrradiatedBorax", fluidStack("water", FluidStackHelper.BUCKET_VOLUME), fluidStack("irradiated_borax_solution", FluidStackHelper.GEM_VOLUME), 0.5D, 0.5D);
 		
 		addRecipe(new ItemStack(NCBlocks.glowing_mushroom, 3), fluidStack("ethanol", FluidStackHelper.BUCKET_VOLUME/4), fluidStack("radaway", FluidStackHelper.BUCKET_VOLUME/4), 1D, 0.5D);
+		addRecipe(new ItemStack(NCBlocks.glowing_mushroom, 3), fluidStack("redstone_ethanol", FluidStackHelper.BUCKET_VOLUME/4), fluidStack("radaway_slow", FluidStackHelper.BUCKET_VOLUME/4), 1D, 0.5D);
 		
 		if (!ModCheck.thermalFoundationLoaded()) {
 			addRecipe(new ItemStack(Items.SNOWBALL, 4), fluidStack("liquid_helium", 25), fluidStack("cryotheum", 25), 0.5D, 1D);

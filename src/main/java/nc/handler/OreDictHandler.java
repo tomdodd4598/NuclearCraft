@@ -131,9 +131,10 @@ public class OreDictHandler {
 		OreDictionary.registerOre("dustSodiumHydroxide", new ItemStack(NCItems.compound, 1, 5));
 		OreDictionary.registerOre("dustPotassiumHydroxide", new ItemStack(NCItems.compound, 1, 6));
 		OreDictionary.registerOre("dustBorax", new ItemStack(NCItems.compound, 1, 7));
-		OreDictionary.registerOre("dustDimensional", new ItemStack(NCItems.compound, 1, 8));
-		OreDictionary.registerOre("dustCarbonManganese", new ItemStack(NCItems.compound, 1, 9));
-		OreDictionary.registerOre("dustAlugentum", new ItemStack(NCItems.compound, 1, 10));
+		OreDictionary.registerOre("dustIrradiatedBorax", new ItemStack(NCItems.compound, 1, 8));
+		OreDictionary.registerOre("dustDimensional", new ItemStack(NCItems.compound, 1, 9));
+		OreDictionary.registerOre("dustCarbonManganese", new ItemStack(NCItems.compound, 1, 10));
+		OreDictionary.registerOre("dustAlugentum", new ItemStack(NCItems.compound, 1, 11));
 		
 		OreDictionary.registerOre("plateBasic", new ItemStack(NCItems.part, 1, 0));
 		OreDictionary.registerOre("plateAdvanced", new ItemStack(NCItems.part, 1, 1));

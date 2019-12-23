@@ -97,11 +97,11 @@ public class TileFissionPort extends TileFissionPart implements ITileInventory, 
 		super.onMachineBroken();
 		
 		//TODO - temporary ports
-		if (!getWorld().isRemote && masterPort != null) {
+		/*if (!getWorld().isRemote && masterPort != null) {
 			TileFissionPort master = masterPort;
 			clearMasterPort();
 			master.shiftStacks(this);
-		}
+		}*/
 	}
 	
 	@Override
@@ -134,18 +134,18 @@ public class TileFissionPort extends TileFissionPart implements ITileInventory, 
 	}
 	
 	public void shiftStacks(TileFissionPort port) {
-		NonNullList<ItemStack> portStacks = port.getInventoryStacks();
-		if (getInventoryStacks() != portStacks) {
-			for (int i = 0; i < getInventoryStacks().size(); i++) {
-				if (portStacks.get(i).isEmpty()) {
-					if (!getInventoryStacks().get(i).isEmpty()) {
-						portStacks.set(i, getInventoryStacks().get(i).copy());
+		NonNullList<ItemStack> stacks = getInventoryStacks(), otherStacks = port.getInventoryStacks();
+		if (stacks != otherStacks) {
+			for (int i = 0; i < stacks.size(); i++) {
+				if (otherStacks.get(i).isEmpty()) {
+					if (!stacks.get(i).isEmpty()) {
+						otherStacks.set(i, stacks.get(i).copy());
 					}
-					getInventoryStacks().set(i, ItemStack.EMPTY);
+					stacks.set(i, ItemStack.EMPTY);
 				}
-				else if (portStacks.get(i).isItemEqual(getInventoryStacks().get(i))) {
-					portStacks.get(i).grow(getInventoryStacks().get(i).getCount());
-					getInventoryStacks().set(i, ItemStack.EMPTY);
+				else if (otherStacks.get(i).isItemEqual(stacks.get(i))) {
+					otherStacks.get(i).grow(stacks.get(i).getCount());
+					stacks.set(i, ItemStack.EMPTY);
 				}
 			}
 		}
@@ -157,7 +157,7 @@ public class TileFissionPort extends TileFissionPart implements ITileInventory, 
 		if (isMultiblockAssembled()) {
 			boolean refresh = false;
 			for (TileSolidFissionCell cell : getMultiblock().getPartMap(TileSolidFissionCell.class).values()) {
-				if (cell.getPortPos() != null && (cell.getPortPos().equals(pos) || cell.getPortPos().equals(masterPortPos))) {
+				if (cell.getMasterPortPos() != null && (cell.getMasterPortPos().equals(pos) || cell.getMasterPortPos().equals(masterPortPos))) {
 					/*if (refreshRecipe)*/ cell.refreshRecipe();
 					cell.refreshActivity();
 					/*if (refreshIsProcessing)*/ cell.refreshIsProcessing(cell.isFunctional());
@@ -403,13 +403,33 @@ public class TileFissionPort extends TileFissionPart implements ITileInventory, 
 	
 	@Override
 	public NBTTagCompound writeInventory(NBTTagCompound nbt) {
+		for (int i = 0; i < inventoryStacks.size(); i++) {
+			nbt.setInteger("inventoryStackSize" + i, inventoryStacks.get(i).getCount());
+			if (!inventoryStacks.get(i).isEmpty()) {
+				inventoryStacks.get(i).setCount(1);
+			}
+		}
+		
 		ItemStackHelper.saveAllItems(nbt, inventoryStacks);
+		
+		for (int i = 0; i < inventoryStacks.size(); i++) {
+			if (!inventoryStacks.get(i).isEmpty()) {
+				inventoryStacks.get(i).setCount(nbt.getInteger("inventoryStackSize" + i));
+			}
+		}
+		
 		return nbt;
 	}
 	
 	@Override
 	public void readInventory(NBTTagCompound nbt) {
 		ItemStackHelper.loadAllItems(nbt, inventoryStacks);
+		
+		for (int i = 0; i < inventoryStacks.size(); i++) {
+			if (!inventoryStacks.get(i).isEmpty()) {
+				inventoryStacks.get(i).setCount(nbt.getInteger("inventoryStackSize" + i));
+			}
+		}
 	}
 	
 	// Capability

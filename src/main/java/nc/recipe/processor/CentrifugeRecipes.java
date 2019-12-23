@@ -15,6 +15,7 @@ public class CentrifugeRecipes extends ProcessorRecipeHandler {
 	public void addRecipes() {
 		addRecipe(fluidStack("boron", FluidStackHelper.INGOT_VOLUME), fluidStack("boron11", FluidStackHelper.INGOT_VOLUME), fluidStack("boron10", 3*FluidStackHelper.NUGGET_VOLUME), emptyFluidStack(), emptyFluidStack(), 1D, 1D);
 		addRecipe(fluidStack("lithium", FluidStackHelper.INGOT_VOLUME), fluidStack("lithium7", FluidStackHelper.INGOT_VOLUME), fluidStack("lithium6", 3*FluidStackHelper.NUGGET_VOLUME), emptyFluidStack(), emptyFluidStack(), 1D, 1D);
+		addRecipe(fluidStack("redstone_ethanol", FluidStackHelper.BUCKET_VOLUME/4), fluidStack("ethanol", FluidStackHelper.BUCKET_VOLUME/4), fluidStack("redstone", FluidStackHelper.REDSTONE_DUST_VOLUME*2), emptyFluidStack(), emptyFluidStack(), 1D, 0.5D);
 		
 		addCoolantNAKRecipe("redstone", FluidStackHelper.REDSTONE_DUST_VOLUME*10);
 		addCoolantNAKRecipe("quartz", FluidStackHelper.GEM_VOLUME*7);

@@ -64,9 +64,9 @@ public class NCConfig {
 	public static boolean enable_gtce_eu;
 	public static boolean enable_mek_gas;
 	public static int machine_update_rate;
-	public static int[] processor_passive_rate;
+	public static double[] processor_passive_rate;
 	public static boolean passive_push;
-	public static int cobble_gen_power;
+	public static double cobble_gen_power;
 	public static boolean ore_processing;
 	public static int[] manufactory_wood;
 	public static boolean rock_crusher_alternate;
@@ -79,7 +79,7 @@ public class NCConfig {
 	public static int[] rtg_power;
 	public static int[] solar_power;
 	public static double[] decay_lifetime;
-	public static int[] decay_power;
+	public static double[] decay_power;
 	
 	public static double fission_fuel_time_multiplier; // Default: 1
 	public static double[] fission_source_efficiency;
@@ -96,6 +96,7 @@ public class NCConfig {
 	public static int fission_max_size; // Default: 24
 	public static int fission_comparator_max_temp;
 	public static int fission_neutron_reach;
+	public static double fission_sound_volume;
 	
 	public static int[] fission_thorium_fuel_time;
 	public static int[] fission_thorium_heat_generation;
@@ -160,9 +161,9 @@ public class NCConfig {
 	public static int fusion_min_size; // Default: 1
 	public static int fusion_max_size; // Default: 24
 	public static int fusion_comparator_max_efficiency;
-	public static int fusion_electromagnet_power;
-	public static boolean fusion_enable_sound;
+	public static double fusion_electromagnet_power;
 	public static boolean fusion_plasma_craziness;
+	public static double fusion_sound_volume;
 	
 	public static double[] fusion_fuel_time;
 	public static double[] fusion_power;
@@ -184,10 +185,10 @@ public class NCConfig {
 	public static double[] turbine_power_per_mb;
 	public static double[] turbine_expansion_level;
 	public static int turbine_mb_per_blade;
-	public static boolean turbine_enable_sound;
+	public static double turbine_sound_volume;
 	
-	public static int accelerator_electromagnet_power;
-	public static int accelerator_supercooler_coolant;
+	public static double accelerator_electromagnet_power;
+	public static double accelerator_supercooler_coolant;
 	
 	public static int[] battery_capacity;
 	
@@ -265,8 +266,9 @@ public class NCConfig {
 	public static int radiation_scrubber_radius;
 	public static boolean radiation_scrubber_non_linear;
 	public static double[] radiation_scrubber_param;
-	public static int radiation_scrubber_power;
-	public static int radiation_scrubber_borax_rate;
+	public static int[] radiation_scrubber_time;
+	public static int[] radiation_scrubber_power;
+	public static double[] radiation_scrubber_efficiency;
 	public static double radiation_geiger_block_redstone;
 	
 	public static boolean radiation_shielding_default_recipes;
@@ -405,11 +407,11 @@ public class NCConfig {
 		propertyEnableMekGas.setLanguageKey("gui.nc.config.processors.enable_mek_gas");
 		Property propertyMachineUpdateRate = config.get(CATEGORY_PROCESSORS, "machine_update_rate", 20, Lang.localise("gui.nc.config.processors.machine_update_rate.comment"), 1, 1200);
 		propertyMachineUpdateRate.setLanguageKey("gui.nc.config.processors.machine_update_rate");
-		Property propertyProcessorPassiveRate = config.get(CATEGORY_PROCESSORS, "processor_passive_rate", new int[] {2, 200, 50}, Lang.localise("gui.nc.config.processors.processor_passive_rate.comment"), 1, 4000);
+		Property propertyProcessorPassiveRate = config.get(CATEGORY_PROCESSORS, "processor_passive_rate", new double[] {0.125, 10, 5}, Lang.localise("gui.nc.config.processors.processor_passive_rate.comment"), 0D, 4000D);
 		propertyProcessorPassiveRate.setLanguageKey("gui.nc.config.processors.processor_passive_rate");
 		Property propertyPassivePush = config.get(CATEGORY_PROCESSORS, "passive_push", true, Lang.localise("gui.nc.config.processors.passive_push.comment"));
 		propertyPassivePush.setLanguageKey("gui.nc.config.processors.passive_push");
-		Property propertyCobbleGenPower = config.get(CATEGORY_PROCESSORS, "cobble_gen_power", 0, Lang.localise("gui.nc.config.processors.cobble_gen_power.comment"), 0, 255);
+		Property propertyCobbleGenPower = config.get(CATEGORY_PROCESSORS, "cobble_gen_power", 0D, Lang.localise("gui.nc.config.processors.cobble_gen_power.comment"), 0D, 255D);
 		propertyCobbleGenPower.setLanguageKey("gui.nc.config.processors.cobble_gen_power");
 		Property propertyOreProcessing = config.get(CATEGORY_PROCESSORS, "ore_processing", true, Lang.localise("gui.nc.config.processors.ore_processing.comment"));
 		propertyOreProcessing.setLanguageKey("gui.nc.config.processors.ore_processing");
@@ -434,7 +436,7 @@ public class NCConfig {
 		propertySolarPower.setLanguageKey("gui.nc.config.generators.solar_power");
 		Property propertyDecayLifetime = config.get(CATEGORY_GENERATORS, "decay_lifetime", new double[] {62.4D*1200D, 20.4D*1200D, 36.6D*1200D, 39.6D*1200D, 35.5D*1200D, 12.8D*1200D, 52.8D*1200D, 8.5D*1200D, 7.2D*1200D, 65.2D*1200D}, Lang.localise("gui.nc.config.generators.decay_lifetime.comment"), 1D, 16777215D);
 		propertyDecayLifetime.setLanguageKey("gui.nc.config.generators.decay_lifetime");
-		Property propertyDecayPower = config.get(CATEGORY_GENERATORS, "decay_power", new int[] {80, 80, 15, 5, 10, 15, 20, 25, 30, 40}, Lang.localise("gui.nc.config.generators.decay_power.comment"), 0, 32767);
+		Property propertyDecayPower = config.get(CATEGORY_GENERATORS, "decay_power", new double[] {4D, 4D, 0.75D, 0.25D, 0.5D, 0.75D, 1D, 1.25D, 1.5D, 2D}, Lang.localise("gui.nc.config.generators.decay_power.comment"), 0D, 32767D);
 		propertyDecayPower.setLanguageKey("gui.nc.config.generators.decay_power");
 		
 		Property propertyFissionFuelTimeMultiplier = config.get(CATEGORY_FISSION, "fission_fuel_time_multiplier", 1D, Lang.localise("gui.nc.config.fission.fission_fuel_time_multiplier.comment"), 0.001D, 255D);
@@ -467,6 +469,8 @@ public class NCConfig {
 		propertyFissionComparatorMaxTemp.setLanguageKey("gui.nc.config.fission.fission_comparator_max_temp");
 		Property propertyFissionNeutronReach = config.get(CATEGORY_FISSION, "fission_neutron_reach", 4, Lang.localise("gui.nc.config.fission.fission_neutron_reach.comment"), 1, 255);
 		propertyFissionNeutronReach.setLanguageKey("gui.nc.config.fission.fission_neutron_reach");
+		Property propertyFissionSoundVolume = config.get(CATEGORY_FISSION, "fission_sound_volume", 1D, Lang.localise("gui.nc.config.fission.fission_sound_volume.comment"), 0D, 15D);
+		propertyFissionSoundVolume.setLanguageKey("gui.nc.config.fission.fission_sound_volume");
 		
 		Property propertyFissionThoriumFuelTime = config.get(CATEGORY_FISSION, "fission_thorium_fuel_time", new int[] {14400, 14400, 18000, 11520, 18000}, Lang.localise("gui.nc.config.fission.fission_thorium_fuel_time.comment"), 1, Integer.MAX_VALUE);
 		propertyFissionThoriumFuelTime.setLanguageKey("gui.nc.config.fission.fission_thorium_fuel_time");
@@ -585,12 +589,12 @@ public class NCConfig {
 		propertyFusionMaxSize.setLanguageKey("gui.nc.config.fusion.fusion_max_size");
 		Property propertyFusionComparatorMaxEfficiency = config.get(CATEGORY_FUSION, "fusion_comparator_max_efficiency", 90, Lang.localise("gui.nc.config.fusion.fusion_comparator_max_efficiency.comment"), 1, 100);
 		propertyFusionComparatorMaxEfficiency.setLanguageKey("gui.nc.config.fusion.fusion_comparator_max_efficiency");
-		Property propertyFusionElectromagnetPower = config.get(CATEGORY_FUSION, "fusion_electromagnet_power", 4000, Lang.localise("gui.nc.config.fusion.fusion_electromagnet_power.comment"), 0, Integer.MAX_VALUE);
+		Property propertyFusionElectromagnetPower = config.get(CATEGORY_FUSION, "fusion_electromagnet_power", 250D, Lang.localise("gui.nc.config.fusion.fusion_electromagnet_power.comment"), 0D, Integer.MAX_VALUE);
 		propertyFusionElectromagnetPower.setLanguageKey("gui.nc.config.fusion.fusion_electromagnet_power");
-		Property propertyFusionEnableSound = config.get(CATEGORY_FUSION, "fusion_enable_sound", true, Lang.localise("gui.nc.config.fusion.fusion_enable_sound.comment"));
-		propertyFusionEnableSound.setLanguageKey("gui.nc.config.fusion.fusion_enable_sound");
 		Property propertyFusionPlasmaCraziness = config.get(CATEGORY_FUSION, "fusion_plasma_craziness", true, Lang.localise("gui.nc.config.fusion.fusion_plasma_craziness.comment"));
 		propertyFusionPlasmaCraziness.setLanguageKey("gui.nc.config.fusion.fusion_plasma_craziness");
+		Property propertyFusionSoundVolume = config.get(CATEGORY_FUSION, "fusion_sound_volume", 1D, Lang.localise("gui.nc.config.fusion.fusion_sound_volume.comment"), 0D, 15D);
+		propertyFusionSoundVolume.setLanguageKey("gui.nc.config.fusion.fusion_sound_volume");
 		
 		Property propertyFusionFuelTime = config.get(CATEGORY_FUSION, "fusion_fuel_time", new double[] {100D, 150D, 200D, 200D, 350D, 400D, 600D, 200D, 250D, 250D, 400D, 450D, 650D, 300D, 300D, 450D, 500D, 700D, 300D, 450D, 500D, 700D, 600D, 650D, 850D, 700D, 900D, 1100D}, Lang.localise("gui.nc.config.fusion.fusion_fuel_time.comment"), 1D, 32767D);
 		propertyFusionFuelTime.setLanguageKey("gui.nc.config.fusion.fusion_fuel_time");
@@ -630,12 +634,12 @@ public class NCConfig {
 		propertyTurbineExpansionLevel.setLanguageKey("gui.nc.config.turbine.turbine_expansion_level");
 		Property propertyTurbineMBPerBlade = config.get(CATEGORY_TURBINE, "turbine_mb_per_blade", 100, Lang.localise("gui.nc.config.turbine.turbine_mb_per_blade.comment"), 1, 32767);
 		propertyTurbineMBPerBlade.setLanguageKey("gui.nc.config.turbine.turbine_mb_per_blade");
-		Property propertyTurbineEnableSound = config.get(CATEGORY_TURBINE, "turbine_enable_sound", true, Lang.localise("gui.nc.config.turbine.turbine_enable_sound.comment"));
-		propertyTurbineEnableSound.setLanguageKey("gui.nc.config.turbine.turbine_enable_sound");
+		Property propertyTurbineSoundVolume = config.get(CATEGORY_TURBINE, "turbine_sound_volume", 1D, Lang.localise("gui.nc.config.turbine.turbine_sound_volume.comment"), 0D, 15D);
+		propertyTurbineSoundVolume.setLanguageKey("gui.nc.config.turbine.turbine_sound_volume");
 		
-		Property propertyAcceleratorElectromagnetPower = config.get(CATEGORY_ACCELERATOR, "accelerator_electromagnet_power", 20000, Lang.localise("gui.nc.config.accelerator.accelerator_electromagnet_power.comment"), 0, Integer.MAX_VALUE);
+		Property propertyAcceleratorElectromagnetPower = config.get(CATEGORY_ACCELERATOR, "accelerator_electromagnet_power", 1000D, Lang.localise("gui.nc.config.accelerator.accelerator_electromagnet_power.comment"), 0D, Integer.MAX_VALUE);
 		propertyAcceleratorElectromagnetPower.setLanguageKey("gui.nc.config.accelerator.accelerator_electromagnet_power");
-		Property propertyAcceleratorSupercoolerCoolant = config.get(CATEGORY_ACCELERATOR, "accelerator_supercooler_coolant", 4, Lang.localise("gui.nc.config.accelerator.accelerator_supercooler_coolant.comment"), 0, 32767);
+		Property propertyAcceleratorSupercoolerCoolant = config.get(CATEGORY_ACCELERATOR, "accelerator_supercooler_coolant", 0.125D, Lang.localise("gui.nc.config.accelerator.accelerator_supercooler_coolant.comment"), 0D, Integer.MAX_VALUE);
 		propertyAcceleratorSupercoolerCoolant.setLanguageKey("gui.nc.config.accelerator.accelerator_supercooler_coolant");
 		
 		Property propertyBatteryCapacity = config.get(CATEGORY_ENERGY_STORAGE, "battery_capacity", new int[] {1600000, 6400000, 25600000, 102400000, 32000000, 128000000, 512000000, 2048000000}, Lang.localise("gui.nc.config.energy_storage.battery_capacity.comment"), 1, Integer.MAX_VALUE);
@@ -778,10 +782,12 @@ public class NCConfig {
 		propertyRadiationScrubberNonLinear.setLanguageKey("gui.nc.config.radiation.radiation_scrubber_non_linear");
 		Property propertyRadiationScrubberParam = config.get(CATEGORY_RADIATION, "radiation_scrubber_param", new double[] {2.14280951676725D, 3D, 4D, 2D}, Lang.localise("gui.nc.config.radiation.radiation_scrubber_param.comment"), 1D, 15D);
 		propertyRadiationScrubberParam.setLanguageKey("gui.nc.config.radiation.radiation_scrubber_param");
-		Property propertyRadiationScrubberPower = config.get(CATEGORY_RADIATION, "radiation_scrubber_power", 500, Lang.localise("gui.nc.config.radiation.radiation_scrubber_power.comment"), 0, Integer.MAX_VALUE);
+		Property propertyRadiationScrubberTime = config.get(CATEGORY_RADIATION, "radiation_scrubber_time", new int[] {12000, 2400, 96000}, Lang.localise("gui.nc.config.radiation.radiation_scrubber_time.comment"), 1, Integer.MAX_VALUE);
+		propertyRadiationScrubberTime.setLanguageKey("gui.nc.config.radiation.radiation_scrubber_time");
+		Property propertyRadiationScrubberPower = config.get(CATEGORY_RADIATION, "radiation_scrubber_power", new int[] {200, 40, 20}, Lang.localise("gui.nc.config.radiation.radiation_scrubber_power.comment"), 0, Integer.MAX_VALUE);
 		propertyRadiationScrubberPower.setLanguageKey("gui.nc.config.radiation.radiation_scrubber_power");
-		Property propertyRadiationScrubberBoraxRate = config.get(CATEGORY_RADIATION, "radiation_scrubber_borax_rate", 0, Lang.localise("gui.nc.config.radiation.radiation_scrubber_borax_rate.comment"), 0, 100);
-		propertyRadiationScrubberBoraxRate.setLanguageKey("gui.nc.config.radiation.radiation_scrubber_borax_rate");
+		Property propertyRadiationScrubberEfficiency = config.get(CATEGORY_RADIATION, "radiation_scrubber_efficiency", new double[] {1D, 5D, 0.25D}, Lang.localise("gui.nc.config.radiation.radiation_scrubber_efficiency.comment"), 0D, 255D);
+		propertyRadiationScrubberEfficiency.setLanguageKey("gui.nc.config.radiation.radiation_scrubber_efficiency");
 		Property propertyRadiationGeigerBlockRedstone = config.get(CATEGORY_RADIATION, "radiation_geiger_block_redstone", 3D, Lang.localise("gui.nc.config.radiation.radiation_geiger_block_redstone.comment"), -100D, 100D);
 		propertyRadiationGeigerBlockRedstone.setLanguageKey("gui.nc.config.radiation.radiation_geiger_block_redstone");
 		
@@ -954,6 +960,7 @@ public class NCConfig {
 		propertyOrderFission.add(propertyFissionMaxSize.getName());
 		propertyOrderFission.add(propertyFissionComparatorMaxTemp.getName());
 		propertyOrderFission.add(propertyFissionNeutronReach.getName());
+		propertyOrderFission.add(propertyFissionSoundVolume.getName());
 		
 		propertyOrderFission.add(propertyFissionThoriumFuelTime.getName());
 		propertyOrderFission.add(propertyFissionThoriumHeatGeneration.getName());
@@ -1021,8 +1028,8 @@ public class NCConfig {
 		propertyOrderFusion.add(propertyFusionMaxSize.getName());
 		propertyOrderFusion.add(propertyFusionComparatorMaxEfficiency.getName());
 		propertyOrderFusion.add(propertyFusionElectromagnetPower.getName());
-		propertyOrderFusion.add(propertyFusionEnableSound.getName());
 		propertyOrderFusion.add(propertyFusionPlasmaCraziness.getName());
+		propertyOrderFusion.add(propertyFusionSoundVolume.getName());
 		
 		propertyOrderFusion.add(propertyFusionFuelTime.getName());
 		propertyOrderFusion.add(propertyFusionPower.getName());
@@ -1048,7 +1055,7 @@ public class NCConfig {
 		propertyOrderTurbine.add(propertyTurbinePowerPerMB.getName());
 		propertyOrderTurbine.add(propertyTurbineExpansionLevel.getName());
 		propertyOrderTurbine.add(propertyTurbineMBPerBlade.getName());
-		propertyOrderTurbine.add(propertyTurbineEnableSound.getName());
+		propertyOrderTurbine.add(propertyTurbineSoundVolume.getName());
 		config.setCategoryPropertyOrder(CATEGORY_TURBINE, propertyOrderTurbine);
 		
 		List<String> propertyOrderAccelerator = new ArrayList<String>();
@@ -1134,8 +1141,9 @@ public class NCConfig {
 		propertyOrderRadiation.add(propertyRadiationScrubberRadius.getName());
 		propertyOrderRadiation.add(propertyRadiationScrubberNonLinear.getName());
 		propertyOrderRadiation.add(propertyRadiationScrubberParam.getName());
+		propertyOrderRadiation.add(propertyRadiationScrubberTime.getName());
 		propertyOrderRadiation.add(propertyRadiationScrubberPower.getName());
-		propertyOrderRadiation.add(propertyRadiationScrubberBoraxRate.getName());
+		propertyOrderRadiation.add(propertyRadiationScrubberEfficiency.getName());
 		propertyOrderRadiation.add(propertyRadiationGeigerBlockRedstone.getName());
 		propertyOrderRadiation.add(propertyRadiationShieldingDefaultRecipes.getName());
 		propertyOrderRadiation.add(propertyRadiationShieldingItemBlacklist.getName());
@@ -1210,9 +1218,9 @@ public class NCConfig {
 			enable_gtce_eu = propertyEnableGTCEEU.getBoolean();
 			enable_mek_gas = propertyEnableMekGas.getBoolean();
 			machine_update_rate = propertyMachineUpdateRate.getInt();
-			processor_passive_rate = readIntegerArrayFromConfig(propertyProcessorPassiveRate);
+			processor_passive_rate = readDoubleArrayFromConfig(propertyProcessorPassiveRate);
 			passive_push = propertyPassivePush.getBoolean();
-			cobble_gen_power = propertyCobbleGenPower.getInt();
+			cobble_gen_power = propertyCobbleGenPower.getDouble();
 			ore_processing = propertyOreProcessing.getBoolean();
 			manufactory_wood = readIntegerArrayFromConfig(propertyManufactoryWood);
 			rock_crusher_alternate = propertyRockCrusherAlternate.getBoolean();
@@ -1226,7 +1234,7 @@ public class NCConfig {
 			rtg_power = readIntegerArrayFromConfig(propertyRTGPower);
 			solar_power = readIntegerArrayFromConfig(propertySolarPower);
 			decay_lifetime = readDoubleArrayFromConfig(propertyDecayLifetime);
-			decay_power = readIntegerArrayFromConfig(propertyDecayPower);
+			decay_power = readDoubleArrayFromConfig(propertyDecayPower);
 			
 			fission_fuel_time_multiplier = propertyFissionFuelTimeMultiplier.getDouble();
 			fission_source_efficiency = readDoubleArrayFromConfig(propertyFissionSourceEfficiency);
@@ -1243,6 +1251,7 @@ public class NCConfig {
 			fission_max_size = propertyFissionMaxSize.getInt();
 			fission_comparator_max_temp = propertyFissionComparatorMaxTemp.getInt();
 			fission_neutron_reach = propertyFissionNeutronReach.getInt();
+			fission_sound_volume = propertyFissionSoundVolume.getDouble();
 			
 			fission_thorium_fuel_time = readIntegerArrayFromConfig(propertyFissionThoriumFuelTime);
 			fission_thorium_heat_generation = readIntegerArrayFromConfig(propertyFissionThoriumHeatGeneration);
@@ -1307,9 +1316,9 @@ public class NCConfig {
 			fusion_min_size = propertyFusionMinSize.getInt();
 			fusion_max_size = propertyFusionMaxSize.getInt();
 			fusion_comparator_max_efficiency = propertyFusionComparatorMaxEfficiency.getInt();
-			fusion_electromagnet_power = propertyFusionElectromagnetPower.getInt();
-			fusion_enable_sound = propertyFusionEnableSound.getBoolean();
+			fusion_electromagnet_power = propertyFusionElectromagnetPower.getDouble();
 			fusion_plasma_craziness = propertyFusionPlasmaCraziness.getBoolean();
+			fusion_sound_volume = propertyFusionSoundVolume.getDouble();
 			
 			fusion_fuel_time = readDoubleArrayFromConfig(propertyFusionFuelTime);
 			fusion_power = readDoubleArrayFromConfig(propertyFusionPower);
@@ -1331,10 +1340,10 @@ public class NCConfig {
 			turbine_power_per_mb = readDoubleArrayFromConfig(propertyTurbinePowerPerMB);
 			turbine_expansion_level = readDoubleArrayFromConfig(propertyTurbineExpansionLevel);
 			turbine_mb_per_blade = propertyTurbineMBPerBlade.getInt();
-			turbine_enable_sound = propertyTurbineEnableSound.getBoolean();
+			turbine_sound_volume = propertyTurbineSoundVolume.getDouble();
 			
-			accelerator_electromagnet_power = propertyAcceleratorElectromagnetPower.getInt();
-			accelerator_supercooler_coolant = propertyAcceleratorSupercoolerCoolant.getInt();
+			accelerator_electromagnet_power = propertyAcceleratorElectromagnetPower.getDouble();
+			accelerator_supercooler_coolant = propertyAcceleratorSupercoolerCoolant.getDouble();
 			
 			battery_capacity = readIntegerArrayFromConfig(propertyBatteryCapacity);
 			
@@ -1411,8 +1420,9 @@ public class NCConfig {
 			radiation_scrubber_radius = propertyRadiationScrubberRadius.getInt();
 			radiation_scrubber_non_linear = propertyRadiationScrubberNonLinear.getBoolean();
 			radiation_scrubber_param = readDoubleArrayFromConfig(propertyRadiationScrubberParam);
-			radiation_scrubber_power = propertyRadiationScrubberPower.getInt();
-			radiation_scrubber_borax_rate = propertyRadiationScrubberBoraxRate.getInt();
+			radiation_scrubber_time = readIntegerArrayFromConfig(propertyRadiationScrubberTime);
+			radiation_scrubber_power = readIntegerArrayFromConfig(propertyRadiationScrubberPower);
+			radiation_scrubber_efficiency = readDoubleArrayFromConfig(propertyRadiationScrubberEfficiency);
 			radiation_geiger_block_redstone = propertyRadiationGeigerBlockRedstone.getDouble();
 			
 			radiation_shielding_default_recipes = propertyRadiationShieldingDefaultRecipes.getBoolean();
@@ -1522,6 +1532,7 @@ public class NCConfig {
 		propertyFissionMaxSize.set(fission_max_size);
 		propertyFissionComparatorMaxTemp.set(fission_comparator_max_temp);
 		propertyFissionNeutronReach.set(fission_neutron_reach);
+		propertyFissionSoundVolume.set(fission_sound_volume);
 		
 		propertyFissionThoriumFuelTime.set(fission_thorium_fuel_time);
 		propertyFissionThoriumHeatGeneration.set(fission_thorium_heat_generation);
@@ -1587,8 +1598,8 @@ public class NCConfig {
 		propertyFusionMaxSize.set(fusion_max_size);
 		propertyFusionComparatorMaxEfficiency.set(fusion_comparator_max_efficiency);
 		propertyFusionElectromagnetPower.set(fusion_electromagnet_power);
-		propertyFusionEnableSound.set(fusion_enable_sound);
 		propertyFusionPlasmaCraziness.set(fusion_plasma_craziness);
+		propertyFusionSoundVolume.set(fusion_sound_volume);
 		
 		propertyFusionFuelTime.set(fusion_fuel_time);
 		propertyFusionPower.set(fusion_power);
@@ -1610,7 +1621,7 @@ public class NCConfig {
 		propertyTurbinePowerPerMB.set(turbine_power_per_mb);
 		propertyTurbineExpansionLevel.set(turbine_expansion_level);
 		propertyTurbineMBPerBlade.set(turbine_mb_per_blade);
-		propertyTurbineEnableSound.set(turbine_enable_sound);
+		propertyTurbineSoundVolume.set(turbine_sound_volume);
 		
 		propertyAcceleratorElectromagnetPower.set(accelerator_electromagnet_power);
 		propertyAcceleratorSupercoolerCoolant.set(accelerator_supercooler_coolant);
@@ -1690,8 +1701,9 @@ public class NCConfig {
 		propertyRadiationScrubberRadius.set(radiation_scrubber_radius);
 		propertyRadiationScrubberNonLinear.set(radiation_scrubber_non_linear);
 		propertyRadiationScrubberParam.set(radiation_scrubber_param);
+		propertyRadiationScrubberTime.set(radiation_scrubber_time);
 		propertyRadiationScrubberPower.set(radiation_scrubber_power);
-		propertyRadiationScrubberBoraxRate.set(radiation_scrubber_borax_rate);
+		propertyRadiationScrubberEfficiency.set(radiation_scrubber_efficiency);
 		propertyRadiationGeigerBlockRedstone.set(radiation_geiger_block_redstone);
 		
 		propertyRadiationShieldingDefaultRecipes.set(radiation_shielding_default_recipes);

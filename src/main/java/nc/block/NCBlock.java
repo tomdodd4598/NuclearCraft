@@ -92,7 +92,7 @@ public class NCBlock extends Block {
 		public BlockRenderLayer getRenderLayer() {
 			return BlockRenderLayer.CUTOUT;
 		}
-
+		
 		@Override
 		public boolean isFullCube(IBlockState state) {
 			return false;

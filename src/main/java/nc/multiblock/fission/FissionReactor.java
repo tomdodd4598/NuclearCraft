@@ -201,9 +201,11 @@ public class FissionReactor extends CuboidalMultiblock<FissionUpdatePacket> impl
 	public void mergeClusters(int assimilatorId, FissionCluster targetCluster) {
 		if (assimilatorId == targetCluster.getId()) return;
 		FissionCluster assimilatorCluster = clusterMap.get(assimilatorId);
+		
 		for (IFissionComponent component : targetCluster.getComponentMap().values()) {
 			component.setCluster(assimilatorCluster);
 		}
+		
 		assimilatorCluster.heatBuffer.mergeHeatBuffers(targetCluster.heatBuffer);
 		targetCluster.getComponentMap().clear();
 		clusterMap.remove(targetCluster.getId());

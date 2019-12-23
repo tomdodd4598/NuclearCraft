@@ -1,5 +1,6 @@
 package nc.recipe.processor;
 
+import nc.radiation.RadSources;
 import nc.recipe.ProcessorRecipeHandler;
 import nc.util.FluidStackHelper;
 
@@ -8,7 +9,7 @@ public class CrystallizerRecipes extends ProcessorRecipeHandler {
 	public CrystallizerRecipes() {
 		super("crystallizer", 0, 1, 1, 0);
 	}
-
+	
 	@Override
 	public void addRecipes() {
 		addRecipe(fluidStack("boron_nitride_solution", FluidStackHelper.GEM_VOLUME), "dustBoronNitride", 1D, 1D);
@@ -19,5 +20,6 @@ public class CrystallizerRecipes extends ProcessorRecipeHandler {
 		addRecipe(fluidStack("sodium_hydroxide_solution", FluidStackHelper.GEM_VOLUME), "dustSodiumHydroxide", 0.5D, 0.5D);
 		addRecipe(fluidStack("potassium_hydroxide_solution", FluidStackHelper.GEM_VOLUME), "dustPotassiumHydroxide", 0.5D, 0.5D);
 		addRecipe(fluidStack("borax_solution", FluidStackHelper.GEM_VOLUME), "dustBorax", 0.5D, 0.5D);
+		addRecipe(fluidStack("irradiated_borax_solution", FluidStackHelper.GEM_VOLUME), "dustBorax", 0.5D, 0.5D, RadSources.CAESIUM_137/4D);
 	}
 }

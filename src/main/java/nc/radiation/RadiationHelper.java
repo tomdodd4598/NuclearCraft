@@ -443,6 +443,10 @@ public class RadiationHelper {
 		return NCConfig.radiation_unit_prefixes > 0 ? NCMath.sigFigs(rads, NCConfig.radiation_unit_prefixes) + " " + unit : UnitHelper.prefix(rads, 3, unit);
 	}
 	
+	public static String radsColoredPrefix(double rads, boolean rate) {
+		return getRadiationTextColor(rads) + radsPrefix(rads, rate);
+	}
+	
 	// Rad Resistance Sig Figs
 	
 	public static String resistanceSigFigs(double resistance) {

@@ -1,6 +1,7 @@
 package nc.tile.radiation;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -15,29 +16,41 @@ import nc.config.NCConfig;
 import nc.radiation.RadiationHelper;
 import nc.radiation.environment.RadiationEnvironmentHandler;
 import nc.radiation.environment.RadiationEnvironmentInfo;
-import nc.recipe.ingredient.OreIngredient;
-import nc.tile.passive.TilePassiveAbstract;
+import nc.recipe.NCRecipes;
+import nc.recipe.ProcessorRecipe;
+import nc.tile.generator.TileItemFluidGenerator;
+import nc.tile.internal.energy.EnergyConnection;
 import nc.util.FourPos;
 import nc.util.MaterialHelper;
 import nc.util.NCMath;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Optional;
 
 @Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers")
-public class TileRadiationScrubber extends TilePassiveAbstract implements ITileRadiationEnvironment, SimpleComponent {
+public class TileRadiationScrubber extends TileItemFluidGenerator implements ITileRadiationEnvironment, SimpleComponent {
 	
-	private double scrubberFraction = 0D, currentChunkLevel = 0D, currentChunkBuffer = 0D;
+	private double efficiency = 0D, scrubberFraction = 0D, currentChunkLevel = 0D, currentChunkBuffer = 0D;
 	
 	public final ConcurrentMap<BlockPos, Integer> occlusionMap = new ConcurrentHashMap<BlockPos, Integer>();
 	
 	private int radCheckCount = 0;
 	
 	public TileRadiationScrubber() {
-		super("radiation_scrubber", new OreIngredient("dustBorax", 1), -NCConfig.radiation_scrubber_borax_rate, -NCConfig.radiation_scrubber_power, NCConfig.machine_update_rate / 5);
-		stackChange = new OreIngredient("dustBorax", MathHelper.abs(itemChange)*NCConfig.machine_update_rate / 5);
+		super("radiation_scrubber", 1, 1, 1, 1, 0, defaultItemSorptions(1, 1), defaultTankCapacities(32000, 1, 1), defaultTankSorptions(1, 1), NCRecipes.radiation_scrubber_valid_fluids, maxPower(), NCRecipes.radiation_scrubber);
+		setEnergyConnectionAll(EnergyConnection.IN);
+	}
+	
+	private static int maxPower() {
+		int max = 0;
+		List<ProcessorRecipe> recipes = NCRecipes.radiation_scrubber.getRecipeList();
+		for (ProcessorRecipe recipe : recipes) {
+			if (recipe == null) continue;
+			max = Math.max(max, recipe.getScrubberProcessPower());
+		}
+		return 20*max;
 	}
 	
 	@Override
@@ -54,13 +67,45 @@ public class TileRadiationScrubber extends TilePassiveAbstract implements ITileR
 	public void update() {
 		super.update();
 		if(!world.isRemote) {
+			boolean wasProcessing = isProcessing, shouldUpdate = false;
+			isProcessing = isProcessing();
+			if (isProcessing) process();
+			
+			if (wasProcessing != isProcessing) {
+				shouldUpdate = true;
+				updateBlockType();
+			}
+			
 			tickRadCount();
-			if(shouldRadCheck()) checkRadiationEnvironmentInfo();
+			if (shouldUpdate || shouldRadCheck()) {
+				checkRadiationEnvironmentInfo();
+			}
+			
+			if (shouldUpdate) {
+				markDirty();
+			}
 		}
 	}
 	
+	@Override
+	public void updateGenerator() {}
+	
+	@Override
+	public boolean setRecipeStats() {
+		if (recipeInfo == null) {
+			baseProcessTime = 1D;
+			baseProcessPower = 0D;
+			efficiency = 0D;
+			return false;
+		}
+		baseProcessTime = recipeInfo.getRecipe().getScrubberProcessTime();
+		baseProcessPower = recipeInfo.getRecipe().getScrubberProcessPower();
+		efficiency = recipeInfo.getRecipe().getScrubberProcessEfficiency();
+		return true;
+	}
+	
 	public double getRawScrubberRate() {
-		if (!isActive) {
+		if (!isProcessing) {
 			return 0D;
 		}
 		double rateMult = currentChunkBuffer + NCConfig.radiation_spread_rate*Math.max(0D, (currentChunkLevel - currentChunkBuffer));
@@ -86,6 +131,41 @@ public class TileRadiationScrubber extends TilePassiveAbstract implements ITileR
 		RadiationEnvironmentHandler.removeTile(this);
 	}
 	
+	// Processing
+	
+	@Override
+	public boolean isProcessing() {
+		return readyToProcess();
+	}
+	
+	@Override
+	public boolean readyToProcess() {
+		return canProcessInputs && hasConsumed && hasSufficientEnergy();
+	}
+	
+	public boolean hasSufficientEnergy() {
+		return getEnergyStored() >= (int)baseProcessPower;
+	}
+	
+	@Override
+	public void process() {
+		time++;
+		getEnergyStorage().changeEnergyStored((int) -baseProcessPower);
+		if (time >= baseProcessTime) finishProcess();
+	}
+	
+	// IC2 Tiers
+	
+	@Override
+	public int getEUSourceTier() {
+		return 1;
+	}
+	
+	@Override
+	public int getEUSinkTier() {
+		return 10;
+	}
+	
 	// IRadiationEnvironmentHandler
 	
 	@Override
@@ -107,7 +187,7 @@ public class TileRadiationScrubber extends TilePassiveAbstract implements ITileR
 			else occlusionIterator.remove();
 		}
 		
-		scrubberFraction = occlusionCount == 0 ? getMaxScrubberFraction() : Math.max(0D, (newScrubberFraction*occlusionCount)/tileCount);
+		scrubberFraction = efficiency*(occlusionCount == 0 ? getMaxScrubberFraction() : Math.max(0D, (newScrubberFraction*occlusionCount)/tileCount));
 	}
 	
 	@Override
@@ -120,7 +200,7 @@ public class TileRadiationScrubber extends TilePassiveAbstract implements ITileR
 	
 	@Override
 	public double getRadiationContributionFraction() {
-		return isActive ? -scrubberFraction : 0D;
+		return isProcessing ? -scrubberFraction : 0D;
 	}
 	
 	@Override
@@ -157,8 +237,10 @@ public class TileRadiationScrubber extends TilePassiveAbstract implements ITileR
 	
 	// Helper
 	
+	// All opaque blocks plus translucent full blocks are occlusive
 	private static boolean isOcclusive(BlockPos pos, World world, BlockPos otherPos) {
-		return pos.distanceSq(otherPos) < NCMath.square(searchRadius()) && !MaterialHelper.isEmpty(world.getBlockState(otherPos).getMaterial());
+		IBlockState state = world.getBlockState(otherPos);
+		return pos.distanceSq(otherPos) < NCMath.square(searchRadius()) && !MaterialHelper.isEmpty(state.getMaterial()) && (state.isOpaqueCube() || !state.getMaterial().isOpaque());
 	}
 	
 	@Override
@@ -171,9 +253,18 @@ public class TileRadiationScrubber extends TilePassiveAbstract implements ITileR
 	// NBT
 	
 	@Override
+	public boolean shouldSaveRadiation() {
+		return false;
+	}
+	
+	@Override
 	public NBTTagCompound writeAll(NBTTagCompound nbt) {
 		super.writeAll(nbt);
-		nbt.setDouble("scrubberRate", scrubberFraction);
+		nbt.setDouble("baseProcessTime", baseProcessTime);
+		nbt.setDouble("baseProcessPower", baseProcessPower);
+		nbt.setDouble("efficiency", efficiency);
+		
+		nbt.setDouble("scrubberFraction", scrubberFraction);
 		nbt.setDouble("currentChunkLevel", currentChunkLevel);
 		nbt.setDouble("currentChunkBuffer", currentChunkBuffer);
 		
@@ -189,7 +280,11 @@ public class TileRadiationScrubber extends TilePassiveAbstract implements ITileR
 	@Override
 	public void readAll(NBTTagCompound nbt) {
 		super.readAll(nbt);
-		scrubberFraction = nbt.getDouble("scrubberRate");
+		baseProcessTime = nbt.getDouble("baseProcessTime");
+		baseProcessPower = nbt.getDouble("baseProcessPower");
+		efficiency = nbt.getDouble("efficiency");
+		
+		scrubberFraction = nbt.getDouble("scrubberFraction");
 		currentChunkLevel = nbt.getDouble("currentChunkLevel");
 		currentChunkBuffer = nbt.getDouble("currentChunkBuffer");
 		

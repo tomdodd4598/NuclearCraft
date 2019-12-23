@@ -17,6 +17,7 @@ import nc.recipe.multiblock.SaltFissionRecipes;
 import nc.recipe.multiblock.SolidFissionRecipes;
 import nc.recipe.multiblock.TurbineRecipes;
 import nc.recipe.other.CollectorRecipes;
+import nc.recipe.other.RadiationScrubberRecipes;
 import nc.recipe.processor.AlloyFurnaceRecipes;
 import nc.recipe.processor.CentrifugeRecipes;
 import nc.recipe.processor.ChemicalReactorRecipes;
@@ -78,14 +79,17 @@ public class NCRecipes {
 	public static FusionRecipes fusion;
 	public static CoolantHeaterRecipes coolant_heater;
 	public static HeatExchangerRecipes heat_exchanger;
-	public static TurbineRecipes turbine;
 	public static CondenserRecipes condenser;
+	public static TurbineRecipes turbine;
+	public static RadiationScrubberRecipes radiation_scrubber;
 	public static RadiationBlockMutation radiation_block_mutation;
 	public static RadiationBlockPurification radiation_block_purification;
 	
 	@SubscribeEvent(priority = EventPriority.LOW)
 	public void registerRecipes(RegistryEvent.Register<IRecipe> event) {
 		if (initialized) return;
+		
+		RadSources.init();
 		
 		manufactory = new ManufactoryRecipes();
 		isotope_separator = new IsotopeSeparatorRecipes();
@@ -116,16 +120,15 @@ public class NCRecipes {
 		fusion = new FusionRecipes();
 		coolant_heater = new CoolantHeaterRecipes();
 		heat_exchanger = new HeatExchangerRecipes();
-		turbine = new TurbineRecipes();
 		condenser = new CondenserRecipes();
+		turbine = new TurbineRecipes();
+		radiation_scrubber = new RadiationScrubberRecipes();
 		radiation_block_mutation = new RadiationBlockMutation();
 		radiation_block_purification = new RadiationBlockPurification();
 		
 		CraftingRecipeHandler.registerCraftingRecipes();
 		FurnaceRecipeHandler.registerFurnaceRecipes();
 		GameRegistry.registerFuelHandler(new FurnaceFuelHandler());
-		
-		RadSources.init();
 		
 		initialized = true;
 	}
@@ -147,8 +150,9 @@ public class NCRecipes {
 	public static List<List<String>> fusion_valid_fluids;
 	public static List<List<String>> coolant_heater_valid_fluids;
 	public static List<List<String>> heat_exchanger_valid_fluids;
-	public static List<List<String>> turbine_valid_fluids;
 	public static List<List<String>> condenser_valid_fluids;
+	public static List<List<String>> turbine_valid_fluids;
+	public static List<List<String>> radiation_scrubber_valid_fluids;
 	
 	public static void init() {
 		infuser_valid_fluids = RecipeHelper.validFluids(infuser);
@@ -168,8 +172,9 @@ public class NCRecipes {
 		fusion_valid_fluids = RecipeHelper.validFluids(fusion);
 		coolant_heater_valid_fluids = RecipeHelper.validFluids(coolant_heater);
 		heat_exchanger_valid_fluids = RecipeHelper.validFluids(heat_exchanger);
-		turbine_valid_fluids = RecipeHelper.validFluids(turbine);
 		condenser_valid_fluids = RecipeHelper.validFluids(condenser);
+		turbine_valid_fluids = RecipeHelper.validFluids(turbine);
+		radiation_scrubber_valid_fluids = RecipeHelper.validFluids(radiation_scrubber);
 	}
 	
 	public static void refreshRecipeCaches() {
@@ -202,8 +207,9 @@ public class NCRecipes {
 		fusion.refreshCache();
 		coolant_heater.refreshCache();
 		heat_exchanger.refreshCache();
-		turbine.refreshCache();
 		condenser.refreshCache();
+		turbine.refreshCache();
+		radiation_scrubber.refreshCache();
 		radiation_block_mutation.refreshCache();
 		radiation_block_purification.refreshCache();
 	}

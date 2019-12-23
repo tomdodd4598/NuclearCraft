@@ -6,11 +6,11 @@ import nc.tile.inventory.ITileInventory;
 
 public interface ITilePassive extends ITileEnergy, ITileInventory, ITileFluid {
 	
-	public int getEnergyChange();
+	public double getEnergyRate();
 	
-	public int getItemChange();
+	public double getItemRate();
 	
-	public int getFluidChange();
+	public double getFluidRate();
 	
 	public boolean canPushEnergyTo();
 	

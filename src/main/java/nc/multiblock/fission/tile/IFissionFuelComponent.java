@@ -2,6 +2,7 @@ package nc.multiblock.fission.tile;
 
 import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
 import it.unimi.dsi.fastutil.longs.LongSet;
+import it.unimi.dsi.fastutil.objects.ObjectSet;
 import nc.config.NCConfig;
 import nc.multiblock.fission.FissionReactor;
 import nc.multiblock.fission.salt.MoltenSaltFissionLogic;
@@ -77,7 +78,7 @@ public interface IFissionFuelComponent extends IFissionComponent {
 	
 	public void setUndercoolingLifetimeFactor(double undercoolingLifetimeFactor);
 	
-	public default void fluxSearch() {
+	public default void fluxSearch(final ObjectSet<IFissionFuelComponent> fluxSearchCache) {
 		if (!isFluxSearched() && isProducingFlux()) {
 			setFluxSearched(true);
 		}
@@ -119,7 +120,7 @@ public interface IFissionFuelComponent extends IFissionComponent {
 									getActiveModeratorCache()[dir.getIndex()] = activeModeratorPos;
 								}
 								getAdjacentFuelComponents()[dir.getIndex()] = fuelComponent;
-								fuelComponent.fluxSearch();
+								fluxSearchCache.add(fuelComponent);
 							}
 							else if (i - 1 <= NCConfig.fission_neutron_reach/2) {
 								recipe = blockRecipe(NCRecipes.fission_reflector, offPos);

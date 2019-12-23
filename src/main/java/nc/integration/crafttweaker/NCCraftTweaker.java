@@ -230,7 +230,7 @@ public class NCCraftTweaker {
 	
 	@ZenClass("mods.nuclearcraft.electrolyzer")
 	@ZenRegister
-	public static class ElectrolyserHandler {
+	public static class ElectrolyzerHandler {
 		
 		@ZenMethod
 		public static void addRecipe(IIngredient input, IIngredient output1, IIngredient output2, IIngredient output3, IIngredient output4, @Optional(valueDouble = 1D) double timeMultiplier, @Optional(valueDouble = 1D) double powerMultiplier, @Optional double processRadiation) {
@@ -405,7 +405,7 @@ public class NCCraftTweaker {
 	
 	@ZenClass("mods.nuclearcraft.enricher")
 	@ZenRegister
-	public static class DissolverHandler {
+	public static class EnricherHandler {
 		
 		@ZenMethod
 		public static void addRecipe(IIngredient input1, IIngredient input2, IIngredient output, @Optional(valueDouble = 1D) double timeMultiplier, @Optional(valueDouble = 1D) double powerMultiplier, @Optional double processRadiation) {
@@ -508,8 +508,8 @@ public class NCCraftTweaker {
 	public static class DecayGeneratorHandler {
 		
 		@ZenMethod
-		public static void addRecipe(IIngredient input, IIngredient output, double meanLifetime, int energyPerSecond, double radiation) {
-			CraftTweakerAPI.apply(new AddProcessorRecipe(NCRecipes.decay_generator, Lists.newArrayList(input, output, meanLifetime, energyPerSecond, radiation)));
+		public static void addRecipe(IIngredient input, IIngredient output, double meanLifetime, double power, double radiation) {
+			CraftTweakerAPI.apply(new AddProcessorRecipe(NCRecipes.decay_generator, Lists.newArrayList(input, output, meanLifetime, power, radiation)));
 		}
 		
 		@ZenMethod
@@ -696,6 +696,32 @@ public class NCCraftTweaker {
 		}
 	}
 	
+	//TODO
+	@ZenClass("mods.nuclearcraft.condenser")
+	@ZenRegister
+	public static class CondenserHandler {
+		
+		@ZenMethod
+		public static void addRecipe(Object[] objects) {
+			CraftTweakerAPI.apply(new AddProcessorRecipe(NCRecipes.condenser, Lists.newArrayList(objects)));
+		}
+		
+		@ZenMethod
+		public static void removeRecipeWithInput(IIngredient[] inputs) {
+			CraftTweakerAPI.apply(new RemoveProcessorRecipe(NCRecipes.condenser, IngredientSorption.INPUT, Lists.newArrayList(inputs)));
+		}
+		
+		@ZenMethod
+		public static void removeRecipeWithOutput(IIngredient[] outputs) {
+			CraftTweakerAPI.apply(new RemoveProcessorRecipe(NCRecipes.condenser, IngredientSorption.OUTPUT, Lists.newArrayList(outputs)));
+		}
+		
+		@ZenMethod
+		public static void removeAllRecipes() {
+			CraftTweakerAPI.apply(new RemoveAllProcessorRecipes(NCRecipes.condenser));
+		}
+	}
+	
 	@ZenClass("mods.nuclearcraft.turbine")
 	@ZenRegister
 	public static class TurbineHandler {
@@ -721,29 +747,28 @@ public class NCCraftTweaker {
 		}
 	}
 	
-	//TODO
-	@ZenClass("mods.nuclearcraft.condenser")
+	@ZenClass("mods.nuclearcraft.radiation_scrubber")
 	@ZenRegister
-	public static class CondenserHandler {
+	public static class RadiationScrubberHandler {
 		
 		@ZenMethod
-		public static void addRecipe(Object[] objects) {
-			CraftTweakerAPI.apply(new AddProcessorRecipe(NCRecipes.condenser, Lists.newArrayList(objects)));
+		public static void addRecipe(IIngredient input1, IIngredient input2, IIngredient output1, IIngredient output2, int processTime, int processPower, double processEfficiency) {
+			CraftTweakerAPI.apply(new AddProcessorRecipe(NCRecipes.radiation_scrubber, Lists.newArrayList(input1, input2, output1, output2, processTime, processPower, processEfficiency)));
 		}
 		
 		@ZenMethod
-		public static void removeRecipeWithInput(IIngredient[] inputs) {
-			CraftTweakerAPI.apply(new RemoveProcessorRecipe(NCRecipes.condenser, IngredientSorption.INPUT, Lists.newArrayList(inputs)));
+		public static void removeRecipeWithInput(IIngredient input1, IIngredient input2) {
+			CraftTweakerAPI.apply(new RemoveProcessorRecipe(NCRecipes.radiation_scrubber, IngredientSorption.INPUT, Lists.newArrayList(input1, input2)));
 		}
 		
 		@ZenMethod
-		public static void removeRecipeWithOutput(IIngredient[] outputs) {
-			CraftTweakerAPI.apply(new RemoveProcessorRecipe(NCRecipes.condenser, IngredientSorption.OUTPUT, Lists.newArrayList(outputs)));
+		public static void removeRecipeWithOutput(IIngredient output1, IIngredient output2) {
+			CraftTweakerAPI.apply(new RemoveProcessorRecipe(NCRecipes.radiation_scrubber, IngredientSorption.OUTPUT, Lists.newArrayList(output1, output2)));
 		}
 		
 		@ZenMethod
 		public static void removeAllRecipes() {
-			CraftTweakerAPI.apply(new RemoveAllProcessorRecipes(NCRecipes.condenser));
+			CraftTweakerAPI.apply(new RemoveAllProcessorRecipes(NCRecipes.radiation_scrubber));
 		}
 	}
 	

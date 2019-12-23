@@ -2,6 +2,7 @@ package nc.multiblock.fission.tile;
 
 import javax.annotation.Nullable;
 
+import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import nc.multiblock.fission.FissionCluster;
 import nc.multiblock.fission.solid.tile.TileSolidFissionCell;
 import nc.multiblock.fission.solid.tile.TileSolidFissionSink;
@@ -37,7 +38,7 @@ public interface IFissionComponent extends IFissionPart {
 	
 	public void resetStats();
 	
-	public default void clusterSearch(Integer id) {
+	public default void clusterSearch(Integer id, final Object2IntMap<IFissionComponent> clusterSearchCache) {
 		if (!isValidHeatConductor()) return;
 		
 		if (isClusterSearched()) {
@@ -64,7 +65,7 @@ public interface IFissionComponent extends IFissionPart {
 				continue;
 			}
 			IFissionComponent component = getMultiblock().getPartMap(IFissionComponent.class).get(offPos.toLong());
-			if (component != null) component.clusterSearch(id);
+			if (component != null) clusterSearchCache.put(component, id);
 		}
 	}
 	

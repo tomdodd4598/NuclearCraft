@@ -267,10 +267,10 @@ ________________________________________________________________________________
  Decay Generator:
 >----------------<
 
-mods.nuclearcraft.decay_generator.addRecipe(IIngredient blockInput, IIngredient blockOutput, double meanLifetimeTicks, int energyPerSecond, double radiation);
+mods.nuclearcraft.decay_generator.addRecipe(IIngredient blockInput, IIngredient blockOutput, double meanLifetime, double power, double radiation);
 
-mods.nuclearcraft.decay_generator.removeRecipeWithInput(blockInput);
-mods.nuclearcraft.decay_generator.removeRecipeWithOutput(blockOutput);
+mods.nuclearcraft.decay_generator.removeRecipeWithInput(IIngredient blockInput);
+mods.nuclearcraft.decay_generator.removeRecipeWithOutput(IIngredient blockOutput);
 ___________________________________________________________________________________________________________________________
 
  Fission Moderator:
@@ -338,6 +338,15 @@ mods.nuclearcraft.heat_exchanger.removeRecipeWithInput(ILiquidStack fluidInput);
 mods.nuclearcraft.heat_exchanger.removeRecipeWithOutput(ILiquidStack fluidOutput);
 ___________________________________________________________________________________________________________________________
 
+ Condenser (KINDA BROKEN!):
+>--------------------------<
+
+mods.nuclearcraft.condenser.addRecipe(ILiquidStack fluidInput, ILiquidStack fluidOutput, {double coolingRequired, int condensingTemperature});
+
+mods.nuclearcraft.condenser.removeRecipeWithInput(ILiquidStack fluidInput);
+mods.nuclearcraft.condenser.removeRecipeWithOutput(ILiquidStack fluidOutput);
+___________________________________________________________________________________________________________________________
+
  Steam Turbine:
 >--------------<
 
@@ -346,20 +355,14 @@ mods.nuclearcraft.turbine.addRecipe(ILiquidStack fluidInput, ILiquidStack fluidO
 mods.nuclearcraft.turbine.removeRecipeWithInput(ILiquidStack fluidInput);
 mods.nuclearcraft.turbine.removeRecipeWithOutput(ILiquidStack fluidOutput);
 ___________________________________________________________________________________________________________________________
-
- Condenser (KINDA BROKEN!):
->--------------------------<
-
-mods.nuclearcraft.condenser.addRecipe(ILiquidStack fluidInput, ILiquidStack fluidOutput, {double coolingRequired, int condensingTemperature});
-
-mods.nuclearcraft.condenser.removeRecipeWithInput(ILiquidStack fluidInput);
-mods.nuclearcraft.condenser.removeRecipeWithOutput(ILiquidStack fluidOutput);
-
-___________________________________________________________________________________________________________________________
 ---------------------------------------------------------------------------------------------------------------------------
 
  Radiation:
 >----------<
+
+mods.nuclearcraft.radiation_scrubber.addRecipe(IIngredient itemInput, ILiquidStack fluidInput, IIngredient itemOutput, ILiquidStack fluidOutput, int processTime, int processPower, double processEfficiency);
+mods.nuclearcraft.radiation_scrubber.removeRecipeWithInput(IIngredient itemInput, ILiquidStack fluidInput);
+mods.nuclearcraft.radiation_scrubber.removeRecipeWithOutput(IIngredient itemOutput, ILiquidStack fluidOutput);
 
 mods.nuclearcraft.radiation_block_mutation.addRecipe(IIngredient blockInput, IIngredient blockOutput, double radiationThreshold);
 mods.nuclearcraft.radiation_block_mutation.removeRecipeWithInput(IIngredient blockInput);

@@ -2,11 +2,10 @@ package nc.recipe;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.Nullable;
-
-import org.apache.commons.lang3.tuple.Pair;
 
 import com.google.common.collect.Lists;
 
@@ -29,6 +28,7 @@ import nc.util.GasHelper;
 import nc.util.OreDictHelper;
 import nc.util.StringHelper;
 import net.minecraft.block.Block;
+import net.minecraft.client.util.RecipeItemHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
@@ -219,7 +219,7 @@ public class RecipeHelper {
 		if (AbstractRecipeHandler.requiresFluidFixing(object)) {
 			object = RecipeHelper.fixFluidStack(object);
 		}
-		if (needsExpanding() && object instanceof FluidIngredient) {
+		if (fluidNeedsExpanding() && object instanceof FluidIngredient) {
 			return checkedFluidIngredient(buildFluidIngredient(expandedFluidStackList((FluidIngredient)object)));
 		}
 		if (object instanceof IFluidIngredient) {
@@ -256,7 +256,7 @@ public class RecipeHelper {
 		return ingredient == null || !ingredient.isValid() ? null : ingredient;
 	}
 	
-	public static boolean needsExpanding() {
+	private static boolean fluidNeedsExpanding() {
 		return ModCheck.mekanismLoaded() || ModCheck.techRebornLoaded();
 	}
 	
@@ -435,59 +435,34 @@ public class RecipeHelper {
 		return new OreIngredient(oreName, stackSize);
 	}
 	
-	public static void generateMaterialListTuples(List<Pair<List<ItemStack>, List<FluidStack>>> tuples, int[] maxNumbers, int[] inputNumbers, List<List<ItemStack>> itemInputLists, List<List<FluidStack>> fluidInputLists) {
-		int itemInputSize = itemInputLists.size(), fluidInputSize = fluidInputLists.size();
-		
-		List<ItemStack> itemInputs = new ArrayList<>();
-		List<FluidStack> fluidInputs = new ArrayList<>();
-		
-		for (int i = 0; i < itemInputSize; i++) {
-			itemInputs.add(itemInputLists.get(i).get(inputNumbers[i]));
+	public static long hashMaterialsRaw(List<ItemStack> items, List<Tank> fluids) {
+		long hash = 1L;
+		Iterator<ItemStack> itemIter = items.iterator();
+		while (itemIter.hasNext()) {
+			ItemStack stack = itemIter.next();
+			hash = 31L*hash + (stack == null || stack.isEmpty() ? 0L : RecipeItemHelper.pack(stack));
 		}
-		
-		for (int i = 0; i < fluidInputSize; i++) {
-			fluidInputs.add(fluidInputLists.get(i).get(inputNumbers[i + itemInputSize]));
+		Iterator<Tank> fluidIter = fluids.iterator();
+		while (fluidIter.hasNext()) {
+			Tank tank = fluidIter.next();
+			hash = 31L*hash + (tank == null || tank.getFluid() == null ? 0L : tank.getFluid().getFluid().getName().hashCode());
 		}
-		
-		tuples.add(Pair.of(itemInputs, fluidInputs));
-		
-		boolean itemEnd = false;
-		if (itemInputSize == 0) {
-			itemEnd = true;
+		return hash;
+	}
+	
+	public static long hashMaterials(List<ItemStack> items, List<FluidStack> fluids) {
+		long hash = 1L;
+		Iterator<ItemStack> itemIter = items.iterator();
+		while (itemIter.hasNext()) {
+			ItemStack stack = itemIter.next();
+			hash = 31L*hash + (stack == null || stack.isEmpty() ? 0L : RecipeItemHelper.pack(stack));
 		}
-		else {
-			for (int i = 0; i < itemInputSize; i++) {
-				if (inputNumbers[i] < maxNumbers[i]) {
-					inputNumbers[i]++;
-					break;
-				}
-				else {
-					inputNumbers[i] = 0;
-					if (i == itemInputSize - 1) itemEnd = true;
-				}
-			}
+		Iterator<FluidStack> fluidIter = fluids.iterator();
+		while (fluidIter.hasNext()) {
+			FluidStack stack = fluidIter.next();
+			hash = 31L*hash + (stack == null ? 0L : stack.getFluid().getName().hashCode());
 		}
-		
-		boolean fluidEnd = false;
-		if (fluidInputSize == 0) {
-			fluidEnd = true;
-		}
-		else if (itemEnd) {
-			for (int i = 0; i < fluidInputSize; i++) {
-				if (inputNumbers[i + itemInputSize] < maxNumbers[i + itemInputSize]) {
-					inputNumbers[i + itemInputSize]++;
-					break;
-				}
-				else {
-					inputNumbers[i + itemInputSize] = 0;
-					if (i == fluidInputSize - 1) fluidEnd = true;
-				}
-			}
-		}
-		
-		if (!itemEnd || !fluidEnd) {
-			generateMaterialListTuples(tuples, maxNumbers, inputNumbers, itemInputLists, fluidInputLists);
-		}
+		return hash;
 	}
 	
 	public static InventoryCrafting fakeCrafter(int width, int height) {

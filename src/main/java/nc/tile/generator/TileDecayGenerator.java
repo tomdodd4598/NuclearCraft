@@ -1,14 +1,14 @@
 package nc.tile.generator;
 
+import static nc.config.NCConfig.machine_update_rate;
+import static nc.recipe.NCRecipes.decay_generator;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-import nc.config.NCConfig;
-import nc.recipe.NCRecipes;
 import nc.recipe.ProcessorRecipe;
-import nc.recipe.ProcessorRecipeHandler;
 import nc.recipe.RecipeHelper;
 import nc.recipe.RecipeInfo;
 import nc.tile.dummy.IInterfaceable;
@@ -29,10 +29,9 @@ public class TileDecayGenerator extends TileEnergy implements IInterfaceable {
 	Random rand = new Random();
 	public int tickCount;
 	
-	public static final ProcessorRecipeHandler RECIPE_HANDLER = NCRecipes.decay_generator;
 	protected RecipeInfo<ProcessorRecipe>[] recipes = new RecipeInfo[6];
 	
-	public static final double DEFAULT_LIFETIME = 1200D/NCConfig.machine_update_rate;
+	public static final double DEFAULT_LIFETIME = 1200D;
 	
 	protected int generatorCount;
 	
@@ -59,45 +58,46 @@ public class TileDecayGenerator extends TileEnergy implements IInterfaceable {
 	}
 	
 	public void tickGenerator() {
-		generatorCount++; generatorCount %= NCConfig.machine_update_rate;
+		generatorCount++; generatorCount %= machine_update_rate;
 	}
 	
 	private static int maxPower() {
-		int max = 0;
-		List<ProcessorRecipe> recipes = RECIPE_HANDLER.getRecipeList();
+		double max = 0;
+		List<ProcessorRecipe> recipes = decay_generator.getRecipeList();
 		for (ProcessorRecipe recipe : recipes) {
 			if (recipe == null) continue;
 			max = Math.max(max, recipe.getDecayPower());
 		}
-		return 20*max;
+		return (int) (machine_update_rate*max);
 	}
 	
 	public int getGenerated() {
-		int power = 0;
+		double power = 0D;
 		for (EnumFacing side : EnumFacing.VALUES) {
 			power += decayGen(side);
 		}
-		return power;
+		return (int) (machine_update_rate*power);
 	}
 	
 	public double getRadiation() {
 		double radiation = 0D;
 		for (EnumFacing side : EnumFacing.VALUES) {
-			if (getDecayRecipeInfo(side) != null) radiation += getDecayRecipeInfo(side).getRecipe().getDecayRadiation();
+			if (getDecayRecipeInfo(side) != null) {
+				radiation += getDecayRecipeInfo(side).getRecipe().getDecayRadiation();
+			}
 		}
-		return radiation;
+		return machine_update_rate*radiation;
 	}
 	
-	public int decayGen(EnumFacing side) {
-		if (getDecayRecipeInfo(side) == null) return 0;
+	public double decayGen(EnumFacing side) {
+		if (getDecayRecipeInfo(side) == null) return 0D;
 		ItemStack stack = getOutput(side);
-		if (stack == null || stack.isEmpty()) return 0;
-		if (rand.nextDouble()*getRecipeLifetime(side) < 1D) {
+		if (stack == null || stack.isEmpty()) return 0D;
+		if (rand.nextDouble()*getRecipeLifetime(side)/machine_update_rate < 1D) {
 			IBlockState block = ItemStackHelper.getBlockStateFromStack(stack);
-			if (block == null) return 0;
+			if (block == null) return 0D;
 			getWorld().setBlockState(getPos().offset(side), block);
 			refreshRecipe(side);
-			
 		}
 		return getRecipePower(side);
 	}
@@ -110,7 +110,7 @@ public class TileDecayGenerator extends TileEnergy implements IInterfaceable {
 	
 	public void refreshRecipe(EnumFacing side) {
 		List<ItemStack> input = Arrays.asList(ItemStackHelper.blockStateToStack(world.getBlockState(getPos().offset(side))));
-		recipes[side.getIndex()] = RECIPE_HANDLER.getRecipeInfoFromInputs(input, new ArrayList<Tank>());
+		recipes[side.getIndex()] = decay_generator.getRecipeInfoFromInputs(input, new ArrayList<Tank>());
 	}
 	
 	// IC2
@@ -136,15 +136,14 @@ public class TileDecayGenerator extends TileEnergy implements IInterfaceable {
 		return getDecayRecipeInfo(side).getRecipe().getDecayLifetime();
 	}
 	
-	public int getRecipePower(EnumFacing side) {
-		if (getDecayRecipeInfo(side) == null) return 0;
+	public double getRecipePower(EnumFacing side) {
+		if (getDecayRecipeInfo(side) == null) return 0D;
 		return getDecayRecipeInfo(side).getRecipe().getDecayPower();
 	}
 	
 	public ItemStack getOutput(EnumFacing side) {
 		if (getDecayRecipeInfo(side) == null) return ItemStack.EMPTY;
 		ItemStack output = RecipeHelper.getItemStackFromIngredientList(getDecayRecipeInfo(side).getRecipe().itemProducts(), 0);
-		if (output != null) return output;
-		return ItemStack.EMPTY;
+		return output != null ? output : ItemStack.EMPTY;
 	}
 }

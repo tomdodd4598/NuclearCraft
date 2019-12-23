@@ -5,6 +5,7 @@ import java.util.List;
 
 import mezz.jei.api.IGuiHelper;
 import nc.config.NCConfig;
+import nc.radiation.RadiationHelper;
 import nc.recipe.ProcessorRecipe;
 import nc.recipe.ProcessorRecipeHandler;
 import nc.tile.generator.TileDecayGenerator;
@@ -386,6 +387,24 @@ public class JEIRecipeWrapper {
 		protected int getProgressArrowTime() {
 			return NCConfig.machine_update_rate;
 		}
+		
+		protected String getCollectorProductionRate() {
+			if (recipe == null) return null;
+			return recipe.getCollectorProductionRate();
+		}
+		
+		@Override
+		public List<String> getTooltipStrings(int mouseX, int mouseY) {
+			List<String> tooltip = new ArrayList<String>();
+			
+			if (mouseX >= 73 - 47 && mouseY >= 34 - 30 && mouseX < 73 - 47 + 37 + 1 && mouseY < 34 - 30 + 18 + 1) {
+				tooltip.add(TextFormatting.GREEN + PRODUCTION_RATE + " " + TextFormatting.WHITE + getCollectorProductionRate());
+			}
+			
+			return tooltip;
+		}
+		
+		private static final String PRODUCTION_RATE = Lang.localise("jei.nuclearcraft.collector_production_rate");
 	}
 	
 	public static class DecayGenerator extends JEIRecipeWrapperAbstract<DecayGenerator> {
@@ -404,9 +423,14 @@ public class JEIRecipeWrapper {
 			return recipe.getDecayLifetime();
 		}
 		
-		protected int getDecayPower() {
-			if (recipe == null) return 0;
+		protected double getDecayPower() {
+			if (recipe == null) return 0D;
 			return recipe.getDecayPower();
+		}
+		
+		protected double getDecayRadiation() {
+			if (recipe == null) return 0D;
+			return recipe.getDecayRadiation();
 		}
 		
 		@Override
@@ -415,7 +439,9 @@ public class JEIRecipeWrapper {
 			
 			if (mouseX >= 73 - 47 && mouseY >= 34 - 30 && mouseX < 73 - 47 + 37 + 1 && mouseY < 34 - 30 + 18 + 1) {
 				tooltip.add(TextFormatting.GREEN + BLOCK_LIFETIME + " " + TextFormatting.WHITE + UnitHelper.applyTimeUnitShort(NCMath.round(getDecayLifetime(), 2), 3, 1));
-				tooltip.add(TextFormatting.LIGHT_PURPLE + BLOCK_POWER + " " + TextFormatting.WHITE + UnitHelper.prefix(getDecayPower(), 5, "RF/s"));
+				tooltip.add(TextFormatting.LIGHT_PURPLE + BLOCK_POWER + " " + TextFormatting.WHITE + UnitHelper.prefix(getDecayPower(), 5, "RF/t"));
+				double radiation = getDecayRadiation();
+				if (radiation > 0D) tooltip.add(TextFormatting.GOLD + BLOCK_RADIATION + " " + RadiationHelper.radsColoredPrefix(radiation, true));
 			}
 			
 			return tooltip;
@@ -423,6 +449,7 @@ public class JEIRecipeWrapper {
 		
 		private static final String BLOCK_LIFETIME = Lang.localise("jei.nuclearcraft.decay_gen_lifetime");
 		private static final String BLOCK_POWER = Lang.localise("jei.nuclearcraft.decay_gen_power");
+		private static final String BLOCK_RADIATION = Lang.localise("jei.nuclearcraft.decay_gen_radiation");
 	}
 	
 	public static class FissionModerator extends JEIRecipeWrapperAbstract<FissionModerator> {
@@ -480,6 +507,11 @@ public class JEIRecipeWrapper {
 			return recipe.getFissionFuelCriticality();
 		}
 		
+		protected double getFissionFuelRadiation() {
+			if (recipe == null) return 0D;
+			return recipe.getFissionFuelRadiation();
+		}
+		
 		@Override
 		public List<String> getTooltipStrings(int mouseX, int mouseY) {
 			List<String> tooltip = new ArrayList<String>();
@@ -489,6 +521,8 @@ public class JEIRecipeWrapper {
 				tooltip.add(TextFormatting.YELLOW + FUEL_HEAT + " " + TextFormatting.WHITE + UnitHelper.prefix(getFissionFuelHeat(), 5, "H/t"));
 				tooltip.add(TextFormatting.LIGHT_PURPLE + FUEL_EFFICIENCY + " " + TextFormatting.WHITE + Math.round(100D*getFissionFuelEfficiency()) + "%");
 				tooltip.add(TextFormatting.RED + FUEL_CRITICALITY + " " + TextFormatting.WHITE + getFissionFuelCriticality() + " N/t");
+				double radiation = getFissionFuelRadiation();
+				if (radiation > 0D) tooltip.add(TextFormatting.GOLD + FUEL_RADIATION + " " + RadiationHelper.radsColoredPrefix(radiation, true));
 			}
 			
 			return tooltip;
@@ -498,6 +532,7 @@ public class JEIRecipeWrapper {
 		private static final String FUEL_HEAT = Lang.localise("jei.nuclearcraft.solid_fuel_heat");
 		private static final String FUEL_EFFICIENCY = Lang.localise("jei.nuclearcraft.solid_fuel_efficiency");
 		private static final String FUEL_CRITICALITY = Lang.localise("jei.nuclearcraft.solid_fuel_criticality");
+		private static final String FUEL_RADIATION = Lang.localise("jei.nuclearcraft.solid_fuel_radiation");
 	}
 	
 	public static class FissionHeating extends JEIRecipeWrapperAbstract<FissionHeating> {
@@ -561,6 +596,11 @@ public class JEIRecipeWrapper {
 			return recipe.getFissionFuelCriticality();
 		}
 		
+		protected double getFissionFuelRadiation() {
+			if (recipe == null) return 0D;
+			return recipe.getFissionFuelRadiation();
+		}
+		
 		@Override
 		public List<String> getTooltipStrings(int mouseX, int mouseY) {
 			List<String> tooltip = new ArrayList<String>();
@@ -570,15 +610,18 @@ public class JEIRecipeWrapper {
 				tooltip.add(TextFormatting.YELLOW + FUEL_HEAT + " " + TextFormatting.WHITE + UnitHelper.prefix(getFissionFuelHeat(), 5, "H/t"));
 				tooltip.add(TextFormatting.LIGHT_PURPLE + FUEL_EFFICIENCY + " " + TextFormatting.WHITE + Math.round(100D*getFissionFuelEfficiency()) + "%");
 				tooltip.add(TextFormatting.RED + FUEL_CRITICALITY + " " + TextFormatting.WHITE + getFissionFuelCriticality() + " N/t");
+				double radiation = getFissionFuelRadiation();
+				if (radiation > 0D) tooltip.add(TextFormatting.GOLD + FUEL_RADIATION + " " + RadiationHelper.radsColoredPrefix(radiation, true));
 			}
 			
 			return tooltip;
 		}
 		
-		private static final String FUEL_TIME = Lang.localise("jei.nuclearcraft.solid_fuel_time");
-		private static final String FUEL_HEAT = Lang.localise("jei.nuclearcraft.solid_fuel_heat");
-		private static final String FUEL_EFFICIENCY = Lang.localise("jei.nuclearcraft.solid_fuel_efficiency");
-		private static final String FUEL_CRITICALITY = Lang.localise("jei.nuclearcraft.solid_fuel_criticality");
+		private static final String FUEL_TIME = Lang.localise("jei.nuclearcraft.salt_fuel_time");
+		private static final String FUEL_HEAT = Lang.localise("jei.nuclearcraft.salt_fuel_heat");
+		private static final String FUEL_EFFICIENCY = Lang.localise("jei.nuclearcraft.salt_fuel_efficiency");
+		private static final String FUEL_CRITICALITY = Lang.localise("jei.nuclearcraft.salt_fuel_criticality");
+		private static final String FUEL_RADIATION = Lang.localise("jei.nuclearcraft.salt_fuel_radiation");
 	}
 	
 	public static class Fusion extends JEIRecipeWrapperAbstract<Fusion> {
@@ -776,5 +819,49 @@ public class JEIRecipeWrapper {
 		
 		private static final String ENERGY_DENSITY = Lang.localise("jei.nuclearcraft.turbine_energy_density");
 		private static final String EXPANSION = Lang.localise("jei.nuclearcraft.turbine_expansion");
+	}
+	
+	public static class RadiationScrubber extends JEIRecipeWrapperAbstract<RadiationScrubber> {
+		
+		public RadiationScrubber(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
+			super(guiHelper, jeiHandler, recipeHandler, recipe, 31, 30, 176, 3, 37, 16, 70, 35);
+		}
+		
+		@Override
+		protected int getProgressArrowTime() {
+			return NCConfig.machine_update_rate;
+		}
+		
+		protected int getScrubberProcessTime() {
+			if (recipe == null) return 1;
+			return recipe.getScrubberProcessTime();
+		}
+		
+		protected int getScrubberProcessPower() {
+			if (recipe == null) return 0;
+			return recipe.getScrubberProcessPower();
+		}
+		
+		protected double getScrubberProcessEfficiency() {
+			if (recipe == null) return 0D;
+			return recipe.getScrubberProcessEfficiency();
+		}
+		
+		@Override
+		public List<String> getTooltipStrings(int mouseX, int mouseY) {
+			List<String> tooltip = new ArrayList<String>();
+			
+			if (mouseX >= 69 - 31 && mouseY >= 34 - 30 && mouseX < 69 - 31 + 37 + 1 && mouseY < 34 - 30 + 18 + 1) {
+				tooltip.add(TextFormatting.GREEN + PROCESS_TIME + " " + TextFormatting.WHITE + UnitHelper.applyTimeUnitShort(getScrubberProcessTime(), 3));
+				tooltip.add(TextFormatting.LIGHT_PURPLE + PROCESS_POWER + " " + TextFormatting.WHITE + UnitHelper.prefix(getScrubberProcessPower(), 5, "RF/t"));
+				tooltip.add(TextFormatting.RED + PROCESS_EFFICIENCY + " " + TextFormatting.WHITE + Math.round(100D*getScrubberProcessEfficiency()) + "%");
+			}
+			
+			return tooltip;
+		}
+		
+		private static final String PROCESS_TIME = Lang.localise("jei.nuclearcraft.scrubber_process_time");
+		private static final String PROCESS_POWER = Lang.localise("jei.nuclearcraft.scrubber_process_power");
+		private static final String PROCESS_EFFICIENCY = Lang.localise("jei.nuclearcraft.scrubber_process_efficiency");
 	}
 }

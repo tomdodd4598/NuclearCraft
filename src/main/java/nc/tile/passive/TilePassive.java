@@ -1,25 +1,25 @@
 package nc.tile.passive;
 
 import nc.config.NCConfig;
+import nc.recipe.ingredient.FluidIngredient;
 import nc.recipe.ingredient.ItemIngredient;
 import nc.tile.energy.IEnergySpread;
 import nc.tile.fluid.IFluidSpread;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.FluidRegistry;
 
 public class TilePassive {
 	
 	public static abstract class ElectromagnetAbstract extends TilePassiveAbstract implements IEnergySpread {
 		
-		public ElectromagnetAbstract(String name, int energyChange, int updateRate) {
-			super(name + "_electromagnet", -energyChange, updateRate);
+		public ElectromagnetAbstract(String name, double energyChange) {
+			super(name + "_electromagnet", -energyChange);
 		}
 		
 		@Override
 		public void update() {
 			super.update();
-			if(!world.isRemote && pushCount == 0) {
+			if(!world.isRemote && tickCount == 0) {
 				spreadEnergy();
 			}
 		}
@@ -28,27 +28,27 @@ public class TilePassive {
 	public static class FusionElectromagnet extends ElectromagnetAbstract {
 		
 		public FusionElectromagnet() {
-			super("fusion", NCConfig.fusion_electromagnet_power, NCConfig.machine_update_rate / 5);
+			super("fusion", NCConfig.fusion_electromagnet_power);
 		}
 	}
 	
 	public static class AcceleratorElectromagnet extends ElectromagnetAbstract {
 		
 		public AcceleratorElectromagnet() {
-			super("accelerator", NCConfig.accelerator_electromagnet_power, NCConfig.machine_update_rate / 5);
+			super("accelerator", NCConfig.accelerator_electromagnet_power);
 		}
 	}
 	
 	public static class ElectromagnetSupercooler extends TilePassiveAbstract implements IEnergySpread, IFluidSpread {
 		
 		public ElectromagnetSupercooler() {
-			super("electromagnet_supercooler", -NCConfig.accelerator_electromagnet_power, FluidRegistry.getFluid("liquid_helium"), -NCConfig.accelerator_supercooler_coolant, NCConfig.machine_update_rate / 5);
+			super("electromagnet_supercooler", -NCConfig.accelerator_electromagnet_power, new FluidIngredient("liquid_helium", 1), -NCConfig.accelerator_supercooler_coolant);
 		}
 		
 		@Override
 		public void update() {
 			super.update();
-			if(!world.isRemote && pushCount == 0) {
+			if(!world.isRemote && tickCount == 0) {
 				spreadEnergy();
 				spreadFluid();
 			}
@@ -57,16 +57,8 @@ public class TilePassive {
 	
 	public static abstract class CobblestoneGeneratorAbstract extends TilePassiveAbstract {
 		
-		final int rateMult;
-		
 		public CobblestoneGeneratorAbstract(String type, int rateMult) {
-			super("cobblestone_generator" + type, new ItemIngredient(new ItemStack(Blocks.COBBLESTONE)), NCConfig.processor_passive_rate[0]*rateMult, -NCConfig.cobble_gen_power*rateMult, NCConfig.machine_update_rate / 5);
-			this.rateMult = rateMult;
-		}
-		
-		@Override
-		protected void setNewStack() {
-			getInventoryStacks().set(0, new ItemStack(Blocks.COBBLESTONE, NCConfig.processor_passive_rate[0]*NCConfig.machine_update_rate*rateMult/5));
+			super("cobblestone_generator" + type, new ItemIngredient(new ItemStack(Blocks.COBBLESTONE)), NCConfig.processor_passive_rate[0]*rateMult, -NCConfig.cobble_gen_power*rateMult);
 		}
 	}
 	
@@ -94,7 +86,7 @@ public class TilePassive {
 	public static abstract class WaterSourceAbstract extends TilePassiveAbstract {
 		
 		public WaterSourceAbstract(String type, int rateMult) {
-			super("water_source" + type, FluidRegistry.WATER, NCConfig.processor_passive_rate[1]*rateMult, NCConfig.machine_update_rate / 5);
+			super("water_source" + type, new FluidIngredient("water", 1), NCConfig.processor_passive_rate[1]*rateMult);
 		}
 	}
 	
@@ -122,7 +114,7 @@ public class TilePassive {
 	public static abstract class NitrogenCollectorAbstract extends TilePassiveAbstract {
 		
 		public NitrogenCollectorAbstract(String type, int rateMult) {
-			super("nitrogen_collector" + type, FluidRegistry.getFluid("nitrogen"), NCConfig.processor_passive_rate[2]*rateMult, NCConfig.machine_update_rate / 5);
+			super("nitrogen_collector" + type, new FluidIngredient("nitrogen", 1), NCConfig.processor_passive_rate[2]*rateMult);
 		}
 	}
 	

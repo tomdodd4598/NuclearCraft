@@ -641,9 +641,10 @@ public class MetaEnums {
 		SODIUM_HYDROXIDE("sodium_hydroxide", 5),
 		POTASSIUM_HYDROXIDE("potassium_hydroxide", 6),
 		BORAX("borax", 7),
-		DIMENSIONAL_BLEND("dimensional_blend", 8),
-		C_MN_BLEND("c_mn_blend", 9),
-		ALUGENTUM("alugentum", 10);
+		IRRADIATED_BORAX("irradiated_borax", 8),
+		DIMENSIONAL_BLEND("dimensional_blend", 9),
+		C_MN_BLEND("c_mn_blend", 10),
+		ALUGENTUM("alugentum", 11);
 		
 		private String name;
 		private int id;

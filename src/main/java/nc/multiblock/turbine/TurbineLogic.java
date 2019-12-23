@@ -216,6 +216,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, ITurbinePart, Turbine
 	@Override
 	public void onMachinePaused() {}
 	
+	@Override
 	public void onMachineDisassembled() {
 		if (getTurbine().flowDir != null) {
 			TurbinePartDir shaftDir = getTurbine().getShaftDir();
@@ -262,6 +263,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, ITurbinePart, Turbine
 		}
 	}
 	
+	@Override
 	public boolean isMachineWhole(Multiblock multiblock) {
 		int minX = getTurbine().getMinX(), minY = getTurbine().getMinY(), minZ = getTurbine().getMinZ();
 		int maxX = getTurbine().getMaxX(), maxY = getTurbine().getMaxY(), maxZ = getTurbine().getMaxZ();
@@ -783,7 +785,12 @@ public class TurbineLogic extends MultiblockLogic<Turbine, ITurbinePart, Turbine
 	
 	@SideOnly(Side.CLIENT)
 	protected void updateSounds() {
-		if (!NCConfig.turbine_enable_sound) {
+		if (NCConfig.turbine_sound_volume == 0D) {
+			if (getTurbine().activeSounds != null) {
+				stopSounds();
+				getTurbine().activeSounds.clear();
+				getTurbine().activeSounds = null;
+			}
 			return;
 		}
 		
@@ -828,7 +835,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, ITurbinePart, Turbine
 			// If this machine isn't playing sounds, go ahead and play them
 			for (SoundInfo activeSound : getTurbine().activeSounds) {
 				if (activeSound != null && (activeSound.sound == null || !Minecraft.getMinecraft().getSoundHandler().isSoundPlaying(activeSound.sound))) {
-					activeSound.sound = SoundHandler.startTileSound(NCSounds.turbine_run, activeSound.pos, 0.125F + getTurbine().angVel*0.5F, SoundHelper.getPitch(6F*getTurbine().angVel - 2F));
+					activeSound.sound = SoundHandler.startTileSound(NCSounds.turbine_run, activeSound.pos, (float) ((0.125D + getTurbine().angVel*0.5D)*NCConfig.turbine_sound_volume), SoundHelper.getPitch(6F*getTurbine().angVel - 2F));
 				}
 			}
 			
