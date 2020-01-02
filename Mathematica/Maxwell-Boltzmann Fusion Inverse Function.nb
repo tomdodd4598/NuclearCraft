@@ -1,0 +1,116 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 10.2' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[      3393,        107]
+NotebookOptionsPosition[      3083,         91]
+NotebookOutlinePosition[      3425,        106]
+CellTagsIndexPosition[      3382,        103]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"h", "=", "2140"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"e", "=", "25"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"N", "[", 
+  RowBox[{"1.153582", "h", 
+   RowBox[{"(", 
+    RowBox[{
+     FractionBox[
+      RowBox[{"Sqrt", "[", 
+       RowBox[{"e", "/", "\[ExponentialE]"}], "]"}], "10"], "+", 
+     FractionBox[
+      SuperscriptBox[
+       RowBox[{"Sqrt", "[", 
+        RowBox[{"e", "/", "\[ExponentialE]"}], "]"}], "3"], "2000"], "+", 
+     FractionBox[
+      SuperscriptBox[
+       RowBox[{"Sqrt", "[", 
+        RowBox[{"e", "/", "\[ExponentialE]"}], "]"}], "5"], "160000"], "+", 
+     FractionBox[
+      RowBox[{"49", 
+       SuperscriptBox[
+        RowBox[{"Sqrt", "[", 
+         RowBox[{"e", "/", "\[ExponentialE]"}], "]"}], "7"]}], "480000000"], 
+     "+", 
+     FractionBox[
+      RowBox[{"243", 
+       SuperscriptBox[
+        RowBox[{"Sqrt", "[", 
+         RowBox[{"e", "/", "\[ExponentialE]"}], "]"}], "9"]}], 
+      "128000000000"], "+", 
+     FractionBox[
+      RowBox[{"14641", 
+       SuperscriptBox[
+        RowBox[{"Sqrt", "[", 
+         RowBox[{"e", "/", "\[ExponentialE]"}], "]"}], "11"]}], 
+      "384000000000000"], "+", 
+     FractionBox[
+      RowBox[{"371293", 
+       SuperscriptBox[
+        RowBox[{"Sqrt", "[", 
+         RowBox[{"e", "/", "\[ExponentialE]"}], "]"}], "13"]}], 
+      "460800000000000000"], "+", 
+     FractionBox[
+      RowBox[{"81", 
+       SuperscriptBox[
+        RowBox[{"Sqrt", "[", 
+         RowBox[{"e", "/", "\[ExponentialE]"}], "]"}], "15"]}], 
+      "4587520000000000"], "+", 
+     FractionBox[
+      RowBox[{"410338673", 
+       SuperscriptBox[
+        RowBox[{"Sqrt", "[", 
+         RowBox[{"e", "/", "\[ExponentialE]"}], "]"}], "17"]}], 
+      "1032192000000000000000000"]}], ")"}]}], "]"}]}], "Input",
+ CellChangeTimes->{{3.736083345434948*^9, 3.736083386016939*^9}, {
+  3.736083431061415*^9, 3.736083826409623*^9}, {3.7360838859174747`*^9, 
+  3.7360839055172696`*^9}, {3.7360839576452093`*^9, 3.736083979121684*^9}, {
+  3.7542675808865128`*^9, 3.754267588126066*^9}}],
+
+Cell[BoxData["787.7651204620121`"], "Output",
+ CellChangeTimes->{{3.73608336865898*^9, 3.7360833865544786`*^9}, {
+   3.736083434887993*^9, 3.7360834522801986`*^9}, {3.7360834875861096`*^9, 
+   3.736083543654027*^9}, {3.7360836563361053`*^9, 3.7360837383090534`*^9}, 
+   3.7360838296268983`*^9, 3.73608386053201*^9, 3.736083907090119*^9, 
+   3.736083980287796*^9, {3.754267581624754*^9, 3.754267588658519*^9}}]
+}, Open  ]]
+},
+WindowSize->{1920, 997},
+WindowMargins->{{-8, Automatic}, {Automatic, -8}},
+FrontEndVersion->"10.2 for Microsoft Windows (64-bit) (July 7, 2015)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 2075, 59, 99, "Input"],
+Cell[2658, 83, 409, 5, 31, "Output"]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)

@@ -1,0 +1,44 @@
+"Constants";
+coolantPerRecipe = 20;
+coolantHeatMult = 125;
+msrBaseCoolingRate = 480;
+msrCoolingEfficiency = 1.87333;
+noHeaters = 8;
+coolantTubeConductivity = 1;
+waterTubeConductivity = 1;
+waterBaseCoolingProvided = 800;
+waterBaseHeatingRequired = 16000;
+hpSteamTubeConductivity = 1;
+lqSteamCondenserConductivity = 1;
+lqSteamCondenserSurroundingTemp = 300;
+condensateWaterTubeConductivity = 1;
+
+"Hot Coolant Preheating Loop Rate";
+coolantTotalPreheatingLoopRate = (32000*coolantPerRecipe*hpSteamTubeConductivity*msrCoolingEfficiency*noHeaters*waterTubeConductivity*(7 + 2 waterTubeConductivity))/(7*condensateWaterTubeConductivity*coolantTubeConductivity*waterBaseCoolingProvided*waterBaseHeatingRequired + 4480000*hpSteamTubeConductivity*waterTubeConductivity + 1280000*hpSteamTubeConductivity*waterTubeConductivity^2);
+
+"Hot Coolant <-> Water";
+coolantTotalPrimaryRate = coolantPerRecipe/20*msrCoolingEfficiency*noHeaters - coolantTotalPreheatingLoopRate;
+coolantBaseCoolingReq = coolantHeatMult*msrBaseCoolingRate*coolantTubeConductivity;
+coolantTotalCoolingReq = coolantTotalPrimaryRate*coolantBaseCoolingReq/coolantPerRecipe;
+noCoolantWaterContacts = coolantTotalCoolingReq/waterBaseCoolingProvided;
+waterTotalRate = 200*noCoolantWaterContacts*waterTubeConductivity*400/waterBaseHeatingRequired;
+hpSteamTotalRate = waterTotalRate*1000/200;
+
+"HP Steam <-> Water";
+hpSteamLoopEffectiveTotalRate = hpSteamTotalRate*(1 + 2/7*waterTubeConductivity);
+hpSteamTotalCoolingReq = hpSteamLoopEffectiveTotalRate*4000*hpSteamTubeConductivity/250;
+noHpSteamWaterContacts = hpSteamTotalCoolingReq/waterBaseCoolingProvided;
+steamTotalRate = hpSteamLoopEffectiveTotalRate*hpSteamTubeConductivity*1000/250;
+
+"Steam -> Condensate Water";
+lqSteamTotalRate = steamTotalRate*2;
+lqSteamTotalRate = lqSteamTotalRate*20/(1000*lqSteamCondenserConductivity*(1 + Log[350/lqSteamCondenserSurroundingTemp]));
+condensateWaterTotalRate = lqSteamTotalRate*25/1000;
+
+"Condensate Water <-> Hot Coolant";
+condensateWaterTotalHeatingReq = condensateWaterTotalRate*32000/(1000*condensateWaterTubeConductivity);
+noCondensateWaterCoolantContacts = condensateWaterTotalHeatingReq/400;
+coolantTotalPreheatingLoopRate = coolantPerRecipe*noCondensateWaterCoolantContacts*100/(coolantBaseCoolingReq*coolantTubeConductivity);
+
+"Power Produced";
+power = steamTotalRate*4;

@@ -1,3 +1,8 @@
+v2.18o
+
+* Fixed axes not being recognised by the debark mod
++ Added IC2 QuantumSuit and GraviSuit default rad shielding
+
 v2.18n
 
 * Fixed recipes involving empty ingredients not being cached

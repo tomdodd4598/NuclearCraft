@@ -1,0 +1,264 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 10.2' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     10524,        255]
+NotebookOptionsPosition[     10282,        242]
+NotebookOutlinePosition[     10624,        257]
+CellTagsIndexPosition[     10581,        254]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[{
+ RowBox[{"\"\<Constants\>\"", ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"coolantPerRecipe", "=", "20"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"coolantHeatMult", "=", "125"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"msrBaseCoolingRate", "=", "480"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"msrCoolingEfficiency", "=", "1.87333"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"noHeaters", "=", "8"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"coolantTubeConductivity", "=", "1"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"waterTubeConductivity", "=", "1"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"waterBaseCoolingProvided", "=", "800"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"waterBaseHeatingRequired", "=", "16000"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"exhaustSteamTubeConductivity", "=", "1"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"lqSteamCondenserConductivity", "=", "1"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"lqSteamCondenserSurroundingTemp", "=", "300"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"condensateWaterTubeConductivity", "=", "1"}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{"\"\<Hot Coolant Exhaust and Preheating Loop Rates\>\"", 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"coolantTotalExhaustLoopRate", "=", 
+   RowBox[{
+    RowBox[{"(", 
+     RowBox[{
+     "240000", "*", "condensateWaterTubeConductivity", "*", 
+      "coolantPerRecipe", "*", "msrCoolingEfficiency", "*", "noHeaters", "*", 
+      "waterTubeConductivity"}], ")"}], "/", 
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{
+      "condensateWaterTubeConductivity", "*", "coolantTubeConductivity", "*", 
+       "exhaustSteamTubeConductivity", "*", "waterBaseCoolingProvided", "*", 
+       "waterBaseHeatingRequired"}], "+", 
+      RowBox[{
+      "4800000", "*", "condensateWaterTubeConductivity", "*", 
+       "waterTubeConductivity"}], "+", 
+      RowBox[{
+      "320000", "*", "exhaustSteamTubeConductivity", "*", 
+       "waterTubeConductivity"}]}], ")"}]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"coolantTotalPreheatingLoopRate", "=", 
+    RowBox[{
+     RowBox[{"(", 
+      RowBox[{
+      "16000", "*", "coolantPerRecipe", "*", "exhaustSteamTubeConductivity", 
+       "*", "msrCoolingEfficiency", "*", "noHeaters", "*", 
+       "waterTubeConductivity"}], ")"}], "/", 
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{
+       "condensateWaterTubeConductivity", "*", "coolantTubeConductivity", "*",
+         "exhaustSteamTubeConductivity", "*", "waterBaseCoolingProvided", "*",
+         "waterBaseHeatingRequired"}], "+", 
+       RowBox[{
+       "4800000", " ", "condensateWaterTubeConductivity", "*", 
+        "waterTubeConductivity"}], "+", 
+       RowBox[{
+       "320000", "*", "exhaustSteamTubeConductivity", "*", 
+        "waterTubeConductivity"}]}], ")"}]}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{"\"\<Hot Coolant <-> Water\>\"", ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"coolantTotalPrimaryRate", "=", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"coolantPerRecipe", "/", "20"}], "*", "msrCoolingEfficiency", 
+     "*", "noHeaters"}], "-", "coolantTotalExhaustLoopRate", "-", 
+    "coolantTotalPreheatingLoopRate"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"coolantBaseCoolingReq", "=", 
+   RowBox[{
+   "coolantHeatMult", "*", "msrBaseCoolingRate", "*", 
+    "coolantTubeConductivity"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"coolantTotalCoolingReq", "=", 
+   RowBox[{"coolantTotalPrimaryRate", "*", 
+    RowBox[{"coolantBaseCoolingReq", "/", "coolantPerRecipe"}]}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"noCoolantWaterContacts", "=", 
+   RowBox[{"coolantTotalCoolingReq", "/", "waterBaseCoolingProvided"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"waterTotalRate", "=", 
+   RowBox[{
+   "200", "*", "noCoolantWaterContacts", "*", "waterTubeConductivity", "*", 
+    RowBox[{"400", "/", "waterBaseHeatingRequired"}]}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"hpSteamTotalRate", "=", 
+    RowBox[{"waterTotalRate", "*", 
+     RowBox[{"1000", "/", "200"}]}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{"\"\<HP Steam -> LP Steam\>\"", ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"exhaustSteamTotalRate", "=", 
+   RowBox[{"hpSteamTotalRate", "*", "4"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"exhaustSteamTotalHeatingReq", "=", 
+   RowBox[{"exhaustSteamTotalRate", "*", 
+    RowBox[{"4000", "/", 
+     RowBox[{"(", 
+      RowBox[{"1000", "*", "exhaustSteamTubeConductivity"}], ")"}]}]}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"noExhaustSteamCoolantContacts", "=", 
+   RowBox[{"exhaustSteamTotalHeatingReq", "/", "400"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"coolantTotalExhaustLoopRate", "=", 
+   RowBox[{"coolantPerRecipe", "*", "noExhaustSteamCoolantContacts", "*", 
+    RowBox[{"300", "/", 
+     RowBox[{"(", 
+      RowBox[{"coolantBaseCoolingReq", "*", "coolantTubeConductivity"}], 
+      ")"}]}]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"lpSteamTotalRate", "=", "exhaustSteamTotalRate"}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{"\"\<LP Steam -> Condensate Water\>\"", ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"lqSteamTotalRate", "=", 
+   RowBox[{"lpSteamTotalRate", "*", "2"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"noLqSteamCondenserContacts", "=", 
+   RowBox[{"lqSteamTotalRate", "*", 
+    RowBox[{"20", "/", 
+     RowBox[{"(", 
+      RowBox[{"1000", "*", "lqSteamCondenserConductivity", "*", 
+       RowBox[{"(", 
+        RowBox[{"1", "+", 
+         RowBox[{"Log", "[", 
+          RowBox[{"350", "/", "lqSteamCondenserSurroundingTemp"}], "]"}]}], 
+        ")"}]}], ")"}]}]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"condensateWaterTotalRate", "=", 
+    RowBox[{"lqSteamTotalRate", "*", 
+     RowBox[{"25", "/", "1000"}]}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{"\"\<Condensate Water <-> Hot Coolant\>\"", 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"condensateWaterTotalHeatingReq", "=", 
+   RowBox[{"condensateWaterTotalRate", "*", 
+    RowBox[{"32000", "/", 
+     RowBox[{"(", 
+      RowBox[{"1000", "*", "condensateWaterTubeConductivity"}], ")"}]}]}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"noCondensateWaterCoolantContacts", "=", 
+   RowBox[{"condensateWaterTotalHeatingReq", "/", "400"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"coolantTotalPreheatingLoopRate", "=", 
+    RowBox[{"coolantPerRecipe", "*", "noCondensateWaterCoolantContacts", "*", 
+     RowBox[{"100", "/", 
+      RowBox[{"(", 
+       RowBox[{"coolantBaseCoolingReq", "*", "coolantTubeConductivity"}], 
+       ")"}]}]}]}], ";"}], "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{"\"\<Base Power Produced\>\"", ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"power", "=", 
+   RowBox[{
+    RowBox[{"hpSteamTotalRate", "*", "16"}], "+", 
+    RowBox[{"lpSteamTotalRate", "*", "4"}]}]}], ";"}]}], "Input",
+ CellChangeTimes->{{3.765123342815712*^9, 3.765123400945822*^9}, {
+   3.7651234794249086`*^9, 3.7651234962176065`*^9}, {3.765123588056246*^9, 
+   3.7651236051604667`*^9}, {3.7651236531676764`*^9, 3.765123694560031*^9}, {
+   3.7651237435750303`*^9, 3.7651237819586573`*^9}, {3.7651238969734774`*^9, 
+   3.765123946941372*^9}, {3.765124032220471*^9, 3.76512413793887*^9}, {
+   3.7651243398018684`*^9, 3.7651243918329067`*^9}, {3.765124433848406*^9, 
+   3.765124452072157*^9}, {3.765124819189258*^9, 3.765124826397805*^9}, {
+   3.7651256093346853`*^9, 3.7651256173674107`*^9}, {3.765125738212903*^9, 
+   3.765125739580494*^9}, {3.7651264071183677`*^9, 3.7651264129183917`*^9}, {
+   3.765127064608314*^9, 3.765127087816403*^9}, {3.765128729785076*^9, 
+   3.7651287342724533`*^9}, {3.765129247867962*^9, 3.765129253044628*^9}, {
+   3.765129406122973*^9, 3.7651294070989676`*^9}, {3.765129710840025*^9, 
+   3.7651297114334135`*^9}, {3.7651297416153173`*^9, 
+   3.7651297600962763`*^9}, {3.7651298322149734`*^9, 
+   3.7651299961820393`*^9}, {3.7651300526608496`*^9, 
+   3.7651301363895836`*^9}, {3.765130170987938*^9, 3.765130250642869*^9}, 
+   3.765130715448166*^9, {3.765130747383263*^9, 3.7651307528955836`*^9}, {
+   3.7651320207466965`*^9, 3.765132062011182*^9}, {3.765132111218484*^9, 
+   3.765132120138294*^9}, {3.7651323329929905`*^9, 3.7651323587045*^9}, {
+   3.765132535270212*^9, 3.7651325604382815`*^9}, {3.7651328071082277`*^9, 
+   3.76513286833115*^9}, {3.7651329057146344`*^9, 3.7651329416747217`*^9}, {
+   3.765132998258424*^9, 3.765133074009323*^9}, {3.7651337538191724`*^9, 
+   3.765133873330041*^9}, {3.765134212240893*^9, 3.7651342130230865`*^9}, {
+   3.7651365239366255`*^9, 3.7651365497370434`*^9}, {3.765136676680255*^9, 
+   3.7651366866959352`*^9}, {3.765136755966566*^9, 3.765136780534256*^9}, {
+   3.7651368245339212`*^9, 3.765136825142295*^9}, 3.765136925118291*^9, {
+   3.765137165699421*^9, 3.7651371657553635`*^9}, {3.7651372306345186`*^9, 
+   3.765137234354686*^9}, {3.765137282234356*^9, 3.76513728744199*^9}, {
+   3.765137327882325*^9, 3.7651373298492975`*^9}, {3.783171522778652*^9, 
+   3.7831715733025885`*^9}, {3.7831717222689085`*^9, 
+   3.7831717463733463`*^9}, {3.7831729604328585`*^9, 
+   3.7831729607041283`*^9}, {3.783333700322302*^9, 3.783333712141684*^9}, 
+   3.78333534970865*^9, {3.783335405900037*^9, 3.783335424586134*^9}}]
+},
+WindowSize->{1920, 997},
+WindowMargins->{{-8, Automatic}, {Automatic, -8}},
+FrontEndVersion->"10.2 for Microsoft Windows (64-bit) (July 7, 2015)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 9720, 220, 1012, "Input"]
+}
+]
+*)
+
+(* End of internal cache information *)

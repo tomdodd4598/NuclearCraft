@@ -1,0 +1,682 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 10.2' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     31494,        673]
+NotebookOptionsPosition[     31133,        656]
+NotebookOutlinePosition[     31475,        671]
+CellTagsIndexPosition[     31432,        668]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"waterBaseCoolingProvided", ":=", 
+   RowBox[{"If", "[", 
+    RowBox[{"preheated", ",", "800", ",", "900"}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"waterBaseHeatingRequired", ":=", 
+    RowBox[{"If", "[", 
+     RowBox[{"preheated", ",", "16000", ",", "32000"}], "]"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"closedLoopInt", ":=", 
+    RowBox[{"If", "[", 
+     RowBox[{"closedLoop", ",", "1", ",", "0"}], "]"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"coolantTotalPreheatingLoopRate", ":=", 
+    RowBox[{"closedLoopInt", "*", 
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{
+       "32000", "*", "coolantPerRecipe", "*", "msrCoolingEfficiency", "*", 
+        "noHeaters", "*", "waterTubeConductivity"}], ")"}], "/", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{
+        "condensateWaterTubeConductivity", "*", "coolantTubeConductivity", 
+         "*", "waterBaseCoolingProvided", "*", "waterBaseHeatingRequired"}], 
+        "+", 
+        RowBox[{"640000", "*", "waterTubeConductivity"}]}], ")"}]}]}]}], 
+   ";"}], "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"coolantTotalPrimaryRate", ":=", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"coolantPerRecipe", "/", "20"}], "*", "msrCoolingEfficiency", 
+     "*", "noHeaters"}], "-", "coolantTotalPreheatingLoopRate"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"coolantBaseCoolingReq", ":=", 
+   RowBox[{
+   "coolantHeatMult", "*", "msrBaseCoolingRate", "*", 
+    "coolantTubeConductivity"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"coolantTotalCoolingReq", ":=", 
+   RowBox[{"coolantTotalPrimaryRate", "*", 
+    RowBox[{"coolantBaseCoolingReq", "/", "coolantPerRecipe"}]}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"noCoolantWaterContacts", ":=", 
+   RowBox[{"coolantTotalCoolingReq", "/", "waterBaseCoolingProvided"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"waterTotalRate", ":=", 
+   RowBox[{
+   "200", "*", "noCoolantWaterContacts", "*", "waterTubeConductivity", "*", 
+    RowBox[{"400", "/", "waterBaseHeatingRequired"}]}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"hpSteamTotalRate", ":=", 
+    RowBox[{"waterTotalRate", "*", 
+     RowBox[{"1000", "/", "200"}]}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"exhaustSteamTotalRate", ":=", 
+   RowBox[{"hpSteamTotalRate", "*", "4"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"noExhaustSteamCondenserContacts", ":=", 
+   RowBox[{"exhaustSteamTotalRate", "*", 
+    RowBox[{"40", "/", 
+     RowBox[{"(", 
+      RowBox[{"1000", "*", "exhaustSteamCondenserConductivity", "*", 
+       RowBox[{"(", 
+        RowBox[{"1", "+", 
+         RowBox[{"Log", "[", 
+          RowBox[{"500", "/", "exhaustSteamCondenserSurroundingTemp"}], 
+          "]"}]}], ")"}]}], ")"}]}]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"condensateWaterTotalRate", ":=", 
+    RowBox[{"exhaustSteamTotalRate", "*", 
+     RowBox[{"50", "/", "1000"}]}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"condensateWaterTotalHeatingReq", ":=", 
+   RowBox[{"closedLoopInt", "*", "condensateWaterTotalRate", "*", 
+    RowBox[{"32000", "/", 
+     RowBox[{"(", 
+      RowBox[{"1000", "*", "condensateWaterTubeConductivity"}], ")"}]}]}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"noCondensateWaterCoolantContacts", ":=", 
+   RowBox[{"condensateWaterTotalHeatingReq", "/", "400"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+  "\"\<coolantTotalPreheatingLoopRate:=coolantPerRecipe*\
+noCondensateWaterCoolantContacts*100/(coolantBaseCoolingReq*\
+coolantTubeConductivity)\>\"", ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"power", ":=", 
+   RowBox[{"hpSteamTotalRate", "*", "16"}]}], ";"}]}], "Input",
+ CellChangeTimes->{{3.7651351177017984`*^9, 3.765135119726712*^9}, {
+   3.783170341704544*^9, 3.783170405736297*^9}, {3.7831704827151656`*^9, 
+   3.7831705050414753`*^9}, {3.7831705708287*^9, 3.7831705892654305`*^9}, {
+   3.783170619852707*^9, 3.7831706690672073`*^9}, {3.7831707378939753`*^9, 
+   3.7831709270913706`*^9}, {3.7831710485977955`*^9, 
+   3.7831710579573803`*^9}, {3.7831711052448196`*^9, 
+   3.7831711624131413`*^9}, {3.7831712215320787`*^9, 
+   3.7831712231812515`*^9}, {3.783171264916211*^9, 3.7831712654268723`*^9}, {
+   3.78317130303758*^9, 3.7831713053090687`*^9}, {3.783171339515272*^9, 
+   3.7831713418702173`*^9}, {3.7831713738610044`*^9, 3.783171374541187*^9}, {
+   3.7831714311501822`*^9, 3.783171433173257*^9}, {3.7831717884874244`*^9, 
+   3.7831717933499403`*^9}, {3.783172408836879*^9, 3.7831724099346986`*^9}, {
+   3.7831725044710197`*^9, 3.7831725188062305`*^9}, {3.7831725510389185`*^9, 
+   3.783172741039476*^9}, {3.7831727838530474`*^9, 3.7831728263135986`*^9}, {
+   3.7831729081565037`*^9, 3.783172942949564*^9}, {3.78317297941115*^9, 
+   3.78317297951683*^9}, {3.783173038569081*^9, 3.783173177775113*^9}, {
+   3.7831791613464813`*^9, 3.7831792385850735`*^9}, {3.7831792801148567`*^9, 
+   3.7831793595324655`*^9}, {3.783179429188079*^9, 3.783179450130881*^9}, {
+   3.7831794862464924`*^9, 3.783179502346571*^9}, {3.783179886714965*^9, 
+   3.783179914123766*^9}, 3.7831803523500013`*^9, {3.7831806861869526`*^9, 
+   3.7831807032778893`*^9}, {3.7831809087346945`*^9, 3.7831809178532915`*^9}, 
+   3.7831809671903725`*^9, {3.783183259031734*^9, 3.783183259895258*^9}, {
+   3.783183423938554*^9, 3.7831834626343174`*^9}, {3.783183502442567*^9, 
+   3.783183535816432*^9}, {3.7832467324041657`*^9, 3.783246734514223*^9}, {
+   3.7832467754066954`*^9, 3.7832467769476023`*^9}, {3.783246810094239*^9, 
+   3.7832468370279703`*^9}, {3.7832478101808424`*^9, 
+   3.7832478601931906`*^9}, {3.783248086651658*^9, 3.7832480887570286`*^9}, {
+   3.7832481772525673`*^9, 3.783248234934473*^9}, {3.783248435214283*^9, 
+   3.7832484605325994`*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"Manipulate", "[", 
+   RowBox[{
+    RowBox[{"\"\<Hot Coolant <-> Water Contacts: \>\"", "<>", 
+     RowBox[{"ToString", "[", 
+      RowBox[{"N", "[", "noCoolantWaterContactsVar", "]"}], "]"}], "<>", 
+     "\"\<\\n\>\"", "<>", 
+     "\"\<Hot Coolant <-> Water: Hot Coolant Input Rate: \>\"", "<>", 
+     RowBox[{"ToString", "[", 
+      RowBox[{"N", "[", "coolantTotalPrimaryRateVar", "]"}], "]"}], "<>", 
+     "\"\< mB/t\>\"", "<>", "\"\<\\n\>\"", "<>", 
+     "\"\<Hot Coolant <-> Water: Water Input Rate: \>\"", "<>", 
+     RowBox[{"ToString", "[", 
+      RowBox[{"N", "[", "waterTotalRateVar", "]"}], "]"}], "<>", 
+     "\"\< mB/t\>\"", "<>", "\"\<\\n\>\"", "<>", 
+     "\"\<Hot Coolant <-> Water: HP Steam Output Rate: \>\"", "<>", 
+     RowBox[{"ToString", "[", 
+      RowBox[{"N", "[", "hpSteamTotalRateVar", "]"}], "]"}], "<>", 
+     "\"\< mB/t\>\"", "<>", "\"\<\\n\>\"", "<>", "\"\<\\n\>\"", "<>", 
+     "\"\<Exhaust Steam -> Condensate Water Contacts: \>\"", "<>", 
+     RowBox[{"ToString", "[", 
+      RowBox[{"N", "[", "noExhaustSteamCondenserContactsVar", "]"}], "]"}], 
+     "<>", "\"\<\\n\>\"", "<>", 
+     "\"\<Exhaust Steam -> Condensate Water: Exhaust Steam Input Rate: \>\"", 
+     "<>", 
+     RowBox[{"ToString", "[", 
+      RowBox[{"N", "[", "exhaustSteamTotalRateVar", "]"}], "]"}], "<>", 
+     "\"\< mB/t\>\"", "<>", "\"\<\\n\>\"", "<>", 
+     "\"\<Exhaust Steam -> Condensate Water: Condensate Water Output Rate: \>\
+\"", "<>", 
+     RowBox[{"ToString", "[", 
+      RowBox[{"N", "[", "condensateWaterTotalRateVar", "]"}], "]"}], "<>", 
+     "\"\< mB/t\>\"", "<>", "\"\<\\n\>\"", "<>", "\"\<\\n\>\"", "<>", 
+     "\"\<Condensate Water <-> Hot Coolant Contacts: \>\"", "<>", 
+     RowBox[{"ToString", "[", 
+      RowBox[{"N", "[", "noCondensateWaterCoolantContactsVar", "]"}], "]"}], 
+     "<>", "\"\<\\n\>\"", "<>", 
+     "\"\<Condensate Water <-> Hot Coolant: Hot Coolant Input Rate: \>\"", "<>", 
+     RowBox[{"ToString", "[", 
+      RowBox[{"N", "[", "coolantTotalPreheatingLoopRateVar", "]"}], "]"}], 
+     "<>", "\"\< mB/t\>\"", "<>", "\"\<\\n\>\"", "<>", "\"\<\\n\>\"", "<>", 
+     "\"\<Base Power Produced: \>\"", "<>", 
+     RowBox[{"ToString", "[", 
+      RowBox[{"N", "[", "powerVar", "]"}], "]"}], "<>", "\"\< RF/t\>\""}], 
+    ",", 
+    RowBox[{"Style", "[", 
+     RowBox[{"\"\<Configurable Constants\>\"", ",", "Bold", ",", "Medium"}], 
+     "]"}], ",", 
+    RowBox[{"{", 
+     RowBox[{"{", 
+      RowBox[{
+      "coolantPerRecipe", ",", "20", ",", "\"\<Coolant Per Recipe\>\""}], 
+      "}"}], "}"}], ",", 
+    RowBox[{"{", 
+     RowBox[{"{", 
+      RowBox[{
+      "coolantHeatMult", ",", "125", ",", "\"\<Coolant Heat Multiplier\>\""}],
+       "}"}], "}"}], ",", 
+    RowBox[{"Button", "[", 
+     RowBox[{"\"\<reset configs\>\"", ",", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"coolantPerRecipe", "=", "20"}], ",", 
+        RowBox[{"coolantHeatMult", "=", "125"}]}], "}"}]}], "]"}], ",", 
+    "Delimiter", ",", 
+    RowBox[{"Style", "[", 
+     RowBox[{"\"\<Design Parameters\>\"", ",", "Bold", ",", "Medium"}], "]"}],
+     ",", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"preheated", ",", "True", ",", "\"\<Preheated Water\>\""}], 
+       "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"True", ",", "False"}], "}"}]}], "}"}], ",", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+       "closedLoop", ",", "True", ",", "\"\<Closed Water/Steam Loop\>\""}], 
+       "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"True", ",", "False"}], "}"}]}], "}"}], ",", 
+    RowBox[{"{", 
+     RowBox[{"{", 
+      RowBox[{
+      "msrBaseCoolingRate", ",", "480", ",", 
+       "\"\<MSR Coolant: Base Cooling Rate\>\""}], "}"}], "}"}], ",", 
+    RowBox[{"{", 
+     RowBox[{"{", 
+      RowBox[{
+      "msrCoolingEfficiency", ",", "1.87333", ",", 
+       "\"\<MSR Coolant: Cooling Efficiency\>\""}], "}"}], "}"}], ",", 
+    RowBox[{"{", 
+     RowBox[{"{", 
+      RowBox[{
+      "noHeaters", ",", "8", ",", "\"\<MSR Number of Coolant Heaters\>\""}], 
+      "}"}], "}"}], ",", 
+    RowBox[{"{", 
+     RowBox[{"{", 
+      RowBox[{
+      "coolantTubeConductivity", ",", "1", ",", 
+       "\"\<Coolant Exchanger Tube Conductivity\>\""}], "}"}], "}"}], ",", 
+    RowBox[{"{", 
+     RowBox[{"{", 
+      RowBox[{
+      "waterTubeConductivity", ",", "1", ",", 
+       "\"\<Water Exchanger Tube Conductivity\>\""}], "}"}], "}"}], ",", 
+    RowBox[{"{", 
+     RowBox[{"{", 
+      RowBox[{
+      "exhaustSteamCondenserConductivity", ",", "1", ",", 
+       "\"\<Exhaust Steam Condenser Tube Conductivity\>\""}], "}"}], "}"}], 
+    ",", 
+    RowBox[{"{", 
+     RowBox[{"{", 
+      RowBox[{
+      "exhaustSteamCondenserSurroundingTemp", ",", "300", ",", 
+       "\"\<Exhaust Steam Condenser Surrounding Temperature\>\""}], "}"}], 
+     "}"}], ",", 
+    RowBox[{"{", 
+     RowBox[{"{", 
+      RowBox[{
+      "condensateWaterTubeConductivity", ",", "1", ",", 
+       "\"\<Condensate Water Exchanger Tube Conductivity\>\""}], "}"}], "}"}],
+     ",", 
+    RowBox[{"Button", "[", 
+     RowBox[{"\"\<reset parameters\>\"", ",", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"preheated", "=", "True"}], ",", 
+        RowBox[{"closedLoop", "=", "True"}], ",", 
+        RowBox[{"msrBaseCoolingRate", "=", "480"}], ",", 
+        RowBox[{"msrCoolingEfficiency", "=", "1.87333"}], ",", 
+        RowBox[{"noHeaters", "=", "8"}], ",", 
+        RowBox[{"coolantTubeConductivity", "=", "1"}], ",", 
+        RowBox[{"waterTubeConductivity", "=", "1"}], ",", 
+        RowBox[{"exhaustSteamCondenserConductivity", "=", "1"}], ",", 
+        RowBox[{"exhaustSteamCondenserSurroundingTemp", "=", "300"}], ",", 
+        RowBox[{"condensateWaterTubeConductivity", "=", "1"}]}], "}"}]}], 
+     "]"}]}], "]"}], " ", "/.", 
+  RowBox[{"{", 
+   RowBox[{
+    RowBox[{
+    "noCoolantWaterContactsVar", "\[Rule]", "noCoolantWaterContacts"}], ",", 
+    RowBox[{
+    "coolantTotalPrimaryRateVar", "\[Rule]", "coolantTotalPrimaryRate"}], ",", 
+    RowBox[{"waterTotalRateVar", "\[Rule]", "waterTotalRate"}], ",", 
+    RowBox[{"hpSteamTotalRateVar", "\[Rule]", "hpSteamTotalRate"}], ",", 
+    RowBox[{
+    "noExhaustSteamCondenserContactsVar", "\[Rule]", 
+     "noExhaustSteamCondenserContacts"}], ",", 
+    RowBox[{"exhaustSteamTotalRateVar", "\[Rule]", "exhaustSteamTotalRate"}], 
+    ",", 
+    RowBox[{
+    "condensateWaterTotalRateVar", "\[Rule]", "condensateWaterTotalRate"}], 
+    ",", 
+    RowBox[{
+    "noCondensateWaterCoolantContactsVar", "\[Rule]", 
+     "noCondensateWaterCoolantContacts"}], ",", 
+    RowBox[{
+    "coolantTotalPreheatingLoopRateVar", "\[Rule]", 
+     "coolantTotalPreheatingLoopRate"}], ",", 
+    RowBox[{"powerVar", "\[Rule]", "power"}]}], "}"}]}]], "Input",
+ CellChangeTimes->{{3.783181036271867*^9, 3.7831811422960567`*^9}, {
+  3.783181178504072*^9, 3.783181393239586*^9}, {3.783181491393424*^9, 
+  3.783181626576578*^9}, {3.783182969414596*^9, 3.7831830795751247`*^9}, {
+  3.7831835795659113`*^9, 3.7831836501363564`*^9}, {3.7831837155023193`*^9, 
+  3.78318380002944*^9}, {3.783183885975668*^9, 3.7831839477350206`*^9}, {
+  3.783194678812994*^9, 3.7831946831959677`*^9}, {3.783239230901579*^9, 
+  3.7832392392579083`*^9}, {3.7832471133585353`*^9, 3.783247142855727*^9}, {
+  3.783247889116914*^9, 3.7832479293609715`*^9}}],
+
+Cell[BoxData[
+ TagBox[
+  StyleBox[
+   DynamicModuleBox[{$CellContext`closedLoop$$ = 
+    True, $CellContext`condensateWaterTubeConductivity$$ = 
+    1, $CellContext`coolantHeatMult$$ = 125, $CellContext`coolantPerRecipe$$ =
+     20, $CellContext`coolantTubeConductivity$$ = 
+    1, $CellContext`exhaustSteamCondenserConductivity$$ = 
+    1, $CellContext`exhaustSteamCondenserSurroundingTemp$$ = 
+    300, $CellContext`msrBaseCoolingRate$$ = 
+    480, $CellContext`msrCoolingEfficiency$$ = 
+    1.87333, $CellContext`noHeaters$$ = 8, $CellContext`preheated$$ = 
+    True, $CellContext`waterTubeConductivity$$ = 1, Typeset`show$$ = True, 
+    Typeset`bookmarkList$$ = {}, Typeset`bookmarkMode$$ = "Menu", 
+    Typeset`animator$$, Typeset`animvar$$ = 1, Typeset`name$$ = 
+    "\"untitled\"", Typeset`specs$$ = {{
+      Hold[
+       Style["Configurable Constants", Bold, Medium]], 
+      Manipulate`Dump`ThisIsNotAControl}, {{
+       Hold[$CellContext`coolantPerRecipe$$], 20, "Coolant Per Recipe"}}, {{
+       Hold[$CellContext`coolantHeatMult$$], 125, 
+       "Coolant Heat Multiplier"}}, {
+      Hold[
+       Button[
+       "reset configs", {$CellContext`coolantPerRecipe$$ = 
+         20, $CellContext`coolantHeatMult$$ = 125}]], 
+      Manipulate`Dump`ThisIsNotAControl}, {
+      Hold[
+       Style["Design Parameters", Bold, Medium]], 
+      Manipulate`Dump`ThisIsNotAControl}, {{
+       Hold[$CellContext`preheated$$], True, "Preheated Water"}, {
+      True, False}}, {{
+       Hold[$CellContext`closedLoop$$], True, "Closed Water/Steam Loop"}, {
+      True, False}}, {{
+       Hold[$CellContext`msrBaseCoolingRate$$], 480, 
+       "MSR Coolant: Base Cooling Rate"}}, {{
+       Hold[$CellContext`msrCoolingEfficiency$$], 1.87333, 
+       "MSR Coolant: Cooling Efficiency"}}, {{
+       Hold[$CellContext`noHeaters$$], 8, "MSR Number of Coolant Heaters"}}, {{
+       Hold[$CellContext`coolantTubeConductivity$$], 1, 
+       "Coolant Exchanger Tube Conductivity"}}, {{
+       Hold[$CellContext`waterTubeConductivity$$], 1, 
+       "Water Exchanger Tube Conductivity"}}, {{
+       Hold[$CellContext`exhaustSteamCondenserConductivity$$], 1, 
+       "Exhaust Steam Condenser Tube Conductivity"}}, {{
+       Hold[$CellContext`exhaustSteamCondenserSurroundingTemp$$], 300, 
+       "Exhaust Steam Condenser Surrounding Temperature"}}, {{
+       Hold[$CellContext`condensateWaterTubeConductivity$$], 1, 
+       "Condensate Water Exchanger Tube Conductivity"}}, {
+      Hold[
+       Button[
+       "reset parameters", {$CellContext`preheated$$ = 
+         True, $CellContext`closedLoop$$ = 
+         True, $CellContext`msrBaseCoolingRate$$ = 
+         480, $CellContext`msrCoolingEfficiency$$ = 
+         1.87333, $CellContext`noHeaters$$ = 
+         8, $CellContext`coolantTubeConductivity$$ = 
+         1, $CellContext`waterTubeConductivity$$ = 
+         1, $CellContext`exhaustSteamCondenserConductivity$$ = 
+         1, $CellContext`exhaustSteamCondenserSurroundingTemp$$ = 
+         300, $CellContext`condensateWaterTubeConductivity$$ = 1}]], 
+      Manipulate`Dump`ThisIsNotAControl}}, Typeset`size$$ = {
+    617., {244., 12.}}, Typeset`update$$ = 0, Typeset`initDone$$, 
+    Typeset`skipInitDone$$ = True, $CellContext`preheated$735$$ = 
+    False, $CellContext`closedLoop$736$$ = False}, 
+    DynamicBox[Manipulate`ManipulateBoxes[
+     1, StandardForm, 
+      "Variables" :> {$CellContext`closedLoop$$ = 
+        True, $CellContext`condensateWaterTubeConductivity$$ = 
+        1, $CellContext`coolantHeatMult$$ = 
+        125, $CellContext`coolantPerRecipe$$ = 
+        20, $CellContext`coolantTubeConductivity$$ = 
+        1, $CellContext`exhaustSteamCondenserConductivity$$ = 
+        1, $CellContext`exhaustSteamCondenserSurroundingTemp$$ = 
+        300, $CellContext`msrBaseCoolingRate$$ = 
+        480, $CellContext`msrCoolingEfficiency$$ = 
+        1.87333, $CellContext`noHeaters$$ = 8, $CellContext`preheated$$ = 
+        True, $CellContext`waterTubeConductivity$$ = 1}, 
+      "ControllerVariables" :> {
+        Hold[$CellContext`preheated$$, $CellContext`preheated$735$$, False], 
+        Hold[$CellContext`closedLoop$$, $CellContext`closedLoop$736$$, 
+         False]}, 
+      "OtherVariables" :> {
+       Typeset`show$$, Typeset`bookmarkList$$, Typeset`bookmarkMode$$, 
+        Typeset`animator$$, Typeset`animvar$$, Typeset`name$$, 
+        Typeset`specs$$, Typeset`size$$, Typeset`update$$, Typeset`initDone$$,
+         Typeset`skipInitDone$$}, "Body" :> 
+      StringJoin["Hot Coolant <-> Water Contacts: ", 
+        ToString[
+         N[$CellContext`coolantHeatMult$$ \
+$CellContext`coolantPerRecipe$$^(-1) $CellContext`coolantTubeConductivity$$ \
+$CellContext`msrBaseCoolingRate$$ 
+          If[$CellContext`preheated$$, 800, 900]^(-1) (
+           Rational[
+             1, 20] $CellContext`coolantPerRecipe$$ \
+$CellContext`msrCoolingEfficiency$$ $CellContext`noHeaters$$ - 
+           32000 $CellContext`coolantPerRecipe$$ \
+$CellContext`msrCoolingEfficiency$$ $CellContext`noHeaters$$ \
+$CellContext`waterTubeConductivity$$ If[$CellContext`closedLoop$$, 1, 0]/(
+           640000 $CellContext`waterTubeConductivity$$ + \
+$CellContext`condensateWaterTubeConductivity$$ \
+$CellContext`coolantTubeConductivity$$ If[$CellContext`preheated$$, 800, 900] 
+            If[$CellContext`preheated$$, 16000, 32000]))]], "\n", 
+        "Hot Coolant <-> Water: Hot Coolant Input Rate: ", 
+        ToString[
+         N[
+         Rational[
+            1, 20] $CellContext`coolantPerRecipe$$ \
+$CellContext`msrCoolingEfficiency$$ $CellContext`noHeaters$$ - 
+          32000 $CellContext`coolantPerRecipe$$ \
+$CellContext`msrCoolingEfficiency$$ $CellContext`noHeaters$$ \
+$CellContext`waterTubeConductivity$$ If[$CellContext`closedLoop$$, 1, 0]/(
+          640000 $CellContext`waterTubeConductivity$$ + \
+$CellContext`condensateWaterTubeConductivity$$ \
+$CellContext`coolantTubeConductivity$$ If[$CellContext`preheated$$, 800, 900] 
+           If[$CellContext`preheated$$, 16000, 32000])]], " mB/t", "\n", 
+        "Hot Coolant <-> Water: Water Input Rate: ", 
+        ToString[
+         N[
+         80000 $CellContext`coolantHeatMult$$ \
+$CellContext`coolantPerRecipe$$^(-1) $CellContext`coolantTubeConductivity$$ \
+$CellContext`msrBaseCoolingRate$$ $CellContext`waterTubeConductivity$$ 
+          If[$CellContext`preheated$$, 800, 900]^(-1) 
+          If[$CellContext`preheated$$, 16000, 32000]^(-1) (
+           Rational[
+             1, 20] $CellContext`coolantPerRecipe$$ \
+$CellContext`msrCoolingEfficiency$$ $CellContext`noHeaters$$ - 
+           32000 $CellContext`coolantPerRecipe$$ \
+$CellContext`msrCoolingEfficiency$$ $CellContext`noHeaters$$ \
+$CellContext`waterTubeConductivity$$ If[$CellContext`closedLoop$$, 1, 0]/(
+           640000 $CellContext`waterTubeConductivity$$ + \
+$CellContext`condensateWaterTubeConductivity$$ \
+$CellContext`coolantTubeConductivity$$ If[$CellContext`preheated$$, 800, 900] 
+            If[$CellContext`preheated$$, 16000, 32000]))]], " mB/t", "\n", 
+        "Hot Coolant <-> Water: HP Steam Output Rate: ", 
+        ToString[
+         N[
+         400000 $CellContext`coolantHeatMult$$ \
+$CellContext`coolantPerRecipe$$^(-1) $CellContext`coolantTubeConductivity$$ \
+$CellContext`msrBaseCoolingRate$$ $CellContext`waterTubeConductivity$$ 
+          If[$CellContext`preheated$$, 800, 900]^(-1) 
+          If[$CellContext`preheated$$, 16000, 32000]^(-1) (
+           Rational[
+             1, 20] $CellContext`coolantPerRecipe$$ \
+$CellContext`msrCoolingEfficiency$$ $CellContext`noHeaters$$ - 
+           32000 $CellContext`coolantPerRecipe$$ \
+$CellContext`msrCoolingEfficiency$$ $CellContext`noHeaters$$ \
+$CellContext`waterTubeConductivity$$ If[$CellContext`closedLoop$$, 1, 0]/(
+           640000 $CellContext`waterTubeConductivity$$ + \
+$CellContext`condensateWaterTubeConductivity$$ \
+$CellContext`coolantTubeConductivity$$ If[$CellContext`preheated$$, 800, 900] 
+            If[$CellContext`preheated$$, 16000, 32000]))]], " mB/t", "\n", 
+        "\n", "Exhaust Steam -> Condensate Water Contacts: ", 
+        ToString[
+         N[
+         64000 $CellContext`coolantHeatMult$$ \
+$CellContext`coolantPerRecipe$$^(-1) $CellContext`coolantTubeConductivity$$ \
+$CellContext`exhaustSteamCondenserConductivity$$^(-1) \
+$CellContext`msrBaseCoolingRate$$ $CellContext`waterTubeConductivity$$ 
+          If[$CellContext`preheated$$, 800, 900]^(-1) 
+          If[$CellContext`preheated$$, 16000, 32000]^(-1) (
+           Rational[
+             1, 20] $CellContext`coolantPerRecipe$$ \
+$CellContext`msrCoolingEfficiency$$ $CellContext`noHeaters$$ - 
+           32000 $CellContext`coolantPerRecipe$$ \
+$CellContext`msrCoolingEfficiency$$ $CellContext`noHeaters$$ \
+$CellContext`waterTubeConductivity$$ If[$CellContext`closedLoop$$, 1, 0]/(
+           640000 $CellContext`waterTubeConductivity$$ + \
+$CellContext`condensateWaterTubeConductivity$$ \
+$CellContext`coolantTubeConductivity$$ If[$CellContext`preheated$$, 800, 900] 
+            If[$CellContext`preheated$$, 16000, 32000]))/(1 + 
+          Log[500/$CellContext`exhaustSteamCondenserSurroundingTemp$$])]], 
+        "\n", "Exhaust Steam -> Condensate Water: Exhaust Steam Input Rate: ", 
+        ToString[
+         N[
+         1600000 $CellContext`coolantHeatMult$$ \
+$CellContext`coolantPerRecipe$$^(-1) $CellContext`coolantTubeConductivity$$ \
+$CellContext`msrBaseCoolingRate$$ $CellContext`waterTubeConductivity$$ 
+          If[$CellContext`preheated$$, 800, 900]^(-1) 
+          If[$CellContext`preheated$$, 16000, 32000]^(-1) (
+           Rational[
+             1, 20] $CellContext`coolantPerRecipe$$ \
+$CellContext`msrCoolingEfficiency$$ $CellContext`noHeaters$$ - 
+           32000 $CellContext`coolantPerRecipe$$ \
+$CellContext`msrCoolingEfficiency$$ $CellContext`noHeaters$$ \
+$CellContext`waterTubeConductivity$$ If[$CellContext`closedLoop$$, 1, 0]/(
+           640000 $CellContext`waterTubeConductivity$$ + \
+$CellContext`condensateWaterTubeConductivity$$ \
+$CellContext`coolantTubeConductivity$$ If[$CellContext`preheated$$, 800, 900] 
+            If[$CellContext`preheated$$, 16000, 32000]))]], " mB/t", "\n", 
+        "Exhaust Steam -> Condensate Water: Condensate Water Output Rate: ", 
+        ToString[
+         N[
+         80000 $CellContext`coolantHeatMult$$ \
+$CellContext`coolantPerRecipe$$^(-1) $CellContext`coolantTubeConductivity$$ \
+$CellContext`msrBaseCoolingRate$$ $CellContext`waterTubeConductivity$$ 
+          If[$CellContext`preheated$$, 800, 900]^(-1) 
+          If[$CellContext`preheated$$, 16000, 32000]^(-1) (
+           Rational[
+             1, 20] $CellContext`coolantPerRecipe$$ \
+$CellContext`msrCoolingEfficiency$$ $CellContext`noHeaters$$ - 
+           32000 $CellContext`coolantPerRecipe$$ \
+$CellContext`msrCoolingEfficiency$$ $CellContext`noHeaters$$ \
+$CellContext`waterTubeConductivity$$ If[$CellContext`closedLoop$$, 1, 0]/(
+           640000 $CellContext`waterTubeConductivity$$ + \
+$CellContext`condensateWaterTubeConductivity$$ \
+$CellContext`coolantTubeConductivity$$ If[$CellContext`preheated$$, 800, 900] 
+            If[$CellContext`preheated$$, 16000, 32000]))]], " mB/t", "\n", 
+        "\n", "Condensate Water <-> Hot Coolant Contacts: ", 
+        ToString[
+         N[
+         6400 $CellContext`condensateWaterTubeConductivity$$^(-1) \
+$CellContext`coolantHeatMult$$ $CellContext`coolantPerRecipe$$^(-1) \
+$CellContext`coolantTubeConductivity$$ $CellContext`msrBaseCoolingRate$$ \
+$CellContext`waterTubeConductivity$$ If[$CellContext`closedLoop$$, 1, 0] 
+          If[$CellContext`preheated$$, 800, 900]^(-1) 
+          If[$CellContext`preheated$$, 16000, 32000]^(-1) (
+           Rational[
+             1, 20] $CellContext`coolantPerRecipe$$ \
+$CellContext`msrCoolingEfficiency$$ $CellContext`noHeaters$$ - 
+           32000 $CellContext`coolantPerRecipe$$ \
+$CellContext`msrCoolingEfficiency$$ $CellContext`noHeaters$$ \
+$CellContext`waterTubeConductivity$$ If[$CellContext`closedLoop$$, 1, 0]/(
+           640000 $CellContext`waterTubeConductivity$$ + \
+$CellContext`condensateWaterTubeConductivity$$ \
+$CellContext`coolantTubeConductivity$$ If[$CellContext`preheated$$, 800, 900] 
+            If[$CellContext`preheated$$, 16000, 32000]))]], "\n", 
+        "Condensate Water <-> Hot Coolant: Hot Coolant Input Rate: ", 
+        ToString[
+         N[
+         32000 $CellContext`coolantPerRecipe$$ \
+$CellContext`msrCoolingEfficiency$$ $CellContext`noHeaters$$ \
+$CellContext`waterTubeConductivity$$ If[$CellContext`closedLoop$$, 1, 0]/(
+          640000 $CellContext`waterTubeConductivity$$ + \
+$CellContext`condensateWaterTubeConductivity$$ \
+$CellContext`coolantTubeConductivity$$ If[$CellContext`preheated$$, 800, 900] 
+           If[$CellContext`preheated$$, 16000, 32000])]], " mB/t", "\n", "\n",
+         "Base Power Produced: ", 
+        ToString[
+         N[
+         6400000 $CellContext`coolantHeatMult$$ \
+$CellContext`coolantPerRecipe$$^(-1) $CellContext`coolantTubeConductivity$$ \
+$CellContext`msrBaseCoolingRate$$ $CellContext`waterTubeConductivity$$ 
+          If[$CellContext`preheated$$, 800, 900]^(-1) 
+          If[$CellContext`preheated$$, 16000, 32000]^(-1) (
+           Rational[
+             1, 20] $CellContext`coolantPerRecipe$$ \
+$CellContext`msrCoolingEfficiency$$ $CellContext`noHeaters$$ - 
+           32000 $CellContext`coolantPerRecipe$$ \
+$CellContext`msrCoolingEfficiency$$ $CellContext`noHeaters$$ \
+$CellContext`waterTubeConductivity$$ If[$CellContext`closedLoop$$, 1, 0]/(
+           640000 $CellContext`waterTubeConductivity$$ + \
+$CellContext`condensateWaterTubeConductivity$$ \
+$CellContext`coolantTubeConductivity$$ If[$CellContext`preheated$$, 800, 900] 
+            If[$CellContext`preheated$$, 16000, 32000]))]], " RF/t"], 
+      "Specifications" :> {
+        Style[
+        "Configurable Constants", Bold, 
+         Medium], {{$CellContext`coolantPerRecipe$$, 20, 
+          "Coolant Per Recipe"}}, {{$CellContext`coolantHeatMult$$, 125, 
+          "Coolant Heat Multiplier"}}, 
+        Button[
+        "reset configs", {$CellContext`coolantPerRecipe$$ = 
+          20, $CellContext`coolantHeatMult$$ = 125}], Delimiter, 
+        Style[
+        "Design Parameters", Bold, 
+         Medium], {{$CellContext`preheated$$, True, "Preheated Water"}, {
+         True, False}}, {{$CellContext`closedLoop$$, True, 
+          "Closed Water/Steam Loop"}, {
+         True, False}}, {{$CellContext`msrBaseCoolingRate$$, 480, 
+          "MSR Coolant: Base Cooling Rate"}}, \
+{{$CellContext`msrCoolingEfficiency$$, 1.87333, 
+          "MSR Coolant: Cooling Efficiency"}}, {{$CellContext`noHeaters$$, 8, 
+          "MSR Number of Coolant Heaters"}}, \
+{{$CellContext`coolantTubeConductivity$$, 1, 
+          "Coolant Exchanger Tube Conductivity"}}, \
+{{$CellContext`waterTubeConductivity$$, 1, 
+          "Water Exchanger Tube Conductivity"}}, \
+{{$CellContext`exhaustSteamCondenserConductivity$$, 1, 
+          "Exhaust Steam Condenser Tube Conductivity"}}, \
+{{$CellContext`exhaustSteamCondenserSurroundingTemp$$, 300, 
+          "Exhaust Steam Condenser Surrounding Temperature"}}, \
+{{$CellContext`condensateWaterTubeConductivity$$, 1, 
+          "Condensate Water Exchanger Tube Conductivity"}}, 
+        Button[
+        "reset parameters", {$CellContext`preheated$$ = 
+          True, $CellContext`closedLoop$$ = 
+          True, $CellContext`msrBaseCoolingRate$$ = 
+          480, $CellContext`msrCoolingEfficiency$$ = 
+          1.87333, $CellContext`noHeaters$$ = 
+          8, $CellContext`coolantTubeConductivity$$ = 
+          1, $CellContext`waterTubeConductivity$$ = 
+          1, $CellContext`exhaustSteamCondenserConductivity$$ = 
+          1, $CellContext`exhaustSteamCondenserSurroundingTemp$$ = 
+          300, $CellContext`condensateWaterTubeConductivity$$ = 1}]}, 
+      "Options" :> {}, "DefaultOptions" :> {}],
+     ImageSizeCache->{1160., {194., 200.}},
+     SingleEvaluation->True],
+    Deinitialization:>None,
+    DynamicModuleValues:>{},
+    SynchronousInitialization->True,
+    UndoTrackedVariables:>{Typeset`show$$, Typeset`bookmarkMode$$},
+    UnsavedVariables:>{Typeset`initDone$$},
+    UntrackedVariables:>{Typeset`size$$}], "Manipulate",
+   Deployed->True,
+   StripOnInput->False],
+  Manipulate`InterpretManipulate[1]]], "Output",
+ CellChangeTimes->{
+  3.78318070811895*^9, 3.783180750257595*^9, 3.7831809206977167`*^9, 
+   3.7831809718384*^9, {3.783181396490447*^9, 3.7831814254839177`*^9}, {
+   3.7831814963326364`*^9, 3.783181554139702*^9}, {3.783181610230861*^9, 
+   3.7831816427363567`*^9}, {3.78318304047892*^9, 3.7831830801346283`*^9}, {
+   3.7831836254359813`*^9, 3.783183650743729*^9}, {3.7831837189602966`*^9, 
+   3.7831838025716944`*^9}, {3.7831838916966286`*^9, 
+   3.7831839762732162`*^9}, {3.7831946844113207`*^9, 3.783194690576931*^9}, {
+   3.783199035542819*^9, 3.783199040446911*^9}, {3.783239247505484*^9, 
+   3.7832392519050055`*^9}, 3.783244638521494*^9, 3.783244746793538*^9, 
+   3.7832449393377714`*^9, {3.7832471485126038`*^9, 3.7832471855256786`*^9}, 
+   3.783248239659845*^9, {3.7832485587784104`*^9, 3.783248579433222*^9}, {
+   3.783248648487301*^9, 3.7832486522143574`*^9}}]
+}, Open  ]]
+},
+WindowSize->{1920, 997},
+WindowMargins->{{-8, Automatic}, {Automatic, -8}},
+FrontEndVersion->"10.2 for Microsoft Windows (64-bit) (July 7, 2015)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 6083, 136, 512, "Input"],
+Cell[CellGroupData[{
+Cell[6666, 160, 7320, 172, 332, "Input"],
+Cell[13989, 334, 17128, 319, 411, "Output"]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)

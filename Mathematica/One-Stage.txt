@@ -1,0 +1,38 @@
+"Constants";
+coolantPerRecipe = 20;
+coolantHeatMult = 125;
+msrBaseCoolingRate = 480;
+msrCoolingEfficiency = 1.87333;
+noHeaters = 8;
+coolantTubeConductivity = 1;
+waterTubeConductivity = 1;
+waterBaseCoolingProvided = 800;
+waterBaseHeatingRequired = 16000;
+hpSteamTubeConductivity = 1;
+exhaustSteamCondenserConductivity = 1;
+exhaustSteamCondenserSurroundingTemp = 300;
+condensateWaterTubeConductivity = 1;
+
+"Hot Coolant Preheating Loop Rate";
+coolantTotalPreheatingLoopRate = (32000*coolantPerRecipe*msrCoolingEfficiency*noHeaters*waterTubeConductivity)/(condensateWaterTubeConductivity*coolantTubeConductivity*waterBaseCoolingProvided*waterBaseHeatingRequired + 640000*waterTubeConductivity);
+
+"Hot Coolant <-> Water";
+coolantTotalPrimaryRate = coolantPerRecipe/20*msrCoolingEfficiency*noHeaters - coolantTotalPreheatingLoopRate;
+coolantBaseCoolingReq = coolantHeatMult*msrBaseCoolingRate*coolantTubeConductivity;
+coolantTotalCoolingReq = coolantTotalPrimaryRate*coolantBaseCoolingReq/coolantPerRecipe;
+noCoolantWaterContacts = coolantTotalCoolingReq/waterBaseCoolingProvided;
+waterTotalRate = 200*noCoolantWaterContacts*waterTubeConductivity*400/waterBaseHeatingRequired;
+hpSteamTotalRate = waterTotalRate*1000/200;
+
+"HP Steam -> Condensate Water";
+exhaustSteamTotalRate = hpSteamTotalRate*4;
+noExhaustSteamCondenserContacts = exhaustSteamTotalRate*40/(1000*exhaustSteamCondenserConductivity*(1 + Log[500/exhaustSteamCondenserSurroundingTemp]));
+condensateWaterTotalRate = exhaustSteamTotalRate*50/1000;
+
+"Condensate Water <-> Hot Coolant";
+condensateWaterTotalHeatingReq = condensateWaterTotalRate*32000/(1000*condensateWaterTubeConductivity);
+noCondensateWaterCoolantContacts = condensateWaterTotalHeatingReq/400;
+coolantTotalPreheatingLoopRate = coolantPerRecipe*noCondensateWaterCoolantContacts*100/(coolantBaseCoolingReq*coolantTubeConductivity);
+
+"Power Produced";
+power = hpSteamTotalRate*16;
