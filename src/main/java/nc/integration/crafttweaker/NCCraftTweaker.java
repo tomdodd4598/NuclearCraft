@@ -1,7 +1,5 @@
 package nc.integration.crafttweaker;
 
-import java.util.Arrays;
-
 import com.google.common.collect.Lists;
 
 import crafttweaker.CraftTweakerAPI;
@@ -53,28 +51,28 @@ public class NCCraftTweaker {
 		}
 	}
 	
-	@ZenClass("mods.nuclearcraft.isotope_separator")
+	@ZenClass("mods.nuclearcraft.separator")
 	@ZenRegister
-	public static class IsotopeSeparatorHandler {
+	public static class SeparatorHandler {
 		
 		@ZenMethod
 		public static void addRecipe(IIngredient input, IIngredient output1, IIngredient output2, @Optional(valueDouble = 1D) double timeMultiplier, @Optional(valueDouble = 1D) double powerMultiplier, @Optional double processRadiation) {
-			CraftTweakerAPI.apply(new AddProcessorRecipe(NCRecipes.isotope_separator, Lists.newArrayList(input, output1, output2, timeMultiplier, powerMultiplier, processRadiation)));
+			CraftTweakerAPI.apply(new AddProcessorRecipe(NCRecipes.separator, Lists.newArrayList(input, output1, output2, timeMultiplier, powerMultiplier, processRadiation)));
 		}
 		
 		@ZenMethod
 		public static void removeRecipeWithInput(IIngredient input) {
-			CraftTweakerAPI.apply(new RemoveProcessorRecipe(NCRecipes.isotope_separator, IngredientSorption.INPUT, Lists.newArrayList(input)));
+			CraftTweakerAPI.apply(new RemoveProcessorRecipe(NCRecipes.separator, IngredientSorption.INPUT, Lists.newArrayList(input)));
 		}
 		
 		@ZenMethod
 		public static void removeRecipeWithOutput(IIngredient output1, IIngredient output2) {
-			CraftTweakerAPI.apply(new RemoveProcessorRecipe(NCRecipes.isotope_separator, IngredientSorption.OUTPUT, Lists.newArrayList(output1, output2)));
+			CraftTweakerAPI.apply(new RemoveProcessorRecipe(NCRecipes.separator, IngredientSorption.OUTPUT, Lists.newArrayList(output1, output2)));
 		}
 		
 		@ZenMethod
 		public static void removeAllRecipes() {
-			CraftTweakerAPI.apply(new RemoveAllProcessorRecipes(NCRecipes.isotope_separator));
+			CraftTweakerAPI.apply(new RemoveAllProcessorRecipes(NCRecipes.separator));
 		}
 	}
 	
@@ -108,8 +106,8 @@ public class NCCraftTweaker {
 	public static class FuelReprocessorHandler {
 		
 		@ZenMethod
-		public static void addRecipe(IIngredient input, IIngredient output1, IIngredient output2, IIngredient output3, IIngredient output4, @Optional(valueDouble = 1D) double timeMultiplier, @Optional(valueDouble = 1D) double powerMultiplier, @Optional double processRadiation) {
-			CraftTweakerAPI.apply(new AddProcessorRecipe(NCRecipes.fuel_reprocessor, Lists.newArrayList(input, output1, output2, output3, output4, timeMultiplier, powerMultiplier, processRadiation)));
+		public static void addRecipe(IIngredient input, IIngredient output1, IIngredient output2, IIngredient output3, IIngredient output4, IIngredient output5, IIngredient output6, @Optional(valueDouble = 1D) double timeMultiplier, @Optional(valueDouble = 1D) double powerMultiplier, @Optional double processRadiation) {
+			CraftTweakerAPI.apply(new AddProcessorRecipe(NCRecipes.fuel_reprocessor, Lists.newArrayList(input, output1, output2, output3, output4, output5, output6, timeMultiplier, powerMultiplier, processRadiation)));
 		}
 		
 		@ZenMethod
@@ -118,8 +116,8 @@ public class NCCraftTweaker {
 		}
 		
 		@ZenMethod
-		public static void removeRecipeWithOutput(IIngredient output1, IIngredient output2, IIngredient output3, IIngredient output4) {
-			CraftTweakerAPI.apply(new RemoveProcessorRecipe(NCRecipes.fuel_reprocessor, IngredientSorption.OUTPUT, Lists.newArrayList(output1, output2, output3, output4)));
+		public static void removeRecipeWithOutput(IIngredient output1, IIngredient output2, IIngredient output3, IIngredient output4, IIngredient output5, IIngredient output6) {
+			CraftTweakerAPI.apply(new RemoveProcessorRecipe(NCRecipes.fuel_reprocessor, IngredientSorption.OUTPUT, Lists.newArrayList(output1, output2, output3, output4, output5, output6)));
 		}
 		
 		@ZenMethod
@@ -253,28 +251,28 @@ public class NCCraftTweaker {
 		}
 	}
 	
-	@ZenClass("mods.nuclearcraft.irradiator")
+	@ZenClass("mods.nuclearcraft.assembler")
 	@ZenRegister
-	public static class IrradiatorHandler {
+	public static class AssemblerHandler {
 		
 		@ZenMethod
-		public static void addRecipe(IIngredient input1, IIngredient input2, IIngredient output1, IIngredient output2, @Optional(valueDouble = 1D) double timeMultiplier, @Optional(valueDouble = 1D) double powerMultiplier, @Optional double processRadiation) {
-			CraftTweakerAPI.apply(new AddProcessorRecipe(NCRecipes.irradiator, Lists.newArrayList(input1, input2, output1, output2, timeMultiplier, powerMultiplier, processRadiation)));
+		public static void addRecipe(IIngredient input1, IIngredient input2, IIngredient input3, IIngredient input4, IIngredient output, @Optional(valueDouble = 1D) double timeMultiplier, @Optional(valueDouble = 1D) double powerMultiplier, @Optional double processRadiation) {
+			CraftTweakerAPI.apply(new AddProcessorRecipe(NCRecipes.assembler, Lists.newArrayList(input1, input2, input3, input4, output, timeMultiplier, powerMultiplier, processRadiation)));
 		}
 		
 		@ZenMethod
-		public static void removeRecipeWithInput(IIngredient input1, IIngredient input2) {
-			CraftTweakerAPI.apply(new RemoveProcessorRecipe(NCRecipes.irradiator, IngredientSorption.INPUT, Lists.newArrayList(input1, input2)));
+		public static void removeRecipeWithInput(IIngredient input1, IIngredient input2, IIngredient input3, IIngredient input4) {
+			CraftTweakerAPI.apply(new RemoveProcessorRecipe(NCRecipes.assembler, IngredientSorption.INPUT, Lists.newArrayList(input1, input2, input3, input4)));
 		}
 		
 		@ZenMethod
-		public static void removeRecipeWithOutput(IIngredient output1, IIngredient output2) {
-			CraftTweakerAPI.apply(new RemoveProcessorRecipe(NCRecipes.irradiator, IngredientSorption.OUTPUT, Lists.newArrayList(output1, output2)));
+		public static void removeRecipeWithOutput(IIngredient output) {
+			CraftTweakerAPI.apply(new RemoveProcessorRecipe(NCRecipes.assembler, IngredientSorption.OUTPUT, Lists.newArrayList(output)));
 		}
 		
 		@ZenMethod
 		public static void removeAllRecipes() {
-			CraftTweakerAPI.apply(new RemoveAllProcessorRecipes(NCRecipes.irradiator));
+			CraftTweakerAPI.apply(new RemoveAllProcessorRecipes(NCRecipes.assembler));
 		}
 	}
 	
@@ -573,8 +571,8 @@ public class NCCraftTweaker {
 	public static class SolidFissionHandler {
 		
 		@ZenMethod
-		public static void addRecipe(IIngredient input, IIngredient output, int time, int power, double efficiency, int criticality, double radiation) {
-			CraftTweakerAPI.apply(new AddProcessorRecipe(NCRecipes.solid_fission, Lists.newArrayList(input, output, time, power, efficiency, criticality, radiation)));
+		public static void addRecipe(IIngredient input, IIngredient output, int time, int power, double efficiency, int criticality, boolean selfPriming, double radiation) {
+			CraftTweakerAPI.apply(new AddProcessorRecipe(NCRecipes.solid_fission, Lists.newArrayList(input, output, time, power, efficiency, criticality, selfPriming, radiation)));
 		}
 		
 		@ZenMethod
@@ -624,8 +622,8 @@ public class NCCraftTweaker {
 	public static class SaltFissionHandler {
 		
 		@ZenMethod
-		public static void addRecipe(IIngredient input, IIngredient output, int time, int power, double efficiency, int criticality, double radiation) {
-			CraftTweakerAPI.apply(new AddProcessorRecipe(NCRecipes.salt_fission, Lists.newArrayList(input, output, time, power, efficiency, criticality, radiation)));
+		public static void addRecipe(IIngredient input, IIngredient output, int time, int power, double efficiency, int criticality, boolean selfPriming, double radiation) {
+			CraftTweakerAPI.apply(new AddProcessorRecipe(NCRecipes.salt_fission, Lists.newArrayList(input, output, time, power, efficiency, criticality, selfPriming, radiation)));
 		}
 		
 		@ZenMethod
@@ -872,7 +870,7 @@ public class NCCraftTweaker {
 		public static void setRadiationImmunityGameStages(boolean defaultImmunity, String... stageNames) {
 			nc.radiation.RadiationHandler.default_rad_immunity = defaultImmunity;
 			nc.radiation.RadiationHandler.rad_immunity_stages = stageNames;
-			CraftTweakerAPI.logInfo("Added radiation immunity game stages " + Arrays.asList(stageNames).toString() + ", with immunity " + (defaultImmunity ? "enabled" : "disabled") + " by default");
+			CraftTweakerAPI.logInfo("Added radiation immunity game stages " + Lists.newArrayList(stageNames).toString() + ", with immunity " + (defaultImmunity ? "enabled" : "disabled") + " by default");
 		}
 	}
 	

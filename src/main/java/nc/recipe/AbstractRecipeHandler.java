@@ -325,7 +325,7 @@ public abstract class AbstractRecipeHandler<T extends IRecipe> {
 		return false;
 	}
 	
-	// Stacks
+	/* ================================== Recipe Ingredients ===================================== */
 	
 	public static OreIngredient oreStack(String oreType, int stackSize) {
 		if (!OreDictHelper.oreExists(oreType)) return null;

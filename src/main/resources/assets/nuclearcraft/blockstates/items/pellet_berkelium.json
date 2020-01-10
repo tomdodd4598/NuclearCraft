@@ -1,0 +1,30 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "nuclearcraft:item/pellet"
+	},
+	"variants": {
+		"type": {
+			"leb_248": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_berkelium/leb_248"
+				}
+			},
+			"leb_248_c": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_berkelium/leb_248_c"
+				}
+			},
+			"heb_248": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_berkelium/heb_248"
+				}
+			},
+			"heb_248_c": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_berkelium/heb_248_c"
+				}
+			}
+		}
+	}
+}

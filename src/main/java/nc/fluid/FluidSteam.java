@@ -2,7 +2,7 @@ package nc.fluid;
 
 import net.minecraft.init.SoundEvents;
 
-public class FluidSteam extends FluidBase {
+public class FluidSteam extends NCFluid {
 	
 	public FluidSteam(String fluidName) {
 		super(fluidName, false);
@@ -14,8 +14,8 @@ public class FluidSteam extends FluidBase {
 		setFillSound(SoundEvents.BLOCK_FIRE_EXTINGUISH);
 	}
 	
-	public FluidSteam(String fluidName, Integer colour, Integer temperature) {
-		super(fluidName, false, "steam", colour);
+	public FluidSteam(String fluidName, Integer color, Integer temperature) {
+		super(fluidName, false, "steam", color);
 		setDensity(-10);
 		setGaseous(true);
 		setViscosity(40);

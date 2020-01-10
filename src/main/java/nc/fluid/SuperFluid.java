@@ -1,6 +1,6 @@
 package nc.fluid;
 
-public class SuperFluid extends FluidBase {
+public class SuperFluid extends NCFluid {
 	
 	public SuperFluid(String fluidName) {
 		super(fluidName, false);

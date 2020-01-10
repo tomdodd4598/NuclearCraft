@@ -5,6 +5,7 @@ import javax.annotation.Nullable;
 import nc.block.tile.IActivatable;
 import nc.capability.radiation.source.IRadiationSource;
 import nc.capability.radiation.source.RadiationSource;
+import nc.util.NCMath;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
@@ -18,6 +19,9 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.fml.client.FMLClientHandler;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public abstract class NCTile extends TileEntity implements ITickable, ITile {
 	
@@ -233,5 +237,13 @@ public abstract class NCTile extends TileEntity implements ITickable, ITile {
 	
 	protected <T> T getCapabilityDefault(Capability<T> capability, @Nullable EnumFacing side) {
 		return super.getCapability(capability, side);
+	}
+	
+	// TESR
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public double getMaxRenderDistanceSquared() {
+		return NCMath.square(0.92D*16D*FMLClientHandler.instance().getClient().gameSettings.renderDistanceChunks);
 	}
 }

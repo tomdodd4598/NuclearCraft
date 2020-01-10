@@ -3,7 +3,6 @@ package nc.multiblock.network;
 import io.netty.buffer.ByteBuf;
 import nc.multiblock.Multiblock;
 import nc.multiblock.TileMultiblockPart;
-import nc.util.NCUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
@@ -29,8 +28,8 @@ public abstract class MultiblockUpdatePacket implements IMessage {
 	public void fromBytes(ByteBuf buf) {
 		try {
 			readMessage(buf);
-		} catch (IndexOutOfBoundsException ioe) {
-			NCUtil.getLogger().catching(ioe);
+		} catch (IndexOutOfBoundsException e) {
+			e.printStackTrace();
 			return;
 		}
 		messageValid = true;

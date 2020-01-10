@@ -6,6 +6,7 @@ import nc.block.tile.IActivatable;
 import nc.capability.radiation.source.IRadiationSource;
 import nc.capability.radiation.source.RadiationSource;
 import nc.tile.ITile;
+import nc.util.NCMath;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -18,6 +19,9 @@ import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.fml.client.FMLClientHandler;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * A base class for modded tile entities
@@ -301,4 +305,12 @@ public abstract class TileBeefBase extends TileEntity implements ITile, ITickabl
 	 * @param syncReason the reason why the synchronization is necessary
 	 */
 	protected abstract void syncDataTo(NBTTagCompound data, SyncReason syncReason);
+	
+	// TESR
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public double getMaxRenderDistanceSquared() {
+		return NCMath.square(0.92D*16D*FMLClientHandler.instance().getClient().gameSettings.renderDistanceChunks);
+	}
 }

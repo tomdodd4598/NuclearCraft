@@ -46,8 +46,6 @@ public class OreDictHandler {
 		OreDictionary.registerOre("blockBerkelium247", new ItemStack(NCBlocks.fertile_isotope, 1, 5));
 		OreDictionary.registerOre("blockCalifornium252", new ItemStack(NCBlocks.fertile_isotope, 1, 6));
 		
-		OreDictionary.registerOre("blockHeavyWater", new ItemStack(NCBlocks.heavy_water_moderator));
-		
 		OreDictionary.registerOre("ingotCopper", new ItemStack(NCItems.ingot, 1, 0));
 		OreDictionary.registerOre("ingotTin", new ItemStack(NCItems.ingot, 1, 1));
 		OreDictionary.registerOre("ingotLead", new ItemStack(NCItems.ingot, 1, 2));
@@ -151,10 +149,8 @@ public class OreDictHandler {
 		OreDictionary.registerOre("steelFrame", new ItemStack(NCItems.part, 1, 12));
 		OreDictionary.registerOre("fiberSiliconCarbide", new ItemStack(NCItems.part, 1, 13));
 		OreDictionary.registerOre("emptyHeatSink", new ItemStack(NCItems.part, 1, 14));
+		OreDictionary.registerOre("ingotPyrolyticCarbon", new ItemStack(NCItems.part, 1, 15));
 		
-		OreDictionary.registerOre("blockNeutronReflector", new ItemStack(NCBlocks.fission_reflector));
-		
-		registerIsotopeAll(NCItems.thorium, -1, "Thorium");
 		registerIsotopes(NCItems.uranium, "Uranium", 233, 235, 238);
 		registerIsotopes(NCItems.neptunium, "Neptunium", 236, 237);
 		registerIsotopes(NCItems.plutonium, "Plutonium", 238, 239, 241, 242);
@@ -163,15 +159,15 @@ public class OreDictHandler {
 		registerIsotopes(NCItems.berkelium, "Berkelium", 247, 248);
 		registerIsotopes(NCItems.californium, "Californium", 249, 250, 251, 252);
 		
-		registerFuels(NCItems.fuel_thorium, NCItems.depleted_fuel_thorium, "TBU");
-		registerFuels(NCItems.fuel_uranium, NCItems.depleted_fuel_uranium, "LEU233", "HEU233", "LEU235", "HEU235");
-		registerFuels(NCItems.fuel_neptunium, NCItems.depleted_fuel_neptunium, "LEN236", "HEN236");
-		registerFuels(NCItems.fuel_plutonium, NCItems.depleted_fuel_plutonium, "LEP239", "HEP239", "LEP241", "HEP241");
-		registerFuels(NCItems.fuel_mixed, NCItems.depleted_fuel_mixed, "MIX239", "MIX241");
-		registerFuels(NCItems.fuel_americium, NCItems.depleted_fuel_americium, "LEA242", "HEA242");
-		registerFuels(NCItems.fuel_curium, NCItems.depleted_fuel_curium, "LECm243", "HECm243", "LECm245", "HECm245", "LECm247", "HECm247");
-		registerFuels(NCItems.fuel_berkelium, NCItems.depleted_fuel_berkelium, "LEB248", "HEB248");
-		registerFuels(NCItems.fuel_californium, NCItems.depleted_fuel_californium, "LECf249", "HECf249", "LECf251", "HECf251");
+		registerFuels(NCItems.pellet_thorium, NCItems.fuel_thorium, NCItems.depleted_fuel_thorium, "TBU");
+		registerFuels(NCItems.pellet_uranium, NCItems.fuel_uranium, NCItems.depleted_fuel_uranium, "LEU233", "HEU233", "LEU235", "HEU235");
+		registerFuels(NCItems.pellet_neptunium, NCItems.fuel_neptunium, NCItems.depleted_fuel_neptunium, "LEN236", "HEN236");
+		registerFuels(NCItems.pellet_plutonium, NCItems.fuel_plutonium, NCItems.depleted_fuel_plutonium, "LEP239", "HEP239", "LEP241", "HEP241");
+		registerFuels(NCItems.pellet_mixed, NCItems.fuel_mixed, NCItems.depleted_fuel_mixed, "MIX239", "MIX241");
+		registerFuels(NCItems.pellet_americium, NCItems.fuel_americium, NCItems.depleted_fuel_americium, "LEA242", "HEA242");
+		registerFuels(NCItems.pellet_curium, NCItems.fuel_curium, NCItems.depleted_fuel_curium, "LECm243", "HECm243", "LECm245", "HECm245", "LECm247", "HECm247");
+		registerFuels(NCItems.pellet_berkelium, NCItems.fuel_berkelium, NCItems.depleted_fuel_berkelium, "LEB248", "HEB248");
+		registerFuels(NCItems.pellet_californium, NCItems.fuel_californium, NCItems.depleted_fuel_californium, "LECf249", "HECf249", "LECf251", "HECf251");
 		
 		OreDictionary.registerOre("depletedFuelIC2U", new ItemStack(NCItems.depleted_fuel_ic2, 1, 0));
 		OreDictionary.registerOre("depletedFuelIC2MOX", new ItemStack(NCItems.depleted_fuel_ic2, 1, 1));
@@ -228,16 +224,18 @@ public class OreDictHandler {
 		}
 	}
 	
-	public static void registerFuels(Item fuel, Item depleted, String... types) {
+	public static void registerFuels(Item pellet, Item fuel, Item depleted, String... types) {
 		for (int i = 0; i < types.length; i++) {
-			registerOre(fuel, 4*i, "fuel" + types[i] + "TRISO");
-			registerOre(fuel, 4*i + 1, "fuel" + types[i] + "Oxide");
-			registerOre(fuel, 4*i + 2, "fuel" + types[i] + "Nitride");
-			registerOre(fuel, 4*i + 3, "fuel" + types[i] + "ZA");
-			registerOre(depleted, 4*i, "depletedFuel" + types[i] + "TRISO");
-			registerOre(depleted, 4*i + 1, "depletedFuel" + types[i] + "Oxide");
-			registerOre(depleted, 4*i + 2, "depletedFuel" + types[i] + "Nitride");
-			registerOre(depleted, 4*i + 3, "depletedFuel" + types[i] + "ZA");
+			registerOre(pellet, 2*i, "ingot" + types[i]);
+			registerOre(pellet, 2*i + 1, "ingot" + types[i] + "Carbide");
+			registerOre(fuel, 4*i, "ingot" + types[i] + "TRISO");
+			registerOre(fuel, 4*i + 1, "ingot" + types[i] + "Oxide");
+			registerOre(fuel, 4*i + 2, "ingot" + types[i] + "Nitride");
+			registerOre(fuel, 4*i + 3, "ingot" + types[i] + "ZA");
+			registerOre(depleted, 4*i, "ingotDepleted" + types[i] + "TRISO");
+			registerOre(depleted, 4*i + 1, "ingotDepleted" + types[i] + "Oxide");
+			registerOre(depleted, 4*i + 2, "ingotDepleted" + types[i] + "Nitride");
+			registerOre(depleted, 4*i + 3, "ingotDepleted" + types[i] + "ZA");
 		}
 	}
 }

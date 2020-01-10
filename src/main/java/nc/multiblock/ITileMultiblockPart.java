@@ -1,8 +1,9 @@
 package nc.multiblock;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Set;
+
+import com.google.common.collect.Lists;
 
 import nc.recipe.ProcessorRecipe;
 import nc.recipe.ProcessorRecipeHandler;
@@ -204,7 +205,7 @@ public interface ITileMultiblockPart<MULTIBLOCK extends Multiblock> extends ITil
 	// Helper methods
 	
 	public default ProcessorRecipe blockRecipe(ProcessorRecipeHandler recipeHandler, BlockPos pos) {
-		RecipeInfo<ProcessorRecipe> recipeInfo = recipeHandler.getRecipeInfoFromInputs(Arrays.asList(ItemStackHelper.blockStateToStack(getTileWorld().getBlockState(pos))), new ArrayList<Tank>());
+		RecipeInfo<ProcessorRecipe> recipeInfo = recipeHandler.getRecipeInfoFromInputs(Lists.newArrayList(ItemStackHelper.blockStateToStack(getTileWorld().getBlockState(pos))), new ArrayList<Tank>());
 		return recipeInfo == null ? null : recipeInfo.getRecipe();
 	}
 }

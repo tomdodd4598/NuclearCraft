@@ -2,7 +2,6 @@ package nc.network.radiation;
 
 import io.netty.buffer.ByteBuf;
 import nc.capability.radiation.entity.IEntityRads;
-import nc.util.NCUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
@@ -79,8 +78,8 @@ public class PlayerRadsUpdatePacket implements IMessage {
 			radiationImmunityTime = buf.readDouble();
 			radiationImmunityStage = buf.readBoolean();
 			shouldWarn = buf.readBoolean();
-		} catch (IndexOutOfBoundsException ioe) {
-			NCUtil.getLogger().catching(ioe);
+		} catch (IndexOutOfBoundsException e) {
+			e.printStackTrace();
 			return;
 		}
 		messageValid = true;

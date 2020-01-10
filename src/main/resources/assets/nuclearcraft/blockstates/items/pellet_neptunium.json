@@ -1,0 +1,30 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "nuclearcraft:item/pellet"
+	},
+	"variants": {
+		"type": {
+			"len_236": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_neptunium/len_236"
+				}
+			},
+			"len_236_c": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_neptunium/len_236_c"
+				}
+			},
+			"hen_236": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_neptunium/hen_236"
+				}
+			},
+			"hen_236_c": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_neptunium/hen_236_c"
+				}
+			}
+		}
+	}
+}

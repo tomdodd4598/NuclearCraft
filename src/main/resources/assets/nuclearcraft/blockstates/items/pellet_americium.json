@@ -1,0 +1,30 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "nuclearcraft:item/pellet"
+	},
+	"variants": {
+		"type": {
+			"lea_242": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_americium/lea_242"
+				}
+			},
+			"lea_242_c": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_americium/lea_242_c"
+				}
+			},
+			"hea_242": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_americium/hea_242"
+				}
+			},
+			"hea_242_c": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_americium/hea_242_c"
+				}
+			}
+		}
+	}
+}

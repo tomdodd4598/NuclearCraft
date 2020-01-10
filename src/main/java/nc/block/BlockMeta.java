@@ -119,6 +119,21 @@ public abstract class BlockMeta<T extends Enum<T> & IStringSerializable & IBlock
 		}
 	}
 	
+	public static class BlockFissionReflector extends BlockMeta<MetaEnums.NeutronReflectorType> {
+		
+		public final static PropertyEnum<MetaEnums.NeutronReflectorType> TYPE = PropertyEnum.create("type", MetaEnums.NeutronReflectorType.class);
+		
+		public BlockFissionReflector() {
+			super(MetaEnums.NeutronReflectorType.class, TYPE, Material.IRON);
+			setCreativeTab(NCTabs.MULTIBLOCK);
+		}
+		
+		@Override
+		protected BlockStateContainer createBlockState() {
+			return new BlockStateContainer(this, new IProperty[] {TYPE});
+		}
+	}
+	
 	public void setMetaHarvestLevels() {
 		Iterator<T> itr = CollectionHelper.asList(values).iterator();
 		while (itr.hasNext()) {

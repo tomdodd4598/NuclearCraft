@@ -1,0 +1,26 @@
+{
+	"display": {
+		"icon": {
+			"item": "nuclearcraft:turbine_controller"
+		},
+		"title": {
+			"translate": "advancement.nuclearcraft.turbine_controller.name"
+		},
+		"description": {
+			"translate": "advancement.nuclearcraft.turbine_controller.desc"
+		}
+	},
+	"parent": "nuclearcraft:fission/solid/solid_fission_controller",
+	"criteria": {
+		"has_item": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"item": "nuclearcraft:turbine_controller"
+					}
+				]
+			}
+		}
+	}
+}

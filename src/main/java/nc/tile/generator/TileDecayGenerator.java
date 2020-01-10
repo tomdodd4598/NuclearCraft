@@ -4,9 +4,10 @@ import static nc.config.NCConfig.machine_update_rate;
 import static nc.recipe.NCRecipes.decay_generator;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+
+import com.google.common.collect.Lists;
 
 import nc.recipe.ProcessorRecipe;
 import nc.recipe.RecipeHelper;
@@ -62,7 +63,7 @@ public class TileDecayGenerator extends TileEnergy implements IInterfaceable {
 	}
 	
 	private static int maxPower() {
-		double max = 0;
+		double max = 0D;
 		List<ProcessorRecipe> recipes = decay_generator.getRecipeList();
 		for (ProcessorRecipe recipe : recipes) {
 			if (recipe == null) continue;
@@ -109,7 +110,7 @@ public class TileDecayGenerator extends TileEnergy implements IInterfaceable {
 	}
 	
 	public void refreshRecipe(EnumFacing side) {
-		List<ItemStack> input = Arrays.asList(ItemStackHelper.blockStateToStack(world.getBlockState(getPos().offset(side))));
+		List<ItemStack> input = Lists.newArrayList(ItemStackHelper.blockStateToStack(world.getBlockState(getPos().offset(side))));
 		recipes[side.getIndex()] = decay_generator.getRecipeInfoFromInputs(input, new ArrayList<Tank>());
 	}
 	

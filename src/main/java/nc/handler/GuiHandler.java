@@ -11,8 +11,8 @@ import nc.container.processor.ContainerExtractor;
 import nc.container.processor.ContainerFuelReprocessor;
 import nc.container.processor.ContainerInfuser;
 import nc.container.processor.ContainerIngotFormer;
-import nc.container.processor.ContainerIrradiator;
-import nc.container.processor.ContainerIsotopeSeparator;
+import nc.container.processor.ContainerAssembler;
+import nc.container.processor.ContainerSeparator;
 import nc.container.processor.ContainerMachineConfig;
 import nc.container.processor.ContainerManufactory;
 import nc.container.processor.ContainerMelter;
@@ -32,8 +32,8 @@ import nc.gui.processor.GuiExtractor;
 import nc.gui.processor.GuiFuelReprocessor;
 import nc.gui.processor.GuiInfuser;
 import nc.gui.processor.GuiIngotFormer;
-import nc.gui.processor.GuiIrradiator;
-import nc.gui.processor.GuiIsotopeSeparator;
+import nc.gui.processor.GuiAssembler;
+import nc.gui.processor.GuiSeparator;
 import nc.gui.processor.GuiManufactory;
 import nc.gui.processor.GuiMelter;
 import nc.gui.processor.GuiNuclearFurnace;
@@ -65,8 +65,8 @@ import nc.tile.processor.TileProcessor.Extractor;
 import nc.tile.processor.TileProcessor.FuelReprocessor;
 import nc.tile.processor.TileProcessor.Infuser;
 import nc.tile.processor.TileProcessor.IngotFormer;
-import nc.tile.processor.TileProcessor.Irradiator;
-import nc.tile.processor.TileProcessor.IsotopeSeparator;
+import nc.tile.processor.TileProcessor.Assembler;
+import nc.tile.processor.TileProcessor.Separator;
 import nc.tile.processor.TileProcessor.Manufactory;
 import nc.tile.processor.TileProcessor.Melter;
 import nc.tile.processor.TileProcessor.Pressurizer;
@@ -91,7 +91,7 @@ public class GuiHandler implements IGuiHandler {
 			case 1:
 				if (tile instanceof Manufactory) return new ContainerManufactory(player, (Manufactory) tile);
 			case 2:
-				if (tile instanceof IsotopeSeparator) return new ContainerIsotopeSeparator(player, (IsotopeSeparator) tile);
+				if (tile instanceof Separator) return new ContainerSeparator(player, (Separator) tile);
 			case 3:
 				if (tile instanceof DecayHastener) return new ContainerDecayHastener(player, (DecayHastener) tile);
 			case 4:
@@ -107,7 +107,7 @@ public class GuiHandler implements IGuiHandler {
 			case 9:
 				if (tile instanceof Electrolyzer) return new ContainerElectrolyzer(player, (Electrolyzer) tile);
 			case 10:
-				if (tile instanceof Irradiator) return new ContainerIrradiator(player, (Irradiator) tile);
+				if (tile instanceof Assembler) return new ContainerAssembler(player, (Assembler) tile);
 			case 11:
 				if (tile instanceof IngotFormer) return new ContainerIngotFormer(player, (IngotFormer) tile);
 			case 12:
@@ -139,7 +139,7 @@ public class GuiHandler implements IGuiHandler {
 			case 1001:
 				if (tile instanceof Manufactory) return new ContainerMachineConfig(player, (Manufactory) tile);
 			case 1002:
-				if (tile instanceof IsotopeSeparator) return new ContainerMachineConfig(player, (IsotopeSeparator) tile);
+				if (tile instanceof Separator) return new ContainerMachineConfig(player, (Separator) tile);
 			case 1003:
 				if (tile instanceof DecayHastener) return new ContainerMachineConfig(player, (DecayHastener) tile);
 			case 1004:
@@ -155,7 +155,7 @@ public class GuiHandler implements IGuiHandler {
 			case 1009:
 				if (tile instanceof Electrolyzer) return new ContainerMachineConfig(player, (Electrolyzer) tile);
 			case 1010:
-				if (tile instanceof Irradiator) return new ContainerMachineConfig(player, (Irradiator) tile);
+				if (tile instanceof Assembler) return new ContainerMachineConfig(player, (Assembler) tile);
 			case 1011:
 				if (tile instanceof IngotFormer) return new ContainerMachineConfig(player, (IngotFormer) tile);
 			case 1012:
@@ -190,7 +190,7 @@ public class GuiHandler implements IGuiHandler {
 			case 1:
 				if (tile instanceof Manufactory) return new GuiManufactory(player, (Manufactory) tile);
 			case 2:
-				if (tile instanceof IsotopeSeparator) return new GuiIsotopeSeparator(player, (IsotopeSeparator) tile);
+				if (tile instanceof Separator) return new GuiSeparator(player, (Separator) tile);
 			case 3:
 				if (tile instanceof DecayHastener) return new GuiDecayHastener(player, (DecayHastener) tile);
 			case 4:
@@ -206,7 +206,7 @@ public class GuiHandler implements IGuiHandler {
 			case 9:
 				if (tile instanceof Electrolyzer) return new GuiElectrolyzer(player, (Electrolyzer) tile);
 			case 10:
-				if (tile instanceof Irradiator) return new GuiIrradiator(player, (Irradiator) tile);
+				if (tile instanceof Assembler) return new GuiAssembler(player, (Assembler) tile);
 			case 11:
 				if (tile instanceof IngotFormer) return new GuiIngotFormer(player, (IngotFormer) tile);
 			case 12:
@@ -238,7 +238,7 @@ public class GuiHandler implements IGuiHandler {
 			case 1001:
 				if (tile instanceof Manufactory) return new GuiManufactory.SideConfig(player, (Manufactory) tile);
 			case 1002:
-				if (tile instanceof IsotopeSeparator) return new GuiIsotopeSeparator.SideConfig(player, (IsotopeSeparator) tile);
+				if (tile instanceof Separator) return new GuiSeparator.SideConfig(player, (Separator) tile);
 			case 1003:
 				if (tile instanceof DecayHastener) return new GuiDecayHastener.SideConfig(player, (DecayHastener) tile);
 			case 1004:
@@ -254,7 +254,7 @@ public class GuiHandler implements IGuiHandler {
 			case 1009:
 				if (tile instanceof Electrolyzer) return new GuiElectrolyzer.SideConfig(player, (Electrolyzer) tile);
 			case 1010:
-				if (tile instanceof Irradiator) return new GuiIrradiator.SideConfig(player, (Irradiator) tile);
+				if (tile instanceof Assembler) return new GuiAssembler.SideConfig(player, (Assembler) tile);
 			case 1011:
 				if (tile instanceof IngotFormer) return new GuiIngotFormer.SideConfig(player, (IngotFormer) tile);
 			case 1012:

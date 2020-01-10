@@ -4,7 +4,6 @@ import static nc.block.property.BlockProperties.FACING_ALL;
 
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.turbine.Turbine;
-import nc.multiblock.turbine.TurbineLogic;
 import nc.multiblock.turbine.block.BlockTurbineController;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -23,13 +22,8 @@ public class TileTurbineController extends TileTurbinePart implements ITurbineCo
 	}
 	
 	@Override
-	public Class<? extends TurbineLogic> getLogicClass() {
-		return TurbineLogic.class;
-	}
-	
-	@Override
-	public TurbineLogic createNewLogic(TurbineLogic oldLogic) {
-		return new TurbineLogic(oldLogic);
+	public String getLogicID() {
+		return "turbine";
 	}
 	
 	@Override

@@ -3,7 +3,6 @@ package nc.multiblock.fission.tile;
 import static nc.block.property.BlockProperties.AXIS_ALL;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.Nonnull;
@@ -56,7 +55,7 @@ public class TileFissionPort extends TileFissionPart implements ITileInventory, 
 	
 	private final @Nonnull NonNullList<ItemStack> inventoryStacks = NonNullList.<ItemStack>withSize(2, ItemStack.EMPTY);
 	
-	private @Nonnull InventoryConnection[] inventoryConnections = ITileInventory.inventoryConnectionAll(Arrays.asList(ItemSorption.IN, ItemSorption.OUT));
+	private @Nonnull InventoryConnection[] inventoryConnections = ITileInventory.inventoryConnectionAll(Lists.newArrayList(ItemSorption.IN, ItemSorption.OUT));
 	
 	private @Nonnull InventoryTileWrapper invWrapper;
 	public int inventoryStackLimit = 64;
@@ -64,7 +63,7 @@ public class TileFissionPort extends TileFissionPart implements ITileInventory, 
 	
 	private final @Nonnull List<Tank> tanks = Lists.newArrayList(new Tank(FluidStackHelper.INGOT_BLOCK_VOLUME, null), new Tank(FluidStackHelper.INGOT_BLOCK_VOLUME, null));
 	
-	private @Nonnull FluidConnection[] fluidConnections = ITileFluid.fluidConnectionAll(Arrays.asList(TankSorption.IN, TankSorption.OUT));
+	private @Nonnull FluidConnection[] fluidConnections = ITileFluid.fluidConnectionAll(Lists.newArrayList(TankSorption.IN, TankSorption.OUT));
 	
 	private @Nonnull FluidTileWrapper[] fluidSides;
 	

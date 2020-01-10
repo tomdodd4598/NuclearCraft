@@ -10,7 +10,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fluids.Fluid;
 
 public class BlockFluidMolten extends NCBlockFluid {
-
+	
 	public BlockFluidMolten(Fluid fluid) {
 		super(fluid, Material.LAVA);
 		setQuantaPerBlock(4);

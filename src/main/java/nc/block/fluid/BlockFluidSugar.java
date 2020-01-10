@@ -8,14 +8,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fluids.Fluid;
 
 public class BlockFluidSugar extends NCBlockFluid {
-
-	public BlockFluidSugar(Fluid fluid) {
-		super(fluid, Material.WATER);
-		setQuantaPerBlock(6);
-	}
 	
 	public BlockFluidSugar(FluidSugar fluid) {
 		super(fluid, Material.WATER);

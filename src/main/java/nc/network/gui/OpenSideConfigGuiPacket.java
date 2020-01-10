@@ -3,7 +3,6 @@ package nc.network.gui;
 import io.netty.buffer.ByteBuf;
 import nc.NuclearCraft;
 import nc.tile.IGui;
-import nc.util.NCUtil;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
@@ -33,8 +32,8 @@ public class OpenSideConfigGuiPacket implements IMessage {
 	public void fromBytes(ByteBuf buf) {
 		try {
 			pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
-		} catch (IndexOutOfBoundsException ioe) {
-			NCUtil.getLogger().catching(ioe);
+		} catch (IndexOutOfBoundsException e) {
+			e.printStackTrace();
 			return;
 		}
 		messageValid = true;

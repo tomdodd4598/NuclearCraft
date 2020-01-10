@@ -3,6 +3,8 @@ package nc.multiblock.fission.block;
 import static nc.block.property.BlockProperties.ACTIVE;
 import static nc.block.property.BlockProperties.FACING_ALL;
 
+import javax.annotation.Nullable;
+
 import nc.enumm.MetaEnums;
 import nc.multiblock.fission.tile.TileFissionSource;
 import net.minecraft.block.properties.PropertyEnum;
@@ -64,6 +66,11 @@ public class BlockFissionSource extends BlockMetaFissionPartBase<MetaEnums.Neutr
 		if (player == null) return false;
 		if (hand != EnumHand.MAIN_HAND || player.isSneaking()) return false;
 		return rightClickOnPart(world, pos, player, hand, facing);
+	}
+	
+	@Override
+	public boolean canConnectRedstone(IBlockState state, IBlockAccess world, BlockPos pos, @Nullable EnumFacing side) {
+		return side != null;
 	}
 	
 	public void setState(boolean isActive, TileEntity tile) {

@@ -1,0 +1,26 @@
+{
+	"display": {
+		"icon": {
+			"item": "nuclearcraft:heat_exchanger_controller"
+		},
+		"title": {
+			"translate": "advancement.nuclearcraft.heat_exchanger_controller.name"
+		},
+		"description": {
+			"translate": "advancement.nuclearcraft.heat_exchanger_controller.desc"
+		}
+	},
+	"parent": "nuclearcraft:fission/salt/salt_fission_controller",
+	"criteria": {
+		"has_item": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"item": "nuclearcraft:heat_exchanger_controller"
+					}
+				]
+			}
+		}
+	}
+}

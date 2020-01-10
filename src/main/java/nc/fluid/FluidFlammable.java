@@ -1,6 +1,6 @@
 package nc.fluid;
 
-public class FluidFlammable extends FluidBase {
+public class FluidFlammable extends NCFluid {
 	
 	public FluidFlammable(String fluidName) {
 		super(fluidName, true);
@@ -8,8 +8,8 @@ public class FluidFlammable extends FluidBase {
 		setViscosity(800);
 	}
 	
-	public FluidFlammable(String fluidName, Integer colour) {
-		super(fluidName, true, "liquid", colour);
+	public FluidFlammable(String fluidName, Integer color) {
+		super(fluidName, true, "liquid", color);
 		setDensity(800);
 		setViscosity(800);
 	}

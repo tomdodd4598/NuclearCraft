@@ -6,7 +6,7 @@ public class FluidCorium extends FluidFission {
 		super(fluidName);
 	}
 	
-	public FluidCorium(String fluidName, Integer colour) {
-		super(fluidName, colour);
+	public FluidCorium(String fluidName, Integer color) {
+		super(fluidName, color);
 	}
 }

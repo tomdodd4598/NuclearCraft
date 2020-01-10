@@ -13,15 +13,10 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fluids.Fluid;
 
 public class BlockFluidHotGas extends NCBlockFluid {
 	
 	private static final Material GAS = new MaterialLiquid(MapColor.AIR);
-
-	public BlockFluidHotGas(Fluid fluid) {
-		super(fluid, GAS);
-	}
 	
 	public BlockFluidHotGas(FluidHotGas fluid) {
 		super(fluid, GAS);

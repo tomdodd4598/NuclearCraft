@@ -17,7 +17,8 @@
 			"conditions": {
 				"items": [
 					{
-						"item": "nuclearcraft:radaway"
+						"item": "nuclearcraft:radaway",
+						"item": "nuclearcraft:radaway_slow"
 					}
 				]
 			}

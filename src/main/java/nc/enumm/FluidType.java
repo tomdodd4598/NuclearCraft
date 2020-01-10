@@ -59,8 +59,8 @@ public enum FluidType {
 	HOT_COOLANT(FluidHotCoolant.class, BlockFluidHotCoolant.class),
 	CRYOTHEUM(FluidCryotheum.class, BlockFluidCryotheum.class);
 	
-	private Class<? extends Fluid> fluidClass;
-	private Class<? extends NCBlockFluid> blockClass;
+	private final Class<? extends Fluid> fluidClass;
+	private final Class<? extends NCBlockFluid> blockClass;
 	
 	private <T extends Fluid, V extends NCBlockFluid> FluidType(Class<T> fluidClass, Class<V> blockClass) {
 		this.fluidClass = fluidClass;

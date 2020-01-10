@@ -13,8 +13,8 @@ public class FissionHeatingRecipes extends ProcessorRecipeHandler {
 	
 	@Override
 	public void addRecipes() {
-		addRecipe(fluidStackList(Lists.newArrayList("water", "condensate_water"), 1), fluidStack("high_pressure_steam", 4), 128);
-		addRecipe(fluidStack("preheated_water", 1), fluidStack("high_pressure_steam", 4), 64);
+		addRecipe(fluidStackList(Lists.newArrayList("water", "condensate_water"), 1), fluidStack("high_pressure_steam", 4), 64);
+		addRecipe(fluidStack("preheated_water", 1), fluidStack("high_pressure_steam", 4), 32);
 		addRecipe(fluidStack("ic2coolant", 1), fluidStack("ic2hot_coolant", 1), 10*NCConfig.rf_per_eu);
 	}	
 }

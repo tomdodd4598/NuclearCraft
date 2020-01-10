@@ -159,7 +159,7 @@ public class ProcessorRecipe implements IRecipe {
 		else return 0D;
 	}
 	
-	// Solid Fission
+	// Fission
 	
 	public int getFissionFuelTime() {
 		if (extras.isEmpty()) return 1;
@@ -185,18 +185,24 @@ public class ProcessorRecipe implements IRecipe {
 		else return 1;
 	}
 	
+	public boolean getFissionFuelSelfPriming() {
+		if (extras.size() < 5) return false;
+		else if (extras.get(4) instanceof Boolean) return (boolean) extras.get(4);
+		else return false;
+	}
+	
 	public double getFissionFuelRadiation() {
-		if (extras.size() < 5) return 0D;
-		else if (extras.get(4) instanceof Double) return (double) extras.get(4);
+		if (extras.size() < 6) return 0D;
+		else if (extras.get(5) instanceof Double) return (double) extras.get(5);
 		else return 0D;
 	}
 	
 	// Fission Heating
 	
 	public int getFissionHeatingHeatPerInputMB() {
-		if (extras.isEmpty()) return 128;
+		if (extras.isEmpty()) return 64;
 		else if (extras.get(0) instanceof Integer) return (int) extras.get(0);
-		else return 128;
+		else return 64;
 	}
 	
 	// Fusion

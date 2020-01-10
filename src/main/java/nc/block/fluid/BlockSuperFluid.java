@@ -7,13 +7,8 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fluids.Fluid;
 
 public class BlockSuperFluid extends NCBlockFluid {
-	
-	public BlockSuperFluid(Fluid fluid) {
-		super(fluid, Material.WATER);
-	}
 	
 	public BlockSuperFluid(SuperFluid fluid) {
 		super(fluid, Material.WATER);

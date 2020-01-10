@@ -1,3 +1,24 @@
+v2o.0.7
+
+* Vastly improved multiblock logic NBT reading and writing
+
+* Revamped the fission fuel reprocessing tree
++ Added fission fuel self-priming characteristic and corresponding configs
++ Added lead-steel neutron reflector
+
++ Added assembler machine
+* The fuel reprocessor now has six output slots
+- Removed irradiator machine
+
++ Added turbine throughput penalties
+
++ Added missing MSR coolants
+* Changed many fission material recipes and removed molten ZA fission fluids
+
+* Fixed broken advancements
+
+* Various other minor fixes, changes and refactors
+
 v2o.0.6
 
 * Revamped scrubbers to have a recipe system with CT support

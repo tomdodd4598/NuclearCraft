@@ -78,6 +78,8 @@ public interface IFissionFuelComponent extends IFissionComponent {
 	
 	public void setUndercoolingLifetimeFactor(double undercoolingLifetimeFactor);
 	
+	public boolean isSelfPriming();
+	
 	public default void fluxSearch(final ObjectSet<IFissionFuelComponent> fluxSearchCache) {
 		if (!isFluxSearched() && isProducingFlux()) {
 			setFluxSearched(true);
@@ -178,7 +180,6 @@ public interface IFissionFuelComponent extends IFissionComponent {
 		if (!isFunctional()) return;
 		
 		if (getMultiblock().getLogic() instanceof SolidFuelFissionLogic || getMultiblock().getLogic() instanceof MoltenSaltFissionLogic) {
-
 			for (EnumFacing dir : EnumFacing.VALUES) {
 				IFissionFuelComponent fuelComponent = getAdjacentFuelComponents()[dir.getIndex()];
 				if (fuelComponent != null && fuelComponent.isFunctional()) {

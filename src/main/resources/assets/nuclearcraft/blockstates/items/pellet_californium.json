@@ -1,0 +1,50 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "nuclearcraft:item/pellet"
+	},
+	"variants": {
+		"type": {
+			"lecf_249": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_californium/lecf_249"
+				}
+			},
+			"lecf_249_c": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_californium/lecf_249_c"
+				}
+			},
+			"hecf_249": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_californium/hecf_249"
+				}
+			},
+			"hecf_249_c": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_californium/hecf_249_c"
+				}
+			},
+			"lecf_251": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_californium/lecf_251"
+				}
+			},
+			"lecf_251_c": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_californium/lecf_251_c"
+				}
+			},
+			"hecf_251": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_californium/hecf_251"
+				}
+			},
+			"hecf_251_c": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_californium/hecf_251_c"
+				}
+			}
+		}
+	}
+}

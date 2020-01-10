@@ -3,7 +3,6 @@ package nc.network.gui;
 import io.netty.buffer.ByteBuf;
 import nc.tile.internal.inventory.ItemSorption;
 import nc.tile.inventory.ITileInventory;
-import nc.util.NCUtil;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
@@ -38,8 +37,8 @@ public class ResetItemSorptionsPacket implements IMessage {
 			pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
 			slot = buf.readInt();
 			defaults = buf.readBoolean();
-		} catch (IndexOutOfBoundsException ioe) {
-			NCUtil.getLogger().catching(ioe);
+		} catch (IndexOutOfBoundsException e) {
+			e.printStackTrace();
 			return;
 		}
 		messageValid = true;

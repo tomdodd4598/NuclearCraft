@@ -66,7 +66,7 @@ public abstract class ProcessorRecipeHandler extends AbstractRecipeHandler<Proce
 	public static void initGTCEIntegration() {
 		boolean[] arr = NCConfig.gtce_recipe_integration;
 		GTCE_INTEGRATION.put("manufactory", arr[0]);
-		GTCE_INTEGRATION.put("isotope_separator", arr[1]);
+		GTCE_INTEGRATION.put("separator", arr[1]);
 		GTCE_INTEGRATION.put("decay_hastener", arr[2]);
 		GTCE_INTEGRATION.put("fuel_reprocessor", arr[3]);
 		GTCE_INTEGRATION.put("alloy_furnace", arr[4]);
@@ -74,7 +74,7 @@ public abstract class ProcessorRecipeHandler extends AbstractRecipeHandler<Proce
 		GTCE_INTEGRATION.put("melter", arr[6]);
 		GTCE_INTEGRATION.put("supercooler", arr[7]);
 		GTCE_INTEGRATION.put("electrolyzer", arr[8]);
-		GTCE_INTEGRATION.put("irradiator", arr[9]);
+		GTCE_INTEGRATION.put("assembler", arr[9]);
 		GTCE_INTEGRATION.put("ingot_former", arr[10]);
 		GTCE_INTEGRATION.put("pressurizer", arr[11]);
 		GTCE_INTEGRATION.put("chemical_reactor", arr[12]);
@@ -119,7 +119,7 @@ public abstract class ProcessorRecipeHandler extends AbstractRecipeHandler<Proce
 			} else return null;
 		}
 		if (!isValidRecipe(itemIngredients, fluidIngredients, itemProducts, fluidProducts)) {
-			NCUtil.getLogger().info(getRecipeName() + " - a recipe was removed: " + RecipeHelper.getRecipeString(itemIngredients, fluidIngredients, itemProducts, fluidProducts));
+			NCUtil.getLogger().info(getRecipeName() + " - a recipe failed to be registered: " + RecipeHelper.getRecipeString(itemIngredients, fluidIngredients, itemProducts, fluidProducts));
 		}
 		return new ProcessorRecipe(itemIngredients, fluidIngredients, itemProducts, fluidProducts, extras, shapeless);
 	}

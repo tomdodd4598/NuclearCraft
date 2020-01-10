@@ -19,6 +19,7 @@ import nc.recipe.multiblock.TurbineRecipes;
 import nc.recipe.other.CollectorRecipes;
 import nc.recipe.other.RadiationScrubberRecipes;
 import nc.recipe.processor.AlloyFurnaceRecipes;
+import nc.recipe.processor.AssemblerRecipes;
 import nc.recipe.processor.CentrifugeRecipes;
 import nc.recipe.processor.ChemicalReactorRecipes;
 import nc.recipe.processor.CrystallizerRecipes;
@@ -29,13 +30,12 @@ import nc.recipe.processor.ExtractorRecipes;
 import nc.recipe.processor.FuelReprocessorRecipes;
 import nc.recipe.processor.InfuserRecipes;
 import nc.recipe.processor.IngotFormerRecipes;
-import nc.recipe.processor.IrradiatorRecipes;
-import nc.recipe.processor.IsotopeSeparatorRecipes;
 import nc.recipe.processor.ManufactoryRecipes;
 import nc.recipe.processor.MelterRecipes;
 import nc.recipe.processor.PressurizerRecipes;
 import nc.recipe.processor.RockCrusherRecipes;
 import nc.recipe.processor.SaltMixerRecipes;
+import nc.recipe.processor.SeparatorRecipes;
 import nc.recipe.processor.SupercoolerRecipes;
 import nc.recipe.vanilla.CraftingRecipeHandler;
 import nc.recipe.vanilla.FurnaceFuelHandler;
@@ -51,7 +51,7 @@ public class NCRecipes {
 	private static boolean initialized = false;
 	
 	public static ManufactoryRecipes manufactory;
-	public static IsotopeSeparatorRecipes isotope_separator;
+	public static SeparatorRecipes separator;
 	public static DecayHastenerRecipes decay_hastener;
 	public static FuelReprocessorRecipes fuel_reprocessor;
 	public static AlloyFurnaceRecipes alloy_furnace;
@@ -59,7 +59,7 @@ public class NCRecipes {
 	public static MelterRecipes melter;
 	public static SupercoolerRecipes supercooler;
 	public static ElectrolyzerRecipes electrolyzer;
-	public static IrradiatorRecipes irradiator;
+	public static AssemblerRecipes assembler;
 	public static IngotFormerRecipes ingot_former;
 	public static PressurizerRecipes pressurizer;
 	public static ChemicalReactorRecipes chemical_reactor;
@@ -92,7 +92,7 @@ public class NCRecipes {
 		RadSources.init();
 		
 		manufactory = new ManufactoryRecipes();
-		isotope_separator = new IsotopeSeparatorRecipes();
+		separator = new SeparatorRecipes();
 		decay_hastener = new DecayHastenerRecipes();
 		fuel_reprocessor = new FuelReprocessorRecipes();
 		alloy_furnace = new AlloyFurnaceRecipes();
@@ -100,7 +100,7 @@ public class NCRecipes {
 		melter = new MelterRecipes();
 		supercooler = new SupercoolerRecipes();
 		electrolyzer = new ElectrolyzerRecipes();
-		irradiator = new IrradiatorRecipes();
+		assembler = new AssemblerRecipes();
 		ingot_former = new IngotFormerRecipes();
 		pressurizer = new PressurizerRecipes();
 		chemical_reactor = new ChemicalReactorRecipes();
@@ -137,7 +137,7 @@ public class NCRecipes {
 	public static List<List<String>> melter_valid_fluids;
 	public static List<List<String>> supercooler_valid_fluids;
 	public static List<List<String>> electrolyzer_valid_fluids;
-	public static List<List<String>> irradiator_valid_fluids;
+	public static List<List<String>> assembler_valid_fluids;
 	public static List<List<String>> ingot_former_valid_fluids;
 	public static List<List<String>> chemical_reactor_valid_fluids;
 	public static List<List<String>> salt_mixer_valid_fluids;
@@ -159,7 +159,7 @@ public class NCRecipes {
 		melter_valid_fluids = RecipeHelper.validFluids(melter);
 		supercooler_valid_fluids = RecipeHelper.validFluids(supercooler);
 		electrolyzer_valid_fluids = RecipeHelper.validFluids(electrolyzer);
-		irradiator_valid_fluids = RecipeHelper.validFluids(irradiator);
+		assembler_valid_fluids = RecipeHelper.validFluids(assembler);
 		ingot_former_valid_fluids = RecipeHelper.validFluids(ingot_former);
 		chemical_reactor_valid_fluids = RecipeHelper.validFluids(chemical_reactor);
 		salt_mixer_valid_fluids = RecipeHelper.validFluids(salt_mixer);
@@ -179,7 +179,7 @@ public class NCRecipes {
 	
 	public static void refreshRecipeCaches() {
 		manufactory.refreshCache();
-		isotope_separator.refreshCache();
+		separator.refreshCache();
 		decay_hastener.refreshCache();
 		fuel_reprocessor.refreshCache();
 		alloy_furnace.refreshCache();
@@ -187,7 +187,7 @@ public class NCRecipes {
 		melter.refreshCache();
 		supercooler.refreshCache();
 		electrolyzer.refreshCache();
-		irradiator.refreshCache();
+		assembler.refreshCache();
 		ingot_former.refreshCache();
 		pressurizer.refreshCache();
 		chemical_reactor.refreshCache();

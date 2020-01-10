@@ -42,7 +42,7 @@ public class RenderHandler {
 				try {
 					render = NCUtil.newInstance(renderClass, manager);
 				} catch (Exception e) {
-					NCUtil.getLogger().catching(e);
+					e.printStackTrace();
 				}
 				return render;
 			}

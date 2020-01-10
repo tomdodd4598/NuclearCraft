@@ -1,5 +1,7 @@
 package nc.recipe.processor;
 
+import java.util.List;
+
 import com.google.common.collect.Lists;
 
 import nc.init.NCItems;
@@ -19,6 +21,7 @@ public class PressurizerRecipes extends ProcessorRecipeHandler {
 	@Override
 	public void addRecipes() {
 		addRecipe("dustGraphite", "coal", 1D, 1D);
+		addRecipe("ingotGraphite", "ingotPyrolyticCarbon", 1D, 1D);
 		addRecipe("dustDiamond", "gemDiamond", 1D, 1D);
 		addRecipe("dustRhodochrosite", "gemRhodochrosite", 1D, 1D);
 		addRecipe(Lists.newArrayList("dustQuartz", "dustNetherQuartz"), "gemQuartz", 1D, 1D);
@@ -27,7 +30,6 @@ public class PressurizerRecipes extends ProcessorRecipeHandler {
 		addRecipe("dustFluorite", "gemFluorite", 1D, 1D);
 		addRecipe("dustVilliaumite", "gemVilliaumite", 1D, 1D);
 		addRecipe("dustCarobbiite", "gemCarobbiite", 1D, 1D);
-		addRecipe(oreStack("ingotGraphite", 64), "gemDiamond", 3D, 1.5D);
 		addRecipe(oreStackList(Lists.newArrayList("dustWheat", "foodFlour"), 2), NCItems.graham_cracker, 0.25D, 0.5D);
 		
 		// IC2
@@ -42,11 +44,14 @@ public class PressurizerRecipes extends ProcessorRecipeHandler {
 		addPlatePressingRecipes();
 	}
 	
+	private static final List<String> PLATE_BLACKLIST = Lists.newArrayList("Graphite");
+	
 	public void addPlatePressingRecipes() {
 		for (String ore : OreDictionary.getOreNames()) {
 			if (ore.startsWith("plate")) {
-				String ingot = "ingot" + ore.substring(5);
-				String gem = "gem" + ore.substring(5);
+				String type = ore.substring(5);
+				if (PLATE_BLACKLIST.contains(type)) continue;
+				String ingot = "ingot" + type, gem = "gem" + type;
 				if (OreDictHelper.oreExists(ingot)) {
 					addRecipe(ingot, ore, 1D, 1D);
 				} else if (OreDictHelper.oreExists(gem)) {

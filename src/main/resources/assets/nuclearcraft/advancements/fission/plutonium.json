@@ -2,7 +2,7 @@
 	"display": {
 		"icon": {
 			"item": "nuclearcraft:plutonium",
-			"data": 4
+			"data": 9
 		},
 		"title": {
 			"translate": "advancement.nuclearcraft.plutonium.name"
@@ -11,7 +11,7 @@
 			"translate": "advancement.nuclearcraft.plutonium.desc"
 		}
 	},
-	"parent": "nuclearcraft:fission/fission_controller",
+	"parent": "nuclearcraft:fission/solid/solid_fission_controller",
 	"criteria": {
 		"has_item": {
 			"trigger": "minecraft:inventory_changed",

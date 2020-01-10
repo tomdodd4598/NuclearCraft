@@ -1,6 +1,7 @@
 package nc.recipe.multiblock;
 
 import nc.config.NCConfig;
+import nc.init.NCBlocks;
 import nc.recipe.ProcessorRecipeHandler;
 
 public class FissionModeratorRecipes extends ProcessorRecipeHandler {
@@ -13,6 +14,6 @@ public class FissionModeratorRecipes extends ProcessorRecipeHandler {
 	public void addRecipes() {
 		addRecipe("blockGraphite", NCConfig.fission_moderator_flux_factor[0], NCConfig.fission_moderator_efficiency[0]);
 		addRecipe("blockBeryllium", NCConfig.fission_moderator_flux_factor[1], NCConfig.fission_moderator_efficiency[1]);
-		addRecipe("blockHeavyWater", NCConfig.fission_moderator_flux_factor[2], NCConfig.fission_moderator_efficiency[2]);
+		addRecipe(NCBlocks.heavy_water_moderator, NCConfig.fission_moderator_flux_factor[2], NCConfig.fission_moderator_efficiency[2]);
 	}
 }

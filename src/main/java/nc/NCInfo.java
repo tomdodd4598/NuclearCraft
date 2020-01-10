@@ -1,6 +1,9 @@
 package nc;
 
+import java.util.List;
 import java.util.Locale;
+
+import com.google.common.collect.Lists;
 
 import nc.config.NCConfig;
 import nc.enumm.IFissionFuelEnum;
@@ -20,15 +23,19 @@ public class NCInfo {
 	
 	// Fission Fuel
 	
-	public static <T extends Enum<T> & IFissionFuelEnum> String[][] fuelRodInfo(T[] values) {
+	public static <T extends Enum<T> & IFissionFuelEnum> String[][] fissionFuelInfo(T[] values) {
 		String[][] info = new String[values.length][];
 		for (int i = 0; i < values.length; i++) {
-			info[i] = new String[] {
+			List<String> list = Lists.newArrayList(
 					Lang.localise("item." + Global.MOD_ID + ".fission_fuel.base_time.desc", UnitHelper.applyTimeUnit(values[i].getBaseTime()*NCConfig.fission_fuel_time_multiplier, 3)),
 					Lang.localise("item." + Global.MOD_ID + ".fission_fuel.base_heat.desc", UnitHelper.prefix(values[i].getBaseHeat(), 5, "H/t")),
 					Lang.localise("item." + Global.MOD_ID + ".fission_fuel.base_efficiency.desc", Math.round(100D*values[i].getBaseEfficiency()) + "%"),
 					Lang.localise("item." + Global.MOD_ID + ".fission_fuel.criticality.desc", values[i].getCriticality() + " N/t")
-					};
+					);
+			if (values[i].getSelfPriming()) {
+				list.add(Lang.localise("item." + Global.MOD_ID + ".fission_fuel.self_priming.desc"));
+			}
+			info[i] = list.toArray(new String[list.size()]);
 		}
 		return info;
 	}

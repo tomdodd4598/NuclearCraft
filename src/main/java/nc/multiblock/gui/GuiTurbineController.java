@@ -6,6 +6,7 @@ import nc.multiblock.network.ClearAllMaterialPacket;
 import nc.multiblock.turbine.Turbine;
 import nc.multiblock.turbine.tile.TileTurbineRotorBearing;
 import nc.network.PacketHandler;
+import nc.util.ColorHelper;
 import nc.util.Lang;
 import nc.util.NCMath;
 import nc.util.NCUtil;
@@ -58,8 +59,10 @@ public class GuiTurbineController extends GuiMultiblockController<Turbine> {
 		String expansionLevel = Lang.localise("gui.nc.container.turbine_controller.expansion_level") + " " + (multiblock.idealTotalExpansionLevel <= 0D ? "0%" : (NCMath.decimalPlaces(100D*multiblock.totalExpansionLevel, 1) + "% [" + NCMath.decimalPlaces(multiblock.idealTotalExpansionLevel, 1) + " x " + NCMath.decimalPlaces(100D*(multiblock.totalExpansionLevel/multiblock.idealTotalExpansionLevel), 1) + "%]"));
 		fontRenderer.drawString(expansionLevel, xSize / 2 - width(expansionLevel) / 2, 48, fontColor);
 		
-		String inputRate = Lang.localise("gui.nc.container.turbine_controller.fluid_rate") + " " + UnitHelper.prefix(Math.round(multiblock.recipeInputRateFP), 6, "B/t", -1) + " [" + Math.round(100D*multiblock.recipeInputRateFP/multiblock.getLogic().getMaxRecipeRateMultiplier()) + "%]";
-		fontRenderer.drawString(inputRate, xSize / 2 - (inputRateWidth = Math.max(inputRateWidth, width(inputRate))) / 2, 60, fontColor);
+		double rateRatio = multiblock.recipeInputRateFP/multiblock.getLogic().getMaxRecipeRateMultiplier();
+		String inputRate = Lang.localise("gui.nc.container.turbine_controller.fluid_rate") + " " + UnitHelper.prefix(Math.round(multiblock.recipeInputRateFP), 6, "B/t", -1) + " [" + Math.round(100D*rateRatio) + (rateRatio > 1D ? "%] [!]" : "%]");
+		inputRateWidth = inputRateWidth - width(inputRate) > 1 ? width(inputRate) : Math.max(inputRateWidth, width(inputRate));
+		fontRenderer.drawString(inputRate, xSize / 2 - inputRateWidth / 2, 60, multiblock.bearingTension <= 0D ? fontColor : multiblock.isTurbineOn ? (0xFFFFFF - (int)(255D*MathHelper.clamp(2D*multiblock.bearingTension, 0D, 1D)) - 256*(int)(255D*MathHelper.clamp(2D*multiblock.bearingTension - 1D, 0D, 1D))) : ColorHelper.blend(15641088, 0xFF0000, (float)multiblock.bearingTension));
 	}
 	
 	@Override

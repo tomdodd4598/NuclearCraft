@@ -8,14 +8,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fluids.Fluid;
 
 public class BlockFluidChocolate extends NCBlockFluid {
-
-	public BlockFluidChocolate(Fluid fluid) {
-		super(fluid, Material.WATER);
-		setQuantaPerBlock(6);
-	}
 	
 	public BlockFluidChocolate(FluidChocolate fluid) {
 		super(fluid, Material.WATER);

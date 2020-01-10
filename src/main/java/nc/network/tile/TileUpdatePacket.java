@@ -2,7 +2,6 @@ package nc.network.tile;
 
 import io.netty.buffer.ByteBuf;
 import nc.tile.ITile;
-import nc.util.NCUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
@@ -28,8 +27,8 @@ public abstract class TileUpdatePacket implements IMessage {
 	public void fromBytes(ByteBuf buf) {
 		try {
 			readMessage(buf);
-		} catch (IndexOutOfBoundsException ioe) {
-			NCUtil.getLogger().catching(ioe);
+		} catch (IndexOutOfBoundsException e) {
+			e.printStackTrace();
 			return;
 		}
 		messageValid = true;

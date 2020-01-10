@@ -10,7 +10,7 @@
 			"translate": "advancement.nuclearcraft.fuel_reprocessor.desc"
 		}
 	},
-	"parent": "nuclearcraft:processors/isotope_separator",
+	"parent": "nuclearcraft:processors/separator",
 	"criteria": {
 		"has_item": {
 			"trigger": "minecraft:inventory_changed",

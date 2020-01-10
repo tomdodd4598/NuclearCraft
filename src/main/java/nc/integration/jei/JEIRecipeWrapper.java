@@ -35,9 +35,9 @@ public class JEIRecipeWrapper {
 		}
 	}
 	
-	public static class IsotopeSeparator extends JEIRecipeWrapperProcessor<IsotopeSeparator> {
+	public static class Separator extends JEIRecipeWrapperProcessor<Separator> {
 		
-		public IsotopeSeparator(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
+		public Separator(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
 			super(guiHelper, jeiHandler, recipeHandler, recipe, 33, 30, 176, 3, 37, 18, 60, 34, 59, 34, 37, 18);
 		}
 		
@@ -76,7 +76,7 @@ public class JEIRecipeWrapper {
 	public static class FuelReprocessor extends JEIRecipeWrapperProcessor<FuelReprocessor> {
 		
 		public FuelReprocessor(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
-			super(guiHelper, jeiHandler, recipeHandler, recipe, 49, 30, 176, 3, 37, 38, 68, 30, 67, 30, 37, 38);
+			super(guiHelper, jeiHandler, recipeHandler, recipe, 39, 30, 176, 3, 37, 38, 58, 30, 57, 30, 37, 38);
 		}
 		
 		@Override
@@ -187,10 +187,10 @@ public class JEIRecipeWrapper {
 		}
 	}
 	
-	public static class Irradiator extends JEIRecipeWrapperProcessor<Irradiator> {
+	public static class Assembler extends JEIRecipeWrapperProcessor<Assembler> {
 		
-		public Irradiator(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
-			super(guiHelper, jeiHandler, recipeHandler, recipe, 31, 30, 176, 3, 37, 16, 70, 35, 69, 34, 37, 18);
+		public Assembler(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
+			super(guiHelper, jeiHandler, recipeHandler, recipe, 45, 30, 176, 3, 37, 36, 84, 31, 83, 30, 37, 38);
 		}
 		
 		@Override
@@ -507,6 +507,11 @@ public class JEIRecipeWrapper {
 			return recipe.getFissionFuelCriticality();
 		}
 		
+		protected boolean getFissionFuelSelfPriming() {
+			if (recipe == null) return false;
+			return recipe.getFissionFuelSelfPriming();
+		}
+		
 		protected double getFissionFuelRadiation() {
 			if (recipe == null) return 0D;
 			return recipe.getFissionFuelRadiation();
@@ -521,6 +526,7 @@ public class JEIRecipeWrapper {
 				tooltip.add(TextFormatting.YELLOW + FUEL_HEAT + " " + TextFormatting.WHITE + UnitHelper.prefix(getFissionFuelHeat(), 5, "H/t"));
 				tooltip.add(TextFormatting.LIGHT_PURPLE + FUEL_EFFICIENCY + " " + TextFormatting.WHITE + Math.round(100D*getFissionFuelEfficiency()) + "%");
 				tooltip.add(TextFormatting.RED + FUEL_CRITICALITY + " " + TextFormatting.WHITE + getFissionFuelCriticality() + " N/t");
+				if (getFissionFuelSelfPriming()) tooltip.add(TextFormatting.DARK_AQUA + FUEL_SELF_PRIMING);
 				double radiation = getFissionFuelRadiation();
 				if (radiation > 0D) tooltip.add(TextFormatting.GOLD + FUEL_RADIATION + " " + RadiationHelper.radsColoredPrefix(radiation, true));
 			}
@@ -532,6 +538,7 @@ public class JEIRecipeWrapper {
 		private static final String FUEL_HEAT = Lang.localise("jei.nuclearcraft.solid_fuel_heat");
 		private static final String FUEL_EFFICIENCY = Lang.localise("jei.nuclearcraft.solid_fuel_efficiency");
 		private static final String FUEL_CRITICALITY = Lang.localise("jei.nuclearcraft.solid_fuel_criticality");
+		private static final String FUEL_SELF_PRIMING = Lang.localise("jei.nuclearcraft.solid_fuel_self_priming");
 		private static final String FUEL_RADIATION = Lang.localise("jei.nuclearcraft.solid_fuel_radiation");
 	}
 	
@@ -547,7 +554,7 @@ public class JEIRecipeWrapper {
 		}
 		
 		protected int getFissionHeatingHeatPerInputMB() {
-			if (recipe == null) return 128;
+			if (recipe == null) return 64;
 			return recipe.getFissionHeatingHeatPerInputMB();
 		}
 		
@@ -596,6 +603,11 @@ public class JEIRecipeWrapper {
 			return recipe.getFissionFuelCriticality();
 		}
 		
+		protected boolean getFissionFuelSelfPriming() {
+			if (recipe == null) return false;
+			return recipe.getFissionFuelSelfPriming();
+		}
+		
 		protected double getFissionFuelRadiation() {
 			if (recipe == null) return 0D;
 			return recipe.getFissionFuelRadiation();
@@ -610,6 +622,7 @@ public class JEIRecipeWrapper {
 				tooltip.add(TextFormatting.YELLOW + FUEL_HEAT + " " + TextFormatting.WHITE + UnitHelper.prefix(getFissionFuelHeat(), 5, "H/t"));
 				tooltip.add(TextFormatting.LIGHT_PURPLE + FUEL_EFFICIENCY + " " + TextFormatting.WHITE + Math.round(100D*getFissionFuelEfficiency()) + "%");
 				tooltip.add(TextFormatting.RED + FUEL_CRITICALITY + " " + TextFormatting.WHITE + getFissionFuelCriticality() + " N/t");
+				if (getFissionFuelSelfPriming()) tooltip.add(TextFormatting.DARK_AQUA + FUEL_SELF_PRIMING);
 				double radiation = getFissionFuelRadiation();
 				if (radiation > 0D) tooltip.add(TextFormatting.GOLD + FUEL_RADIATION + " " + RadiationHelper.radsColoredPrefix(radiation, true));
 			}
@@ -621,6 +634,7 @@ public class JEIRecipeWrapper {
 		private static final String FUEL_HEAT = Lang.localise("jei.nuclearcraft.salt_fuel_heat");
 		private static final String FUEL_EFFICIENCY = Lang.localise("jei.nuclearcraft.salt_fuel_efficiency");
 		private static final String FUEL_CRITICALITY = Lang.localise("jei.nuclearcraft.salt_fuel_criticality");
+		private static final String FUEL_SELF_PRIMING = Lang.localise("jei.nuclearcraft.salt_fuel_self_priming");
 		private static final String FUEL_RADIATION = Lang.localise("jei.nuclearcraft.salt_fuel_radiation");
 	}
 	
@@ -829,7 +843,7 @@ public class JEIRecipeWrapper {
 		
 		@Override
 		protected int getProgressArrowTime() {
-			return NCConfig.machine_update_rate;
+			return getScrubberProcessTime()/120;
 		}
 		
 		protected int getScrubberProcessTime() {

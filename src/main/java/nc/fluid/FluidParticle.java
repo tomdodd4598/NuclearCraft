@@ -2,7 +2,7 @@ package nc.fluid;
 
 import net.minecraft.init.SoundEvents;
 
-public class FluidParticle extends FluidBase {
+public class FluidParticle extends NCFluid {
 	
 	public FluidParticle(String fluidName) {
 		super(fluidName, false);

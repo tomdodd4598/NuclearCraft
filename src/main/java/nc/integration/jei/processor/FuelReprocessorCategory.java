@@ -12,7 +12,7 @@ import nc.recipe.IngredientSorption;
 public class FuelReprocessorCategory extends JEICategoryProcessor<JEIRecipeWrapper.FuelReprocessor> {
 	
 	public FuelReprocessorCategory(IGuiHelper guiHelper, IJEIHandler handler) {
-		super(guiHelper, handler, "fuel_reprocessor", 49, 30, 94, 38);
+		super(guiHelper, handler, "fuel_reprocessor", 39, 30, 114, 38);
 	}
 	
 	@Override
@@ -20,11 +20,13 @@ public class FuelReprocessorCategory extends JEICategoryProcessor<JEIRecipeWrapp
 		super.setRecipe(recipeLayout, recipeWrapper, ingredients);
 		
 		RecipeItemMapper itemMapper = new RecipeItemMapper();
-		itemMapper.map(IngredientSorption.INPUT, 0, 0, 50 - backPosX, 41 - backPosY);
-		itemMapper.map(IngredientSorption.OUTPUT, 0, 1, 106 - backPosX, 31 - backPosY);
-		itemMapper.map(IngredientSorption.OUTPUT, 1, 2, 126 - backPosX, 31 - backPosY);
-		itemMapper.map(IngredientSorption.OUTPUT, 2, 3, 106 - backPosX, 51 - backPosY);
-		itemMapper.map(IngredientSorption.OUTPUT, 3, 4, 126 - backPosX, 51 - backPosY);
+		itemMapper.map(IngredientSorption.INPUT, 0, 0, 40 - backPosX, 41 - backPosY);
+		itemMapper.map(IngredientSorption.OUTPUT, 0, 1, 96 - backPosX, 31 - backPosY);
+		itemMapper.map(IngredientSorption.OUTPUT, 1, 2, 116 - backPosX, 31 - backPosY);
+		itemMapper.map(IngredientSorption.OUTPUT, 2, 3, 136 - backPosX, 31 - backPosY);
+		itemMapper.map(IngredientSorption.OUTPUT, 3, 4, 96 - backPosX, 51 - backPosY);
+		itemMapper.map(IngredientSorption.OUTPUT, 4, 5, 116 - backPosX, 51 - backPosY);
+		itemMapper.map(IngredientSorption.OUTPUT, 5, 6, 136 - backPosX, 51 - backPosY);
 		itemMapper.mapItemsTo(recipeLayout.getItemStacks(), ingredients);
 	}
 }

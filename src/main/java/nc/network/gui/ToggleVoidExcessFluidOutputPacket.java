@@ -3,7 +3,6 @@ package nc.network.gui;
 import io.netty.buffer.ByteBuf;
 import nc.tile.fluid.ITileFluid;
 import nc.tile.internal.fluid.TankOutputSetting;
-import nc.util.NCUtil;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -37,8 +36,8 @@ public class ToggleVoidExcessFluidOutputPacket implements IMessage {
 			pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
 			voidExcessFluidOutput = buf.readInt();
 			tankNumber = buf.readInt();
-		} catch (IndexOutOfBoundsException ioe) {
-			NCUtil.getLogger().catching(ioe);
+		} catch (IndexOutOfBoundsException e) {
+			e.printStackTrace();
 			return;
 		}
 		messageValid = true;

@@ -1,0 +1,70 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "nuclearcraft:item/pellet"
+	},
+	"variants": {
+		"type": {
+			"lecm_243": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_curium/lecm_243"
+				}
+			},
+			"lecm_243_c": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_curium/lecm_243_c"
+				}
+			},
+			"hecm_243": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_curium/hecm_243"
+				}
+			},
+			"hecm_243_c": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_curium/hecm_243_c"
+				}
+			},
+			"lecm_245": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_curium/lecm_245"
+				}
+			},
+			"lecm_245_c": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_curium/lecm_245_c"
+				}
+			},
+			"hecm_245": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_curium/hecm_245"
+				}
+			},
+			"hecm_245_c": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_curium/hecm_245_c"
+				}
+			},
+			"lecm_247": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_curium/lecm_247"
+				}
+			},
+			"lecm_247_c": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_curium/lecm_247_c"
+				}
+			},
+			"hecm_247": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_curium/hecm_247"
+				}
+			},
+			"hecm_247_c": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_curium/hecm_247_c"
+				}
+			}
+		}
+	}
+}

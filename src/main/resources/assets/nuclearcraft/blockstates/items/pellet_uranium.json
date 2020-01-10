@@ -1,0 +1,50 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "nuclearcraft:item/pellet"
+	},
+	"variants": {
+		"type": {
+			"leu_233": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_uranium/leu_233"
+				}
+			},
+			"leu_233_c": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_uranium/leu_233_c"
+				}
+			},
+			"heu_233": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_uranium/heu_233"
+				}
+			},
+			"heu_233_c": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_uranium/heu_233_c"
+				}
+			},
+			"leu_235": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_uranium/leu_235"
+				}
+			},
+			"leu_235_c": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_uranium/leu_235_c"
+				}
+			},
+			"heu_235": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_uranium/heu_235"
+				}
+			},
+			"heu_235_c": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_uranium/heu_235_c"
+				}
+			}
+		}
+	}
+}

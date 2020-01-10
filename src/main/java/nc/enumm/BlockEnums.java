@@ -22,7 +22,7 @@ public class BlockEnums {
 	
 	public enum ProcessorType implements IStringSerializable {
 		MANUFACTORY("manufactory", 1, "reddust", "crit"),
-		ISOTOPE_SEPARATOR("isotope_separator", 2, "reddust", "smoke"),
+		SEPARATOR("separator", 2, "reddust", "smoke"),
 		DECAY_HASTENER("decay_hastener", 3, "reddust", "reddust"),
 		FUEL_REPROCESSOR("fuel_reprocessor", 4, "reddust", "smoke"),
 		ALLOY_FURNACE("alloy_furnace", 5, "smoke", "reddust"),
@@ -30,7 +30,7 @@ public class BlockEnums {
 		MELTER("melter", 7, "flame", "lava"),
 		SUPERCOOLER("supercooler", 8, "snowshovel", "smoke"),
 		ELECTROLYZER("electrolyzer", 9, "reddust", "splash"),
-		IRRADIATOR("irradiator", 10, "portal", "enchantmenttable"),
+		ASSEMBLER("assembler", 10, "smoke", "crit"),
 		INGOT_FORMER("ingot_former", 11, "smoke", "smoke"),
 		PRESSURIZER("pressurizer", 12, "smoke", "smoke"),
 		CHEMICAL_REACTOR("chemical_reactor", 13, "reddust", "reddust"),
@@ -66,8 +66,8 @@ public class BlockEnums {
 			switch (this) {
 			case MANUFACTORY:
 				return new TileProcessor.Manufactory();
-			case ISOTOPE_SEPARATOR:
-				return new TileProcessor.IsotopeSeparator();
+			case SEPARATOR:
+				return new TileProcessor.Separator();
 			case DECAY_HASTENER:
 				return new TileProcessor.DecayHastener();
 			case FUEL_REPROCESSOR:
@@ -82,8 +82,8 @@ public class BlockEnums {
 				return new TileProcessor.Supercooler();
 			case ELECTROLYZER:
 				return new TileProcessor.Electrolyzer();
-			case IRRADIATOR:
-				return new TileProcessor.Irradiator();
+			case ASSEMBLER:
+				return new TileProcessor.Assembler();
 			case INGOT_FORMER:
 				return new TileProcessor.IngotFormer();
 			case PRESSURIZER:
@@ -112,8 +112,8 @@ public class BlockEnums {
 			switch (this) {
 			case MANUFACTORY:
 				return NCBlocks.manufactory;
-			case ISOTOPE_SEPARATOR:
-				return NCBlocks.isotope_separator;
+			case SEPARATOR:
+				return NCBlocks.separator;
 			case DECAY_HASTENER:
 				return NCBlocks.decay_hastener;
 			case FUEL_REPROCESSOR:
@@ -128,8 +128,8 @@ public class BlockEnums {
 				return NCBlocks.supercooler;
 			case ELECTROLYZER:
 				return NCBlocks.electrolyzer;
-			case IRRADIATOR:
-				return NCBlocks.irradiator;
+			case ASSEMBLER:
+				return NCBlocks.assembler;
 			case INGOT_FORMER:
 				return NCBlocks.ingot_former;
 			case PRESSURIZER:

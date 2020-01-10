@@ -1,7 +1,6 @@
 package nc.recipe.processor;
 
-import static nc.util.FissionHelper.FUEL_FLUID;
-import static nc.util.FissionHelper.ISOTOPE_FLUID;
+import static nc.util.FissionHelper.FISSION_FLUID;
 
 import nc.recipe.ProcessorRecipeHandler;
 import nc.util.FluidStackHelper;
@@ -23,22 +22,21 @@ public class ElectrolyzerRecipes extends ProcessorRecipeHandler {
 		
 		addRecipe(fluidStack("alumina", FluidStackHelper.INGOT_VOLUME), fluidStack("aluminum", 2*FluidStackHelper.INGOT_VOLUME), fluidStack("oxygen", 3*FluidStackHelper.BUCKET_VOLUME), emptyFluidStack(), emptyFluidStack(), 2D, 1D);
 		
-		addFissionFuelFluorideRecipes();
-		
-		addIsotopeZARecipes();
+		// Fission Materials
+		addFissionFluorideRecipes();
+		addFissionZARecipes();
 	}
 	
-	public void addFissionFuelFluorideRecipes() {
-		for (int i = 0; i < FUEL_FLUID.length; i++) {
-			for (String form : new String[] {"fuel_", "depleted_fuel_"}) {
-				addRecipe(fluidStack(form + FUEL_FLUID[i] + "_fluoride", FluidStackHelper.INGOT_VOLUME), fluidStack(form + FUEL_FLUID[i], FluidStackHelper.INGOT_VOLUME), fluidStack("fluorine", FluidStackHelper.BUCKET_VOLUME), emptyFluidStack(), emptyFluidStack(), 0.5D, 1D);
-			}
+	public void addFissionZARecipes() {
+		for (int i = 0; i < FISSION_FLUID.length; i++) {
+			addRecipe(fluidStack(FISSION_FLUID[i] + "_za", FluidStackHelper.INGOT_VOLUME), fluidStack(FISSION_FLUID[i], FluidStackHelper.INGOT_VOLUME), fluidStack("zirconium", FluidStackHelper.INGOT_VOLUME), emptyFluidStack(), emptyFluidStack(), 0.5D, 1D);
 		}
 	}
 	
-	public void addIsotopeZARecipes() {
-		for (int i = 0; i < ISOTOPE_FLUID.length; i++) {
-			addRecipe(fluidStack(ISOTOPE_FLUID[i] + "_za", FluidStackHelper.INGOT_VOLUME), fluidStack(ISOTOPE_FLUID[i], FluidStackHelper.INGOT_VOLUME), fluidStack("zirconium", FluidStackHelper.INGOT_VOLUME), emptyFluidStack(), emptyFluidStack(), 0.5D, 1D);
+	public void addFissionFluorideRecipes() {
+		for (int i = 0; i < FISSION_FLUID.length; i++) {
+			addRecipe(fluidStack(FISSION_FLUID[i] + "_fluoride", FluidStackHelper.INGOT_VOLUME), fluidStack(FISSION_FLUID[i], FluidStackHelper.INGOT_VOLUME), fluidStack("fluorine", FluidStackHelper.BUCKET_VOLUME), emptyFluidStack(), emptyFluidStack(), 0.5D, 1D);
+			addRecipe(fluidStack("depleted_" + FISSION_FLUID[i] + "_fluoride", FluidStackHelper.INGOT_VOLUME), fluidStack("depleted_" + FISSION_FLUID[i], FluidStackHelper.INGOT_VOLUME), fluidStack("fluorine", FluidStackHelper.BUCKET_VOLUME), emptyFluidStack(), emptyFluidStack(), 0.5D, 1D);
 		}
 	}
 }

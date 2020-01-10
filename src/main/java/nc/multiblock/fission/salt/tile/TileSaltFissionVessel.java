@@ -1,5 +1,8 @@
 package nc.multiblock.fission.salt.tile;
 
+import static nc.recipe.NCRecipes.salt_fission;
+import static nc.recipe.NCRecipes.salt_fission_valid_fluids;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,9 +27,7 @@ import nc.multiblock.fission.tile.IFissionFuelComponent;
 import nc.multiblock.fission.tile.TileFissionPart;
 import nc.radiation.RadiationHelper;
 import nc.recipe.AbstractRecipeHandler;
-import nc.recipe.NCRecipes;
 import nc.recipe.ProcessorRecipe;
-import nc.recipe.ProcessorRecipeHandler;
 import nc.recipe.RecipeInfo;
 import nc.recipe.ingredient.IFluidIngredient;
 import nc.tile.fluid.ITileFluid;
@@ -55,7 +56,7 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 
 public class TileSaltFissionVessel extends TileFissionPart implements IFluidGenerator, ITileFluid, IFissionFuelComponent {
 	
-	protected final @Nonnull List<Tank> tanks = Lists.newArrayList(new Tank(FluidStackHelper.INGOT_BLOCK_VOLUME*2, NCRecipes.salt_fission_valid_fluids.get(0)), new Tank(FluidStackHelper.INGOT_BLOCK_VOLUME*4, new ArrayList<String>()), new Tank(FluidStackHelper.INGOT_BLOCK_VOLUME*2, new ArrayList<String>()));
+	protected final @Nonnull List<Tank> tanks = Lists.newArrayList(new Tank(FluidStackHelper.INGOT_BLOCK_VOLUME*2, salt_fission_valid_fluids.get(0)), new Tank(FluidStackHelper.INGOT_BLOCK_VOLUME*4, new ArrayList<String>()), new Tank(FluidStackHelper.INGOT_BLOCK_VOLUME*2, new ArrayList<String>()));
 	
 	protected @Nonnull FluidConnection[] fluidConnections = ITileFluid.fluidConnectionAll(Lists.newArrayList(TankSorption.NON, TankSorption.NON, TankSorption.NON));
 	
@@ -69,11 +70,11 @@ public class TileSaltFissionVessel extends TileFissionPart implements IFluidGene
 	
 	protected double baseProcessTime = 1D, baseProcessEfficiency = 0D, baseProcessRadiation = 0D;
 	protected int baseProcessHeat = 0, baseProcessCriticality = 1;
+	protected boolean selfPriming = false;
 	
 	protected double time;
 	protected boolean isProcessing, hasConsumed, canProcessInputs;
 	
-	protected static final ProcessorRecipeHandler RECIPE_HANDLER = NCRecipes.salt_fission;
 	protected RecipeInfo<ProcessorRecipe> recipeInfo;
 	
 	protected FissionCluster cluster = null;
@@ -284,6 +285,11 @@ public class TileSaltFissionVessel extends TileFissionPart implements IFluidGene
 	}
 	
 	@Override
+	public boolean isSelfPriming() {
+		return selfPriming;
+	}
+	
+	@Override
 	public void onClusterMeltdown() {
 		IRadiationSource chunkSource = RadiationHelper.getRadiationSource(world.getChunk(pos));
 		if (chunkSource != null) {
@@ -361,7 +367,7 @@ public class TileSaltFissionVessel extends TileFissionPart implements IFluidGene
 	
 	@Override
 	public void refreshRecipe() {
-		recipeInfo = RECIPE_HANDLER.getRecipeInfoFromInputs(new ArrayList<ItemStack>(), getFluidInputs(hasConsumed));
+		recipeInfo = salt_fission.getRecipeInfoFromInputs(new ArrayList<ItemStack>(), getFluidInputs(hasConsumed));
 		consumeInputs();
 	}
 	
@@ -387,6 +393,7 @@ public class TileSaltFissionVessel extends TileFissionPart implements IFluidGene
 			baseProcessHeat = 0;
 			baseProcessEfficiency = 0D;
 			baseProcessCriticality = 1;
+			selfPriming = false;
 			baseProcessRadiation = 0D;
 			return false;
 		}
@@ -394,6 +401,7 @@ public class TileSaltFissionVessel extends TileFissionPart implements IFluidGene
 		baseProcessHeat = recipeInfo.getRecipe().getFissionFuelHeat();
 		baseProcessEfficiency = recipeInfo.getRecipe().getFissionFuelEfficiency();
 		baseProcessCriticality = recipeInfo.getRecipe().getFissionFuelCriticality();
+		selfPriming = recipeInfo.getRecipe().getFissionFuelSelfPriming();
 		baseProcessRadiation = recipeInfo.getRecipe().getFissionFuelRadiation();
 		return true;
 	}
@@ -758,6 +766,7 @@ public class TileSaltFissionVessel extends TileFissionPart implements IFluidGene
 		nbt.setInteger("baseProcessHeat", baseProcessHeat);
 		nbt.setDouble("baseProcessEfficiency", baseProcessEfficiency);
 		nbt.setInteger("baseProcessCriticality", baseProcessCriticality);
+		nbt.setBoolean("selfPriming", selfPriming);
 		
 		nbt.setDouble("time", time);
 		nbt.setBoolean("isProcessing", isProcessing);
@@ -779,6 +788,7 @@ public class TileSaltFissionVessel extends TileFissionPart implements IFluidGene
 		baseProcessHeat = nbt.getInteger("baseProcessHeat");
 		baseProcessEfficiency = nbt.getDouble("baseProcessEfficiency");
 		baseProcessCriticality = nbt.getInteger("baseProcessCriticality");
+		selfPriming = nbt.getBoolean("selfPriming");
 		
 		time = nbt.getDouble("time");
 		isProcessing = nbt.getBoolean("isProcessing");

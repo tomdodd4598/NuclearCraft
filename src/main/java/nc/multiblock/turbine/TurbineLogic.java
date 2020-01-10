@@ -3,8 +3,8 @@ package nc.multiblock.turbine;
 import static nc.recipe.NCRecipes.turbine;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Random;
 
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
@@ -65,8 +65,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class TurbineLogic extends MultiblockLogic<Turbine, ITurbinePart, TurbineUpdatePacket> {
 	
-	public Random rand = new Random();
-	
 	public TurbineLogic(Turbine turbine) {
 		super(turbine);
 	}
@@ -75,15 +73,14 @@ public class TurbineLogic extends MultiblockLogic<Turbine, ITurbinePart, Turbine
 		super(oldLogic);
 	}
 	
+	@Override
+	public String getID() {
+		return "turbine";
+	}
+	
 	protected Turbine getTurbine() {
 		return multiblock;
 	}
-	
-	@Override
-	public void load() {}
-	
-	@Override
-	public void unload() {}
 	
 	// Multiblock Size Limits
 	
@@ -252,8 +249,8 @@ public class TurbineLogic extends MultiblockLogic<Turbine, ITurbinePart, Turbine
 		getTurbine().angVel = getTurbine().rotorAngle = 0F;
 		getTurbine().flowDir = null;
 		getTurbine().shaftWidth = getTurbine().inertia = getTurbine().bladeLength = getTurbine().noBladeSets = getTurbine().recipeInputRate = 0;
-		getTurbine().totalExpansionLevel = getTurbine().idealTotalExpansionLevel = getTurbine().recipeInputRateFP = 1D;
-		getTurbine().basePowerPerMB = 0D;
+		getTurbine().totalExpansionLevel = getTurbine().idealTotalExpansionLevel = getTurbine().maxBladeExpansionCoefficient = 1D;
+		getTurbine().basePowerPerMB = getTurbine().recipeInputRateFP = 0D;
 		getTurbine().expansionLevels = new ArrayList<Double>();
 		getTurbine().rawBladeEfficiencies = new ArrayList<Double>();
 		getTurbine().inputPlane[0] = getTurbine().inputPlane[1] = getTurbine().inputPlane[2] = getTurbine().inputPlane[3] = null;
@@ -540,6 +537,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, ITurbinePart, Turbine
 				getTurbine().expansionLevels.add((prevExpansionLevel + getTurbine().totalExpansionLevel)/2D);
 				getTurbine().rawBladeEfficiencies.add(((TurbineRotorBladeType)currentBladeType).getEfficiency());
 				getTurbine().noBladeSets++;
+				getTurbine().maxBladeExpansionCoefficient = Math.max(((TurbineRotorBladeType)currentBladeType).getExpansionCoefficient(), getTurbine().maxBladeExpansionCoefficient);
 			}
 		}
 		
@@ -594,10 +592,29 @@ public class TurbineLogic extends MultiblockLogic<Turbine, ITurbinePart, Turbine
 			getTurbine().rawPower = getNewRawProcessPower(previousRawPower, getTurbine().rawMaxPower, false);
 		}
 		getTurbine().power = getTurbine().rawPower*getTurbine().conductivity;
-		getTurbine().angVel = getTurbine().rawMaxPower == 0D ? 0F : (float) (0.5D*getTurbine().rawPower/getTurbine().rawMaxPower);
+		getTurbine().angVel = getTurbine().rawMaxPower == 0D ? 0F : (float) (getTurbine().rawPower/getTurbine().rawMaxPower);
 		if (wasProcessing != getTurbine().isProcessing) {
 			getTurbine().sendUpdateToAllPlayers();
 		}
+		
+		double tensionFactor = (getTurbine().recipeInputRate - getMaxRecipeRateMultiplier())/getMaxRecipeRateMultiplier();
+		tensionFactor /= Math.max(1D, tensionFactor > 0D ? NCConfig.turbine_tension_throughput_factor - 1D : 1D);
+		getTurbine().bearingTension = Math.max(0D, getTurbine().bearingTension + Math.min(1D, tensionFactor)/(1200D*getPartMap(TileTurbineRotorBearing.class).size()));
+		if (getTurbine().bearingTension > 1D) {
+			Iterator<TileTurbineRotorBearing> rotorBearingIterator = getPartMap(TileTurbineRotorBearing.class).values().iterator();
+			while (rotorBearingIterator.hasNext()) {
+				TileTurbineRotorBearing rotorBearing = rotorBearingIterator.next();
+				rotorBearingIterator.remove();
+				BlockPos pos = rotorBearing.getPos();
+				getWorld().removeTileEntity(pos);
+				getWorld().createExplosion(null, pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, 4F, true);
+				getWorld().setBlockToAir(pos);
+			}
+			getTurbine().bearingTension = 0D;
+			getTurbine().checkIfMachineIsWhole();
+			return;
+		}
+		
 		getTurbine().energyStorage.changeEnergyStored((int)getTurbine().power);
 		
 		PacketHandler.instance.sendToAll(getRenderPacket());
@@ -623,15 +640,15 @@ public class TurbineLogic extends MultiblockLogic<Turbine, ITurbinePart, Turbine
 	}
 	
 	protected boolean canProcessInputs() {
-		if (!getTurbine().isTurbineOn || !setRecipeStats()) return false;
+		if (!setRecipeStats()) return false;
 		return canProduceProducts();
 	}
 	
 	protected boolean setRecipeStats() {
-		if (getTurbine().recipeInfo == null) {
+		if (getTurbine().recipeInfo == null || !getTurbine().isTurbineOn) {
 			getTurbine().recipeInputRate = 0;
 			getTurbine().basePowerPerMB = getTurbine().recipeInputRateFP = 0D;
-			getTurbine().idealTotalExpansionLevel = 1D;
+			//getTurbine().idealTotalExpansionLevel = 1D;
 			getTurbine().particleEffect = "cloud";
 			getTurbine().particleSpeedMult = 1D/23.2D;
 			return false;
@@ -648,7 +665,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, ITurbinePart, Turbine
 		if (fluidProduct.getMaxStackSize(0) <= 0 || fluidProduct.getStack() == null) return false;
 		
 		int recipeInputRateDiff = getTurbine().recipeInputRate;
-		getTurbine().recipeInputRate = Math.min(getTurbine().tanks.get(0).getFluidAmount(), getMaxRecipeRateMultiplier());
+		getTurbine().recipeInputRate = Math.min(getTurbine().tanks.get(0).getFluidAmount(), (int)(NCConfig.turbine_tension_throughput_factor*getMaxRecipeRateMultiplier()));
 		recipeInputRateDiff = Math.abs(recipeInputRateDiff - getTurbine().recipeInputRate);
 		
 		double roundingFactor = Math.max(0D, Math.E*Math.log1p(getTurbine().recipeInputRate/(1 + recipeInputRateDiff)));
@@ -684,12 +701,19 @@ public class TurbineLogic extends MultiblockLogic<Turbine, ITurbinePart, Turbine
 	}
 	
 	public double getNewRawProcessPower(double previousRawPower, double maxRawPower, boolean increasing) {
+		double absoluteLeniency = 4D*getTurbine().shaftWidth*getTurbine().bladeLength*getThroughputLeniencyMult();
+		double throughputEfficiency = getMaxRecipeRateMultiplier() == 0 ? 1D : Math.min(1D, (getTurbine().recipeInputRateFP + absoluteLeniency)/getMaxRecipeRateMultiplier());
+		
 		if (increasing) {
-			return (getTurbine().inertia*previousRawPower + maxRawPower)/(getTurbine().inertia + 1D);
+			return throughputEfficiency*(getTurbine().inertia*previousRawPower + maxRawPower)/(getTurbine().inertia + 1D);
 		}
 		else {
-			return (getTurbine().inertia*previousRawPower)/(getTurbine().inertia + 2D);
+			return throughputEfficiency*(getTurbine().inertia*previousRawPower)/(getTurbine().inertia + 2D);
 		}
+	}
+	
+	protected double getThroughputLeniencyMult() {
+		return Math.max(NCConfig.turbine_throughput_efficiency_leniency, getTurbine().idealTotalExpansionLevel <= 1D || getTurbine().maxBladeExpansionCoefficient <= 1 ? Double.MAX_VALUE : Math.ceil(Math.log(getTurbine().idealTotalExpansionLevel)/Math.log(getTurbine().maxBladeExpansionCoefficient)));
 	}
 	
 	public double getRawMaxProcessPower() {
@@ -707,7 +731,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, ITurbinePart, Turbine
 	}
 	
 	public static double getExpansionIdealityMultiplier(double ideal, double actual) {
-		if (ideal <= 0 || actual <= 0) return 0D;
+		if (ideal <= 0D || actual <= 0D) return 0D;
 		return ideal < actual ? ideal/actual : actual/ideal;
 	}
 	
@@ -835,7 +859,7 @@ public class TurbineLogic extends MultiblockLogic<Turbine, ITurbinePart, Turbine
 			// If this machine isn't playing sounds, go ahead and play them
 			for (SoundInfo activeSound : getTurbine().activeSounds) {
 				if (activeSound != null && (activeSound.sound == null || !Minecraft.getMinecraft().getSoundHandler().isSoundPlaying(activeSound.sound))) {
-					activeSound.sound = SoundHandler.startTileSound(NCSounds.turbine_run, activeSound.pos, (float) ((0.125D + getTurbine().angVel*0.5D)*NCConfig.turbine_sound_volume), SoundHelper.getPitch(6F*getTurbine().angVel - 2F));
+					activeSound.sound = SoundHandler.startTileSound(NCSounds.turbine_run, activeSound.pos, (float) ((0.125D + getTurbine().angVel*0.25D)*NCConfig.turbine_sound_volume), SoundHelper.getPitch(4F*getTurbine().angVel - 2F));
 				}
 			}
 			
@@ -851,6 +875,9 @@ public class TurbineLogic extends MultiblockLogic<Turbine, ITurbinePart, Turbine
 	
 	@SideOnly(Side.CLIENT)
 	protected void stopSounds() {
+		if (getTurbine().activeSounds == null) {
+			return;
+		}
 		for (SoundInfo activeSound : getTurbine().activeSounds) {
 			if (activeSound != null) {
 				SoundHandler.stopTileSound(activeSound.pos);
@@ -863,25 +890,20 @@ public class TurbineLogic extends MultiblockLogic<Turbine, ITurbinePart, Turbine
 	// NBT
 	
 	@Override
-	public void writeToNBT(NBTTagCompound data, SyncReason syncReason) {
-		/*NBTTagCompound logicTag = new NBTTagCompound();
-		data.setTag("turbine", logicTag);
-		*/
+	public void writeToLogicTag(NBTTagCompound logicTag, SyncReason syncReason) {
+		
 	}
 	
 	@Override
-	public void readFromNBT(NBTTagCompound data, SyncReason syncReason) {
-		/*if (data.hasKey("turbine")) {
-			NBTTagCompound logicTag = data.getCompoundTag("turbine");
-			
-		}*/
+	public void readFromLogicTag(NBTTagCompound logicTag, SyncReason syncReason) {
+		
 	}
 	
 	// Packets
 	
 	@Override
 	public TurbineUpdatePacket getUpdatePacket() {
-		return new TurbineUpdatePacket(getTurbine().controller.getTilePos(), getTurbine().isTurbineOn, getTurbine().energyStorage, getTurbine().power, getTurbine().rawPower, getTurbine().conductivity, getTurbine().totalExpansionLevel, getTurbine().idealTotalExpansionLevel, getTurbine().shaftWidth, getTurbine().bladeLength, getTurbine().noBladeSets, getTurbine().dynamoCoilCount, getTurbine().dynamoCoilCountOpposite);
+		return new TurbineUpdatePacket(getTurbine().controller.getTilePos(), getTurbine().isTurbineOn, getTurbine().energyStorage, getTurbine().power, getTurbine().rawPower, getTurbine().conductivity, getTurbine().totalExpansionLevel, getTurbine().idealTotalExpansionLevel, getTurbine().shaftWidth, getTurbine().bladeLength, getTurbine().noBladeSets, getTurbine().dynamoCoilCount, getTurbine().dynamoCoilCountOpposite, getTurbine().bearingTension);
 	}
 	
 	@Override

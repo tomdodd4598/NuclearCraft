@@ -9,13 +9,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fluids.Fluid;
 
 public class BlockFluidAcid extends NCBlockFluid {
-
-	public BlockFluidAcid(Fluid fluid) {
-		super(fluid, Material.WATER);
-	}
 	
 	public BlockFluidAcid(FluidAcid fluid) {
 		super(fluid, Material.WATER);

@@ -21,6 +21,7 @@ import nc.multiblock.fission.tile.IFissionController;
 import nc.multiblock.fission.tile.IFissionFuelComponent;
 import nc.multiblock.fission.tile.TileFissionSource;
 import nc.multiblock.fission.tile.TileFissionSource.PrimingTargetInfo;
+import nc.multiblock.fission.tile.TileFissionVent;
 import nc.multiblock.network.FissionUpdatePacket;
 import nc.multiblock.network.SaltFissionUpdatePacket;
 import net.minecraft.block.state.IBlockState;
@@ -31,15 +32,18 @@ import net.minecraft.util.math.BlockPos;
 
 public class MoltenSaltFissionLogic extends FissionReactorLogic {
 	
-	public double sparsityEfficiencyMult = 0D;
-	
 	public MoltenSaltFissionLogic(FissionReactorLogic oldLogic) {
 		super(oldLogic);
 	}
 	
 	@Override
+	public String getID() {
+		return "molten_salt";
+	}
+	
+	@Override
 	public void onResetStats() {
-		sparsityEfficiencyMult = 0D;
+		
 	}
 	
 	@Override
@@ -55,6 +59,10 @@ public class MoltenSaltFissionLogic extends FissionReactorLogic {
 		}
 		if (getPartMap(TileSolidFissionSink.class).size() != 0) {
 			multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.fission_reactor.prohibit_sinks", null);
+			return false;
+		}
+		if (getPartMap(TileFissionVent.class).size() != 0) {
+			multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.fission_reactor.prohibit_vents", null);
 			return false;
 		}
 		return true;
@@ -142,9 +150,9 @@ public class MoltenSaltFissionLogic extends FissionReactorLogic {
 		
 		getReactor().usefulPartCount += getReactor().passiveModeratorCache.size() + getReactor().activeModeratorCache.size() + getReactor().activeReflectorCache.size();
 		double usefulPartRatio = (double)getReactor().usefulPartCount/(double)getReactor().getInteriorVolume();
-		sparsityEfficiencyMult = usefulPartRatio >= NCConfig.fission_sparsity_penalty_params[1] ? 1D : (1D - NCConfig.fission_sparsity_penalty_params[0])*Math.sin(usefulPartRatio*Math.PI/(2D*NCConfig.fission_sparsity_penalty_params[1])) + NCConfig.fission_sparsity_penalty_params[0];
+		getReactor().sparsityEfficiencyMult = usefulPartRatio >= NCConfig.fission_sparsity_penalty_params[1] ? 1D : (1D - NCConfig.fission_sparsity_penalty_params[0])*Math.sin(usefulPartRatio*Math.PI/(2D*NCConfig.fission_sparsity_penalty_params[1])) + NCConfig.fission_sparsity_penalty_params[0];
 		//effectiveHeating *= sparsityEfficiencyMult;
-		getReactor().totalEfficiency *= sparsityEfficiencyMult;
+		getReactor().totalEfficiency *= getReactor().sparsityEfficiencyMult;
 		getReactor().meanHeatMult = getReactor().fuelComponentCount == 0 ? 0D : (double)getReactor().totalHeatMult/(double)getReactor().fuelComponentCount;
 		getReactor().meanEfficiency = getReactor().fuelComponentCount == 0 ? 0D : getReactor().totalEfficiency/getReactor().fuelComponentCount;
 	}
@@ -183,35 +191,27 @@ public class MoltenSaltFissionLogic extends FissionReactorLogic {
 	// NBT
 	
 	@Override
-	public void writeToNBT(NBTTagCompound data, SyncReason syncReason) {
-		super.writeToNBT(data, syncReason);
-		NBTTagCompound logicTag = new NBTTagCompound();
-		logicTag.setDouble("sparsityEfficiencyMult", sparsityEfficiencyMult);
-		data.setTag("molten_salt", logicTag);
+	public void writeToLogicTag(NBTTagCompound logicTag, SyncReason syncReason) {
+		super.writeToLogicTag(logicTag, syncReason);
 	}
 	
 	@Override
-	public void readFromNBT(NBTTagCompound data, SyncReason syncReason) {
-		super.readFromNBT(data, syncReason);
-		if (data.hasKey("molten_salt")) {
-			NBTTagCompound logicTag = data.getCompoundTag("molten_salt");
-			sparsityEfficiencyMult = logicTag.getDouble("sparsityEfficiencyMult");
-		}
+	public void readFromLogicTag(NBTTagCompound logicTag, SyncReason syncReason) {
+		super.readFromLogicTag(logicTag, syncReason);
 	}
 	
 	// Packets
 	
 	@Override
 	public SaltFissionUpdatePacket getUpdatePacket() {
-		return new SaltFissionUpdatePacket(getReactor().controller.getTilePos(), getReactor().isReactorOn, getReactor().heatBuffer, getReactor().clusterCount, getReactor().cooling, getReactor().rawHeating, getReactor().totalHeatMult, getReactor().meanHeatMult, getReactor().fuelComponentCount, getReactor().usefulPartCount, getReactor().totalEfficiency, getReactor().meanEfficiency, sparsityEfficiencyMult);
+		return new SaltFissionUpdatePacket(getReactor().controller.getTilePos(), getReactor().isReactorOn, getReactor().heatBuffer, getReactor().clusterCount, getReactor().cooling, getReactor().rawHeating, getReactor().totalHeatMult, getReactor().meanHeatMult, getReactor().fuelComponentCount, getReactor().usefulPartCount, getReactor().totalEfficiency, getReactor().meanEfficiency, getReactor().sparsityEfficiencyMult);
 	}
 	
 	@Override
 	public void onPacket(FissionUpdatePacket message) {
 		super.onPacket(message);
 		if (message instanceof SaltFissionUpdatePacket) {
-			SaltFissionUpdatePacket packet = (SaltFissionUpdatePacket) message;
-			sparsityEfficiencyMult = packet.sparsityEfficiencyMult;
+			//SaltFissionUpdatePacket packet = (SaltFissionUpdatePacket) message;
 		}
 	}
 	

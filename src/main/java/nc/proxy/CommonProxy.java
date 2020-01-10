@@ -1,5 +1,7 @@
 package nc.proxy;
 
+import java.util.Locale;
+
 import nc.Global;
 import nc.ModCheck;
 import nc.capability.radiation.RadiationCapabilityHandler;
@@ -197,7 +199,7 @@ public class CommonProxy {
 	// Fluid Colours
 	
 	public void registerFluidBlockRendering(Block block, String name) {
-		
+		name = name.toLowerCase(Locale.ROOT);
 	}
 	
 	public void initFluidColors() {

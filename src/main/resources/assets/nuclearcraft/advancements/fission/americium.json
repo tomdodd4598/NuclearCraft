@@ -2,7 +2,7 @@
 	"display": {
 		"icon": {
 			"item": "nuclearcraft:americium",
-			"data": 4
+			"data": 14
 		},
 		"title": {
 			"translate": "advancement.nuclearcraft.americium.name"

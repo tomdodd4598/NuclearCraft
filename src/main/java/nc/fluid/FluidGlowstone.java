@@ -2,7 +2,7 @@ package nc.fluid;
 
 import net.minecraft.init.SoundEvents;
 
-public class FluidGlowstone extends FluidBase {
+public class FluidGlowstone extends NCFluid {
 	
 	public FluidGlowstone(String fluidName) {
 		super(fluidName, true);
@@ -15,8 +15,8 @@ public class FluidGlowstone extends FluidBase {
 		setFillSound(SoundEvents.ITEM_BUCKET_FILL_LAVA);
 	}
 	
-	public FluidGlowstone(String fluidName, Integer colour) {
-		super(fluidName, true, "molten", colour);
+	public FluidGlowstone(String fluidName, Integer color) {
+		super(fluidName, true, "molten", color);
 		setDensity(-500);
 		setGaseous(true);
 		setViscosity(8000);

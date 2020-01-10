@@ -14,15 +14,10 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fluids.Fluid;
 
 public class BlockFluidParticle extends NCBlockFluid {
 	
 	private static final Material GAS = new MaterialLiquid(MapColor.AIR);
-	
-	public BlockFluidParticle(Fluid fluid) {
-		super(fluid, GAS);
-	}
 	
 	public BlockFluidParticle(FluidParticle fluid) {
 		super(fluid, GAS);

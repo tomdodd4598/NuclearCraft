@@ -1,5 +1,8 @@
 package nc.multiblock.fission.salt.tile;
 
+import static nc.recipe.NCRecipes.coolant_heater;
+import static nc.recipe.NCRecipes.coolant_heater_valid_fluids;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,9 +22,7 @@ import nc.multiblock.fission.tile.IFissionComponent;
 import nc.multiblock.fission.tile.IFissionCoolingComponent;
 import nc.multiblock.fission.tile.TileFissionPart;
 import nc.recipe.AbstractRecipeHandler;
-import nc.recipe.NCRecipes;
 import nc.recipe.ProcessorRecipe;
-import nc.recipe.ProcessorRecipeHandler;
 import nc.recipe.RecipeInfo;
 import nc.recipe.ingredient.IFluidIngredient;
 import nc.tile.fluid.ITileFluid;
@@ -46,7 +47,7 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 
 public class TileSaltFissionHeater extends TileFissionPart implements IFluidProcessor, ITileFluid, IFissionCoolingComponent {
 	
-	protected final @Nonnull List<Tank> tanks = Lists.newArrayList(new Tank(FluidStackHelper.INGOT_BLOCK_VOLUME*2, NCRecipes.coolant_heater_valid_fluids.get(0)), new Tank(FluidStackHelper.INGOT_BLOCK_VOLUME*4, new ArrayList<String>()));
+	protected final @Nonnull List<Tank> tanks = Lists.newArrayList(new Tank(FluidStackHelper.INGOT_BLOCK_VOLUME*2, coolant_heater_valid_fluids.get(0)), new Tank(FluidStackHelper.INGOT_BLOCK_VOLUME*4, new ArrayList<String>()));
 	
 	protected @Nonnull FluidConnection[] fluidConnections = ITileFluid.fluidConnectionAll(Lists.newArrayList(TankSorption.NON, TankSorption.NON));
 	
@@ -65,7 +66,6 @@ public class TileSaltFissionHeater extends TileFissionPart implements IFluidProc
 	protected double time;
 	protected boolean isProcessing, canProcessInputs;
 	
-	protected static final ProcessorRecipeHandler RECIPE_HANDLER = NCRecipes.coolant_heater;
 	protected RecipeInfo<ProcessorRecipe> recipeInfo;
 	
 	protected FissionCluster cluster = null;
@@ -204,7 +204,7 @@ public class TileSaltFissionHeater extends TileFissionPart implements IFluidProc
 	
 	@Override
 	public void refreshRecipe() {
-		recipeInfo = RECIPE_HANDLER.getRecipeInfoFromInputs(new ArrayList<ItemStack>(), getFluidInputs());
+		recipeInfo = coolant_heater.getRecipeInfoFromInputs(new ArrayList<ItemStack>(), getFluidInputs());
 	}
 	
 	@Override

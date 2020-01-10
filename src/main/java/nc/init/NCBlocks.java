@@ -87,7 +87,7 @@ public class NCBlocks {
 	
 	public static Block nuclear_furnace;
 	public static Block manufactory;
-	public static Block isotope_separator;
+	public static Block separator;
 	public static Block decay_hastener;
 	public static Block fuel_reprocessor;
 	public static Block alloy_furnace;
@@ -95,7 +95,7 @@ public class NCBlocks {
 	public static Block melter;
 	public static Block supercooler;
 	public static Block electrolyzer;
-	public static Block irradiator;
+	public static Block assembler;
 	public static Block ingot_former;
 	public static Block pressurizer;
 	public static Block chemical_reactor;
@@ -213,7 +213,7 @@ public class NCBlocks {
 		
 		if (NCConfig.register_processor[0]) nuclear_furnace = withName(new BlockNuclearFurnace(), "nuclear_furnace");
 		if (NCConfig.register_processor[1]) manufactory = withName(new BlockProcessor(ProcessorType.MANUFACTORY));
-		if (NCConfig.register_processor[2]) isotope_separator = withName(new BlockProcessor(ProcessorType.ISOTOPE_SEPARATOR));
+		if (NCConfig.register_processor[2]) separator = withName(new BlockProcessor(ProcessorType.SEPARATOR));
 		if (NCConfig.register_processor[3]) decay_hastener = withName(new BlockProcessor(ProcessorType.DECAY_HASTENER));
 		if (NCConfig.register_processor[4]) fuel_reprocessor = withName(new BlockProcessor(ProcessorType.FUEL_REPROCESSOR));
 		if (NCConfig.register_processor[5]) alloy_furnace = withName(new BlockProcessor(ProcessorType.ALLOY_FURNACE));
@@ -221,7 +221,7 @@ public class NCBlocks {
 		if (NCConfig.register_processor[7]) melter = withName(new BlockProcessor(ProcessorType.MELTER));
 		if (NCConfig.register_processor[8]) supercooler = withName(new BlockProcessor(ProcessorType.SUPERCOOLER));
 		if (NCConfig.register_processor[9]) electrolyzer = withName(new BlockProcessor(ProcessorType.ELECTROLYZER));
-		if (NCConfig.register_processor[10]) irradiator = withName(new BlockProcessor(ProcessorType.IRRADIATOR));
+		if (NCConfig.register_processor[10]) assembler = withName(new BlockProcessor(ProcessorType.ASSEMBLER));
 		if (NCConfig.register_processor[11]) ingot_former = withName(new BlockProcessor(ProcessorType.INGOT_FORMER));
 		if (NCConfig.register_processor[12]) pressurizer = withName(new BlockProcessor(ProcessorType.PRESSURIZER));
 		if (NCConfig.register_processor[13]) chemical_reactor = withName(new BlockProcessor(ProcessorType.CHEMICAL_REACTOR));
@@ -261,7 +261,7 @@ public class NCBlocks {
 		fission_casing = withName(new BlockFissionCasing(), "fission_casing");
 		fission_glass = withName(new BlockFissionGlass(), "fission_glass");
 		fission_conductor = withName(new BlockFissionConductor(), "fission_conductor");
-		fission_reflector = withName(new NCBlock(Material.IRON), "fission_reflector");
+		fission_reflector = withName(new BlockMeta.BlockFissionReflector(), "fission_reflector");
 		fission_port = withName(new BlockFissionPort(), "fission_port");
 		fission_vent = withName(new BlockFissionVent(), "fission_vent");
 		fission_source = withName(new BlockFissionSource(), "fission_source");
@@ -346,7 +346,7 @@ public class NCBlocks {
 		
 		if (NCConfig.register_processor[0]) registerBlock(nuclear_furnace);
 		if (NCConfig.register_processor[1]) registerBlock(manufactory);
-		if (NCConfig.register_processor[2]) registerBlock(isotope_separator);
+		if (NCConfig.register_processor[2]) registerBlock(separator);
 		if (NCConfig.register_processor[3]) registerBlock(decay_hastener);
 		if (NCConfig.register_processor[4]) registerBlock(fuel_reprocessor);
 		if (NCConfig.register_processor[5]) registerBlock(alloy_furnace);
@@ -354,7 +354,7 @@ public class NCBlocks {
 		if (NCConfig.register_processor[7]) registerBlock(melter);
 		if (NCConfig.register_processor[8]) registerBlock(supercooler);
 		if (NCConfig.register_processor[9]) registerBlock(electrolyzer);
-		if (NCConfig.register_processor[10]) registerBlock(irradiator);
+		if (NCConfig.register_processor[10]) registerBlock(assembler);
 		if (NCConfig.register_processor[11]) registerBlock(ingot_former);
 		if (NCConfig.register_processor[12]) registerBlock(pressurizer);
 		if (NCConfig.register_processor[13]) registerBlock(chemical_reactor);
@@ -394,7 +394,7 @@ public class NCBlocks {
 		registerBlock(fission_casing);
 		registerBlock(fission_glass);
 		registerBlock(fission_conductor);
-		registerBlock(fission_reflector);
+		registerBlock(fission_reflector, new ItemBlockMeta(fission_reflector, MetaEnums.NeutronReflectorType.class, TextFormatting.AQUA));
 		registerBlock(fission_port);
 		registerBlock(fission_vent);
 		registerBlock(fission_source, new ItemBlockMeta(fission_source, MetaEnums.NeutronSourceType.class, TextFormatting.LIGHT_PURPLE, NCInfo.neutronSourceFixedInfo(), TextFormatting.AQUA, NCInfo.neutronSourceInfo()));
@@ -486,7 +486,7 @@ public class NCBlocks {
 		
 		if (NCConfig.register_processor[0]) registerRender(nuclear_furnace);
 		if (NCConfig.register_processor[1]) registerRender(manufactory);
-		if (NCConfig.register_processor[2]) registerRender(isotope_separator);
+		if (NCConfig.register_processor[2]) registerRender(separator);
 		if (NCConfig.register_processor[3]) registerRender(decay_hastener);
 		if (NCConfig.register_processor[4]) registerRender(fuel_reprocessor);
 		if (NCConfig.register_processor[5]) registerRender(alloy_furnace);
@@ -494,7 +494,7 @@ public class NCBlocks {
 		if (NCConfig.register_processor[7]) registerRender(melter);
 		if (NCConfig.register_processor[8]) registerRender(supercooler);
 		if (NCConfig.register_processor[9]) registerRender(electrolyzer);
-		if (NCConfig.register_processor[10]) registerRender(irradiator);
+		if (NCConfig.register_processor[10]) registerRender(assembler);
 		if (NCConfig.register_processor[11]) registerRender(ingot_former);
 		if (NCConfig.register_processor[12]) registerRender(pressurizer);
 		if (NCConfig.register_processor[13]) registerRender(chemical_reactor);
@@ -534,7 +534,9 @@ public class NCBlocks {
 		registerRender(fission_casing);
 		registerRender(fission_glass);
 		registerRender(fission_conductor);
-		registerRender(fission_reflector);
+		for (int i = 0; i < MetaEnums.NeutronReflectorType.values().length; i++) {
+			registerRender(fission_reflector, i, MetaEnums.NeutronReflectorType.values()[i].getName());
+		}
 		registerRender(fission_port);
 		registerRender(fission_vent);
 		for (int i = 0; i < MetaEnums.NeutronSourceType.values().length; i++) {

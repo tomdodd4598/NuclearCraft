@@ -2,7 +2,6 @@ package nc.network.config;
 
 import io.netty.buffer.ByteBuf;
 import nc.config.NCConfig;
-import nc.util.NCUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
@@ -40,8 +39,8 @@ public class ConfigUpdatePacket implements IMessage {
 	public void fromBytes(ByteBuf buf) {
 		try {
 			readMessage(buf);
-		} catch (IndexOutOfBoundsException ioe) {
-			NCUtil.getLogger().catching(ioe);
+		} catch (IndexOutOfBoundsException e) {
+			e.printStackTrace();
 			return;
 		}
 		messageValid = true;

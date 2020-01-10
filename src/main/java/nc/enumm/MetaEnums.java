@@ -307,6 +307,81 @@ public class MetaEnums {
 		}
 	}
 	
+	public static enum NeutronReflectorType implements IStringSerializable, IBlockMetaEnum {
+		BERYLLIUM_CARBON("beryllium_carbon", 0, NCConfig.fission_reflector_efficiency[0], NCConfig.fission_reflector_reflectivity[0], 0, "pickaxe", 2, 15, 0),
+		LEAD_STEEL("lead_steel", 1, NCConfig.fission_reflector_efficiency[1], NCConfig.fission_reflector_reflectivity[1], 0, "pickaxe", 2, 15, 0);
+		
+		private String name;
+		private int id;
+		private double efficiency;
+		private double reflectivity;
+		private int harvestLevel;
+		private String harvestTool;
+		private float hardness;
+		private float resistance;
+		private int lightValue;
+		
+		private NeutronReflectorType(String name, int id, double efficiency, double reflectivity, int harvestLevel, String harvestTool, float hardness, float resistance, int lightValue) {
+			this.name = name;
+			this.id = id;
+			this.efficiency = efficiency;
+			this.reflectivity = reflectivity;
+			this.harvestLevel = harvestLevel;
+			this.harvestTool = harvestTool;
+			this.hardness = hardness;
+			this.resistance = resistance;
+			this.lightValue = lightValue;
+		}
+
+		@Override
+		public String getName() {
+			return name;
+		}
+		
+		@Override
+		public String toString() {
+			return getName();
+		}
+		
+		@Override
+		public int getID() {
+			return id;
+		}
+		
+		public double getEfficiency() {
+			return efficiency;
+		}
+		
+		public double getReflectivity() {
+			return reflectivity;
+		}
+		
+		@Override
+		public int getHarvestLevel() {
+			return harvestLevel;
+		}
+		
+		@Override
+		public String getHarvestTool() {
+			return harvestTool;
+		}
+		
+		@Override
+		public float getHardness() {
+			return hardness;
+		}
+		
+		@Override
+		public float getResistance() {
+			return resistance;
+		}
+		
+		@Override
+		public int getLightValue() {
+			return lightValue;
+		}
+	}
+	
 	public static enum HeatSinkType implements IStringSerializable, IHeatSinkEnum {
 		WATER("water", 0, NCConfig.fission_sink_cooling_rate[0], 0, "pickaxe", 2, 15, 0),
 		IRON("iron", 1, NCConfig.fission_sink_cooling_rate[1], 0, "pickaxe", 2, 15, 0),
@@ -685,7 +760,8 @@ public class MetaEnums {
 		EMPTY_FRAME("empty_frame", 11),
 		STEEL_FRAME("steel_frame", 12),
 		SIC_FIBER("sic_fiber", 13),
-		EMPTY_HEAT_SINK("empty_sink", 14);
+		EMPTY_HEAT_SINK("empty_sink", 14),
+		PYROLYTIC_CARBON("pyrolytic_carbon", 15);
 		
 		private String name;
 		private int id;
@@ -719,36 +795,6 @@ public class MetaEnums {
 		private int id;
 		
 		private UpgradeType(String name, int id) {
-			this.name = name;
-			this.id = id;
-		}
-
-		@Override
-		public String getName() {
-			return name;
-		}
-		
-		@Override
-		public String toString() {
-			return getName();
-		}
-		
-		@Override
-		public int getID() {
-			return id;
-		}
-	}
-	
-	public static enum ThoriumType implements IStringSerializable, IMetaEnum {
-		_232_C("232_c", 0),
-		_232_OX("232_ox", 1),
-		_232_NI("232_ni", 2),
-		_232_ZA("232_za", 3);
-		
-		private String name;
-		private int id;
-		
-		private ThoriumType(String name, int id) {
 			this.name = name;
 			this.id = id;
 		}
@@ -1061,16 +1107,305 @@ public class MetaEnums {
 		}
 	}
 	
+	public static enum ThoriumPelletType implements IStringSerializable, IMetaEnum {
+		TBU("tbu", 0),
+		TBU_C("tbu_c", 1);
+		
+		private final String name;
+		private final int id;
+		
+		private ThoriumPelletType(String name, int id) {
+			this.name = name;
+			this.id = id;
+		}
+		
+		@Override
+		public String getName() {
+			return name;
+		}
+		
+		@Override
+		public String toString() {
+			return getName();
+		}
+		
+		@Override
+		public int getID() {
+			return id;
+		}
+	}
+	
+	public static enum UraniumPelletType implements IStringSerializable, IMetaEnum {
+		LEU_233("leu_233", 0),
+		LEU_233_C("leu_233_c", 1),
+		HEU_233("heu_233", 2),
+		HEU_233_C("heu_233_c", 3),
+		LEU_235("leu_235", 4),
+		LEU_235_C("leu_235_c", 5),
+		HEU_235("heu_235", 6),
+		HEU_235_C("heu_235_c", 7);
+		
+		private final String name;
+		private final int id;
+		
+		private UraniumPelletType(String name, int id) {
+			this.name = name;
+			this.id = id;
+		}
+		
+		@Override
+		public String getName() {
+			return name;
+		}
+		
+		@Override
+		public String toString() {
+			return getName();
+		}
+		
+		@Override
+		public int getID() {
+			return id;
+		}
+	}
+	
+	public static enum NeptuniumPelletType implements IStringSerializable, IMetaEnum {
+		LEN_236("len_236", 0),
+		LEN_236_C("len_236_c", 1),
+		HEN_236("hen_236", 2),
+		HEN_236_C("hen_236_c", 3);
+		
+		private final String name;
+		private final int id;
+		
+		private NeptuniumPelletType(String name, int id) {
+			this.name = name;
+			this.id = id;
+		}
+		
+		@Override
+		public String getName() {
+			return name;
+		}
+		
+		@Override
+		public String toString() {
+			return getName();
+		}
+		
+		@Override
+		public int getID() {
+			return id;
+		}
+	}
+	
+	public static enum PlutoniumPelletType implements IStringSerializable, IMetaEnum {
+		LEP_239("lep_239", 0),
+		LEP_239_C("lep_239_c", 1),
+		HEP_239("hep_239", 2),
+		HEP_239_C("hep_239_c", 3),
+		LEP_241("lep_241", 4),
+		LEP_241_C("lep_241_c", 5),
+		HEP_241("hep_241", 6),
+		HEP_241_C("hep_241_c", 7);
+		
+		private final String name;
+		private final int id;
+		
+		private PlutoniumPelletType(String name, int id) {
+			this.name = name;
+			this.id = id;
+		}
+		
+		@Override
+		public String getName() {
+			return name;
+		}
+		
+		@Override
+		public String toString() {
+			return getName();
+		}
+		
+		@Override
+		public int getID() {
+			return id;
+		}
+	}
+	
+	public static enum MixedPelletType implements IStringSerializable, IMetaEnum {
+		MIX_239("mix_239", 0),
+		MIX_239_C("mix_239_c", 1),
+		MIX_241("mix_241", 2),
+		MIX_241_C("mix_241_c", 3);
+		
+		private final String name;
+		private final int id;
+		
+		private MixedPelletType(String name, int id) {
+			this.name = name;
+			this.id = id;
+		}
+		
+		@Override
+		public String getName() {
+			return name;
+		}
+		
+		@Override
+		public String toString() {
+			return getName();
+		}
+		
+		@Override
+		public int getID() {
+			return id;
+		}
+	}
+	
+	public static enum AmericiumPelletType implements IStringSerializable, IMetaEnum {
+		LEA_242("lea_242", 0),
+		LEA_242_C("lea_242_c", 1),
+		HEA_242("hea_242", 2),
+		HEA_242_C("hea_242_c", 3);
+		
+		private final String name;
+		private final int id;
+		
+		private AmericiumPelletType(String name, int id) {
+			this.name = name;
+			this.id = id;
+		}
+		
+		@Override
+		public String getName() {
+			return name;
+		}
+		
+		@Override
+		public String toString() {
+			return getName();
+		}
+		
+		@Override
+		public int getID() {
+			return id;
+		}
+	}
+	
+	public static enum CuriumPelletType implements IStringSerializable, IMetaEnum {
+		LECm_243("lecm_243", 0),
+		LECm_243_C("lecm_243_c", 1),
+		HECm_243("hecm_243", 2),
+		HECm_243_C("hecm_243_c", 3),
+		LECm_245("lecm_245", 4),
+		LECm_245_C("lecm_245_c", 5),
+		HECm_245("hecm_245", 6),
+		HECm_245_C("hecm_245_c", 7),
+		LECm_247("lecm_247", 8),
+		LECm_247_C("lecm_247_c", 9),
+		HECm_247("hecm_247", 10),
+		HECm_247_C("hecm_247_c", 11);
+		
+		private final String name;
+		private final int id;
+		
+		private CuriumPelletType(String name, int id) {
+			this.name = name;
+			this.id = id;
+		}
+		
+		@Override
+		public String getName() {
+			return name;
+		}
+		
+		@Override
+		public String toString() {
+			return getName();
+		}
+		
+		@Override
+		public int getID() {
+			return id;
+		}
+	}
+	
+	public static enum BerkeliumPelletType implements IStringSerializable, IMetaEnum {
+		LEB_248("leb_248", 0),
+		LEB_248_C("leb_248_c", 1),
+		HEB_248("heb_248", 2),
+		HEB_248_C("heb_248_c", 3);
+		
+		private final String name;
+		private final int id;
+		
+		private BerkeliumPelletType(String name, int id) {
+			this.name = name;
+			this.id = id;
+		}
+		
+		@Override
+		public String getName() {
+			return name;
+		}
+		
+		@Override
+		public String toString() {
+			return getName();
+		}
+		
+		@Override
+		public int getID() {
+			return id;
+		}
+	}
+	
+	public static enum CaliforniumPelletType implements IStringSerializable, IMetaEnum {
+		LECf_249("lecf_249", 0),
+		LECf_249_C("lecf_249_c", 1),
+		HECf_249("hecf_249", 2),
+		HECf_249_C("hecf_249_c", 3),
+		LECf_251("lecf_251", 4),
+		LECf_251_C("lecf_251_c", 5),
+		HECf_251("hecf_251", 6),
+		HECf_251_C("hecf_251_c", 7);
+		
+		private final String name;
+		private final int id;
+		
+		private CaliforniumPelletType(String name, int id) {
+			this.name = name;
+			this.id = id;
+		}
+		
+		@Override
+		public String getName() {
+			return name;
+		}
+		
+		@Override
+		public String toString() {
+			return getName();
+		}
+		
+		@Override
+		public int getID() {
+			return id;
+		}
+	}
+	
 	public static enum ThoriumFuelType implements IStringSerializable, IFissionFuelEnum {
 		TBU_TR("tbu_tr", 0),
 		TBU_OX("tbu_ox", 1),
 		TBU_NI("tbu_ni", 2),
 		TBU_ZA("tbu_za", 3);
 		
-		private String name;
-		private int id;
-		private int fuelTime, heatGen, criticality;
-		private double efficiency;
+		private final String name;
+		private final int id;
+		private final int fuelTime, heatGen, criticality;
+		private final double efficiency;
+		private final boolean selfPriming;
 		
 		private ThoriumFuelType(String name, int id) {
 			this.name = name;
@@ -1079,6 +1414,7 @@ public class MetaEnums {
 			heatGen = NCConfig.fission_thorium_heat_generation[id + id/4];
 			efficiency = NCConfig.fission_thorium_efficiency[id + id/4];
 			criticality = NCConfig.fission_thorium_criticality[id + id/4];
+			selfPriming = NCConfig.fission_thorium_self_priming[id + id/4];
 		}
 		
 		@Override
@@ -1114,6 +1450,11 @@ public class MetaEnums {
 		@Override
 		public int getCriticality() {
 			return criticality;
+		}
+		
+		@Override
+		public boolean getSelfPriming() {
+			return selfPriming;
 		}
 	}
 	
@@ -1135,10 +1476,11 @@ public class MetaEnums {
 		HEU_235_NI("heu_235_ni", 14),
 		HEU_235_ZA("heu_235_za", 15);
 		
-		private String name;
-		private int id;
-		private int fuelTime, heatGen, criticality;
-		private double efficiency;
+		private final String name;
+		private final int id;
+		private final int fuelTime, heatGen, criticality;
+		private final double efficiency;
+		private final boolean selfPriming;
 		
 		private UraniumFuelType(String name, int id) {
 			this.name = name;
@@ -1147,6 +1489,7 @@ public class MetaEnums {
 			heatGen = NCConfig.fission_uranium_heat_generation[id + id/4];
 			efficiency = NCConfig.fission_uranium_efficiency[id + id/4];
 			criticality = NCConfig.fission_uranium_criticality[id + id/4];
+			selfPriming = NCConfig.fission_uranium_self_priming[id + id/4];
 		}
 		
 		@Override
@@ -1182,6 +1525,11 @@ public class MetaEnums {
 		@Override
 		public int getCriticality() {
 			return criticality;
+		}
+		
+		@Override
+		public boolean getSelfPriming() {
+			return selfPriming;
 		}
 	}
 	
@@ -1195,10 +1543,11 @@ public class MetaEnums {
 		HEN_236_NI("hen_236_ni", 6),
 		HEN_236_ZA("hen_236_za", 7);
 		
-		private String name;
-		private int id;
-		private int fuelTime, heatGen, criticality;
-		private double efficiency;
+		private final String name;
+		private final int id;
+		private final int fuelTime, heatGen, criticality;
+		private final double efficiency;
+		private final boolean selfPriming;
 		
 		private NeptuniumFuelType(String name, int id) {
 			this.name = name;
@@ -1207,6 +1556,7 @@ public class MetaEnums {
 			heatGen = NCConfig.fission_neptunium_heat_generation[id + id/4];
 			efficiency = NCConfig.fission_neptunium_efficiency[id + id/4];
 			criticality = NCConfig.fission_neptunium_criticality[id + id/4];
+			selfPriming = NCConfig.fission_neptunium_self_priming[id + id/4];
 		}
 		
 		@Override
@@ -1242,6 +1592,11 @@ public class MetaEnums {
 		@Override
 		public int getCriticality() {
 			return criticality;
+		}
+		
+		@Override
+		public boolean getSelfPriming() {
+			return selfPriming;
 		}
 	}
 	
@@ -1263,10 +1618,11 @@ public class MetaEnums {
 		HEP_241_NI("hep_241_ni", 14),
 		HEP_241_ZA("hep_241_za", 15);
 		
-		private String name;
-		private int id;
-		private int fuelTime, heatGen, criticality;
-		private double efficiency;
+		private final String name;
+		private final int id;
+		private final int fuelTime, heatGen, criticality;
+		private final double efficiency;
+		private final boolean selfPriming;
 		
 		private PlutoniumFuelType(String name, int id) {
 			this.name = name;
@@ -1275,6 +1631,7 @@ public class MetaEnums {
 			heatGen = NCConfig.fission_plutonium_heat_generation[id + id/4];
 			efficiency = NCConfig.fission_plutonium_efficiency[id + id/4];
 			criticality = NCConfig.fission_plutonium_criticality[id + id/4];
+			selfPriming = NCConfig.fission_plutonium_self_priming[id + id/4];
 		}
 		
 		@Override
@@ -1310,6 +1667,11 @@ public class MetaEnums {
 		@Override
 		public int getCriticality() {
 			return criticality;
+		}
+		
+		@Override
+		public boolean getSelfPriming() {
+			return selfPriming;
 		}
 	}
 	
@@ -1323,10 +1685,11 @@ public class MetaEnums {
 		MIX_241_NI("mix_241_ni", 6),
 		MIX_241_ZA("mix_241_za", 7);
 		
-		private String name;
-		private int id;
-		private int fuelTime, heatGen, criticality;
-		private double efficiency;
+		private final String name;
+		private final int id;
+		private final int fuelTime, heatGen, criticality;
+		private final double efficiency;
+		private final boolean selfPriming;
 		
 		private MixedFuelType(String name, int id) {
 			this.name = name;
@@ -1335,6 +1698,7 @@ public class MetaEnums {
 			heatGen = NCConfig.fission_mixed_heat_generation[id + id/4];
 			efficiency = NCConfig.fission_mixed_efficiency[id + id/4];
 			criticality = NCConfig.fission_mixed_criticality[id + id/4];
+			selfPriming = NCConfig.fission_mixed_self_priming[id + id/4];
 		}
 		
 		@Override
@@ -1370,6 +1734,11 @@ public class MetaEnums {
 		@Override
 		public int getCriticality() {
 			return criticality;
+		}
+		
+		@Override
+		public boolean getSelfPriming() {
+			return selfPriming;
 		}
 	}
 	
@@ -1383,10 +1752,11 @@ public class MetaEnums {
 		HEA_242_NI("hea_242_ni", 6),
 		HEA_242_ZA("hea_242_za", 7);
 		
-		private String name;
-		private int id;
-		private int fuelTime, heatGen, criticality;
-		private double efficiency;
+		private final String name;
+		private final int id;
+		private final int fuelTime, heatGen, criticality;
+		private final double efficiency;
+		private final boolean selfPriming;
 		
 		private AmericiumFuelType(String name, int id) {
 			this.name = name;
@@ -1395,6 +1765,7 @@ public class MetaEnums {
 			heatGen = NCConfig.fission_americium_heat_generation[id + id/4];
 			efficiency = NCConfig.fission_americium_efficiency[id + id/4];
 			criticality = NCConfig.fission_americium_criticality[id + id/4];
+			selfPriming = NCConfig.fission_americium_self_priming[id + id/4];
 		}
 		
 		@Override
@@ -1430,6 +1801,11 @@ public class MetaEnums {
 		@Override
 		public int getCriticality() {
 			return criticality;
+		}
+		
+		@Override
+		public boolean getSelfPriming() {
+			return selfPriming;
 		}
 	}
 	
@@ -1459,10 +1835,11 @@ public class MetaEnums {
 		HECm_247_NI("hecm_247_ni", 22),
 		HECm_247_ZA("hecm_247_za", 23);
 		
-		private String name;
-		private int id;
-		private int fuelTime, heatGen, criticality;
-		private double efficiency;
+		private final String name;
+		private final int id;
+		private final int fuelTime, heatGen, criticality;
+		private final double efficiency;
+		private final boolean selfPriming;
 		
 		private CuriumFuelType(String name, int id) {
 			this.name = name;
@@ -1471,6 +1848,7 @@ public class MetaEnums {
 			heatGen = NCConfig.fission_curium_heat_generation[id + id/4];
 			efficiency = NCConfig.fission_curium_efficiency[id + id/4];
 			criticality = NCConfig.fission_curium_criticality[id + id/4];
+			selfPriming = NCConfig.fission_curium_self_priming[id + id/4];
 		}
 		
 		@Override
@@ -1506,6 +1884,11 @@ public class MetaEnums {
 		@Override
 		public int getCriticality() {
 			return criticality;
+		}
+		
+		@Override
+		public boolean getSelfPriming() {
+			return selfPriming;
 		}
 	}
 	
@@ -1519,10 +1902,11 @@ public class MetaEnums {
 		HEB_248_NI("heb_248_ni", 6),
 		HEB_248_ZA("heb_248_za", 7);
 		
-		private String name;
-		private int id;
-		private int fuelTime, heatGen, criticality;
-		private double efficiency;
+		private final String name;
+		private final int id;
+		private final int fuelTime, heatGen, criticality;
+		private final double efficiency;
+		private final boolean selfPriming;
 		
 		private BerkeliumFuelType(String name, int id) {
 			this.name = name;
@@ -1531,6 +1915,7 @@ public class MetaEnums {
 			heatGen = NCConfig.fission_berkelium_heat_generation[id + id/4];
 			efficiency = NCConfig.fission_berkelium_efficiency[id + id/4];
 			criticality = NCConfig.fission_berkelium_criticality[id + id/4];
+			selfPriming = NCConfig.fission_berkelium_self_priming[id + id/4];
 		}
 		
 		@Override
@@ -1566,6 +1951,11 @@ public class MetaEnums {
 		@Override
 		public int getCriticality() {
 			return criticality;
+		}
+		
+		@Override
+		public boolean getSelfPriming() {
+			return selfPriming;
 		}
 	}
 	
@@ -1587,10 +1977,11 @@ public class MetaEnums {
 		HECf_251_NI("hecf_251_ni", 14),
 		HECf_251_ZA("hecf_251_za", 15);
 		
-		private String name;
-		private int id;
-		private int fuelTime, heatGen, criticality;
-		private double efficiency;
+		private final String name;
+		private final int id;
+		private final int fuelTime, heatGen, criticality;
+		private final double efficiency;
+		private final boolean selfPriming;
 		
 		private CaliforniumFuelType(String name, int id) {
 			this.name = name;
@@ -1599,6 +1990,7 @@ public class MetaEnums {
 			heatGen = NCConfig.fission_californium_heat_generation[id + id/4];
 			efficiency = NCConfig.fission_californium_efficiency[id + id/4];
 			criticality = NCConfig.fission_californium_criticality[id + id/4];
+			selfPriming = NCConfig.fission_californium_self_priming[id + id/4];
 		}
 		
 		@Override
@@ -1634,6 +2026,11 @@ public class MetaEnums {
 		@Override
 		public int getCriticality() {
 			return criticality;
+		}
+		
+		@Override
+		public boolean getSelfPriming() {
+			return selfPriming;
 		}
 	}
 	

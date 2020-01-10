@@ -43,7 +43,6 @@ public class NCItems {
 	public static Item part;
 	public static Item upgrade;
 	
-	public static Item thorium;
 	public static Item uranium;
 	public static Item neptunium;
 	public static Item plutonium;
@@ -51,6 +50,16 @@ public class NCItems {
 	public static Item curium;
 	public static Item berkelium;
 	public static Item californium;
+	
+	public static Item pellet_thorium;
+	public static Item pellet_uranium;
+	public static Item pellet_neptunium;
+	public static Item pellet_plutonium;
+	public static Item pellet_mixed;
+	public static Item pellet_americium;
+	public static Item pellet_curium;
+	public static Item pellet_berkelium;
+	public static Item pellet_californium;
 	
 	public static Item fuel_thorium;
 	public static Item fuel_uranium;
@@ -125,7 +134,6 @@ public class NCItems {
 		part = withName(new NCItemMeta(MetaEnums.PartType.class), "part");
 		upgrade = withName(new NCItemMeta(MetaEnums.UpgradeType.class, NCInfo.upgradeInfo()), "upgrade");
 		
-		thorium = withName(new NCItemMeta(MetaEnums.ThoriumType.class), "thorium");
 		uranium = withName(new NCItemMeta(MetaEnums.UraniumType.class), "uranium");
 		neptunium = withName(new NCItemMeta(MetaEnums.NeptuniumType.class), "neptunium");
 		plutonium = withName(new NCItemMeta(MetaEnums.PlutoniumType.class), "plutonium");
@@ -133,6 +141,16 @@ public class NCItems {
 		curium = withName(new NCItemMeta(MetaEnums.CuriumType.class), "curium");
 		berkelium = withName(new NCItemMeta(MetaEnums.BerkeliumType.class), "berkelium");
 		californium = withName(new NCItemMeta(MetaEnums.CaliforniumType.class), "californium");
+		
+		pellet_thorium = withName(new NCItemMeta(MetaEnums.ThoriumPelletType.class), "pellet_thorium");
+		pellet_uranium = withName(new NCItemMeta(MetaEnums.UraniumPelletType.class), "pellet_uranium");
+		pellet_neptunium = withName(new NCItemMeta(MetaEnums.NeptuniumPelletType.class), "pellet_neptunium");
+		pellet_plutonium = withName(new NCItemMeta(MetaEnums.PlutoniumPelletType.class), "pellet_plutonium");
+		pellet_mixed = withName(new NCItemMeta(MetaEnums.MixedPelletType.class), "pellet_mixed");
+		pellet_americium = withName(new NCItemMeta(MetaEnums.AmericiumPelletType.class), "pellet_americium");
+		pellet_curium = withName(new NCItemMeta(MetaEnums.CuriumPelletType.class), "pellet_curium");
+		pellet_berkelium = withName(new NCItemMeta(MetaEnums.BerkeliumPelletType.class), "pellet_berkelium");
+		pellet_californium = withName(new NCItemMeta(MetaEnums.CaliforniumPelletType.class), "pellet_californium");
 		
 		fuel_thorium = withName(new ItemFissionFuel(MetaEnums.ThoriumFuelType.class), "fuel_thorium");
 		fuel_uranium = withName(new ItemFissionFuel(MetaEnums.UraniumFuelType.class), "fuel_uranium");
@@ -208,7 +226,6 @@ public class NCItems {
 		registerItem(part, NCTabs.MATERIAL);
 		registerItem(upgrade, NCTabs.MACHINE);
 		
-		registerItem(thorium, NCTabs.MATERIAL);
 		registerItem(uranium, NCTabs.MATERIAL);
 		registerItem(neptunium, NCTabs.MATERIAL);
 		registerItem(plutonium, NCTabs.MATERIAL);
@@ -216,6 +233,16 @@ public class NCItems {
 		registerItem(curium, NCTabs.MATERIAL);
 		registerItem(berkelium, NCTabs.MATERIAL);
 		registerItem(californium, NCTabs.MATERIAL);
+		
+		registerItem(pellet_thorium, NCTabs.MATERIAL);
+		registerItem(pellet_uranium, NCTabs.MATERIAL);
+		registerItem(pellet_neptunium, NCTabs.MATERIAL);
+		registerItem(pellet_plutonium, NCTabs.MATERIAL);
+		registerItem(pellet_mixed, NCTabs.MATERIAL);
+		registerItem(pellet_americium, NCTabs.MATERIAL);
+		registerItem(pellet_curium, NCTabs.MATERIAL);
+		registerItem(pellet_berkelium, NCTabs.MATERIAL);
+		registerItem(pellet_californium, NCTabs.MATERIAL);
 		
 		registerItem(fuel_thorium, NCTabs.MATERIAL);
 		registerItem(fuel_uranium, NCTabs.MATERIAL);
@@ -272,7 +299,7 @@ public class NCItems {
 		
 		registerItem(smore, NCTabs.MISC);
 		registerItem(moresmore, NCTabs.MISC);
-		registerItem(foursmore, NCTabs.MISC);
+		registerItem(foursmore, null);
 		
 		registerItem(record_wanderer, NCTabs.MISC);
 		registerItem(record_end_of_the_world, NCTabs.MISC);
@@ -313,10 +340,6 @@ public class NCItems {
 			registerRender(upgrade, i, MetaEnums.UpgradeType.values()[i].getName());
 		}
 		
-		for(int i = 0; i < MetaEnums.ThoriumType.values().length; i++) {
-			registerRender(thorium, i, MetaEnums.ThoriumType.values()[i].getName());
-		}
-		
 		for(int i = 0; i < MetaEnums.UraniumType.values().length; i++) {
 			registerRender(uranium, i, MetaEnums.UraniumType.values()[i].getName());
 		}
@@ -343,6 +366,42 @@ public class NCItems {
 		
 		for(int i = 0; i < MetaEnums.CaliforniumType.values().length; i++) {
 			registerRender(californium, i, MetaEnums.CaliforniumType.values()[i].getName());
+		}
+		
+		for(int i = 0; i < MetaEnums.ThoriumPelletType.values().length; i++) {
+			registerRender(pellet_thorium, i, MetaEnums.ThoriumPelletType.values()[i].getName());
+		}
+		
+		for(int i = 0; i < MetaEnums.UraniumPelletType.values().length; i++) {
+			registerRender(pellet_uranium, i, MetaEnums.UraniumPelletType.values()[i].getName());
+		}
+		
+		for(int i = 0; i < MetaEnums.NeptuniumPelletType.values().length; i++) {
+			registerRender(pellet_neptunium, i, MetaEnums.NeptuniumPelletType.values()[i].getName());
+		}
+		
+		for(int i = 0; i < MetaEnums.PlutoniumPelletType.values().length; i++) {
+			registerRender(pellet_plutonium, i, MetaEnums.PlutoniumPelletType.values()[i].getName());
+		}
+		
+		for(int i = 0; i < MetaEnums.MixedPelletType.values().length; i++) {
+			registerRender(pellet_mixed, i, MetaEnums.MixedPelletType.values()[i].getName());
+		}
+		
+		for(int i = 0; i < MetaEnums.AmericiumPelletType.values().length; i++) {
+			registerRender(pellet_americium, i, MetaEnums.AmericiumPelletType.values()[i].getName());
+		}
+		
+		for(int i = 0; i < MetaEnums.CuriumPelletType.values().length; i++) {
+			registerRender(pellet_curium, i, MetaEnums.CuriumPelletType.values()[i].getName());
+		}
+		
+		for(int i = 0; i < MetaEnums.BerkeliumPelletType.values().length; i++) {
+			registerRender(pellet_berkelium, i, MetaEnums.BerkeliumPelletType.values()[i].getName());
+		}
+		
+		for(int i = 0; i < MetaEnums.CaliforniumPelletType.values().length; i++) {
+			registerRender(pellet_californium, i, MetaEnums.CaliforniumPelletType.values()[i].getName());
 		}
 		
 		for(int i = 0; i < MetaEnums.ThoriumFuelType.values().length; i++) {

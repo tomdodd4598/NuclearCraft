@@ -82,6 +82,12 @@
 			},
 			"empty_sink": {
 				"model": "nuclearcraft:item/part/empty_sink"
+			},
+			"pyrolytic_carbon": {
+				"transform": "forge:default-item",
+				"textures": {
+					"layer0": "nuclearcraft:items/part/pyrolytic_carbon"
+				}
 			}
 		}
 	}

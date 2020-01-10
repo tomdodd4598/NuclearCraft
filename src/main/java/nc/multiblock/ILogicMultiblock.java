@@ -1,19 +1,33 @@
 package nc.multiblock;
 
+import java.lang.reflect.Constructor;
 import java.util.Map.Entry;
 
 import javax.annotation.Nonnull;
 
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
+import nc.multiblock.TileBeefBase.SyncReason;
 import nc.tile.fluid.ITileFluid;
 import nc.tile.inventory.ITileInventory;
 import nc.util.SuperMap;
 import nc.util.SuperMap.SuperMapEntry;
+import net.minecraft.nbt.NBTTagCompound;
 
 public interface ILogicMultiblock<LOGIC extends MultiblockLogic, T extends ITileMultiblockPart> {
 	
 	public @Nonnull LOGIC getLogic();
+	
+	public void setLogic(String logicID);
+	
+	public default @Nonnull LOGIC getNewLogic(Constructor<? extends LOGIC> constructor) {
+		try {
+			return constructor.newInstance(getLogic());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return getLogic();
+	}
 	
 	public static class PartSuperMap<T extends ITileMultiblockPart> extends SuperMap<Long, T, Long2ObjectMap<? extends T>> {
 		
@@ -50,6 +64,22 @@ public interface ILogicMultiblock<LOGIC extends MultiblockLogic, T extends ITile
 	public default <TYPE extends T> void removeBlockForSuperMapEntry(SuperMapEntry<Long, TYPE> superMapEntry, ITileMultiblockPart oldPart) {
 		if (superMapEntry.getKey().isInstance(oldPart)) {
 			superMapEntry.getValue().remove(oldPart.getTilePos().toLong());
+		}
+	}
+	
+	public default void writeLogicNBT(NBTTagCompound data, SyncReason syncReason) {
+		data.setString("logicID", getLogic().getID());
+		NBTTagCompound logicTag = new NBTTagCompound();
+		getLogic().writeToLogicTag(logicTag, syncReason);
+		data.setTag("logic", logicTag);
+	}
+	
+	public default void readLogicNBT(NBTTagCompound data, SyncReason syncReason) {
+		if (syncReason == SyncReason.FullSync && data.hasKey("logicID")) {
+			setLogic(data.getString("logicID"));
+		}
+		if (data.hasKey("logic")) {
+			getLogic().readFromLogicTag(data.getCompoundTag("logic"), syncReason);
 		}
 	}
 	

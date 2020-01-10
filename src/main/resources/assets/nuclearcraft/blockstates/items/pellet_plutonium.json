@@ -1,0 +1,50 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "nuclearcraft:item/pellet"
+	},
+	"variants": {
+		"type": {
+			"lep_239": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_plutonium/lep_239"
+				}
+			},
+			"lep_239_c": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_plutonium/lep_239_c"
+				}
+			},
+			"hep_239": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_plutonium/hep_239"
+				}
+			},
+			"hep_239_c": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_plutonium/hep_239_c"
+				}
+			},
+			"lep_241": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_plutonium/lep_241"
+				}
+			},
+			"lep_241_c": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_plutonium/lep_241_c"
+				}
+			},
+			"hep_241": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_plutonium/hep_241"
+				}
+			},
+			"hep_241_c": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_plutonium/hep_241_c"
+				}
+			}
+		}
+	}
+}

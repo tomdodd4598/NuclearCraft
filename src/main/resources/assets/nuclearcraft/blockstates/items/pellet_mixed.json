@@ -1,0 +1,30 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "nuclearcraft:item/pellet"
+	},
+	"variants": {
+		"type": {
+			"mix_239": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_mixed/mix_239"
+				}
+			},
+			"mix_239_c": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_mixed/mix_239_c"
+				}
+			},
+			"mix_241": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_mixed/mix_241"
+				}
+			},
+			"mix_241_c": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_mixed/mix_241_c"
+				}
+			}
+		}
+	}
+}

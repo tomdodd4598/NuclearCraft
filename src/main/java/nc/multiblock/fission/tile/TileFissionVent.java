@@ -3,7 +3,6 @@ package nc.multiblock.fission.tile;
 import static nc.block.property.BlockProperties.FACING_ALL;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.Nonnull;
@@ -39,7 +38,7 @@ public class TileFissionVent extends TileFissionPart implements ITileFluid {
 	
 	private final @Nonnull List<Tank> backupTanks = Lists.newArrayList(new Tank(1, new ArrayList<String>()), new Tank(1, new ArrayList<String>()));
 	
-	private @Nonnull FluidConnection[] fluidConnections = ITileFluid.fluidConnectionAll(Arrays.asList(TankSorption.IN, TankSorption.OUT));
+	private @Nonnull FluidConnection[] fluidConnections = ITileFluid.fluidConnectionAll(Lists.newArrayList(TankSorption.IN, TankSorption.OUT));
 	
 	private @Nonnull FluidTileWrapper[] fluidSides;
 	

@@ -1,5 +1,8 @@
 package nc.init;
 
+import static nc.config.NCConfig.register_cofh_fluids;
+import static nc.config.NCConfig.register_fluid_blocks;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,14 +12,11 @@ import nc.Global;
 import nc.ModCheck;
 import nc.NuclearCraft;
 import nc.block.fluid.BlockFluidCoolant;
-import nc.block.fluid.BlockFluidGlowstone;
 import nc.block.fluid.BlockFluidHotCoolant;
 import nc.block.fluid.BlockFluidMolten;
 import nc.block.fluid.NCBlockFluid;
 import nc.block.item.NCItemBlock;
-import nc.config.NCConfig;
 import nc.fluid.FluidCoolant;
-import nc.fluid.FluidGlowstone;
 import nc.fluid.FluidHotCoolant;
 import nc.fluid.FluidMolten;
 import net.minecraft.block.Block;
@@ -28,143 +28,143 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 public class NCCoolantFluids {
 	
-	public static List<Pair<Fluid, NCBlockFluid>> fluidPairList = new ArrayList<Pair<Fluid, NCBlockFluid>>();
+	private static List<Pair<Fluid, NCBlockFluid>> fluidPairList = new ArrayList<Pair<Fluid, NCBlockFluid>>();
 	public static List<Fluid> fluidList = new ArrayList<Fluid>();
 	
 	public static void init() {
-		if (registerCoFHAlt()) {
-			FluidMolten redstone = new FluidMolten("redstone", 0xAB1C09);
-			fluidPairList.add(Pair.of(redstone, !NCConfig.register_fission_fluid_blocks ? null : new BlockFluidMolten(redstone)));
-		}
-		
-		FluidCoolant redstone_nak = new FluidCoolant("redstone_nak", FluidCoolant.getNAKColor(0xAB1C09));
-		FluidHotCoolant redstone_nak_hot = new FluidHotCoolant("redstone_nak_hot", FluidHotCoolant.getNAKColor(0xAB1C09));
-		fluidPairList.add(Pair.of(redstone_nak, !NCConfig.register_fission_fluid_blocks ? null : new BlockFluidCoolant(redstone_nak)));
-		fluidPairList.add(Pair.of(redstone_nak_hot, !NCConfig.register_fission_fluid_blocks ? null : new BlockFluidHotCoolant(redstone_nak_hot)));
-		
-		FluidMolten quartz = new FluidMolten("quartz", 0xECE9E2);
-		fluidPairList.add(Pair.of(quartz, !NCConfig.register_fission_fluid_blocks ? null : new BlockFluidMolten(quartz)));
-		
-		FluidCoolant quartz_nak = new FluidCoolant("quartz_nak", FluidCoolant.getNAKColor(0xECE9E2));
-		FluidHotCoolant quartz_nak_hot = new FluidHotCoolant("quartz_nak_hot", FluidHotCoolant.getNAKColor(0xECE9E2));
-		fluidPairList.add(Pair.of(quartz_nak, !NCConfig.register_fission_fluid_blocks ? null : new BlockFluidCoolant(quartz_nak)));
-		fluidPairList.add(Pair.of(quartz_nak_hot, !NCConfig.register_fission_fluid_blocks ? null : new BlockFluidHotCoolant(quartz_nak_hot)));
-		
-		FluidMolten gold = new FluidMolten("gold", 0xE6DA3C);
-		fluidPairList.add(Pair.of(gold, !NCConfig.register_fission_fluid_blocks ? null : new BlockFluidMolten(gold)));
-		
-		FluidCoolant gold_nak = new FluidCoolant("gold_nak", FluidCoolant.getNAKColor(0xE6DA3C));
-		FluidHotCoolant gold_nak_hot = new FluidHotCoolant("gold_nak_hot", FluidHotCoolant.getNAKColor(0xE6DA3C));
-		fluidPairList.add(Pair.of(gold_nak, !NCConfig.register_fission_fluid_blocks ? null : new BlockFluidCoolant(gold_nak)));
-		fluidPairList.add(Pair.of(gold_nak_hot, !NCConfig.register_fission_fluid_blocks ? null : new BlockFluidHotCoolant(gold_nak_hot)));
+		addMoltenPair("iron", 0x8D1515);
+		addNAKPairs("iron", 0x8D1515);
 		
 		if (registerCoFHAlt()) {
-			FluidGlowstone glowstone = new FluidGlowstone("glowstone", 0xA38037);
-			fluidPairList.add(Pair.of(glowstone, !NCConfig.register_fission_fluid_blocks ? null : new BlockFluidGlowstone(glowstone)));
+			addMoltenPair("redstone", 0xAB1C09);
 		}
+		addNAKPairs("redstone", 0xAB1C09);
 		
-		FluidCoolant glowstone_nak = new FluidCoolant("glowstone_nak", FluidCoolant.getNAKColor(0xA38037));
-		FluidHotCoolant glowstone_nak_hot = new FluidHotCoolant("glowstone_nak_hot", FluidHotCoolant.getNAKColor(0xA38037));
-		fluidPairList.add(Pair.of(glowstone_nak, !NCConfig.register_fission_fluid_blocks ? null : new BlockFluidCoolant(glowstone_nak)));
-		fluidPairList.add(Pair.of(glowstone_nak_hot, !NCConfig.register_fission_fluid_blocks ? null : new BlockFluidHotCoolant(glowstone_nak_hot)));
+		addMoltenPair("quartz", 0xECE9E2);
+		addNAKPairs("quartz", 0xECE9E2);
 		
-		FluidMolten lapis = new FluidMolten("lapis", 0x27438A);
-		fluidPairList.add(Pair.of(lapis, !NCConfig.register_fission_fluid_blocks ? null : new BlockFluidMolten(lapis)));
+		addMoltenPair("obsidian", 0x1C1828);
+		addNAKPairs("obsidian", 0x1C1828);
 		
-		FluidCoolant lapis_nak = new FluidCoolant("lapis_nak", FluidCoolant.getNAKColor(0x27438A));
-		FluidHotCoolant lapis_nak_hot = new FluidHotCoolant("lapis_nak_hot", FluidHotCoolant.getNAKColor(0x27438A));
-		fluidPairList.add(Pair.of(lapis_nak, !NCConfig.register_fission_fluid_blocks ? null : new BlockFluidCoolant(lapis_nak)));
-		fluidPairList.add(Pair.of(lapis_nak_hot, !NCConfig.register_fission_fluid_blocks ? null : new BlockFluidHotCoolant(lapis_nak_hot)));
+		addMoltenPair("nether_brick", 0x271317);
+		addNAKPairs("nether_brick", 0x271317);
 		
-		FluidMolten diamond = new FluidMolten("diamond", 0x6FDFDA);
-		fluidPairList.add(Pair.of(diamond, !NCConfig.register_fission_fluid_blocks ? null : new BlockFluidMolten(diamond)));
+		if (registerCoFHAlt()) {
+			addMoltenPair("glowstone", 0xA38037);
+		}
+		addNAKPairs("glowstone", 0xA38037);
 		
-		FluidCoolant diamond_nak = new FluidCoolant("diamond_nak", FluidCoolant.getNAKColor(0x6FDFDA));
-		FluidHotCoolant diamond_nak_hot = new FluidHotCoolant("diamond_nak_hot", FluidHotCoolant.getNAKColor(0x6FDFDA));
-		fluidPairList.add(Pair.of(diamond_nak, !NCConfig.register_fission_fluid_blocks ? null : new BlockFluidCoolant(diamond_nak)));
-		fluidPairList.add(Pair.of(diamond_nak_hot, !NCConfig.register_fission_fluid_blocks ? null : new BlockFluidHotCoolant(diamond_nak_hot)));
+		addMoltenPair("lapis", 0x27438A);
+		addNAKPairs("lapis", 0x27438A);
 		
-		FluidCoolant liquid_helium_nak = new FluidCoolant("liquid_helium_nak", FluidCoolant.getNAKColor(0xF3433D));
-		FluidHotCoolant liquid_helium_nak_hot = new FluidHotCoolant("liquid_helium_nak_hot", FluidHotCoolant.getNAKColor(0xF3433D));
-		fluidPairList.add(Pair.of(liquid_helium_nak, !NCConfig.register_fission_fluid_blocks ? null : new BlockFluidCoolant(liquid_helium_nak)));
-		fluidPairList.add(Pair.of(liquid_helium_nak_hot, !NCConfig.register_fission_fluid_blocks ? null : new BlockFluidHotCoolant(liquid_helium_nak_hot)));
+		addMoltenPair("gold", 0xE6DA3C);
+		addNAKPairs("gold", 0xE6DA3C);
 		
-		FluidCoolant enderium_nak = new FluidCoolant("enderium_nak", FluidCoolant.getNAKColor(0x0B5B5C));
-		FluidHotCoolant enderium_nak_hot = new FluidHotCoolant("enderium_nak_hot", FluidHotCoolant.getNAKColor(0x0B5B5C));
-		fluidPairList.add(Pair.of(enderium_nak, !NCConfig.register_fission_fluid_blocks ? null : new BlockFluidCoolant(enderium_nak)));
-		fluidPairList.add(Pair.of(enderium_nak_hot, !NCConfig.register_fission_fluid_blocks ? null : new BlockFluidHotCoolant(enderium_nak_hot)));
+		addMoltenPair("prismarine", 0x70A695);
+		addNAKPairs("prismarine", 0x70A695);
 		
-		FluidCoolant cryotheum_nak = new FluidCoolant("cryotheum_nak", FluidCoolant.getNAKColor(0x0099C1));
-		FluidHotCoolant cryotheum_nak_hot = new FluidHotCoolant("cryotheum_nak_hot", FluidHotCoolant.getNAKColor(0x0099C1));
-		fluidPairList.add(Pair.of(cryotheum_nak, !NCConfig.register_fission_fluid_blocks ? null : new BlockFluidCoolant(cryotheum_nak)));
-		fluidPairList.add(Pair.of(cryotheum_nak_hot, !NCConfig.register_fission_fluid_blocks ? null : new BlockFluidHotCoolant(cryotheum_nak_hot)));
+		addMoltenPair("slime", 0x79C865);
+		addNAKPairs("slime", 0x79C865);
 		
-		FluidMolten iron = new FluidMolten("iron", 0x8D1515);
-		fluidPairList.add(Pair.of(iron, !NCConfig.register_fission_fluid_blocks ? null : new BlockFluidMolten(iron)));
+		addMoltenPair("end_stone", 0xE7E9B3);
+		addNAKPairs("end_stone", 0xE7E9B3);
 		
-		FluidCoolant iron_nak = new FluidCoolant("iron_nak", FluidCoolant.getNAKColor(0x8D1515));
-		FluidHotCoolant iron_nak_hot = new FluidHotCoolant("iron_nak_hot", FluidHotCoolant.getNAKColor(0x8D1515));
-		fluidPairList.add(Pair.of(iron_nak, !NCConfig.register_fission_fluid_blocks ? null : new BlockFluidCoolant(iron_nak)));
-		fluidPairList.add(Pair.of(iron_nak_hot, !NCConfig.register_fission_fluid_blocks ? null : new BlockFluidHotCoolant(iron_nak_hot)));
+		addMoltenPair("purpur", 0xA979A9);
+		addNAKPairs("purpur", 0xA979A9);
 		
-		FluidMolten emerald = new FluidMolten("emerald", 0x51D975);
-		fluidPairList.add(Pair.of(emerald, !NCConfig.register_fission_fluid_blocks ? null : new BlockFluidMolten(emerald)));
+		addMoltenPair("diamond", 0x6FDFDA);
+		addNAKPairs("diamond", 0x6FDFDA);
 		
-		FluidCoolant emerald_nak = new FluidCoolant("emerald_nak", FluidCoolant.getNAKColor(0x51D975));
-		FluidHotCoolant emerald_nak_hot = new FluidHotCoolant("emerald_nak_hot", FluidHotCoolant.getNAKColor(0x51D975));
-		fluidPairList.add(Pair.of(emerald_nak, !NCConfig.register_fission_fluid_blocks ? null : new BlockFluidCoolant(emerald_nak)));
-		fluidPairList.add(Pair.of(emerald_nak_hot, !NCConfig.register_fission_fluid_blocks ? null : new BlockFluidHotCoolant(emerald_nak_hot)));
+		addMoltenPair("emerald", 0x51D975);
+		addNAKPairs("emerald", 0x51D975);
 		
-		FluidMolten copper = new FluidMolten("copper", 0x5C2F1A);
-		fluidPairList.add(Pair.of(copper, !NCConfig.register_fission_fluid_blocks ? null : new BlockFluidMolten(copper)));
+		addMoltenPair("copper", 0x5C2F1A);
+		addNAKPairs("copper", 0x5C2F1A);
 		
-		FluidCoolant copper_nak = new FluidCoolant("copper_nak", FluidCoolant.getNAKColor(0x5C2F1A));
-		FluidHotCoolant copper_nak_hot = new FluidHotCoolant("copper_nak_hot", FluidHotCoolant.getNAKColor(0x5C2F1A));
-		fluidPairList.add(Pair.of(copper_nak, !NCConfig.register_fission_fluid_blocks ? null : new BlockFluidCoolant(copper_nak)));
-		fluidPairList.add(Pair.of(copper_nak_hot, !NCConfig.register_fission_fluid_blocks ? null : new BlockFluidHotCoolant(copper_nak_hot)));
+		addMoltenPair("tin", 0xD9DDF0);
+		addNAKPairs("tin", 0xD9DDF0);
 		
-		FluidMolten tin = new FluidMolten("tin", 0xD9DDF0);
-		fluidPairList.add(Pair.of(tin, !NCConfig.register_fission_fluid_blocks ? null : new BlockFluidMolten(tin)));
+		addMoltenPair("lead", 0x3F4C4C);
+		addNAKPairs("lead", 0x3F4C4C);
 		
-		FluidCoolant tin_nak = new FluidCoolant("tin_nak", FluidCoolant.getNAKColor(0xD9DDF0));
-		FluidHotCoolant tin_nak_hot = new FluidHotCoolant("tin_nak_hot", FluidHotCoolant.getNAKColor(0xD9DDF0));
-		fluidPairList.add(Pair.of(tin_nak, !NCConfig.register_fission_fluid_blocks ? null : new BlockFluidCoolant(tin_nak)));
-		fluidPairList.add(Pair.of(tin_nak_hot, !NCConfig.register_fission_fluid_blocks ? null : new BlockFluidHotCoolant(tin_nak_hot)));
+		addMoltenPair("boron", 0x7D7D7D);
+		addNAKPairs("boron", 0x7D7D7D);
 		
-		FluidMolten magnesium = new FluidMolten("magnesium", 0xEED5E1);
-		fluidPairList.add(Pair.of(magnesium, !NCConfig.register_fission_fluid_blocks ? null : new BlockFluidMolten(magnesium)));
+		addMoltenPair("lithium", 0xEFEFEF);
+		addNAKPairs("lithium", 0xEFEFEF);
 		
-		FluidCoolant magnesium_nak = new FluidCoolant("magnesium_nak", FluidCoolant.getNAKColor(0xEED5E1));
-		FluidHotCoolant magnesium_nak_hot = new FluidHotCoolant("magnesium_nak_hot", FluidHotCoolant.getNAKColor(0xEED5E1));
-		fluidPairList.add(Pair.of(magnesium_nak, !NCConfig.register_fission_fluid_blocks ? null : new BlockFluidCoolant(magnesium_nak)));
-		fluidPairList.add(Pair.of(magnesium_nak_hot, !NCConfig.register_fission_fluid_blocks ? null : new BlockFluidHotCoolant(magnesium_nak_hot)));
+		addMoltenPair("magnesium", 0xEED5E1);
+		addNAKPairs("magnesium", 0xEED5E1);
+		
+		addMoltenPair("manganese", 0x99A1CA);
+		addNAKPairs("manganese", 0x99A1CA);
+		
+		addMoltenPair("aluminum", 0xB5ECD5);
+		addNAKPairs("aluminum", 0xB5ECD5);
+		
+		addMoltenPair("silver", 0xE2DAF6);
+		addNAKPairs("silver", 0xE2DAF6);
+		
+		addMoltenPair("fluorite", 0x8AB492);
+		addNAKPairs("fluorite", 0x8AB492);
+		
+		addMoltenPair("villiaumite", 0xB06C56);
+		addNAKPairs("villiaumite", 0xB06C56);
+		
+		addMoltenPair("carobbiite", 0x95A251);
+		addNAKPairs("carobbiite", 0x95A251);
+		
+		addNAKPairs("arsenic", 0x818475);
+		
+		addNAKPairs("liquid_nitrogen", 0x31C23A);
+		
+		addNAKPairs("liquid_helium", 0xF3433D);
+		
+		addNAKPairs("enderium", 0x0B5B5C);
+		
+		addNAKPairs("cryotheum", 0x0099C1);
 	}
 	
-	public static <T extends NCBlockFluid> Block withName(T block) {
-		return block.setTranslationKey(Global.MOD_ID + "." + block.getBlockName()).setRegistryName(new ResourceLocation(Global.MOD_ID, block.getBlockName()));
+	private static void addMoltenPair(String name, int color) {
+		FluidMolten fluid = new FluidMolten(name, color);
+		fluidPairList.add(Pair.of(fluid, register_fluid_blocks ? new BlockFluidMolten(fluid) : null));
+	}
+	
+	private static void addNAKPairs(String name, int color) {
+		FluidCoolant coolant = new FluidCoolant(name + "_nak", FluidCoolant.getNAKColor(color));
+		fluidPairList.add(Pair.of(coolant, register_fluid_blocks ? new BlockFluidCoolant(coolant) : null));
+		FluidHotCoolant hotCoolant = new FluidHotCoolant(name + "_nak_hot", FluidHotCoolant.getNAKColor(color));
+		fluidPairList.add(Pair.of(hotCoolant, register_fluid_blocks ? new BlockFluidHotCoolant(hotCoolant) : null));
 	}
 	
 	public static void register() {
 		for (Pair<Fluid, NCBlockFluid> fluidPair : fluidPairList) {
-			Fluid fluid = fluidPair.getLeft();
 			
-			boolean defaultFluid = FluidRegistry.registerFluid(fluid);
-			if (!defaultFluid) fluid = FluidRegistry.getFluid(fluid.getName());
+			Fluid fluid = fluidPair.getLeft();
+			if (!FluidRegistry.registerFluid(fluid)) {
+				fluid = FluidRegistry.getFluid(fluid.getName());
+			}
 			FluidRegistry.addBucketForFluid(fluid);
 			fluidList.add(fluid);
 			
 			NCBlockFluid fluidBlock = fluidPair.getRight();
-			if (NCConfig.register_fission_fluid_blocks && fluidBlock != null) registerBlock(fluidBlock);
+			if (fluidBlock != null) {
+				registerBlock(fluidBlock);
+			}
 		}
 	}
 	
-	public static void registerBlock(NCBlockFluid block) {
+	private static void registerBlock(NCBlockFluid block) {
 		ForgeRegistries.BLOCKS.register(withName(block));
 		ForgeRegistries.ITEMS.register(new NCItemBlock(block, TextFormatting.AQUA).setRegistryName(block.getRegistryName()));
 		NuclearCraft.proxy.registerFluidBlockRendering(block, "fluid_molten_colored");
 	}
 	
+	private static <T extends NCBlockFluid> Block withName(T block) {
+		return block.setTranslationKey(Global.MOD_ID + "." + block.name).setRegistryName(new ResourceLocation(Global.MOD_ID, block.name));
+	}
+	
 	private static boolean registerCoFHAlt() {
-		return NCConfig.register_cofh_fluids || !ModCheck.thermalFoundationLoaded();
+		return register_cofh_fluids || !ModCheck.thermalFoundationLoaded();
 	}
 }

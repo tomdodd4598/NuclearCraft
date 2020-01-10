@@ -1,12 +1,9 @@
 package nc.recipe.processor;
 
-import static nc.util.FissionHelper.FUEL_FLUID;
-import static nc.util.FissionHelper.FUEL_ORE_DICT;
-import static nc.util.FissionHelper.ISOTOPE_FLUID;
-import static nc.util.FissionHelper.ISOTOPE_ORE_DICT;
+import static nc.util.FissionHelper.FISSION_FLUID;
+import static nc.util.FissionHelper.FISSION_ORE_DICT;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import com.google.common.collect.Lists;
@@ -15,6 +12,7 @@ import nc.init.NCItems;
 import nc.recipe.ProcessorRecipeHandler;
 import nc.util.FluidStackHelper;
 import nc.util.OreDictHelper;
+import nc.util.RegistryHelper;
 import nc.util.StringHelper;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -35,6 +33,9 @@ public class MelterRecipes extends ProcessorRecipeHandler {
 		addRecipe("gemBoronArsenide", fluidStack("bas", FluidStackHelper.GEM_VOLUME), 1D, 1D);
 		
 		addRecipe(Lists.newArrayList("gemPrismarine", "dustPrismarine"), fluidStack("prismarine", FluidStackHelper.INGOT_VOLUME), 1D, 1D);
+		addRecipe(Items.SLIME_BALL, fluidStack("slime", FluidStackHelper.INGOT_VOLUME), 1D, 0.5D);
+		addRecipe(Lists.newArrayList(Blocks.SLIME_BLOCK, RegistryHelper.blockStackFromRegistry("tconstruct:slime:0")), fluidStack("slime", FluidStackHelper.INGOT_BLOCK_VOLUME), 9D, 0.5D);
+		addRecipe(RegistryHelper.blockStackFromRegistry("tconstruct:slime_congealed:0"), fluidStack("slime", FluidStackHelper.INGOT_VOLUME*4), 4D, 0.5D);
 		
 		addRecipe(Lists.newArrayList("ingotSilicon", "itemSilicon"), fluidStack("silicon", FluidStackHelper.INGOT_VOLUME), 1D, 1D);
 		
@@ -48,19 +49,23 @@ public class MelterRecipes extends ProcessorRecipeHandler {
 		addIngotMeltingRecipes("alugentum");
 		addIngotMeltingRecipes("leadPlatinum", "lead_platinum");
 		
-		addRecipe(NCItems.ground_cocoa_nibs, fluidStack("chocolate_liquor", FluidStackHelper.INGOT_VOLUME), 0.25D, 0.5D);
-		addRecipe("ingotCocoaButter", fluidStack("cocoa_butter", FluidStackHelper.INGOT_VOLUME), 0.25D, 0.5D);
-		addRecipe("ingotUnsweetenedChocolate", fluidStack("unsweetened_chocolate", FluidStackHelper.INGOT_VOLUME), 0.25D, 0.5D);
-		addRecipe("ingotDarkChocolate", fluidStack("dark_chocolate", FluidStackHelper.INGOT_VOLUME), 0.25D, 0.5D);
-		addRecipe("ingotChocolate", fluidStack("milk_chocolate", FluidStackHelper.INGOT_VOLUME), 0.25D, 0.5D);
-		addRecipe(Items.SUGAR, fluidStack("sugar", FluidStackHelper.INGOT_VOLUME), 0.5D, 0.5D);
-		addRecipe(NCItems.gelatin, fluidStack("gelatin", FluidStackHelper.INGOT_VOLUME), 0.5D, 0.5D);
-		addRecipe("ingotMarshmallow", fluidStack("marshmallow", FluidStackHelper.INGOT_VOLUME), 0.5D, 0.5D);
+		addRecipe("blockQuartz", fluidStack("quartz", FluidStackHelper.GEM_VOLUME*4), 4D, 1D);
+		addRecipe("blockLapis", fluidStack("lapis", FluidStackHelper.GEM_BLOCK_VOLUME), 9D, 1D);
+		addRecipe("blockDiamond", fluidStack("diamond", FluidStackHelper.GEM_BLOCK_VOLUME), 9D, 1D);
+		addRecipe("blockEmerald", fluidStack("emerald", FluidStackHelper.GEM_BLOCK_VOLUME), 9D, 1D);
 		
-		// Tinkers' Construct
 		addRecipe("obsidian", fluidStack("obsidian", FluidStackHelper.SEARED_BLOCK_VOLUME), 2D, 2D);
 		addRecipe(Lists.newArrayList("ingotObsidian", "dustObsidian"), fluidStack("obsidian", FluidStackHelper.SEARED_MATERIAL_VOLUME), 0.5D, 2D);
 		addRecipe(Lists.newArrayList("nuggetObsidian", "tinyDustObsidian"), fluidStack("obsidian", FluidStackHelper.SEARED_MATERIAL_VOLUME/9), 0.5D/9D, 2D);
+		addRecipe("netherrack", fluidStack("nether_brick", FluidStackHelper.SEARED_MATERIAL_VOLUME), 0.5D, 1.5D);
+		addRecipe(Blocks.NETHER_BRICK, fluidStack("nether_brick", FluidStackHelper.SEARED_BLOCK_VOLUME), 2D, 1.5D);
+		addRecipe(Lists.newArrayList("ingotBrickNether", "dustBrickNether"), fluidStack("nether_brick", FluidStackHelper.SEARED_MATERIAL_VOLUME), 0.5D, 1.5D);
+		addRecipe(Lists.newArrayList("endstone", Blocks.END_BRICKS), fluidStack("end_stone", FluidStackHelper.SEARED_BLOCK_VOLUME), 2D, 2D);
+		addRecipe(Lists.newArrayList("ingotEndstone", "dustEndstone"), fluidStack("end_stone", FluidStackHelper.SEARED_MATERIAL_VOLUME), 0.5D, 2D);
+		addRecipe(Blocks.PURPUR_BLOCK, fluidStack("purpur", FluidStackHelper.SEARED_BLOCK_VOLUME), 2D, 1.5D);
+		addRecipe(Items.CHORUS_FRUIT_POPPED, fluidStack("purpur", FluidStackHelper.SEARED_MATERIAL_VOLUME), 0.5D, 1.5D);
+		
+		// Tinkers' Construct
 		addRecipe("sand", fluidStack("glass", FluidStackHelper.GLASS_VOLUME), 1.5D, 1.5D);
 		addRecipe("blockGlass", fluidStack("glass", FluidStackHelper.GLASS_VOLUME), 1.5D, 1.5D);
 		addRecipe(Blocks.CLAY, fluidStack("clay", FluidStackHelper.BRICK_BLOCK_VOLUME), 2D, 1.5D);
@@ -139,21 +144,24 @@ public class MelterRecipes extends ProcessorRecipeHandler {
 		addIngotMeltingRecipes("superium");
 		addIngotMeltingRecipes("supremium");
 		
-		// Fission Isotopes
-		addIsotopeMeltingRecipes();
-		
-		// Fission Fuels
-		addFissionFuelMeltingRecipes();
-		
 		addRecipe(Blocks.ICE, fluidStack("water", FluidStackHelper.BUCKET_VOLUME), 0.25D, 0.5D);
 		addRecipe(Blocks.PACKED_ICE, fluidStack("water", FluidStackHelper.BUCKET_VOLUME), 0.5D, 0.5D);
 		
+		// Sweets
+		addRecipe(NCItems.ground_cocoa_nibs, fluidStack("chocolate_liquor", FluidStackHelper.INGOT_VOLUME), 0.25D, 0.5D);
+		addRecipe("ingotCocoaButter", fluidStack("cocoa_butter", FluidStackHelper.INGOT_VOLUME), 0.25D, 0.5D);
+		addRecipe("ingotUnsweetenedChocolate", fluidStack("unsweetened_chocolate", FluidStackHelper.INGOT_VOLUME), 0.25D, 0.5D);
+		addRecipe("ingotDarkChocolate", fluidStack("dark_chocolate", FluidStackHelper.INGOT_VOLUME), 0.25D, 0.5D);
+		addRecipe("ingotChocolate", fluidStack("milk_chocolate", FluidStackHelper.INGOT_VOLUME), 0.25D, 0.5D);
+		addRecipe(Items.SUGAR, fluidStack("sugar", FluidStackHelper.INGOT_VOLUME), 0.5D, 0.5D);
+		addRecipe(NCItems.gelatin, fluidStack("gelatin", FluidStackHelper.INGOT_VOLUME), 0.5D, 0.5D);
+		addRecipe("ingotMarshmallow", fluidStack("marshmallow", FluidStackHelper.INGOT_VOLUME), 0.5D, 0.5D);
+		
+		// Ores
 		addOreMeltingRecipes();
 		
-		addRecipe("blockQuartz", fluidStack("quartz", FluidStackHelper.GEM_VOLUME*4), 4D, 1D);
-		addRecipe("blockLapis", fluidStack("lapis", FluidStackHelper.GEM_BLOCK_VOLUME), 9D, 1D);
-		addRecipe("blockDiamond", fluidStack("diamond", FluidStackHelper.GEM_BLOCK_VOLUME), 9D, 1D);
-		addRecipe("blockEmerald", fluidStack("emerald", FluidStackHelper.GEM_BLOCK_VOLUME), 9D, 1D);
+		// Fission Materials
+		addFissionMeltingRecipes();
 	}
 	
 	public void addIngotMeltingRecipes(String oreName, String fluidName) {
@@ -175,21 +183,16 @@ public class MelterRecipes extends ProcessorRecipeHandler {
 		addRecipe(Lists.newArrayList("nugget" + oreName, "tinyDust" + oreName), fluidStack(name, FluidStackHelper.GEM_NUGGET_VOLUME), 1D/9D, 1D);
 	}
 	
-	public void addIsotopeMeltingRecipes() {
-		for (int i = 0; i < ISOTOPE_ORE_DICT.length; i++) {
-			addIngotMeltingRecipes(ISOTOPE_ORE_DICT[i], ISOTOPE_FLUID[i]);
-			addIngotMeltingRecipes(ISOTOPE_ORE_DICT[i] + "ZA", ISOTOPE_FLUID[i] + "_za");
+	public void addFissionMeltingRecipes() {
+		for (int i = 0; i < FISSION_ORE_DICT.length; i++) {
+			addRecipe("ingot" + FISSION_ORE_DICT[i], fluidStack(FISSION_FLUID[i], FluidStackHelper.INGOT_VOLUME), 1D, 1D);
+			addRecipe("ingot" + FISSION_ORE_DICT[i] + "ZA", fluidStack(FISSION_FLUID[i] + "_za", FluidStackHelper.INGOT_VOLUME), 1D, 1D);
+			addRecipe("ingotDepleted" + FISSION_ORE_DICT[i], fluidStack("depleted_" + FISSION_FLUID[i], FluidStackHelper.INGOT_VOLUME), 1D, 1D);
+			addRecipe("ingotDepleted" + FISSION_ORE_DICT[i] + "ZA", fluidStack("depleted_" + FISSION_FLUID[i] + "_za", FluidStackHelper.INGOT_VOLUME), 1D, 1D);
 		}
 	}
 	
-	public void addFissionFuelMeltingRecipes() {
-		for (int i = 0; i < FUEL_ORE_DICT.length; i++) {
-			addRecipe("fuel" + FUEL_ORE_DICT[i], fluidStack("fuel_" + FUEL_FLUID[i], FluidStackHelper.INGOT_VOLUME), 1D, 1D);
-			addRecipe("depletedFuel" + FUEL_ORE_DICT[i], fluidStack("depleted_fuel_" + FUEL_FLUID[i], FluidStackHelper.INGOT_VOLUME), 1D, 1D);
-		}
-	}
-	
-	private static final List<String> MELTING_BLACKLIST = Arrays.asList("coal", "redstone", "glowstone", "prismarine", "obsidian", "silicon", "marshmallow");
+	private static final List<String> MELTING_BLACKLIST = Lists.newArrayList("coal", "redstone", "glowstone", "prismarine", "obsidian", "silicon", "marshmallow");
 	
 	public void addOreMeltingRecipes() {
 		ArrayList<String> fluidList = new ArrayList(FluidRegistry.getRegisteredFluids().keySet());

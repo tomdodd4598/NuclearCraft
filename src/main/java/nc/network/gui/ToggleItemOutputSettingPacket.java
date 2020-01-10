@@ -3,7 +3,6 @@ package nc.network.gui;
 import io.netty.buffer.ByteBuf;
 import nc.tile.internal.inventory.ItemOutputSetting;
 import nc.tile.inventory.ITileInventory;
-import nc.util.NCUtil;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
@@ -38,8 +37,8 @@ public class ToggleItemOutputSettingPacket implements IMessage {
 			pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
 			slot = buf.readInt();
 			setting = buf.readInt();
-		} catch (IndexOutOfBoundsException ioe) {
-			NCUtil.getLogger().catching(ioe);
+		} catch (IndexOutOfBoundsException e) {
+			e.printStackTrace();
 			return;
 		}
 		messageValid = true;

@@ -9,14 +9,14 @@ import net.minecraft.util.math.BlockPos;
 public class TurbineUpdatePacket extends MultiblockUpdatePacket {
 	
 	public boolean isTurbineOn;
-	public double power, rawPower, conductivity, totalExpansionLevel, idealTotalExpansionLevel;
+	public double power, rawPower, conductivity, totalExpansionLevel, idealTotalExpansionLevel, bearingTension;
 	public int energy, capacity, shaftWidth, bladeLength, noBladeSets, dynamoCoilCount, dynamoCoilCountOpposite;
 	
 	public TurbineUpdatePacket() {
 		messageValid = false;
 	}
 	
-	public TurbineUpdatePacket(BlockPos pos, boolean isTurbineOn, EnergyStorage energyStorage, double power, double rawPower, double conductivity, double totalExpansionLevel, double idealTotalExpansionLevel, int shaftWidth, int bladeLength, int noBladeSets, int dynamoCoilCount, int dynamoCoilCountOpposite) {
+	public TurbineUpdatePacket(BlockPos pos, boolean isTurbineOn, EnergyStorage energyStorage, double power, double rawPower, double conductivity, double totalExpansionLevel, double idealTotalExpansionLevel, int shaftWidth, int bladeLength, int noBladeSets, int dynamoCoilCount, int dynamoCoilCountOpposite, double bearingTension) {
 		this.pos = pos;
 		this.isTurbineOn = isTurbineOn;
 		energy = energyStorage.getEnergyStored();
@@ -31,6 +31,7 @@ public class TurbineUpdatePacket extends MultiblockUpdatePacket {
 		this.noBladeSets = noBladeSets;
 		this.dynamoCoilCount = dynamoCoilCount;
 		this.dynamoCoilCountOpposite = dynamoCoilCountOpposite;
+		this.bearingTension = bearingTension;
 		
 		messageValid = true;
 	}
@@ -51,6 +52,7 @@ public class TurbineUpdatePacket extends MultiblockUpdatePacket {
 		noBladeSets = buf.readInt();
 		dynamoCoilCount = buf.readInt();
 		dynamoCoilCountOpposite = buf.readInt();
+		bearingTension = buf.readDouble();
 	}
 	
 	@Override
@@ -71,6 +73,7 @@ public class TurbineUpdatePacket extends MultiblockUpdatePacket {
 		buf.writeInt(noBladeSets);
 		buf.writeInt(dynamoCoilCount);
 		buf.writeInt(dynamoCoilCountOpposite);
+		buf.writeDouble(bearingTension);
 	}
 	
 	public static class Handler extends MultiblockUpdatePacket.Handler<TurbineUpdatePacket, Turbine, TileTurbineController> {

@@ -9,4 +9,6 @@ public interface IFissionFuelEnum extends IMetaEnum {
 	public double getBaseEfficiency();
 	
 	public int getCriticality();
+	
+	public boolean getSelfPriming();
 }

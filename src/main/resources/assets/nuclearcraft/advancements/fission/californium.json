@@ -2,7 +2,7 @@
 	"display": {
 		"icon": {
 			"item": "nuclearcraft:californium",
-			"data": 0
+			"data": 14
 		},
 		"title": {
 			"translate": "advancement.nuclearcraft.californium.name"

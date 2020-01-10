@@ -12,19 +12,19 @@ public class FluidFission extends FluidMolten {
 		super(fluidName);
 	}
 	
-	public FluidFission(String fluidName, Integer colour) {
-		super(fluidName, colour);
+	public FluidFission(String fluidName, Integer color) {
+		super(fluidName, color);
 	}
 	
-	public static int getFluorideColor(Integer colour) {
-		return ColorHelper.blend(colour.intValue(), FLUORINE_COLOR, 0.125F);
+	public static int getFluorideColor(Integer color) {
+		return ColorHelper.blend(color.intValue(), FLUORINE_COLOR, 0.125F);
 	}
 	
-	public static int getFLIBEColor(Integer colour) {
-		return ColorHelper.blend(colour.intValue(), FLIBE_COLOR, 0.4F);
+	public static int getFLIBEColor(Integer color) {
+		return ColorHelper.blend(color.intValue(), FLIBE_COLOR, 0.4F);
 	}
 	
-	public static int getZAColor(Integer colour) {
-		return ColorHelper.glow(colour.intValue(), ZA_COLOR, 0.4F);
+	public static int getZAColor(Integer color) {
+		return ColorHelper.glow(color.intValue(), ZA_COLOR, 0.4F);
 	}
 }

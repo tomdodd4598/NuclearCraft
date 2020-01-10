@@ -1,7 +1,6 @@
 package nc.multiblock.fission;
 
 import java.util.Iterator;
-import java.util.Random;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
@@ -35,14 +34,17 @@ import net.minecraft.util.SoundCategory;
 
 public class FissionReactorLogic extends MultiblockLogic<FissionReactor, IFissionPart, FissionUpdatePacket> {
 	
-	public Random rand = new Random();
-	
 	public FissionReactorLogic(FissionReactor reactor) {
 		super(reactor);
 	}
 	
 	public FissionReactorLogic(FissionReactorLogic oldLogic) {
 		super(oldLogic);
+	}
+	
+	@Override
+	public String getID() {
+		return "";
 	}
 	
 	protected FissionReactor getReactor() {
@@ -52,12 +54,6 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, IFissio
 	protected Int2ObjectMap<FissionCluster> getClusterMap() {
 		return getReactor().getClusterMap();
 	}
-	
-	@Override
-	public void load() {}
-	
-	@Override
-	public void unload() {}
 	
 	public void onResetStats() {}
 	
@@ -199,7 +195,7 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, IFissio
 				if (component instanceof IFissionFuelComponent) {
 					IFissionFuelComponent fuelComponent = (IFissionFuelComponent) component;
 					fuelComponent.refreshIsProcessing(false);
-					if (fuelComponent.isFunctional() && !primedFailureCache.contains(fuelComponent)) {
+					if ((fuelComponent.isFunctional() || fuelComponent.isSelfPriming()) && !primedFailureCache.contains(fuelComponent)) {
 						fuelComponent.tryPriming(getReactor());
 						if (fuelComponent.isPrimed()) {
 							primedCache.add(fuelComponent);
@@ -367,12 +363,12 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, IFissio
 	// NBT
 	
 	@Override
-	public void writeToNBT(NBTTagCompound data, SyncReason syncReason) {
+	public void writeToLogicTag(NBTTagCompound logicTag, SyncReason syncReason) {
 		
 	}
 	
 	@Override
-	public void readFromNBT(NBTTagCompound data, SyncReason syncReason) {
+	public void readFromLogicTag(NBTTagCompound logicTag, SyncReason syncReason) {
 		
 	}
 	

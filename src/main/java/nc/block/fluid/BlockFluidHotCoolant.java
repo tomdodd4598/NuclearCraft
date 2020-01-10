@@ -9,15 +9,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fluids.Fluid;
 
 public class BlockFluidHotCoolant extends NCBlockFluid {
-
-	public BlockFluidHotCoolant(Fluid fluid) {
-		super(fluid, Material.LAVA);
-		setQuantaPerBlock(4);
-		setLightLevel(0.625F);
-	}
 	
 	public BlockFluidHotCoolant(FluidHotCoolant fluid) {
 		super(fluid, Material.LAVA);

@@ -18,10 +18,9 @@ public class HeatExchangerLogic extends MultiblockLogic<HeatExchanger, IHeatExch
 	}
 	
 	@Override
-	public void load() {}
-	
-	@Override
-	public void unload() {}
+	public String getID() {
+		return "heat_exchanger";
+	}
 	
 	// Multiblock Size Limits
 	
@@ -76,13 +75,13 @@ public class HeatExchangerLogic extends MultiblockLogic<HeatExchanger, IHeatExch
 	// NBT
 	
 	@Override
-	public void writeToNBT(NBTTagCompound data, SyncReason syncReason) {
+	public void writeToLogicTag(NBTTagCompound data, SyncReason syncReason) {
 		// TODO Auto-generated method stub
 		
 	}
 	
 	@Override
-	public void readFromNBT(NBTTagCompound data, SyncReason syncReason) {
+	public void readFromLogicTag(NBTTagCompound data, SyncReason syncReason) {
 		// TODO Auto-generated method stub
 		
 	}

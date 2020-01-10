@@ -1,8 +1,6 @@
 package nc.multiblock;
 
-public interface ILogicMultiblockController<MULTIBLOCK extends Multiblock, LOGIC extends MultiblockLogic> extends IMultiblockController<MULTIBLOCK> {
+public interface ILogicMultiblockController<MULTIBLOCK extends Multiblock> extends IMultiblockController<MULTIBLOCK> {
 	
-	public Class<? extends LOGIC> getLogicClass();
-	
-	public LOGIC createNewLogic(LOGIC oldLogic);
+	public String getLogicID();
 }

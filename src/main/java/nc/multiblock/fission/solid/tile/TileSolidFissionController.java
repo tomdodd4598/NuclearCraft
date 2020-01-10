@@ -5,8 +5,6 @@ import static nc.block.property.BlockProperties.FACING_ALL;
 import nc.Global;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.fission.FissionReactor;
-import nc.multiblock.fission.FissionReactorLogic;
-import nc.multiblock.fission.solid.SolidFuelFissionLogic;
 import nc.multiblock.fission.solid.block.BlockSolidFissionController;
 import nc.multiblock.fission.tile.IFissionController;
 import nc.multiblock.fission.tile.TileFissionPart;
@@ -22,13 +20,8 @@ public class TileSolidFissionController extends TileFissionPart implements IFiss
 	}
 	
 	@Override
-	public Class<? extends FissionReactorLogic> getLogicClass() {
-		return SolidFuelFissionLogic.class;
-	}
-	
-	@Override
-	public FissionReactorLogic createNewLogic(FissionReactorLogic oldLogic) {
-		return new SolidFuelFissionLogic(oldLogic);
+	public String getLogicID() {
+		return "solid_fuel";
 	}
 	
 	@Override

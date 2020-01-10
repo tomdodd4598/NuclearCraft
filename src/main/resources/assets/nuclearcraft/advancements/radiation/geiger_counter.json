@@ -17,7 +17,8 @@
 			"conditions": {
 				"items": [
 					{
-						"item": "nuclearcraft:geiger_counter"
+						"item": "nuclearcraft:geiger_counter",
+						"item": "nuclearcraft:geiger_block"
 					}
 				]
 			}

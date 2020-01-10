@@ -4,6 +4,7 @@ import nc.capability.radiation.resistance.IRadiationResistance;
 import nc.config.NCConfig;
 import nc.enumm.MetaEnums;
 import nc.radiation.RadiationHelper;
+import nc.util.ItemStackHelper;
 import nc.util.Lang;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
@@ -60,7 +61,7 @@ public class ItemRadShielding extends NCItemMeta<MetaEnums.RadShieldingType> {
 			return actionResult(false, stack);
 		}
 		
-		double newResistance = NCConfig.radiation_shielding_level[stack.getMetadata()];
+		double newResistance = NCConfig.radiation_shielding_level[ItemStackHelper.getMetadata(stack)];
 		if (newResistance <= tile.getRadiationResistance()) {
 			if (!world.isRemote) {
 				player.sendMessage(new TextComponentString(INSTALL_FAIL + " " + RadiationHelper.resistanceSigFigs(tile.getRadiationResistance())));

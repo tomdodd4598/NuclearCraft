@@ -2,7 +2,7 @@ package nc.fluid;
 
 import net.minecraft.init.SoundEvents;
 
-public class FluidChocolate extends FluidBase {
+public class FluidChocolate extends NCFluid {
 	
 	public FluidChocolate(String fluidName) {
 		super(fluidName, true);
@@ -13,8 +13,8 @@ public class FluidChocolate extends FluidBase {
 		setFillSound(SoundEvents.ITEM_BUCKET_FILL_LAVA);
 	}
 	
-	public FluidChocolate(String fluidName, Integer colour) {
-		super(fluidName, true, "molten", colour);
+	public FluidChocolate(String fluidName, Integer color) {
+		super(fluidName, true, "molten", color);
 		setViscosity(5000);
 		setTemperature(330);
 		setDensity(1325);

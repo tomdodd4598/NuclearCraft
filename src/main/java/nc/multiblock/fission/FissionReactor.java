@@ -1,11 +1,15 @@
 package nc.multiblock.fission;
 
+import java.lang.reflect.Constructor;
+
 import javax.annotation.Nonnull;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
 import it.unimi.dsi.fastutil.longs.LongSet;
+import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import it.unimi.dsi.fastutil.objects.ObjectSet;
 import nc.Global;
@@ -28,10 +32,9 @@ import net.minecraft.world.World;
 public class FissionReactor extends CuboidalMultiblock<FissionUpdatePacket> implements ILogicMultiblock<FissionReactorLogic, IFissionPart> {
 	
 	public static final ObjectSet<Class<? extends IFissionPart>> PART_CLASSES = new ObjectOpenHashSet<>();
+	public static final Object2ObjectMap<String, Constructor<? extends FissionReactorLogic>> LOGIC_MAP = new Object2ObjectOpenHashMap<>();
 	
 	protected @Nonnull FissionReactorLogic logic = new FissionReactorLogic(this);
-	
-	protected @Nonnull NBTTagCompound cachedData = new NBTTagCompound();
 	
 	protected final PartSuperMap<IFissionPart> partSuperMap = new PartSuperMap<>();
 	protected final Int2ObjectMap<FissionCluster> clusterMap = new Int2ObjectOpenHashMap<>();
@@ -46,10 +49,10 @@ public class FissionReactor extends CuboidalMultiblock<FissionUpdatePacket> impl
 	public static final int BASE_MAX_HEAT = 25000, MAX_TEMP = 2400, BASE_TANK_CAPACITY = 4000;
 	public final HeatBuffer heatBuffer = new HeatBuffer(BASE_MAX_HEAT);
 	
-	public boolean logicInit = false, refreshFlag = true, isReactorOn = false;
+	public boolean refreshFlag = true, isReactorOn = false;
 	public int ambientTemp = 290, fuelComponentCount = 0;
 	public long cooling = 0L, rawHeating = 0L, totalHeatMult = 0L, usefulPartCount = 0L;
-	public double meanHeatMult = 0D, totalEfficiency = 0D, meanEfficiency = 0D;
+	public double meanHeatMult = 0D, totalEfficiency = 0D, meanEfficiency = 0D, sparsityEfficiencyMult = 0D;
 	
 	public FissionReactor(World world) {
 		super(world);
@@ -61,6 +64,12 @@ public class FissionReactor extends CuboidalMultiblock<FissionUpdatePacket> impl
 	@Override
 	public @Nonnull FissionReactorLogic getLogic() {
 		return logic;
+	}
+	
+	@Override
+	public void setLogic(String logicID) {
+		if (logicID.equals(logic.getID())) return;
+		logic = getNewLogic(LOGIC_MAP.get(logicID));
 	}
 	
 	@Override
@@ -77,7 +86,7 @@ public class FissionReactor extends CuboidalMultiblock<FissionUpdatePacket> impl
 		//isReactorOn = false;
 		fuelComponentCount = 0;
 		cooling = rawHeating = totalHeatMult = usefulPartCount = 0L;
-		meanHeatMult = totalEfficiency = meanEfficiency = 0D;
+		meanHeatMult = totalEfficiency = meanEfficiency = sparsityEfficiencyMult = 0D;
 	}
 	
 	// Multiblock Size Limits
@@ -151,16 +160,9 @@ public class FissionReactor extends CuboidalMultiblock<FissionUpdatePacket> impl
 			controller = contr;
 		}
 		
-		logicInit = logic.getClass() == controller.getLogicClass();
-		if (!logicInit) {
-			logic.unload();
-			logic = controller.createNewLogic(logic);
-			syncDataFrom(cachedData, SyncReason.FullSync);
-			cachedData = new NBTTagCompound();
-			logic.load();
-		}
+		setLogic(controller.getLogicID());
 		
-		return logicInit = true;
+		return true;
 	}
 	
 	@Override
@@ -280,8 +282,9 @@ public class FissionReactor extends CuboidalMultiblock<FissionUpdatePacket> impl
 		data.setLong("usefulPartCount", usefulPartCount);
 		data.setDouble("totalEfficiency", totalEfficiency);
 		data.setDouble("meanEfficiency", meanEfficiency);
+		data.setDouble("sparsityEfficiencyMult", sparsityEfficiencyMult);
 		
-		logic.writeToNBT(data, syncReason);
+		writeLogicNBT(data, syncReason);
 	}
 	
 	@Override
@@ -297,12 +300,9 @@ public class FissionReactor extends CuboidalMultiblock<FissionUpdatePacket> impl
 		usefulPartCount = data.getLong("usefulPartCount");
 		totalEfficiency = data.getDouble("totalEfficiency");
 		meanEfficiency = data.getDouble("meanEfficiency");
+		sparsityEfficiencyMult = data.getDouble("sparsityEfficiencyMult");
 		
-		if (!logicInit) {
-			cachedData = data.copy();
-			logicInit = true;
-		}
-		logic.readFromNBT(data, syncReason);
+		readLogicNBT(data, syncReason);
 	}
 	
 	// Packets
@@ -326,6 +326,7 @@ public class FissionReactor extends CuboidalMultiblock<FissionUpdatePacket> impl
 		usefulPartCount = message.usefulPartCount;
 		totalEfficiency = message.totalEfficiency;
 		meanEfficiency = message.meanEfficiency;
+		sparsityEfficiencyMult = message.sparsityEfficiencyMult;
 		
 		logic.onPacket(message);
 	}

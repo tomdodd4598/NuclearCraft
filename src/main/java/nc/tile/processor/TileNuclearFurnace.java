@@ -278,10 +278,6 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ITileIn
 		else if (OreDictHelper.isOreMember(stack, "ingotUranium")) return 320;
 		else if (OreDictHelper.isOreMember(stack, "dustThorium")) return 320;
 		else if (OreDictHelper.isOreMember(stack, "dustUranium")) return 320;
-		else if (OreDictHelper.isOreMember(stack, "ingotThoriumCarbide")) return 480;
-		else if (OreDictHelper.isOreMember(stack, "ingotThoriumOxide")) return 480;
-		else if (OreDictHelper.isOreMember(stack, "ingotThoriumNitride")) return 480;
-		else if (OreDictHelper.isOreMember(stack, "ingotThoriumZA")) return 480;
 		else return 0;
 	}
 	
@@ -358,6 +354,11 @@ public class TileNuclearFurnace extends TileEntity implements ITickable, ITileIn
 	public ITextComponent getDisplayName() {
 		if (getBlockType() != null) return new TextComponentTranslation(getBlockType().getLocalizedName());
 		else return null;
+	}
+	
+	@Override
+	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
+		return oldState.getBlock() != newState.getBlock();
 	}
 	
 	@Override

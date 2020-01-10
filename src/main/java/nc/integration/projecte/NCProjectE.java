@@ -1,7 +1,8 @@
 package nc.integration.projecte;
 
-import java.util.Arrays;
 import java.util.List;
+
+import com.google.common.collect.Lists;
 
 import moze_intel.projecte.api.ProjectEAPI;
 import nc.init.NCBlocks;
@@ -78,7 +79,7 @@ public class NCProjectE {
 		addEMCValues("ingotSilicon", 1);
 	}
 	
-	private static final List<String> BLOCK_BLACKLIST = Arrays.asList("Quartz", "NetherQuartz");
+	private static final List<String> BLOCK_BLACKLIST = Lists.newArrayList("Quartz", "NetherQuartz");
 	
 	private static void addEMCValues(String type, long emc) {
 		for (ItemStack stack : OreDictionary.getOres(type, false)) ProjectEAPI.getEMCProxy().registerCustomEMC(stack, emc);

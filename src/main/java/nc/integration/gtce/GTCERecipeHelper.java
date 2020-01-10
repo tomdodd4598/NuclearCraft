@@ -42,7 +42,7 @@ public class GTCERecipeHelper {
 			recipeMap = RecipeMaps.MACERATOR_RECIPES;
 			builder = addStats(recipeMap.recipeBuilder(), recipe, 12, 8);
 			break;
-		case "isotope_separator":
+		case "separator":
 			recipeMap = RecipeMaps.THERMAL_CENTRIFUGE_RECIPES;
 			builder = addStats(recipeMap.recipeBuilder(), recipe, 48, 160);
 			break;
@@ -72,8 +72,10 @@ public class GTCERecipeHelper {
 			recipeMap = RecipeMaps.ELECTROLYZER_RECIPES;
 			builder = addStats(recipeMap.recipeBuilder(), recipe, 30, 16);
 			break;
-		case "irradiator":
-			return;
+		case "assembler":
+			recipeMap = RecipeMaps.ASSEMBLER_RECIPES;
+			builder = addStats(recipeMap.recipeBuilder(), recipe, 4, 100);
+			break;
 		case "ingot_former":
 			recipeMap = RecipeMaps.FLUID_SOLIDFICATION_RECIPES;
 			builder = addStats(recipeMap.recipeBuilder(), recipe, 8, 1);

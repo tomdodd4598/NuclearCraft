@@ -45,7 +45,7 @@ public class RenderTurbineRotor extends TileEntitySpecialRenderer<TileTurbineCon
 		
 		boolean[] isStatorSet = new boolean[turbine.getFlowLength()];
 		for (TileTurbineRotorStator stator : turbine.getPartMap(TileTurbineRotorStator.class).values()) {
-			isStatorSet[stator.getDepth()] = true;
+			isStatorSet[dir.getAxisDirection() == AxisDirection.POSITIVE ? turbine.getFlowLength() - stator.getDepth() - 1 : stator.getDepth()] = true;
 		}
 		
 		BlockRendererDispatcher renderer = MC.getBlockRendererDispatcher();
@@ -67,8 +67,9 @@ public class RenderTurbineRotor extends TileEntitySpecialRenderer<TileTurbineCon
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(posX - rX, posY - rY, posZ - rZ);
 		GlStateManager.scale(dir.getAxis() == Axis.X ? 1D : scale, dir.getAxis() == Axis.Y ? 1D : scale, dir.getAxis() == Axis.Z ? 1D : scale);
-		if (!MC.isGamePaused()) turbine.rotorAngle = (turbine.rotorAngle + (Minecraft.getSystemTime() - turbine.prevRenderTime)*turbine.angVel) % 360F;
-		turbine.prevRenderTime = Minecraft.getSystemTime();
+		long systemTime = Minecraft.getSystemTime();
+		if (!MC.isGamePaused()) turbine.rotorAngle = (turbine.rotorAngle + (systemTime - turbine.prevRenderTime)*turbine.angVel) % 360F;
+		turbine.prevRenderTime = systemTime;
 		GlStateManager.rotate(turbine.rotorAngle, dir.getAxis() == Axis.X ? 1F : 0F, dir.getAxis() == Axis.Y ? 1F : 0F, dir.getAxis() == Axis.Z ? 1F : 0F);
 		GlStateManager.translate(-pos.getX() + rX, -pos.getY() + rY, -pos.getZ() + rZ);
 		

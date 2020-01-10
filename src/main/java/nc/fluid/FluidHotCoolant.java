@@ -3,7 +3,7 @@ package nc.fluid;
 import nc.util.ColorHelper;
 import net.minecraft.init.SoundEvents;
 
-public class FluidHotCoolant extends FluidBase {
+public class FluidHotCoolant extends NCFluid {
 	
 	private static final Integer NAK_COLOR = 0xFFE5BC;
 	
@@ -17,8 +17,8 @@ public class FluidHotCoolant extends FluidBase {
 		setFillSound(SoundEvents.ITEM_BUCKET_FILL_LAVA);
 	}
 	
-	public FluidHotCoolant(String fluidName, Integer colour) {
-		super(fluidName, true, "molten", colour);
+	public FluidHotCoolant(String fluidName, Integer color) {
+		super(fluidName, true, "molten", color);
 		setViscosity(10000);
 		setTemperature(700);
 		setLuminosity(7);
@@ -28,6 +28,6 @@ public class FluidHotCoolant extends FluidBase {
 	}
 	
 	public static int getNAKColor(Integer colour) {
-		return ColorHelper.blend(colour.intValue(), NAK_COLOR, 0.275F);
+		return ColorHelper.blend(colour.intValue(), NAK_COLOR, 0.2F);
 	}
 }

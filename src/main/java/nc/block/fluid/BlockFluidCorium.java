@@ -14,13 +14,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
-import net.minecraftforge.fluids.Fluid;
 
 public class BlockFluidCorium extends BlockFluidFission {
-	
-	public BlockFluidCorium(Fluid fluid) {
-		super(fluid);
-	}
 	
 	public BlockFluidCorium(FluidCorium fluid) {
 		super(fluid);

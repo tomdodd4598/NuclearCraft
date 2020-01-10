@@ -1,7 +1,10 @@
 package nc.recipe.multiblock;
 
 import nc.config.NCConfig;
+import nc.enumm.MetaEnums;
+import nc.init.NCBlocks;
 import nc.recipe.ProcessorRecipeHandler;
+import net.minecraft.item.ItemStack;
 
 public class FissionReflectorRecipes extends ProcessorRecipeHandler {
 	
@@ -11,6 +14,8 @@ public class FissionReflectorRecipes extends ProcessorRecipeHandler {
 	
 	@Override
 	public void addRecipes() {
-		addRecipe("blockNeutronReflector", NCConfig.fission_reflector_stats[0], NCConfig.fission_reflector_stats[1]);
+		for (int i = 0; i < MetaEnums.NeutronReflectorType.values().length; i++) {
+			addRecipe(new ItemStack(NCBlocks.fission_reflector, 1, i), NCConfig.fission_reflector_efficiency[i], NCConfig.fission_reflector_reflectivity[i]);
+		}
 	}
 }

@@ -102,13 +102,13 @@ mods.nuclearcraft.manufactory.removeRecipeWithInput(IIngredient itemInput);
 mods.nuclearcraft.manufactory.removeRecipeWithOutput(IIngredient itemOutput);
 ___________________________________________________________________________________________________________________________
 
- Isotope Separator:
->------------------<
+ Separator:
+>----------<
 
-mods.nuclearcraft.isotope_separator.addRecipe(IIngredient itemInput, IIngredient itemOutput1, IIngredient itemOutput2, {double timeMultiplier, double powerMultiplier, double processRadiation});
+mods.nuclearcraft.separator.addRecipe(IIngredient itemInput, IIngredient itemOutput1, IIngredient itemOutput2, {double timeMultiplier, double powerMultiplier, double processRadiation});
 
-mods.nuclearcraft.isotope_separator.removeRecipeWithInput(IIngredient itemInput);
-mods.nuclearcraft.isotope_separator.removeRecipeWithOutput(IIngredient itemOutput1, IIngredient itemOutput2);
+mods.nuclearcraft.separator.removeRecipeWithInput(IIngredient itemInput);
+mods.nuclearcraft.separator.removeRecipeWithOutput(IIngredient itemOutput1, IIngredient itemOutput2);
 ___________________________________________________________________________________________________________________________
 
  Decay Hastener:
@@ -123,10 +123,10 @@ ________________________________________________________________________________
  Fuel Reprocessor:
 >-----------------<
 
-mods.nuclearcraft.fuel_reprocessor.addRecipe(IIngredient itemInput, IIngredient itemOutput1, IIngredient itemOutput2, IIngredient itemOutput3, IIngredient itemOutput4, {double timeMultiplier, double powerMultiplier, double processRadiation});
+mods.nuclearcraft.fuel_reprocessor.addRecipe(IIngredient itemInput, IIngredient itemOutput1, IIngredient itemOutput2, IIngredient itemOutput3, IIngredient itemOutput4, IIngredient itemOutput5, IIngredient itemOutput6, {double timeMultiplier, double powerMultiplier, double processRadiation});
 
 mods.nuclearcraft.fuel_reprocessor.removeRecipeWithInput(IIngredient itemInput);
-mods.nuclearcraft.fuel_reprocessor.removeRecipeWithOutput(IIngredient itemOutput1, IIngredient itemOutput2, IIngredient itemOutput3, IIngredient itemOutput4);
+mods.nuclearcraft.fuel_reprocessor.removeRecipeWithOutput(IIngredient itemOutput1, IIngredient itemOutput2, IIngredient itemOutput3, IIngredient itemOutput4, IIngredient itemOutput5, IIngredient itemOutput6);
 ___________________________________________________________________________________________________________________________
 
  Alloy Furnace:
@@ -174,13 +174,13 @@ mods.nuclearcraft.electrolyzer.removeRecipeWithInput(ILiquidStack fluidInput);
 mods.nuclearcraft.electrolyzer.removeRecipeWithOutput(ILiquidStack fluidOutput1, ILiquidStack fluidOutput2, ILiquidStack fluidOutput3, ILiquidStack fluidOutput4);
 ___________________________________________________________________________________________________________________________
 
- Irradiator:
->-----------<
+ Assembler:
+>----------<
 
-mods.nuclearcraft.irradiator.addRecipe(ILiquidStack fluidInput1, ILiquidStack fluidInput2, ILiquidStack fluidOutput1, ILiquidStack fluidOutput2, {double timeMultiplier, double powerMultiplier, double processRadiation});
+mods.nuclearcraft.assembler.addRecipe(IIngredient itemInput1, IIngredient itemInput2, IIngredient itemInput3, IIngredient itemInput4, IIngredient itemOutput, {double timeMultiplier, double powerMultiplier, double processRadiation});
 
-mods.nuclearcraft.irradiator.removeRecipeWithInput(ILiquidStack fluidInput1, ILiquidStack fluidInput2);
-mods.nuclearcraft.irradiator.removeRecipeWithOutput(ILiquidStack fluidOutput1, ILiquidStack fluidOutput2);
+mods.nuclearcraft.assembler.removeRecipeWithInput(IIngredient itemInput1, IIngredient itemInput2, IIngredient itemInput3, IIngredient itemInput4);
+mods.nuclearcraft.assembler.removeRecipeWithOutput(IIngredient itemOutput);
 ___________________________________________________________________________________________________________________________
 
  Ingot Former:
@@ -296,7 +296,7 @@ ________________________________________________________________________________
  Solid Fuel Fission:
 >-------------------<
 
-mods.nuclearcraft.solid_fission.addRecipe(IIngredient itemInput, IIngredient itemOutput, int time, int power, double efficiency, int criticality, double radiation);
+mods.nuclearcraft.solid_fission.addRecipe(IIngredient itemInput, IIngredient itemOutput, int time, int power, double efficiency, int criticality, boolean selfPriming, double radiation);
 
 mods.nuclearcraft.solid_fission.removeRecipeWithInput(IIngredient itemInput);
 mods.nuclearcraft.solid_fission.removeRecipeWithOutput(IIngredient itemOutput);
@@ -314,7 +314,7 @@ ________________________________________________________________________________
  Molten Salt Fission (KINDA BROKEN!):
 >------------------------------------<
 
-mods.nuclearcraft.salt_fission.addRecipe(ILiquidStack fluidInput, ILiquidStack fluidOutput, double baseTime, double basePower, double processRadiation);
+mods.nuclearcraft.salt_fission.addRecipe(ILiquidStack fluidInput, ILiquidStack fluidOutput, int time, int power, double efficiency, int criticality, boolean selfPriming, double radiation);
 
 mods.nuclearcraft.salt_fission.removeRecipeWithInput(ILiquidStack fluidInput);
 mods.nuclearcraft.salt_fission.removeRecipeWithOutput(ILiquidStack fluidOutput);

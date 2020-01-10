@@ -2,7 +2,6 @@ package nc.proxy;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import nc.Global;
 import nc.block.fluid.NCBlockFluid;
@@ -96,7 +95,6 @@ public class ClientProxy extends CommonProxy {
 	
 	@Override
 	public void registerFluidBlockRendering(Block block, String name) {
-		name = name.toLowerCase(Locale.ROOT);
 		super.registerFluidBlockRendering(block, name);
 		FluidStateMapper mapper = new FluidStateMapper(name);
 		
@@ -129,19 +127,16 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public void initFluidColors() {
 		super.initFluidColors();
-		List<Fluid> fluidList = new ArrayList<Fluid>();
-		fluidList.addAll(NCCoolantFluids.fluidList);
-		fluidList.addAll(NCFissionFluids.fluidList);
-		initFluidColors(fluidList);
-	}
-	
-	private static <T extends Fluid> void initFluidColors(List<T> fluidList) {
-		if(FMLCommonHandler.instance().getEffectiveSide().isClient()) {
-			for(T fluid : fluidList) {
-				if (fluid.getBlock() != null) if (NCBlockFluid.class.isAssignableFrom(fluid.getBlock().getClass())) {
-					NCBlockFluid block = (NCBlockFluid) fluid.getBlock();
-					Minecraft.getMinecraft().getBlockColors().registerBlockColorHandler(new ColorRenderer.FluidBlockColor(block), block);
-					Minecraft.getMinecraft().getItemColors().registerItemColorHandler(new ColorRenderer.FluidItemBlockColor(block), block);
+		if (NCConfig.register_fluid_blocks && FMLCommonHandler.instance().getEffectiveSide().isClient()) {
+			List<Fluid> fluidList = new ArrayList<Fluid>();
+			fluidList.addAll(NCCoolantFluids.fluidList);
+			fluidList.addAll(NCFissionFluids.fluidList);
+			
+			for (Fluid fluid : fluidList) {
+				if (fluid.getBlock() != null && NCBlockFluid.class.isAssignableFrom(fluid.getBlock().getClass())) {
+					NCBlockFluid fluidBlock = (NCBlockFluid) fluid.getBlock();
+					Minecraft.getMinecraft().getBlockColors().registerBlockColorHandler(new ColorRenderer.FluidBlockColor(fluidBlock), fluidBlock);
+					Minecraft.getMinecraft().getItemColors().registerItemColorHandler(new ColorRenderer.FluidItemBlockColor(fluidBlock), fluidBlock);
 				}
 			}
 		}

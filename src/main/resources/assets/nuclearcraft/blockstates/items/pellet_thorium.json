@@ -1,0 +1,20 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "nuclearcraft:item/pellet"
+	},
+	"variants": {
+		"type": {
+			"tbu": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_thorium/tbu"
+				}
+			},
+			"tbu_c": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fuel_thorium/tbu_c"
+				}
+			}
+		}
+	}
+}

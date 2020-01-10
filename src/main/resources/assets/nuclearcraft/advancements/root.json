@@ -1,7 +1,8 @@
 {
 	"display": {
 		"icon": {
-			"item": "nuclearcraft:fuel_rod"
+			"item": "nuclearcraft:fuel_uranium",
+			"data": 11
 		},
 		"title": {
 			"translate": "advancement.nuclearcraft.root.name"
@@ -9,7 +10,7 @@
 		"description": {
 			"translate": "advancement.nuclearcraft.root.desc"
 		},
-		"background": "nuclearcraft:textures/blocks/dry_earth.png",
+		"background": "nuclearcraft:textures/blocks/wasteland_earth.png",
 		"show_toast": false,
 		"announce_to_chat": false
 	},

@@ -1,7 +1,11 @@
 package nc.multiblock.heatExchanger;
 
+import java.lang.reflect.Constructor;
+
 import javax.annotation.Nonnull;
 
+import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import it.unimi.dsi.fastutil.objects.ObjectSet;
 import nc.Global;
@@ -27,6 +31,9 @@ import net.minecraft.world.World;
 
 public class HeatExchanger extends CuboidalMultiblock<HeatExchangerUpdatePacket> implements ILogicMultiblock<HeatExchangerLogic, IHeatExchangerPart> {
 	
+	public static final ObjectSet<Class<? extends IHeatExchangerPart>> PART_CLASSES = new ObjectOpenHashSet<>();
+	public static final Object2ObjectMap<String, Constructor<? extends HeatExchangerLogic>> LOGIC_MAP = new Object2ObjectOpenHashMap<>();
+	
 	protected final ObjectSet<IHeatExchangerController> controllers = new ObjectOpenHashSet<>();
 	protected final ObjectSet<TileHeatExchangerVent> vents = new ObjectOpenHashSet<>();
 	protected final ObjectSet<TileHeatExchangerTube> tubes = new ObjectOpenHashSet<>();
@@ -47,10 +54,15 @@ public class HeatExchanger extends CuboidalMultiblock<HeatExchangerUpdatePacket>
 		super(world);
 	}
 	
-	//TODO
 	@Override
 	public @Nonnull HeatExchangerLogic getLogic() {
 		return logic;
+	}
+	
+	@Override
+	public void setLogic(String logicID) {
+		if (logicID.equals(logic.getID())) return;
+		logic = getNewLogic(LOGIC_MAP.get(logicID));
 	}
 	
 	// Multiblock Part Getters
@@ -257,6 +269,8 @@ public class HeatExchanger extends CuboidalMultiblock<HeatExchangerUpdatePacket>
 		data.setDouble("fractionOfTubesActive", fractionOfTubesActive);
 		data.setDouble("efficiency", efficiency);
 		data.setDouble("maxEfficiency", maxEfficiency);
+		
+		writeLogicNBT(data, syncReason);
 	}
 	
 	@Override
@@ -266,6 +280,8 @@ public class HeatExchanger extends CuboidalMultiblock<HeatExchangerUpdatePacket>
 		fractionOfTubesActive = data.getDouble("fractionOfTubesActive");
 		efficiency = data.getDouble("efficiency");
 		maxEfficiency = data.getDouble("maxEfficiency");
+		
+		readLogicNBT(data, syncReason);
 	}
 	
 	// Packets

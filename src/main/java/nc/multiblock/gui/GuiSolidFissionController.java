@@ -76,9 +76,10 @@ public class GuiSolidFissionController extends GuiLogicMultiblockController<Fiss
 		fontRenderer.drawString(efficiency, xSize / 2 - width(efficiency) / 2, 34, fontColor);
 		
 		String outputRate = Lang.localise("gui.nc.container.solid_fission_controller.output_rate") + " " + UnitHelper.prefix(logic.heatingOutputRateFP, 6, "B/t", -1);
-		fontRenderer.drawString(outputRate, xSize / 2 - (outputRateWidth = Math.max(outputRateWidth, width(outputRate))) / 2, 46, fontColor);
+		outputRateWidth = outputRateWidth - width(outputRate) > 1 ? width(outputRate) : Math.max(outputRateWidth, width(outputRate));
+		fontRenderer.drawString(outputRate, xSize / 2 - outputRateWidth / 2, 46, fontColor);
 		
-		String sparsity = NCUtil.isModifierKeyDown() ? Lang.localise("gui.nc.container.fission_controller.useful_parts") + " " + multiblock.usefulPartCount + "/" + multiblock.getInteriorVolume() : Lang.localise("gui.nc.container.fission_controller.sparsity") + " " + NCMath.decimalPlaces(100D*logic.sparsityEfficiencyMult, 1) + "%";
+		String sparsity = NCUtil.isModifierKeyDown() ? Lang.localise("gui.nc.container.fission_controller.useful_parts") + " " + multiblock.usefulPartCount + "/" + multiblock.getInteriorVolume() : Lang.localise("gui.nc.container.fission_controller.sparsity") + " " + NCMath.decimalPlaces(100D*multiblock.sparsityEfficiencyMult, 1) + "%";
 		fontRenderer.drawString(sparsity, xSize / 2 - width(sparsity) / 2, 58, fontColor);
 		
 		String temperature = Lang.localise("gui.nc.container.fission_controller.temperature") + " " + (NCUtil.isModifierKeyDown() ? multiblock.getTemperature() - 273 + " C" : multiblock.getTemperature() + " K");

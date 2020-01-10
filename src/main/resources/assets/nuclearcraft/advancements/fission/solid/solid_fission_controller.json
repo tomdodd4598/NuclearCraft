@@ -1,0 +1,32 @@
+{
+	"display": {
+		"icon": {
+			"item": "nuclearcraft:solid_fission_controller"
+		},
+		"title": {
+			"translate": "advancement.nuclearcraft.solid_fission_controller.name"
+		},
+		"description": {
+			"translate": "advancement.nuclearcraft.solid_fission_controller.desc"
+		},
+		"frame": "goal"
+	},
+	"parent": "nuclearcraft:processors/separator",
+	"criteria": {
+		"has_item": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"item": "nuclearcraft:solid_fission_controller"
+					}
+				]
+			}
+		}
+	},
+	"requirements": [
+        [
+            "has_item"
+        ]
+    ]
+}

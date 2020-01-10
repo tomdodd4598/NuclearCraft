@@ -3,6 +3,8 @@ package nc.multiblock.heatExchanger.block;
 import static nc.block.property.BlockProperties.ACTIVE;
 import static nc.block.property.BlockProperties.FACING_ALL;
 
+import javax.annotation.Nullable;
+
 import nc.NuclearCraft;
 import nc.init.NCBlocks;
 import nc.multiblock.heatExchanger.tile.TileCondenserController;
@@ -14,6 +16,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class BlockCondenserController extends BlockHeatExchangerPart {
@@ -94,6 +97,11 @@ public class BlockCondenserController extends BlockHeatExchangerPart {
 			}
 		}
 		return rightClickOnPart(world, pos, player, hand, facing, true);
+	}
+	
+	@Override
+	public boolean canConnectRedstone(IBlockState state, IBlockAccess world, BlockPos pos, @Nullable EnumFacing side) {
+		return side != null;
 	}
 	
 	public void setState(boolean isActive, TileEntity tile) {

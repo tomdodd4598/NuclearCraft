@@ -68,9 +68,9 @@ public class NCItemMeta<T extends Enum<T> & IStringSerializable & IMetaEnum> ext
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack itemStack, @Nullable World world, List<String> tooltip, ITooltipFlag flag) {
-		super.addInformation(itemStack, world, tooltip, flag);
-		int meta = itemStack.getMetadata();
+	public void addInformation(ItemStack stack, @Nullable World world, List<String> tooltip, ITooltipFlag flag) {
+		super.addInformation(stack, world, tooltip, flag);
+		int meta = ItemStackHelper.getMetadata(stack);
 		if (info.length != 0 && info.length > meta && info[meta].length > 0) {
 			InfoHelper.infoFull(tooltip, TextFormatting.RED, InfoHelper.EMPTY_ARRAY, infoColor, info[meta]);
 		}

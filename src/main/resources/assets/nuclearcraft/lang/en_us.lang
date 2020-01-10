@@ -32,7 +32,8 @@ info.nuclearcraft.moderator.efficiency.fixd=Efficiency Multiplier: %s
 
 # info.nuclearcraft.moderator.desc=Moderators are the medium through which one fission reactor cell/vessel sends neutron flux to another or itself. A moderator line consists of EITHER at most %s collimated moderators with a cell/vessel at one endpoint and a cell/vessel at the other OR at most %s collimated moderators with a cell/vessel at one endpoint and a neutron reflector at the other. Moderators are only considered 'active' if part of a line AND adjacent to at least one functional endpoint cell/vessel. A primed or functional cell/vessel sends flux down the line, either to be accepted by the other cell/vessel or to be sent back by the reflector. The total flux sent is the sum of flux factors of the moderators in the line. This is doubled in the case of reflection, and is multiplied by the reflector's reflectivity factor. Finally, the total efficiency of the cells at the line endpoints is multiplied by the mean efficiency of the lines it receives flux from - the efficiency of a line is the mean efficiency multiplier of the moderators in the line.
 
-tile.nuclearcraft.fission_reflector.name=Neutron Reflector
+tile.nuclearcraft.fission_reflector.beryllium_carbon.name=Beryllium-Carbon Neutron Reflector
+tile.nuclearcraft.fission_reflector.lead_steel.name=Lead-Steel Neutron Reflector
 
 info.nuclearcraft.reflector.fixd=Fission Reactor Reflector
 info.nuclearcraft.reflector.efficiency.fixd=Efficiency Multiplier: %s
@@ -56,8 +57,8 @@ tile.nuclearcraft.nuclear_furnace.desc=Smelts items very quickly using uranium a
 tile.nuclearcraft.manufactory.name=Manufactory
 tile.nuclearcraft.manufactory.desc=A handy machine that has many uses.
 
-tile.nuclearcraft.isotope_separator.name=Isotope Separator
-tile.nuclearcraft.isotope_separator.desc=Separates materials into their isotopes.
+tile.nuclearcraft.separator.name=Separator
+tile.nuclearcraft.separator.desc=Breaks materials into their constituents.
 
 tile.nuclearcraft.decay_hastener.name=Decay Hastener
 tile.nuclearcraft.decay_hastener.desc=Forces radioactive materials to decay.
@@ -80,8 +81,8 @@ tile.nuclearcraft.supercooler.desc=Lowers the temperature of fluids.
 tile.nuclearcraft.electrolyzer.name=Electrolyzer
 tile.nuclearcraft.electrolyzer.desc=Splits compounds into their elements.
 
-tile.nuclearcraft.irradiator.name=Neutron Irradiator
-tile.nuclearcraft.irradiator.desc=Induces changes to nuclear structure.
+tile.nuclearcraft.assembler.name=Assembler
+tile.nuclearcraft.assembler.desc=Combines components into a complex product.
 
 tile.nuclearcraft.ingot_former.name=Ingot Former
 tile.nuclearcraft.ingot_former.desc=Forms ingots and gems from molten materials.
@@ -154,76 +155,76 @@ tile.nuclearcraft.fission_redstone_port.name=Fission Reactor Redstone Port (WIP)
 tile.nuclearcraft.fission_computer_port.name=Fission Reactor Computer Port (WIP)
 tile.nuclearcraft.fission_computer_port.desc=Used to access the reactor via OpenComputers.
 
-tile.nuclearcraft.solid_fission_controller.name=Solid Fuel Reactor Controller
+tile.nuclearcraft.solid_fission_controller.name=Solid Fuel Fission Controller
 tile.nuclearcraft.solid_fission_cell.name=Fission Reactor Fuel Cell
-tile.nuclearcraft.solid_fission_sink.water.name=Water Fission Reactor Sink
+tile.nuclearcraft.solid_fission_sink.water.name=Water Fission Reactor Heat Sink
 tile.nuclearcraft.solid_fission_sink.water.desc=Must be adjacent to at least one functional fuel cell.
-tile.nuclearcraft.solid_fission_sink.iron.name=Iron Fission Reactor Sink
+tile.nuclearcraft.solid_fission_sink.iron.name=Iron Fission Reactor Heat Sink
 tile.nuclearcraft.solid_fission_sink.iron.desc=Must be adjacent to at least one active moderator.
-tile.nuclearcraft.solid_fission_sink.redstone.name=Redstone Fission Reactor Sink
+tile.nuclearcraft.solid_fission_sink.redstone.name=Redstone Fission Reactor Heat Sink
 tile.nuclearcraft.solid_fission_sink.redstone.desc=Must be adjacent to at least one functional fuel cell and one active moderator.
-tile.nuclearcraft.solid_fission_sink.quartz.name=Quartz Fission Reactor Sink
+tile.nuclearcraft.solid_fission_sink.quartz.name=Quartz Fission Reactor Heat Sink
 tile.nuclearcraft.solid_fission_sink.quartz.desc=Must be adjacent to at least one valid redstone sink.
-tile.nuclearcraft.solid_fission_sink.obsidian.name=Obsidian Fission Reactor Sink
+tile.nuclearcraft.solid_fission_sink.obsidian.name=Obsidian Fission Reactor Heat Sink
 tile.nuclearcraft.solid_fission_sink.obsidian.desc=Must be adjacent to at least two valid glowstone sinks along a common axis.
-tile.nuclearcraft.solid_fission_sink.nether_brick.name=Nether Brick Fission Reactor Sink
+tile.nuclearcraft.solid_fission_sink.nether_brick.name=Nether Brick Fission Reactor Heat Sink
 tile.nuclearcraft.solid_fission_sink.nether_brick.desc=Must be adjacent to at least one valid obsidian sink.
-tile.nuclearcraft.solid_fission_sink.glowstone.name=Glowstone Fission Reactor Sink
+tile.nuclearcraft.solid_fission_sink.glowstone.name=Glowstone Fission Reactor Heat Sink
 tile.nuclearcraft.solid_fission_sink.glowstone.desc=Must be adjacent to at least two active moderators.
-tile.nuclearcraft.solid_fission_sink.lapis.name=Lapis Fission Reactor Sink
+tile.nuclearcraft.solid_fission_sink.lapis.name=Lapis Fission Reactor Heat Sink
 tile.nuclearcraft.solid_fission_sink.lapis.desc=Must be adjacent to at least one functional fuel cell and one reactor casing.
-tile.nuclearcraft.solid_fission_sink.gold.name=Gold Fission Reactor Sink
+tile.nuclearcraft.solid_fission_sink.gold.name=Gold Fission Reactor Heat Sink
 tile.nuclearcraft.solid_fission_sink.gold.desc=Must be adjacent to at least two valid iron sinks.
-tile.nuclearcraft.solid_fission_sink.prismarine.name=Prismarine Fission Reactor Sink
+tile.nuclearcraft.solid_fission_sink.prismarine.name=Prismarine Fission Reactor Heat Sink
 tile.nuclearcraft.solid_fission_sink.prismarine.desc=Must be adjacent to at least two valid water sinks.
-tile.nuclearcraft.solid_fission_sink.slime.name=Slime Fission Reactor Sink
+tile.nuclearcraft.solid_fission_sink.slime.name=Slime Fission Reactor Heat Sink
 tile.nuclearcraft.solid_fission_sink.slime.desc=Must be adjacent to exactly one valid water sink and at least two valid lead sinks.
-tile.nuclearcraft.solid_fission_sink.end_stone.name=End Stone Fission Reactor Sink
+tile.nuclearcraft.solid_fission_sink.end_stone.name=End Stone Fission Reactor Heat Sink
 tile.nuclearcraft.solid_fission_sink.end_stone.desc=Must be adjacent to at least one active reflector.
-tile.nuclearcraft.solid_fission_sink.purpur.name=Purpur Fission Reactor Sink
+tile.nuclearcraft.solid_fission_sink.purpur.name=Purpur Fission Reactor Heat Sink
 tile.nuclearcraft.solid_fission_sink.purpur.desc=Must be adjacent to exactly one valid iron sink and at least one valid end stone sink.
-tile.nuclearcraft.solid_fission_sink.diamond.name=Diamond Fission Reactor Sink
+tile.nuclearcraft.solid_fission_sink.diamond.name=Diamond Fission Reactor Heat Sink
 tile.nuclearcraft.solid_fission_sink.diamond.desc=Must be adjacent to at least one functional fuel cell and one valid gold sink.
-tile.nuclearcraft.solid_fission_sink.emerald.name=Emerald Fission Reactor Sink
+tile.nuclearcraft.solid_fission_sink.emerald.name=Emerald Fission Reactor Heat Sink
 tile.nuclearcraft.solid_fission_sink.emerald.desc=Must be adjacent to at least one active moderator and one valid prismarine sink.
-tile.nuclearcraft.solid_fission_sink.copper.name=Copper Fission Reactor Sink
+tile.nuclearcraft.solid_fission_sink.copper.name=Copper Fission Reactor Heat Sink
 tile.nuclearcraft.solid_fission_sink.copper.desc=Must be adjacent to at least one valid water sink.
-tile.nuclearcraft.solid_fission_sink2.tin.name=Tin Fission Reactor Sink
+tile.nuclearcraft.solid_fission_sink2.tin.name=Tin Fission Reactor Heat Sink
 tile.nuclearcraft.solid_fission_sink2.tin.desc=Must be adjacent to at least two valid lapis sinks along a common axis.
-tile.nuclearcraft.solid_fission_sink2.lead.name=Lead Fission Reactor Sink
+tile.nuclearcraft.solid_fission_sink2.lead.name=Lead Fission Reactor Heat Sink
 tile.nuclearcraft.solid_fission_sink2.lead.desc=Must be adjacent to at least one valid iron sink.
-tile.nuclearcraft.solid_fission_sink2.boron.name=Boron Fission Reactor Sink
+tile.nuclearcraft.solid_fission_sink2.boron.name=Boron Fission Reactor Heat Sink
 tile.nuclearcraft.solid_fission_sink2.boron.desc=Must be adjacent to exactly one valid quartz sink and at least one reactor casing.
-tile.nuclearcraft.solid_fission_sink2.lithium.name=Lithium Fission Reactor Sink
+tile.nuclearcraft.solid_fission_sink2.lithium.name=Lithium Fission Reactor Heat Sink
 tile.nuclearcraft.solid_fission_sink2.lithium.desc=Must be adjacent to at least two valid lead sinks along a common axis and at least one reactor casing.
-tile.nuclearcraft.solid_fission_sink2.magnesium.name=Magnesium Fission Reactor Sink
+tile.nuclearcraft.solid_fission_sink2.magnesium.name=Magnesium Fission Reactor Heat Sink
 tile.nuclearcraft.solid_fission_sink2.magnesium.desc=Must be adjacent to exactly one active moderator and at least one reactor casing.
-tile.nuclearcraft.solid_fission_sink2.manganese.name=Manganese Fission Reactor Sink
+tile.nuclearcraft.solid_fission_sink2.manganese.name=Manganese Fission Reactor Heat Sink
 tile.nuclearcraft.solid_fission_sink2.manganese.desc=Must be adjacent to at least two functional fuel cells.
-tile.nuclearcraft.solid_fission_sink2.aluminum.name=Aluminum Fission Reactor Sink
+tile.nuclearcraft.solid_fission_sink2.aluminum.name=Aluminum Fission Reactor Heat Sink
 tile.nuclearcraft.solid_fission_sink2.aluminum.desc=Must be adjacent to at least one valid quartz sink and one valid lapis sink.
-tile.nuclearcraft.solid_fission_sink2.silver.name=Silver Fission Reactor Sink
+tile.nuclearcraft.solid_fission_sink2.silver.name=Silver Fission Reactor Heat Sink
 tile.nuclearcraft.solid_fission_sink2.silver.desc=Must be adjacent to at least one valid glowstone sink and one valid tin sink.
-tile.nuclearcraft.solid_fission_sink2.fluorite.name=Fluorite Fission Reactor Sink
+tile.nuclearcraft.solid_fission_sink2.fluorite.name=Fluorite Fission Reactor Heat Sink
 tile.nuclearcraft.solid_fission_sink2.fluorite.desc=Must be adjacent to at least one valid gold sink and one valid prismarine sink.
-tile.nuclearcraft.solid_fission_sink2.villiaumite.name=Villiaumite Fission Reactor Sink
+tile.nuclearcraft.solid_fission_sink2.villiaumite.name=Villiaumite Fission Reactor Heat Sink
 tile.nuclearcraft.solid_fission_sink2.villiaumite.desc=Must be adjacent to at least one active reflector and one valid redstone sink.
-tile.nuclearcraft.solid_fission_sink2.carobbiite.name=Carobbiite Fission Reactor Sink
+tile.nuclearcraft.solid_fission_sink2.carobbiite.name=Carobbiite Fission Reactor Heat Sink
 tile.nuclearcraft.solid_fission_sink2.carobbiite.desc=Must be adjacent to at least one valid end stone sink and one valid copper sink.
-tile.nuclearcraft.solid_fission_sink2.arsenic.name=Arsenic Fission Reactor Sink
+tile.nuclearcraft.solid_fission_sink2.arsenic.name=Arsenic Fission Reactor Heat Sink
 tile.nuclearcraft.solid_fission_sink2.arsenic.desc=Must be adjacent to at least two active reflectors along a common axis.
-tile.nuclearcraft.solid_fission_sink2.liquid_nitrogen.name=Liquid Nitrogen Fission Reactor Sink
+tile.nuclearcraft.solid_fission_sink2.liquid_nitrogen.name=Liquid Nitrogen Fission Reactor Heat Sink
 tile.nuclearcraft.solid_fission_sink2.liquid_nitrogen.desc=Must be adjacent to at least two valid copper sinks and one valid purpur sink.
-tile.nuclearcraft.solid_fission_sink2.liquid_helium.name=Liquid Helium Fission Reactor Sink
+tile.nuclearcraft.solid_fission_sink2.liquid_helium.name=Liquid Helium Fission Reactor Heat Sink
 tile.nuclearcraft.solid_fission_sink2.liquid_helium.desc=Must be adjacent to exactly two valid redstone sinks and at least one reactor casing.
-tile.nuclearcraft.solid_fission_sink2.enderium.name=Enderium Fission Reactor Sink
+tile.nuclearcraft.solid_fission_sink2.enderium.name=Enderium Fission Reactor Heat Sink
 tile.nuclearcraft.solid_fission_sink2.enderium.desc=Must be adjacent to at least three active moderators.
-tile.nuclearcraft.solid_fission_sink2.cryotheum.name=Cryotheum Fission Reactor Sink
+tile.nuclearcraft.solid_fission_sink2.cryotheum.name=Cryotheum Fission Reactor Heat Sink
 tile.nuclearcraft.solid_fission_sink2.cryotheum.desc=Must be adjacent to at least three functional fuel cells.
 
 tile.nuclearcraft.solid_fission_sink.cooling_rate=Cooling Rate:
 
-tile.nuclearcraft.salt_fission_controller.name=Molten Salt Reactor Controller (MULTIBLOCK BROKEN!)
+tile.nuclearcraft.salt_fission_controller.name=Molten Salt Fission Controller (MULTIBLOCK BROKEN!)
 tile.nuclearcraft.salt_fission_vessel.name=Fission Reactor Fuel Vessel
 tile.nuclearcraft.salt_fission_vessel.desc=Where the molten salt nuclear fuel fissions and depletes. Place against another vessel while sneaking to copy across its side configuration.
 tile.nuclearcraft.salt_fission_heater.name=Fission Reactor Coolant Heater
@@ -379,17 +380,11 @@ tile.nuclearcraft.fluid_plasma.name=Plasma
 tile.nuclearcraft.fluid_plasma.desc=Produced in active fusion reactors. May cause an explosion and fire when coming into contact with an unpowered fusion electromagnet.
 fluid.plasma=Plasma
 
-tile.nuclearcraft.fluid_lithium.name=Molten Lithium
-fluid.lithium=Molten Lithium
-
 tile.nuclearcraft.fluid_lithium6.name=Molten Lithium-6
 fluid.lithium6=Molten Lithium-6
 
 tile.nuclearcraft.fluid_lithium7.name=Molten Lithium-7
 fluid.lithium7=Molten Lithium-7
-
-tile.nuclearcraft.fluid_boron.name=Molten Boron
-fluid.boron=Molten Boron
 
 tile.nuclearcraft.fluid_boron10.name=Molten Boron-10
 fluid.boron10=Molten Boron-10
@@ -460,14 +455,8 @@ fluid.flibe=Molten FLiBe Salt Mixture
 tile.nuclearcraft.fluid_boron_nitride_solution.name=Boron Nitride Solution
 fluid.boron_nitride_solution=Boron Nitride Solution
 
-tile.nuclearcraft.fluid_coolant.name=Standard Coolant
-fluid.coolant=Standard Coolant
-
 tile.nuclearcraft.fluid_sulfur.name=Molten Sulfur
 fluid.sulfur=Molten Sulfur
-
-tile.nuclearcraft.fluid_arsenic.name=Molten Arsenic
-fluid.arsenic=Molten Arsenic
 
 tile.nuclearcraft.fluid_sulfur_dioxide.name=Sulfur Dioxide
 fluid.sulfur_dioxide=Sulfur Dioxide
@@ -566,6 +555,9 @@ fluid.naoh=Molten Sodium Hydroxide
 tile.nuclearcraft.fluid_koh.name=Molten Potassium Hydroxide
 fluid.koh=Molten Potassium Hydroxide
 
+tile.nuclearcraft.fluid_arsenic.name=Sublimated Arsenic
+fluid.arsenic=Sublimated Arsenic
+
 tile.nuclearcraft.fluid_bas.name=Molten Boron Arsenide
 fluid.bas=Molten Boron Arsenide
 
@@ -574,9 +566,6 @@ fluid.sic_vapor=Silicon Carbide Vapor
 
 tile.nuclearcraft.fluid_zirconium.name=Molten Zirconium
 fluid.zirconium=Molten Zirconium
-
-tile.nuclearcraft.fluid_manganese.name=Molten Manganese
-fluid.manganese=Molten Manganese
 
 tile.nuclearcraft.fluid_manganese_dioxide.name=Molten Manganese Dioxide
 fluid.manganese_dioxide=Molten Manganese Dioxide
@@ -587,16 +576,8 @@ fluid.alugentum=Molten Alugentum
 tile.nuclearcraft.fluid_alumina.name=Molten Alumina
 fluid.alumina=Molten Alumina
 
-tile.nuclearcraft.fluid_aluminum.name=Molten Aluminum
-fluid.aluminum=Molten Aluminum
-
-tile.nuclearcraft.fluid_silver.name=Molten Silver
-fluid.silver=Molten Silver
-
 tile.nuclearcraft.fluid_thorium.name=Molten Thorium
 fluid.thorium=Molten Thorium
-tile.nuclearcraft.fluid_thorium_za.name=Molten Thorium-Zirconium Alloy
-fluid.thorium_za=Molten Thorium-Zirconium Alloy
 tile.nuclearcraft.fluid_uranium.name=Molten Uranium
 fluid.uranium=Molten Uranium
 
@@ -695,347 +676,500 @@ fluid.californium_252=Molten Californium-252
 tile.nuclearcraft.fluid_californium_252_za.name=Molten Californium-252-Zirconium Alloy
 fluid.californium_252_za=Molten Californium-252-Zirconium Alloy
 
-tile.nuclearcraft.fluid_fuel_tbu.name=Molten TBU Fuel
-fluid.fuel_tbu=Molten TBU Fuel
-tile.nuclearcraft.fluid_fuel_tbu_fluoride.name=Molten TBU Fluoride Fuel
-fluid.fuel_tbu_fluoride=Molten TBU Fluoride Fuel
-tile.nuclearcraft.fluid_fuel_tbu_fluoride_flibe.name=Molten FLiBe Salt Solution of TBU Fluoride Fuel
-fluid.fuel_tbu_fluoride_flibe=Molten FLiBe Salt Solution of TBU Fluoride Fuel
+tile.nuclearcraft.fluid_tbu.name=Molten TBU Fuel
+fluid.tbu=Molten TBU Fuel
+tile.nuclearcraft.fluid_tbu_fluoride.name=Molten TBU Fluoride Fuel
+fluid.tbu_fluoride=Molten TBU Fluoride Fuel
+tile.nuclearcraft.fluid_tbu_fluoride_flibe.name=Molten FLiBe Salt Solution of TBU Fluoride Fuel
+fluid.tbu_fluoride_flibe=Molten FLiBe Salt Solution of TBU Fluoride Fuel
+tile.nuclearcraft.fluid_tbu_za.name=Molten TBU-Zirconium Alloy
+fluid.tbu_za=Molten TBU-Zirconium Alloy
 
-tile.nuclearcraft.fluid_fuel_leu_233.name=Molten LEU-233 Fuel
-fluid.fuel_leu_233=Molten LEU-233 Fuel
-tile.nuclearcraft.fluid_fuel_leu_233_fluoride.name=Molten LEU-233 Fluoride Fuel
-fluid.fuel_leu_233_fluoride=Molten LEU-233 Fluoride Fuel
-tile.nuclearcraft.fluid_fuel_leu_233_fluoride_flibe.name=Molten FLiBe Salt Solution of LEU-233 Fluoride Fuel
-fluid.fuel_leu_233_fluoride_flibe=Molten FLiBe Salt Solution of LEU-233 Fluoride Fuel
-tile.nuclearcraft.fluid_fuel_heu_233.name=Molten HEU-233 Fuel
-fluid.fuel_heu_233=Molten HEU-233 Fuel
-tile.nuclearcraft.fluid_fuel_heu_233_fluoride.name=Molten HEU-233 Fluoride Fuel
-fluid.fuel_heu_233_fluoride=Molten HEU-233 Fluoride Fuel
-tile.nuclearcraft.fluid_fuel_heu_233_fluoride_flibe.name=Molten FLiBe Salt Solution of HEU-233 Fluoride Fuel
-fluid.fuel_heu_233_fluoride_flibe=Molten FLiBe Salt Solution of HEU-233 Fluoride Fuel
-tile.nuclearcraft.fluid_fuel_leu_235.name=Molten LEU-235 Fuel
-fluid.fuel_leu_235=Molten LEU-235 Fuel
-tile.nuclearcraft.fluid_fuel_leu_235_fluoride.name=Molten LEU-235 Fluoride Fuel
-fluid.fuel_leu_235_fluoride=Molten LEU-235 Fluoride Fuel
-tile.nuclearcraft.fluid_fuel_leu_235_fluoride_flibe.name=Molten FLiBe Salt Solution of LEU-235 Fluoride Fuel
-fluid.fuel_leu_235_fluoride_flibe=Molten FLiBe Salt Solution of LEU-235 Fluoride Fuel
-tile.nuclearcraft.fluid_fuel_heu_235.name=Molten HEU-235 Fuel
-fluid.fuel_heu_235=Molten HEU-235 Fuel
-tile.nuclearcraft.fluid_fuel_heu_235_fluoride.name=Molten HEU-235 Fluoride Fuel
-fluid.fuel_heu_235_fluoride=Molten HEU-235 Fluoride Fuel
-tile.nuclearcraft.fluid_fuel_heu_235_fluoride_flibe.name=Molten FLiBe Salt Solution of HEU-235 Fluoride Fuel
-fluid.fuel_heu_235_fluoride_flibe=Molten FLiBe Salt Solution of HEU-235 Fluoride Fuel
+tile.nuclearcraft.fluid_leu_233.name=Molten LEU-233 Fuel
+fluid.leu_233=Molten LEU-233 Fuel
+tile.nuclearcraft.fluid_leu_233_fluoride.name=Molten LEU-233 Fluoride Fuel
+fluid.leu_233_fluoride=Molten LEU-233 Fluoride Fuel
+tile.nuclearcraft.fluid_leu_233_fluoride_flibe.name=Molten FLiBe Salt Solution of LEU-233 Fluoride Fuel
+fluid.leu_233_fluoride_flibe=Molten FLiBe Salt Solution of LEU-233 Fluoride Fuel
+tile.nuclearcraft.fluid_leu_233_za.name=Molten LEU-233-Zirconium Alloy Fuel
+fluid.leu_233_za=Molten LEU-233-Zirconium Alloy Fuel
 
-tile.nuclearcraft.fluid_fuel_len_236.name=Molten LEN-236 Fuel
-fluid.fuel_len_236=Molten LEN-236 Fuel
-tile.nuclearcraft.fluid_fuel_len_236_fluoride.name=Molten LEN-236 Fluoride Fuel
-fluid.fuel_len_236_fluoride=Molten LEN-236 Fluoride Fuel
-tile.nuclearcraft.fluid_fuel_len_236_fluoride_flibe.name=Molten FLiBe Salt Solution of LEN-236 Fluoride Fuel
-fluid.fuel_len_236_fluoride_flibe=Molten FLiBe Salt Solution of LEN-236 Fluoride Fuel
-tile.nuclearcraft.fluid_fuel_hen_236.name=Molten HEN-236 Fuel
-fluid.fuel_hen_236=Molten HEN-236 Fuel
-tile.nuclearcraft.fluid_fuel_hen_236_fluoride.name=Molten HEN-236 Fluoride Fuel
-fluid.fuel_hen_236_fluoride=Molten HEN-236 Fluoride Fuel
-tile.nuclearcraft.fluid_fuel_hen_236_fluoride_flibe.name=Molten FLiBe Salt Solution of HEN-236 Fluoride Fuel
-fluid.fuel_hen_236_fluoride_flibe=Molten FLiBe Salt Solution of HEN-236 Fluoride Fuel
+tile.nuclearcraft.fluid_heu_233.name=Molten HEU-233 Fuel
+fluid.heu_233=Molten HEU-233 Fuel
+tile.nuclearcraft.fluid_heu_233_fluoride.name=Molten HEU-233 Fluoride Fuel
+fluid.heu_233_fluoride=Molten HEU-233 Fluoride Fuel
+tile.nuclearcraft.fluid_heu_233_fluoride_flibe.name=Molten FLiBe Salt Solution of HEU-233 Fluoride Fuel
+fluid.heu_233_fluoride_flibe=Molten FLiBe Salt Solution of HEU-233 Fluoride Fuel
+tile.nuclearcraft.fluid_heu_233_za.name=Molten HEU-233-Zirconium Alloy Fuel
+fluid.heu_233_za=Molten HEU-233-Zirconium Alloy Fuel
 
-tile.nuclearcraft.fluid_fuel_lep_239.name=Molten LEP-239 Fuel
-fluid.fuel_lep_239=Molten LEP-239 Fuel
-tile.nuclearcraft.fluid_fuel_lep_239_fluoride.name=Molten LEP-239 Fluoride Fuel
-fluid.fuel_lep_239_fluoride=Molten LEP-239 Fluoride Fuel
-tile.nuclearcraft.fluid_fuel_lep_239_fluoride_flibe.name=Molten FLiBe Salt Solution of LEP-239 Fluoride Fuel
-fluid.fuel_lep_239_fluoride_flibe=Molten FLiBe Salt Solution of LEP-239 Fluoride Fuel
-tile.nuclearcraft.fluid_fuel_hep_239.name=Molten HEP-239 Fuel
-fluid.fuel_hep_239=Molten HEP-239 Fuel
-tile.nuclearcraft.fluid_fuel_hep_239_fluoride.name=Molten HEP-239 Fluoride Fuel
-fluid.fuel_hep_239_fluoride=Molten HEP-239 Fluoride Fuel
-tile.nuclearcraft.fluid_fuel_hep_239_fluoride_flibe.name=Molten FLiBe Salt Solution of HEP-239 Fluoride Fuel
-fluid.fuel_hep_239_fluoride_flibe=Molten FLiBe Salt Solution of HEP-239 Fluoride Fuel
-tile.nuclearcraft.fluid_fuel_lep_241.name=Molten LEP-241 Fuel
-fluid.fuel_lep_241=Molten LEP-241 Fuel
-tile.nuclearcraft.fluid_fuel_lep_241_fluoride.name=Molten LEP-241 Fluoride Fuel
-fluid.fuel_lep_241_fluoride=Molten LEP-241 Fluoride Fuel
-tile.nuclearcraft.fluid_fuel_lep_241_fluoride_flibe.name=Molten FLiBe Salt Solution of LEP-241 Fluoride Fuel
-fluid.fuel_lep_241_fluoride_flibe=Molten FLiBe Salt Solution of LEP-241 Fluoride Fuel
-tile.nuclearcraft.fluid_fuel_hep_241.name=Molten HEP-241 Fuel
-fluid.fuel_hep_241=Molten HEP-241 Fuel
-tile.nuclearcraft.fluid_fuel_hep_241_fluoride.name=Molten HEP-241 Fluoride Fuel
-fluid.fuel_hep_241_fluoride=Molten HEP-241 Fluoride Fuel
-tile.nuclearcraft.fluid_fuel_hep_241_fluoride_flibe.name=Molten FLiBe Salt Solution of HEP-241 Fluoride Fuel
-fluid.fuel_hep_241_fluoride_flibe=Molten FLiBe Salt Solution of HEP-241 Fluoride Fuel
+tile.nuclearcraft.fluid_leu_235.name=Molten LEU-235 Fuel
+fluid.leu_235=Molten LEU-235 Fuel
+tile.nuclearcraft.fluid_leu_235_fluoride.name=Molten LEU-235 Fluoride Fuel
+fluid.leu_235_fluoride=Molten LEU-235 Fluoride Fuel
+tile.nuclearcraft.fluid_leu_235_fluoride_flibe.name=Molten FLiBe Salt Solution of LEU-235 Fluoride Fuel
+fluid.leu_235_fluoride_flibe=Molten FLiBe Salt Solution of LEU-235 Fluoride Fuel
+tile.nuclearcraft.fluid_leu_235_za.name=Molten LEU-235-Zirconium Alloy Fuel
+fluid.leu_235_za=Molten LEU-235-Zirconium Alloy Fuel
 
-tile.nuclearcraft.fluid_fuel_mix_239.name=Molten MIX-239 Fuel
-fluid.fuel_mix_239=Molten MIX-239 Fuel
-tile.nuclearcraft.fluid_fuel_mix_239_fluoride.name=Molten MF4-239 Fuel
-fluid.fuel_mix_239_fluoride=Molten MF4-239 Fuel
-tile.nuclearcraft.fluid_fuel_mix_239_fluoride_flibe.name=Molten FLiBe Salt Solution of MF4-239 Fuel
-fluid.fuel_mix_239_fluoride_flibe=Molten FLiBe Salt Solution of MF4-239 Fuel
-tile.nuclearcraft.fluid_fuel_mix_241.name=Molten MIX-241 Fuel
-fluid.fuel_mix_241=Molten MIX-241 Fuel
-tile.nuclearcraft.fluid_fuel_mix_241_fluoride.name=Molten MF4-241 Fuel
-fluid.fuel_mix_241_fluoride=Molten MF4-241 Fuel
-tile.nuclearcraft.fluid_fuel_mix_241_fluoride_flibe.name=Molten FLiBe Salt Solution of MF4-241 Fuel
-fluid.fuel_mix_241_fluoride_flibe=Molten FLiBe Salt Solution of MF4-241 Fuel
+tile.nuclearcraft.fluid_heu_235.name=Molten HEU-235 Fuel
+fluid.heu_235=Molten HEU-235 Fuel
+tile.nuclearcraft.fluid_heu_235_fluoride.name=Molten HEU-235 Fluoride Fuel
+fluid.heu_235_fluoride=Molten HEU-235 Fluoride Fuel
+tile.nuclearcraft.fluid_heu_235_fluoride_flibe.name=Molten FLiBe Salt Solution of HEU-235 Fluoride Fuel
+fluid.heu_235_fluoride_flibe=Molten FLiBe Salt Solution of HEU-235 Fluoride Fuel
+tile.nuclearcraft.fluid_heu_235_za.name=Molten HEU-235-Zirconium Alloy Fuel
+fluid.heu_235_za=Molten HEU-235-Zirconium Alloy Fuel
 
-tile.nuclearcraft.fluid_fuel_lea_242.name=Molten LEA-242 Fuel
-fluid.fuel_lea_242=Molten LEA-242 Fuel
-tile.nuclearcraft.fluid_fuel_lea_242_fluoride.name=Molten LEA-242 Fluoride Fuel
-fluid.fuel_lea_242_fluoride=Molten LEA-242 Fluoride Fuel
-tile.nuclearcraft.fluid_fuel_lea_242_fluoride_flibe.name=Molten FLiBe Salt Solution of LEA-242 Fluoride Fuel
-fluid.fuel_lea_242_fluoride_flibe=Molten FLiBe Salt Solution of LEA-242 Fluoride Fuel
-tile.nuclearcraft.fluid_fuel_hea_242.name=Molten HEA-242 Fuel
-fluid.fuel_hea_242=Molten HEA-242 Fuel
-tile.nuclearcraft.fluid_fuel_hea_242_fluoride.name=Molten HEA-242 Fluoride Fuel
-fluid.fuel_hea_242_fluoride=Molten HEA-242 Fluoride Fuel
-tile.nuclearcraft.fluid_fuel_hea_242_fluoride_flibe.name=Molten FLiBe Salt Solution of HEA-242 Fluoride Fuel
-fluid.fuel_hea_242_fluoride_flibe=Molten FLiBe Salt Solution of HEA-242 Fluoride Fuel
+tile.nuclearcraft.fluid_len_236.name=Molten LEN-236 Fuel
+fluid.len_236=Molten LEN-236 Fuel
+tile.nuclearcraft.fluid_len_236_fluoride.name=Molten LEN-236 Fluoride Fuel
+fluid.len_236_fluoride=Molten LEN-236 Fluoride Fuel
+tile.nuclearcraft.fluid_len_236_fluoride_flibe.name=Molten FLiBe Salt Solution of LEN-236 Fluoride Fuel
+fluid.len_236_fluoride_flibe=Molten FLiBe Salt Solution of LEN-236 Fluoride Fuel
+tile.nuclearcraft.fluid_len_236_za.name=Molten LEN-236-Zirconium Alloy Fuel
+fluid.len_236_za=Molten LEN-236-Zirconium Alloy Fuel
 
-tile.nuclearcraft.fluid_fuel_lecm_243.name=Molten LECm-243 Fuel
-fluid.fuel_lecm_243=Molten LECm-243 Fuel
-tile.nuclearcraft.fluid_fuel_lecm_243_fluoride.name=Molten LECm-243 Fluoride Fuel
-fluid.fuel_lecm_243_fluoride=Molten LECm-243 Fluoride Fuel
-tile.nuclearcraft.fluid_fuel_lecm_243_fluoride_flibe.name=Molten FLiBe Salt Solution of LECm-243 Fluoride Fuel
-fluid.fuel_lecm_243_fluoride_flibe=Molten FLiBe Salt Solution of LECm-243 Fluoride Fuel
-tile.nuclearcraft.fluid_fuel_hecm_243.name=Molten HECm-243 Fuel
-fluid.fuel_hecm_243=Molten HECm-243 Fuel
-tile.nuclearcraft.fluid_fuel_hecm_243_fluoride.name=Molten HECm-243 Fluoride Fuel
-fluid.fuel_hecm_243_fluoride=Molten HECm-243 Fluoride Fuel
-tile.nuclearcraft.fluid_fuel_hecm_243_fluoride_flibe.name=Molten FLiBe Salt Solution of HECm-243 Fluoride Fuel
-fluid.fuel_hecm_243_fluoride_flibe=Molten FLiBe Salt Solution of HECm-243 Fluoride Fuel
-tile.nuclearcraft.fluid_fuel_lecm_245.name=Molten LECm-245 Fuel
-fluid.fuel_lecm_245=Molten LECm-245 Fuel
-tile.nuclearcraft.fluid_fuel_lecm_245_fluoride.name=Molten LECm-245 Fluoride Fuel
-fluid.fuel_lecm_245_fluoride=Molten LECm-245 Fluoride Fuel
-tile.nuclearcraft.fluid_fuel_lecm_245_fluoride_flibe.name=Molten FLiBe Salt Solution of LECm-245 Fluoride Fuel
-fluid.fuel_lecm_245_fluoride_flibe=Molten FLiBe Salt Solution of LECm-245 Fluoride Fuel
-tile.nuclearcraft.fluid_fuel_hecm_245.name=Molten HECm-245 Fuel
-fluid.fuel_hecm_245=Molten HECm-245 Fuel
-tile.nuclearcraft.fluid_fuel_hecm_245_fluoride.name=Molten HECm-245 Fluoride Fuel
-fluid.fuel_hecm_245_fluoride=Molten HECm-245 Fluoride Fuel
-tile.nuclearcraft.fluid_fuel_hecm_245_fluoride_flibe.name=Molten FLiBe Salt Solution of HECm-245 Fluoride Fuel
-fluid.fuel_hecm_245_fluoride_flibe=Molten FLiBe Salt Solution of HECm-245 Fluoride Fuel
-tile.nuclearcraft.fluid_fuel_lecm_247.name=Molten LECm-247 Fuel
-fluid.fuel_lecm_247=Molten LECm-247 Fuel
-tile.nuclearcraft.fluid_fuel_lecm_247_fluoride.name=Molten LECm-247 Fluoride Fuel
-fluid.fuel_lecm_247_fluoride=Molten LECm-247 Fluoride Fuel
-tile.nuclearcraft.fluid_fuel_lecm_247_fluoride_flibe.name=Molten FLiBe Salt Solution of LECm-247 Fluoride Fuel
-fluid.fuel_lecm_247_fluoride_flibe=Molten FLiBe Salt Solution of LECm-247 Fluoride Fuel
-tile.nuclearcraft.fluid_fuel_hecm_247.name=Molten HECm-247 Fuel
-fluid.fuel_hecm_247=Molten HECm-247 Fuel
-tile.nuclearcraft.fluid_fuel_hecm_247_fluoride.name=Molten HECm-247 Fluoride Fuel
-fluid.fuel_hecm_247_fluoride=Molten HECm-247 Fluoride Fuel
-tile.nuclearcraft.fluid_fuel_hecm_247_fluoride_flibe.name=Molten FLiBe Salt Solution of HECm-247 Fluoride Fuel
-fluid.fuel_hecm_247_fluoride_flibe=Molten FLiBe Salt Solution of HECm-247 Fluoride Fuel
+tile.nuclearcraft.fluid_hen_236.name=Molten HEN-236 Fuel
+fluid.hen_236=Molten HEN-236 Fuel
+tile.nuclearcraft.fluid_hen_236_fluoride.name=Molten HEN-236 Fluoride Fuel
+fluid.hen_236_fluoride=Molten HEN-236 Fluoride Fuel
+tile.nuclearcraft.fluid_hen_236_fluoride_flibe.name=Molten FLiBe Salt Solution of HEN-236 Fluoride Fuel
+fluid.hen_236_fluoride_flibe=Molten FLiBe Salt Solution of HEN-236 Fluoride Fuel
+tile.nuclearcraft.fluid_hen_236_za.name=Molten HEN-236-Zirconium Alloy Fuel
+fluid.hen_236_za=Molten HEN-236-Zirconium Alloy Fuel
 
-tile.nuclearcraft.fluid_fuel_leb_248.name=Molten LEB-248 Fuel
-fluid.fuel_leb_248=Molten LEB-248 Fuel
-tile.nuclearcraft.fluid_fuel_leb_248_fluoride.name=Molten LEB-248 Fluoride Fuel
-fluid.fuel_leb_248_fluoride=Molten LEB-248 Fluoride Fuel
-tile.nuclearcraft.fluid_fuel_leb_248_fluoride_flibe.name=Molten FLiBe Salt Solution of LEB-248 Fluoride Fuel
-fluid.fuel_leb_248_fluoride_flibe=Molten FLiBe Salt Solution of LEB-248 Fluoride Fuel
-tile.nuclearcraft.fluid_fuel_heb_248.name=Molten HEB-248 Fuel
-fluid.fuel_heb_248=Molten HEB-248 Fuel
-tile.nuclearcraft.fluid_fuel_heb_248_fluoride.name=Molten HEB-248 Fluoride Fuel
-fluid.fuel_heb_248_fluoride=Molten HEB-248 Fluoride Fuel
-tile.nuclearcraft.fluid_fuel_heb_248_fluoride_flibe.name=Molten FLiBe Salt Solution of HEB-248 Fluoride Fuel
-fluid.fuel_heb_248_fluoride_flibe=Molten FLiBe Salt Solution of HEB-248 Fluoride Fuel
+tile.nuclearcraft.fluid_lep_239.name=Molten LEP-239 Fuel
+fluid.lep_239=Molten LEP-239 Fuel
+tile.nuclearcraft.fluid_lep_239_fluoride.name=Molten LEP-239 Fluoride Fuel
+fluid.lep_239_fluoride=Molten LEP-239 Fluoride Fuel
+tile.nuclearcraft.fluid_lep_239_fluoride_flibe.name=Molten FLiBe Salt Solution of LEP-239 Fluoride Fuel
+fluid.lep_239_fluoride_flibe=Molten FLiBe Salt Solution of LEP-239 Fluoride Fuel
+tile.nuclearcraft.fluid_lep_239_za.name=Molten LEP-239-Zirconium Alloy Fuel
+fluid.lep_239_za=Molten LEP-239-Zirconium Alloy Fuel
 
-tile.nuclearcraft.fluid_fuel_lecf_249.name=Molten LECf-249 Fuel
-fluid.fuel_lecf_249=Molten LECf-249 Fuel
-tile.nuclearcraft.fluid_fuel_lecf_249_fluoride.name=Molten LECf-249 Fluoride Fuel
-fluid.fuel_lecf_249_fluoride=Molten LECf-249 Fluoride Fuel
-tile.nuclearcraft.fluid_fuel_lecf_249_fluoride_flibe.name=Molten FLiBe Salt Solution of LECf-249 Fluoride Fuel
-fluid.fuel_lecf_249_fluoride_flibe=Molten FLiBe Salt Solution of LECf-249 Fluoride Fuel
-tile.nuclearcraft.fluid_fuel_hecf_249.name=Molten HECf-249 Fuel
-fluid.fuel_hecf_249=Molten HECf-249 Fuel
-tile.nuclearcraft.fluid_fuel_hecf_249_fluoride.name=Molten HECf-249 Fluoride Fuel
-fluid.fuel_hecf_249_fluoride=Molten HECf-249 Fluoride Fuel
-tile.nuclearcraft.fluid_fuel_hecf_249_fluoride_flibe.name=Molten FLiBe Salt Solution of HECf-249 Fluoride Fuel
-fluid.fuel_hecf_249_fluoride_flibe=Molten FLiBe Salt Solution of HECf-249 Fluoride Fuel
-tile.nuclearcraft.fluid_fuel_lecf_251.name=Molten LECf-251 Fuel
-fluid.fuel_lecf_251=Molten LECf-251 Fuel
-tile.nuclearcraft.fluid_fuel_lecf_251_fluoride.name=Molten LECf-251 Fluoride Fuel
-fluid.fuel_lecf_251_fluoride=Molten LECf-251 Fluoride Fuel
-tile.nuclearcraft.fluid_fuel_lecf_251_fluoride_flibe.name=Molten FLiBe Salt Solution of LECf-251 Fluoride Fuel
-fluid.fuel_lecf_251_fluoride_flibe=Molten FLiBe Salt Solution of LECf-251 Fluoride Fuel
-tile.nuclearcraft.fluid_fuel_hecf_251.name=Molten HECf-251 Fuel
-fluid.fuel_hecf_251=Molten HECf-251 Fuel
-tile.nuclearcraft.fluid_fuel_hecf_251_fluoride.name=Molten HECf-251 Fluoride Fuel
-fluid.fuel_hecf_251_fluoride=Molten HECf-251 Fluoride Fuel
-tile.nuclearcraft.fluid_fuel_hecf_251_fluoride_flibe.name=Molten FLiBe Salt Solution of HECf-251 Fluoride Fuel
-fluid.fuel_hecf_251_fluoride_flibe=Molten FLiBe Salt Solution of HECf-251 Fluoride Fuel
+tile.nuclearcraft.fluid_hep_239.name=Molten HEP-239 Fuel
+fluid.hep_239=Molten HEP-239 Fuel
+tile.nuclearcraft.fluid_hep_239_fluoride.name=Molten HEP-239 Fluoride Fuel
+fluid.hep_239_fluoride=Molten HEP-239 Fluoride Fuel
+tile.nuclearcraft.fluid_hep_239_fluoride_flibe.name=Molten FLiBe Salt Solution of HEP-239 Fluoride Fuel
+fluid.hep_239_fluoride_flibe=Molten FLiBe Salt Solution of HEP-239 Fluoride Fuel
+tile.nuclearcraft.fluid_hep_239_za.name=Molten HEP-239-Zirconium Alloy Fuel
+fluid.hep_239_za=Molten HEP-239-Zirconium Alloy Fuel
 
-tile.nuclearcraft.fluid_depleted_fuel_tbu.name=Molten Depleted TBU Fuel
-fluid.depleted_fuel_tbu=Molten Depleted TBU Fuel
-tile.nuclearcraft.fluid_depleted_fuel_tbu_fluoride.name=Molten Depleted TBU Fluoride Fuel
-fluid.depleted_fuel_tbu_fluoride=Molten Depleted TBU Fluoride Fuel
-tile.nuclearcraft.fluid_depleted_fuel_tbu_fluoride_flibe.name=Molten FLiBe Salt Solution of Depleted TBU Fluoride Fuel
-fluid.depleted_fuel_tbu_fluoride_flibe=Molten FLiBe Salt Solution of Depleted TBU Fluoride Fuel
+tile.nuclearcraft.fluid_lep_241.name=Molten LEP-241 Fuel
+fluid.lep_241=Molten LEP-241 Fuel
+tile.nuclearcraft.fluid_lep_241_fluoride.name=Molten LEP-241 Fluoride Fuel
+fluid.lep_241_fluoride=Molten LEP-241 Fluoride Fuel
+tile.nuclearcraft.fluid_lep_241_fluoride_flibe.name=Molten FLiBe Salt Solution of LEP-241 Fluoride Fuel
+fluid.lep_241_fluoride_flibe=Molten FLiBe Salt Solution of LEP-241 Fluoride Fuel
+tile.nuclearcraft.fluid_lep_241_za.name=Molten LEP-241-Zirconium Alloy Fuel
+fluid.lep_241_za=Molten LEP-241-Zirconium Alloy Fuel
 
-tile.nuclearcraft.fluid_depleted_fuel_leu_233.name=Molten Depleted LEU-233 Fuel
-fluid.depleted_fuel_leu_233=Molten Depleted LEU-233 Fuel
-tile.nuclearcraft.fluid_depleted_fuel_leu_233_fluoride.name=Molten Depleted LEU-233 Fluoride Fuel
-fluid.depleted_fuel_leu_233_fluoride=Molten Depleted LEU-233 Fluoride Fuel
-tile.nuclearcraft.fluid_depleted_fuel_leu_233_fluoride_flibe.name=Molten FLiBe Salt Solution of Depleted LEU-233 Fluoride Fuel
-fluid.depleted_fuel_leu_233_fluoride_flibe=Molten FLiBe Salt Solution of Depleted LEU-233 Fluoride Fuel
-tile.nuclearcraft.fluid_depleted_fuel_heu_233.name=Molten Depleted HEU-233 Fuel
-fluid.depleted_fuel_heu_233=Molten Depleted HEU-233 Fuel
-tile.nuclearcraft.fluid_depleted_fuel_heu_233_fluoride.name=Molten Depleted HEU-233 Fluoride Fuel
-fluid.depleted_fuel_heu_233_fluoride=Molten Depleted HEU-233 Fluoride Fuel
-tile.nuclearcraft.fluid_depleted_fuel_heu_233_fluoride_flibe.name=Molten FLiBe Salt Solution of Depleted HEU-233 Fluoride Fuel
-fluid.depleted_fuel_heu_233_fluoride_flibe=Molten FLiBe Salt Solution of Depleted HEU-233 Fluoride Fuel
-tile.nuclearcraft.fluid_depleted_fuel_leu_235.name=Molten Depleted LEU-235 Fuel
-fluid.depleted_fuel_leu_235=Molten Depleted LEU-235 Fuel
-tile.nuclearcraft.fluid_depleted_fuel_leu_235_fluoride.name=Molten Depleted LEU-235 Fluoride Fuel
-fluid.depleted_fuel_leu_235_fluoride=Molten Depleted LEU-235 Fluoride Fuel
-tile.nuclearcraft.fluid_depleted_fuel_leu_235_fluoride_flibe.name=Molten FLiBe Salt Solution of Depleted LEU-235 Fluoride Fuel
-fluid.depleted_fuel_leu_235_fluoride_flibe=Molten FLiBe Salt Solution of Depleted LEU-235 Fluoride Fuel
-tile.nuclearcraft.fluid_depleted_fuel_heu_235.name=Molten Depleted HEU-235 Fuel
-fluid.depleted_fuel_heu_235=Molten Depleted HEU-235 Fuel
-tile.nuclearcraft.fluid_depleted_fuel_heu_235_fluoride.name=Molten Depleted HEU-235 Fluoride Fuel
-fluid.depleted_fuel_heu_235_fluoride=Molten Depleted HEU-235 Fluoride Fuel
-tile.nuclearcraft.fluid_depleted_fuel_heu_235_fluoride_flibe.name=Molten FLiBe Salt Solution of Depleted HEU-235 Fluoride Fuel
-fluid.depleted_fuel_heu_235_fluoride_flibe=Molten FLiBe Salt Solution of Depleted HEU-235 Fluoride Fuel
+tile.nuclearcraft.fluid_hep_241.name=Molten HEP-241 Fuel
+fluid.hep_241=Molten HEP-241 Fuel
+tile.nuclearcraft.fluid_hep_241_fluoride.name=Molten HEP-241 Fluoride Fuel
+fluid.hep_241_fluoride=Molten HEP-241 Fluoride Fuel
+tile.nuclearcraft.fluid_hep_241_fluoride_flibe.name=Molten FLiBe Salt Solution of HEP-241 Fluoride Fuel
+fluid.hep_241_fluoride_flibe=Molten FLiBe Salt Solution of HEP-241 Fluoride Fuel
+tile.nuclearcraft.fluid_hep_241_za.name=Molten HEP-241-Zirconium Alloy Fuel
+fluid.hep_241_za=Molten HEP-241-Zirconium Alloy Fuel
 
-tile.nuclearcraft.fluid_depleted_fuel_len_236.name=Molten Depleted LEN-236 Fuel
-fluid.depleted_fuel_len_236=Molten Depleted LEN-236 Fuel
-tile.nuclearcraft.fluid_depleted_fuel_len_236_fluoride.name=Molten Depleted LEN-236 Fluoride Fuel
-fluid.depleted_fuel_len_236_fluoride=Molten Depleted LEN-236 Fluoride Fuel
-tile.nuclearcraft.fluid_depleted_fuel_len_236_fluoride_flibe.name=Molten FLiBe Salt Solution of Depleted LEN-236 Fluoride Fuel
-fluid.depleted_fuel_len_236_fluoride_flibe=Molten FLiBe Salt Solution of Depleted LEN-236 Fluoride Fuel
-tile.nuclearcraft.fluid_depleted_fuel_hen_236.name=Molten Depleted HEN-236 Fuel
-fluid.depleted_fuel_hen_236=Molten Depleted HEN-236 Fuel
-tile.nuclearcraft.fluid_depleted_fuel_hen_236_fluoride.name=Molten Depleted HEN-236 Fluoride Fuel
-fluid.depleted_fuel_hen_236_fluoride=Molten Depleted HEN-236 Fluoride Fuel
-tile.nuclearcraft.fluid_depleted_fuel_hen_236_fluoride_flibe.name=Molten FLiBe Salt Solution of Depleted HEN-236 Fluoride Fuel
-fluid.depleted_fuel_hen_236_fluoride_flibe=Molten FLiBe Salt Solution of Depleted HEN-236 Fluoride Fuel
+tile.nuclearcraft.fluid_mix_239.name=Molten MIX-239 Fuel
+fluid.mix_239=Molten MIX-239 Fuel
+tile.nuclearcraft.fluid_mix_239_fluoride.name=Molten MF4-239 Fuel
+fluid.mix_239_fluoride=Molten MF4-239 Fuel
+tile.nuclearcraft.fluid_mix_239_fluoride_flibe.name=Molten FLiBe Salt Solution of MF4-239 Fuel
+fluid.mix_239_fluoride_flibe=Molten FLiBe Salt Solution of MF4-239 Fuel
+tile.nuclearcraft.fluid_mix_239_za.name=Molten MZA-239 Fuel
+fluid.mix_239_za=Molten MZA-239 Fuel
 
-tile.nuclearcraft.fluid_depleted_fuel_lep_239.name=Molten Depleted LEP-239 Fuel
-fluid.depleted_fuel_lep_239=Molten Depleted LEP-239 Fuel
-tile.nuclearcraft.fluid_depleted_fuel_lep_239_fluoride.name=Molten Depleted LEP-239 Fluoride Fuel
-fluid.depleted_fuel_lep_239_fluoride=Molten Depleted LEP-239 Fluoride Fuel
-tile.nuclearcraft.fluid_depleted_fuel_lep_239_fluoride_flibe.name=Molten FLiBe Salt Solution of Depleted LEP-239 Fluoride Fuel
-fluid.depleted_fuel_lep_239_fluoride_flibe=Molten FLiBe Salt Solution of Depleted LEP-239 Fluoride Fuel
-tile.nuclearcraft.fluid_depleted_fuel_hep_239.name=Molten Depleted HEP-239 Fuel
-fluid.depleted_fuel_hep_239=Molten Depleted HEP-239 Fuel
-tile.nuclearcraft.fluid_depleted_fuel_hep_239_fluoride.name=Molten Depleted HEP-239 Fluoride Fuel
-fluid.depleted_fuel_hep_239_fluoride=Molten Depleted HEP-239 Fluoride Fuel
-tile.nuclearcraft.fluid_depleted_fuel_hep_239_fluoride_flibe.name=Molten FLiBe Salt Solution of Depleted HEP-239 Fluoride Fuel
-fluid.depleted_fuel_hep_239_fluoride_flibe=Molten FLiBe Salt Solution of Depleted HEP-239 Fluoride Fuel
-tile.nuclearcraft.fluid_depleted_fuel_lep_241.name=Molten Depleted LEP-241 Fuel
-fluid.depleted_fuel_lep_241=Molten Depleted LEP-241 Fuel
-tile.nuclearcraft.fluid_depleted_fuel_lep_241_fluoride.name=Molten Depleted LEP-241 Fluoride Fuel
-fluid.depleted_fuel_lep_241_fluoride=Molten Depleted LEP-241 Fluoride Fuel
-tile.nuclearcraft.fluid_depleted_fuel_lep_241_fluoride_flibe.name=Molten FLiBe Salt Solution of Depleted LEP-241 Fluoride Fuel
-fluid.depleted_fuel_lep_241_fluoride_flibe=Molten FLiBe Salt Solution of Depleted LEP-241 Fluoride Fuel
-tile.nuclearcraft.fluid_depleted_fuel_hep_241.name=Molten Depleted HEP-241 Fuel
-fluid.depleted_fuel_hep_241=Molten Depleted HEP-241 Fuel
-tile.nuclearcraft.fluid_depleted_fuel_hep_241_fluoride.name=Molten Depleted HEP-241 Fluoride Fuel
-fluid.depleted_fuel_hep_241_fluoride=Molten Depleted HEP-241 Fluoride Fuel
-tile.nuclearcraft.fluid_depleted_fuel_hep_241_fluoride_flibe.name=Molten FLiBe Salt Solution of Depleted HEP-241 Fluoride Fuel
-fluid.depleted_fuel_hep_241_fluoride_flibe=Molten FLiBe Salt Solution of Depleted HEP-241 Fluoride Fuel
+tile.nuclearcraft.fluid_mix_241.name=Molten MIX-241 Fuel
+fluid.mix_241=Molten MIX-241 Fuel
+tile.nuclearcraft.fluid_mix_241_fluoride.name=Molten MF4-241 Fuel
+fluid.mix_241_fluoride=Molten MF4-241 Fuel
+tile.nuclearcraft.fluid_mix_241_fluoride_flibe.name=Molten FLiBe Salt Solution of MF4-241 Fuel
+fluid.mix_241_fluoride_flibe=Molten FLiBe Salt Solution of MF4-241 Fuel
+tile.nuclearcraft.fluid_mix_241_za.name=Molten MZA-241 Fuel
+fluid.mix_241_za=Molten MZA-241 Fuel
 
-tile.nuclearcraft.fluid_depleted_fuel_mix_239.name=Molten Depleted MIX-239 Fuel
-fluid.depleted_fuel_mix_239=Molten Depleted MIX-239 Fuel
-tile.nuclearcraft.fluid_depleted_fuel_mix_239_fluoride.name=Molten Depleted MF4-239 Fuel
-fluid.depleted_fuel_mix_239_fluoride=Molten Depleted MF4-239 Fuel
-tile.nuclearcraft.fluid_depleted_fuel_mix_239_fluoride_flibe.name=Molten FLiBe Salt Solution of Depleted MF4-239 Fuel
-fluid.depleted_fuel_mix_239_fluoride_flibe=Molten FLiBe Salt Solution of Depleted MF4-239 Fuel
-tile.nuclearcraft.fluid_depleted_fuel_mix_241.name=Molten Depleted MIX-241 Fuel
-fluid.depleted_fuel_mix_241=Molten Depleted MIX-241 Fuel
-tile.nuclearcraft.fluid_depleted_fuel_mix_241_fluoride.name=Molten Depleted MF4-241 Fuel
-fluid.depleted_fuel_mix_241_fluoride=Molten Depleted MF4-241 Fuel
-tile.nuclearcraft.fluid_depleted_fuel_mix_241_fluoride_flibe.name=Molten FLiBe Salt Solution of Depleted MF4-241 Fuel
-fluid.depleted_fuel_mix_241_fluoride_flibe=Molten FLiBe Salt Solution of Depleted MF4-241 Fuel
+tile.nuclearcraft.fluid_lea_242.name=Molten LEA-242 Fuel
+fluid.lea_242=Molten LEA-242 Fuel
+tile.nuclearcraft.fluid_lea_242_fluoride.name=Molten LEA-242 Fluoride Fuel
+fluid.lea_242_fluoride=Molten LEA-242 Fluoride Fuel
+tile.nuclearcraft.fluid_lea_242_fluoride_flibe.name=Molten FLiBe Salt Solution of LEA-242 Fluoride Fuel
+fluid.lea_242_fluoride_flibe=Molten FLiBe Salt Solution of LEA-242 Fluoride Fuel
+tile.nuclearcraft.fluid_lea_242_za.name=Molten LEA-242-Zirconium Alloy Fuel
+fluid.lea_242_za=Molten LEA-242-Zirconium Alloy Fuel
 
-tile.nuclearcraft.fluid_depleted_fuel_lea_242.name=Molten Depleted LEA-242 Fuel
-fluid.depleted_fuel_lea_242=Molten Depleted LEA-242 Fuel
-tile.nuclearcraft.fluid_depleted_fuel_lea_242_fluoride.name=Molten Depleted LEA-242 Fluoride Fuel
-fluid.depleted_fuel_lea_242_fluoride=Molten Depleted LEA-242 Fluoride Fuel
-tile.nuclearcraft.fluid_depleted_fuel_lea_242_fluoride_flibe.name=Molten FLiBe Salt Solution of Depleted LEA-242 Fluoride Fuel
-fluid.depleted_fuel_lea_242_fluoride_flibe=Molten FLiBe Salt Solution of Depleted LEA-242 Fluoride Fuel
-tile.nuclearcraft.fluid_depleted_fuel_hea_242.name=Molten Depleted HEA-242 Fuel
-fluid.depleted_fuel_hea_242=Molten Depleted HEA-242 Fuel
-tile.nuclearcraft.fluid_depleted_fuel_hea_242_fluoride.name=Molten Depleted HEA-242 Fluoride Fuel
-fluid.depleted_fuel_hea_242_fluoride=Molten Depleted HEA-242 Fluoride Fuel
-tile.nuclearcraft.fluid_depleted_fuel_hea_242_fluoride_flibe.name=Molten FLiBe Salt Solution of Depleted HEA-242 Fluoride Fuel
-fluid.depleted_fuel_hea_242_fluoride_flibe=Molten FLiBe Salt Solution of Depleted HEA-242 Fluoride Fuel
+tile.nuclearcraft.fluid_hea_242.name=Molten HEA-242 Fuel
+fluid.hea_242=Molten HEA-242 Fuel
+tile.nuclearcraft.fluid_hea_242_fluoride.name=Molten HEA-242 Fluoride Fuel
+fluid.hea_242_fluoride=Molten HEA-242 Fluoride Fuel
+tile.nuclearcraft.fluid_hea_242_fluoride_flibe.name=Molten FLiBe Salt Solution of HEA-242 Fluoride Fuel
+fluid.hea_242_fluoride_flibe=Molten FLiBe Salt Solution of HEA-242 Fluoride Fuel
+tile.nuclearcraft.fluid_hea_242_za.name=Molten HEA-242-Zirconium Alloy Fuel
+fluid.hea_242_za=Molten HEA-242-Zirconium Alloy Fuel
 
-tile.nuclearcraft.fluid_depleted_fuel_lecm_243.name=Molten Depleted LECm-243 Fuel
-fluid.depleted_fuel_lecm_243=Molten Depleted LECm-243 Fuel
-tile.nuclearcraft.fluid_depleted_fuel_lecm_243_fluoride.name=Molten Depleted LECm-243 Fluoride Fuel
-fluid.depleted_fuel_lecm_243_fluoride=Molten Depleted LECm-243 Fluoride Fuel
-tile.nuclearcraft.fluid_depleted_fuel_lecm_243_fluoride_flibe.name=Molten FLiBe Salt Solution of Depleted LECm-243 Fluoride Fuel
-fluid.depleted_fuel_lecm_243_fluoride_flibe=Molten FLiBe Salt Solution of Depleted LECm-243 Fluoride Fuel
-tile.nuclearcraft.fluid_depleted_fuel_hecm_243.name=Molten Depleted HECm-243 Fuel
-fluid.depleted_fuel_hecm_243=Molten Depleted HECm-243 Fuel
-tile.nuclearcraft.fluid_depleted_fuel_hecm_243_fluoride.name=Molten Depleted HECm-243 Fluoride Fuel
-fluid.depleted_fuel_hecm_243_fluoride=Molten Depleted HECm-243 Fluoride Fuel
-tile.nuclearcraft.fluid_depleted_fuel_hecm_243_fluoride_flibe.name=Molten FLiBe Salt Solution of Depleted HECm-243 Fluoride Fuel
-fluid.depleted_fuel_hecm_243_fluoride_flibe=Molten FLiBe Salt Solution of Depleted HECm-243 Fluoride Fuel
-tile.nuclearcraft.fluid_depleted_fuel_lecm_245.name=Molten Depleted LECm-245 Fuel
-fluid.depleted_fuel_lecm_245=Molten Depleted LECm-245 Fuel
-tile.nuclearcraft.fluid_depleted_fuel_lecm_245_fluoride.name=Molten Depleted LECm-245 Fluoride Fuel
-fluid.depleted_fuel_lecm_245_fluoride=Molten Depleted LECm-245 Fluoride Fuel
-tile.nuclearcraft.fluid_depleted_fuel_lecm_245_fluoride_flibe.name=Molten FLiBe Salt Solution of Depleted LECm-245 Fluoride Fuel
-fluid.depleted_fuel_lecm_245_fluoride_flibe=Molten FLiBe Salt Solution of Depleted LECm-245 Fluoride Fuel
-tile.nuclearcraft.fluid_depleted_fuel_hecm_245.name=Molten Depleted HECm-245 Fuel
-fluid.depleted_fuel_hecm_245=Molten Depleted HECm-245 Fuel
-tile.nuclearcraft.fluid_depleted_fuel_hecm_245_fluoride.name=Molten Depleted HECm-245 Fluoride Fuel
-fluid.depleted_fuel_hecm_245_fluoride=Molten Depleted HECm-245 Fluoride Fuel
-tile.nuclearcraft.fluid_depleted_fuel_hecm_245_fluoride_flibe.name=Molten FLiBe Salt Solution of Depleted HECm-245 Fluoride Fuel
-fluid.depleted_fuel_hecm_245_fluoride_flibe=Molten FLiBe Salt Solution of Depleted HECm-245 Fluoride Fuel
-tile.nuclearcraft.fluid_depleted_fuel_lecm_247.name=Molten Depleted LECm-247 Fuel
-fluid.depleted_fuel_lecm_247=Molten Depleted LECm-247 Fuel
-tile.nuclearcraft.fluid_depleted_fuel_lecm_247_fluoride.name=Molten Depleted LECm-247 Fluoride Fuel
-fluid.depleted_fuel_lecm_247_fluoride=Molten Depleted LECm-247 Fluoride Fuel
-tile.nuclearcraft.fluid_depleted_fuel_lecm_247_fluoride_flibe.name=Molten FLiBe Salt Solution of Depleted LECm-247 Fluoride Fuel
-fluid.depleted_fuel_lecm_247_fluoride_flibe=Molten FLiBe Salt Solution of Depleted LECm-247 Fluoride Fuel
-tile.nuclearcraft.fluid_depleted_fuel_hecm_247.name=Molten Depleted HECm-247 Fuel
-fluid.depleted_fuel_hecm_247=Molten Depleted HECm-247 Fuel
-tile.nuclearcraft.fluid_depleted_fuel_hecm_247_fluoride.name=Molten Depleted HECm-247 Fluoride Fuel
-fluid.depleted_fuel_hecm_247_fluoride=Molten Depleted HECm-247 Fluoride Fuel
-tile.nuclearcraft.fluid_depleted_fuel_hecm_247_fluoride_flibe.name=Molten FLiBe Salt Solution of Depleted HECm-247 Fluoride Fuel
-fluid.depleted_fuel_hecm_247_fluoride_flibe=Molten FLiBe Salt Solution of Depleted HECm-247 Fluoride Fuel
+tile.nuclearcraft.fluid_lecm_243.name=Molten LECm-243 Fuel
+fluid.lecm_243=Molten LECm-243 Fuel
+tile.nuclearcraft.fluid_lecm_243_fluoride.name=Molten LECm-243 Fluoride Fuel
+fluid.lecm_243_fluoride=Molten LECm-243 Fluoride Fuel
+tile.nuclearcraft.fluid_lecm_243_fluoride_flibe.name=Molten FLiBe Salt Solution of LECm-243 Fluoride Fuel
+fluid.lecm_243_fluoride_flibe=Molten FLiBe Salt Solution of LECm-243 Fluoride Fuel
+tile.nuclearcraft.fluid_lecm_243_za.name=Molten LECm-243-Zirconium Alloy Fuel
+fluid.lecm_243_za=Molten LECm-243-Zirconium Alloy Fuel
 
-tile.nuclearcraft.fluid_depleted_fuel_leb_248.name=Molten Depleted LEB-248 Fuel
-fluid.depleted_fuel_leb_248=Molten Depleted LEB-248 Fuel
-tile.nuclearcraft.fluid_depleted_fuel_leb_248_fluoride.name=Molten Depleted LEB-248 Fluoride Fuel
-fluid.depleted_fuel_leb_248_fluoride=Molten Depleted LEB-248 Fluoride Fuel
-tile.nuclearcraft.fluid_depleted_fuel_leb_248_fluoride_flibe.name=Molten FLiBe Salt Solution of Depleted LEB-248 Fluoride Fuel
-fluid.depleted_fuel_leb_248_fluoride_flibe=Molten FLiBe Salt Solution of Depleted LEB-248 Fluoride Fuel
-tile.nuclearcraft.fluid_depleted_fuel_heb_248.name=Molten Depleted HEB-248 Fuel
-fluid.depleted_fuel_heb_248=Molten Depleted HEB-248 Fuel
-tile.nuclearcraft.fluid_depleted_fuel_heb_248_fluoride.name=Molten Depleted HEB-248 Fluoride Fuel
-fluid.depleted_fuel_heb_248_fluoride=Molten Depleted HEB-248 Fluoride Fuel
-tile.nuclearcraft.fluid_depleted_fuel_heb_248_fluoride_flibe.name=Molten FLiBe Salt Solution of Depleted HEB-248 Fluoride Fuel
-fluid.depleted_fuel_heb_248_fluoride_flibe=Molten FLiBe Salt Solution of Depleted HEB-248 Fluoride Fuel
+tile.nuclearcraft.fluid_hecm_243.name=Molten HECm-243 Fuel
+fluid.hecm_243=Molten HECm-243 Fuel
+tile.nuclearcraft.fluid_hecm_243_fluoride.name=Molten HECm-243 Fluoride Fuel
+fluid.hecm_243_fluoride=Molten HECm-243 Fluoride Fuel
+tile.nuclearcraft.fluid_hecm_243_fluoride_flibe.name=Molten FLiBe Salt Solution of HECm-243 Fluoride Fuel
+fluid.hecm_243_fluoride_flibe=Molten FLiBe Salt Solution of HECm-243 Fluoride Fuel
+tile.nuclearcraft.fluid_hecm_243_za.name=Molten HECm-243-Zirconium Alloy Fuel
+fluid.hecm_243_za=Molten HECm-243-Zirconium Alloy Fuel
 
-tile.nuclearcraft.fluid_depleted_fuel_lecf_249.name=Molten Depleted LECf-249 Fuel
-fluid.depleted_fuel_lecf_249=Molten Depleted LECf-249 Fuel
-tile.nuclearcraft.fluid_depleted_fuel_lecf_249_fluoride.name=Molten Depleted LECf-249 Fluoride Fuel
-fluid.depleted_fuel_lecf_249_fluoride=Molten Depleted LECf-249 Fluoride Fuel
-tile.nuclearcraft.fluid_depleted_fuel_lecf_249_fluoride_flibe.name=Molten FLiBe Salt Solution of Depleted LECf-249 Fluoride Fuel
-fluid.depleted_fuel_lecf_249_fluoride_flibe=Molten FLiBe Salt Solution of Depleted LECf-249 Fluoride Fuel
-tile.nuclearcraft.fluid_depleted_fuel_hecf_249.name=Molten Depleted HECf-249 Fuel
-fluid.depleted_fuel_hecf_249=Molten Depleted HECf-249 Fuel
-tile.nuclearcraft.fluid_depleted_fuel_hecf_249_fluoride.name=Molten Depleted HECf-249 Fluoride Fuel
-fluid.depleted_fuel_hecf_249_fluoride=Molten Depleted HECf-249 Fluoride Fuel
-tile.nuclearcraft.fluid_depleted_fuel_hecf_249_fluoride_flibe.name=Molten FLiBe Salt Solution of Depleted HECf-249 Fluoride Fuel
-fluid.depleted_fuel_hecf_249_fluoride_flibe=Molten FLiBe Salt Solution of Depleted HECf-249 Fluoride Fuel
-tile.nuclearcraft.fluid_depleted_fuel_lecf_251.name=Molten Depleted LECf-251 Fuel
-fluid.depleted_fuel_lecf_251=Molten Depleted LECf-251 Fuel
-tile.nuclearcraft.fluid_depleted_fuel_lecf_251_fluoride.name=Molten Depleted LECf-251 Fluoride Fuel
-fluid.depleted_fuel_lecf_251_fluoride=Molten Depleted LECf-251 Fluoride Fuel
-tile.nuclearcraft.fluid_depleted_fuel_lecf_251_fluoride_flibe.name=Molten FLiBe Salt Solution of Depleted LECf-251 Fluoride Fuel
-fluid.depleted_fuel_lecf_251_fluoride_flibe=Molten FLiBe Salt Solution of Depleted LECf-251 Fluoride Fuel
-tile.nuclearcraft.fluid_depleted_fuel_hecf_251.name=Molten Depleted HECf-251 Fuel
-fluid.depleted_fuel_hecf_251=Molten Depleted HECf-251 Fuel
-tile.nuclearcraft.fluid_depleted_fuel_hecf_251_fluoride.name=Molten Depleted HECf-251 Fluoride Fuel
-fluid.depleted_fuel_hecf_251_fluoride=Molten Depleted HECf-251 Fluoride Fuel
-tile.nuclearcraft.fluid_depleted_fuel_hecf_251_fluoride_flibe.name=Molten FLiBe Salt Solution of Depleted HECf-251 Fluoride Fuel
-fluid.depleted_fuel_hecf_251_fluoride_flibe=Molten FLiBe Salt Solution of Depleted HECf-251 Fluoride Fuel
+tile.nuclearcraft.fluid_lecm_245.name=Molten LECm-245 Fuel
+fluid.lecm_245=Molten LECm-245 Fuel
+tile.nuclearcraft.fluid_lecm_245_fluoride.name=Molten LECm-245 Fluoride Fuel
+fluid.lecm_245_fluoride=Molten LECm-245 Fluoride Fuel
+tile.nuclearcraft.fluid_lecm_245_fluoride_flibe.name=Molten FLiBe Salt Solution of LECm-245 Fluoride Fuel
+fluid.lecm_245_fluoride_flibe=Molten FLiBe Salt Solution of LECm-245 Fluoride Fuel
+tile.nuclearcraft.fluid_lecm_245_za.name=Molten LECm-245-Zirconium Alloy Fuel
+fluid.lecm_245_za=Molten LECm-245-Zirconium Alloy Fuel
+
+tile.nuclearcraft.fluid_hecm_245.name=Molten HECm-245 Fuel
+fluid.hecm_245=Molten HECm-245 Fuel
+tile.nuclearcraft.fluid_hecm_245_fluoride.name=Molten HECm-245 Fluoride Fuel
+fluid.hecm_245_fluoride=Molten HECm-245 Fluoride Fuel
+tile.nuclearcraft.fluid_hecm_245_fluoride_flibe.name=Molten FLiBe Salt Solution of HECm-245 Fluoride Fuel
+fluid.hecm_245_fluoride_flibe=Molten FLiBe Salt Solution of HECm-245 Fluoride Fuel
+tile.nuclearcraft.fluid_hecm_245_za.name=Molten HECm-245-Zirconium Alloy Fuel
+fluid.hecm_245_za=Molten HECm-245-Zirconium Alloy Fuel
+
+tile.nuclearcraft.fluid_lecm_247.name=Molten LECm-247 Fuel
+fluid.lecm_247=Molten LECm-247 Fuel
+tile.nuclearcraft.fluid_lecm_247_fluoride.name=Molten LECm-247 Fluoride Fuel
+fluid.lecm_247_fluoride=Molten LECm-247 Fluoride Fuel
+tile.nuclearcraft.fluid_lecm_247_fluoride_flibe.name=Molten FLiBe Salt Solution of LECm-247 Fluoride Fuel
+fluid.lecm_247_fluoride_flibe=Molten FLiBe Salt Solution of LECm-247 Fluoride Fuel
+tile.nuclearcraft.fluid_lecm_247_za.name=Molten LECm-247-Zirconium Alloy Fuel
+fluid.lecm_247_za=Molten LECm-247-Zirconium Alloy Fuel
+tile.nuclearcraft.fluid_lecm_247_za.name=Molten LECm-247-Zirconium Alloy Fuel
+fluid.lecm_247_za=Molten LECm-247-Zirconium Alloy Fuel
+
+tile.nuclearcraft.fluid_hecm_247.name=Molten HECm-247 Fuel
+fluid.hecm_247=Molten HECm-247 Fuel
+tile.nuclearcraft.fluid_hecm_247_fluoride.name=Molten HECm-247 Fluoride Fuel
+fluid.hecm_247_fluoride=Molten HECm-247 Fluoride Fuel
+tile.nuclearcraft.fluid_hecm_247_fluoride_flibe.name=Molten FLiBe Salt Solution of HECm-247 Fluoride Fuel
+fluid.hecm_247_fluoride_flibe=Molten FLiBe Salt Solution of HECm-247 Fluoride Fuel
+tile.nuclearcraft.fluid_hecm_247_za.name=Molten HECm-247-Zirconium Alloy Fuel
+fluid.hecm_247_za=Molten HECm-247-Zirconium Alloy Fuel
+
+tile.nuclearcraft.fluid_leb_248.name=Molten LEB-248 Fuel
+fluid.leb_248=Molten LEB-248 Fuel
+tile.nuclearcraft.fluid_leb_248_fluoride.name=Molten LEB-248 Fluoride Fuel
+fluid.leb_248_fluoride=Molten LEB-248 Fluoride Fuel
+tile.nuclearcraft.fluid_leb_248_fluoride_flibe.name=Molten FLiBe Salt Solution of LEB-248 Fluoride Fuel
+fluid.leb_248_fluoride_flibe=Molten FLiBe Salt Solution of LEB-248 Fluoride Fuel
+tile.nuclearcraft.fluid_leb_248_za.name=Molten LEB-248-Zirconium Alloy Fuel
+fluid.leb_248_za=Molten LEB-248-Zirconium Alloy Fuel
+
+tile.nuclearcraft.fluid_heb_248.name=Molten HEB-248 Fuel
+fluid.heb_248=Molten HEB-248 Fuel
+tile.nuclearcraft.fluid_heb_248_fluoride.name=Molten HEB-248 Fluoride Fuel
+fluid.heb_248_fluoride=Molten HEB-248 Fluoride Fuel
+tile.nuclearcraft.fluid_heb_248_fluoride_flibe.name=Molten FLiBe Salt Solution of HEB-248 Fluoride Fuel
+fluid.heb_248_fluoride_flibe=Molten FLiBe Salt Solution of HEB-248 Fluoride Fuel
+tile.nuclearcraft.fluid_heb_248_za.name=Molten HEB-248-Zirconium Alloy Fuel
+fluid.heb_248_za=Molten HEB-248-Zirconium Alloy Fuel
+
+tile.nuclearcraft.fluid_lecf_249.name=Molten LECf-249 Fuel
+fluid.lecf_249=Molten LECf-249 Fuel
+tile.nuclearcraft.fluid_lecf_249_fluoride.name=Molten LECf-249 Fluoride Fuel
+fluid.lecf_249_fluoride=Molten LECf-249 Fluoride Fuel
+tile.nuclearcraft.fluid_lecf_249_fluoride_flibe.name=Molten FLiBe Salt Solution of LECf-249 Fluoride Fuel
+fluid.lecf_249_fluoride_flibe=Molten FLiBe Salt Solution of LECf-249 Fluoride Fuel
+tile.nuclearcraft.fluid_lecf_249_za.name=Molten LECf-249-Zirconium Alloy Fuel
+fluid.lecf_249_za=Molten LECf-249-Zirconium Alloy Fuel
+
+tile.nuclearcraft.fluid_hecf_249.name=Molten HECf-249 Fuel
+fluid.hecf_249=Molten HECf-249 Fuel
+tile.nuclearcraft.fluid_hecf_249_fluoride.name=Molten HECf-249 Fluoride Fuel
+fluid.hecf_249_fluoride=Molten HECf-249 Fluoride Fuel
+tile.nuclearcraft.fluid_hecf_249_fluoride_flibe.name=Molten FLiBe Salt Solution of HECf-249 Fluoride Fuel
+fluid.hecf_249_fluoride_flibe=Molten FLiBe Salt Solution of HECf-249 Fluoride Fuel
+tile.nuclearcraft.fluid_hecf_249_za.name=Molten HECf-249-Zirconium Alloy Fuel
+fluid.hecf_249_za=Molten HECf-249-Zirconium Alloy Fuel
+
+tile.nuclearcraft.fluid_lecf_251.name=Molten LECf-251 Fuel
+fluid.lecf_251=Molten LECf-251 Fuel
+tile.nuclearcraft.fluid_lecf_251_fluoride.name=Molten LECf-251 Fluoride Fuel
+fluid.lecf_251_fluoride=Molten LECf-251 Fluoride Fuel
+tile.nuclearcraft.fluid_lecf_251_fluoride_flibe.name=Molten FLiBe Salt Solution of LECf-251 Fluoride Fuel
+fluid.lecf_251_fluoride_flibe=Molten FLiBe Salt Solution of LECf-251 Fluoride Fuel
+tile.nuclearcraft.fluid_lecf_251_za.name=Molten LECf-251-Zirconium Alloy Fuel
+fluid.lecf_251_za=Molten LECf-251-Zirconium Alloy Fuel
+
+tile.nuclearcraft.fluid_hecf_251.name=Molten HECf-251 Fuel
+fluid.hecf_251=Molten HECf-251 Fuel
+tile.nuclearcraft.fluid_hecf_251_fluoride.name=Molten HECf-251 Fluoride Fuel
+fluid.hecf_251_fluoride=Molten HECf-251 Fluoride Fuel
+tile.nuclearcraft.fluid_hecf_251_fluoride_flibe.name=Molten FLiBe Salt Solution of HECf-251 Fluoride Fuel
+fluid.hecf_251_fluoride_flibe=Molten FLiBe Salt Solution of HECf-251 Fluoride Fuel
+tile.nuclearcraft.fluid_hecf_251_za.name=Molten HECf-251-Zirconium Alloy Fuel
+fluid.hecf_251_za=Molten HECf-251-Zirconium Alloy Fuel
+
+tile.nuclearcraft.fluid_depleted_tbu.name=Molten Depleted TBU Fuel
+fluid.depleted_tbu=Molten Depleted TBU Fuel
+tile.nuclearcraft.fluid_depleted_tbu_fluoride.name=Molten Depleted TBU Fluoride Fuel
+fluid.depleted_tbu_fluoride=Molten Depleted TBU Fluoride Fuel
+tile.nuclearcraft.fluid_depleted_tbu_fluoride_flibe.name=Molten FLiBe Salt Solution of Depleted TBU Fluoride Fuel
+fluid.depleted_tbu_fluoride_flibe=Molten FLiBe Salt Solution of Depleted TBU Fluoride Fuel
+tile.nuclearcraft.fluid_depleted_tbu_za.name=Molten Depleted TBU-Zirconium Alloy Fuel
+fluid.depleted_tbu_za=Molten Depleted TBU-Zirconium Alloy Fuel
+
+tile.nuclearcraft.fluid_depleted_leu_233.name=Molten Depleted LEU-233 Fuel
+fluid.depleted_leu_233=Molten Depleted LEU-233 Fuel
+tile.nuclearcraft.fluid_depleted_leu_233_fluoride.name=Molten Depleted LEU-233 Fluoride Fuel
+fluid.depleted_leu_233_fluoride=Molten Depleted LEU-233 Fluoride Fuel
+tile.nuclearcraft.fluid_depleted_leu_233_fluoride_flibe.name=Molten FLiBe Salt Solution of Depleted LEU-233 Fluoride Fuel
+fluid.depleted_leu_233_fluoride_flibe=Molten FLiBe Salt Solution of Depleted LEU-233 Fluoride Fuel
+tile.nuclearcraft.fluid_depleted_leu_233_za.name=Molten Depleted LEU-233-Zirconium Alloy Fuel
+fluid.depleted_leu_233_za=Molten Depleted LEU-233-Zirconium Alloy Fuel
+
+tile.nuclearcraft.fluid_depleted_heu_233.name=Molten Depleted HEU-233 Fuel
+fluid.depleted_heu_233=Molten Depleted HEU-233 Fuel
+tile.nuclearcraft.fluid_depleted_heu_233_fluoride.name=Molten Depleted HEU-233 Fluoride Fuel
+fluid.depleted_heu_233_fluoride=Molten Depleted HEU-233 Fluoride Fuel
+tile.nuclearcraft.fluid_depleted_heu_233_fluoride_flibe.name=Molten FLiBe Salt Solution of Depleted HEU-233 Fluoride Fuel
+fluid.depleted_heu_233_fluoride_flibe=Molten FLiBe Salt Solution of Depleted HEU-233 Fluoride Fuel
+tile.nuclearcraft.fluid_depleted_heu_233_za.name=Molten Depleted HEU-233-Zirconium Alloy Fuel
+fluid.depleted_heu_233_za=Molten Depleted HEU-233-Zirconium Alloy Fuel
+
+tile.nuclearcraft.fluid_depleted_leu_235.name=Molten Depleted LEU-235 Fuel
+fluid.depleted_leu_235=Molten Depleted LEU-235 Fuel
+tile.nuclearcraft.fluid_depleted_leu_235_fluoride.name=Molten Depleted LEU-235 Fluoride Fuel
+fluid.depleted_leu_235_fluoride=Molten Depleted LEU-235 Fluoride Fuel
+tile.nuclearcraft.fluid_depleted_leu_235_fluoride_flibe.name=Molten FLiBe Salt Solution of Depleted LEU-235 Fluoride Fuel
+fluid.depleted_leu_235_fluoride_flibe=Molten FLiBe Salt Solution of Depleted LEU-235 Fluoride Fuel
+tile.nuclearcraft.fluid_depleted_leu_235_za.name=Molten Depleted LEU-235-Zirconium Alloy Fuel
+fluid.depleted_leu_235_za=Molten Depleted LEU-235-Zirconium Alloy Fuel
+
+tile.nuclearcraft.fluid_depleted_heu_235.name=Molten Depleted HEU-235 Fuel
+fluid.depleted_heu_235=Molten Depleted HEU-235 Fuel
+tile.nuclearcraft.fluid_depleted_heu_235_fluoride.name=Molten Depleted HEU-235 Fluoride Fuel
+fluid.depleted_heu_235_fluoride=Molten Depleted HEU-235 Fluoride Fuel
+tile.nuclearcraft.fluid_depleted_heu_235_fluoride_flibe.name=Molten FLiBe Salt Solution of Depleted HEU-235 Fluoride Fuel
+fluid.depleted_heu_235_fluoride_flibe=Molten FLiBe Salt Solution of Depleted HEU-235 Fluoride Fuel
+tile.nuclearcraft.fluid_depleted_heu_235_za.name=Molten Depleted HEU-235-Zirconium Alloy Fuel
+fluid.depleted_heu_235_za=Molten Depleted HEU-235-Zirconium Alloy Fuel
+
+tile.nuclearcraft.fluid_depleted_len_236.name=Molten Depleted LEN-236 Fuel
+fluid.depleted_len_236=Molten Depleted LEN-236 Fuel
+tile.nuclearcraft.fluid_depleted_len_236_fluoride.name=Molten Depleted LEN-236 Fluoride Fuel
+fluid.depleted_len_236_fluoride=Molten Depleted LEN-236 Fluoride Fuel
+tile.nuclearcraft.fluid_depleted_len_236_fluoride_flibe.name=Molten FLiBe Salt Solution of Depleted LEN-236 Fluoride Fuel
+fluid.depleted_len_236_fluoride_flibe=Molten FLiBe Salt Solution of Depleted LEN-236 Fluoride Fuel
+tile.nuclearcraft.fluid_depleted_len_236_za.name=Molten Depleted LEN-236-Zirconium Alloy Fuel
+fluid.depleted_len_236_za=Molten Depleted LEN-236-Zirconium Alloy Fuel
+
+tile.nuclearcraft.fluid_depleted_hen_236.name=Molten Depleted HEN-236 Fuel
+fluid.depleted_hen_236=Molten Depleted HEN-236 Fuel
+tile.nuclearcraft.fluid_depleted_hen_236_fluoride.name=Molten Depleted HEN-236 Fluoride Fuel
+fluid.depleted_hen_236_fluoride=Molten Depleted HEN-236 Fluoride Fuel
+tile.nuclearcraft.fluid_depleted_hen_236_fluoride_flibe.name=Molten FLiBe Salt Solution of Depleted HEN-236 Fluoride Fuel
+fluid.depleted_hen_236_fluoride_flibe=Molten FLiBe Salt Solution of Depleted HEN-236 Fluoride Fuel
+tile.nuclearcraft.fluid_depleted_hen_236_za.name=Molten Depleted HEN-236-Zirconium Alloy Fuel
+fluid.depleted_hen_236_za=Molten Depleted HEN-236-Zirconium Alloy Fuel
+
+tile.nuclearcraft.fluid_depleted_lep_239.name=Molten Depleted LEP-239 Fuel
+fluid.depleted_lep_239=Molten Depleted LEP-239 Fuel
+tile.nuclearcraft.fluid_depleted_lep_239_fluoride.name=Molten Depleted LEP-239 Fluoride Fuel
+fluid.depleted_lep_239_fluoride=Molten Depleted LEP-239 Fluoride Fuel
+tile.nuclearcraft.fluid_depleted_lep_239_fluoride_flibe.name=Molten FLiBe Salt Solution of Depleted LEP-239 Fluoride Fuel
+fluid.depleted_lep_239_fluoride_flibe=Molten FLiBe Salt Solution of Depleted LEP-239 Fluoride Fuel
+tile.nuclearcraft.fluid_depleted_lep_239_za.name=Molten Depleted LEP-239-Zirconium Alloy Fuel
+fluid.depleted_lep_239_za=Molten Depleted LEP-239-Zirconium Alloy Fuel
+
+tile.nuclearcraft.fluid_depleted_hep_239.name=Molten Depleted HEP-239 Fuel
+fluid.depleted_hep_239=Molten Depleted HEP-239 Fuel
+tile.nuclearcraft.fluid_depleted_hep_239_fluoride.name=Molten Depleted HEP-239 Fluoride Fuel
+fluid.depleted_hep_239_fluoride=Molten Depleted HEP-239 Fluoride Fuel
+tile.nuclearcraft.fluid_depleted_hep_239_fluoride_flibe.name=Molten FLiBe Salt Solution of Depleted HEP-239 Fluoride Fuel
+fluid.depleted_hep_239_fluoride_flibe=Molten FLiBe Salt Solution of Depleted HEP-239 Fluoride Fuel
+tile.nuclearcraft.fluid_depleted_hep_239_za.name=Molten Depleted HEP-239-Zirconium Alloy Fuel
+fluid.depleted_hep_239_za=Molten Depleted HEP-239-Zirconium Alloy Fuel
+
+tile.nuclearcraft.fluid_depleted_lep_241.name=Molten Depleted LEP-241 Fuel
+fluid.depleted_lep_241=Molten Depleted LEP-241 Fuel
+tile.nuclearcraft.fluid_depleted_lep_241_fluoride.name=Molten Depleted LEP-241 Fluoride Fuel
+fluid.depleted_lep_241_fluoride=Molten Depleted LEP-241 Fluoride Fuel
+tile.nuclearcraft.fluid_depleted_lep_241_fluoride_flibe.name=Molten FLiBe Salt Solution of Depleted LEP-241 Fluoride Fuel
+fluid.depleted_lep_241_fluoride_flibe=Molten FLiBe Salt Solution of Depleted LEP-241 Fluoride Fuel
+tile.nuclearcraft.fluid_depleted_lep_241_za.name=Molten Depleted LEP-241-Zirconium Alloy Fuel
+fluid.depleted_lep_241_za=Molten Depleted LEP-241-Zirconium Alloy Fuel
+
+tile.nuclearcraft.fluid_depleted_hep_241.name=Molten Depleted HEP-241 Fuel
+fluid.depleted_hep_241=Molten Depleted HEP-241 Fuel
+tile.nuclearcraft.fluid_depleted_hep_241_fluoride.name=Molten Depleted HEP-241 Fluoride Fuel
+fluid.depleted_hep_241_fluoride=Molten Depleted HEP-241 Fluoride Fuel
+tile.nuclearcraft.fluid_depleted_hep_241_fluoride_flibe.name=Molten FLiBe Salt Solution of Depleted HEP-241 Fluoride Fuel
+fluid.depleted_hep_241_fluoride_flibe=Molten FLiBe Salt Solution of Depleted HEP-241 Fluoride Fuel
+tile.nuclearcraft.fluid_depleted_hep_241_za.name=Molten Depleted HEP-241-Zirconium Alloy Fuel
+fluid.depleted_hep_241_za=Molten Depleted HEP-241-Zirconium Alloy Fuel
+
+tile.nuclearcraft.fluid_depleted_mix_239.name=Molten Depleted MIX-239 Fuel
+fluid.depleted_mix_239=Molten Depleted MIX-239 Fuel
+tile.nuclearcraft.fluid_depleted_mix_239_fluoride.name=Molten Depleted MF4-239 Fuel
+fluid.depleted_mix_239_fluoride=Molten Depleted MF4-239 Fuel
+tile.nuclearcraft.fluid_depleted_mix_239_fluoride_flibe.name=Molten FLiBe Salt Solution of Depleted MF4-239 Fuel
+fluid.depleted_mix_239_fluoride_flibe=Molten FLiBe Salt Solution of Depleted MF4-239 Fuel
+tile.nuclearcraft.fluid_depleted_mix_239_za.name=Molten Depleted MZA-239 Fuel
+fluid.depleted_mix_239_za=Molten Depleted MZA-239 Fuel
+
+tile.nuclearcraft.fluid_depleted_mix_241.name=Molten Depleted MIX-241 Fuel
+fluid.depleted_mix_241=Molten Depleted MIX-241 Fuel
+tile.nuclearcraft.fluid_depleted_mix_241_fluoride.name=Molten Depleted MF4-241 Fuel
+fluid.depleted_mix_241_fluoride=Molten Depleted MF4-241 Fuel
+tile.nuclearcraft.fluid_depleted_mix_241_fluoride_flibe.name=Molten FLiBe Salt Solution of Depleted MF4-241 Fuel
+fluid.depleted_mix_241_fluoride_flibe=Molten FLiBe Salt Solution of Depleted MF4-241 Fuel
+tile.nuclearcraft.fluid_depleted_mix_241_za.name=Molten Depleted MZA-241 Fuel
+fluid.depleted_mix_241_za=Molten Depleted MZA-241 Fuel
+
+tile.nuclearcraft.fluid_depleted_lea_242.name=Molten Depleted LEA-242 Fuel
+fluid.depleted_lea_242=Molten Depleted LEA-242 Fuel
+tile.nuclearcraft.fluid_depleted_lea_242_fluoride.name=Molten Depleted LEA-242 Fluoride Fuel
+fluid.depleted_lea_242_fluoride=Molten Depleted LEA-242 Fluoride Fuel
+tile.nuclearcraft.fluid_depleted_lea_242_fluoride_flibe.name=Molten FLiBe Salt Solution of Depleted LEA-242 Fluoride Fuel
+fluid.depleted_lea_242_fluoride_flibe=Molten FLiBe Salt Solution of Depleted LEA-242 Fluoride Fuel
+tile.nuclearcraft.fluid_depleted_lea_242_za.name=Molten Depleted LEA-242-Zirconium Alloy Fuel
+fluid.depleted_lea_242_za=Molten Depleted LEA-242-Zirconium Alloy Fuel
+
+tile.nuclearcraft.fluid_depleted_hea_242.name=Molten Depleted HEA-242 Fuel
+fluid.depleted_hea_242=Molten Depleted HEA-242 Fuel
+tile.nuclearcraft.fluid_depleted_hea_242_fluoride.name=Molten Depleted HEA-242 Fluoride Fuel
+fluid.depleted_hea_242_fluoride=Molten Depleted HEA-242 Fluoride Fuel
+tile.nuclearcraft.fluid_depleted_hea_242_fluoride_flibe.name=Molten FLiBe Salt Solution of Depleted HEA-242 Fluoride Fuel
+fluid.depleted_hea_242_fluoride_flibe=Molten FLiBe Salt Solution of Depleted HEA-242 Fluoride Fuel
+tile.nuclearcraft.fluid_depleted_hea_242_za.name=Molten Depleted HEA-242-Zirconium Alloy Fuel
+fluid.depleted_hea_242_za=Molten Depleted HEA-242-Zirconium Alloy Fuel
+
+tile.nuclearcraft.fluid_depleted_lecm_243.name=Molten Depleted LECm-243 Fuel
+fluid.depleted_lecm_243=Molten Depleted LECm-243 Fuel
+tile.nuclearcraft.fluid_depleted_lecm_243_fluoride.name=Molten Depleted LECm-243 Fluoride Fuel
+fluid.depleted_lecm_243_fluoride=Molten Depleted LECm-243 Fluoride Fuel
+tile.nuclearcraft.fluid_depleted_lecm_243_fluoride_flibe.name=Molten FLiBe Salt Solution of Depleted LECm-243 Fluoride Fuel
+fluid.depleted_lecm_243_fluoride_flibe=Molten FLiBe Salt Solution of Depleted LECm-243 Fluoride Fuel
+tile.nuclearcraft.fluid_depleted_lecm_243_za.name=Molten Depleted LECm-243-Zirconium Alloy Fuel
+fluid.depleted_lecm_243_za=Molten Depleted LECm-243-Zirconium Alloy Fuel
+
+tile.nuclearcraft.fluid_depleted_hecm_243.name=Molten Depleted HECm-243 Fuel
+fluid.depleted_hecm_243=Molten Depleted HECm-243 Fuel
+tile.nuclearcraft.fluid_depleted_hecm_243_fluoride.name=Molten Depleted HECm-243 Fluoride Fuel
+fluid.depleted_hecm_243_fluoride=Molten Depleted HECm-243 Fluoride Fuel
+tile.nuclearcraft.fluid_depleted_hecm_243_fluoride_flibe.name=Molten FLiBe Salt Solution of Depleted HECm-243 Fluoride Fuel
+fluid.depleted_hecm_243_fluoride_flibe=Molten FLiBe Salt Solution of Depleted HECm-243 Fluoride Fuel
+tile.nuclearcraft.fluid_depleted_hecm_243_za.name=Molten Depleted HECm-243-Zirconium Alloy Fuel
+fluid.depleted_hecm_243_za=Molten Depleted HECm-243-Zirconium Alloy Fuel
+
+tile.nuclearcraft.fluid_depleted_lecm_245.name=Molten Depleted LECm-245 Fuel
+fluid.depleted_lecm_245=Molten Depleted LECm-245 Fuel
+tile.nuclearcraft.fluid_depleted_lecm_245_fluoride.name=Molten Depleted LECm-245 Fluoride Fuel
+fluid.depleted_lecm_245_fluoride=Molten Depleted LECm-245 Fluoride Fuel
+tile.nuclearcraft.fluid_depleted_lecm_245_fluoride_flibe.name=Molten FLiBe Salt Solution of Depleted LECm-245 Fluoride Fuel
+fluid.depleted_lecm_245_fluoride_flibe=Molten FLiBe Salt Solution of Depleted LECm-245 Fluoride Fuel
+tile.nuclearcraft.fluid_depleted_lecm_245_za.name=Molten Depleted LECm-245-Zirconium Alloy Fuel
+fluid.depleted_lecm_245_za=Molten Depleted LECm-245-Zirconium Alloy Fuel
+
+tile.nuclearcraft.fluid_depleted_hecm_245.name=Molten Depleted HECm-245 Fuel
+fluid.depleted_hecm_245=Molten Depleted HECm-245 Fuel
+tile.nuclearcraft.fluid_depleted_hecm_245_fluoride.name=Molten Depleted HECm-245 Fluoride Fuel
+fluid.depleted_hecm_245_fluoride=Molten Depleted HECm-245 Fluoride Fuel
+tile.nuclearcraft.fluid_depleted_hecm_245_fluoride_flibe.name=Molten FLiBe Salt Solution of Depleted HECm-245 Fluoride Fuel
+fluid.depleted_hecm_245_fluoride_flibe=Molten FLiBe Salt Solution of Depleted HECm-245 Fluoride Fuel
+tile.nuclearcraft.fluid_depleted_hecm_245_za.name=Molten Depleted HECm-245-Zirconium Alloy Fuel
+fluid.depleted_hecm_245_za=Molten Depleted HECm-245-Zirconium Alloy Fuel
+
+tile.nuclearcraft.fluid_depleted_lecm_247.name=Molten Depleted LECm-247 Fuel
+fluid.depleted_lecm_247=Molten Depleted LECm-247 Fuel
+tile.nuclearcraft.fluid_depleted_lecm_247_fluoride.name=Molten Depleted LECm-247 Fluoride Fuel
+fluid.depleted_lecm_247_fluoride=Molten Depleted LECm-247 Fluoride Fuel
+tile.nuclearcraft.fluid_depleted_lecm_247_fluoride_flibe.name=Molten FLiBe Salt Solution of Depleted LECm-247 Fluoride Fuel
+fluid.depleted_lecm_247_fluoride_flibe=Molten FLiBe Salt Solution of Depleted LECm-247 Fluoride Fuel
+tile.nuclearcraft.fluid_depleted_lecm_247_za.name=Molten Depleted LECm-247-Zirconium Alloy Fuel
+fluid.depleted_lecm_247_za=Molten Depleted LECm-247-Zirconium Alloy Fuel
+
+tile.nuclearcraft.fluid_depleted_hecm_247.name=Molten Depleted HECm-247 Fuel
+fluid.depleted_hecm_247=Molten Depleted HECm-247 Fuel
+tile.nuclearcraft.fluid_depleted_hecm_247_fluoride.name=Molten Depleted HECm-247 Fluoride Fuel
+fluid.depleted_hecm_247_fluoride=Molten Depleted HECm-247 Fluoride Fuel
+tile.nuclearcraft.fluid_depleted_hecm_247_fluoride_flibe.name=Molten FLiBe Salt Solution of Depleted HECm-247 Fluoride Fuel
+fluid.depleted_hecm_247_fluoride_flibe=Molten FLiBe Salt Solution of Depleted HECm-247 Fluoride Fuel
+tile.nuclearcraft.fluid_depleted_hecm_247_za.name=Molten Depleted HECm-247-Zirconium Alloy Fuel
+fluid.depleted_hecm_247_za=Molten Depleted HECm-247-Zirconium Alloy Fuel
+
+tile.nuclearcraft.fluid_depleted_leb_248.name=Molten Depleted LEB-248 Fuel
+fluid.depleted_leb_248=Molten Depleted LEB-248 Fuel
+tile.nuclearcraft.fluid_depleted_leb_248_fluoride.name=Molten Depleted LEB-248 Fluoride Fuel
+fluid.depleted_leb_248_fluoride=Molten Depleted LEB-248 Fluoride Fuel
+tile.nuclearcraft.fluid_depleted_leb_248_fluoride_flibe.name=Molten FLiBe Salt Solution of Depleted LEB-248 Fluoride Fuel
+fluid.depleted_leb_248_fluoride_flibe=Molten FLiBe Salt Solution of Depleted LEB-248 Fluoride Fuel
+tile.nuclearcraft.fluid_depleted_leb_248_za.name=Molten Depleted LEB-248-Zirconium Alloy Fuel
+fluid.depleted_leb_248_za=Molten Depleted LEB-248-Zirconium Alloy Fuel
+
+tile.nuclearcraft.fluid_depleted_heb_248.name=Molten Depleted HEB-248 Fuel
+fluid.depleted_heb_248=Molten Depleted HEB-248 Fuel
+tile.nuclearcraft.fluid_depleted_heb_248_fluoride.name=Molten Depleted HEB-248 Fluoride Fuel
+fluid.depleted_heb_248_fluoride=Molten Depleted HEB-248 Fluoride Fuel
+tile.nuclearcraft.fluid_depleted_heb_248_fluoride_flibe.name=Molten FLiBe Salt Solution of Depleted HEB-248 Fluoride Fuel
+fluid.depleted_heb_248_fluoride_flibe=Molten FLiBe Salt Solution of Depleted HEB-248 Fluoride Fuel
+tile.nuclearcraft.fluid_depleted_heb_248_za.name=Molten Depleted HEB-248-Zirconium Alloy Fuel
+fluid.depleted_heb_248_za=Molten Depleted HEB-248-Zirconium Alloy Fuel
+
+tile.nuclearcraft.fluid_depleted_lecf_249.name=Molten Depleted LECf-249 Fuel
+fluid.depleted_lecf_249=Molten Depleted LECf-249 Fuel
+tile.nuclearcraft.fluid_depleted_lecf_249_fluoride.name=Molten Depleted LECf-249 Fluoride Fuel
+fluid.depleted_lecf_249_fluoride=Molten Depleted LECf-249 Fluoride Fuel
+tile.nuclearcraft.fluid_depleted_lecf_249_fluoride_flibe.name=Molten FLiBe Salt Solution of Depleted LECf-249 Fluoride Fuel
+fluid.depleted_lecf_249_fluoride_flibe=Molten FLiBe Salt Solution of Depleted LECf-249 Fluoride Fuel
+tile.nuclearcraft.fluid_depleted_lecf_249_za.name=Molten Depleted LECf-249-Zirconium Alloy Fuel
+fluid.depleted_lecf_249_za=Molten Depleted LECf-249-Zirconium Alloy Fuel
+
+tile.nuclearcraft.fluid_depleted_hecf_249.name=Molten Depleted HECf-249 Fuel
+fluid.depleted_hecf_249=Molten Depleted HECf-249 Fuel
+tile.nuclearcraft.fluid_depleted_hecf_249_fluoride.name=Molten Depleted HECf-249 Fluoride Fuel
+fluid.depleted_hecf_249_fluoride=Molten Depleted HECf-249 Fluoride Fuel
+tile.nuclearcraft.fluid_depleted_hecf_249_fluoride_flibe.name=Molten FLiBe Salt Solution of Depleted HECf-249 Fluoride Fuel
+fluid.depleted_hecf_249_fluoride_flibe=Molten FLiBe Salt Solution of Depleted HECf-249 Fluoride Fuel
+tile.nuclearcraft.fluid_depleted_hecf_249_za.name=Molten Depleted HECf-249-Zirconium Alloy Fuel
+fluid.depleted_hecf_249_za=Molten Depleted HECf-249-Zirconium Alloy Fuel
+
+tile.nuclearcraft.fluid_depleted_lecf_251.name=Molten Depleted LECf-251 Fuel
+fluid.depleted_lecf_251=Molten Depleted LECf-251 Fuel
+tile.nuclearcraft.fluid_depleted_lecf_251_fluoride.name=Molten Depleted LECf-251 Fluoride Fuel
+fluid.depleted_lecf_251_fluoride=Molten Depleted LECf-251 Fluoride Fuel
+tile.nuclearcraft.fluid_depleted_lecf_251_fluoride_flibe.name=Molten FLiBe Salt Solution of Depleted LECf-251 Fluoride Fuel
+fluid.depleted_lecf_251_fluoride_flibe=Molten FLiBe Salt Solution of Depleted LECf-251 Fluoride Fuel
+tile.nuclearcraft.fluid_depleted_lecf_251_za.name=Molten Depleted LECf-251-Zirconium Alloy Fuel
+fluid.depleted_lecf_251_za=Molten Depleted LECf-251-Zirconium Alloy Fuel
+
+tile.nuclearcraft.fluid_depleted_hecf_251.name=Molten Depleted HECf-251 Fuel
+fluid.depleted_hecf_251=Molten Depleted HECf-251 Fuel
+tile.nuclearcraft.fluid_depleted_hecf_251_fluoride.name=Molten Depleted HECf-251 Fluoride Fuel
+fluid.depleted_hecf_251_fluoride=Molten Depleted HECf-251 Fluoride Fuel
+tile.nuclearcraft.fluid_depleted_hecf_251_fluoride_flibe.name=Molten FLiBe Salt Solution of Depleted HECf-251 Fluoride Fuel
+fluid.depleted_hecf_251_fluoride_flibe=Molten FLiBe Salt Solution of Depleted HECf-251 Fluoride Fuel
+tile.nuclearcraft.fluid_depleted_hecf_251_za.name=Molten Depleted HECf-251-Zirconium Alloy Fuel
+fluid.depleted_hecf_251_za=Molten Depleted HECf-251-Zirconium Alloy Fuel
+
+tile.nuclearcraft.fluid_iron.name=Molten Iron
+fluid.iron=Molten Iron
+tile.nuclearcraft.fluid_iron_nak.name=Eutectic NaK-Iron Mixture
+fluid.iron_nak=Eutectic NaK-Iron Mixture
+tile.nuclearcraft.fluid_iron_nak_hot.name=Hot Eutectic NaK-Iron Mixture
+fluid.iron_nak_hot=Hot Eutectic NaK-Iron Mixture
 
 tile.nuclearcraft.fluid_redstone.name=Molten Redstone
 fluid.redstone=Molten Redstone
@@ -1051,12 +1185,19 @@ fluid.quartz_nak=Eutectic NaK-Quartz Mixture
 tile.nuclearcraft.fluid_quartz_nak_hot.name=Hot Eutectic NaK-Quartz Mixture
 fluid.quartz_nak_hot=Hot Eutectic NaK-Quartz Mixture
 
-tile.nuclearcraft.fluid_gold.name=Molten Gold
-fluid.gold=Molten Gold
-tile.nuclearcraft.fluid_gold_nak.name=Eutectic NaK-Gold Mixture
-fluid.gold_nak=Eutectic NaK-Gold Mixture
-tile.nuclearcraft.fluid_gold_nak_hot.name=Hot Eutectic NaK-Gold Mixture
-fluid.gold_nak_hot=Hot Eutectic NaK-Gold Mixture
+tile.nuclearcraft.fluid_obsidian.name=Molten Obsidian
+fluid.obsidian=Molten Obsidian
+tile.nuclearcraft.fluid_obsidian_nak.name=Eutectic NaK-Obsidian Mixture
+fluid.obsidian_nak=Eutectic NaK-Obsidian Mixture
+tile.nuclearcraft.fluid_obsidian_nak_hot.name=Hot Eutectic NaK-Obsidian Mixture
+fluid.obsidian_nak_hot=Hot Eutectic NaK-Obsidian Mixture
+
+tile.nuclearcraft.fluid_nether_brick.name=Molten Nether Brick
+fluid.nether_brick=Molten Nether Brick
+tile.nuclearcraft.fluid_nether_brick_nak.name=Eutectic NaK-Nether Brick Mixture
+fluid.nether_brick_nak=Eutectic NaK-Nether Brick Mixture
+tile.nuclearcraft.fluid_nether_brick_nak_hot.name=Hot Eutectic NaK-Nether Brick Mixture
+fluid.nether_brick_nak_hot=Hot Eutectic NaK-Nether Brick Mixture
 
 tile.nuclearcraft.fluid_glowstone.name=Molten Glowstone
 fluid.glowstone=Molten Glowstone
@@ -1072,34 +1213,47 @@ fluid.lapis_nak=Eutectic NaK-Lapis Mixture
 tile.nuclearcraft.fluid_lapis_nak_hot.name=Hot Eutectic NaK-Lapis Mixture
 fluid.lapis_nak_hot=Hot Eutectic NaK-Lapis Mixture
 
+tile.nuclearcraft.fluid_gold.name=Molten Gold
+fluid.gold=Molten Gold
+tile.nuclearcraft.fluid_gold_nak.name=Eutectic NaK-Gold Mixture
+fluid.gold_nak=Eutectic NaK-Gold Mixture
+tile.nuclearcraft.fluid_gold_nak_hot.name=Hot Eutectic NaK-Gold Mixture
+fluid.gold_nak_hot=Hot Eutectic NaK-Gold Mixture
+
+tile.nuclearcraft.fluid_prismarine.name=Molten Prismarine
+fluid.prismarine=Molten Prismarine
+tile.nuclearcraft.fluid_prismarine_nak.name=Eutectic NaK-Prismarine Mixture
+fluid.prismarine_nak=Eutectic NaK-Prismarine Mixture
+tile.nuclearcraft.fluid_prismarine_nak_hot.name=Hot Eutectic NaK-Prismarine Mixture
+fluid.prismarine_nak_hot=Hot Eutectic NaK-Prismarine Mixture
+
+tile.nuclearcraft.fluid_slime.name=Molten Slime
+fluid.slime=Molten Slime
+tile.nuclearcraft.fluid_slime_nak.name=Eutectic NaK-Slime Mixture
+fluid.slime_nak=Eutectic NaK-Slime Mixture
+tile.nuclearcraft.fluid_slime_nak_hot.name=Hot Eutectic NaK-Slime Mixture
+fluid.slime_nak_hot=Hot Eutectic NaK-Slime Mixture
+
+tile.nuclearcraft.fluid_end_stone.name=Molten End Stone
+fluid.end_stone=Molten End Stone
+tile.nuclearcraft.fluid_end_stone_nak.name=Eutectic NaK-End Stone Mixture
+fluid.end_stone_nak=Eutectic NaK-End Stone Mixture
+tile.nuclearcraft.fluid_end_stone_nak_hot.name=Hot Eutectic NaK-End Stone Mixture
+fluid.end_stone_nak_hot=Hot Eutectic NaK-End Stone Mixture
+
+tile.nuclearcraft.fluid_purpur.name=Molten Purpur
+fluid.purpur=Molten Purpur
+tile.nuclearcraft.fluid_purpur_nak.name=Eutectic NaK-Purpur Mixture
+fluid.purpur_nak=Eutectic NaK-Purpur Mixture
+tile.nuclearcraft.fluid_purpur_nak_hot.name=Hot Eutectic NaK-Purpur Mixture
+fluid.purpur_nak_hot=Hot Eutectic NaK-Purpur Mixture
+
 tile.nuclearcraft.fluid_diamond.name=Molten Diamond
 fluid.diamond=Molten Diamond
 tile.nuclearcraft.fluid_diamond_nak.name=Eutectic NaK-Diamond Mixture
 fluid.diamond_nak=Eutectic NaK-Diamond Mixture
 tile.nuclearcraft.fluid_diamond_nak_hot.name=Hot Eutectic NaK-Diamond Mixture
 fluid.diamond_nak_hot=Hot Eutectic NaK-Diamond Mixture
-
-tile.nuclearcraft.fluid_liquid_helium_nak.name=Eutectic NaK-Helium Mixture
-fluid.liquid_helium_nak=Eutectic NaK-Helium Mixture
-tile.nuclearcraft.fluid_liquid_helium_nak_hot.name=Hot Eutectic NaK-Helium Mixture
-fluid.liquid_helium_nak_hot=Hot Eutectic NaK-Helium Mixture
-
-tile.nuclearcraft.fluid_enderium_nak.name=Eutectic NaK-Enderium Mixture
-fluid.enderium_nak=Eutectic NaK-Enderium Mixture
-tile.nuclearcraft.fluid_enderium_nak_hot.name=Hot Eutectic NaK-Enderium Mixture
-fluid.enderium_nak_hot=Hot Eutectic NaK-Enderium Mixture
-
-tile.nuclearcraft.fluid_cryotheum_nak.name=Eutectic NaK-Cryotheum Mixture
-fluid.cryotheum_nak=Eutectic NaK-Cryotheum Mixture
-tile.nuclearcraft.fluid_cryotheum_nak_hot.name=Hot Eutectic NaK-Cryotheum Mixture
-fluid.cryotheum_nak_hot=Hot Eutectic NaK-Cryotheum Mixture
-
-tile.nuclearcraft.fluid_iron.name=Molten Iron
-fluid.iron=Molten Iron
-tile.nuclearcraft.fluid_iron_nak.name=Eutectic NaK-Iron Mixture
-fluid.iron_nak=Eutectic NaK-Iron Mixture
-tile.nuclearcraft.fluid_iron_nak_hot.name=Hot Eutectic NaK-Iron Mixture
-fluid.iron_nak_hot=Hot Eutectic NaK-Iron Mixture
 
 tile.nuclearcraft.fluid_emerald.name=Molten Emerald
 fluid.emerald=Molten Emerald
@@ -1122,12 +1276,100 @@ fluid.tin_nak=Eutectic NaK-Tin Mixture
 tile.nuclearcraft.fluid_tin_nak_hot.name=Hot Eutectic NaK-Tin Mixture
 fluid.tin_nak_hot=Hot Eutectic NaK-Tin Mixture
 
+tile.nuclearcraft.fluid_lead.name=Molten Lead
+fluid.lead=Molten Lead
+tile.nuclearcraft.fluid_lead_nak.name=Eutectic NaK-Lead Mixture
+fluid.lead_nak=Eutectic NaK-Lead Mixture
+tile.nuclearcraft.fluid_lead_nak_hot.name=Hot Eutectic NaK-Lead Mixture
+fluid.lead_nak_hot=Hot Eutectic NaK-Lead Mixture
+
+tile.nuclearcraft.fluid_boron.name=Molten Boron
+fluid.boron=Molten Boron
+tile.nuclearcraft.fluid_boron_nak.name=Eutectic NaK-Boron Mixture
+fluid.boron_nak=Eutectic NaK-Boron Mixture
+tile.nuclearcraft.fluid_boron_nak_hot.name=Hot Eutectic NaK-Boron Mixture
+fluid.boron_nak_hot=Hot Eutectic NaK-Boron Mixture
+
+tile.nuclearcraft.fluid_lithium.name=Molten Lithium
+fluid.lithium=Molten Lithium
+tile.nuclearcraft.fluid_lithium_nak.name=Eutectic NaK-Lithium Mixture
+fluid.lithium_nak=Eutectic NaK-Lithium Mixture
+tile.nuclearcraft.fluid_lithium_nak_hot.name=Hot Eutectic NaK-Lithium Mixture
+fluid.lithium_nak_hot=Hot Eutectic NaK-Lithium Mixture
+
 tile.nuclearcraft.fluid_magnesium.name=Molten Magnesium
 fluid.magnesium=Molten Magnesium
 tile.nuclearcraft.fluid_magnesium_nak.name=Eutectic NaK-Magnesium Mixture
 fluid.magnesium_nak=Eutectic NaK-Magnesium Mixture
 tile.nuclearcraft.fluid_magnesium_nak_hot.name=Hot Eutectic NaK-Magnesium Mixture
 fluid.magnesium_nak_hot=Hot Eutectic NaK-Magnesium Mixture
+
+tile.nuclearcraft.fluid_manganese.name=Molten Manganese
+fluid.manganese=Molten Manganese
+tile.nuclearcraft.fluid_manganese_nak.name=Eutectic NaK-Manganese Mixture
+fluid.manganese_nak=Eutectic NaK-Manganese Mixture
+tile.nuclearcraft.fluid_manganese_nak_hot.name=Hot Eutectic NaK-Manganese Mixture
+fluid.manganese_nak_hot=Hot Eutectic NaK-Manganese Mixture
+
+tile.nuclearcraft.fluid_aluminum.name=Molten Aluminum
+fluid.aluminum=Molten Aluminum
+tile.nuclearcraft.fluid_aluminum_nak.name=Eutectic NaK-Aluminum Mixture
+fluid.aluminum_nak=Eutectic NaK-Aluminum Mixture
+tile.nuclearcraft.fluid_aluminum_nak_hot.name=Hot Eutectic NaK-Aluminum Mixture
+fluid.aluminum_nak_hot=Hot Eutectic NaK-Aluminum Mixture
+
+tile.nuclearcraft.fluid_silver.name=Molten Silver
+fluid.silver=Molten Silver
+tile.nuclearcraft.fluid_silver_nak.name=Eutectic NaK-Silver Mixture
+fluid.silver_nak=Eutectic NaK-Silver Mixture
+tile.nuclearcraft.fluid_silver_nak_hot.name=Hot Eutectic NaK-Silver Mixture
+fluid.silver_nak_hot=Hot Eutectic NaK-Silver Mixture
+
+tile.nuclearcraft.fluid_fluorite.name=Molten Fluorite
+fluid.fluorite=Molten Fluorite
+tile.nuclearcraft.fluid_fluorite_nak.name=Eutectic NaK-Fluorite Mixture
+fluid.fluorite_nak=Eutectic NaK-Fluorite Mixture
+tile.nuclearcraft.fluid_fluorite_nak_hot.name=Hot Eutectic NaK-Fluorite Mixture
+fluid.fluorite_nak_hot=Hot Eutectic NaK-Fluorite Mixture
+
+tile.nuclearcraft.fluid_villiaumite.name=Molten Villiaumite
+fluid.villiaumite=Molten Villiaumite
+tile.nuclearcraft.fluid_villiaumite_nak.name=Eutectic NaK-Villiaumite Mixture
+fluid.villiaumite_nak=Eutectic NaK-Villiaumite Mixture
+tile.nuclearcraft.fluid_villiaumite_nak_hot.name=Hot Eutectic NaK-Villiaumite Mixture
+fluid.villiaumite_nak_hot=Hot Eutectic NaK-Villiaumite Mixture
+
+tile.nuclearcraft.fluid_carobbiite.name=Molten Carobbiite
+fluid.carobbiite=Molten Carobbiite
+tile.nuclearcraft.fluid_carobbiite_nak.name=Eutectic NaK-Carobbiite Mixture
+fluid.carobbiite_nak=Eutectic NaK-Carobbiite Mixture
+tile.nuclearcraft.fluid_carobbiite_nak_hot.name=Hot Eutectic NaK-Carobbiite Mixture
+fluid.carobbiite_nak_hot=Hot Eutectic NaK-Carobbiite Mixture
+
+tile.nuclearcraft.fluid_arsenic_nak.name=Eutectic NaK-Arsenic Mixture
+fluid.arsenic_nak=Eutectic NaK-Arsenic Mixture
+tile.nuclearcraft.fluid_arsenic_nak_hot.name=Hot Eutectic NaK-Arsenic Mixture
+fluid.arsenic_nak_hot=Hot Eutectic NaK-Arsenic Mixture
+
+tile.nuclearcraft.fluid_liquid_nitrogen_nak.name=Eutectic NaK-Nitrogen Mixture
+fluid.liquid_nitrogen_nak=Eutectic NaK-Nitrogen Mixture
+tile.nuclearcraft.fluid_liquid_nitrogen_nak_hot.name=Hot Eutectic NaK-Nitrogen Mixture
+fluid.liquid_nitrogen_nak_hot=Hot Eutectic NaK-Nitrogen Mixture
+
+tile.nuclearcraft.fluid_liquid_helium_nak.name=Eutectic NaK-Helium Mixture
+fluid.liquid_helium_nak=Eutectic NaK-Helium Mixture
+tile.nuclearcraft.fluid_liquid_helium_nak_hot.name=Hot Eutectic NaK-Helium Mixture
+fluid.liquid_helium_nak_hot=Hot Eutectic NaK-Helium Mixture
+
+tile.nuclearcraft.fluid_enderium_nak.name=Eutectic NaK-Enderium Mixture
+fluid.enderium_nak=Eutectic NaK-Enderium Mixture
+tile.nuclearcraft.fluid_enderium_nak_hot.name=Hot Eutectic NaK-Enderium Mixture
+fluid.enderium_nak_hot=Hot Eutectic NaK-Enderium Mixture
+
+tile.nuclearcraft.fluid_cryotheum_nak.name=Eutectic NaK-Cryotheum Mixture
+fluid.cryotheum_nak=Eutectic NaK-Cryotheum Mixture
+tile.nuclearcraft.fluid_cryotheum_nak_hot.name=Hot Eutectic NaK-Cryotheum Mixture
+fluid.cryotheum_nak_hot=Hot Eutectic NaK-Cryotheum Mixture
 
 item.nuclearcraft.rads=Radiation:
 item.nuclearcraft.rad_resist=Rad Resistance:
@@ -1243,19 +1485,13 @@ item.nuclearcraft.part.steel_frame.name=Steel Chassis
 item.nuclearcraft.part.plate_extreme.name=Extreme Plating
 item.nuclearcraft.part.sic_fiber.name=Silicon Carbide Fiber
 item.nuclearcraft.part.empty_sink.name=Empty Heat Sink
+item.nuclearcraft.part.pyrolytic_carbon.name=Pyrolytic Carbon
 
 item.nuclearcraft.upgrade.speed.name=Speed Upgrade
 item.nuclearcraft.upgrade.speed_desc=Increases the processing speed of machines at the cost of additional processing power. These upgrades can be stacked - the speed will increase %s with each additional upgrade while the power use will increase %s.
 item.nuclearcraft.upgrade.energy.name=Energy Upgrade
 item.nuclearcraft.upgrade.energy_desc=Decreases the processing power of machines. These upgrades can be stacked, but the maximum number that will have an effect is equal to the number of installed speed upgrades. The power use will decrease %s with each additional upgrade.
 info.nuclearcraft.approximately=approximately
-
-item.nuclearcraft.tiny_dust_lead.name=Tiny Pile of Lead Dust
-
-item.nuclearcraft.thorium.232_c.name=Thorium Carbide
-item.nuclearcraft.thorium.232_ox.name=Thorium Oxide
-item.nuclearcraft.thorium.232_ni.name=Thorium Nitride
-item.nuclearcraft.thorium.232_za.name=Thorium-Zirconium Alloy
 
 item.nuclearcraft.uranium.233.name=Uranium-233
 item.nuclearcraft.uranium.233_c.name=Uranium-233 Carbide
@@ -1374,6 +1610,69 @@ item.nuclearcraft.californium.252_ox.name=Californium-252 Oxide
 item.nuclearcraft.californium.252_ni.name=Californium-252 Nitride
 item.nuclearcraft.californium.252_za.name=Californium-252-Zirconium Alloy
 
+item.nuclearcraft.pellet_thorium.tbu.name=TBU
+item.nuclearcraft.pellet_thorium.tbu_c.name=TBU Carbide
+
+item.nuclearcraft.pellet_uranium.leu_233.name=LEU-233
+item.nuclearcraft.pellet_uranium.leu_233_c.name=LEU-233 Carbide
+item.nuclearcraft.pellet_uranium.heu_233.name=HEU-233
+item.nuclearcraft.pellet_uranium.heu_233_c.name=HEU-233 Carbide
+item.nuclearcraft.pellet_uranium.leu_235.name=LEU-235
+item.nuclearcraft.pellet_uranium.leu_235_c.name=LEU-235 Carbide
+item.nuclearcraft.pellet_uranium.heu_235.name=HEU-235
+item.nuclearcraft.pellet_uranium.heu_235_c.name=HEU-235 Carbide
+
+item.nuclearcraft.pellet_neptunium.len_236.name=LEN-236
+item.nuclearcraft.pellet_neptunium.len_236_c.name=LEN-236 Carbide
+item.nuclearcraft.pellet_neptunium.hen_236.name=HEN-236
+item.nuclearcraft.pellet_neptunium.hen_236_c.name=HEN-236 Carbide
+
+item.nuclearcraft.pellet_plutonium.lep_239.name=LEP-239
+item.nuclearcraft.pellet_plutonium.lep_239_c.name=LEP-239 Carbide
+item.nuclearcraft.pellet_plutonium.hep_239.name=HEP-239
+item.nuclearcraft.pellet_plutonium.hep_239_c.name=HEP-239 Carbide
+item.nuclearcraft.pellet_plutonium.lep_241.name=LEP-241
+item.nuclearcraft.pellet_plutonium.lep_241_c.name=LEP-241 Carbide
+item.nuclearcraft.pellet_plutonium.hep_241.name=HEP-241
+item.nuclearcraft.pellet_plutonium.hep_241_c.name=HEP-241 Carbide
+
+item.nuclearcraft.pellet_mixed.mix_239.name=MIX-239
+item.nuclearcraft.pellet_mixed.mix_239_c.name=MIX-239 Carbide
+item.nuclearcraft.pellet_mixed.mix_241.name=MIX-241
+item.nuclearcraft.pellet_mixed.mix_241_c.name=MIX-241 Carbide
+
+item.nuclearcraft.pellet_americium.lea_242.name=LEA-242
+item.nuclearcraft.pellet_americium.lea_242_c.name=LEA-242 Carbide
+item.nuclearcraft.pellet_americium.hea_242.name=HEA-242
+item.nuclearcraft.pellet_americium.hea_242_c.name=HEA-242 Carbide
+
+item.nuclearcraft.pellet_curium.lecm_243.name=LECm-243
+item.nuclearcraft.pellet_curium.lecm_243_c.name=LECm-243 Carbide
+item.nuclearcraft.pellet_curium.hecm_243.name=HECm-243
+item.nuclearcraft.pellet_curium.hecm_243_c.name=HECm-243 Carbide
+item.nuclearcraft.pellet_curium.lecm_245.name=LECm-245
+item.nuclearcraft.pellet_curium.lecm_245_c.name=LECm-245 Carbide
+item.nuclearcraft.pellet_curium.hecm_245.name=HECm-245
+item.nuclearcraft.pellet_curium.hecm_245_c.name=HECm-245 Carbide
+item.nuclearcraft.pellet_curium.lecm_247.name=LECm-247
+item.nuclearcraft.pellet_curium.lecm_247_c.name=LECm-247 Carbide
+item.nuclearcraft.pellet_curium.hecm_247.name=HECm-247
+item.nuclearcraft.pellet_curium.hecm_247_c.name=HECm-247 Carbide
+
+item.nuclearcraft.pellet_berkelium.leb_248.name=LEB-248
+item.nuclearcraft.pellet_berkelium.leb_248_c.name=LEB-248 Carbide
+item.nuclearcraft.pellet_berkelium.heb_248.name=HEB-248
+item.nuclearcraft.pellet_berkelium.heb_248_c.name=HEB-248 Carbide
+
+item.nuclearcraft.pellet_californium.lecf_249.name=LECf-249
+item.nuclearcraft.pellet_californium.lecf_249_c.name=LECf-249 Carbide
+item.nuclearcraft.pellet_californium.hecf_249.name=HECf-249
+item.nuclearcraft.pellet_californium.hecf_249_c.name=HECf-249 Carbide
+item.nuclearcraft.pellet_californium.lecf_251.name=LECf-251
+item.nuclearcraft.pellet_californium.lecf_251_c.name=LECf-251 Carbide
+item.nuclearcraft.pellet_californium.hecf_251.name=HECf-251
+item.nuclearcraft.pellet_californium.hecf_251_c.name=HECf-251 Carbide
+
 item.nuclearcraft.fuel_thorium.tbu_tr.name=TBU TRISO Fuel Pebble
 item.nuclearcraft.fuel_thorium.tbu_ox.name=TBU Oxide Fuel Pellet
 item.nuclearcraft.fuel_thorium.tbu_ni.name=TBU Nitride Fuel Pellet
@@ -1422,11 +1721,11 @@ item.nuclearcraft.fuel_plutonium.hep_241_ox.name=HEP-241 Oxide Fuel Pellet
 item.nuclearcraft.fuel_plutonium.hep_241_ni.name=HEP-241 Nitride Fuel Pellet
 item.nuclearcraft.fuel_plutonium.hep_241_za.name=HEP-241-Zirconium Alloy Fuel Pellet
 
-item.nuclearcraft.fuel_mixed.mix_239_tr.name=MTRISO-239 Fuel Pellet
+item.nuclearcraft.fuel_mixed.mix_239_tr.name=MTRISO-239 Fuel Pebble
 item.nuclearcraft.fuel_mixed.mix_239_ox.name=MOX-239 Fuel Pellet
 item.nuclearcraft.fuel_mixed.mix_239_ni.name=MNI-239 Fuel Pellet
 item.nuclearcraft.fuel_mixed.mix_239_za.name=MZA-239 Fuel Pellet
-item.nuclearcraft.fuel_mixed.mix_241_tr.name=MTRISO-241 Fuel Pellet
+item.nuclearcraft.fuel_mixed.mix_241_tr.name=MTRISO-241 Fuel Pebble
 item.nuclearcraft.fuel_mixed.mix_241_ox.name=MOX-241 Fuel Pellet
 item.nuclearcraft.fuel_mixed.mix_241_ni.name=MNI-241 Fuel Pellet
 item.nuclearcraft.fuel_mixed.mix_241_za.name=MZA-241 Fuel Pellet
@@ -1495,6 +1794,7 @@ item.nuclearcraft.fission_fuel.base_time.desc=Base depletion time: %s
 item.nuclearcraft.fission_fuel.base_heat.desc=Base heat gen: %s
 item.nuclearcraft.fission_fuel.base_efficiency.desc=Base efficiency: %s
 item.nuclearcraft.fission_fuel.criticality.desc=Criticality factor: %s
+item.nuclearcraft.fission_fuel.self_priming.desc=Self-priming!
 
 item.nuclearcraft.depleted_fuel_thorium.tbu_tr.name=Depleted TBU TRISO Fuel Pebble
 item.nuclearcraft.depleted_fuel_thorium.tbu_ox.name=Depleted TBU Oxide Fuel Pellet
@@ -1544,11 +1844,11 @@ item.nuclearcraft.depleted_fuel_plutonium.hep_241_ox.name=Depleted HEP-241 Oxide
 item.nuclearcraft.depleted_fuel_plutonium.hep_241_ni.name=Depleted HEP-241 Nitride Fuel Pellet
 item.nuclearcraft.depleted_fuel_plutonium.hep_241_za.name=Depleted HEP-241-Zirconium Alloy Fuel Pellet
 
-item.nuclearcraft.depleted_fuel_mixed.mix_239_tr.name=Depleted MTRISO-239 Fuel Pellet
+item.nuclearcraft.depleted_fuel_mixed.mix_239_tr.name=Depleted MTRISO-239 Fuel Pebble
 item.nuclearcraft.depleted_fuel_mixed.mix_239_ox.name=Depleted MOX-239 Fuel Pellet
 item.nuclearcraft.depleted_fuel_mixed.mix_239_ni.name=Depleted MNI-239 Fuel Pellet
 item.nuclearcraft.depleted_fuel_mixed.mix_239_za.name=Depleted MZA-239 Fuel Pellet
-item.nuclearcraft.depleted_fuel_mixed.mix_241_tr.name=Depleted MTRISO-241 Fuel Pellet
+item.nuclearcraft.depleted_fuel_mixed.mix_241_tr.name=Depleted MTRISO-241 Fuel Pebble
 item.nuclearcraft.depleted_fuel_mixed.mix_241_ox.name=Depleted MOX-241 Fuel Pellet
 item.nuclearcraft.depleted_fuel_mixed.mix_241_ni.name=Depleted MNI-241 Fuel Pellet
 item.nuclearcraft.depleted_fuel_mixed.mix_241_za.name=Depleted MZA-241 Fuel Pellet
@@ -1762,6 +2062,7 @@ jei.nuclearcraft.solid_fuel_heat=Base heat gen:
 jei.nuclearcraft.solid_fuel_efficiency=Base efficiency:
 jei.nuclearcraft.solid_fuel_criticality=Fuel criticality:
 jei.nuclearcraft.solid_fuel_radiation=Fuel radiation:
+jei.nuclearcraft.solid_fuel_self_priming=Self-priming!
 
 jei.nuclearcraft.fission_heating_heat_per_mb=Heat per input mB:
 
@@ -1770,6 +2071,7 @@ jei.nuclearcraft.salt_fuel_heat=Base heat gen:
 jei.nuclearcraft.salt_fuel_efficiency=Base efficiency:
 jei.nuclearcraft.salt_fuel_criticality=Fuel criticality:
 jei.nuclearcraft.salt_fuel_radiation=Fuel radiation:
+jei.nuclearcraft.salt_fuel_self_priming=Self-priming!
 
 jei.nuclearcraft.fusion_time=Base combo lifetime:
 jei.nuclearcraft.fusion_power=Base max power:
@@ -1852,9 +2154,9 @@ gui.nc.config.category.processors=Processor Configs
 gui.nc.config.category.processors.tooltip=Configure processors.
 
 gui.nc.config.processors.processor_time=Processing Times
-gui.nc.config.processors.processor_time.comment=Base ticks per process. Order: Manufactory, Isotope Separator, Decay Hastener, Fuel Reprocessor, Alloy Furnace, Fluid Infuser, Melter, Supercooler, Electrolyzer, Neutron Irradiator, Ingot Former, Pressurizer, Chemical Reactor, Salt Mixer, Crystallizer, Fluid Enricher, Fluid Extractor, Centrifuge, Rock Crusher.
+gui.nc.config.processors.processor_time.comment=Base ticks per process. Order: Manufactory, Separator, Decay Hastener, Fuel Reprocessor, Alloy Furnace, Fluid Infuser, Melter, Supercooler, Electrolyzer, Assembler, Ingot Former, Pressurizer, Chemical Reactor, Salt Mixer, Crystallizer, Fluid Enricher, Fluid Extractor, Centrifuge, Rock Crusher.
 gui.nc.config.processors.processor_power=Processing Power Use
-gui.nc.config.processors.processor_power.comment=Base RF/t use during processing. Order: Manufactory, Isotope Separator, Decay Hastener, Fuel Reprocessor, Alloy Furnace, Fluid Infuser, Melter, Supercooler, Electrolyzer, Neutron Irradiator, Ingot Former, Pressurizer, Chemical Reactor, Salt Mixer, Crystallizer, Fluid Enricher, Fluid Extractor, Centrifuge, Rock Crusher.
+gui.nc.config.processors.processor_power.comment=Base RF/t use during processing. Order: Manufactory, Separator, Decay Hastener, Fuel Reprocessor, Alloy Furnace, Fluid Infuser, Melter, Supercooler, Electrolyzer, Assembler, Ingot Former, Pressurizer, Chemical Reactor, Salt Mixer, Crystallizer, Fluid Enricher, Fluid Extractor, Centrifuge, Rock Crusher.
 gui.nc.config.processors.speed_upgrade_power_laws_fp=Speed Upgrade Power Laws
 gui.nc.config.processors.speed_upgrade_power_laws_fp.comment=Power laws for speed upgrades. Order: Processing Time, Processing Power.
 gui.nc.config.processors.speed_upgrade_multipliers_fp=Speed Upgrade Multipliers
@@ -1884,7 +2186,7 @@ gui.nc.config.processors.manufactory_wood.comment=Specify the size of the output
 gui.nc.config.processors.rock_crusher_alternate=Rock Crusher Alternate Recipes
 gui.nc.config.processors.rock_crusher_alternate.comment=Use an alternate set of recipes for the Rock Crusher that only produce NC dusts?
 gui.nc.config.processors.gtce_recipe_integration=Register GTCE Recipes
-gui.nc.config.processors.gtce_recipe_integration.comment=If enabled, recipes of the corresponding NC machine will also be added for GTCE machines. Order: Manufactory, Isotope Separator, Decay Hastener, Fuel Reprocessor, Alloy Furnace, Fluid Infuser, Melter, Supercooler, Electrolyzer, Neutron Irradiator, Ingot Former, Pressurizer, Chemical Reactor, Salt Mixer, Crystallizer, Fluid Enricher, Fluid Extractor, Centrifuge, Rock Crusher.
+gui.nc.config.processors.gtce_recipe_integration.comment=If enabled, recipes of the corresponding NC machine will also be added for GTCE machines. Order: Manufactory, Separator, Decay Hastener, Fuel Reprocessor, Alloy Furnace, Fluid Infuser, Melter, Supercooler, Electrolyzer, Assembler, Ingot Former, Pressurizer, Chemical Reactor, Salt Mixer, Crystallizer, Fluid Enricher, Fluid Extractor, Centrifuge, Rock Crusher.
 gui.nc.config.processors.gtce_recipe_logging=GTCE Recipe Logging
 gui.nc.config.processors.gtce_recipe_logging.comment=Will GTCE recipe additions be logged?
 gui.nc.config.processors.smart_processor_input=Smart Processor Input
@@ -2363,7 +2665,7 @@ gui.nc.config.other.single_creative_tab=Single Creative Tab
 gui.nc.config.other.single_creative_tab.comment=Combine all creative tabs into a single large one?
 
 gui.nc.config.other.register_processor=Register Processors
-gui.nc.config.other.register_processor.comment=Register processors to the game? Order: Nuclear Furnace, Manufactory, Isotope Separator, Decay Hastener, Fuel Reprocessor, Alloy Furnace, Fluid Infuser, Melter, Supercooler, Electrolyzer, Neutron Irradiator, Ingot Former, Pressurizer, Chemical Reactor, Salt Mixer, Crystallizer, Fluid Enricher, Fluid Extractor, Centrifuge, Rock Crusher.
+gui.nc.config.other.register_processor.comment=Register processors to the game? Order: Nuclear Furnace, Manufactory, Separator, Decay Hastener, Fuel Reprocessor, Alloy Furnace, Fluid Infuser, Melter, Supercooler, Electrolyzer, Assembler, Ingot Former, Pressurizer, Chemical Reactor, Salt Mixer, Crystallizer, Fluid Enricher, Fluid Extractor, Centrifuge, Rock Crusher.
 gui.nc.config.other.register_passive=Register Passive Machines
 gui.nc.config.other.register_passive.comment=Register passive machine to the game? Order: Cobblestone Generator, Infinite Water Source, Nitrogen Collector.
 gui.nc.config.other.register_tool=Register Tools
@@ -2401,8 +2703,8 @@ gui.nc.config.other.rare_drops.comment=Will mobs drop rare items?
 gui.nc.config.other.dungeon_loot=Enable Dungeon Loot
 gui.nc.config.other.dungeon_loot.comment=Will NuclearCraft loot generate in chests?
 
-gui.nc.config.other.register_fluid_blocks=Register Fission Fluid Blocks
-gui.nc.config.other.register_fluid_blocks.comment=Register fission fluid and molten salt coolant blocks? Keep false if running low on block IDs.
+gui.nc.config.other.register_fluid_blocks=Register Fluid Blocks
+gui.nc.config.other.register_fluid_blocks.comment=Register fluid blocks? Keep false if running low on block IDs.
 gui.nc.config.other.register_cofh_fluids=Register CoFH Fluid Alternatives
 gui.nc.config.other.register_cofh_fluids.comment=Register alternative Thermal Foundation fluids? It is recommended that this is set to true if no CoFH mods are installed.
 
@@ -2459,7 +2761,7 @@ gui.nc.inventory.ctrl_for_info=Hold Ctrl for more info
 
 nuclearcraft.container.nuclear_furnace=Nuclear Furnace
 nuclearcraft.container.manufactory=Manufactory
-nuclearcraft.container.isotope_separator=Isotope Separator
+nuclearcraft.container.separator=Separator
 nuclearcraft.container.decay_hastener=Decay Hastener
 nuclearcraft.container.fuel_reprocessor=Fuel Reprocessor
 nuclearcraft.container.alloy_furnace=Alloy Furnace
@@ -2467,7 +2769,7 @@ nuclearcraft.container.infuser=Fluid Infuser
 nuclearcraft.container.melter=Melter
 nuclearcraft.container.supercooler=Supercooler
 nuclearcraft.container.electrolyzer=Electrolyzer
-nuclearcraft.container.irradiator=Neutron Irradiator
+nuclearcraft.container.assembler=Assembler
 nuclearcraft.container.ingot_former=Ingot Former
 nuclearcraft.container.pressurizer=Pressurizer
 nuclearcraft.container.chemical_reactor=Chemical Reactor
@@ -2503,11 +2805,11 @@ gui.nc.container.fission_controller.effective_heat=Effective Casing Heat:
 gui.nc.container.fission_controller.reserved_heat=Reserved Casing Heat:
 gui.nc.container.fission_controller.net_cluster_heating=Net Cluster Heating:
 gui.nc.container.fission_controller.total_cluster_cooling=Total Cluster Cooling:
-gui.nc.container.fission_controller.heat_mult=Mean Cluster Heat Mult:
+gui.nc.container.fission_controller.heat_mult=Mean Heat Multiplier:
 gui.nc.container.fission_controller.heat_stored=Casing Heat Level:
 
 gui.nc.container.solid_fission_controller.reactor=Solid Fuel Reactor (WIP)
-gui.nc.container.solid_fission_controller.efficiency=Mean Cluster Efficiency:
+gui.nc.container.solid_fission_controller.efficiency=Mean Efficiency:
 gui.nc.container.solid_fission_controller.output_rate=Production Rate:
 
 gui.nc.container.fusion_core.reactor=Fusion Reactor
@@ -2599,6 +2901,7 @@ nuclearcraft.multiblock_validation.too_many_controllers=There must only be one c
 
 nuclearcraft.multiblock_validation.fission_reactor.prohibit_cells=This is not a solid-fuel reactor - there must be no cells for it to form
 nuclearcraft.multiblock_validation.fission_reactor.prohibit_sinks=This is not a solid-fuel reactor - there must be no sinks for it to form
+nuclearcraft.multiblock_validation.fission_reactor.prohibit_vents=This is not a solid-fuel reactor - there must be no vents for it to form
 nuclearcraft.multiblock_validation.fission_reactor.prohibit_vessels=This is not a molten-salt reactor - there must be no vessels it to form
 nuclearcraft.multiblock_validation.fission_reactor.prohibit_heaters=This is not a molten-salt reactor - there must be no heaters it to form
 
@@ -2631,8 +2934,8 @@ advancement.nuclearcraft.root.desc=Nuclear Physics, Minecraft Style
 advancement.nuclearcraft.manufactory.name=Industrializing
 advancement.nuclearcraft.manufactory.desc=Craft a Manufactory
 
-advancement.nuclearcraft.isotope_separator.name=Nuclear Refinement
-advancement.nuclearcraft.isotope_separator.desc=Craft an Isotope Separator
+advancement.nuclearcraft.separator.name=Fractionalization
+advancement.nuclearcraft.separator.desc=Craft a Separator
 
 advancement.nuclearcraft.voltaic_pile_basic.name=Electric Avenue
 advancement.nuclearcraft.voltaic_pile_basic.desc=Craft a Basic Voltaic Pile
@@ -2667,20 +2970,11 @@ advancement.nuclearcraft.fuel_reprocessor.desc=Craft a Fuel Reprocessor
 advancement.nuclearcraft.decay_hastener.name=Extreme Radiation
 advancement.nuclearcraft.decay_hastener.desc=Craft a Decay Hastener
 
-advancement.nuclearcraft.fission_controller.name=Splitting the Atom
-advancement.nuclearcraft.fission_controller.desc=Craft a Fission Controller
-
 advancement.nuclearcraft.lithium_ion_battery_basic.name=Elon's Footsteps
 advancement.nuclearcraft.lithium_ion_battery_basic.desc=Craft a Basic Lithium Ion Battery
 
-advancement.nuclearcraft.fusion_core.name=Star in a Box
-advancement.nuclearcraft.fusion_core.desc=Craft a Fusion Core
-
-advancement.nuclearcraft.active_cooler.name=Temperature Control
-advancement.nuclearcraft.active_cooler.desc=Craft an Active Cooler
-
-advancement.nuclearcraft.irradiator.name=Neutron Bombardment
-advancement.nuclearcraft.irradiator.desc=Craft a Neutron Irradiator
+advancement.nuclearcraft.assembler.name=Production Line
+advancement.nuclearcraft.assembler.desc=Craft an Assembler
 
 advancement.nuclearcraft.solar_panel_basic.name=Eco-Friendly
 advancement.nuclearcraft.solar_panel_basic.desc=Craft a Basic Solar Panel
@@ -2754,6 +3048,9 @@ advancement.nuclearcraft.berkelium.desc=Obtain some Berkelium
 advancement.nuclearcraft.californium.name=California Dreamin'
 advancement.nuclearcraft.californium.desc=Obtain some Californium
 
+advancement.nuclearcraft.solid_fission_controller.name=Splitting the Atom
+advancement.nuclearcraft.solid_fission_controller.desc=Craft a Solid Fuel Fission Controller
+
 advancement.nuclearcraft.salt_fission_controller.name=Next Gen Nuclear
 advancement.nuclearcraft.salt_fission_controller.desc=Craft a Molten Salt Fission Controller
 
@@ -2762,6 +3059,9 @@ advancement.nuclearcraft.heat_exchanger_controller.desc=Craft a Heat Exchanger C
 
 advancement.nuclearcraft.turbine_controller.name=Respecting Rankine
 advancement.nuclearcraft.turbine_controller.desc=Craft a Turbine Controller
+
+advancement.nuclearcraft.condenser_controller.name=Completing the Circle
+advancement.nuclearcraft.condenser_controller.desc=Craft a Condenser Controller
 
 advancement.nuclearcraft.geiger_counter.name=Pripyat Preparations
 advancement.nuclearcraft.geiger_counter.desc=Craft a Geiger Counter

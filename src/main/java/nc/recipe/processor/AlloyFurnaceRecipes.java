@@ -1,6 +1,6 @@
 package nc.recipe.processor;
 
-import static nc.util.FissionHelper.ISOTOPE_ORE_DICT;
+import static nc.util.FissionHelper.FISSION_ORE_DICT;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,8 +85,8 @@ public class AlloyFurnaceRecipes extends ProcessorRecipeHandler {
 		addAlloyIngotIngotRecipes("Aluminium", 7, "Titanium", 3, "TitaniumAluminide", 3, 3D, 1D);
 		addAlloyIngotIngotRecipes("Titanium", 1, "Iridium", 1, "TitaniumIridium", 2, 1.5D, 2D);
 		
-		// Fission Isotopes
-		addIsotopeZARecipes();
+		// Fission Materials
+		addFissionAlloyRecipes();
 	}
 	
 	public void addAlloyIngotIngotRecipes(String in1, int inSize1, String in2, int inSize2, String out, int outSize, double time, double power) {
@@ -117,9 +117,10 @@ public class AlloyFurnaceRecipes extends ProcessorRecipeHandler {
 		addRecipe(typeStackList(in1, OreDictHelper.BLOCK_VOLUME_TYPES, inSize1), typeStackList("Coal", OreDictHelper.BLOCK_VOLUME_TYPES, inSize2), oreStack("block" + out, outSize), time*9D, power);
 	}
 	
-	public void addIsotopeZARecipes() {
-		for (int i = 0; i < ISOTOPE_ORE_DICT.length; i++) {
-			addAlloyIngotIngotRecipes(ISOTOPE_ORE_DICT[i], 1, "Zirconium", 1, ISOTOPE_ORE_DICT[i] + "ZA", 1, 1D, 1D);
+	public void addFissionAlloyRecipes() {
+		for (int i = 0; i < FISSION_ORE_DICT.length; i++) {
+			addAlloyIngotIngotRecipes(FISSION_ORE_DICT[i], 1, "Zirconium", 1, FISSION_ORE_DICT[i] + "ZA", 1, 1D, 1D);
+			addAlloyIngotIngotRecipes(FISSION_ORE_DICT[i], 1, "Graphite", 1, FISSION_ORE_DICT[i] + "Carbide", 1, 1D, 1D);
 		}
 	}
 	

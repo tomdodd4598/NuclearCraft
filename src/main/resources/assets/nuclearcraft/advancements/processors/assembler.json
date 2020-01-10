@@ -1,0 +1,26 @@
+{
+	"display": {
+		"icon": {
+			"item": "nuclearcraft:assembler"
+		},
+		"title": {
+			"translate": "advancement.nuclearcraft.assembler.name"
+		},
+		"description": {
+			"translate": "advancement.nuclearcraft.assembler.desc"
+		}
+	},
+	"parent": "nuclearcraft:processors/alloy_furnace",
+	"criteria": {
+		"has_item": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"item": "nuclearcraft:assembler"
+					}
+				]
+			}
+		}
+	}
+}

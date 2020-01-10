@@ -19,16 +19,10 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fluids.Fluid;
 
 public class BlockFluidPlasma extends NCBlockFluid {
 	
 	private static final Material GAS = new MaterialLiquid(MapColor.AIR);
-
-	public BlockFluidPlasma(Fluid fluid) {
-		super(fluid, GAS);
-		setLightLevel(1F);
-	}
 	
 	public BlockFluidPlasma(FluidPlasma fluid) {
 		super(fluid, GAS);

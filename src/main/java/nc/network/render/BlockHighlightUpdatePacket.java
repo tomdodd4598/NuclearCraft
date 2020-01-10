@@ -2,7 +2,6 @@ package nc.network.render;
 
 import io.netty.buffer.ByteBuf;
 import nc.NuclearCraft;
-import nc.util.NCUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
@@ -44,8 +43,8 @@ public class BlockHighlightUpdatePacket implements IMessage {
 	public void fromBytes(ByteBuf buf) {
 		try {
 			readMessage(buf);
-		} catch (IndexOutOfBoundsException ioe) {
-			NCUtil.getLogger().catching(ioe);
+		} catch (IndexOutOfBoundsException e) {
+			e.printStackTrace();
 			return;
 		}
 		messageValid = true;

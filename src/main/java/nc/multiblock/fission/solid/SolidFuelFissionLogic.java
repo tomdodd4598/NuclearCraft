@@ -48,16 +48,29 @@ public class SolidFuelFissionLogic extends FissionReactorLogic {
 	public RecipeInfo<ProcessorRecipe> heatingRecipeInfo;
 	
 	public int heatingOutputRate = 0;
-	public double sparsityEfficiencyMult = 0D, effectiveHeating = 0D, reservedEffectiveHeat = 0D, heatingRecipeRate = 0D, heatingOutputRateFP = 0D;
+	public double effectiveHeating = 0D, reservedEffectiveHeat = 0D, heatingRecipeRate = 0D, heatingOutputRateFP = 0D;
 	
 	public SolidFuelFissionLogic(FissionReactorLogic oldLogic) {
 		super(oldLogic);
+		if (oldLogic instanceof SolidFuelFissionLogic) {
+			SolidFuelFissionLogic oldSolidFuelLogic = (SolidFuelFissionLogic) oldLogic;
+			heatingOutputRate = oldSolidFuelLogic.heatingOutputRate;
+			effectiveHeating = oldSolidFuelLogic.effectiveHeating;
+			reservedEffectiveHeat = oldSolidFuelLogic.reservedEffectiveHeat;
+			heatingRecipeRate = oldSolidFuelLogic.heatingRecipeRate;
+			heatingOutputRateFP = oldSolidFuelLogic.heatingOutputRateFP;
+		}
+	}
+	
+	@Override
+	public String getID() {
+		return "solid_fuel";
 	}
 	
 	@Override
 	public void onResetStats() {
 		heatingOutputRate = 0;
-		sparsityEfficiencyMult = effectiveHeating = heatingRecipeRate = heatingOutputRateFP = 0D;
+		effectiveHeating = heatingRecipeRate = heatingOutputRateFP = 0D;
 	}
 	
 	@Override
@@ -163,9 +176,9 @@ public class SolidFuelFissionLogic extends FissionReactorLogic {
 		
 		getReactor().usefulPartCount += getReactor().passiveModeratorCache.size() + getReactor().activeModeratorCache.size() + getReactor().activeReflectorCache.size();
 		double usefulPartRatio = (double)getReactor().usefulPartCount/(double)getReactor().getInteriorVolume();
-		sparsityEfficiencyMult = usefulPartRatio >= NCConfig.fission_sparsity_penalty_params[1] ? 1D : (1D - NCConfig.fission_sparsity_penalty_params[0])*Math.sin(usefulPartRatio*Math.PI/(2D*NCConfig.fission_sparsity_penalty_params[1])) + NCConfig.fission_sparsity_penalty_params[0];
-		effectiveHeating *= sparsityEfficiencyMult;
-		getReactor().totalEfficiency *= sparsityEfficiencyMult;
+		getReactor().sparsityEfficiencyMult = usefulPartRatio >= NCConfig.fission_sparsity_penalty_params[1] ? 1D : (1D - NCConfig.fission_sparsity_penalty_params[0])*Math.sin(usefulPartRatio*Math.PI/(2D*NCConfig.fission_sparsity_penalty_params[1])) + NCConfig.fission_sparsity_penalty_params[0];
+		effectiveHeating *= getReactor().sparsityEfficiencyMult;
+		getReactor().totalEfficiency *= getReactor().sparsityEfficiencyMult;
 		getReactor().meanHeatMult = getReactor().fuelComponentCount == 0 ? 0D : (double)getReactor().totalHeatMult/(double)getReactor().fuelComponentCount;
 		getReactor().meanEfficiency = getReactor().fuelComponentCount == 0 ? 0D : getReactor().totalEfficiency/getReactor().fuelComponentCount;
 	}
@@ -175,7 +188,6 @@ public class SolidFuelFissionLogic extends FissionReactorLogic {
 	@Override
 	public boolean onUpdateServer() {
 		getReactor().heatBuffer.changeHeatStored(getReactor().rawHeating);
-		updateFluidHeating();
 		
 		if (getReactor().heatBuffer.isFull() && NCConfig.fission_overheat) {
 			getReactor().heatBuffer.setHeatStored(0);
@@ -183,6 +195,8 @@ public class SolidFuelFissionLogic extends FissionReactorLogic {
 			doMeltdown();
 			return true;
 		}
+		
+		updateFluidHeating();
 		
 		return super.onUpdateServer();
 	}
@@ -204,12 +218,12 @@ public class SolidFuelFissionLogic extends FissionReactorLogic {
 	}
 	
 	public boolean canProcessInputs() {
-		if (!getReactor().isReactorOn || !setRecipeStats()) return false;
+		if (!setRecipeStats()) return false;
 		return canProduceProducts();
 	}
 	
 	public boolean setRecipeStats() {
-		if (heatingRecipeInfo == null) {
+		if (heatingRecipeInfo == null || !getReactor().isReactorOn) {
 			heatingOutputRate = 0;
 			heatingRecipeRate = heatingOutputRateFP = 0D;
 			return false;
@@ -290,37 +304,30 @@ public class SolidFuelFissionLogic extends FissionReactorLogic {
 	// NBT
 	
 	@Override
-	public void writeToNBT(NBTTagCompound data, SyncReason syncReason) {
-		super.writeToNBT(data, syncReason);
-		NBTTagCompound logicTag = new NBTTagCompound();
+	public void writeToLogicTag(NBTTagCompound logicTag, SyncReason syncReason) {
+		super.writeToLogicTag(logicTag, syncReason);
 		writeTanks(tanks, logicTag);
 		logicTag.setInteger("heatingOutputRate", heatingOutputRate);
-		logicTag.setDouble("sparsityEfficiencyMult", sparsityEfficiencyMult);
 		logicTag.setDouble("effectiveHeating", effectiveHeating);
 		logicTag.setDouble("reservedEffectiveHeat", reservedEffectiveHeat);
 		logicTag.setDouble("heatingOutputRateFP", heatingOutputRateFP);
-		data.setTag("solid_fuel", logicTag);
 	}
 	
 	@Override
-	public void readFromNBT(NBTTagCompound data, SyncReason syncReason) {
-		super.readFromNBT(data, syncReason);
-		if (data.hasKey("solid_fuel")) {
-			NBTTagCompound logicTag = data.getCompoundTag("solid_fuel");
-			readTanks(tanks, logicTag);
-			heatingOutputRate = logicTag.getInteger("heatingOutputRate");
-			sparsityEfficiencyMult = logicTag.getDouble("sparsityEfficiencyMult");
-			effectiveHeating = logicTag.getDouble("effectiveHeating");
-			reservedEffectiveHeat = logicTag.getDouble("reservedEffectiveHeat");
-			heatingOutputRateFP = logicTag.getDouble("heatingOutputRateFP");
-		}
+	public void readFromLogicTag(NBTTagCompound logicTag, SyncReason syncReason) {
+		super.readFromLogicTag(logicTag, syncReason);
+		readTanks(tanks, logicTag);
+		heatingOutputRate = logicTag.getInteger("heatingOutputRate");
+		effectiveHeating = logicTag.getDouble("effectiveHeating");
+		reservedEffectiveHeat = logicTag.getDouble("reservedEffectiveHeat");
+		heatingOutputRateFP = logicTag.getDouble("heatingOutputRateFP");
 	}
 	
 	// Packets
 	
 	@Override
 	public SolidFissionUpdatePacket getUpdatePacket() {
-		return new SolidFissionUpdatePacket(getReactor().controller.getTilePos(), getReactor().isReactorOn, getReactor().heatBuffer, getReactor().clusterCount, getReactor().cooling, getReactor().rawHeating, getReactor().totalHeatMult, getReactor().meanHeatMult, getReactor().fuelComponentCount, getReactor().usefulPartCount, getReactor().totalEfficiency, getReactor().meanEfficiency, effectiveHeating, heatingOutputRateFP, sparsityEfficiencyMult, reservedEffectiveHeat);
+		return new SolidFissionUpdatePacket(getReactor().controller.getTilePos(), getReactor().isReactorOn, getReactor().heatBuffer, getReactor().clusterCount, getReactor().cooling, getReactor().rawHeating, getReactor().totalHeatMult, getReactor().meanHeatMult, getReactor().fuelComponentCount, getReactor().usefulPartCount, getReactor().totalEfficiency, getReactor().meanEfficiency, getReactor().sparsityEfficiencyMult, effectiveHeating, heatingOutputRateFP, reservedEffectiveHeat);
 	}
 	
 	@Override
@@ -330,7 +337,6 @@ public class SolidFuelFissionLogic extends FissionReactorLogic {
 			SolidFissionUpdatePacket packet = (SolidFissionUpdatePacket) message;
 			effectiveHeating = packet.effectiveHeating;
 			heatingOutputRateFP = packet.heatingOutputRateFP;
-			sparsityEfficiencyMult = packet.sparsityEfficiencyMult;
 			reservedEffectiveHeat = packet.reservedEffectiveHeat;
 		}
 	}

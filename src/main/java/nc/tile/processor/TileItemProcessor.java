@@ -24,6 +24,7 @@ import nc.tile.internal.fluid.Tank;
 import nc.tile.internal.inventory.ItemOutputSetting;
 import nc.tile.internal.inventory.ItemSorption;
 import nc.tile.inventory.ITileInventory;
+import nc.util.ItemStackHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -109,7 +110,7 @@ public class TileItemProcessor extends TileEnergySidedInventory implements IItem
 			if (isProcessing) process();
 			else {
 				getRadiationSource().setRadiationLevel(0D);
-				if (time > 0 && (!isHaltedByRedstone() || !readyToProcess())) loseProgress();
+				if (time > 0 && !isHaltedByRedstone() && (shouldLoseProgress || !canProcessInputs)) loseProgress();
 			}
 			if (wasProcessing != isProcessing) {
 				shouldUpdate = true;
@@ -381,8 +382,8 @@ public class TileItemProcessor extends TileEnergySidedInventory implements IItem
 		if (stack == ItemStack.EMPTY) return false;
 		if (hasUpgrades) {
 			if (stack.getItem() == NCItems.upgrade) {
-				if (slot == getSpeedUpgradeSlot()) return stack.getMetadata() == 0;
-				else if (slot == getEnergyUpgradeSlot()) return stack.getMetadata() == 1;
+				if (slot == getSpeedUpgradeSlot()) return ItemStackHelper.getMetadata(stack) == 0;
+				else if (slot == getEnergyUpgradeSlot()) return ItemStackHelper.getMetadata(stack) == 1;
 			}
 		}
 		if (slot >= itemInputSize) return false;
