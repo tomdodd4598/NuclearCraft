@@ -127,6 +127,7 @@ public class RadSources {
 			ORE_PREFIXES.addAll(Lists.newArrayList("oreNetherrack", "oreEndstone", "oreSand", "oreNetherrack", "oreBlackgranite", "oreRedgranite", "oreMarble", "oreBasalt"));
 		}
 		
+		putMaterial(BISMUTH, "Bismuth");
 		putMaterial(RADIUM, "Radium");
 		putMaterial(POLONIUM, "Polonium");
 		
@@ -358,6 +359,7 @@ public class RadSources {
 	public static final double CAESIUM_137 = 0.033D;
 	public static final double CORIUM = 0.0000165D;
 	
+	public static final double BISMUTH = 4.975E-20D;
 	public static final double RADIUM = 0.000625;
 	public static final double POLONIUM = 2.64D/9D;
 	
@@ -513,4 +515,7 @@ public class RadSources {
 	public static final double HECf_249_FISSION = (HECf_249 + DEPLETED_HECf_249 + CAESIUM_137)/64D;
 	public static final double LECf_251_FISSION = (LECf_251 + DEPLETED_LECf_251 + CAESIUM_137)/64D;
 	public static final double HECf_251_FISSION = (HECf_251 + DEPLETED_HECf_251 + CAESIUM_137)/64D;
+	
+	public static final double PROTACTINIUM_233 = 13.54/9D;
+	public static final double PROTACTINIUM_TBU = getFuelRadiation(THORIUM, 8.5D, PROTACTINIUM_233, 0.5D);
 }

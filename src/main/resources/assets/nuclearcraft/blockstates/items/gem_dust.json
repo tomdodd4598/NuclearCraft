@@ -65,16 +65,6 @@
 				"textures": {
 					"layer0": "nuclearcraft:items/gem_dust/end_stone"
 				}
-			},
-			"radium": {
-				"textures": {
-					"layer0": "nuclearcraft:items/gem_dust/radium"
-				}
-			},
-			"polonium": {
-				"textures": {
-					"layer0": "nuclearcraft:items/gem_dust/polonium"
-				}
 			}
 		}
 	}

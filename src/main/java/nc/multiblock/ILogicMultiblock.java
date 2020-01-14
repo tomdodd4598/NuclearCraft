@@ -14,7 +14,7 @@ import nc.util.SuperMap;
 import nc.util.SuperMap.SuperMapEntry;
 import net.minecraft.nbt.NBTTagCompound;
 
-public interface ILogicMultiblock<LOGIC extends MultiblockLogic, T extends ITileMultiblockPart> {
+public interface ILogicMultiblock<LOGIC extends MultiblockLogic, T extends ITileLogicMultiblockPart> {
 	
 	public @Nonnull LOGIC getLogic();
 	

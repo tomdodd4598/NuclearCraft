@@ -59,7 +59,7 @@ public class TileTurbineController extends TileTurbinePart implements ITurbineCo
 	@Override
 	public void onBlockNeighborChanged(IBlockState state, World world, BlockPos pos, BlockPos fromPos) {
 		super.onBlockNeighborChanged(state, world, pos, fromPos);
-		if (getMultiblock() != null) getMultiblock().getLogic().setIsTurbineOn();
+		if (getMultiblock() != null) getLogic().setIsTurbineOn();
 	}
 	
 	@Override

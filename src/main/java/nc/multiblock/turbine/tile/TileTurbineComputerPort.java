@@ -128,7 +128,7 @@ public class TileTurbineComputerPort extends TileTurbinePart implements SimpleCo
 	@Callback
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getIdealExpansionLevels(Context context, Arguments args) {
-		return isMultiblockAssembled() ? getMultiblock().getLogic().getIdealExpansionLevels().toArray() : new Object[] {};
+		return isMultiblockAssembled() ? getLogic().getIdealExpansionLevels().toArray() : new Object[] {};
 	}
 	
 	@Callback
@@ -171,7 +171,7 @@ public class TileTurbineComputerPort extends TileTurbinePart implements SimpleCo
 	public Object[] activate(Context context, Arguments args) {
 		if (isMultiblockAssembled()) {
 			getMultiblock().computerActivated = true;
-			getMultiblock().getLogic().setIsTurbineOn();
+			getLogic().setIsTurbineOn();
 		}
 		return new Object[] {};
 	}
@@ -181,7 +181,7 @@ public class TileTurbineComputerPort extends TileTurbinePart implements SimpleCo
 	public Object[] deactivate(Context context, Arguments args) {
 		if (isMultiblockAssembled()) {
 			getMultiblock().computerActivated = false;
-			getMultiblock().getLogic().setIsTurbineOn();
+			getLogic().setIsTurbineOn();
 		}
 		return new Object[] {};
 	}

@@ -293,10 +293,19 @@ mods.nuclearcraft.fission_reflector.remove(IIngredient block);
 mods.nuclearcraft.fission_reflector.removeAll();
 ___________________________________________________________________________________________________________________________
 
+ Fission Irradiator:
+>-------------------<
+
+mods.nuclearcraft.fission_irradiator.addRecipe(IIngredient itemInput, IIngredient itemOutput, int fluxRequired, double heatPerFlux, double radiation);
+
+mods.nuclearcraft.fission_irradiator.removeRecipeWithInput(IIngredient itemInput);
+mods.nuclearcraft.fission_irradiator.removeRecipeWithOutput(IIngredient itemOutput);
+___________________________________________________________________________________________________________________________
+
  Solid Fuel Fission:
 >-------------------<
 
-mods.nuclearcraft.solid_fission.addRecipe(IIngredient itemInput, IIngredient itemOutput, int time, int power, double efficiency, int criticality, boolean selfPriming, double radiation);
+mods.nuclearcraft.solid_fission.addRecipe(IIngredient itemInput, IIngredient itemOutput, int time, int heat, double efficiency, int criticality, boolean selfPriming, double radiation);
 
 mods.nuclearcraft.solid_fission.removeRecipeWithInput(IIngredient itemInput);
 mods.nuclearcraft.solid_fission.removeRecipeWithOutput(IIngredient itemOutput);
@@ -314,7 +323,7 @@ ________________________________________________________________________________
  Molten Salt Fission (KINDA BROKEN!):
 >------------------------------------<
 
-mods.nuclearcraft.salt_fission.addRecipe(ILiquidStack fluidInput, ILiquidStack fluidOutput, int time, int power, double efficiency, int criticality, boolean selfPriming, double radiation);
+mods.nuclearcraft.salt_fission.addRecipe(ILiquidStack fluidInput, ILiquidStack fluidOutput, int time, int heat, double efficiency, int criticality, boolean selfPriming, double radiation);
 
 mods.nuclearcraft.salt_fission.removeRecipeWithInput(ILiquidStack fluidInput);
 mods.nuclearcraft.salt_fission.removeRecipeWithOutput(ILiquidStack fluidOutput);

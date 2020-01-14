@@ -43,6 +43,8 @@ public class NCItems {
 	public static Item part;
 	public static Item upgrade;
 	
+	public static Item fission_dust;
+	
 	public static Item uranium;
 	public static Item neptunium;
 	public static Item plutonium;
@@ -133,6 +135,8 @@ public class NCItems {
 		
 		part = withName(new NCItemMeta(MetaEnums.PartType.class), "part");
 		upgrade = withName(new NCItemMeta(MetaEnums.UpgradeType.class, NCInfo.upgradeInfo()), "upgrade");
+		
+		fission_dust = withName(new NCItemMeta(MetaEnums.FissionDustType.class), "fission_dust");
 		
 		uranium = withName(new NCItemMeta(MetaEnums.UraniumType.class), "uranium");
 		neptunium = withName(new NCItemMeta(MetaEnums.NeptuniumType.class), "neptunium");
@@ -225,6 +229,8 @@ public class NCItems {
 		
 		registerItem(part, NCTabs.MATERIAL);
 		registerItem(upgrade, NCTabs.MACHINE);
+		
+		registerItem(fission_dust, NCTabs.MATERIAL);
 		
 		registerItem(uranium, NCTabs.MATERIAL);
 		registerItem(neptunium, NCTabs.MATERIAL);
@@ -338,6 +344,10 @@ public class NCItems {
 		
 		for(int i = 0; i < MetaEnums.UpgradeType.values().length; i++) {
 			registerRender(upgrade, i, MetaEnums.UpgradeType.values()[i].getName());
+		}
+		
+		for(int i = 0; i < MetaEnums.FissionDustType.values().length; i++) {
+			registerRender(fission_dust, i, MetaEnums.FissionDustType.values()[i].getName());
 		}
 		
 		for(int i = 0; i < MetaEnums.UraniumType.values().length; i++) {

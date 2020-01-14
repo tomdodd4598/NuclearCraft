@@ -14,15 +14,23 @@ import nc.recipe.ProcessorRecipe;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 
-public interface IFissionFuelComponent extends IFissionComponent {
+public interface IFissionFuelComponent extends IFissionHeatingComponent, IFissionFluxAcceptor {
+	
+	@Override
+	public default boolean canAcceptFlux(EnumFacing side) {
+		return false;
+	}
+	
+	@Override
+	public default boolean contributeEfficiency() {
+		return true;
+	}
 	
 	public void tryPriming(FissionReactor sourceReactor);
 	
 	public boolean isPrimed();
 	
 	public void unprime();
-	
-	public void refreshIsProcessing(boolean checkCluster);
 	
 	public default boolean isProducingFlux() {
 		return isPrimed() || isFunctional();
@@ -38,11 +46,9 @@ public interface IFissionFuelComponent extends IFissionComponent {
 	
 	public void setSourceEfficiency(double sourceEfficiency, boolean maximize);
 	
-	public void addFlux(int flux);
-	
 	public Double[] getModeratorLineEfficiencies();
 	
-	public IFissionFuelComponent[] getAdjacentFuelComponents();
+	public IFissionFluxAcceptor[] getAdjacentFluxAcceptors();
 	
 	public LongSet[] getPassiveModeratorCaches();
 	
@@ -53,10 +59,6 @@ public interface IFissionFuelComponent extends IFissionComponent {
 	public Long[] getActiveReflectorModeratorCache();
 	
 	public LongSet getActiveReflectorCache();
-	
-	public long getRawHeating();
-	
-	public double getEffectiveHeating();
 	
 	public long getHeatMultiplier();
 	
@@ -86,7 +88,7 @@ public interface IFissionFuelComponent extends IFissionComponent {
 		}
 		else return;
 		
-		if (getMultiblock().getLogic() instanceof SolidFuelFissionLogic || getMultiblock().getLogic() instanceof MoltenSaltFissionLogic) {
+		if (getLogic() instanceof SolidFuelFissionLogic || getLogic() instanceof MoltenSaltFissionLogic) {
 			dirLoop: for (EnumFacing dir : EnumFacing.VALUES) {
 				BlockPos offPos = getTilePos().offset(dir);
 				ProcessorRecipe recipe = blockRecipe(NCRecipes.fission_moderator, offPos);
@@ -105,41 +107,45 @@ public interface IFissionFuelComponent extends IFissionComponent {
 							moderatorEfficiency += recipe.getFissionModeratorEfficiency();
 						}
 						else {
-							IFissionFuelComponent fuelComponent = getMultiblock().getLogic() instanceof SolidFuelFissionLogic ? getMultiblock().getPartMap(TileSolidFissionCell.class).get(offPos.toLong()) : getMultiblock().getPartMap(TileSaltFissionVessel.class).get(offPos.toLong());
+							IFissionFuelComponent fuelComponent = getFuelComponent(offPos);
 							if (fuelComponent != null) {
 								fuelComponent.addFlux(moderatorFlux);
 								fuelComponent.getModeratorLineEfficiencies()[dir.getOpposite().getIndex()] = moderatorEfficiency/(i - 1);
 								fuelComponent.incrementHeatMultiplier();
 								
-								fuelComponent.refreshIsProcessing(false);
-								if (isFunctional() && fuelComponent.isFunctional()) {
-									getMultiblock().passiveModeratorCache.addAll(passiveModeratorCache);
-									getMultiblock().activeModeratorCache.add(activeModeratorPos);
-									getMultiblock().activeModeratorCache.add(offPos.offset(dir.getOpposite()).toLong());
-								}
-								else {
-									getPassiveModeratorCaches()[dir.getIndex()].addAll(passiveModeratorCache);
-									getActiveModeratorCache()[dir.getIndex()] = activeModeratorPos;
-								}
-								getAdjacentFuelComponents()[dir.getIndex()] = fuelComponent;
+								updateModeratorLine(fuelComponent, offPos, dir, passiveModeratorCache, activeModeratorPos);
+								
 								fluxSearchCache.add(fuelComponent);
 							}
-							else if (i - 1 <= NCConfig.fission_neutron_reach/2) {
-								recipe = blockRecipe(NCRecipes.fission_reflector, offPos);
-								if (recipe != null) {
-									addFlux((int) Math.round(2D*moderatorFlux*recipe.getFissionReflectorReflectivity()));
-									getModeratorLineEfficiencies()[dir.getIndex()] = recipe.getFissionReflectorEfficiency()*moderatorEfficiency/(i - 1);
-									incrementHeatMultiplier();
-									
-									if (isFunctional()) {
-										getMultiblock().passiveModeratorCache.addAll(passiveModeratorCache);
-										getMultiblock().activeModeratorCache.add(activeModeratorPos);
-										getMultiblock().activeReflectorCache.add(offPos.toLong());
+							else {
+								IFissionComponent component = getMultiblock().getPartMap(IFissionComponent.class).get(offPos.toLong());
+								if (component instanceof IFissionFluxAcceptor) {
+									IFissionFluxAcceptor fluxAcceptor = (IFissionFluxAcceptor) component;
+									if (fluxAcceptor.canAcceptFlux(dir.getOpposite())) {
+										fluxAcceptor.addFlux(moderatorFlux);
+										getModeratorLineEfficiencies()[dir.getIndex()] = fluxAcceptor.contributeEfficiency() ? moderatorEfficiency/(i - 1) : 0D;
+										incrementHeatMultiplier();
+										
+										updateModeratorLine(fluxAcceptor, offPos, dir, passiveModeratorCache, activeModeratorPos);
 									}
-									else {
-										getPassiveReflectorModeratorCaches()[dir.getIndex()].addAll(passiveModeratorCache);
-										getActiveReflectorModeratorCache()[dir.getIndex()] = activeModeratorPos;
-										getActiveReflectorCache().add(offPos.toLong());
+								}
+								else if (i - 1 <= NCConfig.fission_neutron_reach/2) {
+									recipe = blockRecipe(NCRecipes.fission_reflector, offPos);
+									if (recipe != null) {
+										addFlux((int)Math.floor(2D*moderatorFlux*recipe.getFissionReflectorReflectivity()));
+										getModeratorLineEfficiencies()[dir.getIndex()] = recipe.getFissionReflectorEfficiency()*moderatorEfficiency/(i - 1);
+										incrementHeatMultiplier();
+										
+										if (isFunctional()) {
+											getMultiblock().passiveModeratorCache.addAll(passiveModeratorCache);
+											getMultiblock().activeModeratorCache.add(activeModeratorPos);
+											getMultiblock().activeReflectorCache.add(offPos.toLong());
+										}
+										else {
+											getPassiveReflectorModeratorCaches()[dir.getIndex()].addAll(passiveModeratorCache);
+											getActiveReflectorModeratorCache()[dir.getIndex()] = activeModeratorPos;
+											getActiveReflectorCache().add(offPos.toLong());
+										}
 									}
 								}
 							}
@@ -152,13 +158,27 @@ public interface IFissionFuelComponent extends IFissionComponent {
 		}
 	}
 	
+	public default void updateModeratorLine(IFissionFluxAcceptor fluxAcceptor, BlockPos offPos, EnumFacing dir, LongSet passiveModeratorCache, long activeModeratorPos) {
+		fluxAcceptor.refreshIsProcessing(false);
+		if (isFunctional() && fluxAcceptor.isFunctional()) {
+			getMultiblock().passiveModeratorCache.addAll(passiveModeratorCache);
+			getMultiblock().activeModeratorCache.add(activeModeratorPos);
+			getMultiblock().activeModeratorCache.add(offPos.offset(dir.getOpposite()).toLong());
+		}
+		else {
+			getPassiveModeratorCaches()[dir.getIndex()].addAll(passiveModeratorCache);
+			getActiveModeratorCache()[dir.getIndex()] = activeModeratorPos;
+		}
+		getAdjacentFluxAcceptors()[dir.getIndex()] = fluxAcceptor;
+	}
+	
 	public default void refreshLocal() {
 		if (!isFunctional()) return;
 		
-		if (getMultiblock().getLogic() instanceof SolidFuelFissionLogic || getMultiblock().getLogic() instanceof MoltenSaltFissionLogic) {
+		if (getLogic() instanceof SolidFuelFissionLogic || getLogic() instanceof MoltenSaltFissionLogic) {
 			for (EnumFacing dir : EnumFacing.VALUES) {
-				IFissionFuelComponent fuelComponent = getAdjacentFuelComponents()[dir.getIndex()];
-				if (fuelComponent != null && fuelComponent.isFunctional()) {
+				IFissionFluxAcceptor fluxAcceptor = getAdjacentFluxAcceptors()[dir.getIndex()];
+				if (fluxAcceptor != null && fluxAcceptor.isFunctional()) {
 					getMultiblock().passiveModeratorCache.addAll(getPassiveModeratorCaches()[dir.getIndex()]);
 					Long posLong = getActiveModeratorCache()[dir.getIndex()];
 					if (posLong != null) {
@@ -179,10 +199,10 @@ public interface IFissionFuelComponent extends IFissionComponent {
 	public default void refreshModerators() {
 		if (!isFunctional()) return;
 		
-		if (getMultiblock().getLogic() instanceof SolidFuelFissionLogic || getMultiblock().getLogic() instanceof MoltenSaltFissionLogic) {
+		if (getLogic() instanceof SolidFuelFissionLogic || getLogic() instanceof MoltenSaltFissionLogic) {
 			for (EnumFacing dir : EnumFacing.VALUES) {
-				IFissionFuelComponent fuelComponent = getAdjacentFuelComponents()[dir.getIndex()];
-				if (fuelComponent != null && fuelComponent.isFunctional()) {
+				IFissionFluxAcceptor fluxAcceptor = getAdjacentFluxAcceptors()[dir.getIndex()];
+				if (fluxAcceptor != null && fluxAcceptor.isFunctional()) {
 					long adjPosLong = getTilePos().offset(dir).toLong();
 					if (getMultiblock().passiveModeratorCache.contains(adjPosLong)) {
 						getMultiblock().activeModeratorCache.add(adjPosLong);
@@ -190,5 +210,21 @@ public interface IFissionFuelComponent extends IFissionComponent {
 				}
 			}
 		}
+	}
+	
+	public default IFissionFuelComponent getFuelComponent(BlockPos pos) {
+		if (getLogic() instanceof SolidFuelFissionLogic) {
+			return getMultiblock().getPartMap(TileSolidFissionCell.class).get(pos.toLong());
+		}
+		else if (getLogic() instanceof MoltenSaltFissionLogic) {
+			return getMultiblock().getPartMap(TileSaltFissionVessel.class).get(pos.toLong());
+		}
+		else {
+			IFissionComponent component = getMultiblock().getPartMap(IFissionComponent.class).get(pos.toLong());
+			if (component instanceof IFissionFuelComponent) {
+				return (IFissionFuelComponent) component;
+			}
+		}
+		return null;
 	}
 }

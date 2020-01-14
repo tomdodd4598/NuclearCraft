@@ -86,8 +86,8 @@ public class TileFissionVent extends TileFissionPart implements ITileFluid {
 	@Override
 	@Nonnull
 	public List<Tank> getTanks() {
-		if (isMultiblockAssembled() && getMultiblock().getLogic() instanceof SolidFuelFissionLogic) {
-			return ((SolidFuelFissionLogic)getMultiblock().getLogic()).tanks;
+		if (isMultiblockAssembled() && getLogic() instanceof SolidFuelFissionLogic) {
+			return ((SolidFuelFissionLogic)getLogic()).tanks;
 		}
 		return backupTanks;
 	}

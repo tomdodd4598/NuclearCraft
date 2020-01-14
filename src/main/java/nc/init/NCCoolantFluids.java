@@ -78,8 +78,8 @@ public class NCCoolantFluids {
 		addMoltenPair("emerald", 0x51D975);
 		addNAKPairs("emerald", 0x51D975);
 		
-		addMoltenPair("copper", 0x5C2F1A);
-		addNAKPairs("copper", 0x5C2F1A);
+		addMoltenPair("copper", 0xAD6544);
+		addNAKPairs("copper", 0xAD6544);
 		
 		addMoltenPair("tin", 0xD9DDF0);
 		addNAKPairs("tin", 0xD9DDF0);

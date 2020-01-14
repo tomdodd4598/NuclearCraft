@@ -1,0 +1,36 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "builtin/generated",
+		"transform": "forge:default-item"
+	},
+	"variants": {
+		"type": {
+			"bismuth": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fission_dust/bismuth"
+				}
+			},
+			"radium": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fission_dust/radium"
+				}
+			},
+			"polonium": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fission_dust/polonium"
+				}
+			},
+			"tbp": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fission_dust/tbp"
+				}
+			},
+			"protactinium_233": {
+				"textures": {
+					"layer0": "nuclearcraft:items/fission_dust/protactinium_233"
+				}
+			}
+		}
+	}
+}

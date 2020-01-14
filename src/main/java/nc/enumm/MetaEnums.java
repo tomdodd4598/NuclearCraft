@@ -637,9 +637,7 @@ public class MetaEnums {
 		VILLIAUMITE("villiaumite", 8),
 		CAROBBIITE("carobbiite", 9),
 		ARSENIC("arsenic", 10),
-		END_STONE("end_stone", 11),
-		RADIUM("radium", 12),
-		POLONIUM("polonium", 13);
+		END_STONE("end_stone", 11);
 		
 		private String name;
 		private int id;
@@ -795,6 +793,37 @@ public class MetaEnums {
 		private int id;
 		
 		private UpgradeType(String name, int id) {
+			this.name = name;
+			this.id = id;
+		}
+
+		@Override
+		public String getName() {
+			return name;
+		}
+		
+		@Override
+		public String toString() {
+			return getName();
+		}
+		
+		@Override
+		public int getID() {
+			return id;
+		}
+	}
+	
+	public static enum FissionDustType implements IStringSerializable, IMetaEnum {
+		BISMUTH("bismuth", 0),
+		RADIUM("radium", 1),
+		POLONIUM("polonium", 2),
+		TBP("tbp", 3),
+		PROTACTINIUM_233("protactinium_233", 4);
+		
+		private String name;
+		private int id;
+		
+		private FissionDustType(String name, int id) {
 			this.name = name;
 			this.id = id;
 		}

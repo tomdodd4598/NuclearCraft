@@ -6,8 +6,6 @@ import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.Random;
 
-import net.minecraft.util.math.MathHelper;
-
 public class NCMath {
 	
 	private static Random rand = new Random();
@@ -95,11 +93,19 @@ public class NCMath {
 	}
 	
 	public static int floorTo(int x, int mult) {
-		return mult*MathHelper.floor(1D*x/mult);
+		return mult*(int)Math.floor(1D*x/mult);
+	}
+	
+	public static double floorTo(double x, double mult) {
+		return mult*Math.floor(1D*x/mult);
 	}
 	
 	public static int ceilTo(int x, int mult) {
-		return mult*MathHelper.ceil(1D*x/mult);
+		return mult*(int)Math.ceil(1D*x/mult);
+	}
+	
+	public static double ceilTo(double x, double mult) {
+		return mult*Math.ceil(1D*x/mult);
 	}
 	
 	public static int roundTo(int x, int mult) {

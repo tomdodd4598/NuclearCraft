@@ -1,3 +1,10 @@
+v2o.0.8
+
++ Added fission neutron irradiator and various new materials
+* Expanded fission reactor API to accommodate generic neutron flux acceptors
+
+* Tweaked copper and bronze textures
+
 v2o.0.7
 
 * Vastly improved multiblock logic NBT reading and writing

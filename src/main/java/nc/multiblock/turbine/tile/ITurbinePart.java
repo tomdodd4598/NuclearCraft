@@ -1,8 +1,9 @@
 package nc.multiblock.turbine.tile;
 
-import nc.multiblock.ITileMultiblockPart;
+import nc.multiblock.ITileLogicMultiblockPart;
 import nc.multiblock.turbine.Turbine;
+import nc.multiblock.turbine.TurbineLogic;
 
-public interface ITurbinePart extends ITileMultiblockPart<Turbine> {
+public interface ITurbinePart extends ITileLogicMultiblockPart<Turbine, TurbineLogic, ITurbinePart> {
 
 }

@@ -12,6 +12,7 @@ import nc.multiblock.fission.tile.TileFissionCasing;
 import nc.multiblock.fission.tile.TileFissionComputerPort;
 import nc.multiblock.fission.tile.TileFissionConductor;
 import nc.multiblock.fission.tile.TileFissionGlass;
+import nc.multiblock.fission.tile.TileFissionIrradiator;
 import nc.multiblock.fission.tile.TileFissionPort;
 import nc.multiblock.fission.tile.TileFissionSource;
 import nc.multiblock.fission.tile.TileFissionVent;
@@ -81,6 +82,7 @@ public class NCTiles {
 		GameRegistry.registerTileEntity(TileFissionConductor.class, Global.MOD_ID + ":fission_conductor");
 		GameRegistry.registerTileEntity(TileFissionPort.class, Global.MOD_ID + ":fission_port");
 		GameRegistry.registerTileEntity(TileFissionVent.class, Global.MOD_ID + ":fission_vent");
+		GameRegistry.registerTileEntity(TileFissionIrradiator.class, Global.MOD_ID + ":fission_irradiator");
 		GameRegistry.registerTileEntity(TileFissionSource.RadiumBeryllium.class, Global.MOD_ID + ":fission_source_" + MetaEnums.NeutronSourceType.RADIUM_BERYLLIUM.getName());
 		GameRegistry.registerTileEntity(TileFissionSource.PoloniumBeryllium.class, Global.MOD_ID + ":fission_source_" + MetaEnums.NeutronSourceType.POLONIUM_BERYLLIUM.getName());
 		GameRegistry.registerTileEntity(TileFissionSource.Californium.class, Global.MOD_ID + ":fission_source_" + MetaEnums.NeutronSourceType.CALIFORNIUM.getName());

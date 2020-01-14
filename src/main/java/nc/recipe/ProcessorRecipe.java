@@ -159,6 +159,26 @@ public class ProcessorRecipe implements IRecipe {
 		else return 0D;
 	}
 	
+	// Fission Irradiator
+	
+	public int getIrradiatorFluxRequired() {
+		if (extras.isEmpty()) return 1;
+		else if (extras.get(0) instanceof Integer) return (int) extras.get(0);
+		else return 1;
+	}
+	
+	public double getIrradiatorHeatPerFlux() {
+		if (extras.size() < 2) return 0D;
+		else if (extras.get(1) instanceof Double) return (double) extras.get(1);
+		else return 0D;
+	}
+	
+	public double getIrradiatorBaseProcessRadiation() {
+		if (extras.size() < 3) return 0D;
+		else if (extras.get(2) instanceof Double) return (double) extras.get(2);
+		else return 0D;
+	}
+	
 	// Fission
 	
 	public int getFissionFuelTime() {

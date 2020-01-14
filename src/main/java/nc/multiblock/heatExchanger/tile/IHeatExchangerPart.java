@@ -1,8 +1,9 @@
 package nc.multiblock.heatExchanger.tile;
 
-import nc.multiblock.ITileMultiblockPart;
+import nc.multiblock.ITileLogicMultiblockPart;
 import nc.multiblock.heatExchanger.HeatExchanger;
+import nc.multiblock.heatExchanger.HeatExchangerLogic;
 
-public interface IHeatExchangerPart  extends ITileMultiblockPart<HeatExchanger> {
+public interface IHeatExchangerPart  extends ITileLogicMultiblockPart<HeatExchanger, HeatExchangerLogic, IHeatExchangerPart> {
 
 }

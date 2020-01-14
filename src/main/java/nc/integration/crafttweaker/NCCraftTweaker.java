@@ -566,13 +566,38 @@ public class NCCraftTweaker {
 		}
 	}
 	
+	@ZenClass("mods.nuclearcraft.fission_irradiator")
+	@ZenRegister
+	public static class FissionIrradiatorHandler {
+		
+		@ZenMethod
+		public static void addRecipe(IIngredient input, IIngredient output, int fluxRequired, double heatPerFlux, double radiation) {
+			CraftTweakerAPI.apply(new AddProcessorRecipe(NCRecipes.fission_irradiator, Lists.newArrayList(input, output, fluxRequired, heatPerFlux, radiation)));
+		}
+		
+		@ZenMethod
+		public static void removeRecipeWithInput(IIngredient input) {
+			CraftTweakerAPI.apply(new RemoveProcessorRecipe(NCRecipes.fission_irradiator, IngredientSorption.INPUT, Lists.newArrayList(input)));
+		}
+		
+		@ZenMethod
+		public static void removeRecipeWithOutput(IIngredient output) {
+			CraftTweakerAPI.apply(new RemoveProcessorRecipe(NCRecipes.fission_irradiator, IngredientSorption.OUTPUT, Lists.newArrayList(output)));
+		}
+		
+		@ZenMethod
+		public static void removeAllRecipes() {
+			CraftTweakerAPI.apply(new RemoveAllProcessorRecipes(NCRecipes.fission_irradiator));
+		}
+	}
+	
 	@ZenClass("mods.nuclearcraft.solid_fission")
 	@ZenRegister
 	public static class SolidFissionHandler {
 		
 		@ZenMethod
-		public static void addRecipe(IIngredient input, IIngredient output, int time, int power, double efficiency, int criticality, boolean selfPriming, double radiation) {
-			CraftTweakerAPI.apply(new AddProcessorRecipe(NCRecipes.solid_fission, Lists.newArrayList(input, output, time, power, efficiency, criticality, selfPriming, radiation)));
+		public static void addRecipe(IIngredient input, IIngredient output, int time, int heat, double efficiency, int criticality, boolean selfPriming, double radiation) {
+			CraftTweakerAPI.apply(new AddProcessorRecipe(NCRecipes.solid_fission, Lists.newArrayList(input, output, time, heat, efficiency, criticality, selfPriming, radiation)));
 		}
 		
 		@ZenMethod
@@ -622,8 +647,8 @@ public class NCCraftTweaker {
 	public static class SaltFissionHandler {
 		
 		@ZenMethod
-		public static void addRecipe(IIngredient input, IIngredient output, int time, int power, double efficiency, int criticality, boolean selfPriming, double radiation) {
-			CraftTweakerAPI.apply(new AddProcessorRecipe(NCRecipes.salt_fission, Lists.newArrayList(input, output, time, power, efficiency, criticality, selfPriming, radiation)));
+		public static void addRecipe(IIngredient input, IIngredient output, int time, int heat, double efficiency, int criticality, boolean selfPriming, double radiation) {
+			CraftTweakerAPI.apply(new AddProcessorRecipe(NCRecipes.salt_fission, Lists.newArrayList(input, output, time, heat, efficiency, criticality, selfPriming, radiation)));
 		}
 		
 		@ZenMethod

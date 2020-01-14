@@ -17,6 +17,7 @@ import nc.multiblock.fission.tile.IFissionComponent;
 import nc.multiblock.fission.tile.IFissionController;
 import nc.multiblock.fission.tile.IFissionSpecialComponent;
 import nc.multiblock.fission.tile.TileFissionConductor;
+import nc.multiblock.fission.tile.TileFissionIrradiator;
 import nc.multiblock.fission.tile.TileFissionPort;
 import nc.multiblock.fission.tile.TileFissionSource;
 import nc.multiblock.fission.tile.TileFissionVent;
@@ -46,7 +47,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 
-public abstract class MultiblockLogic<MULTIBLOCK extends Multiblock<PACKET> & ILogicMultiblock<?, T>, T extends ITileMultiblockPart, PACKET extends MultiblockUpdatePacket> {
+public abstract class MultiblockLogic<MULTIBLOCK extends Multiblock<PACKET> & ILogicMultiblock<?, T>, T extends ITileLogicMultiblockPart, PACKET extends MultiblockUpdatePacket> {
 	
 	protected final MULTIBLOCK multiblock;
 	
@@ -147,6 +148,7 @@ public abstract class MultiblockLogic<MULTIBLOCK extends Multiblock<PACKET> & IL
 		FissionReactor.PART_CLASSES.add(TileFissionConductor.class);
 		FissionReactor.PART_CLASSES.add(TileFissionPort.class);
 		FissionReactor.PART_CLASSES.add(TileFissionVent.class);
+		FissionReactor.PART_CLASSES.add(TileFissionIrradiator.class);
 		FissionReactor.PART_CLASSES.add(TileFissionSource.class);
 		FissionReactor.PART_CLASSES.add(TileSolidFissionCell.class);
 		FissionReactor.PART_CLASSES.add(TileSolidFissionSink.class);

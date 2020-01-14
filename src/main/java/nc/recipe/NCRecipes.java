@@ -10,6 +10,7 @@ import nc.recipe.generator.FusionRecipes;
 import nc.recipe.multiblock.CondenserRecipes;
 import nc.recipe.multiblock.CoolantHeaterRecipes;
 import nc.recipe.multiblock.FissionHeatingRecipes;
+import nc.recipe.multiblock.FissionIrradiatorRecipes;
 import nc.recipe.multiblock.FissionModeratorRecipes;
 import nc.recipe.multiblock.FissionReflectorRecipes;
 import nc.recipe.multiblock.HeatExchangerRecipes;
@@ -73,6 +74,7 @@ public class NCRecipes {
 	public static DecayGeneratorRecipes decay_generator;
 	public static FissionModeratorRecipes fission_moderator;
 	public static FissionReflectorRecipes fission_reflector;
+	public static FissionIrradiatorRecipes fission_irradiator;
 	public static SolidFissionRecipes solid_fission;
 	public static FissionHeatingRecipes fission_heating;
 	public static SaltFissionRecipes salt_fission;
@@ -114,6 +116,7 @@ public class NCRecipes {
 		decay_generator = new DecayGeneratorRecipes();
 		fission_moderator = new FissionModeratorRecipes();
 		fission_reflector = new FissionReflectorRecipes();
+		fission_irradiator = new FissionIrradiatorRecipes();
 		solid_fission = new SolidFissionRecipes();
 		fission_heating = new FissionHeatingRecipes();
 		salt_fission = new SaltFissionRecipes();
@@ -201,6 +204,7 @@ public class NCRecipes {
 		decay_generator.refreshCache();
 		fission_moderator.refreshCache();
 		fission_reflector.refreshCache();
+		fission_irradiator.refreshCache();
 		solid_fission.refreshCache();
 		fission_heating.refreshCache();
 		salt_fission.refreshCache();

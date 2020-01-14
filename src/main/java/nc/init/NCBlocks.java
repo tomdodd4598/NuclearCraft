@@ -25,6 +25,7 @@ import nc.multiblock.fission.block.BlockFissionCasing;
 import nc.multiblock.fission.block.BlockFissionComputerPort;
 import nc.multiblock.fission.block.BlockFissionConductor;
 import nc.multiblock.fission.block.BlockFissionGlass;
+import nc.multiblock.fission.block.BlockFissionIrradiator;
 import nc.multiblock.fission.block.BlockFissionPort;
 import nc.multiblock.fission.block.BlockFissionSource;
 import nc.multiblock.fission.block.BlockFissionVent;
@@ -137,6 +138,7 @@ public class NCBlocks {
 	public static Block fission_reflector;
 	public static Block fission_port;
 	public static Block fission_vent;
+	public static Block fission_irradiator;
 	public static Block fission_source;
 	public static Block fission_computer_port;
 	
@@ -264,6 +266,7 @@ public class NCBlocks {
 		fission_reflector = withName(new BlockMeta.BlockFissionReflector(), "fission_reflector");
 		fission_port = withName(new BlockFissionPort(), "fission_port");
 		fission_vent = withName(new BlockFissionVent(), "fission_vent");
+		fission_irradiator = withName(new BlockFissionIrradiator(), "fission_irradiator");
 		fission_source = withName(new BlockFissionSource(), "fission_source");
 		fission_computer_port = withName(new BlockFissionComputerPort(), "fission_computer_port");
 		
@@ -397,6 +400,7 @@ public class NCBlocks {
 		registerBlock(fission_reflector, new ItemBlockMeta(fission_reflector, MetaEnums.NeutronReflectorType.class, TextFormatting.AQUA));
 		registerBlock(fission_port);
 		registerBlock(fission_vent);
+		registerBlock(fission_irradiator);
 		registerBlock(fission_source, new ItemBlockMeta(fission_source, MetaEnums.NeutronSourceType.class, TextFormatting.LIGHT_PURPLE, NCInfo.neutronSourceFixedInfo(), TextFormatting.AQUA, NCInfo.neutronSourceInfo()));
 		registerBlock(fission_computer_port);
 		
@@ -539,6 +543,7 @@ public class NCBlocks {
 		}
 		registerRender(fission_port);
 		registerRender(fission_vent);
+		registerRender(fission_irradiator);
 		for (int i = 0; i < MetaEnums.NeutronSourceType.values().length; i++) {
 			ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(fission_source), i, new ModelResourceLocation(new ResourceLocation(Global.MOD_ID, fission_source.getRegistryName().getPath()), "active=false,facing=south,type=" + MetaEnums.NeutronSourceType.values()[i].getName()));
 		}

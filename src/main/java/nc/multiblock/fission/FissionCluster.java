@@ -10,6 +10,7 @@ import nc.multiblock.fission.solid.SolidFuelFissionLogic;
 import nc.multiblock.fission.tile.IFissionComponent;
 import nc.multiblock.fission.tile.IFissionCoolingComponent;
 import nc.multiblock.fission.tile.IFissionFuelComponent;
+import nc.multiblock.fission.tile.IFissionHeatingComponent;
 import nc.tile.internal.heat.HeatBuffer;
 
 public class FissionCluster {
@@ -54,13 +55,14 @@ public class FissionCluster {
 			for (IFissionComponent component : componentMap.values()) {
 				if (component.isFunctional()) {
 					componentCount++;
-					if (component instanceof IFissionFuelComponent) {
-						IFissionFuelComponent fuelComponent = (IFissionFuelComponent) component;
-						fuelComponentCount++;
-						rawHeating += fuelComponent.getRawHeating();
-						effectiveHeating += fuelComponent.getEffectiveHeating();
-						totalHeatMult += fuelComponent.getHeatMultiplier();
-						totalEfficiency += fuelComponent.getEfficiency();
+					if (component instanceof IFissionHeatingComponent) {
+						rawHeating += ((IFissionHeatingComponent)component).getRawHeating();
+						effectiveHeating += ((IFissionHeatingComponent)component).getEffectiveHeating();
+						if (component instanceof IFissionFuelComponent) {
+							fuelComponentCount++;
+							totalHeatMult += ((IFissionFuelComponent)component).getHeatMultiplier();
+							totalEfficiency += ((IFissionFuelComponent)component).getEfficiency();
+						}
 					}
 					if (component instanceof IFissionCoolingComponent) {
 						cooling += ((IFissionCoolingComponent)component).getCooling();

@@ -476,6 +476,52 @@ public class JEIRecipeWrapper {
 		}
 	}
 	
+public static class FissionIrradiator extends JEIRecipeWrapperAbstract<FissionIrradiator> {
+		
+		public FissionIrradiator(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {
+			super(guiHelper, jeiHandler, recipeHandler, recipe, 47, 30, 176, 3, 37, 16, 74, 35);
+		}
+		
+		@Override
+		protected int getProgressArrowTime() {
+			return (int) (getIrradiatorFluxRequired()/8000D);
+		}
+		
+		protected int getIrradiatorFluxRequired() {
+			if (recipe == null) return 1;
+			return recipe.getIrradiatorFluxRequired();
+		}
+		
+		protected double getIrradiatorHeatPerFlux() {
+			if (recipe == null) return 0D;
+			return recipe.getIrradiatorHeatPerFlux();
+		}
+		
+		protected double getIrradiatorBaseProcessRadiation() {
+			if (recipe == null) return 0D;
+			return recipe.getIrradiatorBaseProcessRadiation();
+		}
+		
+		@Override
+		public List<String> getTooltipStrings(int mouseX, int mouseY) {
+			List<String> tooltip = new ArrayList<String>();
+			
+			if (mouseX >= 73 - 47 && mouseY >= 34 - 30 && mouseX < 73 - 47 + 37 + 1 && mouseY < 34 - 30 + 18 + 1) {
+				tooltip.add(TextFormatting.RED + FLUX_REQUIRED + " " + TextFormatting.WHITE + UnitHelper.prefix(getIrradiatorFluxRequired(), 5, "N"));
+				double heatPerFlux = getIrradiatorHeatPerFlux();
+				if (heatPerFlux > 0D) tooltip.add(TextFormatting.YELLOW + HEAT_PER_FLUX + " " + TextFormatting.WHITE + UnitHelper.prefix(heatPerFlux, 5, "H/t/N"));
+				double radiation = getIrradiatorBaseProcessRadiation();
+				if (radiation > 0D) tooltip.add(TextFormatting.GOLD + FUEL_RADIATION + " " + RadiationHelper.radsColoredPrefix(radiation, true));
+			}
+			
+			return tooltip;
+		}
+		
+		private static final String FLUX_REQUIRED = Lang.localise("jei.nuclearcraft.irradiator_flux_required");
+		private static final String HEAT_PER_FLUX = Lang.localise("jei.nuclearcraft.irradiator_heat_per_flux");
+		private static final String FUEL_RADIATION = Lang.localise("jei.nuclearcraft.base_process_radiation");
+	}
+	
 	public static class SolidFission extends JEIRecipeWrapperAbstract<SolidFission> {
 		
 		public SolidFission(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe) {

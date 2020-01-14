@@ -148,6 +148,7 @@ tile.nuclearcraft.fission_glass.name=Fission Reactor Glass
 tile.nuclearcraft.fission_conductor.name=Fission Reactor Conductor
 tile.nuclearcraft.fission_port.name=Fission Reactor Port (WIP)
 tile.nuclearcraft.fission_vent.name=Fission Reactor Vent
+tile.nuclearcraft.fission_irradiator.name=Fission Reactor Neutron Irradiator
 tile.nuclearcraft.fission_source.radium_beryllium.name=Ra-Be Fission Reactor Neutron Source
 tile.nuclearcraft.fission_source.polonium_beryllium.name=Po-Be Fission Reactor Neutron Source
 tile.nuclearcraft.fission_source.californium.name=Cf-252 Fission Reactor Neutron Source
@@ -1436,8 +1437,6 @@ item.nuclearcraft.gem_dust.villiaumite.name=Crushed Villiaumite
 item.nuclearcraft.gem_dust.carobbiite.name=Crushed Carobbiite
 item.nuclearcraft.gem_dust.arsenic.name=Crushed Arsenic
 item.nuclearcraft.gem_dust.end_stone.name=Crushed End Stone
-item.nuclearcraft.gem_dust.radium.name=Radium Dust
-item.nuclearcraft.gem_dust.polonium.name=Polonium Dust
 
 item.nuclearcraft.alloy.bronze.name=Bronze Ingot
 item.nuclearcraft.alloy.tough.name=Tough Alloy
@@ -1492,6 +1491,12 @@ item.nuclearcraft.upgrade.speed_desc=Increases the processing speed of machines 
 item.nuclearcraft.upgrade.energy.name=Energy Upgrade
 item.nuclearcraft.upgrade.energy_desc=Decreases the processing power of machines. These upgrades can be stacked, but the maximum number that will have an effect is equal to the number of installed speed upgrades. The power use will decrease %s with each additional upgrade.
 info.nuclearcraft.approximately=approximately
+
+item.nuclearcraft.fission_dust.bismuth.name=Bismuth Dust
+item.nuclearcraft.fission_dust.radium.name=Radium Dust
+item.nuclearcraft.fission_dust.polonium.name=Polonium Dust
+item.nuclearcraft.fission_dust.tbp.name=Protactinium-Enriched Thorium Dust
+item.nuclearcraft.fission_dust.protactinium_233.name=Protactinium-233 Dust
 
 item.nuclearcraft.uranium.233.name=Uranium-233
 item.nuclearcraft.uranium.233_c.name=Uranium-233 Carbide
@@ -2056,6 +2061,9 @@ jei.nuclearcraft.base_process_power=Base process power:
 jei.nuclearcraft.base_process_radiation=Base process radiation:
 
 jei.nuclearcraft.collector_production_rate=Production rate:
+
+jei.nuclearcraft.irradiator_flux_required=Flux required:
+jei.nuclearcraft.irradiator_heat_per_flux=Heat gen per flux:
 
 jei.nuclearcraft.solid_fuel_time=Base depletion time:
 jei.nuclearcraft.solid_fuel_heat=Base heat gen:
@@ -2917,6 +2925,7 @@ nuclearcraft.multiblock_validation.turbine.missing_blades=Each section of the ro
 nuclearcraft.collector.jei_name=Collector
 nuclearcraft.multiblock_gui.fission_moderator.jei_name=Fission Moderator
 nuclearcraft.multiblock_gui.fission_reflector.jei_name=Fission Reflector
+nuclearcraft.multiblock_gui.fission_irradiator.jei_name=Fission Irradiator
 nuclearcraft.multiblock_gui.solid_fission.jei_name=Solid Fuel Fission
 nuclearcraft.fission_moderator.jei_name=Fission Moderators
 nuclearcraft.fission_reflector.jei_name=Fission Reflectors

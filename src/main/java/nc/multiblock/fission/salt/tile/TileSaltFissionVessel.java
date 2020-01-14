@@ -23,6 +23,7 @@ import nc.multiblock.fission.FissionCluster;
 import nc.multiblock.fission.FissionReactor;
 import nc.multiblock.fission.salt.SaltFissionVesselSetting;
 import nc.multiblock.fission.tile.IFissionComponent;
+import nc.multiblock.fission.tile.IFissionFluxAcceptor;
 import nc.multiblock.fission.tile.IFissionFuelComponent;
 import nc.multiblock.fission.tile.TileFissionPart;
 import nc.radiation.RadiationHelper;
@@ -85,7 +86,7 @@ public class TileSaltFissionVessel extends TileFissionPart implements IFluidGene
 	protected double undercoolingLifetimeFactor = 1D;
 	protected Double sourceEfficiency = null;
 	protected Double[] moderatorLineEfficiencies = new Double[] {null, null, null, null, null, null};
-	protected IFissionFuelComponent[] adjacentFuelComponents = new IFissionFuelComponent[] {null, null, null, null, null, null};
+	protected IFissionFluxAcceptor[] adjacentFluxAcceptors = new IFissionFluxAcceptor[] {null, null, null, null, null, null};
 	protected final LongSet[] passiveModeratorCaches = new LongSet[] {new LongOpenHashSet(), new LongOpenHashSet(), new LongOpenHashSet(), new LongOpenHashSet(), new LongOpenHashSet(), new LongOpenHashSet()};
 	protected final Long[] activeModeratorCache = new Long[] {null, null, null, null, null, null};
 	protected final LongSet[] passiveReflectorModeratorCaches = new LongSet[] {new LongOpenHashSet(), new LongOpenHashSet(), new LongOpenHashSet(), new LongOpenHashSet(), new LongOpenHashSet(), new LongOpenHashSet()};
@@ -144,7 +145,7 @@ public class TileSaltFissionVessel extends TileFissionPart implements IFluidGene
 		sourceEfficiency = null;
 		for (EnumFacing dir : EnumFacing.VALUES) {
 			moderatorLineEfficiencies[dir.getIndex()] = null;
-			adjacentFuelComponents[dir.getIndex()] = null;
+			adjacentFluxAcceptors[dir.getIndex()] = null;
 			passiveModeratorCaches[dir.getIndex()].clear();
 			activeModeratorCache[dir.getIndex()] = null;
 			passiveReflectorModeratorCaches[dir.getIndex()].clear();
@@ -225,8 +226,8 @@ public class TileSaltFissionVessel extends TileFissionPart implements IFluidGene
 	}
 	
 	@Override
-	public IFissionFuelComponent[] getAdjacentFuelComponents() {
-		return adjacentFuelComponents;
+	public IFissionFluxAcceptor[] getAdjacentFluxAcceptors() {
+		return adjacentFluxAcceptors;
 	}
 	
 	@Override
