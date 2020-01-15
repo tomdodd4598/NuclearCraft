@@ -1,9 +1,8 @@
 package nc.container.processor;
 
 import nc.container.ContainerTile;
-import nc.container.SlotFurnace;
-import nc.container.SlotNuclearFuel;
-import nc.tile.inventory.ITileInventory;
+import nc.container.slot.SlotFurnace;
+import nc.container.slot.SlotNuclearFuel;
 import nc.tile.processor.TileNuclearFurnace;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IContainerListener;
@@ -11,13 +10,13 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 
-public class ContainerNuclearFurnace extends ContainerTile {
+public class ContainerNuclearFurnace extends ContainerTile<TileNuclearFurnace> {
 	private int cookTime;
 	private int totalCookTime;
 	private int furnaceBurnTime;
 	private int currentItemBurnTime;
 	
-	public ContainerNuclearFurnace(EntityPlayer player, ITileInventory tile) {
+	public ContainerNuclearFurnace(EntityPlayer player, TileNuclearFurnace tile) {
 		super(tile);
 		addSlotToContainer(new Slot(tile.getInventory(), 0, 56, 17));
 		addSlotToContainer(new SlotNuclearFuel(tile, 1, 56, 53));

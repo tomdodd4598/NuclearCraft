@@ -52,7 +52,7 @@ tile.nuclearcraft.fertile_isotope.californium.name=Californium-252 Block
 tile.nuclearcraft.supercold_ice.name=Supercold Ice
 
 tile.nuclearcraft.nuclear_furnace.name=Nuclear Furnace
-tile.nuclearcraft.nuclear_furnace.desc=Smelts items very quickly using uranium and thorium ingots and dust as fuel.
+tile.nuclearcraft.nuclear_furnace.desc=Smelts items very quickly using uranium ingots and dust as fuel.
 
 tile.nuclearcraft.manufactory.name=Manufactory
 tile.nuclearcraft.manufactory.desc=A handy machine that has many uses.
@@ -149,6 +149,7 @@ tile.nuclearcraft.fission_conductor.name=Fission Reactor Conductor
 tile.nuclearcraft.fission_port.name=Fission Reactor Port (WIP)
 tile.nuclearcraft.fission_vent.name=Fission Reactor Vent
 tile.nuclearcraft.fission_irradiator.name=Fission Reactor Neutron Irradiator
+info.nuclearcraft.fission_irradiator.fixd=Efficiency Multiplier: %s
 tile.nuclearcraft.fission_source.radium_beryllium.name=Ra-Be Fission Reactor Neutron Source
 tile.nuclearcraft.fission_source.polonium_beryllium.name=Po-Be Fission Reactor Neutron Source
 tile.nuclearcraft.fission_source.californium.name=Cf-252 Fission Reactor Neutron Source
@@ -2804,6 +2805,8 @@ nuclearcraft.container.nitrogen_collector_dense=Dense Nitrogen Collector
 
 nuclearcraft.container.radiation_scrubber=Radiation Scrubber
 
+gui.nc.container.no_cluster=No cluster!
+
 gui.nc.container.fission_controller.clusters=Number of Clusters:
 gui.nc.container.fission_controller.sparsity=Sparsity Efficiency Mult:
 gui.nc.container.fission_controller.useful_parts=Useful Components:
@@ -2819,6 +2822,9 @@ gui.nc.container.fission_controller.heat_stored=Casing Heat Level:
 gui.nc.container.solid_fission_controller.reactor=Solid Fuel Reactor (WIP)
 gui.nc.container.solid_fission_controller.efficiency=Mean Efficiency:
 gui.nc.container.solid_fission_controller.output_rate=Production Rate:
+gui.nc.container.solid_fission_cell.cell=Fission Fuel Cell
+
+gui.nc.container.solid_fission_cell.heat_stored=Cluster Heat Level:
 
 gui.nc.container.fusion_core.reactor=Fusion Reactor
 gui.nc.container.fusion_core.ring_incomplete=Ring Incomplete
@@ -2869,7 +2875,7 @@ gui.nc.container.process_power=Process Power:
 gui.nc.container.power_gen=Power Gen:
 gui.nc.container.speed_multiplier=Speed Multiplier:
 gui.nc.container.power_multiplier=Power Multiplier:
-gui.nc.container.no_energy=Does not require energy
+gui.nc.container.no_energy=Does not require energy!
 gui.nc.container.shift_clear_tank=Shift Click to clear tank
 gui.nc.container.change_tanks_mode=Prevent Input Overflow
 gui.nc.container.void_leftover_fluid=Void Leftover Fluid
@@ -3144,6 +3150,8 @@ modifier.uplifting_armor.name=Uplifting
 modifier.uplifting_armor.desc=§oI bid you stand!§r\nOccasionally regenerates health when hit.
 modifier.withering_armor.name=Withering
 modifier.withering_armor.desc=§oDeath makes monsters of us all.§r\nWithers enemies on contact.
+
+message.nuclearcraft.filter=Set filter to:
 
 message.nuclearcraft.rad_x_wore_off=Your Rad-X wore off...
 message.nuclearcraft.rad_warning=A nasty metallic taste develops in the mouth and a painful headache begins to build... you are suffering from radiation poisoning! It would be wise to get hold of a Geiger counter to discern the severity of the situation...

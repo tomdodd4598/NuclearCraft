@@ -83,7 +83,7 @@ public abstract class NCTile extends TileEntity implements ITickable, ITile {
 	
 	@Override
 	public ITextComponent getDisplayName() {
-		if (getBlockType() != null) return new TextComponentTranslation(getBlockType().getLocalizedName()); else return null;
+		return getBlockType() == null ? null : new TextComponentTranslation(getBlockType().getLocalizedName());
 	}
 	
 	@Override
@@ -98,9 +98,8 @@ public abstract class NCTile extends TileEntity implements ITickable, ITile {
 		}
 	}
 	
-	/** Never override this! */
 	@Override
-	public void markTileDirty() {
+	public final void markTileDirty() {
 		markDirty();
 	}
 	

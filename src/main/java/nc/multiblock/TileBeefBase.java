@@ -17,6 +17,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.client.FMLClientHandler;
@@ -85,6 +87,11 @@ public abstract class TileBeefBase extends TileEntity implements ITile, ITickabl
 	@Override
 	public IRadiationSource getRadiationSource() {
 		return radiation;
+	}
+	
+	@Override
+	public ITextComponent getDisplayName() {
+		return getBlockType() == null ? null : new TextComponentTranslation(getBlockType().getLocalizedName());
 	}
 	
 	public boolean isUseableByPlayer(EntityPlayer entityplayer) {

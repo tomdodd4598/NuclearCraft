@@ -1,5 +1,6 @@
 package nc.util;
 
+import java.util.List;
 import java.util.Random;
 
 import net.minecraft.entity.Entity;
@@ -37,6 +38,23 @@ public class NCInventoryHelper {
 				if (!itemstack.isEmpty()) {
 					spawnItemStack(world, x, y, z, itemstack);
 				}
+			}
+		}
+	}
+	
+	public static void dropInventoryItems(World worldIn, BlockPos pos, List<ItemStack> stacks) {
+		dropInventoryItems(worldIn, pos.getX(), pos.getY(), pos.getZ(), stacks);
+	}
+
+	public static void dropInventoryItems(World worldIn, Entity entityAt, List<ItemStack> stacks) {
+		dropInventoryItems(worldIn, entityAt.posX, entityAt.posY, entityAt.posZ, stacks);
+	}
+
+	private static void dropInventoryItems(World worldIn, double x, double y, double z, List<ItemStack> stacks) {
+		for (int i = 0; i < stacks.size(); ++i) {
+			ItemStack itemstack = stacks.get(i);
+			if (!itemstack.isEmpty()) {
+				spawnItemStack(worldIn, x, y, z, itemstack);
 			}
 		}
 	}

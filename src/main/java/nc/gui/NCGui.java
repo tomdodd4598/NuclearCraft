@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
+import nc.container.slot.SlotFiltered;
 import nc.gui.element.NCButton;
 import nc.tile.energy.ITileEnergy;
 import nc.tile.internal.fluid.Tank;
@@ -16,6 +17,7 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.Container;
+import net.minecraft.inventory.Slot;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -38,6 +40,19 @@ public abstract class NCGui extends GuiContainer {
 		super.drawScreen(mouseX, mouseY, partialTicks);
 		renderHoveredToolTip(mouseX, mouseY);
 		renderTooltips(mouseX, mouseY);
+	}
+	
+	@Override
+	protected void renderHoveredToolTip(int x, int y) {
+		Slot slot = getSlotUnderMouse();
+		if (slot != null && mc.player.inventory.getItemStack().isEmpty()) {
+			if (slot instanceof SlotFiltered && ((SlotFiltered)slot).hasStackForRender()) {
+				renderToolTip(((SlotFiltered)slot).getStackForRender(), x, y);
+			}
+			else if (slot.getHasStack()) {
+				renderToolTip(slot.getStack(), x, y);
+			}
+		}
 	}
 	
 	public void renderTooltips(int mouseX, int mouseY) {}
@@ -94,7 +109,7 @@ public abstract class NCGui extends GuiContainer {
 	protected List<String> fluidInfo(Tank tank) {
 		String fluidName = tank.getFluidLocalizedName();
 		String fluidAmount = UnitHelper.prefix(tank.getFluidAmount(), tank.getCapacity(), 5, "B", -1);
-		return Lists.newArrayList(TextFormatting.GREEN + fluidName + TextFormatting.WHITE + " [" + fluidAmount + "]", TextFormatting.ITALIC + Lang.localise("gui.container.shift_clear_tank"));
+		return Lists.newArrayList(TextFormatting.GREEN + fluidName + TextFormatting.WHITE + " [" + fluidAmount + "]", TextFormatting.ITALIC + Lang.localise("gui.nc.container.shift_clear_tank"));
 	}
 	
 	protected void drawFluidTooltip(Tank tank, int mouseX, int mouseY, int x, int y, int width, int height) {
@@ -108,7 +123,7 @@ public abstract class NCGui extends GuiContainer {
 	}
 	
 	protected List<String> noEnergyInfo() {
-		return Lists.newArrayList(TextFormatting.RED + Lang.localise("gui.container.no_energy"));
+		return Lists.newArrayList(TextFormatting.RED + Lang.localise("gui.nc.container.no_energy"));
 	}
 	
 	protected void drawEnergyTooltip(ITileEnergy tile, int mouseX, int mouseY, int x, int y, int width, int height) {

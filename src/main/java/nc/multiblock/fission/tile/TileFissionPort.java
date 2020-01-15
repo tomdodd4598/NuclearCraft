@@ -1,15 +1,19 @@
 package nc.multiblock.fission.tile;
 
 import static nc.block.property.BlockProperties.AXIS_ALL;
+import static nc.util.BlockPosHelper.DEFAULT_NON;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import com.google.common.collect.Lists;
 
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+import it.unimi.dsi.fastutil.objects.ObjectSet;
 import nc.Global;
 import nc.ModCheck;
 import nc.config.NCConfig;
@@ -19,8 +23,10 @@ import nc.multiblock.fission.salt.SaltFissionHeaterSetting;
 import nc.multiblock.fission.salt.SaltFissionVesselSetting;
 import nc.multiblock.fission.salt.tile.TileSaltFissionHeater;
 import nc.multiblock.fission.salt.tile.TileSaltFissionVessel;
-import nc.multiblock.fission.solid.tile.TileSolidFissionCell;
+import nc.multiblock.network.FissionPortUpdatePacket;
+import nc.recipe.NCRecipes;
 import nc.recipe.ProcessorRecipeHandler;
+import nc.tile.ITileGui;
 import nc.tile.fluid.ITileFluid;
 import nc.tile.internal.fluid.FluidConnection;
 import nc.tile.internal.fluid.FluidTileWrapper;
@@ -32,12 +38,14 @@ import nc.tile.internal.inventory.InventoryConnection;
 import nc.tile.internal.inventory.InventoryTileWrapper;
 import nc.tile.internal.inventory.ItemOutputSetting;
 import nc.tile.internal.inventory.ItemSorption;
+import nc.tile.inventory.ITileFilteredInventory;
 import nc.tile.inventory.ITileInventory;
-import nc.util.BlockPosHelper;
 import nc.util.FluidStackHelper;
 import nc.util.GasHelper;
+import nc.util.NBTHelper;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.inventory.ItemStackHelper;
+import net.minecraft.client.util.RecipeItemHelper;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -49,17 +57,18 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
 
-public class TileFissionPort extends TileFissionPart implements ITileInventory, ITileFluid {
+public class TileFissionPort extends TileFissionPart implements ITileFilteredInventory, ITileFluid, ITileGui<FissionPortUpdatePacket> {
 	
 	private final @Nonnull String inventoryName = Global.MOD_ID + ".container.fission_port";
 	
 	private final @Nonnull NonNullList<ItemStack> inventoryStacks = NonNullList.<ItemStack>withSize(2, ItemStack.EMPTY);
+	private final @Nonnull NonNullList<ItemStack> filterStacks = NonNullList.<ItemStack>withSize(2, ItemStack.EMPTY);
 	
 	private @Nonnull InventoryConnection[] inventoryConnections = ITileInventory.inventoryConnectionAll(Lists.newArrayList(ItemSorption.IN, ItemSorption.OUT));
 	
 	private @Nonnull InventoryTileWrapper invWrapper;
 	public int inventoryStackLimit = 64;
-	public ProcessorRecipeHandler recipe_handler = null;
+	public ProcessorRecipeHandler recipe_handler = NCRecipes.solid_fission;
 	
 	private final @Nonnull List<Tank> tanks = Lists.newArrayList(new Tank(FluidStackHelper.INGOT_BLOCK_VOLUME, null), new Tank(FluidStackHelper.INGOT_BLOCK_VOLUME, null));
 	
@@ -69,9 +78,12 @@ public class TileFissionPort extends TileFissionPart implements ITileInventory, 
 	
 	private @Nonnull GasTileWrapper gasWrapper;
 	
-	protected BlockPos masterPortPos = BlockPosHelper.DEFAULT_NON;
+	protected BlockPos masterPortPos = DEFAULT_NON;
 	protected TileFissionPort masterPort = null;
-	public boolean refreshCellsFlag = false;
+	public ObjectSet<IFissionPortConnector> connectedParts = new ObjectOpenHashSet<>();
+	public boolean refreshPartsFlag = false;
+	
+	protected Set<EntityPlayer> playersToUpdate;
 	
 	//protected int portCount;
 	
@@ -80,6 +92,8 @@ public class TileFissionPort extends TileFissionPart implements ITileInventory, 
 		invWrapper = new InventoryTileWrapper(this);
 		fluidSides = ITileFluid.getDefaultFluidSides(this);
 		gasWrapper = new GasTileWrapper(this);
+		
+		playersToUpdate = new ObjectOpenHashSet<EntityPlayer>();
 	}
 	
 	@Override
@@ -96,7 +110,7 @@ public class TileFissionPort extends TileFissionPart implements ITileInventory, 
 		super.onMachineBroken();
 		
 		//TODO - temporary ports
-		/*if (!getWorld().isRemote && masterPort != null) {
+		/*if (!getWorld().isRemote && !DEFAULT_NON.equals(masterPortPos)) {
 			TileFissionPort master = masterPort;
 			clearMasterPort();
 			master.shiftStacks(this);
@@ -116,72 +130,56 @@ public class TileFissionPort extends TileFissionPart implements ITileInventory, 
 		masterPortPos = pos;
 	}
 	
-	public TileFissionPort getMasterPort() {
-		return masterPort;
-	}
-	
 	public void clearMasterPort() {
 		masterPort = null;
-		masterPortPos = BlockPosHelper.DEFAULT_NON;
+		masterPortPos = DEFAULT_NON;
 	}
 	
 	public void refreshMasterPort() {
-		if (getMultiblock() != null) {
-			masterPort = getMultiblock().getPartMap(TileFissionPort.class).get(masterPortPos.toLong());
-			if (masterPort == null) masterPortPos = BlockPosHelper.DEFAULT_NON;
-		}
-	}
-	
-	public void shiftStacks(TileFissionPort port) {
-		NonNullList<ItemStack> stacks = getInventoryStacks(), otherStacks = port.getInventoryStacks();
-		if (stacks != otherStacks) {
-			for (int i = 0; i < stacks.size(); i++) {
-				if (otherStacks.get(i).isEmpty()) {
-					if (!stacks.get(i).isEmpty()) {
-						otherStacks.set(i, stacks.get(i).copy());
-					}
-					stacks.set(i, ItemStack.EMPTY);
-				}
-				else if (otherStacks.get(i).isItemEqual(stacks.get(i))) {
-					otherStacks.get(i).grow(stacks.get(i).getCount());
-					stacks.set(i, ItemStack.EMPTY);
-				}
-			}
-		}
+		masterPort = getMultiblock() == null ? null : getMultiblock().getPartMap(TileFissionPort.class).get(masterPortPos.toLong());
+		if (masterPort == null) masterPortPos = DEFAULT_NON;
 	}
 	
 	//TODO - temporary ports
-	protected void refreshConnectedCells(/*boolean refreshRecipe, boolean refreshIsProcessing*/) {
-		refreshCellsFlag = false;
+	protected void refreshConnectedParts() {
+		refreshPartsFlag = false;
 		if (isMultiblockAssembled()) {
 			boolean refresh = false;
-			for (TileSolidFissionCell cell : getMultiblock().getPartMap(TileSolidFissionCell.class).values()) {
-				if (cell.getMasterPortPos() != null && (cell.getMasterPortPos().equals(pos) || cell.getMasterPortPos().equals(masterPortPos))) {
-					/*if (refreshRecipe)*/ cell.refreshRecipe();
-					cell.refreshActivity();
-					/*if (refreshIsProcessing)*/ cell.refreshIsProcessing(cell.isFunctional());
-					
-					if (!refresh && (cell.isFunctional() ^ cell.readyToProcess(false))) {
-						refresh = true;
-					}
-				}
+			for (IFissionPortConnector part : connectedParts) {
+				refresh = refresh || part.onPortRefresh();
 			}
 			if (refresh) getMultiblock().refreshFlag = true;
 		}
 	}
 	
 	@Override
+	public void onFilterChanged(int slot) {
+		if (getMultiblock() != null && !getMultiblock().isAssembled()) {
+			getMultiblock().getLogic().refreshPorts();
+		}
+		getInventory().markDirty();
+	}
+	
+	public int getFilterID() {
+		return getFilterStacks().get(0).isEmpty() ? 0 : RecipeItemHelper.pack(getFilterStacks().get(0));
+	}
+	
+	// Ticking
+	
+	@Override
 	public void update() {
 		super.update();
 		if (!world.isRemote) {
-			if (refreshCellsFlag) {
-				refreshConnectedCells();
+			if (refreshPartsFlag) {
+				refreshConnectedParts();
 			}
 			/*if (portCount == 0) {
 				pushStacks();
 				pushFluid();
 			}
 			tickPort();*/
+			
+			sendUpdateToListeningPlayers();
 		}
 	}
 	
@@ -190,7 +188,7 @@ public class TileFissionPort extends TileFissionPart implements ITileInventory, 
 	}*/
 	
 	public ProcessorRecipeHandler getRecipeHandler() {
-		return masterPort != null ? masterPort.getRecipeHandler() : recipe_handler;
+		return !DEFAULT_NON.equals(masterPortPos) ? masterPort.getRecipeHandler() : recipe_handler;
 	}
 	
 	// Inventory
@@ -202,20 +200,27 @@ public class TileFissionPort extends TileFissionPart implements ITileInventory, 
 	
 	@Override
 	public @Nonnull NonNullList<ItemStack> getInventoryStacks() {
-		return masterPort != null ? masterPort.getInventoryStacks() : inventoryStacks;
+		return !DEFAULT_NON.equals(masterPortPos) ? masterPort.getInventoryStacks() : inventoryStacks;
+	}
+	
+	public @Nonnull NonNullList<ItemStack> getInventoryStacksInternal() {
+		return inventoryStacks;
+	}
+	
+	@Override
+	public @Nonnull NonNullList<ItemStack> getFilterStacks() {
+		return !DEFAULT_NON.equals(masterPortPos) ? masterPort.getFilterStacks() : filterStacks;
 	}
 	
 	@Override
 	public ItemStack decrStackSize(int slot, int amount) {
-		ItemStack stack = ITileInventory.super.decrStackSize(slot, amount);
-		if (!world.isRemote && getRecipeHandler() != null) {
+		ItemStack stack = ITileFilteredInventory.super.decrStackSize(slot, amount);
+		if (!world.isRemote) {
 			if (slot < getRecipeHandler().itemInputSize) {
-				//refreshConnectedCells(true, false);
-				refreshCellsFlag = true;
+				refreshPartsFlag = true;
 			}
 			else if (slot < getRecipeHandler().itemInputSize + getRecipeHandler().itemOutputSize) {
-				//refreshConnectedCells(false, false);
-				refreshCellsFlag = true;
+				refreshPartsFlag = true;
 			}
 		}
 		return stack;
@@ -223,32 +228,35 @@ public class TileFissionPort extends TileFissionPart implements ITileInventory, 
 	
 	@Override
 	public void setInventorySlotContents(int slot, ItemStack stack) {
-		ITileInventory.super.setInventorySlotContents(slot, stack);
-		if (!world.isRemote && getRecipeHandler() != null) {
+		ITileFilteredInventory.super.setInventorySlotContents(slot, stack);
+		if (!world.isRemote) {
 			if (slot < getRecipeHandler().itemInputSize) {
-				//refreshConnectedCells(true, false);
-				refreshCellsFlag = true;
+				refreshPartsFlag = true;
 			}
 			else if (slot < getRecipeHandler().itemInputSize + getRecipeHandler().itemOutputSize) {
-				//refreshConnectedCells(false, false);
-				refreshCellsFlag = true;
+				refreshPartsFlag = true;
 			}
 		}
 	}
 	
 	@Override
 	public void markDirty() {
-		//refreshConnectedCells(true, false);
-		refreshCellsFlag = true;
+		refreshPartsFlag = true;
 		super.markDirty();
 	}
 	
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {
-		if (getRecipeHandler() == null) {
-			return ITileInventory.super.isItemValidForSlot(slot, stack);
+		if (stack.isEmpty() || slot >= getRecipeHandler().itemInputSize) return false;
+		ItemStack filter = getFilterStacks().get(slot);
+		if (!filter.isEmpty() && !stack.isItemEqual(filter)) {
+			return false;
 		}
-		if (stack == ItemStack.EMPTY || slot >= getRecipeHandler().itemInputSize) return false;
+		return NCConfig.smart_processor_input ? getRecipeHandler().isValidItemInput(stack, getInventoryStacks().get(slot), inputItemStacksExcludingSlot(slot)) : getRecipeHandler().isValidItemInput(stack);
+	}
+	
+	public boolean isItemValidForSlotRaw(int slot, ItemStack stack) {
+		if (stack.isEmpty() || slot >= getRecipeHandler().itemInputSize) return false;
 		return NCConfig.smart_processor_input ? getRecipeHandler().isValidItemInput(stack, getInventoryStacks().get(slot), inputItemStacksExcludingSlot(slot)) : getRecipeHandler().isValidItemInput(stack);
 	}
 	
@@ -260,14 +268,13 @@ public class TileFissionPort extends TileFissionPart implements ITileInventory, 
 	
 	@Override
 	public boolean canInsertItem(int slot, ItemStack stack, EnumFacing side) {
-		return ITileInventory.super.canInsertItem(slot, stack, side) && (getRecipeHandler() == null || isItemValidForSlot(slot, stack));
+		return ITileFilteredInventory.super.canInsertItem(slot, stack, side) && isItemValidForSlot(slot, stack);
 	}
 	
 	@Override
 	public void clearAllSlots() {
-		ITileInventory.super.clearAllSlots();
-		//refreshConnectedCells(true, true);
-		refreshCellsFlag = true;
+		ITileFilteredInventory.super.clearAllSlots();
+		refreshPartsFlag = true;
 	}
 	
 	@Override
@@ -282,12 +289,12 @@ public class TileFissionPort extends TileFissionPart implements ITileInventory, 
 	
 	@Override
 	public @Nonnull InventoryTileWrapper getInventory() {
-		return invWrapper;
+		return !DEFAULT_NON.equals(masterPortPos) ? masterPort.getInventory() : invWrapper;
 	}
 	
 	@Override
 	public int getInventoryStackLimit() {
-		return masterPort != null ? masterPort.getInventoryStackLimit() : inventoryStackLimit;
+		return !DEFAULT_NON.equals(masterPortPos) ? masterPort.getInventoryStackLimit() : inventoryStackLimit;
 	}
 	
 	@Override
@@ -373,6 +380,32 @@ public class TileFissionPort extends TileFissionPart implements ITileInventory, 
 	@Override
 	public void setTankOutputSetting(int tankNumber, TankOutputSetting setting) {}
 	
+	// ITileGui
+	
+	@Override
+	public int getGuiID() {
+		return 200;
+	}
+	
+	@Override
+	public Set<EntityPlayer> getPlayersToUpdate() {
+		return playersToUpdate;
+	}
+	
+	@Override
+	public FissionPortUpdatePacket getGuiUpdatePacket() {
+		return new FissionPortUpdatePacket(pos, masterPortPos, getFilterStacks());
+	}
+	
+	@Override
+	public void onGuiPacket(FissionPortUpdatePacket message) {
+		masterPortPos = message.masterPortPos;
+		if (DEFAULT_NON.equals(masterPortPos) ^ masterPort == null) {
+			refreshMasterPort();
+		}
+		getFilterStacks().set(0, message.filterStack);
+	}
+	
 	// NBT
 	
 	@Override
@@ -398,22 +431,24 @@ public class TileFissionPort extends TileFissionPart implements ITileInventory, 
 		
 		inventoryStackLimit = nbt.getInteger("inventoryStackLimit");
 		masterPortPos = BlockPos.fromLong(nbt.getLong("masterPortPos"));
+		refreshMasterPort();
 	}
 	
 	@Override
 	public NBTTagCompound writeInventory(NBTTagCompound nbt) {
+		int[] counts = new int[inventoryStacks.size()];
 		for (int i = 0; i < inventoryStacks.size(); i++) {
-			nbt.setInteger("inventoryStackSize" + i, inventoryStacks.get(i).getCount());
+			nbt.setInteger("inventoryStackSize" + i, counts[i] = inventoryStacks.get(i).getCount());
 			if (!inventoryStacks.get(i).isEmpty()) {
 				inventoryStacks.get(i).setCount(1);
 			}
 		}
 		
-		ItemStackHelper.saveAllItems(nbt, inventoryStacks);
+		NBTHelper.saveAllItems(nbt, inventoryStacks, filterStacks);
 		
 		for (int i = 0; i < inventoryStacks.size(); i++) {
 			if (!inventoryStacks.get(i).isEmpty()) {
-				inventoryStacks.get(i).setCount(nbt.getInteger("inventoryStackSize" + i));
+				inventoryStacks.get(i).setCount(counts[i]);
 			}
 		}
 		
@@ -422,7 +457,7 @@ public class TileFissionPort extends TileFissionPart implements ITileInventory, 
 	
 	@Override
 	public void readInventory(NBTTagCompound nbt) {
-		ItemStackHelper.loadAllItems(nbt, inventoryStacks);
+		NBTHelper.loadAllItems(nbt, inventoryStacks, filterStacks);
 		
 		for (int i = 0; i < inventoryStacks.size(); i++) {
 			if (!inventoryStacks.get(i).isEmpty()) {

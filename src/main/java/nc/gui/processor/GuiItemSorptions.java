@@ -11,6 +11,7 @@ import nc.network.PacketHandler;
 import nc.network.gui.ResetItemSorptionsPacket;
 import nc.network.gui.ToggleItemOutputSettingPacket;
 import nc.network.gui.ToggleItemSorptionPacket;
+import nc.tile.ITileGui;
 import nc.tile.internal.inventory.ItemSorption;
 import nc.tile.inventory.ITileInventory;
 import nc.util.BlockHelper;
@@ -23,17 +24,17 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
-public abstract class GuiItemSorptions extends NCGui {
+public abstract class GuiItemSorptions<T extends ITileInventory & ITileGui> extends NCGui {
 	
 	protected final NCGui parent;
-	protected final ITileInventory tile;
+	protected final T tile;
 	protected final EnumFacing[] dirs;
 	protected final int slot;
 	protected final ItemSorption.Type sorptionType;
 	protected static ResourceLocation gui_textures;
 	protected int[] a, b;
 	
-	public GuiItemSorptions(NCGui parent, ITileInventory tile, int slot, ItemSorption.Type sorptionType) {
+	public GuiItemSorptions(NCGui parent, T tile, int slot, ItemSorption.Type sorptionType) {
 		super(new ContainerSorptions(tile));
 		this.parent = parent;
 		this.tile = tile;

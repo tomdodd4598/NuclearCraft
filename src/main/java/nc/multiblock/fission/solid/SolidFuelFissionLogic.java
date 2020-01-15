@@ -9,6 +9,11 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
+import it.unimi.dsi.fastutil.ints.Int2IntMap;
+import it.unimi.dsi.fastutil.ints.Int2IntOpenHashMap;
+import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.objects.ObjectSet;
 import nc.Global;
 import nc.config.NCConfig;
@@ -25,6 +30,7 @@ import nc.multiblock.fission.solid.tile.TileSolidFissionCell;
 import nc.multiblock.fission.tile.IFissionComponent;
 import nc.multiblock.fission.tile.IFissionController;
 import nc.multiblock.fission.tile.IFissionFuelComponent;
+import nc.multiblock.fission.tile.TileFissionPort;
 import nc.multiblock.fission.tile.TileFissionSource;
 import nc.multiblock.fission.tile.TileFissionSource.PrimingTargetInfo;
 import nc.multiblock.network.FissionUpdatePacket;
@@ -34,6 +40,7 @@ import nc.recipe.ProcessorRecipe;
 import nc.recipe.RecipeInfo;
 import nc.recipe.ingredient.IFluidIngredient;
 import nc.tile.internal.fluid.Tank;
+import nc.util.BlockPosHelper;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -92,6 +99,68 @@ public class SolidFuelFissionLogic extends FissionReactorLogic {
 			return false;
 		}
 		return true;
+	}
+	
+	@Override
+	public void refreshPorts() {
+		Long2ObjectMap<TileSolidFissionCell> cellMap = getPartMap(TileSolidFissionCell.class);
+		Long2ObjectMap<TileFissionPort> portMap = getPartMap(TileFissionPort.class);
+		
+		for (TileSolidFissionCell cell : cellMap.values()) {
+			cell.clearMasterPort();
+		}
+		
+		Int2ObjectMap<TileFissionPort> masterPortMap = new Int2ObjectOpenHashMap<>();
+		Int2IntMap cellCountMap = new Int2IntOpenHashMap();
+		for (TileFissionPort port : portMap.values()) {
+			int filter = port.getFilterID();
+			if (BlockPosHelper.DEFAULT_NON.equals(port.getMasterPortPos()) && !masterPortMap.containsKey(filter)) {
+				masterPortMap.put(filter, port);
+				cellCountMap.put(filter, 0);
+			}
+			port.clearMasterPort();
+			port.connectedParts.clear();
+		}
+		
+		if (!getReactor().isAssembled() || portMap.isEmpty()) {
+			return;
+		}
+		
+		for (TileFissionPort port : portMap.values()) {
+			int filter = port.getFilterID();
+			if (!masterPortMap.containsKey(filter)) {
+				masterPortMap.put(filter, port);
+				cellCountMap.put(filter, 0);
+			}
+		}
+		
+		for (TileFissionPort port : portMap.values()) {
+			int filter = port.getFilterID();
+			TileFissionPort master = masterPortMap.get(filter);
+			if (port != master) {
+				port.setMasterPortPos(master.getPos());
+				port.refreshMasterPort();
+			}
+			
+			port.recipe_handler = NCRecipes.solid_fission;
+		}
+		
+		for (TileSolidFissionCell cell : cellMap.values()) {
+			int filter = cell.getFilterID();
+			if (masterPortMap.containsKey(filter)) {
+				TileFissionPort master = masterPortMap.get(filter);
+				if (master != null) {
+					master.connectedParts.add(cell);
+					cell.setMasterPortPos(master.getPos());
+					cell.refreshMasterPort();
+					cellCountMap.put(filter, cellCountMap.get(filter) + 1);
+				}
+			}
+		}
+		
+		for (Int2ObjectMap.Entry<TileFissionPort> entry : masterPortMap.int2ObjectEntrySet()) {
+			entry.getValue().inventoryStackLimit = Math.max(64, 2*cellCountMap.get(entry.getIntKey()));
+		}
 	}
 	
 	@Override

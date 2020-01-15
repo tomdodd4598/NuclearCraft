@@ -1,16 +1,11 @@
 package nc.container.processor;
 
 import nc.container.ContainerTile;
-import nc.tile.ITile;
-import nc.tile.inventory.ITileInventory;
+import nc.tile.ITileGui;
 
-public class ContainerSorptions extends ContainerTile {
+public class ContainerSorptions<T extends ITileGui> extends ContainerTile<T> {
 	
-	public ContainerSorptions(ITileInventory tile) {
-		super(tile);
-	}
-	
-	public ContainerSorptions(ITile tile) {
+	public ContainerSorptions(T tile) {
 		super(tile);
 	}
 }

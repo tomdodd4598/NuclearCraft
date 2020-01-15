@@ -7,7 +7,7 @@ import nc.network.tile.TileUpdatePacket;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 
-public interface IGui<PACKET extends TileUpdatePacket> extends ITile {
+public interface ITileGui<PACKET extends TileUpdatePacket> extends ITile {
 	
 	public int getGuiID();
 	

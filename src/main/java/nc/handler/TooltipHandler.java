@@ -77,7 +77,7 @@ public class TooltipHandler {
 	@SideOnly(Side.CLIENT)
 	private static void addRadiationTooltip(List<String> tooltip, ItemStack stack) {
 		IRadiationSource stackRadiation = RadiationHelper.getRadiationSource(stack);
-		if (stackRadiation == null || stackRadiation.getRadiationLevel() <= 0D) return;
+		if (stackRadiation == null || stackRadiation.getRadiationLevel()*stack.getCount() <= NCConfig.radiation_lowest_rate) return;
 		tooltip.add(RadiationHelper.getRadiationTextColor(stackRadiation.getRadiationLevel()*stack.getCount()) + RADIATION + " " + RadiationHelper.radsPrefix(stackRadiation.getRadiationLevel()*stack.getCount(), true));
 		return;
 	}

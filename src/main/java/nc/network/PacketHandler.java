@@ -1,8 +1,10 @@
 package nc.network;
 
 import nc.multiblock.network.ClearAllMaterialPacket;
+import nc.multiblock.network.FissionPortUpdatePacket;
 import nc.multiblock.network.HeatExchangerUpdatePacket;
 import nc.multiblock.network.SaltFissionUpdatePacket;
+import nc.multiblock.network.SolidFissionCellUpdatePacket;
 import nc.multiblock.network.SolidFissionUpdatePacket;
 import nc.multiblock.network.TurbineRenderPacket;
 import nc.multiblock.network.TurbineUpdatePacket;
@@ -69,7 +71,9 @@ public class PacketHandler {
 		
 		instance.registerMessage(ProcessorUpdatePacket.Handler.class, ProcessorUpdatePacket.class, nextID(), Side.CLIENT);
 		
+		instance.registerMessage(FissionPortUpdatePacket.Handler.class, FissionPortUpdatePacket.class, nextID(), Side.CLIENT);
 		instance.registerMessage(SolidFissionUpdatePacket.Handler.class, SolidFissionUpdatePacket.class, nextID(), Side.CLIENT);
+		instance.registerMessage(SolidFissionCellUpdatePacket.Handler.class, SolidFissionCellUpdatePacket.class, nextID(), Side.CLIENT);
 		instance.registerMessage(SaltFissionUpdatePacket.Handler.class, SaltFissionUpdatePacket.class, nextID(), Side.CLIENT);
 		instance.registerMessage(HeatExchangerUpdatePacket.Handler.class, HeatExchangerUpdatePacket.class, nextID(), Side.CLIENT);
 		instance.registerMessage(TurbineUpdatePacket.Handler.class, TurbineUpdatePacket.class, nextID(), Side.CLIENT);

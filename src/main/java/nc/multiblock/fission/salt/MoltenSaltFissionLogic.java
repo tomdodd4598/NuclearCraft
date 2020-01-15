@@ -68,6 +68,12 @@ public class MoltenSaltFissionLogic extends FissionReactorLogic {
 		return true;
 	}
 	
+	// TODO
+	@Override
+	public void refreshPorts() {
+		
+	}
+	
 	@Override
 	public void distributeFlux(final ObjectSet<IFissionFuelComponent> primedCache, final ObjectSet<IFissionFuelComponent> primedFailureCache) {
 		for (TileFissionSource source : getPartMap(TileFissionSource.class).values()) {

@@ -22,8 +22,8 @@ public interface IFissionFuelComponent extends IFissionHeatingComponent, IFissio
 	}
 	
 	@Override
-	public default boolean contributeEfficiency() {
-		return true;
+	public default double efficiencyContributionMultiplier() {
+		return 1D;
 	}
 	
 	public void tryPriming(FissionReactor sourceReactor);
@@ -123,7 +123,7 @@ public interface IFissionFuelComponent extends IFissionHeatingComponent, IFissio
 									IFissionFluxAcceptor fluxAcceptor = (IFissionFluxAcceptor) component;
 									if (fluxAcceptor.canAcceptFlux(dir.getOpposite())) {
 										fluxAcceptor.addFlux(moderatorFlux);
-										getModeratorLineEfficiencies()[dir.getIndex()] = fluxAcceptor.contributeEfficiency() ? moderatorEfficiency/(i - 1) : 0D;
+										getModeratorLineEfficiencies()[dir.getIndex()] = fluxAcceptor.efficiencyContributionMultiplier()*moderatorEfficiency/(i - 1);
 										incrementHeatMultiplier();
 										
 										updateModeratorLine(fluxAcceptor, offPos, dir, passiveModeratorCache, activeModeratorPos);

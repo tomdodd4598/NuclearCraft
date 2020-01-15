@@ -1,7 +1,7 @@
 package nc.container.processor;
 
-import nc.container.SlotProcessorInput;
-import nc.container.SlotSpecificInput;
+import nc.container.slot.SlotProcessorInput;
+import nc.container.slot.SlotSpecificInput;
 import nc.recipe.NCRecipes;
 import nc.tile.processor.TileItemFluidProcessor;
 import net.minecraft.entity.player.EntityPlayer;

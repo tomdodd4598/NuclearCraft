@@ -18,7 +18,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
@@ -97,10 +96,6 @@ public abstract class BlockMultiblockPart extends NCBlock implements ITileEntity
 		}
 		super.breakBlock(world, pos, state);
 		world.removeTileEntity(pos);
-	}
-	
-	public void dropItems(World world, BlockPos pos, IInventory tileentity) {
-		InventoryHelper.dropInventoryItems(world, pos, tileentity);
 	}
 	
 	@Override

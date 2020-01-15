@@ -400,7 +400,7 @@ public class NCBlocks {
 		registerBlock(fission_reflector, new ItemBlockMeta(fission_reflector, MetaEnums.NeutronReflectorType.class, TextFormatting.AQUA));
 		registerBlock(fission_port);
 		registerBlock(fission_vent);
-		registerBlock(fission_irradiator);
+		registerBlock(fission_irradiator, TextFormatting.LIGHT_PURPLE, InfoHelper.formattedInfo(fixedLine("fission_irradiator"), Math.round(100D*NCConfig.fission_flux_acceptor_efficiency[0]) + "%"), TextFormatting.WHITE, InfoHelper.EMPTY_ARRAY);
 		registerBlock(fission_source, new ItemBlockMeta(fission_source, MetaEnums.NeutronSourceType.class, TextFormatting.LIGHT_PURPLE, NCInfo.neutronSourceFixedInfo(), TextFormatting.AQUA, NCInfo.neutronSourceInfo()));
 		registerBlock(fission_computer_port);
 		

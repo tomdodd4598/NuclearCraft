@@ -1,4 +1,4 @@
-package nc.container;
+package nc.container.slot;
 
 import nc.tile.inventory.ITileInventory;
 import net.minecraft.inventory.IInventory;
@@ -12,12 +12,12 @@ public class SlotSpecificInput extends Slot {
 	
 	public final Object[] inputs;
 	
-	public SlotSpecificInput(ITileInventory tile, int slotIndex, int xPosition, int yPosition, Object... inputs) {
-		this(tile.getInventory(), slotIndex, xPosition, yPosition, inputs);
+	public SlotSpecificInput(ITileInventory tile, int index, int xPosition, int yPosition, Object... inputs) {
+		this(tile.getInventory(), index, xPosition, yPosition, inputs);
 	}
 	
-	public SlotSpecificInput(IInventory inv, int slotIndex, int xPosition, int yPosition, Object... inputs) {
-		super(inv, slotIndex, xPosition, yPosition);
+	public SlotSpecificInput(IInventory inv, int index, int xPosition, int yPosition, Object... inputs) {
+		super(inv, index, xPosition, yPosition);
 		this.inputs = inputs;
 	}
 	

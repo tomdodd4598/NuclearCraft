@@ -24,7 +24,7 @@ public class DecayHastenerRecipes extends ProcessorRecipeHandler {
 		addDecayRecipes("Radium", "Lead", RadSources.RADIUM);
 		addDecayRecipes("Polonium", "Lead", RadSources.POLONIUM);
 		
-		addDecayRecipes("TBP", "TBU", RadSources.PROTACTINIUM_TBU);
+		addDecayRecipes("TBP", "TBU", RadSources.TBP);
 		addDecayRecipes("Protactinium233", "Uranium233", RadSources.PROTACTINIUM_233);
 		
 		addDecayRecipes("Uranium233", "Bismuth", RadSources.URANIUM_233);

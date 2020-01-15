@@ -1,9 +1,11 @@
 package nc.multiblock.fission.solid.tile;
 
 import static nc.recipe.NCRecipes.solid_fission;
+import static nc.util.BlockPosHelper.DEFAULT_NON;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -13,6 +15,7 @@ import com.google.common.collect.Lists;
 import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
 import it.unimi.dsi.fastutil.longs.LongSet;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import nc.Global;
 import nc.capability.radiation.source.IRadiationSource;
 import nc.config.NCConfig;
@@ -23,24 +26,29 @@ import nc.multiblock.fission.solid.SolidFissionCellSetting;
 import nc.multiblock.fission.tile.IFissionComponent;
 import nc.multiblock.fission.tile.IFissionFluxAcceptor;
 import nc.multiblock.fission.tile.IFissionFuelComponent;
+import nc.multiblock.fission.tile.IFissionPortConnector;
 import nc.multiblock.fission.tile.TileFissionPart;
 import nc.multiblock.fission.tile.TileFissionPort;
+import nc.multiblock.network.SolidFissionCellUpdatePacket;
 import nc.radiation.RadiationHelper;
 import nc.recipe.AbstractRecipeHandler;
 import nc.recipe.ProcessorRecipe;
 import nc.recipe.RecipeInfo;
 import nc.recipe.ingredient.IItemIngredient;
+import nc.tile.ITileGui;
 import nc.tile.generator.IItemGenerator;
 import nc.tile.internal.inventory.InventoryConnection;
 import nc.tile.internal.inventory.InventoryTileWrapper;
 import nc.tile.internal.inventory.ItemOutputSetting;
 import nc.tile.internal.inventory.ItemSorption;
+import nc.tile.inventory.ITileFilteredInventory;
 import nc.tile.inventory.ITileInventory;
-import nc.util.BlockPosHelper;
 import nc.util.ItemStackHelper;
 import nc.util.NBTHelper;
 import nc.util.RegistryHelper;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.util.RecipeItemHelper;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
@@ -50,11 +58,12 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.CapabilityItemHandler;
 
-public class TileSolidFissionCell extends TileFissionPart implements IItemGenerator, ITileInventory, IFissionFuelComponent {
+public class TileSolidFissionCell extends TileFissionPart implements ITileFilteredInventory, ITileGui<SolidFissionCellUpdatePacket>, IItemGenerator, IFissionFuelComponent, IFissionPortConnector {
 	
 	protected final @Nonnull String inventoryName = Global.MOD_ID + ".container.fission_cell";
 	
 	protected final @Nonnull NonNullList<ItemStack> inventoryStacks = NonNullList.withSize(2, ItemStack.EMPTY);
+	protected final @Nonnull NonNullList<ItemStack> filterStacks = NonNullList.<ItemStack>withSize(2, ItemStack.EMPTY);
 	protected final @Nonnull NonNullList<ItemStack> consumedStacks = NonNullList.withSize(1, ItemStack.EMPTY);
 	
 	protected @Nonnull InventoryConnection[] inventoryConnections = ITileInventory.inventoryConnectionAll(Lists.newArrayList(ItemSorption.NON, ItemSorption.NON));
@@ -63,19 +72,23 @@ public class TileSolidFissionCell extends TileFissionPart implements IItemGenera
 	
 	protected @Nonnull SolidFissionCellSetting[] cellSettings = new SolidFissionCellSetting[] {SolidFissionCellSetting.DISABLED, SolidFissionCellSetting.DISABLED, SolidFissionCellSetting.DISABLED, SolidFissionCellSetting.DISABLED, SolidFissionCellSetting.DISABLED, SolidFissionCellSetting.DISABLED};
 	
-	protected final int itemInputSize = 1, itemOutputSize = 1;
+	public final int itemInputSize = 1, itemOutputSize = 1, otherSlotsSize = 0;
 	
-	protected double baseProcessTime = 1D, baseProcessEfficiency = 0D, baseProcessRadiation = 0D;
+	public double baseProcessTime = 1D, baseProcessEfficiency = 0D, baseProcessRadiation = 0D;
 	protected int baseProcessHeat = 0, baseProcessCriticality = 1;
 	protected boolean selfPriming = false;
 	
-	protected double time;
+	public double time;
 	protected boolean isProcessing, hasConsumed, canProcessInputs;
 	
 	protected RecipeInfo<ProcessorRecipe> recipeInfo;
 	
+	protected Set<EntityPlayer> playersToUpdate;
+	
 	protected FissionCluster cluster = null;
 	private long heat = 0L;
+	
+	public long clusterHeatStored, clusterHeatCapacity;
 	
 	protected boolean primed = false, fluxSearched = false;
 	protected int flux = 0, heatMult = 0;
@@ -89,7 +102,7 @@ public class TileSolidFissionCell extends TileFissionPart implements IItemGenera
 	protected final Long[] activeReflectorModeratorCache = new Long[] {null, null, null, null, null, null};
 	protected final LongSet activeReflectorCache = new LongOpenHashSet();
 	
-	protected BlockPos masterPortPos = BlockPosHelper.DEFAULT_NON;
+	protected BlockPos masterPortPos = DEFAULT_NON;
 	protected TileFissionPort masterPort = null;
 	
 	protected int cellCount;
@@ -97,6 +110,8 @@ public class TileSolidFissionCell extends TileFissionPart implements IItemGenera
 	public TileSolidFissionCell() {
 		super(CuboidalPartPositionType.INTERIOR);
 		invWrapper = new InventoryTileWrapper(this);
+		
+		playersToUpdate = new ObjectOpenHashSet<EntityPlayer>();
 	}
 	
 	@Override
@@ -320,30 +335,50 @@ public class TileSolidFissionCell extends TileFissionPart implements IItemGenera
 		this.heat = heat;
 	}
 	
+	@Override
 	public BlockPos getMasterPortPos() {
 		return masterPortPos;
 	}
 	
+	@Override
 	public void setMasterPortPos(BlockPos pos) {
 		masterPortPos = pos;
 	}
 	
-	public TileFissionPort getMasterPort() {
-		return masterPort;
-	}
-	
+	@Override
 	public void clearMasterPort() {
 		masterPort = null;
-		masterPortPos = BlockPosHelper.DEFAULT_NON;
+		masterPortPos = DEFAULT_NON;
 	}
 	
-	public void refreshPort() {
-		if (getMultiblock() != null) {
-			masterPort = getMultiblock().getPartMap(TileFissionPort.class).get(masterPortPos.toLong());
-			if (masterPort == null) {
-				masterPortPos = BlockPosHelper.DEFAULT_NON;
-			}
+	@Override
+	public void refreshMasterPort() {
+		masterPort = getMultiblock() == null ? null : getMultiblock().getPartMap(TileFissionPort.class).get(masterPortPos.toLong());
+		if (masterPort == null) masterPortPos = DEFAULT_NON;
+	}
+	
+	@Override
+	public boolean onPortRefresh() {
+		if (getMasterPortPos() != null && getMasterPortPos().equals(pos)) {
+			refreshRecipe();
+			refreshActivity();
+			refreshIsProcessing(isFunctional());
+			
+			return isFunctional() ^ readyToProcess(false);
 		}
+		return false;
+	}
+	
+	@Override
+	public void onFilterChanged(int slot) {
+		if (getMultiblock() != null && !getMultiblock().isAssembled()) {
+			getMultiblock().getLogic().refreshPorts();
+		}
+		getInventory().markDirty();
+	}
+	
+	public int getFilterID() {
+		return getFilterStacks().get(0).isEmpty() ? 0 : RecipeItemHelper.pack(getFilterStacks().get(0));
 	}
 	
 	// Processing
@@ -352,7 +387,7 @@ public class TileSolidFissionCell extends TileFissionPart implements IItemGenera
 	public void onAdded() {
 		super.onAdded();
 		if (!world.isRemote) {
-			refreshPort();
+			refreshMasterPort();
 			refreshRecipe();
 			refreshActivity();
 			refreshIsProcessing(true);
@@ -383,6 +418,8 @@ public class TileSolidFissionCell extends TileFissionPart implements IItemGenera
 			if (shouldRefresh && isMultiblockAssembled()) {
 				getMultiblock().refreshFlag = true;
 			}
+			
+			sendUpdateToListeningPlayers();
 			if (shouldUpdate) markDirty();
 		}
 	}
@@ -466,7 +503,7 @@ public class TileSolidFissionCell extends TileFissionPart implements IItemGenera
 		for(int j = 0; j < itemOutputSize; j++) {
 			IItemIngredient itemProduct = getItemProducts().get(j);
 			if (itemProduct.getMaxStackSize(0) <= 0) continue;
-			if (itemProduct.getStack() == null || itemProduct.getStack() == ItemStack.EMPTY) return false;
+			if (itemProduct.getStack() == null || itemProduct.getStack().isEmpty()) return false;
 			else if (!getInventoryStacks().get(j + itemInputSize).isEmpty()) {
 				if (!getInventoryStacks().get(j + itemInputSize).isItemEqual(itemProduct.getStack())) {
 					return false;
@@ -576,12 +613,25 @@ public class TileSolidFissionCell extends TileFissionPart implements IItemGenera
 	
 	@Override
 	public @Nonnull NonNullList<ItemStack> getInventoryStacks() {
-		return masterPort != null ? masterPort.getInventoryStacks() : inventoryStacks;
+		return !DEFAULT_NON.equals(masterPortPos) ? masterPort.getInventoryStacks() : inventoryStacks;
+	}
+	
+	public @Nonnull NonNullList<ItemStack> getInventoryStacksInternal() {
+		return inventoryStacks;
+	}
+	
+	public @Nonnull NonNullList<ItemStack> getConsumedStacksInternal() {
+		return consumedStacks;
+	}
+	
+	@Override
+	public @Nonnull NonNullList<ItemStack> getFilterStacks() {
+		return !DEFAULT_NON.equals(masterPortPos) ? masterPort.getFilterStacks() : filterStacks;
 	}
 	
 	@Override
 	public ItemStack decrStackSize(int slot, int amount) {
-		ItemStack stack = ITileInventory.super.decrStackSize(slot, amount);
+		ItemStack stack = ITileFilteredInventory.super.decrStackSize(slot, amount);
 		if (!world.isRemote) {
 			if (slot < itemInputSize) {
 				refreshRecipe();
@@ -596,7 +646,7 @@ public class TileSolidFissionCell extends TileFissionPart implements IItemGenera
 	
 	@Override
 	public void setInventorySlotContents(int slot, ItemStack stack) {
-		ITileInventory.super.setInventorySlotContents(slot, stack);
+		ITileFilteredInventory.super.setInventorySlotContents(slot, stack);
 		if (!world.isRemote) {
 			if (slot < itemInputSize) {
 				refreshRecipe();
@@ -617,7 +667,16 @@ public class TileSolidFissionCell extends TileFissionPart implements IItemGenera
 	
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {
-		if (stack == ItemStack.EMPTY || slot >= itemInputSize) return false;
+		if (stack.isEmpty() || slot >= itemInputSize) return false;
+		ItemStack filter = getFilterStacks().get(slot);
+		if (!filter.isEmpty() && !stack.isItemEqual(filter)) {
+			return false;
+		}
+		return NCConfig.smart_processor_input ? solid_fission.isValidItemInput(stack, getInventoryStacks().get(slot), inputItemStacksExcludingSlot(slot)) : solid_fission.isValidItemInput(stack);
+	}
+	
+	public boolean isItemValidForSlotRaw(int slot, ItemStack stack) {
+		if (stack.isEmpty() || slot >= itemInputSize) return false;
 		return NCConfig.smart_processor_input ? solid_fission.isValidItemInput(stack, getInventoryStacks().get(slot), inputItemStacksExcludingSlot(slot)) : solid_fission.isValidItemInput(stack);
 	}
 	
@@ -629,7 +688,7 @@ public class TileSolidFissionCell extends TileFissionPart implements IItemGenera
 	
 	@Override
 	public boolean canInsertItem(int slot, ItemStack stack, EnumFacing side) {
-		return ITileInventory.super.canInsertItem(slot, stack, side) && isItemValidForSlot(slot, stack);
+		return ITileFilteredInventory.super.canInsertItem(slot, stack, side) && isItemValidForSlot(slot, stack);
 	}
 	
 	@Override
@@ -639,7 +698,7 @@ public class TileSolidFissionCell extends TileFissionPart implements IItemGenera
 	
 	@Override
 	public void clearAllSlots() {
-		ITileInventory.super.clearAllSlots();
+		ITileFilteredInventory.super.clearAllSlots();
 		for (int i = 0; i < consumedStacks.size(); i++) consumedStacks.set(i, ItemStack.EMPTY);
 		
 		refreshRecipe();
@@ -659,7 +718,7 @@ public class TileSolidFissionCell extends TileFissionPart implements IItemGenera
 	
 	@Override
 	public @Nonnull InventoryTileWrapper getInventory() {
-		return invWrapper;
+		return !DEFAULT_NON.equals(masterPortPos) ? masterPort.getInventory() : invWrapper;
 	}
 	
 	@Override
@@ -721,6 +780,36 @@ public class TileSolidFissionCell extends TileFissionPart implements IItemGenera
 	@Override
 	public void pushStacksToSide(@Nonnull EnumFacing side) {
 		
+	}
+	
+	// ITileGui
+	
+	@Override
+	public int getGuiID() {
+		return 201;
+	}
+	
+	@Override
+	public Set<EntityPlayer> getPlayersToUpdate() {
+		return playersToUpdate;
+	}
+	
+	@Override
+	public SolidFissionCellUpdatePacket getGuiUpdatePacket() {
+		return new SolidFissionCellUpdatePacket(pos, masterPortPos, getFilterStacks(), cluster, time, baseProcessTime);
+	}
+	
+	@Override
+	public void onGuiPacket(SolidFissionCellUpdatePacket message) {
+		masterPortPos = message.masterPortPos;
+		if (DEFAULT_NON.equals(masterPortPos) ^ masterPort == null) {
+			refreshMasterPort();
+		}
+		getFilterStacks().set(0, message.filterStack);
+		clusterHeatStored = message.clusterHeatStored;
+		clusterHeatCapacity = message.clusterHeatCapacity;
+		time = message.time;
+		baseProcessTime = message.baseProcessTime;
 	}
 	
 	// NBT
@@ -789,17 +878,18 @@ public class TileSolidFissionCell extends TileFissionPart implements IItemGenera
 		heat = nbt.getLong("clusterHeat");
 		
 		masterPortPos = BlockPos.fromLong(nbt.getLong("masterPortPos"));
+		refreshMasterPort();
 	}
 	
 	@Override
 	public NBTTagCompound writeInventory(NBTTagCompound nbt) {
-		NBTHelper.saveAllItems(nbt, inventoryStacks, consumedStacks);
+		NBTHelper.saveAllItems(nbt, inventoryStacks, filterStacks, consumedStacks);
 		return nbt;
 	}
 	
 	@Override
 	public void readInventory(NBTTagCompound nbt) {
-		NBTHelper.loadAllItems(nbt, inventoryStacks, consumedStacks);
+		NBTHelper.loadAllItems(nbt, inventoryStacks, filterStacks, consumedStacks);
 	}
 	
 	// Capability

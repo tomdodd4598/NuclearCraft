@@ -3,7 +3,6 @@ package nc.multiblock.fission;
 import java.util.Iterator;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
-import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
@@ -15,18 +14,15 @@ import nc.multiblock.MultiblockLogic;
 import nc.multiblock.TileBeefBase.SyncReason;
 import nc.multiblock.container.ContainerMultiblockController;
 import nc.multiblock.container.ContainerSolidFissionController;
-import nc.multiblock.fission.solid.tile.TileSolidFissionCell;
 import nc.multiblock.fission.tile.IFissionComponent;
 import nc.multiblock.fission.tile.IFissionController;
 import nc.multiblock.fission.tile.IFissionFuelComponent;
 import nc.multiblock.fission.tile.IFissionPart;
 import nc.multiblock.fission.tile.IFissionSpecialComponent;
-import nc.multiblock.fission.tile.TileFissionPort;
 import nc.multiblock.fission.tile.TileFissionSource;
 import nc.multiblock.fission.tile.TileFissionSource.PrimingTargetInfo;
 import nc.multiblock.fission.tile.TileFissionVent;
 import nc.multiblock.network.FissionUpdatePacket;
-import nc.recipe.NCRecipes;
 import nc.util.NCMath;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -90,7 +86,7 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, IFissio
 		getReactor().ambientTemp = 273 + (int) (getWorld().getBiome(getReactor().getMiddleCoord()).getTemperature(getReactor().getMiddleCoord())*20F);
 		
 		if (!getWorld().isRemote) {
-			linkPorts();
+			refreshPorts();
 			refreshReactor();
 			getReactor().updateActivity();
 		}
@@ -126,57 +122,7 @@ public class FissionReactorLogic extends MultiblockLogic<FissionReactor, IFissio
 	
 	public void onAssimilated(Multiblock assimilator) {}
 	
-	//TODO - temporary ports
-	public void linkPorts() {
-		Long2ObjectMap<TileFissionPort> portMap = getPartMap(TileFissionPort.class);
-		Long2ObjectMap<TileSolidFissionCell> cellMap = getPartMap(TileSolidFissionCell.class);
-		
-		if (portMap.isEmpty()) {
-			for (TileSolidFissionCell cell : cellMap.values()) {
-				cell.clearMasterPort();
-			}
-			return;
-		}
-		
-		TileFissionPort masterPort = null;
-		for (TileFissionPort port : portMap.values()) {
-			masterPort = port.getMasterPort();
-			break;
-		}
-		
-		for (TileFissionPort port : portMap.values()) {
-			if (port != masterPort) {
-				port.clearMasterPort();
-			}
-		}
-		
-		if (masterPort == null) {
-			for (TileFissionPort port : portMap.values()) {
-				masterPort = port;
-				break;
-			}
-		}
-		
-		if (masterPort == null) {
-			return;
-		}
-		
-		for (TileFissionPort port : portMap.values()) {
-			if (port != masterPort) {
-				port.shiftStacks(masterPort);
-				port.setMasterPortPos(masterPort.getPos());
-				port.refreshMasterPort();
-			}
-			
-			port.inventoryStackLimit = Math.max(64, 2*cellMap.size());
-			port.recipe_handler = NCRecipes.solid_fission;
-		}
-		
-		for (TileSolidFissionCell cell : cellMap.values()) {
-			cell.setMasterPortPos(masterPort.getPos());
-			cell.refreshPort();
-		}
-	}
+	public void refreshPorts() {}
 	
 	public void refreshReactor() {
 		refreshFlux();

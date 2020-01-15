@@ -6,14 +6,12 @@ import nc.container.ContainerTile;
 import nc.container.processor.ContainerCentrifuge;
 import nc.container.processor.ContainerMachineConfig;
 import nc.gui.element.GuiFluidRenderer;
-import nc.gui.element.GuiItemRenderer;
 import nc.gui.element.NCButton;
 import nc.gui.element.NCToggleButton;
-import nc.init.NCItems;
 import nc.network.PacketHandler;
 import nc.network.gui.EmptyTankPacket;
-import nc.network.gui.OpenTileGuiPacket;
 import nc.network.gui.OpenSideConfigGuiPacket;
+import nc.network.gui.OpenTileGuiPacket;
 import nc.network.gui.ToggleRedstoneControlPacket;
 import nc.tile.processor.TileFluidProcessor;
 import nc.util.Lang;
@@ -53,17 +51,6 @@ public class GuiCentrifuge extends GuiFluidProcessor {
 	}
 	
 	@Override
-	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-		super.drawGuiContainerForegroundLayer(mouseX, mouseY);
-		drawUpgradeRenderers();
-	}
-	
-	protected void drawUpgradeRenderers() {
-		new GuiItemRenderer(132, ySize - 102, 0.5F, NCItems.upgrade, 0).draw();
-		new GuiItemRenderer(152, ySize - 102, 0.5F, NCItems.upgrade, 1).draw();
-	}
-	
-	@Override
 	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
 		super.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY);
 		
@@ -74,6 +61,8 @@ public class GuiCentrifuge extends GuiFluidProcessor {
 		else drawGradientRect(guiLeft + 8, guiTop + 6, guiLeft + 8 + 16, guiTop + 6 + 86, 0xFFC6C6C6, 0xFF8B8B8B);
 		
 		drawTexturedModalRect(guiLeft + 68, guiTop + 30, 176, 3, getCookProgressScaled(37), 38);
+		
+		drawUpgradeRenderers();
 		
 		drawBackgroundExtras();
 	}

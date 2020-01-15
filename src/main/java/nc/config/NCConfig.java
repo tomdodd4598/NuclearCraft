@@ -88,6 +88,7 @@ public class NCConfig {
 	public static double[] fission_moderator_efficiency;
 	public static double[] fission_reflector_efficiency;
 	public static double[] fission_reflector_reflectivity;
+	public static double[] fission_flux_acceptor_efficiency;
 	public static int fission_cooling_efficiency_leniency;
 	public static double[] fission_sparsity_penalty_params; // Multiplier and threshold
 	public static boolean fission_overheat;
@@ -465,6 +466,10 @@ public class NCConfig {
 		propertyFissionReflectorEfficiency.setLanguageKey("gui.nc.config.fission.fission_reflector_efficiency");
 		Property propertyFissionReflectorReflectivity = config.get(CATEGORY_FISSION, "fission_reflector_reflectivity", new double[] {1D, 0.5D}, Lang.localise("gui.nc.config.fission.fission_reflector_reflectivity.comment"), 0D, 1D);
 		propertyFissionReflectorReflectivity.setLanguageKey("gui.nc.config.fission.fission_reflector_reflectivity");
+		
+		Property propertyFissionFluxAcceptorEfficiency = config.get(CATEGORY_FISSION, "fission_flux_acceptor_efficiency", new double[] {0.25D}, Lang.localise("gui.nc.config.fission.fission_flux_acceptor_efficiency.comment"), 0D, 1D);
+		propertyFissionFluxAcceptorEfficiency.setLanguageKey("gui.nc.config.fission.fission_flux_acceptor_efficiency");
+		
 		Property propertyFissionCoolingEfficiencyLeniency = config.get(CATEGORY_FISSION, "fission_cooling_efficiency_leniency", 10, Lang.localise("gui.nc.config.fission.fission_cooling_efficiency_leniency.comment"), 0, 32767);
 		propertyFissionCoolingEfficiencyLeniency.setLanguageKey("gui.nc.config.fission.fission_cooling_efficiency_leniency");
 		Property propertyFissionSparsityPenaltyParams = config.get(CATEGORY_FISSION, "fission_sparsity_penalty_params", new double[] {0.5D, 0.75D}, Lang.localise("gui.nc.config.fission.fission_sparsity_penalty_params.comment"), 0D, 1D);
@@ -988,6 +993,7 @@ public class NCConfig {
 		propertyOrderFission.add(propertyFissionModeratorEfficiency.getName());
 		propertyOrderFission.add(propertyFissionReflectorEfficiency.getName());
 		propertyOrderFission.add(propertyFissionReflectorReflectivity.getName());
+		propertyOrderFission.add(propertyFissionFluxAcceptorEfficiency.getName());
 		propertyOrderFission.add(propertyFissionCoolingEfficiencyLeniency.getName());
 		propertyOrderFission.add(propertyFissionSparsityPenaltyParams.getName());
 		propertyOrderFission.add(propertyFissionOverheat.getName());
@@ -1291,6 +1297,7 @@ public class NCConfig {
 			fission_moderator_efficiency = readDoubleArrayFromConfig(propertyFissionModeratorEfficiency);
 			fission_reflector_efficiency = readDoubleArrayFromConfig(propertyFissionReflectorEfficiency);
 			fission_reflector_reflectivity = readDoubleArrayFromConfig(propertyFissionReflectorReflectivity);
+			fission_flux_acceptor_efficiency = readDoubleArrayFromConfig(propertyFissionFluxAcceptorEfficiency);
 			fission_cooling_efficiency_leniency = propertyFissionCoolingEfficiencyLeniency.getInt();
 			fission_sparsity_penalty_params = readDoubleArrayFromConfig(propertyFissionSparsityPenaltyParams);
 			fission_overheat = propertyFissionOverheat.getBoolean();
@@ -1584,6 +1591,7 @@ public class NCConfig {
 		propertyFissionModeratorEfficiency.set(fission_moderator_efficiency);
 		propertyFissionReflectorEfficiency.set(fission_reflector_efficiency);
 		propertyFissionReflectorReflectivity.set(fission_reflector_reflectivity);
+		propertyFissionFluxAcceptorEfficiency.set(fission_flux_acceptor_efficiency);
 		propertyFissionCoolingEfficiencyLeniency.set(fission_cooling_efficiency_leniency);
 		propertyFissionSparsityPenaltyParams.set(fission_sparsity_penalty_params);
 		propertyFissionOverheat.set(fission_overheat);

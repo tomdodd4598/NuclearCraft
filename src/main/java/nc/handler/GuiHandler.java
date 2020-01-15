@@ -1,18 +1,17 @@
 package nc.handler;
 
 import nc.container.processor.ContainerAlloyFurnace;
+import nc.container.processor.ContainerAssembler;
 import nc.container.processor.ContainerCentrifuge;
 import nc.container.processor.ContainerChemicalReactor;
 import nc.container.processor.ContainerCrystallizer;
 import nc.container.processor.ContainerDecayHastener;
-import nc.container.processor.ContainerEnricher;
 import nc.container.processor.ContainerElectrolyzer;
+import nc.container.processor.ContainerEnricher;
 import nc.container.processor.ContainerExtractor;
 import nc.container.processor.ContainerFuelReprocessor;
 import nc.container.processor.ContainerInfuser;
 import nc.container.processor.ContainerIngotFormer;
-import nc.container.processor.ContainerAssembler;
-import nc.container.processor.ContainerSeparator;
 import nc.container.processor.ContainerMachineConfig;
 import nc.container.processor.ContainerManufactory;
 import nc.container.processor.ContainerMelter;
@@ -20,58 +19,65 @@ import nc.container.processor.ContainerNuclearFurnace;
 import nc.container.processor.ContainerPressurizer;
 import nc.container.processor.ContainerRockCrusher;
 import nc.container.processor.ContainerSaltMixer;
+import nc.container.processor.ContainerSeparator;
 import nc.container.processor.ContainerSupercooler;
 import nc.gui.processor.GuiAlloyFurnace;
+import nc.gui.processor.GuiAssembler;
 import nc.gui.processor.GuiCentrifuge;
 import nc.gui.processor.GuiChemicalReactor;
 import nc.gui.processor.GuiCrystallizer;
 import nc.gui.processor.GuiDecayHastener;
-import nc.gui.processor.GuiEnricher;
 import nc.gui.processor.GuiElectrolyzer;
+import nc.gui.processor.GuiEnricher;
 import nc.gui.processor.GuiExtractor;
 import nc.gui.processor.GuiFuelReprocessor;
 import nc.gui.processor.GuiInfuser;
 import nc.gui.processor.GuiIngotFormer;
-import nc.gui.processor.GuiAssembler;
-import nc.gui.processor.GuiSeparator;
 import nc.gui.processor.GuiManufactory;
 import nc.gui.processor.GuiMelter;
 import nc.gui.processor.GuiNuclearFurnace;
 import nc.gui.processor.GuiPressurizer;
 import nc.gui.processor.GuiRockCrusher;
 import nc.gui.processor.GuiSaltMixer;
+import nc.gui.processor.GuiSeparator;
 import nc.gui.processor.GuiSupercooler;
+import nc.multiblock.container.ContainerFissionPort;
 import nc.multiblock.container.ContainerHeatExchangerController;
 import nc.multiblock.container.ContainerSaltFissionController;
+import nc.multiblock.container.ContainerSolidFissionCell;
 import nc.multiblock.container.ContainerSolidFissionController;
 import nc.multiblock.container.ContainerTurbineController;
 import nc.multiblock.fission.salt.tile.TileSaltFissionController;
+import nc.multiblock.fission.solid.tile.TileSolidFissionCell;
 import nc.multiblock.fission.solid.tile.TileSolidFissionController;
+import nc.multiblock.fission.tile.TileFissionPort;
+import nc.multiblock.gui.GuiFissionPort;
 import nc.multiblock.gui.GuiHeatExchangerController;
 import nc.multiblock.gui.GuiSaltFissionController;
+import nc.multiblock.gui.GuiSolidFissionCell;
 import nc.multiblock.gui.GuiSolidFissionController;
 import nc.multiblock.gui.GuiTurbineController;
 import nc.multiblock.heatExchanger.tile.TileHeatExchangerController;
 import nc.multiblock.turbine.tile.TileTurbineController;
 import nc.tile.processor.TileNuclearFurnace;
 import nc.tile.processor.TileProcessor.AlloyFurnace;
+import nc.tile.processor.TileProcessor.Assembler;
 import nc.tile.processor.TileProcessor.Centrifuge;
 import nc.tile.processor.TileProcessor.ChemicalReactor;
 import nc.tile.processor.TileProcessor.Crystallizer;
 import nc.tile.processor.TileProcessor.DecayHastener;
-import nc.tile.processor.TileProcessor.Enricher;
 import nc.tile.processor.TileProcessor.Electrolyzer;
+import nc.tile.processor.TileProcessor.Enricher;
 import nc.tile.processor.TileProcessor.Extractor;
 import nc.tile.processor.TileProcessor.FuelReprocessor;
 import nc.tile.processor.TileProcessor.Infuser;
 import nc.tile.processor.TileProcessor.IngotFormer;
-import nc.tile.processor.TileProcessor.Assembler;
-import nc.tile.processor.TileProcessor.Separator;
 import nc.tile.processor.TileProcessor.Manufactory;
 import nc.tile.processor.TileProcessor.Melter;
 import nc.tile.processor.TileProcessor.Pressurizer;
 import nc.tile.processor.TileProcessor.RockCrusher;
 import nc.tile.processor.TileProcessor.SaltMixer;
+import nc.tile.processor.TileProcessor.Separator;
 import nc.tile.processor.TileProcessor.Supercooler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -136,6 +142,10 @@ public class GuiHandler implements IGuiHandler {
 				if (tile instanceof TileHeatExchangerController) return new ContainerHeatExchangerController(player, (TileHeatExchangerController) tile);
 			case 104:
 				if (tile instanceof TileTurbineController) return new ContainerTurbineController(player, (TileTurbineController) tile);
+			case 200:
+				if (tile instanceof TileFissionPort) return new ContainerFissionPort(player, (TileFissionPort) tile);
+			case 201:
+				if (tile instanceof TileSolidFissionCell) return new ContainerSolidFissionCell(player, (TileSolidFissionCell) tile);
 			case 1001:
 				if (tile instanceof Manufactory) return new ContainerMachineConfig(player, (Manufactory) tile);
 			case 1002:
@@ -235,6 +245,10 @@ public class GuiHandler implements IGuiHandler {
 				if (tile instanceof TileHeatExchangerController) return new GuiHeatExchangerController(((TileHeatExchangerController) tile).getMultiblock(), tile.getPos(), ((TileHeatExchangerController) tile).getMultiblock().getContainer(player));
 			case 104:
 				if (tile instanceof TileTurbineController) return new GuiTurbineController(((TileTurbineController) tile).getMultiblock(), tile.getPos(), ((TileTurbineController) tile).getMultiblock().getContainer(player));
+			case 200:
+				if (tile instanceof TileFissionPort) return new GuiFissionPort(player, (TileFissionPort) tile);
+			case 201:
+				if (tile instanceof TileSolidFissionCell) return new GuiSolidFissionCell(player, (TileSolidFissionCell) tile);
 			case 1001:
 				if (tile instanceof Manufactory) return new GuiManufactory.SideConfig(player, (Manufactory) tile);
 			case 1002:

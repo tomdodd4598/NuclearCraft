@@ -6,12 +6,15 @@ import com.google.common.collect.Lists;
 
 import nc.block.tile.INBTDrop;
 import nc.tile.ITile;
+import nc.util.NCInventoryHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
@@ -50,6 +53,16 @@ public class NCBlock extends Block {
 			TileEntity tile = world.getTileEntity(pos);
 			if (tile instanceof ITile) ((ITile)tile).onBlockNeighborChanged(state, world, pos, fromPos);
 		}
+	}
+	
+	// Inventory
+	
+	public void dropItems(World world, BlockPos pos, IInventory inventory) {
+		InventoryHelper.dropInventoryItems(world, pos, inventory);
+	}
+	
+	public void dropItems(World world, BlockPos pos, List<ItemStack> stacks) {
+		NCInventoryHelper.dropInventoryItems(world, pos, stacks);
 	}
 	
 	// NBT Stuff

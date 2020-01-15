@@ -134,8 +134,8 @@ public class TileFissionIrradiator extends TileFissionPart implements IItemProce
 	}
 	
 	@Override
-	public boolean contributeEfficiency() {
-		return false;
+	public double efficiencyContributionMultiplier() {
+		return NCConfig.fission_flux_acceptor_efficiency[0];
 	}
 	
 	@Override
@@ -265,7 +265,7 @@ public class TileFissionIrradiator extends TileFissionPart implements IItemProce
 			}
 			IItemIngredient itemProduct = getItemProducts().get(j);
 			if (itemProduct.getMaxStackSize(0) <= 0) continue;
-			if (itemProduct.getStack() == null || itemProduct.getStack() == ItemStack.EMPTY) return false;
+			if (itemProduct.getStack() == null || itemProduct.getStack().isEmpty()) return false;
 			else if (!getInventoryStacks().get(j + itemInputSize).isEmpty()) {
 				if (!getInventoryStacks().get(j + itemInputSize).isItemEqual(itemProduct.getStack())) {
 					return false;
@@ -397,7 +397,7 @@ public class TileFissionIrradiator extends TileFissionPart implements IItemProce
 	
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {
-		if (stack == ItemStack.EMPTY || slot >= itemInputSize) return false;
+		if (stack.isEmpty() || slot >= itemInputSize) return false;
 		return NCConfig.smart_processor_input ? fission_irradiator.isValidItemInput(stack, getInventoryStacks().get(slot), inputItemStacksExcludingSlot(slot)) : fission_irradiator.isValidItemInput(stack);
 	}
 	

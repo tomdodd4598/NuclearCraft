@@ -11,6 +11,7 @@ import nc.network.PacketHandler;
 import nc.network.gui.ResetTankSorptionsPacket;
 import nc.network.gui.ToggleTankOutputSettingPacket;
 import nc.network.gui.ToggleTankSorptionPacket;
+import nc.tile.ITileGui;
 import nc.tile.fluid.ITileFluid;
 import nc.tile.internal.fluid.TankSorption;
 import nc.util.BlockHelper;
@@ -23,17 +24,17 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
-public abstract class GuiFluidSorptions extends NCGui {
+public abstract class GuiFluidSorptions<T extends ITileFluid & ITileGui> extends NCGui {
 	
 	protected final NCGui parent;
-	protected final ITileFluid tile;
+	protected final T tile;
 	protected final EnumFacing[] dirs;
 	protected final int slot;
 	protected final TankSorption.Type sorptionType;
 	protected static ResourceLocation gui_textures;
 	protected int[] a, b;
 	
-	public GuiFluidSorptions(NCGui parent, ITileFluid tile, int slot, TankSorption.Type sorptionType) {
+	public GuiFluidSorptions(NCGui parent, T tile, int slot, TankSorption.Type sorptionType) {
 		super(new ContainerSorptions(tile));
 		this.parent = parent;
 		this.tile = tile;

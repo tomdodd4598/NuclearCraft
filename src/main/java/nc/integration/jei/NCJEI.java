@@ -87,6 +87,8 @@ import nc.integration.jei.processor.RockCrusherCategory;
 import nc.integration.jei.processor.SaltMixerCategory;
 import nc.integration.jei.processor.SeparatorCategory;
 import nc.integration.jei.processor.SupercoolerCategory;
+import nc.multiblock.container.ContainerSolidFissionCell;
+import nc.multiblock.gui.GuiSolidFissionCell;
 import nc.recipe.NCRecipes;
 import nc.recipe.ProcessorRecipeHandler;
 import nc.util.ItemStackHelper;
@@ -191,8 +193,8 @@ public class NCJEI implements IModPlugin {
 			registry.addRecipeClickArea(GuiRockCrusher.class, 55, 34, 37, 18, JEIHandler.ROCK_CRUSHER.getUUID());
 			registry.addRecipeClickArea(GuiRockCrusher.SideConfig.class, 55, 34, 37, 18, JEIHandler.ROCK_CRUSHER.getUUID());
 		}
-		//registry.addRecipeClickArea(GuiFissionController.class, 73, 34, 37, 18, JEIHandler.SOLID_FISSION.getUUID());
-		//registry.addRecipeClickArea(GuiFusionCore.class, 47, 5, 121, 97, JEIHandler.SOLID_FISSION.getUUID());
+		
+		registry.addRecipeClickArea(GuiSolidFissionCell.class, 73, 34, 37, 18, JEIHandler.SOLID_FISSION.getUUID());
 		
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerManufactory.class, JEIHandler.MANUFACTORY.getUUID(), 0, 1, 4, 36);
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerSeparator.class, JEIHandler.SEPARATOR.getUUID(), 0, 1, 5, 36);
@@ -213,8 +215,8 @@ public class NCJEI implements IModPlugin {
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerExtractor.class, JEIHandler.EXTRACTOR.getUUID(), 0, 1, 4, 36);
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerCentrifuge.class, JEIHandler.CENTRIFUGE.getUUID(), 0, 0, 2, 36);
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerRockCrusher.class, JEIHandler.ROCK_CRUSHER.getUUID(), 0, 1, 6, 36);
-		//recipeTransferRegistry.addRecipeTransferHandler(ContainerFissionController.class, JEIHandler.SOLID_FISSION.getUUID(), 0, 1, 3, 36);
-		//recipeTransferRegistry.addRecipeTransferHandler(ContainerFusionCore.class, JEIHandler.FUSION.getUUID(), 0, 0, 0, 36);
+		
+		recipeTransferRegistry.addRecipeTransferHandler(ContainerSolidFissionCell.class, JEIHandler.SOLID_FISSION.getUUID(), 0, 1, 2, 36);
 		
 		for (int i = 0; i < MetaEnums.OreType.values().length; i++) {
 			if (!NCConfig.ore_gen[i] && NCConfig.hide_disabled_ores) {

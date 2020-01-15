@@ -8,15 +8,15 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public class ContainerFluidProcessor extends ContainerTile {
+public abstract class ContainerFluidProcessor<PROCESSOR extends TileFluidProcessor> extends ContainerTile<PROCESSOR> {
 	
-	public final TileFluidProcessor tile;
-	public final ProcessorRecipeHandler recipeHandler;
+	protected final TileFluidProcessor tile;
+	protected final ProcessorRecipeHandler recipeHandler;
 	
 	protected ItemStack speedUpgrade = new ItemStack(NCItems.upgrade, 1, 0);
 	protected ItemStack energyUpgrade = new ItemStack(NCItems.upgrade, 1, 1);
 	
-	public ContainerFluidProcessor(EntityPlayer player, TileFluidProcessor tileEntity, ProcessorRecipeHandler recipeHandler) {
+	public ContainerFluidProcessor(EntityPlayer player, PROCESSOR tileEntity, ProcessorRecipeHandler recipeHandler) {
 		super(tileEntity);
 		tile = tileEntity;
 		this.recipeHandler = recipeHandler;

@@ -130,6 +130,8 @@ public class RadSources {
 		putMaterial(BISMUTH, "Bismuth");
 		putMaterial(RADIUM, "Radium");
 		putMaterial(POLONIUM, "Polonium");
+		putMaterial(TBP, "TBP");
+		putMaterial(PROTACTINIUM_233, "Protactinium233");
 		
 		putMaterial(THORIUM, "Thorium");
 		putMaterial(URANIUM, "Uranium", "Yellorium");
@@ -517,5 +519,5 @@ public class RadSources {
 	public static final double HECf_251_FISSION = (HECf_251 + DEPLETED_HECf_251 + CAESIUM_137)/64D;
 	
 	public static final double PROTACTINIUM_233 = 13.54/9D;
-	public static final double PROTACTINIUM_TBU = getFuelRadiation(THORIUM, 8.5D, PROTACTINIUM_233, 0.5D);
+	public static final double TBP = getFuelRadiation(THORIUM, 8.5D, PROTACTINIUM_233, 0.5D);
 }

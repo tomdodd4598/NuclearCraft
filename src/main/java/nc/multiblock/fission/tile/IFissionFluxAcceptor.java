@@ -7,7 +7,7 @@ public interface IFissionFluxAcceptor extends IFissionComponent {
 	/** True if neutron flux can be used by and should affect this part. */
 	public boolean canAcceptFlux(EnumFacing side);
 	
-	public boolean contributeEfficiency();
+	public double efficiencyContributionMultiplier();
 	
 	public void addFlux(int flux);
 	

@@ -1,17 +1,23 @@
 package nc.multiblock.fission.solid.block;
 
+import nc.NuclearCraft;
 import nc.block.property.ISidedProperty;
 import nc.block.property.PropertySidedEnum;
+import nc.multiblock.fission.FissionReactor;
 import nc.multiblock.fission.block.BlockFissionPart;
 import nc.multiblock.fission.solid.SolidFissionCellSetting;
 import nc.multiblock.fission.solid.tile.TileSolidFissionCell;
+import nc.util.Lang;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
@@ -62,7 +68,46 @@ public class BlockSolidFissionCell extends BlockFissionPart implements ISidedPro
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if (player == null) return false;
 		if (hand != EnumHand.MAIN_HAND || player.isSneaking()) return false;
-		return rightClickOnPart(world, pos, player, hand, facing);
+		
+		if (!world.isRemote) {
+			if (world.getTileEntity(pos) instanceof TileSolidFissionCell) {
+				TileSolidFissionCell cell = (TileSolidFissionCell) world.getTileEntity(pos);
+				if (cell.getMultiblock() != null /*&& cell.getMultiblock().isAssembled()*/) {
+					ItemStack heldStack = player.getHeldItem(hand);
+					if (cell.getInventoryStacks().get(0).isEmpty() && !heldStack.isItemEqual(cell.getFilterStacks().get(0)) && cell.isItemValidForSlotRaw(0, heldStack)) {
+						player.sendMessage(new TextComponentString(Lang.localise("message.nuclearcraft.filter") + " " + TextFormatting.BOLD + Lang.localise(heldStack.getTranslationKey() + ".name")));
+						ItemStack filter = heldStack.copy();
+						filter.setCount(1);
+						cell.getFilterStacks().set(0, filter);
+						cell.onFilterChanged(0);
+					}
+					else {
+						player.openGui(NuclearCraft.instance, 201, world, pos.getX(), pos.getY(), pos.getZ());
+					}
+					return true;
+				}
+			}
+		}
+		return rightClickOnPart(world, pos, player, hand, facing, true);
+	}
+	
+	@Override
+	public void breakBlock(World world, BlockPos pos, IBlockState state) {
+		if (!keepInventory) {
+			TileEntity tile = world.getTileEntity(pos);
+			if (tile instanceof TileSolidFissionCell) {
+				TileSolidFissionCell cell = (TileSolidFissionCell) tile;
+				dropItems(world, pos, cell.getInventoryStacksInternal());
+				//world.updateComparatorOutputLevel(pos, this);
+				FissionReactor reactor = cell.getMultiblock();
+				world.removeTileEntity(pos);
+				if (reactor != null) {
+					reactor.getLogic().refreshPorts();
+				}
+			}
+		}
+		//super.breakBlock(world, pos, state);
+		world.removeTileEntity(pos);
 	}
 	
 	/*@Override

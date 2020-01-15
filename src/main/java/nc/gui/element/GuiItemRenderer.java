@@ -6,12 +6,14 @@ import javax.annotation.Nonnull;
 
 import org.lwjgl.opengl.GL11;
 
+import nc.util.ItemStackHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
 public class GuiItemRenderer extends Gui {
@@ -36,18 +38,18 @@ public class GuiItemRenderer extends Gui {
 	
 	private float alpha = 1F;
 	
-	public GuiItemRenderer(int x, int y, float alph, @Nonnull Item item, int itemMeta) {
-		xPosition = x;
-		yPosition = y;
-		setAlpha(alph);
-		icon = getIconForItem(item, itemMeta);
-		texture = TextureMap.LOCATION_BLOCKS_TEXTURE;
+	public GuiItemRenderer(int x, int y, float alpha, @Nonnull ItemStack stack) {
+		this(x, y, alpha, stack.getItem(), ItemStackHelper.getMetadata(stack));
 	}
 	
-	public GuiItemRenderer(int x, int y, float alph, @Nonnull TextureAtlasSprite icon, @Nonnull ResourceLocation texture) {
+	public GuiItemRenderer(int x, int y, float alpha, @Nonnull Item item, int itemMeta) {
+		this(x, y, alpha, getIconForItem(item, itemMeta), TextureMap.LOCATION_BLOCKS_TEXTURE);
+	}
+	
+	public GuiItemRenderer(int x, int y, float alpha, @Nonnull TextureAtlasSprite icon, @Nonnull ResourceLocation texture) {
 		xPosition = x;
 		yPosition = y;
-		setAlpha(alph);
+		setAlpha(alpha);
 		this.icon = icon;
 		this.texture = texture;
 	}

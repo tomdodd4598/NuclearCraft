@@ -2,7 +2,7 @@ package nc.container;
 
 import javax.annotation.Nullable;
 
-import nc.tile.ITile;
+import nc.tile.ITileGui;
 import nc.tile.inventory.ITileInventory;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IContainerListener;
@@ -10,18 +10,13 @@ import net.minecraft.inventory.IInventory;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ContainerTile extends NCContainer {
+public class ContainerTile<T extends ITileGui> extends NCContainer {
 	
-	public final @Nullable IInventory invWrapper;
+	protected final @Nullable IInventory invWrapper;
 	
-	public ContainerTile(ITileInventory tile) {
+	public ContainerTile(T tile) {
 		super();
-		invWrapper = tile.getInventory();
-	}
-	
-	public ContainerTile(ITile tile) {
-		super();
-		invWrapper = null;
+		invWrapper = tile instanceof ITileInventory ? ((ITileInventory)tile).getInventory() : null;
 	}
 	
 	@Override

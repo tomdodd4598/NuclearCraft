@@ -2,15 +2,16 @@ package nc.container.generator;
 
 import nc.container.ContainerTile;
 import nc.recipe.ProcessorRecipeHandler;
+import nc.tile.ITileGui;
 import nc.tile.generator.TileItemGenerator;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public class ContainerItemGenerator<GENERATOR extends TileItemGenerator> extends ContainerTile {
+public abstract class ContainerItemGenerator<GENERATOR extends TileItemGenerator & ITileGui> extends ContainerTile<GENERATOR> {
 	
-	public final GENERATOR tile;
-	public final ProcessorRecipeHandler recipeHandler;
+	protected final GENERATOR tile;
+	protected final ProcessorRecipeHandler recipeHandler;
 	
 	public ContainerItemGenerator(GENERATOR tileEntity, ProcessorRecipeHandler recipeHandler) {
 		super(tileEntity);

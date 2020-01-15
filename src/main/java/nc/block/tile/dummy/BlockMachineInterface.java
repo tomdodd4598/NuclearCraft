@@ -2,7 +2,7 @@ package nc.block.tile.dummy;
 
 import nc.NuclearCraft;
 import nc.enumm.BlockEnums.SimpleTileType;
-import nc.tile.IGui;
+import nc.tile.ITileGui;
 import nc.tile.dummy.TileMachineInterface;
 import nc.tile.fluid.ITileFluid;
 import nc.tile.processor.IProcessor;
@@ -46,8 +46,8 @@ public class BlockMachineInterface extends BlockSimpleDummy {
 						return true;
 					}
 				}
-				if (tileentity instanceof IGui) {
-					IGui guiTile = (IGui) tileentity;
+				if (tileentity instanceof ITileGui) {
+					ITileGui guiTile = (ITileGui) tileentity;
 					FMLNetworkHandler.openGui(player, NuclearCraft.instance, guiTile.getGuiID(), world, machinePos.getX(), machinePos.getY(), machinePos.getZ());
 				}
 			}
