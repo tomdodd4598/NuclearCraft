@@ -49,7 +49,7 @@ public class TileTurbineComputerPort extends TileTurbinePartBase implements Simp
 	
 	@Callback
 	@Optional.Method(modid = "opencomputers")
-	public Object[] isHeatExchangerOn(Context context, Arguments args) {
+	public Object[] isTurbineOn(Context context, Arguments args) {
 		return new Object[] {isMultiblockAssembled() ? getMultiblock().isTurbineOn : false};
 	}
 	

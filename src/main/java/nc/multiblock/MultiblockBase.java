@@ -128,7 +128,7 @@ public abstract class MultiblockBase<PACKET extends MultiblockUpdatePacket> impl
 		BlockPos coord = part.getTilePos();
 
 		if(!connectedParts.add(part))
-			FMLLog.warning("[%s] Multiblock %s is double-adding part %d @ %s. This is unusual. If you encounter odd behavior, please tear down the machine and rebuild it.",
+			FMLLog.warning("[%s] Multiblock %s is double-adding part %d @ %s. This is unusual. If you encounter odd behavior, please tear down the multiblock and rebuild it.",
 					(WORLD.isRemote ? "CLIENT" : "SERVER"), hashCode(), part.hashCode(), coord);
 
 		part.onAttached(this);
@@ -139,15 +139,14 @@ public abstract class MultiblockBase<PACKET extends MultiblockUpdatePacket> impl
 			onAttachedPartWithMultiblockData(part, savedData);
 			part.onMultiblockDataAssimilated();
 		}
-		
-		if(this.referenceCoord == null) {
+
+		TileEntity te = referenceCoord == null ? null : WORLD.getTileEntity(referenceCoord);
+		if(!(te instanceof IMultiblockPart)) {
 			referenceCoord = coord;
 			part.becomeMultiblockSaveDelegate();
 		}
 		else if(coord.compareTo(referenceCoord) < 0) {
-			TileEntity te = this.WORLD.getTileEntity(referenceCoord);
 			((IMultiblockPart)te).forfeitMultiblockSaveDelegate();
-			
 			referenceCoord = coord;
 			part.becomeMultiblockSaveDelegate();
 		}
@@ -272,7 +271,7 @@ public abstract class MultiblockBase<PACKET extends MultiblockUpdatePacket> impl
 		if(!connectedParts.remove(part)) {
 			BlockPos position = part.getTilePos();
 
-			FMLLog.warning("[%s] Double-removing part (%d) @ %d, %d, %d, this is unexpected and may cause problems. If you encounter anomalies, please tear down the reactor and rebuild it.",
+			FMLLog.warning("[%s] Double-removing part (%d) @ %d, %d, %d, this is unexpected and may cause problems. If you encounter anomalies, please tear down the multiblock and rebuild it.",
 					this.WORLD.isRemote ? "CLIENT" : "SERVER", part.hashCode(), position.getX(), position.getY(), position.getZ());
 		}
 

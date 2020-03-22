@@ -28,6 +28,10 @@ public class NCMath {
 		return number*number*number;
 	}
 	
+	public static int getBit(int number, int position) {
+		return (number >> position) & 1;
+	}
+	
 	public static double round(double value, int precision) {
 		double scale = Math.pow(10D, precision);
 		return (double) Math.round(value * scale) / Math.round(scale);

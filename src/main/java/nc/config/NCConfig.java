@@ -178,12 +178,14 @@ public class NCConfig {
 	public static double[] salt_fission_cooling_rate;
 	public static int salt_fission_redstone_max_heat;
 	public static int salt_fission_max_distribution_rate;
+	public static double salt_fission_spread_ratio;
 	
 	public static int heat_exchanger_min_size; // Default: 1
 	public static int heat_exchanger_max_size; // Default: 24
 	public static double[] heat_exchanger_conductivity;
 	public static double heat_exchanger_coolant_mult;
 	public static boolean heat_exchanger_alternate_exhaust_recipe;
+	public static double heat_exchanger_spread_ratio;
 	
 	public static int turbine_min_size; // Default: 1
 	public static int turbine_max_size; // Default: 24
@@ -624,6 +626,8 @@ public class NCConfig {
 		propertySaltFissionRedstoneMaxHeat.setLanguageKey("gui.config.salt_fission.salt_fission_redstone_max_heat");
 		Property propertySaltFissionMaxDistributionRate = config.get(CATEGORY_SALT_FISSION, "salt_fission_max_distribution_rate", 4, Lang.localise("gui.config.salt_fission.salt_fission_max_distribution_rate.comment"), 1, 1000);
 		propertySaltFissionMaxDistributionRate.setLanguageKey("gui.config.salt_fission.salt_fission_max_distribution_rate");
+		Property propertySaltFissionSpreadRatio = config.get(CATEGORY_SALT_FISSION, "salt_fission_spread_ratio", 0.5D, Lang.localise("gui.config.salt_fission.salt_fission_spread_ratio.comment"), 0D, 1D);
+		propertySaltFissionSpreadRatio.setLanguageKey("gui.config.salt_fission.salt_fission_spread_ratio");
 		
 		Property propertyHeatExchangerMinSize = config.get(CATEGORY_HEAT_EXCHANGER, "heat_exchanger_min_size", 1, Lang.localise("gui.config.heat_exchanger.heat_exchanger_min_size.comment"), 1, 255);
 		propertyHeatExchangerMinSize.setLanguageKey("gui.config.heat_exchanger.heat_exchanger_min_size");
@@ -635,6 +639,8 @@ public class NCConfig {
 		propertyHeatExchangerCoolantMult.setLanguageKey("gui.config.heat_exchanger.heat_exchanger_coolant_mult");
 		Property propertyHeatExchangerAlternateExhaustRecipe = config.get(CATEGORY_HEAT_EXCHANGER, "heat_exchanger_alternate_exhaust_recipe", false, Lang.localise("gui.config.heat_exchanger.heat_exchanger_alternate_exhaust_recipe.comment"));
 		propertyHeatExchangerAlternateExhaustRecipe.setLanguageKey("gui.config.heat_exchanger.heat_exchanger_alternate_exhaust_recipe");
+		Property propertyHeatExchangerSpreadRatio = config.get(CATEGORY_HEAT_EXCHANGER, "heat_exchanger_spread_ratio", 0.5D, Lang.localise("gui.config.heat_exchanger.heat_exchanger_spread_ratio.comment"), 0D, 1D);
+		propertyHeatExchangerSpreadRatio.setLanguageKey("gui.config.heat_exchanger.heat_exchanger_spread_ratio");
 		
 		Property propertyTurbineMinSize = config.get(CATEGORY_TURBINE, "turbine_min_size", 1, Lang.localise("gui.config.turbine.turbine_min_size.comment"), 1, 255);
 		propertyTurbineMinSize.setLanguageKey("gui.config.turbine.turbine_min_size");
@@ -1062,6 +1068,7 @@ public class NCConfig {
 		propertyOrderSaltFission.add(propertySaltFissionCoolingRate.getName());
 		propertyOrderSaltFission.add(propertySaltFissionRedstoneMaxHeat.getName());
 		propertyOrderSaltFission.add(propertySaltFissionMaxDistributionRate.getName());
+		propertyOrderSaltFission.add(propertySaltFissionSpreadRatio.getName());
 		config.setCategoryPropertyOrder(CATEGORY_SALT_FISSION, propertyOrderSaltFission);
 		
 		List<String> propertyOrderHeatExchanger = new ArrayList<String>();
@@ -1070,6 +1077,7 @@ public class NCConfig {
 		propertyOrderHeatExchanger.add(propertyHeatExchangerConductivity.getName());
 		propertyOrderHeatExchanger.add(propertyHeatExchangerCoolantMult.getName());
 		propertyOrderHeatExchanger.add(propertyHeatExchangerAlternateExhaustRecipe.getName());
+		propertyOrderHeatExchanger.add(propertyHeatExchangerSpreadRatio.getName());
 		config.setCategoryPropertyOrder(CATEGORY_HEAT_EXCHANGER, propertyOrderHeatExchanger);
 		
 		List<String> propertyOrderTurbine = new ArrayList<String>();
@@ -1357,12 +1365,14 @@ public class NCConfig {
 			salt_fission_cooling_rate = readDoubleArrayFromConfig(propertySaltFissionCoolingRate);
 			salt_fission_redstone_max_heat = propertySaltFissionRedstoneMaxHeat.getInt();
 			salt_fission_max_distribution_rate = propertySaltFissionMaxDistributionRate.getInt();
+			salt_fission_spread_ratio = propertySaltFissionSpreadRatio.getDouble();
 			
 			heat_exchanger_min_size = propertyHeatExchangerMinSize.getInt();
 			heat_exchanger_max_size = propertyHeatExchangerMaxSize.getInt();
 			heat_exchanger_conductivity = readDoubleArrayFromConfig(propertyHeatExchangerConductivity);
 			heat_exchanger_coolant_mult = propertyHeatExchangerCoolantMult.getDouble();
 			heat_exchanger_alternate_exhaust_recipe = propertyHeatExchangerAlternateExhaustRecipe.getBoolean();
+			heat_exchanger_spread_ratio = propertyHeatExchangerSpreadRatio.getDouble();
 			
 			turbine_min_size = propertyTurbineMinSize.getInt();
 			turbine_max_size = propertyTurbineMaxSize.getInt();
@@ -1644,12 +1654,14 @@ public class NCConfig {
 		propertySaltFissionCoolingRate.set(salt_fission_cooling_rate);
 		propertySaltFissionRedstoneMaxHeat.set(salt_fission_redstone_max_heat);
 		propertySaltFissionMaxDistributionRate.set(salt_fission_max_distribution_rate);
+		propertySaltFissionSpreadRatio.set(salt_fission_spread_ratio);
 		
 		propertyHeatExchangerMinSize.set(heat_exchanger_min_size);
 		propertyHeatExchangerMaxSize.set(heat_exchanger_max_size);
 		propertyHeatExchangerConductivity.set(heat_exchanger_conductivity);
 		propertyHeatExchangerCoolantMult.set(heat_exchanger_coolant_mult);
 		propertyHeatExchangerAlternateExhaustRecipe.set(heat_exchanger_alternate_exhaust_recipe);
+		propertyHeatExchangerSpreadRatio.set(heat_exchanger_spread_ratio);
 		
 		propertyTurbineMinSize.set(turbine_min_size);
 		propertyTurbineMaxSize.set(turbine_max_size);

@@ -1,3 +1,18 @@
+v2.18p
+
+* Fixed machines sometimes continuing to run without enough energy stored
+* Hopefully fixed machines rarely using up ingredients without producing any products
+
+* Fixed armour radiation levels not being correctly registered
+
+* Fixed crash when using two MSR redstone ports next to each other
+* Fixed rare crash on registering new multiblocks in the world
+* Fixed a few incorrect OC method names for multiblocks
+
+* Hopefully improved lighting and rendering performance for turbine rotors
+
++ Added configs to modify the fluid distribution mechanics in MSRs and heat exchangers
+
 v2.18o
 
 * Fixed axes not being recognised by the debark mod

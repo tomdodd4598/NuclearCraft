@@ -8,9 +8,11 @@ import nc.block.item.IMetaBlockName;
 import nc.enumm.IBlockMeta;
 import nc.enumm.MetaEnums;
 import nc.tab.NCTabs;
+import nc.tile.ITile;
 import nc.util.CollectionHelper;
 import nc.util.ItemStackHelper;
 import net.minecraft.block.Block;
+import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
@@ -21,6 +23,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.IStringSerializable;
@@ -186,6 +189,14 @@ public abstract class BlockMeta<T extends Enum<T> & IStringSerializable & IBlock
 	@Override
 	public boolean canCreatureSpawn(IBlockState state, IBlockAccess world, BlockPos pos, net.minecraft.entity.EntityLiving.SpawnPlacementType type) {
 		return canCreatureSpawn && super.canCreatureSpawn(state, world, pos, type);
+	}
+	
+	@Override
+	public void neighborChanged(IBlockState state, World world, BlockPos pos, Block blockIn, BlockPos fromPos) {
+		if (this instanceof ITileEntityProvider) {
+			TileEntity tile = world.getTileEntity(pos);
+			if (tile instanceof ITile) ((ITile)tile).onBlockNeighborChanged(state, world, pos, fromPos);
+		}
 	}
 	
 	@Override

@@ -6,6 +6,17 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLLog;
 
 public final class MultiblockRegistry implements IMultiblockRegistry {
+	
+	private MultiblockWorldRegistry getMultiblockRegistry(final World world) {
+		if (this._registries.containsKey(world)) {
+			return this._registries.get(world);
+		} else {
+			MultiblockWorldRegistry registry = new MultiblockWorldRegistry(world);
+			this._registries.put(world, registry);
+			return registry;
+		}
+	}
+	
 	 /**
 	 * Register a new part in the system. The part has been created either through user action or via a chunk loading.
 	 * @param world The world into which this part is loading.
@@ -13,20 +24,7 @@ public final class MultiblockRegistry implements IMultiblockRegistry {
 	 */
 	@Override
 	public void onPartAdded(final World world, final IMultiblockPart part) {
-
-		MultiblockWorldRegistry registry;
-
-		if (this._registries.containsKey(world)) {
-
-			registry = this._registries.get(world);
-
-		} else {
-
-			registry = new MultiblockWorldRegistry(world);
-			this._registries.put(world, registry);
-		}
-
-		registry.onPartAdded(part);
+		getMultiblockRegistry(world).onPartAdded(part);
 	}
 
 	/**
@@ -64,11 +62,11 @@ public final class MultiblockRegistry implements IMultiblockRegistry {
 	 */
 	@Override
 	public void addDirtyMultiblock(final World world, final MultiblockBase multiblock) {
-
-		if (this._registries.containsKey(world))
-			this._registries.get(world).addDirtyMultiblock(multiblock);
-		else
-			throw new IllegalArgumentException("Adding a dirty multiblock to a world that has no registered multiblocks!");
+		if (!this._registries.containsKey(world)) {
+			FMLLog.warning("Adding a dirty multiblock to a world that has no registered multiblocks! Creating new registry...");
+			//throw new IllegalArgumentException("Adding a dirty multiblock to a world that has no registered multiblocks!");
+		}
+		getMultiblockRegistry(world).addDirtyMultiblock(multiblock);
 	}
 
 	/*

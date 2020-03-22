@@ -235,7 +235,7 @@ ________________________________________________________________________________
 boolean isComplete()
 Returns whether or not the multiblock is complete.
 
-boolean isReactorOn()
+boolean isHeatExchangerOn()
 Returns the online/offline status of the heat exchanger.
 
 int getLengthX()
@@ -281,7 +281,7 @@ ________________________________________________________________________________
 boolean isComplete()
 Returns whether or not the multiblock is complete.
 
-boolean isReactorOn()
+boolean isTurbineOn()
 Returns the online/offline status of the turbine.
 
 int getLengthX()

@@ -3,7 +3,6 @@ package nc.multiblock.turbine.tile;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.turbine.Turbine;
 import nc.multiblock.turbine.block.BlockTurbineController;
-import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -41,10 +40,11 @@ public class TileTurbineController extends TileTurbinePartBase {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public AxisAlignedBB getRenderBoundingBox() {
-		if (!isRenderer || !isMultiblockAssembled()) {
+		/*if (!isRenderer || !isMultiblockAssembled()) {
 			return Block.FULL_BLOCK_AABB.offset(pos);
-		}
-		return new AxisAlignedBB(pos.add(getMultiblock().getMinX() - pos.getX(), getMultiblock().getMinY() - pos.getY(), getMultiblock().getMinZ() - pos.getZ()), pos.add(getMultiblock().getMaxX() - pos.getX(), getMultiblock().getMaxY() - pos.getY(), getMultiblock().getMaxZ() - pos.getZ()));
+		}*/
+		//return new AxisAlignedBB(pos.add(getMultiblock().getMinX() - pos.getX(), getMultiblock().getMinY() - pos.getY(), getMultiblock().getMinZ() - pos.getZ()), pos.add(getMultiblock().getMaxX() - pos.getX(), getMultiblock().getMaxY() - pos.getY(), getMultiblock().getMaxZ() - pos.getZ()));
+		return INFINITE_EXTENT_AABB;
 	}
 	
 	@Override
