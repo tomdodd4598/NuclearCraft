@@ -1,3 +1,8 @@
+v2.18q
+
+* Increased condenser tubes' input fluid capacity
+* Split spread ratio configs to affect specific multiblock components
+
 v2.18p
 
 * Fixed machines sometimes continuing to run without enough energy stored

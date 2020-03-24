@@ -71,7 +71,7 @@ public abstract class TileEnergy extends NCTile implements ITileEnergy, IEnergyT
 	}
 	
 	@Override
-	public EnergyConnection[] getEnergyConnections() {
+	public @Nonnull EnergyConnection[] getEnergyConnections() {
 		return energyConnections;
 	}
 

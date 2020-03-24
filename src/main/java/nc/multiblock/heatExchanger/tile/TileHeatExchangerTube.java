@@ -488,7 +488,7 @@ public class TileHeatExchangerTube extends TileHeatExchangerPartBase implements 
 	public void pushInputFluid(TileHeatExchangerTube other) {
 		int diff = getTanks().get(0).getFluidAmount() - other.getTanks().get(0).getFluidAmount();
 		if (diff > 1) {
-			getTanks().get(0).drain(other.getTanks().get(0).fillInternal(getTanks().get(0).drain((int)(diff*NCConfig.heat_exchanger_spread_ratio), false), true), true);
+			getTanks().get(0).drain(other.getTanks().get(0).fillInternal(getTanks().get(0).drain((int)(diff*NCConfig.heat_exchanger_tube_spread_ratio), false), true), true);
 		}
 	}
 	

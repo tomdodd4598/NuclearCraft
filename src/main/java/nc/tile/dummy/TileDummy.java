@@ -157,7 +157,7 @@ public abstract class TileDummy<T extends IDummyMaster> extends TileEnergyFluidS
 	}
 	
 	@Override
-	public EnergyConnection getEnergyConnection(@Nonnull EnumFacing side) {
+	public @Nonnull EnergyConnection getEnergyConnection(@Nonnull EnumFacing side) {
 		if (getMaster() instanceof ITileEnergy) return ((ITileEnergy) getMaster()).getEnergyConnection(side);
 		return super.getEnergyConnection(side);
 	}

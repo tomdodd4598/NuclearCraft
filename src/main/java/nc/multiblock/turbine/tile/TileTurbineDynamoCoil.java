@@ -265,7 +265,7 @@ public class TileTurbineDynamoCoil extends TileTurbinePartBase implements ITileE
 	}
 
 	@Override
-	public EnergyConnection[] getEnergyConnections() {
+	public @Nonnull EnergyConnection[] getEnergyConnections() {
 		return energyConnections;
 	}
 

@@ -31,9 +31,9 @@ public interface ITileEnergy extends ITile {
 	
 	// Energy Connection
 	
-	public EnergyConnection[] getEnergyConnections();
+	public @Nonnull EnergyConnection[] getEnergyConnections();
 	
-	public default EnergyConnection getEnergyConnection(@Nonnull EnumFacing side) {
+	public default @Nonnull EnergyConnection getEnergyConnection(@Nonnull EnumFacing side) {
 		return getEnergyConnections()[side.getIndex()];
 	}
 	
@@ -52,7 +52,7 @@ public interface ITileEnergy extends ITile {
 		return getEnergyConnection(side).canConnect();
 	}
 	
-	public static EnergyConnection[] energyConnectionAll(@Nonnull EnergyConnection connection) {
+	public static @Nonnull EnergyConnection[] energyConnectionAll(@Nonnull EnergyConnection connection) {
 		EnergyConnection[] array = new EnergyConnection[6];
 		for (int i = 0; i < 6; i++) array[i] = connection;
 		return array;

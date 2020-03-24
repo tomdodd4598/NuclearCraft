@@ -633,7 +633,7 @@ public class TileSaltFissionHeater extends TileSaltFissionPartBase implements IF
 	public void pushCoolant(TileSaltFissionHeater other) {
 		int diff = getTanks().get(0).getFluidAmount() - other.getTanks().get(0).getFluidAmount();
 		if (diff > 1) {
-			getTanks().get(0).drain(other.getTanks().get(0).fillInternal(getTanks().get(0).drain((int)(diff*NCConfig.salt_fission_spread_ratio), false), true), true);
+			getTanks().get(0).drain(other.getTanks().get(0).fillInternal(getTanks().get(0).drain((int)(diff*NCConfig.salt_fission_heater_spread_ratio), false), true), true);
 		}
 	}
 	

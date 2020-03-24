@@ -44,7 +44,7 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 
 public class TileHeatExchangerCondenserTube extends TileHeatExchangerPartBase implements IFluidProcessor, ITileFluid {
 	
-	private final @Nonnull List<Tank> tanks = Lists.newArrayList(new Tank(32000, NCRecipes.condenser_valid_fluids.get(0)), new Tank(64000, new ArrayList<String>()));
+	private final @Nonnull List<Tank> tanks = Lists.newArrayList(new Tank(128000, NCRecipes.condenser_valid_fluids.get(0)), new Tank(32000, new ArrayList<String>()));
 	
 	private @Nonnull FluidConnection[] fluidConnections = ITileFluid.fluidConnectionAll(Lists.newArrayList(TankSorption.NON, TankSorption.NON));
 	
@@ -439,7 +439,7 @@ public class TileHeatExchangerCondenserTube extends TileHeatExchangerPartBase im
 	public void pushInputFluid(TileHeatExchangerCondenserTube other) {
 		int diff = getTanks().get(0).getFluidAmount() - other.getTanks().get(0).getFluidAmount();
 		if (diff > 1) {
-			getTanks().get(0).drain(other.getTanks().get(0).fillInternal(getTanks().get(0).drain((int)(diff*NCConfig.heat_exchanger_spread_ratio), false), true), true);
+			getTanks().get(0).drain(other.getTanks().get(0).fillInternal(getTanks().get(0).drain((int)(diff*NCConfig.heat_exchanger_condenser_tube_spread_ratio), false), true), true);
 		}
 	}
 	
